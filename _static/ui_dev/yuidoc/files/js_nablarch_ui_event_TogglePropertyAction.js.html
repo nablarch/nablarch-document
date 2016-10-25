@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>js\nablarch\ui\event\TogglePropertyAction.js - Nablarch JavaScript Widget</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Nablarch JavaScript Widget"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/jQuery.html">jQuery</a></li>
+            
+                <li><a href="../classes/nablarch.ui.html">nablarch.ui</a></li>
+            
+                <li><a href="../classes/nablarch.ui.AutoSpan.html">nablarch.ui.AutoSpan</a></li>
+            
+                <li><a href="../classes/nablarch.ui.AutoSum.html">nablarch.ui.AutoSum</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Collapsible.html">nablarch.ui.Collapsible</a></li>
+            
+                <li><a href="../classes/nablarch.ui.ContextMenu.html">nablarch.ui.ContextMenu</a></li>
+            
+                <li><a href="../classes/nablarch.ui.DatePicker.html">nablarch.ui.DatePicker</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.AjaxAction.html">nablarch.ui.event.AjaxAction</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.Listener.html">nablarch.ui.event.Listener</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.ShowDialog.html">nablarch.ui.event.ShowDialog</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.SubWindowListener.html">nablarch.ui.event.SubWindowListener</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.ToggleAction.html">nablarch.ui.event.ToggleAction</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.WindowClose.html">nablarch.ui.event.WindowClose</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.WriteAction.html">nablarch.ui.event.WriteAction</a></li>
+            
+                <li><a href="../classes/nablarch.ui.LightBox.html">nablarch.ui.LightBox</a></li>
+            
+                <li><a href="../classes/nablarch.ui.ListBuilder.html">nablarch.ui.ListBuilder</a></li>
+            
+                <li><a href="../classes/nablarch.ui.selector.html">nablarch.ui.selector</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Tab.html">nablarch.ui.Tab</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TabindexOrder.html">nablarch.ui.TabindexOrder</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TabLink.html">nablarch.ui.TabLink</a></li>
+            
+                <li><a href="../classes/nablarch.ui.ToggleCheckbox.html">nablarch.ui.ToggleCheckbox</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Tooltip.html">nablarch.ui.Tooltip</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TreeList.html">nablarch.ui.TreeList</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TreeMenu.html">nablarch.ui.TreeMenu</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Widget.html">nablarch.ui.Widget</a></li>
+            
+                <li><a href="../classes/nablarch.util.BigDecimal.html">nablarch.util.BigDecimal</a></li>
+            
+                <li><a href="../classes/nablarch.util.BigDecimal.NaN.html">nablarch.util.BigDecimal.NaN</a></li>
+            
+                <li><a href="../classes/nablarch.util.Consumer.html">nablarch.util.Consumer</a></li>
+            
+                <li><a href="../classes/nablarch.util.DateUtil.html">nablarch.util.DateUtil</a></li>
+            
+                <li><a href="../classes/nablarch.util.SimpleDateFormat.html">nablarch.util.SimpleDateFormat</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/devtool.html">devtool</a></li>
+            
+                <li><a href="../modules/nablarch.ui.html">nablarch.ui</a></li>
+            
+                <li><a href="../modules/nablarch.util.html">nablarch.util</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: js\nablarch\ui\event\TogglePropertyAction.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+define([&#x27;jquery&#x27;, &#x27;./Listener&#x27;, &#x27;nablarch/ui/readonly&#x27;, &#x27;sugar&#x27;],
+function($, Listener, readony) { &#x27;use strict&#x27;;
+  /**
+   * プロパティ切替アクション
+   * =============================================
+   * 初期ロード時と発生したイベントに応じて、対象要素のプロパティの切り替えを行うアクション。
+   * 切り替え可能なタグはinput:checkbox,:radio,select
+   * 切り替える値はbooleanをサポートする。
+   *
+   * マークアップ仕様
+   * -------------------------------------------
+   * 本機能を使用する場合以下のマーカCSSを使用する。
+   *
+   * 1. イベントを管理するための指定
+   *
+   *   機能のプロパティを定義する要素に
+   *   マーカCSSとして &#x60;nablarch_event_Action -type ToggleProperty&#x60; を指定する。
+   *
+   * 2. イベント発生時にプロパティを切り替える要素の制御
+   *
+   *   監視対象のイベントが発生した場合、
+   *   切り替える対象、切り替える条件を指定する。
+   *
+   * 以下は、このウィジェットのオプションの一覧である。
+   *
+   * **-toggleType (String):**
+   *   booleanによって切り替えられるプロパティ名、または &#x60;readonly&#x60;
+   *
+   * **-condition (セレクタ方式):**
+   *   監視対象の要素がセレクタに一致した場合に、プロパティの切り替えを行う。
+   *
+   * **-toggleTarget (セレクタ方式):**
+   *   監視対象の要素が条件(condition)に一致した場合、プロパティを切り替える対象の要素のセレクタ。
+   *   イベントを定義したコンテキスト内から対象を検索する。
+   *
+   * **-reverse (boolean):**
+   *   プロパティの切り替えを逆転させる。
+   *
+   * **実装例 (HTML)**
+   *
+   * 以下は、監視対象の要素が「value=1」のとき「name属性がform.ではじまる要素」を「活性化」する場合のマークアップ。
+   *
+   * &lt;div style=&quot;display:none;&quot;
+   *      class=&quot;nablarch_event_Action
+   *        -type         ToggleProperty
+   *        -toggleType   disabled
+   *        -toggleTarget [name^=&quot;form.&quot;]
+   *        -condition    [value=&quot;1&quot;]
+   *        -reverse      true
+   *      &quot;&gt;
+   * &lt;/div&gt;
+   *
+   * @class nablarch.ui.event.ToggleAction
+   *
+   * @author tani takanori
+   * @since  1.4
+   *
+   */
+  TogglePropertyAction.prototype = {
+    /**
+     * コンストラクタ。
+     * @constructor
+     */
+    constructor    : TogglePropertyAction
+    /**
+     * 処理判定を行う。
+     * 監視対象がこの条件に一致する場合、プロパティの設定を行う。
+     *
+     * @property condition
+     * @type String
+     */
+  , condition     : null
+    /**
+     * プロパティを切り替える対象を示すプロパティ。
+     * @property toggleTarget
+     * @type String
+     */
+  , toggleTarget  : null
+    /**
+     * どのプロパティを切り替えるかを示すプロパティ。
+     * @property toggleTarget
+     * @type String
+     */
+  , toggleType    : null
+    /**
+     * 監視対象のイベントが発火した際に呼び出されるメソッド。
+     *
+     * @method fire
+     */
+  , fire          : TogglePropertyAction_fire
+    /**
+     * 対象要素のプロパティを切り替える。
+     *
+     * @method toggle
+     */
+  , toggle        : TogglePropertyAction_toggle
+    /**
+     * 対象要素について、プロパティの設定をクリアする。
+     * @method clear
+     */
+  , clear         : TogglePropertyAction_clear
+    /**
+     * イベント発火時に監視対象要素が条件に一致した場合に
+     * プロパティの設定を行う。
+     *
+     * @method set
+     */
+  , set           : TogglePropertyAction_set
+    /**
+     * 初期イベント時にプロパティを切り替える。
+     *
+     * @method init
+     */
+  , init          : TogglePropertyAction_init
+  };
+
+  function TogglePropertyAction(opts) {
+    this.constructor = TogglePropertyAction;
+    Object.merge(this, opts);
+    this.reverse = opts.reverse === &#x27;true&#x27;;
+  }
+
+  function TogglePropertyAction_fire(listener, event) {
+    var $watchTarget = $(event.currentTarget);
+    this.toggle($watchTarget, listener.$context);
+    return this;
+  }
+
+  function TogglePropertyAction_toggle($watchTarget, $context) {
+    var $target = $context.find(this.toggleTarget)
+     ,  match   = conditionOf($watchTarget);
+
+    if (needsClear($watchTarget, this.condition)) {
+      this.clear($target);
+    }
+    if (match($watchTarget, this.condition)) {
+      this.set($target);
+    }
+  };
+
+  function conditionOf($watchTarget) {
+    return $watchTarget.is(&#x27;select&#x27;)      ? conditionOfSelect
+         : $watchTarget.is(&#x27;input:radio&#x27;) ? conditionOfRadio
+                                          : conditionOfCheckbox;
+  }
+
+  function conditionOfSelect($node, condition) {
+    return $node.find(condition).is(&#x27;:selected&#x27;);
+  }
+
+  function conditionOfRadio($node, condition) {
+    return $node.filter(condition).is(&#x27;:checked&#x27;);
+  }
+
+  function conditionOfCheckbox($node, condition) {
+    var checkbox = $node.filter(condition);
+    return checkbox.length === 0 ? false
+                                 : checkbox.is(&#x27;:checked&#x27;);
+  }
+
+  function needsClear($node, condition) {
+    return $node.is(&#x27;:not(:checkbox)&#x27;) || $node.filter(condition).length &gt; 0;
+  }
+
+  function TogglePropertyAction_clear($target) {
+    setPropertyOf(this.toggleType, $target, this.reverse);
+  }
+
+  function TogglePropertyAction_set($target) {
+    setPropertyOf(this.toggleType, $target, !this.reverse);
+  }
+
+  function setPropertyOf(type, $target, value) {
+     return type === &quot;readonly&quot; ? setReadonly($target, value)
+                                : setDisabled($target, value);
+  }
+
+  function setReadonly($target, readonly) {
+    $target.readonly(readonly);
+  }
+
+  function setDisabled($target, disabled) {
+    var type = &quot;disabled&quot;;
+    disabled ? $target.attr(type, type).closest(&#x27;div.field&#x27;).addClass(type)
+             : $target.removeAttr(type).closest(&#x27;div.field&#x27;).removeClass(type);
+  }
+
+  function TogglePropertyAction_init(listener, $watchTarget) {
+    var $context = listener.$context
+      , event = listener.event.split(&#x27;|&#x27;)[0].split(/\s/)
+      , node = event.length === 3 ? event[1] : event[0];
+    this.toggle($(node, $context), $context);
+  }
+
+  Listener.register(&#x27;ToggleProperty&#x27;, TogglePropertyAction);
+  return TogglePropertyAction;
+});
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

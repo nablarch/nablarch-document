@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>nablarch-widget-field-listbuilder\ui_public\js\nablarch\ui\ListBuilder.js - Nablarch JavaScript Widget</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Nablarch JavaScript Widget"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/jQuery.html">jQuery</a></li>
+            
+                <li><a href="../classes/jsp.html">jsp</a></li>
+            
+                <li><a href="../classes/jsp.taglib.box.html">jsp.taglib.box</a></li>
+            
+                <li><a href="../classes/jsp.taglib.button.html">jsp.taglib.button</a></li>
+            
+                <li><a href="../classes/jsp.taglib.column.html">jsp.taglib.column</a></li>
+            
+                <li><a href="../classes/jsp.taglib.device.html">jsp.taglib.device</a></li>
+            
+                <li><a href="../classes/jsp.taglib.function.html">jsp.taglib.function</a></li>
+            
+                <li><a href="../classes/jsp.taglib.html.html">jsp.taglib.html</a></li>
+            
+                <li><a href="../classes/jsp.taglib.jsp.html">jsp.taglib.jsp</a></li>
+            
+                <li><a href="../classes/jsp.taglib.jstl.html">jsp.taglib.jstl</a></li>
+            
+                <li><a href="../classes/jsp.taglib.layout.html">jsp.taglib.layout</a></li>
+            
+                <li><a href="../classes/jsp.taglib.listsearchresult.html">jsp.taglib.listsearchresult</a></li>
+            
+                <li><a href="../classes/jsp.taglib.nablarch.html">jsp.taglib.nablarch</a></li>
+            
+                <li><a href="../classes/jsp.taglib.tab.html">jsp.taglib.tab</a></li>
+            
+                <li><a href="../classes/jsp.taglib.table.html">jsp.taglib.table</a></li>
+            
+                <li><a href="../classes/jsp.taglib.template.html">jsp.taglib.template</a></li>
+            
+                <li><a href="../classes/nablarch.ui.html">nablarch.ui</a></li>
+            
+                <li><a href="../classes/nablarch.ui.AutoSpan.html">nablarch.ui.AutoSpan</a></li>
+            
+                <li><a href="../classes/nablarch.ui.AutoSum.html">nablarch.ui.AutoSum</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Collapsible.html">nablarch.ui.Collapsible</a></li>
+            
+                <li><a href="../classes/nablarch.ui.ContextMenu.html">nablarch.ui.ContextMenu</a></li>
+            
+                <li><a href="../classes/nablarch.ui.DatePicker.html">nablarch.ui.DatePicker</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.AjaxAction.html">nablarch.ui.event.AjaxAction</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.Listener.html">nablarch.ui.event.Listener</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.ShowDialog.html">nablarch.ui.event.ShowDialog</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.SubWindowListener.html">nablarch.ui.event.SubWindowListener</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.ToggleAction.html">nablarch.ui.event.ToggleAction</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.WindowClose.html">nablarch.ui.event.WindowClose</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.WriteAction.html">nablarch.ui.event.WriteAction</a></li>
+            
+                <li><a href="../classes/nablarch.ui.LightBox.html">nablarch.ui.LightBox</a></li>
+            
+                <li><a href="../classes/nablarch.ui.ListBuilder.html">nablarch.ui.ListBuilder</a></li>
+            
+                <li><a href="../classes/nablarch.ui.selector.html">nablarch.ui.selector</a></li>
+            
+                <li><a href="../classes/nablarch.ui.SlideMenu.html">nablarch.ui.SlideMenu</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Tab.html">nablarch.ui.Tab</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TabindexOrder.html">nablarch.ui.TabindexOrder</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TabLink.html">nablarch.ui.TabLink</a></li>
+            
+                <li><a href="../classes/nablarch.ui.ToggleCheckbox.html">nablarch.ui.ToggleCheckbox</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Tooltip.html">nablarch.ui.Tooltip</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TreeList.html">nablarch.ui.TreeList</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TreeMenu.html">nablarch.ui.TreeMenu</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Widget.html">nablarch.ui.Widget</a></li>
+            
+                <li><a href="../classes/nablarch.util.BigDecimal.html">nablarch.util.BigDecimal</a></li>
+            
+                <li><a href="../classes/nablarch.util.BigDecimal.NaN.html">nablarch.util.BigDecimal.NaN</a></li>
+            
+                <li><a href="../classes/nablarch.util.Consumer.html">nablarch.util.Consumer</a></li>
+            
+                <li><a href="../classes/nablarch.util.DateUtil.html">nablarch.util.DateUtil</a></li>
+            
+                <li><a href="../classes/nablarch.util.SimpleDateFormat.html">nablarch.util.SimpleDateFormat</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/devtool.html">devtool</a></li>
+            
+                <li><a href="../modules/jsp.html">jsp</a></li>
+            
+                <li><a href="../modules/jsp.taglib.html">jsp.taglib</a></li>
+            
+                <li><a href="../modules/nablarch.ui.html">nablarch.ui</a></li>
+            
+                <li><a href="../modules/nablarch.ui.device.html">nablarch.ui.device</a></li>
+            
+                <li><a href="../modules/nablarch.util.html">nablarch.util</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: nablarch-widget-field-listbuilder\ui_public\js\nablarch\ui\ListBuilder.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @module nablarch.ui
+ */
+define([&quot;text!./ListBuilder.template&quot;, &quot;jquery&quot;, &quot;./Widget&quot;, &quot;./readonly&quot;,&quot;./event&quot;, &quot;sugar&quot;],
+function(template, $, Widget, readOnly) { &quot;use strict&quot;;
+  /**
+   * リストビルダー
+   * ============================================
+   * 2つのリストボックス(&#x60;&lt;select multiple&gt;&#x60;)間での要素移動を可能とするUI部品。
+   * 基本的には、一方のリストボックスの要素から、任意個の要素を選択する目的で使用する。
+   *
+   * リストビルダーは、次の3つの要素によって構成される。
+   *
+   * 1. 選択元リストボックス
+   * 2. 各種ボタンを配置するコントロール部
+   * 3. 選択先リストボックス
+   *
+   * マークアップ仕様
+   * ------------------------
+   * コントロール部に相当する &#x60;&lt;div&gt;&#x60; 要素にマーカCSS &#x60;nablarch_ListBuilder&#x60; を指定する。
+   * また、**選択元リストボックス** および **選択先リストボックス** のID属性を、
+   * 同じCSSに以下のように指定する。
+   *
+   *     &lt;div class=&quot;nablarch_ListBuilder
+   *                 -from (選択元リストボックスのID属性)
+   *                 -to   (選択先リストボックスのID属性)&quot;&gt;
+   *     &lt;/div&gt;
+   *
+   * **実装例 (HTML)**
+   * 以下はHTMLの記述例である。
+   * コントロール部の内容は、テンプレートファイル(/js/nablarch/ui/ListBuilder.txt) の内容が
+   * 出力されるので各画面で記述する必要はない。
+   *
+   *     &lt;!-- 選択元リスト --&gt;
+   *     &lt;select
+   *       id       = &quot;permissionUnit_from&quot;
+   *       multiple = &quot;true&quot;
+   *       size     = &quot;10&quot;&gt;
+   *     &lt;/select&gt;
+   *
+   *     &lt;!-- コントロール部分 --&gt;
+   *     &lt;div class=&quot;nablarch_ListBuilder
+   *                 -from permissionUnit_from
+   *                 -to   permissionUnit_to&quot;&gt;
+   *     &lt;/div&gt;
+   *
+   *     &lt;!-- 選択先リスト --&gt;
+   *     &lt;select
+   *       id       = &quot;permissionUnit_to&quot;
+   *       multiple = &quot;true&quot;
+   *       size     = &quot;10&quot;&gt;
+   *     &lt;/select&gt;
+   *
+   *
+   * **実装例 (JSP)**
+   * 以下はJSPの記述例である。
+   *
+   * リストビルダーの選択状態は、初期ロード時とサブミット処理時に送信元リストボックスに反映されるので、
+   * サーバ側から見たリストビルダーの扱いは、通常のリストボックスと全く同じものとなる。
+   * このため、JSPを記述する場合は、選択元リストを通常どおり &#x60;&lt;n:select&gt;&#x60; などを使用して出力し、
+   * 選択先リストについては空の &#x60;&lt;select&gt;&#x60; タグを記述しておけばよい。
+   *
+   *     &lt;%-- 選択元リスト --%&gt;
+   *     &lt;n:select
+   *       id       = &quot;permissionUnit_from&quot;
+   *       name     = &quot;W11AC02.systemAccount.permissionUnit&quot;
+   *       multiple = &quot;true&quot;
+   *       size     = &quot;10&quot;
+   *       listName = &quot;allPermissionUnit&quot;
+   *       elementLabelProperty = &quot;permissionUnitName&quot;
+   *       elementValueProperty = &quot;permissionUnitId&quot;
+   *       elementLabelPattern  = &quot;$LABEL$&quot;
+   *     /&gt;
+   *     &lt;%-- コントロール部分--%&gt;
+   *     &lt;div class=&quot;nablarch_ListBuilder
+   *                -from permissionUnit_from
+   *                -to   permissionUnit_to&quot;&gt;
+   *     &lt;/div&gt;
+   *     &lt;%-- 選択先リスト --%&gt;
+   *     &lt;select
+   *       id       = &quot;permissionUnit_to&quot;
+   *       multiple = &quot;true&quot;
+   *       size     = &quot;10&quot;&gt;
+   *     &lt;/select&gt;
+   *
+   * @class nablarch.ui.ListBuilder
+   * @author Iwauo Tajima
+   * @since 1.2
+   */
+  ListBuilder.prototype = Object.merge(new Widget(), {
+    /**
+     * コンストラクタ関数
+     *
+     * @method ListBuilder
+     * @constructor
+     * @param {HTMLElement} element ListBuilderのコントロール部分のDOMノード
+     * @param {Object} opts 下記のオプションを格納したオブジェクト
+     *   **from:** (&#x60;String&#x60;) 選択元リストボックスのID
+     *   **to:**   (&#x60;String&#x60;) 選択先リストボックスのID
+     * @return {ListBuilder} インスタンス
+     */
+    constructor: ListBuilder
+    /**
+     * 選択先リストボックス
+     * @property $toList
+     * @type jQuery
+     */
+  , $toList: null
+    /**
+     * 選択元リストボックス
+     * @property $fromList
+     * @type jQuery
+     */
+  , $fromList: null
+    /**
+     * 全てのアイテムを選択先リストボックスに移動する。
+     * @method addAll
+     * @chainable
+     */
+  , addAll: ListBuilder_moveItem.fill(&quot;select&quot;,   true)
+    /**
+     * 選択元リストボックスで選択中のアイテムを選択先リストボックスに移動する。
+     * @method add
+     * @chainable
+     */
+  , add: ListBuilder_moveItem.fill(&quot;select&quot;,   false)
+    /**
+     * 全てのアイテムを選択元リストボックスに移動する。
+     * @method removeAll
+     * @chainable
+     */
+  , removeAll: ListBuilder_moveItem.fill(&quot;unselect&quot;, true)
+    /**
+     * 選択先リストボックスで選択中のアイテムを選択元リストボックスに移動する。
+     * @method remove
+     * @chainable
+     */
+  , remove: ListBuilder_moveItem.fill(&quot;unselect&quot;, false)
+    /**
+     * 選択元リストボックスの選択状態にあわせて、各リストボックス上の要素を移動する。
+     * 具体的には、選択元リストボックスのselected要素を選択先リストボックスに移動する。
+     * @method render
+     * @chainable
+     */
+  , render: ListBuilder_render
+    /**
+     * サブミット時に適切な値が送信されるように、
+     * 現在のリストビルダーの選択状態を選択元リストに反映する。
+     *
+     * 具体的には以下の操作を行う。
+     * 1. 選択元リスト内の各要素についてselected属性を除去する。
+     * 2. 選択先リストの各要素のselected属性の値を設定し、選択元リストに追加する。
+     *
+     * @method update
+     * @chainable
+     */
+  , update: ListBuilder_update
+  });
+
+  /**
+   * イベント定義
+   *
+   *     ListBuilder.event = {
+   *       &quot;button.addAll    click&quot; : &quot;addAll&quot;
+   *     , &quot;button.add       click&quot; : &quot;add&quot;
+   *     , &quot;button.removeAll click&quot; : &quot;removeAll&quot;
+   *     , &quot;button.remove    click&quot; : &quot;remove&quot;
+   *     , &quot;document beforeSubmit&quot;  : &quot;update&quot;  // nablarch_submit によるサブミット前
+   *     , &quot;document afterSubmit&quot;   : &quot;render&quot;  // nablarch_submit によるサブミット後
+   *     };
+   *
+   * @property event
+   * @type Object
+   * @static
+   * @final
+   */
+  ListBuilder.event = {
+    &quot;button.addAll    click&quot; : &quot;addAll&quot;
+  , &quot;button.add       click&quot; : &quot;add&quot;
+  , &quot;button.removeAll click&quot; : &quot;removeAll&quot;
+  , &quot;button.remove    click&quot; : &quot;remove&quot;
+  , &quot;document beforeSubmit&quot;  : &quot;update&quot;  // nablarch_submit によるサブミット前
+  , &quot;document afterSubmit&quot;   : &quot;render&quot;  // nablarch_submit によるサブミット後
+  };
+
+  /**
+   * ウィジェット識別子
+   * @property widgetType
+   * @static
+   * @final
+   * @default &quot;nablarch_ListBuilder&quot;
+   */
+  ListBuilder.widgetType = &quot;nablarch_ListBuilder&quot;;
+
+  Widget.register(ListBuilder);
+
+  function ListBuilder(element, option) {
+    if (!element) return this;
+
+    this.constructor = ListBuilder;
+    Widget.call(this, element);
+
+    this.$toList   = $(&quot;#&quot; + option.to);
+    this.$fromList = $(&quot;#&quot; + option.from);
+    this.$options  = this.$fromList.find(&quot;option&quot;);
+    this.$control  = $(element).html(template);
+
+    this.render();
+  }
+
+  function  ListBuilder_render() {
+    var $toList   = this.$toList.empty(&quot;option&quot;)
+      , $fromList = this.$fromList.empty(&quot;option&quot;)
+      , $options  = this.$options;
+
+    $options.filter(&quot;:selected&quot;).appendTo($toList);
+    $options.filter(&quot;:not(:selected)&quot;).appendTo($fromList);
+    $options.width(); //なむなむ
+    $options.prop(&quot;selected&quot;, &quot;&quot;);
+    if ($fromList.hasClass(readOnly.markerCss) || $fromList.attr(&#x27;disabled&#x27;)) {
+      // 読み取り専用の場合には、ボタンを非活性化する
+      this.$control.find(&#x27;button&#x27;).attr(&#x27;disabled&#x27;, &#x27;true&#x27;);
+    }
+    // IE対応のコード
+    // IEはtabで移動した場合、最後にselectedだったoptionにフォーカスを当てるため、
+    // リストボックス操作時には必ず先頭要素にフォーカスが移動するように、 先頭要素のselectedを明示的に設定してあげる。
+    $toList.find(&quot;option&quot;).first().prop(&quot;selected&quot;, &quot;selected&quot;).prop(&quot;selected&quot;, &quot;&quot;);
+    return this;
+  }
+
+  /**
+   * リストボックス上のoption要素を移動する。
+   *
+   * @param {String}  direction 移動する方向を表す文字列。
+   *                             &quot;select&quot; は選択先リストに、
+   *                             &quot;unselect&quot; では選択元リストにそれぞれ移動する。
+   *
+   * @param {boolean} all       trueを指定した場合は全option要素を移動対象とする。
+   *                             false もしくは省略した場合は、選択元リスト上の
+   *                             選択状態(selected)にあるoption要素を移動する。
+   * @chainable
+   */
+  function ListBuilder_moveItem(direction, all) {
+    var select    = (direction === &quot;select&quot;)
+      , $fromList = this.$fromList
+      , $toList   = this.$toList
+      , $target   = (select ? $fromList : $toList)
+                   .find(all ? &quot;option&quot; : &quot;option:selected&quot;);
+
+    if ($fromList.hasClass(readOnly.markerCss) || $fromList.is(&#x27;:disabled&#x27;)
+     || $toList.hasClass(readOnly.markerCss)   || $toList.is(&#x27;:disabled&#x27;)) {
+      return false;
+    }
+
+    $fromList.find(&quot;option&quot;).remove().prop(&quot;selected&quot;, &quot;&quot;);
+    $toList.find(&quot;option&quot;).remove().prop(&quot;selected&quot;, &quot;selected&quot;);
+    $target.prop(&quot;selected&quot;, select ? &quot;selected&quot; : &quot;&quot;);
+    return this.render();
+  }
+
+  function ListBuilder_update() {
+    var $selected   = this.$toList.find(&quot;option&quot;)
+      , $unselected = this.$fromList.find(&quot;option&quot;);
+
+    $unselected.prop(&quot;selected&quot;, &quot;&quot;);
+    $selected.prop(&quot;selected&quot;, &quot;selected&quot;)
+             .hide() // ユーザから見えないように。。
+             .appendTo(this.$fromList);
+    return this;
+  }
+
+  return ListBuilder;
+});
+
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

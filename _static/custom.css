@@ -1,0 +1,56 @@
+@import url("css/theme.css");
+
+/* 重要の色変更 */
+
+.rst-content .important {
+  background: #fdf3f2;
+}
+
+.rst-content .important .admonition-title {
+  background: #f29f97;
+}
+
+/* テーブルで自動改行 */
+
+table.white-space-normal th,
+table.white-space-normal td {
+  white-space: normal;
+}
+
+.rst-content table.docutils td:first-child,
+table.docutils th {
+  border-left:1px solid #e1e4e5
+}
+
+/* カスタムタグリファレンスのテーブル表示調整 */
+
+table.tag-reference th,
+table.tag-reference td {
+  overflow: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* function の途中のコードは折り返す */
+dl.function dt code {
+    white-space: normal;
+}
+
+/* 箇条書きの途中で出てくるコードは折り返す */
+
+ul.simple li code {
+    white-space: normal;
+}
+
+/** サイドバーのタイトル */
+#sidebar-title {
+  margin-bottom: 0px;
+}
+/** サイドバーのVersion */
+#sidebar-version {
+  margin-top: 10px;
+}
+/** TOPページのロゴ */
+#top-logo {
+  height: 25px;
+}

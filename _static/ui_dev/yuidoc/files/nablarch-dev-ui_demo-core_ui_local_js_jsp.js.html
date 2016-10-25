@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>nablarch-dev-ui_demo-core\ui_local\js\jsp.js - Nablarch JavaScript Widget</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Nablarch JavaScript Widget"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/jQuery.html">jQuery</a></li>
+            
+                <li><a href="../classes/jsp.html">jsp</a></li>
+            
+                <li><a href="../classes/jsp.taglib.box.html">jsp.taglib.box</a></li>
+            
+                <li><a href="../classes/jsp.taglib.button.html">jsp.taglib.button</a></li>
+            
+                <li><a href="../classes/jsp.taglib.column.html">jsp.taglib.column</a></li>
+            
+                <li><a href="../classes/jsp.taglib.device.html">jsp.taglib.device</a></li>
+            
+                <li><a href="../classes/jsp.taglib.function.html">jsp.taglib.function</a></li>
+            
+                <li><a href="../classes/jsp.taglib.html.html">jsp.taglib.html</a></li>
+            
+                <li><a href="../classes/jsp.taglib.jsp.html">jsp.taglib.jsp</a></li>
+            
+                <li><a href="../classes/jsp.taglib.jstl.html">jsp.taglib.jstl</a></li>
+            
+                <li><a href="../classes/jsp.taglib.layout.html">jsp.taglib.layout</a></li>
+            
+                <li><a href="../classes/jsp.taglib.listsearchresult.html">jsp.taglib.listsearchresult</a></li>
+            
+                <li><a href="../classes/jsp.taglib.nablarch.html">jsp.taglib.nablarch</a></li>
+            
+                <li><a href="../classes/jsp.taglib.tab.html">jsp.taglib.tab</a></li>
+            
+                <li><a href="../classes/jsp.taglib.table.html">jsp.taglib.table</a></li>
+            
+                <li><a href="../classes/jsp.taglib.template.html">jsp.taglib.template</a></li>
+            
+                <li><a href="../classes/nablarch.ui.html">nablarch.ui</a></li>
+            
+                <li><a href="../classes/nablarch.ui.AutoSpan.html">nablarch.ui.AutoSpan</a></li>
+            
+                <li><a href="../classes/nablarch.ui.AutoSum.html">nablarch.ui.AutoSum</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Collapsible.html">nablarch.ui.Collapsible</a></li>
+            
+                <li><a href="../classes/nablarch.ui.ContextMenu.html">nablarch.ui.ContextMenu</a></li>
+            
+                <li><a href="../classes/nablarch.ui.DatePicker.html">nablarch.ui.DatePicker</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.AjaxAction.html">nablarch.ui.event.AjaxAction</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.Listener.html">nablarch.ui.event.Listener</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.ShowDialog.html">nablarch.ui.event.ShowDialog</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.SubWindowListener.html">nablarch.ui.event.SubWindowListener</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.ToggleAction.html">nablarch.ui.event.ToggleAction</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.WindowClose.html">nablarch.ui.event.WindowClose</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.WriteAction.html">nablarch.ui.event.WriteAction</a></li>
+            
+                <li><a href="../classes/nablarch.ui.LightBox.html">nablarch.ui.LightBox</a></li>
+            
+                <li><a href="../classes/nablarch.ui.ListBuilder.html">nablarch.ui.ListBuilder</a></li>
+            
+                <li><a href="../classes/nablarch.ui.selector.html">nablarch.ui.selector</a></li>
+            
+                <li><a href="../classes/nablarch.ui.SlideMenu.html">nablarch.ui.SlideMenu</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Tab.html">nablarch.ui.Tab</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TabindexOrder.html">nablarch.ui.TabindexOrder</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TabLink.html">nablarch.ui.TabLink</a></li>
+            
+                <li><a href="../classes/nablarch.ui.ToggleCheckbox.html">nablarch.ui.ToggleCheckbox</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Tooltip.html">nablarch.ui.Tooltip</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TreeList.html">nablarch.ui.TreeList</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TreeMenu.html">nablarch.ui.TreeMenu</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Widget.html">nablarch.ui.Widget</a></li>
+            
+                <li><a href="../classes/nablarch.util.BigDecimal.html">nablarch.util.BigDecimal</a></li>
+            
+                <li><a href="../classes/nablarch.util.BigDecimal.NaN.html">nablarch.util.BigDecimal.NaN</a></li>
+            
+                <li><a href="../classes/nablarch.util.Consumer.html">nablarch.util.Consumer</a></li>
+            
+                <li><a href="../classes/nablarch.util.DateUtil.html">nablarch.util.DateUtil</a></li>
+            
+                <li><a href="../classes/nablarch.util.SimpleDateFormat.html">nablarch.util.SimpleDateFormat</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/devtool.html">devtool</a></li>
+            
+                <li><a href="../modules/jsp.html">jsp</a></li>
+            
+                <li><a href="../modules/jsp.taglib.html">jsp.taglib</a></li>
+            
+                <li><a href="../modules/nablarch.ui.html">nablarch.ui</a></li>
+            
+                <li><a href="../modules/nablarch.ui.device.html">nablarch.ui.device</a></li>
+            
+                <li><a href="../modules/nablarch.util.html">nablarch.util</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: nablarch-dev-ui_demo-core\ui_local\js\jsp.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * ページ上JSPソースコードをブラウザ上でモックレンダリングするjQuery拡張。
+ *
+ * 各JSPタグを対応するHTMLタグに変換する処理は、 &#x60;jsp/taglib/(タグリブ名).js&#x60; に
+ * ディスパッチされる。
+ * 例えば、 &#x60;&lt;c:if&gt;&#x60; の変換は &#x60;jsp/taglib/jstl.js&#x60; で行なわれる。
+ *
+ * @example
+ *     var src     = $(&#x27;body&#x27;).html()    // JSPソースコード
+ *       , $jsp    = $.jsp(src)          // JSPタグのDOMノードを作成。
+ *       , context = {login_id: &#x27;user1&#x27;} // セッション・リクエスト・ページコンテキストの内容
+ *
+ *     $(&#x27;body&#x27;).remove();     // JSPソースを画面から除去
+ *
+ *     $jsp.jsp_eval(context)  // JSPのDOMノードをHTMLのDOMに変換し、
+ *         .appendTo(&#x27;body&#x27;);  // 画面に表示する。
+ *
+ *     $jsp.find(&#x27;c\\:if&#x27;).attr(&#x27;test&#x27;, &#x27;true&#x27;); // 全ての&lt;c:if&gt;タグの条件式を真に変更。
+ *
+ *     $(&#x27;body&#x27;).remove()
+ *              .append($jsp.jsp_eval(context)); // 再描画
+ *
+ * @module jsp
+ * @requires jquery, jsp/context, jsp/el, sugar
+ *
+ * @author Iwauo Tajima
+ * @since  1.3
+ */
+define([&#x27;jquery&#x27;, &#x27;jsp/context&#x27;, &#x27;jsp/el&#x27;, &#x27;devtool/jsp_verifier&#x27;, &#x27;devtool/WidgetListView&#x27;,&#x27;sugar&#x27;],
+function($, topContext, el, verifier, widgetListView) { &#x27;use strict&#x27;;
+
+  var alias = {
+        button : &#x27;button&#x27;
+      , field  : &#x27;field&#x27;
+      , c      : &#x27;jstl&#x27;
+      , jsp    : &#x27;jsp&#x27;
+      , n      : &#x27;nablarch&#x27;
+      , t      : &#x27;template&#x27;
+      };
+
+  function define() {
+    $.jsp               = jquery_jsp;
+    $.jsp_pageContext   = topContext;
+    $.loadTagfile       = jquery_loadTagfile;
+    $.loadedTags        = {};
+    $.fn.jsp_eval       = jquery_jsp_eval;
+    $.fn.jsp_attrs      = jquery_jsp_attrs;
+    $.fn.jsp_evaledNode = jqeury_jsp_evaledNode;
+    $.fn.jsp_verify     = jquery_jsp_verify;
+    $.fn.jsp_showError  = jquery_jsp_showError;
+    $.fn.jsp_showSource = jquery_jsp_showSource;
+    $.fn.jsp_addError   = jquery_jsp_addError;
+
+    // JSPレンダリング完了イベント
+    var pid = setInterval(function() {
+      var $jspTagsUnprocessed = $(&#x27;div[data-jsp]&#x27;);
+      if (!$jspTagsUnprocessed.length) {
+        $.event.trigger($.Event(&#x27;jsp_processed&#x27;));
+        clearInterval(pid);
+      }
+    }, 1000);
+
+    return $;
+  }
+
+  function jqeury_jsp_evaledNode() {
+    return this.first().contents().first().next();
+  }
+
+  /**
+   * 指定されたパス上のタグファイルをJSPタグの内容として展開する。
+   *
+   * @method loadTagfile
+   * @static
+   * @for jQuery
+   * @param {String} path タグファイルのコンテキストルート配下からの相対パス。
+   * @param {jQuery} $tagBody 現在処理中のJSPタグを格納したjQuery結果セット
+   * @param {Object} context 現在のコンテキスト変数を格納したオブジェクト
+   * @param {String} tagName 現在処理中のJSPタグのタグ名
+   * @return {boolean} 常にfalseを返す。
+   */
+  function jquery_loadTagfile(path, $tagBody, context, tagName) {
+    var $tag = $(this);
+    context[&#x27;__$tagBody&#x27;] = $tagBody;
+    $tag.jsp_verify(path, tagName, function($content) {
+      $tag.replaceWith($content);
+      $content.jsp_eval(context);
+    });
+    return false;
+  }
+
+  function jquery_jsp_verify(path, tagName, callback) {
+    var $tag   = $(this)
+      , jsp    = $tag[0].outerHTML
+      , module = (&#x27;text!&#x27; + path + &#x27;/&#x27; + tagName + &#x27;.tag&#x27;).replace(/\/+/g, &#x27;/&#x27;);
+
+    require([module], function(content) {
+      var $content = $.jsp(content, module);
+
+      $.loadedTags[$tag[0].tagName] = &#x27;&#x27;;
+      verifier.verify(module, $tag);
+      $tag.jsp_showError();
+      if (callback) {
+        callback.call($tag[0], $content);
+      }
+    });
+    return false;
+  }
+
+  function jquery_jsp_addError(message) {
+    jquery_jsp_showError.messages.push(message);
+  }
+
+  jquery_jsp_showError.messages = [];
+
+
+  function jquery_jsp_showSource() {
+    var src     = jquery_jsp.meta.pageSrc.escapeHTML()
+      , nid     = this.attr(&#x27;data-seq&#x27;)
+      , tagName = this.attr(&#x27;data-jsp&#x27;)
+      , tagPtn  = /\&amp;lt;([-_:a-zA-Z0-9]+) data-seq=\&amp;quot;([0-9]+)\&amp;quot;(.*?)\&amp;gt;/g
+      , $pain   = $(&#x27;div.sourceView&#x27;).show();
+
+    if ($(&#x27;div.sourceView pre&#x27;).length) return;
+
+    src = src.replace(tagPtn, function(openTag, currName, currNid, following) {
+      var docroot = &quot;./tools/doc/_build/html/reference_jsp_widgets/&quot;
+        , docpath = docroot + currName.replace(&#x27;:&#x27;, &#x27;_&#x27;).toLowerCase() + &#x27;.html&#x27;
+        , html = &#x27;&amp;lt;&#x27; + &#x27;&lt;a target=&quot;widgetList&quot; href=&quot;&#x27; + docpath + &#x27;&quot;&gt;&#x27;
+               + currName + &#x27;&lt;/a&gt;&#x27; + following + &#x27;&amp;gt;&#x27;
+
+      if (currNid === nid) {
+        html = &#x27;&lt;span style=&quot;color:red;font-weight:bold;background-color:#ffe0e0&quot;&gt;&#x27; + html + &#x27;&lt;/span&gt;&#x27;;
+      }
+      return html;
+    });
+
+    $(&#x27;&lt;h1&gt;&#x27;).text(&#x27;JSPソースコード&#x27;).appendTo($pain);
+    $(&#x27;&lt;button style=&quot;margin: 5px&quot;&gt;&#x27;)
+      .text(&#x27;閉じる&#x27;)
+      .on(&#x27;click&#x27;, function(){$pain.hide()})
+      .appendTo($pain);
+    $(&#x27;&lt;button style=&quot;margin: 5px&quot;&gt;&#x27;)
+      .text(&#x27;解説書を開く&#x27;)
+      .on(&#x27;click&#x27;, function(){
+        window.open(widgetListView.widgetList, &#x27;widgetList&#x27;);})
+      .appendTo($pain);
+
+    jquery_jsp_showError.messages.each(function(message, i) {
+      $(&#x27;&lt;h2&gt;&#x27;).text(&#x27;エラー&#x27; + (i+1) + &#x27;: &#x27; + message).appendTo($pain);
+    });
+    if (jquery_jsp_showError.messages.length) {
+      $(&#x27;&lt;div style=&quot;margin: 10px; font-weight:bold;&quot;&gt;&#x27;)
+        .text(&#x27;(エラー箇所をハイライト表示しています。)&#x27;)
+        .appendTo($pain);
+    }
+    $(&#x27;&lt;pre style=&quot;padding:20px;&quot;&gt;&#x27;).html(src).appendTo($pain);
+  }
+
+
+  function jquery_jsp_showError() {
+    if (!jquery_jsp_showError.messages.length) return;
+    if ($(&#x27;div.sourceView pre&#x27;).length) return;
+    return this.jsp_showSource();
+  }
+
+
+  /**
+   * JSPソースコードをDOMノードに変換する。
+   *
+   * この際、IE8以前とそれ以外のブラウザではXMLの名前空間の扱いが異なるため、
+   * jspタグ名とライブラリ名とのセパレータ文字 &quot;:&quot; を &quot;__&quot;に置換し、
+   * 一旦、タグ名の接頭辞に組み込む。
+   *
+   * また、これとあわせて以下の事前処理を行う。
+   *
+   * 1. JSPコメント(&lt;%-- --%&gt;)の除去。
+   *
+   * 2. 属性値内に存在する&lt;n:write&gt;タグを等価なEL式に置換
+   *    (属性値内に&lt;n:write&gt;タグが記述されていると、DOMに変換できなくなるため)
+   *
+   * 3. ブラウザが暗黙的にノード構造の書き換えを行なってしまう以下のタグについて
+   *    &lt;html:xx&gt;として一旦退避し、html.jsで書き戻す。
+   *
+   *    - title/style:
+   *      HTMLの定義では子要素を持たないので、&lt;n:write&gt;などのタグを
+   *      一律テキストノードに置換してしまう。
+   *
+   *    - table/tr/td/th:
+   *      親子関係が厳格なため、tagfileやincludeファイル内でtrやtdを単独で配置
+   *      すると、ノードツリーから削除されてしまう。
+   *
+   * 4. JSPファイル内のトップレベルに記述されたテキストノード(=ディレクティブ)
+   *    は読み飛ばす。
+   *
+   * @method jsp
+   * @for jQuery
+   * @static
+   * @param {String} src JSPソースコード
+   * @return {jQuery} JSPタグのDOMノード
+   */
+  function jquery_jsp(src, moduleName) {
+    var comment   = /&lt;%--[\s\S]*?--%&gt;/g
+      , attribute = /([-_$a-zA-Z]+)\s*=\s*(&#x27;[^&#x27;]*&#x27;|&quot;[^&quot;]*&quot;)/g
+      , directive = /&lt;%@\s*([a-zA-Z]+)\s+(.*?)%&gt;/g
+      , writeTag  = /&lt;n\:write\s(\s*[-_$a-zA-Z0-9]+\s*=\s*(&#x27;[^&#x27;]*&#x27;|&quot;[^&quot;]*&quot;))+\s*\/?&gt;(\s*&lt;\/n\:write&gt;)?/ig
+      , nameAttr  = /name\s*=\s*(&#x27;[^&#x27;]*&#x27;|&quot;[^&quot;]*&quot;)/
+      , tags      = [&#x27;(?:[_a-zA-Z]+:[_a-zA-Z]+)&#x27;
+                    , &#x27;title&#x27;, &#x27;style&#x27;, &#x27;table&#x27;, &#x27;tr&#x27;, &#x27;td&#x27;, &#x27;th&#x27;, &#x27;script&#x27;, &#x27;select&#x27;].join(&#x27;|&#x27;)
+      , openTag   = new RegExp(&#x27;&lt;(&#x27;+tags+&#x27;)(/?&gt;|\\s[^&gt;]*/?&gt;)&#x27;, &#x27;ig&#x27;)
+      , closeTag  = new RegExp(&#x27;&lt;/(&#x27;+tags+&#x27;)&gt;&#x27;, &#x27;ig&#x27;)
+      , meta      = jquery_jsp.meta[moduleName];
+
+    if (moduleName === &#x27;__page&#x27;) {
+      var src = src.replace(openTag, function(_, tagName, following) {
+        return &#x27;&lt;&#x27; + tagName + &#x27; data-seq=&quot;&#x27; + (++jsp_seq) + &#x27;&quot;&#x27; + following;
+      });
+      jquery_jsp.meta.pageSrc = src;
+    }
+
+    if (!meta) {
+      meta = {};
+      meta.attributes = {};
+      meta.src = normalize(src);
+      jquery_jsp.meta[moduleName] = meta;
+    }
+    return $(meta.src).filter(function(){ return this.nodeType != 3 });
+
+    //---------- subroutines -------------------//
+    function normalizedTagName(tagName) {
+      return (
+        (tagName.indexOf(&#x27;:&#x27;) === -1) ? (&#x27;html:&#x27; + tagName) : tagName
+      ).toLowerCase();
+    }
+
+    function normalize(src) {
+      return src.replace(comment,   &#x27;&#x27;)
+                .replace(directive, directiveReplacement)
+                .replace(attribute, attributeReplacement)
+                .replace(openTag,   openTagReplacement)
+                .replace(closeTag,  &#x27;&lt;/div&gt;&#x27;);
+
+      function attributeReplacement(_, name, value) {
+        value = value.replace(writeTag, function(tag) {
+          var m    = nameAttr.exec(tag)
+            , name = m[1];
+          return name ? &#x27;${&#x27; + m[1].slice(1, -1) + &#x27;}&#x27;: &#x27;&#x27;;
+        });
+        if (name === &#x27;disabled&#x27;) {
+          name = &#x27;__disabled&#x27;;
+        }
+        return name + &#x27;=&#x27; + value;
+      }
+
+      function directiveReplacement(_, directiveName, content) {
+        if (!meta || directiveName != &#x27;attribute&#x27;) {
+          return &#x27;&#x27;;
+        }
+        var attrSpec = {};
+        content.replace(attribute, function(_, name, value) {
+          attrSpec[name] = value.slice(1, -1);
+        });
+        meta.attributes[attrSpec.name.toLowerCase()] = attrSpec;
+        return &#x27;&#x27;;
+      }
+
+      function openTagReplacement(_, tagName, following) {
+        return &#x27;&lt;div data-jsp=&quot;&#x27; + normalizedTagName(tagName) + &#x27;&quot; &#x27; + following;
+      }
+    }
+  }
+  jquery_jsp.meta = Object.create(null);
+  jsp_seq = 0;
+
+  /**
+   * jQuery結果セット中の最初の要素の属性値を格納した &#x60;Object&#x60; を返す。
+   * 各属性値中のel式は、引数のコンテキストを用いて評価される。
+   *
+   * @example
+   *     $text = $(&#x27;&lt;field:text&gt;&#x27;, {cssClass:&#x27;(index % 2 == 0) ? &quot;even&quot; : &quot;odd&quot;&#x27;});
+   *
+   *     $text.jsp_attr({index:8}).cssClass // -&gt; &quot;even&quot;
+   *
+   * @method jsp_attrs
+   * @for jQuery
+   * @param {Object} context コンテキスト変数を格納したObject
+   * @return {Object} JSPタグの属性値を格納したObject
+   */
+  function jquery_jsp_attrs(context) {
+    var tag   = this[0]
+      , $tag  = $(tag)
+      , attrs = $tag.data(&#x27;jsp_attrs&#x27;);
+
+    if (attrs) {
+      return attrs;
+    }
+    attrs = {};
+    $.each(tag.attributes, function() {
+      var name = this.nodeName.toLowerCase()
+        , val  = el(this.nodeValue, context) || &#x27;&#x27;;
+
+      if ([&#x27;data-jsp&#x27;].any(name)) {
+        return;
+      }
+      if ([&#x27;readonly&#x27;, &#x27;multiple&#x27;].any(name)) {
+        if (val === &#x27;true&#x27;|| val === name) {
+          val = &#x27;true&#x27;;
+        }
+        else if (!val || val === &#x27;false&#x27; ) {
+          return;
+        }
+      }
+      attrs[name] = val;
+    });
+    // javaの予約語とバッティングしているhtmlの属性名のエイリアスを解消する。
+    if (attrs.cssclass) {
+      attrs[&#x27;class&#x27;] = attrs.cssclass;
+    }
+
+    if (attrs.__disabled) {
+      if (attrs.__disabled == &#x27;true&#x27; || attrs.__disabled === &#x27;disabled&#x27;) {
+        attrs.disabled = &#x27;true&#x27;;
+      }
+      else {
+        delete attrs.disabled;
+      }
+    }
+
+    $tag.data(&#x27;jsp_attrs&#x27;, attrs);
+    return attrs;
+  }
+
+  /**
+   * jQuery結果セット内のJSPタグを評価し、HTMLタグに変換する。
+   *
+   * 各タグは以下のように変換される。
+   *
+   * 1. HTMLコメントノード (nodeType:8)
+   *
+   *   なにもせずそのまま残す。
+   *
+   * 2. テキストノード (nodeType:3)
+   *
+   *   テキスト中のel式(${...})を評価後の値に置換する。
+   *
+   * 3. HTMLタグノード
+   *
+   *   属性値中のel式を評価後の値に置換する。。
+   *
+   * 4. JSPタグノード
+   *
+   *   &#x60;jsp/taglib/(タグリブ名).js&#x60; に処理をディスパッチする。
+   *   例えば、 &#x60;&lt;c:if&gt;&#x60; の変換は &#x60;jsp/taglib/jstl.js&#x60; で行なう。
+   *
+   * @method jsp_eval
+   * @param {Object} [context] コンテキスト変数を格納したObject
+   *                            省略時は &#x60;jsp/context&#x60; の内容を使用する。
+   * @return {jQuery} 変換後のHTMLタグのDOMノードを格納したjQuery結果セット
+   */
+  function jquery_jsp_eval(context) {
+    return this.each(function() {
+
+      // テキストノード中のel式を評価する。
+      if (this.nodeType === 3) {
+        handleTextNode(this, context);
+        return;
+      }
+
+      // HTMLコメントは読み飛ばす
+      if (this.nodeType === 8) {
+        return;
+      }
+
+      var tag       = this
+        , match     = /(\w+):(\w+)/.exec(this.getAttribute(&#x27;data-jsp&#x27;))
+        , isJSP     = !!(match)
+        , namespace = isJSP &amp;&amp; match[1].toLowerCase()
+        , tagName   = isJSP &amp;&amp; match[2].toLowerCase();
+
+      context   = context || topContext;
+      namespace = alias[namespace] || namespace;
+
+      // HTML要素のノード
+      if (!isJSP) {
+        handleHtmlElement(tag, context);
+        return;
+      }
+
+      if (namespace === &#x27;nablarch&#x27; &amp;&amp; tagName == &#x27;set&#x27;) {
+        doSetTag(tag, context);
+        return;
+      }
+
+      require([&#x27;jsp/taglib/&#x27; + namespace], function(taglib) {
+        var doTag       = Object.isFunction(taglib) ? taglib : taglib[tagName]
+          , $jspTag     = $(tag)
+          , $tagBody    = $jspTag.contents().detach()
+          , pageContext = Object.create(context)
+          , $translated;
+
+        if (!doTag) {
+          throw new Error(&#x27;Unknown tag  &#x27; + namespace + &#x27;:&#x27; + tagName);
+        }
+
+        Object.merge(pageContext, $jspTag.jsp_attrs(context));
+
+        $tagBody.filter(&#x27;div[data-jsp=&quot;jsp:attribute&quot;]&#x27;).each(function() {
+          var $attribute = $(this)
+            , $fragment  = $(&#x27;&lt;div&gt;&#x27;).append($attribute.contents().remove())
+            , attrs      = $attribute.jsp_attrs(pageContext);
+
+          pageContext[attrs.name] = function(_context) {
+            var __context = Object.create(_context);
+            __context[attrs.name]   = context[attrs.name];
+            __context[&#x27;__$tagBody&#x27;] = context[&#x27;__$tagBody&#x27;];
+            return $fragment.clone().jsp_eval(__context).contents();
+          };
+        });
+
+        $translated = doTag.apply(tag, [$tagBody, pageContext, tagName, context]);
+        if ($translated === false) {
+          return;
+        }
+        $translated = $translated || $tagBody;
+        $jspTag.replaceWith($translated);
+        $translated.jsp_eval(pageContext);
+      });
+    });
+  }
+
+  function handleHtmlElement(tag, context) {
+    var $tag  = $(tag)
+      , attrs = Object.reject($tag.jsp_attrs(context), &#x27;type&#x27;);
+
+    $tag.attr(attrs)
+        .contents()
+        .jsp_eval(Object.create(context));
+  }
+
+  function handleTextNode(node, context) {
+    handleTextNode = (node.textContent !== undefined)
+                   ? handleTextNode_modernBrowsers
+                   : handleTextNode_oldIE;
+    return handleTextNode(node, context);
+
+    function handleTextNode_modernBrowsers(n, c) {
+      n.textContent = el(n.textContent, c);
+    }
+
+    function handleTextNode_oldIE(n, c) {
+      n.nodeValue = el(n.nodeValue, c);
+    }
+  }
+
+  function doSetTag(tag, context) {
+    var $tag    = $(tag)
+      , attrs   = $tag.jsp_attrs(context)
+      , varName = attrs[&#x27;var&#x27;]
+      , name    = attrs[&#x27;name&#x27;]
+      , value   = name ? context.getVar(name) : attrs[&#x27;value&#x27;];
+
+    if (typeof varName === &#x27;undefined&#x27;) {
+      throw new Error(&#x27;n:set tag needs &quot;var&quot; attribute. : &#x27; + this.outerHTML);
+    }
+
+    context.setVar(varName, value);
+    $tag.remove();
+    return false;
+  }
+
+
+
+  return define();
+});
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>js\nablarch\ui\LightBox.js - Nablarch JavaScript Widget</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Nablarch JavaScript Widget"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/jQuery.html">jQuery</a></li>
+            
+                <li><a href="../classes/nablarch.ui.html">nablarch.ui</a></li>
+            
+                <li><a href="../classes/nablarch.ui.AutoSpan.html">nablarch.ui.AutoSpan</a></li>
+            
+                <li><a href="../classes/nablarch.ui.AutoSum.html">nablarch.ui.AutoSum</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Collapsible.html">nablarch.ui.Collapsible</a></li>
+            
+                <li><a href="../classes/nablarch.ui.ContextMenu.html">nablarch.ui.ContextMenu</a></li>
+            
+                <li><a href="../classes/nablarch.ui.DatePicker.html">nablarch.ui.DatePicker</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.AjaxAction.html">nablarch.ui.event.AjaxAction</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.Listener.html">nablarch.ui.event.Listener</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.ShowDialog.html">nablarch.ui.event.ShowDialog</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.SubWindowListener.html">nablarch.ui.event.SubWindowListener</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.ToggleAction.html">nablarch.ui.event.ToggleAction</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.WindowClose.html">nablarch.ui.event.WindowClose</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.WriteAction.html">nablarch.ui.event.WriteAction</a></li>
+            
+                <li><a href="../classes/nablarch.ui.LightBox.html">nablarch.ui.LightBox</a></li>
+            
+                <li><a href="../classes/nablarch.ui.ListBuilder.html">nablarch.ui.ListBuilder</a></li>
+            
+                <li><a href="../classes/nablarch.ui.selector.html">nablarch.ui.selector</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Tab.html">nablarch.ui.Tab</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TabindexOrder.html">nablarch.ui.TabindexOrder</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TabLink.html">nablarch.ui.TabLink</a></li>
+            
+                <li><a href="../classes/nablarch.ui.ToggleCheckbox.html">nablarch.ui.ToggleCheckbox</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Tooltip.html">nablarch.ui.Tooltip</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TreeList.html">nablarch.ui.TreeList</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TreeMenu.html">nablarch.ui.TreeMenu</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Widget.html">nablarch.ui.Widget</a></li>
+            
+                <li><a href="../classes/nablarch.util.BigDecimal.html">nablarch.util.BigDecimal</a></li>
+            
+                <li><a href="../classes/nablarch.util.BigDecimal.NaN.html">nablarch.util.BigDecimal.NaN</a></li>
+            
+                <li><a href="../classes/nablarch.util.Consumer.html">nablarch.util.Consumer</a></li>
+            
+                <li><a href="../classes/nablarch.util.DateUtil.html">nablarch.util.DateUtil</a></li>
+            
+                <li><a href="../classes/nablarch.util.SimpleDateFormat.html">nablarch.util.SimpleDateFormat</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/devtool.html">devtool</a></li>
+            
+                <li><a href="../modules/nablarch.ui.html">nablarch.ui</a></li>
+            
+                <li><a href="../modules/nablarch.util.html">nablarch.util</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: js\nablarch\ui\LightBox.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @module nablarch.ui
+ */
+define([&#x27;jquery&#x27;, &#x27;nablarch/ui/Widget&#x27;, &#x27;sugar&#x27;],
+function($, Widget) { &#x27;use strict&#x27;;
+  /**
+   * モーダルダイアログ
+   * ========================
+   * モーダルダイアログを表示する。
+   * 
+   * 
+   * マークアップ仕様
+   * -------------------
+   * ダイアログ内に表示するDOM要素に対して、マーカーCSSクラス &#x60;nablarch_LightBox&#x60;
+   * を指定する。
+   * 
+   *     &lt;div class=&quot;nablarch_LightBox
+   *                 -open  &#x27;#contextMenu li.widgetList click&#x27;
+   *                 -close &#x27;button.close click&#x27;&quot;&gt;
+   *       &lt;h2&gt;ウィジェット一覧&lt;/h2&gt;
+   *       &lt;div id=&quot;widgetListView&quot;&gt;&lt;/div&gt;
+   *       &lt;button class=&quot;close&quot;&gt;ウィジェット一覧を閉じる&lt;/button&gt;
+   *     &lt;/div&gt;
+   * 
+   * @class nablarch.ui.LightBox
+   * @author Iwauo Tajima
+   * @since 1.3
+   */  
+  LightBox.prototype = Object.merge(new Widget(), {
+    /**
+     * コンストラクタ関数
+     * @method LightBox
+     * @param {HTMLElement} element コンテキストメニューを構成するDOMノード
+     * @param {Object} opts オプションを格納したオブジェクト
+     * @constructor
+     */
+    constructor: LightBox
+    /**
+     * ダイアログが開かれているかどうか。
+     * @property isOpen
+     * @type Boolean
+     */
+  , isOpen: null
+    /**
+     * ダイアログの表示位置(画面左端からのpx指定)
+     * nullの場合は画面中央に表示するように自動的に調整する。
+     * @property left
+     * @type Number
+     */
+  , left: null
+    /**
+     * ダイアログの表示位置(画面上端からのpx指定)
+     * nullの場合は画面中央に表示するように自動的に調整する。
+     * @property top
+     * @type Number
+     */
+  , top: null
+    /**
+     * ダイアログの背景として全画面表示するdiv要素
+     * @property $screen
+     * @type HTMLElement
+     */    
+  , $screen: null
+    /**
+     * モーダルダイアログを展開する。
+     * @method show
+     * @param {jQuery.Event} event イベントオブジェクト
+     * @chainable
+     */
+  , show: LightBox_show
+    /**
+     * モーダルダイアログを閉じる。
+     * @method hide
+     * @param {jQuery.Event} event イベントオブジェクト
+     * @chainable
+     */  
+  , hide   : LightBox_hide
+    /**
+     * 現在のステータスに応じて表示を更新する。
+     * @method render
+     * @param {jQuery.Event} event イベントオブジェクト
+     * @chainable
+     */
+  , render : LightBox_render
+  });
+  
+  LightBox.event = {};
+
+  /**
+   * ウィジェット識別子
+   * @property widgetType
+   * @static
+   * @final
+   * @default &quot;nablarch_LightBox&quot;
+   */
+  LightBox.widgetType = &quot;nablarch_LightBox&quot;;
+  
+  Widget.register(LightBox); 
+  
+  /**
+   * コンストラクタ関数
+   */
+  function LightBox(element, opts) {
+    this.constructor = LightBox;
+    this.isOpen  = false;
+    this.left    = Number(opts.left);
+    this.top     = Number(opts.top);
+    this.$screen = $(&#x27;&lt;div&gt;&#x27;, {&#x27;class&#x27;: &#x27;nablarch_LightBox_screen&#x27;})
+                  .hide().appendTo(&#x27;body&#x27;);
+    
+    Widget.call(this, element);
+    
+    this.bindEvent(opts.open,  &#x27;show&#x27;);
+    this.bindEvent(opts.close, &#x27;hide&#x27;);
+    
+    this.render();
+  }
+  
+  function LightBox_render(event) {
+    var self = this;
+    if (!self.isOpen) {
+      self.$node.hide();
+      self.$screen.hide();
+    }
+    else {
+      adjustPlacement();
+      self.$screen.show();
+      self.$node.show();
+    }
+    return this;
+    
+    // --- subroutines --- //
+    function adjustPlacement() {
+      var left =  self.left || ($(window).innerWidth()  - self.$node.innerWidth()) / 2
+        , top  =  self.top  || ($(window).innerHeight() - self.$node.innerHeight()) / 2 ;
+      
+      self.$screen.css({
+        top    : 0
+      , left   : 0
+      , height : $(document).innerHeight() + &#x27;px&#x27;
+      , width  : $(document).innerWidth()  + &#x27;px&#x27;
+      });
+      
+      self.$node.css({
+        top  : top + &#x27;px&#x27;
+      , left : left + &#x27;px&#x27;
+      });
+    }
+  }
+  
+  function LightBox_show(event) {
+    this.isOpen = true;
+    this.render(event);
+  }
+  
+  function LightBox_hide(event) {
+    this.isOpen = false;
+    this.render(event);
+  }
+  
+  return LightBox;
+});
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% extends "!layout.html" %}
+
+{% block sidebartitle %}
+  {% if logo and theme_logo_only %}
+  <a href="{{ pathto(master_doc) }}">
+  {% else %}
+  <a href="{{ pathto(master_doc) }}" id="sidebar-title" class="icon"> {{ project }}
+  {% endif %}
+
+  {% if logo %}
+    {# Not strictly valid HTML, but it's the only way to display/scale it properly, without weird scripting or heaps of work #}
+    <img src="{{ pathto('_static/' + logo, 1) }}" class="logo" />
+  {% endif %}
+    <div id="sidebar-version">Version: {{ version }}</div>
+  </a>
+{% endblock %}
+
+{% block menu %}
+  {% set toctree = toctree(maxdepth=3, collapse=False, includehidden=True) %}
+  {% if toctree %}
+    {{ toctree }}
+  {% else %}
+  <!-- Local TOC -->
+  <div class="local-toc">{{ toc }}</div>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>js\nablarch\ui\DatePicker.js - Nablarch JavaScript Widget</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Nablarch JavaScript Widget"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/jQuery.html">jQuery</a></li>
+            
+                <li><a href="../classes/nablarch.ui.html">nablarch.ui</a></li>
+            
+                <li><a href="../classes/nablarch.ui.AutoSpan.html">nablarch.ui.AutoSpan</a></li>
+            
+                <li><a href="../classes/nablarch.ui.AutoSum.html">nablarch.ui.AutoSum</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Collapsible.html">nablarch.ui.Collapsible</a></li>
+            
+                <li><a href="../classes/nablarch.ui.ContextMenu.html">nablarch.ui.ContextMenu</a></li>
+            
+                <li><a href="../classes/nablarch.ui.DatePicker.html">nablarch.ui.DatePicker</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.AjaxAction.html">nablarch.ui.event.AjaxAction</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.Listener.html">nablarch.ui.event.Listener</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.ShowDialog.html">nablarch.ui.event.ShowDialog</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.SubWindowListener.html">nablarch.ui.event.SubWindowListener</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.ToggleAction.html">nablarch.ui.event.ToggleAction</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.WindowClose.html">nablarch.ui.event.WindowClose</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.WriteAction.html">nablarch.ui.event.WriteAction</a></li>
+            
+                <li><a href="../classes/nablarch.ui.LightBox.html">nablarch.ui.LightBox</a></li>
+            
+                <li><a href="../classes/nablarch.ui.ListBuilder.html">nablarch.ui.ListBuilder</a></li>
+            
+                <li><a href="../classes/nablarch.ui.selector.html">nablarch.ui.selector</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Tab.html">nablarch.ui.Tab</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TabindexOrder.html">nablarch.ui.TabindexOrder</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TabLink.html">nablarch.ui.TabLink</a></li>
+            
+                <li><a href="../classes/nablarch.ui.ToggleCheckbox.html">nablarch.ui.ToggleCheckbox</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Tooltip.html">nablarch.ui.Tooltip</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TreeList.html">nablarch.ui.TreeList</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TreeMenu.html">nablarch.ui.TreeMenu</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Widget.html">nablarch.ui.Widget</a></li>
+            
+                <li><a href="../classes/nablarch.util.BigDecimal.html">nablarch.util.BigDecimal</a></li>
+            
+                <li><a href="../classes/nablarch.util.BigDecimal.NaN.html">nablarch.util.BigDecimal.NaN</a></li>
+            
+                <li><a href="../classes/nablarch.util.Consumer.html">nablarch.util.Consumer</a></li>
+            
+                <li><a href="../classes/nablarch.util.DateUtil.html">nablarch.util.DateUtil</a></li>
+            
+                <li><a href="../classes/nablarch.util.SimpleDateFormat.html">nablarch.util.SimpleDateFormat</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/devtool.html">devtool</a></li>
+            
+                <li><a href="../modules/nablarch.ui.html">nablarch.ui</a></li>
+            
+                <li><a href="../modules/nablarch.util.html">nablarch.util</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: js\nablarch\ui\DatePicker.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+define([&quot;jquery&quot;
+      , &quot;nablarch/util/DateUtil&quot;
+      , &quot;./Widget&quot;
+      , &quot;text!./DatePicker.template&quot;
+      , &quot;./readonly&quot;
+      , &quot;sugar&quot;],
+function($, DateUtil, Widget, template, readOnly) { &quot;use strict&quot;;
+  /**
+   * 日付入力機能
+   * ============================================
+   * 日付入力機能は日付文字列を入力するための入力補助UI部品である。
+   * 日付入力機能は、以下の3つの要素から構成される。
+   *
+   * 1. 入力フィールド
+   * 2. カレンダーの開閉を行う要素
+   * 3. カレンダー
+   *
+   * **カレンダーの開閉**
+   *   カレンダーの開閉を行う要素は、明示的な要素(ボタン)として配置してもよいが、
+   *   ボタンを省略して、入力フィールド単独で開閉を行わせることも可能である。
+   *   開かれたカレンダーは、カレンダー上の日付を選択するかカレンダーの外側のどこかを
+   *   クリックすると閉じる。
+   *   カレンダーでの値の変更があった場合は、入力フィールドのchangeイベントのみが発火する。
+   *   ただし、入力フィールドで変更する際に通常発生するfocus, blurイベントなどは発生しない。
+   *
+   *
+   * マークアップ仕様
+   * ------------------------
+   * カレンダーの開閉を行う要素にマーカーCSSクラス **nablarch_DatePicker** を指定する。
+   * また、入力対象のフィールドのid属性を **-input** オプションに指定する。
+   *
+   *     &lt;div class=&quot;field&quot;&gt;
+   *       &lt;label&gt;適用開始日：&lt;/label&gt;
+   *       &lt;input id=&quot;effectiveDate&quot; type=&quot;text&quot; value=&quot;&quot; /&gt;
+   *       &lt;button class=&quot;nablarch_DatePicker
+   *                     -format yyyy/MM/dd
+   *                     -locale ja
+   *                     -input  effectiveDate&quot;&gt;
+   *         &lt;i class=&quot;fa fa-calendar&quot;&gt;&lt;/i&gt;
+   *       &lt;/button&gt;
+   *     &lt;/div&gt;
+   *
+   * 次の記述例では、開閉ボタンを使用せずに、入力フィールドで直接カレンダーの開閉を行っている。
+   * この場合、マーカCSSは入力フィールドに直接指定し、オプション **-input** は省略する。
+   *
+   *     &lt;div class=&quot;field&quot;&gt;
+   *     &lt;label&gt;適用開始日：&lt;/label&gt;
+   *     &lt;input
+   *       id=&quot;effectiveDate&quot;
+   *       type=&quot;text&quot;
+   *       value=&quot;&quot;
+   *       class=&quot;nablarch_DatePicker
+   *              -format yyyy/MM/dd
+   *              -locale ja&quot;
+   *     &lt;/div&gt;
+   *
+   * @class nablarch.ui.DatePicker
+   *
+   * @author Iwauo Tajima
+   * @since  1.2
+   */
+  DatePicker.prototype = Object.merge(new Widget(), {
+    /**
+     * コンストラクタ関数。
+     *
+     * 第2引数に渡すオプションオブジェクトの内容は以下のとおり。
+     *
+     * @method DatePicker
+     * @constructor
+     * @param {HTMLElement} element マーカCSSを指定したDOMノード
+     * @param {Object} option オプションを格納したオブジェクト
+     *   **input:**  日付を入力するINPUT要素のid属性値
+     *   **locale:** 表示言語 (デフォルト:ja)
+     *   **format:** 日付フォーマット (デフォルト:yyyy/M/d)
+     * @return {DatePicker} インスタンス
+     */
+    constructor: DatePicker
+    /**
+     * 選択中の日付
+     * @property selectedDate
+     * @type Date
+     */
+  , selectedDate: null
+    /**
+     * 現在表示しているカレンダーの基準日
+     * @property displayingDate
+     * @type Date
+     */
+  , displayingDate: null
+    /**
+     * 現在日付(カレンダーを開いた時点で更新する。)
+     * @property today
+     * @type Date
+     */
+  , today: null
+    /**
+     * 日付のフォーマット
+     * @property format
+     * @type String
+     */
+  , format: null
+    /**
+     * 表示言語
+     * @property locale
+     * @type String
+     */
+  , locale: null
+    /**
+     * 入力フィールド
+     * @property $input
+     * @type jQuery
+     */
+  , $input: null
+    /**
+     * カレンダー表示部
+     * @property $calendar
+     * @type jQuery
+     */
+  , $calendar : null
+    /**
+     * 現在の状態に沿って、カレンダーを(再)描画する。
+     */
+  , render: DatePicker_render
+    /**
+     * カレンダーを開く。
+     * @method show
+     * @param event {jQuery.Event} イベント
+     * @return {Boolean} 常にfalseを返す。
+     */
+  , show: DatePicker_show
+    /**
+     * カレンダーを閉じる。
+     * @method hide
+     * @param event {jQuery.Event} イベント
+     * @return {Boolean} 常にfalseを返す。
+     */
+  , hide: DatePicker_hide
+    /**
+     * 選択された日付を取得する。
+     * 日付が選択されていない場合や、日付の形式が正しくない場合は null を返す。
+     *
+     * @example
+     *     // 選択された日付を取得する
+     *     var datePicker   = $form.find(&quot;.nablarch_DatePicker&quot;).widget(DatePicker)
+     *       , selectedDate = datePicker.getDate();
+     *
+     * @method getDate
+     * @return {Date} 現在選択中の日付
+     */
+  , getDate: DatePicker_getDate //
+  });
+
+  /**
+   * イベント定義
+   *
+   *     DatePicker.event = {
+   *       &quot;click&quot;                      : DatePicker_toggle
+   *     , &quot;$calendar .thisMonth click&quot; : DatePicker_selectDate
+   *     , &quot;$calendar .nextMonth click&quot; : DatePicker_nextMonth
+   *     , &quot;$calendar .lastMonth click&quot; : DatePicker_lastMonth
+   *     , &quot;$calendar .nextYear  click&quot; : DatePicker_nextYear
+   *     , &quot;$calendar .lastYear  click&quot; : DatePicker_lastYear
+   *     , &quot;$calendar .today     click&quot; : DatePicker_today
+   *     , &quot;$calendar .close     click&quot; : DatePicker_hide
+   *     , &quot;document             click&quot; : function(e) {
+   *                                        if (this.$calendar.find(e.target).length == 0) {
+   *                                          this.hide();
+   *                                        }
+   *                                      }
+   *     };
+   *
+   * @property event
+   * @type Object
+   * @static
+   * @final
+   */
+  DatePicker.event = {
+    &quot;click&quot;                      : DatePicker_toggle
+  , &quot;$calendar .thisMonth click&quot; : DatePicker_selectDate
+  , &quot;$calendar .nextMonth click&quot; : DatePicker_nextMonth
+  , &quot;$calendar .lastMonth click&quot; : DatePicker_lastMonth
+  , &quot;$calendar .nextYear  click&quot; : DatePicker_nextYear
+  , &quot;$calendar .lastYear  click&quot; : DatePicker_lastYear
+  , &quot;$calendar .today     click&quot; : DatePicker_today
+  , &quot;$calendar .close     click&quot; : DatePicker_hide
+  , &quot;document             click&quot; : function(e) {
+                                     if (this.$calendar.find(e.target).length == 0) {
+                                       this.hide();
+                                     }
+                                   }
+  };
+
+  /**
+   * モジュール識別名
+   * @property widgetType
+   * @type String
+   * @static
+   * @final
+   */
+  DatePicker.widgetType = &quot;nablarch_DatePicker&quot;;
+
+  Widget.register(DatePicker);
+
+  function DatePicker(element, option) {
+    if (arguments.length == 0) return this;
+    this.$calendar = $(template).css({display:&quot;none&quot;});
+
+    this.constructor = DatePicker;
+    Widget.call(this, element);
+
+    this.format = option.format || &quot;yyyy/M/d&quot;;
+    this.locale = option.locale || &quot;ja&quot;;
+    this.$input = option.input ? $(&quot;#&quot; + option.input.replace(/\./g, &#x27;\\.&#x27;))
+                               : this.$node;
+
+    renderWeekday(this);
+    this.$input.after(this.$calendar);
+
+    // 曜日欄を表示する。
+    function renderWeekday(self) {
+      var date = new Date();
+      (0).upto(6, function(n) {
+        var text;
+        date.setWeekday(n);
+        text = date.format(&quot;{dow}&quot;, self.locale);
+        self.$calendar.find(&quot;th.weekday&quot; + n).text(text);
+      });
+    }
+  }
+
+  function DatePicker_show(event) {
+    var val;
+    if (this.$input.is(&#x27;:disabled&#x27;) || this.$input.hasClass(readOnly.markerCss)) {
+      return false;
+    }
+    // before open a calendar, close all calendars.
+    $(&#x27;.&#x27; + DatePicker.widgetType).widgets(DatePicker).each(function() {
+      this.hide();
+    });
+
+    val = this.$input.val();
+    this.$input.data(&quot;datePicker_preval&quot;, val); // カレンダー表示時の値
+    this.today = Date.create(&quot;today&quot;);
+    if (val) {
+      this.selectedDate = DateUtil.parse(val, this.format);
+      this.$input.val(DateUtil.format(this.selectedDate, this.format, this.locale));
+    }
+    else {
+      this.selectedDate = null;
+      this.$input.val(&quot;&quot;);
+    }
+    this.displayingDate = this.selectedDate || this.today;
+    this.render();
+    this.$calendar.fadeIn(&quot;fast&quot;);
+    return false;
+  }
+
+  /**
+   * カレンダーを閉じる。
+   *
+   * @param event {jQuery.Event} イベント
+   * @returns false
+   */
+  function DatePicker_hide(event) {
+    var showed = this.$calendar.is(&quot;:visible&quot;);
+    this.$calendar.fadeOut(&quot;fast&quot;);
+    $(&#x27;.on-top&#x27;).removeClass(&#x27;on-top&#x27;);
+    if (showed &amp;&amp; this.$input.val() !== this.$input.data(&quot;datePicker_preval&quot;)) {
+      this.$input.trigger(&quot;change&quot;);
+    }
+    return false;
+  }
+
+  function DatePicker_toggle(event) {
+    this.$calendar.is(&quot;:hidden&quot;) ? this.show(event)
+                                 : this.hide(event);
+    return false;
+  }
+
+  /**
+   * 表示内容を内部状態に合わせて更新する。
+   */
+  function DatePicker_render() {
+    var $calendar    = this.$calendar
+      , baseDate     = this.displayingDate
+      , today        = this.today
+      , selectedDate = this.selectedDate
+      , firstDate    = baseDate.clone().beginningOfMonth().beginningOfWeek()
+      , lastDate     = firstDate.clone().addDays(41) // 6 weeks
+      , thisMonth    = baseDate.getMonth();
+
+    $calendar.find(&quot;.month .value&quot;)
+             .text(baseDate.format(&quot;{Month}&quot;, this.locale));
+    $calendar.find(&quot;.year .value&quot;)
+             .text(baseDate.format(&quot;{yyyy}&quot;, this.locale));
+
+    Date.range(firstDate, lastDate).every(&#x27;day&#x27;, renderDate);
+    return false;
+
+    function renderDate(date, index) {
+      var $cell = $calendar.find(&quot;td.day&quot; + index);
+
+      (date.getMonth() === thisMonth)
+        ? $cell.addClass(&quot;thisMonth&quot;)
+        : $cell.removeClass(&quot;thisMonth&quot;);
+
+      (selectedDate &amp;&amp; date.is(selectedDate))
+        ? $cell.addClass(&quot;selected&quot;)
+        : $cell.removeClass(&quot;selected&quot;);
+
+      date.is(today)
+        ? $cell.addClass(&quot;today&quot;)
+        : $cell.removeClass(&quot;today&quot;);
+
+      $cell.text(date.getDate()).data(&quot;calendar-date&quot;, date);
+    }
+  }
+
+  /**
+   * 日付を選択する。
+   *
+   * イベントの発生元に保持された日付をフォーマットしてから
+   * 入力フィールドに設定する。
+   *
+   * @param event {jQuery.Event} イベント
+   * @returns false
+   */
+  function DatePicker_selectDate(event) {
+    var selectedDate = $(event.target).data(&quot;calendar-date&quot;);
+    this.$input.val(DateUtil.format(selectedDate, this.format, this.locale));
+    this.$node.focus();
+    return this.hide();
+  }
+
+  /**
+   * カレンダーの表示月を1年すすめる。
+   *
+   * @param event {jQuery.Event} イベント
+   * @returns false
+   */
+  function DatePicker_nextYear(event) {
+    this.displayingDate = (1).yearAfter(this.displayingDate);
+    return this.render();
+  }
+
+  /**
+   * カレンダーの表示月を1年前に戻す。
+   *
+   * @param event {jQuery.Event} イベント
+   * @returns false
+   */
+  function DatePicker_lastYear(event) {
+    this.displayingDate = (1).yearBefore(this.displayingDate);
+    return this.render();
+  }
+
+  /**
+   * カレンダーの表示月を翌月にする。
+   *
+   * @param event {jQuery.Event} イベント
+   * @returns false
+   */
+  function DatePicker_nextMonth(event) {
+    this.displayingDate = (1).monthAfter(this.displayingDate);
+    return this.render();
+  }
+
+  /**
+   * カレンダーの表示月を一ヶ月戻す。
+   *
+   * @param event {jQuery.Event} イベント
+   * @returns false
+   */
+  function DatePicker_lastMonth(event) {
+    this.displayingDate = (1).monthBefore(this.displayingDate);
+    return this.render();
+  }
+
+  /**
+   * カレンダーの表示月を現在の月にする。
+   *
+   * @param event {jQuery.Event} イベント
+   * @returns false
+   */
+  function DatePicker_today(event) {
+    this.displayingDate = this.today.clone();
+    return this.render();
+  }
+
+  /**
+   * 選択された日付を取得する。
+   *
+   * @returns {Date} 選択された日付。
+   *                  未選択時はnullが返る。
+   */
+  function DatePicker_getDate() {
+    return DateUtil.parse(this.$node.val(), this.format);
+  }
+
+  return DatePicker;
+});
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

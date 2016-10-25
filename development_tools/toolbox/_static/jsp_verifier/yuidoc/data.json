@@ -1,0 +1,725 @@
+{
+    "project": {},
+    "files": {
+        "lib\\fileutil\\fs_ext.js": {
+            "name": "lib\\fileutil\\fs_ext.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\fileutil\\jsp_file_reader.js": {
+            "name": "lib\\fileutil\\jsp_file_reader.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\fileutil\\tag_file_reader.js": {
+            "name": "lib\\fileutil\\tag_file_reader.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\parser\\tag_file_parser.js": {
+            "name": "lib\\parser\\tag_file_parser.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\verifiers\\regexp_based_verifier.js": {
+            "name": "lib\\verifiers\\regexp_based_verifier.js",
+            "modules": {},
+            "classes": {
+                "RegexpBasedVerifier": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\verifiers\\selector_based_verifier.js": {
+            "name": "lib\\verifiers\\selector_based_verifier.js",
+            "modules": {},
+            "classes": {
+                "SelectorBasedVerifier": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\verifiers\\tag_attribute_verifier.js": {
+            "name": "lib\\verifiers\\tag_attribute_verifier.js",
+            "modules": {},
+            "classes": {
+                "TagAttributeVerifier": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\verifiers\\tag_usage_verifier.js": {
+            "name": "lib\\verifiers\\tag_usage_verifier.js",
+            "modules": {},
+            "classes": {
+                "TagUsageVerifier": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\verifiers\\wrapping_tag_verifier.js": {
+            "name": "lib\\verifiers\\wrapping_tag_verifier.js",
+            "modules": {},
+            "classes": {
+                "WrappingTagVerifier": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\jsp_verifier.js": {
+            "name": "lib\\jsp_verifier.js",
+            "modules": {},
+            "classes": {
+                "JspVerifier": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\verification_error.js": {
+            "name": "lib\\verification_error.js",
+            "modules": {},
+            "classes": {
+                "VerificationError": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "RegexpBasedVerifier": {
+            "name": "RegexpBasedVerifier",
+            "shortname": "RegexpBasedVerifier",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib\\verifiers\\regexp_based_verifier.js",
+            "line": 7,
+            "description": "正規表現検証クラス\n=====================================================================\n\nJSPファイル内に、指定された正規表現にマッチする文字列が存在(する|しない)かどうかを検証する。\n\n正規表現は以下のように指定する。\n\n> __設定フォーマット (JSON)__\n>\n>     \"required\": {\n>       \"ファイル内で必ず一箇所以上は一致しなくてはいけない正規表現\": \"コメント\"\n>     },\n>     \"forbidden\": {\n>       \"ファイル内で一致する箇所が存在してはいけない正規表現\": \"コメント\"\n>     }\n>\n> __設定ファイル記載例 (verification_config.json)__\n>\n>     \"required\": {\n>     },\n>     \"forbidden\": {\n>         \"/>\": \"自己終了エレメントを利用すると、その要素以降の記述内容が描画されなくなるため禁止。\"\n>     }"
+        },
+        "SelectorBasedVerifier": {
+            "name": "SelectorBasedVerifier",
+            "shortname": "SelectorBasedVerifier",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib\\verifiers\\selector_based_verifier.js",
+            "line": 8,
+            "description": "DOM検証クラス\n=====================================================================\n\nJSPファイル内に、指定されたセレクタにマッチするノードが存在(する|しない)かどうかを検証する。\n\nセレクタは以下のように指定する。なお、jQueryと似たセレクタを使用できるが、完全に互換性があるわけではない。\n使用できるセレクタの詳細が必要な場合には、 http://matthewmueller.github.io/cheerio/ を参照すること。\n\nまた、field:textなどのウィジェットをセレクタで指定する場合には、\"field\\\\\\\\:text\"と、\":\"をエスケープして記載する必要があることに注意。\n\n> __設定フォーマット (JSON)__\n>\n>     \"required\": {\n>       \"ファイル内に必ず一箇所以上はマッチするノードが存在しなくてはいけないセレクタ\": \"コメント\"\n>     },\n>     \"forbidden\": {\n>       \"ファイル内で一致する箇所が存在してはいけないセレクタ\": \"コメント\"\n>     }\n>\n> __設定ファイル記載例 (verification_config.json)__\n>\n>     \"required\": {\n>     },\n>     \"forbidden\": {\n>       \"table:not([listSearchInfoName])\": \"テーブルにはlistSearchInfoNameがないと結果件数が表示されないため、listSearchInfoNameを強制。\",\n>       \"table:not([id])\" : \"テーブルを複数表示する場合にIDが必須となるため、テーブルにはIDを強制。\"\n>     }"
+        },
+        "TagAttributeVerifier": {
+            "name": "TagAttributeVerifier",
+            "shortname": "TagAttributeVerifier",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib\\verifiers\\tag_attribute_verifier.js",
+            "line": 9,
+            "description": "タグ属性検証クラス\n=====================================================================\n\nタグに設定されている属性が、tagファイルで実際に定義されている属性かどうかを検証する。\n\n下記の設定で、指定されているディレクトリに格納されているタグファイルに対してのみ、属性値の検証が行われる。\n\n> __設定フォーマット (JSON)__\n>\n>     \"directory\": \"タグファイルが格納されているディレクトリのパス\",\n>     \"encoding\": \"タグファイルのエンコーディング\"\n>\n> __設定ファイル記載例 (verification_config.json)__\n>\n>     \"directory\": \"C:\\\\nablarch\\\\tutorial\\\\main\\\\web\\\\WEB-INF\\\\tags\\\\widget\",\n>     \"encoding\": \"utf-8\""
+        },
+        "TagUsageVerifier": {
+            "name": "TagUsageVerifier",
+            "shortname": "TagUsageVerifier",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib\\verifiers\\tag_usage_verifier.js",
+            "line": 8,
+            "description": "使用可能タグ検証クラス\n=====================================================================\n\nJSPファイル内で使用されているタグが、使用可能なタグであるかどうかを検証する。\n\n使用可能なタグは、タグ名に完全一致する正規表現として設定ファイルに以下のように記載する。\n\n> __設定フォーマット (JSON)__\n>\n>     \"allowed_tags\": {\n>       \"許可するタグ名に完全一致する正規表現\": \"コメント\"\n>     }\n>\n> __設定ファイル記載例 (verification_config.json)__\n>\n>     {\n>       \"verifiers\": {\n>         \"TagUsageVerifier\": {\n>           \"allowed_tags\": {\n>             \"n:form\": \"\"\n>             , \"n:set\": \"\"\n>             , \"n:write\": \"\"\n>             , \"n:ConfirmationPage\": \"\"\n>             , \"n:forConfirmationPage\": \"\"\n>             , \"n:forInputPage\": \"\"\n>             , \"n:param\": \"\"\n>             , \"t:page_template\": \"業務画面のテンプレート\"\n>             , \"t:errorpage_template\": \"エラー画面のテンプレート\"\n>             , \"box:.*\": \"\"\n>             , \"button:.*\": \"ボタンウィジェット\"\n>             , \"field:.*\": \"入力フォーム部品\"\n>             , \"link:.*\": \"リンクウィジェット\"\n>             , \"tab:.*\": \"タブウィジェット\"\n>             , \"table:.*\": \"テーブルウィジェット\"\n>             , \"c:if\": \"\"\n>             , \"jsp:attribute\": \"\"\n>             , \"%@\": \"JSPディレクティブ\"\n>             , \"%--\": \"JSPコメント\"\n>           }\n>         }\n>       }\n>     }"
+        },
+        "WrappingTagVerifier": {
+            "name": "WrappingTagVerifier",
+            "shortname": "WrappingTagVerifier",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib\\verifiers\\wrapping_tag_verifier.js",
+            "line": 8,
+            "description": "親タグ検証クラス\n=====================================================================\n\n正規表現で指定されたタグ名にマッチするタグの親タグに、指定されているタグが存在(する|しない)かどうかを検証する。\n\n検証対象とするタグおよびその親タグは以下のように設定する。\n\nchildは __正規表現__ で指定するが、parentは __セレクタ__ で指定することに注意。\nこのため、parentにn:formなどの\":\"を含むタグを指定したい場合には、 \"n\\\\\\\\:form\" のようにエスケープする必要がある。\n\nなお、jQueryと似たセレクタを使用できるが、完全に互換性があるわけではない。\n使用できるセレクタの詳細が必要な場合には、 http://matthewmueller.github.io/cheerio/ を参照すること。\n\n> __設定フォーマット (JSON)__\n>\n>     \"required\": {\n>       \"コメント\": {\n>         \"child\": \"検証対象とするタグにマッチする正規表現\",\n>         \"parent\": \"childに指定したタグの親に存在しなくてはいけないタグにマッチするセレクタ\"\n>       }\n>     },\n>     \"forbidden\": {\n>       \"コメント\": {\n>         \"child\": \"検証対象とするタグにマッチする正規表現\",\n>         \"parent\": \"childに指定したタグの親に存在してはいけないタグにマッチするセレクタ\"\n>       }\n>     }\n>\n> __設定ファイル記載例 (verification_config.json)__\n>\n>     \"required\": {\n>       \"tableウィジェットは、n:formで囲む必要がある。\": {\n>         \"child\": \"table:.*\",\n>         \"parent\": \"n\\\\:form\"\n>       },\n>       \"buttonウィジェットは、n:formで囲む必要がある。\": {\n>         \"child\": \"button:.*\",\n>         \"parent\": \"n\\\\:form\"\n>       },\n>      \"設計書ビューで画面項目定義に表示されるウィジェットは、spec:layoutで囲む必要がある。\": {\n>        \"child\": \"(table|field|column):.+\",\n>        \"parent\": \"spec\\\\:layout\"\n>      }\n>    },\n>    \"forbidden\": {\n>    }"
+        },
+        "JspVerifier": {
+            "name": "JspVerifier",
+            "shortname": "JspVerifier",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib\\jsp_verifier.js",
+            "line": 8,
+            "description": "JSPファイル検証クラス\n=====================================================================\n\n設定情報をもとに、実際に検証を実施するクラス (`Verifier`) を生成し、それらのクラスでの検証結果を集約して返却する。\n\n`Verifier` についての設定は、設定ファイルに以下のように記載する。\n\n> __設定フォーマット (JSON)__\n>\n>     \"verifiers\": {\n>       \"Verifierのコンストラクタ名\": {\n>         // Verifier毎の設定情報\n>       }\n>     }\n>\n> __設定ファイル記載例 (verification_config.json)__\n>\n> 例えば、 `TagUsageVerifier` と `SelectorBasedVerifier` を利用する場合、以下のように記載する。\n>\n>     {\n>       \"verifiers\": {\n>         \"TagUsageVerifier\": {\n>           \"allowed_tags\": {\n>           }\n>         }\n>         \"SelectorBasedVerifier\": {\n>           \"required\": {\n>           }\n>           \"forbidden\": {\n>           }\n>         }\n>       }\n>     }\n>"
+        },
+        "VerificationError": {
+            "name": "VerificationError",
+            "shortname": "VerificationError",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib\\verification_error.js",
+            "line": 3,
+            "description": "検証結果を表すクラス。"
+        }
+    },
+    "classitems": [
+        {
+            "file": "lib\\fileutil\\fs_ext.js",
+            "line": 6,
+            "description": "指定されたディレクトリから、filterにマッチするファイルを再帰的に抽出し、\nそれらのファイルへの絶対パスのリストを返却する。",
+            "params": [
+                {
+                    "name": "dir",
+                    "description": "ファイルを抽出する対象のディレクトリ"
+                },
+                {
+                    "name": "filter",
+                    "description": "抽出対象とするファイルの場合にtrueを返却するフィルター"
+                }
+            ],
+            "return": {
+                "description": "抽出されたファイルへの絶対パスのリスト",
+                "type": "Array"
+            },
+            "class": "RegexpBasedVerifier"
+        },
+        {
+            "file": "lib\\fileutil\\jsp_file_reader.js",
+            "line": 5,
+            "description": "以下の正規化処理を行って、JSPファイルを読み込む。\n\n* devtool.js読み込み用ののマジックコメントを除去\n* JSPディレクティブ（<%@）の後のスペースを除去",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "読み込むファイルのパス"
+                },
+                {
+                    "name": "encoding",
+                    "description": "読み込むファイルのエンコーディング"
+                }
+            ],
+            "return": {
+                "description": "正規化されて読み込まれたJSPファイルの内容",
+                "type": "String"
+            },
+            "class": "RegexpBasedVerifier"
+        },
+        {
+            "file": "lib\\fileutil\\tag_file_reader.js",
+            "line": 10,
+            "description": "指定されたディレクトリに格納されているtagファイルを読み込み、\nそれぞれのtagの定義情報のリストを返却する。\n\ntagの定義情報は以下の形式で格納されている。\n\nname\n: tag名。指定されたディレクトリをベースとして、配下のディレクトリ名とファイル名を、dirname:filename形式で結合した値。\n\nattributes\n: tagファイルの内容をTagFileParserでパースした内容",
+            "params": [
+                {
+                    "name": "directory",
+                    "description": "tagファイルの格納されているディレクトリ"
+                },
+                {
+                    "name": "encoding",
+                    "description": "tagファイルのエンコーディング"
+                }
+            ],
+            "return": {
+                "description": "読み込まれたtagファイルのパース結果リスト（キー：tag名、値：tagファイルの定義情報）",
+                "type": "Array"
+            },
+            "class": "RegexpBasedVerifier"
+        },
+        {
+            "file": "lib\\parser\\tag_file_parser.js",
+            "line": 8,
+            "description": "tagファイルのattribute定義情報のリストを取得し、返却する。\n\nattribute定義情報は、以下の属性値を格納したオブジェクトとなっており、すべてStringとして格納されている。\nなお、属性値が定義されていない場合には、undefinedとして格納される。\n\n* name\n* description\n* required\n* type\n* rtexprvalue\n* fragment",
+            "params": [
+                {
+                    "name": "body",
+                    "description": "tagファイルの内容"
+                }
+            ],
+            "return": {
+                "description": "tagファイルに定義されている属性のリスト",
+                "type": "Array"
+            },
+            "class": "RegexpBasedVerifier"
+        },
+        {
+            "file": "lib\\verifiers\\regexp_based_verifier.js",
+            "line": 38,
+            "description": "マッチしなくてはいけない正規表現のリスト",
+            "itemtype": "property",
+            "name": "required",
+            "type": "Array",
+            "default": "[]",
+            "class": "RegexpBasedVerifier"
+        },
+        {
+            "file": "lib\\verifiers\\regexp_based_verifier.js",
+            "line": 47,
+            "description": "マッチしてはいけない正規表現のリスト",
+            "itemtype": "property",
+            "name": "forbidden",
+            "type": "Array",
+            "default": "[]",
+            "class": "RegexpBasedVerifier"
+        },
+        {
+            "file": "lib\\verifiers\\regexp_based_verifier.js",
+            "line": 57,
+            "description": "コンストラクタ関数",
+            "itemtype": "method",
+            "name": "RegexpBasedVerifier",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "config",
+                    "description": "設定情報を格納したオブジェクト。使用するキーは以下の通り。\n\n   * **required** 必ずマッチしなくてはいけない正規表現をキーに持ち、コメントを値としてもつオブジェクト。\n   * **forbidden** マッチしてはいけない正規表現をキーに持ち、コメントを値としてもつオブジェクト。",
+                    "type": "Object"
+                }
+            ],
+            "class": "RegexpBasedVerifier"
+        },
+        {
+            "file": "lib\\verifiers\\regexp_based_verifier.js",
+            "line": 72,
+            "description": "JSPファイル内に、 required に指定されている正規表現にマッチする文字列が存在すること、\nおよび、forbiddenに指定されている正規表現にマッチする文字列が存在しないことを検証する。",
+            "itemtype": "method",
+            "name": "verify",
+            "params": [
+                {
+                    "name": "jsp",
+                    "description": "検証対象とするJSPファイルの内容",
+                    "type": "String"
+                },
+                {
+                    "name": "path",
+                    "description": "検証対象ファイルのパス",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "検証結果 ({{#crossLink \"VerificationError\"}}{{/crossLink}}) を格納した配列",
+                "type": "Array"
+            },
+            "class": "RegexpBasedVerifier"
+        },
+        {
+            "file": "lib\\verifiers\\selector_based_verifier.js",
+            "line": 43,
+            "description": "マッチしなくてはいけないセレクタのリスト",
+            "params": [
+                {
+                    "name": "required",
+                    "description": ""
+                }
+            ],
+            "type": "Array",
+            "default": "[]",
+            "class": "SelectorBasedVerifier"
+        },
+        {
+            "file": "lib\\verifiers\\selector_based_verifier.js",
+            "line": 52,
+            "description": "マッチしてはいけないセレクタのリスト",
+            "itemtype": "property",
+            "name": "forbidden",
+            "type": "Array",
+            "default": "[]",
+            "class": "SelectorBasedVerifier"
+        },
+        {
+            "file": "lib\\verifiers\\selector_based_verifier.js",
+            "line": 62,
+            "description": "コンストラクタ関数",
+            "itemtype": "method",
+            "name": "SelectorBasedVerifier",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "config",
+                    "description": "設定情報を格納したオブジェクト。使用するキーは以下の通り。\n\n   * **required** 必ずマッチしなくてはいけないセレクタをキーに持ち、コメントを値としてもつオブジェクト。\n   * **forbidden** マッチしてはいけないセレクタをキーに持ち、コメントを値としてもつオブジェクト。",
+                    "type": "Object"
+                }
+            ],
+            "class": "SelectorBasedVerifier"
+        },
+        {
+            "file": "lib\\verifiers\\selector_based_verifier.js",
+            "line": 77,
+            "description": "JSPファイル内に、 required に指定されているセレクタにマッチするノードが存在すること、\nおよび、forbiddenに指定されているセレクタにマッチするノードが存在しないことを検証する。",
+            "itemtype": "method",
+            "name": "verify",
+            "params": [
+                {
+                    "name": "jsp",
+                    "description": "検証対象とするJSPファイルの内容",
+                    "type": "String"
+                },
+                {
+                    "name": "path",
+                    "description": "検証対象ファイルのパス",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "検証結果 ({{#crossLink \"VerificationError\"}}{{/crossLink}}) を格納した配列",
+                "type": "Array"
+            },
+            "class": "SelectorBasedVerifier"
+        },
+        {
+            "file": "lib\\verifiers\\tag_attribute_verifier.js",
+            "line": 33,
+            "description": "指定されたディレクトリから読み込んだタグファイルの定義情報",
+            "itemtype": "property",
+            "name": "definitions",
+            "type": "Array",
+            "default": "[]",
+            "class": "TagAttributeVerifier"
+        },
+        {
+            "file": "lib\\verifiers\\tag_attribute_verifier.js",
+            "line": 43,
+            "description": "コンストラクタ関数",
+            "itemtype": "method",
+            "name": "TagAttributeVerifier",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "config",
+                    "description": "設定情報を格納したオブジェクト。使用するキーは以下の通り。\n\n   * **directory** タグファイルが格納されているディレクトリのパス\n   * **encoding** タグファイルのエンコーディング",
+                    "type": "Object"
+                }
+            ],
+            "class": "TagAttributeVerifier"
+        },
+        {
+            "file": "lib\\verifiers\\tag_attribute_verifier.js",
+            "line": 57,
+            "description": "JSPファイルで使用されているタグの属性が、実際に定義されているものであることを検証する。",
+            "itemtype": "method",
+            "name": "verify",
+            "params": [
+                {
+                    "name": "jsp",
+                    "description": "検証対象とするJSPファイルの内容",
+                    "type": "String"
+                },
+                {
+                    "name": "path",
+                    "description": "検証対象ファイルのパス",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "検証結果 ({{#crossLink \"VerificationError\"}}{{/crossLink}}) を格納した配列",
+                "type": "Array"
+            },
+            "class": "TagAttributeVerifier"
+        },
+        {
+            "file": "lib\\verifiers\\tag_usage_verifier.js",
+            "line": 58,
+            "description": "使用可能とするタグ名にマッチする正規表現",
+            "itemtype": "property",
+            "name": "allowed_tags",
+            "type": "Array",
+            "default": "[]",
+            "class": "TagUsageVerifier"
+        },
+        {
+            "file": "lib\\verifiers\\tag_usage_verifier.js",
+            "line": 68,
+            "description": "コンストラクタ関数",
+            "itemtype": "method",
+            "name": "TagUsageVerifier",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "config",
+                    "description": "設定情報を格納したオブジェクト。使用するキーは以下の通り。\n\n   * **allowed_tags** 使用可能とするタグ名にマッチする正規表現をキーに持ち、コメントを値としてもつオブジェクト。",
+                    "type": "Object"
+                }
+            ],
+            "class": "TagUsageVerifier"
+        },
+        {
+            "file": "lib\\verifiers\\tag_usage_verifier.js",
+            "line": 81,
+            "description": "JSPファイルで使用されている全てのタグが、 `allowed_tags` に指定されているかどうかを検証する。\n\nなお、以下のUI開発基盤を利用したローカル表示用のマジックコメントは解析対象にならない。\n\n    <!-- <%/* --> <script src=\"js/devtool.js\"></script><meta charset=\"utf-8\"><body> <!-- * /%> -->\n\nまた、JSPディレクティブについては、下記の置換を行ってディレクティブ名を正規化している。\n\n    replace(/<%@\\s+([a-zA-Z]+)\\s/mg, '<%@$1 ')",
+            "itemtype": "method",
+            "name": "verify",
+            "params": [
+                {
+                    "name": "jsp",
+                    "description": "検証対象とするJSPファイルの内容",
+                    "type": "String"
+                },
+                {
+                    "name": "path",
+                    "description": "検証対象ファイルのパス",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "検証結果 ({{#crossLink \"VerificationError\"}}{{/crossLink}}) を格納した配列",
+                "type": "Array"
+            },
+            "class": "TagUsageVerifier"
+        },
+        {
+            "file": "lib\\verifiers\\wrapping_tag_verifier.js",
+            "line": 62,
+            "description": "満たさなくてはいけない親子関係のリスト",
+            "params": [
+                {
+                    "name": "required",
+                    "description": ""
+                }
+            ],
+            "type": "Array",
+            "default": "[]",
+            "class": "WrappingTagVerifier"
+        },
+        {
+            "file": "lib\\verifiers\\wrapping_tag_verifier.js",
+            "line": 71,
+            "description": "満たしてはいけない親子関係のリスト",
+            "itemtype": "property",
+            "name": "forbidden",
+            "type": "Array",
+            "default": "[]",
+            "class": "WrappingTagVerifier"
+        },
+        {
+            "file": "lib\\verifiers\\wrapping_tag_verifier.js",
+            "line": 81,
+            "description": "コンストラクタ関数",
+            "itemtype": "method",
+            "name": "WrappingTagVerifier",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "config",
+                    "description": "設定情報を格納したオブジェクト。使用するキーは以下の通り。\n\n   * **directory** タグファイルが格納されているディレクトリのパス\n   * **encoding** タグファイルのエンコーディング",
+                    "type": "Object"
+                }
+            ],
+            "class": "WrappingTagVerifier"
+        },
+        {
+            "file": "lib\\verifiers\\wrapping_tag_verifier.js",
+            "line": 96,
+            "description": "タグの親子関係を検証する。",
+            "itemtype": "method",
+            "name": "verify",
+            "params": [
+                {
+                    "name": "jsp",
+                    "description": "検証対象とするJSPファイルの内容",
+                    "type": "String"
+                },
+                {
+                    "name": "path",
+                    "description": "検証対象ファイルのパス",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "検証結果 ({{#crossLink \"VerificationError\"}}{{/crossLink}}) を格納した配列",
+                "type": "Array"
+            },
+            "class": "WrappingTagVerifier"
+        },
+        {
+            "file": "lib\\jsp_verifier.js",
+            "line": 49,
+            "description": "登録されたVerifierを利用して検証を実施する。",
+            "itemtype": "method",
+            "name": "verify",
+            "params": [
+                {
+                    "name": "jsp",
+                    "description": "検証対象となるJSPファイルの内容"
+                },
+                {
+                    "name": "path",
+                    "description": "検証対象JSPファイルのパス"
+                }
+            ],
+            "return": {
+                "description": "検証結果リスト",
+                "type": "Array"
+            },
+            "class": "JspVerifier"
+        },
+        {
+            "file": "lib\\jsp_verifier.js",
+            "line": 64,
+            "description": "JSPの検証を行うインスタンスを生成する。",
+            "is_constructor": 1,
+            "itemtype": "method",
+            "name": "JspVerifier",
+            "params": [
+                {
+                    "name": "configurations",
+                    "description": "JSPの検証を行うクラスの設定情報を格納したオブジェクト。使用するキーは以下の通り。\n\n   * **verifiers** `Verifier` のコンストラクタ名をキーに持ち、各 `Verifier` の設定情報を値として持つオブジェクト。",
+                    "type": "Object"
+                },
+                {
+                    "name": "additionalVerifierDirs",
+                    "description": "独自に作成した `Verifier` を配置したディレクトリ。",
+                    "type": "Array | String"
+                }
+            ],
+            "class": "JspVerifier"
+        },
+        {
+            "file": "lib\\jsp_verifier.js",
+            "line": 99,
+            "description": "verifierDirs内のすべてのファイルを読み込み、Verifierのコンストラクタを取得する。",
+            "params": [
+                {
+                    "name": "verifierDirs",
+                    "description": "Verifierが格納されているディレクトリ"
+                }
+            ],
+            "return": {
+                "description": "Verifierの名前がキー、コンストラクタメソッドが値となっているオブジェクト",
+                "type": "Object"
+            },
+            "class": "JspVerifier"
+        },
+        {
+            "file": "lib\\verification_error.js",
+            "line": 11,
+            "description": "検証を実施したクラス名。",
+            "itemtype": "property",
+            "name": "verifier",
+            "type": "String",
+            "class": "VerificationError"
+        },
+        {
+            "file": "lib\\verification_error.js",
+            "line": 19,
+            "description": "エラー内容を表すメッセージ。",
+            "itemtype": "property",
+            "name": "message",
+            "type": "String",
+            "class": "VerificationError"
+        },
+        {
+            "file": "lib\\verification_error.js",
+            "line": 27,
+            "description": "このエラーが発生したファイルのパス",
+            "itemtype": "property",
+            "name": "path",
+            "type": "String",
+            "class": "VerificationError"
+        },
+        {
+            "file": "lib\\verification_error.js",
+            "line": 35,
+            "description": "検証エラーとなったノードの内容",
+            "itemtype": "property",
+            "name": "path",
+            "type": "String",
+            "class": "VerificationError"
+        },
+        {
+            "file": "lib\\verification_error.js",
+            "line": 44,
+            "description": "検証結果を生成する。",
+            "is_constructor": 1,
+            "itemtype": "method",
+            "name": "VerificationError",
+            "params": [
+                {
+                    "name": "verifier",
+                    "description": "検証を実施したクラス名。",
+                    "type": "String"
+                },
+                {
+                    "name": "message",
+                    "description": "エラー内容を表すメッセージ",
+                    "type": "String"
+                },
+                {
+                    "name": "path",
+                    "description": "検証エラーとなったファイルのパス",
+                    "type": "String"
+                },
+                {
+                    "name": "contents",
+                    "description": "検証エラーとなったノードの内容",
+                    "type": "String"
+                }
+            ],
+            "class": "VerificationError"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib\\fileutil\\fs_ext.js:6"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib\\fileutil\\jsp_file_reader.js:5"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib\\fileutil\\tag_file_reader.js:10"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib\\parser\\tag_file_parser.js:8"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib\\jsp_verifier.js:99"
+        },
+        {
+            "message": "Missing item type\n指定されたディレクトリから、filterにマッチするファイルを再帰的に抽出し、\nそれらのファイルへの絶対パスのリストを返却する。",
+            "line": " lib\\fileutil\\fs_ext.js:6"
+        },
+        {
+            "message": "Missing item type\n以下の正規化処理を行って、JSPファイルを読み込む。\n\n* devtool.js読み込み用ののマジックコメントを除去\n* JSPディレクティブ（<%@）の後のスペースを除去",
+            "line": " lib\\fileutil\\jsp_file_reader.js:5"
+        },
+        {
+            "message": "Missing item type\n指定されたディレクトリに格納されているtagファイルを読み込み、\nそれぞれのtagの定義情報のリストを返却する。\n\ntagの定義情報は以下の形式で格納されている。\n\nname\n: tag名。指定されたディレクトリをベースとして、配下のディレクトリ名とファイル名を、dirname:filename形式で結合した値。\n\nattributes\n: tagファイルの内容をTagFileParserでパースした内容",
+            "line": " lib\\fileutil\\tag_file_reader.js:10"
+        },
+        {
+            "message": "Missing item type\ntagファイルのattribute定義情報のリストを取得し、返却する。\n\nattribute定義情報は、以下の属性値を格納したオブジェクトとなっており、すべてStringとして格納されている。\nなお、属性値が定義されていない場合には、undefinedとして格納される。\n\n* name\n* description\n* required\n* type\n* rtexprvalue\n* fragment",
+            "line": " lib\\parser\\tag_file_parser.js:8"
+        },
+        {
+            "message": "Missing item type\nマッチしなくてはいけないセレクタのリスト",
+            "line": " lib\\verifiers\\selector_based_verifier.js:43"
+        },
+        {
+            "message": "Missing item type\n満たさなくてはいけない親子関係のリスト",
+            "line": " lib\\verifiers\\wrapping_tag_verifier.js:62"
+        },
+        {
+            "message": "Missing item type\nverifierDirs内のすべてのファイルを読み込み、Verifierのコンストラクタを取得する。",
+            "line": " lib\\jsp_verifier.js:99"
+        }
+    ]
+}

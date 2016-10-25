@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>js\nablarch\util\Consumer.js - Nablarch JavaScript Widget</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Nablarch JavaScript Widget"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/jQuery.html">jQuery</a></li>
+            
+                <li><a href="../classes/nablarch.ui.html">nablarch.ui</a></li>
+            
+                <li><a href="../classes/nablarch.ui.AutoSpan.html">nablarch.ui.AutoSpan</a></li>
+            
+                <li><a href="../classes/nablarch.ui.AutoSum.html">nablarch.ui.AutoSum</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Collapsible.html">nablarch.ui.Collapsible</a></li>
+            
+                <li><a href="../classes/nablarch.ui.ContextMenu.html">nablarch.ui.ContextMenu</a></li>
+            
+                <li><a href="../classes/nablarch.ui.DatePicker.html">nablarch.ui.DatePicker</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.AjaxAction.html">nablarch.ui.event.AjaxAction</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.Listener.html">nablarch.ui.event.Listener</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.ShowDialog.html">nablarch.ui.event.ShowDialog</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.SubWindowListener.html">nablarch.ui.event.SubWindowListener</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.ToggleAction.html">nablarch.ui.event.ToggleAction</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.WindowClose.html">nablarch.ui.event.WindowClose</a></li>
+            
+                <li><a href="../classes/nablarch.ui.event.WriteAction.html">nablarch.ui.event.WriteAction</a></li>
+            
+                <li><a href="../classes/nablarch.ui.LightBox.html">nablarch.ui.LightBox</a></li>
+            
+                <li><a href="../classes/nablarch.ui.ListBuilder.html">nablarch.ui.ListBuilder</a></li>
+            
+                <li><a href="../classes/nablarch.ui.selector.html">nablarch.ui.selector</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Tab.html">nablarch.ui.Tab</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TabindexOrder.html">nablarch.ui.TabindexOrder</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TabLink.html">nablarch.ui.TabLink</a></li>
+            
+                <li><a href="../classes/nablarch.ui.ToggleCheckbox.html">nablarch.ui.ToggleCheckbox</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Tooltip.html">nablarch.ui.Tooltip</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TreeList.html">nablarch.ui.TreeList</a></li>
+            
+                <li><a href="../classes/nablarch.ui.TreeMenu.html">nablarch.ui.TreeMenu</a></li>
+            
+                <li><a href="../classes/nablarch.ui.Widget.html">nablarch.ui.Widget</a></li>
+            
+                <li><a href="../classes/nablarch.util.BigDecimal.html">nablarch.util.BigDecimal</a></li>
+            
+                <li><a href="../classes/nablarch.util.BigDecimal.NaN.html">nablarch.util.BigDecimal.NaN</a></li>
+            
+                <li><a href="../classes/nablarch.util.Consumer.html">nablarch.util.Consumer</a></li>
+            
+                <li><a href="../classes/nablarch.util.DateUtil.html">nablarch.util.DateUtil</a></li>
+            
+                <li><a href="../classes/nablarch.util.SimpleDateFormat.html">nablarch.util.SimpleDateFormat</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/devtool.html">devtool</a></li>
+            
+                <li><a href="../modules/nablarch.ui.html">nablarch.ui</a></li>
+            
+                <li><a href="../modules/nablarch.util.html">nablarch.util</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: js\nablarch\util\Consumer.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @module nablarch.util
+ */
+define([&#x27;sugar&#x27;],
+function() { &#x27;use strict&#x27;;
+  /**
+   * 簡易汎用パーサー
+   * ---------------------
+   * 
+   * @class nablarch.util.Consumer
+   * @author Iwauo Tajima
+   * @since 1.3
+   */
+  Consumer.prototype = {
+    /**
+     * コンストラクタ関数
+     * @mehtod Consumer
+     * @constructor
+     */
+    constructor: Consumer
+    /**
+     * 解析対象文字列
+     * @property source
+     * @type String
+     */
+  , source: null
+    /**
+     * 現在位置
+     * @property head
+     * @type Number
+     */
+  , head: 0
+    /**
+     * コンテキスト変数
+     * @property data
+     * @type Object
+     */
+  , data: null
+    /**
+     * 現在位置を起点として指定された正規表現にマッチする文字列を読み進める。
+     * @method consume
+     * @param {String} パターン文字列
+     * @return {Array|null} マッチ結果(マッチに失敗した場合は&#x60;null&#x60; 
+     */
+  , consume: Consumer_consume
+    /**
+     * 解析対象文字列の終端に到達したかどうかを返す。
+     * 
+     * @method eof
+     * @return {Boolean} 終端に到達していれば&#x60;true&#x60;、そうでなければ&#x60;false&#x60;。
+     */
+  , eof: Consumer_eof
+    /**
+     * 構文ルールを表す関数を&quot;アトミックに&quot;実行する。
+     * 
+     * 引数として渡された構文ルールを、このオブジェクト自体を引数として実行し、
+     * その結果が偽とみなせる値であった場合は、読み込み起点をルール実行前の状態に戻す。  
+     * 
+     * この関数の戻り値として、構文ルールの戻り値をそのまま返す。
+     * 
+     * @method once
+     * @param {Function} rule 構文ルール関数
+     * @return {Anything} 構文ルールの実行結果
+     */
+  , once: Consumer_once
+    /**
+     * 構文ルールを表す関数を複数回実行する。
+     * 
+     * 引数として渡された構文ルールを、このオブジェクト自体を引数として実行する。
+     * その結果が偽とみなせる値であった場合は、読み込み起点をルール実行前の状態に戻した上で
+     * &#x60;null&#x60; を返す。  
+     * 
+     * そうでない場合は、構文ルールの戻り値が偽とみなせる値を返却するまで繰り返し実行する。
+     * この際、最後に構文ルールを実行する直前の位置に起点を戻し、
+     * 各実行時の結果の配列をこの関数の戻り値として返却する。  
+     * (ただし、最後の結果はこの配列に含まれない。)
+     * 
+     * @metod some
+     * @param {Function} rule 構文ルール関数
+     * @return {Array|null} 構文ルールの各実行結果を収めた配列。(初回実行に失敗した場合は&#x60;null&#x60;)
+     */
+  , some: Consumer_some
+    /**
+     * このオブジェクトの文字列表現を返却する。(デバッグ用)
+     * 
+     * @method toString
+     * @return {String} このオブジェクトの文字列表現
+     */
+  , toString: Consumer_toString
+  };
+
+  Consumer.Error = Consumer_Error;
+
+  function Consumer(source) {
+    this.source = source;
+    this.data   = {};
+  }
+
+  function Consumer_consume(pattern) {
+    pattern = new RegExp(&#x27;^[\\s\\S]{&#x27;+this.head+&#x27;}(\\s*(?:&#x27;+pattern+&#x27;)\\s*)&#x27;);
+    var match = pattern.exec(this.source);
+    if (match) {
+      this.head += match[1].length;
+      match = [].slice.call(match, 1);
+    }
+//console.log(pattern, !!(match), this.source.slice(this.head, this.head + 20))
+    return match;
+  }
+
+  function Consumer_toString() {
+    return &#x27;head: &#x27; + this.head + &#x27; [[&#x27; + this.source.slice(this.head, this.head + 20) + &#x27;]]&#x27;;
+  }
+
+  function Consumer_eof() {
+    return (this.head == this.source.length) &amp;&amp; this.head++;
+  }
+
+  function Consumer_once(rule) {
+    var savepoint = this.head
+      , result    = rule.apply(null, [this]);
+    if (!result) this.head = savepoint;
+    return result;
+  }
+
+  function Consumer_some(rule) {
+    var result = this.once(rule)
+      , results;
+    if (!result) return result;
+    results = [result];
+    while (result = this.once(rule)) {
+      results.push(result);
+    }
+    return results;
+  }
+
+  function Consumer_Error(c, rule) {
+    this.name = &#x27;Consumer.Error&#x27;;
+    this.message = rule.name;
+  }
+  Consumer_Error.prototype = new Error();
+
+  return Consumer;
+});
+
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
