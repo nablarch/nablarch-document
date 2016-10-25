@@ -1,0 +1,2 @@
+# batだけは、動かなくなるからCRLF固定。
+*.bat text eol=crlf
