@@ -472,6 +472,49 @@ Mapデータ
     Map<String, Object> data = new HashMap<String, Object>();
     data.put("testnsKey1", "value1");
 
+XMLで属性を持つ要素にコンテンツを定義する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+XMLで属性を持つ要素にコンテンツを定義したい場合は、
+フォーマット定義ファイルにコンテンツを表すフィールドを定義する。
+
+設定例を以下に示す。
+
+ポイント
+  * コンテンツを表すフィールド名には ``body`` を指定する。
+    コンテンツを表すフィールド名をデフォルトから変更したい場合は、 :ref:`data_format-xml_content_name_change` を参照。
+
+フォーマット定義ファイル
+  .. code-block:: bash
+
+    file-type:        "XML"
+    text-encoding:    "UTF-8"
+
+    [parent]
+    1 child   OB
+
+    [child]
+    1 @attr   X
+    2 body    X
+
+XMLデータ
+  上記フォーマット定義ファイルに対応したXMLは以下のとおり。
+
+  .. code-block:: xml
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <parent>
+      <child attr="value1">value2</child>
+    </parent>
+
+Mapデータ
+  入出力対象のMapの構造は以下のとおり。
+
+  .. code-block:: java
+
+    Map<String, Object> data = new HashMap<String, Object>();
+    data.put("child.attr", "value1");
+    data.put("child.body", "value2");
+
 .. _data_format-replacement:
 
 文字の置き換え(寄せ字)を行う
@@ -634,3 +677,28 @@ Mapデータ
       </property>
     </component>
 
+.. _data_format-xml_content_name_change:
+
+XMLで属性を持つ要素のコンテンツ名を変更する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+属性を持つ要素のコンテンツ名を変更するには、
+以下のクラスをコンポーネント設定ファイルに設定し、``contentName`` プロパティに変更後のコンテンツ名をそれぞれ設定する。
+
+* :java:extdoc:`XmlDataParser<nablarch.core.dataformat.XmlDataParser>`
+* :java:extdoc:`XmlDataBuilder<nablarch.core.dataformat.XmlDataBuilder>`
+
+コンポーネント設定ファイルの設定例を以下に示す。
+
+ポイント
+ * :java:extdoc:`XmlDataParser<nablarch.core.dataformat.XmlDataParser>` のコンポーネント名は ``XmlDataParser`` とすること
+ * :java:extdoc:`XmlDataBuilder<nablarch.core.dataformat.XmlDataBuilder>` のコンポーネント名は ``XmlDataBuilder`` とすること
+
+.. code-block:: xml
+
+  <component name="XmlDataParser" class="nablarch.core.dataformat.XmlDataParser">
+    <property name="contentName" value="change" />
+  </component>
+
+  <component name="XmlDataBuilder" class="nablarch.core.dataformat.XmlDataBuilder">
+    <property name="contentName" value="change" />
+  </component>
