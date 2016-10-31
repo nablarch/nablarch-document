@@ -414,6 +414,8 @@
  mailRequest.setReplaceKeyValue("name", "名前");
  mailRequest.setReplaceKeyValue("address", "住所");
  mailRequest.setReplaceKeyValue("tel", "電話番号");
+ // 以下のように値にnullを設定した場合、空文字列で置き換えが行われる。
+ mailRequest.setReplaceKeyValue("opeion", null);
 
  // 添付ファイルを設定する。
  AttachedFile attachedFile = new AttachedFile("text/plain", new File("path/to/file"));
@@ -426,7 +428,8 @@
 .. important::
  定型メールで、テンプレートのプレースホルダに対する値を設定する場合は、以下の点に注意する。
 
- - 値に ``null`` を指定できない。 ``null`` を指定すると実行時例外が送出され、メール送信要求の登録が失敗する。
+ - キーに ``null`` を指定した場合は、例外を送出する。
+ - 値に ``null`` を指定した場合、空文字列で置き換えを行う。
  - テンプレートのプレースホルダと、プレースホルダに対して設定されたキー/値の整合性をチェックしない。
    そのため、テンプレート中にプレースホルダがあるにも関わらず、値が設定されなかった場合、プレースホルダが変換されずにメールが送信される。
    反対に、対応するプレースホルダがない値は、単に無視され、メールが送信される。
