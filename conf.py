@@ -293,7 +293,7 @@ extensions = ['sphinx.ext.todo', 'javasphinx']
 todo_include_todos=False
 
 javadoc_url_map = {
-  'nablarch' : ("https://nablarch.github.io/docs/5u6/javadoc/", 'javadoc'),
+  'nablarch' : ("https://nablarch.github.io/docs/5u7/javadoc/", 'javadoc'),
   'javax.persistence' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc'),
   'javax.validation' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc'),
   'javax.servlet' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc'),
