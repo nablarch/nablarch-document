@@ -725,7 +725,9 @@ JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
       - Java型
       - 説明
 
-    * - X |br|
+    * - .. _data_format-field_type-nullable_string:
+
+        X |br|
         N |br|
         XN
       - String
@@ -735,7 +737,8 @@ JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
 
         JSONの場合は、出力時に値がダブルクォート ``"`` で括られる。
 
-        出力対象の値が ``null`` の場合も値の変換は行わない。
+        出力対象の値が ``null`` の場合、JSONでは値の変換は行わなず、
+        XMLでは空文字に変換する。
 
     * - X9 |br|
         SX9 |br|
@@ -748,7 +751,8 @@ JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
         :ref:`numberコンバータ <data_format-number_convertor>`
         または :ref:`signed_numberコンバータ <data_format-signed_number_convertor>` 使用すること。
 
-        出力対象の値が ``null`` の場合も値の変換は行わない。
+        出力対象の値が ``null`` の場合の扱いは、
+        :ref:`文字列データタイプのフィールドタイプ <data_format-field_type-nullable_string>` と同じ。
 
     * - BL
       - String	
@@ -756,7 +760,8 @@ JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
 
         パディングなどのデータ編集は行わない。出力時は値がそのまま出力される。
 
-        出力対象の値が ``null`` の場合も値の変換は行わない。
+        出力対象の値が ``null`` の場合の扱いは、
+        :ref:`文字列データタイプのフィールドタイプ <data_format-field_type-nullable_string>` と同じ。
 
     * - .. _data_format-nest_object:
 
@@ -766,7 +771,8 @@ JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
 
         フィールド名に対応した、レコードタイプがネストした要素として入出力される。
 
-        出力対象の値が ``null`` の場合も値の変換は行わない。
+        出力対象の値が ``null`` の場合の扱いは、
+        :ref:`文字列データタイプのフィールドタイプ <data_format-field_type-nullable_string>` と同じ。
 
         以下に使用例を示す。
 
