@@ -547,13 +547,17 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
       - Java型
       - 説明
 
-    * - X
+    * - .. _data_format-field_type-single_byte_character_string:
+
+        X
       - String
       - シングルバイト文字列(バイト長 = 文字列長)
 
         デフォルトでは、半角空白による右トリム及びパディングが行われる。
 
         :引数: バイト長(数値) ``必須``
+
+        出力対象の値が ``null`` の場合、値を空文字に変換してから処理を行う。
 
     * - N
       - String
@@ -564,6 +568,9 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
         :引数: バイト長(数値) ``必須``
 
         ※バイト長が2の倍数でない場合は構文エラーとなる。
+
+        出力対象の値が ``null`` の場合の扱いは、
+        :ref:`シングルバイト文字列のフィールドタイプ <data_format-field_type-single_byte_character_string>` と同じ。
 
     * - XN
       - String
@@ -577,7 +584,12 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
 
         :引数: バイト長(数値) ``必須``
 
-    * - Z
+        出力対象の値が ``null`` の場合の扱いは、
+        :ref:`シングルバイト文字列のフィールドタイプ <data_format-field_type-single_byte_character_string>` と同じ。
+
+    * - .. _data_format-field_type-zoned_decimal:
+
+        Z
       - BigDecimal
       - ゾーン数値(バイト長 = 桁数)
 
@@ -585,6 +597,8 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
 
         :引数1: バイト長(数値) ``必須``
         :引数2: 小数点以下桁数(数値) ``任意`` デフォルト: ``0``
+
+        出力対象の値が ``null`` の場合、値を ``0`` に変換してから処理を行う。
 
     * - SZ
       - BigDecimal
@@ -600,6 +614,9 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
         引数3及び引数4は、 :ref:`符号付きゾーン数値の正符号 <data_format-positive_zone_sign_nibble>` 及び
         :ref:`符号付きゾーン数値の負符号 <data_format-negative_zone_sign_nibble>` を上書きする場合に設定する。
 
+        出力対象の値が ``null`` の場合の扱いは、
+        :ref:`ゾーン数値のフィールドタイプ <data_format-field_type-zoned_decimal>` と同じ。
+
     * - P
       - BigDecimal
       - パック数値 (バイト長 = 桁数 ÷ 2 [端数切り上げ])
@@ -608,6 +625,9 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
 
         :引数1: バイト長(数値) ``必須``
         :引数2: 少数点以下桁数(数値) ``任意`` デフォルト: ``0``
+
+        出力対象の値が ``null`` の場合の扱いは、
+        :ref:`ゾーン数値のフィールドタイプ <data_format-field_type-zoned_decimal>` と同じ。
 
     * - SP
       - BigDecimal
@@ -623,6 +643,9 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
         引数3及び引数4は、 :ref:`符号付きパック数値の正符号 <data_format-positive_pack_sign_nibble>` 及び
         :ref:`符号付きパック数値の負符号 <data_format-negative_pack_sign_nibble>` を上書きする場合に設定する。
 
+        出力対象の値が ``null`` の場合の扱いは、
+        :ref:`ゾーン数値のフィールドタイプ <data_format-field_type-zoned_decimal>` と同じ。
+
     * - B
       - byte[]
       - バイナリ列
@@ -630,6 +653,13 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
         パディングやトリムは行わない。
 
         :引数: バイト長(数値) ``必須``
+
+        出力対象の値が ``null`` の場合の変換仕様はアプリケーションごとに様々である。
+        そのため、本フィールドタイプではその場合でも値の変換は行わず、
+        :java:extdoc:`InvalidDataFormatException <nablarch.core.dataformat.InvalidDataFormatException>`
+        を送出する。
+
+        本フィールドタイプを使用する場合、要件に合わせてアプリケーション側で明示的に値を設定すること。
 
     * - X9
       - BigDecimal
@@ -643,6 +673,9 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
         :引数1: バイト長(数値) ``必須``
         :引数2: 固定小数点の場合の小数点以下桁数(数値) ``任意`` デフォルト: ``0``
 
+        出力対象の値が ``null`` の場合の扱いは、
+        :ref:`ゾーン数値のフィールドタイプ <data_format-field_type-zoned_decimal>` と同じ。
+
     * - SX9
       - BigDecimal
       - 符号付き数値文字列 (バイト長 = 文字数)
@@ -652,6 +685,9 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
 
         :引数1: バイト長(数値) ``必須``
         :引数2: 固定小数点の場合の小数点以下桁数(数値) ``任意`` デフォルト: ``0``
+
+        出力対象の値が ``null`` の場合の扱いは、
+        :ref:`ゾーン数値のフィールドタイプ <data_format-field_type-zoned_decimal>` と同じ。
 
 
 Variable(可変長)データ形式で利用可能フィールドタイプ一覧
@@ -679,6 +715,8 @@ Variable(可変長)データ形式で利用可能フィールドタイプ一覧
         :ref:`numberコンバータ <data_format-number_convertor>`
         または :ref:`signed_numberコンバータ <data_format-signed_number_convertor>` を使用すること。
 
+        出力対象の値が ``null`` の場合、値を空文字に変換してから処理を行う。
+
 
 JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
   .. list-table::
@@ -690,7 +728,9 @@ JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
       - Java型
       - 説明
 
-    * - X |br|
+    * - .. _data_format-field_type-nullable_string:
+
+        X |br|
         N |br|
         XN
       - String
@@ -699,6 +739,9 @@ JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
         パディングなどの編集は行わない。
 
         JSONの場合は、出力時に値がダブルクォート ``"`` で括られる。
+
+        出力対象の値が ``null`` の場合、JSONでは値の変換は行わなず、
+        XMLでは空文字に変換する。
 
     * - X9 |br|
         SX9 |br|
@@ -711,11 +754,17 @@ JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
         :ref:`numberコンバータ <data_format-number_convertor>`
         または :ref:`signed_numberコンバータ <data_format-signed_number_convertor>` 使用すること。
 
+        出力対象の値が ``null`` の場合の扱いは、
+        :ref:`文字列データタイプのフィールドタイプ <data_format-field_type-nullable_string>` と同じ。
+
     * - BL
       - String	
       - 文字列（ ``true`` or ``false`` を文字列で表したもの）
 
         パディングなどのデータ編集は行わない。出力時は値がそのまま出力される。
+
+        出力対象の値が ``null`` の場合の扱いは、
+        :ref:`文字列データタイプのフィールドタイプ <data_format-field_type-nullable_string>` と同じ。
 
     * - .. _data_format-nest_object:
 
@@ -724,6 +773,9 @@ JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
       - ネストされたレコードタイプを指定する場合に使用する。
 
         フィールド名に対応した、レコードタイプがネストした要素として入出力される。
+
+        出力対象の値が ``null`` の場合の扱いは、
+        :ref:`文字列データタイプのフィールドタイプ <data_format-field_type-nullable_string>` と同じ。
 
         以下に使用例を示す。
 
@@ -839,8 +891,6 @@ JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
                BigDecimal型に変換する。
 
       :出力時: 出力する値を文字列に変換し、符号なし数値形式であることをチェック後に出力する。
-               もし、出力対象の値が ``null`` の場合には空文字列を出力する。
-
 
   * - .. _data_format-signed_number_convertor:
       
