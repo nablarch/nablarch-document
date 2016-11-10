@@ -654,9 +654,12 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
 
         :引数: バイト長(数値) ``必須``
 
-        出力対象の値が ``null`` の場合、値の変換は行わず
+        出力対象の値が ``null`` の場合の変換仕様はアプリケーションごとに様々である。
+        そのため、本フィールドタイプではその場合でも値の変換は行わず、
         :java:extdoc:`InvalidDataFormatException <nablarch.core.dataformat.InvalidDataFormatException>`
         を送出する。
+
+        本フィールドタイプを使用する場合、要件に合わせてアプリケーション側で明示的に値を設定すること。
 
     * - X9
       - BigDecimal
@@ -888,8 +891,6 @@ JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
                BigDecimal型に変換する。
 
       :出力時: 出力する値を文字列に変換し、符号なし数値形式であることをチェック後に出力する。
-               もし、出力対象の値が ``null`` の場合には空文字列を出力する。
-
 
   * - .. _data_format-signed_number_convertor:
       
