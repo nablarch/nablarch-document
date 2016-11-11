@@ -80,7 +80,6 @@ UI 開発基盤
 ===========================
 
   | :doc:`解説書 <development_tools/testing_framework/index>` | :doc:`モジュール一覧 <about_nablarch/mvn_module>`
-  | `APIドキュメント(アーキテクト向け) <https://github.com/nablarch/nablarch.github.io>`__ | `APIドキュメント(アプリケーションプログラマ向け) <https://github.com/nablarch/nablarch.github.io>`__
 
 
 ツールボックス

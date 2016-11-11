@@ -29,9 +29,6 @@ Exampleアプリケーションの実行手順は、各Exampleアプリケーシ
     https://github.com/nablarch/nablarch-example-rest
 
    HTTPメッセージング
-    https://github.com/nablarch/nablarch-example-rest
-
-   HTTPメッセージング
     送信
      https://github.com/nablarch/nablarch-example-http-messaging-send
     受信
