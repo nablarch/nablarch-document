@@ -293,6 +293,53 @@ JSPからセッションストアで保持しているセッション変数の�
  暗号化/復号のキーを設定しなかった場合、アプリケーション内で共通で使用されるキーを生成する。
  アプリケーションサーバが冗長化されている場合は、アプリケーションサーバごとに異なるキーを生成し復号に失敗してしまう可能性があるため、明示的に暗号化/復号のキーを設定すること。
 
+セッション変数に値が存在しない場合の遷移先画面を指定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+正常な画面遷移では必ずセッション変数が存在しているが、ブラウザの戻るボタンを使用され不正な画面遷移が行われることで、
+本来存在しているはずのセッション変数にアクセスできない場合がある。
+この場合、セッション変数が存在しないことを示す例外( :java:extdoc:`SessionKeyNotFoundException <nablarch.common.web.session.SessionKeyNotFoundException>` )が送出されるので、
+この例外を補足することで任意のエラーページに遷移させることが出来る。
+
+以下に実現方法を示す。
+
+システムで共通のエラーページに遷移させる
+  システムで共通のエラーページに遷移させる場合は、ハンドラで例外を捕捉し遷移先を指定する。
+  
+  実装例
+    .. code-block:: java
+
+      public class SampleErrorHandler implements Handler<Object, Object> {
+
+        @Override
+        public Object handle(Object data, ExecutionContext context) {
+
+          try {
+            return context.handleNext(data);
+          } catch (SessionKeyNotFoundException e) {
+            // セッション変数が存在しないことを示す例外を捕捉し、
+            // 不正な画面遷移を表すエラーページを返す
+            throw new HttpErrorResponse(HttpResponse.Status.BAD_REQUEST.getStatusCode(),
+                    "/WEB-INF/view/errors/BadTransition.jsp", e);
+          }
+        }
+      }
+
+
+リクエスト毎に遷移先を指定する
+  リクエスト毎に遷移先を切り替える場合には、 :ref:`on_error_interceptor` を使用して遷移先を指定する。
+  なお、上記のシステムで共通のエラーページに遷移させると併用することで、一部のリクエストのみ遷移先を変更することも出来る。
+
+  実装例
+    .. code-block:: java
+
+      // 対象例外にセッション変数が存在しないことを示す例外を指定して、リクエスト毎の遷移先を指定する
+      @OnError(type = SessionKeyNotFoundException.class, path = "redirect://error")
+      public HttpResponse backToNew(HttpRequest request, ExecutionContext context) {
+        Project project = SessionUtil.get(context, "project");
+        // 処理は省略
+      }
+
+
 拡張例
 ---------------------------------------------------------------------
 
