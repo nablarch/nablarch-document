@@ -79,7 +79,14 @@ URIとアクションクラスのマッピング
 
 JSPによる画面の作成
 ----------------------------------------
+.. toctree::
+  :maxdepth: 1
+  :hidden:
+
+  feature_details/jsp_session
+  
 * :ref:`tag`
+* :ref:`jsp_session`
 
 国際化対応
 ----------------------------------------
