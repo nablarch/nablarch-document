@@ -42,20 +42,21 @@
     * アプリケーション側で、Mapから取り出した値をダウンキャストする必要がある。(誤ると、実行時に例外が送出される。)
 
   * データとJavaオブジェクトのマッピングに :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用していないため、他の機能とはマッピング方法が異なる。
-  * 出力対象の :java:extdoc:`Map <java.util.Map>` の扱い方がデータ形式によって異なるため、挙動に注意して実装しなければならない。
+  * 出力対象の :java:extdoc:`Map <java.util.Map>` の扱い方がフォーマットによって異なる。このため、同じデータを複数のフォーマットに対応させる機能を使用した場合に、フォーマットによっては例外が発生するなど正常に動作しない場合がある。
     
-    例：XMLとJSONでの必須項目にnullを指定した場合の挙動
-      
+    例えば、下のケースで問題がある。
+    
+    XMLとJSONで必須項目にnullを指定した場合：
       * XML：値を空文字として出力
       * JSON：必須の例外を送出
   
-  * JSONのデータタイプを使用するだけではJSONの仕様を満たせない場合があるため、値が不正でないかをアプリケーション側でチェックしなければならない。
+  * 出力対象のデータによってはJSONの仕様を満たせない場合がある。
   
-    例：数値型や真偽値型を指定しても 「data」 などの値がそのまま読み書きされ、{"key":data}のような仕様を満たさないJSONが出力される。
+    例えば、 :java:extdoc:`数値型 <nablarch.core.dataformat.convertor.datatype.JsonNumber>` や :java:extdoc:`真偽値型 <nablarch.core.dataformat.convertor.datatype.JsonBoolean>` を使用し、出力対象のデータ型がこれらの型に対応していない場合に不正なJSONが出力される。
+    
+    例：数値型を指定し、出力対象が「data」などの文字列の場合、{"number":data}のような不正なJSONが出力される。
   
-  * データ形式によって使用できるデータタイプに制約があるため、実装時に適した型を指定していることを確認する必要がある。
-  
-    例：XMLではデータタイプに :java:extdoc:`CharacterStreamDataString <nablarch.core.dataformat.convertor.datatype.CharacterStreamDataString>` のサブクラスを使用する必要がある。（ :java:extdoc:`DataType <nablarch.core.dataformat.convertor.datatype.DataType>` のサブクラスでは実行時に例外が送出される。）
+  * データ形式によって使用できる :java:extdoc:`データタイプ <nablarch.core.dataformat.convertor.datatype.DataType>` の実装クラスが異なるため拡張しづらい。また、この設定の誤りは実行時まで検知できない。
   
   このため原則本機能はやむを得ない場合を除き非推奨とする。
   なお、 :ref:`messaging` は、内部で本機能を利用しているため、代替機能を使用することはできない。
