@@ -76,6 +76,15 @@ MOMメッセージ送信
 
 * :ref:`nablarch_batch_retention_state`
 
+常駐バッチのマルチプロセス化
+----------------------------------------
+.. toctree::
+  :maxdepth: 1
+  :hidden:
+
+  feature_details/nablarch_batch_multiple_process
+  
+* :ref:`nablarch_batch_multiple_process`
 
 .. |br| raw:: html
 
