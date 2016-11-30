@@ -48,4 +48,12 @@
 * :ref:`メッセージングプロセスを異常終了させる <db_messaging-process_abnormal_end>`
 * :ref:`処理の並列実行(マルチスレッド化)<multi_thread_execution_handler>`
 
+冗長構成に対応
+--------------------------------------------------
+.. toctree::
+  :maxdepth: 1
+  :hidden:
 
+  resident_batch/redundant_resident_batch
+
+* :ref:`バッチごとに処理対象のレコードを指定する<redundant_resident_batch>`
