@@ -99,6 +99,9 @@
   * - メール送信パターンID
     - 文字列型
     - メールの送信方法のパターンを識別するためのID
+  * - メール送信バッチのプロセスID
+    - 文字列型
+    - マルチプロセスでの排他制御に使用するID
   * - 件名
     - 文字列型
     -
@@ -131,6 +134,9 @@
  メール送信パターンIDについては、 :ref:`未送信のデータを抽出する際の条件<mail-mail_send_pattern>` を参照。
  メール送信パターンIDは任意項目なので、定義しなくてもメール送信機能は動作する。
  そのため、メール送信パターンIDは使用する場合のみ定義する。
+ 
+ メール送信バッチのプロセスIDについては、 :ref:`メール送信をマルチプロセス化する<mail-mail_multi_process>` を参照。
+ メール送信バッチのプロセスIDはメール送信パターンID同様、任意項目であるため、使用する場合のみ定義する。
 
 .. list-table:: メール送信先
   :header-rows: 0
@@ -261,6 +267,9 @@
 
    MailRequestTableのmailSendPatternIdColumnNameプロパティの値が設定されている場合、メール送信バッチ起動時の実行時引数に、メール送信パターンIDの指定が必須になる。
 
+   メール送信をマルチプロセスで動作させない場合は、MailRequestTableのsendProcessIdColumnNameプロパティの値を未設定または空文字列にすること。
+   
+   MailRequestTableのsendProcessIdColumnNameプロパティの値が設定されている場合、プロセスID更新用のトランザクションを定義する必要がある(詳細は :ref:`メール送信をマルチプロセス化する<mail-mail_multi_process>` を参照)。
 
  .. _mail-common_settings_mail_config:
 
@@ -486,6 +495,21 @@
     -userId mailBatchUser
     -mailSendPatternId 02
 
+.. _`mail-mail_multi_process`:
+
+メール送信をマルチプロセス化する
+ メール送信バッチを冗長構成にするなど、メール送信をマルチプロセスで動作させる場合、
+ メール送信要求テーブルの"メール送信バッチのプロセスID"カラムを利用し排他制御を行う。
+ この機能を利用するには、 次の設定が必要となる。
+ 
+ 1. メール送信要求テーブルに"メール送信バッチのプロセスID"のカラムを定義する
+ 2. :java:extdoc:`MailRequestTable<nablarch.common.mail.MailRequestTable>` のsendProcessIdColumnNameのプロパティの値に"メール送信バッチのプロセスID"カラム名をコンポーネント定義に追加する
+ 3. "メール送信バッチのプロセスID"更新用のトランザクションを"mailMultiProcessTransaction"の名前でコンポーネント定義に追加する(トランザクションの設定方法は :ref:`database-new_transaction` を参照)
+
+ .. tip::
+ 
+   2. の設定がされていない場合、見かけ上メール送信バッチが動作するが、排他制御がされないので注意すること。
+ 
 .. _`mail-mail_header_injection`:
 
 メールヘッダインジェクション攻撃への対策
