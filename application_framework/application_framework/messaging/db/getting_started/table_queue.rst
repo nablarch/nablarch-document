@@ -117,14 +117,41 @@ Exampleアプリケーションの実行手順
 
       @Override
       public DataReader<SqlRow> createReader(final ExecutionContext context) {
-        final DatabaseRecordReader databaseRecordReader = new DatabaseRecordReader();
-        databaseRecordReader.setStatement(getSqlPStatement("FIND_RECEIVED_PROJECTS"));
-        return new DatabaseTableQueueReader(
-            databaseRecordReader, 1000, "RECEIVED_MESSAGE_SEQUENCE");
+          final DatabaseRecordReader databaseRecordReader = new DatabaseRecordReader();
+
+          databaseRecordReader.setStatement(
+                  getParameterizedSqlStatement("FIND_RECEIVED_PROJECTS"), PROCESS_MAP);
+
+          databaseRecordReader.setListener(() -> {
+              final SimpleDbTransactionManager transactionManager =
+                      SystemRepository.get("redundancyTransaction");
+              new SimpleDbTransactionExecutor<Void>(transactionManager) {
+                  @Override
+                  public Void execute(final AppDbConnection appDbConnection) {
+                      appDbConnection
+                              .prepareParameterizedSqlStatementBySqlId(
+                                      SQL_ID_PREFIX + "UPDATE_PROCESS_ID")
+                              .executeUpdateByMap(PROCESS_MAP);
+                      return null;
+                  }
+              }.doTransaction();
+          });
+
+          return new DatabaseTableQueueReader(
+                  databaseRecordReader, 1000, "RECEIVED_MESSAGE_SEQUENCE");
       }
 
   SQLファイル(ProjectCreationServiceAction.sql)
     .. code-block:: sql
+
+      -- 未処理の受信データを悲観ロックするSQL
+      UPDATE_PROCESS_ID=
+      update
+        ins_project_receive_message
+      set
+        process_id = :processId
+      where
+        status = '0' and process_id is null
 
       -- 未処理の受信データを取得するSQL
       FIND_RECEIVED_PROJECTS=
@@ -133,20 +160,30 @@ Exampleアプリケーションの実行手順
       from
         ins_project_receive_message
       where
-        status = '0' 
+        status = '0' and process_id = :processId
 
 ポイント
   * :java:extdoc:`createReader <nablarch.fw.action.BatchAction.createReader(nablarch.fw.ExecutionContext)>` を実装し、
     :java:extdoc:`DatabaseTableQueueReader <nablarch.fw.reader.DatabaseTableQueueReader>` を生成する。
 
-  * :java:extdoc:`DatabaseTableQueueReader <nablarch.fw.reader.DatabaseTableQueueReader>` には、
-    データベースから検索を行うためのリーダ(:java:extdoc:`DatabaseRecordReader <nablarch.fw.reader.DatabaseRecordReader>`)と
-    未処理データが存在しない場合の待機時間(この例では1秒)と、主キーのカラム名のリストを指定する。
+  * :java:extdoc:`DatabaseTableQueueReader <nablarch.fw.reader.DatabaseTableQueueReader>` には以下を指定する。
 
-  * :java:extdoc:`DatabaseRecordReader <nablarch.fw.reader.DatabaseRecordReader>` には、未処理データを検索するための
-    :java:extdoc:`SqlPStatement <nablarch.core.db.statement.SqlPStatement>` を設定する。
+    * データベースから検索を行うためのリーダ(:java:extdoc:`DatabaseRecordReader <nablarch.fw.reader.DatabaseRecordReader>`)
+    * 未処理データが存在しない場合の待機時間(この例では1秒)
+    * 主キーのカラム名のリスト
 
-  * SQLでは、未処理データを取得するために、ステータス(status)カラムの値が ``0`` のレコードのみを取得条件としている。
+  * :java:extdoc:`DatabaseRecordReader <nablarch.fw.reader.DatabaseRecordReader>` には以下を指定する。
+
+    * 未処理データを検索するための :java:extdoc:`SqlPStatement <nablarch.core.db.statement.SqlPStatement>`
+    * 未処理データの悲観ロックを行う
+      :java:extdoc:`DatabaseRecordListener <nablarch.fw.reader.DatabaseRecordListener>` の実装クラス。
+      詳細は、:ref:`db_messaging-multiple_process` を参照。
+
+  * SQLファイルでは、以下のSQLを定義する。
+
+    * 他のプロセスの処理対象となることを防ぐため、未処理データを悲観ロックするSQL
+    * 自身のプロセスの処理対象となる未処理データを取得するため、
+      ``STATUS`` カラムの値が ``0`` 、かつ ``PROCESS_ID`` カラムの値が自身のプロセスIDであるレコードを取得するSQL
 
   * SQLファイルへのSQLの記述ルールは、 :ref:`database-use_sql_file` を参照。
 
@@ -163,7 +200,7 @@ Exampleアプリケーションの実行手順
       // 未処理データの主キーを元に属性データを取得する
       final Project project = UniversalDao.findBySqlFile(
           Project.class,
-          "com.nablarch.example.app.batch.ProjectCreationServiceAction#GET_RECEIVED_PROJECT",
+          SQL_ID + "GET_RECEIVED_PROJECT",
           inputData);
 
       if (!isValidProjectPeriod(project)) {
