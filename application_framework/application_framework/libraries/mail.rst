@@ -96,9 +96,12 @@
   * - メール送信要求ID ``PK``
     - 文字列型
     - メール送信要求を一意に識別するID
-  * - メール送信パターンID
+  * - メール送信パターンID（任意項目）
     - 文字列型
-    - メールの送信方法のパターンを識別するためのID
+    - メールの送信方法のパターンを識別するためのID。 |br| パターンを使用した未送信データの抽出をする場合に定義する。（ :ref:`未送信のデータを抽出する際の条件<mail-mail_send_pattern>` を参照）
+  * - メール送信バッチのプロセスID（任意項目）
+    - 文字列型
+    - マルチプロセス実行時に各プロセスがレコードを悲観ロックするために使用するカラム。 |br| マルチプロセス実行する場合に定義する。（ :ref:`mail-mail_multi_process` を参照）
   * - 件名
     - 文字列型
     -
@@ -126,11 +129,6 @@
   * - 本文
     - 文字列型
     -
-
-.. important::
- メール送信パターンIDについては、 :ref:`未送信のデータを抽出する際の条件<mail-mail_send_pattern>` を参照。
- メール送信パターンIDは任意項目なので、定義しなくてもメール送信機能は動作する。
- そのため、メール送信パターンIDは使用する場合のみ定義する。
 
 .. list-table:: メール送信先
   :header-rows: 0
@@ -257,10 +255,9 @@
 
  .. tip::
 
-   メール送信パターンID(詳細は :ref:`mail-send` を参照)を使用しない場合は、MailRequestTableのmailSendPatternIdColumnNameプロパティの値を未設定または空文字列にすること。
-
-   MailRequestTableのmailSendPatternIdColumnNameプロパティの値が設定されている場合、メール送信バッチ起動時の実行時引数に、メール送信パターンIDの指定が必須になる。
-
+   MailRequestTableのmailSendPatternIdColumnNameプロパティ, sendProcessIdColumnNameプロパティは任意項目であり、機能を使用したい場合に設定する。
+   mailSendPatternIdColumnNameプロパティについては :ref:`未送信のデータを抽出する際の条件<mail-mail_send_pattern>` を、
+   sendProcessIdColumnNameプロパティについては :ref:`mail-mail_multi_process` を参照すること。
 
  .. _mail-common_settings_mail_config:
 
@@ -486,6 +483,24 @@
     -userId mailBatchUser
     -mailSendPatternId 02
 
+.. _`mail-mail_multi_process`:
+
+メール送信をマルチプロセス化する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ メール送信をマルチプロセス化する場合（例えば冗長構成のサーバで実行する場合）、
+ メール送信要求テーブルのプロセスIDカラムを使用して悲観ロックを行い、複数のプロセスが同一の送信要求を処理しないようにする。
+ この機能を利用するには、 次の設定が必要となる。
+ 
+ 1. メール送信要求テーブルにメール送信バッチのプロセスIDのカラムを定義する
+ 2. :java:extdoc:`MailRequestTable<nablarch.common.mail.MailRequestTable>` のsendProcessIdColumnNameのプロパティの値にメール送信バッチのプロセスIDのカラム名を設定し、コンポーネント定義に追加する
+ 3. メール送信バッチのプロセスID更新用のトランザクションを ``mailMultiProcessTransaction`` の名前でコンポーネント定義に追加する(トランザクションの設定方法は :ref:`database-new_transaction` を参照)
+
+ .. important::
+ 
+   2. の設定がされていない場合、排他制御がされないため１件のメール送信要求を複数プロセスが処理する可能性がある。
+   しかし、見かけ上メール送信バッチが動作するため、設定漏れを検知しづらい。
+   メール送信をマルチプロセス化する場合は上記の設定を漏れなく行うこと。
+ 
 .. _`mail-mail_header_injection`:
 
 メールヘッダインジェクション攻撃への対策
