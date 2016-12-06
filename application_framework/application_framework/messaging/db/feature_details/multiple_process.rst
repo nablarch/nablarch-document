@@ -71,17 +71,21 @@
         // DatabaseRecordReaderがデータ抽出前に行うコールバック処理に、
         // 悲観ロックSQLを実行する処理を登録する。
         // なお、この処理は別トランザクションで実行する必要がある。
-        reader.setListener(() -> {
-            new SimpleDbTransactionExecutor<Void>(SystemRepository.get("myTran")) {
-                @Override
-                public Void execute(final AppDbConnection appDbConnection) {
-                    appDbConnection
-                            .prepareParameterizedSqlStatementBySqlId(
-                                    SQL_ID_PREFIX + "UPDATE_PROCESS_ID")
-                            .executeUpdateByMap(param);
-                    return null;
-                }
-            }.doTransaction();
+        databaseRecordReader.setListener(new DatabaseRecordListener() {
+            @Override
+            public void beforeReadRecords() {
+                final SimpleDbTransactionManager transactionManager = SystemRepository.get("redundancyTransaction");
+                new SimpleDbTransactionExecutor<Void>(transactionManager) {
+                    @Override
+                    public Void execute(final AppDbConnection appDbConnection) {
+                        appDbConnection
+                                .prepareParameterizedSqlStatementBySqlId(SQL_ID_PREFIX + "UPDATE_PROCESS_ID")
+                                .executeUpdateByMap(PROCESS_MAP);
+                        return null;
+                    }
+                }.doTransaction();
+
+            }
         });
 
         return new DatabaseTableQueueReader(reader, 1000, "RECEIVED_MESSAGE_SEQUENCE");;
