@@ -36,18 +36,22 @@
         // DatabaseRecordReaderがデータ抽出前に行うコールバック処理に、
         // 悲観ロックSQLを実行する処理を登録する。
         // なお、この処理は別トランザクションで実行する必要がある。
-        reader.setListener(() -> {
-          new SimpleDbTransactionExecutor<Void>(SystemRepository.get("myTran")) {
-            @Override
-            public Void execute(final AppDbConnection connection) {
-              final ParameterizedSqlPStatement statement = connection.
-                  prepareParameterizedSqlStatementBySqlId(
-                      FileCreateRequest.class.getName() + "#MARK_UNPROCESSED_DATA");
-              statement.executeUpdateByMap(param);
-              return null;
-            }
-          }.doTransaction();
+        databaseRecordReader.setListener(new DatabaseRecordListener() {
+          @Override
+          public void beforeReadRecords() {
+            new SimpleDbTransactionExecutor<Void>(SystemRepository.get("myTran")) {
+              @Override
+              public Void execute(final AppDbConnection connection) {
+                final ParameterizedSqlPStatement statement = connection.
+                    prepareParameterizedSqlStatementBySqlId(
+                        FileCreateRequest.class.getName() + "#MARK_UNPROCESSED_DATA");
+                statement.executeUpdateByMap(param);
+                return null;
+              }
+            }.doTransaction();
+          }
         });
+        
         return reader;
     }
   
