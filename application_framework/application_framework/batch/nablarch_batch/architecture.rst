@@ -202,15 +202,6 @@ Nablarchでは、バッチアプリケーションを構築するために必要
      - 業務トランザクションをロールバックする。
 
    * - 9
-     - :ref:`process_stop_handler`
-     - サブ
-     - リクエストテーブル上の処理停止フラグがオンであった場合は、後続ハンドラの処理は行なわずにプロセス停止例外(
-       :java:extdoc:`ProcessStop <nablarch.fw.handler.ProcessStopHandler.ProcessStop>`
-       )を送出する。
-     -
-     -
-
-   * - 10
      - :ref:`data_read_handler`
      - サブ
      - データリーダを使用してレコードを1件読み込み、後続ハンドラの引数として渡す。
