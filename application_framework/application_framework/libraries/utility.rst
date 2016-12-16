@@ -59,6 +59,12 @@ Mapオブジェクトのキーに ``.`` が含まれていればそのプロパ�
 型変換ルールについては、 :java:extdoc:`nablarch.core.beans.converter` パッケージ配下に配置されている
 :java:extdoc:`Converter <nablarch.core.beans.Converter>` 実装クラスをそれぞれ参照すること。
 
+.. important::
+
+  デフォルトで提供する型変換ルールでは、精度の小さい型への変換を行った場合(例えばLongからIntegerへの変換)で、変換先の精度を超えるような値を指定しても正常に処理を終了する。
+  このため、BeanUtilを使用してコピーを行う際には、コピーする値がシステムで許容されているかどうかを :ref:`validation` によって事前に検証しておく必要がある。
+  検証を行わなかった場合、不正な値がシステムに取り込まれ障害の原因となる可能性がある。
+
 .. _utility-conversion-add-rule:
 
 型変換ルールを追加する
