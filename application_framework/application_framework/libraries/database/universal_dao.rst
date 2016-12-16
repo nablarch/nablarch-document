@@ -436,10 +436,8 @@ OracleのLOBのように、データサイズの大きいバイナリデータ�
 
   .. code-block:: java
 
+    // 生成すると別のトランザクションで実行される。
     FindPersonsTransaction findPersonsTransaction = new FindPersonsTransaction();
-
-    // 実行する。(上記で実装したexecuteメソッドが、別のトランザクションで実行される。)
-    findPersonsTransaction.doTransaction();
 
     // 結果を取得する。
     EntityList<Person> persons = findPersonsTransaction.getPersons();
