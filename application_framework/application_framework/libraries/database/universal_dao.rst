@@ -609,7 +609,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 Beanに使用できるデータタイプ
 ---------------------------------------------------------------------
-検索結果をマッピングするBeanに使用できるデータタイプは以下のとおり。
+Nablarchが提供するDialectを使用する場合、検索結果をマッピングするBeanに使用できるデータタイプは以下のとおり。
 
 .. important::
  ここに記載のないデータタイプに対して、検索結果をマッピングできない(実行時例外となる)。
@@ -648,3 +648,10 @@ Beanに使用できるデータタイプ
   データベースアクセスを直接使用し、Stream経由でデータを参照すること。
 
   詳細は :ref:`database-binary_column` を参照。
+
+.. tip::
+  上記以外のデータタイプを使用したい場合はDialectを差し替えることで実現できる。
+  差し替えるDialectでは :java:extdoc:`getAttributeConverter() <nablarch.core.db.dialect.DefaultDialect.getAttributeConverter(java.lang.Class)>` 
+  をオーバーライドし、データタイプに対応したコンバータを返すように実装する。
+  差し替えの手順は :ref:`database-add_dialect` を参照すること。
+  
