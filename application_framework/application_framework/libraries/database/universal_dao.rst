@@ -614,29 +614,36 @@ Nablarchが提供するDialectを使用する場合、検索結果をマッピ�
 .. important::
  ここに記載のないデータタイプに対して、検索結果をマッピングできない(実行時例外となる)。
 
+.. tip::
+  下記以外のデータタイプを使用したい場合はDialectを差し替えること。
+  差し替えの手順は :ref:`database-add_dialect` を参照。
+
 *java.lang.String*
  \
 
 *java.lang.Short*
- プリミティブ型も指定可能。
+ プリミティブ型も指定可能。プリミティブ型の場合、 ``null`` は ``0`` として扱う。
 
 *java.lang.Integer*
- プリミティブ型も指定可能。
+ プリミティブ型も指定可能。プリミティブ型の場合、 ``null`` は ``0`` として扱う。
 
 *java.lang.Long*
- プリミティブ型も指定可能。
+ プリミティブ型も指定可能。プリミティブ型の場合、 ``null`` は ``0`` として扱う。
 
 *java.math.BigDecimal*
  \
 
 *java.lang.Boolean*
- プリミティブ型も指定可能。
+ プリミティブ型も指定可能。プリミティブ型の場合、 ``null`` は ``false`` として扱う。
  ラッパー型(Boolean)の場合は、リードメソッド名はgetから開始される必要がある。
  プリミティブ型の場合は、リードメソッド名がisで開始されていても良い。
 
 *java.util.Date*
  JPAの :ref:`@Temporal <universal_dao_jpa_temporal>`
  でデータベース上のデータ型を指定する必要がある。
+
+*java.sql.Date*
+ \
 
 *java.sql.Timestamp*
  \
@@ -648,10 +655,3 @@ Nablarchが提供するDialectを使用する場合、検索結果をマッピ�
   データベースアクセスを直接使用し、Stream経由でデータを参照すること。
 
   詳細は :ref:`database-binary_column` を参照。
-
-.. tip::
-  上記以外のデータタイプを使用したい場合はDialectを差し替えることで実現できる。
-  差し替えるDialectでは :java:extdoc:`getAttributeConverter() <nablarch.core.db.dialect.DefaultDialect.getAttributeConverter(java.lang.Class)>` 
-  をオーバーライドし、データタイプに対応したコンバータを返すように実装する。
-  差し替えの手順は :ref:`database-add_dialect` を参照すること。
-  
