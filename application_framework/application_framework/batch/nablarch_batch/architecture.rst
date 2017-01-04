@@ -121,6 +121,7 @@ Nablarchでは、バッチアプリケーションを構築するために必要
 
 その他
   * :ref:`thread_context_handler`
+  * :ref:`thread_context_clear_handler`
   * :ref:`ServiceAvailabilityCheckHandler`
   * :ref:`file_record_writer_dispose_handler`
 
@@ -217,6 +218,7 @@ Nablarchでは、バッチアプリケーションを構築するために必要
 常駐バッチの最小ハンドラ構成は、以下のハンドラがメインスレッド側に追加されている点を除けば都度起動バッチと同じである。
 
 * :ref:`thread_context_handler` ( :ref:`process_stop_handler` のために必要)
+* :ref:`thread_context_clear_handler` 
 * :ref:`retry_handler`
 * :ref:`process_resident_handler`
 * :ref:`process_stop_handler`
@@ -239,29 +241,36 @@ Nablarchでは、バッチアプリケーションを構築するために必要
      -
      - ステータスコードをプロセス終了コードに変換する。
      -
-
+     
    * - 2
+     - :ref:`thread_context_clear_handler`
+     - メイン
+     -
+     - :ref:`thread_context_handler` でスレッドローカル上に設定した値を全て削除する。
+     -
+
+   * - 3
      - :ref:`global_error_handler`
      - メイン
      -
      -
      - 実行時例外、またはエラーの場合、ログ出力を行う。
 
-   * - 3
+   * - 4
      - :ref:`thread_context_handler`
      - メイン
      - コマンドライン引数からリクエストID、ユーザID等のスレッドコンテキスト変数を初期化する。
      -
      -
 
-   * - 4
+   * - 5
      - :ref:`retry_handler`
      - メイン
      -
      -
      - リトライ可能な実行時例外を捕捉し、かつリトライ上限に達していなければ後続のハンドラを再実行する。
 
-   * - 5
+   * - 6
      - :ref:`process_resident_handler`
      - メイン
      - データ監視間隔ごとに後続のハンドラを繰り返し実行する。
@@ -269,7 +278,7 @@ Nablarchでは、バッチアプリケーションを構築するために必要
      - ログ出力を行い、実行時例外が送出された場合はリトライ可能例外にラップして送出する。
        エラーが送出された場合はそのまま再送出する。
 
-   * - 6
+   * - 7
      - :ref:`process_stop_handler`
      - メイン
      - リクエストテーブル上の処理停止フラグがオンであった場合は、後続ハンドラの処理は行なわずにプロセス停止例外(
@@ -278,7 +287,7 @@ Nablarchでは、バッチアプリケーションを構築するために必要
      -
      -
 
-   * - 7
+   * - 8
      - :ref:`database_connection_management_handler`
        (初期処理/終了処理用)
      - メイン
@@ -286,7 +295,7 @@ Nablarchでは、バッチアプリケーションを構築するために必要
      - DB接続を解放する。
      -
 
-   * - 8
+   * - 9
      - :ref:`transaction_management_handler`
        (初期処理/終了処理用)
      - メイン
@@ -294,21 +303,21 @@ Nablarchでは、バッチアプリケーションを構築するために必要
      - トランザクションをコミットする。
      - トランザクションをロールバックする。
 
-   * - 9
+   * - 10
      - :ref:`request_path_java_package_mapping`
      - メイン
      - コマンドライン引数をもとに呼び出すアクションを決定する。
      -
      -
 
-   * - 10
+   * - 11
      - :ref:`multi_thread_execution_handler`
      - メイン
      - サブスレッドを作成し、後続ハンドラの処理を並行実行する。
      - 全スレッドの正常終了まで待機する。
      - 処理中のスレッドが完了するまで待機し起因例外を再送出する。
 
-   * - 11
+   * - 12
      - :ref:`database_connection_management_handler`
        (業務処理用)
      - サブ
@@ -316,7 +325,7 @@ Nablarchでは、バッチアプリケーションを構築するために必要
      - DB接続を解放する。
      -
 
-   * - 12
+   * - 13
      - :ref:`loop_handler`
      - サブ
      - 業務トランザクションを開始する。
@@ -324,7 +333,7 @@ Nablarchでは、バッチアプリケーションを構築するために必要
        また、データリーダ上に処理対象データが残っていればループを継続する。
      - 業務トランザクションをロールバックする。
 
-   * - 13
+   * - 14
      - :ref:`data_read_handler`
      - サブ
      - データリーダを使用してレコードを1件読み込み、後続ハンドラの引数として渡す。

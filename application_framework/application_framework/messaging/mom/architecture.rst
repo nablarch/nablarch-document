@@ -107,6 +107,7 @@ Nablarchでは、MOMメッセージングを構築するために必要なハン
 
 その他
   * :ref:`thread_context_handler`
+  * :ref:`thread_context_clear_handler`
   * :ref:`ServiceAvailabilityCheckHandler`
 
 
@@ -179,13 +180,20 @@ Nablarchでは、MOMメッセージングを構築するために必要なハン
      - プロセス停止要求か致命的なエラーが発生した場合のみループを停止する。
 
    * - 8
+     - :ref:`thread_context_clear_handler`
+     - サブ
+     - 
+     - :ref:`thread_context_handler` でスレッドローカル上に設定した値を全て削除する。
+     -
+     
+   * - 9
      - :ref:`thread_context_handler`
      - サブ
      - コマンドライン引数からリクエストID、ユーザID等のスレッドコンテキスト変数を初期化する。
      -
      -
 
-   * - 9
+   * - 10
      - :ref:`process_stop_handler`
      - サブ
      - リクエストテーブル上の処理停止フラグがオンであった場合は、後続ハンドラの処理は行なわずにプロセス停止例外(
@@ -194,14 +202,14 @@ Nablarchでは、MOMメッセージングを構築するために必要なハン
      -
      -
 
-   * - 10
+   * - 11
      - :ref:`message_reply_handler`
      - サブ
      -
      - 後続ハンドラから返される応答電文の内容をもとに電文を作成してMQに送信する。
      - エラーの内容をもとに電文を作成してMQに送信する。
 
-   * - 11
+   * - 12
      - :ref:`data_read_handler`
      - サブ
      - データリーダを使用して要求電文を1件読み込み、後続ハンドラの引数として渡す。
@@ -209,14 +217,14 @@ Nablarchでは、MOMメッセージングを構築するために必要なハン
      -
      - 読み込んだ電文をログ出力した後、元例外を再送出する。
 
-   * - 12
+   * - 13
      - :ref:`request_path_java_package_mapping`
      - サブ
      - 要求電文に含まれるリクエストIDをもとに呼び出すアクションを決定する。
      -
      -
 
-   * - 13
+   * - 14
      - :ref:`transaction_management_handler`
      - サブ
      - トランザクションを開始する。
@@ -307,13 +315,20 @@ Nablarchでは、MOMメッセージングを構築するために必要なハン
      - プロセス停止要求か致命的なエラーが発生した場合のみループを停止する。
 
    * - 8
+     - :ref:`thread_context_clear_handler`
+     - サブ
+     - 
+     - :ref:`thread_context_handler` でスレッドローカル上に設定した値を全て削除する。
+     -
+     
+   * - 9
      - :ref:`thread_context_handler`
      - サブ
      - コマンドライン引数からリクエストID、ユーザID等のスレッドコンテキスト変数を初期化する。
      -
      -
 
-   * - 9
+   * - 10
      - :ref:`process_stop_handler`
      - サブ
      - リクエストテーブル上の処理停止フラグがオンであった場合は、後続ハンドラの処理は行なわずにプロセス停止例外(
@@ -322,14 +337,14 @@ Nablarchでは、MOMメッセージングを構築するために必要なハン
      -
      -
 
-   * - 10
+   * - 11
      - :ref:`transaction_management_handler`
      - サブ
      - トランザクションを開始する。
      - トランザクションをコミットする。
      - トランザクションをロールバックする。
 
-   * - 11
+   * - 12
      - :ref:`data_read_handler`
      - サブ
      - データリーダを使用して要求電文を1件読み込み、後続ハンドラの引数として渡す。
@@ -337,7 +352,7 @@ Nablarchでは、MOMメッセージングを構築するために必要なハン
      -
      - 読み込んだ電文をログ出力した後、元例外を再送出する。
 
-   * - 12
+   * - 13
      - :ref:`request_path_java_package_mapping`
      - サブ
      - 要求電文に含まれるリクエストIDをもとに呼び出すアクションを決定する。
