@@ -120,19 +120,40 @@ PropertiesStringResourceLoaderへの言語設定
 
   .. code-block:: xml
 
-    <component class="nablarch.core.message.PropertiesStringResourceLoader">
-      <!-- サポートする言語 -->
-      <property name="locales">
+    <component class="nablarch.core.cache.BasicStaticDataCache" name="messageCache">
+      <property name="loader">
+        <!-- 多言語化したPropertiesStringResourceLoaderの定義 -->
+        <component class="nablarch.core.message.PropertiesStringResourceLoader">
+          <!-- サポートする言語 -->
+          <property name="locales">
+            <list>
+              <value>en</value>
+              <value>zh</value>
+              <value>de</value>
+            </list>
+          </property>
+
+          <!-- デフォルトの言語 -->
+          <property name="defaultLocale" value="ja" />
+        </component>
+      </property>
+    </component>
+
+    <component name="stringResourceHolder" class="nablarch.core.message.StringResourceHolder">
+      <!-- 多言語化したPropertiesStringResourceLoaderを持つBasicStaticDataCacheを設定する -->
+      <property name="stringResourceCache" ref="messageCache" />
+    </component>
+
+    <component name="initializer" 
+               class="nablarch.core.repository.initialization.BasicApplicationInitializer">
+      <property name="initializeList">
         <list>
-          <value>en</value>
-          <value>zh</value>
-          <value>de</value>
+          <!-- BasicStaticDataCacheを初期化対象に追加する -->
+          <component-ref name="messageCache" />
         </list>
       </property>
-
-      <!-- デフォルトの言語 -->
-      <property name="defaultLocale" value="ja" />
     </component>
+
 
 言語ごとのプロパティファイルの作成
   上記の :java:extdoc:`PropertiesStringResourceLoader <nablarch.core.message.PropertiesStringResourceLoader>` に設定したサポート言語に対応するプロパティファイルの作成例を示す。
