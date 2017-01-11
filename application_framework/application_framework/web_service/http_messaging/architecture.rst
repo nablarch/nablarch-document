@@ -58,6 +58,7 @@ Nablarchでは、HTTPメッセージングを使用したウェブサービス�
 その他のハンドラ
   * :ref:`http_request_java_package_mapping`
   * :ref:`thread_context_handler`
+  * :ref:`thread_context_clear_handler`
   * :ref:`http_access_log_handler`
 
 HTTPメッセージングの最小ハンドラ構成
@@ -77,61 +78,67 @@ HTTPメッセージングを使用したウェブサービスを構築する際�
     - 例外処理
  
   * - 1
+    - :ref:`thread_context_clear_handler`
+    -
+    - :ref:`thread_context_handler` でスレッドローカル上に設定した値を全て削除する。
+    -
+    
+  * - 2
     - :ref:`global_error_handler`
     -
     -
     - 実行時例外、またはエラーの場合、ログ出力を行う。
 
-  * - 2
+  * - 3
     - :ref:`http_response_handler`
     -
     - サーブレットフォーワード、リダイレクト、レスポンス書き込みのいずれかを行う。
     - 実行時例外、またはエラーの場合、既定のエラーページを表示する。
 
-  * - 3
+  * - 4
     - :ref:`thread_context_handler`
     - リクエストの情報からリクエストIDなどのスレッドコンテキスト変数を初期化する。
     - 
     -
 
-  * - 4
+  * - 5
     - :ref:`http_messaging_error_handler`
     - 
     - 後続ハンドラで生成したレスポンスのボディが空の場合、ステータスコードに応じたデフォルトのボディを設定する。
     - ログ出力及び、例外に応じたレスポンスの生成を行う。
 
-  * - 5
+  * - 6
     - :ref:`request_path_java_package_mapping`
     - リクエストパスから処理対象の業務アクションを特定し、ハンドラキューの末尾に追加する。
     - 
     - 
 
-  * - 6
+  * - 7
     - :ref:`http_messaging_request_parsing_handler`
     - httpリクエストのボディを解析し :java:extdoc:`RequestMessage <nablarch.fw.messaging.RequestMessage>` を生成し、
       後続のハンドラにリクエストオブジェクトとして引き渡す。
     - 
     - 
 
-  * - 7
+  * - 8
     - :ref:`database_connection_management_handler`
     - DB接続を取得する。
     - DB接続を解放する。
     -
 
-  * - 8
+  * - 9
     - :ref:`http_messaging_response_building_handler`
     - 
     - 
     - 業務アクションが生成したエラー用のメッセージを元に、エラー用のhttpスポンスを生成する。
 
-  * - 9
+  * - 10
     - :ref:`transaction_management_handler`
     - トランザクションを開始する。
     - トランザクションをコミットする。
     - トランザクションをロールバックする。
 
-  * - 10
+  * - 11
     - :ref:`http_messaging_response_building_handler`
     - 
     - 業務アクションが生成したメッセージを元に、http用のレスポンスを生成する。

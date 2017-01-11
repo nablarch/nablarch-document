@@ -70,6 +70,7 @@ Nablarchでは、ウェブアプリケーションを構築するために必要
   * :ref:`http_request_java_package_mapping`
   * :ref:`nablarch_tag_handler`
   * :ref:`thread_context_handler`
+  * :ref:`thread_context_clear_handler`
   * :ref:`http_access_log_handler`
   * :ref:`file_record_writer_dispose_handler`
 
