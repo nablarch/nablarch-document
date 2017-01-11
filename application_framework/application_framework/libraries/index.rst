@@ -9,7 +9,6 @@ Nablarchが提供するライブラリ
 
   log
   repository
-  thread_context
   database_management
   data_converter
   file_path_management
@@ -26,5 +25,4 @@ Nablarchが提供するライブラリ
   service_availability
   session_store
   tag
-  upload
   utility
