@@ -689,6 +689,11 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
         出力対象の値が ``null`` の場合の扱いは、
         :ref:`ゾーン数値のフィールドタイプ <data_format-field_type-zoned_decimal>` と同じ。
 
+        符号文字(``+`` 、``-``)を変更したい場合は、以下のクラスの実装を参考にプロジェクト固有のフィールドタイプを作成して対応する。
+
+        * :java:extdoc:`SignedNumberStringDecimal <nablarch.core.dataformat.convertor.datatype.SignedNumberStringDecimal>`
+
+        フィールドタイプの追加については、 :ref:`data_format-field_type_add` を参照。
 
 Variable(可変長)データ形式で利用可能フィールドタイプ一覧
   .. list-table::
