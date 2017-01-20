@@ -721,6 +721,9 @@ Variable(可変長)データ形式で利用可能フィールドタイプ一覧
         または :ref:`signed_numberコンバータ <data_format-signed_number_convertor>` を使用すること。
 
         出力対象の値が ``null`` の場合、値を空文字に変換してから処理を行う。
+        
+        読み込んだ値が空文字列の場合は、 ``null`` に変換する。
+        空文字列を ``null`` に変換したくない場合は、 :java:extdoc:`convertEmptyToNull <nablarch.core.dataformat.convertor.VariableLengthConvertorSetting.setConvertEmptyToNull(boolean)>` に ``false`` を設定する。
 
 
 JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
