@@ -121,16 +121,15 @@ CSVファイルをダウンロードする機能の実装方法を解説する�
           final Path path = TempFileUtil.createTempFile();
           try (DeferredEntityList<ProjectDownloadDto> searchList = (DeferredEntityList<ProjectDownloadDto>) UniversalDao
                   .defer()
-                  .findAllBySqlFile(ProjectDownloadDto.class, "SEARCH_PROJECT", searchCondition)) {
+                  .findAllBySqlFile(ProjectDownloadDto.class, "SEARCH_PROJECT", searchCondition);
+               ObjectMapper<ProjectDownloadDto> mapper = ObjectMapperFactory.create(ProjectDownloadDto.class,
+                       TempFileUtil.newOutputStream(path))) {
 
-              try (ObjectMapper<ProjectDownloadDto> mapper =
-                           ObjectMapperFactory.create(ProjectDownloadDto.class, TempFileUtil.newOutputStream(path))) {
-                  for (ProjectDownloadDto dto : searchList) {
-                      mapper.write(dto);
-                  }
+              for (ProjectDownloadDto dto : searchList) {
+                  mapper.write(dto);
               }
           }
-
+          
           FileResponse response = new FileResponse(path.toFile(), true);
           response.setContentType("text/csv; charset=Shift_JIS");
           response.setContentDisposition("プロジェクト一覧.csv");

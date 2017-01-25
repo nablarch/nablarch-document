@@ -249,14 +249,15 @@ Exampleアプリケーションを元に一括更新機能の解説を行う。
           ProjectListDto dto = SessionUtil.get(context, "projectListDto");
 
           // 更新内容をセッションに上書き
-          for (Project project : dto.getProjectList()) {
-              for (InnerProjectForm innerForm : form.getProjectList()) {
-                  if (innerForm.getProjectId().equals(project.getProjectId().toString())) {
-                      BeanUtil.copy(innerForm, project);
-                      break;
-                  }
-              }
-          }
+          final List<InnerProjectForm> innerForms = form.getProjectList();
+          dto.getProjectList()
+             .forEach(project ->
+                     innerForms.stream()
+                               .filter(innerForm ->
+                                       Objects.equals(innerForm.getProjectId(), project.getProjectId()
+                                                                                       .toString()))
+                               .findFirst()
+                               .ifPresent(innerForm -> BeanUtil.copy(innerForm, project)));
 
           return new HttpResponse("/WEB-INF/view/projectBulk/confirmOfUpdate.jsp");
       }

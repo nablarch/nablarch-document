@@ -43,60 +43,33 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
 
     ProjectUploadAction.java
       .. code-block:: java
-        :emphasize-lines: 12,35
 
         @OnDoubleSubmission
         @OnError(type = ApplicationException.class, path = "/WEB-INF/view/projectUpload/create.jsp")
-        public HttpResponse upload(HttpRequest request, ExecutionContext context)
-                throws IOException {
+        public HttpResponse upload(HttpRequest request, ExecutionContext context) {
 
             // アップロードファイルの取得
             List<PartInfo> partInfoList = request.getPart("uploadFile");
             if (partInfoList.isEmpty()) {
-                throw new ApplicationException(MessageUtil.createMessage(MessageLevel.ERROR, "errors.upload"));
+                throw new ApplicationException(
+                        MessageUtil.createMessage(MessageLevel.ERROR, "errors.upload"));
             }
             PartInfo partInfo = partInfoList.get(0);
 
             LoginUserPrincipal userContext = SessionUtil.get(context, "userContext");
 
-            // バリデーション実行
-            List<Message> messages = new ArrayList<>();
-            List<Project> projects = new ArrayList<>();
-
-            // ファイルの内容をBeanにバインドしてバリデーションする
-            try (final ObjectMapper<ProjectUploadDto> mapper
-                         = ObjectMapperFactory.create(ProjectUploadDto.class, partInfo.getInputStream())) {
-                ProjectUploadDto projectUploadDto = null;
-
-                while ((projectUploadDto = mapper.read()) != null) {
-
-                    // 検証して結果メッセージを設定する
-                    messages.addAll(validate(projectUploadDto));
-
-                    // エンティティを作成
-                    projects.add(createProject(projectUploadDto, userContext.getUserId()));
-                }
-            } catch (InvalidDataFormatException e) {
-                // ファイルフォーマットが不正な行がある場合はその時点で解析終了
-                messages.add(MessageUtil.createMessage(MessageLevel.ERROR, "errors.upload.format", e.getLineNumber()));
-            }
-
-            // 一件でもエラーがある場合はデータベースに登録しない
-            if (!messages.isEmpty()) {
-                throw new ApplicationException(messages);
-            }
+            // アップロードファイルの読み込みとバリデーション
+            List<Project> projects = readFileAndValidate(partInfo, userContext);
 
             // DBへ一括登録する
             insertProjects(projects);
 
             // 完了メッセージの追加
-            WebUtil.notifyMessages(context, MessageUtil.createMessage(MessageLevel.INFO,
-                    "success.upload.project", projects.size()));
+            WebUtil.notifyMessages(context, MessageUtil.createMessage(
+                    MessageLevel.INFO, "success.upload.project", projects.size()));
 
             // ファイルの保存
-            String fileName = generateUniqueFileName(partInfo.getFileName());
-            UploadHelper helper = new UploadHelper(partInfo);
-            helper.moveFileTo("uploadFiles", fileName);
+            saveFile(partInfo);
 
             return new HttpResponse("/WEB-INF/view/projectUpload/create.jsp");
         }
@@ -194,11 +167,20 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
             // 一括登録処理は後述するので省略
 
             // ファイルの保存
+            saveFile(partInfo);
+
+            return new HttpResponse("/WEB-INF/view/projectUpload/create.jsp");
+        }
+        
+        /**
+         * ファイルを保存する。
+         *
+         * @param partInfo アップロードファイルの情報
+         */
+        private void saveFile(final PartInfo partInfo) {
             String fileName = generateUniqueFileName(partInfo.getFileName());
             UploadHelper helper = new UploadHelper(partInfo);
             helper.moveFileTo("uploadFiles", fileName);
-
-            return new HttpResponse("/WEB-INF/view/projectUpload/create.jsp");
         }
 
     この実装のポイント
@@ -306,19 +288,15 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
     ProjectUploadAction.java
       .. code-block:: java
 
-        public HttpResponse upload(HttpRequest request,ExecutionContext context)
-                throws IOException {
-
-            // 省略
-
-            // バリデーション実行
+        private List<Project> readFileAndValidate(final PartInfo partInfo, final LoginUserPrincipal userContext) {
             List<Message> messages = new ArrayList<>();
             List<Project> projects = new ArrayList<>();
 
             // ファイルの内容をBeanにバインドしてバリデーションする
             try (final ObjectMapper<ProjectUploadDto> mapper
-                         = ObjectMapperFactory.create(ProjectUploadDto.class, partInfo.getInputStream())) {
-                ProjectUploadDto projectUploadDto = null;
+                     = ObjectMapperFactory.create(
+                            ProjectUploadDto.class, partInfo.getInputStream())) {
+                ProjectUploadDto projectUploadDto;
 
                 while ((projectUploadDto = mapper.read()) != null) {
 
@@ -330,17 +308,18 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
                 }
             } catch (InvalidDataFormatException e) {
                 // ファイルフォーマットが不正な行がある場合はその時点で解析終了
-                messages.add(MessageUtil.createMessage(MessageLevel.ERROR, "errors.upload.format", e.getLineNumber()));
+                messages.add(
+                    MessageUtil.createMessage(
+                        MessageLevel.ERROR, "errors.upload.format", e.getLineNumber()));
             }
 
             // 一件でもエラーがある場合はデータベースに登録しない
             if (!messages.isEmpty()) {
                 throw new ApplicationException(messages);
             }
-
-            // 省略
-         }
-
+            return projects;
+        }
+    
         /**
          * プロジェクト情報をバリデーションして、結果をメッセージリストに格納する。
          *
