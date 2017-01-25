@@ -115,7 +115,7 @@
            * @return プロジェクト名
            */
           public String getProjectName() {
-              return this.projectName;
+              return projectName;
           }
 
           /**
@@ -171,7 +171,7 @@
               UniversalDao.insert(BeanUtil.createAndCopy(Project.class, form));
 
               // 応答電文のフォーマッタを作成する
-              requestMessage.setFormatterOfReply(createFormatter("ProjectSaveAction_REPLY"));
+              requestMessage.setFormatterOfReply(createFormatter());
 
               // 応答電文に記載するステータスコードを設定する
               Map<String, String> map = new HashMap<>();
