@@ -63,10 +63,10 @@ Exampleアプリケーションを元に、ファイルをDBに登録するバ�
   ZipCodeForm.java
     .. code-block:: java
 
-      @Csv( properties = {/** プロパティ定義は省略 **/},type = Csv.CsvType.CUSTOM)
+      @Csv(properties = {/** プロパティ定義は省略 **/}, type = CsvType.CUSTOM)
       @CsvFormat(charset = "UTF-8", fieldSeparator = ',',
               ignoreEmptyLine = true, lineSeparator = "\r\n", quote = '"',
-              quoteMode = CsvDataBindConfig.QuoteMode.NORMAL, requiredHeader = false)
+              quoteMode = QuoteMode.NORMAL, requiredHeader = false)
       public class ZipCodeForm {
 
           // 一部項目のみ抜粋
@@ -186,7 +186,7 @@ Exampleアプリケーションを元に、ファイルをDBに登録するバ�
                       = new ObjectMapperIterator<>(ObjectMapperFactory.create(ZipCodeForm.class,
                           new FileInputStream(zipCodeFile)));
               } catch (FileNotFoundException e) {
-                  throw new RuntimeException(e);
+                  throw new IllegalStateException(e);
               }
           }
       }
