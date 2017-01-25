@@ -723,27 +723,22 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
             UniversalDao.insert(projectTemp);
 
             // 応答データ返却
-            ProjectInsertMessageResponseForm resForm
-                = new ProjectInsertMessageResponseForm();
-            resForm.setReturnCode("success");
+            ProjectInsertMessageResponseForm resForm = new ProjectInsertMessageResponseForm("success", "");
             return request.reply().addRecord(resForm);
         }
 
         @Override
         protected ResponseMessage onError(
                 Throwable e, RequestMessage request, ExecutionContext context) {
-            ProjectInsertMessageResponseForm resForm =
-                    new ProjectInsertMessageResponseForm(
-                        "fatal", "unexpecteed exception.");
-
+                
             if (e instanceof InvalidDataFormatException) {
                 //要求電文データレコード部レイアウト不正
-                resForm.setReturnCode("fatal");
-                resForm.setDetail("invalid layout.");
+                resForm = new ProjectInsertMessageResponseForm("fatal", "invalid layout.");
             } else if (e instanceof ApplicationException) {
-                //要求電文データレコード部項目精査エラー
-                resForm.setReturnCode("error.validation");
-                resForm.setDetail("");
+                //要求電文データレコード部項目バリデーションエラー
+                resForm = new ProjectInsertMessageResponseForm("error.validation", "");
+            } else {
+                resForm = new ProjectInsertMessageResponseForm("fatal", "unexpected exception.");
             }
             return request.reply().addRecord(resForm);
         }
