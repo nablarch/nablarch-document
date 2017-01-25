@@ -212,7 +212,7 @@ ItemProcessorの作成
            * @param form 社員情報Form
            * @return 賞与
            */
-          private Long calculateBonus(EmployeeForm form) {
+          private static Long calculateBonus(EmployeeForm form) {
               if (form.getFixedBonus() == null) {
                   return form.getBasicSalary() * form.getBonusMagnification() / 100;
               } else {
