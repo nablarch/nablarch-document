@@ -180,6 +180,12 @@ Exampleアプリケーションを元に更新機能の解説を行う。
 
           // 出力情報をリクエストスコープにセット
           context.setRequestScopedVar("form", BeanUtil.createAndCopy(ProjectDto.class, form));
+          context.setRequestScopedVar("profit", new ProjectProfit(
+                  project.getSales(),
+                  project.getCostOfGoodsSold(),
+                  project.getSga(),
+                  project.getAllocationOfCorpExpenses()
+          ));
 
           return new HttpResponse("/WEB-INF/view/project/confirmOfUpdate.jsp");
       }
