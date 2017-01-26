@@ -573,7 +573,7 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
 
         ※バイト長が2の倍数でない場合は構文エラーとなる。
 
-        出力対象の値が ``null`` の場合や、読み込んだ値が空文字の場合の扱いは、
+        出力対象の値が ``null`` の場合や、読み込んだ値が空文字列の場合の扱いは、
         :ref:`シングルバイト文字列のフィールドタイプ <data_format-field_type-single_byte_character_string>` と同じ。
 
     * - XN
@@ -588,7 +588,7 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
 
         :引数: バイト長(数値) ``必須``
 
-        出力対象の値が ``null`` の場合や、読み込んだ値が空文字の場合の扱いは、
+        出力対象の値が ``null`` の場合や、読み込んだ値が空文字列の場合の扱いは、
         :ref:`シングルバイト文字列のフィールドタイプ <data_format-field_type-single_byte_character_string>` と同じ。
 
     * - .. _data_format-field_type-zoned_decimal:
@@ -604,8 +604,8 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
 
         出力対象の値が ``null`` の場合、値を ``0`` に変換してから処理を行う。
 
-        読み込んだ値の桁数が ``0`` の場合は、 ``null`` に変換する。
-        桁数が ``0`` の場合に ``null`` に変換したくない場合は、
+        読み込んだ値のバイト数が ``0`` の場合は、 ``null`` に変換する。
+        バイト数が ``0`` の場合に ``null`` に変換したくない場合は、
         :java:extdoc:`convertEmptyToNull <nablarch.core.dataformat.convertor.FixedLengthConvertorSetting.setConvertEmptyToNull(boolean)>` に ``false`` を設定する。
 
     * - SZ
@@ -622,7 +622,7 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
         引数3及び引数4は、 :ref:`符号付きゾーン数値の正符号 <data_format-positive_zone_sign_nibble>` 及び
         :ref:`符号付きゾーン数値の負符号 <data_format-negative_zone_sign_nibble>` を上書きする場合に設定する。
 
-        出力対象の値が ``null`` の場合や、読み込んだ値の桁数が ``0`` の場合の扱いは、
+        出力対象の値が ``null`` の場合や、読み込んだ値のバイト数が ``0`` の場合の扱いは、
         :ref:`ゾーン数値のフィールドタイプ <data_format-field_type-zoned_decimal>` と同じ。
 
     * - P
@@ -634,7 +634,7 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
         :引数1: バイト長(数値) ``必須``
         :引数2: 少数点以下桁数(数値) ``任意`` デフォルト: ``0``
 
-        出力対象の値が ``null`` の場合や、読み込んだ値の桁数が ``0`` の場合の扱いは、
+        出力対象の値が ``null`` の場合や、読み込んだ値のバイト数が ``0`` の場合の扱いは、
         :ref:`ゾーン数値のフィールドタイプ <data_format-field_type-zoned_decimal>` と同じ。
 
     * - SP
@@ -651,7 +651,7 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
         引数3及び引数4は、 :ref:`符号付きパック数値の正符号 <data_format-positive_pack_sign_nibble>` 及び
         :ref:`符号付きパック数値の負符号 <data_format-negative_pack_sign_nibble>` を上書きする場合に設定する。
 
-        出力対象の値が ``null`` の場合や、読み込んだ値の桁数が ``0`` の場合の扱いは、
+        出力対象の値が ``null`` の場合や、読み込んだ値のバイト数が ``0`` の場合の扱いは、
         :ref:`ゾーン数値のフィールドタイプ <data_format-field_type-zoned_decimal>` と同じ。
 
     * - B
@@ -684,7 +684,7 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
         出力対象の値が ``null`` の場合の扱いは、
         :ref:`ゾーン数値のフィールドタイプ <data_format-field_type-zoned_decimal>` と同じ。
 
-        読み込んだ値が空文字の場合の扱いは、
+        読み込んだ値が空文字列の場合の扱いは、
         :ref:`シングルバイト文字列のフィールドタイプ <data_format-field_type-single_byte_character_string>` と同じ。
 
 
@@ -701,7 +701,7 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
         出力対象の値が ``null`` の場合の扱いは、
         :ref:`ゾーン数値のフィールドタイプ <data_format-field_type-zoned_decimal>` と同じ。
 
-        読み込んだ値が空文字の場合の扱いは、
+        読み込んだ値が空文字列の場合の扱いは、
         :ref:`シングルバイト文字列のフィールドタイプ <data_format-field_type-single_byte_character_string>` と同じ。
 
         符号文字(``+`` 、``-``)を変更したい場合は、以下のクラスの実装を参考にプロジェクト固有のフィールドタイプを作成して対応する。
