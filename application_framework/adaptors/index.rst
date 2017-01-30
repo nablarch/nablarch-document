@@ -4,7 +4,7 @@
 .. toctree::
   :maxdepth: 1
 
-  log4j_adaptor
+  log_adaptor
   router_adaptor
   webspheremq_adaptor
   jaxrs_adaptor

@@ -31,10 +31,11 @@
 :java:extdoc:`Logger <nablarch.core.log.Logger>` /
 :java:extdoc:`LoggerFactory <nablarch.core.log.LoggerFactory>` を差し替えればよい。
 
-なお、オープンソースで使用実績の多い `log4j(外部サイト、英語) <http://logging.apache.org/log4j/1.2/>`_ については、
-専用のLogger/LoggerFactoryを既に用意している。
-詳細は、:ref:`log4j_adaptor` を参照。
-また、本機能とlog4jとの機能比較は、 :ref:`log-functional_comparison` を参照。
+なお、オープンソースで使用実績の多いロギングフレームワークは、専用のLogger/LoggerFactoryを既に用意している。
+
+詳細は、:ref:`log_adaptor` を参照。
+
+本機能と利用実績の多いlog4jとの機能比較は、 :ref:`log-functional_comparison` を参照。
 
 ログ出力機能がデフォルトで提供しているクラスを示す。
 
@@ -917,7 +918,7 @@ log4jとの機能比較
 
 .. [#logrolate] Nablarchのログ出力は、ファイルの世代管理を提供していないので、一部提供ありとしている。
 
-.. [#extends_or_log4j] :ref:`log4j_adaptor` を使用する。
+.. [#extends_or_log4j] :ref:`log_adaptor` を使用する。
                        または、プロジェクトで作成する。作成方法は、 :ref:`log-add_log_writer` を参照。
 
 .. |br| raw:: html
