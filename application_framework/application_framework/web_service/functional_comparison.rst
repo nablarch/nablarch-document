@@ -1,6 +1,6 @@
 .. _`restful_web_service_functional_comparison`:
 
-JAX-RSサポート/JSR399/HTTPメッセージングの機能比較
+JAX-RSサポート/JSR339/HTTPメッセージングの機能比較
 ==========================================================
 
 .. contents:: 目次
