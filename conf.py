@@ -302,3 +302,7 @@ javadoc_url_map = {
   'javax.enterprise' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc'),
   'javax.ws' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc')
 }
+
+# add custom javascript
+def setup(app):
+  app.add_javascript('custom.js')
