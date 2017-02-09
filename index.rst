@@ -21,7 +21,6 @@ Nablarch
   development_tools/index
   examples/index
   nablarch_api/index
-  previous_version/index
 
 
 -----------------------------------------------
