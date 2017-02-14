@@ -120,7 +120,9 @@ Chunkステップの責務配置については、 :ref:`Chunkの責務配置 <j
 ItemWriterレベルのリスナー
   `ItemWriter` の実行前及び実行後にコールバックされるリスナー
 
-  * :java:extdoc:`Chunkの進捗ログを出力するリスナー <nablarch.fw.batch.ee.listener.chunk.ChunkProgressLogListener>`
+  * :java:extdoc:`Chunkの進捗ログを出力するリスナー(非推奨) <nablarch.fw.batch.ee.listener.chunk.ChunkProgressLogListener>`
+    (:ref:`jsr352-progress_log` を使用して進捗ログを出力すること)
+    
   * :java:extdoc:`トランザクション制御を行うリスナー <nablarch.fw.batch.ee.listener.chunk.ItemWriteTransactionManagementListener>`
 
 .. tip::
@@ -187,11 +189,6 @@ ItemWriterレベルのリスナー
     - `ItemWriter` 実行後の処理
 
   * - 1
-    - :java:extdoc:`Chunkの進捗ログを出力するリスナー <nablarch.fw.batch.ee.listener.chunk.ChunkProgressLogListener>`
-    - 
-    - `ItemWriter` で処理をした件数(今までの合計)をログに出力する。
-
-  * - 2
     - :java:extdoc:`トランザクション制御を行うリスナー <nablarch.fw.batch.ee.listener.chunk.ItemWriteTransactionManagementListener>` [#chunk_tran]_
     - 
     - トランザクションを終了(commit or rollback)する。

@@ -52,3 +52,13 @@
 MOMメッセージ送信
 ----------------------------------------
 * :ref:`同期応答メッセージ送信<mom_system_messaging-sync_message_send>`
+
+進捗状況のログ出力
+----------------------------------------
+.. toctree::
+  :maxdepth: 1
+  :hidden:
+
+  feature_details/progress_log 
+  
+* :doc:`feature_details/progress_log`
