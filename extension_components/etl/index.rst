@@ -227,9 +227,6 @@ ETL用JOB設定ファイルを作成する際は、ファイル名を ``JOB ID``
   .. tip::
     ETL用JOB設定ファイルを配置するディレクトリのパスを変更したい場合は、 :ref:`etl-loader-dir-path` を参照。
 
-  .. tip::
-    ETL用JOB設定ファイルの読み込み処理をカスタマイズしたい場合は、 :ref:`etl-loader` を参照。
-
   Extractフェーズの設定
     Extractフェーズでは、入力ファイルの内容をワークテーブルに取り込むための設定を行う。
     SQL*Loaderを使用せずにデータを取り込む場合には、ワークテーブルのデータをクリーニングするための設定が必要となる。
@@ -443,23 +440,5 @@ ETL用JOB設定ファイルを配置するディレクトリのパスを変更�
 
 ポイント
   * コンポーネント名は、 ``etlConfigLoader`` とすること。
-  * プロパティ名は、 ``configBasePath`` とすること。
-  * パスには ``classpath`` または ``file`` というスキームを付与すること。スキームについての解説は :ref:`ディレクトリと拡張子を設定する <file_path_management-definition>` を参照。
+  * :java:extdoc:`JsonConfigLoader <nablarch.etl.config.JsonConfigLoader>` の ``configBasePath`` プロパティにパスを設定すること。
 
-.. _etl-loader:
-
-ETL用JOB設定ファイルの読み込み処理をカスタマイズする
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ETL用JOB設定ファイルの読み込みは、 デフォルトでは :java:extdoc:`JsonConfigLoader <nablarch.etl.config.JsonConfigLoader>` によって行われている。
-しかし、アプリケーションの要件によっては、JSON形式以外で設定を読み込ませたいなど、実装をカスタマイズしたいケースが考えられる。
-その場合は、 :java:extdoc:`EtlConfigLoader <nablarch.etl.config.EtlConfigLoader>` の実装クラスを作成し、コンポーネント設定ファイルに定義することで、
-読み込み処理のカスタマイズを行うことができる。
-
-設定例を以下に示す。
-
-  .. code-block:: xml
-
-    <component name="etlConfigLoader" class="sample.app.etl.SampleConfigLoader" />
-
-ポイント
-  * コンポーネント名は、 ``etlConfigLoader`` とすること。
