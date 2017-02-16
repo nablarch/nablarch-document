@@ -430,6 +430,20 @@ SQL例
   :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` で扱えるデータ型では要件を満たす事ができない場合は、
   :ref:`utility-conversion` を参照し、変換可能なデータ型を追加すること。
 
+.. tip::
+
+  Beanへのアクセス方法をプロパティからフィールドに変更することができる。
+  フィールドアクセスに変更する場合には、configファイルに以下の設定を追加する。
+
+  .. code-block:: properties
+
+     nablarch.dbAccess.isFieldAccess=true
+
+  なお、フィールドアクセスは以下の理由により推奨しない。
+
+  本フレームワークのその他の機能(例えば :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>`)では、Beanから値を取得する方法はプロパティアクセスで統一されている。
+  データベース機能のみフィールドアクセスに変更した場合、プログラマはフィールドアクセスとプロパティアクセスの両方を意識する必要があり、生産性の低下や不具合の原因ともなる。
+
 .. _database-common_bean:
 
 SQL実行時に共通的な値を自動的に設定したい
