@@ -1,0 +1,56 @@
+<job id="please change to job id" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+
+  <listeners>
+    <listener ref="nablarchJobListenerExecutor" />
+  </listeners>
+
+  <!-- ワークテーブルをクリーニングするステップ -->
+  <step id="truncate" next="extract">
+    <listeners>
+      <listener ref="nablarchStepListenerExecutor" />
+    </listeners>
+    <batchlet ref="tableCleaningBatchlet" />
+  </step>
+
+  <!-- Chunkを使用してファイルの内容をワークテーブルにロードするステップ -->
+  <step id="extract" next="validation">
+    <listeners>
+      <listener ref="nablarchStepListenerExecutor" />
+      <listener ref="nablarchItemWriteListenerExecutor" />
+      <listener ref="progressLogListener" />
+    </listeners>
+    <!-- サイズ(コミット間隔) -->
+    <chunk item-count="5000">
+      <reader ref="fileItemReader" />
+      <writer ref="databaseItemWriter" />
+    </chunk>
+  </step>
+
+  <!-- ワークテーブルの内容をバリデーションするステップ -->
+  <step id="validation" next="load">
+    <listeners>
+      <listener ref="nablarchStepListenerExecutor" />
+    </listeners>
+    <batchlet ref="validationBatchlet">
+      <properties>
+        <!-- 進捗ログを出力する間隔 -->
+        <property name="progressLogOutputInterval" value="5000" />
+      </properties>
+
+    </batchlet>
+  </step>
+
+  <!-- バリデーション済みのデータを本テーブルに洗い替えモードでロードするステップ -->
+  <step id="load">
+    <listeners>
+      <listener ref="nablarchStepListenerExecutor" />
+      <listener ref="nablarchItemWriteListenerExecutor" />
+      <listener ref="progressLogListener" />
+    </listeners>
+    <!-- サイズ(コミット間隔) -->
+    <chunk item-count="5000">
+      <reader ref="databaseItemReader" />
+      <writer ref="databaseItemWriter" />
+    </chunk>
+  </step>
+</job>

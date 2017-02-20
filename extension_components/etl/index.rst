@@ -134,6 +134,8 @@ Transformフェーズでは、Extractフェーズでワークテーブルに取�
 
      パラメータを使用したい場合には、パラメータを持つ別テーブルを定義して結合するなどして回避すること。
 
+.. _etl-load:
+
 Loadフェーズ
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Transformフェーズのデータ変換用SQL文を実行し、データをデータベースやファイルに出力する。
@@ -179,7 +181,7 @@ ETL JOBを実行するためには以下の設定ファイルが必要となる�
 JOB定義ファイル
   ETL JOBのJOB構成を定義するファイル。
 
-  詳細は、 :ref:`jsr352_batch` 及び `JSR352 Specification <https://jcp.org/en/jsr/detail?id=352>`_ を参照。
+  詳細は、 :ref:`etl-json-configuration` および :ref:`jsr352_batch` 及び `JSR352 Specification <https://jcp.org/en/jsr/detail?id=352>`_ を参照。
 
 ETL用環境設定ファイル
   読み込むファイルパスなどの環境依存値の設定を行うファイル。
@@ -219,206 +221,38 @@ ETLでは以下の環境依存値を設定する。
 
 .. _etl-json-configuration:
 
-ETL用JOB設定ファイルを作成する
+JOB定義ファイルとETL用JOB設定ファイルを作成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-ETL用JOB設定ファイルを作成する際は、ファイル名を ``JOB ID`` とし、``META-INF/etl-config/`` 配下に配置する。
+ETL用JOB設定ファイルを作成する際は、ファイル名を ``<<JOB ID>>.json`` とし、``META-INF/etl-config/`` 配下に配置する。
 
-  .. tip::
-    ETL用JOB設定ファイルを配置するディレクトリのパスを変更したい場合は、 :ref:`etl-loader-dir-path` を参照。
+.. tip::
+  ETL用JOB設定ファイルを配置するディレクトリのパスを変更したい場合は、 :ref:`etl-loader-dir-path` を参照。
 
-  Extractフェーズの設定
-    Extractフェーズでは、入力ファイルの内容をワークテーブルに取り込むための設定を行う。
-    SQL*Loaderを使用せずにデータを取り込む場合には、ワークテーブルのデータをクリーニングするための設定が必要となる。
+ジョブ設定ファイルは、以下からテンプレートをダウンロードし、ファイル内のコメントを参照し編集すること。
 
-    .. code-block:: javascript
+Oracle SQL*Loaderを使用したファイル取り込みテンプレート
+  :ref:`etl-load` で洗い替えモードを使用する場合のテンプレート
+    * :download:`JOB定義ファイルのテンプレート <templates/sql_loader_replace.xml>`
+    * :download:`ETL用JOB設定ファイルテンプレート <templates/sql_loader_replace_config.json>`
+    
+  :ref:`etl-load` でマージモードを使用する場合のテンプレート
+    * :download:`JOB定義ファイルのテンプレート <templates/sql_loader_merge.xml>`
+    * :download:`ETL用JOB設定ファイルテンプレート <templates/sql_loader_merge_config.json>`
 
-      {
-        //------------------------------------------------------------
-        // 明示的にワークテーブルをクリーニングする場合には、
-        // クリーニング用の設定を行う。
-        //------------------------------------------------------------
-        "truncate-step": {
-          // 固定で"truncate"を指定
-          "type": "truncate",
-          // 削除対象のテーブルに対応するEntityクラスのFQCNを配列で指定する。
-          "entities": [
-            "com.nablarch.example.app.batch.ee.dto.ZipCodeDto"
-          ]
-        },
-        "extract-step": {
-          // 固定で"file2db"を指定
-          "type": "file2db",
-          // 一時テーブルに対応するBeanを指定
-          "bean": "com.nablarch.example.app.batch.ee.dto.ZipCodeDto",
-          // 入力データのファイル名を指定
-          "fileName": "KEN_ALL.CSV"
-        }
-      }
+JSR352のChunkを使用したファイル取り込みのテンプレート
+  * :download:`JOB定義ファイルのテンプレート <templates/chunk_replace.xml>`
+  * :download:`ETL用JOB設定ファイルテンプレート <templates/chunk_replace.json>`
 
-    JOB定義ファイル例
-      上記ETL設定ファイルに対応するJOB定義ファイル例を示す。
-      なお、以下の設定ファイルには、データベース接続設定などは記載していない。
+ファイル出力のテンプレート
+  * :download:`JOB定義ファイルのテンプレート <templates/file_output.xml>`
+  * :download:`ETL用JOB設定ファイルテンプレート <templates/file_output.json>`
+  
+.. tip::
 
-      .. code-block:: xml
-
-        <job id="sample-job-id" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
-
-          <!--******************************
-          SQL*Loaderを使用する場合
-          ******************************-->
-          <!-- extractフェーズのステップ -->
-          <step id="extract-step">
-            <batchlet ref="sqlLoaderBatchlet" />
-          </step>
-
-          <!--******************************
-          SQL*Loaderを使用しない場合
-          ******************************-->
-          <!-- ワークテーブルのクリーニングステップ -->
-          <step id="truncate-step">
-            <batchlet ref="tableCleaningBatchlet" />
-          </step>
-
-          <!-- extractフェーズのステップ -->
-          <step id="extract-step">
-            <chunk>
-              <reader ref="fileItemReader" />
-              <writer ref="databaseItemWriter" />
-            </chunk>
-          </step>
-        </job>
-
-  Transformフェーズの設定
-    Transformフェーズでは、ワークテーブルに取り込んだ入力ファイルの内容をバリデーションするための設定を行う。
-
-    .. code-block:: javascript
-
-      {
-        "validation-step": {
-          // 固定で"validation"を指定
-          "type": "validation",
-          // ワークテーブルに対応したBeanオブジェクトのクラス名をFQCNで設定する。
-          "bean": "com.nablarch.example.app.batch.ee.dto.ZipCodeDto",
-          // エラーのあったレコードを書き込むためのエラーテーブルに対応した
-          // Beanオブジェクトのクラス名をFQCNで設定する。
-          "errorEntity": "com.nablarch.example.app.batch.ee.dto.ZipCodeErrorEntity",
-          // エラー発生時に処理を継続する場合には、modeにCONTINUEを設定する。
-          // 異常終了させる場合には、ABORTを設定する。
-          "mode": "CONTINUE",
-          // 一定数のエラー発生時にJOBを異常終了させたい場合は、
-          // errorLimitに許容するエラー件数を指定する。
-          // 以下のように1000を設定した場合、1001件目のエラーでJOBが異常終了する。
-          "errorLimit": 1000
-        }
-      }
-
-    JOB定義ファイル例
-      上記ETL設定ファイルに対応するJOB定義ファイル例を示す。
-      なお、以下の設定ファイルには、データベース接続設定などは記載していない。
-
-      .. code-block:: xml
-
-        <job id="sample-job-id" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
-          <step id="validation-step">
-            <batchlet ref="validationBatchlet" />
-          </step>
-        </job>
-
-  Loadフェーズの設定
-    Loadフェーズでは、データベースやファイルにデータを出力するための設定を行う。
-
-    .. code-block:: javascript
-
-      {
-        //------------------------------------------------------------
-        // 洗い替えモードの設定例
-        //------------------------------------------------------------
-        "db-output-step": {
-          // 固定で"db2db"を指定
-          "type": "db2db",
-          // 出力対象テーブルに対応するBeanオブジェクトのクラス名をFQCNで設定する
-          "bean": "com.nablarch.example.app.entity.ZipCodeData",
-          // データの変換用SQLのSQL_IDを設定する
-          "sqlId": "SELECT_ZIPCODE_FROM_WORK",
-          // insertModeを指定する。
-          // insertModeにORACLE_DIRECT_PATHを指定するとダイレクトパスインサートが使用される。
-          // insertModeを指定しない場合、デフォルトのNORMALが適用される。
-          "insertMode": "NORMAL",
-          // 洗い替え時に何件ごとにデータを移送するかとワークテーブルに対応するBeanを指定
-          // ※insertModeにORACLE_DIRECT_PATHを指定した場合、updateSizeを設定することは出来ない
-          "updateSize": {
-            "size": 200000,
-            "bean": "com.nablarch.example.app.batch.ee.dto.ZipCodeDto"
-          }
-        },
-        //------------------------------------------------------------
-        // マージモードの設定例
-        //------------------------------------------------------------
-        "merge-step": {
-          // 固定で"db2db"を指定
-          "type": "db2db",
-          // 出力対象テーブルに対応するBeanオブジェクトのクラス名をFQCNで設定する
-          "bean": "com.nablarch.example.app.entity.ZipCodeData",
-          // データの変換用SQLのSQL_IDを設定する
-          "sqlId": "SELECT_ZIPCODE_FROM_WORK",
-          // MERGEのON句に指定するカラム名を配列で設定する
-          "mergeOnColumns": [
-            "LOCAL_GOVERNMENT_CODE",
-            "ZIP_CODE_5DIGIT",
-            "ZIP_CODE_7DIGIT"
-          ],
-          // MERGE処理中、何件ごとに更新するかとワークテーブルに対応するBeanを指定
-          "updateSize": {
-            "size": 200000,
-            "bean": "com.nablarch.example.app.batch.ee.dto.ZipCodeDto"
-          }
-        },
-        //------------------------------------------------------------
-        // ファイル出力の設定例
-        //------------------------------------------------------------
-        "file-output-step": {
-          // 固定で"db2file"を指定
-          "type": "db2file",
-          // 出力ファイルに対応するBeanオブジェクトのクラス名をFQCNで設定する
-          "bean": "com.nablarch.example.app.batch.ee.dto.ZipCodeDto",
-          // 出力ファイルのファイル名を設定する
-          "fileName": "etl-zip-code-output-chunk.csv",
-          // データの変換用SQLのSQL_IDを設定する
-          "sqlId": "SELECT_ZIPCODE"
-        }
-      }
-
-
-    JOB定義ファイル例
-      上記ETL設定ファイルに対応するJOB定義ファイル例を示す。
-      なお、以下の設定ファイルには、データベース接続設定などは記載していない。
-
-      .. code-block:: xml
-
-        <!--**********************************************
-        洗い替えモード用のステップ定義
-        **********************************************-->
-        <step id="db-output-step">
-          <batchlet ref="deleteInsertBatchlet" />
-        </step>
-
-        <!--**********************************************
-        マージモード用のステップ定義
-        **********************************************-->
-        <step id="merge-step">
-          <batchlet ref="mergeBatchlet" />
-        </step>
-
-        <!--**********************************************
-        ファイル出力用のステップ定義
-        **********************************************-->
-        <step id="file-output-step">
-          <chunk item-count="1000">
-            <reader ref="databaseItemReader" />
-            <writer ref="fileItemWriter" />
-          </chunk>
-        </step>
+ テンプレートで要件を満たせない場合には、テンプレートをベースとしステップの追加や変更などを行うことで対応すること。
+ 例えば、Chunkステップを用いてファイルをワークテーブルにロードし、マージモードを使用して本テーブルにデータをロードしたい場合には、
+ SQL*LoaderとChunkのテンプレートから必要なものを組み合わせてジョブを構成すると良い。
 
 拡張例
 --------------------------------------------------
