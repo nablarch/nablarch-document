@@ -1,0 +1,27 @@
+{
+  "extract": {
+    "type": "file2db",
+    "bean": "bean class name(入力ファイルのレイアウト定義情報を持ったBeanのFQCNを設定してください)",
+    "fileName": "input file name(入力ファイルの名前を設定してください)"
+  },
+  "validation": {
+    "type": "validation",
+    "bean": "extractステップのbean属性と同じ値を設定する",
+    "errorEntity": "entity class name(バリデーションエラーのレコードを退避するテーブルのEntityクラス(FQCN)名)",
+    "mode": "ABORT"     // エラー発生時に処理を継続する場合には、modeにCONTINUEを設定する。
+    // 一定数のエラー発生時にJOBを異常終了させたい場合は、
+    // errorLimitに許容するエラー件数を指定する。
+    // 以下のように1000を設定した場合、1001件目のエラーでJOBが異常終了する。
+    // "errorLimit": 1000
+  },
+  "load": {
+    "type": "db2db",
+    "bean": "entity class name(データをロードする本テーブルのEntityクラス(FQCN)名)",
+    "sqlId": "ワークテーブルからデータを抽出するSQLのSQL_ID",
+    "insertMode": "NORMAL", // ORACLE_DIRECT_PATHを指定することで、ダイレクトパスインサートに変更出来る。この場合、updateSizeは指定できない
+    "updateSize": {
+      "size": 5000 /*(コミット間隔) */,
+      "bean": "extractステップのbean属性と同じ値を設定する"
+    }
+  }
+}
