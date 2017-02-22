@@ -1,4 +1,3 @@
-
 JSR352バッチアプリケーションの起動
 ==================================================
 .. contents:: 目次
@@ -7,32 +6,33 @@ JSR352バッチアプリケーションの起動
 
 .. _jsr352_run_batch_application:
 
-バッチアプリケーションの起動クラスを作成する
+バッチアプリケーションを起動する
 --------------------------------------------------
 JSR352に準拠したバッチアプリケーションの場合、バッチの起動はJSR352で規定されたAPIを使用して行う。
 
-以下に起動例を示す。
+Nablarchでは、標準の実装クラスとして、:java:extdoc:`nablarch.fw.batch.ee.Main` を提供している。
+このクラスは実行引数として対象JOBのXMLファイル名(.xmlを除いたファイル名)を指定する。
 
-.. code-block:: java
+プロジェクト独自で起動クラスを作成する際にも、このMainクラスを参考に実装することができる。
 
-  public static void main(final String[] args) throws BatchRuntimeException {
-    final String jobXml = args[0];
 
-    // BatchRuntimeからJobOperatorを取得し、起動引数で与えられたジョブを実行する。
-    final JobOperator jobOperator = BatchRuntime.getJobOperator();
-    final long jobExecutionId = jobOperator.start(jobXml, null);
+.. _jsr352_exitcode_batch_application:
 
-    // バッチの実行が終わるまで待機し、結果を判定するなどを処理をここに実装する。
-  }
+バッチアプリケーションの終了コード
+--------------------------------------------------
+上記のMainクラスのプログラムの終了コードは以下のようになる。
 
-.. tip::
+* 正常終了：0 - 終了ステータスが “WARNING” 以外の場合で、バッチステータスが  :java:extdoc:`BatchStatus.COMPLETED <javax.batch.runtime.BatchStatus>` の場合
+* 異常終了：1 - 終了ステータスが “WARNING” 以外の場合で、バッチステータスが  :java:extdoc:`BatchStatus.COMPLETED <javax.batch.runtime.BatchStatus>` 以外の場合
+* 警告終了：2 - 終了ステータスが “WARNING” の場合
 
-  `jBeret(外部サイト、英語) <https://jberet.gitbooks.io/jberet-user-guide/content/>`_ を使用した場合、
-  ``jberet-se`` モジュールに含まれる起動クラスを使用してバッチアプリケーションを実行できる。
+なお、JOBの終了待ちの間に中断された場合は、異常終了のコードを返す。
 
-  詳細は、 ``jberet-se`` モジュール内の ``org.jberet.se.Main`` クラスを参照
-
-  ※プロジェクト独自で起動クラスを作成する際にも、上記 ``Main`` クラスを参考にすることができる。
+バリデーションエラーなど警告すべき事項が発生している場合に、警告終了させることができる。
+警告終了の方法はchunkまたはbatchlet内で、 :java:extdoc:`JobContext#setExitStatus(String) <javax.batch.runtime.context.JobContext.setExitStatus(java.lang.String)>`
+を呼び出し "WARNING" を終了ステータスとして設定する。警告終了時は、バッチステータスは任意の値を許可するため、chunkまたはbatchlet内で、
+例外を送出しバッチステータスが :java:extdoc:`BatchStatus.COMPLETED <javax.batch.runtime.BatchStatus>` 以外となる場合であっても、
+終了ステータスに "WARNING" を設定していれば、上記クラスは警告終了する。
 
 .. _jsr352_run_batch_init_repository:
 

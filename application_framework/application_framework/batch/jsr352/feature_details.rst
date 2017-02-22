@@ -4,19 +4,19 @@
   :depth: 3
   :local:
 
+バッチアプリケーションの起動方法
+--------------------------------------------------
 .. toctree::
   :maxdepth: 1
   :hidden:
 
-  feature_details/run_batch_application 
+  feature_details/run_batch_application
 
-バッチアプリケーションの起動方法
---------------------------------------------------
 * :ref:`JSR352バッチアプリケーションの起動方法 <jsr352_run_batch_application>`
 
 システムリポジトリの初期化
 --------------------------------------------------
-* :ref:`JSR352バッチアプリケーションでシステムリポジトリの初期化 <jsr352_run_batch_init_repository>` 
+* :ref:`JSR352バッチアプリケーションでシステムリポジトリの初期化 <jsr352_run_batch_init_repository>`
 
 バッチジョブに適用するリスナーの定義方法
 --------------------------------------------------
@@ -59,6 +59,7 @@ MOMメッセージ送信
   :maxdepth: 1
   :hidden:
 
-  feature_details/progress_log 
-  
+  feature_details/progress_log
+
 * :doc:`feature_details/progress_log`
+
