@@ -58,35 +58,17 @@ Nablarchが提供するアーキタイプを使用してブランクプロジェ
 mvnコマンドの実行
 ~~~~~~~~~~~~~~~~~
 
+カレントディレクトリを、ブランクプロジェクトを作成したいディレクトリ(任意のディレクトリで可)に変更し、以下のファイルを配置する。
+
+:download:`バッチファイル <bat/generateNablarchBatchProject.bat>`
+
+配置後、引数に必要なパラメータを指定しbatファイルを実行する。
+
+generateNablarchBatchProject.bat |nablarch_version| <<groupId>> <<artifactId>> <<version>> <<package(任意)>>
+
+上記コマンドに設定するパラメータは以下の通り。
+なお、nablarchのバージョンを変更したい場合には |nablarch_version| を変更すること。
 カレントディレクトリを、ブランクプロジェクトを作成したいディレクトリ(任意のディレクトリで可)に変更する。
-
-その後に、以下のように「mvn archetype:generate」コマンドを実行する。
-
-.. code-block:: text
-
-  mvn archetype:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-batch-archetype -DarchetypeVersion=5u6
-
-
-上記コマンドに含まれるパラメータのうち、重要なものを以下に示す。
-
-.. list-table::
-  :header-rows: 1
-  :class: white-space-normal
-  :widths: 6,20
-
-  * - 設定値
-    - 説明
-  * - -DarchetypeVersion
-    - 使用したいアーキタイプのバージョンを指定する（Nablarch 5u6以降では、Nablarchのバージョン）
-
-
-プロジェクト情報の入力
-~~~~~~~~~~~~~~~~~~~~~~
-
-上記コマンドを実行すると、以下の項目について入力を求められるので、
-生成されるプロジェクトひな形に関する情報を入力する。
-
-本手順では以下の値を入力したとして説明を行う。
 
 =========== ========================================= =======================
 入力項目    説明                                      設定例
@@ -100,11 +82,6 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 .. important::
    項目groupIdおよびpackageは、Javaのパッケージ名にマッピングされる。
    よって、これらの入力値には、英小文字、数字、ドットを使用し、ハイフンは使用しないこと。
-
-プロジェクト情報の入力が終わると、Y: :と表示される。
-
- * 入力した内容をもとに、ひな形を生成する場合には「Y」を入力してください。
- * プロジェクト情報の入力をやり直したい場合には「N」を入力してください。
 
 コマンドが正常終了した場合、ブランクプロジェクトがカレントディレクトリ配下に作成される。
 
