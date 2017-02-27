@@ -65,15 +65,15 @@ ETL基盤
   | :doc:`解説書 <extension_components/report/index>` | `サンプルアプリケーション <https://github.com/nablarch/nablarch-report-sample>`__
 
 
------------------------------------------------
-Nablarch開発ツール
------------------------------------------------
-
 UI 開発基盤
 ===========================
 
-  | :doc:`解説書 <development_tools/ui_dev/index>` | :doc:`JSP/HTML作成ガイド <development_tools/ui_dev/guide/index>` 
+  | :doc:`解説書 <development_tools/ui_dev/index>` | :doc:`JSP/HTML作成ガイド <development_tools/ui_dev/guide/index>`
 
+
+-----------------------------------------------
+開発プロセス支援ツール
+-----------------------------------------------
 
 テスティングフレームワーク
 ===========================
@@ -81,10 +81,10 @@ UI 開発基盤
   | :doc:`解説書 <development_tools/testing_framework/index>` | :doc:`モジュール一覧 <about_nablarch/mvn_module>`
 
 
-ツールボックス
+コード品質の維持・向上
 ===========================
 
-  | :doc:`解説書 <development_tools/toolbox/index>` 
+  | :doc:`解説書 <development_tools/code_quality/index>`
 
 
 -----------------------------------------------
