@@ -439,6 +439,25 @@
 :java:extdoc:`MailSender<nablarch.common.mail.MailSender>` は、 :ref:`常駐バッチ<nablarch_batch-resident_batch>`
 を使用して動作させるバッチアクションとして作成している。
 
+メール送信処理では、障害発生時に同一のメールが複数送信されないように、以下のような処理の流れとなっている。
+これにより、メール送信成功時にはステータスが確実に送信済みとなっているため、二重送信を防止できる。
+
+メール送信の処理の流れ
+  .. image:: images/mail/mail_sender_flow.png
+    :scale: 75
+
+.. important::
+  メール送信失敗時に行うステータス更新(送信失敗への変更)で例外(例えばデータベースやネットワーク障害時に発生する)が発生した場合は、ステータスが送信済みのままとなる。
+  この場合は、該当データに対してパッチを適用(ステータスを送信失敗へ変更する)する必要がある。
+  なお、例外にはパッチ適用を促すメッセージが付加されている。
+
+.. tip::
+  上記図の通りステータスの更新処理は別トランザクションで実行される。
+  このため、これらの処理で使用するためのトランザクション設定が必要となる。
+  このトランザクションのコンポーネント名は ``statusUpdateTransaction`` としてコンポーネント設定ファイルに登録する必要がある。
+  詳細は、 :ref:`database-new_transaction` を参照。
+
+
 以下に実行例を示す。
 実行方法の詳細については、 :ref:`main-run_application` を参照。
 
@@ -483,6 +502,31 @@
     -userId mailBatchUser
     -mailSendPatternId 02
 
+メール送信時のエラーハンドル
+ メール送信の際、以下のような順でエラーをハンドルしている。
+
+ 1. 送信要求アドレス変換時の例外 `JavaMailのAddressException(外部サイト、英語) <https://javamail.java.net/nonav/docs/api/javax/mail/internet/AddressException.html>`_ のハンドル。
+ 2. ヘッダインジェクション対策(後述)での例外 :java:extdoc:`InvalidCharacterException<nablarch.common.mail.InvalidCharacterException>` のハンドル。
+ 3. 宛先アドレス変換時の例外 `JavaMailのAddressException(外部サイト、英語) <https://javamail.java.net/nonav/docs/api/javax/mail/internet/AddressException.html>`_ のハンドル。
+ 4. メール送信時の送信失敗例外 `JavaMailのSendFailureException(外部サイト、英語) <https://javamail.java.net/nonav/docs/api/javax/mail/SendFailedException.html>`_ のハンドル。
+ 5. 上記以外のメールの例外 `JavaMailのMessagingException(外部サイト、英語) <https://javamail.java.net/nonav/docs/api/javax/mail/MessagingException.html>`_ のハンドル。
+
+ 1.および2.で例外発生する場合はステータスを送信失敗とする。また、3.で不正となったアドレスに関しては
+ ログ出力(ログレベル: ERROR)を行い、メール送信処理を継続する。なお、もしすべての宛先アドレスが不正
+ だった場合は、4.でハンドルされる。
+ 4.では、例外のログ出力(ログレベル: ERROR)を行い、ステータスを送信失敗としてメール送信バッチ自体は
+ 処理を継続する。送信失敗の検知は、別プロセスでログファイルをチェックするなどして対応する必要がある。
+ 5.では、1,2,4以外のメール送信時の例外をラップしてリトライ例外としステータスを未送信としている。
+ そのため、次回実行時にリトライされる。
+
+ .. tip::
+  3.の処理は、protectedメソッドとして実装されている。デフォルトの動作は、宛先のアドレスの一部が
+  不正でもそのアドレスへは送信しないで処理を継続する。この動作を送信失敗としたい場合は、例外を
+  送出することで対応できる。また、5.の処理も、protectedメソッドとして実装されているため、
+  プロジェクト側でどの例外をリトライ対象とするかどうかを :java:extdoc:`MailSender<nablarch.common.mail.MailSender>` を継承して
+  拡張できるようになっている。リトライ例外の対象外となった場合は、メール送信バッチはプロセス異常
+  終了の終了コードを返す。
+
 .. _`mail-mail_multi_process`:
 
 メール送信をマルチプロセス化する
@@ -490,17 +534,17 @@
  メール送信をマルチプロセス化する場合（例えば冗長構成のサーバで実行する場合）、
  メール送信要求テーブルのプロセスIDカラムを使用して悲観ロックを行い、複数のプロセスが同一の送信要求を処理しないようにする。
  この機能を利用するには、 次の設定が必要となる。
- 
+
  1. メール送信要求テーブルにメール送信バッチのプロセスIDのカラムを定義する
  2. :java:extdoc:`MailRequestTable<nablarch.common.mail.MailRequestTable>` のsendProcessIdColumnNameのプロパティの値にメール送信バッチのプロセスIDのカラム名を設定し、コンポーネント定義に追加する
  3. メール送信バッチのプロセスID更新用のトランザクションを ``mailMultiProcessTransaction`` の名前でコンポーネント定義に追加する(トランザクションの設定方法は :ref:`database-new_transaction` を参照)
 
  .. important::
- 
+
    2. の設定がされていない場合、排他制御がされないため１件のメール送信要求を複数プロセスが処理する可能性がある。
    しかし、見かけ上メール送信バッチが動作するため、設定漏れを検知しづらい。
    メール送信をマルチプロセス化する場合は上記の設定を漏れなく行うこと。
- 
+
 .. _`mail-mail_header_injection`:
 
 メールヘッダインジェクション攻撃への対策
