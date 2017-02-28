@@ -13,6 +13,7 @@
    JspStaticAnalysis/index.rst
    SqlExecutor/SqlExecutor
    JspVerifier/JspVerifier
+   JavaStaticAnalysis/JavaStaticAnalysis
 
 .. _nablarchToolBoxPage:
 
@@ -37,6 +38,8 @@
     - SQL文を対話的に実行するツール。
   * - :doc:`JspVerifier/JspVerifier`
     - 業務画面JSPの検証を行うツール。
+  * - :doc:`JavaStaticAnalysis/JavaStaticAnalysis`
+    - 許可したAPIのみが使用されているかをチェックするツール。
 
 
 .. |br| raw:: html
