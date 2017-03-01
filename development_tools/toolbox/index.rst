@@ -13,11 +13,15 @@
    JspStaticAnalysis/index.rst
    SqlExecutor/SqlExecutor
    JspVerifier/JspVerifier
-   JavaStaticAnalysis/JavaStaticAnalysis
+   CodeQuality/CodeQuality
 
 .. _nablarchToolBoxPage:
 
-本書では、アプリケーション開発時に使える便利なツールを紹介する。|br|
+コード品質を高める方法について紹介する。
+
+:doc:`CodeQuality/CodeQuality`
+
+アプリケーション開発時に使える便利なツールを紹介する。|br|
 `ソースコード <https://github.com/nablarch/nablarch-toolbox>`_
 
 
@@ -38,9 +42,6 @@
     - SQL文を対話的に実行するツール。
   * - :doc:`JspVerifier/JspVerifier`
     - 業務画面JSPの検証を行うツール。
-  * - :doc:`JavaStaticAnalysis/JavaStaticAnalysis`
-    - 許可したAPIのみが使用されているかをチェックするツール。
-
 
 .. |br| raw:: html
 
