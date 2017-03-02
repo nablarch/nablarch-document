@@ -13,13 +13,8 @@
    JspStaticAnalysis/index.rst
    SqlExecutor/SqlExecutor
    JspVerifier/JspVerifier
-   CodeQuality/CodeQuality
 
 .. _nablarchToolBoxPage:
-
-コード品質を高める方法について紹介する。
-
-:doc:`CodeQuality/CodeQuality`
 
 アプリケーション開発時に使える便利なツールを紹介する。|br|
 `ソースコード <https://github.com/nablarch/nablarch-toolbox>`_
