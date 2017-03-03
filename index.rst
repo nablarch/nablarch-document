@@ -74,20 +74,20 @@ Nablarch開発ツール
 
   | :doc:`解説書 <development_tools/java_static_analysis/index>` 
 
-UI 開発基盤
-===========================
+フロントエンド上級者向けのUI開発基盤
+====================================
 
   | :doc:`解説書 <development_tools/ui_dev/index>` | :doc:`JSP/HTML作成ガイド <development_tools/ui_dev/guide/index>` 
 
 
-テスティングフレームワーク
-===========================
+大規模開発向け重厚なテスティングフレームワーク
+==============================================
 
   | :doc:`解説書 <development_tools/testing_framework/index>` | :doc:`モジュール一覧 <about_nablarch/mvn_module>`
 
 
-ツールボックス
-===========================
+アプリケーション開発時に使える便利なツール
+==========================================
 
   | :doc:`解説書 <development_tools/toolbox/index>` 
 

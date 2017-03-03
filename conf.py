@@ -307,5 +307,6 @@ javadoc_url_map = {
 def setup(app):
   app.add_javascript('custom.js')
   
-rst_prolog= u".. |nablarch_version| replace:: " + version + "\r\n"
-  
+rst_prolog= u".. |nablarch_version| replace:: " + version + """
+"""
+
