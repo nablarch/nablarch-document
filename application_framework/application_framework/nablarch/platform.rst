@@ -60,7 +60,7 @@ Java
 
 Java EE
  * Hibernate Validator 5.1.3.Final
- * JBeret 1.1.0.Final
+ * JBeret 1.2
 
 MOM（メッセージ指向ミドルウェア）
  * WebSphere MQ 7
