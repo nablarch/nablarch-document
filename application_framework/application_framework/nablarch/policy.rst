@@ -90,3 +90,4 @@ Nablarchが提供する機能は、基本的にスレッドセーフである。
 例外の設計
 -------------------
 Nablarchでは業務処理で予期できる例外を業務例外( :java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>` )とし、それ以外の例外をシステム例外として扱う。
+これは、例外を予期できるものとできないものにわけ、予期できるものについては各業務処理内で適切に処理するためである。
