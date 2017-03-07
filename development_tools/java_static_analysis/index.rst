@@ -21,13 +21,19 @@
 
 構文のチェックには、IntelliJ IDEAの静的検査機能(Inspection)を使用する。
 Inspectionは、Javaコーディングの慣例に沿っているか、潜在的なバグが含まれていないかなどをチェックし、リアルタイムに警告する機能である。
-    
-.. tip::
 
-   InspectionはPJで必要に応じてカスタマイズすることができ、カスタマイズした設定は ``PROJECT_ROOT/.idea/inspectionProfiles`` 配下に設定ファイルとして追加される。
-   Nablarchでは、Nablarch開発に使用したInspectionの設定ファイルを提供しており、
-   Nablarchアーキタイプから生成した :ref:`blank_project` に設定ファイルが含まれている。
-    
+Nablarch開発に使用したInspectionの設定ファイルをプロジェクト向けに提供している。
+以下のファイルをダウンロードし ``PROJECT_ROOT/.idea/inspectionProfiles`` 配下に配置することでInspectionの設定が適用される。
+
+:download:`設定ファイル<download/Project_Default.xml>`
+
+.. important::
+  開発者間で同一の構文チェックが行われるようにするため、Inspectionの設定ファイルはVCSの管理対象とすること。
+
+.. tip::
+  InspectionはPJで必要に応じてカスタマイズすることができる。
+  カスタマイズした設定は ``PROJECT_ROOT/.idea/inspectionProfiles`` 配下の設定ファイルに反映される。
+
 ~~~~~~~~~~~~~~~~~
 IDEでチェックする
 ~~~~~~~~~~~~~~~~~
