@@ -502,27 +502,33 @@
     -userId mailBatchUser
     -mailSendPatternId 02
 
-メール送信時のエラーハンドル
- メール送信の際、以下のような順でエラーをハンドルしている。
+メール送信時のエラー処理
+ メール送信時にエラーが発生した場合、外部からの入力データ(アドレスやヘッダー)に起因するものと考え、対象のメール送信要求のステータスを送信失敗にして次のメール送信処理を行う。
 
- 1. 送信要求のメールアドレス変換時の例外 `JavaMailのAddressException <https://javamail.java.net/nonav/docs/api/javax/mail/internet/AddressException.html>`_ のハンドル。
- 2. メールヘッダインジェクション対策(後述)での例外 :java:extdoc:`InvalidCharacterException<nablarch.common.mail.InvalidCharacterException>` のハンドル。
- 3. メール送信時の送信失敗例外 `JavaMailのSendFailureException <https://javamail.java.net/nonav/docs/api/javax/mail/SendFailedException.html>`_ のハンドル。
- 4. 上記以外のメール送信時の例外 :java:extdoc:`Exception<java.lang.Exception>` のハンドル。
+ 例外の種類ごとに以下の順にエラー処理をしている。
 
- 1.、2.、3.で例外が発生した場合は、対象メール送信要求のステータスを送信失敗として、メール送信バッチは処理を継続する。
- 1.で不正となったアドレスに関してはログ出力(ログレベル: ERROR)を行う。
- 3.では、 `SendFailureException <https://javamail.java.net/nonav/docs/api/javax/mail/SendFailedException.html>`_ から、
- 送信されたアドレス、送信されなかったアドレス、不正なアドレスをログ出力(ログレベル: ERROR)する。
+ .. list-table:: メール送信時の例外と処理
+  :class: white-space-normal
+  :header-rows: 1
 
- 4.では、ステータスを送信失敗とし、1.、2.、3.以外のメール送信時の例外をラップしてリトライ例外を送出する。
- なお、リトライ上限に達した場合、メール送信バッチは異常終了する。
+  * - 例外
+    - 処理
+  * - 送信要求のメールアドレス変換時の `JavaMailのAddressException <https://javamail.java.net/nonav/docs/api/javax/mail/internet/AddressException.html>`_
+    - 変換に失敗したアドレスをログ出力(ログレベル: ERROR)する。
+  * - :ref:`mail-mail_header_injection` での :java:extdoc:`InvalidCharacterException<nablarch.common.mail.InvalidCharacterException>`
+    - ヘッダー文字列をログ出力(ログレベル: ERROR)する。
+  * - メール送信失敗時の `JavaMailのSendFailureException <https://javamail.java.net/nonav/docs/api/javax/mail/SendFailedException.html>`_
+    - 送信されたアドレス、送信されなかったアドレス、不正なアドレスをログ出力(ログレベル: ERROR)する。
+  * - 上記以外のメール送信時の :java:extdoc:`Exception <java.lang.Exception>`
+    - 例外をラップしてリトライ例外を送出する。
 
- 送信失敗の検知は、別プロセスでログファイルをチェックするなどして対応する必要がある。
+ なお、ステータスの送信失敗への更新に失敗した場合、または、リトライ上限に達した場合、メール送信バッチは異常終了する。
+
+ .. important::
+  送信失敗の検知は、別プロセスでログファイルをチェックするなどして対応する必要がある。
 
  .. tip::
-  上記の1.、2.、3.でのログ出力処理、4.の例外ハンドル処理は、protectedメソッドとして実装されているため、
-  プロジェクト側で、:java:extdoc:`MailSender<nablarch.common.mail.MailSender>` を継承して、
+  ログ出力、:java:extdoc:`Exception<java.lang.Exception>` に対する処理は、プロジェクト側で :java:extdoc:`MailSender<nablarch.common.mail.MailSender>` を継承して
   ログの内容や、どの例外をリトライ対象とするかなどを変更できる。
 
 .. _`mail-mail_multi_process`:
@@ -562,7 +568,7 @@
  そのため、保険的対策として、これらの項目に対して改行コードが含まれている場合にはメール送信を実施しないチェック機能を設けている。
  改行コードが含まれていた場合には、
  :java:extdoc:`InvalidCharacterException<nablarch.common.mail.InvalidCharacterException>`
- の送出およびログ出力(ログレベル: FATAL)を行い、該当のメールは送信処理を失敗として扱うこととする。
+ の送出およびログ出力(ログレベル: ERROR)を行い、該当のメールは送信処理を失敗として扱うこととする。
 
  この保険的対策は、脆弱性となる可能性のある以下の項目を対象としている。
 
