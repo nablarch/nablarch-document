@@ -604,6 +604,9 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
 
         出力対象の値が ``null`` の場合、値を ``0`` に変換してから処理を行う。
 
+        なお、出力対象の値がゾーン数値として不正な場合は正しく処理が行われないため、
+        アプリケーション側で事前に不正な値でないかチェックすること。
+
         読み込んだ値のバイト数が ``0`` の場合は、 ``null`` に変換する。
         バイト数が ``0`` の場合に ``null`` に変換したくない場合は、
         :java:extdoc:`convertEmptyToNull <nablarch.core.dataformat.convertor.FixedLengthConvertorSetting.setConvertEmptyToNull(boolean)>` に ``false`` を設定する。
@@ -624,6 +627,9 @@ Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
 
         出力対象の値が ``null`` の場合や、読み込んだ値のバイト数が ``0`` の場合の扱いは、
         :ref:`ゾーン数値のフィールドタイプ <data_format-field_type-zoned_decimal>` と同じ。
+
+        なお、出力対象の値がゾーン数値として不正な場合は正しく処理が行われないため、
+        アプリケーション側で事前に不正な値でないかチェックすること。
 
     * - P
       - BigDecimal
