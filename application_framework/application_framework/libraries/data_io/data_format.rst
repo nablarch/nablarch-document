@@ -198,6 +198,9 @@
   このため、 :java:extdoc:`FileRecordWriterHolder <nablarch.common.io.FileRecordWriterHolder>` を使用する場合には、
   必ず :ref:`file_record_writer_dispose_handler` をハンドラキュー上に設定すること。
 
+.. important::
+  出力するデータに不正な値が設定されていた場合に正しく処理できない可能性があるため、事前にアプリケーション側で不正な値でないかをチェックすること。
+
 .. _data_format-file_download:
   
 ファイルダウンロードで使用する
