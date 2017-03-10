@@ -73,10 +73,6 @@
 文字列や10進数数値だけでなく、ホストでよく扱われるパック数値やゾーン10進数形式などに対応している。
 また、UTF-8やShift_JISだけではなくEBCDICなどの文字セットにも対応している。
 
-.. important::
-  入出力値に不正な値が設定されていた場合に正しく処理できない可能性があるため、
-  使用する際は事前にアプリケーション側で不正な値でないかをチェックすること。
-
 .. tip::
   
   文字セットについては、実行環境のJVMでサポートされているものが使用できる。
@@ -201,6 +197,9 @@
   :ref:`file_record_writer_dispose_handler` にて自動的に開放される。
   このため、 :java:extdoc:`FileRecordWriterHolder <nablarch.common.io.FileRecordWriterHolder>` を使用する場合には、
   必ず :ref:`file_record_writer_dispose_handler` をハンドラキュー上に設定すること。
+
+.. important::
+  出力するデータに不正な値が設定されていた場合に正しく処理できない可能性があるため、事前にアプリケーション側で不正な値でないかをチェックすること。
 
 .. _data_format-file_download:
   
