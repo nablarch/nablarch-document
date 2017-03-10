@@ -9,15 +9,21 @@ Nablarch UI開発基盤 解説書
   *
   */*
   
-前提条件
+.. important::
+
   UI開発基盤を使用する際には、以下の知識が必要となる。
-  これらの有識者がいない場合、部品のカスタマイズや追加を行うことは難しく、生産性低下の原因となる。
+  これらの有識者がいない場合、UI開発基盤が提供する部品のカスタマイズや追加を行うことは難しく、生産性低下の原因となる。
   
   * `Node.js <https://nodejs.org/ja/>`_
   * `RequireJS <http://requirejs.org/>`_
   * `jQuery <https://jquery.com/>`_
   * `Sugar <https://sugarjs.com/>`_
   * `less <http://less-ja.studiomohawk.com/>`_
+
+  部品の仕様を少しでも変更したい場合であっても、難易度の高いカスタマイズが必要である。
+  また、部品を縦に並べて画面を構成しない場合（:doc:`internals/multicol_css_framework` を使用する場合）は画面デザインの難易度が高い。
+
+  これらの点を考慮してUI開発基盤の使用を検討すること。
 
 **目次**
 
