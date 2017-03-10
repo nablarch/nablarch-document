@@ -14,3 +14,4 @@
   libraries/index
   blank_project/index
   setting_guide/index
+  configuration/index
