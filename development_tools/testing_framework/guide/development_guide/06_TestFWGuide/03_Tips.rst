@@ -293,35 +293,8 @@ ID          EMP_NAME     DEPT_CODE
 注意事項
 ========
 
-複数ケースのデータを記述する際は、ケースごとにまとめて記述すること。
-同一ケースのデータとデータの間に別ケースのデータを記述してしまうと、
-データの読み込みが途中で終了しテストが正しく実行されない。
-
-例えば、 以下のようにデータを記述した場合、 ``TABLE2`` までのデータしか読み込まれず、
-``TABLE3`` 以降のデータに誤りがあってもテストは成功してしまう。
-
-.. code-block:: text
-
-  EXPECTED_TABLE[case_001]=TABLE1
-
-  EXPECTED_TABLE[case_002]=TABLE2
-
-  EXPECTED_TABLE[case_001]=TABLE3
-
-  EXPECTED_TABLE[case_002]=TABLE4
-
-全てのデータが正しく読み込まれるようにするには、
-以下のようにケースごとにまとめてデータを記述すること。
-
-.. code-block:: text
-
-  EXPECTED_TABLE[case_001]=TABLE1
-
-  EXPECTED_TABLE[case_001]=TABLE3
-
-  EXPECTED_TABLE[case_002]=TABLE2
-
-  EXPECTED_TABLE[case_002]=TABLE4
+複数ケースのデータを記述する際は、 :ref:`auto-test-framework_multi-datatype` のようにケースごとにまとめて記述すること。
+ケースごとにまとめて記述しないとデータの読み込みが途中で終了しテストが正しく実行されない。
 
 .. _how_to_fix_date:
 
