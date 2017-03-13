@@ -39,6 +39,7 @@ IDEでチェックする
 ~~~~~~~~~~~~~~~~~
 
 IntelliJ IDEAのInspectionはデフォルトで設定が有効になっており、コードを書いた際にリアルタイムに実行される。
+なお、設定はIDE上でカスタマイズすることができる。
 詳細は、IntelliJの `マニュアル <https://www.jetbrains.com/idea/documentation/>`_ を参照。
 
 
@@ -55,14 +56,14 @@ IntelliJ IDEAのInspectionは、CI(Jenkins)サーバでも実行することが�
 ----------------------
 
 フォーマットを統一するためには、IntelliJ IDEAのデフォルトのCode Styleを使用してフォーマットを行う。
+なお、設定はIDE上でカスタマイズすることができる。
+詳細は、IntelliJの `マニュアル <https://www.jetbrains.com/idea/documentation/>`_ を参照。
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 コミット前に自動でフォーマットを統一する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 IntelliJ IDEAでは、VCSへのコミット時にコミット対象のファイルに対してフォーマット処理を行う機能を有している。
 これを有効活用することで、確実にCode Styleに従ったコードをコミットできる。
-
-詳細は、IntelliJの `マニュアル <https://www.jetbrains.com/idea/documentation/>`_ を参照。
 
 .. _api-analysis:
 
