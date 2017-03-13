@@ -298,7 +298,6 @@ Nablarchバッチアプリケーションのjarファイルとしてパッケー
   
   * `gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ で利用するデータベース接続設定（JDBC接続URLやデータベーススキーマなど）
   * Nablarch Toolboxのツール実行設定（ 各Mavenプロジェクト配下のtoolsディレクトを参照している）
-  * 使用不許可APIチェックツールを含むFindbugsの設定や、Checkstyle設定、カバレッジ設定 
 
 
 以下に個々の詳細を示す。
@@ -374,12 +373,6 @@ Mavenのデフォルトのビルドフェーズ定義に加えて、以下のゴ
   * - pre-integration-test
     - jacoco:prepare-agent-integration
     - 結合試験用にJaCoCoの実行時エージェントを準備する。
-  * - verify
-    - checkstyle:check
-    - CheckStyleチェック
-  * - verify
-    - antrun:run
-    - FindBugsチェック
 
 
 .. tip::
@@ -406,14 +399,8 @@ Mavenのデフォルトのビルドフェーズ定義に加えて、以下のゴ
 
   * - ディレクトリまたはファイル
     - 説明
-  * - nablarch-findbugs.xml
-    - FindBugsを実行する際に使用する設定ファイル
   * - nablarch-tools.xml
-    - JSP静的解析ツール、使用許可API一覧作成ツールを実行する際に使用する設定ファイル
-  * - static-analysis/checkstyle 
-    - Checkstyleの設定ファイルが格納されている
-  * - static-analysis/findbugs
-    - FindBugsの設定ファイルが格納されている
+    - JSP静的解析ツールを実行する際に使用する設定ファイル
   * - static-analysis/jspanalysis
     - JSP静的解析ツールの設定ファイルが格納されている。|br|
       本ディレクトリはpj-webのみに存在する

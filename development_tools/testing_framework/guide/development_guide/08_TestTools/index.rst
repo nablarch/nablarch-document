@@ -9,5 +9,4 @@
    01_HttpDumpTool/index
    02_MasterDataSetup/index
    03_HtmlCheckTool/index
-   05_JavaStaticAnalysis/index
 

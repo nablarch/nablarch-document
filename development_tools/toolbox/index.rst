@@ -8,8 +8,6 @@
    :hidden:
    :numbered:
 
-   UnpublishedMethodDetector/UnpublishedApi
-   PublishedApi/PublishedApiConfigGenerator
    JspStaticAnalysis/index.rst
    SqlExecutor/SqlExecutor
    JspVerifier/JspVerifier
@@ -27,10 +25,6 @@
 
   * - ツール
     - 概要
-  * - :doc:`UnpublishedMethodDetector/UnpublishedApi`
-    - 使用できないAPIをチェックする。
-  * - :doc:`PublishedApi/PublishedApiConfigGenerator`
-    - 使用不許可APIチェックツールの設定ファイルとなる公開APIの一覧と、公開APIのJavadocを生成する。
   * - :doc:`JspStaticAnalysis/index`
     - JSPで使用を許可する構文とタグを規定し、許可する構文とタグのみを使用していることをチェックするツール。
   * - :doc:`SqlExecutor/SqlExecutor`
