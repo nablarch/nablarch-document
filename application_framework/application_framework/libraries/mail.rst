@@ -532,6 +532,8 @@
  .. important::
   送信失敗の検知は、別プロセスでログファイルをチェックするなどして対応する必要がある。
 
+ログ出力の処理を変更したい場合や、リトライの処理を変更したい場合は、 :ref:`mail-mail_extension_sample` を参照すること。
+
 .. _`mail-mail_multi_process`:
 
 メール送信をマルチプロセス化する
@@ -576,6 +578,8 @@
  * 件名
  * 差し戻し先メールアドレス
 
+.. _`mail-mail_extension_sample`:
+
 拡張例
 ---------------------------------------------------------------------
 
@@ -594,9 +598,5 @@
 メール送信に失敗した際、 :java:extdoc:`MailSender<nablarch.common.mail.MailSender>` は障害ログにエラー内容を出力している。
 プロジェクトでこれを検知した時に別のデータベースへの記録や異なるログに書き込むなどの変更をしたい場合、継承したクラスを作成して対応する。
 
-また、 :java:extdoc:`MailSender<nablarch.common.mail.MailSender>` は、
-`JavaMailのAddressException <https://javamail.java.net/nonav/docs/api/javax/mail/internet/AddressException.html>`_ 、
-:java:extdoc:`InvalidCharacterException<nablarch.common.mail.InvalidCharacterException>` 、
-`JavaMailのSendFailureException <https://javamail.java.net/nonav/docs/api/javax/mail/SendFailedException.html>`_ 以外の例外は、
-そのメール送信要求のステータスを送信失敗にして、リトライしている。
-特定の例外(明らかに設定不備と分かるものなど)を検知した際に、メール送信バッチを異常終了させたい場合は、上と同様、継承したクラスを作成して対応する。
+:java:extdoc:`MailSender<nablarch.common.mail.MailSender>` は、メール送信で送信失敗以外の例外を検知した場合は、リトライ処理を行う。
+特定の例外(明らかに設定不備と分かるものなど)で、メール送信バッチを異常終了させたい場合は、上と同様、継承したクラスを作成して対応する。
