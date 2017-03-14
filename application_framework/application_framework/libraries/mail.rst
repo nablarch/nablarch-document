@@ -502,10 +502,15 @@
     -userId mailBatchUser
     -mailSendPatternId 02
 
-メール送信時のエラー処理
- メール送信時にエラーが発生した場合、外部からの入力データ(アドレスやヘッダー)に起因するものと考え、対象のメール送信要求のステータスを送信失敗にして次のメール送信処理を行う。
+.. _`mail-mail_error_process`:
 
- 例外の種類ごとに以下の順にエラー処理をしている。
+メール送信時のエラー処理
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:java:extdoc:`MailSender<nablarch.common.mail.MailSender>` は、外部からの入力データ(アドレスやヘッダー)に起因する例外やメール送信失敗の例外が発生した場合、
+対象のメール送信要求のステータスを送信失敗にして次のメール送信処理を行う。
+また、上記以外の例外が発生した場合は、メール送信要求のステータスを送信失敗にしてリトライする。
+
+以下の表に例外の種類とそのエラー処理を示す。
 
  .. list-table:: メール送信時の例外と処理
   :class: white-space-normal
@@ -522,22 +527,18 @@
   * - 上記以外のメール送信時の :java:extdoc:`Exception <java.lang.Exception>`
     - 例外をラップしてリトライ例外を送出する。
 
- なお、ステータスの送信失敗への更新に失敗した場合、または、リトライ上限に達した場合、メール送信バッチは異常終了する。
+なお、ステータスの送信失敗への更新に失敗した場合、または、リトライ上限に達した場合、メール送信バッチは異常終了する。
 
  .. important::
   送信失敗の検知は、別プロセスでログファイルをチェックするなどして対応する必要がある。
-
- .. tip::
-  ログ出力、:java:extdoc:`Exception<java.lang.Exception>` に対する処理は、プロジェクト側で :java:extdoc:`MailSender<nablarch.common.mail.MailSender>` を継承して
-  ログの内容や、どの例外をリトライ対象とするかなどを変更できる。
 
 .. _`mail-mail_multi_process`:
 
 メール送信をマルチプロセス化する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- メール送信をマルチプロセス化する場合（例えば冗長構成のサーバで実行する場合）、
- メール送信要求テーブルのプロセスIDカラムを使用して悲観ロックを行い、複数のプロセスが同一の送信要求を処理しないようにする。
- この機能を利用するには、 次の設定が必要となる。
+メール送信をマルチプロセス化する場合（例えば冗長構成のサーバで実行する場合）、
+メール送信要求テーブルのプロセスIDカラムを使用して悲観ロックを行い、複数のプロセスが同一の送信要求を処理しないようにする。
+この機能を利用するには、 次の設定が必要となる。
 
  1. メール送信要求テーブルにメール送信バッチのプロセスIDのカラムを定義する
  2. :java:extdoc:`MailRequestTable<nablarch.common.mail.MailRequestTable>` のsendProcessIdColumnNameのプロパティの値にメール送信バッチのプロセスIDのカラム名を設定し、コンポーネント定義に追加する
@@ -587,3 +588,15 @@
 そのような場合は、 :java:extdoc:`MailSender<nablarch.common.mail.MailSender>`
 を継承したクラスをプロジェクトで作成して対応する。
 詳細は、 :java:extdoc:`MailSenderのJavadoc<nablarch.common.mail.MailSender>` を参照。
+
+メール送信に失敗した際にログ出力の内容やリトライ処理を変更する。
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+メール送信に失敗した際、 :java:extdoc:`MailSender<nablarch.common.mail.MailSender>` は障害ログにエラー内容を出力している。
+プロジェクトでこれを検知した時に別のデータベースへの記録や異なるログに書き込むなどの変更をしたい場合、継承したクラスを作成して対応する。
+
+また、 :java:extdoc:`MailSender<nablarch.common.mail.MailSender>` は、
+`JavaMailのAddressException <https://javamail.java.net/nonav/docs/api/javax/mail/internet/AddressException.html>`_ 、
+:java:extdoc:`InvalidCharacterException<nablarch.common.mail.InvalidCharacterException>` 、
+`JavaMailのSendFailureException <https://javamail.java.net/nonav/docs/api/javax/mail/SendFailedException.html>`_ 以外の例外は、
+そのメール送信要求のステータスを送信失敗にして、リトライしている。
+特定の例外(明らかに設定不備と分かるものなど)を検知した際に、メール送信バッチを異常終了させたい場合は、上と同様、継承したクラスを作成して対応する。
