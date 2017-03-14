@@ -73,7 +73,7 @@ Batchletで、ループを伴う処理を行う必要がある場合には、下
 
     @Named
     @Dependent
-    public class SampleBatchlet extends AbstractBatchlet {
+    public class ProgressBatchlet extends AbstractBatchlet {
 
         /** 進捗ログを出力するための機能 */
         private final ProgressManager progressManager;
