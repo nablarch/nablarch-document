@@ -191,37 +191,35 @@ JSR352に準拠したバッチアプリケーションのjarファイルとし�
     |           SAMPLE.mv.db.org
     |
     +---src
-    |   +---env
-    |   |
-    |   +---main
-    |   |   +---java
-    |   |   |
-    |   |   \---resources
-    |   |       |   batch-boot.xml              … バッチ起動時に使用する設定ファイル。
-    |   |       |
-    |   |       +---entity
-    |   |       |
-    |   |       \---META-INF
-    |   |           |   beans.xml               … CDIを有効化するために必要なファイル。
-    |   |           |
-    |   |           +---batch-jobs
-    |   |           |       sample-batchlet.xml … batchlet方式の疎通確認用アプリケーションのジョブファイル。
-    |   |           |       sample-chunk.xml    … chunk方式の疎通確認用アプリケーションのジョブファイル。
-    |   |           |       sample-etl.xml      … ETL機能のジョブファイル。
-    |   |           |
-    |   |           \---etl-config
-    |   |                   sample-etl.json     … ETL機能のジョブの設定ファイル。
+        +---env
+        |
+        +---main
+        |   +---java
+        |   |
+        |   \---resources
+        |       |   batch-boot.xml              … バッチ起動時に使用する設定ファイル。
+        |       |
+        |       +---entity
+        |       |
+        |       \---META-INF
+        |           |   beans.xml               … CDIを有効化するために必要なファイル。
+        |           |
+        |           +---batch-jobs
+        |           |       sample-batchlet.xml … batchlet方式の疎通確認用アプリケーションのジョブファイル。
+        |           |       sample-chunk.xml    … chunk方式の疎通確認用アプリケーションのジョブファイル。
+        |           |       sample-etl.xml      … ETL機能のジョブファイル。
+        |           |
+        |           \---etl-config
+        |                   sample-etl.json     … ETL機能のジョブの設定ファイル。
+        |
+        |
+        \---test
+            +---java
+            |
+            \---resources
+                |
+                +---data
 
-    |   |
-    |   |
-    |   \---test
-    |       +---java
-    |       |
-    |       \---resources
-    |           |
-    |           +---data
-    |
-    \---tools
 
 
 pj-batchプロジェクト
@@ -253,31 +251,28 @@ Nablarchバッチアプリケーションのjarファイルとしてパッケー
     |           SAMPLE.mv.db.org
     |
     +---src
-    |   +---env
-    |   |
-    |   +---main
-    |   |   +---java
-    |   |   |
-    |   |   +---resources
-    |   |   |   |   batch-boot.xml              … 都度起動バッチ起動時に指定する設定ファイル。
-    |   |   |   |   mail-sender-boot.xml        … メール送信バッチ起動時に指定する設定ファイル。
-    |   |   |   |   resident-batch-boot.xml     … テーブルをキューとして使ったメッセージング起動時に指定する設定ファイル。
-    |   |   |   |
-    |   |   |   \---entity
-    |   |   |
-    |   |   \---scripts                         … バッチ等の起動に使用するためのシェルスクリプトファイル(使用は任意)。
-    |   |
-    |   \---test
-    |       +---java
-    |       |
-    |       \---resources
-    |           |
-    |           +---data
-    |           |
-    |           \---nablarch
-    |
-    \---tools
-
+        +---env
+        |
+        +---main
+        |   +---java
+        |   |
+        |   +---resources
+        |   |   |   batch-boot.xml              … 都度起動バッチ起動時に指定する設定ファイル。
+        |   |   |   mail-sender-boot.xml        … メール送信バッチ起動時に指定する設定ファイル。
+        |   |   |   resident-batch-boot.xml     … テーブルをキューとして使ったメッセージング起動時に指定する設定ファイル。
+        |   |   |
+        |   |   \---entity
+        |   |
+        |   \---scripts                         … バッチ等の起動に使用するためのシェルスクリプトファイル(使用は任意)。
+        |
+        \---test
+            +---java
+            |
+            \---resources
+                |
+                +---data
+                |
+                \---nablarch
 
 
 .. _about_maven_web_batch_module:
@@ -297,7 +292,7 @@ Nablarchバッチアプリケーションのjarファイルとしてパッケー
 * :ref:`firstStepBuiltInTools` に記載されているツールの設定。以下のような設定が存在する。
   
   * `gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ で利用するデータベース接続設定（JDBC接続URLやデータベーススキーマなど）
-  * Nablarch Toolboxのツール実行設定（ 各Mavenプロジェクト配下のtoolsディレクトを参照している）
+  * カバレッジ設定 
 
 
 以下に個々の詳細を示す。
@@ -388,7 +383,7 @@ Mavenのデフォルトのビルドフェーズ定義に加えて、以下のゴ
 ツールの設定
 -----------------------------------
 
-ツールの設定は、``pom.xml`` (各プロジェクト及び、 :ref:`about_maven_parent_module` )に記載されているものと、toolsフォルダに存在するものがある。
+ツールの設定は、``pom.xml`` (各プロジェクト及び、 :ref:`about_maven_parent_module` )に記載されているものと、pj-webのtoolsフォルダに存在するものがある。
 
 以下にtoolsフォルダに含まれる主なディレクトリとファイルを示す。
 
@@ -419,7 +414,7 @@ Mavenのデフォルトのビルドフェーズ定義に加えて、以下のゴ
 使用するNablarchのバージョンを変更する場合の例
 ----------------------------------------------
 
-以下にNablarch5u6を使用する場合の設定例を示す。
+以下にNablarch5u9を使用する場合の設定例を示す。
 
 .. code-block:: xml
 
@@ -431,9 +426,9 @@ Mavenのデフォルトのビルドフェーズ定義に加えて、以下のゴ
 
         <!--
         使用するNablarchのバージョンと対応したバージョンを指定する。
-        この例は5u6を指定している。
+        この例は5u9を指定している。
         -->
-        <version>5u6</version>
+        <version>5u9</version>
 
         <type>pom</type>
         <scope>import</scope>

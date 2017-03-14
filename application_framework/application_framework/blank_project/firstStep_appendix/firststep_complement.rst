@@ -74,9 +74,6 @@ Password      ``SAMPLE``
   * - :doc:`/development_tools/toolbox/JspStaticAnalysis/index`
     - verify
     -
-
-      * ローカルで静的チェックを行いたい場合。
-      * Jenkinsは使用するが、SonarQubeは使用しない場合
   * - カバレッジ取得
     - test
     - jacoco.execが生成されるところまで設定済み。|br|
