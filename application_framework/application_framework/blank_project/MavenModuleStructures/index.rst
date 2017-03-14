@@ -147,7 +147,25 @@ pj-webプロジェクト
     |           \---nablarch        … HTMLチェックツール用のデータが格納されている。
     |
     \---tools                       … Mavenと連携させて使用するツールの設定ファイルが格納されている。
+    
+    
+ツールの設定
+-----------------------------------
 
+toolsフォルダには、Mavenと連携させて使用するツールの設定ファイルが含まれている。
+以下に主なディレクトリとファイルを示す。
+
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+  :widths: 9,20
+
+  * - ディレクトリまたはファイル
+    - 説明
+  * - nablarch-tools.xml
+    - JSP静的解析ツールを実行する際に使用する設定ファイル
+  * - static-analysis/jspanalysis
+    - JSP静的解析ツールの設定ファイルが格納されている。
 
 
 pj-jaxrsプロジェクト
@@ -383,24 +401,8 @@ Mavenのデフォルトのビルドフェーズ定義に加えて、以下のゴ
 ツールの設定
 -----------------------------------
 
-ツールの設定は、``pom.xml`` (各プロジェクト及び、 :ref:`about_maven_parent_module` )に記載されているものと、pj-webのtoolsフォルダに存在するものがある。
-
-以下にtoolsフォルダに含まれる主なディレクトリとファイルを示す。
-
-.. list-table::
-  :header-rows: 1
-  :class: white-space-normal
-  :widths: 9,20
-
-  * - ディレクトリまたはファイル
-    - 説明
-  * - nablarch-tools.xml
-    - JSP静的解析ツールを実行する際に使用する設定ファイル
-  * - static-analysis/jspanalysis
-    - JSP静的解析ツールの設定ファイルが格納されている。|br|
-      本ディレクトリはpj-webのみに存在する
-
-:ref:`about_maven_parent_module` に記載されているツールについては、 :ref:`firstStepBuiltInTools` を参照。
+ツールの設定は、``pom.xml`` (各プロジェクト及び、 :ref:`about_maven_parent_module` )に記載されている。
+親プロジェクトに記載されているツールについては、 :ref:`firstStepBuiltInTools` を参照。
 
 
 ビルド設定
@@ -414,7 +416,7 @@ Mavenのデフォルトのビルドフェーズ定義に加えて、以下のゴ
 使用するNablarchのバージョンを変更する場合の例
 ----------------------------------------------
 
-以下にNablarch5u9を使用する場合の設定例を示す。
+以下にNablarch5u6を使用する場合の設定例を示す。
 
 .. code-block:: xml
 
@@ -426,9 +428,9 @@ Mavenのデフォルトのビルドフェーズ定義に加えて、以下のゴ
 
         <!--
         使用するNablarchのバージョンと対応したバージョンを指定する。
-        この例は5u9を指定している。
+        この例は5u6を指定している。
         -->
-        <version>5u9</version>
+        <version>5u6</version>
 
         <type>pom</type>
         <scope>import</scope>
