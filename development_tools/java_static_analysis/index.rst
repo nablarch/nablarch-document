@@ -11,8 +11,9 @@
 * :ref:`code-format`
 * :ref:`api-analysis`
 
-上記を行うために、NablarchではJetBrains社製のIDEである `IntelliJ IDEA(外部サイト) <https://www.jetbrains.com/idea/>`_ の使用を推奨している。
-本ページでは、IntelliJ IDEAを用いた効率的なJava静的チェックの方法を説明する。
+Nablarchでは、これらの内容をコーディング規約や定義ファイルではなく、IDE上で確認することを想定している。
+そのため、NablarchではJetBrains社製のIDEである `IntelliJ IDEA(外部サイト) <https://www.jetbrains.com/idea/>`_ の使用を推奨している。
+本ページでは、IDEを用いた効率的なJava静的チェックの方法を説明する。
 
 .. _code-analysis:
 
@@ -39,7 +40,7 @@ IDEでチェックする
 ~~~~~~~~~~~~~~~~~
 
 IntelliJ IDEAのInspectionはデフォルトで設定が有効になっており、コードを書いた際にリアルタイムに実行される。
-なお、設定はIDE上でカスタマイズすることができる。
+設定内容の確認及び変更はIDE上で実施できる。
 詳細は、IntelliJの `マニュアル <https://www.jetbrains.com/idea/documentation/>`_ を参照。
 
 
@@ -56,7 +57,7 @@ IntelliJ IDEAのInspectionは、CI(Jenkins)サーバでも実行することが�
 ----------------------
 
 フォーマットを統一するためには、IntelliJ IDEAのデフォルトのCode Styleを使用してフォーマットを行う。
-なお、設定はIDE上でカスタマイズすることができる。
+設定内容の確認及び変更はIDE上で実施できる。
 詳細は、IntelliJの `マニュアル <https://www.jetbrains.com/idea/documentation/>`_ を参照。
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
