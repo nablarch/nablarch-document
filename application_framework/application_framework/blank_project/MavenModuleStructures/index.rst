@@ -147,7 +147,25 @@ pj-webプロジェクト
     |           \---nablarch        … HTMLチェックツール用のデータが格納されている。
     |
     \---tools                       … Mavenと連携させて使用するツールの設定ファイルが格納されている。
+    
+    
+ツールの設定
+-----------------------------------
 
+toolsフォルダには、Mavenと連携させて使用するツールの設定ファイルが含まれている。
+以下に主なディレクトリとファイルを示す。
+
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+  :widths: 9,20
+
+  * - ディレクトリまたはファイル
+    - 説明
+  * - nablarch-tools.xml
+    - JSP静的解析ツールを実行する際に使用する設定ファイル
+  * - static-analysis/jspanalysis
+    - JSP静的解析ツールの設定ファイルが格納されている。
 
 
 pj-jaxrsプロジェクト
@@ -191,37 +209,35 @@ JSR352に準拠したバッチアプリケーションのjarファイルとし�
     |           SAMPLE.mv.db.org
     |
     +---src
-    |   +---env
-    |   |
-    |   +---main
-    |   |   +---java
-    |   |   |
-    |   |   \---resources
-    |   |       |   batch-boot.xml              … バッチ起動時に使用する設定ファイル。
-    |   |       |
-    |   |       +---entity
-    |   |       |
-    |   |       \---META-INF
-    |   |           |   beans.xml               … CDIを有効化するために必要なファイル。
-    |   |           |
-    |   |           +---batch-jobs
-    |   |           |       sample-batchlet.xml … batchlet方式の疎通確認用アプリケーションのジョブファイル。
-    |   |           |       sample-chunk.xml    … chunk方式の疎通確認用アプリケーションのジョブファイル。
-    |   |           |       sample-etl.xml      … ETL機能のジョブファイル。
-    |   |           |
-    |   |           \---etl-config
-    |   |                   sample-etl.json     … ETL機能のジョブの設定ファイル。
+        +---env
+        |
+        +---main
+        |   +---java
+        |   |
+        |   \---resources
+        |       |   batch-boot.xml              … バッチ起動時に使用する設定ファイル。
+        |       |
+        |       +---entity
+        |       |
+        |       \---META-INF
+        |           |   beans.xml               … CDIを有効化するために必要なファイル。
+        |           |
+        |           +---batch-jobs
+        |           |       sample-batchlet.xml … batchlet方式の疎通確認用アプリケーションのジョブファイル。
+        |           |       sample-chunk.xml    … chunk方式の疎通確認用アプリケーションのジョブファイル。
+        |           |       sample-etl.xml      … ETL機能のジョブファイル。
+        |           |
+        |           \---etl-config
+        |                   sample-etl.json     … ETL機能のジョブの設定ファイル。
+        |
+        |
+        \---test
+            +---java
+            |
+            \---resources
+                |
+                +---data
 
-    |   |
-    |   |
-    |   \---test
-    |       +---java
-    |       |
-    |       \---resources
-    |           |
-    |           +---data
-    |
-    \---tools
 
 
 pj-batchプロジェクト
@@ -253,31 +269,28 @@ Nablarchバッチアプリケーションのjarファイルとしてパッケー
     |           SAMPLE.mv.db.org
     |
     +---src
-    |   +---env
-    |   |
-    |   +---main
-    |   |   +---java
-    |   |   |
-    |   |   +---resources
-    |   |   |   |   batch-boot.xml              … 都度起動バッチ起動時に指定する設定ファイル。
-    |   |   |   |   mail-sender-boot.xml        … メール送信バッチ起動時に指定する設定ファイル。
-    |   |   |   |   resident-batch-boot.xml     … テーブルをキューとして使ったメッセージング起動時に指定する設定ファイル。
-    |   |   |   |
-    |   |   |   \---entity
-    |   |   |
-    |   |   \---scripts                         … バッチ等の起動に使用するためのシェルスクリプトファイル(使用は任意)。
-    |   |
-    |   \---test
-    |       +---java
-    |       |
-    |       \---resources
-    |           |
-    |           +---data
-    |           |
-    |           \---nablarch
-    |
-    \---tools
-
+        +---env
+        |
+        +---main
+        |   +---java
+        |   |
+        |   +---resources
+        |   |   |   batch-boot.xml              … 都度起動バッチ起動時に指定する設定ファイル。
+        |   |   |   mail-sender-boot.xml        … メール送信バッチ起動時に指定する設定ファイル。
+        |   |   |   resident-batch-boot.xml     … テーブルをキューとして使ったメッセージング起動時に指定する設定ファイル。
+        |   |   |
+        |   |   \---entity
+        |   |
+        |   \---scripts                         … バッチ等の起動に使用するためのシェルスクリプトファイル(使用は任意)。
+        |
+        \---test
+            +---java
+            |
+            \---resources
+                |
+                +---data
+                |
+                \---nablarch
 
 
 .. _about_maven_web_batch_module:
@@ -297,8 +310,7 @@ Nablarchバッチアプリケーションのjarファイルとしてパッケー
 * :ref:`firstStepBuiltInTools` に記載されているツールの設定。以下のような設定が存在する。
   
   * `gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ で利用するデータベース接続設定（JDBC接続URLやデータベーススキーマなど）
-  * Nablarch Toolboxのツール実行設定（ 各Mavenプロジェクト配下のtoolsディレクトを参照している）
-  * 使用不許可APIチェックツールを含むFindbugsの設定や、Checkstyle設定、カバレッジ設定 
+  * カバレッジ設定 
 
 
 以下に個々の詳細を示す。
@@ -374,12 +386,6 @@ Mavenのデフォルトのビルドフェーズ定義に加えて、以下のゴ
   * - pre-integration-test
     - jacoco:prepare-agent-integration
     - 結合試験用にJaCoCoの実行時エージェントを準備する。
-  * - verify
-    - checkstyle:check
-    - CheckStyleチェック
-  * - verify
-    - antrun:run
-    - FindBugsチェック
 
 
 .. tip::
@@ -395,30 +401,8 @@ Mavenのデフォルトのビルドフェーズ定義に加えて、以下のゴ
 ツールの設定
 -----------------------------------
 
-ツールの設定は、``pom.xml`` (各プロジェクト及び、 :ref:`about_maven_parent_module` )に記載されているものと、toolsフォルダに存在するものがある。
-
-以下にtoolsフォルダに含まれる主なディレクトリとファイルを示す。
-
-.. list-table::
-  :header-rows: 1
-  :class: white-space-normal
-  :widths: 9,20
-
-  * - ディレクトリまたはファイル
-    - 説明
-  * - nablarch-findbugs.xml
-    - FindBugsを実行する際に使用する設定ファイル
-  * - nablarch-tools.xml
-    - JSP静的解析ツール、使用許可API一覧作成ツールを実行する際に使用する設定ファイル
-  * - static-analysis/checkstyle 
-    - Checkstyleの設定ファイルが格納されている
-  * - static-analysis/findbugs
-    - FindBugsの設定ファイルが格納されている
-  * - static-analysis/jspanalysis
-    - JSP静的解析ツールの設定ファイルが格納されている。|br|
-      本ディレクトリはpj-webのみに存在する
-
-:ref:`about_maven_parent_module` に記載されているツールについては、 :ref:`firstStepBuiltInTools` を参照。
+ツールの設定は、``pom.xml`` (各プロジェクト及び、 :ref:`about_maven_parent_module` )に記載されている。
+親プロジェクトに記載されているツールについては、 :ref:`firstStepBuiltInTools` を参照。
 
 
 ビルド設定

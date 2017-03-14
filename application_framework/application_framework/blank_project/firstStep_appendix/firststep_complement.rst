@@ -71,25 +71,9 @@ Password      ``SAMPLE``
   * - ツール
     - ツールが実行されるMavenのPhase
     - 補足
-  * - :ref:`published_api`
-    - －
-    -
-  * - FindBugs
-    - verify
-    - 以下の場合に、必要に応じて使用する。
-
-      * 使用不許可APIチェックツールを実行したい場合
-      * ローカルで静的チェックを行いたい場合
-      * Jenkinsは使用するが、SonarQubeは使用しない場合
   * - :doc:`/development_tools/toolbox/JspStaticAnalysis/index`
     - verify
     -
-  * - Checkstyle
-    - verify
-    - 以下の場合に、必要に応じて使用する。
-
-      * ローカルで静的チェックを行いたい場合。
-      * Jenkinsは使用するが、SonarQubeは使用しない場合
   * - カバレッジ取得
     - test
     - jacoco.execが生成されるところまで設定済み。|br|
