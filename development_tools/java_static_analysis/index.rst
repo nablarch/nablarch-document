@@ -11,9 +11,8 @@
 * :ref:`code-format`
 * :ref:`api-analysis`
 
-Nablarchでは、これらの内容をコーディング規約や定義ファイルではなく、IDE上で確認することを想定している。
-そのため、NablarchではJetBrains社製のIDEである `IntelliJ IDEA(外部サイト) <https://www.jetbrains.com/idea/>`_ の使用を推奨している。
-本ページでは、IDEを用いた効率的なJava静的チェックの方法を説明する。
+上記を行うために、NablarchではJetBrains社製のIDEである `IntelliJ IDEA(外部サイト) <https://www.jetbrains.com/idea/>`_ の使用を推奨している。
+本ページでは、IntelliJ IDEAを用いた効率的なJava静的チェックの方法を説明する。
 
 .. _code-analysis:
 
@@ -30,6 +29,9 @@ Nablarch開発に使用したInspectionの設定ファイルをプロジェク�
 
 .. important::
   開発者間で同一の構文チェックが行われるようにするため、Inspectionの設定ファイルはVCSの管理対象とすること。
+  
+.. important::
+  Inspectionの設定内容は、警告された箇所から参照可能で、IDE上で効率よく確認できる。そのため、チェック内容の一覧など、別資料を作らないこと。
 
 .. tip::
   InspectionはPJで必要に応じてカスタマイズすることができる。
@@ -40,7 +42,6 @@ IDEでチェックする
 ~~~~~~~~~~~~~~~~~
 
 IntelliJ IDEAのInspectionはデフォルトで設定が有効になっており、コードを書いた際にリアルタイムに実行される。
-設定内容の確認及び変更はIDE上で実施できる。
 詳細は、IntelliJの `マニュアル <https://www.jetbrains.com/idea/documentation/>`_ を参照。
 
 
@@ -57,8 +58,10 @@ IntelliJ IDEAのInspectionは、CI(Jenkins)サーバでも実行することが�
 ----------------------
 
 フォーマットを統一するためには、IntelliJ IDEAのデフォルトのCode Styleを使用してフォーマットを行う。
-設定内容の確認及び変更はIDE上で実施できる。
 詳細は、IntelliJの `マニュアル <https://www.jetbrains.com/idea/documentation/>`_ を参照。
+
+.. important::
+  Code Styleの設定内容は、IDE上で効率よく確認できる。そのため、コーディング規約など、別資料を作らないこと。
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 コミット前に自動でフォーマットを統一する
