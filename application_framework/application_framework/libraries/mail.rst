@@ -439,6 +439,25 @@
 :java:extdoc:`MailSender<nablarch.common.mail.MailSender>` は、 :ref:`常駐バッチ<nablarch_batch-resident_batch>`
 を使用して動作させるバッチアクションとして作成している。
 
+メール送信処理では、障害発生時に同一のメールが複数送信されないように、以下のような処理の流れとなっている。
+これにより、メール送信成功時にはステータスが確実に送信済みとなっているため、二重送信を防止できる。
+
+メール送信の処理の流れ
+  .. image:: images/mail/mail_sender_flow.png
+    :scale: 75
+
+.. important::
+  メール送信失敗時に行うステータス更新(送信失敗への変更)で例外(例えばデータベースやネットワーク障害時に発生する)が発生した場合は、ステータスが送信済みのままとなる。
+  この場合は、該当データに対してパッチを適用(ステータスを送信失敗へ変更する)する必要がある。
+  なお、例外にはパッチ適用を促すメッセージが付加されている。
+
+.. tip::
+  上記図の通りステータスの更新処理は別トランザクションで実行される。
+  このため、これらの処理で使用するためのトランザクション設定が必要となる。
+  このトランザクションのコンポーネント名は ``statusUpdateTransaction`` としてコンポーネント設定ファイルに登録する必要がある。
+  詳細は、 :ref:`database-new_transaction` を参照。
+
+
 以下に実行例を示す。
 実行方法の詳細については、 :ref:`main-run_application` を参照。
 
@@ -483,24 +502,56 @@
     -userId mailBatchUser
     -mailSendPatternId 02
 
+.. _`mail-mail_error_process`:
+
+メール送信時のエラー処理
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:java:extdoc:`MailSender<nablarch.common.mail.MailSender>` は、外部からの入力データ(アドレスやヘッダー)に起因する例外やメール送信失敗の例外が発生した場合、
+対象のメール送信要求のステータスを送信失敗にして次のメール送信処理を行う。
+また、上記以外の例外が発生した場合は、メール送信要求のステータスを送信失敗にしてリトライする。
+
+以下の表に例外の種類とそのエラー処理を示す。
+
+ .. list-table:: メール送信時の例外と処理
+  :class: white-space-normal
+  :header-rows: 1
+
+  * - 例外
+    - 処理
+  * - 送信要求のメールアドレス変換時の `JavaMailのAddressException <https://javamail.java.net/nonav/docs/api/javax/mail/internet/AddressException.html>`_
+    - 変換に失敗したアドレスをログ出力(ログレベル: ERROR)する。
+  * - :ref:`mail-mail_header_injection` での :java:extdoc:`InvalidCharacterException<nablarch.common.mail.InvalidCharacterException>`
+    - ヘッダー文字列をログ出力(ログレベル: ERROR)する。
+  * - メール送信失敗時の `JavaMailのSendFailureException <https://javamail.java.net/nonav/docs/api/javax/mail/SendFailedException.html>`_
+    - 送信されたアドレス、送信されなかったアドレス、不正なアドレスをログ出力(ログレベル: ERROR)する。
+  * - 上記以外のメール送信時の :java:extdoc:`Exception <java.lang.Exception>`
+    - 例外をラップしてリトライ例外を送出する。
+
+なお、ステータスの送信失敗への更新に失敗した場合、または、リトライ上限に達した場合、メール送信バッチは異常終了する。
+
+ .. important::
+  送信失敗の検知は、別プロセスでログファイルをチェックするなどして対応する必要がある。
+
+ログ出力の処理を変更したい場合や、リトライの処理を変更したい場合は、 :ref:`mail-mail_extension_sample` を参照すること。
+
 .. _`mail-mail_multi_process`:
 
 メール送信をマルチプロセス化する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- メール送信をマルチプロセス化する場合（例えば冗長構成のサーバで実行する場合）、
- メール送信要求テーブルのプロセスIDカラムを使用して悲観ロックを行い、複数のプロセスが同一の送信要求を処理しないようにする。
- この機能を利用するには、 次の設定が必要となる。
- 
+メール送信をマルチプロセス化する場合（例えば冗長構成のサーバで実行する場合）、
+メール送信要求テーブルのプロセスIDカラムを使用して悲観ロックを行い、複数のプロセスが同一の送信要求を処理しないようにする。
+この機能を利用するには、 次の設定が必要となる。
+
  1. メール送信要求テーブルにメール送信バッチのプロセスIDのカラムを定義する
  2. :java:extdoc:`MailRequestTable<nablarch.common.mail.MailRequestTable>` のsendProcessIdColumnNameのプロパティの値にメール送信バッチのプロセスIDのカラム名を設定し、コンポーネント定義に追加する
  3. メール送信バッチのプロセスID更新用のトランザクションを ``mailMultiProcessTransaction`` の名前でコンポーネント定義に追加する(トランザクションの設定方法は :ref:`database-new_transaction` を参照)
 
  .. important::
- 
+
    2. の設定がされていない場合、排他制御がされないため１件のメール送信要求を複数プロセスが処理する可能性がある。
    しかし、見かけ上メール送信バッチが動作するため、設定漏れを検知しづらい。
    メール送信をマルチプロセス化する場合は上記の設定を漏れなく行うこと。
- 
+
 .. _`mail-mail_header_injection`:
 
 メールヘッダインジェクション攻撃への対策
@@ -520,12 +571,14 @@
  そのため、保険的対策として、これらの項目に対して改行コードが含まれている場合にはメール送信を実施しないチェック機能を設けている。
  改行コードが含まれていた場合には、
  :java:extdoc:`InvalidCharacterException<nablarch.common.mail.InvalidCharacterException>`
- の送出およびログ出力(ログレベル: FATAL)を行い、該当のメールは送信処理を失敗として扱うこととする。
+ の送出およびログ出力(ログレベル: ERROR)を行い、該当のメールは送信処理を失敗として扱うこととする。
 
  この保険的対策は、脆弱性となる可能性のある以下の項目を対象としている。
 
  * 件名
  * 差し戻し先メールアドレス
+
+.. _`mail-mail_extension_sample`:
 
 拡張例
 ---------------------------------------------------------------------
@@ -539,3 +592,10 @@
 そのような場合は、 :java:extdoc:`MailSender<nablarch.common.mail.MailSender>`
 を継承したクラスをプロジェクトで作成して対応する。
 詳細は、 :java:extdoc:`MailSenderのJavadoc<nablarch.common.mail.MailSender>` を参照。
+
+メール送信に失敗した際の処理を変更する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+メール送信に失敗した際のエラー処理(詳細は :ref:`mail-mail_error_process` を参照)を、例えば、ログレベルを変更したり、
+リトライ対象の例外を変更するなど、アプリケーションの要件によって変更したい場合がある。
+
+そのような場合は、上の例と同様、:java:extdoc:`MailSender<nablarch.common.mail.MailSender>` を継承したクラスを作成して対応する。
