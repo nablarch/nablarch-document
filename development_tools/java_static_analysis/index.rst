@@ -29,6 +29,9 @@ Nablarch開発に使用したInspectionの設定ファイルをプロジェク�
 
 .. important::
   開発者間で同一の構文チェックが行われるようにするため、Inspectionの設定ファイルはVCSの管理対象とすること。
+  
+.. important::
+  Inspectionの設定内容は、警告された箇所から参照可能で、IDE上で効率よく確認できる。そのため、チェック内容の一覧など、別資料を作らないこと。
 
 .. tip::
   InspectionはPJで必要に応じてカスタマイズすることができる。
@@ -55,14 +58,16 @@ IntelliJ IDEAのInspectionは、CI(Jenkins)サーバでも実行することが�
 ----------------------
 
 フォーマットを統一するためには、IntelliJ IDEAのデフォルトのCode Styleを使用してフォーマットを行う。
+詳細は、IntelliJの `マニュアル <https://www.jetbrains.com/idea/documentation/>`_ を参照。
+
+.. important::
+  Code Styleの設定内容は、IDE上で効率よく確認できる。そのため、コーディング規約など、別資料を作らないこと。
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 コミット前に自動でフォーマットを統一する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 IntelliJ IDEAでは、VCSへのコミット時にコミット対象のファイルに対してフォーマット処理を行う機能を有している。
 これを有効活用することで、確実にCode Styleに従ったコードをコミットできる。
-
-詳細は、IntelliJの `マニュアル <https://www.jetbrains.com/idea/documentation/>`_ を参照。
 
 .. _api-analysis:
 
