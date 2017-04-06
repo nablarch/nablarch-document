@@ -541,6 +541,12 @@ HTMLのcheckboxタグは、チェックなしの場合にリクエストパラ�
 デフォルトで全ての :ref:`tag-form_tag` で暗号化を行い、全てのリクエストで復号及び改竄チェックを行う。
 このため、アプリケーションプログラマは、hidden暗号化機能に関して実装する必要がない。
 
+.. important::
+ 
+ 仕様が複雑であり容易に使用することができない、また :ref:`ウィンドウスコープ <tag-window_scope>` にあるように
+ 暗号化対象のデータの使用が非推奨であるため本機能も非推奨とする。
+ このため、特に理由がない限り :ref:`useHiddenEncryption <tag-use_hidden_encryption>` には ``false`` を設定すること。
+
 hidden暗号化
  hidden暗号化は、 :ref:`tag-form_tag` と :ref:`nablarch_tag_handler` により実現する。
  hidden暗号化の処理イメージを以下に示す。
@@ -595,13 +601,11 @@ hidden暗号化
 hidden暗号化の設定
  hidden暗号化では、 :ref:`tag-setting` により、以下の設定ができる。
 
+ .. _tag-use_hidden_encryption:
+ 
  useHiddenEncryptionプロパティ
   hidden暗号化を使用するか否か。
   デフォルトはtrue。
-  開発時にHTMLソース上でhiddenタグの内容を確認する場合に指定する。
-
-  .. important::
-   本番環境では必ず暗号化を行うこと。
 
  noHiddenEncryptionRequestIdsプロパティ
   hidden暗号化を行わないリクエストID。
