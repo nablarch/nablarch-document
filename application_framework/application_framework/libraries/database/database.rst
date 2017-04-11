@@ -701,7 +701,7 @@ in句の条件数が可変となるSQLの実行は、 :ref:`database-input_bean`
 in句の記述ルール
   条件の名前付きパラメータの末尾に ``[]`` を付加する。
   また名前付きパラメータに対応するBeanオブジェクトのプロパティの型は、
-  配列か :java:extdoc:`java.util.Collection` (サブタイプ含む) とする必要がある。
+  配列か :java:extdoc:`java.util.Collection` (サブタイプ含む) [#collection]_ とする必要がある。
 
   .. tip::
 
@@ -751,7 +751,14 @@ SQL
 
     // conditionのプロパティの値をバインド変数に設定しSQLが実行される
     SqlResultSet result = statement.retrieve(condition);
-
+    
+.. [#collection] 
+    :ref:`database-input_bean` に記載がある通り、プロパティの値は :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用してMapに変換してから使用する。
+    このため、 :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` でサポートされていない型でプロパティが宣言されていた場合、
+    in句に条件を設定できないため注意すること。
+    
+    なお、 :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` で変換対象の型を追加する方法は、
+    :ref:`utility-conversion-add-rule` を参照。
 
 .. _database-make_order_by:
 
