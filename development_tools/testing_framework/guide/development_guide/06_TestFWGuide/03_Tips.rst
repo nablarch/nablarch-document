@@ -293,8 +293,8 @@ ID          EMP_NAME     DEPT_CODE
 注意事項
 ========
 
-複数ケースのデータを記述する際は、 :ref:`auto-test-framework_multi-datatype` のようにケースごとにまとめて記述すること。
-ケースごとにまとめて記述しないとデータの読み込みが途中で終了しテストが正しく実行されない。
+複数のグループIDのデータを記述する際は、 :ref:`auto-test-framework_multi-datatype` のようにグループIDごとにまとめて記述すること。
+グループIDごとにまとめて記述しないとデータの読み込みが途中で終了しテストが正しく実行されない。
 
 .. _how_to_fix_date:
 
