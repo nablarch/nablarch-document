@@ -170,7 +170,7 @@ SampleAction             バッチアプリケーション実装する際に一�
 
 .. code-block:: text
 
-  mvn dependency:copy-dependencies -DoutputDirectory=target/dependency -DincludeScope=runtime
+  mvn dependency:copy-dependencies
 
 
 都度起動バッチアプリケーションの起動
