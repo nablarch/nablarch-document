@@ -181,7 +181,7 @@ sample-etl          Nablarchが提供するETL機能のサンプルアプリケ�
 
 .. code-block:: text
 
-  mvn dependency:copy-dependencies -DoutputDirectory=target/dependency -DincludeScope=runtime
+  mvn dependency:copy-dependencies
 
 
 batchlet方式のバッチアプリケーションの起動
