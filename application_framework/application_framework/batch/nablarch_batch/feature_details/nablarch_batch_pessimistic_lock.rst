@@ -30,7 +30,7 @@ Nablarchバッチアプリケーションの悲観的ロック
       @Override
       public Result handle(final SqlRow inputData, final ExecutionContext ctx) {
           final Project project =
-                  UniversalDao.findBySqlFile(Project.class, "FIND_BY_ID", inputData);
+                  UniversalDao.findBySqlFile(Project.class, "FIND_BY_ID_WITH_LOCK", inputData);
 
           // 業務処理のため省略
 
