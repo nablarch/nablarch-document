@@ -36,6 +36,12 @@
 
 排他制御
 --------------------------------------------------
+.. toctree::
+  :maxdepth: 1
+  :hidden:
+
+  feature_details/pessimistic_lock
+
 排他制御は、以下の2種類の方法を提供しているが、
 :ref:`UniversalDaoを推奨する理由 <exclusive_control-deprecated>` に記載がある通り、
 :ref:`universal_dao` の使用を推奨する。
@@ -43,7 +49,7 @@
 * :ref:`exclusive_control`
 * :ref:`universal_dao`
 
-  * :ref:`universal_dao_jpa_pessimistic_lock`
+  * :doc:`悲観的ロック<feature_details/pessimistic_lock>`
 
 ジョブ定義のxmlの作成方法
 --------------------------------------------------
