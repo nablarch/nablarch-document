@@ -54,15 +54,50 @@ JAX-RSレスポンスハンドラ
 設定を省略した場合は、デフォルト実装の :java:extdoc:`ErrorResponseBuilder <nablarch.fw.jaxrs.ErrorResponseBuilder>` が使用される。
 デフォルト実装では、プロジェクト要件を満たせない場合は、デフォルト実装クラスを継承して対応すること。
 
-以下に設定例を示す。
+例えば、バリデーションエラー時にレスポンスボディにエラーメッセージを設定したい場合等がこれに該当する。
 
-.. code-block:: xml
+以下に、JSON形式のエラーメッセージをレスポンスに設定する場合の実装例を示す。
 
-  <component class="nablarch.fw.jaxrs.JaxRsResponseHandler">
-    <property name="errorResponseBuilder">
-      <component class="sample.SampleErrorResponseBuilder" />
-    </property>
-  </component>
+`ErrorResponseBuilder` の継承クラス
+  .. code-block:: java
+
+    public class SampleErrorResponseBuilder extends ErrorResponseBuilder {
+
+        private final ObjectMapper objectMapper = new ObjectMapper();
+
+        @Override
+        public HttpResponse build(final HttpRequest request,
+                final ExecutionContext context, final Throwable throwable) {
+            if (throwable instanceof ApplicationException) {
+                return createResponseBody((ApplicationException) throwable);
+            } else {
+                return super.build(request, context, throwable);
+            }
+        }
+
+        private HttpResponse createResponseBody(final ApplicationException ae) {
+            final HttpResponse response = new HttpResponse(400);
+            response.setContentType(MediaType.APPLICATION_JSON);
+
+            // エラーメッセージの生成処理は省略
+
+            try {
+                response.write(objectMapper.writeValueAsString(errorMessages));
+            } catch (JsonProcessingException ignored) {
+                return new HttpResponse(500);
+            }
+            return response;
+        }
+    }
+
+コンポーネント設定ファイル
+  .. code-block:: xml
+
+    <component class="nablarch.fw.jaxrs.JaxRsResponseHandler">
+      <property name="errorResponseBuilder">
+        <component class="sample.SampleErrorResponseBuilder" />
+      </property>
+    </component>
 
 .. _jaxrs_response_handler-error_log:
 
