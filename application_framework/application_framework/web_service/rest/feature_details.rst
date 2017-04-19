@@ -68,4 +68,11 @@ URIとリソース(アクション)クラスのマッピング
 
 エラー時に返却するレスポンス
 --------------------------------------------------
-* :ref:`jaxrs_response_handler`
+.. toctree::
+  :maxdepth: 1
+  :hidden:
+
+  feature_details/individually_error_response
+
+* :ref:`アプリケーション内で共通のエラーレスポンスを返却する<jaxrs_response_handler>`
+* :ref:`rest_feature_details-individually_error_response`
