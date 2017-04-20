@@ -10,3 +10,4 @@
   router_adaptor
   webspheremq_adaptor
   jaxrs_adaptor
+  doma_adaptor
