@@ -54,50 +54,16 @@ JAX-RSレスポンスハンドラ
 設定を省略した場合は、デフォルト実装の :java:extdoc:`ErrorResponseBuilder <nablarch.fw.jaxrs.ErrorResponseBuilder>` が使用される。
 デフォルト実装では、プロジェクト要件を満たせない場合は、デフォルト実装クラスを継承して対応すること。
 
-例えば、バリデーションエラー時にレスポンスボディにエラーメッセージを設定したい場合等がこれに該当する。
+以下に設定例を示す。
 
-以下に、JSON形式のエラーメッセージをレスポンスに設定する場合の実装例を示す。
+.. code-block:: xml
 
-`ErrorResponseBuilder` の継承クラス
-  .. code-block:: java
+  <component class="nablarch.fw.jaxrs.JaxRsResponseHandler">
+    <property name="errorResponseBuilder">
+      <component class="sample.SampleErrorResponseBuilder" />
+    </property>
+  </component>
 
-    public class SampleErrorResponseBuilder extends ErrorResponseBuilder {
-
-        private final ObjectMapper objectMapper = new ObjectMapper();
-
-        @Override
-        public HttpResponse build(final HttpRequest request,
-                final ExecutionContext context, final Throwable throwable) {
-            if (throwable instanceof ApplicationException) {
-                return createResponseBody((ApplicationException) throwable);
-            } else {
-                return super.build(request, context, throwable);
-            }
-        }
-
-        private HttpResponse createResponseBody(final ApplicationException ae) {
-            final HttpResponse response = new HttpResponse(400);
-            response.setContentType(MediaType.APPLICATION_JSON);
-
-            // エラーメッセージの生成処理は省略
-
-            try {
-                response.write(objectMapper.writeValueAsString(errorMessages));
-            } catch (JsonProcessingException ignored) {
-                return new HttpResponse(500);
-            }
-            return response;
-        }
-    }
-
-コンポーネント設定ファイル
-  .. code-block:: xml
-
-    <component class="nablarch.fw.jaxrs.JaxRsResponseHandler">
-      <property name="errorResponseBuilder">
-        <component class="sample.SampleErrorResponseBuilder" />
-      </property>
-    </component>
 
 .. _jaxrs_response_handler-error_log:
 
@@ -115,7 +81,93 @@ JAX-RSレスポンスハンドラ
 
   <component class="nablarch.fw.jaxrs.JaxRsResponseHandler">
     <property name="errorLogWriter">
-      <component class="sample..SampleJaxRsErrorLogWriter" />
+      <component class="sample.SampleJaxRsErrorLogWriter" />
     </property>
   </component>
 
+拡張例
+--------------------------------------------------
+
+.. _jaxrs_response_handler-error_response_body:
+
+エラー時のレスポンスにメッセージを設定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+バリデーションエラー発生時など、エラーレスポンスのボディにエラーメッセージを設定して返却したい場合がある。
+このような場合は、 :java:extdoc:`ErrorResponseBuilder <nablarch.fw.jaxrs.ErrorResponseBuilder>` の継承クラスを作成して対応する。
+
+以下に、JSON形式のエラーメッセージをレスポンスに設定する場合の実装例を示す。
+
+.. code-block:: java
+
+  public class SampleErrorResponseBuilder extends ErrorResponseBuilder {
+
+      private final ObjectMapper objectMapper = new ObjectMapper();
+
+      @Override
+      public HttpResponse build(final HttpRequest request,
+              final ExecutionContext context, final Throwable throwable) {
+          if (throwable instanceof ApplicationException) {
+              return createResponseBody((ApplicationException) throwable);
+          } else {
+              return super.build(request, context, throwable);
+          }
+      }
+
+      private HttpResponse createResponseBody(final ApplicationException ae) {
+          final HttpResponse response = new HttpResponse(400);
+          response.setContentType(MediaType.APPLICATION_JSON);
+
+          // エラーメッセージの生成処理は省略
+
+          try {
+              response.write(objectMapper.writeValueAsString(errorMessages));
+          } catch (JsonProcessingException ignored) {
+              return new HttpResponse(500);
+          }
+          return response;
+      }
+  }
+
+.. _jaxrs_response_handler-individually_error_response:
+
+特定のエラーの場合に個別に定義したエラーレスポンスを返却する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+リソースクラス内で発生した業務エラーに対し、
+個別にステータスコードやボディを定義したエラーレスポンスを返却したい場合がある。
+
+その場合は以下の手順でエラーレスポンスを生成・返却する。
+
+1. リソースクラスでは、プロジェクト側で新規作成した例外クラスを送出する。
+2. :java:extdoc:`ErrorResponseBuilder <nablarch.fw.jaxrs.ErrorResponseBuilder>` の継承クラスを作成し、
+   送出された例外がプロジェクト側で新規作成した例外クラスだった場合の処理を実装する。
+
+実装例を以下に示す。
+
+リソースクラス
+  .. code-block:: java
+
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Project> find(HttpRequest request) {
+
+        try {
+            // 業務処理は省略
+        } catch (ApplicationException e) {
+            throw new SampleException(e);
+        }
+    }
+
+ErrorResponseBuilder継承クラス
+  .. code-block:: java
+
+    public class SampleErrorResponseBuilder extends ErrorResponseBuilder {
+
+        @Override
+        public HttpResponse build(final HttpRequest request,
+                final ExecutionContext context, final Throwable throwable) {
+            if (throwable instanceof SampleException) {
+                // レスポンスの生成処理は省略
+            } else {
+                return super.build(request, context, throwable);
+            }
+        }
+    }
