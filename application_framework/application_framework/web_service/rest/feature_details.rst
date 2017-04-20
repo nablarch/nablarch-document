@@ -25,6 +25,10 @@ Nablarchの初期化
   * :ref:`universal_dao_jpa_optimistic_lock`
   * :ref:`universal_dao_jpa_pessimistic_lock`
 
+.. important::
+
+  RESTfulウェブサービスでは `ETag` や `If-Match` を使用した楽観的ロックには対応していない。
+  そのため、RESTfulウェブサービスで楽観的ロックを行う際は、リクエストボディに直接バージョン番号を含めること。
 
 .. important::
 
