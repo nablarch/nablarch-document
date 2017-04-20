@@ -135,39 +135,22 @@ JAX-RSレスポンスハンドラ
 本ハンドラの後続の処理で発生したエラーに対し、
 個別にステータスコードやボディを定義したエラーレスポンスを返却したい場合がある。
 
-その場合は以下の手順でエラーレスポンスを生成・返却する。
-
-1. リソースクラスでは、プロジェクト側で新規作成した例外クラスを送出する。
-2. :java:extdoc:`ErrorResponseBuilder <nablarch.fw.jaxrs.ErrorResponseBuilder>` の継承クラスを作成し、
-   送出された例外がプロジェクト側で新規作成した例外クラスだった場合の処理を実装する。
+その場合は :java:extdoc:`ErrorResponseBuilder <nablarch.fw.jaxrs.ErrorResponseBuilder>` の継承クラスを作成し、
+送出された例外に応じたレスポンスの生成処理を個別に実装する。
 
 実装例を以下に示す。
 
-リソースクラス
-  .. code-block:: java
+.. code-block:: java
 
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Project> find(HttpRequest request) {
+  public class SampleErrorResponseBuilder extends ErrorResponseBuilder {
 
-        try {
-            // 業務処理は省略
-        } catch (ApplicationException e) {
-            throw new SampleException(e);
-        }
-    }
-
-ErrorResponseBuilder継承クラス
-  .. code-block:: java
-
-    public class SampleErrorResponseBuilder extends ErrorResponseBuilder {
-
-        @Override
-        public HttpResponse build(final HttpRequest request,
-                final ExecutionContext context, final Throwable throwable) {
-            if (throwable instanceof SampleException) {
-                // レスポンスの生成処理は省略
-            } else {
-                return super.build(request, context, throwable);
-            }
-        }
-    }
+      @Override
+      public HttpResponse build(final HttpRequest request,
+              final ExecutionContext context, final Throwable throwable) {
+          if (throwable instanceof NoDataException) {
+              return new HttpResponse(404);
+          } else {
+              return super.build(request, context, throwable);
+          }
+      }
+  }
