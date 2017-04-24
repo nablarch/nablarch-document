@@ -68,4 +68,5 @@ URIとリソース(アクション)クラスのマッピング
 
 エラー時に返却するレスポンス
 --------------------------------------------------
-* :ref:`jaxrs_response_handler`
+* :ref:`jaxrs_response_handler-error_response_body`
+* :ref:`jaxrs_response_handler-individually_error_response`
