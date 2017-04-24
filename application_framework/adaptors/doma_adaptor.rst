@@ -199,14 +199,33 @@ ETL使用時に、プロジェクトで追加したステップの中でDomaを�
 
 設定例を以下に示す。
 
-.. code-block:: xml
+ジョブ定義ファイル
+  .. code-block:: xml
 
-  <list name="sampleJob.sampleStep.stepListeners">
-    <!-- その他のリスナーは省略 -->
-    <component class="nablarch.integration.doma.batch.ee.listener.DomaTransactionStepListener" />
-  </list>
+    <job id="sampleJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+      <step id="sampleStep">
+        <listeners>
+          <listener ref="nablarchStepListenerExecutor" />
+          <listener ref="nablarchItemWriteListenerExecutor" />
+        </listeners>
+        <chunk>
+          <reader ref="sampleItemReader" />
+          <writer ref="sampleItemWriter" />
+        </chunk>
+      </step>
+    </job>
 
-  <list name="sampleJob.sampleStep.itemWriteListeners">
-    <!-- その他のリスナーは省略 -->
-    <component class="nablarch.integration.doma.batch.ee.listener.DomaTransactionItemWriteListener" />
-  </list>
+コンポーネント定義ファイル
+  .. code-block:: xml
+
+    <list name="sampleJob.sampleStep.stepListeners">
+      <!-- その他のリスナーは省略 -->
+      <component
+          class="nablarch.integration.doma.batch.ee.listener.DomaTransactionStepListener" />
+    </list>
+
+    <list name="sampleJob.sampleStep.itemWriteListeners">
+      <!-- その他のリスナーは省略 -->
+      <component
+          class="nablarch.integration.doma.batch.ee.listener.DomaTransactionItemWriteListener" />
+    </list>
