@@ -270,14 +270,22 @@ ItemWriterレベルのリスナー
         <component class="nablarch.fw.batch.ee.listener.job.JobProgressLogListener" />
       </list>
 
+      <!-- デフォルトのステップレベルのリスナーリストの上書き -->
+      <!-- 本設定は「sample-step」ステップの実行時に適用される -->
+      <list name="sample-job.sample-step.stepListeners">
+        <component class="nablarch.fw.batch.ee.listener.step.StepProgressLogListener" />
+      </list>
+      
 ポイント
   * デフォルトのジョブレベルのリスナーリストのコンポーネント名は、 ``jobListeners`` とする。
   * デフォルトのステップレベルのリスナーリストのコンポーネント名は、 ``stepListeners`` とする。
   * デフォルトのItemWriterレベルのリスナーリストのコンポーネント名は、 ``itemWriteListeners`` とする。
   * デフォルトのリスナーリスト定義を上書きする場合は、コンポーネント名称を「ジョブ名称 + "." + 上書き対象のコンポーネント名」とする。 |br|
     例えば、「sample-job」でジョブレベルの定義を上書きする場合は、コンポーネント名を ``sample-job.jobListeners`` としてリスナーリストを定義する。
-
-
+  * 特定のステップでデフォルトのリスナーリスト定義を上書きする場合は、コンポーネント名称を「ジョブ名称 + "." + ステップ名称 + "." + 上書き対象のコンポーネント名」とする。 |br|
+    例えば、「sample-job」で定義されている「sample-step」で、デフォルトのステップレベルのリスナーリスト定義を上書きする場合は、コンポーネント名を ``sample-job.sample-step.stepListeners`` としてリスナーリストを定義する。
+  * 特定のステップで上書き出来るリスナーリストは、ステップレベルとItemWriterレベルのリスナーリストのみである。
+    
 .. |jsr352| raw:: html
 
   <a href="https://jcp.org/en/jsr/detail?id=352" target="_blank">JSR352(外部サイト、英語)</a>
