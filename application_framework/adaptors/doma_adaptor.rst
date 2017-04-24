@@ -129,7 +129,7 @@ JSR352に準拠したバッチアプリケーションで遅延ロードを行�
 ---------------------------------------------------------
 JSR352に準拠したバッチアプリケーションで大量データの読み込みを行う際に、遅延ロードを使用したい場合がある。
 
-その場合は、 Daoアノテーションのconfig属性に
+その場合は、Daoアノテーションのconfig属性に
 :java:extdoc:`DomaTransactionNotSupportedConfig<nablarch.integration.doma.DomaTransactionNotSupportedConfig>` を指定する。
 
 .. important::
