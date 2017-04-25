@@ -75,8 +75,14 @@ Daoインタフェースを作成する
 業務アクションのメソッドにデータベースアクセス処理を実装する。
 
 ポイント
- * データベースアクセスを行うメソッドには :java:extdoc:`Transactional<nablarch.integration.doma.Transactional>` インターセプタを設定する
+ * 業務アクションメソッドをトランザクション管理対象とするため、
+   :java:extdoc:`Transactional<nablarch.integration.doma.Transactional>` インターセプタを設定する
  * :java:extdoc:`DomaDaoRepository#get<nablarch.integration.doma.DomaDaoRepository.get(java.lang.Class)>` を使用してDaoの実装クラスをルックアップする
+
+  .. tip::
+
+    Domaでは注釈処理によってコンパイル時に自動的にDaoの実装クラスが生成されるため、コーディング時にはまだ実装クラスが存在しない。
+    そのため、本アダプタではDaoの実装クラスをルックアップする機能として :java:extdoc:`DomaDaoRepository<nablarch.integration.doma.DomaDaoRepository>` を提供している。
 
 .. code-block:: java
 
