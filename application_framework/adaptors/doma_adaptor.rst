@@ -242,3 +242,58 @@ ETL使用時に、プロジェクトで追加したステップの中でDomaを�
       <component
           class="nablarch.integration.doma.batch.ee.listener.DomaTransactionItemWriteListener" />
     </list>
+
+複数のデータベースにアクセスする
+--------------------------------------------------
+複数のデータベースにアクセスする必要がある場合は、新しくConfigクラスを作成し、
+別のデータベースへのアクセスはそのConfigクラスを使用して行うように実装する。
+
+実装例を以下に示す。
+
+コンポーネント定義ファイル
+  .. code-block:: xml
+
+    <component name="customDomaDialect" class="org.seasar.doma.jdbc.dialect.OracleDialect"  />
+    <component name="customDataSource" class="oracle.jdbc.pool.OracleDataSource">
+      <!-- プロパティは省略 -->
+    </component>
+
+Configクラス
+  .. code-block:: java
+
+    @SingletonConfig
+    public final class CustomConfig implements Config {
+
+        private CustomConfig() {
+            dialect = SystemRepository.get("customDomaDialect");
+            localTransactionDataSource =
+                    new LocalTransactionDataSource(SystemRepository.get("customDataSource"));
+            localTransaction = localTransactionDataSource.getLocalTransaction(getJdbcLogger());
+            localTransactionManager = new LocalTransactionManager(localTransaction);
+        }
+
+        // その他のフィールド、メソッドはDomaConfigを参考に実装すること
+    }
+
+Daoインタフェース
+  .. code-block:: java
+
+    @Dao(config = CustomConfig.class)
+    public interface ProjectDao {
+        // 省略
+    }
+
+
+業務アクションクラス
+  .. code-block:: java
+
+    public HttpResponse create(final HttpRequest request, final ExecutionContext context) {
+        final Project project = SessionUtil.delete(context, "project");
+
+        CustomConfig.singleton()
+                .getTransactionManager()
+                .requiresNew(() ->
+                        DomaDaoRepository.get(ProjectDao.class).insert(project);
+
+        return new HttpResponse("redirect://complete");
+    }
