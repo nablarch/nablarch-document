@@ -400,8 +400,4 @@ CAPTCHA画像を取得するJSPの実装例を以下に示す。
     public HttpResponse login(HttpRequest request, ExecutionContext context) {
       // 認証処理は省略
     }
-
-  
-
-CAPTCHA画像
-
+    
