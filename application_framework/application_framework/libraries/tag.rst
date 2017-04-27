@@ -1975,6 +1975,11 @@ valueFormat属性
 
     # パターンと言語を指定する場合。
     valueFormat="decimal{###,###,###.000|ja}"
+    
+  .. important::
+    本機能では値のフォーマットのみを行うため、丸め動作の設定は行わない。(:java:extdoc:`DecimalFormat <java.text.DecimalFormat>` のデフォルトが使用される。)
+    
+    丸め処理を行いたい場合には、アプリケーション側で処理を行い、本機能を用いてフォーマット処理を行うこと。
 
   .. important::
    :ref:`tag-text_tag` のvalueFormat属性を指定した場合、入力画面にもフォーマットした値が出力される。
