@@ -170,6 +170,25 @@
   このため `disabled="false"` のように記述した場合に意図した通りの表示とならない。
   このような場合は単に **disabled** 属性を削除すること。
 
+3. eventタグのstop属性値にtrueと設定しても動作しない(buttonタグ限定)
+   
+   以下の例にあるようなeventタグとbuttonタグをの組合せをローカルJSPレンダリング機能で実行すると、
+   ボタン押下後に出る確認ダイアログで、キャンセルを押下してもキャンセル処理が行なわれない。
+   確認ダイアログでキャンセル押下時の動作確認はアプリケーションサーバにデプロイしたうえで行うこと。
+
+  **eventタグとbuttonタグを組み合わせた例**
+
+  .. code-block:: jsp
+
+      <event:listen event="button#sample click">
+        <event:confirm message="更新します、よろしいですか？" stop="true">
+        </event:confirm>
+      </event:listen>
+      <button:check uri="/example.jsp" id="sample" 
+                    dummyUri="/dummy.jsp">
+      </button:check>
+
+
 -----------------------------------
 ローカル表示の仕組み
 -----------------------------------
