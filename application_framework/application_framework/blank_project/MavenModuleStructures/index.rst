@@ -198,6 +198,7 @@ JSR352に準拠したバッチアプリケーションのjarファイルとし�
     |
     |   pom.xml
     |   README.md
+    |   distribution.xml                        … maven-assembly-pluginで使用する設定ファイル
     |
     +---db
     |
@@ -258,6 +259,7 @@ Nablarchバッチアプリケーションのjarファイルとしてパッケー
     |
     |   pom.xml
     |   README.md
+    |   distribution.xml                        … maven-assembly-pluginで使用する設定ファイル
     |
     +---db
     |
