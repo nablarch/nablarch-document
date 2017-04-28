@@ -170,9 +170,11 @@
   このため `disabled="false"` のように記述した場合に意図した通りの表示とならない。
   このような場合は単に **disabled** 属性を削除すること。
 
-3. eventタグのstop属性値にtrueと設定しても動作しない(buttonタグ限定)
+.. _localrendering-limitation-eventconfirmtag:
+
+3. event:confirmタグのstop属性値にtrueと設定しても動作しない(buttonタグ限定)
    
-   以下の例にあるようなeventタグとbuttonタグをの組合せをローカルJSPレンダリング機能で実行すると、
+   以下の例にあるようなevent:confirmタグとbuttonタグの組合せをローカルJSPレンダリング機能で実行すると、
    ボタン押下後に出る確認ダイアログで、キャンセルを押下してもキャンセル処理が行なわれない。
    確認ダイアログでキャンセル押下時の動作確認はアプリケーションサーバにデプロイしたうえで行うこと。
 
