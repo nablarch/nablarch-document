@@ -137,9 +137,9 @@
 
 サブスレッドでの例外発生時の振る舞い
 --------------------------------------------------
-サブスレッド内で予期せぬ例外が発生した場合、親スレッド側で
+サブスレッド内で予期せぬ例外が発生した場合は、バッチアプリケーションを異常終了させるために
 :java:extdoc:`ThreadPoolExecutor#shutdownNow()<java.util.concurrent.ThreadPoolExecutor.shutdownNow()>`
-を呼び出して全てのサブスレッドの処理を強制的に終了する。
+を呼び出して、例外が発生していない他の処理中のサブスレッドを実行中のデータ処理完了後に安全に終了させる。
 
 もし、サブスレッド側に :ref:`database_connection_management_handler` 及び :ref:`transaction_management_handler` を設定している場合、
 トランザクション単位はサブスレッド毎となるため、サブスレッドの処理中に例外が発生した場合は以下の様な動作となる。
