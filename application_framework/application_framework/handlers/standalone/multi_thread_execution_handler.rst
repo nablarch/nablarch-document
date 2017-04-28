@@ -141,8 +141,8 @@
 :java:extdoc:`ThreadPoolExecutor#shutdownNow()<java.util.concurrent.ThreadPoolExecutor.shutdownNow()>`
 を呼び出して、例外が発生していない他の処理中のサブスレッドを実行中のデータ処理完了後に安全に終了させる。
 
-もし、サブスレッド側に :ref:`database_connection_management_handler` 及び :ref:`transaction_management_handler` を設定している場合、
-トランザクション単位はサブスレッド毎となるため、サブスレッドの処理中に例外が発生した場合は以下の様な動作となる。
+サブスレッド側に :ref:`database_connection_management_handler` 及び :ref:`transaction_management_handler` を設定して
+サブスレッド毎にトランザクション管理する場合に、サブスレッドで例外が発生した場合の親スレッド及びサブスレッドの動作は以下の様になる。
 
 1. 例外が発生したサブスレッドは処理が中断されロールバックされる。
 2. 親スレッドによって、データリーダがクローズされる。
