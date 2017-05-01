@@ -156,4 +156,4 @@
 .. important::
 
   :java:extdoc:`InterruptedException<java.lang.InterruptedException>` を捕捉している場合は、
-  親スレッド側に割り込みが発生したことを通知するため、自身のスレッドに再割り込みを行うなど適切にハンドリングすること。
+  割り込み要求により安全に処理できないことを示しているため、例外を送出する等で処理を異常終了させること。
