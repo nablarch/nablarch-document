@@ -624,7 +624,7 @@ LogFormatterの設定は、下記を想定する。
 1. ベースとなるWriterクラスのソースコードをプロジェクト側に取り込む(コピーする)。
    例えば、ファイルに出力するログの場合には、 :java:extdoc:`FileLogWriter <nablarch.core.log.basic.FileLogWriter>` をコピーする。
    
-2. 初期化ログを出力すしている箇所を削除する。
+2. 初期化ログを出力している箇所を削除する。
 
    :java:extdoc:`FileLogWriter <nablarch.core.log.basic.FileLogWriter>` の場合は、
    以下の修正例のように初期化メッセージを出力している箇所を削除する。
