@@ -611,6 +611,77 @@ LogFormatterの設定は、下記を想定する。
       }
   }
 
+ログの初期化メッセージを出力しないようにする
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+本機能では、各ロガーの初期化時に初期化メッセージをログに出力している。
+監視対象のログなどで、初期化メッセージが不要な場合には本機能が提供するWriterを元に、
+初期化メッセージを出力しないWriterを作成し対応する必要がある。
+
+なお、WebアプリケーションサーバなどやOSS製品とロガーを統一する目的などで :ref:`log_adaptor` を使用した場合は初期化メッセージは出力されないため、本対応は不要である。
+
+対応例を以下に示す。
+
+1. ベースとなるWriterクラスのソースコードをプロジェクト側に取り込む(コピーする)。
+   例えば、ファイルに出力するログの場合には、 :java:extdoc:`FileLogWriter <nablarch.core.log.basic.FileLogWriter>` をコピーする。
+   
+2. 初期化ログを出力すしている箇所を削除する。
+
+   :java:extdoc:`FileLogWriter <nablarch.core.log.basic.FileLogWriter>` の場合は、
+   以下の修正例のように初期化メッセージを出力している箇所を削除する。
+   
+   .. code-block:: java
+  
+    private void initializeWriter() {
+      try {
+        out = new BufferedOutputStream(new FileOutputStream(filePath, true), outputBufferSize);
+        currentFileSize = new File(filePath).length();
+        
+        // ここで行っていた初期化メッセージの出力処理を削除する
+        
+      } catch (IOException e) {
+        throw new IllegalArgumentException(String.format("failed to create %s. file name = [%s], encoding = [%s], buffer size =[%s]",
+            Writer.class.getName(), filePath, charset.displayName(), outputBufferSize), e);
+      }
+    }
+    
+3. ログ機能初期化後の初期化メッセージを出力しないよう変更する。
+
+  :java:extdoc:`needsToWrite <nablarch.core.log.CustomWriterTest.FileLogWriter.needsToWrite(nablarch.core.log.basic.LogContext)>` をオーバライドし、
+  初回に呼び出される初期化メッセージの出力を行わないよう変更する。  
+  
+  .. code-block:: java
+
+      /** 初回判定を行う為のフラグを定義する */
+      private boolean suppressionWriting = true;
+      
+      @Override
+      public boolean needsToWrite(final LogContext context) {
+        final String message = context.getMessage();
+        if (suppressionWriting) {
+          // 出力対象のログが「initialized.」から始まっていた場合は、
+          // 初期化メッセージであるため出力対象外であることを示す「false」を戻す。
+          if (StringUtil.hasValue(message) && message.startsWith("initialized.")) {
+            suppressionWriting = false;
+            return false;
+          }
+        }
+        return super.needsToWrite(context);
+      }
+      
+4. 作成したクラスをlog.propertiesに設定する。
+
+  プロジェクト側で作成したWriterのクラス名を、log.propertiesに設定する。
+  
+  設定例を以下に示す。
+
+  .. code-block:: properties
+
+    writerNames=sample
+    
+    # writerのクラス名に作成したクラスを指定する
+    # クラスの完全修飾名が「sample.CustomFileLogWriter」の場合の設定例
+    writer.sample.className = sample.CustomFileLogWriter
+
 .. _log-synchronous_file_log_writer_attention:
 
 SynchronousFileLogWriterを使用するにあたっての注意事項
