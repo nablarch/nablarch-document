@@ -622,7 +622,8 @@ Mapデータ
 以下に手順を示す。
 
 #. フィールドタイプを処理するための :java:extdoc:`DataType<nablarch.core.dataformat.convertor.datatype.DataType>` 実装クラスを作成する。
-#. 設定ファイルにフィールドタイプ定義を行う。
+#. 追加したフィールドタイプを有効にするため、フォーマットに応じたファクトリの継承クラスを作成する。
+#. 作成したファクトリクラスを、フォーマットに応じた設定クラスのプロパティに設定する。
 
 詳細な手順は以下のとおり。
 
@@ -634,76 +635,91 @@ Mapデータ
     標準のフィールドタイプ実装は、 :java:extdoc:`nablarch.core.dataformat.convertor.datatype` パッケージ配下に配置されている。
     実装を追加する際には、これらのクラスを参考にすると良い。
 
-設定ファイルへの追加
-  追加したフィールドタイプを有効にするために、設定ファイルにフィールドタイプの設定を追加する。
+フォーマットに応じたファクトリの継承クラスの作成
+  追加したフィールドタイプを有効にするためには、
+  フォーマットに応じたファクトリの継承クラスを作成する。
 
-  フィールドタイプは、各フォーマットタイプに応じた設定クラスの `convertorTable` プロパティに対して行う。
-  以下にフォーマットタイプ毎の設定クララスを示す。
+  以下にフォーマット毎のファクトリクラスを示す。
 
   .. list-table::
     :class: white-space-normal
     :header-rows: 1
-    :widths: 33 33 34
-    
-    * - データタイプ
-      - クラス名(コンポーネント名)
-      - デフォルトタイプ定義クラス
+
+    * - フォーマット
+      - ファクトリクラス名
+
+    * - Fixed(固定長)
+      - :java:extdoc:`FixedLengthConvertorFactory <nablarch.core.dataformat.convertor.FixedLengthConvertorFactory>`
+    * - Variable(可変長)
+      - :java:extdoc:`VariableLengthConvertorFactory <nablarch.core.dataformat.convertor.VariableLengthConvertorFactory>`
+    * - JSON
+      - :java:extdoc:`JsonDataConvertorFactory <nablarch.core.dataformat.convertor.JsonDataConvertorFactory>`
+    * - XML
+      - :java:extdoc:`XmlDataConvertorFactory <nablarch.core.dataformat.convertor.XmlDataConvertorFactory>`
+
+  Fixed(固定長)の場合の実装例を以下に示す。
+
+  .. code-block:: java
+
+    public class CustomFixedLengthConvertorFactory extends FixedLengthConvertorFactory {
+        @Override
+        protected Map<String, Class<?>> getDefaultConvertorTable() {
+            final Map<String, Class<?>> defaultConvertorTable = new CaseInsensitiveMap<Class<?>>(
+                    new ConcurrentHashMap<String, Class<?>>(super.getDefaultConvertorTable()));
+            defaultConvertorTable.put("custom", CustomType.class);
+            return Collections.unmodifiableMap(defaultConvertorTable);
+        }
+    }
+
+フォーマットに応じた設定クラスのプロパティに設定
+  フォーマットに応じた設定クラスのプロパティに、先ほど作成したファクトリクラスを設定する。
+
+  以下にフォーマット毎の設定クラスとプロパティを示す。
+
+  .. list-table::
+    :class: white-space-normal
+    :header-rows: 1
+
+    * - フォーマット
+      - 設定クラス名(コンポーネント名)
+      - プロパティ名
 
     * - Fixed(固定長)
       - :java:extdoc:`FixedLengthConvertorSetting <nablarch.core.dataformat.convertor.FixedLengthConvertorSetting>`
         (fixedLengthConvertorSetting)
-      - :java:extdoc:`FixedLengthConvertorFactory <nablarch.core.dataformat.convertor.FixedLengthConvertorFactory>`
+      - :java:extdoc:`fixedLengthConvertorFactory <nablarch.core.dataformat.convertor.FixedLengthConvertorSetting.setFixedLengthConvertorFactory\-nablarch.core.dataformat.convertor.FixedLengthConvertorFactory\->`
     * - Variable(可変長)
       - :java:extdoc:`VariableLengthConvertorSetting <nablarch.core.dataformat.convertor.VariableLengthConvertorSetting>`
         (variableLengthConvertorSetting)
-      - :java:extdoc:`VariableLengthConvertorFactory <nablarch.core.dataformat.convertor.VariableLengthConvertorFactory>`
+      - :java:extdoc:`variableLengthConvertorFactory <nablarch.core.dataformat.convertor.VariableLengthConvertorSetting.setVariableLengthConvertorFactory(nablarch.core.dataformat.convertor.VariableLengthConvertorFactory)>`
     * - JSON
       - :java:extdoc:`JsonDataConvertorSetting <nablarch.core.dataformat.convertor.JsonDataConvertorSetting>`
         (jsonDataConvertorSetting)
-      - :java:extdoc:`JsonDataConvertorFactory <nablarch.core.dataformat.convertor.JsonDataConvertorFactory>`
+      - :java:extdoc:`jsonDataConvertorFactory <nablarch.core.dataformat.convertor.JsonDataConvertorSetting.setJsonDataConvertorFactory(nablarch.core.dataformat.convertor.JsonDataConvertorFactory)>`
     * - XML
       - :java:extdoc:`XmlDataConvertorSetting <nablarch.core.dataformat.convertor.XmlDataConvertorSetting>`
         (xmlDataConvertorSetting)
-      - :java:extdoc:`XmlDataConvertorFactory <nablarch.core.dataformat.convertor.XmlDataConvertorFactory>`
+      - :java:extdoc:`xmlDataConvertorFactory <nablarch.core.dataformat.convertor.XmlDataConvertorSetting.setXmlDataConvertorFactory(nablarch.core.dataformat.convertor.XmlDataConvertorFactory)>`
 
-  以下にFixed(固定長)の場合の例を示す。
-
-  コンポーネント名は、上記表のコンポーネント名を設定する。固定長の場合は、 `fixedLengthConvertorSetting` となる。
-
-  追加したフィールドタイプを設定する際には、デフォルトのフィールドタイプ及びフィールドコンバータの設定を合わせて設定する。
-  デフォルトのフィールドタイプ及びフィールドコンバータの設定は、上記表のデフォルトタイプ定義クラスの実装から転記すること。
+  Fixed(固定長)の場合の設定例を以下に示す。
 
   .. code-block:: xml
 
     <component name="fixedLengthConvertorSetting"
         class="nablarch.core.dataformat.convertor.FixedLengthConvertorSetting">
-
-      <property name="convertorTable">
-        <map>
-          <!-- デフォルトの設定ここから -->
-          <entry key="X" value="nablarch.core.dataformat.convertor.datatype.SingleByteCharacterString" />
-          <entry key="N" value="nablarch.core.dataformat.convertor.datatype.DoubleByteCharacterString" />
-          <entry key="XN" value="nablarch.core.dataformat.convertor.datatype.ByteStreamDataString" />
-          <entry key="Z" value="nablarch.core.dataformat.convertor.datatype.ZonedDecimal" />
-          <entry key="SZ" value="nablarch.core.dataformat.convertor.datatype.SignedZonedDecimal" />
-          <entry key="P" value="nablarch.core.dataformat.convertor.datatype.PackedDecimal" />
-          <entry key="SP" value="nablarch.core.dataformat.convertor.datatype.SignedPackedDecimal" />
-          <entry key="X9" value="nablarch.core.dataformat.convertor.datatype.NumberStringDecimal" />
-          <entry key="SX9" value="nablarch.core.dataformat.convertor.datatype.SignedNumberStringDecimal" />
-          <entry key="B" value="nablarch.core.dataformat.convertor.datatype.Bytes" />
-
-          <entry key="pad" value="nablarch.core.dataformat.convertor.value.Padding" />
-          <entry key="encoding" value="nablarch.core.dataformat.convertor.value.UseEncoding" />
-          <entry key="_LITERAL_" value="nablarch.core.dataformat.convertor.value.DefaultValue" />
-          <entry key="number" value="nablarch.core.dataformat.convertor.value.NumberString" />
-          <entry key="signed_number" value="nablarch.core.dataformat.convertor.value.SignedNumberString" />
-          <entry key="replacement" value="nablarch.core.dataformat.convertor.value.CharacterReplacer" />
-
-          <!-- 追加したフィールドタイプの定義 -->
-          <entry key="SAMPLE_TYPE" value="sample.SampleType" />
-        </map>
+      <property name="fixedLengthConvertorFactory">
+        <component class="com.sample.CustomFixedLengthConvertorFactory" />
       </property>
     </component>
+
+.. important::
+
+  フォーマットに応じた設定クラスの `convertorTable` プロパティを使用してフィールドタイプを追加することもできるが、
+  以下の理由により使用は推奨しない。
+
+  * 追加したいフィールドタイプだけでなく、元々デフォルトで定義されていたフィールドタイプも全て設定する必要があり、手間がかかる。
+  * デフォルト定義はファクトリクラスに実装されており、ソースコードをもとにコンポーネント定義ファイルに設定を追加していく必要があるため、
+    設定ミスを起こしやすい。
 
 .. _data_format-xml_content_name_change:
 
