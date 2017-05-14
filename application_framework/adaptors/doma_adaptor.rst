@@ -27,12 +27,11 @@ Domaアダプタ
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-doma-adaptor</artifactId>
   </dependency>
+  
+.. tip::
 
-  <!-- Doma -->
-  <dependency>
-    <groupId>org.seasar.doma</groupId>
-    <artifactId>doma</artifactId>
-  </dependency>
+  Domaのバージョン2.16.0を使用してテストを行っている。
+  バージョンを変更する場合は、プロジェクト側でテストを行い問題ないことを確認すること。
 
 Domaアダプタを使用するための設定を行う
 --------------------------------------------------
