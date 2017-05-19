@@ -69,16 +69,7 @@
     * ブラウザのJavaScriptが無効になっている場合等を考慮して、サーバサイドでも二重サブミットの制御を行う。
 
 登録完了画面の表示処理を実装する
-  登録完了メッセージの設定と、登録完了画面の表示処理の実装を行う。
-
-  完了メッセージを追加する
-    messages.propertiesに新規メッセージを追加する。
-
-    messages.properties
-      .. code-block:: jproperties
-
-        #その他のメッセージは省略
-        success.insert.client=顧客の登録が完了しました。
+  登録完了画面の表示処理の実装を行う。
 
   業務アクションメソッドを実装する
     登録完了画面の表示処理を実装する。
@@ -91,28 +82,36 @@
         }
 
   登録完了画面のJSPを作成する
-    ひな形となるJSPを `WEB-INF/view/client` 配下に配置する。
+    登録完了画面のJSPを新規作成する。
 
-     :download:`complete.jsp <../downloads/client_create/complete.jsp>`
+    /src/main/webapp/WEB-INF/view/client/complete.jsp
+      .. code-block:: jsp
 
-  登録完了画面を修正する
-    メッセージエリアを追加する。
-
-      /src/main/webapp/WEB-INF/view/client/complete.jsp
-        .. code-block:: jsp
-
-          <div class="title-nav">
-              <span class="page-title">顧客登録完了画面</span>
-          </div>
-
-          <!-- メッセージエリア -->
-          <div class="message-area">
-              <n:message messageId="success.insert.client"/>
-          </div>
-
-    この実装のポイント
-      * :ref:`message` を利用し、 :ref:`tag-message_tag` で登録完了メッセージを表示する。
-      * :ref:`tag-write_message` を参照。
+        <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+        <%@ taglib prefix="n" uri="http://tis.co.jp/nablarch" %>
+        <%@ page session="false" %>
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <title>顧客登録完了画面</title>
+            </head>
+            <body>
+                <n:include path="/WEB-INF/view/common/menu.jsp" />
+                <n:include path="/WEB-INF/view/common/header.jsp" />
+                <div class="container-fluid mainContents">
+                    <section class="row">
+                        <div class="title-nav">
+                            <span class="page-title">顧客登録完了画面</span>
+                        </div>
+                        <div class="message-area message-info">
+                            顧客の登録が完了しました。
+                        </div>
+                    </section>
+                </div>
+                <n:include path="/WEB-INF/view/common/footer.jsp" />
+            </body>
+        </html>
 
 動作確認を行う
   以下の手順で、登録処理が正しく実装されていることを確認する。
