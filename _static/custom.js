@@ -1,6 +1,5 @@
 $(function () {
   var form = $('#google-search-form');
-  var version = $('#document-version').val();
   var q = $('#q');
   var text = $('#text');
   var url = 'nablarch.github.io/docs/LATEST/doc';
