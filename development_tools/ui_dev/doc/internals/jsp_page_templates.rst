@@ -72,34 +72,32 @@ _                            ローカル サーバ  _                          
 エラー画面共通テンプレート   △        ○       /WEB-INF/tags/template/\        共通エラー画面を実装するテンプレート。
                                               errorpage_template.tag
 
-トップナビゲーション領域JSP  △        ○       /WEB-INF/include/ |br|                    業務画面のトップナビゲーション領域を
+トップナビゲーション領域JSP  △        ○       /WEB-INF/include/ |br|            業務画面のトップナビゲーション領域を
                                               * app_top_nav.jsp |br|            実装するJSP。|br|
                                               * subwindow_app_top_nav.jsp       |br|
                                                                                 **subwindow_app_top_nav.jsp**\ は、 |br|
                                                                                 サブウィンドウ用
 
-ヘッダー領域JSP              △        ○       /WEB-INF/include/ |br|                    業務画面のヘッダー領域を実装するJSP。 |br|
+ヘッダー領域JSP              △        ○       /WEB-INF/include/ |br|           業務画面のヘッダー領域を実装するJSP。 |br|
                                               * app_header.jsp |br|             |br|
                                               * subwindow_app_header.jsp        **subwindow_app_header.jsp**\ は、 |br|
                                                                                 サブウィンドウ用
 
-サイドメニュー領域JSP        △        ○       /WEB-INF/include/app_aside.jsp            業務画面のサイドメニュー領域を実装するJSP。
+サイドメニュー領域JSP        △        ○       /WEB-INF/include/app_aside.jsp    業務画面のサイドメニュー領域を実装するJSP。
 
-フッター領域JSP              △        ○       /WEB-INF/include/ |br|                    業務画面のフッター領域を実装するJSP。|br|
+フッター領域JSP              △        ○       /WEB-INF/include/ |br|           業務画面のフッター領域を実装するJSP。|br|
                                               * app_footer.jsp |br|             |br|
                                               * subwindow_app_footer.jsp        **subwindow_app_footer.jsp**\ は、 |br|
                                                                                 サブウィンドウ用
 
-HTMLヘッド部定義JSP          △        ○       /WEB-INF/include/html_head.jsp            HTMLの<head>タグの内容を定義するJSP。|br|
+HTMLヘッド部定義JSP          △        ○       /WEB-INF/include/html_head.jsp    HTMLの<head>タグの内容を定義するJSP。|br|
                                                                                 キャッシュ制御用の<meta>タグや、cssの |br|
                                                                                 読み込みなどを制御している。
 
-外部スクリプト定義JSP        △        ○       /WEB-INF/include/js_include.jsp         HTMLの<script>タグによる外部スクリプト |br|
-                                                                              参照を定義するJSP。
+外部スクリプト定義JSP        △        ○       /WEB-INF/include/js_include.jsp   HTMLの<script>タグによる外部スクリプト参照を定義するJSP。
 
-ローカル動作用スタブ         ○        ×       /js/jsp/taglib/template.js      ローカル動作時に当該のタグファイルを |br|
-                                                                              読み込んでレンダリングするJavaScript。
-
+ローカル動作用スタブ         ○        ×        /js/jsp/taglib/template.js         ローカル動作時に当該のタグファイルを読み込んでレンダリングするJavaScript。
+                                                                                
 ============================ ======== ======= =============================== ===================================================
 
 .. [#1]
@@ -193,15 +191,15 @@ UI標準に沿った業務画面の基本構造を実装するタグファイル
 **インクルードファイル一覧**
 
   =========================== =======================================  =============================================================
-  名称                        パス                                     内容
+  名称                        パス                                      内容
   =========================== =======================================  =============================================================
-  HTMLヘッド部                /WEB-INF/include/html_head.jsp                   **<head>**\ タグに以下の内容を出力する。|br|
+  HTMLヘッド部                /WEB-INF/include/html_head.jsp            **<head>**\ タグに以下の内容を出力する。|br|
+  
                                                                         - **<meta>**\ タグ (キャッシュ関連のHTTPヘッダなど)
                                                                         - **<title>**\ タグ
                                                                         - **<link>**\ タグ (共通CSSファイルのインクルードなど)
 
-  JavaScriptファイルロード部  /WEB-INF/include/js_include.jsp                  **<body>**\ の閉じタグの直前に、JavaScriptファイルの |br|
-                                                                       読み込み処理(\ **<script src>**\ )を出力する。
+  JavaScriptファイルロード部  /WEB-INF/include/js_include.jsp           **<body>**\ の閉じタグの直前に、JavaScriptファイルの読み込み処理(\ **<script src>**\ )を出力する。
   =========================== =======================================  =============================================================
 
 .. _page_template_tag:
