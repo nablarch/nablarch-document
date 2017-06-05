@@ -137,6 +137,22 @@ JSR352に準拠したバッチアプリケーションでもDomaを使用した�
     <component class="nablarch.integration.doma.batch.ee.listener.DomaTransactionItemWriteListener" />
   </list>
 
+.. important::
+
+  :ref:`Chunkステップ <jsr352-batch_type_chunk>` のItemWriterでデータベースに対するバッチ更新(バッチinsertやバッチupdateなど)を行う場合、バッチサイズの指定を明示的に行う必要がある。
+  ※Chunkステップのitem-countのサイズがバッチサイズとなるわけではないので注意すること
+
+  これを行わなかった場合、Domaのデフォルト値が適用されるため、バッチ更新を使用してもパフォーマンスが向上しない可能性がある。
+
+  実装例
+    例えば、1000件ごとにバッチinsertを行う場合には、Daoのメソッドを以下のように実装する。
+
+    .. code-block:: java
+
+      @BatchInsert(batchSize = 1000)
+      int[] batchInsert(List<Bonus> bonuses);
+
+
 JSR352に準拠したバッチアプリケーションで遅延ロードを行う
 ---------------------------------------------------------
 JSR352に準拠したバッチアプリケーションで大量データの読み込みを行う際に、遅延ロードを使用したい場合がある。
