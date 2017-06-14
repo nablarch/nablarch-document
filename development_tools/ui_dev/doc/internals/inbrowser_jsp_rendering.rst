@@ -172,23 +172,12 @@
 
 .. _localrendering-limitation-eventconfirmtag:
 
-3. event:confirmタグのstop属性値にtrueと設定しても動作しない(buttonタグ限定)
-   
-   以下の例にあるようなevent:confirmタグとbuttonタグの組合せをローカルJSPレンダリング機能で実行すると、
-   ボタン押下後に出る確認ダイアログで、キャンセルを押下してもキャンセル処理が行なわれない。
-   確認ダイアログでキャンセル押下時の動作確認はアプリケーションサーバにデプロイしたうえで行うこと。
+3. イベントに関連した動作が不安定(ブラウザによって挙動も異なる)
 
-  **eventタグとbuttonタグを組み合わせた例**
-
-  .. code-block:: jsp
-
-      <event:listen event="button#sample click">
-        <event:confirm message="更新します、よろしいですか？" stop="true">
-        </event:confirm>
-      </event:listen>
-      <button:check uri="/example.jsp" id="sample" 
-                    dummyUri="/dummy.jsp">
-      </button:check>
+  eventタグを使用した場合やJavaScriptでnablarch/ui/event.jsで定義されたイベントに対するリスナーを登録した場合の動作が、
+  ブラウザによってことなったりリスナーがコールバックされないと言った問題がある。
+  
+  このため、これらの実装部分の確認はアプリケーションサーバにデプロイし行うこと。
 
 
 -----------------------------------
