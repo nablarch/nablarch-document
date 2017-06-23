@@ -21,7 +21,11 @@ Nablarch UI開発基盤 解説書
   * `less <http://less-ja.studiomohawk.com/>`_
 
   部品の仕様を少しでも変更したい場合であっても、難易度の高いカスタマイズが必要である。
-  また、部品を縦に並べて画面を構成しない場合（:doc:`internals/multicol_css_framework` を使用する場合）は画面デザインの難易度が高い。
+  特に、部品を縦に並べて画面を構成しない場合（:doc:`internals/multicol_css_framework` を使用する場合）は画面デザインの難易度が高い。
+
+  また、UI開発基盤はNablarch1.4をベースに構築されている。
+  このため、Nablarch5から追加された機能には対応していないものがある。
+  例えば、 :ref:`universal_dao` に対応していない問題や、 非推奨機能の :ref:`ウィンドウスコープ <tag-window_scope>` が前提となっている問題がある。
 
   これらの点を考慮してUI開発基盤の使用を検討すること。
 
