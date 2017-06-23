@@ -39,18 +39,18 @@ Nablarchアプリケーションフレームワーク
 
   | :doc:`モジュール一覧 <about_nablarch/mvn_module>`
   | :doc:`解説書 <application_framework/application_framework/index>`
-
+  | :doc:`アダプタ <application_framework/adaptors/index>`
+  | :doc:`Example <application_framework/example/index>`
 
 -----------------------------------------------
 Nablarch拡張コンポーネント
 -----------------------------------------------
 
-ETL基盤
+帳票ライブラリ
 ===========================
 
-  | :doc:`解説書 <extension_components/etl/index>`
-  | :doc:`ETL Mavenプラグイン <extension_components/etl/etl_maven_plugin>`
-
+  | :doc:`解説書 <extension_components/report/index>` | `サンプルアプリケーション <https://github.com/nablarch/nablarch-report-sample>`__
+  
 ワークフローライブラリ
 ===========================
 
@@ -58,11 +58,11 @@ ETL基盤
   | :download:`ワークフロー設計ガイド <extension_components/workflow/design_guide/ワークフロー設計ガイド.docx>` | :doc:`ワークフロー定義データ自動生成ツール <extension_components/workflow/tool/doc/index>` |
   | :doc:`ワークフローアプリケーション実装ガイド <extension_components/workflow/sample_application/doc/index>` | `サンプルアプリケーション <https://github.com/nablarch/nablarch-workflow-sample/>`_
 
-
-帳票ライブラリ
+ETL基盤
 ===========================
 
-  | :doc:`解説書 <extension_components/report/index>` | `サンプルアプリケーション <https://github.com/nablarch/nablarch-report-sample>`__
+  | :doc:`解説書 <extension_components/etl/index>`
+  | :doc:`ETL Mavenプラグイン <extension_components/etl/etl_maven_plugin>`
 
 
 -----------------------------------------------
