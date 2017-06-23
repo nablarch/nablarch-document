@@ -28,7 +28,16 @@
 
 データベースアクセス
 --------------------------------------------------
+.. toctree::
+  :maxdepth: 1
+  :hidden:
+
+  feature_details/database_reader
+
 * :ref:`データベースアクセス <database_management>`
+* :doc:`feature_details/database_reader`
+
+
 
 ファイル入出力
 --------------------------------------------------
