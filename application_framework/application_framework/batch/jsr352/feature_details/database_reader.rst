@@ -7,7 +7,7 @@
 データベースから処理対象データを抽出する場合は、JSR352で提供されているリーダではなく
 本機能で提供する :java:extdoc:`BaseDatabaseItemReader <nablarch.fw.batch.ee.chunk.BaseDatabaseItemReader>` を実装すること。
 
-:java:extdoc:`BaseDatabaseItemReader <nablarch.fw.batch.ee.chunk.BaseDatabaseItemReader>` 実装することで、
+:java:extdoc:`BaseDatabaseItemReader <nablarch.fw.batch.ee.chunk.BaseDatabaseItemReader>` を実装することで、
 リーダ専用のデータベース接続を使用してデータを抽出できる。
 これにより、トランザクション制御時にカーソルを自動的にクローズするデータベースの場合でも、
 データベースを入力とするChunkステップを実現できる。
@@ -53,7 +53,7 @@
     }
 
     /**
-     * readItemはでは、次の1レコードを返す。
+     * readItemでは、次の1レコードを返す。
      * なお、データが存在しない場合や最後まで処理した場合はnullを返す。
      */
     @Override
