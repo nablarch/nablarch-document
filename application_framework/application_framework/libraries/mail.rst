@@ -599,3 +599,22 @@
 リトライ対象の例外を変更するなど、アプリケーションの要件によって変更したい場合がある。
 
 そのような場合は、上の例と同様、:java:extdoc:`MailSender<nablarch.common.mail.MailSender>` を継承したクラスを作成して対応する。
+
+メール送信要求時に利用するトランザクションを指定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+メール送信要求 :java:extdoc:`MailSender<nablarch.common.mail.MailSender>` で実行されるトランザクションを、
+業務トランザクションとは独立して指定したい場合がある。
+
+その場合の設定例を以下に示す。
+
+ .. code-block:: xml
+
+  <!-- メール送信要求コンポーネント -->
+  <component name="mailRequester" class="nablarch.common.mail.MailRequester">
+    <!-- メール送信に用いるトランザクションを指定 -->
+    <property name="mailTransactionManager" value="txManager" />
+
+  </component>
+  <!-- トランザクションマネージャ  -->
+  <component name="txManager" class="nablarch.core.db.transaction.SimpleDbTransactionManager">
+  </component>
