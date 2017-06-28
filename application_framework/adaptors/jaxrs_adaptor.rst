@@ -34,6 +34,23 @@ JAX-RSアダプタ
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-resteasy-adaptor</artifactId>
   </dependency>
+  
+.. tip::
+
+  jacksonのバージョン2.7.0及び1.9.13を使用してテストを行っている。
+  バージョンを変更する場合は、プロジェクト側でテストを行い問題ないことを確認すること。
+  
+  jacksonの1系(nablarch.integration.jaxrs.jackson.Jackson1BodyConverter)を使用する場合には、
+  jackson1系への依存を追加すること。
+  
+  .. code-block:: xml
+  
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.9.13</version>
+    </dependency>
+    
 
 Jersey環境下でRESTfulウェブサービスを利用する
 --------------------------------------------------

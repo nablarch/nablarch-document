@@ -98,19 +98,24 @@ UIプラグインの構造
       │    │     └── ui
       │    │            └── field-calendar.less
       │    ├── img
-      │    ├── include
       │    ├── js
       │    │     └── nablarch
       │    │           └── ui
       │    │                 ├── DatePicker.js
       │    │                 └── DatePicker.template
       │    └── WEB-INF
+      │          ├── include
       │          └── tags
       │                └── widget
       │                      └── field
       │                            └── calendar.tag
       └── ui_test                     # テスト/動作デモ用ソースコード
 
+.. important::
+
+  UIプラグインが提供するJSPは、原則 ``WEB-INF`` 配下に配置する。
+  ただし、 ``ui_test`` 配下にテスト用に作成したJSPは、 :ref:`サーバ稼働確認 <ui_test_server>` にて、ブラウザから直接JSPにアクセスする。
+  このため、 ``WEB-INF`` 配下ではなく ``ui_test`` 配下にディレクトリを作成して配置する必要がある。
 
 --------------------------------------
 UIプラグインのバージョンについて
