@@ -1,6 +1,10 @@
 {%- set metatags="<meta http-equiv='content-language' content='ja'>" %}
 {% extends "!layout.html" %}
 
+{% block linktags %}
+  <link rel="canonical" href="https://nablarch.github.io/docs/LATEST/doc/{{ pagename }}.html" />
+{% endblock %}
+
 {% block sidebartitle %}
   {% if logo and theme_logo_only %}
   <a href="{{ pathto(master_doc) }}">
