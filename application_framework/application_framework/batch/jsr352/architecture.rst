@@ -18,6 +18,14 @@
 .. image:: images/jsr352-configuration-diagram.png
   :scale: 75
 
+.. important::
+
+  JobContext及びStepContextの一時領域( ``TransientUserData`` )を使用することは
+  グローバル領域に値を保持することと同義となるため、アプリケーション側で使用してはならない。
+
+  なお、StepContextの一時領域については、 :java:extdoc:`StepScoped<nablarch.fw.batch.ee.cdi.StepScoped>` でステップ内で値を共有をするために使用しているため、
+  アプリケーション側ではStepContextの一時領域は使用できない。
+
 .. _jsr352-batch_type:
 
 バッチの種類
