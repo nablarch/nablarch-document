@@ -546,3 +546,9 @@ assertSqlResultSetEqualsメソッドに関する注意点
 :ref:`master_data_backup` と同じ機能を用いて、テーブルの親子関係を判断しデータの削除及び登録を行う。
 詳細は :ref:`MasterDataRestore-fk_key` を参照。
 
+Excelファイルに記述できるカラムのデータ型に関する注意点
+=======================================================
+Excelファイルには、:java:extdoc:`SqlPStatement <nablarch.core.db.statement.SqlPStatement>` で対応している型のカラムのみ
+テストデータとして記述することができる。
+
+そのため、それ以外のデータ型(例えば、OracleのROWIDやPostgreSQLのOIDなど)のカラムはテストデータとして記述できない点に注意すること。
