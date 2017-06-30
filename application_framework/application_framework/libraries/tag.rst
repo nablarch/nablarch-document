@@ -541,6 +541,12 @@ HTMLのcheckboxタグは、チェックなしの場合にリクエストパラ�
 デフォルトで全ての :ref:`tag-form_tag` で暗号化を行い、全てのリクエストで復号及び改竄チェックを行う。
 このため、アプリケーションプログラマは、hidden暗号化機能に関して実装する必要がない。
 
+.. important::
+ 
+ 仕様が複雑であり容易に使用することができない、また :ref:`ウィンドウスコープ <tag-window_scope>` にあるように
+ 暗号化対象のデータの使用が非推奨であるため本機能も非推奨とする。
+ このため、特に理由がない限り :ref:`useHiddenEncryption <tag-use_hidden_encryption>` には ``false`` を設定すること。
+
 hidden暗号化
  hidden暗号化は、 :ref:`tag-form_tag` と :ref:`nablarch_tag_handler` により実現する。
  hidden暗号化の処理イメージを以下に示す。
@@ -595,13 +601,11 @@ hidden暗号化
 hidden暗号化の設定
  hidden暗号化では、 :ref:`tag-setting` により、以下の設定ができる。
 
+ .. _tag-use_hidden_encryption:
+ 
  useHiddenEncryptionプロパティ
   hidden暗号化を使用するか否か。
   デフォルトはtrue。
-  開発時にHTMLソース上でhiddenタグの内容を確認する場合に指定する。
-
-  .. important::
-   本番環境では必ず暗号化を行うこと。
 
  noHiddenEncryptionRequestIdsプロパティ
   hidden暗号化を行わないリクエストID。
@@ -1400,6 +1404,18 @@ BLOB型カラムのダウンロードの実装例
 :ref:`tag-ignore_confirmation_tag`
  確認画面で、確認画面向けの表示を無効化したい部分に指定する。
  例えば、チェックボックスを使用した項目で、確認画面でもチェック欄を表示したい場合などに使用する。
+ 
+.. tip::
+
+  入力・確認画面の表示制御は入力系のタグが対象となる。
+  ただし、以下のタグに関しては異なる動作となる。
+ 
+  :ref:`tag-plain_hidden_tag`
+    画面遷移の状態などを画面間で受け渡す目的で使用することを想定し、入力・確認画面ともに出力する。
+   
+  :ref:`tag-hidden_store_tag`
+    :ref:`session_store` に保存したデータを画面間で受け渡すために使用するため、入力・確認画面ともに出力する。
+ 
 
 実装例
  以下の画面出力を行うJSPの実装例を示す。
@@ -1959,6 +1975,11 @@ valueFormat属性
 
     # パターンと言語を指定する場合。
     valueFormat="decimal{###,###,###.000|ja}"
+    
+  .. important::
+    本機能では値のフォーマットのみを行うため、丸め動作の設定は行わない。(:java:extdoc:`DecimalFormat <java.text.DecimalFormat>` のデフォルトが使用される。)
+    
+    丸め処理を行いたい場合には、アプリケーション側で処理を行い、本機能を用いてフォーマット処理を行うこと。
 
   .. important::
    :ref:`tag-text_tag` のvalueFormat属性を指定した場合、入力画面にもフォーマットした値が出力される。

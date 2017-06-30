@@ -64,6 +64,7 @@ JAX-RSレスポンスハンドラ
     </property>
   </component>
 
+
 .. _jaxrs_response_handler-error_log:
 
 例外及びエラーに応じたログ出力
@@ -80,7 +81,76 @@ JAX-RSレスポンスハンドラ
 
   <component class="nablarch.fw.jaxrs.JaxRsResponseHandler">
     <property name="errorLogWriter">
-      <component class="sample..SampleJaxRsErrorLogWriter" />
+      <component class="sample.SampleJaxRsErrorLogWriter" />
     </property>
   </component>
 
+拡張例
+--------------------------------------------------
+
+.. _jaxrs_response_handler-error_response_body:
+
+エラー時のレスポンスにメッセージを設定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+バリデーションエラー発生時など、エラーレスポンスのボディにエラーメッセージを設定して返却したい場合がある。
+このような場合は、 :java:extdoc:`ErrorResponseBuilder <nablarch.fw.jaxrs.ErrorResponseBuilder>` の継承クラスを作成して対応する。
+
+以下に、JSON形式のエラーメッセージをレスポンスに設定する場合の実装例を示す。
+
+.. code-block:: java
+
+  public class SampleErrorResponseBuilder extends ErrorResponseBuilder {
+
+      private final ObjectMapper objectMapper = new ObjectMapper();
+
+      @Override
+      public HttpResponse build(final HttpRequest request,
+              final ExecutionContext context, final Throwable throwable) {
+          if (throwable instanceof ApplicationException) {
+              return createResponseBody((ApplicationException) throwable);
+          } else {
+              return super.build(request, context, throwable);
+          }
+      }
+
+      private HttpResponse createResponseBody(final ApplicationException ae) {
+          final HttpResponse response = new HttpResponse(400);
+          response.setContentType(MediaType.APPLICATION_JSON);
+
+          // エラーメッセージの生成処理は省略
+
+          try {
+              response.write(objectMapper.writeValueAsString(errorMessages));
+          } catch (JsonProcessingException ignored) {
+              return new HttpResponse(500);
+          }
+          return response;
+      }
+  }
+
+.. _jaxrs_response_handler-individually_error_response:
+
+特定のエラーの場合に個別に定義したエラーレスポンスを返却する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+本ハンドラの後続の処理で発生したエラーに対し、
+個別にステータスコードやボディを定義したエラーレスポンスを返却したい場合がある。
+
+その場合は :java:extdoc:`ErrorResponseBuilder <nablarch.fw.jaxrs.ErrorResponseBuilder>` の継承クラスを作成し、
+送出された例外に応じたレスポンスの生成処理を個別に実装する。
+
+実装例を以下に示す。
+
+.. code-block:: java
+
+  public class SampleErrorResponseBuilder extends ErrorResponseBuilder {
+
+      @Override
+      public HttpResponse build(final HttpRequest request,
+              final ExecutionContext context, final Throwable throwable) {
+          if (throwable instanceof NoDataException) {
+              return new HttpResponse(404);
+          } else {
+              return super.build(request, context, throwable);
+          }
+      }
+  }
