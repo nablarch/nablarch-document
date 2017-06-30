@@ -366,38 +366,3 @@ CAPTCHA画像を取得するJSPの実装例を以下に示す。
         }
     }
 
-
-認証エラー時のCAPTCHA画像の取得方法
-=============================================================================================
-認証エラー時には、認証画像を再取得し認証画面に表示する必要がある。
-しかしながら、認証エラー時には例外が送出されトランザクションがロールバックされるため、
-アクションで識別キーを生成してもCAPTCHA管理テーブルに情報が保存できない問題が発生する。
-
-このため、認証エラー時には以下の方法で識別キーを生成しCAPTCHA画像を取得すること。
-
-内部フォワードを使用して識別キーを生成しCAPTCHA画像を表示させる
-  認証処理を行うActionのエラー時遷移先には、認証画面表示用のActionを指定する。
-  標準ハンドラ構成で内部フォワードを使用した場合、内部フォワード後のActionは別トランザクションで処理が行われるため、
-  トランザクションがロールバックされる問題を回避することができる。
-  
-  以下に例を示す。
-  
-  .. code-block:: java
-  
-    // 認証画面表示処理
-    public HttpResponse index(HttpRequest request, ExecutionContext context) {
-      // 識別キーを生成しリクエストスコープに設定する
-      context.setRequestScopedVar("captchaKey", CaptchaUtil.generateKey());
-      return new HttpResponse("/WEB-INF/view/login/index.jsp");
-    }
-
-    // 認証処理
-    // エラー時の遷移先は、上記の認証画面表示Actionとする
-    @OnErrors({
-            @OnError(type = ApplicationException.class, path = "forward://index"),
-            @OnError(type = AuthenticationException.class, path = "forward://index")
-    })
-    public HttpResponse login(HttpRequest request, ExecutionContext context) {
-      // 認証処理は省略
-    }
-    

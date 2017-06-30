@@ -23,10 +23,11 @@
     <artifactId>nablarch-router-adaptor</artifactId>
   </dependency>
 
-.. tip::
-  
-  http-request-routerのバージョン0.1.0を使用してテストを行っている。
-  バージョンを変更する場合は、プロジェクト側でテストを行い問題ないことを確認すること。
+  <!-- http-request-router -->
+  <dependency>
+    <groupId>net.unit8</groupId>
+    <artifactId>http-request-router</artifactId>
+  </dependency>
 
 ルーティングアダプタを使用するための設定を行う
 --------------------------------------------------

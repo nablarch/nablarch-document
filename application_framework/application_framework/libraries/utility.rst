@@ -72,11 +72,7 @@ Mapオブジェクトのキーに ``.`` が含まれていればそのプロパ�
 
 型変換ルールを追加するには、以下の手順が必要となる。
 
-1. 必要に応じて以下のインタフェースを実装し型変換処理を実現する。
-
-  * :java:extdoc:`Converter <nablarch.core.beans.Converter>`
-  * :java:extdoc:`ExtensionConverter <nablarch.core.beans.ExtensionConverter>`
-  
+1. :java:extdoc:`Converter <nablarch.core.beans.Converter>` の実装クラスを作成し、:java:extdoc:`Converter#convert <nablarch.core.beans.Converter.convert(java.lang.Object)>` に変換処理を実装する。
 2. :java:extdoc:`ConversionManager <nablarch.core.beans.ConversionManager>` の実装クラスを作成する。
    今回は標準の型変換ルールに追加でルールを設定するため、 :java:extdoc:`ConversionManager <nablarch.core.beans.ConversionManager>` をプロパティとして持つ、
    :java:extdoc:`ConversionManager <nablarch.core.beans.ConversionManager>` の実装クラスを作成する。
@@ -85,32 +81,24 @@ Mapオブジェクトのキーに ``.`` が含まれていればそのプロパ�
 
     public class SampleConversionManager implements ConversionManager {
 
-      private ConversionManager delegateManager;
+        private ConversionManager delegateManager;
 
-      @Override
-      public Map<Class<?>, Converter<?>> getConverters() {
-          Map<Class<?>, Converter<?>> converters = new HashMap<Class<?>, Converter<?>>();
+        @Override
+        public Map<Class<?>, Converter<?>> getConverters() {
+            Map<Class<?>, Converter<?>> converters = new HashMap<Class<?>, Converter<?>>();
 
-          // 標準のコンバータ
-          converters.putAll(delegateManager.getConverters());
+            // 標準のコンバータ
+            converters.putAll(delegateManager.getConverters());
 
-          // 今回作成したコンバータ
-          converters.put(BigInteger.class, new CustomConverter());
+            // 今回作成したコンバータ
+            converters.put(BigInteger.class, new CustomConverter());
 
-          return Collections.unmodifiableMap(converters);
-      }
-      
-      @Override
-      public List<ExtensionConverter<?>> getExtensionConvertor() {
-          final List<ExtensionConverter<?>> extensionConverters =
-              new ArrayList<ExtensionConverter<?>>(delegateManager.getExtensionConvertor());
-          extensionConverters.add(new CustomExtensionConverter());
-          return extensionConverters;
-      }
+            return Collections.unmodifiableMap(converters);
+        }
 
-      public void setDelegateManager(ConversionManager delegateManager) {
-          this.delegateManager = delegateManager;
-      }
+        public void setDelegateManager(ConversionManager delegateManager) {
+            this.delegateManager = delegateManager;
+        }
     }
 
 3. コンポーネント設定ファイルに、 :java:extdoc:`ConversionManager <nablarch.core.beans.ConversionManager>` の実装クラスを設定する。

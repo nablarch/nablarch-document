@@ -282,27 +282,12 @@ JSPからセッションストアで保持しているセッション変数の�
       <component class="nablarch.common.web.session.encoder.JavaSerializeEncryptStateEncoder">
         <property name="encryptor">
           <component class="nablarch.common.encryption.AesEncryptor">
-            <property name="base64Key">
-              <component class="nablarch.common.encryption.Base64Key">
-                <property name="key" value="OwYMOWbnLyYy93P8oIayeg==" />
-                <property name="iv" value="NOj5OUN+GlyGYTc6FM0+nw==" />
-              </component>
-            </property>
+            <!-- 設定値の詳細はJavadocを参照 -->
           </component>
         </property>
       </component>
     </property>
   </component>
-  
-ポイント
-  暗号化の鍵及びIVは、base64でエンコードした値を設定する。
-  鍵の強度を高めるためには、以下の機能を使用して鍵及びIVを生成すると良い。
-  
-  * :java:extdoc:`KeyGenerator <javax.crypto.KeyGenerator>` を使用して鍵を生成する。
-  * :java:extdoc:`SecureRandom <java.security.SecureRandom>` を使用してIVを生成する。
-  
-  なお、base64エンコードは :java:extdoc:`Base64Util <nablarch.core.util.Base64Util>` や、
-  Java8で追加された ``java.util.Base64.Encoder`` を使用して行うと良い。
 
 .. important::
  暗号化/復号のキーを設定しなかった場合、アプリケーション内で共通で使用されるキーを生成する。

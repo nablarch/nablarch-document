@@ -439,11 +439,6 @@ hiddenタグ
 -------------------------
 HTMLタグの出力を行わず、ウィンドウスコープに値を出力する。
 
-.. important::
-
-  ウィンドウスコープは非推奨である。
-  詳細は、 :ref:`tag-window_scope` を参照。
-
 .. table::
    :class: tag-reference
 

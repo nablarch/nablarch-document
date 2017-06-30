@@ -78,7 +78,7 @@ UI開発基盤の展開
 
   リクエスト単体テストでhtmlを確認したとき動的読み込み(XHR)が許可されず、JavaScriptが動作しないため、
   開発担当者向けワークスペースに展開する前には
-  `main/webapp/WEB-INF/include/js_include.jsp` を確認し、本番用に切り替えること。(minifyされたjsファイルを読み込むようにする。)
+  `main/web/include/js_include.jsp` を確認し、本番用に切り替えること。(minifyされたjsファイルを読み込むようにする。)
 
 
 UIデモ実行用アーカイブの作成

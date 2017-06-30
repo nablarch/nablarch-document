@@ -19,12 +19,13 @@ Exampleアプリケーションを元に、既存データから計算を行い�
   2. 賞与計算バッチを実行
 
      コマンドプロンプトから賞与計算バッチを実行する。
+     ExampleMainクラスについては、 :ref:`ExampleMainクラスの説明<getting_started_batchlet-main_class>` を参照。
 
     .. code-block:: bash
 
       $cd {nablarch-example-batch-eeシステムリポジトリ}
-      $mvn exec:java -Dexec.mainClass=nablarch.fw.batch.ee.Main ^
-          -Dexec.args=bonus-calculate
+      $java -cp .\target\*;.\target\dependency\* ^
+           com.nablarch.example.app.main.ExampleMain bonus-calculate
 
   5. バッチ実行後の状態の確認
 

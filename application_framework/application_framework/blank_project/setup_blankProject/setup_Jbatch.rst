@@ -177,24 +177,46 @@ sample-etl          Nablarchが提供するETL機能のサンプルアプリケ�
 
   mvn package
 
+以下のコマンドを実行することで、依存するライブラリを一箇所に集める。
+
+.. code-block:: text
+
+  mvn dependency:copy-dependencies -DoutputDirectory=target/dependency -DincludeScope=runtime
+
+
 batchlet方式のバッチアプリケーションの起動
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 batchlet方式のバッチアプリケーションでは、SAMPLE_USERテーブルのデータを削除する処理が実装されている。
 
 以下のコマンドを実行する。
 
+
+**Unix系の場合：**
+
 .. code-block:: bash
 
-  mvn exec:java -Dexec.mainClass=nablarch.fw.batch.ee.Main -Dexec.args="'sample-batchlet'"
+  java -cp "target/myapp-batch-ee-0.1.0-dev.jar:target/dependency/*" org.jberet.se.Main sample-batchlet
 
-実行に成功すると、以下のようなログが ``log/progress.log`` に出力される。
+
+**Windowsの場合：**
+
+.. code-block:: bat
+
+  java -cp "target/myapp-batch-ee-0.1.0-dev.jar;target/dependency/*" org.jberet.se.Main sample-batchlet
+
+
+
+実行に成功すると、以下のようなログがコンソールに出力される。
 
 .. code-block:: text
 
-  11:27:28.099 INFO  progress start job. job name: [sample-batchlet]
-  11:27:28.105 INFO  progress start step. job name: [sample-batchlet] step name: [step1]
-  11:27:28.986 INFO  progress finish step. job name: [sample-batchlet] step name: [step1] step status: [SUCCESS]
-  11:27:28.986 INFO  progress finish job. job name: [sample-batchlet]
+  2016-08-26 09:42:16.844 -DEBUG- SQL [null] nablarch.core.db.statement.BasicSqlPStatement#executeUpdate
+          execute_time(ms) = [1] update_count = [1]
+  2016-08-26 09:42:16.847 -INFO- ROO [null] 削除件数：10件
+  2016-08-26 09:42:16.850 -DEBUG- SQL [null] transaction commit. resource=[transaction]
+  2016-08-26 09:42:16.853 -INFO- ROO [null] finish step. step name=[step1], step status=[SUCCEEDED]
+  2016-08-26 09:42:16.855 -INFO- ROO [null] finish job. job name=[sample-batchlet], batch status=[COMPLETED]
+  
 
 .. tip::
 
@@ -211,20 +233,33 @@ ETL機能を使用したアプリケーションでは、SAMPLE_USERテーブル
 
 以下のコマンドを実行する。
 
+
+**Unix系の場合：**
+
 .. code-block:: bash
 
-  mvn exec:java -Dexec.mainClass=nablarch.fw.batch.ee.Main -Dexec.args="'sample-etl'"
+  java -cp "target/myapp-batch-ee-0.1.0-dev.jar:target/dependency/*" org.jberet.se.Main sample-etl
 
-起動に成功すると、以下のようなログが ``log/progress.log`` に出力される。
+
+**Windowsの場合：**
+
+.. code-block:: bat
+
+  java -cp "target/myapp-batch-ee-0.1.0-dev.jar;target/dependency/*" org.jberet.se.Main sample-etl
+
+
+起動に成功すると、以下のようなログがコンソールに出力される。
 
 .. code-block:: text
+  
+  2016-08-26 09:42:19.603 -DEBUG- SQL [null] nablarch.core.db.statement.BasicSqlPStatement#executeBatch
+        execute_time(ms) = [1] batch_count = [10]
+  2016-08-26 09:42:19.606 -DEBUG- SQL [null] transaction commit. resource=[transaction]
+  2016-08-26 09:42:19.608 -INFO- ROO [null] chunk progress. write count=[10]
+  2016-08-26 09:42:19.609 -DEBUG- SQL [null] transaction commit. resource=[transaction]
+  2016-08-26 09:42:19.612 -INFO- ROO [null] finish step. step name=[load], step status=[SUCCEEDED]
+  2016-08-26 09:42:19.614 -INFO- ROO [null] finish job. job name=[sample-etl], batch status=[COMPLETED]
 
-  11:28:45.260 INFO  progress start step. job name: [sample-etl] step name: [load]
-  11:28:45.270 INFO  progress job name: [sample-etl] step name: [load] input count: [10]
-  11:28:45.274 INFO  progress job name: [sample-etl] step name: [load] write table name: [SAMPLE_USER]
-  11:28:45.278 INFO  progress job name: [sample-etl] step name: [load] tps: [1250.00] estimated end time: [2017/04/27 11:28:45.278] remaining count: [0]
-  11:28:45.278 INFO  progress finish step. job name: [sample-etl] step name: [load] step status: [COMPLETED]
-  11:28:45.278 INFO  progress finish job. job name: [sample-etl]
 
 
 chunk方式のバッチアプリケーションの起動
@@ -233,22 +268,41 @@ chunk方式のバッチアプリケーションでは、SAMPLE_USERテーブル�
 
 以下のコマンドを実行する。
 
+
+**Unix系の場合：**
+
 .. code-block:: bash
 
-  mvn exec:java -Dexec.mainClass=nablarch.fw.batch.ee.Main -Dexec.args="'sample-chunk'"
+  java -cp "target/myapp-batch-ee-0.1.0-dev.jar:target/dependency/*" org.jberet.se.Main sample-chunk
 
-起動に成功すると、以下のようなログが ``log/progress.log`` に出力される。
+
+**Windowsの場合：**
+
+.. code-block:: bat
+
+  java -cp "target/myapp-batch-ee-0.1.0-dev.jar;target/dependency/*" org.jberet.se.Main sample-chunk
+
+
+起動に成功すると、以下のようなログがコンソールに出力される。
 
 .. code-block:: text
 
-  11:30:10.664 INFO  progress start job. job name: [sample-chunk]
-  11:30:10.669 INFO  progress start step. job name: [sample-chunk] step name: [step1]
-  11:30:11.372 INFO  progress job name: [sample-chunk] step name: [step1] input count: [10]
-  11:30:11.394 INFO  progress job name: [sample-chunk] step name: [step1] tps: [238.10] estimated end time: [2017/04/27 11:30:11.394] remaining count: [5]
-  11:30:11.395 INFO  progress job name: [sample-chunk] step name: [step1] tps: [434.78] estimated end time: [2017/04/27 11:30:11.395] remaining count: [0]
-  11:30:11.397 INFO  progress finish step. job name: [sample-chunk] step name: [step1] step status: [COMPLETED]
-  11:30:11.398 INFO  progress finish job. job name: [sample-chunk]
+  2016-08-26 09:42:28.802 -INFO- ROO [null] start job. job name=[sample-chunk]
+  2016-08-26 09:42:28.809 -INFO- ROO [null] start step. step name=[step1]
+  2016-08-26 09:42:29.495 -DEBUG- SQL [null] nablarch.core.db.statement.BasicSqlPStatement#executeQuery
+          SQL = [SELECT FAMILY_NAME,FIRST_NAME,USER_ID FROM SAMPLE_USER]
+          additional_info:
 
+  2016-08-26 09:42:29.501 -DEBUG- SQL [null] nablarch.core.db.statement.BasicSqlPStatement#executeQuery
+          execute_time(ms) = [3]
+  2016-08-26 09:42:29.536 -DEBUG- SQL [null] transaction commit. resource=[transaction]
+  2016-08-26 09:42:29.537 -INFO- ROO [null] chunk progress. write count=[5]
+  2016-08-26 09:42:29.540 -DEBUG- SQL [null] transaction commit. resource=[transaction]
+  2016-08-26 09:42:29.542 -INFO- ROO [null] chunk progress. write count=[10]
+  2016-08-26 09:42:29.545 -DEBUG- SQL [null] transaction commit. resource=[transaction]
+  2016-08-26 09:42:29.548 -INFO- ROO [null] finish step. step name=[step1], step status=[SUCCEEDED]
+  2016-08-26 09:42:29.551 -INFO- ROO [null] finish job. job name=[sample-chunk], batch status=[COMPLETED]
+  
 
 また、testdata/output/outputdata.csvに以下のデータが出力される。
 

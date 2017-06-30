@@ -70,7 +70,7 @@ Exampleアプリケーションを元に削除機能の解説を行う。
 .. _`project_delete-complete`:
 
 削除完了画面の作成
-  削除完了画面を表示する。
+  削除完了を通知するメッセージを設定して、完了画面を表示する。
   完了画面の作成に関する説明は、 :ref:`完了画面を表示する業務アクションメソッドの作成<project_update-create_complete_action>` 及び
   :ref:`更新完了画面の作成<project_update-create_success_jsp>` を参照。
 

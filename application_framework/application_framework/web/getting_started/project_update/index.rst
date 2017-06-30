@@ -318,21 +318,37 @@ Exampleアプリケーションを元に更新機能の解説を行う。
   .. _`project_update-create_complete_action`:
 
   完了画面を表示する業務アクションメソッドの作成
-    更新メソッドのリダイレクト先となる、完了画面の表示を行う業務アクションメソッドを作成する。
+    更新メソッドのリダイレクト先となる、完了メッセージの追加と完了画面の表示を行う業務アクションメソッドを作成する。
 
     ProjectAction.java
       .. code-block:: java
 
         public HttpResponse completeOfUpdate(HttpRequest request, ExecutionContext context) {
-            return new HttpResponse("/WEB-INF/view/project/completeOfUpdate.jsp");
+            WebUtil.notifyMessages(context,
+                    MessageUtil.createMessage(MessageLevel.INFO, "success.update.project"));
+            return new HttpResponse("/WEB-INF/view/project/completeOfChange.jsp");
         }
+
+    メッセージファイルに完了メッセージを追加
+      messages.properties
+        .. code-block:: jproperties
+
+          success.update.project=プロジェクトの更新が完了しました。
+
+  この実装のポイント
+    * メッセージは :ref:`メッセージ管理<message>` を用いてプロパティファイルから読み込む。
+    * 削除完了時と更新完了時に表示する画面は同一なので、出力するメッセージを出し分ける
+      :java:extdoc:`WebUtil#notifyMessages <nablarch.common.web.WebUtil.notifyMessages(nablarch.fw.ExecutionContext, nablarch.core.message.Message...)>` を用いる。
+    * 画面表示時のスタイルを切り替えるために、
+      :java:extdoc:`MessageUtil#createMessage <nablarch.core.message.MessageUtil.createMessage(nablarch.core.message.MessageLevel, java.lang.String, java.lang.Object...)>` を用いて
+      :ref:`メッセージのレベルを使い分ける<message-level>` 。
 
 .. _`project_update-create_success_jsp`:
 
 更新完了画面の作成
-  更新完了画面を作成する。
+  更新完了メッセージが挿入された完了画面作成する。
 
-  /src/main/webapp/WEB-INF/view/project/completeOfUpdate.jsp
+  /src/main/webapp/WEB-INF/view/project/completeOfChange.jsp
     .. code-block:: jsp
 
       <n:form>
@@ -342,11 +358,14 @@ Exampleアプリケーションを元に更新機能の解説を行う。
                 <!-- 省略 -->
               </div>
           </div>
-          <div class="message-area message-info">
-              プロジェクトの更新が完了しました。
+          <div class="message-area">
+              <n:errors errorCss="message-error" infoCss="message-info"/>
           </div>
           <!-- 省略 -->
       </n:form>
+
+  この実装のポイント
+    * メッセージを表示するには :ref:`tag-errors_tag` を使用する。
 
 更新機能の解説は以上。
 

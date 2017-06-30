@@ -168,7 +168,7 @@ UI標準2. 画面構成
   **nablarch-css-common** プラグインの **ui_public/css/common/nablarch.less** を修正する。
 
 **共通エラーメッセージの表示内容**
-  **nablarch-template-page** プラグインの **ui_public/WEB-INF/include/app_error.jsp** を修正する。
+  **nablarch-template-page** プラグインの **ui_public/include/app_error.jsp** を修正する。
 
 **共通エラーメッセージの表示位置**
   **nablarch-template-page** プラグインの **ui_public/WEB-INF/tags/template/page_template.tag** を修正する。
@@ -193,13 +193,13 @@ UI標準2.1. 端末の画面サイズと表示モード
 
 .. tip::
 
-  **nablarch-template-head**\ の\ **/ui_public/WEB-INF/include/html_head.jsp**\ で使用されることで、
+  **nablarch-template-head**\ の\ **/ui_public/include/html_head.jsp**\ で使用されることで、
   htmlのheadタグ内にmedia.tagの内容が出力される。
 
 表示モードの切替えを無効化したい
 ===========================================
 PJの要件としてデスクトップ・ラップトップのみをサポートすればよい場合など、
-表示モードの切替え自体が不要な場合は **ui_public/WEB-INF/include/html_head.jsp**
+表示モードの切替え自体が不要な場合は **ui_public/include/html_head.jsp**
 の中で下記の2行以外の全ての **<n:link>** タグとIEコンディショナルコメントを削除すること。
 
 こうすることで、ウィンドウサイズにかかわらず常にワイドモードで表示するようになる。
@@ -246,12 +246,10 @@ UI標準2.2. ワイド表示モードの画面構成
             │            ├── header.less
             │            ├── header-narrow.less
             │            └── header-wide.less
-            └── WEB-INF
-                  └── include
-                          ├── app_header.jsp
-                          └── subwindow_app_header.jsp
-                   
-                   
+            └── include
+                   ├── app_header.jsp
+                   └── subwindow_app_header.jsp
+
 このプラグインのスタイル定義は、各表示モードで以下のように読み込まれる。
 
 ================ ======================================

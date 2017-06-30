@@ -23,8 +23,9 @@ Exampleアプリケーションを元に、ファイルをDBに登録するバ�
     .. code-block:: bash
 
       $cd {nablarch-example-batchリポジトリ}
-      $mvn exec:java -Dexec.mainClass=nablarch.fw.launcher.Main ^
-          -Dexec.args="'-requestPath' 'ImportZipCodeFileAction/ImportZipCodeFile' '-diConfig' 'classpath:import-zip-code-file.xml' '-userId' '105'"
+      $java -cp .\target\*;.\target\dependency\* nablarch.fw.launcher.Main ^
+          -requestPath ImportZipCodeFileAction/ImportZipCodeFile ^
+          -diConfig classpath:com/example/import-zip-code-file.xml -userId 105
 
   3. ファイルの内容がDBに登録されたことを確認する
 

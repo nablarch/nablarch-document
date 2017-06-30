@@ -166,15 +166,32 @@ SampleAction             バッチアプリケーション実装する際に一�
 
   mvn package
 
+以下のコマンドを実行することで、依存するライブラリを一箇所に集める。
+
+.. code-block:: text
+
+  mvn dependency:copy-dependencies -DoutputDirectory=target/dependency -DincludeScope=runtime
+
+
 都度起動バッチアプリケーションの起動
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 以下のコマンドを実行する。
 
+
+**Unix系の場合：**
+
 .. code-block:: bash
 
-  mvn exec:java -Dexec.mainClass=nablarch.fw.launcher.Main ^
-      -Dexec.args="'-diConfig' 'classpath:batch-boot.xml' '-requestPath' 'SampleBatch' '-userId' 'batch_user'"
+  java -cp "target/myapp-batch-0.1.0-dev.jar:target/dependency/*" nablarch.fw.launcher.Main -diConfig classpath:batch-boot.xml -requestPath SampleBatch -userId batch_user
+
+
+**Windowsの場合：**
+
+.. code-block:: bat
+
+  java -cp "target/myapp-batch-0.1.0-dev.jar;target/dependency/*" nablarch.fw.launcher.Main -diConfig classpath:batch-boot.xml -requestPath SampleBatch -userId batch_user
+
 
 起動に成功すると、以下のようなログがコンソールに出力される。
 
@@ -188,6 +205,9 @@ SampleAction             バッチアプリケーション実装する際に一�
   Thread Result:[200 Success] The request has succeeded.
   2016-09-01 16:00:20.655 -INFO- ROO [null] TOTAL COMMIT COUNT = [1]
   2016-09-01 16:00:20.658 -INFO- ROO [null] @@@@ END @@@@ exit code = [0] execute time(ms) = [1054]
+
+
+
 
 疎通確認(テーブルをキューとして使ったメッセージング)
 --------------------------------------------------------------------
@@ -222,10 +242,20 @@ SampleAction             バッチアプリケーション実装する際に一�
 
 以下のコマンドを実行する。
 
+
+**Unix系の場合：**
+
 .. code-block:: bash
 
-  mvn exec:java -Dexec.mainClass=nablarch.fw.launcher.Main ^
-      -Dexec.args="'-diConfig' 'classpath:resident-batch-boot.xml' '-requestPath' 'SampleResiBatch' '-userId' 'batch_user'"
+  java -cp "target/myapp-batch-0.1.0-dev.jar:target/dependency/*" nablarch.fw.launcher.Main -diConfig classpath:resident-batch-boot.xml -requestPath SampleResiBatch -userId batch_user
+
+
+**Windowsの場合：**
+
+.. code-block:: bat
+
+  java -cp "target/myapp-batch-0.1.0-dev.jar;target/dependency/*" nablarch.fw.launcher.Main -diConfig classpath:resident-batch-boot.xml -requestPath SampleResiBatch -userId batch_user
+
 
 .. tip::
 

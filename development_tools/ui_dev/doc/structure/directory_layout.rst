@@ -60,24 +60,24 @@
       └─ xxx_project/             # プロジェクトトップ
              │  
              ├── ui_demo/              # 業務画面モック開発用プロジェクト
+             │     ├── ss11AC/         # 業務画面JSP(サブシステム毎)
+             │     ├── ss12AC/
+             │     ├── css/            # スタイルシート
+             │     ├── fonts/          # フォント
+             │     ├── img/            # 画像
+             │     ├── include/        # 共通インクルードJSP
+             │     ├── js/             # javascript
              │     └── WEB-INF/
-             │           ├── ss11AC/         # 業務画面JSP(サブシステム毎)
-             │           ├── ss12AC/
-             │           ├── css/            # スタイルシート
-             │           ├── fonts/          # フォント
-             │           ├── img/            # 画像
-             │           ├── include/        # 共通インクルードJSP
-             │           ├── js/             # javascript
              │           └── tags/     # タグファイル
              │
              ├── ui_test/              # UI開発基盤テスト用プロジェクト
              │     ├── css/            # スタイルシート
              │     ├── fonts/          # フォント
              │     ├── img/            # 画像
+             │     ├── include/        # 共通インクルードJSP
              │     ├── js/             # javascript
              │     ├── jsp/            # テスト用JSP
              │     └── WEB-INF/
-             │           ├── include/  # 共通インクルードJSP
              │           └── tags/     # タグファイル
              │
              │

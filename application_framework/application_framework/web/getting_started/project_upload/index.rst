@@ -65,7 +65,8 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
             insertProjects(projects);
 
             // 完了メッセージの追加
-            context.setRequestScopedVar("uploadProjectSize", projects.size());
+            WebUtil.notifyMessages(context, MessageUtil.createMessage(
+                    MessageLevel.INFO, "success.upload.project", projects.size()));
 
             // ファイルの保存
             saveFile(partInfo);
@@ -104,10 +105,6 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
         <n:form useToken="true" enctype="multipart/form-data">
             <!-- 省略 -->
             <div class="message-area margin-top">
-                <!-- 完了メッセージ表示部分 -->
-                <c:if test="${not empty uploadProjectSize}">
-                    <ul><li class="message-info"><n:message messageId="success.upload.project" option0="${uploadProjectSize}" /></li></ul>
-                </c:if>
                 <!-- エラーメッセージ表示部分 -->
                 <n:errors errorCss="message-error"/>
             </div>
@@ -146,8 +143,6 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
       * :ref:`tag-file_tag` を用いてファイルアップロード欄を作成する。 `name` 属性にはリクエストオブジェクトへの登録名を指定する。
         業務アクションでファイルを取得するには、 :java:extdoc:`HttpRequest#getPart<nablarch.fw.web.HttpRequest.getPart(java.lang.String)>`
         の引数にこの登録名を指定する。
-      * アップロード完了時に、 :ref:`tag-message_tag` でアップロード完了メッセージを表示する。
-        完了メッセージにアップロード件数を含めるため、 `option0` 属性には、リクエストスコープに設定されたアップロード件数を指定する。
       * :ref:`tag-errors_tag` を用いて、対象ファイルに対するバリデーションエラーメッセージを一覧表示する領域を作成する。
         エラーメッセージ一覧の出力形式については :ref:`エラーメッセージの一覧表示 <tag-write_error_errors_tag>` を参照。
 

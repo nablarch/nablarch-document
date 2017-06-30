@@ -17,23 +17,6 @@ Nablarch SQL ExecutorはNablarch特殊構文を含むSQLファイルを
 * Nablarchの開発環境が設定済みであること。
 * Maven Central RepositoryにJDBCドライバが存在しないRDBMSを使用する場合は、Project Local RepositoryまたはLocal RepositoryにJDBCドライバを登録済みであること。
   登録方法は、:ref:`customizeDBAddFileMavenRepo` を参照。
- 
-制約
---------
-本ツールには以下の制約がある。
-このため、これらのSQLを実行したい場合には、本ツールではなく使用するデータベース付属のSQL実行環境などを用いること。
-
-* IN句に対して条件を設定することが出来ない
-* WITH句で始まるSQLを実行することが出来ない
-
-.. tip::
-
-  Nablarchでは2-way SQLとしてSQLを記述できる `Doma(外部サイト) <http://doma.readthedocs.io/ja/stable/>`_ 用の :ref:`アダプタ <doma_adaptor>` を提供している。
-  
-  Domaを使用した場合、本ツールのような複雑なツールのセットアップを行わなくても、本番環境用に定義したSQLを簡単にテスト実行出来る。
-  (動的な条件を構築するような場合でも、SQLを書き換えることなく実行できる)
-  
-  このため、Domaの使用を検討することを推奨する。
 
 インストール方法
 ----------------

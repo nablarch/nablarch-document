@@ -23,8 +23,16 @@ Exampleアプリケーションを元に、 :ref:`batchletステップ<jsr352-ba
     .. code-block:: bash
 
       $cd {nablarch-example-batch-eeシステムリポジトリ}
-      $mvn exec:java -Dexec.mainClass=nablarch.fw.batch.ee.Main ^
-          -Dexec.args=etl-zip-code-csv-to-db-chunk
+      $java -cp .\target\*;.\target\dependency\* ^
+          com.nablarch.example.app.main.ExampleMain ^
+          etl-zip-code-csv-to-db-chunk
+
+    .. _`getting_started_batchlet-main_class`:
+
+    .. tip::
+     ExampleMainクラスは、Example用に作成したバッチアプリケーションの起動クラスである。
+     起動クラスは、アプリケーション要件に応じてアーキテクトが作成する。
+     バッチ起動用クラスの詳細は、 :ref:`jsr352_run_batch_application` を参照。
 
     H2のコンソールから下記SQLを実行してデータが登録されたことを確認する。
 
@@ -40,8 +48,9 @@ Exampleアプリケーションを元に、 :ref:`batchletステップ<jsr352-ba
     .. code-block:: bash
 
       $cd {nablarch-example-batch-eeシステムリポジトリ}
-      $mvn exec:java -Dexec.mainClass=nablarch.fw.batch.ee.Main ^
-          -Dexec.args=zip-code-truncate-table
+      $java -cp .\target\*;.\target\dependency\* ^
+          com.nablarch.example.app.main.ExampleMain ^
+          zip-code-truncate-table
 
   4. 対象テーブルのデータが削除されていることを確認
 

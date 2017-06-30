@@ -24,9 +24,13 @@ Exampleアプリケーションの実行手順
   .. code-block:: bash
 
     $cd nablarch-example-db-queue
-    $mvn clean package
-    $mvn exec:java -Dexec.mainClass=nablarch.fw.launcher.Main ^
-        -Dexec.args="'-diConfig' 'com/nablarch/example/app/batch/project-creation-service.xml' '-requestPath' 'ProjectCreationService' '-userId' 'samp'"
+    $mvn install
+    $mvn dependency:copy-dependencies -DoutputDirectory=target/dependency
+    $java -classpath target/classes;target/dependency/*\
+         nablarch.fw.launcher.Main\
+         -diConfig com/nablarch/example/app/batch/project-creation-service.xml\
+         -requestPath ProjectCreationService -userId sample
+
 
   3. テーブルキューに未処理のデータを追加する。
 

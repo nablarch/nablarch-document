@@ -382,16 +382,16 @@ BasicHttpRequestTestTemplateクラスを継承する。
 
 テストメソッド内で、スーパクラスの以下のいずれかのメソッドを呼び出す。
 
-* void execute()
-* void execute(Advice advice)
+* void execute(String sheetName)
+* void execute(String sheetName, Advice advice)
 
-通常の場合、execute()を使用する。
+通常の場合、execute(String sheetName)を使用する。
 
 .. code-block:: java
     
     @Test
     public void testUsers00101Normal() {
-        execute();
+        execute("testUsers00101Normal");
     }
 
 
@@ -404,7 +404,7 @@ BasicHttpRequestTestTemplateクラスを継承する。
 
 
 シート固有の準備処理、結果確認処理が必要な場合は、\
-execute(Advice advice)を使用して、リクエスト送信前後に処理を挿し込むことができる。
+execute(String sheetName, Advice advice)を使用して、リクエスト送信前後に処理を挿し込むことができる。
 BasicAdviceクラスには以下のメソッドが用意されており、それぞれリクエスト送信前、送信後にコールバックされる。
 
 * void beforeExecute(TestCaseInfo testCaseInfo, ExecutionContext context)
@@ -419,7 +419,7 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
     
     @Test
     public void testMenus00102Normal() {
-        execute(new BasicAdvice() {
+        execute("testMenus00102Normal", new BasicAdvice() {
             // 【説明】本メソッドはリクエスト送信前に呼び出される。
             @Override
             public void beforeExecute(TestCaseInfo testCaseInfo,
@@ -447,7 +447,7 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
     
     @Test
     public void testMenus00103() {
-        execute(new BasicAdvice() {
+        execute("testMenus00103", new BasicAdvice() {
             @Override
             public void afterExecute(TestCaseInfo testCaseInfo,
                     ExecutionContext context) {
@@ -480,7 +480,7 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
         
     @Test
     public void testUsers00302Normal() {
-        execute(new BasicAdvice() {
+        execute("testUsers00302Normal", new BasicAdvice() {
             @Override
             public void afterExecute(TestCaseInfo testCaseInfo,
                     ExecutionContext context) {
@@ -518,7 +518,7 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
    
        @Test
        public void testSampleNormal() {
-           execute(new BasicAdvice() {
+           execute("testSampleNormal", new BasicAdvice() {
                @Override
                public void afterExecute(TestCaseInfo testCaseInfo,
                        ExecutionContext context) {
@@ -548,7 +548,7 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
         
     @Test
     public void testUsers00302Normal() {
-        execute(new BasicAdvice() {
+        execute("testUsers00302Normal", new BasicAdvice() {
             @Override
             public void afterExecute(TestCaseInfo testCaseInfo, ExecutionContext context) {
                 String message = testCaseInfo.getTestCaseName();   // 【説明】比較失敗時のメッセージ
@@ -579,7 +579,7 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
         
     @Test
     public void testUsers00302Normal() {
-        execute(new BasicAdvice() {
+        execute("testUsers00302Normal", new BasicAdvice() {
             @Override
             public void afterExecute(TestCaseInfo testCaseInfo, ExecutionContext context) {
 
@@ -609,7 +609,7 @@ Excelに記載した期待値と直接比較するメソッドが用意されて
         
     @Test
     public void testUsers00303Normal() {
-        execute(new BasicAdvice() {
+        execute("testUsers00303Normal", new BasicAdvice() {
             @Override
             public void afterExecute(TestCaseInfo testCaseInfo, ExecutionContext context) {
                 // 【説明】期待値をExcelファイルから取得
@@ -665,7 +665,7 @@ Excelに記載した期待値と直接比較するメソッドが用意されて
     
     @Test
     public void testRW11AC0104Download() {
-        execute(new BasicAdvice() {
+        execute("testRW11AC0104Download", new BasicAdvice() {
             @Override
             public void afterExecute(TestCaseInfo testCaseInfo, ExecutionContext context) {
                 String msgOnFail = "ダウンロードしたユーザ一覧照会結果のCSVファイルのアサートに失敗しました。";

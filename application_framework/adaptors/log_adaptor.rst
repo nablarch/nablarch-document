@@ -27,11 +27,13 @@ log4j
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-log4j-adaptor</artifactId>
   </dependency>
-  
-.. tip::
-  
-  log4jのバージョン1.2.16を使用してテストを行っている。
-  バージョンを変更する場合は、プロジェクト側でテストを行い問題ないことを確認すること。
+
+  <!-- log4j(1.2系の最新版) -->
+  <dependency>
+  <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+  </dependency>
   
 slf4j
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -42,12 +44,12 @@ slf4j
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-slf4j-adaptor</artifactId>
   </dependency>
-  
-.. tip::
-  
-  slf4jのバージョン1.7.22を使用してテストを行っている。
-  バージョンを変更する場合は、プロジェクト側でテストを行い問題ないことを確認すること。
 
+  <!-- slf4j -->
+  <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+  </dependency>
 
 JBoss Logging
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -58,11 +60,13 @@ JBoss Logging
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-jboss-logging-adaptor</artifactId>
   </dependency>
+
+  <!-- JBoss Logging -->
+  <dependency>
+      <groupId>org.jboss.logging</groupId>
+      <artifactId>jboss-logging</artifactId>
+  </dependency>
   
-.. tip::
-  
-  JBoss Loggingのバージョン3.3.0.Finalを使用してテストを行っている。
-  バージョンを変更する場合は、プロジェクト側でテストを行い問題ないことを確認すること。
   
 ロギングフレームワークを使用するための設定を行う
 --------------------------------------------------

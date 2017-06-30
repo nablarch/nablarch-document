@@ -61,9 +61,5 @@ Excelファイルに定義した応答電文のフォーマットおよびデー
       <!-- HTTP通信用クライアント -->
       <component name="defaultMessageSenderClient" 
                  class="nablarch.test.core.messaging.MockMessagingClient">
-        <property name="charset" value="Shift-JIS"/>
       </component>
-
-なお、\ ``charset``\ に、文字コード名を指定することでログに出力する文字コードを変更することができる。
-通常は省略可能で、省略した場合はUTF-8が使用される。
 
