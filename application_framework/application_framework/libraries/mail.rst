@@ -602,11 +602,14 @@
 
 メール送信要求時に利用するトランザクションを指定する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-業務トランザクションが失敗してもメール送信要求を確実に行いたい場合など、
-業務メール送信要求 :java:extdoc:`MailRequester<nablarch.common.mail.MailRequester>` とメール送信要求IDの :ref:`採番<generator>`
-で実行されるトランザクションを、業務トランザクションとは独立して指定したい場合がある。
+業務アプリケーションが失敗してもメール送信要求を確実に行いたい場合など、
+メール送信要求 :java:extdoc:`MailRequester<nablarch.common.mail.MailRequester>` とメール送信要求IDの :ref:`採番<generator>`
+で実行されるトランザクションを、業務アプリケーションのトランザクションとは独立して指定したい場合がある。
 
 その場合の設定例を以下に示す。
+
+ ポイント
+  * :トランザクションマネージャとメール送信要求IDの採番で指定するトランザクション名を同じにする。
 
  .. code-block:: xml
 
@@ -618,6 +621,7 @@
 
   <!-- トランザクションマネージャ  -->
   <component name="txManager" class="nablarch.core.db.transaction.SimpleDbTransactionManager">
+    <property name="dbTransactionName" value="mail-transaction" />
   </component>
 
   <!-- メール送信要求IDジェネレータ -->
