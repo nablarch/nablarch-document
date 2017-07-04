@@ -599,3 +599,34 @@
 リトライ対象の例外を変更するなど、アプリケーションの要件によって変更したい場合がある。
 
 そのような場合は、上の例と同様、:java:extdoc:`MailSender<nablarch.common.mail.MailSender>` を継承したクラスを作成して対応する。
+
+メール送信要求時に利用するトランザクションを指定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+業務アプリケーションが失敗してもメール送信要求を確実に行いたい場合など、
+メール送信要求 :java:extdoc:`MailRequester<nablarch.common.mail.MailRequester>` とメール送信要求IDの :ref:`採番<generator>`
+で実行されるトランザクションを、業務アプリケーションのトランザクションとは独立して指定したい場合がある。
+
+その場合の設定例を以下に示す。
+
+ ポイント
+  * トランザクションマネージャとメール送信要求IDの採番で指定するトランザクション名を同じにする。
+
+ .. code-block:: xml
+
+  <!-- メール送信要求コンポーネント -->
+  <component name="mailRequester" class="nablarch.common.mail.MailRequester">
+    <!-- メール送信に用いるトランザクションを指定 -->
+    <property name="mailTransactionManager" ref="txManager" />
+  </component>
+
+  <!-- トランザクションマネージャ  -->
+  <component name="txManager" class="nablarch.core.db.transaction.SimpleDbTransactionManager">
+    <property name="dbTransactionName" value="mail-transaction" />
+  </component>
+
+  <!-- メール送信要求IDジェネレータ -->
+  <component name="mailRequestIdGenerator"
+      class="nablarch.common.idgenerator.TableIdGenerator">
+      <!-- トランザクションマネージャで指定したトランザクション名を指定 -->
+      <property name="dbTransactionName" value="mail-transaction" />
+  </component>
