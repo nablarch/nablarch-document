@@ -609,7 +609,7 @@
 その場合の設定例を以下に示す。
 
  ポイント
-  * :トランザクションマネージャとメール送信要求IDの採番で指定するトランザクション名を同じにする。
+  * トランザクションマネージャとメール送信要求IDの採番で指定するトランザクション名を同じにする。
 
  .. code-block:: xml
 
@@ -627,6 +627,6 @@
   <!-- メール送信要求IDジェネレータ -->
   <component name="mailRequestIdGenerator"
       class="nablarch.common.idgenerator.TableIdGenerator">
-      <!-- メール要求IDの取得に用いるトランザクション名を指定 -->
+      <!-- トランザクションマネージャで指定したトランザクション名を指定 -->
       <property name="dbTransactionName" value="mail-transaction" />
   </component>
