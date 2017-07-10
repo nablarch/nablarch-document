@@ -20,13 +20,14 @@
 
           SessionUtil.delete(context, "client");
 
-          return new HttpResponse("redirect://complete");
+          return new HttpResponse(303, "redirect://complete");
       }
 
   この実装のポイント
     * :ref:`セッションストア <session_store>` から顧客エンティティを取り出して、 :ref:`universal_dao` を使用してデータベースに登録する。
     * :ref:`セッションストア <session_store>` から顧客情報を削除する。
     * レスポンスオブジェクトの遷移先として、登録完了画面の表示処理へのリダイレクトを指定する(完了画面でのブラウザの更新ボタン押下による顧客情報の多重登録を防ぐため)。
+      リダイレクトに指定するステータスコードについては、 :ref:`web_feature_details-status_code` を参照。
 
 二重サブミットを防止する
   ボタンをダブルクリックした場合等でリクエストが二重に送信されないように、業務アクションとJSPの二か所に制御を追加する。

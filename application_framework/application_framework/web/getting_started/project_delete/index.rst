@@ -55,7 +55,7 @@ Exampleアプリケーションを元に削除機能の解説を行う。
           Project project = SessionUtil.delete(context, "project");
           UniversalDao.delete(project);
 
-          return new HttpResponse("redirect://completeOfDelete");
+          return new HttpResponse(303, "redirect://completeOfDelete");
       }
 
   この実装のポイント
