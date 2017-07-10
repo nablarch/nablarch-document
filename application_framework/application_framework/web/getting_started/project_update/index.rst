@@ -270,7 +270,7 @@ Exampleアプリケーションを元に更新機能の解説を行う。
               Project targetProject = SessionUtil.delete(context, "project");
               UniversalDao.update(targetProject);
 
-              return new HttpResponse("redirect://completeOfUpdate");
+              return new HttpResponse(303, "redirect://completeOfUpdate");
           }
 
     この実装のポイント
@@ -278,7 +278,9 @@ Exampleアプリケーションを元に更新機能の解説を行う。
         更新処理では楽観的ロックが実行される。
       * 二重サブミットを防止するために、 :java:extdoc:`@OnDoubleSubmission <nablarch.common.web.token.OnDoubleSubmission>` を付与する。
       * ブラウザ更新での再実行を防ぐために、レスポンスをリダイレクトする。
-        リソースパスの書式については :java:extdoc:`ResourceLocator <nablarch.fw.web.ResourceLocator>` を参照。
+      
+        * リソースパスの書式については :java:extdoc:`ResourceLocator <nablarch.fw.web.ResourceLocator>` を参照。
+        * リダイレクトに指定するステータスコードについては、 :ref:`web_feature_details-status_code` を参照。
 
   楽観的ロックの対象となるエンティティの作成
     :ref:`楽観的ロック<universal_dao_jpa_version>` を有効化したエンティティを作成する。

@@ -318,7 +318,7 @@ Exampleアプリケーションを元に一括更新機能の解説を行う。
         ProjectListDto projectListDto = SessionUtil.get(context, "projectListDto");
         projectListDto.getProjectList().forEach(UniversalDao::update);
 
-        return new HttpResponse("redirect://completeOfUpdate");
+        return new HttpResponse(303, "redirect://completeOfUpdate");
       }
 
   この実装のポイント
