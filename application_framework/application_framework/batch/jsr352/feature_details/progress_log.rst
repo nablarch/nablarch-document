@@ -15,7 +15,8 @@
 * 処理対象の件数ログ(処理対象の件数は、アプリケーション側で求める必要がある)
 * ステップの進捗状況ログ
 
-  * TPS(処理対象の件数及び処理済み件数から算出したTPS)
+  * 開始後からのTPS(処理対象の件数及び処理済み件数から算出したTPS)
+  * 最新のTPS(前回TPS算出時の時間の経過時間と処理した件数から算出したTPS)
   * 未処理件数
   * 終了予測時間(未処理件数とTPSから求めたステップの終了予測時間)
   
@@ -66,6 +67,13 @@ Batchletで、ループを伴う処理を行う必要がある場合には、下
 
 ポイント
   * processメソッドの先頭で、処理対象件数(データベースへのcount結果やファイルのレコード数等)を取得し、 :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` に設定する。
+  
+    .. important::
+    
+      TPSの算出の起点となる時間は、 :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` が呼び出されたタイミングとなる。
+      :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` を呼び出し後にデータベースから対象データを抽出するなどの重い処理を行った場合、
+      TPSが実際と異なる(実際より小さい値)結果となるので注意すること。
+      
   * 処理を行うループ処理内で、一定間隔ごとに進捗ログを出力する :java:extdoc:`outputProgressInfo <nablarch.fw.batch.ee.progress.ProgressManager.outputProgressInfo(long)>` を呼び出す。
 
 実装例
@@ -123,6 +131,12 @@ ItemReader
   ポイント
     * コンストラクタインジェクションを使用して、進捗ログを出力するインタフェース( :java:extdoc:`ProgressManager <nablarch.fw.batch.ee.progress.ProgressManager>` )をインジェクションする。
     * openメソッドにて、処理対象件数(データベースへのcount結果やファイルのレコード数等)を取得し、 :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` に設定する。
+    
+      .. important::
+      
+        TPSの算出の起点となる時間は、 :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` が呼び出されたタイミングとなる。
+        :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` を呼び出し後にデータベースから対象データを抽出するなどの重い処理を行った場合、
+        TPSが実際と異なる(実際より小さい値)結果となるので注意すること。
     
   実装例
     .. code-block:: java
