@@ -16,7 +16,7 @@ JSR310(Date and Time API)で追加された日時関連を利用可能にする�
 --------------------------------------------------
 .. code-block:: xml
 
-  <!-- Domaアダプタ -->
+  <!-- JSR310アダプタ -->
   <dependency>
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-jsr310-adaptor</artifactId>
@@ -24,10 +24,10 @@ JSR310(Date and Time API)で追加された日時関連を利用可能にする�
 
 BeanUtilでJSR310(Date and Time API)を利用する
 --------------------------------------------------
-:java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` JSR310(Date and Time API)を扱いたい場合に利用する。
+:java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` でJSR310(Date and Time API)を扱いたい場合に利用する。
 本機能を使用することで、プロパティ値のコピー時にLocalDate等への型変換や移送が行われるようになる。
 
-変換可能な型や変換ルールなどの詳細などは、 :java:extdoc:`converter一覧 <nablarch.integration.jsr310.beans.converter>` を参照。
+変換可能な型や変換ルールなどの詳細は、 :java:extdoc:`converter一覧 <nablarch.integration.jsr310.beans.converter>` を参照。
 
 :ref:`repository` のコンポーネント設定ファイルに以下を追加することで、本機能が有効になる。
 
@@ -37,7 +37,7 @@ BeanUtilでJSR310(Date and Time API)を利用する
 
 .. tip::
  
-  文字列からLocalDateなどへの変換時のフォーマット変更したい場合は、以下の作業が必要となる。
+  文字列からLocalDateなどへ変換する際のフォーマットを変更したい場合は、以下の作業が必要となる。
   
   フォーマットなどの定義を持つクラスを作成する
     :java:extdoc:`DateTimeConfiguration <nablarch.integration.jsr310.util.DateTimeConfiguration>` の実装クラスを追加し、
