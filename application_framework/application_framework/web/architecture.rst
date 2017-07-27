@@ -56,6 +56,7 @@ Nablarchでは、ウェブアプリケーションを構築するために必要
   * :ref:`secure_handler`
 
 リクエストのフィルタリングを行うハンドラ
+  * :ref:`service_availability`
   * :ref:`permission_check_handler`
 
 データベースに関連するハンドラ
