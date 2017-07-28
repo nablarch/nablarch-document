@@ -11,3 +11,4 @@
   webspheremq_adaptor
   jaxrs_adaptor
   doma_adaptor
+  jsr310_adaptor
