@@ -312,3 +312,41 @@ Daoインタフェース
 
         return new HttpResponse("redirect://complete");
     }
+    
+DomaとNablarchのデータベースアクセスを併用する
+--------------------------------------------------
+データベースアクセスにDomaを採用した場合でも、 :ref:`Nablarch提供のデータベースアクセス <database_management>` を使用したい場合がある。
+例えば、 :ref:`メール送信ライブラリ <mail>` を使用する場合が該当する。(:ref:`メール送信要求 <mail-request>` で :ref:`database` を使用している。)
+
+この問題を解決するため、Nablarchのデータベースアクセス処理が、Domaと同じトランザクション(データベース接続)を利用できる機能を提供している。
+
+利用手順
+  コンポーネント定義に以下の設定を追加する。
+  これにより、Nablarchのデータベースアクセスが、自動的にDomaのトランザクション配下で実行されるようにある。
+  
+  * コンポーネント定義ファイルに :java:extdoc:`ConnectionFactoryFromDomaConnection <nablarch.integration.doma.ConnectionFactoryFromDomaConnection>` を定義する。
+    コンポーネント名は、 ``connectionFactoryFromDoma`` とする。
+  * JSR352用のDomaのトランザクションを制御するリスナーに、ConnectionFactoryFromDomaConnectionを設定する。
+
+  .. code-block:: xml
+
+    <!-- コンポーネント名は、connectionFactoryFromDomaとする -->
+    <component name="connectionFactoryFromDoma"
+        class="nablarch.integration.doma.ConnectionFactoryFromDomaConnection">
+        
+      <!-- プロパティに対する設定は省略 -->
+      
+    </component>
+    
+    <!-- 
+    JSR352に準拠したバッチアプリケーションで利用する場合は、Domaのトランザクションを制御するリスナーに
+    上記で定義したconnectionFactoryFromDomaを設定する。
+     -->
+    <component class="nablarch.integration.doma.batch.ee.listener.DomaTransactionItemWriteListener">
+      <property name="connectionFactory" ref="connectionFactoryFromDoma" />
+    </component>
+
+    <component class="nablarch.integration.doma.batch.ee.listener.DomaTransactionStepListener">
+      <property name="connectionFactory" ref="connectionFactoryFromDoma" />
+    </component>
+
