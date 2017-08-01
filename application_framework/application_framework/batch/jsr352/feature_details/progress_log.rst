@@ -27,9 +27,9 @@
   INFO progress start job. job name: [test-job]
   INFO progress start step. job name: [test-job] step name: [test-step]
   INFO progress job name: [test-job] step name: [test-step] input count: [25]
-  INFO progress job name: [test-job] step name: [test-step] tps: [250.00] current tps: [250.00] estimated end time: [2017/02/13 04:02:25.656] remaining count: [15]
-  INFO progress job name: [test-job] step name: [test-step] tps: [384.62] current tps: [519.32] estimated end time: [2017/02/13 04:02:25.668] remaining count: [5]
-  INFO progress job name: [test-job] step name: [test-step] tps: [409.84] current tps: [450.00] estimated end time: [2017/02/13 04:02:25.677] remaining count: [0]
+  INFO progress job name: [test-job] step name: [test-step] total tps: [250.00] current tps: [250.00] estimated end time: [2017/02/13 04:02:25.656] remaining count: [15]
+  INFO progress job name: [test-job] step name: [test-step] total tps: [384.62] current tps: [519.32] estimated end time: [2017/02/13 04:02:25.668] remaining count: [5]
+  INFO progress job name: [test-job] step name: [test-step] total tps: [409.84] current tps: [450.00] estimated end time: [2017/02/13 04:02:25.677] remaining count: [0]
   INFO progress finish step. job name: [test-job] step name: [test-step] step status: [null]
   INFO progress finish job. job name: [test-job]
 
