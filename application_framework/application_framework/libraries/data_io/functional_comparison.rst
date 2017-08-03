@@ -35,12 +35,14 @@
       :ref:`解説書へ <data_format-variable_data_directive>`
 
   * - 固定長データの入出力ができる
-    - × [#fixed_layout]_
+    - ○ |br|
+      :ref:`解説書へ <data_bind-fixed_length_format>`
     - ○ |br|
       :ref:`解説書へ <data_format-support_type>`
 
   * - レコード毎にフォーマットの異なる |br| 固定長データの入出力ができる
-    - × [#fixed_layout]_
+    - ○ |br|
+      :ref:`解説書へ <data_bind-fixed_length_format-multi_layout>`
     - ○ |br|
       :ref:`解説書へ <data_format-multi_layout_data>`
 
@@ -56,7 +58,7 @@
 
   * - データ入出力時に値の変換ができる |br|
       (trimやパック数値やゾーン数値の変換など)
-    - × [#converter]_
+    - △ [#converter]_
     - ○ |br|
       :ref:`解説書へ <data_format-value_convertor>`
 
@@ -67,10 +69,9 @@
       :ref:`解説書へ <data_format-replacement>`
 
 .. [#csv_multi_format] レコード毎に異なるフォーマットのCSVを扱う場合には、 :ref:`data_format` を使用すること。
-.. [#fixed_layout] 固定長データの入出力は未実装。固定長データを扱う場合は、 :ref:`data_format` を使用すること。
 .. [#json_layout] JSONデータの入出力は未実装。JSONデータを扱う場合は、 :ref:`data_format` やOSSを使用すること。
 .. [#xml_layout] XMLデータの入出力は未実装。XMLデータを扱う場合は、 :ref:`data_format` やJAXBを使用すること。
-.. [#converter] 出力前及び入力後にデータの形式変換などを行うこと。
+.. [#converter] 固定長データのみtrim等のコンバータを提供している。CSVで値の変換を行いたい場合は、出力前及び入力後にデータの形式変換などを行うこと。
 .. [#char_replace] 入力データの寄せ字(文字変換)は、文字変換用のハンドラを作成し対応すること
 
 .. |br| raw:: html
