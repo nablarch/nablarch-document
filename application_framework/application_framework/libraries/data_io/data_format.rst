@@ -62,7 +62,7 @@
   なお、 :ref:`messaging` は、内部で本機能を利用しているため、代替機能を使用することはできない。
 
   本機能の代替機能
-    :固定長: 固定長の代替機能は存在しない。本機能を使用すること。
+    :固定長: :ref:`data_bind` を使用すること。
     :可変長: :ref:`data_bind` を使用すること。
     :XML: :java:extdoc:`JAXB <javax.xml.bind>` を推奨する。
     :JSON: OSSの使用を推奨する。例えば、 `Jackson(外部サイト、英語) <https://github.com/FasterXML/jackson>`_ が広く使われている。
