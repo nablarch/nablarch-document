@@ -7,7 +7,7 @@
   :depth: 3
   :local:
 
-CSVやTSV、固定長といったデータファイルのデータをJava Beansオブジェクト及びMapオブジェクトとして扱う機能を提供する。
+CSVやTSV、固定長といったデータをJava Beansオブジェクト及びMapオブジェクトとして扱う機能を提供する。
 
 機能概要
 ---------------------------------------------------------------------
@@ -479,15 +479,18 @@ Mapクラスにバインドする場合
 Java Beansクラスにバインドする場合とMapクラスにバインドする場合で2種類の指定方法がある。
 
 Java Beansクラスにバインドする場合
-  :java:extdoc:`MultiLayout <nablarch.common.databind.fixedlength.MultiLayout>` の継承クラスを作成し、
-  フォーマットを定義したJava Beansクラスをプロパティとして複数定義することで、フォーマットを指定することができる。
+  フォーマットごとにJavaBeansクラスを定義して、それらのJava Beansクラスをプロパティとして持つ
+  :java:extdoc:`MultiLayout <nablarch.common.databind.fixedlength.MultiLayout>` の継承クラスを作成することで、
+  複数フォーマットの固定長ファイルに対応することができる。
 
-  実装例を以下に示す。
+  以下にフォーマット指定の実装例を示す。
 
   ポイント
-    * :java:extdoc:`FixedLength#multiLayout <nablarch.common.databind.fixedlength.FixedLength.multiLayout()>` には ``true`` を設定する。
-    * :java:extdoc:`MultiLayout <nablarch.common.databind.fixedlength.MultiLayout>` の継承クラスを作成し、
-      フォーマットを表すJava Beansクラスをプロパティとして定義する。
+    * フォーマットごとにJava Beansクラスを定義する。
+    * 上記のフォーマットを定義したJava Beansクラスをプロパティとして持つ、
+      :java:extdoc:`MultiLayout <nablarch.common.databind.fixedlength.MultiLayout>` の継承クラスを定義する。
+    * :java:extdoc:`MultiLayout <nablarch.common.databind.fixedlength.MultiLayout>` の継承クラスに
+      :java:extdoc:`FixedLength <nablarch.common.databind.fixedlength.FixedLength>` アノテーションを設定し、 ``multiLayout`` 属性に ``true`` を設定する。
     * :java:extdoc:`MultiLayout#getRecordIdentifier <nablarch.common.databind.fixedlength.MultiLayout.getRecordIdentifier()>` メソッドをオーバーライドして、
       対象のデータがどのフォーマットに紐づくかを識別する :java:extdoc:`RecordIdentifier <nablarch.common.databind.fixedlength.MultiLayoutConfig.RecordIdentifier>` の実装クラスを返却する。
 
@@ -558,11 +561,33 @@ Java Beansクラスにバインドする場合
         }
     }
 
+  次に、指定されたフォーマットをもとに固定長データの読み込み・書き込みを行う実装例を示す。
+
+  .. code-block:: java
+
+    // 読み込む場合の実装例
+    try (ObjectMapper<Person> mapper = ObjectMapperFactory.create(Person.class, inputStream)) {
+        final Person person = mapper.read();
+        if (RecordType.HEADER == person.getRecordName()) {
+            final Header header = person.getHeader();
+
+            // 後続の処理は省略
+        }
+    }
+
+    // 書き込む場合の実装例
+    try (ObjectMapper<Person> mapper = ObjectMapperFactory.create(Person.class, outputStream)) {
+        final Person person = new Person();
+        person.setHeader(new Header("1", "test"));
+        mapper.write(person);
+    }
+
+
 Mapクラスにバインドする場合
   :ref:`固定長ファイルをMapクラスにバインドする場合のフォーマット指定方法 <data_bind-fixed_length_format-map>`
   と同様の手順でフォーマットを指定することができる。
 
-  以下に実装例を示す。
+  以下にフォーマット指定の実装例を示す。
 
   ポイント
     * ``multiLayout`` メソッドを呼び出し、マルチレイアウト用のDataBindConfigを生成する。
@@ -592,7 +617,32 @@ Mapクラスにバインドする場合
             })
             .build();
 
-    final ObjectMapper<Map> mapper = ObjectMapperFactory.create(Map.class, outputStream, config);
+  次に、指定されたフォーマットをもとに固定長データの読み込み・書き込みを行う実装例を示す。
+
+  .. code-block:: java
+
+    // 読み込む場合の実装例
+    try (ObjectMapper<Map> mapper = ObjectMapperFactory.create(Map.class, inputStream, config)) {
+        final Map<String, ?> map = mapper.read();
+        if (RecordType.HEADER == map.get("recordName")) {
+            final Map<String, ?> header = map.get("header");
+
+            // 後続の処理は省略
+        }
+    }
+
+    // 書き込む場合の実装例
+    try (ObjectMapper<Map> mapper = ObjectMapperFactory.create(Map.class, outputStream, config)) {
+        final Map<String, ?> header = new HashMap<>();
+        header.put("id", "1");
+        header.put("field", "test");
+
+        final Map<String, ?> map = new HashMap<>();
+        map.put("recordName", RecordType.HEADER);
+        map.put("header", header);
+
+        mapper.write(map);
+    }
 
 拡張例
 ---------------------------------------------------------------------
