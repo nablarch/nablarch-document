@@ -4,8 +4,8 @@
 
 
 .. toctree::
-  :maxdepth: 3
+  :maxdepth: 2
 
   doc/index
   sample_application/doc/index
-  tool/doc/index
+  tool/index
