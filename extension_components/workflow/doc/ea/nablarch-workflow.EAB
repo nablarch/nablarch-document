@@ -1,9 +1,0 @@
-<BranchVCSpec>
-	<PkgGUID>{02BAEABD-6A12-4489-BCA3-8D33C05B81DB}</PkgGUID>
-	<XMLPath>ea8\8D33C05B81DB.xml</XMLPath>
-	<Config>
-		<GUID>nablarch-workflow</GUID>
-		<LocalPath>%nablarch-workflow%</LocalPath>
-		<Type>2</Type>
-	</Config>
-</BranchVCSpec>
