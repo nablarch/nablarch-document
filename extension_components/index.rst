@@ -8,7 +8,8 @@ Nablarch拡張コンポーネント
    :numbered:
 
    report/index
-   workflow/index
+   workflow/doc/index
+   workflow/tool/index
    etl/index
    etl/etl_maven_plugin
 
