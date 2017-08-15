@@ -258,7 +258,7 @@
   .. code-block:: java
   
     // アプリケーションのテーブルで保持しているワークフローのインスタンスIDを取得する。
-    final instanceId = findInstanceId();
+    final String instanceId = findInstanceId();
   
     // WorkflowManagerからWorkflowInstanceを取得する。
     WorkflowInstance instance = WorkflowManager.findInstance(instanceId);
@@ -371,7 +371,6 @@ XORゲートウェイの定義
     final WorkflowInstance instance = WorkflowManager.findInstance(instanceId);
     
     // triggerEventを呼び出し状態を遷移させる。
-    // 
     instance.triggerEvent("cancel");
   
 .. _workflow-reject:
@@ -485,15 +484,15 @@ XORゲートウェイの定義
 ワークフロー（ステートマシン）の定義を変更する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ワークフロー（ステートマシン）の定義を変更する際に、既に進行中のものについては旧バージョンの定義に従い進行できる機能を提供する。
-この機能を使用することで、進行中のフローに影響をあたえることなくある日時点から新しいバージョンフローを進行できるようになる。
+この機能を使用することで、進行中のフローに影響をあたえることなく、ある日時点から新しいバージョンのフローを進行できるようになる。
 
 バージョンは、ワークフロー（ステートマシン）開始時点で有効なものが自動的に適用される。
 ワークフロー定義テーブルの適用日が :ref:`システム日付 <date-system_time_settings>` 以前で最もバージョンの大きいものが自動的に適用される。
 
 .. tip::
 
-  ワークフロー（ステートマシン）の定義の変更によっていは、アプリケーションのロジックに影響をあたえるものがある。
-  そのよううな場合は、アプリケーション側で進行中のフローのバージョンを取得しロジックを切り替える必要がある。
+  ワークフロー（ステートマシン）の定義の変更によっては、アプリケーションのロジックに影響をあたえるものがある。
+  そのような場合は、アプリケーション側で進行中のフローのバージョンを取得しロジックを切り替える必要がある。
   
   バージョンの取得例
     .. code-block:: java
@@ -502,7 +501,7 @@ XORゲートウェイの定義
       final WorkflowInstance instance = WorkflowManager.findInstance(instanceId);
         
       if (instance.getVersion() == 1L) {
-        // バージョン1の理を行う
+        // バージョン1の処理を行う
       } else {
         // バージョン2以降の処理を行う
       }
@@ -553,7 +552,7 @@ CompletionConditionの実装例
   * 実装クラスはコンストラクタでパラメータを受け取る事ができる。（パラメータはString限定)
     パラメータを受け取るクラスを使用する場合、テーブルのフロー進行条件には ``sample.SampleCompletionCondition("1")`` 
     のように引数に設定する値を含めて格納する必要がある。
-  * ``isCompletedUserTask`` ユーザタスクの完了判定を行う。
+  * ``isCompletedUserTask`` でユーザタスクの完了判定を行う。
   * ``isCompletedGroupTask`` でグループタスクの完了判定を行う。
   
   .. code-block:: java
