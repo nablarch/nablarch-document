@@ -78,7 +78,7 @@ Mapオブジェクトへの変換時、値は全てString型で格納される�
 データファイルを先頭から1データずつ読み込み、Java Beansオブジェクトとして取得することができる。
 
 データの読み込みは、 :java:extdoc:`ObjectMapperFactory#create <nablarch.common.databind.ObjectMapperFactory.create(java.lang.Class,%20java.io.InputStream)>`
-で生成した :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` を使用して行い、
+で生成した :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` [#thread-unsafe]_ を使用して行い、
 :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` の生成時に指定した、
 Java Beansクラスに定義されたアノテーションをもとにデータを読み込む。
 
@@ -113,7 +113,7 @@ Java Beansオブジェクトの内容をデータファイルに書き込む
 Java Beansオブジェクトの内容をデータファイルに1データずつ書き込むことができる。
 
 データファイルへの書き込みは、 :java:extdoc:`ObjectMapperFactory#create <nablarch.common.databind.ObjectMapperFactory.create(java.lang.Class,%20java.io.OutputStream)>`
-で生成した :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` を使用して行い、
+で生成した :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>`  [#thread-unsafe]_ を使用して行い、
 :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` の生成時に指定した、
 Java Beansクラスに定義されたアノテーションをもとにデータを書き込む。
 
@@ -145,7 +145,7 @@ Java Beansクラスへのアノテーション定義方法の詳細は以下を�
 
 データの読み込みは、
 :java:extdoc:`ObjectMapperFactory#create <nablarch.common.databind.ObjectMapperFactory.create(java.lang.Class,%20java.io.InputStream,%20nablarch.common.databind.DataBindConfig)>`
-で生成した :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` を使用して行い、
+で生成した :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` [#thread-unsafe]_ を使用して行い、
 :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` の生成時に指定した、
 :java:extdoc:`DataBindConfig <nablarch.common.databind.DataBindConfig>` の設定値をもとにデータを読み込む。
 
@@ -177,7 +177,7 @@ Mapオブジェクトの内容をデータファイルに1データずつ書き�
 
 データファイルへの書き込みは、
 :java:extdoc:`ObjectMapperFactory#create <nablarch.common.databind.ObjectMapperFactory.create(java.lang.Class,%20java.io.OutputStream,%20nablarch.common.databind.DataBindConfig)>`
-で生成した :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` を使用して行い、
+で生成した :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` [#thread-unsafe]_ を使用して行い、
 :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` の生成時に指定した、
 :java:extdoc:`DataBindConfig <nablarch.common.databind.DataBindConfig>` の設定値をもとにデータを書き込む。
 
@@ -697,3 +697,11 @@ CSVファイルのフォーマットとして指定できるフォーマット�
   .. tip::
 
     CSVファイルの読み込み時は、クォートモードは使用せずに自動的にフィールド囲み文字の有無を判定して読み込みを行う。
+    
+    
+.. [#thread-unsafe]
+
+  :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` の読み込み及び書き込みは、スレッド案セーフであるため複数スレッドから同時に呼び出された場合の動作は保証しない。
+  このため、 :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` のインスタンスを複数スレッドで共有するような場合には、呼び出し元にて同期処理を行うこと。
+  
+
