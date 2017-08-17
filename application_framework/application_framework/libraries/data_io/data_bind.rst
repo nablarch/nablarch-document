@@ -701,7 +701,7 @@ CSVファイルのフォーマットとして指定できるフォーマット�
     
 .. [#thread-unsafe]
 
-  :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` の読み込み及び書き込みは、スレッド案セーフであるため複数スレッドから同時に呼び出された場合の動作は保証しない。
+  :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` の読み込み及び書き込みは、スレッドアンセーフであるため複数スレッドから同時に呼び出された場合の動作は保証しない。
   このため、 :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` のインスタンスを複数スレッドで共有するような場合には、呼び出し元にて同期処理を行うこと。
   
 
