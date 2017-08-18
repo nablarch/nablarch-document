@@ -1825,6 +1825,19 @@ HTMLエスケープを行わず、変数内のHTMLタグを直接出力したい
  デフォルトで使用可能なタグ、属性はリンク先を参照。
 
  .. important::
+  このタグは以下の問題があるため非推奨とする。
+
+  * 使用可能なタグだけでなく、そのタグで使用する属性も含めて全て :java:extdoc:`CustomTagConfig <nablarch.common.web.tag.CustomTagConfig>` に設定しなければならないため、設定に非常に手間が掛かり使いづらい。
+    例えば、``a`` タグを使用可能にしたい場合は :java:extdoc:`CustomTagConfig#safeTags <nablarch.common.web.tag.CustomTagConfig.setSafeTags(java.lang.String[])>` に ``a`` タグを追加するだけではなく、
+    :java:extdoc:`CustomTagConfig#safeAttributes <nablarch.common.web.tag.CustomTagConfig.setSafeAttributes(java.lang.String[])>` にも、``href`` などの ``a`` タグで使用する属性を全て定義しなくてはならない。
+
+  そのため、このタグと同等の機能を実現したい場合は、以下の手順を参考にPJで実装すること。
+
+  1. `Jsoup(外部サイト、英語) <https://jsoup.org/>`_ 等のOSSを使用して変数内のHTMLタグをパースする
+  2. 使用できないHTMLタグが変数内に含まれていないかをバリデーションする
+  3. :ref:`rawWriteタグ <tag-html_unescape_raw_write_tag>` を使用して、変数内の値を画面に出力する
+
+ .. important::
   :ref:`tag-pretty_print_tag` で出力する変数の内容が、不特定のユーザによって任意に設定できるものであった場合、
   脆弱性の要因となる可能性があるため、使用可能なHTMLタグ及び属性を設定する場合は、その選択に十分に留意すること。
   例えば、<script>タグやonclick属性を使用可能とした場合、クロスサイトスクリプティング(XSS)脆弱性の直接要因となるため、
