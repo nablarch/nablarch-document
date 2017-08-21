@@ -1831,11 +1831,20 @@ HTMLエスケープを行わず、変数内のHTMLタグを直接出力したい
     例えば、``a`` タグを使用可能にしたい場合は :java:extdoc:`CustomTagConfig#safeTags <nablarch.common.web.tag.CustomTagConfig.setSafeTags(java.lang.String[])>` に ``a`` タグを追加するだけではなく、
     :java:extdoc:`CustomTagConfig#safeAttributes <nablarch.common.web.tag.CustomTagConfig.setSafeAttributes(java.lang.String[])>` にも、``href`` などの ``a`` タグで使用する属性を全て定義しなくてはならない。
 
-  そのため、このタグと同等の機能を実現したい場合は、以下の手順を参考にPJで実装すること。
+  * 入力された文字列が :java:extdoc:`CustomTagConfig <nablarch.common.web.tag.CustomTagConfig>`
+    に設定したタグ、属性のみを使用しているかのチェックしか行っておらず、HTMLとして正しいかどうかをチェックしていない。
 
-  1. `Jsoup(外部サイト、英語) <https://jsoup.org/>`_ 等のOSSを使用して変数内のHTMLタグをパースする
-  2. 使用できないHTMLタグが変数内に含まれていないかをバリデーションする
-  3. :ref:`rawWriteタグ <tag-html_unescape_raw_write_tag>` を使用して、変数内の値を画面に出力する
+  そのため、利用者が任意の装飾を施した文字列を画面に出力するような機能を実現したい場合は、要件に合わせてPJで実装を行うこと。
+  以下に、HTMLタグ、およびMarkdownを使用して装飾を行う場合の例を示す。
+
+  HTMLタグ
+    1. `Jsoup(外部サイト、英語) <https://jsoup.org/>`_ 等のOSSを使用して変数内のHTMLタグをパースする
+    2. 使用できないHTMLタグが変数内に含まれていないかをバリデーションする
+    3. :ref:`rawWriteタグ <tag-html_unescape_raw_write_tag>` を使用して、変数内の値を画面に出力する
+
+  Markdown
+    1. `commonmark-java(外部サイト、英語) <https://github.com/atlassian/commonmark-java>`_ 等のOSSを使用してMarkdown形式の文字列をパースする
+    2. :ref:`rawWriteタグ <tag-html_unescape_raw_write_tag>` を使用して、変数内の値を画面に出力する
 
  .. important::
   :ref:`tag-pretty_print_tag` で出力する変数の内容が、不特定のユーザによって任意に設定できるものであった場合、
