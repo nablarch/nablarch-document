@@ -1393,6 +1393,11 @@ writeタグ
 prettyPrintタグ
 -------------------------
 
+.. important::
+
+  このタグは非推奨であるため使用しないこと。
+  詳細は、 :ref:`prettyPrintタグの使用を推奨しない理由 <tag-pretty_print_tag-deprecated>` を参照。
+
 .. table::
    :class: tag-reference
 
