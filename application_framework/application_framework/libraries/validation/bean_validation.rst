@@ -444,7 +444,7 @@ Java実装例
 :ref:`データベースとの相関バリデーション <bean_validation-database_validation>` のようにアクションハンドラで行うバリデーションでエラーが発生した場合に、
 画面上で対象項目をエラーとしてハイライト表示したい場合がある。
 
-この場合には、下記の実装例のように :java:extdoc:`ValidationUtil#createMessageForProperty <nablarch.core.validation.ValidationUtil.createMessageForProperty(java.lang.String, java.lang.String, java.lang.Object...)>`
+この場合には、下記の実装例のように :java:extdoc:`ValidationUtil#createMessageForProperty <nablarch.core.validation.ValidationUtil.createMessageForProperty(java.lang.String-java.lang.String-java.lang.Object...)>`
 を使用してエラーメッセージを構築し、 :java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>` を送出する。
 
 .. code-block:: java

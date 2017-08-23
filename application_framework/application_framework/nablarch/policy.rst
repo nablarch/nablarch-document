@@ -115,7 +115,7 @@ Nablarchでは、アプリケーション開発で必要になると想定した
 * :java:extdoc:`BigDecimal#toPlainString() <java.math.BigDecimal.toPlainString()>` の呼び出しで、非常に大きい文字列が生成されヒープが圧迫される
 * :java:extdoc:`DecimalFormat <java.text.DecimalFormat>` を使用してフォーマットする際に非常に大きい文字列が生成されヒープが圧迫される
 
-このため、Nablarchでは文字列からBigDecimalに変換する際に、 :java:extdoc:`BigDecimal#scale <java.math.BigDecimal#scale()>` 
+このため、Nablarchでは文字列からBigDecimalに変換する際に、 :java:extdoc:`BigDecimal#scale <java.math.BigDecimal.scale()>` 
 を使用して桁数チェックを行い、ヒープを圧迫するような大きな値を取り込むことを防止している。
 この機能では、許容するscaleの範囲を ``-9999`` から ``9999`` の範囲とし、この範囲を超える指数表現の値を変換しようとした場合、例外を送出しヒープが圧迫されないようにしている。
 

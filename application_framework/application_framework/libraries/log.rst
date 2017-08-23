@@ -646,7 +646,7 @@ LogFormatterの設定は、下記を想定する。
     
 3. ログ機能初期化後の初期化メッセージを出力しないよう変更する。
 
-  :java:extdoc:`needsToWrite <nablarch.core.log.basic.FileLogWriter.needsToWrite(nablarch.core.log.basic.LogContext)>` をオーバライドし、
+  :java:extdoc:`needsToWrite <nablarch.core.log.basic.LogWriterSupport.needsToWrite(nablarch.core.log.basic.LogContext)>` をオーバライドし、
   初回に呼び出される初期化メッセージの出力を行わないよう変更する。  
   
   .. code-block:: java

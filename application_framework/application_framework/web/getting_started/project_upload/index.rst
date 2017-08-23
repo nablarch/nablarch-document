@@ -195,7 +195,7 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
       * アップロードされたファイルは :ref:`マルチパートリクエストハンドラ<multipart_handler>` によって一時領域に保存される。
         一時領域は自動で削除されるため、アップロードファイルを永続化（保存）する必要がある場合は、ファイルを任意のディレクトリへ移送する。
         ただし、ファイルの移送は :ref:`ファイルパス管理<file_path_management>` を使用してファイルやディレクトリの入出力を管理している場合のみ可能である。
-      * ファイルの移送には :java:extdoc:`UploadHelper#moveFileTo<nablarch.fw.web.upload.util.UploadHelper.moveFileTo(java.lang.String, java.lang.String)>` メソッドを使用する。
+      * ファイルの移送には :java:extdoc:`UploadHelper#moveFileTo<nablarch.fw.web.upload.util.UploadHelper.moveFileTo(java.lang.String-java.lang.String)>` メソッドを使用する。
         第一引数には、設定ファイルに登録されたファイル格納ディレクトリのキー名を指定する。
         Exampleアプリケーションでは下記ファイルに設定が記載されている。
 

@@ -293,14 +293,14 @@ extensions = ['sphinx.ext.todo', 'javasphinx']
 todo_include_todos=False
 
 javadoc_url_map = {
-  'nablarch' : ("https://nablarch.github.io/docs/5u10/javadoc/", 'javadoc'),
-  'javax.persistence' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc'),
-  'javax.validation' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc'),
-  'javax.servlet' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc'),
-  'javax.batch' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc'),
-  'javax.inject' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc'),
-  'javax.enterprise' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc'),
-  'javax.ws' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc')
+  'nablarch' : ("https://nablarch.github.io/docs/LATEST/javadoc/", 'javadoc8'),
+  'javax.persistence' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8'),
+  'javax.validation' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8'),
+  'javax.servlet' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8'),
+  'javax.batch' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8'),
+  'javax.inject' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8'),
+  'javax.enterprise' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8'),
+  'javax.ws' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8')
 }
 
 # add custom javascript
