@@ -1819,8 +1819,8 @@ HTMLエスケープを行わず、変数内のHTMLタグを直接出力したい
 :ref:`tag-pretty_print_tag`
  ``<b>`` や ``<del>`` のような装飾系のHTMLタグをエスケープせずに出力するカスタムタグ。
  使用可能なHTMLタグ及び属性は、 :ref:`tag-setting` で
- :java:extdoc:`safeTagsプロパティ<nablarch.common.web.tag.CustomTagConfig.setSafeTags(java.lang.String[])>` /
- :java:extdoc:`safeAttributesプロパティ<nablarch.common.web.tag.CustomTagConfig.setSafeAttributes(java.lang.String[])>`
+ :java:extdoc:`safeTagsプロパティ<nablarch.common.web.tag.CustomTagConfig.setSafeTags(java.lang.String:A)>` /
+ :java:extdoc:`safeAttributesプロパティ<nablarch.common.web.tag.CustomTagConfig.setSafeAttributes(java.lang.String:A)>`
  で任意に設定することができる。
  デフォルトで使用可能なタグ、属性はリンク先を参照。
 

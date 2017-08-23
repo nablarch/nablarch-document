@@ -72,7 +72,7 @@ BeanUtilでJSR310(Date and Time API)を利用する
   
 データベースアクセス(JDBCラッパー)
   :ref:`database` 機能の場合は、データベースの出力時にJSR310を扱えるようになる。
-  例えば、 :java:extdoc:`SqlPStatement#setObject <nablarch.core.db.statement.SqlPStatement.setObject(int,java.lang.Object)>` で
+  例えば、 :java:extdoc:`SqlPStatement#setObject <nablarch.core.db.statement.SqlPStatement.setObject(int-java.lang.Object)>` で
   :java:extdoc:`LocalDate <java.time.LocalDate>` や :java:extdoc:`LocalDateTime <java.time.LocalDateTime>` を指定できる。
   
   データベースからの取得結果の場合は、:java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` から取得した値を必要に応じて変換すること。

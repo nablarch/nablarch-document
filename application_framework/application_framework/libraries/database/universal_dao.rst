@@ -337,7 +337,7 @@ GenerationType.TABLE
 
 悲観的ロックは、データベースの行ロック（select for update）を使用することで行う。
 行ロック（select for update）を記載したSQLは、
-:java:extdoc:`UniversalDao#findBySqlFile <nablarch.common.dao.UniversalDao.findBySqlFile(java.lang.Class,%20java.lang.String,%20java.lang.Object)>` メソッドを使って実行する。
+:java:extdoc:`UniversalDao#findBySqlFile <nablarch.common.dao.UniversalDao.findBySqlFile(java.lang.Class-java.lang.String-java.lang.Object)>` メソッドを使って実行する。
 
 排他制御の考え方
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

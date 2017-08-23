@@ -693,8 +693,8 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
    * :java:extdoc:`MessagingAction<nablarch.fw.messaging.action.MessagingAction>` を継承し、
      以下のメソッドをオーバーライドする。
 
-      * :java:extdoc:`MessagingAction#onReceive<nablarch.fw.messaging.action.MessagingAction.onReceive(nablarch.fw.messaging.RequestMessage, nablarch.fw.ExecutionContext)>`
-      * :java:extdoc:`MessagingAction#onError<nablarch.fw.messaging.action.MessagingAction.onError(java.lang.Throwable, nablarch.fw.messaging.RequestMessage, nablarch.fw.ExecutionContext)>`
+      * :java:extdoc:`MessagingAction#onReceive<nablarch.fw.messaging.action.MessagingAction.onReceive(nablarch.fw.messaging.RequestMessage-nablarch.fw.ExecutionContext)>`
+      * :java:extdoc:`MessagingAction#onError<nablarch.fw.messaging.action.MessagingAction.onError(java.lang.Throwable-nablarch.fw.messaging.RequestMessage-nablarch.fw.ExecutionContext)>`
 
    * 応答電文は、 :java:extdoc:`RequestMessage#reply<nablarch.fw.messaging.RequestMessage.reply()>` で作成する。
    * 要求電文と応答電文の内容を保持するため、それぞれに対応したフォームクラスを作成する。

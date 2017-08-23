@@ -316,7 +316,7 @@ errorsタグを使用すると、メッセージレベルに応じて以下のcs
     }
 
 action class
-  `errors` タグで出力するメッセージは、 :java:extdoc:`WebUtil.notifyMessages <nablarch.common.web.WebUtil.notifyMessages(nablarch.fw.ExecutionContext,%20nablarch.core.message.Message...)>` を使ってリクエストスコープに格納する。
+  `errors` タグで出力するメッセージは、 :java:extdoc:`WebUtil.notifyMessages <nablarch.common.web.WebUtil.notifyMessages(nablarch.fw.ExecutionContext-nablarch.core.message.Message...)>` を使ってリクエストスコープに格納する。
 
   .. code-block:: java
 
