@@ -69,7 +69,10 @@ Exampleアプリケーションの実行手順は、各Exampleアプリケーシ
     同期応答メッセージ受信
      https://github.com/nablarch/nablarch-example-mom-sync-receive
 
+    テーブルをキューとして使ったメッセージング
+     https://github.com/nablarch/nablarch-example-db-queue
 
+  .. _`example_application-workflow`:
 
-   テーブルをキューとして使ったメッセージング
-    https://github.com/nablarch/nablarch-example-db-queue
+  ワークフロー
+    https://github.com/nablarch/nablarch-example-workflow
