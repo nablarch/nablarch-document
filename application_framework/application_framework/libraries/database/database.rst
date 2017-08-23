@@ -868,7 +868,7 @@ blob(データベース製品によりバイナリ型の型は異なる)など�
       }
 
 バイナリ型の値を登録・更新する
-  サイズの小さいバイナリ値を登録・更新する場合は、 :java:extdoc:`SqlPStatement#setByte <nablarch.core.db.statement.SqlPStatement.setBytes(int-yte:A)>` を使用する。
+  サイズの小さいバイナリ値を登録・更新する場合は、 :java:extdoc:`SqlPStatement#setByte <nablarch.core.db.statement.SqlPStatement.setBytes(int-byte:A)>` を使用する。
 
   .. code-block:: java
 
