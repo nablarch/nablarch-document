@@ -1829,7 +1829,7 @@ HTMLエスケープを行わず、変数内のHTMLタグを直接出力したい
  .. important::
   このタグは以下の問題があるため非推奨とする。
 
-  * 使用可能なタグだけでなく、そのタグで使用する属性も含めて全て :java:extdoc:`CustomTagConfig <nablarch.common.web.tag.CustomTagConfig>` に設定しなければならないため、設定に非常に手間が掛かる。
+  * 使用可能なタグだけでなく、そのタグで使用する属性も含めて全て :java:extdoc:`CustomTagConfig <nablarch.common.web.tag.CustomTagConfig>` に設定しなければならない。
     例えば、``a`` タグを使用可能にしたい場合は :java:extdoc:`CustomTagConfig#safeTags <nablarch.common.web.tag.CustomTagConfig.setSafeTags(java.lang.String[])>` に ``a`` タグを追加するだけではなく、
     :java:extdoc:`CustomTagConfig#safeAttributes <nablarch.common.web.tag.CustomTagConfig.setSafeAttributes(java.lang.String[])>` にも、``href`` などの ``a`` タグで使用する属性を全て定義しなくてはならない。
 
@@ -1839,9 +1839,8 @@ HTMLエスケープを行わず、変数内のHTMLタグを直接出力したい
   そのため、利用者が任意の装飾を施した文字列を画面に出力するような機能を実現したい場合は、
   以下の手順を参考にPJの要件に合わせて実装を行うこと。
 
-  1. OSSのHTMLパーサを使用して変数内のHTMLタグをパースする
-  2. 使用できないHTMLタグが変数内に含まれていないかをバリデーションする
-  3. :ref:`rawWriteタグ <tag-html_unescape_raw_write_tag>` を使用して、変数内の値を画面に出力する
+  1. OSSのHTMLパーサを使用して文字列内のHTMLタグをパースし、使用できないHTMLタグが含まれていないかをバリデーションする
+  2. :ref:`rawWriteタグ <tag-html_unescape_raw_write_tag>` を使用して画面に出力する
 
   また、簡易的な装飾であれば、利用者にはMarkdownで入力してもらい、
   OSSのJavaScriptライブラリを使用してクライアントサイドでMarkdownからHTMLに変換する方法もある。
