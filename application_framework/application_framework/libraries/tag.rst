@@ -1824,6 +1824,27 @@ HTMLエスケープを行わず、変数内のHTMLタグを直接出力したい
  で任意に設定することができる。
  デフォルトで使用可能なタグ、属性はリンク先を参照。
 
+  .. _`tag-pretty_print_tag-deprecated`:
+
+ .. important::
+  このタグは以下の問題があるため非推奨とする。
+
+  * 使用可能なタグだけでなく、そのタグで使用する属性も含めて全て :java:extdoc:`CustomTagConfig <nablarch.common.web.tag.CustomTagConfig>` に設定しなければならない。
+    例えば、``a`` タグを使用可能にしたい場合は :java:extdoc:`CustomTagConfig#safeTags <nablarch.common.web.tag.CustomTagConfig.setSafeTags(java.lang.String[])>` に ``a`` タグを追加するだけではなく、
+    :java:extdoc:`CustomTagConfig#safeAttributes <nablarch.common.web.tag.CustomTagConfig.setSafeAttributes(java.lang.String[])>` にも、``href`` などの ``a`` タグで使用する属性を全て定義しなくてはならない。
+
+  * 入力された文字列が :java:extdoc:`CustomTagConfig <nablarch.common.web.tag.CustomTagConfig>`
+    に設定したタグ、属性のみを使用しているかのチェックしか行っておらず、HTMLとして正しいかどうかをチェックしていない。
+
+  そのため、利用者が任意の装飾を施した文字列を画面に出力するような機能を実現したい場合は、
+  以下の手順を参考にPJの要件に合わせて実装を行うこと。
+
+  1. OSSのHTMLパーサを使用して入力された値をパースし、使用できないHTMLタグが含まれていないかをバリデーションする
+  2. :ref:`rawWriteタグ <tag-html_unescape_raw_write_tag>` を使用して画面に出力する
+
+  また、簡易的な装飾であれば、利用者にはMarkdownで入力してもらい、
+  OSSのJavaScriptライブラリを使用してクライアントサイドでMarkdownからHTMLに変換する方法もある。
+
  .. important::
   :ref:`tag-pretty_print_tag` で出力する変数の内容が、不特定のユーザによって任意に設定できるものであった場合、
   脆弱性の要因となる可能性があるため、使用可能なHTMLタグ及び属性を設定する場合は、その選択に十分に留意すること。
