@@ -55,8 +55,7 @@ Nablarch拡張コンポーネント
 ===========================
 
   | :doc:`解説書 <extension_components/workflow/doc/index>`
-  | :doc:`ワークフロー定義データ自動生成ツール <extension_components/workflow/tool/index>`
-  | :doc:`ワークフローアプリケーション実装ガイド <extension_components/workflow/sample_application/doc/index>` | `サンプルアプリケーション <https://github.com/nablarch/nablarch-workflow-sample/>`_
+  | :doc:`ワークフロー定義データ自動生成ツール <extension_components/workflow/tool/index>` |
 
 ETL基盤
 ===========================
