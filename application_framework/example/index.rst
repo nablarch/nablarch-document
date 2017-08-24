@@ -71,8 +71,3 @@ Exampleアプリケーションの実行手順は、各Exampleアプリケーシ
 
     テーブルをキューとして使ったメッセージング
      https://github.com/nablarch/nablarch-example-db-queue
-
-  .. _`example_application-workflow`:
-
-  ワークフロー
-    https://github.com/nablarch/nablarch-example-workflow
