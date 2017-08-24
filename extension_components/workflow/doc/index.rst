@@ -162,11 +162,11 @@
 
 ワークフロー(ステートマシン)を開始する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-``WorkflowManager.startInstance`` を使用してワークフロー(ステートマシン)を開始する。
+:java:extdoc:`WorkflowManager#startInstance <nablarch.integration.workflow.WorkflowManager.startInstance(java.lang.String)>` を使用してワークフロー(ステートマシン)を開始する。
 
 .. tip::
 
-  本APIから戻される、 ``WorkflowInstance`` からインスタンスIDを取得しアプリケーション側のテーブルなどで保持すること。
+  本APIから戻される、 :java:extdoc:`WorkflowInstance <nablarch.integration.workflow.WorkflowInstance>` からインスタンスIDを取得しアプリケーション側のテーブルなどで保持すること。
   インスタンスIDは、ワークフロー(ステートマシン)の状態を遷移させるために必要となるため、必ずアプリケーション側で保持する必要がある。
 
 実装例
@@ -190,8 +190,8 @@
 
 ワークフローのタスクに担当者やグループを割り当てる
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-``WorkflowInstance`` の ``assignUser`` を使用してタスクに対して担当者を割り当てることができる。
-また、 ``assignGroup`` を使用してタスクにグループを割り当てることができる。
+:java:extdoc:`WorkflowInstance#assignUser <nablarch.integration.workflow.WorkflowInstance.assignUser(java.lang.String-java.lang.String)>` を使用してタスクに対して担当者を割り当てることができる。
+また、 :java:extdoc:`WorkflowInstance#assignGroup <nablarch.integration.workflow.WorkflowInstance.assignGroup(java.lang.String-java.lang.String)>` を使用してタスクにグループを割り当てることができる。
 既にタスクに担当者（グループ）が割り当て済みの場合は、割り当て済みの情報を削除し再割当てを行う。
 
 担当者（グループ）の割り当ては任意のタイミングで行える。
@@ -251,9 +251,12 @@
 .. _workflow-complete_task:
 
 ワークフローの状態を遷移(タスクを完了)させる
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-``WorkflowInstance`` の ``completeUserTask`` や ``completeGroupTask`` を使用してタスクを完了し、次のタスクに状態を遷移させることができる。
-対象の ``WorkflowInstance`` は、 :ref:`ワークフロー開始時 <workflow-start>` にアプリケーション側で保持したインスタンスIDを使用して事前に取得する必要がある。
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:java:extdoc:`WorkflowInstance#completeUserTask <nablarch.integration.workflow.WorkflowInstance.completeUserTask()>` や
+:java:extdoc:`WorkflowInstance#completeGroupTask <nablarch.integration.workflow.WorkflowInstance.completeGroupTask(java.lang.String)>`
+を使用してタスクを完了し、次のタスクに状態を遷移させることができる。
+対象の :java:extdoc:`WorkflowInstance <nablarch.integration.workflow.WorkflowInstance>` は、
+:ref:`ワークフロー開始時 <workflow-start>` にアプリケーション側で保持したインスタンスIDを使用して事前に取得する必要がある。
 
 タスク完了後のワークフローの状態の取得方法は、 :ref:`workflow-status` を参照。
 
@@ -357,7 +360,7 @@ XORゲートウェイの定義
 申請者が進行中の申請自体を取り消ししたい場合がある。
 このような場合は、取り消し可能なタスクに対して境界イベントを関連付けることで対応する。
 
-境界イベントの実行は、 ``WorkflowInstance`` の ``triggerEvent`` を使用して行う。
+境界イベントの実行は、 :java:extdoc:`WorkflowInstance#triggerEvent <nablarch.integration.workflow.WorkflowInstance.triggerEvent(java.lang.String)>` を使用して行う。
 
 ワークフロー定義
   取り消し可能なタスクに対して境界イベント(①)を定義する。
@@ -409,10 +412,14 @@ XORゲートウェイの定義
 
 ステートマシンの状態を遷移させる
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ステートマシンの状態を遷移させる場合は、 ``WorkflowInstance`` の ``triggerEvent`` を使用して状態を遷移させることができる。
-対象の ``WorkflowInstance`` は、ワークフロー開始時 にアプリケーション側で保持したインスタンスIDを使用して事前に取得する必要がある。
+ステートマシンの状態を遷移させる場合は、
+:java:extdoc:`WorkflowInstance#triggerEvent <nablarch.integration.workflow.WorkflowInstance.triggerEvent(java.lang.String)>`
+を使用して状態を遷移させることができる。
+対象の :java:extdoc:`WorkflowInstance <nablarch.integration.workflow.WorkflowInstance>` は、
+ワークフロー開始時 にアプリケーション側で保持したインスタンスIDを使用して事前に取得する必要がある。
 
-なお、 ``triggerEvent`` にパラメータを指定することで、 :ref:`workflow-flow_condition` を実現できる。
+なお、 :java:extdoc:`WorkflowInstance#triggerEvent <nablarch.integration.workflow.WorkflowInstance.triggerEvent(java.lang.String-java.util.Map)>`
+にパラメータを指定することで、 :ref:`workflow-flow_condition` を実現できる。
 
 タスク完了後のワークフローの状態の取得方法は、 :ref:`workflow-status` を参照。
 
@@ -456,7 +463,10 @@ XORゲートウェイの定義
 ワークフロー（ステートマシン）の状態遷移後の状態を取得できる。
 これにより、 :ref:`分岐 <workflow-flow_condition>` を使用した場合に、どのタスクがアクティブとなったかやワークフロー（ステートマシン）が完了したかを判断できるようになる。
 
-ワークフロー（ステートマシン）の状態は、 ``workflowInstance`` の ``isActive`` や ``isCompleted`` を使用して問い合わせることができる。
+ワークフロー（ステートマシン）の状態は、
+:java:extdoc:`WorkflowInstance#isActive <nablarch.integration.workflow.WorkflowInstance.isActive(java.lang.String)>` や
+:java:extdoc:`WorkflowInstance#isCompleted <nablarch.integration.workflow.WorkflowInstance.isCompleted()>`
+を使用して問い合わせることができる。
 
 定義
   .. image:: images/status.png
@@ -517,14 +527,15 @@ XORゲートウェイの進行先ノードの判定方法
 XORゲートウェイの進行先ノードは、シーケンスフローテーブルのフロー進行条件により判定する。
 フロー進行条件には、条件を判定するクラスの完全修飾名を格納する。
 
-条件を判定するクラスは、 ``nablarch.integration.workflow.condition.FlowProceedCondition`` を実装し作成する。
-本機能で提供するクラスは、 ``nablarch.integration.workflow.condition`` パッケージ配下に格納されている。
+条件を判定するクラスは、 :java:extdoc:`FlowProceedCondition <nablarch.integration.workflow.condition.FlowProceedCondition>` を実装し作成する。
+本機能で提供するクラスは、 :java:extdoc:`nablarch.integration.workflow.condition` パッケージ配下に格納されている。
 
 FlowProceedCondition実装クラスの例
   * 実装クラスはコンストラクタでパラメータを受け取る事ができる。（パラメータはString限定)
     パラメータを受け取るクラスを使用する場合、テーブルのフロー進行条件には ``sample.SampleFlowProceedCondition("key", "value")`` 
     のように引数に設定する値を含めて格納する必要がある。
-  * ``isMatch`` で指定のシーケンスフローに対して遷移可能かどうかの結果を返す。
+  * :java:extdoc:`isMatch <nablarch.integration.workflow.condition.FlowProceedCondition.isMatch(java.lang.String-java.util.Map-nablarch.integration.workflow.definition.SequenceFlow)>`
+    で指定のシーケンスフローに対して遷移可能かどうかの結果を返す。
     
   .. code-block:: java
   
@@ -548,15 +559,17 @@ FlowProceedCondition実装クラスの例
 マルチインスタンの完了は、タスクテーブルの完了条件により判定する。
 完了条件には、条件を判定するクラスの完全修飾名を格納する。
 
-条件を判定するクラスは、 ``nablarch.integration.workflow.condition.CompletionCondition`` を実装し作成する。
-本機能で提供するクラスは、 ``nablarch.integration.workflow.condition`` パッケージ配下に格納されている。
+条件を判定するクラスは、 :java:extdoc:`CompletionCondition <nablarch.integration.workflow.condition.CompletionCondition>` を実装し作成する。
+本機能で提供するクラスは、 :java:extdoc:`nablarch.integration.workflow.condition` パッケージ配下に格納されている。
 
 CompletionConditionの実装例
   * 実装クラスはコンストラクタでパラメータを受け取る事ができる。（パラメータはString限定)
     パラメータを受け取るクラスを使用する場合、テーブルのフロー進行条件には ``sample.SampleCompletionCondition("1")`` 
     のように引数に設定する値を含めて格納する必要がある。
-  * ``isCompletedUserTask`` でユーザタスクの完了判定を行う。
-  * ``isCompletedGroupTask`` でグループタスクの完了判定を行う。
+  * :java:extdoc:`isCompletedUserTask <nablarch.integration.workflow.condition.CompletionCondition.isCompletedUserTask(java.util.Map-java.lang.String-nablarch.integration.workflow.definition.Task)>`
+    でユーザタスクの完了判定を行う。
+  * :java:extdoc:`isCompletedGroupTask <nablarch.integration.workflow.condition.CompletionCondition.isCompletedGroupTask(java.util.Map-java.lang.String-nablarch.integration.workflow.definition.Task)>`
+    でグループタスクの完了判定を行う。
   
   .. code-block:: java
   
