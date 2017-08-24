@@ -159,7 +159,8 @@ CSVファイルの全データを読み込む場合の実装例を以下に示�
 .. code-block:: java
 
   // DataBindConfigオブジェクトを生成
-  DataBindConfig config = CsvDataBindConfig.DEFAULT.withHeaderTitles("年齢", "名前");
+  DataBindConfig config = CsvDataBindConfig.DEFAULT.withHeaderTitles("年齢", "名前")
+                                                   .withProperties("age", "name");
   try (ObjectMapper<Map> mapper = ObjectMapperFactory.create(Map.class, inputStream, config)) {
       Person person;
       while ((person = mapper.read()) != null) {
@@ -191,7 +192,8 @@ Mapオブジェクトの内容をデータファイルに1データずつ書き�
 .. code-block:: java
 
   // DataBindConfigオブジェクトを生成
-  DataBindConfig config = CsvDataBindConfig.DEFAULT.withHeaderTitles("年齢", "名前");
+  DataBindConfig config = CsvDataBindConfig.DEFAULT.withHeaderTitles("年齢", "名前")
+                                                   .withProperties("age", "name");
   try (ObjectMapper<Map> mapper = ObjectMapperFactory.create(Map.class, outputStream, config)) {
       for (Map<String, Object> person : personList) {
           mapper.write(person);
@@ -381,15 +383,19 @@ Mapクラスにバインドする場合
   :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` の生成時に
   :java:extdoc:`CsvDataBindConfig <nablarch.common.databind.csv.CsvDataBindConfig>` を使用して個別にフォーマットを指定する。
 
-  また、フォーマットを指定する際は、Mapオブジェクトのキーとして使用するため、
+  また、フォーマットを指定する際は、
+  :java:extdoc:`CsvDataBindConfig#withProperties <nablarch.common.databind.csv.CsvDataBindConfig.withProperties(java.lang.String...)>`
+  で設定したプロパティ名がMapオブジェクトのキーとして使用される。
+  しかし、プロパティ名を設定していない場合は、
   :java:extdoc:`CsvDataBindConfig#withHeaderTitles <nablarch.common.databind.csv.CsvDataBindConfig.withHeaderTitles(java.lang.String...)>`
-  でCSVファイルのヘッダフィールド名を設定する必要がある。
+  で設定したヘッダタイトルがキーとして使用されるため、ヘッダ行のないフォーマットの場合は必ずプロパティ名を設定する必要がある。
 
   以下に実装例を示す。
 
   .. code-block:: java
 
-    DataBindConfig config = CsvDataBindConfig.DEFAULT.withHeaderTitles("年齢", "名前");
+    DataBindConfig config = CsvDataBindConfig.DEFAULT.withHeaderTitles("年齢", "名前")
+                                                     .withProperties("age", "name");
     ObjectMapper<Map> mapper = ObjectMapperFactory.create(Map.class, outputStream, config);
 
 .. _data_bind-fixed_length_format:
