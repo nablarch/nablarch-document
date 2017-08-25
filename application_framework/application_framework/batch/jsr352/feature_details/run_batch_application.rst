@@ -13,7 +13,20 @@ JSR352に準拠したバッチアプリケーションの場合、バッチの�
 Nablarchでは、標準の実装クラスとして、:java:extdoc:`nablarch.fw.batch.ee.Main` を提供している。
 このクラスは実行引数として対象JOBのXMLファイル名(.xmlを除いたファイル名)を指定する。
 
-プロジェクト独自で起動クラスを作成する際にも、このMainクラスを参考に実装することができる。
+ジョブ実行時にパラメータを指定したい場合は、 :java:extdoc:`nablarch.fw.batch.ee.Main` に対して起動オプションを指定する。
+起動オプションで指定した値は、 :java:extdoc:`JobOperator#start <javax.batch.operations.JobOperator.start(java.lang.String-java.util.Properties)>` のjobParametersに設定される。
+
+起動オプションは、名前に ``--`` を付加し、名前の次の引数に値を設定する。
+
+起動オプションの使用例
+  .. code-block:: bash
+
+    # この例では、「option1=value1」と「option2=value2」の2つのjobParametersが設定される。
+    $ java nablarch.fw.batch.ee.Main jobName --option1 value1 --option2 value2
+  
+.. tip::
+
+  プロジェクト独自で起動クラスを作成する際にも、このMainクラスを参考に実装することができる。
 
 
 .. _jsr352_exitcode_batch_application:
