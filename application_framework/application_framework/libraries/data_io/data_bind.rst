@@ -386,14 +386,13 @@ Mapクラスにバインドする場合
   また、フォーマットを指定する際は、
   :java:extdoc:`CsvDataBindConfig#withProperties <nablarch.common.databind.csv.CsvDataBindConfig.withProperties(java.lang.String...)>`
   で設定したプロパティ名がMapオブジェクトのキーとして使用される。
-  しかし、プロパティ名を設定していない場合は、
-  :java:extdoc:`CsvDataBindConfig#withHeaderTitles <nablarch.common.databind.csv.CsvDataBindConfig.withHeaderTitles(java.lang.String...)>`
-  で設定したヘッダタイトルがキーとして使用されるため、ヘッダ行のないフォーマットの場合は必ずプロパティ名を設定する必要がある。
+  なお、CSVにヘッダ行が存在する場合は、プロパティ名の設定を省略することでヘッダタイトルをキーとして使用できる。
 
   以下に実装例を示す。
 
   .. code-block:: java
 
+    // ヘッダタイトル、プロパティ名はCSVの項目順と一致するように定義する
     DataBindConfig config = CsvDataBindConfig.DEFAULT.withHeaderTitles("年齢", "名前")
                                                      .withProperties("age", "name");
     ObjectMapper<Map> mapper = ObjectMapperFactory.create(Map.class, outputStream, config);
