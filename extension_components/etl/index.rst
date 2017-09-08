@@ -547,28 +547,25 @@ ETL用JOB設定ファイル
   :ref:`Extract(Chunk版)のETL用JOB設定ファイル <etl-extract-chunk-configuration>` を参照。
       
 接続先データベースの設定
-  :ref:`環境設定ファイル <repository-environment_configuration>` に以下の接続先のデータベースに関する情報を設定する。
+  :ref:`コンポーネント設定ファイル <repository>` に以下の設定を行う。
   
-  .. list-table::
-    :header-rows: 1
-    :widths: 75 200
-    :class: white-space-normal
-    
-    * - キー名
-      - 設定内容
-    * - db.databaseName
-      - 接続先データベースの名前
-    * - db.user
-      - 接続に使用するユーザ名
-    * - db.password
-      - 接続に使用するユーザのパスワード
+  .. code-block:: xml
   
-  設定例
-    .. code-block:: properties
-    
-      db.user = user
-      db.password = password
-      db.databaseName = dbname
+      <component name="sqlLoaderConfig" class="nablarch.etl.SqlLoaderConfig">
+        <!-- 接続ユーザ -->
+        <property name="userName" value="${nablarch.db.user}" />
+        <!-- 接続パスワード -->
+        <property name="password" value="${nablarch.db.password}" />
+        <!-- 接続先データベース名 -->
+        <property name="databaseName" value="${sqlloader.database}" />
+      </component>
+      
+  ポイント
+    * コンポーネント名は ``sqlLoaderConfig`` とする。
+    * 設定するクラスは、 :java:extdoc:`nablarch.etl.SqlLoaderConfig` とする。
+    * 接続先データベースの情報は、環境毎に変わる可能性があるため :ref:`環境設定ファイル <repository-environment_configuration>` に定義し、
+      :ref:`環境設定ファイルの値を参照 <repository-user_environment_configuration>` するとよい。
+  
       
 .. _etl-extract-sql_loader-control_file:
 
