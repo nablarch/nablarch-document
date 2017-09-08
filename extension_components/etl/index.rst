@@ -563,8 +563,8 @@ ETL用JOB設定ファイル
   ポイント
     * コンポーネント名は ``sqlLoaderConfig`` とする。
     * 設定するクラスは、 :java:extdoc:`nablarch.etl.SqlLoaderConfig` とする。
-    * 接続先データベースの情報は、環境毎変わる可能性があるため :ref:`環境設定ファイル <repository-environment_configuration>` に定義し、
-      :ref:`環境設定ファイルの値を参照 <repository-user_environment_configuration>` とよい。
+    * 接続先データベースの情報は、環境毎に変わる可能性があるため :ref:`環境設定ファイル <repository-environment_configuration>` に定義し、
+      :ref:`環境設定ファイルの値を参照 <repository-user_environment_configuration>` するとよい。
   
       
 .. _etl-extract-sql_loader-control_file:
