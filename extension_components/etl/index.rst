@@ -6,7 +6,7 @@ ETL
   :depth: 3
   :local:
 
-:ref:`jsr352_batch` 上で動作するETL(Extract/Transform/Load)機能を提供する。
+:ref:`jsr352_batch` 上で動作するETL機能を提供する。
 
 ETLとは以下の略である。
  
@@ -42,6 +42,8 @@ ETLの処理イメージ
   * etl-zip-code-csv-to-db-insert-batchlet
   * etl-zip-code-csv-to-db-chunk
   * etl-zip-code-db-to-csv-chunk
+  * etl-zip-code-db-to-fixedlength-chunk
+  * etl-zip-code-fixedlength-to-db-chunk
     
 モジュール一覧
 --------------------
@@ -187,7 +189,7 @@ ETLを使用するバッチの設計ポイント
       * - フェーズ
         - 利用目的
         
-      * - Transfer
+      * - Transform
         - :ref:`バリデーション <etl-transform-validation>` 時に、バリデーションエラーが発生した行番号をログに出力する際に使用する。
           また、ワークテーブルからエラーが発生したレコードを削除する際の条件として使用する。
           
@@ -198,8 +200,8 @@ ETLを使用するバッチの設計ポイント
     
       行番号カラムは本テーブルにはロードする必要がない。
       
-      :ref:`データベースへの登録 <etl-load-insert_database>` を使用する場合、本テーブルに対応したEntityからSQLが自動生成されるため、自動的に除外される。
-      :ref:`洗い替え <etl-load-replace_database>` 及び :ref:`マージ <etl-load-merge_database>` を使用する場合は、ワークテーブルから取得するSQLのSELECT句には行番号を含めないようにすること。
+      :ref:`データベースへの登録 <etl-load-insert_database>` を使用する場合、本テーブルに対応したEntityからSQLが自動生成されるため、行番号カラムは自動的に除外される。
+      :ref:`洗い替え <etl-load-replace_database>` 及び :ref:`マージ <etl-load-merge_database>` を使用する場合は、ワークテーブルから取得するSQLのSELECT句には行番号カラムを含めないようにすること。
       
       上記以外の方法を使用して本テーブルにデータをロードする場合は、行番号を除外するよう設計及び実装を行うこと。
       
@@ -214,18 +216,18 @@ ETLを使用するバッチの設計ポイント
   
   .. tip::
   
-    :ref:`ワークテーブルの設計ポイント <etl-worktable_point>` で説明したようにワークテーブルの各カラムの方は基本的に文字列型として定義する。
+    :ref:`ワークテーブルの設計ポイント <etl-worktable_point>` で説明したようにワークテーブルの各カラムの型は基本的に文字列型として定義する。
     このため、本テーブルに取り込む際には型変換が必要となる。
     
     :ref:`データベースへの登録 <etl-load-insert_database>` を使用する場合は、本テーブルに対応したEntityの属性の型定義に従い自動的に型変換が行われる。
     :ref:`洗い替え <etl-load-replace_database>` 及び :ref:`マージ <etl-load-merge_database>` を使用する場合は、
-    ワークテーブルからのデータ取得時に明示的な型変換を行う必要がある。
+    ワークテーブルからのデータ取得時のSQLで明示的な型変換を行う必要がある。
     明示的な型変換を行わなかった場合、データベースにより暗黙的な型変換が行われるため注意すること。
   
 ファイル出力処理
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 本テーブルの内容をファイルに出力する際の処理の流れは下の図のようになる。
-:ref:`etl-load_file_detail` とは異なり、ファイル出力処理には設計時の注意点などなない。
+:ref:`etl-load_file_detail` とは異なり、ファイル出力処理には設計時の注意点などはない。
 要件に従い、本テーブル及びファイルレイアウトの設計を行い、 :ref:`ファイル出力 <etl-load-file>` 時にSQLを使用して値の編集などを行う。
 
 .. image:: images/db_to_file_detail.png
