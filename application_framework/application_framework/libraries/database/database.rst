@@ -43,8 +43,10 @@ JDBCを使用してデータベースに対してSQL文を実行する機能を�
 * 検索クエリーを範囲指定（ページング用）SQLに変換するメソッド(:java:extdoc:`convertPaginationSql <nablarch.core.db.dialect.Dialect.convertPaginationSql(java.lang.String-nablarch.core.db.statement.SelectOption)>` )
 * 検索クエリーを件数取得SQLに変換するメソッド(:java:extdoc:`convertCountSql <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String)>` )
 * :java:extdoc:`Connection <java.sql.Connection>` がデータベースに接続されているかチェックを行うSQLを返すメソッド(:java:extdoc:`getPingSql <nablarch.core.db.dialect.Dialect.getPingSql()>` )
-* Javaオブジェクトをデータベースに出力する値に変換するメソッド(:java:extdoc:`convertToDatabase <nablarch.core.db.dialect.Dialect.convertToDatabase(java.lang.Object-int)>`)
-* データベースから取得した値をJavaオブジェクトに変換するメソッド(:java:extdoc:`convertFromDatabase <nablarch.core.db.dialect.Dialect.convertFromDatabase(java.lang.Object-java.lang.Class)>`)
+* Javaオブジェクトをデータベースに出力する値に変換するメソッド(:java:extdoc:`convertToDatabase <nablarch.core.db.dialect.Dialect.convertToDatabase(java.lang.Object-int)>`)。
+  詳細は、 :ref:`database-attribute_converter` を参照。
+* データベースから取得した値をJavaオブジェクトに変換するメソッド(:java:extdoc:`convertFromDatabase <nablarch.core.db.dialect.Dialect.convertFromDatabase(java.lang.Object-java.lang.Class)>`)。
+  詳細は、 :ref:`database-attribute_converter` を参照。
 
 :java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` の設定方法は、 :ref:`database-use_dialect` を参照。
 
@@ -424,11 +426,7 @@ SQL例
   Mapを指定した場合は、Mapのキー値と一致するINパラメータに対して、Mapの値が設定される。
 
   なお、Beanを指定した場合でも内部的にはBeanの値をMapに変換して扱う。
-  Mapへの変換には、 :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用するので、
-  :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` でサポートしないデータ型は、この機能で使用することはできない。
-
-  :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` で扱えるデータ型では要件を満たす事ができない場合は、
-  :ref:`utility-conversion` を参照し、変換可能なデータ型を追加すること。
+  Mapへの変換には、 :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用する。
 
 .. tip::
 
@@ -887,6 +885,60 @@ blob(データベース製品によりバイナリ型の型は異なる)など�
         statement.setBinaryStream(1, input, (int) Files.size(pdf));
     }
 
+
+.. _database-attribute_converter:
+
+データベースアクセス時に型変換を行う
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+データベースへの値の出力時(更新時や検索条件)とデータベースから取得した値の型変換機能を提供する。
+
+型変換機能が使用される機能
+  データベースへの出力時
+    * :java:extdoc:`setObject(int, java.lang.Object) <nablarch.core.db.statement.SqlPStatement.setObject(int-java.lang.Object)>`
+    * :java:extdoc:`setObject(int, java.lang.Object, int) <nablarch.core.db.statement.BasicSqlPStatement.setObject(int-java.lang.Object-int)>`
+    * :ref:`Beanを入力としてSQLを実行する場合 <database-input_bean>`
+    
+  データベースから取得時
+    * :java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` の各取得メソッド
+
+型変換ルール
+  本機能が提供する型変換ルールは、 :java:extdoc:`converter <nablarch.core.db.dialect.converter>` 配下の :java:extdoc:`AttributeConverter <nablarch.core.db.dialect.converter.AttributeConverter>` 実装クラスを参照。
+  
+  基本的には、以下のルールにて変換処理が行われる。
+  
+  データベースへの出力時
+    出力対象のJavaの型をそのまま出力時の型として使用する。ただし、JDBCドライバが対応型の場合は、JDBCドライバが対応している型に変換する。
+    
+    .. tip::
+    
+      変換対象の型をアプリケーションから指定したい場合は、 :java:extdoc:`setObject(int, java.lang.Object, int) <nablarch.core.db.statement.BasicSqlPStatement.setObject(int-java.lang.Object-int)>` を使用する。
+      3番目の引数のintに、 :java:extdoc:`データベースの型 <java.sql.Types>` を指定する。
+      
+      3番目の引数に指定したintに対応した型は、 `DefaultDialect <https://github.com/nablarch/nablarch-core-jdbc/blob/master/src/main/java/nablarch/core/db/dialect/DefaultDialect.java>`_ の ``SQL_TYPE_CONVERTER_MAP`` を参照。
+    
+  データベースから取得時
+    * :java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` のgetメソッドの戻り値の型に変換する。
+  
+  
+型変換ルールの追加や変更をする
+  JDBCドライバが対応していないJavaの型を扱いたい場合は、型変換ルールを追加することで対応する。
+  
+  以下に手順を示す。
+  
+  1. 型変換ルールを生成する :java:extdoc:`AttributeConverterFactory <nablarch.core.db.dialect.AttributeConverterFactory>` の実装クラスを作成する。
+  2. 作成した、 :java:extdoc:`AttributeConverterFactory <nablarch.core.db.dialect.AttributeConverterFactory>` の実装クラスを ``Dialect`` に設定する。
+  
+    以下に例を示す。
+  
+    .. code-block:: xml
+    
+      <!-- プロジェクトで使用するデータベースに対応したDialectを定義する -->
+      <component name="dialect" class="nablarch.core.db.dialect.OracleDialect">
+        <!-- attributeConverterFactoryプロパティに作成した、AttributeConverterFactoryの実装クラスを設定する -->
+        <property name="attributeConverterFactory">
+          <component class="sample.SampleAttributeConverterFactory" />
+        </property>
+      </component>
 
 
 データベースアクセス時に発生する例外の種類
