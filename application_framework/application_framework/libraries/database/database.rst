@@ -425,8 +425,10 @@ SQL例
   Beanの代わりに :java:extdoc:`java.util.Map` の実装クラスも指定できる。
   Mapを指定した場合は、Mapのキー値と一致するINパラメータに対して、Mapの値が設定される。
 
-  なお、Beanを指定した場合でも内部的にはBeanの値をMapに変換して扱う。
-  Mapへの変換には、 :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用する。
+  なお、Beanを指定した場合は :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用して、Mapに変換後に処理を行う。
+  :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` で対応していない型がBeanのプロパティに存在した場合、そのプロパティについてはこの機能で使用することが出来ない。
+  
+  :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` でMapにコピーできる型を増やしたい場合には、 :ref:`utility-conversion` を参照し対応すること。
 
 .. tip::
 
@@ -907,14 +909,10 @@ blob(データベース製品によりバイナリ型の型は異なる)など�
   基本的には、以下のルールにて変換処理が行われる。
   
   データベースへの出力時
-    出力対象のJavaの型をそのまま出力時の型として使用する。ただし、JDBCドライバが対応型の場合は、JDBCドライバが対応している型に変換する。
+    出力対象のJavaの型をそのまま出力時の型として使用する。ただし、JDBCドライバが対応していない型の場合は、 :java:extdoc:`AttributeConverter <nablarch.core.db.dialect.converter.AttributeConverter>` の実装クラスにてJDBCドライバが対応している型に変換する。
     
-    .. tip::
-    
-      変換対象の型をアプリケーションから指定したい場合は、 :java:extdoc:`setObject(int, java.lang.Object, int) <nablarch.core.db.statement.BasicSqlPStatement.setObject(int-java.lang.Object-int)>` を使用する。
-      3番目の引数のintに、 :java:extdoc:`データベースの型 <java.sql.Types>` を指定する。
-      
-      3番目の引数に指定したintに対応した型は、 `DefaultDialect <https://github.com/nablarch/nablarch-core-jdbc/blob/master/src/main/java/nablarch/core/db/dialect/DefaultDialect.java>`_ の ``SQL_TYPE_CONVERTER_MAP`` を参照。
+    変換対象の型をアプリケーションから指定したい場合は、 :java:extdoc:`setObject(int, java.lang.Object, int) <nablarch.core.db.statement.BasicSqlPStatement.setObject(int-java.lang.Object-int)>` を使用する。
+    3番目の引数のintに、 :java:extdoc:`データベースの型 <java.sql.Types>` を指定する。
     
   データベースから取得時
     * :java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` のgetメソッドの戻り値の型に変換する。
