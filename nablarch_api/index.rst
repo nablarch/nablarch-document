@@ -2,7 +2,7 @@
 Nablarch API
 ============
 
-* `Nablarch APIドキュメント(アーキテクト向け) <https://nablarch.github.io/docs/5u10/publishedApi/nablarch-all/publishedApiDoc/architect/>`_
-* `Nablarch APIドキュメント(アプリケーションプログラマ向け <https://nablarch.github.io/docs/5u10/publishedApi/nablarch-all/publishedApiDoc/programmer/>`_
-* `Nablarch Testing APIドキュメント(アーキテクト向け) <https://nablarch.github.io/docs/5u10/publishedApi/nablarch-testing/publishedApiDoc/architect/>`_
-* `Nablarch Testing APIドキュメント(アプリケーションプログラマ向け <https://nablarch.github.io/docs/5u10/publishedApi/nablarch-testing/publishedApiDoc/programmer/>`_
+* `Nablarch APIドキュメント(アーキテクト向け) <https://nablarch.github.io/docs/5u11/publishedApi/nablarch-all/publishedApiDoc/architect/>`_
+* `Nablarch APIドキュメント(アプリケーションプログラマ向け <https://nablarch.github.io/docs/5u11/publishedApi/nablarch-all/publishedApiDoc/programmer/>`_
+* `Nablarch Testing APIドキュメント(アーキテクト向け) <https://nablarch.github.io/docs/5u11/publishedApi/nablarch-testing/publishedApiDoc/architect/>`_
+* `Nablarch Testing APIドキュメント(アプリケーションプログラマ向け <https://nablarch.github.io/docs/5u11/publishedApi/nablarch-testing/publishedApiDoc/programmer/>`_
