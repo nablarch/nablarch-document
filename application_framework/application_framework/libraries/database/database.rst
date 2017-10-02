@@ -888,6 +888,68 @@ blob(データベース製品によりバイナリ型の型は異なる)など�
     }
 
 
+.. _database-clob_column:
+
+桁数の大きい文字列型のカラム(例えばCLOB)にアクセスする
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CLOBのような大きいサイズの文字列型カラムへのアクセス方法について解説する。
+
+CLOB型の値を取得する
+  CLOB型の値を取得する場合は、 :java:extdoc:`検索結果オブジェクト <nablarch.core.db.statement.SqlRow>` から文字列型として値を取得する。
+
+  以下に例を示す。
+
+  .. code-block:: java
+
+    SqlResultSet rows = statement.retrieve();
+    SqlRow row = rows.get(0);
+
+    // StringとしてCLOBの値を取得する。
+    String mailBody = row.getString("mailBody");
+
+  .. important::
+
+    上記実装例の場合、カラムの内容が全てJavaのヒープ上に展開される。
+    このため、非常に大きいサイズのデータを読み込んだ場合、ヒープ領域を圧迫し、システムダウンなどの障害の原因となる。
+
+    このため、大量データを読み込む場合には、以下のように :java:extdoc:`Clob <java.sql.Clob>` オブジェクトを使用して、
+    ヒープを大量に消費しないようにすること。
+
+    .. code-block:: java
+
+      SqlResultSet rows = select.retrieve();
+
+      // Blogとしてデータを取得する
+      Clob mailBody = (Clob) rows.get(0).get("mailBody");
+
+      try (Reader reader = mailBody.getCharacterStream()) {
+        // Readerからデータを順次読み込み処理を行う。
+        // 読み込んだデータをヒープ上に全て保持した場合は、ヒープを圧迫するので注意すること。
+      }
+    
+CLOB型に値を登録(更新)する
+  サイズが小さい値を登録更新する場合は、String型の値を :java:extdoc:`SqlPStatement#setString <nablarch.core.db.statement.SqlPStatement.setString(int-java.lang.String)>` を使用して設定する。
+
+  以下に例を示す。
+
+  .. code-block:: java
+
+    statement.setString(1, "値");
+    statement.executeUpdate();
+
+  サイズが大きい値を登録、更新する場合は :java:extdoc:`SqlPStatement#setCharacterStream <nablarch.core.db.statement.SqlPStatement#setCharacterStream(int-java.io.Reader-int)>` 
+  を使用して、テキストファイルなどを表す :java:extdoc:`Reader <java.io.Reader>` 経由でデータベースに値を送信する。
+
+  以下に例を示す。
+
+  .. code-block:: java
+
+    Path path = Paths.get(filePath);
+    try(Reader reader = Files.newBufferedReader(path, Charset.forName("utf-8"))) {
+      // setCharacterStreamを使用してReaderの値を登録する。
+      statement.setCharacterStream(2, reader, (int) Files.size(path));
+    }
+
 .. _database-attribute_converter:
 
 データベースアクセス時に型変換を行う
