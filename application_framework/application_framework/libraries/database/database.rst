@@ -947,7 +947,7 @@ CLOB型に値を登録(更新)する
     Path path = Paths.get(filePath);
     try (Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
       // setCharacterStreamを使用してReaderの値を登録する。
-      statement.setCharacterStream(2, reader, (int) Files.size(path));
+      statement.setCharacterStream(1, reader, (int) Files.size(path));
     }
 
 .. _database-attribute_converter:
