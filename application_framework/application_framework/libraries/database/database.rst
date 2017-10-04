@@ -919,7 +919,7 @@ CLOB型の値を取得する
 
       SqlResultSet rows = select.retrieve();
 
-      // Blogとしてデータを取得する
+      // Clogとしてデータを取得する
       Clob mailBody = (Clob) rows.get(0).get("mailBody");
 
       try (Reader reader = mailBody.getCharacterStream()) {
@@ -937,7 +937,7 @@ CLOB型に値を登録(更新)する
     statement.setString(1, "値");
     statement.executeUpdate();
 
-  サイズが大きい値を登録、更新する場合は :java:extdoc:`SqlPStatement#setCharacterStream <nablarch.core.db.statement.SqlPStatement#setCharacterStream(int-java.io.Reader-int)>` 
+  サイズが大きい値を登録、更新する場合は :java:extdoc:`SqlPStatement#setCharacterStream <nablarch.core.db.statement.SqlPStatement.setCharacterStream(int-java.io.Reader-int)>`
   を使用して、テキストファイルなどを表す :java:extdoc:`Reader <java.io.Reader>` 経由でデータベースに値を送信する。
 
   以下に例を示す。
@@ -945,7 +945,7 @@ CLOB型に値を登録(更新)する
   .. code-block:: java
 
     Path path = Paths.get(filePath);
-    try(Reader reader = Files.newBufferedReader(path, Charset.forName("utf-8"))) {
+    try (Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
       // setCharacterStreamを使用してReaderの値を登録する。
       statement.setCharacterStream(2, reader, (int) Files.size(path));
     }
