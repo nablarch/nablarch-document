@@ -8,6 +8,7 @@ OSS版Nablarchドキュメントです。
 以下が必要なものとなります。
 * Sphinx(1.6.3)
 * javasphinx(0.9.15)
+* sphinx-rtd-theme(0.2.4)
 
 ## ドキュメントのビルド方法
 ```bash
