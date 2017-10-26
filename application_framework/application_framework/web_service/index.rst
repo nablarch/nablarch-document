@@ -26,6 +26,10 @@ Nablarchでは、以下2種類のRESTFulウェブサービス用のフレーム�
 
   また、 :ref:`data_format` 機能に依存しており、フォーマット定義ファイルを作成する必要があるなど、開発コストが高くなるデメリットがある。
 
+  なお、:ref:`http_messaging` で出力されるFATALログには、クライアントからのリクエスト処理中にネットワーク障害によって
+  TCP接続が切れた場合も含まれる。他のエラーと区別できないため、タイムアウトで処理できなかったことのみを検知したい場合には
+  この方式は適さない。
+
 .. tip::
 
   :ref:`restful_web_service` と :ref:`http_messaging` で提供している機能の違いは、:ref:`restful_web_service_functional_comparison` を参照。
