@@ -10,7 +10,7 @@ JAX-RSサポート/JSR339/HTTPメッセージングの機能比較
 ここでは、以下の機能比較を示す。
 
  - :ref:`NablarchのJAX-RSサポート <restful_web_service>`
- - :ref:`HTTPメッセージング <http_messaging>` (非推奨)
+ - :ref:`HTTPメッセージング <http_messaging>`
  - `JSR 339: JAX-RS 2.0: The Java API for RESTful Web Services(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=339>`_
 
 .. tip::
@@ -27,7 +27,7 @@ JAX-RSサポート/JSR339/HTTPメッセージングの機能比較
 
    * - 機能
      - JAX-RS |br| サポート
-     - HTTP |br| メッセージング |br| (非推奨)
+     - HTTP |br| メッセージング
      - JSR 339
    * - リクエストとリソースメソッドのマッピング
      - :ref:`△ <rest-action_mapping>`
