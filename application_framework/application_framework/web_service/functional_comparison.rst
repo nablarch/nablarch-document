@@ -10,7 +10,7 @@ JAX-RSサポート/JSR339/HTTPメッセージングの機能比較
 ここでは、以下の機能比較を示す。
 
  - :ref:`NablarchのJAX-RSサポート <restful_web_service>`
- - :ref:`HTTPメッセージング <http_messaging>`
+ - :ref:`HTTPメッセージング <http_messaging>` (非推奨)
  - `JSR 339: JAX-RS 2.0: The Java API for RESTful Web Services(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=339>`_
 
 .. tip::
@@ -27,7 +27,7 @@ JAX-RSサポート/JSR339/HTTPメッセージングの機能比較
 
    * - 機能
      - JAX-RS |br| サポート
-     - HTTP |br| メッセージング
+     - HTTP |br| メッセージング |br| (非推奨)
      - JSR 339
    * - リクエストとリソースメソッドのマッピング
      - :ref:`△ <rest-action_mapping>`
@@ -74,27 +74,27 @@ JAX-RSサポート/JSR339/HTTPメッセージングの機能比較
      - :ref:`○ <http_messaging_error_handler-error_response_and_log>`
      - －
    * - リクエストボディの最大容量チェック
-     - × [8]_
+     - － [8]_
      - :ref:`○ <http_messaging_request_parsing_handler-limit_size>`
      - －
    * - 証跡ログの出力
-     - × [9]_
+     - － [9]_
      - :ref:`○ <messaging_log>`
      - －
    * - 再送制御
-     - × [9]_
+     - － [9]_
      - :ref:`○ <message_resend_handler>`
      - －
    * - サービス提供の可否チェック
-     - × [10]_
+     - － [10]_
      - × [10]_
      - －
    * - トランザクション制御
-     - × [11]_
+     - － [11]_
      - × [11]_
      - －
    * - 業務処理エラー時のコールバック
-     - × [12]_
+     - － [12]_
      - :java:extdoc:`○ <nablarch.fw.messaging.action.MessagingAction>`
      - －
 
