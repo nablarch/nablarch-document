@@ -35,7 +35,7 @@ Domaアダプタ
 
 Domaアダプタを使用するための設定を行う
 --------------------------------------------------
-本アダプタを使用するためには、プロジェクトで使用するRDBMSに合わせてDomaのダイアレクトやデータソースをコンポーネント定義ファイルに設定する必要がある。
+本アダプタを使用するためには、プロジェクトで使用するRDBMSに合わせてDomaのダイアレクトやデータソースをコンポーネント設定ファイルに定義する必要がある。
 
 H2を使用する場合の設定例を以下に示す。
 
@@ -243,7 +243,7 @@ ETL使用時に、プロジェクトで追加したステップの中でDomaを�
       </step>
     </job>
 
-コンポーネント定義ファイル
+コンポーネント設定ファイル
   .. code-block:: xml
 
     <list name="sampleJob.sampleStep.stepListeners">
@@ -265,7 +265,7 @@ ETL使用時に、プロジェクトで追加したステップの中でDomaを�
 
 実装例を以下に示す。
 
-コンポーネント定義ファイル
+コンポーネント設定ファイル
   .. code-block:: xml
 
     <component name="customDomaDialect" class="org.seasar.doma.jdbc.dialect.OracleDialect"  />
@@ -321,10 +321,10 @@ DomaとNablarchのデータベースアクセスを併用する
 この問題を解決するため、Nablarchのデータベースアクセス処理が、Domaと同じトランザクション(データベース接続)を利用できる機能を提供している。
 
 利用手順
-  コンポーネント定義に以下の設定を追加する。
+  コンポーネント設定ファイルに以下の定義を追加する。
   これにより、Nablarchのデータベースアクセスが、自動的にDomaのトランザクション配下で実行されるようにある。
   
-  * コンポーネント定義ファイルに :java:extdoc:`ConnectionFactoryFromDomaConnection <nablarch.integration.doma.ConnectionFactoryFromDomaConnection>` を定義する。
+  * コンポーネント設定ファイルに :java:extdoc:`ConnectionFactoryFromDomaConnection <nablarch.integration.doma.ConnectionFactoryFromDomaConnection>` を定義する。
     コンポーネント名は、 ``connectionFactoryFromDoma`` とする。
   * JSR352用のDomaのトランザクションを制御するリスナーに、ConnectionFactoryFromDomaConnectionを設定する。
 

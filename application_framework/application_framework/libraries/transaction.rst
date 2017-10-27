@@ -51,7 +51,7 @@
 なお、1SQL単位などの粒度の小さいトランザクションを使用する場合は、 :ref:`database-new_transaction` を参照に設定及び実装を行うこと。
 
 コンポーネント定義例
-  JDBC用のトランザクションクラスを生成するファクトリクラス( :java:extdoc:`JdbcTransactionFactory <nablarch.core.db.transaction.JdbcTransactionFactory>` )をコンポーネント定義ファイルに設定する。
+  JDBC用のトランザクションクラスを生成するファクトリクラス( :java:extdoc:`JdbcTransactionFactory <nablarch.core.db.transaction.JdbcTransactionFactory>` )をコンポーネント設定ファイルに定義する。
 
   .. code-block:: xml
 

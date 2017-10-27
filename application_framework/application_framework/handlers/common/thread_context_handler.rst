@@ -83,7 +83,7 @@
 実行時ID
  * :java:extdoc:`ExecutionIdAttribute <nablarch.common.handler.threadcontext.ExecutionIdAttribute>`
 
-これらのクラスは、コンポーネント定義に追加して使用する。
+これらのクラスは、コンポーネント設定ファイルに定義を追加して使用する。
 
 .. code-block:: xml
 

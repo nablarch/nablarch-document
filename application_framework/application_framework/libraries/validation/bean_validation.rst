@@ -255,7 +255,7 @@ Java実装例
     }
 
 
-  :java:extdoc:`DomainManager <nablarch.core.validation.ee.DomainManager>` 実装クラスの `SampleDomainBean` をコンポーネント定義ファイルに設定することで、
+  :java:extdoc:`DomainManager <nablarch.core.validation.ee.DomainManager>` 実装クラスの `SampleDomainBean` をコンポーネント設定ファイルに定義することで、
   `SampleDomainBean` を使用したドメインバリデーションが有効となる。
 
   .. code-block:: xml
@@ -341,7 +341,7 @@ Java実装例
 アノテーションで文字種を指定する
   文字種バリデーションを行うプロパティには、 :java:extdoc:`@SystemChar <nablarch.core.validation.ee.SystemChar>` アノテーションを設定する。
   このアノテーションの :java:extdoc:`charsetDef <nablarch.core.validation.ee.SystemChar.charsetDef()>` 属性には、許容する文字種を表す名前を設定する。
-  この名前は、上記のコンポーネント定義ファイルに文字種セットを登録した際のコンポーネント名となる。
+  この名前は、上記のコンポーネント設定ファイルに文字種セットを登録した際のコンポーネント名となる。
 
   この例では、 ``半角数字`` を指定しているので、上記のコンポーネント定義に従い「0123456789」が許容される。
 
@@ -537,7 +537,7 @@ Java実装例
 ウェブアプリケーションのユーザ入力値のチェックは :ref:`inject_form_interceptor` を使用して行う。
 詳細は、 :ref:`inject_form_interceptor` を参照。
 
-:ref:`inject_form_interceptor` でBean Validationを使用するためには、コンポーネント定義ファイルへの設定が必要となる。
+:ref:`inject_form_interceptor` でBean Validationを使用するためには、コンポーネント設定ファイルへの設定が必要となる。
 以下例のように、 :java:extdoc:`BeanValidationStrategy <nablarch.common.web.validator.BeanValidationStrategy>` を ``validationStrategy`` という名前でコンポーネント定義すること。
 
 .. code-block:: xml
