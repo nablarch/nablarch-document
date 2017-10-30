@@ -62,7 +62,7 @@ Nablarchがデフォルトで用意する設定項目の項目名には、プレ
   </component>
   
 この場合、
-``codeCache``\ がコンポーネント名称、\ ``loadOnStartUp``\ がそのコンポーネントのプロパティである。
+``codeCache``\ がコンポーネント名、\ ``loadOnStartUp``\ がそのコンポーネントのプロパティである。
 これに、前述の\ `共通プレフィックス`_\ が付与されるので、\ ``nablarch.codeCache.loadOnStartUp``\ となる。
 
 
