@@ -69,8 +69,8 @@
 セッションストアを使用するには、以下の設定を行った :java:extdoc:`SessionManager <nablarch.common.web.session.SessionManager>`
 を本ハンドラの :java:extdoc:`sessionManager <nablarch.common.web.session.SessionStoreHandler.setSessionManager(nablarch.common.web.session.SessionManager)>` プロパティに設定する必要がある。
 
-* アプリケーションで使用するセッションストアのコンポーネント設定ファイル
-* デフォルトでどのセッションストアを使用するか
+* アプリケーションで使用するセッションストア（複数指定可）
+* デフォルトで使用するセッションストア名
 
 以下の設定例を参考に、本ハンドラの設定を行うこと。
 

@@ -159,7 +159,7 @@ FileManagementUtilの使用方法について説明する。
 
 .. _FileManagementUtil-settings-label:
 
-FileManagementUtilの使用例(コンポーネント設定ファイル設定)
+FileManagementUtilの使用例(コンポーネント設定ファイル)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 FileManagementUtil使用時に必要となる各コンポーネントのプロパティを、コンポーネント設定ファイルに定義する。

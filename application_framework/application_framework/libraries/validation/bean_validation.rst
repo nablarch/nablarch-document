@@ -537,7 +537,7 @@ Java実装例
 ウェブアプリケーションのユーザ入力値のチェックは :ref:`inject_form_interceptor` を使用して行う。
 詳細は、 :ref:`inject_form_interceptor` を参照。
 
-:ref:`inject_form_interceptor` でBean Validationを使用するためには、コンポーネント設定ファイルへの設定が必要となる。
+:ref:`inject_form_interceptor` でBean Validationを使用するためには、コンポーネント設定ファイルに定義する必要がある。
 以下例のように、 :java:extdoc:`BeanValidationStrategy <nablarch.common.web.validator.BeanValidationStrategy>` を ``validationStrategy`` という名前でコンポーネント定義すること。
 
 .. code-block:: xml
