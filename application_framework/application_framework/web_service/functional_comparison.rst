@@ -74,27 +74,27 @@ JAX-RSサポート/JSR339/HTTPメッセージングの機能比較
      - :ref:`○ <http_messaging_error_handler-error_response_and_log>`
      - －
    * - リクエストボディの最大容量チェック
-     - － [8]_
+     - × [8]_
      - :ref:`○ <http_messaging_request_parsing_handler-limit_size>`
      - －
    * - 証跡ログの出力
-     - － [9]_
+     - × [9]_
      - :ref:`○ <messaging_log>`
      - －
    * - 再送制御
-     - － [9]_
+     - × [9]_
      - :ref:`○ <message_resend_handler>`
      - －
    * - サービス提供の可否チェック
-     - － [10]_
+     - × [10]_
      - × [10]_
      - －
    * - トランザクション制御
-     - － [11]_
+     - × [11]_
      - × [11]_
      - －
    * - 業務処理エラー時のコールバック
-     - － [12]_
+     - × [12]_
      - :java:extdoc:`○ <nablarch.fw.messaging.action.MessagingAction>`
      - －
 
