@@ -321,7 +321,7 @@ Nablarchバッチアプリケーションのjarファイルとしてパッケー
   .. code-block:: bash
 
     java -jar <実行可能jarファイル名> ^
-        -diConfig <コンポーネント定義ファイル> ^
+        -diConfig <コンポーネント設定ファイル> ^
         -requestPath <リクエストパス> ^
         -userId <ユーザID>
 

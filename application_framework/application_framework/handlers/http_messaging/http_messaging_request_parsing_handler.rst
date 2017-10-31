@@ -99,7 +99,7 @@ HTTPリクエストを要求電文に変換する
  フレームワーク制御ヘッダに対する各項目の設定は行わない。
  そのため、フレームワーク制御ヘッダに対する各項目を設定する場合、
  :java:extdoc:`StructuredFwHeaderDefinition<nablarch.fw.messaging.reader.StructuredFwHeaderDefinition>`
- をコンポーネント定義に追加し、電文からヘッダ情報を取得する際のキー情報を指定する。
+ をコンポーネント設定ファイルに追加し、電文からヘッダ情報を取得する際のキー情報を指定する。
 
  設定例を以下に示す。
 

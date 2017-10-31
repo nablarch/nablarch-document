@@ -118,7 +118,7 @@ MessagingRequestTestSupport
 具体的な使用方法は、\ :doc:`../05_UnitTestGuide/02_RequestUnitTest/real`\ を参照。
 
 .. tip::
-  本クラスは、入力データをキューにPUTする用途で、main側のコンポーネント定義ファイルを読み込む。
+  本クラスは、入力データをキューにPUTする用途で、main側のコンポーネント設定ファイルを読み込む。
   その際、\ ``nablarch.fw.messaging.FwHeaderDefinition``\ 実装クラスは、
   \ ``fwHeaderDefinition``\ という名前で登録されていなければならない。
   これ以外の名称を使用する場合は、本クラスのgetFwHeaderDefinitionName()をオーバライドすることにより
@@ -176,7 +176,7 @@ Excelから読み込んだテストデータを編集するためのインタフ
 
 本インタフェースを実装することで、例えばExcelに日本語で記述されたデータをURLエンコーディングする等の処理を追加することが可能である。
 
-実装クラスは "TestDataConverter_<データ種別>" というキー名でテスト用のコンポーネント定義ファイルに登録する必要がある。
+実装クラスは "TestDataConverter_<データ種別>" というキー名でテスト用のコンポーネント設定ファイルに登録する必要がある。
 
 
 テストデータ

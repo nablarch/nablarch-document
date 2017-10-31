@@ -1071,7 +1071,7 @@ SQL実行時の例外が一意制約違反の場合の例外
 以下に使用例を示す。
 
 コンポーネント設定ファイル
-  コンポーネント設定ファイルに  :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を設定する。
+  コンポーネント設定ファイルに  :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を定義する。
 
   * :java:extdoc:`connectionFactory <nablarch.core.db.transaction.SimpleDbTransactionManager.setConnectionFactory(nablarch.core.db.connection.ConnectionFactory)>` プロパティに :java:extdoc:`ConnectionFactory <nablarch.core.db.connection.ConnectionFactory>` 実装クラスを設定する。
     :java:extdoc:`ConnectionFactory <nablarch.core.db.connection.ConnectionFactory>` 実装クラスの詳細は、 :ref:`database-connect` を参照。

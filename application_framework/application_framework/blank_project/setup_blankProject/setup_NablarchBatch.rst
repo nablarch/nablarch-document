@@ -40,7 +40,7 @@ Nablarchバッチプロジェクトの初期セットアップでは以下を行
 
 .. [#mailSendBatch]
    メール送信バッチは、:ref:`常駐バッチ<nablarch_batch-resident_batch>`  として動作し、SMTPサーバに対してメール送信を行うものである。
-   コンポーネント定義ファイルのサンプルは ``src/main/resources/mail-sender-boot.xml`` に存在する。
+   コンポーネント設定ファイルのサンプルは ``src/main/resources/mail-sender-boot.xml`` に存在する。
    メール送信バッチは初期環境構築時には必要ないが、必要になったタイミングで :ref:`メール送信<mail>` の解説を読んだ上で使用する。
 
 

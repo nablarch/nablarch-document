@@ -30,7 +30,7 @@ WebSphere MQの仕様及び構築手順などは、IBM社のオフィシャル�
 --------------------------------------------------
 本アダプタは、以下の手順にてコンポーネント定義を行うことで有効になる。
 
-1.  ``nablarch.integration.messaging.wmq.provider.WmqMessagingProvider`` をコンポーネント定義に追加する。
+1.  ``nablarch.integration.messaging.wmq.provider.WmqMessagingProvider`` をコンポーネント設定ファイルに定義を追加する。
 2. ``1`` で設定した、 ``WmqMessagingProvider`` を :ref:`messaging_context_handler` に設定する。
 
 

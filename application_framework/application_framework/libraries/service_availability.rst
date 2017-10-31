@@ -66,7 +66,7 @@
 ====================== ===================================================
 
 サービス提供可否チェックを使うためには、
-:java:extdoc:`BasicServiceAvailability <nablarch.common.availability.BasicServiceAvailability>` の設定をコンポーネント定義に追加する。
+:java:extdoc:`BasicServiceAvailability <nablarch.common.availability.BasicServiceAvailability>` の定義をコンポーネント設定ファイルに追加する。
 コンポーネント名には **serviceAvailability** と指定する。
 
 .. code-block:: xml
