@@ -39,6 +39,8 @@ HTTPメッセージングレスポンス変換ハンドラ
   このハンドラで生成した :java:extdoc:`HTTPレスポンスオブジェクト <nablarch.fw.web.HttpResponse>` を
   :ref:`http_response_handler` がクライアントに返却するため。
 
+.. _http_messaging_response_building_handler-header:
+
 レスポンスヘッダーに設定される値
 --------------------------------------------------
 後続のハンドラで作成された応答電文オブジェクトを元に以下のレスポンスヘッダを設定する。
