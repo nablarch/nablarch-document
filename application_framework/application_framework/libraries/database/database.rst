@@ -1089,7 +1089,7 @@ SQL実行時の例外が一意制約違反の場合の例外
       <property name="transactionFactory" ref="transactionFactory" />
 
       <!-- トランザクションを識別するための名前を設定する -->
-      <property name="dbTransactionName" ref="update-login-failed-count-transaction" />
+      <property name="dbTransactionName" value="update-login-failed-count-transaction" />
 
     </component>
 
