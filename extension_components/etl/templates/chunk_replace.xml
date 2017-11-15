@@ -40,7 +40,7 @@
     </batchlet>
   </step>
 
-  <!-- バリデーション済みのデータを本テーブルに洗い替えモードでロードするステップ -->
+  <!-- バリデーション済みのデータを本テーブルにロードするステップ -->
   <step id="load">
     <listeners>
       <listener ref="nablarchStepListenerExecutor" />
