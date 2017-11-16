@@ -243,7 +243,7 @@ PropertiesStringResourceLoaderへの言語設定
       複数の :java:extdoc:`Map <java.util.Map>` や、 :java:extdoc:`Map <java.util.Map>` 以外の値とセットで指定された場合は、
       :java:extdoc:`java.text.MessageFormat` を使用した値の埋め込み処理をおこなう。
 
-
+メッセージのフォーマット方法を変更したい場合は、 :ref:`message-change_formatter` を参照し対応すること。
 
 画面の固定文言をメッセージから取得する    
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -380,4 +380,42 @@ JSP
     <property name="stringResourceCache" ref="stringResourceCache"/>
   </component>
 
+.. _message-change_formatter:
+
+メッセージのフォーマット方法を変更する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+メッセージのフォーマット方法は、 :java:extdoc:`MessageFormatter <nablarch.core.message.MessageFormatter>` の実装クラスを作成しコンポーネント定義するこどで変更できる。
+
+以下に例を示す。
+
+MessageFormatterの実装クラス
+  .. code-block:: java
+
+    package sample;
+
+    import nablarch.core.message.MessageFormatter;
+
+    public class SampleMessageFormatter implements MessageFormatter {
+
+        @Override
+        public String format(final String template, final Object[] options) {
+            return String.format(template, options);
+        }
+    }
+
+コンポーネント設定ファイル
+  コンポーネント名を ``messageFormatter`` として、 `MessageFormatter` の実装クラスを設定する。
+
+  .. code-block:: xml
+
+    <!-- コンポーネント名をmessageFormatterとして定義する。 -->
+    <component name="messageFormatter" class="sample.SampleMessageFormatter" />
+
+なお、 `MessageFormatter` の実装としては以下のクラスを提供している。
+
+:java:extdoc:`BasicMessageFormatter <nablarch.core.message.BasicMessageFormatter>`:
+  :ref:`埋め込み文字の仕様 <message-format-spec>` に従いメッセージをフォーマットする。
+  `MessageFormatter` の実装クラスがコンポーネント定義されていない場合は本クラスが利用される。
+:java:extdoc:`JavaMessageFormatBaseMessageFormatter <nablarch.core.message.JavaMessageFormatBaseMessageFormatter>`:
+  :java:extdoc:`MessageFormat <java.text.MessageFormat>` を使用してメッセージをフォーマットする。
 
