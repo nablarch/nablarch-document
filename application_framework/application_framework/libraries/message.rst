@@ -411,7 +411,7 @@ MessageFormatterの実装クラス
     <!-- コンポーネント名をmessageFormatterとして定義する。 -->
     <component name="messageFormatter" class="sample.SampleMessageFormatter" />
 
-なお、本機能としては以下の実装を提供している。
+なお、 `MessageFormatter` の実装としては以下のクラスを提供している。
 
 :java:extdoc:`BasicMessageFormatter <nablarch.core.message.BasicMessageFormatter>`:
   :ref:`埋め込み文字の仕様 <message-format-spec>` に従いメッセージをフォーマットする。
