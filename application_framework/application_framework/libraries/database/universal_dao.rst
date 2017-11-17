@@ -370,6 +370,12 @@ OracleのCLOBのように、データサイズの大きいテキストデータ�
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :ref:`database` の :ref:`database-new_transaction` と同じことを、ユニバーサルDAOで行う方法を説明する。
 
+
+.. note::
+   個別のトランザクションを使用する場合であっても、デフォルトのトランザクションは開始されていなければならない\
+   （個別のトランザクションだけを使用することはできない）。
+
+
 個別トランザクションを使用するには、以下の手順が必要となる。
 
 #. コンポーネント設定ファイルに :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を定義する。
