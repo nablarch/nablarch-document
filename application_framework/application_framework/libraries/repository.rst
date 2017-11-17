@@ -121,6 +121,26 @@ Java Beansオブジェクトは、component要素を用いて定義する。
     <property name="limit" value="100" />
   <component/>
 
+.. tip::
+
+  オブジェクトはcomponent要素単位にインスタンスが生成される。例えば、以下のように2箇所でcomponentを定義した場合別々のインスタンスが生成される。
+
+  .. code-block:: xml
+
+    <!-- SampleBeanのインスタンスが2つリポジトリに登録される -->
+    <component name="sample1" class="sample.SampleBean" />
+    <component name="sample2" class="sample.SampleBean" />
+
+.. tip::
+
+  ネストして定義したcomponentについても、リポジトリ上はグローガル領域に保持されるため、名前を指定してオブジェクトを取得できる。
+  オブジェクトの取得方法は、 :ref:`repository-get_object` を参照。
+
+.. tip::
+
+  生成されるインスタンスのライフサイクルはアプリケーションスコープとなる。このため、アプリケーションが終了するまでインスタンスは破棄されない。
+  ※アプリケーションスコープ上のインスタンスの状態は変更しないよう注意すること。
+
 .. _repository-override_bean:
 
 Java Beansオブジェクトの設定を上書きする
@@ -636,6 +656,8 @@ DIコンテナの情報をシステムリポジトリにロードすることで
   * ServletContextListenerの実装クラス
   * 独立型アプリケーションの起動クラス
 
+.. _repository-get_object:
+
 システムリポジトリからオブジェクトを取得する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 システムリポジトリ上からオブジェクトを取得する場合には、 :java:extdoc:`SystemRepository <nablarch.core.repository.SystemRepository>` クラスを使用する。
@@ -645,10 +667,25 @@ DIコンテナの情報をシステムリポジトリにロードすることで
 
 以下のように、component要素(listやmap要素を含む)に設定したname属性の値を指定して、オブジェクトを取得できる。
 
-.. code-block:: java
+コンポーネント定義
+  .. code-block:: xml
 
-  SampleComponent sample = SystemRepository.get("sampleComponent");
+    <component name="sampleComponent" class="sample.SampleComponent" />
 
+    <component class="sample.Component" name="component">
+      <property name="component2">
+        <component class="sample.Component2" name="component2" />
+      </property>
+    </component>
+
+取得例
+  .. code-block:: java
+
+    // SystemRepository#getを使用して取得する。
+    SampleComponent sample = SystemRepository.get("sampleComponent");
+
+    // ネストしたcomponentは、親の名前と自身の名前を"."で連結し取得する。
+    Component2 component2 = SystemRepository.get("component.component2");
 
 .. _repository-environment_configuration_file_rule:
 
