@@ -133,7 +133,7 @@ Java Beansオブジェクトは、component要素を用いて定義する。
 
 .. tip::
 
-  ネストして定義したcomponentについても、リポジトリ上はグローガル領域に保持されるため、名前を指定してオブジェクトを取得できる。
+  ネストして定義したcomponentについても、リポジトリ上はグローバル領域に保持されるため、名前を指定してオブジェクトを取得できる。
   オブジェクトの取得方法は、 :ref:`repository-get_object` を参照。
 
 .. tip::
@@ -672,9 +672,9 @@ DIコンテナの情報をシステムリポジトリにロードすることで
 
     <component name="sampleComponent" class="sample.SampleComponent" />
 
-    <component class="sample.Component" name="component">
+    <component name="component" class="sample.Component" >
       <property name="component2">
-        <component class="sample.Component2" name="component2" />
+        <component name="component2" class="sample.Component2" />
       </property>
     </component>
 
