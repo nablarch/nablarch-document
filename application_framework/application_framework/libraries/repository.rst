@@ -145,7 +145,7 @@ Java Beansオブジェクトは、component要素を用いて定義する。
 
 Java Beansオブジェクトの設定を上書きする
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-同じ名前のオブジェクトが登録された場合、後に読み込まれたオブジェクトで設定を上書きする。
+componentタグのname属性が同じオブジェクトを登録することで、前に読み込まれたオブジェクトの設定を上書きできる。
 この機能は、テスト時にプロダクション環境用のオブジェクトをテスト用のオブジェクト(モック)に置き換える際に利用できる。
 
 オブジェクトを上書きする場合は、同じ名前のオブジェクトを登録するだけで自動的に後で読み込まれたオブジェクトが優先される。
@@ -252,10 +252,11 @@ ListやMapを設定値として使う
 list要素やmap要素を使ってコンポーネント設定をすることで、ListやMapを受け取るpropertyに対するsetterインジェクションが行える。
 
 list要素を使ったListの設定
-  この例では、integerListプロパティに対して、要素に[1, 2, 3]を持つListが設定される。
+  この例では、SampleBeanのintegerListプロパティに対して、要素に[1, 2, 3]を持つListが設定される。
 
   .. code-block:: xml
 
+    <component class="sample.SampleBean">
       <property name="integerList">
         <list>
           <value>1</value>
@@ -263,6 +264,7 @@ list要素を使ったListの設定
           <value>3</value>
         </list>
       </property>
+    </component>
 
   list要素にも任意の名前を設定でき、property要素で名前参照することができる。
   この例は、上の例と同じ設定となる。
@@ -341,6 +343,13 @@ map要素を使ったMapの設定
         </entry>
       </map>
     </property>
+
+.. important::
+  mapやlistのname属性が同じものを複数定義した場合は、先に定義されたものが有効となる。
+  これは、 :ref:`beanの上書き <repository-override_bean>` と異なる挙動であるため注意すること。
+
+  もし、環境毎にmapやlistの情報を変更したい場合には、環境毎読み込むファイルを変えることで対応すること。
+  
 
 .. _repository-autowired:
 
