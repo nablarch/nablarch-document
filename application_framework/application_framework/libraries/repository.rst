@@ -325,10 +325,10 @@ map要素を使ったMapの設定
     </property>
 
 .. important::
-  mapやlistのname属性が同じものを復数定義した場合は、先に定義されたものが有効となる。
+  mapやlistのname属性が同じものを複数定義した場合は、先に定義されたものが有効となる。
   これは、 :ref:`beanの上書き <repository-override_bean>` と異なる挙動であるため注意すること。
 
-  もし、環境に応じてmapやlistの情報を変更したい場合には、環境毎読み込むファイルを変えることで対応すること。
+  もし、環境毎にmapやlistの情報を変更したい場合には、環境毎読み込むファイルを変えることで対応すること。
   
 
 .. _repository-autowired:
