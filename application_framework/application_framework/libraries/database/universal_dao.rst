@@ -489,7 +489,6 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 * :ref:`@Column <universal_dao_jpa_column>`
 * :ref:`@Id <universal_dao_jpa_id>`
 * :ref:`@Version <universal_dao_jpa_version>`
-* :ref:`@Temporal <universal_dao_jpa_temporal>`
 * :ref:`@GeneratedValue <universal_dao_jpa_generated_value>`
 * :ref:`@SequenceGenerator <universal_dao_jpa_sequence_generator>`
 * :ref:`@TableGenerator <universal_dao_jpa_table_generator>`
@@ -555,14 +554,6 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
  .. tip::
   本アノテーションは、Entity内に1つだけ指定可能。
-
-.. _`universal_dao_jpa_temporal`:
-
-*javax.persistence.Temporal* （アノテーション設定箇所：getter）
- *java.util.Date* 及び *java.util.Calendar* 型の値を
- データベースにマッピングする方法を指定するアノテーション。
-
- value属性に指定されたデータベース型に、Javaオブジェクトの値を変換してデータベースに登録する。
 
 .. _`universal_dao_jpa_generated_value`:
 
@@ -646,8 +637,10 @@ Nablarchが提供するDialectを使用する場合、検索結果をマッピ�
  プリミティブ型の場合は、リードメソッド名がisで開始されていても良い。
 
 *java.util.Date*
- JPAの :ref:`@Temporal <universal_dao_jpa_temporal>`
- でデータベース上のデータ型を指定する必要がある。
+  データベースのメタデータから取得したデータベースの型に変換して扱う。
+
+  例えば、メタデータから取得した型が ``java.sql.types.TIMESTAMP`` の場合はTimestampに変換する。
+  ``java.sql.types.DATE`` の場合には、java.sql.Date(時間情報は削除)に変換する。
 
 *java.sql.Date*
  \
