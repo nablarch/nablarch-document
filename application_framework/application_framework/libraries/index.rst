@@ -25,4 +25,5 @@ Nablarchが提供するライブラリ
   service_availability
   session_store
   tag
+  bean_util
   utility
