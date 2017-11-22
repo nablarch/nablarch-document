@@ -9,6 +9,8 @@
 
 Nablarchアプリケーションフレームワークのアーキテクチャについて解説する。
 
+.. warning::
+  本項で解説するアーキテクチャは、\ :ref:`jsr352_batch`\ には該当しない（詳細については、\ :ref:`jsr352_batch`\ の\ :ref:`jsr352_architecture`\ を参照）。
 
 
 Nablarchアプリケーションフレームワークの主な構成要素
