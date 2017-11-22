@@ -639,8 +639,8 @@ Nablarchが提供するDialectを使用する場合、検索結果をマッピ�
 *java.util.Date*
   データベースのメタデータから取得したデータベースの型に変換して扱う。
 
-  例えば、メタデータから取得した型が ``java.sql.types.TIMESTAMP`` の場合はTimestampに変換する。
-  ``java.sql.types.DATE`` の場合には、java.sql.Date(時間情報は削除)に変換する。
+  例えば、メタデータから取得した型が ``java.sql.Types.TIMESTAMP`` の場合はTimestampに変換する。
+  ``java.sql.Types.DATE`` の場合には、java.sql.Date(時間情報は削除)に変換する。
 
 *java.sql.Date*
  \
