@@ -38,7 +38,7 @@ Bean定義
         // getter & setterは省略
     }
 
-    public static class Address {
+    public class Address {
         private String postNo;
         // getter & setterは省略
     }
@@ -65,7 +65,7 @@ BeanUtilの使用例
     user.setAddress(address);
     
 
-    // プロパティ名を指定して値を取得する(1が取得できる)
+    // プロパティ名を指定して値を取得する(1が取得できる)。
     // 値はgetter経由で取得される。
     final Long id = (Long) BeanUtil.getProperty(user, "id");
 
@@ -73,8 +73,8 @@ BeanUtilの使用例
     // 値はsetter経由で設定される。
     BeanUtil.setProperty(user, "name", "新しい名前");
 
-    // 他のBeanを作成しつつ値の移送
-    // Userのプロパティ名と一致するUserDtoのプロパティに対して値が移送されれる。
+    // 他のBeanを作成しつつ値の移送する。
+    // Userのプロパティ名と一致するUserDtoのプロパティに対して値が移送される。
     // 値の移送はgetter及びsetterを使用して行われる。
     // 移送先に存在しないプロパティは無視される。
     // 移送先のプロパティの型が異なる場合は、ConversionUtilにより型変換が行われる。
