@@ -248,6 +248,8 @@ Excelシートについては、以下の規約が推奨される。
   仮に命名規約を変更する場合であってもプロジェクト内で統一を図ること。
 
 
+.. _`structure_in_excel_sheet`:
+
 
 シート内の構造
 ==============
@@ -317,6 +319,21 @@ SETUP_TABLE=COMPOSER
 |  00002 | Phillip    | Glass     |
 +--------+------------+-----------+
 
+
+.. important::
+ １シート内で、同一データタイプを複数回記述する必要がある場合は、連続で記述すること。
+
+ 以下はOKのパターンである。
+ ``RESPONSE_HEADER_MESSAGES`` と、 ``RESPONSE_BODY_MESSAGES`` をそれぞれ連続で記述している。
+ 
+ .. image:: _images/data_repetitive_ok_pattern.png
+  :scale: 90
+
+ 以下はNGのパターンである。
+ ``RESPONSE_HEADER_MESSAGES`` と ``RESPONSE_BODY_MESSAGES`` を交互に記述している。このように記述するとテストデータは正常に読み込まれない。
+ 
+ .. image:: _images/data_repetitive_ng_pattern.png
+  :scale: 90
 
 
 コメント
