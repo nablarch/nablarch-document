@@ -239,23 +239,19 @@ no                         ディレクティブ行の下の行には必ず「no
     * 業務データ(3レコード目)
 
 
-.. important::
- リクエスト単体テストの対象が複数回メッセージ送信を行う際は、以下の点に注意すること。
+以下に、複数回メッセージを送信する場合の要求電文の本文の期待値の記載例を示す。
 
- * 異なるリクエストIDのメッセージを送信する際、同一データタイプ( ``RESPONSE_HEADER_MESSAGES`` 等)を複数回記述する必要がある。この場合、同一データタイプは連続で記述すること。データタイプ自体の説明は、\ :ref:`structure_in_excel_sheet`\ を参照。
- * 同一リクエストIDメッセージを一つのテストケースで複数回送信する際は、noの値を変えてまとめて記述すること。
- * 同一リクエストIDメッセージを一つのテストケースで複数回送信する際は、同じ種類の電文は同じ長さにすること。テストケース上、同一の長さにできない場合は、手動でテストを行うこと。
+.. image:: ./_image/send_sync_ok_pattern_expected.png
+   :scale: 80
 
- 以下に複数回メッセージ送信を行う際の、応答電文の記述例を示す。
 
- .. image:: ./_image/send_sync_ok_pattern_response.png
+.. tip::
+ 同一データタイプを複数回記述する場合の注意点の詳細は、 \ :ref:`tips_groupId`\ 及び、 \ :ref:`auto-test-framework_multi-datatype`\ を参照。
 
- 以下に複数回メッセージ送信を行う際の、要求電文の記述例を示す。
 
- .. image:: ./_image/send_sync_ok_pattern_expected.png
+.. tip::
+ 異なるリクエストIDのメッセージを送信する際、送信順のテストは不可能である。上記の例の場合、 ``ProjectInsertMessage`` より先に、 ``ProjectInsert2Messag`` が送信された場合であってもテストは成功となる。
 
-また、異なる種類のメッセージを送信する際、送信順のテストは不可能である。
-上記の例の場合、 ``ProjectInsertMessage`` より先に、 ``ProjectInsert2Messag`` が送信された場合であってもテストは成功となる。
 
 .. _`send_sync_failure_test`:
 
