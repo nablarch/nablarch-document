@@ -238,6 +238,23 @@ no                         ディレクティブ行の下の行には必ず「no
     * ヘッダ
     * 業務データ(3レコード目)
 
+----
+
+複数回電文送信を行う場合のテストは、テスティングフレームワークの以下の仕様に注意をして記述すること。
+
+* 同一データタイプ(以下の例では ``RESPONSE_HEADER_MESSAGES`` と ``RESPONSE_BODY_MESSAGES`` )は、それぞれ、まとめて記述する。詳細は、 \ :ref:`tips_groupId`\ 及び、 \ :ref:`auto-test-framework_multi-datatype`\ を参照。
+* 同一リクエストIDの電文については、noの値を変えてまとめて記述する。
+
+以下に、複数回メッセージを送信する場合の要求電文の本文の期待値の記載例を示す。
+
+.. image:: ./_image/send_sync_ok_pattern_expected.png
+   :scale: 80
+
+
+.. tip::
+ 送信対象のリクエストIDが複数存在する場合、送信順のテストは不可能である。上記の例の場合、 ``ProjectInsertMessage`` より先に、 ``ProjectInsert2Messag`` が送信された場合であってもテストは成功となる。
+
+
 .. _`send_sync_failure_test`:
 
  
