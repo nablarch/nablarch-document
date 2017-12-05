@@ -108,3 +108,56 @@
       </property>
     </component>
     
+Content-Security-Policyレスポンスヘッダを設定する
+-------------------------------------------------------
+Content-Security-Policyレスポンスヘッダを設定する手順を以下に示す。
+
+1. 本ハンドラ(:java:extdoc:`SecureHandler <nablarch.fw.web.handler.SecureHandler>`)に、``ContentSecurityPolicyHeader`` を設定する。
+
+2. ``ContentSecurityPolicyHeader`` に ``policy`` を設定する。
+
+以下に例を示す。
+
+.. code-block:: xml
+
+  <component class="nablarch.fw.web.handler.SecureHandler">
+    <property name="secureResponseHeaderList">
+      <list>
+        <component class="nablarch.fw.web.handler.secure.FrameOptionsHeader" />
+        <component class="nablarch.fw.web.handler.secure.XssProtectionHeader" />
+        <component class="nablarch.fw.web.handler.secure.ContentTypeOptionsHeader" />
+
+        <!-- Content-Security-Policyを付与するコンポーネント -->
+        <component class="nablarch.fw.web.handler.secure.ContentSecurityPolicyHeader">
+          <!-- ポリシーを設定する -->
+          <property name="policy" value="default-src 'self'" />
+        </component>
+      </list>
+    </property>
+  </component>
+
+この場合、 ``Content-Security-Policy: default-src 'src'`` といったレスポンスヘッダが書き出される。
+
+report-only モードで動作させる場合は ``reportOnly`` を ``true`` に設定する。
+
+以下に例を示す。
+
+.. code-block:: xml
+
+  <component class="nablarch.fw.web.handler.SecureHandler">
+    <property name="secureResponseHeaderList">
+      <list>
+        <component class="nablarch.fw.web.handler.secure.FrameOptionsHeader" />
+        <component class="nablarch.fw.web.handler.secure.XssProtectionHeader" />
+        <component class="nablarch.fw.web.handler.secure.ContentTypeOptionsHeader" />
+
+        <component class="nablarch.fw.web.handler.secure.ContentSecurityPolicyHeader">
+          <property name="policy" value="default-src 'self'; report-uri http://example.com/report" />
+          <!-- report-onlyモードで動作させる -->
+          <property name="reportOnly" value="true" />
+        </component>
+      </list>
+    </property>
+  </component>
+
+この場合、 ``Content-Security-Policy-Report-Only: default-src 'src'; report-uri http://example.com/report`` といったレスポンスヘッダが書き出される。
