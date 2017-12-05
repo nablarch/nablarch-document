@@ -67,14 +67,14 @@ MOM（メッセージ指向ミドルウェア）
 
 ブラウザ
  PC
-  * Internet Explorer 6/7/8/9/10/11
-  * Microsoft Edge 12
+  * Internet Explorer 11
+  * Microsoft Edge
   * Mozilla Firefox
   * Google Chrome
   * Safari
  スマートフォン
-  * iOS Safari
-  * Android Browser 4.3
+  * Safari(iOS)
+  * Google Chrome(Android)
 
 Nablarchフレームワークの稼動実績
 -----------------------------------------------------
