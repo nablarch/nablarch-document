@@ -130,11 +130,13 @@ Content-Security-Policyレスポンスヘッダを設定する手順を以下に
         <!-- Content-Security-Policyを付与するコンポーネント -->
         <component class="nablarch.fw.web.handler.secure.ContentSecurityPolicyHeader">
           <!-- ポリシーを設定する -->
-          <property name="policy" value="default-src: 'self'" />
+          <property name="policy" value="default-src 'self'" />
         </component>
       </list>
     </property>
   </component>
+
+この場合、 ``Content-Security-Policy: default-src 'src'`` といったレスポンスヘッダが書き出される。
 
 report-only モードで動作させる場合は ``reportOnly`` を ``true`` に設定する。
 
@@ -150,7 +152,7 @@ report-only モードで動作させる場合は ``reportOnly`` を ``true`` に
         <component class="nablarch.fw.web.handler.secure.ContentTypeOptionsHeader" />
 
         <component class="nablarch.fw.web.handler.secure.ContentSecurityPolicyHeader">
-          <property name="policy" value="default-src: 'self'" />
+          <property name="policy" value="default-src 'self'; report-uri http://example.com/report" />
           <!-- report-onlyモードで動作させる -->
           <property name="reportOnly" value="true" />
         </component>
@@ -158,3 +160,4 @@ report-only モードで動作させる場合は ``reportOnly`` を ``true`` に
     </property>
   </component>
 
+この場合、 ``Content-Security-Policy-Report-Only: default-src 'src'; report-uri http://example.com/report`` といったレスポンスヘッダが書き出される。
