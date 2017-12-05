@@ -73,8 +73,8 @@ MOM（メッセージ指向ミドルウェア）
   * Google Chrome
   * Safari
  スマートフォン
-  * iOS Safari
-  * Google Chrome
+  * Safari(iOS)
+  * Google Chrome(Android)
 
 Nablarchフレームワークの稼動実績
 -----------------------------------------------------
