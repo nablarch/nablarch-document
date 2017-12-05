@@ -130,7 +130,7 @@ Exampleアプリケーションを元に更新機能の解説を行う。
 
   この実装のポイント
     * 編集フォームに初期表示する値を取得するために、
-      :java:extdoc:`UniversalDao#findBySqlFile <nablarch.common.dao.UniversalDao.findBySqlFile(java.lang.Class, java.lang.String-java.lang.Object)>`
+      :java:extdoc:`UniversalDao#findBySqlFile <nablarch.common.dao.UniversalDao.findBySqlFile(java.lang.Class-java.lang.String-java.lang.Object)>`
       を使用して一意キー検索を行う。
       :ref:`テーブルをJOINした結果を取得する<universal_dao-join>` ために、検索結果はBeanで受け付ける。
       一意キー検索では、対象データが存在しない場合 :java:extdoc:`NoDataException<nablarch.common.dao.NoDataException>` を送出する。

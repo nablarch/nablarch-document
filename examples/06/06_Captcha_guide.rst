@@ -38,7 +38,7 @@ CAPTCHA機能のソースコードの配置
 
 ソースコードのpackage文、import文のパッケージ名は、配置先のパッケージに合わせて修正してください。
 
-  `nablarch-biz-sample-all/main/java/please/change/me/common/captcha <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/main/java/please/change/me/common/captcha>`_
+  `nablarch-biz-sample-all/src/main/java/please/change/me/common/captcha <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/src/main/java/please/change/me/common/captcha>`_
 
 
 コンポーネント定義の追記

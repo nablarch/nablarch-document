@@ -49,7 +49,7 @@ log.propertiesの設定例
 終了時に呼び出す :java:extdoc:`PerformanceLogUtil#end <nablarch.core.log.app.PerformanceLogUtil.end(java.lang.String-java.lang.String-java.lang.Object...)>`
 を提供する。
 :java:extdoc:`PerformanceLogUtil <nablarch.core.log.app.PerformanceLogUtil>` は、
-:java:extdoc:`PerformanceLogUtil#end <nablarch.core.log.app.PerformanceLogUtil.end(java.lang.String, java.lang.String-java.lang.Object...)>`
+:java:extdoc:`PerformanceLogUtil#end <nablarch.core.log.app.PerformanceLogUtil.end(java.lang.String-java.lang.String-java.lang.Object...)>`
 が呼ばれた時点で、 :java:extdoc:`PerformanceLogUtil#start <nablarch.core.log.app.PerformanceLogUtil.start(java.lang.String)>`
 で取得した日時とメモリ使用量を合わせて出力する。
 
