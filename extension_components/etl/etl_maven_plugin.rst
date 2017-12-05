@@ -61,6 +61,9 @@ Java Beansクラスから取得する情報は以下のとおり。
 
 Java Beansクラスの実装例を以下に示す。
 
+ポイント
+  * Java Beansクラスは、 :java:extdoc:`WorkItem <nablarch.etl.WorkItem>` を継承すること。
+
 .. code-block:: java
 
   @Entity
