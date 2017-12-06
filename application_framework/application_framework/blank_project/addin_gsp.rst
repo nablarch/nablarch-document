@@ -156,7 +156,7 @@ nablarch.db.schema                              接続するスキーマ名
 build要素内
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-gsp-dba-maven-plugin使用時は、gsp-dba-maven-pluginで使用するJDBCドライバの設定を追加する。
+gsp-dba-maven-pluginに対する依存関係を、H2のJDBCドライバから使用するRDBMSにあわせたものに修正する。
 
 以下に記述例を示す。
 
