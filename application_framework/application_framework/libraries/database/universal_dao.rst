@@ -38,6 +38,13 @@ SQL文は、JPAアノテーションを元に実行時に構築する。
 
 Entityに使用できるJPAアノテーションについては、 :ref:`universal_dao_jpa_annotations` を参照。
 
+
+.. tip::
+   ユニバーサルDAOの上記CRUD機能では、\ ``@Table``\ アノテーションを使ってスキーマを指定することができる\
+   （ :ref:`universal_dao_jpa_annotations` を参照）。
+   ただし、 :ref:`database` の :ref:`database-replace_schema` 機能はユニバーサルDAOでは使用できない。\
+   環境毎にスキーマを切り替える用途には、ユニバーサルDAOではなく :ref:`database` を使用すること。
+   
 .. _universal_dao-bean_mapping:
 
 検索結果をBeanにマッピングできる

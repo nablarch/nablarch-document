@@ -1258,7 +1258,8 @@ JDBCのネイティブなデータベース接続( :java:extdoc:`java.sql.Connec
   Connection connection = managerConnection.getConnection();
   return connection.getMetaData();
 
-
+.. _database-replace_schema:
+  
 SQL文中のスキーマを環境毎に切り替える
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
