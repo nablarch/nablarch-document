@@ -28,7 +28,7 @@
   なお、StepContextの一時領域については、 :java:extdoc:`StepScoped<nablarch.fw.batch.ee.cdi.StepScoped>` でステップ内で値を共有をするために使用しているため、
   アプリケーション側ではStepContextの一時領域は使用できない。
 
-.. note::
+.. tip::
 
   :ref:`jsr352_batch`\のアーキテクチャは、\ |jsr352|\ で定められた構成に準拠しているため、\
   Nablarchアプリケーションフレームワークの\ :ref:`nablarch_architecture`\ に記載されているような、\
