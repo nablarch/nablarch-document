@@ -1219,6 +1219,76 @@ JDBCのネイティブなデータベース接続( :java:extdoc:`java.sql.Connec
   return connection.getMetaData();
     
 
+.. _database-replace_schema:
+  
+SQL文中のスキーマを環境毎に切り替える
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+特定のSQL（テーブル）のみ別のスキーマを参照したい場合、通常はSQL文に明示的にスキーマを記述するが
+(例: ``SELECT * FROM A_SCHEMA.TABLE1``)、環境によって参照したいスキーマ名が異なるケースがある（下記の例を参照）。
+
+**TABLE1の参照先スキーマ**
+
+=================== ==========
+環境                スキーマ
+=================== ==========
+本番環境            A_SCHEMA
+テスト環境          B_SCHEMA
+=================== ==========
+
+このケースでは、SQL文中にスキーマ名を明示的に記述する方法を使うことができない。
+
+.. code-block:: sql
+
+  -- スキーマ名を指定してSELECT
+  SELECT * FROM A_SCHEMA.TABLE1  -- 本番では動作するがテスト環境では動作しない
+
+  
+このような場合のために、SQL文中のスキーマを環境毎に切り替える機能を提供する。
+
+まず、SQL文にスキーマを置き換えるためのプレースホルダー ``#SCHEMA#`` \ [#schema]_\ を記載する。
+
+
+.. code-block:: sql
+                
+  -- スキーマ名を指定してSELECT
+  SELECT * FROM #SCHEMA#.TABLE1
+
+
+.. [#schema] このプレースホルダーの文字列は固定である。
+
+
+プレースホルダーを置き換えるために、以下の例のように\
+:java:extdoc:`BasicSqlLoader <nablarch.core.db.statement.BasicSqlLoader>` を設定する。
+
+.. code-block:: xml
+                
+   <component name="statementFactory" class="nablarch.core.db.statement.BasicStatementFactory">
+     <component name="sqlLoader" class="nablarch.core.db.statement.BasicSqlLoader">
+       <property name="sqlLoaderCallback">
+         <list>
+           <!-- SQL文中の#SCHEMA#を指定した値で置き換え -->
+           <component class="nablarch.core.db.statement.sqlloader.SchemaReplacer">
+             <property name="schemaName" value="${nablarch.schemaReplacer.schemaName}"/>
+           </component>
+         </list>
+       </property>
+     </component>
+   </component>
+
+プレースホルダーをどのような値に置き換えるかは、
+:java:extdoc:`SchemaReplacer <nablarch.core.db.statement.sqlloader.SchemaReplacer>`
+のプロパティ\ ``schemaName``\ に設定する。
+上記の例では、置き換え後の値を ``nablarch.schemaReplacer.schemaName`` という環境依存値に設定している。\
+この値を環境毎に切り替えることにより、\
+SQL文中のスキーマをその環境に応じたものに置き換えることができる\
+（切替方法の詳細については :ref:`how_to_switch_env_values` を参照）。
+
+.. tip::
+   本機能によるSQL文中のスキーマ置き換えは単純な文字列置換処理であり、\
+   スキーマが存在するか、スキーマ置き換え後のSQLが妥当であるかといったチェックは行われない\
+   （SQL文実行時にエラーとなる）。
+
 拡張例
 --------------------------------------------------
 
