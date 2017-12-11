@@ -8,26 +8,22 @@ Nablarch UI開発基盤 解説書
 
   *
   */*
-  
+
+
 .. important::
 
   UI開発基盤を使用する際には、以下の知識が必要となる。
-  これらの有識者がいない場合、UI開発基盤が提供する部品のカスタマイズや追加を行うことは難しく、生産性低下の原因となる。
-  
+  これらの有識者がいない場合、UI開発基盤の仕様は困難である。
+
   * `Node.js <https://nodejs.org/ja/>`_
   * `RequireJS <http://requirejs.org/>`_
   * `jQuery <https://jquery.com/>`_
   * `Sugar <https://sugarjs.com/>`_
   * `less <http://less-ja.studiomohawk.com/>`_
 
-  部品の仕様を少しでも変更したい場合であっても、難易度の高いカスタマイズが必要である。
-  特に、部品を縦に並べて画面を構成しない場合（:doc:`internals/multicol_css_framework` を使用する場合）は画面デザインの難易度が高い。
+  また、UI開発基盤は、設計工程からJSPを作成するアプローチを採用しているため、「モックアップHTMLとJSPのダブルメンテナンス」が発生しないようにみえる。 |br|
+  しかし、実際は設計工程と開発工程で全く同じJSPを使用することは困難であるため、「設計工程用JSPと開発工程用JSPのダブルメンテナンス」が往々にして発生するという点にも注意が必要である。
 
-  また、UI開発基盤はNablarch1.4をベースに構築されている。
-  このため、Nablarch5から追加された機能には対応していないものがある。
-  例えば、 :ref:`universal_dao` に対応していない問題や、 非推奨機能の :ref:`ウィンドウスコープ <tag-window_scope>` が前提となっている問題がある。
-
-  これらの点を考慮してUI開発基盤の使用を検討すること。
 
 **目次**
 
@@ -73,3 +69,7 @@ Nablarch UI開発基盤 解説書
   23. :doc:`testing`
   24. :doc:`known_issues`
 
+
+.. |br| raw:: html
+
+  <br />
