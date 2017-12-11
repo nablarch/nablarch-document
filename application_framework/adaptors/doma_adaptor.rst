@@ -364,3 +364,34 @@ DomaとNablarchのデータベースアクセスを併用する
 .. code-block:: xml
 
   <component name="domaJdbcLogger" class="org.seasar.doma.jdbc.UtilLoggingJdbcLogger"  />
+
+java.sql.Statementに関する設定を行う
+--------------------------------------------------
+フェッチサイズやクエリタイムアウトなど、 ``java.sql.Statement`` に関する項目をプロジェクト全体に設定したい場合がある。
+
+その場合はコンポーネント設定ファイルに :java:extdoc:`DomaStatementProperties<nablarch.integration.doma.DomaStatementProperties>` を設定する。
+
+設定できる項目には下記のものがある。
+
+* 最大行数の制限値
+* フェッチサイズ
+* クエリタイムアウト（秒）
+* バッチサイズ
+
+設定例を以下に示す。
+
+ポイント
+ * コンポーネント名は ``domaStatementProperties`` とすること
+
+.. code-block:: xml
+
+  <component class="nablarch.integration.doma.DomaStatementProperties" name="domaStatementProperties">
+    <!-- 最大行数の制限値を1000行に設定する -->
+    <property name="maxRows" value="1000" />
+    <!-- フェッチサイズを200行に設定する -->
+    <property name="fetchSize" value="200" />
+    <!-- クエリタイムアウトを30秒に設定する -->
+    <property name="queryTimeout" value="30" />
+    <!-- バッチサイズを400に設定する -->
+    <property name="batchSize" value="400" />
+  </component>
