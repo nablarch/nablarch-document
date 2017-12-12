@@ -165,7 +165,6 @@ POMの設定例は、 :ref:`customizeDB_pom_dependencies` を参照。
 
   <build>
     <plugins>
-      <!-- 中略 -->
       <plugin>
         <groupId>jp.co.tis.gsp</groupId>
         <artifactId>gsp-dba-maven-plugin</artifactId>
@@ -178,7 +177,6 @@ POMの設定例は、 :ref:`customizeDB_pom_dependencies` を参照。
           </dependency>
         </dependencies>
       </plugin>
-      <!-- 中略 -->
     </plugins>
   </build>
 
