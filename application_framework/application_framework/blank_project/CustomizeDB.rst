@@ -278,6 +278,7 @@ SQL Serverの設定例
   DBに設定した通りに、configファイルにも設定すること。
   
 
+.. _customizeDB_pom_dependencies:
 
 ---------------------------
 pom.xmlファイルの修正
