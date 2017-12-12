@@ -158,104 +158,29 @@ build要素内
 
 gsp-dba-maven-pluginに対する依存関係を、H2のJDBCドライバから使用するRDBMSにあわせたものに修正する。
 
-以下に記述例を示す。
-
-
-Oracleの設定例
-^^^^^^^^^^^^^^
+POMの設定例は、 :ref:`customizeDB_pom_dependencies` を参照。
+例えば、PostgreSQLを利用する場合は以下のように設定する。
 
 .. code-block:: xml
 
-    <build>
-      <plugins>
-        <!-- 中略 -->
-        <plugin>
-          <groupId>jp.co.tis.gsp</groupId>
-          <artifactId>gsp-dba-maven-plugin</artifactId>
-          <dependencies>
-            <dependency>
-              <groupId>com.oracle</groupId>
-              <artifactId>ojdbc6</artifactId>
-              <version>11.2.0.2.0</version>
-            </dependency>
-          </dependencies>
-        </plugin>
-        <!-- 中略 -->
-      </plugins>
-    </build>
-
-
-PostgreSQLの設定例
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. code-block:: xml
-
-    <build>
-      <plugins>
-        <!-- 中略 -->
-        <plugin>
-          <groupId>jp.co.tis.gsp</groupId>
-          <artifactId>gsp-dba-maven-plugin</artifactId>
-          <dependencies>
-            <dependency>
-              <groupId>org.postgresql</groupId>
-              <artifactId>postgresql</artifactId>
-              <version>9.4.1207</version>
-            </dependency>
-          </dependencies>
-        </plugin>
-        <!-- 中略 -->
-      </plugins>
-    </build>
-
-
-DB2の設定例
-^^^^^^^^^^^^^^
-
-.. code-block:: xml
-
-    <build>
-      <plugins>
-        <!-- 中略 -->
-        <plugin>
-          <groupId>jp.co.tis.gsp</groupId>
-          <artifactId>gsp-dba-maven-plugin</artifactId>
-          <dependencies>
-            <dependency>
-              <groupId>com.ibm</groupId>
-              <artifactId>db2jcc4</artifactId>
-              <version>10.5.0.7</version>
-            </dependency>
-          </dependencies>
-        </plugin>
-        <!-- 中略 -->
-      </plugins>
-    </build>
-
-
-SQLServerの設定例
-^^^^^^^^^^^^^^^^^
-
-.. code-block:: xml
-
-    <build>
-      <plugins>
-        <!-- 中略 -->
-        <plugin>
-          <groupId>jp.co.tis.gsp</groupId>
-          <artifactId>gsp-dba-maven-plugin</artifactId>
-          <dependencies>
-            <dependency>
-              <groupId>com.microsoft</groupId>
-              <artifactId>sqljdbc4</artifactId>
-              <version>4.0</version>
-            </dependency>
-          </dependencies>
-        </plugin>
-        <!-- 中略 -->
-      </plugins>
-    </build>
-
+  <build>
+    <plugins>
+      <!-- 中略 -->
+      <plugin>
+        <groupId>jp.co.tis.gsp</groupId>
+        <artifactId>gsp-dba-maven-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <!-- バージョンは適切な値に書き換えてください。 -->
+            <version>42.1.4</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <!-- 中略 -->
+    </plugins>
+  </build>
 
 data-model.edm  (src/main/resources/entity)の準備
 -------------------------------------------------
