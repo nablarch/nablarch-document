@@ -458,9 +458,25 @@ Nablarchが提供しているバリデータ及びコンバータについては
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 文字種バリデーションの定義方法は、 :ref:`bean_validation` と同じである。
 詳細な設定方法は、 :ref:`Bean Validationの文字種バリデーションを行う <bean_validation-system_char_validator>` を参照。
+ただし、サロゲートペアを許容する設定は :ref:`bean_validation` と異なるので下記を参照すること。
 
 なお、使用するアノテーションは、 :java:extdoc:`@SystemChar <nablarch.core.validation.validator.unicode.SystemChar>` で、
 :ref:`bean_validation` とは完全修飾名が異なる(アノテーション名は同一)ので注意すること。
+
+サロゲートペアを許容する
+  このバリデーションでは、デフォルトではサロゲートペアを許容しない。
+  （例え `LiteralCharsetDef` で明示的にサロゲートペアの文字を定義していても許容しない）
+
+  サロゲートペアを許容する場合は次のようにコンポーネント設定ファイルに :java:extdoc:`SystemCharValidator#allowSurrogatePair <nablarch.core.validation.validator.unicode.SystemCharValidator.setAllowSurrogatePair(boolean)>` を設定する必要がある。
+
+  .. code-block:: xml
+
+    <component name="systemCharValidator" class="nablarch.core.validation.validator.unicode.SystemCharValidator">
+      <!-- サロゲートペアを許容する -->
+      <property name="allowSurrogatePair" value="true"/>
+  
+      <!-- その他のプロパティは省略 -->
+    </component>
 
 .. _nablarch_validation-correlation_validation:
 
