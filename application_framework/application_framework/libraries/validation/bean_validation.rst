@@ -382,6 +382,9 @@ Java実装例
 
   サロゲートペアを許容する場合は次のようにコンポーネント設定ファイルに :java:extdoc:`SystemCharConfig <nablarch.core.validation.ee.SystemCharConfig>` を設定する必要がある。
 
+  ポイント
+   * コンポーネント名は ``ee.SystemCharConfig`` とすること
+
   .. code-block:: xml
 
     <component name="ee.SystemCharConfig" class="nablarch.core.validation.ee.SystemCharConfig">
