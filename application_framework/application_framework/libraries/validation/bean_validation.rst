@@ -376,6 +376,19 @@ Java実装例
       <property name="messageId" value="numberString.message" />
     </component>
 
+サロゲートペアを許容する
+  このバリデーションでは、デフォルトではサロゲートペアを許容しない。
+  （例え `LiteralCharsetDef` で明示的にサロゲートペアの文字を定義していても許容しない）
+
+  サロゲートペアを許容する場合は次のようにコンポーネント設定ファイルに :java:extdoc:`SystemCharConfig <nablarch.core.validation.ee.SystemCharConfig>` を設定する必要がある。
+
+  .. code-block:: xml
+
+    <component name="ee.SystemCharConfig" class="nablarch.core.validation.ee.SystemCharConfig">
+      <!-- サロゲートペアを許容する -->
+      <property name="allowSurrogatePair" value="true"/>
+    </component>
+
 .. _bean_validation-correlation_validation:
 
 相関バリデーションを行う
