@@ -62,7 +62,6 @@ ETL基盤
 
   | :doc:`解説書 <extension_components/etl/index>`
   | :doc:`ETL Mavenプラグイン <extension_components/etl/etl_maven_plugin>`
-  | `ETL デザイナー <https://github.com/nablarch/nablarch-etl-designer>`__
 
 
 -----------------------------------------------
