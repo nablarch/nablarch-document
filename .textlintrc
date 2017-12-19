@@ -1,0 +1,17 @@
+{
+  "plugins": [
+    "rst"
+  ],
+  "rules": {
+    "preset-ja-technical-writing": {
+      "sentence-length": false,
+      "ja-no-mixed-period": false,
+      "no-dropping-the-ra": true,
+
+    },
+    "prh": {
+      "rulePaths" :[".textlint/conf/prh.yml"]
+    }
+  },
+
+}

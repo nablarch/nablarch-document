@@ -1,0 +1,17 @@
+# prh version
+version: 1
+rules:
+  - expected: コンポーネント設定ファイル
+    pattern: コンポーネント定義ファイル
+  - expected: ウェア
+    patterns:
+      - ウエアー
+      - ウェアー
+      - ウエア      
+  - expected: Nablarch
+    patterns:
+      - Ｎａｂｌａｒｃｈ
+      - NABLARCH
+      - なぶちゃん
+  - expected: ""
+    pattern: siosio
