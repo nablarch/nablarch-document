@@ -67,6 +67,8 @@ textlint-rule-prh (辞書チェック)
 
 利用する。→使用する
 
+利用者の立場になって考えよう。　（「利用者」はOK）
+
 package siosio;
 
 本機能は非推奨である。
@@ -77,10 +79,3 @@ package siosio;
 
 コンピュータ内臓型キーボード
 
-.. textlint-disable
-
-ここは無法地帯。
-
-なぶちゃん
-
-.. textlint-enable
