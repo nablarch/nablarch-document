@@ -570,7 +570,62 @@ Java実装例
   ``getParameterNames`` が返す値は実装依存であり、使用するアプリケーションサーバによっては並び順が変わる可能性がある点に注意すること。
   プロジェクトでソート順を変更したい場合は、BeanValidationStrategyを継承し対応すること。
 
+
+.. _bean_validation_onerror:
+
+
+バリデーションエラー時にもリクエストパラメータをリクエストスコープから取得したい
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:ref:`inject_form_interceptor`\ を使用すると、バリデーション成功後にリクエストスコープにバリデーション済みのフォームを格納される。
+これを利用することでリクエストパラメータが参照できるが、バリデーションエラー時にも同様にリクエストスコープからパラメータを取得したい場合がある。
+
+
+例えば、JSTLタグ(EL式)を使用する場合、Nablarchカスタムタグとは異なりリクエストパラメータを暗黙的に参照する\ [#1]_ ことはできないので、
+次のような処理を追加する必要がある。
+
+* 一度Nablarchタグ ``<n:set>`` を使用してリクエストパラメータの値を変数に格納する
+* 暗黙オブジェクト ``param`` を使用してリクエストパラメータにアクセスする  
+
+前者の ``<n:set>`` を使用する例を以下に示す。
+  
+.. code-block:: jsp
+                  
+   <%-- リクエストパラメータの値をJSTL(EL式)でも参照できるよう変数に代入する --%>
+   <n:set var="quantity" name="form.quantity" />
+   <c:if test="${quantity >= 100}">
+     <%-- 数量が100以上の場合... --%>
+
+
+このような場合、 :java:extdoc:`BeanValidationStrategy <nablarch.common.web.validator.BeanValidationStrategy>`\
+のプロパティ ``copyBeanToRequestScopeOnError`` を ``true`` に設定することで、\
+バリデーションエラー時にも、リクエストパラメータをコピーしたBeanをリクエストスコープに格納できる。
+以下に設定例を示す。
+
+.. code-block:: xml
+
+  <component name="validationStrategy" class="nablarch.common.web.validator.BeanValidationStrategy">
+    <!-- バリデーションエラー時にリクエストスコープに値をコピーする -->
+    <property name="copyBeanToRequestScopeOnError" value="true"/>
+  </component>
+
+リクエストスコープには、 ``@InjectForm`` の ``name`` で指定されたキー名でBeanが格納される\
+（\ :ref:`inject_form_interceptor`\ の通常動作と同じ）。
+
+  
+この機能を有効にすることで、前述のJSPは以下のように記述できる。
+
+
+.. code-block:: jsp
+                
+   <%-- リクエストスコープ経由でリクエストパラメータの値をJSTL(EL式)でも参照できる --%>
+   <c:if test="${form.quantity >= 100}">
+     <%-- 数量が100以上の場合... --%>
+
+.. [#1] Nablarchカスタムタグの動作については、 :ref:`tag-access_rule` を参照。
+     
 .. _bean_validation-property_name:
+
 
 バリデーションエラー時のメッセージに項目名を含めたい
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
