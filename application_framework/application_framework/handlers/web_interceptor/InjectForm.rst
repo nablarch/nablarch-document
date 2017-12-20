@@ -75,6 +75,10 @@ InjectFormを利用する
     }
 
 
+.. tip::
+  バリデーションに :ref:`bean_validation` を使用する場合、バリデーションエラー時にもリクエストスコープから\
+  オブジェクトを取得可能となるよう設定ができる。詳細は『\ :ref:`bean_validation_onerror`\ 』を参照。
+    
 バリデーションエラー時の遷移先を指定する
 -------------------------------------------------
 バリデーションエラー発生時の遷移先画面は、 :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` アノテーションを使用して設定する。
