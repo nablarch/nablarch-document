@@ -43,6 +43,12 @@ textlint-rule-preset-ja-technical-writing
 これはは問題ある文章です。
 
 
+ら抜き言葉
+----------
+
+寿司は食べれない。
+
+
 textlint-rule-prh (辞書チェック)
 ================================
 
@@ -59,8 +65,22 @@ textlint-rule-prh (辞書チェック)
 
 なぶちゃん
 
-Ｎａｂｌａｒｃｈ
+利用する。→使用する
 
 package siosio;
 
+本機能は非推奨である。
 
+シュミレーションゲームは楽しいねえ。
+
+ご飯を食べるために外に出かける。
+
+コンピュータ内臓型キーボード
+
+.. textlint-disable
+
+ここは無法地帯。
+
+なぶちゃん
+
+.. textlint-enable

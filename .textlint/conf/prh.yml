@@ -13,5 +13,15 @@ rules:
       - Ｎａｂｌａｒｃｈ
       - NABLARCH
       - なぶちゃん
+  - expected: 使用
+    pattern: 利用
   - expected: ""
     pattern: siosio
+  - expected: 積極的にお勧めはしない
+    pattern: 非推奨
+  - expected: シミュレーション
+    pattern: シュミレーション
+  - expected: シミュレータ
+    pattern: シュミレータ
+  - expected: 内蔵
+    pattern: 内臓
