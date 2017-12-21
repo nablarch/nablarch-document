@@ -334,7 +334,13 @@
     <property name="mailRequestTable" ref="mailRequestTable" />
     <property name="mailRecipientTable" ref="mailRecipientTable" />
     <property name="mailAttachedFileTable" ref="mailAttachedFileTable" />
-    <property name="mailTemplateTable" ref="mailTemplateTable" />
+    <property name="templateEngineMailProcessor">
+      <!-- 理由は後述するがTinyTemplateEngineMailProcessorは非推奨である -->
+      <!-- FreeMarkerやThymeleafなどのテンプレートエンジンの使用を推奨する -->
+      <component class="nablarch.common.mail.TinyTemplateEngineMailProcessor">
+        <property name="mailTemplateTable" ref="mailTemplateTable" />
+      </component>
+    </property>
 
   </component>
 
@@ -408,11 +414,11 @@
  mailRequest.setLang("ja");
 
  // テンプレートのプレースホルダに対する値を設定する。
- mailRequest.setReplaceKeyValue("name", "名前");
- mailRequest.setReplaceKeyValue("address", "住所");
- mailRequest.setReplaceKeyValue("tel", "電話番号");
+ mailRequest.setVariable("name", "名前");
+ mailRequest.setVariable("address", "住所");
+ mailRequest.setVariable("tel", "電話番号");
  // 以下のように値にnullを設定した場合、空文字列で置き換えが行われる。
- mailRequest.setReplaceKeyValue("opeion", null);
+ mailRequest.setVariable("opeion", null);
 
  // 添付ファイルを設定する。
  AttachedFile attachedFile = new AttachedFile("text/plain", new File("path/to/file"));
@@ -430,6 +436,20 @@
  - テンプレートのプレースホルダと、プレースホルダに対して設定されたキー/値の整合性をチェックしない。
    そのため、テンプレート中にプレースホルダがあるにも関わらず、値が設定されなかった場合、プレースホルダが変換されずにメールが送信される。
    反対に、対応するプレースホルダがない値は、単に無視され、メールが送信される。
+
+.. important::
+
+ Nablarch 5u13からテンプレートエンジンを使用した定型メールがサポートされた。
+ 
+ 5u12までの定型メール機能もテンプレートエンジンの1つとして残されており、
+ ``TinyTemplateEngineMailProcessor`` を設定することで使用可能だが、以下の理由により非推奨である。
+
+ * プレースホルダを置換できる値は単純な文字列のみで、構造化されたオブジェクトをサポートしていない
+ * 条件分岐や繰り返しといった制御構文をサポートしていない
+
+ 既存の定型メール機能の代わりに下記のテンプレートエンジンを使用した定型メール機能を推奨する。
+
+ * :ref:`mail_sender_freemarker_adaptor`
 
 .. _`mail-send`:
 
