@@ -22,12 +22,12 @@ make html
 
 #### Node.js
 
-Node.jsをインストールする。
+Node.jsをインストールします。
 （v8.9.3で動作確認済み）
 
 #### npm install
 
-npmで依存ライブラリをインストールする。
+npmで依存ライブラリをインストールします。
 
 ```sh
 npm install
@@ -35,7 +35,8 @@ npm install
 
 #### docutils-ast-writer
 
-
+[textlint-plugin-rst](https://github.com/jimo1001/textlint-plugin-rst)の依存ライブラリである
+docutils-ast-writerをインストールします。
 
 ```sh
 pip install docutils-ast-writer
@@ -47,7 +48,11 @@ pip install docutils-ast-writer
 ./node_modules/.bin/textlint .textlint/test/test.rst
 ```
 
-`./node_modules/.bin`をPATHに設定するとちょっと楽。
+`./node_modules/.bin`をPATHに設定しておくと、以下のように実行できる。
+
+```sh
+textlint .textlint/test/test.rst
+```
 
 
 ### 実行
