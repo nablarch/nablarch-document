@@ -105,6 +105,10 @@ FreeMarkerを使用した定型メール処理では件名と本文を1つのテ
 
 より詳しい件名と本文の分割ルールは :java:extdoc:`TemplateEngineProcessedResult#valueOf<nablarch.common.mail.TemplateEngineProcessedResult.valueOf(java.lang.String)>` を参照。
 
+テンプレートファイルを配置する場所は ``Configuration`` の設定によって異なる。
+例えば、前節で示した設定例だとテンプレートファイルはクラスパスからロードされる。
+また、 ``basePackagePath`` に ``com/example/template/`` と設定されているので、クラスパス上の ``com/example/template/`` ディレクトリにテンプレートファイルを配置することになる。
+
 メール送信要求を登録する
 --------------------------------------------------
 単に定型メールの送信要求を登録すればよい。
