@@ -370,12 +370,6 @@ OracleのCLOBのように、データサイズの大きいテキストデータ�
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :ref:`database` の :ref:`database-new_transaction` と同じことを、ユニバーサルDAOで行う方法を説明する。
 
-
-.. note::
-   個別のトランザクションを使用する場合であっても、デフォルトのトランザクションは開始されていなければならない\
-   （個別のトランザクションだけを使用することはできない）。
-
-
 個別トランザクションを使用するには、以下の手順が必要となる。
 
 #. コンポーネント設定ファイルに :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を定義する。
@@ -457,6 +451,28 @@ OracleのCLOBのように、データサイズの大きいテキストデータ�
     EntityList<Person> persons = findPersonsTransaction.getPersons();
 
 
+データベースアクセス時の型変換について
+--------------------------------------------------
+
+  :ref:`universal_dao-execute_crud_sql` 使用時
+    データベースへの出力時
+      * java.util.Date及びjava.util.Calendarについて、 :ref:`@Temporal <universal_dao_jpa_temporal>` が設定されているプロパティについては、@Temporalに指定された型への変換を行う。
+      * 上記以外については、JDBCドライバの変換ルールに従って変換する。
+
+    データベースから取得時
+      * java.util.Date及びjava.util.Calendarについて、 :ref:`@Temporal <universal_dao_jpa_temporal>` が設定されているプロパティについては、@Temporalに指定された型からの変換を行う。
+      * 上記以外については、JDBCドライバが取得したオブジェクトの型から変換する。
+
+  :ref:`universal_dao-sql_file` 使用時
+   :ref:`database` に処理を委譲して変換を行う。
+
+    データベースへの出力時
+      * JDBCドライバの変換ルールに従って変換する。
+
+    データベースから取得時
+      * JDBCドライバが取得したオブジェクトの型から変換する。
+
+
 拡張例
 ---------------------------------------------------------------------
 
@@ -489,6 +505,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 * :ref:`@Column <universal_dao_jpa_column>`
 * :ref:`@Id <universal_dao_jpa_id>`
 * :ref:`@Version <universal_dao_jpa_version>`
+* :ref:`@Temporal <universal_dao_jpa_temporal>`
 * :ref:`@GeneratedValue <universal_dao_jpa_generated_value>`
 * :ref:`@SequenceGenerator <universal_dao_jpa_sequence_generator>`
 * :ref:`@TableGenerator <universal_dao_jpa_table_generator>`
@@ -555,6 +572,14 @@ Entityに使用できるJPAアノテーションは以下のとおり。
  .. tip::
   本アノテーションは、Entity内に1つだけ指定可能。
 
+.. _`universal_dao_jpa_temporal`:
+
+*javax.persistence.Temporal* （アノテーション設定箇所：getter）
+ *java.util.Date* 及び *java.util.Calendar* 型の値を
+ データベースにマッピングする方法を指定するアノテーション。
+
+ value属性に指定されたデータベース型に、Javaオブジェクトの値を変換してデータベースに登録する。
+
 .. _`universal_dao_jpa_generated_value`:
 
 *javax.persistence.GeneratedValue* （アノテーション設定箇所：getter）
@@ -612,9 +637,10 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 Beanに使用できるデータタイプ
 ---------------------------------------------------------------------
-Nablarchが提供するDialectを使用する場合、検索結果をマッピングするBeanに使用できるデータタイプは以下のとおり。
-これら以外を使用した場合は実行時例外となるため、使用するデータタイプを増やしたい場合は :ref:`database-add_dialect`
-の手順に従い、Dialectを差し替えて対応すること。
+検索結果をマッピングするBeanに使用できるデータタイプは以下のとおり。
+
+.. important::
+ ここに記載のないデータタイプに対して、検索結果をマッピングできない(実行時例外となる)。
 
 *java.lang.String*
  \
@@ -637,10 +663,9 @@ Nablarchが提供するDialectを使用する場合、検索結果をマッピ�
  プリミティブ型の場合は、リードメソッド名がisで開始されていても良い。
 
 *java.util.Date*
-  データベースのメタデータから取得したデータベースの型に変換して扱う。
+ JPAの :ref:`@Temporal <universal_dao_jpa_temporal>`
+ でデータベース上のデータ型を指定する必要がある。
 
-  例えば、メタデータから取得した型が ``java.sql.Types.TIMESTAMP`` の場合はTimestampに変換する。
-  ``java.sql.Types.DATE`` の場合には、java.sql.Date(時間情報は削除)に変換する。
 
 *java.sql.Date*
  \

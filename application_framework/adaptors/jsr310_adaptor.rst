@@ -8,11 +8,7 @@ JSR310(Date and Time API)アダプタ
   :local:
   
 JSR310(Date and Time API)で追加された日時関連を利用可能にするためのアダプタを提供する。
-このアダプタを使用することで、以下の機能でJSR310(Date and Time API)を利用できる。
-
-* :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>`
-* :ref:`database`
-* :ref:`universal_dao`
+このアダプタを使用することで、 :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` でJSR310(Date and Time API)を利用できる。
 
 .. important::
 
@@ -35,13 +31,9 @@ JSR310(Date and Time API)で追加された日時関連を利用可能にする�
 使用方法
 ---------------------------------------------------------------------
 
-BeanUtilでJSR310(Date and Time API)を利用する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` でJSR310(Date and Time API)を扱いたい場合に利用する。
-
 変換可能な型や変換ルールなどの詳細は、 :java:extdoc:`converter一覧 <nablarch.integration.jsr310.beans.converter>` を参照。
 
-使用方法
+設定
   :ref:`repository` のコンポーネント設定ファイルに以下を追加することで、本機能が有効になる。
 
   .. code-block:: xml
@@ -65,35 +57,4 @@ BeanUtilでJSR310(Date and Time API)を利用する
     .. code-block:: xml
     
       <component name="dateTimeConfiguration" class="sample.SampleDateTimeConfiguration" />
-    
-  
-データベースアクセス機能(UniversalDao含む)でJSR310を利用する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データベースアクセス機能で、JSR310(Date and Time API)を扱いたい場合に利用する。
-データベースとの入出力時の変換ルールの詳細は、 :java:extdoc:`converter一覧 <nablarch.integration.jsr310.db.converter>` を参照。
-
-ユニバーサルDAO
- :ref:`universal_dao` では、登録時に指定するEntityクラスや検索結果を受け取るクラスのプロパティでLocalDateなどが利用できる。
-  
-データベースアクセス(JDBCラッパー)
-  :ref:`database` 機能の場合は、 :java:extdoc:`SqlPStatement#setObject <nablarch.core.db.statement.SqlPStatement.setObject(int-java.lang.Object)>` でLocalDateなどが利用できる。
-  
-  データベースからの取得結果( :java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` )は、型変換の対象外となる。
-
-使用方法
-  :ref:`repository` のコンポーネント設定ファイルに以下を追加し、変換ルールをDialectに設定することで本機能が利用できる状態となる。
-
-  .. code-block:: xml
-
-      <import file="JSR310.xml" />
       
-      <!--
-      Dialectに対して、コンバータを設定する。
-      
-      設定するコンポーネント名は「attributeConverter」
-      Dialectクラスは、使用するデータベースに応じて変更すること
-      -->
-      <component name="dialect" class="nablarch.core.db.dialect.H2Dialect">
-        <property name="attributeConverterFactory" ref="attributeConverter" />
-      </component>
-
