@@ -40,6 +40,8 @@
 機能概要
 --------------------------------------------------
 
+.. _`mail-template`:
+
 テンプレートを使った定型メールを送信できる。
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 システムのメール送信では、登録完了通知メールのように、同じ文言で、一部の項目のみ異なるメールを送信することが多い。
@@ -349,8 +351,6 @@
     <property name="mailRecipientTable" ref="mailRecipientTable" />
     <property name="mailAttachedFileTable" ref="mailAttachedFileTable" />
     <property name="templateEngineMailProcessor">
-      <!-- 理由は後述するがTinyTemplateEngineMailProcessorは非推奨である -->
-      <!-- FreeMarkerやThymeleafなどのテンプレートエンジンの使用を推奨する -->
       <component class="nablarch.common.mail.TinyTemplateEngineMailProcessor">
         <property name="mailTemplateTable" ref="mailTemplateTable" />
       </component>
@@ -377,6 +377,9 @@
     <property name="maxAttachedFileSize" value="2097152" />
 
   </component>
+
+※説明のため ``TinyTemplateEngineMailProcessor`` を設定しているが限定的な機能しか持たないため、FreeMarkerなどのテンプレートエンジンの使用を推奨する。
+詳しくは :ref:`mail-template` を参照。
 
 .. _mail-mail_sender_settings:
 
