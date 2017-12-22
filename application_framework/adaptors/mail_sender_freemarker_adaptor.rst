@@ -13,7 +13,7 @@ E-mail FreeMarkerアダプタ
 --------------------------------------------------
 .. code-block:: xml
 
-  <!-- Domaアダプタ -->
+  <!-- E-mail FreeMarkerアダプタ -->
   <dependency>
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-mail-sender-freemarker-adaptor</artifactId>
