@@ -40,11 +40,27 @@
 機能概要
 --------------------------------------------------
 
+.. _`mail-template`:
+
 テンプレートを使った定型メールを送信できる。
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 システムのメール送信では、登録完了通知メールのように、同じ文言で、一部の項目のみ異なるメールを送信することが多い。
 そこで、本機能では、テンプレートを用意しておき、プレースホルダを変換して、件名と本文を作成する機能を提供している。
 機能の詳細は、 :ref:`mail-request` を参照。
+
+.. important::
+
+ Nablarch 5u13からテンプレートエンジンを使用した定型メールがサポートされた。
+ 
+ 5u12までの定型メール機能もテンプレートエンジンの1つとして残されており、
+ ``TinyTemplateEngineMailProcessor`` を設定することで使用可能だが、以下のように機能が限定的である。
+
+ * プレースホルダを置換できる値は単純な文字列のみで、構造化されたオブジェクトをサポートしていない
+ * 条件分岐や繰り返しといった制御構文をサポートしていない
+
+ 既存の定型メール機能の代わりに、より高機能な下記のテンプレートエンジンを使用した定型メール機能を推奨する。
+
+ * :ref:`mail_sender_freemarker_adaptor`
 
 キャンペーン通知のような大量メールの一斉送信には対応していない
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -334,7 +350,11 @@
     <property name="mailRequestTable" ref="mailRequestTable" />
     <property name="mailRecipientTable" ref="mailRecipientTable" />
     <property name="mailAttachedFileTable" ref="mailAttachedFileTable" />
-    <property name="mailTemplateTable" ref="mailTemplateTable" />
+    <property name="templateEngineMailProcessor">
+      <component class="nablarch.common.mail.TinyTemplateEngineMailProcessor">
+        <property name="mailTemplateTable" ref="mailTemplateTable" />
+      </component>
+    </property>
 
   </component>
 
@@ -357,6 +377,9 @@
     <property name="maxAttachedFileSize" value="2097152" />
 
   </component>
+
+※説明のため ``TinyTemplateEngineMailProcessor`` を設定しているが限定的な機能しか持たないため、FreeMarkerなどのテンプレートエンジンの使用を推奨する。
+詳しくは :ref:`mail-template` を参照。
 
 .. _mail-mail_sender_settings:
 
@@ -408,11 +431,11 @@
  mailRequest.setLang("ja");
 
  // テンプレートのプレースホルダに対する値を設定する。
- mailRequest.setReplaceKeyValue("name", "名前");
- mailRequest.setReplaceKeyValue("address", "住所");
- mailRequest.setReplaceKeyValue("tel", "電話番号");
+ mailRequest.setVariable("name", "名前");
+ mailRequest.setVariable("address", "住所");
+ mailRequest.setVariable("tel", "電話番号");
  // 以下のように値にnullを設定した場合、空文字列で置き換えが行われる。
- mailRequest.setReplaceKeyValue("opeion", null);
+ mailRequest.setVariable("opeion", null);
 
  // 添付ファイルを設定する。
  AttachedFile attachedFile = new AttachedFile("text/plain", new File("path/to/file"));

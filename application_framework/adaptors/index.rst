@@ -12,3 +12,4 @@
   jaxrs_adaptor
   doma_adaptor
   jsr310_adaptor
+  mail_sender_freemarker_adaptor
