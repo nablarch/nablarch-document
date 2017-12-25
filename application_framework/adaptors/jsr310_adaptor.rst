@@ -8,7 +8,7 @@ JSR310(Date and Time API)アダプタ
   :local:
   
 JSR310(Date and Time API)で追加された日時関連を利用可能にするためのアダプタを提供する。
-このアダプタを使用することで、 :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` でJSR310(Date and Time API)を利用できる。
+このアダプタを使用することで、 :ref:`bean_util` でJSR310(Date and Time API)を利用できる。
 
 .. important::
 

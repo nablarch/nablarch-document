@@ -158,21 +158,44 @@ JDBCのフェッチサイズによってメモリの使用量が変わる。
   検索条件は、Entityではなく検索条件を持つ専用のBeanを指定する。
   ただし、1つのテーブルのみへのアクセスの場合は、Entityを指定しても良い。
 
-  Beanのプロパティのデータ型は、データベースの型及び使用するJDBCドライバの仕様にあわせて定義すること。
 
-  例えば、DBがdate型の場合には、多くのデータベースではプロパティの型は :java:extdoc:`java.sql.Date` となる。
-  また、DBが数値型(integerやbigint、number)などの場合は、プロパティの型は
-  `int` (:java:extdoc:`java.lang.Integer`) や `long` (:java:extdoc:`java.lang.Long`) となる。
+型を変換する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  もし、データベースの型とプロパティの型が不一致の場合、実行時に型変換エラーが発生する場合がある。
+ユニバーサルDAOでは、 :ref:`@Temporal <universal_dao_jpa_temporal>` を使用して、 ``java.util.Date`` 及び ``java.util.Calendar`` 型の値をデータベースにマッピングする方法を指定することができる。
+他の型については、任意のマッピングは不可能であるため、Entityのプロパティは、データベースの型及び使用するJDBCドライバの仕様に応じた定義を行うこと。
+
+また、ユニバーサルDAOは、自動生成したSQLをDBに送信する場合はJPAアノテーションの情報を使用するが、任意のSQLをDBに送信する場合はJPAアノテーションの情報は使用しない。
+そのため、型変換については、以下のようになる。
+
+:ref:`Entityから自動的に生成したSQLを実行する場合 <universal_dao-execute_crud_sql>`
+  データベースへの出力時
+    * :ref:`@Temporal <universal_dao_jpa_temporal>` が設定されているプロパティについては、@Temporalに指定された型への変換を行う。
+    * 上記以外については、:ref:`database` に処理を委譲して変換を行う。
+
+  データベースから取得時
+    * :ref:`@Temporal <universal_dao_jpa_temporal>` が設定されているプロパティについては、@Temporalに指定された型からの変換を行う。
+    * 上記以外はEntityの情報を元に、値が変換される。
+
+:ref:`任意のSQLで検索する場合 <universal_dao-sql_file>`
+  データベースへの出力時
+    * :ref:`database` に処理を委譲して変換を行う。
+
+  データベースから取得時
+    * Entityから自動的に生成したSQLを実行する場合と同様の処理を行う。
+
+
+.. important::
+  データベースの型とプロパティの型が不一致の場合、実行時に型変換エラーが発生する場合がある。
   また、SQL実行時に暗黙的型変換が行われ、性能劣化(indexが使用されないことに起因する)となる可能性がある。
 
   データベースとJavaのデータタイプのマッピングについては、使用するプロダクトに依存するため、
   JDBCドライバのマニュアルを参照すること。
 
-.. tip::
- JPAアノテーションが付いたEntityが指定される登録や更新では、
- JDBCのタイプに応じたデータタイプの変換を行う。
+  例えば、DBがdate型の場合には、多くのデータベースではプロパティの型は :java:extdoc:`java.sql.Date` となる。
+  また、DBが数値型(integerやbigint、number)などの場合は、プロパティの型は
+  `int` (:java:extdoc:`java.lang.Integer`) や `long` (:java:extdoc:`java.lang.Long`) となる。
+
 
 .. _universal_dao-paging:
 
@@ -449,28 +472,6 @@ OracleのCLOBのように、データサイズの大きいテキストデータ�
 
     // 結果を取得する。
     EntityList<Person> persons = findPersonsTransaction.getPersons();
-
-
-データベースアクセス時の型変換について
---------------------------------------------------
-
-  :ref:`universal_dao-execute_crud_sql` 使用時
-    データベースへの出力時
-      * java.util.Date及びjava.util.Calendarについて、 :ref:`@Temporal <universal_dao_jpa_temporal>` が設定されているプロパティについては、@Temporalに指定された型への変換を行う。
-      * 上記以外については、JDBCドライバの変換ルールに従って変換する。
-
-    データベースから取得時
-      * java.util.Date及びjava.util.Calendarについて、 :ref:`@Temporal <universal_dao_jpa_temporal>` が設定されているプロパティについては、@Temporalに指定された型からの変換を行う。
-      * 上記以外については、JDBCドライバが取得したオブジェクトの型から変換する。
-
-  :ref:`universal_dao-sql_file` 使用時
-   :ref:`database` に処理を委譲して変換を行う。
-
-    データベースへの出力時
-      * JDBCドライバの変換ルールに従って変換する。
-
-    データベースから取得時
-      * JDBCドライバが取得したオブジェクトの型から変換する。
 
 
 拡張例

@@ -440,6 +440,16 @@ SQL例
   本フレームワークのその他の機能(例えば :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>`)では、Beanから値を取得する方法はプロパティアクセスで統一されている。
   データベース機能のみフィールドアクセスに変更した場合、プログラマはフィールドアクセスとプロパティアクセスの両方を意識する必要があり、生産性の低下や不具合の原因ともなる。
 
+
+型を変換する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+データベースアクセス(JDBCラッパー)は、データベースとの入出力に型変換をJDBCドライバに委譲する。 |br|
+よって、データベースアクセス(JDBCラッパー)との入出力に使用するBeanのプロパティの型は、データベースの型及び使用するJDBCドライバの仕様に応じた定義を行う必要がある。
+
+任意の型変換が必要な場合は、アプリケーション側で型変換を行う。
+
+
 .. _database-common_bean:
 
 SQL実行時に共通的な値を自動的に設定したい
@@ -1203,18 +1213,6 @@ JDBCのネイティブなデータベース接続( :java:extdoc:`java.sql.Connec
   TransactionManagerConnection managerConnection = DbConnectionContext.getTransactionManagerConnection();
   Connection connection = managerConnection.getConnection();
   return connection.getMetaData();
-
-
-データベースアクセス時の型変換について
---------------------------------------------------
-  
-  データベースへの出力時
-    * JDBCドライバの変換ルールに従って変換を行う。
-    * 変換対象の型をアプリケーションから指定したい場合は、 :java:extdoc:`setObject(int, java.lang.Object, int) <nablarch.core.db.statement.BasicSqlPStatement.setObject(int-java.lang.Object-int)>` を使用する。
-      3番目の引数のintに、 :java:extdoc:`データベースの型 <java.sql.Types>` を指定する。
-
-  データベースから取得時
-    * JDBCドライバが取得したオブジェクトの型から、 :java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` のgetメソッドの戻り値の型に変換する。
     
 
 拡張例
@@ -1281,3 +1279,7 @@ JDBCのネイティブなデータベース接続( :java:extdoc:`java.sql.Connec
       </property>
     </component>
 
+
+.. |br| raw:: html
+
+  <br />
