@@ -54,3 +54,5 @@ build/
 
 make.log
 ~$*
+
+node_modules/
