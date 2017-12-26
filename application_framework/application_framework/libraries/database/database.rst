@@ -43,10 +43,6 @@ JDBCを使用してデータベースに対してSQL文を実行する機能を�
 * 検索クエリーを範囲指定（ページング用）SQLに変換するメソッド(:java:extdoc:`convertPaginationSql <nablarch.core.db.dialect.Dialect.convertPaginationSql(java.lang.String-nablarch.core.db.statement.SelectOption)>` )
 * 検索クエリーを件数取得SQLに変換するメソッド(:java:extdoc:`convertCountSql <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String)>` )
 * :java:extdoc:`Connection <java.sql.Connection>` がデータベースに接続されているかチェックを行うSQLを返すメソッド(:java:extdoc:`getPingSql <nablarch.core.db.dialect.Dialect.getPingSql()>` )
-* Javaオブジェクトをデータベースに出力する値に変換するメソッド(:java:extdoc:`convertToDatabase <nablarch.core.db.dialect.Dialect.convertToDatabase(java.lang.Object-int)>`)。
-  詳細は、 :ref:`database-attribute_converter` を参照。
-* データベースから取得した値をJavaオブジェクトに変換するメソッド(:java:extdoc:`convertFromDatabase <nablarch.core.db.dialect.Dialect.convertFromDatabase(java.lang.Object-java.lang.Class)>`)。
-  詳細は、 :ref:`database-attribute_converter` を参照。
 
 :java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` の設定方法は、 :ref:`database-use_dialect` を参照。
 
@@ -443,6 +439,20 @@ SQL例
 
   本フレームワークのその他の機能(例えば :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>`)では、Beanから値を取得する方法はプロパティアクセスで統一されている。
   データベース機能のみフィールドアクセスに変更した場合、プログラマはフィールドアクセスとプロパティアクセスの両方を意識する必要があり、生産性の低下や不具合の原因ともなる。
+
+
+型を変換する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+データベースアクセス(JDBCラッパー)は、データベースとの入出力に使用する変数の型変換をJDBCドライバに委譲する。
+よって、入出力に使用する変数の型は、データベースの型及び使用するJDBCドライバの仕様に応じた定義を行う必要がある。
+
+任意の型変換が必要な場合は、データベースとの入出力に使用する変数に対して、アプリケーション側で型変換を行うこととなる。
+
+- 入力にBeanを使用する場合はBeanのプロパティに値を設定する際、出力にBeanを使用する場合はプロパティから値を取り出した後に型変換を行う。
+- 入力にMapを使用する場合はMapに値を設定する際、出力にMapを使用する場合は値を取り出した後に型変換を行う。
+- インデックスを指定してバインド変数を設定する際に、バインド変数に設定するオブジェクトを適切な型に変換する。 :java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` から値を取得する際は、取得後に型変換を行う。
+
 
 .. _database-common_bean:
 
@@ -950,56 +960,6 @@ CLOB型に値を登録(更新)する
       statement.setCharacterStream(1, reader, (int) Files.size(path));
     }
 
-.. _database-attribute_converter:
-
-データベースアクセス時に型変換を行う
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データベースへの値の出力時(更新時や検索条件)とデータベースから取得した値の型変換機能を提供する。
-
-型変換機能が使用される機能
-  データベースへの出力時
-    * :java:extdoc:`setObject(int, java.lang.Object) <nablarch.core.db.statement.SqlPStatement.setObject(int-java.lang.Object)>`
-    * :java:extdoc:`setObject(int, java.lang.Object, int) <nablarch.core.db.statement.BasicSqlPStatement.setObject(int-java.lang.Object-int)>`
-    * :ref:`Beanを入力としてSQLを実行する場合 <database-input_bean>`
-    
-  データベースから取得時
-    * :java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` の各取得メソッド
-
-型変換ルール
-  本機能が提供する型変換ルールは、 :java:extdoc:`converter <nablarch.core.db.dialect.converter>` 配下の :java:extdoc:`AttributeConverter <nablarch.core.db.dialect.converter.AttributeConverter>` 実装クラスを参照。
-  
-  基本的には、以下のルールにて変換処理が行われる。
-  
-  データベースへの出力時
-    出力対象のJavaの型をそのまま出力時の型として使用する。ただし、JDBCドライバが対応していない型の場合は、 :java:extdoc:`AttributeConverter <nablarch.core.db.dialect.converter.AttributeConverter>` の実装クラスにてJDBCドライバが対応している型に変換する。
-    
-    変換対象の型をアプリケーションから指定したい場合は、 :java:extdoc:`setObject(int, java.lang.Object, int) <nablarch.core.db.statement.BasicSqlPStatement.setObject(int-java.lang.Object-int)>` を使用する。
-    3番目の引数のintに、 :java:extdoc:`データベースの型 <java.sql.Types>` を指定する。
-    
-  データベースから取得時
-    * :java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` のgetメソッドの戻り値の型に変換する。
-  
-  
-型変換ルールの追加や変更をする
-  JDBCドライバが対応していないJavaの型を扱いたい場合は、型変換ルールを追加することで対応する。
-  
-  以下に手順を示す。
-  
-  1. 型変換ルールを生成する :java:extdoc:`AttributeConverterFactory <nablarch.core.db.dialect.AttributeConverterFactory>` の実装クラスを作成する。
-  2. 作成した、 :java:extdoc:`AttributeConverterFactory <nablarch.core.db.dialect.AttributeConverterFactory>` の実装クラスを ``Dialect`` に設定する。
-  
-    以下に例を示す。
-  
-    .. code-block:: xml
-    
-      <!-- プロジェクトで使用するデータベースに対応したDialectを定義する -->
-      <component name="dialect" class="nablarch.core.db.dialect.OracleDialect">
-        <!-- attributeConverterFactoryプロパティに作成した、AttributeConverterFactoryの実装クラスを設定する -->
-        <property name="attributeConverterFactory">
-          <component class="sample.SampleAttributeConverterFactory" />
-        </property>
-      </component>
-
 
 データベースアクセス時に発生する例外の種類
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1257,6 +1217,7 @@ JDBCのネイティブなデータベース接続( :java:extdoc:`java.sql.Connec
   TransactionManagerConnection managerConnection = DbConnectionContext.getTransactionManagerConnection();
   Connection connection = managerConnection.getConnection();
   return connection.getMetaData();
+    
 
 拡張例
 --------------------------------------------------
@@ -1321,4 +1282,3 @@ JDBCのネイティブなデータベース接続( :java:extdoc:`java.sql.Connec
         <component class="sample.SampleStatementExceptionFactory" />
       </property>
     </component>
-

@@ -158,21 +158,44 @@ JDBCのフェッチサイズによってメモリの使用量が変わる。
   検索条件は、Entityではなく検索条件を持つ専用のBeanを指定する。
   ただし、1つのテーブルのみへのアクセスの場合は、Entityを指定しても良い。
 
-  Beanのプロパティのデータ型は、データベースの型及び使用するJDBCドライバの仕様にあわせて定義すること。
 
-  例えば、DBがdate型の場合には、多くのデータベースではプロパティの型は :java:extdoc:`java.sql.Date` となる。
-  また、DBが数値型(integerやbigint、number)などの場合は、プロパティの型は
-  `int` (:java:extdoc:`java.lang.Integer`) や `long` (:java:extdoc:`java.lang.Long`) となる。
+型を変換する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  もし、データベースの型とプロパティの型が不一致の場合、実行時に型変換エラーが発生する場合がある。
+ユニバーサルDAOでは、 :ref:`@Temporal <universal_dao_jpa_temporal>` を使用して、 ``java.util.Date`` 及び ``java.util.Calendar`` 型の値をデータベースにマッピングする方法を指定することができる。
+他の型については、任意のマッピングは不可能であるため、Entityのプロパティは、データベースの型及び使用するJDBCドライバの仕様に応じた定義を行うこと。
+
+また、ユニバーサルDAOは、自動生成したSQLをDBに送信する場合はJPAアノテーションの情報を使用するが、任意のSQLをDBに送信する場合はJPAアノテーションの情報は使用しない。
+そのため、型変換については、以下のようになる。
+
+:ref:`Entityから自動的に生成したSQLを実行する場合 <universal_dao-execute_crud_sql>`
+  データベースへの出力時
+    * :ref:`@Temporal <universal_dao_jpa_temporal>` が設定されているプロパティについては、@Temporalに指定された型への変換を行う。
+    * 上記以外については、:ref:`database` に処理を委譲して変換を行う。
+
+  データベースから取得時
+    * :ref:`@Temporal <universal_dao_jpa_temporal>` が設定されているプロパティについては、@Temporalに指定された型からの変換を行う。
+    * 上記以外はEntityの情報を元に、値が変換される。
+
+:ref:`任意のSQLで検索する場合 <universal_dao-sql_file>`
+  データベースへの出力時
+    * :ref:`database` に処理を委譲して変換を行う。
+
+  データベースから取得時
+    * Entityから自動的に生成したSQLを実行する場合と同様の処理を行う。
+
+
+.. important::
+  データベースの型とプロパティの型が不一致の場合、実行時に型変換エラーが発生する場合がある。
   また、SQL実行時に暗黙的型変換が行われ、性能劣化(indexが使用されないことに起因する)となる可能性がある。
 
   データベースとJavaのデータタイプのマッピングについては、使用するプロダクトに依存するため、
   JDBCドライバのマニュアルを参照すること。
 
-.. tip::
- JPAアノテーションが付いたEntityが指定される登録や更新では、
- JDBCのタイプに応じたデータタイプの変換を行う。
+  例えば、DBがdate型の場合には、多くのデータベースではプロパティの型は :java:extdoc:`java.sql.Date` となる。
+  また、DBが数値型(integerやbigint、number)などの場合は、プロパティの型は
+  `int` (:java:extdoc:`java.lang.Integer`) や `long` (:java:extdoc:`java.lang.Long`) となる。
+
 
 .. _universal_dao-paging:
 
@@ -370,12 +393,6 @@ OracleのCLOBのように、データサイズの大きいテキストデータ�
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :ref:`database` の :ref:`database-new_transaction` と同じことを、ユニバーサルDAOで行う方法を説明する。
 
-
-.. note::
-   個別のトランザクションを使用する場合であっても、デフォルトのトランザクションは開始されていなければならない\
-   （個別のトランザクションだけを使用することはできない）。
-
-
 個別トランザクションを使用するには、以下の手順が必要となる。
 
 #. コンポーネント設定ファイルに :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を定義する。
@@ -489,6 +506,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 * :ref:`@Column <universal_dao_jpa_column>`
 * :ref:`@Id <universal_dao_jpa_id>`
 * :ref:`@Version <universal_dao_jpa_version>`
+* :ref:`@Temporal <universal_dao_jpa_temporal>`
 * :ref:`@GeneratedValue <universal_dao_jpa_generated_value>`
 * :ref:`@SequenceGenerator <universal_dao_jpa_sequence_generator>`
 * :ref:`@TableGenerator <universal_dao_jpa_table_generator>`
@@ -555,6 +573,14 @@ Entityに使用できるJPAアノテーションは以下のとおり。
  .. tip::
   本アノテーションは、Entity内に1つだけ指定可能。
 
+.. _`universal_dao_jpa_temporal`:
+
+*javax.persistence.Temporal* （アノテーション設定箇所：getter）
+ *java.util.Date* 及び *java.util.Calendar* 型の値を
+ データベースにマッピングする方法を指定するアノテーション。
+
+ value属性に指定されたデータベース型に、Javaオブジェクトの値を変換してデータベースに登録する。
+
 .. _`universal_dao_jpa_generated_value`:
 
 *javax.persistence.GeneratedValue* （アノテーション設定箇所：getter）
@@ -612,9 +638,10 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 Beanに使用できるデータタイプ
 ---------------------------------------------------------------------
-Nablarchが提供するDialectを使用する場合、検索結果をマッピングするBeanに使用できるデータタイプは以下のとおり。
-これら以外を使用した場合は実行時例外となるため、使用するデータタイプを増やしたい場合は :ref:`database-add_dialect`
-の手順に従い、Dialectを差し替えて対応すること。
+検索結果をマッピングするBeanに使用できるデータタイプは以下のとおり。
+
+.. important::
+ ここに記載のないデータタイプに対して、検索結果をマッピングできない(実行時例外となる)。
 
 *java.lang.String*
  \
@@ -637,10 +664,9 @@ Nablarchが提供するDialectを使用する場合、検索結果をマッピ�
  プリミティブ型の場合は、リードメソッド名がisで開始されていても良い。
 
 *java.util.Date*
-  データベースのメタデータから取得したデータベースの型に変換して扱う。
+ JPAの :ref:`@Temporal <universal_dao_jpa_temporal>`
+ でデータベース上のデータ型を指定する必要がある。
 
-  例えば、メタデータから取得した型が ``java.sql.Types.TIMESTAMP`` の場合はTimestampに変換する。
-  ``java.sql.Types.DATE`` の場合には、java.sql.Date(時間情報は削除)に変換する。
 
 *java.sql.Date*
  \
