@@ -61,6 +61,8 @@
  既存の定型メール機能の代わりに、より高機能な下記のテンプレートエンジンを使用した定型メール機能を推奨する。
 
  * :ref:`mail_sender_freemarker_adaptor`
+ * :ref:`mail_sender_thymeleaf_adaptor`
+ * :ref:`mail_sender_velocity_adaptor`
 
 キャンペーン通知のような大量メールの一斉送信には対応していない
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
