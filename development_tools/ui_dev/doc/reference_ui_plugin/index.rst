@@ -190,8 +190,7 @@ nablarch-dev-ui_demo-core-lib                ローカル表示用タグライ�
 nablarch-dev-ui_tool-base-core           業務画面JSPローカル表示機能のベースコアプラグイン       不要           業務画面JSPローカル表示機能のベースとなる機能を実装する。
 
 nablarch-dev-ui_tool-base-config         業務画面JSPローカル表示機能の\                          必須           業務画面JSPローカル表示機能のリソースを管理する。|br|
-                                         ベースコンフィギュレーションプラグイン                                 リソースは、画面項目定義データ自動生成ツールを\
-                                                                                                                使用して設計書から自動生成する。
+                                         ベースコンフィギュレーションプラグイン                                 
                                                                                                                 
 
 nablarch-dev-ui_tool-jsp_verify          JSP検証ツールプラグイン                                 可             業務画面JSPローカル表示機能で使用される\
