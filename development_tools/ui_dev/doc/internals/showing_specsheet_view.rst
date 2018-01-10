@@ -41,6 +41,16 @@
 /specsheet_template/SpecSheetTmeplate.xlsx                  表示される設計書のテンプレートファイル。
                                                             フォーマットを変更する場合はこのファイルを修正し、htm形式で保存する。
 
+/js/devtool/resource/コード値定義.js                        コード設計書の内容を保持するデータファイル。
+
+/js/devtool/resource/DB項目定義.js                          テーブル設計書の内容を保持するデータファイル。
+
+/js/devtool/resource/外部インターフェース設計.js            外部インターフェース設計書の内容を保持するデータファイル。
+
+/js/devtool/resource/ドメイン定義.js                        ドメイン定義書の同名のシートの内容を保持するデータファイル。
+
+/js/devtool/resource/メッセージ定義.js                      メッセージ設計書の内容を保持するデータファイル。
+
 /js/devtool/resource/タグ定義.js                            各タグのメタ情報を記述するファイル。
 
                                                             本機能では、各タグが入力項目か否かを判定する場合
