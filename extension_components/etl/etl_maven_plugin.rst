@@ -31,6 +31,39 @@ Java Beansクラスを元に、Oracle SQL*Loader用のコントロールファ�
     <artifactId>nablarch-etl-maven-plugin</artifactId>
   </plugin>
 
+
+.. tip::
+  本プラグインは :ref:`etl` 機能に依存している。\
+  適用プロジェクトでETL機能のバージョンを統一するために、\
+  プラグインのバージョン番号をnablarch-bomのバージョン番号と一致させること。
+
+  設定例を以下に示す。
+
+   .. code-block:: xml
+
+     <!-- 適用プロジェクトが使用するNablarchのバージョン指定 -->
+     <dependencyManagement>
+       <dependencies>
+         <dependency>
+           <groupId>com.nablarch.profile</groupId>
+           <artifactId>nablarch-bom</artifactId>
+           <version>5u13</version>
+           <type>pom</type>
+           <scope>import</scope>
+         </dependency>
+       </dependencies>
+     </dependencyManagement>
+
+   .. code-block:: xml
+
+     <!-- pluginのバージョンをnablarch-bomと一致させる -->
+     <plugin>
+       <groupId>com.nablarch.etl</groupId>
+       <artifactId>nablarch-etl-maven-plugin</artifactId>
+       <version>5u13</version>
+     </plugin>
+
+
 使用方法
 ---------------------------------------------------------------------
 
