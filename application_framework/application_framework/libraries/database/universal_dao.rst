@@ -510,6 +510,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 * :ref:`@Entity <universal_dao_jpa_entity>`
 * :ref:`@Table <universal_dao_jpa_table>`
+* :ref:`@Access <universal_dao_jpa_access>`
 * :ref:`@Column <universal_dao_jpa_column>`
 * :ref:`@Id <universal_dao_jpa_id>`
 * :ref:`@Version <universal_dao_jpa_version>`
@@ -521,9 +522,17 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 .. important::
  ここに記載のないアノテーション及び属性を使用しても機能しない。
 
+@Entity,＠Table,@Accessはclassに設定する。
+@Columnから@TableGeneratorまでは、getterもしくはfieldに設定する。
+@Accessアノテーションで、getterとfieldのどちらに設定するかを指定する。
+
+.. tip::
+ lombok等を使用する場合、アノテーションをfieldに設定することで
+ 簡単に実装することができる。
+
 .. _`universal_dao_jpa_entity`:
 
-*javax.persistence.Entity* （アノテーション設定箇所：class）
+*javax.persistence.Entity*
  データベースのテーブルに対応したEntityクラスに設定するアノテーション。
 
  本アノテーションを設定した場合、クラス名からテーブル名が導出される。
@@ -540,16 +549,23 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_table`:
 
-*javax.persistence.Table* （アノテーション設定箇所：class）
+*javax.persistence.Table*
  テーブル名を指定するために使用するアノテーション。
 
  name属性に値が指定されている場合、その値がテーブル名として使用される。
  schema属性に値が指定されている場合、指定されたスキーマ名を修飾子として指定してテーブルにアクセスを行う。
  例えば、schema属性にworkと指定した場合で、テーブル名がusers_workの場合、work.users_workにアクセスを行う。
 
+.. _`universal_dao_jpa_access`:
+
+*javax.persistence.Access*
+ アノテーションを設定する場所を指定するために使用するアノテーション。
+
+ 指定しない場合はgetterに設定されたアノテーションを参照する。
+
 .. _`universal_dao_jpa_column`:
 
-*javax.persistence.Column* （アノテーション設定箇所：getter）
+*javax.persistence.Column*
  カラム名を指定するために使用するアノテーション。
 
  name属性に値が指定されている場合、その値がカラム名として使用される。
@@ -561,14 +577,14 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_id`:
 
-*javax.persistence.Id* （アノテーション設定箇所：getter）
+*javax.persistence.Id*
  主キーに設定するアノテーション。
 
- 複合主キーの場合には、複数のgetterに本アノテーションを設定する。
+ 複合主キーの場合には、複数のgettterもしくはfieldに本アノテーションを設定する。
 
 .. _`universal_dao_jpa_version`:
 
-*javax.persistence.Version* （アノテーション設定箇所：getter）
+*javax.persistence.Version*
  排他制御で使用するバージョンカラムに設定するアノテーション。
 
  本アノテーションは数値型のプロパティのみに指定できる。
@@ -582,7 +598,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_temporal`:
 
-*javax.persistence.Temporal* （アノテーション設定箇所：getter）
+*javax.persistence.Temporal*
  *java.util.Date* 及び *java.util.Calendar* 型の値を
  データベースにマッピングする方法を指定するアノテーション。
 
@@ -590,7 +606,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_generated_value`:
 
-*javax.persistence.GeneratedValue* （アノテーション設定箇所：getter）
+*javax.persistence.GeneratedValue*
  自動採番された値を登録することを示すアノテーション。
 
  strategy属性に採番方法を設定する。
@@ -615,7 +631,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_sequence_generator`:
 
-*javax.persistence.SequenceGenerator* （アノテーション設定箇所：getter）
+*javax.persistence.SequenceGenerator*
  シーケンス採番を使用する場合に設定するアノテーション。
 
  name属性には、:ref:`@GeneratedValue <universal_dao_jpa_generated_value>`
@@ -629,7 +645,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_table_generator`:
 
-*javax.persistence.TableGenerator* （アノテーション設定箇所：getter）
+*javax.persistence.TableGenerator*
  テーブル採番を使用する場合に設定するアノテーション。
 
  name属性には、 :ref:`@GeneratedValue <universal_dao_jpa_generated_value>`
