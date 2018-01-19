@@ -508,27 +508,35 @@ Entityに使用できるJPAアノテーション
 ---------------------------------------------------------------------
 Entityに使用できるJPAアノテーションは以下のとおり。
 
-* :ref:`@Entity <universal_dao_jpa_entity>`
-* :ref:`@Table <universal_dao_jpa_table>`
-* :ref:`@Access <universal_dao_jpa_access>`
-* :ref:`@Column <universal_dao_jpa_column>`
-* :ref:`@Id <universal_dao_jpa_id>`
-* :ref:`@Version <universal_dao_jpa_version>`
-* :ref:`@Temporal <universal_dao_jpa_temporal>`
-* :ref:`@GeneratedValue <universal_dao_jpa_generated_value>`
-* :ref:`@SequenceGenerator <universal_dao_jpa_sequence_generator>`
-* :ref:`@TableGenerator <universal_dao_jpa_table_generator>`
+* classに設定するアノテーション
+
+  * :ref:`@Entity <universal_dao_jpa_entity>`
+  * :ref:`@Table <universal_dao_jpa_table>`
+  * :ref:`@Access <universal_dao_jpa_access>`
+* getterまたはfieldに設定するアノテーション
+
+  * :ref:`@Column <universal_dao_jpa_column>`
+  * :ref:`@Id <universal_dao_jpa_id>`
+  * :ref:`@Version <universal_dao_jpa_version>`
+  * :ref:`@Temporal <universal_dao_jpa_temporal>`
+  * :ref:`@GeneratedValue <universal_dao_jpa_generated_value>`
+  * :ref:`@SequenceGenerator <universal_dao_jpa_sequence_generator>`
+  * :ref:`@TableGenerator <universal_dao_jpa_table_generator>`
+
+fieldに設定する場合には@Accessで明示的に指定すること。@Accessで明示的に指定した場合のみ、fieldのアノテーションを参照する。
+
+fieldにアノテーションを設定する場合でも、UniversalDaoでは値の取得と設定はpropertyを通して行われるため、getterとsetterは必ず作成すること。
+
+fieldとpropertyは名前で紐づいているため、名前が異なるとfieldのアノテーションをpropertyで参照できなくなる。
+そのためfield名と、getter及びsetterのメソッド名(get〇〇,set〇〇の〇〇の部分)を必ず同じものにすること。
+
+.. tip::
+ 例えば、Lombokのようなボイラープレートコードを生成するライブラリを使用する場合、
+ アノテーションをフィールドに設定することでgetterを自分で作成する必要がなくなり、
+ ライブラリの利点をより活かすことができる。
 
 .. important::
  ここに記載のないアノテーション及び属性を使用しても機能しない。
-
-@Entity,＠Table,@Accessはclassに設定する。
-@Columnから@TableGeneratorまでは、getterもしくはfieldに設定する。
-@Accessアノテーションで、getterとfieldのどちらに設定するかを指定する。
-
-.. tip::
- lombok等を使用する場合、アノテーションをfieldに設定することで
- 簡単に実装することができる。
 
 .. _`universal_dao_jpa_entity`:
 
@@ -561,7 +569,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 *javax.persistence.Access*
  アノテーションを設定する場所を指定するために使用するアノテーション。
 
- 指定しない場合はgetterに設定されたアノテーションを参照する。
+ 明示的にfieldに指定した場合のみ、fieldのアノテーションを参照する。
 
 .. _`universal_dao_jpa_column`:
 
