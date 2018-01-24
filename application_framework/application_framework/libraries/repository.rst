@@ -671,10 +671,10 @@ DIコンテナの情報をシステムリポジトリにロードすることで
 
 .. tip::
 
-  上記のSystemRepository.loadにおいて、config-fileの拡張子がconfigの場合にはnablarchのConfigFileLoaderによりloadされ、
-  config-fileの拡張子がpropertiesの場合にはPropertiesFileLoaderでjava.util.Propertiesによりloadされる。
-  このloadの仕組みの違いにより、環境設定ファイルの記述方法が細かな点で異なることに注意すること。
-  詳細は、 :ref:`repository-environment_configuration_file_rule` を参照。
+  | 上記のSystemRepository.loadにおいてconfig-fileの拡張子がconfigの場合にはnablarchのConfigFileLoaderによりloadされ、
+    propertiesの場合にはPropertiesFileLoaderでjava.util.Propertiesによりloadされる。
+  | このloadの仕組みの違いにより、環境設定ファイルの記述方法が細かな点で異なることに注意すること。
+    詳細は、 :ref:`repository-environment_configuration_file_rule` を参照。
 
 .. _repository-get_object:
 

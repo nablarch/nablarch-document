@@ -68,25 +68,25 @@ Nablarchでは、アプリケーション設定を２つの観点で整理する
     |
     \---src
         +---env
-        |   +---dev                … 開発環境
+        |   +---dev                    … 開発環境
         |   |   |
-        |   |   \---env.config(env.properties)         … 開発環境用の環境設定ファイル(config又はproperties)
-        |   |
-        |   \---prod               … 本番環境
+        |   |   \---env.config         … 開発環境用の環境設定ファイル(config又はproperties)
+        |   |       (env.properties)
+        |   \---prod                   … 本番環境
         |       |
-        |       \---env.config(env.properties)         … 本番環境用の環境設定ファイル(config又はproperties)
-        |
+        |       \---env.config         … 本番環境用の環境設定ファイル(config又はproperties)
+        |           (env.properties)
         +---main
         |   +---java
         |   |
-        |   +---resources                              … 環境毎に差異が存在しないリソース
+        |   +---resources              … 環境毎に差異が存在しないリソース
         |       |
-        |       \---common.config(common.properties)   … 環境非依存の環境設定ファイル(config又はproperties)
-        |
+        |       \---common.config      … 環境非依存の環境設定ファイル(config又はproperties)
+        |           (common.properties)
         \---test
             +---java
             |
-            \---resources                              … ユニットテスト環境
+            \---resources              … ユニットテスト環境
 
 
 .. tip::
@@ -197,7 +197,7 @@ Apache Maven(以下Maven)のプロファイル\ [#profile]_\ 機能により
 .. tip::
 
  * アーキタイプから生成した直後は、環境毎に変更する可能性が低い設定項目については、common.config(common.properties)に記載されている。|br|
-   common.config(common.properties)に記載されている値を環境毎に変えたい場合は、項目をenv.config又はenv.propertiesに移動(カット＆ペースト)する。
+   common.config(common.properties)に記載されている値を環境毎に変えたい場合は、項目をenv.config(env.properties)に移動(カット＆ペースト)する。
 
 
 .. _how_to_add_profile:
