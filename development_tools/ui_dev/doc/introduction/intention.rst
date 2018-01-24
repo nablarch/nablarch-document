@@ -108,4 +108,4 @@ b) 画面サイズの変更およびモバイルデバイスでの縦横表示�
 .. important::
   Nablarch UI開発基盤が現バージョンで表示互換性を担保しているのは、 :ref:`ui_testing_environment` に記載されているブラウザのみである。
 
-  解説書に :ref:`ui_testing_environment` に記載されていないブラウザに対する言及があった場合、無視すること。
+  Nablarch UI開発基盤の解説書に、 :ref:`ui_testing_environment` に記載されていないブラウザやバージョンに対する言及があった場合、無視すること。
