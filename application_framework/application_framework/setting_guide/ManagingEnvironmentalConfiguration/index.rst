@@ -70,28 +70,28 @@ Nablarchでは、アプリケーション設定を２つの観点で整理する
         +---env
         |   +---dev                … 開発環境
         |   |   |
-        |   |   \---env.config     … 開発環境用の環境設定ファイル(config)
+        |   |   \---env.config(env.properties)         … 開発環境用の環境設定ファイル(config又はproperties)
         |   |
         |   \---prod               … 本番環境
         |       |
-        |       \---env.config     … 本番環境用の環境設定ファイル(config)
+        |       \---env.config(env.properties)         … 本番環境用の環境設定ファイル(config又はproperties)
         |
         +---main
         |   +---java
         |   |
-        |   +---resources          … 環境毎に差異が存在しないリソース
+        |   +---resources                              … 環境毎に差異が存在しないリソース
         |       |
-        |       \---common.config  … 環境非依存の環境設定ファイル(config)
+        |       \---common.config(common.properties)   … 環境非依存の環境設定ファイル(config又はproperties)
         |
         \---test
             +---java
             |
-            \---resources          … ユニットテスト環境
+            \---resources                              … ユニットテスト環境
 
 
 .. tip::
 
- * 環境非依存の環境設定ファイル(config)は、全ての環境で使用する。
+ * 環境非依存の環境設定ファイル(config又はproperties)は、全ての環境で使用する。
  * 環境が不足している場合は、後述の :ref:`how_to_add_profile` を参照して環境を追加する。
  * 実行基盤のプロジェクト(ウェブアプリケーション、バッチアプリケーション等)から参照される共通プロジェクトを使用している場合、共通プロジェクト単体の環境毎のアプリケーション設定ファイルは不要である。
 
@@ -192,12 +192,12 @@ Apache Maven(以下Maven)のプロファイル\ [#profile]_\ 機能により
 環境ごとに環境設定値を切り替える方法
 ======================================================
 
-環境毎に配置した環境設定ファイル(env.config)を切り替えることによって実現する。
+環境毎に配置した環境設定ファイル(env.config又はenv.properties)を切り替えることによって実現する。
 
 .. tip::
 
- * アーキタイプから生成した直後は、環境毎に変更する可能性が低い設定項目については、common.configに記載されている。|br|
-   common.configに記載されている値を環境毎に変えたい場合は、項目をenv.configに移動(カット＆ペースト)する。
+ * アーキタイプから生成した直後は、環境毎に変更する可能性が低い設定項目については、common.config(common.properties)に記載されている。|br|
+   common.config(common.properties)に記載されている値を環境毎に変えたい場合は、項目をenv.config又はenv.propertiesに移動(カット＆ペースト)する。
 
 
 .. _how_to_add_profile:
