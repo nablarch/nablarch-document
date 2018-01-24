@@ -516,6 +516,14 @@ DIコンテナで管理するオブジェクトに対して環境依存値を設
       <property name="url" value="${database.url}" />
     </component>
 
+.. tip::
+
+  | 環境設定ファイルにはconfigファイルとpropertiesファイルの二種類があり、configファイルはnablarchの独自仕様によりパースされ、
+    propertiesファイルはjava.util.Propertiesによりパースされる。
+  | この両者の違いにより、環境設定ファイルの記述方法が異なることに注意すること。
+    詳細は、 :ref:`repository-environment_configuration_file_rule` を参照。
+
+
 .. _repository-overwrite_environment_configuration:
 
 システムプロパティを使って環境依存値を上書きする
@@ -668,13 +676,6 @@ DIコンテナの情報をシステムリポジトリにロードすることで
 
   * ServletContextListenerの実装クラス
   * 独立型アプリケーションの起動クラス
-
-.. tip::
-
-  | 上記のSystemRepository.loadにおいてconfig-fileの拡張子がconfigの場合にはnablarchのConfigFileLoaderによりloadされ、
-    propertiesの場合にはPropertiesFileLoaderでjava.util.Propertiesによりloadされる。
-  | このloadの仕組みの違いにより、環境設定ファイルの記述方法が細かな点で異なることに注意すること。
-    詳細は、 :ref:`repository-environment_configuration_file_rule` を参照。
 
 .. _repository-get_object:
 
