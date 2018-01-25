@@ -516,12 +516,9 @@ DIコンテナで管理するオブジェクトに対して環境依存値を設
       <property name="url" value="${database.url}" />
     </component>
 
-.. tip::
-
-  | 環境設定ファイルにはconfigファイルとpropertiesファイルの二種類があり、configファイルはnablarchの独自仕様によりパースされ、
-    propertiesファイルはjava.util.Propertiesによりパースされる。
-  | この両者の違いにより、環境設定ファイルの記述方法が異なることに注意すること。
-    詳細は、 :ref:`repository-environment_configuration_file_rule` を参照。
+  環境設定ファイルにはconfigファイルとpropertiesファイルの二種類があり、configファイルはnablarchの独自仕様によりパースされ、
+  propertiesファイルはjava.util.Propertiesによりパースされる。
+  configファイルの仕様は、 :ref:`repository-environment_configuration_file_rule` を参照。
 
 
 .. _repository-overwrite_environment_configuration:
@@ -714,7 +711,7 @@ DIコンテナの情報をシステムリポジトリにロードすることで
 --------------------------------------------------
 環境設定ファイルの記述ルールについて説明する。
 
-記述ルールは、propertiesファイルとconfigファイルとで細かな点に違いがあるため注意すること。
+記述ルールは、プロパティファイルと似ているが細かな点に違いがあるため注意すること。
 
 設定値の記述形式
   設定値は、 キーと値を ``=`` で区切って記述する。
@@ -726,12 +723,12 @@ DIコンテナの情報をシステムリポジトリにロードすることで
 
 コメントの記述
   コメントは、 ``#`` を用いた行コメントのみサポートする。
-  行中に ``#`` が存在した場合は、configファイルではそれ以降をコメントとして扱うが、propertiesファイルでは値として扱う。
+  行中に ``#`` が存在した場合は、それ以降をコメントとして扱う。
 
   .. code-block:: bash
 
     # コメントです
-    key = value   # コメントです　(左記コメントはpropertiesファイルでは値となる)
+    key = value   # コメントです
 
 複数行にまたがった設定値の記述
   行末に ``\`` を記述することで、複数行にまたがって設定値を記述することができる。
@@ -769,8 +766,10 @@ DIコンテナの情報をシステムリポジトリにロードすることで
     key2 = \#コメントではない
     key3 = あ\\い
 
-半角スペースの取り扱い
-  半角スペースについてconfigファイルは半角スペースに対応していないが、propertiesファイルではUnicode文字を設定することで扱うことができる。
+.. tip::
+
+  半角スペースについて、値に含まれる半角スペースはconfigファイルとpropertiesファイルの何れでも半角スペースとして扱えるが、
+  configファイルでは半角スペースのみの値には対応しておらず、propertiesファイルではUnicode文字を設定することで扱うことができる。
 
   .. code-block:: bash
 
