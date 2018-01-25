@@ -1367,18 +1367,6 @@ BLOB型カラムのダウンロードの実装例
   :ref:`use_token_interceptor` で設定を行う。
   使用方法の詳細は、 :ref:`use_token_interceptor` を参照。
 
-  また、JSP以外のテンプレートエンジンでは入力フォームへ明示的にトークンを埋め込む必要がある。
-
-  Thymeleafでの実装例
-   .. code-block:: xml
-
-    <form th:action="@{/path/to/action}" method="post">
-      <input type="hidden" name="nablarch_token" value="${nablarch_request_token}" />
-
-  この例のようにname属性は"nablarch_token"と設定して、value属性はリクエストスコープから"nablarch_request_token"というキーで取得した値を設定する必要がある。
-  このname属性とリクエストスコープから値を取得するキーは変更できる。
-  詳しくは後述する。
-
  トークンのチェック
   トークンのチェックは、 :ref:`on_double_submission_interceptor` を使用する。
   使用方法の詳細は、 :ref:`on_double_submission_interceptor` を参照。
