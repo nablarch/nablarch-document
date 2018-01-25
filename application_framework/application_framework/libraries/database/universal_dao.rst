@@ -508,12 +508,12 @@ Entityに使用できるJPAアノテーション
 ---------------------------------------------------------------------
 Entityに使用できるJPAアノテーションは以下のとおり。
 
-* classに設定するアノテーション
+* クラスに設定するアノテーション
 
   * :ref:`@Entity <universal_dao_jpa_entity>`
   * :ref:`@Table <universal_dao_jpa_table>`
   * :ref:`@Access <universal_dao_jpa_access>`
-* getterまたはfieldに設定するアノテーション
+* getterまたはフィールドに設定するアノテーション
 
   * :ref:`@Column <universal_dao_jpa_column>`
   * :ref:`@Id <universal_dao_jpa_id>`
@@ -523,20 +523,20 @@ Entityに使用できるJPAアノテーションは以下のとおり。
   * :ref:`@SequenceGenerator <universal_dao_jpa_sequence_generator>`
   * :ref:`@TableGenerator <universal_dao_jpa_table_generator>`
 
-fieldに設定する場合には@Accessで明示的に指定すること。@Accessで明示的に指定した場合のみ、fieldのアノテーションを参照する。
+.. important::
+ ここに記載のないアノテーション及び属性を使用しても機能しない。
 
-fieldにアノテーションを設定する場合でも、UniversalDaoでは値の取得と設定はpropertyを通して行われるため、getterとsetterは必ず作成すること。
+フィールドに設定する場合には@Accessで明示的に指定すること。@Accessで明示的に指定した場合のみ、フィールドのアノテーションを参照する。
 
-fieldとpropertyは名前で紐づいているため、名前が異なるとfieldのアノテーションをpropertyで参照できなくなる。
-そのためfield名と、getter及びsetterのメソッド名(get〇〇,set〇〇の〇〇の部分)を必ず同じものにすること。
+フィールドにアノテーションを設定する場合でも、UniversalDaoでは値の取得と設定はプロパティを通して行われるため、getterとsetterは必ず作成すること。
+
+フィールドとプロパティは名前で紐づいているため、名前が異なるとフィールドのアノテーションをプロパティで参照できなくなる。
+そのためフィールド名と、プロパティ名(get〇〇,set〇〇の〇〇の部分)を必ず同じものにすること。
 
 .. tip::
  例えば、Lombokのようなボイラープレートコードを生成するライブラリを使用する場合、
  アノテーションをフィールドに設定することでgetterを自分で作成する必要がなくなり、
  ライブラリの利点をより活かすことができる。
-
-.. important::
- ここに記載のないアノテーション及び属性を使用しても機能しない。
 
 .. _`universal_dao_jpa_entity`:
 
@@ -569,7 +569,7 @@ fieldとpropertyは名前で紐づいているため、名前が異なるとfiel
 *javax.persistence.Access*
  アノテーションを設定する場所を指定するために使用するアノテーション。
 
- 明示的にfieldに指定した場合のみ、fieldのアノテーションを参照する。
+ 明示的にフィールドに指定した場合のみ、フィールドのアノテーションを参照する。
 
 .. _`universal_dao_jpa_column`:
 
@@ -588,7 +588,7 @@ fieldとpropertyは名前で紐づいているため、名前が異なるとfiel
 *javax.persistence.Id*
  主キーに設定するアノテーション。
 
- 複合主キーの場合には、複数のgettterもしくはfieldに本アノテーションを設定する。
+ 複合主キーの場合には、複数のgettterもしくはフィールドに本アノテーションを設定する。
 
 .. _`universal_dao_jpa_version`:
 
