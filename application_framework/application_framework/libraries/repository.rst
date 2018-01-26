@@ -517,10 +517,10 @@ DIコンテナで管理するオブジェクトに対して環境依存値を設
     </component>
 
   環境設定ファイルにはconfigファイルとpropertiesファイルの二種類があり、configファイルはnablarchの独自仕様によりパースされ、
-  propertiesファイルはjava.util.Propertiesによりパースされる。したがって、configファイルはnablarchの独自仕様であることから
-  必要性がない限り、環境設定ファイルはpropertiesファイルが推奨される。
+  propertiesファイルはjava.util.Propertiesによりパースされる。configファイルはnablarchの独自仕様であることから
+  環境設定ファイルにはpropertiesファイルを推奨する。
 
-  configファイルの仕様は、 :ref:`repository-environment_configuration_file_rule` を参照。
+  環境設定ファイルの仕様は、 :ref:`repository-environment_configuration_file_rule` を参照。
 
 
 .. _repository-overwrite_environment_configuration:
@@ -711,62 +711,66 @@ DIコンテナの情報をシステムリポジトリにロードすることで
 
 環境設定ファイルの記述ルール
 --------------------------------------------------
- | 環境設定ファイルにはconfigファイルとpropertiesファイルの二種類があるが、configファイルの場合についての
-   環境設定ファイルの記述ルールについて説明する。
- | なお、propertiesファイルの場合にはjavaのPropertiesの仕様に基づいて解析される。
+環境設定ファイルにはconfigファイルとpropertiesファイルの二種類があり、ここでは各環境設定ファイルの記述ルールについて説明する。
 
-設定値の記述形式
-  設定値は、 キーと値を ``=`` で区切って記述する。
+propertisファイルの仕様
+  JavaのPropertiesの仕様に基づいて解析される。
 
-  .. code-block:: bash
+configファイルの仕様
+  以下、configファイルの仕様について説明する。
+
+  設定値の記述形式
+    設定値は、 キーと値を ``=`` で区切って記述する。
+
+    .. code-block:: bash
     
-    key1=value1
-    key2=value2
+      key1=value1
+      key2=value2
 
-コメントの記述
-  コメントは、 ``#`` を用いた行コメントのみサポートする。
-  行中に ``#`` が存在した場合は、それ以降をコメントとして扱う。
+  コメントの記述
+    コメントは、 ``#`` を用いた行コメントのみサポートする。
+    行中に ``#`` が存在した場合は、それ以降をコメントとして扱う。
 
-  .. code-block:: bash
+    .. code-block:: bash
 
-    # コメントです
-    key = value   # コメントです
+      # コメントです
+      key = value   # コメントです
 
-複数行にまたがった設定値の記述
-  行末に ``\`` を記述することで、複数行にまたがって設定値を記述することができる。
+  複数行にまたがった設定値の記述
+    行末に ``\`` を記述することで、複数行にまたがって設定値を記述することができる。
 
-  下の例の場合、設定値の組み合わせは以下のようになる。
+    下の例の場合、設定値の組み合わせは以下のようになる。
 
-  * key -> value
-  * key2 -> value,value2
-  * key3 -> abcdefg
+    * key -> value
+    * key2 -> value,value2
+    * key3 -> abcdefg
 
-  .. code-block:: bash
+    .. code-block:: bash
 
-    key = value
-    key2 = value,\
-    value2
-    key3 = abcd\    # ここにコメントを定義できる
-    efg
+      key = value
+      key2 = value,\
+      value2
+      key3 = abcd\    # ここにコメントを定義できる
+      efg
 
-予約語のエスケープ
-  以下の予約語を一般文字として扱う場合は、 ``\`` を用いてエスケープを行う。
+  予約語のエスケープ
+    以下の予約語を一般文字として扱う場合は、 ``\`` を用いてエスケープを行う。
 
-  * ``#``
-  * ``=``
-  * ``\``
+    * ``#``
+    * ``=``
+    * ``\``
 
-  下の例の場合、設定値の組み合わせは以下のようになる。
+    下の例の場合、設定値の組み合わせは以下のようになる。
 
-  * key -> a=a
-  * key2 -> #コメントではない
-  * key3 -> あ\\い
+    * key -> a=a
+    * key2 -> #コメントではない
+    * key3 -> あ\\い
 
-  .. code-block:: bash
+    .. code-block:: bash
 
-    key = a\=a
-    key2 = \#コメントではない
-    key3 = あ\\い
+      key = a\=a
+      key2 = \#コメントではない
+      key3 = あ\\い
 
 .. tip::
 
