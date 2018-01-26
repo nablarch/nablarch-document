@@ -505,19 +505,21 @@ DIコンテナで管理するオブジェクトに対して環境依存値を設
   環境設定ファイルを読み込む場合には、config-file要素を使用する。
   この例のようにファイル名指定で読み込んだり、特定ディレクトリ配下のファイルを一括で読み込むことができる。
 
-  上記の環境設定ファイルの名前が「database.config」の場合、 `JdbcDataSource` の `url` には、「\jdbc:h2:mem:sample」が設定される。
+  上記の環境設定ファイルの名前が「database.properties」の場合、 `JdbcDataSource` の `url` には、「\jdbc:h2:mem:sample」が設定される。
 
   .. code-block:: xml
 
-    <!-- database.configファイルの読み込み -->
-    <config-file file="database.config" />
+    <!-- database.propertiesファイルの読み込み -->
+    <config-file file="database.properties" />
 
     <component class="org.h2.jdbcx.JdbcDataSource">
       <property name="url" value="${database.url}" />
     </component>
 
   環境設定ファイルにはconfigファイルとpropertiesファイルの二種類があり、configファイルはnablarchの独自仕様によりパースされ、
-  propertiesファイルはjava.util.Propertiesによりパースされる。
+  propertiesファイルはjava.util.Propertiesによりパースされる。したがって、configファイルはnablarchの独自仕様であることから
+  必要性がない限り、環境設定ファイルはpropertiesファイルが推奨される。
+
   configファイルの仕様は、 :ref:`repository-environment_configuration_file_rule` を参照。
 
 
@@ -709,9 +711,9 @@ DIコンテナの情報をシステムリポジトリにロードすることで
 
 環境設定ファイルの記述ルール
 --------------------------------------------------
-環境設定ファイルの記述ルールについて説明する。
-
-記述ルールは、プロパティファイルと似ているが細かな点に違いがあるため注意すること。
+ | 環境設定ファイルにはconfigファイルとpropertiesファイルの二種類があるが、configファイルの場合についての
+   環境設定ファイルの記述ルールについて説明する。
+ | なお、propertiesファイルの場合にはjavaのPropertiesの仕様に基づいて解析される。
 
 設定値の記述形式
   設定値は、 キーと値を ``=`` で区切って記述する。

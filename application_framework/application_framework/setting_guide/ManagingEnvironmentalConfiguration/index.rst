@@ -114,12 +114,12 @@ Apache Maven(以下Maven)のプロファイル\ [#profile]_\ 機能により
 **【ビルドのコマンド例】**
 
 .. code-block:: bat
-
+  
   mvn -P prod package -DskipTests=true
 
 .. tip::
  上記コマンドで使用しているオプションは以下の通り。
-
+ 
  - -P … プロファイル指定
  - -DskipTests=true  … ユニットテストのスキップを指定
 
@@ -146,7 +146,7 @@ Apache Maven(以下Maven)のプロファイル\ [#profile]_\ 機能により
  **【本番環境を指定してビルドした場合のMANIFEST.MFの例】**
 
  .. code-block:: none
-
+  
   Manifest-Version: 1.0
   Built-By: tie301686
   Build-Jdk: 1.7.0_60
@@ -165,7 +165,7 @@ Apache Maven(以下Maven)のプロファイル\ [#profile]_\ 機能により
 以下に、devプロファイルを使用してユニットテストを実行するコマンド例を示す。
 
 .. code-block:: bat
-
+  
   mvn test
 
 
