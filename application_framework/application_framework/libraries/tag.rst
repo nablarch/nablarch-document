@@ -1342,12 +1342,12 @@ BLOB型カラムのダウンロードの実装例
  サーバ側では、サーバ側で発行した一意なトークンをサーバ側(セッション)とクライアント側(hiddenタグ)に保持し、
  サーバ側で突合することで実現する。このトークンは、1回のチェックに限り有効である。
 
- サーバ側の二重サブミット防止では、トークンの設定を行うJSPとトークンのチェックを行うアクションにおいて、
+ サーバ側の二重サブミット防止では、トークンの設定を行うJSPまたはアクションと、トークンのチェックを行うアクションにおいて、
  それぞれ作業が必要となる。
 
  .. _`tag-double_submission_token_setting`:
 
- トークンの設定を行う
+ JSPでトークンの設定を行う
   :ref:`tag-form_tag` のuseToken属性を指定することで行う。
 
   実装例
@@ -1362,9 +1362,50 @@ BLOB型カラムのダウンロードの実装例
     -->
     <n:form useToken="true">
 
+ アクションでトークンの設定を行う
+  JSP以外のテンプレートエンジンを採用している場合はこちらの設定方法を使用する。
+  :ref:`use_token_interceptor` で設定を行う。
+  使用方法の詳細は、 :ref:`use_token_interceptor` を参照。
+
  トークンのチェック
   トークンのチェックは、 :ref:`on_double_submission_interceptor` を使用する。
   使用方法の詳細は、 :ref:`on_double_submission_interceptor` を参照。
+
+ セッションスコープに保存するキーを変更する
+  発行されたトークンはセッションスコープに"/nablarch_session_token"というキーで保存される。
+  このキーはコンポーネント設定ファイルで変更できる。
+
+  設定例
+   .. code-block:: xml
+
+    <component name="webConfig" class="nablarch.common.web.WebConfig">
+      <!-- キーを"sessionToken"へ変更 -->
+      <property name="doubleSubmissionTokenSessionAttributeName" value="sessionToken" />
+    </component>
+
+ リクエストスコープに保存するキーを変更する
+  発行されたトークンはThymeleafなどのテンプレートに埋め込むときに使用できるよう、リクエストスコープに"nablarch_request_token"というキーで保存される。
+  このキーはコンポーネント設定ファイルで変更できる。
+
+  設定例
+   .. code-block:: xml
+
+    <component name="webConfig" class="nablarch.common.web.WebConfig">
+      <!-- キーを"requestToken"へ変更 -->
+      <property name="doubleSubmissionTokenRequestAttributeName" value="requestToken" />
+    </component>
+
+ hiddenに埋め込むときのname属性を変更する
+  トークンをhiddenに埋め込むとき、name属性は"nablarch_token"という値を設定する。
+  このname属性値はコンポーネント設定ファイルで変更できる。
+
+  設定例
+   .. code-block:: xml
+
+    <component name="webConfig" class="nablarch.common.web.WebConfig">
+      <!-- name属性に設定する値を"hiddenToken"へ変更 -->
+      <property name="doubleSubmissionTokenParameterName" value="hiddenToken" />
+    </component>
 
  .. important::
   サーバ側の二重サブミット防止では、トークンをサーバ側のセッションに格納しているため、

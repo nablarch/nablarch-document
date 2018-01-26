@@ -11,6 +11,8 @@ OnDoubleSubmissionインターセプター
 
 このインターセプターを使用するためには、
 :ref:`jspでのformタグによるトークン設定 <tag-double_submission_token_setting>`
+または
+:ref:`UseTokenインターセプターによるトークン設定 <use_token_interceptor>`
 が必要である。
 
 インターセプタークラス名
