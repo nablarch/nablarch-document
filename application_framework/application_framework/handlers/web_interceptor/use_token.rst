@@ -50,7 +50,7 @@ Thymeleafでの実装例
  .. code-block:: xml
 
   <form th:action="@{/path/to/action}" method="post">
-    <input type="hidden" name="nablarch_token" value="${nablarch_request_token}" />
+    <input type="hidden" name="nablarch_token" th:value="${nablarch_request_token}" />
 
 この例のようにname属性は"nablarch_token"と設定して、value属性はリクエストスコープから"nablarch_request_token"というキーで取得した値を設定する必要がある。
 このname属性とリクエストスコープから値を取得するキーは変更できる。
