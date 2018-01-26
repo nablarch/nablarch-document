@@ -505,16 +505,23 @@ DIコンテナで管理するオブジェクトに対して環境依存値を設
   環境設定ファイルを読み込む場合には、config-file要素を使用する。
   この例のようにファイル名指定で読み込んだり、特定ディレクトリ配下のファイルを一括で読み込むことができる。
 
-  上記の環境設定ファイルの名前が「database.config」の場合、 `JdbcDataSource` の `url` には、「\jdbc:h2:mem:sample」が設定される。
+  上記の環境設定ファイルの名前が「database.properties」の場合、 `JdbcDataSource` の `url` には、「\jdbc:h2:mem:sample」が設定される。
 
   .. code-block:: xml
 
-    <!-- database.configファイルの読み込み -->
-    <config-file file="database.config" />
+    <!-- database.propertiesファイルの読み込み -->
+    <config-file file="database.properties" />
 
     <component class="org.h2.jdbcx.JdbcDataSource">
       <property name="url" value="${database.url}" />
     </component>
+
+  環境設定ファイルにはconfigファイルとpropertiesファイルの二種類があり、configファイルはnablarchの独自仕様によりパースされ、
+  propertiesファイルはjava.util.Propertiesによりパースされる。configファイルはnablarchの独自仕様であることから
+  環境設定ファイルにはpropertiesファイルを推奨する。
+
+  環境設定ファイルの仕様は、 :ref:`repository-environment_configuration_file_rule` を参照。
+
 
 .. _repository-overwrite_environment_configuration:
 
@@ -704,59 +711,71 @@ DIコンテナの情報をシステムリポジトリにロードすることで
 
 環境設定ファイルの記述ルール
 --------------------------------------------------
-環境設定ファイルの記述ルールについて説明する。
+環境設定ファイルにはconfigファイルとpropertiesファイルの二種類があり、ここでは各環境設定ファイルの記述ルールについて説明する。
 
-記述ルールは、プロパティファイルと似ているが細かな点に違いがあるため注意すること。
+propertisファイルの仕様
+  JavaのPropertiesの仕様に基づいて解析される。
 
-設定値の記述形式
-  設定値は、 キーと値を ``=`` で区切って記述する。
+configファイルの仕様
+  以下、configファイルの仕様について説明する。
 
-  .. code-block:: bash
+  設定値の記述形式
+    設定値は、 キーと値を ``=`` で区切って記述する。
+
+    .. code-block:: bash
     
-    key1=value1
-    key2=value2
+      key1=value1
+      key2=value2
 
-コメントの記述
-  コメントは、 ``#`` を用いた行コメントのみサポートする。
-  行中に ``#`` が存在した場合は、それ以降をコメントとして扱う。
+  コメントの記述
+    コメントは、 ``#`` を用いた行コメントのみサポートする。
+    行中に ``#`` が存在した場合は、それ以降をコメントとして扱う。
+
+    .. code-block:: bash
+
+      # コメントです
+      key = value   # コメントです
+
+  複数行にまたがった設定値の記述
+    行末に ``\`` を記述することで、複数行にまたがって設定値を記述することができる。
+
+    下の例の場合、設定値の組み合わせは以下のようになる。
+
+    * key -> value
+    * key2 -> value,value2
+    * key3 -> abcdefg
+
+    .. code-block:: bash
+
+      key = value
+      key2 = value,\
+      value2
+      key3 = abcd\    # ここにコメントを定義できる
+      efg
+
+  予約語のエスケープ
+    以下の予約語を一般文字として扱う場合は、 ``\`` を用いてエスケープを行う。
+
+    * ``#``
+    * ``=``
+    * ``\``
+
+    下の例の場合、設定値の組み合わせは以下のようになる。
+
+    * key -> a=a
+    * key2 -> #コメントではない
+    * key3 -> あ\\い
+
+    .. code-block:: bash
+
+      key = a\=a
+      key2 = \#コメントではない
+      key3 = あ\\い
+
+.. tip::
+
+  半角スペースについて、configファイルでは半角スペースのみの値には対応していないが、propertiesファイルでは数値参照文字を設定することで扱うことができる。
 
   .. code-block:: bash
 
-    # コメントです
-    key = value   # コメントです
-
-複数行にまたがった設定値の記述
-  行末に ``\`` を記述することで、複数行にまたがって設定値を記述することができる。
-
-  下の例の場合、設定値の組み合わせは以下のようになる。
-
-  * key -> value
-  * key2 -> value,value2
-  * key3 -> abcdefg
-
-  .. code-block:: bash
-
-    key = value
-    key2 = value,\
-    value2
-    key3 = abcd\    # ここにコメントを定義できる
-    efg
-
-予約語のエスケープ
-  以下の予約語を一般文字として扱う場合は、 ``\`` を用いてエスケープを行う。
-
-  * ``#``
-  * ``=``
-  * ``\``
-
-  下の例の場合、設定値の組み合わせは以下のようになる。
-
-  * key -> a=a
-  * key2 -> #コメントではない
-  * key3 -> あ\\い
-
-  .. code-block:: bash
-
-    key = a\=a
-    key2 = \#コメントではない
-    key3 = あ\\い
+    key = \u0020
