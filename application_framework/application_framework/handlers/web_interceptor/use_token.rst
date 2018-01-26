@@ -54,4 +54,4 @@ Thymeleafでの実装例
 
 この例のようにname属性は"nablarch_token"と設定して、value属性はリクエストスコープから"nablarch_request_token"というキーで取得した値を設定する必要がある。
 このname属性とリクエストスコープから値を取得するキーは変更できる。
-詳しくは :ref:`サーバ側の二重サブミット防止 <tag-double_submission_server_side>`: を参照すること。
+詳しくは :ref:`サーバ側の二重サブミット防止 <tag-double_submission_server_side>` を参照すること。
