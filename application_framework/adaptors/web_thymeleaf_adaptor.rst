@@ -44,7 +44,7 @@
   <component name="templateEngine" class="org.thymeleaf.TemplateEngine" autowireType="None">
     <property name="templateResolver">
       <component class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
-        <property name="prefix" value="/template/"/>
+        <property name="prefix" value="template/"/>
       </component>
     </property>
   </component>
@@ -107,10 +107,7 @@
 .. important::
 
   Thymeleafでは、テンプレートのパスを解決する際、サフィックスを省略する設定ができるが、
-  本クラスを使用する場合はサフィックスの省略は行わないこと。
-  
-  * OK: ``return new HttpResponse("/template/index.html");``
-  * NG: ``return new HttpResponse("/template/index");``
+  本アダプタを使用する場合はサフィックスの省略は行わないこと。
   
   サフィックスを省略した場合、セッションストアからリクエストスコープへの移送が行われなくなる。   
 
