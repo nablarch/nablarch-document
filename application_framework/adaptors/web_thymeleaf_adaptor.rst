@@ -66,10 +66,12 @@
 
   ``ITemplateResolver`` インタフェースの実装クラスに、
   ``org.thymeleaf.templateresolver.ServletContextTemplateResolver`` が存在するが、
-  このクラスはデフォルトコンストラクタを持たないため、
-  :ref:`repository` にコンポーネントとして登録できない。
+  以下の理由により、:ref:`repository` にコンポーネントとして登録できない。
 
-  本クラスではなく、 ``ClassLoaderTemplateResolver`` 等の別の実装クラスを使用すること。
+  * コンストラクタ引数に ``javax.servlet.ServletContext`` が必須である(デフォルトコンストラクタを持たない)。
+  * システムリポジトリ構築時には ``javax.servlet.ServletContext`` にアクセスできず、:ref:`ファクトリ<repository-factory_injection>` によるオブジェクト生成もできない。
+
+  このため、 ``ServletContextTemplateResolver`` ではなく、 ``ClassLoaderTemplateResolver`` 等の別の実装クラスを使用すること。
   
 
 処理対象判定について
