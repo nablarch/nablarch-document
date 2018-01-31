@@ -84,9 +84,9 @@
 
 .. code-block:: java
 
-  return new HttpResponse("/template/index.html");
+  return new HttpResponse("template/index.html");
 
-この場合、コンテンツパス(\ ``/template/index.html``\ )は ``.html`` で終了しているため、
+この場合、コンテンツパス(\ ``template/index.html``\ )は ``.html`` で終了しているため、
 テンプレートエンジンの出力対象と判定される。
 
 
@@ -108,25 +108,45 @@
 
   Thymeleafでは、テンプレートのパスを解決する際、サフィックスを省略する設定ができるが、
   本アダプタを使用する場合はサフィックスの省略は行わないこと。
-  
+
+  * OK: ``return new HttpResponse("index.html");``
+  * NG: ``return new HttpResponse("index");``
+
   サフィックスを省略した場合、セッションストアからリクエストスコープへの移送が行われず、
   テンプレートからセッションストアの値を参照できなくなる。
 
-
-テンプレートを作成する
-----------------------
-
-テンプレートファイルを配置する場所は ``TemplateEngine`` の設定によって異なる。
-例えば、前節で示した設定例だとテンプレートファイルはクラスパスからロードされる。
-また、 ``ClassLoaderTemplateResolver`` のプロパティ ``prefix`` に ``/template/`` と設定されているので、
-クラスパス上の ``/template/`` ディレクトリにテンプレートファイルを配置することになる。
 
 
 テンプレートエンジンを使用する
 ------------------------------
 
-アクションクラスで、テンプレートへのパスを指定した ``HttpResponse`` を返却する。
+テンプレートエンジンを使用するには、テンプレートファイルを作成、配置する必要がある。
+
+テンプレートファイルを配置する場所は ``TemplateEngine`` の設定によって異なる。
+前節で示した設定例の場合、テンプレートファイルはクラスパスからロードされる。
+また、 ``ClassLoaderTemplateResolver`` のプロパティ ``prefix`` に ``template/`` \
+というようにプレフィックスが設定されているので、
+クラスパス上の ``template`` ディレクトリ配下にテンプレートファイルを配置することになる。
+
+配置したテンプレートを使ってレスポンスを出力するには、テンプレートファイルへのパスを指定した ``HttpResponse`` を\
+アクションクラスの戻り値として返却する。
+
+例えば、 ``src/main/resources/template`` 配下に、``index.html`` というテンプレートファイルを配置したとする。
+この場合、このテンプレートファイルはクラスパス上では ``template/index.html`` に位置するので、
+アクションクラスで、このパスを指定した ``HttpResponse`` を返却する。
+
+先の設定例のように、プレフィックスの指定をしている場合は、プレフィックスを省略したパスを指定する。
 
 .. code-block:: java
 
-  return new HttpResponse("/template/index.html");
+  return new HttpResponse("index.html");
+
+
+プレフィックスを指定しない場合は、パスを省略せずそのまま指定する。
+
+.. code-block:: java
+
+  return new HttpResponse("template/index.html");
+
+
+これにより、配置したテンプレートファイルを用いてレスポンスが出力される。
