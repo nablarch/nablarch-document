@@ -15,3 +15,4 @@
   mail_sender_freemarker_adaptor
   mail_sender_thymeleaf_adaptor
   mail_sender_velocity_adaptor
+  web_thymeleaf_adaptor
