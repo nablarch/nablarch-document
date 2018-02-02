@@ -46,7 +46,7 @@ HTTPエラー制御ハンドラ
 
 .. _HttpErrorHandler_ErrorHandling:
 
-例外の種類に応じたログ出力処理とレスポンスの生成
+例外の種類に応じた処理とレスポンスの生成
 --------------------------------------------------------------
 
 :java:extdoc:`nablarch.fw.NoMoreHandlerException`
@@ -59,6 +59,21 @@ HTTPエラー制御ハンドラ
   :ログレベル: ログ出力なし
   :レスポンス: :java:extdoc:`HttpErrorResponse#getResponse() <nablarch.fw.web.HttpErrorResponse.getResponse()>`
   :説明: 後続のハンドラで業務例外(バリデーションなどを行った結果のエラーレスポンス送出)を送出したことを意味するのでログ出力は行わない。
+
+        ``HttpErrorResponse`` の原因例外が :java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>` の場合は、
+        Viewでエラーメッセージを扱えるよう以下の処理を行う。
+
+        1. ``ApplicationException`` が保持するメッセージ情報を :java:extdoc:`ErrorMessages <nablarch.fw.web.message.ErrorMessages>` に変換する。
+        2. ``ErrorMessages`` をリクエストスコープに設定する。
+           リクエストスコープに設定する際のキー名は、デフォルトでは ``errors`` となる。キー名は、コンポーネント設定ファイルで変更できる。
+
+           設定例
+             .. code-block:: xml
+
+              <component name="webConfig" class="nablarch.common.web.WebConfig">
+                <!-- キーをmessagesに変更 -->
+                <property name="errorMessageRequestAttributeName" value="messages" />
+              </component>
 
 :java:extdoc:`nablarch.fw.Result.Error`
   :ログレベル: 設定による
