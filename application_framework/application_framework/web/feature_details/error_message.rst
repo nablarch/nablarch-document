@@ -17,7 +17,7 @@
 特定のプロパティに対応したメッセージを表示したい
   :java:extdoc:`ErrorMessages#hasError <nablarch.fw.web.message.ErrorMessages.hasError(java.lang.String)>` や
   :java:extdoc:`ErrorMessages#hasError <nablarch.fw.web.message.ErrorMessages.getMessage(java.lang.String)>`
-  を使用することでプロパティ(入力項目のname属性の値)に対応したエラー有無やメッセージが表示できる。
+  を使用することでプロパティ(入力項目のname属性の値)に対応したエラー有無やメッセージの表示ができる。
 
   この例では、 ``form.userName`` プロパティに対応したエラーメッセージがリクエストスコープにある場合にメッセージが表示される。
 
@@ -28,7 +28,7 @@
         th:text="${errors.getMessage('form.userName')}">入力してください。</span>
 
 グローバルメッセージ(プロパティに紐付かないメッセージ)を表示したい
-  :java:extdoc:`ErrorMessages#hasError <nablarch.fw.web.message.ErrorMessages.getGlobalMessages()>` を使用して
+  :java:extdoc:`ErrorMessages#getGlobalMessages() <nablarch.fw.web.message.ErrorMessages.getGlobalMessages()>` を使用して
   グローバルメッセージが表示できる。
 
   .. code-block:: html
@@ -38,7 +38,7 @@
     </ul>
 
 全てのメッセージを表示したい
-  :java:extdoc:`ErrorMessages#hasError <nablarch.fw.web.message.ErrorMessages.getAllMessages()>` を使用して
+  :java:extdoc:`ErrorMessages#getAllMessages() <nablarch.fw.web.message.ErrorMessages.getAllMessages()>` を使用して
   全てのメッセージが表示できる。
   
   .. code-block:: html
