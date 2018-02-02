@@ -292,7 +292,7 @@ JSP
     .. code-block:: java
 
       context.setRequestScopedVar("message", 
-          MessageUtil.createMessage(MessageLevel.INFO, "login.message") .formatMessage());
+          MessageUtil.createMessage(MessageLevel.INFO, "login.message").formatMessage());
 
   View
     View(JSP等)では、リクエストスコープに設定したメッセージを出力する。
