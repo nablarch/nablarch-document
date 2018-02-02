@@ -60,6 +60,8 @@ HTTPエラー制御ハンドラ
   :レスポンス: :java:extdoc:`HttpErrorResponse#getResponse() <nablarch.fw.web.HttpErrorResponse.getResponse()>`
   :説明: 後続のハンドラで業務例外(バリデーションなどを行った結果のエラーレスポンス送出)を送出したことを意味するのでログ出力は行わない。
 
+        .. _http_error_handler-error_messages:
+
         ``HttpErrorResponse`` の原因例外が :java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>` の場合は、
         Viewでエラーメッセージを扱えるよう以下の処理を行う。
 
