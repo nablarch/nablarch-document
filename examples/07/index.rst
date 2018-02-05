@@ -26,6 +26,14 @@ UserAgent情報取得機能はHTTPヘッダ(User-Agent)より取得した値を�
 
 `ソースコード <https://github.com/nablarch/nablarch-biz-sample-all>`_
 
+
+----------------------------
+準拠するNablarchのバージョン
+----------------------------
+
+本サンプルでは、Nablarch 1.4系に準拠したAPIを使用している。
+
+
 ----
 構成
 ----

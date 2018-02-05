@@ -8,6 +8,9 @@
 
 `ソースコード <https://github.com/nablarch/nablarch-messaging-simulator>`_
 
+概要
+----------
+
 本サンプルは、Nablarchアプリケーションフレームワークの :ref:`mom_system_messaging` 、 :ref:`http_system_messaging` を使用する
 アプリケーションのテストにて、対向先システムをシミュレートするサンプル実装を提供する。
 
@@ -23,6 +26,13 @@
 シミュレータがメッセージ送信する場合
   .. image:: ./_images/behavior_illustration02.png
     :scale: 70
+
+
+準拠するNablarchのバージョン
+----------------------------
+
+本サンプルでは、Nablarch 1.4系に準拠したAPIを使用している。
+
 
 用途
 ----------

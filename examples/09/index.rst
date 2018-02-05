@@ -11,6 +11,12 @@ bouncycastleを使用した電子署名つきメールの送信サンプルの�
   詳細は、bouncycastleのサイト(\ `http://www.bouncycastle.org/ <http://www.bouncycastle.org/>`_\ )を参照
 
 
+準拠するNablarchのバージョン
+----------------------------
+
+本サンプルでは、Nablarch 1.4系に準拠したAPIを使用している。
+
+
 環境準備
 -------------
 
