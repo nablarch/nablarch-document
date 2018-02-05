@@ -8,7 +8,7 @@ CAPTCHA機能サンプル
 
 .. important::
 
-  本機能は脆弱(画像認証が短時間で突破される可能性)であるため、コンシューマ向けでは利用しないこと。
+  本機能で使用しているkapchaは脆弱(画像認証が短時間で突破される可能性)であるため、コンシューマ向けでは利用しないこと。
   要件により画像認証が必要となる場合は、堅牢な(例えば `Google reCAPTCHA(外部サイト、英語) <https://www.google.com/recaptcha/intro/>`_ など)画像認証プロダクトの導入を検討すること。
 
 `ソースコード <https://github.com/nablarch/nablarch-biz-sample-all>`_
