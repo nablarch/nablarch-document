@@ -273,68 +273,100 @@ JSP
 メッセージレベルを使い分ける
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 メッセージレベルを使い分けることで、画面表示時のスタイルを切り替えることができる。
-スタイルの切り替えは、カスタムタグライブラリの `errors` タグを使用することで実現できる。
+スタイルの切り替えは、カスタムタグライブラリの :ref:`errors <tag-write_error_errors_tag>` タグを使用することで実現できる。
 
-メッセージレベルは、 `INFO` 、 `WARN` 、 `ERROR` の3種類があり、
-:java:extdoc:`MessageLevel <nablarch.core.message.MessageLevel>` に定義されている。
+.. important::
 
-errorsタグを使用すると、メッセージレベルに応じて以下のcssクラスが適用される。
-`errors` タグの詳細な使用方法は、 :ref:`tag-write_error` を参照。
+  メッセージレベルとカスタムタグを使用したスタイル変更は以下の問題点がある。
 
-:INFO: nablarch_info
-:WARN: nablarch_warn
-:ERROR: nablarch_error
+  * カスタムタグライブラリが出力するDOM構造に制約があり、一般的なCSSフレームワークとの相性が悪い
+  * メッセージレベルが3種類しかなくそれより細かい分類ができない
+  * JSP以外のテンプレートエンジンで使用できない
+  
+  このため、 :ref:`errorsタグを使用したメッセージレベルに応じたスタイル切り替え <message-level_with_tag>` を使用するのではなく以下の実装方法を推奨する。
 
-.. tip::
+  サーバサイド
+    サーバサイドでメッセージ文字列を構築し、リクエストスコープに設定する。
+    メッセージを生成する際にはメッセージレベルが必須なため、INFOレベルを指定すれば良い。
 
-  :doc:`バリデーション機能 <validation>` から送出される業務例外( :java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>` )が持つメッセージは、
-  全て `ERROR` レベルとなる。
+    .. code-block:: java
+
+      context.setRequestScopedVar("message", 
+          MessageUtil.createMessage(MessageLevel.INFO, "login.message").formatMessage());
+
+  View
+    View(JSP等)では、リクエストスコープに設定したメッセージを出力する。
+    JSPを使用する場合は、 :ref:`write <tag-write_tag>` タグを使用してリクエストスコープに設定したメッセージを出力する。
+
+    .. code-block:: jsp
+        
+       <div class="alert alert-success" role="alert">
+         <n:write name="message" />
+       </div>
+
+.. _message-level_with_tag:
+
+errorsタグを使用したメッセージレベルに応じたスタイル切り替え例
+  メッセージレベルは、 `INFO` 、 `WARN` 、 `ERROR` の3種類があり、
+  :java:extdoc:`MessageLevel <nablarch.core.message.MessageLevel>` に定義されている。
+
+  errorsタグを使用すると、メッセージレベルに応じて以下のcssクラスが適用される。
+  `errors` タグの詳細な使用方法は、 :ref:`tag-write_error` を参照。
+
+  :INFO: nablarch_info
+  :WARN: nablarch_warn
+  :ERROR: nablarch_error
+
+  .. tip::
+
+    :doc:`バリデーション機能 <validation>` から送出される業務例外( :java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>` )が持つメッセージは、
+    全て `ERROR` レベルとなる。
 
 
-プロパティファイル
-  .. code-block:: properties
+  プロパティファイル
+    .. code-block:: properties
 
-    info=インフォメーション
-    warn=ワーニング
-    error=エラー
+      info=インフォメーション
+      warn=ワーニング
+      error=エラー
 
-スタイルシート
-  メッセージレベルに対応したスタイル定義を行う。
+  スタイルシート
+    メッセージレベルに対応したスタイル定義を行う。
 
-  .. code-block:: css
+    .. code-block:: css
 
-    .nablarch_info {
-      color: #3333BB;
-    }
+      .nablarch_info {
+        color: #3333BB;
+      }
 
-    .nablarch_warn {
-      color: #EA8128;
-    }
+      .nablarch_warn {
+        color: #EA8128;
+      }
 
-    .nablarch_error {
-      color: #ff0000;
-    }
+      .nablarch_error {
+        color: #ff0000;
+      }
 
-action class
-  `errors` タグで出力するメッセージは、 :java:extdoc:`WebUtil.notifyMessages <nablarch.common.web.WebUtil.notifyMessages(nablarch.fw.ExecutionContext-nablarch.core.message.Message...)>` を使ってリクエストスコープに格納する。
+  action class
+    `errors` タグで出力するメッセージは、 :java:extdoc:`WebUtil.notifyMessages <nablarch.common.web.WebUtil.notifyMessages(nablarch.fw.ExecutionContext-nablarch.core.message.Message...)>` を使ってリクエストスコープに格納する。
 
-  .. code-block:: java
+    .. code-block:: java
 
-    WebUtil.notifyMessages(context, MessageUtil.createMessage(MessageLevel.INFO, "info"));
-    WebUtil.notifyMessages(context, MessageUtil.createMessage(MessageLevel.WARN, "warn"));
-    WebUtil.notifyMessages(context, MessageUtil.createMessage(MessageLevel.ERROR, "error"));
+      WebUtil.notifyMessages(context, MessageUtil.createMessage(MessageLevel.INFO, "info"));
+      WebUtil.notifyMessages(context, MessageUtil.createMessage(MessageLevel.WARN, "warn"));
+      WebUtil.notifyMessages(context, MessageUtil.createMessage(MessageLevel.ERROR, "error"));
 
-JSP
-  `errors` タグを使用して、 :java:extdoc:`WebUtil <nablarch.common.web.WebUtil>` に格納したメッセージを画面表示する。
+  JSP
+    `errors` タグを使用して、 :java:extdoc:`WebUtil <nablarch.common.web.WebUtil>` に格納したメッセージを画面表示する。
 
-  .. code-block:: jsp
+    .. code-block:: jsp
 
-    <n:errors />
+      <n:errors />
 
-画面表示結果
-  メッセージレベルに応じてスタイルが切り替わっていることがわかる。
+  画面表示結果
+    メッセージレベルに応じてスタイルが切り替わっていることがわかる。
 
-  .. image:: images/message/message_level.png
+    .. image:: images/message/message_level.png
 
 
 拡張例
