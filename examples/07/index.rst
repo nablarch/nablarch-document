@@ -2,6 +2,13 @@
  UserAgent情報取得機能サンプル
 ================================
 
+.. important::
+
+  本サンプルは、Nablarch 1.4系に準拠したAPIを使用している。
+
+  Nablarch 1.4系より新しいNablarchと組み合わせる場合は、必要に応じてカスタマイズすること。
+
+
 ----
 概要
 ----
@@ -25,13 +32,6 @@ UserAgent情報取得機能はHTTPヘッダ(User-Agent)より取得した値を�
 
 
 `ソースコード <https://github.com/nablarch/nablarch-biz-sample-all>`_
-
-
-----------------------------
-準拠するNablarchのバージョン
-----------------------------
-
-本サンプルでは、Nablarch 1.4系に準拠したAPIを使用している。
 
 
 ----
