@@ -34,6 +34,7 @@ JDBCを使用してデータベースに対してSQL文を実行する機能を�
 :java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` は、以下の機能を提供する。
 
 * identityカラムを使えるか否かを返すメソッド(:java:extdoc:`supportsIdentity <nablarch.core.db.dialect.Dialect.supportsIdentity()>` )
+* identity(自動採番)カラムを持つテーブル対してbatch insertが行えるか否かを返すメソッド(:java:extdoc:`supportsIdentityWithBatchInsert <nablarch.core.db.dialect.Dialect.supportsIdentityWithBatchInsert()>`)
 * シーケンスオブジェクトを使えるか否かを返すメソッド(:java:extdoc:`supportsSequence <nablarch.core.db.dialect.Dialect.supportsSequence()>` )
 * 検索クエリーの範囲指定でoffset（またはoffsetと同等の機能）を使えるか否かを返すメソッド(:java:extdoc:`supportsOffset <nablarch.core.db.dialect.Dialect.supportsOffset()>` )
 * 一意制約違反を表す :java:extdoc:`SQLException <java.sql.SQLException>` か否かを判定するメソッド(:java:extdoc:`isDuplicateException <nablarch.core.db.dialect.Dialect.isDuplicateException(java.sql.SQLException)>` )
