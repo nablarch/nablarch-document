@@ -597,6 +597,7 @@ password        password                    password
 
   * String及び、String配列
   * BigDecimal及び、BigDecimal配列
+  * java.util.Date及び、java.util.Date配列(Excelへはyyyy-MM-dd形式もしくはyyyy-MM-dd HH:mm:ss形式で記述すること)
   * valueOf(String)メソッドを持つクラス及び、その配列クラス(例えばIntegerやLong、java.sql.Dateやjava.sql.Timestampなど)
 
   以下に、個別のテスト実施方法の例を示す。
