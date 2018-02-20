@@ -27,3 +27,4 @@ Nablarchが提供するライブラリ
   tag
   bean_util
   utility
+  format
