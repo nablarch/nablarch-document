@@ -262,23 +262,23 @@ Mapオブジェクトのキーに ``.`` が含まれていればそのプロパ�
   .. code-block:: java
 
     public class Bean {
-      // 許容する日時フォーマットを指定する
-      @CopyOption(datePattern = "yyyy/MM/dd HH:mm:ss")
-      private String timestamp;
+        // 許容する日時フォーマットを指定する
+        @CopyOption(datePattern = "yyyy/MM/dd HH:mm:ss")
+        private String timestamp;
 
-      // 許容する数値フォーマットを指定する
-      @CopyOption(numberPattern = "#,###")
-      private String number;
+        // 許容する数値フォーマットを指定する
+        @CopyOption(numberPattern = "#,###")
+        private String number;
 
-      public String getTimestamp() {
-        return timestamp;
-      }
+        public String getTimestamp() {
+            return timestamp;
+        }
 
-      public void setTimestamp(final String timestamp) {
-        this.timestamp = timestamp;
-      }
+        public void setTimestamp(final String timestamp) {
+          this.timestamp = timestamp;
+        }
 
-      // numberのsetter及びgetterは省略
+        // numberのsetter及びgetterは省略
     }
 
 .. _bean_util-format_logical:
@@ -302,11 +302,11 @@ OSSなどを用いてBeanを自動生成している場合に :ref:`プロパテ
   .. code-block:: java
 
    final CopyOptions copyOptions = CopyOptions.options()
-                                       // timestampプロパティに対して許容するフォーマットを指定
-                                       .datePatternByName("timestamp", "yyyy年MM月dd日 HH時mm分ss秒")
-                                       // customプロパティに対してCustomDateConverterを適用
-                                       .converterByName("custom", Date.class, new CustomDateConverter())
-                                       .build();
+           // timestampプロパティに対して許容するフォーマットを指定
+           .datePatternByName("timestamp", "yyyy年MM月dd日 HH時mm分ss秒")
+           // customプロパティに対してCustomDateConverterを適用
+           .converterByName("custom", Date.class, new CustomDateConverter())
+           .build();
 
     // CopyOptionsを指定してBeanUtilを呼び出す。
     final DestBean copy = BeanUtil.createAndCopy(DestBean.class, bean, copyOptions);
