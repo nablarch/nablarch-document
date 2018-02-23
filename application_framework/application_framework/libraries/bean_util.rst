@@ -143,32 +143,32 @@ Mapオブジェクトのキーに ``.`` が含まれていればそのプロパ�
 
     public class SampleConversionManager implements ConversionManager {
 
-      private ConversionManager delegateManager;
+        private ConversionManager delegateManager;
 
-      @Override
-      public Map<Class<?>, Converter<?>> getConverters() {
-          Map<Class<?>, Converter<?>> converters = new HashMap<Class<?>, Converter<?>>();
+        @Override
+        public Map<Class<?>, Converter<?>> getConverters() {
+            Map<Class<?>, Converter<?>> converters = new HashMap<Class<?>, Converter<?>>();
 
-          // 標準のコンバータ
-          converters.putAll(delegateManager.getConverters());
+            // 標準のコンバータ
+            converters.putAll(delegateManager.getConverters());
 
-          // 今回作成したコンバータ
-          converters.put(BigInteger.class, new CustomConverter());
+            // 今回作成したコンバータ
+            converters.put(BigInteger.class, new CustomConverter());
 
-          return Collections.unmodifiableMap(converters);
-      }
-      
-      @Override
-      public List<ExtensionConverter<?>> getExtensionConvertor() {
-          final List<ExtensionConverter<?>> extensionConverters =
-              new ArrayList<ExtensionConverter<?>>(delegateManager.getExtensionConvertor());
-          extensionConverters.add(new CustomExtensionConverter());
-          return extensionConverters;
-      }
+            return Collections.unmodifiableMap(converters);
+        }
 
-      public void setDelegateManager(ConversionManager delegateManager) {
-          this.delegateManager = delegateManager;
-      }
+        @Override
+        public List<ExtensionConverter<?>> getExtensionConvertor() {
+            final List<ExtensionConverter<?>> extensionConverters =
+                new ArrayList<ExtensionConverter<?>>(delegateManager.getExtensionConvertor());
+            extensionConverters.add(new CustomExtensionConverter());
+            return extensionConverters;
+        }
+
+        public void setDelegateManager(ConversionManager delegateManager) {
+            this.delegateManager = delegateManager;
+        }
     }
 
 3. コンポーネント設定ファイルに、 :java:extdoc:`ConversionManager <nablarch.core.beans.ConversionManager>` の実装クラスを設定する。
