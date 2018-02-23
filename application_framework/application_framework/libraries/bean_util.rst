@@ -270,15 +270,7 @@ Mapオブジェクトのキーに ``.`` が含まれていればそのプロパ�
         @CopyOption(numberPattern = "#,###")
         private String number;
 
-        public String getTimestamp() {
-            return timestamp;
-        }
-
-        public void setTimestamp(final String timestamp) {
-          this.timestamp = timestamp;
-        }
-
-        // numberのsetter及びgetterは省略
+        // setter及びgetterは省略
     }
 
 .. _bean_util-format_logical:
