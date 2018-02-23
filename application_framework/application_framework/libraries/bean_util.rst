@@ -120,7 +120,7 @@ Mapオブジェクトのキーに ``.`` が含まれていればそのプロパ�
 .. important::
 
   型変換ルールはアプリケーション共通の設定となる。
-  特定の処理のみ型変換ルールを適用したい場合は、 :ref:`bean_util-format_logical` を参照し、
+  特定の処理のみ異なる型変換ルールを適用したい場合は、 :ref:`bean_util-format_logical` を参照し、
   特定のプロパティや型に対して :java:extdoc:`Converter <nablarch.core.beans.Converter>` 実装を適用し対応すること。
 
 .. _utility-conversion-add-rule:
