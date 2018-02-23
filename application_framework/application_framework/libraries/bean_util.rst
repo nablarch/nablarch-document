@@ -208,7 +208,7 @@ Mapオブジェクトのキーに ``.`` が含まれていればそのプロパ�
 ポイント
   * コンポーネント名を **conversionManager** で :java:extdoc:`BasicConversionManager <nablarch.core.beans.BasicConversionManager>` を定義する。
   * ``datePatterns`` プロパティに許容する日付及び日時形式のフォーマットを設定する。
-  * ``numberPatterns`` プローアティに許容する数値形式のフォーマット定義を設定する。
+  * ``numberPatterns`` プロパティに許容する数値形式のフォーマット定義を設定する。
   * 複数のフォーマットを許容する場合は複数設定する。
 
 設定例
