@@ -119,10 +119,9 @@ Mapオブジェクトのキーに ``.`` が含まれていればそのプロパ�
 
 .. important::
 
-  型変換ルールはアプリケーション共通の設定となる。このため、1つのアプリケーションの中で異なる設定を利用することは出来ない。
-
-  例えば、特定の処理のみ異なる変換ルールを適用することは出来ない。
-  もし、特定の処理に固有の変換ルールを適用したい場合には、アプリケーション側で型変換と移送処理を行うこと。
+  型変換ルールはアプリケーション共通の設定となる。
+  特定の処理のみ異なる型変換ルールを適用したい場合は、 :ref:`bean_util-format_logical` を参照し、
+  特定のプロパティや型に対して :java:extdoc:`Converter <nablarch.core.beans.Converter>` 実装を適用し対応すること。
 
 .. _utility-conversion-add-rule:
 
@@ -144,32 +143,32 @@ Mapオブジェクトのキーに ``.`` が含まれていればそのプロパ�
 
     public class SampleConversionManager implements ConversionManager {
 
-      private ConversionManager delegateManager;
+        private ConversionManager delegateManager;
 
-      @Override
-      public Map<Class<?>, Converter<?>> getConverters() {
-          Map<Class<?>, Converter<?>> converters = new HashMap<Class<?>, Converter<?>>();
+        @Override
+        public Map<Class<?>, Converter<?>> getConverters() {
+            Map<Class<?>, Converter<?>> converters = new HashMap<Class<?>, Converter<?>>();
 
-          // 標準のコンバータ
-          converters.putAll(delegateManager.getConverters());
+            // 標準のコンバータ
+            converters.putAll(delegateManager.getConverters());
 
-          // 今回作成したコンバータ
-          converters.put(BigInteger.class, new CustomConverter());
+            // 今回作成したコンバータ
+            converters.put(BigInteger.class, new CustomConverter());
 
-          return Collections.unmodifiableMap(converters);
-      }
-      
-      @Override
-      public List<ExtensionConverter<?>> getExtensionConvertor() {
-          final List<ExtensionConverter<?>> extensionConverters =
-              new ArrayList<ExtensionConverter<?>>(delegateManager.getExtensionConvertor());
-          extensionConverters.add(new CustomExtensionConverter());
-          return extensionConverters;
-      }
+            return Collections.unmodifiableMap(converters);
+        }
 
-      public void setDelegateManager(ConversionManager delegateManager) {
-          this.delegateManager = delegateManager;
-      }
+        @Override
+        public List<ExtensionConverter<?>> getExtensionConvertor() {
+            final List<ExtensionConverter<?>> extensionConverters =
+                new ArrayList<ExtensionConverter<?>>(delegateManager.getExtensionConvertor());
+            extensionConverters.add(new CustomExtensionConverter());
+            return extensionConverters;
+        }
+
+        public void setDelegateManager(ConversionManager delegateManager) {
+            this.delegateManager = delegateManager;
+        }
     }
 
 3. コンポーネント設定ファイルに、 :java:extdoc:`ConversionManager <nablarch.core.beans.ConversionManager>` の実装クラスを設定する。
@@ -185,3 +184,121 @@ Mapオブジェクトのキーに ``.`` が含まれていればそのプロパ�
       </property>
     </component>
 
+型変換時に許容するフォーマットを指定する
+--------------------------------------------------
+型変換時には、許容するフォーマットを指定することで日付や数値のフォーマットを解除できる。
+例えば、カンマ編集されたString型の値(1,000,000)を数値型(1000000)に変換できる。
+
+許容するフォーマットは、以下の3種類の指定方法がある。優先順位は上に記載したものが高くなる。
+
+* :ref:`BeanUtil呼び出し時に設定 <bean_util-format_logical>`
+* :ref:`プロパティ単位にアノテーションで設定 <bean_util-format_property_setting>`
+* :ref:`デフォルト設定(システム共通設定) <bean_util-format_default_setting>`
+
+.. _bean_util-format_default_setting:
+
+デフォルト(システム共通)の許容するフォーマットを設定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+フォーマットのデフォルト設定は、コンポーネント設定ファイルに設定する。
+
+例えば、画面上で入力される数値についてはカンマ編集されているものも許容する場合には、デフォルト設定を行うことで個別指定が不要となる。
+
+以下に設定方法を示す。
+
+ポイント
+  * コンポーネント名を **conversionManager** で :java:extdoc:`BasicConversionManager <nablarch.core.beans.BasicConversionManager>` を定義する。
+  * ``datePatterns`` プロパティに許容する日付及び日時形式のフォーマットを設定する。
+  * ``numberPatterns`` プロパティに許容する数値形式のフォーマット定義を設定する。
+  * 複数のフォーマットを許容する場合は複数設定する。
+
+設定例
+  .. code-block:: xml
+
+    <component name="conversionManager" class="nablarch.core.beans.BasicConversionManager">
+      <!-- 日付及び日時の許容するフォーマットを指定する -->
+      <property name="datePatterns">
+        <list>
+          <value>yyyy/MM/dd</value>
+          <value>yyyy-MM-dd</value>
+        </list>
+      </property>
+      <!-- 数値の許容するフォーマットを指定する -->
+      <property name="numberPatterns">
+        <list>
+          <value>#,###</value>
+        </list>
+      </property>
+    </component>
+
+.. important::
+
+  ``yyyy/MM/dd`` と ``yyyy/MM/dd HH:mm:ss`` の用に日付と日時のフォーマットを指定した場合、
+  日時形式の値も `yyyy/MM/dd` パース出来てしまうため時間情報が欠落してしまうケースがある。
+
+  このため、デフォルト指定では日付のフォーマットのみを指定し、日時形式の項目については :ref:`プロパティ単位にアノテーションで設定 <bean_util-format_property_setting>`
+  を使用してデフォルト設定をオーバライドするなどの対応が必要となる。
+
+.. _bean_util-format_property_setting:
+
+コピー対象のプロパティに対して許容するフォーマットを設定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+特定機能だけ :ref:`デフォルト設定 <bean_util-format_default_setting>` を適用せずに異なるフォーマットを指定したい場合がある。
+この場合は、コピー対象のBean(コピー元またはコピー先)の該当プロパティに対応したフィールドに対してアノテーションを指定し許容するフォーマットを上書きする。
+
+アノテーションは、コピー元とコピー先のどちらに指定しても動作するが、基本的に許容するフォーマットはString型のプロパティに対応するフィールドに指定するのが好ましい。
+なぜなら、フォーマットした値を持つのはString型のプロパティであり、そのプロパティに対して許容するフォーマットが指定されていることが自然であるためである。
+もし、コピー元とコピー先の両方に指定されている場合は、コピー元の設定を使用する。
+
+例えば、デフォルト設定では日付のフォーマットを指定している場合で、特定機能のみ日時フォーマットを許容する場合に使用するとよい。
+
+以下に実装例を示す。
+
+ポイント
+  * コピー元(コピー先)のプロパティに対応したフィールドに対して :java:extdoc:`CopyOption <nablarch.core.beans.CopyOption>` アノテーションを設定する。
+  * CopyOptionの ``datePattern`` に許容する日付及び日時のフォーマットを指定する。
+  * CopyOptionの ``numberPattern`` に許容する数値のフォーマットを指定する。
+
+実装例
+  .. code-block:: java
+
+    public class Bean {
+        // 許容する日時フォーマットを指定する
+        @CopyOption(datePattern = "yyyy/MM/dd HH:mm:ss")
+        private String timestamp;
+
+        // 許容する数値フォーマットを指定する
+        @CopyOption(numberPattern = "#,###")
+        private String number;
+
+        // setter及びgetterは省略
+    }
+
+.. _bean_util-format_logical:
+
+BeanUtil呼び出し時に許容するフォーマットを設定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+特定機能だけ :ref:`デフォルト設定 <bean_util-format_default_setting>` を適用せずに異なるフォーマットを指定したいが、
+OSSなどを用いてBeanを自動生成している場合に :ref:`プロパティ単位にアノテーションで設定 <bean_util-format_property_setting>` が使用できない場合がある。
+また、特定プロパティのみ異なる型変換ルールを適用したい場合がある。
+
+このような場合は、 :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` 呼び出し時に、許容するフォーマットや型変換ルールを設定し対応する。
+
+以下に実装例を示す。
+
+ポイント
+  * :java:extdoc:`CopyOptions <nablarch.core.beans.CopyOptions>` を使用してプロパティに対する設定を行う。
+    ``CopyOptions`` の構築方法は、 :java:extdoc:`CopyOptions.Builder <nablarch.core.beans.CopyOptions.Builder>` を参照。
+  * 生成した :java:extdoc:`CopyOptions <nablarch.core.beans.CopyOptions>` を使用して :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を呼び出す。
+
+実装例
+  .. code-block:: java
+
+   final CopyOptions copyOptions = CopyOptions.options()
+           // timestampプロパティに対して許容するフォーマットを指定
+           .datePatternByName("timestamp", "yyyy年MM月dd日 HH時mm分ss秒")
+           // customプロパティに対してCustomDateConverterを適用
+           .converterByName("custom", Date.class, new CustomDateConverter())
+           .build();
+
+    // CopyOptionsを指定してBeanUtilを呼び出す。
+    final DestBean copy = BeanUtil.createAndCopy(DestBean.class, bean, copyOptions);
