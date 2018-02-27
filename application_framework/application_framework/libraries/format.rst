@@ -47,9 +47,12 @@
 を使用する。
 
 フォーマッタは、使用するフォーマッタを特定するためにクラス名とは別にフォーマッタ名を持つ。
-呼び出す際に、使用するフォーマッタ名、フォーマット対象、フォーマットのパターンを指定する。
-指定したフォーマット名と、フォーマット対象のデータ型に応じて、適切なフォーマッタが呼び出される。
-明示的にフォーマットのパターンを指定しない場合は、フォーマッタ毎に設定されたデフォルトのパターンでフォーマットする。
+
+FormatterUtil.formatを呼び出す際、フォーマッタ名、フォーマット対象、フォーマットのパターンを指定するが、
+フォーマット名とフォーマット対象のデータ型に応じて、適切なフォーマッタが選択される。
+
+選択されたフォーマッタと指定されたフォーマットのパターンを使用してフォーマットされる。
+明示的にフォーマットのパターンを指定しない場合は、フォーマッタ毎に設定されたデフォルトのパターンが使用される。
 
 実装例
 
@@ -70,41 +73,46 @@
 .. list-table::
   :header-rows: 1
   :class: white-space-normal
-  :widths: 20,40,40
+  :widths: 20,40,40,40
 
   * - フォーマッタ名
     - フォーマットするデータの型
     - デフォルトのフォーマットパターン
+    - 備考
 
   * - :ref:`dateTime <format_datetime>`
     - :java:extdoc:`Date <java.util.Date>`
     - yyyy/MM/dd
+    -
 
   * - :ref:`dateTime <format_datetime>`
     - :java:extdoc:`String <java.lang.String>`
     - yyyy/MM/dd
+    - フォーマット対象の日付文字列のパターンが必要(デフォルトは ``yyyyMMdd`` )
 
   * - :ref:`number <format_number>`
     - :java:extdoc:`Number <java.lang.Number>`
     - #,###.###
+    -
 
   * - :ref:`number <format_number>`
     - :java:extdoc:`String <java.lang.String>`
     - #,###.###
+    -
 
 .. _`format_dateTime`:
 
 dateTime
   日付をフォーマットするフォーマッタ。
 
-  フォーマット対象の型は :java:extdoc:`Date <java.util.Date>` と :java:extdoc:`String <java.lang.String>` である。
+  フォーマット対象の型は :java:extdoc:`Date <java.util.Date>` 及びその派生クラスと :java:extdoc:`String <java.lang.String>` である。
   パターンには
   :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>`
   が規定している構文を指定する。
   デフォルトのパターンは ``yyyy/MM/dd`` である。
 
-  :java:extdoc:`String <java.lang.String>` 型をフォーマットする場合は、日付文字列のパターンを設定する必要がある。
-  デフォルトでは、日付文字列のパターンは ``yyyyMMdd`` となっている。
+  :java:extdoc:`String <java.lang.String>` 型をフォーマットする場合は、フォーマット対象となる日付文字列のパターンも設定する必要がある。
+  デフォルトでは、フォーマット対象の日付文字列のパターンは ``yyyyMMdd`` となっている。
   設定を変更したい場合は :ref:`format_custom` を参照すること。
 
 .. _`format_number`:
@@ -112,7 +120,7 @@ dateTime
 number
   数値をフォーマットするフォーマッタ。
 
-  フォーマット対象の型は :java:extdoc:`Number <java.lang.Number>` 及びその派生クラスと :java:extdoc:`String <java.lang.String>` である。
+  フォーマット対象の型は :java:extdoc:`Number <java.lang.Number>` の派生クラスと :java:extdoc:`String <java.lang.String>` である。
   パターンには
   :java:extdoc:`DecimalFormat <java.text.DecimalFormat>`
   が規定している構文を指定する。
@@ -122,8 +130,6 @@ number
   例えば、データバインドを使用してファイルに出力する際に本機能を使用したい場合は、
   Beanのgetterで使用するとよい。
 
-  実装例
-
   .. code-block:: java
 
     import java.util.Date;
@@ -131,7 +137,6 @@ number
     public class SampleDto {
         private Date startDate;
         private Integer sales;
-        // getter & setter は省略
 
         // フォーマットされた文字列を取得するgetterを作成
         public String getFormattedStartDate() {
@@ -141,6 +146,8 @@ number
         public String getFormattedSales() {
             return FormatterUtil.format("number", sales, "#,### 円");
         }
+
+        // 他の getter & setter は省略
     }
 
 
@@ -154,7 +161,7 @@ number
 コンポーネント設定ファイルに ``nablarch.core.text.FormatterConfig`` の設定をする。
 
   ポイント
-   * コンポーネント名は ``formatter-config`` とすること。
+   * コンポーネント名は ``formatterConfig`` とすること。
 
   ``nablarch.core.text.FormatterConfig`` に使用するフォーマッタのリストの設定をする。
   リストのプロパティ名は ``formatters`` とすること。
@@ -164,7 +171,7 @@ number
 
   .. code-block:: xml
 
-    <component name="formatter-config" class="nablarch.core.text.FormatterConfig">
+    <component name="formatterConfig" class="nablarch.core.text.FormatterConfig">
       <!-- フォーマッタを保持するリスト -->
       <property name="formatters">
         <list>
@@ -194,7 +201,7 @@ number
 
   .. important::
     コンポーネント定義でデフォルトのフォーマッタの設定を変更する場合は、
-    変更を加えないフォーマッタやプロパティに関しても必ず 設定を記述すること。
+    変更を加えないフォーマッタやプロパティに関しても必ず設定を記述すること。
     コンポーネント定義に記述がないフォーマッタは使用できない。
 
 
@@ -206,50 +213,7 @@ number
 1. :java:extdoc:`Formatter <nablarch.core.text.Formatter>` の実装クラスを作成する。
 
   フォーマット処理は :java:extdoc:`Formatter <nablarch.core.text.Formatter>` を実装したクラスが行う。
-  以下にNumberクラスをフォーマットする実装クラスの例を示す。
 
-  .. code-block:: java
-
-   public class SampleFormatter implements Formatter<Number> {
-
-       // フォーマッタ名
-       private String formatterName;
-
-       // デフォルトのフォーマットパターン
-       private String defaultPattern;
-
-       @Override
-       public Class<Number> getFormatClass() {
-           return Number.class;
-       }
-
-       @Override
-       public String getFormatterName() {
-           return formatterName;
-       }
-
-    　 // デフォルトのパターンでフォーマット
-       @Override
-       public String format(Number input) {
-           // 処理内容は省略
-       }
-
-       // 指定されたパターンでフォーマット
-       @Override
-       public String format(Number input, String pattern) {
-           // 処理内容は省略
-       }
-
-       // フォーマッタの名前を設定する。
-       public void setFormatterName(String formatterName) {
-           this.formatterName = formatterName;
-       }
-
-       // フォーマットのデフォルトのパターンを設定する。
-       public void setDefaultPattern(String defaultPattern) {
-           this.defaultPattern = defaultPattern;
-       }
-   }
 
 2. コンポーネント設定ファイルに作成したフォーマッタの設定を追加する
 
@@ -257,7 +221,7 @@ number
 
   .. code-block:: xml
 
-    <component name="formatter-config" class="nablarch.core.text.FormatterConfig">
+    <component name="formatteronfig" class="nablarch.core.text.FormatterConfig">
       <property name="formatters">
         <list>
           <!-- デフォルトのフォーマッタ -->
@@ -281,12 +245,8 @@ number
           <!-- 追加したフォーマッタ -->
           <component class="sample.SampleFormatter">
             <property name="formatterName" value="sample" />
-            <property name="defaultPattern" value="#,###.###" />
+            <property name="defaultPattern" value="#,### 円" />
           </component>
         </list>
       </property>
     </component>
-
-  .. important::
-    フォーマッタを追加する際も、デフォルトのフォーマッタを使用したい場合は必ず設定を記述すること。
-    コンポーネント定義に記述がないフォーマッタは使用できない。
