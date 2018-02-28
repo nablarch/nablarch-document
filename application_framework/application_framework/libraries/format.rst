@@ -7,10 +7,6 @@
   :depth: 3
   :local:
 
-.. toctree::
-  :maxdepth: 1
-  :hidden:
-
 機能概要
 ---------------------------------------------------------------------
 
@@ -221,7 +217,7 @@ number
 
   .. code-block:: xml
 
-    <component name="formatteronfig" class="nablarch.core.text.FormatterConfig">
+    <component name="formatterConfig" class="nablarch.core.text.FormatterConfig">
       <property name="formatters">
         <list>
           <!-- デフォルトのフォーマッタ -->
