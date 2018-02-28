@@ -10,9 +10,6 @@
 以下にライブラリの構成と使用方法を示す。
 
 
-
-帳票デザインツールの利用法、実装サンプルに関する内容は :download:`帳票アプリケーション開発ガイド <development_guide/帳票アプリケーション開発ガイド.docx>` を参照すること。
-
 JasperReportsのバージョンについて
 
 URL: 　https://community.jaspersoft.com/project/jasperreports-library
