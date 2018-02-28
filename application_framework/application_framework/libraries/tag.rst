@@ -1909,10 +1909,37 @@ HTMLエスケープを行わず、変数内のHTMLタグを直接出力したい
 カスタムタグでは、 :ref:`tag-write_tag` と :ref:`tag-text_tag` については、
 日付や金額などの値を人が見やすい形式にフォーマットして出力する機能を提供する。
 
-valueFormat属性を指定することでフォーマット出力を行う。valueFormat属性の指定がない場合は、フォーマットせずに値を出力する。
+:ref:`format` を使用してフォーマットする方法と、valueFormat属性を使用してフォーマットする2種類の方法が存在する。
+以下の理由から、 :ref:`format` を使用してフォーマットする方法を推奨する。
+
+ * :ref:`format` を使用する方法は、他の出力機能でフォーマットする際と共通の機能を使用でき、設定が1箇所に集約できる。
+ * valueFormat属性でフォーマットする方法は、カスタムタグのみでしか使用できないため、他の出力機能でフォーマットをしたい場合は別途設定が必要となる。そのため、フォーマットに関する設定が複数箇所に存在することとなり、管理が煩雑になる。
+
+:ref:`format`
+ :ref:`format` を使用する場合は、EL式と ``n:formatByDefault`` 及び ``n:format`` を使用して、フォーマットした文字列をvalue属性に設定する。
+
+ EL式は、JSP上で簡単な記述で演算結果を出力できる記述方法である。 ``${<評価したい式>}`` と記述することで、評価結果がそのまま出力される。
+
+ ``n:formatByDefault`` 及び ``n:format`` をEL式内で使用することで、 :ref:`format` の ``FormatterUtil`` を呼び出して値をフォーマットすることができる。
+
+ 実装例
+  .. code-block:: html
+
+   <!-- フォーマッタのデフォルトのパターンでフォーマットする場合
+     第一引数に使用するフォーマッタ名
+     第二引数にフォーマット対象の値を指定する
+     value属性にEL式で n:formatByDefault の呼び出しを記述する -->
+   <n:write value="${n:formatByDefault('dateTime', project.StartDate)}" />
+
+   <!-- 指定したパターンでフォーマットする場合
+     第一引数に使用するフォーマッタ名
+     第二引数にフォーマット対象の値を指定する
+     第三引数にフォーマットのパターンを指定する
+     value属性にEL式で n:formatByDefault の呼び出しを記述する -->
+   <n:text name="project.StartDate" value="${n:format('dateTime', project.StartDate, 'yyyy年MM月dd日')}" />
 
 valueFormat属性
- 出力時のフォーマット。
+ valueFormat属性を指定することでフォーマット出力を行う。valueFormat属性の指定がない場合は、フォーマットせずに値を出力する。
 
  フォーマットは、 ``データタイプ{パターン}`` 形式で指定する。
  カスタムタグでデフォルトで提供しているデータタイプを以下に示す。
@@ -2497,6 +2524,10 @@ HTML
 
 フォーマッタを追加する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:ref:`format` を使用する場合
+フォーマッタの追加方法は、 :ref:`format` のフォーマッタを追加するの項を参照。
+
+valueFormat属性を使用する場合
 フォーマットは、
 :java:extdoc:`ValueFormatter <nablarch.common.web.tag.ValueFormatter>`
 インタフェースを実装したクラスが行う。
