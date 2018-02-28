@@ -23,8 +23,6 @@ rules:
       # 「利用者」は変換しない
       - from: 利用者
         to: 利用者
-  - expected: ""
-    pattern: siosio
   - expected: 積極的にお勧めはしない
     pattern: 非推奨
   - expected: シミュレーション
