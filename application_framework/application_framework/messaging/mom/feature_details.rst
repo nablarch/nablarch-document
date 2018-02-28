@@ -48,3 +48,10 @@ MOMメッセージング
   * :java:extdoc:`MessageReader (MQから電文の読み込み)<nablarch.fw.messaging.reader.MessageReader>`
 
 * :ref:`再送制御<message_resend_handler>`
+
+.. _data_format-formatter:
+
+出力するデータの表示形式のフォーマット
+--------------------------------------------------
+データを出力する際に、 :ref:`format` を使用することで日付や数値などのデータの表示形式をフォーマットすることができる。
+詳細は :ref:`format` を参照。
