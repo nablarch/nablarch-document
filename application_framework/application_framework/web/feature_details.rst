@@ -86,16 +86,28 @@ URIとアクションクラスのマッピング
 
 クライアントサイドについては、プロジェクト要件により仕様が異なるため、フレークワークとしては提供していない。
 
-JSPによる画面の作成
+画面の作成
 ----------------------------------------
 .. toctree::
   :maxdepth: 1
   :hidden:
 
   feature_details/jsp_session
-  
-* :ref:`tag`
-* :ref:`jsp_session`
+  feature_details/view/freemarker
+  feature_details/view/velocity
+  feature_details/view/other
+
+* JSPを使用する場合
+
+  * :ref:`JSPのtaglibを使用した画面開発 <tag>`
+  * :ref:`jsp_session`
+
+* JSP以外のテンプレートエンジンを使用する場合
+
+  * :ref:`Thymeleafを使用した画面開発 <web_thymeleaf_adaptor>`
+  * :ref:`view_freemarker`
+  * :ref:`view_velocity`
+  * :ref:`view_other`
 
 国際化対応
 ----------------------------------------
