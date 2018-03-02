@@ -10,9 +10,6 @@
 以下にライブラリの構成と使用方法を示す。
 
 
-
-帳票デザインツールの利用法、実装サンプルに関する内容は :download:`帳票アプリケーション開発ガイド <development_guide/帳票アプリケーション開発ガイド.docx>` を参照すること。
-
 JasperReportsのバージョンについて
 
 URL: 　https://community.jaspersoft.com/project/jasperreports-library
@@ -24,6 +21,21 @@ URL: 　https://community.jaspersoft.com/project/jasperreports-library
  JasperReports         5.6.1          GNU LESSER GENERAL PUBLIC LICENSE version 3(GNU LGPL)
 ================ ================== ===================
 
+.. important::
+
+  本機能は、以下の依存ライブラリが現在入手困難となっているため、今後メンテナンスは行われない。
+
+  ================ =================== ===================
+   グループID       アーティファクトID  バージョン
+  ================ =================== ===================
+   com.lowagie     iTextAsian           1.0.0
+  ================ =================== ===================
+
+  
+  帳票出力機能が必要な場合は、以下のような代替手段を検討すること。
+  
+  * 商用製品を利用する
+  * ブラウザやOfficeのPDF出力機能を利用する
 
 
 ------------
