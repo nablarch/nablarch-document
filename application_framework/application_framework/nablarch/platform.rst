@@ -49,7 +49,7 @@ Java
  * Oracle Database 12c
  * DB2 10
  * SQL Server 2017
- * PostgreSQL 9
+ * PostgreSQL 10
 
 アプリケーションサーバ
  * Oracle Weblogic Server 12c
