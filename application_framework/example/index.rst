@@ -19,7 +19,12 @@ Exampleアプリケーションは、Apache Mavenを利用してアプリケー�
 Exampleアプリケーションの実行手順は、各ExampleアプリケーションのgithubのREADMEを参照すること。
 
   ウェブアプリケーション
-    https://github.com/nablarch/nablarch-example-web
+   \
+
+    JSPとカスタムタグを使用したサンプル
+     https://github.com/nablarch/nablarch-example-web
+    Thymeleafを使用したサンプル
+     https://github.com/nablarch/nablarch-example-thymeleaf-web
 
 
   ウェブサービス
