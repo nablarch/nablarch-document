@@ -26,7 +26,6 @@ Nablarchフレームワークは、Java標準仕様のみを使って作成し�
 * JavaBeans Activation Framework 1.1
 * JavaServer Pages 2.1
 * Java Servlet 2.5
-* Java API for XML-Based Web Services (JAX-WS) 2.0
 * JavaMail API 1.4
 * Java Message Service API 1.1-rev-1
 * Java Persistence 2.0
