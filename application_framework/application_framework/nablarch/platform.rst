@@ -48,7 +48,7 @@ Java
 データベース
  * Oracle Database 12c
  * DB2 10
- * SQLServer 2008
+ * SQL Server 2017
  * PostgreSQL 9
 
 アプリケーションサーバ
