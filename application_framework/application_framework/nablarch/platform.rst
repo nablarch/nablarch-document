@@ -26,7 +26,6 @@ Nablarchフレームワークは、Java標準仕様のみを使って作成し�
 * JavaBeans Activation Framework 1.1
 * JavaServer Pages 2.1
 * Java Servlet 2.5
-* Java API for XML-Based Web Services (JAX-WS) 2.0
 * JavaMail API 1.4
 * Java Message Service API 1.1-rev-1
 * Java Persistence 2.0
@@ -44,13 +43,13 @@ Nablarchフレームワークのテスト環境
 Nablarchフレームワークは、以下の環境においてテストを実施し、正常に動作することを確認している。
 
 Java
- * Java SE 6/7/8
+ * Java SE 6/7/8/9
 
 データベース
  * Oracle Database 12c
- * DB2 10
- * SQLServer 2008
- * PostgreSQL 9
+ * IBM Db2 10
+ * SQL Server 2017
+ * PostgreSQL 10
 
 アプリケーションサーバ
  * Oracle Weblogic Server 12c
