@@ -236,7 +236,7 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
   httpAccessLogFormatter.endFormat=< sid = [$sessionId$] @@@@ END @@@@ url = [$url$] status_code = [$statusCode$] content_path = [$contentPath$]
   httpAccessLogFormatter.datePattern="yyyy-MM-dd HH:mm:ss.SSS"
   httpAccessLogFormatter.maskingChar=#
-  httpAccessLogFormatter.maskingPatterns=\\.*password\\.*,\\.*mobilePhoneNumber\\.*
+  httpAccessLogFormatter.maskingPatterns=password,mobilePhoneNumber
   httpAccessLogFormatter.parametersSeparator=,
   httpAccessLogFormatter.sessionScopeSeparator=,
   httpAccessLogFormatter.beginOutputEnabled=true
