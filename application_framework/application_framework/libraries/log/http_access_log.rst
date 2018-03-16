@@ -190,10 +190,11 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
   デフォルトは ``yyyy-MM-dd HH:mm:ss.SSS`` 。
 
  httpAccessLogFormatter.maskingPatterns
-  マスク対象のパラメータ名又は変数名を正規表現で指定する。
+  マスク対象のパラメータ名又は変数名を正規表現で指定する（部分一致）。
   複数指定する場合はカンマ区切り。
   リクエストパラメータとセッションスコープ情報の両方のマスキングに使用する。
   指定した正規表現は大文字小文字を区別しない。
+  例えば、\ ``password``\ と指定した場合、 ``password`` ``newPassword`` ``password2`` 等にマッチする。
 
  httpAccessLogFormatter.maskingChar
   マスクに使用する文字。デフォルトは ``*`` 。
@@ -236,7 +237,7 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
   httpAccessLogFormatter.endFormat=< sid = [$sessionId$] @@@@ END @@@@ url = [$url$] status_code = [$statusCode$] content_path = [$contentPath$]
   httpAccessLogFormatter.datePattern="yyyy-MM-dd HH:mm:ss.SSS"
   httpAccessLogFormatter.maskingChar=#
-  httpAccessLogFormatter.maskingPatterns=\\.*password\\.*,\\.*mobilePhoneNumber\\.*
+  httpAccessLogFormatter.maskingPatterns=password,mobilePhoneNumber
   httpAccessLogFormatter.parametersSeparator=,
   httpAccessLogFormatter.sessionScopeSeparator=,
   httpAccessLogFormatter.beginOutputEnabled=true
