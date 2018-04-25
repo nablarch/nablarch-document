@@ -74,7 +74,7 @@
 クラスパス直下に `routes.xml` を作成し、
 指定したURLと業務アクションをマッピングする設定を行う。
 
-ルート定義ファイルへの設定方法は、`ライブラリのREADMEドキュメント(外部サイト) <https://github.com/kawasima/sastruts-advanced-routes/blob/master/README.ja.md>`_ を参照。
+ルート定義ファイルへの設定方法は、`ライブラリのREADMEドキュメント(外部サイト) <https://github.com/kawasima/http-request-router/blob/master/README.ja.md>`_ を参照。
 
 業務アクションとURLを自動的にマッピングする
 --------------------------------------------------------
