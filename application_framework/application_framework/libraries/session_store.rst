@@ -161,6 +161,8 @@ HTTPセッションを抽象化した機能を提供する。
   EXPIRATION_DATETIME  `java.sql.Timestamp`
   ==================== ====================
 
+Oracleで正常に動作しないケースがあるため、 `SESSION_ID` はCHARではなくVARCHARで定義すること。
+
 テーブル名およびカラム名は変更可能である。
 変更する場合は、 :java:extdoc:`DbStore.userSessionSchema <nablarch.common.web.session.store.DbStore.setUserSessionSchema(nablarch.common.web.session.store.UserSessionSchema)>` に
 :java:extdoc:`UserSessionSchema <nablarch.common.web.session.store.UserSessionSchema>` のコンポーネントを定義する。
