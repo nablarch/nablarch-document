@@ -506,6 +506,7 @@ selectタグ
    name ``必須``                          XHTMLのname属性。
    listName ``必須``                      選択肢リストの名前。
                                           カスタムタグはこの名前を使用してリクエストスコープから選択肢リストを取得する。
+                                          リクエストスコープから取得した選択肢リストが空の場合、画面には何も表示しない。
    elementLabelProperty ``必須``          リスト要素からラベルを取得するためのプロパティ名。
    elementValueProperty ``必須``          リスト要素から値を取得するためのプロパティ名。
    size                                   XHTMLのsize属性。
@@ -558,6 +559,7 @@ radioButtonsタグ
    name ``必須``                          XHTMLのname属性。
    listName ``必須``                      選択肢リストの名前。
                                           カスタムタグはこの名前を使用してリクエストスコープから選択肢リストを取得する。
+                                          リクエストスコープから取得した選択肢リストが空の場合、画面には何も表示しない。
    elementLabelProperty ``必須``          リスト要素からラベルを取得するためのプロパティ名。
    elementValueProperty ``必須``          リスト要素から値を取得するためのプロパティ名。
    disabled                               XHTMLのdisabled属性。
@@ -600,6 +602,7 @@ checkboxesタグ
    name ``必須``                          XHTMLのname属性。
    listName ``必須``                      選択肢リストの名前。
                                           カスタムタグはこの名前を使用してリクエストスコープから選択肢リストを取得する。
+                                          リクエストスコープから取得した選択肢リストが空の場合、画面には何も表示しない。
    elementLabelProperty ``必須``          リスト要素からラベルを取得するためのプロパティ名。
    elementValueProperty ``必須``          リスト要素から値を取得するためのプロパティ名。
    disabled                               XHTMLのdisabled属性。
