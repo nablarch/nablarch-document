@@ -58,7 +58,7 @@
   <component class="nablarch.fw.jaxrs.BodyConvertHandler">
     <property name="bodyConverters">
       <list>
-        <!-- application/xmlに対応したリクエス・レスポンスのコンバータ -->
+        <!-- application/xmlに対応したリクエスト・レスポンスのコンバータ -->
         <component class="nablarch.fw.jaxrs.JaxbBodyConverter" />
         <!-- application/x-www-form-urlencodedに対応したリクエスト・レスポンスのコンバータ -->
         <component class="nablarch.fw.jaxrs.FormUrlEncodedConverter" />
