@@ -20,3 +20,8 @@
   * :ref:`RESTfulウェブサービス <restful_web_service>`
   * :ref:`JSR352に準拠したバッチアプリケーション <jsr352_batch>`
   * :ref:`Bean Validation <bean_validation>`
+
+.. important::
+
+  テスティングフレームワークは、マルチスレッド機能に対応していない。
+  マルチスレッド機能のテストは、テスティングフレームワークを使用しないテスト(結合テストなど)で行うこと。
