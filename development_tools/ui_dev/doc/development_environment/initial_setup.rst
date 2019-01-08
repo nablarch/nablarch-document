@@ -418,7 +418,7 @@ import定義が列挙されている。
      , "testProjectPath"   : "ui_test"
      , "pluginProjectPath" : "ui_plugins"
      }
-     ###(攻略)###
+     ###(後略)###
 
 **2. UIビルドコマンドの実行**
   `web_project/ui_plugins/bin/ui_build.bat` を実行する。
