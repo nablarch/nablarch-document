@@ -234,7 +234,7 @@ UI開発基盤の導入時に以下の手順を実施すればよく、各担当
           │     ├── doc/
           │     ├── guide/
           │     ├── node_modules/
-          │     │     ├── es6-promise   # (追加)
+          │     │     ├── es6-promise
           │     │     ├── font-awesome  # (追加)
           │     │     ├── jquery        # (追加)
           │     │     ├── less          # (追加)
