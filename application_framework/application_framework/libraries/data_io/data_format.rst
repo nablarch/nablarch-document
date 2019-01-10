@@ -453,6 +453,12 @@ XMLおよびJSONの構造
         ]
       }
 
+.. important ::
+
+  本機能でXMLを入力する場合、DTDを使用することはできない。DTDを使用したXMLを読み込もうとした場合、例外が発生する。
+  これは `XML外部実体参照(XXE) <https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Processing>`_ を防止するための措置である。
+  詳細は :java:extdoc:`APIドキュメント <nablarch.core.dataformat.XmlDataParser>` を参照。
+
 XMLで名前空間を使う
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 接続先システムとの接続要件で、名前空間を使用しなければならない場合がある。
