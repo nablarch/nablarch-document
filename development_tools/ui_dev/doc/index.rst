@@ -19,7 +19,7 @@ Nablarch UI開発基盤 解説書
   * `RequireJS <http://requirejs.org/>`_
   * `jQuery <https://jquery.com/>`_
   * `Sugar <https://sugarjs.com/>`_
-  * `less <http://less-ja.studiomohawk.com/>`_
+  * `less <http://lesscss.org/>`_
 
   また、UI開発基盤は、設計工程からJSPを作成するアプローチを採用しているが、以下の理由により、「設計工程用JSPと開発工程用JSPのダブルメンテナンス」が往々にして発生する
 
