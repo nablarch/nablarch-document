@@ -453,11 +453,45 @@ XMLおよびJSONの構造
         ]
       }
 
-.. important ::
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+XMLでDTDを使う
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. important::
 
-  本機能でXMLを入力する場合、DTDを使用することはできない。DTDを使用したXMLを読み込もうとした場合、例外が発生する。
+  本機能でXMLを入力する場合、DTDをデフォルトで使用することはできない。DTDを使用したXMLを読み込もうとした場合、例外が発生する。
   これは `XML外部実体参照(XXE) <https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Processing>`_ を防止するための措置である。
-  詳細は :java:extdoc:`APIドキュメント <nablarch.core.dataformat.XmlDataParser>` を参照。
+
+読み込み対象となるXMLが信頼できる場合は、 :java:extdoc:`XmlDataParser<nablarch.core.dataformat.XmlDataParser>` の ``allowDTD`` プロパティを使用してDTDの使用を許可することができる。
+使用方法は下記の通り。
+
+``XmlDataParser`` という名前で明示的にコンポーネント設定ファイルに設定を記載し、DTDの使用を許可する。
+
+.. code-block:: xml
+
+  <?xml version="1.0" encoding="UTF-8"?>
+    <component-configuration
+        xmlns="http://tis.co.jp/nablarch/component-configuration"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://tis.co.jp/nablarch/component-configuration component-configuration.xsd">
+
+      <component name="XmlDataParser" class="nablarch.core.dataformat.XmlDataParser">
+        <!--
+            DTDの使用を許可する。
+            XXE攻撃の危険性があるため、信頼できるXML以外には使用してはならない。
+         -->
+        <property name="allowDTD" value="true" />
+      </component>
+    </component-configuration>
+
+.. tip::
+
+  以下のバージョンのJDKにはAPIに不具合があり、本機能を使用した場合に ``NullPointerException`` が発生する。
+  本バグを回避するには、JDKのバージョンをアップする。
+  
+  - JDK6 6u65 未満
+  - JDK7 7u6 b15 未満
+
+  不具合詳細は `JDK-7157610 : NullPointerException occurs when parsing XML doc <https://bugs.java.com/bugdatabase/view_bug.do?bug_id=7157610>`_ 参照。
 
 XMLで名前空間を使う
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
