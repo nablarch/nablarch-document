@@ -39,7 +39,7 @@
     - Java Beansクラスに関する機能を提供する。詳細は、 :ref:`bean_util` を参照。
 
   * - :java:extdoc:`Base64Util <nablarch.core.util.Base64Util>`
-    - nablarch-fw
+    - nablarch-core
     - Base64エンコーディングに関する機能を提供する
 
   * - :java:extdoc:`BinaryUtil <nablarch.core.util.BinaryUtil>`
