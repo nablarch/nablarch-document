@@ -280,16 +280,12 @@ JSPからセッションストアで保持しているセッション変数の�
 
   <component class="nablarch.common.web.session.store.HiddenStore">
     <!-- 他の設定値は省略 -->
-    <property name="stateEncoder">
-      <component class="nablarch.common.web.session.encoder.JavaSerializeEncryptStateEncoder">
-        <property name="encryptor">
-          <component class="nablarch.common.encryption.AesEncryptor">
-            <property name="base64Key">
-              <component class="nablarch.common.encryption.Base64Key">
-                <property name="key" value="OwYMOWbnLyYy93P8oIayeg==" />
-                <property name="iv" value="NOj5OUN+GlyGYTc6FM0+nw==" />
-              </component>
-            </property>
+    <property name="encryptor">
+      <component class="nablarch.common.encryption.AesEncryptor">
+        <property name="base64Key">
+          <component class="nablarch.common.encryption.Base64Key">
+            <property name="key" value="OwYMOWbnLyYy93P8oIayeg==" />
+            <property name="iv" value="NOj5OUN+GlyGYTc6FM0+nw==" />
           </component>
         </property>
       </component>
