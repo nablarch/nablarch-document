@@ -265,31 +265,33 @@ JSPからセッションストアで保持しているセッション変数の�
   ただし、既にリクエストスコープ上に同名の値が存在する場合は、JSPからセッション変数の値を参照することはできないため、
   セッション変数にはリクエストスコープと重複しない名前を設定すること。
 
-セッション変数の改竄を防止する
+HIDDENストアの暗号化設定をカスタマイズする
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-セッションストアでは、指定した暗号化方式に従ってセッション変数の暗号化/復号を行うことで、
-セッション変数の改竄を防止することができる。
 
-.. important::
-  HIDDENストアを使用した場合、クライアントからセッション変数を改竄したリクエストが送信される可能性があるため、
-  本機能の使用を推奨する。
+:ref:`HIDDENストア <session_store-hidden_store>` の暗号化/復号設定のデフォルトは、以下の通りである。
 
-以下に、HIDDENストアに保存するセッション変数を `AES` を使用して暗号化/復号するための設定例を示す。
+======================= ============================================================
+設定項目                設定内容
+======================= ============================================================
+暗号化アルゴリズム      `AES`
+暗号化キー              アプリケーションサーバ内で共通の自動生成されたキーを使用
+======================= ============================================================
+
+アプリケーションサーバが冗長化されている場合、アプリケーションサーバごとに異なるキーを生成するため、復号に失敗してしまうケースがある。
+このケースでは、明示的に暗号化/復号のキーを設定する。
+
+暗号化アルゴリズムに `AES` を使用し、暗号化/復号のキーを明示的に設定する設定例を以下に示す。
 
 .. code-block:: xml
 
   <component class="nablarch.common.web.session.store.HiddenStore">
     <!-- 他の設定値は省略 -->
-    <property name="stateEncoder">
-      <component class="nablarch.common.web.session.encoder.JavaSerializeEncryptStateEncoder">
-        <property name="encryptor">
-          <component class="nablarch.common.encryption.AesEncryptor">
-            <property name="base64Key">
-              <component class="nablarch.common.encryption.Base64Key">
-                <property name="key" value="OwYMOWbnLyYy93P8oIayeg==" />
-                <property name="iv" value="NOj5OUN+GlyGYTc6FM0+nw==" />
-              </component>
-            </property>
+    <property name="encryptor">
+      <component class="nablarch.common.encryption.AesEncryptor">
+        <property name="base64Key">
+          <component class="nablarch.common.encryption.Base64Key">
+            <property name="key" value="OwYMOWbnLyYy93P8oIayeg==" />
+            <property name="iv" value="NOj5OUN+GlyGYTc6FM0+nw==" />
           </component>
         </property>
       </component>
@@ -305,10 +307,6 @@ JSPからセッションストアで保持しているセッション変数の�
   
   なお、base64エンコードは :java:extdoc:`Base64Util <nablarch.core.util.Base64Util>` や、
   Java8で追加された ``java.util.Base64.Encoder`` を使用して行うと良い。
-
-.. important::
- 暗号化/復号のキーを設定しなかった場合、アプリケーション内で共通で使用されるキーを生成する。
- アプリケーションサーバが冗長化されている場合は、アプリケーションサーバごとに異なるキーを生成し復号に失敗してしまう可能性があるため、明示的に暗号化/復号のキーを設定すること。
 
 セッション変数に値が存在しない場合の遷移先画面を指定する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
