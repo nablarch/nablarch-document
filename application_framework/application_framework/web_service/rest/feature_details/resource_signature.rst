@@ -112,7 +112,7 @@ URLの例
         <requirements>
           <requirement name="id" value="\d+$" />
         </requirements>
-      </delete>
+      </get>
     </routes>
 
 リソースクラスのメソッドの実装
