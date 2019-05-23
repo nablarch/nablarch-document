@@ -300,22 +300,28 @@ Nablarchが提供しているバリデータ及びコンバータについては
       </component>
 
 ドメインバリデーションに複数のバリデーションルールを設定した場合の挙動
-  ドメインバリデーションにて一つの入力項目に複数のエラーが存在する場合、精査を一つ目のエラーで打ち切ることになります。
+  ドメインバリデーションにて一つの入力項目に複数のエラーが存在する場合、精査を一つ目のエラーで打ち切る。
 
   .. code-block:: java
 
-      public class ProjectForm
-        @Domain("name")
-        private String userName;
+      public enum DomainType implements DomainDefinition {
+
+        @NumberRange(min=0, max=100)
+        @Digits(integer=3)
+        SCORE; // Integer
+
+        @Override
+        public Annotation getConvertorAnnotation() {
+            return DomainValidationHelper.getConvertorAnnotation(this);
+        }
+
+        @Override
+        public List<Annotation> getValidatorAnnotations() {
+            return DomainValidationHelper.getValidatorAnnotations(this);
+        }
       }
 
-      public class ExampleDomainType {
-        @Length(max = 10)
-        @SystemChar(charsetDef = "全角文字")
-        private String userName;
-      }
-
-  上記 `userName` の最大文字列長バリデーションに引っ掛かたら後ろの文字種バリデーションは行わない。
+  上記 `SCORE` は `Digitsバリデーション` に引っ掛かたらもう一つ `NumberRangeバリデーション` は行わない。
 
 バリデーション対象のBeanを継承する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
