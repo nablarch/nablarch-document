@@ -299,20 +299,23 @@ Nablarchが提供しているバリデータ及びコンバータについては
         </property>
       </component>
 
-ドメインバリデーション注意点
-  ドメインバリデーションにて一つの入力項目に複数のエラーが存在する場合、精査を一つ目のエラーまで打ち切ることになります。
+ドメインバリデーションに複数のバリデーションルールを設定した場合の挙動
+  ドメインバリデーションにて一つの入力項目に複数のエラーが存在する場合、精査を一つ目のエラーで打ち切ることになります。
 
   .. code-block:: java
 
-      @Length(max = 10)
-      @SystemChar(charsetDef = "全角文字")
-      @Required
-      public void setUserName(String userName) {
-          this.userName = userName;
+      public class ProjectForm
+        @Domain("name")
+        private String userName;
       }
 
-  上記 `userName` の最大文字列長バリデーションに引っ掛かたら後ろの文字種バリデーションと必須入力バリエーションは行わない、
-  ソース実装とテスト項目作成する時意識が必要。
+      public class ExampleDomainType {
+        @Length(max = 10)
+        @SystemChar(charsetDef = "全角文字")
+        private String userName;
+      }
+
+  上記 `userName` の最大文字列長バリデーションに引っ掛かたら後ろの文字種バリデーションは行わない。
 
 バリデーション対象のBeanを継承する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
