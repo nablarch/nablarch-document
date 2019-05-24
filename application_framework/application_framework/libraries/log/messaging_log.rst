@@ -183,7 +183,7 @@ log.propertiesの設定例
 
  プレースホルダの$messageBody$及び$messageBodyHex$
   $messageBody$は、ISO-8859-1固定で電文を読みこんだ結果を出力する。
-  $messageBody$の内容をヘキサダンプして出力する。
+  $messageBodyHex$については、$messageBody$の内容をヘキサダンプして出力する。
 
 記述例
  .. code-block:: properties
