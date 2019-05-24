@@ -304,24 +304,14 @@ Nablarchが提供しているバリデータ及びコンバータについては
 
   .. code-block:: java
 
-      public enum DomainType implements DomainDefinition {
+        public enum SampleDomain implements DomainDefinition {
+          @Length(max = 10)
+          @SystemChar(charsetDef = "全角文字")
+          NAME;
+       }
 
-        @NumberRange(min=0, max=100)
-        @Digits(integer=3)
-        SCORE; // Integer
+  上記 `NAME` は `Length` バリデーションエラーになったら、 `SystemChar` バリデーションは行わない。
 
-        @Override
-        public Annotation getConvertorAnnotation() {
-            return DomainValidationHelper.getConvertorAnnotation(this);
-        }
-
-        @Override
-        public List<Annotation> getValidatorAnnotations() {
-            return DomainValidationHelper.getValidatorAnnotations(this);
-        }
-      }
-
-  上記 `SCORE` は `Digitsバリデーション` に引っ掛かたらもう一つ `NumberRangeバリデーション` は行わない。
 
 バリデーション対象のBeanを継承する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
