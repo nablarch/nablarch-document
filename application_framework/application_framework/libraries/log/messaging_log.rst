@@ -92,8 +92,8 @@ log.propertiesの設定例
    :関連メッセージID: $correlationId$
    :応答宛先: $replyTo$
    :有効期間: $timeToLive$
-   :メッセージボディの内容: $messageBody$
-   :メッセージボディのヘキサダンプ: $messageBodyHex$
+   :メッセージボディの内容: $messageBody$ [#0]_
+   :メッセージボディのヘキサダンプ: $messageBodyHex$ [#0]_
    :メッセージボディのバイト長: $messageBodyLength$
 
   デフォルトのフォーマット
@@ -118,8 +118,8 @@ log.propertiesの設定例
    :関連メッセージID: $correlationId$
    :応答宛先: $replyTo$
    :有効期間: $timeToLive$
-   :メッセージボディの内容: $messageBody$
-   :メッセージボディのヘキサダンプ: $messageBodyHex$
+   :メッセージボディの内容: $messageBody$ [#0]_
+   :メッセージボディのヘキサダンプ: $messageBodyHex$ [#0]_
    :メッセージボディのバイト長: $messageBodyLength$
 
   デフォルトのフォーマット
@@ -141,8 +141,8 @@ log.propertiesの設定例
    :メッセージID: $messageId$
    :送信先: $destination$
    :関連メッセージID: $correlationId$
-   :メッセージボディの内容: $messageBody$
-   :メッセージボディのヘキサダンプ: $messageBodyHex$
+   :メッセージボディの内容: $messageBody$ [#0]_
+   :メッセージボディのヘキサダンプ: $messageBodyHex$ [#0]_
    :メッセージボディのバイト長: $messageBodyLength$
    :メッセージのヘッダ: $messageHeader$
 
@@ -165,8 +165,8 @@ log.propertiesの設定例
    :メッセージID: $messageId$
    :送信先: $destination$
    :関連メッセージID: $correlationId$
-   :メッセージボディの内容: $messageBody$
-   :メッセージボディのヘキサダンプ: $messageBodyHex$
+   :メッセージボディの内容: $messageBody$ [#0]_
+   :メッセージボディのヘキサダンプ: $messageBodyHex$ [#0]_
    :メッセージボディのバイト長: $messageBodyLength$
    :メッセージのヘッダ: $messageHeader$
 
@@ -181,9 +181,11 @@ log.propertiesの設定例
         \n\tmessage_header = [$messageHeader$]
         \n\tmessage_body   = [$messageBody$]
 
- プレースホルダの$messageBody$及び$messageBodyHex$
-  $messageBody$は、ISO-8859-1固定で電文を読みこんだ結果を出力する。
-  $messageBodyHex$については、$messageBody$の内容をヘキサダンプして出力する。
+.. [#0]
+  **$messageBody$:**
+    ISO-8859-1固定で電文を読みこんだ結果を出力する。
+  **$messageBodyHex$:**
+    $messageBody$の内容をヘキサダンプして出力する。
 
 記述例
  .. code-block:: properties
