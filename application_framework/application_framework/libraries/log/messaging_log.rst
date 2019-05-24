@@ -181,10 +181,9 @@ log.propertiesの設定例
         \n\tmessage_header = [$messageHeader$]
         \n\tmessage_body   = [$messageBody$]
 
- 各種フォーマットのメッセージボディについて
-  $messageBody$では、ISO-8859-1固定で電文を読みこんだ結果を出力するため、電文のエンコードがISO-8859-1以外の場合、ログが文字化けになる。
-
-  $messageBodyHex$については、上記$messageBody$の内容をヘキサダンプして出力するので、マスキング仕様は$messageBody$と一致する。
+ プレースホルダの$messageBody$及び$messageBodyHex$
+  $messageBody$は、ISO-8859-1固定で電文を読みこんだ結果を出力する。
+  $messageBody$の内容をヘキサダンプして出力する。
 
 記述例
  .. code-block:: properties
