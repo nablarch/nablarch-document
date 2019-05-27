@@ -299,6 +299,20 @@ Nablarchが提供しているバリデータ及びコンバータについては
         </property>
       </component>
 
+ドメインバリデーションに複数のバリデーションルールを設定した場合の挙動
+  ドメインバリデーションにて一つの入力項目に複数のエラーが存在する場合、精査を一つ目のエラーで打ち切る。
+
+  .. code-block:: java
+
+        public enum SampleDomain implements DomainDefinition {
+          @Length(max = 10)
+          @SystemChar(charsetDef = "全角文字")
+          NAME;
+       }
+
+  上記 `NAME` は `Length` バリデーションエラーになったら、 `SystemChar` バリデーションは行わない。
+
+
 バリデーション対象のBeanを継承する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 バリデーション対象のBeanは継承することもできるが、以下の理由により継承は推奨しない。
