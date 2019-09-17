@@ -105,7 +105,7 @@ Java Beansオブジェクトは、component要素を用いて定義する。
   <!-- component要素を使ってJava Beansオブジェクトを設定する -->
   <component name="sample" class="sample.SampleBean" />
 
-  <component name="service" class="sample.SampleService">
+  <component name="component" class="sample.SampleComponent">
     <!--
      property要素を使ってsetterインジェクションを行う
      この例では、sampleという名前でcomponent定義されたオブジェクトがインジェクションされる
@@ -120,6 +120,21 @@ Java Beansオブジェクトは、component要素を用いて定義する。
     <!-- リテラル値をsetterインジェクションする -->
     <property name="limit" value="100" />
   <component/>
+
+
+.. important::
+
+  生成されるインスタンスのライフサイクルはアプリケーションスコープとなる。このため、以下の点に注意すること。
+
+  - インスタンスはシングルトンである。取得の度に生成されるのではない（プロトタイプでない）。
+  - アプリケーションが終了するまでインスタンスは破棄されない。
+  
+  このスコープ理解を誤ると、深刻な不具合を埋め込むこととなるので特に注意が必要である。
+  例えば、スコープをプロトタイプと勘違いした場合、あるリクエストでユーザAの入力値をコンポーネントに設定し、
+  別のユーザBのリクエストでその値を使用してしまう、というような重大な不具合を起こす可能性がある。
+  
+  意図的にアプリケーション全体でコンポーネントの状態を変更、共有する場合は、そのコンポーネントはスレッドセーフでなければならない。
+
 
 .. tip::
 
@@ -136,10 +151,7 @@ Java Beansオブジェクトは、component要素を用いて定義する。
   ネストして定義したcomponentについても、リポジトリ上はグローバル領域に保持されるため、名前を指定してオブジェクトを取得できる。
   オブジェクトの取得方法は、 :ref:`repository-get_object` を参照。
 
-.. tip::
-
-  生成されるインスタンスのライフサイクルはアプリケーションスコープとなる。このため、アプリケーションが終了するまでインスタンスは破棄されない。
-  ※アプリケーションスコープ上のインスタンスの状態は変更しないよう注意すること。
+  
 
 .. tip::
    staticなプロパティ(staticなsetterメソッド)に対するインジェクションは行われない。
@@ -392,10 +404,10 @@ None
 
   .. code-block:: java
 
-    public interface SampleService {
+    public interface SampleComponent {
     }
 
-    public class BasicSampleService implements SampleService {
+    public class BasicSampleComponent implements SampleComponent {
     }
 
 インジェクション対象のオブジェクトを使用するクラスを作成する
@@ -404,33 +416,33 @@ None
 
   .. code-block:: java
 
-    public class SampleController {
-      private SampleService service;
+    public class SampleClient {
+      private SampleComponent component;
 
-      public void setService(SampleService service) {
-        this.service = service;
+      public void setSampleComponent(SampleComponent component) {
+        this.component = component;
       }
     }
 
 コンポーネント設定ファイルにコンポーネントを定義する
-  この例では、 `SampleController` に `service` propertyを定義していないが、`SampleService` を実装したクラスの設定が1つだけなので
-  `service` propertyに自動的に `BasicSampleService` が設定される。
+  この例では、 `SampleClient` に `sampleComponent` propertyを定義していないが、\ `SampleComponent`\ を実装したクラスの設定が1つだけなので、\
+`sampleComponent` propertyには自動的に `BasicSampleComponent` が設定される。
 
   .. code-block:: xml
 
-    <component name="service" class="sample.BasicSampleService" />
+    <component name="sampleComponent" class="sample.BasicSampleComponent" />
 
-    <component name="controller" class="sample.SampleController" />
+    <component name="sampleClient" class="sample.SampleClient" />
 
 
   上記の設定は、以下のように明示的にpropertyを定義した場合と同じ動作となる。
 
   .. code-block:: xml
 
-    <component name="service" class="sample.BasicSampleService" />
+    <component name="sampleComponent" class="sample.BasicSampleComponent" />
 
-    <component name="controller" class="sample.SampleController">
-      <property name="service" ref="service" />
+    <component name="sampleClient" class="sample.SampleClient">
+      <property name="sampleComponent" ref="sampleComponent" />
     </component>
 
 .. _repository-split_xml:
