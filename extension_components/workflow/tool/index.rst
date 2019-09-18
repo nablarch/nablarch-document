@@ -121,3 +121,39 @@ configurationFilePath
     [ERROR] wf1_ワークフロー_ver1_20170101.bpmn
     [ERROR] 	ゲートウェイから伸びるシーケンスフローの場合、フロー進行条件は必須です。[条件]を設定してください。 id = [SequenceFlow_06] name = [確認OK]
     [ERROR] 	サポート対象外の要素です。 id = [T001] name = [確認]
+
+
+Java11で使用する場合の設定
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+本プラグインをJava11で使用するためには、以下の設定を行う必要がある。
+
+.. code-block:: xml
+
+  <plugin>
+    <groupId>com.nablarch.workflow</groupId>
+    <artifactId>nablarch-workflow-tool</artifactId>
+    <version>1.1.0</version>
+    <!-- 中略 -->
+    <dependencies>
+      <dependency>
+        <groupId>com.sun.activation</groupId>
+        <artifactId>javax.activation</artifactId>
+        <version>1.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.xml.bind</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>2.3.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.xml.bind</groupId>
+        <artifactId>jaxb-core</artifactId>
+        <version>2.3.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.xml.bind</groupId>
+        <artifactId>jaxb-impl</artifactId>
+        <version>2.3.0</version>
+      </dependency>
+    </dependencies>
+  </plugin>
