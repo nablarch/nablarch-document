@@ -43,11 +43,11 @@ Nablarchフレームワークのテスト環境
 Nablarchフレームワークは、以下の環境においてテストを実施し、正常に動作することを確認している。
 
 Java
- * Java SE 6/7/8/9/11 [#java11]_
+ * Java SE 6/7/8/11 [#java11]_
 
 データベース
  * Oracle Database 12c/19c
- * IBM Db2 10/10.5/11.5
+ * IBM Db2 10.5/11.5
  * SQL Server 2017
  * PostgreSQL 10.0/11.5
 
@@ -59,7 +59,7 @@ Java
 
 Java EE
  * Hibernate Validator 5.1.3.Final
- * JBeret 1.2/1.3.4.Final
+ * JBeret 1.3.4.Final
 
 MOM（メッセージ指向ミドルウェア）
  * WebSphere MQ 7
