@@ -9,6 +9,7 @@
    setup_blankProject/setup_WebService
    setup_blankProject/setup_Jbatch
    setup_blankProject/setup_NablarchBatch
+   setup_blankProject/setup_Java11
 
 .. toctree::
    :maxdepth: 1

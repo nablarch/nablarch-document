@@ -43,23 +43,23 @@ Nablarchフレームワークのテスト環境
 Nablarchフレームワークは、以下の環境においてテストを実施し、正常に動作することを確認している。
 
 Java
- * Java SE 6/7/8/9
+ * Java SE 6/8/11 [#java11]_
 
 データベース
- * Oracle Database 12c
- * IBM Db2 10
+ * Oracle Database 12c/19c
+ * IBM Db2 10.5/11.5
  * SQL Server 2017
- * PostgreSQL 10
+ * PostgreSQL 10.0/11.5
 
 アプリケーションサーバ
- * Oracle Weblogic Server 12c
- * WebSphere Application Server 7
- * JBoss Application Server 7
- * Apache Tomcat 6/7
+ * Oracle Weblogic Server 12.2.1.3
+ * WebSphere Application Server 9.0.5
+ * WildFly 17.0.1
+ * Apache Tomcat 9.0.24
 
 Java EE
  * Hibernate Validator 5.1.3.Final
- * JBeret 1.2
+ * JBeret 1.3.4.Final
 
 MOM（メッセージ指向ミドルウェア）
  * WebSphere MQ 7
@@ -101,3 +101,5 @@ Java
 
 MOM（メッセージ指向ミドルウェア）
  * WebSphere MQ 7
+
+.. [#java11] Java11で使用する場合、別途設定変更が必要となる。設定方法は :doc:`../blank_project/setup_blankProject/setup_Java11` を参照。
