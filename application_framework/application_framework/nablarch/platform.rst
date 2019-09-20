@@ -52,10 +52,10 @@ Java
  * PostgreSQL 10.0/11.5
 
 アプリケーションサーバ
- * Oracle Weblogic Server 12c
- * WebSphere Application Server 7
- * JBoss Application Server 7
- * Apache Tomcat 6/7
+ * Oracle Weblogic Server 12.2.1.3
+ * WebSphere Application Server 9.0.5
+ * WildFly 17.0.1
+ * Apache Tomcat 9.0.24
 
 Java EE
  * Hibernate Validator 5.1.3.Final
