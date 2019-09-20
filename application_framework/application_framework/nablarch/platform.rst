@@ -46,10 +46,10 @@ Java
  * Java SE 6/7/8/9/11 [#java11]_
 
 データベース
- * Oracle Database 12c
- * IBM Db2 10
+ * Oracle Database 12c/19c
+ * IBM Db2 10/10.5/11.5
  * SQL Server 2017
- * PostgreSQL 10
+ * PostgreSQL 10.0/11.5
 
 アプリケーションサーバ
  * Oracle Weblogic Server 12c
@@ -59,7 +59,7 @@ Java
 
 Java EE
  * Hibernate Validator 5.1.3.Final
- * JBeret 1.2
+ * JBeret 1.2/1.3.4.Final
 
 MOM（メッセージ指向ミドルウェア）
  * WebSphere MQ 7
