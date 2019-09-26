@@ -140,6 +140,7 @@ Java11で使用する場合の設定
     <version>1.1.0</version>
     <!-- 中略 -->
     <dependencies>
+      <!-- 以下を追加する。 -->
       <dependency>
         <groupId>com.sun.activation</groupId>
         <artifactId>javax.activation</artifactId>
