@@ -17,7 +17,7 @@ Nablarch SQL ExecutorはNablarch特殊構文を含むSQLファイルを
 * Nablarchの開発環境が設定済みであること。
 * Maven Central RepositoryにJDBCドライバが存在しないRDBMSを使用する場合は、Project Local RepositoryまたはLocal RepositoryにJDBCドライバを登録済みであること。
   登録方法は、:ref:`customizeDBAddFileMavenRepo` を参照。
- 
+
 制約
 --------
 本ツールには以下の制約がある。
@@ -280,6 +280,39 @@ dataSourceコンポーネントのdriverClassNameプロパティに、ドライ�
   * 初回起動時等、起動に時間がかかる場合、ブラウザがタイムアウトすることがある。
     この場合は、起動完了後にブラウザをリロードする。
   * 本ツールは、Internet Explorerでは、正常に動作しない。Internet Explorerが起動した場合は、URLをコピーし、FirefoxまたはChromeのアドレス欄に貼り付けること。
+
+
+配布方法
+--------
+本ツールを起動することで、target\sql-executor-1.1.0-distribution.zipが作成される。
+本ファイルを配布することで、Git, mavenの環境なしでツールを実行することができる。
+
+
+配布されたファイルの起動方法
+-----------------------------------
+sql-executor-1.1.0-distribution.zipを解凍する。
+
+
+**Unix系の場合**
+
+以下のコマンドを実行する。
+
+.. code-block:: text
+
+  sql-executor-1.1.0-distribution/sql-executor-1.1.0/sql-executor.jar -diConfig classpath:config.xml -requestPath nse -userId testUser -g
+
+
+その後、ブラウザを起動して、 http://localhost:7979/index.html を表示する。
+
+**Windowsの場合**
+
+sql-executor-1.1.0-distribution/sql-executor-1.1.0にあるバッチファイルを実行する。
+ファイルをダブルクリックするか、コマンドプロンプトから起動する。
+
+.. code-block:: bat
+
+  sql-executor.bat
+
 
 
 操作方法
