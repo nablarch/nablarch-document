@@ -8,11 +8,11 @@ Nablarch SQL Executor
 概要
 -------
 
-Nablarch SQL ExecutorはNablarch特殊構文を含むSQLファイルを
-対話的に実行するツールである。
+Nablarch SQL ExecutorはNablarch特殊構文を含むSQLファイルを対話的に実行するツールである。
+PJにおいて設計者がSQL設計を行う際などに使用する。
 
-PJにおいて設計者が設計を行う際などに使用する。
-一人が設定を行い配布することで、他の使用者はGit, Mavenの環境構築なしでSQL Executorを使用することができる。
+PJの環境構築担当者が設定を行い、本ツールをビルドする。
+ビルド済みのツールを配布することで、他の使用者はGit, Mavenの環境構築なしでSQL Executorを使用することができる。
 
 制約
 ^^^^
@@ -52,6 +52,7 @@ PJにおいて設計者が設計を行う際などに使用する。
 
 https://github.com/nablarch/sql-executor (外部サイト)
 
+.. _label:
 
 DB設定変更
 ^^^^^^^^^^
@@ -261,8 +262,6 @@ dataSourceコンポーネントのdriverClassNameプロパティに、ドライ�
 起動確認
 ^^^^^^^^
 
-**Unix系の場合**
-
 以下のコマンドを実行する。
 
 .. code-block:: text
@@ -271,19 +270,6 @@ dataSourceコンポーネントのdriverClassNameプロパティに、ドライ�
 
 
 その後、ブラウザを起動して、 http://localhost:7979/index.html を表示する。
-
-
-**Windowsの場合**
-
-ディレクトリ直下にあるバッチファイルを実行する。
-ファイルをダブルクリックするか、コマンドプロンプトから起動する。
-
-.. code-block:: bat
-
-  nse-web.bat
-
-
-コマンドを実行すると、自動的にブラウザが起動する。
 
 .. tip::
 
@@ -301,7 +287,7 @@ dataSourceコンポーネントのdriverClassNameプロパティに、ドライ�
   mvn package
 
 
-target直下に作成されたsql-executor-distribution.zipを配布することで、Git, mavenの環境なしでツールを使用できる。
+target直下に作成されたsql-executor-distribution.zipを配布することで、Git, Mavenの環境なしでツールを使用できる。
 
 配布されたツールの使用方法
 ---------------------------
@@ -310,6 +296,7 @@ target直下に作成されたsql-executor-distribution.zipを配布すること
 前提条件を以下に示す。
 
 - PJで使用されるバージョンのJavaがインストール済みであること。
+- :ref:`label` で設定したDBに接続可能であること。
 
 配布されたファイルの起動
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
