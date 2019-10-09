@@ -8,8 +8,20 @@ Nablarch SQL Executor
 Nablarch SQL ExecutorはNablarch特殊構文を含むSQLファイルを
 対話的に実行するツールである。
 
+使用方法
+-------------------
+
+PJにおいて設計者が設計を行う際、にNablarch特殊構文を含むSQLファイルを対話的に実行するために使用する。
+一人が本ツールの設定を行い配布することで、他のツール使用者はGit, Mavenの環境構築なしで
+本ツールを使用することができる。
+
+
+配布方法
+-------------------------
+
+
 前提条件
---------
+^^^^^^^^
 
 前提条件を以下に示す。
 
@@ -19,7 +31,7 @@ Nablarch SQL ExecutorはNablarch特殊構文を含むSQLファイルを
   登録方法は、:ref:`customizeDBAddFileMavenRepo` を参照。
 
 制約
---------
+^^^^^^^^
 本ツールには以下の制約がある。
 このため、これらのSQLを実行したい場合には、本ツールではなく使用するデータベース付属のSQL実行環境などを用いること。
 
@@ -36,7 +48,7 @@ Nablarch SQL ExecutorはNablarch特殊構文を含むSQLファイルを
   このため、Domaの使用を検討することを推奨する。
 
 インストール方法
-----------------
+^^^^^^^^^^^^^^^^
 
 以下のサイトで公開されているリポジトリをcloneする。
 
@@ -44,7 +56,7 @@ https://github.com/nablarch/sql-executor (外部サイト)
 
 
 DB設定変更
-----------
+^^^^^^^^^^
 
 使用するRDBMSに応じて設定変更を行う。
 
@@ -249,7 +261,7 @@ dataSourceコンポーネントのdriverClassNameプロパティに、ドライ�
 
 
 起動方法
---------
+^^^^^^^^
 
 **Unix系の場合**
 
@@ -283,35 +295,25 @@ dataSourceコンポーネントのdriverClassNameプロパティに、ドライ�
 
 
 配布方法
---------
-以下のコマンドを実行することで、target直下にsql-executor-distribution.zipが作成される。
+^^^^^^^^
+以下のコマンドを実行する。
 
 .. code-block:: text
 
   mvn package
 
 
-本ファイルを配布することで、Git, mavenの環境なしでツールを実行することができる。
+target直下に作成されたsql-executor-distribution.zipを配布することで、Git, mavenの環境なしでツールを実行できる。
+
+配布されたツールの使用方法
+---------------------------
+
 
 配布されたファイルの起動方法
------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 sql-executor-distribution.zipを解凍する。
 
-
-**Unix系の場合**
-
-以下のコマンドを実行する。
-
-.. code-block:: text
-
-  java -jar sql-executor-distribution/sql-executor/sql-executor.jar -diConfig classpath:config.xml -requestPath nse -userId testUser -g
-
-
-その後、ブラウザを起動して、 http://localhost:7979/index.html を表示する。
-
-**Windowsの場合**
-
-sql-executor-distribution/sql-executor直下にsql-executor.batを実行する。
+sql-executor-distribution/sql-executor直下のsql-executor.batを実行する。
 ファイルをダブルクリックするか、コマンドプロンプトから起動する。
 
 .. code-block:: bat
@@ -366,7 +368,7 @@ sql-executor-distribution/sql-executor直下にsql-executor.batを実行する�
    SQL実行結果(DML)
 
 関連ファイル
-------------
+^^^^^^^^^^^^
 
 実行時に、以下のログファイルが出力される。
 
@@ -374,7 +376,7 @@ sql-executor-distribution/sql-executor直下にsql-executor.batを実行する�
 * app.log → 全実行ログ
 
 FAQ
----
+^^^
 
 **Q1** :日付型(DATE/DATETIME/TIMESTAMP)フィールドへの値の設定はどのようにすればよいか？
 
@@ -392,7 +394,7 @@ FAQ
 
 また、キーワード ``SYSDATE`` を指定することで、現在時刻が設定される。
 
---------------
+^^^^^^^^^^^^^^
 
 **Q2** :実行しても何も出力されずに異常終了してしまう場合、どう対処すればよいか？
 
