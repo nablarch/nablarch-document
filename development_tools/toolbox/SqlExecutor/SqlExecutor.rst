@@ -284,13 +284,18 @@ dataSourceコンポーネントのdriverClassNameプロパティに、ドライ�
 
 配布方法
 --------
-本ツールを起動することで、target\sql-executor-1.1.0-distribution.zipが作成される。
-本ファイルを配布することで、Git, mavenの環境なしでツールを実行することができる。
+以下のコマンドを実行することで、target直下にsql-executor-distribution.zipが作成される。
 
+.. code-block:: text
+
+  mvn package
+
+
+本ファイルを配布することで、Git, mavenの環境なしでツールを実行することができる。
 
 配布されたファイルの起動方法
 -----------------------------------
-sql-executor-1.1.0-distribution.zipを解凍する。
+sql-executor-distribution.zipを解凍する。
 
 
 **Unix系の場合**
@@ -299,14 +304,14 @@ sql-executor-1.1.0-distribution.zipを解凍する。
 
 .. code-block:: text
 
-  sql-executor-1.1.0-distribution/sql-executor-1.1.0/sql-executor.jar -diConfig classpath:config.xml -requestPath nse -userId testUser -g
+  java -jar sql-executor-distribution/sql-executor/sql-executor.jar -diConfig classpath:config.xml -requestPath nse -userId testUser -g
 
 
 その後、ブラウザを起動して、 http://localhost:7979/index.html を表示する。
 
 **Windowsの場合**
 
-sql-executor-1.1.0-distribution/sql-executor-1.1.0にあるバッチファイルを実行する。
+sql-executor-distribution/sql-executor直下にsql-executor.batを実行する。
 ファイルをダブルクリックするか、コマンドプロンプトから起動する。
 
 .. code-block:: bat
