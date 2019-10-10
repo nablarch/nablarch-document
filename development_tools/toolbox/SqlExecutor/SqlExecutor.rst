@@ -5,21 +5,18 @@ Nablarch SQL Executor
   :depth: 2
   :local:
 
-Nablarch SQL ExecutorはNablarch特殊構文を含むSQLファイルを
-対話的に実行するツールである。
+概要
+-------
 
-前提条件
---------
+Nablarch SQL ExecutorはNablarch特殊構文を含むSQLファイルを対話的に実行するツールである。
+PJにおいて設計者がSQL設計を行う際などに使用する。
 
-前提条件を以下に示す。
+PJの環境構築担当者が設定を行い、本ツールをビルドする。
+ビルド済みのツールを配布することで、他の使用者はGit, Mavenの環境構築なしでSQL Executorを使用することができる。
 
-* FirefoxまたはChromeがインストール済みであること。
-* Nablarchの開発環境が設定済みであること。
-* Maven Central RepositoryにJDBCドライバが存在しないRDBMSを使用する場合は、Project Local RepositoryまたはLocal RepositoryにJDBCドライバを登録済みであること。
-  登録方法は、:ref:`customizeDBAddFileMavenRepo` を参照。
- 
 制約
---------
+^^^^
+
 本ツールには以下の制約がある。
 このため、これらのSQLを実行したい場合には、本ツールではなく使用するデータベース付属のSQL実行環境などを用いること。
 
@@ -29,22 +26,36 @@ Nablarch SQL ExecutorはNablarch特殊構文を含むSQLファイルを
 .. tip::
 
   Nablarchでは2-way SQLとしてSQLを記述できる `Doma(外部サイト) <http://doma.readthedocs.io/ja/stable/>`_ 用の :ref:`アダプタ <doma_adaptor>` を提供している。
-  
+
   Domaを使用した場合、本ツールのような複雑なツールのセットアップを行わなくても、本番環境用に定義したSQLを簡単にテスト実行出来る。
   (動的な条件を構築するような場合でも、SQLを書き換えることなく実行できる)
-  
+
   このため、Domaの使用を検討することを推奨する。
 
-インストール方法
-----------------
+配布方法
+-------------------------
+
+前提条件
+^^^^^^^^
+
+前提条件を以下に示す。
+
+* FirefoxまたはChromeがインストール済みであること。
+* Nablarchの開発環境が設定済みであること。
+* Maven Central RepositoryにJDBCドライバが存在しないRDBMSを使用する場合は、Project Local RepositoryまたはLocal RepositoryにJDBCドライバを登録済みであること。
+  登録方法は、:ref:`customizeDBAddFileMavenRepo` を参照。
+
+ソースコード取得
+^^^^^^^^^^^^^^^^
 
 以下のサイトで公開されているリポジトリをcloneする。
 
 https://github.com/nablarch/sql-executor (外部サイト)
 
+.. _db-settings:
 
 DB設定変更
-----------
+^^^^^^^^^^
 
 使用するRDBMSに応じて設定変更を行う。
 
@@ -248,10 +259,8 @@ dataSourceコンポーネントのdriverClassNameプロパティに、ドライ�
      - nablarch.core.db.dialect.SqlServerDialect
 
 
-起動方法
---------
-
-**Unix系の場合**
+起動確認
+^^^^^^^^
 
 以下のコマンドを実行する。
 
@@ -262,19 +271,6 @@ dataSourceコンポーネントのdriverClassNameプロパティに、ドライ�
 
 その後、ブラウザを起動して、 http://localhost:7979/index.html を表示する。
 
-
-**Windowsの場合**
-
-ディレクトリ直下にあるバッチファイルを実行する。
-ファイルをダブルクリックするか、コマンドプロンプトから起動する。
-
-.. code-block:: bat
-
-  nse-web.bat
-
-
-コマンドを実行すると、自動的にブラウザが起動する。
-
 .. tip::
 
   * 初回起動時等、起動に時間がかかる場合、ブラウザがタイムアウトすることがある。
@@ -282,11 +278,44 @@ dataSourceコンポーネントのdriverClassNameプロパティに、ドライ�
   * 本ツールは、Internet Explorerでは、正常に動作しない。Internet Explorerが起動した場合は、URLをコピーし、FirefoxまたはChromeのアドレス欄に貼り付けること。
 
 
+配布ファイル作成
+^^^^^^^^^^^^^^^^
+以下のコマンドを実行する。
+
+.. code-block:: text
+
+  mvn package
+
+
+target直下に作成されたsql-executor-distribution.zipを配布することで、Git, Mavenの環境なしでツールを使用できる。
+
+配布されたツールの使用方法
+---------------------------
+前提条件
+^^^^^^^^^
+前提条件を以下に示す。
+
+- PJで使用されるバージョンのJavaがインストール済みであること。
+- :ref:`db-settings` で設定したDBに接続可能であること。
+
+配布されたファイルの起動
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sql-executor-distribution.zipを解凍する。
+
+sql-executor-distribution/sql-executor直下のsql-executor.batを実行する。
+ファイルをダブルクリックするか、コマンドプロンプトから起動する。
+
+.. code-block:: bat
+
+  sql-executor.bat
+
+
+
 操作方法
 --------
 
-初回起動時では、カレントディレクトリ配下のSQLファイルの一覧を表示するが、
-存在しない場合は、以下のような画面が表示される。
+初回起動時はカレントディレクトリ配下のSQLファイルの一覧を表示するが、
+存在しない場合は以下のような画面が表示される。
 
 .. figure:: ./_images/initial_screen.png
    :alt: 初期画面
@@ -327,14 +356,6 @@ dataSourceコンポーネントのdriverClassNameプロパティに、ドライ�
 
    SQL実行結果(DML)
 
-関連ファイル
-------------
-
-実行時に、以下のログファイルが出力される。
-
-* sql.log → SQL文の実行時ログ
-* app.log → 全実行ログ
-
 FAQ
 ---
 
@@ -354,11 +375,21 @@ FAQ
 
 また、キーワード ``SYSDATE`` を指定することで、現在時刻が設定される。
 
---------------
 
-**Q2** :実行しても何も出力されずに異常終了してしまう場合、どう対処すればよいか？
+^^^^^^^^^^^^^^
 
-**A2** :起動時のDBコネクションエラーなどの一部のエラーは
+**Q2** :実行時のログを見たいが、どのようにすればログを確認できるか？
+
+**A2** :実行時に、以下のログファイルが出力される。
+
+        * sql.log → SQL文の実行時ログ
+        * app.log → 全実行ログ
+
+^^^^^^^^^^^^^^
+
+**Q3** :実行しても何も出力されずに異常終了してしまう場合、どう対処すればよいか？
+
+**A3** :起動時のDBコネクションエラーなどの一部のエラーは
 標準エラー出力ではなく、実行ログファイルに出力される。
 実行ログは、カレントディレクトリ直下に ``app.log`` という名前で
 出力されるので、その内容を確認して対処する。
