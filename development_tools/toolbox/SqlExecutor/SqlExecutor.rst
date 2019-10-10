@@ -52,7 +52,7 @@ PJの環境構築担当者が設定を行い、本ツールをビルドする。
 
 https://github.com/nablarch/sql-executor (外部サイト)
 
-.. _label:
+.. _db-settings:
 
 DB設定変更
 ^^^^^^^^^^
@@ -296,7 +296,7 @@ target直下に作成されたsql-executor-distribution.zipを配布すること
 前提条件を以下に示す。
 
 - PJで使用されるバージョンのJavaがインストール済みであること。
-- :ref:`label` で設定したDBに接続可能であること。
+- :ref:`db-settings` で設定したDBに接続可能であること。
 
 配布されたファイルの起動
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
