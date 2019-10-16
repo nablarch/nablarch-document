@@ -426,8 +426,8 @@ None
     }
 
 コンポーネント設定ファイルにコンポーネントを定義する
-  この例では、 `SampleClient` に `sampleComponent` propertyを定義していないが、\ `SampleComponent`\ を実装したクラスの設定が1つだけなので、\
-`sampleComponent` propertyには自動的に `BasicSampleComponent` が設定される。
+  この例では、 `SampleClient` に `sampleComponent` propertyを定義していないが、\ `SampleComponent`\ を実装したクラスの設定が1つだけなので、
+  `sampleComponent` propertyには自動的に `BasicSampleComponent` が設定される。
 
   .. code-block:: xml
 
