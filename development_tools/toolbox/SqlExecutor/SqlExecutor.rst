@@ -430,13 +430,13 @@ sql-executor-distribution/sql-executor直下のsql-executor.batを実行する�
 SQLExecutor特有の記法
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-本ツールを使用する上で、配列を記述する際は ``[]`` で囲む必要がある。また、複数項目を入力する場合は ``,`` で区切る必要がある。
+本ツールにおいてIN句を実行するためには、条件を ``[]`` で囲む必要がある。また、複数項目を入力する場合は ``,`` で区切る必要がある。
 下記に例を示す。
 
 .. figure:: ./_images/in-success.png
-   :alt: 配列を[]で囲んでいる画像
+   :alt: IN句の条件を[]で囲んでいる画像
 
-配列が予想されている項目において ``[]`` が付与されていない場合、以下のエラーが出力される。
+IN句の条件の項目に ``[]`` が付与されていない場合、以下のエラーが出力される。
 ``java.lang.IllegalArgumentException: object type in field is invalid. valid object type is Collection or Array.``
 
 .. figure:: ./_images/in-fail.png
