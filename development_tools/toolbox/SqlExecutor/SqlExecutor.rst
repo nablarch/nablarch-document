@@ -11,8 +11,52 @@ Nablarch SQL Executor
 Nablarch SQL ExecutorはNablarch特殊構文を含むSQLファイルを対話的に実行するツールである。
 PJにおいて設計者がSQL設計を行う際などに使用する。
 
-PJの環境構築担当者が設定を行い、本ツールをビルドする。
-ビルド済みのツールを配布することで、他の使用者はGit, Mavenの環境構築なしでSQL Executorを使用することができる。
+本ツールはPJで使用するDBの設定を行い、ビルドして使う必要がある。
+
+想定使用方法
+--------------
+
+本ツールの想定使用方法
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+本ツールを使用するためには、DBの設定を行い、Mavenでビルドする必要がある。
+ビルド済みのツールは配布可能であるため、本作業を行うのはPJ内の1人でよい。
+
+
+本ツールは以下のような使用方法を想定している。
+
+* PJの環境構築担当者がSQL Executorをビルドして配布する。
+* 配布したファイルは設計者が使用する。
+
+ビルド済みのツールはavaとDBへの接続環境があれば使用可能である。
+
+
+.. figure:: ./_images/sql-executor-1.png
+   :alt: 配布イメージ
+
+   [1]_
+
+DB接続方法の選択
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+本ツールは、DBの接続において以下の2つの方法をとることができる。
+
+* ツール使用者全員がPJ共通のDBに接続する方法
+* ツール使用者それぞれがローカルのDBに接続する方法
+
+本ツールを使用する際、PJ共通のDBを使用できる。
+
+
+.. figure:: ./_images/sql-executor-db-same.png
+   :alt: 各ユーザが同じDBに接続するイメージ
+
+   [1]_
+
+ツール使用者がそれぞれがローカルのDBを使用することもできる。
+
+.. figure:: ./_images/sql-executor-db-separate.png
+   :alt: 各ユーザが別々のDBに接続するイメージ
+
+   [1]_
+
 
 制約
 ^^^^
@@ -310,6 +354,28 @@ sql-executor-distribution/sql-executor直下のsql-executor.batを実行する�
   sql-executor.bat
 
 
+配布時に設定済みのDB以外に接続したい場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``sql-executor.bat`` を編集する。設定項目は以下の通り。
+
+.. csv-table:: 設定項目
+
+  "db.url", "データベースURL"
+  "db.user", "接続ユーザ"
+  "db.password", "パスワード"
+
+例として ``db.url=jdbc:h2:./h2/db/SAMPLE`` , ``db.user=SAMPLE``, ``db.password=SAMPLE`` へ接続する場合の編集方法を以下に示す。
+
+.. code-block:: bat
+  :emphasize-lines: 3
+
+  cd /d %~dp0
+
+  start java -Ddb.url=jdbc:h2:./h2/db/SAMPLE -Ddb.user=SAMPLE -Ddb.password=SAMPLE -jar sql-executor.jar （以降略）
+  cmd /c start http://localhost:7979/index.html
+
+実行しても何も出力されずに異常終了する場合は、 :ref:`faq` のQ3を参照。
+
 
 操作方法
 --------
@@ -356,6 +422,8 @@ sql-executor-distribution/sql-executor直下のsql-executor.batを実行する�
 
    SQL実行結果(DML)
 
+.. _faq:
+
 FAQ
 ---
 
@@ -393,6 +461,8 @@ FAQ
 標準エラー出力ではなく、実行ログファイルに出力される。
 実行ログは、カレントディレクトリ直下に ``app.log`` という名前で
 出力されるので、その内容を確認して対処する。
+
+.. [1] Future Architect, Inc. Japan ( `クリエイティブ・コモンズ・ライセンス（表示4.0 国際） <https://creativecommons.org/licenses/by/4.0/>`_ ） を改変して作成
 
 .. |br| raw:: html
 
