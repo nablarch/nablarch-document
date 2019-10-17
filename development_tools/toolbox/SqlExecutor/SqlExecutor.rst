@@ -64,7 +64,6 @@ DB接続方法の選択
 本ツールには以下の制約がある。
 このため、これらのSQLを実行したい場合には、本ツールではなく使用するデータベース付属のSQL実行環境などを用いること。
 
-* IN句に対して条件を設定することが出来ない
 * WITH句で始まるSQLを実行することが出来ない
 
 .. tip::
@@ -383,6 +382,9 @@ sql-executor-distribution/sql-executor直下のsql-executor.batを実行する�
 操作方法
 --------
 
+基本的な操作方法
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 初回起動時はカレントディレクトリ配下のSQLファイルの一覧を表示するが、
 存在しない場合は以下のような画面が表示される。
 
@@ -424,6 +426,21 @@ sql-executor-distribution/sql-executor直下のsql-executor.batを実行する�
    :alt: SQL実行結果(DML)
 
    SQL実行結果(DML)
+
+SQLExecutor特有の記法
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+本ツールを使用する上で、配列を記述する際は ``[]`` で囲む必要がある。また、複数項目を入力する場合は ``,`` で区切る必要がある。
+下記に例を示す。
+
+.. figure:: ./_images/in-success.png
+   :alt: 配列を[]で囲んでいる画像
+
+配列が予想されている項目において ``[]`` が付与されていない場合、以下のエラーが出力される。
+``java.lang.IllegalArgumentException: object type in field is invalid. valid object type is Collection or Array.``
+
+.. figure:: ./_images/in-fail.png
+   :alt: IllegalArgumentExceptionが出力されている画像
 
 .. _faq:
 
