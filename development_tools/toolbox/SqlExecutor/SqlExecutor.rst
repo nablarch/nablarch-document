@@ -429,7 +429,7 @@ sql-executor-distribution/sql-executor直下のsql-executor.batを実行する�
 
    SQL実行結果(DML)
 
-SQLExecutorでの記法
+SQLExecutor特有の記法
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ~~~~~~~~~~~~~~~~~~
 文字列の記述
