@@ -133,15 +133,18 @@ Captcha認証時に使用する情報を保持するためのプロパティお�
   .. code-block:: java
 
     @ValidateFor("yyyy")
+
     public static void validateForXxx(ValidationContext<LoginForm> context) {
 
         // 単項目精査
-        ValidationUtil.validate(context, new String[] { …中略…, "captchaKey", "captchaValue" });
+
+        ValidationUtil.validate(context, new String[] { /* …中略… */, "captchaKey", "captchaValue" });
         if (!context.isValid()) {
             return;
         }
         
         // Captcha文字列判定
+
         XxxForm form = context.createObject();
         if (!CaptchaUtil.authenticate(form.getCaptchaKey(), form.getCaptchaValue())) {
             context.addResultMessage("captchaValue", "MSG90001");
@@ -153,19 +156,24 @@ jspの編集
 
 Captcha認証機能を組み込む画面に対応するJSPに下記のコードを追加します。
 
-  .. code-block:: xml
+  .. code-block:: jsp
 
-    <n:form …省略…>
-    
-    // 中略
-    
-    // Captcha認証用画像を取得するためのタグを追加
-    <n:img src="/action/path/to/hoge?captchaKey=${form.captchaKey}" alt=""/>
+    <%-- n:formの属性値は省略 --%>
 
-    // Captcha認証時に必要な情報を送信するためのタグを追加
-    <n:plainHidden name="form.captchaKey"></n:plainHidden>
-    <n:text name="form.captchaValue" />
+    <n:form>
 
-    // 中略
+      <%-- 中略 --%>
+
+      <%-- Captcha認証用画像を取得するためのタグを追加 --%>
+
+      <n:img src="/action/path/to/hoge?captchaKey=${form.captchaKey}" alt=""/>
+
+      <%-- Captcha認証時に必要な情報を送信するためのタグを追加 --%>
+
+      <n:plainHidden name="form.captchaKey"></n:plainHidden>
+      <n:text name="form.captchaValue" />
+
+      <%-- 中略 --%>
+
     </n:form>
 
