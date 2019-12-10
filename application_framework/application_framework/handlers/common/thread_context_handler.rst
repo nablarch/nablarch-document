@@ -157,18 +157,23 @@
   </component>
 
 JSPの実装例
- .. code-block:: jsp
+  .. code-block:: jsp
 
-  <%-- n:submitLinkタグを使用しリンクを出力し、
-       n:paramタグを使用しリンク毎に別々の言語を送信する。 --%>
-  <n:submitLink uri="/action/menu/index" name="switchToEnglish">
-    英語
-    <n:param paramName="user.language" value="en" />
-  </n:submitLink>
-  <n:submitLink uri="/action/menu/index" name="switchToJapanese">
-    日本語
-    <n:param paramName="user.language" value="ja" />
-  </n:submitLink>
+    <%-- n:submitLinkタグを使用しリンクを出力し
+      n:paramタグを使用しリンク毎に別々の言語を送信する --%>
+
+    <n:submitLink uri="/action/menu/index" name="switchToEnglish">
+
+      英語
+
+      <n:param paramName="user.language" value="en" />
+    </n:submitLink>
+    <n:submitLink uri="/action/menu/index" name="switchToJapanese">
+
+      日本語
+
+      <n:param paramName="user.language" value="ja" />
+    </n:submitLink>
 
 ハンドラの実装例
  .. code-block:: java
@@ -227,14 +232,19 @@ JSPの実装例
 JSPの実装例
  .. code-block:: jsp
 
-  <%-- n:submitLinkタグを使用しリンクを出力し、
-       n:paramタグを使用しリンク毎に別々のタイムゾーンを送信する。 --%>
+  <%-- n:submitLinkタグを使用しリンクを出力し
+    n:paramタグを使用しリンク毎に別々のタイムゾーンを送信する --%>
+
   <n:submitLink uri="/action/menu/index" name="switchToNewYork">
+
     ニューヨーク
+
     <n:param paramName="user.timeZone" value="America/New_York" />
   </n:submitLink>
   <n:submitLink uri="/action/menu/index" name="switchToTokyo">
+
     東京
+
     <n:param paramName="user.timeZone" value="Asia/Tokyo" />
   </n:submitLink>
 
