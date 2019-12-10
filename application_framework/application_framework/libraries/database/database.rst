@@ -668,7 +668,7 @@ like検索時のエスケープ文字及びエスケープ対象文字を定義�
 SQL
   このSQLの場合、 ``user_name`` と ``user_kbn`` の条件が可変となる。
 
-  .. code-block:: sql
+  .. code-block:: none
 
     select
       user_id,
@@ -728,7 +728,7 @@ SQL
   このSQLでは、 ``user_kbn`` のin条件が動的に構築される。
   なお、 ``$if`` と併用しているため、 `userKbn` プロパティがnullやサイズが0の場合には条件から除外される。
 
-  .. code-block:: sql
+  .. code-block:: none
 
     select
       user_id,
@@ -800,7 +800,7 @@ order by句の記述ルール
 以下に使用例を示す。
 
 SQL
-  .. code-block:: sql
+  .. code-block:: none
 
     select
       user_id,
@@ -815,6 +815,7 @@ SQL
       (name_asc     user_name asc)
       (name_desc    user_name desc)
       (default      user_id)
+    }
 
 実装例
   この例では、ソートIDに ``name_asc`` を設定しているので、
