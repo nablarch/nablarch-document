@@ -226,7 +226,7 @@
   
   @fieldGridSpanと@tableGridSpanも業務コンテンツ部の幅に合わせて変更する
 
-.. code-block:: css
+.. code-block:: none
 
   @columns      : 64;         // 1ページ内のグリッド数
   @trackWidth   : 13px;       // 1グリッドのグリッド幅
@@ -255,9 +255,10 @@
 * サイドバーの幅を変更する場合には、\ *#aside*\ 部の.grid-colに指定している値を変更する
 * メニューを使用しない画面でサイドバー部のマージン調整を行う場合には、\ *#aside.noMenu*\ 部の.grid-colに指定している値を変更する
 
-.. code-block:: css
+.. code-block:: none
 
   #aside {
+
     .grid-col(16);
     min-height: 350px;
     padding-top: 15px;
@@ -330,7 +331,9 @@
 .. code-block:: jsp
 
   <n:form windowScopePrefixes="user">
-    <%-- タイトル部、入力部の幅定義 --%>
+
+    <%-- タイトル部 入力部の幅定義 --%>
+
     <n:set var="titleSize" value="10" />
     <n:set var="inputSize" value="10" />
 
@@ -338,9 +341,11 @@
       <tab:content title="ユーザ情報" value="userInfo" selected="true">
 
         <%-- 行を配置する(1行目) --%>
+
         <layout:row>
 
-          <%-- 入力部品は、タイトル部と入力部の幅を指定して配置する --%>
+          <%-- 入力部品は タイトル部と入力部の幅を指定して配置する --%>
+
           <field:text
               title="郵便番号"
               required="true"
@@ -350,20 +355,23 @@
           </field:text>
 
           <%--
-          入力部品とボタンの間のマージン
+            入力部品とボタンの間のマージン
 
-          マージンは、要素のない列(layout:cell)を使用することで、
-          好きな位置に挿入することができる。
+            マージンは要素のない列(layout:cell)を使用することで
+            好きな位置に挿入することができる
           --%>
+
           <layout:cell gridSize="10"></layout:cell>
 
           <%-- ボタンは幅指定をして配置する --%>
+
           <n:forInputPage>
             <button:submit label="住所検索" uri="dummy" size="10"></button:submit>
           </n:forInputPage>
         </layout:row>
 
         <%-- 行を配置する(2行目) --%>
+
         <layout:row>
           <field:pulldown
               title="都道府県"
@@ -390,9 +398,12 @@
     </tab:group>
 
     <%-- 行を配置する(3行目) --%>
+
     <layout:row>
       <n:forInputPage>
+
         <%-- ボタンの表示位置調整のためのマージン --%>
+
         <layout:cell gridSize="17"></layout:cell>
         <button:check
             size="10"
@@ -400,14 +411,19 @@
         </button:check>
       </n:forInputPage>
       <n:forConfirmationPage>
+
         <%-- ボタンの表示位置調整のためのマージン --%>
+
         <layout:cell gridSize="10"></layout:cell>
         <button:back uri="./登録画面.jsp" size="10"></button:back>
+
         <%-- ボタンの表示位置調整のためのマージン --%>
+
         <layout:cell gridSize="5"></layout:cell>
         <button:confirm uri="dummy" size="10"></button:confirm>
       </n:forConfirmationPage>
     </layout:row>
+
   </n:form>
 
 列によって異なる行数を定義する場合
@@ -433,21 +449,26 @@
 .. code-block:: jsp
 
   <%-- 行定義 --%>
+
   <layout:row>
 
     <%--
-    ネストした行を配置するための列を定義する
-    列には明示的に幅(gridSize)を指定する。
+      ネストした行を配置するための列を定義する
+      列には明示的に幅(gridSize)を指定する
     --%>
+
     <layout:cell gridSize="20">
 
       <%-- ネストした行の定義(1行目) --%>
+
       <layout:row>
+
         <%--
-        入力欄の配置
-        
-        入力欄の幅の合計は、列(layout:cell)に定義した幅(gridSize)を超えてはならない
+          入力欄の配置
+          
+          入力欄の幅の合計は列(layout:cell)に定義した幅(gridSize)を超えてはならない
         --%>
+
         <field:text
             title="漢字氏名"
             name="user.kanjiName"
@@ -458,12 +479,15 @@
       </layout:row>
 
       <%-- ネストした行の定義(2行目) --%>
+
       <layout:row>
+
         <%--
-        入力欄の配置
-        
-        入力欄の幅の合計は、列(layout:cell)に定義した幅(gridSize)を超えてはならない
+          入力欄の配置
+          
+          入力欄の幅の合計は列(layout:cell)に定義した幅(gridSize)を超えてはならない
         --%>
+
         <field:text
             title="カナ氏名"
             name="user.kanaName"
@@ -476,8 +500,9 @@
     </layout:cell>
 
     <%--
-    2列目の性別選択欄は、外側の列内に配置することで、1列目(layout:cell)の隣に表示される
+      2列目の性別選択欄は外側の列内に配置することで1列目(layout:cell)の隣に表示される
     --%>
+
     <field:radio
         title="性別"
         name="user.sex"
@@ -489,5 +514,6 @@
         titleSize="${titleSize}"
         inputSize="${inputSize}">
     </field:radio>
+
   </layout:row>
 
