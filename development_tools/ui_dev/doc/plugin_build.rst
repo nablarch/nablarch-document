@@ -469,7 +469,7 @@ lessインポート定義ファイル
   
   lessファイルは以下の形式で定義する。
   
-    .. code-block:: css
+    .. code-block:: none
 
       @import "インポート対象ファイル名";
       @import "インポート対象ファイル名";
@@ -597,7 +597,7 @@ JavaScriptの自動生成
 
     プラグイン間で同一の展開先となるファイルを検出した場合、重複ファイルとして下記フォーマットでコマンド終了時に該当ファイルの一覧が表示される。
     
-      .. code-block:: json
+      .. code-block:: none
       
         duplicate file detected!!
         {
