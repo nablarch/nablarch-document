@@ -116,9 +116,9 @@ file                 表示する画像の相対パス。       文字列       
 
    tag
 
-   .. code-block:: jsp
+   .. code-block:: none
 
-     <div id="<n:write name="id" withHtmlFormat="false"/>"
+     <div id="<n:write name='id' withHtmlFormat='false'/>"
         class="nablarch_ResponsibleImage
                -filepath    '<n:write name="file" withHtmlFormat="false" />'
                -id          '<n:write name="id" withHtmlFormat="false"/>'
