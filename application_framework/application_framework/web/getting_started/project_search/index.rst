@@ -129,7 +129,7 @@ Exampleアプリケーションを元に検索機能の解説を行う。
   検索に利用するSQLを作成する。
 
     Project.sql
-      .. code-block:: sql
+      .. code-block:: none
 
         SEARCH_PROJECT =
         SELECT
