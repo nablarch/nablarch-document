@@ -108,7 +108,7 @@ box                画面内を構造化するためのウィジェット群。
 `日付入力機能(nablarch_DatePicker) <../../../../_static/ui_dev/yuidoc/classes/nablarch.ui.DatePicker.html>`_
 を **マーカCSS** を使って利用している。
 
-.. code-block:: javascript
+.. code-block:: jsp
 
   <%--
     カレンダー日付入力UI部品
