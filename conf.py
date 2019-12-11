@@ -213,6 +213,7 @@ linkcheck_ignore = [
    'http://127.0.0.1',
    'http://tis.co.jp/nablarch'
 ]
+linkcheck_timeout = 10
 
 # -- Options for LaTeX output ---------------------------------------------
 
