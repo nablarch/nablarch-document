@@ -51,7 +51,7 @@ gsp-dba-maven-pluginが使用する依存モジュールの追加
 ----------------------------------------------------------
 
 以下を参照して設定する。
- `https://github.com/coastland/gsp-dba-maven-plugin#java11での設定<https://github.com/coastland/gsp-dba-maven-plugin#java11%E3%81%A7%E3%81%AE%E8%A8%AD%E5%AE%9A>`_ (外部サイト)
+ `<https://github.com/coastland/gsp-dba-maven-plugin#java11%E3%81%A7%E3%81%AE%E8%A8%AD%E5%AE%9A>`_ (外部サイト)
 
 
 自動テストで使用するJettyのモジュール変更(ウェブプロジェクト または RESTfulウェブサービスプロジェクトの場合のみ)
