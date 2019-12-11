@@ -214,6 +214,10 @@ linkcheck_ignore = [
    'http://tis.co.jp/nablarch'
 ]
 
+linkcheck_retries = 10
+
+linkcheck_timeout = 30
+
 # -- Options for LaTeX output ---------------------------------------------
 
 latex_elements = {
