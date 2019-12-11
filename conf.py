@@ -206,6 +206,14 @@ html_search_language = 'ja'
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'Nablarchdoc'
 
+# -- Options for linkcheck ----------------------------------------------
+linkcheck_ignore = [
+   'https://github.com/coastland/gsp-dba-maven-plugin#',
+   'http://localhost',
+   'http://127.0.0.1',
+   'http://tis.co.jp/nablarch'
+]
+
 # -- Options for LaTeX output ---------------------------------------------
 
 latex_elements = {
