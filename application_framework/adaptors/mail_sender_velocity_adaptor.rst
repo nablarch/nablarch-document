@@ -89,7 +89,7 @@ Velocityを使用した定型メール処理では件名と本文を1つのテ�
 
 テンプレートの例を以下に示す。
 
-.. code-block:: txt
+.. code-block:: none
 
  $titleについて$option
  ---

@@ -300,8 +300,8 @@ AuthenticationUtilの使用例
 .. code-block:: java
 
   // 事前に認証を行うためのユーザID及びパスワードを取得する。
-  String userId = ・・・;
-  Strign password = ・・・;
+  // String userId = ・・・;
+  // Strign password = ・・・;
 
   try {
 

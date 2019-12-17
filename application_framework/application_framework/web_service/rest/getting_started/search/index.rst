@@ -25,7 +25,7 @@ Exampleアプリケーションを元に、検索機能の解説を行う。
 
     1.を実行した結果、以下のようなJSON形式のレスポンスが返却されることを確認する。
 
-    .. code-block:: json
+    .. code-block:: javascript
 
       [{
           "projectId":1,
@@ -97,7 +97,7 @@ URLとのマッピングを定義
   検索に利用するSQLを作成する。
 
     Project.sql
-      .. code-block:: sql
+      .. code-block:: none
 
         FIND_PROJECT =
         SELECT

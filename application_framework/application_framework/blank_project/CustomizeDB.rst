@@ -71,7 +71,7 @@ JDBCドライバをWebから取得する場合は、以下のサイトから入�
 
 .. code-block:: bash
 
-    mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.2.0 -Dpackaging=jar -Dfile=ojdbc6.jar
+    mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.4.0 -Dpackaging=jar -Dfile=ojdbc6.jar
 
 .. tip::
 
@@ -114,28 +114,7 @@ JDBCドライバをWebから取得する場合は、以下のサイトから入�
 SQLServer
 ------------------
 
-
-SQLServerのJDBCドライバはMavenのセントラルリポジトリに公開されていないため、ローカルのMavenリポジトリに登録する必要がある。
-
-JDBCドライバをWebから取得する場合は、以下のサイトから入手する。
-
-.. list-table::
-  :header-rows: 1
-  :class: white-space-normal
-  :widths: 10,5
-
-
-  * - 配布サイトの名前
-    - URL
-
-  * - Download Microsoft JDBC Driver 4.2 for SQL Server、Microsoft JDBC Driver 4.1 for SQL Server、および Microsoft JDBC Driver 4.0 for SQL Server from Official Microsoft Download Center
-    - https://www.microsoft.com/ja-JP/download/details.aspx?id=11774 (外部サイト)
-
-以下に、入手したJDBCドライバをローカルのMavenリポジトリに登録するコマンドの例を示す。
-
-.. code-block:: bash
-
-    mvn install:install-file -DgroupId=com.microsoft -DartifactId=sqljdbc4 -Dversion=4.0 -Dpackaging=jar -Dfile=sqljdbc4.jar
+SQLServerの場合、JDBCドライバはMavenのセントラルリポジトリに公開されているため登録は不要である。
 
 
 .. _customizeDBNotExistPjRepo:
@@ -337,7 +316,7 @@ Oracleの設定例
         <dependency>
           <groupId>com.oracle</groupId>
           <artifactId>ojdbc6</artifactId>
-          <version>11.2.0.2.0</version>
+          <version>11.2.0.4.0</version>
           <scope>runtime</scope>
         </dependency>
         <!-- 中略 -->
@@ -401,9 +380,9 @@ SQLServerの設定例
       <dependencies>
         <!-- 中略 -->
         <dependency>
-          <groupId>com.microsoft</groupId>
-          <artifactId>sqljdbc4</artifactId>
-          <version>4.0</version>
+          <groupId>com.microsoft.sqlserver</groupId>
+          <artifactId>mssql-jdbc</artifactId>
+          <version>7.4.1.jre8</version>
           <scope>runtime</scope>
         </dependency>
         <!-- 中略 -->

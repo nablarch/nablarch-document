@@ -460,10 +460,10 @@ LogFormatter
  を初期化するタイミングで発行し、 :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` に設定される。
 
  実行時IDのID体系
-  .. code-block:: properties
+  .. code-block:: none
 
-   # 起動プロセスは指定された場合のみ付加する。
-   起動プロセス＋システム日時(yyyyMMddHHmmssSSS)＋連番(4桁)
+    # 起動プロセスは指定された場合のみ付加する。
+    起動プロセス＋システム日時(yyyyMMddHHmmssSSS)＋連番(4桁)
 
 .. important::
  リクエストID、実行時ID、ユーザIDを出力する場合は、
@@ -473,7 +473,7 @@ LogFormatter
 改行コードとタブ文字を含めたい場合
  フォーマットに改行コードとタブ文字を含めたい場合は、以下に示すように、Javaと同様の記述を使用する。
 
- .. code-block:: properties
+ .. code-block:: none
 
   改行コード \n
   タブ文字   \t

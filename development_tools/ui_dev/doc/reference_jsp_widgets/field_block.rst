@@ -66,11 +66,13 @@ name                 ブロックの開閉状態を保持す\    文字列      
                                                                                         .. code-block:: jsp
                                                                                          
                                                                                           <n:form>
+
                                                                                              <%--
-                                                                                             field:blockと同一form内に、field:blockの
-                                                                                             name属性と同一のname属性を指定した
-                                                                                             n:plainHidden出力する。
+                                                                                                field:blockと同一form内にfield:blockの
+                                                                                                name属性と同一のname属性を指定した
+                                                                                                n:plainHidden出力する
                                                                                              --%>
+
                                                                                              <n:plainHidden name="block_status" />
                                                                                              <field:block
                                                                                                 title="ユーザ基本情報"

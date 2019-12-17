@@ -415,17 +415,17 @@ import定義が列挙されている。
   `web_project/ui_plugins/pjconf.json` を任意のテキストエディタで開き、
   デプロイ対象プロジェクト(pathSettings/webProjectPath)を以下のように設定する。
 
-.. code-block:: json
+.. code-block:: javascript
 
    {
      "pathSettings" :
      { "projectRootPath"   : "../.."
-     , "webProjectPath"    : "web/src/main/webapp"  # (設定)
+     , "webProjectPath"    : "web/src/main/webapp"  // (設定)
      , "demoProjectPath"   : "ui_demo"
      , "testProjectPath"   : "ui_test"
      , "pluginProjectPath" : "ui_plugins"
      }
-     ###(後略)###
+     // ###(後略)###
 
 **2. UIビルドコマンドの実行**
   `web_project/ui_plugins/bin/ui_build.bat` を実行する。

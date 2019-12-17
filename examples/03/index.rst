@@ -298,18 +298,18 @@ ListSearchInfoオブジェクトにアクセスすることが可能となる。
 
 .. code-block:: jsp
 
- <nbs:listSearchResult listSearchInfoName="11AC_W11AC01"
-                     searchUri="/action/ss11AC/W11AC01Action/RW11AC0102"
-                     resultSetName="searchResult">
-     
-     <%-- resultCountFragment属性にJSPフラグメントを指定する。 --%>
-     <jsp:attribute name="resultCountFragment">
-        [サーチ結果 <n:write name="searchCondition.resultCount" />頁]
-     </jsp:attribute>
-     
-     <%-- その他の属性は省略。 --%>
-     
- </nbs:listSearchResult>
+<nbs:listSearchResult listSearchInfoName="11AC_W11AC01"
+                    searchUri="/action/ss11AC/W11AC01Action/RW11AC0102"
+                    resultSetName="searchResult">
+    
+    <%-- resultCountFragment属性にJSPフラグメントを指定する。 --%>
+    <jsp:attribute name="resultCountFragment">
+    [サーチ結果 <n:write name="searchCondition.resultCount" />頁]
+    </jsp:attribute>
+    
+    <%-- その他の属性は省略。 --%>
+    
+</nbs:listSearchResult>
 
 上記指定後の検索結果件数の書式を下記に示す。
 
@@ -484,39 +484,49 @@ evenValue                              ボディ行の偶数行に使用するcl
 
 .. code-block:: jsp
 
- <nbs:listSearchResult listSearchInfoName="11AC_W11AC01"
-                       searchUri="/action/ss11AC/W11AC01Action/RW11AC0102"
-                       resultSetName="searchResult">
-     
-     <%-- ヘッダ行のJSPフラグメント指定。 --%>
-     <jsp:attribute name="headerRowFragment">
-         <tr>
-             <th>ログインID</th>
-             <th>漢字氏名</th>
-             <th>カナ氏名</th>
-             <th>グループ</th>
-             <th>内線番号</th>
-             <th>メールアドレス</th>
-         </tr>
-     </jsp:attribute>
-     
-     <%-- ボディ行のJSPフラグメント指定。 --%>
-     <jsp:attribute name="bodyRowFragment">
-     
-         <%-- デフォルトの変数名"oddEvenCss"を使用してclass属性にアクセスする。 --%>
-         <tr class="<n:write name='oddEvenCss' />">
-         
-             <%-- デフォルトの変数名"row"を使用して行データにアクセスする。 --%>
-             <td>[<n:write name="count" />]<br/>[<n:write name="rowCount" />]<br/><n:write name="row.loginId" /></td>
-             <td><n:write name="row.kanjiName" /></td>
-             <td><n:write name="row.kanaName" /></td>
-             <td><n:write name="row.ugroupId" />:<n:write name="row.ugroupName" /></td>
-             <td><n:write name="row.extensionNumberBuilding" />-<n:write name="row.extensionNumberPersonal" /></td>
-             <td><n:write name="row.mailAddress" /></td>
-             
-         </tr>
-     </jsp:attribute>
- </nbs:listSearchResult>
+<nbs:listSearchResult listSearchInfoName="11AC_W11AC01"
+                    searchUri="/action/ss11AC/W11AC01Action/RW11AC0102"
+                    resultSetName="searchResult">
+
+    <%-- ヘッダ行のJSPフラグメント指定。 --%>
+
+    <jsp:attribute name="headerRowFragment">
+
+        <tr>
+
+            <th>ログインID</th>
+            <th>漢字氏名</th>
+            <th>カナ氏名</th>
+            <th>グループ</th>
+            <th>内線番号</th>
+            <th>メールアドレス</th>
+
+        </tr>
+
+    </jsp:attribute>
+
+    <%-- ボディ行のJSPフラグメント指定。 --%>
+
+    <jsp:attribute name="bodyRowFragment">
+
+        <%-- デフォルトの変数名"oddEvenCss"を使用してclass属性にアクセスする。 --%>
+
+        <tr class="<n:write name='oddEvenCss' />">
+
+            <%-- デフォルトの変数名"row"を使用して行データにアクセスする。 --%>
+
+            <td>[<n:write name="count" />]<br/>[<n:write name="rowCount" />]<br/><n:write name="row.loginId" /></td>
+            <td><n:write name="row.kanjiName" /></td>
+            <td><n:write name="row.kanaName" /></td>
+            <td><n:write name="row.ugroupId" />:<n:write name="row.ugroupName" /></td>
+            <td><n:write name="row.extensionNumberBuilding" />-<n:write name="row.extensionNumberPersonal" /></td>
+            <td><n:write name="row.mailAddress" /></td>
+
+        </tr>
+
+    </jsp:attribute>
+
+</nbs:listSearchResult>
 
 上記指定後の検索結果を下記に示す。
 
@@ -553,14 +563,20 @@ evenValue                              ボディ行の偶数行に使用するcl
 
 .. code-block:: sql
 
- -- 可変ORDER BY構文を使用したSQL文
- SELECT
-   -- 省略
- FROM
-     -- 省略
- WHERE
-     -- 省略
- $sort (sortId) {
+-- 可変ORDER BY構文を使用したSQL文
+SELECT
+
+    -- 省略
+
+FROM
+
+    -- 省略
+
+WHERE
+
+    -- 省略
+
+$sort (sortId) {
     (kanjiName_asc  USR.KANJI_NAME, SA.LOGIN_ID)
     (kanjiName_desc USR.KANJI_NAME DESC, SA.LOGIN_ID)
     (kanaName_asc   USR.KANA_NAME, SA.LOGIN_ID)
@@ -640,27 +656,40 @@ listSearchSortSubmitタグを使用したJSPの実装例を下記に示す。タ
 
 .. code-block:: jsp
 
- <nbs:listSearchResult listSearchInfoName="11AC_W11AC01"
-                     searchUri="/action/ss11AC/W11AC01Action/RW11AC0102"
-                     resultSetName="searchResult"
-                     usePageNumberSubmit="true"
-                     useLastSubmit="true">
-     <jsp:attribute name="headerRowFragment">
-         <tr>
-             <%-- 漢字氏名以外の列は省略。 --%>
-             <th>
-                 <%-- 漢字氏名を並び替え用のリンクにする。--%>
-                 <%-- SQL文に合わせて昇順(kanjiName_asc)と降順(kanjiName_desc)のソートIDを指定する。 --%>
-                 <nbs:listSearchSortSubmit ascSortId="kanjiName_asc" descSortId="kanjiName_desc"
-                                         label="漢字氏名" uri="/action/ss11AC/W11AC01Action/RW11AC0102"
-                                         name="kanjiNameSort" listSearchInfoName="11AC_W11AC01" />
-             </th>
-         </tr>
-     </jsp:attribute>
-     <jsp:attribute name="bodyRowFragment">
-         <%-- 省略 --%>
-     </jsp:attribute>
- </nbs:listSearchResult>
+<nbs:listSearchResult listSearchInfoName="11AC_W11AC01"
+                    searchUri="/action/ss11AC/W11AC01Action/RW11AC0102"
+                    resultSetName="searchResult"
+                    usePageNumberSubmit="true"
+                    useLastSubmit="true">
+
+    <jsp:attribute name="headerRowFragment">
+
+        <tr>
+
+            <%-- 漢字氏名以外の列は省略。 --%>
+
+            <th>
+
+                <%-- 漢字氏名を並び替え用のリンクにする。--%>
+                <%-- SQL文に合わせて昇順(kanjiName_asc)と降順(kanjiName_desc)のソートIDを指定する。 --%>
+
+                <nbs:listSearchSortSubmit ascSortId="kanjiName_asc" descSortId="kanjiName_desc"
+                                        label="漢字氏名" uri="/action/ss11AC/W11AC01Action/RW11AC0102"
+                                        name="kanjiNameSort" listSearchInfoName="11AC_W11AC01" />
+
+            </th>
+
+        </tr>
+
+    </jsp:attribute>
+
+    <jsp:attribute name="bodyRowFragment">
+
+        <%-- 省略 --%>
+
+    </jsp:attribute>
+
+</nbs:listSearchResult>
 
 並び替えのサブミット要素では、検索フォームから検索された時点の検索条件を使用して検索を実行する。\
 ページング使用時の検索条件と同様に、ウィンドウスコープを使用して検索条件を維持する。
@@ -682,11 +711,12 @@ listSearchSortSubmitタグは、現在の並び替え状態に応じて下記の
 
 .. code-block:: jsp
 
- <%-- 漢字氏名を並び替え用のリンクにする。--%>
- <%-- SQL文に合わせて昇順(kanjiName_asc)と降順(kanjiName_desc)のソートIDを指定する。 --%>
- <nbs:listSearchSortSubmit ascSortId="kanjiName_asc" descSortId="kanjiName_desc"
-                           label="漢字氏名" uri="/action/ss11AC/W11AC01Action/RW11AC0102"
-                           name="kanjiNameSort" listSearchInfoName="11AC_W11AC01" />
+<%-- 漢字氏名を並び替え用のリンクにする。--%>
+<%-- SQL文に合わせて昇順(kanjiName_asc)と降順(kanjiName_desc)のソートIDを指定する。 --%>
+
+<nbs:listSearchSortSubmit ascSortId="kanjiName_asc" descSortId="kanjiName_desc"
+                          label="漢字氏名" uri="/action/ss11AC/W11AC01Action/RW11AC0102"
+                          name="kanjiNameSort" listSearchInfoName="11AC_W11AC01" />
 
 
 ==================================================== ================================================================================================== ======================================================================================================
@@ -807,15 +837,16 @@ CSSファイルから参照できる位置にイメージファイルが配置�
 
 .. code-block:: jsp
 
- <%-- ページングを使用しないのでusePaging属性にfalseを指定する。 --%>
- <%-- ページングを使用しないのでsearchUri属性の指定は不要。 --%>
- <nbs:listSearchResult listSearchInfoName="11AC_W11AC01"
-                     usePaging="false"
-                     resultSetName="searchResult">
+<%-- ページングを使用しないのでusePaging属性にfalseを指定する。 --%>
+<%-- ページングを使用しないのでsearchUri属性の指定は不要。 --%>
+
+<nbs:listSearchResult listSearchInfoName="11AC_W11AC01"
+                      usePaging="false"
+                      resultSetName="searchResult">
  
-     <%-- その他の属性は省略。 --%>
-     
- </nbs:listSearchResult>
+   <%-- その他の属性は省略。 --%>
+    
+</nbs:listSearchResult>
 
 
 .. _ListSearchResult_DefaultCondition:

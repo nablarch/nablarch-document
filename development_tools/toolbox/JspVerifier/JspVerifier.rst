@@ -119,9 +119,11 @@ verification_config.json の下記の設定値を、実際にタグファイル�
 
 .. code-block:: json
 
-    "TagAttributeVerifier": {
-      "directory": "C:\\nablarch\\workspace\\tutorial\\main\\web\\WEB-INF\\tags\\widget",
-      "encoding": "utf-8"
+    {
+      "TagAttributeVerifier" : {
+        "directory" : "C:\\nablarch\\workspace\\tutorial\\main\\web\\WEB-INF\\tags\\widget",
+        "encoding" : "utf-8"
+      }
     }
 
 
@@ -173,7 +175,7 @@ Detected violations are dumped to violations-1390366626297.log.
 
   下記の設定ファイル例では説明のために、JavaScript形式でコメントを記載しているが、実際のJSONファイルにはコメントを記載できない。
 
-.. code-block:: json
+.. code-block:: javascript
 
   {
     // verifiers内に、実施する検証内容を記載していく。
