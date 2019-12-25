@@ -54,7 +54,6 @@ pip install docutils-ast-writer
 textlint .textlint/test/test.rst
 ```
 
-
 ### 実行
 
 対象ディレクトリを指定してtextlintを起動します。
