@@ -88,14 +88,15 @@ UI標準2. 画面構成
 
 デフォルトの配色は以下のような設定になっている。
 
-.. code-block:: css
-
-  // Nablarchブランドカラーを基調とした配色設定
-  @baseColor  : rgb(255, 255, 255); // 白
-  @mainColor1 : rgb(235, 92,  21);  // オレンジ
-  @mainColor2 : rgb(76,  42,  26);  // こげ茶
-  @subColor   : rgb(170, 10,  10);  // 赤
-
+  .. code-block:: text
+  
+    // Nablarchブランドカラーを基調とした配色設定
+    @baseColor  : rgb(255, 255, 255); // 白
+    @mainColor1 : rgb(235, 92,  21);  // オレンジ
+    @mainColor2 : rgb(76,  42,  26);  // こげ茶
+    @subColor   : rgb(170, 10,  10);  // 赤
+  
+  
 各パラメータの役割は以下のとおり。
 
 **@baseColor**
@@ -121,7 +122,7 @@ UI標準2. 画面構成
 以下は配色の調整例である。
 左上のロゴは画像なので、別途差し替えが必要である。
 
-.. code-block:: css
+.. code-block:: text
 
   @baseColor  : rgb(255, 255, 255);              // 白
   @mainColor1 : darken(rgb(173, 210,  16), 15%); // 薄い緑

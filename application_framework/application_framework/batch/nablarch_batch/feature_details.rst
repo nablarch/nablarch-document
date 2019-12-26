@@ -58,7 +58,6 @@
   :hidden:
 
   feature_details/nablarch_batch_error_process
-  feature_details/nablarch_batch_retention_state
 
 * :ref:`バッチ処理のプロセス終了コード<status_code_convert_handler-rules>`
 * :ref:`バッチ処理のエラー処理<nablarch_batch_error_process>`

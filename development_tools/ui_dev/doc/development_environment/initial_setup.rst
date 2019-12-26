@@ -295,17 +295,18 @@ import定義を削除する必要がある。
 :ref:`lessImport_less` には、以下のようにプロジェクトが各表示モードで使用するlessファイルの
 import定義が列挙されている。
 
-.. code-block:: css
-
-   @import "../../node_modules/nablarch-css-core/ui_public/css/core/reset";
-   @import "../../node_modules/nablarch-css-core/ui_public/css/core/css3";
-   @import "../../node_modules/nablarch-css-core/ui_public/css/core/grid";
-
+  .. code-block:: text
+    
+    @import "../../node_modules/nablarch-css-core/ui_public/css/core/reset";
+    @import "../../node_modules/nablarch-css-core/ui_public/css/core/css3";
+    @import "../../node_modules/nablarch-css-core/ui_public/css/core/grid";
+    
     //---- 中略 ----//
+    
+    @import "../../node_modules/web_project-template-app_nav/ui_public/css/template/topnav";
+    @import "../../node_modules/web_project-template-app_nav/ui_public/css/template/topnav-wide";
+    @import "../../node_modules/web_project-template-error/ui_public/css/template/errorpage";
 
-   @import "../../node_modules/web_project-template-app_nav/ui_public/css/template/topnav";
-   @import "../../node_modules/web_project-template-app_nav/ui_public/css/template/topnav-wide";
-   @import "../../node_modules/web_project-template-error/ui_public/css/template/errorpage";
 
 上記で削除したプラグインに対応するlessファイルは、それぞれの :ref:`lessImport_less` から削除する必要がある。
 本手順の場合は、以下の6ファイルから削除する。
