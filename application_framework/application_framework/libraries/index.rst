@@ -24,6 +24,7 @@ Nablarchが提供するライブラリ
   permission_check
   service_availability
   session_store
+  stateless_web_app
   tag
   bean_util
   utility

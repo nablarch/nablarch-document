@@ -1,0 +1,10 @@
+@startuml
+
+Handler -> Cookie: セッションID取得
+
+Handler -> DB_Store: 復元
+note right: ストアから値を読み出し、有効期間内であれば復元する
+Handler -> HTTP_Session_Store: 復元
+Handler -> HIDDEN_Store: 復元
+
+@enduml
