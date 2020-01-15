@@ -25,6 +25,7 @@ Nablarchが提供するライブラリ
   service_availability
   session_store
   tag
+  db_double_submit
   bean_util
   utility
   format
