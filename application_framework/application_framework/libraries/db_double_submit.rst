@@ -30,11 +30,21 @@
 使用方法
 ========
 
- ``tokenManager`` という名前でコンポーネント定義を追加する。
+2種類のコンポーネント定義を追加する。
+
+``tokenManager`` という名前でコンポーネント定義を追加する。
+これにより、トークンがデータベースで管理されるようになる。
 
 .. code-block:: xml
                 
     <component name="tokenManager"
                class="nablarch.common.web.token.JdbcTokenManager" />
 
-               
+
+``tokenGenerator`` という名前でコンポーネント定義を追加する。
+これによりトークンにUUIDが使用され、推測および衝突の可能性を考慮しなくてよくなる。
+
+.. code-block:: xml
+
+    <component name="tokenGenerator"
+               class="nablarch.common.web.token.UUIDV4TokenGenerator" />
