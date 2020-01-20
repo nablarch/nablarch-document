@@ -30,6 +30,7 @@ HttpSessionに依存している機能
 * :ref:`session_store`
 * :ref:`2重サブミット防止<tag-double_submission>`
 * :ref:`thread_context_handler`
+  
   * :java:extdoc:`LanguageAttributeInHttpSession <nablarch.common.web.handler.threadcontext.LanguageAttributeInHttpSession>`
   * :java:extdoc:`TimeZoneAttributeInHttpSession <nablarch.common.web.handler.threadcontext.TimeZoneAttributeInHttpSession>`
   * :java:extdoc:`UserIdAttribute <nablarch.common.handler.threadcontext.UserIdAttribute>`
