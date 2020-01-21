@@ -1,3 +1,5 @@
+.. _stateless_web_app:
+
 =========================================
  Webアプリケーションをステートレスにする
 =========================================
@@ -31,9 +33,6 @@ HttpSessionに依存している機能
 * :ref:`2重サブミット防止<tag-double_submission>`
 * :ref:`thread_context_handler`
   
-  * :java:extdoc:`LanguageAttributeInHttpSession <nablarch.common.web.handler.threadcontext.LanguageAttributeInHttpSession>`
-  * :java:extdoc:`TimeZoneAttributeInHttpSession <nablarch.common.web.handler.threadcontext.TimeZoneAttributeInHttpSession>`
-  * :java:extdoc:`UserIdAttribute <nablarch.common.handler.threadcontext.UserIdAttribute>`
 * :ref:`http_rewrite_handler`
 * :ref:`hidden暗号化<tag-hidden_encryption>`
 
@@ -42,19 +41,49 @@ HttpSession非依存機能の導入方法
 ===============================
 
 
+5u16以降のブランクプロジェクト
+
 セッションストア
 ~~~~~~~~~~~~~~~~
+
+セッションストアで、HttpSessionに依存している機能は以下の通りである。
+
+これらの設定を変更することで、HttpSessionへの依存をなくすことができる。
+
+
+
 
 2重サブミット防止
 ~~~~~~~~~~~~~~~~~
 
+
+DBのやついれる
+UUIDにする
+
+
 スレッドコンテキスト変数管理ハンドラ
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
+* :java:extdoc:`LanguageAttributeInHttpSession <nablarch.common.web.handler.threadcontext.LanguageAttributeInHttpSession>`
+* :java:extdoc:`TimeZoneAttributeInHttpSession <nablarch.common.web.handler.threadcontext.TimeZoneAttributeInHttpSession>`
+* :java:extdoc:`UserIdAttribute <nablarch.common.handler.threadcontext.UserIdAttribute>`
+
+
+LanguageAttributeInHttpSessionとTimeZoneAttributeInHttpSessionについては、以下の部品で代替できる。
+
+* :java:extdoc:`LanguageAttributeInHttpCookie <nablarch.common.web.handler.threadcontext.LanguageAttributeInHttpCookie>`
+* :java:extdoc:`TimeZoneAttributeInHttpCookie <nablarch.common.web.handler.threadcontext.TimeZoneAttributeInHttpCookie>`
+
+
 HTTPリライトハンドラ
 ~~~~~~~~~~~~~~~~~~~~
+
+使用しないのがよい。
+（でもセッションにアクセスしなければセーフ）
 
 
 hidden暗号化
 ~~~~~~~~~~~~
 
+オフにすればよい。
