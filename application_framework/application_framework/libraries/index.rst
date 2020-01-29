@@ -26,6 +26,7 @@ Nablarchが提供するライブラリ
   session_store
   stateless_web_app
   tag
+  db_double_submit
   bean_util
   utility
   format
