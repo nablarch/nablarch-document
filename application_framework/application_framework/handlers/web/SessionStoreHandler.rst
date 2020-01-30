@@ -40,7 +40,7 @@
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-  <!-- DBストアを使用する場合のみ -->
+  <!-- DBストア・有効期間のDB保存を使用する場合のみ -->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-fw-web-dbstore</artifactId>
@@ -175,3 +175,50 @@ HIDDENストアの改竄を検知した場合
 .. tip::
   HttpOnly属性の値はアプリケーションで使用しているServletAPIのバージョンによって決定されるため、
   設定ファイル等から任意の値を指定することはできない。
+
+.. _`db_managed_expiration`:
+
+有効期間をデータベースに保存する
+--------------------------------------------------------------
+セッションの有効期間保存先を変更することができる。
+
+デフォルトでは :java:extdoc:`HttpSessionManagedExpiration <nablarch.common.web.session.HttpSessionManagedExpiration>` 
+が使用されるためセッションの有効期間はHTTPセッションに保存される。
+
+以下のように本ハンドラの :java:extdoc:`expiration <nablarch.common.web.session.SessionStoreHandler.setExpiration(nablarch.common.web.session.Expiration)>` 
+プロパティを :java:extdoc:`DbManagedExpiration <nablarch.common.web.session.DbManagedExpiration>` に差し替えることでデータベースに保存することができる。
+
+.. code-block:: xml
+
+  <component name="sessionStoreHandler" class="nablarch.common.web.session.SessionStoreHandler">
+    <!-- その他のプロパティは省略 -->
+    <property name="expiration">
+      <component class="nablarch.common.web.session.DbManagedExpiration">
+        <!-- 設定値の詳細はJavadocを参照 -->
+      </component>
+    </property>
+  </component>
+  
+また、データベース上に有効期間を保存するためのテーブルが必要となる。
+
+作成するテーブルの定義を以下に示す。
+
+`SESSION_EXPIRATION` テーブル
+  ==================== ====================
+  カラム名             データ型
+  ==================== ====================
+  SESSION_ID(PK)       `java.lang.String`
+  EXPIRATION_DATETIME  `java.sql.Timestamp`
+  ==================== ====================
+
+テーブル名およびカラム名は変更可能である。
+変更する場合は、 :java:extdoc:`DbManagedExpiration.sessionExpirationSchema <nablarch.common.web.session.DbManagedExpiration.setSessionExpirationSchema(nablarch.common.web.session.SessionExpirationSchema)>` に
+:java:extdoc:`SessionExpirationSchema <nablarch.common.web.session.SessionExpirationSchema>` のコンポーネントを定義する。
+
+.. code-block:: xml
+
+  <property name="sessionExpirationSchema">
+    <component class="nablarch.common.web.session.SessionExpirationSchema">
+      <!-- 設定値の詳細はJavadocを参照 -->
+    </component>
+  </property>
