@@ -185,21 +185,13 @@ HIDDENストアの改竄を検知した場合
 デフォルトでは :java:extdoc:`HttpSessionManagedExpiration <nablarch.common.web.session.HttpSessionManagedExpiration>` 
 が使用されるためセッションの有効期間はHTTPセッションに保存される。
 
-以下のように本ハンドラの :java:extdoc:`expiration <nablarch.common.web.session.SessionStoreHandler.setExpiration(nablarch.common.web.session.Expiration)>` 
+本ハンドラの :java:extdoc:`expiration <nablarch.common.web.session.SessionStoreHandler.setExpiration(nablarch.common.web.session.Expiration)>` 
 プロパティを :java:extdoc:`DbManagedExpiration <nablarch.common.web.session.DbManagedExpiration>` に差し替えることでデータベースに保存することができる。
 
-.. code-block:: xml
+使用方法
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  <component name="sessionStoreHandler" class="nablarch.common.web.session.SessionStoreHandler">
-    <!-- その他のプロパティは省略 -->
-    <property name="expiration">
-      <component class="nablarch.common.web.session.DbManagedExpiration">
-        <!-- 設定値の詳細はJavadocを参照 -->
-      </component>
-    </property>
-  </component>
-  
-また、データベース上に有効期間を保存するためのテーブルが必要となる。
+データベース上に有効期間を保存するためのテーブルが必要となる。
 
 作成するテーブルの定義を以下に示す。
 
@@ -211,14 +203,45 @@ HIDDENストアの改竄を検知した場合
   EXPIRATION_DATETIME  `java.sql.Timestamp`
   ==================== ====================
 
+`SESSION_ID` のデータ型については :ref:`DBストア<session_store-use_config>` 同様VARCHARで定義すること。
+
 テーブル名およびカラム名は変更可能である。
 変更する場合は、 :java:extdoc:`DbManagedExpiration.sessionExpirationSchema <nablarch.common.web.session.DbManagedExpiration.setSessionExpirationSchema(nablarch.common.web.session.SessionExpirationSchema)>` に
 :java:extdoc:`SessionExpirationSchema <nablarch.common.web.session.SessionExpirationSchema>` のコンポーネントを定義する。
 
+また有効期間は :ref:`初期化<repository-initialize_object>` が必要になる。
+
+設定例を以下に示す。
+
 .. code-block:: xml
 
-  <property name="sessionExpirationSchema">
-    <component class="nablarch.common.web.session.SessionExpirationSchema">
-      <!-- 設定値の詳細はJavadocを参照 -->
-    </component>
-  </property>
+  <component name="sessionStoreHandler" class="nablarch.common.web.session.SessionStoreHandler">
+    <!-- その他のプロパティは省略 -->
+    <property name="expiration" ref="expiration" />
+  </component>
+
+  <component name="expiration" class="nablarch.common.web.session.DbManagedExpiration">
+    <!-- データベースへのトランザクション制御を行うクラス -->
+    <property name="dbManager">
+      <component class="nablarch.core.db.transaction.SimpleDbTransactionManager">
+        <property name="dbTransactionName" value="expirationTransaction"/>
+      </component>
+    </property>
+    <!-- 上記のテーブル定義からテーブル名、カラム名を変更する場合のみ以下設定が必要 -->
+    <property name="sessionExpirationSchema">
+      <component class="nablarch.common.web.session.SessionExpirationSchema">
+        <property name="tableName" value="DB_EXPIRATION"/>
+        <property name="sessionIdName" value="SESSION_ID_COL"/>
+        <property name="expirationDatetimeName" value="EXPIRATION_DATETIME_COL"/>
+      </component>
+    </property>
+  </component>
+
+  <component name="initializer" class="nablarch.core.repository.initialization.BasicApplicationInitializer">
+    <!-- DB管理の有効期間はinitializeが必要。 -->
+    <property name="initializeList">
+      <list>
+        <component-ref name="expiration"/>
+      </list>
+    </property>
+  </component>
