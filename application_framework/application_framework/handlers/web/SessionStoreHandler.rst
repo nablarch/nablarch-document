@@ -191,23 +191,11 @@ HIDDENストアの改竄を検知した場合
 使用方法
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-データベース上に有効期間を保存するためのテーブルが必要となる。
+データベース上に有効期間を保存するためのテーブルは、:ref:`DBストア<session_store-use_config>` に記載のDBストア使用時のテーブルを使用するものとする。
 
-作成するテーブルの定義を以下に示す。
-
-`SESSION_EXPIRATION` テーブル
-  ==================== ====================
-  カラム名             データ型
-  ==================== ====================
-  SESSION_ID(PK)       `java.lang.String`
-  EXPIRATION_DATETIME  `java.sql.Timestamp`
-  ==================== ====================
-
-`SESSION_ID` のデータ型については :ref:`DBストア<session_store-use_config>` 同様VARCHARで定義すること。
-
-テーブル名およびカラム名は変更可能である。
-変更する場合は、 :java:extdoc:`DbManagedExpiration.sessionExpirationSchema <nablarch.common.web.session.DbManagedExpiration.setSessionExpirationSchema(nablarch.common.web.session.SessionExpirationSchema)>` に
-:java:extdoc:`SessionExpirationSchema <nablarch.common.web.session.SessionExpirationSchema>` のコンポーネントを定義する。
+テーブル名およびカラム名を変更する場合は、 :java:extdoc:`DbManagedExpiration.userSessionSchema <nablarch.common.web.session.DbManagedExpiration.setUserSessionSchema(nablarch.common.web.session.store.UserSessionSchema)>` に
+:java:extdoc:`UserSessionSchema <nablarch.common.web.session.store.UserSessionSchema>` のコンポーネントを定義する。
+DBストアのテーブル・カラムも同じものに変更すること。
 
 また有効期間は :ref:`初期化<repository-initialize_object>` が必要になる。
 
@@ -228,17 +216,25 @@ HIDDENストアの改竄を検知した場合
       </component>
     </property>
     <!-- 上記のテーブル定義からテーブル名、カラム名を変更する場合のみ以下設定が必要 -->
-    <property name="sessionExpirationSchema">
-      <component class="nablarch.common.web.session.SessionExpirationSchema">
-        <property name="tableName" value="DB_EXPIRATION"/>
-        <property name="sessionIdName" value="SESSION_ID_COL"/>
-        <property name="expirationDatetimeName" value="EXPIRATION_DATETIME_COL"/>
-      </component>
-    </property>
+    <property name="userSessionSchema" ref="userSessionSchema" />
+  </component>
+
+  <!-- テーブル定義を変更する場合はあわせてDBストアの定義も変更する -->
+  <component name="dbStore" class="nablarch.common.web.session.store.DbStore">
+    <!-- その他のプロパティは省略 -->
+    <property name="userSessionSchema" ref="userSessionSchema" />
+  </component>
+
+  <!-- 上記のテーブル定義からテーブル名、カラム名を変更する場合のみ以下設定が必要 -->
+  <component name="userSessionSchema" class="nablarch.common.web.session.store.UserSessionSchema">
+    <property name="tableName" value="USER_SESSION_DB" />
+    <property name="sessionIdName" value="SESSION_ID_COL" />
+    <property name="sessionObjectName" value="SESSION_OBJECT_COL" />
+    <property name="expirationDatetimeName" value="EXPIRATION_DATETIME_COL" />
   </component>
 
   <component name="initializer" class="nablarch.core.repository.initialization.BasicApplicationInitializer">
-    <!-- DB管理の有効期間はinitializeが必要。 -->
+    <!-- 有効期間はinitializeが必要。 -->
     <property name="initializeList">
       <list>
         <component-ref name="expiration"/>
