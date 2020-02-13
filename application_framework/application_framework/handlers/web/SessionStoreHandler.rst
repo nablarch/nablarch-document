@@ -193,6 +193,13 @@ HIDDENストアの改竄を検知した場合
 
 データベース上に有効期間を保存するためのテーブルは、:ref:`DBストア<session_store-use_config>` に記載のDBストア使用時のテーブルを使用するものとする。
 
+.. important::
+
+  有効期間をデータベースに保存する場合は、SESSION_OBJECT カラムを必須属性にしてはならない。
+  ログアウト時などに、セッションオブジェクトがNullのレコードが登録され得るため、必ずNull許容で定義すること。
+  5u15以前のアーキタイプから作成したプロジェクトでは、デフォルトで必須属性として定義されている。
+  必要に応じてALTER文の発行または、テーブルの再作成を実施する必要がある。
+
 テーブル名およびカラム名を変更する場合は、 :java:extdoc:`DbManagedExpiration.userSessionSchema <nablarch.common.web.session.DbManagedExpiration.setUserSessionSchema(nablarch.common.web.session.store.UserSessionSchema)>` に
 :java:extdoc:`UserSessionSchema <nablarch.common.web.session.store.UserSessionSchema>` のコンポーネントを定義する。
 DBストアのテーブル・カラムも同じものに変更すること。
