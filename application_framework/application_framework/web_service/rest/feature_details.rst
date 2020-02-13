@@ -74,3 +74,9 @@ URIとリソース(アクション)クラスのマッピング
 --------------------------------------------------
 * :ref:`jaxrs_response_handler-error_response_body`
 * :ref:`jaxrs_response_handler-individually_error_response`
+
+
+Webアプリケーションのスケールアウト設計
+---------------------------------------
+
+* :ref:`stateless_web_app`
