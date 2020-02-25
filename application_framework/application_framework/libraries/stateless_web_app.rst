@@ -85,7 +85,7 @@ Nablarchでは :ref:`hidden暗号化<tag-hidden_encryption>` の機能を提供�
 
 HTTPセッションの誤生成を検知する
 --------------------------------------------------
-設定漏れや実装ミスによって誤ってHTTPセッションを生成してしまうことを防ぐために、HTTPセッションの生成を検知する機能が用意されている。
+設定漏れや実装ミスによって誤ってHTTPセッションを生成してしまうことを防ぐために、HTTPセッションの生成を検知する機能を提供している。
 この機能を有効にすると、HTTPセッションを生成しようとしたときに例外が送出されるようになる。
 
 この機能は、 :java:extdoc:`WebFrontController <nablarch.fw.web.servlet.WebFrontController>` の ``preventSessionCreation`` プロパティに ``true`` を設定することで有効にできる。
