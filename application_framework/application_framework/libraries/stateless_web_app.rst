@@ -83,9 +83,9 @@ Nablarchでは :ref:`hidden暗号化<tag-hidden_encryption>` の機能を提供�
 アップロードしたファイルなどをAPサーバのローカルに保存してしまうと、ステートを持つことになってしまう。
 このような場合は、共有のストレージを用意するなどして、APサーバがローカルにファイルを持たないようにする必要がある。
 
-HTTPセッションの誤生成を防止する
+HTTPセッションの誤生成を検知する
 --------------------------------------------------
-設定漏れや実装ミスによって誤ってHTTPセッションを生成してしまうことを防ぐために、HTTPセッションを生成できないようにする機能が用意されている。
+設定漏れや実装ミスによって誤ってHTTPセッションを生成してしまうことを防ぐために、HTTPセッションの生成を検知する機能が用意されている。
 この機能を有効にすると、HTTPセッションを生成しようとしたときに例外が送出されるようになる。
 
 この機能は、 :java:extdoc:`WebFrontController <nablarch.fw.web.servlet.WebFrontController>` の ``preventSessionCreation`` プロパティに ``true`` を設定することで有効にできる。
@@ -98,5 +98,5 @@ HTTPセッションの誤生成を防止する
   <component name="webFrontController"
              class="nablarch.fw.web.servlet.WebFrontController">
 
-    <!-- HTTPセッションの生成を防止して誤使用を検知する -->
+    <!-- HTTPセッションの誤生成を検知する -->
     <property name="preventSessionCreation" value="true" />
