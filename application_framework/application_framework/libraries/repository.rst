@@ -559,6 +559,60 @@ DIコンテナで管理するオブジェクトに対して環境依存値を設
 
   java -Dmessage=上書きするメッセージ
 
+.. _repository-overwrite_environment_configuration_by_os_env_var:
+
+OS環境変数を使って環境依存値を上書きする
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+以下で説明する設定を行うことで、環境依存値をOS環境変数で上書きできるようになる。
+
+OS環境変数による上書きを有効にするための設定方法
+  環境依存値を上書きする仕組みは、 :java:extdoc:`ExternalizedComponentDefinitionLoader <nablarch.core.repository.di.config.externalize.  ExternalizedComponentDefinitionLoader>` インタフェースを実装したクラスによって実現されている。
+  
+  この実装クラスは、サービスプロバイダの仕組みを使ってロードされる。
+  サービスプロバイダを何も設定していない場合は、デフォルトで :java:extdoc:`SystemPropertyExternalizedLoader <nablarch.core.repository.di.config.  externalize.SystemPropertyExternalizedLoader>` が使用される。
+  このクラスはシステムプロパティで上書きを行うクラスとなっており、前節で説明したシステムプロパティによる上書きはこのクラスによって実現されている。
+  
+  OS環境変数で環境依存値を上書きする場合は、実装クラスとして :java:extdoc:`OsEnvironmentVariableExternalizedLoader <nablarch.core.repository.di.  config.externalize.OsEnvironmentVariableExternalizedLoader>` を使用する。
+  
+  具体的な設定は、次のようにして行う。
+  
+  #. クラスパス直下に ``META-INF/services`` というディレクトリを作成する
+  #. 上で作成したディレクトリの中に、 ``nablarch.core.repository.di.config.externalize.ExternalizedComponentDefinitionLoader`` という名前のテキス  トファイルを作成する
+  #. ファイルの中に、使用する実装クラスの完全修飾名を改行区切りで列挙する
+  
+  例えば、 :java:extdoc:`OsEnvironmentVariableExternalizedLoader <nablarch.core.repository.di.config.externalize.  OsEnvironmentVariableExternalizedLoader>` を使用する場合は、 ``nablarch.core.repository.di.config.externalize.ExternalizedComponentDefinitionLoader`` の中身を以下のように記述する。
+  
+  .. code-block:: text
+  
+    nablarch.core.repository.di.config.externalize.OsEnvironmentVariableExternalizedLoader
+  
+  
+  複数の実装クラスを組み合わせる場合は、以下のように改行区切りで列挙することもできる。
+  
+  .. code-block:: text
+  
+    nablarch.core.repository.di.config.externalize.OsEnvironmentVariableExternalizedLoader
+    nablarch.core.repository.di.config.externalize.SystemPropertyExternalizedLoader
+  
+  複数の実装クラスを指定した場合は、上から順番に上書きが行われる。
+  したがって、同じ名前の環境依存値をそれぞれの方法で上書きした場合は、一番下に記述したクラスによる上書きが最終的に採用されることになる。
+  上記例の場合は、OS環境変数で設定した値よりもシステムプロパティで設定した値の方が優先されることになる。
+
+OS環境変数の名前について
+  Linuxでは、OS環境変数の名前に ``.`` や ``-`` を使用できない。
+  したがって、 ``example.error-message`` のような名前の環境依存値があった場合に、これを上書きするためのOS環境変数をそのままの名前で定義することはできない。
+
+  Nablarchではこの問題を回避するために、環境依存値の名前に以下の変換を行ったうえでOS環境変数を検索するようにしている。
+
+  #. ``.`` と ``-`` を ``_`` に置換する
+  #. アルファベットを大文字に変換する
+
+  つまり、 ``example.error-message`` という名前の環境依存値は、 ``EXAMPLE_ERROR_MESSAGE`` という名前でOS環境変数を定義することで上書きできる。
+  
+  Windows ではOS環境変数に ``.`` や ``-`` を使用できるが、上記変換処理は実行時のOSに関係なく行っている。
+  したがって、 ``example.error-message`` を上書きするためのOS環境変数は、Windowsでも ``EXAMPLE_ERROR_MESSAGE`` という名前で定義しなければならない。
+
+
 .. _repository-factory_injection:
 
 ファクトリクラスで生成したオブジェクトをインジェクションする
