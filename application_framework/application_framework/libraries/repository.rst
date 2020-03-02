@@ -568,7 +568,7 @@ OS環境変数を使って環境依存値を上書きする
 OS環境変数による上書きを有効にするための設定方法
   環境依存値を上書きする仕組みは、 :java:extdoc:`ExternalizedComponentDefinitionLoader <nablarch.core.repository.di.config.externalize.  ExternalizedComponentDefinitionLoader>` インタフェースを実装したクラスによって実現されている。
   
-  この実装クラスは、サービスプロバイダの仕組みを使ってロードされる。
+  この実装クラスは、 ``java.util.ServiceLoader`` を使ってロードされる。
   サービスプロバイダを何も設定していない場合は、デフォルトで :java:extdoc:`SystemPropertyExternalizedLoader <nablarch.core.repository.di.config.  externalize.SystemPropertyExternalizedLoader>` が使用される。
   このクラスはシステムプロパティで上書きを行うクラスとなっており、前節で説明したシステムプロパティによる上書きはこのクラスによって実現されている。
   
