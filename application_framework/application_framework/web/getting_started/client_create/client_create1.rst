@@ -89,6 +89,7 @@ URLと業務アクションのマッピングを行う
       .. code-block:: xml
 
         <routes>
+          <!-- 上から評価されるので、他のマッピングより前に設定する -->
           <get path="/action/client" to="Client#input"/>
           <!-- その他の設定は省略 -->
         </routes>
