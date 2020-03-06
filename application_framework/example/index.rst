@@ -6,6 +6,9 @@ Example
 本章では、Nablarchアプリケーションフレームワークを利用して作成したExampleアプリケーションに必要な環境構築手順と、アプリケーションの実行手順を解説する。
 
 
+.. tip::
+ アプリケーションを新規作成する場合は、`ブランクプロジェクト <https://nablarch.github.io/docs/LATEST/doc/application_framework/application_framework/blank_project/index.html>`_ から作ってください。
+
 環境構築手順について
 ------------------------------------------
 Exampleアプリケーションは、Apache Mavenを利用してアプリケーションのビルド、実行を行う。以下のページを参考に、Apache MavenのPCへのインストール及び必要な設定を行うこと。
