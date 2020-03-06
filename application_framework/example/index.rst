@@ -7,7 +7,10 @@ Example
 
 
 .. tip::
- アプリケーションを新規作成する場合は、`ブランクプロジェクト <https://nablarch.github.io/docs/LATEST/doc/application_framework/application_framework/blank_project/index.html>`_ から作ってください。
+ Exampleアプリケーションは実装例であり、これを改修してアプリケーションを作成することは想定していない。
+ 
+ 新規作成する際は、`ブランクプロジェクト <https://nablarch.github.io/docs/LATEST/doc/application_framework/application_framework/blank_project/index.html>`_ から作成すること。
+
 
 環境構築手順について
 ------------------------------------------
