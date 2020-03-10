@@ -52,6 +52,17 @@ log.propertiesの設定例
   loggers.MESSAGING.level=INFO
   loggers.MESSAGING.writerNames=appLog
 
+.. important::
+  
+  "writer.appLog.formatter.format=<アプリケーションログ用のフォーマット>"の設定はappLogのLogWriter全体に対するフォーマット設定となる。
+  appLogに出力されるもののうち、明示的にフォーマットを指定しないものに対しての設定を上記 writer.appLog.formatter.format に設定する。
+
+  メッセージングログのフォーマットは、 :ref:`messaging_log-setting` に記載の 
+  :ref:`MOM送信メッセージの出力フォーマット<messaging_log-prop_sent_message_format>` 、
+  :ref:`MOM受信メッセージの出力フォーマット<messaging_log-prop_received_message_format>` 、
+  :ref:`HTTP送信メッセージの出力フォーマット<messaging_log-prop_http_sent_message_format>` 、
+  :ref:`HTTP受信メッセージの出力フォーマット<messaging_log-prop_http_received_message_format>` に設定する。
+
 使用方法
 --------------------------------------------------
 
@@ -82,6 +93,8 @@ log.propertiesの設定例
  messagingLogFormatter.maskingChar
   マスクに使用する文字。デフォルトは’*’。
 
+.. _messaging_log-prop_sent_message_format:
+
  messagingLogFormatter.sentMessageFormat
   MOM送信メッセージのログ出力に使用するフォーマット。
 
@@ -108,6 +121,8 @@ log.propertiesの設定例
         \n\ttime_to_live   = [$timeToLive$]
         \n\tmessage_body   = [$messageBody$]
 
+.. _messaging_log-prop_received_message_format:
+
  messagingLogFormatter.receivedMessageFormat
   MOM受信メッセージのログ出力に使用するフォーマット。
 
@@ -133,6 +148,8 @@ log.propertiesの設定例
         \n\treply_to       = [$replyTo$]
         \n\tmessage_body   = [$messageBody$]
 
+.. _messaging_log-prop_http_sent_message_format:
+
  messagingLogFormatter.httpSentMessageFormat
   HTTP送信メッセージのログ出力に使用するフォーマット。
 
@@ -156,6 +173,8 @@ log.propertiesの設定例
         \n\tcorrelation_id = [$correlationId$]
         \n\tmessage_header = [$messageHeader$]
         \n\tmessage_body   = [$messageBody$]
+
+.. _messaging_log-prop_http_received_message_format:
 
  messagingLogFormatter.httpReceivedMessageFormat
   HTTP受信メッセージのログ出力に使用するフォーマット。
