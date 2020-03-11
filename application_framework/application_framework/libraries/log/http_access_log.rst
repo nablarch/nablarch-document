@@ -112,8 +112,6 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
   :java:extdoc:`HttpAccessLogFormatter <nablarch.fw.web.handler.HttpAccessLogFormatter>` を実装したクラス。
   差し替える場合に指定する。
 
-.. _http_access_log-prop_begin_format:
-
  httpAccessLogFormatter.beginFormat
   リクエスト処理開始時のログ出力に使用するフォーマット。
 
@@ -153,8 +151,6 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
    これらの取得元が :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` なので、
    ハンドラ構成に :ref:`thread_context_handler` が含まれている必要がある。
 
-.. _http_access_log-prop_parameters_format:
-
  httpAccessLogFormatter.parametersFormat
   hiddenパラメータ復号後のログ出力に使用するフォーマット。
 
@@ -167,8 +163,6 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
     @@@@ PARAMETERS @@@@
         \n\tparameters  = [$parameters$]
 
-.. _http_access_log-prop_dispatching_format:
-
  httpAccessLogFormatter.dispatchingClassFormat
   ディスパッチ先クラス決定後のログ出力に使用するフォーマット。
 
@@ -179,8 +173,6 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
    .. code-block:: bash
 
     @@@@ DISPATCHING CLASS @@@@ class = [$dispatchingClass$]
-
-.. _http_access_log-prop_end_format:
 
  httpAccessLogFormatter.endFormat
   リクエスト処理終了時のログ出力に使用するフォーマット。
@@ -199,7 +191,7 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
   デフォルトのフォーマット
    .. code-block:: bash
 
-    @@@@ END @@@@ rid = [$requestId$] uid = [$userId$] sid = [$sessionId$] url = [$url$] method = [$method$] status_code = [$statusCode$] content_path = [$contentPath$]
+    @@@@ END @@@@ rid = [$requestId$] uid = [$userId$] sid = [$sessionId$] url = [$url$] status_code = [$statusCode$] content_path = [$contentPath$]
         \n\tstart_time     = [$startTime$]
         \n\tend_time       = [$endTime$]
         \n\texecution_time = [$executionTime$]

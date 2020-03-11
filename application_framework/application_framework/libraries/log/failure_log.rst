@@ -83,6 +83,7 @@ app-log.propertiesの設定例
  大規模システムで障害時の連絡先が複数存在する場合、
  :ref:`failure_log-add_contact` を使用することで、リクエストID毎に連絡先情報をログに含めることができる。
 
+
 使用方法
 --------------------------------------------------
 
@@ -209,8 +210,6 @@ app-log.propertiesの設定例
    .. code-block:: java
 
     fail_code = [$failureCode$] $message$
-
- .. _failure_log-prop_analysis_format:
 
  failureLogFormatter.analysisFormat
   障害解析ログのフォーマット。
