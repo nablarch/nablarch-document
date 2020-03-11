@@ -22,6 +22,10 @@ Nablarchのバッチアプリケーションでは、以下2種類のバッチ�
 
 .. tip::
 
+  Nablarch5u15までの解説書ではJSR352に準拠したバッチアプリケーションを推奨してきましたが、2020年現在の普及状況と学習コストの高さを鑑みNablarchバッチアプリケーションを推奨とするよう方針転換しました。
+
+.. tip::
+
   :ref:`jsr352_batch` と :ref:`nablarch_batch` で提供している機能の違いは、 :ref:`batch-functional_comparison` を参照。
 
 
