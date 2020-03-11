@@ -65,25 +65,23 @@ log.propertiesの設定例
   loggers.MON.level=ERROR
   loggers.MON.writerNames=monitorLog
 
-.. important::
+app-log.propertiesの設定例
+ .. code-block:: properties
 
-  上記の設定例では障害通知ログはmonitorLogに、障害解析ログはappLogのLogWriterに出力される。
-
-  "writer.monitorLog.formatter.format=<障害通知ログ用のフォーマット>"の設定は
-  monitorLogのLogWriter全体に対するフォーマット設定となる。
-
-  障害通知ログはFailureLogUtilを使用して出力するため、
-  後述の :ref:`failure_log-setting` で :ref:`障害通知ログのフォーマット<failure_log-prop_notification_format>` に設定したフォーマットが適用される。
-  monitorLogに出力するもののうち、明示的にフォーマットを指定しないものに対しての設定を上記 writer.monitorLog.formatter.format に記述する。
-
-  また、同様に"writer.appLog.formatter.format=<アプリケーションログ用のフォーマット>"の設定はappLogのLogWriter全体に対するフォーマット設定となる。
-  障害解析ログのフォーマットは、 :ref:`failure_log-setting` に記載の :ref:`障害解析ログのフォーマット<failure_log-prop_analysis_format>` に設定する。
+  # FailureLogFormatter
+  #failureLogFormatter.className=
+  failureLogFormatter.defaultFailureCode=MSG99999
+  failureLogFormatter.defaultMessage=an unexpected exception occurred.
+  failureLogFormatter.language=ja
+  failureLogFormatter.notificationFormat=fail_code = [$failureCode$] $message$
+  failureLogFormatter.analysisFormat=fail_code = [$failureCode$] $message$\nInput Data :\n$data$
+  #failureLogFormatter.contactFilePath=
+  #failureLogFormatter.fwFailureCodeFilePath=
 
 .. tip::
 
  大規模システムで障害時の連絡先が複数存在する場合、
  :ref:`failure_log-add_contact` を使用することで、リクエストID毎に連絡先情報をログに含めることができる。
-
 
 使用方法
 --------------------------------------------------
@@ -216,13 +214,8 @@ log.propertiesの設定例
 
  failureLogFormatter.analysisFormat
   障害解析ログのフォーマット。
-  フォーマットに指定可能なプレースホルダは、
+  フォーマットに指定可能なプレースホルダとデフォルトのフォーマットは、
   :ref:`障害通知ログのフォーマット <failure_log-prop_notification_format>` と同じ。
-
-  デフォルトのフォーマット
-   .. code-block:: java
-
-    fail_code = [$failureCode$] $message$\nInput Data :\n$data$
 
  failureLogFormatter.contactFilePath
   障害の連絡先情報を指定したプロパティファイルのパス。

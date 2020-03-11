@@ -67,16 +67,34 @@ log.propertiesの設定例
   loggers.ACC.level=INFO
   loggers.ACC.writerNames=appLog
 
-.. important::
-  
-  "writer.appLog.formatter.format=<アプリケーションログ用のフォーマット>"の設定はappLogのLogWriter全体に対するフォーマット設定となる。
-  appLogに出力されるもののうち、明示的にフォーマットを指定しないものに対しての設定を上記 writer.appLog.formatter.format に設定する。
+app-log.propertiesの設定例
+ .. code-block:: properties
 
-  HTTPアクセスログのフォーマットは、 :ref:`http_access_log-setting` に記載の 
-  :ref:`リクエスト処理開始時の出力フォーマット<http_access_log-prop_begin_format>` 、
-  :ref:`hiddenパラメータ復号後の出力フォーマット<http_access_log-prop_parameters_format>` 、
-  :ref:`ディスパッチ先クラス決定後の出力フォーマット<http_access_log-prop_dispatching_format>` 、
-  :ref:`リクエスト処理終了時の出力フォーマット<http_access_log-prop_end_format>` に設定する。
+  # HttpAccessLogFormatter
+  #httpAccessLogFormatter.className=
+  #httpAccessLogFormatter.datePattern=
+  #httpAccessLogFormatter.maskingChar=
+  #httpAccessLogFormatter.maskingPatterns=
+  #httpAccessLogFormatter.parametersSeparator=
+  #httpAccessLogFormatter.sessionScopeSeparator=
+  #httpAccessLogFormatter.beginOutputEnabled=
+  #httpAccessLogFormatter.parametersOutputEnabled=
+  #httpAccessLogFormatter.dispatchingClassOutputEnabled=
+  #httpAccessLogFormatter.endOutputEnabled=
+  httpAccessLogFormatter.beginFormat=@@@@ BEGIN @@@@ rid = [$requestId$] uid = [$userId$] sid = [$sessionId$]\
+                                        \n\trawUrl      = [$rawUrl$]\
+                                        \n\tmethod      = [$method$]\
+                                        \n\tport        = [$port$]\
+                                        \n\tclient_ip   = [$clientIpAddress$]\
+                                        \n\tclient_host = [$clientHost$]
+  httpAccessLogFormatter.parametersFormat=@@@@ PARAMETERS @@@@\n\tparameters  = [$parameters$]
+  httpAccessLogFormatter.dispatchingClassFormat=@@@@ DISPATCHING CLASS @@@@ class = [$dispatchingClass$]
+  httpAccessLogFormatter.endFormat=@@@@ END @@@@ rid = [$requestId$] uid = [$userId$] sid = [$sessionId$] rawUrl = [$rawUrl$] method = [$method$] status_code = [$statusCode$] content_path = [$contentPath$]\
+                                      \n\tstart_time     = [$startTime$]\
+                                      \n\tend_time       = [$endTime$]\
+                                      \n\texecution_time = [$executionTime$]\
+                                      \n\tmax_memory     = [$maxMemory$]\
+                                      \n\tfree_memory    = [$freeMemory$]
 
 使用方法
 --------------------------------------------------
@@ -103,6 +121,7 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
    :リクエストID: $requestId$
    :ユーザID: $userId$
    :URL: $url$
+   :クエリ文字列付きのURL: $rawUrl$
    :ポート番号: $port$
    :HTTPメソッド: $method$
    :セッションID: $sessionId$
@@ -249,10 +268,10 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
  .. code-block:: properties
 
   httpAccessLogFormatter.className=nablarch.fw.web.handler.HttpAccessLogFormatter
-  httpAccessLogFormatter.beginFormat=> sid = [$sessionId$] @@@@ BEGIN @@@@\n\turl = [$url$]\n\tmethod = [$method$]
+  httpAccessLogFormatter.beginFormat=> sid = [$sessionId$] @@@@ BEGIN @@@@\n\trawUrl = [$rawUrl$]\n\tmethod = [$method$]
   httpAccessLogFormatter.parametersFormat=> sid = [$sessionId$] @@@@ PARAMETERS @@@@\n\tparameters  = [$parameters$]
   httpAccessLogFormatter.dispatchingClassFormat=> sid = [$sessionId$] @@@@ DISPATCHING CLASS @@@@ class = [$dispatchingClass$]
-  httpAccessLogFormatter.endFormat=< sid = [$sessionId$] @@@@ END @@@@ url = [$url$] status_code = [$statusCode$] content_path = [$contentPath$]
+  httpAccessLogFormatter.endFormat=< sid = [$sessionId$] @@@@ END @@@@ rawUrl = [$rawUrl$] status_code = [$statusCode$] content_path = [$contentPath$]
   httpAccessLogFormatter.datePattern="yyyy-MM-dd HH:mm:ss.SSS"
   httpAccessLogFormatter.maskingChar=#
   httpAccessLogFormatter.maskingPatterns=password,mobilePhoneNumber

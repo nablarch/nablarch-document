@@ -32,9 +32,41 @@
 log.propertiesの設定例
  .. code-block:: properties
 
+  writerNames=appLog
+
+  # アプリケーションログの出力先
+  writer.appLog.className=nablarch.core.log.basic.FileLogWriter
+  writer.appLog.filePath=/var/log/app/app.log
+  writer.appLog.encoding=UTF-8
+  writer.appLog.maxFileSize=10000
+  writer.appLog.formatter.className=nablarch.core.log.basic.BasicLogFormatter
+  writer.appLog.formatter.format=<アプリケーションログ用のフォーマット>
+
+  availableLoggersNamesOrder=PER,ROO
+
+  # アプリケーションログの設定
+  loggers.ROO.nameRegex=.*
+  loggers.ROO.level=INFO
+  loggers.ROO.writerNames=appLog
+
+  # パフォーマンスログの設定
   loggers.PER.nameRegex=PERFORMANCE
   loggers.PER.level=DEBUG
-  loggers.PER.writerNames=<出力先のLogWriter>
+  loggers.PER.writerNames=appLog
+
+app-log.propertiesの設定例
+ .. code-block:: properties
+
+  # PerformanceLogFormatter
+  #performanceLogFormatter.className=
+  #performanceLogFormatter.targetPoints=
+  #performanceLogFormatter.datePattern=
+  performanceLogFormatter.format=\n\tpoint = [$point$] result = [$result$]\
+                                 \n\tstart_time = [$startTime$] end_time = [$endTime$]\
+                                 \n\texecution_time = [$executionTime$]\
+                                 \n\tmax_memory = [$maxMemory$]\
+                                 \n\tstart_free_memory = [$startFreeMemory$] start_used_memory = [$startUsedMemory$]\
+                                 \n\tend_free_memory = [$endFreeMemory$] end_used_memory = [$endUsedMemory$]
 
 使用方法
 --------------------------------------------------
