@@ -469,6 +469,8 @@ LogFormatter
  リクエストID、実行時ID、ユーザIDを出力する場合は、
  これらの取得元が :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` なので、
  ハンドラ構成に :ref:`thread_context_handler` が含まれている必要がある。
+ 特にユーザIDについては、 :ref:`thread_context_handler-user_id_attribute_setting` を参照して
+ アプリケーションでセッションに値を設定する必要がある。
 
 改行コードとタブ文字を含めたい場合
  フォーマットに改行コードとタブ文字を含めたい場合は、以下に示すように、Javaと同様の記述を使用する。
