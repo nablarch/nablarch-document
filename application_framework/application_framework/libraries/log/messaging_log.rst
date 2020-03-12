@@ -38,7 +38,7 @@ log.propertiesの設定例
   writer.appLog.encoding=UTF-8
   writer.appLog.maxFileSize=10000
   writer.appLog.formatter.className=nablarch.core.log.basic.BasicLogFormatter
-  writer.appLog.formatter.format=<アプリケーションログ用のフォーマット>
+  writer.appLog.formatter.format=$date$ -$logLevel$- $runtimeLoggerName$ [$executionId$] boot_proc = [$bootProcess$] proc_sys = [$processingSystem$] req_id = [$requestId$] usr_id = [$userId$] $message$$information$$stackTrace$
 
   availableLoggersNamesOrder=MESSAGING,ROO
 
@@ -51,6 +51,45 @@ log.propertiesの設定例
   loggers.MESSAGING.nameRegex=MESSAGING
   loggers.MESSAGING.level=INFO
   loggers.MESSAGING.writerNames=appLog
+
+app-log.propertiesの設定例
+ .. code-block:: properties
+
+  # MessagingLogFormatter
+  #messagingLogFormatter.className=
+  #messagingLogFormatter.maskingChar=
+  #messagingLogFormatter.maskingPatterns=
+  # MOMメッセージング用フォーマット
+  messagingLogFormatter.sentMessageFormat=@@@@ SENT MESSAGE @@@@\
+                                            \n\tthread_name    = [$threadName$]\
+                                            \n\tmessage_id     = [$messageId$]\
+                                            \n\tdestination    = [$destination$]\
+                                            \n\tcorrelation_id = [$correlationId$]\
+                                            \n\treply_to       = [$replyTo$]\
+                                            \n\ttime_to_live   = [$timeToLive$]\
+                                            \n\tmessage_body   = [$messageBody$]
+  messagingLogFormatter.receivedMessageFormat=@@@@ RECEIVED MESSAGE @@@@\
+                                                \n\tthread_name    = [$threadName$]\
+                                                \n\tmessage_id     = [$messageId$]\
+                                                \n\tdestination    = [$destination$]\
+                                                \n\tcorrelation_id = [$correlationId$]\
+                                                \n\treply_to       = [$replyTo$]\
+                                                \n\tmessage_body   = [$messageBody$]
+  # HTTPメッセージング用フォーマット
+  messagingLogFormatter.httpSentMessageFormat=@@@@ HTTP SENT MESSAGE @@@@\
+                                                \n\tthread_name    = [$threadName$]\
+                                                \n\tmessage_id     = [$messageId$]\
+                                                \n\tdestination    = [$destination$]\
+                                                \n\tcorrelation_id = [$correlationId$]\
+                                                \n\tmessage_header = [$messageHeader$]\
+                                                \n\tmessage_body   = [$messageBody$]
+  messagingLogFormatter.httpReceivedMessageFormat=@@@@ HTTP RECEIVED MESSAGE @@@@\
+                                                    \n\tthread_name    = [$threadName$]\
+                                                    \n\tmessage_id     = [$messageId$]\
+                                                    \n\tdestination    = [$destination$]\
+                                                    \n\tcorrelation_id = [$correlationId$]\
+                                                    \n\tmessage_header = [$messageHeader$]\
+                                                    \n\tmessage_body   = [$messageBody$]
 
 使用方法
 --------------------------------------------------
