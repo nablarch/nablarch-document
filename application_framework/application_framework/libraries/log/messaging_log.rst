@@ -38,7 +38,7 @@ log.propertiesの設定例
   writer.appLog.encoding=UTF-8
   writer.appLog.maxFileSize=10000
   writer.appLog.formatter.className=nablarch.core.log.basic.BasicLogFormatter
-  writer.appLog.formatter.format=<アプリケーションログ用のフォーマット>
+  writer.appLog.formatter.format=$date$ -$logLevel$- $runtimeLoggerName$ [$executionId$] boot_proc = [$bootProcess$] proc_sys = [$processingSystem$] req_id = [$requestId$] usr_id = [$userId$] $message$$information$$stackTrace$
 
   availableLoggersNamesOrder=MESSAGING,ROO
 
