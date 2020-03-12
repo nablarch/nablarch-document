@@ -348,7 +348,57 @@ Excelファイルの配置場所を記載するプロパティファイルのパ
            <entry key="format" value="fmt" />
          </map>
        </property>
+    </component>
+
+
+テストデータ解析クラスの設定
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+コンポーネント設定ファイルに、取引単体テストで使用するテストデータ解析クラスを設定する。
+
+ .. code-block:: xml
+ 
+   <!-- TestDataParser -->
+  <component name="messagingTestDataParser" class="nablarch.test.core.reader.BasicTestDataParser">
+    <property name="testDataReader">
+      <component name="xlsReaderForPoi" class="nablarch.test.core.reader.PoiXlsReader"/>
     </property>
+    <property name="interpreters" ref="messagingTestInterpreters" />
+  </component>
+   <!-- テストデータ記法の解釈を行うクラス群  -->
+  <list name="messagingTestInterpreters">
+    <component class="nablarch.test.core.util.interpreter.NullInterpreter"/>
+    <component class="nablarch.test.core.util.interpreter.QuotationTrimmer"/>
+    <component class="nablarch.test.core.util.interpreter.CompositeInterpreter">
+      <property name="interpreters">
+        <list>
+          <component class="nablarch.test.core.util.interpreter.BasicJapaneseCharacterInterpreter"/>
+        </list>
+      </property>
+    </component>
+  </list>
+
+
+
+必要な単体テストライブラリをpom.xmlへの追加
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+以下のdependencyをpom.xmlへ追加する
+
+ .. code-block:: xml
+ 
+        <dependency>
+          <groupId>com.nablarch.framework</groupId>
+          <artifactId>nablarch-testing</artifactId>
+          <exclusions>
+            <exclusion>
+              <groupId>org.mortbay.jetty</groupId>
+              <artifactId>*</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>com.google.code.findbugs</groupId>
+              <artifactId>*</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
 
 
 
