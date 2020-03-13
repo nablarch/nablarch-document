@@ -123,18 +123,37 @@
 
 ユーザIDを設定する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-:java:extdoc:`UserIdAttribute <nablarch.common.handler.threadcontext.UserIdAttribute>` は、デフォルトではHTTPセッションからユーザIDを取得する。
-HTTPセッションへの設定はフレームワークでは実施しないため、ログイン時などにアプリケーションで設定する必要がある。
-HTTPセッションに設定する際のキーはデフォルトでは :java:extdoc:`ThreadContext#USER_ID_KEY <nablarch.core.ThreadContext.USER_ID_KEY>` が使用される。
+:java:extdoc:`UserIdAttributeInSessionStore <nablarch.common.web.handler.threadcontext.UserIdAttributeInSessionStore>` は、デフォルトではセッションストアからユーザIDを取得する。
+セッションストアへの設定はフレームワークでは実施しないため、ログイン時などにアプリケーションで設定する必要がある。
+セッションストアに設定する際のキーはデフォルトでは"user.id"が使用される。
 上書きする場合は、 :java:extdoc:`UserIdAttribute#sessionKey <nablarch.common.handler.threadcontext.UserIdAttribute.setSessionKey(java.lang.String)>` に値を設定する。
+"login_id"に上書きする例を以下に示す。
+
+.. code-block:: xml
+
+  <component name="threadContextHandler" class="nablarch.common.handler.threadcontext.ThreadContextHandler">
+    <property name="attributes">
+      <list>
+        <!-- ユーザID -->
+        <component class="nablarch.common.web.handler.threadcontext.UserIdAttributeInSessionStore">
+          <property name="sessionKey" value="login_id"/>
+          <property name="anonymousId" value="${nablarch.userIdAttribute.anonymousId}"/>
+        </component>
+        <!-- その他のコンポーネント定義は省略 -->
+      </list>
+    </property>
+  </component>
+
 デフォルトのキーでHTTPセッションにユーザIDを設定する実装例を以下に示す。
 
 .. code-block:: java
 
-  SessionUtil.put(context, ThreadContext.USER_ID_KEY, userId, "httpSession");
+  SessionUtil.put(context, "user.id", userId);
 
-また、HTTPセッション以外の取得元からユーザIDを取得するための :java:extdoc:`UserIdAttribute#getUserIdSession <nablarch.common.handler.threadcontext.UserIdAttribute.getUserIdSession(nablarch.fw.ExecutionContext-java.lang.String)>` を公開している。
-このメソッドをオーバーライドすることで任意の取得元からユーザIDを取得することが可能となる。"userContext"というキーでセッションストアに設定したオブジェクトからユーザIDを取得する場合の実装例を以下に示す。
+また、セッションストアに直接ユーザIDを格納するのではなく、ログイン情報をまとめて格納したいといった要件が考えられる。
+その場合は以下のように :java:extdoc:`UserIdAttribute#getUserIdSession <nablarch.common.handler.threadcontext.UserIdAttribute.getUserIdSession(nablarch.fw.ExecutionContext-java.lang.String)>` 
+をオーバーライドすることで任意の取得元からユーザIDを取得することが可能となる。
+"userContext"というキーでセッションストアに設定したオブジェクトからユーザIDを取得する場合の実装例を以下に示す。
 下記の場合も、アプリケーションでセッションストアへオブジェクトを設定する必要がある。
 
 .. code-block:: java
