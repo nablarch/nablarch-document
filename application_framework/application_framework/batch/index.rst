@@ -13,12 +13,16 @@ Nablarchのバッチアプリケーションでは、以下2種類のバッチ�
   nablarch_batch/index
 
 どちらのフレームワークを使用してもバッチアプリケーションを構築することができるが、
-以下の理由により :doc:`jsr352/index` を使用してバッチアプリケーションを作成することを推奨する。
+以下の理由により :doc:`nablarch_batch/index` を使用してバッチアプリケーションを作成することを推奨する。
 
 理由
-  :doc:`nablarch_batch/index` は、 `JSR352(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=352>`_ や `Spring Batch(外部サイト、英語) <http://projects.spring.io/spring-batch/>`_ [#spring_batch]_ に似ているが、異なる部分が数多く存在している。
-  このため、 :doc:`nablarch_batch/index` を使用した場合、多くを学ぶ必要があり学習コストが高くなるデメリットがある。
-  また、似て非なる部分が開発者の混乱の元となり、開発生産性を下げるデメリットがある。
+  :doc:`nablarch_batch/index` は、基本となる :ref:`nablarch_architecture` を :doc:`ウェブアプリケーション<../web/index>` 、 :doc:`ウェブサービス<../web_service/index>` 、
+  :doc:`メッセージング<../messaging/index>` の実行基盤と共有している。同じアーキテクチャとすることで、別の実行基盤経験者を混乱させることなくバッチアプリケーション開発にアサインすることができる。
+  また、JSR352については2020年時点で情報が少なく有識者もアサインしにくいため、:doc:`nablarch_batch/index` を使用してバッチアプリケーションを作成することを推奨する。
+
+.. tip::
+
+  Nablarch5u15までの解説書ではJSR352に準拠したバッチアプリケーションを推奨してきましたが、2020年現在の普及状況と学習コストの高さを鑑みNablarchバッチアプリケーションを推奨とするよう方針転換しました。
 
 .. tip::
 
@@ -31,5 +35,3 @@ Nablarchのバッチアプリケーションでは、以下2種類のバッチ�
 
   functional_comparison
 
-
-.. [#spring_batch] JSR352は、Spring Batchから多くの機能を引き継いで標準化されている。このため、Spring Batchの経験者は多くを学ぶことなくJSR352を使用したバッチアプリケーションの開発が行える。
