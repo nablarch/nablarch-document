@@ -8,6 +8,12 @@ Getting Started
 本章では詳細な機能説明を行わないため、実装を行う際には、適宜 :doc:`../feature_details`
 や :doc:`../../libraries/index` 、及び `APIドキュメント` を参照する必要がある。
 
+.. tip::
+ Exampleアプリケーションは実装例であり、これを改修してアプリケーションを作成することは想定していない。
+ 
+ 新規作成する際は、`ブランクプロジェクト <https://nablarch.github.io/docs/LATEST/doc/application_framework/application_framework/blank_project/index.html>`_ から作成すること。
+
+
 前提条件
   本章は  :ref:`example_application`  をベースに解説を行う。
   Exampleアプリケーションの動作環境を事前に構築しておくこと。
