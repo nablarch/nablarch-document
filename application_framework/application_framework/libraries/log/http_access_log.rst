@@ -150,6 +150,8 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
    リクエストID、ユーザIDを出力する場合は、
    これらの取得元が :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` なので、
    ハンドラ構成に :ref:`thread_context_handler` が含まれている必要がある。
+   特にユーザIDについては、 :ref:`thread_context_handler-user_id_attribute_setting` を参照して
+   アプリケーションでセッションに値を設定する必要がある。
 
  httpAccessLogFormatter.parametersFormat
   hiddenパラメータ復号後のログ出力に使用するフォーマット。
