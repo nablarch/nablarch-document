@@ -5,9 +5,9 @@ Getting Started
 本章を通読することで、Nablarchを用いた |jsr352| に準拠したバッチアプリケーションの開発のイメージを掴むことができる。
 
 .. tip::
- Exampleアプリケーションは実装例であり、これを改修してアプリケーションを作成することは想定していない。
+ ExampleはNablarchの機能の利用方法を示した実装例であり、Exampleを改修して本格的なアプリケーションを作成することは想定していない。
  
- 新規作成する際は、`ブランクプロジェクト <https://nablarch.github.io/docs/LATEST/doc/application_framework/application_framework/blank_project/index.html>`_ から作成すること。
+ 本格的なアプリケーションを作成する場合は :ref:`blank_project` から作成すること。
 
 
 前提条件
