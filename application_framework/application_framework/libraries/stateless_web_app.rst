@@ -60,11 +60,11 @@ HTTPセッション非依存機能の導入方法
 * :java:extdoc:`UserIdAttribute <nablarch.common.handler.threadcontext.UserIdAttribute>`
 
 
-LanguageAttributeInHttpSessionとTimeZoneAttributeInHttpSessionについては、以下の部品で代替できる。
+それぞれ、HTTPセッションを使用しない実装として以下の部品で代替できる。
 
 * :java:extdoc:`LanguageAttributeInHttpCookie <nablarch.common.web.handler.threadcontext.LanguageAttributeInHttpCookie>`
 * :java:extdoc:`TimeZoneAttributeInHttpCookie <nablarch.common.web.handler.threadcontext.TimeZoneAttributeInHttpCookie>`
-
+* :java:extdoc:`UserIdAttributeInSessionStore <nablarch.common.web.handler.threadcontext.UserIdAttributeInSessionStore>`
 
 HTTPリライトハンドラ
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
