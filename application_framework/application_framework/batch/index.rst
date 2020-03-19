@@ -16,9 +16,7 @@ Nablarchのバッチアプリケーションでは、以下2種類のバッチ�
 以下の理由により :doc:`nablarch_batch/index` を使用してバッチアプリケーションを作成することを推奨する。
 
 理由
-  :doc:`nablarch_batch/index` は、基本となる :ref:`nablarch_architecture` を :doc:`ウェブアプリケーション<../web/index>` 、 :doc:`ウェブサービス<../web_service/index>` 、
-  :doc:`メッセージング<../messaging/index>` の実行基盤と共有している。同じアーキテクチャとすることで、別の実行基盤経験者を混乱させることなくバッチアプリケーション開発にアサインすることができる。
-  また、JSR352については2020年時点で情報が少なく有識者もアサインしにくいため、:doc:`nablarch_batch/index` を使用してバッチアプリケーションを作成することを推奨する。
+  JSR352は2020年時点で情報が少なく有識者もアサインしにくいため、:doc:`nablarch_batch/index` を使用してバッチアプリケーションを作成することを推奨する。
 
 .. tip::
 
