@@ -7,7 +7,7 @@ Domaアダプタ
   :depth: 3
   :local:
 
-`Doma2(外部サイト) <http://doma.readthedocs.io/ja/stable/>`_ を使用したデータベースアクセスを行うためのアダプタを提供する。
+`Doma2(外部サイト、英語) <https://doma.readthedocs.io/en/stable/>`_ を使用したデータベースアクセスを行うためのアダプタを提供する。
 
 データベースアクセスにDomaを使用することで以下のメリットが得られる。
 

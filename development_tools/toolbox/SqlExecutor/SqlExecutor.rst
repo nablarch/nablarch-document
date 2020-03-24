@@ -70,7 +70,7 @@ DB接続方法の選択
 
 .. tip::
 
-  Nablarchでは2-way SQLとしてSQLを記述できる `Doma(外部サイト) <http://doma.readthedocs.io/ja/stable/>`_ 用の :ref:`アダプタ <doma_adaptor>` を提供している。
+  Nablarchでは2-way SQLとしてSQLを記述できる `Doma(外部サイト、英語) <https://doma.readthedocs.io/en/stable/>`_ 用の :ref:`アダプタ <doma_adaptor>` を提供している。
 
   Domaを使用した場合、本ツールのような複雑なツールのセットアップを行わなくても、本番環境用に定義したSQLを簡単にテスト実行出来る。
   (動的な条件を構築するような場合でも、SQLを書き換えることなく実行できる)
