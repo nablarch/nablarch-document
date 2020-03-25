@@ -178,14 +178,14 @@ SampleAction             バッチアプリケーション実装する際に一�
 
 .. code-block:: text
 
-  2016-09-01 16:00:20.620 -INFO- ROO [201609011600206200001] 疎通確認を開始します。
-  2016-09-01 16:00:20.646 -INFO- ROO [201609011600206200001] 取得したコード名称：ロック
-  2016-09-01 16:00:20.648 -INFO- ROO [201609011600206200001] 疎通確認が完了しました。
-  2016-09-01 16:00:20.652 -INFO- ROO [null]
+  2020-03-25 18:40:40.229 -INFO- com.example.SampleBatch [202003251840402290002] boot_proc = [] proc_sys = [] req_id = [SampleBatch] usr_id = [batch_user] 疎通確認を開始します。
+  2020-03-25 18:40:40.258 -INFO- com.example.SampleBatch [202003251840402290002] boot_proc = [] proc_sys = [] req_id = [SampleBatch] usr_id = [batch_user] 取得したコード名称：ロック
+  2020-03-25 18:40:40.264 -INFO- com.example.SampleBatch [202003251840402290002] boot_proc = [] proc_sys = [] req_id = [SampleBatch] usr_id = [batch_user] 疎通確認が完了しました。
+  2020-03-25 18:40:40.273 -INFO- nablarch.fw.handler.MultiThreadExecutionHandler [202003251840402220001] boot_proc = [] proc_sys = [] req_id = [SampleBatch] usr_id = [batch_user]
   Thread Status: normal end.
   Thread Result:[200 Success] The request has succeeded.
-  2016-09-01 16:00:20.655 -INFO- ROO [null] TOTAL COMMIT COUNT = [1]
-  2016-09-01 16:00:20.658 -INFO- ROO [null] @@@@ END @@@@ exit code = [0] execute time(ms) = [1054]
+  2020-03-25 18:40:40.281 -INFO- nablarch.core.log.app.BasicCommitLogger [202003251840402220001] boot_proc = [] proc_sys = [] req_id = [SampleBatch] usr_id = [batch_user] TOTAL COMMIT COUNT = [1]
+  2020-03-25 18:40:40.285 -INFO- nablarch.fw.launcher.Main [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] @@@@ END @@@@ exit code = [0] execute time(ms) = [486]
 
 疎通確認(テーブルをキューとして使ったメッセージング)
 --------------------------------------------------------------------
@@ -237,13 +237,12 @@ SampleAction             バッチアプリケーション実装する際に一�
 
 .. code-block:: text
 
-    2016-04-11 15:18:07.916 -INFO- ROO [201604111518078810001] read database record. key info: {USER_INFO_ID=00000000000000000001}
-    2016-04-11 15:18:07.917 -INFO- ROO [201604111518079170002] handleが呼ばれました。
-    2016-04-11 15:18:07.917 -INFO- ROO [201604111518079170002] USER_INFO_ID:00000000000000000001
-    2016-04-11 15:18:07.918 -INFO- ROO [201604111518079170002] LOGIN_ID:tarou
-    2016-04-11 15:18:07.918 -INFO- ROO [201604111518079170002] KANA_NAME:たろう
-    2016-04-11 15:18:07.919 -INFO- ROO [201604111518079170002] KANJI_NAME:太郎
-
+    2020-03-25 18:41:20.767 -INFO- nablarch.fw.reader.DatabaseTableQueueReader [202003251841207560001] boot_proc = [] proc_sys = [] req_id = [SampleResiBatch] usr_id = [batch_user] read database record. key info: {USER_INFO_ID=00000000000000000001}
+    2020-03-25 18:41:20.774 -INFO- com.example.SampleResiBatch [202003251841207740002] boot_proc = [] proc_sys = [] req_id = [SampleResiBatch] usr_id = [batch_user] handleが呼ばれました。
+    2020-03-25 18:41:20.779 -INFO- com.example.SampleResiBatch [202003251841207740002] boot_proc = [] proc_sys = [] req_id = [SampleResiBatch] usr_id = [batch_user] USER_INFO_ID:00000000000000000001
+    2020-03-25 18:41:20.784 -INFO- com.example.SampleResiBatch [202003251841207740002] boot_proc = [] proc_sys = [] req_id = [SampleResiBatch] usr_id = [batch_user] LOGIN_ID:TAROU
+    2020-03-25 18:41:20.792 -INFO- com.example.SampleResiBatch [202003251841207740002] boot_proc = [] proc_sys = [] req_id = [SampleResiBatch] usr_id = [batch_user] KANA_NAME:たろう
+    2020-03-25 18:41:20.799 -INFO- com.example.SampleResiBatch [202003251841207740002] boot_proc = [] proc_sys = [] req_id = [SampleResiBatch] usr_id = [batch_user] KANJI_NAME:太郎
 
 終了はctrl + c等で強制終了すること。
 
