@@ -37,21 +37,21 @@ JAX-RSアダプタ
   
 .. tip::
 
-  jacksonのバージョン2.8.11.1及び1.9.13を使用してテストを行っている。
+  Jacksonのバージョン2.10.3を使用してテストを行っている。
   バージョンを変更する場合は、プロジェクト側でテストを行い問題ないことを確認すること。
   
-  jacksonの1系(nablarch.integration.jaxrs.jackson.Jackson1BodyConverter)を使用する場合には、
-  jackson1系への依存を追加すること。
-  
-  .. code-block:: xml
-  
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
-      <version>1.9.13</version>
-    </dependency>
-    
 
+.. tip::
+
+  Jackson1系ライブラリの脆弱性対応が行われなくなったため、Nablarch5u16よりJackson1系のサポートを廃止した。
+  Jackson1系を使用していた場合はJackson2系へ移行すること。
+
+  【参考情報】
+
+  * https://jvndb.jvn.jp/ja/contents/2019/JVNDB-2019-012258.html
+  * https://github.com/advisories/GHSA-r6j9-8759-g62w
+  
+   
 Jersey環境下でRESTfulウェブサービスを利用する
 --------------------------------------------------
 ウェブアプリケーションサーバにバンドルされている `JAX-RS(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=339>`_ の実装が、

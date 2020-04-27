@@ -7,7 +7,7 @@ IBM WebSphere MQアダプタ
   :depth: 3
   :local:
 
-:ref:`NablarchのMOMメッセージング機能 <mom_messaging>` で `IBM WebSphere MQ(外部サイト、英語) <http://www-03.ibm.com/software/products/ja/websphere-mq>`_ を使用するためのアダプタを提供する。
+:ref:`NablarchのMOMメッセージング機能 <mom_messaging>` で `IBM WebSphere MQ(外部サイト、英語) <https://www.ibm.com/support/knowledgecenter/SSFKSJ_7.5.0/com.ibm.mq.pro.doc/q001010_.htm>`_ を使用するためのアダプタを提供する。
 
 WebSphere MQの仕様及び構築手順などは、IBM社のオフィシャルサイト及びマニュアルを参照すること。
 

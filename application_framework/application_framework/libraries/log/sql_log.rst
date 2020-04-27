@@ -37,9 +37,70 @@ SQLログは、ログのサイズが大きくなりディスクフルになっ�
 log.propertiesの設定例
  .. code-block:: properties
 
+  writerNames=appLog
+
+  # アプリケーションログの出力先
+  writer.appLog.className=nablarch.core.log.basic.FileLogWriter
+  writer.appLog.filePath=/var/log/app/app.log
+  writer.appLog.encoding=UTF-8
+  writer.appLog.maxFileSize=10000
+  writer.appLog.formatter.className=nablarch.core.log.basic.BasicLogFormatter
+  writer.appLog.formatter.format=$date$ -$logLevel$- $runtimeLoggerName$ [$executionId$] boot_proc = [$bootProcess$] proc_sys = [$processingSystem$] req_id = [$requestId$] usr_id = [$userId$] $message$$information$$stackTrace$
+
+  availableLoggersNamesOrder=SQL,ROO
+
+  # アプリケーションログの設定
+  loggers.ROO.nameRegex=.*
+  loggers.ROO.level=INFO
+  loggers.ROO.writerNames=appLog
+
+  # SQLログの設定
   loggers.SQL.nameRegex=SQL
   loggers.SQL.level=TRACE
-  loggers.SQL.writerNames=<出力先のLogWriter>
+  loggers.SQL.writerNames=appLog
+
+app-log.propertiesの設定例
+ .. code-block:: properties
+
+  # SqlLogFormatter
+  #sqlLogFormatter.className=
+  # SqlPStatement#retrieveのフォーマット
+  sqlLogFormatter.startRetrieveFormat=$methodName$\
+                                        \n\tSQL = [$sql$]\
+                                        \n\tstart_position = [$startPosition$] size = [$size$]\
+                                        \n\tquery_timeout = [$queryTimeout$] fetch_size = [$fetchSize$]\
+                                        \n\tadditional_info:\
+                                        \n\t$additionalInfo$
+  sqlLogFormatter.endRetrieveFormat=$methodName$\
+                                      \n\texecute_time(ms) = [$executeTime$] retrieve_time(ms) = [$retrieveTime$] count = [$count$]
+  # SqlPStatement#executeのフォーマット
+  sqlLogFormatter.startExecuteFormat=$methodName$\
+                                        \n\tSQL = [$sql$]\
+                                        \n\tadditional_info:\
+                                        \n\t$additionalInfo$
+  sqlLogFormatter.endExecuteFormat=$methodName$\
+                                      \n\texecute_time(ms) = [$executeTime$]
+  # SqlPStatement#executeQueryのフォーマット
+  sqlLogFormatter.startExecuteQueryFormat=$methodName$\
+                                            \n\tSQL = [$sql$]\
+                                            \n\tadditional_info:\
+                                            \n\t$additionalInfo$
+  sqlLogFormatter.endExecuteQueryFormat=$methodName$\
+                                          \n\texecute_time(ms) = [$executeTime$]
+  # SqlPStatement#executeUpdateのフォーマット
+  sqlLogFormatter.startExecuteUpdateFormat=$methodName$\
+                                              \n\tSQL = [$sql$]\
+                                              \n\tadditional_info:\
+                                              \n\t$additionalInfo$
+  sqlLogFormatter.endExecuteUpdateFormat=$methodName$\
+                                          \n\texecute_time(ms) = [$executeTime$] update_count = [$updateCount$]
+  # SqlStatement#executeBatchのフォーマット
+  sqlLogFormatter.startExecuteBatchFormat=$methodName$\
+                                            \n\tSQL = [$sql$]\
+                                            \n\tadditional_info:\
+                                            \n\t$additionalInfo$
+  sqlLogFormatter.endExecuteBatchFormat=$methodName$\
+                                          \n\texecute_time(ms) = [$executeTime$] batch_count = [$updateCount$]
 
 使用方法
 --------------------------------------------------

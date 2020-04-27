@@ -566,13 +566,13 @@ OS環境変数を使って環境依存値を上書きする
 以下で説明する設定を行うことで、環境依存値をOS環境変数で上書きできるようになる。
 
 OS環境変数による上書きを有効にするための設定方法
-  環境依存値を上書きする仕組みは、 :java:extdoc:`ExternalizedComponentDefinitionLoader <nablarch.core.repository.di.config.externalize.  ExternalizedComponentDefinitionLoader>` インタフェースを実装したクラスによって実現されている。
+  環境依存値を上書きする仕組みは、 :java:extdoc:`ExternalizedComponentDefinitionLoader <nablarch.core.repository.di.config.externalize.ExternalizedComponentDefinitionLoader>` インタフェースを実装したクラスによって実現されている。
   
   この実装クラスは、 ``java.util.ServiceLoader`` を使ってロードされる。
-  サービスプロバイダを何も設定していない場合は、デフォルトで :java:extdoc:`SystemPropertyExternalizedLoader <nablarch.core.repository.di.config.  externalize.SystemPropertyExternalizedLoader>` が使用される。
+  サービスプロバイダを何も設定していない場合は、デフォルトで :java:extdoc:`SystemPropertyExternalizedLoader <nablarch.core.repository.di.config.externalize.SystemPropertyExternalizedLoader>` が使用される。
   このクラスはシステムプロパティで上書きを行うクラスとなっており、前節で説明したシステムプロパティによる上書きはこのクラスによって実現されている。
   
-  OS環境変数で環境依存値を上書きする場合は、実装クラスとして :java:extdoc:`OsEnvironmentVariableExternalizedLoader <nablarch.core.repository.di.  config.externalize.OsEnvironmentVariableExternalizedLoader>` を使用する。
+  OS環境変数で環境依存値を上書きする場合は、実装クラスとして :java:extdoc:`OsEnvironmentVariableExternalizedLoader <nablarch.core.repository.di.config.externalize.OsEnvironmentVariableExternalizedLoader>` を使用する。
   
   具体的な設定は、次のようにして行う。
   
@@ -580,7 +580,7 @@ OS環境変数による上書きを有効にするための設定方法
   #. 上で作成したディレクトリの中に、 ``nablarch.core.repository.di.config.externalize.ExternalizedComponentDefinitionLoader`` という名前のテキス  トファイルを作成する
   #. ファイルの中に、使用する実装クラスの完全修飾名を改行区切りで列挙する
   
-  例えば、 :java:extdoc:`OsEnvironmentVariableExternalizedLoader <nablarch.core.repository.di.config.externalize.  OsEnvironmentVariableExternalizedLoader>` を使用する場合は、 ``nablarch.core.repository.di.config.externalize.ExternalizedComponentDefinitionLoader`` の中身を以下のように記述する。
+  例えば、 :java:extdoc:`OsEnvironmentVariableExternalizedLoader <nablarch.core.repository.di.config.externalize.OsEnvironmentVariableExternalizedLoader>` を使用する場合は、 ``nablarch.core.repository.di.config.externalize.ExternalizedComponentDefinitionLoader`` の中身を以下のように記述する。
   
   .. code-block:: text
   

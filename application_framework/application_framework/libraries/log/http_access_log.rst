@@ -53,7 +53,7 @@ log.propertiesの設定例
   writer.appLog.encoding=UTF-8
   writer.appLog.maxFileSize=10000
   writer.appLog.formatter.className=nablarch.core.log.basic.BasicLogFormatter
-  writer.appLog.formatter.format=<アプリケーションログ用のフォーマット>
+  writer.appLog.formatter.format=$date$ -$logLevel$- $runtimeLoggerName$ [$executionId$] boot_proc = [$bootProcess$] proc_sys = [$processingSystem$] req_id = [$requestId$] usr_id = [$userId$] $message$$information$$stackTrace$
 
   availableLoggersNamesOrder=ACC,ROO
 
@@ -66,6 +66,35 @@ log.propertiesの設定例
   loggers.ACC.nameRegex=HTTP_ACCESS
   loggers.ACC.level=INFO
   loggers.ACC.writerNames=appLog
+
+app-log.propertiesの設定例
+ .. code-block:: properties
+
+  # HttpAccessLogFormatter
+  #httpAccessLogFormatter.className=
+  #httpAccessLogFormatter.datePattern=
+  #httpAccessLogFormatter.maskingChar=
+  #httpAccessLogFormatter.maskingPatterns=
+  #httpAccessLogFormatter.parametersSeparator=
+  #httpAccessLogFormatter.sessionScopeSeparator=
+  #httpAccessLogFormatter.beginOutputEnabled=
+  #httpAccessLogFormatter.parametersOutputEnabled=
+  #httpAccessLogFormatter.dispatchingClassOutputEnabled=
+  #httpAccessLogFormatter.endOutputEnabled=
+  httpAccessLogFormatter.beginFormat=@@@@ BEGIN @@@@ rid = [$requestId$] uid = [$userId$] sid = [$sessionId$]\
+                                        \n\turl          = [$url$$query$]\
+                                        \n\tmethod      = [$method$]\
+                                        \n\tport        = [$port$]\
+                                        \n\tclient_ip   = [$clientIpAddress$]\
+                                        \n\tclient_host = [$clientHost$]
+  httpAccessLogFormatter.parametersFormat=@@@@ PARAMETERS @@@@\n\tparameters  = [$parameters$]
+  httpAccessLogFormatter.dispatchingClassFormat=@@@@ DISPATCHING CLASS @@@@ class = [$dispatchingClass$]
+  httpAccessLogFormatter.endFormat=@@@@ END @@@@ rid = [$requestId$] uid = [$userId$] sid = [$sessionId$] url = [$url$$query$] method = [$method$] status_code = [$statusCode$] content_path = [$contentPath$]\
+                                      \n\tstart_time     = [$startTime$]\
+                                      \n\tend_time       = [$endTime$]\
+                                      \n\texecution_time = [$executionTime$]\
+                                      \n\tmax_memory     = [$maxMemory$]\
+                                      \n\tfree_memory    = [$freeMemory$]
 
 使用方法
 --------------------------------------------------
@@ -90,6 +119,7 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
    :リクエストID: $requestId$
    :ユーザID: $userId$
    :URL: $url$
+   :クエリ文字列: $query$
    :ポート番号: $port$
    :HTTPメソッド: $method$
    :セッションID: $sessionId$
@@ -109,7 +139,6 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
         \n\tport        = [$port$]
         \n\tclient_ip   = [$clientIpAddress$]
         \n\tclient_host = [$clientHost$]
-        \n\tparameters  = [$parameters$]
 
   .. tip::
    リクエストパラメータは、 :ref:`hidden暗号化<tag-hidden_encryption>` の復号前の状態となる。
@@ -121,6 +150,8 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
    リクエストID、ユーザIDを出力する場合は、
    これらの取得元が :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` なので、
    ハンドラ構成に :ref:`thread_context_handler` が含まれている必要がある。
+   特にユーザIDについては、 :ref:`thread_context_handler-user_id_attribute_setting` を参照して
+   アプリケーションでセッションに値を設定する必要がある。
 
  httpAccessLogFormatter.parametersFormat
   hiddenパラメータ復号後のログ出力に使用するフォーマット。
