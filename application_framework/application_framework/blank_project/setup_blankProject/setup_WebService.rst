@@ -205,8 +205,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 .. code-block:: text
 
   (中略)
-  2020-03-25 18:24:37.049 -INFO- nablarch.fw.web.servlet.NablarchServletContextListener [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] [nablarch.fw.web.servlet.NablarchServletContextListener#contextInitialized] initialization completed.
-
+  2020-04-28 08:46:53.366 -INFO- nablarch.fw.web.servlet.NablarchServletContextListener [null] boot_proc = [] proc_sys = [jaxrs] req_id = [null] usr_id = [null] [nablarch.fw.web.servlet.NablarchServletContextListener#contextInitialized] initialization completed.
 
 応答にJSONを使用するサービスを呼び出す
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
