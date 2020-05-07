@@ -170,7 +170,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 .. code-block:: text
 
   cd myapp-container-web
-  docker run -d -p 8080:8080 -v %CD%\h2:/usr/local/tomcat/h2 myapp-container-web
+  docker run -d -p 8080:8080 -v %CD%\h2:/usr/local/tomcat/h2 --name myapp-container-web myapp-container-web
 
 コンテナが起動したら、ウェブブラウザで ``http://localhost:8080/`` にアクセスすることで、アプリケーションの動作を確認できる。
 
@@ -189,6 +189,18 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 
   Windowsの場合、デフォルトでは ``C:\Users`` がVM上の ``/c/users`` にマウントされている。
   したがって、Docker Toolboxを使用している場合は、ボリュームの指定を ``-v /c/users/path/to/project/h2:/usr/local/tomcat/h2`` のようにしなければならない。
+
+コンテナを終了するには、次のコマンドを実行する。
+
+.. code-block:: text
+
+  docker stop myapp-container-web
+
+また、コンテナを削除するには、次のコマンドを実行する。
+
+.. code-block:: text
+
+  docker rm myapp-container-web
 
 
 補足
