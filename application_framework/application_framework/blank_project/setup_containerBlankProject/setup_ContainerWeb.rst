@@ -170,7 +170,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 .. code-block:: text
 
   cd myapp-container-web
-  docker run -d -p 8080:8080 -v %CD%\h2:/usr/local/tomcat/h2 myapp-container-web:latest
+  docker run -d -p 8080:8080 -v %CD%\h2:/usr/local/tomcat/h2 myapp-container-web
 
 コンテナが起動したら、ウェブブラウザで ``http://localhost:8080/`` にアクセスすることで、アプリケーションの動作を確認できる。
 
