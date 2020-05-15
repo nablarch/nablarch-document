@@ -1,4 +1,5 @@
-.. _csrf_token_verification_handler:
+.. _
+:
 
 CSRFトークン検証ハンドラ
 ==================================================
@@ -19,7 +20,7 @@ CSRFトークンが画面に自動で出力される。
 本ハンドラはリクエストヘッダとリクエストパラメータからCSRFトークンを取得する。
 生成されたCSRFトークンを取得するためのユーティリティクラス(
 :java:extdoc:`CsrfTokenUtil <nablarch.common.web.csrf.CsrfTokenUtil>` )を提供しているので、
-プロジェクトのアーキテクチャに合わせてクライアントにCSRFトークンを送る仕組みを実装することができる。
+プロジェクトのアーキテクチャに合わせてクライアントにCSRFトークンを送る仕組みを実装できる。
 
 本ハンドラはCSRFトークンをセッションストアに格納するため、本ハンドラを使用する場合は :ref:`session_store` の使用が必須となる。
 
@@ -112,7 +113,7 @@ HTTPリクエストが検証対象か否かを判定する
   * 検証失敗時の処理は :java:extdoc:`VerificationFailureHandler<nablarch.fw.web.handler.csrf.VerificationFailureHandler>` が行う。
     デフォルトではBadRequest(400)のレスポンスを生成する :java:extdoc:`BadRequestVerificationFailureHandler<nablarch.fw.web.handler.csrf.BadRequestVerificationFailureHandler>` を使用する。
 
-設定を変えることでデフォルトの動作を変更することができる。設定例を以下に示す。
+設定を変えることでデフォルトの動作を変更できる。設定例を以下に示す。
 
 .. code-block:: xml
 
