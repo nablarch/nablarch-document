@@ -5,7 +5,7 @@
 本章ではNablarchアプリケーションフレームワークを利用してテーブルをキューとして使ったメッセージングを開発するために必要となる情報を提供する。
 
 .. toctree::
-  :maxdepth: 1
+  :maxdepth: 2
 
   architecture
   application_design
