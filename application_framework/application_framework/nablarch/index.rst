@@ -2,7 +2,7 @@ Nablarchアプリケーションフレームワークとは
 ==================================================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    big_picture
    architecture

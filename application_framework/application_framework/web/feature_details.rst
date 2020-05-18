@@ -168,3 +168,7 @@ Webアプリケーションのスケールアウト設計
 ---------------------------------------
 
 * :ref:`stateless_web_app`
+
+CSRF対策
+----------------------------------------
+* :ref:`CSRF対策 <csrf_token_verification_handler>`
