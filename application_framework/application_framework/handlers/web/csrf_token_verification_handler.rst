@@ -16,7 +16,7 @@ CSRFトークンが画面に自動で出力される。
 のCSRF対策を漏れなく行うことができる。
 
 :ref:`RESTfulウェブサービス<restful_web_service>` においてCSRF対策を実現できるように、
-本ハンドラはリクエストヘッダとリクエストパラメータからCSRFトークンを取得する。
+本ハンドラはリクエストヘッダまたはリクエストパラメータからCSRFトークンを取得する。
 生成されたCSRFトークンを取得するためのユーティリティクラス(
 :java:extdoc:`CsrfTokenUtil <nablarch.common.web.csrf.CsrfTokenUtil>` )を提供しているので、
 プロジェクトのアーキテクチャに合わせてクライアントにCSRFトークンを送る仕組みを実装できる。
@@ -132,9 +132,9 @@ HTTPリクエストが検証対象か否かを判定する
     </component>
 
     <component name="webConfig" class="nablarch.common.web.WebConfig">
-      <!-- CSRFトークンをHTTPリクエストヘッダーから取得する際に使用する名前 -->
+      <!-- CSRFトークンをHTTPリクエストヘッダから取得する際に使用する名前 -->
       <property name="csrfTokenHeaderName" value="X-CUSTOM-CSRF-TOKEN" />
-      <!-- CSRFトークンをHTTPリクエストパラメーターから取得する際に使用する名前 -->
+      <!-- CSRFトークンをHTTPリクエストパラメータから取得する際に使用する名前 -->
       <property name="csrfTokenParameterName" value="custom-csrf-token" />
       <!-- CSRFトークンをセッションスストアに格納する際に使用する名前 -->
       <property name="csrfTokenSessionStoredVarName" value="custom-csrf-token" />
