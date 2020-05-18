@@ -100,7 +100,7 @@ CSRFトークンの生成と検証を行う
 HTTPリクエストが検証対象か否かを判定する
   * 検証対象か否かの判定は :java:extdoc:`VerificationTargetMatcher<nablarch.fw.web.handler.csrf.VerificationTargetMatcher>` が行う。
     デフォルトではHTTPメソッドからHTTPリクエストが検証対象か否かを判定する :java:extdoc:`HttpMethodVerificationTargetMatcher<nablarch.fw.web.handler.csrf.HttpMethodVerificationTargetMatcher>` を使用する。
-  *  :java:extdoc:`HttpMethodVerificationTargetMatcher<nablarch.fw.web.handler.csrf.HttpMethodVerificationTargetMatcher>` は、HTTPメソッドの ``GET`` ``HEAD`` ``TRACE`` ``OPTIONS`` をCSRFトークンの検証対象外と判定する。
+  *  :java:extdoc:`HttpMethodVerificationTargetMatcher<nablarch.fw.web.handler.csrf.HttpMethodVerificationTargetMatcher>` は、HTTPメソッドの ``GET`` ``HEAD`` ``TRACE`` ``OPTIONS`` をCSRFトークンの検証対象 **外** と判定する（つまりPOSTやPUT等は検査対象となる）。
 
 検証対象の場合はHTTPリクエストからCSRFトークンを取得して検証を行う
   * CSRFトークンをHTTPリクエストに格納する際に使用する名前は以下となる。
