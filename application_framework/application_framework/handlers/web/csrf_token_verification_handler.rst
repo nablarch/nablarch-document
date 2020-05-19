@@ -82,10 +82,13 @@ CSRFトークンの生成と検証を行う
         <component-ref name="nablarchTagHandler"/>
 
         <!-- CSRFトークン検証ハンドラ -->
-        <component class="nablarch.fw.web.handler.CsrfTokenVerificationHandler" />
+        <component-ref name="csrfTokenVerificationHandler"/>
       </list>
     </property>
   </component>
+
+  <component name="csrfTokenVerificationHandler"
+             class="nablarch.fw.web.handler.CsrfTokenVerificationHandler" />
 
 デフォルトでは以下の処理を行う。
 
@@ -141,6 +144,36 @@ HTTPリクエストが検証対象か否かを判定する
       <!-- CSRFトークンを保存するセッションストアの名前 -->
       <property name="csrfTokenSavedStoreName" value="customStore" />
     </component>
+
+.. important::
+
+  本ハンドラを使用したアプリケーションに対して、テスティングフレームワークを使用してリクエスト単体テストを実施すると、
+  正しい画面遷移を経由したリクエストとならないためCSRFトークンの検証に失敗する。
+  CSRF対策はアプリケーションプログラマが実装して作り込む部分ではないため、
+  リクエスト単体テストではCSRF対策を無効化してテストを行えばよい。
+  テスト実行時の設定において本ハンドラを何も処理しないハンドラに差し替えることでCSRF対策を無効化できる。
+  以下に設定例を示す。
+
+  .. code-block:: java
+
+    /**
+     * 何も処理しないハンドラ。
+     */
+    public class NopHandler implements HttpRequestHandler {
+        @Override
+        public HttpResponse handle(HttpRequest request, ExecutionContext context) {
+            return context.handleNext(request);
+        }
+    }
+
+  .. code-block:: xml
+
+    <!-- テストの設定で本ハンドラのコンポーネント定義を上書く。
+         コンポーネント名を合わせることで上書きを行う。 -->
+
+    <!-- CSRF対策の無効化 -->
+    <component name="csrfTokenVerificationHandler"
+               class="com.nablarch.example.app.test.NopHandler" />
 
 .. _csrf_token_verification_handler-regeneration:
 
