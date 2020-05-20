@@ -66,6 +66,7 @@ release = '5u16'
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
 language = 'ja'
+locale_dirs = ['../locales']
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
