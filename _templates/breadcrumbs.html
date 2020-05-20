@@ -13,9 +13,17 @@
           <li><a href="{{ doc.link|e }}">{{ doc.title }}</a> &raquo;</li>
       {% endfor %}
     <li>{{ title }}</li>
-      <li class="wy-breadcrumbs-aside">
-        <a href="https://github.com/nablarch" class="fa fa-github"> Edit on GitHub</a>
-      </li>
+    <li class="wy-breadcrumbs-aside">
+      <a href="https://github.com/nablarch" class="fa fa-github">GitHub</a>
+    </li>
+    <li class="wy-breadcrumbs-aside">
+      {%- if language != "en" %}
+        <a href="https://nablarch.github.io/docs/LATEST/doc/en/index.html">English</a>
+      {%- endif %}
+      {%- if language != "ja" %}
+        <a href="https://nablarch.github.io/docs/LATEST/doc/index.html" class="ja">日本語</a>
+      {%- endif %}
+    </li>
   </ul>
   <hr/>
 </div>

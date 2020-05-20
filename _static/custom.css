@@ -54,3 +54,8 @@ ul.simple li code {
 #top-logo {
   height: 25px;
 }
+
+/** 日本語リンク */
+.wy-breadcrumbs li a.ja {
+  margin-top: -3px;
+}
