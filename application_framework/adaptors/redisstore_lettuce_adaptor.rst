@@ -338,7 +338,7 @@ LettuceでClusterのトポロジ更新を監視できるようにするには、
 使用するクライアントクラスの決定の仕組み
 -----------------------------------------------------------------------------------------------
 :ref:`redisstore_redis_client_config_how_select_client` で、使用するクライアントクラスは環境設定値 ``nablarch.lettuce.clientType`` で設定できることを説明した。
-ここでは、具体的にどのようにしてクライアントクラスが決定されているのか、仕組みの部分を説明する。
+ここでは、具体的にどのようにしてクライアントクラスが決定されているのか、仕組みを説明する。
 
 ３つのクライアントクラスのコンポーネントのうち、実際にどのコンポーネントを使用するかは :java:extdoc:`LettuceRedisClientProvider<nablarch.integration.redisstore.lettuce.LettuceRedisClientProvider>` によって決定される。
 
