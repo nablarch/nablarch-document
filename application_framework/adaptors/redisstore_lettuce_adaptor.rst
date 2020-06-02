@@ -51,15 +51,17 @@ Redisストア(Lettuce)アダプタ
   
   .. code-block:: shell
 
-    > docker run --name redis -d -p 6379:6379 redis@sha256:ae4b7c01640a2688e9ef5dd630e2135df7a9e711e712e3d9eab05608d34e2b84
+    > docker run --name redis -d -p 6379:6379 redis:5.0.9
 
-  ここでは、 `5.0.9のイメージ（外部サイト、英語） <https://hub.docker.com/layers/redis/library/redis/5.0.9/images/sha256-ae4b7c01640a2688e9ef5dd630e2135df7a9e711e712e3d9eab05608d34e2b84?context=explore>`_ を指定している。
-
-  また、停止する場合は次のようにコマンドを実行する。
+  ただし、この例はローカルでの開発用途を想定したものであるため、本番用途では使用しないこと。
+  
+  停止する場合は次のようにコマンドを実行する。
 
   .. code-block:: shell
 
     > docker stop redis
+
+
 
 .. _redisstore_minimum_settings_content:
 
