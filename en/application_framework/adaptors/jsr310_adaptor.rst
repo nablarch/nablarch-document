@@ -1,40 +1,40 @@
 .. _jsr310_adaptor:
 
-JSR310(Date and Time API)アダプタ
+JSR310(Date and Time API)Adapter
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
   
-JSR310(Date and Time API)で追加された日時関連を利用可能にするためのアダプタを提供する。
-このアダプタを使用することで、 :ref:`bean_util` でJSR310(Date and Time API)を利用できる。
+Provides an adapter to enable date and time details in JSR310 (Date and Time API). 
+By using this adapter, JSR310 (Date and Time API) can be used with bean_util.
 
 .. important::
 
-  本アダプタで対応している型は以下の通り。
-  これら以外の型を扱いたい場合は、プロジェクト側でConverterの追加などを行う必要がある。
+  The types supported by this adapter are as follows. 
+  Add the converter to the project for handling other types.
   
   * :java:extdoc:`LocalDate <java.time.LocalDate>`
   * :java:extdoc:`LocalDateTime <java.time.LocalDateTime>`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
-  <!-- JSR310アダプタ -->
+  <!-- JSR310 adapter -->
   <dependency>
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-jsr310-adaptor</artifactId>
   </dependency>
   
-使用方法
+How to use
 ---------------------------------------------------------------------
 
-変換可能な型や変換ルールなどの詳細は、 :java:extdoc:`converter一覧 <nablarch.integration.jsr310.beans.converter>` を参照。
+For details such as conversion possible types and conversion rules, see :java:extdoc:`converter list <nablarch.integration.jsr310.beans.converter>`.
 
-設定
-  :ref:`repository` のコンポーネント設定ファイルに以下を追加することで、本機能が有効になる。
+Configuration
+  This function is enabled by adding the following to the component configuration file of :ref:`repository`　.
 
   .. code-block:: xml
 
@@ -42,17 +42,16 @@ JSR310(Date and Time API)で追加された日時関連を利用可能にする�
 
 .. tip::
  
-  文字列から変換する際のフォーマットを変更したい場合は、以下の作業が必要となる。
+  The following work is required to change the format when converting from a string.
   
-  フォーマットなどの定義を持つクラスを作成する
-    :java:extdoc:`DateTimeConfiguration <nablarch.integration.jsr310.util.DateTimeConfiguration>` の実装クラスを追加し、
-    日付や日時のフォーマットを定義する。
-    基本実装の :java:extdoc:`BasicDateTimeConfiguration <nablarch.integration.jsr310.util.BasicDateTimeConfiguration>` を参考にすると良い
+  Create a class with a definition such as format
+    Add implementation class of :java:extdoc:`DateTimeConfiguration <nablarch.integration.jsr310.util.DateTimeConfiguration>`  and define the format of date and time. 
+    Referring to :java:extdoc:`BasicDateTimeConfiguration <nablarch.integration.jsr310.util.BasicDateTimeConfiguration>` is good.
     
-  追加したクラスをコンポーネント設定ファイルに定義する
-    コンポーネント名を ``dateTimeConfiguration`` として、コンポーネント定義を行う。
+  Define the class that is added in the component configuration file
+    Define the component with the component name as ``dateTimeConfiguration``.
     
-    例を以下に示す。
+    An example is shown below.
     
     .. code-block:: xml
     

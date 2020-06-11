@@ -1,19 +1,19 @@
 .. _mail_sender_freemarker_adaptor:
 
-E-mail FreeMarkerアダプタ
+E-mail FreeMarker Adapter
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-`FreeMarker(外部サイト) <https://freemarker.apache.org/>`_ を使用した定型メール送信処理を行うためのアダプタを提供する。
+Provides an adapter for performing standard e-mail send process using `FreeMarker(external site) <https://freemarker.apache.org/>`_ .
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
-  <!-- E-mail FreeMarkerアダプタ -->
+  <!-- E-mail FreeMarker adapter -->
   <dependency>
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-mail-sender-freemarker-adaptor</artifactId>
@@ -21,20 +21,20 @@ E-mail FreeMarkerアダプタ
   
 .. tip::
 
-  FreeMarkerのバージョン2.3.27-incubatingを使用してテストを行っている。
-  バージョンを変更する場合は、プロジェクト側でテストを行い問題ないことを確認すること。
+  Tests are conducted using FreeMarker version 2.3.27-incubating. 
+  When changing the version, test in the project to confirm that there are no problems.
 
-E-mail FreeMarkerアダプタを使用するための設定を行う
+Configuration for using the E-mail FreeMarker adapter
 ----------------------------------------------------------------------------------------------------
-本アダプタを使用するためには、コンポーネント設定ファイルで :java:extdoc:`FreeMarkerMailProcessor<nablarch.integration.mail.freemarker.FreeMarkerMailProcessor>` を :java:extdoc:`MailRequester<nablarch.common.mail.MailRequester>` へ設定する。
+To use this adapter, configure :java:extdoc:`FreeMarkerMailProcessor<nablarch.integration.mail.freemarker.FreeMarkerMailProcessor>` to :java:extdoc:`MailRequester<nablarch.common.mail.MailRequester>` in the component configuration file.
 
-``FreeMarkerMailProcessor`` にはFreeMarkerが提供する ``Configuration`` を設定する必要がある。
-``Configuration`` は以下の理由により :java:extdoc:`ComponentFactory<nablarch.core.repository.di.ComponentFactory>` の実装クラスを作成してコンポーネント設定を行うことを推奨する。
+``Configuration``  provided by FreeMarker has to be configured in ``FreeMarkerMailProcessor``. 
+For ``Configuration``, it is recommended that the component configuration be performed by creating an implementation class of :java:extdoc:`ComponentFactory<nablarch.core.repository.di.ComponentFactory>` for the following reasons.
 
-* ``Configuration`` はデフォルトコンストラクタが非推奨である
-* ``Configuration`` への設定はコンポーネント設定ファイルよりもJavaコードで行う方がやりやすい
+* Default constructor is deprecated for ``Configuration`` 
+* Configuring with Java code is easier than component configuration file for ``Configuration`` 
 
-``Configuration`` を作成する ``ComponentFactory`` 実装クラスの例を以下に示す。
+An example of ``ComponentFactory`` implementation class that creates ``Configuration`` is shown below.
 
 .. code-block:: java
 
@@ -54,7 +54,7 @@ E-mail FreeMarkerアダプタを使用するための設定を行う
           ClassLoader classLoader = getClass().getClassLoader();
           cfg.setClassLoaderForTemplateLoading(classLoader, basePackagePath);
           cfg.setDefaultEncoding(encoding);
-          //必要に応じてConfigurationへその他の設定を行う
+          // Other configurations are made to Configuration as needed
           return cfg;
       }
 
@@ -67,7 +67,7 @@ E-mail FreeMarkerアダプタを使用するための設定を行う
       }
   }
 
-この ``ConfigurationFactory`` を使用するコンポーネント設定ファイルの設定例を以下に示す。
+The setting example of the component configuration file that uses the ``ConfigurationFactory``  is shown below.
 
 .. code-block:: xml
 
@@ -81,35 +81,35 @@ E-mail FreeMarkerアダプタを使用するための設定を行う
     </property>
   </component>
 
-  <!-- メール送信要求API -->
+  <!-- E-mail send request API -->
   <component name="mailRequester" class="nablarch.common.mail.MailRequester">
     <property name="templateEngineMailProcessor" ref="templateEngineMailProcessor"/>
-    <!-- その他の設定は省略 -->
+    <!-- Other settings are omitted -->
   </component>
 
-メールのテンプレートを作成する
+Create an e-mail template
 --------------------------------------------------
-FreeMarkerを使用した定型メール処理では件名と本文を1つのテンプレートに記述する。
+In standard e-mail process using FreeMarker, the subject and body are described in one template.
 
-件名と本文はデリミタと呼ばれる行で分割される。
-デフォルトのデリミタは ``---`` である（半角のハイフンが3つ）。
+The subject and body are separated by lines called delimiters. 
+The default delimiter is ``---`` (three single-byte hyphens).
 
-テンプレートの例を以下に示す。
+An example of the template is shown below.
 
 .. code-block:: txt
 
- ${title}について${option}
+ ${option}regarding ${title}
  ---
- ${title}は、申請番号${requestId}で申請されました。
- ${approver}は速やかに${title}を承認してください。${option}
+ ${title} has been submitted with application number ${requestId}.
+ ${Approver} should approve ${title} promptly. ${option}
 
-より詳しい件名と本文の分割ルールは :java:extdoc:`TemplateEngineProcessedResult#valueOf<nablarch.common.mail.TemplateEngineProcessedResult.valueOf(java.lang.String)>` を参照。
+For more details on subject and body split rules, see  :java:extdoc:`TemplateEngineProcessedResult#valueOf<nablarch.common.mail.TemplateEngineProcessedResult.valueOf(java.lang.String)>` .
 
-テンプレートファイルを配置する場所は ``Configuration`` の設定によって異なる。
-例えば、前節で示した設定例だとテンプレートファイルはクラスパスからロードされる。
-また、 ``basePackagePath`` に ``com/example/template/`` と設定されているので、クラスパス上の ``com/example/template/`` ディレクトリにテンプレートファイルを配置することになる。
+Where to place the template file depends on the  ``Configuration`` settings. 
+For example, in the configuration example shown in the previous section, the template file is loaded from the class path. 
+Since  ``com/example/template/``  is configured in  ``basePackagePath`` , template files will be placed in the  ``com/example/template/``  directory of the class path.
 
-メール送信要求を登録する
+Register an e-mail send request
 --------------------------------------------------
-単に定型メールの送信要求を登録すればよい。
-:ref:`mail-request` を参照。
+Just to register the send request of the standard e-mail. 
+See :ref:`mail-request` .
