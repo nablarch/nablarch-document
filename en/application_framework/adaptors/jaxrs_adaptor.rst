@@ -1,35 +1,36 @@
 .. _jaxrs_adaptor:
 
-JAX-RSアダプタ
+JAX-RS Adapter
 ============================
 
 .. contents:: 目次
   :depth: 3
   :local:
 
-:ref:`RESTfulウェブサービス <restful_web_service>` で使用するための以下のアダプタを提供する。
+Provides the following adapter to use in :ref:`RESTful web service <restful_web_service>`.
 
-* JSONを `Jackson(外部サイト、英語) <https://github.com/FasterXML/jackson>`_ を使って変換するアダプタ
-* `Jersey(外部サイト、英語) <https://jersey.java.net/>`_  で :ref:`RESTfulウェブサービス <restful_web_service>` を使用するためのアダプタ
-* `RESTEasy(外部サイト、英語) <http://resteasy.jboss.org/>`_ で :ref:`RESTfulウェブサービス <restful_web_service>` を使用するためのアダプタ
 
-モジュール一覧
+*	Adapter to convert JSON using Jackson `Jackson (external site, English)<https://github.com/FasterXML/jackson>`_ 
+*	Adapter for using :ref:`RESTful web service <restful_web_service>` with `Jersey (external site, English)<https://jersey.java.net/>`_
+*	Adapter for using :ref:`RESTful web service <restful_web_service>` with `RESTEasy (external site, English)<http://resteasy.jboss.org/>`_
+
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
-  <!-- jacksonアダプタを使う場合 -->
+  <!-- When using jackson adapter -->
   <dependency>
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-jackson-adaptor</artifactId>
   </dependency>
 
-  <!-- Jersey用アダプタを使う場合 -->
+  <!-- When using the Jersey adapter -->
   <dependency>
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-jersey-adaptor</artifactId>
   </dependency>
 
-  <!-- RESTEasy用アダプタを使う場合 -->  
+  <!-- When using RESTEasy adapter -->  
   <dependency>
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-resteasy-adaptor</artifactId>
@@ -37,12 +38,11 @@ JAX-RSアダプタ
   
 .. tip::
 
-  jacksonのバージョン2.8.11.1及び1.9.13を使用してテストを行っている。
-  バージョンを変更する場合は、プロジェクト側でテストを行い問題ないことを確認すること。
+  Tests are conducted using jackson version 2.8.11.1 and 1.9.13. 
+  When changing the version, test in the project to confirm that there are no problems.
   
-  jacksonの1系(nablarch.integration.jaxrs.jackson.Jackson1BodyConverter)を使用する場合には、
-  jackson1系への依存を追加すること。
-  
+  When using jackson1 system (nablarch.integration.jaxrs.jackson.Jackson1BodyConverter), add dependency to jackson1 system.
+    
   .. code-block:: xml
   
     <dependency>
@@ -52,22 +52,19 @@ JAX-RSアダプタ
     </dependency>
     
 
-Jersey環境下でRESTfulウェブサービスを利用する
---------------------------------------------------
-ウェブアプリケーションサーバにバンドルされている `JAX-RS(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=339>`_ の実装が、
-`Jersey(外部サイト、英語) <https://jersey.java.net/>`_ の場合には、Jersey用のアダプタを使用する。
+Using RESTful web services under Jersey environment
+-------------------------------------------------------
+If the implementation of `JAX-RS(external site, English)<https://jcp.org/en/jsr/detail?id=339>`_ bundled with the web application server is `Jersey(external site, English) <https://jersey.java.net/>`_ , use the adapter for Jersey.
 
-以下にJersey用アダプタの適用方法を示す。
+An application of Jersey adapter is shown below.
 
-:java:extdoc:`JaxRsMethodBinderFactory#handlerList <nablarch.fw.jaxrs.JaxRsMethodBinderFactory.setHandlerList(java.util.List)>`
-に対して、Jersey用のハンドラを構築するファクトリクラス(:java:extdoc:`JerseyJaxRsHandlerListFactory <nablarch.integration.jaxrs.jersey.JerseyJaxRsHandlerListFactory>`)
-をファクトリインジェクションする。これにより、Jersey用の以下のハンドラ構成が自動的に設定される。
+For :java:extdoc:`JaxRsMethodBinderFactory#handlerList <nablarch.fw.jaxrs.JaxRsMethodBinderFactory.setHandlerList(java.util.List)>`, a factory class that constructs a Jersey handler (:java:extdoc:`JerseyJaxRsHandlerListFactory <nablarch.integration.jaxrs.jersey.JerseyJaxRsHandlerListFactory>`) is factory injected. As a result, the following handler configurations for Jersey are automatically configured.
 
-* :ref:`body_convert_handler` の設定(以下のコンバータが設定される)
+* Configuration of :ref:`body_convert_handler` (the following converters are set)
 
-  * JSONのコンバータには :java:extdoc:`Jackson2BodyConverter <nablarch.integration.jaxrs.jackson.Jackson2BodyConverter>` が設定される。
-  * XMLのコンバータには :java:extdoc:`JaxbBodyConverter <nablarch.fw.jaxrs.JaxbBodyConverter>` が設定される。
-  * application/x-www-form-urlencodedのコンバータには :java:extdoc:`FormUrlEncodedConverter <nablarch.fw.jaxrs.FormUrlEncodedConverter>` が設定される。
+  * :java:extdoc:`Jackson2BodyConverter <nablarch.integration.jaxrs.jackson.Jackson2BodyConverter>` is configured for the JSON converter.
+  * :java:extdoc:`JaxbBodyConverter <nablarch.fw.jaxrs.JaxbBodyConverter>` is configured for the XML converter.
+  * :java:extdoc:`FormUrlEncodedConverter <nablarch.fw.jaxrs.FormUrlEncodedConverter>` is configured for the converter of application/x-www-form-urlencoded.
 
 * :ref:`jaxrs_bean_validation_handler`
 
@@ -77,35 +74,32 @@ Jersey環境下でRESTfulウェブサービスを利用する
     <property name="methodBinderFactory">
       <component class="nablarch.fw.jaxrs.JaxRsMethodBinderFactory">
         <property name="handlerList">
-          <!-- handlerListプロパティにJerseyのハンドラキューをファクトリインジェクションする -->
+          <!-- Factory injection of Jersey handler queue to the handlerList property -->
           <component class="nablarch.integration.jaxrs.jersey.JerseyJaxRsHandlerListFactory"/>
         </property>
       </component>
     </property>
 
-    <!-- 上記以外のプロパティは省略 -->
+    <!-- Properties other than the above are omitted  -->
   </component>
 
 .. tip::
-  使用するウェブアプリケーションサーバに `Jackson(外部サイト、英語) <https://github.com/FasterXML/jackson>`_ が
-  バンドルされていない場合は、Jacksonのモジュールをアプリケーションモジュールとセットでデプロイすること。
+  If  `Jackson (external site, English) <https://github.com/FasterXML/jackson>`_ is not bundled with the web application server to be used, deploy the Jackson module with the application module as a set.
   
-RESTEasy環境下でRESTfulウェブサービスを利用する
---------------------------------------------------
-ウェブアプリケーションサーバにバンドルされている `JAX-RS(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=339>`_ の実装が、
-`RESTEasy(外部サイト、英語) <http://resteasy.jboss.org/>`_ の場合には、RESTEasy用のアダプタを使用する。
+Using RESTful web services under RESTEasy environment
+--------------------------------------------------------
+If the implementation of `JAX-RS (external site, English)<https://jcp.org/en/jsr/detail?id=339>`_ bundled with the web application server is `RESTEasy (external site, English)<http://resteasy.jboss.org/>`_ , use the adapter for RESTEasy.
 
-以下にRESTEasy用アダプタの適用方法を示す。
+An application of RESTEasy adapter is shown below.
 
-:java:extdoc:`JaxRsMethodBinderFactory#handlerList <nablarch.fw.jaxrs.JaxRsMethodBinderFactory.setHandlerList(java.util.List)>`
-に対して、RESTEasy用のハンドラを構築するファクトリクラス(:java:extdoc:`ResteasyJaxRsHandlerListFactory <nablarch.integration.jaxrs.resteasy.ResteasyJaxRsHandlerListFactory>`)
-をファクトリインジェクションする。これにより、RESTEasy用の以下のハンドラ構成が自動的に設定される。
+For :java:extdoc:`JaxRsMethodBinderFactory#handlerList <nablarch.fw.jaxrs.JaxRsMethodBinderFactory.setHandlerList(java.util.List)>`, a factory class that constructs a RESTEasy handler (:java:extdoc:`ResteasyJaxRsHandlerListFactory <nablarch.integration.jaxrs.resteasy.ResteasyJaxRsHandlerListFactory>`) is factory injected. 
+As a result, the following handler configurations for RESTEasy are automatically configured.
 
-* :ref:`body_convert_handler` の設定(以下のコンバータが設定される)
+*  Configuration of :ref:`body_convert_handler` (the following converters are set)
 
-  * JSONのコンバータには :java:extdoc:`Jackson2BodyConverter <nablarch.integration.jaxrs.jackson.Jackson2BodyConverter>` が設定される。
-  * XMLのコンバータには :java:extdoc:`JaxbBodyConverter <nablarch.fw.jaxrs.JaxbBodyConverter>` が設定される。
-  * application/x-www-form-urlencodedのコンバータには :java:extdoc:`FormUrlEncodedConverter <nablarch.fw.jaxrs.FormUrlEncodedConverter>` が設定される。
+  * :java:extdoc:`Jackson2BodyConverter <nablarch.integration.jaxrs.jackson.Jackson2BodyConverter>` is configured for the JSON converter.
+  * :java:extdoc:`JaxbBodyConverter <nablarch.fw.jaxrs.JaxbBodyConverter>` is configured for the XML converter.
+  * :java:extdoc:`FormUrlEncodedConverter <nablarch.fw.jaxrs.FormUrlEncodedConverter>` is configured for the converter of application/x-www-form-urlencoded.
 
 * :ref:`jaxrs_bean_validation_handler`
 
@@ -115,27 +109,20 @@ RESTEasy環境下でRESTfulウェブサービスを利用する
     <property name="methodBinderFactory">
       <component class="nablarch.fw.jaxrs.JaxRsMethodBinderFactory">
         <property name="handlerList">
-          <!-- handlerListプロパティにRESTEasyのハンドラキューをファクトリインジェクションする -->
+          <!-- Factory injection of RESTEasy handler queue to the handlerList property -->
           <component class="nablarch.integration.jaxrs.resteasy.ResteasyJaxRsHandlerListFactory"/>
         </property>
       </component>
     </property>
 
-    <!-- 上記以外のプロパティは省略 -->
+    <!-- Properties other than the above are omitted -->
   </component>
 
 .. tip::
-  使用するウェブアプリケーションサーバに `Jackson(外部サイト、英語) <https://github.com/FasterXML/jackson>`_ が
-  バンドルされていない場合は、Jacksonのモジュールをアプリケーションモジュールとセットでデプロイすること。
+  If `Jackson (external site, English)<https://github.com/FasterXML/jackson>`_  is not bundled with the web application server to be used, deploy the Jackson module with the application module as a set.
 
-各環境下で利用するボディコンバータを変更（追加）したい
+To change (add) the body converter used in each environment
 ----------------------------------------------------------------------
-プロジェクトで対応すべきMIMEが増えた場合には、 :java:extdoc:`JaxRsHandlerListFactory <nablarch.fw.jaxrs.JaxRsHandlerListFactory>` を実装し対応する。
+If the MIME to be supported in the project increases, support by implementing :java:extdoc:`JaxRsHandlerListFactory <nablarch.fw.jaxrs.JaxRsHandlerListFactory>`.
 
-実装方法は、本アダプタ
-(:java:extdoc:`JerseyJaxRsHandlerListFactory <nablarch.integration.jaxrs.jersey.JerseyJaxRsHandlerListFactory>` 、 :java:extdoc:`ResteasyJaxRsHandlerListFactory <nablarch.integration.jaxrs.resteasy.ResteasyJaxRsHandlerListFactory>`)
-を参考にすると良い。
-
-
-
-
+For the implementation method, refer to this adapter (:java:extdoc:`JerseyJaxRsHandlerListFactory <nablarch.integration.jaxrs.jersey.JerseyJaxRsHandlerListFactory>`, :java:extdoc:`ResteasyJaxRsHandlerListFactory <nablarch.integration.jaxrs.resteasy.ResteasyJaxRsHandlerListFactory>`).

@@ -1,11 +1,11 @@
 .. _about_license:
 
 ==================================================
-Nablarchのライセンスについて
+Information on Nablarch License
 ==================================================
 
-本文書およびNablarch フレームワークは、Apache License 2.0 で提供されます。
+This document and the Nablarch framework are provided under the Apache License 2.0.  
 
-Apache License 2.0 の詳細については、下記を参照してください。
+For more information on Apache 2.0, see the following file.  
 
 :download:`LICENSE.txt <./LICENSE.txt>`

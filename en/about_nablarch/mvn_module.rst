@@ -1,8 +1,8 @@
 .. _`module_list`:
 
 ==================================================
-Nablarch のモジュール一覧
+Module List of Nablarch
 ==================================================
 
-Nablarch のjava のオブジェクトコードおよびソースコードは、 `Maven Central <http://repo1.maven.org/maven2/com/nablarch/>`_ で公開しています。
-提供しているモジュールについては、 `モジュール一覧 <https://github.com/nablarch/nablarch/blob/master/README.md/>`_ をご覧ください。
+Object code and source code of Java of Nablarch are published in `Maven Central <https://repo1.maven.org/maven2/com/nablarch/>`_   
+For the modules provided, see the `Module list <https://github.com/nablarch/nablarch/blob/master/README.md/>`_ 

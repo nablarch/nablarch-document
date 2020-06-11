@@ -1,6 +1,6 @@
 .. _about_nablarch:
 
-Nablarchについて
+Information on Nablarch
 =======================
 
 .. toctree::

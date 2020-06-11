@@ -1,31 +1,31 @@
 ==================================================
-Nablarchのコンセプト
+Nablarch Concept
 ==================================================
 
 --------------------------------------------------
 Robustness
 --------------------------------------------------
 
-Robustness(ロバストネス：堅牢性)とは、環境の変化、外部からの攻撃、内部のエラーといった様々な変動に対し、ダメージや損失を最小限にとどめ、機能を維持し続けることができる能力のことです。
-Nablarchでは、このロバストネスという言葉に、障害に強いという意味やセキュリティ的に強固であるという意味の他に、長期間使い続けられるという意味も込めています。
-このロバストネスの特性により、企業情報システムのアプリケーション開発・実行基盤として、長期間安心してご利用いただくことができます。
+Robustness is the ability to minimize damage and loss, and keep functioning in response to various changes such as environmental changes, external attacks and internal errors.
+The term "robustness" in Nablarch also implies that it can be used for a long time, in addition to meaning that it is resistant to malfunctions with stable security.
+Nablarch can be used for a long time as a platform for developing and executing applications for corporate information systems due to its robustness characteristic.
 
 
 --------------------------------------------------
 Testability
 --------------------------------------------------
 
-基幹システムをはじめとする企業情報システムには高い信頼性が要求され、開発時には様々なテストを実施しなくてはなりません。 
-Nablarchはテスタビリティ（テスト容易性）を重視して設計しており、各種ドライバ、モック、自動テストの枠組みなど、様々な処理方式、様々な粒度でのテストを可能とする仕組みを提供します。
+High reliability is required for corporate information systems, including core systems, and various tests must be carried out during development.
+Nablarch is designed with emphasis on testability (easy to test) and provides mechanisms that enable testing with various processing methods and various granularities, such as various drivers, mocks and automated test frameworks.
 
 
 --------------------------------------------------
 Ready-to-Use
 --------------------------------------------------
 
-企業情報システムには多くの機能が必要とされるため、一から開発を行うと多大なコストが必要になり、システム構築にかかる期間も長くなります。
-しかし、変化の激しいビジネス環境に対応するには、なるべく短期間かつ高品質でシステム構築を行う必要があります。
-そのためには、実績のある部品を再利用することが重要です。 
-Nablarchはこうしたニーズに応えるため、フレームワークに加えて、使用頻度の高いミドルウェア [1]_ に適合させるためのアダプタ、未経験者でもすぐに開発を始められる環境など、再利用可能なコンテンツを「すぐに使える」状態で提供します。
+Corporate information systems require many functions, and developing from scratch involves significant cost and time to build the system.
+However, for responding to a rapidly changing business environment, it is necessary to construct systems in the shortest duration and highest quality.
+For achieving this, it is important to reuse proven parts.
+Nablarch is able to meet these needs by providing content that can be reused in a "ready-to-use" state, such as frameworks, adapters for adapting to frequently used middleware1 and environments where inexperienced people can start developing immediately.
 
-.. [1] Apache Log4jやWebSphere MQなど
+.. [1] Apache Log4j, WebSphere MQ, etc.
