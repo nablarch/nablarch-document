@@ -12,7 +12,7 @@ Provides an adapter to access the database using `Doma2(external site) <https://
 Using Doma for database access offers the following benefits:
 
 * Like Nablarch, you can build SQL statements dynamically during execution.  
-* Since it is 2waySQL, there is no need to rewrite the SQL statement like Nablarch, and it can be executed as it is with an SQL tool or the like.
+* Since it is 2waySQL, SQL statements are not required to be rewritten as in Nablarch and can be executed directly using an SQL tool.
 
 Since only the actions specified in  :java:extdoc:`Transactional<nablarch.integration.doma.Transactional>` .
 interceptor can be subject to transaction management by using this adapter, unnecessary transaction control processing is reduced, and performance is improved.

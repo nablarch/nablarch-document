@@ -1,19 +1,19 @@
 .. _mail_sender_thymeleaf_adaptor:
 
-E-mail Thymeleafアダプタ
+E-mail Thymeleaf Adapter
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-`Thymeleaf(外部サイト) <http://www.thymeleaf.org>`_ を使用した定型メール送信処理を行うためのアダプタを提供する。
+Provides an adapter for sending an e-mail template using `Thymeleaf (external site) <http://www.thymeleaf.org>`_ .
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
-  <!-- E-mail Thymeleafアダプタ -->
+  <!-- E-mail Thymeleaf adapter -->
   <dependency>
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-mail-sender-thymeleaf-adaptor</artifactId>
@@ -21,16 +21,16 @@ E-mail Thymeleafアダプタ
   
 .. tip::
 
-  Thymeleafのバージョン3.0.9.RELEASEを使用してテストを行っている。
-  バージョンを変更する場合は、プロジェクト側でテストを行い問題ないことを確認すること。
+  Tests are conducted using Thymeleaf version 3.0.9 RELEASE. 
+  When changing the version, test in the project to confirm that there are no problems.
 
-E-mail Thymeleafアダプタを使用するための設定を行う
+Configuration for using the E-mail Thymeleaf adapter
 ----------------------------------------------------------------------------------------------------
-本アダプタを使用するためには、コンポーネント設定ファイルで :java:extdoc:`ThymeleafMailProcessor<nablarch.integration.mail.thymeleaf.ThymeleafMailProcessor>` を :java:extdoc:`MailRequester<nablarch.common.mail.MailRequester>` へ設定する。
+To use this adapter, configure :java:extdoc:`ThymeleafMailProcessor<nablarch.integration.mail.thymeleaf.ThymeleafMailProcessor>` to:java:extdoc:`MailRequester<nablarch.common.mail.MailRequester>`  in the component configuration file.
 
-``ThymeleafMailProcessor`` にはThymeleafが提供する ``TemplateEngine`` を設定する必要がある。
+``TemplateEngine``  provided by Thymeleaf has to be configured in ``ThymeleafMailProcessor`` .
 
-コンポーネント設定ファイルの設定例を以下に示す。
+The configuration example of the component configuration file is shown below.
 
 .. code-block:: xml
 
@@ -47,35 +47,35 @@ E-mail Thymeleafアダプタを使用するための設定を行う
     <property name="templateEngine" ref="templateEngine" />
   </component>
 
-  <!-- メール送信要求API -->
+  <!-- E-mail send request API -->
   <component name="mailRequester" class="nablarch.common.mail.MailRequester">
     <property name="templateEngineMailProcessor" ref="templateEngineMailProcessor"/>
-    <!-- その他の設定は省略 -->
+    <!-- Other settings are omitted -->
   </component>
 
-メールのテンプレートを作成する
+Create an e-mail template
 --------------------------------------------------
-Thymeleafを使用した定型メール処理では件名と本文を1つのテンプレートに記述する。
+In standard e-mail process using Thymeleaf, the subject and body are described in one template.
 
-件名と本文はデリミタと呼ばれる行で分割される。
-デフォルトのデリミタは ``---`` である（半角のハイフンが3つ）。
+In standard e-mail process using Thymeleaf, the subject and body are described in one template.
+The subject and body are separated by lines called delimiters. The default delimiter is ``---`` (three single-byte hyphens).
 
-テンプレートの例を以下に示す。
+An example of the template is shown below.
 
 .. code-block:: txt
 
- [(${title})]について[(${option})]
+ [(${Option})] regarding [(${title})]
  ---
- [(${title})]は、申請番号[(${requestId})]で申請されました。
- [(${approver})]は速やかに[(${title})]を承認してください。[(${option})]
+ [(${title})] has been submitted with application number [(${requestId})].
+ [(${Approver})] should approve [(${title})] promptly. [(${option})]
 
-より詳しい件名と本文の分割ルールは :java:extdoc:`TemplateEngineProcessedResult#valueOf<nablarch.common.mail.TemplateEngineProcessedResult.valueOf(java.lang.String)>` を参照。
+For more details on subject and body split rules, see :java:extdoc:`TemplateEngineProcessedResult#valueOf<nablarch.common.mail.TemplateEngineProcessedResult.valueOf(java.lang.String)>` .
 
-テンプレートファイルを配置する場所は ``TemplateEngine`` の設定によって異なる。
-例えば、前節で示した設定例だとテンプレートファイルはクラスパスからロードされる。
-また、 ``ClassLoaderTemplateResolver`` の ``prefix`` に ``com/example/template/`` と設定されているので、クラスパス上の ``com/example/template/`` ディレクトリにテンプレートファイルを配置することになる。
+Where to place the template file depends on the ``TemplateEngine`` configuration. 
+For example, in the configuration example shown in the previous section, the template file is loaded from the class path.
+Since ``com/example/template/`` is configured in the ``prefix`` of ``ClassLoaderTemplateResolver``, place the template file in ``com/example/template/`` of the class path.
 
-メール送信要求を登録する
+Register an e-mail send request
 --------------------------------------------------
-単に定型メールの送信要求を登録すればよい。
-:ref:`mail-request` を参照。
+Just to register the send request of the standard e-mail. 
+See :ref:`mail-request`.
