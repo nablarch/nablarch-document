@@ -11,3 +11,4 @@ Nablarch開発ツール
    ui_dev/index
    testing_framework/index
    toolbox/index
+   rest_testing_framework/index
