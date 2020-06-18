@@ -116,7 +116,7 @@ RestTestSupport
 レスポンスボディ
 ----------------
 
-レスポンスボディの検証についてはフレームワークでは用意していない。
+レスポンスボディの検証についてはフレームワークでは仕組みを用意していない。
 各プロジェクトの要件に合わせて `JSONAssert(外部サイト、英語) <http://jsonassert.skyscreamer.org/>`_ や
 `json-path-assert(外部サイト、英語) <https://github.com/json-path/JsonPath/tree/master/json-path-assert>`_ 、
 `XMLUnit(外部サイト、英語) <https://github.com/xmlunit/user-guide/wiki>`_ などのライブラリを使用してください。
@@ -141,10 +141,8 @@ JSONAssertのように外部ライブラリが期待値として ``String`` し�
 
   String readTextResource(String fileName)
 
-このメソッドでは、以下のようにテストクラスと同じパッケージにあるリソースから
+このメソッドでは、以下のようにテストクラスと同じ名前のディレクトリにあるリソースから
 引数で指定したファイル名でファイルを読み込み ``String`` に変換する。
-下表の ``<PROJECT_ROOT>/test/resources/com/example/SampleTest`` というディレクトリ階層は
-テストクラスによって自動的に決まり、変更することはできない。
 
 +----------------------------------+------------------------------------------------------+-------------------------------------+
 | ファイルの種類                   | 配置ディレクトリ                                     | ファイル名                          |
