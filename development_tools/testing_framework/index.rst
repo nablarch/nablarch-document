@@ -5,7 +5,6 @@
 
 .. toctree::
    :maxdepth: 1
-   :numbered:
    :titlesonly:
 
    guide/development_guide/05_UnitTestGuide/index
