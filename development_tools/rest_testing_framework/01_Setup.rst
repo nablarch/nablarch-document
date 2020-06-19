@@ -28,7 +28,7 @@
 
 .. important::
    ``nablarch-testing-rest`` は ``nablarch-testing`` (:ref:`大規模開発向け重厚なテスティングフレームワーク <unitTestGuide>`) に依存している。
-   上記のモジュールを依存に追加することで :ref:`大規模開発向け重厚なテスティングフレームワーク <unitTestGuide>` のAPIを使用することができる。
+   上記のモジュールを依存に追加することで :ref:`大規模開発向け重厚なテスティングフレームワーク <unitTestGuide>` のAPIも同時に使用することができる。
 
 .. tip::
   Java11を使用している場合は :ref:`自動テストで使用するJettyのモジュール変更 <setup_java11_jetty9>` の通り
@@ -48,7 +48,7 @@
 リクエスト単体テストの設定は :ref:`rest-test-configuration` を参照。
 
 .. tip::
-  Nablarch5u18以降のアーキタイプからブランクプロジェクトを作成した場合
-  :doc:`RESTfulウェブサービス <../../../application_framework/application_framework/blank_project/setup_blankProject/setup_WebService>` では
-  上記が既に設定されている。:doc:`ウェブプロジェクト <../../../application_framework/application_framework/blank_project/setup_blankProject/setup_Web>` や
+  Nablarch5u18以降のアーキタイプから :doc:`RESTfulウェブサービス <../../../application_framework/application_framework/blank_project/setup_blankProject/setup_WebService>` の
+  ブランクプロジェクトを作成した場合上記が既に設定されている。
+  :doc:`ウェブプロジェクト <../../../application_framework/application_framework/blank_project/setup_blankProject/setup_Web>` や
   :doc:`バッチプロジェクト <../../../application_framework/application_framework/blank_project/setup_blankProject/setup_NablarchBatch>` では追加が必要となる。
