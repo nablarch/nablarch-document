@@ -119,7 +119,7 @@ RestTestSupport
 レスポンスボディの検証についてはフレームワークでは仕組みを用意していない。
 各プロジェクトの要件に合わせて `JSONAssert(外部サイト、英語) <http://jsonassert.skyscreamer.org/>`_ や
 `json-path-assert(外部サイト、英語) <https://github.com/json-path/JsonPath/tree/master/json-path-assert>`_ 、
-`XMLUnit(外部サイト、英語) <https://github.com/xmlunit/user-guide/wiki>`_ などのライブラリを使用してください。
+`XMLUnit(外部サイト、英語) <https://github.com/xmlunit/user-guide/wiki>`_ などのライブラリを使用すること。
 
 .. tip::
 
@@ -127,7 +127,7 @@ RestTestSupport
   上記の `JSONAssert(外部サイト、英語) <http://jsonassert.skyscreamer.org/>`_ 、
   `json-path-assert(外部サイト、英語) <https://github.com/json-path/JsonPath/tree/master/json-path-assert>`_ 、
   `XMLUnit(外部サイト、英語) <https://github.com/xmlunit/user-guide/wiki>`_ がpom.xmlに記載されている。
-  必要に応じてライブラリの削除や差し替えを行ってください。
+  必要に応じてライブラリの削除や差し替えを行うこと。
 
 
 レスポンスボディ検証の補助機能

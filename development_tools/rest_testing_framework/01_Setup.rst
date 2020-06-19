@@ -29,12 +29,10 @@
 .. important::
    ``nablarch-testing-rest`` は ``nablarch-testing`` (:ref:`大規模開発向け重厚なテスティングフレームワーク <unitTestGuide>`) に依存している。
    上記のモジュールを依存に追加することで :ref:`大規模開発向け重厚なテスティングフレームワーク <unitTestGuide>` のAPIを使用することができる。
-   既に ``nablarch-testing`` が pom.xml に記載されている場合は重複するため、 ``nablarch-testing-rest`` だけが pom.xml に記載されるよう
-   ``nablarch-testing`` を削除してください。
 
 .. tip::
   Java11を使用している場合は :ref:`自動テストで使用するJettyのモジュール変更 <setup_java11_jetty9>` の通り
-  内蔵サーバを差し替えてください。
+  内蔵サーバを差し替えること。
 
 設定
 ---------------
