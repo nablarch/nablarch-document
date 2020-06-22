@@ -1,119 +1,122 @@
 .. _`getting_started_nablarch_batch`:
 
-ファイルをDBに登録するバッチの作成
+Creating a Batch to Register Files to the DB
 ==========================================================
-Exampleアプリケーションを元に、ファイルをDBに登録するバッチの解説を行う。
+How to register files in DB will be explained with an example application.
 
-作成する機能の概要
+Overview of the function to be created
   .. image:: ../images/overview.png
 
-住所ファイル登録バッチ実行手順
-  1. 登録対象テーブルのデータを削除する
+Execution procedure of the mailing address file registration batch
+  1. Delete data in the table to be registered
 
-     H2のコンソールから下記SQLを実行し、データ登録対象テーブルのデータを削除する。
+     Execute the following SQL from the console of H2 and delete the data in the table to be registered.
 
      .. code-block:: sql
 
        TRUNCATE TABLE ZIP_CODE_DATA;
 
-  2. 住所ファイル登録バッチを実行する
+  2. Execute the mailing address file registration batch
 
-    コマンドプロンプトから下記コマンドを実行する。
+    Execute the following command from the command prompt
 
     .. code-block:: bash
 
-      $cd {nablarch-example-batchリポジトリ}
+      $cd {nablarch-example-batch repository}
       $mvn exec:java -Dexec.mainClass=nablarch.fw.launcher.Main ^
           -Dexec.args="'-requestPath' 'ImportZipCodeFileAction/ImportZipCodeFile' '-diConfig' 'classpath:import-zip-code-file.xml' '-userId' '105'"
 
-  3. ファイルの内容がDBに登録されたことを確認する
+  3. Confirm that the contents of the file are registered in the DB
 
-     H2のコンソールから下記SQLを実行し、住所情報が登録されていることを確認する。
+     Execute the following SQL from the console of H2 and confirm that the mailing address information is registered.
 
      .. code-block:: sql
 
        SELECT * FROM ZIP_CODE_DATA;
 
-ファイルをDBに登録する
+Register file to DB
 ----------------------
-ファイルをDBに登録するバッチの作成方法について、
-:ref:`入力データソースからのデータ読み込み<getting_started_nablarch_batch-read>`
-と :ref:`業務ロジックの実行<getting_started_nablarch_batch-business-action>` に分けて解説を行う。
+For the method of creating the batch to register the files to database,
+it is explained by dividing into
+:ref:`reads data from the input data source <getting_started_nablarch_batch-read>` and
+:ref:`execution of business logic <getting_started_nablarch_batch-business-action>`.
 
-処理フローについては、 :ref:`Nablarchバッチの処理フロー<nablarch_batch-process_flow>` を参照。
-責務配置については :ref:`Nablarchバッチの責務配置<nablarch_batch-application_design>` を参照。
+For the process flow, see :ref:`process flow of the Nablarch batch <nablarch_batch-process_flow>`.
+For responsibility assignment, refer to :ref:`the responsibility assignment of the Nablarch batch<nablarch_batch-application_design>`.
 
-住所ファイル登録バッチのハンドラ構成については `import-zip-code-file.xml` を参照。
+Refer to `import-zip-code-file.xml` for the handler configuration of the mailing address file registration batch.
+
 
 .. _`getting_started_nablarch_batch-read`:
 
-入力データソースからデータを読み込む
-++++++++++++++++++++++++++++++++++++
-入力データソースからデータを読み込む処理について解説する。
+Reads data from the input data source
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The process of reading data from the input data source is described.
 
-#. :ref:`入力ファイルを受け付けるフォームの作成<getting_started_nablarch_batch-form>`
-#. :ref:`データリーダの作成<getting_started_nablarch_batch-data_reader>`
+#. :ref:`Create a form that accepts input files<getting_started_nablarch_batch-form>`
+#. :ref:`Create a data reader<getting_started_nablarch_batch-data_reader>`
 
 .. _`getting_started_nablarch_batch-form`:
 
-入力ファイルを受け付けるフォームを作成
-  :ref:`data_bind` を用いてCSV(住所ファイル)をバインドするフォームを作成する。
+Create a form that accepts input files
+  Create a form that binds CVS (mailing address file) using :ref:`data_bind`.
 
   ZipCodeForm.java
     .. code-block:: java
 
-      @Csv(properties = {/** プロパティ定義は省略 **/}, type = CsvType.CUSTOM)
+      @Csv(properties = {/** Property definition is omitted **/}, type = CsvType.CUSTOM)
       @CsvFormat(charset = "UTF-8", fieldSeparator = ',',
               ignoreEmptyLine = true, lineSeparator = "\r\n", quote = '"',
               quoteMode = QuoteMode.NORMAL, requiredHeader = false)
       public class ZipCodeForm {
 
-          // 一部項目のみ抜粋
+          // Excerpt of only some items
 
-          /** 全国地方公共団体コード */
+          /** National local government code */
           @Domain("localGovernmentCode")
           @Required
           private String localGovernmentCode;
 
           /**
-           * 郵便番号（5桁）を返します。
+           * Returns the zip code (5 digits).
            *
-           * @return 郵便番号（5桁）
+           * @return Zip code (5 digits)
            */
           public String getZipCode5digit() {
               return zipCode5digit;
           }
 
           /**
-           * 行数を保持するカラム
+           * Column holding the line count
            */
           private Long lineNumber;
 
           /**
-           * 行数を取得する。
+           * Get line count.
            *
-           * @return 行数
+           * @return line count
            */
           @LineNumber
           public Long getLineNumber() {
               return lineNumber;
           }
 
-          // その他のセッタ及びゲッタは省略
+          // Other setters and getters are omitted
 
       }
 
-  この実装のポイント
-    * :ref:`data_bind` を用いてフォームにCSVをバインドするため、:java:extdoc:`Csv<nablarch.common.databind.csv.Csv>`
-      及び :java:extdoc:`CsvFormat<nablarch.common.databind.csv.CsvFormat>` を付与する。
-    * :ref:`bean_validation` を実施するために、バリデーション用のアノテーションを付与する。
-    * 行数プロパティを定義し、ゲッタに :java:extdoc:`LineNumber<nablarch.common.databind.LineNumber>` を付与することで、
-      対象データが何行目のデータであるかを自動的に設定できる。
+  Key points of this implementation
+    * To bind the CSV to the form using :ref:`data_bind`, :java:extdoc:`Csv<nablarch.common.databind.csv.Csv>`
+      and :java:extdoc:`CsvFormat<nablarch.common.databind.csv.CsvFormat>` are granted.
+    * To execute :ref:`bean_validation`, annotation is granted for validation.
+    * By defining the line count property and granting :java:extdoc:`LineNumber<nablarch.common.databind.LineNumber>` to the getter,
+      the line of the target data can be configured automatically.
 
 .. _`getting_started_nablarch_batch-data_reader`:
 
-データリーダの作成
-  ファイルを読み込んで一行ずつ業務アクションメソッドへ引き渡す、 :java:extdoc:`DataReader<nablarch.fw.DataReader>` の実装クラスを作成する。
+Create a data reader
+  Create the implementation class of :java:extdoc:`DataReader<nablarch.fw.DataReader>`
+  after reading the file and passing one line at a time to the business action method.
 
   ZipCodeFileReader.java
     .. code-block:: java
@@ -121,20 +124,20 @@ Exampleアプリケーションを元に、ファイルをDBに登録するバ�
       public class ZipCodeFileReader implements DataReader<ZipCodeForm> {
 
           /**
-           * 読み込むファイルの名称
+           * Name of the file to read
            */
           private static final String FILE_NAME = "importZipCode";
 
           /**
-           * 処理対象のデータを返すイテレータ
+           * Iterator that returns the data to be processed
            */
           private ObjectMapperIterator<ZipCodeForm> iterator;
 
           /**
-           * 業務ハンドラが処理する一行分のデータを返却する。
+           * Return one line of data processed by the business handler.
            *
-           * @param ctx 実行コンテキスト
-           * @return 一行分のデータ
+           * @param ctx Execution context
+           * @return One line of data
            */
           @Override
           public ZipCodeForm read(ExecutionContext ctx) {
@@ -145,10 +148,10 @@ Exampleアプリケーションを元に、ファイルをDBに登録するバ�
           }
 
           /**
-           * 次行があるかどうかを返す。
+           * Returns whether there is a next line.
            *
-           * @param ctx 実行コンテキスト
-           * @return 次行がある場合は {@code true} 、ない場合は {@code false}
+           * @param ctx Execution context
+           * @return If there is a next line {@code true} , if there is no next line {@code false}
            */
           @Override
           public boolean hasNext(ExecutionContext ctx) {
@@ -159,10 +162,10 @@ Exampleアプリケーションを元に、ファイルをDBに登録するバ�
           }
 
           /**
-           * 終了処理。
+           * End process.
            * <p/>
-           * {@link ObjectMapperIterator#close()} を呼び出す。
-           * @param ctx 実行コンテキスト
+           * {@link ObjectMapperIterator#close()} is called.
+           * @param ctx Execution context
            */
           @Override
           public void close(ExecutionContext ctx) {
@@ -170,16 +173,16 @@ Exampleアプリケーションを元に、ファイルをDBに登録するバ�
           }
 
           /**
-           * 初期化処理。
+           * Initialization process.
            * <p/>
-           * イテレータを生成する。
-           * @throws RuntimeException ファイルの読み込みに失敗した場合
+           * Create an iterator.
+           * @throws RuntimeException When reading the file fails
            */
           private void initialize() {
               FilePathSetting filePathSetting = FilePathSetting.getInstance();
               File zipCodeFile = filePathSetting.getFileWithoutCreate("csv-input", FILE_NAME);
 
-              // ファイルの読み出しに利用するイテレータを生成
+              // Create an iterator used for reading files
               try {
                   iterator
                       = new ObjectMapperIterator<>(ObjectMapperFactory.create(ZipCodeForm.class,
@@ -190,29 +193,29 @@ Exampleアプリケーションを元に、ファイルをDBに登録するバ�
           }
       }
 
-  この実装のポイント
-    * `read` メソッドに一行分のデータを返却する処理を実装する。`read` メソッドで読み込んだデータが業務アクションハンドラへ引き渡される。
-    * `hasNext` メソッドに次行の有無を判定する処理を実装する。このメソッドが `false` を返却するとファイルの読み込み処理は終了となる。
-    * `close` メソッドにファイルの読み込み終了後のストリームのclose処理を実装する。
+  Key points of this implementation
+    * Implements the process to return data of one line in `read` method. The data that has been read by using the `read` method is delivered to the business action handler.
+    * Implements the process to determine if the next line exists in `hasNext` method. The file reading process is terminated if this method returns `false`.
+    * The `close` method implements the close process after reading of the file is complete.
 
   .. tip::
-    :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` のように
-    `hasNext` メソッドを持たないクラスからデータを読み込む場合、イテレータを作成することでデータリーダの実装をシンプルにできる上、
-    データ読み込み処理をバッチごとに実装する手間を省くことができる。
-    イテレータの実装に関してはExampleアプリケーションの `ObjectMapperIterator.java` の実装を参照。
+    When data is read from a class that does not have the `hasNext` method like :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>`,
+    it is not only possible to simplify the implementation of data reader by creating an iterator,
+    but also the effort of implementing the data reading process for each batch can be minimized.
+    For iterator implementation, see the implementation of `ObjectMapperIterator.java` in the example application.
 
 .. _`getting_started_nablarch_batch-business-action`:
 
-業務ロジックを実行する
+Execute the business logic
 ++++++++++++++++++++++++++++++++++++
-業務ロジックを実行する部分について解説する。
+This section describes the part that executes the business logic
 
-#. :ref:`業務アクションの作成<getting_started_nablarch_batch-action>`
+#. :ref:`Create a business action<getting_started_nablarch_batch-action>`
 
 .. _`getting_started_nablarch_batch-action`:
 
-業務アクションの作成
-  :java:extdoc:`BatchAction<nablarch.fw.action.BatchAction>` を継承し、業務アクションクラスを作成する。
+Create a business action
+  Inherits :java:extdoc:`BatchAction<nablarch.fw.action.BatchAction>` and creates the business action class.
 
   ImportZipCodeFileAction.java
     .. code-block:: java
@@ -221,15 +224,15 @@ Exampleアプリケーションを元に、ファイルをDBに登録するバ�
 
           /**
            * {@link com.nablarch.example.app.batch.reader.ZipCodeFileReader}
-           * から渡された一行分の情報をDBに登録する。
+           * registers information of one line passed by the above to the DB.
            * <p/>
-           * メソッド実行時に{@link com.nablarch.example.app.batch.interceptor.ValidateData}
-           * がインターセプトされるため、このメソッドには常にバリデーション済みの
-           * {@param inputData} が引き渡される。
+           * Since {@link com.nablarch.example.app.batch.interceptor.ValidateData}
+           * is intercepted when the method is executed, validated
+           * {@param inputData} is always passed to this method.
            *
-           * @param inputData 一行分の住所情報
-           * @param ctx       実行コンテキスト
-           * @return 結果オブジェクト
+           * @param inputData Mailing address information for one line
+           * @param ctx       Execution context
+           * @return Result object
            */
           @Override
           @ValidateData
@@ -242,10 +245,10 @@ Exampleアプリケーションを元に、ファイルをDBに登録するバ�
           }
 
           /**
-           * リーダを作成する。
+           * Create a reader.
            *
-           * @param ctx 実行コンテキスト
-           * @return リーダーオブジェクト
+           * @param ctx Execution context
+           * @return Reader object
            */
           @Override
           public DataReader<ZipCodeForm> createReader(ExecutionContext ctx) {
@@ -253,11 +256,12 @@ Exampleアプリケーションを元に、ファイルをDBに登録するバ�
           }
       }
 
-  この実装のポイント
-    * `handle` メソッドに、データリーダから渡された一行分のデータに対する処理を実装する。
-    * :java:extdoc:`UniversalDao#insert <nablarch.common.dao.UniversalDao.insert(java.lang.Object)>` を使用して住所エンティティをデータベースに登録する。
-    * `createReader` メソッドでは使用するデータリーダクラスのインスタンスを返却する。
+  Key points of this implementation
+    * Process for one line of data that is passed over from the data reader is implemented in the `handle` method.
+    * Use :java:extdoc:`UniversalDao#insert <nablarch.common.dao.UniversalDao.insert(java.lang.Object)>` to register a mailing address entity in the database.
+    * The `createReader` method returns the instance of data reader class to be used.
 
   .. tip::
-    :ref:`bean_validation` を実行するロジックにバッチごとの差はないため、Exampleアプリケーションではインターセプタを作成してバリデーション処理を共通化している。
-    インターセプタの実装に関しては、Exampleアプリケーションの `ValidateData.java` の実装を参照。
+    As there is no difference in the execution logic of :ref:`bean_validation` between the batches,
+    the validation process is shared by creating an interceptor in the example application.
+    For interceptor implementation, see the implementation of `ValidateData.java` in the example application.
