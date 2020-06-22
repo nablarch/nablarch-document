@@ -86,6 +86,12 @@ Nablarch開発ツール
   | :doc:`解説書 <development_tools/testing_framework/index>` | :doc:`モジュール一覧 <about_nablarch/mvn_module>`
 
 
+RESTfulウェブサービス実行基盤向けテスティングフレームワーク
+=============================================================
+
+  | :doc:`解説書 <development_tools/rest_testing_framework/index>` | :doc:`モジュール一覧 <about_nablarch/mvn_module>`
+
+
 アプリケーション開発時に使える便利なツール
 ==========================================
 

@@ -55,10 +55,10 @@ HTTPセッションを抽象化した機能を提供する。
 
 セッションストアの特長や選択基準については、 :ref:`session_store-future_of_store` を参照。
 
-.. _session_store-serialize:
-
 また、 :ref:`redisstore_lettuce_adaptor` を使用することで、Redisを保存先として使用することもできる。
 
+
+.. _session_store-serialize:
 
 セッション変数の直列化の仕組みを選択できる
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

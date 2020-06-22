@@ -6,7 +6,6 @@
 .. toctree::
    :maxdepth: 1
    :hidden:
-   :numbered:
 
    JspStaticAnalysis/index.rst
    SqlExecutor/SqlExecutor
