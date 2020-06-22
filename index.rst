@@ -19,6 +19,7 @@ Nablarch
   application_framework/index
   extension_components/index
   development_tools/index
+  cloud_native/index
   examples/index
   nablarch_api/index
 

@@ -166,23 +166,42 @@ env.config内の以下の箇所を修正する。
 
 アーキタイプからプロジェクトを生成した直後は、「JNDIからコネクションを取得する環境のconfigファイル」に以下が該当する。
 
-========================================== =======================================================
-プロジェクト種別                           JNDIからコネクションを取得する環境のconfigファイル
-========================================== =======================================================
-ウェブ、RESTfulウェブサービス                 * 本番環境用config(src/env/prod/resources/env.config)
-JSR352に準拠したバッチ、Nablarchバッチ     なし
-========================================== =======================================================
 
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+  :widths: 4,6
+
+  * - プロジェクト種別
+    - JNDIからコネクションを取得する環境のconfigファイル
+  * - * ウェブ
+      * RESTfulウェブサービス
+    - * 本番環境用config(src/env/prod/resources/env.config)
+  * - * JSR352に準拠したバッチ
+      * Nablarchバッチ
+      * コンテナ版ウェブ
+      * コンテナ版RESTfulウェブサービス
+    - なし
 
 アーキタイプからプロジェクトを生成した直後は、「ローカルにコネクションプールを作成する環境のconfigファイル」に以下が該当する。
 
-============================================== ====================================================================
-プロジェクト種別                               ローカルにコネクションプールを作成する環境のconfigファイル
-============================================== ====================================================================
-ウェブ、RESTfulウェブサービス                  * 単体試験環境(打鍵テスト)用config(src/env/dev/resources/env.config)
-JSR352に準拠したバッチ、Nablarchバッチ         * 単体試験環境(打鍵テスト)用config(src/env/dev/resources/env.config)
-                                               * 本番環境用config(src/env/prod/resources/env.config)
-============================================== ====================================================================
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+  :widths: 4,6
+
+  * - プロジェクト種別
+    - ローカルにコネクションプールを作成する環境のconfigファイル
+  * - * ウェブ
+      * RESTfulウェブサービス
+    - * 単体試験環境(打鍵テスト)用config(src/env/dev/resources/env.config)
+  * - * JSR352に準拠したバッチ
+      * Nablarchバッチ
+    - * 単体試験環境(打鍵テスト)用config(src/env/dev/resources/env.config)
+      * 本番環境用config(src/env/prod/resources/env.config)
+  * - * コンテナ版ウェブ
+      * コンテナ版RESTfulウェブサービス
+    - * src/main/resources/env.config :ref:`※解説 <container_production_config>`
 
 
 以下に、ローカルにコネクションプールを作成する環境のconfigファイル設定例を示す。
@@ -256,6 +275,21 @@ SQL Serverの設定例
   
   DBに設定した通りに、configファイルにも設定すること。
   
+
+.. _container_production_config:
+
+コンテナの本番環境設定
+-----------------------
+
+コンテナ用のプロジェクトでは、プロファイルによる環境設定の切り替えは行わない。
+代わりに、アプリケーションを動かす環境のOS環境変数を使って、 ``env.config`` に宣言した設定値を上書きする。
+
+したがって、OS環境変数を設定していない環境では ``src/main/resources/env.config`` に書かれた設定がそのまま使用される。
+本番等のコンテナ環境で動かすときは、OS環境変数を使って ``nablarch.db.url`` などの環境依存値を適切に上書きしなければならない。
+
+OS環境変数で設定を上書きする方法については、 :ref:`repository-overwrite_environment_configuration_by_os_env_var` を参照。
+
+また、プロファイルではなくOS環境変数で設定を切り替えるようにしている理由については、 `The Twelve-Factor App の III. 設定 <https://12factor.net/ja/config>`_ (外部サイト)を参照。
 
 .. _customizeDB_pom_dependencies:
 
@@ -576,6 +610,8 @@ Nablarchが使用するテーブル作成とデータの投入
 * :ref:`RESTfulウェブサービスの疎通確認<firstStepWebServiceStartupTest>`
 * :ref:`JSR352に準拠したバッチの疎通確認<firstStepBatchEEStartupTest>`
 * :ref:`Nablarchバッチの疎通確認<firstStepBatchStartupTest>`
+* :ref:`コンテナ用ウェブの疎通確認<firstStepContainerWebStartupTest>`
+* :ref:`コンテナ用RESTfulウェブサービスの疎通確認<firstStepContainerWebServiceStartupTest>`
 
 
 .. |br| raw:: html

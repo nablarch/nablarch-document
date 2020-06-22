@@ -30,6 +30,10 @@ Nablarchでは、以下のアーキタイプを提供している。なお、ア
     - JSR352に準拠したバッチアプリケーションフレームワークを使用する場合のアーキタイプ
   * - nablarch-batch-archetype
     - Nablarch独自のバッチアプリケーション実行制御基盤を利用する場合のアーキタイプ
+  * - nablarch-container-web-archetype
+    - ``nablarch-web-archetype`` のDockerコンテナ版アーキタイプ
+  * - nablarch-container-jaxrs-archetype
+    - ``nablarch-jaxrs-archetype`` のDockerコンテナ版アーキタイプ
 
 
 nablarch-web-archetypeとnablarch-batch-archetypeのアーキタイプを使用し、
@@ -325,6 +329,90 @@ Nablarchバッチアプリケーションのjarファイルとしてパッケー
         -requestPath <リクエストパス> ^
         -userId <ユーザID>
 
+.. _container_web_project_summary:
+
+pj-container-webプロジェクト
+===============================
+
+ウェブアプリケーションがデプロイされたTomcatベースのDockerイメージをビルドするプロジェクト。
+
+プロジェクトの構成
+------------------
+
+.. code-block:: text
+
+    myapp-container-web
+    |
+    |   pom.xml                     … Mavenの設定ファイル
+    |   README.md                   … 本プロジェクトの補足説明(読み終わったら削除可)
+    |
+    +---db                          … 疎通アプリケーション用のDDL及びInsert文。RDBMS別に格納されている。
+    |
+    +---h2
+    |   +---bin                     … H2の起動に使用するファイルが格納されている。
+    |   |
+    |   \---db
+    |           SAMPLE.h2.db        … H2のデータファイル。
+    |           SAMPLE.h2.db.org    … H2のデータファイルのバックアップ。H2が起動しなくなった場合に「SAMPLE.h2.db」にコピーして使用する。
+    |
+    +---src
+    |   +---main
+    |   |   +---java                … 疎通確認用アプリケーションのクラスが格納されている。
+    |   |   |
+    |   |   +---resources           … 直下には設定ファイルが格納されている。
+    |   |   |   |
+    |   |   |   +---entity          … ER図のサンプル。gsp-dba-maven-pluginを使用する際のサンプルデータとして用意している。
+    |   |   |   |
+    |   |   |   \---net             … ルーティングアダプタ用設定ファイルが格納されている。
+    |   |   |
+    |   |   +---jib                 … コンテナイメージ上に配置するファイルが格納されている。
+    |   |   |
+    |   |   \---webapp
+    |   |       +---errorPages      … エラー画面のサンプルが格納されている。
+    |   |       |
+    |   |       +---test            … 疎通確認画面用のファイルが格納されている。
+    |   |       |
+    |   |       \---WEB-INF         … web.xmlが格納されている。
+    |   |
+    |   \---test
+    |       +---java                … 疎通テスト用のユニットテストが格納されている。
+    |       |
+    |       \---resources           … 直下にはユニットテスト用の設定ファイルが格納されている。
+    |           |
+    |           +---data            … gsp-dba-maven-pluginを使用する際のサンプルデータとして用意している。
+    |           |
+    |           \---nablarch        … HTMLチェックツール用のデータが格納されている。
+    |
+    \---tools                       … Mavenと連携させて使用するツールの設定ファイルが格納されている。
+    
+    
+src/main/jib について
+  ``src/main/jib`` に配置したディレクトリやファイルは、そのままコンテナ上に配置される。
+  たとえば、 ``src/main/jib/var/foo.txt`` というファイルを配置した状態でコンテナイメージをビルドすると、コンテナ上の ``/var/foo.txt`` にファイルが配置される。
+  詳細は `Jibのドキュメントを参照 <https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#adding-arbitrary-files-to-the-image>`_ (外部サイト、英語)。
+
+  ブランクプロジェクトでは、Tomcatのログ出力を全て標準出力にするために、Tomcatの設定ファイルがいくつか配置されている。
+
+
+
+ツールの設定
+-----------------------------------
+
+Webと同一であるため省略。
+
+
+pj-container-jaxrsプロジェクト
+===============================
+
+RESTfulウェブサービスアプリケーションがデプロイされたTomcatベースのDockerイメージをビルドするプロジェクト。
+
+プロジェクトの構成
+------------------
+
+コンテナ版Webと同一であるため省略。
+
+
+
 .. _about_maven_web_batch_module:
 
 各プロジェクト共通の設定
@@ -373,6 +461,10 @@ Nablarchバッチアプリケーションのjarファイルとしてパッケー
 .. tip::
    ``pom.xml`` 中のdevプロファイルにactiveByDefault要素が記述されており、デフォルトでdevプロファイルが使用されるようになっている。
 
+.. note::
+   コンテナ用のプロジェクトでは、環境ごとの違いはプロファイルではなくOS環境変数を使って切り替える。
+   したがって、コンテナ用のプロジェクトにはプロファイルが定義されていない。
+   詳しくは :ref:`container_production_config` を参照。
 
 ^^^^^^^^^^^^^^^^^^^^
 プロファイルの使い方

@@ -14,5 +14,6 @@
    maven
    beforeFirstStep
    FirstStep
+   FirstStepContainer
    MavenModuleStructures/index
    ModifySettings
