@@ -1,42 +1,43 @@
 .. _nablarch_batch-application_design:
 
-アプリケーションの責務配置
-================================
-Nablarchバッチアプリケーションを作成する際に実装すべきクラスとその責務について説明する。
+Responsibility Assignment of Application
+====================================================
+This section describes the classes to be implemented when creating a Nablarch batch application and their responsibilities.
 
-**クラスとその責務**
+**Classes and their responsibilities**
 
 .. image:: images/batch_design.png
 
-アクションクラス(action class)
-  アクションクラスは、2つのことを行う。
+Action class
+  Action classes perform two things.
 
-  * 入力データの読み込みに使う :java:extdoc:`DataReader<nablarch.fw.DataReader>` を生成する。
-  * :java:extdoc:`DataReader<nablarch.fw.DataReader>` が読み込んだデータレコードを元に業務ロジックを実行し、
-    :java:extdoc:`Result<nablarch.fw.Result>` を返却する。
+  * Generates :java:extdoc:`DataReader<nablarch.fw.DataReader>` used to read input data.
+  * Executes the business logic based on the data records read by :java:extdoc:`DataReader<nablarch.fw.DataReader>`
+    and returns :java:extdoc:`Result<nablarch.fw.Result>`.
 
-  例えば、ファイルの取り込みバッチであれば、業務ロジックとして以下の処理を行う。
+  For example, the following process is performed as business logic in the case of a batch for importing [A1]from [A2][A3]a file.
 
-  - データレコードからフォームクラスを作成して、バリデーションを行う。
-  - フォームクラスからエンティティクラスを作成して、データベースにデータを追加する。
-  - 処理結果として :java:extdoc:`Success<nablarch.fw.Result.Success>` を返す。
+  - Creates a form class from data record and performs validation.
+  - Creates entity class from the form class and add data to database.
+  - Returns :java:extdoc:`Success<nablarch.fw.Result.Success>` as the processing result.
 
-フォームクラス(form class)
-  :java:extdoc:`DataReader<nablarch.fw.DataReader>`
-  が読み込んだデータレコードをマッピングするクラス。
 
-  データレコードをバリデーションするためのアノテーションの設定や相関バリデーションのロジックを持つ。
-  外部からの入力データによっては、階層構造(formがformを持つ)となる場合もある。
+Form class
+  Class that maps data records read by :java:extdoc:`DataReader<nablarch.fw.DataReader>`.
 
-  フォームクラスのプロパティは全て `String` で定義する
-    プロパティを `String` とすべき理由は、 :ref:`Bean Validation <bean_validation-form_property>` を参照。
-    ただし、バイナリ項目の場合はバイト配列で定義する。
+  Contains configuration of annotation for validation of data record and logic for correlation validation.
+  Depending on external input data, it may have a hierarchical structure (form having a form).
+
+  All of the form class properties must be defined by `String`.
+    See :ref:`Bean Validation <bean_validation-form_property>` for the reasons why the property should be `String`.
+    In the case of a binary item, the type is defined by a byte array.
 
   .. tip::
-   外部から連携されるファイルなど、入力データが安全でない場合に、
-   バリデーションを行いフォームクラスを作成する。
-   データベースなど、入力データが安全な場合は、フォームクラスを使用せず、
-   データレコードからエンティティクラスを作成して業務ロジックを実行すればよい。
+   If the input data such as files received from outside the system are not secure,
+   validate and create a form class. If the input data such as a database is secure,
+   it is better to create an entity class from data records and execute business logic
+   without using the form class.
 
-エンティティクラス(entity class)
-  テーブルと1対1で対応するクラス。カラムに対応するプロパティを持つ。
+Entity class
+  A class with a one-to-one correspondence with a table.
+  The entity class has property corresponding to columns.
