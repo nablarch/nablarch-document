@@ -1,9 +1,8 @@
 .. _nablarch_batch:
 
-Nablarchバッチアプリケーション
+Nablarch Batch Application
 ==================================================
-本章ではNablarch独自のバッチアプリケーションフレームワークを利用して
-バッチアプリケーションを開発するために必要となる情報を提供する。
+This chapter provides information required for developing batch applications using the batch application framework of Nablarch.
 
 .. toctree::
   :maxdepth: 2
