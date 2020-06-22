@@ -1,40 +1,40 @@
-機能詳細
+Details of Function
 ========================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-バッチアプリケーションの起動方法
+How to launch the batch application
 --------------------------------------------------
-* :ref:`Nablarchバッチアプリケーションの起動方法<main-run_application>`
+* :ref:`How to launch a Nablarch batch application<main-run_application>`
 
-システムリポジトリの初期化
+Initializing the system repository
 --------------------------------------------------
-システムリポジトリの初期化は、アプリケーション起動時にシステムリポジトリの設定ファイルのパスを指定することで行う。
-詳細は、:ref:`Nablarchバッチアプリケーションの起動方法<main-run_application>` を参照。
+The system repository is initialized by specifying the path of the system repository configuration file
+when the application starts. For more information, see :ref:`How to launch a Nablarch batch application<main-run_application>`.
 
-入力値のチェック
+Input value check
 --------------------------------------------------
-* :ref:`入力値のチェック <validation>`
+* :ref:`Input value check <validation>`
 
-データベースアクセス
+Database access
 --------------------------------------------------
-* :ref:`データベースアクセス <database_management>`
-* 標準提供のデータリーダ
+* :ref:`Database access <database_management>`
+* Data reader provided as standard
 
-  * :java:extdoc:`DatabaseRecordReader (データベース読み込み) <nablarch.fw.reader.DatabaseRecordReader>`
+  * :java:extdoc:`DatabaseRecordReader (read database) <nablarch.fw.reader.DatabaseRecordReader>`
 
-ファイル入出力
+File I/O
 --------------------------------------------------
-* :ref:`ファイル入出力<data_converter>`
+* :ref:`File I/O<data_converter>`
 
-* 標準提供のデータリーダ
+* Data reader provided as standard
 
-  * :java:extdoc:`FileDataReader (ファイル読み込み)<nablarch.fw.reader.FileDataReader>`
-  * :java:extdoc:`ValidatableFileDataReader (バリデージョン機能付きファイル読み込み)<nablarch.fw.reader.ValidatableFileDataReader>`
-  * :java:extdoc:`ResumeDataReader (レジューム機能付き読み込み)<nablarch.fw.reader.ResumeDataReader>`
+  * :java:extdoc:`FileDataReader (read file)<nablarch.fw.reader.FileDataReader>`
+  * :java:extdoc:`ValidatableFileDataReader (read files with validation function)<nablarch.fw.reader.ValidatableFileDataReader>`
+  * :java:extdoc:`ResumeDataReader (read with resume function)<nablarch.fw.reader.ResumeDataReader>`
 
-排他制御
+Exclusive control
 --------------------------------------------------
 .. toctree::
     :maxdepth: 1
@@ -42,16 +42,16 @@
 
     feature_details/nablarch_batch_pessimistic_lock
 
-排他制御は、以下の2種類の方法を提供しているが、
-:ref:`UniversalDaoを推奨する理由 <exclusive_control-deprecated>` に記載がある通り、
-:ref:`universal_dao` の使用を推奨する。
+Although 2 types of exclusive control are offered,
+:ref:`universal_dao` is recommended due to the reasons described in
+:ref:`Why UniversalDao is recommended<exclusive_control-deprecated>`.
 
 * :ref:`exclusive_control`
 * :ref:`universal_dao`
 
-  * :ref:`悲観的ロック<nablarch_batch_pessimistic_lock>`
+  * :ref:`Pessimistic lock<nablarch_batch_pessimistic_lock>`
 
-バッチ処理の実行制御
+Execution control of batch process
 --------------------------------------------------
 .. toctree::
   :maxdepth: 1
@@ -60,19 +60,19 @@
   feature_details/nablarch_batch_error_process
   feature_details/nablarch_batch_retention_state
 
-* :ref:`バッチ処理のプロセス終了コード<status_code_convert_handler-rules>`
-* :ref:`バッチ処理のエラー処理<nablarch_batch_error_process>`
-* :ref:`バッチ処理の並列実行(マルチスレッド化)<multi_thread_execution_handler>`
-* :ref:`バッチ処理のコミット間隔の制御 <loop_handler-commit_interval>`
-* :ref:`1回のバッチ処理の処理件数制限 <data_read_handler-max_count>`
-  |br| (大量データを処理するバッチ処理を数日に分けて処理させる場合など)
+* :ref:`Process exit code of batch process<status_code_convert_handler-rules>`
+* :ref:`Error handling of batch process<nablarch_batch_error_process>`
+* :ref:`Parallel execution of batch process (multi-threading)<multi_thread_execution_handler>`
+* :ref:`Controlling the commit interval for batch process<loop_handler-commit_interval>`
+* :ref:`Limit the number of processes in one batch process<data_read_handler-max_count>`
+  |br| (For example, when the batch process for processing large amounts of data is split into several days and processed)
 
-MOMメッセージ送信
+Send MOM message
 ----------------------------------------
-* :ref:`同期応答メッセージ送信<mom_system_messaging-sync_message_send>`
-* :ref:`応答不要メッセージ送信<mom_system_messaging-async_message_send>`
+* :ref:`Send synchronous response message<mom_system_messaging-sync_message_send>`
+* :ref:`Send asynchronous response message<mom_system_messaging-async_message_send>`
 
-バッチ実行中の状態の保持
+Maintain state during batch execution
 ----------------------------------------
 .. toctree::
   :maxdepth: 1
@@ -82,7 +82,7 @@ MOMメッセージ送信
 
 * :ref:`nablarch_batch_retention_state`
 
-常駐バッチのマルチプロセス化
+Multi-processing of resident batch
 ----------------------------------------
 .. toctree::
   :maxdepth: 1
