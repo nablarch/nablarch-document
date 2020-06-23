@@ -1,40 +1,40 @@
 .. _gsp-maven-plugin:
 
-=========================================================
-gsp-dba-maven-plugin(DBA作業支援ツール)の初期設定方法
-=========================================================
+==================================================================================================================
+Initial Configuration Method of gsp-dba-maven-plugin (DBA Work Support Tool)
+==================================================================================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 2
   :local:
 
-概要
+Summary
 ====================================================
 
-`gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ は、Apache License Version 2.0 ライセンスで提供されるオープンソースのツールである。
+`gsp-dba-maven-plugin(external site) <https://github.com/coastland/gsp-dba-maven-plugin>`_ is an open source tool provided under the Apache License Version 2.0 license.
 
-gsp-dba-maven-pluginは、利用開始前にRDBMSにあわせた設定を行う必要がある。
+gsp-dba-maven-plugin needs to be configured according to the RDBMS before starting the use.
 
-本手順では、アーキタイプから生成したプロジェクトで、gsp-dba-maven-pluginを使用するための設定方法を示す。
+This procedure shows the configuration method to use the gsp-dba-maven-plugin in the project generated from archetype.
 
-前提
+Prerequisites
 ====================================================
 
-以下のプロジェクトを対象とする。
+The following projects are covered.
 
-* アーキタイプから生成後、:doc:`CustomizeDB` の手順を実施した各種プロジェクト。
+* Various projects that have implemented :doc:`CustomizeDB` procedures after generation from archetypes.
 
-Mavenの設定
-===============
+Configuration of Maven
+=============================================
 
-gsp-dba-maven-pluginを使用するにあたって、3rd Party Repositoryの設定が必要である。
+Configuration of third party repository is required to use gsp-dba-maven-plugin.
 
-設定は、<ホームディレクトリ>/.m2/settings.xmlに行う。
+Configured in >/.m2/settings.xml.
 
 .. code-block:: xml
 
   <settings>
-    <!-- 中略 -->
+    <!-- Omitted -->
     <profiles>
       <profile>
         <id>my-repository</id>
@@ -60,62 +60,62 @@ gsp-dba-maven-pluginを使用するにあたって、3rd Party Repositoryの設�
         </repository>
       </profile>
     </profiles>
-    <!-- 中略 -->
+    <!-- Omitted -->
   </settings>
 
 .. tip::
 
-  gsp-dba-maven-pluginはデフォルトでH2 Database Engine(以下H2)を使うように設定されている。
+  gsp-dba-maven-plugin is configured to use H2 Database Engine (hereinafter H2) by default.
 
-  H2を使用する場合は、以降の手順は不要である。 :ref:`confirm_gsp` だけ行うこと。
+  The following steps are not required if H2 is used. Perform only :ref:`confirm_gsp`.
 
 
-ファイル修正
+File modification
 ===========================
 
 
-pom.xmlファイルの修正
----------------------------
+Modification of the pom.xml file
+------------------------------------------------------
 
-properties要素内
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-pom.xmlのpropertiesタグ内の以下の箇所を修正する。
+In the properties element
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Modify the following locations in the properties tag of pom.xml.
 
 =============================================== ===========================================
-プロパティ名                                    説明                                       
+Property name                                    Description
 =============================================== ===========================================
-nablarch.db.jdbcDriver                          JDBCドライバのクラス名
-nablarch.db.url                                 データベースの接続URL
-nablarch.db.adminUser                           管理者ユーザー名                           
-nablarch.db.adminPassword                       管理者ユーザーのパスワード                 
-nablarch.db.user                                データベースアクセスユーザ名
-nablarch.db.password                            データベースアクセスユーザのパスワード
-nablarch.db.schema                              接続するスキーマ名
+nablarch.db.jdbcDriver                          JDBC driver class name
+nablarch.db.url                                 Database connection URL
+nablarch.db.adminUser                           Administrator user name
+nablarch.db.adminPassword                       Administrator user password
+nablarch.db.user                                Database access user name
+nablarch.db.password                            Database access user password
+nablarch.db.schema                              Connection schema name
 =============================================== ===========================================
 
-以下に記述例を示す。
+A description example is shown below.
 
-**Oracleの設定例**
+**Oracle configuration example**
 
 
 .. code-block:: xml
 
     <nablarch.db.jdbcDriver>oracle.jdbc.driver.OracleDriver</nablarch.db.jdbcDriver>
-    <!-- jdbc:oracle:thin:@ホスト名:ポート番号:データベースのSID -->
+    <!-- jdbc:oracle:thin:@Host name:Port number:Database SID-->
     <nablarch.db.url>jdbc:oracle:thin:@localhost:1521/xe</nablarch.db.url>
     <nablarch.db.adminUser>SAMPLE</nablarch.db.adminUser>
     <nablarch.db.adminPassword>SAMPLE</nablarch.db.adminPassword>
     <nablarch.db.user>sample</nablarch.db.user>
     <nablarch.db.password>sample</nablarch.db.password>
     <nablarch.db.schema>sample</nablarch.db.schema>
-    
 
-**PostgreSQLの設定例**
+
+**PostgreSQL configuration example**
 
 .. code-block:: xml
 
     <nablarch.db.jdbcDriver>org.postgresql.Driver</nablarch.db.jdbcDriver>
-    <!-- jdbc:postgresql://ホスト名:ポート番号/データベース名 -->
+    <!-- jdbc:postgresql://Host name:Port number/Database name -->
     <nablarch.db.url>jdbc:postgresql://localhost:5432/postgres</nablarch.db.url>
     <nablarch.db.adminUser>SAMPLE</nablarch.db.adminUser>
     <nablarch.db.adminPassword>SAMPLE</nablarch.db.adminPassword>
@@ -124,27 +124,27 @@ nablarch.db.schema                              接続するスキーマ名
     <nablarch.db.schema>sample</nablarch.db.schema>
 
 
-**DB2の設定例**
+**DB2 configuration example**
 
 .. code-block:: xml
 
     <nablarch.db.jdbcDriver>com.ibm.db2.jcc.DB2Driver</nablarch.db.jdbcDriver>
-    <!-- jdbc:db2://ホスト名:ポート番号/データベース名 -->
+    <!-- jdbc:db2://Host name:Port number/Database name -->
     <nablarch.db.url>jdbc:db2://localhost:50000/SAMPLE</nablarch.db.url>
     <nablarch.db.adminUser>SAMPLE</nablarch.db.adminUser>
     <nablarch.db.adminPassword>SAMPLE</nablarch.db.adminPassword>
     <nablarch.db.user>sample</nablarch.db.user>
     <nablarch.db.password>sample</nablarch.db.password>
     <nablarch.db.schema>sample</nablarch.db.schema>
-    
 
-**SQLServerの設定例**
+
+**SQLServer configuration example**
 
 
 .. code-block:: xml
 
     <nablarch.db.jdbcDriver>com.microsoft.sqlserver.jdbc.SQLServerDriver</nablarch.db.jdbcDriver>
-    <!-- jdbc:sqlserver://ホスト名:ポート番号;instanceName=インスタンス名 -->
+    <!-- jdbc:sqlserver://Host name:Port number;instanceName=Instance name -->
     <nablarch.db.url>jdbc:sqlserver://localhost:1433;instanceName=SQLEXPRESS</nablarch.db.url>
     <nablarch.db.adminUser>SAMPLE</nablarch.db.adminUser>
     <nablarch.db.adminPassword>SAMPLE</nablarch.db.adminPassword>
@@ -153,13 +153,13 @@ nablarch.db.schema                              接続するスキーマ名
     <nablarch.db.schema>sample</nablarch.db.schema>
 
 
-build要素内
+In the build element
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-gsp-dba-maven-pluginに対する依存関係を、H2のJDBCドライバから使用するRDBMSにあわせたものに修正する。
+Modify the dependency on gsp-dba-maven-plugin to the one that matches the RDBMS used from the H2 JDBC driver.
 
-POMの設定例は、 :ref:`customizeDB_pom_dependencies` を参照。
-例えば、PostgreSQLを利用する場合は以下のように設定する。
+For POM configuration example, see :ref:`customizeDB_pom_dependencies`.
+For example, when using PostgreSQL, configure as follows.
 
 .. code-block:: xml
 
@@ -172,7 +172,7 @@ POMの設定例は、 :ref:`customizeDB_pom_dependencies` を参照。
           <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <!-- バージョンは適切な値に書き換えてください。 -->
+            <!-- Replace the version as appropriate. -->
             <version>42.1.4</version>
           </dependency>
         </dependencies>
@@ -180,22 +180,22 @@ POMの設定例は、 :ref:`customizeDB_pom_dependencies` を参照。
     </plugins>
   </build>
 
-data-model.edm  (src/main/resources/entity)の準備
--------------------------------------------------
+Preparation of data-model.edm (src/main/resources/entity)
+------------------------------------------------------------------------
 
-src/main/resources/entity以下にRDBMS毎にedmファイルが存在するので、使用するRDBMSに対応するファイルを「data-model.edm」にリネームする。
+Since an edm file is present for each RDBMS under src/main/resources/entity, rename the file corresponding to the RDBMS to be used to "data-model.edm".
 
 .. _confirm_gsp:
 
-動作確認
+Operation check
 ===========================
 
 .. important::
 
-  DBのデータが削除されるため、必要であれば現在DBに格納されているデータを退避しておくこと。
+  Since data in the DB will be deleted, backup the current data if necessary.
 
 
-**1.以下のコマンドを実行して、DDLの生成からダンプファイル作成までを行う。**
+**1. Execute the following command to execute steps from DDL generation to dump file creation.**
 
 .. code-block:: bash
 
@@ -203,7 +203,7 @@ src/main/resources/entity以下にRDBMS毎にedmファイルが存在するの�
 
 .. tip ::
 
-  以下のゴールが実行されるように、各アーキタイプから生成したプロジェクトのpom.xmlに記述されている。
+  The project's pom.xml generated from each archetype so that the following goals are executed It is described in.
 
   * generate-ddl
   * execute-ddl
@@ -211,11 +211,11 @@ src/main/resources/entity以下にRDBMS毎にedmファイルが存在するの�
   * export-schema
 
 
-成功すると以下のようなログがコンソールに出力される。
+If successful, the log given below will be output to the console.
 
 .. code-block:: text
 
-  (中略)
+  (omitted)
   [INFO] --- gsp-dba-maven-plugin:3.2.0:export-schema (default-cli) @ myapp-web ---
   [INFO] PUBLICスキーマのExportを開始します。:C:\develop\myapp\myapp-web\gsp-target\output\PUBLIC.dmp
   [INFO] Building jar: C:\develop\myapp-web\gsp-target\output\myapp-web-testdata-0.1.0.jar
@@ -229,27 +229,27 @@ src/main/resources/entity以下にRDBMS毎にedmファイルが存在するの�
   [INFO] ------------------------------------------------------------------------
 
 
-また、 ``gsp-target/output/`` ディレクトリにダンプファイルが格納されたjarファイルが生成される。
+Also, a jar file containing the dump file is generated in the ``gsp-target/output/`` directory.
 
 .. tip::
 
-  実行に失敗する場合は、RDBMS固有の制限事項に抵触していないか確認する。
-  
-  RDBMS固有の制限事項については、https://github.com/coastland/gsp-dba-maven-plugin (外部サイト)の「ゴール共通のパラメータ」を参照。
+  If the execution fails, check if any restrictions specific to the RDBMS are violated.
+
+  For restrictions specific to the RDBMS, refer to "Common Goal Parameters" at https://github.com/coastland/gsp-dba-maven-plugin (external site).
 
 
-**2.以下のコマンドを実行して、ダンプファイルをローカルリポジトリへインストールする。**
+**2. Install the dump file to the local repository by executing the following command.**
 
 .. code-block:: bash
 
   mvn -P gsp install:install-file
 
 
-成功すると以下のようなログがコンソールに出力される。
+If successful, the log given below will be output to the console.
 
 .. code-block:: text
 
-  (中略)
+  (omitted)
   [INFO] --- maven-install-plugin:2.5.2:install-file (default-cli) @ myapp-web ---
   [INFO] pom.xml not found in myapp-web-testdata-0.1.0.jar
   [INFO] Installing C:\develop\myapp-web\gsp-target\output\myapp-web-testdata-0.1.0.jar to C:\Users\TISxxxxxx\.m2\repository\com\example\myapp-web-testdata\0.1.0\myapp-web-testdata-0.1.0.jar
@@ -264,18 +264,18 @@ src/main/resources/entity以下にRDBMS毎にedmファイルが存在するの�
 
 
 
-**3.以下のコマンドを実行して、ダンプファイルをインポートする。**
+**3. Import the dump file by executing the following command.**
 
 .. code-block:: bash
 
   mvn -P gsp gsp-dba:import-schema
 
 
-成功すると以下のようなログがコンソールに出力される。
+If successful, the log given below will be output to the console.
 
 .. code-block:: text
 
-  (中略)
+  (omitted)
   [INFO] スキーマのインポートを開始します。:C:\develop\myapp-web\gsp-target\output\PUBLIC.dmp
   [INFO] スキーマのインポートを終了しました
   [INFO] ------------------------------------------------------------------------
