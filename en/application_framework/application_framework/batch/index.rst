@@ -1,10 +1,10 @@
 .. _batch_application:
 
-バッチアプリケーション編
+Batch Application Edition
 ==================================================
-本章ではNablarchアプリケーションフレームワークを利用してバッチアプリケーションを開発するために必要となる情報を提供する。
+This chapter provides information necessary for developing batch applications using the Nablarch application framework.
 
-Nablarchのバッチアプリケーションでは、以下2種類のバッチアプリケーションのフレームワークを提供している。
+Nablarch batch application provides the following two types of batch application frameworks.
 
 .. toctree::
   :maxdepth: 1
@@ -12,18 +12,22 @@ Nablarchのバッチアプリケーションでは、以下2種類のバッチ�
   jsr352/index
   nablarch_batch/index
 
-どちらのフレームワークを使用してもバッチアプリケーションを構築することができるが、
-以下の理由により :doc:`jsr352/index` を使用してバッチアプリケーションを作成することを推奨する。
+Although a batch application can be built using either framework,
+creating a batch application using :doc:`jsr352/index` is recommended for the following reasons.
 
-理由
-  :doc:`nablarch_batch/index` は、 `JSR352(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=352>`_ や `Spring Batch(外部サイト、英語) <http://projects.spring.io/spring-batch/>`_ [#spring_batch]_ に似ているが、異なる部分が数多く存在している。
-  このため、 :doc:`nablarch_batch/index` を使用した場合、多くを学ぶ必要があり学習コストが高くなるデメリットがある。
-  また、似て非なる部分が開発者の混乱の元となり、開発生産性を下げるデメリットがある。
+Reason
+  :doc:`nablarch_batch/index` is similar to `JSR352(external site) <https://jcp.org/en/jsr/detail?id=352>`_
+  and `Spring Batch(external site) <http://projects.spring.io/spring-batch/>`_ [#spring_batch]_,
+  but there are many parts that are different.
+  For this reason, the disadvantage of using :doc:`nablarch_batch/index`
+  is that it requires extensive learning and the learning cost increases.
+  Parts that appear to be similar are a source of confusion for developers
+  and has the disadvantage of reducing development productivity.
 
 .. tip::
 
-  :ref:`jsr352_batch` と :ref:`nablarch_batch` で提供している機能の違いは、 :ref:`batch-functional_comparison` を参照。
-
+  Refer to :ref:`batch-functional_comparison` for the difference between the functions provided by
+  :ref:`jsr352_batch` and :ref:`nablarch_batch`.
 
 .. toctree::
   :maxdepth: 1
@@ -32,4 +36,6 @@ Nablarchのバッチアプリケーションでは、以下2種類のバッチ�
   functional_comparison
 
 
-.. [#spring_batch] JSR352は、Spring Batchから多くの機能を引き継いで標準化されている。このため、Spring Batchの経験者は多くを学ぶことなくJSR352を使用したバッチアプリケーションの開発が行える。
+.. [#spring_batch] JSR352 has been standardized with many features inherited from Spring Batch.
+                   For this reason, experienced users of Spring Batch can develop batch applications
+                   using JSR352 without having to learn much.

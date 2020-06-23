@@ -1,48 +1,48 @@
 ===============================================================================================
-テーブルをキューとして使ったメッセージングを再び起動したい場合にすること
+To Restart Messaging Using Tables as Queues
 ===============================================================================================
 
-概要
+Summary
 ============
 
-テーブルをキューとして使ったメッセージングを一端終了した後に再び起動させたい場合、処理対象データの処理済みフラグを再設定する必要がある。
+If messaging that has used a table as a queue is to be restarted after it has been terminated once, then the processing complete flag of the data to be processed must be reconfigured.
 
 
-手順
+Step
 ============
 
-以下の方法でデータを再設定できる。
+You can reset the data in the following ways.
 
-1.h2/bin/h2.batを実行する。
+1. Execute h2/bin/h2.bat.
 
 .. tip::
 
-  必ず生成したバッチプロジェクトに含まれるh2.batを起動すること。
+  Be sure to launch the h2.bat file that is included in the batch project whose data is to check be checked.
 
 
-2.しばらく待つとブラウザが起動するので、各項目に以下の通りに入力し、[Test Connection]ボタンをクリックする。
+2. After a while, the browser will start, now enter each item as follows and click the [Test Connection] button.
 
 ============= ========================= ============================================================================
-項目          値                        補足
+Item          Value                     Supplementary notes
 ============= ========================= ============================================================================
-JDBC URL      ``jdbc:h2:../db/SAMPLE``  左記の通り、h2.batからの相対パスでデータファイルの位置を |br|
-                                        指定する必要がある。
+JDBC URL      ``jdbc:h2:../db/SAMPLE``  As shown on the left, it is necessary to specify the data file location
+                                        with a relative path from h2.bat.
 User Name     ``SAMPLE``
 Password      ``SAMPLE``
 ============= ========================= ============================================================================
 
-3.画面下部に「Test successful」と表示されていることを確認する。
+3. Check that "Test successful" is displayed at the bottom of the screen.
 
-4.Password欄を再び入力し、[Connect]ボタンをクリックする。
+4. Re-enter the Password field and click the [Connect] button.
 
 .. important ::
 
-  [Connect]ボタンクリック時に、指定したURLにH2のデータファイルが存在しない場合、H2のデータファイルが新規生成される。
+  When the [Connect] button is clicked, if the H2 data file does not exist at the specified URL, a new H2 data file is created.
 
-  トラブルを避けるために、手順2にあるように必ず[Test Connection]をクリックして、データファイルの存在を確認すること。
+  To avoid trouble, be sure to click on [Test Connection] as shown in Step 2 to confirm the existence of the data file.
 
 
-5.右側のペインの上部がSQLを入力するスペースになっているので、そこに以下のSQLを入力する。
+5. Since the upper part of the right pane is the space for entering SQL, enter the following SQL in this part.
 
 .. code-block:: sql
 
@@ -57,9 +57,9 @@ Password      ``SAMPLE``
   ) VALUES (
     '00000000000000000001'
     , 'tarou'
-    , 'たろう'
-    , '太郎'
-    , '0' -- 0: 未処理
+    , 'Tarou'
+    , 'TAROU'
+    , '0' -- 0: Not processed
   );
 
   COMMIT;
@@ -67,20 +67,20 @@ Password      ``SAMPLE``
 
 .. tip ::
 
-  上記SQLは、テーブルをキューとして使ったメッセージングの処理対象レコードの状態を「未処理」に設定している。
+  The SQL above sets the state of the records to be processed for messaging using the table as a queue to "Unprocessed".
 
 
-6.画面上部に存在する[Run]ボタン(緑色のボタン)をクリックする。
+6. Click the [Run] button (green button) at the top of the screen.
 
-7.左上のdisconnectボタン(赤色で書かれたアイコンのボタン)をクリックして切断する。 
+7. Disconnect by clicking the upper left disconnect button (button with the icon written in red).
 
 .. important ::
 
-  アーキタイプから生成したプロジェクトはH2の組み込みモードを使用している。
+  Projects generated from the archetype use the built-in mode of H2.
 
-  組み込みモード使用時は、1プロセスからのみ接続を受け付ける。
+  When using the built-in mode, it will only accept connections from a single process.
 
-  そのため、 **切断を忘れると、アプリケーションからH2に接続できなくなる。**
+  Therefore, **if you forget to disconnect, your application will not be able to connect to H2**.
 
 
 .. |br| raw:: html

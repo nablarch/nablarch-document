@@ -1,81 +1,81 @@
 .. _`getting_started_batchlet`:
 
-対象テーブルのデータを削除するバッチの作成(Batchletステップ)
-================================================================
-Exampleアプリケーションを元に、 :ref:`batchletステップ<jsr352-batch_type_Batchlet>` で対象テーブルのデータを削除するバッチの解説を行う。
+Creating a Batch to Delete the data in the target table(Batchlet Step)
+==========================================================================
+This section explains a batch that Delete the data in the target table in the :ref:`batchlet step<jsr352-batch_type_Batchlet>` based on the example application.
 
-作成する機能の説明
-  1. 現在のDBの状態の確認
+Description of the function to be created
+  1. Check the current DB status
 
-     H2のコンソールから下記SQLを実行する。
+     Execute the following SQL from the console of H2.
 
      .. code-block:: sql
 
        SELECT * FROM ZIP_CODE_DATA;
        SELECT * FROM ZIP_CODE_DATA_WORK;
 
-     データが登録されていない場合は 2の手順を実施する。
+     If data is not registered, perform step 2.
 
-  2. (データが登録されていない場合)住所登録バッチを実行
+  2. (If data is not registered) Execute the mailing address registration batch
 
-    コマンドプロンプトから下記コマンドを実行する。
+    Execute the following command from the command prompt
 
     .. code-block:: bash
 
-      $cd {nablarch-example-batch-eeシステムリポジトリ}
+      $cd {nablarch-example-batch-ee System repository}
       $mvn exec:java -Dexec.mainClass=nablarch.fw.batch.ee.Main ^
           -Dexec.args=etl-zip-code-csv-to-db-chunk
 
-    H2のコンソールから下記SQLを実行してデータが登録されたことを確認する。
+    Execute the following SQL from the console of H2 and confirm that the data is registered.
 
     .. code-block:: sql
 
       SELECT * FROM ZIP_CODE_DATA;
       SELECT * FROM ZIP_CODE_DATA_WORK;
 
-  3. 住所テーブル削除バッチを実行
+  3. Execute the mailing address table delete batch
 
-    コマンドプロンプトから下記コマンドを実行する。
+    Execute the following command from the command prompt
 
     .. code-block:: bash
 
-      $cd {nablarch-example-batch-eeシステムリポジトリ}
+      $cd {nablarch-example-batch-ee System repository}
       $mvn exec:java -Dexec.mainClass=nablarch.fw.batch.ee.Main ^
           -Dexec.args=zip-code-truncate-table
 
-  4. 対象テーブルのデータが削除されていることを確認
+  4. Confirm that the data in the target table has been deleted
 
-     H2のコンソールから下記SQLを実行し、データが削除されていることを確認する。
+     Execute the following SQL from the console of H2 and confirm that the data has been deleted.
 
      .. code-block:: sql
 
        SELECT * FROM ZIP_CODE_DATA;
        SELECT * FROM ZIP_CODE_DATA_WORK;
 
-対象テーブルのデータを削除する
----------------------------------
-住所情報を削除するバッチの実装方法を説明する。
+Delete the data in the target table
+---------------------------------------
+This section explains how to implement a batch to delete the mailing address information.
 
-処理フローについては、 :ref:`Batchletステップのバッチの処理フロー<jsr352-batch_flow_batchlet>` を参照。
-責務配置については :ref:`Batchletステップの責務配置<jsr352-batchlet_design>` を参照。
+For the process flow, refer to the process flow of the :ref:`batch of the batchlet step<jsr352-batch_flow_batchlet>`.
+For the responsibility assignment, refer to the :ref:`responsibility assignment of the batchlet step<jsr352-batchlet_design>`.
 
-  #. :ref:`Batchletの作成<getting_started_batchlet_create>`
-  #. :ref:`JOB設定ファイルの作成<getting_started_batchlet_job>`
+  #. :ref:`Create batchlet<getting_started_batchlet_create>`
+  #. :ref:`Creating a JOB configuration file<getting_started_batchlet_job>`
 
 .. _`getting_started_batchlet_create`:
 
-Batchletの作成
-  住所情報を削除するバッチのBatchletクラスを作成する。
+Create batchlet
+  Create batchlet class of batch to delete the mailing address information.
 
-  実装すべきインタフェースとその責務
-    Batchletクラスに以下のインタフェースを実装してバッチ処理を作成する。オーバーライドしたメソッドは、Batch Runtimeによって適切なタイミングで呼び出される。
+  Interfaces to be implemented and their responsibilities
+    Implement the following interface in the batchlet class to create the batch process. The overridden method is called at an appropriate timing by Batch Runtime.
 
    ==================================================================   =============================================================================================
-   インタフェース                                                       実装
+   Interface                                                            Implementation
    ==================================================================   =============================================================================================
-   :java:extdoc:`Batchlet<javax.batch.api.Batchlet>`                    バッチ処理を実装する。
+   :java:extdoc:`Batchlet<javax.batch.api.Batchlet>`                    Implement batch processing.
 
-                                                                        デフォルト実装を提供する :java:extdoc:`AbstractBatchlet<javax.batch.api.AbstractBatchlet>` を継承する。
+                                                                        Inherits :java:extdoc:`AbstractBatchlet<javax.batch.api.AbstractBatchlet>`, which provides the default implementation.
 
                                                                           * `Batchlet#process`
                                                                           * `Batchlet#stop`
@@ -83,8 +83,8 @@ Batchletの作成
 
   .. tip::
 
-    バッチ処理は、上記のインタフェースの実装に加えて、トランザクション制御などの共通的な処理を提供するリスナーによって構成する。
-    リスナーの詳細は :ref:`バッチアプリケーションで使用するリスナー<jsr352-listener>` 及び :ref:`リスナーの指定方法<jsr352-listener_definition>` を参照。
+    Batch process is configured by a listener that provides common processes such as transaction control in addition to the implementation of the above interface.
+    For details of the listener, see :ref:`listener used in the batch application<jsr352-listener>` and :ref:`how to specify the listener<jsr352-listener_definition>`.
 
   TruncateTableBatchlet.java
     .. code-block:: java
@@ -109,22 +109,22 @@ Batchletの作成
           }
       }
 
-    この実装のポイント
-      * :java:extdoc:`AbstractBatchlet<javax.batch.api.AbstractBatchlet>` を継承し、 `process` メソッドで業務処理を行う。
+    Key points of this implementation
+      * Inherits :java:extdoc:`AbstractBatchlet<javax.batch.api.AbstractBatchlet>`, and performs the business process by `process` method.
 
       .. _getting_started_batchlet-cdi:
 
-      * :java:extdoc:`Named<javax.inject.Named>` と :java:extdoc:`Dependent<javax.enterprise.context.Dependent>` をクラスに付与する。 |br|
-        Named及びDependentアノテーションを設定することで、Batchlet実装クラスをCDIの管理Beanにできる。
-        これにより、ジョブ定義に指定するBatchletクラス名をCDIの管理名で記述出来るようになる。 |br|
-        (CDI管理Beanとしなかった場合は、完全修飾名(FQCN)で記述する)
+      * :java:extdoc:`Named<javax.inject.Named>` and :java:extdoc:`Dependent<javax.enterprise.context.Dependent>` are assigned to the class. |br|
+        By configuring named and dependent annotations, batchlet implementation class can be used as CDI management bean.
+        As a result, the batchlet class name specified in the job definition can be described with the CDI management name. |br|
+        (If CDI management bean is not used, describe with fully qualified name (FQCN))
 
-      * :ref:`データベースアクセス<database>` を使用してTRUNCATE文を実行する。
+      * Execute TRUNCATE statement using :ref:`database access<database>`.
 
 .. _`getting_started_batchlet_job`:
 
-ジョブ定義ファイルの作成
-  ジョブの実行設定を定義したファイルを作成する。
+Create a job definition file
+  Create a file that defines the job execution settings.
 
   zip-code-truncate-table.xml
     .. code-block:: xml
@@ -156,13 +156,13 @@ Batchletの作成
        </step>
      </job>
 
-  この実装のポイント
-    * ジョブ定義ファイルは、`/src/main/resources/META-INF/batch-jobs/` 配下に配置する。
-    * `job` 要素 の `id` 属性で、ジョブ名称を指定する。
-    * 複数ステップで構成されるバッチジョブの場合は、 `step` 要素を複数定義し、処理を順次実行する。
-    * `batchlet` 要素の `ref` 属性には、Batchletクラス名の頭文字を小文字にした名称を指定する。
-    * `property` 要素で、Batchletクラスのプロパティにインジェクトする値を指定する。
-    * 設定ファイルの詳細な記述方法は `JSR352 Specification(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=352>`_ を参照
+  Key points of this implementation
+    * Job definition file is located under `/src/main/resources/META-INF/batch-jobs/`.
+    * Specify the job name in the `id` attribute of the `job` element.
+    * For a batch job consisting of multiple steps, define multiple `step` elements and execute the process sequentially.
+    * Specify a name with the first letter of the batchlet class name in lowercase for the `ref` attribute of `batchlet` element.
+    * Specify the value to be injected into the property of batchlet class in the `property` element.
+    * Refer to `JSR352 Specification(external site, English) <https://jcp.org/en/jsr/detail?id=352>`_ for detailed description method of the configuration file.
 
 .. |jsr352| raw:: html
 

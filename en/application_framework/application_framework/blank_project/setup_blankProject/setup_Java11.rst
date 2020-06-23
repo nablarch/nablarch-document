@@ -1,24 +1,24 @@
 ----------------------------------------------------------
-Java11で使用する場合のセットアップ方法
+How to Setup When Using With Java11
 ----------------------------------------------------------
 
-ブランクプロジェクトをJava11で使用する場合、各ブランクプロジェクトの疎通確認前に以下の手順を行う。
+When using blank projects in Java 11, perform the following procedure before communication confirmation of each blank project.
 
-* 依存モジュールの追加
-* gsp-dba-maven-pluginが使用する依存モジュールの追加
-* 自動テストで使用するJettyのモジュール変更(ウェブプロジェクト または RESTfulウェブサービスプロジェクトの場合のみ)
+* Add dependent module
+* Add dependent module used by gsp-dba-maven-plugin
+* Change of Jetty module used in automatic test (only for Web projects or RESTful Web service projects)
 
 
-依存モジュールの追加
+Add dependent module
 -------------------------------------------------------------
 
-作成したブランクプロジェクトのPOMに以下のモジュールを追加する。
+Add the following modules to the created blank project POM.
 
 .. code-block:: xml
 
   <dependencies>
-    <!-- 中略 -->
-    <!-- 以下を追加する。 -->
+    <!-- Omitted -->
+    <!-- Add the following. -->
     <dependency>
       <groupId>com.sun.activation</groupId>
       <artifactId>javax.activation</artifactId>
@@ -47,24 +47,24 @@ Java11で使用する場合のセットアップ方法
   </dependencies>
 
 
-gsp-dba-maven-pluginが使用する依存モジュールの追加
+Add dependent module used by gsp-dba-maven-plugin
 ----------------------------------------------------------
 
-以下を参照して設定する。
- `<https://github.com/coastland/gsp-dba-maven-plugin#java11での設定>`_ (外部サイト)
+Configure by referring to the following.
+ `Configuration in java11 <https://github.com/coastland/gsp-dba-maven-plugin#java11での設定>`_ (external site)
 
 
-自動テストで使用するJettyのモジュール変更(ウェブプロジェクト または RESTfulウェブサービスプロジェクトの場合のみ)
+Change of Jetty module used in automatic test (only for Web projects or RESTful Web service projects)
 ------------------------------------------------------------------------------------------------------------------
 
-ブランクプロジェクトのデフォルトで設定されているJettyのバージョンはJava11に対応していない。
-そのため以下のように2ファイルの変更を行う。
+The Jetty version which is configured by default in the blank project does not support Java11.
+Therefore, make changes to 2 files as given below.
 
 * pom.xml
 
 .. code-block:: xml
 
-  <!-- nablarch-testing-jetty6の箇所を以下のように変更する -->
+  <!-- Change the location of nablarch-testing-jetty6 as follows -->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-testing-jetty9</artifactId>
@@ -76,6 +76,6 @@ gsp-dba-maven-pluginが使用する依存モジュールの追加
 
 .. code-block:: xml
 
-  <!-- HttpServerFactoryJetty6の箇所を以下のように変更する -->
+  <!-- Change the location of HttpServerFactoryJetty6 as follows -->
   <component name="httpServerFactory" class="nablarch.fw.web.httpserver.HttpServerFactoryJetty9"/>
 

@@ -1,93 +1,101 @@
 .. _`batch-functional_comparison`:
 
-JSRに準拠したバッチアプリケーションとNablarchバッチアプリケーションとの機能比較
+Function Comparison Between JSR-compliant Batch Application and Nablarch Batch Application
 ----------------------------------------------------------------------------------------------------
-この章では、以下の機能の比較を示す。
+This section compares the following features:
 
 * :doc:`jsr352/index`
 * :doc:`nablarch_batch/index`
 
-.. list-table:: 機能比較（JSR：JSRの仕様で定義されている　○：提供あり　△：一部提供あり　×：提供なし　－：対象外）
+.. list-table:: Function comparison (JSR: Defined in JSR specifications ○: Provided △: Partially provided ×: Not provided -: Not applicable)
   :header-rows: 1
-  :class: something-special-class
+  :class: white-space-normal
   :widths: 30 35 35
 
-  * - 機能
-    - JSR352に準拠 [#jsr]_
-    - Nablarchバッチ
+  * - Function
+    - Compliant with JSR352 [#jsr]_
+    - Nablarch batch
 
-  * - 起動時に任意のパラメータを設定できる
+  * - Arbitrary parameters can be configured at startup
     - JSR
-    - ○ |br| :ref:`解説書へ <main-option_parameter>`
+    - ○ |br| :ref:`To the manual <main-option_parameter>`
 
-  * - 同一バッチアプリケーションの同時実行を防止できる
-    - ○ |br| :java:extdoc:`Javadocへ <nablarch.fw.batch.ee.listener.job.DuplicateJobRunningCheckListener>`
-    - ○ |br| :ref:`解説書へ <duplicate_process_check_handler>`
+  * - Simultaneous execution of the same batch applications can be prevented
+    - ○ |br| :java:extdoc:`To Javadoc <nablarch.fw.batch.ee.listener.job.DuplicateJobRunningCheckListener>`
+    - ○ |br| :ref:`To the manual <duplicate_process_check_handler>`
 
-  * - 実行中のバッチアプリケーションを |br| 外部から安全に停止することができる
+  * - Batch applications that are running, can be safely stopped from the outside
     - JSR
-    - ○ |br| :ref:`解説書へ <process_stop_handler>`
+    - ○ |br| :ref:`To the manual <process_stop_handler>`
 
-  * - 1回の実行で処理する最大の件数を指定できる
+  * - The maximum number of records to be processed in one execution can be specified.
     - × |br| [#jsr_max]_
-    - ○ |br| :ref:`解説書へ <data_read_handler-max_count>`
+    - ○ |br| :ref:`To the manual <data_read_handler-max_count>`
 
-  * - 一定件数単位のコミットができる
+  * - A fixed number of record units can be committed
     - JSR
-    - ○ |br| :ref:`解説書へ <loop_handler-commit_interval>`
+    - ○ |br| :ref:`To the manual <loop_handler-commit_interval>`
 
-  * - 障害発生ポイントから再実行ができる
+  * - Can re-run from the point of failure
     - JSR
     - △ |br| [#resumable]_
 
-  * - 業務処理を複数スレッドで並列実行できる
+  * - Business processes can be executed in parallel by multiple threads
     - JSR
-    - ○ |br| :ref:`解説書へ <multi_thread_execution_handler>`
+    - ○ |br| :ref:`To the manual <multi_thread_execution_handler>`
 
-  * - 特定の例外を無視して処理を継続することができる |br|
-      (ロールバック後に処理を継続できる)
+  * - Processing can be continued ignoring specific exceptions (processing can be continued after rollback)
     - JSR
     - × |br| [#skip_exception]_
 
-  * - 特定の例外発生時に処理をリトライできる
+  * - Processing can be retried when a specific exception occurs
     - JSR
     - △ |br| [#retry_exception]_
 
-  * - バッチアプリケーションの結果を元に |br| 次に実行する処理を切り替えられる
+  * - The process to be executed next can be switched based on the batch application result
     - JSR
     - × |br| [#branch_batch]_
 
-  * - 入力データソースを一定間隔で監視し |br| バッチを実行出来る
+  * - Batches can be executed by monitoring input data sources at regular intervals
     - × [#resident_batch]_
-    - ○ |br| :ref:`解説書へ <nablarch_batch-resident_batch>`
+    - ○ |br| :ref:`To the manual <nablarch_batch-resident_batch>`
 
 
 .. [#jsr]
-  JSRの箇所は、JSR352で規定されている仕様に従う。
-  詳細は、 `JSR352(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=352>`_ のSpecificationを参照すること。
+  JSR parts are in accordance with the specifications defined in JSR352.
+  For details, refer to the specification of `JSR352 (external site) <https://jcp.org/en/jsr/detail?id=352>`_.
 
 .. [#jsr_max]
-  :java:extdoc:`ItemReader <javax.batch.api.chunk.ItemReader>` の実装クラスに、1回の実行で読み込む最大件数を指定できるプロパティを持たせるなどで対応可能。
+  The property to specify the maximum number to read in a single run
+  can be included in the implementation class :java:extdoc:`ItemReader <javax.batch.api.chunk.ItemReader>`.
 
 .. [#resumable]
-  :java:extdoc:`ResumeDataReader (レジューム機能付き読み込み)<nablarch.fw.reader.ResumeDataReader>` を使用することで障害発生ポイントからの再実行が可能。
-  ただし、この機能はファイルを入力としている場合にのみ利用できる。それ以外のデータを入力とする場合には、アプリケーション側で設計及び実装が必要となる。
+  Re-execution from the point of failure is possible by using
+  :java:extdoc:`ResumeDataReader (read with resume function)<nablarch.fw.reader.ResumeDataReader>`.
+  However, this feature is available only when a file is input.
+  When other data is input, design and implementation are required in the application.
 
 .. [#skip_exception]
-  特定例外を無視して処理を継続したい場合は、ハンドラを追加して対応すること。
+  Add a handler to continue processing ignoring specific exceptions.
 
 .. [#retry_exception]
-  :ref:`retry_handler` でリトライ可能例外の場合にリトライすることはできるが、JSR352のように例外が発生したデータの単純なリトライを行うことはできない。
-  :ref:`retry_handler` では、リトライ対象の例外を柔軟に指定することができない。
+  :ref:`retry_handler` retries for exceptions that can be retried,
+  but a simple retry cannot be performed for data where an exception has occurred,
+  as in JSR352. Exceptions to be retried cannot be specified flexibly with :ref:`retry_handler`.
 
-  :ref:`retry_handler` で要件を満たすことができない(例外が発生したデータの単純なリトライや柔軟に例外を指定したい)場合は、ハンドラを追加して対応すること。
+  If the requirements cannot be met with the :ref:`retry_handler`
+  (simple retry of the data where the exception occurred or to specify the exception flexibly),
+  provide support by adding a handler.
 
 .. [#branch_batch]
-  ジョブスケジューラなどで対応すること。例えば、終了コードを元に次に実行するジョブを切り替える等の対応が必要になる。
+  Use a job scheduler, etc. For example, taking measures such as switching the job
+  to be executed next based on the exit code will be necessary.
 
 .. [#resident_batch]
-  JSR352に準拠したバッチアプリケーションでは、一定間隔で入力データソースを監視するようなバッチ処理を実現することができない。
-  このため、このようなバッチアプリケーションが必要となった場合は、 :ref:`Nablarchバッチアプリケーションの常駐バッチ  <nablarch_batch-resident_batch>` を使用して実現すること。
+  In JSR352-compliant batch applications, it is not possible to realize a batch process
+  for monitoring an input data source at regular intervals.
+  For this reason, if such a batch application is necessary,
+  realize using  :ref:`the resident batch of Nablarch batch application <nablarch_batch-resident_batch>`.
 
 .. |br| raw:: html
 

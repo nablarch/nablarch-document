@@ -3,16 +3,16 @@
 JAX-RS Adapter
 ============================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
 Provides the following adapter to use in :ref:`RESTful web service <restful_web_service>`.
 
 
-*	Adapter to convert JSON using Jackson `Jackson (external site, English)<https://github.com/FasterXML/jackson>`_ 
-*	Adapter for using :ref:`RESTful web service <restful_web_service>` with `Jersey (external site, English)<https://jersey.java.net/>`_
-*	Adapter for using :ref:`RESTful web service <restful_web_service>` with `RESTEasy (external site, English)<http://resteasy.jboss.org/>`_
+*	Adapter to convert JSON using Jackson `Jackson (external site, English) <https://github.com/FasterXML/jackson>`_
+*	Adapter for using :ref:`RESTful web service <restful_web_service>` with `Jersey (external site, English) <https://jersey.java.net/>`_
+*	Adapter for using :ref:`RESTful web service <restful_web_service>` with `RESTEasy (external site, English) <http://resteasy.jboss.org/>`_
 
 Module list
 --------------------------------------------------
@@ -54,7 +54,7 @@ Module list
 
 Using RESTful web services under Jersey environment
 -------------------------------------------------------
-If the implementation of `JAX-RS(external site, English)<https://jcp.org/en/jsr/detail?id=339>`_ bundled with the web application server is `Jersey(external site, English) <https://jersey.java.net/>`_ , use the adapter for Jersey.
+If the implementation of `JAX-RS(external site, English) <https://jcp.org/en/jsr/detail?id=339>`_ bundled with the web application server is `Jersey(external site, English) <https://jersey.java.net/>`_ , use the adapter for Jersey.
 
 An application of Jersey adapter is shown below.
 
@@ -88,7 +88,7 @@ For :java:extdoc:`JaxRsMethodBinderFactory#handlerList <nablarch.fw.jaxrs.JaxRsM
   
 Using RESTful web services under RESTEasy environment
 --------------------------------------------------------
-If the implementation of `JAX-RS (external site, English)<https://jcp.org/en/jsr/detail?id=339>`_ bundled with the web application server is `RESTEasy (external site, English)<http://resteasy.jboss.org/>`_ , use the adapter for RESTEasy.
+If the implementation of `JAX-RS (external site, English) <https://jcp.org/en/jsr/detail?id=339>`_ bundled with the web application server is `RESTEasy (external site, English) <http://resteasy.jboss.org/>`_ , use the adapter for RESTEasy.
 
 An application of RESTEasy adapter is shown below.
 
@@ -119,7 +119,7 @@ As a result, the following handler configurations for RESTEasy are automatically
   </component>
 
 .. tip::
-  If `Jackson (external site, English)<https://github.com/FasterXML/jackson>`_  is not bundled with the web application server to be used, deploy the Jackson module with the application module as a set.
+  If `Jackson (external site, English) <https://github.com/FasterXML/jackson>`_  is not bundled with the web application server to be used, deploy the Jackson module with the application module as a set.
 
 To change (add) the body converter used in each environment
 ----------------------------------------------------------------------
