@@ -1,5 +1,5 @@
 =========================================================
-Initial setup of JSR352-compliant Batch Project
+Initial Setup of JSR352-compliant Batch Project
 =========================================================
 
 The following is configured in the initial setup of JSR352-compliant batch project:
