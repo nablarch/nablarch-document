@@ -71,7 +71,7 @@ Point
     .. important::
     
       The starting time for calculating TPS is the timing when  :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` is called. 
-      If intensive processing such as extracting the target data from the database after calling:java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` is performed, the TPS will be different (a value that is smaller than the actual value) from the actual result.
+      If intensive processing such as extracting the target data from the database after calling :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` is performed, the TPS will be different (a value that is smaller than the actual value) from the actual result.
       
   * Calls :java:extdoc:`outputProgressInfo <nablarch.fw.batch.ee.progress.ProgressManager.outputProgressInfo(long)>` to output the progress log at regular intervals in the loop process that performs the process.
 
