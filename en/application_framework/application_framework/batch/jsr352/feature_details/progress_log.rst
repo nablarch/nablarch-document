@@ -1,26 +1,26 @@
-進捗状況のログ出力
+Log Output of Progress Status
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
   
 .. _jsr352-progress_log:
 
-進捗ログで出力される内容
+Contents output in the progress log
 --------------------------------------------------
-以下の内容をログに出力する。
+Outputs the following content to the log:
 
-* ジョブの開始と終了ログ
-* ステップの開始と終了ログ
-* 処理対象の件数ログ(処理対象の件数は、アプリケーション側で求める必要がある)
-* ステップの進捗状況ログ
+* Job start and end logs
+* Step start and end logs
+* Number of logs for processing (The number of logs for processing must be determined by the application)
+* Logs for progress status of steps
 
-  * 開始後からのTPS(処理対象の件数及び処理済み件数から算出したTPS)
-  * 最新のTPS(前回TPS算出時の時間の経過時間と処理した件数から算出したTPS)
-  * 未処理件数
-  * 終了予測時間(未処理件数とTPSから求めたステップの終了予測時間)
+  * TPS (calculated from the number of logs for processing and number of processed logs) from the start
+  * Latest TPS (TPS calculated from the elapsed time during previous TPS calculation and number of processed logs)
+  * Number of unprocessed logs
+  * Estimated end time (estimated end time of step determined from the number of unprocessed logs and TPS).
   
-以下に出力例を示す。
+An output example is shown below.
 
 .. code-block:: bash
 
@@ -33,13 +33,13 @@
   INFO progress finish step. job name: [test-job] step name: [test-step] step status: [null]
   INFO progress finish job. job name: [test-job]
 
-進捗ログを専用のログファイルに出力するための設定を追加する
------------------------------------------------------------------
-進捗を示すログは、ログカテゴリ名を ``progress`` として出力する。
-このカテゴリ名を使用して、進捗ログ用のファイルにログを出力することが出来る。
+Add the configuration to output the progress log to a dedicated log file
+---------------------------------------------------------------------------------
+Output the log indicating progress with the log category name as  ``progress`` . 
+By using this category name, the log can be output to the progress log file.
 
-:ref:`log` を使用した場合の ``log.properties`` の設定例を以下に示す。
-:ref:`log_adaptor` を使用している場合には、アダプタに対応したログライブラリのマニュアルなどを参照し設定を行うこと。
+Shown below is an configuration example of ``log.properties`` when the :ref:`log` is used. 
+When using :ref:`log_adaptor` , refer to the manual of the log library corresponding to the adapter to perform the configuration.
 
 .. code-block:: properties
 
@@ -58,39 +58,38 @@
   loggers.PROGRESS.level=INFO
   loggers.PROGRESS.writerNames=progressLog
 
-Batchletステップで進捗ログを出力する
+Output the progress log in batchlet step
 --------------------------------------------------
-Batchletステップで進捗状況をログに出力するための実装例を以下に示す。
+An implementation example to output the progress status to the log with batchlet step is shown below.
 
-なお、Batchletは基本的にはタスク指向の処理を実行するため進捗ログを必要とするケースは少ない。
-Batchletで、ループを伴う処理を行う必要がある場合には、下の実装例を元に進捗ログを出力すると良い。
+There are few cases where the batchlet requires a progress log to execute task-oriented processes. 
+If loop processing is required in the batchlet, it would be better to output the progress log based on the implementation example given below.
 
-ポイント
-  * processメソッドの先頭で、処理対象件数(データベースへのcount結果やファイルのレコード数等)を取得し、 :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` に設定する。
+Point
+  * At the beginning of the process method, acquire the number for processing (count result to the database, number of records in file, etc.) and configure in :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` .
   
     .. important::
     
-      TPSの算出の起点となる時間は、 :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` が呼び出されたタイミングとなる。
-      :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` を呼び出し後にデータベースから対象データを抽出するなどの重い処理を行った場合、
-      TPSが実際と異なる(実際より小さい値)結果となるので注意すること。
+      The starting time for calculating TPS is the timing when  :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` is called. 
+      If intensive processing such as extracting the target data from the database after calling:java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` is performed, the TPS will be different (a value that is smaller than the actual value) from the actual result.
       
-  * 処理を行うループ処理内で、一定間隔ごとに進捗ログを出力する :java:extdoc:`outputProgressInfo <nablarch.fw.batch.ee.progress.ProgressManager.outputProgressInfo(long)>` を呼び出す。
+  * Calls :java:extdoc:`outputProgressInfo <nablarch.fw.batch.ee.progress.ProgressManager.outputProgressInfo(long)>` to output the progress log at regular intervals in the loop process that performs the process.
 
-実装例
+Implementation examples
   .. code-block:: java
 
     @Named
     @Dependent
     public class ProgressBatchlet extends AbstractBatchlet {
 
-        /** 進捗ログを出力するための機能 */
+        /** Function to output the progress log */
         private final ProgressManager progressManager;
         
-        /** 進捗ログを出力する間隔 */
+        /** Progress log output interval */
         private static final int PROGRESS_LOG_INTERVAL = 1000;
 
         /**
-         * 進捗ログを出力するための機能をコンストラクタインジェクションを使用してインジェクションする。
+         * Use constructor injection to inject the function to output the progress log.
          */
         @Inject
         public ProgressBatchlet(ProgressManager progressManager) {
@@ -100,20 +99,20 @@ Batchletで、ループを伴う処理を行う必要がある場合には、下
         @Override
         public String process() throws Exception {
          
-          // 処理対象の件数を設定する。
-          // 実際には、データベースやファイルのレコード数などが処理件数となる。
+          // Configures the number for processing.
+          // The number for processing is the number of records in the database or file.
           progressManager.setInputCount(10000);
           
-          // 処理済みの件数
+          // Number of processed logs
           long processedCount = 0;
           
-          while (処理対象が存在している間) {
+          while (while the processing targets exists) {
               processedCount++;
               
-              // 実際の処理は省略
+              //  Actual process omitted
               
               if (processedCount % PROGRESS_LOG_INTERVAL == 0) {
-                // 処理済みの件数を進捗ログ出力機能に渡すことで、進捗ログが出力される
+                // The progress log is output by transferring the number of processed logs to the progress log output function
                 progressManager.outputProgressInfo(processedCount);
               }
           }
@@ -121,35 +120,34 @@ Batchletで、ループを伴う処理を行う必要がある場合には、下
         }
     }
   
-Chunkステップで進捗ログを出力する
+Output the progress log in chunk step
 --------------------------------------------------
-Chunkステップで進捗状況をログに出力するための実装例を以下に示す。
+An implementation example to output the progress status to the log with chunk step is shown below.
 
 .. _jsr352-progress_reader:
 
 ItemReader
-  ポイント
-    * コンストラクタインジェクションを使用して、進捗ログを出力するインタフェース( :java:extdoc:`ProgressManager <nablarch.fw.batch.ee.progress.ProgressManager>` )をインジェクションする。
-    * openメソッドにて、処理対象件数(データベースへのcount結果やファイルのレコード数等)を取得し、 :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` に設定する。
+  Point
+    * Use constructor injection to inject the interface ( :java:extdoc:`ProgressManager <nablarch.fw.batch.ee.progress.ProgressManager>` ) that outputs the progress log.
+    * With the open method, acquire the number for processing (count result to the database, number of records in file, etc.) and set in :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` .
     
       .. important::
       
-        TPSの算出の起点となる時間は、 :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` が呼び出されたタイミングとなる。
-        :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` を呼び出し後にデータベースから対象データを抽出するなどの重い処理を行った場合、
-        TPSが実際と異なる(実際より小さい値)結果となるので注意すること。
+        The starting time for calculating TPS is the timing when :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` is called. 
+        If intensive processing such as extracting the target data from the database after calling :java:extdoc:`inputCount <nablarch.fw.batch.ee.progress.ProgressManager.setInputCount(long)>` is performed, the TPS will be different (a value that is smaller than the actual value) from the actual result.
     
-  実装例
+  Implementation examples
     .. code-block:: java
 
       @Named
       @Dependent
       public class ProgressReader extends AbstractItemReader {
 
-        /** 進捗ログを出力する機能 */
+        /** Function to output the progress log */
         private final ProgressManager progressManager;
 
         /**
-         * 進捗ログを出力するための機能をコンストラクタインジェクションを使用してインジェクションする。
+         * Use constructor injection to inject the function to output the progress log.
          */
         @Inject
         public ProgressReader(ProgressManager progressManager) {
@@ -158,24 +156,24 @@ ItemReader
 
         @Override
         public void open(Serializable checkpoint) throws Exception {
-          // openメソッド内で、処理対象の件数を進捗ログを出力する機能に設定する。
-          // 実際には、データベースに対するcount文の結果やファイルのレコード数を設定する。
+          // Configure the number for processing in the function that outputs the progress log with the open method.
+          // Configures the result of the count statement for the database and number of records in the file
           progressManager.setInputCount(10000);
         }
 
         @Override
         public Object readItem() throws Exception {
-          // 省略
+          // Omitted
         }
       }
 
 .. _jsr352-progress_listener:
 
-ジョブ定義ファイル
-  ポイント
-    * step配下のリスナーのリストに進捗ログを出力するリスナー(名前は、 ``progressLogListener`` 固定)を設定する。
+Job definition file
+  Point
+    * Configure the listener that outputs the progress log to the list of listeners (name is fixed as ``progressLogListener`` ) under step.
     
-  実装例
+  Implementation examples
     .. code-block:: xml
     
       <job id="batchlet-progress-test" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
@@ -187,7 +185,7 @@ ItemReader
           <listeners>
             <listener ref="nablarchStepListenerExecutor" />
             <listener ref="nablarchItemWriteListenerExecutor" />
-            <!-- step配下に進捗ログを出力するリスナーを設定する。 -->
+            <!-- Configure the listener that outputs the progress log under step. -->
             <listener ref="progressLogListener" />
           </listeners>
           <chunk item-count="1000">
@@ -198,16 +196,13 @@ ItemReader
       </job>
 
 .. important::
-  :ref:`ItemReader <jsr352-progress_reader>` で処理対象件数の設定を行わずに、
-  :ref:`進捗ログ出力リスナー <jsr352-progress_listener>` を設定した場合には、設定不備として例外を送出し処理を異常終了させる。
-  このため、進捗ログを必要としない場合には、 :ref:`進捗ログ出力リスナー <jsr352-progress_listener>` の設定を必ず削除すること。
+  If :ref:`the progress log output listener <jsr352-progress_listener>` is configured without setting the number of logs for processing in :ref:`ItemReader <jsr352-progress_reader>` , an exception is thrown as a setting fault and the operation ends abnormally. 
+  Therefore, if the progress log is not required, make sure to delete the configuration of :ref:`the progress log output listener <jsr352-progress_listener>` .
   
 .. important::
-  chunkステップでRetrying Exceptionsの設定を行った場合は、リスナーによる進捗ログの出力が正しく機能しなくなる。
-  これは、リスナーが処理済み件数として使用している :java:extdoc:`metrics <javax.batch.runtime.context.StepContext.getMetrics()>`
-  の読み込み済み件数が実態とずれることに起因する。
+  If the setting of retrying exceptions was performed in the chunk step, the progress log output by the listener will not function properly. 
+  This is because the number of read logs :java:extdoc:`metrics <javax.batch.runtime.context.StepContext.getMetrics()>` being used by the listener as the number of processed logs, deviates from the actual number.
   
-  このため、Retrying Exceptionsを使用して例外発生時のリトライ処理を行いたい場合には、 :java:extdoc:`ItemWriter <javax.batch.api.chunk.ItemWriter>` の実装クラスにて処理済み件数を計算し、
-  :java:extdoc:`outputProgressInfo <nablarch.fw.batch.ee.progress.ProgressManager.outputProgressInfo(long)>` を使用して進捗ログの出力を行うこと。
+  To perform the retry process using retrying exceptions when an exception occurs, calculate the number of processed logs with the implementation class :java:extdoc:`ItemWriter <javax.batch.api.chunk.ItemWriter>` and output the progress log using :java:extdoc:`outputProgressInfo <nablarch.fw.batch.ee.progress.ProgressManager.outputProgressInfo(long)>` .
   
 

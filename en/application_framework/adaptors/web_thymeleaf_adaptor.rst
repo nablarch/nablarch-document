@@ -1,21 +1,20 @@
 .. _web_thymeleaf_adaptor:
 
-ウェブアプリケーション Thymeleafアダプタ
+Web Application Thymeleaf Adapter
 ========================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-ウェブアプリケーションで、テンプレートエンジンに `Thymeleaf(外部サイト) <http://www.thymeleaf.org>`_
-を使用するためのアダプタを提供する。
+Provides an adapter to use `Thymeleaf (external site) <http://www.thymeleaf.org>`_ for the template engine of Web application.
 
-モジュール一覧
+Module list
 --------------
 
 .. code-block:: xml
 
-  <!-- ウェブアプリケーション Thymeleafアダプタ -->
+  <!-- Web application Thymeleaf adapter -->
   <dependency>
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-web-thymeleaf-adaptor</artifactId>
@@ -23,21 +22,18 @@
   
 .. tip::
 
-  Thymeleafのバージョン3.0.9.RELEASEを使用してテストを行っている。
-  バージョンを変更する場合は、プロジェクト側でテストを行い問題ないことを確認すること。
+  Tests are conducted using Thymeleaf version 3.0.9 RELEASE. 
+  When changing the version, test in the project to confirm that there are no problems.
 
-
-ウェブアプリケーション Thymeleafアダプタを使用するための設定を行う
+Configuration for using the Web application Thymeleaf adapter
 ------------------------------------------------------------------
 
-
+To use this adapter, configure :java:extdoc:`ThymeleafResponseWriter<nablarch.fw.web.handler.responsewriter.thymeleaf.ThymeleafResponseWriter>` to :java:extdoc:`HttpResponseHandler<nablarch.fw.web.handler.HttpResponseHandler>`  in the component configuration file.
 本アダプタを使用するためには、コンポーネント設定ファイルで
-:java:extdoc:`ThymeleafResponseWriter<nablarch.fw.web.handler.responsewriter.thymeleaf.ThymeleafResponseWriter>` を\
-:java:extdoc:`HttpResponseHandler<nablarch.fw.web.handler.HttpResponseHandler>` へ設定する。
 
-``ThymeleafResponseWriter`` にはThymeleafが提供する ``TemplateEngine`` を設定する必要がある。
+``TemplateEngine``  provided by Thymeleaf has to be configured in ``ThymeleafResponseWriter``.
 
-コンポーネント設定ファイルの設定例を以下に示す。
+The configuration example of the component configuration file is shown below.
 
 .. code-block:: xml
 
@@ -58,97 +54,80 @@
   <component name="httpResponseHandler"
              class="nablarch.fw.web.handler.HttpResponseHandler">
     <property name="customResponseWriter" ref="thymeleafResponseWriter"/>
-    <!-- その他の設定は省略 -->
+    <!-- Other settings are omitted -->
   </component>
 
 
 .. tip::
 
-  ``ITemplateResolver`` インタフェースの実装クラスに、
-  ``org.thymeleaf.templateresolver.ServletContextTemplateResolver`` が存在するが、
-  以下の理由により、:ref:`repository` にコンポーネントとして登録できない。
+  Though ``org.thymeleaf.templateresolver.ServletContextTemplateResolver``  is present in the implementation class of ``ITemplateResolver`` , it cannot be registered to the :ref:`repository` for the following reasons:
 
-  * コンストラクタ引数に ``javax.servlet.ServletContext`` が必須である(デフォルトコンストラクタを持たない)。
-  * システムリポジトリ構築時には ``javax.servlet.ServletContext`` にアクセスできず、:ref:`ファクトリ<repository-factory_injection>` によるオブジェクト生成もできない。
+  * ``javax.servlet.ServletContext`` is required as a constructor argument (it has no default constructor).
+  * ``javax.servlet.ServletContext`` cannot be accessed when building a system repository and objects cannot be created by :ref:`factory <repository-factory_injection>`.
 
-  このため、 ``ServletContextTemplateResolver`` ではなく、 ``ClassLoaderTemplateResolver`` 等の別の実装クラスを使用すること。
+  For this reason, use another implementation class such as ``ClassLoaderTemplateResolver``  and not ``ServletContextTemplateResolver`` .
+
+Process target determination
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   
+:java:extdoc:`ThymeleafResponseWriter<nablarch.fw.web.handler.responsewriter.thymeleaf.ThymeleafResponseWriter>` determines whether to output a response using the template engine based on the content path of :java:extdoc:`HttpResponse<nablarch.fw.web.HttpResponse>` . 
+If the content path ends with ``.html`` by default, it is determined to be a target for processing and output by the template engine.
 
-処理対象判定について
-~~~~~~~~~~~~~~~~~~~~
-  
-:java:extdoc:`ThymeleafResponseWriter<nablarch.fw.web.handler.responsewriter.thymeleaf.ThymeleafResponseWriter>` は\
-:java:extdoc:`HttpResponse<nablarch.fw.web.HttpResponse>` のコンテンツパスの内容によって、
-テンプレートエンジンを使用してレスポンス出力を行うか否かを判断する。
-デフォルトではコンテンツパスが ``.html`` で終了している場合、処理対象と判定しテンプレートエンジンによる出力を行う。
-
-例えば、アクションクラスで以下のように ``HttpResponse`` を返却したとする。
+For example, suppose ``HttpResponse`` is returned in the action class as follows.
 
 .. code-block:: java
 
   return new HttpResponse("template/index.html");
 
-この場合、コンテンツパス(\ ``template/index.html``\ )は ``.html`` で終了しているため、
-テンプレートエンジンの出力対象と判定される。
+In this case, since the content path (\ ``template/index.html``\ ) ends with ``.html`` , it is determined to be an output target of the template engine.
 
-
-処理対象と判定されなかった場合は、テンプレートエンジンによる出力は行われず、\
-サーブレットフォワードが実行される。
-例えば、以下の例では、コンテンツパスが ``.html`` で終了していないため、サーブレットフォワードが実行される。
+If it is not determined to be a target for processing, template engine does not output and servlet forward is executed. 
+For example, in the following example, the servlet forward is executed because the content path does not end with ``.html`` .
 
 .. code-block:: java
 
   return new HttpResponse("/path/to/anotherServlet");
 
   
-この処理対象判定条件は設定変更が可能である。プロパティ\ ``pathPattern`` に、\
-判定に使用する正規表現が設定できる(デフォルト値は ``.*\.html`` )。\
-この正規表現にコンテンツパスがマッチした場合、テンプレートエンジンの処理対象と判定される。
-
+The configuration of the determination condition for target of processing can be changed.
+A regular expression used for judgment can be configured in property pathPattern (default value is * \.html).
+If the content path matches the regular expression, it is determined to be a target for processing by the template engine.
 
 .. important::
 
-  Thymeleafでは、テンプレートのパスを解決する際、サフィックスを省略する設定ができるが、
-  本アダプタを使用する場合はサフィックスの省略は行わないこと。
+  Though Thymeleaf allows the suffix to be omitted when resolving the template path, do not omit the suffix when using this adapter.
 
   * OK: ``return new HttpResponse("index.html");``
   * NG: ``return new HttpResponse("index");``
 
-  サフィックスを省略した場合、セッションストアからリクエストスコープへの移送が行われず、
-  テンプレートからセッションストアの値を参照できなくなる。
+  If the suffix is omitted, transfer is not performed from the session store to the request scope, and the template can no longer reference values from session store.
 
-
-
-テンプレートエンジンを使用する
+Using a template engine
 ------------------------------
 
-テンプレートエンジンを使用するには、テンプレートファイルを作成、配置する必要がある。
+To use the template engine, a template file needs to be created and placed.
 
-テンプレートファイルを配置する場所は ``TemplateEngine`` の設定によって異なる。
-前節で示した設定例の場合、テンプレートファイルはクラスパスからロードされる。
-また、 ``ClassLoaderTemplateResolver`` のプロパティ ``prefix`` に ``template/`` \
-というようにプレフィックスが設定されているので、
-クラスパス上の ``template`` ディレクトリ配下にテンプレートファイルを配置することになる。
+Where to place the template file depends on the ``TemplateEngine`` configuration.
+In the configuration example shown in the previous section, the template file is loaded from the class path.
+Since  ``prefix``  such as  ``template/`` is configured in the property prefix of  ``ClassLoaderTemplateResolver`` , place the template file under the  ``template``  directory of the class path.
 
-配置したテンプレートを使ってレスポンスを出力するには、テンプレートファイルへのパスを指定した ``HttpResponse`` を\
-アクションクラスの戻り値として返却する。
+To output a response using the placed template, return ``HttpResponse`` , which specifies the path to the template file, as the return value of the action class.
 
-例えば、 ``src/main/resources/template`` 配下に、``index.html`` というテンプレートファイルを配置したとする。
-この場合、このテンプレートファイルはクラスパス上では ``template/index.html`` に位置するので、
-アクションクラスで、このパスを指定した ``HttpResponse`` を返却する。
+For example, assume that a template file ``index.html``  is placed in  ``src/main/resources/template`` . 
+In this case, the template file will be located in ``template/index.html`` of the class path, and the action class returns the ``HttpResponse`` with this path.
 
-先の設定例のように、プレフィックスの指定をしている場合は、プレフィックスを省略したパスを指定する。
+If the prefix is specified as in the previous configuration example, then specify the path without the prefix.
 
 .. code-block:: java
 
   return new HttpResponse("index.html");
 
 
-プレフィックスを指定しない場合は、パスを省略せずそのまま指定する。
+If a prefix is not specified, specify the without omitting the path.
 
 .. code-block:: java
 
   return new HttpResponse("template/index.html");
 
 
-これにより、配置したテンプレートファイルを用いてレスポンスが出力される。
+With this, a response is output using the template file that has been placed.

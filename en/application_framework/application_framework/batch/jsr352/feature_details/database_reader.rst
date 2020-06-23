@@ -1,18 +1,15 @@
-データベースを入力とするChunkステップ
+Chunk Step with Database as Input
 ======================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
   
-データベースから処理対象データを抽出する場合は、JSR352で提供されているリーダではなく
-本機能で提供する :java:extdoc:`BaseDatabaseItemReader <nablarch.fw.batch.ee.chunk.BaseDatabaseItemReader>` を実装すること。
+When extracting data for processing from the database, implement :java:extdoc:`BaseDatabaseItemReader <nablarch.fw.batch.ee.chunk.BaseDatabaseItemReader>` that is provided by this function instead of the reader provided by JSR352.
 
-:java:extdoc:`BaseDatabaseItemReader <nablarch.fw.batch.ee.chunk.BaseDatabaseItemReader>` を実装することで、
-リーダ専用のデータベース接続を使用してデータを抽出できる。
-これにより、トランザクション制御時にカーソルを自動的にクローズするデータベースの場合でも、
-データベースを入力とするChunkステップを実現できる。
+By implementing :java:extdoc:`BaseDatabaseItemReader <nablarch.fw.batch.ee.chunk.BaseDatabaseItemReader>` , data can be extracted using a database connection that is exclusive for the reader. 
+As a result, Chunk step can be implemented with database as input even in the case of databases that automatically close the cursor during transaction control.
 
-以下に実装例を示す。
+An implementation example is shown below.
 
 .. code-block:: java
 
@@ -20,18 +17,18 @@
   @Named
   public class EmployeeSearchReader extends BaseDatabaseItemReader {
   
-    /** データベースからの取得結果(リソース解放用) */
+    /** Results fetched from the database ((for releasing resources)) */
     private DeferredEntityList<EmployeeForm> list;
 
-    /** データベースからの取得結果を保持するイテレータ */
+    /** Iterator that stores the result acquired from the database */
     private Iterator<EmployeeForm> iterator;
 
-    /** 進捗管理Bean */
+    /** Progress manager Bean */
     private final ProgressManager progressManager;
 
     /**
-     * コンストラクタ。
-     * @param progressManager 進捗管理Bean
+     * Constructor.
+     * @param progressManager Progress manager Bean
      */
     @Inject
     public EmployeeSearchReader(ProgressManager progressManager) {
@@ -39,8 +36,8 @@
     }
   
     /**
-     * BaseDatabaseItemReaderが提供するdoOpenを実装して、データベースから処理対象データを抽出する。
-     * 大量データを取得する場合には、ヒープを圧迫しないよう遅延ロードを行うこと
+     *  Implementation of doOpen provided by BaseDatabaseItemReader and extracts the data for processing from the database.
+     * When fetching a large amount of data, perform deferred loading to avoid heap compression
      */
     @Override
     public void doOpen(Serializable checkpoint) throws Exception {
@@ -53,8 +50,8 @@
     }
 
     /**
-     * readItemでは、次の1レコードを返す。
-     * なお、データが存在しない場合や最後まで処理した場合はnullを返す。
+     * readItem returns the next record.
+     *Returns null if the data is not found or has been processed to the end.
      */
     @Override
     public Object readItem() {
@@ -65,7 +62,7 @@
     }
 
     /**
-     * リソースの解放が必要な場合は、doCloseを実装する。
+     * If resources needs to be released, implement doClose.
      */
     @Override
     public void doClose() throws Exception {

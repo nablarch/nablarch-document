@@ -1,19 +1,19 @@
 .. _mail_sender_velocity_adaptor:
 
-E-mail Velocityアダプタ
+E-mail Velocity Adapter
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-`Velocity(外部サイト) <http://velocity.apache.org/>`_ を使用した定型メール送信処理を行うためのアダプタを提供する。
+Provides an adapter for sending an e-mail template using `Velocity(external site) <http://velocity.apache.org/>`_ .
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
-  <!-- E-mail Velocityアダプタ -->
+  <!-- E-mail Velocity adapter -->
   <dependency>
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-mail-sender-velocity-adaptor</artifactId>
@@ -21,20 +21,20 @@ E-mail Velocityアダプタ
   
 .. tip::
 
-  Velocityのバージョン2.0を使用してテストを行っている。
-  バージョンを変更する場合は、プロジェクト側でテストを行い問題ないことを確認すること。
+  Tests are conducted using Velocity version 2.0. 
+  When changing the version, test in the project to confirm that there are no problems.
 
-E-mail Velocityアダプタを使用するための設定を行う
+Configuration for using the E-mail Velocity adapter
 ----------------------------------------------------------------------------------------------------
-本アダプタを使用するためには、コンポーネント設定ファイルで :java:extdoc:`VelocityMailProcessor<nablarch.integration.mail.velocity.VelocityMailProcessor>` を :java:extdoc:`MailRequester<nablarch.common.mail.MailRequester>` へ設定する。
+To use this adapter, configure :java:extdoc:`VelocityMailProcessor<nablarch.integration.mail.velocity.VelocityMailProcessor>` to :java:extdoc:`MailRequester<nablarch.common.mail.MailRequester>` in the component configuration file.
 
-``VelocityMailProcessor`` にはVelocityが提供する ``VelocityEngine`` を設定する必要がある。
-``VelocityEngine`` は以下の理由により :java:extdoc:`ComponentFactory<nablarch.core.repository.di.ComponentFactory>` の実装クラスを作成してコンポーネント設定を行うことを推奨する。
+``VelocityEngine``  provided by Velocity has to be configured in ``VelocityMailProcessor`` . 
+For ``VelocityEngine`` , it is recommended that the component configuration be performed by creating an implementation class of  :java:extdoc:`ComponentFactory<nablarch.core.repository.di.ComponentFactory>` for the following reasons.
 
-* ``VelocityEngine`` への設定はコンポーネント設定ファイルよりもJavaコードで行う方がやりやすい
-* ``VelocityEngine`` への設定を行ったあとに ``init`` メソッドを呼ぶ必要がある
+* Configuring ``VelocityEngine`` with Java code is easier than component configuration file.
+* init method is required to be called after configuring ``VelocityEngine``.
 
-``VelocityEngine`` を作成する ``ComponentFactory`` 実装クラスの例を以下に示す。
+An example of ``ComponentFactory`` implementation class that creates ``VelocityEngine`` is shown below.
 
 .. code-block:: java
 
@@ -55,7 +55,7 @@ E-mail Velocityアダプタを使用するための設定を行う
           velocityEngine.setProperty("classloader.resource.loader.class",
                   ClasspathResourceLoader.class.getName());
 
-          //必要に応じてVelocityEngineへその他の設定を行う
+          // Other configurations are made to VelocityEngine as needed
 
           velocityEngine.init();
 
@@ -63,7 +63,7 @@ E-mail Velocityアダプタを使用するための設定を行う
       }
   }
 
-この ``ConfigurationFactory`` を使用するコンポーネント設定ファイルの設定例を以下に示す。
+The setting example of the component configuration file that uses the ``ConfigurationFactory`` is shown below.
 
 .. code-block:: xml
 
@@ -74,34 +74,34 @@ E-mail Velocityアダプタを使用するための設定を行う
     </property>
   </component>
 
-  <!-- メール送信要求API -->
+  <!-- E-mail send request API -->
   <component name="mailRequester" class="nablarch.common.mail.MailRequester">
     <property name="templateEngineMailProcessor" ref="templateEngineMailProcessor"/>
-    <!-- その他の設定は省略 -->
+    <!-- Other settings are omitted -->
   </component>
 
-メールのテンプレートを作成する
+Create an e-mail template
 --------------------------------------------------
-Velocityを使用した定型メール処理では件名と本文を1つのテンプレートに記述する。
+In standard e-mail process using Velocity, the subject and body are described in one template.
 
-件名と本文はデリミタと呼ばれる行で分割される。
-デフォルトのデリミタは ``---`` である（半角のハイフンが3つ）。
+In standard e-mail process using Velocity, the subject and body are described in one template.
+The subject and body are separated by lines called delimiters. The default delimiter is ``---`` (three single-byte hyphens).
 
-テンプレートの例を以下に示す。
+An example of the template is shown below.
 
-.. code-block:: txt
+.. code-block:: none
 
- $titleについて$option
+ $Option regarding $title$option
  ---
- $titleは、申請番号$requestIdで申請されました。
- $approverは速やかに$titleを承認してください。$option
+ $title has been submitted with application number $requestId.
+ $Approver should approve $title promptly. $option
 
-より詳しい件名と本文の分割ルールは :java:extdoc:`TemplateEngineProcessedResult#valueOf<nablarch.common.mail.TemplateEngineProcessedResult.valueOf(java.lang.String)>` を参照。
+For more details on subject and body split rules, see :java:extdoc:`TemplateEngineProcessedResult#valueOf<nablarch.common.mail.TemplateEngineProcessedResult.valueOf(java.lang.String)>` .
 
-テンプレートファイルを配置する場所は ``VelocityEngine`` の設定によって異なる。
-例えば、前節で示した設定例だとテンプレートファイルはクラスパスからロードされるので、クラスパス上のディレクトリにテンプレートファイルを配置することになる。
+Where to place the template file depends on the ``VelocityEngine`` configuration. 
+For example, since the template file is loaded from the class path in the configuration example shown in the previous section, place the template file in a directory of the class path.
 
-メール送信要求を登録する
+Register an e-mail send request
 --------------------------------------------------
-単に定型メールの送信要求を登録すればよい。
-:ref:`mail-request` を参照。
+Just to register the send request of the standard e-mail. 
+See :ref:`mail-request`.

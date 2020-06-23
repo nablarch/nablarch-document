@@ -1,17 +1,17 @@
 .. _webspheremq_adaptor:
 
-IBM WebSphere MQアダプタ
+IBM WebSphere MQ Adapter
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-:ref:`NablarchのMOMメッセージング機能 <mom_messaging>` で `IBM WebSphere MQ(外部サイト、英語) <http://www-03.ibm.com/software/products/ja/websphere-mq>`_ を使用するためのアダプタを提供する。
+Provides an adapter to use `IBM WebSphere MQ (external site, English) <http://www-03.ibm.com/software/products/ja/websphere-mq>`_ with :ref:`the MOM messaging function of Nablarch <mom_messaging>` .
 
-WebSphere MQの仕様及び構築手順などは、IBM社のオフィシャルサイト及びマニュアルを参照すること。
+Refer to the official Website and manuals of IBM Corporation for the specifications and construction procedures of WebSphere MQ.
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -22,107 +22,106 @@ WebSphere MQの仕様及び構築手順などは、IBM社のオフィシャル�
 
 .. important::
 
-  WebSphere MQのjarに関しては、製品マニュアルを参照し必要なものをクラスパスに追加すること。
-  なおテストでは、WebSphere MQ v7.5に付属のライブラリを使用している。
-  バージョンを変更する際には、プロジェクト側でテストを行い問題ないことを確認すること。
+  For WebSphere MQ jars, refer to the product manual and add those that are required to the class path.
+  The library included with WebSphere MQ v7.5 is used for testing.
+  When changing the version, test in the project to confirm that there are no problems.
 
-本アダプタを使用するための設定
+Configuration for using this adapter
 --------------------------------------------------
-本アダプタは、以下の手順にてコンポーネント定義を行うことで有効になる。
+The adapter is enabled by defining components with the following procedure.
 
-1.  ``nablarch.integration.messaging.wmq.provider.WmqMessagingProvider`` をコンポーネント設定ファイルに定義を追加する。
-2. ``1`` で設定した、 ``WmqMessagingProvider`` を :ref:`messaging_context_handler` に設定する。
+1. Add the definition of ``nablarch.integration.messaging.wmq.provider.WmqMessagingProvider`` to the component configuration file.
+2. Configure ``WmqMessagingProvider`` configured in ``1`` to :ref:`messaging_context_handler` .
 
-
-以下に設定例を示す。
+A configuration example is shown below.
 
 .. code-block:: xml
 
-  <!-- IBM WebSphere MQアダプタ用のプロバイダ実装 -->
+  <!-- Provider implementation for IBM WebSphere MQ Adapter- -->
   <component name="wmqMessagingProvider"
       class="nablarch.integration.messaging.wmq.provider.WmqMessagingProvider">
-    <!-- 設定値はJavadocを参照 -->
+    <!-- See Javadoc for configuration value-->
   </component>
 
   <!--
-  メッセージコンテキスト管理ハンドラ
+  Message context management handler
 
-  上で定義したWmqMessagingProviderを、messagingProviderプロパティに設定する。
+  Configure WmqMessagingProvider defined above in messagingProvider property.
   -->
   <component class="nablarch.fw.messaging.handler.MessagingContextHandler">
     <property name="messagingProvider" ref="wmqMessagingProvider" />
   </component>
 
-分散トランザクションを利用する
+Use distributed transaction
 --------------------------------------------------
-本アダプタには、IBM WebSphere MQをトランザクションマネージャとして、分散トランザクションを実現する機能が含まれている。
+This adapter includes a function to realize distributed transactions using IBM WebSphere MQ as the transaction manager.
 
-この機能は、外部システムとメッセージの送受信を行う際に、取り込み漏れや2重取り込みを防止する目的で利用する。
+This function is used to prevent omission and duplicate capture when sending and receiving messages to and from external systems.
 
-分散トランザクションを利用するための手順を以下に示す。
+The procedure for using distributed transaction is shown below.
 
-1. 分散トランザクションに対応したデータソース( :java:extdoc:`javax.sql.XADataSource` を実装したクラス)を定義する。
+1. Define a data source (class that implements :java:extdoc:`javax.sql.XADataSource` ) that supports distributed transactions.
 
-2. 分散トランザクションに対応したデータベース接続を生成するファクトリクラスを定義する。 |br|
-   (``nablarch.integration.messaging.wmq.xa.WmqXADbConnectionFactoryForXADataSource`` を定義する。)
+2. Define a factory class to generate a database connection to support the distributed transaction. |br|
+   (Define ``nablarch.integration.messaging.wmq.xa.WmqXADbConnectionFactoryForXADataSource`` .)
 
-3. ``2`` で定義したファクトリクラスを、 :ref:`database_connection_management_handler` に設定する。
+3. Configure the factory class defined in ``2`` to :ref:`database_connection_management_handler` .
 
-4. 分散トランザクション用のトランザクションのオブジェクトを生成するファクトリクラスを定義する。 |br|
-   (``nablarch.integration.messaging.wmq.xa.WmqXATransactionFactory`` を定義する。)
+4. Define a factory class to generate transaction objects for distributed transactions.  |br|
+   (Define ``nablarch.integration.messaging.wmq.xa.WmqXATransactionFactory`` .)
 
-5. ``4`` で定義したファクトリクラスを :ref:`transaction_management_handler` に設定する。
+5. Configure the factory class defined in ``4`` to  :ref:`transaction_management_handler` .
 
-以下に設定例を示す。
+A configuration example is shown below.
 
 .. code-block:: xml
 
   <!--
-  XA用のデータソースの設定
-  使用するデータベース製品のJDBC実装内のXA用のデータソースを設定する。
+  Configuration of data source for XA
+  Configure the XA data source in the JDBC implementation of the database product to be used.
 
-  この例では、Oracleデータベース用の設定となる。
+  In this example, the configuration is for an Oracle database.
   -->
   <component name="xaDataSource" class="oracle.jdbc.xa.client.OracleXADataSource">
-    <!-- プロパティへの設定は省略 -->
+    <!-- Configuration of property is omitted -->
   </component>
 
-  <!-- XA用のデータベース接続を生成するクラスの設定-->
+  <!-- Configuration of class to generate XA database connection -->
   <component name="xaConnectionFactory"
       class="nablarch.integration.messaging.wmq.xa.WmqXADbConnectionFactoryForXADataSource">
 
-    <!-- xaDataSourceプロパティにXA用のデータソースを設定する。-->
+    <!-- Configure XA data source in xaDataSource property.-->
     <property name="xaDataSource" ref="xaDataSource" />
 
-    <!-- 上記以外のプロパティは省略 -->
+    <!-- Properties other than the above are omitted -->
   </component>
 
-  <!-- 分散トランザクション用のDB接続ハンドラの設定 -->
+  <!-- Configure DB connection handler for distributed transaction -->
   <component class="nablarch.common.handler.DbConnectionManagementHandler">
-    <!-- DB接続ファクトリには、上記で設定したXA用のデータベース接続を生成するクラスを設定する。 -->
+    <!-- Configure the class that generates the database connection for XA configured above in the DB connection factory. -->
     <property name="connectionFactory" ref="xaConnectionFactory" />
 
-    <!-- 上記以外のプロパティは省略 -->
+    <!-- Properties other than the above are omitted -->
   </component>
 
-  <!-- XA用のトランザクション制御オブジェクトを生成するクラスの設定 -->
+  <!-- Configuration of class that generates XA transaction control object -->
   <component name="xaTransactionFactory"
       class="nablarch.integration.messaging.wmq.xa.WmqXATransactionFactory" />
 
-  <!-- 分散トランザクション用のトランザクションハンドラの設定 -->
+  <!-- Configure transaction handler for distributed transaction -->
   <component class="nablarch.common.handler.TransactionManagementHandler">
-    <!-- トランザクションファクトリには、上記で設定した
-    XA用のトランザクション制御オブジェクトを生成するクラスを設定する。
+    <!-- Configure a class that generates the XA transaction control object
+    configured above in the transaction factory.
     -->
     <property name="transactionFactory" ref="xaTransactionFactory" />
 
-    <!-- 上記以外のプロパティは省略 -->
+    <!-- Properties other than the above are omitted -->
   </component>
 
 .. important::
 
-  分散トランザクションを使用するためには、WebSphere MQに対するXA リソース・マネージャーの設定や、データベースに対する権限付与が必要となる。
-  詳細な設定方法や必要な権限などは、使用する製品のマニュアルを参照すること。
+  For using distributed transactions, an XA resource manager has to be configured for WebSphere MQ and authority to the database has to be granted. 
+  Refer to the manual of the product to be used for the detailed configuration method and necessary authority.
 
 .. |br| raw:: html
 

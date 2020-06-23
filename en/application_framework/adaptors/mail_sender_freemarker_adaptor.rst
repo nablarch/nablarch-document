@@ -96,7 +96,7 @@ The default delimiter is ``---`` (three single-byte hyphens).
 
 An example of the template is shown below.
 
-.. code-block:: txt
+.. code-block:: none
 
  ${option}regarding ${title}
  ---

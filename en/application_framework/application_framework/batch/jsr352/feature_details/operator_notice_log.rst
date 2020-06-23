@@ -1,25 +1,25 @@
-運用担当者向けのログ出力
+Output of Logs for Operator
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-運用担当者向けログの出力内容
+Contents of output of logs for operator
 --------------------------------------------
-運用担当者向けログには、運用担当者がログをもとに対処を行えるよう、最低限以下の内容を出力する必要がある。
+At least the following contents have to be output in the logs for operator so that the operator can respond based on the log.
 
-* 何が発生したか
-* どのように対処すべきか
+* What has occurred?
+* How to respond to it?
 
-これらの内容が出力されていないと、運用担当者が発生した事象に対しどう対処すればよいか判断できない恐れがある。
+If these contents are not output, the operator may not be able to determine how to respond to the event that has occurred.
 
-運用担当者向けのログを専用のログファイルに出力するための設定を追加する
-----------------------------------------------------------------------
-運用担当者向けのログは、ログカテゴリ名を ``operator`` として出力する。
-このカテゴリ名を使用して、運用担当者向けのログ用のファイルにログを出力することが出来る。
+Add the configuration to output the logs for operator to a dedicated log file
+---------------------------------------------------------------------------------
+Output the logs for operator with the log category name as ``operator`` . 
+By using this category name, the log can be output to the logs for operator file.
 
-:ref:`log` を使用した場合の ``log.properties`` の設定例を以下に示す。
-:ref:`log_adaptor` を使用している場合には、アダプタに対応したログライブラリのマニュアルなどを参照し設定を行うこと。
+Shown below is an configuration example of ``log.properties`` when the :ref:`log` is used. 
+When using :ref:`log_adaptor` , refer to the manual of the log library corresponding to the adapter to perform the configuration.
 
 .. code-block:: properties
 
@@ -38,17 +38,16 @@
   loggers.OPERATOR.level=INFO
   loggers.OPERATOR.writerNames=operationLog
 
-運用担当者向けのログを出力する
+Output logs for operator
 --------------------------------------------------
 
-運用担当者向けのログを出力するための実装例を以下に示す。
+An implementation example for output of the logs for operator is shown below.
 
-ポイント
-  * :java:extdoc:`OperationLogger#write <nablarch.core.log.operation.OperationLogger.write(nablarch.core.log.basic.LogLevel-java.lang.String-java.lang.Throwable)>`
-    を使用してログを出力する。
-  * 運用担当者向けのログ出力とともにバッチ処理を異常終了させたい場合には、例外を送出すること。
+Point
+  * Output the log using  :java:extdoc:`OperationLogger#write <nablarch.core.log.operation.OperationLogger.write(nablarch.core.log.basic.LogLevel-java.lang.String-java.lang.Throwable)>`.
+  * An exception must be sent to abnormally end the batch process as well as the output logs for operator.
 
-実装例
+Implementation examples
   .. code-block:: java
 
     @Named
@@ -59,22 +58,22 @@
         public String process() throws Exception {
 
             try {
-                // 省略
+                // Omitted
             } catch (FileNotFoundException e) {
-                // 入力ファイルが存在しないことを運用担当者に通知して例外を送出する
+                // Notifies the operator that the input file is not found and throws an exception
                 OperationLogger.write(
                         LogLevel.ERROR,
-                        "ファイルが存在しません。正しく受信できているか確認してください。",
+                        "File does not exist. Check that you have received the correct file." ,
                         e);
                 throw e;
             }
 
-            // 省略
+            // Omitted
         }
     }
 
-出力例
+Output example
   .. code-block:: bash
 
-    ERROR operator ファイルが存在しません。正しく受信できているか確認してください。
+    ERROR operator file does not exist. Check that you have received the correct file.
 
