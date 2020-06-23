@@ -41,12 +41,12 @@ A configuration example when H2 is used is shown below.
 Point
  * The defined dialect should be an implementation class of  ``org.seasar.doma.jdbc.dialect.Dialect`` .
  * The component name of the dialect should be ``domaDialect`` .
- * •	The component name of the data source should be``dataSource`` .
+ * •	The component name of the data source should be ``dataSource`` .
 
 .. code-block:: xml
 
-    <component name="domaDialect" class="org.seasar.doma.jdbc.dialect.H2Dialect"  />
-    <component name="dataSource" class="org.h2.jdbcx.JdbcDataSource">
+  <component name="domaDialect" class="org.seasar.doma.jdbc.dialect.H2Dialect"  />
+  <component name="dataSource" class="org.h2.jdbcx.JdbcDataSource">
     <!--  Property omitted  -->
   </component>
 
@@ -176,7 +176,7 @@ Dao interface
 ItemReader class
   Point
      * Fetch the search result stream with open method.
-     * •	Always close the stream with the close method to prevent the release of resources.
+     * Always close the stream with the close method to prevent the release of resources.
 
   .. code-block:: java
 
