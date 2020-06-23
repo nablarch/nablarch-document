@@ -1,39 +1,39 @@
 
-=======================
-Mavenアーキタイプの構成
-=======================
-本章では、Nablarchの提供するMavenアーキタイプの構成と、各ディレクトリ・ファイルの概要を記載する。
+==============================================
+Maven Archetype Configuration
+==============================================
+This chapter describes the Maven archetype configuration provided by Nablarch and overview of each directory and file.
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 2
   :local:
 
 
---------------
-全体構成の概要
---------------
+--------------------------------------------------
+Overview of overall configuration
+--------------------------------------------------
 
 
-Nablarchでは、以下のアーキタイプを提供している。なお、アーキタイプのグループIDはすべて ``com.nablarch.archetype`` である。
+Nablarch offers the following archetypes: All the archetype group IDs are ``com.nablarch.archetype``.
 
 .. list-table::
   :header-rows: 1
   :class: white-space-normal
-  
-  * - アーティファクトID
-    - 説明
+
+  * - Artifact ID
+    - Description
   * - nablarch-web-archetype
-    - ウェブアプリケーション実行制御基盤を利用する場合のアーキタイプ
+    - Archetype for using the web application execution control platform
   * - nablarch-jaxrs-archetype
-    - RESTfulウェブサービス実行制御基盤を利用する場合のアーキタイプ
+    - Archetype for using the RESTful Web service execution control platform
   * - nablarch-batch-ee-archetype
-    - JSR352に準拠したバッチアプリケーションフレームワークを使用する場合のアーキタイプ
+    - Archetype for using the JSR352-compliant batch application framework
   * - nablarch-batch-archetype
-    - Nablarch独自のバッチアプリケーション実行制御基盤を利用する場合のアーキタイプ
+    - Archetype for using the Nablarch batch application execution control platform
 
 
-nablarch-web-archetypeとnablarch-batch-archetypeのアーキタイプを使用し、
-プロジェクト生成中に入力する ``artifactId`` に、 ``pj-web`` , ``pj-batch`` をそれぞれ指定した場合、以下のような構成となる。
+When ``pj-web``, ``pj-batch`` are specified respectively in ``artifactId``,
+which is input during the project creation using nablarch-web-archetype and nablarch-batch-archetype archetypes, the configuration is as follows.
 
 
 .. image:: maven_archetype.png
@@ -43,154 +43,153 @@ nablarch-web-archetypeとnablarch-batch-archetypeのアーキタイプを使用�
   :class: white-space-normal
   :widths: 7,6,16
 
-  * - Mavenプロジェクト名
-    - パッケージング
-    - 用途
+  * - Maven project name
+    - Packaging
+    - Application
   * - pj-web
     - war
-    - ウェブアプリケーション実行制御基盤を利用するアプリケーションを開発する。
-      
-      最終的に、warファイルとしてアプリケーションサーバにデプロイされる単位で作成する。
-  * - pj-batch 
+    - Develop an application that uses the web application execution control platform.
+
+      Finally, create in the unit to be deployed on the application server as war file.
+  * - pj-batch
     - jar
-    - Nablarch独自のバッチアプリケーション実行制御基盤を利用するアプリケーションを開発する。
-    
+    - Develop an application that uses the Nablarch batch application execution control platform.
+
 
 .. tip::
 
-  自動生成エンティティは `gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ を使用した場合に生成される。
-  使用する場合は、:doc:`../addin_gsp` に記載されている設定を行う必要がある。
+  Automatically generated entity is generated when `gsp-dba-maven-plugin(external site) <https://github.com/coastland/gsp-dba-maven-plugin>`_ is used.
+  The configuration description in :doc:`../addin_gsp` is required to use the plugin.
 
-
-----------------
-各構成要素の詳細
-----------------
+----------------------------------
+Details of each component
+----------------------------------
 
 .. _about_maven_parent_module:
 
-nablarch-archetype-parent(親プロジェクト)
-=========================================
+nablarch-archetype-parent (parent project)
+============================================================
 
-概要
-----
+Summary
+-------------
 
-nablarch-archetype-parentは、各アーキタイプから作成したプロジェクトの親となるプロジェクトである。
+nablarch-archetype-parent is the parent project for the project created from each archetype.
 
-このプロジェクトを利用者が直接書き換えることは無い。
+This project cannot be directly re-written by the user.
 
-本プロジェクトには、主に以下の設定が記述されている。
+The following configuration is mainly described in the project.
 
-* 各種Mavenプラグインのバージョン
-* 各種ツールが使用するファイルのパス
+* Versions of various Maven plugins
+* File path used by various tools
 
-nablarch-archetype-parentの所在
--------------------------------
+Location of nablarch-archetype-parent
+-------------------------------------------------
 
-アーキタイプから生成したプロジェクトを一度でもビルドしたことがあれば、以下の階層下にnablarch-archetype-parentのpom.xmlがキャッシュされている。
-nablarch-archetype-parentに記載された設定を確認したい場合は、キャッシュされたpom.xmlを確認すると良い。
+If a project created from an archetype is built at least once, then pom.xml of nablarch-archetype-parent will be cached below the following hierarchy.
+To check the configuration described in nablarch-archetype-parent, check the cached pom.xml.
 
 .. code-block:: text
 
-  <ホームディレクトリ>/.m2/repository/com/nablarch/archetype/
+  <Home directory>/.m2/repository/com/nablarch/archetype/
 
 
-pj-webプロジェクト
+pj-web project
 ==================
 
-ウェブアプリケーションのwarファイルとしてパッケージングされるプロジェクト。
+Project being packaged as a war file of the Web application.
 
-プロジェクトの構成
-------------------
+Project structure
+---------------------------
 
 .. code-block:: text
 
     myapp-web
     |
-    |   pom.xml                     … Mavenの設定ファイル
-    |   README.md                   … 本プロジェクトの補足説明(読み終わったら削除可)
+    |   pom.xml                     … Maven configuration file
+    |   README.md                   … Supplementary explanation of this project (can be deleted after reading)
     |
-    +---db                          … 疎通アプリケーション用のDDL及びInsert文。RDBMS別に格納されている。
+    +---db                          … DDL and Insert statements for communication applications. Stored for each RDBMS.
     |
     +---h2
-    |   +---bin                     … H2の起動に使用するファイルが格納されている。
+    |   +---bin                     … Contains files used to start H2.
     |   |
     |   \---db
-    |           SAMPLE.mv.db        … H2のデータファイル。
-    |           SAMPLE.mv.db.org    … H2のデータファイルのバックアップ。H2が起動しなくなった場合に「SAMPLE.mv.db」にコピーして使用する。
+    |           SAMPLE.mv.db        … Data file of H2.
+    |           SAMPLE.mv.db.org    … Backup of H2 data files. If H2 does not start, copy it to "SAMPLE.mv.db" and use it.
     |
     +---src
-    |   +---env                     … 環境別の設定ファイルが格納されている。
+    |   +---env                     … configuration files are stored for each environment.
     |   |
     |   +---main
-    |   |   +---java                … 疎通確認用アプリケーションのクラスが格納されている。
+    |   |   +---java                … Class of the communication confirmation application is stored.
     |   |   |
-    |   |   +---resources           … 直下には開発環境・本番環境で共に使用する設定ファイルが格納されている。
+    |   |   +---resources           … The configuration file used in both the development environment and production environment are stored directly below.
     |   |   |   |
-    |   |   |   +---entity          … ER図のサンプル。gsp-dba-maven-pluginを使用する際のサンプルデータとして用意している。
+    |   |   |   +---entity          … Sample of ER diagram. Prepared as sample data when using the gsp-dba-maven-plugin.
     |   |   |   |
-    |   |   |   \---net             … ルーティングアダプタ用設定ファイルが格納されている。
+    |   |   |   \---net             … Contains the configuration file for the routing adapter.
     |   |   |
     |   |   \---webapp
-    |   |       +---errorPages      … エラー画面のサンプルが格納されている。
+    |   |       +---errorPages      … Sample of error screen is stored.
     |   |       |
-    |   |       +---test            … 疎通確認画面用のファイルが格納されている。
+    |   |       +---test            … File for communication confirmation screen is stored.
     |   |       |
-    |   |       \---WEB-INF         … web.xmlが格納されている。
+    |   |       \---WEB-INF         … web.xml is stored.
     |   |
     |   \---test
-    |       +---java                … 疎通テスト用のユニットテストが格納されている。
+    |       +---java                … Unit test for communication test is stored.
     |       |
-    |       \---resources           … 直下にはユニットテスト用の設定ファイルが格納されている。
+    |       \---resources           … Configuration file for unit test is stored directly below.
     |           |
-    |           +---data            … gsp-dba-maven-pluginを使用する際のサンプルデータとして用意している。
+    |           +---data            … Prepared as sample data when using gsp-dba-maven-plugin.
     |           |
-    |           \---nablarch        … HTMLチェックツール用のデータが格納されている。
+    |           \---nablarch        … Data for HTML check tool is stored.
     |
-    \---tools                       … Mavenと連携させて使用するツールの設定ファイルが格納されている。
-    
-    
-ツールの設定
+    \---tools                       … Configuration files of the tool used in conjunction with Maven is stored.
+
+
+Tool configuration
 -----------------------------------
 
-toolsフォルダには、Mavenと連携させて使用するツールの設定ファイルが含まれている。
-以下に主なディレクトリとファイルを示す。
+The tools folder contains the configuration files for the tools used in conjunction with Maven.
+The main directories and files are shown below.
 
 .. list-table::
   :header-rows: 1
   :class: white-space-normal
   :widths: 9,20
 
-  * - ディレクトリまたはファイル
-    - 説明
+  * - Directory or file
+    - Description
   * - nablarch-tools.xml
-    - JSP静的解析ツールを実行する際に使用する設定ファイル
+    - Configuration file used while executing the JSP static analysis tool
   * - static-analysis/jspanalysis
-    - JSP静的解析ツールの設定ファイルが格納されている。
+    - Configuration file for the JSP static analysis tool is stored.
 
 
-pj-jaxrsプロジェクト
+pj-jaxrs project
 ====================
 
-RESTfulウェブサービスアプリケーションのwarファイルとしてパッケージングされるプロジェクト。
+Project packaged as a war file of the RESTful Web service application.
 
 
-プロジェクトの構成
-------------------
+Project structure
+-------------------------------
 
-Webと同一であるため省略。
+Omitted because it is the same as Web.
 
 
-pj-batch-eeプロジェクト
+pj-batch-ee project
 =======================
 
-JSR352に準拠したバッチアプリケーションのjarファイルとしてパッケージされるプロジェクト。
+Project packaged as a jar file for JSR352-compliant batch applications.
 
 .. _firstStepBatchEEProjectStructure:
 
-プロジェクトの構成
-------------------
+Project structure
+-----------------------------
 
-(ディレクトリ及びファイルの説明は、Web、batchに存在しない要素についてのみ記載)
+(Descriptions of directories and files only for the elements that do not exist in Web and batch)
 
 .. code-block:: text
 
@@ -198,7 +197,7 @@ JSR352に準拠したバッチアプリケーションのjarファイルとし�
     |
     |   pom.xml
     |   README.md
-    |   distribution.xml                        … maven-assembly-pluginで使用する設定ファイル
+    |   distribution.xml                        … Configuration file used in maven-assembly-plugin
     |
     +---db
     |
@@ -216,20 +215,20 @@ JSR352に準拠したバッチアプリケーションのjarファイルとし�
         |   +---java
         |   |
         |   \---resources
-        |       |   batch-boot.xml              … バッチ起動時に使用する設定ファイル。
+        |       |   batch-boot.xml              … Configuration files to be used when the batch is started.
         |       |
         |       +---entity
         |       |
         |       \---META-INF
-        |           |   beans.xml               … CDIを有効化するために必要なファイル。
+        |           |   beans.xml               … File required to enable CDI.
         |           |
         |           +---batch-jobs
-        |           |       sample-batchlet.xml … batchlet方式の疎通確認用アプリケーションのジョブファイル。
-        |           |       sample-chunk.xml    … chunk方式の疎通確認用アプリケーションのジョブファイル。
-        |           |       sample-etl.xml      … ETL機能のジョブファイル。
+        |           |       sample-batchlet.xml … Job file of the application for communication confirmation of the batchlet method.
+        |           |       sample-chunk.xml    … Job file of the application for communication confirmation of the chunk method.
+        |           |       sample-etl.xml      … ETL function job file.
         |           |
         |           \---etl-config
-        |                   sample-etl.json     … ETL機能のジョブの設定ファイル。
+        |                   sample-etl.json     … ETL function job configuration file.
         |
         |
         \---test
@@ -239,32 +238,32 @@ JSR352に準拠したバッチアプリケーションのjarファイルとし�
                 |
                 +---data
 
-本番環境へのリリースについて
+Release to production environment
 -------------------------------------
 
-バッチアプリケーションのビルド時に ``target`` 配下に生成されるzipファイルの中には、
-バッチアプリケーションの実行可能jarと依存ライブラリが格納されている。
+The executable jar and dependent libraries of the batch application are stored in the zip file
+generated under ``target`` during build of the batch application.
 
-そのため、本番環境へのリリース時は、以下の手順でバッチを実行することができる。
+Therefore, while releasing to the production environment, batch can be executed with the following procedure.
 
-1. zipファイルを任意のディレクトリに解凍する。
-2. 以下のコマンドでバッチを実行する。
+1. Unzip the zip file into any directory.
+2. Execute the batch with the following command.
 
   .. code-block:: bash
 
-    java -jar <実行可能jarファイル名> <ジョブ名>
+    java -jar <Executable jar file name> <Job name>
 
-pj-batchプロジェクト
-====================
+pj-batch project
+============================
 
-Nablarchバッチアプリケーションのjarファイルとしてパッケージされるプロジェクト。
+Project packaged as a jar file for Nablarch batch applications.
 
 .. _firstStepBatchProjectStructure:
 
-プロジェクトの構成
-------------------
+Project structure
+------------------------------
 
-(ディレクトリ及びファイルの説明は、Webに存在しない要素についてのみ記載)
+(Descriptions of directories and files only for the elements that do not exist in the Web)
 
 .. code-block:: text
 
@@ -272,7 +271,7 @@ Nablarchバッチアプリケーションのjarファイルとしてパッケー
     |
     |   pom.xml
     |   README.md
-    |   distribution.xml                        … maven-assembly-pluginで使用する設定ファイル
+    |   distribution.xml                        … Configuration file used in maven-assembly-plugin
     |
     +---db
     |
@@ -290,13 +289,13 @@ Nablarchバッチアプリケーションのjarファイルとしてパッケー
         |   +---java
         |   |
         |   +---resources
-        |   |   |   batch-boot.xml              … 都度起動バッチ起動時に指定する設定ファイル。
-        |   |   |   mail-sender-boot.xml        … メール送信バッチ起動時に指定する設定ファイル。
-        |   |   |   resident-batch-boot.xml     … テーブルをキューとして使ったメッセージング起動時に指定する設定ファイル。
+        |   |   |   batch-boot.xml              … Configuration file to be specified in each time startup batch when it is launched.
+        |   |   |   mail-sender-boot.xml        … Configuration file to be specified while starting email send batch.
+        |   |   |   resident-batch-boot.xml     … Configuration file to be specified while starting messaging using tables as queues.
         |   |   |
         |   |   \---entity
         |   |
-        |   \---scripts                         … バッチ等の起動に使用するためのシェルスクリプトファイル(使用は任意)。
+        |   \---scripts                         … Shell script file to be used for starting a batch, etc. (use is optional)
         |
         \---test
             +---java
@@ -307,148 +306,147 @@ Nablarchバッチアプリケーションのjarファイルとしてパッケー
                 |
                 \---nablarch
 
-本番環境へのリリースについて
+Release to production environment
 -------------------------------------
 
-バッチアプリケーションのビルド時に ``target`` 配下に生成されるzipファイルの中には、
-バッチアプリケーションの実行可能jarと依存ライブラリが格納されている。
+The executable jar and dependent libraries of the batch application are stored in the zip file
+generated under ``target`` during build of the batch application.
 
-そのため、本番環境へのリリース時は、以下の手順でバッチを実行することができる。
+Therefore, while releasing to the production environment, batch can be executed with the following procedure.
 
-1. zipファイルを任意のディレクトリに解凍する。
-2. 以下のコマンドでバッチを実行する。
+1. Unzip the zip file into any directory.
+2. Execute the batch with the following command.
 
   .. code-block:: bash
 
-    java -jar <実行可能jarファイル名> ^
-        -diConfig <コンポーネント設定ファイル> ^
-        -requestPath <リクエストパス> ^
-        -userId <ユーザID>
+    java -jar <Executable jar file name> ^
+        -diConfig <Component configuration file > ^
+        -requestPath <Request path> ^
+        -userId <User ID>
 
 .. _about_maven_web_batch_module:
 
-各プロジェクト共通の設定
-======================================
+Common configurations for each project
+=========================================================
 
-各Mavenプロジェクトそれぞれで下記のような設定を行っている。
+The following is configured respectively in each Maven project.
 
-* プロファイルの定義
-* ビルドフェーズで実行するゴールの追加
-* コンパイルに関する設定。以下のような設定が存在する。
-    
-  * 利用するJavaのバージョン
-  * ファイルエンコーディング
-  * JDBCドライバ
-* :ref:`firstStepBuiltInTools` に記載されているツールの設定。以下のような設定が存在する。
-  
-  * `gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ で利用するデータベース接続設定（JDBC接続URLやデータベーススキーマなど）
-  * カバレッジ設定 
+* Defining profiles
+* Adding goals to be executed during the build phase
+* Configuration for compile. The following configurations are present.
+
+  *	Java version used
+  *	File encoding
+  *	JDBC driver
+* Configuration of the tools described in :ref:`firstStepBuiltInTools`. The following configurations are present.
+
+  * Database connection configuration used in `gsp-dba-maven-plugin(external site) <https://github.com/coastland/gsp-dba-maven-plugin>`_  (JDBC connection URL and database schema, etc.)
+  * Coverage configuration
 
 
-以下に個々の詳細を示す。
+Details of each are shown below.
 
 
 .. _mavenModuleStructuresProfilesList:
 
-プロファイル一覧
+Profile list
 ----------------
 
-定義されているプロファイルの詳細については、各プロジェクトの ``pom.xml`` を参照。
+Refer to ``pom.xml`` of each project for details on the profile that are defined.
 
-以下に定義されているプロファイルを示す。
+The defined profiles are shown below.
 
 .. list-table::
   :header-rows: 1
   :class: white-space-normal
   :widths: 4,18
 
-  * - プロファイル名
-    - 概要
+  * - Profile name
+    - Summary
   * - dev
-    - 開発環境用及び、ユニットテスト実行用のプロファイル。src/env/dev/resourcesディレクトリのリソースを使用する。
+    - Profile for development environment and unit test execution. Use resources in src/env/dev/resources directory.
   * - prod
-    - 本番環境用のプロファイル。src/env/prod/resourcesディレクトリのリソースを使用する。
+    - Profile for the production environment. Use resources in the src/env/prod/resources directory.
 
 
 .. tip::
-   ``pom.xml`` 中のdevプロファイルにactiveByDefault要素が記述されており、デフォルトでdevプロファイルが使用されるようになっている。
+   The activeByDefault element is described in dev profile of ``pom.xml`` and the dev profile can be used as default.
 
 
-^^^^^^^^^^^^^^^^^^^^
-プロファイルの使い方
-^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+How to use profiles
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-これらのプロファイルは環境に応じた成果物を作成する際に使用する。
+These profiles are used to create deliverables according to the environment.
 
-例えば、本番環境用のWARファイルを作成したい場合、
-``pj-web``\ モジュール配下で、本番環境用プロファイルを指定してmvnコマンドを実行する。
+For example, to create a war file for the production environment, specify the production environment profile
+under the ``pj-web`` module and then execute the mvn command by specifying the production environment profile.
 
-以下にコマンドの例を示す。
+An example of the command is shown below.
 
 .. code-block:: bash
-                
+
    mvn package -P prod -DskipTests=true
 
 .. tip ::
 
-  上記コマンドでは、ユニットテストのスキップを指定している。
+  In the above command, the unit test is skipped.
 
-  「mvn package」実行時には、デフォルトではユニットテストも併せて行われるが、本番環境用のプロファイルではユニットテストの実行に失敗するためである。
+  By default, the unit test is also performed when the "mvn package" is executed, but the unit test fails to run in the production profile.
 
 
-ビルドフェーズに追加されているゴール一覧
-----------------------------------------
+List of goals added to the build phase
+-------------------------------------------------------
 
-Mavenのデフォルトのビルドフェーズ定義に加えて、以下のゴールが実行されるように設定されている。
+In addition to the default build phase definition of Maven, it is configured to execute the following goals
 
-設定の詳細については、各プロジェクトの ``pom.xml`` 及び、 :ref:`about_maven_parent_module` の ``pom.xml`` を参照のこと。
-
+For details on the configuration, see ``pom.xml`` of each project and ``pom.xml`` of :ref:`about_maven_parent_module`.
 
 .. list-table::
   :header-rows: 1
   :class: white-space-normal
   :widths: 5,8,9
 
-  * - ビルドフェーズ
-    - ゴール
-    - 概要
+  * - Build phase
+    - Goal
+    - Summary
   * - initialize
     - jacoco:prepare-agent
-    - JaCoCoの実行時エージェントを準備する。
+    - Prepare a JaCoCo runtime agent.
   * - pre-integration-test
     - jacoco:prepare-agent-integration
-    - 結合試験用にJaCoCoの実行時エージェントを準備する。
+    - Prepare a JaCoCo runtime agent for the integration test.
 
 
 .. tip::
-  gsp-dba-maven-pluginの実行はMavenのビルドフェーズに紐づかないため、エンティティの自動生成など、gsp-dba-maven-pluginで実装されているゴールを実行したい場合は、ゴールを手動で実行すること。
+  Since the execution of gsp-dba-maven-plugin is not tied together with the Maven build phase, goals implemented under gsp-dba-maven-plugin, such as automatic generation of entities, should be executed manually.
 
 
-コンパイルに関する設定
+Configuration for compile
 -----------------------------------
 
-設定内容については、各プロジェクトの ``pom.xml`` 及び、 :ref:`about_maven_parent_module` の ``pom.xml`` を参照。
+For details on the configuration, see ``pom.xml`` of each project and ``pom.xml`` of :ref:`about_maven_parent_module`.
 
 
-ツールの設定
+Tool configuration
 -----------------------------------
 
-ツールの設定は、``pom.xml`` (各プロジェクト及び、 :ref:`about_maven_parent_module` )に記載されている。
-親プロジェクトに記載されているツールについては、 :ref:`firstStepBuiltInTools` を参照。
+Tool configuration is described in ``pom.xml`` (each project and :ref:`about_maven_parent_module`).
+Refer to :ref:`firstStepBuiltInTools` for the tools described in the parent project.
 
 
-ビルド設定
+Build configuration
 ==============================================
 
-以下のような場合は、各モジュールのpom.xmlを変更する。
+For the following cases, change pom.xml of each module.
 
-* モジュール個別で使用する依存ライブラリを追加・変更する。例えば、使用するNablarchのバージョンを変更するために、nablarch-bomのバージョンを修正する場合が該当する。
-* モジュール個別で使用するMavenプラグインを追加・変更する。
+* Add or change the dependent library used in each module. For example, modify the version of nablarch-bom to change the version of Nablarch being used.
+* Add or change the Maven plugin used in each module.
 
-使用するNablarchのバージョンを変更する場合の例
-----------------------------------------------
+Example of changing the version of Nablarch used
+-------------------------------------------------------------------
 
-以下にNablarch5u6を使用する場合の設定例を示す。
+A configuration example when Nablarch 5u6 is used is shown below.
 
 .. code-block:: xml
 
@@ -459,8 +457,8 @@ Mavenのデフォルトのビルドフェーズ定義に加えて、以下のゴ
         <artifactId>nablarch-bom</artifactId>
 
         <!--
-        使用するNablarchのバージョンと対応したバージョンを指定する。
-        この例は5u6を指定している。
+        Specify the version corresponding to the version of Nablarch to be used.
+        In this example 5u6 is specified.
         -->
         <version>5u6</version>
 
@@ -471,12 +469,12 @@ Mavenのデフォルトのビルドフェーズ定義に加えて、以下のゴ
   </dependencyManagement>
 
 
-依存ライブラリ追加の例
-----------------------
+Example of adding dependent library
+-------------------------------------------
 
-以下に\ ``pj-web``\ モジュールで暗号化ユーティリティを利用するために、nablarch-common-encryptionへの依存を追加する場合の例を示す。
+An example of adding dependency to the nablarch-common-encryption for using the encryption utility in the ``pj-web`` module is shown below.
 
-なお、依存を追加する場合にはscopeの設定を適切に行うこと。scopeの設定を怠ると、ユニットテストでのみ使用するはずのモジュールが本番でも使用されるといった問題が起きる可能性がある。
+While adding dependency, scope should be configured appropriately. If the scope is not configured, there is a possibility of the module that should be used only in the unit tests might get used in the production.
 
 .. code-block:: xml
 
@@ -490,45 +488,45 @@ Mavenのデフォルトのビルドフェーズ定義に加えて、以下のゴ
   </dependencies>
 
 
-Nablarchのライブラリの場合、pom.xmlにバージョン番号は通常指定しなくても良い(nablarch-bomに対するバージョン指定により、個々のライブラリのバージョンが決定するため)。
+For Nablarch libraries, usually the version number need not be specified in pom.xml (since the version specified for nablarch-bom determines the version of each library)
 
 
 
 .. _mavenModuleStructuresModuleDivisionPolicy:
 
-----------------------------
-【参考】プロジェクト分割方針
-----------------------------
+--------------------------------------------------------
+[Reference] Policy for splitting the projects
+--------------------------------------------------------
 
-推奨するプロジェクト構成の方針
-==============================
+Policy for recommended project configuration
+================================================
 
-以下に推奨するプロジェクト構成の方針を示す。
+The following are the objectives of the recommended project configuration.
 
-* 作成するアプリケーションが一つの場合(ウェブのみ、バッチのみ等)は、それぞれ単体のプロジェクトで構成する。
-* 社内用と社外用で二つのウェブアプリケーションを作成するようなケースでは、無理に一つのMavenプロジェクトにまとめず、個別にMavenプロジェクトを作ること。
-* 複数のアプリケーションが存在し、共通化したいライブラリが存在する場合は、共通ライブラリを配置するMavenプロジェクトを作る。
-* 実行制御基盤を追加した際は、実行制御基盤毎にMavenプロジェクトを作る。例えば、メッセージング実行制御基盤を使用したアプリケーションを追加する場合は、新しくMavenプロジェクトを作る。
-* 必要以上にプロジェクトは分割しない。詳細は、 :ref:`mavenModuleStructuresProblemsOfExcessivelyDivided` を参照。
+* If only one application is to be created (web only, batch only, etc.), then configure a single project respectively.
+* If two Web applications are to be created for internal and external use, create separate Maven projects instead of consolidating them into a single Maven project.
+* If there are multiple applications and a library is to be shared, create a Maven project to deploy the shared library.
+* While adding an execution control platform, create a Maven project for each execution control platform. For example, to add an application that uses the messaging execution control platform, create a new Maven project.
+* Do not split the project more than necessary. For details, see :ref:`mavenModuleStructuresProblemsOfExcessivelyDivided`.
 
 .. tip ::
 
-  プロジェクトを分割する際には、リソースの重複が無い様に注意すること。
+  Be careful not to duplicate resources when you split up a project.
 
-  例えば、`gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ で使用するedmファイルを複数のMavenプロジェクトに混在させると、重複したEntityクラスが複数のMavenプロジェクトに存在することになる。
-
+  For example, if you mix the edm files used by `gsp-dba-maven-plugin(external site) <https://github.com/coastland/gsp-dba-maven-plugin>`_ in multiple Maven projects,
+  you will end up with duplicate entity classes in multiple Maven projects.
 
 .. _mavenModuleStructuresProblemsOfExcessivelyDivided:
 
-プロジェクトを過度に分割した場合の問題点
-========================================
+Problems when a project is divided excessively
+==========================================================
 
-プロジェクトを過度に分割した場合の問題点を以下に示す。
+Problems caused when a project is divided excessively is shown below.
 
-* ビルド及びデプロイの手順が複雑になる。
-* 結合テスト以降で、どのモジュールを組み合わせてテストしたか管理が複雑になる。
+* Build and deployment procedure becomes complicated.
+* After the integration test, the management of modules that were combined and tested becomes complicated.
 
-一般的には、Mavenプロジェクトは少ないほうが開発をスムーズに進めることが出来る。
+In general, smaller the number of Maven projects, smoother is the development.
 
 .. |br| raw:: html
 
