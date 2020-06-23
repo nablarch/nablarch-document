@@ -26,6 +26,6 @@ Ready-to-Use
 Corporate information systems require many functions, and developing from scratch involves significant cost and time to build the system.
 However, for responding to a rapidly changing business environment, it is necessary to construct systems in the shortest duration and highest quality.
 For achieving this, it is important to reuse proven parts.
-Nablarch is able to meet these needs by providing content that can be reused in a "ready-to-use" state, such as frameworks, adapters for adapting to frequently used middleware1 and environments where inexperienced people can start developing immediately.
+Nablarch is able to meet these needs by providing content that can be reused in a "ready-to-use" state, such as frameworks, adapters for adapting to frequently used middleware [1]_ and environments where inexperienced people can start developing immediately.
 
 .. [1] Apache Log4j, WebSphere MQ, etc.
