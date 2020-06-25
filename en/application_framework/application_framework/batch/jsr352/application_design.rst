@@ -1,66 +1,66 @@
-アプリケーションの責務配置
-================================
-JSR352に準拠したバッチアプリケーションを作成する際に実装すべきクラスとその責務を説明する。
+Responsibility Assignment of Application
+=========================================
+This section describes the classes to be implemented and their responsibilities when creating a JSR352-compliant batch application.
 
 .. _jsr352-batchlet_design:
 
-Batchletステップの場合
+For Batchlet step
 --------------------------------------------------
-Batchletステップの場合の実装すべきクラスとその責務について説明する。
+This section describes the classes to be implemented and their responsibilities in the case of Batchlet step.
 
 .. image:: images/batchlet-design.png
   :scale: 80
   
 
-バッチレット(Batchlet class)
-  バッチレットで業務ロジックを実行し、ステップの処理結果を表す文字列 [#batchlet_status]_ を返却する。
+Batchlet (Batchlet class)
+  Executes the business logic with the batchlet and returns the character string [#batchlet_status]_ representing the processing result of the step.
 
-  例えば、インターネット上のファイルをダウンロードしたり、SQL1つだけで完結するような処理 [#insert_select]_ を行う。
+  For example, the batchlet downloads files on the Internet or performs processing [#insert_select]_ that can be completed with just 1 SQL statement.
 
 .. _jsr352-chunk_design:
 
-Chunkステップの場合
+For Chunk step
 --------------------------------------------------
-Chunkステップの場合の実装すべきクラスとその責務について説明する。
+This section describes the classes to be implemented and their responsibilities in the case of Chunk step.
 
 .. image:: images/chunk-design.png
   :scale: 80
 
-アイテムリーダ(ItemReader class)
-  データソース(ファイルやデータベース等)から処理対象のデータを読み込む処理を実装する。
-  読み込んだデータは、フォームに変換し返却する。
+Item reader (ItemReader class)
+  Implements the process to read the data to be processed from the data source (file, database, etc.).
+  Converts the read data into a form and returns the form.
 
-  アイテムリーダは、JSR352で規定されているインタフェースである。
-  このため実装方法などの詳細は、 `JSR352 Specification(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=352>`_ を参照。
+  Item reader is an interface specified by JSR352.
+  For this reason, see `JSR352 Specification(external site, English) <https://jcp.org/en/jsr/detail?id=352>`_  for details of the implementation method.
 
-アイテムプロセッサ(ItemProcessor class)
-  アイテムリーダが読み込んだデータを元に業務ロジックを実行し出力対象のデータを生成する。
+Item processor (ItemProcessor class)
+  Executes the business logic based on the data read by the item reader to generate the data to be output.
 
-  出力対象がデータベースの場合には、業務ロジック実行後のデータをエンティティに変換する。
-  データベース以外の場合には、業務ロジック実行後のデータを出力用のフォームに変換する。
+  If the output target is a database, converts the data after the execution of business logic into an entity.
+  If the output target is not a database, converts the data after the execution of business logic to a form for output.
 
-  アイテムプロセッサは、JSR352で規定されているインタフェースである。
-  このため実装方法などの詳細は、 `JSR352 Specification(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=352>`_ を参照。
+  Item processor is an interface specified by JSR352.
+  For this reason, see `JSR352 Specification(external site, English) <https://jcp.org/en/jsr/detail?id=352>`_  for details of the implementation method.
 
   .. tip::
-    アイテムリーダで読み込んだデータが外部から取得したデータの場合は、業務ロジックの実行前に入力値のチェックを行うこと。
-    入力値のチェックについては、 :ref:`入力値のチェック <validation>` を参照。
+    If the data read by the item reader is externally acquired data, checks the input values before executing the business logic.
+    For information about checking input values, see :ref:`checking input values<validation>`.
 
-アイテムライタ(ItemWriter class)
-  アイテムプロセッサで変換したエンティティ(フォーム)をデータベースやファイルなどに出力する処理を実装する。
+Item writer (ItemWriter class)
+  Item writer implements the process to output the entity or form,[A1][A2][A3] converted by the item processor, to a database or file.
 
-  アイテムライタは、JSR352で規定されているインタフェースである。
-  このため実装方法などの詳細は、 `JSR352 Specification(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=352>`_ を参照。
+  Item writer is an interface specified by JSR352.
+  For this reason, see `JSR352 Specification(external site, English) <https://jcp.org/en/jsr/detail?id=352>`_  for details of the implementation method.
 
-フォーム(form class)
-  アイテムリーダが読み込んだデータを保持するクラス。また出力対象がデータベース以外の場合に、出力するデータを保持するクラス。
+Form (form class)
+  This class holds the data read by the item reader. A class that holds the data to be output if the output target is not a database.
 
-  外部から受け付けたファイルなどの信用出来ない値を保持するフォームの場合には、プロパティの型は全てStringとすること。
-  理由は、 :ref:`Bean Validation <bean_validation-form_property>` 参照。
-  ただし、バイナリ項目の場合はバイト配列で定義する。
+  In the case of a form that holds unreliable values such as externally received files, all property types should be string.
+  For the reason, see :ref:`Bean Validation <bean_validation-form_property>`.
+  In the case of a binary item, the type is defined by a byte array.
 
-エンティティ(entity class)
-  テーブルと1対1で対応するクラス。カラムに対応するプロパティを持つ。
+Entity (entity class)
+  A class with a one-to-one correspondence with a table. The entity class has property corresponding to columns.
 
-.. [#batchlet_status] バッチレットが返却する文字列(バッチレットの終了ステータス)の詳細は、 `JSR352 Specification(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=352>`_ を参照。
-.. [#insert_select] 例えば、 ``insert～select`` のみで処理が完結するSQLの実行などを指す。
+.. [#batchlet_status] For details on the character string returned by the batchlet (end status of batchlet), see `JSR352 Specification (external site, English) <https://jcp.org/en/jsr/detail?id=352>`_ .
+.. [#insert_select] For example, it refers to the execution of SQL that completes the process only by ``insert ~ select``.
