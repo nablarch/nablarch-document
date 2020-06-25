@@ -1,92 +1,92 @@
 .. _`getting_started_chunk`:
 
-データを導出するバッチの作成(Chunkステップ)
+Create Batch to Derive Data (Chunk Step)
 ===============================================================
-Exampleアプリケーションを元に、既存データから計算を行い新たにデータを導出する :ref:`Chunkステップ<jsr352-batch_type_chunk>` 方式のバッチの解説を行う。
+This section explains the :ref:`Chunk step<jsr352-batch_type_chunk>` batch type, which calculates from existing data and derives new data based on the application.
 
-作成する機能の概要
+Overview of the function to be created
   .. image:: ../images/chunk/overview.png
 
-動作確認手順
-  1. 登録対象テーブル(賞与テーブル)のデータを削除
+Operation check procedure
+  1. Delete data in the table (bonus table) to be registered
 
-     H2のコンソールから下記SQLを実行し、賞与テーブルのデータを削除する。
+     Execute the following SQL from the console of H2 and delete the data in the bonus table.
 
      .. code-block:: sql
 
        TRUNCATE TABLE BONUS;
 
-  2. 賞与計算バッチを実行
+  2. Execute bonus calculation batch
 
-     コマンドプロンプトから賞与計算バッチを実行する。
+     Execute the bonus calculation batch from the command prompt.
 
     .. code-block:: bash
 
-      $cd {nablarch-example-batch-eeシステムリポジトリ}
+      $cd {nablarch-example-batch-ee system repository}
       $mvn exec:java -Dexec.mainClass=nablarch.fw.batch.ee.Main ^
           -Dexec.args=bonus-calculate
 
-  5. バッチ実行後の状態の確認
+  5. Check the status after batch execution
 
-    H2のコンソールから下記SQLを実行し、賞与情報が登録されたことを確認する。
+    Execute the following SQL from the console of H2 and confirm that the bonus information is registered.
 
     .. code-block:: sql
 
         SELECT * FROM BONUS;
 
-データを導出する
+Deriving data
 -------------------
-既存データから計算を行い、新たにデータを導出するバッチの実装方法を以下の順に説明する。
+A method to implement a batch that calculates from existing data and derives new data will be described in the following order.
 
 #. :ref:`getting_started_chunk-read`
 #. :ref:`getting_started_chunk-business_logic`
 #. :ref:`getting_started_chunk-persistence`
 #. :ref:`getting_started_chunk-job`
 
-処理フローについては、 :ref:`Chunkステップのバッチの処理フロー<jsr352-batch_flow_chunk>` を参照。
-責務配置については :ref:`Chunkステップの責務配置<jsr352-chunk_design>` を参照。
+For the process flow, see :ref:`process flow of Chunk step batch<jsr352-batch_flow_chunk>`.
+For responsibility assignment, see :ref:`responsibility assignment of the Chunk step<jsr352-chunk_design>`.
 
-バッチ処理は、 |jsr352| で規定されたインターフェースの実装に加えて、トランザクション制御などの共通的な処理を提供するリスナーによって構成する。
-リスナーの詳細は :ref:`バッチアプリケーションで使用するリスナー<jsr352-listener>` 及び :ref:`リスナーの指定方法<jsr352-listener>` を参照。
+Batch process is configured by a listener that provides common processes such as transaction control in addition to the implementation of the interface specified in `JSR352 (external site, English) <https://jcp.org/en/jsr/detail?id=352>`_.
+For details of the listener, see :ref:`listener used in the batch application<jsr352-listener>`, and :ref:`how to specify the listener<jsr352-listener>`.
 
 .. _`getting_started_chunk-read`:
 
-入力データソースからデータを読み込む
-+++++++++++++++++++++++++++++++++++++
-計算に必要なデータを取得する処理を実装する。
+Reads data from the input data source
+++++++++++++++++++++++++++++++++++++++
+Implements the process to fetch the data required for calculation.
 
-#. :ref:`フォームの作成<getting_started_chunk-form>`
-#. :ref:`ItemReaderの作成<getting_started_chunk-reader>`
+#. :ref:`Create a form<getting_started_chunk-form>`
+#. :ref:`Create an ItemReader<getting_started_chunk-reader>`
 
 .. _`getting_started_chunk-form`:
 
-フォームの作成
-  Chunkステップでは、 :java:extdoc:`ItemReader<javax.batch.api.chunk.ItemReader>` と
-  :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>` とのデータ連携にフォームを利用する。
+Create a form
+  In the Chunk step, use form to link data with :java:extdoc:`ItemReader<javax.batch.api.chunk.ItemReader>`
+  and :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>`.
 
   EmployeeForm.java
     .. code-block:: java
 
       public class EmployeeForm {
 
-          //一部のみ抜粋
+          //Partial excerpt
 
-          /** 社員ID */
+          /** Employee ID */
           private Long employeeId;
 
           /**
-           * 社員IDを返します。
+           *Returns employee ID.
            *
-           * @return 社員ID
+           * @return Employee ID
            */
           public Long getEmployeeId() {
               return employeeId;
           }
 
           /**
-           * 社員IDを設定します。
+           * Sets the employee ID.
            *
-           * @param employeeId 社員ID
+           * @param employeeId Employee ID
            */
           public void setEmployeeId(Long employeeId) {
               this.employeeId = employeeId;
@@ -95,15 +95,15 @@ Exampleアプリケーションを元に、既存データから計算を行い�
 
 .. _`getting_started_chunk-reader`:
 
-ItemReaderの作成
-  :java:extdoc:`AbstractItemReader<javax.batch.api.chunk.AbstractItemReader>` を継承し、データの読み込みを行う。
+Create an ItemReader
+  Inherits :java:extdoc:`AbstractItemReader<javax.batch.api.chunk.AbstractItemReader>` and reads data.
 
     ==================================================================   =============================================================================================
-    インタフェース名                                                       責務
+    Interface Name                                                       Obligation
     ==================================================================   =============================================================================================
-    :java:extdoc:`ItemReader<javax.batch.api.chunk.ItemReader>`          データの読み込みを行う。
+    :java:extdoc:`ItemReader<javax.batch.api.chunk.ItemReader>`          Reads data.
 
-                                                                         空実装を提供する :java:extdoc:`AbstractItemReader<javax.batch.api.chunk.AbstractItemReader>` を継承する。
+                                                                         Inherits :java:extdoc:`AbstractItemReader<javax.batch.api.chunk.AbstractItemReader>`, which provides a empty implementation.
 
                                                                            * `ItemReader#open`
                                                                            * `ItemReader#readItem`
@@ -117,10 +117,10 @@ ItemReaderの作成
       @Named
       public class EmployeeSearchReader extends AbstractItemReader {
 
-          /** 社員情報のリスト */
+          /** List of employee information */
           private DeferredEntityList<EmployeeForm> list;
 
-          /** 社員情報を保持するイテレータ */
+          /** Iterator holding employee information */
           private Iterator<EmployeeForm> iterator;
 
           @Override
@@ -159,30 +159,30 @@ ItemReaderの作成
           EMPLOYEE
       INNER JOIN GRADE ON EMPLOYEE.GRADE_CODE = GRADE.GRADE_CODE
 
-  この実装のポイント
-    * :java:extdoc:`Named<javax.inject.Named>` と :java:extdoc:`Dependent<javax.enterprise.context.Dependent>` をクラスに付与する。
-      詳細は、 :ref:`BatchletのNamedとDependentの説明 <getting_started_batchlet-cdi>` を参照。
-    * `open` メソッドで処理対象のデータを読み込む。
-    * SQLファイルの配置場所や作成方法などは、 :ref:`universal_dao-sql_file` を参照。
-    * 大量のデータを読み込む場合は、メモリの逼迫を防ぐために :java:extdoc:`UniversalDao#defer <nablarch.common.dao.UniversalDao.defer()>` を使用して
-      検索結果を :ref:`遅延ロード<universal_dao-lazy_load>` する。
-    * `readItem` メソッドで読み込んだデータから一行分のデータを返却する。
-      このメソッドで返却したオブジェクトが、後続する :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemProcessor>` の `processItem` メソッドの引数として与えられる。
+  Key points of this implementation
+    * :java:extdoc:`Named<javax.inject.Named>` and :java:extdoc:`Dependent<javax.enterprise.context.Dependent>` are assigned to the class.
+      For details, see :ref:`Explanation of named and dependent of batchlet<getting_started_batchlet-cdi>`.
+    * Read the data to be processed with `open` method.
+    * For the location and how to create the SQL file, see :ref:`universal_dao-sql_file`.
+    * When reading a large amount of data, to prevent straining of the memory, use :java:extdoc:`UniversalDao#defer <nablarch.common.dao.UniversalDao.defer()>`
+      to :ref:`defer the loading<universal_dao-lazy_load>` of the search results.
+    * Returns one line of data from the data read by `readItem` method.
+      The object returned by this method is given as an argument of `processItem` method of :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemProcessor>` that follows.
 
 .. _`getting_started_chunk-business_logic`:
 
-業務ロジックを実行する
+Execute business logic
 ++++++++++++++++++++++
-賞与の計算等の業務ロジックを実装する。
+Implements the business logic of bonus calculation.
 
-ItemProcessorの作成
-  :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>` を実装し、
-  業務ロジックを行う(永続化処理は :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemWriter>` の責務であるため実施しない)。
+Create ItemProcessor
+  Implements :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>`
+  and carries out the business logic (since the persistence process is a duty of :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemWriter>`, it is not executed).
 
     ==================================================================   =============================================================================================
-    インタフェース名                                                       責務
+    Interface Name                                                       Obligation
     ==================================================================   =============================================================================================
-    :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>`    一行分のデータに対する業務処理を行う。
+    :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>`    Performs the business process on one line of data.
 
                                                                            * `ItemProcessor#processItem`
     ==================================================================   =============================================================================================
@@ -206,10 +206,10 @@ ItemProcessorの作成
           }
 
           /**
-           * 社員情報をもとに賞与計算を行う。
+           * Calculate bonus based on employee information.
            *
-           * @param form 社員情報Form
-           * @return 賞与
+           * @param form Employee Information Form
+           * @return Bonus
            */
           private static Long calculateBonus(EmployeeForm form) {
               if (form.getFixedBonus() == null) {
@@ -220,23 +220,23 @@ ItemProcessorの作成
           }
       }
 
-  この実装のポイント
-    * `processItem` メソッドで一定数( :ref:`getting_started_chunk-job` にて設定方法を解説)のエンティティを返却した時点で、
-      後続する :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemWriter>` の `writeItems` メソッドが実行される。
+  Key points of this implementation
+    * At the timing when a certain number of entities (how to configure is described in :ref:`getting_started_chunk-job`) are returned by the `processItem` method,
+      the `writeItems` method of :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemWriter>` that follows is executed.
 
 .. _`getting_started_chunk-persistence`:
 
-永続化処理を行う
+Persistence process
 ++++++++++++++++++++
-DB更新等の、永続化処理を実装する。
+Implements the persistence process for DB update, etc.
 
-ItemWriterの作成
-  :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemWriter>` を実装し、データの永続化を行う。
+Create ItemWriter
+  Implements :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemWriter>` and makes data persistence.
 
     ==================================================================   =============================================================================================
-    インタフェース名                                                        責務
+    Interface Name                                                        Obligation
     ==================================================================   =============================================================================================
-    :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemWriter>`          データを永続化する。
+    :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemWriter>`          Persistence of data
 
                                                                            * `ItemWriter#writeItems`
     ==================================================================   =============================================================================================
@@ -254,16 +254,16 @@ ItemWriterの作成
           }
       }
 
-  この実装のポイント
-    * :java:extdoc:`UniversalDao#batchInsert <nablarch.common.dao.UniversalDao.batchInsert(java.util.List)>` を使用してエンティティのリストを一括登録する。
-    * `writeItems` メソッド実行後にトランザクションがコミットされ、新たなトランザクションが開始される。
-    * `writeItems` メソッド実行後、バッチ処理が `readItem` メソッド実行から繰り返される。
+  Key points of this implementation
+    * Uses :java:extdoc:`UniversalDao#batchInsert <nablarch.common.dao.UniversalDao.batchInsert(java.util.List)>` to batch register entity list.
+    * The transaction is committed after execution of the `writeItems` method and a new transaction is started.
+    * After execution of the `writeItems` method, the batch process is repeated from the execution of `readItem` method.
 
 .. _`getting_started_chunk-job`:
 
-JOB設定ファイルを作成する
-+++++++++++++++++++++++++
-JOBの実行設定を記載したファイルを作成する。
+Create a configuration file for JOB
++++++++++++++++++++++++++++++++++++
+Create a file with the job execution configuration.
 
   bonus-calculate.xml
     .. code-block:: xml
@@ -287,11 +287,11 @@ JOBの実行設定を記載したファイルを作成する。
        </step>
      </job>
 
-  この実装のポイント
-    * ジョブ定義ファイルは `/src/main/resources/META-INF/batch-jobs/` 配下に配置する。
-    * `job` 要素 の `id` 属性で、ジョブ名称を指定する。
-    * `chunk` 要素の `item-count` 属性で `writeItems` 一回当たりで処理する件数を設定する。
-    * 設定ファイルの詳細な記述方法は `JSR352 Specificationを参照(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=352>`_ を参照。
+  Key points of this implementation
+    * The job definition file is located under `/src/main/resources/META-INF/batch-jobs/`.
+    * Specify the `job` name in the `id` attribute of the job element.
+    * Configure the number of `writeItems` processed each time by the `item-count` attribute of the `chunk` element.
+    * Refer to `JSR352 specification (external site, English) <https://jcp.org/en/jsr/detail?id=352>`_ for detailed description method of the configuration file.
 
 .. |jsr352| raw:: html
 
