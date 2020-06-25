@@ -1,95 +1,93 @@
------------------------------------
-初期セットアップ手順　補足事項
------------------------------------
+---------------------------------------------------
+Initial Setup Procedure Supplementary Information
+---------------------------------------------------
 
-H2のデータの確認方法
+How to check H2 data
 ------------------------------------
 
-トラブルシューティング等でH2に格納されているデータを確認する場合、以下のようにしてH2のコンソールを起動する。
+When the data stored in H2 is to be checked for troubleshooting, start the H2 console as follows.
 
-1.h2/bin/h2.batを実行する。
+1. Execute h2/bin/h2.bat.
 
 .. tip::
 
-  データを確認したいプロジェクトに含まれるh2.batを起動すること。
+  Start h2.bat included in the project whose data is to be checked.
 
 
-2.しばらく待つとブラウザが起動するので、各項目に以下の通りに入力し、[Test Connection]ボタンをクリックする。
+2. After a while, the browser will start, now enter each item as follows and click the [Test Connection] button.
 
 ============= ========================= ============================================================================
-項目          値                        補足
+Item          Value                     Supplementary notes
 ============= ========================= ============================================================================
-JDBC URL      ``jdbc:h2:../db/SAMPLE``  h2.batからの相対パスでデータファイルの位置を指定する。
+JDBC URL      ``jdbc:h2:../db/SAMPLE``  Specify the data file location with a relative path from h2.bat.
 User Name     ``SAMPLE``
 Password      ``SAMPLE``
 ============= ========================= ============================================================================
 
 .. important ::
 
-  URLは上記の通り入力すること。h2.batからの相対パスを指定する必要があるため、env.configからコピーするとパスがずれる。
+  The URL must be entered as above.
+  You need to specify a relative path from h2.bat, so copy it from env.config And the path is shifting.
 
 
-3.画面下部に「Test successful」と表示されていることを確認する。
+3. Check that "Test successful" is displayed at the bottom of the screen.
 
-4.Password欄を再び入力し、[Connect]ボタンをクリックする。
-
-.. important ::
-
-  [Connect]ボタンクリック時に、指定したURLにH2のデータファイルが存在しない場合、H2のデータファイルが新規生成される。
-
-  トラブルを避けるために、手順2にあるように必ず[Test Connection]をクリックして、データファイルの存在を確認すること。
-
-
-5.右側のペインの上部がSQLを入力するスペースになっているので、そこに任意のSQLを入力する。
-
-6.画面上部に存在する[Run]ボタン(緑色のボタン)をクリックすることで、SQLが実行できる。
-
-7.左上のdisconnectボタン(赤色で書かれたアイコンのボタン)をクリックして切断する。
-
+4. Re-enter the Password field and click the [Connect] button.
 
 .. important ::
 
-  アーキタイプから生成したプロジェクトはH2の組み込みモードを使用している。組み込みモード使用時は、1プロセスからのみ接続を受け付ける。
+  When clicking the [Connect] button, if the H2 data file does not exist at the specified URL, a new H2 data file is created.
 
-  そのため、 **切断を忘れると、アプリケーションからH2に接続できなくなる。**
+  In order to avoid trouble, please click [Test Connection] as described in step 2, and confirm the existence of the data file.
 
+5. Since the upper part of the right pane is the space for entering SQL, enter any SQL in this part.
+
+6. The SQL can be executed by clicking the [Run] button (green button) at the top of the screen.
+
+7. Disconnect by clicking the upper left disconnect button (button with the icon written in red).
+
+
+.. important ::
+
+  Projects generated from the archetype use the built-in mode of H2. When using the built-in mode, it will only accept connections from a single process.
+
+  Therefore, **if you forget to disconnect, your application will not be able to connect to H2**.
 
 .. _firstStepBuiltInTools:
 
-アーキタイプから生成したプロジェクトに組み込まれているツール
+Tools included in projects generated from archetypes
 ------------------------------------------------------------
 
-以下のツールが、アーキタイプから生成したプロジェクトには組み込まれている。
+The following tools are included in projects generated from archetypes.
 
 .. list-table::
   :header-rows: 1
   :class: white-space-normal
   :widths: 7,8,18
 
-  * - ツール
-    - ツールが実行されるMavenのPhase
-    - 補足
+  * - Tool
+    - Maven Phase where the tool is executed
+    - Supplementary notes
   * - :doc:`/development_tools/toolbox/JspStaticAnalysis/index`
     - verify
     -
-  * - カバレッジ取得
+  * - Obtain the coverage
     - test
-    - jacoco.execが生成されるところまで設定済み。|br|
-      jacoco.execは、SonarQube及びJenkinsのプラグインで使用出来る。
-  * - `gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_
+    - Configuration has been completed to the point where jacoco.exec is generated.
+      jacoco.exec can be used with SonarQube and Jenkins plugins.
+  * - `Gsp-dba-maven-plugin (external site) <https://github.com/coastland/gsp-dba-maven-plugin>`_
     - －
-    - 起動は、「mvn -P gsp gsp-dba:<ゴール名>」で行う。|br|
-      例えば、「mvn -P gsp gsp-dba:generate-ddl」でgenerate-ddlの実行を行うことができる。
+    - Launch with "mvn -P gsp gsp-dba:<Goal name>". For example, generate-ddl can be executed
+      with "mvn-P gsp gsp-dba: generate-ddl".
 
-      また、「mvn -P gsp generate-resources」と実行することで、「generate-ddl」「execute-ddl」「generate-entity」「load-data」「export-schema」を順に実行できる。
-
+      By executing "mvn -P gsp generate-resources", "generate-ddl", "execute-ddl", "generate-entity", "load-data" and "export-schema" can be executed in order.
 
 
 .. important ::
 
-  ツールの設定を変更する際は、:ref:`about_maven_parent_module` のpom.xmlを必ず理解した上で行うこと。
+  You must understand the pom.xml of :ref:`about_maven_parent_module` before you change the configuration of the Tool.
 
-  pom.xmlを理解することで、多くの設定項目について **容易** に設定変更が可能になる。
+  Understanding pom.xml will enable you to **easily** change the settings for many configuration items.
 
 .. |br| raw:: html
 

@@ -1,23 +1,20 @@
 .. _router_adaptor:
 
-ルーティングアダプタ
+Routing Adapter
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-`http-request-router(外部サイト) <https://github.com/kawasima/http-request-router>`_ を使用して、
-リクエストURLと業務アクションのマッピングを行うアダプタ。
+Adapter that performs mapping between request URL and business action using `http-request-router (external site) <https://github.com/kawasima/http-request-router>`_ .
+By using this adapter, mapping of URL and business action can be easily defined when building :ref:`Web application <web_application>` or :ref:`RESTful web service <restful_web_service>`.
 
-本アダプタを使用することで、 :ref:`ウェブアプリケーション <web_application>` や :ref:`RESTfulウェブサービス <restful_web_service>` を
-構築する際に、URLと業務アクションのマッピングを容易に定義できる。
-
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
-  <!-- ルーティングアダプタ -->
+  <!-- Routing adapter -->
   <dependency>
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-router-adaptor</artifactId>
@@ -25,24 +22,23 @@
 
 .. tip::
   
-  http-request-routerのバージョン0.1.1を使用してテストを行っている。
-  バージョンを変更する場合は、プロジェクト側でテストを行い問題ないことを確認すること。
+  Tests are conducted using http-request-router version 0.1.1. 
+  When changing the version, test in the project to confirm that there are no problems.
 
-ルーティングアダプタを使用するための設定を行う
+Configuration for using the routing adapter
 --------------------------------------------------
-本アダプタを使用するための手順を以下に示す。
+The procedure for using this adapter is shown below.
 
-ディスパッチハンドラを設定する
+Configure the dispatch handler
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ディスパッチハンドラとして、 :java:extdoc:`RoutesMapping <nablarch.integration.router.RoutesMapping>` をハンドラキューの最後に設定する。
+Configure :java:extdoc:`RoutesMapping <nablarch.integration.router.RoutesMapping>` as the dispatch handler at the end of the handler queue.
 
-設定例を以下に示す。
+The configuration example shown below.
 
-ポイント
- * コンポーネント名は **packageMapping** とする。
- * basePackage属性には、アクションクラスが格納されているパッケージを設定する。
-   (アクションクラスが複数のパッケージに格納されている場合は、共通となる親パッケージを設定する。)
- * :java:extdoc:`RoutesMapping <nablarch.integration.router.RoutesMapping>` を初期化対象のリストに設定する。
+Point
+ * The component name should be **packageMapping** .
+ * Configure the package in which the action class is stored in basePackage attribute. (If the action class is stored in multiple packages, configure a common parent package.)
+ * Configure :java:extdoc:`RoutesMapping <nablarch.integration.router.RoutesMapping>` in the initialization list.
 
 .. code-block:: xml
 
@@ -53,7 +49,7 @@
   <component name="webFrontController" class="nablarch.fw.web.servlet.WebFrontController">
     <property name="handlerQueue">
       <list>
-        <!-- その他のハンドラは省略 -->
+        <!-- Other handlers are omitted -->
         <component-ref name="packageMapping" />
       </list>
     </property>
@@ -63,53 +59,50 @@
       class="nablarch.core.repository.initialization.BasicApplicationInitializer">
     <property name="initializeList">
       <list>
-        <!-- その他の初期化処理は省略 -->
+        <!-- Other initialization processes are omitted -->
         <component-ref name="packageMapping"/>
       </list>
     </property>
   </component>
 
-ルート定義ファイルを作成する
+Create a route definition file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-クラスパス直下に `routes.xml` を作成し、
-指定したURLと業務アクションをマッピングする設定を行う。
+Creates `routes.xml` directly under the class path and configures the configurations to map the specified URL and business action.
 
-ルート定義ファイルへの設定方法は、`ライブラリのREADMEドキュメント(外部サイト) <https://github.com/kawasima/http-request-router/blob/master/README.ja.md>`_ を参照。
+For the configuration method to the route definition file, see `Library README document (external site) <https://github.com/kawasima/http-request-router/blob/master/README.ja.md>`_ .
 
-業務アクションとURLを自動的にマッピングする
+Automatically map business actions and URLs
 --------------------------------------------------------
-ルート定義ファイルにて、 `match` タグのpath属性に ``:controller`` や ``:action``
-といったパラメータを使用することで業務アクションとURLの自動マッピングを行うことができる。
+Business action and URL can be automatically mapped by using parameters such as ``:controller`` and ``:action`` in the path attribute of `match` tag in the route definition file.
 
 .. important::
 
-  アプリケーションサーバに `JBoss` や `WildFly` を使用している場合、この機能は使用できない。
-  `get` タグ等を使用して個別に業務アクションとURLのマッピングを定義すること。
-
+  This feature is not available when using `JBoss` or `WildFly` as the application server. 
+  Define the mapping between business action and URL individually using `get` tag, etc.
+  
 .. important::
 
-  `get` タグ等を使用したマッピングの個別定義とこの機能の併用は推奨しない。
-  併用した場合に、業務アクションとURLがどのようにマッピングされるかが、ルート定義ファイル上から読み取りづらくなる問題があるため。
+  Using this function together with individual definition of mapping using `get` tag, etc. is not recommended. 
+  This is because of the difficultly in reading how the business action and URL are mapped from the route definition file when used together.
 
-この機能を有効にするには、クラスパス直下に作成した `net/unit8/http/router` ディレクトリに
-`routes.properties` を作成し、以下のとおり値を設定する。
+To enable this function, create `routes.properties` in the router directory `net/unit8/http/router` created directly under the class path, and configure the values as follows.
 
 .. code-block:: bash
 
   router.controllerDetector=nablarch.integration.router.NablarchControllerDetector
 
-ルート定義ファイルへの設定とマッピングの例を以下に示す。
+An example of setting and mapping to the route definition file is shown below.
 
-ルート定義ファイル
+Route definition file
   .. code-block:: xml
 
     <routes>
       <match path="/action/:controller/:action" />
     </routes>
 
-業務アクションとマッピングするURLの例
+Example of mapping URL to business action
   ==================== =====================
-  業務アクション       URL
+  Business action       URL
   ==================== =====================
   PersonAction#index   /action/person/index
   PersonAction#search  /action/person/search

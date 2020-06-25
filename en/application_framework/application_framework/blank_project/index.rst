@@ -1,10 +1,10 @@
 .. _blank_project:
 
 ====================
-ブランクプロジェクト
+Blank Project
 ====================
-本章ではNablarchのアーキタイプからプロジェクトのひな形（ブランクプロジェクト）を生成する方法や
-初期構成の変更手順を解説する。
+This chapter describes how to generate a project template (blank project) from the Nablarch archetype
+and how to change the initial configuration.
 
 
 .. toctree::

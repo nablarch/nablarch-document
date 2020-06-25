@@ -1,12 +1,12 @@
-JSR352に準拠したバッチアプリケーションの悲観的ロック
+Pessimistic Lock for JSR352-compliant Batch Applications
 ============================================================
-本項では、JSR352に準拠したバッチアプリケーションで悲観的ロックを行うための実装例を示す。
-以下に示す例を参考に実装することで、ロック時間が短縮され他プロセスへの影響を抑えることができる。
+This section shows an implementation example for pessimistic lock in a JSR352-compliant batch application. 
+By implementing with reference to the examples shown below, the lock time can be reduced and the effect on other processes can be reduced.
 
-ポイント
- * `ItemReader` では処理対象レコードの主キーのみ取得する。
- * `ItemProcessor` で主キーをもとに処理対象レコードを取得して悲観的ロックを行う。
-   :ref:`universal_dao` を使用した悲観的ロックについては :ref:`universal_dao_jpa_pessimistic_lock` を参照。
+Point
+ * The `ItemReader` fetches only the primary key of the record to be processed.
+ * Fetch the record for processing based on the master key in `ItemProcessor` and perform a pessimistic lock. 
+   For information on pessimistic lock using :ref:`universal_dao` , see :ref:`universal_dao_jpa_pessimistic_lock` .
 
 .. code-block:: java
 
@@ -21,7 +21,7 @@ JSR352に準拠したバッチアプリケーションの悲観的ロック
       @Override
       public void open(Serializable checkpoint) throws Exception {
 
-          // 検索条件の取得処理は省略
+          // The acquisition process for search criteria is omitted
 
           list = (DeferredEntityList<ProjectId>) UniversalDao.defer()
                   .findAllBySqlFile(ProjectId.class, "GET_ID", condition);
@@ -51,7 +51,7 @@ JSR352に準拠したバッチアプリケーションの悲観的ロック
           final Project project =
                   UniversalDao.findBySqlFile(Project.class, "FIND_BY_ID_WITH_LOCK", item);
 
-          // 業務処理のため省略
+          // Omitted for business operations
 
           return project;
       }

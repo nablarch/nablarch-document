@@ -1,43 +1,46 @@
 .. _nablarch_batch_retention_state:
 
-バッチアプリケーションで実行中の状態を保持する
+Retain the Execution Status in Batch Application
 ==================================================
-バッチアプリケーションの実行中の状態を保持したい場合がある。
-例えば、バッチアクションで行った登録件数や更新件数を保持したい場合などが該当する。
-このような場合は、バッチアクション内で状態を保持しすることで対応する。
+Sometimes, retaining the status of the batch application during execution may be necessary.
+For example, cases when it is necessary to retain the number of registrations or number of updates performed in the batch action.
+In such cases, the requirements are supported by retaining the conditions within the batch action.
 
-以下に、登録件数を保持するアクションの実装例を示す。
+Implementation example of an action that retains the number of registrations is shown below.
 
-マルチスレッドで実行されるバッチについては、アプルケーション側でスレッドセーフであることを保証する必要がある。
-この例では、 :java:extdoc:`AtomicInteger <java.util.concurrent.atomic.AtomicInteger>` を使用して保証している。
+For batches that are executed in multiple threads, it is necessary to make sure that the batch
+is thread safe in the application. In this example, thread safe is guaranteed by using
+:java:extdoc:`AtomicInteger <java.util.concurrent.atomic.AtomicInteger>`.
 
 .. code-block:: java
 
   public class BatchActionSample extends BatchAction<Object> {
-      
-      /** 登録件数 */
+
+      /** Registration count */
       private AtomicInteger insertedCount = new AtomicInteger(0);
 
       @Override
       public Result handle(final Object inputData, final ExecutionContext ctx) {
-          // 業務処理
-          
-          // 登録件数のインクリメント
+          // Business process
+
+          // Increment of registration count
           insertedCount.incrementAndGet();
-          
+
           return new Result.Success();
       }
   }
 
 .. tip::
 
-  :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>` のスコープを使用して、上記実装例と同じことが実現できる。
-  ただし、 :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>` を使用した場合、
-  どのような値を保持しているかが分かりづらいデメリットがある。
-  このため、 :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>` を使用するのではなく、上記実装例のようにバッチアクション側で状態を保持することを推奨する。
+  Using the scope of :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>`,
+  the same process as the above implementation example can be realized.
+  However, when :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>` is used,
+  the disadvantage is that it is difficult to understand what type of value is held.
+  Therefore instead of using :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>`,
+  retaining the conditions in the batch action as shown in the above implementation example is recommended.
 
-  なお、 :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>` を使用した場合、スコープの考え方は以下のようになる。
+  When :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>` is used, the concept of scope is as follows:
 
-  :リクエストスコープ: スレッドごとに状態を保持する領域
-  :セションスコープ: バッチ全体の状態を保持する領域
+  :Request scope: Area that holds the state for each thread
+  :Session scope: Area that holds the state for the entire batch
 

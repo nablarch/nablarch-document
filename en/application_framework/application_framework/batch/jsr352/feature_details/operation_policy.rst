@@ -1,73 +1,72 @@
-運用方針
+Operation Policy
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-JSR352に準拠したバッチアプリケーションでは、以下の方針に従った障害監視、ログ出力方針を推奨している。
+In JSR352-compliant batch applications, fault monitoring and a log output policy in accordance with the following policies is recommended.
 
-* :ref:`jsr352-failure_monitoring` はバッチの終了ステータスで行う。
-* 取り込みファイルが存在しない等の予期できる障害発生時のリカバリ用に、運用担当者向けログを出力する。
-* アプリケーションの不具合等の予期できない障害発生時の調査用に、全てのログを出力する。
-  例外発生時のログ出力に関しては、 :ref:`jsr352-batch_error_flow` を参照。
-* バッチ処理の遅延時に終了時刻を予測するため、進捗ログを出力する。
+* Perform :ref:`jsr352-failure_monitoring` with the batch exit status.
+* Outputs logs for operators for recovery when an expected failure occurs, such as when the imported file does not exist.
+* Outputs all logs for investigation when an unexpected failure occurs, such as application failures. 
+  For log output when an exception occurs, see :ref:`jsr352-batch_error_flow` .
+* Outputs a progress log to predict the end time when the batch process is delayed.
 
-これらの方針に従うことで以下のメリットが得られ、開発者の運用負荷の軽減が期待できる。
+The following advantages are obtained by following these policies, and can be expected to reduce the operation load on the developers.
 
-* 障害発生時に運用担当者向けログにリカバリ手順を出力しておけば、運用担当者がリカバリを行うことができる。
-* 進捗ログを出力しておけば、開発者が別の手段で進捗状況を確認する必要がなくなり、
-  運用担当者は進捗ログを参照して終了予定時間を顧客に回答できる。
+* If the recovery procedure is output to the log for the operators when a failure occurs, the operator can perform the recovery.
+* Output of the progress log eliminates the need for the developer to check the progress status by other means, and the operator can reply to the customer about the expected end time by referring to the progress log.
 
 .. important::
 
-  バッチの設計者は、予期できる障害とその対処方法を洗い出し、 :doc:`運用担当者向けログ<operator_notice_log>` に出力するようにバッチの設計を行うこと。
+  Batch designers should design batches by identifying expected failures and their measures, and output them to the log for the :doc:`Logs for operator<operator_notice_log>` .
 
-障害検知時のログ参照イメージ
+Reference image for log when a failure is detected
   .. image:: ../images/operation-image.png
 
-バッチ処理遅延時のログ参照イメージ
+Reference image for log when the batch process is delayed
   .. image:: ../images/progress-image.png
 
 .. _jsr352-failure_monitoring:
 
-障害監視
+Fault monitoring
 -----------------------------
-バッチの終了ステータスをもとに障害監視を行う。
-詳細な情報が必要な場合はログを参照する。
+Performs fault monitoring based on the batch exit status. 
+Refer to the log for detailed information.
 
-正常終了
-  バッチ処理が正常に終了したことを意味する。
+Normal complete
+  Indicates that the batch process has been completed normally.
 
-異常終了
-  バッチが何らかの理由で異常終了し、後続のジョブが実行できないことを意味する。
-  運用担当者はログを参照し、障害対応を行う必要がある。
+Abnormal end
+  Indicates that the batch completed abnormally for some reason, and subsequent jobs cannot be executed. 
+  Operators should refer to the log and take appropriate action.
 
-警告終了
-  バッチ実行中に何らかの問題が発生したが、後続のジョブは実行できることを意味する。
-  運用担当者はログを参照し、発生した問題の内容を確認する必要がある。
+End with warning
+  Indicates that a problem has occurred during batch execution, but subsequent jobs can be executed. 
+  Operators should refer to the log and check the details of the problem that occurred.
   
-バッチアプリケーションの終了ステータス(Javaプロセスから戻されるリターンコード)の詳細は、 
-:java:extdoc:`JobExecutor <nablarch.fw.batch.ee.JobExecutor>` 及び :java:extdoc:`Main <nablarch.fw.batch.ee.Main>` を参照。
+For details on the exit status of the batch application (return code returned from the Java operation), see :java:extdoc:`JobExecutor <nablarch.fw.batch.ee.JobExecutor>` and :java:extdoc:`Main <nablarch.fw.batch.ee.Main>` .
 
 .. tip::
 
-  終了コードを上記より細かく分類したい場合には、起動クラス(Main)を作成し対応すること。
+  To classify the exit code in more detail than mentioned above, create a launch class (Main).
 
-ログの出力方針
+Log output policy
 -------------------------------
 
-運用担当者向けログ
-  発生した障害とそれに対する対処方法を記載したメッセージを出力する。
-  運用担当者は、このログに出力された情報を元に障害対応を行う。
-  詳細な情報(スタックトレース)は運用担当者には不要なため、出力しない。
-  詳細は、 :doc:`operator_notice_log` を参照。
+Logs for operator
+  Outputs a message describing the failure that has occurred and the measures.
+  The operator responds to the failure based on the information output to this log.
+  Detailed information (stack trace) is not output because this information is not required by the operator.
+  For details, see  :doc:`operator_notice_log` .
 
-進捗ログ
-  バッチ処理の進捗状況を出力する。
-  バッチ処理が遅延している場合などは、このログを元に現在の処理の終了予測を行い、続行や停止の判断を行う。
-  詳細は、 :doc:`progress_log` を参照。
+Progress log
+  Outputs the state of progress for the batch process.
+  If the batch process is delayed, estimates the end of the current operation based on this log and determine whether to continue or end the process.
+  For details, see :doc:`progress_log` .
 
-全てのログ
-  ``進捗ログ`` を除く全てのログを出力する。
-  ``運用担当者向けログ`` に対応した詳細情報(スタックトレース)も、このログに出力する。
+All logs
+  Outputs all logs except for ``the Progress log`` . 
+  Detailed information (stack trace) on ``Logs for operator`` is also output to this log.
+
 

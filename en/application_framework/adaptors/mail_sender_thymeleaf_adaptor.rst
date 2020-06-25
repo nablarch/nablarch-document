@@ -26,7 +26,7 @@ Module list
 
 Configuration for using the E-mail Thymeleaf adapter
 ----------------------------------------------------------------------------------------------------
-To use this adapter, configure :java:extdoc:`ThymeleafMailProcessor<nablarch.integration.mail.thymeleaf.ThymeleafMailProcessor>` to:java:extdoc:`MailRequester<nablarch.common.mail.MailRequester>`  in the component configuration file.
+To use this adapter, configure :java:extdoc:`ThymeleafMailProcessor<nablarch.integration.mail.thymeleaf.ThymeleafMailProcessor>` to :java:extdoc:`MailRequester<nablarch.common.mail.MailRequester>`  in the component configuration file.
 
 ``TemplateEngine``  provided by Thymeleaf has to be configured in ``ThymeleafMailProcessor`` .
 

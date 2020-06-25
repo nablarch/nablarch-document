@@ -1,94 +1,94 @@
 =============================
-初期セットアップの前に
+Before Initial Setup
 =============================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 2
   :local:
 
 
 ----------------------------------------------------------
-ブランクプロジェクト（プロジェクトのひな形）について
+Blank project (project template)
 ----------------------------------------------------------
 
-ブランクプロジェクトの種類
+Blank project types
 ----------------------------------------------------------
 
-初期セットアップでは、以下のブランクプロジェクトの作成方法を示す。
+The initial setup shows how to create the following blank project.
 
-* ウェブプロジェクト
-* RESTfulウェブサービスプロジェクト
-* JSR352に準拠したバッチプロジェクト
-* Nablarchバッチプロジェクト
+* Web projects
+* RESTful Web service project
+* JSR352-compliant batch project
+* Nablarch batch project
 
 
 
-ブランクプロジェクトの設計思想と留意事項
+Blank project design concept and points to note
 ----------------------------------------------------------
 
-初期セットアップで作成するブランクプロジェクトは、初期構築の容易さを重視している。そのため、1プロジェクトで各アプリケーションをビルドできるように、全てのソースファイルとリソースファイルを1プロジェクトに配置している。
-また、最小ハンドラ構成で動作するように、コンポーネントの定義やコンポーネントの依存関係が定義されている。
+Blank projects created during initial setup emphasize the ease of initial build.Therefore, all source and resource files are placed in one project so that each application can be built in one project.
+Component definitions and dependencies are defined to operate with the minimum handler configuration.
 
-初期セットアップを終えた後(直後でなくとも良い)に、アーキテクトはプロジェクト構成を検討する必要がある。
-例えば、以下の場合は共通部品を配置するプロジェクトの要否を検討したほうが良い。
+After the initial setup (not necessarily immediately), the architect needs to consider the project structure.
+For example, it is better to consider the necessity of a project for common parts in the following cases.
 
-* システムを構成するアプリケーションが複数(ウェブアプリケーションとバッチアプリケーション等)存在する。
-* アプリケーション間で共通の部品(例えば、Entityクラス)が存在する。
+* Multiple applications (such as web application and batch application) constitute the system.
+* Common components (for example, entity class) exist between applications.
 
 
-プロジェクト構成を検討する際には、 :ref:`mavenModuleStructuresModuleDivisionPolicy` を参照してからプロジェクト構成を検討すること。
+When examining the project configuration, refer to :ref:`mavenModuleStructuresModuleDivisionPolicy` before examining the project configuration.
 
 
 .. _firstStepPreamble:
 
 ----------------------------------------------------------
-初期セットアップの前提
+Prerequisites for initial setup
 ----------------------------------------------------------
 
-実行環境に以下のソフトウェアがインストールされている前提とする。
+The following software are assumed to be installed in the execution environment.
 
-* JDK1.8以上
-* Maven 3.0.5以上
+* JDK1.8 or higher
+* Maven 3.0.5 or higher
 
 
-以下は、初期セットアップでは事前準備不要である。
+The following do not require advance preparation in the initial setup.
 
 .. list-table::
   :header-rows: 1
   :class: white-space-normal
   :widths: 4,20
 
-  * - ソフトウェア
-    - 説明
-  * - APサーバ
-    - ウェブプロジェクト及び RESTfulウェブサービスプロジェクトの疎通確認時にTomcat8を使用する。手順中で、mvnコマンドからwaitt-maven-pluginを実行し、waitt-maven-pluginに組み込みのTomcat8へのアプリケーションのデプロイ、起動を行うため、事前準備は不要である。
-  * - DBサーバ
-    - アーキタイプには疎通確認用にH2 Database Engine(以下H2)を組み込んであるため、別途インストールの必要はない。
+  * - Software
+    - Description
+  * - AP server
+    - Use Tomcat8 to confirm the communication between the Web project and RESTful Web service project. Since the waitt-maven-plugin is executed from the mvn command, and the application is deployed and launched to Tomcat8 embedded in the waitt-maven-plugin during the procedure, advance preparation is not required.
+  * - DB server
+    - Since the H2 Database Engine (hereinafter H2) is incorporated in the archetype for communication confirmation, separate installation is not required.
 
 
 
 ----------------------------------------------------------
-Mavenの設定
+Configuration of Maven
 ----------------------------------------------------------
 
-初期セットアップの前に、Nablarchと関連モジュールが利用可能なMavenリポジトリに接続できるように、Mavenのsettings.xmlに対して設定する。
+Before the initial setup, configure settings.xml of Maven so that Nablarch and related modules can connect to the available Maven repository.
 
-まだ設定していない場合は、 :ref:`mvnSetting` を参照して設定すること。
+If the xml file is not configured, refer to :ref:`mvnSetting` and configure.
 
 .. important ::
 
-  以降の手順で、Maven関連と思われるトラブルに遭遇した場合は、 :ref:`mvnFrequentlyTrouble` を参照すること。
+  In the following steps, if you run into any problems that you think are Maven-related, please refer to :ref:`mvnFrequentlyTrouble`.
 
 
 ----------------------------------------------------------
-使用するNablarchのバージョンの指定
+Specifying the version of Nablarch to use
 ----------------------------------------------------------
 
-Nablarchでは、Mavenのbomの仕組みを使用して、Nablarchフレームワークを構成する各モジュールのバージョンを定義している。
+Nablarch uses the bom mechanism of Maven to define the version of each module that constitutes the Nablarch framework.
 
-Mavenコマンドを使用してブランクプロジェクトを生成する際には、使用するNablarchのバージョンとして、nablarch-bomのバージョンを指定する必要がある。
+When generating a blank project using the Maven command, it is necessary to specify the version of nablarch-bom as the version of Nablarch to be used.
 
-nablarch-bom内の定義（抜粋）
+Definition in nablarch-bom (excerpt)
 
 .. code-block:: xml
 
@@ -98,17 +98,17 @@ nablarch-bom内の定義（抜粋）
       <dependency>
         <groupId>com.nablarch.framework</groupId>
         <artifactId>nablarch-core</artifactId>
-        <version>1.2.2</version> <!-- nablarch-coreモジュールのバージョンの定義 -->
+        <version>1.2.2</version> <!-- Defining the version of nablarch-core module -->
       </dependency>
 
       <dependency>
         <groupId>com.nablarch.framework</groupId>
         <artifactId>nablarch-core-applog</artifactId>
-        <version>1.0.1</version> <!-- nablarch-core-applogモジュールのバージョンの定義 -->
+        <version>1.0.1</version> <!-- Defining the version of nablarch-core-applog module -->
       </dependency>
 
 
-指定したバージョンは、生成されたブランクプロジェクトのpom.xmlに以下のように反映される。
+The specified version is reflected in pom.xml of the generated blank project as follows.
 
 .. code-block:: xml
 
@@ -117,7 +117,7 @@ nablarch-bom内の定義（抜粋）
       <dependency>
         <groupId>com.nablarch.profile</groupId>
         <artifactId>nablarch-bom</artifactId>
-        <version>5u6</version> <!-- 指定したバージョン -->
+        <version>5u6</version> <!--  Specified version -->
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -126,12 +126,12 @@ nablarch-bom内の定義（抜粋）
 
 
 ----------------------------------------------------------
-初期セットアップを行う際の共通的な注意点
+Common precautions for initial setup
 ----------------------------------------------------------
 
-初期セットアップを行う際、以下の点に注意すること。
+When performing the initial setup, note the following points.
 
-* ブランクプロジェクトを作成するディレクトリのパスには、マルチバイト文字を含めないこと。
-  マルチバイト文字が含まれていると正常に動作しないmavenプラグインが存在するため、エラーが発生する可能性がある。
-* 「mvn archetype:generate」を実行する際は、コマンドラインから実行すること。eclipse4.4.2から実行した場合、意図しないファイルが出力される。
+* Do not include multi-byte characters in the path of the directory where the blank project is created.
+  An error may occur as some maven plugins do not work properly if multi-byte characters are included.
+* Execute "mvn archetype:generate" from the command line. If it is executed from eclipse4.4.2, unintended files are output.
 

@@ -8,7 +8,7 @@ JSR310(Date and Time API)Adapter
   :local:
   
 Provides an adapter to enable date and time details in JSR310 (Date and Time API). 
-By using this adapter, JSR310 (Date and Time API) can be used with bean_util.
+By using this adapter, JSR310 (Date and Time API) can be used with  :ref:`bean_util` .
 
 .. important::
 
@@ -34,7 +34,7 @@ How to use
 For details such as conversion possible types and conversion rules, see :java:extdoc:`converter list <nablarch.integration.jsr310.beans.converter>`.
 
 Configuration
-  This function is enabled by adding the following to the component configuration file of :ref:`repository`　.
+  This function is enabled by adding the following to the component configuration file of :ref:`repository` .
 
   .. code-block:: xml
 

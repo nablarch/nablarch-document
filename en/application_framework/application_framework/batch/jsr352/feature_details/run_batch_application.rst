@@ -1,76 +1,74 @@
-JSR352バッチアプリケーションの起動
+Launching the JSR352 Batch Application
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
 .. _jsr352_run_batch_application:
 
-バッチアプリケーションを起動する
+Launch the batch application
 --------------------------------------------------
-JSR352に準拠したバッチアプリケーションの場合、バッチの起動はJSR352で規定されたAPIを使用して行う。
+In the case of JSR352-compliant batch application, the batch is launched using an API specified by JSR352.
 
-Nablarchでは、標準の実装クラスとして、:java:extdoc:`nablarch.fw.batch.ee.Main` を提供している。
-このクラスは実行引数として対象JOBのXMLファイル名(.xmlを除いたファイル名)を指定する。
+Nablarch provides :java:extdoc:`nablarch.fw.batch.ee.Main`  as the standard implementation class. 
+This class specifies the XML file name (file name excluding .xml) of the target JOB as an execution argument.
 
-ジョブ実行時にパラメータを指定したい場合は、 :java:extdoc:`nablarch.fw.batch.ee.Main` に対して起動オプションを指定する。
-起動オプションで指定した値は、 :java:extdoc:`JobOperator#start <javax.batch.operations.JobOperator.start(java.lang.String-java.util.Properties)>` のjobParametersに設定される。
+To specify the parameters during job execution, specify the launch option for  :java:extdoc:`nablarch.fw.batch.ee.Main` . 
+The value specified in the launch option is configured in jobParameters of  :java:extdoc:`JobOperator#start <javax.batch.operations.JobOperator.start(java.lang.String-java.util.Properties)>` .
 
-起動オプションは、名前に ``--`` を付加し、名前の次の引数に値を設定する。
+For the launch option, add ``--`` to the name and configure a value for the argument following the name.
 
-起動オプションの使用例
+Examples of using launch option
   .. code-block:: bash
 
-    # この例では、「option1=value1」と「option2=value2」の2つのjobParametersが設定される。
+    # In this example, two jobParameters "option1 = value1" and "option2 = value2" have been configured.
     $ java nablarch.fw.batch.ee.Main jobName --option1 value1 --option2 value2
   
 .. tip::
 
-  プロジェクト独自で起動クラスを作成する際にも、このMainクラスを参考に実装することができる。
+  Even when creating a launch class in the project, it can be implemented by referring to the main class.
 
 
 .. _jsr352_exitcode_batch_application:
 
-バッチアプリケーションの終了コード
+Completion code for batch application
 --------------------------------------------------
-上記のMainクラスのプログラムの終了コードは以下のようになる。
+The completion code for the main class program mentioned above is as follows.
 
-* 正常終了：0 - 終了ステータスが “WARNING” 以外の場合で、バッチステータスが  :java:extdoc:`BatchStatus.COMPLETED <javax.batch.runtime.BatchStatus>` の場合
-* 異常終了：1 - 終了ステータスが “WARNING” 以外の場合で、バッチステータスが  :java:extdoc:`BatchStatus.COMPLETED <javax.batch.runtime.BatchStatus>` 以外の場合
-* 警告終了：2 - 終了ステータスが “WARNING” の場合
+* Normal completion: 0 - When the exit status is other than "WARNING" and the batch status is :java:extdoc:`BatchStatus.COMPLETED <javax.batch.runtime.BatchStatus>` 
+* Abnormal completion: 1 - When the exit status is other than "WARNING" and the batch status is not :java:extdoc:`BatchStatus.COMPLETED <javax.batch.runtime.BatchStatus>`
+* Warning completion: 2 - When the completion status is "WARNING"
 
-なお、JOBの終了待ちの間に中断された場合は、異常終了のコードを返す。
+If the JOB is interrupted while waiting for completion, it will return an abnormal completion code.
 
-バリデーションエラーなど警告すべき事項が発生している場合に、警告終了させることができる。
-警告終了の方法はchunkまたはbatchlet内で、 :java:extdoc:`JobContext#setExitStatus(String) <javax.batch.runtime.context.JobContext.setExitStatus(java.lang.String)>`
-を呼び出し "WARNING" を終了ステータスとして設定する。警告終了時は、バッチステータスは任意の値を許可するため、chunkまたはbatchlet内で、
-例外を送出しバッチステータスが :java:extdoc:`BatchStatus.COMPLETED <javax.batch.runtime.BatchStatus>` 以外となる場合であっても、
-終了ステータスに "WARNING" を設定していれば、上記クラスは警告終了する。
+If errors such as a validation error have occurred, for which a warning has to be issued, then warning completion can be used.
+The method for warning completion is to call  :java:extdoc:`JobContext#setExitStatus(String) <javax.batch.runtime.context.JobContext.setExitStatus(java.lang.String)>` in chunk or batchlet, and configure the completion status as "WARNING". 
+Since the batch status permits an arbitrary value at the time of warning completion, even if an exception is thrown in chunk or batchlet and batch status is other than  :java:extdoc:`BatchStatus.COMPLETED <javax.batch.runtime.BatchStatus>` , the above mentioned class ends with a warning if the completion status is configured as "WARNING".
 
 .. _jsr352_run_batch_init_repository:
 
-システムリポジトリを初期化する
+Initializing the system repository
 --------------------------------------------------
-:ref:`repository` は、ジョブリスナーに ``nablarchJobListenerExecutor`` を設定することで初期化できる。
+:ref:`repository` can be initialized by configuring  ``nablarchJobListenerExecutor`` .
 
-システムリポジトリのルートxmlファイルのファイル名は、 ``batch-boot.xml`` としクラスパス直下に配置する。
-ファイル名や、配置場所を変更したい場合には、 ``nablarchJobListenerExecutor`` のパラメータで変更する。
+Configure the file name of the root xml file of the system repository to ``batch-boot.xml`` and place it directly under the class path. 
+The file name or location can be changed with the parameters of ``nablarchJobListenerExecutor`` .
 
-以下に例を示す。
+An example is shown below.
 
-デフォルトの ``batch-boot.xml`` を使用する場合の例
+Example of the default ``batch-boot.xml`` configuration file
   .. code-block:: xml
 
     <job id="sample-job" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
       <listeners>
-        <!-- ジョブリスナーにnablarchJobListenerExecutorを設定する -->
+        <!-- Configure nablarchJobListenerExecutor in job listener -->
         <listener ref="nablarchJobListenerExecutor" />
       </listeners>
 
-      <!-- ステップ定義は省略 -->
+      <!-- Step definition is omitted -->
     </job>
 
-デフォルト以外の設定ファイルを使用する例
+Example of a configuration file other than default
   .. code-block:: xml
 
     <job id="sample-job" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
@@ -78,14 +76,14 @@ Nablarchでは、標準の実装クラスとして、:java:extdoc:`nablarch.fw.b
         <listener ref="nablarchJobListenerExecutor">
           <properties>
             <!--
-            diConfigFilePathプロパティに読み込むxmlを設定する
-            この例の場合、クラスパス配下の「sample_project/batch-boot.xml」が
-            システムリポジトリにロードされる
+            Configures xml to read in diConfigFilePath properties
+            In this example, "sample_project/batch-boot.xml" under the class path
+            is loaded into the system repository
             -->
             <property name="diConfigFilePath" value="sample_project/batch-boot.xml" />
           </properties>
         </listener>
       </listeners>
 
-      <!-- ステップ定義は省略 -->
+      <!-- Step definition is omitted -->
     </job>

@@ -1,13 +1,13 @@
 
-==============================================
-初期セットアップ後に必要となる設定変更
-==============================================
+====================================================================
+Configuration Changes Required After Initial Setup
+====================================================================
 
-ここでは、初期セットアップの完了後に必要となる設定変更に関して記述する。
+The configuration change required after the completion of the initial setup is described in this section.
 
 .. tip ::
 
-  Nablarchの設定の基本的な考え方は、 :doc:`../setting_guide/index` を参照。
+  See :doc:`../setting_guide/index` for the basic concept of the Nablarch configuration.
 
 
 .. toctree::
