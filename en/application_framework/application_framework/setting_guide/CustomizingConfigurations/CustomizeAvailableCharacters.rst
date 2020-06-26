@@ -94,7 +94,7 @@ Unicode上のコードポイントがコンポーネント設定ファイルに�
 
 これらの利用可能文字の精査エラーメッセージはメッセージIDを設定することで使用できる。
 
-指定するメッセージIDに対応するプレースホルダは :download:`デフォルト設定一覧 <../../configuration/デフォルト設定一覧.xlsx>` を参照
+指定するメッセージIDに対応するプレースホルダは :download:`Default configuration list <../../configuration/default-configuration-list.xlsx>` を参照
 
 メッセージID及びメッセージ内容の変更手順自体については、:doc:`./CustomizeMessageIDAndMessage` を参照
 
