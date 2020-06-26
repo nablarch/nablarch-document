@@ -1,31 +1,30 @@
 .. _`permission_check_handler`:
 
-認可チェックハンドラ
+Permission Check Handler
 =======================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-本ハンドラでは、 :ref:`permission_check_handler-request_checking` を行う。
+This handler performs :ref:`permission_check_handler-request_checking`.
 
-認可チェックは、ライブラリの :ref:`permission_check` を使用して行う。
-そのため、本ハンドラを使用するには、
-:java:extdoc:`PermissionFactory <nablarch.common.permission.PermissionFactory>` を実装したクラスを本ハンドラに設定する必要がある。
+The permission check is performed using :ref:`permission_check` from the library.
+Therefore, to use this handler, it is necessary to configure a class that implements :java:extdoc:`PermissionFactory <nablarch.common.permission.PermissionFactory>` in this handler.
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following process.
 
-* 認可チェック
+* Permission check
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/PermissionCheckHandler/flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.common.permission.PermissionCheckHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -34,56 +33,54 @@
     <artifactId>nablarch-common-auth</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
-:ref:`thread_context_handler` より後ろに配置すること
-  本ハンドラではスレッドコンテキスト上に設定されたリクエストIDとユーザIDをもとに認可チェックを行うため、
-  :ref:`thread_context_handler` より後ろに本ハンドラを配置する必要がある。
+Place after :ref:`thread_context_handler`
+  Since this handler performs permission check based on the request ID and user ID set in the thread context,
+  this handler must be placed after :ref:`thread_context_handler`.
 
-:ref:`forwarding_handler` より後ろに配置すること
-  内部フォーワードが行われた際に、フォーワード先のリクエストIDをもとに
-  認可チェックを行いたい場合は、 :ref:`forwarding_handler` より後ろに本ハンドラを配置する必要がある。
+Place after :ref:`forwarding_handler`
+  To perform an permission check based on the request ID of the forward destination when an internal forward is performed,
+  this handler must be placed after :ref:`forwarding_handler`.
 
-:ref:`http_error_handler` より後ろに配置すること
-  認可チェックエラーの場合に表示するエラーページを指定するため、
-  :ref:`http_error_handler` より後ろに本ハンドラを配置する必要がある。
+Place after :ref:`http_error_handler`
+  To specify the error page to be displayed when a permission check error occurs,
+  this handler must be placed after :ref:`http_error_handler`.
 
 .. _permission_check_handler-request_checking:
 
-リクエストに対する認可チェック
+Permission check for request
 --------------------------------------------------------------
-ログイン中のユーザが、現在のリクエスト(リクエストID)に対して権限を持っているかをチェックする。
-チェックの詳細は、 :ref:`permission_check` を参照。
+Check whether the logged-in user has permission for the current request (request ID).
+For details of check, see :ref:`permission_check`.
 
-権限がある場合
- :ref:`業務ロジック <permission_check-server_side_check>` や
- :ref:`画面表示の制御 <permission_check-view_control>` で参照できるように、
- 認可チェックに使用した :java:extdoc:`Permission <nablarch.common.permission.Permission>` をスレッドローカルに設定する。
- そして、後続ハンドラを呼び出す。
+If permission is available
+ :java:extdoc:`Permission <nablarch.common.permission.Permission>` used for permission check is configured in the thread local
+ so that it can be referenced by :ref:`business logic <permission_check-server_side_check>` and :ref:`screen display control <permission_check-view_control>`.
+ Then the subsequent handler is called.
 
-権限がない場合
- :java:extdoc:`Forbidden(403) <nablarch.fw.results.Forbidden>` を送出する。
+If permission is not available
+ :java:extdoc:`Forbidden(403) <nablarch.fw.results.Forbidden>` is thrown.
 
-チェック対象のリクエストIDをフォーワード先のリクエストIDに変更したい場合は、
-:java:extdoc:`PermissionCheckHandler.setUsesInternalRequestId <nablarch.common.permission.PermissionCheckHandler.setUsesInternalRequestId(boolean)>`
-でtrueを指定する。デフォルトはfalseである。
+To change the request ID of the check target to the forward request ID, specify "true" in
+:java:extdoc:`PermissionCheckHandler.setUsesInternalRequestId <nablarch.common.permission.PermissionCheckHandler.setUsesInternalRequestId(boolean)>`.
+The default is "false".
 
-権限がない場合に表示するエラーページを指定する
+Specify the error page to be displayed when permission is not available
+----------------------------------------------------------------------------------------
+The error page displayed when permission is not available is specified in the HTTP error control handler.
+For more information, see :ref:`HttpErrorHandler_DefaultPage`.
+
+Exclude specific requests from permission check
 --------------------------------------------------------------
-権限がない場合に表示するエラーページは、HTTPエラー制御ハンドラで指定する。
-指定方法は、 :ref:`HttpErrorHandler_DefaultPage` を参照。
-
-特定のリクエストを認可チェックから除外する
---------------------------------------------------------------
-ログイン前のリクエストなど、認可チェックを除外したいリクエストがある場合は、
-:java:extdoc:`PermissionCheckHandler.setIgnoreRequestIds <nablarch.common.permission.PermissionCheckHandler.setIgnoreRequestIds(java.lang.String...)>`
-で指定する。
+If there are requests to be excluded from permission check, such as requests before login, they are specified in
+:java:extdoc:`PermissionCheckHandler.setIgnoreRequestIds <nablarch.common.permission.PermissionCheckHandler.setIgnoreRequestIds(java.lang.String...)>`.
 
 .. code-block:: xml
 
   <component name="permissionCheckHandler"
              class="nablarch.common.permission.PermissionCheckHandler">
     <property name="permissionFactory" ref="permissionFactory"/>
-    <!-- 認可チェックを除外するリクエストIDをカンマ区切りで指定する -->
+    <!-- Specify request IDs to be excluded from permission check separated by commas -->
     <property name="ignoreRequestIds" value="/action/login,/action/logout" />
   </component>
