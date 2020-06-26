@@ -1,30 +1,30 @@
 .. _process_resident_handler:
 
-プロセス常駐化ハンドラ
+Process Resident Handler
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-後続のハンドラキューの内容を一定間隔毎に繰り返し実行するハンドラ。
-本ハンドラは、特定のデータソース上の入力データを定期的に監視してバッチ処理を行う、いわゆる常駐起動型のバッチ処理で用いられる。
+A handler that repeatedly executes the contents of subsequent handler queues at regular intervals.
+This handler periodically monitors the input data of a specific data source and performs batch processing and is used in the so-called resident startup type batch process.
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following processes:
 
-* 一定間隔(データの監視間隔)毎に後続ハンドラの呼び出し。
-* 後続ハンドラで例外発生時に、このハンドラの継続有無などを判断する。
-  詳細は、 :ref:`process_resident_handler-exception` を参照。
+* Calls subsequent handlers at regular intervals (data monitoring intervals).
+* When an exception occurs in a subsequent handler, determines the continuation of the handler.
+  For details, see :ref:`process_resident_handler-exception`.
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/ProcessResidentHandler/flow.png
   :scale: 80
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.handler.ProcessResidentHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -33,88 +33,84 @@
     <artifactId>nablarch-fw-standalone</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
-本ハンドラは、リトライハンドラよりも後ろに設定すること
-  本ハンドラで実行時例外を補足した場合、リトライ可能例外( :java:extdoc:`RetryableException <nablarch.fw.handler.retry.RetryableException>` )でラップしてから再送出し、
-  プロセスの継続制御を :ref:`retry_handler` に委譲する。
-  このため、このハンドラはリトライハンドラより後に設定する必要がある。
+This handler must be configured after the retry handler.
+  If a runtime exception is caught by this handler, rethrows after wrapping it with a retryable exception ( :java:extdoc:`RetryableException <nablarch.fw.handler.retry.RetryableException>` ) and delegates the process continuation control to retry_handler.
+  Therefore, this handler must be configured after the retry handler.
 
-データの監視間隔を設定する
+Configure the data monitoring interval
 --------------------------------------------------
-データの監視間隔は、 :java:extdoc:`dataWatchInterval <nablarch.fw.handler.ProcessResidentHandler.setDataWatchInterval(int)>` プロパティにミリ秒で設定する。
-設定を省略した場合のデフォルト値は、1000ミリ秒(1秒)となっている。
+Data monitoring interval is configured in milliseconds in the :java:extdoc:`dataWatchInterval <nablarch.fw.handler.ProcessResidentHandler.setDataWatchInterval(int)>` property.
+The default value when the configuration is omitted is 1000 milliseconds (1 second).
 
-以下に例を示す。
+An example is shown below.
 
 .. code-block:: xml
 
   <component name="settingsProcessResidentHandler"
       class="nablarch.fw.handler.ProcessResidentHandler">
 
-    <!-- データの監視間隔に5秒(5000)を設定 -->
+    <!-- Configure 5 seconds (5000) for data monitoring interval -->
     <property name="dataWatchInterval" value="5000" />
-    <!-- その他のプロパティは省略 -->
+    <!-- Other properties are omitted -->
   </component>
 
 .. _process_resident_handler-normal_end:
 
-プロセス常駐化ハンドラの終了方法
+How to terminate the process resident handler
 --------------------------------------------------
-このハンドラはプロセスの正常終了を示す例外が送出された場合に、後続のハンドラの呼び出しを止め処理を終了する。
-デフォルトでは、 :ref:`process_stop_handler` が送出する処理停止を示す例外( :java:extdoc:`ProcessStop <nablarch.fw.handler.ProcessStopHandler.ProcessStop>` (サブクラス含む))が送出された場合に、このハンドラは処理を終了する。
+This handler stops subsequent handler calls and terminates processing if an exception indicating the normal termination of the process has been thrown.
+By default, this handler ends when the :ref:`process_stop_handler` processing stop exception ( :java:extdoc:`ProcessStop <nablarch.fw.handler.ProcessStopHandler.ProcessStop>` (including subclasses)) is thrown.
 
-プロセスの正常終了を示す例外を変更したい場合には、 :java:extdoc:`normalEndExceptions <nablarch.fw.handler.ProcessResidentHandler.setNormalEndExceptions(java.util.List)>` プロパティに例外クラスのリストを設定する。
-なお、例外リストを設定する場合にはデフォルトの設定が上書きされるため、 :java:extdoc:`ProcessStop <nablarch.fw.handler.ProcessStopHandler.ProcessStop>` の設定を忘れずに行う必要がある。
+To change the exception that indicates successful completion of a process, configure the :java:extdoc:`normalEndExceptions <nablarch.fw.handler.ProcessResidentHandler.setNormalEndExceptions(java.util.List)>` property to a list of exception classes.
+When the exception list is configured, the default configuration is overwritten, and :java:extdoc:`ProcessStop <nablarch.fw.handler.ProcessStopHandler.ProcessStop>` has to be configured without fail.
 
-以下に例を示す。
+An example is shown below.
 
 .. code-block:: xml
 
   <component name="settingsProcessResidentHandler"
       class="nablarch.fw.handler.ProcessResidentHandler">
 
-    <!-- プロセスの正常終了を示す例外リスト -->
+    <!-- Exception list indicating the normal termination of the process -->
     <property name="normalEndExceptions">
       <list>
-        <!-- Nablarchデフォルトのプロセス停止を示す例外クラス -->
+        <!-- Exception class indicating default process stop of Nablarch -->
         <value>nablarch.fw.handler.ProcessStopHandler$ProcessStop</value>
-        <!-- プロジェクトカスタムなプロセス停止を示す例外クラス(サブクラスも対象となる) -->
+        <!-- Exception class indicating project custom process stop (subclasses are also covered) -->
         <value>sample.CustomProcessStop</value>
       </list>
     </property>
 
-    <!-- その他のプロパティは省略 -->
+    <!-- Other properties are omitted -->
   </component>
 
 .. _process_resident_handler-exception:
 
-後続ハンドラで発生した例外の扱い
---------------------------------------------------
-このハンドラでは、後続のハンドラで発生した例外の種類に応じて、処理を継続するか、終了するかが切り替わる。
+Handling exceptions that occur in subsequent handlers
+--------------------------------------------------------------------
+In this handler, processing is switched between continuation or termination depending on the type of exception that has occurred in the subsequent handler.
 
-以下に例外毎の処理内容を示す。
+The following shows the processing details of each exception.
 
-サービス閉塞中例外( :java:extdoc:`ServiceUnavailable <nablarch.fw.results.ServiceUnavailable>` )
-  サービス閉塞中例外の場合には、データ監視間隔に設定された時間分待機後に、再度後続ハンドラを実行する。
+Exception during service shutdown( :java:extdoc:`ServiceUnavailable <nablarch.fw.results.ServiceUnavailable>` )
+  In the case of an exception during service shutdown, executes the subsequent handler again after waiting for the time set in the data monitoring interval.
 
-リトライ可能例外
-  リトライ可能例外( :java:extdoc:`RetryUtil#isRetryable() <nablarch.fw.handler.retry.RetryUtil.isRetryable(java.lang.Throwable)>` が真を返す場合)の場合は、
-  何もせずに捕捉した例外を再送出する。
+Retryable exception
+  In the case of retryable exception ( :java:extdoc:`RetryUtil#isRetryable() <nablarch.fw.handler.retry.RetryUtil.isRetryable(java.lang.Throwable)>` returns true), re-throws the exception that is caught without doing anything.
 
-プロセスを異常終了する例外
-  プロセスを異常終了させることを示す例外の場合は、なにもせずに捕捉した例外を再送出する。
+Exception that terminates the process abnormally
+  For exceptions indicating abnormal termination, resends the caught exception without doing anything.
 
-  プロセスを異常終了させる例外は、 :java:extdoc:`abnormalEndExceptions <nablarch.fw.handler.ProcessResidentHandler.setAbnormalEndExceptions(java.util.List)>` 
-  プロパティに設定する。
-  デフォルトでは、 :java:extdoc:`ProcessAbnormalEnd <nablarch.fw.launcher.ProcessAbnormalEnd>` (サブクラス含む)が、異常終了対象クラスとなる。
+  Configure exceptions that terminates the process abnormally to the :java:extdoc:`abnormalEndExceptions <nablarch.fw.handler.ProcessResidentHandler.setAbnormalEndExceptions(java.util.List)>` property.
+  By default, :java:extdoc:`ProcessAbnormalEnd <nablarch.fw.launcher.ProcessAbnormalEnd>` (including subclasses) is the target class for abnormal termination.
 
-プロセスを正常終了させる例外
-  後続のハンドラから戻された結果オブジェクトを、本ハンドラの戻り値として処理を終了する。
+Exception that terminates the process normally
+  The process ends with the result object returned from the subsequent handler as the return value of this handler.
 
-  プロセスを正常終了させる例外については、 :ref:`process_resident_handler-normal_end` を参照。
+  See :ref:`process_resident_handler-normal_end` for the exception that terminates the process normally.
 
-上記以外の例外
-  例外情報をログに記録し、リトライ可能例外 ( :java:extdoc:`RetryableException <nablarch.fw.handler.retry.RetryableException>` )でラップし再送出する。
-
+Exceptions other than the above
+  Records the exception information in the log, and rethrows after wrapping with retryable exception ( :java:extdoc:`RetryableException <nablarch.fw.handler.retry.RetryableException>` ).
 
