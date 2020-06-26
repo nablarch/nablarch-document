@@ -1,39 +1,39 @@
 .. _thread_context_handler:
 
-スレッドコンテキスト変数管理ハンドラ
-=======================================
+Thread Context Variable Management Handler
+================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-スレッドコンテキストの各属性値について、リクエスト毎に初期化処理を行うハンドラ。
+This handler performs the initialization process for each attribute value of thread context for each request.
 
-スレッドコンテキストとは、リクエストIDやユーザIDなど、
-同一の処理スレッド内で共有する値をスレッドローカル領域上に保持するための仕組みである。
+Thread context is a mechanism for storing shared values within the same processing thread, 
+such as request ID and user ID, in the thread local area.
 
 .. important::
-  本ハンドラで設定したスレッドローカル上の値は、 :ref:`thread_context_clear_handler` を使用して、復路処理で削除を行うこと。
-  往路処理にて本ハンドラより手前のハンドラでスレッドコンテキストにアクセスした場合、
-  値を取得することはできないため本ハンドラより手前ではスレッドコンテキストにアクセスしないよう注意すること。
+  Use :ref:`thread_context_clear_handler`  to delete the value in the thread-local configured by this handler in return processing. 
+  Since the value cannot be obtained if the thread context is accessed by the handler before this handler in outbound processing, 
+  be careful that the thread context is not accessed before this handler.
 
 .. tip::
- スレッドコンテキストの属性値の多くは、本ハンドラによって設定されるが、
- 本ハンドラ以外のハンドラや業務アクションから任意の変数を設定することも可能である。
+ Many of the thread context attribute values are configured by this handler, 
+ but it is also possible to set arbitrary variables from handlers other than this handler and business actions.
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following process.
 
 * :ref:`thread_context_handler-initialization`
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/ThreadContextHandler/ThreadContextHandler_flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.common.handler.threadcontext.ThreadContextHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -42,48 +42,47 @@
     <artifactId>nablarch-fw</artifactId>
   </dependency>
 
-  <!-- 国際化対応により、言語やタイムゾーンを選択できる画面を作る場合のみ  -->
+  <!-- Only when creating a screen to select a language or time zone with internationalization  -->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-制約
+Constraints
 ---------------------------------------
-なし。
+None.
 
 .. _thread_context_handler-initialization:
 
-リクエスト毎にスレッドコンテキストの初期化を行う
+Initialize the thread context for each request
 -----------------------------------------------------------
-スレッドコンテキストの初期化は、
-:java:extdoc:`ThreadContextAttributeインタフェース <nablarch.common.handler.threadcontext.ThreadContextAttribute>`
-を実装したクラスを使用して行う。
+Initializes the thread context using a class that implements :java:extdoc:`ThreadContextAttributeインタフェース <nablarch.common.handler.threadcontext.ThreadContextAttribute>`.
 
-デフォルトで以下のクラスを提供している。
 
-リクエストID、内部リクエストID
+The following classes are provided by default:
+
+Request ID, internal request ID
  * :java:extdoc:`RequestIdAttribute <nablarch.common.handler.threadcontext.RequestIdAttribute>`
  * :java:extdoc:`InternalRequestIdAttribute <nablarch.common.handler.threadcontext.InternalRequestIdAttribute>`
 
-ユーザID
+User ID
  * :java:extdoc:`UserIdAttribute <nablarch.common.handler.threadcontext.UserIdAttribute>`
 
-言語
+Language
  * :java:extdoc:`LanguageAttribute <nablarch.common.handler.threadcontext.LanguageAttribute>`
  * :java:extdoc:`HttpLanguageAttribute <nablarch.common.web.handler.threadcontext.HttpLanguageAttribute>`
  * :java:extdoc:`LanguageAttributeInHttpCookie <nablarch.common.web.handler.threadcontext.LanguageAttributeInHttpCookie>`
  * :java:extdoc:`LanguageAttributeInHttpSession <nablarch.common.web.handler.threadcontext.LanguageAttributeInHttpSession>`
 
-タイムゾーン
+Time zone
  * :java:extdoc:`TimeZoneAttribute <nablarch.common.handler.threadcontext.TimeZoneAttribute>`
  * :java:extdoc:`TimeZoneAttributeInHttpCookie <nablarch.common.web.handler.threadcontext.TimeZoneAttributeInHttpCookie>`
  * :java:extdoc:`TimeZoneAttributeInHttpSession <nablarch.common.web.handler.threadcontext.TimeZoneAttributeInHttpSession>`
 
-実行時ID
+Execution ID
  * :java:extdoc:`ExecutionIdAttribute <nablarch.common.handler.threadcontext.ExecutionIdAttribute>`
 
-これらのクラスは、コンポーネント設定ファイルに定義を追加して使用する。
+These classes are used by adding definitions to the component configuration file.
 
 .. code-block:: xml
 
@@ -91,29 +90,29 @@
    <property name="attributes">
      <list>
 
-       <!-- リクエストID -->
+       <!-- Request ID -->
        <component class="nablarch.common.handler.threadcontext.RequestIdAttribute" />
 
-       <!-- 内部リクエストID -->
+       <!-- Internal request ID -->
        <component class="nablarch.common.handler.threadcontext.InternalRequestIdAttribute" />
 
-       <!-- ユーザID -->
+       <!-- User ID -->
        <component class="nablarch.common.handler.threadcontext.UserIdAttribute">
          <property name="sessionKey"  value="user.id" />
          <property name="anonymousId" value="guest" />
        </component>
 
-       <!-- 言語 -->
+       <!-- Language -->
        <component class="nablarch.common.handler.threadcontext.LanguageAttribute">
          <property name="defaultLanguage" value="ja" />
        </component>
 
-       <!-- タイムゾーン -->
+       <!-- Time zone -->
        <component class="nablarch.common.handler.threadcontext.TimeZoneAttribute">
          <property name="defaultTimeZone" value="Asia/Tokyo" />
        </component>
 
-       <!-- 実行時ID -->
+       <!-- Runtime ID -->
        <component class="nablarch.common.handler.threadcontext.ExecutionIdAttribute" />
      </list>
    </property>
@@ -121,71 +120,68 @@
 
 .. _thread_context_handler-attribute_access:
 
-スレッドコンテキストの属性値を設定/取得する
+Set/get attribute value of thread context
 -----------------------------------------------------------
-スレッドコンテキストへのアクセスは、
-:java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` を使用する。
+Use :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>`  to access the thread context.
 
 .. code-block:: java
 
- // リクエストIDの取得
+ // Get request ID
  String requestId = ThreadContext.getRequestId();
 
 .. _thread_context_handler-language_selection:
 
-ユーザが言語を選択する画面を作る
+Create a screen for the user to select a language
 -----------------------------------------------------------
-国際化対応などで、ユーザが言語を選択できることが求められることがある。
-このような場合、以下のクラスのいずれかと
-:java:extdoc:`LanguageAttributeInHttpUtil <nablarch.common.web.handler.threadcontext.LanguageAttributeInHttpUtil>`
-を使うことで、ユーザの言語選択を実現できる。
+In some cases, users are required to be able to select a language, such as for internationalization. 
+In such cases, using one of the following classes and :java:extdoc:`LanguageAttributeInHttpUtil <nablarch.common.web.handler.threadcontext.LanguageAttributeInHttpUtil>` will enable the user to select the language.
 
 * :java:extdoc:`LanguageAttributeInHttpCookie <nablarch.common.web.handler.threadcontext.LanguageAttributeInHttpCookie>`
 * :java:extdoc:`LanguageAttributeInHttpSession <nablarch.common.web.handler.threadcontext.LanguageAttributeInHttpSession>`
 
-ここでは、クッキーに言語を保持し、リンクにより言語を選択させる画面の実装例を示す。
+Here, an implementation example of a screen in which a language is stored in a cookie and language is selected by a link is shown.
 
-設定例
+Configuration example
  .. code-block:: xml
 
-  <!-- LanguageAttributeInHttpUtilを使用するため、
-       コンポーネント名を"languageAttribute"にする。-->
+  <!-- Set the component name to "languageAttribute",
+       to use LanguageAttributeInHttpUtil. -->
   <component name="languageAttribute"
              class="nablarch.common.web.handler.threadcontext.LanguageAttributeInHttpCookie">
     <property name="defaultLanguage" value="ja" />
     <property name="supportedLanguages" value="ja,en" />
   </component>
 
-JSPの実装例
+Implementation example of JSP
  .. code-block:: jsp
 
-  <%-- n:submitLinkタグを使用しリンクを出力し、
-       n:paramタグを使用しリンク毎に別々の言語を送信する。 --%>
+  <%-- Output link using n:submitLink tag,
+       send a different language for each link using the n:param tag. --%>
   <n:submitLink uri="/action/menu/index" name="switchToEnglish">
-    英語
+    English
     <n:param paramName="user.language" value="en" />
   </n:submitLink>
   <n:submitLink uri="/action/menu/index" name="switchToJapanese">
-    日本語
+    Japanese
     <n:param paramName="user.language" value="ja" />
   </n:submitLink>
 
-ハンドラの実装例
+Implementation example of handler
  .. code-block:: java
 
-  // ユーザが選択した言語の保持を行うハンドラ。
-  // 複数画面でユーザに言語を選択させる場合を想定しハンドラとして実装する。
+  // Handler for holding the language selected by the user.
+  // Implement as a handler assuming that the user selects the language on multiple screens.
   public class I18nHandler implements HttpRequestHandler {
 
       public HttpResponse handle(HttpRequest request, ExecutionContext context) {
           String language = getLanguage(request, "user.language");
           if (StringUtil.hasValue(language)) {
 
-              // LanguageAttributeInHttpUtilのkeepLanguageメソッドを呼び出し、
-              // クッキーに選択された言語を設定する。
-              // スレッドコンテキストにも言語が設定される。
-              // 指定された言語がサポート対象の言語でない場合は、
-              // クッキーとスレッドコンテキストへの設定を行わない。
+              // Call keepLanguage method of LanguageAttributeInHttpUtil,
+              // and configure the selected language for cookie.
+              // Language is also set in the thread context.
+              // If the specified language is not supported,
+              // cookies and thread context are not configured.
               LanguageAttributeInHttpUtil.keepLanguage(request, context, language);
           }
           return context.handleNext(request);
@@ -201,59 +197,57 @@ JSPの実装例
 
 .. _thread_context_handler-time_zone_selection:
 
-ユーザがタイムゾーンを選択する画面を作る
+Create a screen for the user to select a time zone
 -----------------------------------------------------------
-国際化対応などで、ユーザがタイムゾーンを選択できることが求められることがある。
-このような場合、以下のクラスのいずれかと
-:java:extdoc:`TimeZoneAttributeInHttpUtil <nablarch.common.web.handler.threadcontext.TimeZoneAttributeInHttpUtil>`
-を使うことで、ユーザのタイムゾーン選択を実現できる。
+In some cases, users are required to be able to select a time zone, such as for internationalization. 
+In such cases, using one of the following classes and :java:extdoc:`TimeZoneAttributeInHttpUtil <nablarch.common.web.handler.threadcontext.TimeZoneAttributeInHttpUtil>` will enable the user to select the time zone.
 
 * :java:extdoc:`TimeZoneAttributeInHttpCookie <nablarch.common.web.handler.threadcontext.TimeZoneAttributeInHttpCookie>`
 * :java:extdoc:`TimeZoneAttributeInHttpSession <nablarch.common.web.handler.threadcontext.TimeZoneAttributeInHttpSession>`
 
-ここでは、クッキーにタイムゾーンを保持し、リンクによりタイムゾーンを選択させる画面の実装例を示す。
+Here, an implementation example of a screen in which a time zone is stored in a cookie and time zone is selected by a link is shown.
 
-設定例
+Configuration example
  .. code-block:: xml
 
-  <!-- TimeZoneAttributeInHttpUtilを使用するため、
-       コンポーネント名を"timeZoneAttribute"にする。-->
+  <!-- Set the component name to "timeZoneAttribute",
+       to use TimeZoneAttributeInHttpUtil. -->
   <component name="timeZoneAttribute"
              class="nablarch.common.web.handler.threadcontext.TimeZoneAttributeInHttpCookie">
     <property name="defaultTimeZone" value="Asia/Tokyo" />
     <property name="supportedTimeZones" value="Asia/Tokyo,America/New_York" />
   </component>
 
-JSPの実装例
+Implementation example of JSP
  .. code-block:: jsp
 
-  <%-- n:submitLinkタグを使用しリンクを出力し、
-       n:paramタグを使用しリンク毎に別々のタイムゾーンを送信する。 --%>
+  <%-- Output link using n:submitLink tag,
+       send a different time zone for each link using the n:param tag. --%>
   <n:submitLink uri="/action/menu/index" name="switchToNewYork">
-    ニューヨーク
+    New York
     <n:param paramName="user.timeZone" value="America/New_York" />
   </n:submitLink>
   <n:submitLink uri="/action/menu/index" name="switchToTokyo">
-    東京
+    Tokyo
     <n:param paramName="user.timeZone" value="Asia/Tokyo" />
   </n:submitLink>
 
-ハンドラの実装例
+Implementation example of handler
  .. code-block:: java
 
-  // ユーザが選択したタイムゾーンの保持を行うハンドラ。
-  // 複数画面でユーザにタイムゾーンを選択させる場合を想定しハンドラとして実装する。
+  // Handler for holding the time zone selected by the user.
+  // Implement as a handler assuming that the user selects the time zone on multiple screens.
   public class I18nHandler implements HttpRequestHandler {
 
       public HttpResponse handle(HttpRequest request, ExecutionContext context) {
           String timeZone = getTimeZone(request, "user.timeZone");
           if (StringUtil.hasValue(timeZone)) {
 
-              // TimeZoneAttributeInHttpUtilのkeepTimeZoneメソッドを呼び出し、
-              // クッキーに選択されたタイムゾーンを設定する。
-              // スレッドコンテキストにもタイムゾーンが設定される。
-              // 指定されたタイムゾーンがサポート対象のタイムゾーンでない場合は、
-              // クッキーとスレッドコンテキストへの設定を行わない。
+              // Call keepTimeZone method of TimeZoneAttributeInHttpUtil,
+              //  and configure the selected time zone for cookie.
+              // Time zone is also set in the thread context.
+              // If the specified time zone is not supported,
+              // cookies and thread context are not configured.
               TimeZoneAttributeInHttpUtil.keepTimeZone(request, context, timeZone);
           }
           return context.handleNext(request);

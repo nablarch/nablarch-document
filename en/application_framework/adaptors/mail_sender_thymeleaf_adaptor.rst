@@ -62,7 +62,7 @@ The subject and body are separated by lines called delimiters. The default delim
 
 An example of the template is shown below.
 
-.. code-block:: txt
+.. code-block:: none
 
  [(${Option})] regarding [(${title})]
  ---

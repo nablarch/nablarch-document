@@ -1,27 +1,27 @@
 .. _thread_context_clear_handler:
 
-スレッドコンテキスト変数削除ハンドラ
-=======================================
+Thread Context Variable Delete Handler
+============================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
   
-:ref:`thread_context_handler` で設定したスレッドローカル上の変数を削除するハンドラ。
+This handler deletes variables in the thread local configured by the :ref:`thread_context_handler` .
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following process.
 
 * :ref:`thread_context_clear_handler-clear`
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/ThreadContextClearHandler/flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.common.handler.threadcontext.ThreadContextClearHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -30,14 +30,14 @@
     <artifactId>nablarch-fw</artifactId>
   </dependency>
 
-制約
+Constraints
 ---------------------------------------
-本ハンドラは極力手前側に配置すること。
-なぜなら往路処理では、本ハンドラより手前のハンドラではスレッドコンテキストにアクセスできなくなるため。
+This handler should be placed at the beginning as far as possible. 
+The reason is that the handlers before this handler cannot access the thread context in outbound processing.
 
 .. _thread_context_clear_handler-clear:
 
-スレッドコンテキストの削除処理
+Deletion process of thread context
 -----------------------------------------------------------
-:ref:`thread_context_handler` でスレッドローカル上に設定した値を全て削除する。
+Deletes all the values configured on the thread local with :ref:`thread_context_handler` .
 
