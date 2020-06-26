@@ -6,4 +6,4 @@ In the default configuration list, the configuration values set in the default c
 
 The default configuration list can be obtained from the following link.
 
-:download:`デフォルト設定一覧.xlsx <デフォルト設定一覧.xlsx>`
+:download:`default-configuration-list.xlsx <default-configuration-list.xlsx>`
