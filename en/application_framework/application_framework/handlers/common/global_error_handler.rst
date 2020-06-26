@@ -1,23 +1,23 @@
 .. _global_error_handler:
 
-グローバルエラーハンドラ
+Global Error Handler
 ========================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-後続ハンドラで発生した未捕捉の例外及びエラーを捕捉し、ログ出力及び結果返却を行うハンドラ。
+This handler catches uncaught exceptions and errors that occur in the subsequent handler, performs log output and returns a result.
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 
 .. image:: ../images/GlobalErrorHandler/flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.handler.GlobalErrorHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -26,114 +26,113 @@
     <artifactId>nablarch-fw</artifactId>
   </dependency>
 
-制約
+Constraints
 --------------------------------------------------
 
-できるだけハンドラキューの先頭に配置すること
-  このハンドラは未補足例外を処理するため、特に理由がない限り、できるだけハンドラキューの先頭に配置すること。
-  
-  もし、このハンドラより手前のハンドラで例外が発生した場合は、ウェブアプリケーションサーバやJVMにより例外処理が行われる。
+This handler should be placed at the beginning of the handler queue as far as possible
+  Since this handler processes exceptions, it should be placed at the start of the handler queue as far as possible, unless there is a particular reason.
 
-例外及びエラーに応じた処理内容
---------------------------------------------------
-このハンドラでは捕捉した例外及びエラーの内容に応じて、以下の処理と結果の生成を行う。
+  If an exception has occurred in a handler that is placed before this handler, exception handling will be performed by the Web application server or JVM.
 
-例外に応じた処理内容
+Process details according to the exceptions and errors
+-------------------------------------------------------------------------
+This handler generates the following process and results depending on the contents of the exceptions and errors that are caught.
+
+Process details according to the exception
   .. list-table::
     :header-rows: 1
     :class: white-space-normal
     :widths: 25 75
 
-    * - 例外クラス
-      - 処理内容
+    * - Exception class
+      - Process details
 
-    * - :java:extdoc:`ServiceError <nablarch.fw.results.ServiceError>` 
-      
-        (サブクラス含む)
+    * - :java:extdoc:`ServiceError <nablarch.fw.results.ServiceError>`
 
-      - :java:extdoc:`ServiceError#writeLog <nablarch.fw.results.ServiceError.writeLog(nablarch.fw.ExecutionContext)>` を呼び出し、ログ出力を行う。
+        (Including subclass)
 
-        ログレベルは、 :java:extdoc:`ServiceError <nablarch.fw.results.ServiceError>` の実装クラスにより異なる。
+      - Calls :java:extdoc:`ServiceError#writeLog <nablarch.fw.results.ServiceError.writeLog(nablarch.fw.ExecutionContext)>` and outputs log.
 
-        ログ出力後、ハンドラの処理結果として、 :java:extdoc:`ServiceError <nablarch.fw.results.ServiceError>` を返却する。
+        The log level differs depending on the implementation class of :java:extdoc:`ServiceError <nablarch.fw.results.ServiceError>`.
+
+        After log output, returns :java:extdoc:`ServiceError <nablarch.fw.results.ServiceError>` as the processing result of the handler.
 
     * - :java:extdoc:`Result.Error <nablarch.fw.Result.Error>`
 
-        (サブクラス含む)
+        (Including subclass)
 
-      - FATALレベルのログ出力を行う。
+      - Performs FATAL level log output.
 
-        ログ出力後、ハンドラの処理結果として、 :java:extdoc:`Result.Error <nablarch.fw.Result.Error>` を返却する。
+        After log output, returns :java:extdoc:`Result.Error <nablarch.fw.Result.Error>` as the processing result of the handler.
 
-    * - 上記以外の例外クラス
+    * - Exception classes other than the above
 
-      - FATALレベルのログ出力を行う。
-        
-        ログ出力後、捕捉した例外を原因に持つ :java:extdoc:`InternalError <nablarch.fw.results.InternalError>` を生成し、ハンドラの処理結果として返却する。
+      - Performs FATAL level log output.
 
-エラーに応じた処理内容
+        After log output, generates :java:extdoc:`InternalError <nablarch.fw.results.InternalError>` with the exception that is caught as the cause and returns it as the processing result of the handler.
+
+Process details according to the error
   .. list-table::
     :header-rows: 1
     :class: white-space-normal
     :widths: 25 75
 
-    * - エラークラス
-      - 処理内容
+    * - Error class
+      - Process details
 
     * - :java:extdoc:`ThreadDeath <java.lang.ThreadDeath>`
 
-        (サブクラス含む)
+        (Including subclass)
 
-      - INFOレベルのログ出力を行う。
+      - Performs INFO level log output.
 
-        ログ出力後、捕捉したエラーをリスローする。
+        After log output, the error that has been caught is rethrown.
 
     * - :java:extdoc:`StackOverflowError <java.lang.StackOverflowError>`
 
-        (サブクラス含む)
+        (Including subclass)
 
-      - FATALレベルのログ出力を行う。
-        
-        ログ出力後、捕捉したエラーを原因に持つ :java:extdoc:`InternalError <nablarch.fw.results.InternalError>` を生成し、ハンドラの処理結果として返却する。
+      - Performs FATAL level log output.
+
+        After log output, generates :java:extdoc:`InternalError <nablarch.fw.results.InternalError>` with the error that has been caught as the cause and returns it as the processing result of the handler.
 
     * - :java:extdoc:`OutOfMemoryError <java.lang.OutOfMemoryError>`
 
-        (サブクラス含む)
+        (Including subclass)
 
-      - FATALレベルのログ出力を行う。
+      - Performs FATAL level log output.
 
-        なお、FATALレベルのログ出力に失敗する可能性(再度 `OutOfMemoryError` が発生する可能性)があるため、
-        ログ出力前に標準エラー出力に `OutOfMemoryError` が発生したことを出力する。
+        Since there is a possibility that FATAL level log output may fail (`OutOfMemoryError` may reoccur), the occurrence of `OutOfMemoryError` is output to the standard error output before the log output.
 
-        ログ出力後、捕捉したエラーを原因に持つ :java:extdoc:`InternalError <nablarch.fw.results.InternalError>` を生成し、ハンドラの処理結果として返却する。
+        After log output, generates :java:extdoc:`InternalError <nablarch.fw.results.InternalError>` with the error that has been caught as the cause and returns it as the processing result of the handler.
 
     * - :java:extdoc:`VirtualMachineError <java.lang.VirtualMachineError>`
 
-        (サブクラス含む)
+        (Including subclass)
 
-      - FATALレベルのログ出力を行う。
+      - Performs FATAL level log output.
 
-        ログ出力後、捕捉したエラーをリスローする。
+        After log output, the error that has been caught is rethrown.
 
         .. tip::
-          
-          :java:extdoc:`StackOverflowError <java.lang.StackOverflowError>` 及び :java:extdoc:`OutOfMemoryError <java.lang.OutOfMemoryError>` 以外が対象となる。
 
-    * - 上記以外のエラークラス
+          Classes other than :java:extdoc:`StackOverflowError <java.lang.StackOverflowError>` and :java:extdoc:`OutOfMemoryError <java.lang.OutOfMemoryError>` are covered.
 
-      - FATALレベルのログ出力を行う。
-        
-        ログ出力後、捕捉したエラーを原因に持つ :java:extdoc:`InternalError <nablarch.fw.results.InternalError>` を生成し、ハンドラの処理結果として返却する。
+    * - Error classes other than the above
+
+      - Performs FATAL level log output.
+
+        After log output, generates :java:extdoc:`InternalError <nablarch.fw.results.InternalError>` with the error that has been caught as the cause and returns it as the processing result of the handler.
 
 
 
-グローバルエラーハンドラでは要件を満たせない場合
---------------------------------------------------
-このハンドラは、設定などで実装を切り替えることはできない。
-このため、この実装で要件を満たすことができない場合は、
-プロジェクト固有のエラー処理用ハンドラを作成し対応すること。
+If the global error handler cannot satisfy the requirements
+-------------------------------------------------------------------------
+The implementation cannot be switched by configuration for this handler.
+For this reason, a project-specific error processing handler has to be created
+if the requirements cannot be satisfied with this implementation.
 
-例えば、ログレベルを細かく切り替えたい場合などは、このハンドラを使用するのではなく、ハンドラを新たに作成すると良い。
+For example, a new handler may be created instead of using this handler to switch the log level in detail.
 
 
 
