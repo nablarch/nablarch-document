@@ -1,4 +1,4 @@
-バッチアプリケーション専用ハンドラ
+Batch Application Dedicated Handler
 ==================================================
 
  .. toctree::

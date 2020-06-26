@@ -1,28 +1,30 @@
 .. _loop_handler:
 
-トランザクションループ制御ハンドラ
+Transaction Loop Control Handler
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-本ハンドラは、データリーダ上に処理対象のデータが存在する間、後続ハンドラの処理を繰り返し実行するとともに、トランザクション制御を行ない、一定の繰り返し回数ごとにトランザクションをコミットする。
-トランザクションのコミット間隔を大きくすることで、バッチ処理のスループットを向上させることができる。
+This handler, in addition to repeatedly executing the processing of the subsequent handlers,
+performs transaction control, and commits the transaction at a certain number of repetitions,
+while the data to be processed is present in the data reader.
+By increasing the transaction commit interval, it is possible to improve the throughput of batch processing.
 
-* トランザクションの開始
-* トランザクションの終了(コミットやロールバック)
-* トランザクションの終了時のコールバック
+* Start a transaction
+* End a transaction (commit or rollback)
+* Callback at the end of the transaction
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/LoopHandler/flow.png
   :scale: 80
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.handler.LoopHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 
 .. code-block:: xml
@@ -37,93 +39,95 @@
     <artifactId>nablarch-core-transaction</artifactId>
   </dependency>
 
-  <!-- データベースに対するトランザクションを制御する場合のみ -->
+  <!-- Only to control transactions to the database -->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-core-jdbc</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
-:ref:`database_connection_management_handler` より後ろに設定すること
-  データベースに対するトランザクションを制御する場合には、トランザクション管理対象のデータベース接続がスレッド上に存在している必要がある。
+Configure after :ref:`database_connection_management_handler`
+  When controlling a transaction in a database, a database connection for transaction management must exist in the thread.
 
-トランザクション制御対象の設定を行う
+Configure the transaction control target
 --------------------------------------------------
-このハンドラは、 :java:extdoc:`transactionFactory <nablarch.fw.handler.LoopHandler.setTransactionFactory(nablarch.core.transaction.TransactionFactory)>`
-プロパティに設定されたファクトリクラス( :java:extdoc:`TransactionFactory <nablarch.core.transaction.TransactionFactory>` の実装クラス)を使用してトランザクションの制御対象を取得しスレッド上で管理する。
+This handler uses the factory class ( implementation class of :java:extdoc:`TransactionFactory <nablarch.core.transaction.TransactionFactory>`)
+configured in the :java:extdoc:`transactionFactory <nablarch.fw.handler.LoopHandler.setTransactionFactory(nablarch.core.transaction.TransactionFactory)>`
+property to obtain the control target of the transaction and manage it on the thread.
 
-スレッド上で管理する際には、トランザクションを識別するための名前を設定する。
-デフォルトでは、 ``transaction`` が使用されるが、任意の名前を使用する場合は、 :java:extdoc:`transactionName <nablarch.fw.handler.LoopHandler.setTransactionName(java.lang.String)>` プロパティに設定すること。
+When managing on a thread, configure a name to identify the transaction.
+By default, ``transaction`` is used but to use a different name, configure the name in the :java:extdoc:`transactionName <nablarch.fw.handler.LoopHandler.setTransactionName(java.lang.String)>` property.
 
 .. tip::
 
-  :ref:`database_connection_management_handler` で設定したデータベースに対するトランザクション制御を行う場合は、
-  :java:extdoc:`DbConnectionManagementHandler#connectionName <nablarch.common.handler.DbConnectionManagementHandler.setConnectionName(java.lang.String)>` に設定した値と同じ値を
-  :java:extdoc:`transactionName <nablarch.fw.handler.LoopHandler.setTransactionName(java.lang.String)>` プロパティに設定すること。
+  To perform transaction control on the database configured with :ref:`database_connection_management_handler`,
+  configure the same value configured in
+  :java:extdoc:`DbConnectionManagementHandler#connectionName <nablarch.common.handler.DbConnectionManagementHandler.setConnectionName(java.lang.String)>`
+  to :java:extdoc:`transactionName <nablarch.fw.handler.LoopHandler.setTransactionName(java.lang.String)>` property.
 
-  なお、 :java:extdoc:`DbConnectionManagementHandler#connectionName <nablarch.common.handler.DbConnectionManagementHandler.setConnectionName(java.lang.String)>` に値を設定していない場合は、
-  :java:extdoc:`transactionName <nablarch.fw.handler.LoopHandler.setTransactionName(java.lang.String)>` への設定は省略して良い。
+  If a value is not configured in :java:extdoc:`DbConnectionManagementHandler#connectionName <nablarch.common.handler.DbConnectionManagementHandler.setConnectionName(java.lang.String)>`,
+  then the configuration of :java:extdoc:`transactionName <nablarch.fw.handler.LoopHandler.setTransactionName(java.lang.String)>` can be omitted.
 
-以下の設定ファイル例を参考にし、このハンドラの設定を行うこと。
+Configure the handler by referring to the configuration file example given below.
 
 .. code-block:: xml
 
-  <!-- トランザクション制御ハンドラ -->
+  <!-- Transaction control handler -->
   <component class="nablarch.fw.handler.LoopHandler">
     <property name="transactionFactory" ref="databaseTransactionFactory" />
     <property name="transactionName" value="name" />
   </component>
 
-  <!-- データベースに対するトランザクション制御を行う場合には、JdbcTransactionFactoryを設定する -->
+  <!-- When performing the transaction control on the database, configure JdbcTransactionFactory -->
   <component name="databaseTransactionFactory"
       class="nablarch.core.db.transaction.JdbcTransactionFactory">
-    <!-- プロパティの設定は省略 -->
+    <!-- Property configuration is omitted -->
   </component>
 
 .. _loop_handler-commit_interval:
 
-コミット間隔を指定する
+Specify the commit interval
 --------------------------------------------------
-バッチ処理のコミット間隔は、 :java:extdoc:`commitInterval <nablarch.fw.handler.LoopHandler.setCommitInterval(int)>` プロパティに設定する。
-概要で述べたように、コミット間隔を調整することで、バッチ処理のスループットを向上させることができる。
+Configure the commit interval for batch processing to :java:extdoc:`commitInterval <nablarch.fw.handler.LoopHandler.setCommitInterval(int)>`.
+As described in the summary, the throughput of the batch process can be improved by adjusting the commit interval.
 
-以下に設定例を示す。
+A configuration example is shown below.
 
 .. code-block:: xml
 
   <component class="nablarch.fw.handler.LoopHandler">
-    <!-- コミット間隔に1000を指定 -->
+    <!-- Specify 1000 for commit interval -->
     <property name="commitInterval" value="1000" />
   </component>
 
 .. _loop_handler-callback:
 
-トランザクション終了時に任意の処理を実行したい
---------------------------------------------------
-このハンドラでは、後続のハンドラの処理実行後にコールバック処理を行う。
+Execute optional processing at the end of the transaction
+-------------------------------------------------------------------------
+This handler performs a callback process after subsequent handler processes.
 
-コールバックされる処理は、このハンドラより後続に設定されたハンドラの中で、 :java:extdoc:`TransactionEventCallback <nablarch.fw.TransactionEventCallback>` を実装しているものとなる。
-もし、複数のハンドラが  :java:extdoc:`TransactionEventCallback <nablarch.fw.TransactionEventCallback>` を実装している場合は、より手前に設定されているハンドラから順次コールバック処理を実行する。
+The process to be called back is the handler that implements :java:extdoc:`TransactionEventCallback <nablarch.fw.TransactionEventCallback>` among the handlers configured after this handler.
+If multiple handlers implement :java:extdoc:`TransactionEventCallback <nablarch.fw.TransactionEventCallback>`, then the callback process is performed sequentially from the handler that has been configured earlier.
 
-後続ハンドラが正常に処理を終えた場合のコールバック処理は、後続ハンドラと同一のトランザクションで実行される。
-コールバック処理で行った処理は、次回のコミットタイミングで一括コミットされる。
+If a subsequent handler finishes the process normally,
+the callback process is executed in the same transaction as the subsequent handler. The processing performed in the callback process is collectively committed at the timing of the next commit.
 
-後続のハンドラで例外及びエラーが発生し、トランザクションをロールバックする場合には、ロールバック後にコールバック処理を実行する。
-このため、コールバック処理は新しいトランザクションで実行され、コールバックが正常に終了するとコミットされる。
+If an exception or error occurs in the subsequent handlers and the transaction is rolled back,
+the callback process is performed after the rollback. Therefore, the callback process is performed in a new transaction and is committed when the callback has completed successfully.
 
 .. important::
 
-  複数のハンドラがコールバック処理を実装していた場合で、コールバック処理中にエラーや例外が発生した場合は、
-  残りのハンドラに対するコールバック処理は実行しないため注意すること。
+  Note that if multiple handlers have implemented the callback process and an error or exception occurs during the callback process,
+  the callback process for the remaining handlers is not performed.
 
-以下に例を示す。
+An example is shown below.
 
-コールバック処理を行うハンドラの作成
-  以下実装例のように、  :java:extdoc:`TransactionEventCallback <nablarch.fw.TransactionEventCallback>` を実装したハンドラを作成する。
+Creating a handler that performs the callback process
+  Create a handler that implements :java:extdoc:`TransactionEventCallback <nablarch.fw.TransactionEventCallback>` as shown in the following implementation example.
 
-  :java:extdoc:`transactionNormalEnd <nablarch.fw.TransactionEventCallback.transactionNormalEnd(TData-nablarch.fw.ExecutionContext)>` にトランザクションコミット時のコールバック処理を実装し、
-  :java:extdoc:`transactionAbnormalEnd <nablarch.fw.TransactionEventCallback.transactionAbnormalEnd(java.lang.Throwable-TData-nablarch.fw.ExecutionContext)>` にトランザクションロールバック時のコールバック処理を実装する。
+  Implement the callback process at the time of transaction commit in :java:extdoc:`transactionNormalEnd <nablarch.fw.TransactionEventCallback.transactionNormalEnd(TData-nablarch.fw.ExecutionContext)>`,
+  and implement the callback process at the time of transaction rollback in :java:extdoc:`transactionAbnormalEnd <nablarch.fw.TransactionEventCallback.transactionAbnormalEnd(java.lang.Throwable-TData-nablarch.fw.ExecutionContext)>`.
 
   .. code-block:: java
 
@@ -132,32 +136,32 @@
 
       @Override
       public Object handle(Object o, ExecutionContext context) {
-        // ハンドラの処理を実装する
+        // Implement handler processing
         return context.handleNext(o);
       }
 
       @Override
       public void transactionNormalEnd(Object o, ExecutionContext ctx) {
-        // 後続ハンドラが正常終了した場合のコールバック処理を実装する
+        // Implements rollback process if the subsequent handler ends normally
       }
 
       @Override
       public void transactionAbnormalEnd(Throwable e, Object o, ExecutionContext ctx) {
-        // トランザクションロールバック時のコールバック処理を実装する
+        // Implement callback process during transaction rollback
       }
     }
 
-ハンドラキューを構築する
-  以下のように、このハンドラの後続ハンドラにコールバック処理を実装したハンドラを設定する。
+Build a handler queue
+  Configure the handler that implements callback process in the subsequent handler of this handler as follows.
 
   .. code-block:: xml
 
     <list name="handlerQueue">
-      <!-- トランザクション制御ハンドラ -->
+      <!-- Transaction control handler -->
       <component class="nablarch.fw.handler.LoopHandler">
-        <!-- プロパティへの設定は省略 -->
+        <!-- Configuration of property is omitted -->
       </component>
 
-      <!-- コールバック処理を実装したハンドラ -->
+      <!-- Handler that implements callback process -->
       <component class="sample.SampleHandler" />
     </list>
