@@ -1,9 +1,9 @@
 .. _jsr352_batch:
 
-JSR352に準拠したバッチアプリケーション
+JSR352-compliant Batch Application
 ====================================================================================================
-本章ではJSR352(Batch Applications for the Java Platform)に準拠したバッチアプリケーションフレームワークを利用して
-バッチアプリケーションを開発するために必要となる情報を提供する。
+This chapter provides information required for developing batch applications using a batch application framework 
+compliant with JSR352(Batch Applications for the Java Platform).
 
 .. toctree::
   :maxdepth: 2

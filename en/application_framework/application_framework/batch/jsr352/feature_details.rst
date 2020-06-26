@@ -1,10 +1,10 @@
-機能詳細
+Details of Function
 ========================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-バッチアプリケーションの起動方法
+How to launch the batch application
 --------------------------------------------------
 .. toctree::
   :maxdepth: 1
@@ -12,21 +12,21 @@
 
   feature_details/run_batch_application
 
-* :ref:`JSR352バッチアプリケーションの起動方法 <jsr352_run_batch_application>`
+* :ref:`How to launch the JSR352 batch application <jsr352_run_batch_application>`
 
-システムリポジトリの初期化
+Initializing the system repository
 --------------------------------------------------
-* :ref:`JSR352バッチアプリケーションでシステムリポジトリの初期化 <jsr352_run_batch_init_repository>`
+* :ref:`Initializing the system repository with the JSR352 batch application <jsr352_run_batch_init_repository>`
 
-バッチジョブに適用するリスナーの定義方法
+How to define a listener for application to batch jobs
+--------------------------------------------------------
+* :ref:`How to define a listener <jsr352-listener_definition>`
+
+Input value check
 --------------------------------------------------
-* :ref:`リスナーの定義方法 <jsr352-listener_definition>`
+* :ref:`Input value check <validation>`
 
-入力値のチェック
---------------------------------------------------
-* :ref:`入力値のチェック <validation>`
-
-データベースアクセス
+Database access
 --------------------------------------------------
 .. toctree::
   :maxdepth: 1
@@ -34,16 +34,16 @@
 
   feature_details/database_reader
 
-* :ref:`データベースアクセス <database_management>`
+* :ref:`Database access <database_management>`
 * :doc:`feature_details/database_reader`
 
 
 
-ファイル入出力
+File I/O
 --------------------------------------------------
-* :ref:`ファイル入出力<data_converter>`
+* :ref:`File I/O<data_converter>`
 
-排他制御
+Exclusive control
 --------------------------------------------------
 .. toctree::
   :maxdepth: 1
@@ -51,24 +51,24 @@
 
   feature_details/pessimistic_lock
 
-排他制御は、以下の2種類の方法を提供しているが、
-:ref:`UniversalDaoを推奨する理由 <exclusive_control-deprecated>` に記載がある通り、
-:ref:`universal_dao` の使用を推奨する。
+Although 2 types of exclusive control are offered,
+:ref:`universal_dao` is recommended
+because of the :ref:` reasons for recommending UniversalDao <exclusive_control-deprecated> .
 
 * :ref:`exclusive_control`
 * :ref:`universal_dao`
 
-  * :doc:`悲観的ロック<feature_details/pessimistic_lock>`
+  * :doc:`Pessimistic lock<feature_details/pessimistic_lock>`
 
-ジョブ定義のxmlの作成方法
+How to create xml for job definitions
 --------------------------------------------------
-* `JSR352 Specificationを参照(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=352>`_
+* `See JSR352 Specification (external site, English) <https://jcp.org/en/jsr/detail?id=352>`_
 
-MOMメッセージ送信
+Send MOM message
 ----------------------------------------
-* :ref:`同期応答メッセージ送信<mom_system_messaging-sync_message_send>`
+* :ref:`Send synchronous response message<mom_system_messaging-sync_message_send>`
 
-運用設計
+Operation design
 ----------------------------------------
 .. toctree::
   :maxdepth: 1
