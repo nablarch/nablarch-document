@@ -1,52 +1,52 @@
 .. _request_path_java_package_mapping:
 
-リクエストディスパッチハンドラ
+Request Dispatch Handler
 ========================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-本ハンドラは、アプリケーションの機能ごとに行う処理を記載するアクションに処理を委譲する。
-本ハンドラは、主に :ref:`メッセージング <messaging>` の機能で、任意のアクションにディスパッチする目的で使用する。
+This handler delegates processing to an action that describes the process to be performed for each function of the application.
+This handler is mainly a function for :ref:`messaging <messaging>`, and is used for dispatching to an arbitrary action.
 
-本ハンドラでは、 :java:extdoc:`Request#getRequestPath() <nablarch.fw.Request.getRequestPath()>` で取得した
-リクエストパスを元に、ディスパッチ先のアクションを選択する。
-リクエストパスの形式は以下を想定している。
+In this handler, the dispatch destination action is selected based on the request path acquired by
+:java:extdoc:`Request#getRequestPath() <nablarch.fw.Request.getRequestPath()>`.
+The request path format assumes the following:
 
-リクエストパスの形式\: /\<basePath\>/\<className\>
+Request path format\: /\<basePath\>/\<className\>
 
-上記形式の\<\>で囲まれた部分はそれぞれ下記を意味する。
+Each of the parts enclosed by \<\> in the format above have the following meanings.
 
 ============= =================================================================
-ラベル        意味
+Label         Meaning
 ============= =================================================================
-basePath      ディスパッチ対象を表すベースパス
-className     クラス名 (必須)
+basePath      Base path representing the dispatch target
+className     Class name (required)
 ============= =================================================================
 
-たとえば、クラス ``xxx.yyy.ExampleBatchAction`` を呼び出す場合に、ベースパスが ``batch`` の場合は
-``/batch/ExampleBatchAction`` のようにリクエストパスを指定する。
+For example, when calling the class ``xxx.yyy.ExampleBatchAction``,
+if the base path is ``batch``, specify a request path like ``/batch/ExampleBatchAction``.
 
 
 .. important::
-  通常、 :java:extdoc:`Request#getRequestPath() <nablarch.fw.Request.getRequestPath()>` で取得されるリクエストパスは、
-  :ref:`main` に記載の通り、コマンドラインで起動する際に ``-requestPath`` オプションで指定する。
+  Normally, the request path acquired by :java:extdoc:`Request#getRequestPath() <nablarch.fw.Request.getRequestPath()>` is
+  specified by the ``-requestPath`` option when launched in the command line as described in :ref:`main`.
 
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following process.
 
-* リクエストパスを解析し、対応するアクションの handle メソッドを呼び出す。
+* Parses the request path and calls the handle method of the corresponding action.
 
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/RequestPathJavaPackageMapping/flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.handler.RequestPathJavaPackageMapping`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -55,23 +55,23 @@ className     クラス名 (必須)
     <artifactId>nablarch-fw</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
 
-ハンドラキューの最後に置くこと
-  本ハンドラは、後続のハンドラの呼び出しを行わない。
-  このため、本ハンドラはハンドラキューの最後に配置すること。
+Must be placed at the end of the handler queue
+  This handler does not call subsequent handlers.
+  Place this handler at the end of the handler queue.
 
 
 .. _request_path_java_package_mapping_path_setting:
 
-ベースパッケージ、ベースパスの設定
+Base package and base path settings
 ------------------------------------------------------------
 
-本ハンドラのディスパッチ先のクラスを配置するベースパッケージと、リクエストパスにつけるベースパスは、
-プロパティ ``basePackage`` および ``basePath`` で設定できる。
+The base package for placing the dispatch destination class of this handler,
+and the base path added to the request path can be configured with the properties ``basePackage`` and ``basePath``.
 
-ベースパッケージを ``nablarch.application`` 、ベースパスを ``/app/action`` に設定する例を以下に示す。
+An example of configuring the base package to ``nablarch.application`` and the base path to ``/app/action`` is shown below.
 
 
 .. code-block:: xml
@@ -84,25 +84,25 @@ className     クラス名 (必須)
 
 .. _request_path_java_package_mapping_multi_package_dispatch:
 
-複数パッケージのクラスにディスパッチする
+Dispatch to classes of multiple packages
 ------------------------------------------------------------------------------------------------------------------------
 
-本ハンドラを使ってディスパッチする場合、ディスパッチ先のクラスは、リクエストパスの指定によって複数振り分けることができる。
-この際は、リクエストパスでクラス名を指定する箇所で、ベースパッケージからの相対パッケージ名を指定する。
+When dispatching using this handler, multiple dispatch destination classes can be allotted by specifying the request path.
+At this time, specify the relative package name from the base package in the location where the class name is specified with the request path.
 
-たとえば上記 :ref:`request_path_java_package_mapping_path_setting` の設定を行った際に、 ``nablarch.application.xxx.ExampleBatchAction``
-クラスにディスパッチする場合、リクエストパスには ``/app/action/xxx/ExampleBatchAction`` を指定すればよい。
+For example, when :ref:`request_path_java_package_mapping_path_setting` is configured,
+specify ``/app/action/xxx/ExampleBatchAction`` in the request path when dispatching to the ``nablarch.application.xxx.ExampleBatchAction`` class.
 
 
-クラス名のプレフィクス、サフィックスの設定
+Configuration of class name prefix and suffix
 ------------------------------------------------------------------------------------------------------------------------
 
-クラス名のプレフィクス、サフィックスをリクエストパスに出したくない場合、本ハンドラの ``classNamePrefix`` および ``classNameSuffix``
-を設定することでリクエストパスでの指定を省略できる。
+If you do not want to provide a class name prefix and suffix in the request path,
+the specification in the request path can be omitted by configuring ``classNamePrefix`` and ``classNameSuffix`` of this handler.
 
-たとえば、クラス名を ``XxxProjectXxxxBatchAction`` のように、プレフィクスに ``XxxProject`` というプロジェクト名、
-サフィックスに ``BatchAction`` を指定するルールを取った場合、以下のように設定することでリクエストパスを
-``/app/action/Xxxx`` のように省略できる。
+For example, when following the rule that specifies ``XxxProject`` as the prefix and ``BatchAction`` as the suffix,
+for a class name ``XxxProjectXxxxBatchAction``, the request path ``/app/action/Xxxx``
+can be omitted by configuring as follows:
 
 
 
@@ -118,32 +118,32 @@ className     クラス名 (必須)
 
 .. _request_path_java_package_mapping_optional_package_dispatch:
 
-複雑なパッケージへのディスパッチ
+Dispatch to complex packages
 ------------------------------------------------------------------------------------------------------------------------
 
-:ref:`request_path_java_package_mapping_multi_package_dispatch` で示した方法では、
-「アクションを配置するパッケージを同じパッケージ配下のサブパッケージにまとめないといけない」制約がある。
-本ハンドラでは、このようなディスパッチでは問題がある場合に、 アクションを配置するパッケージをリクエストパスごとに別々に設定する方法を提供している。
+The method shown in :ref:`request_path_java_package_mapping_multi_package_dispatch` has a constraint that
+"the packages where actions are placed must be grouped into sub-packages under the same package".
+This handler provides a method for separately configuring the package in which actions are placed for each request path when there is a problem with such a dispatch.
 
 
-たとえば、以下のようなリクエストパスとディスパッチ先を設定する場合を考える。
+Consider an example where the following request path and dispatch destination are configured.
 
 ========================================== ======================================
-リクエストパス                             ディスパッチ対象クラス
+Request path                               Class to be dispatched
 ========================================== ======================================
 /admin/AdminApp                            nablarch.sample.apps1.admin.AdminApp
 /user/UserApp                              nablarch.sample.apps2.user.UserApp
 /BaseApp                                   nablarch.sample.base.BaseApp
 ========================================== ======================================
 
-このようなディスパッチを行う場合、以下のように ``optionalPackageMappingEntries`` プロパティに
-:java:extdoc:`JavaPackageMappingEntry <nablarch.fw.handler.JavaPackageMappingEntry>` クラスを使用して設定を行う。
+To perform such a dispatch, the ``optionalPackageMappingEntries`` is configured using the
+:java:extdoc:`JavaPackageMappingEntry <nablarch.fw.handler.JavaPackageMappingEntry>` class as follows.
 
 .. code-block:: xml
 
   <component class="nablarch.fw.handler.RequestPathJavaPackageMapping">
       <property name="optionalPackageMappingEntries">
-        <!-- リクエストパスのパターンとJavaパッケージの組み合わせをマッチさせたい順番に記載する。 -->
+        <!-- Describe the combination of the request path pattern and Java package in the order to be matched. -->
         <list>
           <component class="nablarch.fw.handler.JavaPackageMappingEntry">
             <property name="requestPattern" value="/admin//" />
@@ -155,7 +155,7 @@ className     クラス名 (必須)
           </component>
         </list>
       </property>
-      <!-- optionalPackageMappingEntriesにマッチするものが存在しない場合に使用されるJavaパッケージ -->
+      <!-- Java package used when there is no match for optionalPackageMappingEntries -->
       <property name="basePackage" value="nablarch.sample.base" />
   </component>
 

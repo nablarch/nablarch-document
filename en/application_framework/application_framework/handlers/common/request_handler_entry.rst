@@ -1,34 +1,34 @@
 .. _request_handler_entry:
 
-リクエストハンドラエントリ
+Request Handler Entry
 ========================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
 
-本ハンドラは、特定のリクエストパスのみ委譲先のハンドラを呼び出す特殊なハンドラである。
-本ハンドラを使用することで、「ウェブアプリケーションで特定のURLのみハンドラの処理を行う」といった機能を、
-ハンドラを修正することなく実現できる。
+This handler is a special handler that calls a delegate handler only for a specific request path. By using this handler,
+it is possible to implement functions such as "handler processing is performed only for a specific URL in the web application"
+without modifying the handler.
 
-本ハンドラの主な用途は、 :ref:`resource_mapping` を使用した、「静的コンテンツのダウンロードを一括処理する」機能の実現である。
-その他にも、 :ref:`database_connection_management_handler` や :ref:`transaction_management_handler` と同時に使用することで
-「特定のURLのみ使用するデータベース接続を変える」といった用途にも使用できる。
+The main purpose of this handler is to implement the "batch process for downloading of static contents" function using :ref:`resource_mapping`.
+In addition, this handler can also be used for purposes such as "changing the database connection that uses only a specific URL"
+by using the handler together with :ref:`database_connection_management_handler` and :ref:`transaction_management_handler`.
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following process.
 
-* リクエストパスがマッチするか判定を行い、対象であれば委譲先のハンドラを呼び出す。
+* Determine whether the request path matches and call the delegate handler if it is a target.
 
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/RequestHandlerEntry/flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.RequestHandlerEntry`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -37,30 +37,30 @@
     <artifactId>nablarch-core</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
-なし。
+None.
 
 .. _request_handler_entry_usage:
 
-本ハンドラの使用例
-------------------------------
+Usage example of this handler
+-----------------------------------
 
-本ハンドラを使用する際は、処理対象とするリクエストパスを指定する ``requestPattern`` プロパティと、
-委譲先のハンドラを指定する ``handler`` プロパティを設定する。
+When using this handler, the ``requestPattern`` property that specifies the request path for processing,
+and the ``handler`` property that specifies the delegate handler are configured.
 
-:ref:`resource_mapping` を使用して、JPEGファイルの静的コンテンツをダウンロードする設定例を以下に示す。
+A configuration example for downloading the static contents of JPEG files using :ref:`resource_mapping` is shown below.
 
 .. code-block:: xml
 
-  <!-- 画像ファイルの静的リソースダウンロードを行うハンドラ -->
+  <!-- Handler for downloading static resources of image files-->
   <component name="imgMapping"
              class="nablarch.fw.web.handler.ResourceMapping">
     <property name="baseUri" value="/"/>
     <property name="basePath" value="servlet:///"/>
   </component>
 
-  <!-- ハンドラキュー構成 -->
+  <!-- Handler queue configuration -->
   <component name="webFrontController"
              class="nablarch.fw.web.servlet.WebFrontController">
 
@@ -72,74 +72,74 @@
         <component class="nablarch.common.io.FileRecordWriterDisposeHandler" />
         <component class="nablarch.fw.web.handler.HttpResponseHandler"/>
 
-        <!-- 拡張子が ".jpg" である静的JPGファイルのダウンロードを行う設定 -->
+        <!-- Configuration for downloading static JPG files with the file extension ".jpg"-->
         <component class="nablarch.fw.RequestHandlerEntry">
           <property name="requestPattern" value="//*.jpg"/>
           <property name="handler" ref="imgMapping"/>
         </component>
 
         <!--
-          "*.jpg" で終わるJPEGファイルのダウンロード以外のリクエストでは、
-          以下のハンドラの呼び出しが行われる
+          For requests other than downloading JPEG files ending with "*.jpg",
+          the following handler is called
           -->
         <component-ref name="multipartHandler"/>
         <component-ref name="sessionStoreHandler" />
 
 
 
-リクエストパターン指定のバリエーション
+Variation of request pattern specification
 --------------------------------------------------
 
-:ref:`request_handler_entry_usage` の設定例からわかるとおり、本ハンドラに指定する ``requestPattern`` プロパティ
-には、 ``//*.jpg`` のようなGlob式に似た書式での設定が行える。
+As seen from the configuration example of :ref:`request_handler_entry_usage`, the ``requestPattern`` property specified in this handler
+can be configured in a format similar to Glob expression such as ``//*.jpg``.
 
-ワイルドカードの設定例を以下に示す。
+A configuration example for wildcard is shown below.
 
 
        +----------------+------------------+-------------------------------------------+
-       | requestPattern | リクエストパス   | 結果                                      |
+       | requestPattern | Request path     | Results                                   |
        +================+==================+===========================================+
-       | /              |  /               | 呼ばれる                                  |
+       | /              |  /               | Is called                                 |
        |                +------------------+-------------------------------------------+
-       |                |  /index.jsp      | 呼ばれない                                |
+       |                |  /index.jsp      | Is not called                             |
        +----------------+------------------+-------------------------------------------+
-       | /*             | /                | 呼ばれる                                  |
+       | /*             | /                | Is called                                 |
        |                +------------------+-------------------------------------------+
-       |                | /app             | 呼ばれる                                  |
+       |                | /app             | Is called                                 |
        |                +------------------+-------------------------------------------+
-       |                | /app/            | 呼ばれない (* は'/'にはマッチしない)      |
+       |                | /app/            | Is not called (* does not match '/')      |
        |                +------------------+-------------------------------------------+
-       |                | /index.jsp       | 呼ばれない (* は'.'にはマッチしない)      |
+       |                | /index.jsp       | Is not called (* does not match '.')      |
        +----------------+------------------+-------------------------------------------+
-       | /app/\*.jsp    | /app/index.jsp   | 呼ばれる                                  |
+       | /app/\*.jsp    | /app/index.jsp   | Is called                                 |
        |                +------------------+-------------------------------------------+
-       |                | /app/admin       | 呼ばれない                                |
+       |                | /app/admin       | Is not called                             |
        +----------------+------------------+-------------------------------------------+
-       | /app/\*/test   | /app/admin/test  | 呼ばれる                                  |
+       | /app/\*/test   | /app/admin/test  | Is called                                 |
        |                +------------------+-------------------------------------------+
-       |                | /app/test/       | 呼ばれない                                |
+       |                | /app/test/       | Is not called                             |
        +----------------+------------------+-------------------------------------------+
 
 
-また、最後尾の’/’が’//’と重ねられていた場合、それ以前の文字列について前方一致すればマッチ成功と判定する記法も使用できる。
+When the '/' in the last line is overlapped with '//', a notation determining that the match is successful if the string before is a forward match can also be used.
 
-以下に設定例を示す。
+A configuration example is shown below.
 
 
        +----------------+-------------------------+-------------------------------------------+
-       | requestPattern | リクエストパス          | 結果                                      |
+       | requestPattern | Request path            | Results                                   |
        +================+=========================+===========================================+
-       | /app//         | /                       | 呼ばれない                                |
+       | /app//         | /                       | Is not called                             |
        |                +-------------------------+-------------------------------------------+
-       |                | /app/                   | 呼ばれる                                  |
+       |                | /app/                   | Is called                                 |
        |                +-------------------------+-------------------------------------------+
-       |                | /app/admin/             | 呼ばれる                                  |
+       |                | /app/admin/             | Is called                                 |
        |                +-------------------------+-------------------------------------------+
-       |                | /app/admin/index.jsp    | 呼ばれる                                  |
+       |                | /app/admin/index.jsp    | Is called                                 |
        +----------------+-------------------------+-------------------------------------------+
-       | //\*.jsp       | /app/index.jsp          | 呼ばれる                                  |
+       | //\*.jsp       | /app/index.jsp          | Is called                                 |
        |                +-------------------------+-------------------------------------------+
-       |                | /app/admin/index.jsp    | 呼ばれる                                  |
+       |                | /app/admin/index.jsp    | Is called                                 |
        |                +-------------------------+-------------------------------------------+
-       |                | /app/index.html         | 呼ばれない('\*.jsp'がマッチしない)        |
+       |                | /app/index.html         | Is not called (does not match '\*.jsp')   |
        +----------------+-------------------------+-------------------------------------------+
