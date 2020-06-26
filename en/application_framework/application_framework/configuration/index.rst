@@ -1,9 +1,9 @@
 .. _configuration:
 
-デフォルト設定一覧
-====================
-デフォルト設定一覧には、Nablarchが提供しているデフォルトコンフィグレーションで設定している設定値とブランクプロジェクトが設定している設定値が一覧形式で記述されている。
+Default Configuration List
+========================================
+In the default configuration list, the configuration values set in the default configuration provided by Nablarch and the configuration values set in the blank project are described in a list format.
 
-デフォルト設定一覧は、以下のリンクより取得できる。
+The default configuration list can be obtained from the following link.
 
 :download:`デフォルト設定一覧.xlsx <デフォルト設定一覧.xlsx>`
