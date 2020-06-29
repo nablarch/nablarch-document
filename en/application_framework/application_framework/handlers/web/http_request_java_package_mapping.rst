@@ -1,70 +1,70 @@
 .. _http_request_java_package_mapping:
 
-HTTPリクエストディスパッチハンドラ
+HTTP Request Dispatch Handler
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
 
-本ハンドラは、アプリケーションの機能ごとに行う処理を記載するアクションに処理を委譲する。\
-委譲先のクラス、メソッドは、アクセスしたURLによって決定される。\
-本クラスを使用したディスパッチでは、URL形式は下記の通りであることを想定している。
+This handler delegates processing to an action that describes the process to be performed for each function of the application.\
+The delegated class and method are determined by the accessed URL.\
+The URL format is assumed to be as follows for the dispatch using this class.
 
-URL形式
+URL format
   /\<baseUri\>/\<className\>/\<methodName\>
 
-上記形式の\<\>で囲まれた部分はそれぞれ下記を意味する。
+Each of the parts enclosed by \<\> in the above format have the following meanings.
 
 .. list-table::
   :class: white-space-normal
   :header-rows: 1
   :widths: 20 80
 
-  * - ラベル
-    - 意味
-  
+  * - Label
+    - Description
+
   * - baseUri
-    - コンテキストルートからの相対パス
+    - Relative path from the context root
 
   * - className
-    - クラス名
+    - Class name
 
-  * - methodName    
-    - アクションクラスのメソッド名は、HTTPのメソッド + メソッド名として実装する。
+  * - methodName
+    - Implement method name of action class as HTTP method + method name.
 
-      httpのメソッドが ``post`` の場合で、URLのmethodNameが ``register`` の場合には、
-      アクションクラスのメソッド名は、 ``postRegister`` とする。
+      When the http method is ``post`` and URL methodName is ``register``,
+      the action class method name is ``postRegister``.
 
-      なお、 ``get`` と ``post`` の場合には、 ``do`` を使用できる。
-      上記の例の場合、 ``doRegister`` となる。
+      In addition, ``do`` can be used for ``get`` and ``post``.
+      In the above example, it is ``doRegister``.
 
 .. tip::
-  URLとアクションとのマッピングの指定方法については、 :ref:`java_package_mapping_entry-dispatch_settings` を参照。
+  Refer to :ref:`java_package_mapping_entry-dispatch_settings` on how to specify the mapping between URL and action.
 
 .. _http_request_java_package_mapping-router_adaptor:
 
 .. important::
-  HTTPリクエストディスパッチハンドラでは、クラス名を元にURLが決まるため、柔軟なURLを使用することができない。
-  例えば、  ``/user/index`` のようなURLを使用したい場合、クラス名を ``user`` とする必要がある。
-  これは、Javaの一般的なクラス名の規約に違反しており、推奨されない。
+  Since the URL is decided based on the class name in the HTTP request dispatch handler, flexible URL cannot be used.
+  For example, to use ``/user/index`` as a URL, the class name has to be configured as ``user``.
+  This violates the general Java conventions for class name and is not recommended.
 
-  このため、このハンドラを使うよりも、URLとアクションクラスとのマッピングを柔軟に設定できる :ref:`router_adaptor` を使用することを推奨する。
+  Therefore, rather than using this handler, the use of :ref:`router_adaptor` is recommended that can flexibly configure the mapping between URL and action class.
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following process.
 
-* URIを解析し、対応するアクションのメソッドを呼び出す。
+* Analyzes the URI and calls the method of the corresponding action.
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/HttpRequestJavaPackageMapping/flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.web.handler.HttpRequestJavaPackageMapping`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -72,22 +72,22 @@ URL形式
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
-  
-制約
+
+Constraints
 -----------------------
 
-ハンドラキューの最後に置くこと
-  本ハンドラは、後続のハンドラの呼び出しを行わない。
-  このため、本ハンドラの配置はハンドラキューの最後に置くこと。
+Should be placed at the end of the handler queue
+  This handler does not call subsequent handlers.
+  Therefore, place this handler at the end of the handler queue.
 
 
 .. _java_package_mapping_entry-dispatch_settings:
 
-ディスパッチの設定を行う
+Configure dispatch settings
 ----------------------------------------------------------------------------------------------------
 
-本クラスを使用する際は、前述の baseUri と、アクションを配置するパッケージ(ベースパッケージ)の設定が必須となる。
-以下にbaseUri を ``action`` 、ベースパッケージを ``jp.co.tis.nablarch.example`` に設定する例を示す。
+When using this class, baseUri described above and package (base package) in which the action is placed are required to be configured.
+Below is an example of configuring baseUri to ``action`` and base package to ``jp.co.tis.nablarch.example``.
 
 .. code-block:: xml
 
@@ -97,21 +97,21 @@ URL形式
     <property name="basePackage" value="jp.co.tis.nablarch.example"/>
   </component>
 
-上記設定の場合のディスパッチ例を以下に示す。
+A dispatch example for the above configuration is shown below.
 
 :URL: /action/UserAction/index
-:ディスパッチ先クラス: jp.co.tis.nablarch.example.UserAction
+:Dispatch destination class: jp.co.tis.nablarch.example.UserAction
 
 .. _java_package_mapping_entry-multi_package:
 
-アクションが複数のパッケージに配置される場合の設定を行う
+Configure settings when actions are placed in multiple packages
 -------------------------------------------------------------------------------------
 
-アクションは、複数のパッケージにまたがって配置できる。
-この場合、前述の :ref:`java_package_mapping_entry-dispatch_settings` に記載のベースパッケージを全Actionが置かれるパッケージに
-設定し、URIのクラス名にベースパッケージから対応づける Action までのパスを記載する。
+Actions can be placed across multiple packages.
+In this case, configure the base package described in :ref:`java_package_mapping_entry-dispatch_settings` above to the package
+where all Actions are placed, and describe the path from the base package to the corresponding Action in the URI class name.
 
-以下にクラスの配置とURLの対応付けの例を示す。
+An example of class allocation and URL mapping is shown below.
 
 .. image:: ../images/HttpRequestJavaPackageMapping/package_mapping.png
 
