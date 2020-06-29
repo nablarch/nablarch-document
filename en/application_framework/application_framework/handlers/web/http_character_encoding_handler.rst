@@ -1,27 +1,27 @@
 .. _http_character_encoding_handler:
 
-HTTP文字エンコード制御ハンドラ
+HTTP Character Encoding Control Handler
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-本ハンドラではリクエスト( :java:extdoc:`HttpServletRequest <javax.servlet.http.HttpServletRequest>` )
-及びレスポンス( :java:extdoc:`HttpServletResponse <javax.servlet.http.HttpServletResponse>` )に対して規定の文字エンコーディングを設定する。
+In this handler, the specified character encoding is configured for the request ( :java:extdoc:`HttpServletRequest <javax.servlet.http.HttpServletRequest>` )
+and response ( :java:extdoc:`HttpServletResponse <javax.servlet.http.HttpServletResponse>` ).
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following process.
 
-* リクエスト及びレスポンスへの規定の文字エンコーディングの設定
+* Configures the default character encoding for request and response
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/HttpCharacterEncodingHandler/flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.web.handler.HttpCharacterEncodingHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -30,22 +30,22 @@ HTTP文字エンコード制御ハンドラ
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
-本ハンドラは、どのハンドラよりも前に設定すること。
-  このハンドラより前にハンドラを設定した場合、以下の問題が発生する可能性がある。
+This handler must be configured before any other handler.
+  If other handlers are configured before this handler, the following problems may occur.
 
-  * レスポンスに対する規定の文字エンコーディングが設定されない
-  * リクエストパラメータにアクセスすることで規定の文字エンコーディングの設定が有効とならずサーバサイドで文字化けの原因となる
+  * Default character encoding for the response is not configured
+  * The specified character encoding configuration will not be valid when the request parameter is accessed and may cause garbled characters in the server.
 
-  このため、本ハンドラはどのハンドラよりも前に配置すること。
+  Therefore, place this handler before any other handler.
 
-規定の文字エンコーディングを設定する
+Configure default character encoding
 --------------------------------------------------
-文字エンコーディングは、 :java:extdoc:`defaultEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.setDefaultEncoding(java.lang.String)>` プロパティに対して設定する。
-設定を省略した場合は、 ``UTF-8`` が使用される。
+Character encoding is configured for the :java:extdoc:`defaultEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.setDefaultEncoding(java.lang.String)>` property.
+If character encoding is not configured, ``UTF-8`` is used.
 
-以下に ``Windows-31J`` を設定する例を示す。
+An example for configuring ``Windows-31J`` is shown below.
 
 .. code-block:: xml
 
@@ -53,16 +53,16 @@ HTTP文字エンコード制御ハンドラ
     <property name="defaultEncoding" value="Windows-31J" />
   </component>
 
-レスポンスに対する規定の文字エンコーディングの設定を切り替える
+Switch the configuration of default character encoding for the response
 --------------------------------------------------------------------------------
-本ハンドラでレスポンスに対して規定の文字エンコーディングを設定した場合、
-後続のハンドラで処理した全てのレスポンスに対して文字エンコーディングが設定される。
+When the specified character encoding is configured for the response with this handler,
+the character encoding is configured for all responses processed by the subsequent handlers.
 
-例えば、後続で画像を返却した場合に、Content-Typeヘッダーが「image/jpeg;charset=UTF-8」となる。
-このため、本ハンドラのデフォルトの動作では、レスポンスに対しては、規定の文字エンコーディングを設定していない。
+For example, when an image is returned by a subsequent handler, the Content-Type header will be "image/jpeg;charset=UTF-8".
+Therefore, the specified character encoding for the response is not configured by default in the default operation of this handler.
 
-WEB APIのように全てのレスポンスに対して規定の文字エンコーディングを設定する必要がある場合には、
-以下の例を参照し :java:extdoc:`appendResponseCharacterEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.setAppendResponseCharacterEncoding(boolean)>` プロパティに ``true`` を設定すること。
+When it is necessary to configure the specified character encoding for all responses such as in WEB API,
+configure ``true`` in the :java:extdoc:`appendResponseCharacterEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.setAppendResponseCharacterEncoding(boolean)>` property.
 
 .. code-block:: xml
 
@@ -70,17 +70,17 @@ WEB APIのように全てのレスポンスに対して規定の文字エンコ�
     <property name="appendResponseCharacterEncoding" value="true" />
   </component>
 
-一律ではなくリクエストごとに文字エンコーディングを変更したい
-----------------------------------------------------------------------
-リクエスト毎に文字エンコーディングを変更する場合には、本ハンドラを継承して対応すること。
+To change the character encoding for each request instead of using the same encoding
+----------------------------------------------------------------------------------------------------------
+To change the character encoding for each request, provide support by inheriting this handler.
 
-例えば、外部サイトからのリクエストを処理するシステムで、外部サイト毎にエンコーディングが異なる場合には、この対応が必要となる。
+For example, in a system that processes requests from external sites, this support is necessary when the encoding differs for each external site.
 
-以下に例を示す。
+An example is shown below.
 
-ポイント
-  * リクエストのエンコーディングを変更する場合は、 :java:extdoc:`resolveRequestEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveRequestEncoding(javax.servlet.http.HttpServletRequest)>` をオーバライドする。
-  * レスポンスのエンコーディングを変更する場合は、 :java:extdoc:`resolveResponseEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveResponseEncoding(javax.servlet.http.HttpServletRequest)>` をオーバライドする。
+Point
+  * To change the request encoding, override :java:extdoc:`resolveRequestEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveRequestEncoding(javax.servlet.http.HttpServletRequest)>`.
+  * To change the response encoding, override :java:extdoc:`resolveResponseEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveResponseEncoding(javax.servlet.http.HttpServletRequest)>`.
 
 .. code-block:: java
 
@@ -98,12 +98,12 @@ WEB APIのように全てのレスポンスに対して規定の文字エンコ�
     }
 
     /**
-     * 文字エンコードを解決する。<br />
+     * Resolve character encoding. <br />
      *
-     * URIに{@code /shop1}が含まれている場合は、{@code Windows-31J}として扱う。
+     *  If the URI contains {@code /shop1}, handle as {@code Windows-31J}.
      *
-     * @param req リクエスト
-     * @return 文字エンコード
+     * @param req Request
+     * @return Character encoding
      */
     private Charset resolveCharacterEncoding(HttpServletRequest req) {
       if (req.getRequestURI().contains("/shop1")) {
