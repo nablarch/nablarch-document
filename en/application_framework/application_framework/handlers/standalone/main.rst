@@ -1,37 +1,37 @@
 .. _`main`:
 
-共通起動ランチャ
+Common Launcher
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-スタンドアロンで起動するアプリケーションの起点となるハンドラ。
+This handler is the starting point for launching a standalone application.
 
-javaコマンドから直接起動することで、システムリポジトリの初期化を行い、そこに定義されたハンドラキューを実行させることができる。
+Initialization of the system repository and execution of the handler queue defined in the repository can be performed by direct launch with a java command.
 
-本ハンドラでは、以下の処理を行う。
-処理の詳細は、カッコ内のJavadocを参照。
+This handler performs the following processes.
+See the Javadoc given within the parentheses for the processing details.
 
-* コマンドライン引数のパース( :java:extdoc:`CommandLine<nablarch.fw.launcher.CommandLine>` )
-* 起動ログの出力( :java:extdoc:`LauncherLogFormatter#getStartLogFormat<nablarch.fw.launcher.logging.LauncherLogFormatter.getStartLogFormat()>` )
-* システムリポジトリの初期化
-* 実行コンテキストの初期化( :java:extdoc:`Main#setupExecutionContext <nablarch.fw.launcher.Main.setupExecutionContext(nablarch.fw.launcher.CommandLine-nablarch.fw.ExecutionContext)>` )
-* アプリケーション設定ログの出力( :java:extdoc:`ApplicationSettingLogFormatter<nablarch.core.log.app.ApplicationSettingLogFormatter>` )
-* ハンドラキューの実行
-* 例外及びエラーに応じたログの出力
-* 終了ログの出力( :java:extdoc:`LauncherLogFormatter#getEndLogFormat<nablarch.fw.launcher.logging.LauncherLogFormatter.getEndLogFormat()>` )
+* Parsing of command line argument( :java:extdoc:`CommandLine<nablarch.fw.launcher.CommandLine>` )
+* Outputs the launch log( :java:extdoc:`LauncherLogFormatter#getStartLogFormat<nablarch.fw.launcher.logging.LauncherLogFormatter.getStartLogFormat()>` )
+* Initializes the system repository
+* Initializes the execution context( :java:extdoc:`Main#setupExecutionContext <nablarch.fw.launcher.Main.setupExecutionContext(nablarch.fw.launcher.CommandLine-nablarch.fw.ExecutionContext)>` )
+* Outputs the application configuration log( :java:extdoc:`ApplicationSettingLogFormatter<nablarch.core.log.app.ApplicationSettingLogFormatter>` )
+* Executes the handler queue
+* Outputs the log in response to exceptions and errors
+* Outputs the end log ( :java:extdoc:`LauncherLogFormatter#getEndLogFormat<nablarch.fw.launcher.logging.LauncherLogFormatter.getEndLogFormat()>` )
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/Main/Main_flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.launcher.Main`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -42,35 +42,34 @@ javaコマンドから直接起動することで、システムリポジトリ�
 
 .. _main-run_application:
 
-アプリケーションを起動する
+Launch the application
 --------------------------------------------------
-javaコマンドで :java:extdoc:`Mainクラス<nablarch.fw.launcher.Main>` を指定してアプリケーションを起動する。
+Launch the application by specifying :java:extdoc:`Main class <nablarch.fw.launcher.Main>`.
 
-フレームワークの動作に必要となる以下の3つのオプションは、必ず指定する必要がある。
-以下のオプションのうちいずれかが欠けていた場合は、即座に異常終了する。(終了コード = 127)
+The following three options must be specified for the framework operation.
+Terminated immediately if any one of the following options is missing.(End code = 127)
 
 \-diConfig
- システムリポジトリの設定ファイルのパスを指定する。
- このオプションで指定されたパスを使ってシステムリポジトリを初期化する。
+ Specifies the path of the system repository configuration file.
+ Initializes the system repository using the path specified by this option.
 
 \-requestPath
- 実行するアクションとリクエストIDを指定する。
+ Specifies the action to be executed and the request ID.
 
- 以下の書式で定義される文字列を設定する。
+ Configures a string defined in the following format.
 
  .. code-block:: bash
 
-  実行するアクションのクラス名/リクエストID
+  Executable action class name/Request ID
 
- このオプションで指定されたリクエストパスを
+ The request path specified by this option is returned by
  :java:extdoc:`Request#getRequestPath<nablarch.fw.Request.getRequestPath()>`
- が返すようになる。
 
 \-userId
- ユーザIDを設定する。
- この値はセッションコンテキスト変数に ``user.id`` という名前で格納される。
+ Configure the user ID.
+ This value is stored in the session context variable with the name ``user.id``.
 
-以下に実行例を示す。
+An execution example is shown below.
 
 .. code-block:: bash
 
@@ -81,65 +80,65 @@ javaコマンドで :java:extdoc:`Mainクラス<nablarch.fw.launcher.Main>` を�
 
 .. _main-option_parameter:
 
-アプリケーション起動に任意のオプションを設定する
---------------------------------------------------
-:java:extdoc:`Mainクラス<nablarch.fw.launcher.Main>` 起動時に、任意のオプションパラメータを指定することが出来る。
+Configure the options for launching the application
+------------------------------------------------------
+During the launch of :java:extdoc:`Main class <nablarch.fw.launcher.Main>` an any optional parameter can be specified.
 
-オプションパラメータは、「オプション名称」と「オプションの値」のペアで設定する。
+Optional parameters are configured in pairs of "option name" and "option value".
 
-例えば、オプション名称が ``optionName`` で 値が ``optionValue`` の場合は、以下のように指定する。
+For example, it is specified as shown below when the option name is ``optionName`` and value is ``optionValue``.
 
 .. code-block:: bash
 
  java nablarch.fw.launcher.Main \
    -optionName optionValue
 
-アプリケーションでオプションを使用する場合は、 :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>` から取得する。
+To use option in the application, acquire from :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>` .
 
 .. code-block:: java
 
      @Override
     public Result handle(String inputData, ExecutionContext ctx) {
-      // getSessionScopedVarにオプション名称を指定して、値を取得する。
+      // Specify the option name in getSessionScopedVar and acquire the value.
       final String value = ctx.getSessionScopedVar("optionName");
 
-      // 処理
+      // Process
 
       return new Result.Success();
     } 
 
 .. tip::
 
-  アプリケーション起動時に必ず指定する必要があるオプションは、 :ref:`main-run_application` を参照
+  Refer to :ref:`main-run_application` for the options that must be specified while launching the application.
 
-例外及びエラーに応じた処理内容
---------------------------------------------------
-このハンドラでは捕捉した例外及びエラーの内容に応じて、以下の処理と結果を返す。
+Process details according to the exceptions and errors
+--------------------------------------------------------
+This handler returns the following processes and results depending on the contents of the exceptions and errors that are caught.
 
 .. list-table::
   :header-rows: 1
   :class: white-space-normal
   :widths: 25 75
 
-  * - 例外クラス
-    - 処理内容
+  * - Exception class
+    - Process details
 
   * - :java:extdoc:`Result.Error <nablarch.fw.Result.Error>`
 
-      (サブクラス含む)
+      (including subclass)
 
-    - FATALレベルのログ出力を行う。
+    - Performs FATAL level log output.
 
-      ログ出力後、ハンドラの処理結果として、以下の値を返す。
+      After log output, the following values are returned as the process results of the handler.
 
-       ステータスコードが0～127の場合
-        ステータスコードをそのまま返す。
+       When the status code is 0 - 127
+        Returns the status code without change.
 
-       ステータスコードが0～127以外の場合
-        127を返す。
+       When the status code is other than 0 - 127
+        Returns 127.
 
-  * - 上記以外の例外クラス
+  * - Exception classes other than the above
 
-    - FATALレベルのログ出力を行う。
+    - Performs FATAL level log output.
 
-      ログ出力後、ハンドラの処理結果として、127を返す。
+      After log output, returns 127 as the process results of the handler.

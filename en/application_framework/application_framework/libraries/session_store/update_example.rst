@@ -1,58 +1,58 @@
-更新機能での実装例
+Implementation Example with Update Function
 =====================================================================
 
-入力画面の初期表示
+Initial display of input screen
 ---------------------------------------------------------------------
 .. code-block:: java
 
-  // ブラウザを直接閉じた場合などにセッションが残っている場合があるので削除
+  // Delete because the session may remain when the browser is closed directly
   SessionUtil.delete(ctx, "project");
 
-  // 更新対象データの取得処理は省略
+  // Acquisition process of the update target data is omitted
 
-  // 更新対象データをセッションストアに保存
+  // Save the data to be updated in the session store
   SessionUtil.put(ctx, "project", project);
 
-  // EntityからFormへ変換
+  // Convert Entity to Form
   ProjectForm form = BeanUtil.createAndCopy(ProjectForm.class, project);
 
-  // 更新対象データをリクエストスコープに設定
+  // Configure the update target data to the request scope
   context.setRequestScopedVar("form", form);
 
-入力画面から確認画面へ遷移
+Transition from the input screen to the confirmation screen
 ---------------------------------------------------------------------
 .. code-block:: java
 
-  // リクエストスコープから入力情報を取得
+  // Acquire input information from the request scope
   ProjectForm form = context.getRequestScopedVar("form");
 
-  // 更新対象データをセッションストアから取得
+  // Acquire update target data from the session store
   Project project = SessionUtil.get(context, "project");
 
-  // 入力情報を更新対象データに上書き
+  // Overwrite the input information with the update target data
   BeanUtil.copy(form, project);
 
-確認画面から入力画面へ戻る
+Return from the confirmation screen to the input screen
 ---------------------------------------------------------------------
 .. code-block:: java
 
-  // セッションストアから更新対象データを取得
+  // Acquire the update target data from the session store
   Project project = SessionUtil.get(ctx, "project");
 
-  // EntityからFormへ変換
+  // Convert Entity to Form
   ProjectForm form = BeanUtil.createAndCopy(ProjectForm.class, project);
 
-  // 更新対象データをリクエストスコープに設定
+  // Configure the update target data to the request scope
   context.setRequestScopedVar("form", form);
 
-更新処理を実行
+Execute the update process
 ---------------------------------------------------------------------
 .. code-block:: java
 
-  // セッションストアから更新対象データを取得
+  // Acquire the update target data from the session store
   Project project = SessionUtil.get(ctx, "project");
 
-  // 更新処理は省略
+  // Update process is omitted
 
-  // セッションストアから更新対象データを削除
+  // Delete the update target data from the session store
   SessionUtil.delete(ctx, "project");

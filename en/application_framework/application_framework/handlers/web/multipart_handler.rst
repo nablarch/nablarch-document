@@ -1,30 +1,30 @@
 .. _multipart_handler:
 
-マルチパートリクエストハンドラ
+Multipart Request Handler
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
 
-HTTPリクエストがマルチパート形式の場合に、ボディ部を解析しアップロードファイルを一時ファイルとして保存するハンドラ。
+This handler parses the body part and saves the uploaded file as a temporary file when the HTTP request is in the multipart format.
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following processes.
 
-* マリチパートリクエストの解析
-* アップロードファイルを一時ファイルとして保存
-* 保存した一時ファイルの削除
+* Parses multi-part requests
+* Saves upload files as temporary files
+* Deletes saved temporary files
 
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/MultipartHandler/flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.web.upload.MultipartHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -33,7 +33,7 @@ HTTPリクエストがマルチパート形式の場合に、ボディ部を解�
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-  <!-- 一時保存先を指定する場合のみ -->
+  <!-- Only when specifying the temporary storage location -->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-core</artifactId>
@@ -41,35 +41,35 @@ HTTPリクエストがマルチパート形式の場合に、ボディ部を解�
 
 .. _multipart_handler-constraint:
 
-制約
+Constraints
 --------------------------------------------------
-なし。
+None.
 
-このハンドラの動作条件
+Operating conditions of this handler
 --------------------------------------------------
-このハンドラはマルチパート形式のリクエストの場合のみ、リクエストボディの解析を行う。マルチパート形式かどうかは、リクエストヘッダーの ``Content-Type`` で判断する。
+This handler parses the request body only for multipart requests. Whether the request is in a multipart format is determined based on the ``Content-Type`` of the request header.
 
-``Content-Type`` が ``multipart/form-data`` と一致する場合は、リクエストがマルチパート形式だと判断し、ボディの解析処理を行う。
-それ以外の場合には、このハンドラは何もせずに後続のハンドラに処理を委譲する。
+When the ``Content-Type`` matches the ``multipart/form-data``, the request is determined to be in multipart format and the body is parsed.
+In case of other requests, this handler does nothing and delegates processing to the subsequent handlers.
 
-アップロードファイルの一時保存先を指定する
---------------------------------------------------
-アップロードファイルの一時保存先ディレクトリは、 :ref:`file_path_management` に設定する。
+Specify the temporary storage location for upload files
+---------------------------------------------------------
+Configure the temporary storage directory for upload file in :ref:`file_path_management`.
 
-ファイルパス管理に一時保存先ディレクトリの指定がない場合は、デフォルトの保存先としてシステムプロパティの `java.io.tmpdir` の値を使用する。
+If the temporary storage destination directory is not specified in file path management, the value of system property `java.io.tmpdir` is used as the default storage destination.
 
-以下に一時ファイルの保存先ディレクトリの設定例を示す。
+Below is a configuration example for the destination directory for temporary files.
 
-ポイント
-  * 保存先ディレクトリの論理名は、 ``uploadFileTmpDir`` とすること。
+Point
+  * The logical name of the storage destination directory should be ``uploadFileTmpDir``.
 
 .. code-block:: xml
 
   <component name="filePathSetting" class="nablarch.core.util.FilePathSetting">
-    <!-- ディレクトリの設定 -->
+    <!-- Configuration of directory-->
     <property name="basePathSettings">
       <map>
-        <!-- アップロードファイルの一時保存ディレクトリ -->
+        <!-- Temporary storage directory for the upload file -->
         <entry key="uploadFileTmpDir" value="file:/var/nablarch/uploadTmpDir" />
       </map>
     </property>
@@ -77,29 +77,29 @@ HTTPリクエストがマルチパート形式の場合に、ボディ部を解�
 
 .. tip::
 
-  上記の例では、保存先ディレクトリを直接指定しているが、この値は環境ごとに異なることが想定される。
-  このため、直接コンポーネント設定ファイルに設定するのではなく、環境設定ファイルに設定することを推奨する。
+  In the above example, the storage destination directory is specified directly, but this value will change depending on the environment.
+  Therefore, it is recommended that the directory be configured in the environment configuration file instead of configuring the directory directly in the component configuration file.
 
-  詳細は、:ref:`repository-environment_configuration` を参照。
+  For details, see :ref:`repository-environment_configuration`.
 
 
 .. _multipart_handler-file_limit:
 
-巨大なファイルのアップロードを防ぐ
+Prevent uploading of large files
 --------------------------------------------------
-巨大なファイルをアップロードされると、ディスクリソースが枯渇するなどが原因でシステムが正常に稼働しなくなる可能性がある。
-このため、このハンドラではアップロードサイズの上限を超過した場合には、400(BadRequest)をクライアントに返却する。
+If a large file is uploaded, the system may not operate normally due to insufficient disc space.
+Therefore, this handler returns 400 (Bad Request) to the client when the maximum upload size is exceeded.
 
-アップロードサイズの上限は、バイト数で設定する。設定を省略した場合は、無制限となる。
+The upper limit of upload size is configured in bytes. If the value is not configured, there is no limit to the upload size.
 
-以下にアップロードサイズの設定例を示す。
+A configuration example for the upload size is shown below.
 
 .. code-block:: xml
 
   <component class="nablarch.fw.web.upload.MultipartHandler" name="multipartHandler">
     <property name="uploadSettings">
       <component class="nablarch.fw.web.upload.UploadSettings">
-        <!-- アップロードサイズ(Content-Length)の上限(約10M) -->
+        <!-- Upload size (Content-Length) upper limit (about 10M) -->
         <property name="contentLengthLimit" value="1000000" />
       </component>
     </property>
@@ -108,84 +108,84 @@ HTTPリクエストがマルチパート形式の場合に、ボディ部を解�
 
 .. tip::
 
-  アップロードサイズの上限は、ファイル単位ではなく1リクエストでアップロード出来る上限となる。
+  The upper limit of the upload size is not for a file, but for one request.
 
-  このため、複数のファイルをアップロードした場合には、それらのファイルサイズの合計値(厳密には、Content-Length)により、上限チェックが実施される。
+  Therefore, when multiple files are uploaded, the upper limit check is based on the total of the file sizes (strictly speaking, by Content-Length).
 
-  もし、ファイル単位でサイズチェックをする必要がある場合には、アクション側で実装すること。
+  If the size of each file is to be checked, implement the check in the action.
 
-一時ファイルの削除（クリーニング）を行う
+Delete (clean) temporary files
 --------------------------------------------------
-保存されたアップロードファイルを以下の条件でクリーニングする。
+Clean the upload files based on the following conditions.
 
-* ボディの解析中に例外が発生した場合
-* ハンドラの復路で自動削除設定が有効な場合
+* If an exception occurs while parsing of the body is in progress
+* When automatic deletion configuration is enabled on the return path of the handler
 
-自動削除設定は、デフォルトで有効に設定されている。
-この設定は本番環境で安易に無効にすると、大量の一時ファイルがディスク上に残り、最悪の場合ディスクフルの原因となるため注意すること。
+The automatic deletion configuration is enabled by default.
+Note that if this setting is disabled in the production environment, a large number of temporary files will remain on the disk, and may cause the disk to become full in the worst case.
 
-設定値を無効にする場合には、 :java:extdoc:`UploadSettings#autoCleaning <nablarch.fw.web.upload.UploadSettings.setAutoCleaning(boolean)>` に `false` を設定する。
+To invalidate the configuration value, configure :java:extdoc:`UploadSettings#autoCleaning <nablarch.fw.web.upload.UploadSettings.setAutoCleaning(boolean)>` to `false`.
 
 
-マルチパート解析エラー及びファイルサイズ上限超過時の遷移先画面を設定する
-----------------------------------------------------------------------------------------------------
-このハンドラでは、マルチパート解析エラー [#part_error]_ や :ref:`ファイルサイズの上限超過時 <multipart_handler-file_limit>` に、
-不正なリクエストとしてクライアントに `400(BadRequest)` を返却する。
+Configure the transition destination screen for multipart parsing error and file size upper limit are exceeded
+----------------------------------------------------------------------------------------------------------------
+This handler returns `400(BadRequest)` to the client,
+when multipart parsing error [#part_error]_ or :ref:`file size exceeds the upper limit <multipart_handler-file_limit>` is encountered.
 
-このため、 `400(BadRequest)` に対応したエラーページの設定を `web.xml` に行う必要がある。
-`web.xml` へのエラーページ設定を省略した場合は、ウェブアプリケーションサーバが持つデフォルトのページなどがクライアントに返却される。
+Therefore, the error page corresponding to `400(BadRequest)` must be configured in `web.xml`.
+If the error page is not configured in `web.xml`, the default page of Web application server is returned to the client.
 
 .. important::
 
-  このハンドラは、:ref:`multipart_handler-constraint` にあるとおり、 :ref:`session_store_handler` より手前に設定する必要がある。
-  このため、 :ref:`session_store_handler` の後続に設定される :ref:`http_error_handler` の :ref:`HttpErrorHandler_DefaultPage` は使用することができない。
+  This handler must be configured before the :ref:`session_store_handler` as described in :ref:`multipart_handler-constraint`.
+  Therefore, :ref:`HttpErrorHandler_DefaultPage` of the :ref:`http_error_handler`, configured after the :ref:`session_store_handler` cannot be used.
 
 .. [#part_error]
-  マルチパート解析エラーが発生するケース
+  Case of multipart parsing error
 
-  * アップロード中にクライアントからの切断要求があり、ボディー部が不完全な場合
-  * バウンダリーが存在しない
+  * If there is a disconnect request from the client during upload and the body part is incomplete
+  * When there is no boundary
 
 .. _multipart_handler-read_upload_file:
 
-アップロードしたファイルを読み込む
+Read the upload file
 ------------------------------------------------------------
-アップロードされたファイル(一時保存されたファイル)は、 :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` から取得する。
+The uploaded file (temporarily saved file) is acquired from :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>`.
 
-以下に実装例を示す。
+An implementation example is shown below.
 
-ポイント
-  * :java:extdoc:`HttpRequest#getPart <nablarch.fw.web.HttpRequest.getPart(java.lang.String)>` を呼び出してアップロードされたファイルを取得する。
-  * :java:extdoc:`HttpRequest#getPart <nablarch.fw.web.HttpRequest.getPart(java.lang.String)>` の引数には、パラメータ名を指定する。
+Point
+  * The upload file is acquired by calling :java:extdoc:`HttpRequest#getPart <nablarch.fw.web.HttpRequest.getPart(java.lang.String)>`.
+  * The parameter name is specified in the argument of :java:extdoc:`HttpRequest#getPart <nablarch.fw.web.HttpRequest.getPart(java.lang.String)>`.
 
 .. code-block:: java
 
   public HttpResponse upload(HttpRequest request, ExecutionContext context) throws IOException {
-    // アップロードファイルの取得
+    // Acquire the uploaded file
     List<PartInfo> partInfoList = request.getPart("uploadFile");
 
     if (partInfoList.isEmpty()) {
-      // アップロードファイルが指定されていなかった場合は業務エラー
+      // Business error if the uploaded file is not specified
     }
 
-    // アップロードされたファイルを処理する
+    // Process the uploaded file
     InputStream file = partInfoList.get(0).getInputStream()
 
-    // 以下アップロードファイルを読み込み処理を行う。
+    // The read process of the uploaded file is performed below.
   }
 
-アップロードファイルを処理する詳細な実装方法は、以下のドキュメントを参照。
-なお、 :ref:`data_converter` に記載がある通り、 :ref:`data_bind` が推奨となる。
-(:ref:`data_bind` で扱うことのできない形式の場合は、 :ref:`data_format` を使用すること。)
+For the detailed implementation method to process the upload file, refer to the following document.
+As described in :ref:`data_converter`, :ref:`data_bind` is recommended.
+(If the format cannot be handled by :ref:`data_bind`, use :ref:`data_format`.)
 
-* :ref:`データバインドを使ってアップロードファイルを処理する <data_bind-upload_file>`
-* :ref:`汎用データフォーマットを使ってアップロードファイルを処理する <data_format-load_upload_file>`
+* :ref:`Process the upload files using data bind <data_bind-upload_file>`
+* :ref:`Process the upload files using general data format <data_format-load_upload_file>`
 
 .. tip::
 
-  アップロードされたファイルが画像ファイル等のバイナリファイルの場合は、読み込んだバイナリデータを使用して処理を行うこと。
+  If the uploaded file is a binary file such as an image file, use the binary data that has been read for processing.
 
-  Java8であれば以下の様に実装することでアップロードファイルのバイトデータを読み込むことができる。
+  If the file is Java8, the byte data of the uploaded file can be read with the following implementation.
 
   .. code-block:: java
 

@@ -1,35 +1,35 @@
 .. _duplicate_process_check_handler:
 
-プロセス多重起動防止ハンドラ
+Process Multiple Launch Prevention Handler
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-このハンドラは、同一のバッチプロセスを同時に複数実行した場合に、後に実行されたプロセスを異常終了させる機能を持つ。
-このハンドラを適用することで、同一のバッチプロセスの同時実行を防止でき、データの2重取り込みなどを未然に防ぐことが出来る。
+This handler has the function to abnormally terminate the subsequent process that is executed when the same batch process is executed multiple times simultaneously.
+This handler can be used to prevent the simultaneous execution of the same batch process and duplicate reading of the data can be avoided.
 
-同一のバッチプロセスの識別には、スレッド変数上に設定されたリクエストIDを使用する。
-このため、同一のバッチアクションで処理を行うバッチであってもリクエストIDが異なる場合には、異なるバッチプロセスとして扱われる。
+The request ID configured on the thread variable is used for the identification of same batch process.
+Even if the batches are processed with the same batch actions and the request IDs are different, then they are handled as different batch processes.
 
 .. important::
- 原則JP1などのジョブスケジューラ側で制御を行うこと。
- ジョブスケジューラ側で制御出来ない場合などは、本ハンドラを適用しアプリケーションレイヤーで多重起動を防止する。
+ As a rule, management should be performed by the job scheduler such as JP1.
+ If the job scheduler cannot control, use this handler to prevent multiple launch at the application layer.
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following processes.
 
-* プロセスの多重起動チェック処理(多重起動チェック時に起動中フラグを起動中に変更)
-* 起動中フラグを初期化(未起動)に変更
+* Multiple launch check processing of the process (change the startup flag to launching during multiple launch check)
+* Reset the launch flag (not launched)
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/DuplicateProcessCheckHandler/flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.handler.DuplicateProcessCheckHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -38,63 +38,63 @@
     <artifactId>nablarch-fw-batch</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
 
-本ハンドラは、スレッドコンテキスト変数管理ハンドラよりも後ろに設定すること
-  本ハンドラではスレッドコンテキスト上に設定されたリクエストIDを元にプロセス多重起動のチェックを行う。
-  このため、 :ref:`thread_context_handler` より後ろに本ハンドラを設定する必要がある。
+This handler must be configured after the thread context variable management handler.
+  This handler performs multiple launch check based on the request ID configured on the thread context.
+  This handler must be configured after the :ref:`thread_context_handler`.
 
 .. _duplicate_process_check_handler-configuration:
 
-多重起動防止チェックを行うための設定
---------------------------------------------------
-本ハンドラには、バッチプロセスの多重起動防止チェックを行うクラスなどを設定する必要がある。
-設定する項目の詳細は、 :java:extdoc:`DuplicateProcessCheckHandler <nablarch.fw.handler.DuplicateProcessCheckHandler>` を参照。
+Configuration to perform multiple launch prevention check
+-----------------------------------------------------------
+A class to perform multiple launch process prevention check of the batch process has to be configured for this handler.
+For details of the configuration items, see :java:extdoc:`DuplicateProcessCheckHandler <nablarch.fw.handler.DuplicateProcessCheckHandler>`.
 
-多重起動防止チェックを行うクラスの詳細は、 :java:extdoc:`BasicDuplicateProcessChecker <nablarch.fw.handler.BasicDuplicateProcessChecker>` を参照。
+For the details of the class that performs the multiple launch prevention check, see :java:extdoc:`BasicDuplicateProcessChecker <nablarch.fw.handler.BasicDuplicateProcessChecker>`.
 
-以下に例を示す。
+An example is shown below.
 
 .. code-block:: xml
 
-  <!-- 多重起動防止チェックを行うクラス -->
+  <!-- Class that performs multiple launch prevention check -->
   <component name="duplicateProcessChecker" class="nablarch.fw.handler.BasicDuplicateProcessChecker">
-    <!-- データベースへアクセスするためのトランザクション設定 -->
+    <!-- Transaction configuration for accessing the database -->
     <property name="dbTransactionManager" ref="transaction" />
 
-    <!-- チェックで使用するテーブルの定義情報 -->
+    <!-- Definition information of the table used for check -->
     <property name="tableName" value="BATCH_REQUEST" />
     <property name="processIdentifierColumnName" value="REQUEST_ID" />
     <property name="processActiveFlgColumnName" value="PROCESS_ACTIVE_FLG" />
   </component>
 
-  <!-- プロセス多重起動防止ハンドラ -->
+  <!-- Process multiple launch prevention handler -->
   <component name="duplicateProcessCheckHandler"
       class="nablarch.fw.handler.DuplicateProcessCheckHandler">
 
-    <!-- 多重起動防止チェックを行うクラスを設定する -->
+    <!-- Configure the class that performs the multiple launch prevention check -->
     <property name="duplicateProcessChecker" ref="duplicateProcessChecker" />
 
-    <!-- 終了コードを設定する(任意) -->
+    <!-- Configure the end code (optional) -->
     <property name="exitCode" value="10" />
   </component>
 
-  <!-- BasicDuplicateProcessCheckerは、初期化が必要なクラスなので初期化対象リストに追加する -->
+  <!-- Since BasicDuplicateProcessChecker is a class that requires initialization, add it to the initialization list -->
   <component name="initializer"
       class="nablarch.core.repository.initialization.BasicApplicationInitializer">
     <property name="initializeList">
       <list>
         <component-ref name="duplicateProcessChecker" />
-        <!-- 他のコンポーネントの設定 -->
+        <!-- Configuration of other components -->
       </list>
     </property>
   </component>
 
-多重起動防止チェック処理をカスタマイズする
---------------------------------------------------
-多重起動防止チェック処理をカスタマイズしたい場合は、 :java:extdoc:`DuplicateProcessChecker <nablarch.fw.handler.DuplicateProcessChecker>` の実装クラスを作成することで対応出来る。
+Customize the multiple launch prevention check process
+--------------------------------------------------------
+Customization of the multiple launch prevention check process can be handled by creating an implementation class :java:extdoc:`DuplicateProcessChecker <nablarch.fw.handler.DuplicateProcessChecker>`.
 
-実装したクラスは、 :ref:`duplicate_process_check_handler-configuration` で説明したように、本ハンドラに設定することで利用することが出来る。
+The implementation class can be configured and used in this handler as described in :ref:`duplicate_process_check_handler-configuration`.
 
 

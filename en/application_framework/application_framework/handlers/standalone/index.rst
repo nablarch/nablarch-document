@@ -1,4 +1,4 @@
-スタンドアローン型アプリケーション共通ハンドラ
+Standalone Application Common Handler
 ==================================================
 .. toctree::
   :maxdepth: 1

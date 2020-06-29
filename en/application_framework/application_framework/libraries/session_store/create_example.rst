@@ -1,52 +1,52 @@
 .. _`create_example`:
 
-登録機能での実装例
+Implementation Example with Registration Function
 =====================================================================
 
-入力画面の初期表示
+Initial display of input screen
 ---------------------------------------------------------------------
 .. code-block:: java
 
-  // ブラウザを直接閉じた場合などにセッションが残っている場合があるので削除
+  // Delete because the session may remain when the browser is closed directly
   SessionUtil.delete(ctx, "project");
 
-入力画面から確認画面へ遷移
+Transition from the input screen to the confirmation screen
 ---------------------------------------------------------------------
 .. code-block:: java
 
-  // リクエストスコープから入力情報を取得
+  // Acquire input information from the request scope
   ProjectForm form = context.getRequestScopedVar("form");
 
-  // FormからEntityへ変換
+  // Convert Entity to Form
   Project project = BeanUtil.createAndCopy(Project.class, form);
 
-  // 入力情報をセッションストアに保存
+  // Save input information in session store
   SessionUtil.put(ctx, "project", project);
 
-確認画面から入力画面へ戻る
+Return from the confirmation screen to the input screen
 ---------------------------------------------------------------------
 .. code-block:: java
 
-  // セッションストアから入力情報を取得
+  // Fetch input information from the session store
   Project project = SessionUtil.get(ctx, "project");
 
-  // EntityからFormへ変換
+  // Convert Entity to Form
   ProjectForm form = BeanUtil.createAndCopy(ProjectForm.class, project);
 
-  // 入力情報をリクエストスコープに設定
+  // Configure input information to the request scope
   context.setRequestScopedVar("form", form);
 
-  // セッションストアから入力情報を削除
+  // Delete the input information from the session store
   SessionUtil.delete(ctx, "project");
 
-登録処理を実行
+Execute the registration process
 ---------------------------------------------------------------------
 .. code-block:: java
 
-  // セッションストアから入力情報を取得
+  // Fetch input information from the session store
   Project project = SessionUtil.get(ctx, "project");
 
-  // 登録処理は省略
+  // Registration process is omitted
 
-  // セッションストアから入力情報を削除
+  // Delete the input information from the session store
   SessionUtil.delete(ctx, "project");

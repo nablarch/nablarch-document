@@ -1,76 +1,76 @@
 .. _sql_log:
 
-SQLログの出力
+Output of SQL Log
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-SQLログは、パフォーマンスチューニングに使用するために、SQL文の実行時間やSQL文を出力する。
-アプリケーションでは、ログ出力の設定を行うことにより出力する。
+The SQL log outputs the execution time of SQL statements and the SQL statements for use in performance tuning.
+The log is output in the application by configuring the log output.
 
-SQLログの出力方針
+Output of SQL log policy
 --------------------------------------------------
-SQLログは、ログのサイズが大きくなりディスクフルになったり、パフォーマンスに影響を与える可能性がある。
-そのため、SQLログは開発時の使用を想定し、DEBUGレベル以下で出力する。
+SQL logs may become very large resulting in disc becoming full or affecting the performance.
+It is assumed that the SQL log will be used during development and the output is limited to DEBUG level or lower.
 
-.. list-table:: SQLログの出力方針
+.. list-table:: Output of SQL log policy
    :header-rows: 1
    :class: white-space-normal
    :widths: 15,15,70
 
-   * - ログレベル
-     - ロガー名
-     - 出力内容
+   * - Log level
+     - Logger name
+     - Output contents
 
    * - DEBUG
      - SQL
-     - SQL文、実行時間、件数(検索件数や更新件数など)、トランザクションの処理結果(コミット又はロールバック)
+     - SQL statement, execution time, number of records (number of searches and updates), transaction process result (commit or rollback)
 
    * - TRACE
      - SQL
-     - SQLパラメータ(バインド変数の値)
+     - SQL parameter (bind variable value)
 
-上記出力方針に対するログ出力の設定例を下記に示す。
+A configuration example of the log output for the above mentioned output policy is shown below.
 
-log.propertiesの設定例
+Configuration example of log.properties
  .. code-block:: properties
 
   loggers.SQL.nameRegex=SQL
   loggers.SQL.level=TRACE
-  loggers.SQL.writerNames=<出力先のLogWriter>
+  loggers.SQL.writerNames=<LogWriter of output destination>
 
-使用方法
+How to use
 --------------------------------------------------
 
 .. _sql_log-setting:
 
-SQLログの設定を行う
+Configure the SQL log
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-SQLログの設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
+The SQL log is configured in the property file described in :ref:`log-app_log_setting`.
 
-記述ルール
+Description rules
  \
 
  sqlLogFormatter.className
-  :java:extdoc:`SqlLogFormatter <nablarch.core.db.statement.SqlLogFormatter>` を実装したクラス。
-  差し替える場合に指定する。
+  Class that implements sqlLogFormatter.className :java:extdoc:`SqlLogFormatter <nablarch.core.db.statement.SqlLogFormatter>`.
+  Specify to replace.
 
  sqlLogFormatter.startRetrieveFormat
-  :java:extdoc:`SqlPStatement#retrieve <nablarch.core.db.statement.SqlPStatement.retrieve()>`
-  の開始時に使用するフォーマット。
+  Format used at the start of
+  :java:extdoc:`SqlPStatement#retrieve <nablarch.core.db.statement.SqlPStatement.retrieve()>`.
 
-  フォーマットに指定可能なプレースホルダ
-   :メソッド名: $methodName$
-   :SQL文: $sql$
-   :取得開始位置: $startPosition$
-   :取得最大件数: $size$
-   :タイムアウト時間: $queryTimeout$
-   :フェッチする行数: $fetchSize$
-   :付加情報: $additionalInfo$
+  Placeholders that can be specified for the format
+   :Method name: $methodName$
+   :SQL statement: $sql$
+   :Acquire start position: $startPosition$
+   :Acquisition maximum count: $size$
+   :Timeout time: $queryTimeout$
+   :Number of rows to fetch: $fetchSize$
+   :Additional information: $additionalInfo$
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: bash
 
     $methodName$
@@ -81,31 +81,31 @@ SQLログの設定は、 :ref:`log-app_log_setting` で説明したプロパテ�
         \n\t$additionalInfo$
 
  sqlLogFormatter.endRetrieveFormat
-  :java:extdoc:`SqlPStatement#retrieve <nablarch.core.db.statement.SqlPStatement.retrieve()>`
-  の終了時に使用するフォーマット。
+  Format used at the end of
+  :java:extdoc:`SqlPStatement#retrieve <nablarch.core.db.statement.SqlPStatement.retrieve()>`.
 
-  フォーマットに指定可能なプレースホルダ
-   :メソッド名: $methodName$
-   :実行時間: $executeTime$
-   :データ取得時間: $retrieveTime$
-   :検索件数: $count$
+  Placeholders that can be specified for the format
+   :Method name: $methodName$
+   :Execution time: $executeTime$
+   :Data acquisition time: $retrieveTime$
+   :Search count: $count$
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: bash
 
     $methodName$
         \n\texecute_time(ms) = [$executeTime$] retrieve_time(ms) = [$retrieveTime$] count = [$count$]
 
  sqlLogFormatter.startExecuteFormat
-  :java:extdoc:`SqlPStatement#execute <nablarch.core.db.statement.SqlPStatement.execute()>`
-  の開始時に使用するフォーマット。
+  Format used at the start of
+  :java:extdoc:`SqlPStatement#execute <nablarch.core.db.statement.SqlPStatement.execute()>`.
 
-  フォーマットに指定可能なプレースホルダ
-   :メソッド名: $methodName$
-   :SQL文: $sql$
-   :付加情報: $additionalInfo$
+  Placeholders that can be specified for the format
+   :Method name: $methodName$
+   :SQL statement: $sql$
+   :Additional information: $additionalInfo$
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: bash
 
     $methodName$
@@ -114,29 +114,29 @@ SQLログの設定は、 :ref:`log-app_log_setting` で説明したプロパテ�
         \n\t$additionalInfo$
 
  sqlLogFormatter.endExecuteFormat
-  :java:extdoc:`SqlPStatement#execute <nablarch.core.db.statement.SqlPStatement.execute()>`
-  の終了時に使用するフォーマット。
+  Format used at the end of
+  :java:extdoc:`SqlPStatement#execute <nablarch.core.db.statement.SqlPStatement.execute()>`.
 
-  フォーマットに指定可能なプレースホルダ
-   :メソッド名: $methodName$
-   :実行時間: $executeTime$
+  Placeholders that can be specified for the format
+   :Method name: $methodName$
+   :Execution time: $executeTime$
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: bash
 
     $methodName$
         \n\texecute_time(ms) = [$executeTime$]
 
  sqlLogFormatter.startExecuteQueryFormat
-  :java:extdoc:`SqlPStatement#executeQuery <nablarch.core.db.statement.SqlPStatement.executeQuery()>`
-  の開始時に使用するフォーマット。
+  Format used at the start of
+  :java:extdoc:`SqlPStatement#executeQuery <nablarch.core.db.statement.SqlPStatement.executeQuery()>`.
 
-  フォーマットに指定可能なプレースホルダ
-   :メソッド名: $methodName$
-   :SQL文: $sql$
-   :付加情報: $additionalInfo$
+  Placeholders that can be specified for the format
+   :Method name: $methodName$
+   :SQL statement: $sql$
+   :Additional information: $additionalInfo$
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: bash
 
     $methodName$
@@ -145,29 +145,29 @@ SQLログの設定は、 :ref:`log-app_log_setting` で説明したプロパテ�
         \n\t$additionalInfo$
 
  sqlLogFormatter.endExecuteQueryFormat
-  :java:extdoc:`SqlPStatement#executeQuery <nablarch.core.db.statement.SqlPStatement.executeQuery()>`
-  の終了時に使用するフォーマット。
+  Format used at the end of
+  :java:extdoc:`SqlPStatement#executeQuery <nablarch.core.db.statement.SqlPStatement.executeQuery()>`.
 
-  フォーマットに指定可能なプレースホルダ
-   :メソッド名: $methodName$
-   :実行時間: $executeTime$
+  Placeholders that can be specified for the format
+   :Method name: $methodName$
+   :Execution time: $executeTime$
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: bash
 
     $methodName$
         \n\texecute_time(ms) = [$executeTime$]
 
  sqlLogFormatter.startExecuteUpdateFormat
-  :java:extdoc:`SqlPStatement#executeUpdate <nablarch.core.db.statement.SqlPStatement.executeUpdate()>`
-  の開始時に使用するフォーマット。
+  Format used at the start of
+  :java:extdoc:`SqlPStatement#executeUpdate <nablarch.core.db.statement.SqlPStatement.executeUpdate()>`.
 
-  フォーマットに指定可能なプレースホルダ
-   :メソッド名: $methodName$
-   :SQL文: $sql$
-   :付加情報: $additionalInfo$
+  Placeholders that can be specified for the format
+   :Method name: $methodName$
+   :SQL statement: $sql$
+   :Additional information: $additionalInfo$
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: bash
 
     $methodName$
@@ -176,30 +176,30 @@ SQLログの設定は、 :ref:`log-app_log_setting` で説明したプロパテ�
         \n\t$additionalInfo$
 
  sqlLogFormatter.endExecuteUpdateFormat
-  :java:extdoc:`SqlPStatement#executeUpdate <nablarch.core.db.statement.SqlPStatement.executeUpdate()>`
-  の終了時に使用するフォーマット。
+  Format used at the end of
+  :java:extdoc:`SqlPStatement#executeUpdate <nablarch.core.db.statement.SqlPStatement.executeUpdate()>`.
 
-  フォーマットに指定可能なプレースホルダ
-   :メソッド名: $methodName$
-   :実行時間: $executeTime$
-   :更新件数: $updateCount$
+  Placeholders that can be specified for the format
+   :Method name: $methodName$
+   :Execution time: $executeTime$
+   :Update count: $updateCount$
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: bash
 
     $methodName$
         \n\texecute_time(ms) = [$executeTime$] update_count = [$updateCount$]
 
  sqlLogFormatter.startExecuteBatchFormat
-  :java:extdoc:`SqlStatement#executeBatch <nablarch.core.db.statement.SqlStatement.executeBatch()>`
-  の開始時に使用するフォーマット。
+  Format used at the start of
+  :java:extdoc:`SqlStatement#executeBatch <nablarch.core.db.statement.SqlStatement.executeBatch()>`.
 
-  フォーマットに指定可能なプレースホルダ
-   :メソッド名: $methodName$
-   :SQL文: $sql$
-   :付加情報: $additionalInfo$
+  Placeholders that can be specified for the format
+   :Method name: $methodName$
+   :SQL statement: $sql$
+   :Additional information: $additionalInfo$
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: bash
 
     $methodName$
@@ -208,21 +208,21 @@ SQLログの設定は、 :ref:`log-app_log_setting` で説明したプロパテ�
         \n\t$additionalInfo$
 
  sqlLogFormatter.endExecuteBatchFormat
-  :java:extdoc:`SqlStatement#executeBatch <nablarch.core.db.statement.SqlStatement.executeBatch()>`
-  の終了時に使用するフォーマット。
+  Format used at the end of
+  :java:extdoc:`SqlStatement#executeBatch <nablarch.core.db.statement.SqlStatement.executeBatch()>`.
 
-  フォーマットに指定可能なプレースホルダ
-   :メソッド名: $methodName$
-   :実行時間: $executeTime$
-   :バッチ件数: $batchCount$
+  Placeholders that can be specified for the format
+   :Method name: $methodName$
+   :Execution time: $executeTime$
+   :Batch count: $batchCount$
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: bash
 
     $methodName$
         \n\texecute_time(ms) = [$executeTime$] batch_count = [$updateCount$]
 
-記述例
+Example of the description
  .. code-block:: properties
 
   sqlLogFormatter.className=nablarch.core.db.statement.SqlLogFormatter
