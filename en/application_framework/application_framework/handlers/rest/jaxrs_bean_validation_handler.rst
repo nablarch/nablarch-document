@@ -1,29 +1,29 @@
 .. _jaxrs_bean_validation_handler:
 
-JAX-RS BeanValidationハンドラ
+JAX-RS BeanValidation Handler
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-本ハンドラは、リソース(アクション)クラスが受け取るForm(Bean)に対して、:ref:`bean_validation` を実行する。
-バリデーションでバリデーションエラーが発生した場合には、後続のハンドラに処理は委譲せずに、
-:java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>` を送出して処理を終了する。
+This handler executes :ref:`bean_validation` for Form (Bean) received by the resource (action) class.
+If a validation error occurs during validation, the process is not delegated to the subsequent handler,
+and the process is ended after sending :java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>`.
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following process.
 
-* リソース(アクション)クラスのメソッドが受け取るFormに対する :ref:`bean_validation` を行う。
+* Performs :ref:`bean_validation` for the form received by the resource (action) class method.
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/JaxRsBeanValidationHandler/flow.png
   :scale: 75
-  
-ハンドラクラス名
+
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.jaxrs.JaxRsBeanValidationHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -32,28 +32,28 @@ JAX-RS BeanValidationハンドラ
     <artifactId>nablarch-fw-jaxrs</artifactId>
   </dependency>
 
-  <!-- Bean Validationのモジュール -->
+  <!-- Bean Validation module -->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-core-validation-ee</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
-:ref:`body_convert_handler` よりも後ろに設定すること
-  このハンドラは、 :ref:`body_convert_handler` がリクエストボディから変換したForm(Bean)に対してバリデーションを行うため。
+Configure this handler after the :ref:`body_convert_handler`
+  Since this handler is for the validation of Form (Bean) converted from the request body by the :ref:`body_convert_handler`.
 
-リソース(アクション)で受け取るForm(Bean)に対してバリデーションを実行する
+Execute validation for Form (Bean) received by resource (action)
 ----------------------------------------------------------------------------------------------------
-リソース(アクション)のメソッドで受け取るForm(Bean)に対して、バリデーションを実行したい場合は、
-そのメソッドに対して :java:extdoc:`Valid <javax.validation.Valid>` アノテーションを設定する。
+To validate the Form (Bean) received by the resource (action) method,
+configure :java:extdoc:`Valid <javax.validation.Valid>` annotation for that method.
 
-以下に例を示す。
+An example is shown below.
 
 .. code-block:: java
 
-  // Personオブジェクトに対してバリデーションを実行したいので、
-  // Validアノテーションを設定する。
+  // Since validation has to be performed on the Person object,
+  // configure a Valid annotation.
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Valid
