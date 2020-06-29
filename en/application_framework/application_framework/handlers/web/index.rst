@@ -1,4 +1,4 @@
-ウェブアプリケーション専用ハンドラ
+Web Application Dedicated Handler
 ==================================================
 
  .. toctree::
