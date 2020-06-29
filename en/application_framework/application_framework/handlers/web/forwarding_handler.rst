@@ -1,25 +1,25 @@
 .. _forwarding_handler:
 
-内部フォーワードハンドラ
+Internal Forward Handler
 ==================================================
-このハンドラは、後続ハンドラからのレスポンス中のコンテンツが、内部フォーワードを示している場合に、指定されたリクエストパスで後続ハンドラを再実行する。
+This handler re-executes the subsequent handler with the specified request path when the content in the response from the subsequent handler indicates an internal forward.
 
-内部フォーワードは、遷移先の画面が単純な画面表示ではなく、チェックボックスやドロップダウンリストなどの選択肢をサーバサイドで取得する場合に使用する。
-例えば、入力チェックでエラーとなった際に単純に入力画面を再表示するだけでなく、入力項目の選択肢をサーバサイドで取得する場合が該当する。詳細は、 :ref:`on_error-forward` を参照。
+Internal forward is used when the transition destination screen is not a simple screen display and options such as check boxes and drop-down lists are acquired from the server.
+For example, the input screen is not only redisplayed when an error occurs during input check, but also options for the input item is acquired from the server. For details, see :ref:`on_error-forward`.
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following processes.
 
-* 内部フォーワード時の後続ハンドラの再実行
+* Re-execution of subsequent handler during internal forward
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/ForwardingHandler/flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.web.handler.ForwardingHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -28,62 +28,62 @@
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-制約
+Constraints
 --------------------------------------------------
-:ref:`session_store_handler` より後ろに配置すること
-  :ref:`session_store_handler` より後ろに配置すべき理由は、
-  :ref:`session_store_handler-error_forward_path` を参照
+Place this handler after the :ref:`session_store_handler`
+  See :ref:`session_store_handler-error_forward_path` for
+  why it should be placed after :ref:`session_store_handler`
 
 
-内部フォーワードを示すレスポンスを返却する
---------------------------------------------------
-業務アクションなどで内部フォーワードを示すレスポンスを返却する場合には、
-レスポンスが示すコンテンツパスを ``forward://`` から開始する。
+Returns the response that indicates internal forward
+---------------------------------------------------------------------------
+When a response indicating an internal forward in a business action is returned,
+start the content path indicated by the response with ``forward://``.
 
-以下に例を示す。
+An example is shown below.
 
 .. code-block:: java
 
     public HttpResponse sample(HttpRequest request, ExecutionContext context) {
-      // 業務処理
+      // Business process
 
-      // 同一業務アクションのinitializeに内部フォーワード
+      // Internal forward to initialize the same business action
       return new HttpResponse("forward://initialize");
     }
 
 .. tip::
 
-  ステータスコードはフォーワード時とフォーワード後を比較し、大きい値をレスポンス時のステータスコードとする。
+  For the status code, compare the during and after forward codes, and use the larger value as the response status code.
 
-  以下に例を示す。
+  An example is shown below.
 
-  * フォーワード時が **200** で、フォーワード後が **500** の場合は、クライアントには **500** を返却する。
-  * フォーワード時が **400** で、フォーワード後が **200** の場合は、クライアントには **400** を返却する。
-
-
-内部フォーワードに指定するパスのルール
---------------------------------------------------
-内部フォーワードで指定するフォーワード先のパスには、相対パスと絶対パスの指定が出来る。
-
-相対パス
-  現在のリクエストURIを起点としたパスになる。
-
-絶対パス
-  サーブレットコンテキスト名を起点としたパスになる。
-
-  絶対パスの場合には、指定するパスを ``/`` から開始する。
+  * If during forward is **200** and after forward is **500**, returns **500** to client.
+  * If during forward is **400** and after forward is **200**, returns **400** to client.
 
 
-以下に例を示す。
+Rules for the paths specified for internal forwards
+---------------------------------------------------------------------------
+Relative and absolute paths can be specified for the forward destination path specified by the internal forward.
 
-現在のリクエストURIが ``action/users/save`` の場合、下記の相対パスと絶対パスが示す内部フォーワード先は同一となる。
+Relative path
+  Path starting from the current request URI.
+
+Absolute path
+  Path starting from the servlet context name.
+
+  For absolute paths, start the path to be specified with ``/``.
+
+
+An example is shown below.
+
+If the current request URI is ``action/users/save``, the internal forward destination indicated by the relative and absolute paths below is the same.
 
 .. code-block:: java
 
-  // 相対パス
+  // Relative path
   new HttpResponse("forward://initialize");
 
-  // 絶対パス
+  // Absolute path
   new HttpResponse("forward:///action/users/initialize");
 
   
