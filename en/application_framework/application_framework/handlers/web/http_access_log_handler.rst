@@ -1,27 +1,27 @@
 .. _http_access_log_handler:
 
-HTTPアクセスログハンドラ
+HTTP Access Log Handler
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-:ref:`HTTPアクセスログ <http_access_log>` を出力するハンドラ。
+This handler outputs the :ref:`HTTP access log <http_access_log>`.
 
-本ハンドラでは、以下の処理を行う。
+The handler performs the following processes.
 
-* リクエスト処理開始時のアクセスログ出力を行う
-* リクエスト処理完了時のアクセスログ出力を行う
+* Outputs access log at the start of the request process
+* Outputs access log on completion of the request process
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/HttpAccessLogHandler/flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.common.web.handler.HttpAccessLogHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -30,18 +30,18 @@ HTTPアクセスログハンドラ
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-制約
+Constraints
 --------------------------------------------------
 
-:ref:`thread_context_handler` より後ろに配置すること
-  このハンドラから呼ばれるログ出力の処理内では、通常 :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` に保持する内容が必要となる。
-  このため、 :ref:`thread_context_handler` より後ろに配置する必要がある。
+Place this handler after the :ref:`thread_context_handler`
+  In the log output process called from this handler, the contents normally retained in :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` are required.
+  Therefore, this handler must be placed after the :ref:`thread_context_handler`.
 
-:ref:`http_error_handler` より前に配置すること
-  また、完了時のログ出力にはエラーコードが必要となるため、 :ref:`http_error_handler` より前に配置する必要がある。
+Place this handler before the :ref:`http_error_handler`
+  Since an error code is required for log output at the time of completion, this handler must be placed before the :ref:`http_error_handler`.
 
 
-アクセスログ出力内容の切り替え
+Switch the contents of access log output
 --------------------------------------------------
 
-アクセスログの出力内容の切り替え方法は、 :ref:`log` および :ref:`http_access_log` を参照すること。
+For how to switch the output contents of the access log, see :ref:`log` and :ref:`http_access_log`.
