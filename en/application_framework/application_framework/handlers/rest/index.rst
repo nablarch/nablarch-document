@@ -1,4 +1,4 @@
-RESTfulウェブサービス専用ハンドラ
+RESTful Web Service Dedicated Handler
 ==================================================
 
  .. toctree::
