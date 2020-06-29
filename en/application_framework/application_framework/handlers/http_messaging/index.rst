@@ -1,4 +1,4 @@
-HTTPメッセージング専用ハンドラ
+HTTP Messaging Dedicated Handler
 ==================================================
 
  .. toctree::
