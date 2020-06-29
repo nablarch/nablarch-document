@@ -1,4 +1,4 @@
-MOMメッセージング専用ハンドラ
+MOM Messaging Dedicated Handler
 ==================================================
 
  .. toctree::

@@ -1,40 +1,40 @@
 .. _message_resend_handler:
 
-再送電文制御ハンドラ
+Resent Message Control Handler
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-本ハンドラでは、同一の電文を繰り返し受信した際の再送制御を行う。
+This handler resends control when the same message is received repeatedly.
 
-具体的には、同一の電文を繰り返し受信した際に、その電文に対する処理が終わっているかどうか(応答電文が作成されているかどうか)を判断する。
-もし、既に処理が終わっていた場合(応答電文が作成されていた場合)には、業務処理を再度行うのではなく作成済みの応答電文を自動的に送信する。
+Specifically, when the same message is received repeatedly, it determines whether the processing for the message has been completed (whether a response message has been created). 
+If the process has already been completed (if a response message has been created), the created response message is automatically sent instead of repeating the business process.
 
-同一電文かの判定方法は :ref:`message_resend_handler-resent_message` を参照。
+Refer to  :ref:`message_resend_handler-resent_message`  for the method to determine whether the message is the same.
 
 .. tip::
-  本ハンドラを適用するメリットは以下のとおり。
+  The advantages of applying this handler are as below:
 
-  * 既に応答電文が作成済みの場合、業務処理が省略出来るため、システム負荷を低減できる。
-  * データベースへの登録を行う処理の場合に、業務処理を省略できるため2重取り込みの防止ロジックなどを実装する必要がない。
+  * If a response message has already been created, the system load can be reduced as the business process is omitted.
+  * In the case of the registration process to the database, a logic for preventing double capture is not required as the business process is omitted.
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following processes:
 
-* 応答電文の保存処理
-* 再送電文の場合は、保存した応答電文の送信処理
-* 再送電文以外及び保存済み応答電文がない場合は、後続ハンドラへの処理の委譲
+* Save process of the response message
+* In the case of resent messages, send process of the saved response message
+* In the case of other than resent message and stored resend message is not available, delegates processing to the subsequent handler
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/MessageResendHandler/flow.png
   :scale: 75
   
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.messaging.handler.MessageResendHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -43,97 +43,95 @@
     <artifactId>nablarch-fw-messaging</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
-:ref:`message_reply_handler` よりも後ろに設定すること
-  本ハンドラで作成した応答電文を送信する必要がある。
-  このため、電文を送信するための :ref:`message_reply_handler` よりも後ろに本ハンドラを設定する必要がある。
+Configure this handler after the :ref:`message_reply_handler` .
+  It is necessary to send the response message created by this handler. 
+  Therefore it is necessary to configure this handler after  :ref:`message_reply_handler` , which sends the message.
 
-:ref:`transaction_management_handler` よりも後ろに設定すること
-  本ハンドラでは、応答電文をデータベースに保存する。
-  このため、データベースへのトランザクション制御を実現する :ref:`transaction_management_handler` よりも後ろに本ハンドラを設定する必要がある。
+Configure this handler after the :ref:`transaction_management_handler` .
+  This handler saves the response message in the database. 
+  Therefore it is necessary to configure this handler after the  :ref:`transaction_management_handler` , which realizes transaction control for the database.
 
-
-応答電文の保存先について
+Save destination of response message
 --------------------------------------------------
-後続ハンドラで作成された応答電文は、データベース上のテーブルに格納する。
-このため、予め応答電文の保存用テーブルを作成しておく必要がある。
+The response message created in the subsequent handler is stored in the table on the database. 
+Therefore, the storage table for response messages has to be prepared in advance.
 
-応答電文を格納するテーブルの定義は以下の通り。
-デフォルトのテーブル名や物理名の値は、 :java:extdoc:`SentMessageTableSchema <nablarch.fw.messaging.tableschema.SentMessageTableSchema>` を参照。
+The definition of the table that stores the response message is as below. 
+For default table name or value of physical name, see  :java:extdoc:`SentMessageTableSchema <nablarch.fw.messaging.tableschema.SentMessageTableSchema>` .
 
 .. list-table::
   :header-rows: 1
   :class: white-space-normal
   :widths: 30 30 40
 
-  * - カラム名
-    - 制約等
-    - 格納する値
+  * - Column name
+    - Constraints
+    - Stored value
 
-  * - リクエストID
-    - 主キー |br| 文字列型
-    - 要求電文のリクエストID
+  * - Request ID
+    - Primary key |br| String type
+    - Request ID of request message
 
-  * - メッセージID
-    - 主キー |br| 文字列型
-    - 要求電文のメッセージID
+  * - Message ID
+    - Primary key |br| String type
+    - Message ID of request message
 
-      再送電文の場合には、メッセージIDではなく相関メッセージIDを使用する。
+      In the case of a resent message, instead of the message ID use the correlation message ID.
 
-      詳細は、 :ref:`message_resend_handler-resent_message` を参照
+      For details, see :ref:`message_resend_handler-resent_message` .
 
-  * - 宛先キューの論理名
-    - 文字列型
-    - 応答電文を送信するための宛先キューの論理名 |br|
+  * - Logical name of the destination queue
+    - String type
+    - Logical name of the destination queue for sending response message |br|
       (:java:extdoc:`InterSystemMessage#getDestination() <nablarch.fw.messaging.InterSystemMessage.getDestination()>`)
 
-  * - 処理結果コード
-    - 文字列型
-    - 応答電文の処理結果コード |br| 
+  * - Process result code
+    - String type
+    - Process result code of the response message: |br| 
       (:java:extdoc:`ResponseMessage#getStatusCode() <nablarch.fw.messaging.ResponseMessage.getStatusCode()>`)
 
-  * - 応答電文
-    - バイナリ型
-    - 応答電文の内容 |br|
+  * - Response message
+    - Binary type
+    - Response message contents |br|
       (:java:extdoc:`ResponseMessage#getBodyBytes() <nablarch.fw.messaging.ResponseMessage.getBodyBytes()>`)
 
-デフォルトのテーブル名やカラム名を変更したい場合には、設定により変更することができる。
-詳細は、 :java:extdoc:`SentMessageTableSchema <nablarch.fw.messaging.tableschema.SentMessageTableSchema>` 及び
-:java:extdoc:`sentMessageTableSchemaプロパティ <nablarch.fw.messaging.handler.MessageResendHandler.setSentMessageTableSchema(nablarch.fw.messaging.tableschema.SentMessageTableSchema)>` を参照。
+The default table name or column name can be changed with configuration.
+For details, see :java:extdoc:`SentMessageTableSchema <nablarch.fw.messaging.tableschema.SentMessageTableSchema>`  and :java:extdoc:`sentMessageTableSchema property <nablarch.fw.messaging.handler.MessageResendHandler.setSentMessageTableSchema(nablarch.fw.messaging.tableschema.SentMessageTableSchema)>` .
 
 .. _message_resend_handler-resent_message:
 
-同一電文(再送電文)の判定方法
---------------------------------------------------
-本ハンドラが受信した電文が以下の条件を満たす場合、既に処理済みの要求電文を受信したと判断し、保存した応答電文を処理結果として返却する。
+How to determine if it is the same message (resent message)
+---------------------------------------------------------------------
+If the message received by this handler satisfies the below conditions, it is determined that the request message received has already been processed and returns the saved response message as the process result.
 
-* フレームワーク制御ヘッダの再送要求フラグに値が設定されている
-* 受信した要求電文のリクエストIDとメッセージIDに紐づくデータが、応答電文を保存したテーブルに存在している
+* A value is configured in the resent request flag of the framework control header
+* Data associated with the request ID and message ID of the request messages received is present in the table that stores the response message
 
-フレームワーク制御ヘッダの詳細は、 :ref:`フレームワーク制御ヘッダ <mom_system_messaging-fw_header>` を参照。
+For details of the framework control header, see :ref:`framework control header <mom_system_messaging-fw_header>` .
 
 .. important::
 
-  相手先システムが要求電文を再送する際には、以下の制約を満たす必要がある。
-  この制約を満たせない場合、本ハンドラを利用することはできないので、プロジェクト側で再送制御を実現するハンドラを新たに作成する必要がある。
+  The following conditions must be satisfied when the partner system sends the request message. 
+  The handler cannot be used if this constraint is not satisfied, and a new handler must be created to implement resent control in the project.
 
-  * 再送電文の相関メッセージIDには、初回送信時の要求電文のメッセージIDを設定すること
-  * フレームワーク制御ヘッダの再送要求フラグに値を設定すること
+  * Configure the message ID of the request message used during the first send as the correlation message ID of the resent message
+  * Configure a value in the resent request flag of the framework control header
 
-フレームワーク制御ヘッダの設定
+Configuring the framework control header
 --------------------------------------------------
-応答電文内のフレームワーク制御ヘッダの定義を変更する場合には、プロジェクトで拡張したフレームワーク制御ヘッダの定義を設定する必要がある。
-設定を行わない場合は、デフォルトの :java:extdoc:`StandardFwHeaderDefinition <nablarch.fw.messaging.StandardFwHeaderDefinition>` が使用される。
+When changing the definition of the framework control header in the response message, the definition of the framework control header extended in the project has to be configured. 
+If it is not configured, the default :java:extdoc:`StandardFwHeaderDefinition <nablarch.fw.messaging.StandardFwHeaderDefinition>`  will be used.
 
-フレームワーク制御ヘッダの詳細は、 :ref:`フレームワーク制御ヘッダ <mom_system_messaging-fw_header>` を参照。
+For details of the framework control header, see  :ref:`framework control header <mom_system_messaging-fw_header>` .
 
-以下に設定例を示す。
+A configuration example is shown below.
 
 .. code-block:: xml
 
   <component class="nablarch.fw.messaging.handler.MessageResendHandler">
-    <!-- フレームワーク制御ヘッダの設定 -->
+    <!-- Configuring the framework control header -->
     <property name="fwHeaderDefinition">
       <component class="sample.SampleFwHeaderDefinition" />
     </property>

@@ -1,30 +1,30 @@
 .. _messaging_context_handler:
 
-メッセージングコンテキスト管理ハンドラ
+Messaging Context Management Handler
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-後続のハンドラ及びライブラリで使用するためのMQ接続を、スレッド上で管理するハンドラ。
+This handler manages the MQ connection on the thread for use by the subsequent handler and library.
 
-MOMメッセージングの詳細は、 :ref:`system_messaging` を参照。
+For details of MOM messaging, see  :ref:`system_messaging` .
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following processes.
 
-* MQ接続の取得
-* MQ接続の解放
+* Gets MQ connection
+* Releases MQ connection
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/MessagingContextHandler/MessagingContextHandler_flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.messaging.handler.MessagingContextHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -33,28 +33,26 @@ MOMメッセージングの詳細は、 :ref:`system_messaging` を参照。
     <artifactId>nablarch-fw-messaging</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
-なし。
+None.
 
-MQの接続先の設定を行う
+Configure the connection destination of MQ
 --------------------------------------------------
-このハンドラは、 :java:extdoc:`messagingProvider <nablarch.fw.messaging.handler.MessagingContextHandler.setMessagingProvider(nablarch.fw.messaging.MessagingProvider)>`
-プロパティに設定されたプロバイダクラス( :java:extdoc:`MessagingProvider <nablarch.fw.messaging.MessagingProvider>` 実装クラス)を使用してMQ接続を取得する。
+This handler acquires the MQ connection using the provider class (  :java:extdoc:`MessagingProvider <nablarch.fw.messaging.MessagingProvider>` implementation class) configured in the  :java:extdoc:`messagingProvider <nablarch.fw.messaging.handler.MessagingContextHandler.setMessagingProvider(nablarch.fw.messaging.MessagingProvider)>` property.
 
-以下に設定例を示す。
-プロバイダクラスの設定内容については、使用する
-:java:extdoc:`MessagingProvider <nablarch.fw.messaging.MessagingProvider>` 実装クラスのJavadocを参照。
+A configuration example is shown below. 
+For the configuration contents of provider class, refer to Javadoc of the implementation class :java:extdoc:`MessagingProvider <nablarch.fw.messaging.MessagingProvider>` .
 
 .. code-block:: xml
 
- <!-- メッセージコンテキスト管理ハンドラ -->
+ <!-- Message context management handler-->
  <component class="nablarch.fw.messaging.handler.MessagingContextHandler">
    <property name="messagingProvider" ref="messagingProvider" />
  </component>
 
- <!-- プロバイダクラス -->
+ <!-- Provider class -->
  <component name="messagingProvider"
      class="nablarch.fw.messaging.provider.JmsMessagingProvider">
-   <!-- プロパティの設定は省略 -->
+   <!-- Property configuration is omitted -->
  </component>
