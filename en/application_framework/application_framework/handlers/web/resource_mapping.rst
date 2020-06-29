@@ -1,44 +1,44 @@
 .. _resource_mapping:
 
-リソースマッピングハンドラ
+Resource Mapping Handler
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-本ハンドラは、業務アクションを経由せずにレスポンスを返却する機能を提供する。
-本機能は、静的リソースをNablarchのハンドラを経由してダウンロードする際に使用する。
+This handler provides the function to return the response without going through the business action.
+This function is used to download static resources through the Nablarch handler.
 
 .. important::
-  本ハンドラを使用して静的リソースをダウンロードする方法には、「ログが大量に出力される」、
-  「大量アクセスがあるサーバで、アプリケーションサーバの負荷が大きい」といったデメリットがある。
+  The method of downloading static resources using this handler has disadvantages such as "a large amount of log is output"
+  and "a server which is highly accessed, which places a heavy load on the application server".
 
-  このため、ハンドラを経由させる必要がない静的リソースのダウンロードについては、
-  本ハンドラの使用を推奨しない。
-  静的リソースについては、ウェブコンテナまたはウェブサーバの機能でダウンロードを行うようにし、
-  本ハンドラを使用するのは「コンテンツのダウンロードに認可チェックを行う必要がある」など、
-  他のハンドラを経由する必要のあるコンテンツに限って使用すること。
+  Therefore, using this handler for downloading static resources that do not need to go through
+  the handler is not recommended.
+  Download static resources using the function of the Web container or Web server,
+  and use this handler only for contents that need to go through other handlers
+  such as "authorization is required to be performed for contents download".
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following process.
 
-* 静的リソースダウンロードを行うレスポンスを返す
+* Returns the response that performs static resource download
 
 .. important::
-  本ハンドラは主に、 :ref:`request_handler_entry` と組み合わせて 「特定の拡張子の場合に静的リソースの
-  ダウンロードを行う」 機能の実現に使用する。
+  This handler is mainly used in combination with the :ref:`request_handler_entry` handler
+  to realize the function of "download static resource in the case of specific extensions".
 
-  この用途での使用例は :ref:`リクエストハンドラエントリの使用例 <request_handler_entry_usage>` を参照。
+  For examples of the applications, see :ref:`usage example of request handler entry <request_handler_entry_usage>`.
 
-処理の流れは以下のとおり。
-なお、図にある通り本ハンドラは後続のハンドラの呼び出しを行わない。
+The process flow is as follows.
+As shown in the figure, this handler does not call subsequent handlers.
 
 .. image:: ../images/ResourceMapping/flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.web.handler.ResourceMapping`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -47,52 +47,52 @@
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
 
-:ref:`forwarding_handler` よりも後に配置すること
-  本ハンドラは、 :ref:`forwarding_handler` の機能により提供される ``forward://`` スキームを使用できる。
-  このため、本ハンドラは :ref:`forwarding_handler` より後に配置する必要がある。
+Place this handler after the :ref:`forwarding_handler`
+  This handler can use the ``forward://`` scheme provided by the function of the :ref:`forwarding_handler`.
+  Therefore, this handler must be placed after the :ref:`forwarding_handler`.
 
-:ref:`http_response_handler` よりも後に配置すること
-  本ハンドラは、 :ref:`http_response_handler` の機能により提供される ``servlet://`` 、 ``file://`` 、 ``classpath://`` スキームを使用できる。
-  また、エラーが発生した際は 404(Not Found)の応答を返す。
-  これらの応答を処理するため、本ハンドラは :ref:`http_response_handler` より後に配置する必要がある。
+Place this handler after the :ref:`http_response_handler`
+  This handler can use the ``servlet://``, ``file://`` and ``classpath://`` schemes provided by the function of the :ref:`http_response_handler`.
+  Returns a 404 (Not Found) response when an error occurs.
+  Therefore, this handler must be placed after the :ref:`http_response_handler` to process these responses.
 
 .. _resource_mapping_usage:
 
-静的リソースのダウンロード
+Download static resources
 ------------------------------
 
-本ハンドラの主たる用途である、静的リソースのダウンロードを行う際には ``baseUri`` と ``basePath`` 2つのプロパティを以下のように設定する。
+When downloading static resources, which is the main use of this handler, configure the two properties ``baseUri`` and ``basePath`` as follows.
 
 .. code-block:: xml
 
-  <!-- 画像ファイルの静的リソースダウンロードを行うハンドラ -->
+  <!-- Handler that downloads static resources for image file -->
   <component name="imgMapping"
              class="nablarch.fw.web.handler.ResourceMapping">
     <property name="baseUri" value="/"/>
     <property name="basePath" value="servlet:///"/>
   </component>
 
-それぞれの設定項目の意味は下記の通り
+The meaning of each configuration item is as follows
 
 ============================= ==========================================================
-設定項目                      意味
+Configuration item            Description
 ============================= ==========================================================
-baseUri                       処理対象のURL。このURLにマッチしない場合、ハンドラは
+baseUri                       URL to be processed. If it does not match this URL,
                               |br|
-                              HTTPステータス404(NotFound)の応答を返す。
-basePath                      baseUriにマッチした場合のレスポンスのベースURL。
+                              the handler returns a HTTP status 404 (Not Found) response.
+basePath                      Base URL of the response if it matches baseUri.
                               |br|
-                              スキーマ指定を省略した場合、 ``servlet://`` スキーマが使用される。
+                              If the schema specification is omitted, ``servlet://`` schema is used.
 ============================= ==========================================================
 
-ただし、上記設定のハンドラを単純にハンドラキューに入れた場合、サーバに送られたすべてのURLの処理が
-静的リソースとして処理される。
-つまり、ハンドラキュー上の本ハンドラ以降のハンドラすべてが実行されなくなる。
+However, if the handler with the above configuration is just added to the handler queue,
+all URLs sent to the server are processed as static resources.
+In other words, all handlers after this handler in the handler queue will not be executed.
 
-このため、  :ref:`request_handler_entry_usage` に記載のとおり、 :ref:`request_handler_entry` と組み合わせて使用する必要がある。
+Therefore, this handler must be used in combination with :ref:`request_handler_entry` as described in :ref:`request_handler_entry_usage`.
 
 
 
