@@ -1,33 +1,33 @@
 .. _jaxrs_response_handler:
 
-JAX-RSレスポンスハンドラ
+JAX-RS Response Handler
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-本ハンドラでは、後続のハンドラ(リソース(アクション)クラスや :ref:`body_convert_handler`)
-から戻されたレスポンス情報を、クライアントに返却する。
-後続のハンドラで例外及びエラーが送出された場合には、エラー及び例外に対応したレスポンス情報を構築しクライアントに返却する。
+This handler returns the response information from the subsequent handler (resource (action) class or :ref:`body_convert_handler`) to the client.
+If an exception and error is thrown by the subsequent handler, constructs the response information corresponding to the error and exception,
+and returns it to the client.
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following process.
 
-* 例外及びエラー発生時のレスポンス情報の生成を行う。
-  詳細は、 :ref:`jaxrs_response_handler-error_response` を参照。
-* 例外及びエラー発生時のログ出力を行う。
-  詳細は、 :ref:`jaxrs_response_handler-error_log` を参照
-* クライアントへのレスポンスの返却を行う。
+* Generates the response information when an exception and error occur.
+  For details, see :ref:`jaxrs_response_handler-error_response`.
+* Generates the log output when exception and error occur.
+  For details, see :ref:`jaxrs_response_handler-error_log`.
+* Returns the response to the client.
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/JaxRsResponseHandler/flow.png
   :scale: 75
-  
-ハンドラクラス名
+
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.jaxrs.JaxRsResponseHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -36,25 +36,25 @@ JAX-RSレスポンスハンドラ
     <artifactId>nablarch-fw-jaxrs</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
-なし。
+None.
 
 
 .. _jaxrs_response_handler-error_response:
 
-例外及びエラーに応じたレスポンスの生成
---------------------------------------------------
-例外及びエラーに応じたレスポンス情報の生成は、 :java:extdoc:`errorResponseBuilder <nablarch.fw.jaxrs.JaxRsResponseHandler.setErrorResponseBuilder(nablarch.fw.jaxrs.ErrorResponseBuilder)>` プロパティに設定された
-:java:extdoc:`ErrorResponseBuilder <nablarch.fw.jaxrs.ErrorResponseBuilder>` により行われる。
-ただし、発生した例外クラスが :java:extdoc:`HttpErrorResponse <nablarch.fw.web.HttpErrorResponse>` の場合は、
-:java:extdoc:`HttpErrorResponse#getResponse() <nablarch.fw.web.HttpErrorResponse.getResponse()>` から戻される
-:java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>` がクライアントに戻される。
+Generate responses in response to exceptions and errors
+---------------------------------------------------------------------------
+Generation of response information based on the exceptions and errors is performed by :java:extdoc:`ErrorResponseBuilder <nablarch.fw.jaxrs.ErrorResponseBuilder>`
+configured in the :java:extdoc:`errorResponseBuilder <nablarch.fw.jaxrs.JaxRsResponseHandler.setErrorResponseBuilder(nablarch.fw.jaxrs.ErrorResponseBuilder)>` property.
+However, when the exception class that has occurred is :java:extdoc:`HttpErrorResponse <nablarch.fw.web.HttpErrorResponse>`,
+:java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>` that is returned from
+:java:extdoc:`HttpErrorResponse#getResponse() <nablarch.fw.web.HttpErrorResponse.getResponse()>` is returned to the client.
 
-設定を省略した場合は、デフォルト実装の :java:extdoc:`ErrorResponseBuilder <nablarch.fw.jaxrs.ErrorResponseBuilder>` が使用される。
-デフォルト実装では、プロジェクト要件を満たせない場合は、デフォルト実装クラスを継承して対応すること。
+If the setting is omitted, :java:extdoc:`ErrorResponseBuilder <nablarch.fw.jaxrs.ErrorResponseBuilder>` of the default implementation will be used.
+When the project requirements cannot be met with the default implementation by inheriting the default implementation class.
 
-以下に設定例を示す。
+A configuration example is shown below.
 
 .. code-block:: xml
 
@@ -67,15 +67,15 @@ JAX-RSレスポンスハンドラ
 
 .. _jaxrs_response_handler-error_log:
 
-例外及びエラーに応じたログ出力
+Log output in response to exceptions and errors
 --------------------------------------------------
-例外及びエラーに応じたログ出力は :java:extdoc:`errorLogWriter <nablarch.fw.jaxrs.JaxRsResponseHandler.setErrorLogWriter(nablarch.fw.jaxrs.JaxRsErrorLogWriter)>` プロパティに設定された
-:java:extdoc:`JaxRsErrorLogWriter <nablarch.fw.jaxrs.JaxRsErrorLogWriter>` により行われる。
+Log output in response to exceptions and errors is performed by :java:extdoc:`JaxRsErrorLogWriter <nablarch.fw.jaxrs.JaxRsErrorLogWriter>`
+configured in the property :java:extdoc:`errorLogWriter <nablarch.fw.jaxrs.JaxRsResponseHandler.setErrorLogWriter(nablarch.fw.jaxrs.JaxRsErrorLogWriter)>`.
 
-設定を省略した場合は、デフォルト実装の :java:extdoc:`JaxRsErrorLogWriter <nablarch.fw.jaxrs.JaxRsErrorLogWriter>` が使用される。
-デフォルト実装では、プロジェクト要件を満たせない場合は、デフォルト実装クラスを継承して対応すること。
+If the setting is omitted, :java:extdoc:`JaxRsErrorLogWriter <nablarch.fw.jaxrs.JaxRsErrorLogWriter>` of the default implementation
+will be used. When the project requirements cannot be met with the default implementation by inheriting the default implementation class.
 
-以下に設定例を示す。
+A configuration example is shown below.
 
 .. code-block:: xml
 
@@ -85,17 +85,17 @@ JAX-RSレスポンスハンドラ
     </property>
   </component>
 
-拡張例
+Expansion example
 --------------------------------------------------
 
 .. _jaxrs_response_handler-error_response_body:
 
-エラー時のレスポンスにメッセージを設定する
+Configure a message in response to an error
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-バリデーションエラー発生時など、エラーレスポンスのボディにエラーメッセージを設定して返却したい場合がある。
-このような場合は、 :java:extdoc:`ErrorResponseBuilder <nablarch.fw.jaxrs.ErrorResponseBuilder>` の継承クラスを作成して対応する。
+In some cases, such as a validation error, etc., the error message may have to be configured in the response body and returned.
+For such cases, support by creating an inherited class of :java:extdoc:`ErrorResponseBuilder <nablarch.fw.jaxrs.ErrorResponseBuilder>`.
 
-以下に、JSON形式のエラーメッセージをレスポンスに設定する場合の実装例を示す。
+An implementation example where a JSON format error message is configured in the response is shown below.
 
 .. code-block:: java
 
@@ -117,7 +117,7 @@ JAX-RSレスポンスハンドラ
           final HttpResponse response = new HttpResponse(400);
           response.setContentType(MediaType.APPLICATION_JSON);
 
-          // エラーメッセージの生成処理は省略
+          // Generation process of error message is omitted
 
           try {
               response.write(objectMapper.writeValueAsString(errorMessages));
@@ -130,15 +130,15 @@ JAX-RSレスポンスハンドラ
 
 .. _jaxrs_response_handler-individually_error_response:
 
-特定のエラーの場合に個別に定義したエラーレスポンスを返却する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-本ハンドラの後続の処理で発生したエラーに対し、
-個別にステータスコードやボディを定義したエラーレスポンスを返却したい場合がある。
+Return individually defined error response for specific errors
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For errors that occur in the subsequent process after this handler,
+error response defined with a particular status code or body may have to be returned.
 
-その場合は :java:extdoc:`ErrorResponseBuilder <nablarch.fw.jaxrs.ErrorResponseBuilder>` の継承クラスを作成し、
-送出された例外に応じたレスポンスの生成処理を個別に実装する。
+In such cases, create an inherited class from :java:extdoc:`ErrorResponseBuilder <nablarch.fw.jaxrs.ErrorResponseBuilder>`
+and implement the response generation process individually corresponding to the exception thrown.
 
-実装例を以下に示す。
+An implementation example is shown below.
 
 .. code-block:: java
 
