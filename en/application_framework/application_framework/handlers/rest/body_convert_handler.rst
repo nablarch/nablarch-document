@@ -1,34 +1,34 @@
 .. _body_convert_handler:
 
-リクエストボディ変換ハンドラ
+Request Body Conversion Handler
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-本ハンドラでは、リクエストボディとレスポンスボディの変換処理を行う。
+This handler performs conversion process of request body and response body.
 
-変換時に使用するフォーマットは、リクエストを処理するリソース(アクション)クラスのメソッドに設定された
-:java:extdoc:`Consumes <javax.ws.rs.Consumes>` 及び :java:extdoc:`Produces <javax.ws.rs.Produces>` アノテーションで指定する。
+The format used for conversion is specified in :java:extdoc:`Consumes <javax.ws.rs.Consumes>` and :java:extdoc:`Produces <javax.ws.rs.Produces>` annotations
+which are configured in the method of resource (action) class that processes the request.
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following process.
 
-* リクエストボディをリソース(アクション)クラスで受け付けるFormに変換する。
-  詳細は、:ref:`body_convert_handler-convert_request` を参照。
+* Converts the request body to a form that can be accepted by the resource (action) class.
+  For details, see :ref:`body_convert_handler-convert_request`.
 
-* リソース(アクション)クラスの処理結果をレスポンスボディに変換する。
-  詳細は、:ref:`body_convert_handler-convert_response` を参照。
+* Converts the processing result of the resource (action) class to response body.
+  For details, see :ref:`body_convert_handler-convert_response`.
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/BodyConvertHandler/flow.png
   :scale: 75
-  
-ハンドラクラス名
+
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.jaxrs.BodyConvertHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -37,51 +37,51 @@
     <artifactId>nablarch-fw-jaxrs</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
-本ハンドラは :ref:`router_adaptor` よりも後ろに設定すること
-  このハンドラは、リソース(アクション)クラスのメソッドに設定された、アノテーションの情報を元に
-  リクエスト及びレスポンスの変換処理を行う。
-  このため、ディスパッチ先を特定する :ref:`router_adaptor` よりも後ろに設定する必要がある。
+Configure this handler after the :ref:`router_adaptor`
+  This handler converts the request and response
+  based on the annotation information configured in the method of the resource (action) class.
+  Therefore, this handler should be configured after the :ref:`router_adaptor`, which specifies the dispatch destination.
 
-変換処理を行うコンバータを設定する
---------------------------------------------------
-このハンドラでは、 :java:extdoc:`bodyConverters <nablarch.fw.jaxrs.BodyConvertHandler.setBodyConverters(java.util.List)>` プロパティに設定された、
-:java:extdoc:`BodyConverter <nablarch.fw.jaxrs.BodyConverter>` の実装クラスを使用してリクエスト及びレスポンスの変換処理を行う。
-:java:extdoc:`bodyConverters <nablarch.fw.jaxrs.BodyConvertHandler.setBodyConverters(java.util.List)>` プロパティには、
-プロジェクトで使用するMIMEに対応した、 :java:extdoc:`BodyConverter <nablarch.fw.jaxrs.BodyConverter>` を設定すること。
+Configure the converter that performs the conversion process
+---------------------------------------------------------------------------------
+This handler performs the conversion if request and response using the implementation class :java:extdoc:`BodyConverter <nablarch.fw.jaxrs.BodyConverter>`
+that is configured in the :java:extdoc:`bodyConverters <nablarch.fw.jaxrs.BodyConvertHandler.setBodyConverters(java.util.List)>` property.
+:java:extdoc:`BodyConverter <nablarch.fw.jaxrs.BodyConverter>` corresponding to the MIME used in the project
+should be configured in the :java:extdoc:`bodyConverters <nablarch.fw.jaxrs.BodyConvertHandler.setBodyConverters(java.util.List)>` property.
 
-以下に例を示す。
+An example is shown below.
 
 .. code-block:: xml
 
   <component class="nablarch.fw.jaxrs.BodyConvertHandler">
     <property name="bodyConverters">
       <list>
-        <!-- application/xmlに対応したリクエスト・レスポンスのコンバータ -->
+        <!-- Request and response converter for application/xml -->
         <component class="nablarch.fw.jaxrs.JaxbBodyConverter" />
-        <!-- application/x-www-form-urlencodedに対応したリクエスト・レスポンスのコンバータ -->
+        <!-- Request and response converter for application/x-www-form-urlencoded -->
         <component class="nablarch.fw.jaxrs.FormUrlEncodedConverter" />
       </list>
     </property>
   </component>
 
 .. tip::
-  :java:extdoc:`bodyConverters <nablarch.fw.jaxrs.BodyConvertHandler.setBodyConverters(java.util.List)>` プロパティに設定されたコンバータで、
-  変換出来ないMIMEが使用された場合、サポートしていないメディアタイプであることを示すステータスコード(``415``)を返却する。
+  If the MIME used cannot be converted by the converter configured in the :java:extdoc:`bodyConverters <nablarch.fw.jaxrs.BodyConvertHandler.setBodyConverters(java.util.List)>` property,
+  a status code (``415``) indicating that it is an unsupported media type　is returned.
 
 .. _body_convert_handler-convert_request:
 
-リクエストボディをFormに変換する
+Convert request body to form
 --------------------------------------------------
-リクエストボディの変換処理で使用するフォーマットは、リクエストを処理するメソッドに設定された :java:extdoc:`Consumes <javax.ws.rs.Consumes>` により決まる。
-もし、 :java:extdoc:`Consumes <javax.ws.rs.Consumes>` に設定されたMIMEと異なるMIMEがリクエストヘッダーのContent-Typeに設定されていた場合は、
-サポートしていないメディアタイプであることを示すステータスコード(``415``)を返却する。
+The format used for the request body conversion is determined by :java:extdoc:`Consumes <javax.ws.rs.Consumes>` configured in the method that processes the request.
+If MIME different from the MIME configured in :java:extdoc:`Consumes <javax.ws.rs.Consumes>` is configured in the Content-Type of the request header,
+a status code (``415``) indicating that it is an unsupported media type is returned.
 
-リソース(アクション)のメソッドの実装例を以下に示す。
+An implementation example of the resource (action) method is shown below.
 
-この例では、 ``MediaType.APPLICATION_JSON`` が示す ``application/json`` に対応した
-:java:extdoc:`BodyConverter <nablarch.fw.jaxrs.BodyConverter>` でリクエストボディが ``Person`` に変換される。
+In this example, the request body is being converted to ``Person`` by :java:extdoc:`BodyConverter <nablarch.fw.jaxrs.BodyConverter>`
+corresponding to the ``application/json`` indicated by ``MediaType.APPLICATION_JSON``.
 
 .. code-block:: java
 
@@ -94,14 +94,14 @@
 
 .. _body_convert_handler-convert_response:
 
-リソース(アクション)の処理結果をレスポンスボディに変換する
+Convert the processing result of resource (action) to response body
 ----------------------------------------------------------------------
-レスポンスボディへの変換処理で使用するフォーマットは、リクエストを処理したメソッドに設定された :java:extdoc:`Produces <javax.ws.rs.Produces>` により決まる。
+The format used for the response body conversion is determined by :java:extdoc:`Produces <javax.ws.rs.Produces>` configured in the method that processes the request.
 
-リソース(アクション)のメソッドの実装例を以下に示す。
+An implementation example of the resource (action) method is shown below.
 
-この例では、 ``MediaType.APPLICATION_JSON`` が示す ``application/json`` に対応した
-:java:extdoc:`BodyConverter <nablarch.fw.jaxrs.BodyConverter>` でリクエストボディが ``Person`` に変換される。
+In this example, the request body is being converted to ``Person`` by :java:extdoc:`BodyConverter <nablarch.fw.jaxrs.BodyConverter>`
+corresponding to the ``application/json`` indicated by ``MediaType.APPLICATION_JSON``.
 
 .. code-block:: java
 
