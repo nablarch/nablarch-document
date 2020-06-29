@@ -1,27 +1,27 @@
 .. _normalize_handler:
 
-ノーマライズハンドラ
+Normalize Handler
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-クライアントから送信されるリクエストパラメータをノーマライズするハンドラ。
+This handler normalizes the request parameters sent by the client.
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following process.
 
-* リクエストパラメータのノーマライズ処理
+* Normalization process of request parameter
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/NormalizationHandler/flow.png
   :scale: 75
-  
-ハンドラクラス名
+
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.web.handler.NormalizationHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -30,41 +30,41 @@
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
-:ref:`multipart_handler` より後ろに配置すること
-  このハンドラはリクエストパラータにアクセスする。
-  このため、 :ref:`multipart_handler` よりも後ろに設定する必要がある。
+Place this handler after the :ref:`multipart_handler`
+  This handler accesses the request parameters.
+  Therefore, this handler must be configured after the :ref:`multipart_handler`.
 
-標準で提供しているノーマライズ処理
+Normalization process provided as standard
 --------------------------------------------------
-標準では、以下のノーマライズ処理を提供している。
+The following normalization process is provided as standard.
 
-* リクエストパラメータの前後のホワイトスペースを除去するノーマライザ( :java:extdoc:`TrimNormalizer <nablarch.fw.web.handler.normalizer.TrimNormalizer>` ) [#whitespace]_
+* Normalizer that removes white space before and after the request parameter ( :java:extdoc:`TrimNormalizer <nablarch.fw.web.handler.normalizer.TrimNormalizer>` ) [#whitespace]_
 
 
-ノーマライズ処理を追加する
+Add the normalization process
 --------------------------------------------------
-このハンドラはデフォルト動作で、リクエストパラメータの前後のホワイトスペース [#whitespace]_ を除去するノーマライザが有効となっている。
+This handler is the default action, and the normalizer that removes the white space [#whitespace]_ before and after the request parameter is enabled.
 
-プロジェクト要件で、ノーマライズ処理を追加する場合には、 :java:extdoc:`Normalizer <nablarch.fw.web.handler.normalizer.Normalizer>` の実装クラスを作成し、本ハンドラに設定する。
+When the normalization process is added to the project requirements, create an implementation class :java:extdoc:`Normalizer <nablarch.fw.web.handler.normalizer.Normalizer>` and configure in this handler.
 
-以下に例を示す。
+An example is shown below.
 
-ノーマライザの実装例
+Implementation example of normalizer
   .. code-block:: java
 
     public class SampleNormalizer implements Normalizer {
 
         @Override
         public boolean canNormalize(final String key) {
-          // パラメータのキー値にnumが含まれた場合は、そのパラメータをノーマライズする
+          // If num is included in the key value of the parameter, normalize the parameter
           return key.contains("num");
         }
 
         @Override
         public String[] normalize(final String[] value) {
-          // パラメータ中のカンマ(,)を除去する
+          // Remove the comma (,) in the parameter
           final String[] result = new String[value.length];
           for (int i = 0; i < value.length; i++) {
               result[i] = value[i].replace(",", "");
@@ -73,10 +73,10 @@
         }
     }
 
-コンポーネント設定ファイルに定義する
-  以下の設定例のように、適用したいノーマライザを設定する。
-  複数のノーマライザを設定した場合、より上に設定したものから順次ノーマライズ処理が実行される。
-  このため、ノーマライズ処理に順序性がある場合には、設定順に注意すること。
+Define in the component configuration file
+  Configure the normalizer to be applied as shown in the following configuration example.
+  When multiple normalizers are configured, the normalizing process is executed sequentially from the one configured higher.
+  Therefore, if the normalization process has order, pay attention to the configuration order.
 
   .. code-block:: xml
 
@@ -90,11 +90,11 @@
     </component>
 
 .. tip::
-  ノーマライザを設定せずに、以下のようにハンドラを設定した場合、デフォルトで提供される前後のホワイトスペースを除去するノーマライザが自動的に適用される。
+  When the handler is configured as follows without configuring the normalizer, a normalizer that removes the leading and trailing whitespace provided by default is automatically applied.
 
   .. code-block:: xml
 
     <component class="nablarch.fw.web.handler.NormalizationHandler" />
 
 
-.. [#whitespace] ホワイトスペースの定義は :java:extdoc:`Character#isWhitespace <java.lang.Character.isWhitespace(int)>` を参照
+.. [#whitespace] For the definition of whitespace, see :java:extdoc:`Character#isWhitespace <java.lang.Character.isWhitespace(int)>`
