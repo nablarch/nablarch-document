@@ -1,29 +1,29 @@
 .. _keitai_access_handler:
 
-携帯端末アクセスハンドラ
+Mobile Terminal Access Handler
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
 
-本ハンドラでは、いわゆる feature phone と呼ばれる携帯電話など、JavaScriptが動作しない環境で\
-ウェブアプリケーションを動作させるために、下記を実現する。
+This handler implements the following to operate a Web application in an environment where JavaScript does not work,
+such as the mobile phone (so called feature phone).
 
-* 画面で押されたボタンのボタン名から、想定されるURLにディスパッチする
-* JSP上にJavaScriptを出力しないよう変数を設定する
+* From the button name of the button pressed on the screen, dispatch to the expected URL
+* Configure the variables so that the JavaScript is not output on JSP
 
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/KeitaiAccessHandler/flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.web.handler.KeitaiAccessHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -32,53 +32,53 @@
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
 
-:ref:`http_response_handler` より後ろに配置すること
-  本ハンドラは、通常クライントからのJSP上にJavaScriptを出力しないよう変数を設定するため、\
-  JSPへのフォワード処理を行う :ref:`http_response_handler` より後に配置する必要がある。
+Place this handler after the :ref:`http_response_handler`
+  Since this handler normally configures variables so that JavaScript is not output on JSP from the client,
+  it must be placed after the :ref:`http_response_handler` that performs forward processing to JSP.
 
-:ref:`thread_context_handler` より前に配置すること
-  通常JSPが出力するJavaScriptで決定されるURIを決定する処理が含まれるため、\
-  URIを使用する :ref:`thread_context_handler` より前に配置する必要がある。
+Place this handler before the :ref:`thread_context_handler`
+  This handler must be placed before the :ref:`thread_context_handler` that uses URI, because it includes the process of determining the URI,
+  which is determined by JavaScript output by JSP.
 
-JavaScript出力が抑制されるタグ
+Tags that suppress the JavaScript output
 --------------------------------------------------
 
-携帯端末アクセスハンドラを使用したURLにアクセスした際は、 下記Nablarch
-タグライブラリが通常出力するJavaScriptが一切出力されなくなる。
+When accessing the URL using the mobile device access handler,
+the JavaScript normally output by the Nablarch tag library below will not be output at all.
 
- * :ref:`n:form タグ <tag-form_tag>`
- * :ref:`n:script タグ <tag-script_tag>`
- * :ref:`サブミット関連のタグ <tag_reference_submit>`
+ * :ref:`n:form tag <tag-form_tag>`
+ * :ref:`n:script tag <tag-script_tag>`
+ * :ref:`Tags associated with submit <tag_reference_submit>`
 
  .. important::
-   下記のタグは、元々想定していた機能が実現できないため、使用できなくなる。
+   The following tags cannot be used because the originally expected functions cannot be realized.
 
-   * :ref:`n:submitLink タグ <tag-submit_link_tag>`
+   * :ref:`n:submitLink tag <tag-submit_link_tag>`
 
-   n:submitLink タグの代替として、 n:a タグを使用すること。
-   特にリクエストパラメータについては、GETメソッドのパラメータで送信する必要がある。
+   Use n:a tag as an alternative to the n:submitLink tag.
+   Especially, request parameters must be sent as GET method parameters.
 
-URLの関連付け
+URL association
 --------------------
 
-携帯端末アクセスハンドラを適用した場合、下記の動作で、通常NablarchでJavaScriptで行っているformのURI属性の書き換えがサーバサイドで実施される。
+When the mobile device access handler is applied, rewriting of the form URI attribute, which is normally performed by JavaScript in Nablarch with the following operation, is done in the server.
 
-1. JSP表示時の動作
+1. Operation during JSP display
 
-  1.1. n:submit、 n:button を記載した個所で出力するHTMLのinputタグについて、 name 属性に設定する値を ``nablarch_uri_override_<JSP上のname属性>|<サブミット先のURI>`` に出力
+  1.1. Regarding the HTML input tag that is output at the location where n:submit, n:button is described, the value to be configured in the name attribute is output to ``nablarch_uri_override_<name attribute on JSP>|<URI of submit destination>``.
 
-  1.2. n:form タグでは、単純に HTML の <form> タグを出力する。\
-  つまり、ボタン押下時にはHTMLの<form>タグに記載したURLに押下したボタンのname属性が送られる。\
-  (通常、閉じタグの</form>には、押下したボタンに合わせたURLに <form> タグのuri属性を変更するJavaScriptが挿入される。)
+  1.2. In n:form tag, just an HTML <form> tag is output.
+  That is, when the button is pressed, the name attribute of the pressed button is sent to the URL described in the HTML <form> tag.
+  (Normally, in the close tag </form>, JavaScript that changes the URI attribute of the <form> tag is inserted in the URL that matches the pressed button.)
 
-2. form サブミット時の動作
+2. Operation during form submission
 
-  2.1. KeitaiAccessHandler にて、サブミット時に押下したボタンに設定された name 属性(1.1. で設定した  ``nablarch_uri_override_`` から始まる文字列)から、元のJSPタグに設定されていたURI属性を取得。
+  2.1. The KeitaiAccessHandler gets the URI attribute configured in the original JSP tag from the name attribute (string starting with ``nablarch_uri_override_`` configured in 1.1.) configured in the button pressed at the time of submission.
 
-  2.2. KeitaiAccessHandler にて、リクエストパラメータに処理対象のURIとして扱われるパラメータキー ``nablarch_submit`` で取得したURI属性を設定。
-  (つまり、通常NablarchでJavaScriptで行っているformのURI属性の書き換えを、サーバサードで実施している)
+  2.2. The KeitaiAccessHandler configures the URI attribute acquired by the parameter key ``nablarch_submit`` that is treated as the URI to be processed by the request parameter.
+  (That is, rewriting of the form URI attribute that is normally done by JavaScript in Nablarch, is executed in the server)
 
-  2.3. 後続処理に委譲する。(以降、クライアントからのリクエスト時にボタンに対応するURIが指定された場合と同じ動作をする)
+  2.3. Delegate to the subsequent process. (The subsequent operations are the same as when the URI corresponding to the button is specified by the request from the client)
