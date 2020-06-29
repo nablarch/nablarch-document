@@ -1,40 +1,40 @@
 .. _nablarch_tag_handler:
 
-Nablarchカスタムタグ制御ハンドラ
+Nablarch Custom Tag Control Handler
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-Nablarchの :ref:`tag` に必要なリクエスト処理を行うハンドラ。
+This handler performs request processing required for Nablarch :ref:`tag`.
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following processes.
 
-* カスタムタグのデフォルト値をJSPで参照できるように、
-  :java:extdoc:`CustomTagConfig<nablarch.common.web.tag.CustomTagConfig>` をリクエストスコープに設定する。
-* :ref:`hidden暗号化<tag-hidden_encryption>` に対応する改竄チェックと復号を行う。
-* :ref:`チェックボックスのチェックなしに対する値を指定する<tag-checkbox_off_value>` ために、リクエストにチェックなしに対応する値を設定する。
-* :ref:`ボタン又はリンク毎のパラメータ追加<tag-submit_change_parameter>` のために、リクエストにパラメータを追加する。
-* :ref:`http_access_log` のリクエストパラメータを出力する。
-* :ref:`複合キーを扱える<tag-composite_key>` ようにするため、複合キーを復元する。
+* Configure :java:extdoc:`CustomTagConfig<nablarch.common.web.tag.CustomTagConfig>` in the request scope
+  so that the default value of custom tag can be referenced in JSP.
+* Performs tampering check and decryption corresponding to :ref:`hidden encryption<tag-hidden_encryption>`.
+* For :ref:`specify the value for checkbox that is not checked<tag-checkbox_off_value>`, configure the corresponding value in the request without checking.
+* For :ref:`add parameters for each button or link<tag-submit_change_parameter>`, add parameters to the request.
+* Output the request parameter of :ref:`http_access_log`.
+* Restore the composite key to set :ref:`handle composite key<tag-composite_key>`.
 
 .. tip::
- GETリクエストの場合、カスタムタグではhiddenパラメータを出力しない。
- hiddenパラメータを出力しない理由は、 :ref:`tag-using_get` を参照。
+ In the case of GET request, hidden parameter is not output in the custom tag.
+ Refer to :ref:`tag-using_get` for the reason why hidden parameters are not output.
 
- カスタムタグに合わせて、本ハンドラでも、GETリクエストの場合はhiddenパラメータに関連する処理を行わず、
- 複合キーの復元処理のみを行う。
+ In accordance with the custom tag, this handler also does not perform the process related to the hidden parameter in the case of GET request,
+ but only restores the composite key.
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/NablarchTagHandler/NablarchTagHandler_flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.common.web.handler.NablarchTagHandler`
 
-モジュール一覧
+Module list
 ---------------------------------------------------------------------
 .. code-block:: xml
 
@@ -43,38 +43,38 @@ Nablarchの :ref:`tag` に必要なリクエスト処理を行うハンドラ。
     <artifactId>nablarch-fw-web-tag</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
-:ref:`multipart_handler` より後ろに設定すること
-  本ハンドラは、 :ref:`tag` に必要なリクエスト処理でリクエストパラメータにアクセスするため。
+Configure this handler after the :ref:`multipart_handler`
+  This handler is used to access request parameters in the request process required for the :ref:`tag`.
 
-:ref:`hidden暗号化<tag-hidden_encryption>` 使用時は、:ref:`thread_context_handler` より後ろに設定すること
-  hidden暗号化対象のリクエストか否かを判定するために、スレッドコンテキストからリクエストIDを取得するため。
+When using :ref:`hidden encryption<tag-hidden_encryption>`, configure this handler after the :ref:`thread_context_handler`
+  To acquire the request ID from the thread context to determine whether the request is a hidden encryption target.
 
-復号に失敗(改竄エラー、セッション無効化エラー)した場合のエラーページを設定する
-------------------------------------------------------------------------------------
-:ref:`hidden暗号化<tag-hidden_encryption>` の復号処理は、次の2つのケースにおいて失敗する可能性がある。
-改竄の判定基準は、 :ref:`復号処理<tag-hidden_encryption_decryption>` を参照。
+Configure the error page when decryption fails (tampering error, session invalidation error)
+--------------------------------------------------------------------------------------------------------------------------
+Decryption process of :ref:`hidden encryption<tag-hidden_encryption>` may fail in the following two cases.
+For the tampering determination criteria, see :ref:`decryption process<tag-hidden_encryption_decryption>`.
 
-* 暗号化したデータが改竄された場合(改竄エラー)
-* セッションから復号に使う鍵を取得できない場合(セッション無効化エラー)
+* If the encrypted data has been tampered with (tampering error)
+* If the key used for decryption cannot be obtained from the session (session invalidation error)
 
-それぞれ、
-:java:extdoc:`NablarchTagHandler<nablarch.common.web.handler.NablarchTagHandler>` の設定で、
-エラー発生時のエラーページとステータスコードを指定することができる。
+The error page and status code
+when an error occurs can be specified in the configuration of
+:java:extdoc:`NablarchTagHandler<nablarch.common.web.handler.NablarchTagHandler>`.
 
 .. code-block:: xml
 
   <component name="nablarchTagHandler"
              class="nablarch.common.web.handler.NablarchTagHandler">
     <!--
-      改竄エラー発生時の設定
+      Configuration when a tampering error occurs
     -->
     <property name="path" value="/TAMPERING-DETECTED.jsp" />
     <property name="statusCode" value="400" />
     <!--
-      セッション無効化エラー発生時の設定
-      省略した場合は改竄エラー発生時の設定が使用される。
+      Configuration when session invalidation error occurs
+      If omitted, the configuration of tampering error is used.
     -->
     <property name="sessionExpirePath" value="/SESSION-EXPIRED.jsp" />
     <property name="sessionExpireStatusCode" value="400" />
