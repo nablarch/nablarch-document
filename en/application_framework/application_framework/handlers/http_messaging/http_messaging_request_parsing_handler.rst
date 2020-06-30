@@ -1,32 +1,28 @@
 .. _http_messaging_request_parsing_handler:
 
-HTTPメッセージングリクエスト変換ハンドラ
+HTTP Messaging Request Handler
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-HTTPリクエスト(
-:java:extdoc:`HttpRequest<nablarch.fw.web.HttpRequest>`
-)を要求電文(
-:java:extdoc:`RequestMessage<nablarch.fw.messaging.RequestMessage>`
-)に変換するハンドラ。
+This handler converts the HTTP request (:java:extdoc:`HttpRequest<nablarch.fw.web.HttpRequest>`) to the request message (:java:extdoc:`RequestMessage<nablarch.fw.messaging.RequestMessage>`).
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following processes:
 
-* HTTPリクエストを要求電文に変換する。
-  詳細は、 :ref:`http_messaging_request_parsing_handler-convert` を参照。
+* Convert the HTTP request to request message。
+  For details, see :ref:`http_messaging_request_parsing_handler-convert` .
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/HttpMessagingRequestParsingHandler/flow.png
   :scale: 75
   
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.messaging.handler.HttpMessagingRequestParsingHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -35,82 +31,74 @@ HTTPリクエスト(
     <artifactId>nablarch-fw-messaging-http</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
 
-:ref:`http_response_handler` より後ろに配置すること
-  変換処理に失敗した場合は、ステータスコードを指定したレスポンスをクライアントに返すため、
-  本ハンドラは :ref:`http_response_handler` より後ろに配置する必要がある。
+Place this handler after the :ref:`http_response_handler` 
+  Since this handler returns the response with the specified status code to the client when the conversion process fails, 
+  it must be placed after the  :ref:`http_response_handler` .
 
-:ref:`thread_context_handler` より後ろに配置すること
-  スレッドコンテキスト上に設定されたリクエストIDをもとに、
-  要求電文と応答電文の変換に使う
-  :java:extdoc:`DataRecordFormatter<nablarch.core.dataformat.DataRecordFormatter>` の取得を行うため、
-  :ref:`thread_context_handler` より後ろに本ハンドラを配置する必要がある。
+Place this handler after the :ref:`thread_context_handler` 
+  Since :java:extdoc:`DataRecordFormatter<nablarch.core.dataformat.DataRecordFormatter>` , which converts the request message and response message is obtained based on the request ID set in the thread context, 
+  the handler must be placed after the :ref:`thread_context_handler` .
 
 .. _http_messaging_request_parsing_handler-convert:
 
-HTTPリクエストを要求電文に変換する
+Convert the HTTP request to request message
 --------------------------------------------------------------
-変換内容を以下に示す。
+The conversion contents are as given below.
 
 .. list-table::
    :header-rows: 1
    :class: white-space-normal
    :widths: 30,30,40
 
-   * - HTTPリクエスト(変換元)
-     - 要求電文(変換先)
-     - 補足
+   * - HTTP request (conversion source)
+     - Request message (conversion destination)
+     - Supplementary notes
 
-   * - リクエストID
-     - 要求電文のリクエストパス
+   * - Request ID
+     - Request path of request message
      -
 
-   * - X-Message-Idリクエストヘッダ
-     - 要求電文のメッセージID
-     - このヘッダが存在しない場合は ``400`` をクライアントに返す。
+   * - X-Message-Id request header
+     - Message ID of request message
+     - If this header is not present, returns ``400`` to the client.
 
-   * - X-Correlation-Idリクエストヘッダ
-     - 要求電文の関連メッセージID
-     - このヘッダが存在しない場合は設定されない。
+   * - X-Correlation-Id request header
+     - Correlation message ID of request message
+     - Not configured if this header does not exist.
 
-   * - 残りのリクエストヘッダ
-     - 要求電文のプロトコルヘッダ
+   * - Remaining request header
+     - Request message protocol header
      -
 
-   * - リクエストボディ
-     - フレームワーク制御ヘッダとデータレコード
-     - 詳細は、 :ref:`リクエストボディの変換<http_messaging_request_parsing_handler-convert_body>` を参照。
+   * - Request body
+     - Framework control header and data record
+     - For details, see  :ref:`Conversion of request body<http_messaging_request_parsing_handler-convert_body>` .   
 
 .. _http_messaging_request_parsing_handler-convert_body:
 
-リクエストボディの変換
- リクエストボディの変換は、 :ref:`data_format` により行う。
- 以下のルールでフォーマット定義ファイルを準備しておく必要がある。
+Conversion of request body
+ Request body conversion is performed by :ref:`data_format` . 
+ The format definition file has to be prepared based on the following rules.
 
-  受信時のフォーマット定義ファイルの論理名
-   <リクエストID> + "_RECEIVE"
+  Logical name of the format definition file when it is received
+   <Request ID> + "_RECEIVE"
 
-  送信時のフォーマット定義ファイルの論理名
-   <リクエストID> + "_SEND"
+  Logical name of the format definition file when it is sent
+   <Request ID> + "_SEND"
 
- デフォルトでは読み込んだデータを構造化データとして取り扱うが、
- フレームワーク制御ヘッダに対する各項目の設定は行わない。
- そのため、フレームワーク制御ヘッダに対する各項目を設定する場合、
- :java:extdoc:`StructuredFwHeaderDefinition<nablarch.fw.messaging.reader.StructuredFwHeaderDefinition>`
- をコンポーネント設定ファイルに追加し、電文からヘッダ情報を取得する際のキー情報を指定する。
+ The read data is handled as structured data by default, but each item is not configured for the framework control header. 
+ Therefore, when configuring each item of the framework control header, add :java:extdoc:`StructuredFwHeaderDefinition<nablarch.fw.messaging.reader.StructuredFwHeaderDefinition>` to the component configuration file and specify the key information when acquiring the header information from the message.
 
- 設定例を以下に示す。
+ The configuration example is shown below.
 
- ポイント
-   * キー情報は、
-     :java:extdoc:`StructuredFwHeaderDefinition#fwHeaderKeys<nablarch.fw.messaging.reader.StructuredFwHeaderDefinition.setFwHeaderKeys(java.util.Map)>`
-     プロパティに指定する。
-   * :java:extdoc:`StructuredFwHeaderDefinition#fwHeaderKeys<nablarch.fw.messaging.reader.StructuredFwHeaderDefinition.setFwHeaderKeys(java.util.Map)>`
-     プロパティには、キーにフィールド名、値に電文上の位置を指定する。
-     電文上の位置は構造化データをMapに変換した後のキー情報を記述する。
-     構造化データからMapに変換される際のキー情報については、 :ref:`data_format-structured_data` を参照。
+ Point
+   * The key information is specified in :java:extdoc:`StructuredFwHeaderDefinition#fwHeaderKeys<nablarch.fw.messaging.reader.StructuredFwHeaderDefinition.setFwHeaderKeys(java.util.Map)>`.
+   * Specify the field name for the key and the position in the message for the value in the :java:extdoc:`StructuredFwHeaderDefinition#fwHeaderKeys<nablarch.fw.messaging.reader.StructuredFwHeaderDefinition.setFwHeaderKeys(java.util.Map)>` property. 
+     Describe the key information after converting the structured data into Map for the position on the message. 
+     Refer to data_format-structured_data for key information when converting from structured data to Map.
 
  .. code-block:: xml
 
@@ -129,54 +117,53 @@ HTTPリクエストを要求電文に変換する
     </property>
   </component>
 
- また、固定長データや可変長データを取り扱う場合は標準フレームワーク制御ヘッダ定義を指定する。
+ When handling fixed-length or variable length data, specify the standard framework control header definition.
 
  .. code-block:: xml
 
   <component name="fwHeaderDefinition"
              class="nablarch.fw.messaging.StandardFwHeaderDefinition" />
 
-変換時の例外処理
- 変換時に捕捉する例外と処理内容を以下に示す。
- 以下に示していない例外については捕捉しない。
+Exception handling during conversion
+ The exceptions caught during conversion and processing contents are shown below. 
+ Exceptions that are not shown below are not caught.
 
  :java:extdoc:`nablarch.fw.results.RequestEntityTooLarge`
-  :ログレベル: INFO
-  :レスポンス: 413
-  :説明: リクエストボディのサイズ上限を超過したため、証跡ログとして記録する。
-         そして、サイズ超過を表すため、HTTPステータスコードが *413*  のレスポンスを生成する。
+  :Log level: INFO
+  :Response: 400
+  :Description: Since the size limit of the request body was exceeded, recorded as a trail log. 
+         HTTP status code generates the response *400*  to indicate that the size has been exceeded.
 
  :java:extdoc:`nablarch.fw.messaging.MessagingException`
-  :ログレベル: INFO
-  :レスポンス: 413
-  :説明: リクエストボディが不正なため、証跡ログとして記録する。
-         そして、クライアントエラーを表すため、HTTPステータスコードが *400*  のレスポンスを生成する。
+  :Log level: INFO
+  :Response: 400
+  :Description: Since the request body is invalid, it is recorded as a trail log. 
+         To indicate a client error, the HTTP status code generates the response  *400*  .
 
  :java:extdoc:`nablarch.core.dataformat.InvalidDataFormatException`
-  :ログレベル: INFO
-  :レスポンス: 413
-  :説明: リクエストボディのフォーマットが不正なため、証跡ログとして記録する。
-         そして、クライアントエラーを表すため、HTTPステータスコードが *400*  のレスポンスを生成する。
-
+  :Log level: INFO
+  :Response: 400
+  :Description: Since the request body format is invalid, it is recorded as a trail log. 
+         To indicate a client error, the HTTP status code generates the response  *400*  .
 
 .. _http_messaging_request_parsing_handler-limit_size:
 
-巨大なサイズのリクエストを防ぐ
+To prevent requests of large size
 --------------------------------------------------------------
-巨大なサイズのリクエストボディがリクエストされると、
-ディスクリソースが枯渇するなどが原因でシステムが正常に稼働しなくなる可能性がある。
+If a large size request body is requested, 
+the system may not operate normally as the disk resources may be used up completely.
 
-このため、このハンドラではリクエストボディのサイズ上限を超過した場合には、
-証跡としてINFOログを出力し、 ``413`` をクライアントに返す。
+Therefore, if size limit of the request body is exceeded, 
+this handler outputs INFO log as a trail and returns ``400`` to the client.
 
-リクエストボディのサイズ上限は、バイト数で設定する。
-設定を省略した場合は、 :java:extdoc:`Integer#MAX_VALUE<java.lang.Integer>` となる。
+The upper limit of the request body size is configured with the number of bytes. 
+If the value is not configured, the value of  :java:extdoc:`Integer#MAX_VALUE<java.lang.Integer>`  is used.
 
-以下に設定例を示す。
+A configuration example is shown below.
 
 .. code-block:: xml
 
   <component class="nablarch.fw.messaging.handler.HttpMessagingRequestParsingHandler">
-    <!-- アップロードサイズ(Content-Length)の上限(約10M) -->
+    <!-- Upload size (content-Length) upper limit (about 10M) -->
     <property name="bodyLengthLimit" value="10000000" />
   </component>
