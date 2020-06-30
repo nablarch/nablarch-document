@@ -1,4 +1,4 @@
-Nablarchの提供する標準ハンドラ
+Standard Handler Provided by Nablarch
 ==================================================
 
  .. toctree::

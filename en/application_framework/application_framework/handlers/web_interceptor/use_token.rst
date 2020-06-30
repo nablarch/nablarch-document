@@ -1,29 +1,27 @@
 .. _use_token_interceptor:
 
-UseTokenインターセプター
+UseToken Interceptor
 =====================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-:ref:`二重サブミット(同一リクエストの二重送信)防止 <tag-double_submission_server_side>` のためのトークン発行を行うインターセプター。
+Interceptor that issues token for :ref:`double submission (same request sent twice) prevention <tag-double_submission_server_side>` .
 
-このインターセプターが使用されることを想定しているのは、主にJSP以外のテンプレートエンジンを採用している場合である。
+This interceptor is expected to be used mainly when a template engine other than JSP is adopted.
 
-JSP以外のテンプレートエンジンでは、このインターセプターの使用に加えてテンプレートでトークンを明示的にhiddenへ埋め込む必要がある。
-トークンの埋め込み方は後述する。
-なお、JSPを使用している場合は :ref:`tag-form_tag` のuseToken属性でトークン生成とhiddenへの埋め込みが行われる。
+In template engines other than JSP, in addition to using this interceptor, it is necessary that the token is explicitly embedded in hidden of the template.
+How to embed the token will be described later.
+If JSP is used, useToken attribute of  :ref:`tag-form_tag`  is used to generate the token and embed in hidden.
 
-トークンをチェックするため後続のアクションに対して
-:ref:`on_double_submission_interceptor`
-を設定する必要がある。
+To check tokens, :ref:`on_double_submission_interceptor` has to be configured for subsequent actions.
 
-インターセプタークラス名
+Interceptor class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.common.web.token.UseToken`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -32,26 +30,26 @@ JSP以外のテンプレートエンジンでは、このインターセプタ�
     <artifactId>nablarch-fw-web-tag</artifactId>
   </dependency>
 
-UseTokenを使用する
+Using UseToken
 --------------------------------------------------
-:java:extdoc:`UseToken <nablarch.common.web.token.UseToken>` アノテーションを、
-アクションのメソッドに対して設定する。
+Configure the :java:extdoc:`UseToken <nablarch.common.web.token.UseToken>`  annotation for the action method.
 
 .. code-block:: java
 
  @UseToken
  public HttpResponse confirm(HttpRequest req, ExecutionContext ctx) {
-     // 省略
+     // Omitted
  }
 
-また、入力フォームへ明示的にトークンを埋め込む必要がある。
+Tokens must be explicitly embedded in the input form.
 
-Thymeleafでの実装例
+Implementation example in Thymeleaf
  .. code-block:: xml
 
   <form th:action="@{/path/to/action}" method="post">
     <input type="hidden" name="nablarch_token" th:value="${nablarch_request_token}" />
 
-この例のようにname属性は"nablarch_token"と設定して、value属性はリクエストスコープから"nablarch_request_token"というキーで取得した値を設定する必要がある。
-このname属性とリクエストスコープから値を取得するキーは変更できる。
-詳しくは :ref:`サーバ側の二重サブミット防止 <tag-double_submission_server_side>` を参照すること。
+As in this example, it is necessary to configure "nablarch_token" as the name attribute and the value obtained from the request scope with the key "nablarch_request_token" as the value attribute.
+The name attribute and the key to acquire the value from the request scope can be changed.
+For details, see  :ref:`prevention of double submission in the server <tag-double_submission_server_side>` .
+

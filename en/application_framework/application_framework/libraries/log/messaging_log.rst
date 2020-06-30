@@ -1,102 +1,102 @@
 .. _messaging_log:
 
-メッセージングログの出力
+Output Messaging Log
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-メッセージングログは、 :ref:`system_messaging` の中でメッセージ送受信時に出力する。
-アプリケーションでは、ログ出力の設定を行うことにより出力する。
+The messaging log is output when sending and receiving messages in  :ref:`system_messaging` . 
+The log is output in the application by configuring the log output.
 
-メッセージングログの出力方針
+Output policy for messaging log
 --------------------------------------------------
-メッセージングログは、アプリケーション全体のログ出力を行うアプリケーションログに出力する。
+The messaging log is output to an application log that outputs the log of the entire application.
 
-.. list-table:: メッセージングログの出力方針
+.. list-table:: Output policy for messaging log
    :header-rows: 1
    :class: white-space-normal
    :widths: 50,50
 
-   * - ログレベル
-     - ロガー名
+   * - Log level
+     - Logger name
 
    * - INFO
      - MESSAGING
 
-上記出力方針に対するログ出力の設定例を下記に示す。
+A configuration example of the log output for the above mentioned output policy is shown below
 
-log.propertiesの設定例
+Configuration example of log.properties
  .. code-block:: properties
 
   writerNames=appLog
 
-  # アプリケーションログの出力先
+  # Output destination of application log
   writer.appLog.className=nablarch.core.log.basic.FileLogWriter
   writer.appLog.filePath=/var/log/app/app.log
   writer.appLog.encoding=UTF-8
   writer.appLog.maxFileSize=10000
   writer.appLog.formatter.className=nablarch.core.log.basic.BasicLogFormatter
-  writer.appLog.formatter.format=<アプリケーションログ用のフォーマット>
+  writer.appLog.formatter.format=<Format for application log>
 
   availableLoggersNamesOrder=MESSAGING,ROO
 
-  # アプリケーションログの設定
+  # Configure application log
   loggers.ROO.nameRegex=.*
   loggers.ROO.level=INFO
   loggers.ROO.writerNames=appLog
 
-  # メッセージングログの設定
+  # Configure messaging log
   loggers.MESSAGING.nameRegex=MESSAGING
   loggers.MESSAGING.level=INFO
   loggers.MESSAGING.writerNames=appLog
 
-使用方法
+How to use
 --------------------------------------------------
 
 .. _messaging_log-setting:
 
-メッセージングログの設定を行う
+Configure the messaging log
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-メッセージングログの設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
+The messaging log is configured in the property file described in :ref:`log-app_log_setting` .
 
-記述ルール
+Description rules
  \
 
  messagingLogFormatter.className
-  :java:extdoc:`MessagingLogFormatter <nablarch.fw.messaging.logging.MessagingLogFormatter>` を実装したクラス。
-  差し替える場合に指定する。
+  Class that implements messagingLogFormatter.className :java:extdoc:`MessagingLogFormatter <nablarch.fw.messaging.logging.MessagingLogFormatter>` . 
+  Specify to replace.
 
  messagingLogFormatter.maskingPatterns
-  メッセージ本文のマスク対象文字列を正規表現で指定する。
-  正規表現で指定された最初のキャプチャ部分(括弧で囲まれた部分)がマスク対象となる。
+  Specify the character string to be masked in the message body with a regular expression. 
+  The first capture part (enclosed in parentheses) specified by the regular expression will be the target for masking.
 
-  例えばパターンとして「<password>(.+?)</password>」と指定し、
-  実電文に「<password>hoge</password>」が含まれる場合、
-  出力される文字列は「<password>****</password>」となる。
+  For example, if "<password>(.+?)</password>" is specified as the pattern, 
+  and "<password>hoge</password>" is included in the message, 
+  then the output string will be "<password>****</password>".
 
-  複数指定する場合はカンマ区切り。
-  指定した正規表現は大文字小文字を区別しない。
+  If more than one is specified, separate them with commas. 
+  The specified regular expression is not case-sensitive.
 
  messagingLogFormatter.maskingChar
-  マスクに使用する文字。デフォルトは’*’。
+  Character used for masking. Default is "*".
 
  messagingLogFormatter.sentMessageFormat
-  MOM送信メッセージのログ出力に使用するフォーマット。
+  Format used for the log output of MOM outgoing message.
 
-  フォーマットに指定可能なプレースホルダ
-   :スレッド名: $threadName$
-   :メッセージID: $messageId$
-   :送信宛先: $destination$
-   :関連メッセージID: $correlationId$
-   :応答宛先: $replyTo$
-   :有効期間: $timeToLive$
-   :メッセージボディの内容: $messageBody$ [#placeholder]_
-   :メッセージボディのヘキサダンプ: $messageBodyHex$ [#placeholder]_
-   :メッセージボディのバイト長: $messageBodyLength$
+  Placeholders that can be specified for the format
+   :Thread name: $threadName$
+   :Message ID: $messageId$
+   :Send destination: $destination$
+   :Correlation message ID: $correlationId$
+   :Reply to: $replyTo$
+   :Expiry interval: $timeToLive$
+   :Message body content: $messageBody$ [#placeholder]_
+   :Hex dump of message body: $messageBodyHex$ [#placeholder]_
+   :Message body byte length: $messageBodyLength$
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: bash
 
     @@@@ SENT MESSAGE @@@@
@@ -109,20 +109,20 @@ log.propertiesの設定例
         \n\tmessage_body   = [$messageBody$]
 
  messagingLogFormatter.receivedMessageFormat
-  MOM受信メッセージのログ出力に使用するフォーマット。
+  Format used for the log output of MOM incoming message.
 
-  フォーマットに指定可能なプレースホルダ
-   :スレッド名: $threadName$
-   :メッセージID: $messageId$
-   :送信宛先: $destination$
-   :関連メッセージID: $correlationId$
-   :応答宛先: $replyTo$
-   :有効期間: $timeToLive$
-   :メッセージボディの内容: $messageBody$ [#placeholder]_
-   :メッセージボディのヘキサダンプ: $messageBodyHex$ [#placeholder]_
-   :メッセージボディのバイト長: $messageBodyLength$
+  Placeholders that can be specified for the format
+   :Thread name: $threadName$
+   :Message ID: $messageId$
+   :Send destination: $destination$
+   :Correlation message ID: $correlationId$
+   :Reply to: $replyTo$
+   :Expiry interval: $timeToLive$
+   :Message body content: $messageBody$ [#placeholder]_
+   :Hex dump of message body: $messageBodyHex$ [#placeholder]_
+   :Message body byte length: $messageBodyLength$
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: bash
 
     @@@@ RECEIVED MESSAGE @@@@
@@ -134,19 +134,19 @@ log.propertiesの設定例
         \n\tmessage_body   = [$messageBody$]
 
  messagingLogFormatter.httpSentMessageFormat
-  HTTP送信メッセージのログ出力に使用するフォーマット。
+  Format used for the log output of HTTP outgoing message.
 
-  フォーマットに指定可能なプレースホルダ
-   :スレッド名: $threadName$
-   :メッセージID: $messageId$
-   :送信先: $destination$
-   :関連メッセージID: $correlationId$
-   :メッセージボディの内容: $messageBody$ [#placeholder]_
-   :メッセージボディのヘキサダンプ: $messageBodyHex$ [#placeholder]_
-   :メッセージボディのバイト長: $messageBodyLength$
-   :メッセージのヘッダ: $messageHeader$
+  Placeholders that can be specified for the format
+   :Thread name: $threadName$
+   :Message ID: $messageId$
+   :Sent to: $destination$
+   :Correlation message ID: $correlationId$
+   :Message body content: $messageBody$ [#placeholder]_
+   :Hex dump of message body: $messageBodyHex$ [#placeholder]_
+   :Message body byte length: $messageBodyLength$
+   :Message header: $messageHeader$
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: bash
 
     @@@@ HTTP SENT MESSAGE @@@@
@@ -158,19 +158,19 @@ log.propertiesの設定例
         \n\tmessage_body   = [$messageBody$]
 
  messagingLogFormatter.httpReceivedMessageFormat
-  HTTP受信メッセージのログ出力に使用するフォーマット。
+  Format used for the log output of HTTP incoming message.
 
-  フォーマットに指定可能なプレースホルダ
-   :スレッド名: $threadName$
-   :メッセージID: $messageId$
-   :送信先: $destination$
-   :関連メッセージID: $correlationId$
-   :メッセージボディの内容: $messageBody$ [#placeholder]_
-   :メッセージボディのヘキサダンプ: $messageBodyHex$ [#placeholder]_
-   :メッセージボディのバイト長: $messageBodyLength$
-   :メッセージのヘッダ: $messageHeader$
+  Placeholders that can be specified for the format
+   :Thread name: $threadName$
+   :Message ID: $messageId$
+   :Sent to: $destination$
+   :Correlation message ID: $correlationId$
+   :Message body content: $messageBody$ [#placeholder]_
+   :Hex dump of message body: $messageBodyHex$ [#placeholder]_
+   :Message body byte length: $messageBodyLength$
+   :Message header: $messageHeader$
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: bash
 
     @@@@ HTTP RECEIVED MESSAGE @@@@
@@ -184,21 +184,21 @@ log.propertiesの設定例
 .. [#placeholder]
 
 
-  * **$messageBody$:** 電文をISO-8859-1固定でエンコードした結果を出力する。
-  * **$messageBodyHex$:** $messageBody$の内容をヘキサダンプして出力する。
+  * **$messageBody$:** Outputs the result of encoding the message with ISO-8859-1 fixed.
+  * **$messageBodyHex$:** $messageBody$ are output by hexadump.
 
-記述例
+Example of the description
  .. code-block:: properties
 
   messagingLogFormatter.className=nablarch.fw.messaging.logging.MessagingLogFormatter
   messagingLogFormatter.maskingChar=#
   messagingLogFormatter.maskingPatterns=<password>(.+?)</password>,<mobilePhoneNumber>(.+?)</mobilePhoneNumber>
 
-  # MOMメッセージング用フォーマット
+  # MOM messaging format
   messagingLogFormatter.sentMessageFormat=@@@@ SENT MESSAGE @@@@\n\tthread_name    = [$threadName$]\n\tmessage_id     = [$messageId$]\n\tdestination    = [$destination$]\n\tcorrelation_id = [$correlationId$]\n\treply_to       = [$replyTo$]\n\ttime_to_live   = [$timeToLive$]\n\tmessage_body   = [$messageBody$]
   messagingLogFormatter.receivedMessageFormat=@@@@ RECEIVED MESSAGE @@@@\n\tthread_name    = [$threadName$]\n\tmessage_id     = [$messageId$]\n\tdestination    = [$destination$]\n\tcorrelation_id = [$correlationId$]\n\treply_to       = [$replyTo$]\n\tmessage_body   = [$messageBody$]
 
-  # HTTPメッセージング用フォーマット
+  # Format for HTTP messaging
   messagingLogFormatter.httpSentMessageFormat=@@@@ HTTP SENT MESSAGE @@@@\n\tthread_name    = [$threadName$]\n\tmessage_id     = [$messageId$]\n\tdestination    = [$destination$]\n\tcorrelation_id = [$correlationId$]\n\tmessage_header = [$messageHeader$]\n\tmessage_body   = [$messageBody$]
   messagingLogFormatter.httpReceivedMessageFormat=@@@@ HTTP RECEIVED MESSAGE @@@@\n\tthread_name    = [$threadName$]\n\tmessage_id     = [$messageId$]\n\tdestination    = [$destination$]\n\tcorrelation_id = [$correlationId$]\n\tmessage_header = [$messageHeader$]\n\tmessage_body   = [$messageBody$]
 

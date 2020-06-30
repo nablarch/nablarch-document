@@ -1,34 +1,34 @@
 .. _on_error_interceptor:
 
-OnErrorインターセプター
+OnError Interceptor
 ============================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-業務アクションでの例外発生時に、指定したレスポンスを返却するインターセプター。
+Interceptor that returns a specified response when an exception occurs in a business action.
 
-:ref:`inject_form_interceptor` を使用して入力値チェックを行う場合も、
-:ref:`inject_form_interceptor` よりも前にこのインターセプターが実行されるように設定することで、
-バリデーションエラーに対するレスポンスを指定することができる。
+Even when performing the input value check using :ref:`inject_form_interceptor` , 
+by configuring such that the interceptor is executed before the :ref:`inject_form_interceptor` , 
+the response for the validation error can be specified.
 
-このインターセプターは、業務アクションのメソッドに対して、 :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` を設定することで有効となる。
+This interceptor is enabled by configuring  :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>`  to the business action method.
 
 .. tip::
 
-  複数の例外に対するレスポンスを指定したい場合は、 :ref:`on_errors_interceptor` を使用すること。
+  Use  :ref:`on_errors_interceptor`  to specify the response for multiple exceptions.
 
 .. important::
 
-  単一の例外に対して複数のレスポンスを指定することはできない。
-  例外に対して複数のレスポンスを指定したい場合は、 :ref:`on_error-multiple` を参照。
+  Multiple responses cannot be specified for a single exception. 
+  To specify multiple responses for exceptions, see  :ref:`on_error-multiple` .
   
-インターセプタークラス名
+Interceptor class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.web.interceptor.OnError`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -37,44 +37,42 @@ OnErrorインターセプター
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-OnErrorを利用する
+Using OnError
 --------------------------------------------------
-:java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` アノテーションを、
-業務アクションのリクエストを処理するメソッドに対して設定する。
+The :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>`  annotation is configured for the method that processes the business action request.
 
-以下の例では、業務アクションのメソッド内で業務エラー( `ApplicationException` )が発生した場合の遷移先を指定している。
+In the following example, the transition destination when a business error ( `ApplicationException` ) occurs in the business action method is specified.
 
-ポイント
- * type属性には、`RuntimeException` 及びそのサブクラスを指定することができる。
- * type属性に指定した例外のサブクラスも処理の対象となる。
+Point
+ * `RuntimeException` and its subclass can be specified in the type attribute.
+ * The subclass of the exception specified in the type attribute is also processed.
 
 .. code-block:: java
 
   @OnError(type = ApplicationException.class, path = "/WEB-INF/view/project/index.jsp")
   public HttpResponse handle(HttpRequest request, ExecutionContext context) {
-      // 業務処理は省略
+      // Business process is omitted
   }
 
 .. _on_error-forward:
 
-エラー時の遷移先画面に表示するデータを取得する
-------------------------------------------------------------
-プルダウンの選択肢のように、エラー時の遷移先画面に表示するデータをデータベースなどから取得したい場合がある。
+Acquire the data to be displayed on the transition destination screen when an error occurs
+--------------------------------------------------------------------------------------------------
+Users may want to obtain the data to be displayed on the transition destination screen from a database using options such as pull-down when an error occurs.
 
-この場合は、表示データを取得する業務アクションのメソッドに対して内部フォーワードを行い、
-初期表示用のデータをデータベースなどから取得し、リクエストスコープに設定する。
+In this case, data for initial display is acquired from the database by performing internal forward for the business action method that acquires the display data, etc. and configured in the request scope.
 
-詳細は :ref:`forwarding_handler`  を参照。
+For details, see :ref:`forwarding_handler`  .
 
-バリデーションエラー発生時に初期表示用のメソッドにフォワードする場合の実装例を以下に示す。
+An implementation example for forwarding to the initial display method when a validation error occurs is shown below.
 
-ポイント
- * path属性に、内部フォワード用のパスを設定する。
+Point
+ * Configure the internal forward path in the path attribute.
 
 .. code-block:: java
 
-  /**
-   * 入力値のチェックを行う業務アクションのメソッド。
+  / **
+   * Business action method to check the input value.
    */
   @InjectForm(form = PersonForm.class, prefix = "form")
   @OnError(type = ApplicationException.class, path = "forward://initializeRegisterPage")
@@ -85,31 +83,31 @@ OnErrorを利用する
     return new HttpResponse("/WEB-INF/view/person/confirmForRegister.jsp");
   }
 
-  /**
-   * 登録画面の初期表示データを取得するメソッド。
+  / **
+   * Method to acquire the initial display data of registration screen.
    */
   public HttpResponse initializeRegisterPage(HttpRequest request, ExecutionContext context) {
-    // 画面表示データをデータベースなどから取得し、リクエストスコープに設定する
+    // Obtain the screen display data from the database, etc. and configure in the request scope
 
     return new HttpResponse("/WEB-INF/view/person/inputForRegister.jsp");
   }
 
 .. _on_error-multiple:
 
-複数のレスポンスを指定する
+Specify multiple responses
 --------------------------------------------------
-本インターセプターでは、単一の例外に対して複数のレスポンスを指定することはできないため、
-複数のレスポンスを指定したい場合は、業務アクションのメソッド内に個別に :java:extdoc:`HttpErrorResponse <nablarch.fw.web.HttpErrorResponse>` を生成する必要がある。
+Since this interceptor cannot specify multiple responses for a single exception, 
+:java:extdoc:`HttpErrorResponse <nablarch.fw.web.HttpErrorResponse>`  has to be separately generated in the business action method to specify multiple responses.
 
-以下に実装例を示す。
+An implementation example is shown below.
 
 .. code-block:: java
 
   public HttpResponse handle(HttpRequest request, ExecutionContext context) {
       try {
-          // 業務処理は省略
+          // Business process is omitted
       } catch (ApplicationException e) {
-          if (/* 条件式を記述 */) {
+          if (/* Write conditional expression */) {
               return new HttpErrorResponse("/WEB-INF/view/project/index.jsp");
           } else {
               return new HttpErrorResponse("/WEB-INF/view/error.jsp");

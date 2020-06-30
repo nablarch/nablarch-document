@@ -1,69 +1,68 @@
 .. _generator:
 
-サロゲートキーの採番
-====================
+Surrogate Key Numbering
+=========================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-データベースのサロゲートキー(代理キー)の値を採番するための機能を提供する。
+Provides a function for numbering the value of surrogate keys of the database.
 
-この機能は、 :ref:`universal_dao` でサロゲートキーを採番(単純な連番を採番)する際に使用する。
+This function is used when numbering surrogate keys with :ref:`universal_dao`  (numbering simple serial numbers).
 
-なお、 :ref:`universal_dao` 以外でも利用することはできるが、
-以下の理由によりアプリケーション側で対応することを推奨する。
+In addition, it can be used with implementation other than :ref:`universal_dao` , 
+but support from the application side is recommended for the following reasons.
 
-理由
-  サロゲートキーの採番処理は、 :ref:`universal_dao` が行うためアプリケーション側で直接採番機能を使用する必要が無い。
-  それ以外の用途で値を採番する場合には、採番ルールが複雑であったり、採番した値を編集することが想定される。
-  このような場合は、単純な連番を採番する本機能を使用することができないため、アプリケーション側で設計及び実装を行う必要がある。
-  (本機能で実現することも可能だが、設計及び実装(設定)が必要となるため、本機能を使うメリットは無い)
+Reason
+  Since :ref:`universal_dao`  performs the numbering process for the surrogate key, it is not necessary to use the numbering function directly in the application.
+  When assigning values for other applications, the numbering rules are expected to be complicated and the assigned values will be edited.
+  Since this function assigns a simple serial number, it cannot be used, and design and implementation are required in the application for such cases.
+  (Although this function can be used, there is no advantage in using this function as design and implementation (configuration) are required)
 
-  例えば、親キーの中での連番を採番するケースでは、以下の手順にて値を採番することができる。
+  For example, in the case where the serial number is assigned to the parent key, a value can be assigned with the following procedure.
 
-  1. 親キーの毎に連番を採番するための専用テーブルを作成する。
-  2. アプリケーションでは、親のキーが登録されたタイミングで専用テーブルにレコードを登録する。
-  3. 採番が必要なタイミングで親キーに対応する採番済みの値をインクリメントすることで、親キー内での連番を採番できる。
+  1. Create a dedicated table to assign a serial number for each parent key.
+  2. The application registers a record in the dedicated table when the parent key is registered.
+  3. By incrementing the numbered value corresponding to the parent key at the timing when numbering is required, serial numbers within the parent key can be numbered.
 
-機能概要
--------------
-シーケンスを使った値の採番が出来る
+Function overview
+--------------------
+Values can be numbered using sequences
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データベース上に作成されたシーケンスオブジェクトを使って、一意の値を採番出来る。
+Unique value can be assigned using the sequence object created in the database.
 
-なお、シーケンスを使って次の値を取得するためのSQL文は、
-データベースアクセス機能のダイアレクトを使用して構築する。
+The SQL statement for acquiring the next value using a sequence is constructed using the dialect of the database access function.
 
-ダイアレクト機能については、 :ref:`ダイアレクト <database-dialect>` を参照。
+For the dialect function, see  :ref:`dialect <database-dialect>` .
 
-テーブルを使った値の採番が出来る
+Values can be numbered using table
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-テーブルのレコード単位に現在値を管理し、一意の値を採番出来る。
+A unique value can be assigned by managing the current value for each record of the table.
 
-テーブルのレイアウトは以下のものを想定する。
+The following table layout is assumed.
 
-================ ===================================================
-採番識別名(PK)   採番対象を識別するための値
+=================================== ==================================================================================================
+Numbering identification name (PK)   A value for identifying the numbering target
 
-現在値           現在の値(採番を行うとこの値に1を加算したものが取得できる)
-================ ===================================================
-
-.. important::
-
-  必要なレコードは予めセットアップしておくこと。
-  採番実行時に、指定した採番識別名(PK)に対応するレコードが存在しない場合、
-  新規にレコードを追加するのではなく、異常終了(例外を送出)する。
-
+Current value                        Current value (value obtained by adding 1 to the current value is obtained after numbering)
+=================================== ==================================================================================================
 
 .. important::
 
-  テーブルを使った採番は、大量にデータを処理するようなバッチ処理ではボトルネックとなることが多い。
-  このため、テーブルを使った採番を使うのではなく、データベース側の採番カラムやシーケンスを用いた採番を使うことを強く推奨する。
+  The necessary records must be configured up in advance. When numbering is executed, 
+  if there is no record corresponding to the specified numbering identification name (PK), 
+  terminates abnormally (throws an exception) instead of adding a new record.
 
-  データベースの機能として、採番カラム及びシーケンスオブジェクトが使用できない場合のみ、テーブルを使った採番機能を使用すること。
 
-モジュール一覧
+.. important::
+
+  Numbering using a table often becomes a bottleneck in batch processing that processes a large amount of data. 
+  For this reason, the use of numbering column or sequence in the database instead of using the numbering table is highly recommended.
+
+  Use the numbering tables only when the numbering columns and sequence objects cannot be used as a database function.
+
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -76,29 +75,30 @@
     <artifactId>nablarch-common-idgenerator-jdbc</artifactId>
   </dependency>
 
-使用方法
+How to use
 --------------------------------------------
 
 .. _generator_dao_setting:
 
-ユニバーサルDAO用に採番の設定を行う
+Configure numbering for Universal DAO
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`universal_dao` で本機能を使用するためには、 :java:extdoc:`BasicDaoContextFactory <nablarch.common.dao.BasicDaoContextFactory>` に対する設定が必要となる。
+To use this function in :ref:`universal_dao` , :java:extdoc:`BasicDaoContextFactory <nablarch.common.dao.BasicDaoContextFactory>`  must be configured.
 
-この例では、シーケンス採番とテーブル採番の両方を設定しているが、使用しない採番の設定はしなくてよい。
-テーブル採番は推奨しないため、サロゲートキーの採番でシーケンス採番を使用する場合に `sequenceIdGenerator` を設定すれば良い。
+In this example, although both sequence numbering and table numbering have been configured, and numbering that will not be used need not be configured. 
+Since table numbering is not recommended,  `sequenceIdGenerator`  should be configured when using sequence numbering for numbering surrogate keys.
 
-もし、シーケンス採番を使用せずにデータベース側の採番機能(自動採番カラム)を使う場合には、採番の設定自体が不要となる。
+
+If the numbering function (automatic numbering column) of the database is used without using sequence numbering, configuration of numbering is not required.
 
 .. code-block:: xml
 
   <component name="daoContextFactory" class="nablarch.common.dao.BasicDaoContextFactory">
-    <!-- シーケンス採番の設定 -->
+    <!-- Configuration of sequence numbering -->
     <property name="sequenceIdGenerator">
       <component class="nablarch.common.idgenerator.SequenceIdGenerator"/>
     </property>
 
-    <!-- テーブル採番の設定 -->
+    <!-- Configuration of table numbering -->
     <property name="tableIdGenerator">
       <component class="nablarch.common.idgenerator.TableIdGenerator">
           <property name="tableName" value="GENERATOR" />
@@ -107,17 +107,18 @@
       </component>
     </property>
 
-    <!-- 採番に関係のない設定は省略 -->
+    <!-- Skip configuration that are not required for numbering -->
   </component>
 
-拡張例
+Expansion example
 --------------------------------------------------
-テーブル採番やシーケンス採番を置き換える
+Replace table or sequence numbering
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-テーブルやシーケンスを使った採番の実装を新しいものに置き換える場合には、
-:java:extdoc:`IdGenerator <nablarch.common.idgenerator.IdGenerator>` を実装したクラスを作成することで対応できる。
+When replacing the numbering implementation by a table or sequence, 
+it can be supported by creating a class that implements :java:extdoc:`IdGenerator <nablarch.common.idgenerator.IdGenerator>` .
 
-作成したクラスは、 `ユニバーサルDAO用に採番の設定を行う`_ に従いコンポーネント設定ファイルに定義することで利用可能となる。
+作成したクラスは、 `Configure numbering for Universal DAO`_ に従いコンポーネント設定ファイルに定義することで利用可能となる。
+The created class can be used by defining it in the component configuration file according to the  `Configure numbering for Universal DAO`_ .
 
 .. |br| raw:: html
 

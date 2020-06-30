@@ -1,25 +1,22 @@
 .. _on_double_submission_interceptor:
 
-OnDoubleSubmissionインターセプター
+OnDoubleSubmission Interceptor
 =====================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-:ref:`二重サブミット(同一リクエストの二重送信)のチェック <tag-double_submission_server_side>` を行うインターセプター。
+Interceptor that performs :ref:`double submission (same request sent twice) check <tag-double_submission_server_side>`.
 
-このインターセプターを使用するためには、
-:ref:`jspでのformタグによるトークン設定 <tag-double_submission_token_setting>`
-または
-:ref:`UseTokenインターセプターによるトークン設定 <use_token_interceptor>`
-が必要である。
+To use this interceptor, 
+:ref:`Token configuration using form tag in jsp <tag-double_submission_token_setting>` or :ref:`Token configuration using UseToken interceptor <use_token_interceptor>` are necessary.
 
-インターセプタークラス名
+Interceptor class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.common.web.token.OnDoubleSubmission`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -28,53 +25,45 @@ OnDoubleSubmissionインターセプター
     <artifactId>nablarch-fw-web-tag</artifactId>
   </dependency>
 
-OnDoubleSubmissionを利用する
+Using OnDoubleSubmission
 --------------------------------------------------
-:java:extdoc:`OnDoubleSubmission <nablarch.common.web.token.OnDoubleSubmission>` アノテーションを、
-アクションのメソッドに対して設定する。
+Configure the :java:extdoc:`OnDoubleSubmission <nablarch.common.web.token.OnDoubleSubmission>`  annotation for the action method.
 
 .. code-block:: java
 
- // 二重サブミットと判定した場合の遷移先をpath属性に指定する。
+ // Specify the transition destination in the path attribute when it is determined as double submission.
  @OnDoubleSubmission(path = "/WEB-INF/view/error/userError.jsp")
  public HttpResponse register(HttpRequest req, ExecutionContext ctx) {
-     // 省略。
+     // Omitted.
  }
 
-OnDoubleSubmissionのデフォルト値を指定する
+Specify the default value of OnDoubleSubmission
 --------------------------------------------------
-アプリケーション全体で使用する
-:java:extdoc:`OnDoubleSubmission <nablarch.common.web.token.OnDoubleSubmission>` アノテーションのデフォルト値を設定する場合は、
-:java:extdoc:`BasicDoubleSubmissionHandler <nablarch.common.web.token.BasicDoubleSubmissionHandler>`
-をコンポーネント定義に ``doubleSubmissionHandler`` という名前で追加する。
+To configure the default value of the :java:extdoc:`OnDoubleSubmission <nablarch.common.web.token.OnDoubleSubmission>`  annotation that is used throughout the application, 
+add :java:extdoc:`BasicDoubleSubmissionHandler <nablarch.common.web.token.BasicDoubleSubmissionHandler>` to the component definition with the name ``doubleSubmissionHandler``.
 
-:java:extdoc:`BasicDoubleSubmissionHandler <nablarch.common.web.token.BasicDoubleSubmissionHandler>`
-では、アノテーションの属性が指定されなかった場合に、自身のプロパティに設定されたリソースパス、メッセージID、ステータスコードを使用する。
+If the annotation attribute is not specified in :java:extdoc:`BasicDoubleSubmissionHandler <nablarch.common.web.token.BasicDoubleSubmissionHandler>`, then the resource path, message ID and status code configured in the own property are used.
 
-設定例
+Configuration example
  .. code-block:: xml
 
   <component name="doubleSubmissionHandler"
              class="nablarch.common.web.token.BasicDoubleSubmissionHandler">
-    <!-- 二重サブミットと判定した場合の遷移先のリソースパス -->
+    <!-- Resource path of the transition destination when double submission is determined -->
     <property name="path" value="/WEB-INF/view/error/userError.jsp" />
-    <!-- 二重サブミットと判定した場合の遷移先画面に表示するエラーメッセージに使用するメッセージID -->
+    <!-- Message ID used for the error message displayed on the transition destination screen when double submission is determined -->
     <property name="messageId" value="DOUBLE_SUBMISSION_ERROR" />
-    <!-- 二重サブミットと判定した場合のレスポンスステータス。デフォルトは400 -->
+    <!-- Response status when double submission is determined.Default is 400 -->
     <property name="statusCode" value="200" />
   </component>
 
 .. important::
- :java:extdoc:`OnDoubleSubmission <nablarch.common.web.token.OnDoubleSubmission>`
- と :java:extdoc:`BasicDoubleSubmissionHandler <nablarch.common.web.token.BasicDoubleSubmissionHandler>` の
- どちらもpathの指定がない場合は、二重サブミットと判定した場合に遷移先が不明なため、システムエラーとなる。
+ If both :java:extdoc:`OnDoubleSubmission <nablarch.common.web.token.OnDoubleSubmission>` and  :java:extdoc:`BasicDoubleSubmissionHandler <nablarch.common.web.token.BasicDoubleSubmissionHandler>` do not specify the path, 
+ a system error occurs because the transition destination is not known when a double submission is determined.
 
- このため、 :ref:`トークンを使用した二重サブミットの防止 <tag-double_submission_server_side>`
- を使用するアプリケーションでは、必ずどちらかのpathを指定すること。
+ One of the paths must be specified in the application that uses :ref:`Prevention of double submission using token <tag-double_submission_server_side>`.
 
-OnDoubleSubmissionの振る舞いを変更する
+Change the behavior of OnDoubleSubmission
 --------------------------------------------------
-:java:extdoc:`OnDoubleSubmission <nablarch.common.web.token.OnDoubleSubmission>` アノテーションの振る舞いは、
-:java:extdoc:`DoubleSubmissionHandler <nablarch.common.web.token.DoubleSubmissionHandler>`
-インタフェースを実装することで変更できる。実装したクラスをコンポーネント定義に ``doubleSubmissionHandler`` という名前で追加する。
-
+The behavior of the :java:extdoc:`OnDoubleSubmission <nablarch.common.web.token.OnDoubleSubmission>`  annotation can be changed by implementing the interface :java:extdoc:`DoubleSubmissionHandler <nablarch.common.web.token.DoubleSubmissionHandler>`. 
+Add the implemented class to the component definition with the name ``doubleSubmissionHandler``.

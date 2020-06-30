@@ -1,56 +1,56 @@
-Fixed(固定長)のマルチフォーマット定義のサンプル集
---------------------------------------------------
+Sample Collection of Fixed (Fixed-Length) Multi Format Definition
+---------------------------------------------------------------------
 
-単一のフィールドでフォーマットを識別する例
-  単一フィールドが条件の場合、そのフィールド値が各フォーマットに定義した条件と一致した場合に、そのレコード定義で処理される。
+Example of identifying format with a single field
+  When a single field is a condition, if the field value matches the condition defined in each format, then it is processed with the record definition.
 
-  このサンプルでは、以下のルールでレコードが識別される。
+  In this example, records are identified by the following rules:
 
-  * dataKbnが1の場合、headerレコードタイプとなる。
-  * dataKbnが2の場合、dataレコードタイプとなる。
+  * Header record type if dataKbn is 1.
+  * Data record type if dataKbn is 2.
 
   .. code-block:: bash
 
-    file-type:        "Fixed" # 固定長
-    text-encoding:    "MS932" # 文字列型フィールドの文字エンコーディング
-    record-length:    40      # 各レコードの長さ
-    record-separator: "\r\n"  # 改行コード(crlf)
+    file-type:        "Fixed" # Fixed-length
+    text-encoding:    "MS932" # Character encoding of the string type field
+    record-length:    40      # Length of each record
+    record-separator: "\r\n"  # Line feed code (crlf)
 
-    # レコード識別フィールドの定義
+    # Define record identification field
     [Classifier]
     1 dataKbn X(1)
 
-    # ヘッダーレコードの定義
+    # Define the header record
     [header]
     dataKbn = "1"
     1 dataKbn X(1)
     2 data    X(39)
 
-    # データレコードの定義
+    # Define data record
     [data]
     dataKbn = "2"
     1 dataKbn X(1)
     2 data    X(39)
 
-複数のフィールドでフォーマットを識別する例
-  複数のフィールドでレコードを識別する場合、全ての条件を満たした場合に、そのレコード定義で処理される。
+Example of identifying format with multiple fields
+  When a record is identified by multiple of fields, the processing is performed by the record definition if all conditions are satisfied.
 
-  このサンプルでは、以下のルールでレコードが識別される。
+  In this example, records are identified by the following rules:
 
-  * dataKbnが1でtypeが01の場合、parentDataレコードタイプとなる。
-  * dataKbnが2でtypeが02の場合、childDataレコードタイプとなる。
+  * ParentData record type if dataKbn is 1 and type is 01.
+  * ChildData record type if dataKbn is 2 and type is 02.
 
   .. code-block:: bash
 
-    file-type:        "Fixed" # 固定長
-    text-encoding:    "MS932" # 文字列型フィールドの文字エンコーディング
-    record-length:    40      # 各レコードの長さ
-    record-separator: "\r\n"  # 改行コード(crlf)
+    file-type:        "Fixed" # Fixed-length
+    text-encoding:    "MS932" # Character encoding of the string type field
+    record-length:    40      # Length of each record
+    record-separator: "\r\n"  # Line feed code (crlf)
 
-    # レコード識別フィールドの定義
+    # Define record identification field
     [Classifier]
-    1   dataKbn X(1)      # 先頭1バイト
-    10  type    X(2)      # 10バイト目から2バイト
+    1   dataKbn X(1)      # 2 bytes from the 10th byte
+    10  type    X(2)      # 2 bytes from the 10th byte
 
     [parentData]
     dataKbn = "1"
@@ -68,29 +68,29 @@ Fixed(固定長)のマルチフォーマット定義のサンプル集
     10 type    X(2)
     13 data    X(28)
 
-レコード毎に識別項目が異なる場合の例
-  レコード毎に識別に使用する項目が異なる場合、レコード識別フィールドには識別に使用する全てのフィールドを定義する。
-  個別のレコードの条件定義部には、そのレコードを識別する条件を定義する。
+Example when the identification item is different for each record
+  When items used for identification differ for each record, all fields used for identification are defined in the record identification field. 
+  In the condition definition section of each record, a condition for identifying the record is defined.
 
-  このサンプルでは、以下のルールでレコードが識別される。
+  In this example, records are identified by the following rules:
 
-  * dataKbnが1の場合、headerレコードタイプとなる。
-  * dataKbnが2でtypeが01の場合、data1レコードタイプとなる。
-  * dataKbnが2でtypeが02の場合、data2レコードタイプとなる。
+  * Header record type if dataKbn is 1.
+  * Data1 record type if dataKbn is 2 and type is 01.
+  * Data2 record type if dataKbn is 2 and type is 02.
 
   .. code-block:: bash
 
-    file-type:        "Fixed" # 固定長
-    text-encoding:    "MS932" # 文字列型フィールドの文字エンコーディング
-    record-length:    40      # 各レコードの長さ
-    record-separator: "\r\n"  # 改行コード(crlf)
+    file-type:        "Fixed" # Fixed-length
+    text-encoding:    "MS932" # Character encoding of the string type field
+    record-length:    40      # Length of each record
+    record-separator: "\r\n"  # Line feed code (crlf)
 
-    # レコード識別フィールドの定義
+    # Define record identification field
     [Classifier]
-    1   dataKbn X(1)      # 先頭1バイト
-    10  type    X(2)      # 10バイト目から2バイト
+    1   dataKbn X(1)      # 2 bytes from the 10th byte
+    10  type    X(2)      # 2 bytes from the 10th byte
 
-    # ヘッダー
+    # Header
     [header]
     dataKbn = "1"
     1  dataKbn X(1)
@@ -112,58 +112,58 @@ Fixed(固定長)のマルチフォーマット定義のサンプル集
     10 type    X(2)
     13 data    X(28)
 
-Variable(可変長)でマルチフォーマット定義のサンプル集
-------------------------------------------------------------
-Variable(可変長)データのマルチフォーマットの定義方法について説明する。
+Sample Collection of Variable (Variable Length) Multi Format Definition
+--------------------------------------------------------------------------------
+This section describes the definition method for multi-format for variable (variable length) data.
 
-単一のフィールドでフォーマットを識別する例
-  単一フィールドが条件の場合、そのフィールド値が各フォーマットに定義した条件と一致した場合に、そのレコード定義で処理される。
+Example of identifying format with a single field
+  When a single field is a condition, if the field value matches the condition defined in each format, then it is processed with the record definition.
 
-  このサンプルでは、以下のルールでレコードが識別される。
+  In this example, records are identified by the following rules:
 
-  * dataKbnが1の場合、headerレコードタイプとなる。
-  * dataKbnが2の場合、dataレコードタイプとなる。
+  * Header record type if dataKbn is 1.
+  * Data record type if dataKbn is 2.
 
   .. code-block:: bash
 
-    file-type:        "Variable" # 可変長
-    text-encoding:    "MS932"    # 文字列型フィールドの文字エンコーディング
-    record-separator: "\r\n"     # 改行コード(crlf)
+    file-type:        "Variable" # Variable length
+    text-encoding:    "MS932"    # Character encoding of the string type field
+    record-separator: "\r\n"     # Line feed code (crlf)
     field-separator:  ","        # csv
 
 
-    # レコード識別フィールドの定義
+    # Define record identification field
     [Classifier]
     1 dataKbn X
 
-    # ヘッダーレコードの定義
+    # Define the header record
     [header]
     dataKbn = "1"
     1 dataKbn X
     2 data    X
 
-    # データレコードの定義
+    # Define data record
     [data]
     dataKbn = "2"
     1 dataKbn X
     2 data    X
 
-複数のフィールドでフォーマットを識別する例
-  複数のフィールドでレコードを識別する場合、全ての条件を満たした場合に、そのレコード定義で処理される。
+Example of identifying format with multiple fields
+  When a record is identified by multiple of fields, the processing is performed by the record definition if all conditions are satisfied.
 
-  このサンプルでは、以下のルールでレコードが識別される。
+  In this example, records are identified by the following rules:
 
-  * dataKbnが1でtypeが01の場合、parentDataレコードタイプとなる。
-  * dataKbnが2でtypeが02の場合、childDataレコードタイプとなる。
+  * ParentData record type if dataKbn is 1 and type is 01.
+  * ChildData record type if dataKbn is 2 and type is 02.
 
   .. code-block:: bash
 
-    file-type:        "Variable" # 可変長
-    text-encoding:    "MS932"    # 文字列型フィールドの文字エンコーディング
-    record-separator: "\r\n"     # 改行コード(crlf)
+    file-type:        "Variable" # Variable length
+    text-encoding:    "MS932"    # Character encoding of the string type field
+    record-separator: "\r\n"     # Line feed code (crlf)
     field-separator:  ","        # csv
 
-    # レコード識別フィールドの定義
+    # Define record identification field
     [Classifier]
     1 dataKbn X
     3 type    X
@@ -184,29 +184,29 @@ Variable(可変長)データのマルチフォーマットの定義方法につ�
     3 type    X
     4 data    X
  
-レコード毎に識別項目が異なる場合の例
-  レコード毎に識別に使用する項目が異なる場合、レコード識別フィールドには識別に使用する全てのフィールドを定義する。
-  個別のレコードの条件定義部には、そのレコードを識別する条件を定義する。
+Example when the identification item is different for each record
+  When items used for identification differ for each record, all fields used for identification are defined in the record identification field. 
+  In the condition definition section of each record, a condition for identifying the record is defined.
 
-  このサンプルでは、以下のルールでレコードが識別される。
+  In this example, records are identified by the following rules:
 
-  * dataKbnが1の場合、headerレコードタイプとなる。
-  * dataKbnが2でtypeが01の場合、data1レコードタイプとなる。
-  * dataKbnが2でtypeが02の場合、data2レコードタイプとなる。
+  * Header record type if dataKbn is 1.
+  * Data1 record type if dataKbn is 2 and type is 01.
+  * Data2 record type if dataKbn is 2 and type is 02.
 
   .. code-block:: bash
 
-    file-type:        "Variable" # 可変長
-    text-encoding:    "MS932"    # 文字列型フィールドの文字エンコーディング
-    record-separator: "\r\n"     # 改行コード(crlf)
+    file-type:        "Variable" # Variable length
+    text-encoding:    "MS932"    # Character encoding of the string type field
+    record-separator: "\r\n"     # Line feed code (crlf)
     field-separator:  ","        # csv
 
-    # レコード識別フィールドの定義
+    # Define record identification field
     [Classifier]
     1   dataKbn X
     3   type    X
 
-    # ヘッダー
+    # Header
     [header]
     dataKbn = "1"
     1 dataKbn X
@@ -230,18 +230,18 @@ Variable(可変長)データのマルチフォーマットの定義方法につ�
 
 .. _data_format-variable_title_sample:
 
-タイトルレコードを使用した場合の例
-  :ref:`タイトルレコードあり <data_format-requires-title>` の可変長ファイルの場合、タイトルレコードに関してはレコード識別条件を定義する必要が無い。
+Example of using title record
+  For variable length file With :ref:`title record <data_format-requires-title>` , defining record identification conditions for title records is not required.
 
-  タイトルレコード以外のフォーマットがシングルフォーマットの場合には、以下の例のようにレコード識別( ``Classifier`` )の定義は不要となる。
-  タイトルレコードのレイアウト定義は、レコードタイプ名を ``Title`` として定義する。
+  When the format other than title record is a single format, definition of record identifier ( ``Classifier`` ) is not required as shown in the example below. 
+  The layout definition of the title record is defined with ``Title``  as the record type name.
 
   .. code-block:: bash
 
-    # requires-titleがtrueの場合、最初の行をタイトルとして読み書きできる。
+    # If requires-title is true, the first line is read and written as the title.
     requires-title: true  
 
-    # タイトル固有のレコードタイプ。最初の行はこのレコードタイプで読み書きされる。
+    # Title-specific record type The first line is read and written with this record type.
     [Title]               
     1   Kubun      N
     2   Name       N
@@ -249,7 +249,7 @@ Variable(可変長)データのマルチフォーマットの定義方法につ�
     4   Authors    N
     5   Price      N
 
-    # データのレコードタイプ。最初の行以降の行はこのレコードタイプで読み書きされる。
+    # Data record type. The lines after the first line are read and written with this record type.
     [DataRecord]          
     1   Kubun      X
     2   Name       N
@@ -257,46 +257,47 @@ Variable(可変長)データのマルチフォーマットの定義方法につ�
     4   Authors    N
     5   Price      N
 
-  タイトルレコード以外のフォーマットがマルチフォーマットの場合には、以下の例のようにレコード識別( ``Classifier`` )の定義が必要となる。
-  タイトルレコードを示すレコードタイプが ``Title`` のレコード定義については、マルチフォーマット時に必要となる条件定義は必要ない。
+  When the format other than title record is multi-format, definition of record identifier ( ``Classifier`` ) is required as shown in the example below. 
+  For the record definition whose record type indicating the title record is  ``Title`` , the condition definition required for multi-format is not required.
 
   .. code-block:: bash
 
-    file-type:    "Variable"     # 可変長
-    text-encoding:     "ms932"   # ファイルエンコーディング
-    record-separator:  "\r\n"    # CRLFで改行
-    field-separator:   ","       # フィールド区切り文字
-    quoting-delimiter: "\""      # 囲み文字
-    requires-title: true         # 最初の行をタイトルとして読み書きする
+    file-type:    "Variable"     # Variable length
+    text-encoding:     "ms932"   # File encoding
+    record-separator:  "\r\n"    # Line feed with CRLF
+    field-separator:   ","       # Field separator character
+    quoting-delimiter: "\""      # Enclosing character
+    requires-title: true         # Read/write first line as title
 
 
     [Classifier]
-    1  Kubun X                   # レコードタイプ識別フィールド（データ区分）
-                                 # 1: データ、2: トレイラ
+    1  Kubun X                   # Record type identification field (data classification)
+                                 # 1: Data, 2: Trailer
 
-    # タイトル固有のレコードタイプ。マルチフォーマットでもフォーマットの適用条件は不要。
+    # Title-specific record type Multi-format does not require format application conditions.
     [Title]                      
-    1   Kubun      N  "データ区分"
-    2   Name       N  "書籍名"
-    3   Publisher  N  "出版社"
-    4   Authors    N  "著者"
-    5   Price      N  "価格"
+    1   Kubun      N  "Data partition"
+    2   Name       N  "Book title"
+    3   Publisher  N  "Publisher"
+    4   Authors    N  "Authors"
+    5   Price      N  "Price"
 
-    [DataRecord]                 # データのレコードタイプ
-      Kubun = "1"                # データのフォーマットの適用条件
-    1   Kubun      X             # データ区分
-    2   Name       N             # 書籍名
-    3   Publisher  N             # 出版社
-    4   Authors    N             # 著者
-    5   Price      N             # 価格
+    [DataRecord]                 # Data record type
+      Kubun = "1"                # Data format application conditions
+    1   Kubun      X             # Data partition
+    2   Name       N             # Book title
+    3   Publisher  N             # Publisher
+    4   Authors    N             # Authors
+    5   Price      N             # Price
 
-    [TrailerRecord]              # トレイラのレコードタイプ
-      Kubun = "2"                # トレイラのフォーマットの適用条件
-    1   Kubun      X             # データ区分
-    2   RecordNum  X             # 総件数
+    [TrailerRecord]              # Trailer record type
+      Kubun = "2"                # Trailer format application conditions
+    1   Kubun      X             # Data partition
+    2   RecordNum  X             # 2
 
   .. tip::
     
-    タイトルレコードのレコードタイプ名を ``Title`` から変更したい場合には、 :ref:`data_format-title_type_nameディレクティブ <data_format-title_type_name>` を使用すること。
-    その場合には、タイトルレコードを示すレコードタイプ名を ``Title`` ではなく、:ref:`data_format-title_type_nameディレクティブ <data_format-title_type_name>` で設定した値に変更すること。
+    To change the record type name of the title record from  ``Title`` , use :ref:`data_format-title_type_name directive <data_format-title_type_name>` . 
+    In that case, change the record type name that indicates the title record from  ``Title``  to the value configured in :ref:`data_format-title_type_name directive <data_format-title_type_name>` .
+
 

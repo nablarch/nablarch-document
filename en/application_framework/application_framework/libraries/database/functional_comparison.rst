@@ -1,84 +1,85 @@
 .. _`database-functional_comparison`:
 
-ユニバーサルDAOとJSR317(JPA2.0)との機能比較
+Functional Comparison Between Universal DAO and JSR317 (JPA2.0)
 ----------------------------------------------------------------------------------------------------
-この章では、以下の機能の比較を示す。
+This section compares the following functions:
 
-* :ref:`ユニバーサルDAO <universal_dao>`
+* :ref:`Universal DAO <universal_dao>`
 * |JSR317|
 
 .. important::
 
-  ユニバーサルDAOでは、JPAで定義されているアノテーションのうち、 :ref:`universal_dao_jpa_annotations` に記載のあるものだけをサポートしている。
-  ここに記載のないアノテーションに関連する機能については、使用することはできない。
+  Universal DAO supports only those annotations listed in  :ref:`universal_dao_jpa_annotations`  among the annotations defined in JPA. 
+  Functions related to annotations not described here cannot be used.
 
-.. list-table:: 機能比較（○：提供あり　△：一部提供あり　×：提供なし　－:対象外）
+
+.. list-table:: Function comparison (○: Provided △: Partially provided ×: Not provided-: Not applicable)
   :header-rows: 1
   :class: something-special-class
 
-  * - 機能
-    - ユニバーサルDAO
+  * - Function
+    - Universal DAO
     - JSR317
 
-  * - リレーションシップに対応できる |br|
+  * - Supports relationship |br|
     - × [#relation]_
     - ○
 
-  * - Entityを元にCRUDが実行できる |br|
-      SQLを作成することなくCRUDのSQLを実行できる
-    - ○ |br| :ref:`解説書へ <universal_dao-execute_crud_sql>`
+  * - CRUD can be executed based on Entity |br|
+      CRUD SQL can be executed without writing SQL
+    - ○ |br| :ref:`To the manual <universal_dao-execute_crud_sql>`
     - ○
 
-  * - 検索結果をJava Beansオブジェクトとして取得できる
-    - ○ |br| :ref:`解説書へ <universal_dao-bean_mapping>`
+  * - Search results can be acquired as Java Beans objects
+    - ○ |br| :ref:`To the manual <universal_dao-bean_mapping>`
     - ○
 
-  * - 任意のSQL文を実行できる
-    - ○ |br| :ref:`解説書へ <universal_dao-sql_file>`
+  * - An arbitrary SQL statement can be executed
+    - ○ |br| :ref:`To the manual <universal_dao-sql_file>`
     - ○
 
-  * - SQLの動的組み立てができる
-    - △ [#criteria]_ |br| :ref:`解説書へ <universal_dao-sql_file>`
+  * - SQL can be dynamically assembled
+    - △ [#criteria]_ |br| :ref:`To the manual <universal_dao-sql_file>`
     - ○
 
-  * - バッチ実行ができる
-    - ○ |br| :ref:`解説書へ <universal_dao-batch_execute>`
+  * - Can be executed in a batch
+    - ○ |br| :ref:`To the manual <universal_dao-batch_execute>`
     - ×
 
-  * - 大量データを取得する際に遅延ロードができる |br|
-      (ヒープを圧迫せずに大量データを処理できる)
-    - ○ |br| :ref:`解説書へ <universal_dao-lazy_load>`
+  * - Allows deferred loading when fetching large amounts of data |br|
+      (can process large amounts of data without squeezing the heap)
+    - ○ |br| :ref:`To the manual <universal_dao-lazy_load>`
     - ×
 
-  * - ページング用の範囲指定の検索ができる
-    - ○ |br| :ref:`解説書へ <universal_dao-paging>`
+  * - Can search using range for paging.
+    - ○ |br| :ref:`To the manual <universal_dao-paging>`
     - ○
 
-  * - サロゲートキーの値を採番できる
-    - ○ |br| :ref:`解説書へ <universal_dao-generate_surrogate_key>`
+  * - Can number surrogate key values
+    - ○ |br| :ref:`To the manual <universal_dao-generate_surrogate_key>`
     - ○
 
-  * - Entityの状態をデータベースに反映時に |br| Bean Validationが実行できる
+  * - Can execute Bean Validation |br| when the Entity status is incorporated in the database
     - × [#validaiton]_
     - ○
 
-  * - データベースアクセス前後に |br| 任意の処理(コールバック呼び出し)を実行できる
+  * - Can execute arbitrary processing (callback call) |br| before and after database access
     - × [#callback]_
     - ○
 
-  * - 排他制御ができる
-    - △ [#lock]_ |br| :ref:`解説書へ(楽観ロック) <universal_dao_jpa_optimistic_lock>` |br| :ref:`解説書へ(悲観ロック) <universal_dao_jpa_pessimistic_lock>`
+  * - Exclusive control is possible
+    - △ [#lock]_ |br| :ref:`To the manual(optimistic lock) <universal_dao_jpa_optimistic_lock>` |br| :ref:`To the manual(pessimistic lock) <universal_dao_jpa_pessimistic_lock>`
     - ○
 
-.. [#relation] リレーションシップがあるテーブルの検索はSQLを作成することで対応できる。登録、更新、削除については、テーブル毎に必要な処理を呼び出すことで対応する。
-.. [#criteria] ユニバーサルDAOでは、条件及びソート項目に限り動的な組み立てができる。詳細は、 :ref:`SQLの動的組み立て <database-variable_condition>` を参照
-.. [#validaiton] Nablarchでは、外部からのデータを受け付けたタイミングでバリデーションを実施し、バリデーションエラーがない場合のみEntityへの変換及びデータベースへの保存を行う。
-.. [#callback] 任意の処理が必要となる場合は、ユニバーサルDAOを呼び出す側で処理を行うことで対応する。
-.. [#lock] ユニバーサルDAOでは、楽観的ロックのみサポートする。悲観的ロックやJSRで定義されている検索時のロックモードの指定などはサポートしない。(悲観的ロックは、 ``select for update`` などを使用することで実現できる。)
+.. [#relation] Searching for tables with relationships can be supported by creating SQL. Registration, update and deletion are handled by calling the necessary function for each table. 
+.. [#criteria] Universal DAO can perform dynamic processing only for conditions and sort items. For details, see :ref:`SQL dynamic assembly <database-variable_condition>` 
+.. [#validaiton] Nablarch performs validation when data is received from the outside, and converts to Entity and saves to database only when there is no validation error.
+.. [#callback] If an arbitrary process is required, it is handled by the process that calls the universal DAO.
+.. [#lock] Universal DAO only supports optimistic locking. Pessimistic lock or lock mode specification at the time of search defined in JSR are not supported. (Pessimistic lock can be realized by using  ``select for update`` .) 
 
 .. |jsr317| raw:: html
 
-   <a href="https://jcp.org/en/jsr/detail?id=317" target="_blank">JSR317(外部サイト、英語)</a>
+   <a href="https://jcp.org/en/jsr/detail?id=317" target="_blank">JSR317(External site、English)</a>
 
 .. |br| raw:: html
 

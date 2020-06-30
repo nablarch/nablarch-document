@@ -1,4 +1,4 @@
-ウェブアプリケーション専用インターセプター
+Dedicated Interceptor for Web Applications
 ==================================================
 
  .. toctree::
