@@ -1,57 +1,57 @@
 .. _http_system_messaging:
 
-HTTPメッセージング
+HTTP Messaging
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-HTTPを使ったメッセージの送受信を行う機能を提供する。
+Provides a function to send and receive messages using HTTP.
 
-HTTPメッセージングでは、 :ref:`http_system_messaging-data_model` に示したデータモデルを前提としている。
-また、メッセージのフォーマットには、 :ref:`data_format` を使用する。
+The data model shown in :ref:`http_system_messaging-data_model` is assumed for HTTP messaging.
+Also, :ref:`data_format` is used for the message format.
 
 .. important::
- :ref:`http_system_messaging-data_model` の中で、
- :ref:`フレームワーク制御ヘッダ<mom_system_messaging-fw_header>` については、
- Nablarchで独自に規定している項目となり、 :ref:`メッセージボディ<http_system_messaging-message_body>` に含めることを想定している。
+ In the :ref:`http_system_messaging-data_model`,
+ the :ref:`framework control header<mom_system_messaging-fw_header>` is an item specified independently by Nablarch,
+ and it is assumed to be included in the :ref:`message body<http_system_messaging-message_body>`.
 
- プロジェクト側で電文フォーマットを設計できる場合は問題ないが、外部システムにより既に電文フォーマットが規定されている場合は、この想定が適合しない場合がある。
+ There is no problem if the message format can be designed in the project, but the requirement may not be met if the message format is already specified by the external system.
 
- このため、本機能ではなく以下の機能を使用することを推奨する。
+ Therefore, using the following functions is recommended.
 
- * サーバサイド(メッセージ受信)については、 :ref:`RESTfulウェブサービス <restful_web_service>` の使用を推奨する。
- * クライアントサイド(メッセージ送信)については、JSR339(JAX-RS2.0)にて提供されるClient機能の使用を推奨する。
+ * The use of :ref:`RESTful Web service <restful_web_service>` is recommended for the server (message receive).
+ * The use of Client function provided by JSR339 (JAX-RS2.0) is recommended for client (message send).
 
- なお、本機能をやむを得ない事情にて使用しなければならない場合は、 :ref:`http_system_messaging-change_fw_header` を参照し、プロジェクトで実装を追加して対応すること。
+ If the use of this function is unavoidable, refer to :ref:`http_system_messaging-change_fw_header` and handle by adding the implementation in the project.
 
-HTTPメッセージングは送受信の種類により、想定している実行制御基盤が異なる。
+The assumed execution control platform differs for HTTP messaging depending on the type of send and receive.
 
 .. list-table::
    :header-rows: 1
    :class: white-space-normal
    :widths: 50, 50
 
-   * - 送受信の種類
-     - 実行制御基盤
-   * - :ref:`HTTPメッセージ受信<http_system_messaging-message_receive>`
-     - :ref:`HTTPメッセージング<http_messaging>`
-   * - :ref:`HTTPメッセージ送信<http_system_messaging-message_send>`
-     - 実行制御基盤に依存しない
+   * - Type of send and receive
+     - Execution control platform
+   * - :ref:`HTTP message send <http_system_messaging-message_receive>`
+     - :ref:`HTTP messaging <http_messaging>`
+   * - :ref:`HTTP send message <http_system_messaging-message_send>`
+     - Does not depend on the execution control platform
 
-機能概要
+Function overview
 --------------------------
 
-:ref:`mom_system_messaging` と同じ作り方ができる
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-HTTPメッセージングでは、メッセージの送受信の実装を :ref:`mom_system_messaging` と同じ以下のAPIで行う。
-そのため、 :ref:`mom_system_messaging` の経験があれば、少ない学習時間で実装することができる。
+Can be prepared in the same way as :ref:`mom_system_messaging`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Message send/receive is implemented in HTTP messaging using the same API as :ref:`mom_system_messaging` given below.
+Therefore, if users have experience in using :ref:`mom_system_messaging`, implementation time can be minimized.
 
 * :java:extdoc:`MessagingAction<nablarch.fw.messaging.action.MessagingAction>`
 * :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -64,25 +64,25 @@ HTTPメッセージングでは、メッセージの送受信の実装を :ref:`
     <artifactId>nablarch-fw-messaging-http</artifactId>
   </dependency>
 
-使用方法
+How to use
 ---------------------------
 
 .. _http_system_messaging-settings:
 
-HTTPメッセージングを使うための設定を行う
+Configure settings to use HTTP messaging
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-メッセージ受信の場合は、実行制御基盤のハンドラ構成以外に特に設定は不要である。
+In the case of message reception, no special configuration is required other than the handler configuration of the execution control platform.
 
-メッセージ送信の場合は、以下のクラスをコンポーネント定義に追加する。
+In the case of send message, add the following classes to the component definition.
 
-* :java:extdoc:`MessageSenderClient<nablarch.fw.messaging.MessageSenderClient>` の実装クラス (HTTPの送受信)
+* :java:extdoc:`MessageSenderClient<nablarch.fw.messaging.MessageSenderClient>` implementation class (HTTP send/receive)
 
-以下に設定例を示す。
+A configuration example is shown below.
 
-ポイント
-  * :java:extdoc:`MessageSenderClient<nablarch.fw.messaging.MessageSenderClient>` のデフォルト実装として
-    :java:extdoc:`HttpMessagingClient<nablarch.fw.messaging.realtime.http.client.HttpMessagingClient>` を提供している。
-  * ルックアップして使用されるため、コンポーネント名は ``messageSenderClient`` と指定する。
+Point
+  * :java:extdoc:`HttpMessagingClient<nablarch.fw.messaging.realtime.http.client.HttpMessagingClient>` is provided as the default implementation
+    of :java:extdoc:`MessageSenderClient<nablarch.fw.messaging.MessageSenderClient>`.
+  * Component name is specified as ``messageSenderClient`` because it is used as a lookup.
 
 .. code-block:: xml
 
@@ -91,37 +91,37 @@ HTTPメッセージングを使うための設定を行う
 
 .. _http_system_messaging-message_receive:
 
-メッセージを受信する(HTTPメッセージ受信)
+Receive message (HTTP message reception)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-外部システムからメッセージを受信し、その応答を送信する。
+Receive a message from an external system and send a response.
 
 .. image:: ../images/system_messaging/http_system_messaging-message_receive.png
   :scale: 80
 
-実装例
- ポイント
-   * HTTPメッセージ受信は、 :java:extdoc:`MessagingAction<nablarch.fw.messaging.action.MessagingAction>` で作成する。
-   * 応答電文は、 :java:extdoc:`RequestMessage.reply<nablarch.fw.messaging.RequestMessage.reply()>` で作成する。
+Implementation examples
+ Point
+   * HTTP message receive is created with :java:extdoc:`MessagingAction<nablarch.fw.messaging.action.MessagingAction>`.
+   * Create the response message with :java:extdoc:`RequestMessage.reply<nablarch.fw.messaging.RequestMessage.reply()>`.
 
  .. code-block:: java
 
   public class SampleAction extends MessagingAction {
       protected ResponseMessage onReceive(RequestMessage request,
                                           ExecutionContext context) {
-          // 受信データ処理
+          // Receive data process
           Map<String, Object> reqData = request.getParamMap();
 
-          // (省略)
+          // (Omitted)
 
-          // 応答データ返却
+          // Returns response data
           return request.reply()
                   .setStatusCodeHeader("200")
-                  .addRecord(new HashMap() {{     // メッセージボディの内容
+                  .addRecord(new HashMap() {{     // Content of message body
                        put("FIcode",     "9999");
-                       put("FIname",     "ﾅﾌﾞﾗｰｸｷﾞﾝｺｳ");
+                       put("FIname",     "Nablarch bank");
                        put("officeCode", "111");
                        /*
-                        * (後略)
+                        * (Rest is omitted)
                         */
                     }});
       }
@@ -129,201 +129,201 @@ HTTPメッセージングを使うための設定を行う
 
 .. _http_system_messaging-message_send:
 
-メッセージを送信する(HTTPメッセージ送信)
+Send message (HTTP send message)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-外部システムに対してメッセージを送信し、その応答を受信する。
-応答メッセージを受信するか、待機タイムアウト時間が経過するまで待機する。
+Send a message to an external system and receive the response.
+Wait until a response message is received or the wait timeout expires.
 
-規定時間内に応答を受信できずにタイムアウトした場合は、何らかの補償処理を行う必要がある。
+If a timeout occurs because a response cannot be received within the specified time, a compensation process needs to be performed.
 
 .. image:: ../images/system_messaging/http_system_messaging-message_send.png
   :scale: 80
 
-実装例
- ポイント
-   * 要求電文は、 :java:extdoc:`SyncMessage<nablarch.fw.messaging.SyncMessage>` で作成する。
-   * メッセージ送信には、 :java:extdoc:`MessageSender#sendSync<nablarch.fw.messaging.MessageSender.sendSync(nablarch.fw.messaging.SyncMessage)>` を使用する。
-     使い方の詳細は、リンク先のJavadocを参照。
+Implementation examples
+ Point
+   * Create the request message with :java:extdoc:`SyncMessage<nablarch.fw.messaging.SyncMessage>`.
+   * To send a message, use :java:extdoc:`MessageSender#sendSync<nablarch.fw.messaging.MessageSender.sendSync(nablarch.fw.messaging.SyncMessage)>`.
+     For details of how to use, refer to the linked Javadoc.
 
  .. code-block:: java
 
-  // 要求電文の作成
-  SyncMessage requestMessage = new SyncMessage("RM11AC0202")        // メッセージIDを設定
-                                 .addDataRecord(new HashMap() {{    // メッセージボディの内容
+  // Create a request message
+  SyncMessage requestMessage = new SyncMessage("RM11AC0202")        // Configure the message ID
+                                 .addDataRecord(new HashMap() {{    // Content of message body
                                       put("FIcode",     "9999");
-                                      put("FIname",     "ﾅﾌﾞﾗｰｸｷﾞﾝｺｳ");
+                                      put("FIname",     "Nablarch bank");
                                       put("officeCode", "111");
                                       /*
-                                       * (後略)
+                                       * (Rest is omitted)
                                        */
                                   }})
-  // 要求電文の送信
+  // Send request message
   SyncMessage responseMessage = MessageSender.sendSync(requestMessage);
 
- また、HTTPヘッダーとして独自の項目を送信したい場合は、下記のように作成したメッセージのヘッダレコードに設定する。
+ To send an unique text as HTTP header, configure in the header record of the message created as follows.
 
  .. code-block:: java
 
-  // メッセージヘッダの内容
+  // Message header content
   requestMessage.getHeaderRecord().put("Accept-Charset", "UTF-8");
 
-拡張例
+Expansion example
 --------------------------------------------------
 
 .. _http_system_messaging-change_fw_header:
 
-フレームワーク制御ヘッダの読み書きを変更する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-外部システムで既に電文フォーマットが規定されている場合など、
-フレームワーク制御ヘッダの読み書きを変更したい場合がある。
-この場合は、プロジェクトで実装を追加することで対応する。
-以下に、送受信の種類ごとに対応方法を示す。
+Change the reading and writing of the framework control header
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In some cases, reading and writing of the framework control header may require to be changed
+when the message format is already defined in the external system.
+To support this, add the implementation in the project.
+The following shows the support method for each type of send and receive.
 
-HTTPメッセージ送信の場合
- フレームワーク制御ヘッダの読み書きは、メッセージボディのフォーマット定義により行う。
- そのため、変更内容に合わせてメッセージボディのフォーマット定義を変更すればよい。
+For HTTP send message
+ The framework control header is read and written according to the format definition of the message body.
+ Therefore, the format definition of the message body may be changed according to the content.
 
-HTTPメッセージ受信の場合
- フレームワーク制御ヘッダの読み書きは、
- :java:extdoc:`FwHeaderDefinition<nablarch.fw.messaging.FwHeaderDefinition>` インタフェースを実装したクラスが行う。
- デフォルトでは、 :java:extdoc:`StandardFwHeaderDefinition<nablarch.fw.messaging.StandardFwHeaderDefinition>` が使用される。
+For HTTP receive message
+ Reading and writing to the framework control header is performed by the class with the
+ :java:extdoc:`FwHeaderDefinition<nablarch.fw.messaging.FwHeaderDefinition>` interface implementation.
+ :java:extdoc:`StandardFwHeaderDefinition<nablarch.fw.messaging.StandardFwHeaderDefinition>` is used by default.
 
- そのため、 :java:extdoc:`StandardFwHeaderDefinition<nablarch.fw.messaging.StandardFwHeaderDefinition>` を参考に、
- プロジェクトで :java:extdoc:`FwHeaderDefinition<nablarch.fw.messaging.FwHeaderDefinition>` インタフェースを実装したクラスを作成し、
- :ref:`http_messaging_request_parsing_handler` と :ref:`http_messaging_response_building_handler` に設定すればよい。
+ Therefore, referring to :java:extdoc:`StandardFwHeaderDefinition<nablarch.fw.messaging.StandardFwHeaderDefinition>`,
+ a class that implements the :java:extdoc:`FwHeaderDefinition<nablarch.fw.messaging.FwHeaderDefinition>` interface is created in the project
+ and configured in :ref:`http_messaging_request_parsing_handler` and :ref:`http_messaging_response_building_handler`.
 
 .. tip::
 
-  フレームワーク制御ヘッダを使用するか否かは任意に選択できる。
-  このため、特別要件がない限りフレームワーク制御ヘッダを使用する必要はない。
+  Whether to use the framework control header is optional.
+  Framework control header need not be used unless there are special requirements.
 
 .. _http_system_messaging-change_http_client_process:
 
-HTTPメッセージ送信のHTTPクライアント処理を変更する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-HTTPメッセージ送信では、 :ref:`http_system_messaging-settings` で説明した通り、
-:java:extdoc:`HttpMessagingClient<nablarch.fw.messaging.realtime.http.client.HttpMessagingClient>` を使用している。
+Change the HTTP client process of HTTP send message
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+As explained in :ref:`http_system_messaging-settings`,
+:java:extdoc:`HttpMessagingClient<nablarch.fw.messaging.realtime.http.client.HttpMessagingClient>` is used for HTTP send message.
 
 :java:extdoc:`HttpMessagingClient<nablarch.fw.messaging.realtime.http.client.HttpMessagingClient>`
-では、HTTPクライアントとして様々な処理を行っている。
-例えば、送信するメッセージのHTTPヘッダに、 ``Accept: text/json,text/xml`` が固定で設定される。
+performs various processes as an HTTP client.
+For example, ``Accept: text/json,text/xml`` is configured in the HTTP header of the message to be sent.
 
-もし、:java:extdoc:`HttpMessagingClient<nablarch.fw.messaging.realtime.http.client.HttpMessagingClient>`
-のデフォルト動作がプロジェクトの要件に合わない場合は、
-:java:extdoc:`HttpMessagingClient<nablarch.fw.messaging.realtime.http.client.HttpMessagingClient>`
-を継承したクラスを作成し、 :ref:`http_system_messaging-settings` に示した方法でコンポーネント定義に追加することでカスタマイズを行うこと。
+If the default operation of :java:extdoc:`HttpMessagingClient<nablarch.fw.messaging.realtime.http.client.HttpMessagingClient>`
+does not meet the project requirements,
+customize by creating a class that inherits :java:extdoc:`HttpMessagingClient<nablarch.fw.messaging.realtime.http.client.HttpMessagingClient>`
+and configuring to the component with the method given in :ref:`http_system_messaging-settings`.
 
 .. _http_system_messaging-data_model:
 
-送受信電文のデータモデル
+Data model of sent and received messages
 --------------------------------------------------
-HTTPメッセージングでは、送受信電文の内容を以下のデータモデルで表現する。
+In HTTP messaging, the contents of sent and received messages are expressed with the following data model.
 
 .. image:: ../images/system_messaging/http_system_messaging-data_model.png
   :scale: 80
 
 .. _http_system_messaging-protocol_header:
 
-プロトコルヘッダ
- 主にウェブコンテナによるメッセージ送受信処理において使用される情報を格納したヘッダ領域である。
- プロトコルヘッダはMapインターフェースでアクセスすることが可能となっている。
+Protocol header
+ This header area mainly stores information used in message send and receive process of Web container.
+ The protocol header can be accessed with the Map interface.
 
 .. _http_system_messaging-common_protocol_header:
 
-共通プロトコルヘッダ
- プロトコルヘッダのうち、フレームワークが使用する以下のヘッダについては、特定のキー名でアクセスすることができる。
- キー名をカッコで示す。
+Common protocol header
+ The following headers among the protocol headers used by the framework can be accessed with a specific key name.
+ The key name is shown in parentheses.
 
- メッセージID(X-Message-Id)
-  電文ごとに一意採番される文字列
+ Message ID (X-Message-Id)
+  Uniquely numbered string for each message
 
-  :送信時: 送信処理の際に採番した値
-  :受信時: 送信側が発番した値
+  :Sending: Value numbered during send process
+  :Time of receipt: Value issued by the sender
 
- 関連メッセージID(X-Correlation-Id)
-  電文が関連する電文のメッセージID
+ Correlation message ID (X-Correlation-Id)
+  Message ID of the message to which the message is related
 
-  :応答電文: 要求電文のメッセージID
-  :再送要求: 応答再送を要求する要求電文のメッセージID
+  :Response message: Message ID of request message
+  :Resend request: Message ID of request message requesting the resend of response
 
 .. _http_system_messaging-message_body:
 
-メッセージボディ
- HTTPリクエストのデータ領域をメッセージボディと呼ぶ。
- フレームワーク機能は、原則としてプロトコルヘッダ領域のみを使用する。
- それ以外のデータ領域については、未解析の単なるバイナリデータとして扱うものとする。
+Message body
+ The data area of the HTTP request is called the message body.
+ The framework function uses only the protocol header area in principle.
+ The other data areas are handled as unanalyzed simple binary data.
 
- メッセージボディの解析は、 :ref:`data_format` によって行う。
- これにより、電文の内容をフィールド名をキーとするMap形式で読み書きすることが可能である。
+ The message body is analyzed by :ref:`data_format`.
+ This enables reading and writing the content of the message in Map format with the field name as a key.
 
 .. _http_system_messaging-fw_header:
 
-フレームワーク制御ヘッダ
- 本フレームワークが提供する機能の中には、電文中に特定の制御項目が定義されていることを前提として設計されているものが多く存在する。
- そのような制御項目のことを ``フレームワーク制御ヘッダ`` とよぶ。
+Framework control header
+ Many of the functions provided by this framework are designed on the assumption that specific control items are defined in the message.
+ Such control items are called ``framework control headers``.
 
- フレームワーク制御ヘッダとそれを使用するハンドラの対応は以下のとおり。
+ The correspondence between the framework control header and the handler using it are as follows.
 
- リクエストID
-  この電文を受信したアプリケーションが実行すべき業務処理を識別するためのID。
+ Request ID
+  ID to identify the business process that should be executed by the application that received this message.
 
-  このヘッダを使用する主要なハンドラ：
+  Main handlers that use this header:
 
   | :ref:`request_path_java_package_mapping`
   | :ref:`message_resend_handler`
   | :ref:`permission_check_handler`
   | :ref:`ServiceAvailabilityCheckHandler`
 
- ユーザID
-  この電文の実行権限を表す文字列
+ User ID
+  A character string that indicates the execution permission of this message
 
-  このヘッダを使用する主要なハンドラ：
+  Main handlers that use this header:
 
   | :ref:`permission_check_handler`
 
- 再送要求フラグ
-  再送要求電文送信時に設定されるフラグ
+ Resend request flag
+  Flag set when sending a resend request message
 
-  このヘッダを使用する主要なハンドラ：
+  Main handlers that use this header:
 
   | :ref:`message_resend_handler`
 
- ステータスコード
-  要求電文に対する処理結果を表すコード値
+ Status code
+  Code value that represents the processing result for the request message
 
-  このヘッダを使用する主要なハンドラ：
+  Main handlers that use this header:
 
   | :ref:`message_reply_handler`
 
- フレームワーク制御ヘッダは、デフォルトの設定では、
- メッセージボディの最初のデータレコード中に、それぞれ以下のフィールド名で定義されている必要がある。
+ The framework control header must be defined
+ with the following field names in the first data record of the message body by default.
 
-  :リクエストID: requestId
-  :ユーザID: userId
-  :再送要求フラグ: resendFlag
-  :ステータスコード: statusCode
+  :Request ID: requestId
+  :User ID: userId
+  :Resend request flag: resendFlag
+  :Status code: statusCode
 
- 以下は、標準的なフレームワーク制御ヘッダの定義例である。
+ The following is an example of a standard framework control header definition.
 
  .. code-block:: bash
 
   #===================================================================
-  # フレームワーク制御ヘッダ部 (50byte)
+  # Framework control header part (50 bytes)
   #===================================================================
   [NablarchHeader]
-  1   requestId   X(10)       # リクエストID
-  11  userId      X(10)       # ユーザID
-  21  resendFlag  X(1)  "0"   # 再送要求フラグ (0: 初回送信 1: 再送要求)
-  22  statusCode  X(4)  "200" # ステータスコード
-  26 ?filler      X(25)       # 予備領域
+  1   requestId   X(10)       # Request ID
+  11  userId      X(10)       # User ID
+  21  resendFlag  X(1)  "0"   # Resend request flag (0: Initial send 1: Resend request)
+  22  statusCode  X(4)  "200" # Status code
+  26 ?filler      X(25)       # Reserve area
   #====================================================================
 
- フォーマット定義にフレームワーク制御ヘッダ以外の項目を含めた場合、
- フレームワーク制御ヘッダの任意ヘッダ項目としてアクセスすることができ、
- プロジェクト毎にフレームワーク制御ヘッダを簡易的に拡張する目的で使用することができる。
+ When items other than the framework control header are included in the format definition,
+ the items can be accessed as optional header items of framework control header
+ and used for the purpose of simple expansion of the framework control header for each project.
 
- また、将来的な任意項目の追加およびフレームワークの機能追加に伴うヘッダ追加に対応するため、
- 予備領域を設けておくことを強く推奨する。
+ It is highly recommended to provide a reserve area to add headers that are required to manage optional items
+ and framework functions that may be added in the future.
 
 
 
