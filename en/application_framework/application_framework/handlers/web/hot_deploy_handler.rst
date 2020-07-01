@@ -1,39 +1,39 @@
 .. _hot_deploy_handler:
 
-ホットデプロイハンドラ
+Hot Deploy Handler
 ========================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-開発時にアプリケーションのホットデプロイを行うハンドラ。
+This handler hot deploys the application during development.
 
-本ハンドラを使用することで、アプリケーションサーバを再起動することなくアクションクラスやフォームクラスの変更を即座に反映することができる。
-それにより、ソースコードを修正するたびにアプリケーションサーバを再起動するといった手間を省き、効率よく作業を進めることができる。
+By using this handler, changes to action class, form class, etc. can be updated immediately without restarting the application server.
+This saves the trouble of restarting the application server every time the source code is modified and allows the work to proceed efficiently.
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/HotDeployHandler/flow.png
 
 .. important::
 
-  本ハンドラはリクエスト毎にクラスの再ロードを行うため、レスポンス速度の低下につながる可能性がある。
-  そのため、開発環境での使用のみ想定しており、 **本番環境では絶対に使用してはならない。**
+  Since this handler reloads the class for each request, it may lead to a decrease in response speed.
+  for use in the development environment and **should never be used in the production environment.**
 
 .. important::
 
-  本ハンドラを使用した場合、リクエスト単体テストが正常に動作しない可能性があるため、リクエスト単体テスト時には本ハンドラを使用しないこと。
+  When this handler is used, the request unit test may not operate normally. Therefore, do not use this handler during the request unit test.
 
 .. tip::
 
-  本ハンドラを使用する場合は、サーバのホットデプロイ機能は無効化すること。
+  When using this handler, disable the hot deploy function of the server.
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.hotdeploy.HotDeployHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -42,15 +42,15 @@
     <artifactId>nablarch-fw-web-hotdeploy</artifactId>
   </dependency>
   
-制約
+Constraints
 ------------------------------
-なし。
+None.
 
-ホットデプロイ対象のパッケージを指定する
+Specify the package to be hot-deployed
 --------------------------------------------------------------
-ホットデプロイ対象となるパッケージは、:java:extdoc:`targetPackages <nablarch.fw.hotdeploy.HotDeployHandler.setTargetPackages(java.util.List)>` プロパティに設定する。
+Packages to be hot-deployed are configured in the :java:extdoc:`targetPackages <nablarch.fw.hotdeploy.HotDeployHandler.setTargetPackages(java.util.List)>` property.
 
-設定例を以下に示す。
+The configuration example is shown below.
 
 .. code-block:: xml
 
@@ -65,8 +65,8 @@
 
 .. important::
 
-  以下に示す理由により、エンティティクラスはホットデプロイ対象にしてはならない。
+  Entity classes should not be hot-deployed for the following reasons.
 
-  * リクエスト毎に対象パッケージ内の全てのクラスが再ロードされるため、
-    エンティティクラスのような頻繁に変更されないクラスもホットデプロイ対象にしてしまうとレスポンス速度の低下につながる恐れがある。
-  * リクエスト毎にクラスローダが変わるため、 :ref:`session_store` を使用した場合などでエンティティクラスのキャストに失敗する場合がある。
+  * Since all the classes in the target package are reloaded for each request,
+    the response speed may decrease if a class that does not change frequently, such as an entity class, is subject to hot deployment.
+  * Since the class loader changes for each request, cast of entity class may fail when :ref:`session_store` is used.
