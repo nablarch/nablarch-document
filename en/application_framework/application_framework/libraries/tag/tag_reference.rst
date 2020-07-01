@@ -17,7 +17,7 @@ Enter
  | :ref:`tag-checkbox_tag` (checkbox)
  | :ref:`tag-file_tag` (file)
  | :ref:`tag-plain_hidden_tag` (hidden)
- | :ref:`tag-select_tag` (pull down)
+ | :ref:`tag-select_tag` (pull-down)
  | :ref:`tag-composite_key_radio_button_tag` (radio button corresponding to the composite key)
  | :ref:`tag-composite_key_checkbox_tag` (checkbox corresponding to the composite key)
  | :ref:`tag-radio_buttons_tag` (multiple radio buttons)
@@ -27,7 +27,7 @@ Enter
  | :ref:`tag-code_radio_buttons_tag` (multiple radio buttons for code values)
  | :ref:`tag-code_checkboxes_tag` (multiple checkboxes for code values)
  | :ref:`tag-hidden_tag` (hidden encryption)
- | :ref:`tag-hidden_store_tag` (HIDDEN store)
+ | :ref:`tag-hidden_store_tag` (hidden store)
 
 .. _tag_reference_submit:
 
@@ -161,15 +161,15 @@ form tag
    windowScopePrefixes                    Window scope variable prefix.
                                           Use comma as a delimiter if more than one is specified.
                                           Outputs the request parameters that match the specified prefix as a hidden tag.
-   useToken                               Whether or not to set up a token.
-                                          If the token is set, it must be ``true`` or ``false``.
+   useToken                               Whether to set up a token.
+                                          ``True`` if the token is set, ``false`` if it is not set.
                                           Default is ``false``.
-                                          If :ref:`tag-confirmation_page_tag` is specified, then Defaults to ``true``.
-   secure                                 Whether to set the URI to https or not.
-                                          true if you want to use https or false if you don't.
-   preventPostResubmit                    Whether or not to use the POST retransmission prevention feature.
+                                          If the :ref:`tag-confirmation_page_tag` is specified, it defaults to ``true``.
+   secure                                 Whether to use https for URI.
+                                          To use https ``true``, not to use https ``false``.
+   preventPostResubmit                    Whether to use the POST retransmission prevention feature.
                                           Default is ``false``.
-                                          true when used, false when not used.
+                                          ``True`` if used, ``false`` otherwise.
    ====================================== ==========================================================================================
 
 .. _tag-text_tag:
@@ -218,8 +218,8 @@ textarea tag
    :ref:`tag-generic_attributes_tag`
    :ref:`tag-focus_attributes_tag`
    name ``required``                      XHTML name attribute.
-   rows ``required``                      XHTML rows attribute。
-   cols ``required``                      XHTML cols attribute。
+   rows ``required``                      XHTML rows attribute.
+   cols ``required``                      XHTML cols attribute.
    disabled                               XHTML disabled attribute.
    readonly                               XHTML readonly attribute.
    onselect                               XHTML onselect attribute.
@@ -256,8 +256,8 @@ password tag
    autocomplete                           HTML5 autocomplete attribute.
    autofocus                              HTML5 autofocus attribute.
    placeholder                            HTML5 placeholder attribute.
-   restoreValue                           Whether or not to restore the input data when the input screen is redisplayed.
-                                          true if you want to restore it or false if you don't.
+   restoreValue                           Whether to restore the input data when the input screen is redisplayed.
+                                          ``True`` to restore, ``false`` to not restore.
                                           Default is ``false``.
    replacement                            Substitution characters to be used in the output for the confirmation screen.
                                           Default is ``*``.
@@ -344,16 +344,8 @@ compositeKeyCheckbox Tag
    keyNames ``required``                  Key name of the composite key.
                                           Specify the key names using comma as the delimiter.
    namePrefix ``required``                Prefix to use when deploying to the request parameter.
-                                          Unlike the normal name attribute, values that match the key name specified with ``.``
-                                          in this name and keyNames attribute are handled in the same way as normal name attributes.
-                                          For example, if ``form`` is specified in the namePrefix attribute and ``key1`` and ``key2``
-                                          are specified in the keyNames attribute, the value of this checkbox will be output
-                                          using the value included in the request scope with ``form.key1`` and ``form.key2`` during display.
-                                          In addition, the value selected from the request parameters ``form.key1``, ``form.key2``
-                                          can be obtained in the process of the submitted request.
-                                          The name attribute has a special restriction that it must have a name different from
-                                          the key combination specified by the namePrefix and keyNames attributes.
-                                          Pay attention to this point during implementation.
+                                          Unlike the normal name attribute, values that match the key name specified with ``.`` in this name and keyNames attribute are handled in the same way as normal name attributes. For example, if ``form`` is specified in the namePrefix attribute and ``key1`` and ``key2`` are specified in the keyNames attribute, the value of this checkbox will be output using the value included in the request scope with ``form.key1`` and ``form.key2`` during display. In addition, the value selected from the request parameters ``form.key1``, ``form.key2`` can be obtained in the process of the submitted request.
+                                          The name attribute has a special restriction that it must have a name different from the key combination specified by the namePrefix and keyNames attributes. Pay attention to this point during implementation.
    autofocus                              HTML5 autofocus attribute.
    label                                  The label used when there is a checkmark.
                                           This label is displayed on the input screen.
@@ -384,16 +376,8 @@ compositeKeyRadioButton tag
    keyNames ``required``                  Key name of the composite key.
                                           Specify the key names using comma as the delimiter.
    namePrefix ``required``                Prefix to use when deploying to the request parameter.
-                                          Unlike the normal name attribute, values that match the key name specified with ``.``
-                                          in this name and keyNames attribute are handled in the same way as normal name attributes.
-                                          For example, if ``form`` is specified in the namePrefix attribute and ``key1`` and ``key2``
-                                          are specified in the keyNames attribute, the value of this checkbox will be output
-                                          using the value included in the request scope with ``form.key1`` and ``form.key2`` during display.
-                                          In addition, the value selected from the request parameters ``form.key1``, ``form.key2``
-                                          can be obtained in the process of the submitted request.
-                                          The name attribute has a special restriction that it must have a name different from
-                                          the key combination specified by the namePrefix and keyNames attributes.
-                                          Pay attention to this point during implementation.
+                                          Unlike the normal name attribute, values that match the key name specified with ``.`` in this name and keyNames attribute are handled in the same way as normal name attributes. For example, if ``form`` is specified in the namePrefix attribute and ``key1`` and ``key2`` are specified in the keyNames attribute, the value of this checkbox will be output using the value included in the request scope with ``form.key1`` and ``form.key2`` during display. In addition, the value selected from the request parameters ``form.key1``, ``form.key2`` can be obtained in the process of the submitted request.
+                                          The name attribute has a special restriction that it must have a name different from the key combination specified by the namePrefix and keyNames attributes. Pay attention to this point during implementation.
    autofocus                              HTML5 autofocus attribute.
    label                                  The label used when there is a checkmark.
                                           This label is displayed on the input screen.
@@ -442,8 +426,8 @@ Outputs value to the window scope without HTML tag output.
 
 .. important::
 
-  ウィンドウスコープは非推奨である。
-  詳細は、 :ref:`tag-window_scope` を参照。
+  Window scope is deprecated.
+  For details, see :ref:`tag-window_scope`.
 
 .. table::
    :class: tag-reference
@@ -521,7 +505,7 @@ select tag
                                           Placeholders are shown below.
                                           ``$LABEL$`` : Label
                                           ``$VALUE$`` : Value
-                                          Default is ``$LABEL$`` 。
+                                          Default is ``$LABEL$`` .
    listFormat                             Format to use when displaying the list.
                                           Specify one of the following.
                                           br(br tag)
@@ -532,10 +516,10 @@ select tag
                                           sp(space delimited)
                                           Default is br.
    withNoneOption                         Whether to add an unselected option to the top of the list.
-                                          To add true, not to add false.
+                                          To add ``true``, not to add ``false``.
                                           Default is ``false``.
    noneOptionLabel                        Label to use for adding the not selected option to the top of the list.
-                                          This attribute is valid only if true is specified for withNoneOption.
+                                          This attribute is valid only if ``true`` is specified for withNoneOption.
                                           Default is ``""``.
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
@@ -570,7 +554,7 @@ radioButtons tag
                                           Placeholders are shown below.
                                           ``$LABEL$`` : Label
                                           ``$VALUE$`` : Value
-                                          Default is ``$LABEL$`` 。
+                                          Default is ``$LABEL$`` .
    listFormat                             Format to use when displaying the list.
                                           Specify one of the following.
                                           br(br tag)
@@ -613,7 +597,7 @@ checkbox tag
                                           Placeholders are shown below.
                                           ``$LABEL$`` : Label
                                           ``$VALUE$`` : Value
-                                          Default is ``$LABEL$`` 。
+                                          Default is ``$LABEL$`` .
    listFormat                             Format to use when displaying the list.
                                           Specify one of the following.
                                           br(br tag)
@@ -806,12 +790,12 @@ popupLink tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
    :ref:`tag-generic_attributes_tag`
    :ref:`tag-focus_attributes_tag`
    name                                   XHTML name attribute.
-   uri ``required``                           URI.
+   uri ``required``                       URI.
                                           See :ref:`tag-specify_uri`.
    shape                                  XHTML shape attribute.
    coords                                 XHTML coords attribute.
@@ -837,13 +821,13 @@ downloadSubmit tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
    :ref:`tag-generic_attributes_tag`
    :ref:`tag-focus_attributes_tag`
    name                                   XHTML name attribute.
-   type ``required``                          XHTML type attribute.
-   uri ``required``                           URI.
+   type ``required``                      XHTML type attribute.
+   uri ``required``                       URI.
                                           See :ref:`tag-specify_uri`.
    disabled                               XHTML disabled attribute.
    value                                  XHTML value attribute.
@@ -873,12 +857,12 @@ downloadButton tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
    :ref:`tag-generic_attributes_tag`
    :ref:`tag-focus_attributes_tag`
    name                                   XHTML name attribute.
-   uri ``required``                           URI.
+   uri ``required``                       URI.
                                           See :ref:`tag-specify_uri`.
    value                                  XHTML value attribute.
    type                                   XHTML type attribute.
@@ -905,12 +889,12 @@ downloadLink tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
    :ref:`tag-generic_attributes_tag`
    :ref:`tag-focus_attributes_tag`
    name                                   XHTML name attribute.
-   uri ``required``                           URI.
+   uri ``required``                       URI.
                                           See :ref:`tag-specify_uri`.
    shape                                  XHTML shape attribute.
    coords                                 XHTML coords attribute.
@@ -935,9 +919,9 @@ param tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
-   paramName ``required``                     Name of the parameter to use for submission.
+   paramName ``required``                 Name of the parameter to use for submission.
    name                                   The name to acquire the value.
                                           Specify for referring to objects in the scope such as the request scope.
                                           Specify either name attribute or value attribute.
@@ -955,10 +939,10 @@ changeParamName tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
-   paramName ``required``                     Name of the parameter to use for submission.
-   inputName ``required``                     Name attribute of the input element of the source screen to be changed.
+   paramName ``required``                 Name of the parameter to use for submission.
+   inputName ``required``                 Name attribute of the input element of the source screen to be changed.
    ====================================== ==========================================================================================
 
 .. _tag-a_tag:
@@ -970,14 +954,14 @@ a tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
    :ref:`tag-generic_attributes_tag`
    :ref:`tag-focus_attributes_tag`
    charset                                XHTML charset attribute.
    type                                   XHTML type attribute.
    name                                   XHTML name attribute.
-   href                                   XHTMLのhrefAttribute。
+   href                                   XHTML href attribute.
                                           See :ref:`tag-specify_uri`.
    hreflang                               XHTML hreflang attribute.
    rel                                    XHTML rel attribute.
@@ -998,12 +982,12 @@ img tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
    :ref:`tag-generic_attributes_tag`
-   src ``required``                           XHTMLのcharsrcAttribute。
+   src ``required``                       XHTML charsrc attribute.
                                           See :ref:`tag-specify_uri`.
-   alt ``required``                           XHTML alt attribute.
+   alt ``required``                       XHTML alt attribute.
    name                                   XHTML name attribute.
    longdesc                               XHTML longdesc attribute.
    height                                 XHTML height attribute.
@@ -1027,11 +1011,11 @@ link tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
    :ref:`tag-generic_attributes_tag`
    charset                                XHTML charset attribute.
-   href                                   XHTMLのhrefAttribute。
+   href                                   XHTML href attribute.
                                           See :ref:`tag-specify_uri`.
    hreflang                               XHTML hreflang attribute.
    type                                   XHTML type attribute.
@@ -1052,9 +1036,9 @@ script tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
-   type ``required``                          XHTML type attribute.
+   type ``required``                      XHTML type attribute.
    id                                     XHTML id attribute.
    charset                                XHTML charset attribute.
    language                               XHTML language attribute.
@@ -1075,24 +1059,22 @@ errors tag
    :class: tag-reference
 
    ====================================== =================================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== =================================================================================================
-   cssClass                               リスト表示においてulタグに使用するCSSクラス名。
-                                          デフォルトは"nablarch_errors"。
-   infoCss                                情報レベルのMessageに使用するCSSクラス名。
-                                          デフォルトは"nablarch_info"。
-   warnCss                                警告レベルのMessageに使用するCSSクラス名。
-                                          デフォルトは"nablarch_warn"。
+   cssClass                               CSS class name to use for ul tags in the list display.
+                                          Default is ``nablarch_errors``.
+   infoCss                                CSS class name used for information-level messages.
+                                          Default is ``nablarch_info``.
+   warnCss                                CSS class name used for warning-level messages.
+                                          Default is ``nablarch_warn``.
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    filter                                 Filter criteria for messages to be included in the list.
                                           Specify one of the following.
-                                          all(全てのMessageを表示する)
-                                          global(Enter項目に対応しないMessageのみを表示)
-                                          デフォルトは ``all`` 。
-                                          globalの場合、\
-                                          :java:extdoc:`ValidationResultMessage<nablarch.core.validation.ValidationResultMessage>`\
-                                          のプロパティ名が入っているMessageを取り除いてOutputする。
+                                          all (display all messages)
+                                          global (display only messages not corresponding to input items)
+                                          Default is ``all``.
+                                          For global, the message containing the property name of :java:extdoc:`ValidationResultMessage<nablarch.core.validation.ValidationResultMessage>` is removed and output.
    ====================================== =================================================================================================
 
 .. _tag-error_tag:
@@ -1104,16 +1086,16 @@ error tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
-   name ``required``                          The name attribute of the input item that displays the error message.
+   name ``required``                      The name attribute of the input item that displays the error message.
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    messageFormat                          Format used to display the message.
                                           Specify one of the following.
-                                          div(divタグ)
-                                          span(spanタグ)
-                                          デフォルトはdiv。
+                                          div (div tag)
+                                          span (span tag)
+                                          Default is ``div``.
    ====================================== ==========================================================================================
 
 .. _tag-no_cache_tag:
@@ -1131,11 +1113,11 @@ codeSelect tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
    :ref:`tag-generic_attributes_tag`
-   name ``required``                          XHTML name attribute.
-   codeId ``required``                        Code ID.
+   name ``required``                      XHTML name attribute.
+   codeId ``required``                    Code ID.
    size                                   XHTML size attribute.
    multiple                               XHTML multiple attribute.
    disabled                               XHTML disabled attribute.
@@ -1144,32 +1126,32 @@ codeSelect tag
    onblur                                 XHTML onblur attribute.
    onchange                               XHTML onchange attribute.
    autofocus                              HTML5 autofocus attribute.
-   pattern                                使用するパターンのカラム名。
-                                          デフォルトは指定なし。
+   pattern                                Column name of the pattern used.
+                                          Default is not specified.
    optionColumnName                       Column name of option name to acquire.
    labelPattern                           Pattern to format the label.
                                           Placeholders are shown below.
-                                          ``$NAME$`` : コード値に対応するコード名称
-                                          ``$SHORTNAME$`` : コード値に対応するコードの略称
-                                          ``$OPTIONALNAME$`` : コード値に対応するコードのオプション名称
-                                          ``$VALUE$``: コード値
-                                          ``$OPTIONALNAME$`` を使用する場合は、optionColumnNameAttributeの指定が必須となる。
-                                          デフォルトは ``$NAME$`` 。
+                                          ``$NAME$``: Code name corresponding to the code value
+                                          ``$SHORTNAME$``: Abbreviation of code corresponding to the code value
+                                          ``$OPTIONALNAME$``: Option name of code corresponding to the code value
+                                          ``$VALUE$``: When code value
+                                          ``$OPTIONALNAME$`` is used, specifying the optionColumnName attribute is required.
+                                          Default is ``$NAME$``.
    listFormat                             Format to use when displaying the list.
                                           Specify one of the following.
-                                          br(brタグ)
-                                          div(divタグ)
-                                          span(spanタグ)
-                                          ul(ulタグ)
-                                          ol(olタグ)
-                                          sp(スペース区切り)
-                                          デフォルトはbr。
+                                          br(br tag)
+                                          div(div tag)
+                                          span(span tag)
+                                          ul(ul tag)
+                                          ol(ol tag)
+                                          sp(space delimited)
+                                          Default is br.
    withNoneOption                         Whether to add an unselected option to the top of the list.
-                                          追加する場合は ``true`` 、追加しない場合は ``false`` 。
+                                          To add ``true``, not to add ``false``.
                                           Default is ``false``.
    noneOptionLabel                        Label to use for adding the not selected option to the top of the list.
-                                          このAttributeは、withNoneOptionに ``true`` を指定した場合のみ有効となる。
-                                          デフォルトは ``""`` 。
+                                          This attribute is valid only if ``true`` is specified for withNoneOption.
+                                          Default is ``""``.
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    nameAlias                              Configure alias of name attribute.
@@ -1186,36 +1168,36 @@ codeRadioButtons tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
    :ref:`tag-generic_attributes_tag`      id attribute cannot be specified.
    :ref:`tag-focus_attributes_tag`        accesskey attribute cannot be specified.
-   name ``required``                          XHTML name attribute.
-   codeId ``required``                        Code ID.
+   name ``required``                      XHTML name attribute.
+   codeId ``required``                    Code ID.
    disabled                               XHTML disabled attribute.
    onchange                               XHTML onchange attribute.
    autofocus                              HTML5 autofocus attribute.
-                                          選択肢のうち、先頭要素のみautofocusAttributeをOutputする。
-   pattern                                使用するパターンのカラム名。
-                                          デフォルトは指定なし。
+                                          Output the autofocus attribute only for the first element among the options.
+   pattern                                Column name of the pattern used.
+                                          Default is not specified.
    optionColumnName                       Column name of option name to acquire.
    labelPattern                           Pattern to format the label.
                                           Placeholders are shown below.
-                                          ``$NAME$`` : コード値に対応するコード名称
-                                          ``$SHORTNAME$`` : コード値に対応するコードの略称
-                                          ``$OPTIONALNAME$`` : コード値に対応するコードのオプション名称
-                                          ``$VALUE$``: コード値
-                                          ``$OPTIONALNAME$`` を使用する場合は、optionColumnNameAttributeの指定が必須となる。
-                                          デフォルトは ``$NAME$`` 。
+                                          ``$NAME$``: Code name corresponding to the code value
+                                          ``$SHORTNAME$``: Abbreviation of code corresponding to the code value
+                                          ``$OPTIONALNAME$``: Option name of code corresponding to the code value
+                                          ``$VALUE$``: When code value
+                                          ``$OPTIONALNAME$`` is used, specifying the optionColumnName attribute is required.
+                                          Default is ``$NAME$``.
    listFormat                             Format to use when displaying the list.
                                           Specify one of the following.
-                                          br(brタグ)
-                                          div(divタグ)
-                                          span(spanタグ)
-                                          ul(ulタグ)
-                                          ol(olタグ)
-                                          sp(スペース区切り)
-                                          デフォルトはbr。
+                                          br(br tag)
+                                          div(div tag)
+                                          span(span tag)
+                                          ul(ul tag)
+                                          ol(ol tag)
+                                          sp(space delimited)
+                                          Default is br.
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    nameAlias                              Configure alias of name attribute.
@@ -1231,36 +1213,36 @@ codeCheckboxes tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
    :ref:`tag-generic_attributes_tag`      id attribute cannot be specified.
    :ref:`tag-focus_attributes_tag`        accesskey attribute cannot be specified.
-   name ``required``                          XHTML name attribute.
-   codeId ``required``                        Code ID.
+   name ``required``                      XHTML name attribute.
+   codeId ``required``                    Code ID.
    disabled                               XHTML disabled attribute.
    onchange                               XHTML onchange attribute.
    autofocus                              HTML5 autofocus attribute.
-                                          選択肢のうち、先頭要素のみautofocusAttributeをOutputする。
-   pattern                                使用するパターンのカラム名。
-                                          デフォルトは指定なし。
+                                          Output the autofocus attribute only for the first element among the options.
+   pattern                                Column name of the pattern used.
+                                          Default is not specified.
    optionColumnName                       Column name of option name to acquire.
    labelPattern                           Pattern to format the label.
                                           Placeholders are shown below.
-                                          ``$NAME$`` : コード値に対応するコード名称
-                                          ``$SHORTNAME$`` : コード値に対応するコードの略称
-                                          ``$OPTIONALNAME$`` : コード値に対応するコードのオプション名称
-                                          ``$VALUE$``: コード値
-                                          ``$OPTIONALNAME$`` を使用する場合は、optionColumnNameAttributeの指定が必須となる。
-                                          デフォルトは ``$NAME$`` 。
+                                          ``$NAME$``: Code name corresponding to the code value
+                                          ``$SHORTNAME$``: Abbreviation of code corresponding to the code value
+                                          ``$OPTIONALNAME$``: Option name of code corresponding to the code value
+                                          ``$VALUE$``: When code value
+                                          ``$OPTIONALNAME$`` is used, specifying the optionColumnName attribute is required.
+                                          Default is ``$NAME$``.
    listFormat                             Format to use when displaying the list.
                                           Specify one of the following.
-                                          br(brタグ)
-                                          div(divタグ)
-                                          span(spanタグ)
-                                          ul(ulタグ)
-                                          ol(olタグ)
-                                          sp(スペース区切り)
-                                          デフォルトはbr。
+                                          br(br tag)
+                                          div(div tag)
+                                          span(span tag)
+                                          ul(ul tag)
+                                          ol(ol tag)
+                                          sp(space delimited)
+                                          Default is br.
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    nameAlias                              Configure alias of name attribute.
@@ -1276,31 +1258,31 @@ codeCheckbox tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
    :ref:`tag-generic_attributes_tag`
    :ref:`tag-focus_attributes_tag`
-   name ``required``                          XHTML name attribute.
+   name ``required``                      XHTML name attribute.
    value                                  XHTML value attribute.
                                           The code value used when there is a checkmark.
-                                          デフォルトは ``1`` 。
+                                          Default is ``1``.
    autofocus                              HTML5 autofocus attribute.
-   codeId ``required``                        Code ID.
+   codeId ``required``                    Code ID.
    optionColumnName                       Column name of option name to acquire.
    labelPattern                           Pattern to format the label.
                                           Placeholders are shown below.
-                                          ``$NAME$`` : コード値に対応するコード名称
-                                          ``$SHORTNAME$`` : コード値に対応するコードの略称
-                                          ``$OPTIONALNAME$`` : コード値に対応するコードのオプション名称
-                                          ``$VALUE$``: コード値
-                                          ``$OPTIONALNAME$`` を使用する場合は、optionColumnNameAttributeの指定が必須となる。
-                                          デフォルトは ``$NAME$`` 。
+                                          ``$NAME$``: Code name corresponding to the code value
+                                          ``$SHORTNAME$``: Abbreviation of code corresponding to the code value
+                                          ``$OPTIONALNAME$``: Option name of code corresponding to the code value
+                                          ``$VALUE$``: When code value
+                                          ``$OPTIONALNAME$`` is used, specifying the optionColumnName attribute is required.
+                                          Default is ``$NAME$``.
    offCodeValue                           The code value used when there is no checkmark.
-                                          offCodeValueAttributeが指定されない場合は、
-                                          codeIdAttributeの値からチェックなしの場合に使用するコード値を検索する。
-                                          検索結果が2件、かつ1件がvalueAttributeの値である場合は、
-                                          残りの1件をチェックなしのコード値として使用する。
-                                          検索で見つからない場合は、デフォルト値の ``0`` を使用する。
+                                          If the offCodeValue attribute is not specified,
+                                          search for the code value to use if there is no check from the value of the codeId attribute.
+                                          If there are 2 search results and one is the value of the value attribute,
+                                          use the remaining as a code value without check.
+                                          If not found with the search, use the default value ``0``.
    disabled                               XHTML disabled attribute.
    onchange                               XHTML onchange attribute.
    errorCss                               CSS class name used for error level messages.
@@ -1318,31 +1300,31 @@ code tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
-   name                                   表示対象のコード値を変数スコープから取得する際に使用する名前
-                                          省略した場合は、コードIDAttributeとpatternAttributeにて絞り込んだコードの一覧を表示する。
-   codeId ``required``                        Code ID.
-   pattern                                使用するパターンのカラム名。
-                                          デフォルトは指定なし。
+   name                                   Name used to acquire the code value to be displayed from the variable scope.
+                                          if omitted, a list of codes filtered down by the code ID attribute and pattern attribute is displayed.
+   codeId ``required``                    Code ID.
+   pattern                                Column name of the pattern used.
+                                          Default is not specified.
    optionColumnName                       Column name of option name to acquire.
    labelPattern                           Pattern to format the label.
                                           Placeholders are shown below.
-                                          ``$NAME$`` : コード値に対応するコード名称
-                                          ``$SHORTNAME$`` : コード値に対応するコードの略称
-                                          ``$OPTIONALNAME$`` : コード値に対応するコードのオプション名称
-                                          ``$VALUE$``: コード値
-                                          ``$OPTIONALNAME$`` を使用する場合は、optionColumnNameAttributeの指定が必須となる。
-                                          デフォルトは ``$NAME$`` 。
+                                          ``$NAME$``: Code name corresponding to the code value
+                                          ``$SHORTNAME$``: Abbreviation of code corresponding to the code value
+                                          ``$OPTIONALNAME$``: Option name of code corresponding to the code value
+                                          ``$VALUE$``: When code value
+                                          ``$OPTIONALNAME$`` is used, specifying the optionColumnName attribute is required.
+                                          Default is ``$NAME$``.
    listFormat                             Format to use when displaying the list.
                                           Specify one of the following.
-                                          br(brタグ)
-                                          div(divタグ)
-                                          span(spanタグ)
-                                          ul(ulタグ)
-                                          ol(olタグ)
-                                          sp(スペース区切り)
-                                          デフォルトはbr。
+                                          br(br tag)
+                                          div(div tag)
+                                          span(span tag)
+                                          ul(ul tag)
+                                          ol(ol tag)
+                                          sp(space delimited)
+                                          Default is br.
    ====================================== ==========================================================================================
 
 .. _tag-message_tag:
@@ -1354,22 +1336,22 @@ message tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
-   messageId ``required``                     Message ID.
-   option0 ~ option9                       Messageフォーマットに使用するインデックスが0～9のオプション引数。
-                                          最大10個までオプション引数が指定できる。
-   language                               Messageの言語。
-                                          デフォルトはスレッドコンテキストに設定された言語。
+   messageId ``required``                 Message ID.
+   option0 ~ option9                      Optional parameters with index between 0 ~ 9 used for message format.
+                                          Up to 10 optional parameters can be specified.
+   language                               Language of the message.
+                                          The language configured in the thread context is the default.
    var                                    Variable name used when storing in the request scope.
                                           If var attribute is specified, configures in the request scope without output of a message.
                                           HTML escape and HTML format are not performed when configuring in the request scope.
    htmlEscape                             Whether HTML escape is to be performed.
-                                          HTMLエスケープをする場合は ``true`` 、しない場合は ``false`` 。
-                                          デフォルトは ``true`` 。
+                                          To perform HTML escape ``true``, not to perform HTML escape ``false``.
+                                          Default is ``true``.
    withHtmlFormat                         Whether to use the HTML format (conversion of line feed and half-width).
                                           HTML format is valid only when HTML escape is used.
-                                          デフォルトは ``true`` 。
+                                          Default is ``true``.
    ====================================== ==========================================================================================
 
 .. _tag-write_tag:
@@ -1381,15 +1363,15 @@ write tag
    :class: tag-reference
 
    ====================================== ======================================================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ======================================================================================================================
    name                                   Name used to acquire the value to be displayed from the variable scope. Cannot be specified at the same time as the value attribute.
    value                                  Value to be displayed.Used to specify a value directly.Cannot be specified at the same time as the name attribute.
    withHtmlFormat                         Whether to use the HTML format (conversion of line feed and half-width).
                                           HTML format is valid only when HTML escape is used.
-                                          デフォルトは ``true`` 。
-   valueFormat                            Output時のフォーマット。
-                                          指定内容は、 :ref:`tag-format_value` を参照。
+                                          Default is ``true``.
+   valueFormat                            Format used for output.
+                                          For the contents to be specified, see :ref:`tag-format_value`.
    ====================================== ======================================================================================================================
 
 
@@ -1400,16 +1382,16 @@ prettyPrint tag
 
 .. important::
 
-  このタグは非推奨であるため使用しないこと。
-  詳細は、 :ref:`prettyPrint tagの使用を推奨しない理由 <tag-pretty_print_tag-deprecated>` を参照。
+  This tag is deprecated and should not be used.
+  For details, see :ref:`reason why the use of prettyPrint tag is not recommended <tag-pretty_print_tag-deprecated>`.
 
 .. table::
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
-   name ``required``                          Name used to acquire the value to be displayed from the variable scope
+   name ``required``                      Name used to acquire the value to be displayed from the variable scope
    ====================================== ==========================================================================================
 
 
@@ -1423,9 +1405,9 @@ rawWrite tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
-   name ``required``                          Name used to acquire the value to be displayed from the variable scope
+   name ``required``                      Name used to acquire the value to be displayed from the variable scope
    ====================================== ==========================================================================================
 
 
@@ -1438,18 +1420,18 @@ set tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
-   var ``required``                           Variable name used when storing in the request scope.
+   var ``required``                       Variable name used when storing in the request scope.
    name                                   The name to acquire the value. Specify either name attribute or value attribute.
    value                                  Value.Used to specify a value directly.Specify either name attribute or value attribute.
    scope                                  Configure the scope for storing variables.
                                           Scope that can be specified is given below.
-                                          page: ページスコープ
-                                          request: リクエストスコープ
-                                          デフォルトはリクエストスコープ。
-   bySingleValue                          nameAttributeに対応する値を単一値として取得するか否か。
-                                          デフォルトは ``true`` 。
+                                          page: Page scope
+                                          request: Request scope
+                                          Default is request scope.
+   bySingleValue                          Whether to acquire the value corresponding to the name attribute as a single value.
+                                          Default is ``true``.
    ====================================== ==========================================================================================
 
 .. _tag-include_tag:
@@ -1461,9 +1443,9 @@ include tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
-   path ``required``                          Path of the resource to include.
+   path ``required``                      Path of the resource to include.
    ====================================== ==========================================================================================
 
 .. _tag-include_param_tag:
@@ -1475,9 +1457,9 @@ includeParam tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
-   paramName ``required``                     Name of the parameter to use for include.
+   paramName ``required``                 Name of the parameter to use for include.
    name                                   The name to acquire the value. Specify either name attribute or value attribute.
    value                                  Value.Used to specify a value directly.Specify either name attribute or value attribute.
    ====================================== ==========================================================================================
@@ -1491,7 +1473,7 @@ confirmationPage tag
    :class: tag-reference
 
    ====================================== ==========================================================================================
-   Attribute                                   Description
+   Attribute                              Description
    ====================================== ==========================================================================================
    path                                   Path of the forward destination (input screen).
    ====================================== ==========================================================================================
