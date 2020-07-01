@@ -1,30 +1,30 @@
 .. _http_rewrite_handler:
 
-HTTPリライトハンドラ
+HTTP Rewrite Handler
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-本ハンドラは、HTTPのリクエストおよびレスポンスに対して、リクエストパスとコンテンツパス、
-および変数の書き換えを行う機能を提供する。
-このハンドラは、「未ログイン状態の際は強制的にログイン画面に遷移させる」といった、特殊な
-遷移が必要になった際に使用する。
+This handler provides a function to rewrite the request path, content path
+and variables for HTTP requests and responses.
+This handler is used when a special transition such as
+"forced transition to login screen when not logged in" is required.
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following processes.
 
-* リクエストパスの書き換えを行う
-* コンテンツパスの書き換えを行う
+* Rewrites the request path
+* Rewrites the content path
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/HttpRewriteHandler/flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.web.handler.HttpRewriteHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -33,33 +33,33 @@ HTTPリライトハンドラ
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
 
-:ref:`http_response_handler` より後ろに配置すること
-  本ハンドラで書き換えたコンテンツパスは、レスポンスハンドラにより使用される。
-  このため、本ハンドラは :ref:`http_response_handler` の後ろに配置する必要がある。
+Place this handler after the :ref:`http_response_handler`
+  The content path rewritten by this handler is used by the response handler.
+  Therefore, this handler must be placed after the :ref:`http_response_handler`.
 
-:ref:`thread_context_handler` より後ろに配置すること
-  本ハンドラでは、スレッドコンテキストに入れられるリクエストパスの書き換えを行う。
-  このため、本ハンドラは :ref:`thread_context_handler` より前に配置する必要がある。
+Place this handler after the :ref:`thread_context_handler`
+  This handler rewrites the request path placed in the thread context.
+  Therefore, this handler must be placed after the :ref:`thread_context_handler`.
 
 
-書き換えの設定
+Rewrite settings
 ------------------------------
 
-書き換えの設定は、 :java:extdoc:`本ハンドラ <nablarch.fw.web.handler.HttpRewriteHandler>`  のプロパティ requestPathRewriteRules または contentPathRewriteRules に対して行う。
+Rewrite settings are performed for properties requestPathRewriteRules or contentPathRewriteRules of :java:extdoc:`handler  <nablarch.fw.web.handler.HttpRewriteHandler>`.
 
-以下に設定例を示す。
+A configuration example is shown below.
 
 .. code-block:: xml
 
   <component class="nablarch.fw.web.handler.HttpRewriteHandler">
-    <!-- リクエストパスに対するリライトルール -->
+    <!-- Rewrite rules for request path -->
     <property name="requestPathRewriteRules">
       <list>
-        <!-- サーブレットコンテキストルートへのアクセスに対して、
-             既にログインが成立していればメニュー画面へ遷移させる。 -->
+        <!-- If the login has already been established for access to the servlet context root,
+             transitions to the menu screen. -->
         <component class="nablarch.fw.web.handler.HttpRequestRewriteRule">
           <property name="pattern" value="^/$" />
           <property name="conditions">
@@ -70,7 +70,7 @@ HTTPリライトハンドラ
           <property name="rewriteTo" value="/action/MenuAction/show" />
         </component>
 
-        <!-- ログインが成立していない場合はログイン画面へ遷移させる。 -->
+        <!-- If the login has not been established, transitions to the log-in screen. -->
         <component class="nablarch.fw.web.handler.HttpRequestRewriteRule">
           <property name="pattern"   value="^/$" />
           <property name="rewriteTo" value="/action/LoginAction/authenticate" />
@@ -78,11 +78,11 @@ HTTPリライトハンドラ
       </list>
     </property>
 
-    <!-- レスポンスのコンテンツパスに対するリライトルール -->
+    <!-- Rewrite rules for response content path -->
     <property name="contentPathRewriteRules">
       <list>
 
-        <!-- ステータスコードが401であった場合はログイン画面に遷移させる -->
+        <!-- If the status code is 401, transitions to login screen -->
         <component class="nablarch.fw.web.handler.ContentPathRewriteRule">
           <property name="pattern"   value="^.*" />
           <property name="rewriteTo" value="redirect:///action/LoginAction/authenticate" />
@@ -96,71 +96,71 @@ HTTPリライトハンドラ
     </property>
   </component>
 
-この例からわかる通り、設定は :java:extdoc:`HttpRequestRewriteRule <nablarch.fw.web.handler.HttpRequestRewriteRule>`
-(リクエストパスを書き換える場合)または :java:extdoc:`ContentPathRewriteRule <nablarch.fw.web.handler.ContentPathRewriteRule>`
-(コンテンツパスを書き換える場合)を使用して行う。
+As you can see from this example, :java:extdoc:`HttpRequestRewriteRule <nablarch.fw.web.handler.HttpRequestRewriteRule>`
+(to rewrite the request path) or :java:extdoc:`ContentPathRewriteRule <nablarch.fw.web.handler.ContentPathRewriteRule>`
+(to rewrite the content path) has been used for the configuration.
 
-:java:extdoc:`HttpRequestRewriteRule <nablarch.fw.web.handler.HttpRequestRewriteRule>`
-および :java:extdoc:`ContentPathRewriteRule <nablarch.fw.web.handler.ContentPathRewriteRule>`
-には、下記のプロパティが存在する。(プロパティは、スーパークラスの
-:java:extdoc:`RewriteRule <nablarch.fw.handler.RewriteRule>` に定義されている。)
+The following properties are present in :java:extdoc:`HttpRequestRewriteRule <nablarch.fw.web.handler.HttpRequestRewriteRule>`
+and :java:extdoc:`ContentPathRewriteRule <nablarch.fw.web.handler.ContentPathRewriteRule>`
+(Properties are defined in superclass :java:extdoc:`RewriteRule <nablarch.fw.handler.RewriteRule>`.)
+
 
 ==================== ====================================================
-プロパティ名         説明
+Property name         Description
 ==================== ====================================================
-pattern              適用する対象のパスのパターン
-rewriteTo            書き換え後の文字列
-conditions           パス以外の追加の適用条件
-exports              変数の書き換え設定
+pattern              Path pattern to apply
+rewriteTo            String after rewriting
+conditions           Additional conditions other than path
+exports              Rewrite settings of variables
 ==================== ====================================================
 
-:java:extdoc:`HttpRequestRewriteRule <nablarch.fw.web.handler.HttpRequestRewriteRule>`
-および :java:extdoc:`ContentPathRewriteRule <nablarch.fw.web.handler.ContentPathRewriteRule>`
-では、conditionsの設定に変数を使用できる。
-:java:extdoc:`HttpRequestRewriteRule <nablarch.fw.web.handler.HttpRequestRewriteRule>`
-、 :java:extdoc:`ContentPathRewriteRule <nablarch.fw.web.handler.ContentPathRewriteRule>`
-それぞれで使用可能な変数は下記の通り。
+Variables can be used to configure conditions in :java:extdoc:`HttpRequestRewriteRule <nablarch.fw.web.handler.HttpRequestRewriteRule>`
+and :java:extdoc:`ContentPathRewriteRule <nablarch.fw.web.handler.ContentPathRewriteRule>`
+
+The variables available for :java:extdoc:`HttpRequestRewriteRule <nablarch.fw.web.handler.HttpRequestRewriteRule>`
+and :java:extdoc:`ContentPathRewriteRule <nablarch.fw.web.handler.ContentPathRewriteRule>`
+are as follows.
 
 ============================ ============================== ===========================================================
-変数種別                     書式                           適用可能なクラス
+Variable type                Format                         Applicable class
 ============================ ============================== ===========================================================
-セッションスコープ           %{session:(変数名)}            HttpRequestRewriteRule / ContentPathRewriteRule
-リクエストスコープ           %{request:(変数名)}            HttpRequestRewriteRule / ContentPathRewriteRule
-スレッドコンテキスト         %{thread:(変数名)}             HttpRequestRewriteRule / ContentPathRewriteRule
-リクエストパラメータ         %{param:(変数名)}              HttpRequestRewriteRule
-HTTPヘッダ                   %{header:(ヘッダー名)}         HttpRequestRewriteRule / ContentPathRewriteRule
-HTTPリクエストメソッド       %{httpMethod}                  HttpRequestRewriteRule
-HTTPバージョン               %{httpVersion}                 HttpRequestRewriteRule
-全リクエストパラメータ名     %{paramNames}                  HttpRequestRewriteRule
-ステータスコード             %{statusCode}                  ContentPathRewriteRule
+Session scope                %{session:(variable name)}     HttpRequestRewriteRule / ContentPathRewriteRule
+Request scope                % {request:(variable name)}    HttpRequestRewriteRule / ContentPathRewriteRule
+Thread context               % {thread:(variable name)}     HttpRequestRewriteRule / ContentPathRewriteRule
+Request parameters           % {param:(variable name)}      HttpRequestRewriteRule
+HTTP header                  % {header: (header name)}      HttpRequestRewriteRule / ContentPathRewriteRule
+HTTP request method          %{httpMethod}                  HttpRequestRewriteRule
+HTTP version                 %{httpVersion}                 HttpRequestRewriteRule
+All request parameter names  %{paramNames}                  HttpRequestRewriteRule
+Status code                  %{statusCode}                  ContentPathRewriteRule
 ============================ ============================== ===========================================================
 
 
-変数に値を設定
----------------------------
+Configure value to variable
+-----------------------------
 
-HTTPリライトハンドラでは、パスの書き換え以外に リクエストスコープ、セッションスコープ、
-スレッドコンテキスト、ウィンドウスコープへ変数を設定できる。
+In the HTTP rewrite handler, variables can be configured in the  request scope, session scope,
+thread context and window scope in addition to path rewrite.
 
-変数を設定するには、:java:extdoc:`HttpRequestRewriteRule <nablarch.fw.web.handler.HttpRequestRewriteRule>`
-または :java:extdoc:`ContentPathRewriteRule <nablarch.fw.web.handler.ContentPathRewriteRule>` の
-export プロパティを設定する。
+To configure a variable, configure the export properties of :java:extdoc:`HttpRequestRewriteRule <nablarch.fw.web.handler.HttpRequestRewriteRule>`
+or :java:extdoc:`ContentPathRewriteRule <nablarch.fw.web.handler.ContentPathRewriteRule>`
 
-以下に設定例を示す。
+
+A configuration example is shown below.
 
 .. code-block:: xml
 
-  <!--リファラヘッダが送信された場合は、リクエストスコープにその値を設定する。-->
+  <!--If referrer header is sent, configure its value in request scope. -->
   <component class="nablarch.fw.web.handler.HttpRequestRewriteRule">
-    <!-- 全リクエストを対象とする。 -->
+    <!-- For all requests. -->
     <property name="pattern" value=".*" />
-    <!-- リファラヘッダが定義されていた場合のみ適用する。-->
+    <!-- Applies only when referrer header is defined.-->
     <property name="conditions">
       <list>
         <value>%{header:Referer} ^\S+$</value>
       </list>
     </property>
-    <!-- リクエストスコープ上の変数 prevUrl に、リファラヘッダの値を設定する。-->
+    <!-- Configure the value of referrer header in the variable prevUrl of the request scope.-->
     <property name="exports">
       <list>
         <value>%{request:prevUrl} ${header:Referer}</value>
@@ -168,17 +168,17 @@ export プロパティを設定する。
     </property>
   </component>
 
-このように、 exports プロパティに 「設定する変数名」(上記例の場合、"%{request:prevUrl}")と
-「設定する値」(上記例の場合 "${header:Referer}")をリストで設定することで、各スコープへ変数の
-設定ができる。
+In this way, by configuring "variable name to be configured" ("%{request:prevUrl}" in the above example)
+and "value to be configured" ("${header:Referer}" in the above example) in the property with a list,
+variables can be configured for each scope.
 
-exports で、「設定する変数名」に設定できる変数スコープは下記の通り。
+The variable scope that can be configured to "variable name to be configured" in exports is as follows.
 
-============================ ======================= ========================================================
-変数スコープ                 書式                    対象
-============================ ======================= ========================================================
-セッションスコープ           %{session:(変数名)}     HttpRequestRewriteRule / ContentPathRewriteRule
-リクエストスコープ           %{request:(変数名)}     HttpRequestRewriteRule / ContentPathRewriteRule
-スレッドコンテキスト         %{thread:(変数名)}      HttpRequestRewriteRule / ContentPathRewriteRule
-ウィンドウスコープ           %{param:(変数名)}       HttpRequestRewriteRule
-============================ ======================= ========================================================
+============================ ============================ ========================================================
+Variable scope               Format                       Subjects
+============================ ============================ ========================================================
+Session scope                %{session:(variable name)}   HttpRequestRewriteRule / ContentPathRewriteRule
+Request scope                % {request:(variable name)}  HttpRequestRewriteRule / ContentPathRewriteRule
+Thread context               % {thread:(variable name)}   HttpRequestRewriteRule / ContentPathRewriteRule
+Window scope                 % {param:(variable name)}    HttpRequestRewriteRule
+============================ ============================ ========================================================
