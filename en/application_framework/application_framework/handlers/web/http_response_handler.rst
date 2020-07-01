@@ -1,38 +1,37 @@
 .. _http_response_handler:
 
-HTTPレスポンスハンドラ
+HTTP Response Handler
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-本ハンドラは、後続ハンドラが返す :java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>` に従い、サーブレットAPIを
-呼び出しクライアントへのレスポンスを行う。
-応答の方法には、下記4通りが存在する。
+This handler calls the servlet API and sends a response to the client according to :java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>`
+returned by the subsequent handler.
+There are four response methods.
 
-サーブレットフォワード
-  サーブレットにフォワードを行い、レスポンスを描画する。主にJSPを使ったレスポンス時に使用する。
+Servlet forward
+  Forward to the servlet and draw the response. Mainly used for response using JSP.
 
-カスタムレスポンスライター
-  `カスタムレスポンスライター`_\（後述）を使用して、任意のレスポンス出力処理を行う。\
-  主にテンプレートエンジン等の外部ライブラリを使ったレスポンス時に使用する。
+Custom response writer
+  The `custom response writer`_\ (described later) is used to perform arbitrary response output processing.\
+  Mainly used for response using external library such as template engine.
 
-リダイレクト
-  クライアントにリダイレクトを行う応答を返す。
+Redirect
+  Returns a response to redirect to the client.
 
-直接レスポンス
-   :java:extdoc:`ServletResponse <javax.servlet.ServletResponse>` の `getOutputStream` メソッドを使用して直接
-   レスポンスを行う。
+Direct response
+   Direct response using `getOutputStream` method of :java:extdoc:`ServletResponse <javax.servlet.ServletResponse>`.
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/HttpResponseHandler/flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.web.handler.HttpResponseHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -41,19 +40,19 @@ HTTPレスポンスハンドラ
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
 
-なし。
+None.
 
 
 
-応答の変換方法
+How to convert the response
 ------------------------------------------------------
 
-本ハンドラでは、後続のハンドラから返されるスキーム [#scheme]_ と、ステータスコード  [#statusCode]_ によりクライアントに返すレスポンスの方法を変更する。
+This handler changes the method of response to the client based on the scheme [#scheme]_ returned from the subsequent handler and status code [#statusCode]_.
 
-変換条件と応答方法は下記表の通り。
+The conversion conditions and response method are as shown in the table below.
 
 
 .. list-table::
@@ -61,98 +60,98 @@ HTTPレスポンスハンドラ
   :widths: 5,5
   :class: white-space-normal
 
-  * -   変換条件
-    -   応答の方法
-  * -   スキームが
-        ``servlet`` の場合
-    -   カスタムレスポンスライターが処理対象と判定した場合はカスタムレスポンスライターに処理を移譲する。それ以外の場合はコンテンツパス別サーブレットへ処理をフォワードする。
-  * -   スキームが
-        ``redirect`` の場合
-    -   指定したURLへのリダイレクトを行う
-  * -   スキームが
-        ``http`` または ``https`` の場合
-    -   指定したURLへのリダイレクトを行う
-  * -   スキームが上記以外で、
-        ステータスコードが400以上の場合
-    -   ステータスコードに合うエラー画面の表示をおこなう。
-  * -   上記以外の場合
-    -   HttpResponse#getBodyStream()の結果を応答する。
+  * -   Conversion condition
+    -   Response method
+  * -   When the scheme is a
+        ``servlet``
+    -   When the custom response writer determines that the process is to be processed, it is transferred to the custom response writer. In other cases, the process is forwarded to the servlet by content path.
+  * -   When the scheme is a
+        ``redirect``
+    -   Redirects to specified URL
+  * -   When the scheme is a
+        ``http`` or ``https``
+    -   Redirects to specified URL
+  * -   If scheme is other than the above
+        and status code is 400 or more
+    -   Displays an error screen that matches the status code.
+  * -   Other than the above
+    -   Responds with the result HttpResponse#getBodyStream().
 
 
 
 
 .. [#scheme]
-      ここで言う「スキーム」とは、後続ハンドラが返した
-      :java:extdoc:`HttpResponse#getContentPath() <nablarch.fw.web.HttpResponse.getContentPath()>`
-      で取得した  :java:extdoc:`ResourceLocator <nablarch.fw.web.ResourceLocator>` の
-      :java:extdoc:`getScheme() メソッド <nablarch.fw.web.ResourceLocator.getScheme()>` の戻り値のことを指す。
+      The "scheme" here refers to the return value of
+      :java:extdoc:`getScheme() method <nablarch.fw.web.ResourceLocator.getScheme()>`
+      of :java:extdoc:`ResourceLocator <nablarch.fw.web.ResourceLocator>` acquired with
+      :java:extdoc:`HttpResponse#getContentPath() <nablarch.fw.web.HttpResponse.getContentPath()>` returned by the subsequent handler.
 
 .. [#statusCode]
-      ここで言う「ステータスコード」とは、後続ハンドラが返す
-      :java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>` クラスの
-      :java:extdoc:`getStatusCode() <nablarch.fw.web.HttpResponse.getStatusCode()>` メソッドの戻り値のことを示す。
+      The "status code" here refers to the return value of
+      the :java:extdoc:`getStatusCode() <nablarch.fw.web.HttpResponse.getStatusCode()>` method of
+      :java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>` class returned by the subsequent handler.
 
 .. _http_response_handler-convert_status_code:
 
 
-カスタムレスポンスライター
+Custom response writer
 --------------------------
 
-本ハンドラのプロパティ ``customResponseWriter`` に
-:java:extdoc:`CustomResponseWriter<nablarch.fw.web.handler.responsewriter.CustomResponseWriter>`
-の実装クラスを設定することで、任意のレスポンス出力処理\ [#resp]_ を実行できる。
+By configuring the implementation class of
+:java:extdoc:`CustomResponseWriter<nablarch.fw.web.handler.responsewriter.CustomResponseWriter>` to the ``customResponseWriter`` property of this handler,
+an any response output process \ [#resp]_  can be  executed.
 
-.. [#resp] 具体例として、JSPではなくテンプレートエンジンを使用してレスポンスを出力するというケースが挙げられる。
-           Nablarchが提供している実装としては、:ref:`web_thymeleaf_adaptor` がある。
+.. [#resp] A specific example is the case where a response is output using the template engine instead of JSP.
+           :ref:`web_thymeleaf_adaptor` is an implementation provided by Nablarch.
 
 
-HTTPステータスコードの変更
+Change the HTTP status code
 ------------------------------------------------------
 
-本ハンドラでは、ステータスコードを一部変更してクライアントへのレスポンスに設定する。
+This handler changes part of the status code and configures in the response to the client.
 
-HTTPステータスコードを決定する変換条件と、応答のエラーコードは下記表のとおり。
+The conversion condition that determine the HTTP status code and error code of the response are as shown in the table below.
 
 .. list-table::
   :header-rows: 1
   :widths: 3,7
   :class: white-space-normal
 
-  * -   変換条件
-    -   エラーコード
-  * -   Ajaxのリクエストの場合
-    -   元のステータスコードそのままを返す
-  * -   元のステータスコードが400の場合
-    -   ステータスコード200を返す
-  * -   上記以外の場合
-    -   ステータスコード の結果そのままを返す
+  * -   Conversion condition
+    -   Error code
+  * -   For Ajax requests
+    -   Returns the original status code without change
+  * -   When the original status code is 400
+    -   Returns status code 200
+  * -   Other than the above
+    -   Returns the status code result without change
 
 
 .. _http_response_handler-change_content_path:
 
-言語毎のコンテンツパスの切り替え
+Switching the content path for each language
 ------------------------------------------------------
 
-本ハンドラは、HTTPリクエストに含まれる言語設定をもとにして、フォワード先を動的に切り替える機能を持つ。
-この機能を利用することで、利用者が選んだ言語に合わせてフォワードするJSPを切り替える機能が実現できる。
+This handler has a function to dynamically switch the forwarding destination based on the language configuration included in the HTTP request.
+By using this function, the function to switch the JSP to be forwarded according to the language selected by the user can be realized.
 
-この機能を使用する際は、本ハンドラの ``contentPathRule`` プロパティに下記いずれかのクラスを設定する。
+When using this function, configure one of the following classes in ``contentPathRule`` property of this handler.
 
 
 ============================================================================================================================= ============================================================================================
-クラス名                                                                                                                      説明
+Class name                                                                                                                      Description
 ============================================================================================================================= ============================================================================================
-:java:extdoc:`DirectoryBasedResourcePathRule <nablarch.fw.web.i18n.DirectoryBasedResourcePathRule>`                           コンテキストルート直下のディレクトリを言語の切り替えに
+:java:extdoc:`DirectoryBasedResourcePathRule <nablarch.fw.web.i18n.DirectoryBasedResourcePathRule>`                           A class that
                                                                                                                               |br|
-                                                                                                                              使用するクラス。
+                                                                                                                              uses the directory directly under the context root for switching the language.
 
                                                                                                                                .. code-block:: bash
 
-                                                                                                                                # /management/user/search.jspを日本語(ja)と
-                                                                                                                                # 英語(en)に対応する場合の配置例
-                                                                                                                                # コンテキストルート直下に言語ごとにディレクトリを作成する。
-                                                                                                                                # ディレクトリ名は言語名とする。
-                                                                                                                                コンテキストルート
+                                                                                                                                # Placement example when supporting /management/user/search.jsp
+                                                                                                                                # with Japanese (ja) and English (en)
+                                                                                                                                # Create a directory for each language directly under the context root.
+                                                                                                                                # The directory name is the language name.
+                                                                                                                                Context root
                                                                                                                                 ├─en
                                                                                                                                 │  └─management
                                                                                                                                 │      └─user
@@ -162,52 +161,52 @@ HTTPステータスコードを決定する変換条件と、応答のエラー�
                                                                                                                                         └─user
                                                                                                                                              search.jsp
 
-:java:extdoc:`FilenameBasedResourcePathRule <nablarch.fw.web.i18n.FilenameBasedResourcePathRule>`                             ファイル名を言語の切り替えに使用するクラス。
+:java:extdoc:`FilenameBasedResourcePathRule <nablarch.fw.web.i18n.FilenameBasedResourcePathRule>`                             A class that uses file names to switch the languages.
 
                                                                                                                                 .. code-block:: bash
 
-                                                                                                                                 # /management/user/search.jspを日本語(ja)と
-                                                                                                                                 # 英語(en)に対応する場合の配置例
-                                                                                                                                 # 言語毎にファイルを作成する。
-                                                                                                                                 # ファイル名にはサフィックス「"_"＋言語名」を付ける。
-                                                                                                                                 コンテキストルート
+                                                                                                                                 # Placement example when supporting /management/user/search.jsp
+                                                                                                                                 # with Japanese (ja) and English (en)
+                                                                                                                                 # Create a file for each language.
+                                                                                                                                 # Add the suffix "'_' + language name" to the file name.
+                                                                                                                                 Context root
                                                                                                                                  └─management
                                                                                                                                          └─user
                                                                                                                                               search_en.jsp
                                                                                                                                               search_ja.jsp
 ============================================================================================================================= ============================================================================================
 
-この際の設定例は下記の通り。
+The configuration example for this is as follows.
 
 .. code-block:: xml
 
-  <!-- リソースパスルール -->
+  <!-- Resource path rules -->
   <component name="resourcePathRule" class="nablarch.fw.web.i18n.DirectoryBasedResourcePathRule" />
 
-  <!-- HTTPレスポンスハンドラ -->
+  <!-- HTTP response handler-->
   <component class="nablarch.fw.web.handler.HttpResponseHandler">
     <property name="contentPathRule" ref="resourcePathRule" />
   </component>
 
 
-上記以外の方法でコンテンツの切り替えを行いたい場合は、 :java:extdoc:`ResourcePathRule <nablarch.fw.web.i18n.ResourcePathRule>`
-クラスを継承したクラスを作成し、作成したクラスを上記同様に ``resourcePathRule`` プロパティに設定すること。
+To switch contents by a method other than the above, create a class that inherits :java:extdoc:`ResourcePathRule <nablarch.fw.web.i18n.ResourcePathRule>`
+class and configure the created class in the ``resourcePathRule`` property as above.
 
 .. tip::
-   `カスタムレスポンスライター`_ でレスポンス出力を行う場合、本機能は使用できない。
-   これは、テンプレートエンジン等が持っている多言語対応機能と混在させないためである。
+   This function cannot be used when the response is output by the `custom response writer`_.
+   This is to ensure that it is not mixed with the multilingual function of the template engine.
 
-本ハンドラ内で発生した致命的エラーの対応
-------------------------------------------------------
+How to handle fatal errors that occur in this handler
+-------------------------------------------------------
 
-本ハンドラ内の処理で、下記事象が発生した場合、正常な応答が返せないと判断して、クライアントに対しては
-ステータスコード500で固定的なレスポンスを返す。
+When the following events occur in the processing in this handler,
+it is determined that a normal response cannot be returned and a fixed response with status code 500 is returned to the client.
 
-* サーブレットフォワード時に ServletException が発生した場合
-* RuntimeException およびそのサブクラスの例外が発生した場合
-* Error およびそのサブクラスの例外が発生した場合
+* When a ServletException occurs during servlet forward
+* When an exception of RuntimeException and its subclass occurs
+* When an exception of Error and its subclass occurs
 
-この際のレスポンスは下記HTMLとなる。
+The response for these cases is the following HTML.
 
 .. code-block:: html
 
@@ -225,11 +224,11 @@ HTTPステータスコードを決定する変換条件と、応答のエラー�
 
 .. important::
 
-    上記HTMLのレスポンスは固定的になっており、設定による変更などはできない。
+    The above HTML response is fixed and cannot be changed with configuration.
 
-    このレスポンスは、本ハンドラ内で例外が発生するレアケースのみでしか使われることはない。
-    このため、通常この仕様が問題になることはないが、どんなことがあってもこのレスポンスを
-    出してはいけないシステムにおいては、本ハンドラを参考にハンドラの自作を検討すること。
+    This response is used only in rare cases where an exception occurs in this handler.
+    This specification does not usually cause a problem, but for systems where this response should not be issued under any circumstances,
+    consider preparing handlers with reference to this handler.
 
 
 
