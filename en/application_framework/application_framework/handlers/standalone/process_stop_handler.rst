@@ -1,42 +1,42 @@
 .. _process_stop_handler:
 
-プロセス停止制御ハンドラ
+Process Stop Control Handler
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-本ハンドラは、以下のようなループ制御を行なうハンドラの後続に配置することで、
-ループを中断してプロセス停止要求を示す例外を送出する機能を提供する。
+This handler is placed as a subsequent handler to handlers such as those given below that control the loop
+and provides the function to interrupt the loop and throw an exception indicating the process stop request.
 
 * :ref:`process_resident_handler`
 * :ref:`loop_handler`
 * :ref:`request_thread_loop_handler`
 
-本ハンドラでは以下の処理を行う。
+This handler performs the following processes.
 
-* プロセス停止可否のチェック(プロセス停止フラグが"1"であればプロセス停止対象と判定)
-* プロセス停止処理
+* Checks whether the process has to be stopped (if the process stop flag is "1", then it is determined as target for process stop)
+* Process to stop process
 
 .. tip::
 
-  都度起動バッチでは、大量データに対する処理が終わらない場合などに、強制的に処理を停止するために本ハンドラを使用する。
+  In each time startup batch, this handler is used to forcibly stop the process when process corresponding to a large amount of data is not yet completed.
 
 .. important::
 
-  本ハンドラでは、プロセス停止フラグの初期化は行わない。
-  再度同じプロセスを実行する際には、予めプロセス停止フラグを初期化すること。
+  Initialization of the process stop flag is not performed in this handler.
+  The process stop flag should be initialized in advance before executing the same process for the second time.
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/ProcessStopHandler/flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.handler.BasicProcessStopHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -50,37 +50,37 @@
     <artifactId>nablarch-fw-batch</artifactId>
   </dependency>
 
-制約
+Constraints
 --------------------------------------------------
-:ref:`thread_context_handler` より後ろに設定すること
-  本ハンドラは、スレッドコンテキスト上のリクエストIDをもとに停止処理を行うため、
-  :ref:`thread_context_handler` より後ろに本ハンドラを設定する必要がある。
+Configure this handler after the :ref:`thread_context_handler`
+  Since this handler performs the stop process based on the request ID of the thread context,
+  it must be configured after the :ref:`thread_context_handler`.
 
-プロセス停止制御を行うための設定
+Configuration for performing process stop control
 --------------------------------------------------
-プロセス停止制御を行うためには、プロセス停止可否のチェックで使用するテーブル定義情報などを本ハンドラに設定する必要がある。
-設定項目の詳細は、 :java:extdoc:`BasicProcessStopHandler <nablarch.fw.handler.BasicProcessStopHandler>` を参照。
+To perform the process stop control, the configure table definition information used in the check whether the process has to be stopped has to be configured in this handler.
+For details of the configuration items, see :java:extdoc:`BasicProcessStopHandler <nablarch.fw.handler.BasicProcessStopHandler>`.
 
-以下に設定例を示す。
+A configuration example is shown below.
 
-ポイント
-  * 都度起動バッチで使用する場合、本ハンドラはサブスレッド側に設定する。
-  * 常駐バッチで使用する場合、本ハンドラはメインスレッド側に設定する。
+Point
+  * When used in the On-demand batch, configure this handler on the subthread.
+  * Configure this handler on the main thread when used in the resident batch.
 
 .. code-block:: xml
 
   <component name="processStopHandler" class="nablarch.fw.handler.BasicProcessStopHandler">
-    <!-- データベースへアクセスするためのトランザクション設定 -->
+    <!-- Transaction configuration for accessing the database -->
     <property name="dbTransactionManager" ref="simpleDbTransactionManager" />
 
-    <!-- チェックで使用するテーブルの定義情報 -->
+    <!-- Definition information of the table used for check-->
     <property name="tableName" value="BATCH_REQUEST" />
     <property name="requestIdColumnName" value="REQUEST_ID" />
     <property name="processHaltColumnName" value="PROCESS_HALT_FLG" />
 
-    <!-- プロセス停止フラグのチェック間隔(任意) -->
+    <!-- Check interval for the process stop flag (optional) -->
     <property name="checkInterval" value="1" />
 
-    <!-- プロセス停止時の終了コード(任意) -->
+    <!-- End code when the process is stopped (optional) -->
     <property name="exitCode" value="50" />
   </component>
