@@ -1,33 +1,33 @@
 .. _session_concurrent_access_handler:
 
-セッション並行アクセスハンドラ
+Session Concurrent Access Handler
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
 
 .. important::
-  新規プロジェクトにおける本ハンドラの使用は推奨しない。セッション変数保存ハンドラを使用すること。
+  This handler is not recommended to be used in new projects. Use a session variable save handler.
 
-本ハンドラはセッションごとにリクエスト処理の並行同時アクセスに対して、同時実行に
-よって発生するスレッド間の処理不整合を防ぐ機能を提供する。
+This handler provides a function to prevent processing inconsistency between threads caused by simultaneous execution
+for concurrent simultaneous access of request process for each session.
 
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following processes.
 
-* セッションに保持した情報のコピーを作成する
-* 処理終了後、他のスレッドによってセッションが更新されていないかチェックし、更新済みであればエラーとする
-* 処理終了後、セッション情報のコピーをセッションに反映する
+* Creates a copy of the information held in the session
+* Checks if the session is updated by other threads after processing, and issues an error if it has been updated
+* After processing is completed, incorporate a copy of the session information to the session
 
 
 .. image:: ../images/SessionConcurrentAccessHandler/flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.web.handler.SessionConcurrentAccessHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -36,8 +36,8 @@
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
 
-なし。
+None.
 
