@@ -1,22 +1,22 @@
 .. _on_errors_interceptor:
 
-OnErrorsインターセプター
+OnErrors Interceptor
 ============================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-業務アクションでの例外発生時に、指定したレスポンスを返却するインターセプター。
-複数の例外に対してレスポンスを指定することができる。
+Interceptor that returns a specified response when an exception occurs in a business action.
+Responses can be specified for multiple exceptions.
 
-このインターセプターは、業務アクションのメソッドに対して、 :java:extdoc:`OnErrors <nablarch.fw.web.interceptor.OnErrors>` を設定することで有効となる。
+This interceptor is enabled by configuring :java:extdoc:`OnErrors <nablarch.fw.web.interceptor.OnErrors>` to the business action method.
 
-インターセプタークラス名
+Interceptor class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.web.interceptor.OnErrors`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -25,18 +25,18 @@ OnErrorsインターセプター
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-OnErrorsを利用する
+Using OnErrors
 --------------------------------------------------
-:java:extdoc:`OnErrors <nablarch.fw.web.interceptor.OnErrors>` アノテーションを、
-業務アクションのリクエストを処理するメソッドに対して設定する。
+:java:extdoc:`OnErrors <nablarch.fw.web.interceptor.OnErrors>` annotation is configured
+for the method that processes the request in the business action.
 
-それぞれの例外に対するレスポンスの指定は、 :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` を使用して行う。
+:java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` is used to specify the response to each exception.
 
-業務アクションのメソッド内で以下の例外を送出する場合の実装例を示す。
+An implementation example in which the following exceptions are thrown in the business action method is shown.
 
-* `ApplicationException` (業務エラー)
-* `AuthenticationException` (認証エラー)
-* `UserLockedException` (アカウントロックエラー。 `AuthenticationException` のサブクラス)
+* `ApplicationException` (Business error)
+* `AuthenticationException` (Authentication error)
+* `UserLockedException` (Account locked error. Subclass of `AuthenticationException`)
 
 .. code-block:: java
 
@@ -46,11 +46,11 @@ OnErrorsを利用する
           @OnError(type = ApplicationException.class, path = "/WEB-INF/view/login/index.jsp")
   })
   public HttpResponse handle(HttpRequest request, ExecutionContext context) {
-      // 業務処理は省略
+      // Business process is omitted
   }
 
 .. important::
 
-  :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` の定義順に例外を処理するため、
-  継承関係にある例外を定義する場合は、必ずサブクラスの例外から先に定義すること。
+  Since the exceptions are processed in the order defined by :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>`,
+  the exceptions of subclasses must be defined first when defining exceptions that have an inheritance relationship.
 
