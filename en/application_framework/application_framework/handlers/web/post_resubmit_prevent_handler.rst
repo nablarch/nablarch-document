@@ -1,50 +1,50 @@
 .. _post_resubmit_prevent_handler:
 
-POST再送信防止ハンドラ
+POST Resubmit Prevention Handler
 ==================================================
 
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-POSTで受け付けたリクエストに対して、リダイレクトを使用し再度リクエストを受け付けなおす処理を行うハンドラ。
-この処理により、ブラウザ上のリロード処理などによる誤操作による意図しないPOSTリクエストの再送を防ぐ目的で使用する。
+This handler uses redirect to accept the request again for the request accepted by POST.
+By this process, it is used for the purpose of preventing unintentional resubmit of POST request due to erroneous operation such as reload process on the browser.
 
 
 .. important::
 
-  新規プロジェクトにおける本ハンドラの使用は推奨しない。
+  This handler is not recommended to be used in new projects.
 
 .. important::
 
-  本ハンドラでは、POST再送信防止が指示されたリクエストが送信された際、POST情報をセッションに格納し次のリダイレクト処理でPOST情報をセッションから破棄している。
-  この方法では、大量のリクエストが送信された際に、POST情報が解放されずにセッションに蓄積され、メモリを圧迫する。
-  つまり、POSTリクエストを連続して送信するDOS攻撃に対して脆弱である。
+  This handler stores the POST information in the session when a request to prevent POST resubmit is sent and discards the POST information from the session with the next redirect process.
+  When many requests are sent, the POST information is collected in the session without being released and is a burden on the memory.
+  That is, it is vulnerable to a DOS attack that sends continuous POST requests.
 
-  本ハンドラを使用せずにブラウザからのPOST情報の再送信を防止するには、業務アクションにてリダイレクトのレスポンスを返すことで実現するよう検討すること。
+  To prevent POST information from being resubmitted from the browser without using this handler, consider implementing the return of a redirect response in a business action.
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following processes.
 
-* リクエストがPOST再送信防止対象であった場合、リクエストパラメータをセッションに保存してリダイレクト先にリダイレクトする。
-  (POST再送信防止対象であるか否かの条件は下記2点。)
+* If the request is subject to POST resubmit prevention, saves the request parameters in the session and redirects to the redirect destination.
+  (The following 2 points are the conditions for whether to prevent POST resubmit.)
 
-    * リクエストがPOSTであること。
-    * リクエストパラメータに "POST_RESUBMIT_PREVENT_PARAM" が含まれること。(formタグのpreventPostResubmitがtrueに設定されていると、このパラメータが自動設定される。)
+    * The request is a POST.
+    * Request parameter includes "POST_RESUBMIT_PREVENT_PARAM". (If preventPostResubmit in the form tag is configured to true, this parameter will be configured automatically.)
 
 
-* リクエストがPOST再送信防止によるGETリクエストであった場合、セッションに保持したリクエストパラメータを復元してセッションから削除する。
-  もしセッションにパラメータが存在しなかった場合、再送信処理として所定のエラー画面を表示する。
+* If the request is a GET request with POST resubmit prevention, restores the request parameters retained in the session and deletes it from the session.
+  If the parameter does not exist in the session, a predetermined error screen is displayed in the resubmit process.
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/PostResubmitPreventHandler/flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.web.post.PostResubmitPreventHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -53,37 +53,37 @@ POSTで受け付けたリクエストに対して、リダイレクトを使用�
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
 
-:ref:`nablarch_tag_handler` より前に配置すること
-  本ハンドラは、リクエストの内容をセッションに保持して処理をリダイレクトする。
-  カスタムタグ制御ハンドラで暗号化パラメータを戻す前にリダイレクトを行う必要があるため、本ハンドラは :ref:`nablarch_tag_handler` より前に配置する必要がある。
+Place this handler before the :ref:`nablarch_tag_handler`
+  This handler redirects the process while holding the request contents in the session.
+  This handler must be placed before the :ref:`nablarch_tag_handler` as it is necessary to redirect before signaling the encryption parameter in the custom tag control handler.
 
 
-ポスト再送信防止の使用方法
+How to use post resubmit prevention
 ------------------------------------------------------------
 
-ポスト再送信防止は、本ハンドラをハンドラキュー上に設定したうえで、 JSPファイル中の n:formタグのpreventPostResubmit属性をtrueに設定することで使用できる。
+Post resubmit prevention can be used by configuring this handler on the handler queue and configuring the preventPostResubmit attribute of the n:form tag in the JSP file to true.
 
 
-リクエスト先と遷移先パスのマッピングを行う
-------------------------------------------------------------
+Map the request destination to the transition destination path
+----------------------------------------------------------------------------
 
-リクエスト先と遷移先は、リクエストIDの前方一致で設定できる。
-設定例は下記の通り。
+The request destination and transition destination can be configured with the prefix match of the request ID.
+The configuration example is as follows.
 
 .. code-block:: xml
 
-  <!-- POST再送信防止ハンドラ -->
+  <!-- POST resubmit prevention handler -->
   <component name="postResubmitPreventHandler"
       class="nablarch.fw.web.post.PostResubmitPreventHandler">
 
     <!--
-    リダイレクト後のGETリクエストが複数回送信された場合の遷移先パスのマッピングを設定する。
+    Configure the mapping of the transition destination path when GET request after redirect is sent multiple times.
 
-    リクエストIDがkeyで指定した場合、valueで設定したパスに遷移する。
-    複数のkeyがマッチした場合、最も文字数が長いkeyに対応するvalueのパスに遷移する。
+    When the request ID is specified by a key, the request transits to the path configured by value.
+    When multiple keys match, the request transits to the path of the value corresponding to the key with the longest number of characters.
     -->
     <property name="forwardPathMapping">
       <map>
@@ -95,5 +95,5 @@ POSTで受け付けたリクエストに対して、リダイレクトを使用�
   </component>
 
 
-この設定例でリクエストID「/action/func1/index」のように、複数のリクエストIDの前方一致で複数マッチするリクエストID
-については、最も長いキーにマッチしたリダイレクト先(上記の場合、"redirect:///action/error/index2")が選択される。
+For request IDs with multiple matches with prefix match of multiple request IDs, such as request ID "/action/func1/index" in this configuration example,
+the redirect destination that matches the longest key (in the above case, "redirect:///action/error/index2") will be selected.
