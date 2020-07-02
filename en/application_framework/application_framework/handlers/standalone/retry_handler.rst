@@ -1,34 +1,33 @@
 .. _retry_handler:
 
-リトライハンドラ
+Retry Handler
 ========================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-本ハンドラはデータベースアクセス時のデッドロックのように、単純リトライによってリカバリ可能なエラーについて、自動的なリトライ制御を行う。
+This handler controls automatic retries of errors than can be recovered with a simple retry such as deadlocks when accessing the database.
 
-本ハンドラでは、 :java:extdoc:`Retryable <nablarch.fw.handler.retry.Retryable>` を実装した実行時例外をリトライ可能なエラーとみなし、後続ハンドラの再実行を行う。
-なお、リトライ上限の判定に関する処理は、 :java:extdoc:`RetryContext <nablarch.fw.handler.RetryHandler.RetryContext>` の実装クラスとして外部化されている。デフォルトでは以下の実装が提供されている。
+In this handler, the runtime exception implemented by :java:extdoc:`Retryable <nablarch.fw.handler.retry.Retryable>` is considered as a retriable error and subsequent handler is re-executed. The process related to the determination of the retry upper limit is externalized as an implementation class of :java:extdoc:`RetryContext <nablarch.fw.handler.RetryHandler.RetryContext>` . Implementations provided by default are given below.
 
-* :java:extdoc:`リトライ回数による上限設定 <nablarch.fw.handler.retry.CountingRetryContext>`
-* :java:extdoc:`経過時間による上限設定 <nablarch.fw.handler.retry.TimeRetryContext>`
+* :java:extdoc:`Java Upper limit configuration of retry count <nablarch.fw.handler.retry.CountingRetryContext>`
+* :java:extdoc:`Java Upper limit configuration of elapsed time <nablarch.fw.handler.retry.TimeRetryContext>`
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following process.
 
-* リトライ対象例外発生時のリトライ処理
-* リトライ上限到達時の例外送出処理
+* Retry process when a retry target exception occurs
+* •	Process that throws an exception when the upper limit of retries is reached.
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/RetryHandler/flow.png
   :scale: 80
   
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.handler.RetryHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -37,43 +36,39 @@
     <artifactId>nablarch-fw-standalone</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
-リトライ対象例外を送出するハンドラは、本ハンドラより後ろに設定すること。
-本ハンドラより手前でリトライ対象の例外を送出しても、単に例外として処理されるので注意すること。
+The handler that throws the retry exception should be configured after this handler. Note that even if a retry exception is thrown before this handler, it will be processed only as an exception.
 
-リトライの上限設定を行う
+Configure the upper limit of retry
 --------------------------------------------------
-本ハンドラでは、リトライを無限に繰り返すのではなく一定の回数リトライを繰り返しても処理が成功しなかった場合は、
-リトライに失敗したとみなし処理を異常終了させる。
-このため、本ハンドラを使用する際には必ずリトライ上限の設定が必要となる。
+In this handler, the retry is not repeated indefinitely and if the process is not successful after a certain number of retries, it is regarded as a retry failure and the process is aborted. The upper limit has to be configured for the retry when using this handler.
 
-上限設定は、上述したとおり以下の2種類から選択できる。プロジェクト要件とマッチしない場合には、プロジェクト側で実装を追加し対応すること。
+The configuration for the upper limit can be selected from the following two types as mentioned above. Add an implementation in the project if both configurations do not match the project requirements.
 
-* :java:extdoc:`リトライ回数による上限設定 <nablarch.fw.handler.retry.CountingRetryContext>`
-* :java:extdoc:`経過時間による上限設定 <nablarch.fw.handler.retry.TimeRetryContext>`
+* :java:extdoc:`Java Upper limit configuration of retry count <nablarch.fw.handler.retry.CountingRetryContext>`
+* :java:extdoc:`Java Upper configuration of elapsed time <nablarch.fw.handler.retry.TimeRetryContext>`
 
-以下にリトライ回数による上限設定の例を示す。
+An example of setting the upper limit based on the number of retries is given below.
 
 .. code-block:: xml
 
   <component name="retryHandler" class="nablarch.fw.handler.RetryHandler">
     <property name="retryContextFactory">
       <component class="nablarch.fw.handler.retry.CountingRetryContextFactory">
-        <property name="retryCount" value="3" />          <!-- 最大3回リトライを行う -->
-        <property name="retryIntervals" value="5000" />   <!-- リトライを実行するまで5秒待機する -->
+        <property name="retryCount" value="3" />          <!-- Retry up to 3 times -->
+        <property name="retryIntervals" value="5000" />   <!-- Wait for 5 seconds before retrying -->
       </component>
     </property>
   </component>
 
 .. tip::
 
-  上限に設定する値は、想定する最大の復旧時間プラスアルファの値を設定すること。
+  For the value to be configured as the upper limit, configure the maximum recovery time plus alpha value.
 
-  例えば、アクティブ/スタンバイ構成のデータベースの切り替えに最大5分かかるのであれば、
-  5分プラスアルファの時間(例えば7分等)を上限値として設定する。
+  For example, if a maximum of 5 minutes is required to switch databases in an active/standby configuration, configure 5 minutes plus alpha time (for example 7 minutes) as the upper limit.
 
-  なお、複数の例外に対するリトライを実現する場合には、最も復旧まで時間をようするものをベースに上限値を設定すること。
+  To realize retries for multiple exceptions, configure the upper limit based on the exception that requires maximum recovery time.
 
 
 
