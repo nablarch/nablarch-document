@@ -1,40 +1,40 @@
 .. _request_thread_loop_handler:
 
-リクエストスレッド内ループ制御ハンドラ
+Loop Control Handler in Request Thread
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-プロセスの停止要求があるまで、後続のハンドラを繰り返し実行するハンドラ。
-このハンドラは、メッセージキューやデータベース上のテーブルなどを監視し、未処理のデータを随時処理するプロセスで使用する。
+This handler repeatedly executes the subsequent handlers until there is a request to stop the process.
+This handler is used in the process that monitors the message queue and table on the database and processes the unprocessed data as and when needed.
 
 .. tip::
 
-  メッセージキューやデータベース上のテーブルを監視して処理するプロセスでは、個々のリクエスト(データ)は独立して扱われる。
-  1つのリクエスト処理がエラーとなっても他のリクエスト処理はそのまま継続しなければならない。
-  このため、このハンドラで捕捉した例外は、プロセス正常停止要求や致命的な一部の例外を除き処理を継続する。
+  Each request (data) is handled independently in the process that processes and monitors the message queue and the table on the database.
+  Even if one request process causes an error, other request processes must be continued.
+  Therefore, exceptions caught by this handler continue the process except when there is normal process termination request or in the case of some fatal exceptions.
 
-  詳細は、 :ref:`request_thread_loop_handler-error_handling` を参照。
+  For details, see :ref:`request_thread_loop_handler-error_handling`.
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following processes.
 
-* 後続ハンドラを繰り返し実行
-* プロテス停止要求例外発生時の後続ハンドラ実行の停止 |br|
-  詳細は、 :ref:`request_thread_loop_handler-stop` を参照
-* 後続ハンドラで発生した例外(エラー)に応じた処理(ログ出力等) |br|
-  詳細は、 :ref:`request_thread_loop_handler-error_handling` を参照
+* Repeatedly executes the subsequent handlers
+* Stops the execution of subsequent handlers when a process stop request exception occurs |br|
+  For details, see :ref:`request_thread_loop_handler-stop`.
+* Process (log output etc.) depending on the exception (error) that occurs in the subsequent handler |br|
+  For details, see :ref:`request_thread_loop_handler-error_handling`.
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/RequestThreadLoopHandler/flow.png
   :scale: 75
   
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.handler.RequestThreadLoopHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -43,87 +43,87 @@
     <artifactId>nablarch-fw-standalone</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
-:ref:`retry_handler` より後ろに配置すること
-  このハンドラでは、処理が継続可能な例外の場合に :java:extdoc:`リトライ可能例外(Retryable) <nablarch.fw.handler.retry.Retryable>` を送出する。
-  このため、リトライ可能例外を処理する :ref:`retry_handler` よりも後ろにこのハンドラを設定する必要がある。
+Place this handler after the :ref:`retry_handler`
+  This handler throws :java:extdoc:`Retryable exception <nablarch.fw.handler.retry.Retryable>` for exceptions where processing can be continued.
+  Therefore, this handler must be configured after the :ref:`retry_handler`, which processes the retriable exceptions.
 
 .. _request_thread_loop_handler-interval:
 
-サービス閉塞中の待機時間を設定する
+Configure the wait time for service shutdown
 --------------------------------------------------
-後続のハンドラからサービス閉塞中を示す例外(:java:extdoc:`ServiceUnavailable <nablarch.fw.results.ServiceUnavailable>`)が発生した場合の待機時間を設定することが出来る。
-この時間を設定することで、サービスが開局されたかどうかのチェックタイミングを調整することが出来る。
+Wait time can be configured when the exception (:java:extdoc:`ServiceUnavailable <nablarch.fw.results.ServiceUnavailable>`) indicating service shutdown is thrown by a subsequent handler.
+The check timing of whether the service is open can be adjusted by configuring this time.
 
-待機時間を長くし過ぎると、サービスが開局中に変更されても、即処理が開始されない問題があるので、要件にあわせて値を設定すること。
-なお、設定を省略した場合は、1秒待機後に後続ハンドラを再実行する。
+If a long wait time is configured, the problem of the process not starting immediately even if there is a change in service while it is open may occur.
+Hence configure a value as per the requirement. If this configuration is omitted, the subsequent handler will be re-executed after waiting for 1 second.
 
-以下に設定例を示す。
+A configuration example is shown below.
 
 .. code-block:: xml
 
   <component class="nablarch.fw.handler.RequestThreadLoopHandler">
-    <!-- 待機時間に5秒を設定 -->
+    <!-- Configure 5 seconds for wait time -->
     <property name="serviceUnavailabilityRetryInterval" value="5000" />
   </component>
 
 .. tip::
-  後続ハンドラに :ref:`ServiceAvailabilityCheckHandler` を設定しない場合には、本設定値は設定する必要が無い。
-  (設定したとしても、この値が使われることはない。)
+  If :ref:`ServiceAvailabilityCheckHandler` is not configured in the subsequent handler, it is not necessary to configure this configuration value.
+  (even if configured, this value will not be used)
 
 .. _request_thread_loop_handler-stop:
 
-本ハンドラの停止方法
+Method to stop this handler
 --------------------------------------------------
-このハンドラは、プロセスの停止要求を示す例外が発生するまで、繰り返し後続のハンドラに対して処理を委譲する。
-このため、メンテナンスなどでプロセスを停止する必要がある場合には、本ハンドラより後続に :ref:`process_stop_handler` を設定し、
-外部からプロセスを停止できるようにする必要がある。
+This handler repeatedly delegates the process to subsequent handlers until an exception indicating process stop request occurs.
+When it is necessary to stop the process for maintenance, etc.,
+the :ref:`process_stop_handler` must be configured after this handler so that the process can be stopped from the outside.
 
-プロセス停止要求を示す例外が発生した場合の処理内容は、 :ref:`request_thread_loop_handler-error_handling` を参照。
+Refer to :ref:`request_thread_loop_handler-error_handling` for the process contents when an exception indicating a process stop request occurs.
 
 .. _request_thread_loop_handler-error_handling:
 
-後続ハンドラで発生した例外(エラー)に応じた処理内容
-------------------------------------------------------------
-このハンドラで行う後続ハンドラで発生した例外(エラー)に応じた処理内容について解説する。
+Process content according to the exception (error) that occurs in the subsequent handler
+------------------------------------------------------------------------------------------
+The process contents performed by this handler according to the exceptions (errors) that occur in the subsequent handler is described.
 
-サービス閉塞中例外(:java:extdoc:`ServiceUnavailable <nablarch.fw.results.ServiceUnavailable>`)
-  一定時間待機後に、再度後続ハンドラに処理を委譲する。
-  待機時間の設定方法は、 :ref:`request_thread_loop_handler-interval` を参照。
+Exception during service shutdown (:java:extdoc:`ServiceUnavailable <nablarch.fw.results.ServiceUnavailable>`)
+  After waiting for a certain period, the process is again delegated to the subsequent handler.
+  For the method to configure the wait time, see :ref:`request_thread_loop_handler-interval`.
 
-プロセス停止要求を示す例外(:java:extdoc:`ProcessStop <nablarch.fw.handler.ProcessStopHandler.ProcessStop>`)
-  プロセス停止要求を示す例外であるため、本ハンドラの処理を終了する。
+Exception indicating process stop request (:java:extdoc:`ProcessStop <nablarch.fw.handler.ProcessStopHandler.ProcessStop>`)
+  Since the exception indicates the process stop request, processing of this handler is terminated.
 
-プロセスの異常終了を示す例外(:java:extdoc:`ProcessAbnormalEnd <nablarch.fw.launcher.ProcessAbnormalEnd>`)
-  プロセスの異常終了を示す例外のため、捕捉した例外を再送出する。
+Exception indicating abnormal termination of the process (:java:extdoc:`ProcessAbnormalEnd <nablarch.fw.launcher.ProcessAbnormalEnd>`)
+  Re-throws the exception caught as the exception indicates abnormal termination of the process.
 
-処理を継続することができなかったことを示すサービスエラー(:java:extdoc:`ServiceError <nablarch.fw.results.ServiceError>`)
-  補足した例外クラスにログ出力処理を委譲し、 :java:extdoc:`リトライ可能例外(Retryable) <nablarch.fw.handler.retry.Retryable>` を送出する。
+Service error indicating that the process could not be continued (:java:extdoc:`ServiceError <nablarch.fw.results.ServiceError>`)
+  Delegates the log output process to the exception class that is caught and throws :java:extdoc:`Retryable exception <nablarch.fw.handler.retry.Retryable>`.
 
-ハンドラの処理が異常終了したことを示す例外(:java:extdoc:`Result.Error <nablarch.fw.Result.Error>`)
-  ``FATAL`` レベルのログを出力し、 :java:extdoc:`リトライ可能例外(Retryable) <nablarch.fw.handler.retry.Retryable>` を送出する。
+Exception indicating abnormal termination of the handler process (:java:extdoc:`Result.Error <nablarch.fw.Result.Error>`)
+  Outputs ``FATAL`` level log, and throws :java:extdoc:`Retryable exception <nablarch.fw.handler.retry.Retryable>`.
 
-実行時例外(:java:extdoc:`RuntimeException <java.lang.RuntimeException>`)
-  ``FATAL`` レベルのログを出力し、 :java:extdoc:`リトライ可能例外(Retryable) <nablarch.fw.handler.retry.Retryable>` を送出する。
+Runtime exception (:java:extdoc:`RuntimeException <java.lang.RuntimeException>`)
+  Outputs ``FATAL`` level log, and throws :java:extdoc:`Retryable exception <nablarch.fw.handler.retry.Retryable>`.
  
-スレッドの停止を示す例外(:java:extdoc:`ThreadDeath <java.lang.ThreadDeath>`)
-  ``INFO`` レベルのログを出力し、補足した例外(ThreadDeath)を再送出する。
+Exception indicating thread stop (:java:extdoc:`ThreadDeath <java.lang.ThreadDeath>`)
+  Outputs ``INFO`` level log and rethrows the exception that is caught (ThreadDeath).
 
-スタックオーバーフローエラー(:java:extdoc:`StackOverflowError <java.lang.StackOverflowError>`)
-  ``FATAL`` レベルのログを出力し、 :java:extdoc:`リトライ可能例外(Retryable) <nablarch.fw.handler.retry.Retryable>` を送出する。
+Stack overflow error (:java:extdoc:`StackOverflowError <java.lang.StackOverflowError>`)
+  Outputs ``FATAL`` level log, and throws :java:extdoc:`Retryable exception <nablarch.fw.handler.retry.Retryable>`.
 
-ヒープ不足のエラー(:java:extdoc:`OutOfMemoryError <java.lang.OutOfMemoryError>`)
-  標準エラー出力にヒープ不足が発生したことを示すメッセージを出力し、 ``FATAL`` レベルのログ出力を行う。
-  (ログ出力時に再度ヒープ不足が発生する可能性があるため、標準エラー出力にメッセージ出力後にログを出力する。)
+Insufficient heap error (:java:extdoc:`OutOfMemoryError <java.lang.OutOfMemoryError>`)
+  Outputs a message indicating that insufficient heap has occurred to the standard error output and then outputs a ``FATAL`` level log.
+  (Since there is possibility of insufficient heap occurring again during log output, the log is output after the output of the standard error message.)
 
-  ヒープ不足の原因不足となったオブジェクトへの参照が切れ、処理継続可能な場合があるため :java:extdoc:`リトライ可能例外(Retryable) <nablarch.fw.handler.retry.Retryable>` を送出する。
+  Since there is possibility that the process can be continued by removing the reference to the object that caused insufficient heap, :java:extdoc:`Retryable exception <nablarch.fw.handler.retry.Retryable>` is thrown.
   
-JVMの異常を示すエラー(:java:extdoc:`VirtualMachineError <java.lang.VirtualMachineError>`)
-  発生した例外を再送出する
+Error indicating JVM error (:java:extdoc:`VirtualMachineError <java.lang.VirtualMachineError>`)
+  Rethrows the exception that is raised
 
-上記以外のエラー
-  ``FATAL`` レベルのログを出力し、 :java:extdoc:`リトライ可能例外(Retryable) <nablarch.fw.handler.retry.Retryable>` を送出する。
+Error other than the above
+  Outputs ``FATAL`` level log, and throws :java:extdoc:`Retryable exception <nablarch.fw.handler.retry.Retryable>`.
 
 .. |br| raw:: html
 
