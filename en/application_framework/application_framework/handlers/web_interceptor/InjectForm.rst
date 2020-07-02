@@ -1,21 +1,21 @@
 .. _inject_form_interceptor:
 
-InjectForm インターセプター
+InjectForm Interceptor
 ============================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-入力値に対するバリデーションを行い、生成したフォームオブジェクトをリクエストスコープに設定するインターセプター。
+This interceptor validates the input values and sets the generated form object in the request scope.
 
-このインターセプターは、業務アクションのメソッドに対して、 :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` を設定することで有効となる。
+This interceptor is enabled by configuring :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` for the business action method.
 
-インターセプタークラス名
+Interceptor class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.common.web.interceptor.InjectForm`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -24,43 +24,43 @@ InjectForm インターセプター
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-  <!-- 入力値チェックにBeanValidationを使用する場合のみ -->
+  <!-- Only when BeanValidation is used for input value check -->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-core-validation-ee</artifactId>
   </dependency>
 
-  <!-- 入力値チェックにNablarchValidationを使用する場合のみ -->
+  <!-- Only when NablarchValidation is used for input value check -->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-core-validation</artifactId>
   </dependency>
 
-InjectFormを利用する
+Using InjectForm
 --------------------------------------------------
-:java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` アノテーションを、業務アクションのリクエストを処理するメソッドに対して設定する。
+Configure the :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` annotation for the method that processes the business action request.
 
 
-以下に実装例を示す。
+An implementation example is shown below.
 
-入力画面のhtml例
+HTML example of input screen
   .. code-block:: html
 
-    <!-- バリデーション対象外-->
+    <!-- Validation is not covered-->
     <input name="flag" type="hidden" />
 
-    <!-- バリデーション対象 -->
+    <!-- Validation is covered -->
     <input name="form.userId" type="text" />
     <input name="form.password" type="password" />
 
-業務アクションの例
-  この例では、画面から送信された ``form`` から始まるリクエストパラメータに対してバリデーションが実行される。
-  バリーションでエラーが発生しなかった場合は、リクエストスコープに :java:extdoc:`InjectForm#form <nablarch.common.web.interceptor.InjectForm.form()>` で指定したクラスのオブジェクトが格納される。
+Example of business action
+  In this example, validation is executed for the request parameters starting from the ``form`` sent from the screen.
+  If there are no errors during validation, the object of the class specified by :java:extdoc:`InjectForm#form <nablarch.common.web.interceptor.InjectForm.form()>` is stored in the request scope.
 
-  リクエストスコープにバリデーション済みのフォームを格納する際に使用する変数名は、 :java:extdoc:`InjectForm#name <nablarch.common.web.interceptor.InjectForm.name()>` に指定する。
-  指定しなかった場合は、 ``form`` という変数名でフォームが格納される。
+  Variable name used when storing the validated form in the request scope is specified in :java:extdoc:`InjectForm#name <nablarch.common.web.interceptor.InjectForm.name()>`.
+  If the variable name is not specified, the ``form`` is stored with the variable name form.
 
-  業務アクションが実行された場合には、必ずリクエストスコープからオブジェクトが取得できる。
+  When a business action is executed, an object can always be acquired from the request scope.
 
   .. code-block:: java
 
@@ -68,22 +68,22 @@ InjectFormを利用する
     @OnError(type = ApplicationException.class, path = "forward://registerForm.jsp")
     public HttpResponse handle(HttpRequest req, ExecutionContext ctx) {
 
-      // リクエストスコープからバリデーション済みのフォームを取得する。
+      // Obtain the validated form from the request scope.
       UserForm form = ctx.getRequestScopedVar("form");
 
-      // formを元に業務処理を行う。
+      // Perform the business process based on the form.
     }
 
 
 .. tip::
-  バリデーションに :ref:`bean_validation` を使用する場合、バリデーションエラー時にもリクエストスコープから\
-  オブジェクトを取得可能となるよう設定ができる。詳細は『\ :ref:`bean_validation_onerror`\ 』を参照。
+  If :ref:`bean_validation` is used for validation, it can be configured such that the objects can be fetched
+  from the request scope even during validation errors. For details, see \ :ref:`bean_validation_onerror`\.
     
-バリデーションエラー時の遷移先を指定する
--------------------------------------------------
-バリデーションエラー発生時の遷移先画面は、 :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` アノテーションを使用して設定する。
+Specify the transition destination when a validation error occurs
+-------------------------------------------------------------------
+The transition destination screen when a validation error occurs is configured using the :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` annotation.
 
-:java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` アノテーションは、:java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` を設定した業務アクションのメソッドに対して設定する。
-:java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` が設定されていない場合、バリデーションエラーがシステムエラー扱いとなるため注意すること。
+Configure for :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` for the business action method to which :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` that has been configured for the business action method.
+Note that if :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` is not configured, validation error is handled as a system error.
 
-バリデーションエラー発生時に、遷移先画面で表示するデータを取得したい場合は、:ref:`on_error-forward` を参照。
+To acquire data for display on the transition destination screen when a validation error occurs, see :ref:`on_error-forward`.
