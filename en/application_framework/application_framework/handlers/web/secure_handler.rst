@@ -1,34 +1,34 @@
 .. _secure_handler:
 
-セキュアハンドラ
+Secure Handler
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-本ハンドラでは、セキュリティ関連のヘッダを、レスポンスオブジェクト(:java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>`)に対して設定する。
+This handler configures security related headers in the response object (:java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>`).
 
-デフォルトでは、以下のレスポンスヘッダを設定する。
+By default, the following response headers are configured.
 
 * X-Frame-Options: SAMEORIGIN
 * X-XSS-Protection: 1; mode=block
 * X-Content-Type-Options: nosniff
 
 
-本ハンドラでは、以下の処理を行う。
+This handler performs the following process.
 
-* セキュリティ関連のレスポンスヘッダの設定処理
+* Security-related response header configuration process
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/SecureHandler/flow.png
   :scale: 85
   
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.web.handler.SecureHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -37,31 +37,31 @@
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-制約
+Constraints
 ------------------------------
-:ref:`http_response_handler` よりも後ろに設定すること
-  本ハンドラで設定したレスポンスヘッダを、 :ref:`http_response_handler` がServlet APIのレスポンスオブジェクトに設定するため。
+Configure this handler after the :ref:`http_response_handler`
+  Since the :ref:`http_response_handler` configures the response header configured by this handler in the response object of Servlet API.
 
-デフォルトで適用されるヘッダの値を変更したい
---------------------------------------------------
-要件により、デフォルトで適用されるセキュリティ関連のヘッダの値を変更したい場合がある。
+To change the value of the header applied by default
+------------------------------------------------------
+Depending on the requirement, the value of security-related header applied by default may have to be changed.
 
-例えば、フレーム内の表示を全て許可しない場合には、 ``X-Frame-Options`` ヘッダの値を ``DENY`` に変更する必要がある。
-このような場合は、コンポーネント設定ファイルに明示的に設定を行うことで対応する。
+For example, to disallow all the displays in the frame, the value of the ``X-Frame-Options`` header has to be changed to ``DENY``.
+In such a case, the settings in the component configuration file is configured explicitly.
 
-以下に例を示す。
+An example is shown below.
 
 .. code-block:: xml
 
   <component class="nablarch.fw.web.handler.SecureHandler">
     <property name="secureResponseHeaderList">
       <list>
-        <!-- X-Frame-Optionsの値を明示的に指定 -->
+        <!-- Explicitly specify the value for X-Frame-Options -->
         <component class="nablarch.fw.web.handler.secure.FrameOptionsHeader">
           <property name="option" value="DENY" />
         </component>
 
-        <!-- 上記以外のヘッダはデフォルトのまま -->
+        <!-- Default vales are used for headers other than the above -->
         <component class="nablarch.fw.web.handler.secure.XssProtectionHeader" />
         <component class="nablarch.fw.web.handler.secure.ContentTypeOptionsHeader" />
       </list>
@@ -70,28 +70,28 @@
 
 .. tip::
 
-  値を変更するためのプロパティの詳細は、以下のクラスを参照。
+  Refer to the following class for details of the property to change the value.
 
   * :java:extdoc:`FrameOptionsHeader <nablarch.fw.web.handler.secure.FrameOptionsHeader>`
   * :java:extdoc:`ContentTypeOptionsHeader <nablarch.fw.web.handler.secure.ContentTypeOptionsHeader>`
   * :java:extdoc:`XssProtectionHeader <nablarch.fw.web.handler.secure.XssProtectionHeader>`
 
 
-デフォルト以外のレスポンスヘッダを設定する
+Configure a response header other than the default
 -------------------------------------------------------
-デフォルト以外のセキュリティ関連のレスポンスヘッダを設定する手順を以下に示す。
+The procedure for configuring the security-related response headers other than the default is shown below.
 
-1. :java:extdoc:`SecureResponseHeader <nablarch.fw.web.handler.secure.SecureResponseHeader>` インタフェースの実装クラスで、
-   レスポンスヘッダに設定するフィールド名と値を指定する。
+1. Specify the field name and value to be configured for the response header in the implementation class
+   of the :java:extdoc:`SecureResponseHeader <nablarch.fw.web.handler.secure.SecureResponseHeader>` interface.
 
-2. 本ハンドラ(:java:extdoc:`SecureHandler <nablarch.fw.web.handler.SecureHandler>`)に、``No1`` で作成したクラスを設定する。
+2. Configure the class created in ``No1`` in this handler (:java:extdoc:`SecureHandler <nablarch.fw.web.handler.SecureHandler>`).
 
 .. important::
 
-  :java:extdoc:`SecureResponseHeader <nablarch.fw.web.handler.secure.SecureResponseHeader>` 実装クラスを設定する際は、
-  デフォルトで適用されていたコンポーネントも設定すること。
+  When configuring the implementation class :java:extdoc:`SecureResponseHeader <nablarch.fw.web.handler.secure.SecureResponseHeader>`,
+  configure the component that is applied by default.
 
-  以下に設定ファイルの例を示す。
+  An example of the configuration file is shown below.
 
   .. code-block:: xml
 
@@ -102,21 +102,21 @@
           <component class="nablarch.fw.web.handler.secure.XssProtectionHeader" />
           <component class="nablarch.fw.web.handler.secure.ContentTypeOptionsHeader" />
 
-          <!-- 追加で作成したコンポーネント -->
+          <!-- Additional component created -->
           <component class="nablarch.fw.web.handler.secure.SampleSecurityHeader" />
         </list>
       </property>
     </component>
     
-Content-Security-Policyレスポンスヘッダを設定する
+Configure the Content-Security-Policy response header
 -------------------------------------------------------
-Content-Security-Policyレスポンスヘッダを設定する手順を以下に示す。
+The procedure for configuring Content-Security-Policy response headers is shown below.
 
-1. 本ハンドラ(:java:extdoc:`SecureHandler <nablarch.fw.web.handler.SecureHandler>`)に、``ContentSecurityPolicyHeader`` を設定する。
+1. Configure ``ContentSecurityPolicyHeader`` to this handler (:java:extdoc:`SecureHandler <nablarch.fw.web.handler.SecureHandler>`).
 
-2. ``ContentSecurityPolicyHeader`` に ``policy`` を設定する。
+2. Configure ``policy`` to ``ContentSecurityPolicyHeader``.
 
-以下に例を示す。
+An example is shown below.
 
 .. code-block:: xml
 
@@ -127,20 +127,20 @@ Content-Security-Policyレスポンスヘッダを設定する手順を以下に
         <component class="nablarch.fw.web.handler.secure.XssProtectionHeader" />
         <component class="nablarch.fw.web.handler.secure.ContentTypeOptionsHeader" />
 
-        <!-- Content-Security-Policyを付与するコンポーネント -->
+        <!-- Component that assigns Content-Security-Policy -->
         <component class="nablarch.fw.web.handler.secure.ContentSecurityPolicyHeader">
-          <!-- ポリシーを設定する -->
+          <!-- Configure the policy -->
           <property name="policy" value="default-src 'self'" />
         </component>
       </list>
     </property>
   </component>
 
-この場合、 ``Content-Security-Policy: default-src 'src'`` といったレスポンスヘッダが書き出される。
+In this case, response header such as ``Content-Security-Policy: default-src 'src'`` is exported.
 
-report-only モードで動作させる場合は ``reportOnly`` を ``true`` に設定する。
+To operate in report-only mode, configure ``reportOnly`` to ``true``.
 
-以下に例を示す。
+An example is shown below.
 
 .. code-block:: xml
 
@@ -153,11 +153,11 @@ report-only モードで動作させる場合は ``reportOnly`` を ``true`` に
 
         <component class="nablarch.fw.web.handler.secure.ContentSecurityPolicyHeader">
           <property name="policy" value="default-src 'self'; report-uri http://example.com/report" />
-          <!-- report-onlyモードで動作させる -->
+          <!-- Operate in the report-only mode -->
           <property name="reportOnly" value="true" />
         </component>
       </list>
     </property>
   </component>
 
-この場合、 ``Content-Security-Policy-Report-Only: default-src 'src'; report-uri http://example.com/report`` といったレスポンスヘッダが書き出される。
+In this case, response header such as ``Content-Security-Policy-Report-Only: default-src 'src'; report-uri http://example.com/report`` is exported.
