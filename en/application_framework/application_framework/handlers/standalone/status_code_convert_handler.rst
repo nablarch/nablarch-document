@@ -1,23 +1,23 @@
 .. _status_code_convert_handler:
 
-ステータスコード→プロセス終了コード変換ハンドラ
-==================================================
+Status Code → Process End Code Conversion Handler
+====================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-後続ハンドラによる処理結果のステータスコードをプロセスの終了コードに変換するハンドラ。
+This handler converts the status code of the process result by the subsequent handler to the end code of the process.
 
-処理の流れは以下のとおり。
+The process flow is as follows.
 
 .. image:: ../images/StatusCodeConvertHandler/StatusCodeConvertHandler_flow.png
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.handler.StatusCodeConvertHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -26,37 +26,34 @@
     <artifactId>nablarch-fw-standalone</artifactId>
   </dependency>
 
-制約
+Constraints
 --------------------------------------------------
-:ref:`main` の直後に設定すること
-  本ハンドラが処理結果のステータスコードをプロセスの終了コードに変換するため。
+Configure immediately after :ref:`main` 
+  This handler converts the status code of the process result to the end code of the process.
 
 .. _status_code_convert_handler-rules:
 
-ステータスコード→プロセス終了コード変換
+Status code → Process end code conversion
 --------------------------------------------------------------
-ステータスコード→プロセス終了コード変換は、以下のルールで行う。
+Conversion of status code to process end code is performed according to the following rules.
 
 .. important::
- アプリケーションのエラー処理でステータスコードを指定する場合は、
- 100～199を使用する。
+ Use 100 to 199 when specifying the status code in the error process of the application.
 
-============================ ============================
-ステータスコード             プロセス終了コード
-============================ ============================
--1以下                       1
-0～199                       0～199(変換は行わない)
-200～399                     0
-400                          10
-401                          11
-403                          12
-404                          13
-409                          14
-上記以外の400～499           15
-500以上                      20
-============================ ============================
+============================== ============================
+Status code                    Process end code
+============================== ============================
+-1 or less                     1
+0 ~ 199                        0 ~ 199 (not converted)
+200 ~ 399                      0
+400                            10
+401                            11
+403                            12
+404                            13
+409                            14
+400 ~ 499 excluding the above  15
+Above 500                      20
+============================== ============================
 
 .. tip::
- このハンドラは、設定などで変換ルールを切り替えることはできない。
- このため、この変換ルールで要件を満たすことができない場合は、
- プロジェクト固有の変換用ハンドラを作成し対応すること。
+ The conversion rule cannot be changed by configuration for this handler. For this reason, a project-specific conversion handler has to be created if the requirements cannot be satisfied by this conversion rule.
