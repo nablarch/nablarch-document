@@ -1,9 +1,9 @@
 .. _`data_format-definition`:
 
-フォーマット定義ファイルの記述ルール
+Description Rules for Format Definition File
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
@@ -11,18 +11,18 @@
 
     <br/>
 
-フォーマット定義ファイルの共通の記法
+Common notation for format definition files
 --------------------------------------------------
-フォーマット定義ファイルの共通的な記述ルールについて説明する。
+This section describes the common description rules for format definition.
 
-文字コード
+Character code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-フォーマット定義ファイルの文字コードは ``UTF-8`` となる。
+The character code of the format definition file is ``UTF-8``.
 
 
-リテラル表記
+Literal notation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-設定値にリテラルを記述する場合は、以下のルールに準拠すること。
+When a literal is configured in the configuration value, follow the rules below.
 
 
 .. list-table::
@@ -30,399 +30,399 @@
   :header-rows: 1
   :widths: 30 70
 
-  * - リテラル型
-    - 説明
-  * - 文字列
-    - Javaの文字リテラルと同じように ``"`` で値を囲んで記述する。
+  * - Literal type
+    - Description
+  * - String
+    - Enclose the value with ``"`` just like the Java character literal.
 
-      なお、Unicodeエスケープや8進数エスケープには対応していない。
+      Note that Unicode escapes or octal escapes are not supported.
       
-      記述例
+      Example of the description
        | "Nablarch"
        | "\\r\\n"
 
-  * - 10進整数
-    - Javaの数値リテラルと同じように記述する。
+  * - Decimal integer
+    - Described in the same way as a Java numeric literal.
 
-      なお、小数には対応していない。
+      Note that decimals are not supported.
 
-      記述例
+      Example of the description
         | 123
         | -123
 
-  * - 真偽値
-    - ``true`` または、 ``false`` で設定する。(大文字でも可)
+  * - Boolean
+    - Configure as ``true`` or ``false``. (Uppercase letters are allowed)
 
-コメント
+Comment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-行中の ``#`` 以降をコメントとして扱う。
+Content following ``#`` in a line is treated as a comment.
 
-以下に例を示す。
+An example is shown below.
 
 .. code-block:: bash
 
   #
-  # サンプルファイル
+  # Sample file
   # 
-  file-type:     "Fixed"  # 固定長
-  text-encoding: "ms932"  # 文字コードはms932
-  record-length:  120     # 各業の長さは120バイト
+  file-type:     "Fixed"  # Fixed-length
+  text-encoding: "ms932"  # Character code is ms932
+  record-length:  120     # The length of each business is 120 bytes
 
 
 
 
-フォーマット定義ファイルの構造
+Structure of the format definition file
 --------------------------------------------------
 
-フォーマット定義ファイルは大きく以下の2つの要素で構成される。
+The format definition file is mainly composed of the following two sections.
 
-:ディレクティブ宣言部:
-  使用するデータ形式(固定長やJSONなど)やエンコーディングなどの共通設定を定義する。
+:Directive declaration section:
+  This section defines common configuration such as the data format (fixed-length or JSON etc.) used and encoding.
 
-  詳細は、 :ref:`data_format-definition_directive` を参照。
+  For details, see :ref:`data_format-definition_directive`.
 
-:レコードフォーマット定義部:
-  レコードの内容を定義する。
+:Record format definition section:
+  Defines contents of the record.
 
-  具体的には、レコード内のフィールド定義やフィールド毎のデータ型やデータ変換ルールの定義を行う。
+  Specifically, the field definition in record, data type and data conversion rule for each field are defined.
 
-  詳細は、 :ref:`data_format-definition_record` を参照
+  For details, see :ref:`data_format-definition_record`.
 
 .. _data_format-definition_directive:
 
-ディレクティブ宣言部の定義
+Definition of the directive declaration section
 --------------------------------------------------
 
-共通で使用可能なディレクティブ一覧
+Directive list that can be used in common
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-全てのデータ形式で利用するディレクティブ定義は以下のとおり。
+Directive definitions used in all data formats are as follows.
 
 .. list-table::
   :class: white-space-normal
   :widths: 30 70
   :header-rows: 1
 
-  * - ディレクティブ
-    - 説明
-  * - file-type ``必須``
-    - データ形式を指定する。 
+  * - Directive
+    - Description
+  * - file-type ``required``
+    - Specify the data format 
 
-      標準では以下のデータ形式を指定できる。
+      The following data formats can be specified as standard.
 
-      * Fixed(固定長)
-      * Variable(CSVやTSVなどの可変長)
+      * Fixed (fixed-length)
+      * Variable(variable length such as CSV and TSV)
       * JSON
       * XML
 
-  * - text-encoding ``必須``
+  * - text-encoding ``required``
     - .. _data_format-directive_text_encoding:
 
-      文字列フィールドの読み書き時に使用するエンコーディングを指定する。
+      Specify the encoding to use when reading and writing string fields.
 
-      使用するJVMで利用できる文字エンコーディングのみ指定可能。例えば、 ``UTF-8`` や ``SJIS`` などを指定する。
+      Only character encodings that are available to JVM used can be specified. For example, specify ``UTF-8`` and ``SJIS``.
 
-      `file-type` にJSONを指定した場合は、以下のエンコーディングのみ指定可能
+      If JSON is specified for `file-type`, only the following encodings can be specified
 
       * UTF-8
       * UTF-16(BE or LE)
       * UTF-32(BE or LE)
 
-      `file-type` にXMLを指定した場合には、本設定値よりもXML宣言部
-      に指定されたエンコーディングが優先される。
+      If XML is specified for `file-type`, the encoding specified in the XML declaration section
+      takes precedence over this configured value.
 
-  * - record-separator ``任意``
-    - レコード終端文字(改行文字)を指定する。
+  * - record-separator ``optional``
+    - Specify the record end character (line feed character).
 
-      `file-type` にVariable(可変長)を指定した場合は、 ``必須`` となる。
+      This is ``required`` if Variable (variable length) is specified for `file-type`.
 
-      `file-type` がJSONまたはXMLの場合には、本設定値は使用しない。
+      This configuration value is not used when the `file-type` is JSON or XML.
 
-Fixed(固定長)形式で指定可能なディレクティブ一覧
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Fixed(固定長)形式のデータで利用するディレクティブは以下のとおり。
+List of directives that can be specified in fixed (fixed-length) format
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The directives used for data in the fixed (fixed-length) format are as follows.
 
 .. list-table::
   :class: white-space-normal
   :widths: 30 70
   :header-rows: 1
 
-  * - ディレクティブ
-    - 説明
-  * -  record-length ``必須``
-    - 1レコードのバイト長を指定する。
+  * - Directive
+    - Description
+  * -  record-length ``required``
+    - Specify the byte length of one record.
 
-  * - positive-zone-sign-nibble ``任意``
+  * - positive-zone-sign-nibble ``optional``
     - .. _data_format-positive_zone_sign_nibble:
 
-      符号付きゾーン数値のゾーン部に設定する正符号を16進数表記の文字列で指定する。
+      Specify the plus sign to be configured in the zone section of the signed zoned decimal as a string in hexadecimal notation.
 
-      デフォルトでは、 :ref:`text-encoding <data_format-directive_text_encoding>` の値に応じて以下の値が使用される。
+      By default, the following values are used depending on the value of :ref:`text-encoding <data_format-directive_text_encoding>`.
 
-      :ASCII互換の場合: 0x3      
-      :EBCDIC互換の場合: 0xC
+      :For ASCII-compatible: 0x3      
+      :For EBCDIC-compatible: 0xC
 
-  * - negative-zone-sign-nibble ``任意``
+  * - negative-zone-sign-nibble ``optional``
     - .. _data_format-negative_zone_sign_nibble:
 
-      符号付きゾーン数値のゾーン部に設定する負符号を16進数表記の文字列で指定する。
+      Specify the minus sign to be configured in the zone section of the signed zone numeric as a string in hexadecimal notation.
 
-      デフォルトでは、 :ref:`text-encoding <data_format-directive_text_encoding>` の値に応じて以下の値が使用される。
+      By default, the following values are used depending on the value of :ref:`text-encoding <data_format-directive_text_encoding>`.
 
-      :ASCII互換の場合: 0x7      
-      :EBCDIC互換の場合: 0xD
+      :For ASCII-compatible: 0x7      
+      :For EBCDIC-compatible: 0xD
 
-  * - positive-pack-sign-nibble ``任意``
+  * - positive-pack-sign-nibble ``optional``
     - .. _data_format-positive_pack_sign_nibble:
       
-      符号付きパック数値の符号ビットに設定する正符号を16進数表記の文字列で指定する。
+      Specify the plus sign to be configured in the sign bit of the signed pack numeric as a string in hexadecimal notation.
 
-      デフォルトでは、 :ref:`text-encoding <data_format-directive_text_encoding>` の値に応じて以下の値が使用される。
+      By default, the following values are used depending on the value of :ref:`text-encoding <data_format-directive_text_encoding>`.
 
-      :ASCII互換の場合: 0x3      
-      :EBCDIC互換の場合: 0xC
+      :For ASCII-compatible: 0x3      
+      :For EBCDIC-compatible: 0xC
   
-  * - negative-pack-sign-nibble ``任意``
+  * - negative-pack-sign-nibble ``optional``
     - .. _data_format-negative_pack_sign_nibble:
       
-      符号付きパック数値の符号ビットに設定する負符号を16進数表記の文字列で指定する。
+      Specify the minus sign to be configured in the sign bit of the signed packed decimal as a string in hexadecimal notation.
 
-      デフォルトでは、 :ref:`text-encoding <data_format-directive_text_encoding>` の値に応じて以下の値が使用される。
+      By default, the following values are used depending on the value of :ref:`text-encoding <data_format-directive_text_encoding>`.
 
-      :ASCII互換の場合: 0x7      
-      :EBCDIC互換の場合: 0xD
+      :For ASCII-compatible: 0x7      
+      :For EBCDIC-compatible: 0xD
 
-  * - required-decimal-point ``任意``
-    - 符号無し数値及び符号付き数値の小数点の要否を指定する。
+  * - required-decimal-point ``optional``
+    - Specifies if a decimal point is required for unsigned and signed numeric.
 
-      ``true`` を指定すると書き込むデータに小数点が付与される。
+      If ``true`` is specified, a decimal point will be added to the data to be written.
 
-      ``false`` を指定すると、書き込むデータに小数点が付与されない。(固定小数点となる)
+      If ``false`` is specified, a decimal point will not be added to the data to be written. (The decimal place will be fixed)
 
-      デフォルト動作は 小数点付与( ``true`` )となる。
+      The default option is to add a decimal point ( ``true`` ).
 
-  * - fixed-sign-position ``任意``
-    - 符号付き数値の符号位置を固定するかの要否を指定する。
+  * - fixed-sign-position ``optional``
+    - Specifies if the sign position of a signed numeric is to be fixed.
 
-      符号位置を固定( ``true`` )とした場合、符号位置は項目の先頭に固定される。
-      符号位置を非固定( ``false`` )とした場合、符号位置はパディング前の数値の先頭に付加される。
+      If the sign position is fixed ( ``true`` ), the sign position is fixed to the beginning of the item.
+      If the sign position is not fixed ( ``false`` ), the sign position is added to the beginning of the numeric before padding.
 
-      デフォルト動作は固定( ``true`` )となる。
+      The default option is fixed ( ``true`` ).
 
-      例
-        :符号位置を固定: -000123456
-        :符号位置を非固定: 000-123456
+      Example
+        :Sign position fixed: -000123456
+        :Sign position not fixed: 000-123456
 
   
-  * - required-plus-sign ``任意``
-    - 符号付き数値の正の符号の要否を指定する。
+  * - required-plus-sign ``optional``
+    - Specifies if a plus sign is required for the signed numeric.
 
-      ``true`` を指定した場合、読み込むデータには正の符号( ``+`` )が必要で、
-      書き込むデータには正の符号( ``+`` )が付加される。
+      When ``true`` is specified, the data to be read must have a plus sign ( ``+`` ),
+      and a plus sign ( ``+`` ) is added to the written data.
 
-      デフォルトの動作は付加しない( ``false`` )となる。
+      The default option is not added ( ``false`` ).
 
 
 
-以下に例を示す。
+An example is shown below.
 
 .. code-block:: bash
 
   #
-  # ディレクティブ定義部
+  # Directive definition section
   #
-  file-type:                      "Fixed"  # 固定長ファイル
-  text-encoding:                  "ms932"  # 文字列型フィールドの文字エンコーディング
-  record-length:                  120      # 各レコードbyte長 
-  positive-zone-sign-nibble:      "C"      # ゾーン数値の正符号
-  negative-zone-sign-nibble:      "D"      # ゾーン数値の負符号
-  positive-pack-sign-nibble:      "C"      # パック数値の正符号
-  negative-pack-sign-nibbleL      "D"      # パック数値の負符号
-  required-decimal-point:         true     # 小数点あり
-  fixed-sign-position:            true     # 符号は先頭に
-  required-plus-sign:             false    # 正符号は付加しない
+  file-type:                      "Fixed"  # Fixed-length file
+  text-encoding:                  "ms932"  # Character encoding of the string type field
+  record-length:                  120      # Byte length of each record 
+  positive-zone-sign-nibble:      "C"      # Plus sign of zone numeric
+  negative-zone-sign-nibble:      "D"      # Minus sign of zone numeric
+  positive-pack-sign-nibble:      "C"      # Plus sign of pack numeric
+  negative-pack-sign-nibbleL      "D"      # Minus sign of pack numeric
+  required-decimal-point:         true     # With decimal point
+  fixed-sign-position:            true     # Sign at the beginning
+  required-plus-sign:             false    # Plus sign is not added
 
 .. _data_format-variable_data_directive:
 
-Variable(可変長)形式で指定可能なディレクティブ一覧
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Variable(可変長)形式のデータで利用するディレクティブは以下のとおり。
+List of directives that can be specified in variable (variable length) format
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The directives used for data in variable (variable length) format are as follows.
 
 .. list-table::
   :class: white-space-normal
   :widths: 30 70
   :header-rows: 1
 
-  * - ディレクティブ
-    - 説明
-  * - field-separator ``必須``
-    - フィールド(項目)の区切り文字を指定する。
+  * - Directive
+    - Description
+  * - field-separator ``required``
+    - Specifies a separator character for the field (item).
 
-      例えば、CSVであれば ``,`` を、TSVであれば ``\t`` を指定する。
+      For example, specify ``,`` for CSV and specify ``\t`` for TSV.
 
-  * - quoting-delimiter ``任意``
-    - フィールド(項目)の値をクォートする際に使用する文字を指定する。
+  * - quoting-delimiter ``optional``
+    - Specifies the character used to quote field (item) values.
 
-      例えば、ダブルクォートを設定する場合には、 ``"`` を、
-      シングルクォートを設定する場合には、 ``'`` を設定する。
+      For example, use ``"`` to configure double quotes,
+      and use ``'`` for single quotes.
 
-      出力時は、値を設定した場合、全てのフィールド(項目)がクォートされる。
-      デフォルトでは、クォートされない。
+      When the value is configured, all fields (items) are quoted during output.
+      By default, quotes are not used.
       
-      入力時は、値を設定した場合、フィールドの前後のクォート文字が除去される。
-      改行やフィールド内のクォート文字の扱いなどは、RFC4180を参照。
+      If the value is configured, the quote characters before and after the field is removed during input.
+      For handling line feed and quote characters in the fields, see RFC4180.
 
-  * - ignore-blank-lines ``任意``
-    - データ読み込み時に空行を無視するか否かを設定する。
+  * - ignore-blank-lines ``optional``
+    - Configures if blank lines should be ignored when reading the data.
 
-      ``true`` を設定した場合、空行(改行のみ)のレコードは無視される。
+      When configured to ``true``, records on blank lines (only line feed) are ignored.
 
-      デフォルトでは、空行は無視される。
+      By default, blank lines are ignored.
 
-  * - requires-title ``任意``
+  * - requires-title ``optional``
     - .. _data_format-requires-title:
       
-      最初のレコードをタイトルとして読み書きするかどうかを設定する。
+      Configures if the first record should be read or written as a title.
 
-      ``true`` を設定した場合、最初のレコードをタイトルとして扱う。
+      When configured to ``true``, the first record is treated as the title.
 
-      デフォルトでは、最初のレコードをタイトルとして扱わない。
+      By default, the first record is not treated as a title.
 
-      タイトルレコードのレイアウト定義は、 :ref:`title-record-type-nameディレクティブ <data_format-title_type_name>` を参照。
+      For the layout definition of the title record, see :ref:`title-record-type-name directive <data_format-title_type_name>`.
 
-  * - title-record-type-name ``任意``
+  * - title-record-type-name ``optional``
     - .. _data_format-title_type_name:
       
-      タイトルのレコードタイプ名を設定する。
+      Configures the record type name of the title.
 
-      指定しなかった場合、タイトルのレコードタイプ名は ``Title`` となる。
+      If not specified, the record type name of the title will be ``Title``.
 
-      このディレクティブで指定したレコードタイプ名に紐づくレコードフォーマット定義に従い、タイトルレコードが編集される。
+      The title record is edited according to the record format definition associated with the record type name specified in this directive.
 
-      タイトルのレコードタイプを使ったフォーマット定義ファイルのサンプルは、
-      :ref:`タイトルレコードのフォーマット定義例 <data_format-variable_title_sample>` を参照。
+      For the sample format definition file using the title record type,
+      see :ref:`title record format definition example <data_format-variable_title_sample>`.
 
-      レコードタイプやレコード定義の詳細は、 :ref:`data_format-definition_record` を参照。
+      For details of record types and record definitions, see :ref:`data_format-definition_record`.
 
-  * - max-record-length ``任意``
-    - 読み込みを許容する1レコードの文字数を指定する。
+  * - max-record-length ``optional``
+    - Specifies the number of characters in a record that can be read.
 
-      レコードの区切り文字が存在しないデータ(壊れているデータ)を読み込んだ場合、
-      レコードを全てヒープ上に展開するとヒープ不足によりプロセスが異常終了する可能性がある。
+      When data that does not have a record separator character (corrupted data) is read,
+      if all records are expanded on the heap, the process may terminate abnormally due to insufficient heap.
 
-      このため、このディレクティブに設定した値の文字数を読み込んでもレコードの区切り文字が存在しなかった場合には、
-      不正なデータとして読み込み処理を中止し例外を送出する。
+      Therefore, if the record separator character does not exist even after reading the number of characters configured in this directive,
+      the reading process is aborted, and an exception is thrown as invalid data.
 
-      デフォルトでは、1,000,000文字となる。
+      By default, configured to 1,000,000 characters.
 
-以下に例を示す。
+An example is shown below.
 
 .. code-block:: bash
 
   #
-  # ディレクティブ定義部
+  # Directive definition section
   #
-  file-type:                  "Variable"  # 可変長ファイル
-  text-encoding:              "utf-8"     # 文字列型フィールドの文字エンコーディング
-  record-separator:           "\\r\\n"    # 改行
+  file-type:                  "Variable"  # Variable length file
+  text-encoding:              "utf-8"     # Character encoding of the string type field
+  record-separator:           "\\r\\n"    # Line feed
 
   field-separator:            ","         # CSV
-  quoting-delimiter:          "\""        # ダブルクォートで項目を囲む
-  ignore-blank-lines:         true        # 空行は無視
-  requires-title:             false       # タイトルレコードは無し
-  max-record-length:          1000        # このcsvのレコードには最大でも1000文字まで
+  quoting-delimiter:          "\""        # Enclose items in double quotes
+  ignore-blank-lines:         true        # Ignore blank lines
+  requires-title:             false       # No title record
+  max-record-length:          1000        # Maximum 1000 characters for this csv record
 
-JSON形式で指定可能なディレクティブ一覧
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-JSONデータ形式固有のディレクティブは存在しない。
+Directive list that can be specified in JSON format
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+There are no directives specific to the JSON data format.
 
-以下に例を示す。
-
-.. code-block:: bash
-
-  file-type:      "JSON"      # jsonフォーマット
-  text-encoding:  "utf-8"     # 文字列型フィールドの文字エンコーディング
-
-
-XML形式で指定可能なディレクティブ一覧
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-XMLデータ形式固有のディレクティブは存在いない。
-
-以下に例を示す。
+An example is shown below.
 
 .. code-block:: bash
 
-  file-type:      "XML"       # xmlフォーマット
-  text-encoding:  "utf-8"     # 文字列型フィールドの文字エンコーディング
+  file-type:      "JSON"      # json format
+  text-encoding:  "utf-8"     # Character encoding of the string type field
+
+
+Directive list that can be specified in XML format
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+There are no directives specific to the XML data format.
+
+An example is shown below.
+
+.. code-block:: bash
+
+  file-type:      "XML"       # xml format
+  text-encoding:  "utf-8"     # Character encoding of the string type field
 
 .. _data_format-definition_record:
 
-レコードフォーマット定義部
+Record format definition section
 --------------------------------------------------
-レコードフォーマット定義部には、レコードを構成するフィールド(項目)の定義情報(レコード内での位置やデータ型など)を設定する。
+The record format definition section configures the definition information of the fields (items) that make up the record (such as position and data type in the record).
 
-レコードフォーマット定義例を以下に示す。
+An example of record format definition is shown below.
 
-ポイント
-  * レコードを識別するためのレコードタイプ名を ``[`` 、 ``]`` で囲んで定義する。
-  * レコードタイプ名は、フォーマット定義ファイル内で一意となっていること。
-  * レコードタイプ名は、任意の値を定義する。
-  * レコードタイプの次の行から、レコード内のフィールド(項目)を定義する。
-  * フィールド(項目)定義は、フィールド数分繰り返し定義する。
-  * フィールド定義の書式については、 :ref:`フィールド定義の書式 <data_format-field_definition>` を参照。
+Points
+  * A record type name, to identify the record, is defined by enclosing with ``[``, ``]`` brackets.
+  * Record type name must be unique in the format definition file.
+  * The record type name defines an optional value.
+  * The fields (items) in the record are defined from the next line of the record type.
+  * The field (item) definition are repeated for the number of fields.
+  * For field definition format, see :ref:`field definition format <data_format-field_definition>`.
 
 .. code-block:: bash
 
-  [data]              # レコードタイプ名:data
-  1 name  N(100)      # 名前
-  2 age   X9(3)       # 年齢
+  [data]              # Record type name:data
+  1 name  N(100)      # Name
+  2 age   X9(3)       # Age
 
 
 .. _data_format-field_definition:
 
-フィールド定義
+Field definition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-フィールド定義は、以下の形式で定義する。
+Field definition is defined with the following format.
 
 .. code-block:: text
   
-  <フィールド開始位置> <フィールド名> <多重度> <フィールドタイプ> <フィールドコンバータ>
+  <Field start position> <Field name> <Multiplicity> <Field type> <Field converter>
 
-フィールド定義の各要素の詳細は以下のとおり。
+Details of each element of the field definition are as given below.
 
 .. list-table::
   :class: white-space-normal
   :widths: 30 70
 
-  * - フィールド開始位置 ``必須``
-    - データ形式毎以下のルールに従いフィールド開始位置を定義する。
+  * - Field start position ``required``
+    - Define the field start position according to the following rules for each data format.
 
-      :Fixed(固定長): フィールドの開始バイト数(1起算)を設定する。
-      :Variable(可変長: フィールドの項目通番を設定する。
-      :JSON: フィールドの要素通番
-      :XML: フィールドの要素通番
+      :Fixed (fixed-length): Configure the number of starting bytes (count from 1) of the field.
+      :Variable (variable length): Configure the item serial number of the field.
+      :JSON: Element serial number of the field
+      :XML: Element serial number of the field
 
-  * - フィールド名 ``必須``
-    - フィールドを識別するための名前を設定する。
+  * - Field name ``required``
+    - Configure the name to identify the field.
 
-      フィールド名は、 本機能の入出力で使用する :java:extdoc:`java.util.Map` のキーとなる。
+      The field name is the key of :java:extdoc:`java.util.Map` used for input/output by this function.
 
-      フィールド名の先頭に ``?`` を付加した場合、その項目は入力時には :java:extdoc:`java.util.Map` には読み込まれない。
-      例えば、ホストでよく扱われる固定長ファイルのfiller項目に使用することで、余計な項目を入力対象除外できる。
+      If ``?`` is added to the beginning of the field name, that item will not be read into :java:extdoc:`java.util.Map` during input.
+      For example, any extra items can be excluded by using ``?`` for filler items of a fixed-length file that is often handled by the host.
 
       .. important::
 
-        数字のみのフィールド名は定義できないので注意すること。
+        Note that a field name cannot be defined with only numbers.
 
-      XMLデータ形式の場合、フィールド名の先頭に ``@`` を付加することで、その項目を属性値として扱うことが出来る。
+      In the case of XML data format, items are treated as an attribute value by adding ``@`` the beginning of the field name.
 
-      以下に例を示す。
+      An example is shown below.
       
       .. code-block:: bash
 
         [tagName]
         @attr
 
-      上記に対応したXMLは、以下のようになる。
+      The XML corresponding to the above is as follows.
 
       .. code-block:: xml
 
@@ -430,98 +430,98 @@ XMLデータ形式固有のディレクティブは存在いない。
         ・・・
         </tagName>
 
-  * - 多重度 ``任意``
-    - フィールドの定義可能数を指定する。
+  * - Multiplicity ``optional``
+    - Specifies the number of fields that can be defined.
 
-      この値は、JSON及びXMLデータ形式の場合のみ指定できる。
+      This value can be specified only for JSON and XML data formats.
 
-      記述ルールは以下のとおり。
-        * 定義可能数は、 ``[`` 、 ``]`` で囲んで記述する。
-        * 下限と上限がある場合は、下限と上限の間に ``..`` を記述する。
-        * 上限がない場合は ``*`` を記述する。
-        * 省略した場合は、 ``[1]`` となる。
+      The description rules are as follows.
+        * The number that can be defined is described by enclosing with ``[``, ``]``.
+        * When there is a lower limit and an upper limit, write ``..`` between the lower limit and the upper limit.
+        * If there is no upper limit, write ``*``.
+        * If omitted, it becomes ``[1]``.
 
-      以下に指定例を示す。
+      A specification example is shown below.
 
       .. code-block:: bash
 
-        address [1..3]    # 1から3の定義が可能
-        address           # 省略しているので1つだけ可能
-        address [0..*]    # 条件なし(0から無制限)
-        address [*]       # 条件なし(0から無制限)
-        address [1..*]    # 1以上
+        address [1..3]    # 1 to 3 can be defined
+        address           # Only one is possible as it is omitted
+        address [0..*]    # No condition (0 to unlimited)
+        address [*]       # No condition (0 to unlimited)
+        address [1..*]    # 1 or more
 
-      以下のxmlの場合、 ``address`` フィールドの定義数は ``2`` となる。
+      In the case of the following xml, the number of definitions in the ``address`` field is ``2``.
 
       .. code-block:: xml
 
         <person>
-          <address>自宅住所</address>
-          <address>勤務先住所</address>
+          <address>Home address</address>
+          <address>Work address</address>
         </person>
 
-      以下のJSONの場合、 ``address`` フィールドの要素数は、``3`` となる。
+      In the case of the following JSON, the number of elements in the ``address`` field is ``3``.
 
       .. code-block:: json
 
         {
-          "address" : ["自宅住所", "勤務先住所", "送付先住所"]
+          "address" : ["Home address", "Work address", "Delivery address"]
         }
       
 
-  * - フィールドタイプ ``必須``
-    - フィールドのデータ型を定義する。
+  * - Field Type ``required``
+    - Defines the data type of the field.
 
-      デフォルトで指定可能なフィールドタイプは、 :ref:`data_format-field_type_list` を参照。
+      For field types that can be specified by default, see :ref:`data_format-field_type_list`.
 
-  * - フィールドコンバータ ``任意``
-    - フィールドタイプに対するオプションの指定やデータ変換などの入出力の事前処理の内容を定義する。
+  * - Field convertor ``optional``
+    - Defines the contents of input/output pre-processing, such as specifying options for field types or data conversion.
 
-      デフォルトで指定可能なフィールドタイプは、 :ref:`data_format-field_convertor_list` を参照。
+      For field types that can be specified by default, see :ref:`data_format-field_convertor_list`.
 
-      フィールドコンバータは、複数設定することも出来る。
+      Multiple field converters can be configured.
 
 
 .. _data_format-multi_layout_data:
 
-マルチフォーマット形式のレコードを定義する
+Define a multiformat record
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-マルチフォーマット形式のデータの場合は、フォーマット定義ファイル上に複数のレコードフォーマットを定義する。
+For multi-format data, define multiple record formats in the format definition file.
 
-入出力データが、どのレコードフォーマットかは、特定のフィールドの値によって自動的に判定される。
-もし、入出力対象のデータが、どのレコードタイプにもマッチしない場合は、不正データ扱いとし処理を異常終了する。
+The record format of the input /output data is automatically determined by the value of a specific field.
+If the input /output target data does not match any record type, it is treated as invalid data and the process is terminated abnormally.
 
-以下にマルチフォーマット形式のフォーマット定義例を示す。
+Example of format definition for multi-format is shown below.
 
-ポイント
-  * レコード識別フィールドを定義する。レコードタイプ名は ``Classifier`` とする。
-  * 各レコード定義のレコードタイプ名直下に、レコードと判断するための条件を定義する。
-  * レコード識別(Classifier)に定義したフィールドは、レコード定義内に存在している必要がある。
+Points
+  * Defines the record identification field. The record type name is ``Classifier``.
+  * The condition to determine a record is defined directly below the record type name of each record definition.
+  * The field defined in record identification (Classifier) must exist in the record definition.
 
 .. code-block:: bash
 
-  file-type:        "Fixed" # 固定長
-  text-encoding:    "MS932" # 文字列型フィールドの文字エンコーディング
-  record-length:    40      # 各レコードの長さ
-  record-separator: "\r\n"  # 改行コード(crlf)
+  file-type:        "Fixed" # Fixed-length
+  text-encoding:    "MS932" # Character encoding of the string type field
+  record-length:    40      # Length of each record
+  record-separator: "\r\n"  # Line feed code (crlf)
 
-  # レコード識別条件の定義
+  # Define the record identification condition
   [Classifier]
-  1 dataKbn X(1)      # 先頭1バイトのフィールドを使用してどのレコードかを判定する
+  1 dataKbn X(1)      # Determine the record type by using the field of the first byte
 
-  # ヘッダーレコードの定義
+  # Define the header record
   [header]
-  dataKbn = "1"         # dataKbnが"1"の場合ヘッダーレコード
+  dataKbn = "1"         # Header record if dataKbn is "1"
   1 dataKbn X(1)
   2 data    X(39)
 
-  # データレコードの定義
+  # Define the data record
   [data]
-  dataKbn = "2"        # dataKbnが"2"の場合データレコード
+  dataKbn = "2"        # Data record if dataKbn is "2"
   1 dataKbn X(1)
   2 data    X(39)
 
-マルチフォーマットの定義サンプルは、以下のリンク先を参照。
+For a sample of the multi-format definition, refer to the following link.
 
 .. toctree::
   :maxdepth: 1
@@ -530,197 +530,197 @@ XMLデータ形式固有のディレクティブは存在いない。
 
 .. tip::
 
-  JSON及びXMLデータ形式には、レコードの概念が存在しないため、
-  マルチフォーマット形式のフォーマット定義には対応していない。
+  Since JSON and XML data formats do not have the concept of a record,
+  format definition for multiformat is not supported.
 
 .. _data_format-field_type_list:
 
-フィールドタイプ一覧
+Field type list
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-標準で提供するデータタイプ定義一覧を以下に示す。
+The data type definition list provided as standard is shown below.
 
-Fixed(固定長)データ形式で利用可能なフィールドタイプ一覧
+List of available field types for Fixed (fixed-length) data format
   .. list-table::
     :class: white-space-normal
     :header-rows: 1
     :widths: 13 15 72
 
-    * - タイプ
-      - Java型
-      - 説明
+    * - Type
+      - Java type
+      - Description
 
     * - .. _data_format-field_type-single_byte_character_string:
 
         X
       - String
-      - シングルバイト文字列(バイト長 = 文字列長)
+      - Single byte character string (byte length = character string length)
 
-        デフォルトでは、半角空白による右トリム及びパディングが行われる。
+        By default, right trim/padding is performed using half-width space.
 
-        :引数: バイト長(数値) ``必須``
+        :Argument: Byte length (numeric)``required``
 
-        出力対象の値が ``null`` の場合、値を空文字に変換してから処理を行う。
+        If the output target value is ``null``, the value is converted to an empty character before processing.
 
-        読み込んだ値が空文字列の場合は、 ``null`` に変換する。
-        空文字列を ``null`` に変換したくない場合は、
-        :java:extdoc:`convertEmptyToNull <nablarch.core.dataformat.convertor.FixedLengthConvertorSetting.setConvertEmptyToNull(boolean)>` に ``false`` を設定する。
+        If the read value is an empty string, it is converted to ``null``.
+        Configure :java:extdoc:`convertEmptyToNull <nablarch.core.dataformat.convertor.FixedLengthConvertorSetting.setConvertEmptyToNull(boolean)>` to ``false``
+        if conversion of empty string to ``null`` is not required.
 
     * - N
       - String
-      - ダブルバイト文字列 (バイト長 = 文字数 ÷ 2)
+      - Double-byte character string (byte length = number of characters/2)
 
-        デフォルトでは、全角空白による右トリム・パディングを行う。
+        By default, right trim/padding is performed with full-width space.
 
-        :引数: バイト長(数値) ``必須``
+        :Argument: Byte length (numeric) ``required``
 
-        ※バイト長が2の倍数でない場合は構文エラーとなる。
+        * If the byte length is not a multiple of 2, a syntax error will occur.
 
-        出力対象の値が ``null`` の場合や、読み込んだ値が空文字列の場合の扱いは、
-        :ref:`シングルバイト文字列のフィールドタイプ <data_format-field_type-single_byte_character_string>` と同じ。
+        If the output target value is ``null`` or the read value is an empty string,
+        the handling is the same as :ref:`single byte string field type <data_format-field_type-single_byte_character_string>`.
 
     * - XN
       - String
-      - マルチバイト文字列
+      - Multibyte string
 
-        UTF-8のようにバイト長の異なる文字が混在するフィールドを扱う場合に、このフィールドタイプを指定する。
+        Specify this field type when handling a field where characters of different byte lengths are mixed, such as UTF-8.
 
-        また、全角文字列（ダブルバイト文字列）のパディングに半角スペースを使用する場合にも本フィールドタイプを使用する。
+        This field type is also used when the padding for the full-width string (double-byte string) uses a half-width space.
 
-        デフォルトでは、半角空白による右トリム・パディングを行う。
+        By default, right trim/padding is performed with half-width space.
 
-        :引数: バイト長(数値) ``必須``
+        :Argument: Byte length (numeric) ``required``
 
-        出力対象の値が ``null`` の場合や、読み込んだ値が空文字列の場合の扱いは、
-        :ref:`シングルバイト文字列のフィールドタイプ <data_format-field_type-single_byte_character_string>` と同じ。
+        If the output target value is ``null`` or the read value is an empty string,
+        the handling is the same as :ref:`single byte string field type <data_format-field_type-single_byte_character_string>`.
 
     * - .. _data_format-field_type-zoned_decimal:
 
         Z
       - BigDecimal
-      - ゾーン数値(バイト長 = 桁数)
+      - Zone numeric (byte length = number of digits)
 
-        デフォルトでは、 ``0`` による左トリム・パディングを行う。
+        By default, left trim/padding is performed with ``0``.
 
-        :引数1: バイト長(数値) ``必須``
-        :引数2: 小数点以下桁数(数値) ``任意`` デフォルト: ``0``
+        :Argument 1:: Byte length (numeric) ``required``
+        :Argument 2:: Number of digits after decimal point (numeric)``optional`` Default: ``0``
 
-        出力対象の値が ``null`` の場合、値を ``0`` に変換してから処理を行う。
+        If the output target value is ``null``, the value is converted to ``0`` before processing.
 
-        読み込んだ値のバイト数が ``0`` の場合は、 ``null`` に変換する。
-        バイト数が ``0`` の場合に ``null`` に変換したくない場合は、
-        :java:extdoc:`convertEmptyToNull <nablarch.core.dataformat.convertor.FixedLengthConvertorSetting.setConvertEmptyToNull(boolean)>` に ``false`` を設定する。
+        If the number of bytes in the read value is ``0``, it is converted to ``null``.
+        Configure :java:extdoc:`convertEmptyToNull <nablarch.core.dataformat.convertor.FixedLengthConvertorSetting.setConvertEmptyToNull(boolean)>` to ``false``,
+        when the number of bytes is ``0`` and conversion to ``null`` is not required.
 
     * - SZ
       - BigDecimal
-      - 符号付きゾーン数値 (バイト長 = 桁数)
+      - Signed zone numeric (byte length = number of digits)
 
-        デフォルトでは、 ``0`` による左トリム・パディングを行う。
+        By default, left trim/padding is performed with ``0``.
 
-        :引数1: バイト長(数値) ``必須``
-        :引数2: 少数点以下桁数(数値) ``任意`` デフォルト: ``0``
-        :引数3: ゾーン部に設定する正符号(16進表記の文字列) ``任意``
-        :引数4: ゾーン部に設定する負符号(16進表記の文字列) ``任意``
+        :Argument 1:: Byte length (numeric) ``required``
+        :Argument 2:: Number of digits after the decimal point (numeric) ``optional`` Default: ``0``
+        :Argument 3:: Plus sign to be configured in the zone section (hexadecimal string) ``optional``
+        :Argument 4:: Minus sign to be configured in the zone section (hexadecimal string) ``optional``
 
-        引数3及び引数4は、 :ref:`符号付きゾーン数値の正符号 <data_format-positive_zone_sign_nibble>` 及び
-        :ref:`符号付きゾーン数値の負符号 <data_format-negative_zone_sign_nibble>` を上書きする場合に設定する。
+        Argument 3 and argument 4 are configured when overwriting the :ref:`plus sign of the signed zone numeric <data_format-positive_zone_sign_nibble>`
+        and minus sign of the :ref:`signed zone numeric <data_format-negative_zone_sign_nibble>`.
 
-        出力対象の値が ``null`` の場合や、読み込んだ値のバイト数が ``0`` の場合の扱いは、
-        :ref:`ゾーン数値のフィールドタイプ <data_format-field_type-zoned_decimal>` と同じ。
+        When the output target value is ``null`` or the number of bytes of the read value is ``0``,
+        then the handling is the same as :ref:`zone numeric field type <data_format-field_type-zoned_decimal>`.
 
     * - P
       - BigDecimal
-      - パック数値 (バイト長 = 桁数 ÷ 2 [端数切り上げ])
+      - Pack numeric (byte length = number of digits/2 [rounded up])
 
-        デフォルトでは、 ``0`` による左トリム・パディングを行う。
+        By default, left trim/padding is performed with ``0``.
 
-        :引数1: バイト長(数値) ``必須``
-        :引数2: 少数点以下桁数(数値) ``任意`` デフォルト: ``0``
+        :Argument 1:: Byte length (numeric) ``required``
+        :Argument 2:: Number of digits after the decimal point (numeric) ``optional`` Default: ``0``
 
-        出力対象の値が ``null`` の場合や、読み込んだ値のバイト数が ``0`` の場合の扱いは、
-        :ref:`ゾーン数値のフィールドタイプ <data_format-field_type-zoned_decimal>` と同じ。
+        When the output target value is ``null`` or the number of bytes of the read value is ``0``,
+        then the handling is the same as :ref:`zone numeric field type <data_format-field_type-zoned_decimal>`.
 
     * - SP
       - BigDecimal
-      - 符号付きパック数値 (バイト長 = (桁数 + 1) ÷ 2 [端数切り上げ])
+      - Signed pack numeric (byte length = (number of digits + 1)/2 [rounded up])
 
-        デフォルトでは、 ``0`` による左トリム・パディングを行う。
+        By default, left trim/padding is performed with ``0``.
 
-        :引数1: バイト長(数値) ``必須``
-        :引数2: 少数点以下桁数(数値) ``任意`` デフォルト: ``0``
-        :引数3: 符号ビットに設定する正符号 (16進表記の文字列) ``任意``
-        :引数4: 符号ビットに設定する負符号 (16進表記の文字列) ``任意``
+        :Argument 1:: Byte length (numeric) ``required``
+        :Argument 2:: Number of digits after the decimal point (numeric) ``optional `` Default: ``0``
+        :Argument 3:: Plus sign to be configured in the zone section (hexadecimal string) ``optional``
+        :Argument 4:: Minus sign to be configured in the zone section (hexadecimal string) ``optional``
 
-        引数3及び引数4は、 :ref:`符号付きパック数値の正符号 <data_format-positive_pack_sign_nibble>` 及び
-        :ref:`符号付きパック数値の負符号 <data_format-negative_pack_sign_nibble>` を上書きする場合に設定する。
+        Argument 3 and argument 4 are configured when overwriting the :ref:`plus sign of the signed pack numeric <data_format-positive_pack_sign_nibble>`
+        and minus sign of the :ref:`signed pack numeric <data_format-negative_pack_sign_nibble>`.
 
-        出力対象の値が ``null`` の場合や、読み込んだ値のバイト数が ``0`` の場合の扱いは、
-        :ref:`ゾーン数値のフィールドタイプ <data_format-field_type-zoned_decimal>` と同じ。
+        When the output target value is ``null`` or the number of bytes of the read value is ``0``,
+        then the handling is the same as :ref:`zone numeric field type <data_format-field_type-zoned_decimal>`.
 
     * - B
       - byte[]
-      - バイナリ列
+      - Binary string
 
-        パディングやトリムは行わない。
+        Padding and trimming are not performed.
 
-        :引数: バイト長(数値) ``必須``
+        :Argument:Byte length (numeric) ``required``
 
-        出力対象の値が ``null`` の場合の変換仕様はアプリケーションごとに様々である。
-        そのため、本フィールドタイプではその場合でも値の変換は行わず、
+        The conversion specifications for each application are different when the output value is ``null``.
+        Therefore, the value is not converted for this field type even in such a case and
         :java:extdoc:`InvalidDataFormatException <nablarch.core.dataformat.InvalidDataFormatException>`
-        を送出する。
+        is thrown.
 
-        本フィールドタイプを使用する場合、要件に合わせてアプリケーション側で明示的に値を設定すること。
+         When using this field type, configure the value explicitly in the application according to the requirements.
 
     * - X9
       - BigDecimal
-      - 符号無し数値文字列 (バイト長 = 文字数)
+      - Unsigned numeric string (byte length = number of characters)
 
-        フィールド中のシングルバイト文字列(X)を数値として扱う。
+        Treat single-byte strings (X) in the field as numeric.
 
-        デフォルトでは、 ``0`` による左トリム・パディングを行う。
-        文字列中に小数点記号( ``.`` )を含めることできる。
+        By default, left trim/padding is performed with ``0``.
+        Decimal point sign ( ``.`` ) can be included in the string.
 
-        :引数1: バイト長(数値) ``必須``
-        :引数2: 固定小数点の場合の小数点以下桁数(数値) ``任意`` デフォルト: ``0``
+        :Argument 1:: Byte length (numeric) ``required``
+        :Argument 2:: Number of digits after the decimal point (numeric) for fixed decimal point ``optional`` Default: ``0``
 
-        出力対象の値が ``null`` の場合の扱いは、
-        :ref:`ゾーン数値のフィールドタイプ <data_format-field_type-zoned_decimal>` と同じ。
+        When the output value is ``null``,
+        then the handling is the same as :ref:`zone numeric field type <data_format-field_type-zoned_decimal>`.
 
-        読み込んだ値が空文字列の場合の扱いは、
-        :ref:`シングルバイト文字列のフィールドタイプ <data_format-field_type-single_byte_character_string>` と同じ。
+        If the read value is an empty string,
+        the handling is the same as :ref:`single byte string field type <data_format-field_type-single_byte_character_string>`.
 
 
     * - SX9
       - BigDecimal
-      - 符号付き数値文字列 (バイト長 = 文字数)
+      - Signed numeric string (byte length = number of characters)
 
-        フィールド中のシングルバイト文字列(X)を符号付き数値として扱う。
-        デフォルトでは、 ``0`` による左トリム・パディングを行う。
+        Single byte string (X) in the field is treated as a signed numeric.
+        By default, left trim/padding is performed with ``0``.
 
-        :引数1: バイト長(数値) ``必須``
-        :引数2: 固定小数点の場合の小数点以下桁数(数値) ``任意`` デフォルト: ``0``
+        :Argument 1:: Byte length (numeric) ``required``
+        :Argument 2:: Number of digits after the decimal point (numeric) for fixed decimal point ``optional`` Default: ``0``
 
-        出力対象の値が ``null`` の場合の扱いは、
-        :ref:`ゾーン数値のフィールドタイプ <data_format-field_type-zoned_decimal>` と同じ。
+        When the output value is ``null``,
+        then the handling is the same as :ref:`zone numeric field type <data_format-field_type-zoned_decimal>`.
 
-        読み込んだ値が空文字列の場合の扱いは、
-        :ref:`シングルバイト文字列のフィールドタイプ <data_format-field_type-single_byte_character_string>` と同じ。
+        If the read value is an empty string,
+        the handling is the same as :ref:`single byte string field type <data_format-field_type-single_byte_character_string>`.
 
-        符号文字(``+`` 、``-``)を変更したい場合は、以下のクラスの実装を参考にプロジェクト固有のフィールドタイプを作成して対応する。
+        To change the sign character (``+`` 、``-``), a project-specific field type can be created to support the implementation of the following classes.
 
         * :java:extdoc:`SignedNumberStringDecimal <nablarch.core.dataformat.convertor.datatype.SignedNumberStringDecimal>`
 
-        フィールドタイプの追加については、 :ref:`data_format-field_type_add` を参照。
+        For additional field types, see :ref:`data_format-field_type_add`.
 
-Variable(可変長)データ形式で利用可能フィールドタイプ一覧
+List of available field types for Variable (Variable length) data format
   .. list-table::
     :class: white-space-normal
     :header-rows: 1
     :widths: 13 15 72
 
-    * - タイプ
-      - Java型
-      - 説明
+    * - Type
+      - Java type
+      - Description
 
     * - X |br|
         N |br|
@@ -728,30 +728,30 @@ Variable(可変長)データ形式で利用可能フィールドタイプ一覧
         X9 |br|
         SX9
       - String
-      - 可変長データ形式では、すべてのフィールドを文字列（String）として読み書きする。
+      - All fields are read and written as strings for variable-length data formats.
 
-        どのタイプ識別子を指定しても動作は変わらない。
-        また、フィールド長の概念が無いので、引数は不要である。
+        The operation does not change no matter what type of identifier is specified.
+        Since there is no concept of field length, arguments are not required.
 
-        もし、文字列を数値形式(BigDecimal)として読み書きしたい場合は、
-        :ref:`numberコンバータ <data_format-number_convertor>`
-        または :ref:`signed_numberコンバータ <data_format-signed_number_convertor>` を使用すること。
+        To read and write as numeric format of character string (BigDecimal),
+        use :ref:`number converter <data_format-number_convertor>`
+        or :ref:`signed_number converter <data_format-signed_number_convertor>`.
 
-        出力対象の値が ``null`` の場合、値を空文字に変換してから処理を行う。
+        If the output target value is ``null``, the value is converted to a empty character before processing.
         
-        読み込んだ値が空文字列の場合は、 ``null`` に変換する。
-        空文字列を ``null`` に変換したくない場合は、 :java:extdoc:`convertEmptyToNull <nablarch.core.dataformat.convertor.VariableLengthConvertorSetting.setConvertEmptyToNull(boolean)>` に ``false`` を設定する。
+        If the read value is an empty string, it is converted to ``null``.
+        Configure :java:extdoc:`convertEmptyToNull <nablarch.core.dataformat.convertor.VariableLengthConvertorSetting.setConvertEmptyToNull(boolean)>` to ``false`` if conversion of empty string to null is not required.
 
 
-JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
+List of available field types for JSON and XML data formats
   .. list-table::
     :class: white-space-normal
     :header-rows: 1
     :widths: 13 15 72
 
-    * - タイプ
-      - Java型
-      - 説明
+    * - Type
+      - Java type
+      - Description
 
     * - .. _data_format-field_type-nullable_string:
 
@@ -759,50 +759,50 @@ JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
         N |br|
         XN
       - String
-      - 文字列データタイプ
+      - String data type
 
-        パディングなどの編集は行わない。
+        Editing such as padding is not performed.
 
-        JSONの場合は、出力時に値がダブルクォート ``"`` で括られる。
+        The value is enclosed in double quotes ``"`` during output for JSON.
 
-        出力対象の値が ``null`` の場合、JSONでは値の変換は行わなず、
-        XMLでは空文字に変換する。
+        If the output value is ``null``, the value is not converted in JSON,
+        and is converted to an empty string in XML.
 
     * - X9 |br|
         SX9 |br|
       - String
-      - 数値文字列タイプ
+      - Numeric string type
 
-        パディングなどのデータ編集は行わない。出力時は値がそのまま出力される。
+        Data editing such as padding is not performed. During output, the value is output without change.
 
-        もし、文字列を数値形式(BigDecimal)として読み書きしたい場合は、
-        :ref:`numberコンバータ <data_format-number_convertor>`
-        または :ref:`signed_numberコンバータ <data_format-signed_number_convertor>` 使用すること。
+        To read and write as numeric format of character string (BigDecimal),
+        use :ref:`number converter <data_format-number_convertor>`
+        or :ref:`signed_number converter <data_format-signed_number_convertor>`.
 
-        出力対象の値が ``null`` の場合の扱いは、
-        :ref:`文字列データタイプのフィールドタイプ <data_format-field_type-nullable_string>` と同じ。
+        When the output value is ``null``,
+        the handling is the same as :ref:`field type for string data type <data_format-field_type-nullable_string>`.
 
     * - BL
       - String	
-      - 文字列（ ``true`` or ``false`` を文字列で表したもの）
+      - String（ ``true`` or ``false`` expressed as a string）
 
-        パディングなどのデータ編集は行わない。出力時は値がそのまま出力される。
+        Data editing such as padding is not performed. During output, the value is output without change.
 
-        出力対象の値が ``null`` の場合の扱いは、
-        :ref:`文字列データタイプのフィールドタイプ <data_format-field_type-nullable_string>` と同じ。
+        When the output value is ``null``,
+        the handling is the same as :ref:`field type for string data type <data_format-field_type-nullable_string>`.
 
     * - .. _data_format-nest_object:
 
         OB
       - \-
-      - ネストされたレコードタイプを指定する場合に使用する。
+      - Used to specify nested record types.
 
-        フィールド名に対応した、レコードタイプがネストした要素として入出力される。
+        The record type corresponding to the field name is input/output as a nested element.
 
-        出力対象の値が ``null`` の場合の扱いは、
-        :ref:`文字列データタイプのフィールドタイプ <data_format-field_type-nullable_string>` と同じ。
+        When the output value is ``null``,
+        the handling is the same as :ref:`field type for string data type <data_format-field_type-nullable_string>`.
 
-        以下に使用例を示す。
+        An usage example is shown below.
 
         json
           .. code-block:: json
@@ -810,14 +810,14 @@ JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
             {
               "users": [
                 {
-                  "name"    : "名前",
+                  "name"    : "Name",
                   "age"     : 30,
-                  "address" : "住所"
+                  "address" : "Address"
                 },
                 {
-                  "name"    : "名前1",
+                  "name"    : "Name 1",
                   "age"     : 31,
-                  "address" : "住所1"
+                  "address" : "Address 1"
                 }
               ]
             }
@@ -827,95 +827,95 @@ JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
             
             <users>
               <user>
-                <name>名前</name>
+                <name> Name </name>
                 <age>30</age>
-                <address>住所</address>
+                <address> Address </address>
               </user>
               <user>
-                <name>名前1</name>
+                <name> Name 1</name>
                 <age>31</age>
-                <address>住所1</address>
+                <address> Address 1</address>
               </user>
             </users>
 
-        上記のjson及びxmlに対応したフォーマット定義ファイルは以下のとおり。
+        The format definition file for JSON and xml above are as follows:
 
         .. code-block:: bash
 
-          [users]       # ルート要素
+          [users]       # Root element
           1 user [1..*] OB
 
-          [user]        # ネストした要素
-          1 name    N   # 最下層の要素
+          [user]        # Nested element
+          1 name    N   # Bottom layer element
           2 age     X9
           3 address N
 
 
 .. _data_format-field_convertor_list:
 
-フィールドコンバータ一覧
+Field converter list
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-標準で提供するデータコンバータ一覧を以下に示す。
+The data converter list provided as standard is shown below.
 
 .. list-table::
   :class: white-space-normal
   :header-rows: 1
   :widths: 20 30 50
 
-  * - コンバータ名
-    - 型変換仕様
-    - 説明
+  * - Converter name
+    - Type conversion specification
+    - Description
 
   * - pad
-    - 型変換無し
-    - パディング及びトリムする文字を設定する。
+    - No type conversion
+    - Configure the characters to pad and trim.
 
-      パディング及びトリム位置は、フィールドタイプ毎に以下のように動作する。
+      Padding and trim positions operate as follows for each field type.
 
-      :X: 右トリム、右パディング
-      :N: 右トリム、右パディング
-      :XN: 右トリム、右パディング
-      :Z: 左トリム・左パディング
-      :SZ: 左トリム・左パディング
-      :P: 左トリム・左パディング
-      :SP: 左トリム・左パディング
-      :X9: 左トリム・左パディング
-      :SX9: 左トリム・左パディング
+      :X: Right trim, right padding
+      :N: Right trim, right padding
+      :XN: Right trim, right padding
+      :Z: Left trim, left padding
+      :SZ: Left trim, left padding
+      :P: Left trim, left padding
+      :SP: Left trim, left padding
+      :X9: Left trim, left padding
+      :SX9: Left trim, left padding
 
-      フィールドタイプの詳細は、 :ref:`data_format-field_type_list` を参照。
+      For more information on field types, see :ref:`data_format-field_type_list`.
 
-      :引数: パディング・トリムの対象となる値 ``必須``
+      :Argument: Value for padding/trim ``required``
 
   * - encoding
-    - 型変換なし
-    - 文字列型フィールドの文字エンコーディングを設定する。
+    - No type conversion
+    - Configure the character encoding for string type field
 
-      特定フィールドのみ共通設定( :ref:`text-encoding <data_format-directive_text_encoding>` )を上書きする場合に設定する。
+      Configure when overwriting the common configuration (:ref:`text-encoding <data_format-directive_text_encoding>`) for only specific fields.
 
-      ``X`` 、 ``N`` 、 ``XN`` フィールドのみに使用することが出来る。
-      それ以外のフィールドタイプに設定した場合は、無視される。
+      Can be used only for ``X``, ``N`` and ``XN`` fields.
+      Ignored if it is configured to any other field type.
 
-      :引数: エンコーディング名(文字列) ``必須``
+      :Argument: Encoding name (string) ``required``
 
 
-  * - リテラル値
-    - 型変換なし
-    - 出力時のデフォルト値を設定する。
+  * - Literal value
+    - No type conversion
+    - Configure the default value for output.
 
-      出力時に、値が未設定であった場合に、指定されたリテラル値を出力する。
+      Outputs the specified literal value if the value was not configured during output.
 
-      入力時には、この設定値は使用しない。
+      This configuration value is not used during input.
 
   * - .. _data_format-number_convertor:
     
       number
     - String <-> BigDecimal
-    - 数字文字列を数値(BigDecimal)に変換する場合に設定する。
+    - Configure when conversion of numeric string to numeric (BigDecimal) is required.
 
-      :入力時: 入力された数字文字列が符号なし数値形式であることをチェックし、\
-               BigDecimal型に変換する。
+      :During input: Checks that the input numeric string is in the unsigned numeric format \
+               and converts it to BigDecimal type.
 
-      :出力時: 出力する値を文字列に変換し、符号なし数値形式であることをチェック後に出力する。
+      :During output: Converts the output value to a string, and then outputs after checking that it is in the unsigned numeric value format.
 
   * - .. _data_format-signed_number_convertor:
       
@@ -923,31 +923,31 @@ JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
 
     - String <-> BigDecimal
 
-    - 符号付きの数字文字列を数値(BigDecimal)に変換する場合に設定する。
+    - Configure when conversion of signed numeric string to numeric (BigDecimal) is required.
 
-      符号が許可される点以外は、 :ref:`numberコンバータ <data_format-number_convertor>` と同じ仕様となる。
+      Expect that signs are allowed, the specification is the same as :ref:`number converter <data_format-number_convertor>`.
 
   * - .. _data_format-replacement_convertor:
       
       replacement
-    - 型変換なし
-    - 入出力とも、置換え対象文字を変換先の文字に置換して返す。
+    - No type conversion
+    - The character is converted to the conversion destination character and returned for both input and output.
 
-      :引数: 置き換えタイプ名 ``任意``
+      :Argument: Replacement type name ``optional``
 
-      詳細は、 :ref:`data_format-replacement` を参照。
+      For details, see :ref:`data_format-replacement`.
 
 
-項目定義の省略について
+Omitting item definitions
 --------------------------------------------------
-フォーマット定義ファイルの項目定義と実際のデータの項目定義が合わない場合の振る舞いについて説明する。
+Describes the behavior when the item definition of the format definition file does not match the item definition of the data.
 
-固定長及び可変長データの場合
-  固定長及び可変長データの場合は、実際のデータとフォーマット定義の項目定義は厳密に一致させる必要がある。
-  このため、アプリケーションで不要となる項目が存在しているような場合でも、フォーマット定義ファイル上には項目を定義する必要がある。
+For fixed-length and variable length data
+  For fixed-length and variable length data, the field definition of the data and the format definition must match exactly.
+  For this reason, an item must be defined in the format definition file even if there are items that are not required by the application.
 
-JSON及びXMLデータの場合
-  JSON及びXMLの場合には、フォーマット定義ファイル上に定義されていない項目は、読み取り対象外となる。
-  このため、実際のデータ上に存在している項目でも、アプリケーションで不要なのであれば項目定義を行わなくてもよい。
+For JSON and XML data
+  In the case of JSON and XML, items that are not defined in the format definition file will not be read.
+  Therefore, item definition is not required for items that are present in the data but are not required by the application.
   
 
