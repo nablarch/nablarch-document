@@ -1,70 +1,70 @@
 .. _universal_dao:
 
-ユニバーサルDAO
+Universal DAO
 =====================================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
    :depth: 3
    :local:
 
-ユニバーサルDAOでは、 `JPA2.0(JSR317) (外部サイト、英語) <https://jcp.org/en/jsr/detail?id=317>`_
-のアノテーションを使った簡易的なO/Rマッパーを提供する。
+Universal DAO provides a simple O/R mapper that
+uses `JPA2.0(JSR317) (external site, English) <https://jcp.org/en/jsr/detail?id=317>`_ annotations.
 
-ユニバーサルDAOの内部では、 :ref:`database` を使用しているので、
-ユニバーサルDAOを使用するには :ref:`database` の設定が必要となる。
-
-.. tip::
- ユニバーサルDAOは、簡易的なO/Rマッパーと位置付けていて、
- すべてのデータベースアクセスをユニバーサルDAOで実現しようとは考えていない。
- ユニバーサルDAOで実現できない場合は、素直に :ref:`database` を使うこと。
-
- 例えば、ユニバーサルDAOでは、主キー以外の条件を指定した更新/削除は行えないので、
- :ref:`database` を使用する必要がある。
+Since Universal DAO uses a :ref:`database`,
+the :ref:`database` must be configured to use Universal DAO.
 
 .. tip::
+ Universal DAO is positioned as a simple O/R mapper
+ and is not intended to realize all database access.
+ Perform :ref:`database` operations directly if it cannot be realized with Universal DAO.
 
-  ユニバーサルDAOは、共通項目(全てのテーブルに定義する登録ユーザや更新ユーザ等)に対する値の自動設定機能は提供しない。
-  共通項目に対する値の自動設定を行いたい場合は、 :ref:`doma_adaptor` を適用し、Domaのエンティティリスナー機能を使用すれば良い。
+ For example, in Universal DAO, update/delete with conditions other than the primary key cannot be performed,
+ so :ref:`database` operations must be performed directly.
 
-  どうしてもユニバーサルDAOを使用したい場合は、ユニバーサルDAOの機能を使用する前にアプリケーションで明示的に共通項目を設定すること。
+.. tip::
+
+  Universal DAO does not provide an automatic configuration function for common items (insert users, update users, etc. defined in all tables).
+  To automatically configure values for common items, apply :ref:`doma_adaptor` and use Doma entity listener function.
+
+  To use Universal DAO in any case, configure the common items explicitly in the application before using the functions of Universal DAO.
 
 .. _universal_dao-spec:
 
-機能概要
+Function overview
 ---------------------------------------------------------------------
 
 .. _universal_dao-execute_crud_sql:
 
-SQLを書かなくても単純なCRUDができる
+Simple CRUD without writing SQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-JPAアノテーションをEntityに付けるだけで、SQLを書かなくても、以下の単純なCRUDができる。
-SQL文は、JPAアノテーションを元に実行時に構築する。
+Just by adding JPA annotation to Entity, a simple CRUD can be created without writing SQL.
+SQL statements are constructed at runtime based on JPA annotations.
 
-* 登録/一括登録
-* 主キーを指定した更新/一括更新
-* 主キーを指定した削除/一括削除
-* 主キーを指定した検索
+* Registration/Batch registration
+* Update/Batch update by specifying the primary key
+* Delete/Batch delete by specifying the primary key
+* Search by specifying the primary key
 
-Entityに使用できるJPAアノテーションについては、 :ref:`universal_dao_jpa_annotations` を参照。
+For JPA annotations that can be used in Entity, see :ref:`universal_dao_jpa_annotations`.
 
 
 .. tip::
-   ユニバーサルDAOの上記CRUD機能では、\ ``@Table``\ アノテーションを使ってスキーマを指定することができる\
-   （ :ref:`universal_dao_jpa_annotations` を参照）。
-   ただし、 :ref:`database` の :ref:`database-replace_schema` 機能は、ユニバーサルDAOの上記CRUD機能では使用できない。\
-   環境毎にスキーマを切り替える用途には、ユニバーサルDAOではなく :ref:`database` を使用すること。
+   In the above CRUD function of Universal DAO, schema can be specified using \ ``@Table``\ annotation \
+   (see :ref:`universal_dao_jpa_annotations`).
+   However, :ref:`database-replace_schema` function of :ref:`database` cannot be used with the above CRUD function of Universal DAO. \
+   Use the :ref:`database` directly instead of Universal DAO for switching the schema for each environment.
    
 .. _universal_dao-bean_mapping:
 
-検索結果をBeanにマッピングできる
+Search results can be mapped to Bean
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-検索では、 :ref:`database` と同様に、SQLファイルを作成し、SQL IDを指定した検索ができる。
-さらに、ユニバーサルDAOでは、検索結果をBean（Entity、Form、DTO）にマッピングして取得できる。
-Beanのプロパティ名とSELECT句の名前が一致する項目をマッピングする。
+In search, as with :ref:`database`, you can create an SQL file and perform a search by specifying the SQL ID.
+In Universal DAO, search results can be obtained by mapping them to Bean (Entity, Form, DTO).
+Map the items whose Bean property name matches the SELECT clause name.
 
-Beanに使用できるデータタイプについては、 :ref:`universal_dao_bean_data_types` を参照。
+For data types that can be used for Bean, see :ref:`universal_dao_bean_data_types`.
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -73,171 +73,171 @@ Beanに使用できるデータタイプについては、 :ref:`universal_dao_b
     <artifactId>nablarch-common-dao</artifactId>
   </dependency>
 
-使用方法
+How to use
 ---------------------------------------------------------------------
 
 .. important::
- ユニバーサルDAOの基本的な使い方は、 :java:extdoc:`nablarch.common.dao.UniversalDao` を参照。
+ See :java:extdoc:`nablarch.common.dao.UniversalDao` for the basic usage of Universal DAO.
 
-ユニバーサルDAOを使うための設定を行う
+Configure settings to use Universal DAO
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ユニバーサルDAOを使うためには、 :ref:`database` の設定に加えて、
-:java:extdoc:`BasicDaoContextFactory <nablarch.common.dao.BasicDaoContextFactory>` の設定をコンポーネント定義に追加する。
+To use universal DAO, add :java:extdoc:`BasicDaoContextFactory <nablarch.common.dao.BasicDaoContextFactory>` configuration
+to component definition in addition to :ref:`database` configuration.
 
 .. code-block:: xml
 
- <!-- コンポーネント名は"daoContextFactory"で設定する。 -->
+ <!-- Configure the component name in "daoContextFactory". -->
  <component name="daoContextFactory" class="nablarch.common.dao.BasicDaoContextFactory" />
 
 .. _universal_dao-sql_file:
 
-任意のSQL(SQLファイル)で検索する
+Search with any SQL (SQL file)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-任意のSQLで検索したい場合は、データベースアクセスの :ref:`database-use_sql_file` と同様に、
-SQLファイルを作成し、SQL IDを指定して検索する。
+To search using SQL, create an SQL file and search by specifying the SQL ID,
+similar to :ref:`database-use_sql_file` of database access.
 
 .. code-block:: java
 
  UniversalDao.findAllBySqlFile(User.class, "FIND_BY_NAME");
 
-SQLファイルは、検索結果をマッピングするBeanから導出する。
-上の例のUser.classがsample.entity.Userの場合、
-SQLファイルのパスは、クラスパス配下のsample/entity/User.sqlとなる。
+SQL file is derived from Bean that maps the search results.
+When User.class in the above example is sample.entity.User,
+the path of the SQL file is sample/entity/User.sql under the class path.
 
-SQL IDに「#」が含まれると、「SQLファイルのパス#SQL ID」と解釈する。
-下の例では、SQLファイルのパスがクラスパス配下のsample/entity/Member.sql、
-SQL IDがFIND_BY_NAMEとなる。
+If "#" is included in the SQL ID, it is interpreted as "SQL file path#SQL ID".
+In the example below, the SQL file path is sample/entity/Member.sql under the class path,
+and the SQL ID is FIND_BY_NAME.
 
 .. code-block:: java
 
  UniversalDao.findAllBySqlFile(GoldUser.class, "sample.entity.Member#FIND_BY_NAME");
 
 .. tip::
- 「#」を含めた指定は、機能単位（Actionハンドラ単位）にSQLを集約したい場合などに使用できる。
- ただし、指定が煩雑になるデメリットがあるため、基本は「#」を付けない指定を使用すること。
+ The specification including "#" can be used when SQL is to be aggregated in function units (action handler units).
+ However, since there is a disadvantage that the specification becomes complicated, basically use the specification without "#".
 
 .. _universal_dao-join:
 
-テーブルをJOINした検索結果を取得する
+Obtain search results using JOIN of tables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-一覧検索などで、複数のテーブルをJOINした結果を取得したい場合がある。
-このような場合は、非効率なため、JOIN対象のデータを個別に検索せずに、
-**1回で検索できるSQL** と **JOINした結果をマッピングするBean** を作成すること。
+Sometimes the result of JOIN of multiple tables in list search is required to be acquired.
+Since it is inefficient in such cases, create **a Bean that maps the SQL that can be searched once and JOIN results**,
+without individually searching the JOIN target data.
 
 .. _universal_dao-lazy_load:
 
-検索結果を遅延ロードする
+Deferred loading of search results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-大量の検索結果を扱う処理では、メモリが足らなくなるため、検索結果をすべてメモリに展開できない。
-以下のようなケースがある。
+The memory becomes insufficient in processes that handle large amounts of search results, and all search results cannot be expanded in the memory.
+Some of the cases are as follows.
 
-* ウェブで大量データをダウンロードする
-* バッチで大量データを処理する
+* Download large amounts of data on the Web
+* Process large amounts of data in batch
 
-そのような場合は、ユニバーサルDAOの遅延ロードを使用する。
-遅延ロードを使用すると、ユニバーサルDAOとしては1件ずつロードするが、
-JDBCのフェッチサイズによってメモリの使用量が変わる。
-フェッチサイズの詳細は、データベースベンダー提供のマニュアルを参照。
+In such cases, use deferred loading of Universal DAO.
+When deferred loading is used, Universal DAO loads the records one by one,
+but the amount of memory used changes depending on the JDBC fetch size.
+For details of the fetch size, refer to the manual provided by the database vendor.
 
-遅延ロードは、検索時に、 :java:extdoc:`UniversalDao#defer <nablarch.common.dao.UniversalDao.defer()>` メソッドを先に呼び出すだけで使用できる。
-遅延ロードでは、内部でサーバサイドカーソルを使用しているので、
-:java:extdoc:`DeferredEntityList#close <nablarch.common.dao.DeferredEntityList.close()>` メソッドを呼び出す必要がある。
+Deferred loading can be used by just calling the :java:extdoc:`UniversalDao#defer <nablarch.common.dao.UniversalDao.defer()>` method first during search.
+since server cursor is used internally,
+:java:extdoc:`DeferredEntityList#close <nablarch.common.dao.DeferredEntityList.close()>` method must be called.
 
 .. code-block:: java
 
- // try-with-resourcesを使ったclose呼び出し。
- // DeferredEntityListはダウンキャストして取得する。
+ // Call close using try-with-resources.
+ // Get DeferredEntityList by downcast.
  try (DeferredEntityList<User> users
          = (DeferredEntityList<User>) UniversalDao.defer()
                                          .findAllBySqlFile(User.class, "FIND_BY_NAME")) {
      for (User user : users) {
-         // userを使った処理
+         // Process using the user
      }
  }
 
 .. _universal_dao-search_with_condition:
 
-条件を指定して検索する
+Searching by specifying the conditions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-検索画面のように、条件を指定した検索をユニバーサルDAOでも提供している。
+Like the search screen, Universal DAO also provides a search with specified conditions.
 
 .. code-block:: java
 
- // 検索条件を取得する
+ // Get the search conditions
  ProjectSearchForm condition = context.getRequestScopedVar("form");
 
- // 条件を指定して検索する
+ // Search by specifying the conditions
  List<Project> projects = UniversalDao.findAllBySqlFile(
      Project.class, "SEARCH_PROJECT", condition);
 
 .. important::
-  検索条件は、Entityではなく検索条件を持つ専用のBeanを指定する。
-  ただし、1つのテーブルのみへのアクセスの場合は、Entityを指定しても良い。
+  For the search condition, specify a dedicated Bean that has the search condition instead of Entity.
+  However, Entity may be specified when accessing only one table.
 
 
-型を変換する
+Convert type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-ユニバーサルDAOでは、 :ref:`@Temporal <universal_dao_jpa_temporal>` を使用して、 ``java.util.Date`` 及び ``java.util.Calendar`` 型の値をデータベースにマッピングする方法を指定することができる。
-他の型については、任意のマッピングは不可能であるため、Entityのプロパティは、データベースの型及び使用するJDBCドライバの仕様に応じた定義を行うこと。
+In Universal DAO, :ref:`@Temporal <universal_dao_jpa_temporal>` can be used to specify how to map ``java.util.Date`` and ``java.util.Calendar`` type values to the database.
+Since arbitrary mapping is not possible for other types, Entity properties must be defined according to the database type and specifications of the JDBC driver to be used.
 
-また、ユニバーサルDAOは、自動生成したSQLをDBに送信する場合はJPAアノテーションの情報を使用するが、任意のSQLをDBに送信する場合はJPAアノテーションの情報は使用しない。
-そのため、型変換については、以下のようになる。
+Though Universal DAO uses JPA annotation information when sending automatically generated SQL to the DB, JPA annotation information is not used when sending arbitrary SQL to the DB.
+Therefore, the type conversion is as follows.
 
-:ref:`Entityから自動的に生成したSQLを実行する場合 <universal_dao-execute_crud_sql>`
-  データベースへの出力時
-    * :ref:`@Temporal <universal_dao_jpa_temporal>` が設定されているプロパティについては、@Temporalに指定された型への変換を行う。
-    * 上記以外については、:ref:`database` に処理を委譲して変換を行う。
+:ref:`When executing SQL automatically generated from the Entity <universal_dao-execute_crud_sql>`
+  During output to a database
+    * For properties configured with :ref:`@Temporal <universal_dao_jpa_temporal>`, converts to the type specified in @Temporal.
+    * For other than above, conversion is performed by delegating the process to the :ref:`database`.
 
-  データベースから取得時
-    * :ref:`@Temporal <universal_dao_jpa_temporal>` が設定されているプロパティについては、@Temporalに指定された型からの変換を行う。
-    * 上記以外はEntityの情報を元に、値が変換される。
+  When fetching from database
+    * For properties configured with :ref:`@Temporal <universal_dao_jpa_temporal>`, converts from the type specified in @Temporal.
+    * For other than the above, values are converted based on Entity information.
 
-:ref:`任意のSQLで検索する場合 <universal_dao-sql_file>`
-  データベースへの出力時
-    * :ref:`database` に処理を委譲して変換を行う。
+:ref:`When searching with an arbitrary SQL <universal_dao-sql_file>`
+  During output to a database
+    * Conversion is performed by delegating the process to the :ref:`database`.
 
-  データベースから取得時
-    * Entityから自動的に生成したSQLを実行する場合と同様の処理を行う。
+  When fetching from database
+    * Perform the same process as when executing SQL automatically generated from the Entity.
 
 
 .. important::
-  データベースの型とプロパティの型が不一致の場合、実行時に型変換エラーが発生する場合がある。
-  また、SQL実行時に暗黙的型変換が行われ、性能劣化(indexが使用されないことに起因する)となる可能性がある。
+  If the database type and property type do not match, a type conversion error may occur during runtime.
+  In addition, implicit type conversion is performed during SQL execution, which may cause performance degradation (caused as index is not used).
 
-  データベースとJavaのデータタイプのマッピングについては、使用するプロダクトに依存するため、
-  JDBCドライバのマニュアルを参照すること。
+  To map between database and Java data type,
+  refer to the JDBC driver manual as it depends on the product used.
 
-  例えば、DBがdate型の場合には、多くのデータベースではプロパティの型は :java:extdoc:`java.sql.Date` となる。
-  また、DBが数値型(integerやbigint、number)などの場合は、プロパティの型は
-  `int` (:java:extdoc:`java.lang.Integer`) や `long` (:java:extdoc:`java.lang.Long`) となる。
+  For example, if the DB is a date type, the property type is :java:extdoc:`java.sql.Date` in many databases.
+  If the DB is a numeric type (integer, bigint, number), the property type will be
+  `int` (:java:extdoc:`java.lang.Integer`) or `long` (:java:extdoc:`java.lang.Long`).
 
 
 .. _universal_dao-paging:
 
-ページングを行う
+Paging
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ユニバーサルDAOの検索は、ページングをサポートしている。
-ページングは、検索時に、 :java:extdoc:`UniversalDao#per <nablarch.common.dao.UniversalDao.per(long)>` メソッド、 :java:extdoc:`UniversalDao#page <nablarch.common.dao.UniversalDao.page(long)>` メソッドを先に呼び出すだけで使用できる。
+Universal DAO Search supports paging.
+First call the :java:extdoc:`UniversalDao#per <nablarch.common.dao.UniversalDao.per(long)>` method and :java:extdoc:`UniversalDao#page <nablarch.common.dao.UniversalDao.page(long)>` method for paging at the time of search.
 
 .. code-block:: java
 
  EntityList<User> users = UniversalDao.per(3).page(1)
                              .findAllBySqlFile(User.class, "FIND_ALL_USERS");
 
-ページングの画面表示に必要な検索結果件数といった情報は、 :java:extdoc:`Pagination <nablarch.common.dao.Pagination>` が保持している。
-:java:extdoc:`Pagination <nablarch.common.dao.Pagination>` は、 :java:extdoc:`EntityList <nablarch.common.dao.EntityList>` から取得できる。
+Information such as the number of search results required for displaying the paging screen is stored in :java:extdoc:`Pagination <nablarch.common.dao.Pagination>`.
+:java:extdoc:`Pagination <nablarch.common.dao.Pagination>` can be obtained from :java:extdoc:`EntityList <nablarch.common.dao.EntityList>`.
 
 .. code-block:: java
 
  Pagination pagination = users.getPagination();
 
 .. tip::
-  ページング用の検索処理は、 :ref:`データベースアクセス(JDBCラッパー)の範囲指定検索機能 <database-paging>` を使用して行う。
+  Search process for paging is performed using :ref:`range specified search function of database access (JDBC wrapper) <database-paging>`.
 
 .. _universal_dao-generate_surrogate_key:
 
-サロゲートキーを採番する
+Numbering the surrogate keys
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. toctree::
   :maxdepth: 1
@@ -245,13 +245,13 @@ JDBCのフェッチサイズによってメモリの使用量が変わる。
 
   generator
 
-サロゲートキーを採番する場合は、以下のアノテーションを使用する。
+When numbering the surrogate keys, use the following annotations.
 
 * :ref:`@GeneratedValue <universal_dao_jpa_generated_value>`
 * :ref:`@SequenceGenerator <universal_dao_jpa_sequence_generator>`
 * :ref:`@TableGenerator <universal_dao_jpa_table_generator>`
 
-ユニバーサルDAOでは、 :java:extdoc:`javax.persistence.GenerationType` のすべてのストラテジをサポートしている。
+Universal DAO supports all strategies of :java:extdoc:`javax.persistence.GenerationType`.
 
 GenerationType.AUTO
  \
@@ -265,10 +265,10 @@ GenerationType.AUTO
       return id;
   }
 
- - データベース機能に設定された :java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` を元に採番方法を選択する。
-   優先順位は、IDENTITY→SEQUENCE→TABLEの順となる。
- - SEQUENCEが選択された場合、シーケンスオブジェクト名は"<テーブル名>_<採番するカラム名>"となる。
- - シーケンスオブジェクト名を指定したい場合は、 :ref:`@SequenceGenerator <universal_dao_jpa_sequence_generator>` で指定する。
+ - Select the numbering method based on :java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` configured in the database function.
+   The priority is in the order IDENTITY → SEQUENCE → TABLE.
+ - If SEQUENCE is selected, the sequence object name will be "<table name>_<column name to be numbered>".
+ - To specify the sequence object name, use :ref:`@SequenceGenerator <universal_dao_jpa_sequence_generator>`.
 
 GenerationType.IDENTITY
  \
@@ -295,8 +295,8 @@ GenerationType.SEQUENCE
       return id;
   }
 
- - シーケンスオブジェクトの名前は :ref:`@SequenceGenerator <universal_dao_jpa_sequence_generator>` で指定する。
- - sequenceName属性を省略した場合、"<テーブル名>_<採番するカラム名>"となる。
+ - Specify the sequence object name with :ref:`@SequenceGenerator <universal_dao_jpa_sequence_generator>`.
+ - If the sequenceName attribute is omitted, it will be "<table name>_<column name to be numbered>".
 
 GenerationType.TABLE
  \
@@ -311,22 +311,22 @@ GenerationType.TABLE
       return id;
   }
 
- - レコードを識別する値は :ref:`@TableGenerator <universal_dao_jpa_table_generator>` で指定する。
- - pkColumnValue属性を省略した場合、"<テーブル名>_<採番するカラム名>"となる。
+ - Specify the value that identifies a record with :ref:`@TableGenerator <universal_dao_jpa_table_generator>`.
+ - If the pkColumnValue attribute is omitted, it will be "<table name>_<column name to be numbered>".
 
 .. tip::
 
-  シーケンス及びテーブルを使用したサロゲートキーの採番処理は、 :ref:`generator` を使用して行う。
-  設定値(テーブルを使用した場合のテーブル名やカラム名の設定など)は、リンク先を参照すること。
+  Numbering process of surrogate key using sequence and table is performed using :ref:`generator`.
+  Refer to the link destination for configuring the value (configuring the table and column names when using a table).
 
 .. _universal_dao-batch_execute:
 
-バッチ実行(一括登録、更新、削除)を行う
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ユニバーサルDAOでは、大量データの一括登録や更新、削除時にバッチ実行ができる。
-バッチ実行を行うことで、アプリケーション稼働サーバとデータベースサーバとのラウンドトリップ回数を削減でき、パフォーマンスの向上が期待できる。
+Perform batch execution (batch registration, update and deletion)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Universal DAO allows batch execution when registering, updating, or deleting large amounts of data.
+By performing batch execution, the number of round trips between the application server and database server can be reduced, and improvement in performance can be expected.
 
-バッチ実行は以下のメソッドを使用する。
+Batch execution uses the following methods.
 
 * :java:extdoc:`batchInsert <nablarch.common.dao.UniversalDao.batchInsert(java.util.List)>`
 * :java:extdoc:`batchUpdate <nablarch.common.dao.UniversalDao.batchUpdate(java.util.List)>`
@@ -334,195 +334,195 @@ GenerationType.TABLE
 
 .. important::
 
-  `batchUpdate` を使用した、一括更新処理では排他制御処理を行わない。
-  もし、更新対象のEntityとデータベースのバージョンが不一致だった場合、そのレコードの更新は行われずに処理が正常終了する。
+  Exclusive control processing is not performed in the batch update processing that uses `batchUpdate`.
+  If the version of the Entity to be updated and the version in the database do not match, the process ends normally without updating the record.
 
-  排他制御が必要となる更新処理では、一括更新ではなく1レコード毎の更新処理を呼び出すこと。
+  If the update processing requires exclusive control, call the update process for each record instead of batch update.
 
 .. _`universal_dao_jpa_optimistic_lock`:
 
-楽観的ロックを行う
+Optimistic locking
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ユニバーサルDAOでは、 :ref:`@Version <universal_dao_jpa_version>`
-が付いているEntityを更新した場合、自動で楽観的ロックを行う。
-楽観的ロックで排他エラーが発生した場合は、 :java:extdoc:`javax.persistence.OptimisticLockException` を送出する。
+Universal DAO automatically performs optimistic locking
+when an Entity with :ref:`@Version <universal_dao_jpa_version>` is updated.
+Throws :java:extdoc:`javax.persistence.OptimisticLockException` if an exclusive error occurs in optimistic locking.
 
 .. important::
- :ref:`@Version <universal_dao_jpa_version>` は数値型のプロパティのみに指定できる。
- 文字列型のプロパティだと正しく動作しない。
+ :ref:`@Version <universal_dao_jpa_version>` can be specified only for numeric type properties.
+ It does not work properly with string type properties.
 
-排他エラー時の画面遷移は、 :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` を使用して行う。
+Screen transition during an exclusive error is performed using :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>`.
 
 .. code-block:: java
 
- // type属性に対象とする例外、path属性に遷移先のパスを指定する。
+ // Specify the target exception in the type attribute and transition destination path in the path attribute.
  @OnError(type = OptimisticLockException.class,
           path = "/WEB-INF/view/common/errorPages/userError.jsp")
  public HttpResponse update(HttpRequest request, ExecutionContext context) {
 
-     UniversalDao.update(user); // 前後の処理は省略。
+     UniversalDao.update(user); // Before and after processing is omitted.
 
  }
 
 .. important::
-  :ref:`universal_dao-batch_execute` に記載があるように、
-  一括更新処理(`batchUpdate`)では楽観的ロックは使用できないので注意すること。
+  Note that optimistic locking cannot be used in batch update process (`batchUpdate`)
+  as described in :ref:`universal_dao-batch_execute`.
 
 .. _`universal_dao_jpa_pessimistic_lock`:
 
-悲観的ロックを行う
+Pessimistic locking
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ユニバーサルDAOでは、悲観的ロックの機能を特に提供していない。
+Universal DAO does not particularly provide the pessimistic locking function.
 
-悲観的ロックは、データベースの行ロック（select for update）を使用することで行う。
-行ロック（select for update）を記載したSQLは、
-:java:extdoc:`UniversalDao#findBySqlFile <nablarch.common.dao.UniversalDao.findBySqlFile(java.lang.Class-java.lang.String-java.lang.Object)>` メソッドを使って実行する。
+Pessimistic locking is done by using the database row locking (select for update).
+SQL with the row lock (select for update) executes using
+the :java:extdoc:`UniversalDao#findBySqlFile <nablarch.common.dao.UniversalDao.findBySqlFile(java.lang.Class-java.lang.String-java.lang.Object)>` method.
 
-排他制御の考え方
+Concept of exclusive control
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-排他制御に使用するバージョンカラムをどのテーブルに定義するかは業務的な観点により決める必要がある。
+It is necessary to decide from a business perspective the table in which the version column used for exclusive control has to be defined.
 
-バージョン番号を持つテーブルは、排他制御を行う単位ごとに定義し、競合が許容される最大の単位で定義する。
-たとえば、「ユーザ」という大きな単位でロックすることが業務的に許容されるならば、ユーザテーブルにバージョン番号を定義する。
-ただし、単位を大きくすると、競合する可能性が高くなり、更新失敗(楽観的ロックの場合)や処理遅延(悲観的ロックの場合)を招く点に注意すること。
+Tables with version numbers are defined for each unit of exclusive control and the largest unit in which conflicts are allowed.
+For example, if business allows locking in a large unit called "user", a version number is defined in the user table.
+However, note that the possibility of conflict increases if the unit is increased, and update failure (in the case of optimistic locking) and processing delay (in the case of pessimistic locking) will occur.
 
 
-データサイズの大きいバイナリデータを登録（更新）する
+Register (update) binary data with a large data size
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-OracleのBLOBのように、データサイズの大きいバイナリデータを登録（更新）したい場合がある。
-ユニバーサルDAOだと、データをすべてメモリに展開しないと登録（更新）できないため、
-データベースが提供する機能を使ってファイルなどから直接登録（更新）すること。
+You may want to register (update) binary data with a large data size, such as BLOB of Oracle.
+In the case of Universal DAO, since registration (update) cannot be performed unless all data is loaded into memory,
+use the functions provided by the database to register (update) directly from a file.
 
-詳細は、 :ref:`database-binary_column` を参照。
+For details, see :ref:`database-binary_column`.
 
-データサイズの大きいテキストデータを登録（更新）する
+Registration (update) of text data with a large data size
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-OracleのCLOBのように、データサイズの大きいテキストデータを登録（更新）したい場合がある。
-ユニバーサルDAOだと、データをすべてメモリに展開しないと登録（更新）できないため、
-データベースが提供する機能を使ってファイルなどから直接登録（更新）すること。
+You may want to register (update) text data with a large data size, such as CLOB of Oracle.
+In the case of Universal DAO, since registration (update) cannot be performed unless all data is loaded into memory,
+use the functions provided by the database to register (update) directly from a file.
 
-詳細は、 :ref:`database-clob_column` を参照。
+For details, see :ref:`database-clob_column`.
 
 .. _universal_dao-transaction:
 
-現在のトランザクションとは異なるトランザクションで実行する
+Execute in a transaction different from the current transaction
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`database` の :ref:`database-new_transaction` と同じことを、ユニバーサルDAOで行う方法を説明する。
+This section explains how to perform the same process as :ref:`database-new_transaction` of :ref:`database`  with universal DAO.
 
-個別トランザクションを使用するには、以下の手順が必要となる。
+The following procedures are required to use individual transactions.
 
-#. コンポーネント設定ファイルに :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を定義する。
-#. :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を使用して、新たなトランザクションでユニバーサルDAOを実行する。
+#. Define :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` in the component configuration file.
+#. Use :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` to execute Universal DAO in a new transaction.
 
-以下に使用例を示す。
+An usage example is shown below.
 
-コンポーネント設定ファイル
-  コンポーネント設定ファイルに :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を定義する。
+Component configuration file
+  Define :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` in the component configuration file.
 
-  * :java:extdoc:`connectionFactory <nablarch.core.db.transaction.SimpleDbTransactionManager.setConnectionFactory(nablarch.core.db.connection.ConnectionFactory)>`
-    プロパティに :java:extdoc:`ConnectionFactory <nablarch.core.db.connection.ConnectionFactory>` 実装クラスを設定する。
-    :java:extdoc:`ConnectionFactory <nablarch.core.db.connection.ConnectionFactory>` 実装クラスの詳細は、 :ref:`database-connect` を参照。
+  * Configure implementation class :java:extdoc:`ConnectionFactory <nablarch.core.db.connection.ConnectionFactory>`
+    to :java:extdoc:`connectionFactory <nablarch.core.db.transaction.SimpleDbTransactionManager.setConnectionFactory(nablarch.core.db.connection.ConnectionFactory)>` property.
+    For details of implementation class :java:extdoc:`ConnectionFactory <nablarch.core.db.connection.ConnectionFactory>`, see :ref:`database-connect`.
 
-  * :java:extdoc:`transactionFactory <nablarch.core.db.transaction.SimpleDbTransactionManager.setTransactionFactory(nablarch.core.transaction.TransactionFactory)>`
-    プロパティに :java:extdoc:`TransactionFactory <nablarch.core.transaction.TransactionFactory>` 実装クラスを設定する。
-    :java:extdoc:`TransactionFactory <nablarch.core.transaction.TransactionFactory>` 実装クラスの詳細は、 :ref:`transaction-database` を参照。
+  * Configure implementation class :java:extdoc:`TransactionFactory <nablarch.core.transaction.TransactionFactory>`
+    to :java:extdoc:`transactionFactory <nablarch.core.db.transaction.SimpleDbTransactionManager.setTransactionFactory(nablarch.core.transaction.TransactionFactory)>` property.
+    For details of implementation :java:extdoc:`TransactionFactory <nablarch.core.transaction.TransactionFactory>`, see :ref:`transaction-database`.
 
   .. code-block:: xml
 
     <component name="find-persons-transaction"
         class="nablarch.core.db.transaction.SimpleDbTransactionManager">
 
-      <!-- connectionFactoryプロパティにConnectionFactory実装クラスを設定する -->
+      <!-- Configure ConnectionFactory implementation class in the connectionFactory property -->
       <property name="connectionFactory" ref="connectionFactory" />
 
-      <!-- transactionFactoryプロパティにTransactionFactory実装クラスを設定する -->
+      <!-- Configure TransactionFactory implementation class in the transactionFactory property -->
       <property name="transactionFactory" ref="transactionFactory" />
 
-      <!-- トランザクションを識別するための名前を設定する -->
+      <!-- Configure a name to identify the transaction -->
       <property name="dbTransactionName" value="update-login-failed-count-transaction" />
 
     </component>
 
-実装例
-  コンポーネント設定ファイルに設定した  :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を使って、ユニバーサルDAOを実行する。
-  なお、 :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を直接使うのではなくトランザクション制御を行う、
-  :java:extdoc:`UniversalDao.Transaction <nablarch.common.dao.UniversalDao.Transaction>` を使用すること。
+Implementation examples
+  Use :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` configured in the component configuration file and execute universal DAO.
+  In addition, instead of using :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` directly,
+  use :java:extdoc:`UniversalDao.Transaction <nablarch.common.dao.UniversalDao.Transaction>` to perform transaction control.
 
-  まず、 :java:extdoc:`UniversalDao.Transaction <nablarch.common.dao.UniversalDao.Transaction>` を継承したクラスを作成する。
+  First, create a class that inherits :java:extdoc:`UniversalDao.Transaction <nablarch.common.dao.UniversalDao.Transaction>`.
 
   .. code-block:: java
 
     private static final class FindPersonsTransaction extends UniversalDao.Transaction {
 
-        // 結果を受け取る入れ物を用意する。
+        // Prepare a container to receive the result.
         private EntityList<Person> persons;
 
         FindPersonsTransaction() {
-            // SimpleDbTransactionManagerをsuper()に指定する。
-            // コンポーネント定義で指定した名前、またはSimpleDbTransactionManagerオブジェクトを指定できる。
-            // この例では、コンポーネント定義で指定した名前を指定している。
+            // Specify SimpleDbTransactionManager as super ().
+            // The name specified in the component definition or the SimpleDbTransactionManager object can be specified.
+            // In this example, the name mentioned in the component definition is specified.
             super("find-persons-transaction");
         }
 
-        // このメソッドが自動的に別のトランザクションで実行される。
-        // 正常に処理が終了した場合はトランザクションがコミットされ、
-        // 例外やエラーが送出された場合には、トランザクションがロールバックされる。
+        //This method is automatically executed in another transaction.
+        // If the process is completed successfully, the transaction is committed.
+        // If an exception or error is thrown, the transaction is rolled back.
         @Override
         protected void execute() {
-            // executeメソッドにUniversalDaoを使った処理を実装する。
+            // Implement the process using UniversalDao in the execute method.
             persons = UniversalDao.findAllBySqlFile(Person.class, "FIND_PERSONS");
         }
 
-        // 結果を返すgetterを用意する。
+        // Prepare getter that returns the result.
         public EntityList<Person> getPersons() {
             return persons;
         }
     }
 
-  そして、 :java:extdoc:`UniversalDao.Transaction <nablarch.common.dao.UniversalDao.Transaction>` を継承したクラスを呼び出す。
+  Then, call the class that inherits :java:extdoc:`UniversalDao.Transaction <nablarch.common.dao.UniversalDao.Transaction>`.
 
   .. code-block:: java
 
-    // 生成すると別のトランザクションで実行される。
+    // Executed in a different transaction after generation.
     FindPersonsTransaction findPersonsTransaction = new FindPersonsTransaction();
 
-    // 結果を取得する。
+    // Acquire the result.
     EntityList<Person> persons = findPersonsTransaction.getPersons();
 
 
-拡張例
+Expansion example
 ---------------------------------------------------------------------
 
-DatabaseMetaDataから情報を取得できない場合に対応する
+Support when information cannot be obtained from DatabaseMetaData
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データベースによっては、シノニムを使用している場合や権限の問題で、
-:java:extdoc:`java.sql.DatabaseMetaData` から主キー情報を取得できない場合がある。
-主キー情報を取得できなくなると、主キーを指定した検索が正しく動作しない。
-そのような場合は、 :java:extdoc:`DatabaseMetaDataExtractor <nablarch.common.dao.DatabaseMetaDataExtractor>` を継承したクラスを作成して対応する。
-主キー情報をどのように取得するかはデータベース依存のため、製品のマニュアルを参照すること。
+Depending on the database, the primary key information cannot be acquired
+from :java:extdoc:`java.sql.DatabaseMetaData` due to the use of synonyms or permission problems.
+If the primary key information cannot be acquired, the search that specifies the primary key does not work properly.
+For such cases, support by creating an inherited class of :java:extdoc:`DatabaseMetaDataExtractor <nablarch.common.dao.DatabaseMetaDataExtractor>`.
+Refer to the product manual as the method to acquire the primary key information depends on the database.
 
-作成したクラスを使用するには、設定が必要となる。
+Configuration is required to use the created class.
 
 .. code-block:: xml
 
  <!--
- sample.dao.CustomDatabaseMetaDataExtractorを作成した場合の設定例
- コンポーネント名は"databaseMetaDataExtractor"で設定する。
+ Configuration example when sample.dao.CustomDatabaseMetaDataExtractor is created
+ Configure the component name as "databaseMetaDataExtractor".
  -->
  <component name="databaseMetaDataExtractor" class="sample.dao.CustomDatabaseMetaDataExtractor" />
 
 .. _`universal_dao_jpa_annotations`:
 
-Entityに使用できるJPAアノテーション
+JPA annotation that can be used for Entity
 ---------------------------------------------------------------------
-Entityに使用できるJPAアノテーションは以下のとおり。
+JPA annotations that can be used for entity are as follows.
 
-* クラスに設定するアノテーション
+* Annotation configured in class
 
   * :ref:`@Entity <universal_dao_jpa_entity>`
   * :ref:`@Table <universal_dao_jpa_table>`
   * :ref:`@Access <universal_dao_jpa_access>`
-* getterまたはフィールドに設定するアノテーション
+* Annotation configured in getter or field
 
   * :ref:`@Column <universal_dao_jpa_column>`
   * :ref:`@Id <universal_dao_jpa_id>`
@@ -533,179 +533,179 @@ Entityに使用できるJPAアノテーションは以下のとおり。
   * :ref:`@TableGenerator <universal_dao_jpa_table_generator>`
 
 .. important::
- ここに記載のないアノテーション及び属性を使用しても機能しない。
+ Using annotations and attributes that are not described here will not work.
 
-フィールドに設定する場合には@Accessで明示的に指定すること。@Accessで明示的に指定した場合のみ、フィールドのアノテーションを参照する。
+When configuring in a field, specify explicitly with @Access. Refers to the field annotation only when explicitly specified with @Access.
 
-フィールドにアノテーションを設定する場合でも、UniversalDaoでは値の取得と設定はプロパティを通して行われるため、getterとsetterは必ず作成すること。
+Even when configuring an annotation in a field, since acquiring and configuring values are performed through properties in UniversalDao, getters and setters must be created.
 
-フィールドとプロパティは名前で紐づいているため、名前が異なるとフィールドのアノテーションをプロパティで参照できなくなる。
-そのためフィールド名と、プロパティ名(get〇〇,set〇〇の〇〇の部分)を必ず同じものにすること。
+Since the field and property are linked by name, if the names are different, the annotation of the field cannot be referenced by the property.
+Therefore, be sure to use the same field and property names (get〇〇, set〇〇).
 
 .. tip::
- 例えば、Lombokのようなボイラープレートコードを生成するライブラリを使用する場合、
- アノテーションをフィールドに設定することでgetterを自分で作成する必要がなくなり、
- ライブラリの利点をより活かすことができる。
+ For example, when using a library that generates boilerplate code such as Lombok,
+ take full advantage of the library as configuring the annotation on the field
+ eliminates the need to create a getter.
 
 .. _`universal_dao_jpa_entity`:
 
 *javax.persistence.Entity*
- データベースのテーブルに対応したEntityクラスに設定するアノテーション。
+ This annotation is configured in the Entity class corresponding to the database table.
 
- 本アノテーションを設定した場合、クラス名からテーブル名が導出される。
- クラス名(パスカルケース)をスネークケース(全て大文字)へ変換した値がテーブル名となる。
+ When this annotation is configured, the table name is derived from the class name.
+ The table name is the value obtained by converting the class name (Pascal case) into the snake case (all uppercase).
 
  .. code-block:: bash
 
-  Bookクラス        -> BOOK
-  BookAuthorクラス  -> BOOK_AUTHOR
+  Book class        -> BOOK
+  BookAuthor class  -> BOOK_AUTHOR
 
  .. tip::
-  クラス名からテーブル名を導出できない場合は、
-  後述の :ref:`@Table <universal_dao_jpa_table>` を用いて明示的にテーブル名を指定すること。
+  If the table name cannot be derived from the class name,
+  specify the table name explicitly using :ref:`@Table <universal_dao_jpa_table>` that is described later.
 
 .. _`universal_dao_jpa_table`:
 
 *javax.persistence.Table*
- テーブル名を指定するために使用するアノテーション。
+ This annotation is used to specify the table name.
 
- name属性に値が指定されている場合、その値がテーブル名として使用される。
- schema属性に値が指定されている場合、指定されたスキーマ名を修飾子として指定してテーブルにアクセスを行う。
- 例えば、schema属性にworkと指定した場合で、テーブル名がusers_workの場合、work.users_workにアクセスを行う。
+ If a value is specified in the name attribute, that value will be used as the table name.
+ If a value is specified in schema attribute, access the table by specifying the specified schema name as a qualifier.
+ For example, when work is specified in the schema attribute and the table name is users_work, work.users_work is accessed.
 
 .. _`universal_dao_jpa_access`:
 
 *javax.persistence.Access*
- アノテーションを設定する場所を指定するために使用するアノテーション。
+ This annotation is used to specify the location to configure the annotation.
 
- 明示的にフィールドに指定した場合のみ、フィールドのアノテーションを参照する。
+ Refers to the field annotation only when explicitly specified in the field.
 
 .. _`universal_dao_jpa_column`:
 
 *javax.persistence.Column*
- カラム名を指定するために使用するアノテーション。
+ This annotation is used to specify the column name.
 
- name属性に値が指定されている場合、その値がカラム名として使用される。
+ If a value is specified in the name attribute, that value will be used as the column name.
 
  .. tip::
-  本アノテーションが設定されていない場合は、プロパティ名からカラム名が導出される。
-  導出方法は、テーブル名の導出方法と同じである。
-  詳細は、 :ref:`@Entity <universal_dao_jpa_entity>` を参照。
+  If this annotation is not set, the column name is derived from the property name.
+  The derivation method is the same as the derivation method used for the table name.
+  For details, see :ref:`@Entity <universal_dao_jpa_entity>`.
 
 .. _`universal_dao_jpa_id`:
 
 *javax.persistence.Id*
- 主キーに設定するアノテーション。
+ This annotation is configured in the primary key.
 
- 複合主キーの場合には、複数のgettterもしくはフィールドに本アノテーションを設定する。
+ In the case of a compound primary key, configure this annotation to multiple getters or fields.
 
 .. _`universal_dao_jpa_version`:
 
 *javax.persistence.Version*
- 排他制御で使用するバージョンカラムに設定するアノテーション。
+ This annotation is configured in the version column used for exclusive control.
 
- 本アノテーションは数値型のプロパティのみに指定できる。
- 文字列型のプロパティだと正しく動作しない。
+ This annotation can be specified only for numeric type properties.
+ It does not work properly with string type properties.
 
- 本アノテーションが設定されている場合、
- 更新処理時にバージョンカラムが条件に自動的に追加され楽観ロックが行われる。
+ When this annotation is set,
+ the version column is automatically added to the condition during update processing, and optimistic locking is performed.
 
  .. tip::
-  本アノテーションは、Entity内に1つだけ指定可能。
+  Only one annotation can be specified in the Entity.
 
 .. _`universal_dao_jpa_temporal`:
 
 *javax.persistence.Temporal*
- *java.util.Date* 及び *java.util.Calendar* 型の値を
- データベースにマッピングする方法を指定するアノテーション。
+ This annotation specifies how to map the values of
+ *java.util.Date* and *java.util.Calendar* types to the database.
 
- value属性に指定されたデータベース型に、Javaオブジェクトの値を変換してデータベースに登録する。
+ Converts the value of the Java object to the database type specified in value attribute and registers it in the database.
 
 .. _`universal_dao_jpa_generated_value`:
 
 *javax.persistence.GeneratedValue*
- 自動採番された値を登録することを示すアノテーション。
+ This annotation indicates that the automatically numbered value is registered.
 
- strategy属性に採番方法を設定する。
- AUTOを設定した場合、以下のルールにて採番方法が選択される。
+ Configures the numbering method to the strategy attribute.
+ When AUTO is configured, the numbering method is selected according to the following rules.
 
- * generator属性に対応するGenerator設定がある場合、そのGeneratorを使用して採番処理を行う。
- * generatorが未設定な場合や、対応するGenerator設定がない場合は、
-   データベース機能に設定された :java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` を元に採番方法を選択する。
-   優先順位は、IDENTITY→SEQUENCE→TABLEの順となる。
+ * If there is a Generator configuration corresponding to the generator attribute, performs the numbering process using that Generator.
+ * If generator is not configured or there is no corresponding Generator configuration,
+   select the numbering method based on :java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` configured in the database function.
+   The priority is in the order IDENTITY → SEQUENCE → TABLE.
 
- generator属性に任意の名前を設定する。
+ Configure an arbitrary name in the generator attribute.
 
  .. tip::
-  :ref:`@GeneratedValue <universal_dao_jpa_generated_value>` を使用して、
-  シーケンス採番のシーケンスオブジェクト名や
-  テーブル採番のレコードを識別する値を取得できない場合は、
-  それぞれの値をテーブル名と自動採番するカラム名から導出する。
+  If :ref:`@GeneratedValue <universal_dao_jpa_generated_value>` cannot be used to
+  acquire the sequence object name for sequence numbering or the value
+  that identifies the record for table numbering,
+  derive each value from the table name and column name to be automatically numbered.
 
   .. code-block:: bash
 
-   テーブル名「USER」、採番するカラム名「ID」  -> USER_ID
+   Table name "USER", Column name to be numbered "ID" -> USER_ID
 
 .. _`universal_dao_jpa_sequence_generator`:
 
 *javax.persistence.SequenceGenerator*
- シーケンス採番を使用する場合に設定するアノテーション。
+ This annotation has to be configured when using sequence numbering.
 
- name属性には、:ref:`@GeneratedValue <universal_dao_jpa_generated_value>`
- のgenerator属性と同じ値を設定する。
+ In the name attribute, configure the same value as the generator attribute of
+ :ref:`@GeneratedValue <universal_dao_jpa_generated_value>`.
 
- sequenceName属性には、データベース上に作成されているシーケンスオブジェクト名を設定する。
+ Configure the sequence object name created in the database to the sequenceName attribute.
 
  .. tip::
-  シーケンス採番は、採番機能を使用して行う。
-  このため、 :ref:`採番用の設定 <generator_dao_setting>` を別途行う必要がある。
+  The numbering function is used to perform sequence numbering.
+  For this reason, :ref:`numbering configuration <generator_dao_setting>` must be performed separately.
 
 .. _`universal_dao_jpa_table_generator`:
 
 *javax.persistence.TableGenerator*
- テーブル採番を使用する場合に設定するアノテーション。
+ This annotation is configured when using table numbering.
 
- name属性には、 :ref:`@GeneratedValue <universal_dao_jpa_generated_value>`
- のgenerator属性と同じ値を設定する。
+ In the name attribute, configure the same value as the generator attribute of
+ :ref:`@GeneratedValue <universal_dao_jpa_generated_value>`.
 
- pkColumnValue属性には、採番テーブルのレコードを識別するための値を設定する。
+ In the pkColumnValue attribute, configure a value to identify the record in the numbering table.
 
  .. tip::
-  テーブル採番は、採番機能を使用して行う。
-  このため、 :ref:`採番用の設定 <generator_dao_setting>` を別途行う必要がある。
+  The numbering function is used to perform table numbering.
+  For this reason, :ref:`numbering configuration <generator_dao_setting>` must be performed separately.
 
 .. _`universal_dao_bean_data_types`:
 
-Beanに使用できるデータタイプ
+Data types that can be used for Bean
 ---------------------------------------------------------------------
-検索結果をマッピングするBeanに使用できるデータタイプは以下のとおり。
+Data types that can be used in Bean, which maps search results, are as follows.
 
 .. important::
- ここに記載のないデータタイプに対して、検索結果をマッピングできない(実行時例外となる)。
+ Search results cannot be mapped to data types not listed here (runtime exception is thrown).
 
 *java.lang.String*
  \
 
 *java.lang.Short*
- プリミティブ型も指定可能。プリミティブ型の場合、 ``null`` は ``0`` として扱う。
+ Primitive types can also be specified. For primitive types, ``null`` is handled as ``0``.
 
 *java.lang.Integer*
- プリミティブ型も指定可能。プリミティブ型の場合、 ``null`` は ``0`` として扱う。
+ Primitive types can also be specified. For primitive types, ``null`` is handled as ``0``.
 
 *java.lang.Long*
- プリミティブ型も指定可能。プリミティブ型の場合、 ``null`` は ``0`` として扱う。
+ Primitive types can also be specified. For primitive types, ``null`` is handled as ``0``.
 
 *java.math.BigDecimal*
  \
 
 *java.lang.Boolean*
- プリミティブ型も指定可能。プリミティブ型の場合、 ``null`` は ``false`` として扱う。
- ラッパー型(Boolean)の場合は、リードメソッド名はgetから開始される必要がある。
- プリミティブ型の場合は、リードメソッド名がisで開始されていても良い。
+ Primitive types can also be specified. For primitive types, ``null`` is handled as ``false``.
+ In the case of wrapper type (Boolean), the read method name must start with get.
+ In the case of a primitive type, the read method name may start with 'is'.
 
 *java.util.Date*
- JPAの :ref:`@Temporal <universal_dao_jpa_temporal>`
- でデータベース上のデータ型を指定する必要がある。
+ The data type has to be specified in the database
+ with :ref:`@Temporal <universal_dao_jpa_temporal>` of JPA.
 
 
 *java.sql.Date*
@@ -715,9 +715,9 @@ Beanに使用できるデータタイプ
  \
 
 *byte[]*
-  BLOBなどのように非常に大きいサイズのデータ型の値は、
-  本機能を用いてデータをヒープ上に展開しないように注意すること。
-  非常に大きいサイズのバイナリデータを扱う場合には、
-  データベースアクセスを直接使用し、Stream経由でデータを参照すること。
+  Be careful not to expand the data in the heap by using this function
+  for the value of data type of very large size such as BLOB.
+  When handling very large binary data,
+  use database access directly and refer to the data through Stream.
 
-  詳細は :ref:`database-binary_column` を参照。
+  For details, see :ref:`database-binary_column`.
