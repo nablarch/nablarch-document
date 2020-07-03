@@ -53,7 +53,7 @@ Exclusive control
 
 Although 2 types of exclusive control are offered,
 :ref:`universal_dao` is recommended
-because of the :ref:` reasons for recommending UniversalDao <exclusive_control-deprecated> .
+because of the :ref:`reasons for recommending UniversalDao <exclusive_control-deprecated>` .
 
 * :ref:`exclusive_control`
 * :ref:`universal_dao`

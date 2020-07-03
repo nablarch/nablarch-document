@@ -47,7 +47,7 @@ Item processor (ItemProcessor class)
     For information about checking input values, see :ref:`checking input values<validation>`.
 
 Item writer (ItemWriter class)
-  Item writer implements the process to output the entity or form,[A1][A2][A3] converted by the item processor, to a database or file.
+  Item writer implements the process to output the entity or form, converted by the item processor, to a database or file.
 
   Item writer is an interface specified by JSR352.
   For this reason, see `JSR352 Specification(external site, English) <https://jcp.org/en/jsr/detail?id=352>`_  for details of the implementation method.
