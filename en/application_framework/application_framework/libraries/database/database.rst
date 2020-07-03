@@ -1,109 +1,103 @@
 .. _database:
 
-データベースアクセス(JDBCラッパー)
+Database Access (JDBC Wrapper)
 =========================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-JDBCを使用してデータベースに対してSQL文を実行する機能を提供する。
+Provides a function to execute the SQL statement for the database using JDBC.
 
 .. tip::
+  As described in :ref:`database_management` , the use of :ref:`universal_dao` is recommended for executing SQL.
 
-  :ref:`database_management` で説明したように、SQLの実行に関しては :ref:`universal_dao` を使用することを推奨する。
-
-  なお、:ref:`universal_dao` 内部では、この機能のAPIを使用してデータベースアクセスを行っているため、
-  この機能を使用するための設定は必ず必要になる。
+  Since :ref:`universal_dao` internally uses the API of this function to access the database, the configuration to use this function is always required.
 
 .. important::
 
-  この機能は、JDBC 3.0に依存しているため、使用するJDBCドライバがJDBC 3.0以上を実装している必要がある。
+  Since this function depends on JDBC 3.0, the JDBC driver used must implement JDBC 3.0 or higher.
 
 
-機能概要
+Function overview
 ----------------------
 
 .. _database-dialect:
 
-データベースの方言を意識することなく利用できる
+Can be used without sensing the database dialect
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-使用するデータベース製品に対応した :java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` を設定することで、
-製品ごとの方言を意識せずにアプリケーションを実装できる。
+By configuring :java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` corresponding to the database product used, the application can be implemented without sensing the dialect.
 
-:java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` は、以下の機能を提供する。
+:java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` provides the following functions:
 
-* identityカラムを使えるか否かを返すメソッド(:java:extdoc:`supportsIdentity <nablarch.core.db.dialect.Dialect.supportsIdentity()>` )
-* identity(自動採番)カラムを持つテーブル対してbatch insertが行えるか否かを返すメソッド(:java:extdoc:`supportsIdentityWithBatchInsert <nablarch.core.db.dialect.Dialect.supportsIdentityWithBatchInsert()>`)
-* シーケンスオブジェクトを使えるか否かを返すメソッド(:java:extdoc:`supportsSequence <nablarch.core.db.dialect.Dialect.supportsSequence()>` )
-* 検索クエリーの範囲指定でoffset（またはoffsetと同等の機能）を使えるか否かを返すメソッド(:java:extdoc:`supportsOffset <nablarch.core.db.dialect.Dialect.supportsOffset()>` )
-* 一意制約違反を表す :java:extdoc:`SQLException <java.sql.SQLException>` か否かを判定するメソッド(:java:extdoc:`isDuplicateException <nablarch.core.db.dialect.Dialect.isDuplicateException(java.sql.SQLException)>` )
-* トランザクションタイムアウト対象の  :java:extdoc:`SQLException <java.sql.SQLException>` か否かを判定するメソッド(:java:extdoc:`isTransactionTimeoutError <nablarch.core.db.dialect.Dialect.isTransactionTimeoutError(java.sql.SQLException)>` )
-* シーケンスオブジェクトから次の値を取得するSQL文生成するメソッド(:java:extdoc:`buildSequenceGeneratorSql <nablarch.core.db.dialect.Dialect.buildSequenceGeneratorSql(java.lang.String)>` )
-* :java:extdoc:`ResultSet <java.sql.ResultSet>` から値を取得する :java:extdoc:`ResultSetConvertor <nablarch.core.db.statement.ResultSetConvertor>` を返すメソッド(:java:extdoc:`getResultSetConvertor <nablarch.core.db.dialect.Dialect.getResultSetConvertor()>` )
-* 検索クエリーを範囲指定（ページング用）SQLに変換するメソッド(:java:extdoc:`convertPaginationSql <nablarch.core.db.dialect.Dialect.convertPaginationSql(java.lang.String-nablarch.core.db.statement.SelectOption)>` )
-* 検索クエリーを件数取得SQLに変換するメソッド(:java:extdoc:`convertCountSql <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String)>` )
-* :java:extdoc:`Connection <java.sql.Connection>` がデータベースに接続されているかチェックを行うSQLを返すメソッド(:java:extdoc:`getPingSql <nablarch.core.db.dialect.Dialect.getPingSql()>` )
+* A method that returns whether the identity column can be used (:java:extdoc:`supportsIdentity <nablarch.core.db.dialect.Dialect.supportsIdentity()>` )
+* A method that returns whether batch insert can be performed on a table that has an identity (automatic numbered) column (:java:extdoc:`supportsIdentityWithBatchInsert <nablarch.core.db.dialect.Dialect.supportsIdentityWithBatchInsert()>`)
+* A method that returns whether the sequence object can be used (:java:extdoc:`supportsSequence <nablarch.core.db.dialect.Dialect.supportsSequence()>` )
+* A method that returns whether offset (or a function equivalent to offset) can be used in the specified range of search query (:java:extdoc:`supportsOffset <nablarch.core.db.dialect.Dialect.supportsOffset()>` )
+* A method to determine whether :java:extdoc:`SQLException <java.sql.SQLException>` that indicates a unique constraint violation has occurred (:java:extdoc:`isDuplicateException <nablarch.core.db.dialect.Dialect.isDuplicateException(java.sql.SQLException)>` )
+* A method to determine whether :java:extdoc:`SQLException <java.sql.SQLException>` of transaction timeout target has occurred (:java:extdoc:`isTransactionTimeoutError <nablarch.core.db.dialect.Dialect.isTransactionTimeoutError(java.sql.SQLException)>` )
+* A method for generating SQL statement to acquire the next value from the sequence object (:java:extdoc:`buildSequenceGeneratorSql <nablarch.core.db.dialect.Dialect.buildSequenceGeneratorSql(java.lang.String)>` )
+* A method that returns :java:extdoc:`ResultSetConvertor <nablarch.core.db.statement.ResultSetConvertor>` , which acquires value from :java:extdoc:`ResultSet <java.sql.ResultSet>` (:java:extdoc:`getResultSetConvertor <nablarch.core.db.dialect.Dialect.getResultSetConvertor()>` )
+* A method to convert search query to range specification (for paging) SQL (:java:extdoc:`convertPaginationSql <nablarch.core.db.dialect.Dialect.convertPaginationSql(java.lang.String-nablarch.core.db.statement.SelectOption)>` )
+* A method for converting search query to the number acquisition SQL (:java:extdoc:`convertCountSql <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String)>` )
+* A method that returns SQL to check if :java:extdoc:`Connection <java.sql.Connection>` is connected to the database (:java:extdoc:`getPingSql <nablarch.core.db.dialect.Dialect.getPingSql()>` )
 
-:java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` の設定方法は、 :ref:`database-use_dialect` を参照。
+See :ref:`database-use_dialect` for how to configure :java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` .
 
 .. _database-sql_file:
 
-SQLはロジックではなくSQLファイルに記述する
+Write SQL in SQL file, not logic
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-SQLはSQLファイルに定義し、原則ロジック内には記述しない。
+SQL is defined in the SQL file and not in the principle logic.
 
-SQLファイルに記述することで、ロジックでSQLの組み立てを行う必要がなく、
-必ず `PreparedStatement` を使用するため、SQLインジェクションの脆弱性が排除できる。
+SQL is not required to be assembled by logic by describing in the SQL file, and since `PreparedStatement` is always used, the vulnerability of SQL injection can be eliminated.
 
 .. tip::
 
-  どうしてもSQLファイルに定義できない場合は、SQLを直接指定して実行するAPIも提供しているので、そちらを使用すること。
-  ただし、安易に使用するとSQLインジェクションの脆弱性が埋め込まれる可能性があるため注意すること。
-  また、SQLインジェクションの脆弱性がないことなど、テストやレビューで担保出来ることが前提となる。
+  If defining in the SQL file is not possible, use the provided API, which specifies and executes the SQL directly.
+  However, be careful, there is a possibility that SQL injection vulnerability may be embedded.
+  It is also assumed testing and review guarantees that there is no SQL injection vulnerability.
 
 
-詳細は、 :ref:`database-use_sql_file` を参照。
+For details, see :ref:`database-use_sql_file` .
 
 .. _database-bean:
 
-Beanのプロパティ値をSQLのバインド変数に埋め込むことができる
+Bean property values can be embedded in SQL bind variables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Beanのプロパティに設定した値を :java:extdoc:`java.sql.PreparedStatement` のINパラメータに自動的にバインドする機能を提供する。
+Provides a function to automatically bind the value configured in Bean property to IN parameter of :java:extdoc:`java.sql.PreparedStatement` .
 
-この機能を使用することで、  :java:extdoc:`java.sql.PreparedStatement` の値設定用メソッドを複数回呼び出す必要がなくなり、
-INパラメータが増減した際のインデクス修正などが不要となる。
+By using this function, it is not necessary to call the method for configuring the value of :java:extdoc:`java.sql.PreparedStatement` multiple times, and it is not necessary to modify the index when the number of IN parameters increases or decreases.
 
-詳細は :ref:`database-input_bean` を参照。
+For details, see :ref:`database-input_bean` .
 
-like検索を容易に実装できる
+like search can be easily implemented
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-like検索に対するescape句の挿入とワイルドカード文字のエスケープ処理を自動で行う機能を提供する。
+Provides a function to automatically insert an escape clause and escape processing of wildcard characters in like search.
 
-詳細は :ref:`database-like_condition` を参照。
+For details, see :ref:`database-like_condition` .
 
 .. _database-variable_condition:
 
-実行時のBeanオブジェクトの状態を元にSQL文を動的に構築できる
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Beanオブジェクトの状態を元に、実行するSQL文を動的に組み立てる機能を提供する。
+SQL statements can be dynamically constructed based on the state of the Bean object during execution
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Provides a function to dynamically assemble the SQL statement to be executed based on the state of the Bean object.
 
-例えば、条件やin句の動的な構築などが行える。
+For example, dynamic construction of conditions and IN clauses can be performed.
 
-詳細は以下を参照。
+See below for details.
 
 * :ref:`database-use_variable_condition`
 * :ref:`database-in_condition`
 * :ref:`database-make_order_by`
 
-SQLのクエリ結果をキャッシュできる
+SQL query results can be cached
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-実行したSQLと外部から取得した条件(バインド変数に設定した値)が等価である場合に、
-データベースにアクセスせずにキャッシュから検索結果を返却する機能を提供する。
+Provides a function to return search results from the cache without accessing the database when the executed SQL and conditions acquired from an external source (value configured in the bind variable) are equivalent.
 
-詳細は、 :ref:`database-use_cache` を参照。
+For details, see :ref:`database-use_cache` .
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -112,74 +106,66 @@ SQLのクエリ結果をキャッシュできる
     <artifactId>nablarch-core-jdbc</artifactId>
   </dependency>
 
-使用方法
+How to use
 --------------------------------------------------
 
 .. _database-connect:
 
-データベースに対する接続設定を行う
+Connection configuration for the database
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データベースに対する接続設定は、以下の2通りから選択することができる。
+The connection configuration for the database can be selected from the following two types.
 
-* :java:extdoc:`javax.sql.DataSource` を使ったデータベース接続の生成
-* アプリケーションサーバなどに登録されたデータソースを使ったデータベース接続の生成
+* Creating a database connection using :java:extdoc:`javax.sql.DataSource`
+* Creating a database connection using a data source registered on an application server.
 
-上記以外の接続方法を使用したい場合(例えばOSSのコネクションプーリングライブラリを使う場合など)は、
-:ref:`database-add_connection_factory` を参照し、データベース接続を行う実装を追加すること。
+To use a connection method other than the above (for example, to use the OSS connection pooling library), refer to :ref:`database-add_connection_factory` and add an implementation that connects to the database.
 
-接続設定例
-  :java:extdoc:`javax.sql.DataSource` からデータベース接続の生成
+Connection configuration example
+  Generate database connection using :java:extdoc:`javax.sql.DataSource`
     .. code-block:: xml
 
       <component class="nablarch.core.db.connection.BasicDbConnectionFactoryForDataSource">
-        <!-- 設定値の詳細はJavadocを参照すること -->
+        <!-- See Javadoc for details of the configuration values -->
       </component>
 
-  アプリケーションサーバのデータソースからデータベース接続の生成
+  Generating a database connection from an application server data source
     .. code-block:: xml
 
       <component class="nablarch.core.db.connection.BasicDbConnectionFactoryForJndi">
-        <!-- 設定値の詳細はJavadocを参照すること -->
+        <!-- See Javadoc for details of the configuration values -->
       </component>
 
-  :java:extdoc:`BasicDbConnectionFactoryForDataSource<nablarch.core.db.connection.BasicDbConnectionFactoryForDataSource>` や
-  :java:extdoc:`BasicDbConnectionFactoryForJndi <nablarch.core.db.connection.BasicDbConnectionFactoryForJndi>` への
-  設定値については、それぞれのクラスのJavadocを参照すること。
+  Refer to Javadoc of each class for the configuration values of :java:extdoc:`BasicDbConnectionFactoryForDataSource<nablarch.core.db.connection.BasicDbConnectionFactoryForDataSource>` and :java:extdoc:`BasicDbConnectionFactoryForJndi <nablarch.core.db.connection.BasicDbConnectionFactoryForJndi>` .
 
 .. tip::
 
-  上記に設定したクラスを直接使用することは基本的にない。
-  データベースアクセスを必要とする場合には、 :ref:`database_connection_management_handler` を使用すること。
+  Basically, the class configured above is not used directly. If database access is required, use :ref:`database_connection_management_handler` .
 
-  なお、データベースを利用する場合はトランザクション管理も必要となる。
-  トランザクション管理については、 :ref:`transaction` を参照。
+  When using a database, transaction management is also required. For transaction management, see :ref:`transaction` .
 
 .. _database-use_dialect:
 
-データベース製品に対応したダイアレクトを使用する
+Use dialects for database products
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データベース製品に対応したダイアレクトをコンポーネント設定ファイルに設定することで、ダイアレクト機能が有効になる。
+The dialect function is enabled by configuring the dialect corresponding to the database product in the component configuration file.
 
 .. tip::
-  設定を行わなかった場合は :java:extdoc:`DefaultDialect <nablarch.core.db.dialect.DefaultDialect>` が利用される。
-  :java:extdoc:`DefaultDialect <nablarch.core.db.dialect.DefaultDialect>` は原則全ての機能が無効化されるので、必ずデータベース製品に対応したダイアレクトを設定すること。
+  If it is not configured, :java:extdoc:`DefaultDialect <nablarch.core.db.dialect.DefaultDialect>` is used. In principle, all functions of :java:extdoc:`DefaultDialect <nablarch.core.db.dialect.DefaultDialect>` are disabled, be sure to configure the dialect corresponding to the database product.
 
-  なお、使用するデータベース製品に対応するダイアレクトが存在しない場合や、
-  新しいバージョンの新機能を使いたい場合には、 :ref:`database-add_dialect` を参照し新しいダイアレクトを作成すること。
+  If a dialect that corresponds to the database product is not available, or to use the new functions of the new version, create a new dialect by referring to :ref:`database-add_dialect` .
 
-コンポーネント設定例
-  この例では、 :java:extdoc:`javax.sql.DataSource` からデータベース接続を取得するコンポーネントへの設定例となる。
-  :java:extdoc:`BasicDbConnectionFactoryForJndi <nablarch.core.db.connection.BasicDbConnectionFactoryForJndi>` の場合も以下の例と同じように
-  :java:extdoc:`dialect <nablarch.core.db.connection.ConnectionFactorySupport.setDialect(nablarch.core.db.dialect.Dialect)>` プロパティにダイアレクトを設定すれば良い。
+
+Component configuration example
+  This is a configuration example for the component that acquires the database connection from :java:extdoc:`javax.sql.DataSource` . Even in the case of :java:extdoc:`BasicDbConnectionFactoryForJndi <nablarch.core.db.connection.BasicDbConnectionFactoryForJndi>` , configure dialect to the :java:extdoc:`dialect <nablarch.core.db.connection.ConnectionFactorySupport.setDialect(nablarch.core.db.dialect.Dialect)>` property as shown in the following example.
 
   .. code-block:: xml
 
     <component class="nablarch.core.db.connection.BasicDbConnectionFactoryForDataSource">
-      <!-- ダイアレクトと関係のないプロパティについては省略 -->
+      <!-- Properties that are not related to dialect are omitted -->
 
       <!--
-      ダイアレクトは、dialectプロパティに設定する。
-      この例では、Oracleデータベース用のダイアレクトを設定している。
+      Dialect is configured in the dialect property.
+      In this example, the dialect for the Oracle database has been configured.
       -->
       <property name="dialect">
         <component class="nablarch.core.db.dialect.OracleDialect" />
@@ -189,34 +175,31 @@ SQLのクエリ結果をキャッシュできる
 
 .. _database-use_sql_file:
 
-SQLをファイルで管理する
+Manage SQL in files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-この機能では、 :ref:`database-sql_file` で説明したように、SQLはSQLファイルで管理する。
-SQLファイルを扱うためには、コンポーネント設定ファイルへの設定が必要となる。
-詳細は、 :ref:`SQLファイルからSQLをロードするための設定 <database-load_sql>` を参照。
+In this function, SQL is managed in the SQL file as described in :ref:`database-sql_file` . To handle SQL files, it is necessary to configure the component configuration file. For details, see :ref:`Configuration for loading SQL from SQL files <database-load_sql>` .
 
-SQLファイルは以下のルールで作成する。
+Create an SQL file according to the following rules.
 
-* クラスパス配下に作成する。
-* 1つのSQLファイルに複数のSQLを記述できるが、SQLIDはファイル内で一意とする。
-* SQLIDとSQLIDとの間には空行を挿入する。(スペースが存在する行は空行とはみなさない)
-* SQLIDとSQLとの間には ``=`` を入れる。
-* コメントは ``--`` で記述する。(ブロックコメントはサポートしない)
-* SQLは改行やスペース(tab)などで整形してもよい。
+* Create the SQL under the class path.
+* Multiple SQL statements can be described in one SQL file, but SQLID must be unique within the file.
+* Insert a blank line between SQLIDs. (Lines with spaces are not considered blank lines)
+* Insert ``=`` between SQLID and SQL.
+* Describe comments with ``--`` . (Block comments are not supported)
+* SQL may be formatted using line breaks and spaces (tabs).
+
 
 .. important::
 
-  SQLを複数機能で流用せずに、かならず機能毎に作成すること。
+  Make sure to create separate SQLs for each function without using same SQL for multiple functions.
 
-  複数機能で流用した場合、意図しない使われ方やSQLが変更されることにより思わぬ不具合が発生する原因となる。
-  例えば、複数機能で使用していたSQL文に排他ロック用の ``for update`` が追加された場合、
-  排他ロックが不要な機能でロックが取得され処理遅延の原因となる。
+  If an SQL is used in multiple functions, unexpected bugs may occur due to unintended usage or changes in SQL. For example, when ``for update`` of exclusive lock is added to the SQL statement used in multiple functions, lock is acquired by a function that does not require exclusive lock causing processing delay.
 
-以下にSQLファイルの例を示す。
+An example of a SQL file is shown below.
 
 .. code-block:: sql
 
-  -- ＸＸＸＸＸ取得SQL
+  -- ＸＸＸＸＸ acquisition SQL
   -- SQL_ID:GET_XXXX_INFO
   GET_XXXX_INFO =
   select
@@ -228,7 +211,7 @@ SQLファイルは以下のルールで作成する。
      col1 = :col1
 
 
-  -- ＸＸＸＸＸ更新SQL
+  -- ＸＸＸＸＸ update SQL
   -- SQL_ID:UPDATE_XXXX
   update_xxxx =
   update
@@ -240,21 +223,19 @@ SQLファイルは以下のルールで作成する。
 
 .. _database-load_sql:
 
-SQLファイルからSQLをロードするための設定
-  SQLファイルからSQLをロードするために必要な設定内容を説明する。
+Configuration for loading SQL from SQL files
+  This section describes the configuration required to load SQL from an SQL file.
 
-  SQLをロードするためには、以下の例のように :java:extdoc:`BasicStatementFactory#sqlLoader <nablarch.core.db.statement.BasicStatementFactory.setSqlLoader(nablarch.core.cache.StaticDataLoader)>`
-  に :java:extdoc:`BasicSqlLoader <nablarch.core.db.statement.BasicSqlLoader>` を設定する。
+  To load SQL, configure :java:extdoc:`BasicSqlLoader <nablarch.core.db.statement.BasicSqlLoader>` in :java:extdoc:`BasicStatementFactory#sqlLoader <nablarch.core.db.statement.BasicStatementFactory.setSqlLoader(nablarch.core.cache.StaticDataLoader)>` .
 
-  この例では、ファイルエンコーディングと拡張子を設定している。設定を省略した場合は以下の設定値となる。
+  In this example, file encoding and extension are configured. When the configuration is omitted, the following values are used.
 
-  :ファイルエンコーディング: utf-8
-  :拡張子: sql
+  :File encoding: utf-8
+  :Extension: sql
 
-  ここで定義した :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` コンポーネントは、 :ref:`database-connect`
-  で定義したデータベース接続を取得するコンポーネントに設定する必要がある。
+  The component :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` defined here must be configured in the component that acquires the database connection defined in :ref:`database-connect` .
 
-  設定例
+  Configuration example
     .. code-block:: xml
 
       <component name="statementFactory" class="nablarch.core.db.statement.BasicStatementFactory">
@@ -268,118 +249,108 @@ SQLファイルからSQLをロードするための設定
 
 .. _database-execute_sqlid:
 
-SQLIDを指定してSQLを実行する
+Execute SQL by specifying SQLID
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-SQLIDを元にSQLを実行するには、 :java:extdoc:`DbConnectionContext <nablarch.core.db.connection.DbConnectionContext>` から取得したデータベース接続を使用する。
-なお、  :java:extdoc:`DbConnectionContext <nablarch.core.db.connection.DbConnectionContext>` には、 :ref:`database_connection_management_handler` でデータベース接続を登録する必要がある。
+To execute SQL based on SQLID, use the database connection obtained from :java:extdoc:`DbConnectionContext <nablarch.core.db.connection.DbConnectionContext>` . A database connection has to be registered in :java:extdoc:`DbConnectionContext <nablarch.core.db.connection.DbConnectionContext>` using :ref:`database_connection_management_handler` .
 
-SQLIDと実際に実行されるSQLとのマッピングルールは以下のとおり。
+The mapping rules between the SQLID and the executed SQL are as follows.
 
-* SQLIDの ``#`` までがSQLファイル名となる。
-* SQLIDの ``#`` 以降がSQLファイル内のSQLIDとなる。
+* Up to ``#`` of SQLID is the SQL file name.
+* After ``#`` of SQLID is the SQLID in the SQL file
 
-実装例
-  この例では、 SQLIDに、 ``jp.co.tis.sample.action.SampleAction#findUser`` と指定しているため、
-  SQLファイルはクラスパス配下の ``jp.co.tis.sample.action.SampleAction.sql`` となる。
-  SQLファイル内のSQLIDは、 ``findUser`` となる。
 
-  * :java:extdoc:`AppDbConnection <nablarch.core.db.connection.AppDbConnection>` や
-    :java:extdoc:`SqlPStatement <nablarch.core.db.statement.SqlPStatement>` の使用方法は、Javadocを参照。
+Implementation examples
+  In this example, since ``jp.co.tis.sample.action.SampleAction#findUser`` is specified in SQLID, the SQL file is ``jp.co.tis.sample.action.SampleAction.sql`` below the class path. SQLID in the SQL file is ``findUser`` .
+
+  * See Javadoc for how to use :java:extdoc:`AppDbConnection <nablarch.core.db.connection.AppDbConnection>` and :java:extdoc:`SqlPStatement <nablarch.core.db.statement.SqlPStatement>` .
 
   .. code-block:: java
 
-    // DbConnectionContextからデータベース接続を取得する。
+    // Get database connection from DbConnectionContext.
     AppDbConnection connection = DbConnectionContext.getConnection();
 
-    // SQLIDを元にステートメントを生成する。
+    // Generate the statement based on SQLID.
     SqlPStatement statement = connection.prepareStatementBySqlId(
         "jp.co.tis.sample.action.SampleAction#findUser");
 
-    // 条件を設定する。
+    // Configure the condition.
     statement.setLong(1, userId);
 
-    // 検索処理を実行する。
+    // Execute the search process.
     SqlResultSet result = statement.retrieve();
 
-ストアードプロシージャを実行する
+Execute a stored procedure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ストアードプロシージャを実行する場合も、基本的にはSQLを実行する場合と同じように実装する。
+Even when executing a stored procedure, basically implement it in the same way as executing a SQL.
 
 .. important::
 
-  ストアードプロシージャの実行では、 :ref:`database-bean` はサポートしない。
-  これは、ストアードプロシージャを使用した場合、ロジックがJavaとストアードプロシージャに分散してしまい、
-  保守性を著しく低下させるため原則使用すべきではないとしているためである。
+  :ref:`database-bean` is not supported in the execution of stored procedure. The logic will be scattered between Java and stored procedures and maintainability will be significantly reduced if stored procedures are used. Therefore stored procedures should not be used in principle.
 
-  ただし、既存の資産などでどうしてもストアードプロシージャを使用しなければならないケースが想定されるため、
-  本機能では非常に簡易的ではあるがストアードプロシージャを実行するためのAPIを提供している。
+  However, since it is assumed that sometimes stored procedures must be used for existing assets, this function provides a very basic API for executing the stored procedure.
 
-以下に例を示す。
+An example is shown below.
 
-* :java:extdoc:`SqlCStatement <nablarch.core.db.statement.SqlCStatement>` の詳細な使用方法は、Javadocを参照すること。
+* For details on how to use :java:extdoc:`SqlCStatement <nablarch.core.db.statement.SqlCStatement>` , refer to the Javadoc.
 
 .. code-block:: java
 
-  // SQLIDを元にストアードプロシージャ実行用のステートメントを生成する。
+  // Generate an execution statement for the stored procedure based on SQLID.
   SqlCStatement statement = connection.prepareCallBySqlId(
       "jp.co.tis.sample.action.SampleAction#execute_sp");
 
-  // IN及びOUTパラメータを設定する。
+  // Configure the IN and OUT parameters.
   statement.registerOutParameter(1, Types.CHAR);
 
-  // 実行する。
+  // Execute.
   statement.execute();
 
-  // OUTパラメータを取得する。
+  // Acquire OUT parameter.
   String result = statement.getString(1);
 
 .. _database-paging:
 
-検索範囲を指定してSQLを実行する
+Execute the SQL by specifying the search scope
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ウェブシステムの一覧検索画面などでは、ページング機能を用いて特定の範囲の結果のみを表示することがある。
-このような用途向けに本機能では、検索結果の範囲を指定できる機能を提供している。
+A specific range of results may be displayed by using a paging function on the list search screen of a Web system. This function provides a function that can specify the range of search results for such applications.
 
-実装例
-  データベース接続( `connection` )からステートメントを生成する際に、検索対象の範囲を指定する。
-  この例では、以下の値を指定しているので、11件目から最大10件のレコードが取得される。
+Implementation examples
+  When generating a statement from a database connection( `connection` ), specify the search target range. In this example, since the following values are specified, up to 10 records are fetched from the 11th record.
 
-  :開始位置: 11
-  :取得件数: 10
+  :Start position: 11
+  :Number of records fetched: 10
 
   .. code-block:: java
 
-    // DbConnectionContextからデータベース接続を取得する
+    // Acquire database connection from DbConnectionContext
     AppDbConnection connection = DbConnectionContext.getConnection();
 
-    // SQLIDと検索範囲を指定してステートメントオブジェクトを生成する。
+    // Generate the statement object by specifying the SQLID and search range.
     SqlPStatement statement = connection.prepareStatementBySqlId(
         "jp.co.tis.sample.action.SampleAction#findUser", new SelectOption(11, 10));
 
-    // 検索処理を実行する
+    // Execute the search process
     SqlResultSet result = statement.retrieve();
 
 .. tip::
-  検索範囲が指定された場合、検索用のSQLを取得範囲指定のSQLに書き換えてから実行を行う。
-  なお、取得範囲指定のSQLは :ref:`ダイアレクト <database-dialect>` により行われる。
+  When the search range is specified, rewrite the search SQL with the SQL specifying the acquisition range and then execute. SQL for specifying the acquisition range is performed by :ref:`dialect <database-dialect>` .
 
 .. _database-input_bean:
 
-Beanオブジェクトを入力としてSQLを実行する
+Execute SQL with Bean object as input
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`database-bean` で説明したように、Beanオブジェクトを入力としてSQLを実行することができる。
+As described in :ref:`database-bean` , SQL can be executed using the Bean object as an input.
 
-Beanオブジェクトを入力としてSQLを実行する場合は、SQLのINパラメータには名前付きバインド変数を用いる。
-名前付きパラメータには、 ``:`` に続けて入力として受け取るBeanのプロパティ名を記述する。
+When executing SQL using the Bean object as an input, use a named bind variable for the IN parameter of SQL. In the named parameter, describe the property name of Bean that is received as input after ``:`` .
 
 .. important::
 
-  INパラメータをJDBC標準の ``?`` で記述した場合、 Beanオブジェクトを入力としたSQLの実行は動作しないので注意すること。
+  Note that if the IN parameter is described in JDBC standard ``?`` , execution of the SQL with Bean object as an input will not work.
 
-以下に実装例を示す。
+An implementation example is shown below.
 
-SQL例
-  INパラメータには名前付きパラメータを使用する。
+SQL example
+  Use named parameters for IN parameters.
 
   .. code-block:: sql
 
@@ -392,90 +363,80 @@ SQL例
       :userName
       )
 
-実装例
-  Beanオブジェクトに必要な値を設定し、Beanオブジェクトを入力としてSQLを実行する機能を呼び出す。
+Implementation examples
+  Set the required value in the Bean object and call the function to execute SQL using the Bean object as an input.
 
-  * :java:extdoc:`AppDbConnection <nablarch.core.db.connection.AppDbConnection>` や :java:extdoc:`ParameterizedSqlPStatement <nablarch.core.db.statement.ParameterizedSqlPStatement>` の使用方法は、Javadocを参照。
-  * SQLIDと実行されるSQLの関係については、 :ref:`database-execute_sqlid` を参照
+  * See Javadoc for how to use :java:extdoc:`AppDbConnection <nablarch.core.db.connection.AppDbConnection>` and :java:extdoc:`ParameterizedSqlPStatement <nablarch.core.db.statement.ParameterizedSqlPStatement>` .
+  * For the relationship between SQLID and the executed SQL, see :ref:`database-execute_sqlid` .
 
   .. code-block:: java
 
-    // beanを生成しプロパティに値を設定
+    // Create a bean and configure a value for the property
     UserEntity entity = new UserEntity();
-    entity.setId(1);              // idプロパティへの値設定
-    entity.setUserName("なまえ"); // userNameプロパティへの値設定
+    entity.setId(1);              // Configure a value to id property
+    entity.setUserName("Name"); // Configure a value to userName property
 
-    // DbConnectionContextからデータベース接続を取得する
+    // Acquire database connection from DbConnectionContext
     AppDbConnection connection = DbConnectionContext.getConnection();
 
-    // SQLIDを元にステートメントを生成する
+    // Generate a statement based on SQLID
     ParameterizedSqlPStatement statement = connection.prepareParameterizedSqlStatementBySqlId(
         "jp.co.tis.sample.action.SampleAction#insertUser");
 
-    // beanのプロパティの値をバインド変数に設定しSQLが実行される
-    // SQLの:idにbeanのidプロパティの値が設定される。
-    // SQLの:userNameには、beanのuserNameプロパティの値が設定される。
+    // Configure the value of bean property to bind variable and execute the SQL
+    // Value of id property of bean is configured in :id of the SQL.
+    // Value of userName property of bean is configured in :userName of SQL.
     int result = statement.executeUpdateByObject(entity);
 
 .. tip::
 
-  Beanの代わりに :java:extdoc:`java.util.Map` の実装クラスも指定できる。
-  Mapを指定した場合は、Mapのキー値と一致するINパラメータに対して、Mapの値が設定される。
+  An implementation class of :java:extdoc:`java.util.Map` can be specified instead of Bean. When Map is specified, Map value is configured for IN parameter that matches the key value of Map.
 
-  なお、Beanを指定した場合は :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用して、Mapに変換後に処理を行う。
-  :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` で対応していない型がBeanのプロパティに存在した場合、そのプロパティについてはこの機能で使用することが出来ない。
+  When Bean is specified, processed after conversion to Map using :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` . If a type not supported by :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` is present in the Bean property, the property cannot be used with this function.
   
-  :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` でMapにコピーできる型を増やしたい場合には、 :ref:`utility-conversion` を参照し対応すること。
+  To increase the types that can be copied to Map with :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` , prepare referring to :ref:`utility-conversion` .
 
 .. tip::
 
-  Beanへのアクセス方法をプロパティからフィールドに変更することができる。
-  フィールドアクセスに変更する場合には、configファイルに以下の設定を追加する。
+  Access method to Bean can be changed from property to field. For changing to field access method, add the following configuration to the config file.
 
   .. code-block:: properties
 
      nablarch.dbAccess.isFieldAccess=true
 
-  なお、フィールドアクセスは以下の理由により推奨しない。
+  Field access is not recommended for the following reasons.
 
-  本フレームワークのその他の機能(例えば :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>`)では、Beanから値を取得する方法はプロパティアクセスで統一されている。
-  データベース機能のみフィールドアクセスに変更した場合、プログラマはフィールドアクセスとプロパティアクセスの両方を意識する必要があり、生産性の低下や不具合の原因ともなる。
+  In other functions of this framework (for example, :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>`), the method of acquiring values from Bean is unified by property access. If only the database function is changed to field access, the programmer needs to be aware of both field access and property access, which may decrease productivity and cause bugs.
 
 
-型を変換する
+Convert type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-データベースアクセス(JDBCラッパー)は、データベースとの入出力に使用する変数の型変換をJDBCドライバに委譲する。
-よって、入出力に使用する変数の型は、データベースの型及び使用するJDBCドライバの仕様に応じた定義を行う必要がある。
+Database access (JDBC wrapper) delegates the type conversion of variables used for input to/output from the database to the JDBC driver. Therefore, it is necessary to define the types of variables used for input and output according to the database type and specifications of the JDBC driver that is used.
 
-任意の型変換が必要な場合は、データベースとの入出力に使用する変数に対して、アプリケーション側で型変換を行うこととなる。
+If an arbitrary type conversion is necessary, the application performs type conversion on the variables used for input to/output from the database.
 
-- 入力にBeanを使用する場合はBeanのプロパティに値を設定する際、出力にBeanを使用する場合はプロパティから値を取り出した後に型変換を行う。
-- 入力にMapを使用する場合はMapに値を設定する際、出力にMapを使用する場合は値を取り出した後に型変換を行う。
-- インデックスを指定してバインド変数を設定する際に、バインド変数に設定するオブジェクトを適切な型に変換する。 :java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` から値を取得する際は、取得後に型変換を行う。
+- When using a Bean for input, configure a value in the property of the Bean, and when using a Bean for output, perform type conversion after extracting the value from the property.
+- When using Map for input, configure the value in Map. When using Map for output, perform type conversion after extracting the value.
+- When configuring a bind variable by specifying an index, convert the object to be configured to the bind variable to an appropriate type. When acquiring a value from :java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` , perform type conversion after the value has been acquired.
 
 
 .. _database-common_bean:
 
-SQL実行時に共通的な値を自動的に設定したい
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データ登録時や更新時に毎回設定する値をSQLの実行直前に自動的に設定する機能を提供する。
-例えば、登録日時や更新日時といった項目に対して、この機能が使用できる。
+Automatically configure a common value when executing SQL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Provides a function to automatically configure the value to be configured each time when registering or updating data, immediately before executing the SQL. For example, this function can be used for items such as registration date and time and update date and time.
 
-この機能は、プロパティに設定されたアノテーションを元に、値の自動設定を行うため、
-:ref:`database-input_bean` を使用した場合のみ有効となる。
+This function is enabled only when :ref:`database-input_bean` is used to automatically configure the value based on the annotation configured in the property.
 
-以下に使用例を示す。
+A usage example is shown below.
 
-コンポーネント設定ファイル
-  この機能を使用するには、コンポーネント設定ファイルに値の自動設定を行うクラスを設定する。
+Component configuration file
+  To use this function, configure a class that performs automatic value configuration in the component configuration file.
 
-  以下の例のように、 :java:extdoc:`BasicStatementFactory#updatePreHookObjectHandlerList <nablarch.core.db.statement.BasicStatementFactory.setUpdatePreHookObjectHandlerList(java.util.List)>` に対して、
-  :java:extdoc:`AutoPropertyHandler <nablarch.core.db.statement.AutoPropertyHandler>` 実装クラスをlistで設定する。
-  なお、標準で提供される実装クラスは :java:extdoc:`nablarch.core.db.statement.autoproperty` パッケージ配下に配置されている。
+  As shown in the following example. configure :java:extdoc:`AutoPropertyHandler <nablarch.core.db.statement.AutoPropertyHandler>` implementation class in a list with respect to :java:extdoc:`BasicStatementFactory#updatePreHookObjectHandlerList <nablarch.core.db.statement.BasicStatementFactory.setUpdatePreHookObjectHandlerList(java.util.List)>` . The implementation class provided as standard is placed under the :java:extdoc:`nablarch.core.db.statement.autoproperty` package.
 
-  ここで定義した :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` コンポーネントは、 :ref:`database-connect`
-  で定義したデータベース接続を取得するコンポーネントに設定すること。
+  The component :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` defined here should be configured in the component that acquires the database connection defined in :ref:`database-connect` .
 
   .. code-block:: xml
 
@@ -484,36 +445,35 @@ SQL実行時に共通的な値を自動的に設定したい
 
       <property name="updatePreHookObjectHandlerList">
         <list>
-          <!-- nablarch.core.db.statement.AutoPropertyHandler実装クラスをlistで設定する-->
+          <!-- Configure the implementation class nablarch.core.db.statement.AutoPropertyHandler in a list-->
         </list>
       </property>
     </component>
 
-Beanオブジェクト(Entity)
-  自動で値を設定したいプロパティにアノテーションを設定する。
-  なお、標準で提供されるアノテーションは :java:extdoc:`nablarch.core.db.statement.autoproperty` パッケージ配下に配置されている。
+Bean object (Entity)
+  Configure the annotation to the property for which the value has to be configured automatically. The annotation provided as standard is placed under the :java:extdoc:`nablarch.core.db.statement.autoproperty` package.
 
   .. code-block:: java
 
     public class UserEntity {
-      // ユーザID
+      // User ID
       private String id;
 
-      // 登録日時
-      // 登録時に自動設定される
+      // Registration date and time
+      // Automatically configured when registering/updating
       @CurrentDateTime
       private Timestamp createdAt;
 
-      // 更新日時
-      // 登録・更新時に自動設定される
+      // Update date and time
+      // Automatically configured during registration/update
       @CurrentDateTime
       private String updatedAt;
 
-      // アクセスメソッドなどは省略
+      // Access method, etc. are omitted
     }
 
 SQL
-  SQLは、 :ref:`database-input_bean` と同じように作成する。
+  SQL is created in the same way as :ref:`database-input_bean` .
 
   .. code-block:: sql
 
@@ -527,56 +487,54 @@ SQL
       :updatedAt
     )
 
-実装例
-  基本的には、 :ref:`database-input_bean` と同じように実装する。
-  値が自動設定される項目については、ロジックでBeanに対して値を設定する必要が無い。
-  なお、値を明示的に設定したとしても、SQL実行直前に値の自動設定機能により上書きされる。
+Implementation examples
+  Implementation is the same as :ref:`database-input_bean` . For items whose values are automatically configured, there is no need to configure values for Beans with logic. Even if the value is explicitly configured, it is overwritten by the automatic value configuration function immediately before the SQL is executed.
 
   .. code-block:: java
 
-    // beanを生成しプロパティに値を設定
-    // 自動設定項目であるcreatedAtとupdatedAtには値を設定する必要はない
+    // Create a bean and configure a value for the property
+    // Values are not required to be configured for createdAt and updatedAt which are automatically configured
     UserEntity entity = new UserEntity();
     entity.setId(1);
 
-    // DbConnectionContextからデータベース接続を取得する
+    // Acquire database connection from DbConnectionContext
     AppDbConnection connection = DbConnectionContext.getConnection();
 
-    // SQLIDを元にステートメントを生成する
+    // Generate a statement based on SQLID
     ParameterizedSqlPStatement statement = connection.prepareParameterizedSqlStatementBySqlId(
         "jp.co.tis.sample.action.SampleAction#insertUser");
 
-    // 自動設定項目に値を設定せずに呼び出す。
-    // データベース機能が自動的に値を設定する。
+    // Call without configuring the value for the automatically configured items.
+    // The database function automatically configures the values.
     int result = statement.executeUpdateByObject(entity);
 
 .. _database-like_condition:
 
-like検索を行う
+Perform a like search
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-like検索は、 :ref:`database-input_bean` を使用し、SQLにはlike検索用の条件を以下のルールで記述する。
+Like search uses :ref:`database-input_bean` , and conditions for like search are described in the SQL according to the following rules.
 
-前方一致の場合
-  名前付きパラメータの末尾に ``%`` を記述する。
+In the case of prefix match
+  Enter ``%`` at the end of the named parameter.
 
-  例: ``name like :userName%``
+  Example: ``name like :userName%``
 
-後方一致の場合
-  名前付きパラメータの先頭に ``%`` を記述する。
+In the case of suffix match
+  Enter ``%`` at the beginning of the named parameter.
 
-  例: ``name like :%userName``
+  Example:  ``name like :%userName``
 
-途中一致の場合
-  名前付きパラメータの前後に ``%`` を記述する。
+In the case of middle match
+  Enter ``%`` before and after the named parameter.
 
-  例: ``name like :%userName%``
+  Example: ``name like :%userName%``
 
-like検索時のエスケープ文字及びエスケープ対象文字の定義は、 :ref:`database-def_escape_char` を参照。
+See :ref:`database-def_escape_char` for the definition of escape character and escape target character.
 
-以下に実装例を示す。
+An implementation example is shown below.
 
 SQL
-  上記のルールに従いSQLを定義する。
+  Define SQL according to the above rules.
 
   .. code-block:: sql
 
@@ -584,91 +542,86 @@ SQL
       from user
      where name like :userName%
 
-実装例
-  :ref:`database-input_bean` と同じようにSQLを実行するだけで、like条件用に値の書き換えやエスケープ処理が行われる。
-  この例の場合、実際の条件は ``name like 'な%' escape '\'`` となる。
+Implementation examples
+  Just by executing the SQL in the same way as :ref:`database-input_bean` , value rewriting and escape processing are performed for like conditions. In this case, the actual condition is ``name like 'Na%' escape'\'`` .
 
-  * :java:extdoc:`AppDbConnection <nablarch.core.db.connection.AppDbConnection>` や :java:extdoc:`ParameterizedSqlPStatement <nablarch.core.db.statement.ParameterizedSqlPStatement>` の使用方法は、Javadocを参照。
-  * SQLIDと実行されるSQLの関係については、 :ref:`database-execute_sqlid` を参照
+  * See Javadoc for how to use :java:extdoc:`AppDbConnection <nablarch.core.db.connection.AppDbConnection>` and :java:extdoc:`ParameterizedSqlPStatement <nablarch.core.db.statement.ParameterizedSqlPStatement>` .
+  * For the relationship between SQLID and the executed SQL, see :ref:`database-execute_sqlid`
 
   .. code-block:: java
 
-    // beanを生成しプロパティに値を設定
+    // Create a bean and configure a value for the property
     UserEntity entity = new UserEntity();
-    entity.setUserName("な"); // userNameプロパティへの値設定
+    entity.setUserName("Na"); // Configure a value to userName property
 
-    // DbConnectionContextからデータベース接続を取得する
+    // Acquire database connection from DbConnectionContext
     AppDbConnection connection = DbConnectionContext.getConnection();
 
-    // SQLIDを元にステートメントを生成する
+    // Generate a statement based on SQLID
     ParameterizedSqlPStatement statement = connection.prepareParameterizedSqlStatementBySqlId(
         "jp.co.tis.sample.action.SampleAction#findUserByName");
 
-    // beanのプロパティ値をバインド変数に設定しSQLが実行される
-    // この例の場合、name like 'な%' が実行される
+    // Configure bean property value to bind variable and execute the SQL
+    // In this example, name like 'Na%' is executed
     int result = statement.retrieve(bean);
 
 
 .. _database-def_escape_char:
 
-like検索時のエスケープ文字及びエスケープ対象文字を定義する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-エスケープ文字及びエスケープ対象文字の定義は、コンポーネント設定ファイルに行う。
-なお、エスケープ文字は自動的対象にエスケープとなるため、明示的にエスケープ対象文字に設定する必要はない。
+Define escape character and escape target characters during like search
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Escape character and escape target characters are defined in the component configuration file. Since the escape character is automatically configured, it is not necessary to explicitly configure the escape characters.
 
-設定を省略した場合は、以下の値を使用する。
+When the configuration is omitted, the following values are used.
 
-:エスケープ文字: ``\``
-:エスケープ対象文字: ``%`` 、 ``_``
+:Escape character: ``\``
+:Escape target characters: ``%`` 、 ``_``
 
-コンポーネント設定例
-  この例ではエスケープ文字に ``\`` を設定し、エスケープ文字には ``%`` 、 ``％`` 、 ``_`` 、 ``＿`` の4文字を設定している。
+Component configuration example
+  In this example, ``\`` is configured as the escape character, and 4 characters ``%`` , ``％`` , ``_`` , ``＿`` are configured as the escape target characters.
 
-  ここで定義した :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` コンポーネントは、 :ref:`database-connect`
-  で定義したデータベース接続を取得するコンポーネントに設定すること。
+  The component :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` defined here should be configured in the component that acquires the database connection defined in :ref:`database-connect` .
 
   .. code-block:: xml
 
     <component name="statementFactory" class="nablarch.core.db.statement.BasicStatementFactory">
-      <!-- エスケープ文字の定義 -->
+      <!-- Escape character definition -->
       <property name="likeEscapeChar" value="\" />
 
-      <!-- エスケープ対象文字の定義(カンマ区切りで設定する) -->
+      <!-- Escape target character definition (configured separated with commas) -->
       <property name="likeEscapeTargetCharList" value="%,％,_,＿" />
     </component>
 
 .. _database-use_variable_condition:
 
-可変条件を持つSQLを実行する
+Execute SQL with variable conditions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-可変条件を持つSQLの実行は、 :ref:`database-input_bean` を使用し、以下の記法を用いて条件を記述する。
+To execute SQL with variable conditions, use :ref:`database-input_bean` and describe the conditions using the following notation.
 
-可変条件の記述ルール
-  可変条件は、 ``$if(プロパティ名) {SQL文の条件}`` で記述する。
-  ``$if`` の後のプロパティ名に対応したBeanオブジェクトの値により、その条件が除外される。
-  除外される条件は以下のとおり。
+Description rules for variable conditions
+  Variable condition is described with ``$if(property name){SQL statement condition}`` The condition is excluded by the value of Bean object corresponding to the property name after ``$if`` . Excluded conditions are as follows.
 
-  * 配列や :java:extdoc:`java.util.Collection` の場合は、プロパティ値がnullやサイズ0の場合
-  * 上記以外の型の場合は、プロパティ値がnullや空文字列(Stringオブジェクトの場合)
+  * For an array or :java:extdoc:`java.util.Collection` , if the property value is null or size is 0
+  * For types other than the above, the property value is null or empty string (in case of string object)
 
-  なお、 ``$if`` 特殊構文には以下の制約がある。
+  The ``$if`` special syntax has the following restrictions.
 
-  * 利用できる箇所はwhere句のみ
-  * ``$if`` 内に ``$if`` を使用することはできない
+  * Only the where clause can be used
+  * ``$if`` cannot be used within ``$if``
 
   .. important::
 
-    この機能は、ウェブアプリケーションの検索画面のようにユーザの入力内容によって検索条件が変わるような場合に使うものである。
-    条件だけが異なる複数のSQLを共通化するために使用するものではない。
-    安易に共通化した場合、SQLを変更した場合に思わぬ不具合を埋め込む原因にもなるため、必ずSQLを複数定義すること。
+    This function is used when the search conditions change depending on the input contents of the user, such as the search screen of a Web application.
+    It is not used to standardize multiple SQLs that differ only in conditions.
+    If standardized, since the function may cause unexpected bugs when SQL is changed, be sure to define multiple SQL.
 
 
-以下に例を示す。
+An example is shown below.
 
 SQL
-  このSQLの場合、 ``user_name`` と ``user_kbn`` の条件が可変となる。
+  For this SQL, ``user_name`` and ``user_kbn`` conditions are variables.
 
-  .. code-block:: sql
+  .. code-block:: none
 
     select
       user_id,
@@ -681,54 +634,48 @@ SQL
       and $if (userKbn) {user_kbn in ('1', '2')}
       and birthday = :birthday
 
-実装例
-  `userName` プロパティのみに値が設定されているので、
-  可変条件で定義されている ``user_kbn`` は実行時の条件から除外される。
+Implementation examples
+  Since the value is set only for `userName` property, ``user_kbn`` defined in the variable condition is excluded from the condition during execution.
 
   .. code-block:: java
 
-    // beanを生成しプロパティに値を設定
+    // Create a bean and configure a value for the property
     UserEntity entity = new UserEntity();
-    entity.setUserName("なまえ");
+    entity.setUserName("Name");
 
-    // DbConnectionContextからデータベース接続を取得する
+    // Acquire database connection from DbConnectionContext
     AppDbConnection connection = DbConnectionContext.getConnection();
 
-    // SQLIDを元にステートメントを生成する
-    // 2番めの引数には、条件を持つBeanオブジェクトを指定する。
-    // このBeanオブジェクトの状態を元にSQLの可変条件の組み立てが行われる。
+    // Generate a statement based on SQLID
+    // Specify a Bean object with a condition in the second argument.
+    // SQL variable conditions are assembled based on the state of this Bean object.
     ParameterizedSqlPStatement statement = connection.prepareParameterizedSqlStatementBySqlId(
         "jp.co.tis.sample.action.SampleAction#insertUser", entity);
 
-    // entityのプロパティの値をバインド変数に設定しSQLが実行される
+    // SQL is executed by configuring the value of the entity property to the bind variable
     SqlResultSet result = statement.retrieve(entity);
 
 .. _database-in_condition:
 
-in句の条件数が可変となるSQLを実行する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-in句の条件数が可変となるSQLの実行は、 :ref:`database-input_bean` を使用し、以下の記法を用いて条件を記述する。
+Executing SQL with variable number of conditions for in clause
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To execute SQL with condition count of the in clause as variable, use :ref:`database-input_bean` and describe the conditions using the following notation.
 
-in句の記述ルール
-  条件の名前付きパラメータの末尾に ``[]`` を付加する。
-  また名前付きパラメータに対応するBeanオブジェクトのプロパティの型は、
-  配列か :java:extdoc:`java.util.Collection` (サブタイプ含む) [#collection]_ とする必要がある。
+Description rules of in clause
+  Add ``[]`` at the end of the named parameter of the condition. The property type of Bean object corresponding to the named parameter must be an array or :java:extdoc:`java.util.Collection` (including subtype) [#collection]_ .
 
   .. tip::
 
-    in句の条件となるプロパティ値がnullやサイズ0となる場合には、該当条件は必ず可変条件として定義すること。
-    もし、可変条件としなかった場合でプロパティ値がnullの場合、条件が ``xxxx in (null)`` となるため、
-    検索結果が正しく取得できない可能性がある。
+    If the property value, that is the condition of the IN clause, is null or size 0, be sure to define the corresponding condition as a variable condition. If the property value is null when the condition is not configured as a variable condition, since the condition will be ``xxxx in (null)`` , the search result may not be acquired correctly.
 
-    ※in句は、条件式(カッコの中)を空にすることはできないため、サイズ0の配列やnullが指定された場合には、条件式を ``in (null)`` とする仕様としている。
+    \* In the in clause, since the conditional expression (in parentheses) cannot be empty, the conditional expression is specified as ``in (null)`` if an array of size 0 or null is specified.
 
-以下に例を示す。
+An example is shown below.
 
 SQL
-  このSQLでは、 ``user_kbn`` のin条件が動的に構築される。
-  なお、 ``$if`` と併用しているため、 `userKbn` プロパティがnullやサイズが0の場合には条件から除外される。
+  In this SQL, the in condition of ``user_kbn`` is dynamically constructed. Since it is used together with ``$if``, if the `userKbn` property is null or the size is 0, it is excluded from the condition.
 
-  .. code-block:: sql
+  .. code-block:: none
 
     select
       user_id,
@@ -739,68 +686,65 @@ SQL
     where
       $if (userKbn) {user_kbn in (:userKbn[])}
 
-実行例
-  この例では、 `userKbn` プロパティに2つの要素が設定されているので、
-  実行されるSQLの条件は ``userKbn in (?, ?)`` となる。
+Execution example
+  In this example, since two elements are configured in `userKbn` property, the condition of the executed SQL is ``userKbn in (?, ?)`` .
 
-  データベースから取得されるのは、 `userKbn` が ``1`` と ``3`` のレコードとなる。
+  Only records with `userKbn` ``1`` and ``3`` are acquired from the database.
 
   .. code-block:: java
 
-    // beanを生成しプロパティに値を設定
+    // Create a bean and configure a value for the property
     UserSearchCondition condition = new UserSearchCondition();
     condition.setUserKbn(Arrays.asList("1", "3"));
 
-    // DbConnectionContextからデータベース接続を取得する
+    // Acquire database connection from DbConnectionContext
     AppDbConnection connection = DbConnectionContext.getConnection();
 
-    // SQLIDを元にステートメントを生成する
-    // 2番めの引数には、条件を持つBeanオブジェクトを指定する。
-    // このBeanオブジェクトの状態を元にSQLのin句の組み立てが行われる。
+    // Generate a statement based on SQLID
+    // Specify a Bean object with a condition in the second argument.
+    // in clause of SQL is assembled based on the state of this Bean object.
     ParameterizedSqlPStatement statement = connection.prepareParameterizedSqlStatementBySqlId(
         "jp.co.tis.sample.action.SampleAction#searchUser", condition);
 
-    // conditionのプロパティの値をバインド変数に設定しSQLが実行される
+    // SQL is executed by configuring the value of the condition property to the bind variable
     SqlResultSet result = statement.retrieve(condition);
     
 .. [#collection] 
-    :ref:`database-input_bean` に記載がある通り、プロパティの値は :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用してMapに変換してから使用する。
-    このため、 :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` でサポートされていない型でプロパティが宣言されていた場合、
-    in句に条件を設定できないため注意すること。
-    
-    なお、 :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` で変換対象の型を追加する方法は、
-    :ref:`utility-conversion-add-rule` を参照。
+    As described in :ref:`database-input_bean` , use the property value after converting it to map with :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` . Therefore, note that if a property is declared with a type that is not supported by :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` , the condition cannot be configured in the in clause.
+
+    For the method of adding the conversion target type with :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` , :ref:`utility-conversion-add-rule` .
 
 .. _database-make_order_by:
 
-order byのソート項目を実行時に動的に切り替えてSQLを実行する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-order byのソート項目が可変となるSQLの実行は、 :ref:`database-input_bean` を使用し、以下の記法を用いて条件を記述する。
+Execute SQL by dynamically switching sort items of order by during runtime
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To execute SQL with sort item of order by as variable, use :ref:`database-input_bean` and describe the conditions using the following notation.
 
-order by句の記述ルール
-  ソート項目を可変にする場合は、order by句の代わりに ``$sort`` を使用し、以下のように記述する。
+Description rules of order by clause
+  To make the sort item a variable, use ``$sort`` instead of order by clause and describe as follows.
 
   .. code-block:: text
 
-     $sort(プロパティ名) {(ケース1)(ケース2)・・・(ケースn)}
+     $sort (property name) {(case 1) (case 2) ・ ・ ・ (case n)}
 
-     プロパティ名: BeanオブジェクトのソートIDを保持するプロパティ名
-     ケース: order by句の切り替え候補を表す。
-             候補を一意に識別するソートIDとorder by句に指定する文字列(以降はケース本体と称す)を記述する。
-             どの候補にも一致しない場合に使用するデフォルトのケースには、ソートIDに"default"を指定する。
+     Property name: Property name that holds the sort ID of Bean object
+     Case: Represents the switching candidate for the order by clause.
+             Describe the sort ID that uniquely identifies the candidate and string specified in the order by clause (hereinafter referred to as the case body).
+             Specify "default" as the sort ID for the default case when no match is found to any candidate.
 
-  * 各ケースは、ソートIDとケース本体を半角丸括弧で囲んで表現する。
-  * ソートIDとケース本体は、半角スペースで区切る。
-  * ソートIDには半角スペースを使用不可とする。
-  * ケース本体には半角スペースを使用できる。
-  * 括弧開き以降で最初に登場する文字列をソートIDとする。
-  * ソートID以降で括弧閉じまでの間をケース本体とする。
-  * ソートIDおよびケース本体はトリミングする。
+  * Each case is represented by enclosing the sort ID and case body in single-byte parentheses.
+  * Sort ID and case body are separated by a half-width space.
+  * Half-width spaces cannot be used for the sort ID.
+  * A half-width space can be used for the case body.
+  * The first string that appears after the opening parentheses is the sort ID.
+  * After the sort ID and before the closing parentheses is the case body.
+  * The sort ID and case body are trimmed.
 
-以下に使用例を示す。
+
+A usage example is shown below.
 
 SQL
-  .. code-block:: sql
+  .. code-block:: none
 
     select
       user_id,
@@ -816,39 +760,38 @@ SQL
       (name_desc    user_name desc)
       (default      user_id)
 
-実装例
-  この例では、ソートIDに ``name_asc`` を設定しているので、
-  order by句は ``order by user_name asc`` となる。
+Implementation examples
+  In this example, since ``name_asc`` is configured in the sort ID, the order by clause becomes ``order by user_name asc`` .
 
   .. code-block:: java
 
-    // beanを生成しプロパティに値を設定
+    // Create a bean and configure a value for the property
     UserSearchCondition condition = new UserSearchCondition();
-    condition.setUserName("なまえ");
-    condition.setSortId("name_asc");      // ソートIDを設定する
+    condition.setUserName("Name");
+    condition.setSortId("name_asc");      // Configure the sort ID
 
-    // DbConnectionContextからデータベース接続を取得する
+    // Acquire database connection from DbConnectionContext
     AppDbConnection connection = DbConnectionContext.getConnection();
 
-    // SQLIDを元にステートメントを生成する
-    // 2番めの引数には、条件を持つBeanオブジェクトを指定する。
-    // このBeanオブジェクトの状態を元にSQLのorder by句の組み立てが行われる。
+    // Generate a statement based on SQLID
+    // Specify a Bean object with a condition in the second argument.
+    // order by clause of SQL is assembled based on the state of this Bean object.
     ParameterizedSqlPStatement statement = connection.prepareParameterizedSqlStatementBySqlId(
         "jp.co.tis.sample.action.SampleAction#searchUser", condition);
 
-    // conditionのプロパティの値をバインド変数に設定しSQLが実行される
+    // SQL is executed by configuring the value of the condition property to the bind variable
     SqlResultSet result = statement.retrieve(condition);
 
 .. _database-binary_column:
 
-バイナリ型のカラムにアクセスする
+Accessing columns of binary type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-blob(データベース製品によりバイナリ型の型は異なる)などのバイナリ型のカラムへのアクセス方法について説明する。
+This section describes how to access binary type columns such as blob (binary type differs depending on the database product).
 
-バイナリ型の値を取得する
-  バイナリ型の値を取得する場合には、検索結果オブジェクトの :java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` から `byte[]` として値を取得する。
+Obtain the value of binary type
+  When acquiring a binary value, acquire the value as `byte[]` from :java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` of the search result object.
 
-  以下に例を示す。
+  An example is shown below.
 
   .. code-block:: java
 
@@ -856,30 +799,29 @@ blob(データベース製品によりバイナリ型の型は異なる)など�
 
     SqlRow row = rows.get(0);
 
-    // 暗号化されたカラムの値をgetBytesを使ってバイナリで取得する
+    // Acquire the value of the encrypted column in binary using getBytes
     byte[] encryptedPassword = row.getBytes("password");
 
   .. important::
 
-    上記実装例の場合、カラムの内容が全てJavaのヒープ上に展開される。
-    このため、非常に大きいサイズのデータを読み込んだ場合、ヒープ領域を圧迫し、システムダウンなどの障害の原因となる。
+    In the case of the above implementation example, all the contents of the column are deployed on the Java heap. Therefore, when data of a very large size is read, it squeezes the heap area, causing failures such as system down.
 
-    このため、大量データを読み込む場合には、以下のように :java:extdoc:`Blob <java.sql.Blob>` オブジェクトを使用して、ヒープを大量に消費しないようにすること。
+    Therefore, when reading a large amount of data, use the :java:extdoc:`Blob <java.sql.Blob>` object as shown below to avoid consuming a large amount of heap.
 
     .. code-block:: java
 
       SqlResultSet rows = select.retrieve();
 
-      // Blogとしてデータを取得する
+      // Acquire the data as Blob
       Blob pdf = (Blob) rows.get(0).get("PDF");
 
       try (InputStream input = pdf.getBinaryStream()) {
-        // InputStreamからデータを順次読み込み処理を行う。
-        // 一括で読み込んだ場合、全てヒープに展開されるので注意すること
+        // Read the data sequentially from InputStream.
+        // Note that if read all at once, everything will be loaded into the heap
       }
 
-バイナリ型の値を登録・更新する
-  サイズの小さいバイナリ値を登録・更新する場合は、 :java:extdoc:`SqlPStatement#setByte <nablarch.core.db.statement.SqlPStatement.setBytes(int-byte:A)>` を使用する。
+Register/update binary value
+  To register/update a small binary value, use :java:extdoc:`SqlPStatement#setByte <nablarch.core.db.statement.SqlPStatement.setBytes(int-byte:A)>` .
 
   .. code-block:: java
 
@@ -888,8 +830,7 @@ blob(データベース製品によりバイナリ型の型は異なる)など�
     statement.setBytes(1, new byte[] {0x30, 0x31, 0x32});
     int updateCount = statement.executeUpdate();
 
- サイズが大きいバイナリ値を登録更新する場合は、 :java:extdoc:`SqlPStatement#setBinaryStream <nablarch.core.db.statement.SqlPStatement.setBinaryStream(int-java.io.InputStream-int)>`
- を使用して、ファイルなどを表す :java:extdoc:`InputStream <java.io.InputStream>` から直接データベースに値を送信する。
+ When registering and updating a large binary value, use :java:extdoc:`SqlPStatement#setBinaryStream <nablarch.core.db.statement.SqlPStatement.setBinaryStream(int-java.io.InputStream-int)>` , and send values directly to the database from  :java:extdoc:`InputStream <java.io.InputStream>` which represents a file, etc.
 
  .. code-block:: java
 
@@ -901,171 +842,159 @@ blob(データベース製品によりバイナリ型の型は異なる)など�
 
 .. _database-clob_column:
 
-桁数の大きい文字列型のカラム(例えばCLOB)にアクセスする
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-CLOBのような大きいサイズの文字列型カラムへのアクセス方法について解説する。
+Access columns of string type with a large number of digits (e.g. CLOB)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This section describes how to access a large string type column such as CLOB.
 
-CLOB型の値を取得する
-  CLOB型の値を取得する場合は、 :java:extdoc:`検索結果オブジェクト <nablarch.core.db.statement.SqlRow>` から文字列型として値を取得する。
+Acquire the value of CLOB type
+  When acquiring CLOB type values, acquire the value as string type from :java:extdoc:`search result object <nablarch.core.db.statement.SqlRow>` .
 
-  以下に例を示す。
+  An example is shown below.
 
   .. code-block:: java
 
     SqlResultSet rows = statement.retrieve();
     SqlRow row = rows.get(0);
 
-    // StringとしてCLOBの値を取得する。
+    // Acquire CLOB value as a string.
     String mailBody = row.getString("mailBody");
 
   .. important::
 
-    上記実装例の場合、カラムの内容が全てJavaのヒープ上に展開される。
-    このため、非常に大きいサイズのデータを読み込んだ場合、ヒープ領域を圧迫し、システムダウンなどの障害の原因となる。
+    In the case of the above implementation example, all the contents of the column are deployed on the Java heap. Therefore, when data of a very large size is read, it squeezes the heap area, causing failures such as system down.
 
-    このため、大量データを読み込む場合には、以下のように :java:extdoc:`Clob <java.sql.Clob>` オブジェクトを使用して、
-    ヒープを大量に消費しないようにすること。
+    Therefore, when reading a large amount of data, use the :java:extdoc:`Clob <java.sql.Clob>` object as shown below to avoid consuming a large amount of heap.
 
     .. code-block:: java
 
       SqlResultSet rows = select.retrieve();
 
-      // Clogとしてデータを取得する
+      // Acquire the data as Clob
       Clob mailBody = (Clob) rows.get(0).get("mailBody");
 
       try (Reader reader = mailBody.getCharacterStream()) {
-        // Readerからデータを順次読み込み処理を行う。
-        // 読み込んだデータをヒープ上に全て保持した場合は、ヒープを圧迫するので注意すること。
+        // Read data sequentially from the Reader.
+        // If all the read data is held in the heap, note that the heap will be squeezed.
       }
     
-CLOB型に値を登録(更新)する
-  サイズが小さい値を登録更新する場合は、String型の値を :java:extdoc:`SqlPStatement#setString <nablarch.core.db.statement.SqlPStatement.setString(int-java.lang.String)>` を使用して設定する。
+Register (update) the value in CLOB type
+  When registering and updating a value with a small size, configure a string type value using :java:extdoc:`SqlPStatement#setString <nablarch.core.db.statement.SqlPStatement.setString(int-java.lang.String)>` .
 
-  以下に例を示す。
+  An example is shown below.
 
   .. code-block:: java
 
-    statement.setString(1, "値");
+    statement.setString(1, "Value");
     statement.executeUpdate();
 
-  サイズが大きい値を登録、更新する場合は :java:extdoc:`SqlPStatement#setCharacterStream <nablarch.core.db.statement.SqlPStatement.setCharacterStream(int-java.io.Reader-int)>`
-  を使用して、テキストファイルなどを表す :java:extdoc:`Reader <java.io.Reader>` 経由でデータベースに値を送信する。
+  When registering or updating a large value, use :java:extdoc:`SqlPStatement#setCharacterStream <nablarch.core.db.statement.SqlPStatement.setCharacterStream(int-java.io.Reader-int)>` , and send values to the database through :java:extdoc:`Reader <java.io.Reader>` that represents a text file, etc.
 
-  以下に例を示す。
+  An example is shown below.
 
   .. code-block:: java
 
     Path path = Paths.get(filePath);
     try (Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-      // setCharacterStreamを使用してReaderの値を登録する。
+      // Register the Reader value using setCharacterStream.
       statement.setCharacterStream(1, reader, (int) Files.size(path));
     }
 
 
-データベースアクセス時に発生する例外の種類
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データベースアクセス時の例外は、大きく分けて以下の4種類が送出される。
+Exception types that occur when accessing the database
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Exceptions when accessing the database access are broadly divided into the following four types.
 
-これらの例外は全て非チェック例外のため、 :java:extdoc:`SQLException <java.sql.SQLException>` のように ``try-catch`` で補足する必要はない。
+Since these exceptions are all unchecked exceptions, there is no need to catch them with ``try-catch`` such as :java:extdoc:`SQLException <java.sql.SQLException>` .
 
-データベースアクセスエラー時の例外
-  データベースアクセス時に発生する例外で、 :java:extdoc:`DbAccessException <nablarch.core.db.DbAccessException>` が送出される。
+Exception when there is a database access error
+  The exception that occurs when accessing the database, and :java:extdoc:`DbAccessException <nablarch.core.db.DbAccessException>` is thrown.
 
-データベース接続エラー時の例外
-  データベースアクセスエラー時の例外がデータベース接続エラーを示す場合には、 :java:extdoc:`DbConnectionException <nablarch.core.db.connection.exception.DbConnectionException>` が送出される。
-  この例外は、 :ref:`retry_handler` により処理される。(:ref:`retry_handler` 未適用の場合には、実行時例外として扱われる。)
+Exception when there is a d database connection error
+  If the exception during database access indicates a database connection error, :java:extdoc:`DbConnectionException <nablarch.core.db.connection.exception.DbConnectionException>` is thrown. This exception is handled by the :ref:`retry_handler`. (If :ref:`retry_handler` is not applied, it is handled as a runtime exception.)
 
-  なお、データベース接続エラーの判定には、 :ref:`ダイアレクト <database-dialect>` が使用される。
+  :ref:`Dialect <database-dialect>` is used when determining a database connection error.
 
-SQL実行時の例外
-  SQLの実行に失敗した時に発生する例外で、 :java:extdoc:`SqlStatementException <nablarch.core.db.statement.exception.SqlStatementException>` が送出される。
+SQL execution exception
+  Exception which occurs when SQL execution fails, and :java:extdoc:`SqlStatementException <nablarch.core.db.statement.exception.SqlStatementException>` is thrown.
 
-SQL実行時の例外が一意制約違反の場合の例外
-  SQL実行時の例外が一意制約違反を示す例外の場合は、 :java:extdoc:`DuplicateStatementException <nablarch.core.db.statement.exception.DuplicateStatementException>` が送出される。
+Exception when the SQL execution is a violation of unique constraint
+  If the exception during SQL execution is an exception indicating a unique constraint violation, :java:extdoc:`DuplicateStatementException <nablarch.core.db.statement.exception.DuplicateStatementException>` is thrown.
 
-  一意制約違反をハンドリングしたい場合には、 :ref:`database-duplicated_error` を参照。
+  To handle a unique constraint violation, use :ref:`database-duplicated_error` .
 
-  なお、一意制約違反の判定には、 :ref:`ダイアレクト <database-dialect>` が使用される。
+  :ref:`Dialect <database-dialect>` is used to determine a unique constraint violation.
 
 .. tip::
 
-  データベースアクセスエラー発生時の例外を変更したい場合（より細かく分けたい場合）などは、
-  :ref:`database-change_exception` を参照すること。
+  Refer to :ref:`database-change_exception` to change the exception when a database access error occurs ( to divide the exception further).
 
 .. _database-duplicated_error:
 
-一意制約違反をハンドリングして処理を行う
+Process by handling unique constraint violation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-一意制約違反時に何か処理を行う必要がある場合には、 :java:extdoc:`DuplicateStatementException <nablarch.core.db.statement.exception.DuplicateStatementException>` を ``try-catch`` で補足し処理をする。
+If a process has to be performed when a unique constraint is violated, :java:extdoc:`DuplicateStatementException <nablarch.core.db.statement.exception.DuplicateStatementException>` is caught with ``try-catch`` and processed.
 
-なお、一意制約違反の判定には、 :ref:`ダイアレクト <database-dialect>` が使用される。
+:ref:`Dialect <database-dialect>` is used to determine a unique constraint violation.
 
 .. important::
 
-  データベース製品によってはSQL実行時に例外が発生した場合に、ロールバックを行うまで一切のSQLを受け付けないものがあるので注意すること。
-  このような製品の場合には、他の手段で代用できないか検討すること。
+  Note that depending on the database product, if an exception occurs during SQL execution, SQL will no longer be accepted until rollback is performed. In the case of such a product, consider whether it can be substituted by other means.
 
-  例えば、登録処理で一意制約違反が発生した場合に更新処理をしたい場合は、
-  例外ハンドリングを行うのではなく `merge` 文を使用することでこの問題を回避できる。
+  For example, to perform the update process when a unique constraint violation occurs during the registration process, this problem can be avoided by using a merge statement instead of performing exception handling.
 
-処理が長いトランザクションはエラーとして処理を中断させる
+Processing of long-running transactions is aborted as errors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-トランザクション管理にて実現する。
-詳細は、 :ref:`transaction-timeout` を参照。
+Implemented by transaction management. For details, see :ref:`transaction-timeout` .
 
 .. _database-new_transaction:
 
-現在のトランザクションとは異なるトランザクションでSQLを実行する
+Execute SQL in a transaction different from the current transaction
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データベース接続管理ハンドラ及びトランザクション制御ハンドラで開始したトランザクションではなく、
-個別のトランザクションを使用してデータベースアクセスを行いたい場合がある。
+There may be cases database has to be accessed using an individual transaction instead of a transaction started by the database connection management handler and transaction control handler.
 
-例えば、業務処理が失敗した場合でも必ずデータベースへの変更を確定したい場合には、
-現在のトランザクションとは異なるトランザクションを定義してデータベースにアクセスする。
+For example, to confirm changes to the database even when business processing fails, define a transaction different from the current transaction and access the database.
 
-個別トランザクションを使用するには、以下の手順が必要となる。
+The following procedures are required to use individual transactions.
 
-#. コンポーネント設定ファイルに :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を定義する。
-#. :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` をシステムリポジトリから取得し、新たなトランザクションでSQLを実行する。
-   （システムリポジトリから取得するのではなく、 :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を設定して使用してもよい)
+#. Configure :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` in the component configuration file.
+#. Acquire :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` from the system repository and execute SQL in a new transaction. (Instead of acquiring from the system repository, :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` can be used)
 
-以下に使用例を示す。
+A usage example is shown below.
 
-コンポーネント設定ファイル
-  コンポーネント設定ファイルに  :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を定義する。
+Component configuration file
+  Configure :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` in the component configuration file.
 
-  * :java:extdoc:`connectionFactory <nablarch.core.db.transaction.SimpleDbTransactionManager.setConnectionFactory(nablarch.core.db.connection.ConnectionFactory)>` プロパティに :java:extdoc:`ConnectionFactory <nablarch.core.db.connection.ConnectionFactory>` 実装クラスを設定する。
-    :java:extdoc:`ConnectionFactory <nablarch.core.db.connection.ConnectionFactory>` 実装クラスの詳細は、 :ref:`database-connect` を参照。
+  * Configure implementation class :java:extdoc:`ConnectionFactory <nablarch.core.db.connection.ConnectionFactory>` to :java:extdoc:`connectionFactory <nablarch.core.db.transaction.SimpleDbTransactionManager.setConnectionFactory(nablarch.core.db.connection.ConnectionFactory)>` property.
+    For details of implementation class :java:extdoc:`ConnectionFactory <nablarch.core.db.connection.ConnectionFactory>`, see :ref:`database-connect`.
 
-  * :java:extdoc:`transactionFactory <nablarch.core.db.transaction.SimpleDbTransactionManager.setTransactionFactory(nablarch.core.transaction.TransactionFactory)>` プロパティに :java:extdoc:`TransactionFactory <nablarch.core.transaction.TransactionFactory>` 実装クラスを設定する。
-     :java:extdoc:`TransactionFactory <nablarch.core.transaction.TransactionFactory>` 実装クラスの詳細は、 :ref:`transaction-database` を参照。
+  * Configure implementation class :java:extdoc:`TransactionFactory <nablarch.core.transaction.TransactionFactory>` to :java:extdoc:`transactionFactory <nablarch.core.db.transaction.SimpleDbTransactionManager.setTransactionFactory(nablarch.core.transaction.TransactionFactory)>` property.
+    For details of implementation :java:extdoc:`TransactionFactory <nablarch.core.transaction.TransactionFactory>` , see :ref:`transaction-database` .
+
 
   .. code-block:: xml
 
     <component name="update-login-failed-count-transaction" class="nablarch.core.db.transaction.SimpleDbTransactionManager">
-      <!-- connectionFactoryプロパティにConnectionFactory実装クラスを設定する -->
+      <!-- Configure ConnectionFactory implementation class in connectionFactory property -->
       <property name="connectionFactory" ref="connectionFactory" />
 
-      <!-- transactionFactoryプロパティにTransactionFactory実装クラスを設定する -->
+      <!-- Configure TransactionFactory implementation class in transactionFactory property -->
       <property name="transactionFactory" ref="transactionFactory" />
 
-      <!-- トランザクションを識別するための名前を設定する -->
+      <!-- Configure a name to identify the transaction -->
       <property name="dbTransactionName" value="update-login-failed-count-transaction" />
 
     </component>
 
-実装例
-  コンポーネント設定ファイルに設定した :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を使って、SQLを実行する。
-  なお、 :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を直接使うのではなくトランザクション制御を行う、
-  :java:extdoc:`SimpleDbTransactionExecutor<nablarch.core.db.transaction.SimpleDbTransactionExecutor>` を使用すること。
+Implementation examples
+  Use :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` to execute SQL. In addition, instead of using :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` directly, use :java:extdoc:`SimpleDbTransactionExecutor<nablarch.core.db.transaction.SimpleDbTransactionExecutor>` to perform transaction control.
 
   .. code-block:: java
 
-    // システムリポジトリからSimpleDbTransactionManagerを取得する
+    // Acquire SimpleDbTransactionManager from the system repository
     SimpleDbTransactionManager dbTransactionManager =
         SystemRepository.get("update-login-failed-count-transaction");
 
-    // SimpleDbTransactionManagerをコンストラクタに指定して実行する
+    // Execute by specifying SimpleDbTransactionManager in the constructor
     SqlResultSet resultSet = new SimpleDbTransactionExecutor<SqlResultSet>(dbTransactionManager) {
       @Override
       public SqlResultSet execute(AppDbConnection connection) {
@@ -1078,57 +1007,47 @@ SQL実行時の例外が一意制約違反の場合の例外
 
 .. _database-use_cache:
 
-検索結果をキャッシュする（同じSQLで同じ条件の場合にキャッシュしたデータを扱いたい)
+Cache search results (handle cached data for the same SQL under the same condition)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-更新時間が決まっているデータや、頻繁にアクセスされるが必ず最新のデータを返す必要がない場合には、
-データベースの負荷を軽減させるために検索結果をキャッシュすることが出来る。
+If the update time is fixed or the data is accessed frequently but the latest data is not required to be returned, the search results can be cached to reduce the load on the database.
 
-この機能は、以下のような機能で有効に利用できる。
+This function can be used effectively with the following functions.
 
-* 売り上げランキングのように結果が厳密に最新である必要が無く大量に参照されるデータ
-* データ更新タイミングが夜間のみで日中は更新されないデータ
+* Data that is referenced in large quantities without the need for strict up-to-date results such as sales rankings
+* Data that is updated only at night and not updated during the day
 
-制約
-  LOB型について
-    LOB(BLOB型やCLOB型)のカラムを取得した場合、実際にDBに格納されたデータが取得されるのではなく、LOBロケータが取得される。
-    実際の値を取得する場合は、このLOBロケータ経由で値を取得する。
+Constraints
+  LOB type
+    When LOB (BLOB type or CLOB type) column is acquired, LOB locator is acquired instead of acquiring the data stored in DB. To acquire the actual value, acquire the value through this LOB locator.
 
-    このLOBロケータの有効期間は、RDBMS毎の実装に依存している。
-    通常、 :java:extdoc:`java.sql.ResultSet` や :java:extdoc:`java.sql.Connection` がクローズされた時点でアクセスできなくなる。
-    このため、 `ResultSet` や `Connection` よりも生存期間が長いキャッシュにはBLOB、CLOB型を含めることができない。
+    The expiry interval of the LOB locator depends on the implementation of each RDBMS. Normally, the locator cannot be accessed when :java:extdoc:`java.sql.ResultSet` or :java:extdoc:`java.sql.Connection` is closed. For this reason, BLOB and CLOB types cannot be included in a cache that has a longer lifetime than `ResultSet` or `Connection` .
 
-  アプリケーションの冗長化について
-    デフォルトで提供するキャッシュを保持するコンポーネントはJVMのヒープ上にキャッシュを保持する。
-    このため、アプリケーションを冗長化構成とした場合、アプリケーションごとに検索結果がキャッシュされることになる。
+  Application redundancy
+    The component maintaining the cache provided by default retains the cache in the JVM heap. For this reason, when applications have a redundant configuration, the search results are cached for each application.
 
-    このため、キャッシュタイミングが異なるため、それぞれのアプリケーションで異なるキャッシュを保持する可能性がある。
+    For this reason, since the cache timing is different, each application may hold a different cache.
 
-    アプリケーションサーバを冗長化している場合で、ラウンドロビンでロードバランサを行う場合は、
-    毎回異なるサーバにアクセスする可能性がある。
-    もし、サーバごとに異なるキャッシュを保持していた場合、リクエストの都度異なる結果が画面表示される可能性があるので注意すること。
+    When application servers are redundant and a round-robin load balancer is used, a different server may be accessed each time. Note that if different caches are maintained for each server, different results may be displayed on the screen for each request.
 
 .. important::
 
-  この機能は、参照系のデータベースアクセスを省略可能な場合に省略し、システム負荷を軽減することを目的としており、
-  データベースアクセス（SQL）の高速化を目的としているものではない。
-  このため、SQLの高速化を目的として使用してはならない。そのような場合には、SQLのチューニングを実施すること。
+  This function is intended to reduce the system load by omitting database access in the reference system when it is possible and not to speed up the database access (SQL). For this reason, it should not be used to increase the speed of SQL. Perform tuning to increase the SQL speed.   
 
 .. important::
 
-  この機能は、データベースの値の更新を監視してキャッシュの最新化を行うことはない。
-  このため、常に最新のデータを表示する必要がある機能では使用しないこと。
+  This function does not update the cache by monitoring update of the database value. For this reason, do not use the function where the latest data is always required to be displayed.
 
-以下に使用例を示す。
+A usage example is shown below.
 
-コンポーネント設定ファイル
-  以下の手順に従い、検索結果のキャッシュを有効化する設定を行う。
+Component configuration file
+  Follow the procedure below to configure for enabling the cache of search results.
 
-  #. クエリ結果をキャッシュするコンポーネントの定義
-  #. SQLID毎の検索結果のキャッシュ設定
-  #. 検索結果をキャッシュするSQL実行コンポーネントの定義
+  #. Defining the components to cache query results
+  #. Search result cache configuration for each SQLID
+  #. Definition of SQL execution component that caches the search results
 
-  クエリ結果のキャッシュクラスのコンポーネントの定義
-    デフォルトで提供されるクエリ結果をキャッシュするクラスの :java:extdoc:`InMemoryResultSetCache <nablarch.core.db.cache.InMemoryResultSetCache>` を設定する。
+  Defining the components of the query result cache class
+    Configure :java:extdoc:`InMemoryResultSetCache <nablarch.core.db.cache.InMemoryResultSetCache>` of the class that caches the query results provided by default.
 
     .. code-block:: xml
 
@@ -1137,26 +1056,25 @@ SQL実行時の例外が一意制約違反の場合の例外
         <property name="systemTimeProvider" ref="systemTimeProvider"/>
       </component>
 
-  SQLID毎のキャッシュ設定
-    SQLID毎のキャッシュ設定を行う。
-    デフォルトで提供される :java:extdoc:`BasicExpirationSetting <nablarch.core.cache.expirable.BasicExpirationSetting>` では、SQLID毎にキャッシュの有効期限が設定できる。
+  Cache configuration for each SQL ID
+    Configure the cache for each SQL ID. The cache expiration date can be configured for each SQLID using :java:extdoc:`BasicExpirationSetting <nablarch.core.cache.expirable.BasicExpirationSetting>` provided by default.
 
-    有効期限には、以下の単位が使用できる。
+    The following units can be used for the expiration date.
 
-    :ms: ミリ秒
-    :sec: 秒
-    :min: 分
-    :h: 時
+    :ms: millisecond
+    :sec: Sec
+    :min: Minutes
+    :h: Hours
 
     .. code-block:: xml
 
-      <!-- キャッシュ有効期限設定 -->
+      <!-- Cache expiration configuration-->
         <component name="expirationSetting"
             class="nablarch.core.cache.expirable.BasicExpirationSetting">
 
           <property name="expiration">
             <map>
-              <!-- keyにSQLIDを設定し、valueに有効期限を設定する -->
+              <!-- Configure SQLID in key and expiration date in value-->
               <entry key="please.change.me.tutorial.ss11AA.W11AA01Action#SELECT" value="100ms"/>
               <entry key="please.change.me.tutorial.ss11AA.W11AA02Action#SELECT" value="30sec"/>
             </map>
@@ -1164,54 +1082,43 @@ SQL実行時の例外が一意制約違反の場合の例外
 
         </component>
 
-  検索結果をキャッシュするSQL実行コンポーネントの定義
-    検索結果をキャッシュさせるためには、SQL実行コンポーネントの生成クラスに :java:extdoc:`CacheableStatementFactory <nablarch.core.db.cache.statement.CacheableStatementFactory>` を設定する。
-    :java:extdoc:`CacheableStatementFactory <nablarch.core.db.cache.statement.CacheableStatementFactory>` は、 デフォルトで提供される
-    :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` を継承しているため、
-    基本的な設定値は、 :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` と同じである。
+  Definition of SQL execution component that caches the search results
+    To cache search results, configure :java:extdoc:`CacheableStatementFactory <nablarch.core.db.cache.statement.CacheableStatementFactory>` in the generation class of the SQL execution component. Since :java:extdoc:`CacheableStatementFactory <nablarch.core.db.cache.statement.CacheableStatementFactory>` inherits :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` provided by default, the basic settings are the same as :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` .
 
-    :java:extdoc:`expirationSetting <nablarch.core.db.cache.statement.CacheableStatementFactory.setExpirationSetting(nablarch.core.cache.expirable.ExpirationSetting)>` 及び
-    :java:extdoc:`resultSetCache <nablarch.core.db.cache.statement.CacheableStatementFactory.setResultSetCache(nablarch.core.db.cache.ResultSetCache)>` プロパティに対しては、上で設定したクエリー結果のキャッシュコンポーネントと
-    SQLID毎のキャッシュ設定のコンポーネントを設定すること。
+    For the :java:extdoc:`expirationSetting <nablarch.core.db.cache.statement.CacheableStatementFactory.setExpirationSetting(nablarch.core.cache.expirable.ExpirationSetting)>` and :java:extdoc:`resultSetCache <nablarch.core.db.cache.statement.CacheableStatementFactory.setResultSetCache(nablarch.core.db.cache.ResultSetCache)>` property, configure the cache component of the query result configured above and the cache configuration component for each SQLID.
 
-    ここで定義した :java:extdoc:`CacheableStatementFactory <nablarch.core.db.cache.statement.CacheableStatementFactory>` コンポーネントは、
-    :ref:`database-connect` で定義したデータベース接続を取得するコンポーネントに設定すること。
+    The component :java:extdoc:`CacheableStatementFactory <nablarch.core.db.cache.statement.CacheableStatementFactory>` defined here should be configured in the component that acquires the database connection defined in :ref:`database-connect` .
 
     .. code-block:: xml
 
-      <!-- キャッシュ可能なステートメントを生成するCacheableStatementFactoryを設定する -->
+      <!-- Configure cacheableStatementFactory to generate cacheable statements-->
       <component name="cacheableStatementFactory"
                  class="nablarch.core.db.cache.CacheableStatementFactory">
 
-        <!-- 有効期限設定 -->
+        <!-- Expiration date setting -->
         <property name="expirationSetting" ref="expirationSetting"/>
-        <!-- キャッシュ実装 -->
+        <!-- Cache implementation -->
         <property name="resultSetCache" ref="resultSetCache"/>
 
       </component>
 
-  実装例
-    SQLを使ったデータベースアクセスは、キャッシュ有無によって変わることはない。
-    以下と同じように実装すれば良い。
+  Implementation examples
+    Database access using SQL does not change depending on the presence of cache. It is implemented as follows.
 
     * :ref:`database-execute_sqlid`
     * :ref:`database-input_bean`
 
-`java.sql.Connection` を使って処理を行う
+Process using the `java.sql.Connection`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-JDBCのネイティブなデータベース接続( :java:extdoc:`java.sql.Connection` )を扱いたい場合がある。
-例えば、 :java:extdoc:`java.sql.DatabaseMetaData` を使用したい場合がこれに該当する。
+Handling of JDBC native database connection ( :java:extdoc:`java.sql.Connection` ) may be required. For example, when :java:extdoc:`java.sql.DatabaseMetaData` is required to be used.
 
-この場合は、 :java:extdoc:`DbConnectionContext <nablarch.core.db.connection.DbConnectionContext>` から取得した
-:java:extdoc:`TransactionManagerConnection <nablarch.core.db.connection.TransactionManagerConnection>` から :java:extdoc:`java.sql.Connection` を取得することで対応できる。
+This can be supported by acquiring :java:extdoc:`java.sql.Connection` obtained from :java:extdoc:`TransactionManagerConnection <nablarch.core.db.connection.TransactionManagerConnection>` which has been obtained from :java:extdoc:`DbConnectionContext <nablarch.core.db.connection.DbConnectionContext>`.
 
 .. important::
 
-  :java:extdoc:`java.sql.Connection` を使用した場合、チェック例外である :java:extdoc:`java.sql.SQLException` をハンドリングして例外制御を行う必要がある。
-  この例外制御は実装を誤ると、障害が検知されなかったり障害時の調査ができないなどの問題が発生することがある。
-  このため、どうしても :java:extdoc:`java.sql.Connection` を使わないと満たせない要件がない限り、この機能は使用しないこと。
+  When :java:extdoc:`java.sql.Connection` is used, exception control needs to be performed by handling :java:extdoc:`java.sql.SQLException` , which is a check exception. If this exception control is implemented incorrectly, problems may occur such as failure not detected or investigation not performed when a failure occurs. For this reason, this feature should not be used unless there is a requirement that cannot be satisfied using :java:extdoc:`java.sql.Connection` .
 
-以下に例を示す。
+An example is shown below.
 
 .. code-block:: java
 
@@ -1222,45 +1129,42 @@ JDBCのネイティブなデータベース接続( :java:extdoc:`java.sql.Connec
 
 .. _database-replace_schema:
   
-SQL文中のスキーマを環境毎に切り替える
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Switch the schema in SQL statement for each environment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-特定のSQL（テーブル）のみ別のスキーマを参照したい場合、通常はSQL文に明示的にスキーマを記述するが
-(例: ``SELECT * FROM A_SCHEMA.TABLE1``)、環境によって参照したいスキーマ名が異なるケースがある（下記の例を参照）。
+If a different schema has to be referenced only for a specific SQL (table), the schema is explicitly specified in the SQL statement (for example: ``SELECT * FROM A_SCHEMA.TABLE1`` ), but there are cases where the schema name to be referred differs depending on the environment (see the example below).
 
-**TABLE1の参照先スキーマ**
+**Reference schema of TABLE1**
 
-=================== ==========
-環境                スキーマ
-=================== ==========
-本番環境            A_SCHEMA
-テスト環境          B_SCHEMA
-=================== ==========
+====================== ==========
+Working environment    Schema
+====================== ==========
+Production environment A_SCHEMA
+Test environment       B_SCHEMA
+====================== ==========
 
-このケースでは、SQL文中にスキーマ名を明示的に記述する方法を使うことができない。
+In this case, the method of explicitly describing the schema name in the SQL statement cannot be used.
 
 .. code-block:: sql
 
-  -- スキーマ名を指定してSELECT
-  SELECT * FROM A_SCHEMA.TABLE1  -- 本番では動作するがテスト環境では動作しない
+  -- SELECT by specifying the schema name
+  SELECT * FROM A_SCHEMA.TABLE1  -- Works in production environment but not in the test environment
 
   
-このような場合のために、SQL文中のスキーマを環境毎に切り替える機能を提供する。
+For such a case, provide a function to switch the schema in the SQL statement for each environment.
 
-まず、SQL文にスキーマを置き換えるためのプレースホルダー ``#SCHEMA#`` \ [#schema]_\ を記載する。
-
+First, describe a placeholder ``#SCHEMA#`` \ [#schema]_\ for replacing the schema in the SQL statement.
 
 .. code-block:: sql
                 
-  -- スキーマ名を指定してSELECT
+  -- SELECT by specifying the schema name
   SELECT * FROM #SCHEMA#.TABLE1
 
 
-.. [#schema] このプレースホルダーの文字列は固定である。
+.. [#schema] The text of this placeholder is fixed.
 
 
-プレースホルダーを置き換えるために、以下の例のように\
-:java:extdoc:`BasicSqlLoader <nablarch.core.db.statement.BasicSqlLoader>` を設定する。
+Configure :java:extdoc:`BasicSqlLoader <nablarch.core.db.statement.BasicSqlLoader>` to replace the placeholders, as shown in the following example:
 
 .. code-block:: xml
                 
@@ -1268,7 +1172,7 @@ SQL文中のスキーマを環境毎に切り替える
      <component name="sqlLoader" class="nablarch.core.db.statement.BasicSqlLoader">
        <property name="sqlLoaderCallback">
          <list>
-           <!-- SQL文中の#SCHEMA#を指定した値で置き換え -->
+           <!-- Replace #SCHEMA# in SQL statement with specified value -->
            <component class="nablarch.core.db.statement.sqlloader.SchemaReplacer">
              <property name="schemaName" value="${nablarch.schemaReplacer.schemaName}"/>
            </component>
@@ -1277,74 +1181,64 @@ SQL文中のスキーマを環境毎に切り替える
      </component>
    </component>
 
-プレースホルダーをどのような値に置き換えるかは、
-:java:extdoc:`SchemaReplacer <nablarch.core.db.statement.sqlloader.SchemaReplacer>`
-のプロパティ\ ``schemaName``\ に設定する。
-上記の例では、置き換え後の値を ``nablarch.schemaReplacer.schemaName`` という環境依存値に設定している。\
-この値を環境毎に切り替えることにより、\
-SQL文中のスキーマをその環境に応じたものに置き換えることができる\
-（切替方法の詳細については :ref:`how_to_switch_env_values` を参照）。
+Configure the value to replace the placeholder in ``schemaName`` of :java:extdoc:`SchemaReplacer <nablarch.core.db.statement.sqlloader.SchemaReplacer>` . In the above example, the value after replacement is configured in the environment-dependent value ``nablarch.schemaReplacer.schemaName`` . By switching this value for each environment, the schema in the SQL statement can be replaced with the one corresponding to the environment (see :ref:`how_to_switch_env_values` for details of the switching method).
+
 
 .. tip::
-   本機能によるSQL文中のスキーマ置き換えは単純な文字列置換処理であり、\
-   スキーマが存在するか、スキーマ置き換え後のSQLが妥当であるかといったチェックは行われない\
-   （SQL文実行時にエラーとなる）。
+   The schema replacement in the SQL statement by this function is a simple string replacement, and it does not check whether the schema exists or the SQL after the schema replacement is valid (an error occurs when executing the SQL statement).
 
-拡張例
+Expansion example
 --------------------------------------------------
 
 .. _database-add_connection_factory:
 
-データベースへの接続法を追加する
+Add a connection method to the database
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データベースの接続方法を追加する手順を説明する。
-例えば、OSSのコネクションプールライブラリを使用する場合などは、この手順に従い作業すると良い。
+The procedure for adding a database connection method will be described. For example, this procedure should be followed when using the OSS connection pool library.
 
-#. :java:extdoc:`ConnectionFactorySupport <nablarch.core.db.connection.ConnectionFactorySupport>` を継承し、データベース接続を生成するクラスを作成する。
-#. 作成したクラスをコンポーネント設定ファイルに設定する。( :ref:`database-connect` を参照)
+#. Inherit :java:extdoc:`ConnectionFactorySupport <nablarch.core.db.connection.ConnectionFactorySupport>` and create a class that generates a database connection.
+#. Configure the class that is created in the component configuration file. ( see :ref:`database-connect` )
 
 .. _database-add_dialect:
 
-ダイアレクトを追加する
+Add dialects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ダイアレクトを追加する手順を説明する。
+The procedure to add a dialect will be described.
 
-例えば、使用するデータベース製品に対応したダイアレクトがない場合や、特定機能の使用可否を切り替えたい場合にはダイアレクトを追加する必要がある。
+For example, dialects have to be added when there is no dialect corresponding to the database product to be used, or to switch the availability of a specific function, it is necessary to add a dialect.
 
-#. :java:extdoc:`DefaultDialect <nablarch.core.db.dialect.DefaultDialect>` を継承し、 データベース製品に対応したダイアレクトを作成する。
-#. 作成したダイアレクトをコンポーネント設定ファイルに設定する ( :ref:`database-use_dialect` を参照)
+#. Inherit :java:extdoc:`DefaultDialect <nablarch.core.db.dialect.DefaultDialect>` and create a dialect corresponding to the database product.
+#. Configure the created dialect in the component configuration file (see :ref:`database-use_dialect` )
+
 
 .. _database-change_exception:
 
-データベースアクセス時の例外クラスを切り替える
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データベースアクセス時の例外クラスを切り替える手順を説明する。
+Switching the exception class when accessing the database
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This section describes the procedure to switch the exception class during database access.
 
-例えば、デッドロックエラーの例外クラスを変更したい場合には、この手順に従い作業すると良い。
+For example, to change the exception class of deadlock error, work according to this procedure.
 
-#. データベースアクセスエラーを生成する :java:extdoc:`DbAccessExceptionFactory <nablarch.core.db.connection.DbAccessExceptionFactory>` の実装クラスを作成する。
-#. SQL実行時エラーを生成する :java:extdoc:`SqlStatementExceptionFactory <nablarch.core.db.statement.SqlStatementExceptionFactory>` の実装クラスを作成する。
-#. 作成したクラスをコンポーネント設定ファイルに定義する。
+#. Create the implementation class :java:extdoc:`DbAccessExceptionFactory <nablarch.core.db.connection.DbAccessExceptionFactory>` that generates database access error.
+#. Create the implementation class :java:extdoc:`SqlStatementExceptionFactory <nablarch.core.db.statement.SqlStatementExceptionFactory>` that generates SQL run-time error.
+#. Define the class that is created in the component configuration file.
 
-以下に詳細な手順を示す。
+The detailed procedure is shown below.
 
-:java:extdoc:`DbAccessExceptionFactory <nablarch.core.db.connection.DbAccessExceptionFactory>` の実装クラスを作成する
-  データベース接続取得時及びトランザクション制御時(commitやrollback)に発生させる :java:extdoc:`DbAccessException <nablarch.core.db.DbAccessException>` を変更したい場合は、
-  このインタフェースの実装クラスを作成する。
+Create the implementation class :java:extdoc:`DbAccessExceptionFactory <nablarch.core.db.connection.DbAccessExceptionFactory>`
+  Create an implementation class of this interface to change :java:extdoc:`DbAccessException <nablarch.core.db.DbAccessException>` that is generated during database connection acquisition and transaction control (commit and rollback).
 
-:java:extdoc:`SqlStatementExceptionFactory <nablarch.core.db.statement.SqlStatementExceptionFactory>` の実装クラスを作成する
-  SQL実行時に発生させる :java:extdoc:`SqlStatementException <nablarch.core.db.statement.exception.SqlStatementException>` を変更したい場合は、 このインタフェースの実装クラスを作成する。
+Create the implementation class :java:extdoc:`SqlStatementExceptionFactory <nablarch.core.db.statement.SqlStatementExceptionFactory>`
+  Create an implementation class of this interface to change :java:extdoc:`SqlStatementException <nablarch.core.db.statement.exception.SqlStatementException>` that occurs when SQL is executed.
 
-コンポーネント設定ファイルに定義する
-  :java:extdoc:`DbAccessExceptionFactory <nablarch.core.db.connection.DbAccessExceptionFactory>` の実装クラスは、 :ref:`database-connect`
-  で定義したデータベース接続を取得するコンポーネントに設定する必要がある。
+Define in the component configuration file
+  Implementation class :java:extdoc:`DbAccessExceptionFactory <nablarch.core.db.connection.DbAccessExceptionFactory>` must be configured in the component that acquires the database connection defined in :ref:`database-connect` .
 
   .. code-block:: xml
 
     <component class="sample.SampleDbAccessExceptionFactory" />
 
-  :java:extdoc:`SqlStatementExceptionFactory <nablarch.core.db.statement.SqlStatementExceptionFactory>` の実装クラスは、 :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` に対して設定する。
-  なお、 :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` は、 :ref:`database-connect` で定義したデータベース接続を取得するコンポーネントに設定する必要がある。
+  The implementation class :java:extdoc:`SqlStatementExceptionFactory <nablarch.core.db.statement.SqlStatementExceptionFactory>` is configured for :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` . :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` must be configured in the component that acquires the database connection defined in :ref:`database-connect` .
 
   .. code-block:: xml
 
