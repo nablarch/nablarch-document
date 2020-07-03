@@ -2,222 +2,222 @@
 
 Bean Validation
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-この章では、Java EE7のBean Validation(JSR349)に準拠したバリデーション機能の解説を行う。
+This chapter describes the validation function compliant with Bean Validation (JSR349) of Java EE7.
 
 .. important::
 
-  この機能は、Bean Validationのエンジンを実装しているわけではない。
+  The Bean Validation engine is not implemented by this function.
 
-  Java EE環境(WebLogicやWildFlyなど)では、そのサーバ内にバンドルされているBean Validationの実装が利用される。
-  Java EE環境外で利用するには、別途Bean Validationの実装を参照ライブラリに追加する必要がある。
-  (参照実装である `Hibernate Validator(外部サイト、英語) <http://hibernate.org/validator/>`_ を利用することを推奨する。)
+  Java EE environments (such as WebLogic and WildFly) use the Bean Validation implementation that is bundled in the server.
+  For use outside Java EE environments, the Bean Validation implementation must be added to the reference library separately.
+  (It is recommended that the reference implementation `Hibernate Validator(external site) <http://hibernate.org/validator/>`_ be used.)
 
-機能概要
+Function overview
 ---------------------
 
-ドメインバリデーションができる
+Can validate domains
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ドメインごとにバリデーションルールを定義できる機能を提供する。
+Provides a function that can define validation rules for each domain.
 
-ドメインバリデーションを使うと、Beanのプロパティにはドメイン名の指定だけを行えばよく、バリデーションルールの変更が容易になる。
+When using domain validation, it is only necessary to specify the domain name in the Bean property, which makes changing the validation rules easy.
 
-詳細は、 `ドメインバリデーションを使う`_ を参照。
+For details, see `Use domain validation`_.
 
 .. _bean_validation-validator:
 
-よく使われるバリデータが提供されている
+Commonly Used Validators are Provided
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Nablarchでは、よく使われるバリデータが提供されているため、基本的なバリデーションは何かを作りこむことなく利用できる。
+Since Nablarch provides commonly used validators, basic validations can be used without having to create anything.
 
-Nablarchで提供しているバリデータは以下のパッケージ内のアノテーション(注釈型)を参照。
+For the validators provided by Nablarch, see the annotations (annotation type) in the following packages.
 
 * :java:extdoc:`nablarch.core.validation.ee`
 * :java:extdoc:`nablarch.common.code.validator.ee`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
-  <dependency>
+  <Dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-core-validation-ee</artifactId>
   </dependency>
-  
+
   <!--
-   メッセージ管理を使用してメッセージを構築する場合のみ
-   デフォルトでは、メッセージ管理が使用される
+   Only to build messages using message management
+   Message management is used by default
    -->
-  <dependency>
+  <Dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-core-message</artifactId>
   </dependency>
 
-  <!-- コード値のバリデータを使用する場合のみ -->
-  <dependency>
+  <!-- Only when using a code value validator -->
+  <Dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-common-code</artifactId>
   </dependency>
-  
-  <!-- ウェブアプリケーションで使用する場合 -->
-  <dependency>
+
+  <!-- For use in Web applications-->
+  <Dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
-  
 
-使用方法
+
+How to use
 --------------------------------------------------
 
 .. _bean_validation-configuration:
 
-Bean Validationを使うための設定を行う
+Configure settings to use Bean Validation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Bean Validationを使うために必要となる設定を以下に示す。
+The configuration required to use Bean Validation are shown below.
 
-MessageInterpolatorの設定
-  Bean Validationでバリデーションエラーが発生した際のメッセージを構築するクラス( :java:extdoc:`MessageInterpolator <javax.validation.MessageInterpolator>` を実装したクラス)を設定する。
+MessageInterpolator configuration
+  Configure the class that constructs the message when validation errors occur in Bean Validation (a class that implements :java:extdoc:`MessageInterpolator <javax.validation.MessageInterpolator>`).
 
-  設定を省略した場合(デフォルト)は、 :ref:`message` を使用する :java:extdoc:`NablarchMessageInterpolator <nablarch.core.validation.ee.NablarchMessageInterpolator>` が使用される。
+  If this is not configured, then :java:extdoc:`NablarchMessageInterpolator <nablarch.core.validation.ee.NablarchMessageInterpolator>` which uses :ref:`message` is used.
 
-  例えば、Hibernate Validatorのプロパティファイルからメッセージを構築する実装を使用する場合には、以下のように設定する。
+  For example, when using the implementation that builds a message from the property file of Hibernate Validator, configure as shown below.
 
   .. important::
 
-    componentの名前は、必ず **messageInterpolator** とすること。
+    Be sure to use component name **messageInterpolator**.
 
   .. code-block:: xml
 
-    <!-- コンポーネント名にmessageInterpolatorを指定し、MessageInterpolatorの実装クラスを設定する -->
+    <!-- Specify messageInterpolator for the component name and configure the MessageInterpolator implementation class -->
     <compnent name="messageInterpolator"
         class="org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator"/>
 
-ドメインバリデーション用の設定
-  :ref:`bean_validation-domain_validation` を参照
+Configuration for domain validation
+  See :ref:`bean_validation-domain_validation`
 
-ウェブアプリケーションでBean Validationを使うための設定
-  :ref:`bean_validation-web_application` を参照
+Configuration for using Bean Validation in Web application
+  See :ref:`bean_validation-web_application`
 
-バリデーションエラー時のエラーメッセージを定義する
+Define the error message for validation error
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`bean_validation-configuration` で説明したように、デフォルトでは :ref:`message` を使用してバリデーションエラー時のメッセージを構築する。
-このため、メッセージの定義場所などの詳細は、 :ref:`message` を参照すること。
+As explained in :ref:`bean_validation-configuration`, message during an error is built using :ref:`message` by default.
+Therefore, refer to :ref:`message` for more information, such as where the message is defined.
 
-デフォルトの :java:extdoc:`NablarchMessageInterpolator <nablarch.core.validation.ee.NablarchMessageInterpolator>` を使用した場合のメッセージ定義ルールは以下のとおり。
+The message definition rule when using the default :java:extdoc:`NablarchMessageInterpolator <nablarch.core.validation.ee.NablarchMessageInterpolator>` is as given below.
 
-* アノテーションの ``message`` 属性に指定された値が ``{`` 、``}`` で囲まれていた場合のみ :ref:`message` を使用してメッセージを構築する。
-* メッセージテキスト内には、バリデーションのアノテーションの属性情報を埋め込むためのプレースホルダを使用できる。
-  プレースホルダは、アノテーションの属性名を ``{`` 、 ``}`` で囲んで定義する。
-* メッセージを動的に組み立てる式(例えばEL式)は使用できない。
+* Build a message using :ref:`message` only when the value specified in the ``message`` attribute of the annotation is enclosed within ``{`` and ``}``.
+* A placeholder for embedding the attribute information of the validation annotation can be used in the message text.
+  A placeholder is defined by enclosing the attribute name of the annotation within ``{`` and ``}``.
+* Expressions that dynamically build messages (ex: EL expressions) cannot be used.
 
-以下に例を示す。
+An example is shown below.
 
-Java実装例
+Java implementation example
   .. code-block:: java
 
       public class SampleForm {
 
         @Length(max = 10)
-        @SystemChar(charsetDef = "全角文字")
+        @SystemChar(charsetDef = "Full-width character")
         @Required
         private String userName;
 
         @Length(min = 8, max = 8)
-        @SystemChar(charsetDef = "半角数字")
+        @SystemChar(charsetDef = "Half-width character")
         private String birthday;
 
-        // getter、setterは省略
+        // Getter and setter are omitted
       }
 
-メッセージ定義例
-  アノテーションで指定されているメッセージIDをキーにメッセージを定義する。
-  アノテーションのmessage属性を指定していない場合は、デフォルト値がメッセージIDとなる。
+Message definition example
+  Define a message using the message ID specified in the annotation as the key.
+  When the message attribute of the annotation is not specified, the default value will be the message ID.
 
   .. code-block:: properties
 
-    # Lengthアノテーションに対応したメッセージ
-    # Lengthアノテーションのminやmax属性に指定した値をメッセージに埋め込むことが出来る
-    nablarch.core.validation.ee.Length.min.message={min}文字以上で入力してください。
-    nablarch.core.validation.ee.Length.max.message={max}文字以内で入力してください。
-    nablarch.core.validation.ee.Length.min.max.message={min}文字以上{max}文字以内で入力してください。
+    # Message corresponding to Length annotation
+    # Value specified in min or max attribute of Length annotation can be embedded in the message
+    nablarch.core.validation.ee.Length.min.message= Enter at least {min} characters.
+    nablarch.core.validation.ee.Length.max.message= Enter no more than{max} characters
+    nablarch.core.validation.ee.Length.min.max.message={min} Enter a value between {min} and {max} characters.
 
-    # SystemCharに対応したメッセージ
-    nablarch.core.validation.ee.SystemChar.message={charsetDef}を入力してください。
+    # Message corresponding to SystemChar
+    nablarch.core.validation.ee.SystemChar.message= Please enter with {charsetDef}.
 
-.. tip:: 
-  :ref:`bean_validation-configuration` で、デフォルト動作を変更している場合には、
-  :java:extdoc:`MessageInterpolator <javax.validation.MessageInterpolator>` の実装に従いメッセージを定義すること。
+.. tip::
+  When the default behavior is changed in :ref:`bean_validation-configuration`,
+  the message is defined according to the :java:extdoc:`MessageInterpolator <javax.validation.MessageInterpolator>` implementation.
 
 
-バリデーションルールの設定方法
+How to configure validation rules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-バリデーションルールは、アノテーションをFieldかProperty(getter)に設定することで指定できる。
-なお、setterにはアノテーションを指定できないので注意すること。(指定しても意味が無い(無視する))
+Validation rules can be specified by configuring annotations in a Field or Property (getter).
+Also, note that annotations cannot be specified for a setter. (It is meaningless even if specified (will be ignored))
 
 .. _bean_validation-form_property:
 
 .. tip::
 
-  Beanクラスのプロパティの型は全てStringとして定義すること。
+  All the property types of Bean class should be defined as a String.
 
-  Bean Validationでは、入力値をBeanに変換した後でバリデーションが実施される。
-  このため、外部からどのような値が入力値として送られてきても、必ずBeanに変換する必要がある。
+  Bean Validation is performed after converting the input values to Bean.
+  Therefore, whatever values are sent as external input values must be converted to Bean.
 
-  もし、String以外のプロパティが存在していて、不正な値が送信された場合（例えば、数値型に対して英字が送信された場合)に、
-  バリデーション実施前に行うBeanへの変換処理が失敗し、予期せぬ例外が送出され障害となってしまう。
+  When a property other than String exists and an invalid value is sent (for example, if an alphabetic character is sent for a numeric type),
+  the conversion process to Bean, which is performed before validation, fails and an unexpected exception is thrown, resulting in a failure.
 
-  本来であれば、どのような値が入力されたとしても障害とするのではなく、バリデーションの結果を外部（例えば画面）に対して通知すべきである。
+  Normally, a failure should not occur no matter what value is input, and the validation result should be notified externally (for example, the screen).
 
-  外部からの値をString以外の型に変換したい場合には、バリデーション実施後に変換すること。
+  To convert an external value to a type other than String, convert it after validation is performed.
 
-  クライアントサイドでJavaScriptを用いてバリデーションを行っている場合でも、
-  サーバサイドにはバリデーション済みの値が送信される保証はないため、プロパティは必ず `String` とすること。
-  なぜなら、クライアントサイドではユーザによりJavaScriptの無効化やブラウザの開発者ツールを用いた改竄が容易に行えるためである。
-  このような操作が行われた場合、クライアントサイドバリデーションをすり抜け、サーバサイドに不正な値が送られる可能性がある。
+  Even if validation is performed on the client side using JavaScript,
+  there is no guarantee that the validated value will be sent to the server side, hence, the property must be a `String`.
+  This is because the user can easily disable JavaScript and tamper with it using the browser developer tools on the client side.
+  When such an operation is performed, there is a possibility that an invalid value will be sent to the server side, bypassing the client side validation.
 
-実装例
-  :ref:`Nablarchで提供しているバリデータ <bean_validation-validator>` を参照し、アノテーションを設定する。
+Implementation examples
+  Configure annotations by referring to :ref:`the validators provided by Nablarch <bean_validation-validator>`.
 
   .. tip::
 
-    個別にアノテーションを設定した場合、実装時のミスが増えたりメンテナンスコストが大きくなるため、
-    後述する :ref:`ドメインバリデーション <bean_validation-domain_validation>` を使うことを推奨する。
+    If annotations are configured individually, errors during implementation and maintenance costs will increase.
+    Hence, it is recommended to use :ref:`the domain validation <bean_validation-domain_validation>` described below.
 
   .. code-block:: java
 
     public class SampleForm {
 
       @Length(max = 10)
-      @SystemChar(charsetDef = "全角文字")
+      @SystemChar(charsetDef = "Full-width character")
       @Required
       private String userName;
 
       @Length(min = 8, max = 8)
-      @SystemChar(charsetDef = "半角数字")
+      @SystemChar(charsetDef = "Half-width character")
       private String birthday;
 
-      // getter、setterは省略
+      // Getter and setter are omitted
     }
 
 .. _bean_validation-domain_validation:
 
-ドメインバリデーションを使う
+Use domain validation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ドメインバリデーションを使うための設定や実装例を示す。
+Show the configuration and implementation examples to use domain validation.
 
-ドメインごとのバリデーションルールを定義したBeanの作成
-  ドメインバリデーションを利用するには、まずドメインごとのバリデーションルールを持つBean(ドメインBean)を作成する。
+Creating Bean that defines the validation rules for each domain
+  To use domain validation, first create an Bean (domain Bean) with validation rules for each domain.
 
-  このBeanクラスには、ドメインごとのフィールドを定義し、フィールドに対してアノテーションを設定する。
-  フィールド名がドメイン名となる。以下の例では ``name`` と ``date`` の２つのドメインが定義されている。
+  This Bean class defines fields for each domain and configures annotations for the fields.
+  The field name becomes the domain name. In the following example, two domains, ``name`` and ``date``, have been defined.
 
   .. tip::
 
-   必須項目を表す :java:extdoc:`@Required <nablarch.core.validation.ee.Required>` アノテーションは、ドメインBeanに設定するのではなく個別のBean側に設定すること。
-   必須かどうかはドメイン側で強制できるものではなく、機能の設計によるため。
+   Configure the :java:extdoc:`@Required <nablarch.core.validation.ee.Required>` annotation which indicates mandatory items on the individual Bean side instead of in the domain Bean.
+   Whether an item is mandatory or not cannot be enforced on the domain side, since it depends on the function design.
 
   .. code-block:: java
 
@@ -229,18 +229,18 @@ Java実装例
     public class SampleDomainBean {
 
         @Length(max = 10)
-        @SystemChar(charsetDef = "全角文字")
+        @SystemChar(charsetDef = "Full-width character")
         String name;
 
         @Length(min = 8, max = 8)
-        @SystemChar(charsetDef = "半角数字")
+        @SystemChar(charsetDef = "Half-width character")
         String date;
 
     }
 
-ドメインBeanを有効化
-  ドメインBeanを有効化するには、 :java:extdoc:`DomainManager <nablarch.core.validation.ee.DomainManager>` 実装クラスを作成する。
-  :java:extdoc:`getDomainBean <nablarch.core.validation.ee.DomainManager.getDomainBean()>` では、ドメインBeanのクラスオブジェクトを返す。
+Domain Bean Enabled
+  To enable the domain bean, create the implementation class :java:extdoc:`DomainManager <nablarch.core.validation.ee.DomainManager>`.
+  :java:extdoc:`getDomainBean <nablarch.core.validation.ee.DomainManager.getDomainBean()>` returns the domain Bean class object.
 
   .. code-block:: java
 
@@ -249,27 +249,27 @@ Java実装例
     public class SampleDomainManager implements DomainManager<SampleDomainBean> {
       @Override
       public Class<SampleDomainBean> getDomainBean() {
-          // ドメインBeanのClassオブジェクトを返す
+          // Returns the Class object for the domain bean
           return SampleDomainBean.class;
       }
     }
 
 
-  :java:extdoc:`DomainManager <nablarch.core.validation.ee.DomainManager>` 実装クラスの `SampleDomainBean` をコンポーネント設定ファイルに定義することで、
-  `SampleDomainBean` を使用したドメインバリデーションが有効となる。
+  By defining `SampleDomainBean` of the :java:extdoc:`DomainManager <nablarch.core.validation.ee.DomainManager>` implementation class in the component configuration file,
+  domain validation using `SampleDomainBean` will be enabled.
 
   .. code-block:: xml
 
-    <!-- DomainManager実装クラスは、domainManagerという名前で設定すること -->
+    <!-- DomainManager implementation class should be configured with the name domainManager -->
     <component name="domainManager" class="sample.SampleDomainManager"/>
 
-各Beanでドメインバリデーションを使う
-  Beanのバリデーション対象プロパティに :java:extdoc:`@Domain <nablarch.core.validation.ee.Domain>` アノテーションを設定することで、ドメインバリデーションが行われる。
+Use domain validation for each Bean
+  Domain validation is performed by configuring the :java:extdoc:`@Domain <nablarch.core.validation.ee.Domain>` annotation to the bean properties to be validated.
 
-  この例では、 `userName` に対して `SampleDomainBean` の `name` フィールドに設定したバリデーションが行われる。
-  同じように `birthday` に対しては、 `date` フィールドに設定したバリデーションが行われる。
+  In this example, validation configured in the `name` field of `SampleDomainBean` is performed for `userName`.
+  Similarly, validation configured in the `date` field is performed for `birthday`.
 
-  ※userNameは必須項目となる。
+  * UserName is a mandatory item.
 
   .. code-block:: java
 
@@ -282,53 +282,53 @@ Java実装例
       @Domain("date")
       private String birthday;
 
-      // getter、setterは省略
+      // Getter and setter are omitted
     }
 
 .. _bean_validation-system_char_validator:
 
-文字種バリデーションを行う
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-システム許容文字のバリデーション機能を使用することで、文字種によるバリデーションを行うことが出来る。
+Performing Character Type Validation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Validation by character type can be performed using the validation function of system allowed characters.
 
-文字種によるバリデーションを行うには、文字種毎に許容する文字のセットを定義する。
-例えば、半角数字という文字種には、半角の ``0`` から ``9`` を許容するといった定義が必要となる。
+To perform validation by character type, define the character set for each character type.
+For example, it is necessary to define that half-width numbers from ``0`` to ``9`` are allowed in the character type of half-width numbers.
 
-以下に文字種毎の許容文字セットの定義方法を示す。
+The method of defining allowed character sets for each character type is shown below.
 
-コンポーネント定義に許容文字のセットを定義する
-  許容文字のセットは、以下のクラスの何れかを使って登録する。
-  登録する際には、コンポーネント名には文字種を表す任意の名前を設定すること。
+Define the allowed character set in the component definition
+  The set of allowed characters is registered using any one of the following classes.
+  During registration, configure the component name to an arbitrary name that indicates the character type.
 
-  * :java:extdoc:`RangedCharsetDef <nablarch.core.validation.validator.unicode.RangedCharsetDef>` (範囲で許容文字セットを登録する場合に使用する)
-  * :java:extdoc:`LiteralCharsetDef <nablarch.core.validation.validator.unicode.LiteralCharsetDef>` (リテラルで許容文字を全て登録する場合に使用する)
-  * :java:extdoc:`CompositeCharsetDef <nablarch.core.validation.validator.unicode.CompositeCharsetDef>` (複数のRangedCharsetDefやLiteralCharsetDefからなる許容文字を登録する場合に使用する)
+  * :java:extdoc:`RangedCharsetDef <nablarch.core.validation.validator.unicode.RangedCharsetDef>` (Used when registering the allowed character sets in the range)
+  * :java:extdoc:`LiteralCharsetDef <nablarch.core.validation.validator.unicode.LiteralCharsetDef>` (Used when registering all allowed character sets in the literal)
+  * :java:extdoc:`CompositeCharsetDef <nablarch.core.validation.validator.unicode.CompositeCharsetDef>` (Used when registering allowed characters consisting of multiple RangedCharsetDef and LiteralCharsetDef)
 
-  設定例は以下のとおり。
+  A configuration example is shown below.
 
   .. code-block:: xml
 
-    <!-- 半角数字 -->
-    <component name="半角数字" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+    <!-- Half-width number -->
+    <component name="Half-width number" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
       <property name="allowedCharacters" value="01234567890" />
       <property name="messageId" value="numberString.message" />
     </component>
 
-    <!-- ASCII(制御コードを除く) -->
+    <!-- ASCII (excluding control code) -->
     <component name="ascii" class="nablarch.core.validation.validator.unicode.RangedCharsetDef">
       <property name="startCodePoint" value="U+0020" />
       <property name="endCodePoint" value="U+007F" />
       <property name="messageId" value="ascii.message" />
     </component>
 
-    <!-- 英数字 -->
-    <component name="英数字" class="nablarch.core.validation.validator.unicode.CompositeCharsetDef">
+    <!-- Alphanumeric -->
+    <component name="Alphanumeric" class="nablarch.core.validation.validator.unicode.CompositeCharsetDef">
       <property name="charsetDefList">
         <list>
-          <!-- 半角数字の定義 -->
-          <component-ref name="半角数字" />
+          <!-- Definition of half-width number -->
+          <component-ref name="Half-width number" />
 
-          <!-- 半角英字の定義 -->
+          <!-- Definition of half-width characters -->
           <component class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
             <property name="allowedCharacters"
                 value="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" />
@@ -338,18 +338,18 @@ Java実装例
       <property name="messageId" value="asciiAndNumberString.message" />
     </component>
 
-アノテーションで文字種を指定する
-  文字種バリデーションを行うプロパティには、 :java:extdoc:`@SystemChar <nablarch.core.validation.ee.SystemChar>` アノテーションを設定する。
-  このアノテーションの :java:extdoc:`charsetDef <nablarch.core.validation.ee.SystemChar.charsetDef()>` 属性には、許容する文字種を表す名前を設定する。
-  この名前は、上記のコンポーネント設定ファイルに文字種セットを登録した際のコンポーネント名となる。
+Specify the character type with annotation
+  Configure the :java:extdoc:`@SystemChar <nablarch.core.validation.ee.SystemChar>` annotation in the property that performs character type validation.
+  Configure the name indicating the allowed character type in the :java:extdoc:`charsetDef <nablarch.core.validation.ee.SystemChar.charsetDef()>` attribute of this annotation.
+  This name will be the component name when the character type set is registered in the component configuration file mentioned above.
 
-  この例では、 ``半角数字`` を指定しているので、上記のコンポーネント定義に従い「0123456789」が許容される。
+  Since ``half-width numbers`` have been specified in this example, "0123456789" are allowed as per the component definition mentioned above.
 
   .. code-block:: java
 
     public class SampleForm {
 
-        @SystemChar(charsetDef = "半角数字")
+        @SystemChar(charsetDef = "Half-width character")
         public void setAccountNumber(String accountNumber) {
             this.accountNumber = accountNumber;
         }
@@ -357,17 +357,17 @@ Java実装例
 
 .. tip::
 
-  許容する文字セットの文字数が大きくなった場合、後方に定義されている文字のチェックには時間を要する。(単純に前方から順に文字セットに含まれるかをチェックするため)
-  この問題を解決するために、一度チェックした文字の結果をキャッシュする仕組みを提供している。
+  When there are a large number of characters in the set of allowed characters, it takes time to check the characters that are defined after. (To simply check whether the characters are included in the character set in order from the beginning)
+  To solve this problem, provide a mechanism to cache the results of a character once it has been checked.
 
-  ※原則キャッシュ機能は使わずに開発を進め、どうしても文字種バリデーションがボトルネックとなる場合に、キャッシュ機能を使うか否か検討すると良い。
+  * In principle, it is advisable to proceed with development without using the cache function, and consider using the cache function if character type validation becomes a bottleneck.
 
-  使い方は単純で、以下のコンポーネント定義のように、オリジナルの文字種セットの定義を、
-  キャッシュ用の :java:extdoc:`CachingCharsetDef <nablarch.core.validation.validator.unicode.CachingCharsetDef>` に設定するだけである。
+  Usage is simple. Configure the definition of the original character type set to :java:extdoc:`CachingCharsetDef <nablarch.core.validation.validator.unicode.CachingCharsetDef>`
+  for caching, as in the component definition shown below.
 
   .. code-block:: xml
 
-    <component name="半角数字" class="nablarch.core.validation.validator.unicode.CachingCharsetDef">
+    <component name="Half-width character" class="nablarch.core.validation.validator.unicode.CachingCharsetDef">
       <property name="charsetDef">
         <component class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
           <property name="allowedCharacters" value="01234567890" />
@@ -376,31 +376,31 @@ Java実装例
       <property name="messageId" value="numberString.message" />
     </component>
 
-サロゲートペアを許容する
-  このバリデーションでは、デフォルトではサロゲートペアを許容しない。
-  （例え `LiteralCharsetDef` で明示的にサロゲートペアの文字を定義していても許容しない）
+Allowing Surrogate Pairs
+  This validation does not allow surrogate pairs by default.
+  (They are not allowed even if the characters for surrogate pairs are explicitly defined in `LiteralCharsetDef`.)
 
-  サロゲートペアを許容する場合は次のようにコンポーネント設定ファイルに :java:extdoc:`SystemCharConfig <nablarch.core.validation.ee.SystemCharConfig>` を設定する必要がある。
+  To allow surrogate pairs, :java:extdoc:`SystemCharConfig <nablarch.core.validation.ee.SystemCharConfig>` must be configured in the component configuration file as follows.
 
-  ポイント
-   * コンポーネント名は ``ee.SystemCharConfig`` とすること
+  Point
+   * The component name should be ``ee.SystemCharConfig``
 
   .. code-block:: xml
 
     <component name="ee.SystemCharConfig" class="nablarch.core.validation.ee.SystemCharConfig">
-      <!-- サロゲートペアを許容する -->
+      <!-- Allows surrogate pairs -->
       <property name="allowSurrogatePair" value="true"/>
     </component>
 
 .. _bean_validation-correlation_validation:
 
-相関バリデーションを行う
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-複数の項目を使用した相関バリデーションを行うには、Bean Validationの :java:extdoc:`@AssertTrue <javax.validation.constraints.AssertTrue>` アノテーションを使用する。
+Performing Correlation Validation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To perform correlation validation using multiple items, use the :java:extdoc:`@AssertTrue <javax.validation.constraints.AssertTrue>` annotation of Bean Validation.
 
-実装例
-  この例では、メールアドレスと確認用メールアドレスが一致していることを検証している。
-  検証エラーとなった場合は、 `message` プロパティに指定したメッセージがエラーメッセージとなる。
+Implementation examples
+  In this example, it has been verified that the email address and the confirmation email address match.
+  When a verification error occurs, the message specified in the `message` property becomes the error message.
 
   .. code-block:: java
 
@@ -417,21 +417,21 @@ Java実装例
 
 .. important::
 
-  Bean Validationでは、バリデーションの実行順序は保証されないため、
-  項目単体のバリデーションよりも前に相関バリデーションが呼び出される場合がある。
+  Since the execution order of the validation is not guaranteed in Bean Validation,
+  correlation validation may be called even before the validation of individual items.
 
-  このため、相関バリデーションでは項目単体のバリデーションが実行されていない場合でも、
-  予期せぬ例外が発生しないようにバリデーションのロジックを実装する必要がある。
+  Therefore, it is necessary to implement validation logic so that unexpected exceptions do not occur,
+  even if the validation of individual items is not executed in correlation validation.
 
-  例えば、上記の例で `mailAddress` 及び `confirmMailAddress` が任意項目の場合は、
-  未入力の場合にはバリデーションを実行せずに、結果を戻す必要がある。
+  If `mailAddress` and `confirmMailAddress` are optional items in the example above,
+  a result must be returned without executing validation if they have not been input.
 
   .. code-block:: java
-    
+
     @AssertTrue(message = "{compareMailAddress}")
     public boolean isEqualsMailAddress() {
       if (StringUtil.isNullOrEmpty(mailAddress) || StringUtil.isNullOrEmpty(confirmMailAddress)) {
-        // どちらかが未入力の場合は、相関バリデーションは実施しない。(バリデーションOKとする)
+        // If either of them is not input, correlation validation is not performed.(Validation is OK)
         return true;
       }
       return Objects.equals(mailAddress, confirmMailAddress);
@@ -440,28 +440,28 @@ Java実装例
 
 .. _bean_validation-database_validation:
 
-データベースとの相関バリデーションを行う
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データベースとの相関バリデーションは、以下理由により業務アクション側で実装すること。
+Performing Correlation Validation with the Database
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Correlation validation with the database is implemented on the business action side for the following reasons.
 
-理由
-  Bean Validationを使ってデータベースに対する相関バリデーションを実施した場合、
-  バリデーション実施前の安全ではない値を使ってデータベースアクセスを行うことになる。
-  (Bean Validation実行中のオブジェクトの値は、安全である保証がない。)
-  これは、SQLインジェクションなどの脆弱性の原因となるため、さけるべき実装であるため。
+Reason
+  When correlation validation is performed for the database using Bean Validation,
+  the database is accessed using the unsafe value before validation is performed.
+  (There is no guarantee that the value of the object during Bean Validation is safe.)
+  This is an implementation that should be avoided as it causes vulnerabilities such as SQL injection.
 
-  バリデーション実行後に業務アクションでバリデーションを行うことで、
-  バリデーション済みの安全な値を使用してデータベースへアクセスできる。
+  By validating with a business action after validation is performed,
+  the database can be accessed using the validated safe value.
 
 .. _bean_validation-create_message_for_property:
 
-特定の項目に紐づくバリデーションエラーのメッセージを作りたい
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`データベースとの相関バリデーション <bean_validation-database_validation>` のようにアクションハンドラで行うバリデーションでエラーが発生した場合に、
-画面上で対象項目をエラーとしてハイライト表示したい場合がある。
+To create a validation error message linked to a specific item
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+When an error occurs in the validation performed with action handlers such as :ref:`Correlation validation with the database <bean_validation-database_validation>`,
+sometimes it may be required to highlight the target item as an error on the screen.
 
-この場合には、下記の実装例のように :java:extdoc:`ValidationUtil#createMessageForProperty <nablarch.core.validation.ValidationUtil.createMessageForProperty(java.lang.String-java.lang.String-java.lang.Object...)>`
-を使用してエラーメッセージを構築し、 :java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>` を送出する。
+In this case, as shown in the implementation example below, an error message is built using :java:extdoc:`ValidationUtil#createMessageForProperty <nablarch.core.validation.ValidationUtil.createMessageForProperty(java.lang.String-java.lang.String-java.lang.Object...)>`
+and the :java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>` is thrown.
 
 .. code-block:: java
 
@@ -469,23 +469,23 @@ Java実装例
           ValidationUtil.createMessageForProperty("form.mailAddress", "duplicate.mailAddress"));
 
 
-一括登録のようなBeanの複数入力を行う機能でバリデーションを行う
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-一括登録のように同一の情報を複数入力するケースがある。
-このような場合には、バリデーション対象のBeanに対してネストしたBeanを定義することで対応する。
+Performing validation using a function that performs Bean multiple input, such as batch registration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+There are cases where the same information is input multiple times, such as in batch registration.
+In such cases, a nested Bean is defined for the Bean for validation.
 
 .. tip::
-  これはBean Validationの仕様のため、詳細はBean Validationの仕様を参照すること。
+  Since this is the specifications for Bean Validation, see Bean Validation specifications for details.
 
-以下に例を示す。
+An example is shown below.
 
 .. code-block:: java
 
-  // 一括入力された全ての情報を保持するForm
+  // Form that stores all the information that has been batch input
   public class SampleBulkForm {
 
-    // ネストしたBeanに対してもバリデーションを実行することを
-    // しめすValidアノテーションを設定する。
+    // Configure the Valid annotation that indicates
+    // validation is also executed for nested Bean.
     @Valid
     private List<SampleForm> sampleForm;
 
@@ -493,68 +493,68 @@ Java実装例
       sampleForm = new ArrayList<>();
     }
 
-    // setter、getterは省略
+    // Getter and setter are omitted
   }
 
 
-  // 一括入力された情報の1入力分の情報を保持するForm
+  // Form that retains the information of one input of the information that is input in batch
   public class SampleForm {
     @Domain("name")
     private String name;
 
-    // setter、getterは省略
+    // Getter and setter are omitted
   }
 
-ネストしたBeanをバリデーションする際の注意点
+Important points when validating nested Bean
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ブラウザの開発者ツールでhtmlを改竄されたり、Webサービスで不正なJsonやXMLを受信した際にネストしたBeanの情報が送信されない場合がある。
-この場合、ネストしたBeanが未初期化状態(null)となり、バリデーション対象とならない問題がある。
-このため、確実にネストしたBeanの状態がバリデーションされるよう実装を行う必要がある。
+Nested bean information may not be sent, for example, when the html is tampered with a browser developer tool and the web service receives an invalid Json or XML, etc.
+In this case, the nested Bean becomes uninitialized (null) and will not be a target for validation.
+Hence, implementation is required so that the status of the nested Bean can be reliably validated.
 
-以下に幾つかの実装例を示す。
+Some implementation examples are shown below.
 
-親BeanとネストしたBeanが1対Nの場合
-  ネストしたBeanをバリデーション対象にし、親のBean初期化時にネストしたBeanのフィールドも初期化する。
-  ネストしたBeanの情報が必須(最低1つは選択 or 入力されていること)の場合は、
-  :java:extdoc:`Size <nablarch.core.validation.ee.Size>` アノテーションを設定する。
-  
+When parent Bean and nested Bean are 1:N
+  The nested Bean will be a target for validation, and the fields of the nested Bean are also initialized when the parent Bean is initialized.
+  If the information of nested Bean is mandatory (select or input at least one),
+  configure the :java:extdoc:`Size <nablarch.core.validation.ee.Size>` annotation.
+
   .. code-block:: java
 
-    // Sizeアノテーションを設定することで、必ず1つは選択されていることをバリデーションする。
+    // Validates that at least one is selected by configuring the Size annotation.
     @Valid
     @Size(min = 1, max = 5)
     private List<SampleNestForm> sampleNestForms;
 
     public SampleForm() {
-      // インスタンス作成時にネストしたBeanのフィールドを初期化する
+      // Initialize the fields of the nested Bean when creating an instance
       sampleNestForms = new ArrayList<>();
     }
 
-親BeanとネストしたBeanが1対1の場合
-  BeanをネストさせずにフラットなBeanにできないか検討すること。
-  接続先からの要求で対応できない場合には、ネストしたBeanに対するバリデーションが確実に実行されるよう実装を行うこと。
+When parent Bean and nested Bean are 1:1
+  Consider whether a flat Bean can be made without nesting the Bean.
+  When unable to respond to requests from the connection destination, perform implementation so that nested Bean validation can be executed reliably.
 
   .. code-block:: java
-  
-    // ネストしたBeanをバリデーション対象にする
+
+    // Target nested Beans for validation
     @Valid
     private SampleNestForm sampleNestForm;
 
     public SampleForm() {
-      // インスタンス作成時にネストしたBeanのフィールドを初期化する
+      // Initialize the fields of the nested Bean when creating an instance
       sampleNestForm = new SampleNestForm();
     }
 
 
 .. _bean_validation-web_application:
 
-ウェブアプリケーションのユーザ入力値のチェックを行う
+Checking User Input Values for Web Applications
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ウェブアプリケーションのユーザ入力値のチェックは :ref:`inject_form_interceptor` を使用して行う。
-詳細は、 :ref:`inject_form_interceptor` を参照。
+The user input values for Web applications are checked using :ref:`inject_form_interceptor`.
+For details, see :ref:`inject_form_interceptor`.
 
-:ref:`inject_form_interceptor` でBean Validationを使用するためには、コンポーネント設定ファイルに定義する必要がある。
-以下例のように、 :java:extdoc:`BeanValidationStrategy <nablarch.common.web.validator.BeanValidationStrategy>` を ``validationStrategy`` という名前でコンポーネント定義すること。
+To use Bean Validation with :ref:`inject_form_interceptor`, it must be defined in the component configuration file.
+As shown in the example below, the component :java:extdoc:`BeanValidationStrategy <nablarch.common.web.validator.BeanValidationStrategy>` is defined with the name ``validationStrategy``.
 
 .. code-block:: xml
 
@@ -562,92 +562,91 @@ Java実装例
 
 .. tip::
 
-  BeanValidationStrategyでは、バリデーションエラーのエラーメッセージを、以下の順でソートする。
+  BeanValidationStrategy sorts the error messages for validation errors in the following order.
 
-  * javax.servlet.ServletRequest#getParameterNamesが返す項目名順
-    (エラーが発生した項目がリクエストパラメータに存在しない場合は、末尾に移動する)
+  * Order of item names returned by javax.servlet.ServletRequest#getParameterNames
+    (If the item in which the error occurred does not exist in the request parameter, it is moved to the end)
 
-  ``getParameterNames`` が返す値は実装依存であり、使用するアプリケーションサーバによっては並び順が変わる可能性がある点に注意すること。
-  プロジェクトでソート順を変更したい場合は、BeanValidationStrategyを継承し対応すること。
-
+  Note that the value returned by ``getParameterNames`` is implementation-dependent, and the alignment order may change depending on the application server used.
+  To change the sort order in the project, BeanValidationStrategy is inherited.
 
 .. _bean_validation_onerror:
 
 
-バリデーションエラー時にもリクエストパラメータをリクエストスコープから取得したい
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Request parameters are to be obtained from the request scope even when there is a validation error
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:ref:`inject_form_interceptor`\ を使用すると、バリデーション成功後にリクエストスコープにバリデーション済みのフォームを格納される。
-これを利用することでリクエストパラメータが参照できるが、バリデーションエラー時にも同様にリクエストスコープからパラメータを取得したい場合がある。
+When :ref:`inject_form_interceptor` is used, the validated Form is stored in the request scope after successful validation.
+This can be used to reference the request parameters, but there may also be similar cases where you would like to get the parameters from the request scope when a validation error occurs.
 
 
-例えば、JSTLタグ(EL式)を使用する場合、Nablarchカスタムタグとは異なりリクエストパラメータを暗黙的に参照する\ [#1]_ ことはできないので、
-次のような処理を追加する必要がある。
+For example, the following process must be added when using the JSTL tag (EL expression),
+since it is not possible to implicitly refer to [#1]_ the request parameters unlike with the Nablarch custom tag.
 
-* 一度Nablarchタグ ``<n:set>`` を使用してリクエストパラメータの値を変数に格納する
-* 暗黙オブジェクト ``param`` を使用してリクエストパラメータにアクセスする  
+* Use Nablarch tag ``<n:set>`` once to store the values of request parameters in a variable.
+* Access request parameters using the implicit object ``param``
 
-前者の ``<n:set>`` を使用する例を以下に示す。
-  
+An example using the former ``<n:set>`` is shown below.
+
 .. code-block:: jsp
-                  
-   <%-- リクエストパラメータの値をJSTL(EL式)でも参照できるよう変数に代入する --%>
+
+   <%-- Substitutes the values of request parameters in a variable so that they can be referenced even with JSTL (EL expression) --%>
    <n:set var="quantity" name="form.quantity" />
    <c:if test="${quantity >= 100}">
-     <%-- 数量が100以上の場合... --%>
+     <%-- When the quantity is 100 or more... --%>
 
 
-このような場合、 :java:extdoc:`BeanValidationStrategy <nablarch.common.web.validator.BeanValidationStrategy>`\
-のプロパティ ``copyBeanToRequestScopeOnError`` を ``true`` に設定することで、\
-バリデーションエラー時にも、リクエストパラメータをコピーしたBeanをリクエストスコープに格納できる。
-以下に設定例を示す。
+In such a case, the Bean that copied the request parameters can be stored in the request scope
+even when a validation error occurs by configuring the property ``copyBeanToRequestScopeOnError`` of
+:java:extdoc:`BeanValidationStrategy <nablarch.common.web.validator.BeanValidationStrategy>` to ``true``.
+A configuration example is shown below.
 
 .. code-block:: xml
 
   <component name="validationStrategy" class="nablarch.common.web.validator.BeanValidationStrategy">
-    <!-- バリデーションエラー時にリクエストスコープに値をコピーする -->
+    <!-- Copies values to the request scope when a validation error occurs -->
     <property name="copyBeanToRequestScopeOnError" value="true"/>
   </component>
 
-リクエストスコープには、 ``@InjectForm`` の ``name`` で指定されたキー名でBeanが格納される\
-（\ :ref:`inject_form_interceptor`\ の通常動作と同じ）。
+The Bean is stored in the request scope using a key specified with the ``name`` ``@InjectForm``
+(same as normal operation of :ref:`inject_form_interceptor`).
 
-  
-この機能を有効にすることで、前述のJSPは以下のように記述できる。
+
+By enabling this function, the JSP mentioned above can be described as follows.
 
 
 .. code-block:: jsp
-                
-   <%-- リクエストスコープ経由でリクエストパラメータの値をJSTL(EL式)でも参照できる --%>
-   <c:if test="${form.quantity >= 100}">
-     <%-- 数量が100以上の場合... --%>
 
-.. [#1] Nablarchカスタムタグの動作については、 :ref:`tag-access_rule` を参照。
-     
+   <%-- Request parameter values can also be referenced with JSTL (EL expression) via request scope --%>
+   <c:if test="${form.quantity >= 100}">
+     <%-- When the quantity is 100 or more... --%>
+
+.. [#1] For a description of how the Nablarch custom tag works, see :ref:`tag-access_rule`.
+
 .. _bean_validation-property_name:
 
 
-バリデーションエラー時のメッセージに項目名を含めたい
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Bean Validation(JSR349)の仕様では、項目名をメッセージに含めることができないが、
-要件などによってはメッセージに項目名を含めたい場合がある。
-このため、NablarchではBean Validationを使用した場合でもメッセージにエラーが発生した項目の項目名を含める機能を提供している。
+Embed the item name in the message when a validation error occurs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Although the item name cannot be embedded in the message as per the Bean Validation (JSR349) specifications,
+you may want to embed the item name in the message according to the requirements etc.
+Therefore, Nablarch provides a function that embeds the item name of the item in which an error has occurred, even if Bean Validation is used.
 
-以下に使用方法を示す。
+The usage method is shown below.
 
-コンポーネント設定ファイル
-  メッセージに項目名を含めるメッセージコンバータを生成するファクトリクラスを設定する。
-  コンポーネント名には、 ``constraintViolationConverterFactory`` を設定し、
-  クラス名には :java:extdoc:`ItemNamedConstraintViolationConverterFactory <nablarch.core.validation.ee.ItemNamedConstraintViolationConverterFactory>` を設定する。
+Component configuration file
+  Configure the factory class that generates the message converter which embeds the item name in a message.
+  Configure ``constraintViolationConverterFactory`` in the component name
+  and :java:extdoc:`ItemNamedConstraintViolationConverterFactory <nablarch.core.validation.ee.ItemNamedConstraintViolationConverterFactory>` in the class name.
 
   .. code-block:: xml
 
     <component name="constraintViolationConverterFactory"
         class="nablarch.core.validation.ee.ItemNamedConstraintViolationConverterFactory" />
 
-バリデーション対象のForm
+Form to be validated
   .. code-block:: java
-  
+
     package sample;
 
     public class User {
@@ -659,46 +658,46 @@ Bean Validation(JSR349)の仕様では、項目名をメッセージに含める
       private String address;
     }
 
-項目名の定義
-  項目名は、メッセージとして定義する。
-  項目名のメッセージIDは、バリデーション対象のクラスの完全修飾名 + "." + 項目のプロパティ名とする。
+Definition of item name
+  Item names are defined as messages.
+  The message ID of item name is the fully qualified class name for validation + "." + item property name.
 
-  上記のFormクラスの場合、 ``sample.User`` が完全修飾名で ``name`` と ``address`` の２つのプロパティがある。
-  項目名の定義には、以下のように ``sample.User.name`` と ``sample.User.address`` が必要となる。
+  In the case of the above Form class, ``sample.User`` is a fully qualified name with 2 properties- ``name`` and ``address``.
+  As shown below, ``sample.User.name`` and ``sample.User.address`` are required to define the item name.
 
-  なお、項目名の定義を行わなかった場合、メッセージに項目名は付加されない。
+  If the item name is not defined, it will not be added in the message.
 
   .. code-block:: properties
 
-    # Requiredのメッセージ
-    nablarch.core.validation.ee.Required.message=入力してください。
+    # Required message
+    nablarch.core.validation.ee.Required.message= Please enter
 
-    # 項目名の定義
-    sample.User.name = ユーザ名
-    sample.User.address = 住所
+    # Definition of item name
+    sample.User.name = User name
+    sample.User.address = Mailing address
 
-生成されるメッセージ
-  生成されるメッセージは、エラーメッセージの先頭に項目名が付加される。
-  項目名は ``[`` 、 ``]`` で囲まれる。
+Generated Message
+  In the generated message, the item name is added to the beginning of the error message.
+  Item name is enclosed by ``[`` , ``]``.
 
   .. code-block:: text
 
-    [ユーザ名]入力してください。
-    [住所]入力してください。
-  
+    [User Name] Please enter.
+    [Mailing Address] Please enter.
+
 .. tip::
-  メッセージへの項目名の追加方法を変更したい場合には、 :java:extdoc:`ItemNamedConstraintViolationConverterFactory <nablarch.core.validation.ee.ItemNamedConstraintViolationConverterFactory>` 
-  を参考にし、プロジェクト側で実装を追加し対応すること。
+  To change the method of adding the item name to the message, see :java:extdoc:`ItemNamedConstraintViolationConverterFactory <nablarch.core.validation.ee.ItemNamedConstraintViolationConverterFactory>`
+  and add the implementation on the project side.
 
-拡張例
----------------
-プロジェクト固有のアノテーションとバリデーションロジックを追加したい
+Expansion example
+-------------------------
+To add project-specific annotations and validation logic
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`bean_validation-validator` に記載のバリデータで要件を満たすことができない場合は、
-プロジェクト側でアノテーション及びバリデーションのロジックを追加すること。
+If the requirements cannot be satisfied with the validators described in :ref:`bean_validation-validator`,
+annotations and validation logic are added on the project side.
 
-実装方法などの詳細については、以下のリンク先及びNablarchの実装を参照。
+For details on the implementation method, see the following links and Nablarch implementation.
 
-* `Hibernate Validator(外部サイト、英語) <http://hibernate.org/validator/>`_
-* `JSR349(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=349>`_
+* `Hibernate Validator(external site) <http://hibernate.org/validator/>`_
+* `JSR349(external site) <https://jcp.org/en/jsr/detail?id=349>`_
 
