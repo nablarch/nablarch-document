@@ -1,78 +1,78 @@
 .. _`data_io-functional_comparison`:
 
-データバインドと汎用データフォーマットの比較表
+Comparison Table of Data Bind and General Data Format
 ----------------------------------------------------------------------------------------------------
-この章では、以下の機能の比較を示す。
+This section compares the following functions:
 
 * :ref:`data_bind`
 * :ref:`data_format`
 
 
-.. list-table:: 機能比較（○：提供あり　△：一部提供あり　×：提供なし　－:対象外）
+.. list-table:: Function comparison (○: Provided △: Partially provided ×: Not provided -: Not applicable)
   :header-rows: 1
   :class: something-special-class
 
-  * - 機能
-    - データバインド
-    - 汎用データフォーマット
+  * - Function
+    - Data bind
+    - General data format
 
-  * - CSVの入出力ができる
+  * - CSV can be input/output
     - ○ |br|
-      :ref:`解説書へ <data_bind-csv_format>`
+      :ref:`To the manual <data_bind-csv_format>`
     - ○ |br|
-      :ref:`解説書へ <data_format-support_type>`
+      :ref:`To the manual <data_format-support_type>`
 
-  * - レコード毎にフォーマットの異なる |br| CSVの入出力ができる
+  * - CSV with different formats |br| input/output for each record
     - × [#csv_multi_format]_
     - ○ |br|
-      :ref:`解説書へ <data_format-multi_layout_data>`
+      :ref:`To the manual <data_format-multi_layout_data>`
 
-  * - CSVの定義を設定できる |br|
-      (カンマやクォート文字を変更することできる)
+  * - CSV definition can be configured |br|
+      (comma, quote characters, etc. can be changed)
     - ○ |br|
-      :ref:`解説書へ <data_bind-csv_format>`
+      :ref:`To the manual <data_bind-csv_format>`
     - ○ |br|
-      :ref:`解説書へ <data_format-variable_data_directive>`
+      :ref:`To the manual <data_format-variable_data_directive>`
 
-  * - 固定長データの入出力ができる
+  * - Fixed-length data can be input/output
     - ○ |br|
-      :ref:`解説書へ <data_bind-fixed_length_format>`
+      :ref:`To the manual <data_bind-fixed_length_format>`
     - ○ |br|
-      :ref:`解説書へ <data_format-support_type>`
+      :ref:`To the manual <data_format-support_type>`
 
-  * - レコード毎にフォーマットの異なる |br| 固定長データの入出力ができる
+  * - Fixed-length data with different formats |br| for each record can be input/output
     - ○ |br|
-      :ref:`解説書へ <data_bind-fixed_length_format-multi_layout>`
+      :ref:`To the manual <data_bind-fixed_length_format-multi_layout>`
     - ○ |br|
-      :ref:`解説書へ <data_format-multi_layout_data>`
+      :ref:`To the manual <data_format-multi_layout_data>`
 
-  * - JSONデータの入出力ができる
+  * - JSON data can be input/output
     - × [#json_layout]_
     - ○ |br|
-      :ref:`解説書へ <data_format-support_type>`
+      :ref:`To the manual <data_format-support_type>`
 
-  * - XMLデータの入出力ができる
+  * - XML data can be input/output
     - × [#xml_layout]_
     - ○ |br|
-      :ref:`解説書へ <data_format-support_type>`
+      :ref:`To the manual <data_format-support_type>`
 
-  * - データ入出力時に値の変換ができる |br|
-      (trimやパック数値やゾーン数値の変換など)
+  * - Value can be converted during data input/output |br|
+      (trim, packed decimal, conversion of zone decimal, etc.)
     - △ [#converter]_
     - ○ |br|
-      :ref:`解説書へ <data_format-value_convertor>`
+      :ref:`To the manual <data_format-value_convertor>`
 
-  * - データの寄せ字ができる |br|
-      システムで許容可能な文字への変換などを指す
+  * - Refers to the conversion into characters that are allowed |br|
+      in a system that can use collated characters for data
     - × [#char_replace]_
     - ○ |br|
-      :ref:`解説書へ <data_format-replacement>`
+      :ref:`To the manual <data_format-replacement>`
 
-.. [#csv_multi_format] レコード毎に異なるフォーマットのCSVを扱う場合には、 :ref:`data_format` を使用すること。
-.. [#json_layout] JSONデータの入出力は未実装。JSONデータを扱う場合は、 :ref:`data_format` やOSSを使用すること。
-.. [#xml_layout] XMLデータの入出力は未実装。XMLデータを扱う場合は、 :ref:`data_format` やJAXBを使用すること。
-.. [#converter] 固定長データのみtrim等のコンバータを提供している。CSVで値の変換を行いたい場合は、出力前及び入力後にデータの形式変換などを行うこと。
-.. [#char_replace] 入力データの寄せ字(文字変換)は、文字変換用のハンドラを作成し対応すること
+.. [#csv_multi_format] When handling CSV of different format for each record, use :ref:`data_format`.
+.. [#json_layout] Input/output of JSON data is not implemented. When handling JSON data, use :ref:`data_format` or OSS.
+.. [#xml_layout] Input/output of XML data is not implemented. When handling XML data, use :ref:`data_format` or JAXB.
+.. [#converter] Converters such as trim only for fixed-length data are provided. To convert the value with CSV, data format conversion has to be performed before output and after input.
+.. [#char_replace] Create a handler for character conversion to handle the collated characters (character conversion) of input data.
 
 .. |br| raw:: html
 
