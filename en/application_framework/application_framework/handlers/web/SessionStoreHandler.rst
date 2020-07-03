@@ -1,37 +1,34 @@
 .. _session_store_handler:
 
-セッション変数保存ハンドラ
-============================
+Session Variable Store Handler
+==============================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-後続のハンドラやライブラリで追加・更新・削除されたセッション変数を、セッションストアに保存するハンドラ。
+This handler stores the session variables added/updated/deleted in subsequent handlers and libraries in the session store.
 
-セッションストア機能の詳細は、 :ref:`session_store` を参照。
+For details of session store functions, see :ref:`session_store` .
 
-本ハンドラの処理の流れは以下の通りとなる。
+The process flow of this handler is as follows.
 
 .. image:: ../images/SessionStoreHandler/flow.png
 
 .. important:: 
 
-  同一セッションの処理が複数のスレッドで実行された場合(例えば、タブブラウザで複数タブから同時にリクエストが有った場合)、
-  使用しているストアによっては後勝ちとなる。
-  詳細は、以下のイメージを参照。
+  If processing of the same session is executed by multiple threads (for example, if there are requests from multiple tabs in the browser at the same time), then depending on the store being used, the request that comes last will be processed. See the below image for details.
 
   .. image:: ../images/SessionStoreHandler/multi-thread.png
     :scale: 80
 
-  このため、使用するストアの特性をよく理解し、要件にあったストアを選択する必要がある。
-  ストアの詳細は、 :ref:`session_store-future_of_store` を参照。
+  Therefore, it is necessary to fully understand the characteristics of the store to be used and select the store that meets the requirements. For details of the store, see :ref:`session_store-future_of_store` .
 
-ハンドラクラス名
+Handler class name
 --------------------------------------------------
 * :java:extdoc:`nablarch.common.web.session.SessionStoreHandler`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -40,7 +37,7 @@
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-  <!-- DBストアを使用する場合のみ -->
+  <!-- Only when using the DB store -->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-fw-web-dbstore</artifactId>
@@ -48,31 +45,25 @@
 
 .. _session_store_handler-constraint:
 
-制約
+Constraints
 ------------------------------
-:ref:`http_response_handler` より後ろに配置すること
-  サーブレットフォワード時、フォワード先でセッションストアの値にアクセスできるようにするため、
-  本ハンドラは :ref:`http_response_handler` より後ろに配置する必要がある。
+Place this handler after the :ref:`http_response_handler`
+  During servlet forward, this handler must be placed after the :ref:`http_response_handler` so that the value of the session store can be accessed at the forward destination.
 
-:ref:`multipart_handler` より後ろに配置すること
-  HIDDENストア使用時にリクエストパラメータにアクセスできるようにするため、
-  本ハンドラは :ref:`multipart_handler` より後ろに配置する必要がある。
+Place this handler after the :ref:`multipart_handler`
+  This handler must be placed after the :ref:`multipart_handler` so that the request parameters can be accessed when using the HIDDEN store.
 
-:ref:`forwarding_handler` より前に配置すること
-  :ref:`forwarding_handler` を本ハンドラよりも前に設定した場合、セッションストアの読み込み、保存が複数回実行されるが、
-  HIDDENストアはリクエストパラメータからセッション変数を読み込み、リクエストスコープにセッション変数を保存するため、
-  内部フォーワード時にHIDDENストアを使用した場合、最新のセッション変数を取得することができない問題がある。
-  このため、本ハンドラは :ref:`forwarding_handler` より前に配置すること。
+Place this handler before the :ref:`forwarding_handler`
+  Although the session store is read and saved multiple times if the :ref:`forwarding_handler` is configured before this handler, the HIDDEN store reads the session variable from the request parameter and saves the session variable in the request scope. Therefore, there is a problem that the latest session variable cannot be obtained when using the HIDDEN store during internal forward. Therefore, place this handler before the :ref:`forwarding_handler` .
 
-セッションストアを使用するための設定を行う
+Configure for using session store
 --------------------------------------------------------------
-セッションストアを使用するには、以下の設定を行った :java:extdoc:`SessionManager <nablarch.common.web.session.SessionManager>`
-を本ハンドラの :java:extdoc:`sessionManager <nablarch.common.web.session.SessionStoreHandler.setSessionManager(nablarch.common.web.session.SessionManager)>` プロパティに設定する必要がある。
+To use the session store, configure :java:extdoc:`SessionManager <nablarch.common.web.session.SessionManager>` which has been configured as given below to the property :java:extdoc:`sessionManager <nablarch.common.web.session.SessionStoreHandler.setSessionManager(nablarch.common.web.session.SessionManager)>` of this handler.
 
-* アプリケーションで使用するセッションストア（複数指定可）
-* デフォルトで使用するセッションストア名
+* Session store used by the application (multiple specifications possible)
+* Session store name used by default
 
-以下の設定例を参考に、本ハンドラの設定を行うこと。
+Configure the handler by referring to the configuration example given below.
 
 .. code-block:: xml
 
@@ -80,76 +71,70 @@
     <property name="sessionManager" ref="sessionManager"/>
   </component>
 
-  <!-- "sessionManager"というコンポーネント名で設定する -->
+  <!-- Configure with the component name "sessionManager" -->
   <component name="sessionManager" class="nablarch.common.web.session.SessionManager">
-    <!-- プロパティの設定は省略 -->
+    <!-- Property configuration is omitted -->
   </component>
 
-:java:extdoc:`SessionManager <nablarch.common.web.session.SessionManager>` に設定するプロパティの詳細は :ref:`session_store-use_config` を参照。
+For details of the property configured in :java:extdoc:`SessionManager <nablarch.common.web.session.SessionManager>` , see :ref:`session_store-use_config` .
 
-セッション変数を直列化してセッションストアに保存する
+Serialize the session variables and save to the session store
 --------------------------------------------------------------
-本ハンドラでセッション変数をセッションストアに保存する際、直列化の仕組みを選択することができる。
+When saving the session variable in the session store with this handler, the serialization mechanism can be selected.
 
-選択可能な直列化の仕組みの詳細は :ref:`session_store-serialize` を参照。
+For details on the serialization mechanism that can be selected, see :ref:`session_store-serialize` .
 
-セッションストアの改竄をチェックする
+Check the session store for tampering
 --------------------------------------------------------------
-セッションストアからセッション変数を読み込む際、セッションストアが改竄されていないかをチェックする。
+When reading the session variables from the session store, check the session store for tampering.
 
-HIDDENストアの改竄を検知した場合
-  ステータスコード400の :java:extdoc:`HttpErrorResponse <nablarch.fw.web.HttpErrorResponse>` を送出する。
+When tampering of the HIDDEN store is detected
+  :java:extdoc:`HttpErrorResponse <nablarch.fw.web.HttpErrorResponse>` of status code 400 is thrown.
 
-それ以外のストアの改竄を検知した場合
-  セッションストアの復号処理時に発生した例外をそのまま送出する。
+When tampering of other stores is detected
+  Exception that occurred during the decryption process of the session store is sent without any changes.
 
 .. _session_store_handler-error_forward_path:
 
-改竄エラー時の遷移先を設定する
+Configure the transition destination during tampering error
 --------------------------------------------------------------
-セッションストアの改竄を検知した場合に表示するエラーページは `web.xml` に記載する必要がある。
-なぜなら、本ハンドラは :ref:`session_store_handler-constraint` に記載の通り、 :ref:`forwarding_handler` よりも前に設定する必要がある。
-この場合、以下の理由により本ハンドラで発生した例外に対して、 :ref:`HttpErrorHandler_DefaultPage` を適用することができないため、
-`web.xml` に対する設定が必要となる。
+The error page displayed when the tampering of the session store is detected must be described in `web.xml`. This handler must be configured before the :ref:`forwarding_handler` as described in the :ref:`session_store_handler-constraint` . In this case, :ref:`HttpErrorHandler_DefaultPage` cannot be applied to the exception that occurs in this handler for the following reasons. Therefore, configuration in `web.xml` is required.
 
-理由
-  :ref:`forwarding_handler` は、 :ref:`http_error_handler` よりも手前に設定する必要がある。
-  これは、 :ref:`http_error_handler`  の :ref:`HttpErrorHandler_DefaultPage` に対して指定した
-  内部フォワードのパスを正しく扱うために必要な設定順となる。
+Reason
+  :ref:`forwarding_handler` must be configured before the :ref:`http_error_handler` . This configuration order is required to correctly handle the internal forward path specified for :ref:`HttpErrorHandler_DefaultPage` of the :ref:`http_error_handler` .
 
-  この結果、 :ref:`forwarding_handler` より前に設定される本ハンドラで発生した例外に対しては、
-  :ref:`HttpErrorHandler_DefaultPage` への設定値が適用できないため `web.xml` への設定が必要となる。
+  As a result, when an exception occurs in the handler that is configured before the :ref:`forwarding_handler` , the configuration value in the :ref:`HttpErrorHandler_DefaultPage` cannot be applied. Therefore, configuration in `web.xml` is required.
 
-セッションIDを保持するクッキーの名前や属性を変更する
---------------------------------------------------------------
-セッションIDを保持するクッキーの名前や属性を任意の値に変更することができる。
+Change the name and attributes of the cookie that holds the session ID
+----------------------------------------------------------------------
+The name and attributes of the cookie that holds the session ID can be changed to an arbitrary value.
 
-デフォルトの設定は以下のとおり。
+The default configuration is as follows.
 
-:クッキー名:    | NABLARCH_SID
-:Path属性:      | ホスト配下のすべてのパス
-                 | 送信可能なパスを明示的に指定したい場合に別途設定すること
-:Domain属性:    | 指定しない
-                  | 送信可能なドメインを明示的に指定したい場合に別途設定すること
-:Secure属性:    | 使用しない
-                  | HTTPS環境で使用する場合は、``使用する`` に設定すること
-:MaxAge属性:    | 指定しない
-:HttpOnly属性:  | ServletAPIのバージョンが3.0以上であれば使用する
+:Cookie name:         | NABLARCH_SID
+:Path attribute:      | All paths under the host
+                      | Set this option separately if you want to explicitly specify all paths that can be sent
+:Domain attribute:    | Not specified
+                      | Set this option separately if you want to explicitly specify all domains that can be sent
+:Secure attribute:    | Not used
+                      | To use in an HTTPS environment, configure to ``Use``
+:MaxAge attribute:    | Not specified
+:HttpOnly attribute:  | Use if the Servlet API version is 3.0 or higher
 
-クッキー名や属性を変更したい場合は、以下の例を参考に設定を行うこと。
+To change the cookie name or attribute, refer to the example given below.
 
 .. code-block:: xml
 
     <component class="nablarch.common.web.session.SessionStoreHandler">
-      <!-- クッキー名 -->
+      <!-- Cookie name -->
       <property name="cookieName" value="NABLARCH_SID" />
-      <!-- Path属性 -->
+      <!-- Path attribute -->
       <property name="cookiePath" value="/" />
-      <!-- Domain属性 -->
+      <!-- Domain attribute -->
       <property name="cookieDomain" value="" />
-      <!-- Secure属性 -->
+      <!-- Secure attribute -->
       <property name="cookieSecure" value="false" />
-      <!-- セッションマネージャ -->
+      <!-- Session manager -->
       <property name="sessionManager" ref="sessionManager"/>
     </component>
 
@@ -157,21 +142,19 @@ HIDDENストアの改竄を検知した場合
       <property name="availableStores">
         <list>
           <component class="nablarch.common.web.session.store.DbStore">
-            <!-- 有効期間 -->
+            <!-- Expiry interval -->
             <property name="expires" value="1800" />
-            <!-- その他のプロパティは省略 -->
+            <!-- Other properties are omitted -->
           </component>
         </list>
       </property>
-      <!-- その他のプロパティは省略 -->
+      <!-- Other properties are omitted -->
     </component>
 
 .. important::
-  セッションIDを保持するクッキーをセッションクッキー(ブラウザを閉じれば破棄されるクッキー)とするため、MaxAge属性は使用しない。
+  The MaxAge attribute is not used because the cookie holding the session ID is a session cookie (cookie that is destroyed when the browser is closed).
 
-  セッションストアの有効期間は、HTTPセッションに保存する。
-  複数のストア間で異なる有効期間を設定した場合は、最も期間の長い値をHTTPセッションに保存する。
+  The expiry interval of the session store is saved in the HTTP session. If different expiry intervals are configured between multiple stores, the longest expiry interval value is stored in the HTTP session.
 
 .. tip::
-  HttpOnly属性の値はアプリケーションで使用しているServletAPIのバージョンによって決定されるため、
-  設定ファイル等から任意の値を指定することはできない。
+  Since the value of HttpOnly attribute is determined by the version of the Servlet API used in the application, an arbitrary value cannot be specified from the configuration file.
