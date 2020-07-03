@@ -6,6 +6,9 @@ set HTMLPATH=%BUILDDIR%/html
 if "%2" == "en" (
     set HTMLPATH=%BUILDDIR%/html/%2
 )
+if "%2" == "ja" (
+    set HTMLPATH=%BUILDDIR%/html/%2
+)
 
 if "%SPHINXBUILD%" == "" (
 	set SPHINXBUILD=sphinx-build
@@ -78,6 +81,8 @@ if errorlevel 9009 (
 
 
 if "%1" == "html" (
+
+	mkdir %HTMLPATH% > NUL 2>&1
 	%SPHINXBUILD% -b html %ALLSPHINXOPTS% %HTMLPATH%
 	if errorlevel 1 exit /b 1
 	echo.
