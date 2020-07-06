@@ -1,106 +1,106 @@
 .. _http_access_log:
 
-HTTPアクセスログの出力
+Output of HTTP Access Log
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-HTTPアクセスログは、フレームワークが提供するハンドラを使用して出力する。
-アプリケーションでは、ハンドラの設定を行うことでHTTPアクセスログを出力する。
+The HTTP access log is output using the handler provided by the framework.
+The HTTP access log is output in the application by configuring the handler.
 
-HTTPアクセスログの出力に必要となるハンドラは以下のとおり。
+The handlers required to output the HTTP access log are as follows.
 
  :ref:`http_access_log_handler`
-  リクエスト処理開始時と終了時のログ出力を行う。
+  Outputs the log at the start and end of the request process.
 
  :ref:`nablarch_tag_handler`
-  hiddenパラメータ復号後のログ出力を行う。
-  hiddenパラメータについては、 :ref:`hidden暗号化<tag-hidden_encryption>` を参照。
+  Outputs the log after decrypting the hidden parameters.
+  For hidden parameters, see :ref:`hidden encryption <tag-hidden_encryption>`.
 
  :ref:`http_request_java_package_mapping`
-  ディスパッチ先クラス決定後のログ出力を行う。
+  Outputs the log after the dispatch class is determined.
 
-リクエストパラメータを含めたリクエスト情報を出力することで、
-個別アプリケーションの証跡ログの要件を満たせる場合は、HTTPアクセスログと証跡ログを兼用することも想定している。
+If the requirements of the trail log of the individual application can be met by output of the request information including the request parameters,
+then the HTTP access and trail logs can be used together.
 
-HTTPアクセスログの出力方針
+Output policy of HTTP access log
 --------------------------------------------------
-HTTPアクセスログは、アプリケーション全体のログ出力を行うアプリケーションログに出力する。
+The HTTP access log is output to an application log that outputs the log of the entire application.
 
-.. list-table:: HTTPアクセスログの出力方針
+.. list-table:: Output policy of HTTP access log
    :header-rows: 1
    :class: white-space-normal
    :widths: 15,15
 
-   * - ログレベル
-     - ロガー名
+   * - Log level
+     - Logger name
 
    * - INFO
      - HTTP_ACCESS
 
-上記出力方針に対するログ出力の設定例を下記に示す。
+A configuration example of the log output for the above mentioned output policy is shown below.
 
-log.propertiesの設定例
+Configuration example of log.properties
  .. code-block:: properties
 
   writerNames=appLog
 
-  # アプリケーションログの出力先
+  # Output destination of the application log
   writer.appLog.className=nablarch.core.log.basic.FileLogWriter
   writer.appLog.filePath=/var/log/app/app.log
   writer.appLog.encoding=UTF-8
   writer.appLog.maxFileSize=10000
   writer.appLog.formatter.className=nablarch.core.log.basic.BasicLogFormatter
-  writer.appLog.formatter.format=<アプリケーションログ用のフォーマット>
+  writer.appLog.formatter.format=<Format for the application log>
 
   availableLoggersNamesOrder=ACC,ROO
 
-  # アプリケーションログの設定
+  # Configure the application log
   loggers.ROO.nameRegex=.*
   loggers.ROO.level=INFO
   loggers.ROO.writerNames=appLog
 
-  # HTTPアクセスログの設定
+  # Configuration of HTTP access log
   loggers.ACC.nameRegex=HTTP_ACCESS
   loggers.ACC.level=INFO
   loggers.ACC.writerNames=appLog
 
-使用方法
+How to use
 --------------------------------------------------
 
 .. _http_access_log-setting:
 
-HTTPアクセスログの設定を行う
+Configure the HTTP access log
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
+The http access log is configured in the property file described in :ref:`log-app_log_setting`.
 
-記述ルール
+Description rules
  \
 
  httpAccessLogFormatter.className
-  :java:extdoc:`HttpAccessLogFormatter <nablarch.fw.web.handler.HttpAccessLogFormatter>` を実装したクラス。
-  差し替える場合に指定する。
+  Class that implements :java:extdoc:`HttpAccessLogFormatter <nablarch.fw.web.handler.HttpAccessLogFormatter>`.
+  Specify to replace.
 
  httpAccessLogFormatter.beginFormat
-  リクエスト処理開始時のログ出力に使用するフォーマット。
+  Format used for the log output at the start of the request process.
 
-  フォーマットに指定可能なプレースホルダ
-   :リクエストID: $requestId$
-   :ユーザID: $userId$
+  Placeholders that can be specified for the format
+   :Request ID: $requestId$
+   :User ID: $userId$
    :URL: $url$
-   :ポート番号: $port$
-   :HTTPメソッド: $method$
-   :セッションID: $sessionId$
-   :リクエストパラメータ: $parameters$
-   :セッションスコープ情報: $sessionScope$
-   :クライアント端末IPアドレス: $clientIpAddress$
-   :クライアント端末ホスト: $clientHost$
-   :HTTPヘッダのUser-Agent: $clientUserAgent$
-   :リクエストパラメータ: $parameters$
+   :Port number: $port$
+   :HTTP method: $method$
+   :Session ID: $sessionId$
+   :Request parameters: $parameters$
+   :Session scope information: $sessionScope$
+   :Client terminal IP address: $clientIpAddress$
+   :Client terminal host: $clientHost$
+   :User-Agent of HTTP header: $clientUserAgent$
+   :Request parameters: $parameters$
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: bash
 
     @@@@ BEGIN @@@@ rid = [$requestId$] uid = [$userId$] sid = [$sessionId$]
@@ -112,54 +112,54 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
         \n\tparameters  = [$parameters$]
 
   .. tip::
-   リクエストパラメータは、 :ref:`hidden暗号化<tag-hidden_encryption>` の復号前の状態となる。
+   Request parameters are in the state before decryption of :ref:`hidden encryption <tag-hidden_encryption>`.
 
   .. important::
-   リクエストIDとユーザIDは、 :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>`
-   が出力する項目と重複するが、HTTPアクセスログのフォーマットの自由度を高めるために設けている。
+   Although request ID and user ID might overlap with the output items of  :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>`,
+   they have been provided to increase the flexibility of the HTTP access log format.
 
-   リクエストID、ユーザIDを出力する場合は、
-   これらの取得元が :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` なので、
-   ハンドラ構成に :ref:`thread_context_handler` が含まれている必要がある。
+   When the request ID and user ID are output,
+   :ref:`thread_context_handler` must be included in the handler configuration as they are acquired
+   from :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>`.
 
  httpAccessLogFormatter.parametersFormat
-  hiddenパラメータ復号後のログ出力に使用するフォーマット。
+  Format used for the log output after decryption of hidden parameters.
 
-  フォーマットに指定可能なプレースホルダ
-   「リクエスト処理開始時のログ出力に使用するフォーマット」と同じため省略。
+  Placeholders that can be specified for the format
+   Omitted as it is the same as "format used for the log output at the start of the request process".
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: bash
 
     @@@@ PARAMETERS @@@@
         \n\tparameters  = [$parameters$]
 
  httpAccessLogFormatter.dispatchingClassFormat
-  ディスパッチ先クラス決定後のログ出力に使用するフォーマット。
+  Format used for the output log after the dispatch class has been determined.
 
-  フォーマットに指定可能なプレースホルダ
-   :ディスパッチ先クラス: $dispatchingClass$
+  Placeholders that can be specified for the format
+   :Dispatch destination class: $dispatchingClass$
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: bash
 
     @@@@ DISPATCHING CLASS @@@@ class = [$dispatchingClass$]
 
  httpAccessLogFormatter.endFormat
-  リクエスト処理終了時のログ出力に使用するフォーマット。
+  Format used for the log output at the end of the request process.
 
-  フォーマットに指定可能なプレースホルダ
-   :ディスパッチ先クラス: $dispatchingClass$
-   :ステータスコード(内部): $statusCode$
-   :ステータスコード(クライアント): $responseStatusCode$
-   :コンテンツパス: $contentPath$
-   :開始日時: $startTime$
-   :終了日時: $endTime$
-   :実行時間: $executionTime$
-   :最大メモリ量: $maxMemory$
-   :空きメモリ量(開始時): $freeMemory$
+  Placeholders that can be specified for the format
+   :Dispatch destination class: $dispatchingClass$
+   :Status code (internal): $statusCode$
+   :Status code (client): $responseStatusCode$
+   :Content path: $contentPath$
+   :Start date and time: $startTime$
+   :End date and time: $endTime$
+   :Execution time: $executionTime$
+   :Maximum memory: $maxMemory$
+   :Free memory (at start): $freeMemory$
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: bash
 
     @@@@ END @@@@ rid = [$requestId$] uid = [$userId$] sid = [$sessionId$] url = [$url$] status_code = [$statusCode$] content_path = [$contentPath$]
@@ -171,63 +171,63 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
 
   .. tip::
 
-    ステータスコード(内部)は、 :ref:`http_access_log_handler` の復路時点でのステータスコードのことを指す。
-    ステータスコード(クライアント)は、 :ref:`http_response_handler` で、クライアントに返却するステータスコードのことを指す。
+    The status code (internal) indicates the status code when :ref:`http_access_log_handler` is returned.
+    Status code (client) is :ref:`http_response_handler` and indicates the status code returned to the client.
 
-    ステータスコード(クライアント)は、本ログ出力時点では確定していないが、 :ref:`http_response_handler` と同じ機能を使い、
-    ステータスコード(クライアント)を導出しログ出力を行う。
+    Although the status code (client) is not finalized when this log is output,
+    the log is output by deriving the status code (client) using the same function as :ref:`http_response_handler`.
 
-    ステータスコードの変換ルールは、 :ref:`http_response_handler-convert_status_code` を参照。
+    For status code conversion rules, see :ref:`http_response_handler-convert_status_code`.
 
   .. important::
-   ``ステータスコード(クライアント)`` の値は、 HTTPアクセスログハンドラの処理の後にJSPのエラーなどシステムエラーが発生した場合、
-   実際の内部コードと異なることがある。この場合、システムエラーとして別途障害監視ログが出力されるため、
-   障害監視ログが発生した際にはこの値が正しくない可能性があることを考慮してログを検証すること。
+   Value of the ``status code (client)`` may be different form the internal code when system errors such as JSP error occur after the HTTP access log handler is processed.
+   Since a separate failure monitoring log is output as system error in such cases,
+   consider the possibility that this value may be incorrect whenever a failure monitoring log is generated and verify the log.
 
  httpAccessLogFormatter.datePattern
-  開始日時と終了日時に使用する日時パターン。
-  パターンには、 :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>` が規程している構文を指定する。
-  デフォルトは ``yyyy-MM-dd HH:mm:ss.SSS`` 。
+  Date and time pattern to use for date and time of the start and end.
+  For the pattern, specify the syntax specified by :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>`.
+  Default is ``yyyy-MM-dd HH:mm:ss.SSS``.
 
  httpAccessLogFormatter.maskingPatterns
-  マスク対象のパラメータ名又は変数名を正規表現で指定する（部分一致）。
-  複数指定する場合はカンマ区切り。
-  リクエストパラメータとセッションスコープ情報の両方のマスキングに使用する。
-  指定した正規表現は大文字小文字を区別しない。
-  例えば、\ ``password``\ と指定した場合、 ``password`` ``newPassword`` ``password2`` 等にマッチする。
+  Specify the parameter name and variable name to be masked with a regular expression (partial match).
+  If more than one is specified, separate them with commas.
+  Used for masking both the request parameters and session scope information.
+  The specified regular expression is not case-sensitive.
+  For example, if specified as \ ``password``\, matches with ``password``, ``newPassword`` and ``password2``, etc.
 
  httpAccessLogFormatter.maskingChar
-  マスクに使用する文字。デフォルトは ``*`` 。
+  Character used for masking. Default is ``*``.
 
  httpAccessLogFormatter.parametersSeparator
-  リクエストパラメータのセパレータ。
-  デフォルトは ``\n\t\t`` 。
+  Request parameter separator.
+  Default is ``\n\t\t`` .
 
  httpAccessLogFormatter.sessionScopeSeparator
-  セッションスコープ情報のセパレータ。
-  デフォルトは ``\n\t\t`` 。
+  Separator for session scope information.
+  Default is ``\n\t\t`` .
 
  httpAccessLogFormatter.beginOutputEnabled
-  リクエスト処理開始時の出力が有効か否か。
-  デフォルトはtrue。
-  falseを指定するとリクエスト処理開始時の出力を行わない。
+  Whether output at the start of the request process is enabled.
+  Default is true.
+  If specified as false, it is not output at the start of the request process.
 
  httpAccessLogFormatter.parametersOutputEnabled
-  hiddenパラメータ復号後の出力が有効か否か。
-  デフォルトはtrue。
-  falseを指定するとhiddenパラメータ復号後の出力を行わない。
+  Whether output after hidden parameter decryption is enabled.
+  Default is true.
+  If specified as false, it is not output after decryption of the hidden parameter.
 
  httpAccessLogFormatter.dispatchingClassOutputEnabled
-  ディスパッチ先クラス決定後の出力が有効か否か。
-  デフォルトはtrue。
-  falseを指定するとディスパッチ先クラス決定後の出力を行わない。
+  Whether output after determining the dispatch class is enabled.
+  Default is true.
+  If specified as false, it is not output after determining the dispatch class.
 
  httpAccessLogFormatter.endOutputEnabled
-  リクエスト処理終了時の出力が有効か否か。
-  デフォルトはtrue。
-  falseを指定するとリクエスト処理終了時の出力を行わない。
+  Whether output at the end of the request process is enabled.
+  Default is true.
+  If specified as false, it is not output at the end of the request process.
 
-記述例
+Example of the description
  .. code-block:: properties
 
   httpAccessLogFormatter.className=nablarch.fw.web.handler.HttpAccessLogFormatter
