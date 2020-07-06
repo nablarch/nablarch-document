@@ -1,170 +1,169 @@
 .. _failure_log:
 
-障害ログの出力
+Output of Failure Log
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-フレームワークでは、処理方式毎の例外ハンドラにおいて出力する。
-アプリケーションでは、バッチ処理の障害発生時に後続処理を継続する場合などに出力する。
+In the framework, the failure log is output by the exception handler for each process method.
+The log is output in the application when a subsequent process is continued in the case of a failure during a batch process.
 
-障害ログの出力方針
+Output policy of failure log
 --------------------------------------------------
-障害通知ログは、ログ監視ツールから監視することで障害を検知することを想定しているので、
-ロガー名を付けて障害通知専用のファイルに出力する。
-障害解析ログは、アプリケーション全体のログ出力を行うアプリケーションログに出力する。
+The log monitoring tool is assumed to monitor and detect failures,
+the failure notification log is output to a dedicated failure notification file with the logger name.
+The failure analysis log is output to an application log that outputs the log of the entire application.
 
-.. list-table:: 障害ログの出力方針
+.. list-table:: Output policy of failure log
    :header-rows: 1
    :class: white-space-normal
    :widths: 30,30,30
 
-   * - ログの種類
-     - ログレベル
-     - ロガー名
+   * - Log type
+     - Log level
+     - Logger name
 
-   * - 障害通知ログ
-     - FATAL、ERROR
+   * - Failure notification log
+     - FATAL, ERROR
      - MONITOR
 
-   * - 障害解析ログ
-     - FATAL、ERROR
-     - クラス名
+   * - Failure analysis log
+     - FATAL, ERROR
+     - Class name
 
-上記出力方針に対するログ出力の設定例を下記に示す。
+A configuration example of the log output for the above mentioned output policy is shown below
 
-log.propertiesの設定例
+Configuration example of log.properties
  .. code-block:: properties
 
   writerNames=monitorLog,appLog
 
-  # 障害通知ログの出力先
+  # Output destination of failure notification log
   writer.monitorLog.className=nablarch.core.log.basic.FileLogWriter
   writer.monitorLog.filePath=/var/log/app/monitor.log
   writer.monitorLog.formatter.className=nablarch.core.log.basic.BasicLogFormatter
-  writer.monitorLog.formatter.format=<障害通知ログ用のフォーマット>
+  writer.monitorLog.formatter.format=<Format for failure notification log>
 
-  # アプリケーションログの出力先
+  # Output destination of application log
   writer.appLog.className=nablarch.core.log.basic.FileLogWriter
   writer.appLog.filePath=/var/log/app/app.log
   writer.appLog.maxFileSize=10000
   writer.appLog.formatter.className=nablarch.core.log.basic.BasicLogFormatter
-  writer.appLog.formatter.format=<アプリケーションログ用のフォーマット>
+  writer.appLog.formatter.format=<Format for application log>
 
   availableLoggersNamesOrder=MON,ROO
 
-  # アプリケーションログの設定
+  # Configure application log
   loggers.ROO.nameRegex=.*
   loggers.ROO.level=INFO
   loggers.ROO.writerNames=appLog
 
-  # 障害通知ログの出力設定
+  # Output configuration of failure notification log
   loggers.MON.nameRegex=MONITOR
   loggers.MON.level=ERROR
   loggers.MON.writerNames=monitorLog
 
 .. tip::
 
- 大規模システムで障害時の連絡先が複数存在する場合、
- :ref:`failure_log-add_contact` を使用することで、リクエストID毎に連絡先情報をログに含めることができる。
+ In large scale systems, when there are multiple contacts during failure,
+ contact information for each request ID can be included in the log by using :ref:`failure_log-add_contact`.
 
-
-使用方法
+How to use
 --------------------------------------------------
 
 .. _failure_log-logging:
 
-障害ログを出力する
+Output failure log
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-障害ログの出力には、 :java:extdoc:`FailureLogUtil <nablarch.core.log.app.FailureLogUtil>` を使用する。
+For failure log output, use :java:extdoc:`FailureLogUtil <nablarch.core.log.app.FailureLogUtil>`.
 
 .. code-block:: java
 
   try {
-      // 業務処理
+      // Business process
   } catch (UserNotFoundException e) {
-      // 捕捉した例外、処理対象データ、障害コードを指定している。
+      // Specify the exception caught, process target data and failure code.
       FailureLogUtil.logError(e, inputData, "USER_NOT_FOUND");
   }
 
-なお、バッチとメッセージングにおいては、障害を検知した時点で、
-障害ログを出力して業務処理を終了したい場合がある。
-このような場合は、
-:java:extdoc:`TransactionAbnormalEnd <nablarch.fw.results.TransactionAbnormalEnd>` または
-:java:extdoc:`ProcessAbnormalEnd <nablarch.fw.launcher.ProcessAbnormalEnd>` を送出し、
-例外ハンドラ(:ref:`global_error_handler` や :ref:`request_thread_loop_handler`) に障害ログの出力を依頼する。
+In batch process and messaging, it may be necessary to output the failure log and terminate the business process
+when a failure is detected.
+In such cases,
+:java:extdoc:`TransactionAbnormalEnd <nablarch.fw.results.TransactionAbnormalEnd>` or
+:java:extdoc:`ProcessAbnormalEnd <nablarch.fw.launcher.ProcessAbnormalEnd>` is thrown,
+and a request is sent to the exception handler (:ref:`global_error_handler` or :ref:`request_thread_loop_handler`) to output the failure log.
 
 .. code-block:: java
 
-  // 自ら例外を生成する場合
+  // When an own exception is generated
   if (user == null) {
-      // 終了コード、障害コードを指定している。
+      // Specify the end code and failure code.
       throw new TransactionAbnormalEnd(100, "USER_NOT_FOUND");
   }
 
-  // 例外を捕捉した場合
+  // If an exception is caught
   try {
-      // 業務処理
+      // Business process
   } catch (UserNotFoundException e) {
-      // 終了コード、捕捉した例外、障害コードを指定している。
+      // Specify the end code, caught exception and failure code.
       throw new ProcessAbnormalEnd(100, e, "USER_NOT_FOUND");
   }
 
 .. tip::
- 上記例のように、障害ログの出力では、ログから障害内容を特定するために障害コードを指定する。
- 障害コードのコード体系は、プロジェクト毎に規定すること。
+ As in the above example, failure code is specified in the failure log output to identify the failure content from the log.
+ Specify a code system for failure code in every project.
 
-障害ログに出力されるメッセージ
- 障害ログに出力されるメッセージは、 :ref:`message` を使用して障害コードに対応するメッセージを取得する。
- :ref:`message` では、メッセージが見つからない場合に例外が発生する。
- メッセージ取得処理で例外が発生した場合は、障害ログとは別に、
- メッセージ取得処理で発生した例外をWARNレベルでログ出力し、障害ログには下記のメッセージを出力する。
+Message output to the failure log
+ For output of the message to the failure log, use :ref:`message` and acquire the message corresponding to the failure code.
+ If the :ref:`message` cannot be found in the message, an exception is thrown.
+ When an exception occurs in the message acquisition process, in addition to the failure log,
+ WARN level log of the exception in the message acquisition process is output and the following message is output in the failure log.
 
  .. code-block:: bash
 
-  failed to get the message to output the failure log. failureCode = [<障害コード>]
+  failed to get the message to output the failure log. failureCode = [<Failure code>]
 
- フレームワークの例外ハンドラで例外やエラーを捕捉した場合など、障害コードの指定がない場合は、
- 設定で指定するデフォルトの :ref:`障害コード <failure_log-prop_default_failure_code>` と
- :ref:`メッセージ <failure_log-prop_default_message>` を出力する。
+ When a failure code is not specified, such as an exception or error captured by the framework exception handler,
+ the default :ref:`failure code <failure_log-prop_default_failure_code>` and :ref:`message <failure_log-prop_default_message>`
+ specified by the configuration are output.
 
 .. _failure_log-setting:
 
-障害ログの設定を行う
+Configure the failure log
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-障害ログの設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
+The failure log is configured in the property file described in :ref:`log-app_log_setting`.
 
-記述ルール
+Description rules
  \
 
  failureLogFormatter.className
-  :java:extdoc:`FailureLogFormatter <nablarch.core.log.app.FailureLogFormatter>` を実装したクラス。
-  差し替える場合に指定する。
+  This class implements failureLogFormatter.className :java:extdoc:`FailureLogFormatter <nablarch.core.log.app.FailureLogFormatter>`.
+  Specify to replace.
 
  .. _failure_log-prop_default_failure_code:
 
- failureLogFormatter.defaultFailureCode ``必須``
-  デフォルトの障害コード。
-  例外ハンドラで例外がエラーを捕捉した場合など、障害コードの指定がない場合に使用する。
+ failureLogFormatter.defaultFailureCode ``required``
+  Default failure code.
+  Use when there is no failure code specified, like in cases where an error is captured by the exception handler.
 
  .. _failure_log-prop_default_message:
 
- failureLogFormatter.defaultMessage ``必須``
-  デフォルトのメッセージ。
-  デフォルトの障害コードを使用する場合に出力するメッセージとなる。
+ failureLogFormatter.defaultMessage ``required``
+  Default message.
+  This message is output when a default failure code is used.
 
  failureLogFormatter.language
-  障害コードからメッセージを取得する際に使用する言語。
-  指定がない場合は :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` に設定されている言語を使用する。
+  The language used to acquire the message from the failure code.
+  If it is not specified, the language configured in :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` will be used.
 
  .. _failure_log-prop_notification_format:
 
  failureLogFormatter.notificationFormat
-  障害通知ログのフォーマット。
+  Format for failure notification log.
 
-  フォーマットに指定可能なプレースホルダ
+  Placeholders that can be specified for the format
    \
 
    .. list-table::
@@ -172,59 +171,59 @@ log.propertiesの設定例
       :class: white-space-normal
       :widths: 20,20,60
 
-      * - 項目名
-        - プレースホルダ
-        - 説明
+      * - Item名
+        - Placeholder
+        - Description
 
-      * - 障害コード
+      * - Failure code
         - $failureCode$
-        - 障害を一意に識別するコード。障害内容の特定に使用する。
+        - A code that uniquely identifies the failure. Used to identify the nature of the failure.
 
-      * - メッセージ
+      * - Message
         - $message$
-        - 障害コードに対応するメッセージ。障害内容の特定に使用する。
+        - The message corresponding to the failure code. Used to identify the nature of the failure.
 
-      * - 処理対象データ
+      * - Data to be processed
         - $data$
-        - 障害が発生した処理が対象としていたデータを特定するために使用する。
-          データリーダを使用して読み込まれたデータオブジェクトのtoStringメソッドを呼び出し出力される。
+        - Used to identify the data targeted by the process in which the failure occurred.
+          Outputs by calling the toString method of the data object read using the data reader.
 
-      * - 連絡先
+      * - Contact
         - $contact$
-        - 連絡先を特定するために使用する。
+        - Used to identify the contacts.
 
-  デフォルトのフォーマット
+  Default format
    .. code-block:: java
 
     fail_code = [$failureCode$] $message$
 
  failureLogFormatter.analysisFormat
-  障害解析ログのフォーマット。
-  フォーマットに指定可能なプレースホルダとデフォルトのフォーマットは、
-  :ref:`障害通知ログのフォーマット <failure_log-prop_notification_format>` と同じ。
+  Format of failure analysis log.
+  Placeholders that can be specified for the format and default format are same as
+  :ref:`format for failure notification log <failure_log-prop_notification_format>`.
 
  failureLogFormatter.contactFilePath
-  障害の連絡先情報を指定したプロパティファイルのパス。
-  障害の連絡先情報を出力する場合に指定する。
-  詳細は :ref:`failure_log-add_contact` を参照。
+  Path to the property file that specifies the contact information of the failure.
+  Specify to output the contact information of the failure.
+  For details, see :ref:`failure_log-add_contact`.
 
  failureLogFormatter.fwFailureCodeFilePath
-  フレームワークの障害コードの変更情報を指定したプロパティファイルのパス。
-  障害ログ出力時にフレームワークの障害コードを変更する場合に指定する。
-  詳細は :ref:`failure_log-change_fw_failure_code` を参照。
+  Path to the property file that specifies the information change of the failure code in the framework.
+  Specify the change in the failure code of the framework when the failure log is output.
+  For details, see :ref:`failure_log-change_fw_failure_code`.
 
 
  .. important::
-  システムのセキュリティ要件により、障害解析ログであっても個人情報や機密情報の出力が許されない場合は、
-  :ref:`failure_log-placeholder_customize` を参照し、プロジェクトでカスタマイズすること。
+  When output of personal, confidential information, etc. is not allowed even in the failure analysis log
+  due to security requirements of the system, refer to :ref:`failure_log-placeholder_customize` and customize the project.
 
  .. tip::
-  処理対象データの出力により、障害ログに派生元実行時情報を出力することができる。
-  派生元実行時情報とは、例えば、ウェブからバッチ処理にデータ連携する場合であれば、
-  画面処理を実行した時点の実行時情報(リクエストIDや実行時IDなど)がバッチ処理での派生元実行時情報となる。
-  派生元実行時情報の出力方法は、 :ref:`failure_log-output_src_exe_info` を参照。
+  Derived source run time information can be output to the failure log by output of the process target data.
+  When the data from the Web has to be linked to the batch process,
+  runtime information (request ID or run time ID etc.) during execution of the screen process is the derived source run time information in the batch process.
+  For information on how to output the derived source run time information, :ref:`failure_log-output_src_exe_info`.
 
-記述例
+Example of the description
  .. code-block:: properties
 
   failureLogFormatter.className=nablarch.core.log.app.FailureLogFormatter
@@ -240,112 +239,112 @@ log.propertiesの設定例
 
 .. _failure_log-add_contact:
 
-障害ログに連絡先情報を追加する
+Add contact information to failure log
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-大規模システムで障害時の連絡先が複数存在する場合など、障害ログに連絡先情報を含めたい場合がある。
-そこで、障害ログの出力では、リクエストID毎に連絡先情報を指定する機能を提供する。
+The contact information may have to be included in the failure log, like in the case with multiple contacts during failure of large scale systems.
+Therefore, a function that specifies the contact information for each request ID should be provided in the output failure log.
 
-連絡先情報の追加は、プロパティファイルに指定する。キーにリクエストID、値に連絡先情報を指定する。
-キーに指定されたリクエストIDは、 :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` から取得したリクエストIDに対して、前方一致で検索する。
-このため、プロパティファイルの内容は読み込み後に、より限定的なリクエストIDから検索するように、キー名の長さの降順にソートする。
+Addition of the contact information should be specified in the property file.Specify the request ID as the key and contact information as the value.
+Request ID specified as the key is searched using prefix match with the request ID acquired from :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>`.
+Therefore, after reading the contents of the property file, sort in the descending order of the key name length for retrieval using limited request ID.
 
-連絡先情報の追加例を下記に示す。
+An example of adding the contact information is shown below.
 
-まず、プロパティファイルを準備する。 ``failure-log-contact.properties`` というファイル名でクラスパス直下に配置しているものとする。
+First, prepare a property file. A file with the name ``failure-log-contact.properties`` that is placed directly under the class path.
 
-failure-log-contact.propertiesの設定例
+Configuration example of failure-log-contact.properties
  .. code-block:: properties
 
-  # リクエストID=連絡先情報
+  # Request ID= Contact information
   /users/=USRMGR999
   /users/index=USRMGR300
   /users/list=USRMGR301
   /users/new=USRMGR302
   /users/edit=USRMGR303
 
- 上記プロパティファイルは、読み込み後下記の通りソートされ、上から順に検索に使用する。
+ The above-mentioned property file is sorted as follows and is used for the search in order from the top.
 
  .. code-block:: properties
 
-  # キー名の長さが等しいものは、実行毎に順番が変わる。
+  # If the key names have the same length, the order changes each time they are executed.
   /users/index=USRMGR300
   /users/list=USRMGR301
   /users/edit=USRMGR303
   /users/new=USRMGR302
   /users/=USRMGR999
 
-次に、障害ログのフォーマットで連絡先情報を表すプレースホルダ ``$contact$`` を指定する。
-さらに、プロパティファイルのパスを指定する。
+Next, specify the placeholder ``$contact$`` that represents the contact information in the failure log format.
+Specify the property file path.
 
-app-log.propertiesの設定例
+Configuration example of app-log.properties
  .. code-block:: properties
 
-  # FailureLogFormatterの設定
+  # Configuration of FailureLogFormatter
   failureLogFormatter.defaultFailureCode=UNEXPECTED_ERROR
   failureLogFormatter.defaultMessage=an unexpected exception occurred.
   failureLogFormatter.notificationFormat=[$failureCode$:$message$] <$contact$>
   failureLogFormatter.analysisFormat=fail_code = [$failureCode$] $message$ <$contact$>
 
-  # プロパティファイルのパスを指定する。
+  # Specify the property file path.
   failureLogFormatter.contactFilePath=classpath:failure-log-contact.properties
 
-上記の設定により、リクエストID毎に連絡先情報が出力される。
-リクエストIDが ``/users/new`` の場合に発生した障害の出力例を下記に示す。
-``$contact$`` を指定した箇所(<>で囲った部分)に ``USRMGR302`` が出力される。
+Contact information is output for every request ID based on the above mentioned configuration.
+An output example of failure that occurred for the request ID ``/users/new`` is shown below.
+``USRMGR302`` is output to the location (enclosed in <>) where ``$contact$`` is specified.
 
 .. code-block:: bash
 
- # 障害通知ログ
+ # Failure notification log
  2011-02-15 15:09:57.691 -FATAL- [APUSRMGR0001201102151509320020009] R[/users/new] U[0000000001] [UNEXPECTED_ERROR:an unexpected exception occurred.] <USRMGR302>
 
- # 障害解析ログ
+ # Failure analysis log
  2011-02-15 15:09:57.707 -FATAL- [APUSRMGR0001201102151509320020009] R[/users/new] U[0000000001] fail_code = [UNEXPECTED_ERROR] an unexpected exception occurred. <USRMGR302>
- # スタックトレースは省略。
+ # Stack trace is omitted.
 
-なお、リクエストIDに対応する連絡先情報が見つからない場合はnullが出力される。
+Outputs null when the contact information corresponding to the request ID cannot be found.
 
 .. _failure_log-change_fw_failure_code:
 
-フレームワークの障害コードを変更する
+Change the framework failure codes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-フレームワークでは、想定しないエラーが発生した際にRuntimeException系の例外を送出している。
-その結果、フレームワークが送出した例外は、全てデフォルトの障害コードが使用されて障害ログが出力される。
-障害監視において、障害コードにより監視対象をフィルタリングしたいケースが考えられるため、
-障害ログの出力では、フレームワークの障害コードを指定する機能を提供する。
+A RuntimeException exception is thrown when an unexpected error occurs in the framework.
+As a result, for all the exceptions thrown by the framework, default failure code is used and output to the failure log.
+In failure monitoring, since there may be cases where filtering the monitoring target based on the failure code may be required,
+a function should be provided to specify the framework failure code in the output of the failure log.
 
-フレームワークの障害コードは、例外が送出されたクラス名毎に指定することができる。
-「例外が送出されたクラス」とは、スタックトレースのルート要素を指している。
-例えば、下記のスタックトレースであれば、nablarch.core.message.StringResourceHolderクラスとなる。
+Framework failure code can be specified for every class name that throws an exception.
+The "class in which the exception is thrown" is the root element for the stack trace.
+For example, the class is nablarch.core.message.StringResourceHolder for the following stack trace.
 
 .. code-block:: bash
 
  Stack Trace Information :
  java.lang.RuntimeException: ValidateFor method invocation failed. targetClass = java.lang.Class, method = validateForRegisterUser
      at nablarch.core.validation.ValidationManager.validateAndConvert(ValidationManager.java:202)
-     # 途中のスタックトレースは省略。
+     # Omits stack trace in the middle.
  Caused by: nablarch.core.message.MessageNotFoundException: message was not found. message id = MSG00010
      at nablarch.core.message.StringResourceHolder.get(StringResourceHolder.java:40)
-     # 以降のスタックトレースは省略。(以降Caused byは出現しない)
+     # Subsequent stack trace is omitted.(Caused by does not appear subsequently)
 
-ただし、フレームワークのクラス毎に障害コードを設定するのは、分類が細かすぎるため現実的ではない。
-基本はパッケージ名単位に障害コードを指定することで、フレームワークのどの機能で例外が送出されたか判断することができる。
+However, it is not realistic to configure failure codes for every framework class as the classification will become too detailed.
+Basically, it is possible to determine which function of the framework threw an exception by specifying the failure code for the package name unit.
 
-フレームワークの障害コードは、プロパティファイルに指定する。
-プロパティファイルでは、キーにフレームワークのパッケージ名、値に障害コードを指定する。
-キーに指定されたパッケージ名は、スタックトレースから取得した例外が送出されたクラスのFQCN(完全修飾クラス名)に対して、
-前方一致で検索する。このため、プロパティファイルの内容は読み込み後に、より限定的なパッケージ名から検索するように、
-キー名の長さの降順にソートする。
+The failure code of the framework is specified in the property file.
+Specify the framework package name as the key and failure code as value in the property file.
+The package name specified as the key is used with prefix match to search the FQCN (fully qualified class name) of the class
+which threw an exception obtained from stack trace. Therefore, after reading the contents of the property file,
+sort in the descending order of the key name length for retrieval using limited package name.
 
-フレームワークの障害コードの変更例を下記に示す。
+An example for changing the framework failure code is shown below
 
-まず、プロパティファイルを準備する。
-``failure-log-fw-codes.properties`` というファイル名でクラスパス直下に配置しているものとする。
-nablarchというパッケージ名を指定することで、個別に指定していない全てのパッケージに対して障害コードを指定できる。
+First, prepare a property file.
+A file with the name ``failure-log-fw-codes.properties`` that is placed directly under the class path.
+By specifying the nablarch package name, failure codes can be specified for all the packages to which the failure codes have not been specified separately.
 
-failure-log-fw-codes.propertiesの設定例
+Configuration example of failure-log-fw-codes.properties
  .. code-block:: properties
 
-  # フレームワークのパッケージ名=障害コード
+  # Framework package name = Failure code
   nablarch=FW_ERROR
   nablarch.core.cache=FW_CACHE_ERROR
   nablarch.core.date=FW_DATE_ERROR
@@ -354,7 +353,7 @@ failure-log-fw-codes.propertiesの設定例
   nablarch.core.repository=FW_REPOSITORY_ERROR
   nablarch.core.transaction=FW_TRANSACTION_ERROR
 
- 上記プロパティファイルは、読み込み後下記の通りソートされ、上から順に検索に使用する。
+ The above-mentioned property file is sorted as follows and is used for the search in order from the top.
 
  .. code-block:: properties
 
@@ -366,101 +365,101 @@ failure-log-fw-codes.propertiesの設定例
    nablarch.core.db=FW_DB_ERROR
    nablarch=FW_ERROR
 
-次に、FailureLogFormatterの設定でプロパティファイルのパスを指定する。
+Next, specify the property file path in the configuration of FailureLogFormatter.
 
-app-log.propertiesの設定例
+Configuration example of app-log.properties
  .. code-block:: properties
 
   failureLogFormatter.defaultFailureCode=UNEXPECTED_ERROR
   failureLogFormatter.defaultMessage=an unexpected exception occurred.
   failureLogFormatter.notificationFormat=[$failureCode$:$message$]
   failureLogFormatter.analysisFormat=fail_code = [$failureCode$] $message$
-  # プロパティファイルのパスを指定する。
+  # Specify the property file path.
   failureLogFormatter.fwFailureCodeFilePath=classpath:failure-log-fw-codes.properties
 
-上記の設定により、フレームワークの障害コードが変更される。障害通知ログでいくつか出力例を下記に示す。
+The framework failure code is changed based on the above configuration. Some output examples of the failure notification log is shown below
 
-nablarch.core.date.BasicBusinessDateProviderクラスで例外を送出した場合
+When exception is thrown with nablarch.core.date.BasicBusinessDateProvider class
  .. code-block:: bash
 
-  # プロパティファイルのnablarch.core.date=FW_DATE_ERRORが該当する。
+  # Applicable when nablarch.core.date of property file = FW_DATE_ERROR.
   2011-02-15 16:48:54.993 -FATAL- [APUSRMGR0001201102151648315060002] R[/login] U[9999999999] fail_code = [FW_DATE_ERROR] segment was not found. segment:00.
   Stack Trace Information :
   java.lang.IllegalStateException: segment was not found. segment:00.
       at nablarch.core.date.BasicBusinessDateProvider.getDate(BasicBusinessDateProvider.java:103)
-      # 以降のスタックトレースは省略。
+      # Subsequent stack trace is omitted.
 
-nablarch.core.message.StringResourceHolderクラスで例外を送出した場合
+When exception is thrown withnablarch.core.message.StringResourceHolder class
  .. code-block:: bash
 
-  # プロパティファイルのnablarch.core.message=FW_MESSAGE_ERRORが該当する。
+  # Applicable when nablarch.core.message of property file = FW_MESSAGE_ERROR.
   2011-02-15 16:54:06.413 -FATAL- [APUSRMGR0001201102151653476260011] R[/users/edit] U[0000000001] fail_code = [FW_MESSAGE_ERROR] ValidateFor method invocation failed. targetClass = java.lang.Class, method = validateForRegisterUser
   Stack Trace Information :
   java.lang.RuntimeException: ValidateFor method invocation failed. targetClass = java.lang.Class, method = validateForRegisterUser
       at nablarch.core.validation.ValidationManager.validateAndConvert(ValidationManager.java:202)
-      # 途中のスタックトレースは省略。
+      # Omits stack trace in the middle.
   Caused by: nablarch.core.message.MessageNotFoundException: message was not found. message id = MSG00010
       at nablarch.core.message.StringResourceHolder.get(StringResourceHolder.java:40)
-      # 以降のスタックトレースは省略。
+      # Subsequent stack trace is omitted.
 
-nablarch.common.authentication.PasswordAuthenticatorクラスで例外を送出した場合
+When exception is thrown withnablarch.common.authentication.PasswordAuthenticator class
  .. code-block:: bash
 
-  # プロパティファイルのnablarch=FW_ERRORが該当する。
+  # Applicable when nablarch of property file =FW_ERROR.
   2011-02-15 16:59:03.076 -FATAL- [APUSRMGR0001201102151658551890017] R[/login] U[9999999999] fail_code = [FW_ERROR] authentication failed.
   Stack Trace Information :
   nablarch.common.authentication.AuthenticationFailedException
       at nablarch.common.authentication.PasswordAuthenticator.authenticate(PasswordAuthenticator.java:302)
-      # 以降のスタックトレースは省略。
+      # Subsequent stack trace is omitted.
 
 .. _failure_log-output_src_exe_info:
 
-派生元実行時情報を出力する
+Output the derived source run time information
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-派生元実行時情報とは、例えば、ウェブからバッチにデータ連携する場合であれば、
-画面処理を実行した時点の実行時情報がバッチ処理での派生元実行時情報となる。
-以降では、処理方式間でデータ連携した場合に、先に処理を行う側を前段処理、後に処理を行う側を後段処理と呼ぶ。
-後段処理における障害発生時に、前段処理の追跡作業を軽減するために派生元実行時情報を出力する。
+When the data from the Web has to be linked to the batch,
+runtime information during execution of the screen process is the derived source run time information in the batch process.
+Hereinafter, when data is linked between the process methods, the side that performs the process first is referred to as the pre-stage process, and the side that performs the process later is referred to as the post-stage process.
+When a failure occurs in the post-stage process, derived source run time information is output to reduce the tracking work of the pre-stage process.
 
-派生元実行時情報の出力には、本機能のプレースホルダ「$data$」が使用できる。
-プレースホルダ「$data$」が指定された場合、データリーダを使用して読み込まれたデータが障害ログに出力される。
-この機能を使用して、前段処理において予め実行時情報をデータに含めておくことで、
-後段処理の障害発生時に処理対象データとして前段処理の実行時情報が出力されることになる。
+The placeholder "$data$" of this function can be used to output the derived source run time information.
+When the placeholder “$data$” is specified, the data read using the data reader is output in the failure log.
+If derived source run time information is included in advance in the pre-stage process by using this function,
+when a failure occurs in post-stage process , derived source run time information of the pre-stage process is output as the process target data.
 
-ここでは、データベースを使用したデータ連携における派生元実行時情報の出力例を示す。
-前段処理において下記のカラム名で実行時情報が設定されていることとする。
+An output example of the derived source run time information in the data link using the database is shown here.
+The run time information is configured with the following column names in the pre-stage process.
 
 ==================== ====================
-項目                 カラム名
-リクエストID         INSERT_REQUEST_ID
-実行時ID             INSERT_EXECUTION_ID
-ユーザID             UPDATED_USER_ID
+Item                 Column name
+Request ID           INSERT_REQUEST_ID
+Run time ID          INSERT_EXECUTION_ID
+User ID              UPDATED_USER_ID
 ==================== ====================
 
-app-log.propertiesの設定例
+Configuration example of app-log.properties
  .. code-block:: properties
 
   failureLogFormatter.defaultFailureCode=UNEXPECTED_ERROR
   failureLogFormatter.defaultMessage=an unexpected exception occurred.
   failureLogFormatter.notificationFormat=fail_code = [$failureCode$] $message$
-  # 処理対象データのプレースホルダ「data」を障害解析ログのフォーマットに指定する。
+  # Specify the placeholder "data" of process target data in the format of the failure analysis log.
   failureLogFormatter.analysisFormat=fail_code = [$failureCode$] $message$\nInput Data :\n$data$
 
-障害解析ログの出力例
+Output example of failure analysis log
  .. code-block:: bash
 
-  # 障害解析ログ
-  2011-09-26 21:06:35.745 -FATAL- root [EXECUTION_ID_0000000123456789] boot_proc = [] proc_sys = [] req_id = [RB11AC0160] usr_id = [batchuser1] fail_code = [USER_REGISTER_FAILED] ユーザ情報の登録に失敗しました。
+  # Failure analysis log
+  2011-09-26 21:06:35.745 -FATAL- root [EXECUTION_ID_0000000123456789] boot_proc = [] proc_sys = [] req_id = [RB11AC0160] usr_id = [batchuser1] fail_code = [USER_REGISTER_FAILED] Registration of user information failed.
   Input Data :
-  {MOBILE_PHONE_NUMBER_AREA_CODE=002, KANJI_NAME=山本太郎, USER_INFO_ID=00000000000000000113, INSERT_EXECUTION_ID=EXECUTION_ID_2000000123456789, MAIL_ADDRESS=yamamoto@sample.com, MOBILE_PHONE_NUMBER_CITY_CODE=0003, UPDATED_USER_ID=batch_user, MOBILE_PHONE_NUMBER_SBSCR_CODE=0004, KANA_NAME=ヤマモトタロウ, EXTENSION_NUMBER_BUILDING=13, LOGIN_ID=12345678901234567890, EXTENSION_NUMBER_PERSONAL=1235, INSERT_REQUEST_ID=RB11AC0140}
+  {MOBILE_PHONE_NUMBER_AREA_CODE=002, KANJI_NAME=Yamamoto Taro, USER_INFO_ID=00000000000000000113, INSERT_EXECUTION_ID=EXECUTION_ID_2000000123456789, MAIL_ADDRESS=yamamoto@sample.com, MOBILE_PHONE_NUMBER_CITY_CODE=0003, UPDATED_USER_ID=batch_user, MOBILE_PHONE_NUMBER_SBSCR_CODE=0004, KANA_NAME= Yamamoto Taro, EXTENSION_NUMBER_BUILDING=13, LOGIN_ID=12345678901234567890, EXTENSION_NUMBER_PERSONAL=1235, INSERT_REQUEST_ID=RB11AC0140}
   Stack Trace Information :
-  [100 TransactionAbnormalEnd] ユーザ情報の登録に失敗しました。
+  [100 TransactionAbnormalEnd] Registration of user information failed.
       at nablarch.sample.ss11AC.B11AC016Action.handle(B11AC016Action.java:73)
       at nablarch.sample.ss11AC.B11AC016Action.handle(B11AC016Action.java:1)
       at nablarch.fw.action.BatchAction.handle(BatchAction.java:1)
-      # 以降のスタックトレースは省略。
+      # Subsequent stack trace is omitted.
 
-処理対象データ(出力例の「Input Data :」)に下記の実行時情報が出力される。
+The following run time information is output in the process target data ("Input Data:" of output example).
  .. code-block:: properties
 
   INSERT_REQUEST_ID=RB11AC0140
@@ -469,39 +468,39 @@ app-log.propertiesの設定例
 
 .. _failure_log-placeholder_customize:
 
-プレースホルダに対する出力処理をカスタマイズする
+Customize the output process for placeholders
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-処理対象データ($data$)はデフォルトでtoStringメソッドにより全てのデータ項目が出力されるため、
-プロジェクトのセキュリティ要件で特定項目をマスクした出力が要求されるケースが考えられる。
-このように、プレースホルダに対する出力処理をカスタマイズしたい場合は、以下の作業を行う。
+Since all the data items of the process target data ($data$) are output with the toString method by default,
+in some cases masking certain specific items based on the project security requirements may be necessary.
+When the output process for the placeholder has to be customized, perform the following operation.
 
-* :java:extdoc:`LogItem <nablarch.core.log.LogItem>` を実装したクラスを作る
-* :java:extdoc:`FailureLogFormatter <nablarch.core.log.app.FailureLogFormatter>` を継承したクラスを作り、プレースホルダを追加する
-* :java:extdoc:`FailureLogFormatter <nablarch.core.log.app.FailureLogFormatter>` を継承したクラスを使うように設定する
+* Create a class that implements :java:extdoc:`LogItem <nablarch.core.log.LogItem>`
+* Create a class that inherits :java:extdoc:`FailureLogFormatter <nablarch.core.log.app.FailureLogFormatter>` and add a placeholder
+* Configure such that a class that inherits :java:extdoc:`FailureLogFormatter <nablarch.core.log.app.FailureLogFormatter>` is used
 
-ここでは、処理対象データ($data$)に対する出力処理のカスタマイズ例を示す。
+A customization example of the output process corresponding to the process target data ($data$) is shown here.
 
-:java:extdoc:`LogItem <nablarch.core.log.LogItem>` を実装したクラスを作る
- 処理対象データ($data$)に対する出力内容を提供するクラスを作る。
- 今回はフレームワークが提供する :java:extdoc:`DataItem <nablarch.core.log.app.FailureLogFormatter.DataItem>` を継承して作成し、
- 処理対象データがMap型の場合のみマスク処理を行うように実装している。
+Create a class that implements :java:extdoc:`LogItem <nablarch.core.log.LogItem>`
+ Create a class that provides output contents corresponding to the process target data ($data$).
+ Create a class by inheriting :java:extdoc:`DataItem <nablarch.core.log.app.FailureLogFormatter.DataItem>` provided by the framework
+ and implement such that mask processing is performed only for Map type of process target data.
 
  .. code-block:: java
 
-  // FailureLogFormatterの拡張クラスにインナークラスとして定義している。
+  // Defined as an inner class in the extension class of FailureLogFormatter.
   private static final class CustomDataItem extends DataItem {
 
-      /** マスク文字 */
+      /** Mask character */
       private static final char MASKING_CHAR = '*';
 
-      /** マスク対象のパターン */
+      /** Pattern to be masked */
       private static final Pattern[] MASKING_PATTERNS
               = new Pattern[] { Pattern.compile(".*MOBILE_PHONE_NUMBER.*"),
                                 Pattern.compile(".*MAIL.*")};
 
       /**
-       * マップの値をマスキングするエディタ。
-       * フレームワークが提供するMap編集用のユーティリティ。
+       * Editor for masking map values.
+       * Map editing utility provided by the framework.
        */
       private MapValueEditor mapValueEditor
           = new MaskingMapValueEditor(MASKING_CHAR, MASKING_PATTERNS);
@@ -510,15 +509,15 @@ app-log.propertiesの設定例
       @SuppressWarnings("unchecked")
       public String get(FailureLogContext context) {
 
-          // FailureLogContextのgetDataメソッドを呼び出し処理対象データを取得する。
+          // Call getData method of FailureLogContext and acquire process target data.
           Object data = context.getData();
 
-          // Mapでない場合はフレームワークのデフォルト実装を呼び出す。
+          // If it is not Map, call the default implementation of the framework.
           if (!(data instanceof Map)) {
               return super.get(context);
           }
 
-          // Mapをマスクした文字列を返す。
+          // Returns a string with the Map masked.
           Map<String, String> editedMap = new TreeMap<String, String>();
           for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) data).entrySet()) {
               String key = entry.getKey().toString();
@@ -528,9 +527,9 @@ app-log.propertiesの設定例
       }
   }
 
-:java:extdoc:`FailureLogFormatter <nablarch.core.log.app.FailureLogFormatter>` を継承したクラスを作り、プレースホルダを追加する
- :java:extdoc:`FailureLogFormatter#getLogItems <nablarch.core.log.app.FailureLogFormatter.getLogItems(java.util.Map)>`
- をオーバライドし、プレースホルダ ``$data$`` に対して上記のCustomDataItemを設定する。
+Create a class that inherits :java:extdoc:`FailureLogFormatter <nablarch.core.log.app.FailureLogFormatter>` and add a placeholder
+ Override :java:extdoc:`FailureLogFormatter#getLogItems <nablarch.core.log.app.FailureLogFormatter.getLogItems(java.util.Map)>`
+ and configure CustomDataItem for placeholder ``$data$``.
 
  .. code-block:: java
 
@@ -541,23 +540,23 @@ app-log.propertiesの設定例
 
           Map<String, LogItem<FailureLogContext>> logItems = super.getLogItems(props);
 
-          // CustomDataItemで$data$を上書き設定する。
+          // Overwrite by configuring $data$ with CustomDataItem.
           logItems.put("$data$", new CustomDataItem());
 
           return logItems;
       }
 
       private static final class CustomDataItem extends DataItem {
-          // 省略。
+          // Omitted
       }
    }
 
-:java:extdoc:`FailureLogFormatter <nablarch.core.log.app.FailureLogFormatter>` を継承したクラスを使うように設定する
- 障害ログのフォーマッタとしてCustomDataFailureLogFormatterを使用するように ``app-log.properties`` に設定を行う。
+Configure such that a class that inherits :java:extdoc:`FailureLogFormatter <nablarch.core.log.app.FailureLogFormatter>` is used
+ Configure in ``app-log.properties`` such that CustomDataFailureLogFormatter is used as the formatter for failure log.
 
  .. code-block:: properties
 
-  # CustomDataFailureLogFormatterを指定する。
+  # Specify CustomDataFailureLogFormatter.
   failureLogFormatter.className=nablarch.core.log.app.CustomDataFailureLogFormatter
   failureLogFormatter.defaultFailureCode=UNEXPECTED_ERROR
   failureLogFormatter.defaultMessage=an unexpected exception occurred.

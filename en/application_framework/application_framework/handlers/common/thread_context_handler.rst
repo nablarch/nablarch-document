@@ -56,7 +56,7 @@ None.
 
 Initialize the thread context for each request
 -----------------------------------------------------------
-Initializes the thread context using a class that implements :java:extdoc:`ThreadContextAttributeインタフェース <nablarch.common.handler.threadcontext.ThreadContextAttribute>`.
+Initializes the thread context using a class that implements :java:extdoc:`ThreadContextAttribute interface <nablarch.common.handler.threadcontext.ThreadContextAttribute>`.
 
 
 The following classes are provided by default:

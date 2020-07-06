@@ -55,7 +55,13 @@ ul.simple li code {
   height: 25px;
 }
 
+/** 英語リンク */
+.wy-breadcrumbs li a.en {
+  margin-top: -3px;
+  margin-right: 12px;
+}
 /** 日本語リンク */
 .wy-breadcrumbs li a.ja {
   margin-top: -3px;
+  margin-right: 12px;
 }

@@ -15,7 +15,7 @@ Action class
   * Executes the business logic based on the data records read by :java:extdoc:`DataReader<nablarch.fw.DataReader>`
     and returns :java:extdoc:`Result<nablarch.fw.Result>`.
 
-  For example, the following process is performed as business logic in the case of a batch for importing [A1]from [A2][A3]a file.
+  For example, the following process is performed as business logic in the case of a batch for importing from a file.
 
   - Creates a form class from data record and performs validation.
   - Creates entity class from the form class and add data to database.

@@ -1,81 +1,76 @@
 .. _`validation-functional_comparison`:
 
-Bean ValidationとNablarch Validationの機能比較
+Comparison of Function between Bean Validation and Nablarch Validation
 ----------------------------------------------------------------------------------------------------
-ここでは、Nablarchの提供するバリデーション機能と |jsr349| の機能比較を示す。
+This section describes the functional comparison with the validation function provided by Nablarch.
 
-.. list-table:: 機能比較（○：提供あり　△：一部提供あり　×：提供なし　－:対象外）
+.. list-table:: Function comparison (O: Provided; △: Partially provided; ×: Not provided; -: Not applicable)
   :header-rows: 1
   :class: something-special-class
 
-  * - 機能
+  * - Function
     - Bean |br| Validation
     - Nablarch |br| Validation
     - JSR 349
-  * - バリデーション対象の項目を指定できる
+  * - Items to be validated can be specified
     - ○ [#property_validation]_
-    - ○ |br| :ref:`解説書へ <nablarch_validation-execute>`
+    - ○ |br| :ref:`To the manual <nablarch_validation-execute>`
     - ○
-  * - 階層構造を持つJava Beansオブジェクトに |br| 対してバリデーションできる
+  * - Validation can be performed  |br| for Java Beans objects |br| that have a hierarchical structure
     - ○ [#jsr]_
-    - ○ |br| :ref:`解説書へ <nablarch_validation-nest_bean>`
+    - ○ |br| :ref:`To the manual <nablarch_validation-nest_bean>`
     - ○
-  * - メソッドの引数、戻り値に対してバリデーションできる
+  * - Validation can be performed  |br| for method arguments and return values
     - × [#method]_
     - × [#method]_
     - ○
-  * - 相関バリデーションができる
-    - ○ |br| :ref:`解説書へ <bean_validation-correlation_validation>`
-    - ○ |br| :ref:`解説書へ <nablarch_validation-correlation_validation>`
+  * - Can perform correlation validation
+    - ○ |br| :ref:`To the manual <bean_validation-correlation_validation>`
+    - ○ |br| :ref:`To the manual <nablarch_validation-correlation_validation>`
     - ○
-  * - バリデーションの実行順序を指定できる
+  * - Execution order of validation can be specified
     - × [#order]_
-    - ○ |br| :ref:`解説書へ <nablarch_validation-execute>`
+    - ○ |br| :ref:`To the manual <nablarch_validation-execute>`
     - ○
-  * - 特定の項目の値を条件に |br| バリデーション項目を切り替えることが出来る
+  * - Validation items can be switched based |br| on the value of a specific item
     - ○ [#conditional]_
-    - ○ |br| :ref:`解説書へ <nablarch_validation-conditional>`
+    - ○ |br| :ref:`To the manual <nablarch_validation-conditional>`
     - ○
-  * - エラーメッセージに埋め込みパラメータを使用できる
-    - ○ [#parameter]_ |br| :ref:`解説書へ <message>`
-    - ○ |br| :ref:`解説書へ <message>`
+  * - Embedded parameters can be used |br| in error messages
+    - ○ [#parameter]_ |br| :ref:`To the manual <message>`
+    - ○ |br| :ref:`To the manual <message>`
     - ○
-  * - ドメインバリデーションができる
-    - ○ |br| :ref:`解説書へ <bean_validation-domain_validation>`
-    - ○ |br| :ref:`解説書へ <nablarch_validation-domain_validation>`
+  * - Can validate domains
+    - ○ |br| :ref:`To the manual <bean_validation-domain_validation>`
+    - ○ |br| :ref:`To the manual <nablarch_validation-domain_validation>`
     - ×
-  * - 値の型変換ができる
+  * - Can convert value types
     - × [#type_converter]_
-    - ○ |br| :ref:`解説書へ <nablarch_validation-definition_validator_convertor>`
+    - ○ |br| :ref:`To the manual <nablarch_validation-definition_validator_convertor>`
     - ×
-  * - 値の正規化ができる
+  * - Can normalize values
     - × [#normalized]_
-    - ○ |br| :ref:`解説書へ <nablarch_validation-definition_validator_convertor>`
+    - ○ |br| :ref:`To the manual <nablarch_validation-definition_validator_convertor>`
     - ×
-  * - エラーメッセージに項目名を埋め込むことができる
-    - ○ |br| :ref:`解説書へ <bean_validation-property_name>`
-    - ○ |br| :ref:`解説書へ <nablarch_validation-property_name>`
+  * - Can embed item names in error messages
+    - ○ |br| :ref:`To the manual <bean_validation-property_name>`
+    - ○ |br| :ref:`To the manual <nablarch_validation-property_name>`
     - ×
 
-.. [#property_validation] Formの全ての項目に対してバリデーションを行うことで、不正な入力値の受付を防ぐことが出来る。 |br|
-    このため、Bean Validationでは、項目指定のバリデーション実行は推奨していない。 |br|
-    どうしても指定の項目に対してのみバリデーションを行いたい場合には、
-    :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object-java.lang.String...)>` を使用すること。
-    
-.. [#jsr] 対応方法は、 |jsr349| の仕様に準拠する。
-.. [#method] Nablarchでは外部からデータを受け付けたタイミングで必ずバリデーションを行うため、
-   メソッドの引数や戻り値に対するバリデーションには対応していない。
-.. [#order] バリデーションの実行順を制御することはできないため、バリデーションの実行順序を期待するような実装は行わないこと。
-   例えば、項目毎のバリデーション後に相関バリデーションが実行されるといったことを期待してはならない。
-.. [#conditional]  |jsr349| のクラスレベルのバリデーション機能を使用して、ロジックによりバリデーション項目を切り替えること。
-.. [#parameter] Bean Validationでは、EL式を使用してパラメータを埋め込むこともできる。
-.. [#type_converter] Bean Validationでは、プロパティの型は全てStringとして定義する(:ref:`Stringで定義する理由 <bean_validation-form_property>`)ため型変換は行わない。
-   型変換が必要な場合には、バリデーション実施後に :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使って型変換を行う。
-.. [#normalized] 正規化は、Bean Validationの機能ではなくハンドラとして提供している。正規化が必要な場合には、 :ref:`normalize_handler` を使用して行う。
+
+.. [#property_validation] By validating all the items of the form, receipt of invalid input values can be prevented. Therefore, using Bean Validation for executing the validation of item specification is not recommended. If validation of only specified items is required, use :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object-java.lang.String...)>` .
+
+.. [#jsr] The response method conforms to the specifications of |jsr349| .
+.. [#method] Since Nablarch always performs validation at the timing when data is received from the outside, validation for method arguments and return values is not supported.
+.. [#order] Since the execution order of validation cannot be controlled, implementation requiring expected execution order of validation should not be performed. For example, correlation validation should not be expected to be performed after item-by-item validation.
+.. [#conditional]  Use the class-level validation function of |jsr349| to switch validation items by logic.
+.. [#parameter] EL expression can be used to embed parameters in Bean Validation.
+.. [#type_converter] Since all property types are defined as string (:ref:`Reason to define as a string <bean_validation-form_property>`)in Bean Validation, type conversion is not performed. If type conversion is required after validation, change the type using :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>`.
+.. [#normalized] Normalization is provided as a handler instead of a Bean Validation function. If normalization is needed, use :ref:`normalize_handler` .
 
 .. |jsr349| raw:: html
 
-   <a href="https://jcp.org/en/jsr/detail?id=349" target="_blank">JSR349(外部サイト、英語)</a>
+   <a href="https://jcp.org/en/jsr/detail?id=349" target="_blank">JSR349(external site, English)</a>
 
 .. |br| raw:: html
 
