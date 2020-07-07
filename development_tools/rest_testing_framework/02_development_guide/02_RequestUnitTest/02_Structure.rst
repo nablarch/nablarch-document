@@ -2,10 +2,23 @@
 構造
 ----
 
+SimpleRestTestSupport
+=========================================
+
+リクエスト単体テスト用に用意されたスーパークラス。リクエスト単体テスト用のメソッドを用意している。
+データベース関連機能が不要な場合は後述の ``RestTestSupport`` ではなくこちらのクラスを使用する。
+:ref:`事前準備補助機能<rest_test_helper>` 、 :ref:`実行<rest_test_execute>` 、 :ref:`結果確認<rest_test_assert>` については以下の ``RestTestSupport`` と同じ機能を持つ。
+
+.. tip::
+
+  RestTestSupportを使用する場合、``dbInfo`` または ``testDataParser`` のコンポーネントを準備する必要がある。
+  データベースへの依存が不要な場合は、``SimpleRestTestSupport`` を使用することでコンポーネント定義を簡略化できる。
+
 RestTestSupport
 =========================================
 
 リクエスト単体テスト用に用意されたスーパークラス。リクエスト単体テスト用のメソッドを用意している。
+``SimpleRestTestSupport`` を継承し、データベース関連機能を持つ。
 
 
 データベース関連機能
@@ -31,6 +44,7 @@ RestTestSupport
   しかしRESTfulウェブサービスの単体テストにおいては、委譲された ``assertTableEquals`` などを使って
   データベースのテーブル内容を確認するテストより、サービスとして公開されたAPIに問い合わせることで
   データベースに依存することなくシステムが持つデータを確認するテストを推奨する。
+
 
 .. _rest_test_helper:
 
@@ -70,7 +84,7 @@ RestTestSupport
   .. code-block:: java
 
     RestMockHttpRequest request = post("/projects")
-                                      .setHeaderMap(headerMap)
+                                      .setHeader("Authorization","Bearer token")
                                       .setCookie(cookie);
 
 .. _rest_test_execute:
