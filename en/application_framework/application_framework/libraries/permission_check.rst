@@ -1,35 +1,35 @@
 .. _`permission_check`:
 
-認可チェック
+Permission Check
 =====================================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-この機能では、アプリケーションが提供する機能に対して、認可チェックを行う。
-この機能を使うことで、ウェブにおいてユーザごとに使用できる機能を制限する、
-といったアクセス制御ができるようになる。
+This function checks the permission for the functions provided by the application.
+This function enables access control such as limiting the functions that can be used by each user on the Web.
+
 
 .. important::
- 本機能は、アプリケーションの要件が合致する場合に限り、使用すること。
+ This function should be used only when the application requirements are met.
 
- 本機能は、データベースを使用して認可チェックに使用する権限データを管理し、
- リクエスト単位で権限を設定する( :ref:`permission_check-authority_model` に示した概念モデルを参照)。
- 例えば、ウェブの登録機能といった場合、初期表示/確認/戻る/登録といった複数リクエストで構成されるのが一般的である。
+ This function manages the permission data used for permission check using the database and sets the permission for each request
+ (see the conceptual model shown in :ref:`permission_check-authority_model`).
+ For example, a Web registration function is generally composed of multiple requests such as initial display/confirmation/return/registration.
 
- そのため、本機能は、細かく権限を設定できる反面、非常に細かいデータ設計が必要となり、
- 開発時の生産性低下やリリース後の運用負荷が高まる可能性がある。
+ Therefore, while permission can be configured in detail for this function, data design is also required in detail,
+ which may reduce productivity during development and increase operational load after release.
 
-機能概要
+Function overview
 ---------------------------------------------------------------------
 
-リクエスト単位で認可チェックを行うことができる
+Permission check can be performed on a request basis
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`permission_check_handler` をハンドラキューに設定することで、
-リクエスト単位で認可チェックを行うことができる。
+Permission check is possible for by configuring
+:ref:`permission_check_handler` in the handler queue.
 
-詳細は以下を参照。
+See below for details.
 
 * :ref:`permission_check-settings`
 * :ref:`permission_check-server_side_check`
@@ -37,31 +37,31 @@
 
 .. _`permission_check-authority_model`:
 
-グループ単位とユーザ単位を併用した権限設定ができる
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-認可チェックに使う権限設定の概念モデルは以下となる。
+Permissions can be configured in combination with group and user units
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The conceptual model of permission configuration used for permission check is as follows.
 
 .. image:: images/permission_check/conceptual_model.png
 
-グループは、部署など、組織単位での権限割り当てに使用する。
+Groups are used for assigning permission to organization units such as departments.
 
-認可チェック単位は、複数のリクエストをまとめ、認可チェックの最小単位を表す。
-認可チェック単位には、認可チェックを実現するために必要なリクエスト、つまり、ウェブであれば画面のイベントが複数紐付く。
-例えば、ユーザ登録機能であれば、以下のようなデータとなる。
+The permission check unit represents the minimum unit of permission check by collecting multiple requests.
+Requests required to realize the permission check, that is, multiple events on the screen for Web, are associated with the permission check unit.
+For example, the data is as follows for a user registration function.
 
-認可チェック単位
- | ユーザ登録
+Permission check unit
+ | User registration
 
-認可チェック単位「ユーザ登録」に紐付くリクエスト
- | 入力画面の初期表示
- | 入力画面の確認ボタン
- | 確認画面の登録ボタン
- | 確認画面の戻るボタン
+Request associated with permission check unit "user registration"
+ | Initial display of input screen
+ | Confirmation button of input screen
+ | Registration button of confirmation screen
+ | Return button of confirmation screen
 
-グループとユーザ、グループと認可チェック単位の関連を設定することで、グループ単位の権限を設定することができる。
-さらに、ユーザに直接認可チェック単位を設定することもできるため、特定ユーザに対するイレギュラーな権限付与に対応することができる。
+By configuring the relationship between the group and user, and the group and permission check unit, permission can be set for each group.
+Furthermore, since the permission check unit can be set directly to the user, irregular permission to a specific user can be configured.
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -74,136 +74,136 @@
     <artifactId>nablarch-common-auth-jdbc</artifactId>
   </dependency>
 
-使用方法
+How to use
 ---------------------------------------------------------------------
 
 .. _`permission_check-settings`:
 
-認可チェックを使うための設定を行う
+Configure settings to use permission check
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-この機能では、データベースを使用して認可チェックに使う権限データを管理する。
-テーブルのレイアウトは以下となる。
+This function uses a database to manage the permission data used for permission check.
+The table layout is as follows.
 
-グループ
- ====================== ===================================================
- グループID(PK)         グループを識別するための値。文字列型
- ====================== ===================================================
+Groups
+ ============================== ===========================================================
+ Group ID (PK)                  Values for identifying the group. String type
+ ============================== ===========================================================
 
-システムアカウント
- ====================== ===================================================
- ユーザID(PK)           ユーザを識別するための値。文字列型
- ユーザIDロック状態     ユーザIDのロック状態。文字列型。
- 有効日(From)           ユーザの有効日(From)。文字列型。
- 有効日(To)             ユーザの有効日(To)。文字列型。
- ====================== ===================================================
+System account
+ ============================== ===========================================================
+ User ID (PK)                   Values for identifying the user. String type
+ User ID lock status            Lock status of user ID. String type.
+ Effective date (From)          Effective date (From) of the user. String type.
+ Effective date (To)            Effective date (To) of the user. String type.
+ ============================== ===========================================================
 
- :ユーザIDロック状態: ロックされていない場合は"0"、ロックされた場合は"0"以外
- :有効日(From): yyyyMMdd形式で、指定しない場合は”19000101”
- :有効日(To): yyyyMMdd形式で、指定しない場合は”99991231”
+ :User ID lock status: "0" if user is not locked, other than "0" if user is locked
+ :Effective date (From): In yyyyMMdd format, "19000101" if not specified
+ :Effective date (To): In yyyyMMdd format, "99991231" if not specified
 
-グループシステムアカウント
- ====================== ===================================================
- グループID(PK)         グループを識別するための値。文字列型
- ユーザID(PK)           ユーザを識別するための値。文字列型
- 有効日(From)(PK)       ユーザの有効日(From)。文字列型
- 有効日(To)             ユーザの有効日(To)。文字列型
- ====================== ===================================================
+Group system account
+ ============================== ===========================================================
+ Group ID(PK)                   Values for identifying the group. String type
+ User ID(PK)                    Values for identifying the user. String type
+ Effective date (From)(PK)      Effective date (From) of the user. String type
+ Effective date (To)            Effective date (To) of the user. String type
+ ============================== ===========================================================
 
- :有効日(From): yyyyMMdd形式で、指定しない場合は”19000101”
- :有効日(To): yyyyMMdd形式で、指定しない場合は”99991231”
+ :Effective date (From): In yyyyMMdd format, "19000101" if not specified
+ :Effective date (To): In yyyyMMdd format, "99991231" if not specified
 
-認可チェック単位
- ====================== ===================================================
- 認可チェック単位ID(PK)         認可チェック単位を識別するための値。文字列型
- ====================== ===================================================
+Permission check unit
+ ============================= ================================================================
+ Permission check unit ID (PK) A value for identifying the permission check unit. String type
+ ============================= ================================================================
 
-認可チェック単位リクエスト
- ====================== ===================================================
- 認可チェック単位ID(PK)         認可チェック単位を識別するための値。文字列型
- リクエストID(PK)       リクエストを識別するための値。文字列型
- ====================== ===================================================
+Permission check unit request
+ ============================== ================================================================
+ Permission check unit ID (PK)  A value for identifying the permission check unit. String type
+ Request ID (PK)                Values for identifying the request. String type
+ ============================== ================================================================
 
-グループ権限
- ====================== ===================================================
- グループID(PK)         グループを識別するための値。文字列型
- 認可チェック単位ID(PK)         認可チェック単位を識別するための値。文字列型
- ====================== ===================================================
+Group permission
+ ============================== ================================================================
+ Group ID (PK)                  Values for identifying the group. String type
+ Permission check unit ID (PK)  A value for identifying the permission check unit. String type
+ ============================== ================================================================
 
-システムアカウント権限
- ====================== ===================================================
- ユーザID(PK)           ユーザを識別するための値。文字列型
- 認可チェック単位ID(PK)         認可チェック単位を識別するための値。文字列型
- ====================== ===================================================
+System account permission
+ ============================== ================================================================
+ User ID (PK)                   Values for identifying the user. String type
+ Permission check unit ID (PK)  A value for identifying the permission check unit. String type
+ ============================== ================================================================
 
-認可チェックを使うためには、以下の設定を行う。
+Configure the following settings to use permission check
 
-* :java:extdoc:`BasicPermissionFactory <nablarch.common.permission.BasicPermissionFactory>`
-  の設定をコンポーネント定義に追加する。
-* :java:extdoc:`BasicPermissionFactory <nablarch.common.permission.BasicPermissionFactory>` は、
-  :ref:`permission_check_handler` に設定して使うので、コンポーネント名は任意の名前を指定する。
+* Add the configuration of :java:extdoc:`BasicPermissionFactory <nablarch.common.permission.BasicPermissionFactory>`
+  to the component definition.
+* Since :java:extdoc:`BasicPermissionFactory <nablarch.common.permission.BasicPermissionFactory>`
+  is used by configuring to :ref:`permission_check_handler`, specify any name as the component name.
 
 .. code-block:: xml
 
  <component name="permissionFactory" class="nablarch.common.permission.BasicPermissionFactory">
 
-   <!-- グループスキーマ -->
+   <!-- Group schema -->
    <property name="groupTableSchema">
      <component class="nablarch.common.permission.schema.GroupTableSchema">
-       <!-- プロパティへの設定は省略 -->
+       <!-- Configuration of property is omitted -->
      </component>
    </property>
 
-   <!-- システムアカウントスキーマ -->
+   <!-- System account schema -->
    <property name="systemAccountTableSchema">
      <component class="nablarch.common.permission.schema.SystemAccountTableSchema">
-       <!-- プロパティへの設定は省略 -->
+       <!-- Configuration of property is omitted -->
      </component>
    </property>
 
-   <!-- グループシステムアカウントスキーマ -->
+   <!-- Group system account schema -->
    <property name="groupSystemAccountTableSchema">
      <component class="nablarch.common.permission.schema.GroupSystemAccountTableSchema">
-       <!-- プロパティへの設定は省略 -->
+       <!-- Configuration of property is omitted -->
      </component>
    </property>
 
-   <!-- 認可チェック単位スキーマ -->
+   <!-- Permission check unit schema -->
    <property name="permissionUnitTableSchema">
      <component class="nablarch.common.permission.schema.PermissionUnitTableSchema">
-       <!-- プロパティへの設定は省略 -->
+       <!-- Configuration of property is omitted -->
      </component>
    </property>
 
-   <!-- 認可チェック単位リクエストスキーマ -->
+   <!-- Permission check unit request schema -->
    <property name="permissionUnitRequestTableSchema">
      <component class="nablarch.common.permission.schema.PermissionUnitRequestTableSchema">
-       <!-- プロパティへの設定は省略 -->
+       <!-- Configuration of property is omitted -->
      </component>
    </property>
 
-   <!-- グループ権限スキーマ -->
+   <!-- Group permission schema -->
    <property name="groupAuthorityTableSchema">
      <component class="nablarch.common.permission.schema.GroupAuthorityTableSchema">
-       <!-- プロパティへの設定は省略 -->
+       <!-- Configuration of property is omitted -->
      </component>
    </property>
 
-   <!-- システムアカウント権限スキーマ -->
+   <!-- System account permission schema -->
    <property name="systemAccountAuthorityTableSchema">
      <component class="nablarch.common.permission.schema.SystemAccountAuthorityTableSchema">
-       <!-- プロパティへの設定は省略 -->
+       <!-- Configuration of property is omitted -->
      </component>
    </property>
 
-   <!-- データベースアクセスに使用するトランザクションマネージャ -->
+   <!-- Transaction manager used for database access -->
    <property name="dbManager" ref="permissionCheckDbManager"/>
 
-   <!-- 有効日(FROM/TO)の判定に使用する業務日付を提供するプロバイダ -->
+   <!-- Provider giving the business date used to determine the effective date (FROM/TO) -->
    <property name="businessDateProvider" ref="businessDateProvider" />
  </component>
 
-:java:extdoc:`BasicPermissionFactory <nablarch.common.permission.BasicPermissionFactory>` は、
-初期化が必要なので、以下のコンポーネント定義も追加する。
+Add the following component definition as
+:java:extdoc:`BasicPermissionFactory <nablarch.common.permission.BasicPermissionFactory>` requires initialization.
 
 .. code-block:: xml
 
@@ -211,7 +211,7 @@
             class="nablarch.core.repository.initialization.BasicApplicationInitializer">
    <property name="initializeList">
      <list>
-       <!-- BasicPermissionFactoryを初期化する -->
+       <!-- Initialize BasicPermissionFactory -->
        <component-ref name="permissionFactory" />
      </list>
    </property>
@@ -219,37 +219,37 @@
 
 .. _`permission_check-server_side_check`:
 
-サーバサイドで認可チェックを行う
+Perform permission check on the server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-認可チェックは、 :java:extdoc:`Permission <nablarch.common.permission.Permission>` を使用する。
-:ref:`permission_check_handler` により、スレッドコンテキストに
-:java:extdoc:`Permission <nablarch.common.permission.Permission>` が設定されているので、
-:java:extdoc:`PermissionUtil.getPermission <nablarch.common.permission.PermissionUtil.getPermission()>`
-を使って取得する。
+Use :java:extdoc:`Permission <nablarch.common.permission.Permission>` for the permission check.
+Since :java:extdoc:`Permission <nablarch.common.permission.Permission>`
+is configured to the thread context by :ref:`permission_check_handler`,
+acquire by using :java:extdoc:`PermissionUtil.getPermission <nablarch.common.permission.PermissionUtil.getPermission()>`.
+
 
 .. code-block:: java
 
  Permission permission = PermissionUtil.getPermission();
  if (permission.permit("/action/user/unlock")) {
-     // 認可チェックがOKの場合の処理がここにくる
+     // The process comes here when the permission check is OK
  }
 
 .. _`permission_check-view_control`:
 
-権限に応じて画面表示を制御する
+Control screen display according to the permission
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-権限の有無でボタンやリンクの非表示(非活性)を制御したい場合は、カスタムタグを使用する。
-:ref:`tag-submit_display_control` を参照。
+Use a custom tag to control the non-display (inactivity) of buttons and links according to permission availability.
+See :ref:`tag-submit_display_control`.
 
-権限データにアクセスする
+Access permission data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-アプリケーションの要件によっては、特定グループに属するユーザ一覧を取得するといった、
-権限データにアクセスしたい場合がある。
-しかし、本機能では、認可チェックを行う機能しか提供していない。
+Depending on the application requirements, access to permission data may be required,
+such as acquiring the list of users belonging to a specific group.
+However, this function checks only for the permission.
 
-そのため、権限データにアクセスしたい場合は、 :ref:`universal_dao` を使用し、
-SQLを作成することで対応する。
+Therefore, to access the permission data, use :ref:`universal_dao`
+to provide support by creating SQL.
 
-拡張例
+Expansion example
 ---------------------------------------------------------------------
-なし。
+None.
