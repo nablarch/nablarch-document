@@ -3,45 +3,45 @@
 Nablarch Validation
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-この章では、Nablarchで独自に実装したバリデーション機能の解説を行う。
+This chapter explains the validation function originally implemented by Nablarch.
 
 .. tip::
 
-  :ref:`validation` で説明したように、 :doc:`bean_validation` を使用することを推奨する。
+  As described in :ref:`validation`, it is recommended to use :doc:`bean_validation`.
 
-機能概要
+Function overview
 --------------------------------------------------
 
-バリデーションと型変換及び値の正規化ができる
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Nablarchのバリデーションでは、バリデーションと入力値の型変換、正規化を行うことが出来る。
+Can Perform Validation and Type Conversion and Normalization of Values
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Nablarch validation can perform validation, and type conversion and normalization of input values.
 
-型変換が行えるため、入力値をBeanクラスの数値型(IntegerやLong)などに直接マッピングすることが出来る。
-また、編集された値の編集解除(正規化)なども型変換時に行うことが出来る。
+Since it can perform type conversion, the input values can be directly mapped to the numeric type (Integer or Long) of the Bean class.
+In addition, editing cancellation (normalization) of edited values can also be performed during type conversion.
 
-詳細は、 :ref:`nablarch_validation-definition_validator_convertor` を参照。
+For details, see :ref:`nablarch_validation-definition_validator_convertor`.
 
-ドメインバリデーションができる
+Can validate domains
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ドメインごとにバリデーションルールを定義できる。
+Validation rules can be defined for each domain.
 
-ドメインバリデーションを使うと、Beanクラスのsetterにはドメイン名の指定だけを行えばよく、バリデーションルールの変更が容易になる。
+When using domain validation, it is only necessary to specify the domain name in the Bean class setter, which makes changing the validation rules easy.
 
-詳細は、 `ドメインバリデーションを使う`_ を参照。
+For details, see `Use domain validation`_.
 
 
 .. _nablarch_validation-validator_convertor:
 
-よく使われるバリデータ及びコンバータが提供されている
+Commonly Used Validators and Convertors are Provided
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Nablarchでは、よく使われるバリデータやコンバータを標準で提供している。
-このため、プロジェクト側では :ref:`nablarch_validation-definition_validator_convertor` だけで、バリデーションが実行できる。
+Nablarch provides commonly used validators and convertors as standard.
+For this reason, validation can be executed in the project only using :ref:`nablarch_validation-definition_validator_convertor`.
 
-Nablarchで提供しているバリデータ及びコンバータについては以下のリンク先を参照。
+See the following links for validators and convertors provided by Nablarch.
 
 * :java:extdoc:`nablarch.core.validation.validator`
 * :java:extdoc:`nablarch.core.validation.convertor`
@@ -51,7 +51,7 @@ Nablarchで提供しているバリデータ及びコンバータについては
 
 .. _nablarch_validation-module_list:
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -60,88 +60,88 @@ Nablarchで提供しているバリデータ及びコンバータについては
     <artifactId>nablarch-core-validation</artifactId>
   </dependency>
 
-  <!-- 日付のバリデータ、コンバータを使用する場合のみ -->
+  <!-- Only when date validator and converter are used -->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-common-date</artifactId>
   </dependency>
 
-  <!-- コード値のバリデータ、コンバータを使用する場合のみ -->
+  <!-- Only when code value validator and converter are used -->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-common-code</artifactId>
   </dependency>
 
-使用方法
+How to use
 --------------------------------------------------
 
 .. _nablarch_validation-definition_validator_convertor:
 
-使用するバリデータとコンバータを設定する
+Configuring Validators and Convertors for Use
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-バリデーションを有効にするには、コンポーネント設定ファイルに使用するバリデータとコンバータの登録が必要となる。
+To enable validation, it is essential to register the validators and convertors being used in the component configuration file.
 
-Nablarchが提供しているバリデータ及びコンバータについては、 :ref:`nablarch_validation-validator_convertor` を参照。
+For the validators and convertors provided by Nablarch, see :ref:`nablarch_validation-validator_convertor`.
 
 .. important::
 
-  バリデータやコンバータの設定がない場合、バリデーション機能は利用できないので必ず設定を行うこと。
+  If the validators and convertors are not configured, the validation function cannot be used.
 
-設定例
-  * :java:extdoc:`ValidationManager <nablarch.core.validation.ValidationManager>` を **validationManager** という名前でコンポーネント定義する。
-  * :java:extdoc:`ValidationManager#convertors <nablarch.core.validation.ValidationManager.setConvertors(java.util.List)>` に使用するコンバータを列挙する。
-  * :java:extdoc:`ValidationManager#validators <nablarch.core.validation.ValidationManager.setValidators(java.util.List)>` に使用するバリデータを列挙する。
+Configuration example
+  * Define :java:extdoc:`ValidationManager <nablarch.core.validation.ValidationManager>` as a component named **validationManager**.
+  * List the converters used for :java:extdoc:`ValidationManager#convertors <nablarch.core.validation.ValidationManager.setConvertors(java.util.List)>`.
+  * List the validators used for :java:extdoc:`ValidationManager#validators <nablarch.core.validation.ValidationManager.setValidators(java.util.List)>`.
 
   .. code-block:: xml
 
     <component name="validationManager" class="nablarch.core.validation.ValidationManager">
       <property name="convertors">
         <list>
-          <!-- ここに使用するコンバータを列挙する -->
+          <!-- List the convertors used here -->
         </list>
       </property>
       <property name="validators">
         <list>
-          <!-- ここに使用するバリデータを列挙する -->
+          <!-- List the validators used here-->
         </list>
       </property>
 
       <!--
-      他の属性は省略
-      詳細は、ValidationManagerのJavadocを参照
+      Other attributes omitted
+      For details, see Javadoc of ValidationManager
        -->
     </component>
 
-バリデーションルールを設定する
+Configure validation rules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-バリデーションルールのアノテーションは、バリデーション対象のBeanクラスのプロパティ(setter)に設定する。
-なお、getterにはアノテーションを指定できないので注意すること。(指定しても意味が無い)
+Configure the annotations of validation rules in the properties (setter) of Bean class for validation.
+Also, note that annotations cannot be specified for a getter.(指定しても意味が無い)
 
 .. tip::
 
-  個別にアノテーションを設定した場合、実装時のミスが増えたりメンテナンスコストが大きくなるため、
-  後述する :ref:`ドメインバリデーション <nablarch_validation-domain_validation>` を使うことを推奨する。
+  If annotations are configured individually, errors during implementation and maintenance costs will increase.
+  Hence, it is recommended to use the :ref:`domain validation <nablarch_validation-domain_validation>` described below.
 
-実装例
-  :ref:`Nablarchで提供しているバリデータとコンバータ <nablarch_validation-validator_convertor>` を参照しアノテーションを設定する。
+Implementation examples
+  Configure annotations by referring to the :ref:`validators and convertors provided by Nablarch<nablarch_validation-validator_convertor>`.
 
-  この例では、 `userName` は入力が必須で、全角文字の最大10文字が許容される。
-  `birthday` は、半角数字の8桁が許容される。
-  `age` は、整数で3桁まで許容される。
+  In this example, inputting the `userName` is required, and a maximum of 10 full-width characters are permitted.
+  For `birthday`, 8 half-width digits are permitted.
+  For `age`, up to 3 integer digits are permitted.
 
   .. code-block:: java
 
     public class SampleForm {
 
       @Length(max = 10)
-      @SystemChar(charsetDef = "全角文字")
+      @SystemChar(charsetDef = "Full-width character")
       @Required
       public void setUserName(String userName) {
           this.userName = userName;
       }
 
       @Length(min = 8, max = 8)
-      @SystemChar(charsetDef = "半角数字")
+      @SystemChar(charsetDef = "Half-width character")
       public void setBirthday(String birthday) {
           this.birthday = birthday;
       }
@@ -154,30 +154,30 @@ Nablarchが提供しているバリデータ及びコンバータについては
 
 .. _nablarch_validation-domain_validation:
 
-ドメインバリデーションを使う
+Use domain validation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ドメインバリデーションを使うための設定や実装例を示す。
+Show the configuration and implementation examples to use domain validation.
 
-ドメインごとのバリデーションルールを定義したEnumの作成
-  ドメインバリデーションを利用するには、まずドメインごとのバリデーションルールを持つEnum(ドメインEnum)を作成する。
-  このEnumは、必ず `DomainDefinition` インタフェースを実装すること。
+Creating Enum that defines the validation rules for each domain
+  To use domain validation, first create an Enum (domain Enum) with validation rules for each domain.
+  This Enum must implement the `DomainDefinition` interface.
 
-  Enumの各列挙子がドメイン名となる。以下の例では ``NAME`` と ``DATE`` の２つのドメインが定義されている。
+  Each enumerator of the Enum will become a domain name. In the following example, two domains, ``NAME`` and ``DATE`` have been defined.
 
   .. code-block:: java
 
     public enum SampleDomain implements DomainDefinition {
 
         @Length(max = 10)
-        @SystemChar(charsetDef = "全角文字")
+        @SystemChar(charsetDef = "Full-width character")
         NAME,
 
         @Length(min = 8, max = 8)
-        @SystemChar(charsetDef = "半角数字")
+        @SystemChar(charsetDef = "Half-width character")
         DATE;
 
-        // インタフェースで定義されているメソッドの実装
-        // 実装する内容は、この例と全く同じとすること
+        // Implementation of the method defined in the interface
+        // Implementation contents should be exactly the same as this example
         @Override
         public Annotation getConvertorAnnotation() {
             return DomainValidationHelper.getConvertorAnnotation(this);
@@ -189,9 +189,9 @@ Nablarchが提供しているバリデータ及びコンバータについては
         }
     }
 
-ドメインを表すアノテーションの作成
-  ドメインを表すアノテーションを作成する。
-  `value` 属性には、上記で作成したドメインEnumを指定できるようにする。
+Creating an annotation that represents a domain
+  Create an annotation that represents the domain.
+  The domain Enum created above can be specified in the `value` attribute.
 
   .. code-block:: java
 
@@ -203,11 +203,11 @@ Nablarchが提供しているバリデータ及びコンバータについては
         SampleDomain value();
     }
 
-バリデーション対象のBeanにドメインを設定
-  上記で作成したドメインを表すアノテーションを設定することで、ドメインバリデーションが行われる。
+Configure Domain in the Bean for Validation
+  Domain validation is performed by setting the annotations representing the domain created above.
 
-  この例では、 `userName` に対して `SampleDomain.NAME` に設定したバリデーションが実行される。
-  ※コンバータが設定されている場合は、コンバータによる値の変換も行われる。
+  In this example, the validation configured in `SampleDomain.NAME` is executed for `userName`.
+  ※When a convertor is configured, the value is also converted by the convertor.
 
   .. code-block:: java
 
@@ -216,19 +216,19 @@ Nablarchが提供しているバリデータ及びコンバータについては
         this.userName = userName;
     }
 
-ドメインバリデーションを有効にするための設定
-  ドメインバリデーションを有効にするためには、以下の設定が必要となる。
+Configuration to enable domain validation
+  The following configurations are required to enable domain validation.
 
-  * :java:extdoc:`DomainValidationHelper <nablarch.core.validation.domain.DomainValidationHelper>` の設定
-  * :java:extdoc:`DomainValidator <nablarch.core.validation.domain.DomainValidator>` の設定
-  * :java:extdoc:`ValidationManager <nablarch.core.validation.ValidationManager>` の設定
-  * 初期化コンポーネントの設定
+  * Configuration of :java:extdoc:`DomainValidationHelper <nablarch.core.validation.domain.DomainValidationHelper>`
+  * Configuration of :java:extdoc:`DomainValidator <nablarch.core.validation.domain.DomainValidator>`
+  * Configuration of :java:extdoc:`ValidationManager <nablarch.core.validation.ValidationManager>`
+  * Configuration of initialization component
 
-  以下に例を示す。
+  An example is shown below.
 
-  :java:extdoc:`DomainValidationHelper <nablarch.core.validation.domain.DomainValidationHelper>` の設定
-    * :java:extdoc:`domainAnnotationプロパティ <nablarch.core.validation.domain.DomainValidationHelper.setDomainAnnotation(java.lang.String)>`   
-      にドメインを表すアノテーションの完全修飾名(FQCN)を設定する。
+  Configuration of :java:extdoc:`DomainValidationHelper <nablarch.core.validation.domain.DomainValidationHelper>`
+    * Configure the fully qualified class name (FQCN) of the annotations representing the domain to
+      :java:extdoc:`domainAnnotation property <nablarch.core.validation.domain.DomainValidationHelper.setDomainAnnotation(java.lang.String)>`.
 
     .. code-block:: xml
 
@@ -239,11 +239,11 @@ Nablarchが提供しているバリデータ及びコンバータについては
 
       </component>
 
-  :java:extdoc:`DomainValidator <nablarch.core.validation.domain.DomainValidator>` の設定
-    * :java:extdoc:`domainValidationHelperプロパティ <nablarch.core.validation.domain.DomainValidator.setDomainValidationHelper(nablarch.core.validation.domain.DomainValidationHelper)>` 
-      に、上記で設定した :java:extdoc:`DomainValidationHelper <nablarch.core.validation.domain.DomainValidationHelper>` を設定する。
-    * :java:extdoc:`validatorsプロパティ <nablarch.core.validation.domain.DomainValidator.setValidators(java.util.List)>` 
-      にバリデータのリストを設定する。
+  Configuration of :java:extdoc:`DomainValidator <nablarch.core.validation.domain.DomainValidator>`
+    * Configure :java:extdoc:`DomainValidationHelper <nablarch.core.validation.domain.DomainValidationHelper>` that has been configured above
+      to :java:extdoc:`domainValidationHelper property <nablarch.core.validation.domain.DomainValidator.setDomainValidationHelper(nablarch.core.validation.domain.DomainValidationHelper)>`.
+    * Configure the validators list to
+      :java:extdoc:`validators property <nablarch.core.validation.domain.DomainValidator.setValidators(java.util.List)>`.
 
     .. code-block:: xml
 
@@ -251,8 +251,8 @@ Nablarchが提供しているバリデータ及びコンバータについては
           class="nablarch.core.validation.domain.DomainValidator">
 
         <!--
-          DomainValidatorはここには設定しないこと。設定すると循環参照となり、
-          システムリポジトリ初期化時にエラーとなる。
+          DomainValidator should not be configured here. If configured, it will become a circular reference,
+          and an error occurs during system repository initialization.
         -->
         <property name="validators">
           <list>
@@ -263,11 +263,11 @@ Nablarchが提供しているバリデータ及びコンバータについては
       </component>
 
 
-  :java:extdoc:`ValidationManager <nablarch.core.validation.ValidationManager>` の設定
-    * :java:extdoc:`domainValidationHelperプロパティ <nablarch.core.validation.ValidationManager.setDomainValidationHelper(nablarch.core.validation.domain.DomainValidationHelper)>` 
-      に、上記で設定した :java:extdoc:`DomainValidationHelper <nablarch.core.validation.domain.DomainValidationHelper>` を設定する。
-    * :java:extdoc:`validatorsプロパティ <nablarch.core.validation.ValidationManager.setValidators(java.util.List)>` 
-      にバリデータのリスト(上記で設定した :java:extdoc:`DomainValidator <nablarch.core.validation.domain.DomainValidator>` を忘れずに) を設定する。
+  Configuration of :java:extdoc:`ValidationManager <nablarch.core.validation.ValidationManager>`
+    * Configure :java:extdoc:`DomainValidationHelper <nablarch.core.validation.domain.DomainValidationHelper>` that has been configured above
+      to :java:extdoc:`domainValidationHelper property <nablarch.core.validation.ValidationManager.setDomainValidationHelper(nablarch.core.validation.domain.DomainValidationHelper)>`.
+    * Configure the validators list (without missing out :java:extdoc:`DomainValidator <nablarch.core.validation.domain.DomainValidator>` that has been configured above)
+      to :java:extdoc:`validators property <nablarch.core.validation.ValidationManager.setValidators(java.util.List)>`.
 
 
     .. code-block:: xml
@@ -276,16 +276,16 @@ Nablarchが提供しているバリデータ及びコンバータについては
         <property name="validators">
           <list>
             <component-ref name="domainValidator" />
-            <!-- 他のバリデータの記述は省略 -->
+            <!-- Description of other validators is omitted -->
           </list>
         </property>
         <property name="domainValidationHelper" ref="domainValidationHelper" />
       </component>
 
-  初期化コンポーネントの設定
-    上記で設定した、 :java:extdoc:`DomainValidator <nablarch.core.validation.domain.DomainValidator>` と
-    :java:extdoc:`ValidationManager <nablarch.core.validation.ValidationManager>` を初期化対象のリストに設定する。
-    
+  Configuration of initialization component
+    Configure :java:extdoc:`DomainValidator <nablarch.core.validation.domain.DomainValidator>`
+    and :java:extdoc:`ValidationManager <nablarch.core.validation.ValidationManager>` that have been configured above to the initialization list.
+
     .. code-block:: xml
 
       <component name="initializer"
@@ -299,44 +299,43 @@ Nablarchが提供しているバリデータ及びコンバータについては
         </property>
       </component>
 
-ドメインバリデーションに複数のバリデーションルールを設定した場合の挙動
-  ドメインバリデーションにて１つの入力項目に複数のエラーが存在する場合、精査を１つ目のエラーで打ち切る。
+Behavior when Multiple Validation Rules are Configured for Domain Validation
+  If multiple errors are found in one input item in the domain validation, terminate scrutiny at the first error.
 
   .. code-block:: java
 
         public enum SampleDomain implements DomainDefinition {
           @Length(max = 10)
-          @SystemChar(charsetDef = "全角文字")
+          @SystemChar(charsetDef = "Full-width character")
           NAME;
        }
 
-  上記 `NAME` は `Length` バリデーションエラーになった場合、 `SystemChar` バリデーションは行わない。
+  The `NAME` mentioned above does not perform `SystemChar` validation when a `Length` validation error occurs.
 
-
-バリデーション対象のBeanを継承する
+Inheriting the Bean for Validation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-バリデーション対象のBeanは継承することもできるが、以下の理由により継承は推奨しない。
+The Bean for validation can be inherited, but inheritance is not recommended for the following reasons.
 
-安易に継承を行った場合、親クラスの変更により予期せぬバリデーションが実行されたり、
-複雑なバリデーションの上書きルールを意識したアノテーション設定を行わなければならず、間違い(バグ)の原因となる。
+When inheritance is performed easily, unexpected validation will be executed due to a change in the parent class,
+and annotation configuration must be performed while being aware of complex validation overwrite rules, which causes errors (bugs).
 
-なお、Beanを継承した場合は以下の動作となる。
+The following actions take place when Bean is inherited:
 
-* サブクラス側に :java:extdoc:`@PropertyName <nablarch.core.validation.PropertyName>` のみをつけた場合、親クラス側のバリデータとコンバータが使用される。
-* サブクラス側にバリデータ用のアノテーションを1つでもつけた場合、親クラス側のバリデータアノテーションは無視され
-  サブクラス側のバリデータが使用される。コンバータは親クラスのものが使用される。
-* サブクラス側にコンバータ用のアノテーションを1つでもつけた場合は、親クラスのコンバータのアノテーションは無視され
-  サブクラス側のコンバータが使用される。バリデータは親クラスのものが使用される。
-* サブクラス側にバリデータもコンバータも設定されている場合は、全てサブクラス側の設定が使われる。
-* 親クラス側のコンバータの設定をサブクラス側で削除することはできない。
+* When only :java:extdoc:`@PropertyName <nablarch.core.validation.PropertyName>` is added in the subclass, the validators and convertors of the parent class are used.
+* If even one validator annotation is added in the subclass,
+  the validator annotation of the parent class is ignored and validators of the subclass will be used. The convertors of the parent class will be used.
+* If even one convertor annotation is added in the subclass,
+  the convertor annotation of the parent class is ignored and convertors of the subclass will be used. The validators of the parent class will be used.
+* If both the validators and the convertors are configured in the subclass, all configurations of the subclass will be used.
+* The configurations of convertors in the parent class cannot be deleted in the subclass.
 
 
-以下の親子関係のBeanの場合、 `ChildForm` の `value` プロパティに対しては、
-:java:extdoc:`@Digits <nablarch.core.validation.convertor.Digits>` と :java:extdoc:`@NumberRange <nablarch.core.validation.validator.NumberRange>` のバリデーションが実行される。
+In the case of the following parent-child Bean, the validation of :java:extdoc:`@Digits <nablarch.core.validation.convertor.Digits>`
+and :java:extdoc:`@NumberRange <nablarch.core.validation.validator.NumberRange>` is executed for the value property of ChildForm.
 
 .. code-block:: java
 
-  // 親Form
+  // Parent Form
   public class ParentForm {
     @Digits(integer=5, fraction=3)
     public void setValue(BigDecimal value) {
@@ -344,7 +343,7 @@ Nablarchが提供しているバリデータ及びコンバータについては
     }
   }
 
-  // 子Form
+  // Child Form
   public class ChildForm extends ParentForm {
     @Override
     @NumberRange(min=100.0, max=20000.0)
@@ -355,17 +354,17 @@ Nablarchが提供しているバリデータ及びコンバータについては
 
 .. _nablarch_validation-execute:
 
-バリデーションを実行する
+Executing Validation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-バリデーションは、 :java:extdoc:`ValidationUtil <nablarch.core.validation.ValidationUtil>` で提供されるメソッドを呼び出すことで実行できる。
+Validation can be executed by calling the method provided by :java:extdoc:`ValidationUtil <nablarch.core.validation.ValidationUtil>`.
 
-実装例
-  まず、入力値からBeanオブジェクトを生成するため、バリデーション対象のBeanにMapを引数に取るコンストラクタを実装する。
+Implementation examples
+  First, implement a constructor that takes Map as an argument in the Bean for validation to generate a Bean object from the input value.
 
-  次にバリデーション対象のBeanにバリデーションを行うためのstaticメソッドを実装する。
-  このメソッドには、 :java:extdoc:`@ValidateFor <nablarch.core.validation.ValidateFor>` アノテーションを設定し、バリデーションを識別するための任意の値を引数で指定する。
+  Next, implement a static method for performing validation in the Bean for validation.
+  In this method, configure the :java:extdoc:`@ValidateFor <nablarch.core.validation.ValidateFor>` annotation, and specify an arbitrary value for identifying validation in the argument.
 
-  このメソッドに必要となる処理は、  :java:extdoc:`ValidationUtil <nablarch.core.validation.ValidationUtil>` を使用してバリデーションを実行すること。
+  The validation is executed using :java:extdoc:`ValidationUtil <nablarch.core.validation.ValidationUtil>` for the processing required for this method.
 
   .. code-block:: java
 
@@ -395,114 +394,116 @@ Nablarchが提供しているバリデータ及びコンバータについては
 
       @ValidateFor("validate")
       public static void validate(ValidationContext<SampleForm> context) {
-        // userNameとbirthdayとageに対してバリデーションを実行
+        // Validate userName, birthday and age
         ValidationUtil.validate(context, new String[] {"userName", "birthday", "age"});
       }
     }
 
-  上記のBeanを使って入力値の `request` をバリデーションするには、以下のように  :java:extdoc:`ValidationUtil <nablarch.core.validation.ValidationUtil>` を使用する。
-  なお、ウェブアプリケーションの場合には `ウェブアプリケーションのユーザ入力値のチェックを行う`_ でより簡易的にバリデーションが行える。
+  To validate an input value request using the Bean described above, use :java:extdoc:`ValidationUtil <nablarch.core.validation.ValidationUtil>` as follows:
+  In the case of a Web application, validation can be performed more easily by `Checking User Input Values for Web Applications`_.
 
   .. code-block:: java
 
-    // バリデーションの実行
-    // SampleFormを使って入力パラメータのrequestをチェックする。
+    // Execution of validation
+    // Checks the input parameter request using SampleForm.
     //
-    // 最後の引数にはSampleFormのどのバリデーションメソッドを使用してバリデーションを行うのかを指定する。
-    // この例では、validateを指しているので、SampleFormの@ValidateForアノテーションに
-    // validateと指定されているメソッドを使ってバリデーションが実行される。
+    // Specifies which validation method of SampleForm is used for validation in the last argument.
+    // Since validate is specified in this example,
+    // validation is executed using the validate method specified in the @ValidateFor annotation of SampleForm.
     ValidationContext<SampleForm> validationContext =
             ValidationUtil.validateAndConvertRequest(SampleForm.class, request, "validate");
 
-    // バリデーションエラーが発生している場合、abortIfInvalidで例外が送出される
+    // If a validation error has occurred, an Exception is thrown with abortIfInvalid
     validationContext.abortIfInvalid();
 
-    // Mapを引数に取るコンストラクタを使用してFormを生成する。
-    // (入力値のrequestが変換されたFormが取得できる)
+    // Generates Form using a constructor that takes Map as an argument.
+    // (Form in which the input value request is converted can be acquired)
     SampleForm form = validationContext.createObject();
 
 .. _nablarch_validation-execute_explicitly:
 
-バリデーションの明示的な実行を行う
+Performing Explicit Execution of Validation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-`バリデーションを実行する`_ では、Beanのプロパティ(setter)に設定したアノテーションベースでバリデーションが実行されたが、
-ここではアノテーションを設定するのではなく直接バリデーションを実行する方法を説明する。
+The `Executing Validation`_ was performed based on the annotations configured in Bean property (setter), but here,
+we will describe a method of executing the validation directly instead of configuring the annotations.
 
-原則、 `バリデーションを実行する`_ の方法でバリデーションを行うが、個別にバリデーションを実行する必要がある場合には、
-この方法でバリデーションを行うこと。
-例えば、 :ref:`コード管理のパターン<code-use_pattern>` を使っていて、
-特定の画面だけパターンを変えてバリデーションしたい場合に、個別にバリデーションを実行する。
+In principle, validation is performed using the `Executing Validation`_ method, use this method
+if it is necessary to perform validation individually.
+For example, if :ref:`code management pattern<code-use_pattern>` is being used
+and validate is required to be performed by changing the pattern only for a specific screen, then execute validation individually.
 
 
-実装例
-  明示的なバリデーションの実行は、Beanクラスの  :java:extdoc:`@ValidateFor <nablarch.core.validation.ValidateFor>` アノテーションが設定されたメソッドから行う。
-  なお、明示的バリデーションの実行時に指定できるアノテーションは、 :java:extdoc:`DirectCallableValidator <nablarch.core.validation.DirectCallableValidator>` を実装しているものに限定される。
-  (コンバータは指定することはできない。)
+Implementation examples
+  Explicit validation is executed from the method in which the :java:extdoc:`@ValidateFor <nablarch.core.validation.ValidateFor>` annotation for the Bean class is configured.
+  Annotations that can be specified when executing explicit validation are limited to those that implement :java:extdoc:`DirectCallableValidator <nablarch.core.validation.DirectCallableValidator>`.
+  (Convertors cannot be specified.)
 
   .. code-block:: java
 
     public class SampleForm {
-      // 属性は省略
+      // Attributes omitted
 
       @ValidateFor("validate")
       public static void validate(ValidationContext<SampleForm> context) {
 
           ValidationUtil.validate(context, new String[]{"userName", "prefectureCode"});
 
-          // userNameに対して必須チェックを実施
+          // Perform mandatory check on the userName
           ValidationUtil.validate(context, "userName", Required.class);
 
-          // アノテーションのパラメータはMapで指定する
+          //  Specify annotation parameters in Map
           Map<String, Object> params = new HashMap<String, Object>();
-          params.put("codeId", "1052");     // コードID
-          params.put("pattern", "A");       // 使用するコードパターン名
-          params.put("messageId", "M4865"); // エラーメッセージのID
+          params.put("codeId", "1052");     // Code ID
+          params.put("pattern", "A");       // Code pattern name that is used
+          params.put("messageId", "M4865"); // Error message ID
           ValidationUtil.validate(context, "prefectureCode", CodeValue.class, params);
       }
     }
 
   .. important::
 
-    明示的なバリデーションを行うには、対象の項目に対し予めバリデーションを実施しておく必要がある。
-    詳細は :ref:`nablarch_validation-execute` を参照
+    To perform explicit validation, it is essential to implement validation on the target items in advance.
+    For details, see :ref:`nablarch_validation-execute`.
 
 .. _nablarch_validation-system_char_validator:
 
-文字種バリデーションを行う
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-文字種バリデーションの定義方法は、 :ref:`bean_validation` と同じである。
-詳細な設定方法は、 :ref:`Bean Validationの文字種バリデーションを行う <bean_validation-system_char_validator>` を参照。
-ただし、サロゲートペアを許容する設定は :ref:`bean_validation` と異なるので下記を参照すること。
+Performing Character Type Validation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The definition method for character type validation is the same as :ref:`bean_validation`.
+For the detailed configuration method, see :ref:`performing character type validation for Bean Validation <bean_validation-system_char_validator>`.
+However, see the following since the configuration that allows surrogate pairs is different from :ref:`bean_validation`.
 
-なお、使用するアノテーションは、 :java:extdoc:`@SystemChar <nablarch.core.validation.validator.unicode.SystemChar>` で、
-:ref:`bean_validation` とは完全修飾名が異なる(アノテーション名は同一)ので注意すること。
+Note that the annotation being used is :java:extdoc:`@SystemChar <nablarch.core.validation.validator.unicode.SystemChar>`,
+and the fully qualified name is different from :ref:`bean_validation` (annotation name is the same).
 
-サロゲートペアを許容する
+Allowing Surrogate Pairs
   このバリデーションでは、デフォルトではサロゲートペアを許容しない。
   （例え `LiteralCharsetDef` で明示的にサロゲートペアの文字を定義していても許容しない）
+  This validation does not allow surrogate pairs by default.
+  (They are not allowed even if the characters for surrogate pairs are explicitly defined in `LiteralCharsetDef`.)
 
-  サロゲートペアを許容する場合は次のようにコンポーネント設定ファイルに :java:extdoc:`SystemCharValidator#allowSurrogatePair <nablarch.core.validation.validator.unicode.SystemCharValidator.setAllowSurrogatePair(boolean)>` を設定する必要がある。
+  To allow surrogate pairs, :java:extdoc:`SystemCharValidator#allowSurrogatePair <nablarch.core.validation.validator.unicode.SystemCharValidator.setAllowSurrogatePair(boolean)>` must be configured in the component configuration file as follows.
 
   .. code-block:: xml
 
     <component name="systemCharValidator" class="nablarch.core.validation.validator.unicode.SystemCharValidator">
-      <!-- サロゲートペアを許容する -->
+      <!--  Allows surrogate pairs -->
       <property name="allowSurrogatePair" value="true"/>
-  
-      <!-- その他のプロパティは省略 -->
+
+      <!-- Other properties are omitted -->
     </component>
 
 .. _nablarch_validation-correlation_validation:
 
-相関バリデーションを行う
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-複数の項目を使用した相関バリデーションは、Beanクラスの :java:extdoc:`@ValidateFor <nablarch.core.validation.ValidateFor>` アノテーションを設定したメソッドで実装する。
-このメソッドでまずは項目ごとのバリデーションを実施し、エラーが発生しなかった場合に複数項目を使用したバリデーションを実行する。
+Performing Correlation Validation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Correlation validation using multiple items is implemented using the method in which the Bean class annotation :java:extdoc:`@ValidateFor <nablarch.core.validation.ValidateFor>` is configured.
+This method first performs validation for each item, then executes validation using multiple items if no error occurs.
 
-実装例
-  この例では、mailAddressとconfirmMailAddressを使用した相関バリデーションを行っている。
+Implementation examples
+  In this example, correlation validation is performed using mailAddress and confirmMailAddress.
 
-  相関バリデーションでエラーとなった場合は、ユーザに通知すべきメッセージを示すメッセージIDを明示的に :java:extdoc:`ValidationContext <nablarch.core.validation.ValidationContext>` に追加する。
+  If an error has occurred during correlation validation, explicitly add the message ID indicating the message that must be notified to the user to :java:extdoc:`ValidationContext <nablarch.core.validation.ValidationContext>`.
 
   .. code-block:: java
 
@@ -522,18 +523,18 @@ Nablarchが提供しているバリデータ及びコンバータについては
 
       @ValidateFor("validate")
       public static void validate(ValidationContext<SampleForm> context) {
-          // mailAddressとconfirmMailAddressのバリデーションを実施
+          // Implement validation of mailAddress and confirmMailAddress
           ValidationUtil.validate(context, new String[] {"mailAddress", "confirmMailAddress"});
 
-          // エラーが発生した場合は、相関バリデーションを実施しない
+          // Correlation not performed validation if an error has occurred
           if (!context.isValid()) {
               return;
           }
 
-          // formオブジェクトを生成し、相関バリデーションを実施
+          // Generate form object and implement correlation validation
           SampleForm form = context.createObject();
           if (!Objects.equals(form.mailAddress, form.confirmMailAddress)) {
-              // mailAddressとconfirmMailAddressが一致していない場合エラー
+              // An error occurs when mailAddress and confirmMailAddress do not match
               context.addMessage("compareMailAddress");
           }
       }
@@ -541,24 +542,24 @@ Nablarchが提供しているバリデータ及びコンバータについては
 
 .. _nablarch_validation-nest_bean:
 
-一括登録のようなBeanの配列を入力とする機能でバリデーションを行う
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-一括登録のように同一の情報を複数入力するケースがある。
-このような場合には、バリデーション対象のBeanに対してネストしたBeanを定義することで対応する。
+Performing validation using a function that takes Bean array as the input, such as batch registration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+There are cases where the same information is input multiple times, such as in batch registration.
+In such cases, a nested Bean is defined for the Bean for validation.
 
-ネストしたBeanのsetterには  :java:extdoc:`@ValidationTarget <nablarch.core.validation.ValidationTarget>` アノテーションを設定し、ネストしたBeanのサイズを指定する。
-要素数が固定(コンパイル時に決まっている)の場合には :java:extdoc:`size <nablarch.core.validation.ValidationTarget.size()>` 属性に指定する。可変の場合には、
-:java:extdoc:`sizeKey <nablarch.core.validation.ValidationTarget.sizeKey()>` 属性にサイズを持つプロパティの名前を設定する。
+Configure the :java:extdoc:`@ValidationTarget <nablarch.core.validation.ValidationTarget>` annotation in the nested Bean setter, and specify the size of the nested Bean.
+If the number of elements is fixed (determined during compile), specify it in the :java:extdoc:`size <nablarch.core.validation.ValidationTarget.size()>` attribute.
+If the number of elements is variable, configure the property name having a size in the :java:extdoc:`sizeKey <nablarch.core.validation.ValidationTarget.sizeKey()>` attribute.
 
-この例では `AddressForm` の情報を一括で入力できるため、 `SampleForm` は `AddressForm` を配列として保持している。
-また、サイズはコンパイル時には決まっていないため、 :java:extdoc:`sizeKey <nablarch.core.validation.ValidationTarget.sizeKey()>` を使用している。
+In this example, `SampleForm` stores `AddressForm` as an array since the `AddressForm` information can be inputted in a batch.
+Also, :java:extdoc:`sizeKey <nablarch.core.validation.ValidationTarget.sizeKey()>` is used since the size is not determined during compile.
 
 .. code-block:: java
 
   public class SampleForm {
       private AddressForm[] addressForms;
-      // addressFormsのサイズ
-      // 画面のhiddenなどから送信すること
+      // Size of addressForms
+      // Send confidential items from the screen, etc.
       private Integer addressSize;
 
       @ValidationTarget(sizeKey = "addressSize")
@@ -579,23 +580,23 @@ Nablarchが提供しているバリデータ及びコンバータについては
   }
 
   public class AddressForm {
-      // 省略
+      // Omitted
   }
 
 .. _nablarch_validation-conditional:
 
-ラジオボタンやリストボックスの選択値に応じてバリデーション項目を変更する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:java:extdoc:`WebUtil <nablarch.common.web.WebUtil>` クラスを使うことで、ラジオボタンやリストボックスなどの選択値に応じてバリデーション項目を切り替えることが出来る。
+Changing validation items based on the selected value of the radio button and list box
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+By using the :java:extdoc:`WebUtil <nablarch.common.web.WebUtil>` class, validation items can be replaced based on the selected value of the radio button and list box.
 
-この例では、画面から送信された **form.radio** の値が **ptn1** の場合に、 `item1` のみバリデーションを行う。
-**ptn1** 以外の場合には、 `item1` と `item2` のバリデーションを行う。
+In this example, when the value of **form.radio** sent from the screen is **ptn1**, only `item1` is validated.
+For values other than **ptn1**, `item1` and `item2` are validated.
 
 .. code-block:: java
 
   public class SampleForm {
 
-      // プロパティは省略
+      // Property is omitted
 
       @ValidateFor("validate")
       public static void validate(ValidationContext<SampleForm> context) {
@@ -609,29 +610,28 @@ Nablarchが提供しているバリデータ及びコンバータについては
 
 .. tip::
 
-  この例では、 :java:extdoc:`WebUtil.containsPropertyKeyValue <nablarch.common.web.WebUtil.containsPropertyKeyValue(nablarch.core.validation.ValidationContext-java.lang.String-java.lang.String)>` を使って、送信された値までチェックを行っているが、
-  単純にラジオボタンのチェック有無だけを調べたいのであれば :java:extdoc:`WebUtil.containsPropertyKey <nablarch.common.web.WebUtil.containsPropertyKey(nablarch.core.validation.ValidationContext-java.lang.String)>` を使う。
+  In this example, :java:extdoc:`WebUtil.containsPropertyKeyValue <nablarch.common.web.WebUtil.containsPropertyKeyValue(nablarch.core.validation.ValidationContext-java.lang.String-java.lang.String)>` is used to check even the sent value,
+  but to just examine whether the radio button is checked, use :java:extdoc:`WebUtil.containsPropertyKey <nablarch.common.web.WebUtil.containsPropertyKey(nablarch.core.validation.ValidationContext-java.lang.String)>`.
 
-
-特定の項目に紐づくバリデーションエラーのメッセージを作りたい
+To create a validation error message linked to a specific item
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`Bean Validationの特定の項目に紐づくバリデーションエラーのメッセージを作りたい <bean_validation-create_message_for_property>` を参照。
+See :ref:`to create a validation error message linked to a specific item of Bean Validation <bean_validation-create_message_for_property>`.
 
 .. _nablarch_validation-property_name:
 
-バリデーションエラー時のメッセージに項目名を埋め込みたい
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-メッセージに項目名を埋め込むには、 :java:extdoc:`@PropertyName <nablarch.core.validation.PropertyName>` アノテーションを使用して、バリデーション対象の項目の項目名を指定する。
+To embed the item name in the message when a validation error occurs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To embed the item name in the message, specify the item name of the item for validation using the :java:extdoc:`@PropertyName <nablarch.core.validation.PropertyName>` annotation.
 
-実装例
-  メッセージには、項目名を埋め込むためのパターン文字を使用する。
-  項目名は、必ず先頭に指定されるので項目名を埋め込む箇所には、 **{0}** と指定する。
+Implementation examples
+  Use a pattern character to embed the item name in the message.
+  Since the item name is always specified first, specify **{0}** where the item name is to be embedded.
 
   .. code-block:: properties
 
-    required.message = {0}を入力してください。
+    required.message = Please enter a {0}.
 
-  バリデーション対象の項目に、バリデーション用のアノテーションとともに項目名を設定する `@PropertyName` アノテーションを設定する。
+  Configure the annotation `@PropertyName` that sets the item name along with the validation annotation in the item for validation.
 
   .. code-block:: java
 
@@ -639,36 +639,36 @@ Nablarchが提供しているバリデータ及びコンバータについては
 
         @Domain(SampleDomain.NAME)
         @Required
-        @PropertyName("名前")
+        @PropertyName("name")
         public void setUserName(String userName) {
             this.userName = userName;
         }
 
         @Domain(SampleDomain.DATE)
-        @PropertyName("誕生日")
+        @PropertyName("birthday")
         public void setBirthday(String birthday) {
             this.birthday = birthday;
         }
     }
 
-生成されるメッセージ
-  上記実装で、 `username` プロパティで必須エラーが発生すると、生成されるメッセージは **「名前を入力してください。」** となる。
+Generated Message
+  In the above implementation, if a required error occurs in the `username` property, the message generated will be **"Please enter name"**.
 
-数値型への型変換を行う
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-バリデーション後にBeanクラスの数値型に入力値を変換したい場合、その項目には必ず :java:extdoc:`@Digits <nablarch.core.validation.convertor.Digits>` アノテーションが必要となる。
-※ドメインバリデーションの場合、ドメインEnumに対して設定が必要となる。
+Performing Type Conversion to Numeric Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To convert the input value to a numeric type of the Bean class after validation, that item shall always require the :java:extdoc:`@Digits <nablarch.core.validation.convertor.Digits>` annotation.
+※In the case of domain validation, the configuration for domain Enum is required.
 
-なお、数値型へ変換するためのコンバータが :ref:`nablarch_validation-definition_validator_convertor` の手順に従い設定されていることが前提となる。
+Let us assume that the convertors for converting to a numeric type are configured according to the procedure in :ref:`nablarch_validation-definition_validator_convertor`.
 
-実装例
-  この例では、setterに指定しているが、ドメインバリデーションを使用したドメインEnumへの指定を推奨する。
+Implementation examples
+  In this example, it has been specified in setter, but we recommend specifying it in the domain Enum using domain validation.
 
   .. code-block:: java
 
     public class SampleForm {
 
-        @PropertyName("年齢")
+        @PropertyName("age")
         @Digits(integer = 3)
         public void setAge(Integer age) {
             this.age = age;
@@ -677,35 +677,35 @@ Nablarchが提供しているバリデータ及びコンバータについては
 
 .. _nablarch_validation-database:
 
-データベースとの相関バリデーションを行う
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データベースとの相関バリデーションは、業務アクションで行う。
+Performing Correlation Validation with the Database
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Correlation validation with the database is performed by business action.
 
-業務アクションで行う理由は、:ref:`Bean Validationのデータベースとの相関バリデーション <bean_validation-database_validation>` を参照。
+See :ref:`validation correlation with the Bean validation database <bean_validation-database_validation>` for the reason why it is performed with business action.
 
-ウェブアプリケーションのユーザ入力値のチェックを行う
+Checking User Input Values for Web Applications
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ウェブアプリケーションのユーザ入力値のチェックは :ref:`inject_form_interceptor` を使用して行う。
-詳細は、 :ref:`inject_form_interceptor` を参照
+The user input values for Web applications are checked using :ref:`inject_form_interceptor`.
+For details, see :ref:`inject_form_interceptor`.
 
-拡張例
+Expansion example
 --------------------------------------------------
-プロジェクト固有のバリデータを追加したい
+To add a project-specific validator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-バリデータを追加するには、以下の手順が必要となる。
+The following steps are required to add a validator.
 
-#. アノテーションの作成
-#. バリデータの作成
-#. 設定ファイルにバリデータの登録
+#. Creating an annotation
+#. Creating a validator
+#. Registering the validator in a configuration file
 
-以下に手順を示す。
+The procedure is shown below.
 
-アノテーションの作成
-  アノテーションは以下の条件を満たすこと。
+Creating an annotation
+  Annotations must satisfy the following conditions.
 
-  * :java:extdoc:`@Validation <nablarch.core.validation.Validation>` アノテーションを設定すること。
-  * :java:extdoc:`@Target <java.lang.annotation.Target>` アノテーションで `ElementType.METHOD` を設定すること。
-  * :java:extdoc:`@Retention <java.lang.annotation.Retention>` アノテーションで `RetentionPolicy.RUNTIME` を設定すること。
+  * Configure the :java:extdoc:`@Validation <nablarch.core.validation.Validation>` annotation.
+  * Configure `ElementType.METHOD` with the :java:extdoc:`@Target <java.lang.annotation.Target>` annotation.
+  * Configure `RetentionPolicy.RUNTIME` with the :java:extdoc:`@Retention <java.lang.annotation.Retention>` annotation.
 
   .. code-block:: java
 
@@ -715,8 +715,8 @@ Nablarchが提供しているバリデータ及びコンバータについては
     public @interface Sample {
     }
 
-バリデータの作成
-  バリデータは、 :java:extdoc:`Validator <nablarch.core.validation.Validator>` インタフェースを実装し、バリデーションロジックを実装する。
+Creating a validator
+  The validator implements the :java:extdoc:`Validator <nablarch.core.validation.Validator>` interface and implements the validation logic.
 
   .. code-block:: java
 
@@ -727,24 +727,24 @@ Nablarchが提供しているバリデータ及びコンバータについては
       }
 
       public <T> boolean validate(ValidationContext<T> context,
-          // 省略
+          // Omitted
       }
     }
 
-設定ファイルにバリデータの登録
-   :ref:`nablarch_validation-definition_validator_convertor` を参照。
+Registering the validator in a configuration file
+   See :ref:`nablarch_validation-definition_validator_convertor`.
 
-プロジェクト固有のコンバータを追加したい
+To add a project-specific convertor
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-コンバータを追加するには、以下の手順が必要となる。
+The following steps are required to add a convertor.
 
-#. コンバータの作成
-#. 設定ファイルにコンバータの登録
+#. Creating a convertor
+#. Registering the converter in a configuration file
 
-以下に手順を示す。
+The procedure is shown below.
 
-コンバータの作成
-  コンバータは、 :java:extdoc:`Convertor <nablarch.core.validation.Convertor>` インタフェースを実装し、型変換ロジックなどを実装する。
+Creating a convertor
+  The converter implements the :java:extdoc:`Convertor <nablarch.core.validation.Convertor>` interface and implements the type conversion logic, etc.
 
   .. code-block:: java
 
@@ -783,12 +783,12 @@ Nablarchが提供しているバリデータ及びコンバータについては
         }
     }
 
-設定ファイルにコンバータの登録
-  :ref:`nablarch_validation-definition_validator_convertor` を参照。
+Registering the converter in a configuration file
+  See :ref:`nablarch_validation-definition_validator_convertor`.
 
-バリデーション対象のBeanオブジェクトの生成方法を変更したい
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-バリデーション対象のBeanオブジェクトの生成方法を変更するには、以下の手順が必要となる。
+To change the method of generating a Bean object for validation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The following steps are required to change the method of generating a Bean object for validation.
 
-#. :java:extdoc:`FormCreator <nablarch.core.validation.FormCreator>` の実装クラスの作成
-#. :java:extdoc:`ValidationManager.formCreator <nablarch.core.validation.ValidationManager.setFormCreator(nablarch.core.validation.FormCreator)>` に、作成したクラスのコンポーネント定義を追加
+#. Create the implementation class :java:extdoc:`FormCreator <nablarch.core.validation.FormCreator>`
+#. Add the component definition of the created class to :java:extdoc:`ValidationManager.formCreator <nablarch.core.validation.ValidationManager.setFormCreator(nablarch.core.validation.FormCreator)>`
