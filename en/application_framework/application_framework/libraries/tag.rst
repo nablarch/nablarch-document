@@ -1,9 +1,9 @@
 .. _`tag`:
 
-JSPカスタムタグ
+JSP Custom Tags
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
@@ -14,20 +14,20 @@ JSPカスタムタグ
   tag/tag_reference
 
 
-この機能では、ウェブアプリケーションの画面作成を支援するカスタムタグを提供する。
+This function provides custom tags supporting creation of screens for Web applications.
 
-カスタムタグには、以下の制約がある。
+Custom tags have the following limitations:
 
-* JSP2.1以降をサポートしているWebコンテナで動作する。
-* 条件分岐やループなどの制御にはJSTLを使用する。
-* XHTML 1.0 Transitionalに対応した属性をサポートする。(HTML5の属性には未対応)
-* クライアントのJavaScriptが必須である。( :ref:`tag-onclick_override` を参照)
-* GETリクエストで一部のカスタムタグが使用できない。( :ref:`tag-using_get` を参照)
+* They function in web containers supporting JSP 2.1 and above.
+* They use JSTL for controlling conditional branches and loops etc.
+* They support attributes compatible with XHTML 1.0 Transitional. (HTML5 attributes are not supported)
+* It is mandatory to have JavaScript in the client. (See :ref:`tag-onclick_override`)
+* Some custom tags cannot be used with GET request. (See :ref:`tag-using_get`)
 
 .. important::
- カスタムタグはHTML5に対応できていない。
- ただし、HTML5の属性のうち、頻繁に使用されそうな次の属性のみ先行で取り込んでいる。
- 属性を追加したHTMLのタグ名をカッコ内に記載する。
+ Custom tags are not compatible with HTML5.
+ However, among the attributes of HTML5, only the following attributes that are likely to be used frequently are incorporated on priority basis.
+ Write the HTML tag name with the attribute added in the parentheses.
 
  * autocomplete(input、password、form)
  * autofocus(input、textarea、select、button)
@@ -35,60 +35,60 @@ JSPカスタムタグ
  * maxlength(textarea)
  * multiple(input)
 
- 上記以外のHTML5の属性は使用できないため、必要となった場合は各プロジェクトでカスタムタグを拡張する。
+ Since HTML5 attributes other than the above cannot be used, if it becomes necessary to use other attributes, then extend the custom tags in each project.
 
 .. important::
- カスタムタグは、以下のような単純な画面遷移を行うウェブアプリケーションを対象にしている。
- そのため、操作性を重視したリッチな画面作成やSPA(シングルページアプリケーション)に対応していない。
+ Custom tags are meant for Web applications in which simple screen transition as shown below is performed.
+ For this reason, custom tags are not compatible with creation of screens with rich content focusing on operability and SPAs (Single Page Application).
 
- * 検索画面→詳細画面による検索/詳細表示
- * 入力画面→確認画面→完了画面による登録/更新/削除
- * ポップアップ(別ウィンドウ、別タブ)による入力補助
+ * Search screen → Search/Detail Display based on detail screen
+ * Register/Update/Delete using Input Screen → Confirmation Screen → Completion Screen
+ * Input assistance by pop-up (separate windows and separate tabs)
 
- プロジェクトでJavaScriptを多用する場合は、カスタムタグが出力するJavaScriptと
- プロジェクトで作成するJavaScriptで副作用が起きないように注意する。
- カスタムタグが出力するJavaScriptについては :ref:`tag-onclick_override` を参照。
+ When JavaScript is frequently used in a project,
+ be careful so that JavaScript output by the custom tags and JavaScript created in the project do not produce any side effects.
+ Refer to :ref:`tag-onclick_override` for JavaScript output by the custom tags.
 
-機能概要
+Function overview
 ---------------------------------------------------------------------
 
-HTMLエスケープ漏れを防げる
+Prevent omission of HTML escape
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-HTMLの中では「<」「>」「"」といった文字は、特別な意味を持つため、
-それらを含む値をそのままJSPで出力してしまうと、悪意のあるユーザが容易にスクリプトを埋め込むことができ、
-クロスサイトスクリプティング(XSS)と呼ばれる脆弱性につながってしまう。
-そのため、入力値を出力する場合、HTMLエスケープを行う。
+In HTML, characters such as "<", ">" and """ have a special meaning. Hence,
+if values containing these characters are output as it is in JSP,
+then a malicious user can easily inject a script, which leads to a vulnerability called Cross-Site Scripting (XSS).
+Therefore, perform HTML escape when input values are output.
 
-ところが、JSPでEL式を使って値を出力すると、HTMLエスケープされない。
-そのため、値の出力時はHTMLエスケープを考慮した実装が常に必要になり、生産性の低下につながる。
+However, if values are output using EL expression in JSP, HTML escape is not performed.
+For this reason, when values are output, it is always necessary that HTML escape is taken into consideration during implementation, which leads to reduced productivity.
 
-カスタムタグは、デフォルトでHTMLエスケープを行うので、
-カスタムタグを使って実装している限り、HTMLエスケープ漏れを防げる。
+Since HTML escape is performed by default in custom tags,
+as long as custom tags are used for implementation, HTML escape cannot be skipped.
 
 .. important::
-  JavaScriptに対するエスケープ処理は、提供してないため、
-  scriptタグのボディやonclick属性など、JavaScriptを記述する部分には、動的な値(入力データなど)を埋め込まないこと。
-  JavaScriptを記述する部分に動的な値(入力データなど)を埋め込む場合は、プロジェクトの責任でエスケープ処理を実施すること。
+  Since escape processing is not provided for JavaScript,
+  dynamic values (input data, etc.) must not be embedded in the part where JavaScript is written, such as the script tag body and onclick attribute, etc.
+  When embedding dynamic values (such as input data, etc.) in the part where JavaScript is written, the escape process should be performed at a project level.
 
-HTMLエスケープの詳細は以下を参照。
+See below for details of HTML escape.
 
 * :ref:`tag-html_escape`
 * :ref:`tag-html_unescape`
 
-入力画面と確認画面のJSPを共通化して実装を減らす
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-多くのシステムでは、入力画面と確認画面でレイアウトが変わらず、
-似たようなJSPを作成している。
+Reduce implementation by having common JSP for input screen and confirmation screen
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In many systems, the layout is the same for input screen and confirmation screen,
+and similar JSPs are created.
 
-カスタムタグでは、入力画面と確認画面のJSPを共通化する機能を提供しているので、
-入力画面向けに作成したJSPに、確認画面との差分(例えば、ボタンなど)のみを追加実装するだけで、
-確認画面を作成することができ、生産性の向上が期待できる。
+Since custom tags provide a function by which it is possible to have common JSP for input screen and confirmation screen,
+confirmation screen can be created by adding only the features (e.g. buttons etc.) that are specific to the confirmation screen on the JSP
+created for the input screen, and improvement in productivity can be expected.
 
-入力画面と確認画面の共通化については以下を参照。
+See below for how to create a common JSP for input screen and confirmation screen.
 
 * :ref:`tag-make_common`
 
-モジュール一覧
+Module list
 ---------------------------------------------------------------------
 .. code-block:: xml
 
@@ -97,58 +97,58 @@ HTMLエスケープの詳細は以下を参照。
     <artifactId>nablarch-fw-web-tag</artifactId>
   </dependency>
 
-  <!-- hidden暗号化を使う場合のみ -->
+  <!-- Only when using hidden encryption -->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-common-encryption</artifactId>
   </dependency>
 
-  <!-- ファイルダウンロードを使う場合のみ -->
+  <!-- Only when using file download -->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-fw-web-extension</artifactId>
   </dependency>
 
-使用方法
+How to use
 ---------------------------------------------------------------------
 
 .. tip::
- カスタムタグの説明では、すべての属性について説明していないので、
- 各カスタムタグで指定できる属性については、 :ref:`tag_reference` を参照。
+ Since all attributes have not been described in the description of custom tags,
+ refer to :ref:`tag_reference` for attributes that can be specified for each custom tag.
 
 .. _`tag-setting`:
 
-カスタムタグの設定を行う
+Configure custom tags
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-カスタムタグの設定は、 :ref:`nablarch_tag_handler` と
-:java:extdoc:`CustomTagConfig<nablarch.common.web.tag.CustomTagConfig>`
-により行う。
+Custom tags are configured
+using :ref:`nablarch_tag_handler`
+and :java:extdoc:`CustomTagConfig<nablarch.common.web.tag.CustomTagConfig>`.
 
 :ref:`nablarch_tag_handler`
- カスタムタグを使用したリクエストを処理する際に、以下の機能に必要となる前処理を行うハンドラ。
- カスタムタグを使用する場合は、このハンドラの設定が必須となる。
+ Handler for pre-process that is required for the following functions when processing of requests that use custom tags.
+ Configuring this handler is mandatory when using custom tags.
 
  * :ref:`tag-checkbox_off_value`
  * :ref:`tag-hidden_encryption`
  * :ref:`tag-submit_change_parameter`
  * :ref:`tag-composite_key`
 
- このハンドラの設定値については、 :ref:`nablarch_tag_handler` を参照。
+ Refer to :ref:`nablarch_tag_handler` for values to be configured in this handler.
 
 :java:extdoc:`CustomTagConfig<nablarch.common.web.tag.CustomTagConfig>`
- カスタムタグのデフォルト値の設定を行うクラス。
- 選択項目のラベルパターンなど、カスタムタグの属性は、個々の画面で毎回設定するよりも、
- アプリケーション全体で統一したデフォルト値を使用したい場合がある。
- そのため、カスタムタグのデフォルト値の設定をこのクラスで行う。
+ Class in which default values of custom tags are configured.
+ Sometimes, for custom tag attributes such as label pattern etc. of a selection item,
+ default values that are standardized throughout the application rather than configuring the values each time on individual screens may be required.
+ Therefore, the default values of custom tags are configured in this class.
 
- デフォルト値の設定は、 このクラスを ``customTagConfig`` という名前でコンポーネント定義に追加する。
- 設定項目については、 :java:extdoc:`CustomTagConfig<nablarch.common.web.tag.CustomTagConfig>` を参照。
+ For configuration of default values, add this class to component definition with the name ``customTagConfig``.
+ For configuration items, refer to :java:extdoc:`CustomTagConfig<nablarch.common.web.tag.CustomTagConfig>`.
 
 .. _`tag-specify_taglib`:
 
-カスタムタグを使用する(taglibディレクティブの指定方法)
+Using custom tags (method of specifying taglib directive)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-カスタムタグとJSTLを使用する想定なので、それぞれのtaglibディレクティブを指定する。
+Since it is assumed that custom tags and JSTL will be used, specify the taglib directive for each.
 
 .. code-block:: jsp
 
@@ -157,54 +157,54 @@ HTMLエスケープの詳細は以下を参照。
 
 .. _`tag-input_form`:
 
-入力フォームを作る
+Create an input form
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-入力フォームは、次のカスタムタグを使用して作成する。
-以下に列挙したカスタムタグの詳細は、 :ref:`tag_reference` を参照。
+The input form is created using the following custom tags.
+For more information on the custom tags listed below, see :ref:`tag_reference`.
 
 * :ref:`tag-form_tag`
-* :ref:`tag-text_tag` などの入力を行うカスタムタグ
-* :ref:`tag-submit_tag`  などのサブミットを行うカスタムタグ
-* :ref:`tag-error_tag` などのエラー表示を行うカスタムタグ
+* Custom tag for input such as :ref:`tag-text_tag`
+* Custom tags to submit such as :ref:`tag-submit_tag`
+* Custom tag that displays error such as :ref:`tag-error_tag`
 
-入力フォームを作る上でのポイント
+Points for creating an input form
  \
 
- 入力値の復元
-  バリデーションエラーなどで、入力フォームを再表示した場合、カスタムタグによりリクエストパラメータから入力値が復元される。
+ Restoration of input values
+  When the input form is redisplayed due to validation error etc., input values are restored from the request parameters associated with the custom tags.
 
- 初期値の出力
-  入力項目に初期値を出力したい場合は、アクション側でリクエストスコープに初期値を設定したオブジェクトを設定する。
-  そして、カスタムタグのname属性と、リクエストスコープ上の変数名が対応するように、name属性を指定する。
-  指定方法の詳細や実装例は、 :ref:`tag-access_rule` を参照。
+ Output of the initial value
+  To output the initial value in the input item, set the object with initial value set in the request scope of the action.
+  Specify the name attribute such that the name attribute of the custom tag corresponds to the variable name in the request scope.
+  Refer to :ref:`tag-access_rule` for details of the specification method and implementation example.
 
- サブミット先のURI指定
-  カスタムタグでは、フォームに配置された複数のボタン/リンクから、それぞれ別々のURIにサブミットできる。
-  ボタン/リンクのサブミット先となるURIは、uri属性に指定する。
-  指定方法の詳細や実装例は、 :ref:`tag-specify_uri` を参照。
+ Specifying submit URI
+  In custom tags, each of the multiple buttons/links placed on a form can be submitted to a different URI.
+  URIs to which buttons/links are submitted, are specified to uri attribute.
+  Refer to :ref:`tag-specify_uri` for details of the specification method and implementation example.
 
-実装例
+Implementation examples
  \
 
  .. code-block:: jsp
 
   <n:form>
     <div>
-      <label>ユーザID</label>
+      <label>User ID</label>
       <n:text name="form.userId" />
       <n:error name="form.userId" messageFormat="span" errorCss="alert alert-danger" />
     </div>
     <div>
-      <label>パスワード</label>
+      <label>Password</label>
       <n:password name="form.password" />
       <n:error name="form.password" messageFormat="span" errorCss="alert alert-danger" />
     </div>
     <div style="padding: 8px 0;">
-      <n:submit type="submit" uri="/action/login" value="ログイン" />
+      <n:submit type="submit" uri="/action/login" value="Login" />
     </div>
   </n:form>
 
-出力結果
+Output result
  \
 
  .. image:: images/tag/login_form.png
@@ -213,64 +213,64 @@ HTMLエスケープの詳細は以下を参照。
 
 .. tip::
 
- .. _`tag-input_form_name_constraint`:
+ .. _'tag-input_form_name_constraint':
 
- :ref:`tag-form_tag` のname属性には以下の制約がある。
+ The name attribute of :ref:'tag-form_tag' has the following limitations:
 
- * 画面内で一意な名前をname属性に指定する
- * JavaScriptの変数名の構文に則った値を指定する
+ * Specify a unique name for the name attribute within the screen
+ * Specify a value in accordance with the variable name syntax of JavaScript
 
- 画面内で一意な名前をname属性に指定する
-  カスタムタグでは、サブミット制御にJavaScriptを使用する。
-  JavaScriptについては :ref:`tag-onclick_override` を参照。
+ Specify a unique name for the name attribute within the screen
+  In custom tags, JavaScript is used for controlling Submit.
+  Refer to :ref:`tag-onclick_override` for JavaScript.
 
-  このJavaScriptでは、サブミット対象のフォームを特定するために、
-  :ref:`tag-form_tag` のname属性を使用する。
-  そのため、アプリケーションで :ref:`tag-form_tag` のname属性を指定する場合は、
-  画面内で一意な名前をname属性に指定する必要がある。
+  In this JavaScript, name attribute of
+  :ref:'tag-form_tag' is used for identifying the form to be submitted.
+  Therefore, when specifying the name attribute of :ref:`tag-form_tag`,
+  it is necessary to specify a unique name for the name attribute within the screen.
 
-  アプリケーションで :ref:`tag-form_tag` のname属性を指定しなかった場合、
-  カスタムタグは一意な値をname属性に設定する。
+  If name attribute of :ref:`tag-form_tag` is not specified in the application,
+  then the custom tag configures a unique value for the name attribute.
 
- JavaScriptの変数名の構文に則った値を指定する
-  :ref:`tag-form_tag` のname属性はJavaScriptで使用するため、
-  JavaScriptの変数名の構文に則った値を指定する必要がある。
+ Specify a value in accordance with the variable name syntax of JavaScript
+  Since name attribute of :ref:`tag-form_tag` is used by JavaScript,
+  it is necessary to specify a value in accordance with the variable name syntax of JavaScript.
 
-  変数名の構文
-   * 値の先頭は英字始まり
-   * 先頭以降の値は英数字またはアンダーバー
+  Variable name syntax
+   * Starts with an English alphabet
+   * Subsequent values are alphanumeric or underscores
 
 .. _`tag-selection`:
 
-選択項目(プルダウン/ラジオボタン/チェックボックス)を表示する
+Displaying selection items (pull-down/radio button/check box)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-選択項目には、次のカスタムタグを使用する。
+The following custom tags are used for selection items:
 
-* :ref:`tag-select_tag` (プルダウン)
-* :ref:`tag-radio_buttons_tag` (複数のラジオボタン)
-* :ref:`tag-checkboxes_tag` (複数のチェックボックス)
+* :ref:`tag-select_tag` (pull-down)
+* :ref:`tag-radio_buttons_tag` (multiple radio button)
+* :ref:`tag-checkboxes_tag` (multiple checkboxes)
 
-アクション側で選択肢リスト(選択肢のラベルと値をもつオブジェクトのリスト)をリクエストスコープに設定し、
-カスタムタグで選択肢リストを使用して表示する。
+Configure the options list (list of objects having the labels and values of options) in the request scope for the action
+and display the options list using the custom tags.
 
 .. tip::
- 選択状態の判定は、選択された値と選択肢の値をともに
- :java:extdoc:`Object#toString <java.lang.Object.toString()>` してから行う。
+ Selection state is determined after performing :java:extdoc:`Object#toString <java.lang.Object.toString()>`
+ for both selected value and option value.
 
-実装例
+Implementation examples
  \
 
- 選択肢のクラス
+ Option class
   \
 
   .. code-block:: java
 
    public class Plan {
 
-       // 選択肢の値
+       // Option values
        private String planId;
 
-       // 選択肢のラベル
+       // Option labels
        private String planName;
 
        public Plan(String planId, String planName) {
@@ -278,404 +278,404 @@ HTMLエスケープの詳細は以下を参照。
            this.planName = planName;
        }
 
-       // カスタムタグはこのプロパティから選択肢の値を取得する。
+       // Custom tags acquire the option values from this property.
        public String getPlanId() {
            return planId;
        }
 
-       // カスタムタグはこのプロパティから選択肢のラベルを取得する。
+       // Custom tags acquire the option labels from this property.
        public String getPlanName() {
            return planName;
        }
    }
 
- アクション
+ Action
   \
 
   .. code-block:: java
 
-   // 選択肢リストをリクエストスコープに設定する。
-   List<Plan> plans = Arrays.asList(new Plan("A", "フリー"),
-                                    new Plan("B", "ベーシック"),
-                                    new Plan("C", "プレミアム"));
+   // Configure the options list in the request scope.
+   List<Plan> plans = Arrays.asList(new Plan("A", "Free"),
+                                    new Plan("B", "Basic"),
+                                    new Plan("C", "Premium"));
 
-   // カスタムタグはここで指定した名前を使ってリクエストスコープから選択肢リストを取得する。
+   // Custom tags acquire the options list from the request scope using the name specified here.
    context.setRequestScopedVar("plans", plans);
 
- プルダウン
+ Pull-down
   JSP
    .. code-block:: jsp
 
     <!--
-      以下の属性指定により、選択肢の内容にアクセスする。
-      listName属性: 選択肢リストの名前
-      elementLabelProperty属性: ラベルを表すプロパティ名
-      elementValueProperty属性: 値を表すプロパティ名
+      Access the contents of the options by specifying the following attributes.
+      listName attribute: Name of the options list
+      elementLabelProperty attribute: Property name showing the label
+      elementValueProperty attribute: Property name showing the value
     -->
     <n:select name="form.plan1"
               listName="plans"
               elementLabelProperty="planName"
               elementValueProperty="planId" />
 
-  出力されるHTML
+  Output HTML
    .. code-block:: html
 
     <!--
-      "form.plan1"の値が"A"だった場合。
+      When the value of "form.plan1" is "A".
     -->
     <select name="form.plan1">
-      <option value="A" selected="selected">フリー</option>
-      <option value="B">ベーシック</option>
-      <option value="C">プレミアム</option>
+      <option value="A" selected="selected">Free</option>
+      <option value="B">Basic</option>
+      <option value="C">Premium</option>
     </select>
 
- ラジオボタン
+ Radio button
   JSP
    .. code-block:: jsp
 
-    <!-- 属性指定はselectタグと同じ。 -->
+    <!—- Specification of the attribute is same as the select tag. -->
     <n:radioButtons name="form.plan2"
                     listName="plans"
                     elementLabelProperty="planName"
                     elementValueProperty="planId" />
 
-  出力されるHTML
+  Output HTML
    .. code-block:: html
 
     <!--
-     "form.plan2"の値が"B"だった場合。
-     デフォルトだとbrタグで出力する。
-     listFormat属性を指定して、divタグ、spanタグ、ulタグ、olタグ、スペース区切りに変更できる。
+     When the value of "form.plan2" is "B".
+     Output using br tag if default.
+     listFormat attribute can be specified and changed to div tag, span tag, ul tag, ol tag and space delimiter.
     -->
     <input id="nablarch_radio1" type="radio" name="form.plan2" value="A" />
-    <label for="nablarch_radio1">フリー</label><br />
+    <label for="nablarch_radio1">Free</label><br />
     <input id="nablarch_radio2" type="radio" name="form.plan2" value="B" checked="checked" />
-    <label for="nablarch_radio2">ベーシック</label><br />
+    <label for="nablarch_radio2">Basic</label><br />
     <input id="nablarch_radio3" type="radio" name="form.plan2" value="C" />
-    <label for="nablarch_radio3">プレミアム</label><br />
+    <label for="nablarch_radio3">Premium</label><br />
 
- チェックボックス
+ Checkbox
   JSP
    .. code-block:: jsp
 
-    <!-- 属性指定はselectタグと同じ。 -->
+    <!—- Specification of the attribute is same as the select tag. -->
     <n:checkboxes name="form.plan4"
                   listName="plans"
                   elementLabelProperty="planName"
                   elementValueProperty="planId" />
 
-  出力されるHTML
+  Output HTML
    .. code-block:: html
 
     <!--
-     "form.plan4"の値が"C"だった場合。
-     デフォルトだとbrタグで出力する。
-     listFormat属性を指定して、divタグ、spanタグ、ulタグ、olタグ、スペース区切りに変更できる。
+     When the value of "form.plan4" is "C".
+     Output using br tag if default.
+     listFormat attribute can be specified and changed to div tag, span tag, ul tag, ol tag and space delimiter.
     -->
     <input id="nablarch_checkbox1" type="checkbox" name="form.plan4" value="A"
            checked="checked" />
-    <label for="nablarch_checkbox1">フリー</label><br />
+    <label for="nablarch_checkbox1">Free</label><br />
     <input id="nablarch_checkbox2" type="checkbox" name="form.plan4" value="B" />
-    <label for="nablarch_checkbox2">ベーシック</label><br />
+    <label for="nablarch_checkbox2">Basic</label><br />
     <input id="nablarch_checkbox3" type="checkbox" name="form.plan4" value="C" />
-    <label for="nablarch_checkbox3">プレミアム</label><br />
+    <label for="nablarch_checkbox3">Premium</label><br />
 
 .. important::
- :ref:`tag-radio_buttons_tag` と :ref:`tag-checkboxes_tag` は、
- 簡単に選択項目を出力できる反面、カスタムタグで選択肢をすべて出力するので、
- どうしても出力されるHTMLに制限が出てくる。
- そのため、デザイン会社が作成したHTMLをベースに開発する場合など、プロジェクトでデザインをコントロールできない場合は、
- :ref:`tag-radio_buttons_tag` と :ref:`tag-checkboxes_tag` が出力するHTMLがデザインに合わないケースが出てくる。
+ While on one hand, :ref:`tag-radio_buttons_tag` and :ref:`tag-checkboxes_tag`
+ can easily output selection items, on the other hand, all options are output in the custom tags;
+ hence there is always a limitation on the HTML that is output.
+ When design cannot be controlled in the project, such as carrying out development based on the HTML created by a design company,
+ there are cases where the HTML output by :ref:`tag-radio_buttons_tag` and :ref:`tag-checkboxes_tag` does not match with the design.
 
- このような場合は、JSTLのc:forEachタグと :ref:`tag-radio_tag` または :ref:`tag-checkbox_tag` を使って実装すれば、
- 選択肢を表示するHTMLを自由に実装できる。
+ In such cases, if implementation is carried out using c:forEach tag of JSTL and :ref:`tag-radio_tag` or :ref:`tag-checkbox_tag`,
+ then HTML displaying the options can be implemented without restriction.
 
  .. code-block:: jsp
 
   <c:forEach items="${plans}" var="plan">
-    <!-- 前後に好きなHTMLを追加できる。 -->
+    <!-- HTML of users choice can be added before and after. -->
     <n:radioButton name="form.plan3" label="${plan.planName}" value="${plan.planId}" />
   </c:forEach>
 
 .. _`tag-checkbox_off_value`:
 
-チェックボックスでチェックなしに対する値を指定する
+Specify the value for unchecked checkboxes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-HTMLのcheckboxタグは、チェックなしの場合にリクエストパラメータが送信されない。
-単一の入力項目としてcheckboxタグを使用する場合は、データベース上でフラグとして表現されたデータ項目に対応することが多く、
-通常はチェックなしの場合にも何らかの値を設定する。
-そのため、 :ref:`tag-checkbox_tag` では、チェックなしに対応する値を指定できる機能を提供する。
+In the HTML checkbox tag, request parameter is not sent when checkboxes are unchecked.
+When using the checkbox tag for a single input item, the checkbox tag often corresponds to a data item expressed as a flag in the database,
+and usually some value is configured to it even in the unchecked state.
+Therefore, a function is provided in the :ref:`tag-checkbox_tag`, which enables specification of a value corresponding to the unchecked state.
 
-実装例
+Implementation examples
  .. code-block:: jsp
 
   <!--
-   以下の属性指定により、チェックなしの場合の動作を制御する。
-   useOffValue属性: チェックなしの値設定を使用するか否か。デフォルトはtrue
-                    一括削除などで複数選択させる場合にfalseを指定する。
-   offLabel属性: チェックなしの場合に使用するラベル。
-                 入力画面と確認画面を共通化した場合に確認画面で表示されるラベル。
-   offValue属性: チェックなしの場合に使用する値。デフォルトは0。
+   By specifying the following attribute, actions in the case of unchecked state are controlled.
+   useOffValue attribute: Whether to use the value configuration without the checkmark. Default is true
+                          Specify false in the case of multiple selection for bulk deletion, etc.
+   offLabel attribute: The label used when there is no checkmark.
+                       The label displayed on the confirmation screen when a common JSP is used for the input and confirmation screens.
+   offValue attribute: The value used when there is no checkmark. Default is 0.
   -->
-  <n:checkbox name="form.useMail" value="true" label="使用する"
-              offLabel="使用しない" offValue="false" />
+  <n:checkbox name="form.useMail" value="true" label="Used"
+              offLabel="Not used" offValue="false" />
 
 .. tip::
- この機能は、:ref:`nablarch_tag_handler` と :ref:`hidden暗号化 <tag-hidden_encryption>` を使って実現している。
- checkboxタグ出力時にチェックなしに対応する値をhiddenタグに出力しておき、
- :ref:`nablarch_tag_handler` がリクエスト受付時に、checkboxタグがチェックされていない場合のみ、
- リクエストパラメータにチェックなしに対応する値を設定する。
+ This function is implemented using :ref:`nablarch_tag_handler` and :ref:`hidden encryption <tag-hidden_encryption>`.
+ When the checkbox tag is output, the value corresponding to the unchecked state is output in the hidden tag,
+ and when :ref:`nablarch_tag_handler` receives the request, the value corresponding to the unchecked state is configured in the request parameter
+ only if the checkbox tag is unchecked.
 
 .. _`tag-window_scope`:
 
-入力データを画面間で持ち回る(ウィンドウスコープ)
+Retaining the input data across screens (window scope)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. important::
- 入力データ保持は、ここで説明するウィンドウスコープを使う方法と、
- ライブラリの :ref:`session_store` を使う方法の2通りがある。
- 以下の理由から、画面間での入力データ保持には、 :ref:`session_store` を使用すること。
+ There are two methods to retain input data, the method explained here,
+ in which window scope is used, and the method in which :ref:`session_store` of library is used.
+ :ref:`session_store` should be used to retain input data across screens for the following reasons:
 
- * ウィンドウスコープでは、データをキー/値のペアで保持するため、Beanをそのまま格納することができない。
-   Beanが保持するデータを格納したい場合は、データをバラすことになり、とても実装が煩雑となる。
+ * In window scope, a Bean cannot be stored as it is, since data is retained in key/value pairs.
+   If data retained by a Bean is to be stored, the data will be fragmented, and implementation will become very complicated.
 
    .. code-block:: java
 
-    // こんなBeanがあるとする。
+    // Let us assume such a Bean.
     Person person = new Person();
-    person.setName("名前");
-    person.setAge("年齢");
+    person.setName("Name");
+    person.setAge("Age");
 
-    // ウィンドウスコープへの設定(アクションで行う場合)
+    // Set to window scope (when done using action)
     request.setParam("person.name", person.getName());
     request.setParam("person.age", person.getAge());
 
-    // ウィンドウスコープへの設定(JSPで行う場合)
+    // Set to window scope (when done using JSP)
     <n:hidden name="person.name" />
     <n:hidden name="person.age" />
 
- * ウィンドウスコープへの入力データの設定は、カスタムタグの属性指定により行うため、動きが把握しにくい。(実装難易度が高い)
+ * Since input data is configured to the window scope by specifying custom tag attributes, movement of data is difficult to comprehend. (degree of difficulty of implementation is high)
 
-入力データは、クライアント側にhiddenタグとして保持する。
-クライアント側に保持することで、サーバ側(セッション)に保持する場合に比べ、
-複数ウィンドウの使用やブラウザの戻るボタンの使用など、ブラウザの使用制限を減らし、柔軟な画面設計が可能となる。
+Input data is retained on the client as hidden tag.
+Compared to retaining the data in the server (session), when data is retained on the client, there are less restrictions on using the browser,
+such as use of multiple windows and use of the back button on the browser, and it becomes possible to have a flexible screen design.
 
-ここでは、クライアント側に保持するデータの格納先をウィンドウスコープと呼ぶ。
-ウィンドウスコープのデータは、 :ref:`hidden暗号化<tag-hidden_encryption>` により暗号化する。
-
-.. important::
- ウィンドウスコープのデータは、:ref:`hidden暗号化<tag-hidden_encryption>` により暗号化されhiddenタグに出力される。
- そのため、Ajaxを使って取得したデータで書き換えるなど、クライアント側でウィンドウスコープの内容を書き換えることはできない。
-
-ウィンドウスコープにデータを設定するには、 :ref:`tag-form_tag` のwindowScopePrefixes属性を指定する。
+The storage destination of data retained in the client is called a window scope.
+The data in the window scope is encrypted using :ref:`hidden encryption<tag-hidden_encryption>`.
 
 .. important::
- windowScopePrefixes属性を指定すると、リクエストパラメータのうち、
- パラメータ名がこの属性に指定された値に **前方一致** するパラメータが、
- ウィンドウスコープに設定される。
+ The data in the window scope is encrypted using :ref:`hidden encryption<tag-hidden_encryption>` and output in the hidden tag.
+ Therefore, the contents of the window scope cannot be overwritten in the client, such as overwriting with the data acquired using Ajax.
 
- 例えば、 ``windowScopePrefixes="user"`` と指定すると、
- ``users`` で始まるパラメータもウィンドウスコープに設定される。
+Data is configured to the window scope by specifying windowScopePrefixes attribute of :ref:`tag-form_tag`.
 
-実装例
- 検索機能の検索条件、更新機能の入力データを画面間で持ち回る。
- 画面遷移とhiddenに格納されるデータの動きは以下のとおり。
+.. important::
+ When windowScopePrefixes attribute is specified, among the request parameters,
+ those with **prefix match** of the parameter name matching
+ with the value specified for this attribute are configured to the window scope.
+
+ For example, if ``windowScopePrefixes="user"`` is specified,
+ then the parameters that start with ``users`` are also configured to the window scope.
+
+Implementation examples
+ Search condition of search function and input data of update function are retained across screens.
+ Screen transition and movement of the data stored in hidden are as follows:
 
  .. image:: images/tag/window_scope.png
 
- \ 検索条件のリクエストパラメータは ``searchCondition.*`` 、
- 入力データのリクエストパラメータは ``user.*`` とする。
+ \ The request parameter of the search condition is ``searchCondition.*``
+ and that of the input data is ``user.*``.
 
- 検索画面
+ Search screen
   .. code-block:: jsp
 
-   <!-- ウィンドウスコープのデータを送信しない。 -->
+   <!-- Data in the window scope is not sent. -->
    <n:form>
 
- 更新画面
+ Update screen
   .. code-block:: jsp
 
-   <!-- 検索条件だけ送信する。 -->
+   <!-- Only search condition is sent. -->
    <n:form windowScopePrefixes="searchCondition">
 
- 更新確認画面
+ Update confirmation screen
   .. code-block:: jsp
 
    <!--
-     検索条件と入力データを送信する。
-     複数指定する場合はカンマ区切りで指定する。
+     Search condition and input data are sent.
+     When specifying more than one, separate by comma.
    -->
    <n:form windowScopePrefixes="searchCondition,user">
 
- 更新完了画面
+ Update completion screen
   .. code-block:: jsp
 
-   <!-- 検索条件だけ送信する。 -->
+   <!-- Only search condition is sent. -->
    <n:form windowScopePrefixes="searchCondition">
 
 .. important::
- データベースのデータについては、更新対象データを特定する主キーや楽観ロック用のデータなど、必要最低限に留めること。
- 特に入力画面と確認画面で表示するデータ(入力項目ではなく、表示するだけの項目)等は、
- hiddenで引き回すのではなくデータが必要となる度にデータベースから取得すること。
- hiddenのデータ量が増えると、通信速度の低下、メモリ圧迫につながるため。
+ Data in the database should be kept to the necessary minimum, such as the primary key for identifying the data to be updated, data for optimistic locking, etc.
+ Especially, data that is displayed on the input screen and confirmation screen (items only to be displayed and not the input items)
+ should be acquired from the database whenever required rather than passing the data using hidden.
+ If there is too much of data in hidden, communication speed will decrease and this can result in insufficient memory.
 
 .. important::
- ウィンドウスコープに格納したデータは、hiddenタグに出力し、リクエストパラメータとして画面間を持ち回っている。
- そのため、アクション側でウィンドウスコープに格納したデータを使用する場合は、
- :ref:`バリデーション<validation>` を行う必要がある。
+ The data stored in the window scope is output in the hidden tag and passed across screens as request parameters.
+ Therefore, when using the data stored in the window scope for the action,
+ it is necessary to perform :ref:`validation<validation>`.
 
 .. tip::
- :ref:`tag-form_tag` では、一律リクエストパラメータを全てhiddenタグに出力するのではなく、
- 既に入力項目として出力したリクエストパラメータはhiddenタグの出力から除外する。
+ In :ref:`tag-form_tag`, instead of uniform output of all request parameters in the hidden tag,
+ request parameters that have already been output as input items are excluded from the output in the hidden tag.
 
 .. tip::
- ログイン情報など、全ての業務に渡って必要になる情報はサーバ側(セッション)に保持する。
+ Information such as login information, that is necessary for all tasks is retained in the server (session).
 
 .. _`tag-hidden_encryption`:
 
-クライアントに保持するデータを暗号化する(hidden暗号化)
+Encryption of data held in the client (hidden encryption)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`ウィンドウスコープ<tag-window_scope>` や :ref:`tag-hidden_tag` の値は、
-クライアント側で改竄されたり、HTMLソースから容易に値を参照できる。
-そのため、hiddenタグの改竄や参照を防ぐことを目的に、カスタムタグではhidden暗号化機能を提供する。
+The values of :ref:`window scope<tag-window_scope>` and :ref:`tag-hidden_tag`
+can be tampered with in the client or can be easily referenced from the HTML source.
+For this reason, hidden encryption function is provided in the custom tags with the goal to prevent the hidden tag from being tampered or referenced.
 
-デフォルトで全ての :ref:`tag-form_tag` で暗号化を行い、全てのリクエストで復号及び改竄チェックを行う。
-このため、アプリケーションプログラマは、hidden暗号化機能に関して実装する必要がない。
+Encryption is performed for all :ref:`tag-form_tag`, and decryption and tampering check are performed for all requests by default.
+Therefore, the application programmer need not implement hidden encryption function.
 
 .. important::
- 
- 仕様が複雑であり容易に使用することができない、また :ref:`ウィンドウスコープ <tag-window_scope>` にあるように
- 暗号化対象のデータの使用が非推奨であるため本機能も非推奨とする。
- このため、特に理由がない限り :ref:`useHiddenEncryption <tag-use_hidden_encryption>` には ``false`` を設定すること。
 
-hidden暗号化
- hidden暗号化は、 :ref:`tag-form_tag` と :ref:`nablarch_tag_handler` により実現する。
- hidden暗号化の処理イメージを以下に示す。
- :ref:`tag-form_tag` が暗号化、 :ref:`nablarch_tag_handler` が復号及び改竄チェックを行う。
+ Since the specifications are complicated and cannot be used easily, and also, since the use of encrypted data,
+ such as the data in the :ref:`window scope <tag-window_scope>` is deprecated, this function is also deprecated.
+ Therefore, :ref:`useHiddenEncryption <tag-use_hidden_encryption>` should be configured to ``false``, unless there is a particular reason.
+
+hidden encryption
+ Hidden encryption is implemented via :ref:`tag-form_tag` and :ref:`nablarch_tag_handler`.
+ The image of hidden encryption process is shown below:
+ Encryption is performed through :ref:`tag-form_tag`, and decryption and tampering check are performed via :ref:`nablarch_tag_handler`.
 
  .. image:: images/tag/hidden_encryption.png
 
  \
 
-暗号化処理
- 暗号化は、 :java:extdoc:`Encryptor <nablarch.common.encryption.Encryptor>` インタフェースを実装したクラスが行う。
- フレームワークでは、デフォルトの暗号化アルゴリズムとして ``AES(128bit)`` を使用する。
- 暗号化アルゴリズムを変更したい場合は、
- :java:extdoc:`Encryptor <nablarch.common.encryption.Encryptor>` を実装したクラスを
- コンポーネント定義に ``hiddenEncryptor`` という名前で追加する。
+Encryption process
+ Encryption is performed by the class that implements :java:extdoc:`Encryptor <nablarch.common.encryption.Encryptor>` interface.
+ In the framework, ``AES (128bit)`` is used as a default encryption algorithm.
+ To change the encryption algorithm, add the class that implements
+ :java:extdoc:`Encryptor <nablarch.common.encryption.Encryptor>`
+ to the component definition with the name ``hiddenEncryptor``.
 
- 暗号化では、:ref:`tag-form_tag` 毎に、 :ref:`tag-form_tag` に含まれる以下のデータをまとめて暗号化し、
- 1つのhiddenタグで出力する。
+ In encryption, for each :ref:`tag-form_tag`, the following data contained in :ref:`tag-form_tag` is collectively encrypted
+ and output in 1 hidden tag.
 
- * カスタムタグの :ref:`tag-hidden_tag` で明示的に指定したhiddenパラメータ
- * :ref:`ウィンドウスコープ<tag-window_scope>` の値
- * :ref:`サブミットを行うカスタムタグ <tag_reference_submit>` で指定したリクエストID
- * :ref:`サブミットを行うカスタムタグ <tag_reference_submit>` で追加した :ref:`パラメータ<tag-submit_change_parameter>`
+ * Hidden parameter specified explicitly using the custom tag :ref:`tag-hidden_tag`
+ * Value of the :ref:`window scope<tag-window_scope>`
+ * Request ID specified in the :ref:`custom tag that performs submit <tag_reference_submit>`
+ * :ref:`Parameter<tag-submit_change_parameter>` added in the :ref:`custom tag that performs submit <tag_reference_submit>`
 
- さらに、暗号化では、改竄を検知するために、上記のデータから生成したハッシュ値を含める。
- リクエストIDは、異なる入力フォーム間で暗号化した値を入れ替えた場合の改ざんを検知するために、
- ハッシュ値は、値の書き換えによる改竄を検知するために使用する。
- 暗号化した結果は、BASE64でエンコードしhiddenタグに出力する。
+ In encryption, a hash value generated from the above data is included to detect tampering.
+ The request ID is used to detect tampering when encrypted values are replaced across different input forms,
+ while the hash value is used for detecting tampering by overwriting of values.
+ The encrypted data is encoded using BASE64 and output in the hidden tag.
 
  .. tip::
-  カスタムタグの :ref:`tag-hidden_tag` で明示的に指定したhiddenパラメータは、
-  暗号化に含まれるため、クライアント側でJavaScriptを使用して値を操作できない。
-  クライアント側のJavaScriptでhiddenパラメータを操作したい場合は、
-  :ref:`tag-plain_hidden_tag` を使用して、暗号化しないhiddenタグを出力する。
+  Since the hidden parameter explicitly specified in the custom tag :ref:`tag-hidden_tag` is included in the encryption,
+  the value cannot be manipulated using JavaScript in the client.
+  To manipulate the hidden parameter using JavaScript in the client,
+  output the unencrypted hidden tag, using :ref:`tag-plain_hidden_tag`.
 
 .. _`tag-hidden_encryption_decryption`:
 
-復号処理
- 復号処理は、 :ref:`nablarch_tag_handler` が行う。
- :ref:`nablarch_tag_handler` では以下の場合に改竄と判定し、設定で指定された画面に遷移させる。
+Decryption process
+ The decryption process is performed through :ref:`nablarch_tag_handler`.
+ The following cases are judged as tampering by the :ref:`nablarch_tag_handler`, and the screen is transitioned to the screen specified in the configuration.
 
- * 暗号化したhiddenパラメータ(nablarch_hidden)が存在しない。
- * BASE64のデコードに失敗する。
- * 復号に失敗する。
- * 暗号化時に生成したハッシュ値と復号した値で生成したハッシュ値が一致しない。
- * 暗号化時に追加したリクエストIDと受け付けたリクエストのリクエストIDが一致しない。
+ * Encrypted hidden parameter (nablarch_hidden) does not exist.
+ * Decoding of BASE64 fails.
+ * Decryption fails.
+ * The hash value generated during encryption and hash value generated using the decrypted value do not match.
+ * The request ID added during encryption and request ID of the received request do not match.
 
-暗号化に使用する鍵の保存場所
- 暗号化に使用する鍵は、鍵の有効期間をできるだけ短くするため、セッション毎に生成する。
- このため、同じユーザであってもログインをやり直すと、ログイン前に使用していた画面から処理を継続できない。
+Storage location of the key used for encryption
+ The key used for encryption is generated for each session to minimize the expiry interval of the key as much as possible.
+ Therefore, if the same user logs in again, the process cannot be continued from the screen used before the login.
 
-hidden暗号化の設定
- hidden暗号化では、 :ref:`tag-setting` により、以下の設定ができる。
+hidden encryption configuration
+ In hidden encryption, the following can be configured by :ref:`tag-setting`:
 
  .. _tag-use_hidden_encryption:
- 
- useHiddenEncryptionプロパティ
-  hidden暗号化を使用するか否か。
-  デフォルトはtrue。
 
- noHiddenEncryptionRequestIdsプロパティ
-  hidden暗号化を行わないリクエストID。
+ useHiddenEncryption property
+  Whether to use hidden encryption.
+  Default is true.
 
- noHiddenEncryptionRequestIdsプロパティには、以下のように、hidden暗号化を使用できないリクエストを指定する。
+ noHiddenEncryptionRequestIds property
+  Request ID for which hidden encryption is not performed.
 
- * ログイン画面など、アプリケーションの入口となるリクエスト
- * ブックマークから遷移してくるリクエスト
- * 外部サイトから遷移してくるリクエスト
+ Specify the requests for which hidden encryption cannot be used, to noHiddenEncryptionRequestIds property, as shown below:
 
- これらのリクエストは、暗号化したhiddenパラメータ(nablarch_hidden)が存在しない、
- またはセッション毎に生成する鍵が存在しないため、noHiddenEncryptionRequestIdsプロパティを設定しないと改竄エラーとなる。
+ * Requests such as login screen, which serve as entry to an application
+ * Requests transitioning from bookmarks
+ * Requests transitioning from external sites
 
- noHiddenEncryptionRequestIdsプロパティの設定値は、
- :ref:`tag-form_tag` と :ref:`nablarch_tag_handler` が、
- それぞれ暗号化と復号を行う際に参照して処理を行う。
+ Since these requests do not have the encrypted hidden parameter (nablarch_hidden)
+ or the key generated for each session, a tampering error will occur if noHiddenEncryptionRequestIds property is not configured.
+
+ The value configured in the noHiddenEncryptionRequestIds property is referenced by
+ :ref:`tag-form_tag` and :ref:`nablarch_tag_handler`
+ when performing the encryption and decryption process respectively.
 
  :ref:`tag-form_tag`
-  :ref:`tag-form_tag` に暗号化対象のリクエストIDが1つでも含まれていれば暗号化を行う。
-  反対に、暗号化対象のリクエストIDが1つも含まれていない場合、 :ref:`tag-form_tag` は暗号化を行わない。
+  Encryption is performed if at least one request ID to be encrypted is included in the :ref:`tag-form_tag`.
+  Conversely, if a request ID to be encrypted is not included, encryption is not performed for the :ref:`tag-form_tag`.
 
  :ref:`nablarch_tag_handler`
-  リクエストされたリクエストIDが暗号化対象のリクエストIDの場合のみ、復号を行う。
+  Decryption is performed only when the requested request ID has been encrypted.
 
 .. _`tag-composite_key`:
 
-複合キーのラジオボタンやチェックボックスを作る
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-一覧画面でデータを選択する場合などは、ラジオボタンやチェックボックスを使用する。
-データを識別する値が単一であれば、 :ref:`tag-radio_tag` や :ref:`tag-checkbox_tag` を使用すればよいが、
-複合キーの場合は単純に実装できない。
+Creating radio buttons and checkboxes associated with a composite key
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+When selecting data on the list screen, radio buttons and checkboxes are used.
+If a single value identifies the data, then :ref:`tag-radio_tag` and :ref:`tag-checkbox_tag` can be used,
+however, implementation is not easy in the case of a composite key.
 
-カスタムタグでは、複合キーに対応したラジオボタンやチェックボックスを提供する。
+In custom tags, radio buttons and checkboxes supporting composite keys are provided.
 
-* :ref:`tag-composite_key_radio_button_tag` (複合キーに対応したラジオボタン)
-* :ref:`tag-composite_key_checkbox_tag` (複合キーに対応したチェックボックス)
-
-.. important::
- この機能を使用するには、
- :java:extdoc:`CompositeKeyConvertor <nablarch.common.web.compositekey.CompositeKeyConvertor>` と
- :java:extdoc:`CompositeKeyArrayConvertor <nablarch.common.web.compositekey.CompositeKeyArrayConvertor>`
- をコンポーネント定義に追加しておく必要がある。
- 設定方法については、 :ref:`nablarch_validation-definition_validator_convertor` を参照。
+* :ref:`tag-composite_key_radio_button_tag` (radio button supporting composite keys)
+* :ref:`tag-composite_key_checkbox_tag` (checkbox supporting composite keys)
 
 .. important::
- この機能は、
- :java:extdoc:`CompositeKeyConvertor <nablarch.common.web.compositekey.CompositeKeyConvertor>` と
+ To use this function, it is necessary to add
+ :java:extdoc:`CompositeKeyConvertor <nablarch.common.web.compositekey.CompositeKeyConvertor>` and
  :java:extdoc:`CompositeKeyArrayConvertor <nablarch.common.web.compositekey.CompositeKeyArrayConvertor>`
- を使用するため、 :ref:`nablarch_validation` でのみ使用できる。
- :ref:`bean_validation` は対応していない。
+ to the component definition.
+ For the configuration method, refer to :ref:`nablarch_validation-definition_validator_convertor`.
 
-実装例
- 一覧表示で複合キーをもつチェックボックスを使用する例を元に、実装方法を説明する。
+.. important::
+ This function works only with :ref:`nablarch_validation` as
+ :java:extdoc:`CompositeKeyConvertor <nablarch.common.web.compositekey.CompositeKeyConvertor>` and
+ :java:extdoc:`CompositeKeyArrayConvertor <nablarch.common.web.compositekey.CompositeKeyArrayConvertor>`
+ are used.
+ Does not support :ref:`bean_validation`.
 
- フォーム
-  フォームでは、複合キーを保持するプロパティを
-  :java:extdoc:`CompositeKey<nablarch.common.web.compositekey.CompositeKey>`
-  として定義する。
+Implementation examples
+ Implementation method is explained based on an example in which a checkbox with a composite key is used for list display.
+
+ Form
+  In the form,
+  property that holds the composite key is defined as
+  :java:extdoc:`CompositeKey<nablarch.common.web.compositekey.CompositeKey>`.
 
   .. code-block:: java
 
    public class OrderItemsForm {
 
-       // 今回は、一覧表示で複数データに対する複合キーを受け付けるので、
-       // 配列として定義する。
+       // This time, since a composite key for multiple data is received in the list display,
+       // it is defined as a string.
        public CompositeKey[] orderItems;
 
-       // getter, コンストラクタ等は省略。
+       // Getter, constructor, etc. are omitted.
 
-       // CompositeKeyTypeアノテーションで複合キーのサイズを指定する。
+       // Specify the size of the composite key in the CompositeKeyType annotation.
        @CompositeKeyType(keySize = 2)
        public void setOrderItems(CompositeKey[] orderItems) {
            this.orderItems = orderItems;
@@ -688,7 +688,7 @@ hidden暗号化の設定
    <table>
      <thead>
        <tr>
-         <!-- ヘッダ出力は省略。 -->
+         <!-- Header output is omitted. -->
        </tr>
      </thead>
      <tbody>
@@ -696,15 +696,15 @@ hidden暗号化の設定
        <tr>
          <td>
            <!--
-             以下の属性を指定する。
-             name属性: フォームのプロパティ名に合わせて指定する。
-             valueObject属性: 複合キーの値を持つオブジェクトを指定する。
-             keyNames属性: valueObject属性で指定したオブジェクトから
-                           複合キーの値を取得する際に使用するプロパティ名を指定する。
-                           ここに指定した順番でCompositeKeyに設定される。
-             namePrefix属性: 複合キーの値をリクエストパラメータに展開する際に使用する
-                             プレフィクスを指定する。
-                             name属性と異なる値を指定する必要がある。
+             Specify the following attributes.
+             name attribute: Specify according to the property name of the form.
+             valueObject attribute: Specify the object having the value of the composite key.
+             keyNames attribute: Specify the property name used when getting the value of the composite key
+                                 from the object specified in the valueObejct attribute.
+                                 Set to the CompositeKey in the order specified here.
+             namePrefix attribute: Used when expanding the value of the composite key in request parameters
+                                   Specify a prefix.
+                                   It is necessary to specify a value that is different from the name attribute.
            -->
            <n:compositeKeyCheckbox
              name="form.orderItems"
@@ -713,7 +713,7 @@ hidden暗号化の設定
              keyNames="orderId,productId"
              namePrefix="orderItems" />
          </td>
-         <!-- 以下略 -->
+         <!-- Rest is omitted-->
        </tr>
        </c:forEach>
      </tbody>
@@ -721,72 +721,72 @@ hidden暗号化の設定
 
 .. _`tag-submit`:
 
-複数のボタン/リンクからフォームをサブミットする
+Submitting a form from multiple buttons/links
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-フォームのサブミットは、ボタンとリンクに対応しており、次のカスタムタグを使用して行う。
-1つのフォームに複数のボタンとリンクを配置することができる。
+Form submission is supported by buttons and links, and is performed using the following custom tags:
+Multiple buttons and links can be placed on one form.
 
-フォームのサブミット
- | :ref:`tag-submit_tag` (inputタグのボタン)
- | :ref:`tag-button_tag` (buttonタグのボタン)
- | :ref:`tag-submit_link_tag` (リンク)
+Submit form
+ | :ref:`tag-submit_tag` (button of input tag)
+ | :ref:`tag-button_tag` (button of button tag)
+ | :ref:`tag-submit_link_tag` (link)
 
-別ウィンドウを開いてサブミット(ポップアップ)
- | :ref:`tag-popup_submit_tag` (inputタグのボタン)
- | :ref:`tag-popup_button_tag` (buttonタグのボタン)
- | :ref:`tag-popup_link_tag` (リンク)
+Open another window and submit (pop-up)
+ | :ref:`tag-popup_submit_tag` (button of input tag)
+ | :ref:`tag-popup_button_tag` (button of button tag)
+ | :ref:`tag-popup_link_tag` (link)
 
-ダウンロード用のサブミット
- | :ref:`tag-download_submit_tag` (inputタグのボタン)
- | :ref:`tag-download_button_tag` (buttonタグのボタン)
- | :ref:`tag-download_link_tag` (リンク)
+Submit for download
+ | :ref:`tag-download_submit_tag` (button of input tag)
+ | :ref:`tag-download_button_tag` (button of button tag)
+ | :ref:`tag-download_link_tag` (link)
 
-タグ名が ``popup`` から始まるタグは、新しいウィンドウをオープンし、
-オープンしたウィンドウに対してサブミットを行う。
-タグ名が ``download`` から始まるタグは、ダウンロード用のサブミットを行う。
-それぞれ詳細は、以下を参照。
+Tags with the tag name starting with ``popup`` open a new window
+and perform submit for the opened window.
+Tags with the tag name starting with ``download`` perform submit for download.
+See below for details of each.
 
 * :ref:`tag-submit_popup`
 * :ref:`tag-submit_download`
 
-これらのカスタムタグでは、ボタン/リンクとURIを関連付けるためにname属性とuri属性を指定する。
-name属性は、フォーム内で一意な名前を指定する。name属性の指定がない場合は、カスタムタグで一意な名前が自動で出力される。
-uri属性の指定方法については、 :ref:`tag-specify_uri` を参照。
+In these custom tags, name attribute and uri attribute are specified to link the buttons/links with URI.
+name attribute specifies a unique name within a form.If name attribute is not specified, then a unique name is automatically output in the custom tag.
+Refer to :ref:`tag-specify_uri` for the method to specify uri attribute.
 
-実装例
+Implementation examples
  .. code-block:: jsp
 
-  <!-- name属性は自動で出力されるので指定しなくてよい。 -->
-  <n:submit type="submit" uri="login" value="ログイン" />
+  <!—- name attribute is automatically output and need not be specified. -->
+  <n:submit type="submit" uri="login" value="Login" />
 
 .. _`tag-onclick_override`:
 
-サブミット前に処理を追加する
+Adding a process before submission
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-フォームのサブミットは、JavaScriptを使用してボタン/リンク毎のURIを組み立てることで実現している。
-カスタムタグは、グローバル領域にこのJavaScript関数を出力し、
-ボタン/リンクのonclick属性にその関数呼び出しを設定した状態でHTML出力を行う。
+Form submission is implemented by assembling the URI for each button/link using JavaScript.
+The custom tags output this JavaScript function in the global area
+and output the HTML with the function call configured to the onclick attribute of the button/link.
 
 .. _`tag-submit_function`:
 
-カスタムタグが出力するJavaScript関数のシグネチャ
+Signature of the JavaScript function output by the custom tag
  .. code-block:: javascript
 
   /**
-   * @param event イベントオブジェクト
-   * @param element イベント元の要素(ボタン又はリンク)
-   * @return イベントを伝搬させないため常にfalse
+   * @param event Event object
+   * @param element Event source element (button or link)
+   * @return Always false as the event is not propagated
    */
   function nablarch_submit(event, element)
 
-出力例を以下に示す。
+An output example is shown below.
 
 JSP
  .. code-block:: jsp
 
   <n:form>
-    <!-- 省略 -->
-    <n:submit type="submit" uri="login" value="ログイン" />
+    <!-- Omitted -->
+    <n:submit type="submit" uri="login" value="Login" />
   </n:form>
 
 HTML
@@ -795,32 +795,32 @@ HTML
   <script type="text/javascript">
   <!--
   function nablarch_submit(event, element) {
-    // 省略
+    // Omitted
   }
   -->
   </script>
   <form name="nablarch_form1" method="post">
-    <!-- onclick属性にサブミット制御を行うJavaScript関数が設定される。 -->
-    <input type="submit" name="nablarch_form1_1" value="ログイン"
+    <!-- JavaScript function for submission control is set to the onclick attribute. -->
+    <input type="submit" name="nablarch_form1_1" value="Login"
            onclick="return window.nablarch_submit(event, this);" />
   </form>
 
-サブミット前に処理を追加したい場合は、onclick属性にアプリケーションで作成したJavaScript関数を指定する。
-カスタムタグは、onclick属性が指定された場合、サブミット用のJavaScript関数の指定を行わない。
-この場合、アプリケーションで作成したJavaScriptで、カスタムタグが設定する :ref:`JavaScript関数 <tag-submit_function>` を呼び出す必要がある。
+To add a process before submission, specify the JavaScript function created in the application to the onclick attribute.
+When the onclick attribute is specified, the custom tag does not specify the JavaScript function for submission.
+In such cases, it is necessary to call the :ref:`JavaScript function <tag-submit_function>` configured by the custom tag, using the JavaScript created in the application.
 
-実装例
- サブミット前に確認ダイアログを表示する。
+Implementation examples
+ A confirmation dialog box is displayed before submission.
 
  JavaScript
   .. code-block:: javascript
 
    function popUpConfirmation(event, element) {
-     if (window.confirm("登録します。よろしいですか？")) {
-       // カスタムタグが出力するJavaScript関数を明示的に呼び出す。
+     if (window.confirm("Will register. Are you sure?")) {
+       // Explicitly call the JavaScript function output by the custom tag.
        return nablarch_submit(event, element);
      } else {
-       // キャンセル
+       // Cancel
        return false;
      }
    }
@@ -828,62 +828,62 @@ HTML
  JSP
   .. code-block:: jsp
 
-   <n:submit type="submit" uri="register" value="登録"
+   <n:submit type="submit" uri="register" value="Register"
              onclick="return popUpConfirmation(event, this);" />
 
 .. _`tag-onchange_submit`:
 
-プルダウン変更などの画面操作でサブミットする
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-カスタムタグは、サブミット制御にJavaScriptを使用しており、
-サブミット制御を行うJavaScript関数が、ボタンやリンクのイベントハンドラ(onclick属性)に指定されることを前提に動作する。
-JavaScriptの詳細については、 :ref:`tag-onclick_override` を参照。
+Trigger submit on screen operations such as changing the selection in a pull-down
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The custom tags use JavaScript for submission control,
+and operate on the premise that the JavaScript function for submission control is specified in the event handler of a button or a link (onclick attribute).
+Refer to :ref:`tag-onclick_override` for JavaScript details.
 
-そのため、プルダウン変更などの画面操作でサブミットを行いたい場合は、サブミットさせたいボタンのクリックイベントを発生させる。
+Therefore, to trigger submit on a screen operation such as changing the selection in a pull-down, generate the click event of the corresponding submit button.
 
-プルダウン変更でサブミットを行う場合の実装例を示す。
+The implementation example of submission with change of a pull-down is shown.
 
-実装例
+Implementation examples
  .. code-block:: jsp
 
-  <!-- onchange属性にて、サブミットしたいボタン要素のclick関数を呼ぶ。 -->
+  <!-- Call the click function of the corresponding submit button element using the onchange attribute. -->
   <n:select name="form.plan"
             listName="plans"
             elementLabelProperty="planName"
             elementValueProperty="planId"
             onchange="window.document.getElementById('register').click(); return false;" />
 
-  <n:submit id="register" type="submit" uri="register" value="登録" />
+  <n:submit id="register" type="submit" uri="register" value="Register" />
 
  .. important::
-  上記の実装例では、説明がしやすいので、onchangeイベントハンドラに直接JavaScriptを記載しているが、
-  実際のプロジェクトでは、オープンソースのJavaScriptライブラリを使うなどして、処理を動的にバインドすることを推奨する。
+  In the above implementation example, JavaScript is written directly in the onchange event handler because it is easy to explain,
+  however, in a live project, it is recommended to dynamically bind the process by using the open source JavaScript library, etc.
 
 .. _`tag-submit_change_parameter`:
 
-ボタン/リンク毎にパラメータを追加する
+Adding parameters for each button/link
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-更新機能などにおいて、一覧画面から詳細画面に遷移するケースでは、
-同じURLだけどパラメータが異なるリンクを表示したい場合がある。
+At the time of transition from the list screen to the details screen in the update function, etc.,
+displaying links with the same URL but different parameters may be required.
 
-カスタムタグでは、フォームのボタンやリンク毎にパラメータを追加するためのカスタムタグを提供する。
+Custom tags are provided for adding parameters for each button or link on the form.
 
-* :ref:`tag-param_tag` (サブミット時に追加するパラメータの指定)
+* :ref:`tag-param_tag` (specification of parameters to be added at the time of submission)
 
-実装例
- 検索結果から一覧画面でリンク毎にパラメータを追加する。
+Implementation examples
+ Add parameters for each link on the list screen based on the search results.
 
  .. code-block:: jsp
 
   <n:form>
     <table>
-      <!-- テーブルのヘッダ行は省略 -->
+      <!-- Table header row is omitted  -->
       <c:forEach var="person" items="${persons}">
         <tr>
           <td>
             <n:submitLink uri="/action/person/show">
               <n:write name="person.personName" />
-              <!-- パラメータ名に"personId"を指定している。 -->
+              <!-- "personId" is specified in the parameter name. -->
               <n:param paramName="personId" name="person.personId" />
             </n:submitLink>
           </td>
@@ -893,154 +893,154 @@ JavaScriptの詳細については、 :ref:`tag-onclick_override` を参照。
   </n:form>
 
 .. important::
- パラメータを追加する場合は、その数に応じてリクエストのデータ量は増大する。
- そのため、一覧画面で詳細画面へのリンク毎にパラメータを追加する場合は、
- パラメータをプライマリキーだけにするなど、必要最小限のパラメータのみ追加する。
+ When adding parameters, the volume of request data increases depending on the number of parameters.
+ Therefore, when adding parameters for each link on the list screen to the details screen,
+ add only minimum required parameters, such as adding only the primary key as parameter, etc.
 
 .. _`tag-submit_display_control`:
 
-認可チェック/サービス提供可否に応じてボタン/リンクの表示/非表示を切り替える
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`permission_check` と :ref:`service_availability` の結果に応じて、
-:ref:`フォームのサブミットを行うボタン/リンク<tag_reference_submit>` の表示を切り替える機能を提供する。
-これにより、ユーザーが実際にボタン/リンクを選択する前に該当機能が使用可能かどうかが分かるため、ユーザビリティの向上につながる。
+Switching between display/no display of the button/link depending on permission check/service availability
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+A function is provided for switching the display of the :ref:`button/link for submitting a form<tag_reference_submit>`,
+depending on the result of :ref:`permission_check` and :ref:`service_availability`.
+By doing this, it is possible to determine whether the said function can be used before the user selects the button/link, thereby improving usability.
 
-:ref:`フォームのサブミットを行うボタン/リンク<tag_reference_submit>`
-に指定されたリクエストIDに対して、 :ref:`permission_check` と :ref:`service_availability` を行い、
-``権限なし`` または ``サービス提供不可`` の場合に表示切り替えを行う。
+:ref:`permission_check` and :ref:`service_availability` are performed for the request ID
+specified in the :ref:`button/link for submitting a form<tag_reference_submit>`
+and the display is switched when there is ``no permission`` or ``service is unavailable``.
 
-切り替え時の表示方法には次の3パターンがある。
+There are 3 patterns for switching the display method:
 
-非表示
- タグを出力しない。
+No display
+ Tags are not output.
 
-非活性
- タグを非活性にする。
- ボタンの場合は、disabled属性を有効にする。
- リンクの場合は、ラベルのみ表示するか、非活性リンク描画用JSPをインクルードする。
- JSPインクルードを行うには、 :ref:`tag-setting` で
+Disabled
+ Tags are disabled.
+ For buttons, disabled attribute is enabled.
+ For links, either only the label is displayed or JSP for displaying an inactive link is included.
+ To include JSP, specify
  :java:extdoc:`submitLinkDisabledJspプロパティ<nablarch.common.web.tag.CustomTagConfig.setSubmitLinkDisabledJsp(java.lang.String)>`
- を指定する。
+ in :ref:`tag-setting`.
 
-通常表示
- 通常どおりタグが出力される。
- 表示方法の切り替えを行わない。
+Normal display
+ Tags are output as usual.
+ Display method is not switched.
 
-デフォルトは、 ``通常表示`` である。
-:ref:`tag-setting` で
+The default is ``Normal display``.
+Default can be changed by specifying
 :java:extdoc:`displayMethodプロパティ<nablarch.common.web.tag.CustomTagConfig.setDisplayMethod(java.lang.String)>`
-を指定することで、デフォルトを変更できる。
+in :ref:`tag-setting`.
 
-個別に表示方法を変更したい場合は、displayMethod属性に指定する。
+To change the display method individually, specify in the displayMethod attribute.
 
-実装例
+Implementation examples
  .. code-block:: jsp
 
   <!--
-    NODISPLAY(非表示)、DISABLED(非活性)、NORMAL(通常表示)のいずれかを指定する。
-    このタグは常に表示する。
+    Specify one of the NODISPLAY, DISABLED and NORMAL.
+    This tag is always displayed.
   -->
-  <n:submit type="button" uri="login" value="ログイン" displayMethod="NORMAL" />
+  <n:submit type="button" uri="login" value="Login" displayMethod="NORMAL" />
 
 .. tip::
- アプリケーションで表示制御に使用する判定処理を変更したい場合は、
- :ref:`tag-submit_display_control_change` を参照。
+ To change the judgment process used for display control in the application,
+ refer to :ref:`tag-submit_display_control_change`.
 
 .. _`tag-submit_popup`:
 
-別ウィンドウ/タブを開くボタン/リンクを作る(ポップアップ)
+Creating a button/link to open a separate window/tab (pop-up)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ユーザの操作性を向上させるために、複数ウィンドウを立ち上げたい場合がある。
-例えば、郵便番号の入力欄から住所検索など、検索画面を別ウィンドウで立ち上げ入力補助を行う場合がある。
+Sometimes, multiple windows are required to be opened for improving operability.
+For example, there are cases where the search screen is opened in a separate window to perform input assistance such as searching a mailing address from the zip code input field.
 
-カスタムタグでは、複数ウィンドウの立ち上げをサポートするカスタムタグ(以降はポップアップタグと称す)を提供する。
+There are custom tags that support opening of multiple windows (hereinafter referred to as pop-up tags).
 
-* :ref:`tag-popup_submit_tag` (inputタグのボタン)
-* :ref:`tag-popup_button_tag` (buttonタグのボタン)
-* :ref:`tag-popup_link_tag` (リンク)
+* :ref:`tag-popup_submit_tag` (button of input tag)
+* :ref:`tag-popup_button_tag` (button of button tag)
+* :ref:`tag-popup_link_tag` (link)
 
 .. important::
 
-  これらのタグは、以下の問題点があるため非推奨とする。
-  
-  * 外部サイトへのリンクやボタンを作成した場合、一部のブラウザで新しいウィンドウでページを開けない。(例えば、IEの保護モードを有効にした場合発生する)
-  
-    :ref:`tag-a_tag` やhtmlタグを使用することでこの問題を回避できる。
-    
-  * サブウィンドウを用いた画面遷移は利便性が低い。
-  
-    ページ内にポップアップウィンドウを表示する方式が一般的であり、サブウィンドウを用いた検索などは今や時代遅れである。
-    ページ内でのポップアップウィンドウの表示処理は、オープンソースライブラリを用いることで対応出来る。
+  These tags are not recommended due to the following problems:
 
-ポップアップタグは、画面内のフォームに対するサブミットを行うカスタムタグと以下の点が異なる。
+  * When a link or button is created to an external site, the page is not opened in a new window in some browsers. (for example, this occurs when IE protection mode is enabled)
 
-* 新しいウィンドウをオープンし、オープンしたウィンドウに対してサブミットを行う。
-* 入力項目のパラメータ名を変更できる。
+    This problem can be avoided by using :ref:`tag-a_tag` or HTML tags.
 
-ポップアップは、JavaScriptのwindow.open関数を使用して実現する。
+  * Screen transition using a sub-window is less convenient.
 
-実装例
- 指定したスタイルでウィンドウを開く検索ボタンを作成する。
+    The method of displaying a pop-up window on a page is common, and search using a sub-window is now obsolete.
+    Display process of a pop-up window on a page can be handled by using an open source library.
+
+The pop-up tags differ from the custom tags that are associated with submit of the form on the screen, in the following aspects:
+
+* A new window is opened and submit is performed for the opened window.
+* Parameter names of input items can be changed.
+
+Popups are implemented using the JavaScript window.open function.
+
+Implementation examples
+ A search button that opens a window in a specified style is created.
 
  .. code-block:: jsp
 
   <!--
-    以下の属性指定により、ウィンドウをオープンする動作を制御する。
-    popupWindowName属性: ポップアップのウィンドウ名。
-                         新しいウィンドウを開く際にwindow.open関数の第2引数に指定する。
-    popupOption属性: ポップアップのオプション情報。
-                     新しいウィンドウを開く際にwindow.open関数の第3引数に指定する。
+    The operation to open the window is controlled by the following attribute specifications.
+    popupWindowName attribute: Window name of pop-up:
+                               Specified to the second parameter of the window.open function when opening a new window.
+    popupOption attribute: Pop-up option information.
+                           Specify to the third parameter of the window.open function when opening a new window.
   -->
   <n:popupButton uri="/action/person/list"
                  popupWindowName="postalCodeSupport"
                  popupOption="width=400, height=300, menubar=no, toolbar=no, scrollbars=yes">
-    検索
+    Search
   </n:popupButton>
 
-popupWindowName属性が指定されない場合、 :ref:`tag-setting` で
+If the popupWindowName attribute is not specified, then the default value specified in
 :java:extdoc:`popupWindowNameプロパティ<nablarch.common.web.tag.CustomTagConfig.setPopupWindowName(java.lang.String)>`
-に指定したデフォルト値が使用される。
-デフォルト値が設定されていない場合、カスタムタグは、JavaScriptのDate関数から取得した現在時刻(ミリ秒)を新しいウィンドウの名前に使用する。
-デフォルト値の指定有無により、ポップアップのデフォルト動作が以下のとおり決まる。
+by the :ref:`tag-setting` is used.
+If no default value is configured, the custom tag uses the current time (milliseconds) acquired from the JavaScript date function for the name of the new window.
+The default action of a pop-up is determined as follows depending on whether the default value is specified.
 
- デフォルト値を指定した場合
-  常に同じウィンドウ名を使用するため、オープンするウィンドウが1つとなる。
+ When a default value is specified
+  Only one window is opened since the same window name is always used.
 
- デフォルト値を指定しなかった場合
-  常に異なるウィンドウ名を使用するため、常に新しいウィンドウをオープンする。
+ When a default value is not specified
+  Always a new window is opened since every time a different window name is used.
 
 .. _`tag-submit_change_param_name`:
 
-パラメータ名変更
- ポップアップタグは、元画面のフォームに含まれる全てのinput要素を動的に追加してサブミットする。
- ポップアップタグにより開いたウィンドウに対するアクションと、元画面のアクションでパラメータ名が一致するとは限らない。
- そのため、カスタムタグでは、元画面の入力項目のパラメータ名を変更するために以下のカスタムタグを提供する。
+Parameter name change
+ The pop-up tags dynamically add and submit all input elements contained in the form of the source screen.
+ The parameter names do not always match in the action of the window opened by the pop-up tag and action of the source screen.
+ Therefore, the following custom tags are provided to change the parameter names of input items on the source screen.
 
- * :ref:`tag-change_param_name_tag` (ポップアップ用のサブミット時にパラメータ名の変更)
+ * :ref:`tag-change_param_name_tag` (change parameter name when submitting for pop-up)
 
- 実装例
-  画面イメージを以下に示す。
+ Implementation examples
+  The screen image is shown below.
 
   .. image:: images/tag/popup_postal_code.png
 
   \
 
-  検索ボタンが選択されると、郵便番号欄に入力された番号に該当する住所を検索する別ウィンドウを開く。
+  When the search button is selected, a different window is opened for searching the mailing address corresponding to the number entered in the zip code field.
 
   .. code-block:: jsp
 
    <n:form>
      <div>
-       <label>郵便番号</label>
+       <label>Postal code</label>
        <n:text name="form.postalCode" />
        <n:popupButton uri="/action/postalCode/show">
-         検索
+         Search
          <!--
-           郵便番号のパラメータ名"form.postalCode"を"condition.postalCode"に変更する。
+           Change the zip code parameter name "form.postalCode" to "condition.postalCode".
          -->
          <n:changeParamName inputName="form.postalCode" paramName="condition.postalCode" />
          <!--
-           パラメータの追加もできる。
+           Parameters can also be added.
          -->
          <n:param paramName="condition.max" value="10" />
        </n:popupButton>
@@ -1049,23 +1049,23 @@ popupWindowName属性が指定されない場合、 :ref:`tag-setting` で
 
 .. _`tag-submit_access_open_window`:
 
-オープンしたウィンドウへのアクセス方法
- 別ウィンドウを開いた状態で元画面が遷移した場合、元画面が遷移するタイミングで不要となった別ウィンドウを全て閉じるなど、
- アプリケーションでオープンしたウィンドウにアクセスしたい場合がある。
- そのため、カスタムタグは、オープンしたウィンドウに対する参照をJavaScriptのグローバル変数に保持する。
- オープンしたウィンドウを保持する変数名を以下に示す。
+How to access open windows
+ When there is a screen transition from the source screen while other windows are open, access the window opened by the application may be required,
+ by closing all windows that are unnecessary at the time of source screen transition.
+ Therefore, custom tags hold a reference to the opened windows in a JavaScript global variable.
+ The variable name in which the opened windows are retained is shown below:
 
  .. code-block:: javascript
 
-  // keyはウィンドウ名
+  // key is the window name
   var nablarch_opened_windows = {};
 
- 元画面が遷移するタイミングで不要となった別ウィンドウを全て閉じる場合の実装例を以下に示す。
+ The implementation example when closing all windows that become unnecessary during source screen transition, is shown below.
 
  .. code-block:: javascript
 
-  // onunloadイベントハンドラにバインドする。
-  // nablarch_opened_windows変数に保持されたWindowのclose関数を呼び出す。
+  // Bind to the onunload event handler.
+  // Call close function of the windows held in nablarch_opened_windows variable.
   onunload = function() {
     for (var key in nablarch_opened_windows) {
       var openedWindow = nablarch_opened_windows[key];
@@ -1078,456 +1078,456 @@ popupWindowName属性が指定されない場合、 :ref:`tag-setting` で
 
 .. _`tag-submit_download`:
 
-ファイルダウンロードを行うボタン/リンクを作る
+Creating a button/link to download a file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ファイルダウンロードを行うボタン/リンクを作るために、
-ダウンロード専用のサブミットを行うカスタムタグ(以降はダウンロードタグと称す)と
-アクションの実装を容易にする :java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>`
-のサブクラス(以降はダウンロードユーティリティと称す)を提供する。
+To create a button/link for file download,
+the custom tags that submit exclusively for download (hereinafter referred to as download tags)
+and the :java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>` subclass
+that facilitates the implementation of the action (hereinafter referred to as download utility) are provided.
 
-ダウンロードタグ
- * :ref:`tag-download_submit_tag` (inputタグのボタン)
- * :ref:`tag-download_button_tag` (buttonタグのボタン)
- * :ref:`tag-download_link_tag` (リンク)
+Download tags
+ * :ref:`tag-download_submit_tag` (button of input tag)
+ * :ref:`tag-download_button_tag` (button of button tag)
+ * :ref:`tag-download_link_tag` (link)
 
-ダウンロードユーティリティ
+Download utility
  :java:extdoc:`StreamResponse <nablarch.common.web.download.StreamResponse>`
-  ストリームからHTTPレスポンスメッセージを生成するクラス。
-  ファイルシステム上のファイルやデータベースのBLOB型のカラムに格納したバイナリデータをダウンロードする場合に使用する。
-  :java:extdoc:`File <java.io.File>` または :java:extdoc:`Blob <java.sql.Blob>` のダウンロードをサポートする。
+  This class generates HTTP response message from stream.
+  Used to download binary data stored in a file in the file system or in a BLOB column of a database.
+  Supports download of :java:extdoc:`File <java.io.File>` or :java:extdoc:`Blob <java.sql.Blob>`.
 
  :java:extdoc:`DataRecordResponse <nablarch.common.web.download.DataRecordResponse>`
-  データレコードからHTTPレスポンスメッセージを生成するクラス。
-  検索結果など、アプリケーションで使用するデータをダウンロードする場合に使用する。
-  ダウンロードされるデータは :ref:`data_format` を使用してフォーマットされる。
-  Map<String, ?>型データ( :java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` など)のダウンロードをサポートする。
+  This class generates HTTP response message from a data record.
+  Used to download data used in the application, such as search result etc.
+  The downloaded data is formatted using :ref:`data_format`.
+  Supports download of Map<String, ?> type data (:java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>`, etc.)
 
 .. important::
- カスタムタグではフォームのサブミット制御にJavaScriptを使用しているため、
- 画面内のフォームに対するサブミット( :ref:`tag-submit_tag` など)でダウンロードを行うと、
- 同じフォーム内の他のサブミットが機能しなくなる。
- そこで、カスタムタグでは、画面内のフォームに影響を与えずにサブミットを行うダウンロードタグを提供する。
- ダウンロードを行うボタンやリンクには必ずダウンロードタグを使用すること。
+ Since custom tags use JavaScript for form submission control,
+ if downloaded by submitting the form (:ref:`tag-submit_tag`, etc.) on the screen,
+ other submissions in the same form stop functioning.
+ For this reason, download tags are provided in the custom tags for submitting without affecting the form on the screen.
+ Make sure to use the download tags for download buttons and links.
 
-ダウンロードタグは、画面内のフォームに対するサブミットを行うカスタムタグと以下の点が異なる。
+The download tags differ from the custom tags that submit the form on the screen, in the following aspects:
 
-* 新しいフォームを作成し、新規に作成したフォームに対してサブミットを行う。
-* 入力項目のパラメータ名を変更できる。
+* A new form is created and submit is performed for the newly created form.
+* Parameter names of input items can be changed.
 
-パラメータ名の変更は、 :ref:`tag-change_param_name_tag` を使用して行う。
-:ref:`tag-change_param_name_tag` の使い方はポップアップタグと同じなので、
-:ref:`ポップアップ時のパラメータ名変更 <tag-submit_change_param_name>` を参照。
+:ref:`tag-change_param_name_tag` is used to change parameter names.
+Since the method of using :ref:`tag-change_param_name_tag` is same as that of the pop-up tags,
+refer to :ref:`Change parameter names for pop-up <tag-submit_change_param_name>`.
 
-ファイルのダウンロードの実装例
- ボタンが押されたらサーバ上のファイルをダウンロードする。
+Implementation example of file download
+ Download a file on the server by clicking a button.
 
  JSP
   .. code-block:: jsp
 
-   <!-- downloadButtonタグを使用してダウンロードボタンを作る。 -->
-   <n:downloadButton uri="/action/download/tempFile">ダウンロード</n:downloadButton>
+   <!-- Create the download button using downloadButton tag. -->
+   <n:downloadButton uri="/action/download/tempFile">Download</n:downloadButton>
 
- アクション
+ Action
   .. code-block:: java
 
    public HttpResponse doTempFile(HttpRequest request, ExecutionContext context) {
 
-       // ファイルを取得する処理はプロジェクトの実装方式に従う。
+       // The process of acquiring a file follows the project implementation method.
        File file = getTempFile();
 
-       // Fileのダウンロードには、StreamResponseを使用する。
-       // コンストラクタ引数にダウンロード対象のファイルと
-       // リクエスト処理の終了時にファイルを削除する場合はtrue、削除しない場合はfalseを指定する。
-       // ファイルの削除はフレームワークが行う。
-       // 通常ダウンロード用のファイルはダウンロード後に不要となるためtrueを指定する。
+       // Use StreamResponse for file download.
+       // In the constructor argument, specify true to delete
+       //  the file to be downloaded and the file at the end of request process, otherwise specify false to not delete the file.
+       // The file is deleted by the framework.
+       // Configure to true as files for download are not usually required after downloading.
        StreamResponse response = new StreamResponse(file, true);
 
-       // Content-Typeヘッダ、Content-Dispositionヘッダを設定する。
+       // Configure Content-Type header and Content-Disposition header.
        response.setContentType("application/pdf");
        response.setContentDisposition(file.getName());
 
        return response;
    }
 
-BLOB型カラムのダウンロードの実装例
- テーブルの行データ毎にリンクを表示し、
- 選択されたリンクに対応するデータをダウンロードする。
+Implementation example of downloading a BLOB column
+ Display a link for each row data in the table
+ and download the data corresponding to a selected link.
 
- テーブル
-  ==================== ==================== ==================== ====================
-  カラム(論理名)       カラム(物理名)       データ型             補足
-  ファイルID           FILE_ID              CHAR(3)              PK
-  ファイル名           FILE_NAME            NVARCHAR2(100)
-  ファイルデータ       FILE_DATA            BLOB
-  ==================== ==================== ==================== ====================
+ Table
+  ====================== ======================= =============== ====================
+  Column (logical name)  Column (physical name)  Data type       Supplementary notes
+  File ID                FILE_ID                 CHAR(3)         PK
+  File name              FILE_NAME               NVARCHAR2(100)
+  File data              FILE_DATA               BLOB
+  ====================== ======================= =============== ====================
 
  JSP
   .. code-block:: jsp
 
    <!--
-     recordsという名前で行データのリストが
-     リクエストスコープに設定されているものとする。
+     Assume that a list of row data
+     is configured in the request scope with the name records.
    -->
    <c:forEach var="record" items="${records}" varStatus="status">
      <n:set var="fileId" name="record.fileId" />
      <div>
-       <!-- downloadLinkタグを使用してリンクを作成する。 -->
+       <!-- Create a link using downloadLink tag. -->
        <n:downloadLink uri="/action/download/tempFile">
          <n:write name="record.fileName" />(<n:write name="fileId" />)
-         <!-- 選択されたリンクを判別するためにfileIdパラメータをparamタグで設定する。 -->
+         <!-- Configure the fileId parameter in the param tag to distinguish the selected link. -->
          <n:param paramName="fileId" name="fileId" />
        </n:downloadLink>
      </div>
    </c:forEach>
 
- アクション
+ Action
   .. code-block:: java
 
    public HttpResponse tempFile(HttpRequest request, ExecutionContext context) {
 
-       // fileIdパラメータを使用して選択されたリンクに対応する行データを取得する。
+       // Acquire row data corresponding to the link selected using fileId parameter.
        SqlRow record = getRecord(request);
 
-       // BlobのダウンロードにはStreamResponseクラスを使用する。
+       // Use StreamResponse class for downloading BLOB.
        StreamResponse response = new StreamResponse((Blob) record.get("FILE_DATA"));
 
-       // Content-Typeヘッダ、Content-Dispositionヘッダを設定する。*/
+       // Configure Content-Type header and Content-Disposition header.*/
        response.setContentType("image/jpeg");
        response.setContentDisposition(record.getString("FILE_NAME"));
        return response;
    }
 
-データレコードのダウンロードの実装例
- テーブルの全データをCSV形式でダウンロードする。
+Implementation example of downloading a data record
+ Download all the data in a table in CSV format.
 
- テーブル
-  ==================== ==================== ==================== ====================
-  カラム(論理名)       カラム(物理名)       データ型             補足
-  メッセージID         MESSAGE_ID           CHAR(8)              PK
-  言語                 LANG                 CHAR(2)              PK
-  メッセージ           MESSAGE              NVARCHAR2(200)
-  ==================== ==================== ==================== ====================
+ Table
+  ====================== ======================= =============== ====================
+  Column (logical name)  Column (physical name)  Data type       Supplementary notes
+  Message ID             MESSAGE_ID              CHAR(8)         PK
+  Language               LANG                    CHAR(2)         PK
+  Message                MESSAGE                 NVARCHAR2(200)
+  ====================== ======================= =============== ====================
 
- フォーマット定義
+ Format definition
   .. code-block:: bash
 
    #-------------------------------------------------------------------------------
-   # メッセージ一覧のCSVファイルフォーマット
-   # N11AA001.fmtというファイル名でプロジェクトで規定された場所に配置する。
+   # Message list in CSV file format
+   # Place in the location specified in the project with the file name N11AA001.fmt.
    #-------------------------------------------------------------------------------
    file-type:        "Variable"
-   text-encoding:    "Shift_JIS" # 文字列型フィールドの文字エンコーディング
-   record-separator: "\n"        # レコード区切り文字
-   field-separator:  ","         # フィールド区切り文字
+   text-encoding:    "Shift_JIS" # Character encoding of string type field
+   record-separator: "\n"        # Record delimiting character
+   field-separator:  ","         # Field delimiting character
 
    [header]
-   1   messageId    N "メッセージID"
-   2   lang         N "言語"
-   3   message      N "メッセージ"
+   1   messageId    N "Message ID"
+   2   lang         N "Language"
+   3   message      N "Message"
 
    [data]
-   1   messageId    X # メッセージID
-   2   lang         X # 言語
-   3   message      N # メッセージ
+   1   messageId    X # Message ID
+   2   lang         X # Language
+   3   message      N # Message
 
  JSP
   .. code-block:: jsp
 
-   <!-- downloadSubmitタグを使用してダウンロードボタンを実装する。 -->
-   <n:downloadSubmit type="button" uri="/action/download/tempFile" value="ダウンロード" />
+   <!-- Implement the download button using downloadSubmit tag. -->
+   <n:downloadSubmit type="button" uri="/action/download/tempFile" value="Download" />
 
- アクション
+ Action
   .. code-block:: java
 
    public HttpResponse doCsvDataRecord(HttpRequest request, ExecutionContext context) {
 
-       // レコードを取得する。
+       // Acquire the record.
        SqlResultSet records = getRecords(request);
 
-       // データレコードのダウンロードにはDataRecordResponseクラスを使用する。
-       // コンストラクタ引数にフォーマット定義のベースパス論理名と
-       // フォーマット定義のファイル名を指定する。
+       // Use DataRecordResponse class for downloading data records.
+       // Specify the logical name of base path and
+       //  file name of the format definition to the constructor argument.
        DataRecordResponse response = new DataRecordResponse("format", "N11AA001");
 
-       // DataRecordResponse#writeメソッドを使用してヘッダーを書き込む。
-       // フォーマット定義に指定したデフォルトのヘッダー情報を使用するため、
-       // 空のマップを指定する。
+       // Write the header using DataRecordResponse#write method.
+       // To use the default header information specified in the format definition,
+       // specify an empty map.
        response.write("header", Collections.<String, Object>emptyMap());
 
-       // DataRecordResponse#writeメソッドを使用してレコードを書き込む。
+       // Write the record using DataRecordResponse#write method.
        for (SqlRow record : records) {
 
-           // レコードを編集する場合はここで行う。
+           // Edit the record here.
 
            response.write("data", record);
        }
 
-       // Content-Typeヘッダ、Content-Dispositionヘッダを設定する。*/
+       // Configure Content-Type header and Content-Disposition header.*/
        response.setContentType("text/csv; charset=Shift_JIS");
-       response.setContentDisposition("メッセージ一覧.csv");
+       response.setContentDisposition("Message list.csv");
 
        return response;
    }
 
 .. _`tag-double_submission`:
 
-二重サブミットを防ぐ
+Preventing double submission
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-二重サブミットの防止は、データベースにコミットを伴う処理を要求する画面で使用する。
-二重サブミットの防止方法は、クライアント側とサーバ側の2つがあり、2つの防止方法を併用する。
+Double submission prevention is used on screens requesting processes that result in a commit to the database.
+There are two methods for preventing double submission, in the client method and in the server method, which are used in combination.
 
-クライアント側では、ユーザが誤ってボタンをダブルクリックした場合や、
-リクエストを送信したがサーバからのレスポンスが返ってこないので再度ボタンをクリックした場合に、
-リクエストを2回以上送信するのを防止する。
+In the client, if the user double-clicks a button by mistake,
+or if the user sends a request but clicks the button again because no response is returned from the server,
+then the request is prevented from being sent more than once.
 
-一方、サーバ側では、ブラウザの戻るボタンにより完了画面から確認画面に遷移し再度サブミットした場合など、
-アプリケーションが既に処理済みのリクエストを重複して処理しないように、処理済みリクエストの受け付けを防止する。
+In the server, the application is prevented from receiving requests that are already processed so that the requests are not processed redundantly by the application,
+for example, when the screen navigates from the completion screen to the confirmation screen using the back button of the browser and is submitted again.
 
 .. important::
- 二重サブミットを防止する画面では、どちらか一方のみ使用した場合は以下の懸念がある。
+ On the screen that prevents double submission, there are the following concerns if only the client method or the server method is used:
 
- * クライアント側のみ使用した場合は、リクエストを重複して処理する恐れがある。
- * サーバ側のみ使用した場合は、ボタンのダブルクリックにより2回リクエストが送信されると、
-   サーバ側の処理順によっては二重サブミットエラーが返されてしまい、ユーザに処理結果が返されない恐れがある。
+ * If only the client method is used, then there is a risk that the request will be processed redundantly.
+ * If only the server method is used, and if a request is sent twice by double-clicking the button,
+   then a double submission error may be returned depending on the processing order in the server, and the process result may not be returned to the user.
 
 .. _`tag-double_submission_client_side`:
 
-クライアント側の二重サブミット防止
- クライアント側では、JavaScriptを使用して実現する。
- 1回目のサブミット時に対象要素のonclick属性を書き換え、2回目以降のサブミット要求はサーバ側に送信しないことで防止する。
- さらにボタンの場合は、disabled属性を設定し、画面上でボタンをクリックできない状態にする。
+Preventing double submission in the client
+ This is implemented by using JavaScript in the client.
+ When the user submits for the first time, the onclick attribute of the element associated with submit is overwritten, and the subsequent submissions are prevented by not sending the requests to the server .
+ In the case of a button, the disabled attribute is configured so that the button cannot be clicked on the screen.
 
- 次のカスタムタグが対応している。
+ The following custom tags can be used:
 
- フォームのサブミット
-  | :ref:`tag-submit_tag` (inputタグのボタン)
-  | :ref:`tag-button_tag` (buttonタグのボタン)
-  | :ref:`tag-submit_link_tag` (リンク)
- ダウンロード用のサブミット
-  | :ref:`tag-download_submit_tag` (inputタグのボタン)
-  | :ref:`tag-download_button_tag` (buttonタグのボタン)
-  | :ref:`tag-download_link_tag` (リンク)
+ Submit form
+  | :ref:`tag-submit_tag` (button of input tag)
+  | :ref:`tag-button_tag` (button of button tag)
+  | :ref:`tag-submit_link_tag` (link)
+ Submit for download
+  | :ref:`tag-download_submit_tag` (button of input tag)
+  | :ref:`tag-download_button_tag` (button of button tag)
+  | :ref:`tag-download_link_tag` (link)
 
- 上記カスタムタグのallowDoubleSubmission属性に ``false`` を指定することで、
- 特定のボタン及びリンクだけを対象に二重サブミットを防止する。
+ By configuring the allowDoubleSubmission attribute of the above custom tags to ``false``,
+ double submission is prevented only for specific buttons and links.
 
- 実装例
-  登録ボタンはデータベースにコミットを行うので、登録ボタンのみ二重サブミットを防止する。
+ Implementation examples
+  Since the register button commits to the database, prevent double submission only for the register button.
 
   .. code-block:: jsp
 
    <!--
-     allowDoubleSubmission属性: 二重サブミットを許可するか否か。
-                                許可する場合は true 、許可しない場合は false 。
-                                デフォルトは true 。
+     allowDoubleSubmission attribute: Whether to allow double submission.
+                                      Configure to true when allowing double submission; otherwise configure to false.
+                                      Default is true.
    -->
-   <n:submit type="button" name="back" value="戻る" uri="./back" />
-   <n:submit type="button" name="register" value="登録" uri="./register"
+   <n:submit type="button" name="back" value="Back" uri="./back" />
+   <n:submit type="button" name="register" value="Register" uri="./register"
              allowDoubleSubmission="false" />
 
  .. tip::
-  クライアント側の二重サブミット防止を使用している画面では、
-  サブミット後にサーバ側からレスポンスが返ってこない(サーバ側の処理が重たいなど)ため、
-  ユーザがブラウザの中止ボタンを押した場合、
-  ボタンはクリックできない状態(disabled属性により非活性)が続くため、再度サブミットできなくなる。
-  この場合、ユーザは、サブミットに使用したボタン以外のボタン又はリンクを使用して処理を継続することができる。
+  In a client screen where double submission is prevented,
+  if the user clicks the stop button of the browser because there is no response returned from the server following a submission
+  (when there is significant processing load in the server, etc.),
+  the button becomes disabled (inactive due to disabled attribute) and the user cannot submit again.
+  In such cases, the user can continue the process by using a button or a link other than the button used for submission.
 
  .. tip::
-  アプリケーションで二重サブミット発生時の振る舞いを追加したい場合は、
-  :ref:`tag-double_submission_client_side_change` を参照。
+  To add a behavior following an occurrence of double submission in the application,
+  refer to :ref:`tag-double_submission_client_side_change`.
 
 .. _`tag-double_submission_server_side`:
 
-サーバ側の二重サブミット防止
- サーバ側では、サーバ側で発行した一意なトークンをサーバ側(セッション)とクライアント側(hiddenタグ)に保持し、
- サーバ側で突合することで実現する。このトークンは、1回のチェックに限り有効である。
+Preventing double submission in the server
+ In the server, a unique token is issued, which is retained in the server (session) and client (hidden tag)
+ and double submission is prevented by matching in the server. This token is valid for one check only.
 
- サーバ側の二重サブミット防止では、トークンの設定を行うJSPまたはアクションと、トークンのチェックを行うアクションにおいて、
- それぞれ作業が必要となる。
+ For preventing double submission in the server, work is required for both,
+ configuration of the token using JSP or action, and checking the token using action.
 
  .. _`tag-double_submission_token_setting`:
 
- JSPでトークンの設定を行う
-  :ref:`tag-form_tag` のuseToken属性を指定することで行う。
+ Configure the token using JSP
+  The token is configured by specifying useToken attribute of :ref:`tag-form_tag`.
 
-  実装例
+  Implementation examples
    .. code-block:: jsp
 
     <!--
-      useToken属性: トークンを設定するか否か。
-                    トークンを設定する場合は true 、設定しない場合は false 。
-                    デフォルトは false 。
-                    入力画面と確認画面を共通化した場合、確認画面ではデフォルトが true となる。
-                    そのため、入力画面と確認画面を共通化した場合は指定しなくてよい。
+      useToken attribute: Whether to configure the token.
+                          Configure to true when configuring the token; otherwise configure to false.
+                          Default is false.
+                          When having a common JSP for the input and confirmation screens, default is configured to true for the confirmation screen.
+                          Hence, there is no need to configure when having a common JSP for the input and confirmation screens.
     -->
     <n:form useToken="true">
 
- アクションでトークンの設定を行う
-  JSP以外のテンプレートエンジンを採用している場合はこちらの設定方法を使用する。
-  :ref:`use_token_interceptor` で設定を行う。
-  使用方法の詳細は、 :ref:`use_token_interceptor` を参照。
+ Configure the token using action
+  This configuration method is used when a template engine other than JSP is used.
+  Configure the token using :ref:`use_token_interceptor`.
+  Refer to :ref:`use_token_interceptor` for the detailed method of use.
 
- トークンのチェック
-  トークンのチェックは、 :ref:`on_double_submission_interceptor` を使用する。
-  使用方法の詳細は、 :ref:`on_double_submission_interceptor` を参照。
+ Token check
+  To check the token, use :ref:`on_double_submission_interceptor`.
+  Refer to :ref:`on_double_submission_interceptor` for the detailed method of use.
 
- セッションスコープに保存するキーを変更する
-  発行されたトークンはセッションスコープに"/nablarch_session_token"というキーで保存される。
-  このキーはコンポーネント設定ファイルで変更できる。
+ Change the key stored in the session scope
+  The issued token is saved with the key "/nablarch_session_token" in the session scope.
+  This key can be changed in the component configuration file.
 
-  設定例
+  Configuration example
    .. code-block:: xml
 
     <component name="webConfig" class="nablarch.common.web.WebConfig">
-      <!-- キーを"sessionToken"へ変更 -->
+      <!-- Change the key to "sessionToken" -->
       <property name="doubleSubmissionTokenSessionAttributeName" value="sessionToken" />
     </component>
 
- リクエストスコープに保存するキーを変更する
-  発行されたトークンはThymeleafなどのテンプレートに埋め込むときに使用できるよう、リクエストスコープに"nablarch_request_token"というキーで保存される。
-  このキーはコンポーネント設定ファイルで変更できる。
+ Change the key stored in the request scope
+  The issued token is stored with the key "nablarch_request_token" in the request scope so that it can be used when embedding in a template such as Thymeleaf.
+  This key can be changed in the component configuration file.
 
-  設定例
+  Configuration example
    .. code-block:: xml
 
     <component name="webConfig" class="nablarch.common.web.WebConfig">
-      <!-- キーを"requestToken"へ変更 -->
+      <!-- Change the key to "requestToken" -->
       <property name="doubleSubmissionTokenRequestAttributeName" value="requestToken" />
     </component>
 
- hiddenに埋め込むときのname属性を変更する
-  トークンをhiddenに埋め込むとき、name属性は"nablarch_token"という値を設定する。
-  このname属性値はコンポーネント設定ファイルで変更できる。
+ Change the name attribute when embedding in hidden
+  When embedding the token in hidden, the value "nablarch_token" is configured to the name attribute.
+  This name attribute value can be changed in the component configuration file.
 
-  設定例
+  Configuration example
    .. code-block:: xml
 
     <component name="webConfig" class="nablarch.common.web.WebConfig">
-      <!-- name属性に設定する値を"hiddenToken"へ変更 -->
+      <!-- Change the value configured to the name attribute to "hiddenToken" -->
       <property name="doubleSubmissionTokenParameterName" value="hiddenToken" />
     </component>
 
  .. important::
-  サーバ側の二重サブミット防止では、トークンをサーバ側のセッションに格納しているため、
-  同一ユーザの複数リクエストに対して、別々にトークンをチェックすることができない。
+  When preventing double submission in the server, since the token is stored in the session on the server,
+  the token cannot be checked separately for multiple requests from the same user.
 
-  このため、同一ユーザにおいて、サーバ側の二重サブミット防止を行う画面遷移
-  (登録確認→登録完了や更新確認→更新完了など)のみ、
-  複数ウィンドウや複数タブを使用して並行で行うことができない。
+  Only the transition of screens where double submission is prevented in the server
+  (Registration confirmation → Registration completion and Update confirmation → Update completion) cannot be performed in parallel
+  using multiple windows and multiple tabs by the same user.
 
-  これらの画面遷移を並行して行った場合は、後に確認画面に遷移した画面のみ処理を継続でき、
-  先に確認画面に遷移した画面はトークンが古いため、二重サブミットエラーとなる。
+  When the screen transitions are performed in parallel, the process is continued only for the screen that transitions to the confirmation screen later,
+  and for the screen that transitions to the confirmation screen first, double submission error occurs as the token is old.
 
  .. tip::
-  トークンの発行は、 :java:extdoc:`RandomTokenGenerator <nablarch.common.web.token.RandomTokenGenerator>` が行う。
-  :java:extdoc:`RandomTokenGenerator <nablarch.common.web.token.RandomTokenGenerator>`
-  では、16文字のランダムな文字列を生成する。
-  トークンの発行処理を変更したい場合は、:ref:`tag-double_submission_server_side_change` を参照。
+  Token is issued by :java:extdoc:`RandomTokenGenerator <nablarch.common.web.token.RandomTokenGenerator>`.
+  Random character strings of 16 characters are generated by
+  :java:extdoc:`RandomTokenGenerator <nablarch.common.web.token.RandomTokenGenerator>`.
+  To change the token issuing process, refer to :ref:`tag-double_submission_server_side_change`.
 
 .. _`tag-make_common`:
 
-入力画面と確認画面を共通化する
+Common JSP for input screen and confirmation screen
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`入力項目のカスタムタグ <tag_reference_input>` は、
-入力画面と全く同じJSP記述のまま、確認画面用の出力を行うことができる。
+The :ref:`custom tag for input items <tag_reference_input>` can be used to perform output
+for the confirmation screen using exactly the same JSP written for the input screen.
 
-入力画面と確認画面の共通化は、以下のカスタムタグを使用する。
+Use the following custom tags on the common JSP for input screen and confirmation screen.
 
 :ref:`tag-confirmation_page_tag`
- 確認画面のJSPで入力画面のJSPへのパスを指定して、入力画面と確認画面の共通化を行う。
+ Used for specifying the path to the JSP of the input screen on the JSP of the confirmation screen, thus enabling the use of a common JSP for the input screen and the confirmation screen.
 
 :ref:`tag-for_input_page_tag`
- 入力画面でのみ表示したい部分を指定する。
+ Used for specifying the part to be displayed only on the input screen.
 
 :ref:`tag-for_confirmation_page_tag`
- 確認画面でのみ表示したい部分を指定する。
+ Used for specifying the part to be displayed only on the confirmation screen.
 
 :ref:`tag-ignore_confirmation_tag`
- 確認画面で、確認画面向けの表示を無効化したい部分に指定する。
- 例えば、チェックボックスを使用した項目で、確認画面でもチェック欄を表示したい場合などに使用する。
- 
+ Used for specifying the part of the display for the Confirmation screen to be disabled on the confirmation screen.
+ For example, this is used when there is an item that uses checkbox and for this item a check field is to be displayed on the confirmation screen.
+
 .. tip::
 
-  入力・確認画面の表示制御は入力系のタグが対象となる。
-  ただし、以下のタグに関しては異なる動作となる。
- 
-  :ref:`tag-plain_hidden_tag`
-    画面遷移の状態などを画面間で受け渡す目的で使用することを想定し、入力・確認画面ともに出力する。
-   
-  :ref:`tag-hidden_store_tag`
-    :ref:`session_store` に保存したデータを画面間で受け渡すために使用するため、入力・確認画面ともに出力する。
- 
+  Display control of the input and confirmation screens is performed for the input tags.
+  However, the operation is different for the following tags:
 
-実装例
- 以下の画面出力を行うJSPの実装例を示す。
+  :ref:`tag-plain_hidden_tag`
+    This tag is output on both the input and confirmation screens, assuming that the tag is used for passing on the screen transition status etc. across screens.
+
+  :ref:`tag-hidden_store_tag`
+    This tag is output on both the input and confirmation screens since the tag is used for passing on the data stored in :ref:`session_store` across screens.
+
+
+Implementation examples
+ Implementation example of a JSP that outputs the following screen, is shown.
 
  .. image:: images/tag/make_common_input_confirm.png
 
  \
 
- 入力画面のJSP
+ JSP of the Input screen
   .. code-block:: jsp
 
    <n:form>
      <!--
-       入力欄は、入力画面と確認画面で同じJSP記述を使用する。
+       For input fields, the same JSP is written for the input and confirmation screens.
      -->
      <div>
-       <label>名前</label>
+       <label>Name</label>
        <n:text name="form.name" />
      </div>
      <div>
-       <label>メール</label>
-       <n:checkbox name="form.useMail" label="使用する" offLabel="使用しない" />
+       <label>Email</label>
+       <n:checkbox name="form.useMail" label="Used" offLabel="Not used" />
      </div>
      <div>
-       <label>プラン</label>
+       <label>Plan</label>
        <n:select name="form.plan"
                  listName="plans"
                  elementLabelProperty="planName"
                  elementValueProperty="planId" />
      </div>
      <!--
-      ボタン表示は、入力画面と確認画面で異なるので、
-      forInputPageタグとforConfirmationPageタグを使用する。
+      Since the button display differs between the input and confirmation screens,
+      use forInputPage tag and forConfirmationPage tag.
      -->
      <div style="padding: 8px 0;">
        <n:forInputPage>
-         <n:submit type="submit" uri="/action/sample/confirm" value="確認" />
+         <n:submit type="submit" uri="/action/sample/confirm" value="Confirm" />
        </n:forInputPage>
        <n:forConfirmationPage>
-         <n:submit type="submit" uri="/action/sample/showNew" value="戻る" />
-         <n:submit type="submit" uri="/action/sample/register" value="登録" />
+         <n:submit type="submit" uri="/action/sample/showNew" value="Back" />
+         <n:submit type="submit" uri="/action/sample/register" value="Register" />
        </n:forConfirmationPage>
      </div>
    </n:form>
 
- 確認画面のJSP
+ JSP of the confirmation screen
   .. code-block:: jsp
 
    <!--
-     入力画面のJSPへのパスを指定する。
+     Specify the path to the JSP of the input screen.
    -->
    <n:confirmationPage path="./input.jsp" />
 
 .. _`tag-set_variable`:
 
-変数に値を設定する
+Configuring a value to a variable
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-画面タイトルなど、ページ内の複数箇所に同じ内容で出力する値は、
-JSP上の変数に格納したものを参照することで、メンテナンス性を高められる。
+For values output with the same content to multiple places within a page, such as screen title, maintainability
+can be improved by referencing a value stored in a variable in the JSP.
 
-カスタムタグでは変数に値を設定する :ref:`tag-set_tag` を提供する。
+The custom tag :ref:`tag-set_tag` is provided for configuring a value to a variable.
 
-実装例
- 画面タイトルを変数に設定して使用する。
+Implementation examples
+ Screen title is used by configuring to a variable.
 
  .. code-block:: jsp
 
-  <!-- var属性に変数名を指定する。-->
-  <n:set var="title" value="ユーザ情報登録" />
+  <!-- Specify the variable name for the var attribute. -->
+  <n:set var="title" value="User information registration" />
   <head>
-    <!-- 変数の出力にはwriteタグを使用する。 -->
+    <!-- Use write tag to output the variable. -->
     <title><n:write name="title" /></title>
   </head>
   <body>
@@ -1535,149 +1535,149 @@ JSP上の変数に格納したものを参照することで、メンテナン�
   </body>
 
 .. important::
- :ref:`tag-set_tag` で設定した変数を使用して出力する場合、
- :ref:`tag-set_tag` ではHTMLエスケープ処理を実施しないため、実装例のように :ref:`tag-write_tag` を使用して出力すること。
+ Since HTML escape process is not implemented with :ref:`tag-set_tag` when output using the variable configured using :ref:`tag-set_tag`,
+ :ref:`tag-write_tag` should be used for output as shown in the implementation example.
 
-変数を格納するスコープを指定する
- 変数を格納するスコープは、scope属性で指定する。
- scope属性には、リクエストスコープ(request)又はページスコープ(page)を指定する。
+Specify the scope for storing the variable
+ The scope for storing the variable is specified with the scope attribute.
+ Specify “request” or “page” for the scope attribute.
 
- scope属性の指定がない場合、変数はリクエストスコープに設定される。
+ When the scope attribute is not specified, the variable is configured in the request scope.
 
- ページスコープは、アプリケーション全体で共通利用されるUI部品を作成する場合に、他JSPの変数とのバッティングを防ぎたい場合に使用する。
+ Page scope is used when creating UI widgets that are shared throughout the application, and to prevent conflict with other JSP variables.
 
-変数に配列やコレクションの値を設定する
- :ref:`tag-set_tag` は、name属性が指定された場合、デフォルトで単一値として値を取得する。
- 単一値での値取得では、name属性に対応する値が配列やコレクションの場合に先頭の要素を返す。
+Set an array or a collection value to a variable
+ :ref:`tag-set_tag` acquires the value as a single value by default when name attribute is specified.
+ In single value acquisition, if the value corresponding to the name attribute is an array or collection, the first element is returned.
 
- 多くのケースはデフォルトのままで問題ないが、共通利用されるUI部品を作成する場合に、
- 配列やコレクションをそのまま取得したい場合がある。
+ In many cases, there is no problem if single value is returned by default,
+ however, when UI widgets that are shared throughout the application are created, sometimes the array or collection may have to be acquired without any changes.
 
- このようなケースでは、 :ref:`tag-set_tag` のbySingleValue属性に ``false`` を指定することで、
- 配列やコレクションをそのまま取得することができる。
+ In such cases, by configuring the bySingleValue attribute of :ref:`tag-set_tag` to ``false``,
+ it is possible to acquire the array or collection without any change.
 
 .. _`tag-using_get`:
 
-GETリクエストを使用する
+Using GET request
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-検索エンジン等のクローラ対策、および利用者がブックマーク可能なURLとするために、GETリクエストの使用が必要となる場合がある。
+In some cases, it is necessary to use GET request to support search engines crawlers, etc. and make it possible for users to bookmark URLs.
 
-カスタムタグは、 :ref:`hidden暗号化<tag-hidden_encryption>` や
-:ref:`パラメータ追加<tag-submit_change_parameter>` といった機能を実現するため、
-hiddenパラメータを出力して使用している。
-そのため、 :ref:`tag-form_tag` を使用してGETリクエストを行おうとすると、業務機能として必要なパラメータに加えて、
-このhiddenパラメータがURLに付与されてしまう。
-その結果、不要なパラメータが付くことに加えて、URLの長さ制限により正しくリクエストできない可能性がある。
+Custom tags output and use the hidden parameter since they implement functions
+such as :ref:`hidden encryption<tag-hidden_encryption>`
+and :ref:`parameter addition<tag-submit_change_parameter>`.
+Therefore, if GET request is performed using :ref:`tag-form_tag`,
+this hidden parameter is added to the URL in addition to the parameters required for the business function.
+As a result, in addition to unnecessary parameters getting added, the request may not be performed properly due to the limitation on the length of the URL.
 
-そこで、カスタムタグは、 :ref:`tag-form_tag` でGETが指定された場合、hiddenパラメータを出力しない。
-これにより、 :ref:`tag-form_tag` でGETリクエストを使用しても上記問題が発生しないが、
-hiddenパラメータが出力されないことで、使用制限のあるカスタムタグや使用不可となるカスタムタグが出てくる。
-ここでは、それらのカスタムタグについて対応方法を説明する。
+If GET is specified in the :ref:`tag-form_tag`, the custom tag does not output the hidden parameter.
+As a result, even if GET request is used in :ref:`tag-form_tag`, the above problem does not occur.
+However, due to the fact that the hidden parameter is not output, the use of the custom tag becomes restricted or the custom tag becomes unusable.
+Here, the method of handling such custom tags is explained.
 
-使用制限のあるカスタムタグ
- 使用制限のあるカスタムタグを以下に示す。
+Custom tags with usage restriction
+ Custom tags with usage restriction are shown below:
 
  * :ref:`tag-checkbox_tag`
  * :ref:`tag-code_checkbox_tag`
 
- これらのカスタムタグは、 :ref:`チェックなしの場合にリクエストパラメータを設定する機能 <tag-checkbox_off_value>` があるが、
- :ref:`hidden暗号化<tag-hidden_encryption>` を使用して処理を行っているため、GETリクエストでは使用できない。
+ These custom tags have a :ref:`function to configure a request parameter for the unchecked state <tag-checkbox_off_value>`,
+ however, this function cannot be used for GET request since custom tags use :ref:`hidden encryption<tag-hidden_encryption>` for processing.
 
- 対応方法
-  GETリクエストでチェックボックスを使用した場合のチェックなしの判定は、
-  :ref:`バリデーション <validation>` 後に該当項目の値についてnull判定で行う。
-  そして、null判定の結果でチェック有無を判断し、アクション側でチェックなしに対する値を設定する。
+ Handling method
+  For GET request, determination of the unchecked state when checkboxes are used
+  is done by checking for null value of the said item after :ref:`validation <validation>`.
+  Then, it is decided whether the checkboxes are checked or not based on the result of null check and the value for unchecked state is configured for the action.
 
-使用不可となるカスタムタグ
- 使用不可となるカスタムタグを以下に示す。
+Unusable custom tags
+ Unusable custom tags are shown below:
 
- * :ref:`hiddenタグ <tag-using_get_hidden_tag>`
- * :ref:`submitタグ <tag-using_get_submit_tag>`
- * :ref:`buttonタグ <tag-using_get_button_tag>`
- * :ref:`submitLinkタグ <tag-using_get_submit_link_tag>`
- * :ref:`popupSubmitタグ <tag-using_get_popup_submit_tag>`
- * :ref:`popupButtonタグ <tag-using_get_popup_button_tag>`
- * :ref:`popupLinkタグ <tag-using_get_popup_link_tag>`
- * :ref:`paramタグ <tag-using_get_param_tag>`
- * :ref:`changeParamNameタグ <tag-using_get_change_param_name_tag>`
+ * :ref:`hidden tag <tag-using_get_hidden_tag>`
+ * :ref:`submit tag <tag-using_get_submit_tag>`
+ * :ref:`button tag <tag-using_get_button_tag>`
+ * :ref:`submitLink tag <tag-using_get_submit_link_tag>`
+ * :ref:`popupSubmit tag <tag-using_get_popup_submit_tag>`
+ * :ref:`popupButton tag <tag-using_get_popup_button_tag>`
+ * :ref:`popupLink tag <tag-using_get_popup_link_tag>`
+ * :ref:`param tag <tag-using_get_param_tag>`
+ * :ref:`changeParamName tag <tag-using_get_change_param_name_tag>`
 
- 使用不可のタグに対する対応方法と実装例を以下に示す。
+ The method of handling and an implementation example of unusable tags is shown below:
 
  .. _`tag-using_get_hidden_tag`:
 
- hiddenタグ
-  対応方法
-   :ref:`tag-plain_hidden_tag` を使用する。
+ hidden tag
+  Handling method
+   Use :ref:`tag-plain_hidden_tag`.
 
-  実装例
+  Implementation examples
    .. code-block:: jsp
 
-    <%-- POSTの場合 --%>
+    <%-- For POST --%>
     <n:hidden name="test" />
 
-    <%-- GETの場合 --%>
+    <%-- For GET --%>
     <n:plainHidden name="test" />
 
 
  .. _`tag-using_get_submit_tag`:
 
- submitタグ
-  対応方法
-   HTMLのinputタグ(type=”submit”)を使用する。
-   サブミット先のURIは :ref:`tag-form_tag` のaction属性に指定する。
+ submit tag
+  Handling method
+   Use HTML input tag (type=”submit”).
+   For the action attribute of the :ref:`tag-form_tag`, specify the URI corresponding to submit.
 
-  実装例
+  Implementation examples
    .. code-block:: jsp
 
-    <%-- POSTの場合 --%>
+    <%-- For POST --%>
     <n:form>
-      <n:submit type="button" uri="search" value="検索" />
+      <n:submit type="button" uri="search" value="Search" />
     </n:form>
 
-    <%-- GETの場合 --%>
+    <%-- For GET --%>
     <n:form method="GET" action="search">
-      <input type="submit" value="検索" />
+      <input type="submit" value="Search" />
     </n:form>
 
  .. _`tag-using_get_button_tag`:
 
- buttonタグ
-  対応方法
-   HTMLのbuttonタグ(type=”submit”)を使用する。
-   サブミット先のURIは :ref:`tag-form_tag` のaction属性に指定する。
+ button tag
+  Handling method
+   Use HTML button tag (type=”submit”).
+   For the action attribute of the :ref:`tag-form_tag`, specify the URI corresponding to submit.
 
-  実装例
+  Implementation examples
    .. code-block:: jsp
 
-    <%-- POSTの場合 --%>
+    <%-- For POST --%>
     <n:form>
-      <n:button type="submit" uri="search" value="検索" />
+      <n:button type="submit" uri="search" value="Search" />
     </n:form>
 
-    <%-- GETの場合 --%>
+    <%-- For GET --%>
     <n:form method="GET" action="search">
-      <button type="submit" value="検索" />
+      <button type="submit" value="Search" />
     </n:form>
 
  .. _`tag-using_get_submit_link_tag`:
 
- submitLinkタグ
-  対応方法
-   :ref:`tag-a_tag` を使用し、onclick属性に画面遷移を行うJavaScript関数を指定する。
-   画面遷移を行う関数は :ref:`tag-script_tag` 内に記述する。
+ submitLink tag
+  Handling method
+   Use :ref:`tag-a_tag` and specify the JavaScript function that performs screen transition for the onclick attribute.
+   Write the function performing screen transition within the :ref:`tag-script_tag`.
 
-  実装例
+  Implementation examples
    .. code-block:: jsp
 
-    <%-- POSTの場合 --%>
+    <%-- For POST --%>
     <n:form>
       <n:text name="test" />
-      <n:submitLink type="button" uri="search" value="検索" />
+      <n:submitLink type="button" uri="search" value="Search" />
     </n:form>
 
-    <%-- GETの場合 --%>
+    <%-- For GET --%>
     <input type="text" name="test" id="test" />
-    <n:a href="javascript:void(0);" onclick="searchTest();">検索</n:a>
+    <n:a href="javascript:void(0);" onclick="searchTest();">Search </n:a>
     <n:script type="text/javascript">
       var searchTest = function() {
         var test = document.getElementById('test').value;
@@ -1687,66 +1687,66 @@ hiddenパラメータが出力されないことで、使用制限のあるカ�
 
  .. _`tag-using_get_popup_submit_tag`:
 
- popupSubmitタグ
-  対応方法
-   HTMLのinputタグ(type=”button”)を使用し、onclick属性にJavaScriptのwindow.open()関数を指定する。
+ popupSubmit tag
+  Handling method
+   Use the HTML input tag (type=”button”) and specify the JavaScript window.open() function for the onclick attribute.
 
-  実装例
+  Implementation examples
    .. code-block:: jsp
 
-    <%-- POSTの場合 --%>
+    <%-- For POST --%>
     <n:form>
-      <n:popupSubmit type="button" value="検索" uri="search"
+      <n:popupSubmit type="button" value="Search" uri="search"
         popupWindowName="popupWindow" popupOption="width=700,height=500" />
     </n:form>
 
-    <%-- GETの場合 --%>
+    <%-- For GET --%>
     <n:form method="GET">
-      <input type="button" value="検索"
+      <input type="button" value="Search"
         onclick="window.open('search', 'popupWindow', 'width=700,height=500')" />
     </n:form>
 
  .. _`tag-using_get_popup_button_tag`:
 
- popupButtonタグ
-  対応方法
-   HTMLのbuttonタグ(type=”submit”)を使用し、onclick属性にJavaScriptのwindow.open()関数を指定する。
+ popupButton tag
+  Handling method
+   Use the HTML button tag (type=”submit”) and specify the JavaScript window.open() function for the onclick attribute.
 
-  実装例
+  Implementation examples
    .. code-block:: jsp
 
-    <%-- POSTの場合 --%>
+    <%-- For POST --%>
     <n:form>
-      <n:popupButton type="submit" value="検索" uri="search"
+      <n:popupButton type="submit" value="Search" uri="search"
         popupWindowName="popupWindow" popupOption="width=700,height=500" />
     </n:form>
 
-    <%-- GETの場合 --%>
+    <%-- For GET --%>
     <n:form method="GET">
-      <button type="button" value="検索"
+      <button type="button" value="Search"
         onclick="window.open('search', 'popupWindow', 'width=700,height=500')" />
     </n:form>
 
  .. _`tag-using_get_popup_link_tag`:
 
- popupLinkタグ
-  対応方法
-   :ref:`tag-a_tag` を使用し、onclick属性にポップアップウィンドウの表示を行うJavaScript関数を指定する。
-   画面遷移を行う関数は :ref:`tag-script_tag` 内に記述する。
+ popupLink tag
+  Handling method
+   Use :ref:`tag-a_tag` and specify the JavaScript function that displays a pop-up window for the onclick attribute.
+   Write the function performing screen transition within the :ref:`tag-script_tag`.
 
-  実装例
+  Implementation examples
    .. code-block:: jsp
 
-    <%-- POSTの場合 --%>
+    <%-- For POST --%>
     <n:form>
       <n:text name="test" />
-      <n:popupLink type="button" value="検索" uri="search"
+      <n:popupLink type="button" value="Search" uri="search"
         popupWindowName="popupWindow" popupOption="width=700,height=500" />
     </n:form>
 
-    <%-- GETの場合 --%>
+    <%-- For GET --%>
     <input type="text" name="test" id="test" />
-    <n:a href="javascript:void(0);" onclick="openTest();" >検索</n:a>
+    <n:a href="javascript:void(0);" onclick="openTest();" >Search</n:a>
     <n:script type="text/javascript">
       var openTest = function() {
         var test = document.getElementById('test').value;
@@ -1757,59 +1757,59 @@ hiddenパラメータが出力されないことで、使用制限のあるカ�
 
  .. _`tag-using_get_param_tag`:
 
- paramタグ
-  対応方法
-   パラメータを追加したいボタンやリンク毎に :ref:`tag-form_tag` を記述し、そのform内にそれぞれパラメータを設定する。
+ param tag
+  Handling method
+   Write :ref:`tag-form_tag` for each button or link for which a parameter is to be added and configure each parameter within the form.
 
-  実装例
+  Implementation examples
    .. code-block:: jsp
 
-    <%-- POSTの場合 --%>
+    <%-- For POST --%>
     <n:form>
-      <n:submit type="button" uri="search" value="検索">
-        <n:param paramName="changeParam" value="テスト１"/>
+      <n:submit type="button" uri="search" value="Search">
+        <n:param paramName="changeParam" value="Test 1"/>
       </n:submit>
-      <n:submit type="button" uri="search" value="検索">
-        <n:param paramName="changeParam" value="テスト２"/>
+      <n:submit type="button" uri="search" value="Search">
+        <n:param paramName="changeParam" value="Test 2"/>
       </n:submit>
     </n:form>
 
-    <%-- GETの場合 --%>
+    <%-- For GET --%>
     <n:form method="GET" action="search">
-      <n:set var="test" value="テスト１" />
+      <n:set var="test" value="Test 1" />
       <input type="hidden" name="changeParam" value="<n:write name='test' />" />
-      <input type="submit" value="検索" />
+      <input type="submit" value="Search" />
     </n:form>
 
     <n:form method="GET" action="search">
-      <n:set var="test" value="テスト２" />
+      <n:set var="test" value="Test 2" />
       <input type="hidden" name="changeParam" value="<n:write name='test' />" />
-      <input type="submit" value="検索" />
+      <input type="submit" value="Search" />
     </n:form>
 
  .. _`tag-using_get_change_param_name_tag`:
 
- changeParamNameタグ
-  対応方法
-   基本的な対応方法は :ref:`popupLinkタグ <tag-using_get_popup_link_tag>` と同じ。
-   ポップアップウィンドウの表示を行う関数内のwindow.open()の第一引数に、
-   クエリストリングのキーを変更したいパラメータ名で指定する。
+ changeParamName tag
+  Handling method
+   The basic method of handling is the same as the :ref:`popupLink tag <tag-using_get_popup_link_tag>`.
+   Specify the query string key with the parameter name to bed changed in the first parameter of window.open()
+   within the function that displays a pop-up window.
 
-  実装例
+  Implementation examples
    .. code-block:: jsp
 
-    <%-- POSTの場合 --%>
+    <%-- For POST --%>
     <n:form>
       <n:text name="test" />
-      <n:popupSubmit type="button" value="検索" uri="search"
+      <n:popupSubmit type="button" value="Search" uri="search"
           popupWindowName="popupWindow" popupOption="width=700,height=500">
         <n:changeParamName inputName="test" paramName="changeParam" />
       </n:popupSubmit>
     </n:form>
 
-    <%-- GETの場合 --%>
+    <%-- For GET --%>
     <input type="text" name="test" id="test" />
-    <input type="button" value="検索" onclick="openTest();" />
+    <input type="button" value="Search" onclick="openTest();" />
     <n:script type="text/javascript">
       var openTest = function() {
         var test = document.getElementById('test').value;
@@ -1820,137 +1820,137 @@ hiddenパラメータが出力されないことで、使用制限のあるカ�
 
 .. _`tag-write_value`:
 
-値を出力する
+Output of a value
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-値の出力には、 :ref:`tag-write_tag` を使用する。
+Use :ref:`tag-write_tag` to output a value.
 
-アクション側でリクエストスコープに設定したオブジェクトに、name属性を指定することでアクセスする。
-name属性の指定方法は、 :ref:`tag-access_rule` を参照。
+Access the object set in the request scope for the action, by specifying the name attribute.
+Refer to :ref:`tag-access_rule` for the method of specifying the name attribute.
 
-実装例
- アクション
+Implementation examples
+ Action
   .. code-block:: java
 
-   // リクエストスコープに"person"という名前でオブジェクトを設定する。
+   // Configure an object in the request scope with the name "person".
    Person person = new Person();
-   person.setPersonName("名前");
+   person.setPersonName("Name");
    context.setRequestScopedVar("person", person);
 
  JSP
   .. code-block:: jsp
 
-   <!-- name属性を指定してオブジェクトのpersonNameプロパティにアクセスする。 -->
+   <!-- Access the personName property of the object by specifying the name attribute. -->
    <n:write name="person.personName" />
 
 .. _`tag-html_unescape`:
 
-HTMLエスケープせずに値を出力する
+Output of a value without HTML escape
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-アクションなどで設定された値をページ上に出力する場合、 :ref:`tag-write_tag` を使用するが、
-HTMLエスケープを行わず、変数内のHTMLタグを直接出力したい場合は、以下のカスタムタグを使用する。
+Use :ref:`tag-write_tag` to output a value set in the action etc. on the page.
+However, to directly output the HTML tag in the variable without performing HTML escape, use the following custom tags.
 
-* :ref:`prettyPrintタグ <tag-html_unescape_pretty_print_tag>`
-* :ref:`rawWriteタグ <tag-html_unescape_raw_write_tag>`
+* :ref:`prettyPrint tag <tag-html_unescape_pretty_print_tag>`
+* :ref:`rawWrite tag <tag-html_unescape_raw_write_tag>`
 
-これらのカスタムタグは、システム管理者がメンテナンス情報を設定できるようなシステムで、
-特定の画面や表示領域のみで使用することを想定している。
+These custom tags are supposed to be used in a system that allows system administrators to configure maintenance information,
+and only for specific screens and display areas.
 
 .. _`tag-html_unescape_pretty_print_tag`:
 
 :ref:`tag-pretty_print_tag`
- ``<b>`` や ``<del>`` のような装飾系のHTMLタグをエスケープせずに出力するカスタムタグ。
- 使用可能なHTMLタグ及び属性は、 :ref:`tag-setting` で
- :java:extdoc:`safeTagsプロパティ<nablarch.common.web.tag.CustomTagConfig.setSafeTags(java.lang.String:A)>` /
- :java:extdoc:`safeAttributesプロパティ<nablarch.common.web.tag.CustomTagConfig.setSafeAttributes(java.lang.String:A)>`
- で任意に設定することができる。
- デフォルトで使用可能なタグ、属性はリンク先を参照。
+ Custom tags that output HTML text formatting tags such as ``<b>`` and ``<del>`` without performing escape.
+ For usable HTML tags and attributes, arbitrary tags can be configured in
+ :java:extdoc:`safeTags property<nablarch.common.web.tag.CustomTagConfig.setSafeTags(java.lang.String:A)>` /
+ :java:extdoc:`safeAttributes property<nablarch.common.web.tag.CustomTagConfig.setSafeAttributes(java.lang.String:A)>`
+ in :ref:`tag-setting`.
+ Refer to the link for tags and attributes that can be used by default.
 
   .. _`tag-pretty_print_tag-deprecated`:
 
  .. important::
-  このタグは以下の問題があるため非推奨とする。
+  This tag is not recommended due to the following problems:
 
-  * 使用可能なタグだけでなく、そのタグで使用する属性も含めて全て :java:extdoc:`CustomTagConfig <nablarch.common.web.tag.CustomTagConfig>` に設定しなければならない。
-    例えば、``a`` タグを使用可能にしたい場合は :java:extdoc:`CustomTagConfig#safeTags <nablarch.common.web.tag.CustomTagConfig.setSafeTags(java.lang.String:A)>` に ``a`` タグを追加するだけではなく、
-    :java:extdoc:`CustomTagConfig#safeAttributes <nablarch.common.web.tag.CustomTagConfig.setSafeAttributes(java.lang.String:A)>` にも、``href`` などの ``a`` タグで使用する属性を全て定義しなくてはならない。
+  * Not only the usable tags but also the attributes used with those tags must be configured in :java:extdoc:`CustomTagConfig <nablarch.common.web.tag.CustomTagConfig>`.
+    For example, to make ``a`` tag usable, it is not sufficient to add ``a`` tag to :java:extdoc:`CustomTagConfig#safeTags <nablarch.common.web.tag.CustomTagConfig.setSafeTags(java.lang.String:A)>`>,
+    but all the attributes such as ``href`` that are used with ``a`` tag in :java:extdoc:`CustomTagConfig#safeAttributes <nablarch.common.web.tag.CustomTagConfig.setSafeAttributes(java.lang.String:A)>` must be defined.
 
-  * 入力された文字列が :java:extdoc:`CustomTagConfig <nablarch.common.web.tag.CustomTagConfig>`
-    に設定したタグ、属性のみを使用しているかのチェックしか行っておらず、HTMLとして正しいかどうかをチェックしていない。
+  * Whether a character string that is input uses only the tags and attributes that are configured in :java:extdoc:`CustomTagConfig <nablarch.common.web.tag.CustomTagConfig>` is checked,
+    however whether the correct HTML has been output is not checked.
 
-  そのため、利用者が任意の装飾を施した文字列を画面に出力するような機能を実現したい場合は、
-  以下の手順を参考にPJの要件に合わせて実装を行うこと。
+  Therefore, to implement a function that outputs a character string that the user has formatted according to their choice on the screen,
+  the implementation must be according to the PJ requirements by referring to the following procedure.
 
-  1. OSSのHTMLパーサを使用して入力された値をパースし、使用できないHTMLタグが含まれていないかをバリデーションする
-  2. :ref:`rawWriteタグ <tag-html_unescape_raw_write_tag>` を使用して画面に出力する
+  1. Using the HTML parser of OSS to parse the value input and validating that it contains no unusable HTML tags
+  2. Output to screen using :ref:`rawWrite tag <tag-html_unescape_raw_write_tag>`
 
-  また、簡易的な装飾であれば、利用者にはMarkdownで入力してもらい、
-  OSSのJavaScriptライブラリを使用してクライアントサイドでMarkdownからHTMLに変換する方法もある。
+  In addition, for simple formatting, there is a method in which the user inputs using Markdown,
+  and the Markdown is converted to HTML using the JavaScript library of OSS.
 
  .. important::
-  :ref:`tag-pretty_print_tag` で出力する変数の内容が、不特定のユーザによって任意に設定できるものであった場合、
-  脆弱性の要因となる可能性があるため、使用可能なHTMLタグ及び属性を設定する場合は、その選択に十分に留意すること。
-  例えば、<script>タグやonclick属性を使用可能とした場合、クロスサイトスクリプティング(XSS)脆弱性の直接要因となるため、
-  これらのタグや属性を使用可能としないこと。
+  If the contents of a variable output by :ref:`tag-pretty_print_tag` can be configured arbitrarily by an unspecified user,
+  it may result in a vulnerability.
+  Therefore, care must be taken with the selection when configuring usable HTML tags and attributes.
+  For example, <script> tag and onclick attribute must not be made usable as doing so directly leads to cross-site scripting (XSS) vulnerability.
 
 .. _`tag-html_unescape_raw_write_tag`:
 
 :ref:`tag-raw_write_tag`
- 変数中の文字列の内容をエスケープせずにそのまま出力するカスタムタグ。
+ Custom tags that output the contents of a character string in a variable as it is without performing escape.
 
  .. important::
-  :ref:`tag-raw_write_tag` で出力する変数の内容が、不特定のユーザによって任意に設定できるものであった場合、
-  クロスサイトスクリプティング(XSS)脆弱性の直接の要因となる。
-  そのため、 :ref:`tag-raw_write_tag` の使用には十分な考慮が必要である。
+  If the contents of a variable output by :ref:`tag-raw_write_tag` can be configured arbitrarily by an unspecified user,
+  it will directly lead to cross-site scripting (XSS) vulnerability.
+  Therefore, careful consideration is required when using :ref:`tag-raw_write_tag`.
 
 .. _`tag-format_value`:
 
-フォーマットして値を出力する
+Output of values after formatting
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-カスタムタグでは、日付や金額などの値を人が見やすい形式にフォーマットして出力する機能を提供する。
+The custom tags provide a function to format and output values such as date and amount in an easy-to-see format.
 
-:ref:`format` を使用してフォーマットする方法と、valueFormat属性を使用してフォーマットする2種類の方法が存在する。
-以下の理由から、 :ref:`format` を使用してフォーマットする方法を推奨する。
+There are two methods of formatting, namely, the method that uses :ref:`format` and the method that uses valueFormat attribute.
+The method of formatting that uses :ref:`format` is recommended for the following reasons:
 
- * :ref:`format` を使用してフォーマットする方法は、ファイル出力やメッセージングなどの他の出力機能でのフォーマット処理と共通の部品を使用するため、設定が1箇所に集約できる。
-   また、使用できるタグに制限がない。
- * valueFormat属性でフォーマットする方法は、カスタムタグが独自で実装しておりカスタムタグのみでしか使用できないため、
-   他の出力機能でフォーマットをしたい場合は別途設定が必要となる。
-   そのため、フォーマットに関する設定が複数箇所に存在することとなり、管理が煩雑になる。
-   また、valueFormat属性は使用できるタグが :ref:`tag-write_tag` と :ref:`tag-text_tag` に限定される。
+ * In the method of formatting that uses :ref:`format`, the configuration can be consolidated at one place since this method shares the components
+   that are used for format processing in other output functions such as file output and messaging. Also, there are no limitations on the tags that can be used.
+ * The method of formatting that uses valueFormat attribute is implemented independently by the custom tags and can be used only with the custom tags.
+   Hence, the separate configuration is required for formatting in other output functions.
+   Due to this, the configuration related to formatting exists at multiple places and the management becomes complicated.
+   In addition, valueFormat attribute can be used only with :ref:`tag-write_tag` and :ref:`tag-text_tag`.
 
 :ref:`format`
- :ref:`format` を使用する場合は、EL式内で ``n:formatByDefault`` または ``n:format`` を使用して、フォーマットした文字列をvalue属性に設定する。
+ When using :ref:`format`, use ``n:formatByDefault`` or ``n:format`` in the EL expression and configure the formatted character string for the value attribute.
 
- EL式は、JSP上で簡単な記述で演算結果を出力できる記述方法である。 ``${<評価したい式>}`` と記述することで、評価結果がそのまま出力される。
+ EL expression is a writing method that makes it possible to output an operation result using a simple syntax in JSP. The evaluation result is output as it is using ``${<Expression to be evaluated>}`` syntax.
 
- ``n:formatByDefault`` 及び ``n:format`` をEL式内で使用することで、 :ref:`format` の ``FormatterUtil`` を呼び出して値をフォーマットすることができる。
+ By using ``n:formatByDefault`` and ``n:format`` within the EL expression, the value can be formatted by calling ``FormatterUtil`` of :ref:`format`.
 
- 実装例
+ Implementation examples
   .. code-block:: html
 
-   <!-- フォーマッタのデフォルトのパターンでフォーマットする場合
-     第一引数に使用するフォーマッタ名を指定する
-     第二引数にフォーマット対象の値を指定する
-     value属性にEL式で n:formatByDefault の呼び出しを記述する -->
+   <!-- When formatted using the default formatter pattern
+     The name of the formatter used is specified in the first parameter
+     The value to be formatted is specified in the second parameter
+     For the value attribute, n:formatByDefault call is written using EL expression-->
    <n:write value="${n:formatByDefault('dateTime', project.StartDate)}" />
 
-   <!-- 指定したパターンでフォーマットする場合
-     第一引数に使用するフォーマッタ名を指定する
-     第二引数にフォーマット対象の値を指定する
-     第三引数にフォーマットのパターンを指定する
-     value属性にEL式で n:format の呼び出しを記述する -->
+   <!-- When formatted using the specified pattern
+     The name of the formatter used is specified in the first parameter
+     The value to be formatted is specified in the second parameter
+     The formatting pattern is specified in the third parameter
+     For the value attribute, n:format call in written using EL expression -->
    <n:text name="project.StartDate" value="${n:format('dateTime', project.StartDate, 'yyyy年MM月dd日')}" />
 
  .. important::
-  EL式では、リクエストパラメータを参照できない。
-  そのため、 :ref:`bean_validation` を使用してウェブアプリケーションのユーザ入力値のチェックを行う場合は
-  以下の設定をすること。
+  Request parameters cannot be referenced in EL expression.
+  Therefore, when checking the value input by the Web application user using :ref:`bean_validation`,
+  the following must be configured:
 
   :ref:`bean_validation_onerror`
 
-  上記の設定が使用できない場合は、 ``n:set`` を使用して、値をリクエストパラメータから取り出してページスコープにセットしてから出力すること。
+  If the above configuration cannot be used, then the value must be acquiredfrom the request parameter using ``n:set`` and output after setting in the page scope.
 
-  実装例
+  Implementation examples
 
   .. code-block:: jsp
 
@@ -1959,244 +1959,244 @@ HTMLエスケープを行わず、変数内のHTMLタグを直接出力したい
      value="${n:formatByDefault('dateTime', projectEndDate)}"
      cssClass="form-control datepicker" errorCss="input-error" />
 
-valueFormat属性
- valueFormat属性を指定することでフォーマット出力を行う。valueFormat属性の指定がない場合は、フォーマットせずに値を出力する。
- 使用できるタグは、:ref:`tag-write_tag` と :ref:`tag-text_tag` のみである。
+valueFormat attribute
+ The formatted value is output by specifying valueFormat attribute.When valueFormat attribute is not specified, the value is output without formatting.
+ The only usable tags are :ref:`tag-write_tag` and :ref:`tag-text_tag`.
 
- フォーマットは、 ``データタイプ{パターン}`` 形式で指定する。
- カスタムタグでデフォルトで提供しているデータタイプを以下に示す。
+ The format is specified using ``data type{pattern}`` format.
+ The data types provided by default in the custom tags are shown below:
 
- * :ref:`yyyymmdd (年月日)<tag-format_yyyymmdd>`
- * :ref:`yyyymm (年月)<tag-format_yyyymm>`
- * :ref:`dateTime (日時)<tag-format_datetime>`
- * :ref:`decimal (10進数)<tag-format_decimal>`
+ * :ref:`yyyymmdd (date)<tag-format_yyyymmdd>`
+ * :ref:`yyyymm (year month)<tag-format_yyyymm>`
+ * :ref:`dateTime (date and time)<tag-format_datetime>`
+ * :ref:`decimal (decimal number)<tag-format_decimal>`
 
  .. _`tag-format_yyyymmdd`:
 
  yyyymmdd
-  年月日のフォーマット。
+  Date format.
 
-  値はyyyyMMdd形式またはパターン形式の文字列を指定する。
-  パターンには :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>` が規定している構文を指定する。
-  パターン文字には、y(年)、M(月)、d(月における日)のみ指定可能。
-  パターン文字列を省略した場合は、 :ref:`tag-setting` (yyyymmddPatternプロパティ)に設定されたデフォルトのパターンを使用する。
+  For the value, specify a character string in yyyyMMdd format or the pattern format.
+  For the pattern, specify the syntax specified by :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>`.
+  For pattern characters, only y (year), M (month) and d (date of a month) can be specified.
+  When the pattern character string is omitted, default pattern configured in the :ref:`tag-setting` (yyyymmddPattern property) is used.
 
-  また、パターンの後に区切り文字 ``|`` を使用してフォーマットのロケールを指定できる。
-  ロケールを明示的に指定しない場合は、
-  :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` の言語を使用する。
-  :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` が設定されていない場合は、
-  システムデフォルトロケール値を使用する。
+  Also, locale of the format can be specified using the delimiting character ``|`` after the pattern.
+  When locale is not specified explicitly, the language in
+  :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` is used.
+  When :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` is not configured,
+  default locale value of the system is used.
 
-  実装例
+  Implementation examples
    .. code-block:: properties
 
-    # デフォルトのパターンとスレッドコンテキストに設定されたロケールを使用する。
+    # Default pattern and the locale configured in the thread context are used.
     valueFormat="yyyymmdd"
 
-    # 明示的に指定されたパターンと、スレッドコンテキストに設定されたロケールを使用する。
+    # Explicitly specified pattern and the locale configured in the thread context are used.
     valueFormat="yyyymmdd{yyyy/MM/dd}"
 
-    # デフォルトのパターンを使用し、ロケールのみ指定する場合。
+    # When using default pattern and specifying only the locale.
     valueFormat="yyyymmdd{|ja}"
 
-    # パターン、ロケールの両方を明示的に指定する場合。
-    valueFormat="yyyymmdd{yyyy年MM月d日|ja}"
+    # When explicitly specifying both the pattern and the locale.
+    valueFormat="yyyymmdd{yyyyMMd|ja}"
 
   .. important::
-   :ref:`tag-text_tag` のvalueFormat属性を指定した場合、
-   入力画面にもフォーマットした値が出力される。
-   入力された年月日をアクションで取得する場合は、 :ref:`ウィンドウスコープ <tag-window_scope>` および
-   :java:extdoc:`Nablarch独自のバリデーションが提供する年月日コンバータ <nablarch.common.date.YYYYMMDDConvertor>`
-   を使用する。
-   :ref:`tag-text_tag` と :ref:`ウィンドウスコープ <tag-window_scope>` 、
-   :java:extdoc:`年月日コンバータ <nablarch.common.date.YYYYMMDDConvertor>`
-   が連携し、valueFormat属性に指定されたパターンを使用した値変換とバリデーションを行う。
+   When valueFormat attribute of :ref:`tag-text_tag` is specified,
+   the formatted value is output also on the input screen.
+   When the input date is acquired by action, :ref:`window scope <tag-window_scope>` and
+   :java:extdoc:`date converter provided by the Nablarch original validation <nablarch.common.date.YYYYMMDDConvertor>`
+   are used.
+   :ref:`tag-text_tag`, :ref:`window scope <tag-window_scope>`
+   and :java:extdoc:`date converter <nablarch.common.date.YYYYMMDDConvertor>`
+   work together to perform value conversion and validation using the pattern specified for the valueFormat attribute.
 
-   なお、 :ref:`bean_validation` は :ref:`tag-text_tag` のvalueFormat属性に対応していない。
+   Further, :ref:`bean_validation` is not supported for the valueFormat attribute of :ref:`tag-text_tag`.
 
   .. important::
-   :ref:`ウィンドウスコープ <tag-window_scope>` を使用しない場合は、 :ref:`tag-text_tag` のvalueFormat属性を指定しても
-   valueFormat属性の値がサーバサイドに送信されないためバリデーションエラーが発生してしまう。
-   その場合は :java:extdoc:`YYYYMMDD <nablarch.common.date.YYYYMMDD>` アノテーションのallowFormat属性を指定することで、
-   入力値のチェックを行うことができる。
+   When :ref:`window scope <tag-window_scope>` is not used, validation error occurs as the value of the valueFormat attribute
+   is not sent to the server even if valueFormat attribute of :ref:`tag-text_tag` is specified.
+   In that case, input value can be checked by specifying the allowFormat attribute of
+   :java:extdoc:`YYYYMMDD <nablarch.common.date.YYYYMMDD>` annotation.
 
  .. _`tag-format_yyyymm`:
 
  yyyymm
-  年月のフォーマット。
+  Year and month format.
 
-  値はyyyyMM形式またはパターン形式の文字列を指定する。
-  使用方法は、 :ref:`yyyymmdd (年月日)<tag-format_yyyymmdd>` と同じ。
+  Specify a character string in yyyyMM format or pattern format for the value.
+  Method of use is the same as :ref:`yyyymmdd (date)<tag-format_yyyymmdd>`.
 
  .. _`tag-format_dateTime`:
 
  dateTime
-  日時のフォーマット。
+  Date and time format.
 
-  値は :java:extdoc:`Date <java.util.Date>` 型を指定する。
-  パターンには
-  :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>`
-  が規定している構文を指定する。
-  デフォルトでは、 :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` に設定された
-  言語とタイムゾーンに応じた日時が出力される。
-  また、パターン文字列の後に区切り文字 ``|`` を使用してロケールおよびタイムゾーンを明示的に指定することができる。
+  Specify :java:extdoc:`Date <java.util.Date>` type for the value.
+  For the pattern,
+  specify the syntax specified by
+  :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>`.
+  The date and time according to the language and time zone configured in :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>`
+  are output by default.
+  The locale and time zone can be specified explicitly by using the delimiting character ``|`` after the pattern character string.
 
-  :ref:`tag-setting` (dateTimePatternプロパティ、patternSeparatorプロパティ)を使用して、
-  パターンのデフォルト値の設定と、区切り文字 ``|`` の変更を行うことができる。
+  By using :ref:`tag-setting` (dateTimePattern property, patternSeparator property),
+  it is possible to configure the pattern default value and change the delimiting character ``|``.
 
-  実装例
+  Implementation examples
    .. code-block:: properties
 
-    # デフォルトのパターンとThreadContextに設定されたロケール、タイムゾーンを使用する場合。
+    # When using default patten and the locale and time zone configured in ThreadContext.
     valueFormat="dateTime"
 
-    #デフォルトのパターンを使用し、ロケールおよびタイムゾーンのみ指定する場合。
+    # When using default pattern and specifying only the locale and time zone.
     valueFormat="dateTime{|ja|Asia/Tokyo}"
 
-    # デフォルトのパターンを使用し、タイムゾーンのみ指定する場合。
+    # When using default pattern and specifying only the time zone.
     valueFormat="dateTime{||Asia/Tokyo}"
 
-    # パターン、ロケール、タイムゾーンを全て指定する場合。
-    valueFormat="dateTime{yyyy年MMM月d日(E) a hh:mm|ja|America/New_York}}"
+    # When specifying the pattern, locale, as well as time zone.
+    valueFormat="dateTime{yyyyMMMd(E) a hh:mm|ja|America/New_York}}"
 
-    # パターンとタイムゾーンを指定する場合。
+    # When specifying the pattern and time zone.
     valueFormat="dateTime{yy/MM/dd HH:mm:ss||Asia/Tokyo}"
 
  .. _`tag-format_decimal`:
 
  decimal
-  10進数のフォーマット。
+  Decimal format
 
-  値は :java:extdoc:`Number <java.lang.Number>` 型又は数字の文字列を指定する。
-  文字列の場合、3桁ごとの区切り文字(1,000,000のカンマ)を取り除いた後でフォーマットされる。
-  パターンには :java:extdoc:`DecimalFormat <java.text.DecimalFormat>` が規定している構文を指定する。
+  Specify the :java:extdoc:`Number <java.lang.Number>` type or a character string of numerals for the value.
+  Character strings are formatted after removing the thousands separator (commas in 1,000,000).
+  For the pattern, specify the syntax specified by :java:extdoc:`DecimalFormat <java.text.DecimalFormat>`.
 
-  デフォルトでは、 :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` に設定された言語を使用して、
-  言語に応じた形式で値が出力される。
-  言語を直接指定することで、指定された言語に応じた形式で値を出力することもできる。
-  言語の指定は、パターンの末尾に区切り文字 ``|`` を使用して言語を付加することで行う。
+  By default, the value is output in the language-specific format
+  using the language configured in :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>`.
+  By directly specifying the language, the value can be output in the format corresponding to the specified language.
+  The language is specified by adding a language after the delimiting character ``|`` at the end of the pattern.
 
-  :ref:`tag-setting` (patternSeparatorプロパティ)を使用して、区切り文字 ``|`` の変更を行うことができる。
+  The delimiting character ``|`` can be changed using the :ref:`tag-setting` (patternSeparator property).
 
-  実装例
+  Implementation examples
    .. code-block:: properties
 
-    # ThreadContextに設定された言語を使用し、パターンのみ指定する場合。
+    # When using the language configured in ThreadContext and specifying only the pattern.
     valueFormat="decimal{###,###,###.000}"
 
-    # パターンと言語を指定する場合。
+    # When specifying the pattern and the language
     valueFormat="decimal{###,###,###.000|ja}"
-    
-  .. important::
-    本機能では値のフォーマットのみを行うため、丸め動作の設定は行わない。(:java:extdoc:`DecimalFormat <java.text.DecimalFormat>` のデフォルトが使用される。)
-    
-    丸め処理を行いたい場合には、アプリケーション側で処理を行い、本機能を用いてフォーマット処理を行うこと。
 
   .. important::
-   :ref:`tag-text_tag` のvalueFormat属性を指定した場合、入力画面にもフォーマットした値が出力される。
-   入力された数値をアクションで取得する場合は数値コンバータ(
-   :java:extdoc:`BigDecimalConvertor <nablarch.core.validation.convertor.BigDecimalConvertor>` 、
-   :java:extdoc:`IntegerConvertor <nablarch.core.validation.convertor.IntegerConvertor>` 、
+    Since only formatting of values is performed in this function, the configuration for the rounding operation is not performed. (default of :java:extdoc:`DecimalFormat <java.text.DecimalFormat>` is used.)
+
+    To perform the rounding process, it should be performed in the application, and formatting should be performed using this function.
+
+  .. important::
+   When the valueFormat attribute of :ref:`tag-text_tag` is specified, the formatted value is output also on the input screen.
+   To acquire the input numeric value by action, use the numeric converter (
+   :java:extdoc:`BigDecimalConvertor <nablarch.core.validation.convertor.BigDecimalConvertor>`,
+   :java:extdoc:`IntegerConvertor <nablarch.core.validation.convertor.IntegerConvertor>` and
    :java:extdoc:`LongConvertor <nablarch.core.validation.convertor.LongConvertor>`
-   )を使用する。
-   :ref:`tag-text_tag` と数値コンバータが連携し、valueFormat属性に指定された言語に対応する値変換とバリデーションを行う。
+   ).
+   :ref:`tag-text_tag` and numeric converter work together to perform value conversion and validation corresponding to the language specified for the valueFormat attribute.
 
-   なお、 :ref:`bean_validation` は :ref:`tag-text_tag` のvalueFormat属性に対応していない。
+   Further, :ref:`bean_validation` is not supported for the valueFormat attribute of :ref:`tag-text_tag`.
 
   .. tip::
-   パターンに桁区切りと小数点を指定する場合は、言語に関係なく常に桁区切りにカンマ、小数点にドットを使用すること。
+   When specifying the thousands separator and decimal point in the pattern, always use a comma for the thousands separator and a dot for the decimal point, regardless of the language.
 
    .. code-block:: properties
 
-    # es(スペイン語)の場合は、桁区切りがドット、小数点がカンマにフォーマットされる。
-    # パターン指定では常に桁区切りにカンマ、小数点にドットを指定する。
+    # For es (Spanish), the thousands separator is formatted to a dot and the decimal point is formatted to a comma.
+    # In pattern specification, always specify a comma as the thousands delimiter and a dot as the decimal point.
     valueFormat="decimal{###,###,###.000|es}"
 
-    # 下記は不正なパターン指定のため実行時例外がスローされる。
+    # The following will throw a runtime exception due to an invalid pattern specification.
     valueFormat="decimal{###.###.###,000|es}"
 
 .. _`tag-write_error`:
 
-エラー表示を行う
+Performing error display
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-エラー表示では、以下の機能を提供する。
+The error display provides the following functions:
 
-* :ref:`エラーメッセージの一覧表示 <tag-write_error_errors_tag>`
-* :ref:`エラーメッセージの個別表示 <tag-write_error_error_tag>`
-* :ref:`入力項目のハイライト表示 <tag-write_error_css>`
+* :ref:`List of error messages <tag-write_error_errors_tag>`
+* :ref:`Individual display of error messages <tag-write_error_error_tag>`
+* :ref:`Highlight display of input items <tag-write_error_css>`
 
 .. tip::
- エラー表示に使用するカスタムタグでは、リクエストスコープから
- :java:extdoc:`ApplicationException<nablarch.core.message.ApplicationException>`
- を取得してエラーメッセージを出力する。
- :java:extdoc:`ApplicationException<nablarch.core.message.ApplicationException>` は、
- :ref:`on_error_interceptor` を使用して、リクエストスコープに設定する。
+ In the custom tags used for error display,
+ error messages are output by acquiring :java:extdoc:`ApplicationException<nablarch.core.message.ApplicationException>`
+ from the request scope.
+ :java:extdoc:`ApplicationException<nablarch.core.message.ApplicationException>` is configured in the request scope
+ using :ref:`on_error_interceptor`.
 
 .. _`tag-write_error_errors_tag`:
 
-エラーメッセージの一覧表示
- 画面上部にエラーメッセージを一覧表示する場合に :ref:`tag-errors_tag` を使用する。
+List of error messages
+ Use :ref:`tag-errors_tag` to display error messages in a list format at the top of the screen.
 
- すべてのエラーメッセージを表示する場合
+ Display all error messages
   \
 
-  実装例
+  Implementation examples
    .. code-block:: jsp
 
-    <!-- filter属性に"all"を指定する。 -->
+    <!-- Specify “all” for the filter attribute. -->
     <n:errors filter="all" errorCss="alert alert-danger" />
 
-  出力結果
+  Output result
    .. image:: images/tag/errors_all.png
 
- 入力項目に対応しないエラーメッセージのみを表示する場合
+ Display only the error messages not corresponding to the input items
   \
 
-  実装例
-   アクション
+  Implementation examples
+   Action
     .. code-block:: java
 
-     // データベースとの相関バリデーションなどで、ApplicationExceptionを送出する。
+     // ApplicationException is thrown by correlation validation with the database, etc.
      throw new ApplicationException(
        MessageUtil.createMessage(MessageLevel.ERROR, "errors.duplicateName"));
 
    JSP
     .. code-block:: jsp
 
-     <!-- filter属性に"global"を指定する。 -->
+     <!-- Specify "global" for the filter attribute. -->
      <n:errors filter="global" errorCss="alert alert-danger" />
 
-  出力結果
+  Output result
    .. image:: images/tag/errors_global.png
 
 .. _`tag-write_error_error_tag`:
 
-エラーメッセージの個別表示
- 入力項目ごとにエラーメッセージを表示する場合に :ref:`tag-error_tag` を使用する。
+Individual display of error messages
+ Use :ref:`tag-error_tag` to display an error message for each input item.
 
- 実装例
+ Implementation examples
   .. code-block:: jsp
 
    <div>
-     <label>名前</label>
+     <label>Name</label>
      <n:text name="form.userName" />
-     <!-- 入力項目と同じ名前をname属性に指定する。 -->
+     <!-- Specify the same name as the input item for the name attribute. -->
      <n:error name="form.userName" messageFormat="span" errorCss="alert alert-danger" />
    </div>
 
- 出力結果
+ Output result
   .. image:: images/tag/error.png
 
- :ref:`bean_validation-correlation_validation` のエラーメッセージを特定の項目の近くに表示したい場合も、
- :ref:`tag-error_tag` を使用する。
+ Use :ref:`tag-error_tag`
+ also for displaying :ref:`bean_validation-correlation_validation` error messages near specific items.
 
- 実装例
-  フォーム
+ Implementation examples
+  Form
    .. code-block:: java
 
-    // 相関バリデーションを行うメソッド
-    // このプロパティ名でエラーメッセージが設定される。
-    @AssertTrue(message = "パスワードが一致しません。")
+    // Method for performing correlation validation
+    // Error messages are configured with this property name.
+    @AssertTrue(message = "Passwords do not match.")
     public boolean isComparePassword() {
         return Objects.equals(password, confirmPassword);
     }
@@ -2205,41 +2205,41 @@ valueFormat属性
    .. code-block:: jsp
 
     <div>
-      <label>パスワード</label>
+      <label>Password</label>
       <n:password name="form.password" nameAlias="form.comparePassword" />
       <n:error name="form.password" messageFormat="span" errorCss="alert alert-danger" />
       <!--
-        相関バリデーションで指定されるプロパティ名をname属性に指定する。
+        Specify the property name specified in correlation validation for the name attribute.
       -->
       <n:error name="form.comparePassword" messageFormat="span" errorCss="alert alert-danger" />
     </div>
     <div>
-      <label>パスワード(確認用)</label>
+      <label>Password (for confirmation)</label>
       <n:password name="form.confirmPassword" nameAlias="form.comparePassword" />
       <n:error name="form.confirmPassword" messageFormat="span" errorCss="alert alert-danger" />
     </div>
 
- 出力結果
+ Output result
   .. image:: images/tag/error_correlation_validation.png
 
 .. _`tag-write_error_css`:
 
-入力項目のハイライト表示
- 入力項目のカスタムタグは、エラーの原因となった入力項目のclass属性に、
- 元の値に対してCSSクラス名(デフォルトは”nablarch_error”)を追記する。
+Highlight display of input items
+ In the custom tag for input items, add the CSS class name (default is “nablarch_error”)
+ for the original value of the class attribute of the input item that caused the error.
 
- このクラス名にCSSでスタイルを指定することで、エラーがあった入力項目をハイライト表示する。
+ By specifying the style for this class name using CSS, the input item for which an error has occurred is highlighted.
 
- さらに、入力項目のカスタムタグでnameAlias属性を指定することで、
- 複数の入力項目を紐付け、
- :ref:`bean_validation-correlation_validation` でエラーとなった場合に、
- 複数の入力項目をハイライト表示できる。
+ Further, multiple input items can be linked by
+ specifying the nameAlias attribute in the custom tags for input items,
+ and multiple input items can be highlighted
+ when an error occurs during :ref:`bean_validation-correlation_validation`.
 
- 実装例
+ Implementation examples
   CSS
    .. code-block:: css
 
-    /* エラーがあった場合の入力項目の背景色を指定する。 */
+    /* Specify background color of the input item for which error occurs. */
     input.nablarch_error,select.nablarch_error {
       background-color: #FFFFB3;
     }
@@ -2248,42 +2248,42 @@ valueFormat属性
    .. code-block:: jsp
 
     <div>
-      <label>パスワード</label>
-      <!-- nameAlias属性に相関バリデーションのプロパティ名を指定する。 -->
+      <label>Password</label>
+      <!-- Specify correlation validation property name for the nameAlias attribute. -->
       <n:password name="form.password" nameAlias="form.comparePassword" />
       <n:error name="form.password" messageFormat="span" errorCss="alert alert-danger" />
       <n:error name="form.comparePassword" messageFormat="span" errorCss="alert alert-danger" />
     </div>
     <div>
-      <label>パスワード(確認用)</label>
-      <!-- nameAlias属性に相関バリデーションのプロパティ名を指定する。 -->
+      <label>Password (for confirmation)</label>
+      <!-- Specify correlation validation property name for the nameAlias attribute. -->
       <n:password name="form.confirmPassword" nameAlias="form.comparePassword" />
       <n:error name="form.confirmPassword" messageFormat="span" errorCss="alert alert-danger" />
     </div>
 
- 出力結果
+ Output result
   .. image:: images/tag/error_css.png
 
 
 .. _`tag-code_input_output`:
 
-コード値を表示する
+Display code values
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-カスタムタグでは、 :ref:`code` から取得したコード値の選択項目や表示項目を出力する
-コード値専用のカスタムタグを提供する。
+There are custom tags dedicated to code values
+that output selection items and display items for code values acquired from :ref:`code`.
 
-* :ref:`tag-code_tag` (コード値)
-* :ref:`tag-code_select_tag` (コード値のプルダウン)
-* :ref:`tag-code_checkbox_tag` (コード値のチェックボックス)
-* :ref:`tag-code_radio_buttons_tag` (コード値の複数のラジオボタン)
-* :ref:`tag-code_checkboxes_tag` (コード値の複数のチェックボックス)
+* :ref:`tag-code_tag` (code values)
+* :ref:`tag-code_select_tag` (pull-down for code values)
+* :ref:`tag-code_checkbox_tag` (checkbox for code values)
+* :ref:`tag-code_radio_buttons_tag` (multiple radio buttons for code values)
+* :ref:`tag-code_checkboxes_tag` (multiple checkboxes for code values)
 
-:ref:`tag-code_tag` と :ref:`tag-code_select_tag` の実装例を示す。
+An implementation example of :ref:`tag-code_tag` and :ref:`tag-code_select_tag` is shown.
 
-実装例
- :ref:`code` のテーブルは以下とする。
+Implementation examples
+ The :ref:`code` table is as follows:
 
- コードパターンテーブル
+ Code pattern table
    ======= =========   ========  ===========
    ID      VALUE       PATTERN1  PATTERN2
    ======= =========   ========  ===========
@@ -2292,183 +2292,183 @@ valueFormat属性
    GENDER  OTHER       1         0
    ======= =========   ========  ===========
 
- コード名称テーブル
+ Code name table
    ======= ========= ====  ==========  ==========  ===========
    ID      VALUE     LANG  SORT_ORDER  NAME        SHORT_NAME
    ======= ========= ====  ==========  ==========  ===========
-   GENDER  MALE      ja    1           男性        男
-   GENDER  FEMALE    ja    2           女性        女
-   GENDER  OTHER     ja    3           その他      他
+   GENDER  MALE      en    1           Male        M
+   GENDER  FEMALE    en    2           Female      F
+   GENDER  OTHER     en    3           Other       O
    ======= ========= ====  ==========  ==========  ===========
 
- :ref:`tag-code_tag` (コード値)
+ :ref:`tag-code_tag` (code values)
   JSP
    .. code-block:: jsp
 
     <!--
-      以下の属性指定により、コード値の出力を制御する。
-      codeId属性: コードID。
-      pattern属性: 使用するパターンのカラム名。
-                   デフォルトは指定なし。
-      optionColumnName属性: 取得するオプション名称のカラム名。
-      labelPattern属性: ラベルを整形するパターン。
-                        使用できるプレースホルダは以下のとおり。
-                        $NAME$: コード値に対応するコード名称
-                        $SHORTNAME$: コード値に対応するコードの略称
-                        $OPTIONALNAME$: コード値に対応するコードのオプション名称。
-                                        このプレースホルダを使用する場合は、
-                                        optionColumnName属性の指定が必須となる。
-                        $VALUE$: コード値
-                        デフォルトは$NAME$。
+      Output of code values is controlled by specifying the following attributes.
+      codeId attribute: Code ID.
+      pattern attribute: Column name of the pattern used.
+                         Default is not specified.
+      optionColumnName attribute: Column name of option name to acquire.
+      labelPattern attribute: Pattern to format the label.
+                              The following placeholder can be used:
+                              $NAME$: Code name corresponding to code value
+                              $SHORTNAME$: Abbreviation of code corresponding to code value
+                              $OPTIONALNAME$: Option name of code corresponding to code value
+                                              When using this placeholder,
+                                              the optionColumnName attribute is mandatory.
+                              $VALUE$: Code value
+                              Default is $NAME$.
     -->
     <n:code name="user.gender"
             codeId="GENDER" pattern="PATTERN1"
             labelPattern="$VALUE$:$NAME$($SHORTNAME$)"
             listFormat="div" />
 
-  出力されるHTML
+  Output HTML
    .. code-block:: jsp
 
     <!--
-      "user.gender"が"FEMALE"の場合
-      listFormat属性でdivを指定しているのでdivタグで出力される。
+      If "user.gender" is "FEMALE",
+      it is output with div tag as div is specified in listFormat attribute.
     -->
-    <div>FEMALE:女性(女)</div>
+    <div>FEMALE:Female(F)</div>
 
 
- :ref:`tag-code_select_tag` (コード値のプルダウン)
+ :ref:`tag-code_select_tag` (pull-down for code values)
   JSP
    .. code-block:: jsp
 
     <!--
-      属性指定はcodeタグと同じ。
+      Specification of attribute is the same as select tag.
     -->
     <n:codeSelect name="form.gender"
                   codeId="GENDER" pattern="PATTERN2"
                   labelPattern="$VALUE$-$SHORTNAME$"
                   listFormat="div" />
 
-  出力されるHTML
+  Output HTML
    .. code-block:: jsp
 
-    <!-- "form.gender"が"FEMALE"の場合 -->
+    <!-- If "form.gender" is "FEMALE" -->
 
-    <!-- 入力画面 -->
+    <!-- Input screen -->
     <select name="form.gender">
-      <option value="MALE">MALE-男</option>
-      <option value="FEMALE" selected="selected">FEMALE-女</option>
+      <option value="MALE">MALE-M</option>
+      <option value="FEMALE" selected="selected">FEMALE-F</option>
     </select>
 
-    <!-- 確認画面 -->
-    <div>FEMALE-女</div>
+    <!-- Confirm screen -->
+    <div>FEMALE-F</div>
 
 .. important::
- カスタムタグでは、言語指定によるコード値の取得はできない。
- カスタムタグでは、 :java:extdoc:`CodeUtil<nablarch.common.code.CodeUtil>` のロケールを指定しないAPIを使用している。
- 言語指定でコード値を取得したい場合は、アクションで
- :java:extdoc:`CodeUtil<nablarch.common.code.CodeUtil>`
- を使用して値を取得する。
+ In custom tags, it is not possible to acquire code values according to the specified language.
+ In custom tags, an API is used in which the locale of :java:extdoc:`CodeUtil<nablarch.common.code.CodeUtil>` is not specified.
+ To acquire a code value using the language specification,
+ use :java:extdoc:`CodeUtil<nablarch.common.code.CodeUtil>`
+ in the action.
 
 .. _`tag-write_message`:
 
-メッセージを出力する
+Output of messages
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-カスタムタグでは、 :ref:`message` を使用して取得したメッセージを出力するカスタムタグを提供する。
+There are custom tags that output messages acquired using :ref:`message`.
 
-* :ref:`tag-message_tag` (メッセージ)
+* :ref:`tag-message_tag` (message)
 
-国際化を行うアプリケーションにおいて1つのJSPファイルで多言語に対応する場合、
-:ref:`tag-message_tag` を使用することでユーザが選択した言語に応じて画面の文言を切り替えることができる。
+When multiple languagesare supported by one JSP file in the application that performs internationalization,
+the text on the screen can be switched according to the language selected by the user, by using :ref:`tag-message_tag`.
 
-実装例
+Implementation examples
  .. code-block:: jsp
 
-  <!-- messageId属性にメッセージIDを指定する。 -->
+  <!-- Specify the message ID for the messageId attribute. -->
   <n:message messageId="page.not.found" />
 
   <!--
-    オプションを指定したい場合
+    To specify option
   -->
 
-  <!-- var属性を指定して埋め込み用の文言を取得する。-->
+  <!-- Specify the var attribute to acquire the text for embedding. -->
   <n:message var="title" messageId="title.user.register" />
   <n:message var="appName" messageId="title.app" />
 
-  <!-- 埋め込み用の文言をoption属性に設定する。-->
+  <!-- Configure the text for embedding for the option attribute. -->
   <n:message messageId="title.template" option0="${title}" option1="${appName}" />
 
   <!--
-    画面内で一部のメッセージのみ言語を切り替えたい場合
+    To change the language only for some messages within the screen
   -->
 
-  <!-- language属性に言語を指定する。 -->
+  <!-- Specify a language for the language attribute. -->
   <n:message messageId="page.not.found" language="ja" />
 
   <!--
-    HTMLエスケープしたくない場合
+    If HTML escape is not required
   -->
 
-  <!-- htmlEscape属性にfalseを指定する。 -->
+  <!-- Specify false in the secure attribute. -->
   <n:message messageId="page.not.found" htmlEscape="false" />
 
 .. _tag_change_resource_path_of_lang:
 
-言語毎にリソースパスを切り替える
+Switch resource path for each language
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-リソースパスを扱うカスタムタグは、言語設定をもとにリソースパスを動的に切り替える機能をもつ。
-以下のカスタムタグが言語毎のリソースパスの切り替えに対応している。
+The custom tags that handle resource path have a function to dynamically switch the resource path based on the language configuration.
+The following custom tags support resource path switching for each language.
 
 * :ref:`tag-a_tag`
 * :ref:`tag-img_tag`
 * :ref:`tag-link_tag`
 * :ref:`tag-script_tag`
-* :ref:`tag-confirmation_page_tag` (入力画面と確認画面を共通化)
-* :ref:`tag-include_tag` (インクルード)
+* :ref:`tag-confirmation_page_tag` (common input and confirmation screen)
+* :ref:`tag-include_tag` (include)
 
-これらのカスタムタグでは、
-:java:extdoc:`ResourcePathRule<nablarch.fw.web.i18n.ResourcePathRule>`
-のサブクラスを使用して言語毎のリソースパスを取得することで切り替えを行う。
-デフォルトで提供するサブクラスについては、 :ref:`http_response_handler-change_content_path` を参照。
+In these custom tags, switching is performed by acquiring the resource path
+for each language using the subclass of
+:java:extdoc:`ResourcePathRule<nablarch.fw.web.i18n.ResourcePathRule>`.
+Refer to :ref:`http_response_handler-change_content_path` for the subclass provided by default.
 
 .. tip::
- :ref:`tag-include_tag` は動的なJSPインクルードを言語毎のリソースパスの切り替えに対応させるために提供している。
- :ref:`tag-include_param_tag` を使用してインクルード時に追加するパラメータを指定する。
+ :ref:`tag-include_tag` is provided to associate the dynamic include of JSP with resource path switching for each language.
+ Use :ref:`tag-include_param_tag` to specify the parameter to be added at the time of dynamic include.
 
  .. code-block:: jsp
 
-  <!-- path属性にインクルードするリソースのパスを指定する。 -->
+  <!-- For the path attribute, specify the resource path to be included. -->
   <n:include path="/app_header.jsp">
       <!--
-        paramName属性にパラメータ名、value属性に値を指定する。
-        スコープ上に設定された値を使用する場合はname属性を指定する。
-        name属性とvalue属性のどちらか一方を指定する。
+        Specify parameter name for the paramName attribute and value for the value attribute.
+        Specify the name attribute when using the value configured in the scope.
+        Specify either name attribute or value attribute.
       -->
-      <n:includeParam paramName="title" value="ユーザ情報詳細" />
+      <n:includeParam paramName="title" value="User information details" />
   </n:include>
 
-ブラウザのキャッシュを防止する
+Prevent browser caching
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ブラウザのキャッシュを防止することで、ブラウザの戻るボタンが押された場合に、
-前画面を表示できないようにすることができる。
-これにより、複数ユーザで同じ端末を使用するような環境において、
-ブラウザ操作により個人情報や機密情報が漏洩するのを防ぐ。
+By preventing browser caching,
+it is possible to prevent the previous screen from being displayed when the back button of the browser is clicked.
+As a result, in an environment where multiple users use the same terminal,
+leakage of personal information and confidential information by browser operation is prevented.
 
-ブラウザのキャッシュ防止は、 :ref:`tag-no_cache_tag` を使用する。
-ブラウザの戻るボタンは、画面表示時にキャッシュしておいた画面を再表示するので、
-キャッシュを防止したい画面のJSPで :ref:`tag-no_cache_tag` を使用する。
+:ref:`tag-no_cache_tag` is used to prevent browser caching.
+Since the back button of the browser redisplays the cached screen during screen display,
+use :ref:`tag-no_cache_tag` in the JSP of the screen that should not be cached.
 
-実装例
+Implementation examples
  .. code-block:: jsp
 
-  <!-- headタグ内にnoCacheタグを指定する。 -->
+  <!-- Specify a noCache tag within the head tag. -->
   <head>
     <n:noCache/>
-    <!-- 以下省略。 -->
+    <!-- Rest is omitted. -->
   </head>
 
-:ref:`tag-no_cache_tag` を指定すると、以下のレスポンスヘッダとHTMLがブラウザに返る。
+When :ref:`tag-no_cache_tag` is specified, the following response header and HTML are returned to the browser.
 
-レスポンスヘッダ
+Response header
  .. code-block:: bash
 
   Expires Thu, 01 Jan 1970 00:00:00 GMT
@@ -2485,30 +2485,30 @@ HTML
   </head>
 
 .. important::
- :ref:`tag-no_cache_tag` は、 :ref:`tag-include_tag` (<jsp:include>)でincludeされるJSPでは指定できないため、
- 必ずforwardされるJSPで指定すること。
- ただし、システム全体でブラウザのキャッシュ防止を使用する場合は、
- 各JSPで実装漏れが発生しないように、
- プロジェクトで :ref:`ハンドラ <nablarch_architecture-handler_queue>` を作成し一律設定すること。
- :ref:`ハンドラ <nablarch_architecture-handler_queue>` では、上記のレスポンスヘッダ例の内容をレスポンスヘッダに設定する。
+ Since the :ref:`tag-no_cache_tag` cannot be specified in the JSP included in :ref:`tag-include_tag` (<jsp: include>),
+ it must be specified in the forwarded JSP.
+ However, when preventing browser caching for the entire system,
+ create a :ref:`handler <nablarch_architecture-handler_queue>` in the project
+ and configure it uniformly so that implementation is not omitted in any JSP.
+ In the :ref:`handler <nablarch_architecture-handler_queue>`, configure the contents of the above response header example in the response header.
 
 .. tip::
- HTTPの仕様上は、レスポンスヘッダのみを指定すればよいはずであるが、
- この仕様に準拠していない古いブラウザのためにmetaタグも指定している。
+ According to the HTTP specification, only the response header should be specified,
+ but a meta tag is also specified for older browsers that do not conform to this specification.
 
 .. tip::
- ブラウザのキャッシュ防止は、以下のブラウザでHTTP/1.0かつSSL(https)が適用されない通信において有効にならない。
- このため、ブラウザのキャッシュ防止を使用する画面は、必ずSSL通信を適用するように設計すること。
+ Prevention of browser caching is not enabled for the communication on the following browsers where HTTP/1.0 and SSL (https) are not used.
+ Therefore, screens that prevent browser caching must be designed to use SSL communication.
 
- 問題が発生するブラウザ： IE6, IE7, IE8
+ Browsers with problems: IE6, IE7, IE8
 
-静的コンテンツの変更時にクライアント側のキャッシュを参照しないようにする
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-クライアント側(ブラウザ)でキャッシュを有効化している場合、
-サーバ上に配置した静的コンテンツを置き換えても、
-クライアント側では最新のコンテンツではなくキャッシュされた古いコンテンツが表示される可能性がある。
+Not allowing the cache in the client to be referenced when static content is changed
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+When caching is enabled in the client (browser),
+even if the static content placed on the server is replaced,
+the cached old content may be displayed in the client instead of the latest content.
 
-この問題を回避するため、以下のカスタムタグの ``href`` 属性、および ``src`` 属性で指定された静的コンテンツのURIにパラメータでバージョンを付加する機能を提供する。
+To avoid this problem, a function is provided in which a version is appended to the URI of the static content specified in the ``href`` attribute and ``src`` attribute of the following custom tags, using parameters.
 
 * :ref:`tag-link_tag`
 * :ref:`tag-img_tag`
@@ -2517,51 +2517,51 @@ HTML
 * :ref:`tag-popup_submit_tag`
 * :ref:`tag-download_submit_tag`
 
-これにより、静的コンテンツ置き換え時にクライアント側のキャッシュではなく最新の静的コンテンツを参照することができる。
+As a result, the latest static content can be referenced instead of the cache in the client when the static content is replaced.
 
-パラメータに付加する静的コンテンツのバージョンは、 :ref:`設定ファイル(configファイル)<repository-environment_configuration>` に設定する。
-設定ファイルに静的コンテンツのバージョンが設定されていない場合は、この機能は無効化される。
+The version of the static content that is added using parameters is configured in the :ref:`configuration file (config file)<repository-environment_configuration>`.
+This function is disabled if the version of the static content is not configured in the configuration file.
 
-静的コンテンツのバージョンは、 ``static_content_version`` というキー名で指定する。
+The version of the static content is specified with the key name ``static_content_version``.
 
-設定例
+Configuration example
  .. code-block:: properties
 
-  # 静的コンテンツのバージョン
+  # Version of the static content
   static_content_version=1.0
 
 
 .. important::
-  この機能は、以下の理由により非推奨とする。
+  This function is deprecated because of the following reasons:
 
-  * ``static_content_version`` による静的コンテンツのバージョンはアプリケーション内で1つしか定義できないため、
-    ``static_content_version`` の値を変更してしまうと、アプリケーション内の全ての静的コンテンツ
-    (変更していない静的コンテンツ含む)がキャッシュではなく最新の静的コンテンツを参照してしまう。
+  * Since only one version of the static content can be defined in the application using ``static_content_version``,
+    if the value of ``static_content_version`` is changed, all static content (including unchanged static content)
+    in the application references the latest static content instead of the cache.
 
-  静的コンテンツの変更時にキャッシュを参照しないようにするには、この機能を使用するのではなく、
-  静的コンテンツのファイル名を変更する等で対応すること。
+  The file name of the static content should be changed instead of using this function
+  so that the cache is not referenced when the static content is changed.
 
-拡張例
+Expansion example
 ---------------------------------------------------------------------
 
-フォーマッタを追加する
+Adding formatter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`format` を使用する場合
-フォーマッタの追加方法は、 :ref:`format` のフォーマッタを追加するの項を参照。
+For the method of adding a formatter when using :ref:`format`,
+refer to the section on adding a formatter of :ref:`format`.
 
-valueFormat属性を使用する場合
-フォーマットは、
+When using the valueFormat attribute,
+formatting is performed by the class that implements the
 :java:extdoc:`ValueFormatter <nablarch.common.web.tag.ValueFormatter>`
-インタフェースを実装したクラスが行う。
-実装したクラスをコンポーネント定義に追加することでフォーマットを変更することができる。
+interface.
+The format can be changed by adding the implementation class to the component definition.
 
-コンポーネント定義への追加は、Map型でデータタイプ名をキーに、
+To add to the component definition, specify the class that implements
 :java:extdoc:`ValueFormatter <nablarch.common.web.tag.ValueFormatter>`
-を実装したクラスを値に指定する。
+as the value, and the data type name as the key in the Map type.
 
-フレームワークがデフォルトでサポートしているフォーマットに対する設定例を以下に示す。
+A configuration example for the default format supported by the framework is shown below.
 
-フォーマッタのマップは、 ``valueFormatters`` という名前でコンポーネント定義に追加する。
+The formatter map is added to the component definition with the name ``valueFormatters``.
 
 .. code-block:: xml
 
@@ -2582,123 +2582,123 @@ valueFormat属性を使用する場合
 
 .. _`tag-submit_display_control_change`:
 
-ボタン/リンクの表示制御に使う判定処理を変更する
+Change the judgment process used for button/link display control
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`tag-submit_display_control` に使用する判定処理を変更したい場合は、
+The judgment process used in the :ref:`tag-submit_display_control` can be changed by implementing the
 :java:extdoc:`DisplayControlChecker <nablarch.common.web.tag.DisplayControlChecker>`
-インタフェースを実装することで変更できる。
-実装したクラスを :ref:`tag-setting` で
-:java:extdoc:`displayControlCheckersプロパティ<nablarch.common.web.tag.CustomTagConfig.setDisplayControlCheckers(java.util.List)>`
-に指定する。
+interface.
+Specify the implementation class to
+:java:extdoc:`displayControlCheckers property<nablarch.common.web.tag.CustomTagConfig.setDisplayControlCheckers(java.util.List)>`
+in the :ref:`tag-setting`.
 
-設定例
+Configuration example
  .. code-block:: xml
 
   <list name="displayControlCheckers" >
-    <!-- サービス提供可否についてはデフォルトのDisplayControlCheckerを指定する -->
+    <!-- Configure the default DisplayControlChecker for service availability -->
     <component class="nablarch.common.web.tag.ServiceAvailabilityDisplayControlChecker" />
-    <!-- 認可チェックについてはプロジェクトでカスタマイズしたDisplayControlCheckerを指定する -->
+    <!-- For permission check, specify customized DisplayControlChecker in the project -->
     <component class="com.sample.app.CustomPermissionDisplayControlChecker" />
   </list>
 
   <component name="customTagConfig"
              class="nablarch.common.web.tag.CustomTagConfig">
-     <!-- 判定条件を設定する。 -->
+     <!-- Configure the the judgment criteria. -->
     <property name="displayControlCheckers" ref="displayControlCheckers" />
   </component>
 
 .. _`tag-double_submission_client_side_change`:
 
-クライアント側の二重サブミット防止で、二重サブミット発生時の振る舞いを追加する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`クライアント側の二重サブミット防止 <tag-double_submission_client_side>` を使用していて、
-アプリケーションで二重サブミット発生時の振る舞いを追加する場合は、JavaScriptでコールバック関数を実装する。
+Add a behavior when double submission occurs, with a double submission prevention in the client
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For adding a behavior during occurrence of double submission in the application,
+using :ref:`double submission prevention on the client side <tag-double_submission_client_side>`, implement the callback function in JavaScript.
 
-フレームワークのJavaScript関数は、2回目以降のサブミット要求が発生した場合、
-コールバック関数が存在していれば、コールバック関数を呼び出す。
-コールバック関数のシグネチャを以下に示す。
+The JavaScript function of the framework calls a callback function
+if the callback function exists, when the second or subsequent submission request occurs.
+The signature of the callback function is shown below:
 
 .. code-block:: js
 
  /**
-  * @param element 二重サブミットが行われた対象要素(ボタン又はリンク)
+  * @param element Target element (button or link) for which double submission was performed
   */
  function nablarch_handleDoubleSubmission(element) {
-   // ここに処理を記述する。
+   // Describe the process here.
  }
 
 .. _`tag-double_submission_server_side_change`:
 
-サーバ側の二重サブミット防止で、トークンの発行処理を変更する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`サーバ側の二重サブミット防止 <tag-double_submission_server_side>` を使用していて、
-トークンの発行処理を変更したい場合は、
-:java:extdoc:`TokenGenerator <nablarch.common.web.token.TokenGenerator>`
-インタフェースを実装することで変更できる。
-実装したクラスをコンポーネント定義に ``tokenGenerator`` という名前で追加する。
+Change the token issuing process using double submission prevention in the server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To change the token issuing process using
+:ref:`double submission prevention in the server <tag-double_submission_server_side>`,
+implement the
+:java:extdoc:`TokenGenerator <nablarch.common.web.token.TokenGenerator>` interface.
+Add the implementation class to the component definition with the name ``tokenGenerator``.
 
-カスタムタグのルール
+Custom tag rules
 ---------------------------------------------------------------------
 
 .. _`tag-naming_rule`:
 
-命名ルール
+Naming rules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-カスタムタグでは、CSSのクラス名やJavaScriptの関数名など、カスタムタグが規定する名前については、
-個別アプリケーションと重複しないようにプレフィックス ``nablarch_`` を使用する。
-そのため、個別アプリケーションでは、 ``nablarch_`` から始まる名前を使用しないこと。
+In the custom tags, the prefix ``nablarch_`` is used for the names prescribed by the custom tags,
+such as CSS class name and JavaScript function name, to avoid duplication with individual applications.
+Therefore, names starting with ``nablarch_`` should not be used in individual applications.
 
-この命名ルールの対象を以下に示す。
+The naming rules are applicable to the following:
 
-* HTMLの属性値
-* CSSのクラス名
-* JavaScriptの関数名とグローバル変数名
-* ページスコープ、リクエストスコープ、セッションスコープの変数名
+* HTML attribute value
+* CSS class name
+* JavaScript function name and global variable name
+* Page scope, request scope and session scope variable names
 
 .. _`tag-access_rule`:
 
-入力/出力データへのアクセスルール
+Rules to access input/output data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-入力項目や出力項目を出力するカスタムタグ( :ref:`tag-text_tag` や :ref:`tag-write_tag` など)では、
-name属性の値に基づき、出力対象となるデータにアクセスする。
+The custom tags (such as :ref:`tag-text_tag` and :ref:`tag-write_tag`) that output the input items and output items,
+access the data to be output based on the value of the name attribute.
 
-オブジェクトの種類に合わせて、name属性には以下の指定を行う。
+Specify the following for the name attribute according to the type of object:
 
-* オブジェクト/Mapのプロパティにアクセスする場合は、ドット区切りを指定する。
-* List/配列の要素にアクセスする場合は、角括弧(括弧内にインデックス)を指定する。
+* When accessing the object/map properties, specify the dot separator.
+* When accessing the list/array elements, specify square brackets (index in parentheses).
 
-検索順序は次の通りで、最初に見つかった値を使用する。値が取得できない場合は、空文字列を出力する。
+The search order is as follows, and the first value is used. If the value cannot be acquired, an empty string is output.
 
-1. Pageスコープ
-2. リクエストスコープ
-3. リクエストパラメータ
-4. セッションスコープ
+1. Page scope
+2. Request scope
+3. Request parameters
+4. Session scope
 
-オブジェクトの実装例
+Object implementation example
  \
 
- アクション
+ Action
   .. code-block:: java
 
-   // オブジェクトをリクエストスコープに設定する。
+   // Configure the object in the request scope.
    PersonForm form = new PersonForm();
-   form.setPersonName("名前");
+   form.setPersonName("Name");
    context.setRequestScopedVar("form", form);
    return new HttpResponse("/WEB-INF/view/sample/accessRuleObject.jsp");
 
  JSP
   .. code-block:: jsp
 
-   <!-- ドット区切りを使う。 -->
+   <!-- Use the dot delimiter. -->
    <n:text name="form.personName" />
 
-Listの実装例
+List implementation example
  \
 
- アクション
+ Action
   .. code-block:: java
 
-   // Listを持つオブジェクトをリクエストスコープに設定する。
+   // Configure the object with list in the request scope.
    PersonsForm form = new PersonsForm();
    List<Person> persons = UniversalDao.findAll(Person.class);
    form.setPersons(persons);
@@ -2707,135 +2707,135 @@ Listの実装例
  JSP
   .. code-block:: jsp
 
-   <!-- インデックスを取得するためループをまわす。 -->
+   <!-- Loop to acquire to the index. -->
    <c:forEach items="${form.persons}" varStatus="status">
      <!--
-       角括弧を使って要素にアクセスする。
-       要素の値はドットを使ってアクセスする。
+       Access the elements using square brackets.
+       Access the element values using dots.
      -->
      <n:text name="form.persons[${status.index}].personName" />
    </c:forEach>
 
 .. tip::
- 検索対象にリクエストパラメータが含まれているのは、
- 入力項目のカスタムタグで、入力フォームを再表示した場合に入力値を復元するためである。
+ The request parameter is included in the search target to restore the input value
+ when the input form is redisplayed with the custom tag for input items.
 
- この動きは、NablarchのカスタムタグとJSTL(c:forEachやc:outなど)で異なるので、実装時に注意すること。
- JSTLのタグはリクエストパラメータの値にアクセスできないので、
- JSTLのタグを使用する場合は、アクション側で明示的にリクエストスコープに値を設定するなどの実装が必要になる。
+ Since this behavior differs between Nablarch custom tags and JSTL (c: forEach, c: out, etc.), take adequate care during implementation.
+ Since the JSTL tag cannot access the value of the request parameter, when using the JSTL tag,
+ it is necessary to explicitly configured the value in the request scope for the action.
 
 .. tip::
- リクエストパラメータより先にリクエストスコープを検索するのは、
- 入力フォームを再表示した場合に入力値を変更できるようにするためである。
+ The request scope is searched before the request parameter is accessed
+ so that the input value can be changed when the input form is redisplayed.
 
- よくある例としては、ユーザが明示的に選択したことをシステム的に保証したいため、
- 入力フォームを再表示する際に、ラジオボタンを未選択の状態に戻したい場合がある。
+ A common example is when a user wants to return a radio button to the unselected state
+ when redisplaying the input form and guarantee that the system has registered the radio button selected by the user.
 
- このような場合は、アクション側でリクエストスコープに空文字を設定すると、
- ラジオボタンを未選択の状態に戻すことができる。
+ In such cases, if an empty string is configured in the request scope for the action,
+ the radio button can be returned to the unselected state.
 
 .. _`tag-specify_uri`:
 
-URIの指定方法
+URI specification method
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-カスタムタグにおいてURIを指定する属性には、次のいずれかの方法で指定する。
+In the custom tags, use one of the following methods to specify the URI
 
- 絶対URL
-  http/httpsから始まるパス
+ Absolute URL
+  Path starting with http/https
 
   .. code-block:: jsp
 
    <n:a href="https://github.com/coastland">coastland</n:a>
 
-  他システム連携などでアプリケーションとホストが異なるURIを指定する場合に使用する。
-  カスタムタグは、指定されたパスをそのまま使用する。
+  Used when a different URI is specified for the application and host, such as by linkage with other systems.
+  The custom tags use the specified path without any change.
 
- コンテキストからの相対パス
-  /(スラッシュ)から始まるパス
-
-  .. code-block:: jsp
-
-   <n:submit type="submit" uri="/action/person/register" value="登録" />
-
-  アプリケーション内のパスを指定する場合に使用する。
-  カスタムタグは、指定されたパスの先頭にコンテキストパスを付加して使用する。
-
- 現在のパスからの相対パス
-  /(スラッシュ)から始まらないパス(絶対URLを除く)
+ Relative path from the context
+  Path starting with a / (slash)
 
   .. code-block:: jsp
 
-   <n:submit type="submit" uri="login" value="ログイン" />
+   <n:submit type="submit" uri="/action/person/register" value="Register" />
 
-  アプリケーション内のパスを指定する場合に使用する。
-  カスタムタグは、指定されたパスをそのまま使用する。
+  Used when specifying the path within the application.
+  The custom tags use the specified path by adding the context path in the beginning.
+
+ Relative path from the current path
+  Path that does not start with a / (slash) (except absolute URL)
+
+  .. code-block:: jsp
+
+   <n:submit type="submit" uri="login" value="Login" />
+
+  Used when specifying the path within the application.
+  The custom tags use the specified path without any change.
 
 \
 
-httpsとhttpの切り替え
- コンテキストからの相対パスを指定している場合は、カスタムタグのsecure属性を指定することで、
- URIのhttpsとhttpを切り替えることができる。
+Switching between https and http
+ When relative path from the context is specified, switching between https and http can be performed
+ for a URI by specifying the secure attribute of the custom tag.
 
- secure属性が指定された場合は、カスタムタグの設定値(http用のポート番号、https用のポート番号、ホスト)と
- コンテキストパスを使用してURIを組み立てる。
- そのため、secure属性を使用するアプリケーションでは、
- :ref:`tag-setting` で
- :java:extdoc:`portプロパティ<nablarch.common.web.tag.CustomTagConfig.setPort(int)>` /
- :java:extdoc:`securePortプロパティ<nablarch.common.web.tag.CustomTagConfig.setSecurePort(int)>` /
- :java:extdoc:`hostプロパティ<nablarch.common.web.tag.CustomTagConfig.setHost(java.lang.String)>`
- を指定する。
+ When the secure attribute is specified,
+ a URI is assembled using the configured values of the custom tags
+ (port number for http, port number for https and host) and the context path.
+ Therefore, in applications that use the secure attribute, specify
+ :java:extdoc:`port property<nablarch.common.web.tag.CustomTagConfig.setPort(int)>` /
+ :java:extdoc:`securePort property<nablarch.common.web.tag.CustomTagConfig.setSecurePort(int)>` /
+ :java:extdoc:`host property<nablarch.common.web.tag.CustomTagConfig.setHost(java.lang.String)>`
+ with :ref:`tag-setting`.
 
  .. tip::
-  secure属性は、遷移先のプロトコルを切り替えるボタンやリンクのみで使用する。
-  遷移先のプロトコルが同じ場合(http→http、https→https)は、secure属性を指定しない。
+  The secure attribute is used only for buttons and links that switch the protocol of the transition destination.
+  Do not specify the secure attribute when the protocol of the transition destination is the same (http→http、https→https).
 
- 実装例
-  secure属性の使用例を示す。
+ Implementation examples
+  An example of using the secure attribute is shown.
 
-  カスタムタグの設定値
-   :http用のポート番号: 8080
-   :https用のポート番号: 443
-   :ホスト: sample.co.jp
+  Configuration values of custom tags
+   :Port number for http: 8080
+   :Port number for https: 443
+   :host: sample.co.jp
 
-  http→httpsに切り替える場合
+  Switch from http to https
    \
 
    .. code-block:: jsp
 
-    <!-- secure属性にtrueを指定する。 -->
-    <n:submit type="button" name="login" value="ログイン" uri="/action/login" secure="true" />
+    <!-- Specify true in secure attribute. -->
+    <n:submit type="button" name="login" value="Login" uri="/action/login" secure="true" />
 
    .. code-block:: bash
 
-    # 組み立てられるURI
-    https://sample.co.jp:443/<コンテキストパス>/action/login
+    # URI to be assembled
+    https://sample.co.jp:443/<Context path>/action/login
 
-  https→httpに切り替える場合
+  Switch from https to http
    \
 
    .. code-block:: jsp
 
-    <!-- secure属性にfalseを指定する。 -->
-    <n:submitLink name="logout" uri="/action/logout" secure="false">ログアウト</n:submitLink>
+    <!-- Specify false in secure attribute. -->
+    <n:submitLink name="logout" uri="/action/logout" secure="false">Logout</n:submitLink>
 
    .. code-block:: bash
 
-    # 組み立てられるURI
-    https://sample.co.jp:8080/<コンテキストパス>/action/logout
+    # URI to be assembled
+    https: //sample.co.jp: 8080 /<Context path>/ action/logout
 
-    # カスタムタグの設定でhttp用のポート番号を指定しなかった場合
-    # ポート番号が出力されない。
-    https://sample.co.jp/<コンテキストパス>/action/logout
+    # If the port number for http in the custom tag configuration is not specified
+    # Port number is not output.
+    https://sample.co.jp/<Context>/action/logout
 
 .. _`tag-html_escape`:
 
-HTMLエスケープと改行、半角スペース変換
+HTML escape, line feed and half width space conversion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-HTMLエスケープ
- カスタムタグでは、原則として出力する際に全てのHTMLの属性についてHTMLエスケープを行う。
- 以下に変換内容を示す。
+HTML escape
+ In the custom tags, as a general rule, HTML escape is performed for all HTML attributes during output.
+ The content that is converted is shown below:
 
- HTMLエスケープの変換内容
+ Conversion during HTML escape
   | ``&`` → ``&amp;``
   | ``<`` → ``&lt;``
   | ``>`` → ``&gt;``
@@ -2843,21 +2843,21 @@ HTMLエスケープ
   | ``‘`` → ``&#039;``
 
  .. important::
-  EL式はHTMLエスケープ処理を実施しないため、EL式を使用して値を出力しないこと。
-  値を出力する場合は、 :ref:`tag-write_tag` などのカスタムタグを使用する。
+  Since the EL expression does not perform HTML escape processing, the values should not be output using the EL expression.
+  Use custom tags such as :ref:`tag-write_tag` to output the values.
 
-  ただし、JSTLのforEachタグやカスタムタグの属性にオブジェクトを設定する場合など、
-  直接出力しない箇所ではEL式を使用しても問題ない。
+  However, there is no problem if the EL expression is used at places where there is no direct output,
+  such as when configuring an object for JSTL forEach tag or a custom tag attribute.
 
-改行、半角スペース変換
- 確認画面などに入力データを出力する際には、HTMLエスケープに加えて、改行と半角スペースの変換を行う。
- 以下に変換内容を示す。
+Line feed and half-width space conversion
+ When input data is output on the Confirmation screen, etc., in addition to HTML escape, line feed and half-width space are converted.
+ The content that is converted is shown below:
 
- 改行、半角スペースの変換内容
-  | ``改行コード(\n、\r、\r\n)`` → ``<br />``
-  | ``半角スペース`` → ``&nbsp;``
+ Contents of line feed and half-width space conversion
+  | ``Line feed code(\n、\r、\r\n)`` → ``<br />``
+  | ``Half-width`` → ``&nbsp;``
 
 
 :ref:`tag_reference`
 ---------------------------------------------------------------------
-:ref:`tag_reference` を参照。
+See :ref:`tag_reference`.
