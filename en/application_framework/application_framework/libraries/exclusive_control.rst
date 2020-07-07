@@ -1,74 +1,74 @@
 .. _exclusive_control:
 
-排他制御
+Exclusive Control
 =====================================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-この機能では、データベースのデータ更新に対する排他制御を行う。
-この機能により、データベースの同一データに対して、
-複数のトランザクション（ウェブやバッチ）から同時に更新した場合でも、
-データの整合性を保つことができる。
+This function performs exclusive control for updating data in the database.
+With this function,
+data integrity can be maintained even when the same data in the database is updated
+from multiple transactions (Web or batch) at the same time.
 
 .. _exclusive_control-deprecated:
 
 .. important::
- この機能は、以下の理由により **非推奨** である。
- 排他制御には、 :ref:`universal_dao` を使用すること。
+ This function is **deprecated** because of the following reasons:
+ Uses :ref:`universal_dao` for exclusive control.
 
- * :ref:`universal_dao` の排他制御は、本機能より簡単に使用できる。
-    :ref:`universal_dao_jpa_optimistic_lock` 、 :ref:`universal_dao_jpa_pessimistic_lock` を参照。
- * 主キーを非文字列型で定義した場合、データベースによってはこの機能を使用することができない。
-    この機能は、主キーの値を全て文字列型( `java.lang.String` )で保持している。
-    主キーのカラム定義が非文字列型(charやvarchar以外)の場合に、
-    データベースによっては型の不一致でSQL文の実行時例外が発生する。
-    例えば、PostgreSQLのように暗黙の型変換が行われないデータベースの場合、この問題が発生する。
+ * Exclusive control of :ref:`universal_dao` can be used more easily than this function.
+    See :ref:`universal_dao_jpa_optimistic_lock` , :ref:`universal_dao_jpa_pessimistic_lock`.
+ * If the primary key is defined as a non-string type, this function cannot be used depending on the database.
+    This function stores all the primary key values as string type ( `java.lang.String` ).
+    When the primary key column definition is a non-string type (other than char or varchar),
+    a SQL statement runtime exception occurs due to type mismatch depending on the database.
+    For example, this problem occurs in the case of databases such as PostgreSQL where the implicit type conversion is not performed.
 
-機能概要
+Function overview
 ---------------------------------------------------------------------
 
-楽観的ロック/悲観的ロックができる
+Optimistic locking/Pessimistic locking are possible
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-この機能では、テーブルにバージョン番号カラムを定義することで、楽観的ロック/悲観的ロックを行う。
-本フレームワークでは、バージョン番号カラムが定義されたテーブルを **排他制御用テーブル** と呼ぶ。
+This function performs optimistic locking/pessimistic locking by defining the version number column in the table.
+In this framework, the table in which the version number column is defined is called the **exclusive control table**.
 
-この機能では以下のことが実現できる。
+The following can be realized with this function.
 
 * :ref:`exclusive_control-optimistic_lock`
 * :ref:`exclusive_control-optimistic_lock-bulk`
 * :ref:`exclusive_control-pessimistic_lock`
 
-この機能が提供する楽観的ロック/悲観的ロックは、同じ排他制御用テーブルを使用して実現するため、
-楽観的ロックと悲観的ロックを並行で使用しても、同一データが同時に更新されるのを防ぐことができる。
-たとえば、楽観的ロックを使用するウェブと、悲観的ロックを使用するバッチを並行稼働させても、
-データの整合性を保つことができる。
+Since, the optimistic lock/pessimistic lock provided by this function is realized by using the same exclusive control table,
+even if optimistic lock and pessimistic lock are used in parallel, it is possible to prevent the same data from being updated at the same time.
+For example, Web using optimistic lock and batch using pessimistic lock can run
+in parallel and still maintain the data integrity.
 
-排他制御用テーブルは、排他制御を行う単位ごとに定義し、競合が許容される最大の単位で定義する。
-たとえば、「ユーザ」という大きな単位でロックすることが業務的に許容されるならば、
-その単位で排他制御用テーブルを定義する。
-ただし、単位を大きくすると、競合する可能性が高くなり、
-更新失敗(楽観的ロックの場合)や処理遅延(悲観的ロックの場合)を招く点に注意すること。
+The exclusive control table is defined for each unit of exclusive control and the largest unit in which conflicts are allowed.
+For example, if the business allows locking in a large unit called "user",
+an exclusive control table is defined in that unit.
+However, note that the possibility of conflict increases if the unit is increased,
+and update failure (in the case of optimistic locking) and processing delay (in the case of pessimistic locking) will occur.
 
 .. tip::
- 通常、排他制御用テーブルの単位は、業務的な観点で定義する。
- たとえば、売上処理と入金処理による更新が同時に行われる場合は、
- それらの処理に関連するテーブルをまとめた単位で排他制御用テーブルを定義する。
+ Normally, the unit of the exclusive control table is defined from a business perspective.
+ For example, when the sales and deposit processes are updated at the same time,
+ the exclusive control table is defined in a unit of tables related to the processes.
 
- また、テーブル設計の観点からも排他制御用テーブルの単位を定義できる。
- たとえば、ヘッダ部(親)と明細部(子)など、テーブルの親子関係が明確であれば、
- 親の単位で排他制御用テーブルを定義する。
- 親子関係が明確でない場合は、どちらを親にするのが良いかを判断し、排他制御用テーブルを定義する。
+ Also, the unit of the exclusive control table can be defined from the perspective of table design.
+ For example, if the parent-child relationship of the table such as the header (parent) and details (child) is clear,
+ the exclusive control table is defined in parent units.
+ If the parent-child relationship is not clear, determine which one should be the parent and then define the exclusive control table.
 
 .. important::
 
- 排他制御用テーブルの設計が終わったら、更新順序の設計を行う。
- 各テーブルの更新順序を定めることで、デッドロックの防止、及び更新時のデータ整合性の保証を実現する。
- データベースでは、レコードを更新すると行ロックがかかるので、
- 更新順序を定めておかなければデッドロックが発生する可能性が非常に高くなる。
+ Design the update order after designing the exclusive control table.
+ Deadlock is prevented by determining the update order of each table, and data integrity during update is guaranteed.
+ In a database, since row locks occur when records are updated,
+ deadlocks are very likely to occur if the update order is not specified.
 
-モジュール一覧
+Module list
 ---------------------------------------------------------------------
 .. code-block:: xml
 
@@ -81,107 +81,107 @@
     <artifactId>nablarch-common-exclusivecontrol-jdbc</artifactId>
   </dependency>
 
-  <!-- 楽観的ロックを行う場合のみ -->
+  <!-- Only for optimistic locking -->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-fw-web-tag</artifactId>
   </dependency>
 
-使用方法
+How to use
 ---------------------------------------------------------------------
 
 .. _exclusive_control-optimistic_setting:
 
-排他制御を使うために準備する
+Prepare to use exclusive control
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-排他制御を使うためには、 **設定** と **排他制御に必要な情報を保持するクラスの作成** を行う。
+To use exclusive control, **create a class that retains the configuration** and **information required for exclusive control**.
 
-設定
- :java:extdoc:`BasicExclusiveControlManager <nablarch.common.exclusivecontrol.BasicExclusiveControlManager>` の設定をコンポーネント定義に追加する。
+Configuration
+ Add the configuration of :java:extdoc:`BasicExclusiveControlManager <nablarch.common.exclusivecontrol.BasicExclusiveControlManager>` to the component definition.
 
  .. code-block:: xml
 
-  <!-- コンポーネント名は"exclusiveControlManager"で設定する。 -->
+  <!-- Configure the component name with "exclusiveControlManager". -->
   <component name="exclusiveControlManager"
              class="nablarch.common.exclusivecontrol.BasicExclusiveControlManager">
-      <!-- 楽観ロックで排他エラーが発生した際に使用するメッセージID -->
+      <!-- Message ID used when an exclusive error occurs in optimistic locking -->
       <property name="optimisticLockErrorMessageId" value="CUST0001" />
   </component>
 
-排他制御に必要な情報を保持するクラスの作成
- :java:extdoc:`ExclusiveControlContext <nablarch.common.exclusivecontrol.ExclusiveControlContext>` を継承して作成する。
- このクラスは、排他制御用テーブルごとに作成し、排他制御を行うAPI呼び出しで使用する。
+Creating a class that holds the information required for exclusive control
+ Create by inheriting :java:extdoc:`ExclusiveControlContext <nablarch.common.exclusivecontrol.ExclusiveControlContext>`.
+ This class is created for each exclusive control table and used in the API call that performs exclusive control.
 
  .. code-block:: sql
 
-  -- 排他制御用テーブル
+  -- Exclusive control table
   CREATE TABLE USERS (
       USER_ID CHAR(6) NOT NULL,
-      -- 主キー以外の業務データは省略。
+      -- Business data other than the primary key is omitted.
       VERSION NUMBER(10) NOT NULL,
       PRIMARY KEY (USER_ID)
   )
 
  .. code-block:: java
 
-  // 排他制御用テーブルUSERSに対応するクラス。
-  // ExclusiveControlContextを継承する。
+  // Class corresponding to the exclusive control table USERS.
+  // Inherit ExclusiveControlContext.
   public class UsersExclusiveControl extends ExclusiveControlContext {
 
-      // 排他制御用テーブルの主キーは列挙型で定義する。
+      // Define the primary key of the exclusive control table with enumeration type.
       private enum PK { USER_ID }
 
-      // 主キーの値をとるコンストラクタを定義する。
+      // Define a constructor that takes the value of the primary key.
       public UsersExclusiveControl(String userId) {
 
-          // 親クラスのsetTableNameメソッドでテーブル名を設定する。
+          // Configure the table name with the setTableName method of the parent class.
           setTableName("USERS");
 
-          // 親クラスのsetVersionColumnNameメソッドでバージョン番号カラム名を設定する。
+          // Configure the version number column name with the setVersionColumnName method of the parent class.
           setVersionColumnName("VERSION");
 
-          // 親クラスのsetPrimaryKeyColumnNamesメソッドで
-          // Enumのvaluesメソッドを使用して、主キーの列挙型を全て設定する。
+          // Use the enum values method for the setPrimaryKeyColumnNames method
+          // of parent class to set all primary key enumeration types.
           setPrimaryKeyColumnNames(PK.values());
 
-          // 親クラスのappendConditionメソッドで主キーの値を追加する。
+          // Add the primary key value using the appendCondition method of the parent class.
           appendCondition(PK.USER_ID, userId);
       }
   }
 
 .. _exclusive_control-optimistic_lock:
 
-楽観的ロックを行う
+Optimistic locking
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-楽観的ロックは、更新対象データを取得する時点で、排他制御用テーブルのバージョン番号を取得しておき、
-更新を行う時点で、事前に取得した排他制御用テーブルのバージョン番号が更新されていないかをチェックすることで実現する。
+When the data to be updated is acquired, the version number of the table for exclusive control is obtained.
+The optimistic lock is achieved by checking whether the version number of the exclusive control table has been updated during the update.
 
-楽観的ロックには、 :java:extdoc:`HttpExclusiveControlUtil <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil>` を使用する。
+Use :java:extdoc:`HttpExclusiveControlUtil <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil>` for optimistic locking.
 
-入力→確認→完了がある更新機能を例に、楽観的ロックの実装例を示す。
+Using the update function with input → confirmation → completion as an example, an implementation example of optimistic locking is shown below.
 
-入力画面の初期表示
+Initial display of input screen
  .. code-block:: java
 
   public HttpResponse index(HttpRequest request, ExecutionContext context) {
 
-      // (業務処理)
-      // 更新対象データを取得するための主キー条件をリクエストから取得する。
+      // (Business process)
+      // Get the primary key condition to acquire the update target data from the request.
       String userId = getUserId(request);
 
-      // (排他制御)
-      // 主キークラスを生成し、バージョン番号を準備する。
-      // 取得したバージョン番号は、フレームワークにより、指定されたExecutionContextに設定される。
+      // (Exclusive control)
+      // Generate the primary key class and prepare the version number.
+      // The acquired version number is configured in the ExecutionContext specified by the framework.
       HttpExclusiveControlUtil.prepareVersion(context, new UsersExclusiveControl(userId));
 
-      // (業務処理)
-      // 更新対象データを取得し、入力画面表示のために、リクエストスコープに設定する。
+      // (Business process)
+      // Acquire the update target data and configure it in the request scope to display the input screen.
       context.setRequestScopedVar("user", findUser(userId));
 
       return new HttpResponse("/input.jsp");
   }
 
-入力画面の確認ボタン（入力→確認）
+Confirmation button on the input screen (Input → Confirm)
  .. code-block:: java
 
   @OnErrors({
@@ -190,25 +190,25 @@
   })
   public HttpResponse confirm(HttpRequest request, ExecutionContext context) {
 
-      // (排他制御)
-      // バージョン番号の更新チェックを行う。
-      // バージョン番号は、フレームワークにより、指定されたHttpRequestから取得する。
-      // バージョン番号が更新されている場合は、OptimisticLockExceptionが送出されるので、
-      // @OnErrorを指定して遷移先を指定する。
+      // (Exclusive control)
+      // Check the update of version number.
+      // Acquire the version number from the HttpRequest specified by the framework.
+      // Since the OptimisticLockException will be thrown if the version number has been updated,
+      // specify @OnError and the transition destination.
       HttpExclusiveControlUtil.checkVersions(request, context);
 
-      // (業務処理)
-      // 入力データのチェックを行い、確認画面表示のために、リクエストスコープに設定する。
+      // (Business process)
+      // Check the input data and configure in the request scope to display the confirmation screen.
       context.setRequestScopedVar("user", getUser(request));
 
       return new HttpResponse("/confirm.jsp");
   }
 
  .. important::
-  バージョン番号のチェック( :java:extdoc:`HttpExclusiveControlUtil.checkVersions <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil.checkVersions(nablarch.fw.web.HttpRequest-nablarch.fw.ExecutionContext)>` )を行わなければ、
-  画面間でバージョン番号が引き継がれない。
+  The version numbers will not be inherited between screens, if ( :java:extdoc:`HttpExclusiveControlUtil.checkVersions <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil.checkVersions(nablarch.fw.web.HttpRequest-nablarch.fw.ExecutionContext)>` )
+  does not perform the version check.
 
-確認画面の更新ボタン（確認→完了）
+Update button on the confirmation screen (confirmation → complete)
  .. code-block:: java
 
   @OnErrors({
@@ -217,16 +217,16 @@
   })
   public HttpResponse update(HttpRequest request, ExecutionContext context) {
 
-      // (排他制御)
-      // バージョン番号の更新チェックと更新を行う。
-      // バージョン番号は、フレームワークにより、指定されたHttpRequestから取得する。
-      // バージョン番号が更新されている場合は、OptimisticLockExceptionが送出されるので、
-      // @OnErrorを指定して遷移先を指定する。
+      // (Exclusive control)
+      // Perform the update check of the version number and update.
+      // Acquire the version number from the HttpRequest specified by the framework.
+      // Since the OptimisticLockException will be thrown if the version number has been updated,
+      // specify @OnError and the transition destination.
       HttpExclusiveControlUtil.updateVersionsWithCheck(request);
 
-      // (業務処理)
-      // 入力データのチェックを行い、更新処理を行う。
-      // 完了画面表示のために、更新データをリクエストスコープに設定する。
+      // (Business process)
+      // Check the input data and perform the update process.
+      // Configure the updated data in request scope to the display completion screen.
       User user = getUser(request);
       update(user);
       context.setRequestScopedVar("user", user);
@@ -236,30 +236,30 @@
 
 .. _exclusive_control-optimistic_lock-bulk:
 
-一括更新で楽観的ロックを行う
+Perform optimistic lock with batch update
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-複数のレコードに対し、特定のプロパティ(論理削除フラグなど)を一括更新するような処理では、
-選択されたレコードのみに楽観的ロックのチェックを行いたい場合がある。
+In the process of collectively updating specific properties (such as logical deletion flag) for multiple records,
+performing optimistic lock check only on selected records may be preferred.
 
-排他制御用テーブルの主キーが、 **複合主キーでない場合** と **複合主キーの場合** で、
-二通りの実装方法がある。
+There are two implementation methods depending on whether the primary key of the exclusive control table
+is **not a composite primary key** or **a composite primary key**.
 
-複合主キーでない場合
- ユーザの一括削除を行う画面を例に、複合主キーでない場合の実装例を示す。
- バージョン番号の取得部分は、 :java:extdoc:`HttpExclusiveControlUtil#prepareVersions <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil.prepareVersions(nablarch.fw.ExecutionContext-java.util.List)>` を呼び出すだけなので、
- 実装例を省略する。
+Is not a composite primary key
+ An implementation example when the primary key is not a composite primary key is shown using the screen for batch deletion of users as an example.
+ Since the acquire section of the version number just calls :java:extdoc:`HttpExclusiveControlUtil#prepareVersions <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil.prepareVersions(nablarch.fw.ExecutionContext-java.util.List)>`,
+ implementation example is omitted.
 
  .. code-block:: html
 
-  <!-- 画面の実装（前後は省略） -->
+  <!-- Implementation of screen (before and after are omitted) -->
   <tr>
-    <th>削除対象</th>
-    <th>ユーザ名</th>
+    <th>Delete target</th>
+    <th>User name</th>
   </tr>
   <tr>
-    <!-- リクエストパラメータ "user.deactivate" でユーザの主キーを送る。 -->
+    <!-- Send the primary key of the user with the request parameter "user.deactivate". -->
     <td><checkbox name="user.deactivate" value="user001" /></td>
-    <td>ユーザ001</td>
+    <td>User 001</td>
   </tr>
   <tr>
     <td><checkbox name="user.deactivate" value="user002" /></td>
@@ -268,44 +268,44 @@
 
  .. code-block:: java
 
-  // (排他制御:チェック)
-  // リクエストパラメータ "user.deactivate" に設定されたユーザの主キーのみを
-  // チェックの対象とする。
+  // (Exclusive control: Check)
+  // Only the primary key of the user configured in the request parameter "user.deactivate"
+  // is a check target.
   HttpExclusiveControlUtil.checkVersions(request, context, "user.deactivate");
 
  .. code-block:: java
 
-  // (排他制御:チェックと更新)
-  // リクエストパラメータ "user.deactivate" に設定されたユーザの主キーのみを
-  // チェックと更新の対象とする。
+  // (Exclusive control: Check and update)
+  // Only the primary key of the user configured in the request parameter "user.deactivate"
+  // is a check target.
   HttpExclusiveControlUtil.updateVersionsWithCheck(request, "user.deactivate");
 
-複合主キーの場合
- ユーザの一括削除を行う画面を例に、複合主キーの場合の実装例を示す。
- バージョン番号の取得部分は、 :java:extdoc:`HttpExclusiveControlUtil#prepareVersions <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil.prepareVersions(nablarch.fw.ExecutionContext-java.util.List)>` を呼び出すだけなので、
- 実装例を省略する。
+For composite primary key
+ An implementation example when the primary key is a composite primary key is shown using the screen for batch deletion of users as an example.
+ Since the acquire section of the version number just calls :java:extdoc:`HttpExclusiveControlUtil#prepareVersions <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil.prepareVersions(nablarch.fw.ExecutionContext-java.util.List)>`,
+ implementation example is omitted.
 
  .. code-block:: sql
 
-  -- 複合主キーが定義されたテーブル。
+  -- Table with a composite primary key defined.
   CREATE TABLE USERS (
       USER_ID CHAR(6) NOT NULL,
       PK2     CHAR(6) NOT NULL,
       PK3     CHAR(6) NOT NULL,
-      -- 主キー以外の業務データは省略。
+      -- Business data other than the primary key is omitted.
       VERSION NUMBER(10) NOT NULL,
       PRIMARY KEY (USER_ID,PK2,PK3)
   )
 
  .. code-block:: java
 
-  // 排他制御用テーブルUSERSに対応したクラス。
+  // Class corresponding to the exclusive control table USERS.
   public class UsersExclusiveControl extends ExclusiveControlContext {
 
-      // 排他制御用テーブルの主キーは列挙型で定義する。
+      // Define the primary key of the exclusive control table with enumeration type.
       private enum PK { USER_ID, PK2, PK3 }
 
-      // 主キーの値をとるコンストラクタを定義し、親クラスのメソッドで必要な情報を設定する。
+      // Define a constructor that takes the value of the primary key and set the necessary information in the parent class method.
       public UsersExclusiveControl(String userId, String pk2, String pk3) {
           setTableName("USERS");
           setVersionColumnName("VERSION");
@@ -318,22 +318,22 @@
 
  .. code-block:: html
 
-  <!-- 画面の実装（前後は省略） -->
+  <!-- Implementation of screen (before and after are omitted) -->
   <tr>
-    <th>削除対象</th>
-    <th>ユーザ名</th>
+    <th>Delete target</th>
+    <th>User name</th>
   </tr>
   <tr>
     <!--
-    リクエストパラメータ "user.deactivate" でユーザの主キーを送る。
-    複合主キーの場合は、区切り文字(任意、ただし主キーの値にはなり得ないこと)
-    で結合した文字列を指定する。
+    Send the primary key of the user with the request parameter "user.deactivate".
+    In the case of a composite primary key, specify a string that is combined with delimiters
+    (arbitrary, it cannot be the primary key value).
     -->
     <td>
       <input id="checkbox" type="checkbox" name="user.userCompositeKeys"
                                            value="user001,pk2001,pk3001" />
     </td>
-    <td>ユーザ001</td>
+    <td>User 001</td>
   </tr>
   <tr>
     <td>
@@ -344,17 +344,17 @@
   </tr>
 
  .. tip::
-  複合主キーに対応したカスタムタグと
-  :java:extdoc:`CompositeKey<nablarch.common.web.compositekey.CompositeKey>` を使うと、
-  複合主キーをもっと簡単に扱える。詳細は、 :ref:`tag-composite_key` を参照。
+  Composite primary keys are easier to handle when custom tag corresponding to the composite primary key
+  and :java:extdoc:`CompositeKey<nablarch.common.web.compositekey.CompositeKey>` are used.
+  For details, see :ref:`tag-composite_key`.
 
  .. code-block:: java
 
-  // (排他制御:チェック)
-  // Formには、区切り文字を考慮し、リクエストパラメータから主キーを取り出す処理を実装している。
+  // (Exclusive control: Check)
+  // Form implements the process of extracting the primary key from the request parameter taking the delimiter into consideration.
   User[] deletedUsers = form.getDeletedUsers();
 
-  // チェックをレコードごとに呼び出す。
+  // Call the check by record.
   for(User deletedUser : deletedUsers) {
       HttpExclusiveControlUtil.checkVersion(
           request, context,
@@ -365,10 +365,10 @@
 
  .. code-block:: java
 
-  // (排他制御:チェックと更新)
+  // (Exclusive control: Check and update)
   User[] deletedUsers = form.getDeletedUsers();
 
-  // チェックおよび更新をレコードごとに呼び出す。
+  // Call check and update by record.
   for(User deletedUser : deletedUsers) {
       HttpExclusiveControlUtil.updateVersionWithCheck(
           request, new ExclusiveUserCondition(deletedUser.getUserId(),
@@ -378,28 +378,28 @@
 
 .. _exclusive_control-pessimistic_lock:
 
-悲観的ロックを行う
+Pessimistic locking
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-悲観的ロックは、更新対象データを取得する前に、排他制御用テーブルのバージョン番号を更新することで実現する。
+The pessimistic lock is realized by updating the version number of the exclusive control table before acquiring the update target data.
 
-更新対象データを取得する前に、排他制御用テーブルのバージョン番号を更新することで、
-更新処理のトランザクションがコミット又はロールバックされるまで、排他制御用テーブルの対象行がロックされる。
-このため、他のトランザクションの更新処理はロックが解除されるまで待たされる。
+By updating the version number of the exclusive control table before acquiring the update target data,
+the target row of the exclusive control table is locked until the transaction of the update process is committed or rolled back.
+Therefore, the update process of other transactions is kept on wait until the lock is released.
 
-悲観的ロックには、 :java:extdoc:`ExclusiveControlUtil#updateVersion <nablarch.common.exclusivecontrol.ExclusiveControlUtil.updateVersion(nablarch.common.exclusivecontrol.ExclusiveControlContext)>` を使用する。
+Use :java:extdoc:`ExclusiveControlUtil#updateVersion <nablarch.common.exclusivecontrol.ExclusiveControlUtil.updateVersion(nablarch.common.exclusivecontrol.ExclusiveControlContext)>` for pessimistic locking.
 
 .. code-block:: java
 
  ExclusiveControlUtil.updateVersion(new UsersExclusiveControl("U00001"));
 
 .. important::
- バッチ処理では、ロックを行うための主キーのみを取得する前処理を設け、
- 本処理で1件ずつロックを取得してからデータ取得と更新を行うように実装する。
- 理由は以下の通り。
+ In batch process, pre-processing to acquire only the primary key for locking is provided,
+ and it is implemented in this process such that data is acquired and updated after acquiring one lock each.
+ The reasons are as follows.
 
- * データを取得してから更新するまでの間に、他のプロセスによりデータが更新されてしまうことを防ぐため。
- * ロックしている時間をできるだけ短くし、並列処理に与える影響をできるだけ小さくするため。
+ * To prevent other processes from updating the data between the time when the data is acquired and updated.
+ * The lock time should be kept as short as possible and keep its impact on parallel processing as small as possible.
 
-拡張例
+Expansion example
 ---------------------------------------------------------------------
-なし。
+None.
