@@ -7,7 +7,7 @@ SimpleRestTestSupport
 
 リクエスト単体テスト用に用意されたスーパークラス。リクエスト単体テスト用のメソッドを用意している。
 データベース関連機能が不要な場合は後述の ``RestTestSupport`` ではなくこちらのクラスを使用する。
-事前準備補助機能、実行、結果確認については以下の ``RestTestSupport`` と同じ機能を持つ。
+:ref:`事前準備補助機能<rest_test_helper>` 、 :ref:`実行<rest_test_execute>` 、 :ref:`結果確認<rest_test_assert>` については以下の ``RestTestSupport`` と同じ機能を持つ。
 
 .. tip::
 
