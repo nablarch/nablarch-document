@@ -1,72 +1,72 @@
 .. _`session_store`:
 
-セッションストア
+Session Store
 =====================================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-HTTPセッションを抽象化した機能を提供する。
+Provides a function that abstracts the HTTP session.
 
-本機能では、セッションを識別するためにセッションIDを発行し、
-クッキー( ``NABLARCH_SID`` (変更可))を使用して、セッションの追跡を行う。
-そして、セッションIDごとにセッションストアと呼ばれる保存先への読み書きを行う機能を提供する。
+This function issues session ID to identify the session,
+and the session is tracked using the cookie (``NABLARCH_SID`` (changeable)).
+It provides a function called a session store for each session ID to read and write to a save destination.
 
-本機能では、セッションIDごとにセッションストアに読み書きされる値をセッション変数と呼ぶ。
+The value read from and written to the session store for each session ID by this function is called a session variable.
 
-簡単な処理の流れを以下の図に示す。
+Flow of a simple process is shown in the figure below.
 
 .. image:: images/session_store/session_store.png
 
-1. :ref:`session_store_handler` の往路処理で、クッキーから取得したセッションIDをもとに、セッションストアからセッション変数をロードする。
-2. 業務アクションから :java:extdoc:`SessionUtil <nablarch.common.web.session.SessionUtil>` を通して、セッション変数に対する読み書きを行う。
-3. :ref:`session_store_handler` の復路処理で、セッション変数をセッションストアに保存する。
-4. JSPで参照できるように、セッション変数をリクエストスコープに設定する。(既にリクエストスコープに同名の値が存在する場合は設定しない。)
+1. The outbound process of :ref:`session_store_handler` loads the session variable from the session store based on the session ID obtained from the cookie.
+2. Reads from/writes to session variable using :java:extdoc:`SessionUtil <nablarch.common.web.session.SessionUtil>` from business action.
+3. The return process of :ref:`session_store_handler` saves the session variables in the session store.
+4. Configure session variable in request scope so that it can be referenced in JSP. (Do not configure if a value with the same name already exists in the request scope.)
 
 .. important::
-  本機能を使用する場合、以下の機能は用途が重複するため非推奨となる。
+  When using this function, the following functions are deprecated because of duplication of applications.
 
-  * :ref:`hidden暗号化<tag-hidden_encryption>`
+  * :ref:`hidden encryption<tag-hidden_encryption>`
   * :ref:`session_concurrent_access_handler`
-  * :java:extdoc:`ExecutionContext<nablarch.fw.ExecutionContext>` のセッションスコープにアクセスするAPI
+  * API to access the session scope of:java:extdoc:`ExecutionContext<nablarch.fw.ExecutionContext>`.
 
 .. tip::
- 本機能で使用するクッキー( ``NABLARCH_SID`` )は、HTTPセッションの追跡に使用されるJSESSIONIDとは全く別物である。
+ The cookie ( ``NABLARCH_SID`` ) used in this function is completely different from the JSESSIONID used for tracking the HTTP session.
 
- しかし、セッションストアの有効期間はHTTPセッションに保存するため、
- :ref:`HTTPセッションストア <session_store-http_session_store>` の使用の有無に関わらずJSESSIONIDは使用される。
+ However, since the expiry interval of the session store is stored in the HTTP session,
+ JSESSIONID is used regardless of whether :ref:`HTTP session store <session_store-http_session_store>` is used.
 
 .. tip::
- クッキー( ``NABLARCH_SID`` )で使用するセッションIDには、:java:extdoc:`UUID<java.util.UUID>` を使用している。
+ :java:extdoc:`UUID<java.util.UUID>` is used for the session ID used in the cookie ( ``NABLARCH_SID`` ).
 
-機能概要
+Function overview
 ---------------------------------------------------------------------
 
-セッション変数の保存先を選択できる
+Save destination of session variables can be selected
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-セッション変数の保存先を、用途に応じて選択できる。
+Save destination of the session variable can be selected according to the usage.
 
-標準では以下の3種類のストアを提供している。
+The following three types of stores are provided as standard.
 
-* :ref:`DBストア <session_store-db_store>`
-* :ref:`HIDDENストア <session_store-hidden_store>`
-* :ref:`HTTPセッションストア <session_store-http_session_store>`
+* :ref:`DB store <session_store-db_store>`
+* :ref:`HIDDEN store <session_store-hidden_store>`
+* :ref:`HTTP session store <session_store-http_session_store>`
 
-セッションストアの特長や選択基準については、 :ref:`session_store-future_of_store` を参照。
+For the features and selection criteria of the session store, see :ref:`session_store-future_of_store`.
 
 .. _session_store-serialize:
 
-セッション変数の直列化の仕組みを選択できる
+Serialization mechanism for session variable can be selected
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-セッション変数をセッションストアに保存する際の直列化の仕組みを以下から選択できる。
-各機能の詳細はリンク先のJavadocを参照。
+The serialization mechanism when saving session variables in session store can be selected from the following.
+For details of each function, refer to the linked Javadoc.
 
-* :java:extdoc:`Java標準のシリアライズによる直列化(デフォルト) <nablarch.common.web.session.encoder.JavaSerializeStateEncoder>`
-* :java:extdoc:`Java標準のシリアライズによる直列化、および暗号化 <nablarch.common.web.session.encoder.JavaSerializeEncryptStateEncoder>`
-* :java:extdoc:`JAXBによるXMLベースの直列化 <nablarch.common.web.session.encoder.JaxbStateEncoder>`
+* :java:extdoc:`serialization by Java standard serialize (default) <nablarch.common.web.session.encoder.JavaSerializeStateEncoder>`
+* :java:extdoc:`serialization and encryption by Java standard serialize <nablarch.common.web.session.encoder.JavaSerializeEncryptStateEncoder>`
+* :java:extdoc:`XML-based serialization with JAXB <nablarch.common.web.session.encoder.JaxbStateEncoder>`
 
-モジュール一覧
+Module list
 ---------------------------------------------------------------------
 .. code-block:: xml
 
@@ -75,7 +75,7 @@ HTTPセッションを抽象化した機能を提供する。
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-  <!-- DBストアを使用する場合のみ -->
+  <!-- Only when using DB store -->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-fw-web-dbstore</artifactId>
@@ -83,129 +83,129 @@ HTTPセッションを抽象化した機能を提供する。
 
 .. _session_store-constraint:
 
-制約
+Constraints
 ---------------------------------------------------------------------
-保存対象はシリアライズ可能なJava Beansオブジェクトであること
+Save target must Java Beans object that can be serialized
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-セッションストアに保存するオブジェクトはシリアライズ可能なJava Beansオブジェクトである必要がある。
+Object to be saved in the session store must be a serializable Java Beans object.
 
-オブジェクトが持つプロパティの型は、Javaの基本型もしくはシリアライズ可能なJava Beansオブジェクトである必要がある。
-また、プロパティには配列やコレクションを使用することができる。
+The property type of the object must be a Java basic type or a Java Beans object that can be serialized.
+Arrays and collections can also be used for properties.
 
-使用方法
+How to use
 ---------------------------------------------------------------------
 
 .. _session_store-use_config:
 
-セッションストアを使用するための設定を行う
+Configure for using session store
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-セッションストアを使用するためには、 :ref:`session_store_handler` の設定に加えて、
-:java:extdoc:`SessionManager <nablarch.common.web.session.SessionManager>` をコンポーネント定義に設定する。
+To use session store, configure :java:extdoc:`SessionManager <nablarch.common.web.session.SessionManager>` in the component
+definition in addition to configuring :ref:`session_store_handler`.
 
-以下に、標準で提供している全ての保存先を使用する場合の設定例を示す。
+The following is a configuration example when all the save destinations provided as standard are used.
 
 .. code-block:: xml
 
-  <!-- "sessionManager"というコンポーネント名で設定する -->
+  <!-- Configure with the component name "sessionManager" -->
   <component name="sessionManager" class="nablarch.common.web.session.SessionManager">
 
     <!--
-      保存先を明示的に指定しなかった場合にデフォルトで使用されるストア名
+      Store name used by default if a save destination is not specified explicitly
     -->
     <property name="defaultStoreName" value="db"/>
 
-    <!-- アプリケーションで使用する保存先に合わせてコンポーネントを追加する -->
+    <!-- Add components according to the save destination used in the application -->
     <property name="availableStores">
       <list>
-        <!-- HIDDENストア -->
+        <!-- HIDDEN store -->
         <component class="nablarch.common.web.session.store.HiddenStore">
-          <!-- 設定値の詳細はJavadocを参照 -->
+          <!-- See Javadoc for details of the configuration value -->
         </component>
 
-        <!-- DBストア -->
+        <!-- DB store -->
         <component-ref name="dbStore" />
 
-        <!-- HTTPセッションストア -->
+        <!-- HTTP session store -->
         <component class="nablarch.common.web.session.store.HttpSessionStore">
-          <!-- 設定値の詳細はJavadocを参照 -->
+          <!-- See Javadoc for details of the configuration value -->
         </component>
       </list>
     </property>
   </component>
 
   <component name="dbStore" class="nablarch.common.web.session.store.DbStore">
-    <!-- 設定値の詳細はJavadocを参照 -->
+    <!-- See Javadoc for details of the configuration value -->
   </component>
 
-  <!-- DBストアの初期化設定 -->
+  <!-- DB store initialization configuration -->
   <component name="initializer"
       class="nablarch.core.repository.initialization.BasicApplicationInitializer">
     <property name="initializeList">
       <list>
-        <!-- 他のコンポーネントは省略 -->
+        <!-- Other components are omitted -->
         <component-ref name="dbStore" />
       </list>
     </property>
   </component>
 
-なお、DBストアを使用する場合、データベース上にセッション変数を保存するためのテーブルを作成する必要がある。
+When using DB store, a table must be created in the database to store the session variables.
 
-作成するテーブルの定義を以下に示す。
+The definition of the table to be created is shown below.
 
-`USER_SESSION` テーブル
+`USER_SESSION` table
   ==================== ====================
-  カラム名             データ型
+  Column name          Data type
   ==================== ====================
   SESSION_ID(PK)       `java.lang.String`
   SESSION_OBJECT       `byte[]`
   EXPIRATION_DATETIME  `java.sql.Timestamp`
   ==================== ====================
 
-Oracleで正常に動作しないケースがあるため、 `SESSION_ID` はCHARではなくVARCHARで定義すること。
+`SESSION_ID` should be defined as VARCHAR instead of CHAR as it may not work properly in Oracle.
 
-テーブル名およびカラム名は変更可能である。
-変更する場合は、 :java:extdoc:`DbStore.userSessionSchema <nablarch.common.web.session.store.DbStore.setUserSessionSchema(nablarch.common.web.session.store.UserSessionSchema)>` に
-:java:extdoc:`UserSessionSchema <nablarch.common.web.session.store.UserSessionSchema>` のコンポーネントを定義する。
+The table name and column name can be changed.
+To change, define the components of :java:extdoc:`UserSessionSchema <nablarch.common.web.session.store.UserSessionSchema>`
+to :java:extdoc:`DbStore.userSessionSchema <nablarch.common.web.session.store.DbStore.setUserSessionSchema(nablarch.common.web.session.store.UserSessionSchema)>`.
 
 .. code-block:: xml
 
   <property name="userSessionSchema">
     <component class="nablarch.common.web.session.store.UserSessionSchema">
-      <!-- 設定値の詳細はJavadocを参照 -->
+      <!-- See Javadoc for details of the configuration value -->
     </component>
   </property>
 
 .. tip::
-  DBストアを使用した場合、ブラウザが閉じられた場合などにテーブル上にセッション情報が残ってしまうことがある。
-  そのため、期限切れのセッション情報は定期的に削除する必要がある。
+  When DB store is used, session information may remain in the table when the browser is closed.
+  Therefore, expired session information must be deleted regularly.
 
 .. _`session_store-input_data`:
 
-入力～確認～完了画面間で入力情報を保持する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-入力～確認～完了画面間で入力情報を保持する場合、
-複数タブでの画面操作を許容するか否かでセッションストアを使い分ける。
+Hold the input information between the input-confirm-complete screens
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To retain the input information between the input-confirm-complete screen,
+use the session store depending on whether screen operations on multiple tabs are allowed.
 
-複数タブでの画面操作を許容しない場合
-  DBストアを使用してデータベース上のテーブルにセッション変数を保持する。
+When screen operations on multiple tabs are not allowed
+  Hold session variables in a table on the database using the DB store.
 
-複数タブでの画面操作を許容する場合
-  HIDDENストアを使用してクライアントサイドにセッション変数を保持する。
+When screen operations on multiple tabs are allowed
+  Hold session variables in the client using HIDDEN store.
 
-  HIDDENストアを使用する場合、以下の様に入力・確認画面のJSPに :ref:`tag-hidden_store_tag` を使用する。
+  When using HIDDEN store, use :ref:`tag-hidden_store_tag` in JSP of input/confirmation screen as shown below.
 
   .. code-block:: jsp
 
     <n:form>
       <!--
-        name属性にはコンポーネント設定ファイルに定義した、
-        HiddenStoreのparameterNameプロパティの値を設定
+        Configure the value of parameterName property of HiddenStore
+        defined in the component configuration file to the name attribute
       -->
       <n:hiddenStore name="nablarch_hiddenStore" />
-      <!-- その他のタグは省略 -->
+      <!-- Other tags are omitted -->
     </n:form>
 
-入力～確認～完了画面間でのセッションストアの実装例を以下に示す。
+Implementation example of session store between input-confirm-complete is shown below.
 
 .. toctree::
   :maxdepth: 2
@@ -220,72 +220,72 @@ Oracleで正常に動作しないケースがあるため、 `SESSION_ID` はCHA
 .. _`session_store-form`:
 
 .. tip::
-  セッションストアには、Formではなく、業務ロジックを実行するためのオブジェクト(Entity)を格納すること。
+  Object (Entity) for executing business logic should be stored in the session store instead of Form.
 
-  Entityを格納することで、セッションストアから取り出したオブジェクトを使って、すぐに業務ロジックを実行できる。
-  これにより、余計な処理が業務ロジックに混入することを防ぎ、ソースの凝集性が高まることが期待できる。
+  By storing Entity, business logic can be executed immediately with the object acquired from the session store.
+  As a result, unnecessary processes can be prevented from being mixed in the business logic, and enhancement of cohesiveness at the source can be expected.
 
-  反対に、Formを格納すると、Formによるデータの受け渡しを誘発し、業務ロジックに不要なデータの変換処理等が入り込み、
-  密結合なソースが生まれる可能性が高まる。
+  On the other hand, storing a Form increases the possibility that a tightly coupled source will be created by inducing the passing of data
+  by the Form and incorporating unnecessary data conversion processing in the business logic.
 
-  また、Formは外部の入力値を受け付けるため、バリデーション済みであればよいが、バリデーション前であれば信頼できない値を保持した状態となる。
-  そのため、セキュリティの観点から、セッションストアに保持するデータは生存期間が長くなるので、
-  できるだけ安全なデータを保持しておき、脆弱性を埋め込むリスクを減らすという狙いもある。
+  Form needs to be validated as it accepts external input values, but before validation, Form is in a state of holding unreliable values.
+  Therefore, from the security perspective, since data stored in the session store will have a long lifetime,
+  the goal is also to retain the safest data possible and reduce the risk of embedding vulnerabilities.
 
 .. _`session_store-authentication_data`:
 
-認証情報を保持する
+Holds credentials
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-認証情報を保持する場合は、HTTPセッションストアを使用する。
+Use HTTP session store to retain credentials.
 
-ログイン、ログアウト時のセッションストアの実装例を以下に示す。
+Implementation example of session store during login/logout is shown below.
 
-アプリケーションにログインする
+Login to the application
   .. code-block:: java
 
-    // ログイン前に既存のセッションストアを破棄
+    // Delete existing session store before login
     SessionUtil.invalidate(ctx);
 
-    // ログインユーザの情報をセッションストアに保存
+    // Save login user information in session store
     SessionUtil.put(ctx, "user", user, "httpSession");
 
-アプリケーションからログアウトする
+Logout from the application
   .. code-block:: java
 
-    // セッションストア全体を破棄
+    // Invalidate the entire session store
     SessionUtil.invalidate(ctx);
 
-JSPからセッション変数の値を参照する
+Refer to the session variable value from JSP
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-通常のリクエストスコープやセッションスコープと同様の手順で、
-JSPからセッションストアで保持しているセッション変数の値を参照することができる。
+The value of session variable held in the session store can be referenced
+from JSP using the same procedure as the normal request scope and session scope.
 
 .. important::
-  ただし、既にリクエストスコープ上に同名の値が存在する場合は、JSPからセッション変数の値を参照することはできないため、
-  セッション変数にはリクエストスコープと重複しない名前を設定すること。
+  If a value with the same name already exists in the request scope, the value of the session variable cannot be referenced from JSP.
+  Therefore, configure a name that does not overlap with the request scope in session variable.
 
-HIDDENストアの暗号化設定をカスタマイズする
+Customize the encryption configuration of the HIDDEN store
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:ref:`HIDDENストア <session_store-hidden_store>` の暗号化/復号設定のデフォルトは、以下の通りである。
+The default encryption/decryption configuration of the :ref:`HIDDEN store <session_store-hidden_store>` is as follows.
 
-======================= ============================================================
-設定項目                設定内容
-======================= ============================================================
-暗号化アルゴリズム      `AES`
-暗号化キー              アプリケーションサーバ内で共通の自動生成されたキーを使用
-======================= ============================================================
+======================= ==============================================================
+Configuration item       Settings
+======================= ==============================================================
+Encryption algorithm    `AES`
+Encryption key          Use a common auto-generated key within the application server
+======================= ==============================================================
 
-アプリケーションサーバが冗長化されている場合、アプリケーションサーバごとに異なるキーを生成するため、復号に失敗してしまうケースがある。
-このケースでは、明示的に暗号化/復号のキーを設定する。
+When application servers are made redundant, different keys are generated for each application server, and decryption may fail.
+In this case, the encryption/decryption key is set explicitly.
 
-暗号化アルゴリズムに `AES` を使用し、暗号化/復号のキーを明示的に設定する設定例を以下に示す。
+The following is a configuration example in which `AES` is used as the encryption algorithm and the encryption/decryption key is configured explicitly.
 
 .. code-block:: xml
 
   <component class="nablarch.common.web.session.store.HiddenStore">
-    <!-- 他の設定値は省略 -->
+    <!-- Other configuration values are omitted -->
     <property name="encryptor">
       <component class="nablarch.common.encryption.AesEncryptor">
         <property name="base64Key">
@@ -298,29 +298,29 @@ HIDDENストアの暗号化設定をカスタマイズする
     </property>
   </component>
   
-ポイント
-  暗号化の鍵及びIVは、base64でエンコードした値を設定する。
-  鍵の強度を高めるためには、以下の機能を使用して鍵及びIVを生成すると良い。
+Point
+  For the encryption key and IV, set base64-encoded values.
+  To increase the key strength, the following functions may be used to generate the key and IV.
   
-  * :java:extdoc:`KeyGenerator <javax.crypto.KeyGenerator>` を使用して鍵を生成する。
-  * :java:extdoc:`SecureRandom <java.security.SecureRandom>` を使用してIVを生成する。
+  * Generate the key using :java:extdoc:`KeyGenerator <javax.crypto.KeyGenerator>`.
+  * Generate IV using :java:extdoc:`SecureRandom <java.security.SecureRandom>`.
   
-  なお、base64エンコードは :java:extdoc:`Base64Util <nablarch.core.util.Base64Util>` や、
-  Java8で追加された ``java.util.Base64.Encoder`` を使用して行うと良い。
+  Using :java:extdoc:`Base64Util <nablarch.core.util.Base64Util>` or ``java.util.Base64.Encoder``,
+  which is added in Java 8, is better for base64 encoding.
 
-セッション変数に値が存在しない場合の遷移先画面を指定する
+Specify the transition destination screen when the value does not exist in the session variable
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-正常な画面遷移では必ずセッション変数が存在しているが、ブラウザの戻るボタンを使用され不正な画面遷移が行われることで、
-本来存在しているはずのセッション変数にアクセスできない場合がある。
-この場合、セッション変数が存在しないことを示す例外( :java:extdoc:`SessionKeyNotFoundException <nablarch.common.web.session.SessionKeyNotFoundException>` )が送出されるので、
-この例外を補足することで任意のエラーページに遷移させることが出来る。
+Session variables always exist in normal screen transitions, but in some cases,
+session variables that originally existed may not be accessible due to incorrect screen transitions being performed using the back button of the browser.
+Since an exception indicating that the session variable does not exist ( :java:extdoc:`SessionKeyNotFoundException <nablarch.common.web.session.SessionKeyNotFoundException>` ) is thrown,
+transition to an arbitrary error page is possible by catching this exception.
 
-以下に実現方法を示す。
+The realization method is shown below.
 
-システムで共通のエラーページに遷移させる
-  システムで共通のエラーページに遷移させる場合は、ハンドラで例外を捕捉し遷移先を指定する。
+Transition to a common error page in the system
+  When transitioning to a common error page in the system, catch the exception in the handler and specify the transition destination.
   
-  実装例
+  Implementation examples
     .. code-block:: java
 
       public class SampleErrorHandler implements Handler<Object, Object> {
@@ -331,8 +331,8 @@ HIDDENストアの暗号化設定をカスタマイズする
           try {
             return context.handleNext(data);
           } catch (SessionKeyNotFoundException e) {
-            // セッション変数が存在しないことを示す例外を捕捉し、
-            // 不正な画面遷移を表すエラーページを返す
+            // Catches the exception indicating that the session variable does not exist
+            // and returns the error page indicating the incorrect screen transition
             throw new HttpErrorResponse(HttpResponse.Status.BAD_REQUEST.getStatusCode(),
                     "/WEB-INF/view/errors/BadTransition.jsp", e);
           }
@@ -340,83 +340,84 @@ HIDDENストアの暗号化設定をカスタマイズする
       }
 
 
-リクエスト毎に遷移先を指定する
-  リクエスト毎に遷移先を切り替える場合には、 :ref:`on_error_interceptor` を使用して遷移先を指定する。
-  なお、上記のシステムで共通のエラーページに遷移させると併用することで、一部のリクエストのみ遷移先を変更することも出来る。
+Specify the transition destination for each request
+  When switching the transition destination for each request, specify the transition destination using :ref:`on_error_interceptor`.
+  Note that the transition destination can be changed for only some of the requests by using it together with the transition to a common error page in the system mentioned above.
 
-  実装例
+  Implementation examples
     .. code-block:: java
 
-      // 対象例外にセッション変数が存在しないことを示す例外を指定して、リクエスト毎の遷移先を指定する
+      // Specify the transition destination for each request by specifying the exception indicating that the session variable does not exist in the target exception
       @OnError(type = SessionKeyNotFoundException.class, path = "redirect://error")
       public HttpResponse backToNew(HttpRequest request, ExecutionContext context) {
         Project project = SessionUtil.get(context, "project");
-        // 処理は省略
+        // Process is omitted
       }
 
 
-拡張例
+Expansion example
 ---------------------------------------------------------------------
 
-セッション変数の保存先を追加する
+Add the save destination of session variables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-セッション変数の保存先を追加するには以下の手順が必要となる。
+The following steps are required to add the save destination for session variables.
 
-#. :java:extdoc:`SessionStore <nablarch.common.web.session.SessionStore>` を継承し、追加したい保存先に対応したクラスを作成する。
-#. :java:extdoc:`SessionManager.availableStores <nablarch.common.web.session.SessionManager.setAvailableStores(java.util.List)>` に、作成したクラスのコンポーネント定義を追加する。
+#. Create a class by inheriting :java:extdoc:`SessionStore <nablarch.common.web.session.SessionStore>` for supporting the save destination to be added.
+#. Add the component definition of the created class to :java:extdoc:`SessionManager.availableStores <nablarch.common.web.session.SessionManager.setAvailableStores(java.util.List)>`.
 
 .. _session_store-future_of_store:
 
-セッションストアの特長と選択基準
+Features and selection criteria of session store
 ---------------------------------------------------------------------
-デフォルトで使用できるセッション変数の保存先は以下の通り。
+The save destination of session variables that can be used by default is as follows.
 
 .. _`session_store-db_store`:
 
-DBストア
-  :保存先: | データベース上のテーブル
+DB store
+  :Save destination: | Database table
 
-  :特徴: * ローリングメンテナンス等でアプリケーションサーバが停止した場合でもセッション変数の復元が可能。
-          * アプリケーションサーバのヒープ領域を圧迫しない。
-          * 同一セッションの処理が複数スレッドで実行された場合後勝ちとなる。(先に保存されたセッションのデータは消失する)
+  :Features: * Session variables can be restored even if the application server is stopped due to rolling maintenance.
+          * Does not squeeze the heap area of the application server.
+          * If the processing of the same session is executed by multiple threads, (the one written last takes precedence. (Data of previously saved session will be lost)
 
 
 .. _`session_store-hidden_store`:
 
-HIDDENストア
-  :保存先: | クライアントサイド
-            | ( `hidden` タグを使用して画面間でセッション変数を引き回して実現)
+HIDDEN store
+  :Save destination: | Client
+            | ( implemented by passing session variables between screens using `hidden` tags)
 
-  :特徴: * 複数タブでの画面操作を許容することができる。
-          * アプリケーションサーバのヒープ領域を圧迫しない。
-          * 同一セッションの処理が複数スレッドで実行された場合、セッションのデータはそれぞれのスレッドに紐付けて保存される。
+  :Features: * Screen operations on multiple tabs are allowed.
+          * Does not squeeze the heap area of the application server.
+          * When the process of the same session is executed by multiple threads, the session data is stored in association with each thread.
 
 .. _`session_store-http_session_store`:
 
-HTTPセッションストア
-  :保存先: | アプリケーションサーバのヒープ領域
-            | (アプリケーションサーバの設定によっては、データベースやファイル等に保存される場合がある。)
+HTTP session store
+  :Save destination: | Application server heap area
+            | (depending on the application server configuration, it may be saved in a database or file.)
 
-  :特徴: * 認証情報の様なアプリケーション全体で頻繁に使用する情報の保持に適している。
-          * 画面の入力内容の様な大量データを保存すると、ヒープ領域を圧迫する恐れがある。
-          * 同一セッションの処理が複数スレッドで実行された場合後勝ちとなる。(先に保存されたセッションのデータは消失する)
+  :Features: * It is suitable for holding information such as credentials that are frequently used in the entire application.
+          * Saving a large amount of data such as the input contents of the screen may burden the heap area.
+          * If the processing of the same session is executed by multiple threads, it will written later. (Data of previously saved session will be lost)
 
 
-上記を踏まえ、各セッションストアの選択基準を以下に示す。
+Based on the above, the selection criteria for each session store are shown below.
 
-======================================================================== ===============================================================
-用途                                                                     セッションストア
-======================================================================== ===============================================================
-入力～確認～完了画面間で入力情報の保持(複数タブでの画面操作を許容しない) :ref:`DBストア <session_store-db_store>`
-入力～確認～完了画面間で入力情報の保持(複数タブでの画面操作を許容する)   :ref:`HIDDENストア <session_store-hidden_store>`
-認証情報の保持                                                           :ref:`HTTPセッションストア <session_store-http_session_store>`
-検索条件の保持                                                           使用しない [1]_
-検索結果一覧の保持                                                       使用しない [2]_
-セレクトボックス等の画面表示項目の保持                                   使用しない [3]_
-エラーメッセージの保持                                                   使用しない [3]_
-======================================================================== ===============================================================
+============================================================================================================== ===============================================================
+Application                                                                                                    Session Store
+============================================================================================================== ===============================================================
+Hold input information between input-confirm-complete screens (screen operations on multiple tabs not allowed) :ref:`DB store <session_store-db_store>`
+Hold input information between input-confirm-complete screens (screen operations on multiple tabs allowed)     :ref:`HIDDEN store <session_store-hidden_store>`
+Hold credentials                                                                                               :ref:`HTTP session store <session_store-http_session_store>`
+Hold the search conditions                                                                                     Not used [1]_
+Hold the search results list                                                                                   Not used [2]_
+Hold screen display items such as select boxes                                                                 Not used [3]_
+Hold error message                                                                                             Not used [4]_
+============================================================================================================== ===============================================================
 
-.. [1] 認証情報を除き、セッションストアでは複数機能に跨るデータの保持は想定していない。
-       ブラウザのローカルストレージに検索時のURLを保持するなど、アプリケーションの要件に合わせて設計・実装すること。
-.. [2] 一覧情報のような大量データは保存領域を圧迫する可能性があるのでセッションストアには保存しない。
-.. [3] 画面表示に使用する値はリクエストスコープを使用して受け渡しを行えばよい。
+.. [1] Except for credentials, the session store is not intended to hold data spanning multiple functions.
+       Design and implement the session store according to the requirements of the application, such as holding the URL in the local storage of the browser for search.
+.. [2] Large amounts of data such as list information may burden the storage area, so do not store it in the session store.
+.. [3] Values used for screen display can be transferred using the request scope.
+.. [4] Values used for screen display can be transferred using the request scope.
