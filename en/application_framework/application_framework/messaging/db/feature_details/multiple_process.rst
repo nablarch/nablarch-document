@@ -1,32 +1,32 @@
 .. _db_messaging-multiple_process:
 
-マルチプロセス化
+Multi-process
 ==========================================================
 
-データベースをキューとしたメッセージングを複数プロセス化 [#multi_process]_ したい場合、アプリケーション側で複数起動できるように対応を行う必要がある。
-もし、何も対応を行わずに同一のデータベースをキューとしたメッセージングを複数起動した場合、同一のデータを処理し2重取り込みの障害などが発生するため注意すること。
+Support should be provided in the application for multiple launches to perform multi-process [#multi_process]_ messaging using databases as queues.
+If multi-process of messaging is performed using the same database as queue without providing proper support, note that the same data will be processed and may cause a double capture failure.
 
-以下にマルチプロセスでデータベースをキューとしたメッセージングを起動する為の実装例を示す。
+Below is an implementation example of the messaging process using database as a queue with multi- process.
 
-1.処理対象を保持するテーブルに悲観ロック用のカラムを追加する。
-  データベースをキューとしたメッセージングで処理対象データを抽出する際は、通常ステータスカラムなどを用いて未処理データのみを抽出する。
-  マルチプロセス化する際には、この情報だけでは複数のプロセスが同一データを取得してしまうため、
-  各プロセスが処理する対象レコードを悲観ロックする為のカラムを追加する。
+1.Add a column with pessimistic lock to the table that contains the processing targets.
+  When extracting data to process messaging using a database as a queue, only unprocessed data is extracted using a normal status column, etc.
+  When using multi-process, add a column for the pessimistic locking of target records processed
+  by each process since only this information causes multiple processes to acquire the same data.
 
-  例(必要なカラムのみ記載)
-    ========== ===============================================================
-    カラム名   説明
-    ========== ===============================================================
-    ID         主キー
-    STATUS     未処理データかどうかを判断するためのステータスカラム
-    PROCESS_ID 各プロセスがレコードを悲観ロックするために使用するカラム
-    ========== ===============================================================
+  Example (only required columns are described)
+    ============ ===============================================================
+    Column name  Description
+    ============ ===============================================================
+    ID           Primary key
+    STATUS       Status column to identify if data is unprocessed
+    PROCESS_ID   Column used for pessimistic locking of records by each process
+    ============ ===============================================================
 
-2.処理対象レコードを悲観ロックするSQLを作成する。
-  他のプロセスからロックされていない未処理データを悲観ロックするSQLを作成する。
+2.Create SQL for the pessimistic locking of process target records
+  Create SQL for pessimistic locking of other unprocessed data that is not locked by other processes.
 
-  上記のテーブル定義とした場合、 ``PROCESS_ID`` に値が設定されていない(nullの場合)レコードで、
-  ``STATUS`` が未処理のレコードがロックされていないレコードとなる。
+  When the above table definition is as given above, records for which value is not set in
+  ``PROCESS_ID`` (if null) and ``STATUS`` is unprocessed will not be locked.
 
   .. code-block:: sql
 
@@ -35,8 +35,8 @@
     WHERE STATUS = '0'
      AND PROCESS_ID IS NULL
 
-3.悲観ロックした未処理レコードを抽出するSQLを作成する。
-  悲観ロックしたレコードを抽出するため、条件は未処理かつ ``PROCESS_ID`` が自身のプロセスIDであることとする。
+3.Create SQL to extract unprocessed records with pessimistic lock.
+  For extracting pessimistic locked records, the conditions are unprocessed and having a ``PROCESS_ID``.
 
   .. code-block:: sql
 
@@ -48,14 +48,14 @@
       STATUS = '0'
       AND PROCESS_ID = :processId
 
-4.悲観ロック処理と悲観ロックしたレコードを抽出するようActionを実装する。
+4. Implement action for pessimistic record process and to extract records with pessimistic lock.
 
   .. code-block:: java
 
     /**
-     * プロセスID。
+     * Process ID.
      *
-     * この例では、UUIDを元にプロセスIDを生成している。
+     * In this example, the process ID is generated based on the UUID.
      */
     private static final String PROCESS_ID = UUID.randomUUID().toString();
 
@@ -64,13 +64,13 @@
         final Map<String, String> param = new HashMap<>();
         param.put("processId", PROCESS_ID);
 
-        // 自身が悲観ロックした未処理データを抽出するDatabaseRecordReaderを作成する
+        // Create a DatabaseRecordReader to extract unprocessed data that was pessimistically locked
         final DatabaseRecordReader reader = new DatabaseRecordReader();
         reader.setStatement(getParameterizedSqlStatement("FIND_RECEIVED_PROJECTS"), param);
 
-        // DatabaseRecordReaderがデータ抽出前に行うコールバック処理に、
-        // 悲観ロックSQLを実行する処理を登録する。
-        // なお、この処理は別トランザクションで実行する必要がある。
+        // Register the process that executes the pessimistic lock SQL in the call back process
+        // performed by the DatabaseRecordReader, before data extraction.
+        // This process needs to be executed in another transaction.
         databaseRecordReader.setListener(new DatabaseRecordListener() {
             @Override
             public void beforeReadRecords() {
@@ -92,4 +92,4 @@
     }
 
 .. [#multi_process]
-  冗長化構成の複数のサーバ上で同一のデータベースをキューとしたメッセージングを起動するケースなどが該当する。
+  This applies to the case of starting messaging with the same database queued on multiple servers in a redundant configuration.
