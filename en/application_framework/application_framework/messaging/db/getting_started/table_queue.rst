@@ -1,25 +1,25 @@
-テーブルキューを監視し未処理データを取り込むアプリケーションの作成
+Create an Application That Monitors Table Queues and Imports Unprocessed Data
 ======================================================================================
-Exampleアプリケーションを元にテーブルキューを監視し、未処理データを取り込むアプリケーションの解説を行う。
+The application that monitors table queues and imports unprocessed data will be explained using an example application.
 
-作成する機能の概要
-  テーブルキューを定期的に監視し、未処理データ(ステータス:``0``)のデータを取り込む。
-  テーブルキュー及び取り込み先テーブルの情報は以下の通り。
+Overview of the function to be created
+  Regularly monitor the table queues and import the data of the unprocessed data (status:``0``).
+  Information of the table queues and table to be imported are as given below.
 
-  :監視対象のテーブルキュー: プロジェクト登録メッセージ受信(INS_PROJECT_RECEIVE_MESSAGE)
-  :取り込み先テーブル: プロジェクト(PROJECT)
+  :Monitored table queue: Receive the project registration message (INS_PROJECT_RECEIVE_MESSAGE)
+  :Table to be imported: Project (PROJECT)
 
-Exampleアプリケーションの実行手順
-  手順内で行っているSQLの実行については、任意のデータベースクライアントでH2に接続し、行うこと。
-  接続先情報は、 ``config/database.config`` を参照。
+Execution procedure of the example application
+  SQL should be executed within the procedure after connecting any arbitrary database client to H2.
+  For information on the connection destination, see ``config/database.config``.
 
-  1. プロジェクトテーブルのデータを削除する。
+  1. Delete data in the project table.
 
   .. code-block:: sql
 
     truncate table project
 
-  2. アプリケーションを実行する。
+  2. Execute the application.
 
   .. code-block:: bash
 
@@ -28,9 +28,9 @@ Exampleアプリケーションの実行手順
     $mvn exec:java -Dexec.mainClass=nablarch.fw.launcher.Main ^
         -Dexec.args="'-diConfig' 'com/nablarch/example/app/batch/project-creation-service.xml' '-requestPath' 'ProjectCreationService' '-userId' 'samp'"
 
-  3. テーブルキューに未処理のデータを追加する。
+  3. Add the unprocessed data to the table queue.
 
-  以下のSQLを実行し、監視対象のテーブルキューに未処理データを追加する。
+  Execute the following SQL and add the unprocessed data to the monitored table queue.
 
   .. code-block:: sql
 
@@ -53,9 +53,9 @@ Exampleアプリケーションの実行手順
       status
     ) values (
       1,
-      'プロジェクト名',
+      'Project name',
       'development',
-      '分類',
+      'Classification',
       '2011-01-01',
       '2020-12-31',
       1,
@@ -70,45 +70,45 @@ Exampleアプリケーションの実行手順
       '0'
     )
 
-  4. プロジェクトテーブルにデータが登録されていることを確認する。
+  4. Confirm that the data has been registered in the project table.
 
-  以下のSQLを実行し、未処理のデータがプロジェクトテーブルに取り込まれたことを確認する。
+  Execute the following SQL and check whether =unprocessed data is imported into the project table.
   
   .. code-block:: sql
 
     select * from project
 
-  5. アプリケーションを停止する。
+  5. Stop the application.
 
-  アプリケーションを実行したコマンドプロンプトなどでプロセスを強制終了(Ctrl + Cなどで)する。
+  Force terminate the process with (Ctrl + C etc.) from the command prompt, etc. from where the application was executed.
 
 .. _db_queue_example-create_action:
 
-アクションクラスを作成する
+Create a action class
 --------------------------------------------------
-:java:extdoc:`BatchAction <nablarch.fw.action.BatchAction>` を継承したアクションクラスを作成する。
+Creates an action class by inheriting :java:extdoc:`BatchAction <nablarch.fw.action.BatchAction>`.
 
-実装例
+Implementation examples
   .. code-block:: java
 
     public class ProjectCreationServiceAction extends BatchAction<SqlRow> {
-      // 中身の作成方法は後述
+      // How to create the contents will be described later
     }
 
-ポイント
-  * テーブルをキューとして扱うため、入力データはテーブルの検索結果となる。
-    このため、 :java:extdoc:`BatchAction <nablarch.fw.action.BatchAction>` の型パラメータには :java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` を指定する。
+Point
+  * Since the table is handled as a queue, the input data becomes the search result of the table.
+    For this reason, :java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` is specified in the type parameter of :java:extdoc:`BatchAction <nablarch.fw.action.BatchAction>`.
 
 
-テーブルを監視するためのリーダを生成する
+Create a reader to monitor the table
 --------------------------------------------------
-:ref:`db_queue_example-create_action` で作成したアクションクラスに、テーブルを監視するリーダを生成するメソッドを作成する。
+Create a method to generate a reader that monitors the table in the action class created with :ref:`db_queue_example-create_action`.
 
-:ref:`データベースキューで使用するリーダ <db_messaging_architecture-reader>` に記載がある通り、
-:java:extdoc:`DatabaseTableQueueReader <nablarch.fw.reader.DatabaseTableQueueReader>` をリーダとして生成する。
+As described in :ref:`Reader used for database queue <db_messaging_architecture-reader>`, create
+:java:extdoc:`DatabaseTableQueueReader <nablarch.fw.reader.DatabaseTableQueueReader>` as reader.
 
-実装例
-  アクションクラス
+Implementation examples
+  Action class
     .. code-block:: java
 
       @Override
@@ -137,10 +137,10 @@ Exampleアプリケーションの実行手順
                   databaseRecordReader, 1000, "RECEIVED_MESSAGE_SEQUENCE");
       }
 
-  SQLファイル(ProjectCreationServiceAction.sql)
+  SQL file (ProjectCreationServiceAction.sql)
     .. code-block:: sql
 
-      -- 未処理の受信データを悲観ロックするSQL
+      -- SQL for pessimistically locking the unprocessed data that is received
       UPDATE_PROCESS_ID=
       update
         ins_project_receive_message
@@ -149,7 +149,7 @@ Exampleアプリケーションの実行手順
       where
         status = '0' and process_id is null
 
-      -- 未処理の受信データを取得するSQL
+      -- SQL to acquire the unprocessed data that is received
       FIND_RECEIVED_PROJECTS=
       select
         received_message_sequence
@@ -158,42 +158,42 @@ Exampleアプリケーションの実行手順
       where
         status = '0' and process_id = :processId
 
-ポイント
-  * :java:extdoc:`createReader <nablarch.fw.action.BatchAction.createReader(nablarch.fw.ExecutionContext)>` を実装し、
-    :java:extdoc:`DatabaseTableQueueReader <nablarch.fw.reader.DatabaseTableQueueReader>` を生成する。
+Point
+  * Implement :java:extdoc:`createReader <nablarch.fw.action.BatchAction.createReader(nablarch.fw.ExecutionContext)>`
+    and create :java:extdoc:`DatabaseTableQueueReader <nablarch.fw.reader.DatabaseTableQueueReader>`.
 
-  * :java:extdoc:`DatabaseTableQueueReader <nablarch.fw.reader.DatabaseTableQueueReader>` には以下を指定する。
+  * Specify the following in :java:extdoc:`DatabaseTableQueueReader <nablarch.fw.reader.DatabaseTableQueueReader>`.
 
-    * データベースから検索を行うためのリーダ(:java:extdoc:`DatabaseRecordReader <nablarch.fw.reader.DatabaseRecordReader>`)
-    * 未処理データが存在しない場合の待機時間(この例では1秒)
-    * 主キーのカラム名のリスト
+    * Reader for searching from the database (:java:extdoc:`DatabaseRecordReader <nablarch.fw.reader.DatabaseRecordReader>`)
+    * Wait time when there is no unprocessed data (1 second in this example)
+    * List of primary key column names
 
-  * :java:extdoc:`DatabaseRecordReader <nablarch.fw.reader.DatabaseRecordReader>` には以下を指定する。
+  * Specify the following in :java:extdoc:`DatabaseRecordReader <nablarch.fw.reader.DatabaseRecordReader>`.
 
-    * 未処理データを検索するための :java:extdoc:`SqlPStatement <nablarch.core.db.statement.SqlPStatement>`
-    * 未処理データの悲観ロックを行う
-      :java:extdoc:`DatabaseRecordListener <nablarch.fw.reader.DatabaseRecordListener>` の実装クラス。
-      詳細は、:ref:`db_messaging-multiple_process` を参照。
+    * :java:extdoc:`SqlPStatement <nablarch.core.db.statement.SqlPStatement>` to search the unprocessed data
+    * Implementation class :java:extdoc:`DatabaseRecordListener <nablarch.fw.reader.DatabaseRecordListener>`
+      for pessimistic lock of unprocessed data.
+      For details, see :ref:`db_messaging-multiple_process`.
 
-  * SQLファイルでは、以下のSQLを定義する。
+  * Define the following SQL in the SQL file.
 
-    * 他のプロセスの処理対象となることを防ぐため、未処理データを悲観ロックするSQL
-    * 自身のプロセスの処理対象となる未処理データを取得するため、
-      ``STATUS`` カラムの値が ``0`` 、かつ ``PROCESS_ID`` カラムの値が自身のプロセスIDであるレコードを取得するSQL
+    * SQL for the pessimistic locking of unprocessed data to avoid the data from being used as processing object of other processes
+    * SQL that acquires records with the ``STATUS`` column value ``0`` and ``PROCESS_ID`` column value
+      same as the process ID for acquiring unprocessed data to be processed by the process
 
-  * SQLファイルへのSQLの記述ルールは、 :ref:`database-use_sql_file` を参照。
+  * For SQL description rules to prepare the SQL file, see :ref:`database-use_sql_file`.
 
-未処理データを元に業務処理を実行する
---------------------------------------------------
-:ref:`db_queue_example-create_action` で作成したアクションクラスに、業務処理を実装するメソッドを作成する。
+Execute business process based on unprocessed data
+----------------------------------------------------
+Create a method to implement the business process in the action class created with :ref:`db_queue_example-create_action`.
 
-実装例
+Implementation examples
   .. code-block:: java
 
     @Override
     public Result handle(final SqlRow inputData, final ExecutionContext context) {
 
-      // 未処理データの主キーを元に属性データを取得する
+      // Retrieve attribute data based on the primary key of unprocessed data
       final Project project = UniversalDao.findBySqlFile(
           Project.class,
           SQL_ID + "GET_RECEIVED_PROJECT",
@@ -204,36 +204,36 @@ Exampleアプリケーションの実行手順
             MessageUtil.createMessage(MessageLevel.ERROR, "abnormal.project.period"));
       }
 
-      // プロジェクトテーブルへ登録する
+      // Register to project table
       UniversalDao.insert(project);
 
       return new Result.Success();
     }
 
-ポイント
-  * :java:extdoc:`handle <nablarch.fw.action.BatchAction.handle(D-nablarch.fw.ExecutionContext)>` メソッドに業務処理を実装する。
-    (処理内容の詳細な説明は、Example依存のため省略する。)
+Point
+  * Implement the business process in the method :java:extdoc:`handle <nablarch.fw.action.BatchAction.handle(D-nablarch.fw.ExecutionContext)>`.
+    (Detailed explanation of the process details is omitted as depends on the example dependent.)
 
-  * 正常に処理したことを示す :java:extdoc:`Result.Success <nablarch.fw.Result.Success>` を返却する。
-    処理が失敗した場合、例外を送出するため、常に :java:extdoc:`Result.Success <nablarch.fw.Result.Success>` を返却すれば良い。
+  * Returns :java:extdoc:`Result.Success <nablarch.fw.Result.Success>`, which indicates that the processing was normal.
+    Since an exception is thrown even if the processing fails, :java:extdoc:`Result.Success <nablarch.fw.Result.Success>` can be always returned.
 
-処理済みデータのステータスを更新する
+Update the status of processed data
 --------------------------------------------------
-:ref:`db_queue_example-create_action` で作成したアクションクラスに、ステータスを更新するメソッドを作成する。
+Create a method to update the status in the action class created with :ref:`db_queue_example-create_action`.
 
-実装例
-  アクションクラス
+Implementation examples
+  Action class
     .. code-block:: java
 
       @Override
       protected void transactionSuccess(final SqlRow inputData, final ExecutionContext context) {
-        // ステータスを正常に更新する
+        // Update status to success
         updateStatus(inputData, StatusUpdateDto::createNormalEnd);
       }
 
       @Override
       protected void transactionFailure(final SqlRow inputData, final ExecutionContext context) {
-        // ステータスを異常(失敗)に更新する
+        // Update status to abnormal (failed)
         updateStatus(inputData, StatusUpdateDto::createAbnormalEnd);
       }
 
@@ -245,7 +245,7 @@ Exampleアプリケーションの実行手順
       }
 
       public static final class StatusUpdateDto {
-        // プロパティ及びアクセッサ、Javadocは省略
+        // Property and accessors, Javadoc omitted
 
         private static StatusUpdateDto createNormalEnd(String id) {
             return new StatusUpdateDto(id, "1");
@@ -256,10 +256,10 @@ Exampleアプリケーションの実行手順
         }
       }
 
-  SQLファイル(ProjectCreationServiceAction.sql)
+  SQL file (ProjectCreationServiceAction.sql)
     .. code-block:: sql
 
-      -- ステータスを更新するSQL
+      -- SQL to update status
       UPDATE_STATUS =
       update
         ins_project_receive_message
@@ -268,13 +268,13 @@ Exampleアプリケーションの実行手順
       where
         received_message_sequence = :id
 
-ポイント
-  * 正常に処理できたレコードの更新処理は、 :java:extdoc:`transactionSuccess <nablarch.fw.action.BatchActionBase.transactionSuccess(D-nablarch.fw.ExecutionContext)>` に実装する。
-    (正常に処理できた場合(例外が送出されなかった場合)、このメソッドがNablarchによりコールバックされる。)
+Point
+  * Implement the update process of the normally processed record in :java:extdoc:`transactionSuccess <nablarch.fw.action.BatchActionBase.transactionSuccess(D-nablarch.fw.ExecutionContext)>`.
+    (if the processing is normal (exception is not thrown), the method is called back by Nablarch.)
 
-  * 正常に処理できなかったレコードの更新処理は、 :java:extdoc:`transactionFailure <nablarch.fw.action.BatchActionBase.transactionSuccess(D-nablarch.fw.ExecutionContext)>` に実装する。
-    (処理中に例外やエラーが送出されたレコードの場合、このメソッドがNablarchによりコールバックされる)
+  * The update process of records that were not processed normally is implemented in :java:extdoc:`transactionFailure <nablarch.fw.action.BatchActionBase.transactionSuccess(D-nablarch.fw.ExecutionContext)>`.
+    (The method where an exception or error is thrown during processing is called back by Nablarch.)
 
-  * SQLでは、指定のレコードのステータスを更新する。
+  * The status of the specific record is updated in SQL.
 
-  * SQLファイルへのSQLの記述ルールは、 :ref:`database-use_sql_file` を参照。
+  * For SQL description rules to prepare the SQL file, see :ref:`database-use_sql_file`.
