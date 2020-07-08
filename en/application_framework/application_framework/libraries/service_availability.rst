@@ -1,43 +1,43 @@
 .. _`service_availability`:
 
-サービス提供可否チェック
+Service Availability Check
 =====================================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-この機能では、アプリケーションが提供する機能に対して、サービス提供可否をチェックする。
+This function checks the availability of service for the functions provided by the application.
 
-この機能を使うことで、以下のようなことが実現できる。
+The following can be realized by using this function.
 
-* ウェブにおいて一部機能へのアクセスを遮断し、503エラーを返す。
-* 常駐バッチにおいて、空回り(処理せずに待機する状態)を行う。
+* Blocks access to some functions on the Web and returns a 503 error.
+* Idles (standby without processing) in the resident batch.
 
 .. important::
- 本機能は、アプリケーションの要件が合致する場合に限り、使用すること。
- 本機能は、データベースを使用してサービス提供可否の状態を管理し、
- リクエスト単位でサービス提供可否を設定する( :ref:`service_availability-settings` を参照)。
- 例えば、ウェブの登録機能といった場合、初期表示/確認/戻る/登録といった複数リクエストで構成されるのが一般的である。
- そのため、本機能は、細かくサービス提供可否を設定できる反面、非常に細かいデータ設計が必要となり、
- 開発時の生産性低下やリリース後の運用負荷が高まる可能性がある。
+ This function should be used only when the application requirements are met.
+ This function manages the service availability status using the database and configures the service availability
+ on a request basis (see :ref:`service_availability-settings`).
+ For example, a Web registration function is generally composed of multiple requests such as initial display/confirmation/return/registration.
+ Therefore, while service availability can be configured in detail for this function, data design is also required in detail,
+ which may reduce productivity during development and increase operational load after release.
 
-機能概要
+Function overview
 ---------------------------------------------------------------------
 
-リクエスト単位でサービス提供可否をチェックすることができる
+Service availability check on a request basis is possible
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`ServiceAvailabilityCheckHandler` をハンドラキューに設定することで、
-ウェブでも常駐バッチでも、リクエスト単位でサービス提供可否をチェックすることができるようになる。
-この機能は、ウェブや常駐バッチといった処理方式に依存しない。
+Service availability check on a request basis is possible for both Web and resident batch
+by configuring :ref:`ServiceAvailabilityCheckHandler` in the handler queue.
+This function does not depend on the processing method such as Web or resident batch.
 
-詳細は以下を参照。
+See below for details.
 
 * :ref:`service_availability-settings`
 * :ref:`service_availability-check`
 * :ref:`service_availability-view_control`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -50,53 +50,53 @@
     <artifactId>nablarch-common-auth-jdbc</artifactId>
   </dependency>
 
-使用方法
+How to use
 ---------------------------------------------------------------------
 
 .. _`service_availability-settings`:
 
-サービス提供可否チェックを使うための設定を行う
+Configure settings to use service availability check
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-この機能では、データベースを使用してサービス提供可否の状態を管理する。
-テーブルのレイアウトは以下となる。
+This function uses a database to manage the service availability status.
+The table layout is as follows.
 
-====================== ===================================================
-リクエストID(PK)       リクエストを識別するための値。文字列型
-サービス提供可否状態   可の場合は"1"。文字列型。設定で値を変更できる。
-====================== ===================================================
+============================= ===================================================================
+Request ID (PK)               Values for identifying the request. String type
+Service availability status   If yes, "1".String type.Value can be changed in the configuration.
+============================= ===================================================================
 
-サービス提供可否チェックを使うためには、
-:java:extdoc:`BasicServiceAvailability <nablarch.common.availability.BasicServiceAvailability>` の定義をコンポーネント設定ファイルに追加する。
-コンポーネント名には **serviceAvailability** と指定する。
+To use the service availability check,
+add the definition of :java:extdoc:`BasicServiceAvailability <nablarch.common.availability.BasicServiceAvailability>` to the component configuration file.
+Specify the component name as **serviceAvailability**.
 
 .. code-block:: xml
 
  <component name="serviceAvailability" class="nablarch.common.availability.BasicServiceAvailability">
-   <!-- テーブル名 -->
+   <!-- Table name -->
    <property name="tableName" value="REQUEST"/>
-   <!-- リクエストIDのカラム名 -->
+   <!-- Request ID column name-->
    <property name="requestTableRequestIdColumnName" value="REQUEST_ID"/>
-   <!-- サービス提供可否状態のカラム名 -->
+   <!-- Column name of service availability-->
    <property name="requestTableServiceAvailableColumnName" value="SERVICE_AVAILABLE"/>
-   <!-- サービス提供可を示す値 -->
+   <!-- Value indicating service availability -->
    <property name="requestTableServiceAvailableOkStatus" value="1"/>
-   <!-- データベースアクセスに使用するトランザクションマネージャ -->
+   <!-- Transaction manager used for database access -->
    <property name="dbManager" ref="serviceAvailabilityDbManager"/>
  </component>
 
 .. _`service_availability-check`:
 
-サービス提供可否をチェックする
+Check service availability check
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-サービス提供可否チェックは、 :java:extdoc:`ServiceAvailabilityUtil <nablarch.common.availability.ServiceAvailabilityUtil>` を使用する。
+For service availability check, use :java:extdoc:`ServiceAvailabilityUtil <nablarch.common.availability.ServiceAvailabilityUtil>`.
 
 .. _`service_availability-view_control`:
 
-サービス提供可否に応じて画面表示を制御する
+Control screen display according to service availability
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-サービス提供可否に応じてボタンやリンクの非表示(非活性)を制御したい場合は、カスタムタグを使用する。
-:ref:`tag-submit_display_control` を参照。
+Use a custom tag to control the non-display (inactivity) of buttons and links according to service availability.
+See :ref:`tag-submit_display_control`.
 
-拡張例
+Expansion example
 ---------------------------------------------------------------------
-なし。
+None.
