@@ -1,43 +1,36 @@
 .. _log:
 
-ログ出力
+Log Output
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-ログ出力を行う機能を提供する。
+Provides a function to output logs.
 
-機能概要
+Function overview
 --------------------------------------------------
 
-ログ出力機能の実装を差し替えることができる
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ログ出力は、３つの処理から構成されており、それぞれの実装を差し替えることができる。
+Implementation of the log output function can be replaced
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The log output is composed of three processes, and the implementation of each of which can be replaced.
 
   .. image:: images/log/log-structure.png
 
-アプリケーションの要件に応じて、
-:java:extdoc:`LogWriter <nablarch.core.log.basic.LogWriter>` や
-:java:extdoc:`LogFormatter <nablarch.core.log.basic.LogFormatter>`
-の単位で差し替えることもできるし、
-これらだけでは要件を満たせなければ
-:java:extdoc:`Logger <nablarch.core.log.Logger>` /
-:java:extdoc:`LoggerFactory <nablarch.core.log.LoggerFactory>`
-を実装してほぼ全ての処理を差し替えることもできる。
+Can be replaced with the :java:extdoc:`LogWriter <nablarch.core.log.basic.LogWriter>`  and :java:extdoc:`LogFormatter <nablarch.core.log.basic.LogFormatter>` units, 
+and if these do not meet the requirements :java:extdoc:`Logger <nablarch.core.log.Logger>` / :java:extdoc:`LoggerFactory <nablarch.core.log.LoggerFactory>` can be implemented to replace almost all processes.
 
-例えば、オープンソースのログ出力ライブラリを使用したい場合などは
-:java:extdoc:`Logger <nablarch.core.log.Logger>` /
-:java:extdoc:`LoggerFactory <nablarch.core.log.LoggerFactory>` を差し替えればよい。
+For example, if the use of open source log output library is preferred, 
+replacing :java:extdoc:`Logger <nablarch.core.log.Logger>` / :java:extdoc:`LoggerFactory <nablarch.core.log.LoggerFactory>` is better.
 
-なお、オープンソースで使用実績の多いロギングフレームワークは、専用のLogger/LoggerFactoryを既に用意している。
+Note that the logging framework with extensive operating experience in open source, is already equipped with a dedicated logger/logger factory.
 
-詳細は、:ref:`log_adaptor` を参照。
+For details, see :ref:`log_adaptor` .
 
-本機能と利用実績の多いlog4jとの機能比較は、 :ref:`log-functional_comparison` を参照。
+For comparison of features between this function and the frequently utilized log4j, see  :ref:`log-functional_comparison` .
 
-ログ出力機能がデフォルトで提供しているクラスを示す。
+The default class provided by the log output function is shown.
 
 Logger/LoggerFactory
  * :java:extdoc:`BasicLogger <nablarch.core.log.basic.BasicLogger>`
@@ -46,26 +39,26 @@ Logger/LoggerFactory
 .. _log-log_writers:
 
 LogWriter
- * :java:extdoc:`FileLogWriter (ファイルへ出力。ファイルサイズによるローテーション) <nablarch.core.log.basic.FileLogWriter>`
- * :java:extdoc:`SynchronousFileLogWriter (複数プロセスから1ファイルへの出力) <nablarch.core.log.basic.SynchronousFileLogWriter>`
- * :java:extdoc:`StandardOutputLogWriter (標準出力へ出力) <nablarch.core.log.basic.StandardOutputLogWriter>`
+ * :java:extdoc:`FileLogWriter (Output to file. Rotation by file size) <nablarch.core.log.basic.FileLogWriter>`
+ * :java:extdoc:`SynchronousFileLogWriter (output from multiple processes to one file) <nablarch.core.log.basic.SynchronousFileLogWriter>`
+ *  :java:extdoc:`StandardOutputLogWriter (output to standard output) <nablarch.core.log.basic.StandardOutputLogWriter>`
 
 .. _log-log_formatters:
 
 LogFormatter
- * :java:extdoc:`BasicLogFormatter (パターン文字列によるフォーマット) <nablarch.core.log.basic.BasicLogFormatter>`
-
+ * :java:extdoc:`BasicLogFormatter  (format by pattern string) <nablarch.core.log.basic.BasicLogFormatter>`
+ 
 .. important::
- :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`
- を使う場合は、 :ref:`log-synchronous_file_log_writer_attention` を参照すること。
+ If you want to use :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`, 
+ see  :ref:`log-synchronous_file_log_writer_attention` .
 
 .. tip::
- ログ出力機能で使用するログレベルについては、 :ref:`log-log_level` を参照。
+ For the log level used in the log output function, see :ref:`log-log_level` .
 
-各種ログの出力機能を予め提供している
+Provides various log output functions in advance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-本フレームワークでは、アプリケーションに共通で必要とされる各種ログの出力機能を予め提供している。
-アプリケーションの要件に応じて、ログのフォーマットを設定で変更して使用できる。
+This framework provides the output function of various logs commonly required by the applications. 
+The log format can be changed with configuration and used according to the application requirements.
 
 .. toctree::
   :hidden:
@@ -77,40 +70,38 @@ LogFormatter
   log/http_access_log
   log/messaging_log
 
-.. list-table:: ログの種類
+.. list-table:: Log type
    :header-rows: 1
    :class: white-space-normal
    :widths: 20,80
 
-   * - ログの種類
-     - 説明
+   * - Log type
+     - Description
 
-   * - :ref:`障害通知ログ <failure_log>`
-     - 障害発生時に1次切り分け担当者を特定するのに必要な情報を出力する。
+   * - :ref:`Failure notification log <failure_log>`
+     - Outputs the information necessary to identify the person in charge of primary isolation during failure incidents.
 
-   * - :ref:`障害解析ログ <failure_log>`
-     - 障害原因の特定に必要な情報を出力する。
+   * - :ref:`Failure analysis log <failure_log>`
+     - Outputs information necessary to identify the cause of failure.
 
-   * - :ref:`SQLログ <sql_log>`
-     - 深刻なパフォーマンス劣化の要因となりやすいSQL文の実行について、
-       パフォーマンスチューニングに使用するために、SQL文の実行時間とSQL文を出力する。
+   * - :ref:`SQL log <sql_log>`
+     - Outputs the SQL statement execution time and SQL statement to be used for performance tuning of SQL statement execution that is likely to cause acute performance degradation.   
 
-   * - :ref:`パフォーマンスログ <performance_log>`
-     - 任意の処理について、パフォーマンスチューニングに使用するために実行時間とメモリ使用量を出力する。
+   * - :ref:`Performance log <performance_log>`
+     - Outputs execution time and memory usage for performance tuning of an arbitrary process.
 
-   * - :ref:`HTTPアクセスログ <http_access_log>`
-     - ウェブアプリケーションで、アプリケーションの実行状況を把握するための情報を出力する。
-       アプリケーションの性能測定に必要な情報、アプリケーションの負荷測定に必要な情報の出力も含む。
-       さらに、アプリケーションの不正使用を検知するために、
-       全てのリクエスト及びレスポンス情報を出力する証跡ログとしても使用する。
+   * - :ref:`HTTP access log <http_access_log>`
+     - Outputs the information to grasp the execution status of application in the Web application.
+       The log includes the output information required to measure the application performance and also for load measurement of the application.
+       It is also used as a trail log that outputs all request and response information to detect unauthorized use of the application.       
 
-   * - :ref:`メッセージングログ <messaging_log>`
-     - メッセージング処理において、メッセージ送受信の状況を把握するための情報を出力する。
+   * - :ref:`Messaging log <messaging_log>`
+     - The log outputs information for grasping the status of message send and receive in the messaging process.
 
 .. tip::
- 本フレームワークでは、 :ref:`障害通知ログ <failure_log>` と :ref:`障害解析ログ <failure_log>` を合わせて障害ログと呼ぶ。
+ In this framework,  :ref:`Failure notification log <failure_log>`  and  :ref:`Failure analysis log <failure_log>`  are collectively called failure log.
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -123,189 +114,182 @@ LogFormatter
     <artifactId>nablarch-core-applog</artifactId>
   </dependency>
 
-  <!-- SQLログを使用する場合のみ -->
+  <!-- Only when using SQL logs-->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-core-jdbc</artifactId>
   </dependency>
 
-  <!-- HTTPアクセスログを使用する場合のみ -->
+  <!-- Only when using HTTP access logs-->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-  <!-- メッセージングログを使用する場合のみ -->
+  <!-- Only when using messaging logs -->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-fw-messaging</artifactId>
   </dependency>
 
-使用方法
+How to use
 --------------------------------------------------
 
-ログを出力する
+Output the log.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ログの出力には :java:extdoc:`Logger <nablarch.core.log.Logger>` を使用する。
-:java:extdoc:`Logger <nablarch.core.log.Logger>` は
-:java:extdoc:`LoggerManager <nablarch.core.log.LoggerManager>` から取得する。
+Use :java:extdoc:`Logger <nablarch.core.log.Logger>` to output logs Get :java:extdoc:`Logger <nablarch.core.log.Logger>`  from :java:extdoc:`LoggerManager <nablarch.core.log.LoggerManager>` .
 
 .. code-block:: java
 
- // クラスを指定してLoggerを取得する。
- // Loggerはクラス変数に保持する。
+ // Get logger by specifying a class.
+ // Logger is stored in class variable.
  private static final Logger LOGGER = LoggerManager.get(UserManager.class);
 
 .. code-block:: java
 
- // ログの出力有無を事前にチェックし、ログ出力を行う。
+ // Check the log output in advance and output the log.
  if (LOGGER.isDebugEnabled()) {
      String message = "userId[" + user.getId() + "],name[" + user.getName() + "]";
      LOGGER.logDebug(message);
  }
 
-:java:extdoc:`Logger <nablarch.core.log.Logger>` の取得ではロガー名を指定する。
-ロガー名には文字列またはクラスが指定できる。
-クラスが指定された場合は、指定されたクラスのFQCNがロガー名となる。
+Specify the logger name in the acquisition of :java:extdoc:`Logger <nablarch.core.log.Logger>` .
+A string or class can be specified for the logger name.
+If a class is specified, FQCN of the specified class will be the logger name.
 
 .. important::
- アプリケーションにおいて、常にログを出力することになっているレベルは、
- ソースコードの可読性が落ちるため、事前チェックをしなくてよい。
- 例えば、本番運用時に出力するログレベルをINFOレベルにするのであれば、
- FATALレベルからINFOレベルまでは事前チェックしなくてよい。
+ At the level where the log is constantly being output in the application, 
+ advance check is not required as the readability of the source code is reduced. 
+ For example, it is not necessary to check in advance from the FATAL level to the INFO level if the log level output during production operation has to be changed to the INFO level.
 
 .. tip::
- ロガー名には、SQLログや監視ログなど、特定の用途向けのログ出力を行う場合は、
- その用途を表す名前(SQLやMONITOR等)を指定し、それ以外はクラスのFQCNを指定する。
+ Specify the logger name (SQL, MONITOR, etc.) indicating the usage if required to output logs for a specific purpose such as SQL log or monitoring log, and specify the FQCN of the class for other cases.
+
 
 .. _log-basic_setting:
 
-ログ出力の設定を行う
+Configure log output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ログ出力の設定は、プロパティファイルに行う。
+Configure the log output in the property file.
 
-プロパティファイルの場所
- クラスパス直下の **log.properties** を使用する。
- 場所を変更したい場合は、システムプロパティで **nablarch.log.filePath** をキーにファイルパスを指定する。
- ファイルパスの指定方法は
- :java:extdoc:`FileUtil#getResource <nablarch.core.util.FileUtil.getResource(java.lang.String)>` を参照。
+Property file location
+ Use  **log.properties**  directly below the classpath. 
+ If the location is to be changed, specify the file path in the system property with  **nablarch.log.filePath**  as a key. 
+ See :java:extdoc:`FileUtil#getResource <nablarch.core.util.FileUtil.getResource(java.lang.String)>`  how to specify file path.
 
  .. code-block:: bash
 
   >java -Dnablarch.log.filePath=classpath:nablarch/example/log.properties ...
 
-プロパティファイルの記述ルール
- プロパティファイルの記述ルールを以下に示す。
+Description rules of property files
+ The description rules of the property file are shown below.
 
  LoggerFactory
   \
 
-  記述ルール
+  Description rules
    \
 
    loggerFactory.className
-    LoggerFactoryを実装したクラスのFQCNを指定する。
-    本機能を使う場合は、 :java:extdoc:`BasicLoggerFactory <nablarch.core.log.basic.BasicLoggerFactory>` を指定する。
+    Specify FQCN of the class that implements loggerFactory.className LoggerFactory. 
+    To use this function, specify :java:extdoc:`BasicLoggerFactory <nablarch.core.log.basic.BasicLoggerFactory>` .
 
-  記述例
+  Example of the description
    .. code-block:: properties
 
-    # LoggerFactoryにより、ログ出力に使用する実装(本機能やLog4Jなど)が決まる。
+    # LoggerFactory determines the implementation (this function, Log4J, etc.) used for log output.
     loggerFactory.className=nablarch.core.log.basic.BasicLoggerFactory
 
  LogWriter
   \
 
-  記述ルール
+  Description rules
    \
 
    writerNames
-    使用する全てのLogWriterの名前を指定する。複数指定する場合はカンマ区切り。
+    Specify the names of all LogWriters that use writerNames. Use comma as a delimiter if more than one is specified.
 
-   writer.<名前>.className
-    LogWriterを実装したクラスのFQCNを指定する。
+   writer. <name>.className
+    Specify FQCN of the class that implemented LogWriter.
 
-   writer.<名前>.<プロパティ名>
-    LogWriter毎のプロパティに設定する値を指定する。
-    指定できるプロパティについては使用するLogWriterのJavadocを参照。
+   writer. <name>.<property name>
+    Specify the value to be set in the property for each LogWriter. 
+    Refer to Javadoc of the LogWriter used for the properties that can be specified.
 
-  記述例
+  Example of the description
    .. code-block:: properties
 
-    # 2つの名前を定義する。
+    # Define 2 names.
     writerNames=appLog,stdout
 
-    # appLogの設定を行う。
+    # Configure appLog.
     writer.appLog.className=nablarch.core.log.basic.FileLogWriter
     writer.appLog.filePath=/var/log/app/app.log
 
-    # stdoutの設定を行う。
+    # Configure stdout.
     writer.stdout.className=nablarch.core.log.basic.StandardOutputLogWriter
 
- ロガー設定
+ Logger configuration
   \
 
-  記述ルール
+  Description rules
    \
 
    availableLoggersNamesOrder
-    使用する全てのロガー設定の名前を指定する。複数指定する場合はカンマ区切り。
+    Specify the names of all Logger configurations that use availableLoggersNamesOrder. Use comma as a delimiter if more than one is specified.
 
     .. important::
-     availableLoggersNamesOrderプロパティは、記述順に意味があるので注意すること。
+     Note that the order of description in the availableLoggersNamesOrder property has a meaning.
 
-     :java:extdoc:`Logger <nablarch.core.log.Logger>` の取得では、ログ出力を行うクラスが指定したロガー名に対して、
-     ここに記述した順番で :java:extdoc:`Logger <nablarch.core.log.Logger>` のマッチングを行い、
-     最初にマッチした :java:extdoc:`Logger <nablarch.core.log.Logger>` を返す。
+     The acquisition process :java:extdoc:`Logger <nablarch.core.log.Logger>`  matches  :java:extdoc:`Logger <nablarch.core.log.Logger>`  in the order described here for the logger name specified by the class that performs log output and returns the first match :java:extdoc:`Logger <nablarch.core.log.Logger>` .
 
-     例えば、以下の記述例にあるavailableLoggersNamesOrderの記述順をavailableLoggersNamesOrder=root,sqlと記述した場合、
-     全てのロガー取得がロガー設定 ``root`` にマッチしてしまう。
-     その結果、ロガー名 ``SQL`` でログ出力しても ``sqlLog`` に出力されず、ロガー設定 ``root`` に指定された ``appLog`` に出力される。
+     For example, if the description order of availableLoggersNamesOrder in the following description example is described as availableLoggersNamesOrder = root, sql, all logger acquisitions will end up matching the logger configuration  ``root`` . 
+     As a result, even if the log is output with the logger name ``SQL`` , the log is not output to  ``sqlLog``  but is output to the  ``appLog``  specified in the logger configuration  ``root`` .
 
-     したがって、availableLoggersNamesOrderプロパティは、より限定的な正規表現を指定したロガー設定から順に記述すること。
+     Therefore, the availableLoggersNamesOrder property is described in sequence from the logger configuration that specifies a more restrictive regular expression.
 
     .. important::
-     availableLoggersNamesOrderとloggers.*で指定するロガー設定の名称は、必ず一致させる必要がある。
-     :java:extdoc:`BasicLoggerFactory <nablarch.core.log.basic.BasicLoggerFactory>` の初期処理で一致しているかチェックを行い、
-     一致しない場合は例外をスローする。
-     例えば、上記の設定にあるavailableLoggersNamesOrderから ``access`` を取り除くと、例外がスローされる。
+     The names of the logger configuration specified in the availableLoggersNamesOrder and loggers.* are required to match.
+     The match is checked in the initial process of :java:extdoc:`BasicLoggerFactory <nablarch.core.log.basic.BasicLoggerFactory>` , 
+     and an exception is thrown if they do not match. 
+     For example, if ``access`` is removed from availableLoggersNamesOrder in the above configuration, an exception will be thrown.
 
-     このチェックは、設定漏れの発生を防ぐために行っている。
-     上記の設定にあるavailableLoggersNamesOrderから ``access`` を取り除いた場合は、明示的にloggers.access.*の設定も取り除く必要がある。
+     This check is performed to avoid the occurrence of configuration omissions. 
+     If  ``access``  is removed from avaialableLoggersNameOrder in the above configuration, it is necessary to explicitly remove the loggers.access.* configuration.
 
-   loggers.<名前>.nameRegex
-    ロガー名とのマッチングに使用する正規表現を指定する。
-    正規表現は、ロガー設定の対象となるロガーを絞り込むために使用する。
-    ロガーの取得時に指定されたロガー名(つまり :java:extdoc:`LoggerManager#get <nablarch.core.log.LoggerManager.get(java.lang.String)>`
-    の引数に指定されたロガー名)に対してマッチングを行う。
 
-   loggers.<名前>.level
-    :java:extdoc:`LogLevel <nablarch.core.log.basic.LogLevel>` の名前を指定する。
-    ここで指定したレベル以上のログを全て出力する。
+   loggers.<name>.nameRegex
+    loggers.<name>.nameRegex specifies the regular expression used to match the logger name. 
+    The regular expressions are used to narrow down the loggers that are the targets of logger configuration.
+    Matched to logger name specified when acquiring the logger (that is, the logger name specified in the parameter of  :java:extdoc:`LoggerManager#get <nablarch.core.log.LoggerManager.get(java.lang.String)>`).
 
-   loggers.<名前>.writerNames
-    出力先とするLogWriterの名前を指定する。
-    複数指定する場合はカンマ区切り。
-    ここで指定した全てのLogWriterに対してログの書き込みを行う。
+   loggers.<name>.level
+    Specify the name of loggers.<Name>.level :java:extdoc:`LogLevel <nablarch.core.log.basic.LogLevel>` . 
+    All the logs that are above the level specified here will be output.
 
-  記述例
+   loggers.<name>.writerNames
+    loggers.<name>.writerNames specifies the name of the LogWriter, which is the output destination. 
+    Use comma as a delimiter if more than one is specified.
+    Logs are written for all the LogWriters specified here.
+
+  Example of the description
    .. code-block:: properties
 
-    # 2つのロガー設定の名前を定義する。
+    # Define the names of the two logger configurations.
     availableLoggersNamesOrder=sql,root
 
-    # rootの設定を行う。
+    # Set root.
     loggers.root.nameRegex=.*
     loggers.root.level=WARN
     loggers.root.writerNames=appLog
 
-    # sqlの設定を行う。
+    #Set sql.
     loggers.sql.nameRegex=SQL
     loggers.sql.level=DEBUG
     loggers.sql.writerNames=sqlLog
 
-プロパティファイルの記述例
- プロパティファイル全体の記述例を以下に示す。
+Description example of property files
+ A description example of the entire property file is shown below.
 
  .. code-block:: properties
 
@@ -313,69 +297,68 @@ LogFormatter
 
   writerNames=appLog,sqlLog,monitorLog,stdout
 
-  # アプリケーション用のログファイルの設定例
+  # Example of configuring a log file for application
   writer.appLog.className=nablarch.core.log.basic.FileLogWriter
   writer.appLog.filePath=/var/log/app/app.log
 
-  # SQL出力用のログファイルの設定例
+  # Example of configuring a log file for SQL output
   writer.sqlLog.className=nablarch.core.log.basic.FileLogWriter
   writer.sqlLog.filePath=/var/log/app/sql.log
 
-  # 監視用のログファイルの設定例
+  # Example of configuring a log file for monitoring
   writer.monitorLog.className=nablarch.core.log.basic.FileLogWriter
   writer.monitorLog.filePath=/var/log/app/monitoring.log
 
-  # 標準出力の設定例
+  # Configuring example for standard output
   writer.stdout.className=nablarch.core.log.basic.StandardOutputLogWriter
 
   availableLoggersNamesOrder=sql,monitoring,access,validation,root
 
-  # 全てのロガー名をログ出力の対象にする設定例
-  # 全てのロガー取得を対象に、WARNレベル以上をappLogに出力する。
+  # Example of configuring all logger names for log output
+  # Output WARN level or higher to appLog for all logger acquisition.
   loggers.root.nameRegex=.*
   loggers.root.level=WARN
   loggers.root.writerNames=appLog
 
-  # 特定のロガー名をログ出力の対象にする設定例。
-  # ロガー名に"MONITOR"を指定したロガー取得を対象に、
-  # ERRORレベル以上をappLog,monitorLogに出力する。
+  # Example of configuring a specific logger name as a log output target.
+  # For logger acquisition with "MONITOR" specified in logger name
+  # Output ERROR level or higher to appLog, monitorLog.
   loggers.monitoring.nameRegex=MONITOR
   loggers.monitoring.level=ERROR
   loggers.monitoring.writerNames=appLog,monitorLog
 
-  # 特定のロガー名をログ出力の対象にする設定例。
-  # ロガー名に"SQL"を指定したロガー取得を対象に、
-  # DEBUGレベル以上をsqlLogに出力する。
+  # Example of configuring a specific logger name as a log output target.
+  # For logger acquisition with "SQL" specified in logger name
+  # Output DEBUG level or higher to sqlLog.
   loggers.sql.nameRegex=SQL
   loggers.sql.level=DEBUG
   loggers.sql.writerNames=sqlLog
 
-  # 特定のクラスをログ出力の対象にする設定例。
-  # ロガー名に"app.user.UserManager"を指定したロガー取得を対象に、
-  # INFOレベル以上をappLogとstdoutに出力する。
+  # Example of configuring a specific class as a log output target.
+  # For logger acquisition with "app.user.UserManager" specified in logger name
+  # Output INFO level or higher to appLog and stdout.
   loggers.access.nameRegex=app\\.user\\.UserManager
   loggers.access.level=INFO
   loggers.access.writerNames=appLog,stdout
 
-  # 特定のパッケージ以下をログ出力の対象にする設定例。
-  # ロガー名に"nablarch.core.validation"から始まる名前を指定したロガー取得を対象に、
-  # DEBUGレベル以上をstdoutに出力する。
+  # Configuration example for targeting specific packages and below for log output.
+  # For logger acquisition in which the name starting from "nablarch.core.validation" is specified in logger name
+  # output DEBUG level or higher to stdout.
   loggers.validation.nameRegex=nablarch\\.core\\.validation\\..*
   loggers.validation.level=DEBUG
   loggers.validation.writerNames=stdout
 
  .. tip::
-  ロガー設定では、全てのログ出力にマッチするロガー設定を1つ用意し、availableLoggersNamesOrderの最後に指定することを推奨する。
-  万が一設定が漏れた場合でも、重要なログの出力を逃してしまう事態を防ぐことができる。
-  設定例としては、上記の記述例にあるロガー設定 ``root`` を参照。
+  Preparing one logger configuration that matches all the log output and specifying the logger configuration at the end of availableLoggersNamesOrder is recommended.
+  Outputs of important logs are prevented from being missed even if the configuration is omitted.
+  Refer to the logger configuration  ``root``  in the above description example for the configuration example.
 
-ログ出力の設定を上書く
+Overwrite log output configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ログ出力の設定は、システムプロパティを使用して、
-プロパティファイルと同じキー名で値を指定することにより上書きすることができる。
-これにより、共通のプロパティファイルを用意しておき、プロセス毎にログ出力設定を変更するといったことができる。
+The log output configuration can be overwritten by using system property and specifying the value with the same key name as the property file. 
+By this, it is possible to prepare a common property file and change the log output configuration for each process.
 
-ロガー設定 ``root`` のログレベルをINFOに変更したい場合の例を以下に示す。
+Below is an example of how to change the log level of logger configuration ``root`` to INFO.
 
 .. code-block:: bash
 
@@ -383,34 +366,31 @@ LogFormatter
 
 .. _log-log_format:
 
-ログのフォーマットを指定する
+Specify the log format
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-本機能では、汎用的に使用できる :java:extdoc:`LogFormatter <nablarch.core.log.basic.LogFormatter>` として、
-:java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>` を提供している。
+This function provides :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>` as :java:extdoc:`LogFormatter <nablarch.core.log.basic.LogFormatter>` that can be used for general purpose.
 
-:java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>` では、
-プレースホルダを使用してフォーマットを指定する。
-使用できるプレースホルダについては、
-:java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>`
-のJavadocを参照。
+Placeholders are used to specify the format in :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>` . 
+For placeholders that can be used, see :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>`.
 
-フォーマットの設定例を以下に示す。
-フォーマットはLogWriterのプロパティに指定する。
+
+A configuration example for format is shown below. 
+Specify the format in the LogWriter property.
 
 .. code-block:: properties
 
- # フォーマットを指定する場合はBasicLogFormatterを明示的に指定する。
+ # When specifying the format, specify BasicLogFormatter explicitly.
  writer.appLog.formatter.className=nablarch.core.log.basic.BasicLogFormatter
 
- # プレースホルダを使ってフォーマットを指定する。
+ # Specify the format using the placeholder.
  writer.appLog.formatter.format=$date$ -$logLevel$- $loggerName$ $message$
 
- # 日時のフォーマットに使用するパターンを指定する。
- # 指定しなければ"yyyy-MM-dd HH:mm:ss.SSS"となる。
+ # Specify the pattern to be used for date and time format.
+ #If not specified, "yyyy-MM-ddHH:mm:ss.SSS" is used.
  writer.appLog.formatter.datePattern=yyyy/MM/dd HH:mm:ss[SSS]
 
- # ログレベルの文言を指定する。
- # 指定しなければLogLevel列挙型の名前(FATAL、INFOなど)となる。
+ # Specify the log level text
+ # If not specified, the LogLevel enumeration type (FATAL, INFO, etc.) names will be used.
  writer.appLog.formatter.label.fatal=F
  writer.appLog.formatter.label.error=E
  writer.appLog.formatter.label.warn=W
@@ -418,97 +398,88 @@ LogFormatter
  writer.appLog.formatter.label.debug=D
  writer.appLog.formatter.label.trace=T
 
-:java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>`
-では、出力されたログの状況を特定するために、以下の項目を出力できる。
-これらの出力項目について説明しておく。
+The following items can be output in :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>` to identify the status of the output log. 
+Descriptions are provided for these output items.
 
-* :ref:`起動プロセス <log-boot_process>`
-* :ref:`処理方式 <log-processing_system>`
-* :ref:`実行時ID <log-execution_id>`
+* :ref:`Boot process <log-boot_process>`
+* :ref:`Processing method <log-processing_system>`
+* :ref:`Runtime ID <log-execution_id>`
 
 .. _log-boot_process:
 
-起動プロセス
- 起動プロセスとは、アプリケーションを起動した実行環境を特定するために使用する名前である。
- 起動プロセスにサーバ名とJOBIDなどの識別文字列を組み合わせた名前を使用することで、
- 同一サーバの複数プロセスから出力されたログの実行環境を特定することができる。
- 起動プロセスは、プロジェクト毎にID体系などで体系を規定することを想定している。
-
- 起動プロセスは、システムプロパティに ``nablarch.bootProcess`` というキーで指定する。
- システムプロパティの指定がない場合、起動プロセスはブランクとなる。
+Boot process
+ The boot process is the name used to identify the execution environment in which the application was started.
+ By using a name that combines the server name and identification string such as JOBID for the boot process, 
+ the execution environment of the log output from multiple processes of the same server can be specified.
+ The boot process is assumed to define a system such as an ID system for each project.
+ 
+ The boot process is specified in the system property with the  ``nablarch.bootProcess``  key. 
+ If the system property is not specified, the boot process will be blank.
 
 .. _log-processing_system:
 
-処理方式
- 処理方式とは、ウェブ、バッチなどを意味する。
- アプリケーションの処理方式を識別したい場合に、プロジェクト毎に規定して使用する。
+Processing method
+ Processing method refers to Web, batch, etc. 
+ If the application process method is to be identified separately, it is specified and used for each project.
 
- 処理方式は、 :ref:`log-basic_setting` で説明したプロパティファイルに
- ``nablarch.processingSystem`` というキーで指定する。
- プロパティの指定がない場合はブランクとなる。
+
+ The process method is specified in the property file that was explained in :ref:`log-basic_setting` , with the key ``nablarch.processingSystem`` . 
+ If the property is not specified, it will be blank.
 
 .. _log-execution_id:
 
-実行時ID
- 実行時IDとは、リクエストIDに対するアプリケーションの個々の実行を識別するためにつけるIDである。
- 1つのリクエストIDに対して実行された数だけ実行時IDが発行されるため、
- リクエストIDと実行時IDの関係は1対多となる。
+Runtime ID
+ The runtime ID is given with respect to the request ID to identify each execution of the application. 
+ Since the runtime ID is issued based on the number of executions for one request ID, the relationship between request ID and run time ID is one to many.
 
- 実行時IDは、複数のログを出力している場合に、出力された複数のログを紐付けるために使用する。
+ When multiple logs are output, the runtime ID is used to link the multiple logs that have been output.
 
- 実行時IDは、各処理方式の :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>`
- を初期化するタイミングで発行し、 :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` に設定される。
+ The runtime ID is issued at the timing of initializing : :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>`, and is configured in :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>`.
 
- 実行時IDのID体系
+ ID system for Runtime ID
   .. code-block:: properties
 
-   # 起動プロセスは指定された場合のみ付加する。
-   起動プロセス＋システム日時(yyyyMMddHHmmssSSS)＋連番(4桁)
+   # Added only when the boot process is specified.
+   Boot process + system date and time (yyyyMMddHHmmssSSS) + serial number (4 digits)
 
 .. important::
- リクエストID、実行時ID、ユーザIDを出力する場合は、
- これらの取得元が :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` なので、
- ハンドラ構成に :ref:`thread_context_handler` が含まれている必要がある。
+ When the request ID, runtime ID and user ID are output, :ref:`thread_context_handler`  must be included in the handler configuration as they are acquired from  :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` .
 
-改行コードとタブ文字を含めたい場合
- フォーマットに改行コードとタブ文字を含めたい場合は、以下に示すように、Javaと同様の記述を使用する。
+When line feed code and tab character are to be included
+ When line feed code and tab character are to be included in the format, use the same description as Java shown below.
 
  .. code-block:: properties
 
-  改行コード \n
-  タブ文字   \t
+  Line feed code \n
+  Tab character   \t
 
- 改行コードは、Java標準のシステムプロパティに含まれる ``line.separator`` から取得する。
- このため、システムプロパティの ``line.separator`` を変更しなければOSの改行コードが使用される。
+ The line feed code is obtained from  ``line.separator``  included in the system property of standard Java. 
+ Therefore, the OS line feed code is used if the  ``line.separator``  in the system property is not changed.
 
  .. tip::
-  :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>` では
-  ``\n`` と ``\t`` という文字列を出力することはできない。
+  Strings ``\n`` and ``\t`` cannot be output by :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>` .
+
 
 .. _log-app_log_setting:
 
-各種ログの設定を行う
+Configure various logs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-各種ログの出力機能は、各種ログの用途に合わせたフォーマット処理のみを行っており、
-ログの出力処理自体は本機能を使用している。
-つまり、各種ログの出力機能では、 :java:extdoc:`Logger <nablarch.core.log.Logger>`
-に指定するメッセージ作成を行う。
+The output function of each log only performs the format process according to the purpose of each log, and the process of log output uses this function. 
+In other words, the message specified in  :java:extdoc:`Logger <nablarch.core.log.Logger>` is created in the output function of various logs.
 
-このため、各種ログの出力機能を使うには、 :ref:`log-basic_setting` に加えて、各種ログの設定が必要となる。
-各種ログの設定は、プロパティファイルに行う。
+Therefore, to use the output function of various logs, configurations are required for various logs in addition to :ref:`log-basic_setting` . 
+Configure various logs in the property file.
 
-プロパティファイルの場所
- クラスパス直下の **app-log.properties** を使用する。
- 場所を変更したい場合は、システムプロパティで **nablarch.appLog.filePath** をキーにファイルパスを指定する。
- ファイルパスの指定方法は
- :java:extdoc:`FileUtil#getResource <nablarch.core.util.FileUtil.getResource(java.lang.String)>` を参照。
+Property file location
+ Use  **app-log.properties**  directly below the classpath. If the location is to be changed, specify the file path in the system property with  **nablarch.appLog.filePath**  as a key. 
+ See :java:extdoc:`FileUtil#getResource <nablarch.core.util.FileUtil.getResource(java.lang.String)>`  how to specify file path.
 
  .. code-block:: bash
 
   >java -Dnablarch.appLog.filePath=file:/var/log/app/app-log.properties ...
 
-プロパティファイルの記述ルール
- 各種ログごとに異なるので、以下を参照。
+Description rules of property files
+ Refer to the following, as the rules differs for each log.
 
  * :ref:`failure_log-setting`
  * :ref:`sql_log-setting`
@@ -517,117 +488,107 @@ LogFormatter
  * :ref:`messaging_log-setting`
 
 
-拡張例
+Expansion example
 ---------------------------------------------------------------------
 
 .. _log-add_log_writer:
 
-LogWriterを追加する
+Add LogWriter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-新しいLogWriterを追加する場合は、 :java:extdoc:`LogWriter <nablarch.core.log.basic.LogWriter>`
-インタフェースを実装したクラスを作成する。
-また、 :java:extdoc:`LogFormatter <nablarch.core.log.basic.LogFormatter>` を使用するLogWriterを作成する場合は、
-共通処理を提供する :java:extdoc:`LogWriterSupport <nablarch.core.log.basic.LogWriterSupport>` を継承して作成する。
+When adding a new LogWriter, create a class that implements the :java:extdoc:`LogWriter <nablarch.core.log.basic.LogWriter>` interface. 
+When creating a LogWriter that uses :java:extdoc:`LogFormatter <nablarch.core.log.basic.LogFormatter>` , create by providing common processing, inheriting :java:extdoc:`LogWriterSupport <nablarch.core.log.basic.LogWriterSupport>`.
 
-LogFormatterを追加する
+Add LogFormatter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-新しいLogFormatterを追加する場合は、 :java:extdoc:`LogFormatter <nablarch.core.log.basic.LogFormatter>`
-インタフェースを実装したクラスを作成する。
-また、ログレベルを表す文言を設定で変更可能にしたい場合は、
-:java:extdoc:`LogLevelLabelProvider <nablarch.core.log.basic.LogLevelLabelProvider>` を使用する。
+hen adding a new LogFormatter, create a class that implements the :java:extdoc:`LogFormatter <nablarch.core.log.basic.LogFormatter>` interface. 
+To enable changing the text that indicates the log level in the configuration, use :java:extdoc:`LogLevelLabelProvider <nablarch.core.log.basic.LogLevelLabelProvider>` .
 
-新しいLogFormatterの追加に伴い、ログ出力時に指定するパラメータを増やし、
-LogFormatterで増やしたパラメータを受け取りたいことがある。
-本機能では、ログ出力時に指定するパラメータを増やす目的で、
-:java:extdoc:`Logger <nablarch.core.log.Logger>` インタフェースのログ出力メソッドに
-Object型の可変長引数optionsを設けている。
+Along with the addition of a new LogFormatter, there may be a need to increase parameters specified during log output, and receive the parameters increased by LogFormatter. 
+To increase the parameters specified during log output in this function, object types with variable length parameter options are provided in the log output method of :java:extdoc:`Logger <nablarch.core.log.Logger>`  interface.
 
 .. code-block:: java
 
- // Logger#logInfoメソッドのシグネチャ
+ // Logger # logInfo method signature
  public void logInfo(String message, Object... options)
  public void logInfo(String message, Throwable cause, Object... options)
 
-ログ出力時のパラメータを増やしたい場合は、options引数を規定して使用すること。
+To increase the number of parameters for log output, specify and use the options argument.
 
-ログの出力項目(プレースホルダ)を追加する
+Add log output items (placeholders)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>` は、
-:java:extdoc:`LogItem <nablarch.core.log.LogItem>` インタフェースを使用して、
-各プレースホルダに対応する出力項目を取得する。
-そのため、新規にプレースホルダを追加したい場合は、以下の作業を行う。
+:java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>`  uses the :java:extdoc:`LogItem <nablarch.core.log.LogItem>` interface to get all the output items corresponding to each placeholder. 
+Therefore, if a new placeholder is to be added, create the following classes.
 
-* :java:extdoc:`LogItem <nablarch.core.log.LogItem>` を実装したクラスを作る
-* :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>` を継承したクラスを作り、プレースホルダを追加する
+* Create a class that implements :java:extdoc:`LogItem <nablarch.core.log.LogItem>` .
+* Create a class that inherits :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>` and add a placeholder.
 
-LogFormatterの設定から起動プロセスを取得するように変更する場合の例を示す。
-LogFormatterの設定は、下記を想定する。
+An example of change to acquire the boot process from the LogFormatter configuration is shown. 
+The configuration of LogFormatter assumes the following.
 
 .. code-block:: properties
 
- # カスタムのLogFormatterを指定する。
+ # Specifies a custom LogFormatter.
  writer.appLog.formatter.className=nablarch.core.log.basic.CustomLogFormatter
 
- # フォーマットを指定する。
+ # Specify the format
  writer.appLog.formatter.format=$date$ -$logLevel$- $loggerName$ [$bootProcess$] $message$
 
- # LogFormatterの設定で起動プロセスを指定する。
- # ここで指定した起動プロセスを$bootProcess$に出力する。
+ # Specifies the boot process in the LogFormatter configuration.
+ # Outputs the boot process specified here to $bootProcess$.
  writer.appLog.formatter.bootProcess=CUSTOM_PROCESS
 
-:java:extdoc:`LogItem <nablarch.core.log.LogItem>` を実装したクラスを作る
+Create a class that implements :java:extdoc:`LogItem <nablarch.core.log.LogItem>` .
  .. code-block:: java
 
-  // カスタムの起動プロセスを取得するクラス。
+  // Class to get a custom boot process.
   public class CustomBootProcessItem implements LogItem<LogContext> {
 
       private String bootProcess;
 
       public CustomBootProcessItem(ObjectSettings settings) {
-          // LogFormatterの設定から起動プロセスを取得する。
+          // Get the boot process from LogFormatter configuration.
           bootProcess = settings.getProp("bootProcess");
       }
 
       @Override
       public String get(LogContext context) {
-          // 設定から取得した起動プロセスを返す。
+          // Return the boot process obtained from the configuration.
           return bootProcess;
       }
   }
 
-:java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>` を継承したクラスを作り、プレースホルダを追加する
+Create a class that inherits :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>`  and add a placeholder
  .. code-block:: java
 
   public class CustomLogFormatter extends BasicLogFormatter {
 
-      // フォーマット対象のログ出力項目を取得するメソッドをオーバーライドする。
+      // Override the method to get the log output items to be formatted.
       @Override
       protected Map<String, LogItem<LogContext>> getLogItems(ObjectSettings settings) {
 
-          // 起動プロセスのプレースホルダを上書きで設定する。
+          // Overwrite the placeholder of the boot process.
           Map<String, LogItem<LogContext>> logItems = super.getLogItems(settings);
           logItems.put("$bootProcess$", new CustomBootProcessItem(settings));
           return logItems;
       }
   }
 
-ログの初期化メッセージを出力しないようにする
+Do not output the log initialization message
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-本機能では、各ロガーの初期化時に初期化メッセージをログに出力している。
-監視対象のログなどで、初期化メッセージが不要な場合には本機能が提供するWriterを元に、
-初期化メッセージを出力しないWriterを作成し対応する必要がある。
+An initialization message is output by this function to the log when each logger is initialized. 
+If the initialization message is not required for the monitored log, etc, then support by creating a Writer that does not output the initialization message based on the Writer provided by this function.
 
-なお、WebアプリケーションサーバなどやOSS製品とロガーを統一する目的などで :ref:`log_adaptor` を使用した場合は初期化メッセージは出力されないため、本対応は不要である。
+If the  :ref:`log_adaptor` is used for the purpose of unifying the logger with the Web application server or OSS product, this support is not necessary as initialization messages are not output.
 
-対応例を以下に示す。
+The corresponding example shown below.
 
-1. ベースとなるWriterクラスのソースコードをプロジェクト側に取り込む(コピーする)。
-   例えば、ファイルに出力するログの場合には、 :java:extdoc:`FileLogWriter <nablarch.core.log.basic.FileLogWriter>` をコピーする。
+1. Import (copy) the source code of the Writer class that will be the base to the project. 
+   For example, when the log is output to a the file, copy  :java:extdoc:`FileLogWriter <nablarch.core.log.basic.FileLogWriter>` .   
    
-2. 初期化ログを出力している箇所を削除する。
+2. Delete the part that outputs the initialization log.
 
-   :java:extdoc:`FileLogWriter <nablarch.core.log.basic.FileLogWriter>` の場合は、
-   以下の修正例のように初期化メッセージを出力している箇所を削除する。
+   In the case of :java:extdoc:`FileLogWriter <nablarch.core.log.basic.FileLogWriter>` , 
+   delete the part that outputs the initialization message as shown in the modification example given below.
    
    .. code-block:: java
   
@@ -636,7 +597,7 @@ LogFormatterの設定は、下記を想定する。
         out = new BufferedOutputStream(new FileOutputStream(filePath, true), outputBufferSize);
         currentFileSize = new File(filePath).length();
         
-        // ここで行っていた初期化メッセージの出力処理を削除する
+        // Delete the output process of the initialization message that was performed here
         
       } catch (IOException e) {
         throw new IllegalArgumentException(String.format("failed to create %s. file name = [%s], encoding = [%s], buffer size =[%s]",
@@ -644,22 +605,22 @@ LogFormatterの設定は、下記を想定する。
       }
     }
     
-3. ログ機能初期化後の初期化メッセージを出力しないよう変更する。
+3. Change such that the initialization message after the log function initialization is not output.
 
-  :java:extdoc:`needsToWrite <nablarch.core.log.basic.LogWriterSupport.needsToWrite(nablarch.core.log.basic.LogContext)>` をオーバライドし、
-  初回に呼び出される初期化メッセージの出力を行わないよう変更する。  
+  Override :java:extdoc:`needsToWrite <nablarch.core.log.basic.LogWriterSupport.needsToWrite(nablarch.core.log.basic.LogContext)>` , 
+  and change such that the initialization message that is called the first time is not output.
   
   .. code-block:: java
 
-      /** 初回判定を行う為のフラグを定義する */
+      /** Define the flag for initial determination */
       private boolean suppressionWriting = true;
       
       @Override
       public boolean needsToWrite(final LogContext context) {
         final String message = context.getMessage();
         if (suppressionWriting) {
-          // 出力対象のログが「initialized.」から始まっていた場合は、
-          // 初期化メッセージであるため出力対象外であることを示す「false」を戻す。
+          //  Since it is an initialization message if the log to be output starts from "initialized.",
+          // "false" is returned indicating that it is not the output target.
           if (StringUtil.hasValue(message) && message.startsWith("initialized.")) {
             suppressionWriting = false;
             return false;
@@ -668,329 +629,322 @@ LogFormatterの設定は、下記を想定する。
         return super.needsToWrite(context);
       }
       
-4. 作成したクラスをlog.propertiesに設定する。
+4. Configure the created class in log.properties.
 
-  プロジェクト側で作成したWriterのクラス名を、log.propertiesに設定する。
+  Configure the class name of the writer created in the project side, in log.properties.
   
-  設定例を以下に示す。
+  The configuration example shown below.
 
   .. code-block:: properties
 
     writerNames=sample
     
-    # writerのクラス名に作成したクラスを指定する
-    # クラスの完全修飾名が「sample.CustomFileLogWriter」の場合の設定例
+    # Configure the class created in the class name of the writer
+    # Configuration example when the fully qualified class name is "sample.CustomFileLogWriter"
     writer.sample.className = sample.CustomFileLogWriter
 
 .. _log-synchronous_file_log_writer_attention:
 
-SynchronousFileLogWriterを使用するにあたっての注意事項
+Notes on using the SynchronousFileLogWriter
 --------------------------------------------------------------------------
 
 .. important::
- :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`
- には以下の制約があるため、利用にあたっては十分検討すること。
+ As :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>` has the following restrictions, use after sufficient consideration.
 
- * ログのローテーションができない。
- * 出力されるログの内容が正常でない場合がある。
+ * Cannot rotate logs.
+ * Log contents that are output may not be normal.
 
-:java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>` は、
-ロックファイルを用いて排他制御を行いながらファイルにログを書き込む。
-そして、ロック取得の待機時間を超えてもロックを取得できない場合、強制的にロックファイルを削除し、
-自身のスレッド用のロックファイルを生成してからログの出力を行う。
+:java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`  writes the log to the file while performing exclusive control using the lock file. 
+If the lock cannot be acquired even if the lock acquisition wait time is exceeded, the lock file is force deleted, and a lock file is generated for own thread use and the log output is generated.
 
-もし強制的にロックファイルを削除できない場合は、ロックを取得していない状態で強制的にログの出力を行う。
-また、ロックファイルの生成に失敗した場合および、ロック取得待ちの際に割り込みが発生した場合も、
-ロックを取得していない状態で強制的にログの出力を行う。
+If the lock file cannot be force deleted, outputs the log forcibly while the lock is still not acquired. 
+Also, if the lock file generation fails or even if an interruption occurs while waiting for lock acquisition, 
+force outputs the log when the lock is still not acquired.
 
-**ロックを取得しない状態で強制的にログを出力する場合に、複数プロセスからのログ出力が競合するとログが正常に出力されない場合がある点に注意すること。**
+**Note that when the log is forcibly output without acquiring the lock, the log may not output normally if there is a conflict between logs output from multiple processes.**
 
-このような障害が発生した場合には、強制出力したログに加えて、同一のログファイルに障害のログを出力する。
-デフォルトでは本フレームワークが用意したログが出力されるが、
-:java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`
-のプロパティに障害コードを設定することで、障害通知ログのフォーマット(障害コードを含む)でログを出力することができる。
-障害通知ログのフォーマットで出力することで通常の障害通知ログと同様の方法でログの監視が可能となるので、
-障害コードの設定を行うことを推奨する。
+If such failures occur, the error log will be output to the same log file along with the forced output log.
+Although the log prepared by this framework is output by default, by configuring the failure code in the property of :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`, 
+the log can be output in the failure notification log format (includes the failure code). 
+Configuring the failure code is recommended, as it is possible to monitor the log in the same way as the normal failure notification log, with output in the format for failure notification log.
 
-障害コードを設定するプロパティ名を以下に示す。
+The property names that configure the failure code are shown below.
 
 failureCodeCreateLockFile
- :障害の内容: ロックファイルが生成できない
- :ログレベル: FATAL
- :メッセージの設定例({0}にはロックファイルのパスが設定される): ロックファイルの生成に失敗しました。おそらくロックファイルのパスが間違っています。ロックファイルパス=[{0}]。
- :デフォルトで出力するログ(障害コードなどは出力されない): failed to create lock file. perhaps lock file path was invalid. lock file path=[{0}].
+ :Details of the failure: Cannot generate the lock file
+ :Log level: FATAL
+ :Message configuration example (lock file path is set in {0}): Failed to generate the lock file.The lock file path may be wrong.Lock file path = [{0}]
+ :Default log output (failure code etc, are not output): failed to create lock file. perhaps lock file path was invalid. lock file path=[{0}].
 
 failureCodeReleaseLockFile
- :障害の内容: 生成したロックファイルを解放(削除)できない
- :ログレベル: FATAL
- :メッセージの設定例({0}にはロックファイルのパスが設定される): ロックファイルの削除に失敗しました。ロックファイルパス=[{0}]。
- :デフォルトで出力するログ(障害コードなどは出力されない): failed to delete lock file. lock file path=[{0}].
+ :Details of the failure: The generated lock file cannot be released (deleted)
+ :Log level: FATAL
+ :Message configuration example (lock file path is set in {0}): Failed to delete the lock file. Lock file path = [{0}]
+ :Default log output (failure code etc, are not output): failed to delete lock file. lock file path=[{0}].
 
 failureCodeForceDeleteLockFile
- :障害の内容: 解放されないロックファイルを強制削除できない
- :ログレベル: FATAL
- :メッセージの設定例({0}にはロックファイルのパスが設定される): ロックファイルの強制削除に失敗しました。ロックファイルが不正に開かれています。ロックファイルパス=[{0}]。
- :デフォルトで出力するログ(障害コードなどは出力されない): failed to delete lock file forcedly. lock file was opened illegally. lock file path=[{0}].
+ :Details of the failure: Unable to force delete the lock files that are not released
+ :Log level: FATAL
+ :Message configuration example (lock file path is set in {0}): Force delete of the lock file failed.The lock file has been opened incorrectly.Lock file path = [{0}]
+ :Default log output (failure code etc, are not output): failed to delete lock file forcedly. lock file was opened illegally. lock file path=[{0}].
 
 failureCodeInterruptLockWait
- :障害の内容: ロック取得待ちでスレッドをスリープしている際に、割り込みが発生
- :ログレベル: FATAL
- :メッセージの設定例: ロック取得中に割り込みが発生しました。
- :デフォルトで出力するログ(障害コードなどは出力されない): interrupted while waiting for lock retry.
+ :Details of the failure: Interruption occurs when the thread is sleeping waiting for lock acquisition.
+ :Log level: FATAL
+ :Configuration example of message: An interruption occurred when acquiring the lock.
+ :Default log output (failure code etc, are not output): Interrupted while waiting for lock retry.
 
 .. important::
- 障害コードを設定した場合、障害通知ログのフォーマットで同一のログファイルにログが出力されるが、
- 障害解析ログは出力されない点に注意すること。
+ Note that, although the log is output to the same log file in the failure notification log format if a failure code has been configured, 
+ the failure analysis log will not be output.
 
-:java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`
-の設定例を以下に示す。
+A configuration example of :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>` is shown below.
 
 .. code-block:: properties
 
  writerNames=monitorLog
 
- # SynchronousFileLogWriterクラスを指定する。
+ # Specifies the SynchronousFileLogWriter class
  writer.monitorLog.className=nablarch.core.log.basic.SynchronousFileLogWriter
- # 書き込み先のファイルパスを指定する。
+ # Specifies the write destination file path.
  writer.monitorLog.filePath=/var/log/app/monitor.log
- # 書き込み時に使用する文字エンコーディングを指定する。
+ # Specifies the character encoding to be used when writing.
  writer.monitorLog.encoding=UTF-8
- # 出力バッファのサイズを指定する。(単位はキロバイト。1000バイトを1キロバイトと換算する。指定しなければ8KB)
+ # Specifies the size of the output buffer.(Unit is kilobytes.Calculate 1000 bytes as 1 kilobyte. 8KB if not specified )
  writer.monitorLog.outputBufferSize=8
- # ログフォーマッタのクラス名を指定する。
+ # Specifies the class name of log formatter.
  writer.monitorLog.formatter.className=nablarch.core.log.basic.BasicLogFormatter
- # LogLevel列挙型の名称を指定する。ここで指定したレベル以上のログを全て出力する。
+ # Specifies the name of the LogLevel enumeration type. All the logs that are above the level specified here will be output.
  writer.monitorLog.level=ERROR
- # ロックファイルのファイル名を指定する。
+ # Specifies the file name of the lock file.
  writer.monitorLog.lockFilePath=/var/log/lock/monitor.lock
- # ロック取得の再試行間隔(ミリ秒)を指定する。
+ # Specifies the lock acquisition retrial interval (milliseconds)
  writer.monitorLog.lockRetryInterval=10
- # ロック取得の待機時間(ミリ秒)を指定する。
+ # Specifies the wait time (milliseconds) to acquire the lock.
  writer.monitorLog.lockWaitTime=3000
- # ロックファイルが生成できない場合の障害通知コードを指定する。
+ # Specifies the failure notification code when lock file cannot be generated.
  writer.monitorLog.failureCodeCreateLockFile=MSG00101
- # 生成したロックファイルを解放(削除)できない場合の障害通知コードを指定する。
+ # Specifies the failure notification code when the generated lock file cannot be released (deleted)
  writer.monitorLog.failureCodeReleaseLockFile=MSG00102
- # 解放されないロックファイルを強制削除できない場合の障害通知コードを指定する。
+ # Specifies the failure notification code when the unreleased lock file cannot be forcibly deleted.
  writer.monitorLog.failureCodeForceDeleteLockFile=MSG00103
- # ロック待ちでスレッドをスリープしている際に、割り込みが発生した場合の障害通知コードを指定する。
+ # Specifies the failure notification code when an interruption occurs while the thread is sleeping waiting for the lock.
  writer.monitorLog.failureCodeInterruptLockWait=MSG00104
 
 .. important::
 
- maxFileSizeプロパティを指定するとログのローテーションが発生し、
- ログの出力が出来なくなることがあるので指定しないこと。
+ Do not specify the maxFileSize property because log rotation may occur and log may not be output.
 
 
 .. _log-log_level:
 
-ログレベルの定義
+Log level definition
 --------------------------------------------------
-本機能では、以下のログレベルを使用する。
+This function uses the following log levels.
 
-.. list-table:: ログレベルの定義
+.. list-table:: Log level definition
    :header-rows: 1
    :class: white-space-normal
    :widths: 15,85
 
-   * - ログレベル
-     - 説明
+   * - Log level
+     - Description
 
    * - FATAL
-     - アプリケーションの継続が不可能になる深刻な問題が発生したことを示す。
-       監視が必須で即通報および即対応が必要となる。
+     - Indicates the occurrence of a serious problem that prevents the application from continuing. 
+       Monitoring is mandatory and prompt notification and immediate response are necessary.       
 
    * - ERROR
-     - アプリケーションの継続に支障をきたす問題が発生したことを示す。
-       監視が必須であるが、通報および対応にFATALレベルほどの緊急性がない。
+     - Indicates the occurrence of a problem that prevents the application from continuing. 
+       Although monitoring is mandatory, notification and response are not as urgent as the FATAL level.       
 
    * - WARN
-     - すぐには影響を与えないが、放置しておくとアプリケーションの継続に支障をきたす問題になる恐れがある事象が発生したことを示す。
-       できれば監視した方がよいが、ERRORレベルほどの緊急性がない。
+     - Though there is no immediate impact, it indicates that the event if not addressed could cause a problem that may interfere with the continuation of the application. 
+       The event should be monitored if possible, but it is not as urgent as the ERROR level.  
 
    * - INFO
-     - 本番運用時にアプリケーションの情報を出力するログレベル。アクセスログや統計ログが該当する。
+     - Log level that outputs the application information during the production operation. Applicable to access and statistics logs.
 
    * - DEBUG
-     - 開発時にデバッグ情報を出力するログレベル。SQLログや性能ログが該当する。
+     - Log level to output debug information during development. Applicable to SQL and performance logs.
 
    * - TRACE
-     - 開発時にデバッグ情報より、さらに細かい情報を出力したい場合に使用するログレベル。
+     - Log level to be used when a more detailed information output is required over debug information during development.
 
-ログレベルは、6段階とし、FATALからTRACEに向かって順にレベルが低くなる。
-そして、ログ出力機能では、設定で指定されたレベル以上のログを全て出力する。
-例えば、WARNレベルが設定で指定された場合は、FATALレベル,ERRORレベル,WARNレベルが指定されたログのみ出力する。
-
-.. tip::
- 本番運用時は、INFOレベルでログを出力することを想定している。
- ログファイルのサイズが肥大化しないように、プロジェクト毎にログの出力内容を規定すること。
+The log consists of 6 levels, and decrease from FATAL to TRACE.
+The log output function outputs all logs of a level or higher, as specified by the setting.
+For example, when WARN level is specified in the configuration, only the logs specified with the FATAL level, ERROR level and WARN level are output.
 
 .. tip::
- 本フレームワークでも、ログ出力機能を使ってログを出力している。
- フレームワークが出力するログについては、 :ref:`log-fw_log_policy` を参照すること。
+ During production operation, logs are assumed to be output at the INFO level. 
+ Specify the log output contents of each project so that the log file size does not become big.
+
+.. tip::
+ Even this framework outputs log using the log output function. 
+ For the log output by the framework, see  :ref:`log-fw_log_policy` .
 
 .. _log-fw_log_policy:
 
-フレームワークのログ出力方針
+Framework log output policy
 --------------------------------------------------
-本フレームワークでは、下記の出力方針に基づきログ出力を行う。
+The framework outputs logs based on the below output policy.
 
-.. list-table:: フレームワークのログ出力方針
+.. list-table:: Framework log output policy
     :header-rows: 1
     :class: white-space-normal
     :widths: 15,85
 
-    * - ログレベル
-      - 出力方針
+    * - Log level
+      - Output policy
 
     * - FATAL/ERROR
-      - 障害ログの出力時にFATAL/ERRORレベルで出力する。
+      - Outputs at the FATAL/ERROR level when the failure log is output.
 
-        障害ログは、障害監視の対象であり、障害発生時の一時切り分けの起点ともなる為、
-        原則として1件の障害に対して、1件の障害ログを出力する方針としている。
+        Since the failure log is the target of failure monitoring, it is the starting point for primary isolation during failure, 
+        and the policy is to output one failure log for each failure.
 
-        このため、実行制御基盤では単一のハンドラ(例外を処理するハンドラ)により、
-        障害通知ログを出力する方針としている。
+        Therefore, the policy is to output an failure notification log from the execution control platform with a single handler (handler that processes exceptions).  
 
     * - WARN
-      - 障害発生時に連鎖して例外が発生した場合など、
-        障害ログとして出力できない例外をWARNレベルで出力する。
+      - When the exceptions are linked when an error occurs, 
+        exceptions that cannot be output as failure logs are output at WARN level.
 
-        例えば、業務処理とトランザクションの終了処理の2つで例外が発生した場合は、
-        業務処理の例外を障害ログに出力し、トランザクションの終了処理の例外をWARNレベルで出力する。
+        For example, if an exception occurs in both the business process and end process of transaction, 
+        the business process exception is output to the failure log, and the end process exception of transaction is output at the WARN level.
 
     * - INFO
-      - アプリケーションの実行状況に関連するエラーを検知した場合にINFOレベルで出力する。
+      - When an error related to the application execution status is detected, output is at INFO level.
 
-        例えば、URLパラメータの改竄エラーや認可チェックエラーが発生した場合にINFOレベルで出力する。
+        For example, for errors of tampering URL parameters or permission check errors, output is at INFO level.
 
     * - DEBUG
-      - アプリケーション開発時に使用するデバッグ情報を出力する。
+      - Outputs debug information used during application development.
 
-        アプリケーション開発時は、DEBUGレベルを設定することで開発に必要な情報が出力されるよう考慮している。
+        During application development, the information required for development is considered to be output by configuring at the DEBUG level.
 
     * - TRACE
-      - フレームワーク開発時に使用するデバッグ情報を出力する。アプリケーション開発での使用は想定していない。
+      - Outputs the debug information for use during framework development. Not intended for use in application development.
 
 .. _log-functional_comparison:
 
-log4jとの機能比較
+Functional comparison with log4j
 --------------------------------------------------
-ここでは、本機能と `log4j(外部サイト、英語) <http://logging.apache.org/log4j/1.2/>`_ との機能比較を示す。
+Function comparison between Nablrach and `log4j (external site, English) <http://logging.apache.org/log4j/1.2/>`_ are shown below.
 
-.. list-table:: 機能比較（○：提供あり　△：一部提供あり　×：提供なし　－:対象外）
+.. list-table:: Function comparison (O: Provided △: Partially provided ×: Not provided-: Not applicable)
   :header-rows: 1
   :class: white-space-normal
   :widths: 50, 25, 25
 
-  * - 機能
+  * - Function
     - Nablarch
     - log4j
 
-  * - ログの出力有無をログレベルで制御できる
+  * - Whether to output logs can be controlled at the log level
     - ○
       |br|
-      :ref:`解説書へ <log-basic_setting>`
+      :ref:`To the manual <log-basic_setting>`
     - ○
 
-  * - ログの出力有無をカテゴリ(パッケージ単位や名前など)で制御できる
+  * - Whether to output the log can be controlled by category (package unit, name, etc.)
     - ○
       |br|
-      :ref:`解説書へ <log-basic_setting>`
+      :ref:`To the manual <log-basic_setting>`
     - ○
 
-  * - 1つのログを複数の出力先に出力できる
+  * - One log can be output to multiple output destinations
     - ○
       |br|
-      :ref:`解説書へ <log-basic_setting>`
+      :ref:`To the manual <log-basic_setting>`
     - ○
 
-  * - ログを標準出力に出力できる
+  * - Log can be output to standard output
     - ○
       |br|
-      :ref:`解説書へ <log-log_writers>`
+      :ref:`To the manual <log-log_writers>`
     - ○
 
-  * - ログをファイルに出力できる
+  * - Log can be output to a file
     - ○
       |br|
-      :ref:`解説書へ <log-log_writers>`
+      :ref:`To the manual <log-log_writers>`
     - ○
 
-  * - ファイルサイズによるログファイルのローテーションができる
+  * - Log files can be rotated by file size
     - △ [#logrolate]_
       |br|
-      :ref:`解説書へ <log-log_writers>`
+      :ref:`To the manual <log-log_writers>`
     - ○
 
-  * - 日時によるログファイルのローテーションができる
+  * - Log files can be rotated by date and time
     - × [#extends_or_log4j]_
     - ○
 
-  * - ログをメールで送信できる
+  * - Log can be sent by email
     - × [#extends_or_log4j]_
     - ○
 
-  * - ログをTelnetで送信できる
+  * - Logs can be sent by Telnet
     - × [#extends_or_log4j]_
     - ○
 
-  * - ログをSyslogで送信できる
+  * - Log can be sent by Syslog
     - × [#extends_or_log4j]_
     - ○
 
-  * - ログをWindows NTのイベントログに追加できる
+  * - Logs can be added to the Windows NT event log
     - × [#extends_or_log4j]_
     - ○
 
-  * - データベースにログを出力できる
+  * - Can output logs to the database
     - × [#extends_or_log4j]_
     - ○
 
-  * - ログを非同期で出力できる
+  * - Log can be output asynchronously
     - × [#extends_or_log4j]_
     - ○
 
-  * - ログのフォーマットをパターン文字列で指定できる
+  * - Log format can be specified with a pattern string
     - ○
       |br|
-      :ref:`解説書へ <log-log_format>`
+      :ref:`To the manual <log-log_format>`
     - ○
 
-  * - 障害ログを出力できる
+  * - Can output failure log
     - ○
       |br|
-      :ref:`解説書へ <failure_log>`
+      :ref:`To the manual <failure_log>`
     - －
 
-  * - HTTPアクセスログを出力できる
+  * - Can output HTTP access log
     - ○
       |br|
-      :ref:`解説書へ <http_access_log>`
+      :ref:`To the manual <http_access_log>`
     - －
 
-  * - SQLログを出力できる
+  * - Can output SQL log
     - ○
       |br|
-      :ref:`解説書へ <sql_log>`
+      :ref:`To the manual <sql_log>`
     - －
 
-  * - パフォーマンスログを出力できる
+  * - Can output performance log
     - ○
       |br|
-      :ref:`解説書へ <performance_log>`
+      :ref:`To the manual <performance_log>`
     - －
 
-  * - メッセージングログを出力できる
+  * - Can output messaging log
     - ○
       |br|
-      :ref:`解説書へ <messaging_log>`
+      :ref:`To the manual <messaging_log>`
     - －
 
-.. [#logrolate] Nablarchのログ出力は、ファイルの世代管理を提供していないので、一部提供ありとしている。
+.. [#logrolate] Nablarch log output does not provide file generation management, so it is partially provided.
 
-.. [#extends_or_log4j] :ref:`log_adaptor` を使用する。
-                       または、プロジェクトで作成する。作成方法は、 :ref:`log-add_log_writer` を参照。
+
+.. [#extends_or_log4j] Use :ref:`log_adaptor` .
+                       Or create it in the project. For the creation method, see :ref:`log-add_log_writer` .
 
 .. |br| raw:: html
 

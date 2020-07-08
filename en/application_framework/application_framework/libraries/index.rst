@@ -1,6 +1,6 @@
 .. _library:
 
-Nablarchが提供するライブラリ
+Libraries Provided by Nablarch
 ==================================================
 
 

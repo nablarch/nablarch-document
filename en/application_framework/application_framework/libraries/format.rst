@@ -1,21 +1,20 @@
 .. _`format`:
 
-フォーマッタ
+Formatter
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-機能概要
+Function overview
 ---------------------------------------------------------------------
 
-日付や数値などのデータをフォーマットして文字列型に変換する機能を提供する。
-フォーマットの設定を本機能に集約することで、画面やファイル、メールなど形式毎に
-設定をする必要がなくなる。
+Provides a function to format data such as date and number, and convert it to string type. 
+By consolidating the format configuration in this function, configuration is not necessary for each format such as screen, file and email.
 
 
-モジュール一覧
+Module list
 ---------------------------------------------------------------------
 .. code-block:: xml
 
@@ -24,57 +23,53 @@
     <artifactId>nablarch-core</artifactId>
   </dependency>
 
-使用方法
+How to use
 ---------------------------------------------------------------------
 
-フォーマッタの設定を行う
+Configure the formatter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-本機能は特に設定をしない場合でも、フレームワークがデフォルトでサポートしている
-フォーマッタを使用できる。
+This function can use the formatter that the framework supports by default even without any configuration.
 
-デフォルトのフォーマットパターンの変更や、フォーマッタの追加をしたい場合は、
-:ref:`format_custom` を参照してシステムリポジトリに設定を追加すること。
+To change the default format pattern or add a formatter, refer to :ref:`format_custom`  and add the configuration to the system repository.
 
-フォーマッタを使用する
+Use the formatter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-フォーマットをする際は
-:java:extdoc:`FormatterUtil <nablarch.core.text.FormatterUtil>`
-を使用する。
+Use :java:extdoc:`FormatterUtil <nablarch.core.text.FormatterUtil>` for formatting.
 
-フォーマッタは、使用するフォーマッタを特定するためにクラス名とは別にフォーマッタ名を持つ。
+The formatter has a separate name from the class name to specify the formatter to be used.
 
-FormatterUtil.formatを呼び出す際、フォーマッタ名、フォーマット対象、フォーマットのパターンを指定するが、
-フォーマット名とフォーマット対象のデータ型に応じて、適切なフォーマッタが選択される。
+When calling FormatterUtil.format, formatter name, format target, and format pattern are specified, 
+and an appropriate formatter is selected based on the format name and data type to be formatted.
 
-選択されたフォーマッタと指定されたフォーマットのパターンを使用してフォーマットされる。
-明示的にフォーマットのパターンを指定しない場合は、フォーマッタ毎に設定されたデフォルトのパターンが使用される。
+Formatted using the selected formatter and specified format pattern. 
+If the format pattern is not specified explicitly, the default pattern configured for each formatter is used.
 
-実装例
+Implementation examples
 
 .. code-block:: java
 
-  // デフォルトのパターンを使用してフォーマットする場合
-  // 第1引数に使用したいフォーマッタの名前を指定する
-  // 第2引数にフォーマットしたい値を指定する
+  // Format using the default pattern
+  // Specify the name of the formatter to use for the first parameter
+  // Specify the value to format in the second parameter
   FormatterUtil.format("dateTime", input);
 
-  // パターンを指定してフォーマットする場合
-  // 第1、第2引数はデフォルトのパターンの時と同様
-  // 第3引数に使用したいフォーマットのパターンを指定する。
-  FormatterUtil.format("dateTime", input, "yyyy年MM月dd日");
+  // When specifying a pattern for formatting
+  // Specify the first and second parameters in the same way as the default pattern
+  // Specify the format pattern to use for the third parameter.
+  FormatterUtil.format("dateTime", input, "yyyy/MM/dd");
 
-本機能でデフォルトで提供しているフォーマッタを以下に示す。
+The formatter provided by default with this function are shown below:
 
 .. list-table::
   :header-rows: 1
   :class: white-space-normal
   :widths: 20,40,40,40
 
-  * - フォーマッタ名
-    - フォーマットするデータの型
-    - デフォルトのフォーマットパターン
-    - 備考
+  * - Formatter name
+    - Type of data to format
+    - Default format pattern
+    - Remarks
 
   * - :ref:`dateTime <format_datetime>`
     - :java:extdoc:`Date <java.util.Date>`
@@ -84,8 +79,8 @@ FormatterUtil.formatを呼び出す際、フォーマッタ名、フォーマッ
   * - :ref:`dateTime <format_datetime>`
     - :java:extdoc:`String <java.lang.String>`
     - yyyy/MM/dd
-    - フォーマット対象の日付文字列のパターンが必要(デフォルトは ``yyyyMMdd`` )
-
+    - Requires a pattern to format the date string (default ``yyyyMMdd`` )
+    
   * - :ref:`number <format_number>`
     - :java:extdoc:`Number <java.lang.Number>`
     - #,###.###
@@ -99,32 +94,28 @@ FormatterUtil.formatを呼び出す際、フォーマッタ名、フォーマッ
 .. _`format_dateTime`:
 
 dateTime
-  日付をフォーマットするフォーマッタ。
+  Formatter for formatting dates.
 
-  フォーマット対象の型は :java:extdoc:`Date <java.util.Date>` 及びその派生クラスと :java:extdoc:`String <java.lang.String>` である。
-  パターンには
-  :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>`
-  が規定している構文を指定する。
-  デフォルトのパターンは ``yyyy/MM/dd`` である。
+  The types to be formatted are  :java:extdoc:`Date <java.util.Date>` , its derived classes and  :java:extdoc:`String <java.lang.String>` . 
+  For the pattern, specify the syntax specified by :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>`. 
+  The default pattern is  ``yyyy/MM/dd`` .
 
-  :java:extdoc:`String <java.lang.String>` 型をフォーマットする場合は、フォーマット対象となる日付文字列のパターンも設定する必要がある。
-  デフォルトでは、フォーマット対象の日付文字列のパターンは ``yyyyMMdd`` となっている。
-  設定を変更したい場合は :ref:`format_custom` を参照すること。
+  To format :java:extdoc:`String <java.lang.String>` , the pattern of the date string to be formatted should also be configured. 
+  The date string pattern to be formatted is  ``yyyyMMdd``  by default. To change the configuration, refer to  :ref:`format_custom` .
 
 .. _`format_number`:
 
 number
-  数値をフォーマットするフォーマッタ。
+  Formatter for formatting numerics.
 
-  フォーマット対象の型は :java:extdoc:`Number <java.lang.Number>` の派生クラスと :java:extdoc:`String <java.lang.String>` である。
-  パターンには
-  :java:extdoc:`DecimalFormat <java.text.DecimalFormat>`
-  が規定している構文を指定する。
-  デフォルトのパターンは ``#,###.###`` である。
+  The types to be formatted are  :java:extdoc:`Number <java.lang.Number>` , its derived classes and  :java:extdoc:`String <java.lang.String>` . 
+  For the pattern, specify the syntax specified by :java:extdoc:`DecimalFormat <java.text.DecimalFormat>`. 
+  The default pattern is  ``#,###.###`` .
 
-使用例
-  例えば、データバインドを使用してファイルに出力する際に本機能を使用したい場合は、
-  Beanのgetterで使用するとよい。
+Usage examples
+  For example, to output to a file using data binding with this function, 
+  use it with getter of Bean.
+
 
   .. code-block:: java
 
@@ -134,53 +125,53 @@ number
         private Date startDate;
         private Integer sales;
 
-        // フォーマットされた文字列を取得するgetterを作成
+        // Create a getter to acquire the formatted string
         public String getFormattedStartDate() {
             return FormatterUtil.format("dateTime", startDate);
         }
 
         public String getFormattedSales() {
-            return FormatterUtil.format("number", sales, "#,### 円");
+            return FormatterUtil.format("number", sales, "#,### Yen");
         }
 
-        // 他の getter & setter は省略
+        // Other setters and getters are omitted.
     }
 
 
 .. _`format_custom`:
 
-フォーマッタの設定を変更する
+Change the formatter configuration
 ---------------------------------------------------------------------
 
-フォーマッタの設定を変更するには、以下の手順が必要となる。
+The following procedures are required to change the formatter configuration.
 
-コンポーネント設定ファイルに ``nablarch.core.text.FormatterConfig`` の設定をする。
+Configure  ``nablarch.core.text.FormatterConfig`` in the component configuration file.
 
-  ポイント
-   * コンポーネント名は ``formatterConfig`` とすること。
+  Point
+   * The component name should be  ``formatterConfig`` .
 
-  ``nablarch.core.text.FormatterConfig`` に使用するフォーマッタのリストの設定をする。
-  リストのプロパティ名は ``formatters`` とすること。
+  Configure the formatter list used for ``nablarch.core.text.FormatterConfig`` . 
+  The property name of the list should be  ``formatters`` .
 
 
-  以下に、フレームワークがデフォルトでサポートしているフォーマッタの初期設定を示す。
+  The default format configuration supported by the framework is shown below.
 
   .. code-block:: xml
 
     <component name="formatterConfig" class="nablarch.core.text.FormatterConfig">
-      <!-- フォーマッタを保持するリスト -->
+      <!-- List holding formatters -->
       <property name="formatters">
         <list>
           <component class="nablarch.core.text.DateTimeFormatter">
-            <!-- フォーマッタを呼び出す際に使用する名前 -->
+            <!-- Name to use when calling the formatter -->
             <property name="formatterName" value="dateTime" />
-            <!-- デフォルトのフォーマットパターンの設定 -->
+            <!-- Configure the default format pattern -->
             <property name="defaultPattern" value="yyyy/MM/dd" />
           </component>
           <component class="nablarch.core.text.DateTimeStrFormatter">
             <property name="formatterName" value="dateTime" />
             <property name="defaultPattern" value="yyyy/MM/dd" />
-            <!-- 日付文字列のフォーマッタは、日付文字列のパターンを表すプロパティも設定する必要がある -->
+            <!-- Configuration of the properties that represent the date string pattern is also required for the formatter of date string -->
             <property name="dateStrPattern" value="yyyyMMdd" />
           </component>
           <component class="nablarch.core.text.NumberFormatter">
@@ -196,31 +187,31 @@ number
     </component>
 
   .. important::
-    コンポーネント定義でデフォルトのフォーマッタの設定を変更する場合は、
-    変更を加えないフォーマッタやプロパティに関しても必ず設定を記述すること。
-    コンポーネント定義に記述がないフォーマッタは使用できない。
+    When changing the default formatter configuration in component definition, 
+    configuration for formatters and properties that do not change should be described. 
+    Formatters not described in the component definition cannot be used.
 
 
-フォーマッタを追加する
+Adding formatter
 ---------------------------------------------------------------------
 
-フォーマッタを追加する場合は、以下の手順が必要となる。
+The following steps are required to add a formatter.
 
-1. :java:extdoc:`Formatter <nablarch.core.text.Formatter>` の実装クラスを作成する。
+1. Create the implementation class :java:extdoc:`Formatter <nablarch.core.text.Formatter>` .
 
-  フォーマット処理は :java:extdoc:`Formatter <nablarch.core.text.Formatter>` を実装したクラスが行う。
+  Format process is performed by the class that implements  :java:extdoc:`Formatter <nablarch.core.text.Formatter>` .
 
 
-2. コンポーネント設定ファイルに作成したフォーマッタの設定を追加する
+2. Add the formatter configuration created in the component configuration file
 
-  :ref:`format_custom` を参照して、コンポーネント設定ファイルに ``nablarch.core.text.FormatterConfig`` とフォーマッタのリストの設定を行う。
+  Configure  ``nablarch.core.text.FormatterConfig``  and format list to the component configuration file by refering to :ref:`format_custom` .
 
   .. code-block:: xml
 
     <component name="formatterConfig" class="nablarch.core.text.FormatterConfig">
       <property name="formatters">
         <list>
-          <!-- デフォルトのフォーマッタ -->
+          <!-- Default formatter -->
           <component class="nablarch.core.text.DateTimeFormatter">
             <property name="formatterName" value="dateTime" />
             <property name="defaultPattern" value="yyyy/MM/dd" />
@@ -238,10 +229,10 @@ number
             <property name="formatterName" value="number" />
             <property name="defaultPattern" value="#,###.###" />
           </component>
-          <!-- 追加したフォーマッタ -->
+          <!-- Added formatter -->
           <component class="sample.SampleFormatter">
             <property name="formatterName" value="sample" />
-            <property name="defaultPattern" value="#,### 円" />
+            <property name="defaultPattern" value="#,### Yen" />
           </component>
         </list>
       </property>

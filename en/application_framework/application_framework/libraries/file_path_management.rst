@@ -1,26 +1,26 @@
 .. _file_path_management:
 
-ファイルパス管理
+File path management
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-システムで使用するファイルの入出力先のディレクトリや拡張子を管理するための機能を提供する。
+Provides a function to manage the input/output directories and extensions of files used in the system.
 
 
-機能概要
+Function overview
 --------------------------------------------------
 
-ディレクトリや拡張子を論理名で管理できる
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ディレクトリや拡張子を論理名で管理することが出来る。
+Manage directories and extensions with logical names
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Directories and extensions can be managed with logical names.
 
-ファイルの入出力などを行う機能では、論理名を指定するだけでそのディレクトリ配下のファイルに対する入出力が実現出来る。
+The file input/output function enables realization of input/output for the files under the directory simply by specifying the logical name.
 
-詳細は、 :ref:`file_path_management-definition` を参照
+For details, see  :ref:`file_path_management-definition` .
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -29,45 +29,42 @@
     <artifactId>nablarch-core</artifactId>
   </dependency>
 
-使用方法
+How to use
 --------------------------------------------------
 
 .. _file_path_management-definition:
 
-ディレクトリと拡張子を設定する
+Configure the directory and extension
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:java:extdoc:`FilePathSetting <nablarch.core.util.FilePathSetting>` にディレクトリ及び拡張子の設定を行い、
-コンポーネント設定ファイルに定義する。
+Configure the directory and extension in :java:extdoc:`FilePathSetting <nablarch.core.util.FilePathSetting>`  and define in the component configuration file.
 
-以下に例を示す。
+An example is shown below.
 
-ポイント
-  * :java:extdoc:`FilePathSetting <nablarch.core.util.FilePathSetting>` のコンポーネント名は ``filePathSetting`` とすること
-  * :java:extdoc:`basePathSettings <nablarch.core.util.FilePathSetting.setBasePathSettings(java.util.Map)>` にディレクトリの設定を行う
-  * :java:extdoc:`fileExtensions <nablarch.core.util.FilePathSetting.setFileExtensions(java.util.Map)>` に拡張子の設定を行う
-  * 1つのディレクトリに対して複数の拡張子を設定する場合には、論理名を複数設定する
-  * 拡張子のないファイルの場合には、その論理名の拡張子設定を省略する
-  * スキームは ``file`` と ``classpath`` が使用できる。省略した場合は、 ``classpath`` となる
-  * ``classpath`` スキームの場合、そのパスがディレクトリとして存在している必要がある。(jarなどのアーカイブされたファイル内のパスは指定できない)
-  * パスにはスペースを含めない。（スペースが含まれているパスは指定できない）
+Point
+  * Set the component name of :java:extdoc:`FilePathSetting <nablarch.core.util.FilePathSetting>`  to  ``filePathSetting`` .
+  * Configure the directory in :java:extdoc:`basePathSettings <nablarch.core.util.FilePathSetting.setBasePathSettings(java.util.Map)>` 
+  * Configure the extension in :java:extdoc:`fileExtensions <nablarch.core.util.FilePathSetting.setFileExtensions(java.util.Map)>` . 
+  * When configuring multiple extensions for one directory, set multiple logical names.
+  * If the file has no extension, omit the extension configuration for that logical name.
+  * The scheme can be  ``file``  and ``classpath`` . If omitted,  ``classpath``  is used.
+  * For the ``classpath``  scheme, the path must exist as a directory. (The path in archived files such as jar cannot be specified)
+  * Spaces cannot be included in the path. (Path with spaces cannot be specified)
 
   .. important::
 
-    classpathスキームを使用した場合、一部のウェブアプリケーションサーバでは本機能を使用することができない。
-    これは、ウェブアプリケーションサーバが独自のファイルシステムを使用して、
-    クラスパス配下のリソースなどを管理していることに起因する。
+    When the classpath scheme is used, this function cannot be used with some Web application servers. 
+    This is because the Web application server uses its own file system to manage the resources under the classpath.
 
-    例えば、JbossやWildflyでは、vfsと呼ばれるバーチャルファイルシステムで、
-    クラスパス配下のリソースが管理されるため、classpathスキームは利用することができない。
+    For example, a virtual file system called vfs manages the resources under the classpath in Jboss and Wildfly and the classpath scheme cannot be used.
 
-    このため、classpthスキームではなくfileスキームを使用することを推奨する。
+    Therefore, using file scheme instead of classpth scheme is recommended.
 
 
 
 .. code-block:: xml
 
   <component name="filePathSetting" class="nablarch.core.util.FilePathSetting">
-    <!-- ディレクトリの設定 -->
+    <!-- Configuration of directory-->
     <property name="basePathSettings">
       <map>
         <entry key="csv-input" value="file:/var/nablarch/input" />
@@ -78,7 +75,7 @@
       </map>
     </property>
 
-    <!-- 拡張子の設定 -->
+    <!-- Configuration of extension-->
     <property name="fileExtensions">
       <map>
         <entry key="csv-input" value="csv" />
@@ -86,18 +83,17 @@
 
         <entry key="dat-input" value="dat" />
 
-        <!-- fixed-file-inputは拡張子が存在しないので、拡張子の設定は行わない -->
+        <!-- Extension is not configured as fixed-file-input does not have an extension -> -->
       </map>
     </property>
 
   </component>
 
-論理名が示すファイルパスを取得する
---------------------------------------------------
-:java:extdoc:`FilePathSetting <nablarch.core.util.FilePathSetting>` を使用して、論理名に対応するファイルパスを取得する。
+Acquire the file path indicated by the logical name
+----------------------------------------------------------
+Use :java:extdoc:`FilePathSetting <nablarch.core.util.FilePathSetting>`  to acquire the file path corresponding to the logical name.
 
-
-以下に幾つかの使用例を示す。
+Several usage examples are shown below.
 
 .. code-block:: java
 
