@@ -1,33 +1,33 @@
-静的データのキャッシュ
+Static Data Cache
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-データベースやファイルなどに格納した静的データへのアクセスを高速化するためのキャッシュ機能を提供する。
+Provides a cache function to speed up access to static data stored in databases and files.
 
-この機能は単体では動作しない。
-静的データをキャッシュしたい場合には、 :ref:`static_data_cache-load_data` を参照し、データのロード処理を実装すること。
+This function does not work independently.
+To cache static data, implement the data load process by referring to :ref:`static_data_cache-load_data`.
 
 .. important::
 
-  この機能では、キャシュしたデータをヒープ上に保持する。
-  大量のデータをキャッシュした場合、Full GCが頻発しパフォーマンスに悪影響を与える可能性があるので、注意すること。
+  This function holds the cached data in the heap.
+  When a large quantity of data is to be cached, note that the frequent occurrence of full GC that might adversely affect the performance.
 
-機能概要
+Function overview
 --------------------------------------------------
-任意のデータをキャッシュできる
+Arbitrary data can be cached
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-この機能が提供するインタフェースを実装することで、容易に任意のデータをキャッシュすることができる。
+By implementing the interface provided by this function, arbitrary data can be cached easily.
 
-なお、データのキャッシュの制御はこの機能が提供するクラスで行っている。
-このため、新たなデータをキャッシュしたい場合には、データをロードする処理のみを実装すればよい。
-特に、マルチスレッド環境下での同期処理などを行う必要がないのは大きなメリットである。
+The data cache is controlled by the class provided by this function.
+Therefore, when new data is to be cached, it is sufficient to implement only the data loading process.
+A significant advantage is that implementation of a synchronization process like in a multi-thread environment is not required.
 
-詳細は、 :ref:`static_data_cache-load_data` を参照。
+For details, see :ref:`static_data_cache-load_data`.
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -36,53 +36,53 @@
     <artifactId>nablarch-core</artifactId>
   </dependency>
 
-使用方法
+How to use
 --------------------------------------------------
 
 .. _static_data_cache-load_data:
 
-任意のデータをキャッシュする
+Cache arbitrarily data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-任意の静的データをキャッシュする場合、以下の作業が必要となる。
+The following operations are necessary to cache arbitrary static data.
 
-#. :java:extdoc:`StaticDataLoader <nablarch.core.cache.StaticDataLoader>` インタフェースを実装し、データをロードする処理を実装する。
-#. :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>` クラスに、 :java:extdoc:`StaticDataLoader <nablarch.core.cache.StaticDataLoader>` の実装クラスを設定する。
-#. キャッシュを利用するクラスに :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>` を設定する。
+#. Implement :java:extdoc:`StaticDataLoader <nablarch.core.cache.StaticDataLoader>` and then implement the process to load data.
+#. Configure the implementation class :java:extdoc:`StaticDataLoader <nablarch.core.cache.StaticDataLoader>` to :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>`.
+#. Configure  :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>` to the class that uses the cache.
 
-以下に詳細な手順を示す。
+The detailed procedure is shown below.
 
-StaticDataLoaderインタフェースを実装しローダーを作成する
-  :java:extdoc:`StaticDataLoader <nablarch.core.cache.StaticDataLoader>` を実装し、任意のストアから静的データをロードする処理を実装する。
+Create a loader by implementing the StaticDataLoader interface
+  Implement :java:extdoc:`StaticDataLoader <nablarch.core.cache.StaticDataLoader>` and then implement the process that loads the static data from any arbitrary store.
 
-  幾つか実装すべきメソッドがあるが、以下のルールにもとづいて実装すると良い。
+  Although there are many methods of implementation, implementation based on the following rules is recommended.
 
-  :loadAll: システム起動時に一括ロードを行う場合に実装する。それ以外の場合は、 `return null` で良い。
-  :getValue: 静的データを一意に識別するidに対応するデータをロードする。
-             このメソッドは、キャッシュにデータが存在しなかった場合に呼び出される。
-  :上記以外のメソッド: インデックス毎に静的データを管理したい場合に使用する。
-                       この機能は実装方法が複雑になるだけでなく、使用するメリットもないため原則使用しない。
+  :loadAll: Implement while performing batch loading during system startup. In other cases, `return null` can be used.
+  :getValue: Load data corresponding to the ID that uniquely identifies the static data.
+             This method is called when there is no data in the cache.
+  :Method other than the above: Used to manage the static data for each index.
+                       As a general rule, this function is not used, as the implementation method is complicated and using it has no advantage.
 
-                       実装としては、 `return null` で良い。
+                       For implementation, `return null` can be used.
 
-BasicStaticDataCacheクラスにローダーを設定する
-  :java:extdoc:`StaticDataLoader <nablarch.core.cache.StaticDataLoader>` を実装したローダーを、 :java:extdoc:`BasicStaticDataCache.loader <nablarch.core.cache.BasicStaticDataCache.setLoader(nablarch.core.cache.StaticDataLoader)>` に設定する。
+Configure the loader in the BasicStaticDataCache class
+  Configure the loader implementing :java:extdoc:`StaticDataLoader <nablarch.core.cache.StaticDataLoader>` to :java:extdoc:`BasicStaticDataCache.loader <nablarch.core.cache.BasicStaticDataCache.setLoader(nablarch.core.cache.StaticDataLoader)>`.
 
-  設定例は、 :ref:`静的データキャッシュの設定ファイル例 <static_data_cache-config_sample>` を参照。
+  For configuration example, see :ref:`configuration file example of static data cache <static_data_cache-config_sample>`.
 
   .. important::
 
-    設定例でも行っているように、 :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>` は必ず初期化対象に設定すること。
-    初期化の詳細は、 :ref:`repository-initialize_object` を参照。
+    As done even in the implementation example, :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>` must be configured in the initialization target.
+    For details of initialization, see :ref:`repository-initialize_object`.
 
-キャッシュを利用するクラスにBasicStaticDataCacheを設定する
-  キャッシュを利用するクラスに、ローダーを持つ :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>` を設定することで、キャッシュされたデータにアクセスすることができる。
+Configure BasicStaticDataCache to the class using the cache.
+  Cached data can be accessed by configuring :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>` which has a loader in the class that uses the cache.
 
 
-  以下にキャッシュを利用するクラスの例を示す。
+  An example showing the class that uses the cache is given below.
 
-  この例では、設定された :java:extdoc:`StaticDataCache <nablarch.core.cache.StaticDataCache>` を使用して、キャッシュしたデータを取得している。
+  In this example, the cached data is acquired using the configured :java:extdoc:`StaticDataCache <nablarch.core.cache.StaticDataCache>`.
 
-  設定例は、 :ref:`静的データキャッシュの設定ファイル例 <static_data_cache-config_sample>` を参照。
+  For configuration example, see  :ref:`configuration file example of static data cache <static_data_cache-config_sample>`.
 
   .. code-block:: java
 
@@ -101,20 +101,20 @@ BasicStaticDataCacheクラスにローダーを設定する
 
 .. _static_data_cache-config_sample:
 
-設定ファイル例
+Configuration file example
   .. code-block:: xml
 
-    <!-- ローダー -->
+    <!-- Loader -->
     <component name="sampleLoader" class="sample.SampleLoader" />
 
-    <!-- ローダーでロードしたデータをキャシュするBasicStaticDataCache -->
+    <!-- BasicStaticDataCache that caches the data loaded by the loader -->
     <component name="sampleDataCache" class="nablarch.core.cache.BasicStaticDataCache">
       <property name="loader" ref="sampleLoader" />
     </component>
 
     <!--
-    ローダーでロードしたキャッシュを利用するクラス。
-    このクラスに設定した、BasicStaticDataCacheを使ってキャッシュにアクセスする。
+    Class that uses the cache loaded by the loader.
+    Access the cache using BasicStaticDataCache configured in this class.
     -->
     <component class="sample.SampleService">
       <property name="sampleCache" ref="sampleDataCache" />
@@ -125,7 +125,7 @@ BasicStaticDataCacheクラスにローダーを設定する
 
       <property name="initializeList">
         <list>
-          <!-- BasicStaticDataCacheを初期化する -->
+          <!-- Initialize BasicStaticDataCache -->
           <component-ref name="sampleDataCache" />
         </list>
       </property>
@@ -135,23 +135,23 @@ BasicStaticDataCacheクラスにローダーを設定する
 
 .. _static_data_cache-cache_timing:
 
-データのキャッシュタイミングを制御する
+Control the cache timing of data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データのキャッシュタイミングは、以下の2パターンから選択できる。
+The data cache timing can be selected from the following 2 patterns.
 
-* 一括ロード(起動時全てのデータがキャッシュされる)
-* オンデマンドロード(初めて取得要求があった時にキャッシュされる)
+* Batch load (all data is cached during startup)
+* On-demand load (cached during the first acquisition request)
 
 .. tip::
 
-  原則起動時に一括ロードで問題ないが、静的データが大量で一部しか使用しない場合には、オンデマンドロードを選択すると良い。
-  例えば、バッチアプリケーションのように一部のデータにしかアクセスしない場合には、オンデマンドロードを選択すると良い。
+  As a general rule, there is no problem with batch loading during startup, but if there is a large amount of static data and only a part of it is used, then on-demand loading is a better option.
+  For example, on-demand loading is a better option while accessing only a part of the data such as a batch application.
 
 
-ロードタイミングの変更は、ローダを設定した :java:extdoc:`BasicStaticDataCache.loadOnStartup <nablarch.core.cache.BasicStaticDataCache.setLoadOnStartup(boolean)>` で行う。
-このプロパティに `true` が設定されていると、起動時に一括でロードされる。
+Change the load timing with :java:extdoc:`BasicStaticDataCache.loadOnStartup <nablarch.core.cache.BasicStaticDataCache.setLoadOnStartup(boolean)>` that has configured the loader.
+If this property is set to `true`, data is loaded in a batch during startup.
 
-以下の例では、 `true` を設定しているため起動時に一括でデータがキャッシュされる。
+Since `true` is configured in the following example, data is cached in a batch during startup.
 
 .. code-block:: xml
 
