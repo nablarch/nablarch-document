@@ -1,31 +1,31 @@
 .. _validation:
 
-入力値のチェック
+Input Value Check
 ==================================================
-クライアントから送信されるユーザ入力値や、システム間連携により外部システムから送信される値が妥当かを検証するための機能を提供する。
+Provides a function to verify whether the user input value sent from the client or the value sent by an external system through an inter-system link is appropriate.
 
-入力値のチェックでは以下のことを行う。
+Input value check performs the following.
 
-* 入力値が妥当な形式かどうか(例えば、桁数や文字種などのチェック)
-* システムの状態に適合しているかどうか(例えば、アカウントの重複登録チェック)
+* Checks if the input value is a valid format (for example, checks the number of digits and character type)
+* Checks if the input value matches the system status (for example, check of duplicate account registration)
 
-※入力値のチェックでエラーとなった場合に表示するメッセージの定義方法は、 :doc:`message` を参照。
+For the method of defining the message displayed when an error occurs during input value check, see :doc:`message`.
 
-Nablarchでは、以下の2種類のバリデーション機能を提供している。
+Nablarch offers two types of validation functions:
 
 .. toctree::
   :maxdepth: 1
 
-  Java EE7のBean Validation(JSR349)に準拠したバリデーション機能 (Bean Validation) <validation/bean_validation>
-  Nablarch独自のバリデーション機能 (Nablarch Validation) <validation/nablarch_validation>
+  Validation function compliant with Java EE7 Bean Validation (JSR349) (Bean Validation) <validation/bean_validation>
+  Nablarch independent validation function (Nablarch Validation) <validation/nablarch_validation>
 
-どちらの機能を使用しても入力値のチェックは行えるが、以下の理由によりJava EE7に準拠した機能を使用することを推奨する。
+Input value can be checked by using any one of the functions, but it is recommended to use the Java EE7-compliant function for the following reasons.
 
-* Bean ValidationはJava EEで仕様が定められており情報が豊富である。
-* 開発者がNablarch独自のバリデーションの使い方などを覚える必要がない。
+* Bean Validation is specified in Java EE and extensive information is available.
+* Developers do not have to learn how to use the independent validation of Nablarch.
 
 .. tip::
- :ref:`bean_validation` と :ref:`nablarch_validation` で提供している機能の違いは、 :ref:`validation-functional_comparison` を参照。
+ Refer to :ref:`validation-functional_comparison` for the difference between the functions provided by :ref:`bean_validation` and :ref:`nablarch_validation`.
 
 .. toctree::
   :hidden:
