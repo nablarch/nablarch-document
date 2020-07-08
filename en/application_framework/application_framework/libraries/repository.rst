@@ -1,48 +1,48 @@
 .. _repository:
 
-システムリポジトリ
+System Repository
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-アプリケーションを実装する際に様々な箇所で使用されるオブジェクトや、設定値などを管理する機能を提供する。
+Provides a function to manage objects used in various places and configuration values when implementing an application.
 
-この機能では、以下の事ができる。
+The function can be used for the following.
 
-* 環境毎に異なる可能性のあるロジック(生成されるクラスやプロパティの値)を、 外部ファイルに定義できる。
-* 外部ファイルの定義を元に、オブジェクト間の関連を構築できる。(DIコンテナ機能を持つ)
+* Logic that may differ for each environment (generated class and property values) can be defined in an external file.
+* Relationships can be built between objects based on the definition of external files. (with DI container function)
 
-機能概要
+Function overview
 --------------------------------------------------
-DIコンテナによるオブジェクトの構築ができる
+Objects can be constructed using DI containers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-DIコンテナ機能を使うことで、 :ref:`xml <repository-root_node>` に定義されたコンポーネントの定義を元にオブジェクトを構築できる。
-構築されるオブジェクトは **シングルトン** となる。
+The DI container feature allows objects to be constructed based on the definition of components defined in :ref:`xml <repository-root_node>`.
+The constructed object is a **singleton**.
 
-DIコンテナ機能では、以下のことができる。
+The DI container function can do the following:
 
-* :ref:`setterインジェクションができる。 <repository-definition_bean>`
-* :ref:`文字列や数値、真偽値を使用できる。 <repository-property_type>`
-* :ref:`ListやMapをインジェクションできる。 <repository-map_list>`
-* :ref:`型や名前が一致するsetterへの自動インジェクションができる。 <repository-autowired>`
-* :ref:`ファクトリインジェクションができる。 <repository-factory_injection>`
-* :ref:`環境依存値を管理できる。 <repository-environment_configuration>`
+* :ref:`Can inject setter. <repository-definition_bean>`
+* :ref:`Strings, numbers and booleans can be used. <repository-property_type>`
+* :ref:`Can inject list and map. <repository-map_list>`
+* :ref:`Allows automatic injection into setters with matching types and names. <repository-autowired>`
+* :ref:`Can inject factory.  <repository-factory_injection>`
+* :ref:`Allows management of environment-dependent values. <repository-environment_configuration>`
 
-アプリケーションからはDIコンテナに直接アクセスするのではなく、システムリポジトリ経由でアクセスする。
-詳細は、 :ref:`repository-use_system_repository` を参照。
+DI container is accessed from the system repository instead of direct access from the application.
+For details, see :ref:`repository-use_system_repository`.
 
-オブジェクトの初期化ができる
+Objects can be initialized
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-オブジェクト構築後に任意の初期化処理を実行できる。
+Any initialization processing can be executed after object construction.
 
-オブジェクトの依存関係によっては、初期化順に制約が発生することが考えられるため、
-この機能ではオブジェクトの初期化順が指定できる。
+Since restrictions may occur in the initialization order based on the dependency of the objects,
+this function allows the initialization order of the objects to be specified.
 
-詳細は、 :ref:`repository-initialize_object` を参照。
+For details, see :ref:`repository-initialize_object`.
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -55,15 +55,15 @@ DIコンテナ機能では、以下のことができる。
     <artifactId>nablarch-core-repository</artifactId>
   </dependency>
 
-使用方法
+How to use
 --------------------------------------------------
 
 .. _repository-root_node:
 
-xmlにルートノードを定義する
+Define root node in xml
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-コンポーネント設定ファイル(xml)のルートノードは、 `component-configuration` とする。
-`schemaLocation` を正しく設定すると、IDEで各要素や属性のドキュメントが参照できたり、補完機能が有効活用できる。
+The root node of the component configuration file (xml) is `component-configuration`.
+If `schemaLocation` is configured correctly, the document of each element and attribute in the IDE can be referred, and the completion functions can be utilized effectively.
 
 .. code-block:: xml
 
@@ -73,7 +73,7 @@ xmlにルートノードを定義する
 
   </component-configuration>
 
-xmlへのコンポーネント定義方法の詳細は、以下を参照。
+Refer below for details on how to define components in xml.
 
 * :ref:`repository-definition_bean`
 * :ref:`repository-override_bean`
@@ -88,86 +88,86 @@ xmlへのコンポーネント定義方法の詳細は、以下を参照。
 
 .. _repository-definition_bean:
 
-Java Beansオブジェクトを設定する
+Configure Java Beans object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Java Beansオブジェクトは、component要素を用いて定義する。
+Java Beans object is defined using the component element.
 
-* class属性にDIコンテナで管理するクラスのFQCNを設定する。
-* name属性を使って任意の名前を設定できる。
-* property子要素を使って、setterインジェクションができる。
-* propertyの子要素にcomponentを定義できる。
-* propertyのref属性を使って、他で定義したcomponentをsetterインジェクションできる。
+* Configure FQCN of the class managed by DI container in class attribute.
+* An any name can be configured using the name attribute.
+* Setter can be injected using the property child element.
+* Component can be defined in the property child element.
+* Component defined elsewhere can be injected with the setter using ref attribute of property.
 
 
-以下に例を示す。
+An example is shown below.
 
 .. code-block:: xml
 
-  <!-- component要素を使ってJava Beansオブジェクトを設定する -->
+  <!-- Configure Java Beans object using component element -->
   <component name="sample" class="sample.SampleBean" />
 
   <component name="component" class="sample.SampleComponent">
     <!--
-     property要素を使ってsetterインジェクションを行う
-     この例では、sampleという名前でcomponent定義されたオブジェクトがインジェクションされる
+     Setter injection with property element
+     In this example, the object defined as component with the name sample is injected
      -->
     <property name="sample" ref="sample" />
 
-    <!-- ref属性を使わずに、propertyの子要素にcomponentを定義することもできる -->
+    <!-- Component can also be defined in the child element of property without using the ref attribute -->
     <property name="obj">
       <component class="sample.SampleObject" />
     </property>
 
-    <!-- リテラル値をsetterインジェクションする -->
+    <!-- Setter injection of literal value -->
     <property name="limit" value="100" />
   <component/>
 
 
 .. important::
 
-  生成されるインスタンスはシングルトンとなる。このため、以下の点に注意すること。
+  The created instance is a singleton. Therefore, note the following points.
 
-  - インスタンスはシングルトンとなるため、取得の度に生成されるのではない（プロトタイプでない）。
-  - アプリケーションが終了するまでインスタンスは破棄されない。
+  - Since the instance is a singleton, it is not created each time it is acquired (not a prototype).
+  - The instance is not destroyed until the application is terminated.
   
-  この理解を誤ると、深刻な不具合を埋め込むこととなるので特に注意が必要である。
-  例えば、生成されるインスタンスをプロトタイプと勘違いした場合、あるリクエストでユーザAの入力値をコンポーネントに設定し、
-  別のユーザBのリクエストでその値を使用してしまう、というような重大な不具合を起こす可能性がある。
+  Special caution is required as a serious bug will be embedded if this is not understood.
+  For example, there is a possibility of causing serious bugs such as the generated instance mistaken for a prototype,
+  and a certain request will cause the input value of user A to be set in the component and request from another user B will use that value.
   
-  意図的にアプリケーション全体でコンポーネントの状態を変更、共有する場合は、そのコンポーネントはスレッドセーフでなければならない。
+  If the state of a component is intentionally changed or shared across the application, that component must be thread-safe.
 
 
 .. tip::
 
-  オブジェクトはcomponent要素単位にインスタンスが生成される。例えば、以下のように2箇所でcomponentを定義した場合別々のインスタンスが生成される。
+  Instance of an object is created for each component element. For example, if a component is defined in 2 places as follows, separate instances will be created.
 
   .. code-block:: xml
 
-    <!-- SampleBeanのインスタンスが2つリポジトリに登録される -->
+    <!-- Two instances of SampleBean are registered in the repository -->
     <component name="sample1" class="sample.SampleBean" />
     <component name="sample2" class="sample.SampleBean" />
 
 .. tip::
 
-  ネストして定義したcomponentについても、リポジトリ上はグローバル領域に保持されるため、名前を指定してオブジェクトを取得できる。
-  オブジェクトの取得方法は、 :ref:`repository-get_object` を参照。
+  Since the component defined by nesting is also stored in the global area of the repository, the name can be specified to acquire the object.
+  For information on how to get the object, see :ref:`repository-get_object`.
 
   
 
 .. tip::
-   staticなプロパティ(staticなsetterメソッド)に対するインジェクションは行われない。
-   インジェクション対象となるプロパティがstaticであった場合には、DIコンテナの構築時に例外が送出される。
+   Injection is not performed for static properties (static setter methods).
+   If the property to be injected is static, an exception will be thrown when building the DI container.
    
 .. _repository-override_bean:
 
-Java Beansオブジェクトの設定を上書きする
+Overwrite the configuration of Java Beans object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-componentタグのname属性が同じオブジェクトを登録することで、前に読み込まれたオブジェクトの設定を上書きできる。
-この機能は、テスト時にプロダクション環境用のオブジェクトをテスト用のオブジェクト(モック)に置き換える際に利用できる。
+The configuration of previously read objects can be overwritten by registering objects with the same name attribute of component tag.
+This function can be used to replace the object for production environment with the object (mock) for testing when testing is conducted.
 
-オブジェクトを上書きする場合は、同じ名前のオブジェクトを登録するだけで自動的に後で読み込まれたオブジェクトが優先される。
+When an object is overwritten, simply registering an object with the same name will automatically give priority to the object that is read later.
 
-以下に例を示す。
+An example is shown below.
 
 .. code-block:: xml
 
@@ -175,18 +175,18 @@ componentタグのname属性が同じオブジェクトを登録することで�
     <property name="prop" value="message" />
   </component>
 
-  <!-- 同じ名前でコンポーネントを定義して上書きする -->
+  <!-- Define and overwrite a component with the same name -->
   <component name="sample" class="sample.MockSampleBean" />
 
 .. important::
 
-  上の例のように異なるクラスを設定すると、上書き前のpropertyへの設定は全て破棄される。
-  これは、同じインタフェースを実装していても、同じpropertyを持っているとは限らないためである。
+  If different classes are configured as in the above example, all the property configurations before overwriting will be discarded.
+  This is because even if the class implements the same interface, they do not always have the same property.
 
-  ただし、同じクラスを設定した場合、上書き前のpropertyへの設定が上書き後のクラスに全て引き継がれる。
-  このため、上書き後の設定で特定propertyへの設定を削除することはできない。
-  例えば、以下の様な上書き設定をした場合、上書き後の設定にはproperty要素は存在していないが、
-  上書き前のpropの値が引き継がれるため、propにはmessageが設定された状態となる。
+  However, when the same class is configured, the configuration of property before overwriting are all inherited to the class after overwriting.
+  Therefore, the configuration to a specific property cannot be removed with the configuration after overwriting.
+  For example, when the following overwrite configuration is configured, the property element does not exist in the configuration after overwriting,
+  but message is configured in prop as the value of prop before overwriting is inherited.
 
   .. code-block:: xml
 
@@ -195,15 +195,15 @@ componentタグのname属性が同じオブジェクトを登録することで�
     </component>
 
     <!--
-    propertyを設定していないが、上書き前のpropの値が引き継がれる
+    Property is not set, but the value of prop before overwriting is inherited
      -->
     <component name="sample" class="sample.SampleBean" />
 
 .. _repository-property_type:
 
-文字列や数値、真偽値を設定値として使う
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-プロパティの型が以下の型の場合、リテラル表記で値を簡易的に設定できる。
+Use a string, numeric, or boolean value as the configuration value
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+If property type is of the following type, the value can be easily configured using literal notation.
 
 * java.lang.String
 * java.lang.String[]
@@ -212,51 +212,51 @@ componentタグのname属性が同じオブジェクトを登録することで�
 * java.lang.Long(long)
 * java.lang.Boolean(boolean)
 
-以下に設定例を示す。
+A configuration example is shown below.
 
 java.lang.String
-  java.lang.String型に値を設定する場合、value属性にリテラルで設定する値を記述する。
+  When configuring a value in java.lang.String type, describe the value to be configured with literal in the value attribute.
 
-  この例では、strプロパティに対して「あいうえお」が設定される。
+  In this example, "abcde" is set for the str property.
 
   .. code-block:: xml
 
-    <property name="str" value="あいうえお" />
+    <property name="str" value="abcde" />
 
 java.lang.String[]
-  java.lang.String[]型に値を設定する場合、value属性に値をカンマ(,)区切りで設定する。
-  カンマで区切られた値が、配列の1つの要素となる。
+  When configuring a value in java.lang.String [] type, configure the value in value attribute using the comma (,) delimiter.
+  Values separated by commas will be one element of the array.
 
-  この例では、arrayプロパティに対して「[あ, い, う, え, お]」が設定される。
-  なお、区切り文字である ``,`` を要素として設定することはできない。
+  In this example, "a, b, c, d, e" is set for the array property.
+  The delimiter, cannot be set as an element.
 
   .. code-block:: xml
 
-    <property name="array" value="あ,い,う,え,お" />
+    <property name="array" value="a, b, c, d, e" />
 
 java.lang.Integer(int)
-  java.lang.Integer型及びint型に値を設定する場合、value属性に設定する値を記述する。
-  設定できる値は、 `Integer#valueOf` により変換できる値。
+  When configuring a value in java.lang.Integer type and int type, describe the value to be configured in the value attribute.
+  The value that can be configured is the value that can be converted by `Integer#valueOf`.
 
-  この例では、Integer(int)型のnumプロパティに対して「12345」が設定される。
+  In this example, "12345" is configured to the num property of Integer (int) type.
 
   .. code-block:: xml
 
     <property name="num" value="12345" />
 
 java.lang.Integer[](int[])
-  java.lang.String[]と同じように、value属性に値をカンマ(,)区切りで設定する。
-  各要素に設定できる値は、 `Integer#valueOf` により変換できる値。
+  Similar to java.lang.String [] type, configure the value in the value attribute using the comma (,) delimiter.
+  The value that can be configured in each element is the value that can be converted by `Integer#valueOf`.
 
 java.lang.Long(long)
-  java.lang.Integer(int)と同じように、value属性に設定する値を記述する。
-  設定できる値は、 `Long#valueOf` により変換できる値。
+  Similar to java.lang.Integer(int), describe the value to be configured in value attribute.
+  The value that can be configured is the value that can be converted by `Long#valueOf`.
 
 java.lang.Boolean(boolean)
-  java.lang.Boolean型に値を設定する場合、value属性にリテラルで設定する値を記述する。
-  設定できる値は、 `Boolean#valueOf` により変換できる値。
+  When configuring a value in java.lang.Boolean type, describe the value to be configured with literal in the value attribute.
+  The value that can be configured is the value that can be converted by`Boolean#valueOf`.
 
-  この例では、Boolean(boolean)型のboolプロパティに対して「true」が設定される。
+  In this example, "true" is configured to the bool property of Boolean(boolean) type.
 
   .. code-block:: xml
 
@@ -264,12 +264,12 @@ java.lang.Boolean(boolean)
 
 .. _repository-map_list:
 
-ListやMapを設定値として使う
+Use list or map as the configuration value
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-list要素やmap要素を使ってコンポーネント設定をすることで、ListやMapを受け取るpropertyに対するsetterインジェクションが行える。
+By configuring the component using list element and map element, setter can be injected for the property receiving list or map.
 
-list要素を使ったListの設定
-  この例では、SampleBeanのintegerListプロパティに対して、要素に[1, 2, 3]を持つListが設定される。
+Configuration of the list using the list element
+  In this example, list with [1, 2, 3] in the element is configured for the integerList property of SampleBean.
 
   .. code-block:: xml
 
@@ -283,8 +283,8 @@ list要素を使ったListの設定
       </property>
     </component>
 
-  list要素にも任意の名前を設定でき、property要素で名前参照することができる。
-  この例は、上の例と同じ設定となる。
+  An any name can be configured for the list element and the name can be referenced in the property element.
+  The configuration of this example is the same as the above example.
 
   .. code-block:: xml
 
@@ -295,13 +295,13 @@ list要素を使ったListの設定
     </list>
 
     <component class="sample.ListSample">
-      <!-- numListという名前のListを設定する -->
+      <!-- Configure a List named numList -->
       <property name="integerList" ref="numList" />
     </component>
 
-  Listに対しては、任意のJava Beansオブジェクトを設定できる。
-  この例では、handlersプロパティに対して `SampleHandler1` 、 `SampleHandler2` 、 `SampleHandler3` を持つListが設定される。
-  なお、下の例にもあるがcomponent-ref要素を使用することで、名前参照することができる。
+  Any Java Beans object can be configured for the list.
+  In this example, list with `SampleHandler1`, `SampleHandler2` and `SampleHandler3` is configured for the handlers property.
+  The name can be referenced by using the component-ref element, which is also shown in the following example.
 
   .. code-block:: xml
 
@@ -317,8 +317,8 @@ list要素を使ったListの設定
       </property>
     </component>
 
-map要素を使ったMapの設定
-  この例では、mapプロパティに対してentryに「{key1=1, key2=2, key3=3}」を持つMapが設定される。
+Map configuration using the map element
+  In this example, map with "{key1=1, key2=2, key3=3}" in the entry is configured for the map property.
 
   .. code-block:: xml
 
@@ -330,8 +330,8 @@ map要素を使ったMapの設定
       </map>
     </property>
 
-  mapにも任意の名前を設定でき、property要素で名前参照することができる。
-  この例は、上の例と同じ設定となる。
+  An any name can be configured for the map and the name can be referenced in the property element.
+  The configuration of this example is the same as the above example.
 
   .. code-block:: xml
 
@@ -342,11 +342,11 @@ map要素を使ったMapの設定
       </map>
 
     <component class="sample.ListSample">
-      <!-- mapという名前のMapを設定する -->
+      <!-- Configure a Map named map -->
     <property name="map" ref="map">
     </component>
 
-  value-component要素を使用することで、任意のBeanをMapの値として設定することもできる。
+  An any Bean can be configured as Map value by using value-component element.
 
   .. code-block:: xml
 
@@ -362,46 +362,46 @@ map要素を使ったMapの設定
     </property>
 
 .. important::
-  mapやlistのname属性が同じものを複数定義した場合は、先に定義されたものが有効となる。
-  これは、 :ref:`beanの上書き <repository-override_bean>` と異なる挙動であるため注意すること。
+  When multiple name attributes of map or list are defined, the one defined first is valid.
+  Note that this is a different behavior from :ref:`bean overwrite <repository-override_bean>`.
 
-  もし、環境毎にmapやlistの情報を変更したい場合には、環境毎読み込むファイルを変えることで対応すること。
+  To change the map or list information for each environment, change the file to be read for each environment.
   
 
 .. _repository-autowired:
 
-コンポーネントを自動的にインジェクションする
+Inject components automatically
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-コンポーネントのpropertyタグの定義を省略した場合でも、自動的にコンポーネントをインジェクションする機能を提供する。
-この機能ではcomponent要素のautowireType属性を使用することで、自動インジェクションタイプを指定することができる。
+Provide a function to automatically inject a component even if the property tag definition of the component is omitted.
+Automatic injection type can be specified for this function by using autowireType attribute of the component element.
 
 .. important::
 
-  自動インジェクション機能を使用すると以下の問題があるため、autowireType属性には明示的に `None` を指定することを推奨する。
+  The following are the problems when using the automatic injection function, explicitly specifying `None` in autowireType attribute is recommended.
 
-  * 最終的に生成されるオブジェクトの状態が、コンポーネント設定ファイル(xml)から読み取れない。
-  * 任意項目のプロパティ定義を省略した場合に、想定していないオブジェクトが自動的にインジェクションされてしまう可能性がある。
-  * 型による自動インジェクションを使用し、派生開発で同一の型のオブジェクトの設定が増えた場合、
-    propertyの定義が必要になるためメンテナンス性が悪い。
+  * The state of the final generated object cannot be read from the component configuration file (xml).
+  * If the property definition of an optional item is omitted, an object that is not expected may be automatically injected.
+  * When automatic injection by type is used and object configuration of the same type are increased during derivation development,
+    maintainability is poor as it requires property to be defined.
 
-autowireType属性に指定可能なタイプは以下の通り。
+The types that can be specified for the autowireType attribute are as follows.
 
 ByType
-  DIコンテナ上にそのプロパティの型が1つしか存在しない場合に、そのコンポーネントを自動的にインジェクションする。
-  デフォルトではこのタイプが使用される。
+  Automatically injects the component if there is only one type of that property in the DI container.Inject components automatically.
+  This type is is used by default.
 
 ByName
-  プロパティ名と一致する名称のコンポーネントが存在する場合に、そのコンポーネントを自動的にインジェクションする。
-  なお、プロパティとコンポーネントの型が一致しない場合はエラーとなる。
+  A component with the same name as the property name is automatically injected.
+  An error occurs if the property and component type does not match.
 
 None
-  自動インジェクションを行わない。
+  Automatic injection is not performed.
 
-デフォルト(ByType)の設定で自動インジェクションする例を以下に示す。
+An example of automatic injection with the default (ByType) configuration is shown below.
 
-インジェクション対象のクラスを作成する
-  インジェクション対象のインタフェース及び実装クラスを作成する。
-  この例では、インタフェースを作成しているが、インタフェースの作成は必須ではない。
+Create an injection target class
+  Create an injection target interface and implementation class.
+  Although the interface is created in this example, it is not mandatory.
 
   .. code-block:: java
 
@@ -411,9 +411,9 @@ None
     public class BasicSampleComponent implements SampleComponent {
     }
 
-インジェクション対象のオブジェクトを使用するクラスを作成する
-  上記で作成したクラスを使って処理を行うクラスを作成する。
-  このクラスは、setterインジェクションで上記のクラスを受け取る。
+Create a class that uses the object to be injected
+  Create a class that processes using the class created above.
+  This class receives the above class by setter injection.
 
   .. code-block:: java
 
@@ -425,9 +425,9 @@ None
       }
     }
 
-コンポーネント設定ファイルにコンポーネントを定義する
-  この例では、 `SampleClient` に `sampleComponent` propertyを定義していないが、\ `SampleComponent`\ を実装したクラスの設定が1つだけなので、
-  `sampleComponent` propertyには自動的に `BasicSampleComponent` が設定される。
+Define component in component configuration file
+  In this example, `sampleComponent` property is not defined in `SampleClient`, but since there is only one configuration in the class implementing \`SampleComponent`\,
+  `BasicSampleComponent` is automatically configured in the `sampleComponent` property.
 
   .. code-block:: xml
 
@@ -436,7 +436,7 @@ None
     <component name="sampleClient" class="sample.SampleClient" />
 
 
-  上記の設定は、以下のように明示的にpropertyを定義した場合と同じ動作となる。
+  The above configuration is the same as when the property is explicitly defined as given below.
 
   .. code-block:: xml
 
@@ -448,17 +448,17 @@ None
 
 .. _repository-split_xml:
 
-コンポーネント設定ファイル(xml)を分割する
+Split the component configuration file (xml)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-全ての定義を1つのコンポーネント設定ファイルに定義するとxmlが巨大となり、メンテナンス性が悪くなる問題がある。
-このため、xmlファイルを複数ファイルに分割できる機能を提供している。
+The xml file size increases significantly if all the definitions are defined in one component configuration file, which causes the problem of poor maintainability.
+Therefore, a function to split the xml file into multiple files is provided.
 
-xmlファイルを分割する際には、機能単位などある程度の粒度でファイルを分割すると良い。
-分割したxmlファイルは、import要素で読み込む事ができる。
+When splitting the xml file, it is better to split the file based on functional units, etc.
+The split xml file can be read using the import element.
 
-以下に例を示す。
+An example is shown below.
 
-この例では、3つのxmlファイルがロードされる。
+In the following example, 3 xml files are loaded.
 
 .. code-block:: xml
 
@@ -468,12 +468,12 @@ xmlファイルを分割する際には、機能単位などある程度の粒�
 
 .. _repository-environment_configuration:
 
-依存値を設定する
+Set the dependent value
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-テスト環境や本番環境で異なる値(データベースの接続情報やディレクトリのパスなど)は、環境設定ファイルで管理できる。
+Values (database connection information, directory path, etc.) that differ between the test and production environments can be managed in the environment configuration file.
 
-環境設定ファイルは、以下のようにシンプルなkey-value形式で記述する。
-詳細な記述ルールは、 :ref:`repository-environment_configuration_file_rule` を参照。
+Describe the environment configuration file in the simple key-value format as given below.
+For detailed description rules, see :ref:`repository-environment_configuration_file_rule`.
 
 .. code-block:: bash
 
@@ -483,11 +483,11 @@ xmlファイルを分割する際には、機能単位などある程度の粒�
 
 .. important::
 
-  環境設定値のキー値が重複していた場合、後に定義されたものが有効となるため注意すること。
+  Note that if the key value of the environment configuration value is duplicated, the one defined later will be valid.
 
-以下に例を示す。
+An example is shown below.
 
-環境依存値
+Environment dependent value
   .. code-block:: bash
 
     database.url = jdbc:h2:mem:sample
@@ -496,88 +496,88 @@ xmlファイルを分割する際には、機能単位などある程度の粒�
 
 .. _repository-user_environment_configuration:
 
-コンポーネント設定ファイルから環境依存値を参照する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-コンポーネント設定ファイル(xml)から環境設定ファイルを読み込み、Java Beansオブジェクトの設定値として使用できる。
+Reference environment dependent value from the component configuration file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The environment configuration file can be read from the component configuration file (xml) and used as the configuration value of Java Beans object.
 
-DIコンテナで管理するオブジェクトに対して環境依存値を設定(インジェクション)する場合は、
-コンポーネント設定ファイルに環境依存値のキー値を ``${`` と ``}`` で囲んで記述する。
+When configuring (injection) the environment dependent value for the object managed by the DI container,
+describe the key value of the environment dependent value in the component configuration file by enclosing with ``${`` and ``}``.
 
-なお、この記法を環境設定ファイルで使用することはできない。(環境設定ファイル内では、他の環境依存値は参照できない。)
+Note that this notation cannot be used in the configuration files. (other environment dependent values cannot be referenced in the environment configuration file.)
 
-以下に例を示す。
+An example is shown below.
 
-環境設定ファイル
+Environment configuration file
   .. code-block:: bash
 
     database.url = jdbc:h2:mem:sample
     database.user = sa
     database.password = sa
 
-コンポーネント設定ファイル
-  環境設定ファイルを読み込む場合には、config-file要素を使用する。
-  この例のようにファイル名指定で読み込んだり、特定ディレクトリ配下のファイルを一括で読み込むことができる。
+Component configuration file
+  Config-file element is used to read the environment configuration file.
+  The file can be read by specifying the file name as in this example, or all the files under a specific directory can be read at once.
 
-  上記の環境設定ファイルの名前が「database.properties」の場合、 `JdbcDataSource` の `url` には、「\jdbc:h2:mem:sample」が設定される。
+  When the name of the environment configuration file is "database.properties", "\jdbc:h2:mem:sample" is configured in the `url` of `JdbcDataSource`.
 
   .. code-block:: xml
 
-    <!-- database.propertiesファイルの読み込み -->
+    <!-- Reading the database.properties file -->
     <config-file file="database.properties" />
 
     <component class="org.h2.jdbcx.JdbcDataSource">
       <property name="url" value="${database.url}" />
     </component>
 
-  環境設定ファイルにはconfigファイルとpropertiesファイルの二種類があり、configファイルはnablarchの独自仕様によりパースされ、
-  propertiesファイルはjava.util.Propertiesによりパースされる。configファイルはnablarchの独自仕様であることから
-  環境設定ファイルにはpropertiesファイルを推奨する。
+  There are two types of environment configuration files, config file and properties file.
+  The config file is parsed by independent specifications of Nablarch, and the properties file is parsed by java.util.Properties.
+  Since the config file is an independent specification of Nablarch, the properties file is recommended as the environment configuration file.
 
-  環境設定ファイルの仕様は、 :ref:`repository-environment_configuration_file_rule` を参照。
+  For specifications of the environment configuration file, refer to :ref:`repository-environment_configuration_file_rule`.
 
 
 .. _repository-overwrite_environment_configuration:
 
-システムプロパティを使って環境依存値を上書きする
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-環境依存値は、システムプロパティ( `java.lang.System#getProperties()` で取得できる値)で上書きできる。
-システムプロパティは、環境設定ファイルに設定した値より優先されるため、vmオプションで容易に設定値を上書きすることができる。
+Overwrite environment dependent values using system properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Environment dependent value can be overwritten with the system property (value that can be acquired by `java.lang.System#getProperties()`).
+Since the system property has priority over the value set in the environment configuration file, the configuration value can be easily overwritten with the vm option.
 
-例えば、特定のバッチアプリケーションだけ設定値を変えたいといった場合に、システムプロパティを使用して環境依存値を上書きするといったことができる。
+For example, to change the configuration value only for a specific batch application, the system property can be used to overwrite the environment dependent value.
 
-以下に例を示す。
+An example is shown below.
 
-環境設定ファイル
+Environment configuration file
 
   .. code-block:: bash
 
-    message=上書きされるメッセージ
+    Message= Message to be overwritten
 
-システムプロパティで値を上書きする
-  javaコマンドの ``-D`` オプションでシステムプロパティを設定することで、環境設定ファイルの値を上書きすることができる。
-  この例の場合、 `message` の値は「上書きするメッセージ」となる。
+Overwrite values with system properties
+  By configuring the system property with the ``-D`` option of Java command, the value of the environment configuration file can be overwritten.
+  In this example, the value of `message` is "message which will be overwritten".
 
-  java -Dmessage=上書きするメッセージ
+  java -Dmessage= Message which will be overwritten
 
 .. _repository-factory_injection:
 
-ファクトリクラスで生成したオブジェクトをインジェクションする
+Inject the object created by the factory class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Java Beansとして実装されているクラスであれば、setterインジェクションを使用して値を設定しオブジェクトを生成することができる。
-しかし、ベンダー提供やOSSなどのJava Beansとして実装されていないオブジェクトをシステムリポジトリで管理したい場合がある。
+If the class is implemented as Java Beans, a value can be configured using setter injection and an object can be generated.
+However, there are cases where objects, which are not implemented as Java Beans such as those provided by the vendor or OSS, have to be managed in the system repository.
 
-この場合は、ファクトリクラスを作成しファクトリクラス経由でオブジェクトを生成することで、これらのクラスをシステムリポジトリで管理できるようになる。
+In this case, these classes can be managed in the system repository by creating a factory class and then creating an object through the factory class.
 
-以下に手順を示す。
+The procedure is shown below.
 
-ファクトリクラスを作成する
-  ファクトリクラスは、 :java:extdoc:`ComponentFactory <nablarch.core.repository.di.ComponentFactory>` インタフェースを実装し作成する。
+Create a factory class
+  The factory class is created by implementing :java:extdoc:`ComponentFactory <nablarch.core.repository.di.ComponentFactory>`.
 
-  実装例
+  Implementation examples
     .. code-block:: java
 
       public class SampleComponentFactory implements ComponentFactory<SampleComponent> {
-        // 生成するオブジェクトへの設定値
+        // Configuration value for the generated object
         private String configValue;
 
         public void setConfigValue(String configValue) {
@@ -585,56 +585,56 @@ Java Beansとして実装されているクラスであれば、setterインジ�
         }
 
         public SampleComponent createObject() {
-          // オブジェクトを生成する。
-          // この例では、このクラスにsetterインジェクションした値を使ってオブジェクトを生成する。
+          // Create an object.。
+          // In this example, an object is created using the value that is injected by the setter into this class.
           return new SampleComponent(configValue);
         }
       }
 
-コンポーネント設定ファイルにファクトリクラスを設定する
-  ファクトリクラスを通常のコンポーネントと同じように設定することで、
-  自動的にファクトリクラスが生成したオブジェクトが設定される。
+Configure the factory class in the component configuration file
+  The object created by the factory class is automatically configured
+  by configuring the factory class like a normal component.
 
   .. code-block:: xml
 
-    <!-- ファクトリクラスの定義 -->
+    <!-- Factory class definition -->
     <component name="sampleComponent" class="sample.SampleComponentFactory">
-      <property name="configValue" value="設定値" />
+      <property name="configValue" value="Configuration value" />
     </component>
 
-    <!-- ファクトリクラスで生成したオブジェクトを設定するクラス -->
+    <!-- Class that configures the object generated by the factory class -->
     <component class="sample.SampleBean">
-      <!-- sampleObjectプロパティにファクトリクラスで生成したオブジェクトが設定される -->
+      <!-- Object generated with factory class is configured in the sampleObject property -->
       <property name="sampleObject" ref="sampleComponent" />
     </component>
 
 .. _repository-initialize_object:
 
-オブジェクトの初期化処理を行う
+Initialize the object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-オブジェクトの初期化処理を行うためには、以下の手順が必要となる。
+The following steps are required for the initialization process of the object.
 
-#. :java:extdoc:`Initializable <nablarch.core.repository.initialization.Initializable>` インタフェースを実装する。
-#. コンポーネント設定ファイルに初期化対象のリストを設定する。
+#. Implement the :java:extdoc:`Initializable <nablarch.core.repository.initialization.Initializable>` interface.
+#. Configure a list targets for initialization in the component configuration file.
 
-以下に詳細な手順を示す。
+The detailed procedure is shown below.
 
-Initializableインタフェースを実装する
-  :java:extdoc:`initialzie <nablarch.core.repository.initialization.Initializable.initialize()>` で初期化処理を行う。
+Implement Initializable interface
+  Initialize with :java:extdoc:`initialzie <nablarch.core.repository.initialization.Initializable.initialize()>`.
 
   .. code-block:: java
 
     public class SampleComponent implements Initializable {
       public void initialize() {
-        // プロパティにインジェクションされた値などを元に初期化処理を行う
+        // Initialize based on the value injected into the property
       }
     }
 
-コンポーネント設定ファイルに初期化対象のリストを設定する
-  初期化対象のオブジェクトを :java:extdoc:`BasicApplicationInitializer <nablarch.core.repository.initialization.BasicApplicationInitializer>` に設定する。
+Configure a list targets for initialization in the component configuration file
+  Configure the object to be initialized to :java:extdoc:`BasicApplicationInitializer <nablarch.core.repository.initialization.BasicApplicationInitializer>`.
 
-  初期化対象のオブジェクトの初期化順を意識する必要がある場合は、先に初期化を行いたいオブジェクトをより上に設定する。
-  下の設定例の場合、以下の順で初期化が行われる。
+  If information of the initialization order of the object to be initialized is required, configure the object that is to be initialized first to a higher order.
+  For the configuration example given below, initialization is performed in the following order.
   
   #. `sampleObject`
   #. `sampleObject3`
@@ -642,11 +642,11 @@ Initializableインタフェースを実装する
 
   .. important::
     
-    :java:extdoc:`BasicApplicationInitializer <nablarch.core.repository.initialization.BasicApplicationInitializer>` のコンポーネント名は、 必ず **initializer** とすること。
+    Set the component name of :java:extdoc:`BasicApplicationInitializer <nablarch.core.repository.initialization.BasicApplicationInitializer>` to **initializer**.
 
   .. code-block:: xml
 
-    <!-- 初期化対象のオブジェクトの設定 -->
+    <!-- Configure the object to be initialized -->
     <component name="sampleObject" class="sample.SampleComponent" />
     <component name="sampleObject2" class="sample.SampleComponent2" />
     <component name="sampleObject3" class="sample.SampleComponent3" />
@@ -654,7 +654,7 @@ Initializableインタフェースを実装する
     <component name="initializer"
         class="nablarch.core.repository.initialization.BasicApplicationInitializer">
 
-      <!-- initializeListプロパティにlist要素で初期化対象のオブジェクトを列挙する -->
+      <!-- List the objects to be initialized with the list element in the initializeList property-->
       <property name="initializeList">
         <list>
           <component-ref name="sampleObject"/>
@@ -667,13 +667,13 @@ Initializableインタフェースを実装する
 
 .. _repository-use_system_repository:
 
-DIコンテナの情報をシステムリポジトリに設定する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-DIコンテナの情報をシステムリポジトリにロードすることで、アプリケーション内の全ての箇所からDIコンテナ上のオブジェクトにアクセスできる。
+Configure the DI container information to the system repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+By loading the information of the DI container into the system repository, the objects in the DI container from all points in the application can be accessed.
 
-コンポーネント設定ファイルをロードし、システムリポジトリに設定する例を以下に示す。
+An example of loading and configuring the component configuration file in the system repository is shown below.
 
-この例では、 ``web-boot.xml`` を元に構築されたDIコンテナの情報がシステムリポジトリに設定される。
+In this example, information of the DI container constructed based on ``web-boot.xml`` is configured in the system repository.
 
 .. code-block:: java
 
@@ -683,24 +683,24 @@ DIコンテナの情報をシステムリポジトリにロードすることで
 
 .. important::
 
-  DIコンテナの情報をシステムリポジトリへ登録する処理は、Nablarchが提供する以下のクラスで実施される。
-  このため、個別にこのような実装を行うことは基本的にない。
+  The process of registering DI container information in the system repository is implemented by the following classes provided by Nablarch.
+  Therefore, there is basically no individual implementation.
 
-  * ServletContextListenerの実装クラス
-  * 独立型アプリケーションの起動クラス
+  * Implementation class of ServletContextListener
+  * Launch class of independent application
 
 .. _repository-get_object:
 
-システムリポジトリからオブジェクトを取得する
+Get object from system repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-システムリポジトリ上からオブジェクトを取得する場合には、 :java:extdoc:`SystemRepository <nablarch.core.repository.SystemRepository>` クラスを使用する。
+To acquire the object from the system repository, use the class :java:extdoc:`SystemRepository <nablarch.core.repository.SystemRepository>`.
 
-なお、システムリポジトリには事前にDIコンテナの情報を設定しておく必要がある。
-詳細は、 :ref:`repository-use_system_repository` を参照。
+The DI container information must be configured in the system repository in advance.
+For details, see :ref:`repository-use_system_repository`.
 
-以下のように、component要素(listやmap要素を含む)に設定したname属性の値を指定して、オブジェクトを取得できる。
+Object can be acquired by specifying the value of name attribute configured in the component element (including list and map elements) as shown below.
 
-コンポーネント定義
+Component definition
   .. code-block:: xml
 
     <component name="sampleComponent" class="sample.SampleComponent" />
@@ -711,48 +711,48 @@ DIコンテナの情報をシステムリポジトリにロードすることで
       </property>
     </component>
 
-取得例
+Acquisition example
   .. code-block:: java
 
-    // SystemRepository#getを使用して取得する。
+    // Get using SystemRepository#get.
     SampleComponent sample = SystemRepository.get("sampleComponent");
 
-    // ネストしたcomponentは、親の名前と自身の名前を"."で連結し取得する。
+    // Obtain nested component by concatenating the parent name and its own name with ".".
     Component2 component2 = SystemRepository.get("component.component2");
 
 .. _repository-environment_configuration_file_rule:
 
-環境設定ファイルの記述ルール
---------------------------------------------------
-環境設定ファイルにはconfigファイルとpropertiesファイルの二種類があり、ここでは各環境設定ファイルの記述ルールについて説明する。
+Rules for describing environment configuration file
+------------------------------------------------------
+There are two types of environment configuration files, config file and properties file. The description rules of each environment configuration file are explained.
 
-propertisファイルの仕様
-  JavaのPropertiesの仕様に基づいて解析される。
+Specifications of properties file
+  Analyzed based on the Java Properties specifications.
 
-configファイルの仕様
-  以下、configファイルの仕様について説明する。
+config file specifications
+  The specifications of the config file are described below.
 
-  設定値の記述形式
-    設定値は、 キーと値を ``=`` で区切って記述する。
+  Description format of setting value
+    The configuration value is described by separating the key and value with ``=``.
 
     .. code-block:: bash
     
       key1=value1
       key2=value2
 
-  コメントの記述
-    コメントは、 ``#`` を用いた行コメントのみサポートする。
-    行中に ``#`` が存在した場合は、それ以降をコメントとして扱う。
+  Comment description
+    Only line comments using ``#`` is supported.
+    If ``#`` is present in a line, the rest of the line is considered as a comment.
 
     .. code-block:: bash
 
-      # コメントです
-      key = value   # コメントです
+      # This is a comment
+      key = value   # This is a comment
 
-  複数行にまたがった設定値の記述
-    行末に ``\`` を記述することで、複数行にまたがって設定値を記述することができる。
+  Description of configuration values that spans multiple lines
+    By using ``\`` at the end of the line, the configuration value can be described over multiple lines.
 
-    下の例の場合、設定値の組み合わせは以下のようになる。
+    In the case of the example below, the combinations of configuration values are as follows.
 
     * key -> value
     * key2 -> value,value2
@@ -763,31 +763,31 @@ configファイルの仕様
       key = value
       key2 = value,\
       value2
-      key3 = abcd\    # ここにコメントを定義できる
+      key3 = abcd\    # Comments can be defined here
       efg
 
-  予約語のエスケープ
-    以下の予約語を一般文字として扱う場合は、 ``\`` を用いてエスケープを行う。
+  Reserved word escape
+    ``\`` is used to escape when handling the following reserved words as general characters.
 
     * ``#``
     * ``=``
     * ``\``
 
-    下の例の場合、設定値の組み合わせは以下のようになる。
+    In the case of the example below, the combinations of configuration values are as follows.
 
     * key -> a=a
-    * key2 -> #コメントではない
-    * key3 -> あ\\い
+    * key2 -> #This is not a comment
+    * key3 -> a\\b
 
     .. code-block:: bash
 
       key = a\=a
-      key2 = \#コメントではない
-      key3 = あ\\い
+      key2 = \# This is not a comment
+      key3 = a\\b
 
 .. tip::
 
-  半角スペースについて、configファイルでは半角スペースのみの値には対応していないが、propertiesファイルでは数値参照文字を設定することで扱うことができる。
+  Only the value of half-width space is not supported in the config file, but it can be handled by configuring the numeric reference character in the properties file.
 
   .. code-block:: bash
 
