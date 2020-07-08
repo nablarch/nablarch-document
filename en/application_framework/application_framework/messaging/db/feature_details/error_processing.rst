@@ -1,40 +1,40 @@
 .. _db_messaging-error_processing:
 
-データベースをキューとしたメッセージングのエラー処理
-=====================================================
+Error Handling for Messaging Which Uses Database as Queue
+===========================================================
 
 .. _db_messaging-exclude_error_data:
 
-エラーとなったデータを除外し処理を継続する
+Exclude error data and continue processing
 --------------------------------------------------
-エラーデータの除外は、例外発生時のコールバックメソッド(:java:extdoc:`transactionFailure <nablarch.fw.action.BatchActionBase.transactionFailure(D-nablarch.fw.ExecutionContext)>`)で行う。
+The exclusion of error data is done by the callback method (:java:extdoc:`transactionFailure <nablarch.fw.action.BatchActionBase.transactionFailure(D-nablarch.fw.ExecutionContext)>`) when an exception occurs.
 
 .. important::
-  エラーデータを除外しなかった場合、エラーとなったデータが再び処理対象として抽出され、再度例外が発生する。
-  (基本的に、同じデータを同じ状態で処理した場合、同じ結果となるため。)
-  結果として、エラーデータを繰り返し処理し、それ以外のデータが処理できずに障害(例えば、遅延障害)の原因となる。
+  If the error data is not excluded, the data containing errors gets extracted again and exceptions reoccur.
+  (basically, the result will be the same for the same data processed with the same conditions.)
+  The error data is repeatedly processed if it is not excluded and other data is not processed causing failures (delay failure for example).
 
-以下に実装例を示す。
+An implementation example is shown below.
 
 .. code-block:: java
 
     @Override
     protected void transactionFailure(SqlRow inputData, ExecutionContext context) {
-      // inputDataがエラーとなった際の入力データなので、
-      // この情報を使用して該当レコードを処理対象外(例えば、処理失敗のステータスなど)に更新する。
+      // Since inputData is the data that is input when an error occurrs,
+      // Using this information, the corresponding record is updated to a non-processing target (for example, a processing failure status, etc.).
     }
 
 .. _db_messaging-process_abnormal_end:
 
-プロセスを異常終了させる
+Terminate the process abnormally
 --------------------------------------------------
-プロセスを異常終了させたい場合は、 :java:extdoc:`ProcessAbnormalEnd <nablarch.fw.launcher.ProcessAbnormalEnd>` を送出する。
+To terminate the process abnormally, throws :java:extdoc:`ProcessAbnormalEnd <nablarch.fw.launcher.ProcessAbnormalEnd>`.
 
 .. important::
-  プロセスを異常終了させると、テーブルキューの監視処理が終了するため、テーブルに未処理のデータが滞留することになり、データの取り込み遅延などが発生する。
-  このため、安易にプロセスを異常終了させるのではなく、 :ref:`エラーとなったデータを除外 <db_messaging-exclude_error_data>` して処理を継続させることを推奨する。
+  Since the monitoring process of the table queue is terminated when the process is abnormally terminated, it causes unprocessed data to pile on, delaying capture of data.
+  Continuation of the process using :ref:`exclude error data <db_messaging-exclude_error_data>` is recommended to avoid this problem instead of terminating the process abnormally.
 
-以下に実装例を示す。
+An implementation example is shown below.
 
 .. code-block:: java
 
@@ -42,7 +42,7 @@
   public Result handle(SqlRow inputData, ExecutionContext ctx) {
 
     if (isAbnormalEnd(inputData)) {
-      // 異常終了すべき状態の場合は、ProcessAbnormalEndを送出する。
+      // In the case of abnormal termination, throws ProcessAbnormalEnd.
       throw new ProcessAbnormalEnd(100, "sample_process_failure");
     }
 
