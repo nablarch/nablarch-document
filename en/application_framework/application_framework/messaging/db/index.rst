@@ -1,8 +1,9 @@
 .. _`db_messaging`:
 
-テーブルをキューとして使ったメッセージング
+Messaging Using Tables as Queues
 ==================================================
-本章ではNablarchアプリケーションフレームワークを利用してテーブルをキューとして使ったメッセージングを開発するために必要となる情報を提供する。
+This chapter uses the Nablarch application framework to provide the information needed to develop messaging using tables as queues.
+
 
 .. toctree::
   :maxdepth: 1
