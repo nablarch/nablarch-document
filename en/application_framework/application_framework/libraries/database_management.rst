@@ -1,10 +1,10 @@
 .. _database_management:
 
-データベースアクセス
+Database Access
 ==================================================
-データベースへの接続やSQLの実行を行う機能を提供する。
+Provides the function to connect to database and execute SQL.
 
-Nablarchでは、以下の2種類のデータベースアクセス機能を提供している。
+Nablarch provides the following two types of database access functions:
 
 .. toctree::
   :maxdepth: 1
@@ -12,20 +12,20 @@ Nablarchでは、以下の2種類のデータベースアクセス機能を提�
   database/database
   database/universal_dao
 
-上記のどちらの機能を使用した場合でも、SQLの実行を行うことができるが、
-以下の理由により :ref:`ユニバーサルDAO <universal_dao>` を使用することを推奨する。
+Although SQL can be executed by using either of the above functions, 
+use of  :ref:`universal DAO <universal_dao>`  is recommended for the following reasons.
 
-* CRUDのSQL文をEntityから自動的に生成しSQLが実行できる
-* 検索結果がBeanオブジェクトとして取得できるため、IDEの補完機能が有効活用でき開発効率が良い
+* SQL statement of CRUD can be automatically generated from Entity, and the SQL can be executed.
+* Since the search results can be obtained as a Bean object, complementary functions of IDE can be effectively used and development efficiency is good.
 
 .. important::
 
-  :ref:`ユニバーサルDAO <universal_dao>` を使用した場合でも、
-  データベースへの接続やSQL実行は :ref:`JDBCのラッパー機能 <database>` を使用している。
-  このため、 :ref:`JDBCのラッパー機能 <database>` を使うための設定などは必要になる。
+  Even if :ref:`universal DAO <universal_dao>`  is used, 
+  :ref:`JDBC wrapper function <database>`  is used to connect to the database and execute SQL. 
+  Therefore, configuration for using :ref:`JDBC wrapper function <database>`  are required.
 
 .. tip::
- :ref:`universal_dao` とJSR317(JPA2.0)との機能比較は、 :ref:`database-functional_comparison` を参照。
+ For comparison of functions between :ref:`universal_dao` and JSR317 (JPA2.0), refer to  :ref:`database-functional_comparison` .
 
 .. toctree::
   :hidden:
