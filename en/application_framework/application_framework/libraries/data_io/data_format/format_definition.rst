@@ -602,7 +602,7 @@ List of available field types for Fixed (fixed-length) data format
         By default, left trim/padding is performed with ``0``.
 
         :Argument 1:: Byte length (numeric) ``required``
-        :Argument 2:: Number of digits after decimal point (numeric)``optional`` Default: ``0``
+        :Argument 2:: Number of digits after decimal point (numeric) ``optional`` Default: ``0``
 
         If the output target value is ``null``, the value is converted to ``0`` before processing.
 
@@ -646,7 +646,7 @@ List of available field types for Fixed (fixed-length) data format
         By default, left trim/padding is performed with ``0``.
 
         :Argument 1:: Byte length (numeric) ``required``
-        :Argument 2:: Number of digits after the decimal point (numeric) ``optional `` Default: ``0``
+        :Argument 2:: Number of digits after the decimal point (numeric) ``optional`` Default: ``0``
         :Argument 3:: Plus sign to be configured in the zone section (hexadecimal string) ``optional``
         :Argument 4:: Minus sign to be configured in the zone section (hexadecimal string) ``optional``
 
