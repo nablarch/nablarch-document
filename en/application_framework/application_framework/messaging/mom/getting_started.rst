@@ -2,26 +2,24 @@
 
 Getting Started
 ==========================================
-本章を通読することで、MOMメッセージングの開発イメージを掴むことができる。
+By reading this chapter, you can get an idea of the development of MOM messaging.
 
-前提条件
-  本章は :ref:`example_application` をベースに解説を行う。
-  Exampleアプリケーションの動作環境を事前に構築しておくこと。
+Prerequisites
+  The explanation of this chapter is based on :ref:`example_application` . 
+  The operating environment of the example application must be built in advance.
 
   .. tip::
-    Exampleアプリケーションに関する以下の事項は、本章では解説しない。
-    以下の事項については、:ref:`example_application` を参照すること。
+    The following items related to the example application are not explained in this chapter. 
+    For the following items, see :ref:`example_application` .
 
-    - Exampleアプリケーションの環境構築および実行
-    - Exampleアプリケーションの設定
-    - 使用しているOSSプラグインについて
+    - Building the environment and execution of example application
+    - Example application configuration
+    - Information on the OSS plugin used
 
-ライブラリの :ref:`mom_messaging` にて、
-:ref:`example_application` を用いた説明を行っており、
-内容が重複するため、Getting Startedを用意していない。
-そのため、 :ref:`mom_messaging` の以下の説明を参照すること。
+A description using the :ref:`example_application` is given in  :ref:`mom_messaging`  of the library, and Getting Started is not prepared because the contents are the same. 
+Therefore, refer to the following description of  :ref:`mom_messaging` .
 
-* :ref:`応答不要メッセージ送信<mom_system_messaging-async_message_send>`
-* :ref:`同期応答メッセージ送信<mom_system_messaging-sync_message_send>`
-* :ref:`応答不要メッセージ受信<mom_system_messaging-async_message_receive>`
-* :ref:`同期応答メッセージ受信<mom_system_messaging-sync_message_receive>`
+* :ref:`Send asynchronous response message <mom_system_messaging-async_message_send>`
+* :ref:`Send synchronous response message <mom_system_messaging-sync_message_send>`
+* :ref:`Receive asynchronous response message <mom_system_messaging-async_message_receive>`
+* :ref:`Receive synchronous response message <mom_system_messaging-sync_message_receive>`

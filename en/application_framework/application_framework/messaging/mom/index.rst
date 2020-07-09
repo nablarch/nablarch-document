@@ -1,8 +1,8 @@
 .. _`mom_messaging`:
 
-MOMによるメッセージング
+Messaging with MOM
 ==================================================
-本章ではNablarchアプリケーションフレームワークを利用してMOMを使ったメッセージングを開発するために必要となる情報を提供する。
+This chapter uses the Nablarch application framework to provide the information needed to develop messaging using MOM.
 
 .. toctree::
   :maxdepth: 1

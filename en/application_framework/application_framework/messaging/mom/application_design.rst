@@ -1,55 +1,42 @@
-アプリケーションの責務配置
-================================
-MOMメッセージングを作成する際に実装すべきクラスとその責務について説明する。
+Responsibility Assignment of the Application
+=====================================================
+This section describes the classes to be implemented and their responsibilities when creating MOM messaging.
 
-**クラスとその責務**
+**Classes and their responsibilities**
 
 .. image:: images/mom_messaging_design.png
 
-アクションクラス(action class)
-  アクションクラスは、データリーダ(
-  :java:extdoc:`FwHeaderReader<nablarch.fw.messaging.reader.FwHeaderReader>` /
-  :java:extdoc:`MessageReader<nablarch.fw.messaging.reader.MessageReader>`
-  )が読み込んだ要求電文(
-  :java:extdoc:`RequestMessage<nablarch.fw.messaging.RequestMessage>`
-  )を元に業務ロジックを実行し、応答電文(
-  :java:extdoc:`ResponseMessage<nablarch.fw.messaging.ResponseMessage>`
-  )を返却する。
+Action class
+  The action class executes the business logic based on the request message (:java:extdoc:`RequestMessage<nablarch.fw.messaging.RequestMessage>`) read by the data reader (:java:extdoc:`FwHeaderReader<nablarch.fw.messaging.reader.FwHeaderReader>` /
+  :java:extdoc:`MessageReader<nablarch.fw.messaging.reader.MessageReader>`) and returns the response message (:java:extdoc:`ResponseMessage<nablarch.fw.messaging.ResponseMessage>`).
 
-  例えば、要求電文の取り込みであれば、業務ロジックとして以下の処理を行う。
+  For example, the following processing is performed as business logic when capturing a request message.
 
-  - 要求電文からフォームクラスを作成して、バリデーションを行う。
-  - フォームクラスからエンティティクラスを作成して、データベースにデータを追加する。
-  - 応答電文を作成して返す。
+  - Creates a form class from the request message and performs validation.
+  - Creates an entity class from the form class and adds data to database.
+  - Creates and returns a response message.
 
   .. tip::
-   応答不要メッセージングでは、以下の点が異なる。
+   Asynchronous response messaging differs in the following points.
 
-   * 応答不要メッセージングは、データ取り込みが目的で、業務ロジックは後続するバッチが行うため、
-     バリデーションを行わない。
-   * 応答不要メッセージングは電文を返さないので、
-     処理結果として :java:extdoc:`Success<nablarch.fw.Result.Success>` を返す。
+   * Asynchronous response messaging is not validated because the purpose is to capture data and the business logic is performed by the subsequent batch.
+   * Since asynchronous response messaging does not return a message, :java:extdoc:`Success<nablarch.fw.Result.Success>`  is returned as the processing result.
+     
+Form class
+  Class which maps the request message (:java:extdoc:`RequestMessage<nablarch.fw.messaging.RequestMessage>`) read by the data reader (:java:extdoc:`FwHeaderReader<nablarch.fw.messaging.reader.FwHeaderReader>` /
+  :java:extdoc:`MessageReader<nablarch.fw.messaging.reader.MessageReader>`).
 
-フォームクラス(form class)
-  データリーダ(
-  :java:extdoc:`FwHeaderReader<nablarch.fw.messaging.reader.FwHeaderReader>` /
-  :java:extdoc:`MessageReader<nablarch.fw.messaging.reader.MessageReader>`
-  )が読み込んだ要求電文(
-  :java:extdoc:`RequestMessage<nablarch.fw.messaging.RequestMessage>`
-  )をマッピングするクラス。
+  Has the configuration of annotation for validation of the request message and logic for correlation validation.
 
-  要求電文をバリデーションするためのアノテーションの設定や相関バリデーションのロジックを持つ。
-
-  フォームクラスのプロパティは全て `String` で定義する
-    プロパティを `String` とすべき理由は、 :ref:`Bean Validation <bean_validation-form_property>` を参照。
-    ただし、バイナリ項目の場合はバイト配列で定義する。
-
-エンティティクラス(entity class)
-  テーブルと1対1で対応するクラス。カラムに対応するプロパティを持つ。
+  All the form class properties are defined by a `String`.
+    See :ref:`Bean Validation <bean_validation-form_property>`  for the reason why the property must be a `String` . 
+    However, in the case of a binary item, it is defined by a byte array.
+    
+Entity class
+  A class with a one-to-one correspondence with a table. Has the property corresponding to columns.
 
 .. important::
- メッセージングでは、システムで共通のデータリーダを使うことを想定しているため、
- :ref:`Nablarchバッチアプリケーションの責務配置<nablarch_batch-application_design>` と異なり、
- アクションがデータリーダを生成する責務を持っていない。
+ Since the assumption is that a common reader will be used by the system, 
+ the action is not responsible for creating a data reader unlike :ref:`responsibility assignment of the Nablarch batch application <nablarch_batch-application_design>` .
 
- メッセージングで使用するデータリーダは、コンポーネント定義に ``dataReader`` という名前で追加する。
+ The data reader used in messaging is added to the component definition with the name ``dataReader``.
