@@ -1,32 +1,31 @@
 .. _data_converter:
 
-様々なフォーマットのデータへのアクセス
+Access to Data in Various Formats
 ==================================================
-様々なフォーマットのデータを扱う機能を提供する。
+Provides a function to handle data in various formats.
 
-Nablarchでは、以下の2種類のデータ入出力機能を提供している。
+Nablarch provides the following two types of data input/output functions.
 
 .. toctree::
   :maxdepth: 1
 
-  データバインド(データとJava Beansオブジェクトをマッピングする機能) <data_io/data_bind>
-  汎用データフォーマット(フォーマット定義ファイルを元にデータ入出力を行う機能) <data_io/data_format>
+  Data binding (function to map data and Java Beans object) <data_io/data_bind>
+  General data format (function to perform data input/output based on the format definition file) <data_io/data_format>
 
 .. _data_converter-data_bind_recommend:
 
-上記のどちらの機能を使用した場合でも、データアクセスを行うことができるが、
-以下の理由により :ref:`data_bind` を使用することを推奨する。
+Although data can be accessed by using either of the above functions, use of :ref:`data_bind` is recommended for the following reasons.
 
-* :ref:`data_bind` は、データをJava Beansオブジェクトとして扱えるため、IDEの補完が有効活用でき開発効率が良い。(項目名のタイプミスなどが起こりえないメリットも有る）
-* :ref:`data_format` は、フォーマットの定義が複雑で理解し難い。これにより、学習コストやメンテナンスコストが高くなる。
+* Since :ref:`data_bind` can handle data as Java Beans object, the complementation of IDE can be effectively used, and the development efficiency is better. (Has the advantage that typos in item names cannot occur)
+* Format definition of :ref:`data_format` is complicated and difficult to understand. Due to this, learning cost and maintenance cost increases.
 
 .. important::
 
-  :ref:`data_bind` で扱うことのできないフォーマットについては、 :ref:`data_format` を使用する必要がある。
+  For formats that cannot be handled by :ref:`data_bind` , :ref:`data_format` is required to beused.
 
 .. tip::
 
-  :ref:`data_bind` と :ref:`data_format` で提供している機能の違いは、 :ref:`data_io-functional_comparison` を参照。
+  Refer to :ref:`data_io-functional_comparison` for the difference between the functions provided by :ref:`data_bind` and data_format.
 
 .. toctree::
   :hidden:
