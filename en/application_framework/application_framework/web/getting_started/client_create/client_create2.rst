@@ -1,16 +1,16 @@
 .. _`client_create_2`:
 
-登録内容の確認
+Confirmation of Registration Contents
 ==========================================
-本章では、登録した内容を確認する処理について解説を行う。
+This chapter describes the process for confirming the registered contents.
 
-:ref:`前へ<client_create_1>`
+:ref:`Previous <client_create_1>`
 
-登録画面へ入力項目を追加する
-  登録確認画面への遷移を行うにあたり、まず顧客情報の登録に必要な以下の入力項目を登録画面に追加する。
+Add input item to the registration screen
+  To transition to the registration confirmation screen, first add the following input items necessary for registering the client information to the registration screen.
 
-  フォームの作成
-    登録画面に入力された値を受け付けるため、 `ClientForm` クラスを新規作成する。
+  Create a form
+    Create a new `ClientForm` class to accept the values entered on the registration screen.
 
     ClientForm.java
       .. code-block:: java
@@ -19,30 +19,30 @@
 
         public class ClientForm implements Serializable {
 
-            // 顧客名
+            // Client name
             private String clientName;
 
-            // 業種コード
+            // Industry type code
             private String industryCode;
 
-            // getter、setterは省略
+            // Getter and setter are omitted
         }
 
-    この実装のポイント
-      * フォームクラスには必ずセッタ及びゲッタを作成する。
-      * :java:extdoc:`@InjectForm <nablarch.common.web.interceptor.InjectForm>` を使用してバリデーションを実行する( :ref:`後述<client_create-setup_validation>` )ために、フォームは `Serializable` インタフェースを実装する。
-      * 入力値を受け付けるプロパティは全てString型で宣言する。詳細は :ref:`バリデーションルールの設定方法 <bean_validation-form_property>` を参照。
+    Key points of this implementation
+      * A setter and getter must be created in a form class.
+      * To implement validation ( :ref:`described later<client_create-setup_validation>` ) using :java:extdoc:`@InjectForm <nablarch.common.web.interceptor.InjectForm>`, the form implements the serializable interface.
+      * All properties that accept input values are declared as string type. For more information, see :ref:`how to set validation rules <bean_validation-form_property>`.
 
-  登録画面のJSPを修正する
-    登録画面のJSPに以下の項目を追加する。
+  Modify JSP in the registration screen.
+    Add the following items to the JSP in the registration screen:
 
-    * :ref:`tag-text_tag` の `name` 属性に、顧客名を受け付けるフォームのプロパティ名を追加する。
-    * :ref:`tag-select_tag` の `name` 属性に、業種コードを受け付けるフォームのプロパティ名を追加する。
-    * 各タグの `name` 属性の指定方法は、 :ref:`tag-access_rule` を参照。
-    * :ref:`tag-text_tag` 、 :ref:`tag-select_tag` に入力エラー発生時のCSSクラスを追加する。
-    * 登録ボタン( :ref:`tag-button_tag` )の `uri` 属性に、登録確認画面へ遷移するURIを追加する。
-      `uri` 属性の指定方法は、 :ref:`tag-specify_uri` を参照。
-    * 入力エラー発生時のエラーメッセージ表示領域を追加する。
+    * Add the property name of the form that accepts the client name to the `name` attribute of :ref:`tag-text_tag`.
+    * Add the property name of the form that accepts the industry type code to the `name` attribute of :ref:`tag-select_tag`.
+    * Refer to :ref:`tag-access_rule` for the method to specify the `name` attribute of each tag.
+    * Add a CSS class when an input error occurs in :ref:`tag-text_tag` and :ref:`tag-select_tag`.
+    * Add the URI for transitioning to the registration confirmation screen, to the `uri` attribute of the registration button ( :ref:`tag-button_tag` ).
+      Refer to :ref:`tag-specify_uri` for the method to specify `uri` attribute.
+    * Add an error message display area in the event of an input error.
 
     /src/main/webapp/WEB-INF/view/client/create.jsp
       .. code-block:: jsp
@@ -50,16 +50,16 @@
 
         <n:form>
             <div class="form-group label-static is-empty">
-                <label class="control-label">顧客名</label>
-                <!-- 顧客名のテキストボックス -->
+                <label class="control-label"Client name</label>
+                <!-- Client name text box -->
                 <n:text name="form.clientName"
                         cssClass="form-control input-text" errorCss="form-control input-error" />
-                <!-- 顧客名の入力エラー時のエラーメッセージ -->
+                <!-- Error message at the time of client name input error -->
                 <n:error errorCss="message-error" name="form.clientName" />
             </div>
             <div class="form-group label-static is-empty">
-                <label class="control-label">業種</label>
-                <!-- 業種のプルダウン -->
+                <label class="control-label">Industry type</label>
+                <!-- Pull down of industry type -->
                 <n:select
                         listName="industries"
                         elementValueProperty="industryCode"
@@ -68,21 +68,21 @@
                         withNoneOption="true"
                         cssClass="btn dropdown-toggle"
                         errorCss="btn dropdown-toggle input-error" />
-                <!-- 業種の入力エラー時のエラーメッセージ -->
+                <!-- Error message when the input of the industry type is not correct -->
                 <n:error errorCss="message-error" name="form.industryCode" />
             </div>
             <div class="button-nav">
-                <!-- 登録ボタン -->
+                <!-- Registration button -->
                 <n:button
                         uri="/action/client/confirm"
-                        cssClass="btn btn-raised btn-success">登録</n:button>
+                        cssClass="btn btn-raised btn-success">Registration </n:button>
             </div>
         </n:form>
 
 .. _`client_create_validation_rule`:
 
-入力値のチェックルールを設定する
-  :ref:`bean_validation` を使用して、入力値のチェックルールを設定する。
+Set the check rules for the input values
+  Use :ref:`bean_validation` to set check rules for input values.
 
   ClientForm.java
     .. code-block:: java
@@ -98,21 +98,21 @@
    messages.properties
     .. code-block:: jproperties
 
-      #その他のメッセージは省略
-      #プルダウンに適した入力必須メッセージを追加する
-      nablarch.core.validation.ee.Required.select.message=選択してください。
+      #Other messages are omitted
+      #Add the appropriate input required message for the pull down
+      nablarch.core.validation.ee.Required.select.message=select.
 
-  この実装のポイント
-    * :ref:`bean_validation` を行うためには、`nablarch.core.validation.ee` 配下のアノテーションを付与する
-      ( `nablarch.core.validation.validator` 配下に同名アノテーションが存在する場合があるので注意)。
-    * :ref:`ドメインバリデーション <bean_validation-domain_validation>` を使用して、`ClientForm` クラスのプロパティにバリデーションルールを定義する。
-    * 対象項目に適したメッセージを表示するために、 :java:extdoc:`Required <nablarch.core.validation.ee.Required>` の `message` 属性に独自に定義したメッセージを指定する。
-      メッセージ定義の詳細は :ref:`message-property_definition` を参照。
+  Key points of this implementation
+    * An annotation under `nablarch.core.validation.ee` is assigned to perform :ref:`bean_validation`.
+      (note that an annotation with the same name may exist under `nablarch.core.validation.validator`).
+    * Use :ref:`domain validation <bean_validation-domain_validation>` to define validation rules for properties of the `ClientForm` class.
+    * To display the appropriate message for the target item, specify the message defined in the :java:extdoc:`Required <nablarch.core.validation.ee.Required>` `message` attribute.
+      For more information about message definitions, see :ref:`message-property_definition`.
 
 .. _`client_create-setup_validation`:
 
-confirmメソッドを作成し、バリデーションが行われるように設定する
-  実行前に入力値のチェックが行われるように設定したメソッドを作成する。
+Create the confirm method and configure so that validation is performed
+  Create a method that is configured so that the input value is checked before execution.
 
   ClientAction.java
     .. code-block:: java
@@ -121,20 +121,20 @@ confirmメソッドを作成し、バリデーションが行われるように�
       @OnError(type = ApplicationException.class, path = "forward://input")
       public HttpResponse confirm(HttpRequest request, ExecutionContext context) {
 
-          // バリデーション済みオブジェクトを取得
+          // Get validated object
           ClientForm form = context.getRequestScopedVar("form");
 
-          // 実装内容については後述
+          // Implementation details are described later
       }
 
-  この実装のポイント
-      * 業務アクションメソッドに :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` を付与して :ref:`bean_validation` を実行する。
-      * :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` の `path` 属性で、バリデーションエラー発生時にinputメソッドへ内部フォーワードするよう設定する
-        (登録画面を再表示するためには、業種リストを設定する必要があるため)。
-      * バリデーションエラーが発生しなかった場合は、リクエストスコープからバリデーション済みオブジェクトが取得出来る。
+  Key points of this implementation
+      * Execute :ref:`bean_validation` assigning :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` to the business action method.
+      * Configure the `path` attribute of :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` for internally forwarding to the input method when a validation error occurs
+        (to refresh the registration screen, the industry type list must be configured).
+      * A validated object can be imported from the request scope if a validation error does not occur.
 
-登録確認画面の表示処理を実装する
-  後続の登録処理に使用する顧客情報を :ref:`session_store` に保存し、登録確認画面を表示する。
+Implements the display process of the registration confirmation screen.
+  Saves the client information used in the subsequent registration process to :ref:`session_store` and displays the registration confirmation screen.
 
   ClientAction.java
     .. code-block:: java
@@ -153,17 +153,17 @@ confirmメソッドを作成し、バリデーションが行われるように�
           return new HttpResponse("/WEB-INF/view/client/confirm.jsp");
       }
 
-  この実装のポイント
-    * 登録画面の表示処理時と同様、業種情報をデータベースから取得してリクエストスコープに設定する。
-    *  :ref:`セッションストア <session_store>` への保存は、:java:extdoc:`SessionUtil <nablarch.common.web.session.SessionUtil>` を使用する。
-    * :ref:`セッションストアにフォームは格納しない <session_store-form>` ため、
-      :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用してフォームをエンティティに変換した上で :ref:`セッションストア <session_store>` に登録する。
-    * :ref:`セッションストア <session_store>` を利用する際の詳しい実装例は :ref:`create_example` を参照。
+  Key points of this implementation
+    * Similar to the process of displaying the registration screen, import the industry type information from the database and configure in the request scope.
+    * Use :java:extdoc:`SessionUtil <nablarch.common.web.session.SessionUtil>` for saving to :ref:`session store <session_store>`.
+    * Since the :ref:`form is not stored in session store <session_store-form>`,
+      use :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` to convert the form to an entity, and then register in the :ref:`session store <session_store>`.
+    * See :ref:`create_example` for a detailed implementation when using :ref:`session store <session_store>`.
 
 .. _`client_create_forConfirmationPage`:
 
-登録確認画面のJSPを作成する
-  登録確認画面のJSPを新規作成する。
+Create a JSP for the registration confirmation screen
+  Create a new JSP for the registration confirmation screen
 
   /src/main/webapp/WEB-INF/view/client/confirm.jsp
     .. code-block:: jsp
@@ -171,64 +171,64 @@ confirmメソッドを作成し、バリデーションが行われるように�
       <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
       <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
       <%@ taglib prefix="n" uri="http://tis.co.jp/nablarch" %>
-      <!-- 登録画面を確認画面に変換して表示する -->
+      <!-- Converts and displays the registration screen to a confirmation screen -->
       <n:confirmationPage path="./create.jsp" ></n:confirmationPage>
 
-  この実装のポイント
-    * :ref:`tag-confirmation_page_tag` を使用することで、登録画面のJSPを流用して確認画面を作成できる。詳細は :ref:`tag-make_common` を参照。
+  Key points of this implementation
+    * By using the :ref:`tag-confirmation_page_tag`, the confirmation screen can be created by using the JSP of registration screen. For more information, see :ref:`tag-make_common`.
 
-登録画面を修正する
-  登録画面のJSPを修正し、登録画面のみで表示する項目、確認画面でのみ表示する項目を出し分けられるようにする。
+Modify the registration screen
+  Modify the JSP on the registration screen so that the items displayed only on the registration screen and items displayed only on the confirmation screen can be distinguished.
 
   /src/main/webapp/WEB-INF/view/client/create.jsp
     .. code-block:: jsp
 
       <div class="button-nav">
-          <!-- 登録ボタンは登録画面でのみ表示 -->
+          <!--  Registration button appears only on the registration screen -->
           <n:forInputPage>
               <n:button uri="/action/client/confirm"
-                        cssClass="btn btn-raised btn-success">登録</n:button>
+                        cssClass="btn btn-raised btn-success">Registration </n:button>
           </n:forInputPage>
-          <!-- 入力へ戻る、確定ボタンは確認画面でのみ表示 -->
+          <!-- Return to input, confirm button is only shown on the confirmation screen -->
           <n:forConfirmationPage>
               <n:button uri="/action/client/back"
-                        cssClass="btn btn-raised btn-default">入力へ戻る</n:button>
+                        cssClass="btn btn-raised btn-default">Return to input</n:button>
               <n:button uri="/action/client/create"
-                        cssClass="btn btn-raised btn-success">確定</n:button>
+                        cssClass="btn btn-raised btn-success">Confirm</n:button>
           </n:forConfirmationPage>
       </div>
 
-  この実装のポイント
-    * 登録画面のみで表示する項目は :ref:`tag-for_input_page_tag` の内部に記述する。
-    * 確認画面でのみ表示する項目は :ref:`tag-for_confirmation_page_tag` の内部に記述する。
+  Key points of this implementation
+    * Items that are displayed only on the registration screen are described in the :ref:`tag-for_input_page_tag`.
+    * Items that are displayed only on the confirmation screen are described in the :ref:`tag-for_confirmation_page_tag`.
 
-動作確認を行う
-  登録確認処理が正しく実装されていることを確認するため、以下の手順で動作確認を実施する。
+Operation check
+  Check the operation with the following procedure to ensure that the registration confirmation process is executed correctly.
 
-バリデーションエラーが発生しないケース
-  1. 顧客登録画面を表示する。
+When validation error does not occur
+  1. Displays the client registration screen(顧客登録画面).
 
     .. image:: ../images/client_create/input_display.png
 
-  2. 顧客名に全角文字列、業種に任意の値を選択して確認ボタンを押下する。
+  2. Select a full-width string for the client name(顧客名) and any value for the industry type(業種) and click the confirm(確認) button.
 
     .. image:: ../images/client_create/input_valid_value.png
 
-  3. 登録確認画面が表示され、`2` で入力した顧客名、業種がラベルで表示されることを確認する。
+  3. Confirm that the registration confirmation screen(登録確認画面) is displayed, and the client name and industry type entered in `2` are displayed as labels.
 
     .. image:: ../images/client_create/confirm_display.png
 
-バリデーションエラーが発生するケース
-  1. 顧客登録画面を表示する。
+When a validation error occurs
+  1. Displays the client registration screen(顧客登録画面).
 
     .. image:: ../images/client_create/input_display.png
 
-  2. 顧客名に半角文字列、業種を未選択にして確認ボタンを押下する。
+  2. Select half-width string for the client name(顧客名), do not select the industry type(業種) and click the confirmation(確認) button.
 
     .. image:: ../images/client_create/input_invalid_value.png
 
-  3. 登録画面が再度表示され、エラーメッセージが表示されていることを確認する。
+  3. Confirm that the registration screen(登録画面) is displayed again, and an error message is displayed.
 
     .. image:: ../images/client_create/input_invalid_display.png
 
-:ref:`次へ<client_create_3>`
+:ref:`Next <client_create_3>`
