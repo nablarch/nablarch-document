@@ -1,256 +1,256 @@
 
 ============================================
-利用可能文字の追加手順
+Procedure to add available characters
 ============================================
 
-概要
-====
+Summary
+========
 
-アーキタイプから生成したプロジェクトで、利用可能文字の精査エラーメッセージの設定方法は以下の3パターンがある。
+In projects generated from archetypes, there are the following three patterns by which validation error messages for available characters can be configured.
 
-* メッセージIDを設定するだけで使用できるもの
-* メッセージIDを設定しただけでは利用可能にならないコンポーネント定義が必要なもの
-* 単独では使用できないもの
+* Those that can be used simply by configuring the message ID
+* Those requiring component definition, which cannot be used simply by configuring the message ID
+* Those that cannot be used alone
 
 
-利用可能な文字集合定義
-======================
+Available character set definition
+====================================
 
-文字集合の包含関係
-------------------
+Character set inclusion relation
+---------------------------------
 
-利用可能な文字集合は、複数の文字集合から構成される(即ち包含関係が存在する)。
+The available character sets consist of multiple character sets (that is, there is an inclusion relation).
 
-以下に文字集合を表す図を示す。
+The figure representing a character set is shown below:
 
 .. image:: charset.png
 
 
-文字集合定義の所在
-------------------
+Location of the character set definition
+-----------------------------------------
 
-以下の文字集合については、それぞれの文字集合が包含する文字が、
-デフォルトコンフィギュレーション(jar)内の環境設定ファイルにリテラルで定義されている。
+For the following character set, the characters included in each character set are defined
+by literals in the configuration file in the default configuration (jar).
 
-* 全角英字
-* 全角数字
-* 全角ギリシャ文字
-* 全角ロシア文字
-* 全角ひらがな
-* 全角カタカナ
-* 全角スペース 
-* 第1水準全角記号
-* 全角罫線
-* 第1水準漢字
-* 第2水準漢字
-* NEC選定IBM拡張
-* NEC特殊文字
-* IBM拡張文字
-* 半角数字
-* 半角英小文字
-* 半角英大文字
-* ASCII記号
-* 半角カナ
+* Full-width alphabets
+* Full-width numbers
+* Full-width Greek characters
+* Full-width Russian characters
+* Full-width Hiragana
+* Full-width Katakana
+* Full-width space
+* Level 1 full-width symbols
+* Full-width ruled line
+* Level 1 Kanji
+* Level 2 Kanji
+* NEC selected IBM extended
+* NEC special characters
+* IBM extended characters
+* Half-width numbers
+* Half-width lowercase characters
+* Half-width uppercase letters
+* ASCII symbols
+* Half-width kana
   
 .. tip::
    
-   デフォルトコンフィギュレーション(jar)内の以下のリソースに定義されている。
+   It is defined in the following resources of the default configuration (jar)
    
    .. code-block:: text
        
      nablarch/core/validation/charset-definition.config
 
 
-ただし、以下の文字集合については、
-Unicode上のコードポイントがコンポーネント設定ファイルに定義されている。
+However, for the following character set,
+Unicode code points are defined in the component configuration file.
 
 
 * halfWidthWhitespace
 
 .. tip::
    
-   デフォルトコンフィギュレーション(jar)内の以下のリソースに定義されている。
+   It is defined in the following resources of the default configuration (jar)
    
    .. code-block:: text
        
     nablarch/core/validation/charset-definition.xml
 
 
-設定方法
+How to Configure
 ======================
 
-以下が利用可能文字ごとの設定方法である。
+How to configure each available character is shown below.
 
-メッセージIDを設定するだけで使用できる利用可能文字
---------------------------------------------------
+Available characters that can be used simply by configuring the message ID
+---------------------------------------------------------------------------
 
-* システム許容文字
-* 全角文字
-* 半角英数
-* ASCII文字
-* 半角数字
-* 全角カタカナ
-
-
-これらの利用可能文字の精査エラーメッセージはメッセージIDを設定することで使用できる。
-
-指定するメッセージIDに対応するプレースホルダは :download:`Default configuration list <../../configuration/default-configuration-list.xlsx>` を参照
-
-メッセージID及びメッセージ内容の変更手順自体については、:doc:`./CustomizeMessageIDAndMessage` を参照
+* Characters permitted by the system
+* Full-width characters
+* Half-width alphanumeric
+* ASCII characters
+* Half-width numbers
+* Full-width Katakana
 
 
-メッセージIDを指定するだけでは使用できない利用可能文字
-------------------------------------------------------
+The validation error messages for these available characters can be used configuring the message ID.
 
-* 全角英字
-* 全角数字
-* 全角ギリシャ文字
-* 全角ロシア文字
-* 全角ひらがな
-* 第1水準全角記号
-* 全角罫線
-* 第1水準漢字
-* 第2水準漢字
-* 全角スペース
-* 半角英小文字
-* 半角英大文字
-* ASCII記号
-* 半角カナ
-* NEC選定IBM拡張
-* NEC特殊文字
-* IBM拡張文字
+See the :download:`Default configuration list <../../configuration/default-configuration-list.xlsx>` for the placeholder corresponding to the specified message ID.
 
-これらの利用可能文字の精査エラーメッセージの設定はコンポーネント定義を行うことで使用できる。
+See :doc:`./CustomizeMessageIDAndMessage` for the procedure to change the message ID and the message content.
+
+
+Available characters that cannot be used simply by specifying the message ID
+------------------------------------------------------------------------------
+
+* Full-width alphabets
+* Full-width numbers
+* Full-width Greek characters
+* Full-width Russian characters
+* Full-width Hiragana
+* Level 1 full-width symbols
+* Full-width ruled line
+* Level 1 Kanji
+* Level 2 Kanji
+* Full-width space
+* Half-width lowercase characters
+* Half-width uppercase letters
+* ASCII symbols
+* Half-width kana
+* NEC selected IBM extended
+* NEC special characters
+* IBM extended characters
+
+The validation error messages for these available characters can be used by carrying out component definition.
 
 .. tip::
 
-  上記の利用可能文字のメッセージIDをデフォルトの設定に組み込んでいない理由は、
-  メッセージIDを定義していない場合、Nablarchアプリケーション起動時に警告が出力されてしまうためである。
+  The reason why the message IDs for the above available characters are not included in the default configuration is that if a message ID is not defined,
+  a warning will be output when starting the Nablarch application.
 
 
-単独で使用できない利用可能文字
-------------------------------
+Available characters that cannot be used alone
+-----------------------------------------------
 
 * halfWidthSpace
 
 
-メッセージIDを指定するだけでは使用できない利用可能文字の設定方法
-================================================================
+How to configure available characters that cannot be used simply by specifying the message ID
+==============================================================================================
 
-メッセージIDを指定するだけでは使用できない利用可能文字はNablarchの設定ファイル（ウェブプロジェクトであれば `web-component-configuration.xml` など）に
-コンポーネント定義を追加する必要がある。
+You need to add component definitions to the Nablarch configuration file (`web-component-configuration.xml` and the like in the case of web projects)
+for available characters that cannot be used simply by specifying the message ID.
 
-以下が定義例である。この中から使用するものだけを設定すれば良い。
+The following is an example of a definition. Users only need to configure only what is required to be used from these.
 
 
 .. code-block:: xml
 
-  <!-- Nablarchコア機能 -->
+  <!-- Nablarch core function -->
   <import file="nablarch/core.xml"/>
 
-  <!-- Nablarchのデフォルト設定を上書きするため、nablarch/core.xmlの後に定義すること -->
+  <!-- Define after nablarch/core.xml to override the default configuration of Nablarch -->
 
-  <!-- 全角英字 -->
-  <component name="全角英字" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+  <!-- Full-width alphabets -->
+  <component name="Full-width alphabets" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
     <property name="allowedCharacters" value="${nablarch.zenkakuAlphaCharset.allowedCharacters}"/>
     <property name="messageId" value="${nablarch.zenkakuAlphaCharset.messageId}"/>
   </component>
 
-  <!-- 全角数字 -->
-  <component name="全角数字" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+  <!-- Full-width numbers -->
+  <component name="Full-width numbers" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
     <property name="allowedCharacters" value="${nablarch.zenkakuNumCharset.allowedCharacters}"/>
     <property name="messageId" value="${nablarch.zenkakuNumCharset.messageId}"/>
   </component>
 
-  <!-- 全角ギリシャ文字 -->
-  <component name="全角ギリシャ文字" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+  <!-- Full-width Greek characters-->
+  <component name="Full-width Greek characters" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
     <property name="allowedCharacters" value="${nablarch.zenkakuGreekCharset.allowedCharacters}"/>
     <property name="messageId" value="${nablarch.zenkakuGreekCharset.messageId}"/>
   </component>
 
-  <!-- 全角ロシア文字 -->
-  <component name="全角ロシア文字" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+  <!-- Full-width Russian characters -->
+  <component name="Full-width Russian characters" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
     <property name="allowedCharacters" value="${nablarch.zenkakuRussianCharset.allowedCharacters}"/>
     <property name="messageId" value="${nablarch.zenkakuRussianCharset.messageId}"/>
   </component>
 
-  <!-- 全角ひらがな -->
-  <component name="全角ひらがな" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+  <!-- Full-width Hiragana -->
+  <component name="Full-width Hiragana" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
     <property name="allowedCharacters" value="${nablarch.zenkakuHiraganaCharset.allowedCharacters}"/>
     <property name="messageId" value="${nablarch.zenkakuHiraganaCharset.messageId}"/>
   </component>
 
-  <!-- 全角記号 -->
-  <component name="第1水準全角記号" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+  <!-- Full-width symbols -->
+  <component name="Level 1 full-width symbol" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
     <property name="allowedCharacters" value="${nablarch.jisSymbolCharset.allowedCharacters}"/>
     <property name="messageId" value="${nablarch.jisSymbolCharset.messageId}"/>
   </component>
 
-  <!-- 全角罫線 -->
-  <component name="全角罫線" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+  <!-- Full-width ruled line -->
+  <component name="Full-width ruled line" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
     <property name="allowedCharacters" value="${nablarch.zenkakuKeisenCharset.allowedCharacters}"/>
     <property name="messageId" value="${nablarch.zenkakuKeisenCharset.messageId}"/>
   </component>
 
-  <!-- 第1水準漢字 -->
-  <component name="第1水準漢字" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+  <!-- Level 1 Kanji -->
+  <component name="Level 1 Kanji" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
     <property name="allowedCharacters" value="${nablarch.level1KanjiCharset.allowedCharacters}"/>
     <property name="messageId" value="${nablarch.level1KanjiCharset.messageId}"/>
   </component>
 
-  <!-- 第2水準漢字 -->
-  <component name="第2水準漢字" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+  <!-- Level 2 Kanji -->
+  <component name="Level 2 Kanji" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
     <property name="allowedCharacters" value="${nablarch.level2KanjiCharset.allowedCharacters}"/>
     <property name="messageId" value="${nablarch.level2KanjiCharset.messageId}"/>
   </component>
 
-  <!-- 全角スペース -->
-  <component name="全角スペース" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+  <!-- Full-width space -->
+  <component name="Full-width space" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
     <property name="allowedCharacters" value="${nablarch.zenkakuSpaceCharset.allowedCharacters}"/>
     <property name="messageId" value="${nablarch.zenkakuSpaceCharset.messageId}"/>
   </component>
 
-  <!-- 半角英小文字 -->
-  <component name="半角英小文字" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+  <!-- Half-width alphabets -->
+  <component name="Half-width alphabets" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
     <property name="allowedCharacters" value="${nablarch.lowerAlphabetCharset.allowedCharacters}"/>
     <property name="messageId" value="${nablarch.lowerAlphabetCharset.messageId}"/>
   </component>
 
-  <!-- 半角英大文字 -->
-  <component name="半角英大文字" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+  <!-- Half-width uppercase letters -->
+  <component name="Half-width uppercase letters" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
     <property name="allowedCharacters" value="${nablarch.upperAlphabetCharset.allowedCharacters}"/>
     <property name="messageId" value="${nablarch.upperAlphabetCharset.messageId}"/>
   </component>
 
-  <!-- ASCII記号 -->
-  <component name="ASCII記号" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+  <!-- ASCII symbols -->
+  <component name="ASCII symbols" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
     <property name="allowedCharacters" value="${nablarch.asciiSymbolCharset.allowedCharacters}"/>
     <property name="messageId" value="${nablarch.asciiSymbolCharset.messageId}"/>
   </component>
 
-  <!-- 半角カナ -->
-  <component name="半角カナ" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+  <!-- Half-width Katakana -->
+  <component name="Half-width Katakana" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
     <property name="allowedCharacters" value="${nablarch.hankakuKanaCharset.allowedCharacters}"/>
     <property name="messageId" value="${nablarch.hankakuKanaCharset.messageId}"/>
   </component>
 
-  <!-- NEC選定IBM拡張 -->
-  <component name="NEC選定IBM拡張" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+  <!-- NEC selection IBM extension-->
+  <component name="NEC selection IBM extension" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
     <property name="allowedCharacters" value="${nablarch.necExtendedCharset.allowedCharacters}"/>
     <property name="messageId" value="${nablarch.necExtendedCharset.messageId}"/>
   </component>
 
-  <!-- NEC特殊文字 -->
-  <component name="NEC特殊文字" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+  <!-- NEC special characters -->
+  <component name="NEC special characters" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
     <property name="allowedCharacters" value="${nablarch.necSymbolCharset.allowedCharacters}"/>
     <property name="messageId" value="${nablarch.necSymbolCharset.messageId}"/>
   </component>
 
-  <!-- IBM拡張文字 -->
-  <component name="IBM拡張文字" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+  <!-- IBM extended characters -->
+  <component name="IBM extended characters" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
     <property name="allowedCharacters" value="${nablarch.ibmExtendedCharset.allowedCharacters}"/>
     <property name="messageId" value="${nablarch.ibmExtendedCharset.messageId}"/>
   </component>
 
 
-メッセージID及びメッセージ内容の変更手順自体については、:doc:`./CustomizeMessageIDAndMessage` を参照
+See :doc:`./CustomizeMessageIDAndMessage` for the procedure to change the message ID and the message content.
