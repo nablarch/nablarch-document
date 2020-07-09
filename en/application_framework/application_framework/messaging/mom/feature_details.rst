@@ -1,57 +1,55 @@
-機能詳細
+Details of Function
 ========================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-アプリケーションの起動方法
+How to launch an application
 --------------------------------------------------
-* :ref:`アプリケーションの起動方法<main-run_application>`
+* :ref:`How to launch an application<main-run_application>`
 
-システムリポジトリの初期化
+Initializing the system repository
 --------------------------------------------------
-システムリポジトリの初期化は、アプリケーション起動時にシステムリポジトリの設定ファイルのパスを指定することで行う。
-詳細は、:ref:`アプリケーションの起動方法<main-run_application>` を参照。
+The system repository is initialized by specifying the path of the system repository configuration file when the application starts. 
+For more information, see :ref:`How to launch an application<main-run_application>` 
 
-データベースアクセス
+Database Access
 --------------------------------------------------
-* :ref:`データベースアクセス <database_management>`
+* :ref:`Database Access <database_management>`
 
-入力値のチェック
+Input value check
 --------------------------------------------------
-* :ref:`入力値のチェック <validation>`
+* :ref:`Input value check <validation>`
 
-排他制御
+Exclusive control
 --------------------------------------------------
-排他制御は、以下の2種類の方法を提供しているが、
-:ref:`UniversalDaoを推奨する理由 <exclusive_control-deprecated>` に記載がある通り、
-:ref:`universal_dao` の使用を推奨する。
+Although 2 types of exclusive control are offered, :ref:`universal_dao` is recommended due to the reasons described inreason :ref:`UniversalDao is recommended exclusive_control-deprecated>` .
 
 * :ref:`exclusive_control`
 * :ref:`universal_dao`
 
   * :ref:`universal_dao_jpa_pessimistic_lock`
 
-実行制御
+Execution control
 --------------------------------------------------
-* :ref:`プロセス終了コード<status_code_convert_handler-rules>`
-* :ref:`エラー発生時にエラー応答電文を返す<mom_system_messaging-sync_message_receive>`
-* :ref:`メッセージングプロセスを異常終了させる <db_messaging-process_abnormal_end>` (テーブルをキューとして使ったメッセージングと同じ)
-* :ref:`処理の並列実行(マルチスレッド化)<multi_thread_execution_handler>`
+* :ref:`Process end code<status_code_convert_handler-rules>`
+* :ref:`Returns an error response message when an error occurs <mom_system_messaging-sync_message_receive>`
+* :ref:`Terminate the messaging process abnormally <db_messaging-process_abnormal_end>` (same as messaging using tables as queues)
+* :ref:`Parallel execution of processing (multi-threading)<multi_thread_execution_handler>`
 
-MOMメッセージング
+MOM messaging
 --------------------------------------------------
 * :ref:`mom_system_messaging`
-* 標準提供のデータリーダ
+* Data reader provided as standard
 
-  * :java:extdoc:`FwHeaderReader (電文からフレームワーク制御ヘッダの読み込み) <nablarch.fw.messaging.reader.FwHeaderReader>`
-  * :java:extdoc:`MessageReader (MQから電文の読み込み)<nablarch.fw.messaging.reader.MessageReader>`
+  * :java:extdoc:`FwHeaderReader (reads the framework control header from the message) <nablarch.fw.messaging.reader.FwHeaderReader>`
+  * :java:extdoc:`MessageReader (reads messages from MQ)<nablarch.fw.messaging.reader.MessageReader>`
 
-* :ref:`再送制御<message_resend_handler>`
+* :ref:`Resend control<message_resend_handler>`
 
 .. _data_format-formatter:
 
-出力するデータの表示形式のフォーマット
+Format the display format of the output data
 --------------------------------------------------
-データを出力する際に、 :ref:`format` を使用することで日付や数値などのデータの表示形式をフォーマットすることができる。
-詳細は :ref:`format` を参照。
+When generating the output data, display format such as date and number of the data can be formatted by using :ref:`format` . 
+For details, see :ref:`format` .

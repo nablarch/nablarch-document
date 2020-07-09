@@ -137,7 +137,8 @@ Creating a class that holds the information required for exclusive control
           // Configure the table name with the setTableName method of the parent class.
           setTableName("USERS");
 
-          // Configure the version number column name with the setVersionColumnName method of the parent class.
+          // Configure the version number column name with the setVersionColumnName method
+          // of the parent class.
           setVersionColumnName("VERSION");
 
           // Use the enum values method for the setPrimaryKeyColumnNames method
@@ -171,11 +172,13 @@ Initial display of input screen
 
       // (Exclusive control)
       // Generate the primary key class and prepare the version number.
-      // The acquired version number is configured in the ExecutionContext specified by the framework.
+      // The acquired version number is configured in the ExecutionContext specified
+      // by the framework.
       HttpExclusiveControlUtil.prepareVersion(context, new UsersExclusiveControl(userId));
 
       // (Business process)
-      // Acquire the update target data and configure it in the request scope to display the input screen.
+      // Acquire the update target data and configure it in the request scope
+      // to display the input screen.
       context.setRequestScopedVar("user", findUser(userId));
 
       return new HttpResponse("/input.jsp");
@@ -198,7 +201,8 @@ Confirmation button on the input screen (Input → Confirm)
       HttpExclusiveControlUtil.checkVersions(request, context);
 
       // (Business process)
-      // Check the input data and configure in the request scope to display the confirmation screen.
+      // Check the input data and configure in the request scope
+      // to display the confirmation screen.
       context.setRequestScopedVar("user", getUser(request));
 
       return new HttpResponse("/confirm.jsp");
@@ -305,7 +309,8 @@ For composite primary key
       // Define the primary key of the exclusive control table with enumeration type.
       private enum PK { USER_ID, PK2, PK3 }
 
-      // Define a constructor that takes the value of the primary key and set the necessary information in the parent class method.
+      // Define a constructor that takes the value of the primary key
+      // and set the necessary information in the parent class method.
       public UsersExclusiveControl(String userId, String pk2, String pk3) {
           setTableName("USERS");
           setVersionColumnName("VERSION");
@@ -351,7 +356,8 @@ For composite primary key
  .. code-block:: java
 
   // (Exclusive control: Check)
-  // Form implements the process of extracting the primary key from the request parameter taking the delimiter into consideration.
+  // Form implements the process of extracting the primary key from the request parameter
+  // taking the delimiter into consideration.
   User[] deletedUsers = form.getDeletedUsers();
 
   // Call the check by record.

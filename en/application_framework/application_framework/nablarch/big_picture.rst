@@ -1,43 +1,37 @@
 .. _nablarch_big_picture:
 
-全体像
+Big Picture
 ============================
-Nablarchアプリケーションフレームワークの全体像を以下に示す。
+The big picture of the Nablarch application framework is given below.
 
 .. image:: images/framework.png
   :scale: 80
 
-Nablarchアプリケーションフレームワークは、ウェブやバッチといった処理方式に合わせた実行制御基盤と、
-データベースアクセスやバリデーションといった個別の機能を提供するライブラリから構成される。
+The Nablarch application framework consists of an execution control platform adapted to processing methods such as Web and batch, and a library providing individual functions such as database access and validation.
 
-Nablarchアプリケーションフレームワークは、以下の特長がある。
+The Nablarch application framework has the following features.
 
-様々な処理方式に対応できる
- Nablarchアプリケーションフレームワークでは、
- 実行制御基盤および :ref:`ライブラリ<library>` を組み合わせることにより、
- 様々な処理方式に対応できる。
+Supports various processing methods
+ The Nablarch application framework can support various processing methods by combining the execution control platform and :ref:`library <library>` .
 
- 実行制御基盤
+ Execution control platform
   * :ref:`web_application`
   * :ref:`web_service`
   * :ref:`batch_application`
   * :ref:`messaging`
 
-すべての実行制御基盤で共通のアーキテクチャを採用している
- :ref:`共通アーキテクチャ<nablarch_architecture>` では、
- パイプライン型の処理モデルに従ってすべてのデータ処理を行う。
- 特に複数の処理方式を組み合わせて構築するシステムは、
- :ref:`共通アーキテクチャ<nablarch_architecture>` によって、以下のメリットを享受できる。
+Uses a common architecture for all execution control platforms
+ The :ref:`common architecture <nablarch_architecture>`  processes all data according to the pipeline type processing model. 
+ In particular, systems that are constructed by combining multiple processing methods have the following advantages with the use of the :ref:`common architecture <nablarch_architecture>` .
 
- 柔軟な機能追加・変更
-  パイプライン型の処理モデルでは、パイプラインの構成要素であるハンドラの差し替えを容易に行うことができる。
-  これにより、機能追加・変更要求に対して、非常に柔軟な対応が可能となる。
-  また、ハンドラは処理方式間での共有が可能なので、
-  従来の開発のように処理方式ごとに同じ機能を重複して作成する必要がない。
+ Flexible addition and changes of functions
+  Replacing handlers that are components of the pipeline is easy in the pipeline type processing model .
+  This enables a very flexible response to requests for addition and changes of functions.
+  Since handlers can be shared between processing methods, 
+  it is not necessary to create duplicate functions for each processing method, as required in conventional development.
 
- 開発方法の共通化
-  各実行制御基盤上で動作するアプリケーションは、ほぼ同様の方法で作成・テストできるので、
-  ある処理方式で開発を行いスキルを身につけた開発者は、
-  最小限の学習を行うだけで他の処理方式の開発を行うことができる。
-  これにより、開発者の生産性向上・学習コスト低減を実現でき、
-  また、開発要員の確保も容易になる。
+ Common development method
+  Since applications running on each execution control platform can be created and tested with a similar method, 
+  developers who have development skills in a certain processing method can develop using other processing methods with minimal learning. 
+  This makes it possible to improve the productivity of developers and reduce the learning cost, and also facilitates the securing of development personnel.
+
