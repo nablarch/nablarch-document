@@ -29,7 +29,7 @@ Flow of a simple process is shown in the figure below.
 
   * :ref:`hidden encryption<tag-hidden_encryption>`
   * :ref:`session_concurrent_access_handler`
-  * API to access the session scope of:java:extdoc:`ExecutionContext<nablarch.fw.ExecutionContext>`.
+  * API to access the session scope of :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>`.
 
 .. tip::
  The cookie ( ``NABLARCH_SID`` ) used in this function is completely different from the JSESSIONID used for tracking the HTTP session.
@@ -347,7 +347,9 @@ Specify the transition destination for each request
   Implementation examples
     .. code-block:: java
 
-      // Specify the transition destination for each request by specifying the exception indicating that the session variable does not exist in the target exception
+      // Specify the transition destination for each request
+      // by specifying the exception indicating that the session variable does not exist
+      // in the target exception
       @OnError(type = SessionKeyNotFoundException.class, path = "redirect://error")
       public HttpResponse backToNew(HttpRequest request, ExecutionContext context) {
         Project project = SessionUtil.get(context, "project");

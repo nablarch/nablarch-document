@@ -42,11 +42,11 @@ A unique value can be assigned by managing the current value for each record of 
 
 The following table layout is assumed.
 
-=================================== ==================================================================================================
-Numbering identification name (PK)   A value for identifying the numbering target
+============================================ =====================================================================================================
+Numbering identification |br| name (PK)      A value for identifying the numbering target
 
-Current value                        Current value (value obtained by adding 1 to the current value is obtained after numbering)
-=================================== ==================================================================================================
+Current value                                Current value |br| (value obtained by adding 1 to the current value is obtained |br| after numbering)
+============================================ =====================================================================================================
 
 .. important::
 
@@ -117,7 +117,6 @@ Replace table or sequence numbering
 When replacing the numbering implementation by a table or sequence, 
 it can be supported by creating a class that implements :java:extdoc:`IdGenerator <nablarch.common.idgenerator.IdGenerator>` .
 
-作成したクラスは、 `Configure numbering for Universal DAO`_ に従いコンポーネント設定ファイルに定義することで利用可能となる。
 The created class can be used by defining it in the component configuration file according to the  `Configure numbering for Universal DAO`_ .
 
 .. |br| raw:: html

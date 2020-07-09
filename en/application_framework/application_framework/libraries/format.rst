@@ -171,7 +171,8 @@ Configure  ``nablarch.core.text.FormatterConfig`` in the component configuration
           <component class="nablarch.core.text.DateTimeStrFormatter">
             <property name="formatterName" value="dateTime" />
             <property name="defaultPattern" value="yyyy/MM/dd" />
-            <!-- Configuration of the properties that represent the date string pattern is also required for the formatter of date string -->
+            <!-- Configuration of the properties that represent the date string pattern
+                 is also required for the formatter of date string -->
             <property name="dateStrPattern" value="yyyyMMdd" />
           </component>
           <component class="nablarch.core.text.NumberFormatter">
