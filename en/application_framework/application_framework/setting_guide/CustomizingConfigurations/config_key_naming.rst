@@ -1,109 +1,109 @@
 
-==========================
- 環境設定値の項目名ルール
-==========================
+=====================================================
+ Item Name Rule for Environment Configuration Values
+=====================================================
 
-Nablarchが提供するデフォルト設定には、個別PJにてカスタマイズしやすいように
-あらかじめ項目が抽出されている。その名称の命名ルールを記載する。
+In the default configuration provided by Nablarch, items are identified in advance so that they can be easily customized in individual PJs.
+We will describe the naming rules for the item names. Note: PJ is the abbreviation for project.
 
-全般的なルール
+General Rules
 ==============
 
-* 項目名は、lowerCamelCaseで記述する。
-* 区切り文字に\ ``.``\ （ドット）を使用する。
+* Item names are described in lowerCamelCase.
+* \ ``.``\ (dot) is used as a delimiter.
 
-共通プレフィックス
+Common prefix
 ==================
 
-Nablarchがデフォルトで用意する設定項目の項目名には、プレフィックス\ ``nablarch.``\ が付与される。
-これにより、このプレフィックスが名前空間となり、適用PJと項目名が重複することを防止することができる。
-また、ある設定項目が、Nablarchデフォルトのものか、PJで個別に作成したものかを判別することができる。
+The prefix \ ``nablarch.``\ is added to the item names of the configuration items that Nablarch provides by default.
+As a result, this prefix becomes a namespace, and it is possible to prevent duplication of item names with those in the applied PJ.
+Also, it is possible to determine whether a certain configuration item is a default Nablarch item or one created individually in PJ.
 
-**【例】**
+**Example**
 
 .. code-block:: bash
                 
-  # コードを起動時に読み込むかどうか
+  # Whether the code is loaded at startup
   nablarch.codeCache.loadOnStartUp=true
 
 
 .. tip::
-   PJが個別に作成する項目については、所定のプレフィックスを付与することを推奨する。
-   これはPJ個別の項目を検索しやすくするためである。
+   It is recommended to add a predetermined prefix to the items created individually by PJ.
+   This is to make it easier to search for items created individually by PJ.
 
 
-単一のコンポーネント内でのみ使用される設定項目
-==============================================
+Configuration items that are used only within a single component
+=================================================================
 
-この場合、以下のルールで命名される。
+In this case, it is named with the following rules.
 
-``nablarch.<コンポーネント名>.<プロパティ名>``
+``Nablarch.<Component name>.<Property name>``
 
 
-前述の例で説明する。
+We will explain using the above example.
 
 .. code-block:: bash
                 
-  # コードを起動時に読み込むかどうか
+  # Whether the code is loaded at startup
   nablarch.codeCache.loadOnStartUp=true
 
-この設定項目は、実際は以下のコンポーネント定義で使用される。
+In practice, this configuration item is used in the following component definition.
   
 .. code-block:: xml
                 
-  <!-- コンポーネント名は 'codeCache' -->
+  <!-- Component name is 'codeCache' -->
   <component name="codeCache"
              class="nablarch.core.cache.BasicStaticDataCache">
              
-    <!-- プロパティ名は 'loadOnStartUp' -->             
+    <!-- Property name is 'loadOnStartUp'  -->             
     <property name="loadOnStartup" value="${nablarch.codeCache.loadOnStartUp}"/>
               
-    <!-- 中略 -->
+    <!-- Middle is omitted -->
   </component>
   
-この場合、
-``codeCache``\ がコンポーネント名、\ ``loadOnStartUp``\ がそのコンポーネントのプロパティである。
-これに、前述の\ `共通プレフィックス`_\ が付与されるので、\ ``nablarch.codeCache.loadOnStartUp``\ となる。
+
+In this case, ``codeCache``\ is the component name, while \ ``loadOnStartUp``\ is the property of that component.
+As the above-mentioned \ `common prefix`_\  is added to this, the name becomes \ ``nablarch.codeCache.loadOnStartUp``\.
 
 
-このルールにより、ある項目がどのコンポーネントで使用されるものであるか調査が容易になる。
+With this rule, it becomes easy to find out within which component a certain item is used.
 
 
-複数のコンポーネント定義に跨る設定項目
-======================================
+Configuration items that are used across multiple component definitions
+=========================================================================
 
-この場合、以下のルールで命名される。
+In this case, it is named with the following rules.
 
 
-``nablarch.commonProperty.<項目名>``
+``nablarch.commonProperty.<item name>.``
 
 
    
-DBテーブルのスキーマ情報
-========================
+Schema information for the DB table
+=====================================
 
-Nablarch Application Frameworkが使用するテーブルのスキーマ情報については、
-以下のルールで命名される。
+The naming rule for the schema information of the tables
+used by the Nablarch Application Framework is as follows:
 
-``nablarch.<Nablarchデフォルトのテーブル名>Table.<各種設定値>``
+``nablarch.<Nablarch Default table name>Table.<Various setting values>``
 
-例えば、メッセージ機能で使用するデフォルトのテーブル名は\ ``MESSAGE``\ であるので、
-その項目名は以下のようになる。
+For example, since the default table name used in the message function is \ ``MESSAGE``\,
+the item names are as follows:
 
-**【例】**
+**Example**
 
 .. code-block:: bash
                 
-  # メッセージテーブルのテーブル物理名
+  # Default physical name of the message table
   nablarch.messageTable.tableName=MESSAGE
-  # メッセージテーブルのIDカラム物理名
+  # ID column physical name of the message table
   nablarch.messageTable.idColumnName=MESSAGE_ID
-  # メッセージテーブルの言語カラム物理名
+  # Language column physical name of the message table
   nablarch.messageTable.langColumnName=LANG
-  # メッセージテーブルのメッセージカラム物理名
+  # Message column physical name of the message table
   nablarch.messageTable.valueColumnName=MESSAGE
 
 
 .. tip::
-   Nablarch Application Frameworkが使用するテーブルをデフォルト値のまま使用する場合は、
-   この設定値を意識する必要はない。
+   When Nablarch Application Framework uses the table keeping the default values as it is,
+   there is no need to worry about these setting values.

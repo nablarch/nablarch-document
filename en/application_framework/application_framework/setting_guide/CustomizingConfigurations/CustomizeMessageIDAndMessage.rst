@@ -1,41 +1,41 @@
 
-============================================
-メッセージID及びメッセージ内容の変更手順
-============================================
+===========================================================
+Procedure for Changing the Message ID and Message Content
+===========================================================
 
-概要
+Summary
 ================================================================
 
-アーキタイプから生成したプロジェクトには、ユーザに通知するメッセージID及びメッセージについて、プロジェクト内にデフォルト設定が記述されている。
+The default configuration of the message IDs and messages to be notified to users is described in the projects generated from the archetype.
 
-これらについては、内容を確認した上で変更する必要がある。
+It is necessary to change these message IDs and messages after checking the content.
 
-Nablarchにおけるメッセージ管理機能自体については、:doc:`../../libraries/message` を参照
+For the message management function in Nablarch, see :doc:`../../libraries/message`.
 
 
-エラー内容とメッセージIDの紐付けの変更方法
-==========================================
+How to change the link between error content and message ID
+============================================================
 
-エラー内容とメッセージIDの紐付けは、src/main/resources/common.configにて行っている。
+Error content is linked to the message ID in src/main/resources/common.config
 
-common.config中にコメントで「XXXのメッセージID」と記載されている項目が、エラー内容とメッセージIDの紐付けを行っている項目である。
+In common.config, the item described as "Message ID of XXX (XXXのメッセージID)" in the comment, is the item that links the error content to the message ID.
 
-例えば、以下のような記述の場合、M000000017がメッセージIDである。
+For example, in the following statement, M000000017 is the message ID.
 
 .. code-block:: text
 
-  # 全角文字以外の文字が入力された場合のメッセージID
-  # (TODO PJのID体系に併せて設定値を変更)
+  # Message ID when a non-full-width character is entered
+  # (change the set value in accordance with the ID system of TODO PJ) (TODO PJのID体系に併せて設定値を変更)
   nablarch.zenkakuCharset.messageId=M000000017
 
 
-項目の値を変更することで、エラー内容とメッセージIDの紐付けを変更することが出来る。
+By changing the value of the item, the link between the error content and the message ID can be changed.
 
 
-メッセージIDとメッセージの紐付けの変更方法
-==============================================
+How to change the link between message ID and message
+=======================================================
 
-メッセージIDとメッセージの紐付けは、初期設定ではsrc/main/resources/messages.propertiesで行っている。
+By default, message IDs and messages are linked in src/main/resources/messages.properties.
 
-このファイルを編集することで、紐付けを変更することが出来る。
+By editing this file, you can change the links.
 

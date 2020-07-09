@@ -1,21 +1,21 @@
-====================================================
-Nablarchフレームワークが使用するテーブル名の変更手順
-====================================================
+=======================================================
+Procedure to rename a table used by Nablarch framework
+=======================================================
 
 -----------
-概要
+Summary
 -----------
 
-Nablarchフレームワークが認可チェックなどで使用するテーブル名が命名規約にそぐわなかったり、
-スキーマ修飾したい場合に変更する手順を記述する。
+We will describe how to change the names of tables used by the Nablarch framework for permission checks, etc.,
+if the names do not conform to the naming conventions or if you want to qualify the schema.
 
------------
-変更方法
------------
+--------------
+How to Change
+--------------
 
-以下、Nablarchが提供する各アーキタイプから生成したブランクプロジェクトで、Nablarchフレームワークが使用するテーブル名を一律「T_テーブル名」に変更する場合の例である。
+The following are the examples of blank projects generated from each archetype provided by Nablarch, where the table name used by the Nablarch framework is uniformly changed to "T_Table name".
 
-src/main/resources/common.configに、プロジェクトが使用する機能に必要なテーブルの設定を追加する。各機能に対して必要な設定と設定例を以下に記載する。
+Add table configuration required for the function used by a project in src/main/resources/common.config. The necessary configuration and the configuration examples for each function are described below:
 
  .. code-block:: properties
     
@@ -53,7 +53,7 @@ src/main/resources/common.configに、プロジェクトが使用する機能に
     nablarch.ugroupSystemAccountTable.name=T_UGROUP_SYSTEM_ACCOUNT
 
 
-ウェブアプリケーションの場合、セッションストアに使用するテーブル名も変更する。（アプリケーションでコンポーネント定義していない場合は定義する。）
+In the case of web applications, also change the table name used for the session store. (Define the components if they are not defined in the application.)
 
  .. code-block:: xml
 
