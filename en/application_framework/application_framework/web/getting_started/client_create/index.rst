@@ -1,53 +1,53 @@
 .. _`client_create`:
 
-登録機能の作成(ハンズオン形式)
-==========================================
-Nablarchを使用したウェブアプリケーションでの登録機能の開発方法を、
-Exampleアプリケーションへ顧客情報の登録機能の実装を実際に行いながら解説する。
+Create a Registration Function (Hands-on Format)
+==================================================
+This section describes how to develop the registration function in the web application using Nablarch,
+while implementing the client information registration function in the example application.
 
-作成する機能の説明
-  1. ヘッダメニューの「顧客登録」リンクを押下する。
+Description of the function to be created
+  1. Click the "Client registration"(顧客登録) link in the header menu.
 
     .. image:: ../images/client_create/header_menu.png
 
-  2. 顧客登録画面が表示される。
+  2. The client registration screen is displayed.
 
     .. image:: ../images/client_create/input_display.png
 
-  3. 顧客名に全角文字列を入力し、業種プルダウンで任意の値を選択して「登録」ボタンを押下する。
+  3. Enter a full-width string for the client name and an arbitrary value with the industry type pull-down and click the "registration"(登録) button.
 
     .. image:: ../images/client_create/input_name_select.png
 
-  4. 登録確認画面が表示される。
+  4. The registration confirmation screen is displayed.
 
     .. image:: ../images/client_create/confirm_display.png
 
-  5. 「確定」ボタンを押下し、データベースに顧客を登録して完了画面を表示する。
+  5. Click the "Confirm"(確定) button to register the client in the database and display the completion screen.
 
     .. image:: ../images/client_create/complete_display.png
 
-顧客登録機能の仕様
-------------------------------------------
-顧客登録機能の各処理と、URL及び業務アクションメソッドのマッピングを以下に示す。
+Specification of the Client Registration Function
+--------------------------------------------------
+Mapping of each process of the client registration function, URL and business action methods are shown below.
 
 .. image:: ../images/client_create/client_create.png
 
-=== ================== ====================== ====================== ============
-NO. 処理名             URL                    Action                 HTTPメソッド
-=== ================== ====================== ====================== ============
-1   初期表示           /action/client/        ClientAction#input     GET
-2   登録内容の確認     /action/client/confirm ClientAction#confirm   POST
-3   登録画面に戻る     /action/client/back    ClientAction#back      POST
-4   登録処理の実行     /action/client/create  ClientAction#create    POST
-=== ================== ====================== ====================== ============
+=== ====================================== ====================== ====================== ============
+NO. Process name                           URL                    Action                 HTTP method
+=== ====================================== ====================== ====================== ============
+1   Initial display                        /action/client/        ClientAction#input     GET
+2   Confirmation of Registration Contents  /action/client/confirm ClientAction#confirm   POST
+3   Returns to the registration screen     /action/client/back    ClientAction#back      POST
+4   Executes the registration process      /action/client/create  ClientAction#create    POST
+=== ====================================== ====================== ====================== ============
 
-利用するテーブルの定義を以下に示す。
+The definition of the table to be used is shown below.
 
   .. image:: ../images/client_create/client_table.png
 
 ----
 
-登録機能の解説は以下4章で構成される。
+The description of the registration function consists of the following four chapters.
 
 .. toctree::
   :maxdepth: 1
