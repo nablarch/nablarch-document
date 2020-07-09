@@ -1,162 +1,163 @@
 .. _nablarch_policy:
 
-基本方針
+Basic Policy
 ============================
 
-Nablarchアプリケーションフレームワークの基本方針について解説する。
+This chapter describes the basic policy of the Nablarch application framework.
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
 .. _nablarch_architecture-no_input:
 
-外部から受け付ける未入力値の扱い
+Handling of values received from outside that are not entered
+-------------------------------------------------------------------
+The application accepts various data including values not entered received from outside.
+There are generally 2 ways of expressing non-input values: ``null`` and empty string.
+If application developers need to be aware of the 2 ways of expression, implementation errors are likely to occur, which may cause unexpected failures.
+To avoid this problem, the handling of null values must be unified.
+
+To unify the expression of non-input values, Nablarch converts the non-input values to  ``null`` . 
+For example, the non-input values of external data, such as HTTP request parameters or XML, are converted to ``null`` . 
+Also, when null is output to the outside as a custom tag or formatted output, the value is converted to a value that indicates ``null`` according to the output data format. 
+Since the conversion is performed by Nablarch handler or library, there is no need for the application to convert the non-input values.
+However, :ref:`normalize_handler` must be added to the handler queue to convert non-input values to ``null`` .
+
+The application develops non-input values as ``null`` in accordance with this policy.
+
+APIs that return a collection or array do not return null in principle
+-----------------------------------------------------------------------------------
+When the target data does not exist, an API that returns a collection or array provided by Nablarch basically returns an empty collection or array instead of ``null`` . 
+As a result, this can prevent bugs caused by ``null`` reference in the caller and improve readability by reducing branches.
+
+For example, when the database search results are displayed in the list format in view (JSP), looping without determining ``null`` improves the code readability. 
+If ``null`` must be considered, there will be a lot of useless code, such as branches in JSP or filling the request scope in the server with a ``null`` collection. 
+This also makes implementation errors more likely to occur.
+
+APIs that specify and get identifiers such as HTTP request parameters return ``null`` instead of an empty array.
+
+Nablarch does not throw checked exceptions
 --------------------------------------------------
-アプリケーションは外部から未入力値も含めた様々なデータを受け付ける。
-未入力値は一般的に ``null`` と空文字列の２つの表現方法がある。
-アプリケーション開発者が２つの表現方法を意識する必要があると実装ミスが起きやすく、思わぬ不具合を生み出す可能性がある。
-その問題を回避するためには未入力値の扱いを統一しなければならない。
+All APIs in Nablarch throw only unchecked exceptions.In addition, all exception classes defined in Nablarch are unchecked exceptions.
+By making all exceptions unchecked, the application is not required to be aware of exceptions, and handlers can perform common exception process.
 
-未入力値の表現方法を統一するために、Nablarchでは未入力値を ``null`` に変換する。
-例えば、HTTPリクエストのパラメータやXMLなどの外部から受け付けたデータの未入力値は ``null`` に変換する。
-また、カスタムタグやフォーマットして出力するなどの外部へ ``null`` を出力するときは、出力するデータ形式に応じて未入力を意味する値に変換する。
-変換はNablarchのハンドラ・ライブラリが行うため、アプリケーションで未入力値を変換する必要はない。
-ただし、未入力値を ``null`` に変換するには :ref:`normalize_handler` をハンドラキューに追加する必要がある。
+Incidentally, checked exceptions have the following disadvantages.
 
-この方針に従い、アプリケーションでは未入力値を ``null`` として開発すること。
-
-コレクションや配列を返すAPIは原則nullを戻さない
---------------------------------------------------
-Nablarchが提供するコレクションや配列を返すAPIは、対象データが存在しない場合には基本的に ``null`` ではなく空のコレクションや配列を返す。
-これにより、呼び出し元での ``null`` 参照による不具合を防止できたり、分岐が減ることによる可読性の向上が期待できる。
-
-例えば、データベースの検索結果をビュー(JSP)で一覧形式で表示する場合、 ``null`` 判定を行わずにループをすればよくコードの可読性が向上する。
-もし、 ``null`` を考慮する必要がある場合、JSPで分岐を書いたり、サーバサイドで ``null`` のコレクションをリクエストスコープに詰めるなど無駄なコードが多くなる。またこれにより実装ミスが起こりやすくなる。
-
-なお、HTTPのリクエストパラメータのように識別子を指定して取得するようなAPIの場合には、空の配列ではなく ``null`` を返す。
-
-Nablarchは検査例外を送出しない
---------------------------------------------------
-Nablarch内の全てのAPIは、非検査例外のみを送出する。またNablarchで定義している例外クラスも全て非検査例外としている。
-全て非検査例外とすることで、アプリケーションで例外を意識する必要がなく、ハンドラで共通的な例外処理を行うことが出来る。
-
-なお、検査例外には以下のデメリットがある。
-
-* 例外を捕捉するか ``throws`` に列挙しないとコンパイルエラーとなる。
-  例外を捕捉した場合、同じような例外処理を至る所に実装しなくてはならない。
+* If exceptions are not caught or listed in ``throws`` , compile errors will occur. 
+  If an exception is caught, similar exception process must be implemented throughout.
   
-* 送出される例外が増えるたびにアプリケーション側のコードに影響が出る。
-  また、例外を捕捉するメソッドまで全てのメソッドで ``throws`` を追加するなど影響が広範囲に及ぶ。
+* The application code is affected whenever more exceptions are thrown. 
+  The effects are wide-ranging, such as ``throws`` have to be added in all methods up to the method that catches the exceptions.
 
-ログや例外のメッセージは英語で統一する
---------------------------------------------------
-Nablarchは、日本以外での利用も想定しているため、ログや例外のメッセージは全て英語としている。
-なお、Nablarch内で出力しているログや例外のメッセージを英語以外に変更する機能は提供していない。
+Logs and exception messages should be unified in English
+------------------------------------------------------------------
+Since Nablarch is intended for use outside of Japan as well, all logs and exception messages are in English. 
+Nablarch does not provide a function to change the output log and exception messages to a language other than English.
   
-コンポーネントを差し替えることでNablarchが発行するSQLを変更できる
+The SQL issued by Nablarch can be changed by replacing the components
 ----------------------------------------------------------------------------
-Nablarchでは、データベースにアクセスするコンポーネントには必ずインタフェースが定義されており、実装の差し替えが可能となっている。
-なぜなら、プロジェクト側で実装クラスを作成し設定ファイルからコンポーネントを差し替えることで、発行するSQLを変更できるようにするためである。
+Nablarch has an interface defined for the components accessing the database, allowing the implementation to be replaced. 
+This is because an implementation class is created in the project to replace the components in the configuration file so that the SQL issued can be changed.
 
-これにより、例えばNablarchが使用するテーブルのカラムを追加や削除する場合に、コンポーネントを差し替えることで対応することができる。
+Thus, for example, adding or deleting the columns of a table used by Nablarch can be supported by replacing the components.
 
-なお、テーブル名やカラム名をデフォルトから変更したい場合であれば、新しくクラスを作成する必要はなく、設定ファイルの修正のみでよい。
+To change the default table or column name, a new class need not be created. Simply modify the configuration file.
 
-OSSは利用しない
+OSS is not used
 --------------------------------------------------
-Nablarchのプロダクションコードは、致命的な不具合や脆弱性が見つかった際に、迅速に対応かつリリースを行うことを目的としてOSSを利用していない。
+As we want to respond and release quickly when a critical bug or vulnerability is found, the production code of Nablarch does not use OSS.
 
-なお、OSSを利用することでメリットがあるものは、 :ref:`adaptor` としてOSSを利用できるコンポーネントを提供しているため、プロジェクト要件などに応じて採用すると良い。
+For code having advantage by using OSS, components that can use OSS as an :ref:`adaptor` are provided, and they should be adopted according to the project requirements.
 
-複数の例外が発生した場合は起因例外をスローする
+Throws a cause exception when multiple exceptions occur
+--------------------------------------------------------------
+Multiple exceptions occur when an exception is thrown during the process, and another exception is thrown during the subsequent processes.
+In that case, Nablarch throws a cause exception since a cause exception is important to solve the problem.
+Any information other than the cause exception will be output to the WARNING log so that the information of other exceptions can also be used to investigate the problem.
+
+Thread-safe
 --------------------------------------------------
-処理中に例外が発生し、その後の処理中に別の例外が発生すると複数の例外が発生することになる。
-その場合、問題を解決するために重要になるのは起因例外であるため、Nablarchは起因例外をスローする。
-また、他の例外の情報も問題の調査に利用できるように、起因例外以外の情報はWARNINGログに出力する。
+The functionality provided by Nablarch is basically thread-safe.
+This is because Nablarch uses an architecture in which each thread executes a handler on the handler queue to process a request.アーキテクチャの詳細は、 :ref:`アーキテクチャの章 <nablarch_architecture>` を参照。
+This ensures that a request can be safely processed and the result returned to the client even on a platform where each thread processes a request from the client, such as a Web application.
 
-スレッドセーフである
---------------------------------------------------
-Nablarchが提供する機能は、基本的にスレッドセーフである。
-なぜなら、Nablarchはハンドラキュー上のハンドラを各スレッドで実行し要求を処理するアーキテクチャを採用しているためである。アーキテクチャの詳細は、 :ref:`アーキテクチャの章 <nablarch_architecture>` を参照。
-これにより、ウェブアプリケーションのように各スレッドがクライアントからの要求を処理するような基盤でも、安全に要求を処理し結果をクライアントに返すことが出来る。
-
-なお、 :ref:`repository` 上のオブジェクトはシングルトンとなるため、スレッドセーフとする必要がある。
+Since the object on the :ref:`repository` is a singleton, it must be thread-safe.
 
 .. tip::
 
-  スレッドアンセーフな機能(例えばデータベース接続等)は、Javadoc上にスレッドアンセーフであることを明記している。
+  Thread-unsafe functions (for example, database connection, etc.) have been specified on Javadoc as thread-unsafe.
 
-Java6に準拠している
+Compliant with Java6
 --------------------------------------------------
-NablarchのプロダクションコードはJava6に準拠しており、Java7以降で提供されているAPIは使用していない。
+Nablarch production code is compliant with Java6 and does not use the APIs provided in Java7 or later.
 
-なぜなら、Nablarchの開発時点での最新バージョンがJava6だったため、
-既存のNablarch導入プロジェクトに対する後方互換を維持するためにJava6準拠のままとしている。
+Since the latest version during development was Java6, 
+Nablarch remains Java6 compliant to maintain backward compatibility with existing projects that have implemented Nablarch.
 
-なお、Nablarchを使用したアプリケーションを開発する際はJava6以降のバージョンであればよく、
-Java7以降で提供されているAPIも問題なく使用できる。
+When developing an application that uses Nablarch, Java6 or a later version can be used, 
+and APIs provided in Java7 or later can also be used without any problem.
 
 .. _nablarch_architecture-backward_compatible:
 
-アプリケーションで使用してもよいAPIについて
+APIs that may be used in the application
 --------------------------------------------------
 
-Nablarchでは、アプリケーション開発で必要になると想定したAPIを公開APIとして定義している。
-公開APIには :java:extdoc:`Published<nablarch.core.util.annotation.Published>` というアノテーションが付与され、どのクラスやメソッドが公開APIであるかがわかるようになっている。
+Nablarch defines APIs that are supposed to be essential for application development as public APIs. 
+A public API is assigned the :java:extdoc:`Published<nablarch.core.util.annotation.Published>`  annotation, which shows the classes and methods that are public APIs.
 
-公開APIは、アプリケーションで使用されるAPIであるため、バージョンアップ時に後方互換を維持し、アプリケーションに修正が発生しないようにしている。
-ただし、致命的な不具合と脆弱性の対応時には後方互換を維持できない場合もある。
+Public APIs are APIs used by the application to maintain backward compatibility during version upgrades and ensure that modifications are not made to the application. 
+However, in some cases it is not possible to maintain backward compatibility when dealing with critical bug and vulnerabilities.
 
-文字列からBigDecimal変換時に発生する可能性のあるヒープ不足について
+Heap shortage when converting from a string to BigDecimal
 ------------------------------------------------------------------
-文字列からBigDecimalに変換する際に指数表現(例えば、 ``9e100000`` のような値)を指定した場合に、以下の問題が発生する場合がある。
+The following problems may occur if an exponential expression (for example, a value such as ``9e100000`` ) is specified when converting from a string to BigDecimal:
 
-* :java:extdoc:`BigDecimal#toPlainString() <java.math.BigDecimal.toPlainString()>` の呼び出しで、非常に大きい文字列が生成されヒープが圧迫される
-* :java:extdoc:`DecimalFormat <java.text.DecimalFormat>` を使用してフォーマットする際に非常に大きい文字列が生成されヒープが圧迫される
+* An exceptionally large string is generated and the heap is compressed when calling :java:extdoc:`BigDecimal#toPlainString() <java.math.BigDecimal.toPlainString()>`
+* An exceptionally large string is generated and the heap is compressed when formatting with :java:extdoc:`DecimalFormat <java.text.DecimalFormat>`
 
-このため、Nablarchでは文字列からBigDecimalに変換する際に、 :java:extdoc:`BigDecimal#scale <java.math.BigDecimal.scale()>` 
-を使用して桁数チェックを行い、ヒープを圧迫するような大きな値を取り込むことを防止している。
-この機能では、許容するscaleの範囲を ``-9999`` から ``9999`` の範囲とし、この範囲を超える指数表現の値を変換しようとした場合、例外を送出しヒープが圧迫されないようにしている。
+For this reason, Nablarch uses  :java:extdoc:`BigDecimal#scale <java.math.BigDecimal.scale()>` to check the number of digits when converting from a string to a BigDecimal, and a large value from being imported that can burden the heap. 
+This function allows the range of the allowable scale to be from ``-9999`` to ``9999``, and an exception is thrown to prevent the heap from being burdened when attempting to convert an exponential value that exceeds this range.
 
-なお、許容するscaleの範囲は設定で変更可能となっている。
-設定はシステムリポジトリ機能の環境設定ファイルに指定する。
-設定方法は、 :ref:`repository-environment_configuration` を参照。
+The range of the allowable scale can be changed in the configuration.
+The configuration is specified in the environment configuration file of the system repository function.
+For information on the configuration method, see :ref:`repository-environment_configuration`.
 
-例えば、許容する範囲を ``-10`` から ``10`` としたい場合には、下のように設定を追加する。
+For example, to set the allowable range from ``-10`` to ``10``, add the following configuration.
 
 .. code-block:: properties
 
   nablarch.max_scale=10
 
-非推奨(Deprecated)APIについて
+Deprecated API
 ------------------------------------------------------------------
-Nablarchでは以下に該当するAPIは :java:extdoc:`@Deprecated <java.lang.Deprecated>` アノテーションを付与し非推奨とする。
+Nablarch deprecates the following APIs by adding the :java:extdoc:`@Deprecated <java.lang.Deprecated>` annotation.
 
-* 他パッケージに移動したクラス
+* Class moved to another package
 
-  Nablarchチームの都合でクラスを他パッケージに移動した際には、移動前クラスを非推奨とする。
-  Javadocには、移動先のクラスを使用するように記載を行っている。
+  If a class is moved to another package for the convenience of the Nablarch team, the class before the move is deprecated. 
+  It is described in Javadoc that the destination class should be used.
 
-  なお、移動前のクラスは移動後のクラスに全ての処理を委譲しているため、移動前のクラスを利用している場合でも動作は保証される。
-  ただし、メソッド追加などは行われないため、移動先クラスを使用することが好ましい。
+  Since the class before the move delegates all processes to the class after the move, operation is guaranteed even if the class before the move is used. 
+  However, since methods are not added, using the destination class is preferred.
 
-* 不具合やセキュリティ面で問題のあるクラスやメソッド
+* Classes and methods that have bugs or security issues
 
-  不具合やセキュリティ面での問題があるクラスは非推奨とする。
-  Javadocには、理由及び代わりに使用すべきAPIや実装方法の記載を行っている。
+  Classes with bugs or security issues are deprecated. 
+  The reasons and alternative APIs to use, as well as the method to implement them are described in Javadoc.
 
-  Javadocを参照し不具合やセキュリティ面での問題を解消したAPIを使用するよう対応が必要となる。
+  It is essential to refer to Javadoc and use the APIs to resolve bugs or security issues.
 
   .. important::
 
-   不具合や脆弱性については基本的に問題を解消するよう修正を行う。
-   しかし、クラス構造的な制約や後方互換の維持を目的として問題のあるAPIを非推奨として残す場合がある。
-   非推奨APIとして残した場合は、新たな不具合などが見つかっても対応は行わない。
-   このため、問題が解消された新しいAPIを使用するようアプリケーション側は必ず対応を行う必要がある。
+   Basically, bugs and vulnerabilities must be fixed to resolve problems.
+   However, an API with a problem may be left deprecated for the purpose of maintaining class structure restrictions or backward compatibility.
+   If left as a deprecated API, support will not be provided even if a new bug is identified.
+   Therefore, measures to use the new API that has resolved the problem must be taken in the application.
 
 .. tip::
 
-  本ドキュメントで代替機能の使用を推奨しているものについては、非推奨API( :java:extdoc:`@Deprecated <java.lang.Deprecated>` の付与)とはしていない。
-  なぜなら、これらのAPI(機能)は、使用すること自体は問題なく、不具合などがあった場合もバージョンアップ時に対応を行うためである。
+  APIs for which the use of alternative functions have been recommended in this document are not deprecated APIs (assigned  :java:extdoc:`@Deprecated <java.lang.Deprecated>` ). 
+  This is because these APIs (functions) can be used without any issues, and even if any bugs are identified, support will be provided during a version upgrade.
+
   

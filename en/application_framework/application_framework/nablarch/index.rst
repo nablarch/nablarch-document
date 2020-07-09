@@ -1,4 +1,4 @@
-Nablarchアプリケーションフレームワークとは
+What is Nablarch Application Framework?
 ==================================================
 
 .. toctree::

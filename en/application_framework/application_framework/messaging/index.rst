@@ -1,10 +1,10 @@
 .. _messaging:
 
-メッセージング編
+Messaging
 ==================================================
-本章ではNablarchアプリケーションフレームワークを利用してメッセージングを開発するために必要となる情報を提供する。
+This chapter provides the information needed to develop messaging using the Nablarch application framework.
 
-Nablarchでは、以下2種類のメッセージングのフレームワークを提供している。
+Nablarch provides two messaging frameworks.
 
 .. toctree::
   :maxdepth: 1
