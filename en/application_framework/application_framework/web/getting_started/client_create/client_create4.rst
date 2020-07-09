@@ -1,13 +1,13 @@
 .. _`client_create_4`:
 
-データベースへの登録
+Register to the Database
 ==========================================
-本章では、顧客情報をデータベースへ登録する処理について解説を行う。
+This chapter describes the process of registering client information to a database.
 
-:ref:`前へ<client_create_3>`
+:ref:`Previous <client_create_3>`
 
-登録処理の実装
-  `ClientAction` に顧客情報の登録処理を行うメソッドを追加する。
+Implementation of the registration process
+  Add a method to `ClientAction` to process the registration of client information.
 
   ClientAction.java
     .. code-block:: java
@@ -23,14 +23,14 @@
           return new HttpResponse(303, "redirect://complete");
       }
 
-  この実装のポイント
-    * :ref:`セッションストア <session_store>` から顧客エンティティを取り出して、 :ref:`universal_dao` を使用してデータベースに登録する。
-    * :ref:`セッションストア <session_store>` から顧客情報を削除する。
-    * レスポンスオブジェクトの遷移先として、登録完了画面の表示処理へのリダイレクトを指定する(完了画面でのブラウザの更新ボタン押下による顧客情報の多重登録を防ぐため)。
-      リダイレクトに指定するステータスコードについては、 :ref:`web_feature_details-status_code` を参照。
+  Key points of this implementation
+    * Retrieve the client entity from the :ref:`session store <session_store>` and register the entity in the database using :ref:`universal_dao`.
+    * Remove client information from :ref:`session store <session_store>`.
+    * Specify a redirect to the registration completion screen display as the transition destination for the response object (to prevent multiple registration of client information when the update button of the browser is clicked on the completion screen).
+      For the status code specified in redirect, see :ref:`web_feature_details-status_code`.
 
-二重サブミットを防止する
-  ボタンをダブルクリックした場合等でリクエストが二重に送信されないように、業務アクションとJSPの二か所に制御を追加する。
+Prevent duplicate form submission
+  Add control to both business action and JSP so that requests are not sent twice when a button is double clicked.
 
   ClientAction.java
     .. code-block:: java
@@ -38,42 +38,42 @@
       @OnDoubleSubmission
       public HttpResponse create(HttpRequest request, ExecutionContext context) {
 
-      // 実装は変更なし
+      // No change in implementation
 
       }
 
-  この実装のポイント
-    * :java:extdoc:`OnDoubleSubmission <nablarch.common.web.token.OnDoubleSubmission>` を付与して、
-      業務アクションメソッドが二重に実行された場合にエラーページへ遷移させる。詳細は :ref:`tag-double_submission` を参照。
+  Key points of this implementation
+    * Assign :java:extdoc:`OnDoubleSubmission <nablarch.common.web.token.OnDoubleSubmission>` for transitioning to the error page
+      when the business action method is executed twice. For more information, see :ref:`tag-double_submission`.
 
   .. tip::
 
-    Exampleアプリケーションでは、二重サブミット時のデフォルトの遷移先画面を設定している。
-    デフォルトの遷移先の指定方法は、 :ref:`tag-double_submission` を参照。
+    Configure the default transition destination screen for double submission in the example application.
+    For information on how to specify the default transition destination, see :ref:`tag-double_submission`.
 
   /src/main/webapp/WEB-INF/view/client/create.jsp
     .. code-block:: jsp
 
-      <!-- 修正しない部分は省略 -->
-      <!-- 入力へ戻る、確定ボタンは確認画面でのみ表示 -->
+      <!-- Parts that are not modified are omitted -->
+      <!-- Return to input, confirm button is only shown on the confirmation screen -->
         <n:forConfirmationPage>
             <n:button uri="/action/client/back"
-                      cssClass="btn btn-raised btn-default">入力へ戻る</n:button>
-            <!-- allowDoubleSubmission属性にfalseを指定する -->
+                      cssClass="btn btn-raised btn-default">Return to input</n:button>
+            <!-- Specify false for allowDoubleSubmission attribute -->
             <n:button uri="/action/client/create"
                       allowDoubleSubmission="false"
-                      cssClass="btn btn-raised btn-success">確定</n:button>
+                      cssClass="btn btn-raised btn-success">Confirm</n:button>
         </n:forConfirmationPage>
 
-  この実装のポイント
-    * :ref:`tag-button_tag` の `allowDoubleSubmission` 属性にfalseを指定することで、二重サブミットを制御するJavaScriptが追加される。
-    * ブラウザのJavaScriptが無効になっている場合等を考慮して、サーバサイドでも二重サブミットの制御を行う。
+  Key points of this implementation
+    * JavaScript that controls duplicate form submission is added by specifying false in `allowDoubleSubmission` attribute of :ref:`tag-button_tag`.
+    * Double submission control is also performed on the server in consideration of the case where JavaScript in the browser is disabled.
 
-登録完了画面の表示処理を実装する
-  登録完了画面の表示処理の実装を行う。
+Implementation of the display process of the registration completion screen
+  Implements the display process of the registration completion screen.
 
-  業務アクションメソッドを実装する
-    登録完了画面の表示処理を実装する。
+  Implementation of a business action method
+    Implements the display process of the registration completion screen.
 
     ClientAction.java
       .. code-block:: java
@@ -82,8 +82,8 @@
             return new HttpResponse("/WEB-INF/view/client/complete.jsp");
         }
 
-  登録完了画面のJSPを作成する
-    登録完了画面のJSPを新規作成する。
+  Create a JSP for the registration completion screen
+    Create a new JSP for the registration completion screen
 
     /src/main/webapp/WEB-INF/view/client/complete.jsp
       .. code-block:: jsp
@@ -95,7 +95,7 @@
         <!DOCTYPE html>
         <html>
             <head>
-                <title>顧客登録完了画面</title>
+                <title>Client registration completion screen</title>
             </head>
             <body>
                 <n:include path="/WEB-INF/view/common/menu.jsp" />
@@ -103,10 +103,10 @@
                 <div class="container-fluid mainContents">
                     <section class="row">
                         <div class="title-nav">
-                            <span class="page-title">顧客登録完了画面</span>
+                            <span class="page-title">Client registration completion screen</span>
                         </div>
                         <div class="message-area message-info">
-                            顧客の登録が完了しました。
+                            Customer registration completed
                         </div>
                     </section>
                 </div>
@@ -114,34 +114,34 @@
             </body>
         </html>
 
-動作確認を行う
-  以下の手順で、登録処理が正しく実装されていることを確認する。
+Operation check
+  Confirm that the registration process is implemented correctly by following the below steps.
 
-  1. 顧客登録画面を表示する。
+  1. Displays the client registration screen(顧客登録画面).
 
     .. image:: ../images/client_create/input_display.png
 
-  2. 顧客名に全角文字列、業種に任意の値を選択して「登録」ボタンを押下する。
+  2. Select a full-width string for the client name(顧客名) and an arbitrary value for the industry type(業種) and click the "registration"(登録) button.
 
     .. image:: ../images/client_create/input_valid_value.png
 
-  3. 登録確認画面が表示され、`2` で入力した顧客名、業種がラベルで表示されることを確認する。
+  3. Confirm that the registration confirmation screen is displayed, and the client name and industry type entered in `2` are displayed as labels.
 
     .. image:: ../images/client_create/confirm_display.png
 
-  4. 「確定」ボタンを押下し、登録完了画面が表示されることを確認する。
+  4. Click the "Confirm"(確定) button to confirm that the registration completion screen is displayed.
 
     .. image:: ../images/client_create/complete_display.png
 
-  5. サイドメニューの顧客欄の検索ボタンを押下し、顧客検索画面へ遷移する。
+  5. Click the search button in the client column of the side menu for transitioning to the client search screen.
 
     .. image:: ../images/client_create/client_confirm_sidemenu.png
 
-  6. 登録した顧客情報を検索できることを確認する。
+  6. Confirm that the registered client information can be searched.
 
     .. image:: ../images/client_create/client_search_result.png
 
 
-登録機能の解説は以上。
+This completes the description of the registration function.
 
-:ref:`Getting Started TOPページへ <getting_started>`
+:ref:`Getting Started To TOP page <getting_started>`
