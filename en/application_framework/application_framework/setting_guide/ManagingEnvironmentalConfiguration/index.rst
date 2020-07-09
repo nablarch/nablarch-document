@@ -1,30 +1,30 @@
 
-======================================
-処理方式、環境に依存する設定の管理方法
-======================================
+==================================================================================
+How to Manage the Configuration Depending on the Processing Method and Environment
+==================================================================================
 
-.. contents:: 目次
+.. contents:: Table of Contents
   :depth: 2
   :local:
 
 
-概要
-====
+Summary
+========
 
-多くの場合、システムは複数の処理方式によって構成され、
-また、システムを開発、運用するにあたり複数の環境（開発環境、本番環境等）を使用する。
-そのため、アプリケーション設定もそれぞれの処理方式、環境に合わせて複数管理する必要がある。
+In many cases, a system is organized by multiple processing methods,
+and multiple environments (such as development environment, production environment) are used for developing and operating the system.
+Therefore, multiple application configurations must be managed according to each processing method and environment.
 
-本章では、Nablarchにおける処理方式、環境に依存する設定の管理方法を示す。
+This chapter describes how to manage the processing methods and environment-dependent configurations in Nablarch.
 
 
-アプリケーション設定の整理
-==========================
+Organize application configuration
+====================================
 
-アプリケーション設定の整理
+Organize application configuration
 ----------------------------------------------------
 
-Nablarchでは、アプリケーション設定を２つの観点で整理することを推奨している。
+Nablarch recommends organizing the application configuration from two perspectives.
 
 
 .. list-table::
@@ -33,34 +33,34 @@ Nablarchでは、アプリケーション設定を２つの観点で整理する
   :widths: 4,6,16
 
 
-  * - 観点
-    - 具体例
-    - 説明
+  * - Perspective
+    - Specific examples
+    - Description
 
-  * - 処理方式
-    - オンライン、バッチ
-    - 処理方式が異なると、コンポーネント定義およびその環境設定値が異なる。
+  * - Processing method
+    - Online, batch
+    - The component definition and environment configuration values vary for different processing methods.
 
-  * - 環境
-    - 開発環境、本番環境
-    - コンポーネント定義の一部を変更する必要がある(モック化など)。
+  * - Environment
+    - Development environment and production environment
+    - Some of the component definitions need to be changed (such as mocks).
 
 
-以下に、切り口毎に設定の差異を図式化したものを示す。
+The following figure shows the difference in configurations for each approach.
 
 
 .. image:: method_and_staging.png
 
 
-アプリケーション設定ファイル切り替えの前提と仕組み
-====================================================
+Prerequisites and how to switch application configuration files
+================================================================
 
-アプリケーション設定ファイル切り替えの前提
---------------------------------------------
+Prerequisites for switching application configuration files
+------------------------------------------------------------
 
-アプリケーション設定ファイルは、処理方式と環境の組み合わせで最小限必要になるものを用意する。
+Prepare the minimum application configuration files required for the combination of processing method and environment.
 
-以下に、アーキタイプから生成した直後のプロジェクトのアプリケーション設定ファイルに関連するディレクトリ構造を示す。
+The directory structure concerning the application configuration files of the project immediately after it is generated from the archetype is shown below.
 
 .. code-block:: text
 
@@ -68,82 +68,82 @@ Nablarchでは、アプリケーション設定を２つの観点で整理する
     |
     \---src
         +---env
-        |   +---dev                … 開発環境
+        |   +---dev                … development environment
         |   |   |
-        |   |   \---env.config     … 開発環境用の環境設定ファイル(config)
+        |   |   \---env.config     … Environment configuration file for development environment (config)
         |   |
-        |   \---prod               … 本番環境
+        |   \---prod               … Production environment
         |       |
-        |       \---env.config     … 本番環境用の環境設定ファイル(config)
+        |       \---env.config     … Environment configuration file for production environment (config)
         |
         +---main
         |   +---java
         |   |
-        |   +---resources          … 環境毎に差異が存在しないリソース
+        |   +---resources          … Resources that do not differ for each environment
         |       |
-        |       \---common.config  … 環境非依存の環境設定ファイル(config)
+        |       \---common.config  … Environment-independent configuration files (config)
         |
         \---test
             +---java
             |
-            \---resources          … ユニットテスト環境
+            \---resources          … Unit test environment
 
 
 .. tip::
 
- * 環境非依存の環境設定ファイル(config)は、全ての環境で使用する。
- * 環境が不足している場合は、後述の :ref:`how_to_add_profile` を参照して環境を追加する。
- * 実行基盤のプロジェクト(ウェブアプリケーション、バッチアプリケーション等)から参照される共通プロジェクトを使用している場合、共通プロジェクト単体の環境毎のアプリケーション設定ファイルは不要である。
+ * The environment-independent environment configuration file (config) is used in all environments.
+ * If the environment is not sufficient, see :ref:`how_to_add_profile` below to add an environment.
+ * When using a common project that is referenced from an execution-based project (such as web application, batch application), the application configuration files for each environment of the single common project are not required.
 
 
-アプリケーション設定切り替えの仕組み
-------------------------------------
+How to switch the application configuration
+--------------------------------------------
 
-ローカルでのAPサーバ起動時及び、成果物生成時(war,jar生成時)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+When the application server is launched locally and when the deliverables are generated (when war and jar are generated)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-アプリケーション設定ファイルの切り替えは、
-Apache Maven(以下Maven)のプロファイル\ [#profile]_\ 機能により
-切り替えを行う。
+Application configuration files are switched
+using the \ [#profile]_\  function of Apache Maven
+(hereinafter referred to as Maven).
 
-.. [#profile] プロファイルは、アーキタイプから生成したプロジェクトに初期状態で定義されている。定義されているプロファイルについては、 :ref:`mavenModuleStructuresProfilesList` を参照。
+.. [#profile] Profiles are initially defined in projects generated from the archetype. See :ref:`mavenModuleStructuresProfilesList` for the defined profiles.
 
 
-以下に、プロファイルに本番環境を指定してMavenでビルドした際の動作を示す。
+The operation when built with Maven by specifying the production environment in the profile is shown below.
 
-**【ビルドのコマンド例】**
+**[Build command example]**
 
 .. code-block:: bat
   
   mvn -P prod package -DskipTests=true
 
 .. tip::
- 上記コマンドで使用しているオプションは以下の通り。
+ The options used in the above command are as follows:
  
- - -P … プロファイル指定
- - -DskipTests=true  … ユニットテストのスキップを指定
+ - -P … Specifies the profile
+ - -DskipTests=true  … Specifies skipping the unit test
 
 
-**【Mavenの動作(アプリケーション設定切り替えの部分のみ)】**
+**[Maven operation (application configuration switching part only)]**
 
 .. image:: switch_application_settings.png
 
 
 .. important::
 
- src/main/resourcesと、各環境毎のディレクトリでファイル名が重複した場合は、各環境毎のディレクトリのファイルが優先される。
+ If the file name is duplicated in src/main/resources and the directory for each environment, the file in the directory for each environment is given priority.
 
 
 .. tip::
 
- 上図には、「コンポーネント設定ファイル(xml)」と「環境設定値の定義ファイル(configファイル)」しか記載していないが、resources以下のファイルは全てコピーされる。
+ In the above figure, only the "component configuration file (xml)" and "environment configuration value definition file (config file)" are described, but all the files under resources are copied.
 
 
 .. tip::
- どの環境向けに作成したアーティファクトであるかを確認できるよう、
- `META-INF/MANIFEST.MF`\ に対象環境のエントリ（\ ``Target-Environment``\ ）を追記する設定をしている。
+ To confirm which environment the artifact was created for,
+ the target environment entry (\ ``Target-Environment``\) is added to `META-INF/MANIFEST.MF`\.
 
- **【本番環境を指定してビルドした場合のMANIFEST.MFの例】**
+ **[Example of MANIFEST.MF when built by specifying the production environment]**
 
  .. code-block:: none
   
@@ -151,18 +151,18 @@ Apache Maven(以下Maven)のプロファイル\ [#profile]_\ 機能により
   Built-By: tie301686
   Build-Jdk: 1.7.0_60
   Created-By: Apache Maven 3.2.3
-  Target-Environment:本番環境
+  Target-Environment: 本番Environment
   Archiver-Version: Plexus Archiver
 
 
-ユニットテスト実行時
+When the unit test is run
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-ユニットテスト実行時は、指定したプロファイル及び ``src/test/resources`` のリソースが使用される。
+When the unit test is run, the specified profile and the resources in ``src/test/resources`` are used.
 
-明示的にプロファイルを指定しない場合は、デフォルトでdevプロファイルが使用される。
+If a profile is not specified explicitly, the dev profile is used by default.
 
-以下に、devプロファイルを使用してユニットテストを実行するコマンド例を示す。
+An example of the command to run a unit test using the dev profile is shown below.
 
 .. code-block:: bat
   
@@ -171,74 +171,74 @@ Apache Maven(以下Maven)のプロファイル\ [#profile]_\ 機能により
 
 .. _how_to_change_componet_define:
 
-環境ごとにコンポーネントを切り替える方法(モックに切り替える方法)
-================================================================
+How to switch components in each environment (how to switch to mock)
+=====================================================================
 
-コンポーネント設定ファイル(xmlファイル)を切り替えることによって実現する。
+This is achieved by switching the component configuration file (xml file).
 
 
-コンポーネント設定ファイル(xmlファイル)の作成方法
--------------------------------------------------
+How to create a component configuration file (xml file)
+-------------------------------------------------------
 
-まず、Nablarchが提供するデフォルト設定値をベースにして、各処理方式毎に本番用コンポーネント定義を作成する。
+First, create production component definitions for each processing method based on the default configuration values provided by Nablarch.
 
-次に、それらのコンポーネント定義に対して、環境毎にコンポーネント定義を本番からの差分として作成する。
+Next, create a component definition for each environment as a difference from production for those component definitions.
 
-作成したコンポーネント設定ファイルを、環境毎のディレクトリに配置し、ビルド時に差し替える。
+Place the created component configuration file in the directory of each environment, and replace it when building.
 
 
 .. _how_to_switch_env_values:
 
-環境ごとに環境設定値を切り替える方法
-======================================================
+How to switch the environment configuration value for each environment
+========================================================================
 
-環境毎に配置した環境設定ファイル(env.config)を切り替えることによって実現する。
+This is achieved by switching the environment configuration file (env.config) placed in each environment.
 
 .. tip::
 
- * アーキタイプから生成した直後は、環境毎に変更する可能性が低い設定項目については、common.configに記載されている。|br|
-   common.configに記載されている値を環境毎に変えたい場合は、項目をenv.configに移動(カット＆ペースト)する。
+ * Configuration items that are unlikely to change in each environment are described in common.config immediately after being generated from the archetype.|br|
+   To change the values described in common.config for each environment, move (cut and paste) the items to env.config.
 
 
 .. _how_to_add_profile:
 
-定義されている環境を増やす方法
+How to increase the defined environment
 ====================================================
 
-デフォルトで定義されている環境では足りない場合は、環境の定義を追加する。
+If the environment defined by default is insufficient, add an environment definition.
 
-追加は以下の方法で行う。
+Additions can be made using the following methods
 
 
 .. _addProfile:
 
-プロファイルの定義
+Define profiles
 --------------------------------------------------
 
-処理方式毎のプロジェクト(Web、バッチ等)のpom.xmlのprofiles内にプロファイル定義を追加する。
+Add a profile definition in the profiles of pom.xml for the project of each processing method (such as web and batch).
 
-以下では、例として結合試験環境Aを追加している。
+Below, an integration test environment A has been added as an example.
 
 .. code-block:: xml
 
   <profiles>
-    <!-- 中略 -->
+    <!-- Middle is omitted -->
 
-    <!-- 結合試験環境A -->
+    <!-- Integration test environment A -->
     <profile>
       <id>integration-test-a</id>
       <properties>
-        <env.name>結合試験環境A</env.name>
+        <env.name>Integration test environment A</env.name>
         <env.dir>ita</env.dir>
         <env.classifier>ita</env.classifier>
         <webxml.path>src/main/webapp/WEB-INF/web.xml</webxml.path>
       </properties>
     </profile>
 
-    <!-- 中略 -->
+    <!-- Middle is omitted -->
   </profiles>
 
-以下に項目について説明する。
+The items are described below.
 
 .. list-table::
   :header-rows: 1
@@ -246,40 +246,40 @@ Apache Maven(以下Maven)のプロファイル\ [#profile]_\ 機能により
   :widths: 4,18
 
 
-  * - 項目
-    - 説明
+  * - Item
+    - Description
 
   * - id
-    - mavenコマンドを実行する際に指定するプロファイルのID。他のプロファイルと重複しないものを指定する。
+    - Profile ID specified when executing the maven command. Specify a profile that does not overlap with other profiles.
     
   * - env.name
-    - war及びjarファイルのマニフェストに含める環境名。任意の名前をつける。    
+    - The environment name to be included in the manifest of war and jar files. Give it an arbitrary name.    
 
   * - env.dir
-    - リソースを格納するディレクトリ。
+    - The directory where the resource is stored.
 
   * - env.classifier
-    - war及びjarファイル名部分の末尾につける識別子。半角英数で任意の名前をつける。|br|
-      ファイル名の末尾に識別子をつける処理は、pom.xml中で、maven-war-plugin及びmaven-jar-pluginのclassifierプロパティに値を設定することで実現している。
+    - The identifier to be added to the end of the file name part of war and jar.Give it an arbitrary name with alphanumeric characters.|br|
+      The process of adding an identifier at the end of the file name is realized by configuring a value for the classifier property of the maven-war-plugin and maven-jar-plugin in pom.xml.
 
   * - webxml.path
-    - 使用するweb.xmlを指定する。|br|
-      JNDIの設定はweb.xmlにも記載する必要がある。そのため、環境差異が発生する可能性があり、使用するweb.xmlを設定可能にしている。|br|
-      本番と同一で問題なければ、例にあるように「src/main/webapp/WEB-INF/web.xml」を設定する。
+    - Specifies the web.xml to use.|br|
+      JNDI configuration must also be described in web.xml.Environmental differences may occur, and the web.xml to be used is configurable.|br|
+      If the path is the same as that for production and there is no problem, set "src/main/webapp/WEB-INF/web.xml" as in the example.
 
 
-ディレクトリの追加
+Adding a directory
 --------------------------------------------------
 
-プロファイルの定義で指定したディレクトリを追加する。
+Add the directory specified in the profile definition.
 
-:ref:`addProfile` の例の場合は、「src/env/ita/resources/」を作成する。
+In the case of the :ref:`addProfile` example, create "src/env/ita/resources/".
 
 
-アプリケーション設定ファイルの作成及び修正
---------------------------------------------------
+Creation and modification of application configuration files
+-------------------------------------------------------------
 
-類似しているプロファイルのアプリケーション設定ファイルをコピーし、修正する。
+Copy and modify the application configuration files of similar profiles.
 
 
 .. |br| raw:: html
