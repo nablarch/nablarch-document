@@ -1,23 +1,23 @@
 .. _nablarch_servlet_context_listener:
 
-Nablarchサーブレットコンテキスト初期化リスナ
+Nablarch Servlet Context Initialization Listener
 ==================================================
 
-.. contents:: 目次
+.. contents:: Table of Contents
   :depth: 3
   :local:
 
-本クラスはサーブレットコンテキストリスナとして定義されており、
-ウェブアプリケーションの起動時、終了時に以下の処理を行う。
+This class is defined as a servlet context listener,
+and performs the following operations when the launching or exiting the web application.
 
-起動時
- * :ref:`repository` の初期化処理
- * :ref:`log` の初期化処理
+At startup
+ * Initialization process for :ref:`repository`
+ * Initialization process for :ref:`log`
 
-終了時
- * :ref:`log` の終了処理
+At completion
+ * Termination process for :ref:`log`
 
-モジュール一覧
+Module list
 --------------------------------------------------
 .. code-block:: xml
 
@@ -38,18 +38,18 @@ Nablarchサーブレットコンテキスト初期化リスナ
     <artifactId>nablarch-core-applog</artifactId>
   </dependency>
 
-システムリポジトリを初期化する
+Initializing the system repository
 --------------------------------------------------
 
-システムリポジトリの初期化を行うには、以下の設定を行う必要がある。
+To initialize the system repository, the following must be configured.
 
-* サーブレットコンテキストリスナとして、本クラスを登録する。
-* サーブレットコンテキストの初期化パラメータとして、コンポーネント設定ファイルのパスを設定する。
+* This class is registered as a servlet context listener.
+* The path of the component configuration file is configured as an initialization parameter of the servlet context.
 
-`web.xml` への設定例を以下に示す。
+A configuration example for `web.xml` is shown below.
 
-ポイント
- * コンポーネント設定ファイルのパスのパラメータ名は **di.config** とすること。
+Point
+ * The parameter name of the path of the component configuration file should be  **di.config** .
 
 .. code-block:: xml
 
