@@ -98,7 +98,7 @@ Conversion of request body
    * The key information is specified in :java:extdoc:`StructuredFwHeaderDefinition#fwHeaderKeys<nablarch.fw.messaging.reader.StructuredFwHeaderDefinition.setFwHeaderKeys(java.util.Map)>`.
    * Specify the field name for the key and the position in the message for the value in the :java:extdoc:`StructuredFwHeaderDefinition#fwHeaderKeys<nablarch.fw.messaging.reader.StructuredFwHeaderDefinition.setFwHeaderKeys(java.util.Map)>` property. 
      Describe the key information after converting the structured data into Map for the position on the message. 
-     Refer to data_format-structured_data for key information when converting from structured data to Map.
+     Refer to :ref:`data_format-structured_data` for key information when converting from structured data to Map.
 
  .. code-block:: xml
 
