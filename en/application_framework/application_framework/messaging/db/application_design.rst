@@ -1,4 +1,4 @@
-アプリケーションの責務配置
-================================
-テーブルをキューとして使ったメッセージングの責務配置は、:ref:`nablarch_batch` とまったく同じである。
-:ref:`Nablarchバッチアプリケーションの責務配置<nablarch_batch-application_design>` を参照。
+Responsibility Assignment of the Application
+==================================================
+Responsibility assignment of messaging using tables as queues is exactly the same as :ref:`nablarch_batch` . 
+See responsibility assignment of the :ref:`Nablarch batch application <nablarch_batch-application_design>` .
