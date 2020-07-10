@@ -1,44 +1,44 @@
 .. _`project_upload`:
 
-アップロードを用いた一括登録機能の作成
-==========================================
-Exampleアプリケーションを元に、CSVファイルをアップロードして一括登録する機能の解説を行う。
+Create a Batch registration Function Using Upload
+===================================================
+This section describes the function to upload a CSV file for batch registration based on an example application.
 
-作成する機能の説明
-  1. ヘッダメニューの「プロジェクト一括登録」を押下する。
+Description of the function to be created
+  1. Click "Project batch registration (プロジェクト一括登録)" in the header menu.
 
     .. image:: ../images/project_upload/project_upload-link.png
       :scale: 80
 
-  2. バリデーションエラーが発生する一括登録サンプルファイルを、下記からダウンロードする。
+  2. Download the batch registration sample file which generates the validation error from below
 
-     :download:`プロジェクト一括登録_バリデーションエラー.csv<../downloads/project_upload/プロジェクト一括登録_バリデーションエラー.csv>`
+     :download:`Project batch registration_validation error.csv <../downloads/project_upload/Batch project registration_Validation error.csv>`
 
-  3. サンプルファイルをアップロードし、登録ボタンを押下する。
+  3. Upload the sample file and click the "Register(登録)" button.
 
     .. image:: ../images/project_upload/project_upload-invalid_upload.png
       :scale: 80
 
-  3. バリデーションエラーが発生する。
+  3. Validation error occurs.
 
     .. image:: ../images/project_upload/project_upload-validate.png
       :scale: 80
 
-  4. バリデーションエラーが発生しない一括登録サンプルファイルを、下記からダウンロードする。
+  4. Download the batch registration sample file which does not generate validation error from below
 
-    :download:`プロジェクト一括登録.csv<../downloads/project_upload/プロジェクト一括登録.csv>`
+    :download:`Project batch registration.csv <../ downloads / project_upload / Project batch registration.csv>`
 
-  5. サンプルファイルをアップロードし、登録ボタンを押下する。
+  5. Upload the sample file and click the "Register(登録)" button.
 
     .. image:: ../images/project_upload/project_upload-valid_upload.png
       :scale: 80
 
-  6. ファイルの内容がデータベースに登録され、完了メッセージが表示される。
+  6. The contents of the file are registered in the database and the completion message is displayed.
 
     .. image:: ../images/project_upload/project_upload-complete.png
       :scale: 80
 
-作成する業務アクションメソッドの全体像
+Overview of the business action method to be created
 -----------------------------------------------------
 
     ProjectUploadAction.java
@@ -48,7 +48,7 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
         @OnError(type = ApplicationException.class, path = "/WEB-INF/view/projectUpload/create.jsp")
         public HttpResponse upload(HttpRequest request, ExecutionContext context) {
 
-            // アップロードファイルの取得
+            // Acquire upload file
             List<PartInfo> partInfoList = request.getPart("uploadFile");
             if (partInfoList.isEmpty()) {
                 throw new ApplicationException(
@@ -58,74 +58,74 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
 
             LoginUserPrincipal userContext = SessionUtil.get(context, "userContext");
 
-            // アップロードファイルの読み込みとバリデーション
+            // Loading and validation of upload files
             List<Project> projects = readFileAndValidate(partInfo, userContext);
 
-            // DBへ一括登録する
+            // Batch registration to DB
             insertProjects(projects);
 
-            // 完了メッセージの追加
+            // Add a completion message
             context.setRequestScopedVar("uploadProjectSize", projects.size());
 
-            // ファイルの保存
+            // Saving a file
             saveFile(partInfo);
 
             return new HttpResponse("/WEB-INF/view/projectUpload/create.jsp");
         }
   
-  業務アクションメソッドの処理の流れは次のようになっている。
+  The processing flow of the business action method is as follows.
   
-  #. :ref:`ファイルを取得する<project_upload-file_upload_action>`
-  #. :ref:`CSVファイルの内容をBeanにバインドしてバリデーションする<project_upload-validation>`
-  #. :ref:`DBへ一括登録する<project_upload-bulk_insert>`
-  #. :ref:`ファイルを保存する<project_upload-file_upload_action>`
+  #. :ref:`Acquire a file<project_upload-file_upload_action>`
+  #. :ref:`Validate the contents of the CSV file by binding to Bean<project_upload-validation>`
+  #. :ref:`Batch registration to DB<project_upload-bulk_insert>`
+  #. :ref:`Saving a file<project_upload-file_upload_action>`
   
-  それぞれの処理の詳細は次節以降の
-  :ref:`ファイルアップロード機能の実装<project_upload-file_upload-impl>` と
-  :ref:`一括登録機能の実装<project_upload-bulk_insert-impl>` で説明する。
+  The details of each process is described under
+  :ref:`Implementation of the file upload function<project_upload-file_upload-impl>` and
+  :ref:`Implementation of the batch registration function<project_upload-bulk_insert-impl>`.
 
 .. _`project_upload-file_upload-impl`:
 
-ファイルアップロード機能の実装
+Implementation of the file upload function
 -----------------------------------------------------
-まず、アップロードを用いた一括登録機能のうち、アップロード部分の作成方法に関して説明する。
+First, how to create the upload part of the batch registration function using upload is explained
 
-  #. :ref:`ファイルアップロード画面の作成<project_upload-upload_jsp>`
-  #. :ref:`ファイルの取得と保存を行う業務アクションメソッドの作成<project_upload-file_upload_action>`
+  #. :ref:`Create a file upload screen<project_upload-upload_jsp>`
+  #. :ref:`Create a business action method to acquire and save a file<project_upload-file_upload_action>`
 
   .. _`project_upload-upload_jsp`:
 
-  ファイルアップロード画面の作成
-    ファイルアップロード欄をもつ画面を作成する。
+  Create a file upload screen
+    Create a screen with a file upload field.
 
     /src/main/webapp/WEB-INF/view/projectUpload/create.jsp
       .. code-block:: jsp
 
         <n:form useToken="true" enctype="multipart/form-data">
-            <!-- 省略 -->
+            <!-- Omitted -->
             <div class="message-area margin-top">
-                <!-- 完了メッセージ表示部分 -->
+                <!-- Completion message display part -->
                 <c:if test="${not empty uploadProjectSize}">
                     <ul><li class="message-info"><n:message messageId="success.upload.project" option0="${uploadProjectSize}" /></li></ul>
                 </c:if>
-                <!-- エラーメッセージ表示部分 -->
+                <!-- Error message display part -->
                 <n:errors errorCss="message-error"/>
             </div>
-            <!-- 省略 -->
-            <h4 class="font-group">プロジェクト情報ファイル選択</h4>
+            <!-- Omitted -->
+            <h4 class="font-group">Project information file selection</h4>
             <table class="table">
-                <!-- 画面デザインに関する記述は省略 -->
+                <!--  Description of screen design is omitted -->
                 <tbody>
                     <tr>
-                        <th class="item-norequired" colspan="2">プロジェクト情報ファイル選択</th>
+                        <th class="item-norequired" colspan="2">Project information file selection</th>
                     </tr>
                     <tr>
-                        <th class="width-250 required">プロジェクト情報ファイル</th>
+                        <th class="width-250 required">Project information file</th>
                         <td >
                             <div class="form-group is-fileinput">
                                 <div class="input-group">
                                     <n:file name="uploadFile" id="uploadFile"/>
-                                    <!-- 画面デザインに関する記述は省略 -->
+                                    <!--  Description of screen design is omitted -->
                                 </div>
                             </div>
                         </td>
@@ -136,25 +136,25 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
                 <div class="button-nav">
                     <n:button uri="/action/projectUpload/upload"
                               allowDoubleSubmission="false"
-                              cssClass="btn btn-raised btn-default">登録</n:button>
+                              cssClass="btn btn-raised btn-default">Registration</n:button>
                 </div>
             </div>
         </n:form>
 
-    この実装のポイント
-      * マルチパートファイルを送信するため、 :ref:`tag-form_tag` の `enctype` 属性を `multipart/form-data` と指定する。
-      * :ref:`tag-file_tag` を用いてファイルアップロード欄を作成する。 `name` 属性にはリクエストオブジェクトへの登録名を指定する。
-        業務アクションでファイルを取得するには、 :java:extdoc:`HttpRequest#getPart<nablarch.fw.web.HttpRequest.getPart(java.lang.String)>`
-        の引数にこの登録名を指定する。
-      * アップロード完了時に、 :ref:`tag-message_tag` でアップロード完了メッセージを表示する。
-        完了メッセージにアップロード件数を含めるため、 `option0` 属性には、リクエストスコープに設定されたアップロード件数を指定する。
-      * :ref:`tag-errors_tag` を用いて、対象ファイルに対するバリデーションエラーメッセージを一覧表示する領域を作成する。
-        エラーメッセージ一覧の出力形式については :ref:`エラーメッセージの一覧表示 <tag-write_error_errors_tag>` を参照。
+    Key points of this implementation
+      * Specify `multipart/form-data` as `enctype` attribute of :ref:`tag-form_tag` to send multipart file.
+      * Create a file upload field using :ref:`tag-file_tag`. Specify the registration name of the request object in the `name` attribute.
+        To acquire the file in a business action, specify this registration name as an argument of
+        :java:extdoc:`HttpRequest#getPart<nablarch.fw.web.HttpRequest.getPart(java.lang.String)>`
+      * Display upload completed message with :ref:`tag-message_tag, once the upload is completed.
+        In order to include the number of uploads in the completion message, specify the number of uploads configured in the request scope in `option0` attribute.
+      * Use :ref:`tag-errors_tag` to create an area to display the list of validation error messages for the target file.
+        For the output format of the error message list, refer to :ref:`error message list <tag-write_error_errors_tag>`.
 
   .. _`project_upload-file_upload_action`:
 
-  業務アクションメソッドの作成
-    業務アクションメソッドでの、ファイルの取得及び保存方法を説明する。
+  Create a business action method
+    Describes how to get and save a file in the business action method.
 
     ProjectUploadAction.java
       .. code-block:: java
@@ -169,18 +169,18 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
             }
             PartInfo partInfo = partInfoList.get(0);
 
-            // 一括登録処理は後述するので省略
+            // Batch registration process is omitted as it will be described later
 
-            // ファイルの保存
+            // Saving a file
             saveFile(partInfo);
 
             return new HttpResponse("/WEB-INF/view/projectUpload/create.jsp");
         }
         
         /**
-         * ファイルを保存する。
+         * Save a file
          *
-         * @param partInfo アップロードファイルの情報
+         * @param partInfo Upload file information
          */
         private void saveFile(final PartInfo partInfo) {
             String fileName = generateUniqueFileName(partInfo.getFileName());
@@ -188,77 +188,77 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
             helper.moveFileTo("uploadFiles", fileName);
         }
 
-    この実装のポイント
-      * :java:extdoc:`HttpRequest#getPart<nablarch.fw.web.HttpRequest.getPart(java.lang.String)>` を使用してファイルを取得する。
-      * ファイルが存在しない(アップロードされていない)場合は、取得した :java:extdoc:`PartInfo<nablarch.fw.web.upload.PartInfo>` リストのサイズは0となる。
-        この値を使用して業務例外を送出するなどの制御を行う。
-      * アップロードされたファイルは :ref:`マルチパートリクエストハンドラ<multipart_handler>` によって一時領域に保存される。
-        一時領域は自動で削除されるため、アップロードファイルを永続化（保存）する必要がある場合は、ファイルを任意のディレクトリへ移送する。
-        ただし、ファイルの移送は :ref:`ファイルパス管理<file_path_management>` を使用してファイルやディレクトリの入出力を管理している場合のみ可能である。
-      * ファイルの移送には :java:extdoc:`UploadHelper#moveFileTo<nablarch.fw.web.upload.util.UploadHelper.moveFileTo(java.lang.String-java.lang.String)>` メソッドを使用する。
-        第一引数には、設定ファイルに登録されたファイル格納ディレクトリのキー名を指定する。
-        Exampleアプリケーションでは下記ファイルに設定が記載されている。
+    Key points of this implementation
+      * Acquire the file :java:extdoc:`HttpRequest#getPart<nablarch.fw.web.HttpRequest.getPart(java.lang.String)>`.
+      * When the file does not exist (not uploaded), then the size of :java:extdoc:`PartInfo<nablarch.fw.web.upload.PartInfo>` list that is acquired will be zero.
+        This value is used to perform control such as sending a business exception.
+      * The uploaded file is stored in a temporary area by the :ref:`multipart request handler<multipart_handler>`.
+        Since the temporary area is automatically deleted, if you need to permanently (save) an uploaded file, move the file to an arbitrary directory.
+        However, file transfers are possible only when the :ref:`file path management<file_path_management>` is used to manage the input and output of files and directories.
+      * Use :java:extdoc:`UploadHelper#moveFileTo<nablarch.fw.web.upload.util.UploadHelper.moveFileTo(java.lang.String-java.lang.String)>` method to transfer files.
+        The first argument is the key name of the file storage directory registered in the configuration file.
+        In the Example Application, the configuration is described in the following file.
 
         filepath-for-webui.xml
           .. code-block:: xml
 
-            <!-- ファイルパス定義 -->
+            <!-- File path definition -->
             <component name="filePathSetting"
                     class="nablarch.core.util.FilePathSetting" autowireType="None">
               <property name="basePathSettings">
                 <map>
-                  <!--省略 -->
-                  <!--アップロードファイルの格納ディレクトリ-->
+                  <!--Omitted -->
+                  <!-- Directory to store the upload file -->
                   <entry key="uploadFiles" value="file:./work/input" />
                 </map>
               </property>
-              <!-- 省略 -->
+              <!-- Omitted -->
             </component>
 
 .. _`project_upload-bulk_insert-impl`:
 
-一括登録機能の実装
-----------------------------
-アップロードを用いた一括登録機能のうち、一括登録部分の作成方法に関して説明する。
+Implementation of the batch registration function
+---------------------------------------------------
+This section describes how to create the batch registration part of the batch registration function using uploads.
 
-    #. :ref:`ファイルをバインドするBeanの作成<project_upload-create_bean>`
-    #. :ref:`ファイルを一括登録する業務アクションメソッドの作成<project_upload-bulk_action>`
+    #. :ref:`Create a Bean to bind a file<project_upload-create_bean>`
+    #. :ref:`Create a business action method for batch registration of files<project_upload-bulk_action>`
 
 .. _`project_upload-create_bean`:
 
-ファイルの内容をバインドするBeanの作成
-  ファイルの内容をバインドするBeanを作成する。
+Create a bean to bind the contents of the file
+  A bean to bind the contents of the file is created.
 
   ProjectUploadDto.java
     .. code-block:: java
 
-      @Csv(headers = { /** ヘッダーを記述 **/},
-              properties = { /** バインド対象のプロパティ **/},
+      @Csv(headers = { /** Describe the header **/},
+              properties = { /** Properties to bind **/},
               type = Csv.CsvType.CUSTOM)
       @CsvFormat(charset = "Shift_JIS", fieldSeparator = ',',ignoreEmptyLine = true,
               lineSeparator = "\r\n", quote = '"',
               quoteMode = CsvDataBindConfig.QuoteMode.NORMAL, requiredHeader = true)
       public class ProjectUploadDto implements Serializable {
 
-          // 一部項目のみ抜粋。ゲッタ及びセッタは省略
+          // Excerpt of some items only.Getter and setter are omitted
 
-          /** プロジェクト名 */
+          /** Project name */
           @Required(message = "{nablarch.core.validation.ee.Required.upload}")
           @Domain("projectName")
           private String projectName;
 
-          /** プロジェクト種別 */
+          /** Project type */
           @Required(message = "{nablarch.core.validation.ee.Required.upload}")
           @Domain("projectType")
           private String projectType;
 
-          // 処理対象行の行数を保持するプロパティ。セッタは省略。
-          /** 行数 */
+          // Property that holds the line count to process.Setter is omitted.
+          /** Line count*/
           private Long lineNumber;
 
           /**
-           * 行数を取得する。
-           * @return 行数
+           * Get line count.
+           * @return Line count
            */
           @LineNumber
           public Long getLineNumber() {
@@ -266,30 +266,30 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
           }
       }
 
-  この実装のポイント
-    * アップロードされたCSVファイルの内容と、Beanのプロパティとの紐付けの設定は、 :java:extdoc:`@Csv<nablarch.common.databind.csv.Csv>` を使用する。
-      受け付けるCSVのフォーマットの指定は、 :java:extdoc:`@CsvFormat<nablarch.common.databind.csv.CsvFormat>` を使用する。
-      （ :ref:`デフォルトのフォーマットの指定<data_bind-csv_format_set>` を利用する場合は、 :java:extdoc:`@CsvFormat<nablarch.common.databind.csv.CsvFormat>` は不要）
-      アノテーションの設定方法の詳細は、 :ref:`CSVファイルをJava Beansクラスにバインドする場合のフォーマット指定方法 <data_bind-csv_format-beans>` を参照。
-    * プロパティに :java:extdoc:`@Required<nablarch.core.validation.ee.Required>` や :java:extdoc:`@Domain<nablarch.core.validation.ee.Domain>`
-      などのバリデーション用のアノテーションを付与して :ref:`Bean Validation<bean_validation>` を行う。
-    * ファイルからの入力値を受け付けるため、 :ref:`プロパティはString型で定義し<bean_validation-form_property>`、
-      適切な型への変換はバリデーションを通過した安全な値に対して行う。
-    * 行数プロパティを定義し、ゲッタに :java:extdoc:`LineNumber<nablarch.common.databind.LineNumber>` を付与することで、
-      対象データが何行目のデータであるかを自動的に設定できる。
+  Key points of this implementation
+    * Use :java:extdoc:`@Csv<nablarch.common.databind.csv.Csv>` for configuration to link the contents of the uploaded CSV file with the bean property.
+      Use  :java:extdoc:`@CsvFormat<nablarch.common.databind.csv.CsvFormat>` to specify the acceptable CSV format.
+      （ :java:extdoc:`@CsvFormat<nablarch.common.databind.csv.CsvFormat>` is not required when using the :ref:`default format specification<data_bind-csv_format_set>`）
+      For information on how to configure the annotation, refer to :ref:`format specification method when binding the CSV file to the Java Beans class <data_bind-csv_format-beans>`.
+    * Perform :ref:`Bean Validation<bean_validation>` by assigning annotations for validation of :java:extdoc:`@Required<nablarch.core.validation.ee.Required>`
+      and :java:extdoc:`@Domain<nablarch.core.validation.ee.Domain>` to the property.
+    * To accept the values from a file, :ref:`property is defined as string type<bean_validation-form_property>`,
+      and conversion to an appropriate type is performed as per the safe value that has passed the validation.
+    * By defining the line count property and granting :java:extdoc:`LineNumber<nablarch.common.databind.LineNumber>` to the getter,
+      the line of the target data can be configured automatically.
 
     .. tip::
-      入力必須項目のバリデーションエラーメッセージを、ファイルアップロードに対するメッセージとして適切なものに変更している。
-      バリデーションメッセージの指定方法については、 :ref:`入力値のチェックルールを設定する<client_create_validation_rule>` を参照。
+      The validation error message of a required input item is changed to an appropriate value as per the file upload.
+      For information on how to specify a validation message, refer to :ref:`configure the input value check rule<client_create_validation_rule>`.
 
 .. _`project_upload-bulk_action`:
 
-業務アクションメソッドの作成
-  アップロードされたファイルの内容をデータベースに登録する業務アクションメソッドを作成する。
+Create a business action method
+  Create a business action method to register the contents of the uploaded file in the database.
 
   .. _`project_upload-validation`:
 
-  1.CSVファイルの内容をBeanにバインドしてバリデーションする
+  Validate the contents of 1 CSV file by binding to Bean
     ProjectUploadAction.java
       .. code-block:: java
 
@@ -297,7 +297,7 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
             List<Message> messages = new ArrayList<>();
             List<Project> projects = new ArrayList<>();
 
-            // ファイルの内容をBeanにバインドしてバリデーションする
+            // Validate the contents of the file by binding it to the bean
             try (final ObjectMapper<ProjectUploadDto> mapper
                      = ObjectMapperFactory.create(
                             ProjectUploadDto.class, partInfo.getInputStream())) {
@@ -305,20 +305,20 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
 
                 while ((projectUploadDto = mapper.read()) != null) {
 
-                    // 検証して結果メッセージを設定する
+                    // Validate and configure the result messages
                     messages.addAll(validate(projectUploadDto));
 
-                    // エンティティを作成
+                    // Create an entity
                     projects.add(createProject(projectUploadDto, userContext.getUserId()));
                 }
             } catch (InvalidDataFormatException e) {
-                // ファイルフォーマットが不正な行がある場合はその時点で解析終了
+                // Parsing ends if there is an invalid line in the file format
                 messages.add(
                     MessageUtil.createMessage(
                         MessageLevel.ERROR, "errors.upload.format", e.getLineNumber()));
             }
 
-            // 一件でもエラーがある場合はデータベースに登録しない
+            // Not registered in the database even if there is one error
             if (!messages.isEmpty()) {
                 throw new ApplicationException(messages);
             }
@@ -326,16 +326,16 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
         }
     
         /**
-         * プロジェクト情報をバリデーションして、結果をメッセージリストに格納する。
+         * Validate the project information and store the result in the message list.
          *
-         * @param projectUploadDto CSVから生成したプロジェクト情報Bean
-         * @return messages         バリデーション結果のメッセージのリスト
+         * @param projectUploadDto Project information Bean generated from CSV
+         * @return messages         List of validation result messages
          */
         private List<Message> validate(final ProjectUploadDto projectUploadDto) {
 
             List<Message> messages = new ArrayList<>();
 
-            // 単項目バリデーション。Dtoに定義したアノテーションを元にBean Validationを実行する
+            // Single item validation.Execute Bean validation based on the annotation defined in Dto
             try {
                 ValidatorUtil.validate(projectUploadDto);
             } catch (ApplicationException e) {
@@ -346,7 +346,7 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
                         .collect(Collectors.toList()));
             }
 
-            // 顧客存在チェック
+            // Customer existence check
             if (!existsClient(projectUploadDto)) {
                 messages.add(MessageUtil.createMessage(MessageLevel.ERROR,
                         "errors.upload.client", projectUploadDto.getLineNumber()));
@@ -355,41 +355,41 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
             return messages;
         }
 
-    この実装のポイント
-      * ファイルをBeanにバインドして取得するには、 :ref:`データバインド<data_bind>` が提供する、
-        :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` を使用する。
-      * 取得した :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` オブジェクトに対して、
-        :java:extdoc:`ObjectMapper#read <nablarch.common.databind.ObjectMapper.read()>` を実行することで、バインド済みBeanのリストを取得できる。
-      * :java:extdoc:`ValidatorUtil#getValidator <nablarch.core.validation.ee.ValidatorUtil.getValidator()>` を使用して
-        :java:extdoc:`Validator <javax.validation.Validator>` オブジェクトを生成することで、任意のBeanに対して :ref:`Bean Validation<bean_validation>` を実行することができる。
-      * エラーが発生した時点でバリデーションを中止せず、最終行まで検証を行う場合、
-        バリデーション終了後に全行分のエラーメッセージを格納した :java:extdoc:`Message<nablarch.core.message.Message>` のリスト
-        を引数に :java:extdoc:`ApplicationException<nablarch.core.message.ApplicationException>` を生成して送出することで、
-        :ref:`tag-errors_tag` で画面に出力できる。
-      * バリデーションメッセージにプロパティ名を付与する方法については
-        :ref:`バリデーションエラー時のメッセージに項目名を含めたい<bean_validation-property_name>` を参照し実装する。
+    Key points of this implementation
+      * Use :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` provided by
+        :ref:`DataBind<data_bind>` to bind and get the file to the bean.
+      * By executing :java:extdoc:`ObjectMapper#read <nablarch.common.databind.ObjectMapper.read()>` for the acquired
+        :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` object, the list of bound bean can be obtained.
+      * :java:extdoc:`Validator <javax.validation.Validator>` object can be created by using
+        :java:extdoc:`ValidatorUtil#getValidator <nablarch.core.validation.ee.ValidatorUtil.getValidator()>`, and :ref:`Bean Validation<bean_validation>` can be executed for any Bean.
+      * When verification is continued up to the last row and not aborted even when an error occurs,
+        error messages for all rows are stored after the verification is completed in :java:extdoc:`Message<nablarch.core.message.Message>`list, by generating and
+        throwing :java:extdoc:`ApplicationException<nablarch.core.message.ApplicationException>` with this list as an argument,
+        it can be output to the screen with :ref:`tag-errors_tag`.
+      * For how to assign a property name to the validation message,
+        implement by referring to :ref:`how to include item names in the message when a validation error occurs<bean_validation-property_name>`.
     
 
   .. _`project_upload-bulk_insert`:
 
-  2.DBへ一括登録する
-    ProjectUploadAction.java
+  2. Batch registration to DB
+     ProjectUploadAction.java
       .. code-block:: java
 
         public HttpResponse upload(HttpRequest request,ExecutionContext context)
                 throws IOException {
 
-            // バリデーションの実行は前述
+            // Execution of validation is described above
 
-            // DBへ一括登録する
+            // Batch registration to DB
             insertProjects(projects);
 
-            // ファイル保存は前述
+            // Saving a file is described above
         }
 
         /**
-         * 複数のプロジェクトエンティティを一括でデータベースに登録する。
-         * @param projects 検証済みのプロジェクトリスト
+         * Register multiple project entities to the database in a batch.
+         * @param projects List of validated projects
          */
         private void insertProjects(List<Project> projects) {
 
@@ -397,7 +397,7 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
 
           for (Project project : projects) {
               insertProjects.add(project);
-              // 100件ごとにbatchInsertする
+              // Batch insert every 100 records
               if (insertProjects.size() >= 100) {
                   UniversalDao.batchInsert(insertProjects);
                   insertProjects.clear();
@@ -409,11 +409,11 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
           }
         }
 
-    この実装のポイント
-      * 一括登録は、 :java:extdoc:`UniversalDao#batchInsert <nablarch.common.dao.UniversalDao.batchInsert(java.util.List)>`
-        を使用して実行する。
-      * 一度に登録する件数が膨大になるとパフォーマンスの低下を招く可能性があるため、一括登録一回ごとの件数に上限を設定する。
+    Key points of this implementation
+      * Batch registration is executed using :java:extdoc:`UniversalDao#batchInsert <nablarch.common.dao.UniversalDao.batchInsert(java.util.List)>`.
 
-アップロードを用いた一括登録機能の解説は以上。
+      * Set an upper limit on the number of registrations per batch registration, because a large number of registrations at a time may result in a deterioration in performance.
 
-:ref:`Getting Started TOPページへ <getting_started>`
+This completes the explanation for the batch registration function using upload.
+
+:ref:`Getting Started To TOP page <getting_started>`
