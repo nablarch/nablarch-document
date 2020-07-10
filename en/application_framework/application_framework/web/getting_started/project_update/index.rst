@@ -1,108 +1,108 @@
 .. _`project_update`:
 
-更新機能の作成
+Create Update Function
 ==========================================
-Exampleアプリケーションを元に更新機能の解説を行う。
+This section describes the update function based on an example application.
 
-作成する機能の説明
-  1. プロジェクト一覧のプロジェクトIDを押下する。
+Description of the function to be created
+  1. Click the project ID in the project list.
 
     .. image:: ../images/project_update/project_update_detail_link.png
       :scale: 80
 
-  2. 対象プロジェクトの詳細画面が表示されるので、変更ボタンを押下する。
+  2. Click the "Change(変更)" button on the target project's detail screen.
 
     .. image:: ../images/project_update/project_update_detail.png
       :scale: 80
 
-  3. 更新する項目を書き換えて、更新ボタンを押下する。
+  3. Rewrite the item to be updated and click the Update (更新) button.
 
     .. image:: ../images/project_update/project_update_update.png
       :scale: 80
 
-  4. 更新確認画面が表示されるので、確定ボタンを押下する。
+  4. When the update confirmation screen is displayed, click on the confirm (確定) button.
 
     .. image:: ../images/project_update/project_update_confirm.png
       :scale: 80
 
-  5. データベースが更新され、更新完了画面が表示される。
+  5. The database is updated and the update completion screen is displayed.
 
     .. image:: ../images/project_update/project_update_complete.png
       :scale: 80
 
-更新内容の入力と確認
----------------------
-更新機能の実装方法のうち、更新内容の入力及び確認について以下の順に解説する。
+Enter and confirm update contents
+-----------------------------------
+Of the implementation methods of the update function, the input and confirmation of the update contents are described in the following order.
 
-  #. :ref:`フォームの作成<project_update-create_form>`
-  #. :ref:`更新画面を表示する業務アクションメソッドの作成<project_update-create_edit_action>`
-  #. :ref:`更新画面のJSPの作成<project_update-create_update_jsp>`
-  #. :ref:`更新内容の確認を行う業務アクションメソッドの作成<project_update-create_confirm_action>`
-  #. :ref:`更新確認画面のJSPの作成<project_update-create_confirm_jsp>`
+  #. :ref:`Create a form<project_update-create_form>`
+  #. :ref:`Create a business action method to display the update screen<project_update-create_edit_action>`
+  #. :ref:`Create a JSP for the update screen<project_update-create_update_jsp>`
+  #. :ref:`Create a business action method to check the updated contents<project_update-create_confirm_action>`
+  #. :ref:`Create a JSP for the update confirmation screen<project_update-create_confirm_jsp>`
 
 .. _`project_update-create_form`:
 
-フォームの作成
-  詳細画面から更新画面へ遷移する際のパラメータを受け付けるフォームと、更新画面編集欄への入力値を受け付けるフォームを作成する。
+Create a form
+  Create a form to accept parameters for transitioning from detail screen to update screen and a form to accept input values for edit field of update screen.
 
-  詳細画面から更新画面へ遷移する際にパラメータを受け付けるフォーム
-    詳細画面から更新画面へ遷移する際にパスパラメータ(「show/:projectId」の「:projectId」部分)として渡される、
-    対象のプロジェクトIDを受け付けるフォームを作成する。
+  A form to accept parameters when transitioning from the detail screen to the update screen
+    Create a form to accept the target project ID which is passed as a path parameter ( ":projectId" part of "show/:projectId")
+    when transitioning from the detail screen to the update screen.
 
     ProjectTargetForm.java
       .. code-block:: java
 
         public class ProjectTargetForm implements Serializable {
 
-            /** プロジェクトID */
+            /** Project ID */
             @Required
             @Domain("id")
             private String projectId;
 
-            // ゲッタ及びセッタは省略
+            // Getter and setter are omitted
 
-  更新画面から入力された値を受け付けるフォーム
-    更新画面から入力された、編集後の値を受け付けるフォームを作成する。
+  A form that accepts values entered from the update screen
+    Create a form to accept the value entered from the update screen after editing.
 
     ProjectUpdateForm.java
       .. code-block:: java
 
         public class ProjectUpdateForm implements Serializable {
 
-            // 一部のみ抜粋
+            // Partial excerpt
 
-            /** プロジェクト名 */
+            /** Project name */
             @Required
             @Domain("projectName")
             private String projectName;
 
             /**
-             * プロジェクト名を取得する。
+             * Acquire the project name.
              *
-             * @return プロジェクト名
+             * @return Project name
              */
             public String getProjectName() {
                 return this.projectName;
             }
 
             /**
-             * プロジェクト名を設定する。
+             * Set the project name.
              *
-             * @param projectName 設定するプロジェクト名
+             * @param projectName Project name to be set
              */
             public void setProjectName(String projectName) {
                 this.projectName = projectName;
             }
         }
 
-    この実装のポイント
-      * 入力項目がプロジェクト登録画面と重複しているが、
-        責務配置上 :ref:`フォームはHTMLのフォーム単位で作成すべきである<application_design-form_html>` ため、プロジェクト更新画面専用のフォームを作成する。
+    Key points of this implementation
+      * Although the input items are duplicated with the project registration screen,
+        the form for the project update screen should be created since :ref:`form should be created for each HTML form <application_design-form_html>` for responsibility assignment.
 
 .. _`project_update-create_edit_action`:
 
-更新画面を表示する業務アクションメソッドの作成
-  データベースから現在の情報を取得し、更新画面を表示する業務アクションメソッドを作成する。
+Create a business action method to display the update screen
+  Create a business action method that retrieves the current information from the database and displays the update screen.
 
   ProjectAction.java
     .. code-block:: java
@@ -110,17 +110,17 @@ Exampleアプリケーションを元に更新機能の解説を行う。
         @InjectForm(form = ProjectTargetForm.class)
         public HttpResponse edit(HttpRequest request, ExecutionContext context) {
 
-            // 更新処理で使用するセッション情報を削除しておく。
+            // Delete the session information used in the update process.
             SessionUtil.delete(context, "project");
 
             ProjectTargetForm targetForm = context.getRequestScopedVar("form");
             LoginUserPrincipal userContext = SessionUtil.get(context, "userContext");
 
-            // 他のユーザによって対象プロジェクトが削除されている場合NoDataExceptionを送出
+            // Throws a NoDataException if the target project has been deleted by another user
             ProjectDto dto = UniversalDao.findBySqlFile(ProjectDto.class, "FIND_BY_PROJECT",
                     new Object[]{targetForm.getProjectId(), userContext.getUserId()});
 
-            // 出力情報をリクエストスコープにセット
+            // Set the output information to the request scope
             context.setRequestScopedVar("form", dto);
 
             SessionUtil.put(context, "project", BeanUtil.createAndCopy(Project.class, dto));
@@ -128,30 +128,30 @@ Exampleアプリケーションを元に更新機能の解説を行う。
             return new HttpResponse("/WEB-INF/view/project/update.jsp");
         }
 
-  この実装のポイント
-    * 編集フォームに初期表示する値を取得するために、
+  Key points of this implementation
+    * A unique key lookup using
       :java:extdoc:`UniversalDao#findBySqlFile <nablarch.common.dao.UniversalDao.findBySqlFile(java.lang.Class-java.lang.String-java.lang.Object)>`
-      を使用して一意キー検索を行う。
-      :ref:`テーブルをJOINした結果を取得する<universal_dao-join>` ために、検索結果はBeanで受け付ける。
-      一意キー検索では、対象データが存在しない場合 :java:extdoc:`NoDataException<nablarch.common.dao.NoDataException>` を送出する。
+      to get the initial value to display in the edit form.
+      For :ref:`acquire the result of table JOIN<universal_dao-join>`, the search result is accepted as a bean.
+      If there is no target data in the unique key search, :java:extdoc:`NoDataException<nablarch.common.dao.NoDataException>` is thrown.
 
         .. tip::
-          Exampleアプリケーションでは、独自のエラー制御ハンドラを追加しているため、 :java:extdoc:`NoDataException<nablarch.common.dao.NoDataException>` が発生した場合は404エラー画面へ遷移する。
-          ハンドラによるエラー制御の作成方法は、 :ref:`ハンドラで例外クラスに対応したエラーページに遷移させる <forward_error_page-handler>` を参照。
+          Since an error control handler is added to the example application, :java:extdoc:`NoDataException<nablarch.common.dao.NoDataException>` occurs, the screen transitions to the 404 error screen.
+          For how to create an error control handler, refer to :ref:`transition to the error page for the exception class with the handler <forward_error_page-handler>`.
 
-    * 編集中に他ユーザによる更新が行われる可能性を考慮し、編集開始時点のバージョン番号を用いて :ref:`楽観的ロック<universal_dao_jpa_version>` (後述)を行うため、
-      編集開始時点のエンティティを :ref:`session_store` に登録する。
+    * Considering the possibility of updates by other users during editing, the entity at the time of the start of editing is registered in :ref:`session_store`
+      to perform an :ref:`optimistic lock<universal_dao_jpa_version>` (described below) using the version number at the time of the start of editing.
 
 .. _`project_update-create_update_jsp`:
 
-更新画面のJSPの作成
-  画面の作成については、登録編の :ref:`client_create_1` にて説明済みであるため省略する。
+Create a JSP for the update screen
+  Screen creation has been described in :ref:`client_create_1` in the registration section and is omitted.
 
 .. _`project_update-create_confirm_action`:
 
-更新内容の確認を行う業務アクションメソッドの作成
-  更新内容をバリデーションし、確認画面を表示する業務アクションメソッドを作成する。
-  :ref:`bean_validation` に加えて、業務アクションメソッド内に、データベース検索を伴うバリデーションを実装する。
+Create a business action method to check the updated contents
+  Create a business action method that validates the update content and displays the confirmation screen.
+  In addition to :ref:`bean_validation`, the validation with database search is implemented in the business action method.
 
   ProjectAction.java
     .. code-block:: java
@@ -162,7 +162,7 @@ Exampleアプリケーションを元に更新機能の解説を行う。
       public HttpResponse confirmOfUpdate(HttpRequest request, ExecutionContext context) {
           ProjectUpdateForm form = context.getRequestScopedVar("form");
 
-          // データベースを検索して入力されたIDを持つ顧客が存在するか確認する
+          // Search the database to check if there are any customers with the entered ID
           if (form.hasClientId()) {
               if (!UniversalDao.exists(Client.class, "FIND_BY_CLIENT_ID",
                       new Object[] {Integer.parseInt(form.getClientId()) })) {
@@ -175,10 +175,10 @@ Exampleアプリケーションを元に更新機能の解説を行う。
 
           Project project = SessionUtil.get(context, "project");
 
-          // フォームの値をセッションへ上書きする
+          // Overwrite a form value to a session
           BeanUtil.copy(form, project);
 
-          // 出力情報をリクエストスコープにセット
+          // Set the output information to the request scope
           context.setRequestScopedVar("form", BeanUtil.createAndCopy(ProjectDto.class, form));
           context.setRequestScopedVar("profit", new ProjectProfit(
                   project.getSales(),
@@ -190,14 +190,14 @@ Exampleアプリケーションを元に更新機能の解説を行う。
           return new HttpResponse("/WEB-INF/view/project/confirmOfUpdate.jsp");
       }
 
-  この実装のポイント
-    * データベース検索が必要なバリデーションは業務アクションメソッドに記述する。
-      データの存在確認をする場合、 :java:extdoc:`UniversalDao#exists <nablarch.common.dao.UniversalDao.exists(java.lang.Class-java.lang.String-java.lang.Object)>`
-      を使用する。詳細は、 :ref:`データベース検索が必要なバリデーション<bean_validation-database_validation>` を参照。
-    * 責務配置上 :ref:`フォームを直接セッションストアに格納すべきではない<session_store-form>` ため、Beanへ詰め替える。
+  Key points of this implementation
+    * Validation that requires a database search is described in the business action method.
+      To confirm the existence of data, use :java:extdoc:`UniversalDao#exists <nablarch.common.dao.UniversalDao.exists(java.lang.Class-java.lang.String-java.lang.Object)>`.
+      For more information, see :ref:`Validation that requires a database lookup<bean_validation-database_validation>`.
+    * Since the :ref:`form should not be stored directly in the session store<session_store-form>` due to responsibility assignment, it should be reworded to a bean.
 
-  SQLの作成
-    顧客の存在確認に使用するために、顧客IDから顧客情報を取得するSQLを作成する。
+  Create SQL
+    Create SQL to acquire customer information from customer IDs to confirm the existence of a customer.
 
     client.sql
       .. code-block:: sql
@@ -212,28 +212,28 @@ Exampleアプリケーションを元に更新機能の解説を行う。
         WHERE
             CLIENT_ID = :clientId
 
-      この実装のポイント
-        * 存在確認用のSQLはSELECT文として作成する。
+      Key points of this implementation
+        * The SQL for existence confirmation is made as a SELECT statement.
 
 .. _`project_update-create_confirm_jsp`:
 
-更新確認画面のJSPの作成
-  更新画面を使い回して、更新確認画面を作成する。
+Create a JSP for the update confirmation screen
+  Create an update confirmation screen by reusing the update screen.
 
   /src/main/webapp/WEB-INF/view/project/update.jsp
     .. code-block:: jsp
 
       <n:form useToken="true">
-        <!-- 登録内容の確認部分 -->
+        <!-- Confirmation of registration -->
           <div class="title-nav page-footer">
-              <!-- ページ下部のボタン部分 -->
+              <!-- Button at the bottom of the page -->
               <div class="button-nav">
                   <n:forInputPage>
-                      <!-- 入力画面向けボタン部分 -->
+                      <!-- Button for input screen -->
                   </n:forInputPage>
                   <n:forConfirmationPage>
-                      <!-- 確認画面向けボタン部分 -->
-                      <n:submit value = "確定" uri="/action/project/update" id="bottomSubmitButton"
+                      <!-- Button for confirmation screen -->
+                      <n:submit value = "Confirm" uri="/action/project/update" id="bottomSubmitButton"
                               cssClass="btn btn-raised btn-success"
                               allowDoubleSubmission="false" type="button" />
                   </n:forConfirmationPage>
@@ -241,26 +241,26 @@ Exampleアプリケーションを元に更新機能の解説を行う。
           </div>
       </n:form>
 
-  この実装のポイント
-    * 更新画面を確認画面として使い回す方法は、 :ref:`登録機能の確認画面作成<client_create_forConfirmationPage>` にて説明済みであるため省略する。
-    * 二重サブミットを防ぐJavaScriptを追加するために、 :ref:`tag-submit_tag` の `allowDoubleSubmission` 属性にfalseを指定する。
-      詳細は :ref:`tag-double_submission` を参照。
+  Key points of this implementation
+    * How to use the update screen as a confirmation screen has been omitted as it is explained in :ref:`create a confirmation screen for the registration function<client_create_forConfirmationPage>`.
+    * To add JavaScript to prevent duplicate form submission, set the `allowDoubleSubmission` attribute of :ref:`tag-submit_tag` to false.
+      For more information, see :ref:`tag-double_submission`.
 
-データベースの更新
+Database update
 ---------------------
-更新機能の実装方法のうち、更新内容の確認について以下の順に解説する。
+Among the implementation methods of update function, confirmation of update content is explained in the following order.
 
-  #. :ref:`業務アクションメソッドの作成<project_update-create_decide_action>`
-  #. :ref:`更新完了画面の作成<project_update-create_success_jsp>`
+  #. :ref:`Create a business action method<project_update-create_decide_action>`
+  #. :ref:`Create an update completion screen<project_update-create_success_jsp>`
 
 .. _`project_update-create_decide_action`:
 
-業務アクションメソッドの作成
-  データベースを更新し、変更を確定する業務アクションメソッドを作成する。
-  :ref:`楽観的ロック<universal_dao_jpa_version>` を行うためのエンティティ定義も合わせて解説する。
+Create a business action method
+  Create a business action method to update the database and finalize the changes.
+  The entity definition for performing :ref:`optimistic lock<universal_dao_jpa_version>` is also explained.
 
-  データベース更新を行う業務アクションメソッドの作成
-    データベースを更新し、完了画面表示メソッドへリダイレクトする業務アクションメソッドを作成する。
+  Create a business action method for database update
+    Create a business action method to update the database and redirect to the completion screen display method.
 
       ProjectAction.java
         .. code-block:: java
@@ -273,30 +273,30 @@ Exampleアプリケーションを元に更新機能の解説を行う。
               return new HttpResponse(303, "redirect://completeOfUpdate");
           }
 
-    この実装のポイント
-      * エンティティに更新したい値を設定し、 :java:extdoc:`UniversalDao#update <nablarch.common.dao.UniversalDao.update(java.lang.Object)>` を使用してデータベースを更新する。
-        更新処理では楽観的ロックが実行される。
-      * 二重サブミットを防止するために、 :java:extdoc:`@OnDoubleSubmission <nablarch.common.web.token.OnDoubleSubmission>` を付与する。
-      * ブラウザ更新での再実行を防ぐために、レスポンスをリダイレクトする。
+    Key points of this implementation
+      * Sets the values you want to update to an entity and updates the database using :java:extdoc:`UniversalDao#update <nablarch.common.dao.UniversalDao.update(java.lang.Object)>`.
+        In the update process, optimistic locking is performed.
+      * Assign :java:extdoc:`@OnDoubleSubmission <nablarch.common.web.token.OnDoubleSubmission>` to prevent duplicate form submission.
+      * Redirect the response to prevent a rerun in the browser update.
       
-        * リソースパスの書式については :java:extdoc:`ResourceLocator <nablarch.fw.web.ResourceLocator>` を参照。
-        * リダイレクトに指定するステータスコードについては、 :ref:`web_feature_details-status_code` を参照。
+        * For the format of the resource path, see :java:extdoc:`ResourceLocator <nablarch.fw.web.ResourceLocator>`.
+        * For the status code specified in redirect, see :ref:`web_feature_details-status_code`.
 
-  楽観的ロックの対象となるエンティティの作成
-    :ref:`楽観的ロック<universal_dao_jpa_version>` を有効化したエンティティを作成する。
+  Create an entity for optimistic locking
+    Create an entity with :ref:`optimistic lock<universal_dao_jpa_version>` enabled.
 
     Project.java
       .. code-block:: java
 
-        // その他のプロパティは省略
+        // Other properties are omitted
 
-        /** バージョン番号 */
+        /** Version number */
         private Long version;
 
         /**
-         * バージョン番号を返します。
+         * Returns the version number.
          *
-         * @return バージョン番号
+         * @return Version number
          */
         @Version
         @Column(name = "VERSION", precision = 19, nullable = false, unique = false)
@@ -305,22 +305,22 @@ Exampleアプリケーションを元に更新機能の解説を行う。
         }
 
         /**
-         * バージョン番号を設定します。
+         * Set the version number.
          *
-         * @param version バージョン番号
+         * @param version Version number
          */
         public void setVersion(Long version) {
             this.version = version;
         }
 
-    この実装のポイント
-      * :ref:`楽観的ロック<universal_dao_jpa_version>` を行うために、エンティティに `version` プロパティを作成し
-        ゲッタに :ref:`@Version <universal_dao_jpa_version>` を付与する。
+    Key points of this implementation
+      * To perform :ref:`optimistic locking<universal_dao_jpa_version>`, create a `version` property in the entity and assign
+        :ref:`@Version <universal_dao_jpa_version>` to the getter.
 
   .. _`project_update-create_complete_action`:
 
-  完了画面を表示する業務アクションメソッドの作成
-    更新メソッドのリダイレクト先となる、完了画面の表示を行う業務アクションメソッドを作成する。
+  Create a business action method to display the completion screen
+    Create a business action method that displays the completion screen, which is the redirect destination of the update method.
 
     ProjectAction.java
       .. code-block:: java
@@ -331,25 +331,25 @@ Exampleアプリケーションを元に更新機能の解説を行う。
 
 .. _`project_update-create_success_jsp`:
 
-更新完了画面の作成
-  更新完了画面を作成する。
+Create an update completion screen
+  Creates an update completion screen.
 
   /src/main/webapp/WEB-INF/view/project/completeOfUpdate.jsp
     .. code-block:: jsp
 
       <n:form>
           <div class="title-nav">
-              <h1 class="page-title">プロジェクト変更完了画面</h1>
+              <h1 class="page-title">Project change completion screen</h1>
               <div class="button-nav">
-                <!-- 省略 -->
+                <!-- Omitted -->
               </div>
           </div>
           <div class="message-area message-info">
-              プロジェクトの更新が完了しました。
+              Project update is now complete.
           </div>
-          <!-- 省略 -->
+          <!-- Omitted -->
       </n:form>
 
-更新機能の解説は以上。
+This completes the description of the update function.
 
-:ref:`Getting Started TOPページへ <getting_started>`
+:ref:`Getting Started To TOP page <getting_started>`
