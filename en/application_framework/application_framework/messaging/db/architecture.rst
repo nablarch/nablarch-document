@@ -8,7 +8,7 @@ The type of messaging process that treats a database as a queue provides the fun
 
 .. important::
 
-  Determination of the record that are not processed should be displayed [TIS1]on the table record. For that reason, 
+  Determination of the record that are not processed should be displayed on the table record. For that reason, 
   it is necessary to perform the process of changing the status of the record for which processing is completed to processed
 
 Configuration
@@ -185,7 +185,7 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
 Data reader used
 ----------------------------------------------------------------------------------------------------
 Use the following data reader to handle a database as a queue. 
-Note that the the table cannot be monitored repeatedly if :java:extdoc:` batch DatabaseRecordReader <nablarch.fw.reader.DatabaseRecordReader>`  is used.
+Note that the the table cannot be monitored repeatedly if :java:extdoc:`batch DatabaseRecordReader <nablarch.fw.reader.DatabaseRecordReader>` is used.
 
 * :java:extdoc:`DatabaseTableQueueReader <nablarch.fw.reader.DatabaseTableQueueReader>`
 

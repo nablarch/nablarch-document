@@ -23,7 +23,7 @@ Input value check
 
 Exclusive control
 --------------------------------------------------
-Although 2 types of exclusive control are offered, :ref:`universal_dao` is recommended due to the reasons described inreason :ref:`UniversalDao is recommended exclusive_control-deprecated>` .
+Although 2 types of exclusive control are offered, :ref:`universal_dao` is recommended due to the reasons described inreason :ref:`UniversalDao is recommended <exclusive_control-deprecated>` .
 
 * :ref:`exclusive_control`
 * :ref:`universal_dao`
