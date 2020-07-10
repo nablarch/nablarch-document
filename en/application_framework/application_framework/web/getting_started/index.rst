@@ -3,23 +3,23 @@
 Getting Started
 ==========================================
 
-本章を通読することで、Nablarchを用いたウェブアプリケーション開発のイメージを掴むことができる。
+By reading this chapter, you can get an image of the development of web applications using Nablarch.
 
-本章では詳細な機能説明を行わないため、実装を行う際には、適宜 :doc:`../feature_details`
-や :doc:`../../libraries/index` 、及び `APIドキュメント` を参照する必要がある。
+Since this chapter does not provide a detailed description of the function, when implementing refer to :doc:`../feature_details`,
+:doc:`../../libraries/index` and `API documentation` as appropriate.
 
-前提条件
-  本章は  :ref:`example_application`  をベースに解説を行う。
-  Exampleアプリケーションの動作環境を事前に構築しておくこと。
+Prerequisites
+  The explanation of this chapter is based on :ref:`example_application`.
+  The operating environment of the example application must be built in advance.
 
   .. tip::
-    Exampleアプリケーションに関する以下の事項は、本章では解説しない。
-    以下の事項については、 :ref:`example_application` を参照すること。
+    The following items related to the example application are not explained in this chapter.
+    For the following items, see :ref:`example_application`.
     
-    - Exampleアプリケーションの環境構築および実行
-    - Exampleアプリケーションの設定
-    - 使用しているOSSプラグインについて
-    - 使用しているUIフレームワークについて
+    - Building the environment and execution of example application
+    - Example application configuration
+    - Information on the OSS plugin used
+    - Information on the UI framework used
 
 .. toctree::
   :maxdepth: 1
