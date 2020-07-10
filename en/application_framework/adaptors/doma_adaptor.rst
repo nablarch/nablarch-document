@@ -375,12 +375,12 @@ Point
 .. code-block:: xml
 
   <component class="nablarch.integration.doma.DomaStatementProperties" name="domaStatementProperties">
-    <!-- 最大行数の制限値を1000行に設定する -->
+    <!-- Configure the limit for maximum number of rows to 1000 -->
     <property name="maxRows" value="1000" />
-    <!-- フェッチサイズを200行に設定する -->
+    <!-- Configure the fetch size to 200 rows -->
     <property name="fetchSize" value="200" />
-    <!-- クエリタイムアウトを30秒に設定する -->
+    <!-- Configure query timeout to 30 seconds -->
     <property name="queryTimeout" value="30" />
-    <!-- バッチサイズを400に設定する -->
+    <!-- Configure batch size to 400 -->
     <property name="batchSize" value="400" />
   </component>

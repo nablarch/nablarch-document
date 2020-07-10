@@ -10,7 +10,7 @@ JAX-RS Adapter
 Provides the following adapter to use in :ref:`RESTful web service <restful_web_service>`.
 
 
-*	Adapter to convert JSON using Jackson `Jackson (external site, English) <https://github.com/FasterXML/jackson>`_
+*	Adapter to convert JSON using `Jackson (external site, English) <https://github.com/FasterXML/jackson>`_
 *	Adapter for using :ref:`RESTful web service <restful_web_service>` with `Jersey (external site, English) <https://jersey.java.net/>`_
 *	Adapter for using :ref:`RESTful web service <restful_web_service>` with `RESTEasy (external site, English) <http://resteasy.jboss.org/>`_
 

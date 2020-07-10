@@ -29,7 +29,6 @@ Configuration for using the Web application Thymeleaf adapter
 ------------------------------------------------------------------
 
 To use this adapter, configure :java:extdoc:`ThymeleafResponseWriter<nablarch.fw.web.handler.responsewriter.thymeleaf.ThymeleafResponseWriter>` to :java:extdoc:`HttpResponseHandler<nablarch.fw.web.handler.HttpResponseHandler>`  in the component configuration file.
-本アダプタを使用するためには、コンポーネント設定ファイルで
 
 ``TemplateEngine``  provided by Thymeleaf has to be configured in ``ThymeleafResponseWriter``.
 
