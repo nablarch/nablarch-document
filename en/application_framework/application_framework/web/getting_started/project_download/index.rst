@@ -1,42 +1,42 @@
 .. _`project_download`:
 
-ファイルダウンロード機能の作成
+Create a File Download Function
 ==========================================
-Exampleアプリケーションを元に、CSVファイルをダウンロードする機能の解説を行う。
+This section describes the function to download a CSV file, based on an example application.
 
-作成する機能の説明
-  1. プロジェクト一覧画面の、検索結果右横のダウンロードボタンを押下する。
+Description of the function to be created
+  1. Click the download button at the right side of the search results on the project list screen.
 
     .. image:: ../images/project_download/project_download-list.png
       :scale: 80
 
-  2. 現在の検索結果を出力したCSVファイルがダウンロードされる。
+  2. The CSV file with the latest search results is downloaded.
 
     .. image:: ../images/project_download/project_download-download.png
       :scale: 80
 
-CSVファイルのダウンロードを行う
+Download the CSV file
 ---------------------------------
-CSVファイルをダウンロードする機能の実装方法を解説する。
+How to implement the download function of the CSV file is explained.
 
-プロジェクト検索機能の作成方法については、 :ref:`検索機能の作成<project_search>` を参照すること。
+For how to create project search function, refer to :ref:`Create search function<project_search>`.
 
-  #. :ref:`ダウンロードボタンの作成<project_download-download_button>`
-  #. :ref:`ファイルをバインドするBeanの作成<project_download-create_bean>`
-  #. :ref:`業務アクションメソッドの作成<project_upload-file_download_action>`
+  #. :ref:`Create a download button<project_download-download_button>`
+  #. :ref:`Create a Bean to bind a file<project_download-create_bean>`
+  #. :ref:`Create a business action method<project_upload-file_download_action>`
 
 .. _`project_download-download_button`:
 
-ダウンロードボタンの作成
-  ファイルダウンロードメソッドへのGETリクエストを送信するリンクを配置する。
+Create a download button
+  Configure a link that sends a GET request to the file download method.
 
   /src/main/webapp/WEB-INF/view/project/index.jsp
     .. code-block:: jsp
 
-      <!-- ダウンロードボタン周辺のみ記載 -->
+      <!-- Only the surrounding of the download button is described -->
       <div style="float:left;">
           <span class="font-group">
-          検索結果
+          Search results
           </span>
           <span class="search-result-count">
               <c:if test="${not empty searchResult}">
@@ -46,7 +46,7 @@ CSVファイルをダウンロードする機能の実装方法を解説する�
                   0
               </c:if>
           </span>
-          <!-- 現在の検索条件をパラメータとして設定 -->
+          <!-- Configure the current search condition as a parameter -->
           <c:url value="/action/project/download" var="download_uri">
               <c:param name="searchForm.clientId" value="${searchForm.clientId}"/>
               <c:param name="searchForm.clientName" value="${searchForm.clientName}"/>
@@ -66,45 +66,45 @@ CSVファイルをダウンロードする機能の実装方法を解説する�
           <n:a href="${download_uri}">
           <n:a href="download">
               <n:write name="label" />
-              <n:img src="/images/download.png" alt="ダウンロード" />
+              <n:img src="/images/download.png" alt="Download" />
           </n:a>
       </div>
 
 .. _`project_download-create_bean`:
 
-ファイルをバインドするBeanの作成
-  ファイルの内容をバインドするBeanを作成する。
+Create a Bean to bind a file
+  A bean to bind the contents of the file is created.
 
   ProjectDownloadDto.java
     .. code-block:: java
 
-      @Csv(headers = { /** ヘッダーを記述 **/},
-              properties = { /** バインド対象のプロパティ **/},
+      @Csv(headers = { /** Describe the header **/},
+              properties = { /** Properties to bind **/},
               type = Csv.CsvType.CUSTOM)
       @CsvFormat(charset = "Shift_JIS", fieldSeparator = ',',ignoreEmptyLine = true,
               lineSeparator = "\r\n", quote = '"',
               quoteMode = CsvDataBindConfig.QuoteMode.NORMAL, requiredHeader = true)
       public class ProjectDownloadDto implements Serializable {
 
-          // 一部項目のみ抜粋。ゲッタ及びセッタは省略
+          // Excerpt of some items only. Getter and setter are omitted
 
-          /** プロジェクト名 */
+          /** Project name */
           private String projectName;
 
-          /** プロジェクト種別 */
+          /** Project type */
           private String projectType;
       }
 
-  この実装のポイント
-    * ダウンロードするCSVファイルの内容と、Beanのプロパティとの紐付けの設定は、 :java:extdoc:`@Csv<nablarch.common.databind.csv.Csv>` を使用する。
-      受け付けるCSVのフォーマットの指定は、 :java:extdoc:`@CsvFormat<nablarch.common.databind.csv.CsvFormat>` を使用する。
-      （ :ref:`デフォルトのフォーマットの指定<data_bind-csv_format_set>` を利用する場合は、 :java:extdoc:`@CsvFormat<nablarch.common.databind.csv.CsvFormat>` は不要）
-      アノテーションの設定方法の詳細は、 :ref:`CSVファイルをJava Beansクラスにバインドする場合のフォーマット指定方法 <data_bind-csv_format-beans>` を参照。
+  Key points of this implementation
+    * Use :java:extdoc:`@Csv<nablarch.common.databind.csv.Csv>` to configure the association between the contents of the downloaded CSV fie and Bean properties.
+      Use :java:extdoc:`@CsvFormat<nablarch.common.databind.csv.CsvFormat>` to specify the acceptable CSV format.
+      （:java:extdoc:`@CsvFormat<nablarch.common.databind.csv.CsvFormat>` is not required when using the :ref:`default format specification<data_bind-csv_format_set>`）
+      For information on how to configure the annotation, refer to :ref:`format specification method when binding the CSV file to the Java Beans <data_bind-csv_format-beans>`.
 
 .. _`project_upload-file_download_action`:
 
-業務アクションメソッドの作成
-  検索結果をCSVファイルに書きこむ業務アクションメソッドを作成する。
+Create a business action method
+  Create a business action method to write the search results to a CSV file.
 
   ProjectAction.java
     .. code-block:: java
@@ -132,26 +132,26 @@ CSVファイルをダウンロードする機能の実装方法を解説する�
           
           FileResponse response = new FileResponse(path.toFile(), true);
           response.setContentType("text/csv; charset=Shift_JIS");
-          response.setContentDisposition("プロジェクト一覧.csv");
+          response.setContentDisposition("Project List.csv");
 
           return response;
       }
 
-  この実装のポイント
-    * 検索処理の実装方法については  :ref:`検索機能の作成：業務アクションの実装<project_search-create_action>` を参照。
-    * Beanをファイルにバインドして出力するには、 :ref:`データバインド<data_bind>` が提供する、
-      :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` を使用する。
-    * ファイルに出力されたデータをダウンロードさせるには、 :java:extdoc:`FileResponse <nablarch.common.web.download.FileResponse>` を使用する。
-      詳細は、 :ref:`データバインドをダウンロードで使用する<data_bind-file_download>` を参照。
-    * 大量のデータを読み込む場合は、メモリの逼迫を防ぐために :java:extdoc:`UniversalDao#defer <nablarch.common.dao.UniversalDao.defer()>` を使用して、
-      検索結果を :ref:`遅延ロード<universal_dao-lazy_load>` する。
-    * レスポンスのコンテンツタイプは
-      :java:extdoc:`HttpResponse#setContentType<nablarch.fw.web.HttpResponse.setContentType(java.lang.String)>` を使用して設定する。
-      詳細は :ref:`汎用データフォーマットをダウンロードで使用する <data_format-file_download>` を参照。
-    * ダウンロードファイルのファイル名は
-      :java:extdoc:`HttpResponse#setContentDisposition<nablarch.fw.web.HttpResponse.setContentDisposition(java.lang.String)>` を使用して設定する。
-      詳細は :ref:`汎用データフォーマットをダウンロードで使用する <data_format-file_download>` を参照。
+  Key points of this implementation
+    * For implementation method of the search process, refer to :ref:`create search function: Business action implementation<project_search-create_action>`.
+    * To bind the bean to a file and generate an output, use :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>`
+      provided by :ref:`Data bind <data_bind>`.
+    * To download the data output to a file, use :java:extdoc:`FileResponse <nablarch.common.web.download.FileResponse>`.
+      For more information, see :ref:`Use data binding for download<data_bind-file_download>`.
+    * When reading a large amount of data, to prevent straining of the memory, use :java:extdoc:`UniversalDao#defer <nablarch.common.dao.UniversalDao.defer()>`
+      for :ref:`deferred loading<universal_dao-lazy_load>` of the search results.
+    * Configure the response content type using
+      :java:extdoc:`HttpResponse#setContentType<nablarch.fw.web.HttpResponse.setContentType(java.lang.String)>`.
+      For more information, see :ref:`Use general data format for downloads <data_format-file_download>`.
+    * Configure the file name of the downloaded file using
+      :java:extdoc:`HttpResponse#setContentDisposition<nablarch.fw.web.HttpResponse.setContentDisposition(java.lang.String)>`.
+      For more information, see :ref:`Use general data format for downloads <data_format-file_download>`.
 
-ファイルダウンロード機能の解説は以上。
+This completes the description of the file download function.
 
-:ref:`Getting Started TOPページへ <getting_started>`
+:ref:`Getting Started To TOP page <getting_started>`
