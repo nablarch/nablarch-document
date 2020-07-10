@@ -1,49 +1,49 @@
 .. _`project_delete`:
 
-削除機能の作成
+Create a Delete Function
 ==========================================
-Exampleアプリケーションを元に削除機能の解説を行う。
+This section describes the delete function based on an example application.
 
-作成する機能の説明
-  1. プロジェクト一覧のプロジェクトIDを押下する。
+Description of the function to be created
+  1. Click the project ID in the project list.
 
     .. image:: ../images/project_delete/project_delete_list.png
       :scale: 80
 
-  2. 詳細画面の変更ボタンを押下する。
+  2. Click the change(変更) button on the details screen.
 
     .. image:: ../images/project_delete/project_delete_detail.png
       :scale: 80
 
-  3. 更新画面上の削除ボタンを押下する。
+  3. Click the delete (削除) button on the update screen.
 
     .. image:: ../images/project_delete/project_delete_update.png
       :scale: 60
 
-  4. 完了画面が表示される。
+  4. The completion screen is displayed.
 
     .. image:: ../images/project_delete/project_delete_complete.png
       :scale: 80
 
-削除を行う
+Delete
 -----------
-削除機能の基本的な実装方法を、以下の順に説明する。
+The basic implementation method of the delete function is described in the following order:
 
-  #. :ref:`更新画面上に削除ボタンを作成<project_delete-update>`
-  #. :ref:`削除を行う業務アクションメソッドの作成<project_delete-delete_action>`
-  #. :ref:`削除完了画面の作成<project_delete-complete>`
+  #. :ref:`Create a delete button on the update screen<project_delete-update>`
+  #. :ref:`Create a business action method for deletion<project_delete-delete_action>`
+  #. :ref:`Create a deletion completion screen<project_delete-complete>`
 
 .. _`project_delete-update`:
 
-更新画面上に削除ボタンを作成
-  更新画面上に、削除ボタンを作成する。
-  更新画面の作成に関する説明は、 :ref:`更新画面を表示する業務アクションメソッドの作成<project_update-create_edit_action>` 及び
-  :ref:`更新画面のJSPの作成<project_update-create_update_jsp>` を参照。
+Create a delete button on the update screen
+  Create a delete button on the update screen.
+  For description on creating the update screen, see :ref:`create business action method to display the update screen<project_update-create_edit_action>` and
+  :ref:`create update screen JSP<project_update-create_update_jsp>`.
 
 .. _`project_delete-delete_action`:
 
-削除を行う業務アクションメソッドの作成
-  データベースから対象プロジェクトを削除する業務アクションメソッドを作成する。
+Create a business action method for deletion
+  Create a business action method to delete the target project from the database.
 
   ProjectAction.java
     .. code-block:: java
@@ -51,29 +51,29 @@ Exampleアプリケーションを元に削除機能の解説を行う。
       @OnDoubleSubmission
       public HttpResponse delete(HttpRequest request, ExecutionContext context) {
 
-          // 更新画面を表示する際にセッションにプロジェクト情報を格納している
+          // The project information is stored in the session when the update screen is displayed
           Project project = SessionUtil.delete(context, "project");
           UniversalDao.delete(project);
 
           return new HttpResponse(303, "redirect://completeOfDelete");
       }
 
-  この実装のポイント
-    * 主キーを条件とした削除は、主キーが設定されたエンティティを引数に :java:extdoc:`UniversalDao#delete <nablarch.common.dao.UniversalDao.delete(T)>`
-      を実行することで、SQLを作成しなくとも実行できる。
+  Key points of this implementation
+    * Deletion with the primary key can be performed without creating SQL by executing :java:extdoc:`UniversalDao#delete <nablarch.common.dao.UniversalDao.delete(T)>`
+      with the entity set in the primary key as an argument.
 
   .. tip::
 
-    :ref:`universal_dao` は、主キーを条件とする削除機能のみを提供する。主キー以外を条件とする削除を行う場合は、別途SQLを作成して実行する必要がある。
-    SQLの実行方法については、 :ref:`SQLIDを指定してSQLを実行する<database-execute_sqlid>` を参照。
+    :ref:`universal_dao` provides only the function to delete with the primary key as a condition. When deleting with a condition other than the primary key, a separate SQL is required to be created and executed.
+    For information on how to execute SQL, see :ref:`execute SQL by specifying SQL ID<database-execute_sqlid>`.
 
 .. _`project_delete-complete`:
 
-削除完了画面の作成
-  削除完了画面を表示する。
-  完了画面の作成に関する説明は、 :ref:`完了画面を表示する業務アクションメソッドの作成<project_update-create_complete_action>` 及び
-  :ref:`更新完了画面の作成<project_update-create_success_jsp>` を参照。
+Create a deletion completion screen
+  Displays the deletion completion screen.
+  For description on creating the completion screen, see  :ref:`create business action method to display the completion screen<project_update-create_complete_action>` and
+  :ref:`create update completion screen<project_update-create_success_jsp>`.
 
-削除機能の解説は以上。
+This completes the description of the deletion function.
 
-:ref:`Getting Started TOPページへ <getting_started>`
+:ref:`Getting Started To TOP page <getting_started>`
