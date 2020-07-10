@@ -1,13 +1,13 @@
-機能詳細
+Details of Function
 ========================================
 
-.. contents:: 目次
+.. contents:: Table of Contents
   :depth: 3
   :local:
 
 .. _web_feature_details-nablarch_initialization:
 
-Nablarchの初期化
+Initialization of Nablarch
 ----------------------------------------
 .. toctree::
   :maxdepth: 1
@@ -16,10 +16,10 @@ Nablarchの初期化
   feature_details/nablarch_servlet_context_listener
   feature_details/web_front_controller
 
-Nablarchの初期化を行うためには、 :ref:`システムリポジトリのロードの為の設定 <nablarch_servlet_context_listener>`
-及び :ref:`ハンドラキューの設定(構築) <web_front_controller>` が必要となる。
+To initialize Nablarch, :ref:`configuration for loading the system repository <nablarch_servlet_context_listener>`
+and :ref:`configuration of handler queue (construction) <web_front_controller>` are required.
 
-入力値のチェック
+Input value check
 ----------------------------------------
 .. toctree::
     :maxdepth: 1
@@ -27,18 +27,18 @@ Nablarchの初期化を行うためには、 :ref:`システムリポジトリ�
 
     feature_details/error_message
 
-* :ref:`入力値のチェック <validation>`
-* :doc:`エラーメッセージの画面表示 <feature_details/error_message>`
+* :ref:`Input value check <validation>`
+* :doc:`Screen display of error messages <feature_details/error_message>`
 
-データベースアクセス
+Database access
 ----------------------------------------
-* :ref:`データベースアクセス <database_management>`
+* :ref:`Database access <database_management>`
 
-排他制御
+Exclusive control
 ----------------------------------------
-排他制御は、以下の2種類の方法を提供しているが、
-:ref:`UniversalDaoを推奨する理由 <exclusive_control-deprecated>` に記載がある通り、
-:ref:`universal_dao` の使用を推奨する。
+Although 2 types of exclusive control are offered,
+:ref:`universal_dao` is recommended based on the description in
+:ref:`reason UniversalDao is recommended <exclusive_control-deprecated>`.
 
 * :ref:`exclusive_control`
 * :ref:`universal_dao`
@@ -46,47 +46,47 @@ Nablarchの初期化を行うためには、 :ref:`システムリポジトリ�
   * :ref:`universal_dao_jpa_optimistic_lock`
   * :ref:`universal_dao_jpa_pessimistic_lock`
 
-ファイルアップロード
+Upload File
 ----------------------------------------
 * :ref:`multipart_handler-read_upload_file`
 
-ファイルダウンロード
+File download
 ----------------------------------------
-ファイルダウンロードは、以下の2種類の方法を提供しているが、
-:ref:`データバインドを推奨する理由 <data_converter-data_bind_recommend>` に記載がある通り、
-:ref:`data_bind` の使用を推奨する。
+Although 2 types of file download are offered,
+:ref:`data_bind` is recommended based on the description in
+:ref:`reason data bind is recommended <data_converter-data_bind_recommend>`.
 
-* :ref:`データバインド機能を使用したファイルダウンロード <data_bind-file_download>`
-* :ref:`汎用データフォーマット機能を使用したファイルダウンロード <data_format-file_download>`
+* :ref:`Downloading files using the data binding function <data_bind-file_download>`
+* :ref:`File download using general data format function <data_format-file_download>`
 
-大量データのダウンロード時には、 :ref:`universal_dao-lazy_load` を参照し、
-データベースの検索結果をヒープ上に展開しないように注意すること。
+Refer to :ref:`universal_dao-lazy_load` when downloading large amounts of data,
+and be careful not to expand the database search results on the heap.
 
-URIとアクションクラスのマッピング
+Mapping of URI and action
 ----------------------------------------
-以下の2種類の方法を提供しているが、
-:ref:`ルーティングアダプタが推奨である理由<http_request_java_package_mapping-router_adaptor>` に記載がある通り、 :ref:`router_adaptor` の使用を推奨する。
+Although the following 2 methods are offered,
+:ref:`router_adaptor` is recommended based on the reasons described in :ref:`reason why routing adapter is recommended<http_request_java_package_mapping-router_adaptor>`.
 
 * :ref:`router_adaptor`
 * :ref:`http_request_java_package_mapping`
 
-2重サブミット防止
+Duplicate form submission prevention
 ----------------------------------------
-* :ref:`2重サブミット防止 <tag-double_submission>`
+* :ref:`Duplicate form submission prevention <tag-double_submission>`
 
-また、JSP以外のテンプレートエンジンを使用している場合は :ref:`use_token_interceptor` も参照すること。
+Also see :ref:`use_token_interceptor` if you are using a template engine other than JSP.
 
-入力データの保持
+Retain input data
 ----------------------------------------
 * :ref:`session_store`
 
-ページネーション
+Pagination
 ----------------------------------------
-データベースから範囲を指定して検索を行う方法は、 :ref:`database_management` を参照。
+See :ref:`database_management` for information on how to perform a range-specific search from a database.
 
-クライアントサイドについては、プロジェクト要件により仕様が異なるため、フレークワークとしては提供していない。
+Not provided by the framework in the client because the specifications vary depending on the project requirements.
 
-画面の作成
+Screen creation
 ----------------------------------------
 .. toctree::
   :maxdepth: 1
@@ -96,69 +96,69 @@ URIとアクションクラスのマッピング
   feature_details/view/freemarker
   feature_details/view/other
 
-* JSPを使用する場合
+* When JSP is used
 
-  * :ref:`JSPのtaglibを使用した画面開発 <tag>`
+  * :ref:`Screen development using JSP taglib <tag>`
   * :ref:`jsp_session`
 
-* JSP以外のテンプレートエンジンを使用する場合
+* When using a template engine other than JSP
 
-  * :ref:`Thymeleafを使用した画面開発 <web_thymeleaf_adaptor>`
+  * :ref:`Screen development using Thymeleaf <web_thymeleaf_adaptor>`
   * :ref:`view_freemarker`
   * :ref:`view_other`
 
-国際化対応
+Internationalization
 ----------------------------------------
-静的リソースの多言語化対応については以下を参照。
+See the following for multilingualization of static resources.
 
-* :ref:`メッセージの多言語化 <message-multi_lang>`
-* :ref:`コード名称の多言語化 <code-use_multilingualization>`
+* :ref:`Multilingualization of messages <message-multi_lang>`
+* :ref:`Multilingualization of code names <code-use_multilingualization>`
 
-画面表示する文言の言語を切り替えるには、以下の2通りの方法を提供しているが、
-:ref:`メッセージタグでの国際化対応 <tag-write_message>` を使用した場合、
-画面レイアウトが崩れる可能性がある。
-そのため、レイアウト崩れを許容できる場合のみ、 :ref:`メッセージタグでの国際化対応 <tag-write_message>` を使用すること。
+Although the following two methods are provided to switch the language of the text to be displayed on the screen,
+the screen layout may be corrupted when using the internationalization support
+:ref:`internationalization of message tags <tag-write_message>` in the message tag.
+For this reason, use :ref:`internationalization of message tags <tag-write_message>` only when a layout corrupted is acceptable.
 
-* :ref:`メッセージタグでの国際化対応 <tag-write_message>`
-* :ref:`言語ごとにリソースのパスを切り替える <tag_change_resource_path_of_lang>`
+* :ref:`Internationalization of message tags <tag-write_message>`
+* :ref:`Switch resource path for each language <tag_change_resource_path_of_lang>`
 
-認証
+Authentication
 ----------------------------------------
-認証については、プロジェクト要件により仕様が異なるため、フレークワークとしては提供していない。
-:ref:`authentication` を参考に、プロジェクト要件に合わせてPJで実装する。
+Authentication is not provided as a flake work because the specifications vary depending on the project requirements.
+Implement :ref:`authentication` in the project according to the project requirements, referring to authentication.
 
-認証情報の保持については、以下を参照。
+See below for information on retaining the authentication information.
 
 * :ref:`session_store-authentication_data`
 
-認可チェック
+Permission check
 ----------------------------------------
 * :ref:`permission_check`
 
 
 .. _web_feature_details-status_code:
 
-ステータスコード
+Status code
 --------------------------------------------------
-* `ステータスコードの使い分け(外部サイト) <http://qiita.com/kawasima/items/e48180041ace99842779>`_
+* `Using the status code (external site) <http://qiita.com/kawasima/items/e48180041ace99842779>`_
 
 
-エラー時の画面遷移とステータスコード
---------------------------------------------------
+Screen transitions and status codes in the case of errors
+----------------------------------------------------------
 .. toctree::
   :maxdepth: 1
   :hidden:
 
   feature_details/forward_error_page
 
-* :ref:`ステータスコードに対応したデフォルトの遷移先ページを設定する <HttpErrorHandler_DefaultPage>`
-* :ref:`ハンドラで例外クラスに対応したエラーページに遷移させる <forward_error_page-handler>`
-* アクションでエラー時の遷移先を指定する
+* :ref:`Configuring the default destination page for the status code <HttpErrorHandler_DefaultPage>`
+* :ref:`Transition to the error page for the exception class in the handler <forward_error_page-handler>`
+* Specify the transition destination when an action error occurs
 
-  * 例外クラスに対応した遷移先を定義する (:ref:`on_error_interceptor` 、 :ref:`on_errors_interceptor`)
-  * :ref:`1つの例外に対して複数の遷移先を定義する <forward_error_page-try_catch>`
-* `ステータスコードの使い分け(外部サイト) <http://qiita.com/kawasima/items/e48180041ace99842779>`_
+  * Define a transition destination corresponding to an exception class (:ref:`on_error_interceptor` , :ref:`on_errors_interceptor`)
+  * :ref:`Defining multiple transition destinations for a single exception <forward_error_page-try_catch>`
+* `Using the status code (external site) <http://qiita.com/kawasima/items/e48180041ace99842779>`_
 
-MOMメッセージ送信
+Send MOM message
 ----------------------------------------
-* :ref:`同期応答メッセージ送信<mom_system_messaging-sync_message_send>`
+* :ref:`Sending synchronous message<mom_system_messaging-sync_message_send>`
