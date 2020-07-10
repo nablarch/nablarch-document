@@ -1,51 +1,51 @@
 .. _`application_design`:
 
-アプリケーションの責務配置
-================================
+Responsibility Assignment of the Application
+=============================================
 
-.. contents:: 目次
+.. contents:: Table of Contents
   :depth: 3
   :local:
 
-ウェブアプリケーションを作成する際に実装すべきクラスとその責務について説明する。
+This section describes the classes to be implemented when creating web applications and their responsibilities.
 
-**クラスとその責務**
+**Classes and their responsibilities**
 
 .. image:: images/application_design.png
 
-アクションクラス(action class)
-  アクションクラスはリクエストを元に業務ロジックを実行し、レスポンスの生成と返却を行う。
+Action class
+  The action class executes the business logic based on the request and generates and returns the response.
 
-  例えば、フォームクラスからエンティティクラスを作成し、その内容をデータベースに永続化するなどの処理を行う。
+  For example, create an entity class from a form class and persist its contents to a database.
 
-フォームクラス(form class)
-  画面からの入力値(http request)をマッピングするクラス。
+Form class
+  Class to map the input value (http request) from the screen.
 
-  リクエストをバリデーションするためのアノテーションの設定や相関バリデーションのロジックを持つ。
-  外部からのリクエストによっては、階層構造(formがformを持つ)となる場合もある。
+  Has the annotation configuration for validation of the request and logic for correlation validation.
+  Depending on the request from the outside, it may have a hierarchical structure (form having a form).
 
   .. _`application_design-form_html`:
 
-  フォームクラスは、htmlのform単位に作成する
-    フォームクラスは画面とのインタフェースを定義するものであり、インタフェース(htmlのform)が異なる場合は別のフォームクラスとして作成する。
-    例えば、似たような入力項目を持つことが多い登録画面や更新画面の場合であっても、
-    インタフェース(htmlのform)が異なるため別のフォームクラスとする必要がある。
+  Form class is created for each HTML form
+    The form class defines the interface with the screen, and a separate form class is created if the interface (HTML form) is different.
+    For example, the interface (HTML form) is different even in the case of registration and update screens that often have similar input items,
+    and a different form class is required.
 
-    インタフェース(htmlのform)単位でフォームクラスを作成することで、サーバサイドで受け付けるリクエストパラメータをhtmlのformに定義したものに限定できる。
-    これにより、クライアントから想定外のパラメータ(不正なパラメータ)が送信された場合でも、
-    フォームクラスへの変換時にそのパラメータは除外され、セキュリティを向上できる。
-    また、1つのインタフェースに対応したバリデーションロジックだけを持つため、責務が明確で可読性や保守性が高くなる。
+    By creating a form class for each interface (HTML form), the request parameters accepted by the server to those defined in the HTML form can be limited.
+    As a result, even if an unexpected parameter (invalid parameter) is submitted by the client,
+    the parameter is excluded when it is converted to a form class, and security can be improved.
+    Since the form class only has validation logic for one interface, its responsibilities are clear and is more readable and maintainable.
 
-    なお、相関バリデーションのロジックは複数のフォームクラスで共通となることがある。
-    この場合は、相関バリデーションのロジックを別クラスに抽出しロジックを共通化すると良い。
+    The logic of correlation validation may be the same for multiple form classes.
+    In this case, it is better to extract the logic of correlation validation into a separate class and make the logic common.
 
-  フォームクラスのプロパティは全て `String` で定義する
-    プロパティを `String` とすべき理由は、 :ref:`Bean Validation <bean_validation-form_property>` を参照。
+  All the form class properties must be defined by a `String`
+    See :ref:`Bean Validation <bean_validation-form_property>` for the reason why the property must be a `String`.
 
-  フォームクラスのオブジェクトをセッションに保存しない
-    セッションに保存すべきでない理由は、 :ref:`セッションストア <session_store-form>` を参照。
+  Form class object is not saved in the session
+    See :ref:`session store <session_store-form>` for reasons why the object should not be stored in a session.
 
-エンティティクラス(entity class)
-  テーブルと1対1で対応するクラス。カラムに対応するプロパティを持つ。
+Entity class
+  A class with a one-to-one correspondence with a table. Has the property corresponding to columns.
 
 
