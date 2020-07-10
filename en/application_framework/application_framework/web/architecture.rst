@@ -1,52 +1,52 @@
-アーキテクチャ概要
+Architecture Overview
 ==============================
 
-.. contents:: 目次
+.. contents:: Table of Contents
   :depth: 3
   :local:
 
-Nablarchでは、HTMLをベースとした画面UIを持つウェブアプリケーションを構築するための機能を提供している。
+Nablarch provides functions for building web applications with HTML-based screen UI.
 
 .. _web_application-structure:
 
-ウェブアプリケーションの構成
+Structuring a web application
 ----------------------------------------
-Nablarchではウェブアプリケーションを構築する場合、ServletAPIの使用を前提としている。
-以下にNablarchにおけるウェブアプリケーションの構成を示す。
+The use of the Servlet API is assumed when building a web application with Nablarch.
+Structure of the web application in Nablarch is shown below.
 
 .. image:: images/application_structure.png
 
 :ref:`nablarch_servlet_context_listener` (NablarchServletContextListener)
-  システムリポジトリやログの初期化処理を行うサーブレットコンテキストリスナ。
+  Servlet context listener that performs the initialization process of the system repository, logs, etc.
 
 :ref:`web_front_controller` (WebFrontController)
-  受け取ったリクエストに対する処理をハンドラキューに委譲するサーブレットフィルタ。
+  Servlet filter that delegates the processing of the received request to the handler queue.
 
-ウェブアプリケーションの処理の流れ
+Web application process flow
 ----------------------------------------
-ウェブアプリケーションがリクエストを処理し、レスポンスを返却するまでの処理の流れを以下に示す。
+The process flow of web applications, from processing a request to returning a response, is shown below.
 
 .. image:: images/web-design.png
   :scale: 80
 
-1. :ref:`web_front_controller` ( `javax.servlet.Filter` の実装クラス)がrequestを受信する。
-2. :ref:`web_front_controller` は、requestに対する処理をハンドラキュー(handler queue)に委譲する。
-3. ハンドラキューに設定されたディスパッチハンドラ(`DispatchHandler`) が、URIを元に処理すべきaction classを特定しハンドラキューの末尾に追加する。
-4. アクションクラス(action class)は、フォームクラス(form class)やエンティティクラス(entity class)を使用して業務ロジック(business logic) を実行する。
-   各クラスの詳細は、 :doc:`application_design` を参照。
+1. :ref:`web_front_controller` (implementation class of `javax.servlet.Filter`) receives a request.
+2. :ref:`web_front_controller` delegates the processing of the request to a handler queue (handler queue).
+3. `DispatchHandler` configured in the handler queue specifies the action class to be processed based on the URI and adds it to the end of the handler queue.
+4. The action class executes business logic using a form class and an entity class.
+   For more information on each class, see :doc:`application_design`.
 
-5. action classは、処理結果を示す `HttpResponse` を作成し返却する。
-6. ハンドラキュー内のHTTPレスポンスハンドラ(`HttpResponseHandler`)が、 `HttpResponse` をクライアントに返却するレスポンスに変換する。例えば、JSPのServlet Forwardなど。
-7. responseが返却される。
+5. The action class creates and returns a HttpResponse indicating the process result.
+6. The HTTP response handler (`HttpResponseHandler`) in the handler queue converts the `HttpResponse` into a response to be returned to the client. For example, JSP Servlet Forward.
+7. Response is returned.
 
-ウェブアプリケーションで使用するハンドラ
+Handler used by the web application
 --------------------------------------------------
-Nablarchでは、ウェブアプリケーションを構築するために必要なハンドラを標準で幾つか提供している。
-プロジェクトの要件に従い、ハンドラキューを構築すること。(要件によっては、プロジェクトカスタムなハンドラを作成することになる)
+Nablarch provides several handlers required for building web applications.
+Build the handler queue in accordance with the requirements of the project. (a custom handler will have to be created for the project depending on the requirements)
 
-各ハンドラの詳細は、リンク先を参照すること。
+For details of each handler, refer to the link.
 
-リクエストやレスポンスの変換を行うハンドラ
+Handlers that convert request and response
   * :ref:`http_character_encoding_handler`
   * :ref:`http_response_handler`
   * :ref:`forwarding_handler`
@@ -55,19 +55,19 @@ Nablarchでは、ウェブアプリケーションを構築するために必要
   * :ref:`normalize_handler`
   * :ref:`secure_handler`
 
-リクエストのフィルタリングを行うハンドラ
+Handler for filtering requests
   * :ref:`service_availability`
   * :ref:`permission_check_handler`
 
-データベースに関連するハンドラ
+Handlers associated with database
   * :ref:`database_connection_management_handler`
   * :ref:`transaction_management_handler`
 
-エラー処理に関するハンドラ
+Error handling handler
   * :ref:`http_error_handler`
   * :ref:`global_error_handler`
 
-その他
+Others
   * :ref:`http_request_java_package_mapping`
   * :ref:`nablarch_tag_handler`
   * :ref:`thread_context_handler`
@@ -75,25 +75,25 @@ Nablarchでは、ウェブアプリケーションを構築するために必要
   * :ref:`http_access_log_handler`
   * :ref:`file_record_writer_dispose_handler`
 
-最小ハンドラ構成
+Minimum handler configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Nablarchでウェブアプリケーションを構築する際の、必要最小限のハンドラキューを以下に示す。
-これをベースに、プロジェクト要件に従ってNablarchの標準ハンドラやプロジェクトで作成したカスタムハンドラの追加を行う。
+When building a web application in Nablarch, the minimum required handler queue is as below:
+With this as the base, add standard handlers of Nablarch or custom handlers created in the project according to the project requirements.
 
-.. list-table:: 最小ハンドラ構成
+.. list-table:: Minimum handler configuration
    :header-rows: 1
    :class: white-space-normal
    :widths: 4,24,24,24,24
 
    * - No.
-     - ハンドラ
-     - 往路処理
-     - 復路処理
-     - 例外処理
+     - Handler
+     - Request process
+     - Response process
+     - Exception handling
 
    * - 1
      - :ref:`http_character_encoding_handler`
-     - リクエストとレスポンスに文字エンコーディングを設定する。
+     - Configure the character encoding for the request and response.
      -
      -
 
@@ -101,71 +101,71 @@ Nablarchでウェブアプリケーションを構築する際の、必要最小
      - :ref:`global_error_handler`
      -
      -
-     - 実行時例外、またはエラーの場合、ログ出力を行う。
+     - Outputs the log for a runtime exception or error.
 
    * - 3
      - :ref:`http_response_handler`
      -
-     - サーブレットフォーワード、リダイレクト、レスポンス書き込みのいずれかを行う。
-     - 実行時例外、またはエラーの場合、既定のエラーページを表示する。
+     - Performs any one of servlet forward, redirect, or response writing.
+     - Displays the default error page in the case of a runtime exception or error.
 
    * - 4
      - :ref:`secure_handler`
      -
-     - レスポンスオブジェクト(:java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>`)にセキュリティ関連のレスポンスヘッダを設定する。
+     - Set the security-related response header in the response object(:java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>`)
      - 
 
    * - 5
      - :ref:`multipart_handler`
-     - リクエストがマルチパート形式の場合、その内容を一時ファイルに保存する。
-     - 保存した一時ファイルを削除する。
+     - If the request is in multipart format, the request contents are saved to a temporary file.
+     - Deletes the temporary file that is saved.
      -
 
    * - 6
      - :ref:`session_store_handler`
-     - セッションストアから内容を読み込む。
-     - セッションストアに内容を書き込む。
+     - Read the content from the session store.
+     - Write content to the session store.
      -
 
    * - 7
      - :ref:`normalize_handler`
-     - リクエストパラメータのノーマライズ処理を行う。
+     - Performs normalization process of request parameter
      - 
      -
 
    * - 8
      - :ref:`forwarding_handler`
      -
-     - 遷移先が内部フォーワードの場合、後続のハンドラを再実行する。
+     - If the transition destination is an internal forward, the subsequent handlers are re-executed.
      -
 
    * - 9
      - :ref:`http_error_handler`
      -
      -
-     - 例外の種類に応じたログ出力とレスポンスの生成を行う。
+     - Outputs the log output and generates response according to the exception type.
 
    * - 10
      - :ref:`nablarch_tag_handler`
-     - Nablarchカスタムタグの動作に必要な事前処理を行う。
+     - Performs pre-processing required for the Nablarch custom tag behavior.
      -
      -
 
    * - 11
      - :ref:`database_connection_management_handler`
-     - DB接続を取得する。
-     - DB接続を解放する。
+     - Acquires DB connection.
+     - Releases the DB connection.
      -
 
    * - 12
      - :ref:`transaction_management_handler`
-     - トランザクションを開始する。
-     - トランザクションをコミットする。
-     - トランザクションをロールバックする。
+     - Being a transaction.
+     - Commits the transaction.
+     - Rolls back a transaction.
 
    * - 13
      - :ref:`router_adaptor`
-     - リクエストパスをもとに呼び出すアクションを決定する。
+     - Determines the action to call based on the request path.
      -
      -
 
