@@ -254,7 +254,8 @@ For detailed usage of the `message` tag, see :ref:`tag-write_message`.
 Property file
   .. code-block:: properties
 
-    Login.title= login
+    # "ログイン" means login.
+    Login.title= ログイン
 
 JSP
   .. code-block:: jsp

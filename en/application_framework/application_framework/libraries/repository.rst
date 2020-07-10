@@ -113,7 +113,8 @@ An example is shown below.
      -->
     <property name="sample" ref="sample" />
 
-    <!-- Component can also be defined in the child element of property without using the ref attribute -->
+    <!-- Component can also be defined in the child element of property
+    without using the ref attribute -->
     <property name="obj">
       <component class="sample.SampleObject" />
     </property>
@@ -254,7 +255,7 @@ java.lang.Long(long)
 
 java.lang.Boolean(boolean)
   When configuring a value in java.lang.Boolean type, describe the value to be configured with literal in the value attribute.
-  The value that can be configured is the value that can be converted by`Boolean#valueOf`.
+  The value that can be configured is the value that can be converted by `Boolean#valueOf`.
 
   In this example, "true" is configured to the bool property of Boolean(boolean) type.
 
@@ -586,7 +587,8 @@ Create a factory class
 
         public SampleComponent createObject() {
           // Create an object.。
-          // In this example, an object is created using the value that is injected by the setter into this class.
+          // In this example, an object is created using the value that is injected
+          // by the setter into this class.
           return new SampleComponent(configValue);
         }
       }

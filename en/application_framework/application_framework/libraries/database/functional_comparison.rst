@@ -46,8 +46,8 @@ This section compares the following functions:
     - ○ |br| :ref:`To the manual <universal_dao-batch_execute>`
     - ×
 
-  * - Allows deferred loading when fetching large amounts of data |br|
-      (can process large amounts of data without squeezing the heap)
+  * - Allows deferred loading  |br| when fetching large amounts of data |br|
+      (can process large amounts |br| of data without squeezing the heap)
     - ○ |br| :ref:`To the manual <universal_dao-lazy_load>`
     - ×
 

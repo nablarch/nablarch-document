@@ -1,16 +1,16 @@
 .. _view_other:
 
-その他のテンプレートエンジンを使用した画面開発
+Screen Development Using Other Template Engines
 ==================================================
-:ref:`web_thymeleaf_adaptor` や :ref:`FreeMarker <view_freemarker>` 以外のテンプレートエンジンを使用したい場合の対応方法を説明する。
+This section describes how to use template engines other than :ref:`web_thymeleaf_adaptor` and :ref:`FreeMarker <view_freemarker>`.
 
-使用するテンプレートエンジンが、Servlet forwardを使用してクライアントにレスポンスを返すためのServletを提供している場合には、
-:ref:`FreeMarker <view_freemarker>` と同じように ``web.xml`` にServletを登録するだけで対応できる。
+If the template engine to be used provides a Servlet for returning a response to the client using Servlet forward,
+like :ref:`FreeMarker <view_freemarker>`,it can be handled by registering the Servlet in ``web.xml``.
 
-Servletを提供していないテンプレートエンジンの場合には、
-:ref:`web_thymeleaf_adaptor` と同じように :java:extdoc:`CustomResponseWriter <nablarch.fw.web.handler.responsewriter.CustomResponseWriter>` の実装クラスを作成することで対応できる。
+In the case of a template engine that does not provide Servlet,
+like :ref:`web_thymeleaf_adaptor`, it can be handled by creating an implementation class of :java:extdoc:`CustomResponseWriter <nablarch.fw.web.handler.responsewriter.CustomResponseWriter>`.
 
-実装方法や設定方法などの詳細は、以下の解説書やソースコードを参照すること。
+Refer to the following manuals and source codes for details on the implementation and configuration methods.
 
 * :ref:`web_thymeleaf_adaptor` 
-* `ウェブアプリケーション Thymeleafアダプタのソースコード <https://github.com/nablarch/nablarch-web-thymeleaf-adaptor>`_
+* `Source code for the web application Thymeleaf adapter <https://github.com/nablarch/nablarch-web-thymeleaf-adaptor>`_

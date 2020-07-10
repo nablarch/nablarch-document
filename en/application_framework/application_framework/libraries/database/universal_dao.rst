@@ -77,7 +77,7 @@ How to use
 ---------------------------------------------------------------------
 
 .. important::
- See :java:extdoc:`nablarch.common.dao.UniversalDao` for the basic usage of Universal DAO.
+ See :java:extdoc:`nablarch.common.dao.UniversalDao <nablarch.common.dao.UniversalDao>` for the basic usage of Universal DAO.
 
 Configure settings to use Universal DAO
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -355,7 +355,8 @@ Screen transition during an exclusive error is performed using :java:extdoc:`OnE
 
 .. code-block:: java
 
- // Specify the target exception in the type attribute and transition destination path in the path attribute.
+ // Specify the target exception in the type attribute and transition destination path
+ // in the path attribute.
  @OnError(type = OptimisticLockException.class,
           path = "/WEB-INF/view/common/errorPages/userError.jsp")
  public HttpResponse update(HttpRequest request, ExecutionContext context) {

@@ -1,31 +1,31 @@
 .. _`client_create_1`:
 
-登録画面初期表示の作成
-==========================================
-本章では、登録画面の初期表示について解説する。
+Create Initial Display of Registration Screen
+===============================================
+This chapter describes the initial display of the registration screen.
 
-登録画面のJSPを作成する
-  ひな形となるJSPを `/src/main/webapp/WEB-INF/view/client` 配下に配置する。
+Create a JSP for the registration screen
+  Place the template JSP under `/src/main/webapp/WEB-INF/view/client`.
 
      :download:`create.jsp <../downloads/client_create/create.jsp>`
 
-画面に初期表示する部分を実装する
-  create.jspに登録画面の内容を追加する。
+Implement the part that is initially displayed on the screen.
+  Add the content of the registration screen to create.jsp.
 
   /src/main/webapp/WEB-INF/view/client/create.jsp
     .. code-block:: jsp
 
       <n:form>
           <div class="form-group label-static is-empty">
-              <label class="control-label">顧客名</label>
-              <!-- 顧客名のテキストボックス -->
-              <!-- フォーム作成前なので、name属性には仮の値を指定する -->
+              <label class="control-label"> Client name</label>
+              <!-- Client name text box -->
+              <!-- Since the form has not been created, specify a temporary value for the name attribute -->
               <n:text name="tmp" cssClass="form-control input-text"/>
           </div>
           <div class="form-group label-static is-empty">
-              <label class="control-label">業種</label>
-              <!-- 業種のプルダウン -->
-              <!-- フォーム作成前なので、name属性には仮の値を指定する -->
+              <label class="control-label">Industry type</label>
+              <!-- Pull down of industry type -->
+              <!-- Since the form has not been created, specify a temporary value for the name attribute -->
               <n:select
                       listName="industries"
                       elementValueProperty="industryCode"
@@ -35,26 +35,26 @@
                       cssClass="btn dropdown-toggle"/>
           </div>
           <div class="button-nav">
-              <!-- 登録ボタン -->
-              <!-- 登録内容確認画面は作成前なので、uri属性には仮の値を指定する -->
+              <!-- Registration button -->
+              <!-- Since the registration confirmation screen is not yet created, specify a temporary value for the uri attribute -->
               <n:button
                       uri="tmp"
-                      cssClass="btn btn-raised btn-success">登録</n:button>
+                      cssClass="btn btn-raised btn-success">Registration</n:button>
           </div>
       </n:form>
 
-  この実装のポイント
-    * :ref:`tag` を使用し、テキスト入力フォーム、プルダウンを作成する。
-      :ref:`tag-input_form` を参照。
-    * :ref:`tag-select_tag` の `listName` 属性に、
-      後述の初期表示メソッドでリクエストスコープに登録する業種リストの名称を指定し、プルダウンに表示する。
-      :ref:`tag-selection` を参照。
+  Key points of this implementation
+    * Use :ref:`tag` to create a text input form and pull-down.
+      See :ref:`tag-input_form`.
+    * The industry type list to be registered in the request scope with the initial display method described below is specified
+      in the `listName` attribute of :ref:`tag-select_tag` and displays it in the pull-down.
+      See  :ref:`tag-selection`.
 
-業務アクションに初期表示メソッドを作成する
-  `ClientAction` に、以下の処理を行う業務アクションメソッドを追加する
+Create an initial display method for a business action
+  Add a business action method to `ClientAction` that performs the following process.
 
-    * プルダウンに表示するデータを取得しリクエストスコープに登録する。
-    * 初期表示画面のJSPへフォーワードする。
+    * Acquire the data to be displayed in the pull-down and register it in the request scope.
+    * Forward to the JSP of the initial display screen.
 
     ClientAction.java
       .. code-block:: java
@@ -65,66 +65,66 @@
             return new HttpResponse("/WEB-INF/view/client/create.jsp");
         }
 
-    業務アクションメソッドのシグネチャは以下とすること。
-    業務アクションメソッドが以下のシグネチャを満たさない場合、404エラーが発生する。
+    The signature of the business action method should be as follows.
+    A 404 error occurs if the business action method does not meet the following signature.
 
     .. java:method:: public HttpResponse methodName(HttpRequest request, ExecutionContext context)
 
-      :param request: フレームワークから受け渡されるリクエストオブジェクト
+      :param request: request object passed from the framework
 
-      :param context: フレームワークから受け渡される実行コンテキスト
+      :param context: execution context passed from the framework
 
-      :param return: 遷移先を設定したレスポンスオブジェクト
+      :param return: response object with transition destination
 
 
-    この実装のポイント
-      * 登録画面に業種のプルダウンを表示するために、:ref:`universal_dao` を使用してデータベースから業種情報を全件取得する。
-      * JSPへ値を受け渡すために、取得した業種リストをリクエストスコープに登録する。
+    Key points of this implementation
+      * To display the pull down of industry type on the registration screen, use :ref:`universal_dao` to acquire all the industry type information from the database.
+      * To pass a value to a JSP, register the acquired industry type list in the request scope.
 
-URLと業務アクションのマッピングを行う
-  マッピング処理はOSSライブラリである `http_request_router(外部サイト) <https://github.com/kawasima/http-request-router>`_ を使用して行う。
-  指定したURLと初期表示処理をマッピングするための設定を追加する。
+Map URLs and business actions
+  The mapping process is performed using the OSS library `http_request_router(external site) <https://github.com/kawasima/http-request-router>`_ .
+  Add configuration for mapping the specified URL and initial display process.
 
     routes.xml
       .. code-block:: xml
 
         <routes>
           <get path="/action/client" to="Client#input"/>
-          <!-- その他の設定は省略 -->
+          <!-- Other settings are omitted -->
         </routes>
 
     .. tip::
-      routes.xmlの指定方法は、`ライブラリのREADMEドキュメント(外部サイト) <https://github.com/kawasima/http-request-router/blob/master/README.ja.md>`_ を参照。
+      For instructions on how to specify routes.xml, see `Library README document (external site) <https://github.com/kawasima/http-request-router/blob/master/README.ja.md>`_ .
 
-登録画面へのリンクを作成する
-  ヘッダメニューに顧客登録画面へのリンクを作成する。
+Create a link to the registration screen
+  Create a link to the client registration screen in the header menu.
 
   /src/main/webapp/WEB-INF/view/common/menu.jsp
     .. code-block:: jsp
 
       <ul class="nav navbar-nav">
-        <!-- その他のリンクは省略 -->
+        <!-- Other links are omitted -->
         <li>
-          <n:a href="/action/client">顧客登録</n:a>
+          <n:a href="/action/client"> Client registration</n:a>
         </li>
       </ul>
 
-  この実装のポイント
-    * :ref:`tag` の :ref:`tag-a_tag` を使用してリンクを作成する。
+  Key points of this implementation
+    * Create a link using :ref:`tag-a_tag` of :ref:`tag`.
 
-動作確認を行う
-  以下の手順で動作確認を行う。
+Operation check
+  Check the operation with the following procedure.
 
-  1. アプリケーションにログインし、ヘッダメニューに「顧客登録」リンクが作成されていることを確認する。
+  1. Log in to the application and confirm that the "Client Registration"(顧客登録) link has been created in the header menu.
 
     .. image:: ../images/client_create/header_menu.png
 
-  2. 「顧客登録」リンクを押下すると顧客登録画面に遷移し、「顧客名」フォーム、「業種」プルダウン、登録ボタンが表示されていることを確認する。
+  2. Confirm that it transitions to the client registration screen on clicking the Client Registration link, and the "Client Name"(顧客名) form, the "Industry type"(業種) pull-down, and the registration button are displayed.
 
     .. image:: ../images/client_create/initial_display.png
 
-  3. 「業種」プルダウンが選択できることを確認する。
+  3. Confirm if the "Industry type"(業種) pull-down can be selected.
 
     .. image:: ../images/client_create/initial_display_select.png
 
-:ref:`次へ<client_create_2>`
+:ref:`Next <client_create_2>`

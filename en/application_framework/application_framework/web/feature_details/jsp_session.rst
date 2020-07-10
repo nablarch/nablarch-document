@@ -1,14 +1,14 @@
 .. _jsp_session:
 
-JSPで自動的にHTTPセッションを作成しないようにする方法
+How to Prevent JSP from Automatically Creating HTTP Sessions
 ===========================================================================
-JSPのデフォルトの動作では、HTTPセッションが存在しない場合に自動的にHTTPセッションが作成される。
-例えば、HTTPセッションを必要としないようなログイン画面の表示などでも、デフォルトでは自動的にHTTPセッションが作成され、
-アプリケーションサーバ上のメモリが無駄に消費される。
+The default behavior of JSP is to automatically create an HTTP session when it does not exist.
+For example, even when displaying a login screen that does not require an HTTP session,
+an HTTP session is automatically created by default wasting the application server memory.
 
-このため、JSPでHTTPセッションを自動的に作成しないようにすることを推奨する。
+For this reason, it is recommended that JSP should not automatically create an HTTP session.
 
-JSPでHTTPセッションを自動的に作成しないようにするには、各JSPの先頭に以下の設定を追加する。
+To disable the automatic creation of an HTTP session in JSP, add the following settings at the beginning of each JSP.
 
 .. code-block:: jsp
 
@@ -17,5 +17,5 @@ JSPでHTTPセッションを自動的に作成しないようにするには、�
 
 .. important::
 
-  :ref:`hidden暗号化機能(非推奨機能) <tag-hidden_encryption>` を使用した場合、hidden暗号化処理内でHTTPセッションを使用するため、上記設定を使用することは出来ないので注意すること。
+  Note that when :ref:`hidden Encryption(deprecated) <tag-hidden_encryption>` is used, the above configuration cannot be used as the HTTP session is used in the hidden encryption process.
   

@@ -176,7 +176,8 @@ Add transaction implementation
 
       // Receive the resource name for identifying
       // the transaction control target resource.
-      // During transaction control, the resource for transaction control must be acquired from this resource name.
+      // During transaction control, the resource for transaction control must be acquired
+      // from this resource name.
       public SampleTransaction(String resourceName) {
         this.resourceName = resourceName;
       }

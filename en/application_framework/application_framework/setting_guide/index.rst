@@ -1,8 +1,8 @@
 .. _setting_guide:
 
-Nablarchアプリケーションフレームワーク設定ガイド
+Nablarch Application Framework Configuration Guide
 ======================================================
-本章ではNablarchの設定に関する考え方とデフォルト設定値からの変更方法について解説する。
+This chapter describes the concepts about Nablarch configurations and how to change them from the default configurations.
 
 .. toctree::
    :maxdepth: 2

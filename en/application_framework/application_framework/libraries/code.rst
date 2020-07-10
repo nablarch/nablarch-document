@@ -172,12 +172,14 @@ Configuration file example
       <property name="loadOnStartup" value="false"/>
     </component>
 
-    <!-- Configure the class that caches the information acquired from the database in BasicCodeManager -->
+    <!-- Configure the class that caches the information acquired from the database
+    in BasicCodeManager -->
     <component name="codeManager" class="nablarch.common.code.BasicCodeManager" >
       <property name="codeDefinitionCache" ref="codeCache"/>
     </component>
 
-    <!-- Configure BasicStaticDataCache in the initialization list as it requires to be initialized -->
+    <!-- Configure BasicStaticDataCache in the initialization list as it requires
+    to be initialized -->
     <component name="initializer"
         class="nablarch.core.repository.initialization.BasicApplicationInitializer">
       <property name="initializeList">
@@ -256,7 +258,7 @@ Specify the pattern on the screen (JSP) and acquire the code information
 
     <n:codeSelect name="form.gender" codeId="GENDER" pattern="PATTERN2" cssClass="form-control" />
 
-  Outputs ``Male`` and ``Female`` , which are the targets of PATTERN2.
+  Outputs ``男性(Male)`` and ``女性(Female)`` , which are the targets of PATTERN2.
   
   .. image:: images/code/code_pattern.png
 
