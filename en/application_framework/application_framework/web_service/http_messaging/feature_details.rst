@@ -1,24 +1,24 @@
-機能詳細
+Details of Function
 ========================================
-.. contents:: 目次
+.. contents:: Table of Contents
   :depth: 3
   :local:
 
-Nablarchの初期化
+Initialization of Nablarch
 ----------------------------------------
-:ref:`ウェブアプリケーションのNablarchの初期化 <web_feature_details-nablarch_initialization>` を参照。
+See :ref:`initializing Nablarch for web application <web_feature_details-nablarch_initialization>` .
 
 .. _http_messaging-request_validation:
 
-入力値のチェック
+Input value check
 ----------------------------------------
-* :ref:`入力値のチェック <validation>`
+* :ref:`Input value check <validation>`
 
-データベースアクセス
+Database access
 ----------------------------------------
-* :ref:`データベースアクセス <database_management>`
+* :ref:`Database access <database_management>`
 
-排他制御
+Exclusive control
 ----------------------------------------
 * :ref:`universal_dao`
 
@@ -28,36 +28,34 @@ Nablarchの初期化
 
 .. important::
 
-  :ref:`exclusive_control` 機能は、クライアント(taglib)との連動が前提であるため、
-  HTTPメッセージングでは使用できない。
+  The :ref:`exclusive_control` function cannot be used in HTTP messaging because it is assumed to work with the client (taglib).
 
 .. _http_messaging-action_mapping:
 
-URIとアクションクラスのマッピング
+Mapping of URI and action
 ----------------------------------------
 * :ref:`http_request_java_package_mapping`
 
 .. tip::
- HTTPメッセージングでは :ref:`router_adaptor` を使用できない。
- HTTPメッセージングは、:ref:`mom_system_messaging` が提供する
- :java:extdoc:`MessagingAction<nablarch.fw.messaging.action.MessagingAction>`
- でアクションクラスを作成するため、URIに応じてアクションクラスのメソッドを呼び分ける想定がないため。
+ :ref:`router_adaptor` cannot be used for HTTP messaging. 
+ As HTTP messaging creates an action class with :java:extdoc:`MessagingAction<nablarch.fw.messaging.action.MessagingAction>` provided by :ref:`mom_system_messaging` , 
+ there is no assumption that the methods of the action class are called separately according to the URI.
 
-国際化対応
+Internationalization
 ----------------------------------------
-静的リソースの多言語化対応については以下を参照。
+See the following for multilingualization of static resources.
 
-* :ref:`メッセージの多言語化 <message-multi_lang>`
-* :ref:`コード名称の多言語化 <code-use_multilingualization>`
+* :ref:`Multilingualization of messages <message-multi_lang>`
+* :ref:`Multilingualization of code names <code-use_multilingualization>`
 
-認証
+Authentication
 ----------------------------------------
-認証については、プロジェクト要件により仕様が異なるため、フレークワークとしては提供していない。
+Authentication is not provided as a flake work because the specifications vary according depending on the project requirements.
 
-認可チェック
+Permission check
 ----------------------------------------
 * :ref:`permission_check`
 
-エラー時に返却するレスポンス
+Response to be returned on error
 --------------------------------------------------
 * :ref:`http_messaging_error_handler`

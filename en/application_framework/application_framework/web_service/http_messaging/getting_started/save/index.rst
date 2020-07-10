@@ -1,70 +1,70 @@
 .. _`getting_started_http_massaging-save`:
 
-登録機能の作成
+Creation of a Registration Function
 ==========================================================
-リクエストされた情報(JSON形式)をDBに登録する機能の解説を行う。
+This section describes the function for registering the requested information (in Json format) to the DB.
 
-作成する機能の概要
+Overview of the function to be created
   .. image:: ../images/overview.png
 
-動作確認手順
-  1. 事前にDBの状態を確認
+Operation check procedure
+  1. Check the DB status in advance
 
-     H2のコンソールから下記SQLを実行し、レコードが存在しないことを確認する。
+     Execute the following SQL from the console of H2 and confirm that the record does not exist.
 
      .. code-block:: sql
 
-       SELECT * FROM PROJECT WHERE PROJECT_NAME = 'プロジェクト９９９';
+       SELECT * FROM PROJECT WHERE PROJECT_NAME = 'Project 999';
 
-  2. プロジェクト情報の登録
+  2. Registration of project information
 
-    任意のRESTクライアントを使用して、以下のリクエストを送信する。
+    Use any REST client to send the following request.
 
     URL
       http://localhost:9080/ProjectSaveAction
-    HTTPメソッド
+    HTTP method
       POST
-    HTTPヘッダ
+    HTTP header
       Content-Type: application/json |br|
       X-Message-Id: 1
-    リクエストボディ
+    Request body
       .. code-block:: json
 
         {
-            "projectName": "プロジェクト９９９",
+            "projectName": "Project 999",
             "projectType": "development",
             "projectClass": "ss",
-            "projectManager": "山田",
-            "projectLeader": "田中",
+            "projectManager": "Yamada",
+            "projectLeader": "Tanaka",
             "clientId": 10,
             "projectStartDate": "20160101",
             "projectEndDate": "20161231",
-            "note": "備考９９９",
+            "note": "Remarks 999",
             "sales": 10000,
             "costOfGoodsSold": 20000,
             "sga": 30000,
             "allocationOfCorpExpenses": 40000
         }
 
-  3. 動作確認
+  3. Operation check
 
-    H2のコンソールから下記SQLを実行し、レコードが1件取得できることを確認する。
+    Execute the following SQL from the console of H2 and confirm that one record can be retrieved.
 
     .. code-block:: sql
 
-      SELECT * FROM PROJECT WHERE PROJECT_NAME = 'プロジェクト９９９';
+      SELECT * FROM PROJECT WHERE PROJECT_NAME = 'Project 999';
 
-登録を行う
+Register
 ----------------------
 
-#. :ref:`フォーマットファイルの作成<getting_started_http_messaging-format>`
-#. :ref:`フォームの作成<getting_started_http_messaging-form>`
-#. :ref:`業務アクションの作成<getting_started_http_messaging-action>`
+#. :ref:`Create a format file<getting_started_http_messaging-format>`
+#. :ref:`Create a form<getting_started_http_messaging-form>`
+#. :ref:`Create a business action<getting_started_http_messaging-action>`
 
 .. _`getting_started_http_messaging-format`:
 
-フォーマットファイルの作成
-  HTTPメッセージングでは、リクエストされたHTTPメッセージを :ref:`data_format` を使用して解析する。
+Create a format file
+  HTTP messaging analyzes the requested HTTP message using the :ref:`data_format` .
 
   ProjectSaveAction_RECEIVE.fmt
     .. code-block:: bash
@@ -88,40 +88,40 @@
       13 allocationOfCorpExpenses[0..1]    X9
       14 userId[0..1]                      X9
 
-  この実装のポイント
-    * フォーマットファイルの名称は、「リクエストID + "_RECEIVE"」という形式にする。
-    * フォーマットファイルの記述方法は :ref:`data_format-definition` を参照。
+  Key points of this implementation
+    * Name of the format file as "Request ID + "_RECEIVE"".
+    * For information on how to write the format file,  see :ref:`data_format-definition` . 
 
 .. _`getting_started_http_messaging-form`:
 
-フォームの作成
-  リクエストボディの内容をバインドするフォームを作成する。
+Create a form
+  Create a form to bind the contents of the request body.
 
   ProjectForm.java
     .. code-block:: java
 
       public class ProjectForm {
 
-          // 一部項目のみ抜粋
+          // Excerpt of some items only
 
-          /** プロジェクト名 */
+          /** Project name */
           @Required
           @Domain("projectName")
           private String projectName;
 
           /**
-           * プロジェクト名を取得する。
+           * Acquire the project name.
            *
-           * @return プロジェクト名
+           * @return Project name
            */
           public String getProjectName() {
               return projectName;
           }
 
           /**
-           * プロジェクト名を設定する。
+           * Set the project name.
            *
-           * @param projectName 設定するプロジェクト名
+           * @param projectName Project name to be set
            *
            */
           public void setProjectName(String projectName) {
@@ -129,13 +129,13 @@
           }
       }
 
-  この実装のポイント
-    * :ref:`bean_validation` を用いてバリデーションを行うため、バリデーション用のアノテーションを設定する。
+  Key points of this implementation
+    * To perform validation using :ref:`bean_validation` , set the annotations for validation.
 
 .. _`getting_started_http_messaging-action`:
 
-業務アクションの作成
-  プロジェクトをDBに登録する業務アクションを作成する。
+Create a business action
+  Create a business action to register the project to the DB.
 
   ProjectSaveAction.java
     .. code-block:: java
@@ -143,41 +143,41 @@
       public class ProjectSaveAction extends MessagingAction {
 
           /**
-           * 電文を受信した際に実行される業務処理。
+           * Business process to be executed when a message is received.
            * <p>
-           * プロジェクト情報をバリデーションし、DBに登録する。
-           * このメソッドは、一つのプロジェクトを登録するための処理である。
-           * (汎用フォーマットによる形式チェックにより単独プロジェクトであることが保証される)
+           * Validate the project information and register it to DB.
+           * This method is used to register a single project.
+           * (Form is checked in general format to ensure that it is a single project)
            * </p>
-           * 登録が完了した場合は、レスポンスコードを記載した応答電文を設定する。
-           * 例外が発生した場合は、{@link ProjectSaveAction#onError(Throwable, RequestMessage, ExecutionContext)}
-           * にて応答電文を設定する。
+           * When registration is complete, a response message with the response code is set.
+           * If an exception is thrown, the response message is set in {@link ProjectSaveAction#onError(Throwable, RequestMessage, ExecutionContext)}
+           *.
            * 
-           * @param requestMessage   受信したメッセージ
-           * @param executionContext 実行コンテキスト
-           * @return 応答電文
+           * @param requestMessage   Received message
+           * @param executionContext Execution context
+           * @return Response message
            */
           @Override
           protected ResponseMessage onReceive(RequestMessage requestMessage,
                                               ExecutionContext executionContext) {
 
-              // 入力値をフォームにバインドする
+              // Bind input values to a form
               ProjectForm form = BeanUtil.createAndCopy(ProjectForm.class,
                       requestMessage.getParamMap());
 
-              // バリデーションエラーがある場合は業務例外を送出
+              // Throw a business exception when there is a validation error
               ValidatorUtil.validate(form);
 
               UniversalDao.insert(BeanUtil.createAndCopy(Project.class, form));
 
-              // 応答電文のフォーマッタを作成する
+              // Create a formatter for the response message
               requestMessage.setFormatterOfReply(createFormatter());
 
-              // 応答電文に記載するステータスコードを設定する
+              // Sets the status code to be described in the response message
               Map<String, String> map = new HashMap<>();
               map.put("statusCode", String.valueOf(HttpResponse.Status.CREATED.getStatusCode()));
 
-              // 応答データ返却
+              // Returns response data
               return requestMessage.reply()
                      .setStatusCodeHeader(String.valueOf(HttpResponse.Status.CREATED.getStatusCode()))
                      .addRecord("data", map);
@@ -185,18 +185,17 @@
       }
 
 
-  この実装のポイント
-    * :java:extdoc:`MessagingAction <nablarch.fw.messaging.action.MessagingAction>` を継承し、業務メソッドを作成する。
-    * :java:extdoc:`MessagingAction#onReceive <nablarch.fw.messaging.action.MessagingAction.onReceive(nablarch.fw.messaging.RequestMessage-nablarch.fw.ExecutionContext)>`
-      に、リクエスト受信時に実行する処理を実装する。
-    * リクエストボディの値は、 :ref:`data_format` を使用して解析された状態で引数の :java:extdoc:`RequestMessage <nablarch.fw.messaging.RequestMessage>` オブジェクト
-      が保持している。 `getParamMap` メソッドを使用してリクエストボディの値を取得する。
-    * :ref:`bean_validation` を使用してリクエスト値のバリデーションを行う。
-    * :java:extdoc:`UniversalDao <nablarch.common.dao.UniversalDao>` を用いてプロジェクトをDBに登録する。
-    * 処理結果を表すレスポンスコードを :java:extdoc:`ResponseMessage <nablarch.fw.messaging.RequestMessage>` に設定して返却する。
-
+  Key points of this implementation
+    * Inherits :java:extdoc:`MessagingAction <nablarch.fw.messaging.action.MessagingAction>` and creates a business method.
+    * The process to be executed when a request is received is implemented in :java:extdoc:`MessagingAction#onReceive <nablarch.fw.messaging.action.MessagingAction.onReceive(nablarch.fw.messaging.RequestMessage-nablarch.fw.ExecutionContext)>`.   
+    * The value of the request body is held by object :java:extdoc:`RequestMessage <nablarch.fw.messaging.RequestMessage>` in the state parsed using the :ref:`data_format`. 
+      Acquire the value of the request body using the `getParamMap`  method.
+    * :ref:`bean_validation`  is used to validate the request value.
+    * :java:extdoc:`UniversalDao <nablarch.common.dao.UniversalDao>`  is used to register the project to the DB.
+    * The response code representing the processing result is set in :java:extdoc:`ResponseMessage <nablarch.fw.messaging.RequestMessage>` and returned.
+    
   .. tip::
-    業務例外が送出された場合は、 :ref:`http_messaging_error_handler` の処理によってレスポンスコード「400」が設定される。
+    When a business exception is thrown, the response code "400" is set by processing :ref:`http_messaging_error_handler` .
 
 .. |br| raw:: html
 

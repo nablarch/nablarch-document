@@ -1,8 +1,8 @@
 .. _`http_messaging`:
 
-HTTPメッセージング編
+HTTP Messaging
 ==================================================
-本章ではNablarchアプリケーションフレームワークを利用してHTTPメッセージングを用いたウェブサービスを開発するために必要となる情報を提供する。
+This chapter provides the information needed to develop web services using HTTP messaging, which uses the Nablarch application framework.
 
 .. toctree::
   :maxdepth: 1
