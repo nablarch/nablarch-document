@@ -16,7 +16,7 @@ In this handler, the runtime exception implemented by :java:extdoc:`Retryable <n
 This handler performs the following process.
 
 * Retry process when a retry target exception occurs
-* •	Process that throws an exception when the upper limit of retries is reached.
+*	Process that throws an exception when the upper limit of retries is reached.
 
 The process flow is as follows.
 

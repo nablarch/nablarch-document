@@ -25,7 +25,7 @@ Although data can be accessed by using either of the above functions, use of :re
 
 .. tip::
 
-  Refer to :ref:`data_io-functional_comparison` for the difference between the functions provided by :ref:`data_bind` and data_format.
+  Refer to :ref:`data_io-functional_comparison` for the difference between the functions provided by :ref:`data_bind` and :ref:`data_format`.
 
 .. toctree::
   :hidden:
