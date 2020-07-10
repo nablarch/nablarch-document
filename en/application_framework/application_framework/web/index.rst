@@ -1,8 +1,8 @@
 .. _web_application:
 
-ウェブアプリケーション編
+Web Application Edition
 ==================================================
-本章ではNablarchアプリケーションフレームワークを利用してウェブアプリケーションを開発するために必要となる情報を提供する。
+This chapter provides information necessary for developing web applications using the Nablarch application framework.
 
 .. toctree::
   :maxdepth: 2
