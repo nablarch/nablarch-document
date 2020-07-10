@@ -1,66 +1,66 @@
 .. _`client_popup`:
 
-ポップアップ画面の作成
+Create a Pop-up Screen
 ==========================================
-Exampleアプリケーションを元にポップアップ画面の作成方法の解説を行う。
+This section describes how to create a pop-up screen based on an example application.
 
-ポップアップ画面は、 :ref:`tag-submit_popup` に記載がある通り別ウィンドウ化ではなくダイアログ形式で作成する。
+The pop-up screen is not created in a separate window as described :ref:`tag-submit_popup`, but in a dialog format.
 
-作成する機能の説明
-  1. プロジェクト詳細画面の変更ボタンを押下する。
+Description of the function to be created
+  1. Click the Change(変更) button on the Project Details screen.
 
     .. image:: ../images/popup/popup-project_update_btn.png
       :scale: 80
 
-  2. 顧客欄の検索ボタンを押下する。
+  2. Click the search button in the client field.
 
     .. image:: ../images/popup/popup-project_update.png
       :scale: 75
 
-  3. 顧客検索画面がダイアログで表示される。検索ボタンを押下する。
+  3. The client search screen is displayed in a dialog. Click the search(検索) button.
 
     .. image:: ../images/popup/popup-popup_init.png
       :scale: 60
 
-  4. 検索結果の顧客IDのリンクを押下する。
+  4. Click the client ID link in the search results.
 
     .. image:: ../images/popup/popup-popup_search.png
       :scale: 80
 
-  5. 顧客検索画面が閉じられ、プロジェクト変更画面の顧客ID及び顧客名に選択した値が設定される。
+  5. The client search screen is closed, and the selected values are set to the client ID and client name on the project change screen.
 
     .. image:: ../images/popup/popup-complete.png
       :scale: 80
 
-ポップアップ(ダイアログ)画面を表示する
+Display a pop-up (dialog) screen
 ------------------------------------------------
-ポップアップ(ダイアログ)の表示はOSS(Bootstrap)を使用して実現している。
-詳細は、 `Bootstrapのドキュメント(外部サイト、英語) <http://fezvrasta.github.io/bootstrap-material-design/>`_ を参照。
+The pop-up (dialog) display is realized using OSS (Bootstrap).
+For more information, see  `Bootstrap documentation (external site, English) <http://fezvrasta.github.io/bootstrap-material-design/>`_ .
 
 .. _`popup-action`:
 
-業務アクションメソッドの作成
-  顧客を検索し、選択の結果を親画面に引き渡す。
+Create a business action method
+  Search for a client and pass the results of the selection to the parent screen.
   
-  本機能は、ダイアログからのAjax呼び出しにより検索処理を実現している。
-  アクションクラスの実装方法については、 :ref:`restful_web_service` を参照。
+  This function realizes the search process by calling Ajax from a dialog.
+  For information on how to implement action classes, see :ref:`restful_web_service`.
 
 .. _`popup-popup_jsp`:
 
-ポップアップ画面のJSPの作成
-  jQueryを使用して、Ajax呼び出しの結果を元にDOMを構築し結果を表示する。
-  jQueryを使用しているため、詳細な解説は省略する。
+Create a JSP for the pop-up screen
+  Use jQuery to build a DOM based on the result of the Ajax call and display the result.
+  Since jQuery is used, the detailed explanation is omitted.
   
-  jQueryについては、 `ドキュメント(外部サイト、英語) <https://jquery.com/>`_ を参照。
+  For more information, see `Documentation (external site, English) <https://jquery.com/>`_ .
 
 .. _`popup-parent_hand_over`:
 
-ポップアップ画面から親ウィンドウへ値を引き渡すJavaScript関数の作成
-  jQueryを使用してダイアログ内の情報を顧客名と顧客ID部に設定する。
-  jQueryを使用しているため、詳細な解説は省略する。
+Create a JavaScript function to pass a value from the pop-up screen to the parent window
+  Use jQuery to set the information in the dialog to the client name and client ID part.
+  Since jQuery is used, the detailed explanation is omitted.
   
-  jQueryについては、 `ドキュメント(外部サイト、英語) <https://jquery.com/>`_ を参照。
+ For more information, see `Documentation (external site, English) <https://jquery.com/>`_ .
   
-ポップアップ画面の解説は以上。
+This completes the explanation of the pop-up screen.
 
-:ref:`Getting Started TOPページへ <getting_started>`
+:ref:`Getting Started To TOP page <getting_started>`
