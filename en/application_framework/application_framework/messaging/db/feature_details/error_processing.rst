@@ -21,7 +21,8 @@ An implementation example is shown below.
     @Override
     protected void transactionFailure(SqlRow inputData, ExecutionContext context) {
       // Since inputData is the data that is input when an error occurrs,
-      // Using this information, the corresponding record is updated to a non-processing target (for example, a processing failure status, etc.).
+      // Using this information, the corresponding record is updated to a non-processing target
+      // (for example, a processing failure status, etc.).
     }
 
 .. _db_messaging-process_abnormal_end:
