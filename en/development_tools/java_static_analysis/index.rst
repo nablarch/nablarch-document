@@ -1,82 +1,82 @@
-効率的なJava静的チェック
-=========================
+Efficient Java Static Checks
+=============================
 
-.. contents:: 目次
+.. contents:: Table of Contents
   :depth: 2
   :local:
 
-コードの品質と保守性を高めるために次の３つを実践する。
+Practice the following three to improve the quality and maintainability of code.
 
 * :ref:`code-analysis`
 * :ref:`code-format`
 * :ref:`api-analysis`
 
-上記を行うために、NablarchではJetBrains社製のIDEである `IntelliJ IDEA(外部サイト) <https://www.jetbrains.com/idea/>`_ の使用を推奨している。
-本ページでは、IntelliJ IDEAを用いた効率的なJava静的チェックの方法を説明する。
+To execute the above, it is recommended to use `IntelliJ IDEA(external site) <https://www.jetbrains.com/idea/>`_ , an IDE manufactured by JetBrains in Nablarch.
+An efficient Java static check method using IntelliJ IDEA is explained in this page.
 
 .. _code-analysis:
 
-構文チェックを行う
-------------------
+Conduct syntax check
+---------------------
 
-構文のチェックには、IntelliJ IDEAの静的検査機能(Inspection)を使用する。
-Inspectionは、Javaコーディングの慣例に沿っているか、潜在的なバグが含まれていないかなどをチェックし、リアルタイムに警告する機能である。
+To check the syntax, static inspection function (inspection) of IntelliJ IDEA is used.
+Inspection is a function that provides real time alerts by checking if the code follows the Java coding conventions and if there are any potential bugs.
 
-Nablarch開発に使用したInspectionの設定ファイルをプロジェクト向けに提供している。
-以下のファイルをダウンロードし ``PROJECT_ROOT/.idea/inspectionProfiles`` 配下に配置することでInspectionの設定が適用される。
+The configuration file of inspection used in the development of Nablarch is provided for the project.
+Inspection configuration is applied by downloading the below file and storing them under ``PROJECT_ROOT/.idea/inspectionProfiles``.
 
-:download:`設定ファイル<download/Project_Default.xml>`
+:download:`Configuration file <download/Project_default.xml>`
 
 .. important::
-  開発者間で同一の構文チェックが行われるようにするため、Inspectionの設定ファイルはVCSの管理対象とすること。
+  To ensure that the same syntax check is performed by all developers, the inspection configuration file must be managed by VCS.
   
 .. important::
-  Inspectionの設定内容は、警告された箇所から参照可能で、IDE上で効率よく確認できる。そのため、チェック内容の一覧など、別資料を作らないこと。
+  The Inspection configuration contents can be referred from the point where the warning was issued and can be checked efficiently on IDE. For this reason, separate documents, such as a list of checks should not be created.
 
 .. tip::
-  InspectionはPJで必要に応じてカスタマイズすることができる。
-  カスタマイズした設定は ``PROJECT_ROOT/.idea/inspectionProfiles`` 配下の設定ファイルに反映される。
+  Inspection can be customized by project based on the requirements.
+  The customized configuration is reflected in the configuration file under ``PROJECT_ROOT/.idea/inspectionProfiles``.
 
 ~~~~~~~~~~~~~~~~~
-IDEでチェックする
+Check with IDE
 ~~~~~~~~~~~~~~~~~
 
-IntelliJ IDEAのInspectionはデフォルトで設定が有効になっており、コードを書いた際にリアルタイムに実行される。
-詳細は、IntelliJの `マニュアル <https://www.jetbrains.com/idea/documentation/>`_ を参照。
+The inspection configuration of IntelliJ IDEA is enabled by default and executed real time when the code is written.
+For more information, see `Manual <https://www.jetbrains.com/idea/documentation/>`_ of IntelliJ.
 
 
 ~~~~~~~~~~~~~~~~
-CIでチェックする
+Check with CI
 ~~~~~~~~~~~~~~~~
 
-IntelliJ IDEAのInspectionは、CI(Jenkins)サーバでも実行することができる。
-設定方法は `こちら(外部サイト) <http://siosio.hatenablog.com/entry/2016/12/23/212140>`_ を参照。
+Inspection of IntelliJ IDEA can also be executed on a CI (Jenkins) server.
+For information on the configuration method, see `(external site) <http://siosio.hatenablog.com/entry/2016/12/23/212140>`_ .
 
 .. _code-format:
 
-フォーマットを統一する
+Unify the format
 ----------------------
 
-フォーマットを統一するためには、IntelliJ IDEAのデフォルトのCode Styleを使用してフォーマットを行う。
-詳細は、IntelliJの `マニュアル <https://www.jetbrains.com/idea/documentation/>`_ を参照。
+To unify the format, formatted using the default code style of IntelliJ IDEA.
+For more information, see `Manual <https://www.jetbrains.com/idea/documentation/>`_ of IntelliJ.
 
 .. important::
-  Code Styleの設定内容は、IDE上で効率よく確認できる。そのため、コーディング規約など、別資料を作らないこと。
+  The Code Style configuration contents can be efficiently checked with IDE. For this reason, separate documents, such as coding conventions should not be created.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-コミット前に自動でフォーマットを統一する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-IntelliJ IDEAでは、VCSへのコミット時にコミット対象のファイルに対してフォーマット処理を行う機能を有している。
-これを有効活用することで、確実にCode Styleに従ったコードをコミットできる。
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Automatically unify the formats before commit
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+IntelliJ IDEA has a function that manages the formatting of target commit files when committing to VCS.
+By making effective use of this, it is possible to commit the code will in accordance with the Code Style.
 
 .. _api-analysis:
 
-許可していないAPIが使用されていないかチェックする
+Check if unauthorized APIs are being used
 -------------------------------------------------
 
-このチェックには、 `nablarch-intellij-plugin <https://github.com/nablarch/nablarch-intellij-plugin>`_ を使用する。
-nablarch-intellij-pluginはNablarch開発を支援するためのIntelliJ IDEA用のプラグインであり、下記の機能を有している。
+`nablarch-intellij-plugin <https://github.com/nablarch/nablarch-intellij-plugin>`_ is used for this check.
+nablarch-intellij-plugin is a plug-in to use IntelliJ IDEA for supporting Nablarch development and has the following functions.
 
-* Nablarch非公開APIが使用されている場合に警告を出す
-* ブラックリストに登録したJava APIが使用されている場合に警告を出す
+* Throws a warning if Nablarch private API is used.
+* Throws warning if Java API registered in the black list is used.
 
