@@ -1,10 +1,10 @@
 .. _`web_service`:
 
-ウェブサービス編
+Web Service Edition
 ==================================================
-本章ではNablarchアプリケーションフレームワークを利用してウェブサービスを開発するために必要となる情報を提供する。
+This chapter provides the information needed to develop web services using the Nablarch application framework.
 
-Nablarchでは、以下2種類のRESTfulウェブサービス用のフレームワークを提供している。
+Nablarch provides the following two frameworks for RESTful web services.
 
 .. toctree::
   :maxdepth: 1
@@ -14,34 +14,34 @@ Nablarchでは、以下2種類のRESTfulウェブサービス用のフレーム�
 
 .. _web_service-recommended_jaxrs:
 
-これらのどちらのフレームワークを使用してもウェブサービスを構築することができるが、
-以下の理由により :ref:`restful_web_service` を使用してウェブサービスを作成することを推奨する。
+Although web services can be built using either framework,
+creating web services using :ref:`restful_web_service` is recommended for the following reasons.
 
-理由
-  :ref:`restful_web_service` では、 `JSR 339(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=339>`_ で規定されている一部のアノテーションを使用して容易にウェブサービスを構築することが出来る。
+Reason
+  In :ref:`restful_web_service`, a web service can be easily built using some annotations defined in `JSR 339(external site, English) <https://jcp.org/en/jsr/detail?id=339>`_ .
   
-  一方、 :ref:`http_messaging` はボディ部やHTTPヘッダー、例外制御に以下の制約があり柔軟な設計及び実装ができない。
+  On the other hand, :ref:`http_messaging` cannot be flexibly designed and implemented because of the following restrictions on the body, HTTP headers and exception control.
 
-  * Nablarchの制御用領域がHTTPヘッダやボディ部に必要となる。
+  * Control area for Nablarch is required in the HTTP header and body.
 
-    既に構築済みの外部システムと連携するようなウェブサービスを構築する場合に設計及び実装の難易度が高くなる。
+    When building a web service that works with an already built external system, the difficulty of design and implementation is high.
 
-  * レスポンスヘッダに設定する項目を容易にカスタマイズ出来ない。
+  * Customizing the items in the response header is not easy.
 
-    :ref:`http_messaging_response_building_handler-header` に記載がある通り、レスポンスヘッダの変更したい場合はハンドラ自体を差し替える必要がある。
+    As described in :ref:`http_messaging_response_building_handler-header`, the handler has to be replaced to change the response header.
 
-  * :ref:`data_format` 機能に依存している。
+  * Depends on the :ref:`data_format` function.
   
-    フォーマット定義ファイルを作成する必要あり開発コストが高くなる。またカスタマイズが容易でない。
-    また、入出力データをMapオブジェクトで扱う必要があり、実装ミスを起こしやすい。
+    The development cost increases as a format definition file needs to be created.It is also not easy to customize.
+    The input and output data have to be handled with a Map object, which can easily cause implementation errors.
 
-  * リクエストボディのパース時の例外が全て単一の例外クラスにマッピングされるため細かく例外ハンドリングすることができない。
+  * Detailed exception handling is not possible as all exceptions when parsing a request body are mapped to a single exception class.
 
-    パース中の例外は全て :java:extdoc:`MessagingException <nablarch.fw.messaging.MessagingException>` として送出されるため、根本原因を元に細かな処理制御を行うことが出来ない。
+    Because all exceptions in parsing are thrown as :java:extdoc:`MessagingException <nablarch.fw.messaging.MessagingException>`, detailed process control based on the root cause cannot be performed.
 
 .. tip::
 
-  :ref:`restful_web_service` と :ref:`http_messaging` で提供している機能の違いは、:ref:`restful_web_service_functional_comparison` を参照。
+  Refer to :ref:`restful_web_service_functional_comparison` for differences between the functions provided by :ref:`restful_web_service` and :ref:`http_messaging`.
 
 .. toctree::
   :maxdepth: 1
