@@ -3,76 +3,76 @@
 Example
 ==========================================
 
-本章では、Nablarchアプリケーションフレームワークを利用して作成したExampleアプリケーションに必要な環境構築手順と、アプリケーションの実行手順を解説する。
+This chapter describes the procedures for building the environment and executing the application, which are necessary for an Example application created using the Nablarch application framework.
 
 
-環境構築手順について
+Procedure to build the environment
 ------------------------------------------
-Exampleアプリケーションは、Apache Mavenを利用してアプリケーションのビルド、実行を行う。以下のページを参考に、Apache MavenのPCへのインストール及び必要な設定を行うこと。
+The example application uses Apache Maven to build and run the application. Refer to the following page to install Apache Maven on the PC and configure the necessary settings.
 
 :ref:`maven`
 
 
-アプリケーションの実行手順について
+Application execution procedure
 --------------------------------------------------
 
-Exampleアプリケーションの実行手順は、各ExampleアプリケーションのgithubのREADMEを参照すること。
+For instructions on how to run the Example application, refer to the README on the github of each Example application.
 
-  ウェブアプリケーション
+  Web applications
    \
 
-    JSPとカスタムタグを使用したサンプル
+    Sample using JSP and custom tags
      https://github.com/nablarch/nablarch-example-web
-    Thymeleafを使用したサンプル
+    Sample using Thymeleaf
      https://github.com/nablarch/nablarch-example-thymeleaf-web
 
 
-  ウェブサービス
+  Web service
    \
 
-   RESTfulウェブサービス
+   RESTfulWeb service
     https://github.com/nablarch/nablarch-example-rest
 
-   HTTPメッセージング
-    送信
+   HTTP messaging
+    Send
      https://github.com/nablarch/nablarch-example-http-messaging-send
-    受信
+    Receiving
      https://github.com/nablarch/nablarch-example-http-messaging
 
-  バッチアプリケーション
+  Batch application
    \
 
-   JSR352に準拠したバッチアプリケーション
+   JSR352-compliant batch applications
     https://github.com/nablarch/nablarch-example-batch-ee
 
-   Nablarchバッチアプリケーション
+   Nablarch Batch Application
     https://github.com/nablarch/nablarch-example-batch
 
-  メッセージング
+  Messaging
    \
 
-   MOMによるメッセージング
+   Messaging with MOM
     \
 
     .. _`example_application-mom_system_messaging-async_message_send`:
 
-    応答不要メッセージ送信
+    Sending asynchronous message
      https://github.com/nablarch/nablarch-example-mom-delayed-send
 
     .. _`example_application-mom_system_messaging-sync_message_send`:
 
-    同期応答メッセージ送信
+    Sending synchronous message
      https://github.com/nablarch/nablarch-example-mom-sync-send-batch
 
     .. _`example_application-mom_system_messaging-async_message_receive`:
 
-    応答不要メッセージ受信
+    Receiving asynchronous message
      https://github.com/nablarch/nablarch-example-mom-delayed-receive
 
     .. _`example_application-mom_system_messaging-sync_message_receive`:
 
-    同期応答メッセージ受信
+    Receiving synchronous message
      https://github.com/nablarch/nablarch-example-mom-sync-receive
 
-    テーブルをキューとして使ったメッセージング
+    Messaging Using Tables as Queues
      https://github.com/nablarch/nablarch-example-db-queue
