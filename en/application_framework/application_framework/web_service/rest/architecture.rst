@@ -1,166 +1,166 @@
 .. _`restful_web_service_architecture`:
 
-アーキテクチャ概要
+Architecture Overview
 ==============================
 
-.. contents:: 目次
+.. contents:: Table of Contents
   :depth: 3
   :local:
 
-Nablarchでは、JAX-RSのリソースクラスを作るのと同じように、ウェブアプリケーションの業務アクションを使用して
-RESTfulウェブサービスを作成する機能（JAX-RSサポート）を提供する。
+Nablarch provides the functions to create RESTful web service using the business action of a web application (JAX-RS support)
+in the same way JAX-RS resource class is created.
 
-JAX-RSサポートは、Nablarchのウェブアプリケーションをベースとする。
-そのため、JAX-RSで使用できる@Contextアノテーションを使用したServletリソースのインジェクションやCDIなどは利用することはできない。
-以下に、JAX-RSサポートで利用できるアノテーションを示す。
+JAX-RS support is based on web applications of Nablarch.
+Therefore, JAX-RS cannot use Servlet resource injection or CDI using @Context annotations, which can be used in JAX-RS.
+The following annotations are available for JAX-RS support.
 
- - Produces(レスポンスのメディアタイプの指定)
- - Consumes(リクエストのメディアタイプの指定)
- - Valid(リクエストに対するBeanValidationの実行)
+ - Produces (specify media type for the response)
+ - Consumption (specify the media type of the request)
+ - Valid (runs BeanValidation for the request)
 
-JSR339とJAX-RSサポートとの機能比較は、 :ref:`restful_web_service_functional_comparison` を参照。
+For comparison of functions between JSR339 and JAX-RS support , see :ref:`restful_web_service_functional_comparison`.
 
 .. important::
 
- JAX-RSサポートでは、クライアントサイドの機能は提供しない。
- JAX-RSクライアントを使用する必要がある場合は、JAX-RS実装(JerseyやRESTEasyなど)を使用すること。
+ JAX-RS support does not provide client-side functions.
+ If you need to use a JAX-RS client, use a JAX-RS implementation (such as Jersey or RESTEasy).
 
-RESTfulウェブサービスの構成
+Structure of RESTful web service
 ----------------------------------------
-Nablarchウェブアプリケーションと同じ構成となる。
-詳細は、 :ref:`web_application-structure` を参照。
+It has the same structure as the Nablarch web application.
+For more information, see :ref:`web_application-structure`.
 
-RESTfulウェブサービスの処理の流れ
+Process flow of RESTful web service
 ----------------------------------------
-RESTfulウェブサービスがリクエストを処理し、レスポンスを返却するまでの処理の流れを以下に示す。
+The process flow of RESTful web service, from processing a request to returning a response, is shown below.
 
 .. image:: images/rest-design.png 
   :scale: 75
 
-1. :ref:`web_front_controller` ( `javax.servlet.Filter` の実装クラス)がrequestを受信する。
-2. :ref:`web_front_controller` は、requestに対する処理をハンドラキュー(handler queue)に委譲する。
-3. ハンドラキューに設定されたディスパッチハンドラ(`DispatchHandler`) が、URIを元に処理すべきアクションクラス(action class)を特定しハンドラキューの末尾に追加する。
-4. アクションクラス(action class)は、フォームクラス(form class)やエンティティクラス(entity class)を使用して業務ロジック(business logic) を実行する。 |br|
-   各クラスの詳細は、 :ref:`rest-application_design` を参照。
+1. :ref:`web_front_controller` (implementation class of `javax.servlet.Filter`) receives a request.
+2. :ref:`web_front_controller` delegates the processing of the request to a handler queue (handler queue).
+3. `DispatchHandler` configured in the handler queue specifies the action class to be processed based on the URI and adds it to the end of the handler queue.
+4. The action class executes business logic using a form class and an entity class. |br|
+   For more information on each class, see :ref:`rest-application_design`.
 
-5. action classは、処理結果を示すフォームクラス(form class)や `HttpResponse` を作成し返却する。
-6. ハンドラキュー内のHTTPレスポンスハンドラ(`JaxRsResponseHandler`)が、 `HttpResponse` をクライアントに返却するレスポンスに変換し、クライアントへ応答を返す。 |br|
-   なお、アクションクラス(action class)の処理結果がフォームクラス(form class)の場合には、 `BodyConvertHandler` により `HttpResponse` に変換される。 |br|
-   変換される `HttpResponse` のボディの形式は、 アクションクラス(action class)に設定されたメディアタイプとなる。
+5. The action class creates and returns a form class and `HttpResponse` that shows the processing result.
+6. The HTTP response handler (`JaxRsResponseHandler`) in the handler queue converts the `HttpResponse` into a response to be returned to the client, and returns the response to the client. |br|
+   If the processing result of the action class is a form class, it will be converted into `HttpResponse` by `BodyConvertHandler`. |br|
+   The format of the `HttpResponse` body to be converted is the media type configured in the action class.
 
 
-RESTfulウェブサービスで使用するハンドラ
+Handlers used by RESTful web service
 --------------------------------------------------
-Nablarchでは、RESTfulウェブサービスを構築するために必要なハンドラを標準で幾つか提供している。
-プロジェクトの要件に従い、ハンドラキューを構築すること。(要件によっては、プロジェクトカスタムなハンドラを作成することになる)
+Nablarch provides several handlers required for building RESTful web service.
+Build the handler queue in accordance with the requirements of the project (a custom handler will have to be created for the project depending on the requirements)
 
-各ハンドラの詳細は、リンク先を参照すること。
+For details of each handler, refer to the link.
 
-リクエストやレスポンスの変換を行うハンドラ
+Handlers that convert request and response
   * :ref:`jaxrs_response_handler`
   * :ref:`body_convert_handler`
 
-データベースに関連するハンドラ
+Handlers associated with database
   * :ref:`database_connection_management_handler`
   * :ref:`transaction_management_handler`
 
-リクエストの検証を行うハンドラ
+Handlers for request verification
   * :ref:`jaxrs_bean_validation_handler`
 
-エラー処理に関するハンドラ
+Error handling handler
   * :ref:`global_error_handler`
 
-その他のハンドラ
-  * :ref:`リクエストURIとアクションを紐付けるハンドラ <router_adaptor>`
+Other handlers
+  * :ref:`Handler to link request URI and action <router_adaptor>`
 
-標準ハンドラ構成
+Standard handler configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-NablarchでRESTfulウェブサービスを構築する際の、必要最小限のハンドラキューを以下に示す。
-これをベースに、プロジェクト要件に従ってNablarchの標準ハンドラやプロジェクトで作成したカスタムハンドラの追加を行う。
+When building RESTful web service application in Nablarch, the minimum required handler queue is as below:
+With this as the base, add standard handlers of Nablarch or custom handlers created in the project according to the project requirements.
 
-.. list-table:: 最小ハンドラ構成
+.. list-table:: Minimum handler configuration
   :header-rows: 1
   :class: white-space-normal
   :widths: 4 24 24 24 24
 
   * - No.
-    - ハンドラ
-    - 往路処理
-    - 復路処理
-    - 例外処理
+    - Handler
+    - Request process
+    - Response process
+    - Exception handling
 
   * - 1
     - :ref:`global_error_handler`
     -
     -
-    - 実行時例外、またはエラーの場合、ログ出力を行う。
+    - Outputs the log for a runtime exception or error.
 
   * - 2
     - :ref:`jaxrs_response_handler`
     - 
-    - レスポンスの書き込み処理を行う。
-    - 例外(エラー)に対応したレスポンスの生成と書き込み処理とログ出力処理を行う。
+    - Writes the response.
+    - Generates responses for exceptions (errors), writes and outputs the responses to logs.
 
   * - 3
     - :ref:`database_connection_management_handler`
-    - DB接続を取得する。
-    - DB接続を解放する。
+    - Acquires DB connection.
+    - Releases the DB connection.
     -
 
   * - 4
     - :ref:`transaction_management_handler`
-    - トランザクションを開始する。
-    - トランザクションをコミットする。
-    - トランザクションをロールバックする。
+    - Begin a transaction.
+    - Commits the transaction.
+    - Rolls back a transaction.
 
   * - 5
-    - :ref:`リクエストURIとアクションを紐付けるハンドラ <router_adaptor>`
-    - リクエストパスをもとに呼び出すアクション(メソッド)を決定する。
+    - :ref:`Handler to link request URI and action <router_adaptor>`
+    - Determine the action (method) to call based on the request path.
     -
     -
 
   * - 6
     - :ref:`body_convert_handler`
-    - request bodyをアクションで受け付けるフォームクラスに変換する。
-    - アクションの処理結果のフォームの内容をresponse bodyに変換する。
+    - Converts request body to a form class that is accepted by an action.
+    - Converts the form content of the action process results to a response body.
     -
 
   * - 7
     - :ref:`jaxrs_bean_validation_handler`
-    - No6で変換したフォームクラスに対してバリデーションを実行する。
+    - Executes the validation for the form class converted by No6.
     - 
     -
 
 .. tip::
 
-   :ref:`リクエストURIとアクションを紐付けるハンドラ <router_adaptor>` より後ろに設定するハンドラは、
-   ハンドラキューに直接設定するのではなく :ref:`リクエストURIとアクションを紐付けるハンドラ <router_adaptor>` に対して設定する。
+   Handlers configured after :ref:`Handler to link request URI and action <router_adaptor>`
+   are not configured directly in the handler queue but for :ref:`Handler to link request URI and action <router_adaptor>`.
 
-   :ref:`jaxrs_adaptor` を使用した場合、自動的に :ref:`body_convert_handler` と :ref:`jaxrs_bean_validation_handler` がハンドラキューに追加される。
+   If :ref:`jaxrs_adaptor` is used, :ref:`body_convert_handler` and :ref:`jaxrs_bean_validation_handler` are added to the handler queue.
 
-   :ref:`body_convert_handler` と :ref:`jaxrs_bean_validation_handler` 以外のハンドラを設定したい場合や、サポートするメディアタイプを増やしたい場合は、
-   以下の設定例や :ref:`jaxrs_adaptor` の実装を参考にハンドラキューを構築すること。
+   To configure handlers other than :ref:`body_convert_handler` and :ref:`jaxrs_bean_validation_handler` or to increase the media types that are supported,
+   build a handler queue referring to the configuration example or implementation of :ref:`jaxrs_adaptor`.
 
    .. code-block:: xml
 
     <component name="webFrontController" class="nablarch.fw.web.servlet.WebFrontController">
       <property name="handlerQueue">
         <list>
-          <!-- 前段のハンドラは省略 -->
+          <!-- Handler of the previous stage is omitted -->
 
-          <!-- リクエストURIとアクションを紐付けるハンドラの設定 -->
+          <!-- Configure a handler to link request URIs and actions -->
           <component name="packageMapping" class="nablarch.integration.router.RoutesMapping">
-            <!-- ハンドラ以外の設定値は省略 -->
+            <!-- Configuration values other than handlers are omitted -->
             <property name="methodBinderFactory">
               <component class="nablarch.fw.jaxrs.JaxRsMethodBinderFactory">
                 <property name="handlerList">
                   <list>
                     <!--
-                    リクエストURIとアクションを紐付けるハンドラ以降のハンドラキューの設定
-                    ※各クラスの設定値は省略
+                    Configure the handler queue after the handler that links the request URI to the action
+                    *Configuration values of each class are omitted
                     -->
                     <component class="nablarch.fw.jaxrs.BodyConvertHandler">
-                      <!-- サポートするメディアタイプのコンバータを設定する -->
+                      <!-- Configure the supported media types of converters -->
                     </component>
                     <component class="nablarch.fw.jaxrs.JaxRsBeanValidationHandler" />
                   </list>
