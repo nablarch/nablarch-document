@@ -1,48 +1,48 @@
 .. _entityUnitTest:
 
-=============================
-Form/Entityのクラス単体テスト
-=============================
-本項では、FormおよびFormの一種であるEntityのクラス単体テスト(以下Form単体テストまたはEntity単体テスト)について説明する。
-両者はほぼ同じように単体テストを行えるため、共通する内容についてはEntity単体テストをベースに説明し、特有の処理については個別に説明する。
+==================================
+Class Unit Testing of Form/Entity
+==================================
+This chapter describes the class unit test for Form and Entity, which is a type of Form (hereinafter referred to as Form unit test or Entity unit test).
+Since both can perform unit tests in almost the same way, common content shall be described based on the Entity unit test, and the specific processing shall be described separately.
 
 .. tip::
-   Entityとは、テーブルのカラムと1対1に対応するプロパティを持つFormのことである。
+   Entity is a Form that has properties that correspond one-to-one with the columns of a table.
 
------------------------------
-Form/Entity単体テストの書き方
------------------------------
-本項で例として使用したテストクラスとテストデータは以下のとおり(右クリック->保存でダウンロード)。
+-------------------------------------
+How to write a Form/Entity unit test
+-------------------------------------
+The test class and test data used as examples in this chapter are as follows (right click -> Download and Save).
 
-* :download:`テストクラス(SystemAccountEntityTest.java)<./_download/SystemAccountEntityTest.java>`
-* :download:`テストデータ(SystemAccountEntityTest.xlsx)<./_download/SystemAccountEntityTest.xlsx>`
-* :download:`テスト対象クラス(SystemAccountEntity.java)<./_download/SystemAccountEntity.java>`  
+* :download:`Test class(SystemAccountEntityTest.java)<./_download/SystemAccountEntityTest.java>`
+* :download:`Test data(SystemAccountEntityTest.xlsx)<./_download/SystemAccountEntityTest.xlsx>`
+* :download:`Test target class(SystemAccountEntity.java)<./_download/SystemAccountEntity.java>`
 
-テストデータの作成
+Create test data
 ==================
-テストデータを記載したExcelファイルそのものの作成方法を説明する。テストデータを記載したExcelファイルは、テストソースコードと同じディレクトリに同じ名前で格納する(拡張子のみ異なる)。\
-なお、後述する\
-\ :ref:`精査のテストケース<entityUnitTest_ValidationCase>`\ 、\
-\ :ref:`コンストラクタのテストケース<entityUnitTest_ConstructorCase>`\ 、\
-\ :ref:`setter、getterに対するテストケース<entityUnitTest_SetterGetterCase>`\ 
-のそれぞれが、1シートずつ使用する前提である。
+Describes how to create the Excel file that contains the test data itself. The Excel file containing the test data is stored with the same name in the same directory as the test source code (only the extension is different).\
+It is a prerequisite that the
+\ :ref:`test cases for validation <entityUnitTest_ValidationCase>`,
+\ :ref:`test cases for constructors <entityUnitTest_ConstructorCase>`, and
+\ :ref:`test cases for setters and getters <entityUnitTest_SetterGetterCase>`
+will be used one sheet at a time respectively.
 
-テストデータの記述方法詳細については、\ :doc:`../../06_TestFWGuide/01_Abstract`\ 、\ :doc:`../../06_TestFWGuide/02_DbAccessTest`\ を参照。
+For details on how to describe the test data, see \ :doc:`../../06_TestFWGuide/01_Abstract`\ , \ :doc:`../../06_TestFWGuide/02_DbAccessTest`\.
 
-なお、メッセージデータやコードマスタなどの、データベースに格納する静的マスタデータは、プロジェクトで管理されたデータがあらかじめ投入されている\
-(これらのデータを個別のテストデータとして作成しない)前提である。
+It is a prerequisite that the static master data stored in the database, such as message data and code master,
+has been input with data managed by the project in advance (these data are not created as individual test data).
 
-テストクラスの作成
-==================
-Form/Entity単体テストのテストクラスは、以下の条件を満たすように作成する。
+Create a test class
+====================
+The test class of form/entity unit test should be created to satisfy the following conditions.
 
-* テストクラスのパッケージは、テスト対象のForm/Entityと同じとする。
-* <Form/Entityクラス名>Testというクラス名でテストクラスを作成する。
-* nablarch.test.core.db.EntityTestSupportを継承する。
+* The package of the test class is the same as the Form/Entity to be tested.
+* Create a test class with the class name <Form/Entity class name> Test.
+* Inherit nablarch.test.core.db.EntityTestSupport.
 
 .. code-block:: java
 
-   package nablarch.sample.management.user; // 【説明】パッケージはSystemAccountEntityと同じ
+   package nablarch.sample.management.user; // [Description] Package is the same as SystemAccountEntity
 
    import java.util.HashMap;
    import java.util.Map;
@@ -55,128 +55,128 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
    import static org.junit.Assert.assertEquals;
 
    /**
-    * SystemAccountEntityクラスに対するテストを実行するクラス。<br/>
-    * テスト内容はエクセルシート参照のこと。
+    * Class that executes tests for the SystemAccountEntity class. <br/>
+    * Refer to the Excel sheet for test content.
     *
     * @author Miki Habu
     * @since 1.0
     */
    public class SystemAccountEntityTest extends EntityTestSupport {
-   // 【説明】クラス名はSystemAccountEntityTestで、EntityTestSupportを継承する
+   // [Description] Class name is SystemAccountEntityTest and it inherits from EntityTestSupport
    
 
-   // ～後略～
+   // ~ Rest is omitted ~
 
 
-テストメソッドの記述方法は本項以降に記載されているコード例を参照。
+For details on how to describe the test method, see the code examples described below.
 
 .. _entityUnitTest_ValidationCase:
 
-文字種と文字列長の単項目精査テストケース
-========================================
+Single item validation test case of character type and string length
+=====================================================================
 
-単項目精査に関するテストケースは、入力される文字種および文字列長に関するものがほとんどである。\
-例えば、以下のようなプロパティがあるとする。
+Most of the test cases for single item validation are related to the input character type and string length. \
+For example, assume the following the property.
 
-* プロパティ名「フリガナ」
-* 最大文字列長は50文字
-* 必須項目
-* 全角カタカナのみを許容する
+* Property name "Furigana"
+* Maximum string length is 50 characters
+* Required items
+* Only full-width katakana is allowed
 
-この場合、以下のようなテストケースを作成することになる。
+In this case, the following test case should be created.
 
- =============================================== =========================
- ケース                                           観点			 
- =============================================== =========================
- 全角カタカナ50文字を入力し精査が成功する。        最大文字列長、文字種の確認	 
- 全角カタカナ51文字を入力し精査が失敗する。        最大文字列長の確認		 
- 全角カタカナ1文字を入力し精査が成功する。         最小文字列長、文字種の確認	 
- 空文字を入力し、精査が失敗する。                  必須精査の確認		 
- 半角カタカナを入力し精査が失敗する。              文字種の確認\ [#]_\		 
- =============================================== =========================
+ =================================================================================== =========================
+ Case                                                                                 Perspective
+ =================================================================================== =========================
+ Validation should be successful when full-width Katakana 50 characters are entered.   Check maximum string length and character type
+ Validation should fail when full-width Katakana 51 characters are entered.            Check of maximum string length
+ Validation should be successful when 1 full-width Katakana character is entered.      Check of minimum string length and character type
+ Validation should fail when empty string is entered.                                  Check of required validation
+ Validation should fail when Half-width Katakana is entered.                           Check character type\ [#]_\
+ =================================================================================== =========================
 
 \ 
  
- .. [#] 同様に、半角英字、全角ひらがな、漢字...等が入力され精査が失敗するケースが必要である。
+ .. [#] Similarly, there is a need for cases in which Half-width alphabetic characters, Full-width Hiragana, Kanji ..., etc. are input and the detailed examination fails.
 
-このように、単項目精査のテストケースは、ケース数が多くなりデータ作成の労力がかかる。\
-そこで、単項目精査テスト専用のテスト方法を提供する。これにより以下の効果が見込まれる。
+There are a large number of test cases for single item validation, and data creation requires time and labor.\
+Therefore, a test method is provided exclusively for single item validation test.As a result, the following effects are expected.
 
-* 単項目精査のテストケース作成を容易になる。
-* 保守性の高いテストデータが作成でき、レビューやメンテナンスが容易になる。
+* Facilitates the creation of test cases for single item validation.
+* Creates test data with high maintainability, making it easier to review and maintain.
 
 
 .. tip::
-   本テスト方法は、プロパティとして別のFormを保持するFormに対しては使用できない。その場合、独自に精査処理のテストを実装すること。
-   プロパティとして別のFormを保持するFormとは、以下の形式でプロパティにアクセスする親Formのこと。
+   This test method cannot be used for a form that holds another form as a property.In that case, implement your own validation processing test.
+   A form that holds another form as a property is the parent form that accesses the property in the following format:
    
    .. code-block:: none
    
-      <親Form>.<子Form>.<子フォームのプロパティ名>
+      <Parent Form>.<child Form>.<child form property name>.
 
 
-テストケース表の作成方法
-------------------------
+How to create a test case table
+--------------------------------
 
-以下のカラムを用意する。
+Prepare the following columns.
 
-+-----------------------------+--------------------------------------------------+
-| カラム名                    | 記載内容                                         |
-+=============================+==================================================+
-|propertyName                 |テスト対象のプロパティ名                          |
-+-----------------------------+--------------------------------------------------+
-|allowEmpty                   |そのプロパティが未入力を許容するか                |
-+-----------------------------+--------------------------------------------------+
-|         min                 |そのプロパティが入力値として許容する最小文字列長（|
-|                             |省略可）                                          |
-+-----------------------------+--------------------------------------------------+
-|         max                 |そのプロパティが入力値として許容する最大文字列長  |
-+-----------------------------+--------------------------------------------------+
-|messageIdWhenNotApplicable   |文字種不適合時に期待するメッセージID              |
-+-----------------------------+--------------------------------------------------+
-|半角英字                     |半角英字を許容するか                              |
-+-----------------------------+--------------------------------------------------+
-|半角数字                     |半角数字を許容するか                              |
-+-----------------------------+--------------------------------------------------+
-|半角記号                     |半角記号を許容するか                              |
-+-----------------------------+--------------------------------------------------+
-|半角カナ                     |半角カナを許容するか                              |
-+-----------------------------+--------------------------------------------------+
-|全角英字                     |全角英字を許容するか                              |
-+-----------------------------+--------------------------------------------------+
-|全角数字                     |全角数字を許容するか                              |
-+-----------------------------+--------------------------------------------------+
-|全角ひらがな                 |全角ひらがなを許容するか                          |
-+-----------------------------+--------------------------------------------------+
-|全角カタカナ                 |全角カタカナを許容するか                          |
-+-----------------------------+--------------------------------------------------+
-|全角漢字                     |全角漢字を許容するか                              |
-+-----------------------------+--------------------------------------------------+
-|全角記号その他               |全角記号その他を許容するか                        |
-+-----------------------------+--------------------------------------------------+
-|外字                         |外字を許容するか                                  |
-+-----------------------------+--------------------------------------------------+
++--------------------------------+------------------------------------------------------------+
+| Column name                    | Contents to be mentioned                                   |
++================================+============================================================+
+|propertyName                    |The property name to be tested.                             |
++--------------------------------+------------------------------------------------------------+
+|allowEmpty                      |Whether the property allows for no input                    |
++--------------------------------+------------------------------------------------------------+
+|         min                    |Minimum string length allowed by the property               |
+|                                |as input value (optional)                                   |
++--------------------------------+------------------------------------------------------------+
+|         max                    |Maximum string length allowed by the property as input value|
++--------------------------------+------------------------------------------------------------+
+|messageIdWhenNotApplicable      |Message ID to expect when character type is incompatible    |
++--------------------------------+------------------------------------------------------------+
+|Half-width alphabetic characters|Whether half-width alphabetic characters are allowed?       |
++--------------------------------+------------------------------------------------------------+
+|Half-width numbers              |Whether half-width numbers are allowed?                     |
++--------------------------------+------------------------------------------------------------+
+|Half-width symbols              |Whether half-width symbols are allowed?                     |
++--------------------------------+------------------------------------------------------------+
+|Half-width kana                 |Whether half-width kana are allowed?                        |
++--------------------------------+------------------------------------------------------------+
+|Full-width alphabets            |Whether full-width alphabets are allowed?                   |
++--------------------------------+------------------------------------------------------------+
+|Full-width numbers              |Whether full-width numbers are allowed?                     |
++--------------------------------+------------------------------------------------------------+
+|Full-width Hiragana             |Whether full-width Hiragana are allowed?                    |
++--------------------------------+------------------------------------------------------------+
+|Full-width Katakana             |Whether full-width Katakana are allowed?                    |
++--------------------------------+------------------------------------------------------------+
+|Full-width Kanji                |Whether full-width Kanji are allowed?                       |
++--------------------------------+------------------------------------------------------------+
+|Full-width symbols and others   |Whether full-width symbols and others are allowed?          |
++--------------------------------+------------------------------------------------------------+
+|External characters             |Whether external characters are allowed?                    |
++--------------------------------+------------------------------------------------------------+
 
-許容するかどうかを記入するカラムには、以下の値を設定する。
+Configure the following values in the column to indicate the permission.
 
- ========== ======= ========================
- 設定内容    設定値    備考
- ========== ======= ========================
- 許容する     o      半角英小文字のオー
- 許容しない   x      半角英小文字のエックス
- ========== ======= ========================
+ ====================== =================== ========================
+ Configuration details  Configuration value   Remarks
+ ====================== =================== ========================
+ allowed                   o                Half-width lower-case O
+ Not allowed               x                lower-case alphabet X
+ ====================== =================== ========================
 
-具体例を以下に示す。
+A specific example is shown below.
 
 .. image:: ./_image/entityUnitTest_CharsetAndLengthExample.png
 
 
 
-テストメソッドの作成方法
-------------------------
+How to create a test method
+----------------------------
 
  
-スーパクラスの以下のメソッドを起動する。
+Invoke the following methods of the superclass:
 
 .. code-block:: java
 
@@ -187,134 +187,134 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 
 .. code-block:: java
 
-   // 【説明】～前略～
+   // [Description] ~ Previous is omitted ~
 
   public class SystemAccountEntityTest extends EntityTestSupport {
     
-       /** テスト対象エンティティクラス */
+       /** Entity class to be tested*/
        private static final Class<SystemAccountEntity> ENTITY_CLASS = SystemAccountEntity.class;
 
 
        /**
-        * 文字種および文字列長のテストケース
+        * Test cases for character type and string length
         */
        @Test
        public void testCharsetAndLength() {
-            // 【説明】テストデータを記載したシート名
+            // [Description] Sheet name containing the test data
             String sheetName = "testCharsetAndLength";        
 
-            // 【説明】テストデータのID
+            // [Description] ID of test data
             String id = "charsetAndLength";
 
-            // 【説明】テスト実行
+            // [Description] Test execution
             testValidateCharsetAndLength(ENTITY_CLASS, sheetName, id);
        }
 
 
-       // 【説明】～後略～
+       // [Description] ~ Rest is omitted ~
 
 
 
-このメソッドを実行すると、テストデータの各行毎に以下の観点でテストが実行される。
+When this method is executed, the test is executed for each row of test data from the following perspectives.
 
-+---------------+-----------------------------+---------------------------------------------------+
-| 観点          |入力値                       | 備考                                              |
-+===============+=============================+===================================================+
-| 文字種        |半角英字                     | max(最大文字列長)欄に記載した長さの文字列で構成さ |
-+---------------+-----------------------------+ れる。                                            |
-| 文字種        |半角数字                     |                                                   |
-+---------------+-----------------------------+                                                   |
-| 文字種        |半角数字                     |                                                   |
-+---------------+-----------------------------+                                                   |
-| 文字種        |半角記号                     |                                                   |
-+---------------+-----------------------------+                                                   |
-| 文字種        |半角カナ                     |                                                   |
-+---------------+-----------------------------+                                                   |
-| 文字種        |全角英字                     |                                                   |
-+---------------+-----------------------------+                                                   |
-| 文字種        |全角数字                     |                                                   |
-+---------------+-----------------------------+                                                   |
-| 文字種        |全角ひらがな                 |                                                   |
-+---------------+-----------------------------+                                                   |
-| 文字種        |全角カタカナ                 |                                                   |
-+---------------+-----------------------------+                                                   |
-| 文字種        |全角漢字                     |                                                   |
-+---------------+-----------------------------+                                                   |
-| 文字種        |全角記号その他               |                                                   |
-+---------------+-----------------------------+                                                   |
-| 文字種        |外字                         |                                                   |
-+---------------+-----------------------------+---------------------------------------------------+
-| 未入力        |空文字                       |長さ0の文字列                                      |
-+---------------+-----------------------------+---------------------------------------------------+
-| 最小文字列    |最小文字列長の文字列         |入力値は、o印を付けた文字種で構成される            |
-+---------------+-----------------------------+                                                   |
-| 最長文字列    |最長文字列長の文字列         |                                                   |
-+---------------+-----------------------------+                                                   |
-| 文字列長不足  |最小文字列長－１の文字列     |                                                   |
-+---------------+-----------------------------+                                                   |
-| 文字列長超過  |最大文字列長＋１の文字列     |                                                   |
-+---------------+-----------------------------+---------------------------------------------------+
-
-
-
-その他の単項目精査のテストケース
-================================
-
-前述の、文字種と文字列長の単項目精査テストケースを使用すれば\
-大部分の単項目精査がテストできるが、一部の精査についてはカバーできないものもある。
-例えば、数値入力項目の範囲精査が挙げられる。
++---------------------------+--------------------------------+--------------------------------------------------------+
+| Perspective               |Input value                     | Remarks                                                |
++===========================+================================+========================================================+
+| Character type            |Half-width alphabetic characters|Consists of a string of length described                |
++---------------------------+--------------------------------+in the character type max (maximum string length) field |
+| Character type            |Half-width numbers              |                                                        |
++---------------------------+--------------------------------+                                                        |
+| Character type            |Half-width numbers              |                                                        |
++---------------------------+--------------------------------+                                                        |
+| Character type            |Half-width symbols              |                                                        |
++---------------------------+--------------------------------+                                                        |
+| Character type            |Half-width kana                 |                                                        |
++---------------------------+--------------------------------+                                                        |
+| Character type            |Full-width alphabets            |                                                        |
++---------------------------+--------------------------------+                                                        |
+| Character type            |Full-width numbers              |                                                        |
++---------------------------+--------------------------------+                                                        |
+| Character type            |Full-width Hiragana             |                                                        |
++---------------------------+--------------------------------+                                                        |
+| Character type            |Full-width Katakana             |                                                        |
++---------------------------+--------------------------------+                                                        |
+| Character type            |Full-width Kanji                |                                                        |
++---------------------------+--------------------------------+                                                        |
+| Character type            |Full-width symbols and others   |                                                        |
++---------------------------+--------------------------------+                                                        |
+| Character type            |External characters             |                                                        |
++---------------------------+--------------------------------+--------------------------------------------------------+
+| Not entered               |Empty character                 |Zero-length string                                      |
++---------------------------+--------------------------------+--------------------------------------------------------+
+| Minimum string            |Minimum string-length string    |The minimum character string input value                |
++---------------------------+--------------------------------+consists of the character type marked with 0            |
+| Maximum string            |Maximum string length string    |                                                        |
++---------------------------+--------------------------------+                                                        |
+| String length insufficient|Minimum string length -1 string |                                                        |
++---------------------------+--------------------------------+                                                        |
+| String length exceeded    |Maximum string length +1 string |                                                        |
++---------------------------+--------------------------------+--------------------------------------------------------+
 
 
-このような単項目精査のテストについても、簡易にテストできる仕組みを用意している。
-各プロパティについて、１つの入力値と期待するメッセージIDのペアを記述することで、
-任意の値で単項目精査のテストができる。
+
+Other single item validation test cases
+========================================
+
+Most of the single item validation can be tested using the single item validation test cases for character type and string length mentioned above, \
+but some validation is not covered.
+For example, the range validation for numerical input items is possible.
+
+
+A simple test system has also been prepared for such single item validation.
+By describing a pair of one input value and expected message ID for each property,
+it is possible to test the single item validation using any value.
 
 
 .. tip::
-   本テスト方法は、プロパティとして別のFormを保持するFormに対しては使用できない。その場合は、独自に精査処理のテストを実装すること。
-   プロパティとして別のFormを保持するFormとは、以下の形式でプロパティにアクセスする親Formのこと。
+   This test method cannot be used for a form that holds another form as a property.In that case, implement your own validation processing test.
+   A form that holds another form as a property is the parent form that accesses the property in the following format:
    
    .. code-block:: none
    
-      <親Form>.<子Form>.<子フォームのプロパティ名>
+      <Parent Form>.<child Form>.<child form property name>.
 
 
-テストケース表の作成方法
-------------------------
+How to create a test case table
+--------------------------------
 
-以下のカラムを用意する。
+Prepare the following columns.
 
-+-----------------------------+--------------------------------------------------+
-| カラム名                    | 記載内容                                         |
-+=============================+==================================================+
-|propertyName                 |テスト対象のプロパティ名                          |
-+-----------------------------+--------------------------------------------------+
-|case                         |テストケースの簡単な説明                          |
-+-----------------------------+--------------------------------------------------+
-|input1\ [#]_                 |入力値 [#]_                                       |
-+-----------------------------+--------------------------------------------------+
-|messageId                    |上記入力値で単項目精査した場合に、発生すると期待す|
-|                             |るメッセージID（精査エラーにならないことを期待する|
-|                             |場合は空欄）                                      |
-+-----------------------------+--------------------------------------------------+
++-----------------------------+-----------------------------------------------------+
+| Column name                 | Contents to be mentioned                            |
++=============================+=====================================================+
+|propertyName                 |The property name to be tested.                      |
++-----------------------------+-----------------------------------------------------+
+|case                         |Brief description of the test case                   |
++-----------------------------+-----------------------------------------------------+
+|input1\ [#]_                 |Input value [#]_                                     |
++-----------------------------+-----------------------------------------------------+
+|messageId                    |Message ID that is expected to be generated when the |
+|                             |above input value is used for single item validation |
+|                             |(blank space if no validation error is expected).    |
++-----------------------------+-----------------------------------------------------+
 
 
-.. [#] ひとつのキーに対して複数のパラメータを指定する場合は、input2, input3 というようにカラムを増やす。
+.. [#] When specifying multiple parameters for a single key, add columns such as input2 and input3.
 
 \
 
-.. [#] \ :ref:`special_notation_in_cell`\ の記法を使用することで、効率的に入力値を作成できる。
+.. [#] Input values can be created efficiently using the \ :ref:`special_notation_in_cell`\  notation.
 
-具体例を以下に示す。
+A specific example is shown below.
 
 .. image:: ./_image/entityUnitTest_singleValidationDataExample.png
 
 
-テストメソッドの作成方法
-------------------------
+How to create a test method
+----------------------------
 
  
-スーパクラスの以下のメソッドを起動する。
+Invoke the following methods of the superclass:
 
 .. code-block:: java
 
@@ -325,20 +325,20 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 
 .. code-block:: java
 
- // 【説明】～前略～
+ // [Description] ~ Previous is omitted ~
 
  public class SystemAccountEntityTest extends EntityTestSupport {
     
-      /** テスト対象エンティティクラス */
+      /** Entity class to be tested*/
       private static final Class<SystemAccountEntity> ENTITY_CLASS = SystemAccountEntity.class;
 
       /**
-       * 文字種および文字列長の単項目精査テストケース
+       * Single item validation test case of character type and string length
        */
-      // 【説明】～中略～
+      // [Description] ~ Middle is omitted ~
 
       /**							  
-       * 単項目精査のテストケース（上記以外）		  
+       * Test cases for single item validation (not listed above)		  
        */							  
       @Test						  
       public void testSingleValidation() {		  
@@ -348,98 +348,98 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
       }                                                     
 
 
-       // 【説明】～後略～
+       // [Description] ~ Rest is omitted ~
 
 
-バリデーションメソッドのテストケース
+Test case for validation method
 ====================================
 
-上記までの単項目精査のテストでは、エンティティのセッターメソッドに付与されたアノテーションが\
-正しいかテストされ、エンティティに実装したバリデーションメソッド\ [#]_\ は実行されていない。
+In the single item validation test mentioned above, the annotation given to the setter method of the entity is tested for correctness, \
+and the validation method \ [#]_\ implemented in the entity is not executed.
 
-その為、独自のバリデーションメソッドをエンティティに実装した場合は、
-別途テストを作成する必要がある。
-
-
-
-.. [#] ``@ValidateFor``\ アノテーションを付与したstaticメソッドのこと
+Therefore, a separate test must be created
+if you implement your own validation method in the entity.
 
 
-テストケース表の作成
---------------------
 
-* IDは"testShots"固定とする。
-* 以下のカラムを用意する。
+.. [#] Static method with ``@ValidateFor``\  annotation.
 
- +---------------------------+-----------------------------------------------+
- | カラム名                  | 記載内容                                      |
- +===========================+===============================================+
- | title                     | テストケースのタイトル                        |
- +---------------------------+-----------------------------------------------+
- | description               | テストケースの簡単な説明                      |
- +---------------------------+-----------------------------------------------+
- |  expectedMessageId\ *ｎ*  | 期待するメッセージ（\ *ｎ*\ は1からの連番 ）  |
- +---------------------------+-----------------------------------------------+
- | propertyName\ *ｎ*        | 期待するプロパティ（\ *ｎ*\ は1からの連番 ）  |
- +---------------------------+-----------------------------------------------+
 
- 複数のメッセージを期待する場合、expectedMessageId2, propertyName2というように数値を増やして右側に追加していく。
+Create a test case table
+------------------------
 
-* 入力パラメータ表の作成
+* ID is fixed to "testShots".
+* Prepare the following columns.
 
-  * IDは"params"固定とする。
-  * 上記のテストケース表に対応する、入力パラメータ\ [#]_ \を1行ずつ記載する。
+ +---------------------------+-----------------------------------------------------------+
+ | Column name               | Contents to be mentioned                                  |
+ +===========================+===========================================================+
+ | title                     | Title of the test case                                    |
+ +---------------------------+-----------------------------------------------------------+
+ | description               | Brief description of the test case                        |
+ +---------------------------+-----------------------------------------------------------+
+ |  expectedMessageId\ *ｎ*  | Expected message (\ *ｎ*\ is a sequential number from 1)  |
+ +---------------------------+-----------------------------------------------------------+
+ | propertyName\ *ｎ*        | Expected property (\ *ｎ*\ is a sequential number from 1) |
+ +---------------------------+-----------------------------------------------------------+
 
-\
+ When multiple messages are expected, add more numerical values such as expectedMessageId2 and propertyName2 on the right.
 
-    .. [#] \ :ref:`special_notation_in_cell`\ の記法を使用することで、効率的に入力値を作成できる。
+* Create an input parameter table
+
+  * ID is fixed to "params".
+  * Enter the input parameters\ [#]_ \ corresponding to the above test case table, one row at a time.
 
 \
 
-    具体例を以下に示す。
+    .. [#] Using the notation \ :ref:`special_notation_in_cell`\, input values can be created efficiently.
+
+\
+
+    A specific example is shown below.
 
     .. image:: ./_image/entityUnitTest_validationTestData.png
       :scale: 70
 
-    ※Entityの保有するプロパティ名のExcelへの記述手順は、 :ref:`property-name-copy-label` を参照。
+    * For the procedure to describe the property name of Entity to Excel, see :ref:`property-name-copy-label`.
 
 
 
-テストケース、テストデータの作成
+Create test cases and test data
 --------------------------------
 
 
 .. _entityUnitTest_ValidationMethodSpecifyNormal:
 
 
-精査対象確認
-~~~~~~~~~~~~
+Check for validation target
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-精査対象のプロパティを指定(\ :ref:`nablarch_validation`\ 参照)した場合、\
-その指定が正しいかどうか確認するケースを作成する。
+When the properties to be validated are specified (see \ :ref:`nablarch_validation`\), \
+create a case to check whether they are correctly specified.
 
 
-全てのプロパティに対して、おのおの単項目精査でエラーとなるデータを用意する。\
-精査対象プロパティの指定が正しければ、精査対象のプロパティだけが単項目精査になるはずである。\
-よって、期待値として、全精査対象プロパティ名と、各プロパティ単項目精査エラー時のメッセージIDを記載する。\
+Prepare data that will cause an error in each single item validation for all properties.\
+If the specification of the properties to be validated are correct, only the properties to be validated should undergo single item validation.\
+Therefore, the names of all properties to be validated, and the message ID when a single item validation error occurs for each property are entered as expected values.\
 
 
 .. tip::
- 精査対象プロパティが誤って精査対象から漏れていた場合、\
- 期待したメッセージが出力されない為、メッセージIDのアサートが失敗する。\
- また、精査対象でないプロパティが誤って精査対象となっていた場合は、\
- 入力値が不正により単項目精査が失敗し、予期しないメッセージが出力される。\
- これにより、精査対象の誤りを検知することができる。
+ If a property for validation is accidentally omitted from the validation target, \
+ the message ID assertion will fail since the expected message is not output. \
+ Also, if a property that is not a target for validation accidentally becomes a target for validation, \
+ single item validation will fail due to invalid input value and an unexpected message is output. \
+ As a result, validation target errors can be detected.
 
 
-テストケース表には、全精査対象プロパティのプロパティ名と、\
-そのプロパティ単項目精査エラーメッセージIDを記載する。
+The property name of all properties for validation and the single item validation error message ID \
+of those properties are listed in the test case table.
 
 .. image:: ./_image/entityUnitTest_ValidationPropTestCases.png
  :scale: 70
 
 
-入力パラメータ表には、全てのプロパティに対してそれぞれ単項目精査エラーとなる値を記載する。
+The values that result in single item validation errors for all the properties are listed in the input parameters table.
 
 
 .. image:: ./_image/entityUnitTest_ValidationPropParams.png
@@ -448,33 +448,33 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 
 .. tip::
 
-   Form単体テストのテストケースやテストデータを作成する際、\
-   **プロパティに保持している別のFormのプロパティ** を指定したいことがある。\
-   この場合、次のように指定できる。
+   When creating a test case or test data for the Form unit test, \
+   specifying another **property of another Form that is held in the property** may be required. \
+   In this case, it can be specified as follows.
    
-   * Formのコード例
+   * Example code for Form
    
    .. code-block:: java
    
      public class SampleForm {
 
-         /** システムユーザ */
+         /** System user */
          private SystemUserEntity systemUser;
 
-         /** 電話番号配列 */
+         /** Telephone number array */
          private UserTelEntity[] userTelArray;
      
-         // 【説明】プロパティ以外は省略
+         // [Description] Omitted except for properties
      
      }
 
-   * 保持しているFormのプロパティを指定する方法(SystemUserEntity.userIdを指定する場合)
+   * How to specify the Form property being held (when specifying SystemUserEntity.userId)
    
    .. code-block:: none
    
       sampleForm.systemUser.userId
 
-   * Form配列の要素のプロパティを指定する方法(UserTelEntity配列の先頭要素のプロパティを指定する場合)
+   * How to specify the property of the Form array element (when specifying the property of the first UserTelEntity array element)
    
    .. code-block:: none
    
@@ -482,100 +482,100 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 
 
 
-項目間精査など
-~~~~~~~~~~~~~~
+Validation between items
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-項目間精査など、バリデーションメソッドの\ :ref:`entityUnitTest_ValidationMethodSpecifyNormal`\ 
-で行った精査対象指定以外の動作確認を行うケースを作成する。
+Create a case to check operations other than the validation target specification that is performed by the \ :ref:`entityUnitTest_ValidationMethodSpecifyNormal` 
+validation method, such as validation between items.
 
-下図では、"newPasswordとconfirmPasswordが等しいこと"というバリデーションメソッドに対する正常系のケースを作成している。
+In the figure below, a normal case is created for the validation method "newPassword and confirmPassword are the same".
 
 .. image:: ./_image/entityUnitTest_RelationalValidation.png
  :scale: 100
 
 
-テストメソッドの作成方法
-------------------------
+How to create a test method
+----------------------------
 
-これまでに作成したテストケース、データを使用するテストメソッドを以下に示す。\
-下記コードの変数内容を変更するだけで、異なるEntityの精査のテストに対応できる。
+The test cases created so far and the test methods that use the data are shown below. \
+Validation tests can be performed for different Entities simply by changing the variable contents of the following code.
 
 .. code-block:: java
 
-    // ～前略～
+    // ~ Previous is omitted ~
 
-    /** テスト対象エンティティクラス */
+    /** Entity class to be tested*/
     private static final Class<SystemAccountEntity> ENTITY_CLASS = SystemAccountEntity.class;
 
-    // ～中略～
+    // ~ Middle is omitted ~
     /**
-     * {@link SystemAccountEntity#validateForRegisterUser(nablarch.core.validation.ValidationContext)} のテスト。
+     * {@link SystemAccountEntity#validateForRegisterUser(nablarch.core.validation.ValidationContext)} test.
      */
     @Test
     public void testValidateForRegisterUser() {
-        // 精査実行
+        // Execution of validation
         String sheetName = "testValidateForRegisterUser";
         String validateFor = "registerUser";
         testValidateAndConvert(ENTITY_CLASS, sheetName, validateFor);
     }
 
-   // ～後略～
+   // ~ Rest is omitted ~
 
 
 
 .. _entityUnitTest_ConstructorCase:
 
-コンストラクタに対するテストケース
+Test case for constructor
 ==================================
 
-コンストラクタに対するテストでは、引数に指定した値が、正しくプロパティに設定されているかを確認するケースを作成する。\
-このとき対象となるプロパティは、Entityにに定義されている全てのプロパティである。\
-テストデータには、プロパティ名とそれに設定するデータと期待値(getterで取得した値と比較するデータ)を用意する。
+In the test for constructors, create a case to check whether the value specified in the argument is set correctly in the property.\
+At this time, the target properties are all the properties defined in Entity.\
+For the test data, prepare the property name, the data to be set for it, and the expected value (data to be compared with the value obtained by the getter).
 
-下図では、以下のように各プロパティに値を指定している。
-テストでは、コンストラクタにこれらの値の組み合わせを与えたとき、各プロパティに指定した値が設定されているか(getterを呼び出して、想定通りの値が取得できるか)確認している。
+In the figure below, values have been specified for each property as follows.
+When the constructor is given a combination of these values, the test checks whether each property is configured to the specified value (Can the expected value be obtained by calling the getter).
 
-実際のテストコードでは、コンストラクタへの値の設定及び値の確認は、自動テストフレームワークで提供されるメソッド内で行われる。
-詳細は、 :ref:`テストコード<test-constructor-java-label>` を参照すること。
+In the actual test code, setting of value to the constructor and checking of the value are performed in the method provided by the automated test framework.
+For more information, see :ref:`test code<test-constructor-java-label>`.
 
 
 .. tip::
    
-   Entityは自動生成されるため、アプリケーションで使用されないコンストラクタが生成される可能性がある。\
-   その場合リクエスト単体テストではテストできないため、Entity単体テストでコンストラクタに対するテストを必ず行うこと。
+   Since the Entity is automatically generated, a constructor that is not used in the application may be generated. \
+   In that case, make sure to test the constructor with the Entity unit test since it cannot be tested with the request unit test.
    
-   一方、一般的なFormの場合、アプリケーションで使用するコンストラクタのみを作成する。\
-   したがって、リクエスト単体テストでコンストラクタのテストを行うことができる。\
-   そのため、一般的なFormについては、クラス単体テストでコンストラクタのテストを行う必要はない。
+   On the other hand, only a constructor used in the application is created in the case of a general Form.\
+   Therefore, the constructor can be tested with the request unit test.\
+   Thus, for a general Form, the constructor need not be tested with the class unit test.
 
-Excelへの定義
--------------
+Definition to Excel
+--------------------
 .. image:: ./_image/entityUnitTest_Constructor.png
     :scale: 80
 
-※Entityの保有するプロパティ名のExcelへの記述手順は、 :ref:`property-name-copy-label` を参照。
+* For the procedure to describe the property name of Entity to Excel, see :ref:`property-name-copy-label`.
 
-上記設定値のテスト内容(抜粋)
+Test contents of the above configuration values (excerpt)
 
-=============== =========================== ================================
-プロパティ      コンストラクタに設定する値  期待値(getterから取得される値
-=============== =========================== ================================
-userId          userid                      userid
-loginId         loginid                     loginid
-password        password                    password
-=============== =========================== ================================
+=============== ============================== ================================================
+Property        Value set to the constructor   Expected value (value obtained from the getter)
+=============== ============================== ================================================
+userId          userid                         userid
+loginId         loginid                        loginid
+password        password                       password
+=============== ============================== ================================================
 
 .. _test-constructor-java-label:
 
-このデータを使用するテストメソッドを以下に示す。
+The following test methods use this data:
 
 .. code-block:: java
 
-   // 【説明】～前略～
+   // [Description] ~ Previous is omitted ~
 
    public class SystemAccountEntityTest extends EntityTestSupport {
 
-        /** コンストラクタのテスト */
+        /** Constructor test */
         @Test
         public void testConstructor() {
             Class<?> entityClass = SystemAccountEntity.class;
@@ -591,55 +591,55 @@ password        password                    password
 
 .. tip::
 
-  testConstructorAndGetterでテスト可能なプロパティの型(クラス)には制限がある。
-  下記型(クラス)に該当しない場合には、各テストクラスにてコンストラクタとgetterを明示的に呼び出してテストする必要がある。
+  There are restrictions on the type (class) of properties that can be tested with testConstructorAndGetter.
+  If the property does not correspond to the following types (class), the constructor and getter in each test class must be explicitly called to test it.
 
 
-  * String及び、String配列
-  * BigDecimal及び、BigDecimal配列
-  * java.util.Date及び、java.util.Date配列(Excelへはyyyy-MM-dd形式もしくはyyyy-MM-dd HH:mm:ss形式で記述すること)
-  * valueOf(String)メソッドを持つクラス及び、その配列クラス(例えばIntegerやLong、java.sql.Dateやjava.sql.Timestampなど)
+  * String and String array
+  * BigDecimal and BigDecimal array
+  * java.util.Date and java.util.Date array (write in yyyy-MM-dd format or yyyy-MM-dd HH:mm:ss format to excel)
+  * Class with valueOf(String) method and its array class (ex: Integer or Long, java.sql.Date or java.sql.Timestamp etc.)
 
-  以下に、個別のテスト実施方法の例を示す。
+  Examples of individual test execution methods are given below.
 
 
-    * Excelへのデータ記述例
+    * Example of data description to Excel
 
       .. image:: _image/entityUnitTest_ConstructorOther.png
         :scale: 80
 
     
 
-    * テストコード例
+    * Test code example
 
       .. code-block:: java
 
-       /** コンストラクタのテスト */
+       /** Constructor test */
        @Test
        public void testConstructor() {
-           // 【説明】
-           // 共通にテストが実施出来る項目は、testConstructorAndGetterを使用してテストを実施する。
+           // [Description]
+           // The items that can be commonly tested are tested by using testConstructorAndGetter.
            Class<?> entityClass = SystemAccountEntity.class;
            String sheetName = "testAccessor";
            String id = "testConstructor";
            testConstructorAndGetter(entityClass, sheetName, id);
 
-           // 【説明】
-           // 共通にテストが実施出来ない項目は、個別にテストを実施する。
+           // [Description]
+           // The items that cannot be tested commonly are tested individually.
 
-           // 【説明】
-           // getParamMapを呼び出し、個別にテストを行うプロパティのテストデータを取得する。
-           // (テスト対象のプロパティが複数ある場合は、getListParamMapを使用する。)
+           // [Description]
+           // getParamMap is called to acquire the test data of properties to be tested individually.
+           // (If there are multiple properties for testing, getListParamMapis used.)
            Map<String, String[]> data = getParamMap(sheetName, "testConstructorOther");
 
-           // 【説明】Map<String, String[]>から、Entityのコンストラクタの引数であるMap<String, Object>へ変換する
+           // [Description] Convert Map<String, String[]> to Map<String, Object>, which is the argument of the Entity's constructor
            Map<String, Object> params = new HashMap<String, Object>();
            params.put("users", Arrays.asList(data.get("set")));
 
-           // 【説明】上記で生成したMap<String, Object>を引数にEntityを生成する。
+           // [Description] Generate Entity with Map<String, Object> generated above as the argument.
            SystemAccountEntity entity = new SystemAccountEntity(params);
 
-           // 【説明】getterを呼び出し、期待値通りの値が返却されることを確認する。
+           // [Description] Call getter and confirm that the expected value is returned.
            assertEquals(entity.getUsers(), Arrays.asList(data.get("get")));
 
        }
@@ -649,47 +649,47 @@ password        password                    password
 
 .. _entityUnitTest_SetterGetterCase:
 
-setter、getterに対するテストケース
-==================================
+Test cases for setters and getters
+===================================
 
-setter、getterに対するテストでは、setterで設定した値とgetterで取得した値が、期待通りになっているか確認するケースを作成する。\
-このとき対象となるプロパティは、Entityに定義されている全てのプロパティである。
+In the test for setters and getters, a case to check whether the value set by the setter and the value obtained by the getter are as expected is created. \
+At this time, the target properties are all the properties defined in Entity.
 
-各プロパティに対して、setterに渡すためのデータと期待値(getterで取得した値と比較するデータ)を用意する。
-テストメソッドでは、前述のsetterに渡すためのデータを引数にsetterを呼び出し、直後にgetterで取得した値と期待値が\
-等しいことを確認している。
+For each property, prepare the data to be transferred to the setter and the expected value (data to be compared with the value obtained by the getter).
+In the test method, the setter is called with the data to be transferred to the aforementioned setter as an argument and whether the value obtained\
+by the getter and the expected value are equal is checked immediately.
 
-実際のテストコードでは、setterへの値の設定及び値の確認(期待値との比較)は、
-自動テストフレームワークで提供されるメソッド内で行われる。 詳細は、 テストコード を参照すること。
+In the actual test code, setting of value to the setter and checking of the value (comparing it with the expected value)
+are performed in the method provided by the automated test framework. For more information, see the test code.
 
 
 .. tip::
    
-   Entityは自動生成されるため、アプリケーションで使用されないsetter/getterが生成される可能性がある。\
-   その場合リクエスト単体テストではテストできないため、Entity単体テストでsetter/getterに対するテストを必ず行うこと。
+   Since the Entity is automatically generated, setters/ getters that are not used in the application may be generated. \
+   In that case, make sure to test the setter/ getter with the Entity unit test since they cannot be tested with the request unit test.
    
-   一方、一般的なFormの場合、アプリケーションで使用するsetter/getterのみを作成する。\
-   したがって、リクエスト単体テストでsetter/getterのテストを行うことができる。\
-   そのため、一般的なFormについては、クラス単体テストでsetter/getterのテストを行う必要はない。
+   On the other hand, only the setter/ getter used in the application are created in the case of a general Form.\
+   Therefore, the setter/ getter can be tested with the request unit test.\
+   Thus, for a general Form, the setter/ getter need not be tested with the class unit test.
 
 
-Excelへの定義
--------------
+Definition to Excel
+--------------------
 .. image:: ./_image/entityUnitTest_SetterAndGetter.png
     :scale: 90
 
-※Entityの保有するプロパティ名のExcelへの記述手順は、 :ref:`property-name-copy-label` を参照。
+* For the procedure to describe the property name of Entity to Excel, see :ref:`property-name-copy-label`.
 
-このデータを使用するテストメソッドを以下に示す。
+The following test methods use this data:
 
 .. code-block:: java
 
-   // 【説明】～前略～
+   // [Description] ~ Previous is omitted ~
 
    public class SystemAccountEntityTest extends EntityTestSupport {
 
        /**
-        * setter、getterのテスト
+        * Setter, getter test
         */
        @Test
        public void testSetterAndGetter() {
@@ -699,23 +699,23 @@ Excelへの定義
            testSetterAndGetter(entityClass, sheetName, id);
        }
 
-       // 【説明】～後略～
+       // [Description] ~ Rest is omitted ~
 
 .. tip::
 
-  testGetterAndSetterでテスト可能なプロパティの型(クラス)には制限がある。
-  制限内容の詳細は、 :ref:`entityUnitTest_ConstructorCase` を参照すること。
+  There are restrictions on the type (class) of properties that can be tested with testGetterAndSetter.
+  For information on the restrictions, see :ref:`entityUnitTest_ConstructorCase`.
 
 .. tip::
 
-  setterやgetterにロジックを記述した場合(例えば、setterは郵便番号上3桁と下4桁に別れているが、getterはまとめて7桁取得する場合など)は、
-  そのロジックを確認するテストケースを作成すること。
+  When describing logic in a setter or getter (for example, when a setter is divided into the first 3 digits and last 4 digits of a zip code, but a getter acquires 7 digits altogether),
+  create a test case to check the logic.
 
-  上記のテストをExcelに定義する場合には、下記画像のように定義する。::
+  When defining the above test in Excel, define it as shown in the image below. ::
 
-    郵便番号に下記を設定した場合に、正しく7桁の郵便番号(0010001)が取得することを確認する例
-      郵便番号上3桁:001
-      郵便番号下4桁:0001
+    Example for checking that a 7-digit zip code (0010001) is acquired correctly when the following is set for the zip code
+      First 3 digits of the zip code: 001
+      Last 4 digits of postal code: 0001
 
   .. image:: ./_image/entityUnitTest_SetterAndGetter_PostNo.png
     :scale: 80
@@ -723,82 +723,82 @@ Excelへの定義
 
 .. _property-name-copy-label:
 
-プロパティ名の一覧を簡易的に取得する手順
-========================================
-①Eclipseでテスト対象のEntityクラスをオープンし、Outline(アウトライン)を表示する。
+Procedure for easily acquiring a list of property names
+=======================================================
+(1) Open the Entity class to be tested in Eclipse, and display the Outline.
 
   .. image:: ./_image/entityUnitTest_PropertyWrite1.png
     :scale: 85
 
-②コピーしたいプロパティを選択する。
+(2) Select the property you want to copy.
 
   .. image:: ./_image/entityUnitTest_PropertyWrite2.png
 
-③マウスの右クリックで表示されるメニューからCopy Qualified Name(修飾名のコピー)を選択する。
+(3) Select Copy Qualified Name from the menu that is displayed when you right-click the mouse.
 
   .. image:: ./_image/entityUnitTest_PropertyWrite3.png
 
-④コピーしたプロパティ名のリストをエクセルに貼り付ける。
+(4) Paste the copied list of property names into Excel.
 
- 貼りつけた値には、下記画像のように「クラス名 + プロパティ名」の完全修飾名の形式になっている。
- このため、Excelの置き換え機能を使用して不要なクラス名を削除する。
+ The pasted value is in the form of fully qualified name "class name + property name", as shown in the image below.
+ Use the Replace function of Excel to delete unnecessary class names.
 
- Entityクラスが、「nablarch.sample.management.user.SystemAccountEntity」の場合の置き換え例::
+ Replacement example when the Entity class is "nablarch.sample.management.user.SystemAccountEntity"::
  
-  検索する文字列：nablarch.sample.management.user.SystemAccountEntity.
-  置き換え後の文字列：(空のまま)
+  Search string: nablarch.sample.management.user.SystemAccountEntity.
+  Replaced string: (blank)
 
  .. image:: ./_image/entityUnitTest_PropertyWrite4.png
 
 \
 
-自動テストフレームワーク設定値
-==============================
+Automated test framework configuration values
+=============================================
 
-:ref:`entityUnitTest_ValidationCase`\ を実施する際に必要な初期値設定について説明する。
+Describes the initial value configuration required when executing :ref:`entityUnitTest_ValidationCase`\.
 
 
-設定項目一覧
-------------
+Configuration items list
+------------------------
 
-``nablarch.test.core.entity.EntityTestConfiguration``\ クラスを使用し、\
-以下の値をコンポーネント設定ファイルで設定する（全項目必須）。
+Use ``nablarch.test.core.entity.EntityTestConfiguration``\, \
+and configure the following values in the component configuration file (all items required).
 
-+--------------------+----------------------------------------------+
-|     設定項目名     |説明                                          |
-+====================+==============================================+
-|maxMessageId        |最大文字列長超過時のメッセージID              |
-+--------------------+----------------------------------------------+
-|maxAndMinMessageId  |最長最小文字列長範囲外のメッセージID(可変長)  |
-+--------------------+----------------------------------------------+
-|fixLengthMessageId  |最長最小文字列長範囲外のメッセージID(固定長)  |
-+--------------------+----------------------------------------------+
-|underLimitMessageId |文字列長不足時のメッセージID                  |
-+--------------------+----------------------------------------------+
-|emptyInputMessageId |未入力時のメッセージID                        |
-+--------------------+----------------------------------------------+
-|characterGenerator  |文字列生成クラス \ [#]_\                      |
-+--------------------+----------------------------------------------+
++------------------------+---------------------------------------------------------------------------------------+
+|Configuration item name |Description                                                                            |
++========================+=======================================================================================+
+|maxMessageId            |Message ID when the maximum string length is exceeded                                  |
++------------------------+---------------------------------------------------------------------------------------+
+|maxAndMinMessageId      |Message ID outside the range of the maximum and minimum string length (variable length)|
++------------------------+---------------------------------------------------------------------------------------+
+|fixLengthMessageId      |Message ID outside the range of the maximum and minimum string length (fixed length)   |
++------------------------+---------------------------------------------------------------------------------------+
+|underLimitMessageId     |Message ID when the string length is insufficient                                      |
++------------------------+---------------------------------------------------------------------------------------+
+|emptyInputMessageId     |Message ID when there is no input                                                      |
++------------------------+---------------------------------------------------------------------------------------+
+|characterGenerator      |String generation class \ [#]_\                                                        |
++------------------------+---------------------------------------------------------------------------------------+
 
 \
 
 .. [#]
- ``nablarch.test.core.util.generator.CharacterGenerator``\ の実装クラスを指定する。
- このクラスがテスト用の入力値を生成する。
- 通常は、\ ``nablarch.test.core.util.generator.BasicJapaneseCharacterGenerator``\ を使用すれば良い。
+ Specify the implementation class of ``nablarch.test.core.util.generator.CharacterGenerator``\.
+ This class generates input values for the test.
+ Normally, you can use\ ``nablarch.test.core.util.generator.BasicJapaneseCharacterGenerator``\.
 
 
-設定するメッセージIDは、バリデータの設定値と合致させる。
+The set message ID matches the value set in the validator.
 
-（以下の記述例を参照）
+(See the example described below)
 
 
-コンポーネント設定ファイルの記述例
-------------------------------------
+Example of component configuration file description
+----------------------------------------------------
 
-以下の設定値を使用する場合のコンポーネント設定ファイル記述例を示す。
+An example of a component configuration file description when the following setting values are used is shown below.
 
-**【精査クラスのコンポーネント設定ファイル】**
+**[Component configuration file of the validation class]**
 
 .. code-block:: xml
 
@@ -812,15 +812,15 @@ Excelへの定義
           <property name="maxAndMinMessageId" value="MSG00011"/>
           <property name="fixLengthMessageId" value="MSG00023"/>
         </component>
-        <!-- 中略 -->
+        <!-- Omitted -->
     </property>
 
 
-**【テストのコンポーネント設定ファイル】**
+**[Component configuration file of the test]**
 
 .. code-block:: xml
  
-  <!-- エンティティテスト設定 -->
+  <!-- Entity test configuration -->
   <component name="entityTestConfiguration" class="nablarch.test.core.entity.EntityTestConfiguration">
     <property name="maxMessageId"        value="MSG00011"/>
     <property name="maxAndMinMessageId"  value="MSG00011"/>
