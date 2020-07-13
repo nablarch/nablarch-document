@@ -1,48 +1,48 @@
 .. _rest-application_design:
 
-RESTFulウェブサービスの責務配置
-====================================
+Responsibility Assignment of RESTful Web Service
+=================================================
 
-.. contents:: 目次
+.. contents:: Table of Contents
   :depth: 3
   :local:
 
 
-RESTFulウェブサービスを作成する際に実装すべきクラスとその責務について説明する。
+This section describes the classes to be implemented and their responsibilities when creating RESTful web service.
 
-**クラスとその責務**
+**Classes and their responsibilities**
 
 .. image:: images/application_design.png
   :scale: 85
 
-アクションクラス(action class)
-  アクションクラスはリクエストを元に業務ロジックを実行し、レスポンスの生成と返却を行う。
+Action class
+  The action class executes the business logic based on the request and generates and returns the response.
 
-  例えば、フォームクラスからエンティティクラスを作成し、その内容をデータベースに永続化するなどの処理を行う。
+  For example, create an entity class from a form class and persist its contents to a database.
 
-フォームクラス(form class)
-  クライアント(ブラウザや外部システム、スマートフォンのアプリ等)から送信された値(http body)をマッピングするクラス。
-  また、クライアントに応答する値(response body)にマッピングする値を保持するクラス。
+Form class
+  Class to map the value (HTTP body) sent from the client (browser, external system, smartphone application, etc.).
+  A class that holds the value to be mapped to the value (response body) that responds to the client.
 
-  クライアントから送信された値を保持するフォームクラスは、値をバリデーションするためのアノテーションの設定や相関バリデーションのロジックを持つ。
+  The form class that holds the value submitted by the client has annotations to validate the value and correlation validation logic.
 
-  APIの仕様によっては、フォームクラスは階層構造(フォームクラスがフォームクラスを持つ)となる場合がある。
+  Depending on the API specification, a form class may have a hierarchical structure (form class has a form class).
 
   .. _`application_design-form_html`:
 
-  フォームクラスはAPI単位に作成する
-    フォームクラスはクライアントとのインタフェースを定義するものであり、インタフェース(API)が異なる場合は別のフォームクラスとして作成する。
-    例えば、似たような項目を持つことが多い登録用APIと更新用APIであっても、APIが異なるため別のフォームクラスとする必要がある。
+  Form class is created for each API
+    The form class defines the interface with the client, and a separate form class is created if the interface (API) is different.
+    For example, even the registration and update APIs, which often have similar items, are different APIs and should be different form classes.
 
-    API単位でフォームクラスを作成することで、インタフェース変更の影響範囲を限定出来るメリットがある。
-    また、1つのインタフェースに対応したバリデーションロジックだけを持つため、責務が明確で可読性や保守性が高くなる。
+    Creating a form class for each API has the advantage of limiting the influence of interface changes.
+    Since the form class only has validation logic for one interface, its responsibilities are clear and is more readable and maintainable.
 
-    なお、相関バリデーションのロジックは複数のフォームクラスで共通となることがある。
-    この場合は、相関バリデーションのロジックを別クラスに抽出しロジックを共通化すると良い。
+    The logic of correlation validation may be the same for multiple form classes
+    In this case, it is better to extract the logic of correlation validation into a separate class and make the logic common.
 
-  フォームクラスのプロパティは全て `String` で定義する
-    プロパティを `String` とすべき理由は、 :ref:`Bean Validation <bean_validation-form_property>` を参照。
+  All the form class properties must be defined by a `String`.
+    See :ref:`Bean Validation <bean_validation-form_property>` for the reason why the property must be a `String`.
 
-エンティティクラス(entity class)
-  テーブルと1対1で対応するクラス。カラムに対応するプロパティを持つ。
+Entity class
+  A class with a one-to-one correspondence with a table. Has the property corresponding to columns.
 
