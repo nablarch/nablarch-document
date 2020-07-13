@@ -2,19 +2,19 @@
 
 Getting Started
 ==========================================
-本章を通読することで、Nablarchアプリケーションフレームワークを利用したRESTfulウェブサービスの開発のイメージを掴むことができる。
+By reading this chapter, you can get an image of the development of RESTful web service using the Nablarch application framework.
 
-前提条件
-  本章は :ref:`example_application` をベースに解説を行う。
-  Exampleアプリケーションの動作環境を事前に構築しておくこと。
+Prerequisites
+  The explanation of this chapter is based on :ref:`example_application`. 
+  The operating environment of the example application must be built in advance.
 
   .. tip::
-    Exampleアプリケーションに関する以下の事項は、本章では解説しない。
-    以下の事項については、 :ref:`example_application` を参照すること。
+    The following items related to the example application are not explained in this chapter. For the following items, 
+    see :ref:`example_application`.
 
-    - Exampleアプリケーションの環境構築および実行
-    - Exampleアプリケーションの設定
-    - 使用しているOSSプラグインについて
+    - Building the environment and execution of example application
+    - Example application configuration
+    - Information on the OSS plugin used
 
 .. toctree::
   :maxdepth: 1
