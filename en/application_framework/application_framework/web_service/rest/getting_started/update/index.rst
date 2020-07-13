@@ -1,44 +1,43 @@
-更新機能の作成
+Create Update Function
 ================================================================
-Exampleアプリケーションを元に、更新機能の解説を行う。
+This section describes the update function based on an example application.
  
-作成する機能の説明
-  本機能は、PUTリクエスト時にリクエストボディにJSON形式のプロジェクト情報を設定することで、
-  データベース上のプロジェクトIDが一致するプロジェクト情報を更新する。
+Description of the function to be created
+  This function updates the project information that matches the project ID in the database by setting the JSON format project information in the request body during PUT requests.
 
-動作確認手順
-  1. 事前にDBの状態を確認
+Operation check procedure
+  1. Check the DB status in advance
  
-     H2のコンソールから下記SQLを実行し、更新対象レコードを確認する。
+     Execute the following SQL from the console of H2 and check the update target record.
  
      .. code-block:: sql
  
        SELECT * FROM PROJECT WHERE PROJECT_ID = 1;
  
-  2. プロジェクト情報の更新
+  2. Update the project information
  
-    任意のRESTクライアントを使用して、以下のリクエストを送信する。
+    Use any REST client to send the following request.
  
     URL
       http://localhost:9080/projects
-    HTTPメソッド
+    HTTP method
       PUT
     Content-Type
       application/json
-    リクエストボディ
+    Request body
       .. code-block:: json
  
         {
             "projectId": 1,
-            "projectName": "プロジェクト９９９",
+            "projectName": "Project 999",
             "projectType": "development",
             "projectClass": "ss",
-            "projectManager": "山田",
-            "projectLeader": "田中",
+            "projectManager": "Yamada",
+            "projectLeader": "Tanaka",
             "clientId": 10,
             "projectStartDate": "20160101",
             "projectEndDate": "20161231",
-            "note": "備考９９９",
+            "note": "Remarks 999",
             "sales": 10000,
             "costOfGoodsSold": 20000,
             "sga": 30000,
@@ -46,19 +45,19 @@ Exampleアプリケーションを元に、更新機能の解説を行う。
             "version": 1
         }
  
-  3. 動作確認
+  3. Operation check
  
-    H2のコンソールから下記SQLを実行し、レコードが更新されていることを確認する。
+    Execute the following SQL from the console of H2 and confirm that the record has been updated.
  
     .. code-block:: sql
  
       SELECT * FROM PROJECT WHERE PROJECT_ID = 1;
  
-プロジェクト情報を更新する
----------------------------------
+Update the project information
+---------------------------------------
 
-URLとのマッピングを定義
-  :ref:`router_adaptor` を使用して、業務アクションとURLのマッピングを行う。
+Define the mapping to the URL
+  Use :ref:`router_adaptor` to map business actions and URLs.
 
     routes.xml
       .. code-block:: xml
@@ -67,42 +66,42 @@ URLとのマッピングを定義
           <put path="projects" to="Project#update" />
         </routes>
 
-    この実装のポイント
-     * ``put`` タグを使用して、PUTリクエスト時にマッピングする業務アクションメソッドを定義する。
+    Key points of this implementation
+     * The ``put`` tag is used to define the business action method to be mapped during PUT requests.
 
-フォームの作成
-  クライアントから送信された値を受け付けるフォームを作成する。
+Create a form
+  Create a form to accept the value submitted by the client.
  
   ProjectUpdateForm.java
     .. code-block:: java
  
       public class ProjectUpdateForm implements Serializable {
  
-          // 一部のみ抜粋
+          // Partial excerpt
 
-          /** プロジェクト名 */
+          /** Project name */
           @Required
           @Domain("id")
           private String projectId;
  
-          /** プロジェクト名 */
+          /** Project name */
           @Required
           @Domain("projectName")
           private String projectName;
 
-          /** プロジェクト種別 */
+          /** Project type */
           @Required
           @Domain("projectType")
           private String projectType;
  
-          // ゲッタ及びセッタは省略
+          // Getter and setter are omitted
       }
  
-    この実装のポイント
-     * プロパティは全てString型で宣言する。詳細は :ref:`バリデーションルールの設定方法 <bean_validation-form_property>` を参照。
+    Key points of this implementation
+     * All properties are declared as String type. For more information, see how to set :ref:`validation rules <bean_validation-form_property>` .
  
-業務アクションメソッドの実装
-  データベース上のプロジェクト情報を更新する処理を実装する。
+Implementation of a business action method
+  Implement the process to update the project information in the database.
  
   ProjectAction.java
     .. code-block:: java
@@ -117,19 +116,15 @@ URLとのマッピングを定義
           return new HttpResponse(HttpResponse.Status.OK.getStatusCode());
       }
  
-   この実装のポイント
-    * リクエストボディをJSON形式で受け付けるため、 :java:extdoc:`Consumes<javax.ws.rs.Consumes>` アノテーションに
-      ``MediaType.APPLICATION_JSON`` を指定する。
-    * :java:extdoc:`Valid <javax.validation.Valid>` アノテーションを使用して、リクエストのバリデーションを行う。
-      詳細は :ref:`jaxrs_bean_validation_handler` を参照。
-    * :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` でフォームからエンティティを作成し、
-      :ref:`universal_dao` を使用してプロジェクト情報を更新する。
-    * 更新に成功した場合は、正常終了(ステータスコード： ``200`` )を表す :java:extdoc:`HttpResponse<nablarch.fw.web.HttpResponse>` を返却する。
-
+   Point of this implementation
+    * To accept the request body in JSON format, specify :java:extdoc:`Consumes<javax.ws.rs.Consumes>` in the ``MediaType.APPLICATION_JSON`` annotation. 
+    * Validates the request using the :java:extdoc:`Valid <javax.validation.Valid>` annotation.
+      For details, see :ref:`jaxrs_bean_validation_handler`.
+    * Create an entity from a form with :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` and update the project information using :ref:`universal_dao`.
+    * If the update is successful, :java:extdoc:`HttpResponse<nablarch.fw.web.HttpResponse>` , which indicates a successful completion (status code:``200``) is returned.
+    
     .. tip::
+      In the example application, :java:extdoc:`ErrorResponseBuilder<nablarch.fw.jaxrs.ErrorResponseBuilder>`  is uniquely extended, 
+      response ``404`` if :java:extdoc:`NoDataException<nablarch.common.dao.NoDataException>` occurs and ``409`` if :java:extdoc:`OptimisticLockException<javax.persistence.OptimisticLockException>` occurs is generated and returned to the client.
 
-      Exampleアプリケーションでは :java:extdoc:`ErrorResponseBuilder<nablarch.fw.jaxrs.ErrorResponseBuilder>` を独自に拡張しており、
-      :java:extdoc:`NoDataException<nablarch.common.dao.NoDataException>` が発生した場合は ``404`` 、
-      :java:extdoc:`OptimisticLockException<javax.persistence.OptimisticLockException>` が発生した場合は ``409``
-      のレスポンスを生成してクライアントに返却している。
 

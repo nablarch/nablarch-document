@@ -1,109 +1,108 @@
-リソース(アクション)クラスの実装に関して
+Implementation of the Resource (Action) Class
 ==================================================
 
 
 .. _rest_feature_details-method_signature:
 
-リソースクラスのメソッドのシグネチャ
+Signature of resource class methods
 --------------------------------------------------
-リソースクラスのメソッドの引数及び戻り値で利用できる型について示す。
+This section describes the types available for method arguments and return values of the resource classes.
 
-メソッド引数
+Method argument
   .. list-table::
     :header-rows: 1
     :class: white-space-normal
     :widths: 30 70
 
-    * - 引数定義
-      - 説明
+    * - Argument definition
+      - Description
 
-    * - 引数無し
-      - パラメータやリクエストボディを必要としない場合には、引数無しとしてメソッドを定義できる。
+    * - No argument
+      - If no parameters or request bodies are required, the method can be defined with no arguments.
 
-        例
+        Example:
           .. code-block:: java
 
             public HttpResponse sample() {
-              // 省略
+              // Omitted
             }
 
-    * - フォーム(Java Beans)
-      - リクエストボディから変換したフォームを元に処理を行う場合には、引数としてフォームを定義する。
+    * - Form (Java Beans)
+      - When processed based on the form converted from the request body, the form is defined as an argument.
       
-        例
+        Example:
           .. code-block:: java
 
             public HttpResponse sample(SampleForm form) {
-              // 省略
+              // Omitted
             }
 
     * - :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>`
-      - :ref:`パスパラメータ <rest_feature_details-path_param>` や :ref:`クエリパラメータ <rest_feature_details-query_param>`
-        を使う場合やHTTPヘッダの値などを取得したい場合には、引数として :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` を定義する。
+      - When :ref:`path parameter <rest_feature_details-path_param>` and :ref:`query parameter <rest_feature_details-query_param>` are used or when the value of HTTP header is acquired,
+        :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` is defined as an argument.
 
-        例
+        Example:
           .. code-block:: java
 
             public HttpResponse sample(HttpRequest request) {
-              // 省略
+              // Omitted
             }
 
     * - :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>`
-      - :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>` が提供するスコープ変数にアクセスしたい場合は、
-        引数として :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>` を定義する。
+      - To access the scope variables provided by  :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>`, 
+        :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>` is defined as an argument.
         
-        例
+        Example:
           .. code-block:: java
 
             public HttpResponse sample(ExecutionContext context) {
-              // 省略
+              // Omitted
             }
 
-    * - 組み合わせ
-      - 用途に応じて上記の型を組み合わせることが出来る。
+    * - Combination
+      - The above types can be combined according to the application.
         
-        例えば、HTTPヘッダ情報とリクエストボディから変換されたFormを必要とするメソッドでは、以下の定義となる。
+        For example, a method that requires HTTP header information and a Form converted from the request body is defined as follows.
 
         .. code-block:: java
 
           public HttpResponse sample(SampleForm form, HttpRequest request) {
-            // 省略
+            // Omitted
           }
 
-メソッド戻り値
+Method return value
   .. list-table::
     :header-rows: 1
     :class: white-space-normal
     :widths: 30 70
 
-    * - 戻り値の型
-      - 説明
+    * - Form of return values
+      - Description
 
     * - void
-      - レスポンスのボディが空であることを示す ``204: NoContent`` をクライアントに返却する。
+      - Returns ``204: NoContent`` to the client, indicating that the response body is empty.
 
-    * - フォーム(Java Beans)
-      - メソッドから戻されたフォームを :ref:`body_convert_handler` で、レスポンスボディに出力する内容に変換しクライアントに返却する。
+    * - Form (Java Beans)
+      - The form returned from the method is converted to the content to be output to the response body by using :ref:`body_convert_handler` and returned to the client.
 
     * - :java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>`
-      - メソッドから戻された :java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>` の情報を、クライアントに返却する。
-
+      - The information of  :java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>` returned from the method is returned to the client.
 
 
 .. _rest_feature_details-path_param:
 
-パスパラメータを扱う
+Handle path parameters
 --------------------------------------------------
-検索や更新、削除対象のリソースを示す値をパスパラメータとして指定する場合の実装方法を示す。
+This section shows how to implement when a value indicating a resource to be searched, updated, or deleted is specified as the path parameter.
 
-URLの例
-  ``GET /users/123`` の ``123`` をパスパラメータとする。
+URL example
+  ``123`` in ``GET /users/123`` is the path parameter.
 
-ルーティングの設定
-  URLとアクションとのマッピング時にパスパラメータ部に任意の名前を設定する。
-  この例では、 ``id`` という名前を設定し、数値のみを許容する設定としている。
+Routing Configuration
+  Configure an arbitrary name as the path parameter when mapping between URL and action. 
+  In this example, the name ``id`` is configured to allow only numbers.
   
-  詳細は、 :ref:`router_adaptor` を参照。
+  For more information, see :ref:`router_adaptor`.
 
   .. code-block:: xml
 
@@ -115,37 +114,37 @@ URLの例
       </get>
     </routes>
 
-リソースクラスのメソッドの実装
-  パスパラメータは、 :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` から取得する。
-  このため、リソースのメソッドには、仮引数として :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` を定義する。
+Implementation of resource class methods
+  Acquires the path parameter from  :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` . 
+  For this reason,  :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` is defined as a temporary argument for the method of the resource.
 
-  :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` に指定するパラメータ名には、
-  ルーティングの設定で指定したパスパラメータの名前を使用する。
+  For the parameter name specified in :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` , 
+  use the path parameter name specified in the routing configuration.
 
   .. code-block:: java
 
     @Produces(MediaType.APPLICATION_JSON)
     public User delete(HttpRequest req) {
-      // HttpRequestからパスパラメータの値を取得する
+      // Acquire the path parameter value from HttpRequest
       Long id = Long.valueOf(req.getParam("id")[0]);
       return UniversalDao.findById(User.class, id);
     }
 
 .. important::
-  JSRで規定されている :java:extdoc:`PathParam <javax.ws.rs.PathParam>` は使用できないので注意すること。
+  Note that :java:extdoc:`PathParam <javax.ws.rs.PathParam>` specified in JSR cannot be used.
 
 .. _rest_feature_details-query_param:
 
-クエリーパラメータを扱う
+Handling query parameters
 --------------------------------------------------
-リソースの検索処理で、検索条件をクエリーパラメータとして指定させたい場合がある。
-このような場合の実装方法を以下に示す。
+Specifying the search condition as a query parameter in the resource search process may be required. 
+The implementation method for such a case is shown below.
 
-URLの例
+URL example
   ``GET /users/search?name=Duke``
 
-ルーティングの設定
-  ルーティングの設定では、クエリーパラメータを除いたパスを元に、リソースクラスとのマッピングを行う。
+Routing Configuration
+  In the routing configuration, mapping to the resource class is performed based on the path excluding the query parameter.
 
   .. code-block:: xml
 
@@ -153,30 +152,31 @@ URLの例
       <get path="users/search" to="Users#search"/>
     </routes>
 
-リソースクラスのメソッドの実装
-  クエリーパラメータは、 :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` から取得する。
-  このため、リソースのメソッドには、仮引数として :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` を定義する。
+Implementation of resource class methods
+  Acquires the query parameter from  :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` . 
+  For this reason,  :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` is defined as a temporary argument for the method of the resource.
 
-  :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` から取得したパラメータを :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使ってFormクラスにマッピングする。
+  Parameters acquired from :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>`  is mapped to form class using :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>`.
 
   .. code-block:: java
 
     public HttpResponse search(HttpRequest req) {
 
-      // リクエストパラメータをBeanに変換
+      // Convert request parameters to Bean
       UserSearchForm form = BeanUtil.createAndCopy(UserSearchForm.class, req.getParamMap());
 
-      // バリデーションの実行
+      // Perform validation
       ValidatorUtil.validate(form)
 
-      // 業務ロジックを実行する(省略)
+      // Execute the business logic (omitted)
     }
 
-    // クエリーパラメータをマッピングするForm
+    // Form for mapping query parameters
     public UserSearchForm {
       private String name;
-      // 省略
+      // Omitted
     }
 
 .. important::
-  JSRで規定されている :java:extdoc:`QueryParam <javax.ws.rs.QueryParam>` は使用できないので注意すること。
+  Note that  :java:extdoc:`QueryParam <javax.ws.rs.QueryParam>` specified in JSR cannot be used.
+

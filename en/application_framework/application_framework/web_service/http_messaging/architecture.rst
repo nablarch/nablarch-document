@@ -1,155 +1,153 @@
-アーキテクチャ概要
+Architecture Overview
 ==============================
-HTTPメッセージングでは、外部(ブラウザや外部システムなど)から送信されたhttpメッセージ
-を処理するウェブサービスを構築するための機能を提供している。
+HTTP messaging provides a function to build a web service that processes http messages sent from outside (such as a browser or an external system).
 
 .. important::
 
-  本機能ではなく、 :ref:`RESTfulウェブサービス <restful_web_service>` の使用を推奨する。
-  詳細は、 :ref:`RESTfulウェブサービスを推奨する理由 <web_service-recommended_jaxrs>` を参照。
+  Use of :ref:`RESTful web service <restful_web_service>`  instead of this function is recommended. 
+  For more information, see :ref:`reason why RESTful web service is recommended <web_service-recommended_jaxrs>` .
 
-HTTPメッセージングの構成
+Structure of HTTP messaging
 --------------------------------------------------
-Nablarchウェブアプリケーションと同じ構成となる。
-詳細は、 :ref:`web_application-structure` を参照。
+It has the same structure as the Nablarch web application. 
+For more information, see :ref:`web_application-structure`.
 
-HTTPメッセージングの処理の流れ
+Process flow of HTTP messaging
 --------------------------------------------------
-HTTPメッセージング機能がリクエストを処理し、レスポンスを返却するまでの処理の流れを以下に示す。
+The process flow of HTTP messaging, from processing a request to returning a response, is shown below.
 
 .. image:: images/http_messaging_flow.png
   :scale: 75
 
-1. :ref:`WebFrontController <web_front_controller>` ( `javax.servlet.Filter` の実装クラス)がrequestを受信する。
-2. :ref:`WebFrontController <web_front_controller>` は、requestに対する処理をハンドラキュー(handler queue)に委譲する。
-3. ハンドラキューに設定されたディスパッチハンドラ(`DispatchHandler`) が、URIを元に処理すべきアクションクラス(action class)を特定しハンドラキューの末尾に追加する。
-4. アクションクラス(action class)は、フォームクラス(form class)やエンティティクラス(entity class)を使用して業務ロジック(business logic) を実行する。 |br|
-   各クラスの詳細は、 :ref:`http_messaging-design` を参照。
+1. :ref:`WebFrontController <web_front_controller>` (implementation class of `javax.servlet.Filter`) receives a request.
+2. :ref:`WebFrontController <web_front_controller>` delegates the process for the request to a handler queue (handler queue).
+3. `DispatchHandler` configured in the handler queue specifies the action class to be processed based on the URI and adds it to the end of the handler queue.
+4. The action class executes business logic using a form class and an entity class. |br|
+   For more information on each class, see  :ref:`http_messaging-design` .
 
-5. アクションクラス(action class)は、処理結果を示す `ResponseMessage` を作成し返却する。
-6. ハンドラキュー内の :ref:`http_messaging_response_building_handler` が、 `ResponseMessage` をクライアントに返却するレスポンス(jsonやxmlなど)に変換し、クライアントへ応答を返す。 |br|
+5. The action class creates and returns a `ResponseMessage` indicating the process result.
+6. :ref:`http_messaging_response_building_handler` in the handler queue is converted into a response (such as json or xml) that is returned to the client, which is returned to the client.
 
-
-HTTPメッセージングで使用するハンドラ
+Handlers used in HTTP messaging
 --------------------------------------------------
-Nablarchでは、HTTPメッセージングを使用したウェブサービスを構築するために必要なハンドラを標準で幾つか提供している。
-プロジェクトの要件に従い、ハンドラキューを構築すること。(要件によっては、プロジェクトカスタムなハンドラを作成することになる)
+Nablarch provides several handlers as standard, which are required to build web services using HTTP messaging. 
+Build the handler queue in accordance with the requirements of the project (a custom handler will have to be created for the project depending on the requirements)
 
-各ハンドラの詳細は、リンク先を参照すること。
+For details of each handler, refer to the link.
 
-リクエストやレスポンスの変換を行うハンドラ
+Handlers that convert request and response
   * :ref:`http_response_handler`
   * :ref:`http_messaging_request_parsing_handler`
   * :ref:`http_messaging_response_building_handler`
   * :ref:`message_resend_handler`
 
-リクエストのフィルタリングを行うハンドラ
+Handler for filtering requests
   * :ref:`service_availability`
   * :ref:`permission_check_handler`
 
-データベースに関連するハンドラ
+Handlers associated with database
   * :ref:`database_connection_management_handler`
   * :ref:`transaction_management_handler`
 
-エラー処理に関するハンドラ
+Error handling handler
   * :ref:`global_error_handler`
   * :ref:`http_messaging_error_handler`
 
-その他のハンドラ
+Other handlers
   * :ref:`http_request_java_package_mapping`
   * :ref:`thread_context_handler`
   * :ref:`thread_context_clear_handler`
   * :ref:`http_access_log_handler`
 
-HTTPメッセージングの最小ハンドラ構成
+Minimum handler configuration for HTTP messaging
 --------------------------------------------------
-HTTPメッセージングを使用したウェブサービスを構築する際の必要最小限のハンドラキューを以下に示す。
-これをベースに、プロジェクト要件に従ってNablarchの標準ハンドラやプロジェクトで作成したカスタムハンドラの追加を行う。
+When building web services using HTTP messaging, the minimum required handler queue is as below: 
+With this as the base, add standard handlers of Nablarch or custom handlers created in the project according to the project requirements.
 
-.. list-table:: 最小ハンドラ構成
+.. list-table:: Minimum handler configuration
   :header-rows: 1
   :class: white-space-normal
   :widths: 4,24,24,24,24
 
   * - No.
-    - ハンドラ
-    - 往路処理
-    - 復路処理
-    - 例外処理
+    - Handler
+    - Request process
+    - Response process
+    - Exception handling
  
   * - 1
     - :ref:`thread_context_clear_handler`
     -
-    - :ref:`thread_context_handler` でスレッドローカル上に設定した値を全て削除する。
+    - Deletes all the values configured on the thread local by the :ref:`thread_context_handler` .
     -
     
   * - 2
     - :ref:`global_error_handler`
     -
     -
-    - 実行時例外、またはエラーの場合、ログ出力を行う。
+    - Outputs the log for a runtime exception or error.
 
   * - 3
     - :ref:`http_response_handler`
     -
-    - サーブレットフォーワード、リダイレクト、レスポンス書き込みのいずれかを行う。
-    - 実行時例外、またはエラーの場合、既定のエラーページを表示する。
+    - Performs any one of servlet forward, redirect, or response writing.
+    - Displays the default error page in the case of a runtime exception or error.
 
   * - 4
     - :ref:`thread_context_handler`
-    - リクエストの情報からリクエストIDなどのスレッドコンテキスト変数を初期化する。
+    - Initializes thread context variables such as request ID from the request information.
     - 
     -
 
   * - 5
     - :ref:`http_messaging_error_handler`
     - 
-    - 後続ハンドラで生成したレスポンスのボディが空の場合、ステータスコードに応じたデフォルトのボディを設定する。
-    - ログ出力及び、例外に応じたレスポンスの生成を行う。
+    - If the response body generated by the subsequent handler is empty, the default body corresponding to the status code is configured.
+    - Log output and response according to the exception is generated.
 
   * - 6
     - :ref:`request_path_java_package_mapping`
-    - リクエストパスから処理対象の業務アクションを特定し、ハンドラキューの末尾に追加する。
+    - Identifies the business action to be processed from the request path and adds it to the end of the handler queue.
     - 
     - 
 
   * - 7
     - :ref:`http_messaging_request_parsing_handler`
-    - httpリクエストのボディを解析し :java:extdoc:`RequestMessage <nablarch.fw.messaging.RequestMessage>` を生成し、
-      後続のハンドラにリクエストオブジェクトとして引き渡す。
+    - Parses the body of the http request, creates :java:extdoc:`RequestMessage <nablarch.fw.messaging.RequestMessage>` , 
+      and passes it to the subsequent handler as a request object.
     - 
     - 
 
   * - 8
     - :ref:`database_connection_management_handler`
-    - DB接続を取得する。
-    - DB接続を解放する。
+    - Acquires DB connection.
+    - Releases the DB connection.
     -
 
   * - 9
     - :ref:`http_messaging_response_building_handler`
     - 
     - 
-    - 業務アクションが生成したエラー用のメッセージを元に、エラー用のhttpスポンスを生成する。
+    - Generates HTTP response for an error based on the message for the error generated by the business action.
 
   * - 10
     - :ref:`transaction_management_handler`
-    - トランザクションを開始する。
-    - トランザクションをコミットする。
-    - トランザクションをロールバックする。
+    - Begin a transaction.
+    - Commits the transaction.
+    - Rolls back a transaction.
 
   * - 11
     - :ref:`http_messaging_response_building_handler`
     - 
-    - 業務アクションが生成したメッセージを元に、http用のレスポンスを生成する。
-    - 後続ハンドラで発生した例外を元にエラー用のhttpレスポンスを生成する。
+    - Generates a response for HTTP based on the message generated by the business action.
+    - Generates HTTP response for an error based on the exception thrown by the subsequent handler.
 
-HTTPメッセージングで使用するアクション
+Action used in HTTP messaging
 ---------------------------------------------------------------------------------
-Nablarchでは、HTTPメッセージングを構築するために必要なアクションクラスを標準で提供している。
-詳細は、リンク先を参照すること。
+Nablarch provides action classes as standard, which are required for building HTTP messaging. 
+Click on the link for more information.
 
-* :java:extdoc:`MessagingAction (同期応答メッセージング用アクションのテンプレートクラス)<nablarch.fw.messaging.action.MessagingAction>`
+* :java:extdoc:`MessagingAction (Template class for actions for synchronous response messaging)<nablarch.fw.messaging.action.MessagingAction>`
 
 .. |br| raw:: html
 

@@ -1,46 +1,46 @@
-検索機能の作成
+Create a Search Function
 ================================================================
-Exampleアプリケーションを元に、検索機能の解説を行う。
+This section describes the search function based on an example application.
 
-作成する機能の説明
-  本機能は、GETリクエスト時にクエリパラメータに検索条件を付与することで、
-  条件に合致するプロジェクト情報をJSON形式で返却する。
+Description of the function to be created
+  This function adds search conditions to the query parameter during a GET request, 
+  and returns the project information that matches the conditions in JSON format.
 
-  検索条件として、 ``顧客ID(完全一致)``  、 ``プロジェクト名(部分一致)`` を指定することができる。
-  検索条件を指定しない場合は、全てのプロジェクト情報を返却する。
+  ``Customer ID (exact match)`` and  ``project name (partial match)`` can be specified as the search conditions. 
+  If a search condition is not specified, all project information is returned.
 
-動作確認手順
-  1. プロジェクト情報の検索
+Operation check procedure
+  1. Search for project information
 
-    ここでは、顧客IDが `1` のプロジェクト情報の検索を行う。
+    The following searches the project information for customer ID `1`.
 
-    任意のRESTクライアントを使用して、以下のリクエストを送信する。
+    Use any REST client to send the following request.
 
     URL
       http://localhost:9080/projects?clientId=1
-    HTTPメソッド
+    HTTP method
       GET
 
-  2. 検索結果の確認
+  2. Confirm the search results
 
-    1.を実行した結果、以下のようなJSON形式のレスポンスが返却されることを確認する。
+    Confirm that the following JSON format response is returned by executing 1.
 
     .. code-block:: json
 
       [{
           "projectId":1,
-          "projectName":"プロジェクト００１",
+          "projectName":"Project 001",
           "projectType":"development",
 
-          // 省略
+          // Omitted
 
       }]
 
-プロジェクト情報を検索する
+Search the project information
 ---------------------------------
 
-URLとのマッピングを定義
-  :ref:`router_adaptor` を使用して、業務アクションとURLのマッピングを行う。
+Define the mapping to the URL
+  Use :ref:`router_adaptor` to map business actions and URLs.
 
     routes.xml
       .. code-block:: xml
@@ -49,52 +49,52 @@ URLとのマッピングを定義
           <get path="projects" to="Project#find"/>
         </routes>
 
-    この実装のポイント
-     * ``get`` タグを使用して、GETリクエスト時にマッピングする業務アクションメソッドを定義する。
+    Key points of this implementation
+     * The ``get`` tag is used to define the business action method to be mapped during GET requests.
 
-フォームの作成
-  クライアントから送信された値を受け付けるフォームを作成する。
+Create a form
+  Create a form to accept the value submitted by the client.
 
   ProjectSearchForm.java
     .. code-block:: java
 
       public class ProjectSearchForm implements Serializable {
 
-          /** 顧客ID */
+          /** Customer ID */
           @Domain("id")
           private String clientId;
 
-          /** プロジェクト名 */
+          /** Project name */
           @Domain("projectName")
           private String projectName;
 
-          // ゲッタ及びセッタは省略
+          // Getter and setter are omitted
       }
 
-  この実装のポイント
-    * プロパティは全てString型で宣言する。詳細は :ref:`バリデーションルールの設定方法 <bean_validation-form_property>` を参照。
+  Key points of this implementation
+    * All properties are declared as String type. For more information, see  :ref:`how to set validation rules <bean_validation-form_property>` .
 
-検索条件を保持するBeanの作成
-  検索条件を保持するBeanを作成する。
+Create a bean that holds the search condition
+  Create a bean to hold the search condition.
 
   ProjectSearchDto.java
     .. code-block:: java
 
       public class ProjectSearchDto implements Serializable {
 
-          /** 顧客ID */
+          /** Customer ID */
           private Integer clientId;
 
-          /** プロジェクト名 */
+          /** Project name */
           private String projectName;
 
-          // ゲッタ及びセッタは省略
+          // Getter and setter are omitted
 
-  この実装のポイント
-   * Beanのプロパティは、:ref:`対応する条件カラムの定義(型)と互換性のある型とする<universal_dao-search_with_condition>` こと。
+  Key points of this implementation
+   * Bean property should be of the :ref:`type that is compatible with the definition (type) of the corresponding condition column <universal_dao-search_with_condition>`.
 
-検索に利用するSQLの作成
-  検索に利用するSQLを作成する。
+Create a SQL for search
+  Create a SQL for searching.
 
     Project.sql
       .. code-block:: sql
@@ -108,13 +108,13 @@ URLとのマッピングを定義
             $if(clientId) {CLIENT_ID = :clientId}
             AND $if(projectName) {PROJECT_NAME LIKE :%projectName%}
 
-    この実装のポイント
-      * SQLインジェクションを防ぐため、SQLは外部ファイルに記述する。詳細は :ref:`database-use_sql_file` を参照。
-      * Beanのプロパティ名を使って、SQLに値をバインドする。詳細は :ref:`database-input_bean` を参照。
-      * 検索条件として指定された項目のみを条件に含める場合には、 :ref:`$if 構文を使用してSQL文を構築<database-use_variable_condition>` する。
+    Key points of this implementation
+      * To prevent SQL injection, SQL is written in an external file. For more information, see  :ref:`database-use_sql_file` .
+      * Bind the value to SQL using the bean property name. For more information, see :ref:`database-input_bean`.
+      * To include only the items specified as search condition in the conditions, build a SQL statement using the :ref:`$if syntax <database-use_variable_condition>` .
 
-業務アクションメソッドの実装
-  検索条件をもとにデータベースから検索する処理を実装する。
+Implementation of a business action method
+  Implement the process to search a database based on search conditions.
 
   ProjectAction.java
     .. code-block:: java
@@ -122,25 +122,24 @@ URLとのマッピングを定義
       @Produces(MediaType.APPLICATION_JSON)
       public List<Project> find(HttpRequest req) {
 
-          // リクエストパラメータをBeanに変換
+          // Convert request parameters to bean
           ProjectSearchForm form =
                   BeanUtil.createAndCopy(ProjectSearchForm.class, req.getParamMap());
 
-          // BeanValidation実行
+          // Run BeanValidation
           ValidatorUtil.validate(form);
 
           ProjectSearchDto searchCondition = BeanUtil.createAndCopy(ProjectSearchDto.class, form);
           return UniversalDao.findAllBySqlFile(Project.class, "FIND_PROJECT", searchCondition);
       }
 
-  この実装のポイント
-   * 検索結果をJSON形式でクライアントに返却するため、 :java:extdoc:`Produces<javax.ws.rs.Produces>` アノテーションに
-     ``MediaType.APPLICATION_JSON`` を指定する。
-   * クエリパラメータは :java:extdoc:`HttpRequest<nablarch.fw.web.HttpRequest>` から取得する。
-   * :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を利用してリクエストパラメータからフォームを作成する。
-   * :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object)>`
-     を使用してフォームのバリデーションを行う。
-   * フォームの値を :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を利用して検索条件Beanにコピーする。
-   * :ref:`universal_dao` を使用して取得したプロジェクト情報のリストを戻り値として返却する。
-   * 戻り値のオブジェクトは :ref:`body_convert_handler` によってJSON形式に変換されるため、
-     業務アクションメソッド内で変換処理を実装する必要はない。
+  Key points of this implementation
+   * Specifies ``MediaType.APPLICATION_JSON``  in  :java:extdoc:`Produces<javax.ws.rs.Produces>` annotation to return the search results in JSON format to the client.
+   * Acquires the query parameter from :java:extdoc:`HttpRequest<nablarch.fw.web.HttpRequest>` .
+   * Creates a form from the request parameters using :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` .
+   * Validates form using :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object)>`.
+   * Copies the form value to the search condition bean using :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` .
+   * Returns a list of project information obtained using :ref:`universal_dao`, as a return value.
+   * As the returned object is converted to JSON format by :ref:`body_convert_handler` , 
+     conversion process implementation in the business action method is not required.
+
