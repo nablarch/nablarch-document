@@ -1,24 +1,24 @@
-機能詳細
+Details of Function
 ========================================
-.. contents:: 目次
+.. contents:: Table of Contents
   :depth: 3
   :local:
 
-Nablarchの初期化
+Initialization of Nablarch
 ----------------------------------------
-:ref:`ウェブアプリケーションのNablarchの初期化 <web_feature_details-nablarch_initialization>` を参照。
+See :ref:`initializing Nablarch for web application <web_feature_details-nablarch_initialization>`.
 
 .. _rest-request_validation:
  
-入力値のチェック
+Input value check
 ----------------------------------------
-* :ref:`入力値のチェック <validation>`
+* :ref:`Input value check <validation>`
 
-データベースアクセス
+Database access
 ----------------------------------------
-* :ref:`データベースアクセス <database_management>`
+* :ref:`Database access <database_management>`
 
-排他制御
+Exclusive control
 ----------------------------------------
 * :ref:`universal_dao`
 
@@ -27,17 +27,17 @@ Nablarchの初期化
 
 .. important::
 
-  RESTfulウェブサービスでは `ETag` や `If-Match` を使用した楽観的ロックには対応していない。
-  そのため、RESTfulウェブサービスで楽観的ロックを行う際は、リクエストボディに直接バージョン番号を含めること。
+  RESTful web services do not support optimistic locking using `ETag` or `If-Match`.
+  Therefore, when performing optimistic locking with RESTful web services, include the version number directly in the request body.
 
 .. important::
 
-  :ref:`exclusive_control` 機能は、クライアント(taglib)との連動が前提であるため、
-  RESTfulウェブサービスでは使用できない。
+  The :ref:`exclusive_control` unction cannot be used in RESTful web services
+  because it is assumed to work with the client (taglib).
 
 .. _rest-action_mapping:
 
-URIとリソース(アクション)クラスのマッピング
+Mapping of URIs and resource (action) classes
 ------------------------------------------------------------
 .. toctree::
   :maxdepth: 1
@@ -46,31 +46,31 @@ URIとリソース(アクション)クラスのマッピング
   feature_details/resource_signature
 
 * :ref:`router_adaptor`
-* :ref:`リソースクラスのメソッドのシグネチャ <rest_feature_details-method_signature>`
+* :ref:`Method signature of the resource class <rest_feature_details-method_signature>`
 
 .. _rest-path_query_param:
 
-パスパラメータやクエリーパラメータ
+Path and query parameters
 ----------------------------------------------------------------------------------------------------
 * :ref:`rest_feature_details-path_param`
 * :ref:`rest_feature_details-query_param`
 
-国際化対応
+Internationalization
 ----------------------------------------
-静的リソースの多言語化対応については以下を参照。
+See the following for multilingualization of static resources.
 
-* :ref:`メッセージの多言語化 <message-multi_lang>`
-* :ref:`コード名称の多言語化 <code-use_multilingualization>`
+* :ref:`Multilingualization of messages <message-multi_lang>`
+* :ref:`Multilingualization of code names <code-use_multilingualization>`
 
-認証
+Authentication
 ----------------------------------------
-認証については、プロジェクト要件により仕様が異なるため、フレークワークとしては提供していない。
+Authentication is not provided as a framework because the specifications vary according depending on the project requirements.
 
-認可チェック
+Permission check
 ----------------------------------------
-認可チェックについては、プロジェクト要件により仕様が異なるため、フレークワークとしては提供していない。
+Permission check is not provided as a framework because the specifications vary according depending on the project requirements.
 
-エラー時に返却するレスポンス
+Response to be returned on error
 --------------------------------------------------
 * :ref:`jaxrs_response_handler-error_response_body`
 * :ref:`jaxrs_response_handler-individually_error_response`
