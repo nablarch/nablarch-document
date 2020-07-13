@@ -1,62 +1,61 @@
-登録機能の作成
+Creation of a Registration Function
 ================================================================
-Exampleアプリケーションを元に、登録機能の解説を行う。
+This section describes the registration function based on an example application.
 
-作成する機能の説明
-  本機能は、POSTリクエスト時にリクエストボディにJSON形式のプロジェクト情報を設定することで、
-  データベースにプロジェクト情報を登録する。
+Description of the function to be created
+  This function registers the project information in the database by setting the JSON format project information in the request body during POST requests.
 
-動作確認手順
-  1. 事前にDBの状態を確認
+Operation check procedure
+  1. Check the DB status in advance
 
-     H2のコンソールから下記SQLを実行し、レコードが存在しないことを確認する。
+     Execute the following SQL from the console of H2 and confirm that the record does not exist.
 
      .. code-block:: sql
 
-       SELECT * FROM PROJECT WHERE PROJECT_NAME = 'プロジェクト９９９';
+       SELECT * FROM PROJECT WHERE PROJECT_NAME = 'Project 999';
 
-  2. プロジェクト情報の登録
+  2. Registration of project information
 
-    任意のRESTクライアントを使用して、以下のリクエストを送信する。
+    Use any REST client to send the following request.
 
     URL
       http://localhost:9080/projects
-    HTTPメソッド
+    HTTP method
       POST
     Content-Type
       application/json
-    リクエストボディ
+    Request body
       .. code-block:: json
 
         {
-            "projectName": "プロジェクト９９９",
+            "projectName": "Project 999",
             "projectType": "development",
             "projectClass": "ss",
-            "projectManager": "山田",
-            "projectLeader": "田中",
+            "projectManager": "Yamada",
+            "projectLeader": "Tanaka",
             "clientId": 10,
             "projectStartDate": "20160101",
             "projectEndDate": "20161231",
-            "note": "備考９９９",
+            "note": "Remarks 999",
             "sales": 10000,
             "costOfGoodsSold": 20000,
             "sga": 30000,
             "allocationOfCorpExpenses": 40000
         }
 
-  3. 動作確認
+  3. Operation check
 
-    H2のコンソールから下記SQLを実行し、レコードが1件取得できることを確認する。
+    Execute the following SQL from the console of H2 and confirm that one record can be retrieved.
 
     .. code-block:: sql
 
-      SELECT * FROM PROJECT WHERE PROJECT_NAME = 'プロジェクト９９９';
+      SELECT * FROM PROJECT WHERE PROJECT_NAME = 'Project 999';
 
-プロジェクト情報を登録する
+Register project information
 ---------------------------------
 
-URLとのマッピングを定義
-  :ref:`router_adaptor` を使用して、業務アクションとURLのマッピングを行う。
+Define the mapping to the URL
+  Use :ref:`router_adaptor` to map business actions and URLs.
 
     routes.xml
       .. code-block:: xml
@@ -65,32 +64,32 @@ URLとのマッピングを定義
           <post path="projects" to="Project#save"/>
         </routes>
 
-    この実装のポイント
-     * ``post`` タグを使用して、POSTリクエスト時にマッピングする業務アクションメソッドを定義する。
+    Key points of this implementation
+     * The ``post`` tag is used to define the business action method to be mapped during POST requests.
 
-フォームの作成
-  クライアントから送信された値を受け付けるフォームを作成する。
+Create a form
+  Create a form to accept the value submitted by the client.
 
   ProjectForm.java
     .. code-block:: java
 
       public class ProjectForm implements Serializable {
 
-          // 一部のみ抜粋
+          // Partial excerpt
 
-          /** プロジェクト名 */
+          /** Project name */
           @Required
           @Domain("projectName")
           private String projectName;
 
-          // ゲッタ及びセッタは省略
+          // Getter and setter are omitted
       }
 
-    この実装のポイント
-     * プロパティは全てString型で宣言する。詳細は :ref:`バリデーションルールの設定方法 <bean_validation-form_property>` を参照。
+    Key points of this implementation
+     * All properties are declared as String type. For more information, see :ref:`how to set validation rules <bean_validation-form_property>` .
 
-業務アクションメソッドの実装
-  プロジェクト情報をデータベースに登録する処理を実装する。
+Implementation of a business action method
+  Implement the process of registering the project information to the database.
 
   ProjectAction.java
     .. code-block:: java
@@ -102,12 +101,10 @@ URLとのマッピングを定義
           return new HttpResponse(HttpResponse.Status.CREATED.getStatusCode());
       }
 
-   この実装のポイント
-    * リクエストをJSON形式で受け付けるため、 :java:extdoc:`Consumes<javax.ws.rs.Consumes>` アノテーションに
-      ``MediaType.APPLICATION_JSON`` を指定する。
-    * :java:extdoc:`Valid <javax.validation.Valid>` アノテーションを使用して、リクエストのバリデーションを行う。
-      詳細は :ref:`jaxrs_bean_validation_handler` を参照。
-    * :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` でフォームをエンティティに変換し、
-      :ref:`universal_dao` を使用してプロジェクト情報をデータベースに登録する。
-    * 戻り値として、リソースの作成完了(ステータスコード： ``201`` )を表す :java:extdoc:`HttpResponse<nablarch.fw.web.HttpResponse>` を返却する。
+   Key points of this implementation
+    * To accept the request in JSON format, specify :java:extdoc:`Consumes<javax.ws.rs.Consumes>` in the ``MediaType.APPLICATION_JSON`` annotation.
+    * Validates the request using the :java:extdoc:`Valid <javax.validation.Valid>` . 
+      For details, see :ref:`jaxrs_bean_validation_handler` .
+    * Convert the form to an entity with :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` and register the project information in the database using :ref:`universal_dao`. 
+    * :java:extdoc:`HttpResponse<nablarch.fw.web.HttpResponse>` is returned as the return value, indicating that the creation of the resource is complete (status code: ``201``).
 
