@@ -1,112 +1,112 @@
 .. _`restful_web_service_functional_comparison`:
 
-JAX-RSサポート/JSR339/HTTPメッセージングの機能比較
-==========================================================
+Function Comparison of JAX-RS Support /JSR339/HTTP Messaging
+=============================================================
 
-.. contents:: 目次
+.. contents:: Table of Contents
   :depth: 3
   :local:
 
-ここでは、以下の機能比較を示す。
+This section shows the comparison of the following functions:
 
- - :ref:`NablarchのJAX-RSサポート <restful_web_service>`
- - :ref:`HTTPメッセージング <http_messaging>`
- - `JSR 339: JAX-RS 2.0: The Java API for RESTful Web Services(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=339>`_
+ - :ref:`Nablarch JAX-RS support <restful_web_service>`
+ - :ref:`HTTP messaging <http_messaging>`
+ - `JSR 339: JAX-RS 2.0: The Java API for RESTful Web Services(external site, English) <https://jcp.org/en/jsr/detail?id=339>`_
 
 .. tip::
 
- NablarchのJAX-RSサポートとHTTPメッセージングのみ、表内のマークをクリックすると、解説書の説明ページに遷移する。
+ Only for Nablarch's JAX-RS support and HTTP messaging only, click the mark in the table to jump to the description page of the manual.
 
 .. |br| raw:: html
 
    <br />
 
-.. list-table:: 機能比較（○：提供あり　△：一部提供あり　×：提供なし　－:対象外）
+.. list-table:: Function comparison (○: Provided △: Partially provided ×: Not provided-: Not applicable)
    :header-rows: 1
    :class: something-special-class
 
-   * - 機能
-     - JAX-RS |br| サポート
-     - HTTP |br| メッセージング
+   * - Function
+     - JAX-RS |br| support
+     - HTTP |br| messaging
      - JSR 339
-   * - リクエストとリソースメソッドのマッピング
+   * - Request and resource method mapping
      - :ref:`△ <rest-action_mapping>`
      - :ref:`○ <http_messaging-action_mapping>`
      - ○
-   * - リクエストとパラメータのマッピング
+   * - Mapping of request and resource method
      - :ref:`△ <rest-path_query_param>`
      - × [1]_
      - ○
-   * - HTTPメソッドのマッチング
+   * - Mapping of HTTP method
      - :ref:`△ <rest-action_mapping>`
      - × [1]_
      - ○
-   * - メディアタイプに応じた |br| リクエスト/レスポンスの変換
+   * - Convert request/response |br| according to the media type
      - :ref:`△ <body_convert_handler>`
      - × [1]_
      - ○
-   * - エンティティのバリデーション
+   * - Entity validation
      - :ref:`○ <rest-request_validation>`
      - :ref:`○ <http_messaging-request_validation>`
      - ○
-   * - リソースクラスへのインジェクション(CDI)
+   * - Injection to resource class (CDI)
      - × [2]_
      - × [2]_
      - ○
-   * - リクエスト/レスポンスに対するフィルター
+   * - Filter for request/response
      - × [3]_
      - × [3]_
      - ○
-   * - ボディの読み書きに対するインターセプター
+   * - Interceptor for reading and writing the body
      - × [4]_
      - × [5]_
      - ○
-   * - クライアントAPI
+   * - Client API
      - × [6]_
      - :ref:`○ <http_system_messaging-message_send>`
      - ○
-   * - 非同期処理
+   * - Asynchronous operation
      - × [7]_
      - × [7]_
      - ○
-   * - エラー時ログ出力
+   * - Error log output
      - :ref:`○ <jaxrs_response_handler-error_log>`
      - :ref:`○ <http_messaging_error_handler-error_response_and_log>`
      - －
-   * - リクエストボディの最大容量チェック
+   * - Checking the maximum capacity of the request body
      - × [8]_
      - :ref:`○ <http_messaging_request_parsing_handler-limit_size>`
      - －
-   * - 証跡ログの出力
+   * - Output of the trail log
      - × [9]_
      - :ref:`○ <messaging_log>`
      - －
-   * - 再送制御
+   * - Retransmission control
      - × [9]_
      - :ref:`○ <message_resend_handler>`
      - －
-   * - サービス提供の可否チェック
+   * - Service availability check
      - × [10]_
      - × [10]_
      - －
-   * - トランザクション制御
+   * - Transaction control
      - × [11]_
      - × [11]_
      - －
-   * - 業務処理エラー時のコールバック
+   * - Callback on business process errors
      - × [12]_
      - :java:extdoc:`○ <nablarch.fw.messaging.action.MessagingAction>`
      - －
 
-.. [1] HTTPメッセージングはRESTを考慮した作りになっていない。RESTfulウェブサービスには、JAX-RSサポートを使用する。
-.. [2] JAX-RSサポートとHTTPメッセージングは、Nablarchのウェブアプリケーションとして動作するため、CDIは使用できない。
-.. [3] リクエスト/レスポンスに対するフィルターを作りたい場合は、ハンドラを作成する。
-.. [4] ボディの読み書きに対するインターセプターを作りたい場合は、JAX-RSサポートのBodyConverterを作成する。
-.. [5] ボディの読み書きにはNablarchのデータフォーマットを使用している。変更したい場合は、データフォーマットのDataRecordFormatterを作成する。
-.. [6] JAX-RSクライアントが必要な場合は、JAX-RSの実装(JerseyやRESTEasyなど)を使用する。
-.. [7] サーバーサイドで非同期処理が必要になる要件がないと想定している。要望があれば対応を検討する。
-.. [8] ウェブサーバやアプリケーションサーバにあるリクエストサイズをチェックする機能を使用する。
-.. [9] アプリケーションごとに要件が異なると想定している。アプリケーションで設計/実装する。
-.. [10] Nablarchにあるサービス提供可否チェックがアプリケーションの要件にマッチする場合はそれを使用する。マッチしない場合は、アプリケーションで設計/実装する。
-.. [11] Nablarchにあるトランザクション管理を使用する。
-.. [12] エラー処理は共通化し、JaxRsResponseHandlerをカスタマイズすることを想定している。業務処理で個別にエラー処理をしたい場合は、リソースメソッドにてtry/catchを使用する。
+.. [1] HTTP messaging is not designed in consideration of REST. Use JAX-RS support for RESTful web services.
+.. [2] CDI is not available because JAX-RS support and HTTP messaging run as Nablarch web applications.
+.. [3] Create a handler for creating a request/response filter.
+.. [4] Create a BodyConverter with JAX-RS support for creating an interceptor to read and write the body.
+.. [5] Use data format of Nablarch to read and write the body. Create a DataRecordFormatter to change the data format.
+.. [6] If JAX-RS client is needed, use a JAX-RS implementation (such as Jersey or RESTEasy).
+.. [7] It is assumed that asynchronous operation in the server is not required. Support will be considered if there is a request.
+.. [8] Use the function to check the request size on the web server or application server.
+.. [9] Each application is assumed to have different requirements. Design/implement in the application.
+.. [10] If a service availability check in Nablarch matches the application's requirements, use the check. If a check does not match, design/implement the check in the application.
+.. [11] Use the transaction management available in Nablarch.
+.. [12] Error handling is assumed to be common and JaxRsResponseHandler is assumed to be customized. To handle errors individually in business operations, use try/catch in resource methods.
