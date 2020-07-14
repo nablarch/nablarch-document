@@ -1,39 +1,39 @@
 .. _`double_transmission_test`:
 
-=========================================
-二重サブミット防止機能のテスト実施方法
-=========================================
+=========================================================================
+How to Test Execution of Duplicate Form Submission Prevention Function
+=========================================================================
 
-Nablarch上のアプリケーションで二重サブミット防止機能は、\
-サーバーサイドとクライアントサイドにて機能する。\
-よってリクエスト単体テストと取引単体テストではテスト方法が異なる。
+For applications on Nablarch, \
+the duplicate form submission prevention function works both on the server and client. \
+Therefore, the testing method is different for the request unit test and subfunction unit test.
 
-以下、それぞれについてテスト実施方法を記述する。
+The following is a description of the test execution method for each.
 
---------------------------------------------------------------
-リクエスト単体テストでの二重サブミット防止機能のテスト実施方法
---------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+How to test the duplicate form submission prevention function with the request unit test
+-----------------------------------------------------------------------------------------
 
-リクエスト単体テストでは、サーバーサイドにてテストを実施する。
-
-
-二重サブミット防止機能のテスト用に、テストショットのLIST_MAPに指定するisValidTokenカラムがある。\このカラムを「false」に設定して、エラーが発生すれば二重サブミット防止機能が動いていることを確認できる。\
-
-テストデータの記述方法詳細については「\ :ref:`request_test_testcases`\」を参照。
-
----------------------------------------------------------
-取引単体テストでの二重サブミット防止機能のテスト実施方法
----------------------------------------------------------
-
-取引単体テストでは、クライアントサイドにてテストを実施する。
+The request unit test is performed on the server.
 
 
-手順は下記のとおりである。
+For testing the duplicate form submission prevention function, an isValidToken column is specified in the LIST_MAP of the test shot.\This column can be set to "false" to confirm that the duplicate form submission prevention function is working when an error occurs.\
 
-* デバッグモードでアプリケーションを起動する。
+ Refer to ":ref:`request_test_testcases`" for details on how to describe the test data.
 
-* テスト対象のリクエストに対するアクションの処理に、ブレークポイントを設定する。
+-------------------------------------------------------------------------------------------
+How to test the duplicate form submission prevention function in the subfunction unit test
+-------------------------------------------------------------------------------------------
 
-* 打鍵にてテスト対象リクエストのボタンを選択する。
+The subfunction unit test is performed on the client.
 
-* ブレークポイントで処理を止めた状態で、再度テスト対象リクエストのボタンを選択し、リクエストが送信されないことを確認する。
+
+The procedure is as follows.
+
+* Launch the application in debug mode.
+
+* The breakpoint is configured to the process of the action for the request under test.
+
+* The button of the test target request is selected manually.
+
+* With the processing stopped at the breakpoint, select the button of the request to be tested again and confirm that the request is not sent.
