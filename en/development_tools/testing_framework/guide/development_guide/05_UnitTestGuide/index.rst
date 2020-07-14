@@ -1,11 +1,11 @@
 .. _unitTestGuide:
 
-==================
-単体テスト実施方法
-==================
+============================
+How to Execute Unit Tests
+============================
 
    
-*共通*
+*Shared*
 
 
 .. toctree::
@@ -13,7 +13,7 @@
 
    01_ClassUnitTest/index
 
-*ウェブアプリケーション*
+*Web applications*
 
 
 .. toctree::
@@ -27,7 +27,7 @@
    02_RequestUnitTest/double_transmission
 
 
-*バッチ処理*
+*Batch process*
 
 
 .. toctree::
@@ -36,9 +36,9 @@
    02_RequestUnitTest/batch
    03_DealUnitTest/batch
 
-*メッセージング処理*
+*Messaging process*
 
-  *同期応答メッセージ受信処理*
+  *Receiving synchronous message process*
 
   .. toctree::
    :maxdepth: 1
@@ -46,7 +46,7 @@
    02_RequestUnitTest/real
    03_DealUnitTest/real
 
-  *応答不要メッセージ受信処理*
+  *Receiving asynchronous message process*
 
   .. toctree::
     :maxdepth: 1
@@ -55,21 +55,21 @@
     03_DealUnitTest/delayed_receive
 
 
-  *HTTP同期応答メッセージ受信処理*
+  *HTTP receiving synchronous message*
 
   .. toctree::
    :maxdepth: 1
 
    02_RequestUnitTest/http_real
 
-  *同期応答メッセージ送信処理*
+  *Sending synchronous message process*
 
   .. toctree::
    :maxdepth: 1
  
    02_RequestUnitTest/send_sync
 
-  *応答不要メッセージ送信処理*
+  *Sending asynchronous message process*
 
   .. toctree::
     :maxdepth: 1
@@ -77,7 +77,7 @@
     02_RequestUnitTest/delayed_send
     03_DealUnitTest/delayed_send
 
-  *HTTP同期応答メッセージ送信処理*
+  *HTTP sending synchronous message process*
 
   .. toctree::
    :maxdepth: 1
@@ -85,9 +85,9 @@
    02_RequestUnitTest/http_send_sync
 
 
-*その他の処理*
+*Other process*
 
-  *メール送信処理*
+  *email send process*
 
   .. toctree::
     :maxdepth: 1

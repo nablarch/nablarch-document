@@ -1,85 +1,84 @@
 .. _dealUnitTest_send_sync:
 
-=============================================================
-同期応答メッセージ送信処理を伴う取引単体テストの実施方法
-=============================================================
+=======================================================================================
+How to Perform a Subfunction Unit Test with Sending Synchronous Message Process
+=======================================================================================
 
-同期応答メッセージ送信処理を伴うウェブアプリケーションで、取引単体テストを行う場合は、Nablarchが提供するモックアップクラスを使用する。
+The mockup class provided by Nablarch should be used to perform a subfunction unit test in the case of a web application that uses the synchronous message sending process.
 
-以下に、ウェブアプリケーションで同期応答メッセージ送信を行う場合の通常の処理フローと、モックアップクラスを使用して取引単体テストを行う場合の処理フローを示す。
+The normal process flow for sending synchronous messages in a web application and the process flow for using a mockup class to perform a subfunction unit test.
 
-* 同期応答メッセージ送信処理を伴うウェブアプリケーションの通常の処理フロー
+* The normal process flow of a web application with sending synchronous message process.
 
  .. image:: ./_images/send_sync_online_base.png
     :scale: 70
 
 
-* モックアップクラスを使用して、同期応答メッセージ送信処理を伴うウェブアプリケーションの取引単体テストを行う場合の処理フロー
+* Process flow when using a mockup class to perform a subfunction unit test of a web application with synchronous message sending process.
 
  .. image:: ./_images/send_sync_online_mock.png
     :scale: 70
 
 
 
-モックアップクラスは以下の機能を提供する。
+The mockup class provides the following functions.
 
-* 任意の応答電文\ [#f1]_\ を返却する機能
+* Function to return a predetermined response message \ [#f1]_\ .
 
-  画面から同期応答メッセージ送信処理が行われる場合に、送信キューおよび受信キューに接続することなく、取引単体テストを実施するために必要な応答電文を返却することができる。
+  When the synchronous message sending process is performed from the screen, the response message required to perform the subfunction unit test can be returned without connecting to the send and receive queues.
   
-* 要求電文\ [#f1]_\ をログに出力する機能
+* Function to output request message \ [#f1]_\  to the log
 
-  画面から同期送信された要求電文をログに出力することができる。
-  出力されたログを確認することで正常にメッセージ送信が行われたかどうかを確認することができる。
-  また、出力されたログをエビデンスとして使用することができる。
+  The request message sent synchronously from the screen can be output to the log.
+  The output log can be checked to confirm whether the message was sent normally.
+  The output logs can be used as evidence.
 
-* 障害系のテストを行う機能
+* Function to test the fault pattern
 
-  同期応答メッセージ送信処理を行う場合に発生するタイムアウトエラーや、メッセージ送受信エラーを発生させることができる。
-  この機能を使用することで、障害系の試験を行うことが可能となる。
+  Timeout errors and message send and receive errors that occur when the synchronous message sending process is performed can be generated. 
+  A fault pattern can be tested by using this function.
 
 
-モックアップクラスを使用すればキューを用意する必要がなくなるので、特別なミドルウェアのインストールや環境設定などの準備を行うことなく、取引単体テストを行うことができる。
+Using the mockup class eliminates the need to prepare queues, and unit tests can be conducted without installing special middleware or configuring the environment.
 
 
 -------------------------------------------------------------------------------------
-モックアップクラスを使用した取引単体テストの実施方法
+How to run a subfunction unit test using a mockup class
 -------------------------------------------------------------------------------------
 
-モックアップクラスを使用する場合、応答電文のフォーマットおよびデータをExcelファイルに定義する。
-また、要求電文についてはフォーマットのみ定義する。
+When using a mockup class, define the format and data of response message in the Excel file. 
+Only the format is defined for the request message.
 
-ExcelファイルはリクエストID\ [#]_\ ごとに用意する。また、ファイルの名前はリクエストIDと一致させる。
-たとえば、リクエストIDが「RM21AA0101」ならば、ファイルの名前は「RM21AA0101.xlsx」となる。
-ファイルの配置ディレクトリは、設定ファイルに定義する。詳細は\ :ref:`send_sync_test_data_path`\を参照。
+Prepare an Excel file for each request ID \ [#]_\ The file name should match the request ID.
+For example, if the request ID is "RM21AA0101", the file name will be "RM21AA0101.xlsx".
+The deployment directory of the file is defined in the configuration file. For more information, see \ :ref:`send_sync_test_data_path`\.
  
 .. [#] 
- ここで扱うリクエストIDとは、メッセージを送信する相手先システムの機能を一意に識別するために定義するIDのことを指すものであり、
- ウェブアプリケーションやバッチ処理で使用するリクエストIDとは意味が異なる点に注意すること。
- このリクエストIDにもとづき、要求電文および応答電文のフォーマット、送信キュー名、受信キュー名が決定する。
+ Note that the request ID used here refers to an ID that is defined to uniquely identify the function of the destination system to which a message is sent, 
+ and has a different meaning from the request ID used in web applications and batch processes. 
+ The format, format of the request and response messages, send queue name, and receive queue name are determined based on this request ID. 
 
  
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Excelファイルの書き方
+How to write an Excel file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-取引単体テストを行う場合は、定められた記述ルールに従いExcelファイルを記載する。
+When conducting a subfunction unit test, an Excel file should be written in accordance with the prescribed description rules.
 
-以下にExcelファイルを記述する場合に従うべきルールを示す。
+The rules to follow when writing an Excel file are given below.
 
-* シート名は「message」固定。
-* 返却する応答電文のFW制御ヘッダ・本文のフォーマットを定義する。
-* 返却する応答電文のFW制御ヘッダ・本文のデータを定義する。
-* 要求電文のFW制御ヘッダ・本文のフォーマットを定義する。
+* The sheet name is fixed to "message".
+* Define the format of the FW control header and body of the response message to be returned.
+* Define the data of the FW control header and body of the response message to be returned.
+* Define the FW control header and body format of the request message.
 
-Excelファイルに定義した応答電文のフォーマットおよびデータは、モックアップクラスが返却する応答電文を生成するために使用される。
-また要求電文のフォーマットは、モックアップクラスが要求電文のログを出力するために使用される。
+The format and data of the response messages defined in the Excel file are used to generate the response message returned by the mockup class. 
+The format of the request message is also used by the mockup class to output a log of the request message.
 
-
-書き方の例
+Example of description
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-以下に、Excelファイルの記載例を示す。
+A description example for Excel file is shown below.
 
 
 .. image:: ./_images/send_sync_test_data.png
@@ -87,104 +86,104 @@ Excelファイルに定義した応答電文のフォーマットおよびデー
 
 .. _send_sync_test_data_format:
 
-電文のフォーマットおよびデータの記載方法
+Formatting of the message and how to describe the data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-電文のフォーマットおよびデータは以下の書式で記載する。
+The format and data of the message are described in the following format:
 
 
-+---------------------+--------------------------+------------------+--------------+
-|識別子               |                                                            |
-+---------------------+--------------------------+------------------+--------------+
-|ディレクティブ行     | ディレクティブの設定値   |                                 |
-+---------------------+--------------------------+------------------+--------------+
-|    ...  [#]_\       |    ...                   |                  |              |
-+---------------------+--------------------------+------------------+--------------+
-|no                   |フィールド名称(1)         |フィールド名称(2) |...  [#]_\    |
-|                     +--------------------------+------------------+--------------+
-|                     |データ型(1)               |データ型(2)       |...           |
-|                     +--------------------------+------------------+--------------+
-|                     |フィールド長(1)           |フィールド長(2)   |...           |
-|                     +--------------------------+------------------+--------------+
-|                     |データ(1-1)               |データ(2-1)       |...           |
-|                     +--------------------------+------------------+--------------+
-|                     |データ(1-2)               |データ(2-2)       |...           |
-|                     +--------------------------+------------------+--------------+
-|                     |... \ [#]_\               |...               |...           |
-+---------------------+--------------------------+------------------+--------------+
++---------------------+-------------------------------+------------------+--------------+
+|Identifier           |                                                                 |
++---------------------+-------------------------------+------------------+--------------+
+|Directive line       | Directive configuration value |                                 |
++---------------------+-------------------------------+------------------+--------------+
+|    ...  [#]_\       |    ...                        |                  |              |
++---------------------+-------------------------------+------------------+--------------+
+|no                   |Field name(1)                  |Field name(2)     |...  [#]_\    |
+|                     +-------------------------------+------------------+--------------+
+|                     |Data type(1)                   |Data type(2)      |...           |
+|                     +-------------------------------+------------------+--------------+
+|                     |Field length(1)                |Field length(2)   |...           |
+|                     +-------------------------------+------------------+--------------+
+|                     |Data(1-1)                      |Data(2-1)         |...           |
+|                     +-------------------------------+------------------+--------------+
+|                     |Data(1-2)                      |Data(2-2)         |...           |
+|                     +-------------------------------+------------------+--------------+
+|                     |... \ [#]_\                    |...               |...           |
++---------------------+-------------------------------+------------------+--------------+
 
 
 .. [#] 
- これより下側は、同様にディレクティブの数だけ続いていく。
+ Below this, the number of directives continues in the same way. 
  
 .. [#] 
- これより右側は、同様にフィールドの数だけ続いていく。
+ On the right side, the number of fields continues in the same way.
 
 .. [#]
- これより下側は、同様にデータの数だけ続いていく。
+ Below this, the number of data continues in the same way.
 
 \
 
 
 
-========================== ===============================================================================================================================================================================================================================================================
-名称                       説明
-========================== ===============================================================================================================================================================================================================================================================
-識別子                     電文の種類を示すIDを指定する。本項目が、テストケース一覧のexpectedMessageおよびresponseMessageに記載されたグループIDと紐付けられる。
+========================== =========================================================================================================================================================================================================================================================================================================
+Name                       Description
+========================== =========================================================================================================================================================================================================================================================================================================
+Identifier                 Specifies an ID that indicates the message type. This item is associated with the group ID described in expectedMessage and responseMessage in the test case list.
                   
-                           識別子の書式を以下に示す。
+                           The format of the identifier is shown below.
                   
-                           * 要求電文のヘッダ … EXPECTED_REQUEST_HEADER_MESSAGES=リクエストID
-                           * 要求電文の本文 … EXPECTED_REQUEST_BODY_MESSAGES=リクエストID
-                           * 応答電文のヘッダ … RESPONSE_HEADER_MESSAGES=リクエストID
-                           * 応答電文の本文 … RESPONSE_BODY_MESSAGES=リクエストID
-ディレクティブ行 \ [#]_\   ディレクティブを記載する。ディレクティブ名のセルの右のセルに設定値を記載する（複数行指定可）。
-no                         ディレクティブ行の下の行には必ず「no」を記載する。
-フィールド名称             フィールド名称を記載する。フィールドの数だけ記載する。
-データ型                   そのフィールドのデータ型を記載する。フィールドの数だけ記載する。
+                           * Request message header … EXPECTED_REQUEST_HEADER_MESSAGES = Request ID
+                           * Request message body… EXPECTED_REQUEST_BODY_MESSAGES = Request ID
+                           * Response message header … RESPONSE_HEADER_MESSAGES = Request ID
+                           * Response message body … RESPONSE_BODY_MESSAGES = Request ID
+Directive line \ [#]_\     Describes the directive. The cell to the right of the directive name cell contains the configuration value (multiple lines are allowed).
+no                         Write "no" in the line below the directive line.
+Field name                 Describes the field name. Describes only the number of fields.
+Data type                  Describes the data type of the field. Describes only the number of fields.
 
-                           データ型は「半角英字」のように日本語名称で記述する。
+                           The data type is described with a Japanese name such as "half-width alphabets(半角英字)".
 
-                           フォーマット定義ファイル上のデータ型と日本語名称のデータ型のマッピングは、 `BasicDataTypeMapping <https://github.com/nablarch/nablarch-testing/blob/master/src/main/java/nablarch/test/core/file/BasicDataTypeMapping.java>`_ のメンバ変数DEFAULT_TABLEを参照。
-フィールド長               そのフィールドのフィールド長を記載する。「-」を記載した場合は、「データ」の欄の記載内容を元にサイズを自動計算する。
+                           Refer to the member variable DEFAULT_TABLE of `BasicDataTypeMapping <https://github.com/nablarch/nablarch-testing/blob/master/src/main/java/nablarch/test/core/file/BasicDataTypeMapping.java>`_  for the mapping between data types in the format definition file and data types with Japanese names.
+Field length               Describes the field type of the field. If "-" is specified, the size will be calculated automatically based on the description in the "Data" column.
                   
-                           フィールドの数だけ記載する。
-データ                     データは、応答電文の場合のみ記載する。そのフィールドに格納されるデータを記載する。複数件応答電文を返却する場合は次の行に続けてデータを記載する。
-========================== ===============================================================================================================================================================================================================================================================
+                           Describes only the number of fields.
+Data                       Describe the data only in the case of response message.Describe the data stored in that field.If multiple response messages are to be returned, the entry of data should be continued in the next line.
+========================== =========================================================================================================================================================================================================================================================================================================
 
 .. [#]
- ディレクティブを記述する際、フォーマット定義ファイルの以下に対応する内容は記述不要である。
+ When writing a directive, the contents corresponding to the following in the format definition file need not be described.
 
  ============== ==============================================================
- 項目           理由
+ Item           Reason
  ============== ==============================================================
- file-type      テスティングフレームワークが固定長のみしか対応していないため。
- record-length  フィールド長に記載したサイズでパディングするため。
+ file-type      The testing framework supports fixed lengths only.
+ record-length  To pad with the size specified in the field length.
  ============== ==============================================================
 
 
 .. tip::
- フィールド名称、データ型、フィールド長の記述は、外部インタフェース設計書からコピー＆ペーストすることで効率良く作成できる。\
- （ペーストする際、「\ **行列を入れ替える**\ 」オプションにチェックすること）
+ Field names, data types and field lengths can be efficiently created by copying and pasting them from the external interface design document.\
+  (Check the "\ **transpose matrix**\ " option when pasting.)
 
 
-Excelファイルの再読み込み
+Reload an Excel file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-モックアップクラスは、Excelファイルを手動で編集してテストをやり直すケースや、同じデータで繰り返しテストを行うケースを想定し、
-Excelファイルのタイムスタンプが更新された場合に、ファイルを再読み込みする機能を提供している。
+The mockup class provides a function to reload an Excel file when the timestamp of the Excel file is updated, 
+assuming that the Excel file is edited manually and tested again, or the test is repeated with the same data.
 
-通常、以下の応答電文を返却するたびにnoのインクリメントが行われ、アプリケーションサーバが起動している間は、noの値が初期化されることはない。
+Normally, no is incremented each time the following response message is returned, and the value of no is not initialized while the application server is running.
 
-以下のような応答電文データを定義した場合、１回目のメッセージ同期送信ではno.1の応答電文が返却され、
-noのインクリメントが行われる。そして２回目のメッセージ同期送信ではno.2の応答電文が返却される。
+If the following response message data is defined, the response message of no. 1 is returned in the first message synchronization transmission and the no is incremented. 
+The response message of no. 2 is returned in the second message synchronous transmission.
 
 .. image:: ./_images/send_sync_test_data_no.png
     :scale: 90
 
-しかし、Excelファイルの編集や上書きを行い、タイムスタンプを更新することで、アプリケーションサーバ起動中にExcelファイルの再読み込みを行うことができる。
+However, updating the timestamp by editing or overwriting the Excel file, the Excel file can be reloaded while the application server is running.
 
-以下に、Excelファイルを編集し、テストをやり直す場合の例を示す。
+An example of editing the Excel file and restarting the test is given below.
 
 .. image:: ./_images/send_sync_response_count_change.png
     :scale: 70
@@ -194,70 +193,66 @@ noのインクリメントが行われる。そして２回目のメッセージ
 
 
 
-障害系のテスト
+Failure pattern test
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-応答電文の本文の表の最初のフィールドに「errorMode:」から始まる特定の値を設定することで、障害系のテストを行うことができる。
+The failure system can be tested by configuring a specific value starting with "errorMode:" in the first field of the table of the response message body.
 
-以下に、設定値と、障害系のテストの対応を示す。
+The correspondence between the configuration values and failure pattern tests is shown below.
 
- +-----------------------------------+-------------------------------------------------------------+------------------------------------------------+
- | 最初のフィールドに設定する値      | 障害内容                                                    |  自動テストフレームワークの動作                |
- +===================================+=============================================================+================================================+
- |  errorMode:timeout                | メッセージ送信中にタイムアウトエラーが発生する場合のテスト  |  sendSyncメソッドの戻り値としてnullを返却する。|
- +-----------------------------------+-------------------------------------------------------------+------------------------------------------------+
- |  errorMode:msgException           | メッセージ送受信エラーが発生する場合のテスト                |  MessagingExceptionをスローする。              |
- +-----------------------------------+-------------------------------------------------------------+------------------------------------------------+
+ +--------------------------------------------+-------------------------------------------------------------+-----------------------------------------------------------+
+ | Value to be configured for the first field | Failure description                                         |  Operation of the automated test framework                |
+ +============================================+=============================================================+===========================================================+
+ |  errorMode:timeout                         | Test if timeout error occurs while sending the message      |  null is returned as the return value of sendSync method. |
+ +--------------------------------------------+-------------------------------------------------------------+-----------------------------------------------------------+
+ |  errorMode:msgException                    | Test when a message send and receive error occurs           |  Throws a MessagingException.                             |
+ +--------------------------------------------+-------------------------------------------------------------+-----------------------------------------------------------+
  
  
-記載例を以下に示す。
+A description example is shown below.
 
 
  .. image:: ./_images/send_sync_test_data_error.png
 
 
-
-
 .. _send_sync_test_data_path:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Excelファイルの配置場所の設定
+Configure the location of the Excel file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Excelファイルの配置場所のパスは、下記設定例のようにfilepath.configに設定している。
+The location path of the Excel file is configured in filepath.config as shown in the following example.
 
-Excelファイルは、このパスで指定されたディレクトリに配置する。もし配置場所を変更する場合はこのパスを修正すること。
+The Excel file is placed in the directory specified in this path. If this location has been changed, correct the path.
 
  .. code-block:: bash
   
-  # Excelファイルのパス
+  # Excel file path
   file.path.send.sync.test.data=file:///C:/nablarch/workspace/Nablarch_sample/test/message
 
 
-以下に、Excelファイルの配置イメージを示す。
+A deployment image of an Excel file is shown below.
 
  .. image:: ./_images/send_sync_test_data_structure.png
 
 .. tip::
 
- 配置ディレクトリのパスは、クラスパス（classpath:）ではなく、ファイルシステムのパス（file:）で指定することを推奨する。
- ファイルシステムのパスを指定することで、サーバ起動中に直接Excelファイルの内容を編集し、テストすることが可能となる。
-
-
+ It is recommended that the path of the deployment directory be specified by the file system path (file:) instead of the classpath (classpath:). 
+ By specifying the file system path, the contents of an Excel file can be edited and tested directly while the server is running.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-要求電文のログ出力
+Log output of the request message
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-要求電文のログはMap形式とCSV形式で出力される。
+Request message log is output in Map and CSV formats.
 
-Map形式のログはデバッグ用に、CSV形式のログはエビデンスとして取得する場合に使用することを想定している。
+The log in Map format is assumed to be used for debugging, and log in CSV format is assumed to be used for acquiring evidence.
 
-サンプルでは、Map形式のログは標準出力とアプリケーションログファイルに、CSV形式のログは専用のログファイルに出力する仕様となっているが、ログの設定を修正することで出力先の切り替えが可能である。
+In the sample, Map format log is output to standard output and application log file, and CSV format log is output to dedicated log file, but it is possible to switch the output destination by modifying the log configuration.
     
-ログの出力例を以下に示す。
+An example of the log output is shown below.
 
-* Map形式の場合
+* For Map format
 
  .. code-block:: bash
   
@@ -265,7 +260,7 @@ Map形式のログはデバッグ用に、CSV形式のログはエビデンス�
     message fw header = {requestId=RM11AD0101, testCount=, resendFlag=0, reserved=}
     message body      = {authors=test3, title=test1, publisher=test2}
 
-* CSV形式の場合
+* For CSV format
 
  .. code-block:: bash
   
@@ -278,22 +273,22 @@ Map形式のログはデバッグ用に、CSV形式のログはエビデンス�
   "test3","test1","test2"
 
 
-ログの出力設定は、log.propertiesにて行う。設定例を以下に示す。
+The log output is configured in log.properties. The configuration example shown below.
 
  .. code-block:: bash
   
-  # CSV形式のメッセージログのライタ（./messaging-evidence.logに出力する）
+  # CSV format message log writer (output to ./messaging-evidence.log)
   writer.MESSAGING_CSV.className=nablarch.core.log.basic.FileLogWriter
   writer.MESSAGING_CSV.filePath=./messaging-evidence.log
   writer.MESSAGING_CSV.formatter.className=nablarch.core.log.basic.BasicLogFormatter
   writer.MESSAGING_CSV.formatter.format=$message$
 
-  # CSV形式のメッセージログのロガー
+  # CSV format message log logger
   loggers.MESSAGING_CSV.nameRegex=MESSAGING_CSV
   loggers.MESSAGING_CSV.level=DEBUG
   loggers.MESSAGING_CSV.writerNames=MESSAGING_CSV
 
-  # Map形式のメッセージログのロガー
+  # Map format message log logger
   loggers.MESSAGING_MAP.nameRegex=MESSAGING_MAP
   loggers.MESSAGING_MAP.level=DEBUG
   loggers.MESSAGING_MAP.writerNames=stdout,appFile
@@ -302,48 +297,48 @@ Map形式のログはデバッグ用に、CSV形式のログはエビデンス�
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-フレームワークで使用するクラスの設定
+Configuring the classes to be used in the framework
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-通常、これらの設定はアーキテクトが行うものでありアプリケーションプログラマが設定する必要はない。
+Usually, the classes are configured by the architect and do not need to be set by the application programmer.
 
 
-モックアップクラスの設定
+Mockup class configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-コンポーネント設定ファイルに、取引単体テストで使用するモックアップクラスを設定する。
+Configure mockup class to be used in subfunction unit test in the component configuration file.
 
  .. code-block:: xml
   
-      <!-- モックのメッセージングプロバイダ -->
+      <!-- Mock messaging provider -->
       <component name="messagingProvider"
                  class="nablarch.test.core.messaging.MockMessagingProvider">
       </component>
 
 
 
-Excelファイルの配置場所を記載するプロパティファイルのパスの設定
+Configure the property file path to describe the location of the Excel file.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-コンポーネント設定ファイルで、Excelファイルの配置場所のパスが記載されるプロパティファイルのパスや、プロパティのキーを設定する。
+In the component configuration file, configure the path of the property file that describes the path where the Excel file is placed, and the property key.
 
  .. code-block:: xml
 
-    <!-- Excelファイルの配置場所のパスを記載するプロパティファイルのパスを指定する -->
+    <!-- Specify the path of the property file that describes the path to the Excel file location  -->
     <config-file file="web/filepath.config" />
   
     <component name="filePathSetting"
              class="nablarch.core.util.FilePathSetting" autowireType="None">
        <property name="basePathSettings">
          <map>
-           <!- Excelファイルの配置場所のパスを記載するプロパティのキー名を指定する -->
+           <!- Specify the key name of the property that describes the path to the location of the Excel file -->
            <entry key="sendSyncTestData" value="${file.path.send.sync.test.data}" />
            <entry key="format" value="classpath:web/format" /> 
          </map>
        </property>
        <property name="fileExtensions">
          <map>
-           <!- Excelファイルの拡張子（xlsx）を定義する-->
+           <!- Define the extension (xlsx) of an Excel file -->
            <entry key="sendSyncTestData" value="xlsx" />
            <entry key="format" value="fmt" />
          </map>
@@ -352,23 +347,23 @@ Excelファイルの配置場所を記載するプロパティファイルのパ
 
 
 
-取引単体テストで使用するライブラリの設定
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Configuring the library to be used for subfunction unit test
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-取引単体テストでは、以下のjarファイルをアプリケーションサーバのクラスパスに通す必要がある。
+The following jar files are required be passed to the classpath of application server in the subfunction unit test.
 
  * nablarch-tfw.jar
  * Apache POIのjar
 
-Nablarchが標準で提供するサンプルアプリケーションは、デフォルトでこれらのjarのクラスパス設定が行われた状態になっている。
-具体的には、サンプルアプリケーションのtest/libディレクトリにこれらのjarを配置し、下図のとおりEclipseの機能を使用し、クラスパス設定を行っている。
+The classpath of jar is configured by default in the standard sample applications provided by Nablarch. 
+Specifically, these jars are placed in the test/lib directory of the sample application, and the classpath is configured using the Eclipse function as shown below.
 
 .. image:: ./_images/send_sync_jar_path.png
 
-これらのjarは単体テスト以外では使用しないので、上記の例のようにWEB-INF/libではなく、別の場所に配置することを推奨する。
+Since the jars are used only for the unit tests, it is recommended to place the jars in another directory instead of WEB-INF/lib as in the above example.
 
 -----------
 
 .. [#f1] 
- キューへ送信するメッセージのことを「要求電文」、キューから受信するメッセージのことを「応答電文」と称す。
+ A message sent to a queue is called a "request message" and a message received from a queue is called a "response message".
  

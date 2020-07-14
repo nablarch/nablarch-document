@@ -1,22 +1,20 @@
-===============================================================
-取引単体テストの実施方法（同期応答メッセージ受信処理)
-===============================================================
+=====================================================================
+How to Execute a Subfunction Unit (Receiving Synchronous Message)
+=====================================================================
 
-同期応答メッセージ受信処理では、リクエストと取引とでスコープが同じであることがほとんである。
-このように、１リクエスト＝１取引である場合は、取引単体テストを実施する必要はない。
+In the synchronous message receiving process, the scope of the request and the subfunction is almost always the same. 
+Thus, if 1 request = 1 subfunction, there is no need to perform a subfunction unit test.
 
-ただし、複数のメッセージにより取引が成立する場合は、\
-バッチ処理における取引単体テストと同様に、\
-リクエスト毎のテストを連続実行することにより取引単体テストが実施可能である。
+However, if a subfunction is executed by multiple messages, \
+the subfunction unit test can be executed by continuously executing the test for each request in the same way as the subfunction unit test in the batch process.
 
-取引単体テストの実施方法は基本的にバッチと同様である。
-ただし、テストクラスが継承するスーパークラスが異なる（\ ``MessagingRequestTestSupport``\ を使用する）。
-また、テストクラスは以下の条件を満たすように作成する。
+However, the superclasses inherited by the test class are different (using \ ``MessagingRequestTestSupport``\ ).
+The test class should be created to satisfy the following conditions.
 
-* テストクラスのパッケージはテスト対象取引のパッケージとする。
-* <取引ID>Testというクラス名でテストクラスを作成する。
+* The package of the test class is the package of the subfunction to be tested.
+* Create a test class with the class name <subfunction ID> Test.
 
-例えば、テスト対象取引の取引IDがM21AA03だとすると、テストクラスは以下のようになる。
+For example, if the subfunction ID of the target subfunction is M21AA03, the test class will be as follows.
 
 .. code-block:: java
 
@@ -24,12 +22,12 @@
 
  import nablarch.test.core.messaging.MessagingRequestTestSupport;
 
- // 中略
+ // Middle is omitted
  
  public class M21AA03Test extends MessagingRequestTestSupport {
 
 
-実施方法については、バッチの実施方法を参照。
+For more information on how to execute, see batch execution method.
 
 :doc:`./batch`
 
