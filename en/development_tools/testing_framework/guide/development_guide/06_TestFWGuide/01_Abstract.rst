@@ -1,29 +1,28 @@
 .. _auto-test-framework:
 
-========================
-自動テストフレームワーク
-========================
+============================
+Automated Testing Framework
+============================
 
-----
-特徴
-----
+--------
+Features
+--------
 
-JUnit4ベース
+Junit4 base
 ============
-自動テストフレームワークは、JUnit4をベースとしている。
-各種アノテーション、assertメソッドやMatcherクラスなど、JUnit4で提供されている機能を使用する。
+The automated testing framework is based on JUnit4. 
+The framework uses the functions provided in JUnit 4, such as various annotations, the assert method, and the Matcher class.
 
 
-テストデータの外部化
-====================
-テストデータをExcelファイルに記述できる。
-データベース準備データや期待するテスト結果などを記載したExcelファイルを
-自動テストフレームワークのAPIを通じて使用できる。
+Externalization of test data
+==============================
+Test data can be written in an Excel file. 
+An Excel file containing the data for database preparation and expected test results can be used through the APIs of the automated testing framework.
 
 
-Nablarchに特化したテスト補助機能を提供
-======================================
-トランザクション制御やシステム日付設定など、Nablarchアプリケーションに特化したAPIを用意する。
+Provision of test helper functions specific to Nablarch
+============================================================
+The framework provides APIs specific to the Nablarch applications, such as transaction control and system date configuration.
 
 
 .. ----
@@ -116,9 +115,9 @@ Nablarchに特化したテスト補助機能を提供
 
 
 ..   * リンク機能の搭載。例えば、あるセルに"\*LINK1"と書いてあると、"\*LINK1"というIDを持ったデータの中身を取ってこれる。
-..   * Excelファイルを、単なる外部ファイルではなく、テスト仕様書として使用することができる。テスト仕様書をもとにテストを駆動できる。
+..   * Excel fileを、単なる外部ファイルではなく、テスト仕様書として使用することができる。テスト仕様書をもとにテストを駆動できる。
     
-..   * JUnitテストコードを書かなくても、Excelファイルを用意するだけでテストを実行できる。
+..   * JUnitテストコードを書かなくても、Excel fileを用意するだけでテストを実行できる。
 
 
 .. 取り下げ
@@ -129,43 +128,40 @@ Nablarchに特化したテスト補助機能を提供
 
 .. _`testing_fw_components`:
 
-------------------------------
-自動テストフレームワークの構成
-------------------------------
+--------------------------------------------
+Structure of the automated testing framework
+--------------------------------------------
 
 .. image:: _images/abstract_structure.png
    :scale: 80
 
++-----------------------------+--------------------------------------+----------------------------------------------------+
+|Component                    |Description                           |Prepared by                                         |
++=============================+======================================+====================================================+
+|Test class                   |Test process is described.            |Application programmer                              |
++-----------------------------+--------------------------------------+----------------------------------------------------+
+|Class to be tested           |Class to be tested.                   |Application programmer                              |
++-----------------------------+--------------------------------------+----------------------------------------------------+
+|Excel file                   |Contains test data.                   |Application programmer                              |
+|                             |The data can be read by using         |                                                    |
+|                             |the automated test framework.         |                                                    |
++-----------------------------+--------------------------------------+----------------------------------------------------+
+|Component configuration file |The various settings at the time      |Application programmer（if a specific configuration |
+|and configuration file       | of executing a test are described.   |is required for individual tests）                  |
++-----------------------------+--------------------------------------+----------------------------------------------------+
+|Automated Testing Framework  |Provides the functions necessary      | \－                                                |
+|                             |for testing.                          |                                                    |
++-----------------------------+--------------------------------------+----------------------------------------------------+
+|Nablarch Application         |The main framework                    | \－                                                |
+|Framework                    |(out of scope of this function)       |                                                    |
++-----------------------------+--------------------------------------+----------------------------------------------------+
 
-+----------------------------+--------------------------------------+--------------------------------------+
-|構成物                      |説明                                  |作成者                                |
-+============================+======================================+======================================+
-|テストクラス                |テスト処理を記述する。                |アプリケーションプログラマ            |
-+----------------------------+--------------------------------------+--------------------------------------+
-|テスト対象クラス            |テスト対象となるクラス。              |アプリケーションプログラマ            |
-+----------------------------+--------------------------------------+--------------------------------------+
-|Excelファイル               |テストデータを記載する。自動テストフレ|アプリケーションプログラマ            |
-|                            |ームワークを使用することにより、データ|                                      |
-|                            |を読み取ることができる。              |                                      |
-+----------------------------+--------------------------------------+--------------------------------------+
-|コンポーネント設定ファイル・|テスト実行時の各種設定を記載する。    |アプリケーションプログラマ（個別のテス|
-|環境設定ファイル            |                                      |トに固有の設定が必要な場合）          |
-+----------------------------+--------------------------------------+--------------------------------------+
-|自動テストフレームワーク    |テストに必要な機能を提供する。        | \－                                  |
-|                            |                                      |                                      |
-+----------------------------+--------------------------------------+--------------------------------------+
-|Nablarch Application        |フレームワーク本体（本機能の対象外）  | \－                                  |
-|Framework                   |                                      |                                      |
-+----------------------------+--------------------------------------+--------------------------------------+
+---------------------------
+How to write a test method
+---------------------------
 
-
-
-----------------------
-テストメソッド記述方法
-----------------------
-
-JUnit4のアノテーションを使用する。
-テストメソッドに @Test アノテーションを付与する。
+Use JUnit4 annotations. 
+Assign @Test annotation to the test method.
 
 
  .. code-block:: java 
@@ -174,117 +170,115 @@ JUnit4のアノテーションを使用する。
 
         @Test
         public void testSomething() {
-            // テスト処理
+            // Test process
         }
     }
 
 
 .. tip::
-  @Beforeや@Afterなどのアノテーションも使用できる。これらのアノテーションを用いて、
-  テストメソッド前後にリソースの取得解放などの共通処理を行いたい場合は、
-  次の項を参照（ :ref:`using_junit_annotation` ）。
+  Annotations such as @Before and @After can also be used. 
+  If you want to use these annotations to perform common processes such as resource acquisition and release before and after the test method, 
+  refer to the next section ( :ref:`using_junit_annotation`).
 
 
 .. _`how_to_write_excel`:
 
+---------------------------------
+Test data description using Excel
+---------------------------------
 
----------------------------
-Excelによるテストデータ記述
----------------------------
+Spreadsheets have an advantage over Java source code in terms of readability and ease of editing, 
+for representing data such as preparation data for database and database search results. 
+Excel files can be used to handle such data in a spreadsheet format.
 
-データベースの準備データやデータベース検索結果などのデータを表すには、
-Javaソースコードよりスプレッドシートのほうが可読性や編集のしやすさという点で有利である。
-Excelファイルを使用することにより、このようなデータをスプレッドシート形式で扱うことができる。
+Naming conventions
+====================
 
-命名規約
-========
-
-Excelファイル名、ファイルパスには推奨される規約が存在する。この規約に従うことにより、テストクラスで明示的にディレクトリ名やファイル名を指定してファイルを読み込む必要がなくなり、簡潔にテストソースコードを記述できる。また明示的にパスを指定することで任意の場所のExcelファイルを読み込むことも可能である。
-
-
-パス、ファイル名に関する規約
-----------------------------
-
-ファイル名、パスに関して推奨される規約は以下の通り。
-
-- Excelファイル名は、テストソースコードと同じ名前にする（拡張子のみ異なる）。
-
-- Excelファイルを、テストソースコードと同じディレクトリに配置する。
+There are recommended conventions for Excel file names and file paths.By following these conventions, you don't need to explicitly specify a directory or file name in the test class to read a file, and the test source code can be written concisely.It is also possible to read an Excel file from any location by explicitly specifying the path.
 
 
-例を以下に示す。
+Path and file name conventions
+-----------------------------------
+
+The recommended conventions for file names and paths are as follows:
+
+- The Excel file name should be the same name as the test source code (only the extension is different).
+
+- The Excel file should be placed in the same directory as the test source code.
+
+
+An example is shown below.
 
 +--------------------+----------------------+-----------------------------+
-|ファイルの種類      |配置ディレクトリ      |ファイル名                   |
+|File type           |Deployment directory  |File name                    |
 +====================+======================+=============================+
-|テストソースファイル|<PROJECT_ROOT>/test   |ExampleDbAcessTest.java      |
+|Test source file    |<PROJECT_ROOT>/test   |ExampleDbAcessTest.java      |
 +--------------------+/jp/co/tis/example/db/+-----------------------------+
-|Excelファイル       |                      |ExampleDbAcessTest.xlsx [#]_ |
+|Excel file          |                      |ExampleDbAcessTest.xlsx [#]_ |
 +--------------------+----------------------+-----------------------------+
 
-.. [#] Excel ファイルは、 Excel2003以前のファイル形式(拡張子 xls の形式)および Excel2007 以降のファイル形式(拡張子 xlsx の形式)に対応している。   
+.. [#] Excel files are compatible with Excel 2003 and earlier file formats (extension xls format) and Excel 2007 and later file formats (extension xlsx format).  
 
-Excelシート名に関する規約
--------------------------
+Excel sheet name conventions
+--------------------------------
 
-Excelシートについては、以下の規約が推奨される。
+The recommended conventions for an Excel sheet are as follows:
 
-- １テストメソッドにつき１シート用意する。
+- One sheet should be prepared per test method.
 
-- シート名はテストメソッド名と同名にする。
+- The sheet name should be the same as the test method name.
 
-例を以下に示す。
+An example is shown below.
 
 +--------------------+--------------------------------+
-|テストメソッド      |@Test public void testInsert()  |
+|Test method         |@Test public void testInsert()  |
 +--------------------+--------------------------------+
-|Excelシート名       |testInsert                      |
+|Excel sheet name    |testInsert                      |
 +--------------------+--------------------------------+
 
 .. tip::
-  シートに関する規約は、「制約」事項ではない。
-  テストメソッド名とExcelシート名が同名でなくても正しく動作する。
-  今後の機能追加は上記規約をデフォルトとして開発されるので、命名規約に準拠することを推奨する。
-  仮に命名規約を変更する場合であってもプロジェクト内で統一を図ること。
+  The conventions for a sheet are not “restrictions”. 
+  Test method name and Excel sheet name need not be the same for proper functioning. 
+  In the future, additional functions will be developed using the above conventions as default. 
+  Therefore, it is recommended to follow the naming conventions. 
+  Even if the naming conventions are changed, they should be consistent within a project.
 
 
+Structure in the sheet
+=======================
 
-シート内の構造
-==============
-
-Excelシートの記述方法関する規約について説明を行う。
-以下にシートの記述例を記載する。
+Here is an explanation about the conventions to describe an Excel sheet. 
+The following is a description example of a sheet.
 
 .. image:: _images/sheet_example.JPG
    :scale: 90 
  
 
 
-シート内には、データベースに格納するデータやデータベース検索結果など、さまざまな種類のデータを記載できる。テストデータの種類を判別するために「データタイプ」というメタ情報をテストデータに付与する必要がある。「データタイプ」は、そのテストデータが何を表しているかを示す。
+Various types of data can be written in a sheet, such as data to be stored in a database and database search results.In order to determine the type of test data, it is necessary to assign meta information called "data type" to the test data.The "data type" indicates what the test data represents.[A1][A2][A3]
 
-現状、以下のデータタイプが用意されている。
+Currently, the following data types are available.
 
-================================= ==================================================================  ==========================
-データタイプ名                    説明                                                                設定する値                    
-================================= ==================================================================  ==========================
-SETUP_TABLE                       テスト実行前にデータベースに登録するデータ                          登録対象のテーブル名
-EXPECTED_TABLE                    テスト実行後の期待するデータベースのデータ                          確認対象のテーブル名
-                                  省略したカラムは、比較対象外となる。
-EXPECTED_COMPLETE_TABLE           テスト実行後の期待するデータベースのデータ                          確認対象のテーブル名
-                                  省略したカラムには\ :ref:`default_values_when_column_omitted`\                               
-                                  が設定されているものとして扱われる。
-LIST_MAP                          List<Map<String,String>>形式のデータ                                シート内で一意になるID
-                                                                                                      期待値のID(任意の文字列)
-SETUP_FIXED                       事前準備用の固定長ファイル                                          準備ファイルの配置場所
-EXPECTED_FIXED                    期待値を示す固定長ファイル                                          比較対象ファイルの配置場所
-SETUP_VARIABLE                    事前準備用の可変長ファイル                                          準備ファイルの配置場所
-EXPECTED_VARIABLE                 期待値を示す可変長ファイル                                          比較対象ファイルの配置場所
-MESSAGE                           メッセージング処理のテストで使用するデータ                          固定値 \ [#]_\ 
-EXPECTED_REQUEST_HEADER_MESSAGES  要求電文（ヘッダ）の期待値を示す固定長ファイル                      リクエストID
-EXPECTED_REQUEST_BODY_MESSAGES    要求電文（本文）の期待値を示す固定長ファイル                        リクエストID
-RESPONSE_HEADER_MESSAGES          応答電文（ヘッダ）を示す固定長ファイル                              リクエストID
-RESPONSE_BODY_MESSAGES            応答電文（本文）を示す固定長ファイル                                リクエストID
-================================= ==================================================================  ==========================
+================================= ==============================================================================  ========================================
+Data type name                    Description                                                                     Set value                    
+================================= ==============================================================================  ========================================
+SETUP_TABLE                       Data to be registered in the database before test execution.                    Table name to be registered
+EXPECTED_TABLE                    The expected data in the database after the test is executed.                   Table name to be checked
+EXPECTED_COMPLETE_TABLE           The expected data in the database after the test is executed.                   Table name to be checked
+                                  An omitted column is treated as having been configured to                               
+                                  \ :ref:`default_values_when_column_omitted`\.                                  
+LIST_MAP                          List<Map<String,String>>                                                        ID that is unique in the sheet
+                                                                                                                  ID of expected value (arbitrary string)
+SETUP_FIXED                       Fixed length file for advance preparation                                       Location of the preparation file
+EXPECTED_FIXED                    Fixed length file showing expected values                                       Location of the file to be compared
+SETUP_VARIABLE                    Variable length file for advance preparation                                    Location of the preparation file
+EXPECTED_VARIABLE                 Variable length file showing expected values                                    Location of the file to be compared
+MESSAGE                           Data to be used in testing of the messaging process                             Fixed value \ [#]_\ 
+EXPECTED_REQUEST_HEADER_MESSAGES  Fixed length file showing the expected value of the request message (header)    Request ID
+EXPECTED_REQUEST_BODY_MESSAGES    Fixed length file showing the expected value of the request message (body)      Request ID
+RESPONSE_HEADER_MESSAGES          Fixed length file showing the request message (header)                          Request ID
+RESPONSE_BODY_MESSAGES            Fixed length file showing the request message (body)                            Request ID
+================================= ==============================================================================  ========================================
 
 \
 
@@ -292,19 +286,17 @@ RESPONSE_BODY_MESSAGES            応答電文（本文）を示す固定長フ�
 
 
 
-また、データの個数も複数記述できる。
+In addition, multiple data can be described.
 
+The common format, which is not dependent on data type, is as follows.
 
+* The first row of data should be in the format "data type = value" and should contain the data type and value.
+* The format from the second row onward varies depending on the data type.
 
-データの種類に依らない共通の書式は以下の通り。
+　The data type is the information that identifies what that data represents. 
+For example, if the data has to be submitted to the database, the data type "SETUP_TABLE" is used.
 
-* データ1行目は「データタイプ=値」の形式で、データタイプと値を記載する。
-* 2行目以降の書式はデータタイプにより異なる。
-
-　データタイプとは、そのデータが何を表すかを特定するための情報である。
-例えばそのデータが、データベースに投入されるべきデータである場合は、データタイプ"SETUP_TABLE"を使用する。
-
-例えば、以下のようにデータタイプを記載した場合、そのデータがCOMPOSERテーブルに準備データとして登録されるべきものであることを示している。
+For example, the following data type indicates that the data should be registered as preparation data in the COMPOSER table.
 
 
 SETUP_TABLE=COMPOSER
@@ -319,201 +311,199 @@ SETUP_TABLE=COMPOSER
 
 
 
-コメント
+Comment
 ========
 
-セル内に"//"から開始する文字列を記載した場合、そのセルから右のセルは全て読み込み対象外となる。テストデータ自体には含めたくないが、可読性を向上させるために付加情報を記載したい場合には、コメント機能が使用できる。
+If there is a string starting with "//" in a cell, all the cells to the right of that cell will not be read. For additional information that you want to write to improve readability, which you do not want to include in the test data itself, you can use the comment function.
 
-以下の例では、2行目でテーブルの論理名を、4行目末尾で期待する結果についてコメントしている。
+In the following example, a comment regarding the logical name of the table is written in Row 2, while a comment regarding the expected result is written at the end of Row 4.
 
 EXPECTED_TABLE=PLAYER
 
 +----------+----------+----------+----------+----------------------------+
 |NO        |FIRST_NAME|LAST_NAME |ADDRESS   |                            |
 +==========+==========+==========+==========+============================+
-|//番号    |名        |姓        |住所      |                            |
+|// Number |Name      |Surname   |Address   |                            |
 +----------+----------+----------+----------+----------------------------+
 |0001      |Andres    |Segovia   |Spain     |                            |
 +----------+----------+----------+----------+----------------------------+
-|0002      |Julian    |Bream     |England   | // このレコードが追加される| 
+|0002      |Julian    |Bream     |England   | // This record is added    | 
 +----------+----------+----------+----------+----------------------------+
 
 
 .. _`marker_column`:  
 
-マーカーカラム
+Marker column
 ==============
 
-テストデータを記述する際、実際のデータには含めたくないがExcelシート上には記述しておきたい場合がある。\
-前述の「コメント」を使用することにより、実際のデータには含まれない情報を記述できるが、\
-「コメント」には、そのセルから右のセルを読み込み対象外にするという性質があるため、\
-左端（または中央）のセルにはコメントを使用できない。
+When writing test data, sometimes you want to write some information on the Excel sheet but do not want to include that information in the actual data. \
+The "comment" mentioned above can be used to describe information that is not included in the actual data, \
+however, “comment” has a property due to which the cells to right of that cell are not read, \
+because of which the leftmost (or middle) cell cannot be used for a comment.
 
-このような場合は、「マーカーカラム」を使用することで、実際のデータには含まれないが
-Excelシートの見た目上は存在するデータを記述できる。
+In such cases, "marker columns" can be used to describe data that is not included in the actual data, 
+but which appears on the Excel sheet.
 
-テストデータの見出し行において、\
-**カラム名が半角角括弧で囲まれている場合、そのカラムは「マーカーカラム」とみなされる。**\
-マーカーカラムに該当する列はテスト実行時には読み込まれない。
+In the header row of the test data, \
+if the **column name is enclosed in half-width square brackets, the column is considered to be a "marker column"**\. 
+The column corresponding to the marker column is not read when a test is executed.
 
-例えば、以下のようなテストデータがあるとする。
+For example, suppose you have test data as follows:
 
 LIST_MAP=EXAMPLE_MARKER_COLUMN
 
 +----+----------+----------+
 |[no]|id        |name      |
 +====+==========+==========+
-|1   |U0001     |山田      |
+|1   |U0001     |Yamada    |
 +----+----------+----------+ 
-|2   |U0002     |田中      |
+|2   |U0002     |Tanaka    |
 +----+----------+----------+
 
-上記のテストデータは、半角角括弧で囲まれているカラム[no]が無視されるため、
-テスト実行時には以下のテストデータと等価となる。
+The above test data is equivalent to the following test data at the time of executing a test because the column [no] enclosed in half-width square brackets is ignored.
 
 LIST_MAP=EXAMPLE_MARKER_COLUMN
 
   +----------+----------+
   |id        |name      |
   +==========+==========+
-  |U0001     |山田      |
+  |U0001     |Yamada    |
   +----------+----------+
-  |U0002     |田中      |
+  |U0002     |Tanaka    |
   +----------+----------+
 
 
-ここではLIST_MAPの例を挙げたが、それ以外のデータタイプでも同様に使用できる。
+Though the example of LIST_MAP is given here, other data types can be used in the same way.
 
-セルの書式
-==========
+Cell format
+=============
 
-セルの書式には、文字列のみを使用する。
-テストデータを作成する前に、全てのセルの書式を文字列に設定しておくこと。
+String is the only format that can be used for cells. 
+The format of all cells should be configured to String before test data is created.
 
-罫線やセルの色付けについては任意に設定可能である。罫線やセルの色付けを行うことでデータが見やすくなり、レビュー品質や保守性の向上が期待できる。
+Coloring of borders and cells can be set as per your choice. By setting colors for borders and cells, data readability, review quality and maintainability can be improved.
 
 
 .. important::
- | Excelファイルに文字列以外の書式でデータを記述した場合、正しくデータが読み取れなくなる。
+ | When data is written in a format other than String in an Excel file, the data cannot be read correctly.
 
 
 
 .. _`special_notation_in_cell`:
 
-セルへの特殊な記述方法
-======================
-自動テストの利便性を向上させるために、いくつかの特殊記法を提供する。
-下記表が、本フレームワークで提供する特殊な記述方法となっている。
+Special ways to write in a cell
+==================================
+A number of special notations are provided to improve the convenience of automated testing. 
+The following table is written with a special method of writing provided in this framework.
 
 
-+-----------------------+----------------------------+--------------------------------------------------------------------------+
-|記述方法 (セルに記述す\| 自動テスト内での値 [#]_\   |説明                                                                      |
-|る値)                  |                            |                                                                          |
-+=======================+============================+==========================================================================+
-|null                   | null                       |セル内に、「null」 **(半角で大文字、小文字の区別はしない)** と記述されて\ |
-+-----------------------+                            |いる場合は、「null」値として扱う。例えば、データベースにnull値を登録した\ |
-|Null                   |                            |い場合や、期待値でnull値を設定したい場合に使用する。                      |
-+-----------------------+----------------------------+--------------------------------------------------------------------------+
-|"null"                 |文字列のnull                |文字列の前後がダブルクォート(半角、全角問わず)で囲われている場合は、前後\ |
-+-----------------------+                            |のダブルクォートを取り除いた文字列を扱う。\ [#]_                          |
-|"NULL"                 |                            |                                                                          |
-+-----------------------+----------------------------+例えば、「null」や「NULL」を文字列として扱う必要がある場合には、記述方法\ |
-|"1⊔"                   | 1⊔                         |にあるように 「"null"」や「"NULL"」と記述を行う。                         |
-+-----------------------+----------------------------+                                                                          |
-|"⊔"                    | ⊔                          |また、セルの値にスペースがあることを解りやすくする目的で、記述方法にあるよ|
-+-----------------------+----------------------------+うに「"1?"」や、「"?"」とすることもできる。                               |
-| "１△"                 | １△                        |                                                                          |
-|                       |                            |                                                                          |
-+-----------------------+----------------------------+                                                                          |
-| "△△"                  | △△                         |                                                                          |
-+-----------------------+----------------------------+                                                                          |
-| """                   | "                          |                                                                          |
-+-----------------------+----------------------------+                                                                          |
-| "" [#]_               | 空文字列                   |                                                                          |
-+-----------------------+----------------------------+--------------------------------------------------------------------------+
-|${systemTime}          |システム日時 [#]_           |システム日時を記載したい場合に使用する                                    |
-+-----------------------+                            +--------------------------------------------------------------------------+
-|${updateTime}          |                            |${systemTime}の別名。特にデータベースのタイムスタンプ更新時の期待値として\|
-|                       |                            |使用する。                                                                |
-+-----------------------+----------------------------+--------------------------------------------------------------------------+
-|${setUpTime}           |コンポーネント設定ファイルに|データベースセットアップ時のタイムスタンプに、決まった値を使用したい場合\ |
-|                       |記載された固定値            |に使用する。                                                              |
-+-----------------------+----------------------------+--------------------------------------------------------------------------+
-|${文字種,文字数} [#]_  |指定した文字種を指定した文字|使用可能な文字列は下記の通り。                                            |
-|                       |数分まで増幅した値          |                                                                          |
-|                       |                            |半角英字,半角数字,半角記号,半角カナ,全角英字,全角数字,                    |
-|                       |                            |全角ひらがな,全角カタカナ,全角漢字,全角記号その他,外字                    |
-|                       |                            |                                                                          |
-+-----------------------+----------------------------+--------------------------------------------------------------------------+
-|${binaryFile:ファイルパ|BLOB列に格納するバイナリデー|BLOB列にファイルのデータを格納したい場合に使用する。                      |
-|ス}                    |タ                          |ファイルパスはExcelファイルからの相対パスで記述する。                     |
-+-----------------------+----------------------------+--------------------------------------------------------------------------+
-|\\r                    |\ *CR*\                     |改行コードを明示的に記述する場合に使用する。 [#]_                         |
-+-----------------------+----------------------------+                                                                          |
-|\\n                    |\ *LF*\                     |                                                                          |
-+-----------------------+----------------------------+--------------------------------------------------------------------------+
++-----------------------------------+----------------------------------+----------------------------------------------------------------------------------------------------------------+
+|Description method \               | Value in automated test [#]_\    |Description                                                                                                     |
+|(value described in cell)          |                                  |                                                                                                                |
++===================================+==================================+================================================================================================================+
+|null                               | null                             |If "null" **(half-width uppercase and lowercase letters are not distinguished)**  is described in the cell, \   |
++-----------------------------------+                                  |it is treated as "null" value. For example, use when you want to register a null value in the database\         |
+|Null                               |                                  |or when you want to set a null value with an expected value.                                                    |
++-----------------------------------+----------------------------------+----------------------------------------------------------------------------------------------------------------+
+|"null"                             |null string                       |When double quotes (both half-width and full-width) are enclosed before and after the character string,\        |
++-----------------------------------+                                  |the character string with double quotes removed is used.\ [#]_                                                  |
+|"NULL"                             |                                  |                                                                                                                |
++-----------------------------------+----------------------------------+For example, if it is necessary to handle "null" or "NULL" as a character string, \                             |
+|"1⊔"                               | 1⊔                               |describe as ""null"" or ""NULL"" as described in the description method.                                        |
++-----------------------------------+----------------------------------+                                                                                                                |
+|"⊔"                                | ⊔                                |In addition, for the purpose of making it easy to understand that there is a space in the value of the cell,    |
++-----------------------------------+----------------------------------+"1?" or "?" can be used as described in the description method.                                                 |
+| "１△"                             | １△                              |                                                                                                                |
+|                                   |                                  |                                                                                                                |
++-----------------------------------+----------------------------------+                                                                                                                |
+| "△△"                              | △△                               |                                                                                                                |
++-----------------------------------+----------------------------------+                                                                                                                |
+| """                               | "                                |                                                                                                                |
++-----------------------------------+----------------------------------+                                                                                                                |
+| "" [#]_                           | Empty string                     |                                                                                                                |
++-----------------------------------+----------------------------------+----------------------------------------------------------------------------------------------------------------+
+|${systemTime}                      |System date and time [#]_         |Use when you want to enter the system date and time.                                                            |
++-----------------------------------+                                  +----------------------------------------------------------------------------------------------------------------+
+|${updateTime}                      |                                  |An alias for ${systemTime}. Especially, it is used as an expected value when updating the database time stamp.\ |
++-----------------------------------+----------------------------------+----------------------------------------------------------------------------------------------------------------+
+|${setUpTime}                       |Fixed value described in          |It is used when you want to use a fixed value for the time stamp at database setup.                             |
+|                                   |the component settings file       |                                                                                                                |
++-----------------------------------+----------------------------------+----------------------------------------------------------------------------------------------------------------+
+|${Character type,word count} [#]_  |A value obtained by amplifying    |The character strings that can be used are as follows.                                                          |
+|                                   |the specified character type      |                                                                                                                |
+|                                   |up to the specified number        |半角英字,半角数字,半角記号,半角カナ,全角英字,全角数字,                                                          |
+|                                   |of characters                     |全角ひらがな,全角カタカナ,全角漢字,全角記号その他,外字                                                          |
+|                                   |                                  |                                                                                                                |
++-----------------------------------+----------------------------------+----------------------------------------------------------------------------------------------------------------+
+|${binaryFile:File Path}            |Binary data stored in BLOB column |Used when you want to store file data in BLOB column.                                                           |
+|                                   |                                  |The file path is described as a relative path from Excel file.                                                  |
++-----------------------------------+----------------------------------+----------------------------------------------------------------------------------------------------------------+
+|\\r                                |\ *CR*\                           |It is used to explicitly describe the line feed code. [#]_                                                      |
++-----------------------------------+----------------------------------+                                                                                                                |
+|\\n                                |\ *LF*\                           |                                                                                                                |
++-----------------------------------+----------------------------------+----------------------------------------------------------------------------------------------------------------+
 
 
 .. tip::
-  **凡例**
+  **Legend**
   
-  *  ⊔ は、半角スペースの意
-  *  △は、全角スペースの意
-  * *CR* は、改行コードCR(0x0D)の意
-  * *LF* は、改行コードLF(0x0A)の意
+  *  ⊔ stands for half-width space
+  *  △stands for full-width space
+  * *CR* stands for the line feed code CR(0x0D).
+  * *LF* LF stands for the line feed code LF(0x0A).
 
 .. [#]
- セルから読み込み後に自動テストフレームワークにて変換される。
+ Converted by Automated Testing Framework after reading from cell.
                                                                                                  
 \ 
 
 
 .. [#]
 
-  本記述方法を利用した場合であっても、文字列中のダブルクォートをエスケープする必要はない。
-  以下に例を示す。
+  Even when this description method is used, it is not necessary to escape the double quotes in the character string.
+  An example is shown below.
 
- +-----------------+----------------------------------------------------------------------------+ 
- |     記述例      | 説明                                                                       |
- +=================+============================================================================+ 
- |"ab"c"           | ab"cとして扱われる。(前後のダブルクォートが除去される。)                   |
- +-----------------+----------------------------------------------------------------------------+
- |"abc""           | abc"として扱われる。(前後のダブルクォートが除去される。)                   |
- +-----------------+----------------------------------------------------------------------------+
- | ab"c            | ab"cとして扱われる。(前後がダブルクォートではないため、そのまま扱われる。) |
- +-----------------+----------------------------------------------------------------------------+
- | abc"            | abc"として扱われる。(前後がダブルクォートではないため、そのまま扱われる。) |
- +-----------------+----------------------------------------------------------------------------+
+ +----------------------+--------------------------------------------------------------------------------------------------+ 
+ |  Description example | Description                                                                                      |
+ +======================+==================================================================================================+ 
+ |"ab"c"                | Treated as ab"c.(Double quotes at the front and back are removed.)                               |
+ +----------------------+--------------------------------------------------------------------------------------------------+
+ |"abc""                | Treated as abc"(Double quotes at the front and back are removed.)                                |
+ +----------------------+--------------------------------------------------------------------------------------------------+
+ | ab"c                 | Treated as ab"c.(Since the front and rear are not double quotes, they are treated as they are.)  |
+ +----------------------+--------------------------------------------------------------------------------------------------+
+ | abc"                 | Treated as abc"(Since the front and rear are not double quotes, they are treated as they are.)   |
+ +----------------------+--------------------------------------------------------------------------------------------------+
 
 \
 
 
 .. [#] 
- この記法を使用することで、空行を表すことができる。
- 『\ :ref:`how_to_express_empty_line`\ 』の項を参照。
+ This notation can be used to represent a blank row. 
+ For more information, see item "\ :ref:`how_to_express_empty_line`\ ". 
 
-.. [#] コンポーネント設定ファイルにて設定されたSystemTimeProvider実装クラスから取得したTimestampの文字列形式に変換される。\
- 具体的には、\ `2011-04-11 01:23:45.0` というような値に変換される。
+.. [#] It is converted to Timestamp string format acquired from SystemTimeProvider implementation class configured in the component configuration file. \
+ Specifically, it is converted to a value such as \ `2011-04-11 01:23:45.0` 
 
 
 \
 
 .. [#]
- 本記法は単独でも使用可能であるし、組み合わせて使用することもできる。
- 以下に例を示す。
+ This notation can be used alone or in combination.
+ An example is shown below.
 
- +--------------------------+----------------------+-----------------------------------+ 
- |          記述例          | 変換される値の例     | 説明                              |
- +==========================+======================+===================================+
- |${半角英字,5}             | geDSfe               |半角英字5文字に変換される。        |
- +--------------------------+----------------------+-----------------------------------+
- |${全角ひらがな,4}         | ぱさぇん             |全角ひらがな4文字に変換される。    |
- +--------------------------+----------------------+-----------------------------------+
- |${半角数字,2}-{半角数字4} | 37-3425              |-以外が変換される。                |
- +--------------------------+----------------------+-----------------------------------+
- |${全角漢字,4}123          | 山川海森123          |末尾123以外が変換される。          |
- +--------------------------+----------------------+-----------------------------------+
-
+ +--------------------------+-----------------------------+-----------------------------------------------------+
+ |Description example       | Examples of converted values| Description                                         |
+ +==========================+=============================+=====================================================+
+ |${半角英字,5}             | geDSfe                      |Converted to 5 single-byte alphabetic characters.    |
+ +--------------------------+-----------------------------+-----------------------------------------------------+
+ |${全角ひらがな,4}         | ぱさぇん                    |Converted to full-width Hiragana 4 characters.       |
+ +--------------------------+-----------------------------+-----------------------------------------------------+
+ |${半角数字,2}-{半角数字4} | 37-3425                     |Anything other than - is converted.                  |
+ +--------------------------+-----------------------------+-----------------------------------------------------+
+ |${全角漢字,4}123          | 山川海森123                 |Anything other than the end 123 is converted.        |
+ +--------------------------+-----------------------------+-----------------------------------------------------+
+ 
 .. [#]
  
  Excelセル内の改行（Alt+Enter）は\ *LF*\ として扱われる。これは本機能とは関係のないExcelの仕様である。
@@ -521,71 +511,71 @@ LIST_MAP=EXAMPLE_MARKER_COLUMN
  
  以下に例を示す。
 
- +--------------------------+----------------------+-----------------------------------+ 
- |          記述例          | 変換される値の例     | 説明                              |
- +==========================+======================+===================================+
- |こんにちは |br|           |こんにちは\ *LF*\     |セル内の改行（Alt+Enter）は        |
- |さようなら                |さようなら            |LF(0x0A)となる。                   |
- +--------------------------+----------------------+-----------------------------------+
- |こんにちは\\n             |こんにちは\ *LF*\     |'\\n'は本機能によりLF(0x0A)に      |
- |さようなら                |さようなら            |変換される。                       |
- +--------------------------+----------------------+-----------------------------------+
- |こんにちは\\r |br|        |こんにちは\ *CRLF*\   |'\\r'は本機能によりCR(0x0D)に      |
- |さようなら                |さようなら            |変換される。セル内の改行           |
- |                          |                      |（Alt+Enter）はLF(0x0A)となる。    |
- +--------------------------+----------------------+-----------------------------------+
+ +--------------------------+------------------------------+---------------------------------------------+ 
+ | Description example      | Examples of converted values | Description                                 |
+ +==========================+==============================+=============================================+
+ |こんにちは |br|           |こんにちは\ *LF*\             |The line break (Alt+Enter) in the cell       |
+ |さようなら                |さようなら                    |becomes LF(0x0A).                            |
+ +--------------------------+------------------------------+---------------------------------------------+
+ |こんにちは\\n             |こんにちは\ *LF*\             |'\\n' is converted to LF(0x0A)               |
+ |さようなら                |さようなら                    |by this function.                            |
+ +--------------------------+------------------------------+---------------------------------------------+
+ |こんにちは\\r |br|        |こんにちは\ *CRLF*\           |'\\r' is converted to CR(0x0D)               |
+ |さようなら                |さようなら                    |by this function. The line feed (Alt+Enter)  |
+ |                          |                              |in the cell（Alt+Enter）becomes LF(0x0A).    |
+ +--------------------------+------------------------------+---------------------------------------------+
 
 --------
-注意事項
+Note
 --------
 
-テストメソッドの実行順序に依存しないテストを作成する
-====================================================
+Creating tests that do not depend on the execution order of test methods
+============================================================================
 
-テストソースコード、テストデータ作成時には、テストメソッドの実行順序によって、テスト結果が変わらないように留意する。単に順序だけでなく、クラス単体でテストしても、複数まとめてテストしても同じ結果にならなければならない。
+When creating the test source code and test data, take care that the test result does not change depending on the order of execution of the test methods. Not only the order, but also the results must be the same whether the class is tested individually or collectively.
 
 
-特に、本フレームワークではテスト中にコミットが行われるため、前後のテストによってデータベースの内容が変更される可能性が高い。\
-よって、自テストクラスで必要となる事前条件については、全て自テストクラス内で準備するようにしておかなければならない。
+In particular, since commits are executed in this framework during testing, there is a high possibility that the contents of the database will be changed by a preceding or succeeding test. \
+Therefore, all preconditions required for a self-testing class must be prepared within the self-testing class.
 
-これにより、以下のような効果が得られる。
+This is effective from the following perspectives:
 
-* テストの実行順序によって偶然テストが失敗したり偶然成功する、という事態を防ぐ。
-* そのテストのデータまたはソースコードだけで、事前条件が分かる。
+* Prevents accidental failure or accidental success of a test, depending on the order in which the test is executed.
+* You can know the preconditions by looking only at the data or source code of the test.
 
-マスタデータのような基本的に読み取り専用のテーブルの準備については、共通のExcelファイルを用意してそこに記載すること。テスト実行前に1回だけ実行するか、テスト実行前に事前に準備済みという前提でテストを実行するようにする。
+For the preparation of tables that are basically read-only, such as the master data, a common Excel file must be prepared and the tables should be written in that file. Either execute the test by preparing the tables only once before execution, or execute the test on the assumption that the tables have been prepared in advance prior to execution of the test.
 
-この手法には、以下のようなメリットがある。
+This method has the following advantages.
 
-* マスタ系のデータを、プロジェクト全体で再利用できる。
-* テストデータのメンテナンスが容易になる。
-* テスト実行速度が上がる。
+* The master data can be reused in the entire project.
+* It is easy to maintain test data.
+* Test execution speed increases.
 
 .. tip::
- マスタデータの投入には、\ :ref:`master_data_setup_tool`\ を使用する。\
- また、\ :doc:`04_MasterDataRestore`\ により、テスト内で発生したマスタデータの変更をテスト終了時に自動的に元の状態に戻すことができる。これにより、マスタデータに変更が必要なテストケースであっても、他のテストケースに影響無く実行できる。
+ Use \ :ref:`master_data_setup_tool`\  to input the master data. \
+ In addition, using \ :doc:`04_MasterDataRestore`\ , the master data changes that occur during a test can be automatically reverted to the original state at the end of the test.
+ As a result, even if there are test cases for which master data needs to be changed, they can be executed without affecting other test cases.
 
 
 
-テストデータは全てExcelシートに記述する
+Write all test data to an Excel sheet
 =======================================
 
-Excelとテストソースコードとでテストデータが混在していると、可読性、保守性が低下してしまう。テストソースコード中にはテストデータを記載せず、テストデータは全てExcelシートに記載すること。
+If test data is described both in Excel and test source code, readability and maintainability will reduce. All test data should be described in an Excel sheet, and not in the test source code.
 
-* Excelシートを見れば、テストケースのバリエーションを把握することができる。
-* テストデータはExcelシート、テストロジックはテストソースコードと役割分担が明確になる。
-* Excelシートを読み込む構造にしておくことで、容易にテストケースを追加できる。
-* テストソースコードの重複を大幅に削減できる(テストソースコード中に単純にリテラル値でデータを記載すると、データのバリエーションが増加すると重複したコードが作られてしまう)。
+* Looking at the Excel sheet, you can figure out the variations in the test case.
+* The division of roles is done such that an Excel sheet is used for test data and test source code is used for test logic.
+* You can easily add test cases by facilitating reading of the Excel sheet.
+* Duplication of test source code can be reduced to a great extent (if you simply describe data using literals in the test source code, duplicate code will be created as data variation increases).
 
 .. _auto-test-framework_multi-datatype:
 
-複数のデータタイプ使用時はデータタイプごとにまとめてデータを記述する
-============================================================================
-複数のデータタイプを使用する場合、使用するデータタイプごとにまとめてデータを記述すること。
-複数のデータタイプを混在させてデータを記述してしまうと、データの読み込みが途中で終了しテストが正しく実行されない。
+Describing data by grouping together based on data types when using multiple data types
+================================================================================================
+When multiple data types are used, the data should be described by grouping together based on the data types used. 
+If data of multiple data types is mixed when describing, reading of data is aborted in the middle and the test is not executed correctly.
 
-例えば、 以下のようにデータタイプを記述した場合、 ``TABLE2`` までのデータしか評価されず、
-``TABLE3`` 以降のデータに誤りがあってもテストは成功してしまう。
+For example, if data types are described as follows, then the data only up to  ``TABLE2`` is evaluated and even if there is an error in the data from ``TABLE3``  onward, the test ends successfully.
 
 .. code-block:: text
 
@@ -598,8 +588,8 @@ Excelとテストソースコードとでテストデータが混在している
   EXPECTED_COMPLETE_TABLE=TABLE4
   :
 
-全てのデータが正しく評価されるようにするには、
-以下のようにデータタイプごとにまとめてデータを記述すること。
+In order to ensure that all data is properly evaluated, 
+the data should be grouped together and described based on data types as follows:
 
 .. code-block:: text
 
