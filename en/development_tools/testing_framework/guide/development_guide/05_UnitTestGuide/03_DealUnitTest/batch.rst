@@ -1,16 +1,16 @@
-==================================
-取引単体テストの実施方法（バッチ）
-==================================
+=================================================
+How to Perform a Subfunction Unit Test (Batch)
+=================================================
 
-バッチ処理の取引単体テストは、自動テストフレームワークを使用してテストを行う。
-リクエスト単体テストを連続実行することにより、取引単位でのテストを行う。
+Subfunction unit tests for batch processing are tested using an automated test framework. 
+Tests are performed in subfunction units by continuously executing the request unit tests.
 
-テストクラスは以下の条件を満たすように作成する。
+The test class should be created in such a way that the following conditions are met.
 
-* テストクラスのパッケージはテスト対象取引のパッケージとする。
-* <取引ID>Testというクラス名でテストクラスを作成する。
+* The package of the test class is the package of the subfunction to be tested.
+* Create a test class with the class name <subfunction ID> Test.
 
-例えば、テスト対象取引の取引IDがB21AC01だとすると、テストクラスは以下のようになる。
+For example, if the subfunction ID of the target subfunction is B21AC01, the test class will be as follows.
 
 .. code-block:: java
 
@@ -18,71 +18,67 @@
 
  import nablarch.test.core.batch.BatchRequestTestSupport;
 
- // 中略
+ // Middle is omitted
  
  public class B21AC01Test extends BatchRequestTestSupport {
  
 
-テストケース分割方針
-====================
+Test case division policy
+================================
 
-基本的には、\ **1シートにつき1テストケース**\ とする。
-以下、例外事項を示す。
+Basically, \ **one test case per sheet**\ . 
+Exceptions are shown below.
 
 
-複雑なテストケースの場合
+For complex test cases
 ------------------------
 
-テストデータが大量であったり、1取引に含まれる処理が多い場合に、\
-１つのシートに全てのテストデータを詰め込むと、シート内にデータが多くなり過ぎて、\
-テストデータの可読性が落ちる場合がある。\
-このような場合は、1ケースを複数シートに分割して記述しても良い。
+When there is a large amount of test data, \
+or when there are many processes included in one sheet, \
+including all the test data into one sheet may result in too much data in the sheet decreasing the readability. \
+Dividing one case into multiple sheets is better.
 
-
-非常に簡単なテストケースの場合
+For very simple test cases
 ------------------------------
 
-非常に簡単なテストケースで、テストデータ量が少ない場合、
-1シートに全テストケースを含めてもよい。
+If the test case is very simple and the amount of test data is small, 
+all test cases may be included in one sheet.
 
 
-基本的な記述方法
-================
+Basic description method
+================================
 
-基本的には、1テストケースを1シートにまとめて記述する。\
-1シート内に複数のバッチ実行を記述することにより、取引単位のテストとなる。
+Basically, one test case is written in a single sheet. \
+When multiple batch executions are written in a single sheet, it is a subfunction unit test.
 
-以下の例では、３つのバッチ(ファイル入力バッチ、ユーザ削除バッチ、ファイル出力バッチ)\
-で構成される取引を実行している。
+In the following example, a transaction consisting of three batches (file input batch, user deletion batch and file output batch) is executed.
 
 .. code-block:: java
 
- /** 正常終了するケース */
+ /** Case that ends normally */
  @Test
  public void testSuccess() {
      execute();
  }
 
 
-**【testSuccessシート】**
+**[TestSuccess sheet]**
 
 LIST_MAP=testShots
 
-=== ============= ==================  ========== ========= ============== ============ ===============
-no  description   expectedStatusCode  setUpTable setUpFile expectedTable  expectedFile   requestPath    
-=== ============= ==================  ========== ========= ============== ============ ===============
- 1  ファイル入力                 100  default    default   default                     fileInputBatch 
- 2  ユーザ削除                   100  default              default                     userDeleteBatch
- 3  ファイル出力                 100  default              fileInputBatch default      fileOutputBatch          
-=== ============= ==================  ========== ========= ============== ============ ===============
+=== ============= ==================  ========== ========= ================ ============ ===============
+no  description   expectedStatusCode  setUpTable setUpFile expectedTable    expectedFile   requestPath    
+=== ============= ==================  ========== ========= ================ ============ ===============
+ 1  File input    100                 default    default   default                       fileInputBatch 
+ 2  Delete user   100                 default              default                       userDeleteBatch
+ 3  File Output   100                 default              fileInputBatch   default      fileOutputBatch
+=== ============= ==================  ========== ========= ================ ============ ===============
 
 
-1テストケースを複数シートを分割する場合
-=======================================
+When dividing a single test case into multiple sheets
+============================================================
 
-                                           
-例えば、前項(\ `基本的な記述方法`_\ )で例示したテストケースは、以下のように分割して記述可能である。
-
+For example, the test case illustrated in the previous section (\ `Basic description method`_\) can be divided and described as follows.
 
 .. code-block:: java
 
@@ -91,93 +87,90 @@ no  description   expectedStatusCode  setUpTable setUpFile expectedTable  expect
  import org.junit.Test;
  import nablarch.test.core.messaging.BatchRequestTestSupport;
 
- // 中略
+ // Middle is omitted
 
  public class B21AA01Test extends BatchRequestTestSupport {
 
      @Test
      public void testSuccess() {
       
-         // 入力ファイルをテンポラリテーブルに登録
+         // Register the input file to the temporary table
          execute("testSuccess_fileInput");
       
-         // テンポラリテーブルの情報をユーザ関連テーブルを削除
+         // Delete the user-related table for temporary table information
          execute("testSuccess_userDelete");
       
-         // 結果をファイル出力
+         // Output the results to a file
          execute("testSuccess_fileOutput");
      }
 
 \
 
-**【testSuccess_fileInputシート】**
+**[TestSuccess_fileInput sheet]**
 
 LIST_MAP=testShots
 
-==== ============= ==================  ========== ========= ===============
- no  case          expectedStatusCode  setUpTable setUpFile    requestPath    
-==== ============= ==================  ========== ========= ===============
-  1  ファイル入力                 100  default    default   fileInputBatch 
-==== ============= ==================  ========== ========= ===============
+==== ============= ==================  ========== =========== ===============
+ no  case          expectedStatusCode  setUpTable setUpFile   requestPath    
+==== ============= ==================  ========== =========== ===============
+  1  File input    100                 default    default     fileInputBatch 
+==== ============= ==================  ========== =========== ===============
 
 \
 
-**【testSuccess_userDeleteシート】**
+**[testSuccess_userDelete sheet]**
 
 LIST_MAP=testShots
 
 ==== ============= ==================  ========== ============= ===============
  no  case          expectedStatusCode  setUpTable expectedTable requestPath    
 ==== ============= ==================  ========== ============= ===============
-  1  ユーザ削除                   100  default    default       userDeleteBatch
+  1  Delete user   100                 default    default       userDeleteBatch
 ==== ============= ==================  ========== ============= ===============
 
 
-**【testSuccess_fileOutputシート】**
+**[TestSuccess_fileOutput sheet]**
 
 LIST_MAP=testShots
 
 ==== ============= ==================  ========== ========= ===============
  no  case          expectedStatusCode  setUpTable outFile    requestPath    
 ==== ============= ==================  ========== ========= ===============
-  1  ファイル出力                 100  default    default   fileOutputBatch 
+  1  File Output   100                 default    default   fileOutputBatch 
 ==== ============= ==================  ========== ========= ===============
 
 
-1シートに複数ケースを含める場合
-===============================
+When multiple cases are included in one sheet
+====================================================
 
-非常に簡単なテストケースの場合は、複数にまとめてもよい。
+In the case of very simple test cases, they may be grouped together.
 
-以下の例では、２つのテストケース（通常のケースと入力データが0件のケース）を\
-１つのシートで記述している
+In the following example, two test cases (a normal case and a case with 0 records as input data) are described in a single sheet
 
 .. code-block:: java
 
- /** 正常終了するケース */
+ /** Case that ends normally */
  @Test
  public void testSuccess() {
      execute();
  }
 
 
-**【testSuccessシート】**
+**[TestSuccess sheet]**
 
 LIST_MAP=testShots
 
-=== ==================== ==================  ========== ========= ============== ============ ===============
- no  description         expectedStatusCode  setUpTable setUpFile expectedTable  expectedFile   requestPath    
-=== ==================== ==================  ========== ========= ============== ============ ===============
-1-1  ファイル入力                    100      shot1      shot1                                fileInputBatch 
-1-2  ユーザ削除                      100                           shot1                      userDeleteBatch
-2-1  ファイル入力（0件）             100      shot2      shot2                                fileInputBatch 
-2-2  ユーザ削除（0件）               100                           shot2                      userDeleteBatch
-=== ==================== ==================  ========== ========= ============== ============ ===============
+=== ======================== ==================  ========== ========= ============== ============ ===============
+ no  description             expectedStatusCode  setUpTable setUpFile expectedTable  expectedFile   requestPath    
+=== ======================== ==================  ========== ========= ============== ============ ===============
+1-1  File input              100                 shot1      shot1                                 fileInputBatch 
+1-2  Delete user             100                                      shot1                       userDeleteBatch
+2-1  File input（0 record）  100                 shot2      shot2                                 fileInputBatch 
+2-2  Delete user（0 record） 100                                      shot2                       userDeleteBatch
+=== ======================== ==================  ========== ========= ============== ============ ===============
 
 \
 
 .. tip::
- グループIDを利用することで1シートに複数ケースのテストデータを記述できる。
- 詳細は、『\ :ref:`tips_groupId`\ 』の項を参照。
-
-
+ Group IDs can be used to describe multiple cases of test data on one sheet. 
+ For more information, see the "\ :ref:`tips_groupId`\" section.

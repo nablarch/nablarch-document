@@ -1,58 +1,57 @@
 .. _dealUnitTest:
 
-========================
-取引単体テストの実施方法
-========================
+==========================================
+How to Perform a Subfunction Unit Test
+==========================================
 
-取引単体テストでは、テスト対象のアプリケーションをアプリケーションサーバにデプロイし、\
-手動でアプリケーションを操作しテストを行う。
+In the subfunction unit test, the application to be tested is deployed to the application server, \
+and the test is performed by manually operating the application.
 
-同期応答メッセージ送信処理を伴う場合は、モックアップクラスを使用して行う。詳細は\ :ref:`dealUnitTest_send_sync`\を参照。
+A mockup class is used if there is a sending synchronous message process. For more information, see \ :ref:`dealUnitTest_send_sync`\.
 
-テストケース毎に以下の手順でテストを実施する。
+Perform the test according to the following procedure for each test case.
 
-テスト準備
-==========
+Test preparation
+==================
 
-テスト準備として以下の作業を行う。
+Perform the following work in preparation for the test.
 
-* データベース準備（データ投入）
-* アプリケーションのデプロイ
-* アプリケーションサーバ起動
-
-
-テスト実施
-==========
-
-テストケースに従ってテストを実施する。
-
-.. tip::
- エビデンスのうちDBダンプはテスト実行前のものが必要であるため、\
- テスト実施前に取得しておくこと。
+* Database preparation (data entry)
+* Deploy the application
+* Launch the application server
 
 
-テスト結果エビデンスの収集
-==========================
+Test execution
+====================
 
-以下のエビデンスを取得する。
-
-* 画面ハードコピー
-* DBダンプ(テスト実行前および実行後)
+Perform the test according to the test case.
 
 .. tip::
-  画面ハードコピー取得ツール、DBダンプ取得ツール等のテスト補助ツールについては現在検討中。
+ Among the evidence, obtain the DB dump before the test is executed as it is necessary to be obtained.
+
+
+Collect evidence of test results
+======================================
+
+Acquire the following evidence.
+
+* Screen hard copy
+* DB dump (before and after the test execution)
+
+.. tip::
+  Test support tools such as screen hardcopy acquisition and DB dump acquisition tools are currently under consideration.
 　
 
 
-テスト結果エビデンスの収集
-==========================
+Collect evidence of test results
+====================================
 
-以下のエビデンスを取得する。
+Acquire the following evidence.
 
-* 画面ハードコピー
-* DBダンプ(テスト実行前および実行後)
+* Screen hard copy
+* DB dump (before and after the test execution)
 
 .. tip::
-  画面ハードコピー取得ツール、DBダンプ取得ツール等のテスト補助ツールについては現在検討中。
+  Test support tools such as screen hardcopy acquisition and DB dump acquisition tools are currently under consideration.
 　
 

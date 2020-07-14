@@ -12,7 +12,7 @@ Description of the function to be created
 
   2. Download the batch registration sample file which generates the validation error from below
 
-     :download:`Project batch registration_validation error.csv <../downloads/project_upload/Batch project registration_Validation error.csv>`
+     :download:`batch_project_registration_validation_error.csv <../downloads/project_upload/batch_project_registration_validation_error.csv>` (プロジェクト一括登録_バリデーションエラー.csv)
 
   3. Upload the sample file and click the "Register(登録)" button.
 
@@ -26,7 +26,7 @@ Description of the function to be created
 
   4. Download the batch registration sample file which does not generate validation error from below
 
-    :download:`Project batch registration.csv <../ downloads / project_upload / Project batch registration.csv>`
+    :download:`project_batch_registration.csv <../downloads/project_upload/project_batch_registration.csv>` (プロジェクト一括登録.csv)
 
   5. Upload the sample file and click the "Register(登録)" button.
 
@@ -146,7 +146,7 @@ First, how to create the upload part of the batch registration function using up
       * Create a file upload field using :ref:`tag-file_tag`. Specify the registration name of the request object in the `name` attribute.
         To acquire the file in a business action, specify this registration name as an argument of
         :java:extdoc:`HttpRequest#getPart<nablarch.fw.web.HttpRequest.getPart(java.lang.String)>`
-      * Display upload completed message with :ref:`tag-message_tag, once the upload is completed.
+      * Display upload completed message with :ref:`tag-message_tag`, once the upload is completed.
         In order to include the number of uploads in the completion message, specify the number of uploads configured in the request scope in `option0` attribute.
       * Use :ref:`tag-errors_tag` to create an area to display the list of validation error messages for the target file.
         For the output format of the error message list, refer to :ref:`error message list <tag-write_error_errors_tag>`.
@@ -363,7 +363,7 @@ Create a business action method
       * :java:extdoc:`Validator <javax.validation.Validator>` object can be created by using
         :java:extdoc:`ValidatorUtil#getValidator <nablarch.core.validation.ee.ValidatorUtil.getValidator()>`, and :ref:`Bean Validation<bean_validation>` can be executed for any Bean.
       * When verification is continued up to the last row and not aborted even when an error occurs,
-        error messages for all rows are stored after the verification is completed in :java:extdoc:`Message<nablarch.core.message.Message>`list, by generating and
+        error messages for all rows are stored after the verification is completed in :java:extdoc:`Message<nablarch.core.message.Message>` list, by generating and
         throwing :java:extdoc:`ApplicationException<nablarch.core.message.ApplicationException>` with this list as an argument,
         it can be output to the screen with :ref:`tag-errors_tag`.
       * For how to assign a property name to the validation message,
@@ -372,8 +372,8 @@ Create a business action method
 
   .. _`project_upload-bulk_insert`:
 
-  2. Batch registration to DB
-     ProjectUploadAction.java
+  2.Batch registration to DB
+    ProjectUploadAction.java
       .. code-block:: java
 
         public HttpResponse upload(HttpRequest request,ExecutionContext context)

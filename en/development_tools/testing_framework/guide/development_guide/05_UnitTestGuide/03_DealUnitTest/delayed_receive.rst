@@ -1,7 +1,6 @@
-==================================================================
-取引単体テストの実施方法（応答不要メッセージ受信処理）
-==================================================================
+====================================================================================
+How to Conduct a Subfunction Unit Test (Receiving Asynchronous Message Process)
+====================================================================================
 
-取引単体テストの実施方法は、同期応答メッセージン受信処理と同じである。
-実施方法の詳細は\ :doc:`./real`\ を参照すること。
-
+The method of conducting the subfunction unit test is the same as the receiving synchronous message process. 
+See \ :doc:`./real`\  for more information on how to conduct the test.
