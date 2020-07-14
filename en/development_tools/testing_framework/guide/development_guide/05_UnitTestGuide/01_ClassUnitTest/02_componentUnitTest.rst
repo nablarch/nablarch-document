@@ -1,68 +1,65 @@
 .. _componentUnitTest:
 
+=========================================
+Class Unit Test of Action/Component
+=========================================
+This chapter describes the component class unit test of Action/Component (hereinafter referred to as Component unit test). 
+The difference in the case of Action class unit test (hereinafter referred to as Action unit test) is the test class name.
+
+-------------------------------------------
+How to write action/component unit test
+-------------------------------------------
+The test class and test data used as examples in this chapter are as follows (right click -> Download and Save).
+
+* :download:`Test case list (ユーザ登録_ UserComponent_クラス単体テストケース.xlsx)<./_download/ユーザ登録_UserComponent_クラス単体テストケース.xlsx>`
+* :download:`Test class(UserComponentTest.java)<./_download/UserComponentTest.java>`
+* :download:`Test data(UserComponentTest.xlsx)<./_download/UserComponentTest.xlsx>`
+* :download:`Tested class(UserComponent.java)<./_download/UserComponent.java>`
+
+This chapter describes the method for user registration (UserComponent#registerUser) as an example.
+
+Pattern division of test case execution
+================================================
+The test cases are classified into the following four categories from the list of test cases and methods to be tested. 
+This is because there are differences in the test class and data creation methods depending on the pattern they belong to.
+
+=================================================================================== ==================================
+Pattern                                                                             Example of a matching process
+=================================================================================== ==================================
+Test cases whose return value (database search result) must be checked              Search process
+Test cases whose return value (other than database search results) must be checked  Calculation, judgment process
+Test cases whose database status must be checked after processing is completed      Update process (including insert and delete)
+Test cases whose message ID must be checked                                         Error handling
+=================================================================================== ==================================
+
+Since this example shows DB insertion processing and error handling during double registration, the test cases are classified into "Test cases whose database status must be checked after processing is completed " and "Test cases whose message ID must be checked".
+
+
+Create test data and test class
 ======================================
-Action/Componentのクラス単体テスト
-======================================
-本項では、Action/Componentのクラス単体テストのうちComponentのクラス単体テスト(以下Component単体テスト)にて説明する。
-なお、Actionのクラス単体テスト(以下Action単体テスト)の場合の違いとしてはテストクラス名の部分である。
+This section explains how to create test data and a test class for \ :ref:`componentUnitTest_Setup`\ 、\ :ref:`componentUnitTest_DB`\ 、\ :ref:`componentUnitTest_messageID`\  respectively. 
+First of all, the test data (Excel file) itself and the method of creating a test class (class that should be inherited, etc.) is described.Next, the data for each pattern and how a test method is created is described.
 
---------------------------------------
-Action/Component単体テストの書き方
---------------------------------------
-本項で例として使用したテストクラスとテストデータは以下のとおり(右クリック->保存でダウンロード)。
+Create test data
+----------------------------
+Similar to \ :ref:`entityUnitTest`\ , the Excel file containing the test data is stored with the same name in the same directory as the test source code (only the extension is different). 
+It is a prerequisite that all the test data is entered in the same Excel sheet.
 
-* :download:`テストケース一覧(ユーザ登録_ UserComponent_クラス単体テストケース.xlsx)<./_download/ユーザ登録_UserComponent_クラス単体テストケース.xlsx>`
-* :download:`テストクラス(UserComponentTest.java)<./_download/UserComponentTest.java>`
-* :download:`テストデータ(UserComponentTest.xlsx)<./_download/UserComponentTest.xlsx>`
-* :download:`テスト対象クラス(UserComponent.java)<./_download/UserComponent.java>`
+For details on how to describe the test data, see \ :doc:`../../06_TestFWGuide/01_Abstract`\ 、\ :doc:`../../06_TestFWGuide/02_DbAccessTest`\ .
 
+It is a prerequisite that the static master data stored in the database, such as message data and code master, has been input with data managed by the project in advance (these data are not created as individual test data).
 
-本項では、ユーザ登録用メソッド(UserComponent#registerUser)を例に説明する。
+Create a test class
+----------------------------
+The test class of component unit test should be created to satisfy the following conditions. For more information, see \ :doc:`../../06_TestFWGuide/02_DbAccessTest`\ .
 
-
-テストケース実行のパターン分け
-==============================
-テストケース一覧とテスト対象メソッドから、テストケースは以下の4つに分類される。これは、どのパターンに属するかによって、テストクラスやデータの作成方法に\
-違いがあるためである。
-
-============================================================== ========================
-パターン                                                       当てはまる処理の例
-============================================================== ========================
-戻り値(データベースの検索結果)を確認しなければならないもの     検索処理
-戻り値(データベースの検索結果以外)を確認しなければならないもの 計算、判定処理
-処理終了後のデータベースの状況を確認しなければならないもの     更新(挿入、削除含む)処理
-メッセージIDを確認しなければならないもの                       エラー処理
-============================================================== ========================
-
-今回の例は、DB挿入処理、2重登録時のエラー処理ありなので、テストケースは"処理終了後のデータベースの状況を確認しなければならないもの"と\
-"メッセージIDを確認しなければならないもの"に分類される。
-
-テストデータとテストクラスの作成
-================================
-\ :ref:`componentUnitTest_Setup`\ 、\ :ref:`componentUnitTest_DB`\ 、\ :ref:`componentUnitTest_messageID`\ のそれぞれについて、テストデータとテストクラスの作成方法を説明する。\
-まず最初に、テストデータ(Excelファイル)そのもののと、テストクラスの作成方法(継承すべきクラスなど)を説明する。次に、各パターンごとのデータとテストメソッド作成方法を説明する。
-
-テストデータの作成
-------------------
-テストデータを記載したExcelファイルは、\ :ref:`entityUnitTest`\ と同様にテストソースコードと同じディレクトリに同じ名前で格納する(拡張子のみ異なる)。\
-なお、全てのテストデータは同じExcelのシートに記載する前提である。
-
-テストデータの記述方法詳細については、\ :doc:`../../06_TestFWGuide/01_Abstract`\ 、\ :doc:`../../06_TestFWGuide/02_DbAccessTest`\ を参照。
-
-なお、メッセージデータやコードマスタなどの、データベースに格納する静的マスタデータは、プロジェクトで管理されたデータがあらかじめ投入されている\
-(これらのデータを個別のテストデータとして作成しない)前提である。
-
-テストクラスの作成
-------------------
-Component単体テストのテストクラスは以下の条件を満たすように作成する。詳細は、\ :doc:`../../06_TestFWGuide/02_DbAccessTest`\ を参照。
-
-* テストクラスのパッケージは、テスト対象のAction/Componentと同じとする。
-* <Action/Componentクラス名>Testというクラス名でテストクラスを作成する。
-* nablarch.test.core.db.DbAccessTestSupportを継承する。
+* The package of the test class is the same as the Action/Component to be tested.
+* Create a test class with the class name <Action/Component class name> Test.
+* Inherit nablarch.test.core.db.DbAccessTestSupport.
 
 .. code-block:: java
 
-   package nablarch.sample.management.user; // 【説明】パッケージはUserComponentと同じ
+   package nablarch.sample.management.user; // [Description] The package is the same as UserComponent
 
    import static org.junit.Assert.assertEquals;
    import static org.junit.Assert.assertTrue;
@@ -79,39 +76,39 @@ Component単体テストのテストクラスは以下の条件を満たすよ�
 
    import org.junit.Test;
 
-   /**
-    * {@link UserComponentTest}のテストクラス。
+   /** Test class of
+    * {@link UserComponentTest}.
     * 
     * @author Tsuyoshi Kawasaki
     * @since 1.0
     */
    public class UserComponentTest extends DbAccessTestSupport {
-   // 【説明】クラス名はUserComponentTestで、DbAccessTestSupportを継承する
+   // [Description] The class name is UserComponentTest and it inherits DbAccessTestSupport
    
-   // ～後略～
+   // ~ Rest is omitted ~
 
 
 .. _componentUnitTest_Setup:
 
-事前準備データの作成処理
-------------------------
-事前データと事前データ投入処理を作成する。今回の例では、次のようなデータを作成している。
+Process of creating pre-prepared data
+---------------------------------------------------
+Create the pre-data and pre-data input process. In this example, the following data is created.
 
-* スレッドコンテキスト\ [#]_\ の設定
+* Configuration of thread context　\ [#]_\
   
-  * USER_ID:ユーザID。USERID0001。
-  * REQUEST_ID:リクエストID。USERS00301。
+  * USER_ID: User ID. USERID0001.
+  * REQUEST_ID: Request ID. USERS00301.
 
-* 挿入対象テーブルの初期化
+* Initialization of the table to be inserted
 
-  * SYSTEM_ACCOUNT:システムアカウントテーブル。初期データ3件。
-  * USERS:ユーザテーブル。初期データ0件。
-  * UGROUP_SYSTEM_ACCOUNT:グループシステムアカウントテーブル。初期データ0件。
-  * SYSTEM_ACCOUNT_AUTHORITY:システムアカウント権限テーブル。初期データ0件。
+  * SYSTEM_ACCOUNT:System account table. Initial item is 3 records.
+  * USERS:User table. Initial item is 0 records.
+  * UGROUP_SYSTEM_ACCOUNT:Group system account table. Initial item is 0 records.
+  * SYSTEM_ACCOUNT_AUTHORITY:System account permission table. Initial item is 0 records.
 
-* マスタ系データの投入
+* Master data input
 
-  * ID_GENERATE:採番テーブル。登録時に採番処理を行うため。採番テーブルを初期化しておかないと、テスト実行時の採番結果がわからなくなり、挿入結果の検証ができなくなる。
+  * ID_GENERATE:Numbering table. For performing the numbering process at the time of registration.If the numbering table is not initialized, the numbering result when the test is run will not be known, and the insertion result cannot be verified.
 
 .. image:: ./_image/componentUnitTest_Setup.png
  :width: 800px
@@ -119,56 +116,55 @@ Component単体テストのテストクラスは以下の条件を満たすよ�
 
 .. [#]
 
-  スレッドコンテキストとは、ユーザID、リクエストID、使用言語のような、一連の処理を実行するときに、コールスタックの複数のメソッドにおいて共通的に必要なデータを格納するオブジェクト。
+  A thread context is an object that stores data that is commonly required by multiple methods in the call stack when executing a series of processes, such as user IDs, request IDs, and languages used. 
 
-これらのデータを読み込む処理を以下に示す。
+The process of reading these data is shown below.
 
 .. code-block:: java
 
-   // ～前略～
+   // ~ Previous is omitted ~
 
-   /**
-    * {@link UserComponent#registerUser()}のテスト1。<br>
-    * 正常系。
+   /** Test class of
+    * {@link UserComponent#registerUser()} test1。 <br>
+    * Normal pattern.
     */
    @Test
    public void testRegisterUser1() {
        String sheetName = "registerUser";
 
-       setThreadContextValues(sheetName, "threadContext"); // 【説明】スレッドコンテキストの設定
+       setThreadContextValues(sheetName, "threadContext"); // [Description] Thread context setting
 
 
-   // ～中略～
+   // ~ Middle is omitted
 
         for (int i = 0; i < sysAcctDatas.size(); i++) { 
 
-   // ～中略～
+   // ~ Middle is omitted
 
-           // データベース準備
-           setUpDb(sheetName); // 【説明】事前データの投入。
-                               // 【説明】各ケースごとに初期化するためループ中で実行する。
+           // Database preparation
+           setUpDb(sheetName); // [Description] Pre-data input.
+                               // [Description] Executed in a loop to initialize each case.
 
-   // ～後略～
+   // ~ Rest is omitted ~
 
 
 .. _componentUnitTest_DB:
 
-処理終了後のデータベースの状況を確認しなければならないもの
-----------------------------------------------------------
+Test cases whose database status must be checked after processing is completed
+---------------------------------------------------------------------------------------------
 
 .. _componentUnitTest_inputData_normal:
 
-テストデータ(入力値)の作成
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-テスト対象メソッドの引数を用意する。今回の例では、以下の3つが必要となる。なお、各データの同じ行で1組のテストデータとなる(例えば、sysAcctEntityの1行目と、\
-usersEntityの1行目と、grpSysAcctEntityの1行目で1ケース分のテストデータとなる)。
+Create test data (input values)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Prepare arguments for the methods to be tested. In this example, the following 3 are required. The same row for each data is considered as a set of test data (For example, the first row of sysAcctEntity, the first row of usersEntity and the first row of grpSysAcctEntity will be the test data for 1 case).
 
-* sysAcctEntity:システムアカウントエンティティのデータ
-* usersEntity:ユーザエンティティのデータ
-* grpSysAcctEntity:グループシステムアカウントエンティティのデータ
+* sysAcctEntity: System account entity data
+* usersEntity: User entity data
+* grpSysAcctEntity: Group system account entity data
 
-sysAcctEntityのuseCaseIdはuseCaseIdプロパティに設定される値そのものではなく(SystemAccountEntityのuseCaseIdプロパティは配列)、図中矢印で示している別の\
-表のデータを指している。テストコードでは、取得した値をキーとして更にデータを取得、配列を作成し、useCaseIdプロパティに設定している。
+useCaseId in sysAcctEntity are not values set in the useCaseId property itself (the useCaseId property of SystemAccountEntity is an array), but points to data in other tables indicated by the arrows in the figure. 
+The acquired values in the test code are used as a key to further acquire data, create an array, and set in the useCaseId property.
 
 .. image:: ./_image/componentUnitTest_inputData.png
  :width: 800px
@@ -176,7 +172,7 @@ sysAcctEntityのuseCaseIdはuseCaseIdプロパティに設定される値その�
 
 .. code-block:: java
 
-   // ～前略～
+   // ~ Previous is omitted ~
 
    public void testRegisterUser1() {
        String sheetName = "registerUser";
@@ -186,7 +182,7 @@ sysAcctEntityのuseCaseIdはuseCaseIdプロパティに設定される値その�
        List<Map<String, String>> sysAcctDatas = getListMap(sheetName, "sysAcctEntity");
        List<Map<String, String>> usersDatas = getListMap(sheetName, "usersEntity");
        List<Map<String, String>> grpSysAcctDatas = getListMap(sheetName, "grpSysAcctEntity");
-       // エクセルのデータを一時的に受けるMap、List
+       // Map, List that receive the Excel data temporarily
        Map<String, Object> work = new HashMap<String, Object>();
        List<Map<String, String>> useCaseData = null;
        
@@ -195,69 +191,67 @@ sysAcctEntityのuseCaseIdはuseCaseIdプロパティに設定される値その�
        UgroupSystemAccountEntity grpSysAcct = null;
        for (int i = 0; i < sysAcctDatas.size(); i++) {
 
-   // ～中略～
+   // ~ Middle is omitted
 
 
-           // システムアカウント  // 【説明】SystemAccountEntityの準備
+           // System account  // [Description] Preparation of SystemAccountEntity
            work.clear();
            for (Entry<String, String> e : sysAcctDatas.get(i).entrySet()) {
                work.put(e.getKey(), e.getValue());
            }
-           // ユースケースIDの引数作成
-           String id = sysAcctDatas.get(i).get("useCaseId"); // 【説明】図中矢印の根元にある表のIDを取得
-           useCaseData = getListMap(sheetName, id); // 【説明】取得したIDを使用して図中矢印の先にある配列のデータを取得
-           String[] useCaseId = new String[useCaseData.size()]; // 【説明】配列の作成
+           // Create arguments for useCaseId
+           String id = sysAcctDatas.get(i).get("useCaseId"); // [Description] Obtains the table ID at the base of the arrows in the figure
+           useCaseData = getListMap(sheetName, id); // [Description] Uses the ID acquired to obtain the data of the array at the tip of the arrow in the figure
+           String[] useCaseId = new String[useCaseData.size()]; // [Description] Create an array
            for (int j = 0; j < useCaseData.size(); j++) {
                useCaseId[j] = useCaseData.get(j).get("useCaseId");
            }
-           work.put("useCase", useCaseId); // 【説明】作成した配列をSystemAccountEntityのコンストラクタに渡すMapに設定
+           work.put("useCase", useCaseId); // [Description] Configures the created array in the Map that is transferred to the SystemAccountEntity constructor
            sysAcct = new SystemAccountEntity(work);
            
-           // ユーザ  // 【説明】UsersEntityの準備
+           // User  //  [Description] Preparation of UsersEntity
            work.clear();
            for (Entry<String, String> e : usersDatas.get(i).entrySet()) {
                work.put(e.getKey(), e.getValue());
            }
            users = new UsersEntity(work);
 
-           // グループシステムアカウント  // 【説明】UgroupSystemAccountEntityの準備
+           // Group system account  // [Description] Preparation of UgroupSystemAccountEntity
            work.clear();
            for (Entry<String, String> e : grpSysAcctDatas.get(i).entrySet()) {
                work.put(e.getKey(), e.getValue());
            }
            grpSysAcct = new UgroupSystemAccountEntity(work);
 
-           // 実行
+           // Execution
            target.registerUser(sysAcct, users, grpSysAcct);
-           commitTransactions();   // 【説明】全てのトランザクションをコミット
+           commitTransactions();   //  [Description] Commits all transactions
 
-           // 検証
+           // Verification
            String expectedGroupId = getListMap(sheetName, "expected").get(i).get("caseNo");
            assertTableEquals(expectedGroupId, sheetName, expectedGroupId);
 
-   // ～後略～
+   // ~ Rest is omitted ~
 
 .. tip::
 
- 上記のソースコードでは、getListMapメソッドを用いてExcelシートからデータを読み込んでいる。\
- getListMapメソッドの詳細については、\ :doc:`../../06_TestFWGuide/03_Tips`\ の\
- 『\ :ref:`how_to_get_data_from_excel`\ 』 を参照。 
+ In the above source code, data is read from the Excel sheet using the getListMap method. 
+ For more information on getListMap, 
+ see "\ :ref:`how_to_get_data_from_excel`\ " of \ :doc:`../../06_TestFWGuide/03_Tips`\.
 
+Transaction control by the framework is not performed in the class unit test since the class that accesses the database is directly launched from the test class.
+If the database status is required to be checked after processing, it is necessary to commit the transaction in the test class.\
 
-クラス単体テストでは、テストクラスからデータベースアクセスを行うクラスを直接起動する為、\
-フレームワークによるトランザクション制御は行われない。\
-処理終了後のデータベースの状況を確認しなければならない場合は、テストクラスにてトランザクションをコミットする必要がある。\
-  
-スーパクラスの ``commitTransactions()`` メソッドを起動しコミットする。
-トランザクションをコミットしない場合、テスト結果の確認が正常に行われない。\
-(参照系のテストの場合はコミットを行う必要はない)
+Launch the ``commitTransactions()`` method of the superclass and commit. 
+If the transaction is not committed, the test results cannot be confirmed normally. \
+(A transaction need not be committed in the case of a reference test)
 
-テストデータ(想定結果)の作成
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-想定結果をテストケースごとに用意する。アプリケーションで設定する項目だけでなく、自動設定項目(\ :ref:`database-common_bean`\ 参照)も想定結果を用意する。検証には"assertTableEquals"メソッドを用いる。
+Create test data (Expected result)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Prepare the expected result for each test case.
+In addition to the items configured by the application, prepare the expected results for automatic configuration items as well (see \ :ref:`database-common_bean`\ ). Use the "assertTableEquals" method for verification.
 
-サンプルアプリケーションでは、グループID(\ :ref:`tips_groupId`\ 参照)を定義したデータ(expected)を用意し、これをassertTableEqualsの\
-引数に渡すことで、複数の想定結果に対応している。
+The sample application handles multiple expected results by preparing data (expected) that defines the group ID (see \ :ref:`tips_groupId`\) and transferring it to the arguments of assertTableEquals.
 
 .. image:: ./_image/componentUnitTest_expectedDataNormal.png
  :width: 800px
@@ -265,61 +259,61 @@ sysAcctEntityのuseCaseIdはuseCaseIdプロパティに設定される値その�
 
 .. code-block:: java
 
-   // ～前略～
+   // ~ Previous is omitted ~
 
-   /**
-    * {@link UserComponent#registerUser()}のテスト1。<br>
-    * 正常系。
+   /** Test class of
+    * {@link UserComponent#registerUser()} test1。 <br>
+    * Normal pattern.
     */
    @Test
    public void testRegisterUser1() {
        String sheetName = "registerUser";
 
-   // ～中略～
+   // ~ Middle is omitted
 
         for (int i = 0; i < sysAcctDatas.size(); i++) {
 
-   // ～中略～
+   // ~ Middle is omitted
 
 
-            // 検証
-            // 【説明】グループIDの取得
+            // Verification
+            // [Description] Acquire group ID
             String expectedGroupId = getListMap(sheetName, "expected").get(i).get("caseNo"); 
-            // 【説明】取得したグループIDを引数にassertTableEqualsの実行
+            // [Description] Execution of assertTableEquals with the acquired group ID as an argument
             assertTableEquals(expectedGroupId, sheetName, expectedGroupId); 
 
-   // ～後略～
+   // ~ Rest is omitted ~
 
 
-case1を例にとると、想定結果は次のようになる。
+Taking case1 as an example, the expected result is as follows.
 
-======================== ===============================================================================================
-テーブル名               想定
-======================== ===============================================================================================
-SYSTEM_ACCOUNT           \ :ref:`componentUnitTest_Setup`\ で示したレコード+1レコード追加。計4レコード。
-USERS                    1レコード追加。(\ :ref:`componentUnitTest_Setup`\ で0件に初期化し、テスト対象処理で1レコード追加)
-UGROUP_SYSTEM_ACCOUNT    1レコード追加。(\ :ref:`componentUnitTest_Setup`\ で0件に初期化し、テスト対象処理で1レコード追加)
-SYSTEM_ACCOUNT_AUTHORITY 変化なし(新規追加なし)。
-======================== ===============================================================================================
+======================== ===============================================================================================================================================
+Table name               Expected
+======================== ===============================================================================================================================================
+SYSTEM_ACCOUNT           Add the record shown in \ :ref:`componentUnitTest_Setup`\  + 1 record. Total 4 records.
+USERS                    Added 1 record. (Initialized to 0 records with \ :ref:`componentUnitTest_Setup`\ and added 1 record in the test target process)
+UGROUP_SYSTEM_ACCOUNT    Added 1 record. (Initialized to 0 records with \ :ref:`componentUnitTest_Setup`\ and added 1 record in the test target process)
+SYSTEM_ACCOUNT_AUTHORITY No change (no new additions).
+======================== ===============================================================================================================================================
 
 .. _componentUnitTest_messageID:
 
-メッセージIDを確認しなければならないもの
-----------------------------------------
+Test cases whose message ID must be checked
+----------------------------------------------------
 
-テストデータ(入力値と想定値)の作成
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Create test data (input values and expected values)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-\ :ref:`前項のテストデータ(入力値)の作成<componentUnitTest_inputData_normal>`\ と同様にテストデータ(入力値)を作成する。こちらでは、\
-\ :ref:`前項<componentUnitTest_inputData_normal>`\ で指定したIDの末尾に"Err"を付加することで、同じExcelシート内に正常系と異常系のデータを混載している。また、\
-想定値はメッセージIDである。
+Create test data (input values) in the same way as create :ref:`test data (input values) of the previous section<componentUnitTest_inputData_normal>`. 
+Here, "Err" is added to the end of the ID specified of the :ref:`previous section<componentUnitTest_inputData_normal>` so that normal pattern and abnormal pattern data can be consolidated in the same Excel sheet. 
+The expected value is the message ID.
 
-ここで確認すべき内容は、ユニークキー制約違反による例外の発生である。テストコードでは、目的の例外をキャッチし、メッセージIDを比較することで検証を行う。
+The content to be checked here is the occurrence of an exception caused by unique key constraint violation. The test code catches the intended exception and verifies it by comparing the message IDs.
 
 .. important::
 
-  キャッチする例外は発生を想定する例外とし、RuntimeExceptionなどの上位例外クラスは用いないこと。メッセージIDはあっているが、例外そのものを間違えているバグを\
-  検出できなくなってしまう。
+  The exceptions to be caught are those that are expected to occur, and exception classes higher in the inheritance tree such as RuntimeException are not used. 
+  Although there are message IDs, the bug that mistakes the exception itself cannot be detected.
 
 .. image:: ./_image/componentUnitTest_expectedDataAbnormal.png
  :width: 800px
@@ -327,29 +321,29 @@ SYSTEM_ACCOUNT_AUTHORITY 変化なし(新規追加なし)。
 
 .. code-block:: java
 
-   // ～前略～
+   // ~ Previous is omitted ~
 
-   /**
-    * {@link UserComponent#registerUser()}のテスト2。<br>
-    * 異常系。
+   /** Test class of
+    * {@link UserComponent#registerUser()}2。 <br>
+    * Abnormal pattern.
     */
    @Test
    public void testRegisterUser2() {
        String sheetName = "registerUser";
 
-   // ～中略～
+   // ~ Middle is omitted
 
-           // 実行
+           // Execution
            try {
-               target.registerUser(sysAcct, users, grpSysAcct); // 【説明】テスト対象メソッド実行
-               fail(); // 【説明】例外が発生しなかったらテスト失敗
-           } catch (ApplicationException ae) { // 【説明】発生するはずの例外をキャッチ
-               // 【説明】メッセージIDを検証
+               target.registerUser(sysAcct, users, grpSysAcct); // [Description] Executes the method to be tested
+               fail(); // [Description] Test failure if an exception is not thrown
+           } catch (ApplicationException ae) { // [Description] Catches exceptions that should be thrown
+               // [Description] Verification of message ID
                assertEquals(expected.get(i).get("messageId"), ae.getMessages().get(0).getMessageId()); 
            }
        }
    }
 
-   // ～後略～
+   // ~ Rest is omitted ~
 
 
