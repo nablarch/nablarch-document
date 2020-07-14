@@ -11,7 +11,7 @@ How to write action/component unit test
 -------------------------------------------
 The test class and test data used as examples in this chapter are as follows (right click -> Download and Save).
 
-* :download:`Test case list (ユーザ登録_ UserComponent_クラス単体テストケース.xlsx)<./_download/ユーザ登録_UserComponent_クラス単体テストケース.xlsx>`
+* :download:`Test case list (UserRegistration_UserComponent_ClassUnitTestCase.xlsx)<./_download/UserRegistration_UserComponent_ClassUnitTestCase.xlsx>`
 * :download:`Test class(UserComponentTest.java)<./_download/UserComponentTest.java>`
 * :download:`Test data(UserComponentTest.xlsx)<./_download/UserComponentTest.xlsx>`
 * :download:`Tested class(UserComponent.java)<./_download/UserComponent.java>`
@@ -112,7 +112,6 @@ Create the pre-data and pre-data input process. In this example, the following d
 
 .. image:: ./_image/componentUnitTest_Setup.png
  :width: 800px
- :scale: 100
 
 .. [#]
 
@@ -168,7 +167,6 @@ The acquired values in the test code are used as a key to further acquire data, 
 
 .. image:: ./_image/componentUnitTest_inputData.png
  :width: 800px
- :scale: 100
 
 .. code-block:: java
 
@@ -255,7 +253,6 @@ The sample application handles multiple expected results by preparing data (expe
 
 .. image:: ./_image/componentUnitTest_expectedDataNormal.png
  :width: 800px
- :scale: 100
 
 .. code-block:: java
 
@@ -291,8 +288,8 @@ Taking case1 as an example, the expected result is as follows.
 Table name               Expected
 ======================== ===============================================================================================================================================
 SYSTEM_ACCOUNT           Add the record shown in \ :ref:`componentUnitTest_Setup`\  + 1 record. Total 4 records.
-USERS                    Added 1 record. (Initialized to 0 records with \ :ref:`componentUnitTest_Setup`\ and added 1 record in the test target process)
-UGROUP_SYSTEM_ACCOUNT    Added 1 record. (Initialized to 0 records with \ :ref:`componentUnitTest_Setup`\ and added 1 record in the test target process)
+USERS                    Added 1 record. (Initialized to 0 records with \ :ref:`componentUnitTest_Setup`\  and added 1 record in the test target process)
+UGROUP_SYSTEM_ACCOUNT    Added 1 record. (Initialized to 0 records with \ :ref:`componentUnitTest_Setup`\  and added 1 record in the test target process)
 SYSTEM_ACCOUNT_AUTHORITY No change (no new additions).
 ======================== ===============================================================================================================================================
 

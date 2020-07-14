@@ -107,7 +107,7 @@ Therefore, a test method is provided exclusively for single item validation test
 
 
 .. tip::
-   This test method cannot be used for a form that holds another form as a property.In that case, implement your own validation processing test.
+   This test method cannot be used for a form that holds another form as a property. In that case, implement your own validation processing test.
    A form that holds another form as a property is the parent form that accesses the property in the following format:
    
    .. code-block:: none
@@ -120,42 +120,42 @@ How to create a test case table
 
 Prepare the following columns.
 
-+--------------------------------+------------------------------------------------------------+
-| Column name                    | Contents to be mentioned                                   |
-+================================+============================================================+
-|propertyName                    |The property name to be tested.                             |
-+--------------------------------+------------------------------------------------------------+
-|allowEmpty                      |Whether the property allows for no input                    |
-+--------------------------------+------------------------------------------------------------+
-|         min                    |Minimum string length allowed by the property               |
-|                                |as input value (optional)                                   |
-+--------------------------------+------------------------------------------------------------+
-|         max                    |Maximum string length allowed by the property as input value|
-+--------------------------------+------------------------------------------------------------+
-|messageIdWhenNotApplicable      |Message ID to expect when character type is incompatible    |
-+--------------------------------+------------------------------------------------------------+
-|Half-width alphabetic characters|Whether half-width alphabetic characters are allowed?       |
-+--------------------------------+------------------------------------------------------------+
-|Half-width numbers              |Whether half-width numbers are allowed?                     |
-+--------------------------------+------------------------------------------------------------+
-|Half-width symbols              |Whether half-width symbols are allowed?                     |
-+--------------------------------+------------------------------------------------------------+
-|Half-width kana                 |Whether half-width kana are allowed?                        |
-+--------------------------------+------------------------------------------------------------+
-|Full-width alphabets            |Whether full-width alphabets are allowed?                   |
-+--------------------------------+------------------------------------------------------------+
-|Full-width numbers              |Whether full-width numbers are allowed?                     |
-+--------------------------------+------------------------------------------------------------+
-|Full-width Hiragana             |Whether full-width Hiragana are allowed?                    |
-+--------------------------------+------------------------------------------------------------+
-|Full-width Katakana             |Whether full-width Katakana are allowed?                    |
-+--------------------------------+------------------------------------------------------------+
-|Full-width Kanji                |Whether full-width Kanji are allowed?                       |
-+--------------------------------+------------------------------------------------------------+
-|Full-width symbols and others   |Whether full-width symbols and others are allowed?          |
-+--------------------------------+------------------------------------------------------------+
-|External characters             |Whether external characters are allowed?                    |
-+--------------------------------+------------------------------------------------------------+
++-----------------------------------------------+------------------------------------------------------------+
+| Column name                                   | Contents to be mentioned                                   |
++===============================================+============================================================+
+|propertyName                                   |The property name to be tested.                             |
++-----------------------------------------------+------------------------------------------------------------+
+|allowEmpty                                     |Whether the property allows for no input                    |
++-----------------------------------------------+------------------------------------------------------------+
+|         min                                   |Minimum string length allowed by the property               |
+|                                               |as input value (optional)                                   |
++-----------------------------------------------+------------------------------------------------------------+
+|         max                                   |Maximum string length allowed by the property as input value|
++-----------------------------------------------+------------------------------------------------------------+
+|messageIdWhenNotApplicable                     |Message ID to expect when character type is incompatible    |
++-----------------------------------------------+------------------------------------------------------------+
+|Half-width alphabetic characters (半角英字)    |Whether half-width alphabetic characters are allowed?       |
++-----------------------------------------------+------------------------------------------------------------+
+|Half-width numbers (半角数字)                  |Whether half-width numbers are allowed?                     |
++-----------------------------------------------+------------------------------------------------------------+
+|Half-width symbols (半角記号)                  |Whether half-width symbols are allowed?                     |
++-----------------------------------------------+------------------------------------------------------------+
+|Half-width kana (半角カナ)                     |Whether half-width kana are allowed?                        |
++-----------------------------------------------+------------------------------------------------------------+
+|Full-width alphabets (全角英字)                |Whether full-width alphabets are allowed?                   |
++-----------------------------------------------+------------------------------------------------------------+
+|Full-width numbers (全角数字)                  |Whether full-width numbers are allowed?                     |
++-----------------------------------------------+------------------------------------------------------------+
+|Full-width Hiragana (全角ひらがな)             |Whether full-width Hiragana are allowed?                    |
++-----------------------------------------------+------------------------------------------------------------+
+|Full-width Katakana (全角カタカナ)             |Whether full-width Katakana are allowed?                    |
++-----------------------------------------------+------------------------------------------------------------+
+|Full-width Kanji (全角漢字)                    |Whether full-width Kanji are allowed?                       |
++-----------------------------------------------+------------------------------------------------------------+
+|Full-width symbols and others (全角記号その他) |Whether full-width symbols and others are allowed?          |
++-----------------------------------------------+------------------------------------------------------------+
+|External characters (外字)                     |Whether external characters are allowed?                    |
++-----------------------------------------------+------------------------------------------------------------+
 
 Configure the following values in the column to indicate the permission.
 
