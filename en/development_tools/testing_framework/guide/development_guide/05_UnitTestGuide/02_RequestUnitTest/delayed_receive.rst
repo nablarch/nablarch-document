@@ -1,63 +1,63 @@
-====================================================================
-リクエスト単体テストの実施方法（応答不要メッセージ受信処理）
-====================================================================
+==============================================================================
+How to Conduct a Request Unit Test (Receiving Asynchronous Message Process)
+==============================================================================
 
 --------------------
-概要
+Summary
 --------------------
-応答不要メッセージ処理用のアクションクラスは、Nablarchの一部として提供される。
-このため、リクエスト単体テストではこのアクションクラスを使用して、以下の\ `テスト対象の成果物`_ の確認を行う。
+Action classes for processing receiving asynchronous messages are provided as part of Nablarch.
+For this reason, the request unit test uses this action class to check the \ `Deliverables to be tested`_  given below.
 
-**※ 他のテストのようにアクションクラスに対する条件網羅や、限界値テストなどは実施不要である。**
+*** Unlike other tests, it is not necessary to cover the conditions for action classes or perform limit value tests.**
 
-テスト対象の成果物
-===================
-* 電文のレイアウトを定義したフォーマット定義ファイル
-* データベースへ電文を登録する際に使用するFormクラス
-* データベースへ電文を登録するためのINSERT文
+Deliverables to be tested
+==========================
+* Format definition file that defines the message layout
+* Form class used to register a message to the database
+* Insert statement to register a message in the database
 
---------------------
-テストクラスの書き方
---------------------
+--------------------------
+How to write a test class
+--------------------------
 
-テストクラスは以下の条件を満たすように作成する。
+The test class should be created in such a way that the following conditions are met.
 
-* テストクラスのパッケージは、テスト対象機能のパッケージとする。
-* <電文のリクエストID>RequestTestというクラス名でテストクラスを作成する。
-* \ ``nablarch.test.core.messaging.MessagingReceiveTestSupport``\ を継承する。
+* The package of the test class is the package of the function to be tested.
+* Create a test class with the class name <request ID of the message> RequestTest.
+* Inherits ``nablarch.test.core.messaging.MessagingReceiveTestSupport``.
 
-例えば、テスト対象機能のパッケージがnablarch.sample.ss21AA、電文のリクエストIDがRM21AA100だとすると、テストクラスは以下のようになる。
+For example, if the package of the function to be tested is nablarch.sample.ss21AA and request ID of the message is RM21AA100, the test class will be as follows.
 
 .. code-block:: java
 
   package nablarch.sample.ss21AA;
   
-  // ～中略～
+  // ~ Middle is omitted ~
 
   public class RM21AA100RequestTest extends MessagingReceiveTestSupport {
 
---------------------
-データシートの書き方
---------------------
-`テスト対象の成果物`_ のテストを行うために必要なデータシートの記述方法を説明する。
+-------------------------
+How to write a datasheet
+-------------------------
+This section explains how to describe the data sheets required to test the `Deliverables to be tested`_.
 
-データシートの記述方法は、\ :ref:`real_request_test`\ を参照すること。
-本項では、\ :ref:`real_request_test`\ と記述方法が異なる箇所の解説を行う。
+Refer to :ref:`real_request_test` for details on how to write a datasheet.
+In this section, the differences in the description method with :ref:`real_request_test` are explained.
 
 
-正常系のケース
-==============
+Case of a normal pattern
+==========================
 
-  このケースでは、電文が正しくデータベースに取り込まれることを確認する。
+  In this case, make sure that the messages are correctly imported into the database.
 
   .. tip::
 
-   応答不要メッセージ受信処理では、応答電文は存在しないため応答電文が期待値通りであることの確認を行う必要はない。
-   このため、データシートには、下記の記述は不要である。
+   In the process of receiving asynchronous message, there is no need to confirm that the response message meets the expected value as there is no response message.
+   For this reason, the following statements are not required in the datasheet.
 
-   * 期待値及び準備データの定義
+   * Definition of expected value and preparation data
 
-     * 「MESSAGE=expectedMessages」の定義は不要
+     * "MESSAGE=expectedMessages" is not required to be defined
    
 
 

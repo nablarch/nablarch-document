@@ -1,61 +1,61 @@
-====================================================================
-リクエスト単体テストの実施方法（HTTP同期応答メッセージ受信処理）
-====================================================================
+================================================================================
+How to Execute a Request Unit Test (HTTP Receiving Synchronous Message Process)
+================================================================================
 
-リクエスト単体テストの実施方法は、\ :ref:`real_request_test`\ を参照すること。
+Refer to :ref:`real_request_test` for details on how to perform a request unit test.
 
-本項では、\ :ref:`real_request_test`\ と記述方法が異なる箇所の解説を行う。
+In this section, the differences in the description method with :ref:`real_request_test` are explained.
 
---------------------
-テストデータの書き方
---------------------
+-----------------------
+How to write test data
+-----------------------
 
-テストショット一覧
+Test shot List
 ==================
 
-LIST_MAPのデータタイプで１テストメソッド分のテストショット表を記載する。IDは、\ **testShots**\ とする。
+The test shot table for one test method is described in the data type of LIST_MAP. The ID is **testShots**.
 
-HTTP同期応答メッセージ受信処理特有の内容について以下に示す。
+The specific content of the HTTP receiving synchronous message process is described below.
 
-================== ============================================================================================== =======
-カラム名           説明                                                                                           必須   
-================== ============================================================================================== =======
-diConfig           HTTP同期応答メッセージ受信リクエスト単体テスト用のコンポーネント設定ファイルへのパスを記載する 必須   
+================== =============================================================================================== =========
+Column name        Description                                                                                     Required
+================== =============================================================================================== =========
+diConfig           Describes the path to the component configuration file for the HTTP receiving synchronous       Required
+                   message request unit test.
                    |br|
-                   (例：http-messaging-test-component-configuration.xml)。                                               
+                   (Example: http-messaging-test-component-configuration.xml).
 
-expectedStatusCode JSON及びXMLデータ形式使用時は空欄にする。                                                      必須   
+expectedStatusCode Leave this field blank when using JSON or XML data format.                                      Required
                                                                                                                          
-requestPath        アクションを実行するためのURLから、ホスト名を抜いた部分。                                      必須   
+requestPath        The part of the URL to execute the action without the host name.                                Required
                    |br|
-                   例えばアクション実行のURLが「http://127.0.0.1/msgaction/ss11AC/RM11AC0102」であれば、
+                   For example, if URL of the action execution is "http://127.0.0.1/msgaction/ss11AC/RM11AC0102",
                    |br|
-                   「/msgaction/ss11AC/RM11AC0102」となる。                                                              
-
-userId             認証認可チェックに使用するユーザID                                                                     必須   
-================== ============================================================================================== =======
+                   it will be "/msgaction/ss11AC/RM11AC0102".
+userId             User IDs used for authentication and permission checks                                          Required
+================== =============================================================================================== =========
 
 .. tip::
- JSON及びXMLデータ形式使用時は、ステータスコードの比較も、Excelファイルのメッセージボディとの比較で行う。フレームワーク制御ヘッダもメッセージボディに含まれるためである。
+ When JSON and XML data formats are used, the status code is also compared with the message body of an Excel file. This is because the framework control header is also included in the message body.
  
 
-各種準備データ
-==============
+Various preparation data
+========================
 
-テスト実施に際して必要となる各種準備データの記述方法を説明する。
-バッチでは、データベース、リクエストメッセージの準備を行う。
+This section explains how to describe the various preparation data required for testing.
+The database and request message are prepared in batches.
 
 
-リクエストメッセージ
+Request message
 --------------------
 
-テストの入力データとなる要求電文を記載する。以下に例を示す。
+The request statement that is the input data for the test is described. An example is shown below.
 
 -----
 
  MESSAGE=setUpMessages
 
- // 共通情報（ディレクティブ、フレームワーク制御ヘッダ）
+ // Common information (directives, framework control headers)
 
  +------------------+--------------+------------+
  | text-encoding    | Windows-31J  |            |
@@ -63,9 +63,9 @@ userId             認証認可チェックに使用するユーザID           
  | requestId        | RM11AC0102   |            |
  +------------------+--------------+------------+
 
- // メッセージボディ
+ // Message body
 
-【XML】
+[XML]
 
  +------------------+--------------------------------------------+---------------------------------+------------+
  | no               | XML1                                       | XML2                            | XML3       |
@@ -79,7 +79,7 @@ userId             認証認可チェックに使用するユーザID           
  |                  |                                            |<dataKbn>0</dataKbn>             |            |
  +------------------+--------------------------------------------+---------------------------------+------------+
 
-【JSON】
+[JSON]
 
  +------------------+-----------------------------------------+
  | no               | JSON                                    |
@@ -100,74 +100,74 @@ userId             認証認可チェックに使用するユーザID           
 
 ------
 
-1. 先頭行
+1. First line
 
- テスト対象リクエストに対する要求電文を準備する。名前は、\ ``MESSAGE=setUpMessages``\ 固定とする。
+ Prepare a request message for the request to be tested. The name should be fixed to ``MESSAGE=setUpMessages``.
 
-2. 共通情報
+2. Common information
 
- 名前の次行以降には以下の情報を記載する。これらの値は、リクエストメッセージの全メッセージで共通の値となる。
+ Enter the following information in the next line after the name. These values are common to all request messages.
 
- * ディレクティブ
- * フレームワーク制御ヘッダ
+ * Directive
+ * Framework control header
 
- 書式は、key-value形式である。
+ The format is in key-value format.
 
-  +----+----+
-  |キー|値  |
-  +----+----+
+  +----+-----+
+  |Key |Value|
+  +----+-----+
 
 .. important::
 
-  フレームワーク制御ヘッダの項目をPJで変更している場合、
-  以下のようにコンフィグファイルに ``reader.fwHeaderfields`` というキーでフレームワーク制御ヘッダ名を指定する必要がある。
+  If the item of the framework control header is changed by project,
+  it is necessary to specify the framework control header name with the key ``reader.fwHeaderfields`` in the config file as follows.
 
   .. code-block:: properties
 
-    # フレームワーク制御ヘッダ名をカンマ区切りで指定する。
+    # Specify the framework control header name separated by a comma.
     reader.fwHeaderfields=requestId,addHeader
 
 
-3. メッセージボディ
+3. Message body
 
-フレームワーク制御ヘッダ以降のメッセージを記載する。
+Describe the messages after the framework control header.
 
 
- +------------+---------------+----------------------------------------+
- |行          |記述内容       |備考                                    |
- +============+===============+========================================+
- |1行目       |フィールド名称 |先頭セルは"no"とする。                  |
- +------------+---------------+----------------------------------------+
- |2行目       |データタイプ   |先頭セルは空白                          |
- +------------+---------------+----------------------------------------+
- |3行目       |フィールド長   |先頭セルは空白                          |
- +------------+---------------+----------------------------------------+
- |4行目以降   |XMLデータ |br| |先頭セルは1からの通番 |br|              |
- |            |および |br|    |フィールドを跨いで記載することも可能    |
- |            |JSONデータ     |                                        |
- +------------+---------------+----------------------------------------+
+ +------------+-------------------+-----------------------------------------+
+ |行          |Description content|Remarks                                  |
+ +============+===================+=========================================+
+ |First line  |Field name         |First cell is set to "no".               |
+ +------------+-------------------+-----------------------------------------+
+ |Second line |Data type          |First cell is blank                      |
+ +------------+-------------------+-----------------------------------------+
+ |Third line  |Field length       |First cell is blank                      |
+ +------------+-------------------+-----------------------------------------+
+ |From fourth |XML data |br|      |The first cell can be written across |br||
+ |line        |and |br|           |the numbered fields starting with 1.     |
+ |            |JSON data          |                                         |
+ +------------+-------------------+-----------------------------------------+
 
 .. tip::
- JSON及びXMLデータ形式使用時は、1Excelシートに1テストケースのみ記述すること。
+ When using JSON or XML data format, only one test case should be written in one Excel sheet.
  
- これはメッセージボディについて、Excelの各行の文字列長が同一であることを期待しているというNTFの制約によるものである。JSON及びXMLデータ形式は、要求電文の長さがリクエスト毎に異なるのが一般的なので、事実上1テストケースしか記述できない。
+ This is due to the limitation of NTF, which expects the string length of each Excel line to be the same for the message body. In JSON and XML data formats, the request message length is generally different for each request, so only one test case can be described in practice.
 
 .. important::
- フィールド名称に\ **重複した名称は許容されない**\ 。
- 例えば、「氏名」というフィールドが2つ以上存在してはならない。
- （通常、このような場合は「本会員氏名」と「家族会員氏名」のようにユニークなフィールド名称が付与される）
+ **Duplicate names are not allowed** for field names.
+ For example, there should be not more than 1 field named as "Name".
+ (Usually, in such cases, a unique field name is assigned, such as "member name" and "family member name")
  
-各種期待値
-==========
+Various expected values
+========================
 
-レスポンスメッセージ
+Response message
 --------------------
 
-\ `リクエストメッセージ`_\ と同じ。
+Same as `Request message`_.
 
-ただし、名前が\ ``MESSAGE=expectedMessages``\ となる。
+However, the name is ``MESSAGE=expectedMessages``.
 
-応答電文のフィールド長は"-"(ハイフン)を設定する。
+The field length of the response message is configured to "-" (hyphen).
 
 .. image:: ./_image/http_real_test_data.png
 

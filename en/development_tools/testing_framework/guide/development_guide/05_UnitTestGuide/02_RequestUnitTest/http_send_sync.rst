@@ -1,26 +1,26 @@
 .. _`message_httpSendSyncMessage_test`:
 
 =============================================================================
-リクエスト単体テストの実施方法(HTTP同期応答メッセージ送信処理)
+How to Execute a Request Unit Test (Sending Synchronous Message)
 =============================================================================
 
-リクエスト単体テスト実施方法は、\ :ref:`message_sendSyncMessage_test`\ を参照すること。
+For information on how to execute a request unit test, see :ref:`message_sendSyncMessage_test`.
 
-ただし、「送信キュー」「受信キュー」を「通信先」と読み替えること。
+However, "send queue" and "receive queue" should be read as "communication destination".
 
-本項では、\ :ref:`message_sendSyncMessage_test`\ と異なる箇所の解説を行う。
+In this section, the differences with :ref:`message_sendSyncMessage_test`.
 
 
 .. _`http_send_sync_request_write_test_data`:
 
---------------------
-テストデータの書き方
---------------------
+-----------------------
+How to write test data
+-----------------------
 
-電文を1回送信する場合の要求電文の期待値および、返却する応答電文（レスポンスメッセージ）の例
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+An example of the expected value of a request message when a message is sent once and the response message (response message) that is returned
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-以下に、電文を1回送信する場合の返却する応答電文の記述例を示す。
+The following is an example of the description of a response message that is returned when a message is sent once.
 
 
 .. image:: ./_image/http_send_sync_response.png
@@ -28,14 +28,14 @@
 
 
 .. tip::
- RESPONSE_BODY_MESSAGES(及び後の例で使用するEXPECTED_REQUEST_BODY_MESSAGES)は、複数フィールドに分割して記述することが可能である。
+ RESPONSE_BODY_MESSAGES (and EXPECTED_REQUEST_BODY_MESSAGES used in the examples below) can be described by dividing into multiple fields.
 
- 文字列が長く、1セルに全部記述すると可読性が落ちる場合に分割して記述する。
+ When a string is long and cannot be read if written in one cell, the string is divided and written.
 
- 分割する際、「フィールド名」は任意の文字列を指定する。上記の例では ``XML1`` 、 ``XML2`` 、 ``XML3`` としている。
+ When dividing, "field name" can be an arbitrary string. In the above example, ``XML1``, ``XML2`` and ``XML3`` is used.
 
 
-以下に、電文を1回送信する場合の要求電文の期待値の記述例を示す。
+The following is a description example of the expected value of a request message that is returned when a message is sent once.
 
 
 .. image:: ./_image/http_send_sync_expected.png
@@ -44,27 +44,27 @@
 
 
 .. tip::
- JSON及びXMLデータ形式使用時は、1Excelシートに1テストケースのみ記述すること。
+ When using JSON or XML data format, only one test case should be written in one Excel sheet.
  
- これはメッセージボディについて、Excelの各行の文字列長が同一であることを期待しているというNTFの制約によるものである。JSON及びXMLデータ形式は、要求電文の長さがリクエスト毎に異なるのが一般的なので、事実上1テストケースしか記述できない。
+ This is due to the limitation of NTF, which expects the string length of each Excel line to be the same for the message body. In JSON and XML data formats, the request message length is generally different for each request, so only one test case can be described in practice.
 
 
-電文を2回以上送信する場合の要求電文の期待値および、返却する応答電文（レスポンスメッセージ）の例
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+An example of the expected value of a request message when a message is sent more than once and the response message (response message) that is returned
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-複数回電文送信を行う場合のテストは、テスティングフレームワークの以下の仕様に注意をして記述すること。
+When sending a message multiple times, the test should be written with attention to the following specifications of the testing framework.
 
-* 同一データタイプ(以下の例では ``RESPONSE_HEADER_MESSAGES`` と ``RESPONSE_BODY_MESSAGES`` )は、それぞれ、まとめて記述する。詳細は、 \ :ref:`tips_groupId`\ 及び、 \ :ref:`auto-test-framework_multi-datatype`\ を参照。
-* 同一リクエストIDの電文については、noの値を変えてまとめて記述する。
-* 同一リクエストIDの電文の場合は、電文の長さを合わせる(電文を1回送信する場合と同様の制約である。テストケース上、同一の長さにできない場合は、手動でテストを行うこと)
+* The same data types (``RESPONSE_HEADER_MESSAGES`` and ``RESPONSE_BODY_MESSAGES`` in the following example) are described together, respectively. For more information, see :ref:`tips_groupId` and \ :ref:`auto-test-framework_multi-datatype`.
+* For messages with the same request ID, the value of no is changed and the messages are described together.
+* If the message has the same request ID, the length of the message is matched (The limitations are the same as for sending a single message. If the test case does not allow for the same length, then perform the test manually)
 
-以下に複数回電文送信を行う際の、返却する応答電文の記述例を示す。
+The following is a description example of the response message that is returned when the message is sent multiple times.
 
 
 .. image:: ./_image/http_send_sync_ok_pattern_response.png
     :scale: 80
 
-以下に複数回電文送信を行う際の、要求電文の期待値の記述例を示す。
+The following is a description example of the expected value of a request message that is returned when a message is sent multiple times.
 
 
 .. image:: ./_image/http_send_sync_ok_pattern_expected.png
@@ -72,26 +72,26 @@
 
 
 .. tip::
- 送信対象のリクエストIDが複数存在する場合、送信順のテストは不可能である。上記の例の場合、 ``ProjectSaveMessage`` より先に、 ``ProjectSaveMessage2`` が送信された場合であってもテストは成功となる。
+ If there are multiple request IDs to be sent, testing the order is not possible. In the above example, the test is successful even if ``ProjectSaveMessage2`` is sent before ``ProjectSaveMessage``.
 
 
-モックアップを使用するための記述
+Description for using the mockup
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-testShotsに ``expectedMessageByClient`` および ``responseMessageByClient`` にグループIDを設定する。モックアップ自体については、\ :ref:`dealUnitTest_send_sync`\ を参照。
+Configure ``expectedMessageByClient`` in testShots and group ID in ``responseMessageByClient``. For information on mockup, see :ref:`dealUnitTest_send_sync`.
 
 
-グループIDの関連については\ :ref:`message_sendSyncMessage_test`\ における ``expectedMessage`` および ``responseMessage`` の場合と同様であるため割愛する。
+The relevance of group IDs is the same as for ``expectedMessage`` and  ``responseMessage`` in :ref:`message_sendSyncMessage_test`, and is therefore omitted.
 
 .. image:: ./_image/http_send_sync_shot.png
     :scale: 80
 
 
 
-| 同一アクション内でMOMによる同期応答メッセージ送信処理とHTTP同期応答メッセージ送信処理が同時に行われる場合、
-| "expectedMessage"、"responseMessage"にMOMによる同期応答メッセージ送信処理で使用するグループIDを、
-| "expectedMessageByClient"、"responseMessageByClient"にHTTP同期応答メッセージ送信処理で使用するグループIDを
-| それぞれ個別に指定する。
+| If sending synchronous messages by MOM and HTTP sending synchronous message take place simultaneously in the same action,
+| the group ID used in the sending synchronous message process by MOM is configured to "expectedMessage" and "responseMessage",
+| and the group ID used in the HTTP sending synchronous message process is configured to
+| "expectedMessageByClient" and "responseMessageByClient" respectively.
 
 .. image:: ./_image/http_mom_send_sync_shot.png
     :scale: 80
@@ -100,39 +100,39 @@ testShotsに ``expectedMessageByClient`` および ``responseMessageByClient`` �
 .. tip::
 
 
-  グループIDはMOMによる同期応答メッセージ送信処理とHTTP同期応答メッセージ送信処理でそれぞれ別の値を設定する必要がある。
-  同一のグループIDを指定した場合、正しく結果検証が行われないため、注意すること。
+  The Group ID should be configured to a different value in the sending synchronous message process by MOM and HTTP sending synchronous message process.
+  Note that if the same group ID is specified, the result verification will not be performed correctly.
 
 
-要求電文のアサート
-~~~~~~~~~~~~~~~~~~
+Asserting the request message
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-テストデータのディレクティブ行に設定されたfile-typeの値により、要求電文のアサート方法が変化する。
+The value of the file-type set in the directive line of the test data changes the way in which the request message is asserted.
 
-設定方法やアサート内容についての詳細は :ref:`real_request_test` のレスポンスメッセージの項を参照すること。
+For details on how to configure and the assert details, refer to response message section of :ref:`real_request_test`.
 
-------------------------------------
-フレームワークで使用するクラスの設定
-------------------------------------
+----------------------------------------------------
+Configuring the classes to be used in the framework
+----------------------------------------------------
 
-通常、これらの設定はアーキテクトが行うものでありアプリケーションプログラマが設定する必要はない。
+Usually, the classes are configured by the architect and do not need to be set by the application programmer.
 
 
-モックアップクラスの設定
+Mockup class configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-コンポーネント設定ファイルに、リクエスト単体テストで使用するモックアップクラスを設定する。
+Configure mockup class to be used in request unit test in the component configuration file.
 
  .. code-block:: xml
   
-      <!-- HTTP通信用クライアント -->
+      <!-- Client for HTTP communication -->
       <component name="defaultMessageSenderClient" 
                  class="nablarch.test.core.messaging.RequestTestingMessagingClient">
         <property name="charset" value="Shift-JIS"/>
       </component>
 
-なお、\ ``charset``\ に、文字コード名を指定することでログに出力する文字コードを変更することができる。
-通常は省略可能で、省略した場合はUTF-8が使用される。
+The character code output to the log can be changed by specifying the character code name in the ``charset`` field.
+Normally character code is optional, and UTF-8 will be used if omitted.
 
 
 

@@ -1,28 +1,28 @@
 ma.. _`mail_request_test`:
 
-==========================================
-リクエスト単体テストの実施方法(メール送信)
-==========================================
+================================================
+How to Execute a Request Unit Test (Email Send)
+================================================
 
-メール送信処理の構造とテスト範囲
-============================================
+Structure and test scope of the email send process
+==================================================
 
-本フレームワークを使用した\ :ref:`メール送信 <mail>`\ では、
-業務アプリケーションは本フレームワークが提供するメール送信要求APIを呼び出すだけである。
+:ref:`To send mail <mail>` using this framework,
+a business application only needs to call the email sending request API provided by this framework.
 
-よってリクエスト単体テストの範囲は、\
-メール送信要求が正常に受け付けられデータベースに格納されることを確認するところまでとなる。
+Therefore, the scope of the request unit test is up to confirming
+that the email send request is successfully accepted and stored in the database.
 
-メール送信処理の処理概要と業務アプリケーションのテスト範囲を、下図に示す。
+The following figure shows the outline of the email send process and test scope of the business application.
 
 .. image:: ./_image/mail_overview.jpg
    :scale: 80
 
-テストの実施方法
-================
+How to conduct the test
+=======================
 
-上述の通り、メール送信に関してリクエスト単体テストで確認すべきことは、\
-メール送信要求が :ref:`各テーブル（メール送信要求テーブル、メール送信先テーブル、メール添付ファイルテーブル）<mail>` に
-正しく格納されることである。
+As described above, the only check in the request unit test for sending email
+is that it is stored correctly in :ref:`each table (email send request table, email send recipient table, mail attachment table)<mail>`.
 
-そのため、他の単体テストの実施方法と同様に、期待する上記3テーブルの状態をExcelシートに記述すればよい。
+
+It is only necessary to describe the expected state of the above three tables in an Excel sheet, as in the other methods of conducting unit tests.

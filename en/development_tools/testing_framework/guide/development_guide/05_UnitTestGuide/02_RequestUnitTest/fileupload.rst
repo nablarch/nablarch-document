@@ -1,40 +1,40 @@
 ====================================================
-リクエスト単体テストの実施方法(ファイルアップロード)
+How to Perform a Request Unit Test (File Upload)
 ====================================================
 
 
-ファイルアップロードのテストは、ウェブアプリケーションのテストの一種である。
-したがって、ファイルアップロードのテストを実施するには、ウェブアプリケーションの\ :doc:`index`\ が前提となる。
+File upload test is a type of web application test.
+Therefore, an :doc:`index` of the web application is assumed to execute the test file upload.
 
-ファイルアップロードのテストをする場合、HTTPリクエストパラメータにアップロードファイルを指定する必要がある。\
-本項では、HTTPリクエストパラメータにアップロードファイルを指定する方法を解説する。\
+When testing a file upload, it is necessary to specify the upload file in the HTTP request parameter.
+This section describes how to specify an upload file in the HTTP request parameters.
 
 
 
-アップロードファイルの記述方法
+How to write the upload file
 ==============================
 
-HTTPリクエストパラメータの値に、以下の記述をすることで、
-HTTPリクエストパラメータにアップロードファイルを指定できる。
+The upload file can be specified in the HTTP request parameter
+by writing the following in the value of the HTTP request parameter.
 
 .. code-block:: text
 
- ${attach:ファイルパス}
+ ${Attach: File path}
 
 .. tip::
- ファイルパスは、\ **テスト実行時のカレントディレクトリからの相対パス**\ 、すなわち、\
- プロジェクトルートディレクトリからの相対パスで記述する。
+ The file path is described as a **relative path from the current directory during test execution**,
+ that is, a relative path from the project root directory.
  
 
-バイナリファイルの場合
+For binary files
 ======================
 
-画像ファイル等、バイナリファイルをアップロードする場合は、事前にファイルを配置しておき、
-そのファイルへのパスを指定する。
+To upload a binary file such as an image file,
+place the file in advance and specify the path to the file.
 
 
-以下の例では、uploadfileというキーで、プロジェクト配下のtest/resources/images\
-ディレクトリにあるpicture.pngをアップロードする。
+In the following example, picture.png in the test/resources/images directory
+under the project is uploaded with the key "uploadfile".
 
 .. code-block:: text
 
@@ -52,40 +52,40 @@ HTTPリクエストパラメータにアップロードファイルを指定で�
 +---------------------------------------------------+----------------------+-----------+
 | uploadfile                                        | comment              | public    |
 +===================================================+======================+===========+
-| ``${attach:test/resources/images/picture.png}``   | アップロードします。 | ``false`` |
+| ``${attach:test/resources/images/picture.png}``   | Upload.              | ``false`` |
 +---------------------------------------------------+----------------------+-----------+
 
 
 ------
 
-固定長ファイル、CSVファイルの場合
-=================================
+In the case of fixed-length file or CSV file
+=============================================
 
-\ :ref:`固定長ファイル<how_to_setup_fixed_length_file>`\や
-:ref:`CSVファイル<how_to_setup_csv_file>`\ をアップロードする場合、\
-そのファイル内容をテストデータシートに記載する。\
-テスト実行時に、自動テストフレームワークがこのデータを元にファイルを作成する。
+To upload a :ref:`fixed-length file<how_to_setup_fixed_length_file>`
+or a :ref:`CSV file<how_to_setup_csv_file>`,
+include the contents of the file in the test datasheet.
+When the test is executed, the automated test framework creates a file based on this data.
 
 
-以下の例では、workディレクトリ配下にmember_list.csvファイルを作成し、
-そのファイルをアップロード対象として指定している。
+In the following example, the member_list.csv file is created under the work directory
+and specified as an upload target.
 
 ------
 
 ``LIST_MAP=requestParams``
 
-+------------------------------------+-----------------------+
-| uploadfile                         |  comment              |
-+====================================+=======================+
-| ``${attach:work/member_list.csv}`` |  10月度新規会員を登録 |
-+------------------------------------+-----------------------+
++------------------------------------+-----------------------------------+
+| uploadfile                         |  comment                          |
++====================================+===================================+
+| ``${attach:work/member_list.csv}`` |  Register new members for October |
++------------------------------------+-----------------------------------+
 
 
 ``SETUP_FIXED=work/member_list.csv``
 
 
      
-// ディレクティブ
+// Directive
 
 +------------------+-------------+----------------------------+
 |text-encoding     |Windows-31J  |                            |
@@ -93,20 +93,20 @@ HTTPリクエストパラメータにアップロードファイルを指定で�
 |record-separator  |CRLF         |                            |
 +------------------+-------------+----------------------------+
 
-// データ
+// Data
 
-+----------+-----+-----------------------+
-| name     | age |        address        |
-+==========+=====+=======================+
-| 山田太郎 |  30 |東京都港区芝浦1-1      |
-+----------+-----+-----------------------+
-| 田中次郎 |  20 |大阪府門真市東田町2-2  |
-+----------+-----+-----------------------+
++-------------+-----+-----------------------------------------+
+| name        | age |        address                          |
++=============+=====+=========================================+
+| Yamada Taro |  30 |1-1 Shibaura, Minato-ku, Tokyo           |
++-------------+-----+-----------------------------------------+
+| Tanaka Jiro |  20 |2-2 Higashidamachi, Kadoma City, Osaka   |
++-------------+-----+-----------------------------------------+
 
 ------
 
 .. tip::
- 固定長ファイルやCSVファイルをアップロードする場合でも、
- バイナリファイルと同様に、事前にファイルを用意しておくことも可能であるが、
- テストデータの保守容易性を考慮するとテストデータシートに記載しておくべきである。
+ Even when uploading a fixed-length or CSV file,
+ it is possible to prepare the file in advance like in the case of a binary file,
+ but it should be described in the test data sheet in consideration of the ease of maintenance of the test data.
  

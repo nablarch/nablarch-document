@@ -1,112 +1,112 @@
-====================================================================
-リクエスト単体テストの実施方法（応答不要メッセージ送信処理）
-====================================================================
+===========================================================================
+How to Conduct a Request Unit Test (Sending Asynchronous Message Process)
+===========================================================================
 
 --------------------
-概要
+Summary
 --------------------
-応答不要メッセージ送信処理用のアクションクラスは、Nablarchの一部として提供される。
-このため、リクエスト単体テストではこのアクションクラスを使用して、以下の\ `テスト対象の成果物`_\ の確認を行う。
+Action classes for processing sending asynchronous messages are provided as part of Nablarch.
+For this reason, the request unit test uses this action class to check the `Deliverables to be tested`_ given below.
 
-**※他の処理のようなアクションクラスに対する条件網羅や、限界値テストなどは実施不要である。**
+*** Unlike other processes, it is not necessary to cover the conditions for action classes or perform limit value tests.**
 
-テスト対象の成果物
-===================
-* 電文のレイアウトを定義したフォーマット定義ファイル
-* 下記3種類のSQL文
+Deliverables to be tested
+==========================
+* Format definition file that defines the message layout
+* Three types of SQL statements
 
-  * 電文送信テーブルからステータスが未送信のデータを取得するためのSELECT文
-  * 電文送信後に、該当データのステータスを処理済みに更新するためのUPDATE文
-  * 電文送信に失敗した場合に、該当データのステータスを送信失敗(エラー)に更新するためのUPDATE文
+  * SELECT statement for acquiring data with not sent status from the send message table
+  * UPDATE statement to update the status of the relevant data to processed after the message is sent
+  * UPDATE statement for updating the status of the relevant data to send failure (error) when the message send fails
 
 
---------------------
-テストクラスの書き方
---------------------
+-------------------------
+How to write a test class
+-------------------------
 
-テストクラスは以下の条件を満たすように作成する。
+The test class should be created in such a way that the following conditions are met.
 
-* テストクラスのパッケージは、テスト対象機能のパッケージとする。
-* <電文のリクエストID>RequestTestというクラス名でテストクラスを作成する。
-* \ ``nablarch.test.core.batch.BatchRequestTestSupport``\ を継承する。
+* The package of the test class is the package of the function to be tested.
+* Create a test class with the class name <request ID of the message> RequestTest.
+* Inherits ``nablarch.test.core.batch.BatchRequestTestSupport``.
 
-例えば、テスト対象機能のパッケージがnablarch.sample.ss21AA、電文のリクエストIDがRM11AC0301だとすると、テストクラスは以下のようになる。
+For example, if the package of the function to be tested is nablarch.sample.ss21AA and request ID of the message is RM11AC0301, the test class will be as follows.
 
 .. code-block:: java
 
   package nablarch.sample.ss21AA;
   
-  // ～中略～
+  // ~ Middle is omitted ~
 
   public class RM11AC0301RequestTest extends BatchRequestTestSupport {
 
 
 ------------------------------
-データシートの書き方
+How to write a datasheet
 ------------------------------
-`テスト対象の成果物`_ のテストを行うために必要なデータシートの記述方法を説明する。
+This section explains how to describe the data sheets required to test the `Deliverables to be tested`_.
 
-データシートの記述方法は、\ :ref:`message_sendSyncMessage_test`\ を参照すること。
-本項では、\ :ref:`message_sendSyncMessage_test`\ と記述方法が異なる箇所の解説を行う。
+Refer to :ref:`message_sendSyncMessage_test` for details on how to write a datasheet.
+In this section, the differences in the description method with :ref:`message_sendSyncMessage_test` are explained.
 
 
-正常系ケースの準備
-=======================
+Preparing a normal pattern case
+================================
 
- | 電文が正しく送信されるケースの確認を実施する。
- | このケースでは、送信された電文の確認及び該当データのステータス更新の確認を行う。
+ | Check of case in which the message is sent correctly.
+ | This case checks that the message is sent and confirms the status update of the relevant data.
  |
- | 応答不要メッセージ送信処理用のアクションクラスは、起動パラメータとしてメッセージのリクエストIDを要求する。
- | このため、「testShots」の定義に下記画像のように「KEY=messageRequestId」、「VALUE=メッセージのリクエストID」を追加する必要がある。
+ | The action class for processing sending asynchronous message requests the request ID of the message as a startup parameter.
+ | "KEY = messageRequestId" and "VALUE = message request ID" are required to be added to the definition of "testShots" as shown in the following image.
 
  .. image:: _image/delayed_send.png
     :scale: 50
 
  .. tip::
 
-  データシートには、下記設定が不要となる。
+  The following settings are not required for the data sheet.
 
-  * testShotsの定義
+  * testShots definition
 
     * responseMessage
 
-  * 期待値及び準備データの定義
+  * Definition of expected value and preparation data
 
     * RESPONSE_HEADER_MESSAGES
     * RESPONSE_BODY_MESSAGES
 
-異常系ケースの準備
-=======================
+Preparing an abnormal pattern case
+===================================
   
- | 異常系のテストは、メッセージの送信に失敗した場合に該当データのステータスをエラーに更新するUPDATE文を確認するために必要である。
- | 異常系テストケースを実施するには、「testShots」の定義に下記画像のように「KEY=errorCase」、「VALUE=true」と設定すれば良い。
- | なお、異常系ケースでは電文が送信されないため送信電文の期待値を設定する必要はない。
+ | Abnormal pattern testing is necessary to check UPDATE statements that update the status of the relevant data to an error when message sending fails.
+ | To execute the test case, add "KEY = errorCase" and "VALUE = true" to the definition of "testShots" as shown in the following image.
+ | The expected value of the sent message is not required to be set as no message is sent in the abnormal pattern case.
 
  .. image:: _image/delayed_send_error.png
     :scale: 70
 
  .. tip:: 
-   異常系テストケースを実施する場合には、応答不要メッセージ送信処理用共通アクションをテスト用アクションに切り替える必要がある。
-   以下にその設定例を示す。
+   When an abnormal pattern test case is executed, it is necessary to switch the common action for sending asynchronous message to the action for testing.
+   A configuration example is shown below.
 
-   * 本番用設定例
+   * Production configuration example
 
      .. code-block:: xml
 
-      <!--ディスパッチ用ハンドラ-->
+      <!--Dispatch handler-->
       <component name="requestPathJavaPackageMapping" class="nablarch.fw.handler.RequestPathJavaPackageMapping">
-        <!-- 応答不要メッセージ送信処理用共通アクションを設定する。 -->
+        <!-- Configure common actions to process sending asynchronous message. -->
         <property name="basePackage" value="nablarch.fw.messaging.action.AsyncMessageSendAction" />
         <property name="immediate" value="false" />
       </component>
 
-   * テスト用設定
+   * Test configuration
 
-     上記本番環境用設定をテスト用のアクションクラスで上書きを行う。
+     Overwrite the above configuration of production environment with the action class for testing.
 
      .. code-block:: xml
 
-      <!--ディスパッチ用ハンドラ-->
+      <!--Dispatch handler-->
       <component name="requestPathJavaPackageMapping" class="nablarch.fw.handler.RequestPathJavaPackageMapping">
         <property name="basePackage" value="nablarch.test.core.messaging.AsyncMessageSendActionForUt" />
         <property name="immediate" value="false" />

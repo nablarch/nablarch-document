@@ -1,91 +1,91 @@
 .. _requestUnitTest:
 
-==============================
-リクエスト単体テストの実施方法
-==============================
+===================================
+How to Execute a Request Unit Test
+===================================
 
 
---------------------
-テストクラスの書き方
---------------------
+--------------------------
+How to write a test class
+--------------------------
 
-テストクラスは以下の条件を満たすように作成する。
+The test class should be created in such a way that the following conditions are met.
 
-* テストクラスのパッケージは、テスト対象のActionクラスと同じとする。
-* <Actionクラス名>RequestTestというクラス名でテストクラスを作成する。
-* nablarch.test.core.http.BasicHttpRequestTestTemplateを継承する。
-  (プロジェクト側で拡張したTemplate実装がある場合は、この限りではない)
+* The test class package should be the same as the Action class to be tested.
+* The test class should be created with the class name <Action class name>RequestTest.
+* Inherit nablarch.test.core.http.BasicHttpRequestTestTemplate.
+  (This is not applicable if there is an extended Template implementation in the project)
 
-例えば、テスト対象のActionクラスが、nablarch.sample.management.user.UserSearchActionだとすると、
-テストクラスは以下のようになる。
+For example, if the Action class to be tested is nablarch.sample.management.user.UserSearchAction,
+then the test class would be as follows:
 
 .. code-block:: java
 
   package nablarch.sample.management.user;
   
-  // ～中略～
+  // ~ Middle is omitted ~
 
   public class UserSearchActionRequestTest extends BasicHttpRequestTestTemplate {
 
 
 
 .. tip::
- スーパクラスBasicHttpRequestTestTemplateは、リクエスト単体テストに必要な各種メソッドを用意している。\
- DbAccessTestSupportの機能も兼ね備えているので、データベースの設定などもクラス単体テストと\
- 同じように実行できる。\
+ The superclass BasicHttpRequestTestTemplate provides various methods necessary for request unit test.
+ As the DbAccessTestSupport functionality is also provided, you can configure the database
+ in the same way as the class unit test.
 
 
-------------------
-テストメソッド分割
-------------------
+---------------------
+Test method division
+---------------------
 
-以下の手順により、作成するテストメソッドを決定する。
+The test method to be created is determined by the following procedure:
 
-* リクエストID毎（Actionのメソッド毎）に、テストケースを正常系と異常系に分類し、それぞれテストメソッドを作成する。
+* For each request ID (each Action method), classify test cases into normal pattern and abnormal pattern, and create a test method for each.
 
-  * メニューからの単純な画面遷移のように異常系のケースが無い場合は、正常系のテストメソッドのみ作成する。
+  * If there are no cases of abnormal pattern, such as during simple screen transition from the menu, create a test method only for the normal pattern.
 
-* 画面表示検証項目については、正常系、異常系のいずれかのメソッドに含められるか検討する。
+* For screen display verification items, examine whether the items can be included in the method for normal pattern or abnormal pattern.
 
-  * 同一シートにでの条件分岐が煩雑になる場合は画面表示検証用のテストメソッドを別途作成する。
-  * そうでない場合は、画面検証用のメソッドは作成せず、正常系または異常系のテストメソッドに含める。
+  * Create a test method separately for screen display verification if conditional branching on the same sheet is complicated.
+  * If this is not the case, then instead of creating a method for screen verification, include screen verification in the test method for normal pattern or abnormal pattern.
 
 
 
-**メソッド分割例 （正常系、異常系、画面表示検証用で分割した場合）**
+**Example of dividing a method (when dividing into normal pattern, abnormal pattern and screen display verification)**
 
 +------------+---------------------+-----------------------------------------------------------------+
-|リクエストID|Actionメソッド名     |テストデータシート名                                             |
+|Request ID  |Action Method Name   |Test data sheet name                                             |
 |            |                     +---------------------+-----------------------+-------------------+
-|            |                     |正常系               |異常系                 |画面表示検証用     |
+|            |                     |Normal pattern       |Abnormal pattern       |Screen verification|
 +============+=====================+=====================+=======================+===================+
 |USERS00101  |doUsers00101         |testUsers00101Normal |testUsers00101Abnormal |testUsers00101View |
 +------------+---------------------+---------------------+-----------------------+-------------------+
 
 .. tip::
- 上記のようにメソッドを分割するのは、テストデータシートが煩雑になり可読性が下がることを避ける為である。\
- 上記以外でも、１つのテストデータシートにさまざまなテストケースを詰め込むと可読性が下がる場合は、テストデータシートを分割する。
+ Dividing a method as shown above is to avoid decrease in readability due to complex test data sheet.
+ Even if this is not the case, test data sheet is split if readability decreases when various test cases are packed into one test data sheet.
 
 
 
---------------------
-テストデータの書き方
---------------------
+-----------------------
+How to write test data
+-----------------------
 
-テストデータを記載したExcelファイルは、クラス単体テストと同様に\
-テストソースコードと同じディレクトリに同じ名前で格納する（拡張子のみ異なる）。
+The Excel file containing the test data should be stored in the same directory with the same name as the test source code,
+same as in the class unit test (only the extension differs).
 
-テストデータの記述方法詳細については、\ :ref:`how_to_write_excel`\ を参照。
+For information on how to write test data, refer to :ref:`how_to_write_excel`.
 
 
 .. _`request_test_setup_db`:
 
-テストクラスで共通のデータベース初期値
-======================================
+Common database initial values for test classes
+===============================================
 
-テストデータを記載したExcelファイルに、\ **setUpDb**\ という名前でシートを用意し、
-そこに共通のデータベース初期値を投入する。ここに記載されたデータは、
-自動テストフレームワークによりテストメソッド実行時に投入される。
+In the Excel file containing test data, a sheet with the name **setUpDb** is provided,
+on which the common database default values are written.
+The data written here is submitted when the test method is executed by the automated test framework.
 
 .. image:: ./_image/setupdb.png
 
@@ -94,176 +94,177 @@
 .. _`request_test_testcases`:
 
 
-テストケース一覧
-================
+List of test cases
+===================
 
-LIST_MAPのデータタイプで１テストメソッド分のケース表を記載する。IDは、\ **testShots**\ とする。
+Case table for a single test method is described in the data type of LIST_MAP. The ID is **testShots**.
 
 .. image:: ./_image/testShots.png
    :scale: 45
 
 
-１ケース毎に以下の要素を持たせる。
+Each case should have the following elements:
 
-+------------------------+----------------------------------------------------------------------------------------+-----+
-|カラム名                | 説明                                                                                   |必須 |
-+========================+========================================================================================+=====+
-|no                      |テストケース番号を1からの連番で記載する。                                               |     |
-|                        |                                                                                        |必須 |
-+------------------------+----------------------------------------------------------------------------------------+-----+
-|description             |そのテストケースの説明を記載する。                                                      |     |
-|                        |ウェブアプリケーションのリクエスト単体テストで出力されるHTMLダンプファイルのファイル名  |     |
-|                        |に利用される。 \ [#]_\                                                                  |必須 |
-+------------------------+----------------------------------------------------------------------------------------+-----+
-|context                 |そのテストケースで、どのリクエストIDにどのようなユーザでリクエストを送るかを記載する。  |必須 |
-|                        |詳細は、\ :ref:`request_test_user_info`\ を参照。                                       |     |
-+------------------------+----------------------------------------------------------------------------------------+-----+
-|cookie                  |そのテストケースで必要となるCookie情報を記載する。                                      |     |
-|                        |詳細は、\ :ref:`request_test_cookie_info`\ を参照。                                     |     |
-+------------------------+----------------------------------------------------------------------------------------+-----+
-|isValidToken            |トークンを設定する場合にはtrueを設定する。トークンの詳細については、                    |     |
-|                        |\ :ref:`サーバ側の二重サブミット防止 <tag-double_submission_server_side>`\ を参照。     |     |
-|                        |                                                                                        |     |
-+------------------------+----------------------------------------------------------------------------------------+-----+
-|setUpTable              |各テストケース実行前にデータベースに登録する場合は、同じシート内に記載したデータの\     |     |
-|                        |:ref:`グループID<tips_groupId>`\ を記載する。データの投入は自動テストフレームワークに   |     |
-|                        |より行われる。                                                                          |     |
-+------------------------+----------------------------------------------------------------------------------------+-----+
-|expectedStatusCode      |期待するHTTPステータスコードを記載する。 \ [#]_\                                        |必須 |
-|                        |                                                                                        |     |
-+------------------------+----------------------------------------------------------------------------------------+-----+
-|expectedMessageId       |メッセージが出力されること期待する場合は、その\ **メッセージID**\ を記載する。          |     |
-|                        |複数のメッセージが出力される場合はカンマ区切りで列挙する。メッセージを                  |     |
-|                        |期待しない場合は空欄とする。空欄にしたが、実際にはメッセージが出力され                  |     |
-|                        |た場合は、テスト失敗となる。                                                            |     |
-+------------------------+----------------------------------------------------------------------------------------+-----+
-|expectedSearch          |データベース検索結果がリクエストスコープに設定されることを期待する場合                  |     |
-|                        |、\ **期待する検索結果**\ を記載する。検索結果は、同じシート内のLIST_MAPデータ          |     |
-|                        |タイプのIDで指定する。リクエストスコープから取得する際のキーは\                         |     |
-|                        |**searchResult**\ である。                                                              |     |
-+------------------------+----------------------------------------------------------------------------------------+-----+
-|expectedTable           |データベースの内容を比較する場合、期待するテーブルの\ :ref:`グループID<tips_groupId>`\  |     |
-|                        |を記載する。                                                                            |     |
-+------------------------+----------------------------------------------------------------------------------------+-----+
-|forwardUri              |期待するフォワード先URIを記載する。Actionクラスで指定したフォワード先JSPへの\           |     |
-|                        |URIを記載する。空欄の場合はJSPへのフォワードが行われないものとしてアサートされる。\     |     |
-|                        |システムエラー画面や認証エラー画面へ遷移することを想定するテストケースでは、\           |     |
-|                        |その画面を描画するJSPへのURIを記載する。例えば、システムエラー画面に遷移する場合は、\   |     |
-|                        |\ `/jsp/systemError.jsp`\ が期待するフォワード先URIとなる（デフォルト値の場合）。       |     |
-+------------------------+----------------------------------------------------------------------------------------+-----+
-|expectedContentLength   |コンテンツレングス・ヘッダの期待値を記載する。                                          |     |
-|                        |ファイルダウンロードをテストする場合にこのカラムに指定する。                            |     |
-+------------------------+----------------------------------------------------------------------------------------+-----+
-|expectedContentType     |コンテンツタイプ・ヘッダの期待値を記載する。                                            |     |
-|                        |ファイルダウンロードをテストする場合にこのカラムに指定する。                            |     |
-+------------------------+----------------------------------------------------------------------------------------+-----+
-|expectedContentFileName |コンテンツディスポジション・ヘッダに指定したファイル名の期待値を記載する。              |     |
-|                        |ファイルダウンロードをテストする場合にこのカラムを指定する。                            |     |
-+------------------------+----------------------------------------------------------------------------------------+-----+
-|expectedMessage         |メッセージ同期送信を行う場合、期待する要求電文の :ref:`グループID<tips_groupId>`\       |     |
-|                        |を記載する。メッセージの作成は自動テストフレームワークにより行われる。                  |     |
-+------------------------+----------------------------------------------------------------------------------------+-----+
-|responseMessage         |メッセージ同期送信を行う場合、返却する応答電文の :ref:`グループID<tips_groupId>`\       |     |
-|                        |を記載する。メッセージの作成は自動テストフレームワークにより行われる。                  |     |
-+------------------------+----------------------------------------------------------------------------------------+-----+
-|expectedMessageByClient |HTTPメッセージ同期送信を行う場合、期待する要求電文の :ref:`グループID<tips_groupId>`\   |     |
-|                        |を記載する。メッセージの作成は自動テストフレームワークにより行われる。                  |     |
-+------------------------+----------------------------------------------------------------------------------------+-----+
-|responseMessageByClient |HTTPメッセージ同期送信を行う場合、返却する応答電文の :ref:`グループID<tips_groupId>`\   |     |
-|                        |を記載する。メッセージの作成は自動テストフレームワークにより行われる。                  |     |
-+------------------------+----------------------------------------------------------------------------------------+-----+
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|Column name             | Description                                                                                   |Required|
++========================+===============================================================================================+========+
+|no                      |Write the test case numbers sequentially from 1.                                               |        |
+|                        |                                                                                               |Required|
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|description             |Write an explanation of the test case.                                                         |        |
+|                        |Used for the filename of the HTML dump file output in the request unit test of                 |        |
+|                        |the web application. \ [#]_\                                                                   |Required|
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|context                 |Describe which request ID to send a request to, by which user in the test case.                |Required|
+|                        |For more information, see :ref:`request_test_user_info`.                                       |        |
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|cookie                  |Describe the cookie information required for that test case.                                   |        |
+|                        |For more information, see :ref:`request_test_cookie_info`.                                     |        |
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|isValidToken            |Set to true when configuring a token. For more information on tokens, refer to                 |        |
+|                        |:ref:`server-side double submission prevention <tag-double_submission_server_side>`.           |        |
+|                        |                                                                                               |        |
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|setUpTable              |Describe the :ref:`group ID <tips_groupId>` of data written within the same sheet, when        |        |
+|                        |registering the data in the database before executing each test case.                          |        |
+|                        |Data submission is carried out by the automated test framework.                                |        |
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|expectedStatusCode      |Describe the expected HTTP status code.  \ [#]_\                                               |Required|
+|                        |                                                                                               |        |
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|expectedMessageId       |When a message is expected to be output, describe the **message ID** of that message.          |        |
+|                        |If more than one message is output, the messages are enumerated by a comma. Leave blank        |        |
+|                        |when a message is not expected. After leaving this field blank, if in reality,                 |        |
+|                        |a message is output, then the test fails.                                                      |        |
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|expectedSearch          |When database search result is expected to be set in the request scope, describe               |        |
+|                        |the **expected search result**. Specify the search result with the LIST_MAP data type          |        |
+|                        |ID within the same sheet. The key for fetching the result from                                 |        |
+|                        |the request scope is **searchResult**.                                                         |        |
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|expectedTable           |Describe the :ref:`group ID <tips_groupId>` of the expected table                              |        |
+|                        |when comparing the contents of the database.                                                   |        |
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|forwardUri              |Describe the expected forward destination URI. Describe the URI to the forward                 |        |
+|                        |destination JSP specified in the Action class. When left blank, the field is asserted          |        |
+|                        |as a field for which no forwarding to JSP will be performed.In a test case where               |        |
+|                        |transition to the system error screen or the authentication error screen is assumed,           |        |
+|                        |describe the URI to the JSP rendering that screen. For example, in the case of                 |        |
+|                        |transition to the system error screen, `/jsp/systemError.jsp` is the expected forward          |        |
+|                        |destination URI (in the case of default value).                                                |        |
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|expectedContentLength   |Describe the expected value of the content length header.                                      |        |
+|                        |Specify in this column when testing a file download.                                           |        |
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|expectedContentType     |Describe the expected value of the content type header.                                        |        |
+|                        |Specify in this column when testing a file download.                                           |        |
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|expectedContentFileName |Describe the expected value of the filename specified in the content disposition header.       |        |
+|                        |Specify in this column when testing a file download.                                           |        |
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|expectedMessage         |Describe the :ref:`group ID<tips_groupId>` of the expected request messages when performing    |        |
+|                        |synchronous transmission of messages. Messages are created by an automated test framework.     |        |
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|responseMessage         |If sending synchronous message, the :ref:`group ID<tips_groupId>` of the response message      |        |
+|                        |to be returned is described. Messages are created by an automated test framework.              |        |
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|expectedMessageByClient |Describe the :ref:`group ID<tips_groupId>` of the expected request messages when performing    |        |
+|                        |synchronous transmission of HTTP messages. Messages are created by an automated test framework.|        |
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|responseMessageByClient |If sending synchronous HTTP message, the  :ref:`group ID<tips_groupId>` of the response        |        |
+|                        |message to be returned is described. Messages are created by an automated test framework.      |        |
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+
+Describe the HTTP `Request parameter`_ to be sent in the test case in a separate table instead of this table（ :ref:`described later<request_test_req_params>` ）.
 
 
-そのテストケースにて送信するHTTP\ `リクエストパラメータ`_\ ついては、この表ではなく別の表に記載する（\ :ref:`後述<request_test_req_params>`\ ）。
-
-
-
-.. [#] 
-  descriptionの内容はファイル名に利用するため、OSで規定されたファイル名に利用可能な文字以外の文字の利用や、ファイル名の長さ上限を超過した場合に、
-  IOExceptionが発生するため、ファイル名として許可された内容を入力すること。
-  例えば、descriptionに改行コードが含まれていた場合、ファイル名として不正であるためテスト実行時にエラーが発生する。
 
 .. [#] 
-  ウェブアプリケーションのリクエスト単体テストでは、HTTPステータスコードのアサート時に、通常のブラウザで同じリダイレクトの動きとなるス
-  テータスコード 302 および 303 を同一視してアサートする。 つまり予想結果と実行結果が全く同一のHTTPステータスコードであった場合だけで
-  なく、予想結果が 303 で実行結果が 302 であった場合と、予想結果が 302 で実行結果が 303 の場合いずれも アサート結果は正常終了となる。
+  Since the content of the description is used for the file name, IOException is raised if characters other than those specified as usable for the file name in the OS are used,
+  or if the length limit for the file name is exceeded. Hence, the content allowed as the file name should be entered.
+  For example, if a line feed code is included in the description, an error will occur when the test is executed since line feed code is invalid as a file name.
+
+.. [#] 
+  In the request unit test of a web application, when asserting the HTTP status code, the status codes 302 and 303, which have the same redirection behavior in a normal browser,
+  are asserted identically. In other words, not only when the expected result and the executed result have exactly the same HTTP status code,
+  but also when the expected result code is 303 and the executed result code is 302, and when the expected result code is 302 and the executed result code is 303, the assertion result shows successful completion.
   
-  ＜理由＞ RFC の規定では、 HTTP 1.1 を理解するブラウザに対してはリダイレクトに 303 を返すほうがよい作法といえるが、現在主要なWebコ
-  ンテナはレガシーなブラウザを考慮して302のレスポンスコードを使用しているため。
+  <Reason> As per the RFC regulation, for browsers that understand HTTP 1.1, it is better to return 303 for redirect,
+  however, currently the major web containers use the 302 response code taking into account the legacy browsers.
 
 .. _`request_test_user_info`:
 
 
-ユーザ情報
-==========
+User information
+=================
 
-そのテストケースで、どのリクエストIDにどのようなユーザでリクエストを送るかを、\
-LIST_MAPのデータタイプで記載する。
-複数のユーザ情報を使い分けることで、ユーザの権限によって処理が異なる機能をテストすることができる。
+In the test case, describe with the data type of LIST_MAP to which request ID and by which user to send the request.
+By using information of multiple users,
+it is possible to test functions that are processed differently depending on the user permissions.
 
-例えば、権限によって参照可能なデータが異なる場合は、以下のようにユーザ情報を使い分ける。
+For example, when the accessible data differs depending on the permissions, user information is used differently as follows:
 
 .. image:: ./_image/testcase-user.png
 
 
 .. _`request_test_cookie_info`:
 
-Cookie情報
+Cookie information
 ==============================
 
-そのテストケースで必要となるCookie情報をLIST_MAPのデータタイプで記載する。
-これにより、ケースごとに異なるCookie情報を送信してテストを行うことが可能となる。
+Describe the cookie information required for that test case with the data type of LIST_MAP.
+This makes it possible to perform the test by sending different cookie information for each case.
 
-Cookie情報は、任意項目のためCookieを必要としないケースの場合には、記載不要である。
+There is no need to describe cookie information for cases not requiring cookies for optional items.
 
-例えば、ケースよってCookieの値を変更する必要がある場合には、以下のようにCookie情報を設定する。
-Cookieを必要としないケースの場合には、以下例の8ケース目のように値を記載せずに空白としておくこと。
+For example, when it is required to change the value of the cookie depending on the case, configure the cookie information as follows:
+For cases not requiring cookies, cookie information should be left blank without describing the value as in Case 8 of the example below.
 
 .. image:: ./_image/requestCookie.png
 
 
 .. _`request_test_req_params`:
 
-リクエストパラメータ
+Request parameter
 ====================
 
-各テストケースで送信するHTTPパラメータを、LIST_MAPのデータタイプで記載する。\
+The HTTP parameters sent in each test case are described with the data type of LIST_MAP.\
 
 
-:ref:`http_dump_tool` を使用して、リクエストパラメータのデータ作成を行う。\
-初期画面表示のリクエスト（例えばメニュー画面からの遷移）以外は、このツールを用いてリクエストパラメータのデータを作成する。
+Create data for request parameters using :ref:`http_dump_tool`.
+Use this tool to create data for request parameters except for initial screen display request (e.g. transition from the menu screen).
 
-LIST_MAPのデータタイプでHTTPリクエストパラメータを記載する。IDは、\ **requestParams**\ とする。
-このデータと、\ :ref:`request_test_testcases` とは、行単位で関連付けられる。\
-例えば、テストケース一覧の先頭のテストケースでは、リクエストパラメータ表の先頭のデータが使用される（以下同様）。
+The HTTP request parameter is described in the data type of LIST_MAP. ID is **requestParams**.
+This data is associated with :ref:`request_test_testcases` on a per-row basis.
+For example, the topmost data in the request parameter table is used in the topmost test case in the list of test cases (same thereafter).
 
-テストケースとのひもづけを分かりやすくするため :ref:`marker_column` としてテストケース番号を記載すること。
+To make it easy to understand the test case linking, test case number should be written in the :ref:`marker_column`.
 
 .. image:: ./_image/testcase_and_request.png
     :scale: 80
 
 .. tip::
 
-  リクエストパラメータは必ず記載する必要がある。
+  Request parameter must be written without fail.
 
-  例えば初期画面表示のリクエストなど、リクエストパラメータが存在しない場合でも LIST_MAP=requestParams には必ず列を定義する必要がある。
+  For example, even in the case of initial screen display request, where request parameter does not exist, the column must be defined in LIST_MAP=requestParams.
 
-  リクエストパラメータが不要な場合は、下記のようにテストケース番号の列のみを記載する。
-  データはテストケース数分定義する。（3ケースであれば3行、10ケースであれば10行用意する）
+  When request parameter is not required, describe only the column for the test case number as described below:
+  Define as many rows of data as the number of test cases. (Define 3 rows for 3 cases, 10 rows for 10 cases )
 
-  ※[no]列は、テストケース番号を視覚的に表すもの( :ref:`marker_column` )なので、リクエストパラメータには含まれない。
+  * The [no] column is not included in the request parameter as the column is a visual representation of the test case number (:ref:`marker_column`).
 
     .. image:: ./_image/dummy_request_param.png
         :scale: 100
 
 
-ひとつのキーに対して複数の値を設定する場合
-------------------------------------------
+When configuring multiple values for a single key
+--------------------------------------------------
 
-HTTPリクエストパラメータは、ひとつのキーに対して複数の値を設定することができる。
-リクエスト単体テストでは、\ **値をカンマ区切りで記述することにより、複数の値を表現**\ できる。
+For HTTP request parameters, multiple values can be set for a single key.
+In the request unit test, **multiple values can be expressed by delimiting the values with commas**.
 
-以下の例では、fooというキーに対して、oneとtwoという複数の値を設定している。
+In the following example, multiple values, namely, one and two, are set for the key foo.
 
   ======== ===========  
   foo      bar  
@@ -271,11 +272,11 @@ HTTPリクエストパラメータは、ひとつのキーに対して複数の�
   one,two  three      
   ======== ===========  
 
-値にカンマそのものを含める場合には、\ `\\`\ マークでエスケープを行う。\
-値に\\マークそのものを含める場合には、\\マーク自身をエスケープし、\ `\\\\`\ と記述する。
+To include a comma itself in the value, perform escape using \ `\\`\ mark.
+To include \\ mark itself in the value, prefix it with another \ `\\\\`\ mark.
 
 
-例えば、\ `\\1,000`\ という値を表すには以下のように記述する。
+For example, to represent the value 1000, write as follows:
 
 
   =========== ===========  
@@ -285,28 +286,28 @@ HTTPリクエストパラメータは、ひとつのキーに対して複数の�
   =========== ===========  
 
 
-各種期待値
-==========
+Various expected values
+=======================
 
-検索結果、データベースを期待値と比較する場合は、
-それぞれのデータとテストケース一覧とをIDで紐付けする。
+When comparing the search results and database with expected values,
+link each data with the list of test cases using ID.
 
 
-期待する検索結果
-----------------
+Expected search result
+-----------------------
 
-期待する検索結果を、テストケース一覧とリンクさせる。
+Link the expected search result with the list of test cases.
 
 .. image:: ./_image/expected_search_result.png
 
 
 .. _`request_test_expected_tables`:
 
-期待するデータベースの状態
+Expected database status
 --------------------------
 
-更新系のテストケースでは、期待するデータベースの状態を確認する為、
-期待するデータベースの状態をテストケース一覧とリンクさせる。
+In the test cases for the update, in order to check the expected status of the database,
+the expected status is linked with the list of test cases.
 
 
 .. image:: ./_image/expected_table.png
@@ -314,37 +315,37 @@ HTTPリクエストパラメータは、ひとつのキーに対して複数の�
 
 .. _`05_02_howToCodingTestMethod`:
 
-----------------------
-テストメソッドの書き方
-----------------------
+--------------------------
+How to write a test method
+--------------------------
 
-スーパクラスについて
+Super class
 ====================
 
-BasicHttpRequestTestTemplateクラスを継承する。
-このクラスでは、準備したテストデータを元に以下の手順でリクエスト単体テストを実行する。
+Superclass inherits the BasicHttpRequestTestTemplate class.
+In this class, the request unit test is executed by the following procedure based on the prepared test data.
 
-* データシートからテストケースリスト(testShots LIST_MAP）を取得
-* 取得したテストケース分、以下を繰り返し実行
+* Fetching test case list (testShots LIST_MAP) from the data sheet
+* For the fetched test cases, the following are executed in a loop
 
-  *  データベース初期化
-  *  ExecutionContext、HTTPリクエストを生成
-  *  業務テストコード用拡張ポイント呼出(beforeExecuteRequestメソッド）
-  *  トークンが必要な場合、トークンを設定
-  *  テスト対象のリクエスト実行
-  *  実行結果の検証
+  *  Database Initialization
+  *  ExecutionContext, generating HTTP request
+  *  Extension point call for operation test code (beforeExecuteRequest method)
+  *  Setting a token if a token is required
+  *  Execution of the request to be tested
+  *  Verification of the execution result
 
-    * HTTPステータスコード および メッセージID
-    * HTTPレスポンス値(リクエストスコープ値)
-    * 検索結果
-    * テーブル更新結果
+    * HTTP status code and message ID
+    * HTTP response value (request scope value)
+    * Search result
+    * Table update result
 
-  *  業務テストコード用拡張ポイント呼出(afterExecuteRequestメソッド）
-
-
+  *  Extension point call for operation test code (afterExecuteRequest method)
 
 
-以下のメソッドが、スーパクラスで抽象メソッドとして定義されているのでオーバーライドする。
+
+
+The following methods are overridden as they are defined as abstract methods in the superclass.
 
 
 .. code-block:: java
@@ -353,7 +354,7 @@ BasicHttpRequestTestTemplateクラスを継承する。
     
     /**
      * {@inheritDoc}
-     * 【説明】 URIの共通部分を返却する。
+     * [Description] This function returns the common part of a URI.
      */
     @Override
     protected String getBaseUri() {
@@ -362,10 +363,10 @@ BasicHttpRequestTestTemplateクラスを継承する。
 
 
 
-テストメソッド作成
-==================
+Create a test method
+=====================
 
-準備したテストシートに対応するメソッドを作成する。
+Create a method corresponding to the prepared test sheet.
 
 
 .. code-block:: java
@@ -376,16 +377,16 @@ BasicHttpRequestTestTemplateクラスを継承する。
 
 
 
-スーパクラスのメソッド呼び出し
+Call a superclass method
 ==============================
 
 
-テストメソッド内で、スーパクラスの以下のいずれかのメソッドを呼び出す。
+In the test method, call one of the following methods of the superclass.
 
 * void execute()
 * void execute(Advice advice)
 
-通常の場合、execute()を使用する。
+Normally, execute() is used.
 
 .. code-block:: java
     
@@ -395,53 +396,53 @@ BasicHttpRequestTestTemplateクラスを継承する。
     }
 
 
-固有の処理を追加する場合
-------------------------
+When adding specific processes
+-------------------------------
 
-スーパクラスでは、どんなテストケースでも必要となる処理を定型化しているが、
-テストケースによっては固有の処理が必要な場合がある。
-(例えば、リクエストスコープにエンティティが格納されており、その内容を確認したい場合等)。
+Though processes that are required in all the test cases are standardized in the superclass,
+sometimes some test cases require specific processes.
+(For example, to check the contents of an entity stored in the request scope)
 
 
-シート固有の準備処理、結果確認処理が必要な場合は、\
-execute(Advice advice)を使用して、リクエスト送信前後に処理を挿し込むことができる。
-BasicAdviceクラスには以下のメソッドが用意されており、それぞれリクエスト送信前、送信後にコールバックされる。
+When sheet specific preparation process and result check process are required,
+you can insert the processes before and after sending a request, using execute(Advice advice).
+The following methods are provided in the BasicAdvice class, which are called back before and after sending a request.
 
 * void beforeExecute(TestCaseInfo testCaseInfo, ExecutionContext context)
 * void afterExecute(TestCaseInfo testCaseInfo, ExecutionContext context)
 
 .. tip::
-  これらのメソッド両方をオーバーライドする必要はない。必要なものだけをオーバーライドする。
-  また、これらのメソッド内に全ての処理を記述する必要はない。記述が長くなったり、
-  テストメソッド間で共通する処理がある場合は、プライベートメソッドに切り出すこと。
+  There is no need to override both of these methods.Override only the method you need to.
+  Also, it is not required to write all the processes within these methods
+  If the description is too long, or if there is a common process between test methods, the processes should be extracted to a private method.
 
 .. code-block:: java
     
     @Test
     public void testMenus00102Normal() {
         execute(new BasicAdvice() {
-            // 【説明】本メソッドはリクエスト送信前に呼び出される。
+            // [Description] This method is called before sending a request.
             @Override
             public void beforeExecute(TestCaseInfo testCaseInfo,
                     ExecutionContext context) {
-                // 【説明】ここに準備処理を記述する。
+                // [Description] The preparation process is described here.
             }
 
-            // 【説明】本メソッドはリクエスト送信後に呼び出される。
+            // [Description] This method is called after sending a request.
             @Override
             public void afterExecute(TestCaseInfo testCaseInfo,
                     ExecutionContext context) {
-                // 【説明】ここに結果確認処理を記述する。
+                // [Description] The confirmation process of the result is described here.
             }
         });
     }
 
 
-リクエストスコープに複数種類の検索結果が格納されている場合の例
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Example of a request scope in which multiple types of search results are stored
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-以下の例では、リクエストスコープに「ユーザグループ」と「ユースケース」の2種類の検索結果が含まれており、
-それぞれの検索結果が期待通りであることを検証している。
+In the following example, the request scope contains two types of search results,
+"user group" and "use case", and verify that each of the search results is as expected.
 
 .. code-block:: java
     
@@ -452,15 +453,15 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
             public void afterExecute(TestCaseInfo testCaseInfo,
                     ExecutionContext context) {
                 
-                String messgae = testCaseInfo.getTestCaseName();   // 【説明】比較失敗時のメッセージ
-                String sheetName = testCaseInfo.getSheetName();    // 【説明】シート名
-                String no = testCaseInfo.getTestCaseNo();          // 【説明】テストケース番号
+                String message = testCaseInfo.getTestCaseName();   // [Description] Message when the comparison fails
+                String sheetName = testCaseInfo.getSheetName();    // [Description] Sheet name
+                String no = testCaseInfo.getTestCaseNo();          // [Description] Test case number
                 
-                // グループ検索結果の検証
+                // Verification of group search result
                 SqlResultSet actualGroup =(SqlResultSet) context.getRequestScopedVar("allGroup");
                 assertSqlResultSetEquals(message, sheetName, "expectedUgroup" + no, actualGroup);
                         
-                // ユースケース検索結果の検証
+                // Verification of use case search result
                 SqlResultSet actualUseCase =(SqlResultSet) context.getRequestScopedVar("allUseCase");
                 assertSqlResultSetEquals(message, sheetName, "expectedUseCase" + no, actualUseCase);
             }
@@ -469,11 +470,11 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
 
 
 
-リクエストスコープに検索結果(SqlResultSet)ではなくFormやエンティティが格納されている場合の例
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Example of a request scope that contains form or entity instead of a search result (SqlResultSet)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-以下の例では、リクエストスコープにエンティティが格納されており、
-それぞれの検索結果が期待通りであることを検証している。
+In the following example, an entity is stored in the request scope
+and we are verifying that each of the search results is as expected.
 
 
 .. code-block:: java
@@ -485,15 +486,15 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
             public void afterExecute(TestCaseInfo testCaseInfo,
                     ExecutionContext context) {
                 String sheetName = testCaseInfo.getSheetName();
-                // システムアカウントを比較
-                // 【説明】期待値のID（接頭辞"systemAccount" + ケース番号）
+                // Comparison of system account
+                // [Description] ID of the expected value (Prefix “systemAccount” + Case number)
                 String expectedSystemAccountId = "systemAccount" + testCaseInfo.getTestCaseNo();
-                // 【説明】実際の値をリクエストスコープから取り出す
+                // [Description] Retrieve the actual value from the request scope
                 Object actualSystemAccount = context.getRequestScopedVar("systemAccount");
-                // 【説明】エンティティを比較するメソッドを呼び出す。
+                // [Description] Calling a method to compare entities.
                 assertEntity(sheetName, expectedSystemAccountId, actualSystemAccount);
 
-                // ユーザを比較
+                // Compare users
                 String expectedUsersId = "users" + testCaseInfo.getTestCaseNo();
                 Object actualUsers = context.getRequestScopedVar("users");
                 assertEntity(sheetName, expectedUsersId, actualUsers);
@@ -502,16 +503,16 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
     }
 
 
-期待値は、エンティティのクラス単体テスト（\ :ref:`entityUnitTest_SetterGetterCase`\ ）と同様の書式で記述する。
-ただし、この場合はsetterの欄は不要である。
+Write the expected value in the same format as the entity's class unit test (:ref:`entityUnitTest_SetterGetterCase`).
+However, in this case the “setter” filed is not necessary.
 
 .. image:: ./_image/assert_entity.png
 
 
 .. tip::
-   リクエストスコープにFormが格納されている場合、別のFormを設定したプロパティでなければEntityの場合と同様にテストが出来る。
+   If a form is stored in the request scope, it can be tested in the same way as an entity if a different form is not set in the property.
    
-   別のFormを設定したプロパティの場合、そのFormを取得してEntityと同様にテストをすればよい。以下に例を示す。
+   If a different form is set in the property, you can fetch that form and test it in the same way as an entity. An example is shown below.
    
    
    .. code-block:: java
@@ -523,26 +524,26 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
                public void afterExecute(TestCaseInfo testCaseInfo,
                        ExecutionContext context) {
                    String sheetName = testCaseInfo.getSheetName();
-                   // システムアカウントを比較
-                   // 【説明】期待値のID（接頭辞"systemAccount" + ケース番号）
+                   // Comparison of system account
+                   // [Description] ID of the expected value (Prefix “systemAccount” + Case number)
                    String expectedSystemAccountId = "systemAccount" + testCaseInfo.getTestCaseNo();
-                   // 【説明】Formをリクエストスコープから取り出す
+                   // [Description] Retrieve the form from the request scope
                    Object actualForm = context.getRequestScopedVar("form");
-                   // 【説明】Formのプロパティである別のFormを取得
+                   // [Description] Acquire a different form that is configured in the property of the form
                    Object actualSystemAccount = actualForm.getSystemAccount();
-                   // 【説明】エンティティを比較するメソッドを呼び出す。
+                   // [Description] Calling a method to compare entities.
                    assertEntity(sheetName, expectedSystemAccountId, actualSystemAccount);
                }
            });
        }
 
 
-リクエストスコープにSqlResultSetではなくSqlRowが格納されている場合の例
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Example of a request scope in which SqlRow is stored instead of SqlResultSet
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-以下の例では、リクエストスコープに、検索結果一覧(SqlResultSet)ではなく、
-検索結果1件分(SqlRow)がリクエストスコープに格納されており、
-その検索結果が期待通りであることを検証している。
+The following example verifies that a single search result (SqlRow) is stored
+in the request scope instead of a list of search results (SqlResultSet),
+and that search result is as expected.
 
 .. code-block:: java
         
@@ -551,13 +552,13 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
         execute(new BasicAdvice() {
             @Override
             public void afterExecute(TestCaseInfo testCaseInfo, ExecutionContext context) {
-                String message = testCaseInfo.getTestCaseName();   // 【説明】比較失敗時のメッセージ
-                String sheetName = testCaseInfo.getSheetName();    // 【説明】シート名
-                String no = testCaseInfo.getTestCaseNo();          // 【説明】テストケース番号
+                String message = testCaseInfo.getTestCaseName();   // [Description] Message when the comparison fails
+                String sheetName = testCaseInfo.getSheetName();    // [Description] Sheet name
+                String no = testCaseInfo.getTestCaseNo();          // [Description] Test case number
                 
-                // グループ検索結果の検証
+                // Verification of group search result
                 SqlRow actual =(SqlRow) context.getRequestScopedVar("user");
-                // 【説明】SqlRowを比較するメソッドを呼び出す。
+                // [Description] Call a method to compare SqlRow.
                 assertSqlRowEquals(message, sheetName, "expectedUser" + no, actual);
             }
         });
@@ -565,14 +566,14 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
 
 
 
-リクエストパラメータの値を検証したい場合
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+When you want to verify the value of a request parameter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-:ref:`ウィンドウスコープ<tag-window_scope>` の値をリセットするために、
-テスト対象機能にてリクエストパラメータを書き換える場合がある。
+The request parameter may be overwritten in the function to be tested
+so as to reset the value of :ref:`window scope <tag-window_scope>`.
 
-以下の例では、テスト対象実行後のリクエストパラメータが期待通りであることを検証している。
+The following example verifies that the request parameter after execution of the test is as expected.
 
 
 .. code-block:: java
@@ -583,8 +584,8 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
             @Override
             public void afterExecute(TestCaseInfo testCaseInfo, ExecutionContext context) {
 
-                HttpRequest request = testCaseInfo.getHttpRequest();   // 【説明】テスト実行後のHttpRequest
-                // リクエストパラメータがリセットされていること
+                HttpRequest request = testCaseInfo.getHttpRequest();   // [Description] HttpRequest after execution of the test
+                // Request parameter should be reset
                 assertEquals("", request.getParam("resetparameter"));
             }
         });
@@ -592,18 +593,18 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
 
 
 
-その他の場合
-~~~~~~~~~~~~
+In other cases
+~~~~~~~~~~~~~~~
 
-前述のように、SqlResultSetやSqlRow等のよく使用されるオブジェクトについては、
-Excelに記載した期待値と直接比較するメソッドが用意されているが、
-そうでない場合については、期待値を読み込む処理を記述する必要がある。
+As mentioned above, for frequently used objects such as SqlResultSet and SqlRow,
+methods for direct comparison with the expected values written in Excel are provided,
+however, if a method is not provided, then it is necessary to write a process for reading the expected value.
 
-具体的には、以下の手順で検証を行う。
+Specifically, the following procedure is used for verification:
 
-* テストデータをExcelファイルから取得
-* リクエストスコープ等から実際の値を取得
-* 自動テストフレームワークまたはJUnitのAPIを用いて結果検証を行う。
+* Fetch the test data from the Excel file
+* Fetch the actual value from the request scope
+* Perform result verification with the automated test framework or using JUnit API
 
 .. code-block:: java
         
@@ -612,11 +613,11 @@ Excelに記載した期待値と直接比較するメソッドが用意されて
         execute(new BasicAdvice() {
             @Override
             public void afterExecute(TestCaseInfo testCaseInfo, ExecutionContext context) {
-                // 【説明】期待値をExcelファイルから取得
+                // [Description] Acquire the expected value from the Excel file
                 List<Map<String, String>> expected = getListMap("doRW25AA0303NormalEnd", "result_1");
-                // 【説明】テスト実行後のリクエストスコープから実際の値を取得
+                // [Description] Acquire the actual value from the request scope after execution of the test
                 List<Map<String, String>> actual = context.getRequestScopedVar("pageData");
-                // 【説明】結果検証
+                // [Description] Result verification
                 assertListMapEquals(expected, actual);
             }
         });
@@ -625,39 +626,39 @@ Excelに記載した期待値と直接比較するメソッドが用意されて
 \    
 
 .. tip::
- テストデータの取得方法については、以下のリンク先を参照。
-  * 「\ :ref:`how_to_get_data_from_excel`\ 」
+ Click on the link below for how to fetch the test data.
+  * " :ref:`how_to_get_data_from_excel` "
 
 
 
 
 
 
-ダウンロードファイルのテスト
+Testing downloaded file
 ============================
 
-ダウンロードファイルをテストする場合は、\
-:ref:`batch_request_test` と同じ方法でファイルの期待値をExcelファイルに記載してテストする。\
-以下にCSVファイルをダウンロードする場合のテスト例を示す。
+When testing a downloaded file,
+write the expected value of the file using the same method as :ref:`batch_request_test` and perform the test.
+The following is a test example when downloading a CSV file.
 
-**期待するファイルの定義例**
+**Definition example of expected file**
 
- ファイルパスにはダンプファイルを指定する。\
- ダウンロード処理の場合は、ダウンロードされたファイルがダンプされ、\
- 下記の命名規則でダンプファイルが出力される。\
- ダンプ出力結果が格納されるディレクトリの詳細は、 :ref:`html_dump_dir` を参照すること。
+ Specify a dump file in the file path.
+ In the case of the download process, the downloaded file is dumped
+ and the dump file is output with the naming conventions described below.
+ For more information on the directory in which dump output result is stored, refer to :ref:`html_dump_dir`.
 
   .. code-block:: bash
 
-   ダンプファイルの命名規則：
-     Excelファイルのシート名＋"_"＋テストケース名＋"_"＋ダウンロードされたファイル名
+   Naming conventions of the dump file:
+     Excel file sheet name ＋"_" ＋ Test case name ＋"_" ＋ Downloaded file name
 
  .. image:: ./_image/expected_download_csv.png
     :scale: 60
    
-**テストメソッドの実装例**
+**Test method implementation example**
 
- FileSupportクラスのassertFileメソッドを使用してダウンロードファイルのアサートを行う。
+ Assert the downloaded file using assertFile method of the FileSupport class.
 
  .. code-block:: java
 
@@ -668,71 +669,70 @@ Excelに記載した期待値と直接比較するメソッドが用意されて
         execute(new BasicAdvice() {
             @Override
             public void afterExecute(TestCaseInfo testCaseInfo, ExecutionContext context) {
-                String msgOnFail = "ダウンロードしたユーザ一覧照会結果のCSVファイルのアサートに失敗しました。";
+                String msgOnFail = "Failed to assert the CSV file of the downloaded user list inquiry result.";
                 fileSupport.assertFile(msgOnFail, "testRW11AC0104Download");
             }
         });
     }
 
 
---------------
-テスト起動方法
---------------
+-----------------------
+How to launch the test
+-----------------------
 
-クラス単体テストと同様。通常のJUnitテストと同じように実行する。
+Same as the class unit test. Execute the test in the same way as a normal JUnit test.
 
 
-----------------------
-テスト結果確認（目視）
-----------------------
+-------------------------------------
+Confirmation of test result (visual)
+-------------------------------------
 
-１リクエスト毎にHTMLダンプファイルが出力される。ファイルをブラウザで開き、目視確認を行う。
+An HTML dump file is output for each request. Open the file in your browser and check visually.
 
 .. tip::
- リクエスト単体テストで生成されたHTMLファイルは自動テストフレームワークにて自動的にチェックされる。\
- 自動テストフレームワークは、\ :doc:`../../08_TestTools/03_HtmlCheckTool/index`\ を用いて生成されたHTMLファイルをチェックする。
- HTMLファイル内に構文エラー等の違反があった場合は、その違反内容に応じた例外が発生し、そのテストケースは失敗となる。\
+ HTML files generated in the request unit test are automatically checked by the automated test framework.
+ The automated test framework checks the generated HTML files using :doc:`../../08_TestTools/03_HtmlCheckTool/index`.
+ If there is a violation such as a syntax error in the HTML file, then an exception is raised according to the violation content, and the test case fails.\
 
 
 
 .. _html_dump_dir:
 
-HTMLダンプ出力結果
-==================
+HTML output results
+====================
 
-テストを実行すると、テスト用プロジェクトのルートディレクトリにtmp/html_dumpディレクトリが作成され、
-その配下にHTMLダンプファイルが出力される。
-HTMLダンプ出力結果が格納されるディレクトリの詳細は、 :ref:`dump-dir-label` の項を参照すること。
+When the test is executed, tmp/html_dump directory is created under the root directory of the project for testing,
+and the HTML dump file is output under that directory.
+Refer to the section :ref:`dump-dir-label` for more information on the directory where the HTML dump output result is stored.
 
  .. image:: ./_image/htmlDumpDir.png
 
 .. tip::
- HTMLダンプファイル名には、\ `テストケース一覧`_\ のテストケース説明（testShotsのdescription欄）
- の記述が使用される。
+ For HTML dump file name, the content described in the `List of test cases`_ test case description (description field of testShots)
+ of the test case list, is used.
 
 
-----------------------------------------
-リクエスト単体テストクラス作成時の注意点
-----------------------------------------
+-----------------------------------------------------------
+Points to be noted when creating request unit test classes
+-----------------------------------------------------------
 
-リクエスト単体テストでは、Web Frameworkのハンドラを経由して呼び出される点がクラス単体テストと異なる。
-この違いにより注意すべき点があるので、以下に記載する。
+The request unit test is different from the class unit test in that it is called via the Web Framework handler.
+Owing to this difference, there are some points that should be noted, which are described below.
 
-ThreadContextへの値設定は不要
-=============================
-
-リクエスト単体テストでは、Web Frameworkのハンドラが作用する為、
-ThreadContextへの値設定はハンドラで実施される。
-よって、\ **テストクラスからThreadContextへの値を設定する必要はない。**
-
-リクエスト単体テストでのユーザID設定方法については、前述の\ :ref:`request_test_user_info`\ を参照。
-
-
-テストクラスでのトランザクション制御は不要
+No need to set a value for ThreadContext
 ==========================================
 
-クラス単体テストでは、Web Frameworkのハンドラが作用しない為、\
-テストクラス内で明示的にトランザクションコミットを行っていた。\
-リクエスト単体テストでは、トランザクション制御はハンドラで行われるので、\
-**テストクラス内で明示的にトランザクションコミットを行う必要はない。**
+In the request unit test, since the Web Framework handler is used,
+the value setting for ThreadContext is performed by the handler.
+Therefore, **configuring a value for ThreadContext from the test class is not required**.
 
+Refer to :ref:`request_test_user_info` described above for how to configure the user ID in the request unit test.
+
+
+No transaction control in the test class is required
+====================================================
+
+In the class unit test, since the Web Framework handler is not used,
+commit the transaction explicitly within the test class.
+In the request unit test, since transaction control is done by the handler,
+**explicitly performing a transaction commit within the test class is not necessary.**
