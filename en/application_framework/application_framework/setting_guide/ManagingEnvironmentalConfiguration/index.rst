@@ -196,7 +196,7 @@ This is achieved by switching the environment configuration file (env.config) pl
 
 .. tip::
 
- * Configuration items that are unlikely to change in each environment are described in common.config immediately after being generated from the archetype.|br|
+ * Configuration items that are unlikely to change in each environment are described in common.config immediately after being generated from the archetype. |br|
    To change the values described in common.config for each environment, move (cut and paste) the items to env.config.
 
 
@@ -259,12 +259,12 @@ The items are described below.
     - The directory where the resource is stored.
 
   * - env.classifier
-    - The identifier to be added to the end of the file name part of war and jar.Give it an arbitrary name with alphanumeric characters.|br|
+    - The identifier to be added to the end of the file name part of war and jar.Give it an arbitrary name with alphanumeric characters. |br|
       The process of adding an identifier at the end of the file name is realized by configuring a value for the classifier property of the maven-war-plugin and maven-jar-plugin in pom.xml.
 
   * - webxml.path
-    - Specifies the web.xml to use.|br|
-      JNDI configuration must also be described in web.xml.Environmental differences may occur, and the web.xml to be used is configurable.|br|
+    - Specifies the web.xml to use. |br|
+      JNDI configuration must also be described in web.xml.Environmental differences may occur, and the web.xml to be used is configurable. |br|
       If the path is the same as that for production and there is no problem, set "src/main/webapp/WEB-INF/web.xml" as in the example.
 
 

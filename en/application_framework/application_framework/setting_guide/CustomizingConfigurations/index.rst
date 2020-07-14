@@ -82,7 +82,7 @@ TODO comment is embedded in the configuration file (config file) at places to be
 Changing the default value if the PJ requirements are not met with the default value
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Check the \ :download:`Default configuration list <../../configuration/default-configuration-list.xlsx>`\ and wherever the default value does not meet the PJ requirements, modify the configuration file (config file).
+Check the \ :download:`Default configuration list <../../configuration/default-configuration-list.xlsx>`\  and wherever the default value does not meet the PJ requirements, modify the configuration file (config file).
 
 
 .. _how_to_customize_overwite_config_files:
