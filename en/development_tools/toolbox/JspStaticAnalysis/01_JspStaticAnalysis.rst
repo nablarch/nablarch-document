@@ -1,172 +1,169 @@
 .. _jsp_static_analysis_tool:
 
-=========================
-JSP静的解析ツール
-=========================
+=============================
+JSP Static Analysis Tool
+=============================
 
-.. contents:: 目次
+.. contents:: Table of Contents
   :depth: 2
   :local:
 
-----
-概要
-----
+--------
+Summary
+--------
 
-JSPで使用を許可する構文とタグを規定し、許可する構文とタグのみを使用していることをチェックする。
-これにより、次のことを保証できる。
+This tool specifies the syntax and tags that are allowed to be used in JSP, 
+and checks in which only the allowed syntax and tags are used. This ensures the following:
 
-* 使用されている構文とタグを限定できるため、保守性が向上する。
-* 使用できる構文とタグを限定することにより、サニタイジング漏れを検出することができる。
+* Improve maintainability by limiting the syntax and tags used.
+* By limiting the syntax and tags that can be used, sanitizing leaks can be detected.
 
-本ツールでは、JSPコンパイルが成功するファイルに対するチェックを行うものである。
-このため、JSPコンパイルが通らないファイル（例えばtaglibのとじタグが存在していない等）の場合には、本ツールは正しくJSPファイルの解析を行うことは出来ない。
+This tool is for checking files for which JSP compilation is successful. 
+Therefore, if the file does not pass through JSP compilation (for example, the binding tag of taglib does not exist), this tool cannot correctly analyze the JSP file.
 
-なお、本ツールはnablarch-testing-XXX.jarに含まれる。
+This tool is included in nablarch-testing-XXX.jar.
 
-----
-仕様
-----
+----------------
+Specifications
+----------------
 
-許可するタグの指定方法
-===========================
+How to specify which tags to allow
+=======================================
 
-本ツールは、 **JSPで使用を許可する構文とタグ** を設定ファイルに定義することで、設定ファイルに定義されていない構文とタグが使用されている箇所を指摘する。
-チェック結果は、HTMLまたはXML形式で出力する。
+This tool points out where the syntax and tags that are not defined in the configuration file are used by defining the **syntax and tags that are allowed to be used by the JSP** . 
+Check results are output in HTML or XML format.
 
-本ツールで指定可能な構文とタグを下記に示す。
+The syntax and tags that can be specified with this tool are shown below.
 
-* XMLコメント
-* HTMLコメント [#html_comment]_
-* EL式
-* 宣言
+* XML comments
+* HTML comments [#html_comment]_
+* EL system
+* Declaration
 * 式
-* スクリプトレット
-* ディレクティブ
-* アクションタグ
-* カスタムタグ
+* Scriptlet
+* Directive
+* Action tag
+* Custom tag
 
-本ツールではHTMLタグ等の上記以外の構文とタグは指定できない。
+This tool does not allow you to specify any other syntax and tags other than the above, such as HTML tags.
 
-本ツールでは、下記の場所をチェック対象外とする。下記以外の場所は常にチェックする。
+With this tool, the following locations are excluded from the check target. Always check locations other than those listed below.
 
-* 使用を許可したタグの属性
+* Attributes of tags that are allowed to be used
 
-下記に例として、EL式を禁止した場合のチェック結果を示す。
+As an example, the check result when EL expressions are prohibited is shown below.
 
-* 使用を許可したタグの属性にEL式を指定した場合は、指摘しない。 ::
+* If an EL expression is specified as an attribute of an allowed tag, it is not pointed out. ::
 
     <jsp:include page="${ Expression }" />
 
-* 使用を許可したタグのボディにEL式を指定した場合は、指摘する。 ::
+* If an EL expression is specified in the body of the allowed tag, it will be pointed out. ::
      
     <jsp:text> 
        ${ Expression }
     </jsp:text>
 
-* HTMLタグの属性にEL式を指定した場合は、指摘する。 ::
+* If an EL expression is specified as an attribute of an HTML tag, it will be pointed out. ::
 
     <td height="${ Expression }"> </td>
 
-* HTMLタグのボディにEL式を指定した場合は、指摘する。 ::
+* If an EL expression is specified in the body of an HTML tag, it will be pointed out. ::
 
     <td> ${ Expression } </td>
 
-* JavaScript中にEL式を指定した場合は、指摘する。 ::
+* If an EL expression is specified in JavaScript, point it out. ::
 
     function samplefunc() {
         var id = ${user.id}
     }
 
-設定ファイルの記述方法は :ref:`01_customJspAnalysis` を参照のこと。
+Refer to :ref:`01_customJspAnalysis` for the description method of the configuration file.
 
 .. [#html_comment]
 
-  HTMLコメントを使用不可とした場合でも、以下のコメントについてはエラーとして検出しない。
+  Even if HTML comments are disabled, the following comments are not detected as errors.
 
-  * 条件付きコメント(IEによって解釈される条件付きのコメント)
-  * 業務画面作成支援ツールをロードするためのコメント
+  * Conditional comments (conditional comments interpreted by IE)
+  * Comments for loading the business screen creation support tool
 
-  これらのコメントは、ブラウザによるCSSの切り替えや業務画面作成支援ツールを使用した際に
-  使用必須のコメントとなるため、エラーとして検出することは不適切であるため。
+  These comments are required comments when switching CSS with a browser or using the business screen creation support tool, 
+  so it is inappropriate to detect them as errors. 
 
 
 
-チェック対象ファイルの指定方法
-===============================
-チェック対象のファイル（ディレクトリ）は、本ツールへの起動引数として指定する。
-ディレクトリを指定した場合は、対象のファイル(デフォルトでは拡張子がjspのファイルで、設定により拡張子は追加可能)を再帰的にチェックする。
+How to specify the files to be checked
+===========================================
+The file (directory) of the check target is specified as the start argument to this tool. 
+If a directory is specified, the target file (default is a file with the extension jsp, but the extension can be added by setting) is checked recursively.
 
-UI開発基盤の開発プロジェクトでは、チェック対象のファイル（本番環境にデプロイされるファイル）と、
-チェック対象外のファイル（テスト用のファイルなどで本番環境にはデプロイされないファイル）が、
-チェック対象ディレクトリに混在するケースがある。
-このような場合には、除外ファイル設定を使用することで、不要なファイルへのチェックを無効にできる。
+In the development project of UI development infrastructure, 
+there is a case that files to be checked (files deployed to the production environment) and files not to be checked (files for testing, etc. that are not deployed to the production environment) are mixed in the directory to be checked. 
+In such a case, the check for unnecessary files can be disabled by using the exclusion file setting.
 
-チェック対象のファイル（ディレクトリ）、チェック対象外ファイル（ディレクトリ）の設定方法は、 :ref:`01_customJspAnalysisProp` を参照
+Refer to :ref:`01_customJspAnalysisProp` for how to set the files (directories) to be checked and the files (directories) not to be checked.
 
-対象ファイル内の一部を強制的にチェック対象外にする方法
+How to forcibly exclude part of the target file from being checked
 ===================================================================
-アーキテクトが作成するJSPやタグファイルなどで、やむを得ない事情で許可されていないタグを使う必要性が出てくる場合がある。 
-例えば、アプリケーション開発者が作成するJSPファイルから使用されたくないタグを、
-アーキテクトが作成するタグファイル内に隠蔽する場合等がこれに該当する。
+In JSP and tag files created by the architect, there may be a need to use tags that are not allowed due to unavoidable circumstances. 
+For example, a corresponding case is when the architect hides the tags in the tag file so that the tags are not used from the JSP file created by the developer.
 
-このような場合には、特定箇所のチェックを強制的に無効化する機能を利用する。
-特定箇所のチェックを無効化するには、該当行のすぐ上の行にチェックを無効化するJSPコメントを記述する。
-無効化コメントは、本ツールのチェックっ対象外のタグとなる。このため、JSPコメントを使用不可とした場合でもエラーとはならない。
+In such a case, use the function that forcibly invalidates the check at a specific location.
+To disable the checking of a specific point, write the JSP comment to disable the checking on the line immediately above the corresponding line.
+Invalidation comments are tags that are not checked by this tool.Therefore, no error occurs even if you disable JSP comment.
 
-無効化するJSPコメントは以下のルールに従い記述する。
+Describe the JSP comment to be invalidated according to the following rules.
 
-* コメントの開始タグと終了タグを同一行に記述する
-* コメントは必ず **suppress jsp check** で始める
-
-  **suppress jsp check**  以降は、任意のコメントを記述できる。
-  任意のコメント部には、チェックを無効化する理由を記述すると良い
+* Write the start tag and end tag of a comment on the same line.
+* Comments must always start with **suppress jsp check**
+  Comments can be described after suppress jsp check. In the comment section, it is good to describe the reason for disabling the check
 
 
 
-以下に例を示す::
+An example is shown below::
 
   <%@tag import="java.util.regex.Pattern" %>
   <%@tag import="java.util.regex.Matcher" %>
   <%@taglib prefix="n" uri="http://tis.co.jp/nablarch" %>
 
-  <%-- suppress jsp check:サーバサイドで判定し、bodyのクラスに埋め込むために必要なコード --%>
+  <%-- suppress jsp check: Code needs to be checked in the server and embedded in the body class --%>
   <%!
     static class UserAgent { 
     }
   %>
 
----------
-前提条件
----------
+-----------------
+Prerequisites
+-----------------
 
-* アーキタイプからブランクプロジェクトの生成が完了していること。
-
-
----------
-使用方法
----------
-
-設定ファイルの存在確認
-======================
-
-toolsプロジェクトのstatic-analysis/jspanalysisディレクトリに、本ツールを実行するために必要な以下のファイルが存在することを確認する。
-
-* :download:`config.txt<../tools/JspStaticAnalysis/config.txt>` … JSP静的解析ツール設定ファイル
-* :download:`transform-to-html.xsl<../tools/JspStaticAnalysis/transform-to-html.xsl>` … JSP静的解析結果XMLをHTMLに変換する際の定義ファイル
-
-これらファイルについての詳細は :doc:`02_JspStaticAnalysisInstall` を参照のこと。
+* Generation of a blank project from the archetype must be complete.
 
 
-Antタスクの定義ファイル確認
-===========================
+--------------
+How to Use
+--------------
 
-toolsプロジェクトのnablarch-tools.xmlに以下の定義が存在することを確認する。
+Confirmation of the existence of a configuration file
+================================================================
+
+Confirm that the following files required to execute this tool exist in the static-analysis/jspanalysis directory of the tools project.
+
+* :download:`config.txt<../tools/JspStaticAnalysis/config.txt>` … JSP static analysis tool configuration file
+* :download:`transform-to-html.xsl<../tools/JspStaticAnalysis/transform-to-html.xsl>` … Definition file for converting JSP static analysis result XML to HTML
+
+Refer to  :doc:`02_JspStaticAnalysisInstall`  for more information about these files.
+
+
+
+Check the Ant task definition file
+=========================================
+
+Confirm that the following definition exists in nablarch-tools.xml of tools project.
 
 .. code-block:: xml
 
   <project name="Nablarch Toolbox">
-    <!-- 中略 -->
-    <target name="analyzeJsp" depends="analyzeJspOutputXml" description="JSPの解析を行い、HTMLレポートを出力する。">
+    <!-- Middle is omitted -->
+    <target name="analyzeJsp" depends="analyzeJspOutputXml" description="Analyze JSP and output HTML report." >
       <java classname="nablarch.test.tool.sanitizingcheck.HtmlConvert" dir="${nablarch.tools.dir}" fork="true">
         <arg value="${jspanalysis.xmloutput}" />
         <arg value="${jspanalysis.xsl}" />
@@ -177,7 +174,7 @@ toolsプロジェクトのnablarch-tools.xmlに以下の定義が存在するこ
       </java>
     </target>
 
-    <target name="analyzeJspOutputXml" description="JSPの解析を行い、XMLレポートを出力する。">
+    <target name="analyzeJspOutputXml" description="Analyze JSP and output XMLreport." >
       <java classname="nablarch.test.tool.sanitizingcheck.SanitizingCheckTask" dir="${nablarch.tools.dir}" fork="true">
         <arg value="${jspanalysis.checkjspdir}" />
         <arg value="${jspanalysis.xmloutput}" />
@@ -185,8 +182,8 @@ toolsプロジェクトのnablarch-tools.xmlに以下の定義が存在するこ
         <arg value="${jspanalysis.charset}" />
         <arg value="${jspanalysis.lineseparator}" />
         <arg value="${jspanalysis.additionalexts}" />
-        <!-- JSP静的解析ツールにおいて、「チェック対象外とするディレクトリ（ファイル）名を正規表現で設定する」ための項目。
-             parentプロジェクトのpom.xmlにて、本値を有効にした場合は、コメントアウトを解除する。
+        <!-- "Configure the directory (file) name not to be checked as a regular expression" for JSP static analysis tool.
+             When this value is enabled in pom.xml of parent project, comment out is canceled.
         <arg value="${jspanalysis.excludePatterns}" />
         -->
         <classpath>
@@ -194,49 +191,49 @@ toolsプロジェクトのnablarch-tools.xmlに以下の定義が存在するこ
         </classpath>
       </java>
     </target>
-    <!-- 中略 -->
+    <!-- Middle is omitted -->
   </project>
 
 
-JSP静的解析ツールでチェックしたい対象の存在するプロジェクトのpom.xmlの確認
-===========================================================================================
+Check the pom.xml of the target project that you want to check with the JSP static analysis tool
+======================================================================================================
 
-JSP静的解析ツールでチェックしたい対象の存在するプロジェクトのpom.xmlに、以下の記述が存在することを確認する。
+Confirm that the following description exists in pom.xml of the target project that you want to check with JSP static analysis tool.
 
 .. code-block:: xml
 
   <properties>
-    <!-- 中略 -->
-    <!-- JSP静的解析ツールにおいて、「チェック対象外とするディレクトリ（ファイル）名を正規表現で設定する」ための項目。
-         本設定を有効にする場合は、toolsプロジェクト中のnablarch-tools.xml中の設定のコメントアウトも解除すること。
+    <!-- Middle is omitted -->
+    <!-- "Configure the directory (file) name not to be checked as a regular expression" for JSP static analysis tool.
+         To enable this configuration, uncomment the configuration in nablarch-tools.xml of the tools project.
     <jspanalysis.excludePatterns></jspanalysis.excludePatterns>
     -->
-    <!-- 中略 -->
+    <!-- Middle is omitted -->
   </properties>
   
-  <!-- 中略 -->
+  <!-- Middle is omitted -->
   
   <build>
-    <!-- 中略 -->
+    <!-- Middle is omitted -->
     <plugins>
-      <!-- 中略 -->
+      <!-- Middle is omitted -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
       </plugin>
-      <!-- 中略 -->
+      <!-- Middle is omitted -->
     </plugins>
   </build>
 
 .. tip::
     
-    JSP静的解析ツールの設定値は、nablarch-archetype-parentのpom.xmlに記述している。
+    The configuration values of the JSP static analysis tool are described in pom.xml of nablarch-archetype-parent.
     
     .. code-block:: xml
     
       <properties>
-        <!-- 中略 -->
-        <!-- JSP静的解析ツールの設定項目 -->
+        <!-- Middle is omitted -->
+        <!-- Configuration items of JSP static analysis tool -->
         <jspanalysis.checkjspdir>${project.basedir}/src/main/webapp</jspanalysis.checkjspdir>
         <jspanalysis.xmloutput>${project.basedir}/target/jspanalysis-result.xml</jspanalysis.xmloutput>
         <jspanalysis.checkconfig>${nablarch.tools.dir}/static-analysis/jspanalysis/config.txt</jspanalysis.checkconfig>
@@ -247,49 +244,49 @@ JSP静的解析ツールでチェックしたい対象の存在するプロジ�
         <jspanalysis.additionalexts>tag</jspanalysis.additionalexts>
       </properties>
       
-    各設定項目に関しては、 :doc:`02_JspStaticAnalysisInstall` を参照のこと。
+    Refer to :doc:`02_JspStaticAnalysisInstall`  for details of each configuration item.
       
 
 
 .. _01_customJspAnalysis:
 
-JSP静的解析ツール設定ファイルの記述方法
-============================================
+How to write the JSP static analysis tool configuration file
+======================================================================
 
-プロジェクトの規約を反映するために設定ファイルを変更する。
+Modify the configuration file to reflect the project's conventions.
 
 .. important::
-  開発時にアプリケーションプログラマの都合に合わせて設定を変えてはいけない。
+  Don't change the settings to suit the application programmer's convenience during development.
 
-設定ファイルには使用を許可する構文とタグの一覧を下表に従って記載する。
-「--」で始まる行はコメント行とする。
+In the configuration file, list the syntax and tags that are allowed to be used according to the table below. 
+A line beginning with "--" is a comment line.
 
-================= ============================================== ========================================================  
-構文又はタグ       JSPでの使用例                                   設定ファイルへの記述方法                           
-================= ============================================== ======================================================== 
-XMLコメント       <%-- comment --%>                               <%--
-HTMLコメント      <!-- comment -->                                <!--
-EL式              ${10 mod 4}                                     ${
-宣言              <%! int i = 0; %>                               <%!
-式                <%= map.size() %>                               <%=
-スクリプトレット   <%  String name = null; %>                      <%
-ディレクティブ    <%@ taglib prefix="n" uri=  |br|               「<%@」から始まり、最初の空白までの |br|
-                  "http://tis.co.jp/nablarch" %>                 部分を記述する。
+================= ============================================== ============================================================  
+Syntax or tag       Usage example in JSP                                   How to describe in the configuration file        
+================= ============================================== ============================================================ 
+XML comments      <%-- comment --%>                               <%--
+HTML comments     <!-- comment -->                                <!--
+EL system         ${10 mod 4}                                     ${
+Declaration       <%! int i = 0; %>                               <%!
+Expression        <%= map.size() %>                               <%=
+Scriptlet         <%  String name = null; %>                      <%
+Directive         <%@ taglib prefix="n" uri=  |br|               Describe the part starting from "<%@" and ending |br|
+                  "http://tis.co.jp/nablarch" %>                 with the first blank.
 
-                                                                 例：） <%@ taglib
-アクションタグ    <jsp:attribute name="attrName" />              「<jsp:」から始まり、最初の空白までの |br|
-                                                                 部分を記述する。|br|
-                                                                 「<jsp:」のみを設定した場合、|br|
-                                                                 アクションタグ全てが使用可能となる。
+                                                                 Example: <%@ taglib
+Action tag        <jsp:attribute name="attrName" />              It should start with "<jsp:" and end |br|
+                                                                 with the first blank. |br|
+                                                                 If only "<jsp:" is set,|br|
+                                                                 all action tags can be used.
 
-                                                                 例：） <jsp:attribute
+                                                                 Example: <jsp:attribute
 
-カスタムタグ      <n:error name="attrName" />                    設定方法は、アクションタグと同じ。
+Custom tag        <n:error name="attrName" />                    The configuration method is the same as the action tag.
 
-================= ============================================== ======================================================== 
+================= ============================================== ============================================================ 
 
 
-デフォルトの設定は下記のとおりである。 ::
+The default configuration are as follows. ::
 
   <n:
   <c:
@@ -307,9 +304,9 @@ EL式              ${10 mod 4}                                     ${
   <jsp:attribute
 
 
-デフォルトの設定で除外した構文とタグは下記のとおりである。
+The syntax and tags excluded by default configuration are as follows.
 
-これらは、Nablarchカスタムタグに同様の機能を有するか、セキュリティホールとなりうる可能性がある構文とタグである。 ::
+These are the syntax and tags that have similar functionality to Nablarch custom tags or could be security holes. ::
 
   <!--
   <%!
@@ -336,20 +333,20 @@ EL式              ${10 mod 4}                                     ${
   <jsp:text
   <jsp:useBean
 
-pom.xmlの修正の修正
+Fixing the pom.xml
 ============================================
 
-pom.xmlに記述されているプロパティを、実行環境にあわせて修正すること。
+Modify the properties described in pom.xml according to the execution environment.
 
-詳細は、 :ref:`01_customJspAnalysisProp` を参照
+For more information, see :ref:`01_customJspAnalysisProp`.
 
 
-実行方法
+Execution
 =========
 
-カレントディレクトリを解析対象のディレクトリにし、verifyフェーズを実行する。
+Make the current directory a target directory for analysis and execute the verify phase.
 
-以下に例を示す。
+An example is shown below.
 
 .. code-block:: text
                 
@@ -360,49 +357,49 @@ pom.xmlに記述されているプロパティを、実行環境にあわせて�
 .. _01_outputJspAnalysis:
 
 
-出力結果確認方法
-=================
+How to check the output result
+===============================
 
-* JSP解析(HTMLレポート出力)
+* JSP analysis (HTML report output)
 
-  JSPのチェックを行い、チェック結果をHTMLに出力する。
+  Check the JSP and output the result to HTML.
 
-  デフォルトの設定では、target/jspanalysis-result.htmlに出力される。
+  In the default configuration, it is output to target/jspanalysis-result.html.
 
-  出力先は、 pom.xml の jspanalysis.htmloutput プロパティの設定で変更できる。
+  The output destination can be changed by setting the jspanalysis.htmloutput property of pom.xml.
 
-  出力内容の例を以下に示す。
+  An example of the output contents are shown below.
 
   .. image:: ./_image/how-to-trace-jsp.png
      :scale: 70
 
-  上記の例では、指摘内容は2通りあり、各指摘への対処方法は次のとおりである。
+  In the above example, there are two ways to deal with the points made, and the way to deal with each point is as follows.
 
-  * 許可されていないタグが使用されている場合。
+  * If an unauthorized tag is used.
 
-    「"構文またはタグ名" + "指摘位置" is forbidden.」というエラー内容が表示される。
-    プロジェクトの規約にて使用を許可されている構文とタグを使用し対処する。
+    The error message ["Syntax or tag name" + "indicated position" is forbidden.] is displayed. 
+    Use the syntax and tags allowed by the project terms and conditions to address this.
 
 
-* JSP解析(XMLレポート出力)
+* JSP analysis (XML report output)
 
-  JSPのチェックを行い、チェック結果をXMLに出力する。
+  Check the JSP and output the check result to XML.
 
-  XMLの出力先は pom.xml の jspanalysis.xmloutputプロパティにて指定する。
+  Specify the output destination of XML in jspanalysis.xmloutput property of pom.xml.
 
-  出力したXMLをXSLT等で整形すれば、任意のレポート作成が可能である。
+  By formatting the output XML with XSLT etc., you can create any report.
 
-  出力されるXMLフォーマットは次のとおりである。
+  The output XML format is as follows.
 
-  ======  ===============================
-  要素名  説明
-  ======  ===============================
-  result  ルートノード
-  item    各JSPに対して作成されるノード
-  path    該当のJSPのパスを表すノード
-  errors  該当のJSPに対する指摘を表すノード
-  error   個々の指摘内容
-  ======  ===============================
+  ===============   =======================================================
+  Element name      Description
+  ===============   =======================================================
+  result            Root node
+  item              Node created for each JSP
+  path              Node that represents the path of the corresponding JSP.
+  errors            Node that indicates an issue for the corresponding JSP.
+  error             Content of individual points
+  ===============   =======================================================
 
   .. code-block:: xml
         
@@ -435,8 +432,7 @@ pom.xmlに記述されているプロパティを、実行環境にあわせて�
 
 .. tip::
 
- 本ツールの実行は、アプリケーション開発者任せでではなくJenkinsのようなCIサーバで定期的に実行し、
- 許可されていなタグが使われていないことを常に保証する必要がある。
+ This tool should be executed regularly by a CI server such as Jenkins, not by leaving it to the application developer, and always ensure that unauthorized tags are not used.
 
 
 .. |br| raw:: html
