@@ -1,67 +1,66 @@
 Nablarch SQL Executor
 =====================
 
-.. contents:: 目次
+.. contents:: Table of Contents
   :depth: 2
   :local:
 
-Nablarch SQL ExecutorはNablarch特殊構文を含むSQLファイルを
-対話的に実行するツールである。
+Nablarch SQL Executor is a tool for interactively executing SQL files containing Nablarch special syntax.
 
-前提条件
---------
+Prerequisites
+----------------
 
-前提条件を以下に示す。
+Prerequisites are shown below.
 
-* FirefoxまたはChromeがインストール済みであること。
-* Nablarchの開発環境が設定済みであること。
-* Maven Central RepositoryにJDBCドライバが存在しないRDBMSを使用する場合は、Project Local RepositoryまたはLocal RepositoryにJDBCドライバを登録済みであること。
-  登録方法は、:ref:`customizeDBAddFileMavenRepo` を参照。
+* Firefox or Chrome must be installed.
+* Nablarch development environment must be set up.
+* When using an RDBMS that does not have a JDBC driver in Maven Central Repository, a JDBC driver must be registered in Project Local Repository or Local Repository. 
+  For more information on the registration method, see :ref:`customizeDBAddFileMavenRepo`.
  
-制約
---------
-本ツールには以下の制約がある。
-このため、これらのSQLを実行したい場合には、本ツールではなく使用するデータベース付属のSQL実行環境などを用いること。
+Limitations
+-------------
+This tool has the following limitations: 
+Therefore, if you want to run these SQL, instead of this tool use the SQL execution environment attached to the database to be used.
 
-* IN句に対して条件を設定することが出来ない
-* WITH句で始まるSQLを実行することが出来ない
+* Conditions cannot be set for the in clause
+* SQL that starts with a with clause cannot be executed
 
 .. tip::
 
-  Nablarchでは2-way SQLとしてSQLを記述できる `Doma(外部サイト) <http://doma.readthedocs.io/ja/stable/>`_ 用の :ref:`アダプタ <doma_adaptor>` を提供している。
+  Nablarch provides an :ref:`adapter <doma_adaptor>` for `Doma (external site) <http://doma.readthedocs.io/ja/stable/>`_  that can describe SQL as 2-way SQL.
   
-  Domaを使用した場合、本ツールのような複雑なツールのセットアップを行わなくても、本番環境用に定義したSQLを簡単にテスト実行出来る。
-  (動的な条件を構築するような場合でも、SQLを書き換えることなく実行できる)
+  When using Doma, the SQL defined for the production environment can be easily test executed without setting up complicated tools such as this one. 
+  (Even when constructing a dynamic condition, it can be executed without rewriting SQL)
   
-  このため、Domaの使用を検討することを推奨する。
+  For this reason, it is recommended to consider the use of Doma.
 
-インストール方法
+How to install
 ----------------
 
-以下のサイトで公開されているリポジトリをcloneする。
+Clone the repository published on the following site.
 
-https://github.com/nablarch/sql-executor (外部サイト)
-
-
-DB設定変更
-----------
-
-使用するRDBMSに応じて設定変更を行う。
+https://github.com/nablarch/sql-executor (external site)
 
 
-~~~~~~~~~~~~~~
-基本設定の変更
-~~~~~~~~~~~~~~
+DB configuration change
+------------------------------
 
-src/main/resources/db.configの修正
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-接続URLやユーザ、パスワードを変更する場合、src/main/resources/db.configを修正する。
-
-以下に設定例を示す。
+Change the settings according to the RDBMS being used.
 
 
-**H2の設定例(デフォルト)**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Change the basic configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Modification of src/main/resources/db.config
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Modify the src/main/resources/db.config if you want to change the connection URL, user, or password.
+
+A configuration example is shown below.
+
+
+**H2 configuration example (default)**
 
 .. code-block:: text
 
@@ -70,68 +69,68 @@ src/main/resources/db.configの修正
   db.password=SAMPLE
 
 
-**Oracleの設定例**
+**Oracle configuration example**
 
 .. code-block:: text
 
-  # jdbc:oracle:thin:@ホスト名:ポート番号:データベースのSID
+  # jdbc:oracle:thin:@Host name: port number: database SID
   db.url=jdbc:oracle:thin:@localhost:1521/xe
   db.user=sample
   db.password=sample
 
 
-**PostgreSQLの設定例**
+**PostgreSQL configuration example**
 
 .. code-block:: text
 
-  # jdbc:postgresql://ホスト名:ポート番号/データベース名
+  # jdbc:postgresql://Host name: Port number/database name
   db.url=jdbc:postgresql://localhost:5432/postgres
   db.user=sample
   db.password=sample
 
 
-**DB2の設定例**
+**DB2 configuration example**
 
 .. code-block:: text
 
-  # jdbc:db2://ホスト名:ポート番号/データベース名
+  # jdbc:db2://Host name: Port number/database name
   db.url=jdbc:db2://localhost:50000/SAMPLE
   db.user=sample
   db.password=sample
 
 
-**SQL Serverの設定例**
+**SQL Server configuration example**
 
 .. code-block:: text
 
-  # jdbc:sqlserver://ホスト名:ポート番号;instanceName=インスタンス名
+  # jdbc:sqlserver://Host name: Port number;instanceName= Instance name
   db.url=jdbc:sqlserver://localhost:1433;instanceName=SQLEXPRESS
   db.user=SAMPLE
   db.password=SAMPLE
 
 
-~~~~~~~~~~~~~~~~~~
-JDBCドライバの変更
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+Change the JDBC driver
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-JDBCドライバを変更する場合、以下のファイルを修正する。
+To change the JDBC driver, modify the following file:
 
 
 pom.xml
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-pom.xml中の「使用するRDBMSにあわせて、下記JDBCドライバの dependency を更新してください。」とのコメントがある箇所を修正する。
+"Please update the dependency of the following JDBC driver according to the RDBMS to be used (使用するRDBMSにあわせて、下記JDBCドライバの dependency を更新してください。)" in pom.xml. Correct where there is a comment.
 
-以下、データベース毎の設定例を記述する。
+Hereinafter, configuration examples will be described for each type of database.
 
-**H2の設定例(デフォルト)**
+**H2 configuration example (default)**
 
 .. code-block:: xml
 
     <dependencies>
-      <!-- 中略 -->
+      <!-- Middle is omitted -->
 
-      <!-- 使用するRDBMSにあわせて、下記JDBCドライバの dependency を更新してください。 -->
+      <!--使用するRDBMSにあわせて、下記JDBCドライバの dependency を更新してください。 -->
       <dependency>
         <groupId>com.h2database</groupId>
         <artifactId>h2</artifactId>
@@ -141,14 +140,14 @@ pom.xml中の「使用するRDBMSにあわせて、下記JDBCドライバの dep
     </dependencies>
 
 
-**Oracleの設定例**
+**Oracle configuration example**
 
 .. code-block:: xml
 
     <dependencies>
-      <!-- 中略 -->
+      <!-- Middle is omitted -->
 
-      <!-- 使用するRDBMSにあわせて、下記JDBCドライバの dependency を更新してください。 -->
+      <!--使用するRDBMSにあわせて、下記JDBCドライバの dependency を更新してください。 -->
       <dependency>
         <groupId>com.oracle</groupId>
         <artifactId>ojdbc6</artifactId>
@@ -158,14 +157,14 @@ pom.xml中の「使用するRDBMSにあわせて、下記JDBCドライバの dep
     </dependencies>
 
 
-**PostgreSQLの設定例**
+**PostgreSQL configuration example**
 
 .. code-block:: xml
 
     <dependencies>
-      <!-- 中略 -->
+      <!-- Middle is omitted -->
 
-      <!-- 使用するRDBMSにあわせて、下記JDBCドライバの dependency を更新してください。 -->
+      <!--使用するRDBMSにあわせて、下記JDBCドライバの dependency を更新してください。 -->
       <dependency>
         <groupId>org.postgresql</groupId>
         <artifactId>postgresql</artifactId>
@@ -175,14 +174,14 @@ pom.xml中の「使用するRDBMSにあわせて、下記JDBCドライバの dep
     </dependencies>
 
 
-**DB2の設定例**
+**DB2 configuration example**
 
 .. code-block:: xml
 
     <dependencies>
-      <!-- 中略 -->
+      <!-- Middle is omitted -->
 
-      <!-- 使用するRDBMSにあわせて、下記JDBCドライバの dependency を更新してください。 -->
+      <!--使用するRDBMSにあわせて、下記JDBCドライバの dependency を更新してください。 -->
       <dependency>
         <groupId>com.ibm</groupId>
         <artifactId>db2jcc4</artifactId>
@@ -193,44 +192,44 @@ pom.xml中の「使用するRDBMSにあわせて、下記JDBCドライバの dep
 
 
 src/main/resources/db.xml
-~~~~~~~~~~~~~~~~~~~~~~~~~
-JDBCドライバのクラス名とダイアレクトのクラス名を修正する。
-dataSourceコンポーネントのdriverClassNameプロパティに、ドライバのクラス名を設定する。
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Correct the class name of the JDBC driver and the class name of the dialect. 
+Set the driver class name in driverClassName property of dataSource component.
 
-該当箇所を以下に示す。
+The relevant parts are shown below.
 
 .. code-block:: xml
 
   <!-- データソース設定 -->
   <component name="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-    <!-- JDBCドライバのクラス名設定 -->
-    <!-- TODO: データベース接続情報を変更する場合、ここを修正します -->
+    <!-- JDBC driver class name設定 -->
+    <!-- TODO: Database接続情報を変更する場合、ここを修正します -->
     <property name="driverClassName"
               value="org.h2.Driver" />
-    <!-- 中略 -->
+    <!-- Middle is omitted -->
   </component>
 
-  <!-- データベース接続用設定 -->
+  <!-- Database接続用設定 -->
   <component name="connectionFactory"
       class="nablarch.core.db.connection.BasicDbConnectionFactoryForDataSource">
-    <!-- 中略 -->
+    <!-- Middle is omitted -->
     <property name="dialect">
-      <!-- ダイアレクトのクラス名設定 -->
-      <!-- TODO: データベースを変更する場合、ここを修正します。-->
+      <!-- Dialect class name設定 -->
+      <!-- TODO: Databaseを変更する場合、ここを修正します。-->
       <component class="nablarch.core.db.dialect.H2Dialect"/>
     </property>
   </component>
 
 
-設定値の例を以下に示す。
+An example of the configuration value is shown below.
 
 .. list-table::
    :widths: 5 8 10
    :header-rows: 1
 
-   * - データベース
-     - JDBCドライバのクラス名
-     - ダイアレクトのクラス名
+   * - Database
+     - JDBC driver class name
+     - Dialect class name
    * - H2
      - org.h2.Driver
      - nablarch.core.db.dialect.H2Dialect
@@ -248,120 +247,114 @@ dataSourceコンポーネントのdriverClassNameプロパティに、ドライ�
      - nablarch.core.db.dialect.SqlServerDialect
 
 
-起動方法
---------
+How to launch
+------------------
 
-**Unix系の場合**
+**For Unix systems**
 
-以下のコマンドを実行する。
+Execute the following command.
 
 .. code-block:: text
 
   mvn compile exec:java
 
 
-その後、ブラウザを起動して、 http://localhost:7979/index.html を表示する。
+Then launch the browser and display http://localhost:7979/index.html.
 
 
-**Windowsの場合**
+**For Windows**
 
-ディレクトリ直下にあるバッチファイルを実行する。
-ファイルをダブルクリックするか、コマンドプロンプトから起動する。
+Execute the batch file located directly under the directory. 
+Double-click the file or start it from the command prompt.
 
 .. code-block:: bat
 
   nse-web.bat
 
 
-コマンドを実行すると、自動的にブラウザが起動する。
+When the command is executed, the browser starts automatically.
 
 .. tip::
 
-  * 初回起動時等、起動に時間がかかる場合、ブラウザがタイムアウトすることがある。
-    この場合は、起動完了後にブラウザをリロードする。
-  * 本ツールは、Internet Explorerでは、正常に動作しない。Internet Explorerが起動した場合は、URLをコピーし、FirefoxまたはChromeのアドレス欄に貼り付けること。
+  * The browser may time out if it takes longer to start, for example when starting for the first time. 
+    In such a case, reload the browser after startup is complete.
+  * This tool does not work properly on Internet Explorer. If Internet Explorer starts, copy the URL and paste it in the address field of Firefox or Chrome.
 
 
-操作方法
---------
+How to operate
+----------------
 
-初回起動時では、カレントディレクトリ配下のSQLファイルの一覧を表示するが、
-存在しない場合は、以下のような画面が表示される。
+The first time it is launched, the list of SQL files under the current directory will be displayed, 
+but if it does not exist, the following screen is displayed.
 
 .. figure:: ./_images/initial_screen.png
-   :alt: 初期画面
+   :alt: Initial screen
 
-   初期画面
+   Initial screen
 
-右下の入力欄にローカルフォルダのパスを指定し、下図のように **[再検索]**
-をクリックすると
-その配下の検索してSQLファイルと各ファイルに記述されているステートメントの
-一覧を表示する。
+Specify the path to the local folder in the lower right input column and click **[Search again (再検索)]** as shown below to display the list of SQL files and the statements described in each file under that search.
+
 
 .. figure:: ./_images/setting_search_root_path.png
-   :alt: 検索パス設定
+   :alt: Search path configuration
 
-   検索パス設定
+   Search path configuration
 
-各ステートメント名をクリックすると、その内容と操作用のボタンが表示される。
+Click each statement name to display its contents and operation buttons.
 
 .. figure:: ./_images/browsing_sql_scripts.png
-   :alt: SQLステートメント一覧
+   :alt: SQL statement list
 
-   SQLステートメント一覧
+   SQL statement list
 
-ステートメント内の埋込み変数は入力フィールドになっており、内容を編集して
-**[Run]**
-をクリックすることで、当該ステートメントを実行できる。
+The embedded variable in the statement is an input field, 
+and the statement can be executed by editing the contents and clicking on **[Run]**.
 
-また **[Fill]**
-をクリックすると、前回の実行時の入力フィールドの内容を復元する。
+Click **[Fill]** to restore the contents of the input field from the previous execution.
 
 .. figure:: ./_images/running_sql_scripts.png
-   :alt: SQL実行結果(クエリ)
+   :alt: SQL execution result (Query)
 
-   SQL実行結果(クエリ)
+   SQL execution result (Query)
 
 .. figure:: ./_images/running_dml_scripts.png
-   :alt: SQL実行結果(DML)
+   :alt: SQL execution result (DML)
 
-   SQL実行結果(DML)
+   SQL execution result (DML)
 
-関連ファイル
-------------
+Associated files
+-----------------
 
-実行時に、以下のログファイルが出力される。
+The following log files are output during execution:
 
-* sql.log → SQL文の実行時ログ
-* app.log → 全実行ログ
+* sql.log → Runtime log of SQL statements
+* app.log → All execution logs
 
 FAQ
 ---
 
-**Q1** :日付型(DATE/DATETIME/TIMESTAMP)フィールドへの値の設定はどのようにすればよいか？
+**Q1** :How to set the value of the DATE/DATETIME/TIMESTAMP field?
 
-**A1** :SQL92のDATE/DATETIMEリテラルと同じ書式で記述する。
-以下に例を示す。
-
-::
-
-  1970-12-11
-
+**A1** :Use the same format as DATE/DATETIME literals of SQL92. 
+An example is shown below.
 
 ::
 
-  1970-12-11 12:01:20
+  12/11/1970
 
-また、キーワード ``SYSDATE`` を指定することで、現在時刻が設定される。
+
+::
+
+  12/11/1970 12:01:20
+
+The current time is set by specifying the keyword ``SYSDATE``.
 
 --------------
 
-**Q2** :実行しても何も出力されずに異常終了してしまう場合、どう対処すればよいか？
+**Q2** :What is the solution if the program terminates abnormally without any output even after execution?
 
-**A2** :起動時のDBコネクションエラーなどの一部のエラーは
-標準エラー出力ではなく、実行ログファイルに出力される。
-実行ログは、カレントディレクトリ直下に ``app.log`` という名前で
-出力されるので、その内容を確認して対処する。
+**A2** :Some errors, such as DB connection errors during launch, are output to the execution log file instead of standard error output. 
+Since the execution log is output directly as ``app.log`` under the current directory, check the contents and take appropriate action.
 
 .. |br| raw:: html
 
