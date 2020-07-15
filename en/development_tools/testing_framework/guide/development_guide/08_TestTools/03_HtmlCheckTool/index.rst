@@ -27,13 +27,13 @@ This tool is available in the Request Unit Test as a standard and is executed wh
 * The boolean attribute can be used. Example: <textarea disabled>
 * Omitting quotations in the attribute specification is not allowed. Example: ○ <table align="center"> × <table align=center>
 
-.. [#] 設定値の変更により、チェック内容がカスタマイズできる。
+.. [#] The check contents can be customized by changing the configuration values. ↩︎。
 
-.. [#] 一部例外あり。次項『\ `Differences with HTML4.01`_ 』を参照。
+.. [#] There are some exceptions. See the next section, \ `Differences with HTML4.01`_ . 
 
 .. [#]
-  デフォルトの設定では、 `W3C公式サイト <http://www.w3.org/TR/html401/>`_ にて非推奨とされているタグ・属性(以下では、「非推奨タグ・属性」と略記する)が設定されている。
-  設定ファイルをカスタマイズすることにより、使用を禁止するタグ・属性を変更することができる。（カスタマイズ方法は :ref:`01_custom` を参照のこと。）
+  The tags and attributes that are deprecated on the  `W3C official website <http://www.w3.org/TR/html401/>`_  (hereinafter abbreviated as "deprecated tags and attributes") are configured by default. 
+  By customizing the configuration file, the tags and attributes that should not be used can be changed. (For customization instructions, refer to :ref:`01_custom`.) 
 
 .. tip::
 
