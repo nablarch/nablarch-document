@@ -1,6 +1,6 @@
-==============================================
-大規模開発向け重厚なテスティングフレームワーク
-==============================================
+========================================================
+Robust Testing Framework for Large Scale Development
+========================================================
 
 
 .. toctree::
@@ -14,14 +14,14 @@
 
 .. important::
 
-  テスティングフレームワークは、以下の基盤やライブラリには対応していない。
-  このため、これらの基盤やライブラリを使用するアプリケーションに対するテストは、 `JUnit(外部サイト、英語) <http://junit.org>`_ などのテスティングフレームワークを使用して行うこと。
+  The testing framework does not support the following platforms and libraries: 
+  For this reason, testing framework such as `JUnit (external site, in English) <http://junit.org>`_  should be used for testing applications that use these platforms and libraries.
 
-  * :ref:`RESTfulウェブサービス <restful_web_service>`
-  * :ref:`JSR352に準拠したバッチアプリケーション <jsr352_batch>`
+  * :ref:`RESTful web service <restful_web_service>`
+  * :ref:`JSR352-compliant batch application <jsr352_batch>`
   * :ref:`Bean Validation <bean_validation>`
 
 .. important::
 
-  テスティングフレームワークは、マルチスレッド機能に対応していない。
-  マルチスレッド機能のテストは、テスティングフレームワークを使用しないテスト(結合テストなど)で行うこと。
+  The testing framework does not support multi-thread functions. 
+  Testing of multi-threaded functions should be performed with tests that do not use the testing framework (such as integration tests).
