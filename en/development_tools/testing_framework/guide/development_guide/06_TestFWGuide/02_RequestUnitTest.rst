@@ -1,98 +1,98 @@
 .. _request-util-test-online:
 
 ============================================================
-リクエスト単体テスト（ウェブアプリケーション）
+Request Unit Test (Web Applications)
 ============================================================
 
-----
-概要
-----
+--------
+Summary
+--------
 
-リクエスト単体テスト(ウェブアプリケーション)では、内蔵サーバを使用してテストを行う。\
-ここでは、リクエスト単体テストのテスト補助クラスと内蔵サーバの使用方法を記載する。
+In the request unit test (web application), the test is performed using the built-in server.
+Here, we will describe how to use the test helper classes of the request unit test and the built-in server.
 
 
 
-全体像
-======
+Overall picture
+=================
 
 .. image:: _images/request_unit_test_structure.png
    :scale: 100
 
 
  
-主なクラス, リソース
-====================
+Main Classes, resources
+==========================
 
-+----------------------------------+------------------------------------------------------+--------------------------------------+
-|名称                              |役割                                                  | 作成単位                             |
-+==================================+======================================================+======================================+
-|テストクラス                      |テストロジックを実装する。                            |テスト対象クラス(Action)につき１つ作成|
-+----------------------------------+------------------------------------------------------+--------------------------------------+
-|テストデータ（Excelファイル）     |テーブルに格納する準備データや期待する結果、\         |テストクラスにつき１つ作成            |
-|                                  |HTTPパラメータなど、テストデータを記載する。          |                                      |
-|                                  |                                                      |                                      |
-+----------------------------------+------------------------------------------------------+--------------------------------------+
-|テスト対象クラス(Action)          |テスト対象のクラス                                    | 取引につき1クラス作成                |
-|                                  |(Action以降の業務ロジックを実装する各クラスを含む)    |                                      |
-+----------------------------------+------------------------------------------------------+--------------------------------------+
-|DbAccessTestSupport               |準備データ投入などデータベースを使用するテストに\     | \－                                  |
-|                                  |必要な機能を提供する。                                |                                      |
-|                                  |                                                      |                                      |
-+----------------------------------+------------------------------------------------------+--------------------------------------+
-|HttpServer                        |内蔵サーバ。サーブレットコンテナとして動作し、\       | \－                                  |
-|                                  |HTTPレスポンスをファイル出力する機能を持つ。          |                                      |
-+----------------------------------+------------------------------------------------------+--------------------------------------+
-|HttpRequestTestSupport            |内蔵サーバの起動やリクエスト単体テストで必要とな\     | \－                                  |
-|                                  |る各種アサートを提供する。                            |                                      |
-+----------------------------------+------------------------------------------------------+--------------------------------------+
-|AbstractHttpReqestTestSupport |br||リクエスト単体テストをテンプレート化するクラス。リ    | \－                                  |
-|BasicHttpReqestTestSupport        |クエスト単体テストのテストソース、テストデータを定    |                                      |
-|                                  |型化する                                              |                                      |
-+----------------------------------+------------------------------------------------------+--------------------------------------+
-|TestCaseInfo                      |データシートに定義されたテストケース情報を格納する    |                                      |
-|                                  |クラス。                                              |                                      |
-+----------------------------------+------------------------------------------------------+--------------------------------------+
-
-
-上記のクラス群は、内蔵サーバも含め全て同一のJVM上で動作する。\
-このため、リクエストやセッション等のサーバ側のオブジェクトを加工できる。\
++----------------------------------+-------------------------------------------------------+-------------------------------------------+
+|Name                              |Role                                                   | Creation unit                             |
++==================================+=======================================================+===========================================+
+|Test class                        |Implement the test logic.                              |Create one per class (Action) to be tested.|
++----------------------------------+-------------------------------------------------------+-------------------------------------------+
+|Test data (Excel file)            |Describe test data such as preparation data,           |Create one per test class                  |
+|                                  |expected results, HTTP parameters, etc.                |                                           |
+|                                  |to be stored in a table.                               |                                           |
++----------------------------------+-------------------------------------------------------+-------------------------------------------+
+|Class to be tested (Action)       |Class to be tested (includes each class that           | Create one class per subfunctio           |
+|                                  |implements business logic after Action)                |                                           |
++----------------------------------+-------------------------------------------------------+-------------------------------------------+
+|DbAccessTestSupport               |Provides the necessary functions for testing using     | \－                                       |
+|                                  |the database, such as preparation data input.          |                                           |
+|                                  |                                                       |                                           |
++----------------------------------+-------------------------------------------------------+-------------------------------------------+
+|HttpServer                        |Built-in server. Operates as a servlet container       | \－                                       |
+|                                  |having the function to output HTTP response to a file. |                                           |
++----------------------------------+-------------------------------------------------------+-------------------------------------------+
+|HttpRequestTestSupport            |Provides various asserts that are required for starting| \－                                       |
+|                                  |the built-in server and for the request unit test.     |                                           |
++----------------------------------+-------------------------------------------------------+-------------------------------------------+
+|AbstractHttpReqestTestSupport |br||Class for templating the request unit test.            | \－                                       |
+|BasicHttpReqestTestSupport        |Standardizes the test source and test data             |                                           |
+|                                  |of the request unit test.                              |                                           |
++----------------------------------+-------------------------------------------------------+-------------------------------------------+
+|TestCaseInfo                      |Class that stores test case information defined        |                                           |
+|                                  |in a data sheet.                                       |                                           |
++----------------------------------+-------------------------------------------------------+-------------------------------------------+
 
 
+All of the above classes, including the built-in server, run on the same JVM.
+Therefore, server-side objects such as requests and sessions can be processed.
 
-前提事項
-========
 
-内蔵サーバを利用してHTMLダンプを出力するというリクエスト単体テストは、\
-１リクエスト１画面遷移のシンクライアント型ウェブアプリケーションを対象としている。\
-Ajaxやリッチクライアントを利用したアプリケーションの場合、\
-HTMLダンプによるレイアウト確認は使用できない。
+
+Prerequisites
+================
+
+The request unit test where an HTML dump is output using the built-in server,
+is for a thin client web application with one request-one screen transition.
+In the case of an application that uses Ajax or rich client,
+you can't use HTML dump to check the layout.
 
 .. tip::
 
- 本書ではViewテクノロジにJSPを用いているが、\
- サーブレットコンテナ上で画面全体をレンダリングする方式であれば、\
- JSP以外のViewテクノロジでもHTMLダンプの出力が可能である。
+ In this document, though JSP is used for View technology,
+ if the entire screen is rendered on a servlet container,
+ then View technologies other than JSP can be used to output HTML dump.
 
 
-----
-構造
-----
+-----------
+Structure
+-----------
 
 BasicHttpRequestTestTemplate
 =========================================
 
-各テストクラスのスーパクラス。\
-本クラスを使用することで、リクエスト単体テストのテストソース、テストデータを定型化でき、\
-テストソース記述量を大きく削減できる。
+Superclass of each test class.
+By using this class, the test source and test data of the request unit test can be standardized,
+and the amount of test source to be described can be greatly reduced.
 
-具体的な使用方法は、\ :doc:`../05_UnitTestGuide/02_RequestUnitTest/index`\ を参照。
+For the specific usage method, refer to :doc:`../05_UnitTestGuide/02_RequestUnitTest/index`.
 
 AbstractHttpRequestTestTemplate
 ======================================
 
-アプリケーションプログラマが直接使用することはない。\
-テストデータの書き方を変えたい場合など、自動テストフレームワークを拡張する際に用いる。\
+Not used directly by the application programmers.\
+This is used to extend the automated testing framework when you want to change the way you write test data.\
 
 TestCaseInfo
 ============
@@ -104,18 +104,18 @@ TestCaseInfo
 HttpRequestTestSupport
 ======================
 
-リクエスト単体テスト用に用意されたスーパクラス。リクエスト単体テスト用のメソッドを用意している。
+Superclass provided for the request unit test. Provides methods for the request unit test.
 
 
-データベース関連機能
---------------------
+Database related functions
+--------------------------
 
-データベースに関する機能は、DbAccessTestSupportクラスに委譲することで実現している。
-詳細は、\ :doc:`02_DbAccessTest`\ を参照。
+The functions related to the database are implemented by delegating to the DbAccessTestSupport class.
+For more information, see :doc:`02_DbAccessTest`.
 
-ただし、DbAccessTestSupportのうち以下のメソッドは、\
-リクエスト単体テストでは不要であり、アプリケーションプログラマに誤解を与えないよう、\
-意図的に委譲を行っていない。
+However, the following methods in DbAccessTestSupport are not required for the request unit test,
+and are not delegated deliberately so as not to mislead application programmers.
+
 
 * public void beginTransactions()
 * public void commitTransactions()
@@ -123,11 +123,11 @@ HttpRequestTestSupport
 * public void setThreadContextValues(String sheetName, String id)
 
 
-事前準備補助機能
-----------------
+Advance preparation assistance function
+----------------------------------------
 
-内蔵サーバへのリクエスト送信には、HttpRequestとExecutionContextのインスタンスが必要となる。\
-HttpRequestTestSupportクラスでは、これらのオブジェクトを簡単に作成できるようメソッドを用意している。\
+To send a request to the built-in server, instances of HttpRequest and ExecutionContext are required.
+In HttpRequestTestSupport class, a method is provided by which these objects can be easily created.
 
 
 HttpRequest
@@ -138,21 +138,21 @@ HttpRequest
   HttpRequest createHttpRequest(String requestUri, Map<String, String[]> params)
 
 
-引数には、以下の値を引き渡す。
+The following values are passed as arguments.
 
-* テスト対象となるリクエストURI
-* 上記で取得したリクエストパラメータ
+* Request URI to be tested
+* Request parameters acquired above
 
-本メソッドでは、受け取ったたリクエストURIとリクエストパラメータを元に\
-HttpRequestインスタンスを生成し、HTTPメソッドをPOSTに設定した上で返却する。\
-HttpRequestにリクエストパラメータやURI以外のデータを設定したい場合は、\
-本メソッド呼び出しにより取得したインスタンスに対してデータの設定を行うとよい。
+In this method, an HTTPRequest instance is created based on the received request URI and request parameters,
+and the HTTP method is set to POST before returning.
+To configure data other than request parameters and URI to HttpRequest,
+configured with respect to an instance acquired by calling this method.
 
 
 ExecutionContext
 ~~~~~~~~~~~~~~~~
 
-ExecutionContextインスタンスを生成する。
+Create an ExecutionContext instance.
 
 
 .. code-block:: java
@@ -160,8 +160,8 @@ ExecutionContextインスタンスを生成する。
   ExecutionContext createExecutionContext(String userId)
 
 
-引数にはユーザIDを指定する。指定したユーザIDはセッションに格納される。\
-これにより、そのユーザIDでログインしている状態となる。\
+The user ID is specified in the argument.The specified user ID is stored in the session.
+By doing so, you are logged in with that user ID.\
 
 
 
@@ -169,91 +169,91 @@ ExecutionContextインスタンスを生成する。
 .. _how_to_set_token_in_request_unit_test:
 
 
-トークン発行
-~~~~~~~~~~~~
+Token issuance
+~~~~~~~~~~~~~~~
 
-2重サブミット防止を施しているURIに対するテストを行うには、\
-テスト実行前にトークンを発行しセッションに設定しておく必要がある。\
-HttpRequestTestSupportにある下記のメソッドを呼び出すことで、\
-トークンの発行およびセッションへの格納が行われる。
+In order to test a URI with duplicate form submission protection,
+it is necessary to issue a token and set it in the session before executing the test.
+By calling the following method in HttpRequestTestSupport,
+the token will be issued and stored in the session.
 
 .. code-block:: java
 
  void setValidToken(HttpRequest request, ExecutionContext context)
 
 
-リクエスト単体実行時に、テストデータ上でトークンを設定するか否かを制御したい場合は、
-以下のメソッドを使用する。
+To control whether or not to set a token for test data when a request unit is executed,
+use the following method.
 
 .. code-block:: java
 
  void setToken(HttpRequest request, ExecutionContext context, boolean valid)
 
 
-第3引数がbooleanになっており、真の場合は前述のsetValidTokenと同じ動作となる。
-偽の場合は、セッションからトークン情報が除去される。以下のように使用することで、
-テストクラスにトークンを設定するかどうかの分岐処理を書かなくてすむ。
+If the third argument is boolean and true, the method works in the same way as setValidToken above.
+If the third argument is false, the token information is removed from the session. By using the method as follows,
+the need to write the branching process for whether or not to set a token in the test class, is eliminated.
 
  
 .. code-block:: java
 
-     // 【説明】テストデータから取得したものとする。
+     // [Description] Assumed to be acquired from the test data.
      String isTokenValid; 
 
-     // 【説明】"true"の場合はトークンが設定される。
+     // [Description] The token is configured, if true.
      setToken(req, ctx, Boolean.parseBoolean(isTokenValid)));
 
 
 
-実行
-====
+Execution
+=========
 
-HttpRequestTestSupportにある下記のメソッドを呼び出すことで、\
-内蔵サーバが起動されリクエストが送信される。
+By calling the following method in HttpRequestTestSupport,
+the built-in server is started and the request is sent.
 
 .. code-block:: java
 
  HttpResponse execute(String caseName, HttpRequest req, ExecutionContext ctx) 
 
 
-引数には以下の値を引き渡す。
+The following values are passed as arguments.
 
-* テストケース説明
+* Test case description
 * HttpRequest
 * ExectionContext
 
-テストケース説明は、HTMLダンプ出力時のファイル名に使用される。
-詳細は
-:ref:`dump-dir-label`
-を参照。
+The test case description is used for the file name at the time of HTML dump output.
+For more information, see
+:ref:`dump-dir-label`.
 
 
 
-システムリポジトリの初期化
---------------------------
 
-executeメソッド内部では、システムリポジトリの再初期化を行っている。\
-これにより、クラス単体テストとリクエスト単体テストで設定を分けずに連続実行できる。
+Initializing the system repository
+----------------------------------
 
-* 現在のシステムリポジトリの状態をバックアップ
-* テスト対象のウェブアプリケーションのコンポーネント設定ファイルを用いてシステムリポジトリを再初期化
-* executeメソッド終了時に、バックアップしたシステムリポジトリを復元する。
+Inside the execute method, the system repository is reinitialized.
+This allows continuous execution without separating the settings between class unit test and request unit test.
 
-
-テスト対象のウェブアプリケーションに関する設定については、\
-:ref:`howToConfigureRequestUnitTestEnv`\
-を参照。
+* Taking backup of the state of the current system repository
+* Reinitializing the system repository using the component configuration file of the web application to be tested
+* The backed up system repository is restored when the execute method ends
 
 
-結果確認
-========
+Refer to
+:ref:`howToConfigureRequestUnitTestEnv`
+for configuration related to the web application to be tested.
 
 
-メッセージ
+Confirmation of results
+========================
+
+
+Message
 ----------
 
-HttpRequestTestSupportにある下記のメソッドを呼び出すことで、\
-アプリケーション例外に格納されたメッセージが想定通りであることを確認する。
+Check that the message stored in the application exception is as expected,
+by calling the following method in HttpRequestTestSupport.
 
 .. code-block:: java
 
@@ -261,38 +261,38 @@ HttpRequestTestSupportにある下記のメソッドを呼び出すことで、\
   void assertApplicationMessageId(String expectedCommaSeparated, ExecutionContext actual);
 
 
-引数には、以下の値を引き渡す。
+The following values are passed as arguments.
 
-* 期待するメッセージ（複数ある場合はカンマ区切りで指定する。）
-* 先に作成したExectionContext
+* Expected message (if there are more than one, specify by separating with a comma).
+* Previously created ExecutionContext
 
 
-例外が発生しなかった場合や、アプリケーション例外以外の例外が発生した場合は、\
-アサート失敗となる。
+If no exception is raised, or if an exception other than an application exception is raised,
+the assertion fails.
 
 
 .. tip::
- メッセージIDの比較はIDをソートした状態で行うので、テストデータを記載する際に
- 順序を気にする必要はない。
+ Since the comparison of message IDs is done after sorting the IDs,
+ there is no need to worry about the order when describing the test data.
 
 
 
-HTMLダンプ出力
-==============
+HTML dump output
+================
 
 .. _dump-dir-label:
 
-HTMLダンプ出力ディレクトリ
+HTML dump output directory
 --------------------------
 
-テストを実行すると、テスト用プロジェクトのルートディレクトリにtmp/html_dumpディレクトリが作成される。
-その配下にテストクラス毎に同名のディレクトリが作成され、
-そのテストクラスで実行されたテストケース説明と同名のHTMLダンプファイルが出力される。
+When the test is run, the tmp/html_dump directory is created in the root directory of the project for testing.
+A directory with the same name is created for each test class under that directory,
+and an HTML dump file with the same name as the description of the test case executed using the test class, is output.
 
-また、HTMLダンプファイルが参照するHTMLリソース（スタイルシートや画像などのリソース）についても
-このディレクトリに出力されるので、このディレクトリを保存することで、どの環境でもHTMLを同じように参照できる。
+In addition, since the HTML resources (resources such as style sheets and images) referenced by the HTML dump file are also output in this directory,
+you can refer to HTML in the same way in any environment by saving this directory.
 
-* html_dumpディレクトリが既に存在する場合は、html_dump_bkという名前でバックアップされる。
+* If the html_dump directory already exists, then the directory is backed up with the name html_dump_bk.
 
 
 .. image:: ./_images/htmlDumpDir.png
@@ -300,132 +300,132 @@ HTMLダンプ出力ディレクトリ
 
 .. _howToConfigureRequestUnitTestEnv:
 
-----------
-各種設定値
-----------
+------------------------------
+Various configuration values
+------------------------------
 
-環境設定に依存する設定値については、コンポーネント設定ファイルで変更できる。\
-設定可能な項目を以下に示す。
+Setting values that depend on the environment settings can be changed in the component configuration file.
+The items that can be configured are shown below.
 
-コンポーネント設定ファイル設定項目一覧
-===============================================
+Configuration item list of component configuration file
+========================================================
 
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-| 設定項目名                 | 説明                                                                    | デフォルト値                                          |
-+============================+=========================================================================+=======================================================+
-| htmlDumpDir                | HTMLダンプファイルを出力するディレクトリを指定する。                    | ./tmp/http_dump                                       |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-| webBaseDir                 | ウェブアプリケーションのルートディレクトリ\ [#]_\                       | ../main/web                                           |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-| xmlComponentFile           | リクエスト単体テスト実行時に使用するコンポーネント設定ファイル\ [#]_\   | （なし）                                              |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-| userIdSessionKey           | ログイン中ユーザIDを格納するセッションキー                              | user.id                                               |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-| exceptionRequestVarKey     | ApplicationExceptionが格納されるリクエストスコープのキー                | nablarch_application_error                            |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-| dumpFileExtension          | ダンプファイルの拡張子                                                  | html                                                  |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-| httpHeader                 | HttpRequestにHTTPリクエストヘッダとして格納される値                     |Content-Type : application/x-www-form-urlencoded       |
-|                            |                                                                         |                                                       |
-|                            |                                                                         |Accept-Language : ja JP                                |
-|                            |                                                                         |                                                       |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-| sessionInfo                | セッションに格納される値                                                |（なし）                                               |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-| htmlResourcesExtensionList | ダンプディレクトリへコピーされるHTMLリソースの拡張子                    | css、jpg、js                                          |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-| jsTestResourceDir          | javascriptの自動テスト実行時に使用するリソースのコピー先ディレクトリ名  | ../test/web                                           |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-| backup                     | ダンプディレクトリのバックアップOn/Off                                  | true                                                  |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-| htmlResourcesCharset       | CSSファイル(スタイルシート)の文字コード                                 | UTF-8                                                 |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-| checkHtml                  | HTMLチェックの実施On/Off                                                | true                                                  |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-| htmlChecker                | HTMLチェックを行うオブジェクトを指定する。|br|                          | nablarch.test.tool.htmlcheck.Html4HtmlChecker         |
-|                            | オブジェクトは nablarch.test.tool.htmlcheck.HtmlChecker                 | クラスのインスタンス。 |br|                           |
-|                            | インタフェースを実装している必要がある。|br|                            | クラスには htmlCheckerConfig で設定した設定           |
-|                            | 詳細は :ref:`customize_html_check` を参照。                             | ファイルが適用される。                                |
-|                            |                                                                         |                                                       |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-| htmlCheckerConfig          | HTMLチェックツールの設定ファイルパス。|br|                              | test/resources/httprequesttest/html-check-config.csv  |
-|                            | htmlChecker を設定しなかった場合のみ有効。                              |                                                       |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-| ignoreHtmlResourceDirectory| HTMLリソースの中でコピー対象外とするディレクトリ名のLIST                | （なし）                                              |
-|                            |                                                                         |                                                       |
-|                            | .. tip::                                                                |                                                       |
-|                            |  バージョン管理用のディレクトリ(.svnや.git)を対象外と設定すると         |                                                       |
-|                            |  HTMLリソースコピー時のパフォーマンスが向上する。                       |                                                       |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-| tempDirectory              | JSPのコンパイル先ディレクトリ                                           | jettyのデフォルト動作に依存                           |
-|                            |                                                                         |                                                       |
-|                            |                                                                         | .. tip ::                                             |
-|                            |                                                                         |  jettyのデフォルト動作では、.「/work」                |
-|                            |                                                                         |  がコンパイル先ディレクトリとなる。                   |
-|                            |                                                                         |  「./work」が存在しない場合は、                       |
-|                            |                                                                         |  Tempフォルダ(Windownの場合は、ユーザのホーム         |
-|                            |                                                                         |  ディレクトリ/Local Settings/Temp)が                  |
-|                            |                                                                         |  出力先となる。                                       |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-| uploadTmpDirectory         | アップロードファイルを一時的に格納するディレクトリ。                    | ./tmp                                                 |
-|                            |                                                                         |                                                       |
-|                            | テスト時に準備した、アップロード対象のファイルは本ディレクトリに        |                                                       |
-|                            | コピー後に処理される。                                                  |                                                       |
-|                            | これにより、アクションでファイルの移動を行った場合でも、                |                                                       |
-|                            | 本ディレクトリ配下のファイルが移動されるだけであり、                    |                                                       |
-|                            | 実態が移動されることを防ぐことができる。                                |                                                       |
-|                            |                                                                         |                                                       |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
-|dumpVariableItem            | HTMLダンプファイル出力時に可変項目を出力するか否かを設定する。          |false                                                  |
-|                            | ここでの可変項目とは以下の2種類を指す。                                 |                                                       |
-|                            |                                                                         |                                                       |
-|                            | * JSESSIONID                                                            |                                                       |
-|                            | * 2重サブミット防止用のトークン                                         |                                                       |
-|                            |                                                                         |                                                       |
-|                            | これらの項目は、テスト実行毎に異なる値が設定される。                    |                                                       |
-|                            |                                                                         |                                                       |
-|                            | HTMLダンプ結果を毎回同じ結果にしたい場合は、本項目をOFF                 |                                                       |
-|                            | (false)に設定する。（前回実行結果と差異がないことを確認したい場合等）   |                                                       |
-|                            |                                                                         |                                                       |
-|                            |                                                                         |                                                       |
-|                            | 可変項目をそのままHTMLに出力する場合は、本項目をON                      |                                                       |
-|                            | (true)に設定する。                                                      |                                                       |
-+----------------------------+-------------------------------------------------------------------------+-------------------------------------------------------+
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| Configuration item name    | Description                                                                                       | Default values                                        |
++============================+===================================================================================================+=======================================================+
+| htmlDumpDir                | Specifies the directory to output the HTML dump file.                                             | ./tmp/http_dump                                       |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| webBaseDir                 | Root directory of the web application\ [#]_\                                                      | ../main/web                                           |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| xmlComponentFile           | Component configuration file to be used when request unit test is executed\ [#]_\                 | (None)                                                |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| userIdSessionKey           | Session key to store the user ID during login                                                     | user.id                                               |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| exceptionRequestVarKey     | Key of the request scope where the ApplicationException is stored.                                | nablarch_application_error                            |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| dumpFileExtension          | Dump file extension                                                                               | html                                                  |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| httpHeader                 | Value stored as HTTP request header in HttpRequest                                                |Content-Type : application/x-www-form-urlencoded       |
+|                            |                                                                                                   |                                                       |
+|                            |                                                                                                   |Accept-Language : ja JP                                |
+|                            |                                                                                                   |                                                       |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| sessionInfo                | Value stored in the session                                                                       |(None)                                                 |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| htmlResourcesExtensionList | Extension of HTML resource copied to the dump directory                                           | css, jpg, js                                          |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| jsTestResourceDir          | The name of the directory to copy the resources used when executing the javascript automated test.| ../test/web                                           |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| backup                     | Dump directory backup On/Off                                                                      | true                                                  |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| htmlResourcesCharset       | Character code of CSS file (style sheet)                                                          | UTF-8                                                 |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| checkHtml                  | Executing HTML check On/Off                                                                       | true                                                  |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| htmlChecker                | Specify the object to check HTML. |br|                                                            | An instance of the                                    |
+|                            | The object must implement the nablarch.test.tool.htmlcheck.HtmlChecker                            | nablarch.test.tool.htmlcheck.Html4HtmlChecker         |
+|                            | interface. |br|                                                                                   | class. |br|                                           |
+|                            | For more information, see :ref:`customize_html_check`.                                            | The configuration file configured in                  |
+|                            |                                                                                                   | htmlCheckerConfig will be applied to the class.       |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| htmlCheckerConfig          | HTML check tool configuration file path. |br|                                                     | test/resources/httprequesttest/html-check-config.csv  |
+|                            | Valid only if htmlChecker is not configured.                                                      |                                                       |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| ignoreHtmlResourceDirectory| LIST of directory names in the HTML resources that are not to be copied                           | (None)                                                |
+|                            |                                                                                                   |                                                       |
+|                            | .. tip::                                                                                          |                                                       |
+|                            |  If version control directories (.svn or .git) are configured as not to                           |                                                       |
+|                            |  be copied, the performance when copying HTML resources will improve.                             |                                                       |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| tempDirectory              | JSP compilation destination directory                                                             | Depends on jetty's default behavior                   |
+|                            |                                                                                                   |                                                       |
+|                            |                                                                                                   | .. tip ::                                             |
+|                            |                                                                                                   |  In the default behavior of jetty, The default        |
+|                            |                                                                                                   |  behavior of jetty is to compile in "/work".          |
+|                            |                                                                                                   |  If there is no ". When "/work" does not exist,       |
+|                            |                                                                                                   |  the Temp folder (in the case of Windown,             |
+|                            |                                                                                                   |  the user's Home directory/Local Settings/Temp)       |
+|                            |                                                                                                   |  as the output destination.                           |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| uploadTmpDirectory         | The directory where the upload files are temporarily stored.                                      | ./tmp                                                 |
+|                            |                                                                                                   |                                                       |
+|                            | The files to be uploaded, which are prepared at the time of testing,                              |                                                       |
+|                            | are processed after being copied to this directory.                                               |                                                       |
+|                            | Thus, even if files are moved by an action,                                                       |                                                       |
+|                            | it is only the files under this directory that are moved,                                         |                                                       |
+|                            | and the physical files can be prevented from being moved.                                         |                                                       |
+|                            |                                                                                                   |                                                       |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+|dumpVariableItem            | Sets whether or not to output the variable items                                                  |false                                                  |
+|                            | when the HTML dump file is output.                                                                |                                                       |
+|                            | Here, the variable items are of the following two types:                                          |                                                       |
+|                            | * JSESSIONID                                                                                      |                                                       |
+|                            | * Token for duplicate form submission prevention                                                  |                                                       |
+|                            |                                                                                                   |                                                       |
+|                            | Different values are set for these items for each test execution.                                 |                                                       |
+|                            |                                                                                                   |                                                       |
+|                            | Set this item to OFF (false) when you want the HTML dump result                                   |                                                       |
+|                            | to be the same every time. (If you want to check that the result                                  |                                                       |
+|                            | is not different from the result of the previous execution, etc.)                                 |                                                       |
+|                            |                                                                                                   |                                                       |
+|                            | Set this item to ON (true) when outputting                                                        |                                                       |
+|                            | a variable item as it is to HTML.                                                                 |                                                       |
++----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
  
 
 .. [#] 
-  PJ共通のwebモジュールが存在する場合、このプロパティにカンマ区切りでディレクトリを設定する。
-  複数指定された場合、先頭から順にリソースが読み込まれる。
+  If there is a common web module in project, configure the directory in this property using a comma separator.
+  If more than one directory is specified, the resources are read in order from the first one.
   
-  以下に例を示す。
+  An example is shown below.
 
   .. code-block:: xml
 
     <component name="httpTestConfiguration" class="nablarch.test.core.http.HttpTestConfiguration">
       <property name="webBaseDir" value="/path/to/web-a/,/path/to/web-common"/>
 
-  この場合、web-a、web-commonの順にリソースが探索される。
+  In this case, the resources are searched in the order of web-a and web-common.
 
 .. [#]
-  この項目を設定した場合は、リクエスト送信直前に指定されたコンポーネント設定ファイルで初期化が行われる。\
-  通常は設定する必要はない。\
-  クラス単体テストとリクエスト単体テストとで設定を変える必要がある場合のみ、この項目を設定する。\
+  If this item is configured, it will be initialized in the component configuration file specified just before the request is sent.
+  Normally, there is no need to configure this item.
+  Configure this item only when you need to change the configuration between class unit test and request unit test.
 
        
 
-コンポーネント設定ファイルの記述例
-===============================================
+Example of component configuration file description
+=====================================================
 
-コンポーネント設定ファイル記述例を記載する。
-設定値には、上記のデフォルト値に加え、セッション(sessionInfo)に以下の値を設定している。
+Here is a description example of the component configuration file.
+In addition to the default values described above, the following values are set in the session (sessionInfo).
 
 
 +----------------------------+------------------------------+--------------------------------------------------------------------+
-| キー                       | 値                           | 説明                                                               |
+| Key                        | Value                        | Description                                                        |
 +============================+==============================+====================================================================+
-| commonHeaderLoginUserName  | "リクエスト単体テストユーザ" | 共通ヘッダ領域に表示するログインユーザ名                           |
+| commonHeaderLoginUserName  | "Request unit test user"     | Login user name to be displayed in the common header area          |
 +----------------------------+------------------------------+--------------------------------------------------------------------+
-| commonHeaderLoginDate      | "20100914"                   | 共通ヘッダ領域に表示するログイン日時                               |
+| commonHeaderLoginDate      | "20100914"                   | Login date and time to be displayed in the common header area      |
 +----------------------------+------------------------------+--------------------------------------------------------------------+
 
 .. code-block:: xml
@@ -443,7 +443,7 @@ HTMLダンプ出力ディレクトリ
         </property>
         <property name="sessionInfo">
             <map>
-                <entry key="commonHeaderLoginUserName" value="リクエスト単体テストユーザ"/>
+                <entry key="commonHeaderLoginUserName" value="Request unit test user"/>
                 <entry key="commonHeaderLoginDate" value="20100914" />
             </map>
         </property>
@@ -469,101 +469,101 @@ HTMLダンプ出力ディレクトリ
 
 .. _`optional_settings`:  
 
-その他の設定
-============
+Other configuration
+=====================
 
-性能が高くないPCで開発をしており、リクエスト単体テスト実行速度を向上させたい場合は、\
-以下の設定をすることで実行速度の改善が見込まれる。
+If you are developing on a PC that does not have high performance and want to improve the execution speed of the request unit test,
+you can improve the execution speed by doing the following configuration.
 
 .. tip::
-  Pentium4、Pentinum Dual-Core等の処理性能が低いCPUを搭載したPCに効果がある。\
-  逆に、これら以降のCPUを搭載したマシンでは、それほど効果的ではないので無理に設定する必要はない。
+  The configuration is effective for PCs with low performance CPUs such as Pentium4 and Pentinum Dual-Core.
+  On the contrary, for machines with newer CPUs, the configuration is not that effective; hence, there is no need to do the configuration unnecessarily.
 
 
-JVMオプションの指定
--------------------
+Specifying JVM options
+----------------------
 
-最大ヒープサイズと最小ヒープサイズを同一の値にすることで、\
-ヒープサイズ拡張のオーバヘッドを回避できる。
+The overhead of heap size expansion can be avoided by setting the same value
+for maximum and minimum heap size.
 
  :strong:`-Xms256m -Xmx256m`
 
 
-また、クラスファイルの検証を省略することで実行速度が向上する。
+In addition, the execution speed is improved by omitting the verification of the class file.
 
  :strong:`-Xverfiy:none`
 
 
-Eclipseでの設定方法は以下のとおり。
+How to configure with Eclipse is as shown below.
 
-* メニューバーより「実行」→「実行構成」を選択する。
+* Select "Run" > "Run Configuration" from the menu bar.
 
-* 「実行構成」ウィンドウが表示されるので、「引数」タブをクリックし、「VM引数」欄に前述のオプションを指定する。
+* In the "Run Configuration" window, click on the "Arguments" tab and specify the above options in the "VM Arguments" field.
 
 .. image:: ./_images/vmoptions.png
 
-また、実行構成を変更しなくても、以下の方法でデフォルトのVM引数を設定できる。
+Also, you can set the default VM arguments with the following method without changing the execution configuration.
 
-* メニューバーより「ウィンドウ」→「設定」を選択する。 「設定」ウィンドウが表示されるので、「インストール済みのJRE」をする。
+* Select "Window" > "Settings" from the menu bar. In the "Settings" window that is displayed, select "Installed JREs(インストール済みのJRE)".
 
-* インストール済みのJREの一覧が表示されるので、使用するJREを選択し「編集」ボタンを押下する。
+* Select the JRE you want to use from the list of installed JREs that is displayed, and click the "Edit(編集)" button.
 
 .. image:: ./_images/installed_jre.png
 
-* 「VM引数」欄に前述のオプションを指定する。
+* Specify the above-mentioned option in the "VM argument(VM引数)" field.
 
 .. image:: ./_images/edit_jre.png
 
 
-代替JREの指定
--------------
+Specifying an alternate JRE
+----------------------------
 
-JavaSE5のJDKで開発を行っている場合、テスト実行時のみJavaSE6のJREを使用することにより、
-実行速度、特に起動速度が向上する。
+If you are developing with JavaSE5 JDK, then using JavaSE6 JRE only at the time of test execution will improve
+the execution speed, especially the start-up speed.
 
 
-Eclipseでの設定方法は以下のとおり。
+How to configure with Eclipse is as shown below.
 
-* メニューバーより「実行」→「実行構成」を選択する。
+* Select "Run" > "Run Configuration" from the menu bar.
 
-* 「実行構成」ウィンドウが表示されるので、「JRE」タブをクリックし「代替JRE」にJavaSE6のJREを選択する。
+* On the "Execution Configuration" window that is displayed, click the "JRE" tab and select JRE of JavaSE6 in the "Alternate JRE(代替JRE)".
 
 .. image:: ./_images/alternate_jre.png
 
 
 .. tip::
-  この設定を行う場合は、事前にJavaSE6のJDKまたはJREをインストールし、Eclipseに「インストール済みのJRE」として登録しておく必要がある。
+  To configure this setting, you need to install the JavaSE6 JDK or JRE in advance and register it as "Installed JRE" in Eclipse.
 
-HTMLリソースコピーの抑止
-------------------------
+Suppression of HTML resource copying
+-------------------------------------
 
-リクエスト単体実行時に、以下のシステムプロパティを指定すると、 :ref:`HTMLダンプ出力<dump-dir-label>` 時に、HTMLリソースコピーを抑止することができる。
+If the following system properties are specified when executing a request unit, HTML resource copying can be suppressed at the time of :ref:`HTML dump output<dump-dir-label>`.
 
  :strong:`-Dnablarch.test.skip-resource-copy=true`
 
 
 
 
-CSSや画像ファイルなど静的なHTMLリソースを頻繁に編集しない場合は、
-テスト実行の度にHTMLリソースをコピーする必要はないので、
-このシステムプロパティを設定してもよい。
+If you do not edit static HTML resources such as CSS or image files frequently,
+you can set this system property because you don't need to copy
+the HTML resources every time a test is executed.
 
 
 .. important::
-   本システムプロパティを指定した場合、HTMLリソースのコピーが行われなくなるので、
-   CSSなどのHTMLリソースを編集しても\ :ref:`HTMLダンプ出力<dump-dir-label>`\ に反映されない。
+   When this system property is specified, the HTML resources are not copied.
+   Therefore, even if HTML resources such as CSS are edited, it is not reflected in the :ref:`HTML dump output<dump-dir-label>`.
 
 
 .. tip::
-   HTMLリソースディレクトリが存在しない場合は、システムプロパティの設定有無に関わらず、\
-   HTMLリソースのコピーが実行される。
+   If the HTML resource directory does not exist, the HTML resources will be copied
+   regardless of whether this system property is set or not.
 
 
-Eclipseでの設定方法は以下のとおり。
+How to configure with Eclipse is as shown below.
 
-* メニューバーより「実行」→「実行構成」を選択する。
+* Select "Run" > "Run Configuration" from the menu bar.
 
-* 「実行構成」ウィンドウが表示されるので、「引数」タブをクリックし、「VM引数」欄に前述のオプションを指定する。
+* In the "Run Configuration" window, click on the "Arguments(引数)" tab and specify the above options in the "VM Arguments(VM引数)" field.
 
 .. image:: ./_images/skip_resource_copy.png
 
