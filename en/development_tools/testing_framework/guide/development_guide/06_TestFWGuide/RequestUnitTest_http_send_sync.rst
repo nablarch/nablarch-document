@@ -1,15 +1,15 @@
 =====================================================================
- リクエスト単体テスト（HTTP同期応答メッセージ送信処理）
+ Request Unit Test (HTTP Sending Synchronous Message Process)
 =====================================================================
 
-リクエスト単体テストのテスト方法は、\ :doc:`RequestUnitTest_send_sync`\ を参照すること。
+Refer to \ :doc:`RequestUnitTest_send_sync`\  for details on how to perform a request unit test.
 
-本項では、\ :doc:`RequestUnitTest_send_sync`\ と異なる箇所の解説を行う。
+In this section, the differences with \ :doc:`RequestUnitTest_send_sync`\ are explained.
 
-ただし、以下のように読み替えること。
+However, the following content in "Sending synchronous message" should be read as given below "HTTP sending synchronous message":
 
 +----------------------------------------------+------------------------------------------------------+
-|同期応答メッセージ送信                        |HTTP同期応答メッセージ送信                            |
+|Sending synchronous message                   |HTTP sending synchronous message                      |
 +==============================================+======================================================+
 |MockMessagingContext                          |MockMessagingClient                                   |
 +----------------------------------------------+------------------------------------------------------+
@@ -17,7 +17,5 @@
 +----------------------------------------------+------------------------------------------------------+
 
 .. tip:: 
- リクエスト単体テストそのものの概要については、
- :ref:`message_httpSendSyncMessage_test`
- を参照。
+ For an overview of the request unit test, refer to :ref:`message_httpSendSyncMessage_test`.
 

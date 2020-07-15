@@ -1,5 +1,5 @@
 =========================================
-業務画面JSP検証ツール
+Job Screen JSP Validation Tool
 =========================================
 
 .. contents::
@@ -9,58 +9,56 @@
 
 
 -----------------------------------------
-概要
+Summary
 -----------------------------------------
 
-本ツールは、JSPファイルに対して以下のような検証を行う。
+This tool performs the following verifications on JSP files.
 
-なお、検証の内容は設定ファイルで変更することが可能であり、また、検証内容自体を追加することもできる。
+Also, it has the capability to change the verification contents in the settings file, and the verification content itself can be added.
 
-**実装済**
+**Implemented**
 
-  * 業務画面のJSPでは使用を許可されているタグのみが利用されていることを検証できる。
-  * JSPで必須となる構造が満たされていることを検証できる。
-  * JSPで禁止されている構造を使用していないことを検証できる。
-  * 各タグに指定されている属性が、タグに定義されている属性であることを検証できる。
+  * It can verify to ensure that only the tags that are permitted to be used, are used in the JSP of the business screen.
+  * It can verify that the required structure is satisfied in the JSP.
+  * It can verify that the prohibited structure is not being used in the JSP.
+  * It can verify that the attributes specified for each tag are indeed the attributes defined for each tag.
 
-**未実装**
+**Not implemented**
 
-  * 各タグの属性値が、その属性のtypeにあった値となっていることを検証できる。
-
-
+  * It can verify that attribute value of each tag is indeed a value that corresponds to the specific attribute.
 
 -----------------------------------------
-初期環境構築
+Initial Environment Construction
 -----------------------------------------
 
 
-Node.jsのインストール
+Node.js installation
 =========================================
 
-本ツールは、 `Node.js <http://nodejs.org/>`_ に依存しているため、下記サイトから使用する環境に合わせたインストーラをダウンロードし、インストールすること。
+Since this tool depends on `Node.js <http://nodejs.org/>`_ , the installer from the below site based on the environment being used is to be downloaded and installed.
 
   http://nodejs.org/
 
 
-環境変数の確認
+Check environment variables
 =========================================
 
-プロキシ環境下で下記の手順を実施する際には、以下の環境変数の値を確認すること。
+When performing the below procedure under a proxy environment, the below values of the environment variables are to be checked.
 
 =========================================== ======================================================
-環境変数名                                  値
+Explanatory variable name                                  Value
 =========================================== ======================================================
-HTTP_PROXY                                  HTTP用プロキシサーバのURL
-HTTPS_PROXY                                 HTTPS用プロキシサーバのURL
+HTTP_PROXY                                  URL of the proxy server for HTTP
+HTTPS_PROXY                                 URL of the proxy server for HTTPS
 =========================================== ======================================================
 
 
-依存パッケージのインストール
+Install dependent packages
 =========================================
 
-本ツールは、いくつかのオープンソースライブラリに依存している。（依存しているライブラリについては、 `package.json` を参照のこと。）
+This tool is dependent on multiple open source libraries. (To know more about the libraries that the tool depends on, refer to `package.json`.)
 
-それらのインストールを行うために、本ツールのルートディレクトリ（ `package.json` の配置されているディレクトリ）で、以下のコマンドを実行する。
+To install the libraries, execute the below command in the root directory (directory where `package.json` is saved) of this tool.
 
 .. list-table::
   :header-rows: 1
@@ -68,35 +66,35 @@ HTTPS_PROXY                                 HTTPS用プロキシサーバのURL
   :widths: 10,5,18
 
 
-  * - 実行ディレクトリ
-    - コマンド
-    - 確認内容
+  * - Execution directory
+    - Command
+    - Details to be checked
 
-  * - 本ツールのルートディレクトリ（ `package.json` の配置されているディレクトリ）
+  * - Root directory of this tool (directory where `package.json` is saved.)
     - `npm install`
-    - * コマンドが正常に完了していること。
-      * ルートディレクトリに `node_modules`\ ディレクトリが作成されていること。
+    - * The command must have been completed successfully.
+      * The `node_modules`\ directory must be created in the root directory.
 
 
 .. important::
 
-   上記の手順で依存パッケージをインストールするためには、インターネットに接続している環境である必要がある。
+   To install the dependent package according to the above procedure, the environment needs to be connected to the Internet.
 
-   また、プロキシ環境下である場合には、以下の環境変数にプロキシサーバのアドレスが設定されている必要がある。
+   Also, if a proxy environment is used, it is necessary for the proxy server address to be configured to the below environment variables.
 
-   * http_proxy ：例）http_proxy=http://proxy.example.com:8080
-   * https_proxy ：例）https_proxy=http://proxy.example.com:8080
+   * http_proxy ：example: http_proxy=http://proxy.example.com:8080
+   * https_proxy ：example: https_proxy=http://proxy.example.com:8080
 
-   なお、インターネットに接続していない環境にインストールする場合には、
-   いったんインターネットに接続している環境で上記手順を実施し、ルートディレクトリに作成される
-   `node_modules` ディレクトリを、対象の環境に解凍した本ツールのルートディレクトリに
-   配置することで利用することができる。
+   Also, if installed in an environment that is not connected to the Internet, 
+   it can be used by initially performing the above procedures in an environment connected to the Internet, 
+   and placing the `node_modules` directory created in the root directory, 
+   in the root directory of this tool that has been extracted in the target environment.
 
 
-正常に使用できることの確認
+Confirm if it can be used normally.
 =========================================
 
-本ツールのルートディレクトリで、以下のコマンドを実行し、すべてのテストが成功することを確認する。
+Ensure that all tests are successful by executing the below commands in the root directory of this tool.
 
 .. list-table::
   :header-rows: 1
@@ -104,18 +102,18 @@ HTTPS_PROXY                                 HTTPS用プロキシサーバのURL
   :widths: 14,5,13
 
 
-  * - 実行ディレクトリ
-    - コマンド
-    - 確認内容
+  * - Execution directory
+    - Command
+    - Details to be checked
 
-  * - 本ツールのルートディレクトリ（ `package.json` の配置されているディレクトリ）
+  * - Root directory of this tool (directory where `package.json` is saved.)
     - `npm test`
-    - * テストがすべて成功していること。
+    - * Success of all tests.
 
-環境依存設定値の修正
-=========================================
+Modification of environment dependency setting value.
+=================================================================
 
-verification_config.json の下記の設定値を、実際にタグファイルが配置されているディレクトリに修正する。
+Modify the below setting value of verification_config.json at the directory where the actual tag file is saved.
 
 .. code-block:: json
 
@@ -127,83 +125,83 @@ verification_config.json の下記の設定値を、実際にタグファイル�
 
 
 -----------------------------------------
-ツールの使用方法
+How to Use the tool
 -----------------------------------------
 
 
-batファイルでの実行
+Execute with a bat file
 =========================================
 
-本ツールのルートディレクトリにある、 `jsp_verifier.bat` にファイルを Drag&Drop する。
+Drag and drop the file to `jsp_verifier.bat` that is in the root directory of this tool.
 
-コマンドラインウィンドウが表示され、検証エラーが0件だった場合には、
+If a command line window is displayed and there are 0 verification errors,
 
 Verification Succeeded.
 
-と表示され、検証エラーが1件以上あった場合には、
+Is displayed, and if there are one or more verification error,
 
 Verification Failed!! |br|
 12 violations are found. |br|
 Detected violations are dumped to violations-1390366626297.log.
 
-のように、エラー内容が出力されたファイル名が表示される。
+The file name where the error content is output is displayed like this.
 
 
 
-コマンドラインからの実行
+Execution from command line.
 =========================================
 
-本ツールのルートディレクトリで、以下のコマンドを実行する。
+The below commands are executed in the root directory of this tool.
 
 .. code-block:: sh
 
-   node bin/jsp_verifier <検証対象JSPファイルパス（複数可）>
+   node bin/jsp_verifier <Verification target JSP file path(s)>
 
-標準出力の出力内容は、上記のとおり。
+The output contents of the standard output are as above.
 
 
 -----------------------------------------
-設定方法
+Configuration method
 -----------------------------------------
 
-ルートディレクトリの、 `verification_config.json` が本ツールの設定ファイルとなっている。このファイルに実施する検証内容及び、
-各検証内容ごとの設定を記載することで、検証が行われる。
+`verification_config.json` of the root directory is the configuration file of this tool. 
+Verification is performed by detailing the verification contents to be executed in this file and settings of each verification content.
 
 .. important::
 
-  下記の設定ファイル例では説明のために、JavaScript形式でコメントを記載しているが、実際のJSONファイルにはコメントを記載できない。
+  In the below example configuration file, for the purpose of explanation, though comments are written in JavaScript format, comments cannot be written in the actual JSON file.
 
 .. code-block:: json
 
   {
-    // verifiers内に、実施する検証内容を記載していく。
+    // Verification contents to be implemented are described in verifiers.
     "verifiers": {
-      // 使用可能タグ検証
+      // Verification of tags that can be used
       "TagUsageVerifier": {
       }
-      // 正規表現検証
+      // Regular expression verification
       "RegexpBasedVerifier": {
       }
-      // DOMツリー検証
+      // DOM tree verification
       "SelectorBasedVerifier": {
       }
-      // 親タグ検証
+      // Parent tag verification
       "WrappingTagVerifier": {
       }
-      // タグ属性検証
+      // Tag attribute verification
       "TagAttributeVerifier": {
       }
-      // ここに定義されていない検証は実施されない
+      // Verification not defined here will not be performed
     }
   }
 
-既定の設定内容
+Default setting contents
 =========================================
 
-使用可能タグ検証
+Verification of tags that can be used
 -----------------------------------------
 
-以下の、使用が許可されているタグのみを利用していること。
+Only the below tags that have usage permission are to be used.
 
 * n:form
 * n:set
@@ -229,35 +227,35 @@ Detected violations are dumped to violations-1390366626297.log.
 * %\@page
 * %\@taglib
 
-正規表現検証
+Regular expression verification
 -----------------------------------------
 
-以下の正規表現にマッチする文字列が存在しないこと（大文字・小文字は区別しない）。
+Strings matching the below regular expression are not recognized (uppercase/lowercase not sensitive).
 
-* /> （自己終了エレメント。自己終了エレメントを利用すると、その要素以降の記述内容が描画されなくなるため禁止。）
+* /> (Self terminating element. If a self-terminating element is used, as the description content cannot be drawn after that element, it is prohibited)
 
-DOMツリー検証
+DOM tree validation
 -----------------------------------------
 
-以下の、禁止されている構造を使用していないこと。
+The below prohibited structures are not to be used.
 
-* table:not([id]) （テーブルを複数表示する場合にIDが必須となるため、テーブルにはIDを強制。）
-* table:not([listSearchInfoName]) （テーブルにはlistSearchInfoNameがないと結果件数が表示されないため、listSearchInfoNameを強制。）
+* table:not([id]) （As IDs is required when displaying multiple tables, ID is forced on the table.）
+* table:not([listSearchInfoName]) （listSearchInfoName is forced as the number of results cannot be displayed if the table does not have listSearchInfoName.）
 
-親タグ検証
+Parent tag verification
 -----------------------------------------
 
-以下の、必須となる構造が満たされていること
+The below required structure is to be satisfied.
 
-* tableウィジェットは、n:formで囲む必要がある。
-* buttonウィジェットは、n:formで囲む必要がある。
-* 設計書ビューで画面項目定義に表示されるウィジェットは、spec:layoutで囲む必要がある。
+* The table widget must be enclosed with n:form.
+* The button widget needs to be enclosed with n:form.
+* The widget displayed in the screen item definition in the design view must be enclosed by spec:layout.
 
-タグ属性検証
+Tag attribute verification
 -----------------------------------------
 
-JSPで使用されているタグ（C:\\nablarch\\workspace\\tutorial\\main\\web\\WEB-INF\\tags\\widget\\ 配下にtagファイルが格納されているもの）の属性が、
-実際にタグに定義されている属性であること。
+The attribute of the tag (the one with the tag file stored under C:\nablarch\workspace\tutorial\main\web\WEB-INF\tags\widget) being used in JSP should be the actual attribute that defines the tag.
+
 
 
 .. |br| raw:: html

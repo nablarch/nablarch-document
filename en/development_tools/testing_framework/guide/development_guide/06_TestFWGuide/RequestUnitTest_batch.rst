@@ -1,261 +1,253 @@
 .. _request-util-test-batch:
 
 ========================================
- リクエスト単体テスト（バッチ処理）
+ Request Unit Test (Batch Process)
 ========================================
 
 
-概要
-====
+Summary
+========
 
-リクエスト単体テスト（バッチ処理)では、実際にバッチをコマンドラインから起動したときの動作を擬似的に再現し、テストを行う。
-
-
+Request unit tests (batch process) simulate and test the behavior of the batch when it is actually launched from the command line.
 
 
-全体像
-------
+
+
+Overall picture
+------------------
 
 .. image:: ./_images/batch_request_test_class.png
    :scale: 70
 
 
 
-主なクラス, リソース
-====================
+Main Classes, resources
+==============================
 
-+----------------------+------------------------------------------------------+--------------------------------------+
-|名称                  |役割                                                  | 作成単位                             |
-+======================+======================================================+======================================+
-|リクエスト単体\       |テストロジックを実装する。                            |テスト対象クラス(Action)につき１つ作成|
-|テストクラス          |                                                      |                                      |
-+----------------------+------------------------------------------------------+--------------------------------------+
-|Excelファイル\        |テーブルに格納する準備データや期待する結果、\         |テストクラスにつき１つ作成            |
-|（テストデータ）      |入力ファイルなど、テストデータを記載する。            |                                      |
-+----------------------+------------------------------------------------------+--------------------------------------+
-|StandaloneTest\       |バッチやメッセージング処理などコンテナ外で動作する\   | \－                                  |
-|SupportTemplate       |処理のテスト実行環境を提供する。                      |                                      |
-+----------------------+------------------------------------------------------+--------------------------------------+
-|BatchRequest\         |バッチリクエスト単体テストで必要とな\                 | \－                                  |
-|TestSupport           |るテスト準備機能、各種アサートを提供する。            |                                      |
-+----------------------+------------------------------------------------------+--------------------------------------+
-|TestShot              |データシートに定義されたテストケース1件分の情報を\    | \－　　                              |
-|                      |格納するクラス。                                      |                                      |
-+----------------------+------------------------------------------------------+--------------------------------------+
-|MainForRequestTesting |テスト用メインクラス。テスト実行時の差分を吸収する。  | \－                                  |
-+----------------------+------------------------------------------------------+--------------------------------------+
-|DbAccessTestSupport   |DB準備データ投入などデータベースを使用するテストに\   | \－                                  |
-|                      |必要な機能を提供する。                                |                                      |
-+----------------------+------------------------------------------------------+--------------------------------------+
-|FileSupport           |入力ファイル作成などファイルを使用するテストに\       | \－                                  |
-|                      |必要な機能を提供する。                                |                                      |
-+----------------------+------------------------------------------------------+--------------------------------------+
++----------------------+---------------------------------------------------------------------------+-------------------------------------------+
+|Name                  |Role                                                                       | Creation unit                             |
++======================+===========================================================================+===========================================+
+|Request unit\         |Implement the test logic.                                                  |Create one per class (Action) to be tested.|
+|Test class            |                                                                           |                                           |
++----------------------+---------------------------------------------------------------------------+-------------------------------------------+
+|Excel file \          |Describe test data, such as preparation data to be stored in the table, \  |Create one per test class                  |
+|（Test data）         |expected results and input files.                                          |                                           |
++----------------------+---------------------------------------------------------------------------+-------------------------------------------+
+|StandaloneTest\       |Provides a test execution environment for batch, messaging, \              | \－                                       |
+|SupportTemplate       |and other processes that run outside the container.                        |                                           |
++----------------------+---------------------------------------------------------------------------+-------------------------------------------+
+|BatchRequest\         |Provides test preparation function and \                                   | \－                                       |
+|TestSupport           |various asserts required for batch request unit test.                      |                                           |
++----------------------+---------------------------------------------------------------------------+-------------------------------------------+
+|TestShot              |A class that stores information for one test case defined in a datasheet.\ | \－                                       |
+|                      |                                                                           |                                           |
++----------------------+---------------------------------------------------------------------------+-------------------------------------------+
+|MainForRequestTesting |Main class for testing. Absorb the differences during test execution.      | \－                                       |
++----------------------+---------------------------------------------------------------------------+-------------------------------------------+
+|DbAccessTestSupport   |Provides the necessary functions for testing using the database, \         | \－                                       |
+|                      |such as DB preparation data input.                                         |                                           |
++----------------------+---------------------------------------------------------------------------+-------------------------------------------+
+|FileSupport           |Provides the necessary functions for testing using the file, \             | \－                                       |
+|                      |such as preparation of input file.                                         |                                           |
++----------------------+---------------------------------------------------------------------------+-------------------------------------------+
 
 
-構造
-====
+Structure
+==========
 
 
 StandaloneTestSupportTemplate
 -----------------------------
-バッチやメッセージング処理などコンテナ外で動作する処理のテスト実行環境を提供する。
-テストデータを読み取り、全テストショット(\ `TestShot`_ \ )を実行する。
+Provides a test execution environment for batch, messaging, and other processes that run outside the container. 
+Reads test data and executes all test shots (\ `TestShot`_ \ ).
 
 TestShot
 --------
 
-1テストショットの情報保持とテストショット実行を行う。\
-テストショットは以下の要素で成り立っている。
+Executes by holding information of 1 TestShot. \
+The TestShot consists of the following elements:
 
-* 入力データの準備
-* メインクラス起動
-* 出力結果の確認
 
-バッチやメッセージング処理などコンテナ外で動作する処理のテストにおいて
-共通の準備処理、結果確認機能を提供する。
+* Preparation of input data
+* Launch the main class
+* Confirm the output results
 
- +----------------------------+--------------------------+
- | 準備処理                   | 結果確認                 |
- +============================+==========================+
- | データベースのセットアップ | データベース更新内容確認 |
- |                            +--------------------------+
- |                            | ログ出力結果確認         |
- |                            +--------------------------+
- |                            | ステータスコード確認     |
- +----------------------------+--------------------------+
+Provides common preparation process and result checking functions for testing processes that operate outside of containers, 
+such as batch and messaging processes.
 
-入力データ準備や結果確認ロジックはバッチや各種メッセージング処理ごとに異なるので\
-方式に応じたカスタマイズが可能となっている。
+ +----------------------------+----------------------------+
+ | Preparation process        | Confirmation of results    |
+ +============================+============================+
+ | Database setup             | Check for database updates |
+ |                            +----------------------------+
+ |                            | Check log output results   |
+ |                            +----------------------------+
+ |                            | Confirm the status code    |
+ +----------------------------+----------------------------+
+
+Since the input data preparation and result confirmation logic is different for each batch and various messaging processes, \
+it can be customized according to the method.
 
 
 BatchRequestTestSupport
 -----------------------
 
-バッチ処理テスト用のスーパクラス。\
-アプリケーションプログラマは本クラスを継承してテストクラスを作成する。
+Superclass for batch process tests. \
+The application programmer creates a test class by inheriting this class.
 
-本クラスは、\ `TestShot`_ \が提供する準備処理、結果確認に以下の機能を追加する。
+This class adds the following functions to the preparation process and result confirmation provided by \ `TestShot`_ \.
 
- +----------------------------+--------------------------+
- | 準備処理                   | 結果確認                 |
- +============================+==========================+
- |入力ファイルの作成          |出力ファイルの内容確認    |
- +----------------------------+--------------------------+
+ +----------------------------+---------------------------------------+
+ | Preparation process        | Confirmation of results               |
+ +============================+=======================================+
+ |Prepare input file          |Check the contents of the output file  |
+ +----------------------------+---------------------------------------+
 
-本クラスを使用することで、リクエスト単体テストのテストソース、テストデータを定型化でき、\
-テストソース記述量を大きく削減できる。
+By using this class, the test source and test data of the request unit test can be standardized, \ 
+and description of test source can be significantly reduced.
 
-具体的な使用方法は、\ :doc:`../05_UnitTestGuide/02_RequestUnitTest/batch`\ を参照。
+For the specific usage method, refer to \ :doc:`../05_UnitTestGuide/02_RequestUnitTest/batch`\ .
 
 
 MainForRequestTesting
 ---------------------
 
-リクエスト単体テスト用のメインクラス。\
-本番用メインクラスとの主な差異は以下の通り。
+Main class for request unit test. \
+The primary differences from the main class for production are as follows.
 
-* テスト用のコンポーネント設定ファイルからシステムリポジトリを初期化する。
-* 常駐化機能を無効化する。
+* Initialize the system repository from the component configuration file of the test.
+* Disable the resident function.
 
 
 FileSupport
------------
+--------------
 
-ファイルに関する操作を提供するクラス。
-主に以下の機能を提供する。
+A class that provides operations related to files. 
+Primarily, the following functions are provided.
 
-* テストデータから入力ファイルを作成する
-* テストデータの期待値と実際に出力されたファイルと内容を比較する。
+* Creates an input file from the test data.
+* Compares the expected value of the test data with the actual output file and its contents.
 
-ファイルに関する操作は、バッチ処理以外でも必要となるため（例えば、ファイルダウンロード等）、\
-独立したクラスとして提供している。
+File operations are provided as an independent class because they are necessary for other than batch processing (for example, file download).
 
 
-テストデータ
+Test data
 ============
 
-バッチ処理固有のテストデータについて説明する。
+The test data specific to the batch process is described.
 
 
  .. _`about_fixed_length_file`:
 
-固定長ファイル
---------------
+Fixed-length file
+---------------------
 
-基本的な記述方法は、\
-:ref:`batch_request_test`\
-を参照。
+For the basic description, see :ref:`batch_request_test`.
 
-
-パディング
+Padding
 ~~~~~~~~~~
 
-指定したフィールド長に対して、データのバイト長が短い場合、
-そのフィールドのデータ型に応じたパディングが行われる。
-パディングのアルゴリズムはNablarch Application Framework本体と同様である。
+If the byte length of the data is shorter than the specified field length, 
+padding is added to the data according to the data type of the field. 
+The algorithm used for padding is the same algorithm used for the main body of the Nablarch Application Framework.
 
 
-バイナリデータの記述方法
+How to write binary data
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-バイナリデータを表現するには、16進数形式でテストデータを記述する。
-例えば、\ ``0x4AD``\ と記述した場合、\ ``0000 0100 1010 1101``\  (\ ``0x04AD``\ )という2バイトのバイト配列に解釈される。
+To represent binary data, write the test data in hexadecimal format. 
+For example, when written as \ ``0x4AD``\ , it is interpreted as a byte array of 2-bytes expressed as \ ``0000 0100 1010 1101``\ (\ ``0x04AD``\ ).
 
 .. tip::
- テストデータに、プレフィックス0xが付与されていない場合、そのデータを文字列とみなし、
- その文字列をディレクティブの文字コードでエンコードしてバイト配列に変換する。
+ If the test data is not pre-fixed with 0x, the data is considered a string, 
+ and the string is encoded with the character code of the directive and converted to a byte array.
  
- 例えば、文字コードがWindows-31Jのファイルのテストデータにて、\
- データ型がバイナリのフィールドに\ ``4AD``\ と記載した場合、\ ``0011 0100 0100 0001 0100 0100``\  (\ ``0x344144``\ )\
- という3バイトのバイト配列に変換される。
+ For example, if \ ``4AD``\  is written in the field of the binary type test data of a file with Windows-31J character code, 
+ it is converted to a byte array of 3-bytes expressed as \ ``0011 0100 0100 0001 0100 0100``\  (\ ``0x344144``\ ).
   
 
-可変長ファイル
---------------
+Variable length file
+--------------------------
 
-基本的な記述方法は、\
-:ref:`batch_request_test`\
-を参照。
+For the basic description, see :ref:`batch_request_test`.
 
+Various configuration values
+===================================
 
-各種設定値
-==========
-
-常駐バッチのテスト用ハンドラ構成
+Handler configuration of resident batch test
 -----------------------------------------------------
-常駐バッチのテストを実施する際には、プロダクション用ハンドラ構成をテスト用に変更する必要がある。
-この変更を行わずにテストを実施した場合、テスト対象の常駐バッチアプリケーションの処理が終わらないため、テストが正常に実施できなくなる。
+When performing a resident batch test, the handler configuration for production has to be changed for the test. 
+If the test is performed without making this change, the test will not be implemented successfully because the process of the resident batch application that is being tested will not finish.
 
-**【変更が必要なハンドラ】**
+**[Handlers that need to be modified]**
 
-========================= ========================= ==================================================================
-変更対象のハンドラ        変更後のハンドラ          変更理由
-========================= ========================= ==================================================================
-RequestThreadLoopHandler  OneShotLoopHandler        RequestThreadLoopHandlerでテストを実施すると、
-                                                    バッチ実行が終わらずにテストコードに制御が戻らなくなるため。
+========================= ========================= ======================================================================================
+Handler to be modified    Modified handler          Reason for revision
+========================= ========================= ======================================================================================
+RequestThreadLoopHandler  OneShotLoopHandler        If the test is executed with RequestThreadLoopHandler, 
+                                                    the control will not return to the test code without completing the batch execution.
 
-                                                    OneShotLoopHandlerにハンドラを差し替えることで、
-                                                    テスト実行前にセットアップした要求データを全件処理後に
-                                                    バッチ実行が終了しテストコードに制御が戻るようになる。
-========================= ========================= ==================================================================
+                                                    By replacing the handler with OneShotLoopHandler, 
+                                                    the batch execution will be completed and control returns to the test code 
+                                                    after all the request data setup before the test execution is processed.
+========================= ========================= ======================================================================================
 
-以下にコンポーネント設定ファイルの設定例を示す。
+The configuration example of the component configuration file is shown below.
 
-* プロダクション用設定
+* Production configuration
 
   .. code-block:: xml
 
-    <!-- リクエストスレッドループ -->
+    <!-- Request thread loop -->
     <component name="requestThreadLoopHandler" class="nablarch.fw.handler.RequestThreadLoopHandler">
-      <!-- プロパティへの値設定は省略 -->
+      <!-- Configuration of property is omitted -->
     </component>
 
-* テスト用設定
+* Test configuration
 
-  プロダクション用設定と同名でコンポーネントを設定し、テスト用のハンドラを使用するように上書きする。
+  Configure a component with the same name as the production configuration and overwrite it to use a handler for testing.
 
   .. code-block:: xml
 
-    <!-- リクエストスレッドループハンドラをテスト用のハンドラに置き換える設定 -->
+    <!-- Configuration to replace the request thread loop handler with a handler for testing -->
     <component name="requestThreadLoopHandler" class="nablarch.test.OneShotLoopHandler" />
 
 
-ディレクティブのデフォルト値
+Default value of directive
 ----------------------------
 
-ファイルのディレクティブがシステム内である程度統一されている場合、
-個々のテストデータに同じディレクティブを記載することは冗長である。
+If the file directives are unified to some extent in the system, 
+it is redundant to describe the same directive in each test data.
 
-このような場合には、デフォルトのディレクティブを
-コンポーネント設定ファイルに記載することで、
-個々のテストデータではディレクティブの記述を省略できる。
+In such a case, by describing the default directive in the component configuration file, 
+the directive description can be omitted for each test data.
 
-コンポーネント設定ファイルにmap形式で記載する。ネーミングルールは以下のとおり。
+Use map format for the component configuration file. The naming rules are as follows.
 
 ======================= ==============================
- 対象となるファイル種別  name属性
+ Target file type  name attribute
 ======================= ==============================
- 共通                    defaultDirectives            
- 固定長ファイル          fixedLengthDirectives    
- 可変長ファイル          variableLengthDirectives 
+ Shared                 defaultDirectives            
+ Fixed-length file      fixedLengthDirectives    
+ Variable length file   variableLengthDirectives 
 ======================= ==============================
 
 
-設定例を以下に例を示す。
+The configuration example is shown below.
 
 .. code-block:: xml
 
-  <!-- ディレクティブ（共通） -->
+  <!-- Directive (common) -->
   <map name="defaultDirectives">
     <entry key="text-encoding" value="Windows-31J" />
   </map>
 
-  <!-- ディレクティブ（固定長） -->
+  <!-- Directive (fixed-length) -->
   <map name="variableLengthDirectives">
     <entry key="record-separator" value="NONE"/>
   </map>
 
-  <!-- ディレクティブ（可変長） -->
+  <!-- Directive (variable length) -->
   <map name="variableLengthDirectives">
     <entry key="quoting-delimiter" value="" />
     <entry key="record-separator" value="CRLF"/>

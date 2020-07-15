@@ -1,6 +1,6 @@
 
 ============================================
-アプリケーション開発時に使える便利なツール
+Useful Tools When Developing Applications
 ============================================
 
 .. toctree::
@@ -14,8 +14,8 @@
 
 .. _nablarchToolBoxPage:
 
-本書では、アプリケーション開発時に使える便利なツールを紹介する。|br|
-`ソースコード <https://github.com/nablarch/nablarch-toolbox>`_
+This document introduces tools that are useful for developing applications. |br|
+`Source code <https://github.com/nablarch/nablarch-toolbox>`_
 
 
 .. list-table::
@@ -23,14 +23,14 @@
   :class: white-space-normal
   :widths: 1,2
 
-  * - ツール
-    - 概要
+  * - Tool
+    - Summary
   * - :doc:`JspStaticAnalysis/index`
-    - JSPで使用を許可する構文とタグを規定し、許可する構文とタグのみを使用していることをチェックするツール。
+    - A tool that specifies the syntax and tags that are allowed to be used in JSP, and checks that only the allowed syntax and tags are used.
   * - :doc:`SqlExecutor/SqlExecutor`
-    - SQL文を対話的に実行するツール。
+    - A tool for executing SQL statements interactively.
   * - :doc:`JspVerifier/JspVerifier`
-    - 業務画面JSPの検証を行うツール。
+    - A tool to verify the business screen JSP.
 
 .. |br| raw:: html
 

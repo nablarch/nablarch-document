@@ -1,75 +1,75 @@
-=========================================
-マスタデータ投入ツール インストールガイド
-=========================================
+===========================================
+Master Data Input Tool Installation Guide
+===========================================
 
-:doc:`index`\ のインストール方法について説明する。
+This section describes how to install the :doc:`index`\ .
 
 .. _master_data_setup_prerequisite:
 
-前提事項
-========
+Prerequisites
+==============
 
-* Eclipseがインストール済みであること
-* テーブルが作成済みであること
-* バックアップ用スキーマにテーブルが作成済みであること\ [#]_
+* Eclipse must be installed
+* Table must be created
+* The table is already created in the backup schema\ [#]_
 
 .. [#] 
- バックアップ用スキーマおよびそのテーブルの作成については、\
- 『\ :doc:`../../06_TestFWGuide/04_MasterDataRestore`\ 』の\ :ref:`master_data_backup_settings`\ を参照。
+ For information on creating backup schema and its tables, 
+ see \ :ref:`master_data_backup_settings`\ of "\ :doc:`../../06_TestFWGuide/04_MasterDataRestore`\".
 
 
 
-提供方法
-========
+Method of provision
+========================
 
-本ツールはNablarchのサンプルアプリケーションに同梱して提供する。本ツールのツール構成を下記に示す。
+This tool is provided in a package along with Nablarch sample application. The tool configuration of this tool is shown below.
 
 +-----------------------------------------+----------------------------------------+
-|ファイル名                               |説明                                    |
+|File name                                |Description                             |
 +=========================================+========================================+
-|master_data-build.properties             |環境設定用プロパティファイル            |
+|master_data-build.properties             |Configuration property file             |
 +-----------------------------------------+----------------------------------------+
-|master_data-build.xml                    |Antビルドファイル                       |
+|master_data-build.xml                    |Ant build file                          |
 +-----------------------------------------+----------------------------------------+
-|master_data-log.properties               |ログ出力プロパティファイル              |
+|master_data-log.properties               |Log output property file                |
 +-----------------------------------------+----------------------------------------+
-|MASTER_DATA.xlsx                         |マスタデータファイル                    |
+|MASTER_DATA.xlsx                         |Master data file                        |
 +-----------------------------------------+----------------------------------------+
 
 
-プロパティファイルの書き換え
+Rewrite a property file
 ----------------------------
 
-マスタデータ自動復旧機能が使用する、バックアップスキーマ名を設定する。
+Configure the backup schema name used by the master data automated recovery function.
 
 
 .. code-block:: bash
  
- # テスト用マスタデータバックアップスキーマ名
+ # Master data backup schema name for test
  masterdata.test.backup-schema=nablarch_test_master
 
 
-その他の設定値については、ディレクトリ構造が変わらない限り修正の必要はない。
+Other configuration values do not need to be modified as long as the directory structure remains the same.
 
 
-配置
-----
+Placement
+------------
 
-サンプルアプリケーションと同様に、<mainプロジェクト>/tool/db/data直下に配置する。
+As in the sample application, place it directly under <main project>/tool/db/data.
 
 .. _how_to_setup_ant_view_in_eclipse:
 
 
-Eclipseとの連携設定
-===================
+Integration configuration with Eclipse
+==============================================
 
-以下の設定をすることでEclipseから本ツールを起動することができる。
+This tool can be launched from Eclipse with the following settings.
 
 
-Antビュー起動
--------------
+Launch Ant view
+--------------------
 
-ツールバーから、ウィンドウ(Window)→設定(Show View)を選択し、Antビューを開く。
+From the toolbar, select Window → Show View to open the Ant view.
 
 
 
@@ -77,23 +77,23 @@ Antビュー起動
    :scale: 80
 
  
-ビルドファイル登録
-------------------
+Build file registration
+----------------------------
 
-＋印のアイコンを押下し、ビルドスクリプトを選択する。
+Click the + icon and select the build script.
 
 .. image:: ./_image/register_build_file.png
    :scale: 100
 
 
 
-Antビルドファイル(master_data-build.xml)を選択する。
+Select the Ant build file (master_data-build.xml).
 
 .. image:: ./_image/select_build_file.png
    :scale: 100
 
 
-Antビューに登録したビルドファイルが表示されることを確認する。
+Confirm that the registered build files are displayed in the Ant view.
 
 .. image:: ./_image/build_file_in_view.png
    :scale: 100

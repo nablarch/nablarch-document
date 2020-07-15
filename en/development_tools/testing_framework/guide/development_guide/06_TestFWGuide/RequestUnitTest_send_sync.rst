@@ -1,25 +1,24 @@
 =====================================================================
- リクエスト単体テスト（同期応答メッセージ送信処理）
+ Request Unit Test (Sending Synchronous Message Process)
 =====================================================================
 
 
-概要
-====
+Summary
+========
 
-リクエスト単体テスト（同期応答メッセージ送信処理)では、
-要求電文1件をキューに送信し、結果を同期的に受信する際の動作を擬似的に再現し、テストを行う。
+In the request unit test (sending synchronous message process), one request message is sent to the queue, 
+and the behavior when the result is received synchronously is simulated and tested.
     
 
 .. tip:: 
- リクエスト単体テストそのものの概要については、
- :ref:`message_sendSyncMessage_test`
- を参照。
+ For an overview of the request unit test, 
+ refer to :ref:`message_sendSyncMessage_test`.
 
 
-全体像
-------
+Overall picture
+------------------
 
-バッチ処理の中で同期応答メッセージ送信処理を行う場合について、以下に全体像を示す。
+The following is an overview of sending synchronous message performed as a batch process.
 
 .. image:: ./_images/send_sync.png
    :scale: 70
@@ -27,130 +26,124 @@
 
 
 .. tip:: 
- 同期応答メッセージ送信処理のリクエスト単体テストを行う場合、テストケースの親クラスは以下の２クラスのうちのいずれかを継承しておく必要がある。
+ When performing a request unit test of the sending synchronous message process, the parent class of the test case should inherit one of the following two classes.
 
  * StandaloneTestSupportTemplate
  * AbstractHttpRequestTestTemplate
 
 
 
-主なクラス, リソース
-====================
+Main Classes, resources
+==========================
 
-+----------------------------------------------+------------------------------------------------------+--------------------------------------+
-|名称                                          |役割                                                  | 作成単位                             |
-+==============================================+======================================================+======================================+
-|リクエスト単体\                               |テストロジックを実装する。                            |テスト対象クラス(Action)につき１つ作成|
-|テストクラス                                  |                                                      |                                      |
-+----------------------------------------------+------------------------------------------------------+--------------------------------------+
-|Excelファイル\                                |要求電文の期待値および応答電文などの                  |テストクラスにつき１つ作成            |
-|（テストデータ）                              |テストデータを記載する。\                             |                                      |
-+----------------------------------------------+------------------------------------------------------+--------------------------------------+
-|StandaloneTest\                               |Action実行後に、MockMessagingContextを用いて          | \－                                  |
-|SupportTemplate                               |要求電文のアサートを実行する。                        |                                      |
-+----------------------------------------------+------------------------------------------------------+--------------------------------------+
-|AbstractHttpRequest\                          |Action実行後に、MockMessagingContextを用いて          | \－                                  |
-|TestTemplate                                  |要求電文のアサートを実行する。                        |                                      |
-+----------------------------------------------+------------------------------------------------------+--------------------------------------+
-|MessageSender                                 |同期応答メッセージ送信を行う際に\                     | \－                                  |
-|                                              |使用するコンポーネント。                              |                                      |
-+----------------------------------------------+------------------------------------------------------+--------------------------------------+
-|RequestTestingMessagingProvider               |リクエスト単体テストにおいて、\                       | \－                                  |
-|                                              |要求電文のアサート機能および\                         |                                      |
-|                                              |応答電文の生成・返却機能を提供する。                  |                                      |
-+----------------------------------------------+------------------------------------------------------+--------------------------------------+
-|TestDataConvertor                             |Excelから読み込んだテストデータを編集するための\      | \－                                  |
-|                                              |インタフェース。                                      |                                      |
-|                                              |必要に応じてデータ種別ごとにアーキテクトが実装する。  |                                      |
-+----------------------------------------------+------------------------------------------------------+--------------------------------------+
++----------------------------------------------+------------------------------------------------------------+-------------------------------------------+
+|Name                                          |Role                                                        | Creation unit                             |
++==============================================+============================================================+===========================================+
+|Request unit\                                 |Implement the test logic.                                   |Create one per class (Action) to be tested.|
+|Test class                                    |                                                            |                                           |
++----------------------------------------------+------------------------------------------------------------+-------------------------------------------+
+|Excel file \                                  |Describe test data such as expected value of                |Create one per test class                  |
+|（Test data）                                 |request message and response message.\                      |                                           |
++----------------------------------------------+------------------------------------------------------------+-------------------------------------------+
+|StandaloneTest\                               |After the action is executed,                               | \－                                       |
+|SupportTemplate                               |MockMessagingContext is used to assert the request message. |                                           |
++----------------------------------------------+------------------------------------------------------------+-------------------------------------------+
+|AbstractHttpRequest\                          |After the action is executed,                               | \－                                       |
+|TestTemplate                                  |MockMessagingContext is used to assert the request message. |                                           |
++----------------------------------------------+------------------------------------------------------------+-------------------------------------------+
+|MessageSender                                 |The component used for sending synchronous message.\        | \－                                       |
+|                                              |                                                            |                                           |
++----------------------------------------------+------------------------------------------------------------+-------------------------------------------+
+|RequestTestingMessagingProvider               |Provides a function to assert a request message \           | \－                                       |
+|                                              |and a function to generate and return a request message \   |                                           |
+|                                              |in the request unit test.                                   |                                           |
++----------------------------------------------+------------------------------------------------------------+-------------------------------------------+
+|TestDataConvertor                             |Interface for editing the test data read from Excel. \      | \－                                       |
+|                                              |If necessary, the architect implements the converter        |                                           |
+|                                              |for each data type.                                         |                                           |
++----------------------------------------------+------------------------------------------------------------+-------------------------------------------+
 
 
-構造
-====
+Structure
+============
 
 
 StandaloneTestSupportTemplate
 ----------------------------------------
 
-Action実行後に、MockMessagingContextを用いて、要求電文のアサートを行う機能。
+A function to assert the request message using the MockMessagingContext after the action is executed.
 
-同期応答メッセージ送信処理のリクエスト単体テストを行う場合は、処理の形態に合わせて
-本クラスもしくはAbstractHttpRequestTestTemplateを実装したテストケースを使用する必要がある。
+When performing a request unit test of the sending synchronous message process, 
+it is necessary to use a test case that implements this class or the AbstractHttpRequestTestTemplate according to the process type.
 
 
 
 AbstractHttpRequestTestTemplate
 ---------------------------------------------------
 
-Action実行後に、MockMessagingContextを用いて、要求電文のアサートを行う機能。
+A function to assert the request message using the MockMessagingContext after the action is executed.
 
-同期応答メッセージ送信処理のリクエスト単体テストを行う場合は、処理の形態に合わせて
-本クラスもしくはStandaloneTestSupportTemplateを実装したテストケースを使用する必要がある。
-
+When performing a request unit test of the sending synchronous message process, 
+it is necessary to use this class or a test case that implements the StandardaloneTestSupportTemplate according to the process type.
 
 RequestTestingMessagingProvider
 -------------------------------------------------
 
-要求電文のアサートおよび、応答電文の生成・返却する機能を提供するクラス。
+This class provides a function to assert the request message and generate/return the response message.
 
-また、Excelに記載された要求電文の期待値と、応答電文の読み込みも実行する。
+The class also reads the expected value of the request message and the response message written in Excel.
 
-本クラスは、以下の準備処理、結果確認機能を提供する。
+This class provides the following preparation process and result confirmation function.
 
- +----------------------------+--------------------------+
- | 準備処理                   | 結果確認                 |
- +============================+==========================+
- |応答電文の生成              |要求電文のアサート        |
- +----------------------------+--------------------------+
+ +-------------------------------+------------------------------+
+ | Preparation process           | Confirmation of results      |
+ +===============================+==============================+
+ |Generation of response message |Asserting the request message |
+ +-------------------------------+------------------------------+
 
 .. tip:: 
- 要求電文のアサートは、要求電文が送信されるたびに行うのではなく、Action実行後に一括で行う。
+ Assertion of request message is not performed each time the request message is sent but is performed collectively after execution of the action.
 
 
 
 MessageSender
 ---------------------------------
 
-同期応答メッセージ送信処理で使用するコンポーネント。
+The component used in the sending synchronous message process.
 
-主に以下の機能を提供する。
+Primarily, the following functions are provided.
 
-* Actionなどの呼び出し元から渡されたパラメータから、要求電文を生成する。
-* 要求電文を元にMockMessagingContextを実行する。
-* MockMessagingContextから返却された応答電文をパースする。
-* パース結果のオブジェクトを呼び出し元に返却する。
-
-
+* Generates a request message from the parameters passed by a caller such as an action.
+* Executes MockMessagingContext based on the request message.
+* Parses the response message returned from MockMessagingContext.
+* Returns the parsed result object to the caller.
 
 TestDataConvertor
 -----------------
 
-Excelから読み込んだテストデータを編集するためのインタフェース。
-必要に応じてXMLやJSONなどのデータ種別ごとにアーキテクトが実装する。
+Interface for editing the test data read from Excel. 
+If necessary, the architect implements the convertor for each data type, such as XML or JSON.
 
-実装クラスでは以下の機能を実装する。
+The implementation class implements the following functions.
 
-* Excelから読み込んだデータに対し任意の編集を行う。
-* 編集を行ったデータを読み込むためのレイアウト定義データを動的に生成する。
+* Edits any data read from Excel.
+* Dynamically generates the layout definition data to read the edited data.
 
-本インタフェースを実装することで、例えばExcelに日本語で記述されたデータをURLエンコーディングする等の処理を追加することが可能である。
+By implementing this interface, it is possible to add processes such as URL encoding of data written in Japanese to Excel.
 
-実装クラスは "TestDataConverter_<データ種別>" というキー名でテスト用のコンポーネント設定ファイルに登録する必要がある。
+The implementation class must be registered in the component configuration file for testing with the key name "TestDataConverter<data type>".
 
-
-テストデータ
+Test data
 ============
 
-同期応答メッセージ送信処理固有のテストデータについて説明する。
+The following table describes the test data specific to the process of sending synchronous message.
 
 
-同期応答メッセージ送信処理
------------------------------
+Sending synchronous message process
+---------------------------------------
 
-基本的な記述方法は、\
-\ :ref:`send_sync_request_write_test_data`\
-を参照。
+For the basic description, see \ :ref:`send_sync_request_write_test_data`\.
 
 .. tip::
- パディングおよびバイナリデータの扱いは、\ :ref:`about_fixed_length_file`\ と同様である。
+ The handling of padding and binary data is the same as \ :ref:`about_fixed_length_file`\ .
 

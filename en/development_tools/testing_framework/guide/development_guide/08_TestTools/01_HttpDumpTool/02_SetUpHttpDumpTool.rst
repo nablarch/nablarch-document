@@ -1,75 +1,75 @@
-=================================================
-リクエスト単体データ作成ツール インストールガイド
-=================================================
+========================================================
+Request Unit Data Creation Tool Installation Guide
+========================================================
 
-:doc:`index`\ のインストール方法について説明する。
+This section describes how to install the :doc:`index`\.
 
 .. _http_dump_tool_prerequisite:
 
-前提事項
-========
+Prerequisites
+================
 
-本ツールを使用する際、以下の前提事項を満たす必要がある。
+The following prerequisites must be met to use this tool.
 
-* javaコマンドがパスに含まれていること
-* htmlファイルがブラウザに関連付けされていること
-* ブラウザのプロキシ設定で、localhostが除外されていること
+* Java command must be included in the path.
+* HTML file must be associated with the browser.
+* Browser proxy setting must exclude localhost.
 
 
-提供方法
-==================
+Method of provision
+=========================
 
-本ツールは、Nablarchのサンプルアプリケーションに同梱して提供する。
-本ツールのツール構成を下記に示す。
+This tool is provided in a package along with Nablarch sample application. 
+The tool configuration of this tool is shown below.
 
  ========================================== ====================================================================================
- ファイル名                                 説明
+ File name                                  Description
  ========================================== ====================================================================================
- httpDump.bat                               | 起動バッチファイル（Windows用）
- nablarch-tfw-X.X.jar                       | Nablarch Testing Framework のJARファイル（X.Xの部分はバージョン番号）
- poi-X.X.jar                                | Apache POI のJARファイル（X.Xの部分はバージョン番号など）
- jetty.jar                                  | Jetty Server のJARファイル
- jetty-util.jar                             | Jetty Utilities のJARファイル
- servlet-api.jar                            | Servlet Specification 2.5 API のJARファイル
+ httpDump.bat                               | Startup batch file (for Windows)
+ nablarch-tfw-X.X.jar                       | JAR files of Nablarch Testing Framework (X.X part is the version number)
+ poi-X.X.jar                                | JAR files of Apache POI (X.X part is the version number)
+ jetty.jar                                  | JAR files of Jetty Server
+ jetty-util.jar                             | JAR files of Jetty Utilities
+ servlet-api.jar                            | JAR file of Servlet Specification 2.5 API
  ========================================== ====================================================================================
 
-各JARファイルへのクラスパスが設定されたhttpDump.batがサンプルアプリケーションの下記パスに配置されている。
+The HttpDump.bat file with the class path configuration to each JAR file is placed in the following path of the sample application.
 
  .. code-block:: bash
 
   /test/tool/httpDump.bat
 
-Eclipseとの連携
-===============
+Integration with Eclipse
+==============================
 
-以下の設定をすることでEclipseから本ツールを起動することができる。
+This tool can be launched from Eclipse with the following settings.
 
 
-設定画面起動
-------------
+Configuration Screen Startup
+---------------------------------
 
-ツールバーから、ウィンドウ(Window)→設定(Prefernce)を選択する。
-左側のペインから一般(General)→エディタ(Editors)→ファイルの関連付け(File Associations)
-を選択、右側のペインから*.htmlを選択し、追加(Add)ボタンを押下する。
+From the toolbar, select Window → Preference. 
+Select General → Editors → File Associations from the left pane, 
+select * .html from the right pane and click the Add button.
 
 .. image:: ./_image/01_Eclipse_Preference.png
    :scale: 100
 
  
-外部プログラム選択
-------------------
+External program selection
+--------------------------------
 
-ラジオボタンから外部プログラム(External program)を選択し、参照(Browse)ボタンを押下する。
+Select External Program from the radio button and click the Browse button.
 
 .. image:: ./_image/02_Eclipse_EditorSelection.png
    :scale: 100
 
 
-起動用バッチファイル（シェルスクリプト）選択
---------------------------------------------
+Select batch file (shell script) for startup
+-----------------------------------------------
 
-Windowsの場合はバッチファイル(httpDump.bat)を、
-Linuxの場合はシェルスクリプト(httpDump.sh)を選択する。
+Select the batch file (httpDump.bat) for Windows, 
+and the shell script (httpDump.sh) for Linux.
 
 .. image:: ./_image/03_Eclipse_OpenFile.png
    :scale: 100
@@ -77,11 +77,10 @@ Linuxの場合はシェルスクリプト(httpDump.sh)を選択する。
 
 .. _howToExecuteFromEclipse:
 
-HTMLファイルからの起動方法
---------------------------
+How from launch from HTML file
+----------------------------------
 
-Eclipseのパッケージエクスプローラ等からHTMLファイルを右クリックし、
-httpDumpで開くことでツールを起動できる。
+You can start the tool by right-clicking the HTML file from Package Explorer of Eclipse and opening the file with httpDump.
 
 .. image:: ./_image/04_Eclipse_OpenWith.png
    :scale: 100

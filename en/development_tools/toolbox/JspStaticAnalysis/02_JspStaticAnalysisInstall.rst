@@ -1,23 +1,23 @@
-====================================
-JSP静的解析ツール 設定変更ガイド
-====================================
+====================================================
+JSP Static Analysis Tool Configuration Change Guide
+====================================================
 
-.. contents:: 目次
+.. contents:: Table of Contents
   :depth: 2
   :local:
 
-:doc:`index`\ の設定変更方法について説明する。
+This section describes how to change the settings of :doc:`index`\ .
 
-前提条件
---------
-
-* アーキタイプからブランクプロジェクトの生成が完了していること。
-
-
-設定ファイル構成
+Prerequisites
 ----------------
 
-設定ファイルの構成は下表の通り。
+* Generation of a blank project from the archetype must be complete.
+
+
+Structure of configuration file
+--------------------------------
+
+The structure of the configuration file is shown in the table below.
 
 .. list-table::
   :header-rows: 1
@@ -25,113 +25,115 @@ JSP静的解析ツール 設定変更ガイド
   :widths: 10,13
 
 
-  * - ファイル名
-    - 説明
+  * - File name
+    - Description
 
   * - pom.xml
-    - 起動に必要な設定と、jspanalysis.excludePatternsの設定を行う。
+    - Perform the configuration required for startup and jspanalysis.excludePatterns.
 
   * - tools/nablarch-tools.xml
-    - Antタスクの定義ファイル [1]_ 。通常編集することはない。
+    - Check the Ant task definition file [1]_ . Usually it need not be edited
 
   * - tools/static-analysis/jspanalysis/config.txt
-    - JSP静的解析ツール設定ファイル。記述方法は、 :ref:`01_customJspAnalysis` を参照。
+    - JSP static analysis tool configuration file. Refer to :ref:`01_customJspAnalysis` for the description method
+
 
   * - tools/static-analysis/jspanalysis/transform-to-html.xsl
-    - JSP静的解析結果XMLをHTMLに変換する際の定義ファイル。|br|
-      記述方法は、 :ref:`01_outputJspAnalysis` の「JSP解析(XMLレポート出力)」を参照。
+    - Definition file for converting JSP static analysis result XML to HTML. |br|
+      Refer to "JSP Analysis (XML Report Output)" in :ref:`01_outputJspAnalysis` for the description method.
 
-  * - nablarch-archetype-parentのpom.xml
-    - jspanalysis.excludePatterns以外の設定を行う。
-
-
+  * - Pom.xml of nablarch-archetype-parent
+    - Perform the configuration other than jspanalysis.excludePatterns
 
 
-.. [1] 内部でAntを使用しているため存在する。利用者はMaven経由で実行するため通常意識することはない。
+
+
+.. [1] It exists because Ant is used internally. The user usually doesn’t become aware of it because it is executed via Maven.
 
 .. _01_customJspAnalysisProp:
 
-pom.xmlの書き換え
+Rewriting pom.xml
 -----------------------------------------------
-JSP静的解析ツール用のプロパティを実行環境にあわせて修正する際は、jspanalysis.excludePatternsの修正であればツールを実行するプロジェクトのpom.xmlを修正する。それ以外の項目の修正であればnablarch-archetype-parentのpom.xmlを修正する。
+When modifying properties for the JSP static analysis tool according to the execution environment, if there are modifications to jspanalysis.excludePatterns, modify the pom.xml of the project that executes the tool. When other items are to be modified, modify pom.xml of nablarch-archetype-parent.
 
-================================  ======================================================================================
-設定プロパティ                    説明
-================================  ======================================================================================
-jspanalysis.checkjspdir           チェック対象JSPディレクトリパスもしくはファイルパスを設定する。
+================================  ============================================================================================================
+Configuration property                    Description
+================================  ============================================================================================================
+jspanalysis.checkjspdir           Configure the target JSP directory path or file path.
 
-                                  CI環境のように一括でチェックを実行する場合には、|br|
-                                  ディレクトリパスを設定する。
+                                  Configure the directory when batch check is to be done |br|
+                                  like the CI environment.
 
-                                  例::
+                                  Example::
 
                                      ./main/web
 
-                                  ディレクトリを指定した場合は、再帰的にチェックが実行される。
+                                  If a directory is specified, the check is performed recursively.
 
-jspanalysis.xmloutput             チェック結果のXMLレポートファイルの出力パスを設定する。
+jspanalysis.xmloutput             Configure the output path of XML report file of check results.
 
-                                  例::
+                                  Example::
 
                                      ./build/reports/jsp/report.xml
 
-jspanalysis.htmloutput            チェック結果のHTMLレポートファイルの出力パスを設定する。
+jspanalysis.htmloutput            Configure the output path of HTML report file of check results.
 
-                                  例::
+                                  Example::
 
                                      ./build/reports/jsp/report.html
 
-jspanalysis.checkconfig           JSP静的解析ツール設定ファイルのファイルパスを設定する。
+jspanalysis.checkconfig           Configure the file path of the JSP static analysis tool configuration file.
 
-                                  例::
+                                  Example::
 
                                     ./tool/jspanalysis/config.txt
 
-jspanalysis.charset               チェック対象JSPファイルの文字コードを設定する。
+jspanalysis.charset               Configure the character code of the JSP file to be checked.
 
-                                  例::
+                                  Example::
 
                                      utf-8
 
-jspanalysis.lineseparator         チェック対象JSPファイルで使用されている改行コードを |br|
-                                  設定する。
+jspanalysis.lineseparator         Configure the line feed code used  |br|
+                                  in the check target JSP file.
 
-                                  例::
+                                  Example::
 
                                      \n
 
-jspanalysis.xsl                   チェック結果のXMLをHTMLファイルに変換する際のXSLT |br|
-                                  ファイルパスを設定する。
+jspanalysis.xsl                   Configure the XSLT file path for converting the XML |br|
+                                  of the check results to HTML file.
 
-                                  例::
+                                  Example::
 
                                     ./tool/jspanalysis/transform-to-html.xsl
 
-jspanalysis.additionalext         チェック対象とするJSPファイルの拡張子を設定する。
+jspanalysis.additionalext         Configure the filename extension of the JSP file to be checked.
 
-                                  複数の拡張子を指定する場合には、カンマ(,)区切りで指定する。|br|
-                                  この設定値の内容にかかわらず、拡張子が ``jsp`` のファイル |br|
-                                  は必ずチェック対象となる。
+                                  Configure the filename extension of the JSP file to be checked.
+                                  When multiple filename extensions are to be specified, they must be separated with commas (,). 
+                                  Regardless of the configuration value that is configured, files with the extension jsp are always checked.
 
-                                  例::
+                                  Example::
 
                                     tag
 
-jspanalysis.excludePatterns [2]_  チェック対象外とするディレクトリ（ファイル）名を正規表現で設 |br|
-                                  定する。
+jspanalysis.excludePatterns [2]_  Configure the directory (file) name to be excluded from the check  |br|
+                                  with a regular expression.
 
-                                  複数のパターンを設定する場合にはカンマ(,)区切りで指定する。
+                                  When multiple patterns are to be configured, specify them with comma(,) separator.
 
-                                  例::
+                                  Example::
 
                                     ui_local,ui_test,ui_test/.*/set.tag
-================================  ======================================================================================
+================================  ============================================================================================================
 
-.. [2] 本設定は、デフォルトではコメントアウトしている。本設定を使用する場合は、pom.xmlと、toolsディレクトリのnablarch-tools.xmlについてコメントアウトを解除すること。
+.. [2] This setting is commented out by default. While using this configuration, uncomment pom.xml and nablarch-tools.xml in the tools directory.
+
 
 .. tip::
 
-  ファイルパス(ディレクトリパス)は、絶対パスでの指定も可能となっている。
+  The file path (directory path) can also be specified as an absolute path.
 
 .. _how_to_setup_ant_view_in_eclipse_jsp_analysis:
 
