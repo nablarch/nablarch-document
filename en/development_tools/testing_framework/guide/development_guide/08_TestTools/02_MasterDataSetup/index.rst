@@ -1,17 +1,17 @@
-=======================
- マスタデータ投入ツール
-=======================
+=========================
+ Master Data Input Tool
+=========================
 
 .. tip::
 
-  :ref:`blank_project` を使用してプロジェクトを構築した場合、 データベース関連のツールとして :ref:`gsp-dba-maven-plugin <gsp-maven-plugin>` が設定される。
+  If you build a project using :ref:`blank_project`, :ref:`gsp-dba-maven-plugin <gsp-maven-plugin>` will be configured as a database-related tool.
 
-  このため、データベースに対するマスタデータの投入は、本ツールではなく :ref:`gsp-dba-maven-plugin  <gsp-maven-plugin>` の使用を推奨する。
+  Therefore, the use of :ref:`gsp-dba-maven-plugin  <gsp-maven-plugin>` is recommended instead of this tool to submit the master data to the database.
 
 .. important::
 
-  本ツールは、マルチスレッド機能には対応していない。
-  マルチスレッド機能のテストは、テスティングフレームワークを使用しないテスト(結合テストなど)で行うこと。
+  This tool does not support the multi-thread function. 
+  Testing of multi-thread functions should be performed with tests that do not use the testing framework (such as integration tests).
 
 .. toctree::
    :maxdepth: 1

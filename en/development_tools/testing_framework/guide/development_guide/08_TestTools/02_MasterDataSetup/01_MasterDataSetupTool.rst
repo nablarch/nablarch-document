@@ -1,71 +1,72 @@
 .. _master_data_setup_tool:
 
 ==============================
-マスタデータ投入ツール
+Master Data Input Tool
 ==============================
 
-概要
-====
+Summary
+========
 
 
-データベースにマスタデータを投入する機能を提供する。
+Provide a function to input the master data into the database.
 
 
-特徴
-====
+Features
+============
 
-* 自動テストのテストデータと同じ形式で記述できる。
-* Nablarch Application Frameworkのコンポーネント設定ファイルを使用するので、別途設定ファイルを用意する必要がない。
-* バックアップ用スキーマ\ [#]_\ へのデータ投入が同時に実行できる。
+* The data can be described in the same format as the test data of an automated test.
+* Since the component configuration file of Nablarch Application Framework is used, a separate configuration file is not required to be prepared.
+* Data input to backup schema\ [#]_\  can be performed simultaneously.
 
 .. [#]
-  バックアップ用スキーマとは、自動テストフレームワークの\ :doc:`../../06_TestFWGuide/04_MasterDataRestore`\ にて使用するスキーマのことである。バックアップ用スキーマには、自動テスト用スキーマと同じマスタデータを投入する必要があり、本ツールを使用することで2つのスキーマに同時にデータ投入ができる。
+  The backup schema is the schema used by \ :doc:`../../06_TestFWGuide/04_MasterDataRestore`\ of the automated testing framework. It is necessary to input the same master data as the automated test schema in the backup schema, and this tool can be used to input data to the two schemas simultaneously.
 
 .. important::
 
-  本ツールは、マルチスレッド機能には対応していない。
-  マルチスレッド機能のテストは、テスティングフレームワークを使用しないテスト(結合テストなど)で行うこと。
+  This tool does not support the multi-thread function. 
+  Testing of multi-threaded functions performed should be done with tests that do not use the testing framework (such as integration tests).
 
-使用方法
-========
+How to Use
+=============
 
-前提条件
+Prerequisites
 ----------------
 
-:doc:`02_ConfigMasterDataSetupTool`\ の\ :ref:`master_data_setup_prerequisite`\ 参照
+See \ :ref:`master_data_setup_prerequisite`\ of :doc:`02_ConfigMasterDataSetupTool`\ .
 
-データ作成方法
+How to create data
+--------------------
+
+Enter the data to be input in the MASTER_DATA.xlsx file.The method to enter data is the same as the automated test.
+For more information on how to enter the data, see "\ :ref:`how_to_write_setup_table`\".
+
+How to execute
 ----------------
 
-投入したいデータをMASTER_DATA.xlsxに記載する。記載方法は自動テストと同じ。
-データ記載方法については、『\ :ref:`how_to_write_setup_table`\ 』を参照。
-
-実行方法
-----------------
-
-Antビューから、実行したいターゲットをダブルクリックする。
+From the Ant view, double-click on the target to be run
 
 
 .. image:: ./_image/build_file_in_view.png
    :scale: 100
 
 .. tip::
-  Antビューの設定については、\ :ref:`how_to_setup_ant_view_in_eclipse`\ を参照。
+  For information on how to setup Ant view, see \ :ref:`how_to_setup_ant_view_in_eclipse`\ .
 
 
-ターゲットの詳細は下表を参照。
+For target details, see the table given below.
 
  +-----------------+----------------------------------------------------------------------------+
- | ターゲット名    | 説明                                                                       |
+ | Target name     | Description                                                                |
  +=================+============================================================================+
- |データ投入(main) | mainプロジェクトの設定ファイルを使用してデータベース投入を行う。           |
- |                 | 取引単体テスト等、APサーバ上でアプリケーションを動作させる際の             |
- |                 | スキーマにデータが投入される。                                             |
+ |Data input (main)| Use the configuration file of the main project to input the database.      |
+ |データ投入(main) | Data is input in the schema when running the application                   |
+ |                 | on the application server such as subfunction unit test.                   |
  +-----------------+----------------------------------------------------------------------------+
- |データ投入(test) | testプロジェクトの設定ファイルを使用してデータベース投入を行う。           |
- |                 | 自動テストで使用するスキーマにデータが投入される。                         |
- |                 | マスタデータバックアップスキーマにも同時にデータ投入を行う。               |
+ |Data input (test)| The database is input using the configuration file of the test project.    |
+ |データ投入(test) | The data is populated in the schema used by the automated test.            |
+ |                 | Data is also input to the master data backup scheme simultaneously.        |
  +-----------------+----------------------------------------------------------------------------+
- |マスタデータ投入 | 上記２つのターゲットをまとめて実行する。                                   |
+ |Master data input| Executes the above two targets together.                                   |
+ |マスタデータ投入 |                                                                            |
  +-----------------+----------------------------------------------------------------------------+
 
