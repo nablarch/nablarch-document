@@ -1,198 +1,198 @@
-====================================
-データベースを使用するクラスのテスト
-====================================
+=======================================
+Testing a Class that Uses the Database
+=======================================
 
-----
-概要
-----
+--------
+Summary
+--------
 
-データベースアクセスクラスなど、データベースを使用するクラスをテストする方法を記載する。
-
-
-データベースを使用するクラスをテストする場合、本フレームワークで用意されたクラスを使用することでデータベースに関する操作（テストデータ投入、データ確認）を行うことができる。
+We will describe how to test classes that use the database, such as database access class.
 
 
+When testing the classes that use the database, operations related to database (test data input, data verification) can be performed by using the classes provided by this framework.
 
-全体像
-======
+
+
+Overall picture
+================
 
 .. image:: _images/class_structure.png
    :scale: 100
 
 
-主なクラス, リソース
---------------------
+Main Classes, resources
+------------------------
 
 
-+---------------------------+-----------------------------------------------+--------------------------------+
-|名称                       |役割                                           | 作成単位                       |
-+===========================+===============================================+================================+
-|テストクラス               |テストロジックを実装する。\                    |テスト対象クラスにつき１つ作成  |
-|                           |DbAccessTestSupportを継承すること。            |                                |
-+---------------------------+-----------------------------------------------+--------------------------------+
-|テストデータ（Excelファイル|テーブルに格納する準備データや期待する結果\    |テストクラスにつき１つ作成      |
-|）                         |など、テストデータを記載する。                 |                                |
-+---------------------------+-----------------------------------------------+--------------------------------+
-|テスト対象クラス           |テストされるクラス。                           | \－                            |
-+---------------------------+-----------------------------------------------+--------------------------------+
-|DbAccessTestSupport        |準備データ投入などデータベースを使用するテスト\| \－                            |
-|                           |に必要な機能を提供する。また、テスト実行前後に\|                                |
-|                           |データベーストランザクションの開始・終了処理を\|                                |
-|                           |行う（ :ref:`using_transactions` ）。          |                                |
-+---------------------------+-----------------------------------------------+--------------------------------+
++---------------------------+-------------------------------------------------------+------------------------------------+
+|Name                       |Role                                                   | Creation unit                      |
++===========================+=======================================================+====================================+
+|Test class                 |Implement the test logic.                              |Creating one per class to be tested |
+|                           |Inherit DbAccessTestSupport.                           |                                    |
++---------------------------+-------------------------------------------------------+------------------------------------+
+|Test data (Excel file)     |Describe the test data, such as preliminary            |Create one per test class           |
+|                           |data stored in a table and expected results.           |                                    |
++---------------------------+-------------------------------------------------------+------------------------------------+
+|Class to be tested         |The class to be tested.                                | －                                 |
++---------------------------+-------------------------------------------------------+------------------------------------+
+|DbAccessTestSupport        |Provides the necessary functions for testing using     | －                                 |
+|                           |the database, such as preparation data input. Also,    |                                    |
+|                           |starts and ends a database transaction before and after|                                    |
+|                           |the execution of a test(:ref:`using_transactions`)     |                                    |
++---------------------------+-------------------------------------------------------+------------------------------------+
 
 
 ------------------
-基本的なテスト方法
+Basic test methods
 ------------------
 
 
-目的に応じた、本フレームワークのAPIの使用方法を以下に記載する。
+How to use APIs of this framework in accordance with the purpose, is described below.
 
 
-参照系のテスト
-==============
+Testing read process pattern
+=============================
 
-参照系のテストにおいて、テスト対象クラスが期待通りにデータを取得していることを確認する場合、以下の手順でデータベースからの参照結果を確認できる。
+During read process testing, to check that the class to be tested fetches the data as expected, you can check the lookup result from the database by the following procedure:
 
- #. データベースに準備データを登録する。
- #. テスト対象クラスのメソッドを起動する。
- #. 戻り値として受け取った検索結果が期待した値であるか確認する。
+ #. Registers the preparation data to the database.
+ #. Invoke the method of the class to be tested.
+ #. Check whether the search result received as a return value is the expected value.
 
 
-シーケンス
+Sequence
 ----------
 
 .. image:: _images/select_sequence.png
    :scale: 100
 
 
-テストソースコード実装例
-------------------------
+Example of test source code implementation
+-------------------------------------------
 
  .. code-block:: java 
 
     public class DbAccessTestSample extends DbAccessTestSupport {
 
         /**
-         * 全件検索のテスト。<br/>
-         * 従業員テーブルに登録されたレコードを
-         * 全件取得できることを確認する。
+         * Test all searches. <br/>
+         * Check that all the * records registered in
+         * Employee table can be acquired.
          */ 
         @Test
         public void testSelectAll() {
 
-            // データベースに準備データを登録する。
-            //引数にはシート名を記載する。
+            // Register preparation data in the database
+            //Write sheet name in the argument.
             setUpDb("testSelectAll");
                         
-            // テスト対象メソッドを起動する。
+            // Invoke the method to be tested.
             EmployeeDbAcess target = new EmployeeDbAccess(); 
             SqlResultSet actual = target.selectAll();
             
-            // 結果確認
-            // Excelに記載した期待値と実際の値が等しいことを確認する
-            // 引数には期待値を格納したシート名, 期待値のID, 実際の値を指定
+            // Confirmation of results
+            //  Confirm that the expected value described in Excel is equal to the actual value
+            //  In the parameter, specify the name of the sheet containing the expected value, ID of the expected value, and the actual value
             assertSqlResultSetEquals("testSelectAll", "expected", actual);
         }
     }
 
 
-テストデータ記述例
-------------------
+Test data description example
+------------------------------
 
 .. _how_to_write_setup_table:
 
-データベースに事前登録する準備データ
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Preparation data to be pre-registered in the database
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-以下のようにデータを記載する。
+Enter the data as follows.
 
-* 1行目　：　SETUP_TABLE=<登録対象のテーブル名>
+* Line 1: SETUP_TABLE=<Name of table to be registered>
 
-* 2行目　：　そのテーブルのカラム名
+* Line 2: Column name of the table
 
-* 3行目～　：　登録するレコード（2行目のカラム名と対応）
+* Line 3 ~ : Records to be registered (corresponding to the column name of the second row)
 
 
 
 SETUP_TABLE=EMPLOYEE
 
-=========== ============ ===========
-ID          EMP_NAME     DEPT_CODE 
-=========== ============ ===========
-      00001  山田太郎          0001 
-      00002  田中一郎          0002 
-=========== ============ ===========
+=========== =============== ===========
+ID          EMP_NAME        DEPT_CODE
+=========== =============== ===========
+      00001  Yamada Taro          0001 
+      00002  Tanaka Ichiro        0002
+=========== =============== ===========
 
 SETUP_TABLE=DEPT
 
-============ =================
-         ID  DEPT_NAME       
-============ =================
-       0001  人事部          
-       0002  総務部          
-============ =================
+============ ============================
+         ID  DEPT_NAME
+============ ============================
+       0001  Human Resources Department          
+       0002  Administration Department          
+============ ============================
 
 
 
 
-テスト実行後に期待する値
-~~~~~~~~~~~~~~~~~~~~~~~~
+Expected value after test execution
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-以下のようにデータを記載する。
+Enter the data as follows.
 
-* 1行目　：　LIST_MAP=<シート内で一意になる期待値のID(任意の文字列)>
+* Row 1: LIST_MAP=< ID of the expected value, which is unique in the sheet (arbitrary string)
 
-* 2行目　：　SELECT文で指定したカラム名または別名
+* Row 2: Column name or alias specified in the SELECT statement
 
-* 3行目～　：　検索結果（2行目のカラム名と対応）
+* Row 3 ~ : Search results (corresponding to the column name of Row 2)
 
 
 
 LIST_MAP=expected
 
-=========== ============ ===========
-ID          EMP_NAME     DEPT_NAME
-=========== ============ ===========
-      00001  山田太郎      人事部
-      00002  田中一郎      総務部
-=========== ============ ===========
+=========== =============== ==============================
+ID          EMP_NAME        DEPT_NAME
+=========== =============== ==============================
+      00001  Yamada Taro      Human Resources Department
+      00002  Tanaka Ichiro    Administration Department
+=========== =============== ==============================
 
 .. _how_to_test_update_method:
 
-更新系のテスト
-==============
+Testing update process
+========================
 
-テスト対象クラスが期待通りにデータを更新していることを確認する場合、以下の手順でデータベースの更新結果を確認できる。
+When checking that the class to be tested updates the data as expected, you can check the update result of the database by the following procedure:
 
 
- #. データベースに準備データを登録する。
- #. テスト対象クラスのメソッドを起動する。
- #. トランザクションをコミットする。
- #. データベースの値が期待通り更新されていることを確認する。
+ #. Registers the preparation data to the database.
+ #. Invoke the method of the class to be tested.
+ #. Commits the transaction.
+ #. Check that the database values are updated as expected.
 
 .. important::
-  Nablarch Application Frameworkでは複数種類のトランザクションを併用することが前提となっている。
-  そのため、テスト対象クラス実行後にデータベースの内容を確認する際には、
-  トランザクションをコミットしなければならない。トランザクションをコミットしない場合、
-  テスト結果の確認が正常に行われない。
+  In the Nablarch Application Framework, it is assumed that multiple types of transactions will be used together.
+  Therefore, when checking the database contents after executing the class to be tested,
+  you must commit the transaction. If the transaction is not committed,
+  the test result is not checked normally.
 
 .. tip::
-  参照系のテストの場合はコミットを行う必要はない。
+  You need not commit when testing the read process.
 
 
-シーケンス
+Sequence
 ----------
 
 .. image:: _images/update_sequence.png
    :scale: 100
 
 
-テストソースコード実装例
-------------------------
+Example of test source code implementation
+------------------------------------------
 
  .. code-block:: java
 
@@ -200,355 +200,357 @@ ID          EMP_NAME     DEPT_NAME
         @Test
         public void testDeleteExpired() {
 
-            // データベースに準備データを登録する。
-            // 引数にはシート名を記載する。
+            // Register preparation data in the database
+            // Specify the sheet name in the argument.
             setUpDb("testDeleteExpired");
                         
-            // テスト対象メソッドを起動する。
+            // Invoke the method to be tested.
             EmployeeDbAcess target = new EmployeeDbAccess(); 
-            SqlResultSet actual = target.deleteExpired();  // 期限切れデータを削除
+            SqlResultSet actual = target.deleteExpired();  // Delete the expired data
             
-            // トランザクションをコミット
+            // Commit the transaction
             commitTransactions();
 
-            // 結果確認
-            // Excelに記載した期待値と実際の値が等しいことを確認する
-            // 引数には期待値を格納したシート名, 実際の値を指定
+            // Confirmation of results
+            //  Confirm that the expected value described in Excel is equal to the actual value
+            // In the parameter, specify the name of the sheet containing the expected value, and the actual value
             assertTableEquals("testDeleteExpired", actual);
         }
 
 
-テストデータ記述例
-------------------
+Test data description example
+-----------------------------
 
-データベースに事前登録する準備データ
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Preparation data to be pre-registered in the database
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-以下のようにデータを記載する。
+Enter the data as follows.
 
-* 1行目　：　SETUP_TABLE=<登録対象のテーブル名>
+* Line 1: SETUP_TABLE=<Name of the table to be registered>
 
-* 2行目　：　そのテーブルのカラム名
+* Line 2: Column name of the table
 
-* 3行目～　：　登録するレコード（2行目のカラム名と対応）
+* Line 3 ~ : Records to be registered (corresponding to the column name of the second row)
 
 
 SETUP_TABLE=EMPLOYEE
 
-=========== ============ =============
-ID          EMP_NAME      EXPIRED
-=========== ============ =============
-      00001  山田太郎      TRUE
-      00002  田中一郎      FALSE
-=========== ============ =============
+=========== =============== =============
+ID          EMP_NAME         EXPIRED
+=========== =============== =============
+      00001  Yamada Taro      TRUE
+      00002  Tanaka Ichiro    FALSE
+=========== =============== =============
 
 
-テスト実行後に期待する値
-~~~~~~~~~~~~~~~~~~~~~~~~
+Expected value after test execution
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-以下のようにデータを記載する。
+Enter the data as follows.
 
-* 1行目　：　EXPECTED_TABLE=<確認対象のテーブル名>
+* Line 1: EXPECTED_TABLE=<Name of the table to be checked>
 
-* 2行目　：　確認対象テーブルのカラム名
+* Line 2: Column name of the table to be checked
 
-* 3行目～　：　期待する値
+* Line 3 ~: Expected value
 
 EXPECTED_TABLE=EMPLOYEE
 
-=========== ============ =============
-ID          EMP_NAME      EXPIRED
-=========== ============ =============
- // CHAR(5)  VARCHAR(64)   BOOLEAN  
-      00002  田中一郎      FALSE
-=========== ============ =============
+=========== =============== =============
+ID          EMP_NAME         EXPIRED
+=========== =============== =============
+ // CHAR(5)  VARCHAR(64)      BOOLEAN
+      00002  Tanaka Ichiro    FALSE
+=========== =============== =============
 
 
---------------------------------------
-データベーステストデータの省略記述方法
---------------------------------------
+-------------------------------------------------
+How to omit description of database test data
+-------------------------------------------------
 
-データベースの準備データおよび期待値を記述する際、\
-テストに関係の無いカラムについては記述を省略できる。
-省略したカラムには、自動テストフレームワークにより\ :ref:`default_values_when_column_omitted`\ が設定される。
-この機能を利用することにより、テストデータの可読性が向上する。\
-また、テーブル定義が変更された場合でも、関係無いカラムであればテストデータ修正作業は発生しなくなる為、\
-保守性が向上する。
+When describing the preparation data of the database and the expected values,
+description in columns not relevant to the test can be omitted.
+:ref:`default_values_when_column_omitted` configured for the omitted columns by the automated testing framework.
+By using this function, readability of the test data improves.
+Also, even if the table definition is changed, data modification work is saved for columns that are not relevant,
+thereby improving maintainability.
 
-この機能は特に更新系テストケースに有効である。多くのカラムのうち１カラムだけが更新される場合、\
-不要なカラムを記述する必要がなくなる。
+This function is especially useful for test cases related to the update process.
+When only one out of the many columns is updated, there is no need to describe the unnecessary columns.
 
 .. important::
- データベース\ **検索結果**\ の期待値を記述する際は、\
- 検索対象カラム全てを記述しなければならない\
- （レコードの主キーだけを確認する、というような確認方法は不可）。
+ When describing the expected values of database **search results**,
+ one must describe all the columns to be searched
+ (it is not possible to check only the primary key of a record).
  
- また、\ **登録系**\ テストの場合も、新規に登録されたレコードの全カラムを確認する必要があるので、\
- 本機能を用いてカラムを省略することはできない。
+ Even when testing the **registration process**, since all the columns of the newly registered records need to be checked,
+ it is not possible to omit columns using this function.
 
 
-DBに準備データのカラムを省略する場合
-====================================
+When omitting a column of DB preparation data
+==============================================
 
-データベース準備データを記述する際にカラムを省略すると、省略されたカラムには\
-\ :ref:`default_values_when_column_omitted`\ が設定されているものとして扱われる。
+If you omit a column when writing the data for database preparation,
+the omitted column is treated as having :ref:`default_values_when_column_omitted` configured.
 
-ただし、\ **主キーカラムを省略することはできない**\ 。
-
-
-DB期待値のカラムを省略する場合
-==============================
-
-DB期待値から単純に無関係なカラムを省略すると、省略されたカラムは比較対象外となる。\
-更新系テストの場合には、「無関係なカラムが更新されていないことを確認する」という観点も必要である。
-この場合、データタイプに\ `EXPECTED_TABLE`\ ではなく、\ `EXPECTED_COMPLETE_TABLE`\ を使用する。
-\ `EXPECTED_TABLE`\ を使用した場合、省略されたカラムは比較対象外となるが、\
-`EXPECTED_COMPLETE_TABLE`\ を使用した場合は、省略されたカラムには\
-:ref:`デフォルト値<default_values_when_column_omitted>`\ が格納されているものとして\
-比較が行われる。
+However, **the column of the primary key cannot be omitted**.
 
 
-具体例
-======
+When omitting a column of DB expected values
+============================================
 
-全カラムを記載した場合と、関係のあるカラムのみを記載した場合の記述例を以下に示す。
-
-テストケース例
---------------
-
-以下のテストケースを例として使用する。
-
-
-**「有効期限」を過ぎたレコードは「削除フラグ」が1に更新されること。**\ [#]_
-
-.. [#] 本テスト実施時の日付は2011/01/01とする。
-
-使用するテーブル（SAMPLE_TABLE）には、以下のカラムがあるものとする。
-
-=========== ==================================================
- カラム名    説明                                         
-=========== ==================================================
- PK1         主キー                                      
- PK2         主キー                                      
- COL_A       テスト対象の機能では使用しないカラム        
- COL_B       テスト対象の機能では使用しないカラム        
- COL_C       テスト対象の機能では使用しないカラム        
- COL_D       テスト対象の機能では使用しないカラム        
- 有効期限    有効期限を過ぎたデータが処理対象となる            
- 削除フラグ  有効期限を過ぎたレコードの値を'1'に変更する 
-=========== ==================================================
+If you simply omit a column that is not relevant from the DB expected values, the omitted column is excluded from comparison.
+When testing the update process, “checking that an irrelevant column is not updated” is also a necessary perspective.
+In this case, use `EXPECTED_COMPLETE_TABLE` for data type, instead of `EXPECTED_TABLE`.
+If `EXPECTED_TABLE` is used, the omitted column is excluded from comparison,
+whereas if `EXPECTED_COMPLETE_TABLE` is used, comparison is carried out assuming
+that the omitted column contains the :ref:`Default values<default_values_when_column_omitted>`.
 
 
-省略せずに全カラムを記載した場合（悪い例）
-------------------------------------------
 
-全カラムが記載されており可読性に劣る\ [#]_\ 。
-また、テーブル定義に変更があった場合、無関係なカラムであっても修正しなければならない。
+Specific examples
+==================
 
-.. [#] カラムCOL_A, COL_B, COL_C, COL_Dは本テストケースに無関係である。
+Examples when all the columns are described and when only the relevant columns are described, are shown below.
 
-**準備データ**
+Test case example
+-----------------
+
+The following test cases are used as examples:
+
+
+**For records that have passed the “expiration date”, the “Delete flag” should be updated to 1.**\ [#]_
+
+.. [#] The date on which this test is executed is January 1, 2011.
+
+The table to be used (SAMPLE_TABLE) has the following columns:
+
+================== ===================================================================================
+ Column name        Description
+================== ===================================================================================
+ PK1                Primary key
+ PK2                Primary key
+ COL_A              Columns that are not used by the function under test
+ COL_B              Columns that are not used by the function under test
+ COL_C              Columns that are not used by the function under test
+ COL_D              Columns that are not used by the function under test
+ Expiration date    Data that has passed the expiration data will be processed            
+ Delete flag        The value of records that have passed the expiration date, will be updated to “1”
+================== ===================================================================================
+
+
+When all the columns are described without omission (bad example)
+--------------------------------------------------------------------
+
+Readability decreases as all the columns are described.\ [#]_\
+Also, if there is a change in the table definition, even a column that is not relevant must be modified.
+
+.. [#] The columns COL_A, COL_B, COL_C and COL_D are not relevant to this test case.
+
+**Preparation data**
 
 SETUP_TABLE=SAMPLE_TABLE
 
-+-----+-----+-----+-----+-----+-----+--------+----------+
-|PK_1 |PK_2 |COL_A|COL_B|COL_C|COL_D|有効期限|削除フラグ|
-+=====+=====+=====+=====+=====+=====+========+==========+
-| 01  |0001 |1a   |1b   |1c   |1d   |20101231|0         |
-+-----+-----+-----+-----+-----+-----+--------+----------+
-| 02  |0002 |2a   |2b   |2c   |2d   |20110101|0         |
-+-----+-----+-----+-----+-----+-----+--------+----------+
++-----+-----+-----+-----+-----+-----+----------------+-----------+
+|PK_1 |PK_2 |COL_A|COL_B|COL_C|COL_D|Expiration date |Delete flag|
++=====+=====+=====+=====+=====+=====+================+===========+
+| 01  |0001 |1a   |1b   |1c   |1d   |20101231        |0          |
++-----+-----+-----+-----+-----+-----+----------------+-----------+
+| 02  |0002 |2a   |2b   |2c   |2d   |20110101        |0          |
++-----+-----+-----+-----+-----+-----+----------------+-----------+
 
 
 
-**期待値**
+**Expected value**
 
 EXPECTED_TABLE=SAMPLE_TABLE
 
-+-----+-----+-----+-----+-----+-----+--------+----------+
-|PK_1 |PK_2 |COL_A|COL_B|COL_C|COL_D|有効期限|削除フラグ|
-+=====+=====+=====+=====+=====+=====+========+==========+
-| 01  |0001 |1a   |1b   |1c   |1d   |20101231|1         |
-+-----+-----+-----+-----+-----+-----+--------+----------+
-| 02  |0002 |2a   |2b   |2c   |2d   |20110101|0         |
-+-----+-----+-----+-----+-----+-----+--------+----------+
++-----+-----+-----+-----+-----+-----+----------------+-----------+
+|PK_1 |PK_2 |COL_A|COL_B|COL_C|COL_D|Expiration date |Delete flag|
++=====+=====+=====+=====+=====+=====+================+===========+
+| 01  |0001 |1a   |1b   |1c   |1d   |20101231        |1          |
++-----+-----+-----+-----+-----+-----+----------------+-----------+
+| 02  |0002 |2a   |2b   |2c   |2d   |20110101        |0          |
++-----+-----+-----+-----+-----+-----+----------------+-----------+
 
 
 
-関係のあるカラムのみを記載した場合（良い例）
---------------------------------------------
+When only the relevant columns are described (good example)
+------------------------------------------------------------
 
-関係のあるカラムのみを記載することで可読性、保守性が向上する。
-このテストケースに関係のあるカラムは以下のとおり。
+By describing only the relevant columns, readability and maintainability improve.
+The columns relevant to this test case are as follows:
 
-* レコードを一意に特定する為の主キーカラム(PK_1,PK_2)
-* 更新対象レコードを抽出する条件となる「有効期限」カラム
-* 更新対象となる「削除フラグ」カラム
+* Primary key column to uniquely identify a record (PK_1, PK_2)
+* “Expiration date” column, which is a condition for extracting records to be updated
+* “Delete flag” column to be updated
 
-また、テーブル定義に変更があった場合でも、無関係なカラムであれば影響を受けない。
+In addition, even if there is a change in the table definition, there is no impact on columns that are not relevant.
 
 
-**準備データ**
+**Preparation data**
 
-実行テストに関係あるカラムのみを記述している。
+Only the columns relevant to the test to be executed are described.
 
 SETUP_TABLE=SAMPLE_TABLE
 
-+-----+-----+--------+----------+
-|PK_1 |PK_2 |有効期限|削除フラグ|
-+=====+=====+========+==========+
-| 01  |0001 |20101231|0         |
-+-----+-----+--------+----------+
-| 02  |0002 |20110101|0         |
-+-----+-----+--------+----------+
++-----+-----+----------------+-----------+
+|PK_1 |PK_2 |Expiration date |Delete flag|
++=====+=====+================+===========+
+| 01  |0001 |20101231        |0          |
++-----+-----+----------------+-----------+
+| 02  |0002 |20110101        |0          |
++-----+-----+----------------+-----------+
 
 
 
-**期待値**
+**Expected value**
 
-期待値を記述する際、\ `EXPECTED_TABLE`\ の代わりに\ `EXPECTED_COMPLETE_TABLE`\ を使用する。
+When describing expected value, use `EXPECTED_COMPLETE_TABLE` instead of  `EXPECTED_TABLE`.
 
 EXPECTED_COMPLETE_TABLE=SAMPLE_TABLE
 
-+-----+-----+--------+----------+
-|PK_1 |PK_2 |有効期限|削除フラグ|
-+=====+=====+========+==========+
-| 01  |0001 |20101231|1         |
-+-----+-----+--------+----------+
-| 02  |0002 |20110101|0         |
-+-----+-----+--------+----------+
++-----+-----+----------------+-----------+
+|PK_1 |PK_2 |Expiration date |Delete flag|
++=====+=====+================+===========+
+| 01  |0001 |20101231        |1          |
++-----+-----+----------------+-----------+
+| 02  |0002 |20110101        |0          |
++-----+-----+----------------+-----------+
 
 
 
 .. _`default_values_when_column_omitted`:
 
-デフォルト値
-============
+Default values
+===============
 
-自動テストフレームワークのコンポーネント設定ファイルにて明示的に指定していない場合、\
-デフォルト値には以下の値が使用される。
+The following values are used as default values unless explicitly specified
+in the component configuration file of the automated testing framework.
 
-+-----------+----------------------+
-|  カラム   |デフォルト値          |
-+===========+======================+
-|  数値型   |0                     |
-+-----------+----------------------+
-| 文字列型  |半角スペース          |
-+-----------+----------------------+
-|  日付型   |1970-01-01 00:00:00.0 |
-+-----------+----------------------+
-
-
-デフォルト値の変更方法
-======================
++---------------+----------------------+
+|  Column       |Default values        |
++===============+======================+
+|  Numeric type |0                     |
++---------------+----------------------+
+| String type   |Half width spaces     |
++---------------+----------------------+
+|  Date type    |1/1/1970 00:00:00.0   |
++---------------+----------------------+
 
 
-設定項目一覧
-------------
+How to change the default values
+==================================
 
-nablarch.test.core.db.BasicDefaultValuesクラスを使用し、
-以下の値をコンポーネント設定ファイルで設定できる。
 
-+-------------+--------------------------+----------------------------------------------------------------------+
-| 設定項目名  |説明                      |設定値                                                                |
-+=============+==========================+======================================================================+
-| charValue   |文字列型のデフォルト値    |1文字のASCII文字                                                      |
-+-------------+--------------------------+----------------------------------------------------------------------+
-| numberValue |数値型のデフォルト値      |0または正の整数                                                       |
-+-------------+--------------------------+----------------------------------------------------------------------+
-| dateValue   |日付型のデフォルト値      |JDBCタイムスタンプエスケープ形式 (yyyy-mm-dd hh:mm:ss.fffffffff)      |
-+-------------+--------------------------+----------------------------------------------------------------------+
+Settings items list
+-------------------
 
-コンポーネント設定ファイルの記述例
--------------------------------------------
+You can configure the following values in the component configuration file using
+nablarch.test.core.db.BasicDefaultValues
 
-以下の設定値を使用する場合のコンポーネント設定ファイル記述例を示す。
++--------------------------+-------------------------------+----------------------------------------------------------------------+
+| Configuration item name  |Description                    |Configuration value                                                   |
++==========================+===============================+======================================================================+
+| charValue                |Default value for string type  |A single ASCII character                                              |
++--------------------------+-------------------------------+----------------------------------------------------------------------+
+| numberValue              |Default value for numeric type |0 or a positive integer                                               |
++--------------------------+-------------------------------+----------------------------------------------------------------------+
+| dateValue                |Default value for date type    |JDBC time stamp escape format (yyyy-mm-dd hh:mm:ss.fffffffff)         |
++--------------------------+-------------------------------+----------------------------------------------------------------------+
 
-+-------------+------------------------------+
-| 設定項目名  |設定値                        |
-+=============+==============================+
-| charValue   | a                            |
-+-------------+------------------------------+
-| numberValue | 1                            |
-+-------------+------------------------------+
-| dateValue   | 2000-01-01 12:34:56.123456789|
-+-------------+------------------------------+
+Example of component configuration file description
+----------------------------------------------------
+
+An example of a component configuration file description when the following setting values are used is shown below.
+
++--------------------------+------------------------------+
+| Configuration item name  |Configuration value           |
++==========================+==============================+
+| charValue                | a                            |
++--------------------------+------------------------------+
+| numberValue              | 1                            |
++--------------------------+------------------------------+
+| dateValue                | 1/1/2000 12:34:56.123456789  |
++--------------------------+------------------------------+
 
 
 .. code-block:: xml
 
   <!-- TestDataParser -->
   <component name="testDataParser" class="nablarch.test.core.reader.BasicTestDataParser">
-    <!-- データベースデフォルト値 -->
+    <!-- Database default values -->
     <property name="defaultValues">
       <component class="nablarch.test.core.db.BasicDefaultValues">
         <property name="charValue" value="a"/>
-        <property name="dateValue" value="2000-01-01 12:34:56.123456789"/>
+        <property name="dateValue" value="1/1/2000 12:34:56.123456789"/>
         <property name="numberValue" value="1"/>
       </component>
     </property>
-    <!-- 中略 -->
+    <!-- Middle is omitted -->
   </component>
 
 
-------
-注意点
-------
+------------------
+Important points
+------------------
 
 
-setUpDbメソッドに関する注意点
-=============================
+Points to be noted related to setUpDb method
+=============================================
 
-  * Excelファイルには必ずしも全カラムを記述する必要はない。
-    省略されたカラムには、デフォルト値が設定される。
+  * It is not necessary to describe all the columns in the Excel file.
+    Default values are set for omitted columns.
 
-  * Excelファイルの１シート内に複数のテーブルを記述できる。
-    setUpDb(String sheetName)実行時、指定されたシート内のデータタイプ"SETUP_TABLE"全てが登録対象となる。
+  * Multiple tables can be described on a single sheet of the Excel file.
+    When setUpDb (String sheetName) is executed, all the records with the data type "SETUP_TABLE" in the specified sheet are registered.
 
  
 
-assertTableEqualsメソッドに関する注意点
-=======================================
+Points to be noted related to assertTableEquals method
+========================================================
 
-  * 期待値の記述で省略されたカラムは、比較対象外となる。
+  * Columns omitted in the description of expected values, are excluded from comparison.
 
-  * 比較実行時、レコードの順番が異なっていても主キーを突合して正しく比較ができる。
-    レコードの順序を意識して期待データを作成する必要はない。
+  * Even if the order of records is different when carrying out comparison, records can be compared correctly by checking against the primary key.
+    There is no need to create expected data with the order of the records in mind.
 
-  * １シート内に複数のテーブルを記述できる。assertTableEquals(String sheetName)実行時、指定されたシート内のデータタイプ"EXPECTED_TABLE"であるデータが全て比較される。
-
-  * 更新日付のようなjava.sql.Timestamp型のフォーマットは"yyyy-mm-dd hh:mm:ss.fffffffff"である(fffffffffはナノ秒)。ナノ秒が設定されていない場合でも、フォーマット上は0ナノ秒として表示される。例えば、2010年1月1日12時34分56秒ジャストの場合、2010-01-01 12:34:56.0となる。Excelシートに期待値を記載する場合は、末尾の小数点＋ゼロを付与しておく必要がある。
+  * Multiple tables can be described on a single sheet. When assertTableEquals(String sheetName) is executed, all the data with the data type "EXPECTED_TABLE" in the specified sheet are compared.
 
 
-assertSqlResultSetEqualsメソッドに関する注意点
-==============================================
+  * The Java.sql.Timestamp type format, such as date of update, is "yyyy-mm-dd hh:mm:ss.fffffffff"(fffffffff" is nano seconds). Even if the nanosecond is not configured, it is displayed as 0 nanosecond in the format. For example, if the time is exactly 12 hours 34 minutes 56 seconds on January 1, 2010, it would be displayed as 2010-01-01 12:34:56.0. When you describe an expected value in an Excel sheet, it is necessary to add a decimal point + Zero at the end.
 
-  * SELECT文で指定された全てのカラム名（別名）が比較対象になる。ある特定のカラムを比較対象外にすることはできない。
 
-  * レコードの順序が異なる場合は、等価でないとみなす（アサート失敗）。
-    これは以下の理由による。
 
-    * SELECTで指定されたカラムに主キーが含まれているとは限らない為。
-    * SELECT実行時はORDER BY指定がなされる場合がほとんどであり、順序についても厳密に比較する必要がある為。
+Points to be noted related to assertSqlResultSetEquals
+========================================================
 
-クラス単体テストにおける登録・更新系テストの注意点
-==================================================
+  * All column names (alias) specified in the SELECT statement are compared. No particular column can be excluded from comparison.
 
- * 自動設定項目を利用してデータベースに登録・更新する際は、ThreadContextにリクエストIDとユーザIDが設定されている必要がある。テスト対象クラス起動前にこれらの値をThreadContextに設定しておくこと。
-   ThreadContextの設定方法については、次の項を参照。（  :ref:`using_ThreadContext`  ）
+  * If the records are in a different order, they are considered not equivalent (assert failure).
+    This is due to the following reasons:
 
- * デフォルト以外のトランザクションを使用する場合は、本フレームワークにトランザクション制御を行わせる必要がある。トランザクション制御の設定方法については、次の項を参照。（  :ref:`using_transactions`  ）
+    * The columns specified in the SELECT do not always contain the primary key.
+    * In most cases, ORDER BY is specified when SELECT is executed, and the order also needs to be compared strictly.
 
-外部キーが設定されたテーブルにデータをセットアップしたい
+Points to be noted related to registration and update process tests in the class unit test
+===========================================================================================
+
+ * Request ID and user ID must be configured in ThreadContext when registering or updating the database using the automatically configured items. These values should be configured to ThreadContext before invoking the class to be tested.
+   Refer to the next section for information on how to configure ThreadContext.（  :ref:`using_ThreadContext`  ）
+
+ * If a transaction other than the default is used, it is necessary to allow this framework to control the transaction. Refer to the next section for information on how configure transaction control.（  :ref:`using_transactions`  ）
+
+To set up data in a table with a foreign key
 =========================================================================
-:ref:`master_data_backup` と同じ機能を用いて、テーブルの親子関係を判断しデータの削除及び登録を行う。
-詳細は :ref:`MasterDataRestore-fk_key` を参照。
+Delete and register data by determining the parent-child relationship of a table using the same function as :ref:`master_data_backup`.
+For more information, see :ref:`MasterDataRestore-fk_key`.
 
-Excelファイルに記述できるカラムのデータ型に関する注意点
-=======================================================
-Excelファイルには、:java:extdoc:`SqlPStatement <nablarch.core.db.statement.SqlPStatement>` で対応している型のカラムのみ
-テストデータとして記述することができる。
+Points to be noted related to data types of columns that can be described in an Excel file
+===========================================================================================
+In an Excel file, only the columns with types supported by :java:extdoc:`SqlPStatement <nablarch.core.db.statement.SqlPStatement>`
+can be described as test data.
 
-そのため、それ以外のデータ型(例えば、OracleのROWIDやPostgreSQLのOIDなど)のカラムはテストデータとして記述できない点に注意すること。
+Therefore, it must be noted that columns with other data types (for example, ROWID of Oracle and OID of PostgreSQL, etc.) cannot be described as test data.
