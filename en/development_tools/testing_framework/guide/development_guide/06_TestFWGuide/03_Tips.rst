@@ -1,9 +1,9 @@
 
-===================
- 目的別API使用方法
-===================
+==================================
+ How to Use Purpose-specific APIs
+==================================
 
-目的別のAPIの使用方法について説明する。
+This section describes how to use purpose-specific APIs.
 
 
 * :ref:`how_to_get_data_from_excel`
@@ -25,294 +25,294 @@
 
 .. _how_to_get_data_from_excel:
 
------------------------------------------------------------------------
-Excelファイルから、入力パラメータや戻り値に対する期待値などを取得したい
------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+To acquire input parameters and expected values for return values, etc. from an Excel file
+---------------------------------------------------------------------------------------------
 
 
-テスト対象クラスのメソッドを呼び出す際の引数や、メソッドの戻り値をExcelファイルに記載しておくことができる。
-記載したデータは、List-Map形式（List<Map<String, String>>の形式）で取得できる。
+It is possible to describe the arguments when you call a method of the class to be tested or return values of the method in an Excel file.
+The described data can be acquired in List-Map format (List<Map<String, String>> format).
 
-この形式でデータを取得する場合は、データタイプLIST_MAPを使用する。
- LIST_MAP=<シート内で一意になるID（任意の文字列）>
+When acquiring data in this format, the data type LIST_MAP is used.
+ LIST_MAP=<SETUP_TABLE[case_001]=EMPLOYEE_TABLE that is unique in the sheet (any string)
 
-データの2行目はMapのKeyと解釈される。
-データの3行目以降はMapのValueと解釈される。
+The second row of data is interpreted as a Map Key.
+After the third row of data is interpreted as a Map Value.
 
-以下のメソッドにより、Map形式またはList-Map形式で、Excelファイルよりデータを取得できる。
-第1引数にはシート名、第2引数にはIDを指定する。
+Data can be acquired from an Excel file in Map or List-Map format using the following methods:
+Specify sheet name in the first argument, and ID in the second argument.
 
  * ``TestSupport#getListMap(String sheetName, String id)``
  * ``DbAccessTestSupport#getListMap(String sheetName, String id)``
 
-テストソースコード実装例
-========================
+Example of test source code implementation
+===========================================
 
  .. code-block:: java
 
     public class EmployeeComponentTest extends DbAccessTestSupport {
-        
-        @Test
+
+        // ＜Middle is omitted＞
         public void testGetName() {
-           // Excelファイルからデータ取得
+           // Acquire data from Excel file
            List<Map<String, String>> parameters = getListMap("testGetName", "parameters");
            Map<String, String>> param = parameters.get(0);
 
-           // 引数および期待値を取得
+           // Acquire arguments and expectations
            String empNo = parameter.get("empNo");
            String expected = parameter.get("expected");
 
-           // テスト対象メソッド起動
+           // Invoke a test method
            EmployeeComponent target = new EmployeeComponent();
-           String actual = target.getName(empNo);           
-           
-           // 結果確認          
+           String actual = target.getName(empNo);
+
+           // Confirmation of results
            assertEquals(expected, actual);
 
-           // ＜後略＞
+           // ＜Rest is omitted＞
         }
 
 
-Excelファイル記述例
-===================
+Example of Excel file description
+===================================
 
 LIST_MAP=parameters
 
-=========== ==============
+============ ==============
 empNo        expected
-=========== ==============
-00001         山田太郎
-00002         鈴木一郎
-=========== ==============
+============ ==============
+CHAR(4)       Yamada Taro
+Yamada Taro   Ichiro Suzuki
+============ ==============
 
-上記の表で取得可能なオブジェクトは、以下のコードで取得できるListと等価である。
+The objects that can be acquired in the above table are equivalent to the list that can be fetched by the following code.
 
  .. code-block:: java
 
   List<Map<String, String>> list = new ArrayList<Map<String, String>>();
   Map<String, String> first = new HashMap<String, String>();
-  first.put("empNo","00001");
-  first.put("expected", "山田太郎");
+  first.put("empNo","CHAR(4)");
+  first.put("expected", "Yamada Taro");
   list.add(first);
   Map<String, String> second = new HashMap<String, String>();
-  second.put("empNo","00002");
-  map.put("expected", "鈴木一郎");
+  second.put("empNo","Yamada Taro");
+  map.put("expected", "Suzuki Ichiro");
   list.add(second);
 
 
 
 .. _how_to_run_the_same_test:
 
---------------------------------------------------
-同じテストメソッドをテストデータを変えて実行したい
---------------------------------------------------
+----------------------------------------------------------
+To execute the same test method with different test data
+----------------------------------------------------------
 
-同じテストメソッドをテストデータを変えて実行したい場合、前述のList-Map取得メソッドを使用して
-テストをループさせる。これにより、Excelデータを追加するだけで、データバリエーションを増やすことができる。
+If you want to execute the same test method with different test data, use a loop to run the test with the above-mentioned List-Map acquiring method.
+This allows you to increase the data variation simply by adding Excel data.
 
-以下の例では、前述のList-Map形式を使用して複数のテストを１つのメソッドで実行している。
+In the following example, multiple tests are executed using a single method using the above-mentioned List-Map format.
 
-テストソースコード実装例
-============================
+Example of test source code implementation
+===========================================
 
  .. code-block:: java
 
     public class EmployeeComponentTest extends DbAccessTestSupport {
-        
-        @Test
+
+        // ＜Middle is omitted＞
         public void testSelectByPk() {
-           // 準備データ投入
+           // Preparation data input
            setUpDb("testSelectByPk");
 
-           // Excelファイルからデータ取得
+           // Acquire data from Excel file
            List<Map<String, String>> parameters = getListMap("testGetName", "parameters");
 
            for (Map<String, String> param : parameters) {
-               // 引数および期待値を取得
+               // Acquire arguments and expectations
                String empNo = parameter.get("empNo");
                String expectedDataId = parameter.get("expectedDataId");
 
-               // テスト対象メソッド起動
+               // Invoke a test method
                EmployeeComponent target = new EmployeeComponent();
-               SqlResultSet actual = target.selectByPk(empNo);           
-           
-               // 結果確認
+               SqlResultSet actual = target.selectByPk(empNo);
+
+               // Confirmation of results
                assertSqlResultSetEquals("testSelectByPk", expectedDataId, actual);
             }
         }
 
 
-Excelファイル記述例
-===================
+Example of Excel file description
+===================================
 
 
-// ループさせるデータ
+// Data to loop
 
 LIST_MAP=parameters
 
-=========== ================= 
-empNo         expectedDataId
 =========== =================
-00001         expected01
-00002         expected02
+empNo        expectedDataId
+=========== =================
+CHAR(4)       expected01
+Yamada Taro   expected02
 =========== =================
 
 
-// データベースの準備データ
+// Database preparation data
 
 SETUP_TABLE=EMPLOYEE
 
 =========== ==============
 NO            NAME
 =========== ==============
-00001         山田太郎
-00002         鈴木一郎
+CHAR(4)      Yamada Taro
+Yamada Taro  Ichiro Suzuki
 =========== ==============
 
 
-// 期待するデータその１
+// Expected data 1
 
 LIST_MAP=expected01
 
 =========== ==============
 NO            NAME
 =========== ==============
-00001         山田太郎
+CHAR(4)      Yamada Taro
 =========== ==============
 
 
-// 期待するデータその２
+// Expected data 2
 
 LIST_MAP=expected02
 
 =========== ==============
 NO            NAME
 =========== ==============
-00001         山田太郎
+CHAR(4)      Yamada Taro
 =========== ==============
 
 
 
 .. important::
-  更新系のテストを行う場合は、ループ内でsetUpDbメソッドの呼び出しを行うこと。
-  そうでないと、テストの成否がデータの順番に依存してしまうからである。
+  To test the update process, call the setUpDb method in a loop.
+  If this is not done, then the success or failure of the test would depend on the order of the data.
 
 .. _tips_groupId:
 
---------------------------------------------------
-一つのシートに複数テストケースのデータを記載したい
---------------------------------------------------
+--------------------------------------------------------------
+To describe the data of multiple test cases on a single sheet
+--------------------------------------------------------------
 
-一つのテスト対象メソッドに対して多くのテストケースが存在する場合、
-１シート１テストケースという書き方をすると、シート数が増加して保守容易性が落ちることが懸念される。
+If there are many test cases for a single test method to be tested,
+then there is a concern that writing one test case per sheet will increase the number of sheets, thereby decreasing maintainability.
 
-テーブルデータをグルーピングするための情報（グループID）を付与することで、複数テストケースのデータをひとつのシートに混在させることができる。
+Assigning information (Group SETUP_TABLE[case_001]=EMPLOYEE_TABLE) for grouping of table data allows the data of multiple test cases to be included on a single sheet.
 
-サポートされるデータタイプは以下の通り。
+The supported data type is as follows.
 
 * EXPECTED_TABLE
 * SETUP_TABLE
 
 
-書式は以下の通り。
+The format is as follows.
 
- データタイプ[グループID]=テーブル名
-
-
-例えば、2種類のテストケースのデータ(case_001,case_002)を混在させる場合は、以下のように記載する。
-
-テストクラス側では、前述のAPIと同名のオーバーロードメソッドに引数グループIDを渡す。
-これにより、指定したグループIDのデータのみを処理対象とすることができる。
+ Data type[Group SETUP_TABLE[case_001]=EMPLOYEE_TABLE] = Table <Omitted>
 
 
+For example, describe as follows when putting the data of two types of test cases (case_001, case_002) together.
 
-テストソースコード実装例
-============================
+In the test class, the argument Group ID is passed to the overload method with the same name as the above-mentioned API.
+This allows only the data of the specified Group ID to be processed.
+
+
+
+Example of test source code implementation
+===========================================
 
  .. code-block:: java
 
 
-    // DBにデータ登録（グループIDが"case_001"のものだけ登録対象になる）
+    // Registering data in DB (only the data with Group ID "case_001" will be registered)
     setUpDb("testUpdate", "case_001");
 
 
-    // 結果確認（グループIDが"case_001"のものだけassert対象になる）
-    assertTableEquals("データベース更新結果確認", "testUpdate", "case_001");
+    // Confirmation of results (only the data with Group ID "case_001" will be considered for assertion)
+    assertTableEquals("Confirmation of database results", "testUpdate", "case_001");
 
 
-Excelファイル記述例
-============================
+Example of Excel file description
+===================================
 
-// ケース001:従業員の所属を変更する。
+// Case 001: Change the department of employees.
 
 SETUP_TABLE[case_001]=EMPLOYEE_TABLE
 
-=========== ============ ===========
-ID          EMP_NAME     DEPT_CODE 
-=========== ============ ===========
- // CHAR(5)  VARCHAR(64)   CHAR(4)  
-      00001  山田太郎          0001 
-      00002  田中一郎          0002 
-=========== ============ ===========
+=========== =============== ===========
+ID          EMP_NAME        DEPT_CODE
+=========== =============== ===========
+ // CHAR(5)  VARCHAR(64)     CHAR(4)
+      00001  Yamada Taro        0001
+      00002  Tanaka Ichiro      0002
+=========== =============== ===========
                     
                     
 EXPECTED_TABLE[case_001]=EMPLOYEE_TABLE
 
-=========== ============ =========== =======
-ID          EMP_NAME     DEPT_CODE 
-=========== ============ =========== =======
- // CHAR(5)  VARCHAR(64)   CHAR(4)  
-      00001  山田太郎          0001 
-      00002  田中一郎          0010  //更新
-=========== ============ =========== =======
+=========== =============== =========== ========
+ID          EMP_NAME        DEPT_CODE
+=========== =============== =========== ========
+ // CHAR(5)  VARCHAR(64)     CHAR(4)
+      00001  Yamada Taro        0001
+      00002  Tanaka Ichiro      0010    //Update
+=========== =============== =========== ========
 
 
-// ケース002:従業員の氏名を変更する。
+//Case 002: Change the name of employees.
                     
 SETUP_TABLE[case_002]=EMPLOYEE_TABLE
 
-=========== ============ ===========
-ID          EMP_NAME     DEPT_CODE 
-=========== ============ ===========
- // CHAR(5)  VARCHAR(64)   CHAR(4)  
-      00001  山田太郎          0001 
-      00002  田中一郎          0002 
-=========== ============ ===========
+=========== =============== ===========
+ID           EMP_NAME       DEPT_CODE
+=========== =============== ===========
+ // CHAR(5)  VARCHAR(64)     CHAR(4)
+      00001  Yamada Taro         0001
+      00002  Tanaka Ichiro       0002
+=========== =============== ===========
 
                     
 EXPECTED_TABLE[case_002]=EMPLOYEE_TABLE 
 
-=========== ============ =========== =======
-ID          EMP_NAME     DEPT_CODE          
-=========== ============ =========== =======
- // CHAR(5)  VARCHAR(64)   CHAR(4)          
-      00001  佐藤太郎          0001  //更新        
-      00002  田中一郎          0002  
-=========== ============ =========== =======
+=========== =============== =========== =========
+ID          EMP_NAME        DEPT_CODE
+=========== =============== =========== =========
+ // CHAR(5)  VARCHAR(64)      CHAR(4)
+      00001  Satou Taro         0001    //Update
+      00002  Tanaka Ichiro      0002
+=========== =============== =========== =========
 
-注意事項
+Note
 ========
 
-複数のグループIDのデータを記述する際は、 :ref:`auto-test-framework_multi-datatype` のようにグループIDごとにまとめて記述すること。
-グループIDごとにまとめて記述しないとデータの読み込みが途中で終了しテストが正しく実行されない。
+When describing data with multiple Group IDs, the data should be described in groups based on the Group IDs, same as :ref:`auto-test-framework_multi-datatype`.
+If the data is not described in groups based on the Group IDs, then reading of the data is aborted in the middle and the test is not executed correctly.
 
 .. _how_to_fix_date:
 
-----------------------------------
-システム日時を任意の値に固定したい
-----------------------------------
-登録日時や更新日時などのシステム日付を設定する項目の場合、普通にテストを実行すると日によって想定結果が変わるため、自動テストで設定値が正しいことを確認できない。
-そこで、本フレームワークではシステム日付に固定値を設定する機能を提供する。この機能を使用することにより、システム日付を設定する項目も自動テストで設定値が正しいことを確認することができる。
+---------------------------------------------------------
+To fix the system date and time to a value of your choice
+---------------------------------------------------------
+In the case of items such as registration date and time, or update date and time, for which system date is set, it is not possible to check with an automated test that the set value is correct since the expected result changes depending on the date when the test is routinely executed.
+Therefore, this framework provides a function to configure a fixed value for the system date.By using this function, it is possible to check with an automated test that the set value is correct, even for items having system date set.
 
-Nablarch Application Frameworkでは、SystemTimeProviderインタフェースの実装クラスがシステム日時を提供する。この実装クラスを、固定値を返却するテスト用クラスに差し替えることにより、任意のシステム日時を返却させることができる。
+In the Nablarch Application Framework, the implementation class of the SystemTimeProvider interface provides the system date and time. By replacing this implementation class with a testing class that returns a fixed value, it is possible to return the system date and time of your choice.
 
 
-設定ファイル例
-==================
+Configuration file example
+===========================
 
-コンポーネント設定ファイルにて、SystemTimeProviderインタフェースの実装クラスを指定する箇所に
-FixedSystemTimeProviderを指定し、そのプロパティに任意の日時を設定する。
-例えば、システム日時を2010年9月14日12時34分56秒とする場合は以下のように設定する。
+In the component configuration file, specify FixedSystemTimeProvider at the place where implementation class
+of the SystemTimeProvider interface is specified, and configure the date and time of your choice as its property.
+For example, configure as follows when the system date and time is September 14, 2010 12:34:56.
 
 .. code-block:: xml
 
@@ -323,17 +323,17 @@ FixedSystemTimeProviderを指定し、そのプロパティに任意の日時を
 
     
 
-+-----------------------+------------------------------------------------------------------------+
-|property名             |設定内容                                                                |
-+=======================+========================================================================+
-|fixedDate              |指定したい日時を以下のフォーマットいずれかに合致する文字列で指定する。  |
-|                       | * yyyyMMddHHmmss (12桁)                                                |
-|                       | * yyyyMMddHHmmssSSS (15桁)                                             |
-+-----------------------+------------------------------------------------------------------------+
++-----------------------+--------------------------------------------------------------------------------+
+|property name          |Settings                                                                        |
++=======================+================================================================================+
+|fixedDate              |Specify the date and time as a string that matches one of the following formats:|
+|                       | * yyyyMMddHHmmss (12 digits)                                                   |
+|                       | * yyyyMMddHHmmssSSS (15 digits)                                                |
++-----------------------+--------------------------------------------------------------------------------+
   
 .. code-block:: java 
      
-     // システム日時を取得
+     // Acquire system date and time
      SystemTimeProvider provider = (SystemTimeProvider) SystemRepository.getObject("systemTimeProvider");      
      Date now = provider.getDate();
 
@@ -341,42 +341,42 @@ FixedSystemTimeProviderを指定し、そのプロパティに任意の日時を
 .. _how_to_numbering_sequence:
 
 --------------------------------------------------------
-シーケンスオブジェクトを使った採番のテストをしたい
+To test the numbering that uses sequence objects
 --------------------------------------------------------
-シーケンスオブジェクトを使用して値の採番処理を行った場合、次に採番される値が事前に予測できないため期待値を設定することができない。
-そこで、本フレームワークではシーケンスオブジェクトを使用した採番処理を設定ファイルの変更のみでテーブル採番に置き換える機能を提供する。
-この機能を利用することで、正しく採番処理を行なっていることを確認できる。
+When sequence objects are used for numbering values, it is not possible to set an expected value since the value that will be numbered next cannot be predicted in advance.
+Therefore, this framework provides a function to replace the numbering process that uses sequence objects, with table numbering, simply by a change in the configuration file.
+By using this function, it is possible to check that the numbering is done correctly.
 
-手順は以下のとおり。
+The procedure is as follows:
 
- | ① 準備データをテーブルにセットアップする。
- | ② 期待値はテーブルに設定した値を元に設定する。
+ | (1) Set up preparation data in a table.
+ | (2) Set the expected values based on the values configured in the table.
 
-以下に設定例及び使用例を示す。
+Configuration example and use case are shown below.
 
-設定ファイルの例
-===================
-この例では、下記のように本番用の設定ファイルにシーケンスオブジェクトの採番定義がされているとする。
+Configuration file example
+===========================
+In this example, it is assumed that the sequence object numbering is defined in the configuration file for production, as follows:
 
  .. code-block:: xml
 
-    <!-- シーケンスオブジェクトを使用した採番設定 -->
+    <!-- Configuration of numbering that uses sequence objects -->
     <component name="idGenerator" class="nablarch.common.idgenerator.OracleSequenceIdGenerator">
         <property name="idTable">
             <map>
-                <entry key="1101" value="SEQ_1"/> <!-- ID1採番用 -->
-                <entry key="1102" value="SEQ_2"/> <!-- ID2採番用 -->
-                <entry key="1103" value="SEQ_3"/> <!-- ID3採番用 -->
-                <entry key="1104" value="SEQ_4"/> <!-- ID4採番用 -->
+                <entry key="1101" value="SEQ_1"/> <!-- For ID1 numbering -->
+                <entry key="1102" value="SEQ_2"/> <!-- For ID2 numbering -->
+                <entry key="1103" value="SEQ_3"/> <!-- For ID3 numbering -->
+                <entry key="1104" value="SEQ_4"/> <!-- For ID4 numbering -->
             </map>
         </property>
     </component>
 
-この場合、テスト用の設定ファイルでは、上記本番用の設定をテーブル採番用の設定で上書きする。
+In this case, in the configuration file for testing, the above configuration for production is overwritten by the configuration for table numbering.
 
  .. code-block:: xml
 
-    <!-- シーケンスオブジェクトの採番設定をテーブルを使用した採番設定に置き換える -->
+    <!-- Replace numbering configuration that uses sequence objects, with numbering configuration that uses tables -->
     <component name="idGenerator" class="nablarch.common.idgenerator.FastTableIdGenerator">
         <property name="tableName" value="TEST_SBN_TBL"/>
         <property name="idColumnName" value="ID_COL"/>
@@ -384,15 +384,15 @@ FixedSystemTimeProviderを指定し、そのプロパティに任意の日時を
         <property name="dbTransactionManager" ref="dbTransactionManager" / >
     </component>
 
- .. tip :: テーブル採番用の設定値の詳細は、\ :java:extdoc:`IdGenerator <nablarch.common.idgenerator.IdGenerator>`\ を参照すること。
+ .. tip :: For more information about setting values for table numbering, see :java:extdoc:`IdGenerator <nablarch.common.idgenerator.IdGenerator>`.
 
-Excelファイル記述例
-===================
+Example of Excel file description
+=================================
 
-採番対象ID:1101を採番する処理をテストする場合を例に説明する。
+We will explain based on an example when testing a numbering process where the ID to be numbered is 1101.
 
- | // 準備データ
- | // 採番用テーブル
+ | // Preparation data
+ | // Numbering table
  | SETUP_TABLE=TEST_SBN_TBL
 
  =========== ============
@@ -402,11 +402,11 @@ Excelファイル記述例
  =========== ============
 
  .. tip::
-  採番用テーブルに準備データを設定する。
-  準備データでは、テスト範囲内で使用する採番対象のレコードのみを設定する。
+  Configure the preparation data in the table for numbering.
+  In the preparation data, configure only those records with the ID to be numbered and are within testing scope.
 
- | // 期待値
- | // 採番用テーブル
+ | // Expected value
+ | // Numbering table
  | EXPECTED_TABLE=TEST_SBN_TBL
 
  =========== ============
@@ -415,30 +415,30 @@ Excelファイル記述例
  1101        101
  =========== ============
 
- | // 期待値
- | // 採番した値が登録されるテーブル(USER_IDに採番された値が登録される。)
+ | // Expected value
+ | // Table in which the numbered values are registered (the numbered value is registered in USER_ID.)
  | EXPECTED_TABLE=USER_INFO
 
  =========== ============ ============
  USER_ID     KANJI_NAME   KANA_NAME   
  =========== ============ ============
- 0000000101  漢字名       ｶﾅﾒｲ
+ 0000000101  Kanji name   Kana name
  =========== ============ ============
 
  .. tip::
-  本記述例では、テスト内で1度のみ採番処理が行われていることを想定している。
-  このため、期待値は「準備データの値 + 1」となっている。
+  In this example, it is assumed that the numbering process is done only once in the test.
+  Therefore, the expected value is "the value in the preparation data + 1".
 
 .. _using_ThreadContext:
 
-------------------------------------------------------
-ThreadContextにユーザID、リクエストIDなどを設定したい
-------------------------------------------------------
+-------------------------------------------------------
+To configure user ID, request ID, etc. in ThreadContext
+-------------------------------------------------------
 
-Nablarch Application Frameworkでは、通常ThreadContextにてユーザIDやリクエストIDがあらかじめ設定されている。データベースアクセスクラスの自動テストを行う場合、フレームワークを経由せず、テストクラスからテスト対象クラスを直接起動するため、ThreadContextには値が設定されていない。
+In the Nablarch Application Framework, user IDs and request IDs are usually configured in advance in ThreadContext. In the case of automated testing of database access classes, values are not configured in ThreadContext since the class to be tested is invoked directly from the test class without going through the framework.
 
 
-Excelファイルに設定する値を記述して下記メソッドを呼び出すことで、ThreadContextに値を設定できる。
+You can configure the values in ThreadContext by describing the values to be configured in an Excel file and calling the following methods:
 
   * ``TestSupport#setThreadContextValues(String sheetName, String id)``
   * ``DbAccessTestSupport#setThreadContextValues(String sheetName, String id)``
@@ -446,30 +446,30 @@ Excelファイルに設定する値を記述して下記メソッドを呼び出
 
 .. tip::
 
-  特に自動設定項目を利用してデータベースに登録・更新する際は、ThreadContextにリクエストIDとユーザIDが設定されている必要がある。テスト対象クラス起動前にこれらの値をThreadContextに設定しておくこと。
+  In particular, when registering and updating the database using automatically configured items, it is necessary that the request ID and user ID are configured in ThreadContext. These values should be configured to ThreadContext before invoking the class to be tested.
 
 
 
-テストソースコード実装例
-============================
+Example of test source code implementation
+==========================================
 
  .. code-block:: java
 
     public class DbAccessTestSample extends DbAccessTestSupport {
-        // ＜中略＞
+        // ＜Middle is omitted＞
         @Test
         public void testInsert() {
-            // ThreadContextに値を設定する（シート名、IDを指定）
+            // Configure the value for ThreadContext (specify the sheet name and ID)
             setThreadContextValues("testSelect", "threadContext");            
 
-           // ＜後略＞
+           // ＜Rest is omitted＞
 
 
 
-テストデータ記述例
-=========================
+Test data description example
+=============================
 
-シート[testInsert]に以下のようにデータを記載する。(IDは任意）
+Describe the data as follows in the sheet [testInsert]. (ID is optional)
 
 LIST_MAP=threadContext
 
@@ -486,16 +486,16 @@ U00001       RS000001     ja_JP
 .. _using_TestDataParser:
 
 --------------------------------------------------------------------
-任意のディレクトリのExcelファイルを読み込みたい
+To read an Excel file in any directory
 --------------------------------------------------------------------
-テストソースコードと同じディレクトリに存在するExcelファイルであれば、
-シート名を指定するだけで読み込み可能であるが、別のディレクトリに存在するファイルを
-読み込みたい場合は、TestDataParser実装クラスを直接使用することで取得できる。
+If an Excel file exists in the same directory as the test source code,
+it can be read simply by specifying the sheet name, however, if you want to read a file in a different directory,
+and the file can be acquired directly by using the TestDataParser implementation class directly.
 
-"/foo/bar/"に存在する"Buz.xlsx"というファイルからデータを読み込む場合の例を以下に示す。
+An example of reading data from the file "Buz.xlsx", which exists under "/foo/bar/" is shown below.
 
-テストソースコード実装例
-============================
+Example of test source code implementation
+==========================================
 
  .. code-block:: java
 
@@ -505,30 +505,30 @@ U00001       RS000001     ja_JP
 
 .. _using_junit_annotation:
 
-------------------------------------
-テスト実行前後に共通処理を行いたい。
-------------------------------------
+-----------------------------------------------------------------
+To perform common processing before and after executing a test.
+-----------------------------------------------------------------
 
-JUnit4で用意されたアノテーション(@Before, @After, @BeforeClass, @AfterClass)を使用することで、
-テスト実行前後に共通処理を実行させることができる。
+By using the annotations (@Before, @After, @BeforeClass, and @AfterClass) provided in JUnit4,
+it is possible to execute common processing before and after executing a test.
 
-注意事項
+Note
 ========
 
-上記のアノテーションを利用する際は、以下の点に注意すること。
+The following points must be noted when using the above annotations.
 
-@BeforeClass, @AfterClass使用時の注意点
----------------------------------------
+Points to be noted when using @BeforeClass and @AfterClass
+-----------------------------------------------------------
 
- * サブクラスにて、スーパークラスと同名の名前、同じアノテーションを付与のメソッドを作成しないこと。
-   同名のメソッドに同種のアノテーションを付与した場合、スーパークラスのメソッドは起動されなくなる。
+ * A method with the same name and the same annotations as the superclass must not be created in the subclass.
+   If methods having the same name are assigned the same type of annotations, then the method of the superclass is not invoked.
 
  .. code-block:: java
 
     public class TestSuper {
         @BeforeClass
         public static void setUpBeforeClass() {
-            System.out.println("super");   // 表示されない。
+            System.out.println("super");   // Not displayed.
         }
     }
 
@@ -536,7 +536,7 @@ JUnit4で用意されたアノテーション(@Before, @After, @BeforeClass, @Af
                            
         @BeforeClass               
         public static void setUpBeforeClass() {
-            // スーパークラスのメソッドを上書き
+            // Override the superclass methods
         }                      
                                
         @Test                  
@@ -546,69 +546,69 @@ JUnit4で用意されたアノテーション(@Before, @After, @BeforeClass, @Af
     }                                          
 
 
-上記のTestSubを実行した場合、「test」と表示される。
+When the above TestSub is executed, “test” will be displayed.
 
 
 .. _using_transactions:
 
 --------------------------------------------
-デフォルト以外のトランザクションを使用したい
+To use transactions other than the default
 --------------------------------------------
 
-データベースアクセスクラスの単体テストを行う場合、テストクラスからデータベースアクセスクラスを起動する。
-通常、データベースアクセスクラスではトランザクション制御を行わないので、テストクラス側でトランザクションを制御する必要がある。
+When carrying out the unit test of a database access class, invoke the database access class from the test class.
+Normally, since transaction control is not performed in the database access class, it is required to control the transaction in the test class.
 
-トランザクション制御は定型処理であるため、テスティングフレームワークにてトランザクションを制御する機構を用意している。プロパティファイルにトランザクション名を記載しておけば、テスティングフレームワークは、テストメソッド実行前にトランザクション開始、テストメソッド終了後にトランザクションを終了する。
-この機構を利用することにより、個別のテストにて、テスト実行前に明示的にトランザクションを開始する必要がなくなる。また、トランザクション終了処理漏れもなくなる。
+Since transaction control is a routine process, a mechanism for transaction control is provided in the testing framework.If the transaction name is described in the property file, the testing framework will start the transaction before executing the test method and end the transaction after the test method ends.
+This mechanism eliminates the need to explicitly start the transaction before executing a test in individual tests.Also, the transaction is ended without fail.
 
 
-この機能を利用する手順は以下の通り。
- * テストクラスにてDbAccessTestSupportを継承する（これにより、スーパークラスの@Before、@Afterメソッドが自動的に呼び出される）。
+The procedure to use this function is as follows:
+ * •	Inherit DbAccessTestSupport in the test class (This will automatically call the @Before and @After methods of the superclass).
 
 
 .. _using_ohter_class:
 
 --------------------------------------------------------
-本フレームワークのクラスを継承せずに使用したい
+To use this framework without inheriting its class
 --------------------------------------------------------
 
-通常、テストクラス作成時は本フレームワークで用意されているスーパークラスを継承すればよいが、
-別のクラスを継承しなければならない等の理由で、本フレームワークのスーパークラスを継承できない場合がある。この場合、本フレームワークのスーパークラスをインスタンス化し、処理を委譲することで代替可能である。
+Normally, when a test class is created, the superclass provided in this framework can be inherited,
+however, there are cases where the superclass of this framework cannot be inherited as it is necessary to inherit other classes, and so on. In such cases, substitution is possible by instantiating the superclass of this framework and delegating the process.
 
-委譲を使用する場合、コンストラクタにテストクラス自身のClassインスタンスを渡す必要がある。
-また、前処理(@Before)メソッド、後処理(@After)メソッドについては、明示的に呼び出す必要がある。
+If delegation is used, it is necessary to pass a Class instance of the test class itself to the constructor.
+In addition, preprocessing (@Before) and postprocessing (@After) methods need to be called explicitly.
 
-テストソースコード実装例
-========================
+Example of test source code implementation
+===========================================
 
  .. code-block:: java
 
     public class SampleTest extends AnotherSuperClass {
 
-        /** DbAccessテストサポート */
+        /** DbAcces test support */
         private DbAccessTestSupport dbSupport
               = new DbAccessTestSupport(getClass());
     
-        /** 前処理 */
+        /** Preprocessing */
         @Before
         public void setUp() {
-            // DbSupportの前処理を起動
+            // Launch DbSupport pre-processs
             dbSupport.beginTransactions();
         }
     
-        /** 後処理 */
+        /** Post-processing */
         @After
         public void tearDown() {
-            // DbSupportの後処理を起動
+            // Launch DbSupport post-process
             dbSupport.endTransactions();
         }
 
         @Test
         public void test() {
-            // データベースに準備データ投入
+            // Preparation data input to database
             dbSupport.setUpDb("test");
 
-            // ＜中略＞
+            // ＜Middle is omitted＞
             dbSupport.assertSqlResultSetEquals("test", "id", actual);
         }
     }
@@ -617,24 +617,24 @@ JUnit4で用意されたアノテーション(@Before, @After, @BeforeClass, @Af
 .. _how_to_assert_property_from_excel:
 
 -----------------------------------------------------------------------
-クラスのプロパティを検証したい
+To validate the properties of a class
 -----------------------------------------------------------------------
-テスト対象クラスのプロパティの検証を、容易に実装できる。
+Verification of properties of the class to be tested can be implemented easily.
 
-テストデータの記述方法は、 :ref:`how_to_get_data_from_excel` で記載した方法と同様に記載する。
+How to describe test data is described in the same way as :ref:`how_to_get_data_from_excel`.
 
-データの意味は、2行目が プロパティ名、3行目以降が検証時に使用するプロパティの値となる。
+The data implies the property name in the second row and property value to be used at the time of verification from the third row onward.
 
-以下のメソッドにより、プロパティの持つ値がExcelファイルに記載したデータとなっていることを検証できる。
-第1引数にはエラー時に表示するメッセージ、第2引数にはシート名、第3引数にはID、第4引数に検証対象のクラス、クラスの配列、クラスのリストのいずれかを指定する。
+With the following methods, it can be verified that the property value is the same as the data described in an Excel file.
+The first argument is the message to be displayed in case of an error, the second is the sheet name, the third is the ID, and the fourth is the class, an array of classes, or a list of classes to be verified.
 
  * ``HttpRequestTestSupport#assertObjectPropertyEquals(String message, String sheetName, String id, Object actual)``
  * ``HttpRequestTestSupport#assertObjectArrayPropertyEquals(String message, String sheetName, String id, Object[] actual)``
  * ``HttpRequestTestSupport#assertObjectListPropertyEquals(String message, String sheetName, String id, List<?> actual)``
 
 
-テストソースコード実装例
-========================
+Example of test source code implementation
+==========================================
 
 
  .. code-block:: java
@@ -653,31 +653,31 @@ JUnit4で用意されたアノテーション(@Before, @After, @BeforeClass, @Af
                     UserForm form = (UserForm) context.getRequestScopedVar("user_form");
                     UsersEntity users = form.getUsers();
                     
-                    // users のプロパティ kanjiName,kanaName,mailAddress を検証。
+                    // Validate the properties kanjiName, kanaName, and mailAddress of users.
                     assertObjectPropertyEquals(message, sheetName, "expectedUsers", users);
                 }
             }
         }
         
-Excelファイル記述例
-========================
+Example of Excel file description
+=================================
 
 LIST_MAP=expectedUsers
 
 ===========    ===========   ===========================
 kanjiName      kanaName      mailAddress
 ===========    ===========   ===========================
-漢字氏名       カナシメイ      test@anydomain.com
+Kanji name      Kana name      test@anydomain.com
 ===========    ===========   ===========================
 
 
 .. _tips_test_data:
 
---------------------------------------------------
-テストデータに空白、空文字、改行やnullを記述したい
---------------------------------------------------
+--------------------------------------------------------
+To enter whitespaces, line feeds and nulls in test data
+--------------------------------------------------------
 
- :ref:`special_notation_in_cell` を参照。
+ For more information, see :ref:`special_notation_in_cell`.
 
 
 \
@@ -685,69 +685,69 @@ kanjiName      kanaName      mailAddress
 
 .. _how_to_express_empty_line:
 
-------------------------------
-テストデータに空行を記述したい
-------------------------------
+-----------------------------------
+To write a blank row in test data
+-----------------------------------
 
-可変長ファイルを扱う場合等で、テストデータに空行を含めたい場合がある。
-全くの空行は無視されるため、:ref:`special_notation_in_cell` の
-ダブルクォーテーションを使用して\ ``""``\ のように空文字列を記述することで、
-空行を表すことができる。
+You may want to include a blank row in the test data, for example,
+when you handle a file of variable length, etc.
+Since all blank rows are ignored, you can write an empty string like
+``""`` using double quotation marks of :ref:`special_notation_in_cell` to represent a blank row.
 
-以下の例では、2レコード目が空行となる。
+In the following example, the second record is a blank row.
 
 **SETUP_VARIABLE=/path/to/file.csv**
 
- ＜中略＞
+ <Omitted>
 
 +------+-------+
 |name  |address|
 +======+=======+
-|山田  |東京都 |
+|Yamada|Tokyo  |
 +------+-------+
 |""    |       |
 +------+-------+
-|田中  |大阪府 |
+|Tanaka|Osaka  |
 +------+-------+
 
 .. tip::
- 空行を表す場合、全てのセルを\ ``""``\ で埋める必要はない。
- 行のうちのいずれか1セルだけでよい。可読性を考慮し、
- 左端のセルに\ ``""``\ を記載することを推奨する。
+ You do not need to fill in all the cells with ``""`` if you want to represent a blank line.
+ Only one cell of the row can be filled in.
+ For readability, it is recommended to enter ``""`` in the leftmost cell.
  
 
 .. _how_to_change_master_data:
 
---------------------------------------
-マスタデータを変更してテストを行いたい
---------------------------------------
+----------------------------------------------
+To conduct a test by changing the master data
+----------------------------------------------
 
  :doc:`04_MasterDataRestore` を参照
 
 
 .. _how_to_change_test_data_dir:
 
---------------------------------------------
-テストデータ読み込みディレクトリを変更したい
---------------------------------------------
+------------------------------------------------------
+To change the directory from which test data is read
+------------------------------------------------------
 
-デフォルトの設定では、テストデータは\ ``test/java``\ 配下から読み込まれる。
+In the default configuration, test data is read from under ``test/java``.
 
-プロジェクトのディレクトリ構成に応じて、テストデータディレクトリを変更する必要がある場合、
-コンポーネント設定ファイルに以下の設定を追加する\ [#]_\ 。
+To change the test data directory according to the directory configuration of the project,
+add the following configuration to the component configuration file .\ [#]_\
 
 ============================ =================================================
-キー                         値
+Key                          Value
 ============================ =================================================
-nablarch.test.resource-root  テスト実行時のカレントディレクトリからの相対パス
-                             セミコロン(;)区切りで複数指定可 \ [#]_\ 
+nablarch.test.resource-root  Relative path from the current directory
+                             at the time of test execution \ [#]_\
 ============================ =================================================
 
 \
 
 
 
-設定例を以下に示す。
+The configuration example shown below.
 
 .. code-block:: bash
 
@@ -755,9 +755,9 @@ nablarch.test.resource-root  テスト実行時のカレントディレクトリ
  
 \
 
-複数のディレクトリからテストデータを読み込みたい場合は、
-セミコロンで区切ることにより複数指定することができる。
-設定例を以下に示す。
+If you want to read test data from multiple directories,
+multiple paths can be specified by separating with a semicolon.
+The configuration example shown below.
 
 .. code-block:: text
 
@@ -766,62 +766,62 @@ nablarch.test.resource-root  テスト実行時のカレントディレクトリ
 \
 
 .. [#]
- 一時的に設定を変更する場合は、設定ファイルを変更しなくても、
- テスト実行時のVM引数指定を追加することで代替可能である。
+ To change the configuration temporarily, substitution is possible by specifying the VM argument
+ at the time of test execution without changing the configuration file.
  
- 【例】 \ ``-Dnablarch.test.resource-root=path/to/test-data-dir``\
+ Example \ ``-Dnablarch.test.resource-root=path/to/test-data-dir``\
 
 \
 
 .. [#] 
- 複数のディレクトリを指定した場合、同名のテストデータが存在した場合、
- 最初に発見されたテストデータが読み込まれる。
+ If more than one directory is specified, the test data detected first is read
+ if there is test data with the same name.
 
 
  
 .. _how_to_convert_test_data:
 
-------------------------------------------------------------------
-メッセージング処理でテストデータに対し定型的な変換処理を追加したい
-------------------------------------------------------------------
+--------------------------------------------------------------------------
+To add a routine conversion process for test data in the messaging process
+--------------------------------------------------------------------------
 
-テストデータ用のExcelに記述されたデータはデフォルトでは指定されたエンコーディングを使用してバイト列に変換されるのみである。
-例えばURLエンコーディングされたデータが他システムから連携される場合、URLエンコーディングされたデータをExcelに記述する必要があるが、
-可読性や保守性、作業効率といった面で現実的ではない。
+The data written in an Excel file for test data is simply converted to a byte sequence by default using the specified encoding.
+For example, when URL-encoded data is linked from other systems, it is necessary to write the URL-encoded data in an Excel file,
+but it is not practical in terms of readability, maintainability, and work efficiency.
 
-以下のインタフェースを実装し、システムリポジトリに登録することでURLエンコーディングのような定型的な変換処理を追加することができる。
+By implementing the following interface and registering it in the system repository, you can add a routine conversion process such as URL encoding.
 
-実装するインタフェース
-======================
+Interface to be implemented
+============================
 
  * ``nablarch.test.core.file.TestDataConverter`` 
 
-システムリポジトリ登録内容
-===========================
+Contents registered in the system repository
+===============================================
 
-============================== =================================================
-キー                           値
-============================== =================================================
-TestDataConverter_<データ種別> 上記インタフェースを実装したクラスのクラス名。
-                               データ種別はテストデータのfile-typeに指定した値。
-============================== =================================================
+============================== ===================================================================
+Key                            Value
+============================== ===================================================================
+TestDataConverter_<data type>  Class name of the class that implements the above interface.
+                               Data type is the value specified for file-type of the test data.
+============================== ===================================================================
 
-システムリポジトリ登録例
-=========================
+Example of system repository registration
+==========================================
 
 .. code-block:: xml
 
-  <!-- テストデータコンバータ定義 -->
+  <!-- Test data converter definition -->
   <component name="TestDataConverter_FormUrlEncoded" 
              class="please.change.me.test.core.file.FormUrlEncodedTestDataConverter"/>
 
-Excelファイル記述例
-====================
+Example of Excel file description
+==================================
 
 .. image:: ./_images/data_convert_example.png
 
-上記で指定したコンバータでセル内の各データにURLエンコーディングを行うように実装した場合、
-テストフレームワーク内部では以下のデータを記述した場合と同様に扱われる。
+When the converter specified above is implemented to perform URL encoding for each data within the cells,
+it is handled in the same way as when the following data is described internally in the test framework.
 
 .. image:: ./_images/data_convert_internal.png
 
