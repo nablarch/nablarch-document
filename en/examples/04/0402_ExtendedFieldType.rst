@@ -1,76 +1,73 @@
 ======================================================
-データフォーマッタ機能におけるフィールドタイプの拡張
+Field Type Expansion in the Data Formatter Function
 ======================================================
 
-本サンプルで提供するフォーマッタ機能の仕様を解説する。
+The specifications of the formatter functions provided in this sample are described.
 
-フォーマッタ機能の概要、基本となる汎用データフォーマット機能に関する詳細は、Nablarch Application Framework解説書の汎用データフォーマット機能に関する解説を参照すること。
+For an overview of the formatter functions and more information on basic general-purpose data formatting functions, see the description for general-purpose data formatting functions in the Nablarch Application Framework manual.
 
 ----------------------------
-概要
+Summary
 ----------------------------
 
-EBCDIC（CP930）のダブルバイト文字をデータ連携する場合に、
-項目の前後にシフトコードを付与することがあるが、
-ホストコンピュータとのデータ連携などでは、ダブルバイト文字であってもシフトアウト状態で始まっていることを想定しシフトコードを付与しないこともある。
+When data linking double-byte characters of EBCDIC (CP930), a shift code may be added before and after the item. 
+However, when data linking with a host computer, 
+the shift code may not be added since it is assumed that the item starts in the shift out state even if it is a double-byte character.
 
-このように、接続先のシステムとのインターフェースにより、シフトコードが付与される場合とされない場合があるため、それぞれに対応する必要がある。
+Thus, depending on the interface with the connection destination system, the shift code may or may not be added and each case must be handled.
 
-そこで、本サンプルではシフトコード付きEBCDIC（CP930）のダブルバイト文字に対応するデータタイプクラスと、
-シフトコード無しEBCDIC（CP930）のダブルバイト文字に対応するデータタイプクラスを提供する。
+This sample provides a data type class for double-byte characters of EBCDIC (CP930) with a shift code, 
+and a data type class for double-byte characters of EBCDIC (CP930) without a shift code.
 
-なお、Nablarchがデフォルトで提供しているダブルバイト文字列のデータタイプ(DoubleByteCharacterString)は、
-ファイルの文字コードがShift_JISやMS932の場合に全角文字（ダブルバイト文字）フィールドの入出力に使用することを想定しているため、
-EBCDIC（CP930）を扱う際には、各プロジェクトによる拡張が必要となる。
+Since it is assumed that the double-byte string data type (DoubleByteCharacterString) provided in Nablarch by default is used for input/output of the full-width characters (double-byte characters) field when the character code of the file is Shift_JIS or MS932, each project must be expanded when handling EBCDIC (CP930).
 
-（シフトコードが付与されるかどうかは、JDKに依存するものであり、
-JDKで使用されるCP930はダブルバイト文字に対して必ずシフトコードが付加されている必要がある。）
+(Whether a shift code is added or not depends on the JDK, 
+and CP930 used in the JDK must have a shift code added to double-byte characters.)
 
-このデータタイプを使用すると、透過的にシフトコードの付加および除去を行うため、上記の差を吸収して文字列化したりバイトシーケンスにエンコードすることが可能となる。
+Since the shift code is added and removed transparently when this data type is used, it is possible to absorb the difference mentioned above and convert it into a string or encode it into a byte sequence.
 
 
 
-提供パッケージ
+Delivery package
 --------------------------------------------------------------------
 
-本機能は、下記のパッケージで提供される。
+The functions are provided in the below package.
 
   *please.change.me.* **core.dataformat.convertor.datatype**
 
 
-フィールドタイプの構成
+Structure of field type
 --------------------------------------------------------------------
 
-本サンプルでは、EBCDIC（CP930）の固定長ファイルの全角文字列の項目に
-シフトコードが付与されている場合といない場合の両方に対応することを想定しているため、
-下記のフィールドタイプのクラスを追加することとなる。
+In this sample, it is assumed that the fixed-length file of EBCDIC (CP930) corresponds to both cases where a shift code is assigned to the double-byte string items and cases where it is not. 
+Hence, the following field type classes are added.
 
-以下に本機能で使用するクラス一覧を記す。
+The following is a list of classes used in this function.
 
   .. list-table::
    :widths: 130 150 200
    :header-rows: 1
 
-   * - パッケージ名
-     - クラス名
-     - 概要
+   * - Package name
+     - Class name
+     - Summary
    * - *please.change.me.* **core.dataformat.** **convertor.datatype**
      - EbcdicDoubleByteCharacterString
-     - | EBCDIC(CP930)のダブルバイト文字列に対応したデータタイプクラス。
-       | 固定長のデータフォーマットの全角文字（ダブルバイト文字）フィールドの入出力に利用する。
-       | 入出力のバイトデータに **シフトコードが付与されるケース** を想定しているデータタイプとして実装する。
+     - | Data type class for double-byte strings of EBCDIC (CP930).
+       | It is used for input/output of full-width character (double-byte character) field of fixed-length data format.
+       | It is implemented as a data type that **assumes the shift code** is used for the input/output byte data.
    * - *please.change.me.* **core.dataformat.** **convertor.datatype**
      - EbcdicNoShiftCodeDoubleByteCharacterString
-     - | EBCDIC(CP930)のダブルバイト文字列に対応したデータタイプクラス。
-       | 固定長のデータフォーマットの全角文字（ダブルバイト文字）フィールドの入出力に利用する。
-       | 入出力のバイトデータに **シフトコードが付与されないケース** を想定しているデータタイプとして実装する。
+     - | Data type class for double-byte strings of EBCDIC (CP930).
+       | It is used for input/output of full-width character (double-byte character) field of fixed-length data format.
+       | It is implemented as a data type that **assumes the shift code** is not used for the input/output byte data.
 
 
 
-フィールドタイプの使用方法
+How to use the field type
 --------------------------------------------------------------------
-  追加したデータタイプクラスを使用する場合、以下の設定を行う必要がある。
-  下記のサンプルでは、デフォルトの設定に、"ESN"と"EN"のデータタイプを追加している。
+  When using the data type classes that have been added, it must be configured as follows. 
+  The data types "ESN" and "EN" have been added to the default configuration in the sample below.
 
   .. code-block:: xml
   
@@ -78,11 +75,11 @@ JDKで使用されるCP930はダブルバイト文字に対して必ずシフト
         class="nablarch.core.dataformat.convertor.FixedLengthConvertorSetting">
       <property name="convertorTable">
         <map>
-          <!-- EBCDIC(CP930)用のデータタイプ ESN, EN を追加する -->
+          <!-- Add data types ESN and EN for EBCDIC (CP930) -->
           <entry key="ESN" value="please.change.me.core.dataformat.convertor.datatype.EbcdicDoubleByteCharacterString"/>
           <entry key="EN" value="please.change.me.core.dataformat.convertor.datatype.EbcdicNoShiftCodeDoubleByteCharacterString"/>
           
-          <!-- 以下はデフォルト設定 -->
+          <!-- The default configuration is given below -->
           <entry key="X" value="nablarch.core.dataformat.convertor.datatype.SingleByteCharacterString"/>
           <entry key="N" value="nablarch.core.dataformat.convertor.datatype.DoubleByteCharacterString"/>
           <entry key="XN" value="nablarch.core.dataformat.convertor.datatype.ByteStreamDataString"/>
@@ -105,32 +102,32 @@ JDKで使用されるCP930はダブルバイト文字に対して必ずシフト
 
 
 
-フィールドタイプ・フィールドコンバータ定義一覧
+Field type and field converter definition list
 --------------------------------------------------------------------
-  追加したフィールドタイプについて解説する。
+  This section describes the field types that have been added.
 
-  **フィールドタイプ**
+  **Field type**
 
   .. list-table::
    :widths: 130 150 200
    :header-rows: 1
 
-   * - タイプ識別子
-     - Java型
-     - 内容
+   * - Type identifier
+     - Java type
+     - Details
    * - ESN
      - String
-     - | ダブルバイト文字列 (バイト長 = 文字数 × 2 + 2(シフトコード分))
-       | 本サンプルは、デフォルトでは全角空白による右トリム・パディングを行う。
-       | 入力時はシフトアウト・シフトインのコードを付加された状態を想定し特になにもせず文字列化を行い、
-       |  出力時はシフトアウト・シフトインのコードを自動で付加する。
-       | サンプル実装クラス: please.change.me.core.dataformat.converter.datatype.EbcdicDoubleByteCharacterString
-       | 引数: バイト長(数値、必須指定)
+     - | Double-byte string (byte length = number of characters x 2 + 2 (shift code part))
+       | This sample performs right trim and padding with full-width empty space by default.
+       | During input, the shift-out/shift-in codes are assumed to be added and converted to a string without anything being done,
+       | while during output, the shift-out/shift-in codes are added automatically.
+       | Sample implementation class: please.change.me.core.dataformat.converter.datatype.EbcdicDoubleByteCharacterString
+       | parameter: Byte length (numerical value, specification required)
    * - EN
      - String
-     - | ダブルバイト文字列 (バイト長 = 文字数 × 2)
-       | 本サンプルは、デフォルトでは全角空白による右トリム・パディングを行う。
-       | 入力時はシフトアウト・シフトインのコードを内部で補完して文字列化を行い、
-       | 出力時はシフトアウト・シフトインのコードを付加しない。
-       | サンプル実装クラス: please.change.me.core.dataformat.converter.datatype.EbcdicNoShiftCodeDoubleByteCharacterString
-       | 引数: バイト長(数値、必須指定)
+     - | Double-byte string (byte length = number of characters x 2)
+       | This sample performs right trim and padding with full-width empty space by default.
+       | During input, the shift-out/shift-in codes are complemented internally and converted into a string,
+       | while during output, the shift-out/shift-in codes are not added.
+       | Sample implementation class: please.change.me.core.dataformat.converter.datatype.EbcdicNoShiftCodeDoubleByteCharacterString
+       | parameter: Byte length (numerical value, specification required)
