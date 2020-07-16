@@ -43,8 +43,8 @@ This sample is intended to be used in a business process [#auth_action]_  that e
 
 .. [#auth_action]
 
-  本機能では、ログイン処理を実行する業務処理は提供しない。
-  Nablarch導入プロジェクトにて、要件に応じてログイン処理を作成すること。
+  This function does not provide the business process that executes the login process. 
+  Create a login process according to the requirements in the Nablarch implementation project. 
 
 Since this function uses `PBKDF2 <http://www.ietf.org/rfc/rfc2898.txt>`_  by default to encrypt passwords, 
 it is necessary to set the number of stretches and salts for password encryption in each project.

@@ -1,25 +1,25 @@
 =====================================
-バリデーション機能の拡張
+Extended Validation Functions
 =====================================
 
 .. important::
 
-  本サンプルは、Nablarch 1.4系に準拠したAPIを使用している。
+  This sample uses a Nablarch 1.4 compliant API.
 
-  Nablarch 1.4系より新しいNablarchと組み合わせる場合は、必要に応じてカスタマイズすること。
+  When combining with versions later than Nablarch 1.4 series, customize as necessary.
 
 
-本サンプルで提供するバリデーション機能の仕様を解説する。
+This section describes the specifications of the validation functions provided in this sample.
 
-バリデーション機能の概要、基本となるバリデーションに関する詳細は、Nablarch Application Framework解説書のバリデーションに関する解説を参照すること。
+For an overview of the validation function and details about the basic validation, refer to the validation description in the Nablarch Application Framework documentation.
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all>`_
 
 ----------------------------
-提供パッケージ
+Delivery package
 ----------------------------
 
-本機能は、下記のパッケージで提供される。
+The functions are provided in the below package.
 
   *please.change.me.* **core.validation.validator**
 
@@ -27,294 +27,294 @@
 .. _ExtendedValidation_mailAddressValidator:
 
 ----------------------------
-メールアドレスバリデーション
+Email address validation
 ----------------------------
-メールアドレスに関する精査機能を解説する。
+This section describes the validation function for email addresses.
 
   .. list-table::
    :widths: 100 200
    :header-rows: 1
 
-   * - バリデータクラス名
-     - 対応するアノテーション
+   * - Validator class name
+     - Corresponding annotation
    * - MailAddressValidator
      - @MailAddress
 
-バリデータに設定可能な設定値は下記のとおりである。
+The configuration values that can be set in the validator are as follows.
 
   .. list-table::
    :widths: 100 200
    :header-rows: 1
 
-   * - property名
-     - 設定内容
-   * - messageId(必須)
-     - メールアドレスに精査エラーがあった場合のメッセージID
+   * - property name
+     - Settings
+   * - messageId (required)
+     - Message ID when there is a validation error in the email address
 
-       例 : "{0}は有効なメールアドレスではありません。"
+       Example: "{0} is not a valid email address."
 
 .. tip::
 
-  メールアドレスの入力項目がローカル部とドメイン部に分かれている場合など、アノテーションによる精査が利用できない場合には、
-  以下のユーティリティを利用してメールアドレス精査を実行できる。
+  When validation using annotations are not available such as email address input field is divided into local and domain parts, 
+  the following utility can be used to perform the email address validation.
 
       .. class:: VariousValidationUtil
       .. function:: boolean isValidMailAddress
 
-        :param value: 精査対象のメールアドレス
-        :return: 有効なメールアドレスである場合はtrue
+        :param value: Email address to be validated
+        :return: True if it is a valid email address
 
-メールアドレス精査仕様
-==============================
+E-mail address validation specification
+================================================
 
-メールアドレスの構成を下記に示す。 ::
+Structure of the email address is given below. ::
 
-  "ローカル部" @ "ドメイン部"
+  "Local Part" @ "Domain Part"
 
-メールアドレスに使用できる文字はRFC 5321、RFC 5322により定められている。
+Characters that can be used in email addresses are specified by RFC 5321 and RFC 5322.
 
-しかし、ローカル部に関しては、RFC違反のメールアドレスも使用されている。
+However, regarding the local part, email addresses that violate the RFC are also used.
 
-そのため、ローカル部に対して厳密なチェックを行うと、ユーザーがメールアドレスを登録できない危険性がある。
+Therefore, if a strict check is performed on the local part, there is a risk that the user cannot register the email address.
 
-よって、ローカル部に対して行う精査は、桁数と文字種に関する精査のみである。
+Therefore, validation for the local part is only for the number of digits and character type.
 
-メールアドレスに関する精査仕様は下記のとおりである。
+The validation specifications for email address are as follows.
 
-* メールアドレス全体に関する精査仕様
+* Validation specifications for the entire email address.
 
-  * 必須精査は行わない。
-  * メールアドレスとして有効な文字種のみで構成されていること。メールアドレスとして有効な文字種は下記のとおりである。
+  * Required validations are not performed.
+  * It must consist of only valid character types for email addresses. Valid character types for email addresses are as follows.
 
-    * 大文字アルファベット 　A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
-    * 小文字アルファベット 　a b c d e f g h i j k l m n o p q r s t u v w x y z
-    * 数字　 0 1 2 3 4 5 6 7 8 9
-    * その他記号 　! # $ % & \ * + - . / = ? @ ^ _ ` { | } ~
+    * UPPER CASE Alphabets 　A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+    * Lowercase alphabets 　a b c d e f g h i j k l m n o p q r s t u v w x y z
+    * Numerals　 0 1 2 3 4 5 6 7 8 9
+    * Other symbols 　! # $ % & \ * + - . / = ? @ ^ _ ` { | } ~
 
-  * '@'（アットマーク）が存在し、1つのみであること。
-  * JavaMailでメールを送信する際に形式チェックでエラーとならないこと。
+  * Only one '@' (an at symbol[A4][A5][A6]) must be present.
+  * When sending an email with JavaMail, the format check should not result in an error.
 
   .. tip::
-    メールアドレスとして無効なアスキー文字は下記のとおりである。また、スペースも無効とする。  ::
+    The invalid ASCII characters for email addresses are as follows.Spaces must also be invalid.  ::
 
         " ( ) , : ; < > [ \ ]
 
-    RFC 5322にて規定されているquoted-stringという記法を用いるとこれらの無効な文字も使用することができる。
-    しかし、メールアドレスにこれらの記法が使用されることは稀であるため、本機能では無効とする。
+    These invalid characters can be used by using the notation "quoted-string" defined in RFC 5322. 
+    Since these notations are rarely used for email addresses, they are disabled in this function.
 
-* ローカル部に関する精査仕様
+* Validation specifications for local part.
 
-  * メールアドレスの先頭が'@'（アットマーク）ではないこと。（ローカル部が存在すること。）
-  * ローカル部が64文字以下であること。
+  * Email address must not start with '@' (at symbol). (Local part must be present.)
+  * The local part must be 64 characters or less.
 
-* ドメイン部に関する精査仕様
+* Validation specifications for domain part.
 
-  * メールアドレスの末尾が'@'（アットマーク）ではないこと。（ドメイン部が存在すること。）
-  * ドメイン部が255文字以下であること。
-  * ドメイン部の末尾が'.'（ドット）ではないこと。
-  * ドメイン部に'.'（ドット）が存在すること。
-  * ドメイン部の先頭が'.'（ドット）ではないこと。
-  * ドメイン部にて'.'（ドット）が連続していないこと。
+  * Email addresses should not end with the '@' (at symbol). (Domain part must be present.)
+  * The domain part must be 255 characters or less.
+  * The domain part must not end with a '.' (dot).
+  * A '.' (dot) must be present in the domain part.
+  * Domain part must not begin with a '.' (dot).
+  * There must be no consecutive '.' (dots) in the domain part.
 
-  .. tip:: 本機能ではRFCにて定められているローカル部、ドメイン部の桁数チェックのみを行う。
-    登録できるメールアドレスの全桁数に関しては、プロジェクト毎にて決めることが通常であるため、本機能では精査を行わない。
+  .. tip:: This function only checks the number of digits in the local and domain parts specified in RFC.
+    The total number of email addressees that can be registered is usually decided for each project, and is not validated by the function.
 
 .. _ExtendedValidation_japaneseTelNumberValidator:
 
----------------------------
-日本電話番号バリデーション
----------------------------
-日本の電話番号に関する精査を解説する。日本の電話番号をユーザーに入力させる場合は次の2通りの方法がある。
+-------------------------------------------
+Validation of Japan telephone numbers
+-------------------------------------------
+This section describes the validation of Japan telephone numbers There are two ways for allowing the user to enter a Japan telephone number.
 
-* 電話番号が市外局番等のフィールドに分かれておらず、一つの文字列として入力される場合
-* 市外局番、市内局番、加入者番号をそれぞれ別の入力項目として入力する場合
+* When the phone number is not separated into fields such as area code and is entered as a single string.
+* When entering the area code, city code, and subscriber number as separate input items.
 
-以下では、これらの精査別に精査方法を解説する。
+Below, the detailed validated methods for both the methods is explained below.
 
 
-単項目の電話番号に対する精査
-==============================
+Validation of a single item phone number
+================================================
 
-電話番号が市外局番等のフィールドに分かれておらず、一つの文字列として入力される場合の精査機能を解説する。
-この場合、単項目精査機能にて実現する。
+This section describes the validation function when the phone number is not divided into fields such as the area code and is entered as a single string. 
+In this case, it is realized by the single item validation function.
 
   .. list-table::
    :widths: 100 200
    :header-rows: 1
 
-   * - バリデータクラス名
-     - 対応するアノテーション
+   * - Validator class name
+     - Corresponding annotation
    * - JapaneseTelNumberValidator
      - @JapaneseTelNumber
 
-バリデータに設定可能な設定値は下記のとおりである。
+The configuration values that can be set in the validator are as follows.
 
   .. list-table::
    :widths: 100 200
    :header-rows: 1
 
-   * - property名
-     - 設定内容
-   * - messageId(必須)
-     - 電話番号に精査エラーがあった場合のメッセージID
+   * - property name
+     - Settings
+   * - messageId (required)
+     - Message ID when there is a validation error in the telephone number
 
-       例 : "{0}は有効な電話番号ではありません。"
+       Example: "{0} is not a valid phone number."
 
-精査仕様
-------------
+Validation specifications
+------------------------------------
 
-精査仕様は下記のとおりである。
+The validation specifications are as follows.
 
-* 必須精査は行わない。
-* 先頭が「0」で始まること。
-* ハイフンと数字のみで構成されていること。
-* 桁数のパターンが次のいずれかであること。
+* Required validations are not performed.
+* The beginning must start with a "0".
+* It must consist of only hyphens and numbers.
+* The digit pattern must be one of the following:
 
     .. list-table::
      :widths: 100 200
      :header-rows: 1
 
-     * - "市外局番桁数" - "市内局番桁数" - "加入者番号桁数"
-       - 例
-     * - "3桁" - "3桁" - "4桁"
+     * - "Area code digits" - "city code digits" - "subscriber number digits"
+       - Example:
+     * - "3 digits" - "3 digits" - "4 digits"
        - 012-345-6789
-     * - "3桁" - "4桁" - "4桁"
+     * - "3 digits" - "4 digits" - "4 digits"
        - 012-3456-7890
-     * - "4桁" - "2桁" - "4桁"
+     * - "4 digits" - "2 digits" - "4 digits"
        - 0123-45-6789
-     * - "5桁" - "1桁" - "4桁"
+     * - "5 digits" - "1 digits" - "4 digits"
        - 01234-5-6789
-     * - "2桁" - "4桁" - "4桁"
+     * - "2 digits" - "4 digits" - "4 digits"
        - 01-2345-6789
-     * - "11桁"
+     * - "11 digits"
        - 01234567890
-     * - "10桁"
+     * - "10 digits"
        - 0123456789
 
 
-複数項目で表される電話番号に対する精査
-========================================
+Validation of a multiple item telephone number
+=================================================
 
-市外局番、市内局番、加入者番号をそれぞれ別の入力項目として入力する場合の精査機能を解説する。
-この場合の精査に対して、Nablarchは次の精査ユーティリティを提供する。
+Explain the validation function when entering the area code, city code, and subscriber number as separate input items. 
+In this case, Nablarch offers the following validation utilities:
 
   .. class:: VariousValidationUtil
   .. function:: boolean isValidJapaneseTelNum
 
-   :param areaCode: 市外局番
-   :param cityCode: 市内局番
-   :param subscriberNumber: 加入者番号
-   :return: 有効な日本の電話番号である場合はtrue
+   :param areaCode: Area code
+   :param cityCode: City code
+   :param subscriberNumber: Subscriber number
+   :return: True if it is a valid Japanese telephone number
 
 
-精査仕様
------------
+Validation specifications
+---------------------------------
 
-精査仕様は下記のとおりである。
+The validation specifications are as follows.
 
-* 全ての項目が入力されていることのチェックは行わない。
-* 先頭が「0」で始まること。
-* ハイフンと数字のみで構成されていること。
-* 桁数のパターンが次のいずれかであること。
+* Do not check if all items have been filled in.
+* The beginning must start with a "0".
+* It must consist of only hyphens and numbers.
+* The digit pattern must be one of the following:
 
     .. list-table::
      :widths: 100 200
      :header-rows: 1
 
-     * - "市外局番桁数" - "市内局番桁数" - "加入者番号桁数"
-       - 例
-     * - "3桁" - "3桁" - "4桁"
+     * - "Area code digits" - "city code digits" - "subscriber number digits"
+       - Example:
+     * - "3 digits" - "3 digits" - "4 digits"
        - 012-345-6789
-     * - "3桁" - "4桁" - "4桁"
+     * - "3 digits" - "4 digits" - "4 digits"
        - 012-3456-7890
-     * - "4桁" - "2桁" - "4桁"
+     * - "4 digits" - "2 digits" - "4 digits"
        - 0123-45-6789
-     * - "5桁" - "1桁" - "4桁"
+     * - "5 digits" - "1 digits" - "4 digits"
        - 01234-5-6789
-     * - "2桁" - "4桁" - "4桁"
+     * - "2 digits" - "4 digits" - "4 digits"
        - 01-2345-6789
 
   .. important::
 
-    全ての引数がnullまたは空文字列の場合、trueを返却する。
-    市外局番、市内局番、加入者番号の３項目が全て未入力のケースを許容しない場合は、本精査処理の呼び出し元で必須精査を行うこと。（下記の :ref:`telNum_fields_code` を参照。）
+    If all the arguments are null or empty strings, true is returned. 
+    If a case where all three items (area code, city code, and subscriber number) have not been entered is not permitted, then validation is required to be performed at the caller of this validation process. (refer to :ref:`telNum_fields_code` given below.)
 
 .. _telNum_fields_code:
 
-実装例
------------
+Implementation examples
+--------------------------
 
   .. code-block:: java
 
     @ValidateFor("registerCompany")
     public static void validateForRegisterCompany(
                           ValidationContext<CompanyEntity> context) {
-        // 単項目精査
+        // Single item validation
         ValidationUtil.validateWithout(context, REGISTER_COMPANY_SKIP_PROPS);
         if (!context.isValid()) {
             return;
         }
 
-        // 項目間精査
+        // Validation between items
         CompanyEntity companyEntity = context.createObject();
-        // 全ての項目が入力されていることのチェック
-        // このチェックは必要な場合のみ行うこと。
+        // Check if all items are input
+        // This check should be done when necessary.
         if (StringUtil.isNullOrEmpty(companyEntity.getAreaCode,
                                      companyEntity.getCityCode,
                                      companyEntity.getSubscriberNumber)) {
-            // コンテキストにメッセージ追加
-            // 省略
+            // Add message to context
+            // Omitted
         }
-        // 電話番号精査
+        // Telephone number validation
         if (!VariousValidationUtil.isValidJapaneseTelNum(
                                      companyEntity.getAreaCode,
                                      companyEntity.getCityCode,
                                      companyEntity.getSubscriberNumber)) {
-            // コンテキストにメッセージ追加
-            // 省略
+            // Add message to context
+            // Omitted
         }
 
 ----------------------------
-コード値精査
+Code value validation
 ----------------------------
-コード値精査は、複数の機能から異なるパターンを指定して精査を行うことが想定される。
-このため、本サンプルではパターンを指定してコード値精査を行うためのユーティリティを提供する。
+Code value validation is expected to specify different patterns from multiple functions for validation. 
+For this reason, this sample provides a utility to perform code value validation by specifying a pattern.
 
 .. tip::
 
-  コード値精査の詳細は、Nablarchアプリケーションフレームワーク解説書のコード管理の章を参照すること。
+  For more information on code value validation, refer to the Code Management chapter of the Nablarch Application Framework Description.
 
-ユーティリティの提供するメソッド
+Methods provided by the utility
 ========================================
-以下の2つのメソッドを提供する。
+Provides the following 2 methods:
 
   .. function:: void validate()
 
-   :param context: 精査コンテキスト
-   :param codeId: コードID
-   :param pattern: パターン
-   :param propertyName: 精査対象のプロパティ
+   :param context: Validation context
+   :param codeId: Code ID
+   :param pattern: Pattern
+   :param propertyName: Property to be validated
 
   .. function:: void validate()
 
-   :param context: 精査コンテキスト
-   :param codeId: コードID
-   :param pattern: パターン
-   :param propertyName: 精査対象のプロパティ
-   :param messageId: メッセージID（デフォルトのメッセージIDを指定されたメッセージIDで上書きする）
+   :param context: Validation context
+   :param codeId: Code ID
+   :param pattern: Pattern
+   :param propertyName: Property to be validated
+   :param messageId: Message ID (overrides the default message ID with the specified message ID)
 
 
 
-ユーティリティの使用例
+Usage example of utility
 ===========================
-ユーティリティの使用例を以下に示す。
+An usage example of utility is shown below.
 
 .. code-block:: java
 
     
-    // 【説明】CodeValidationUtil#validateメソッドを使用してコード値精査を行う。
+    // [Description] Perform code value validation using CodeValidationUtil#validate method.
     CodeValidationUtil.validate(context, "0001", "PATTERN1", "gender");
 
-    // 【説明】メッセージIDを上書きする場合には、第5引数にメッセージIDを指定する。
+    // [Description] To overwrite the message ID, specify the message ID in parameter 5.
     CodeValidationUtil.validate(context, "0001", "PATTERN1", "gender", "message_id");
   
