@@ -1,178 +1,178 @@
 .. _authentication_pbkdf2:
 
 ====================================================
-PBKDF2を用いたパスワード暗号化機能サンプル
+Sample Password Encryption Function Using PBKDF2
 ====================================================
 
-本サンプルは、 `PBKDF2 <http://www.ietf.org/rfc/rfc2898.txt>`_ を使用してパスワードの暗号化を行う実装サンプルである。
+This is an implementation sample that encrypts the password using `PBKDF2 <http://www.ietf.org/rfc/rfc2898.txt>`_.
 
 
---------------
-提供パッケージ
---------------
+-----------------
+Delivery package
+-----------------
 
-本サンプルは、以下のパッケージで提供される。
+The sample is provided in the following package.
 
   *please.change.me.*\ **common.authentication**
 
 
 ------------
-概要
+Summary
 ------------
 
-PBKDF2を使用して、ソルト付加およびストレッチングを行ってパスワードを暗号化する機能の実装サンプルを提供する。
+An sample implementation of the function to encrypt passwords with salt addition and stretching using PBKDF2 is provided.
 
-本サンプルは、 :doc:`../index` 内で使用することを想定している。
+This sample is intended to be used in :doc:`../index`.
 
 
 ------------
-要求
+Request
 ------------
 
-実装済み
+Implemented
 ========================
 
-* 複数ユーザが同一のパスワードを使用している場合にも、暗号化されたパスワードを異なる値とすることができる。
-* 暗号化前の文字列に十分な長さを持たせ、レインボーテーブルによるパスワード解読への対策を行うことができる。
-* 暗号化パスワードを一度計算するのに必要な時間を変更することで、総当りでのパスワード解読への対策を行うことができる。
+* Even if the same password is being used by multiple users, different values can be used for the encrypted password.
+* The string length before encryption can be set to a sufficient length for preventing password cracking using rainbow tables.
+* By changing the time required to calculate the encrypted password once, it is possible to take measures against password cracking using brute force.
 
 
-未検討
+Not yet considered
 ========================
 
-* ユーザごとにランダムなソルトを付加することができる。
-* ソルトをデータベース外のセキュアなストレージに保管しておくことができる。
+* A random salt can be added to each user.
+* The salt can be kept in a secure storage outside the database.
 
 
 -------------------------------------------------------
-パスワード暗号化機能の詳細
+Details of the password encryption function
 -------------------------------------------------------
 
-本機能では、鍵導出関数のひとつである `PBKDF2 <http://www.ietf.org/rfc/rfc2898.txt>`_ を使用して、パスワードを暗号化する。
-暗号化されたパスワードは、Base64エンコードされた文字列として返却する。
+This function uses one of the key derivation functions `PBKDF2 <http://www.ietf.org/rfc/rfc2898.txt>`_ to encrypt the password.
+The encrypted password is returned as a Base64-encoded character string.
 
-本機能では、ソルトとして「システム共通の固定値」と「ユーザID」を連結したバイト列を使用しており、
-異なるユーザが同一のパスワードを使用した場合にも、暗号化されたパスワードは異なる値となる。
+This function uses a byte sequence that concatenates "system common fixed value" and "user ID" as a salt,
+so that even if different users use the same password, the encrypted password will be different.
 
-また、下記で説明する `fixedSalt` プロパティで十分な長さのソルトを指定することでレインボーテーブル対策を行うことができ、
-`iterationCount` プロパティでストレッチング回数を指定することで、総当り攻撃対策を行うことができる。
+The `fixedSalt` property described below can be used to provide salt of sufficient length as a measure against rainbow table,
+and the `iterationCount` property to provide a stretching count as a measure against brute-force.
 
-ストレッチング回数の検討方法の参考情報は、 :ref:`pbkdf2IterationCount` を参照。
+See :ref:`pbkdf2IterationCount` for reference information on how to examine stretching counts.
 
 
-------------
-設定方法
-------------
+------------------
+How to configure
+------------------
 
-本機能の設定方法について解説する。
+This section describes how to configure the function.
 
 .. code-block:: xml
 
-  <!-- パスワード暗号化モジュールの設定 -->
+  <!-- Configuring the password encryption module -->
   <component name="passwordEncryptor"
              class="please.change.me.common.authentication.PBKDF2PasswordEncryptor">
 
-    <!-- システム共通でソルトに利用する固定文字列を設定する。20バイト以上の文字列を設定しておく。 -->
+    <!-- Configure a fixed string to be used shared for salts in the system.Set a string of 20 bytes or more. -->
     <property name="fixedSalt" value=" !!! please.change.me !!! TODO: MUST CHANGE THIS VALUE." />
 
-    <!-- SHA-256ハッシュ計算の10000倍程度の計算時間となるように、ストレッチング回数を設定する。 -->
+    <!-- Configure the stretching count so that the calculation time is about 10000 times more than the SHA-256 hash calculation. -->
     <property name="iterationCount" value="3966" />
 
-    <!-- 暗号化されたパスワードの長さ（ビット数）を設定する。 -->
+    <!-- Configure the length (number of bits) of the encrypted password. -->
     <property name="keyLength" value="256" />
   </component>
 
 
-プロパティの説明を下記に示す。
+A description of the property is given below.
 
-===================== ======================================================================================================
-property名            設定内容
-===================== ======================================================================================================
-fixedSalt(必須)       システム共通でソルトに利用する固定文字列。実際のソルトは、この文字列にユーザIDを連結したバイト列となる。
+===================== ===================================================================================================================================================================================
+property name         Settings
+===================== ===================================================================================================================================================================================
+fixedSalt (required)  A fixed string is used for the salt that is common to all systems. The actual salt is a sequence of bytes that concatenates this string with the user ID.
 
                       .. important::
 
-                        本設定値は、パスワードの暗号強度に関わる値となる。設定する値が短すぎる場合には、
-                        レインボーテーブルを使用したパスワードの解読に対して脆弱性が残ってしまう。
+                        This configuration value is related to the encryption strength of the password. If the value is set too short,
+                        it leaves the user vulnerable to password decryption using the rainbow table.
 
-                        ソルトとしてはユーザIDを連結するため、この文字列とユーザIDを連結したバイト列が **必ず20バイト以上** [#]_
-                        の長さとなることを保証すること。（本設定値のみで20バイトを確保することを推奨する。）
+                        Since salt concatenates the user ID,  ensure that the byte sequence concatenating this string and the user ID is more than 20 bytes [#]_ in length.
+                        (It is recommended to secure 20 bytes with just this configuration alone.)
 
-iterationCount        パスワード暗号化のストレッチング回数。デフォルト値は3966。 [#]_
+iterationCount        Number of times password encryption is stretched.Default value is 3966. [#]_
 
-                      ストレッチング回数は、一般的に数千回～数万回が推奨されていることと、システムに対する負荷を考慮し、
-                      SHA-256などのハッシュ化関数での計算時間の10000倍程度の計算時間になるように設定すること。
+                      Considering the fact that several thousand to tens of thousands of stretching times are generally recommended and load on the system,
+                      the number of times stretching is preformed should be set so that the calculation time is about 10000 times longer than the calculation time with a hash function such as SHA-256.
 
-                      ストレッチング回数の検討方法についての参考情報を、 :ref:`pbkdf2IterationCount` に記載している。
+                      :ref:`pbkdf2IterationCount` provides reference information on how to consider stretching counts.
 
                       .. tip::
 
-                        ストレッチング処理は、CPU負荷の高い処理となる。
+                        The stretching process is a process with high CPU load.
 
-                        PCIDSSに準拠するシステムでなく、特別なセキュリティが必要なければ ``1`` を指定すればよい。
+                        Specify ``1`` for systems that are not complaint with PCI DSS and special security is not required.
 
-keyLength             暗号化されたパスワードの長さ（ビット数）。デフォルト値は256。
+keyLength             The length of the encrypted password (bits). Default value is 256.
 
-                      内部で使用されているハッシュ関数がSHA-1であるため、設定値には160以上の値を設定すること。
+                      Since the hash function used internally is SHA-1, set the value to 160 or more.
 
-                      本機能を使用して生成される文字列の長さは、ここで指定した長さのバイト列をBase64で
-                      エンコードした長さになる。
-===================== ======================================================================================================
-
-.. [#]
-
-   2014年1月時点で、14文字以上の文字列に対応したレインボーテーブルの販売が確認されているため、ここでは20文字以上を推奨している。
-   プロジェクトでの使用に当たっては、必ず最新の情報を確認し、十分であると想定できるソルト長を設定すること。
+                      The length of the string generated by using this function is the length obtained
+                      by encoding the byte string of the length specified here with Base64.
+===================== ===================================================================================================================================================================================
 
 .. [#]
 
-   3966という数字に特に意味はないが、目的を果たせるストレッチング回数であれば、推測が容易となるキリのいい回数を指定するよりも、
-   推測が容易でない値を設定することで、パスワードを解読される脅威が緩和できると判断して設定している。
+   As of January 2014, since it has been confirmed that a rainbow table supporting a string of 14 characters or more has been sold, 20 characters or more is recommended here.
+   Before using it in a project, be sure to check the latest information and set a salt length that can be assumed to be sufficient.
+
+.. [#]
+
+   Although the number 3966 has no particular meaning, the value is a stretching number that serves the purpose, and it has been configured considering that the threat of password decryption
+   can be mitigated by configuring a value that is not easy to guess, rather than specifying a convenient number that is easy to guess.
 
 
 .. _pbkdf2IterationCount:
 
-ストレッチング回数の設定値について
-===================================
+Configuration value of stretching count
+========================================
 
-参考として、本サンプル実装におけるストレッチング回数のデフォルト値をどのように検討したかについて記載する。
+How the default value of the stretching count was arrived at in this sample implementation is described.
 
-基本的な方針として、以下の情報を元にストレッチング回数を決定した。
+As a basic policy, the number of stretching times is determined based on the following information.
 
-1. パスワードがSHA-256・ストレッチングなしでハッシュ化されている場合に、何秒で総当りが完了するか。
-2. 総当り完了までにどの程度の時間がかかるようにするかの目標値を定め、
-   パスワードを1回ハッシュ化する時間が、SHA-256の場合の何倍となれば目標値を達成できるか。
+1. How many seconds does it take to complete a brute-force operation if the password is hashed without SHA-256 stretching?
+2. Determine the target value for the time required to complete the brute force,
+   and how many times of the time taken to hash a password once is needed to achieve the target value in the case of SHA-256.
 
-上記の方針で検討するために、以下の情報を収集した。
+The following information has been collected for examination in the above policy.
 
-**1秒間のハッシュ値計算回数**
-  2013年11月時点では、1秒間に100,000,000,000回のSHA-256を計算できるサーバが販売されている。
+**Number of hash value calculations per second**
+  In November 2013, a server capable of computing 100,000,000,000,000 times of SHA-256 per second was available for sale.
 
-**パスワード強度**
-  「英数字混在8文字以上」のパスワードを強制する場合、総当り攻撃の完了には62^8回の計算が必要。
+**Password strength**
+  When a password of "more than 8 mixed alphanumeric characters" is enforced, it takes 62^8 calculations to complete a brute force attack.
 
-**総当り攻撃完了までにかかる時間の目標値**
-  1年間
+**Target time to complete a brute force attack**
+  1 year
 
-上記の情報から、PBKDF2での1回のハッシュ値の計算時間が、SHA-256での1回の計算時間の何倍になるように設定するべきかを計算すると、
-下記のようになる。
+From the above information, the following is obtained if we calculate how many times the calculation time of one hash value in PBKDF2
+should be set as the calculation time for one hash value in SHA-256.
 
-1. SHA-256・ストレッチングなしでパスワードの総当りが完了する時間 ::
+1. Time to complete password brute force process without SHA-256/stretching::
 
      (62^8) / (10^11) ~= 2183 (s)
 
-2. 上記の時間を目標値まで伸ばすために、パスワードのハッシュ値計算時間をSHA-256の場合の何倍とすればよいか ::
+2. To extend the above time to the target value, how many times should the time to calculate the hash value of the password be in the case of SHA-256?:
 
      (60*60*24*365) / ((62^8) / (10^11)) ~= 14444
 
-この値から、PBKDF2での1回の計算時間がSHA-256での計算時間のおよそ15000倍以上になるように `iterationCount` を設定すればよいことが分かる。
+From this value, it is clear that the `iterationCount` should be set so that the calculation time for PBKDF2 is about 15,000 times or more than that for SHA-256.
 
-開発用PC（CPU: Intel(R) Core(TM) i7-4770 3.40GHz）での実測結果によると、 `iterationCount` をおよそ3500回～4000回程度とすると、
-PBKDF2の計算時間はSHA-256の計算時間の15000倍程度になり、総当り攻撃の完了に1年間かかるようにできるということが分かった。
+According to the measurement results on the development PC (CPU: Intel(R) Core(TM) i7-4770 3.40GHz), the calculation time of PBKDF2 is about 15,000 times longer than SHA-256,
+and it can take one year to complete a brute-force attack if the iteration count is about 3500 to 4000 times.
 
-また、上記PCでの実測では、 `iterationCount` を4000回としたときのPBKDF2の1回の計算時間は、15ms～20ms程度となった。
-この値は、1秒程度のレスポンスタイムが想定されるログイン処理などにおいてはボトルネックになる数値ではないと判断し、
-デフォルト値として採用した。
+In the measurement with the above PC, the calculation time of once for PBKDF2 when iterationCount was set to 4000 was about 15 ms to 20 ms.
+This value is adopted as the default value because it is not considered to be a bottleneck for login processes
+where a response time of about one second is assumed.
 
-ただし、PBKDF2の暗号化処理を実行している間は、同処理がCPUをほぼ占有する。
-実際に稼動する環境で暗号化処理がCPUを占有する時間が、許容される時間に収まるかどうかについても必ず検証を行うこと。
+While the PBKDF2 encryption process is being executed, this process almost occupies the CPU.
+Verify whether the time that the encryption process occupies the CPU in the actual operating environment is within the allowable time.
