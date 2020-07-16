@@ -1,265 +1,265 @@
 .. _DbFileManagement_result:
 
-============================================
-データベースを用いたファイル管理機能サンプル
-============================================
+==================================================
+Sample File Management Function Using Database
+==================================================
 
 .. important::
 
-  本サンプルは、Nablarch 1.4系に準拠したAPIを使用している。
+  This sample uses a Nablarch 1.4 compliant API.
 
-  Nablarch 1.4系より新しいNablarchと組み合わせる場合は、必要に応じてカスタマイズすること。
+  When combining with versions later than Nablarch 1.4 series, customize as necessary.
 
 
 ------------
-概要
+Summary
 ------------
 
-業務アプリケーションにて利用するファイルを、DBで一元管理するための機能の実装サンプルを提供する。
+Provides an implementation sample of the function to centrally manage the files used in business applications with DB.
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all>`_
 
-本サンプルは以下の用途を想定している。
+The sample is intended for the following applications:
 
-- 画面からのファイルアップロード・ダウンロード。
+- File upload and download from the screen.
 
-- 比較的少数のファイルを扱うファイル転送の送信・受信。例えば、一度に送信/受信するファイルが、数十個程度。
+- Send and receive file transfers that handle a relatively small number of files. For example, dozens of files can be sent/received at a time.
 
-- 管理対象は、比較的小さなファイルを想定。例えば、証明写真のような小さな画像等。
+- Assumed that relatively small files are managed. For example, a small image such as an ID photo.
 
 .. tip::
 
-  本サンプルはDBとしてOracleを使用している。Oracle以外を使用する場合は、各DBに合わせた実装に修正し使用すること。
+  This sample uses Oracle as a DB. If the DB is not Oracle, use by modifying the implementation to match the DB used.
   
 
 
-下記に例としてファイルアップロード・ダウンロード時の処理イメージを示す。
+The following is an example of the processing image during file upload and download.
 
 
-ファイルアップロード時
+When uploading files
 ========================
 
-ブラウザがファイルを送信した際、Nablarchのマルチパートリクエストハンドラはその内容を解析し一時ファイルに保存する。
+When the browser sends the file, the multipart request handler of Nablarch analyses the content and stores it in a temporary file.
 
-そのファイルを、本サンプルはバイナリ形式でDBに格納する。
+This sample stores that file to the DB in a binary format.
 
 
 .. image:: ./_images/DbFileManagement_outline01.png
    :scale: 100
 
-ファイルダウンロード時
+When downloading files
 ========================
 
-ダウンロードタグのクリックにより、ファイルの要求があった場合、業務ActionクラスはStreamをStreamResponseに設定する必要がある。
+If a file is requested but clicking on the download tag, the business class action must set Stream to StreamResponse.
 
-そのStreamを、本サンプルはDBから取得する。
+This sample gets the Stream from the DB.
 
 .. image:: ./_images/DbFileManagement_outline02.png
    :scale: 100
 
 
---------------
-提供パッケージ
---------------
+----------------------
+Delivery package
+----------------------
 
-本サンプルは、以下のパッケージで提供される。
+The sample is provided in the following package.
 
   *please.change.me.* **common.file.management**
 
 
 
 ------------
-機能
+Functions
 ------------
 
-実装済み
+Implemented
 ========================
-以下の機能を持つ。
+It has the following functions:
 
-* ファイル登録機能
+* File registration function
 
-  * ファイルのStreamを元に、ファイルをバイナリのカラムに格納する。格納時には、ユニークなファイル管理IDを採番(Nablarchの採番機能を使用)し、呼び出し元にファイル管理IDを返却する。
-  * ファイルサイズがカラムのサイズを超えないことをチェックする。
-
-
-* ファイルの削除機能
-
-  * ファイル管理IDを元にレコードの削除サイン書き換え、論理削除する。
+  * The file is stored in binary column based on the file’s Stream. When storing, a unique file management ID is assigned (using Nablarch indexing function), and the file management ID is returned to the caller.
+  * Check that the file size does not exceed the column size.
 
 
-* ファイルの取得機能
+* Function to delete files
 
-  * ファイル管理IDを元にファイル管理テーブルからファイルを取得し、返却する。
+  * Perform logical delete by rewriting the delete sign of records based on file management ID.
 
 
-前提としている仕様
-========================
-* 削除は論理削除を行う仕様である。運用時には、別途、論理削除状態のレコードのクリンナップについて検討する必要がある。
+* Function to retrieve files
 
-* テーブル定義には、最小限のカラムしか存在しない。他に情報が必要な場合は、別途業務ごとにテーブルを作成することを想定している。
+  * Retrieve and return the file from the file management table based on the file management ID.
 
-* ファイル内容のチェックについて、ファイルサイズがカラムのサイズを超えないことのみチェックする。他にチェック項目が存在する場合は、呼び出し側でチェックを行うことを想定している。
 
-* ファイルの更新処理は存在しない。ファイルの更新処理相当の処理を行いたい場合は、ファイルの削除処理とファイルの登録処理を順に実行する想定となっている。
+Prerequisite specifications
+==============================
+* Delete is a specification to perform logical delete. At the time of operation, it is necessary to consider the clean up of records in logical delete status separately.
+
+* There are only minimal columns in the table definition. When other information is required, it is presumed that separate tables be created for each job.
+
+* To check contents of the file, only check that the file size does not exceed the column size. If there are other items to be checked, it is presumed that the checks shall be made by the caller.
+
+* There is no file update process. If a process equivalent to the file update process is to be performed, it is assumed that the file delete process and file record process are executed in order.
 
 
 ------------
-構成
+Structure
 ------------
-本サンプルの構成を示す。
+Shows the sample structure.
 
-クラス図
+Class diagram
 ========================
 .. image:: ./_images/DbFileManagement_classdiagram.png
    :scale: 100
 
 
-各クラスの責務
+Responsibilities of each class
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-クラス定義
+Class definition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  =============================== ====================================================================================================
-  クラス名                        概要
-  =============================== ====================================================================================================
-  FileManagementUtil              DBへ格納したファイルを管理するユーティリティクラス。処理はFileManagementを実装するクラスに委譲する。
-  FileManagement                  ファイル管理を行うクラスが実装するインターフェース。
-  DbFileManagement                DBへ格納したファイルを管理するクラスの本体。
-  =============================== ====================================================================================================
+  =============================== ==========================================================================================================================
+  Class name                      Summary
+  =============================== ==========================================================================================================================
+  FileManagementUtil              Utility class that manages files stored in DB. The process is delegated to the class that implements FileManagement.
+  FileManagement                  Interface implementing the class that performs file management.
+  DbFileManagement                Main part of the class that manages the files stored in the DB.
+  =============================== ==========================================================================================================================
 
-テーブル定義
+Table definition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**ファイル管理テーブル(FILE_CONTROL)**
+**File management table (FILE_CONTROL)**
 
-ファイル管理テーブルには、ファイル管理IDと共にファイルを格納する。
+The file management ID is stored along with the file in the file management table.
 
-  ================ ================== ============ ========= ========================================================
-  論理名           物理名             定義         制約      補足
-  ================ ================== ============ ========= ========================================================
-  ファイル管理ID   FILE_CONTROL_ID    文字列       主キー    システムで採番した一意なID(Nablarchの採番機能で採番する)
+  ==================== ================== ============ =============== ==========================================================================
+  Logical name         Physical name      Definition   Limitations      Supplementary notes
+  ==================== ================== ============ =============== ==========================================================================
+  File management ID   FILE_CONTROL_ID    String       Primary key     Unique ID assigned by the system (Indexed by Nablarch’s index function)
 
-  ファイル内容     FILE_OBJECT        バイナリ
+  File contents        FILE_OBJECT        Binary
 
-  削除サイン       SAKUJO_SGN         文字列                 ファイルを削除したか否かを判定するためのサイン
+  Delete sign          SAKUJO_SGN         String                       Sign to denote if the file has been deleted or not.
   
-                                                             0:未削除
+                                                                       0: Not deleted
 
-                                                             1:削除済
-  ================ ================== ============ ========= ========================================================
+                                                                       1: Deleted
+  ==================== ================== ============ =============== ==========================================================================
 
 
 .. tip::
 
-  上記テーブルの他、サンプルではNablarchの採番機能でファイル管理IDを採番する際に、Oracleのシーケンスを使用している。
+  In addition to the table above, Oracle sequence is used in this sample when assigning the file management ID with the Nablarch index function.
   
 
 ---------------------------
-使用方法
+How to Use
 ---------------------------
 
-FileManagementUtilの使用方法
+How to use FileManagementUtil
 =============================================================================================
 
-FileManagementUtilの使用方法について説明する。
+This section describes how to use the FileManagementUtil.
 
 .. _FileManagementUtil-settings-label:
 
-FileManagementUtilの使用例(コンポーネント設定ファイル)
+Usage example of FileManagementUtil (component configuration file)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-FileManagementUtil使用時に必要となる各コンポーネントのプロパティを、コンポーネント設定ファイルに定義する。
+When using FileManagementUtil, define each component’s property in the component configuration file when needed.
 
-設定対象のコンポーネントを以下に示す。
+The components to be configured are shown below.
 
-  ============================== ============================================================
-  設定対象のコンポーネント       設定例で使用している論理名
-  ============================== ============================================================
-  ファイル管理機能本体           fileManagement
-  採番機能                       oracleSequenceIdGenerator
-  採番時に使用するフォーマッター dbFileManagementFormatter
-  ============================== ============================================================
+  ================================ ============================================================
+  Component to be configured       Logical name used in configuration example
+  ================================ ============================================================
+  File management function body    fileManagement
+  Numbering function               oracleSequenceIdGenerator
+  The formatter used for numbering dbFileManagementFormatter
+  ================================ ============================================================
 
-設定例を以下に示す。
+The configuration example shown below.
 
 .. code-block:: xml
 
-    <!-- ファイル管理機能(論理名dbFileManagementのコンポーネントを、FileManagementUtilクラスが使用する) -->
+    <!-- File management function (the component of logical name dbFileManagement is used by FileManagementUtil class) -->
     <component name="fileManagement" class="please.change.me.common.file.management.fileManagement">
 
-      <!-- 格納ファイルの最大長(単位：バイト) -->
+      <!-- Maximum length of storage file (unit: bytes) -->
       <property name="maxFileSize" value="10000000"/>
 
-      <!-- 採番機能で、DbFileManagement用の採番である旨を識別するためのKey -->
+      <!-- Key to identify if the numbering function is used for numbering bFileManagement -->
       <property name="fileIdKey" value="1103" />
 
-      <!-- 採番機能 -->
+      <!-- Numbering function -->
       <property name="idGenerator" ref="oracleSequenceIdGenerator" />
 
-      <!-- 採番時に使用するフォーマッター -->
+      <!--  Formatter used for numbering -->
       <property name="idFormatter" ref="dbFileManagementFormatter" />
     </component>
 
 
-    <!-- 採番機能(ファイル管理機能から使用) -->
+    <!-- Numbering function (used from the file management function) -->
     <component name="oracleSequenceIdGenerator" class="nablarch.common.idgenerator.OracleSequenceIdGenerator">
       <property name="idTable">
         <map>
-          <!-- keyとシーケンス名の対応付け-->
+          <!-- Mapping key to the sequence name -->
           <entry key="1103" value="FILE_ID_SEQ"/>
         </map>
       </property>
     </component>
 
 
-    <!-- 採番時に使用するフォーマッター(ファイル管理機能から使用) -->
+    <!-- Formatter used for numbering (used from the file management function) -->
     <component name="dbFileManagementFormatter" class="nablarch.common.idgenerator.formatter.LpadFormatter">
-      <!-- 桁数 -->
+      <!-- Number of digits -->
       <property name="length" value="18" />
-      <!-- 不足している桁を埋める文字 -->
+      <!-- Characters to fill in the missing digits -->
       <property name="paddingChar" value="0" />
     </component>
 
 
-FileManagementUtilの使用例(ファイルアップロード時)
+Usage example of FileManagementUtil (When uploading files)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-ブラウザからアップロードされたファイルをDBに保存する場合を想定し、本サンプルの使用方法を解説する。
+The usage of this sample is described assuming that file uploaded from the browser is stored in the DB.
 
 
 .. code-block:: java
 
     public void doSaveFile(HttpRequest req, ExecutionContext ctx) {
-        // 保存対象のパートを取得
+        // Acquire the part to be saved
         PartInfo part = req.getPart("fileToSave").get(0);
         
-        //必要であれば、このタイミングで業務個別のファイル精査を実施。
+        // If needed, file is validated for each job at this timing.
         
-        //DBにファイルを登録
+        // Register file to the DB
         String fileId = FileManagementUtil.save(part);
         
-        //以降、必要に応じてfileIdを使用した処理を行う。
+        // The process using fileId is performed next if necessary.
     }
 
 
-FileManagementUtilの使用例(ダウンロード時)
+Usage example of FileManagementUtil (When downloading files)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-ファイルをDBから取り出し、ブラウザにダウンロードさせる場合を想定し、本サンプルの使用方法を解説する。
+The usage of this sample is described assuming that the file is fetched from the DB and downloaded to the browser.
 
 
 .. code-block:: java
 
     public HttpResponse doTempFile(HttpRequest req, ExecutionContext ctx) {
-        //ダウンロードに使用するファイルID
+        //File ID used for download
         String fileId = "000000000000000001";
         
-        // ファイルをDBから取得
+        // Acquire a file from DB
         Blob blob = FileManagementUtil.find(fileId);
 
         
-        // レスポンス情報を設定
+        // Configure the response information
         StreamResponse res = new StreamResponse(blob);
         res.setContentDisposition("temp.png");
         res.setContentType("image/png");
