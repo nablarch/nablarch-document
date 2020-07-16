@@ -1,42 +1,42 @@
 .. _`master_data_backup`:
 
-======================
- マスタデータ復旧機能
-======================
+===============================
+ Master Data Recovery Function
+===============================
 
-.. contents:: 目次
+.. contents:: Table of Contents
   :depth: 2
   :local:
 
-概要
-====
+Summary
+========
 
-通常の場合、テスト行う際にマスタデータを書き換えることはない。
-しかし、マスタメンテナンス機能等のテストでは、マスタデータを変更しないと
-実施できないテストケースが存在する。例えば、存在するはずのデータが存在しなかった場合のような
-異常系テストケースでは、マスタデータからレコードを削除する必要がある。
+In normal cases, the master data is not rewritten when testing.
+However, in tests such as the master maintenance function, there are some test cases that cannot be executed without changing the master data.
+For example, in the abnormal-type test cases such as those where the data that should have existed did not exist,
+it is necessary to delete the records from the master data.
 
-テスト中にマスタデータの変更を行った場合、それ以降のテストクラスのテストでは、
-マスタデータが意図しない状態になっている為にテストが失敗することがある。
-
-
-このような、マスタデータ変更による意図しないテスト失敗を防止するため、
-自動テスト中にマスタデータが更新された場合、そのテストメソッドが終了した時点で、
-マスタデータを元の状態に復旧する機能を提供する。
+If the master data is changed during the test,
+the test of subsequent test classes may fail because the master data is in an unexpected state.
 
 
-特徴
-====
-
-* テストの実行順序に依存せずに、常に正しい状態のマスタデータでテストできる。
-* マスタデータ復旧は自動で行われるので、各テストクラスで復旧処理、復旧用データを用意する必要ない。
-* バックアップ用スキーマからテーブル毎に一括で復旧するので、1件ずつINSERTする場合に比べて高速に復旧できる。
+In order to prevent such unintentional test failures due to master data changes,
+when the master data is updated during an automated test,
+a function is provided to restore the master data to its original state when the test method ends.
 
 
-必要となるスキーマ
+Features
+========
+
+* You can always test with the correct state of master data, regardless of the order in which the tests are executed.
+* Since the master data restoration is performed automatically, there is no need to provide the restoration process and data for restoration in each test class.
+* Since the master data is restored in batches for each table from the backup schema, restoration can be done faster as compared to inserting the records one by one.
+
+
+Required schemas
 ==================
 
-本機能を使用するにあたり、以下の二つのスキーマが必要となる。
+To use this function, the following two schemas are required.
 
 .. list-table::
   :header-rows: 1
@@ -44,76 +44,76 @@
   :widths: 2,6
 
 
-  * - スキーマ
-    - 説明
+  * - Schema
+    - Description
 
-  * - 自動テスト用スキーマ
-    - 自動テストに使用するスキーマ。
+  * - Schema for automated testing
+    - The schema used for automated testing.
 
-  * - バックアップ用スキーマ
-    - 復旧に使用するためのマスタデータを保存しておくためのスキーマ。
+  * - Backup schema
+    - A schema for storing the master data for use in restoration.
 
 
-動作イメージ
-============
+Operation image
+===============
 
-自動テストフレームワークはコンポーネント設定ファイルより、監視対象テーブル名一覧を取得する。
-テスト実行中、自動テストフレームワークはSQLログを監視することにより、\
-監視対象テーブルを変更するSQL文が発行されたかどうかを検出する。
+The automated testing framework fetches a list of table names to be monitored from the component configuration file.
+During test execution, the automated testing framework monitors the SQL log
+and detects whether an SQL statement was issued to change a monitored table.
 
 
 .. image:: _images/modification_detected.png
 
-監視対象テーブルを変更するSQL文が発行された場合、テストメソッド終了後に変更があったテーブルを復旧する。
-テーブルを復旧する際、いったんテーブル内のレコードを全件削除する。
-その後、バックアップ用スキーマのテーブルからレコードを全件挿入する。
+If an SQL statement that changes a monitored table was issued, the changed table is restored after the test method ends.
+When restoring the table, all the records in the table are temporarily deleted.
+Then, all the records are inserted from the table in the backup schema.
 
 .. image:: _images/copy_from_backup.png
 
 .. _`master_data_backup_settings`:
 
-環境構築
-========
+Environment construction
+========================
 
-以下の環境構築を実施し、自動テストフレームワークのマスタデータ復旧機能を有効にする。
+Build an environment as follows and enable the master data restoration function of the automated testing framework.
 
 
 
-バックアップ用スキーマの作成、データ投入
-----------------------------------------
+Create a backup schema and submit the data
+-------------------------------------------
 
-マスタデータ復旧用スキーマを作成する。
-マスタデータ復旧用スキーマに自動テスト用のスキーマと同じテーブルを作成し復旧用のデータを投入しておく。
+Create a schema for master data restoration.
+Create the same tables as the schema for automated test in the master data restoration schema, and submit the data.
 
 .. tip::
-  マスタデータ復旧用スキーマには全てのテーブルを作成する必要はない。
-  マスタデータ復旧対象とするテーブルのみ存在すればよい（復旧対象以外のテーブルがあっても問題ない）。
+  It is not necessary to create all the tables in the master data restoration schema.
+  Only the tables for which the master data is to be restored need to be created (it does not matter even if other tables exist).
 
 .. _`MasterDataRestore-fk_key`:
 
-外部キーが設定されたテーブルを使用する場合について
+When using a table with a foreign key
 -----------------------------------------------------------
-外部キーが設定されたテーブルに対してデータを復旧する場合には、親子関係を意識して復旧処理を行う必要がある。
-このため、本機能ではデフォルトの動作としてJDBCの機能を用いて親子関係を取得・構築し、
-削除処理は子テーブルから、挿入処理は親テーブルから順に行うよう制御している。
+When restoring data from a table with a foreign key, it is necessary to perform the restoration process by keeping in mind the parent-child relationship.
+For this reason, this function uses the JDBC function as the default action to acquire and build the parent-child relationship,
+and controls deletion from the child table and insertion from the parent table in that order.
 
-しかし、テーブル数が膨大なプロジェクトの場合、JDBCの機能を元に親子関係を構築する処理が原因で、slow test問題が発生する場合がある。
-この問題を回避するために、JDBC機能を使用するのではなく、記述順 (:ref:`MasterDataRestore-configuration` を参照)を元にテーブルの削除及び挿入処理を行う機能を提供している。
+However, in the case of a project with a large number of tables, slow test problem may occur due to the process of building a parent-child relationship based on the JDBC function.
+To avoid this problem, a function is provided for performing deletion and insertion from tables based on the description order (refer to :ref:`MasterDataRestore-configuration`) instead of using the JDBC function.
 
-記述順を元にマスタデータを復旧させたい場合には、環境設定ファイルに以下を追加する。
+If you want to restore the master data based on the description order, add the following to the configuration file:
 
 .. code-block:: jproperties
 
   nablarch.suppress-table-sort=true
 
-コンポーネント設定ファイルに監視対象テーブルを記載
------------------------------------------------------------
+Describing tables to be monitored, in the component configuration file
+------------------------------------------------------------------------
 
-自動テスト用のコンポーネント設定ファイルに、監視対象テーブルを列挙する。
+Enumerate the tables to be monitored in the component configuration file for an automated test.
 
 
-設定項目一覧
-~~~~~~~~~~~~
+Settings items list
+~~~~~~~~~~~~~~~~~~~~
 
 .. list-table::
   :header-rows: 1
@@ -121,37 +121,37 @@
   :widths: 3,7,2
 
 
-  * - 設定項目名
-    - 説明
-    - デフォルト値
+  * - Configuration item name
+    - Description
+    - Default values
 
   * - backupSchema
-    - マスタデータ復旧用スキーマ名を記載する。
-    - なし
+    - Describe the schema name for master data restoration.
+    - No
 
   * - tablesTobeWatched
-    - 監視対象とするテーブル名をリスト形式で列挙する。
-    - なし
+    - Enumerate the names of the tables to be monitored, in a list format.
+    - No
 
   * - testEventListeners
-    - テストイベントリスナーの一覧。
-      ここにマスタデータ復旧クラス(nablarch.test.core.db.MasterDataRestorer)を登録することで、
-      テストメソッド終了時にマスタデータが行われるようになる。
-    - なし
+    - List of test event listeners.
+      By registering the master data restoration class (nablarch.test.core.db.MasterDataRestorer) here,
+      master data will be performed at the end of the test method.
+    - No
 
 .. _MasterDataRestore-configuration:
 
-設定例
-~~~~~~
+Configuration example
+~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: xml
 
-  <!-- マスタデータ復旧クラス -->
+  <!-- Master data recovery class -->
   <component name="masterDataRestorer"
              class="nablarch.test.core.db.MasterDataRestorer">
-    <!-- バックアップスキーマ -->
+    <!-- Backup schema -->
     <property name="backupSchema" value="nablarch_test_master"/>
-    <!-- 監視対象テーブル一覧 -->
+    <!-- List of monitored tables -->
     <property name="tablesTobeWatched">
       <list>
         <value>MESSAGE</value>
@@ -165,17 +165,17 @@
   </component>
 
 
-ログ出力設定
-------------
+Example of log output
+----------------------
 
-本機能ではSQLログを監視することにより、マスタデータへの変更を検出する。\
-よって、そのためのログ出力が必要である。
+This function detects changes to the master data by monitoring the SQL log.
+It is necessary to output a log for this purpose.
 
 
 app-log.properties
 ~~~~~~~~~~~~~~~~~~
 
-`sqlLogFormatter`\ のクラス名に、本機能の提供クラスを指定する。
+Specify the class to provide this function in the `sqlLogFormatter` class name.
 
 .. code-block:: none
 
@@ -185,31 +185,31 @@ app-log.properties
 log.properties
 ~~~~~~~~~~~~~~
 
-log.propertiesにSQLログをデバッグレベル以上で出力する設定をする。
-以下の例では、SQLログを標準出力に表示させないよう専用のロガー（何もしないロガー）を
-設定している
+Configure in log.properties so as to output the SQL log at DEBUG level or higher.
+In the following example, a dedicated logger (a logger that does not do anything) is configured
+to prevent the SQL log from being displayed in the standard output.
 
 .. code-block:: none
 
- # ロガーファクトリ実装クラス								 
+ # Logger factory implementation class								 
  loggerFactory.className=nablarch.core.log.basic.BasicLoggerFactory			 
  											 
- # ログライター名									 
+ #  Log writer name									 
  writerNames=stdout,nop									 
  											 
- #デバッグ用の標準出力									 
+ # Standard output for debugging									 
  writer.stdout.className=nablarch.core.log.basic.StandardOutputLogWriter			 
- writer.nop.className=nablarch.test.core.log.NopLogWriter   # 【説明】何もしないロガー	 
+ writer.nop.className=nablarch.test.core.log.NopLogWriter   # [Description] A logger that does not do anything	 
  											 
- # 利用可能なロガー名順序								 
+ # Available logger name order								 
  availableLoggersNamesOrder=sql,root							 
  											 
- #全てのロガー取得を対象に、DEBUGレベル以上を標準出力に出力する。			 
+ # For all logger acquisitions, the DEBUG level or higher is output in the standard output.			 
  loggers.root.nameRegex=.*								 
  loggers.root.level=DEBUG								 
  loggers.root.writerNames=stdout								 
  											 
- #ロガー名に"SQL"を指定したロガー取得を対象に、DEBUGレベル以上を出力する。		 
+ # The DEBUG level or higher is output for the logger acquisitions with "SQL" specified in the logger name.		 
  loggers.sql.nameRegex=SQL								 
- loggers.sql.level=DEBUG      # 【説明】DEBUGレベル以上に設定すること			 
+ loggers.sql.level=DEBUG      #  [Description] Should be set to DEBUG level or higher			 
  loggers.sql.writerNames=nop                                                              
