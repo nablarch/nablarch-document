@@ -1,24 +1,24 @@
 .. _captcha:
 
 ====================================================
-CAPTCHA機能サンプル
+CAPTCHA Function Sample
 ====================================================
 
 .. important::
 
-  本サンプルは、Nablarch 1.4系に準拠したAPIを使用している。
+  This sample uses a Nablarch 1.4 compliant API.
 
-  Nablarch 1.4系より新しいNablarchと組み合わせる場合は、必要に応じてカスタマイズすること。
+  When combining with versions later than Nablarch 1.4 serie, customize as necessary.
 
 
-本サンプルは、ウェブアプリケーションにおけるセキュリティ対策のひとつである、CAPTCHAによる認証機能の実装サンプルである。
+This sample is an implementation sample of the authentication function by CAPTCHA, which is one of the security measures in web applications.
 
 .. important::
 
-  本機能で使用しているkapchaは脆弱(画像認証が短時間で突破される可能性)であることが判明しているため、利用しないこと。
-  要件により画像認証が必要となる場合は、堅牢な(例えば `Google reCAPTCHA(外部サイト、英語) <https://www.google.com/recaptcha/intro/>`_ など)画像認証プロダクトの導入を検討すること。
+  The kapcha used in this feature is known to be vulnerable and should not be used (possibility of image authentication being breached in a short period of time). 
+  Examine implementing a robust image authentication product (for example, `Google reCAPTCHA (external site, English)) <https://www.google.com/recaptcha/intro/>`_  if image authentication is required.
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all>`_
 
 
 .. toctree::
@@ -28,221 +28,219 @@ CAPTCHA機能サンプル
   06_Captcha_guide
 
 
---------------
-提供パッケージ
---------------
+------------------
+Delivery package
+------------------
 
-本サンプルは、以下のパッケージで提供される。
+The sample is provided in the following package.
 
   *please.change.me.*\ **common.captcha**
 
 
 ------------
-概要
+Summary
 ------------
 
-CAPTCHA認証とは、応答者がコンピュータでないことを確認するために使われる認証方式である。 
+CAPTCHA authentication is an authentication method used to verify that the responder is not a computer. 
 
-本サンプルでは業務処理の中で認証用の画像を生成し、画像に描かれている文字列をユーザに入力させ、入力文字列と画像内の文字列を比較することで認証を行う。
+In this sample, an authentication image is generated in the business process, the user inputs the string drawn on the image, and authentication is performed by comparing the input string with the string in the image.
 
-一般的にCAPTCHA認証処理は、ログイン前に使用されることが多い。\
-かつ、CAPTCHA認証処理の実装ライブラリではセッション情報に生成文字列を保持し、入力文字列との比較を行うことが多い。\
-しかし、Nablarchではセッション情報は原則ログイン後に生成されるため、使用することが出来ない。\
-そのため、本サンプルでは入力文字列と生成文字列のひも付け方式としてデータベース上の管理テーブルを使用する。\
+In general, CAPTCHA authentication process is often used prior to logging in.\
+CAPTCHA implementation libraries often store the generated string in the session information and compare them with the input string.\
+However, in Nablarch, as a general rule session information is generated after logging in, so it cannot be used.\
+Therefore, in this sample, the management table on the database is used as a method of linking the input and generated strings.\
 
-管理テーブルにはCAPTCHA情報を生成するたびに生成した情報を蓄積していくため、肥大化する。\
-そのため、別途管理テーブルのメンテナンスを行うバッチの作成等を検討する必要がある。
+Every time the CAPTCHA information is generated, the generated information is accumulated in the management table, so it becomes enlarged.\
+Therefore, it is necessary to consider creating a batch that performs maintenance of the management table separately.
 
-本サンプルを使用し、出力されるCAPTCHA情報のサンプルを以下に示す。
+The following is a sample of the CAPTCHA information that is output using the sample.
   
   .. image:: ./_images/Captcha_Sample.png
 
-なお、本サンプルではCAPTCHA画像の生成に、オープンソースライブラリの「kaptcha\ [#kaptcha]_\ 」を使用している。
+In this sample, "kaptcha\ [#kaptcha]_\" of the open source library is used for generating the CAPTCHA image.
 
 .. [#kaptcha]
 
-  kaptchaについての詳細は、kaptchaのサイト(\ `https://code.google.com/p/kaptcha/ <https://code.google.com/p/kaptcha/>`_\ )を参照
+  To learn more about kaptcha, visit the kaptcha site (\ `https://code.google.com/p/kaptcha/ <https://code.google.com/p/kaptcha/>`_\ )
 
 ------------
-構成
+Structure
 ------------
-本サンプルの構成を示す。
+Shows the sample structure.
 
-CAPTCHA情報の取得および認証は以下の手順で行われる。
+Acquisition and authentication of the CAPTCHA information is performed in the following procedure.
 
   .. image:: ./_images/Captcha_Process.png
 
-なお、Captcha機能をアプリケーションに組み込む手順は、`リンク先 <06_Captcha_guide.html>`_ に記載している。
+The procedure for incorporating the Captcha function into the application is written in the `link <06_Captcha_guide.html>`_ .
 
 
-以下では、業務画面側で行う処理(本サンプル外)および本サンプルが行う処理について解説する。
+In the following, the processing performed on the business screen side (outside this sample) and the processing performed by this sample are explained.
 
-業務画面側で行う処理
+Process performed on the business screen
+===========================================
+
+When performing CAPTCHA authentication, the necessary processing on the business screen side is shown below.
+
+When the authentication page is displayed
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* Use the CaptchaUtil#generateKey in the authentication page display to acquire the Identification key.
+
+When acquiring an authentication image
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* In the authentication page, issue an HTTP request (GET) to CaptchaGenerateHandler and acquire the image for authentication.
+
+  At this time, it is necessary to specify the identification key that was acquired during the authentication page display as a request parameter.\
+  The request parameter name is fixed with ``captchaKey``.\
+  Modify the source code to change the request parameter name.
+
+When the authentication action is executed
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* On the authentication page, send (POST) the identification key acquired at the time of display together with the input string.
+* Use the CaptchaUtil#authenticate to authenticate within a business action.
+
+
+Processing performed by this sample
 ===================================
 
-CAPTCHA認証を行う際、業務画面側で必要な処理を下記に示す。
+The process performed by this sample when performing CAPTCHA authentication is shown below.
 
-認証ページ表示時
+When the authentication page is displayed
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* Generates the identification key of the CAPTCHA information and creates a record in the database.
+
+When acquiring an authentication image
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* 認証ページ表示アクション内で CaptchaUtil#generateKey を使用し、識別キーを取得する。
+* Generates the CAPTCHA information from the identification key (image and string described in the image) and updates the records on the database.
+* Returns the authentication image to the caller out of the generated CAPTCHA information.
 
-認証画像取得時
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  At this time, the identification key acquired at the time of the authentication page display as the request parameter must be specified.\
+  The request parameter name is fixed with ``captchaKey``.\
+  Modify the source code to change the request parameter name.
 
-* 認証ページ内で、CaptchaGenerateHandlerに対しHTTPリクエスト(GET)を発行し、認証用の画像取得する。
-
-  この時、リクエストパラメータとして認証ページ表示時に取得した識別キーを指定する必要がある。\
-  リクエストパラメータ名は ``captchaKey`` で固定となっている。\
-  リクエストパラメータ名を変更する場合はソースコードを修正すること。
-
-認証アクション実行時
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-* 認証ページにて、入力文字列とともに表示時に取得した識別キーを送信(POST)する。
-* 業務アクション内で CaptchaUtil#authenticate を使用し、認証を行う。
-
-
-本サンプルが行う処理
-===================================
-
-CAPTCHA認証を行う際、本サンプルが行う処理を下記に示す。
-
-認証ページ表示時
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-* CAPTCHA情報のうち識別キーを生成し、データベースにレコードを作成する。
-
-認証画像取得時
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-* 識別キーからCAPTCHA情報（画像および画像に記載されている文字列）を生成し、データベース上のレコードを更新する。
-* 生成したCAPTCHA情報のうち、認証用画像を呼び出し元に返却する。
-
-  この時、リクエストパラメータとして認証ページ表示時に取得した識別キーが指定されている必要がある。\
-  リクエストパラメータ名は ``captchaKey`` で固定となっている。\
-  リクエストパラメータ名を変更する場合はソースコードを修正すること。
-
-  また、指定した識別キーの不正により画像生成が失敗した場合には、
-  HTTPステータス400および空のボディを持つレスポンスが返却される。
+  If image generation fails due to the specification of an invalid identification key, 
+  the response with the HTTP status 400 and an empty body is returned.
   
 
-認証アクション実行時
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+When the authentication action is executed
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* 業務アクションより渡された識別キーを使用して、データベースからCAPTCHA情報を取得する。
-* 取得した情報と入力された文字列を比較し、結果を呼び出し元に返却する。
+* Acquire the CAPTCHA information from the database using the identification key passed from the business action.
+* Compare the retrieved information with the entered string and return the result to the caller.
 
-
-
-クラス図
+Class diagram
 ========================
 
   .. image:: ./_images/Captcha_ClassDiagram.png
      :scale: 75
 
-各クラスの責務
+Responsibilities of each class
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-クラス定義
+Class definition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-\a) ユーティリティクラス
+\a) Utility class
 
   =============================== ====================================================================================================================================================
-  クラス名                        概要
+  Class name                      Summary
   =============================== ====================================================================================================================================================
-  CaptchaGenerator                「kaptcha\ [#kaptcha]_\ 」を使用してCAPTCHA情報の生成を行うクラス。
+  CaptchaGenerator                A class that uses "kaptcha\ [#kaptcha]_\ " to generate the CAPTCHA information.
 
-  CaptchaUtil                     業務アクションから呼び出され、CAPTCHA情報の識別キーを生成する。
+  CaptchaUtil                     Generates the identification key of the CAPTCHA information called from the business action.
 
-                                  CaptchaGenerateHandlerから呼び出され、システムリポジトリから取得したCaptchaGeneratorを使用してCAPTCHA画像を生成する。
+                                  Generate the CAPTCHA image using CaptchaGenerator called from CaptchaGenerateHandler and acquired from a system repository.
 
-                                  Form等から呼び出され、生成されたCAPTCHA情報と入力文字列との比較を行う。
-  =============================== ====================================================================================================================================================
-
-\b) アクションクラス（ハンドラ）
-
-  =============================== ====================================================================================================================================================
-  クラス名                        概要
-  =============================== ====================================================================================================================================================
-  CaptchaGenerateHandler           CAPTCHA画像を生成し、返却するハンドラクラス。
+                                  Compare the CAPTCHA information generated by calling from form, etc. with the input string.
   =============================== ====================================================================================================================================================
 
-\c) その他のクラス
+\b) Action class (handler)
 
   =============================== ====================================================================================================================================================
-  クラス名                        概要
+  Class name                      Summary
   =============================== ====================================================================================================================================================
-  Captcha                         生成したCAPTCHA情報を保持するクラス。
-  CaptchaDataManager              生成したCAPTCHA情報のデータベースへの保存および読み込みを行うクラス。
+  CaptchaGenerateHandler          Handler class that creates and returns a CAPTCHA image.
   =============================== ====================================================================================================================================================
 
-テーブル定義
+\c) Other classes
+
+  =============================== ====================================================================================================================================================
+  Class name                      Summary
+  =============================== ====================================================================================================================================================
+  Captcha                         Class that retains the generated CAPTCHA information.
+  CaptchaDataManager              Class that saves and reads the generated CAPTCHA information in the database.
+  =============================== ====================================================================================================================================================
+
+Table definition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-本サンプルで使用しているCAPTCHA管理テーブルの定義を以下に示す。
+The definition of the CAPTCHA management table used in this sample is shown below.
 
-**CAPTCHA管理(CAPTCHA_MANAGE)**
+**CAPTCHA management (CAPTCHA_MANAGE)**
 
-CAPTCHA管理テーブルには、生成したCAPTCHA情報のうち、キーおよび生成文字列を格納する。\
-画像情報は判定には使用しないため、格納しない。
+The CAPTCHA management table contains the keys and generated strings of the generated CAPTCHA information. 
+Since the image information is not used for determination, it is not stored.
 
-  ========================= ========================= ==================== =====================================
-  論理名                    物理名                    Javaの型             制約
-  ========================= ========================= ==================== =====================================
-  識別キー                  CAPTCHA_KEY               java.lang.String     主キー
+  =========================== ========================= ==================== =====================================
+  Logical name                    Physical name         Java type             Limitations
+  =========================== ========================= ==================== =====================================
+  Identification key          CAPTCHA_KEY               java.lang.String     Primary key
   
-  CAPTCHA文字列             CAPTCHA_TEXT              java.lang.String
+  CAPTCHA string              CAPTCHA_TEXT              java.lang.String
   
-  生成日時                  GENERATE_DATE_TIME        java.sql.Timestamp
-  ========================= ========================= ==================== =====================================
+  Date and time of generation GENERATE_DATE_TIME        java.sql.Timestamp
+  =========================== ========================= ==================== =====================================
 
 .. tip::
 
-  上記テーブル定義には、本サンプルで必要となる属性のみを列挙している。
-  Nablarch導入プロジェクトでは、必要な管理情報を本テーブルに追加するなど、要件を満たすようテーブル設計を行うこと。
+  Only the attributes required for this sample are listed in the above table definition. 
+  In the Nablarch implementation project, design the table to meet the requirements, such as adding the required management information to the table.
 
 ------------------------------------------------------------------------
-使用方法
+How to Use
 ------------------------------------------------------------------------
-CAPTCHA機能の使用方法について解説する。
+This section describes how to use the CAPTCHA function.
 
-CaptchaUtilの使用方法
+How to Use CaptchaUtil
 =============================================================================================
 
-CaptchaUtilの使用方法について解説する。
+This section describes how to use CaptchaUtil.
 
-CaptchaUtilでは、以下のユーティリティメソッドを実装している。なお、システムリポジトリからコンポーネントを取得する際の\
-コンポーネント名は、後述の :ref:`CaptchaGenerateHandler-settings-label` で登録しているそれぞれのコンポーネント名と\
-あわせる必要があるため、上記の設定例と異なるコンポーネント名で登録している場合にはソースコードを修正すること。
+CaptchaUtil implements the following utility methods. 
+Since the component name when retrieving the component from the system repository must be matched to each component name registered in :ref:`CaptchaGenerateHandler-settings-label`  described below, 
+the source code needs to be modified to register with a component name that is different from the above configuration example.
 
-================== =================================================================================================
-メソッド
-================== =================================================================================================
-generateKey        識別キーを生成し、データベースに保存する。また、生成した識別キーを呼び出し元に返却する。
-                   識別キーの生成には、 java.util.UUIDのrandomUUID を利用している。
-                   重複する可能性は低く実用的に問題ないと考えているが、よりユニークなキーを利用したいなどで、
-                   別の生成方法を利用する場合はソースコードを修正すること。
+================== =================================================================================================================================
+Method
+================== =================================================================================================================================
+generateKey        Generate an identification key and save it in the database.Also, return the generated identification key to the caller.
+                   RandomUUID of java.util.UUID is used to generate the identification key.
+                   Although the possibility of duplication is unlikely to be a practical problem, 
+                   but if you want to use a more unique key and want to use another generation method then modify the source code.
                    
-generateImage      システムリポジトリから、 captchaGenerator というコンポーネント名で CaptchaGenerator を取得し、
-                   CAPTCHA情報を生成し、データベースに保存する。
+generateImage      From the system repository, get captchaGenerator under the component name captchaGenerator, 
+                   generate CAPTCHA information, and store it in the database.
                    
-                   本メソッドはCaptchaGenerateHandlerで使用するため、業務アクションから使用されることはない。
+                   This method is used with CaptchaGenerateHandler and is not used from business actions.
 
-authenticate       呼び出し元より渡された識別キーを使用して、データベースから先に生成されたCAPTCHA情報を取得する。
-                   取得した情報と入力された文字列を比較し、結果を呼び出し元に返却する。
-================== =================================================================================================
+authenticate       Use the identification key passed by the caller to retrieve the previously generated CAPTCHA information from the database. 
+                   Compare the retrieved information with the entered string and return the result to the caller.
+================== =================================================================================================================================
 
 
 .. _CaptchaGenerateHandler-settings-label:
 
-CaptchaGenerateHandlerの設定方法
+How to configure the CaptchaGenerateHandler
 =============================================================================================
-CaptchaGenerateHandlerの設定方法について解説する。
+This section describes how to configure the CaptchaGenerateHandler.
 
   .. code-block:: xml
 
-    <!-- CaptchaGeneratorの設定 -->
+    <!-- CaptchaGenerator configuration -->
     <component name="captchaGenerator" class="please.change.me.common.captcha.CaptchaGenerator">
       <property name="imageType" value="jpg"/>
       <property name="configParameters">
@@ -253,83 +251,84 @@ CaptchaGenerateHandlerの設定方法について解説する。
       </property>
     </component>
 
-    <!-- CaptchaGenerateHandlerの設定 -->
+    <!-- CaptchaGenerateHandler configuration-->
     <component name="captchaGenerateHandler" class="please.change.me.common.captcha.CaptchaGenerateHandler"/>
 
-    <!-- ハンドラキュー構成 -->
+    <!-- Handler queue structure -->
     <component name="webFrontController"
                 class="nablarch.fw.web.servlet.WebFrontController">
       <property name="handlerQueue">
         <list>
 
-          ～(途中省略)～
+          ～(Middle is omitted)～
 
           <component class="nablarch.fw.RequestHandlerEntry">
             <property name="requestPattern" value="/action/path/to/hoge"/>
             <property name="handler" ref="captchaGenerateHandler"/>
           </component>
 
-          ～(途中省略)～
+          ～(Middle is omitted)～
 
         </list>
       </property>
     </component>
 
-CaptchaGeneratorコンポーネントに対し、以下のプロパティ設定を行うことで、生成する文字列の内容や画像形式を制御することができる。
+For captchaGenerator components, the following property settings can be performed to control the contents of the generated string and the image format.
 
-  ===================================================================== ==================================================================================================================================================================================
-  property名                                                            設定内容
-  ===================================================================== ==================================================================================================================================================================================
-  imageType                                                             生成する画像の形式を定義する。
+  ===================================================================== =========================================================================================================================================================================================
+  property name                                                         Settings
+  ===================================================================== =========================================================================================================================================================================================
+  imageType                                                             Define the format of the image to be generated.
                                                                         
-                                                                        指定可能な値は `javax.imageio.ImageIO#getWriterFormatNames()` で取得できる値である。\
-                                                                        ただし、「wbmp」は使用できない。
+                                                                        The possible values are the values that can be retrieved by `javax.imageio.ImageIO#getWriterFormatNames()`. \
+                                                                        However, "wbmp" cannot be used.
                                                                         
-                                                                        省略した場合、「jpeg」となる。
+                                                                        If omitted, it will be "jpeg".
                                                                         
-  configParameters                                                      kaptchaに対する設定値をMap形式で定義する。
+  configParameters                                                      Define the configuration value for kaptcha in Map format.
                                                                         
-                                                                        具体的に設定可能な値はkaptchaのサイト(\ `https://code.google.com/p/kaptcha/wiki/ConfigParameters <https://code.google.com/p/kaptcha/wiki/ConfigParameters>`_\ )を参照。
+                                                                        For more specific configurable values, visit the kaptcha site (\ `https://code.google.com/p/kaptcha/wiki/ConfigParameters <https://code.google.com/p/kaptcha/wiki/ConfigParameters>`_\ )
                                                                         
-                                                                        省略した場合、全ての設定値がkaptcha内で定められたデフォルト値となる。
-  ===================================================================== ==================================================================================================================================================================================
+                                                                        If omitted, all the set values become default values specified in kaptcha.
+  ===================================================================== =========================================================================================================================================================================================
 
 
-ハンドラの挿入位置や、他のハンドラに対する設定に関する注意事項
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-CaptchaGenerateHandlerはCAPTCHA情報を生成し、HTTPレスポンスを返却するため、後続のハンドラに処理を委譲しない。\
-上記例のようにRequestHandlerEntryを使用し、リクエストパターンを設定して使用することを想定している。
+Precautions regarding the insertion position of the handler and settings for other handlers
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-また、上記例のように/action配下にマッピングし、１つのアクションとして動作させる場合、他のハンドラに対し追加の設定を行ったり、\
-リクエストの内容を変化させる必要がある。
+A Captcha GenerateHandler generates CAPTCHA information and does not delegate processing to a subsequent handler in order to return an HTTP response. \
+It is assumed that the RequestHandlerEntry is used to configure and use the request pattern, as in the above example.
 
-以下にウェブアプリケーション実行制御基盤の標準ハンドラ構成に含まれる他のハンドラについて考慮すべき点を挙げる。
+In addition, as in the above example, when mapping under /action and acting as a single action, \
+it is necessary to set additional settings for other handlers or change the contents of the request.
 
-- データベース接続管理ハンドラおよびトランザクション制御ハンドラ
+The following are some points to consider for other handlers included in the standard handler configuration of the web application execution control infrastructure.
 
-  CaptchaGenerateHandlerはデータベースに管理情報を保存するため、これらのハンドラより後に配置する必要がある。
+- Database connection management handlers and transaction control handlers
 
-- Nablarchカスタムタグ制御ハンドラ
+  CaptchaGenerateHandler stores management information in the database and needs to be placed after these handlers.
 
-  Nablarchカスタムタグ制御ハンドラのhidden暗号化機能により、hidden項目を含まないGETリクエストは改竄エラーと判定される。
+- Nablarch custom tag control handler
 
-  これはCustomTagConfigコンポーネントの、noHiddenEncryptionRequestIdsプロパティに本機能のリクエストIDを設定することで回避することができる。
+  GET request that does not include hidden item are considered as a tampering error by the hidden encryption function of Nablarch custom tag control handler.
 
-- サービス提供可否チェック制御ハンドラ
+  This can be avoided by setting the request ID of this function in the noHiddenEncryptionRequestIds property of CustomTagConfig component.
 
-  アクションとして実装するため、リクエストテーブル上でリクエストIDとサービス稼動状態の設定を行う必要がある。
+- Service availability check control handler
+
+  In order to implement it as an action, it is necessary to set the request ID and service operating state on the request table.
   
-- 認可チェック制御ハンドラ
+- Permission check control handler
 
-  概要で述べたとおり、本機能はログイン前に使用されることが想定されるため、認可チェックハンドラのignoreRequestIdsプロパティに\
-  本機能のリクエストIDを設定する必要がある。
+  As described in the overview, since this function is expected to be used before login, \
+  it is necessary to set the request ID of this function in ignoreRequestIds property of authorization check handler.
 
 
-CAPTCHA識別キー取得方法
+How to acquire the CAPTCHA identification key
 =============================================================================================
 
-CAPTCHA識別キーを取得するアクションの実装例を以下に示す。
+The following is an example implementation of the action to acquire the CAPTCHA identification key.
 
   .. code-block:: java
   
@@ -341,38 +340,38 @@ CAPTCHA識別キーを取得するアクションの実装例を以下に示す�
     }
 
 
-CAPTCHA画像の取得方法
+How to acquire the CAPTCHA image
 =============================================================================================
 
-CAPTCHA画像を取得するJSPの実装例を以下に示す。
+The following is an example of implementation of JSP to acquire the CAPTCHA image.
 
   .. code-block:: jsp
 
     <n:form>
       <n:img src="/action/path/to/hoge?captchaKey=${form.captchaKey}" alt=""/>
       <n:plainHidden name="form.captchaKey"></n:plainHidden>
-      <n:text title="表示されている文字を入力" name="form.captchaValue" />
+      <n:text title="Enter the character displayed" name="form.captchaValue" />
     </n:form>
 
 
-入力文字列判定方法
+How to determine the input string
 =============================================================================================
 
-入力文字列の判定はサーバサイドのアクションクラスまたはフォームクラスのバリデーション処理から呼び出すことを想定している。
+The determination of the input string is assumed to be called from the validation process of the action class or form class on the server side.
 
-フォームクラスのバリデーション処理として実装した場合の例を以下に示す。
+An example of implementation as a form class validation process is shown below.
 
   .. code-block:: java
   
     @ValidateFor("xxxxxxxxxx")
     public static void validateForCaptcha(ValidationContext<XxxForm> context) {
-        // 単項目精査
+        // Single item validation
         ValidationUtil.validate(context, new String[]{"captchaKey", "captchaValue"});
         if (!context.isValid()) {
             return;
         }
         
-        // CAPTCHA文字列判定
+        // CAPTCHA string determination
         XxxForm form = context.createObject();
         if (!CaptchaUtil.authenticate(form.getCaptchaKey(), form.getCaptchaVal())) {
             context.addResultMessage("captchaValue", "MSG90001");
@@ -380,37 +379,35 @@ CAPTCHA画像を取得するJSPの実装例を以下に示す。
     }
 
 
-認証エラー時のCAPTCHA画像の取得方法
+How to retrieve a CAPTCHA image when an authentication error occurs
 =============================================================================================
-認証エラー時には、認証画像を再取得し認証画面に表示する必要がある。
-しかしながら、認証エラー時には例外が送出されトランザクションがロールバックされるため、
-アクションで識別キーを生成してもCAPTCHA管理テーブルに情報が保存できない問題が発生する。
+When an authentication error occurs, it is necessary to reacquire the authentication image and display it on the authentication screen. 
+However, when an authentication error occurs, an exception is thrown and the transaction is rolled back, so there is a problem that information cannot be saved in the CAPTCHA management table even if an identification key is generated by an action.
 
-このため、認証エラー時には以下の方法で識別キーを生成しCAPTCHA画像を取得すること。
+Therefore, when an authentication error occurs, generate the identification key, and acquire the CAPTCHA image by the following method.
 
-内部フォワードを使用して識別キーを生成しCAPTCHA画像を表示させる
-  認証処理を行うActionのエラー時遷移先には、認証画面表示用のActionを指定する。
-  標準ハンドラ構成で内部フォワードを使用した場合、内部フォワード後のActionは別トランザクションで処理が行われるため、
-  トランザクションがロールバックされる問題を回避することができる。
+Use internal forward to generate identification keys and display the CAPTCHA images.
+  Specify the action for displaying the authentication screen in the transition destination at the time of error of Action for performing authentication process. 
+  If an internal forward is used in a standard handler configuration, the internal forward action can be handled by another transaction, thus avoiding the problem of being rolled back.
   
-  以下に例を示す。
+  An example is shown below.
   
   .. code-block:: java
   
-    // 認証画面表示処理
+    // Authentication screen display process
     public HttpResponse index(HttpRequest request, ExecutionContext context) {
-      // 識別キーを生成しリクエストスコープに設定する
+      // Generate an identification key and set it in the request scope
       context.setRequestScopedVar("captchaKey", CaptchaUtil.generateKey());
       return new HttpResponse("/WEB-INF/view/login/index.jsp");
     }
 
-    // 認証処理
-    // エラー時の遷移先は、上記の認証画面表示Actionとする
+    // Authentication process
+    // The authentication screen display action described above will be the transition destination when an error occurs
     @OnErrors({
             @OnError(type = ApplicationException.class, path = "forward://index"),
             @OnError(type = AuthenticationException.class, path = "forward://index")
     })
     public HttpResponse login(HttpRequest request, ExecutionContext context) {
-      // 認証処理は省略
+      // Omit authentication process
     }
     

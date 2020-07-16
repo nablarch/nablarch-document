@@ -1,27 +1,23 @@
 =====================================
-データフォーマッタの拡張
+Data Formatter Expansion
 =====================================
 
-本サンプルで提供するフォーマッタ機能の仕様を解説する。
+The specifications of the formatter functions provided in this sample are described.
 
-フォーマッタ機能の概要、基本となる汎用データフォーマット機能に関する詳細は、Nablarch Application Framework解説書の汎用データフォーマット機能に関する解説を参照すること。
+For an overview of the formatter functions and more information on basic general-purpose data formatting functions, see the description for general-purpose data formatting functions in the Nablarch Application Framework manual.
 
 ----------------------------
-概要
+Summary
 ----------------------------
 
-Nablarchが用意しているフォーマッタ（例えば、Json形式やXml形式）とは別のフォーマッタを利用したい場合、
-データフォーマッタを追加することで対応できる。
+To use a different formatter from those provided by Nablarch (ex: Json format or Xml format), add a data formatter.
 
-本サンプルでは、HTTPのPOSTパラメータのように、
-Key項目=Value項目を&で結合するようなデータ形式(application/x-www-form-urlencoded)に対応したフォーマッタを作成する場合を想定している。
+In this sample, assume that a formatter corresponding to the data format (application/x-www-form-urlencoded) that combines Key item=Value item with &, such as a HTTP POST parameter, is created.
 
-
-
-提供パッケージ
+Delivery package
 --------------------------------------------------------------------
 
-本機能は、下記のパッケージで提供される。
+The functions are provided in the below package.
 
   *please.change.me.* **core.dataformat**
 
@@ -33,171 +29,171 @@ Key項目=Value項目を&で結合するようなデータ形式(application/x-w
 
 
 
-FormUrlEncodedデータフォーマッタの構成
+Structure of the FormUrlEncoded data formatter
 --------------------------------------------------------------------
 
-FormUrlEncodedデータフォーマッタはapplication/x-www-form-urlencodedで使用されるデータを取り扱う。
-このデータはname1=value1&name2=value2のように、名前と値の組を等号でつなげたものをアンド記号で結んで表現される。
-同一のキーで複数の値を扱うこともできる。
+The FormUrlEncoded data formatter handles the data used in application/x-www-form-urlencoded.
+This data is expressed by connecting sets of names and values using the equal to sign and then linking them with the AND symbol (&), such as name1=value1 & name2=value2.
+Multiple values can also be handled with the same key.
 
-値についてURLエンコードを行う。
-キーについては汎用データフォーマットのフォーマット定義書式に従いURLエンコードは行わず、特殊文字をキー文字列に使用することはできない。
+Encode a URL in the value. 
+For keys, a URL cannot be encoded according to the format definition of general-purpose data formats, and special characters cannot be used for a key string.
 
-以下に本機能で使用するクラス一覧を記す。
+The following is a list of classes used in this function.
 
   .. list-table::
    :widths: 130 150 200
    :header-rows: 1
 
-   * - パッケージ名
-     - クラス名
-     - 概要
+   * - Package name
+     - Class name
+     - Summary
    * - *please.change.me.* **core.dataformat**
      - FormUrlEncodedDataFormatterFactory
-     - | フォーマッタファクトリクラス。
-       | サンプル実装ではcreateFormatter(String fileType, String formatFilePath)メソッドをオーバーライドし、FormUrlEncodedDataRecordFormatterのインスタンス生成を可能としている。
+     - | Formatter factory class.
+       | In the sample implementation, the createFormatter (String fileType, String formatFilePath) method is overridden, and an instance of FormUrlEncodedDataRecordFormatter can be created.
    * - *please.change.me.* **core.dataformat**
      - FormUrlEncodedDataRecordFormatter
-     - | フォーマッタクラス。
-       | application/x-www-form-urlencodedで使用されるデータを解析、構築する。
-       | サンプル実装では読み込み時はパラメータの出現順を意識せず、書き込み時はフォーマット定義順でパラメータを出力する。
+     - | Formatter class.
+       | Parse and build the data used by application/x-www-form-urlencoded.
+       | The parameters in the sample implementation are output in the order of format definition during writing and not in the order of appearance during reading.
    * - *please.change.me.* **core.dataformat.convertor**
      - FormUrlEncodedDataConvertorFactory
-     - | データコンバータのファクトリクラス。
-       | デフォルトのコンバータ名とコンバータ実装クラスの対応表を保持する。
+     - | Factory class for the data converter.
+       | Stores the correspondence table between the default converter name and converter implementation class.
    * - *please.change.me.* **core.dataformat.convertor**
      - FormUrlEncodedDataConvertorSetting
-     - | コンバータの設定情報を保持するクラス。
-       | コンバータ名とコンバータ実装クラスの対応表を、DIコンテナから設定する。
+     - | Class that stores the configuration information of the converter.
+       | Configures the correspondence table of the converter name and converter implementation class from the DI container.
    * - *please.change.me.* **test.core.file**
      - FormUrlEncodedTestDataConverter
-     - | テストデータコンバータクラス。
-       | サンプル実装ではテストデータとして項目ごとにKey=Value形式を設定されたデータを解析し、Value部の値に対し動的にURLエンコーディングを行う。
+     - | Test data converter class.
+       | In the sample implementation, data configured with the Key=Value format for each item is analyzed as test data, and URL encoding is performed dynamically for the value in the Value section.
 
 
 ----------------------------
-使用方法
+How to Use
 ----------------------------
 
-FormUrlEncodedデータフォーマッタの使用方法
+How to Use the FormUrlEncoded data formatter
 --------------------------------------------------------------------
-  業務アプリケーションで作成したフォーマッタファクトリクラスを使用する場合、以下の設定を行う必要がある。
+  When using a formatter factory class created in the business application, the following configuration must be made.
 
   .. code-block:: xml
 
     <component name="formatterFactory" class="please.change.me.core.dataformat.FormUrlEncodedDataFormatterFactory"/>
 
 
-フォーマット定義ファイルの記述例
+Description example of format definition file
 --------------------------------------------------------------------
-  サンプルのソースコードに対応するフォーマット定義ファイルの記述例を以下に示す。
+  An example describing the format definition file corresponding to the sample source code is shown below.
 
   .. code-block:: bash
 
     #
-    # ディレクティブ定義部
+    # Directive definition section
     #
-    file-type:     "FormUrlEncoded"  # フォームURLエンコード形式ファイル
-    text-encoding: "UTF-8"  # 文字列型フィールドの文字エンコーディング
+    file-type:     "FormUrlEncoded"  # Form URL encoded format file
+    text-encoding: "UTF-8"  # Character encoding of the string type field
 
     #
-    # データレコード定義部
+    # Data record definition section
     #
     [data]
-    1    key1   X      # 項目1
-    2    key2   X      # 項目2
+    1    key1   X      # Item 1
+    2    key2   X      # Item 2
 
 
-フィールドタイプ・フィールドコンバータ定義一覧
+Field type and field converter definition list
 --------------------------------------------------------------------
-  FormUrlEncodedデータフォーマッタで使用されるフィールドタイプ・フィールドコンバータについて解説する。
+  This section describes the field types and field converters used in the FormUrlEncoded data formatter.
 
-  **フィールドタイプ**
+  **Field type**
 
   .. list-table::
    :widths: 130 150 200
    :header-rows: 1
 
-   * - タイプ識別子
-     - Java型
-     - 内容
+   * - Type identifier
+     - Java type
+     - Details
 
-   * - X、N、XN、X9、SX9
+   * - X, N, XN, X9, SX9
      - String
-     - | FormUrlEncodedデータフォーマッタでは、すべてのフィールドを文字列（String）として読み書きする。
-       | よって、どのタイプ識別子を指定しても動作は変わらない。
-       | また、フィールド長の概念が無いので、引数は不要である。
-       | もしNumber型（BigDecimalなど）のデータを読み書きしたい場合は、後述のnumber/signed_numberコンバータを使用すること。
+     - | The FormUrlEncoded data formatter reads and writes all fields as strings.
+       | Therefore, the operation does not change no matter what type of identifier is specified.
+       | Since there is no concept of field length, arguments are not required.
+       | To read and write Number type data (BigDecimal etc.), use the number/signed_number converter described below.
 
-  いずれのタイプ識別子もフィールド長の概念が無いので、引数は不要である。
+  Arguments are not required as none of the type identifiers have the concept of field length.
 
-  **フィールドコンバータ**
+  **Field convertor**
 
   .. list-table::
    :widths: 70 100 350
    :header-rows: 1
 
-   * - コンバータ名
-     - Java型(変換前後)
-     - 内容
+   * - Converter name
+     - Java type (before and after conversion)
+     - Details
 
-   * - リテラル値
+   * - Literal value
      - Object <-> Object
-     - | **入力時:** (なにもしない)
-       | **出力時:** 出力する値が未設定であった場合に指定されたリテラル値を出力する。
-       | **デフォルト実装クラス:** nablarch.core.dataformat.convertor.value.DefaultValue
-       | **引数:** なし
+     - | **During input:** (Nothing is to be done)
+       | **During output:** Outputs the specified literal value if the output value is not set.
+       | **Default implementation class:** nablarch.core.dataformat.convertor.value.DefaultValue
+       | **Parameter:** No
 
    * - number
      - String <-> BigDecimal
-     - | **入力時:** 入力された値が符号なし数値であることを形式チェックした上でBigDecimal型に変換して、返却する。
-       |         もし入力された値がnullまたは空文字の場合、nullを返却する。
-       | **出力時:** 出力する値を文字列に変換し、符号なし数値であることを形式チェックした上で出力する。
-       |         もし出力する値がnullの場合、空文字を出力する。
-       | **デフォルト実装クラス:** nablarch.core.dataformat.convertor.value.NumberString
-       | **引数:** なし
+     - | **During input:** After checking that the format of the input value is an unsigned number, converts the value to BigDecimal type and returns it. 
+       |         Returns null if the value entered is a null or empty character. 
+       | **During output:** Converts the output value to a string, and then outputs after format checking that it is an unsigned numeric value. 
+       |         Outputs an empty character if the output value is null. 
+       | **Default implementation class:** nablarch.core.dataformat.convertor.value.NumberString
+       | **Parameter:** No
 
    * - signed_number
      - String <-> BigDecimal
-     - | 符号が許可される点以外は **number** コンバータと同じ仕様。
-       | **デフォルト実装クラス:** nablarch.core.dataformat.convertor.value.SignedNumberString
-       | **引数:** なし
+     - | Except that signs are allowed, the specification is the same as **number** converter. 
+       | **Default implementation class:** nablarch.core.dataformat.convertor.value.SignedNumberString
+       | **Parameter:** No
 
 
-同一キーで複数の値を取り扱う場合
+When handling multiple values with the same key
 --------------------------------------------------------------------
-  同一キーで複数の値を取り扱う場合、データはString配列形式で保持される。
-  また、フォーマット定義ファイルにて多重度を設定する必要がある。
-  定義方法についてはNablarch Application Framework解説書の汎用データフォーマット機能を参照すること。
+  When the same key handles multiple values, data is stored in the String array format.
+  Multiplicity must be set in the format definition file.
+  For the definition method, see the general-purpose data formatting functions in the Nablarch Application Framework manual.
 
 
-テストデータの記述方法
+How to write test data
 --------------------------------------------------------------------
 
-  FormUrlEncodedデータフォーマッタを使用した場合、入力データをURLエンコーディングする必要がある。
-  しかし、URLエンコーディングされたデータをExcelファイルに直接記述することは、可読性や保守性、作業効率といった面で現実的ではない。
-  そのため、以下の例のようにテストデータコンバータを指定する。
+  When using the FormUrlEncoded data formatter, the input data must be URL encoded.
+  However, writing URL-encoded data directly into an Excel file is not practical in terms of readability, maintainability and work efficiency.
+  Therefore, the test data converter is specified as shown in the following example.
 
-  テストデータコンバータについてはプログラミング・単体テストガイドの自動テストフレームワークの使用方法を参照すること。
+  For test data converters, see How to use the automatic test framework in the Programming/Unit test guide.
 
-  **コンポーネント設定ファイル**
+  **Component configuration file**
 
-    テスト側のコンポーネント設定ファイルに以下の設定を追記する。
+    Add the following settings in the component configuration file on the test side.
 
     .. code-block:: xml
 
-      <!-- テストデータコンバータ定義 -->
+      <!-- Test data converter definition -->
       <component name="TestDataConverter_FormUrlEncoded"
                  class="please.change.me.test.core.file.FormUrlEncodedTestDataConverter"/>
 
-  **Excelファイル**
+  **Excel file**
 
-    以下のようにfile-typeに"FormUrlEncoded"を指定し、テストデータとして項目ごとにKey-Value形式となるように記述する。
+    "FormUrlEncoded" is specified in the file-type as follows, and entered in the Key-Value format for each item as test data.
 
     .. image:: ./_images/test_data_example.png
 
-    この場合、テストデータ読み込み時にテストフレームワークによりFormUrlEncodedTestDataConverterが呼び出され、
-    結果的にFormUrlEncodedデータフォーマッタには以下のデータが入力される。
+    In this case, the test framework calls FormUrlEncodedTestDataConverter when the test data is read, 
+    and the following data is input to the FormUrlEncoded data formatter as a result.
 
     .. code-block:: text
 

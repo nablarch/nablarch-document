@@ -1,11 +1,11 @@
 ====================================================
-CAPTCHA機能の組み込み手順
+How to Incorporate the CAPTCHA Function
 ====================================================
 
-依存ライブラリの設定
+Configure dependent libraries
 ===================================
 
-CAPTCHA機能を組み込む先のウェブプロジェクトのpom.xmlに、依存ライブラリの定義を追記してください。
+Add the definition of the dependent libraries to pom.xml of the web project where the CAPTCHA feature is to be included.
 
   .. code-block:: xml
 
@@ -15,12 +15,12 @@ CAPTCHA機能を組み込む先のウェブプロジェクトのpom.xmlに、依
       <version>0.0.9</version>
     </dependency>
 
-テーブルの作成
+Create table
 ===================================
 
-CAPTCHA機能が使用するテーブルを作成してください。(下例はOracleの場合)
+Create a table to be used by the CAPTCHA function. (Example for Oracle is given below)
 
-CAPTCHA_TEXTに必要な桁数は、後述の「kaptcha.textproducer.char.length」で設定した値に合わせてください。
+Match the number of digits required for CAPTCHA_TEXT with the value configured in "kaptcha.textproducer.char.length" described later.
 
   .. code-block:: xml
 
@@ -31,28 +31,28 @@ CAPTCHA_TEXTに必要な桁数は、後述の「kaptcha.textproducer.char.length
       CONSTRAINT PK_CAPTCHA_MANAGE PRIMARY KEY (CAPTCHA_KEY)
     );
 
-CAPTCHA機能のソースコードの配置
-===================================
+Placement of source code for the CAPTCHA function
+=========================================================
 
-下記ディレクトリ配下のソースコードを、CAPTCHA機能を組み込む先のウェブプロジェクトに配置してください。
+Place the source code under the following directory in the web project where the CAPTCHA function will be incorporated.
 
-ソースコードのpackage文、import文のパッケージ名は、配置先のパッケージに合わせて修正してください。
+Modify the package name of the package and import statements in the source code according to the destination package.
 
   `nablarch-biz-sample-all/src/main/java/please/change/me/common/captcha <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/src/main/java/please/change/me/common/captcha>`_
 
 
-コンポーネント定義の追記
+Add the component definition
 ===================================
 
-(開発環境用定義ファイル) src/env/dev/resources/{プロジェクトのパッケージ}/handler_dev.xml
+(development environment definition file) src/env/dev/resources/{project package}/handler_dev.xml
 
-(本番環境用定義ファイル) src/main/resources/{プロジェクトのパッケージ}/web-component-configuration.xml
+(production environment definition file) src/main/resources/{project package}/web-component-configuration.xml
 
-captchaGeneratorの定義のclass属性の値は、CaptchaGeneratorクラスを配置したパッケージに合わせてください。
+The class attribute value in the captchaGenerator definition should match the package in which the captchaGenerator class is located.
 
   .. code-block:: xml
 
-    <!-- 設定１：CaptchaGeneratorのコンポーネント定義 -->
+    <!-- Configuration 1: Component definition of CaptchaGenerator -->
     <component name="captchaGenerator" 
         class="com.nablarch.example.app.web.common.captcha.CaptchaGenerator">
         <property name="imageType" value="jpg"/>
@@ -66,59 +66,56 @@ captchaGeneratorの定義のclass属性の値は、CaptchaGeneratorクラスを�
     </component>
 
 
-captchaGenerateHandlerのコンポーネント定義のclass属性の値も、
-CaptchaGenerateHandlerクラスを配置したパッケージに合わせてください。
+Match the class attribute value of the component definition of captchaGenerateHandler with the package in which the CaptchaGenerateHandler class is placed.
 
   .. code-block:: xml
 
-    <!-- 設定２：CaptchaGenerateHandlerのコンポーネント定義 -->
+    <!-- Configuration 2: Component definition for CaptchaGenerateHandler -->
     <component name="captchaGenerateHandler" 
         class="com.nablarch.example.app.web.common.captcha.CaptchaGenerateHandler"/>
 
 
-下記のrequestPatternに設定するＵＲＬについては、対応するActionクラスやFormクラスの実体が存在しないＵＲＬを指定します。
+The URL configured in the requestPattern given below must be a URL that does not have a corresponding action class or form class entity.
 
-ただし、Captcha画像をリクエストするためのＪＳＰ内の<img>タグのsrc属性とは揃っている必要があります。
+However, it must match the src attribute of the <img> tag in JSP used to request a Captcha image.
 
-RequestHandlerEntryの設定は、dbConnectionManagementHandler、transactionManagementHandler の設定よりも後に定義する必要があります。
+Configuration of the RequestHandlerEntry must be defined after the configuration of the dbConnectionManagementHandler and transactionManagementHandler.
 
   .. code-block:: xml
 
-    <!-- 設定３： Captcha画像の生成・取得のためのリクエストＵＲＬと画像生成・送信を実行するハンドラを関連付ける -->
+    <!-- Configuration 3: Associate a request URL for Captcha image generation and acquisition with a handler for generation and sending of images -->
     <component class="nablarch.fw.RequestHandlerEntry">
             <property name="requestPattern" value="/action/path/to/hoge"/>
             <property name="handler" ref="captchaGenerateHandler"/>
     </component>
 
-Actionの編集
+Edit Action
 ===================================
 
-Captcha認証用の画像を表示するためのJSPに対応する、Actionのメソッドに、
-Captcha識別子の生成、および、生成した値をJSPが参照できるようにするための処理を追加します。
+Adds a process to generate a captcha identifier and enable a JSP refer to the generated value of the action method corresponding to a JSP for displaying images that is used with a captcha authentication.
 
   .. code-block:: java
   
     public HttpResponse method1(HttpRequest request, ExecutionContext context) {
        XxxForm form = new XxxForm();
-       form.setCaptchaKey(CaptchaUtil.generateKey()); // Captcha識別子の採番
-       context.setRequestScopedVar("form", form);     // リクエストスコープへの設定
+       form.setCaptchaKey(CaptchaUtil.generateKey()); // Captcha identifier numbering
+       context.setRequestScopedVar("form", form);     // Configuring the request scope
        return new HttpResponse("/WEB-INF/view/xxx/xxx.jsp");
     }
 
-ユーザーが入力した値をバリデーションするタイミングで呼び出されるActionのメソッドに、
-Formに定義するバリデーション用のメソッドとの関連付けが設定されていることを確認します。
+Confirm that the method of action called when validating the value entered by the user is configured to be associated with the validation method defined in the form.
 
   .. code-block:: java
   
     @InjectForm(form = XxxForm.class, prefix = "form", validate = "yyyy")
     public HttpResponse method2(HttpRequest request, ExecutionContext context) {
-        // 中略
+        // Omitted
     }
 
-Formの編集
+Edit Form
 ===================================
 
-Captcha認証時に使用する情報を保持するためのプロパティおよびアクセッサをFormに追加します。
+A property and an accessor are added, to retain the information used during the captcha authentication, to the form.
 
   .. code-block:: java
 
@@ -126,46 +123,46 @@ Captcha認証時に使用する情報を保持するためのプロパティお�
 
     private String captchaValue;
 
-    // アクセッサは省略
+    // Accessor is omitted
 
-バリデーション用のメソッドを追加します。
+Add a method for validation.
 
   .. code-block:: java
 
     @ValidateFor("yyyy")
     public static void validateForXxx(ValidationContext<LoginForm> context) {
 
-        // 単項目精査
-        ValidationUtil.validate(context, new String[] { …中略…, "captchaKey", "captchaValue" });
+        // Single item validation
+        ValidationUtil.validate(context, new String[] { …Middle is omitted…, "captchaKey", "captchaValue" });
         if (!context.isValid()) {
             return;
         }
         
-        // Captcha文字列判定
+        // Captcha string determination
         XxxForm form = context.createObject();
         if (!CaptchaUtil.authenticate(form.getCaptchaKey(), form.getCaptchaValue())) {
             context.addResultMessage("captchaValue", "MSG90001");
         }
     }
 
-jspの編集
+Edit jsp
 ===================================
 
-Captcha認証機能を組み込む画面に対応するJSPに下記のコードを追加します。
+The following code is added to the JSP corresponding to the screen in which the captcha authentication function is incorporated.
 
   .. code-block:: xml
 
-    <n:form …省略…>
+    <n:form …Omitted…>
     
-    // 中略
+    // Omitted
     
-    // Captcha認証用画像を取得するためのタグを追加
+    // Addition of tags for acquisition of captcha image
     <n:img src="/action/path/to/hoge?captchaKey=${form.captchaKey}" alt=""/>
 
-    // Captcha認証時に必要な情報を送信するためのタグを追加
+    // Addition of tags for sending information necessary for captcha authentication
     <n:plainHidden name="form.captchaKey"></n:plainHidden>
     <n:text name="form.captchaValue" />
 
-    // 中略
+    // Omitted
     </n:form>
 
