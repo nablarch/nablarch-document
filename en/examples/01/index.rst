@@ -1,224 +1,225 @@
 .. _authentication:
 
 ====================================================
-データベースを用いたパスワード認証機能サンプル
+Sample Password Encryption Function Using Database
 ====================================================
 
 .. important::
 
-  本サンプルは、Nablarch 1.4系に準拠したAPIを使用している。
+  This sample uses a Nablarch 1.4 compliant API.
 
-  Nablarch 1.4系より新しいNablarchと組み合わせる場合は、必要に応じてカスタマイズすること。
+  When combining with versions later than Nablarch 1.4 series, customize as necessary.
 
 
-本サンプルは、データベースに保存されたアカウント情報(ユーザID、パスワード)を使用して認証処理を行う実装サンプルである。
+This is an implementation sample that performs authentication process using account information (user ID, password) stored in the database.
 
 .. toctree::
   :hidden:
 
   0101_PBKDF2PasswordEncryptor
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all>`_
 
 
---------------
-提供パッケージ
---------------
+-------------------
+Delivery package
+-------------------
 
-本サンプルは、以下のパッケージで提供される。
+The sample is provided in the following package.
 
   *please.change.me.*\ **common.authentication**
 
 
 ------------
-概要
+Summary
 ------------
-ウェブアプリケーションにおけるユーザの認証(ユーザIDとパスワードによる認証)を行う機能の実装サンプルを提供する。
+Provide an implementation sample of the function to perform user authentication (authentication by user ID and password) in Web application.
 
-本サンプルは、ログイン処理を実行する業務処理 [#auth_action]_ の中で使用することを想定している。
+This sample is intended to be used in a business process [#auth_action]_  that executes login process.
 
 .. tip::
 
-  Nablarch導入プロジェクトでは、要件を満たすよう本サンプル実装を修正し使用すること。
+  The Nablarch implementation project should modify and use this sample implementation to meet the requirements.
 
 .. [#auth_action]
 
   本機能では、ログイン処理を実行する業務処理は提供しない。
   Nablarch導入プロジェクトにて、要件に応じてログイン処理を作成すること。
 
-本機能では、デフォルトでは `PBKDF2 <http://www.ietf.org/rfc/rfc2898.txt>`_ を使用してパスワードを暗号化するため、
-各プロジェクトで、パスワード暗号化のストレッチング回数やソルトなどを設定する必要がある。
+Since this function uses `PBKDF2 <http://www.ietf.org/rfc/rfc2898.txt>`_  by default to encrypt passwords, 
+it is necessary to set the number of stretches and salts for password encryption in each project.
 
-設定内容の詳細については :doc:`0101_PBKDF2PasswordEncryptor` を参照。
+For more information on configuration, see :doc:`0101_PBKDF2PasswordEncryptor` .
+
 
 
 ------------
-構成
+Structure
 ------------
-本サンプルの構成を示す。
+Shows the sample structure.
 
 
-クラス図
+Class diagram
 ========================
 .. image:: ./_images/Authentication_ClassDiagram.jpg
    :scale: 75
 
-各クラスの責務
+Responsibilities of each class
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-インタフェース定義
+Interface definition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 =================== ===============================================================
-インタフェース名     概要
+Interface Name      Summary
 =================== ===============================================================
-Authenticator       ユーザの認証を行うインタフェース。
+Authenticator       An interface that authenticates users.
 
-PasswordEncryptor   パスワードの暗号化を行うインタフェース。
+PasswordEncryptor   An interface that encrypts a password.
 
 =================== ===============================================================
 
-クラス定義
+Class definition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-\a) Authenticatorの実装クラス
+\a) Implementation class of Authenticator
+
+  =============================== ======================================================================================================
+  Class name                      Summary
+  =============================== ======================================================================================================
+  PasswordAuthenticator           Class that performs password authentication for the account information stored in the database.
+  =============================== ======================================================================================================
+
+
+\b) PasswordEncryptor implementation class
 
   =============================== ==========================================================================
-  クラス名                        概要
+  Class name                      Summary
   =============================== ==========================================================================
-  PasswordAuthenticator           データベースに保存されたアカウント情報に対してパスワード認証を行うクラス。
-  =============================== ==========================================================================
-
-\b) PasswordEncryptorの実装クラス
-
-  =============================== ==========================================================================
-  クラス名                        概要
-  =============================== ==========================================================================
-  PBKDF2PasswordEncryptor         PBKDF2を使用してパスワードの暗号化を行うクラス。
+  PBKDF2PasswordEncryptor         Class that performs password encryption using PBKDF2.
   =============================== ==========================================================================
 
-\c) ユーティリティクラス
+\c) Utility class
+
+  =============================== ================================================================================
+  Class name                      Summary
+  =============================== ================================================================================
+  AuthenticationUtil              Utility to get Authenticator and PasswordEncryptor 
+                                  from system repository and perform user authentication and password encryption.
+  =============================== ================================================================================
+
+\d) Other classes
 
   =============================== ==========================================================================
-  クラス名                        概要
+  Class name                      Summary
   =============================== ==========================================================================
-  AuthenticationUtil              システムリポジトリから Authenticator および PasswordEncryptor を
-                                  取得して、ユーザ認証およびパスワード暗号化を行うユーティリティ。
-  =============================== ==========================================================================
-
-\d) その他のクラス
-
-  =============================== ==========================================================================
-  クラス名                        概要
-  =============================== ==========================================================================
-  SystemAccount                   ユーザのアカウント情報を保持するクラス。
+  SystemAccount                   Class that retains user account information.
   =============================== ==========================================================================
 
-\e) 例外クラス
+\e) Exception class
 
-  =============================== ==========================================================================
-  クラス名                        概要
-  =============================== ==========================================================================
-  AuthenticationException         ユーザの認証に失敗した場合に発生する例外。
+  =============================== ========================================================================================================
+  Class name                      Summary
+  =============================== ========================================================================================================
+  AuthenticationException         Exception that occurs when user authentication fails.
 
-                                  認証処理に関する例外の基底クラス。
-                                  認証方式に応じて、本クラスを継承した例外クラスを作成する。
-                                  本クラス及びサブクラスでは、ユーザへ提示するメッセージの作成に
-                                  必要な情報を保持し、メッセージの作成は行わない。
+                                  Base class of exception related to authentication process.
+                                  Create an exception class that inherits from this class according to the authentication method.
+                                  This class and its subclasses retain information necessary for the creation of 
+                                  a message to be presented to a user, but do not create a message.
 
-  AuthenticationFailedException   アカウント情報の不一致により認証に失敗した場合に発生する例外。
+  AuthenticationFailedException   Exception that occurs when authentication fails due to mismatch of account information.
 
-                                  対象ユーザのユーザIDを保持する。
+                                  This function memorizes the user ID of the target user.
 
-  PasswordExpiredException        ユーザの認証時にパスワードの有効期限が切れている場合に発生する例外。
+  PasswordExpiredException        Exception that occurs when password has expired while authenticating user.
 
-                                  対象ユーザのユーザID、パスワード有効期限とチェックに使用した業務日付を保持する。
+                                  Retains the user ID, password expiration date, and business date used for checking of the target user.
 
-  UserIdLockedException           ユーザの認証時にユーザIDがロックされている場合に発生する例外。
+  UserIdLockedException           Exception that occurs when user ID is locked during user authentication.
 
-                                  対象ユーザのユーザIDとユーザIDをロックする認証失敗回数を保持する。
-  =============================== ==========================================================================
+                                  Stores the user ID of the target user and the number of authentication failures that lock the user ID.
+  =============================== ========================================================================================================
 
-テーブル定義
+Table definition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-本サンプルで使用しているアカウントテーブルの定義を以下に示す。
-本サンプルを導入プロジェクトに取り込む際には、導入プロジェクトのテーブル定義に従いSQLファイル及びソースコードの修正を行うこと。
+The definition of the account table used in this sample is shown below. 
+When importing this sample into the implementation project, modify the SQL file and source code according to the table definition of the implementation project.
 
-**システムアカウント(SYSTEM_ACCOUNT)**
+**SYSTEM_ACCOUNT**
 
-システムアカウントテーブルには、アカウント情報を格納する。
+The system account table stores the account information.
 
-  ========================= ========================= ==================== =====================================
-  論理名                    物理名                    Javaの型             制約
-  ========================= ========================= ==================== =====================================
-  ユーザID                  USER_ID                   java.lang.String     主キー
+  ============================ ========================= ==================== =====================================
+  Logical name                    Physical name          Java type            Limitations
+  ============================ ========================= ==================== =====================================
+  User ID                      USER_ID                   java.lang.String     Primary key
 
-  パスワード                PASSWORD                  java.lang.String
+  Password                     PASSWORD                  java.lang.String
 
-  ユーザIDロック            USER_ID_LOCKED            java.lang.String     ロックしていない場合は"0"、ロックしている場合は"1"
+  User ID lock                 USER_ID_LOCKED            java.lang.String     "0" when not locked, "1" when locked
 
-  パスワード有効期限        PASSWORD_EXPIRATION_DATE  java.lang.String     書式 yyyyMMdd
+  Password expiration date     PASSWORD_EXPIRATION_DATE  java.lang.String     Format yyyyMMdd
 
-                                                                           指定しない場合は"99991231"
-  認証失敗回数              FAILED_COUNT              int
+                                                                              When not specified "99991231"
+  Authentication failed count  FAILED_COUNT              int
 
-  有効日(From)              EFFECTIVE_DATE_FROM       java.lang.String     書式 yyyyMMdd
+  Effective date (From)        EFFECTIVE_DATE_FROM       java.lang.String     Format yyyyMMdd
 
-                                                                           指定しない場合は"19000101"
+                                                                              When not specified "19000101"
 
-  有効日(To)                EFFECTIVE_DATE_TO         java.lang.String     書式 yyyyMMdd
+  Effective date (To)          EFFECTIVE_DATE_TO         java.lang.String     Format yyyyMMdd
 
-                                                                           指定しない場合は"99991231"
+                                                                              When not specified "99991231"
 
-  最終ログイン日時          LAST_LOGIN_DATE_TIME      java.sql.Timestamp
-  ========================= ========================= ==================== =====================================
+  Last login date and time     LAST_LOGIN_DATE_TIME      java.sql.Timestamp
+  ============================ ========================= ==================== =====================================
 
 .. tip::
 
-  上記テーブル定義には、本サンプルで必要となる属性のみを列挙している。
-  Nablarch導入プロジェクトでは、必要なユーザ属性を本テーブルに追加したり、本テーブルと1対1で紐づくユーザ情報テーブルなどを作成し要件を満たすようテーブル設計を行うこと。
+  Only the attributes required for this sample are listed in the above table definition. 
+  In the Nablarch implementation project, the table design should be done to meet the requirements by adding necessary user attributes to this table and creating user information tables, etc. that are tied to this table on a one-to-one basis.
 
 
 
 ------------------------------------------------------------------------
-使用方法
+How to Use
 ------------------------------------------------------------------------
-データベースに保存したアカウント情報を使用したパスワード認証の使用方法について解説する。
+This section describes how to use password authentication using the account information stored in the database.
 
-パスワード認証の特徴を下記に示す。
+The features of password authentication are shown below.
 
-* 認証時にアカウント情報の有効日（From/To）をチェックする。
-* 認証時にパスワードの有効期限をチェックする。
-* 連続で指定回数認証に失敗するとユーザIDにロックをかける。指定回数に達するまでに認証に成功すると失敗回数をリセットする。
-* 暗号化されたパスワードを使用して認証を行う。本機能は、デフォルトでPBKDF2を使用したパスワードの暗号化を提供する。
-* 最終ログイン日時を記録する。認証に成功した場合のみシステム日時を使用して最終ログイン日時を更新する。
+* Check the effective date (From/To) of account information during authentication.
+* Check the expiration date of the password during authentication.
+* Lock the user ID when the specified number of authentications fail consecutively. If the authentication succeeds before the specified number of times is reached, the number of failures is reset.
+* Authenticate using an encrypted password. This feature provides password encryption using PBKDF2 by default.
+* Record the date and time of the last login. The system date and time is used to update the last login date and time only if the authentication is successful.
 
-また、 Authenticator および PasswordEncryptor は、Nablarchのシステムリポジトリから取得して使用する想定となっている。
-業務機能で使用する各箇所でシステムリポジトリからコンポーネントを取得して利用するべきではないため、
-本機能では、システムリポジトリからのコンポーネントの取得と、パスワード認証およびパスワード暗号化処理をラップした
-AuthenticationUtil を提供している。
+In addition, Authenticator and PasswordEncryptor are supposed to be obtained from Nablarch system repository and used. 
+Because components from the system repository should not be retrieved and used at each point in the business function, this function provides AuthenticationUtil, 
+which wraps the retrieval of components from the system repository and the password authentication and password encryption processes.
 
-プロジェクトで実装するログイン機能やユーザ登録機能などからは、 AuthenticationUtil を使用すること。
+AuthenticationUtil should be used for the login and user registration functions implemented in the project.
 
 
 .. _passwordAuth-settings-label:
 
-PasswordAuthenticatorの使用方法
+How to Use PasswordAuthenticator
 =============================================================================================
-PasswordAuthenticatorの使用方法について解説する。
+This section describes how to use the PasswordAuthenticator.
 
 
 .. code-block:: xml
 
     <component name="authenticator" class="please.change.me.common.authentication.PasswordAuthenticator">
 
-      <!-- ユーザIDをロックする認証失敗回数 -->
+      <!-- Number of authentication failures to lock user IDs -->
       <property name="failedCountToLock" value="3"/>
 
-      <!-- パスワードを暗号化するPasswordEncryptor -->
+      <!-- PasswordEncryptor to encrypt passwords -->
       <property name="passwordEncryptor" ref="passwordEncryptor" />
 
-      <!-- データベースへのトランザクション制御を行うクラス -->
+      <!-- Class that provides transaction control to database -->
       <property name="dbManager">
         <component class="nablarch.core.db.transaction.SimpleDbTransactionManager">
           <property name="dbTransactionName" value="authenticator"/>
@@ -227,9 +228,9 @@ PasswordAuthenticatorの使用方法について解説する。
         </component>
       </property>
 
-      <!-- システム日付 -->
+      <!-- System date -->
       <property name="systemTimeProvider" ref="systemTimeProvider" />
-      <!-- 業務日付 -->
+      <!-- Business date -->
       <property name="businessDateProvider" ref="businessDateProvider" />
     </component>
 
@@ -237,69 +238,68 @@ PasswordAuthenticatorの使用方法について解説する。
     <component name="businessDateProvider" class="nablarch.core.date.BasicBusinessDateProvider" />
 
 
-プロパティの説明を下記に示す。
+A description of the property is given below.
 
-===================================================================== ==================================================================================================================================================================================
-property名                                                            設定内容
-===================================================================== ==================================================================================================================================================================================
-failedCountToLock                                                     ユーザIDをロックする認証失敗回数。
+===================================================================== ===================================================================================================================================================================================================================================================================
+property name                                                            Settings
+===================================================================== ===================================================================================================================================================================================================================================================================
+failedCountToLock                                                     Number of authentication failures to lock the user ID.
 
-                                                                      指定しない場合は0となり、ユーザIDのロック機能を使用しないことになる。
+                                                                      If this is not specified, it is set to 0 and the user ID lock function is not used.
 
-passwordEncryptor(必須)                                               パスワードの暗号化に使用するPasswordEncryptor。
+passwordEncryptor (required)                                          A PasswordEncryptor used to encrypt the password.
 
-                                                                      :doc:`0101_PBKDF2PasswordEncryptor` を参考に設定を行ったコンポーネント名を、refに指定すること。
+                                                                      Specify the component name, which was configured by referring to :doc:`0101_PBKDF2PasswordEncryptor` , to ref.
 
-dbManager(必須)                                                       データベースへのトランザクション制御を行うSimpleDbTransactionManager。
+dbManager (required)                                                  SimpleDbTransactionManager, which provides transaction control to the database.
 
-                                                                      nablarch.core.db.transaction.SimpleDbTransactionManagerクラスのインスタンスを指定する。
+                                                                      Specify an instance of nablarch.core.db.transaction.SimpleDbTransactionManager class.
 
                                                                       .. important::
-                                                                         PasswordAuthenticatorのトランザクション制御が個別アプリケーションの処理に影響を与えないように、個別アプリケーションとは別のトランザクションを使用するように設定すること。
-                                                                         設定例では、dbTransactionNameに"authenticator"という名前を指定しているので、個別アプリケーションでは同じ名前を使用しないようにトランザクションの設定を行う。
+                                                                         PasswordAuthenticator transaction control shall be configured to use a separate transaction from the individual application so that the transaction control of the PasswordAuthenticator does not affect the processing of the individual application. 
+                                                                         In the configuration example, since the name "authenticator" is specified for dbTransactionName, configure the transaction settings such that the same name is not used in individual applications.
 
-systemTimeProvider(必須)                                              システム日時の取得に使用するSystemTimeProvider。
+systemTimeProvider (required)                                         SystemTimeProvider, which is used to get the system date and time.
 
-                                                                      nablarch.core.date.SystemTimeProviderインタフェースを実装したクラスのインスタンスを指定する。
-                                                                      システム日時は最終ログイン日時の更新に使用する。
+                                                                      Specify instance of the class that implements the nablarch.core.date.SystemTimeProvider interface. 
+                                                                      The system date and time is used to update the last login date and time.
 
-businessDateProvider(必須)                                            業務日付の取得に使用するBusinessDateProvider。
+businessDateProvider (required)                                       BusinessDateProvider used to get the business date.
 
-                                                                      nablarch.core.date.BusinessDateProviderインタフェースを実装したクラスのインスタンスを指定する。
-                                                                      業務日付は、有効日（From/To）とパスワード有効期限のチェックに使用する。
-===================================================================== ==================================================================================================================================================================================
+                                                                      Specify instance of the class that implements the nablarch.core.date.BusinessDateProvider interface. 
+                                                                      The business date is used to check the effective date (From/To) and password expiration date.
+===================================================================== ===================================================================================================================================================================================================================================================================
 
 
-AuthenticaionUtilの使用方法
+How to Use AuthenticaionUtil
 =============================================================================================
 
-AuthenticaionUtilの使用方法について解説する。
+This section describes how to use AuthenticaionUtil.
 
-AuthenticationUtilでは、以下のユーティリティメソッドを実装している。なお、システムリポジトリからコンポーネントを取得する際の
-コンポーネント名は、上記の :ref:`passwordAuth-settings-label` で登録しているそれぞれのコンポーネント名と
-あわせる必要があるため、上記の設定例と異なるコンポーネント名で登録している場合にはソースコードを修正すること。
+AuthenticationUtil implements the following utility methods. 
+Since the component name to acquire a component from the system repository needs to be combined with the component name registered in :ref:`passwordAuth-settings-label` , modify the source code if the component name is different from the above configuration example.
 
 ================== ==============================================================================================
-メソッド
+Method
 ================== ==============================================================================================
-encryptPassword    システムリポジトリから、 passwordEncryptor というコンポーネント名で PasswordEncryptor を取得し、
-                   PasswordEncryptor#encrypt(String, String) を呼び出す。
+encryptPassword    Obtain PasswordEncryptor from the system repository with the component name passwordEncryptor 
+                   and call PasswordEncryptor#encrypt(String, String).
 
-authenticate       システムリポジトリから、 authenticator というコンポーネント名で Authenticator を取得し、
-                   Authenticator#authenticate(String, String) を呼び出す。
+authenticate       Obtain the Authenticator from the system repository with the component name authenticator 
+                   and call Authenticator#authenticate(String, String).
 ================== ==============================================================================================
 
 
-AuthenticationUtilの使用例
+Usage example of AuthenticaionUtil
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-本サンプルを使用した場合の認証処理の実装例を示す。
+The following is an example of the implementation of the authentication process using this sample.
 
-導入プロジェクトでは、本実装例を参考にし要件を満たす認証処理を実装すること。
+In the implementation project, implement the authentication process that meets the requirements by referring to this implementation example.
 
 .. code-block:: java
 
-  // 事前に認証を行うためのユーザID及びパスワードを取得する。
+  // Obtain the user ID and password to authenticate in advance.
   String userId = ・・・;
   Strign password = ・・・;
 
@@ -309,22 +309,22 @@ AuthenticationUtilの使用例
 
   } catch (AuthenticationFailedException e) {
 
-      // 認証に失敗した場合の処理
+      // Process when authentication fails
 
   } catch (UserIdLockedException e) {
 
-      // ユーザIDがロックされていた場合の処理
+      // Process when a user ID is locked
 
   } catch (PasswordExpiredException e) {
 
-      // パスワードの有効期限が切れていた場合の処理
+      // Process when password has expired
 
   }
 
 .. tip::
 
-   上記の例では、認証エラーの状態により細かく処理を分けているが、
-   細かく処理を分ける必要がない場合には、以下のように上位の例外クラスを補足して処理を行えば良い。
+   In the above example, the processing is divided finely according to the status of the authentication error. 
+   However, if it is not necessary to divide the processing finely, the processing may be performed by supplementing the upper exception class as follows.
 
   .. code-block:: java
 
@@ -333,6 +333,6 @@ AuthenticationUtilの使用例
         AuthenticationUtil.authenticate(userId, password);
 
     } catch (AuthenticationException e) {
-        // 例外の処理
+        // Exception handling
     }
 
