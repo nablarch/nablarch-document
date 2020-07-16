@@ -1,41 +1,41 @@
 .. _list_search_result:
 
 ======================================================
-検索結果の一覧表示
+Display a List of Search Results
 ======================================================
 
 .. important::
 
-  本サンプルは、Nablarch 1.4系に準拠したAPIを使用している。
+  This sample uses a Nablarch 1.4 compliant API.
 
-  Nablarch 1.4系より新しいNablarchと組み合わせる場合は、必要に応じてカスタマイズすること。
+  When combining with versions later than Nablarch 1.4 series, customize as necessary.
 
 
-本サンプルは、検索結果の一覧表示を行うタグファイルの実装サンプルである。
+This sample is an implementation sample of the tag file that displays a list of search results.
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all>`_
 
---------------
-提供パッケージ
---------------
+-----------------
+Delivery package
+-----------------
 
-本サンプルは、以下のパッケージで提供される。
+The sample is provided in the following package.
 
   *resources/META-INF/tags/*\ **listSearchResult**
 
 
 ------------
-概要
+Summary
 ------------
-ここでは、検索結果の一覧表示を行うタグファイルの実装サンプルを提供する。
-タグファイルは、フレームワークが提供する一覧検索用の検索機能と連携して、次の機能を提供する。
+An implementation sample of the tag file that displays a list of search results is provided in this section.
+The tag file provides the following functions together with the search function for the list search provided by the framework.
 
-* 検索結果件数の表示機能
-* 1画面にすべての検索結果を表示する一覧表示機能
-* 検索結果を指定件数毎に表示する機能(以降はページングと称す)
-* 検索結果の並び替え機能
+* Function for displaying the number of search results
+* Function for displaying the list of all search results on one screen
+* Function for displaying the search results by the specified number of results (hereinafter referred to as paging)
+* Sort search resultsFunction
 
-一覧画面の出力例を示す。
+An example of the output on the list screen is shown below.
 
 .. image:: ./_images/ListSearchResult_Example.jpg
    :scale: 60
@@ -45,94 +45,94 @@
 |
 
 ------------
-構成
+Structure
 ------------
-本サンプルの構成を示す。
+Shows the sample structure.
 
-クラス図
+Class diagram
 ========================
-フレームワークが提供するクラスやタグファイルの位置付けを明示するために、\
-ユーザ検索を行う業務アプリケーションのクラスとJSPを構成に含めている。
+To clarify the placement of the classes and tag files provided by the framework,
+the classes and JSP of the business application that performs user search are included in the structure.
 
-ページングを実現したい場合、フレームワークが提供するクラスとサンプル提供のタグファイルがページングに必要な処理を行うため、\
-アプリケーションプログラマはページングを作り込みせずに実現できる。
+The application programmer can implement paging without implementing the details since the classes provided
+by the framework and the tag files provided by the sample perform the processing required for paging.
 
 .. image:: ./_images/ListSearchResult_Structure.jpg
    :scale: 60
 
-フレームワークが提供するクラスとタグファイルの責務
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Responsibilities of the classes and tag files provided by the framework
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-\a) フレームワーク
+\a) Framework
+
+  =============================== =====================================================================================================================================
+  Class name                        Summary
+  =============================== =====================================================================================================================================
+  DBAccessSupport                 Provides a search method that performs a search for list search.
+  ListSearchInfo                  Class that retains the information for list search.
+  TooManyResultException          Exception that occurs when the number of search results in a list search exceeds the maximum number (upper limit) of search results.
+  =============================== =====================================================================================================================================
+
+\b) Tag file
 
   =============================== ==========================================================================
-  クラス名                        概要
+  Tag name                          Summary
   =============================== ==========================================================================
-  DBAccessSupport                 一覧検索用の検索を行うsearchメソッドを提供する。
-  ListSearchInfo                  一覧検索用の情報を保持するクラス。
-  TooManyResultException          一覧検索において検索結果件数が検索結果の最大件数(上限)を超えた場合に発生する例外。
-  =============================== ==========================================================================
-
-\b) タグファイル
-
-  =============================== ==========================================================================
-  タグ名                          概要
-  =============================== ==========================================================================
-  listSearchResult                検索結果の一覧表示を行うタグ。
-  listSearchPaging                ページングを出力するタグ。
-  listSearchSubmit                ページングのサブミット要素を出力するタグ。
-  listSearchParams                ページングのサブミット要素用に変更パラメータを出力するタグ。
-  table                           テーブルを出力するタグ。
-  listSearchSortSubmit            ソート用のサブミット要素を出力するタグ。
+  listSearchResult                Tag that displays the list of search results.
+  listSearchPaging                Tag that outputs paging.
+  listSearchSubmit                Tag that outputs the paging submit element.
+  listSearchParams                Tag that outputs the changed parameters for the paging submit elements.
+  table                           Tag that outputs a table.
+  listSearchSortSubmit            Tag that outputs the submit elements for sorting.
   =============================== ==========================================================================
 
 |
 
 ---------------------------
-使用方法
+How to Use
 ---------------------------
-ページングを使用する場合を想定し、本サンプルの使用方法を解説する。
-ユーザ検索を行う業務アプリケーションを実装例に解説する。
+This section describes how to use the sample, assuming that paging is used.
+A business application that performs user search is described as an implementation example below.
 
 .. _ListSearchResult_DbAccessSupport:
 
-DbAccessSupportクラス
+DbAccessSupport class
 ===============================================================================
-DbAccessSupportクラスは、データベースアクセス機能が提供するデータベースアクセス処理を簡易的に実装するためのサポートクラスである。
+The DbAccessSupport class is a support class that simply implements the database access process provided by the database access function.
 
-DbAccessSupportは、一覧検索用の検索を実行するsearchメソッドを提供する。\
-searchメソッドは、SQL_IDとListSearchInfoを受け取り、次の処理を行う。
+DbAccessSupport provides a search method that executes a search for a list search.
+The search method receives the SQL_ID and ListSearchInfo, and performs the following processes.
 
-* 指定されたSQL_IDとListSearchInfoから検索結果の件数取得を行う。
-* 検索結果件数が上限を超えている場合は、TooManyResultExceptionを送出する。
-* 検索結果件数が上限を超えていない場合は、検索を実行し検索結果を返す。検索結果件数は引数で指定されたListSearchInfoに設定する。
+* Obtains the number of search results from the specified SQL_ID and ListSearchInfo.
+* Throws TooManyResultException when the number of search results exceeds the maximum number.
+* Executes the search and returns the search results when the number of search results does not exceed the maximum number. Sets the number of search results in ListSearchInfo that is specified by the argument.
 
-SQL_IDで指定するSQL文は、業務に必要な検索条件を基に検索を行うSQL文(つまりSELECT文)を指定する。\
-検索を行うSQL文を基にした検索結果の件数取得や検索結果の開始位置と取得件数を指定した検索の実行は、フレームワークで行う。
+The SQL statement specified by the SQL_ID specifies the SQL statement (i.e. the SELECT statement) that performs the search based on the search conditions required for business.
+The framework acquires the number of search results based on the SQL statement that executes the search, and to execute the search by specifying the start position of the search results and the number of results obtained.
 
-TooManyResultExceptionは、検索結果の最大件数(上限)と(実際の)検索結果の取得件数を保持する。\
-検索結果件数の上限設定については、 :ref:`ListSearchResult_Setting` を参照。
+TooManyResultException retains the maximum number of search results (upper limit) and the (actual) number of search results obtained.
+To configure the upper limit for the number of search results, see :ref:`ListSearchResult_Setting`.
 
-searchメソッドを使用した検索処理の実装例を示す。
+An implementation example for the search process using the search method is shown below.
 
 .. code-block:: java
 
- // 入力精査済みの検索条件の取得
+ // Acquire the validated search conditions
  W11AC01SearchForm condition = ...;
  
- // 検索実行
+ // Execute search
  SqlResultSet searchResult = null;
  try {
  
-     // ページング付きの検索処理。
-     // "SELECT_USER_BY_CONDITION"は、ユーザ検索を行うSELECT文に対するSQL_ID。
+     // Search process with paging.
+     // "SELECT_USER_BY_CONDITION" is the SQL_ID for the SELECT statement that performs user search.
      searchResult = search("SELECT_USER_BY_CONDITION", condition);
  
  } catch (TooManyResultException e) {
  
-     // 検索結果件数が上限を超えた場合のエラー処理。
-     // TooManyResultExceptionは、検索結果の最大件数(上限)、実際の検索結果件数を提供する。
-     // "MSG00024"は「検索結果が上限件数({0}件)を超えました。」というメッセージに対するメッセージID。
+     // Error handling when the number of search results exceeds the maximum number.
+     // TooManyResultException provides the maximum number of search results (upper limit) and the actual number of search results.
+     // "MSG00024" is the message ID for the message "Search results has exceeded the maximum number of ({0} records)".
      throw new ApplicationException(
          MessageUtil.createMessage(MessageLevel.ERROR, "MSG00024", e.getMaxResultCount()));
  }
@@ -140,42 +140,42 @@ searchメソッドを使用した検索処理の実装例を示す。
 .. _ListSearchResult_ListSearcInfo:
 
 ----------------------------
-ListSearchInfoクラス
+ListSearchInfo class
 ----------------------------
-ListSearchInfoクラスは、一覧検索用の情報を保持するクラスである。\
-業務アプリケーションで検索条件を保持するクラスは、ListSearchInfoを継承して作成する。
+The ListSearchInfo class is a class that retains information for list search.
+Create a class that retains the search conditions in a business application by inheriting from ListSearchInfo.
 
-ListSearchInfoを継承するクラスでは、下記の実装が必要となる。\
+The classes that inherit from ListSearchInfo must implement the following.
 
-* ページング用の検索処理に必要な下記プロパティを他の検索条件と同様に入力精査に含める。
+* The following properties required in the search process for paging are included in the input validation, similar to other search condition.
 
- * pageNumber(取得対象のページ番号)
+ * pageNumber (Page number of the acquisition target)
 
-さらに、アクションでは、下記の実装が必要となる。
+In addition, the following implementation is required for actions.
 
-* 検索結果を表示する際は、ListSearchInfoを継承したクラスのオブジェクトをリクエストスコープに設定する。
+* When displaying the search results, set the object of the class that inherits from ListSearchInfo in the request scope.
 
-ListSearchInfoを継承したクラス(W11AC01SearchForm)とアクション(W11AC01Action)の実装例を下記に示す。
+An implementation example of the class (W11AC01SearchForm) and action (W11AC01Action) that inherit from ListSearchInfo is shown below.
 
 .. code-block:: java
 
- // ListSearchInfoを継承したクラス。
+ // Class that inherits from ListSearchInfo.
  public class W11AC01SearchForm extends ListSearchInfo {
      
-     // 検索条件のプロパティ定義は省略。
+     // Property definition of the search condition is omitted.
      
-     // バリデーション機能に対応したコンストラクタ。
+     // Constructors corresponding to the validation function.
      public W11AC01SearchForm(Map<String, Object> params) {
      
-        // 検索条件のプロパティ設定は省略。
+        // Property configuration of the search condition is omitted.
         
-        // ListSearchInfoのプロパティを設定する。
+        // Configure the properties of ListSearchInfo.
         setPageNumber((Integer) params.get("pageNumber"));
      }
      
-     // オーバーライドして入力精査用のアノテーションを付加する。
-     // 検索結果の最大件数(上限):200件、1ページの表示件数:20件の場合。
-     @PropertyName("ページ番号")
+     // Override and add an annotation for input validation.
+     // When the maximum number of search results (upper limit) is: 200 results, and the number of results displayed per page is: 20 results.
+     @PropertyName("Page number")
      @Required
      @NumberRange(max = 10, min = 1)
      @Digits(integer = 2)
@@ -183,11 +183,11 @@ ListSearchInfoを継承したクラス(W11AC01SearchForm)とアクション(W11A
          super.setPageNumber(pageNumber);
      }
      
-     /** 精査対象プロパティ(検索条件のプロパティは省略) */
+     /** Properties to be validated (search condition properties are omitted) */
      private static final String[] SEARCH_COND_PROPS = new String[] { ..., "pageNumber"};
      
-     // オーバーライドして検索条件のプロパティ名を返す。
-     // 通常は精査対象プロパティと同じとなる。
+     // Override and return the property name of the search condition.
+     // Usually the same as the property under validation.
      public String[] getSearchConditionProps() {
          return SEARCH_COND_PROPS;
      }
@@ -195,29 +195,29 @@ ListSearchInfoを継承したクラス(W11AC01SearchForm)とアクション(W11A
 
 .. code-block:: java
 
- // 検索画面のアクション。
+ // Search screen action.
  public class W11AC01Action extends DbAccessSupport {
  
-     // 初期表示
+     // Initial display
      public HttpResponse doRW11AC0101(HttpRequest req, ExecutionContext ctx) {
-         // 初期表示は、業務処理のみのため省略。
+         // Initial display is omitted because it is only for the business process.
      }
      
-     // 検索
+     // Search
      @OnError(type = ApplicationException.class, path = "/ss11AC/W11AC0101.jsp")
     public HttpResponse doRW11AC0102(HttpRequest req, ExecutionContext ctx) {
          
-         // 業務処理は省略。
+         // Business process is omitted.
          
-         // 入力精査
+         // Input validation
          ValidationContext<W11AC01SearchForm> searchConditionCtx = ...;
          searchConditionCtx.abortIfInvalid();
          
-         // ListSearchInfoを継承したクラス(UserSearchCondition)をリクエストスコープに設定する。
+         // Set the class (UserSearchCondition) that has inherited ListSearchInfo to the request scope.
          UserSearchCondition condition = searchConditionCtx.createObject();
          ctx.setRequestScopedVar("11AC_W11AC01", condition);
          
-         // 検索実行
+         // Execute search
          SqlResultSet searchResult = null;
          try {
              searchResult = search("SELECT_USER_BY_CONDITION", condition);
@@ -226,7 +226,7 @@ ListSearchInfoを継承したクラス(W11AC01SearchForm)とアクション(W11A
                  MessageUtil.createMessage(MessageLevel.ERROR, "MSG00024", e.getMaxResultCount()));
          }
          
-         // 検索結果をリクエストスコープに設定
+         // Set the search results to the request scope
          ctx.setRequestScopedVar("searchResult", searchResult);
          
          return new HttpResponse("/ss11AC/W11AC0101.jsp");
@@ -238,63 +238,63 @@ ListSearchInfoを継承したクラス(W11AC01SearchForm)とアクション(W11A
 .. _ListSearchResult_ListSearchResultTag:
 
 ---------------------------
-listSearchResultタグ
+listSearchResult tag
 ---------------------------
-:ref:`ListSearchResult_Tag` は、検索結果のリスト表示を行うタグである。\
-listSearchResultタグで出力する画面要素を下記に示す。 
+The :ref:`ListSearchResult_Tag` tag displays the list of search results.
+The screen elements output by the listSearchResult tag are shown below.
 
 
 .. image:: ./_images/ListSearchResult_PagingTableFull.jpg
    :scale: 60
 
 
-listSearchResultタグの主要な属性
-=====================================
-listSearchResultタグの主要な属性を下記に示す。全ての属性の詳細については、 :ref:`ListSearchResult_Tag` を参照。
+Main attributes of the listSearchResult tag
+=============================================
+The main attributes of the listSearchResult tag are shown below. For more information on all the attributes, see :ref:`ListSearchResult_Tag`.
 
-resultSetName属性で指定された検索結果がリクエストスコープに存在しない場合、listSearchResultタグは何も出力しない。\
-検索画面の初期表示が何も出力されないケースに該当する。
+If the search result specified by the resultSetName attribute does not exist in the request scope, the listSearchResult tag will not output anything.
+This corresponds to the case where the initial display of the search screen does not output anything.
 
-====================================== ==========================================================================================
-属性                                   説明
-====================================== ==========================================================================================
-全体
----------------------------------------------------------------------------------------------------------------------------------
-listSearchInfoName                     ListSearchInfoをリクエストスコープから取得する際に使用する名前。|br|
-                                       指定がない場合は「検索結果件数」および「ページング」を表示しない。|br|
-                                       一括削除確認画面など、一覧表示のみを行う場合は指定しない。
-検索結果件数
----------------------------------------------------------------------------------------------------------------------------------
-useResultCount                         検索結果件数を表示するか否か。|br|
-                                       デフォルトはtrue。
-ページング
----------------------------------------------------------------------------------------------------------------------------------
-usePaging                              ページングを表示するか否か。|br|
-                                       デフォルトはtrue。|br|
-searchUri                              ページングのサブミット要素に使用するURI。|br|
-                                       ページングを表示する場合は必ず指定すること。
-検索結果
----------------------------------------------------------------------------------------------------------------------------------
-resultSetName(必須)                    検索結果をリクエストスコープから取得する際に使用する名前。|br|
-headerRowFragment(必須)                ヘッダ行のJSPフラグメント。ヘッダ行については、 :ref:`ListSearchResult_TableElement` を参照。|br|
-bodyRowFragment(必須)                  ボディ行のJSPフラグメント。ボディ行については、 :ref:`ListSearchResult_TableElement` を参照。
-====================================== ==========================================================================================
+====================================== ===========================================================================================================================
+Attribute                              Description
+====================================== ===========================================================================================================================
+Overall
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+listSearchInfoName                     Name used to acquire ListSearchInfo from the Request scope.  |br|
+                                       If not specified, "Number of search results" and "Paging" are not displayed.  |br|
+                                       Do not specify when displaying only a list such as batch deletion confirmation screen.
+Search result list
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+useResultCount                         Whether to display the number of search results.  |br|
+                                       Default is true.
+Paging
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+usePaging                              Whether to display paging.  |br|
+                                       Default is true.  |br|
+searchUri                              URI to use for the paging submit element.  |br|
+                                       Must be specified when paging is displayed.
+Search result
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+resultSetName (required)               Name used to acquire the search results from the request scope.  |br|
+headerRowFragment (required)           JSP fragment of the header row. For more information on the header row, see :ref:`ListSearchResult_TableElement`  |br|
+bodyRowFragment (required)             JSP fragment for the body row. For information on the body row, see :ref:`ListSearchResult_TableElement`
+====================================== ===========================================================================================================================
 
 .. _ListSearchResult_ResultCountElement:
 
-検索結果件数
+Search result list
 =====================================
-検索結果件数は、useResultCount属性にtrue(デフォルトはtrue)が指定され、検索結果がリクエストスコープに存在する場合に表示される。\
-検索結果件数は、デフォルトでは下記の書式で出力される。
+The number of search results is displayed when true (default is true) is specified in the useResultCount attribute and the search results exist in the request scope.
+By default, the number of search results is output in the following format.
 
 .. code-block:: jsp
 
- 検索結果 <%-- ListSearchInfoのresultCountプロパティ --%>件
+ Search results <%-- resultCount property of ListSearchInfo --%>Record
 
-デフォルトの書式を変更したい場合は、resultCountFragment属性にJSPフラグメントを指定する。\
-resultCountFragment属性の指定例を下記に示す。\
-JSPフラグメントは、カスタムタグから呼び出されて評価されるため、listSearchInfoName属性で指定した名前を使用して\
-ListSearchInfoオブジェクトにアクセスすることが可能となる。
+To change the default format, specify the JSP fragment in the resultCountFragment attribute.
+An example of specifying the resultCountFragment attribute is shown below.
+Since the JSP fragment is called from a custom tag for evaluation, the ListSearchInfo object can be accessed
+using the name specified in the listSearchInfoName attribute.
 
 .. code-block:: jsp
 
@@ -302,28 +302,28 @@ ListSearchInfoオブジェクトにアクセスすることが可能となる。
                      searchUri="/action/ss11AC/W11AC01Action/RW11AC0102"
                      resultSetName="searchResult">
      
-     <%-- resultCountFragment属性にJSPフラグメントを指定する。 --%>
+     <%-- Specify the JSP fragment in the resultCountFragment attribute. --%>
      <jsp:attribute name="resultCountFragment">
-        [サーチ結果 <n:write name="searchCondition.resultCount" />頁]
+        [Search results <n:write name="searchCondition.resultCount" />page]
      </jsp:attribute>
      
-     <%-- その他の属性は省略。 --%>
+     <%-- Other attributes are omitted. --%>
      
  </nbs:listSearchResult>
 
-上記指定後の検索結果件数の書式を下記に示す。
+The format for the number of search results after the specification mentioned above is as follows.
 
 .. code-block:: jsp
 
- [サーチ結果 <%-- ListSearchInfoのresultCountプロパティ --%>頁]
+ [Search results <%-- resultCount property of ListSearchInfo --%> page]
 
 .. _ListSearchResult_PagingElement:
 
-ページング
+Paging
 =====================================
-ページングは、usePaging属性にtrue(デフォルトはtrue)が指定された場合に表示される。\
-ページングの画面要素を下記に示す。\
-ページングは、現在のページ番号とページを移動するためのサブミット要素から構成される。
+Paging is displayed when the usePaging attribute is specified as true (the default is true).
+The paging screen elements are shown below.
+Paging consists of the current page number and the submit elements for moving the page.
 
 |
 
@@ -332,37 +332,37 @@ ListSearchInfoオブジェクトにアクセスすることが可能となる。
 
 |
 
-ページング全体は、検索結果件数が1件以上の場合に表示される。\
-ページング全体が表示される前提で、ページングの画面要素の表示について下記に示す。
+The entire paging is displayed when the number of search results is 1 or more.
+Assuming that the entire paging is displayed, the paging screen elements are as shown below.
 
-====================================== ==========================================================================================
-ページングの画面要素                   説明
-====================================== ==========================================================================================
-現在のページ番号                       現在のページ番号は常に表示される。
-最初、前へ、次へ、最後                 現在のページ番号から各画面要素が示すページに遷移可能な場合は、サブミット可能な状態で表示される。
-                                       遷移不可の場合は、リンクであればラベル、ボタンであれば使用不可な状態で表示される。
-ページ番号                             ページ番号全体(1..n)は、総ページ数が2以上の場合のみ表示される。
-                                       各ページ番号は、上記の「最初」や「前へ」と同様に、遷移可否に応じて表示される。
-====================================== ==========================================================================================
+====================================== ==============================================================================================================================================
+Paging screen element                   Description
+====================================== ==============================================================================================================================================
+Current page number                     The current page number is always displayed.
+First, Previous, Next, Last             If moving from the current page number to a page indicated by each screen element is possible, it is displayed as submittable.
+                                        When it is not possible to move, a link is displayed as a label and a button is displayed as disabled.
+Page number                             All page numbers (1..n) are displayed only when the total number of pages is 2 or more.
+                                        As in the case of “First” or “Previous” mentioned above, each page number is displayed according to whether moving is possible or not.
+====================================== ==============================================================================================================================================
 
-ページングの画面要素で指定可能な属性のうち、代表的なものを下記に示す。
-全ての属性の詳細については、 :ref:`ListSearchResult_Tag` を参照。
+The typical attributes that can be specified by the paging screen elements are as follows.
+For more information on all the attributes, see :ref:`ListSearchResult_Tag`.
 
-* 各画面要素の使用有無
-* 各画面要素のラベル(最初、前へ、次へ、最後など)
+* Whether or not each screen element can be used
+* Label for each screen element (such as first, previous, next, last)
 
- * 現在のページ番号はJSPフラグメントによる変更
- * ページ番号はページ番号をラベルに使用するため変更不可
+ * Current page number that is changed by the JSP fragment
+ * Page numbers that cannot be changed because they use the page number for the label
 
-* 各サブミット要素に使用するタグ(n:submitLink、n:submit、n:buttonのいずれか)
+* Tags used for each submit element (either n:submitLink, n:submit, n:button)
 
-**ページング時の検索条件**
+**Search conditions when paging**
 
-ページング時の検索条件は、前回検索時の条件（現在表示されている検索結果を取得した時の条件）を使用する。
-つまり、検索条件を変更してからページングを行った場合には、変更した検索条件の値は破棄されることを意味する。
+The search conditions when paging uses conditions from the previous search (the conditions from the time when the currently displayed search results were obtained).
+This means that when paging is performed after changing the search conditions, the changed values of the search condition are discarded.
 
-検索条件の維持は、画面間で入力値を持ち回る場合と同様に、ウィンドウスコープを使用して実現する。\
-このため、検索条件と検索結果一覧を一つの画面に配置する場合、検索条件と検索結果一覧のフォームを分けて実装する必要がある。
+The search conditions can be maintained using a windowscope, similar to when input values are carried between screens.
+Therefore, when search conditions and a list of search results are arranged on a single screen, it is necessary to implement the forms for search conditions and list of search results separately.
 
 |
 
@@ -371,17 +371,17 @@ ListSearchInfoオブジェクトにアクセスすることが可能となる。
 
 |
 
-**ページング使用時に検索結果が減少した場合の動作**
+**What to do when search results are reduced when using paging**
 
-ここでは、ページングの各サブミット要素で検索結果ページを切り替えてる最中に、他のユーザオペレーションなどにより、\
-検索結果が減少した場合の動作について解説する。
+This section describes what to do when the search results are reduced due to other user operations
+while switching the search result page with each paging submit element.
 
-本フレームワークでは、指定されたページ番号に基づき検索を実施し、ページングの各画面要素の表示を行う。\
-下記に検索結果が減少した場合のページングの動作例を示す。
+This framework performs a search based on the specified page number and displays each paging screen element.
+The following is an example of the paging operation when the number of search results is reduced.
 
-前提として、検索結果の取得件数(1ページの表示件数)は20件とする。
+As a prerequisite, the number of acquired search results (number displayed per page) is 20 results.
 
-まず、検索を実行し検索結果が44件であったとする。下記は3ページ目を選択した後のページングの表示である。
+First, assume that a search is performed and the search results are 44 results. Below is the paging display after the third page is selected.
 
 |
 
@@ -390,8 +390,8 @@ ListSearchInfoオブジェクトにアクセスすることが可能となる。
 
 |
 
-次に2ページ目(又は前へ)を選択した後、かつ検索結果が10件に減少した場合のページングの表示と表示内容の説明を示す。\
-2ページ目に対する検索結果としてページングの各画面要素が表示される。
+The paging display and description of the contents displayed when the second page (or the previous page) is selected and the number of search results is reduced to 10 is described next.
+Each paging screen element is displayed as a search result for the second page.
 
 |
 
@@ -400,20 +400,20 @@ ListSearchInfoオブジェクトにアクセスすることが可能となる。
 
 |
 
-====================================== ==========================================================================================
-ページングの画面要素                   表示内容の説明
-====================================== ==========================================================================================
-現在のページ番号                       2ページ目が指定され、検索結果が20件以下のため、2/1ページとなる。
-最初、前へ                             現在2ページ目で検索結果が10件のため、前のページに遷移可能となりリンクで表示される。
-次へ、最後                             現在2ページ目で検索結果が10件のため、次のページに遷移不可となりラベルで表示される。
-ページ番号                             検索結果が10件で総ページ数が1のため、ページ番号は表示されない。
-====================================== ==========================================================================================
+====================================== ===========================================================================================================================================
+Paging screen element                  Description of the contents displayed
+====================================== ===========================================================================================================================================
+Current page number                    Since the second page has been specified and the search results are 20 results or less, it becomes page 2/1 (2 of 1).
+First, Previous                        Since there are currently 10 search results on the second page, it is possible to move to the previous page which is displayed as a link.
+Next, Last                             Since there are currently 10 search results on the second page, it is not possible to move to the next page which is displayed as a label
+Page number                            The page number is not displayed since there are 10 search results and the total number of pages is 1.
+====================================== ===========================================================================================================================================
 
-現在のページ番号とサブミット要素の対応が取れているため、操作不能な状態にならず、\
-サブミット要素を選択することで検索結果のページに遷移することが可能である。\
-(もちろん検索フォームから検索しなおせば、1ページ目からの検索結果となる)
+Since the current page number and the submit element correspond to each other, it is possible to move to the search results page
+by selecting the submit element without it becoming inoperable.
+(Of course, if you perform a search again from the search form, the search results will be from the first page.)
 
-次に「前へ」を選択した後のページングの表示を示す。現在のページ番号と総ページ数の対応が正常な状態に戻る。
+The paging display after selecting "Previous" is shown next. The correspondence between the current page number and the total number of pages returns to normal.
 
 |
 
@@ -424,63 +424,63 @@ ListSearchInfoオブジェクトにアクセスすることが可能となる。
 
 .. _ListSearchResult_TableElement:
 
-検索結果
+Search result
 =====================================
-検索結果の画面要素を下記に示す。\
-検索結果は、列見出しを表示するヘッダ行と、行データを表示するボディ行から構成される。
+The screen elements of the search result are shown below.
+The search result consists of a header row that displays column headings, and a body row that displays row data.
 
 .. image:: ./_images/ListSearchResult_TableFull.jpg
    :scale: 60
 
-検索結果は、検索結果がリクエストスコープに存在する場合は常に表示される。\
-検索結果が0件の場合は、ヘッダ行のみ表示される。
+The search results are always displayed when they are in the request scope.
+When the search result is 0, only the header row is displayed.
 
-ヘッダ行とボディ行は、それぞれheaderRowFragment属性、bodyRowFragment属性にJSPフラグメントで指定する。\
-ボディ行のJSPフラグメントは、検索結果のループ内(JSTLのc:forEachタグ)で呼び出され評価される。\
-このため、ボディ行のJSPフラグメントで行データ(c:forEachタグのvar属性)とステータス(c:forEachタグのstatus属性)にアクセスするために、\
-下記の属性を設けている。
+The header row and body row are specified in the headerRowFragment attribute and bodyRowFragment attributes in the JSP fragment.
+The JSP fragment in the body row is called and evaluated in the search result loop (c:forEach tag of JSTL).
+Hence, the following attributes are provided to access the row data (var attribute of the c:forEach tag) and status (status attribute of the c:forEach tag)
+in the JSP fragment of the body row.
 
-====================================== ==========================================================================================
-属性                                   説明
-====================================== ==========================================================================================
-varRowName                             ボディ行のフラグメントで行データ(c:forEachタグのvar属性)を参照する際に使用する変数名。|br|
-                                       デフォルトは"row"。|br|
-varStatusName                          ボディ行のフラグメントでステータス(c:forEachタグのstatus属性)を参照する際に使用する変数名。|br|
-                                       デフォルトは"status"。
+====================================== ====================================================================================================================================
+Attribute                               Description
+====================================== ====================================================================================================================================
+varRowName                             Variable name used when referring to row data (var attribute of the c:forEach tag) in the body row fragment.  |br|
+                                       Default is "row".  |br|
+varStatusName                          Variable name used when referring to the status (status attribute of the c:forEach tag) in the body row fragment.  |br|
+                                       Default is "status".
                                        
                                        .. tip::
                                        
-                                        n:writeタグを使用してステータスにアクセスすると、n:writeタグとEL式でアクセス方法が異なるために\
-                                        エラーが発生し値を取得できない。\
-                                        n:setタグを使用してステータスにアクセスすることで、このエラーを回避できる。\
-                                        下記に使用例を示す。
+                                        When accessing the status using the n:write tag, an error occurs and the value cannot be obtained
+                                        since the access method differs between the n:write tag and the EL expression.
+                                        This error can be avoided by using the n:set tag to access the status.\
+                                        An example of its use is shown below.
                                         
                                         .. code-block:: jsp
                                         
                                          <n:set var="rowCount" value="${status.count}" />
                                          <n:write name="rowCount" />
                                        
-varCountName                           ステータス(c:forEachタグのstatus属性)のcountプロパティを参照する際に使用する変数名。|br|
-                                       デフォルトは"count"。|br|
-varRowCountName                        検索結果のカウント(検索結果の取得開始位置＋ステータスのカウント)を参照する際に使用する変数名。|br|
-                                       デフォルトは"rowCount"。
-====================================== ==========================================================================================
+varCountName                           Variable name used when referring to the count property of the status (status attribute of the c:forEach tag).  |br|
+                                       Default is "count".  |br|
+varRowCountName                        Variable name used when referring to the search result count (start position of search result acquisition + status count).  |br|
+                                       Default is "rowCount".
+====================================== ====================================================================================================================================
 
-さらに、ボディ行では、1行おきに背景色を変えたい場合に対応するために、ボディ行のclass属性を指定する下記の属性を設けている。
+In addition, the following attributes are provided in the body row that specify the class attribute for changing the background color of every other row.
 
-====================================== ==========================================================================================
-属性                                   説明
-====================================== ==========================================================================================
-varOddEvenName                         ボディ行のclass属性を参照する際に使用する変数名。|br|
-                                       この変数名は、1行おきにclass属性の値を変更したい場合に使用する。|br|
-                                       デフォルトは"oddEvenCss"。|br|
-oddValue                               ボディ行の奇数行に使用するclass属性。|br|
-                                       デフォルトは"nablarch_odd"。|br|
-evenValue                              ボディ行の偶数行に使用するclass属性。|br|
-                                       デフォルトは"nablarch_even"。
-====================================== ==========================================================================================
+====================================== ==============================================================================================
+Attribute                              Description
+====================================== ==============================================================================================
+varOddEvenName                         Variable name used when referring to the class attribute of the body row.  |br|
+                                       This variable name is used to change the value of the class attribute every other row.  |br|
+                                       Default is "oddEvenCss".  |br|
+oddValue                               The class attribute to use for odd lines of body.  |br|
+                                       Default is "nablarch_odd".  |br|
+evenValue                              The class attribute to use for even lines of body.  |br|
+                                       Default is "nablarch_even".
+====================================== ==============================================================================================
 
-ユーザ検索の指定例を下記に示す。タグファイルのプレフィックスは nbs とする。
+An example of user search specifications is shown below. The tag file prefix should be nbs.
 
 .. code-block:: jsp
 
@@ -488,25 +488,25 @@ evenValue                              ボディ行の偶数行に使用するcl
                        searchUri="/action/ss11AC/W11AC01Action/RW11AC0102"
                        resultSetName="searchResult">
      
-     <%-- ヘッダ行のJSPフラグメント指定。 --%>
+     <%-- Specification of JSP fragment for the header row. --%>
      <jsp:attribute name="headerRowFragment">
          <tr>
-             <th>ログインID</th>
-             <th>漢字氏名</th>
-             <th>カナ氏名</th>
-             <th>グループ</th>
-             <th>内線番号</th>
-             <th>メールアドレス</th>
+             <th>Login ID</th>
+             <th> Kanji name</th>
+             <th> Kana name</th>
+             <th>Group </th>
+             <th>Extension number </th>
+             <th>Email address</th>
          </tr>
      </jsp:attribute>
      
-     <%-- ボディ行のJSPフラグメント指定。 --%>
+     <%-- Specify the JSP fragment for the body row. --%>
      <jsp:attribute name="bodyRowFragment">
      
-         <%-- デフォルトの変数名"oddEvenCss"を使用してclass属性にアクセスする。 --%>
+         <%-- Access the class attribute using the default variable name "oddEvenCss". --%>
          <tr class="<n:write name='oddEvenCss' />">
          
-             <%-- デフォルトの変数名"row"を使用して行データにアクセスする。 --%>
+             <%-- Access the row data using the default variable name "row". --%>
              <td>[<n:write name="count" />]<br/>[<n:write name="rowCount" />]<br/><n:write name="row.loginId" /></td>
              <td><n:write name="row.kanjiName" /></td>
              <td><n:write name="row.kanaName" /></td>
@@ -518,7 +518,7 @@ evenValue                              ボディ行の偶数行に使用するcl
      </jsp:attribute>
  </nbs:listSearchResult>
 
-上記指定後の検索結果を下記に示す。
+The search results after the above specifications are shown below.
 
 
 .. image:: ./_images/ListSearchResult_TableStatus.jpg
@@ -527,116 +527,116 @@ evenValue                              ボディ行の偶数行に使用するcl
 .. _ListSearchResult_Sort:
 
 --------------------------------
-検索結果の並び替え
+Sort search results
 --------------------------------
-検索結果の一覧表示では、列見出しを選択することで選択された列データによる並び替えを行いたい場合がある。\
-検索結果の並び替えは、並び替え用の列見出しを出力する :ref:`ListSearchResult_ListSearchSortSubmitTag` と、\
-データベースアクセス機能が提供する可変ORDER BY構文(ORDER BY句を動的に変更する構文)を使用した検索処理により実現する。\
-可変ORDER BY構文の詳細については、フレームワークの解説書を参照。
+You may want to sort data in the list display of search results according to the selected column data by selecting the column heading.
+The search results can be sorted through the search process using the :ref:`ListSearchResult_ListSearchSortSubmitTag`,
+which outputs the column headings for reordering, and the variable ORDER BY syntax (the syntax to change the ORDER BY clause dynamically) provided by the database access function.
+For more information about the variable ORDER BY syntax, see the framework documentation.
 
-ユーザ検索に並び替えを適用した場合の画面イメージを下記に示す。\
-ユーザ検索では、漢字氏名とカナ氏名による並び替えを提供している。
+The screen image when sorting is applied to the user search is shown below.
+The user search provides sorting by kanji name and kana name.
 
 .. image:: ./_images/ListSearchResult_SortSubmitTag.jpg
    :scale: 60
 
-ここでは、ユーザ検索に並び替えを適用する場合の実装例を使用して解説を行う。
+This section describes an implementation example in which sorting is applied to user search.
 
-検索処理の実装方法
-===============================
-検索結果の並び替えを行うには、可変ORDER BY構文を使用してSQL文を定義する。\
-可変ORDER BY構文を使用したSQL文の例を下記に示す。
+How to implement the search process
+=====================================
+To sort the search results, define an SQL statement using the variable ORDER BY syntax.
+The following is an example of an SQL statement using variable ORDER BY syntax.
 
-下記のSQL文では、漢字氏名とカナ氏名を並び替えるための可変ORDER BY句を使用している。
-どのORDER BYを使用するかは、$sort (sortId)の記述により、検索条件オブジェクトのsortIdフィールドから取得した値が使用される。\
-例えば、検索条件オブジェクトのsortIdフィールドが kanaName_asc の場合、ORDER BY句は"ORDER BY USR.KANA_NAME, SA.LOGIN_ID"に変換される。
+In the SQL statement below, the variable ORDER BY clause is used to sort kanji names and kana names.
+To determine which ORDER BY to use, the value obtained from the sortId field of the search condition object is used, as described in $sort (sortId).\
+For example, if the sortId field of the search condition object is kanaName_asc, the ORDER BY clause is converted to "ORDER BY USR.KANA_NAME, SA.LOGIN_ID".
 
 .. code-block:: sql
 
- -- 可変ORDER BY構文を使用したSQL文
+ -- SQL statement using variable ORDER BY syntax
  SELECT
-   -- 省略
+   -- Omitted
  FROM
-     -- 省略
+     -- Omitted
  WHERE
-     -- 省略
+     -- Omitted
  $sort (sortId) {
     (kanjiName_asc  USR.KANJI_NAME, SA.LOGIN_ID)
     (kanjiName_desc USR.KANJI_NAME DESC, SA.LOGIN_ID)
     (kanaName_asc   USR.KANA_NAME, SA.LOGIN_ID)
     (kanaName_desc  USR.KANA_NAME DESC, SA.LOGIN_ID) }
 
-ListSearchInfoクラスは、並び替えに対応するためにsortIdプロパティを定義している。\
-検索結果の並び替えを行う場合は、sortIdプロパティを入力精査に含める。\
-ListSearchInfoを継承したクラス(W11AC01SearchForm)の実装例を下記に示す。
+The ListSearchInfo class defines sortId property to support sorting.
+The sortId property is included in the input validation when sorting the search results.
+An implementation example of a class (W11AC01SearchForm) that inherits from ListSearchInfo is shown below.
 
 .. code-block:: java
 
- // ListSearchInfoを継承したクラス。
+ // Class that inherits from ListSearchInfo.
  public class W11AC01SearchForm extends ListSearchInfo {
      
-     // 検索条件のプロパティ定義は省略。
+     // Property definition of the search condition is omitted.
      
-     // バリデーション機能に対応したコンストラクタ。
+     // Constructors corresponding to the validation function.
      public W11AC01SearchForm(Map<String, Object> params) {
      
-        // 検索条件のプロパティ設定は省略。
+        // Property configuration of the search condition is omitted.
         
-        // ListSearchInfoのsortIdプロパティを設定する。
+        // Sets the sortId property of ListSearchInfo.
         setSortId((String) params.get("sortId"));
      }
      
-     // オーバーライドして入力精査用のアノテーションを付加する。
-     @PropertyName("ソートID")
+     // Override and add an annotation for input validation.
+     @PropertyName("Sort ID")
      @Required
      public void setSortId(String sortId) {
          super.setSortId(sortId);
      }
      
-     /** 精査対象プロパティ(検索条件のプロパティは省略) */
+     /** Properties to be validated (search condition properties are omitted) */
      private static final String[] SEARCH_COND_PROPS = new String[] { ..., "sortId"};
      
-     // オーバーライドして検索条件のプロパティ名を返す。
-     // 通常は精査対象プロパティと同じとなる。
-     // ページングの各サブミット要素が検索条件をサブミットする際に使用する。
+     // Override and return the property name of the search condition.
+     // Usually the same as the property under validation.
+     // Used by each paging submit element when submitting search conditions.
      public String[] getSearchConditionProps() {
          return SEARCH_COND_PROPS;
      }
  }
 
-listSearchSortSubmitタグ
+listSearchSortSubmit tag
 ===============================
-listSearchSortSubmitタグは、並び替え用のサブミット要素を出力する。
+The listSearchSortSubmit tag outputs submit elements for sorting.
 
-listSearchSortSubmitタグの必須属性及び代表的な属性を下記に示す。\
-listSearchSortSubmitタグで指定できる全ての属性については、 :ref:`ListSearchResult_ListSearchSortSubmitTag` を参照。
+The required attributes and typical attributes of the listSearchSortSubmit tag are shown below.
+For a list of all the attributes that can be specified with the listSearchSortSubmit tag, see :ref:`ListSearchResult_ListSearchSortSubmitTag`.
 
 ====================================== ==========================================================================================
-属性                                   説明
+Attribute                              Description
 ====================================== ==========================================================================================
-sortCss                                並び替えを行うサブミットのclass属性。|br|
-                                       常にサブミットのclass属性に出力される。|br|
-                                       デフォルトは"nablarch_sort"。
-ascCss                                 昇順に並び替えた場合に指定するサブミットのclass属性。|br|
-                                       sortCss属性に付加するかたちで出力される。|br|
-                                       デフォルトは"nablarch_asc"。(出力例: class="nablarch_sort nablarch_asc")
-descCss                                降順に並び替えた場合に指定するサブミットのclass属性。|br|
-                                       sortCss属性に付加するかたちで出力される。|br|
-                                       デフォルトは"nablarch_desc"。(出力例: class="nablarch_sort nablarch_desc")
-ascSortId(必須)                        昇順に並び替える場合のソートID。
-descSortId(必須)                       降順に並び替える場合のソートID。
-defaultSort                            デフォルトのソートID。|br|
-                                       下記のいずれかを指定する。|br|
-                                       asc(昇順) |br|
-                                       desc(降順) |br|
-                                       デフォルトは"asc"。
-label(必須)                            並び替えを行うサブミットに使用するラベル。
-name(必須)                             並び替えを行うサブミットに使用するタグのname属性。|br|
-                                       name属性は、画面内で一意にすること。
-listSearchInfoName(必須)               ListSearchInfoをリクエストスコープから取得する際に使用する名前。
+sortCss                                Class attribute of the submit to sort.  |br|
+                                       It is always output in the submit class attribute.  |br|
+                                       Default is "nablarch_sort".
+ascCss                                 Submit class attribute specified when sorting in the ascending order.  |br|
+                                       It is output by adding to the sortCss attribute.  |br|
+                                       Default is "nablarch_asc".(Output example: class="nablarch_sort nablarch_asc")
+descCss                                Submit class attribute specified when sorting in the descending order.  |br|
+                                       It is output by adding to the sortCss attribute.  |br|
+                                       Default is "nablarch_desc".(Output example: class="nablarch_sort nablarch_desc")
+ascSortId (required)                   Sort ID when sorting in ascending order.
+descSortId (required)                  Sort ID when sorting in descending order.
+defaultSort                            Default sort ID.  |br|
+                                       Specify one of the following.  |br|
+                                       asc(ascending)  |br|
+                                       desc(descending)  |br|
+                                       default is"asc".
+label (required)                       Label to use for the submit to sort.
+name (required)                        Name attribute of the tag used to submit the sort.  |br|
+                                       The name attribute should be unique in the screen.
+listSearchInfoName (required)          Name used to acquire ListSearchInfo from the Request scope.
 ====================================== ==========================================================================================
 
-listSearchSortSubmitタグを使用したJSPの実装例を下記に示す。タグファイルのプレフィックスは nbs とする。
+An implementation example of JSP using the listSearchSortSubmit tag is shown below. The tag file prefix should be nbs.
 
 .. code-block:: jsp
 
@@ -647,69 +647,69 @@ listSearchSortSubmitタグを使用したJSPの実装例を下記に示す。タ
                      useLastSubmit="true">
      <jsp:attribute name="headerRowFragment">
          <tr>
-             <%-- 漢字氏名以外の列は省略。 --%>
+             <%-- Columns except for Kanji name are omitted. --%>
              <th>
-                 <%-- 漢字氏名を並び替え用のリンクにする。--%>
-                 <%-- SQL文に合わせて昇順(kanjiName_asc)と降順(kanjiName_desc)のソートIDを指定する。 --%>
+                 <%-- Set Kanji name as a link for sorting.--%>
+                 <%-- Specify sort ID for ascending (kanjiName_asc) and descending (kanjiName_desc) according to the SQL statement. --%>
                  <nbs:listSearchSortSubmit ascSortId="kanjiName_asc" descSortId="kanjiName_desc"
-                                         label="漢字氏名" uri="/action/ss11AC/W11AC01Action/RW11AC0102"
+                                         label="Kanji name" uri="/action/ss11AC/W11AC01Action/RW11AC0102"
                                          name="kanjiNameSort" listSearchInfoName="11AC_W11AC01" />
              </th>
          </tr>
      </jsp:attribute>
      <jsp:attribute name="bodyRowFragment">
-         <%-- 省略 --%>
+         <%-- Omitted --%>
      </jsp:attribute>
  </nbs:listSearchResult>
 
-並び替えのサブミット要素では、検索フォームから検索された時点の検索条件を使用して検索を実行する。\
-ページング使用時の検索条件と同様に、ウィンドウスコープを使用して検索条件を維持する。
+The sort submit elements executes the search using the search conditions when searching from the search form.
+Similar to search conditions when using paging, use a window scope to maintain the search conditions.
 
-並び替えのサブミット要素では、常に先頭ページ(ページ番号:1)を検索する。\
-並び替えが変更された場合、検索前のページ番号は異なる並び順に対する相対位置となり、\
-検索後に意味のあるページ位置とならないためである。
+The sort submit elements alway search the first page (page number: 1).
+This is because if the sorting is changed, the page number before the search becomes a relative position
+to the different order and not a meaningful page position after the search.
 
 
-**現在の並び替え状態に応じたlistSearchSortSubmitタグの動作**
+**How the listSearchSortSubmit tag functions according to the current sort status**
 
-listSearchSortSubmitタグは、現在の並び替え状態に応じて下記の値を決定する。\
-現在の並び替え状態は、検索に使用されたソートIDとなる。
+The listSearchSortSubmit tag determines the following values according to the current sort status.
+The current sort status is the sort ID used for the search.
 
-* サブミット要素が選択された場合にリスエスト送信するソートID
-* 昇順又は降順に応じてサブミット要素に指定するCSSクラス
+* Sort ID to be sent as a request when a submit element is selected
+* CSS class specified in the submit element according to ascending or descending order
 
-ここでは、下記の実装例を前提に、listSearchSortSubmitタグの動作を解説する。\
+This section describes the operation of the listSearchSortSubmit tag on the basis of the following implementation example.
 
 .. code-block:: jsp
 
- <%-- 漢字氏名を並び替え用のリンクにする。--%>
- <%-- SQL文に合わせて昇順(kanjiName_asc)と降順(kanjiName_desc)のソートIDを指定する。 --%>
+ <%-- Set Kanji name as a link for sorting.--%>
+ <%-- Specify sort ID for ascending (kanjiName_asc) and descending (kanjiName_desc) according to the SQL statement. --%>
  <nbs:listSearchSortSubmit ascSortId="kanjiName_asc" descSortId="kanjiName_desc"
-                           label="漢字氏名" uri="/action/ss11AC/W11AC01Action/RW11AC0102"
+                           label="Kanji name" uri="/action/ss11AC/W11AC01Action/RW11AC0102"
                            name="kanjiNameSort" listSearchInfoName="11AC_W11AC01" />
 
 
-==================================================== ================================================================================================== ======================================================================================================
-検索に使用されたソートID                             リクエスト送信するソートID                                                                         使用されるCSSクラス
-==================================================== ================================================================================================== ======================================================================================================
-kanjiName_asc                                        ascSortId属性(=kanjiName_asc)と等しいため、descSortId属性の値(=kanjiName_desc)を使用する。         ascSortId属性(=kanjiName_asc)と等しいため、ascCss属性の値(nablarch_asc)を使用する。
-kanjiName_desc                                       descSortId属性(=kanjiName_desc)と等しいため、ascSortId属性の値(=kanjiName_asc)を使用する。         descSortId属性(=kanjiName_desc)と等しいため、descCss属性の値(nablarch_desc)を使用する。
-漢字氏名とは異なる列のソートID                       ascSortId属性(=kanjiName_asc)及びdescSortId属性(=kanjiName_desc)に等しくないため、\                ascSortId属性(=kanjiName_asc)及びdescSortId属性(=kanjiName_desc)に等しくないため、指定する値はなし。
-                                                     defaultSortId属性の値(=asc)に応じて、ascSortId属性の値(=kanjiName_asc)を使用する。  
-==================================================== ================================================================================================== ======================================================================================================
+==================================================== ============================================================================================================================== =======================================================================================================================================
+Sort ID used for the search                          Sort ID to send a request                                                                         CSS class used
+==================================================== ============================================================================================================================== =======================================================================================================================================
+kanjiName_asc                                        The value of the descSortId attribute (=kanjiName_desc) is used since it is equal to the ascSortId attribute (=kanjiName_asc). The value of the ascCss attribute (nablarch_asc) is used since it is equal to the ascSortId attribute (=kanjiName_asc).
+kanjiName_desc                                       The value of the ascSortId attribute (=kanjiName_asc) is used since it is equal to the descSortId attribute (=kanjiName_desc). The value of the descCss attribute (nablarch_desc) is used since it is equal to the descSortId attribute (=kanjiName_desc).
+Sort ID of the column different from the kanji name  Since it is not equal to the ascSortId attribute (=kanjiName_asc) and descSortId attribute (=kanjiName_desc),                  No value to be specified since it is not equal to the ascSortId attribute (=kanjiName_asc) and descSortId attribute (=kanjiName_desc).
+                                                     the value of the ascSortId attribute (=kanjiName_asc) is used according to the value of the defaultSortId attribute (=asc).
+==================================================== ============================================================================================================================== =======================================================================================================================================
 
 
-**昇順又は降順に応じたCSSの実装例**
+**Implementation example of CSS according to ascending or descending order**
 
-画面イメージのように、並び替え用のリンクに対して、昇順又は降順を明示するイメージを表示したい場合は、\
-CSSにより実現する。CSSの実装例を下記に示す。\
-CSSファイルから参照できる位置にイメージファイルが配置されているものとし、CSSクラス名はデフォルトの名前で定義している。
+CSS is used to display an image that clearly indicates the ascending or descending order of the links for sorting,
+such as a screen image. An implementation example of CSS is shown below.
+It is assumed that the image file is placed in a location that can be referenced from the CSS file, and the CSS class name is defined with the default name.
 
 .. code-block:: css
 
  /*
-  * sortCss属性に対する設定。
-  * sortCss属性のCSSクラス名は常に出力される。
+  * Configuration for sortCss attribute.
+  * CSS class name of the sortCss attribute is always output.
   */
  a.nablarch_sort {
      padding-right: 15px;
@@ -718,16 +718,16 @@ CSSファイルから参照できる位置にイメージファイルが配置�
  }
  
  /*
-  * ascCss属性に対する設定。
-  * ascCss属性のCSSクラス名はサブミット要素が選択され、かつ昇順の場合のみ出力される。
+  * Configuration for ascCss attribute.
+  * CSS class name of the ascCss attribute is output only when the submit elements are selected and are in ascending order.
   */
  a.nablarch_asc {
      background-image: url("../img/asc.jpg");
  }
  
  /*
-  * descCss属性に対する設定。
-  * descCss属性のCSSクラス名はサブミット要素が選択され、かつ降順の場合のみ出力される。
+  * Configuration for descCss attribute.
+  * CSS class name of the descCss attribute is output only when the submit elements are selected and are in descending order.
   */
  a.nablarch_desc {
      background-image: url("../img/desc.jpg");
@@ -735,48 +735,48 @@ CSSファイルから参照できる位置にイメージファイルが配置�
 
 .. _ListSearchResult_NoPaging:
 
--------------------------------------------------------
-1画面にすべての検索結果を一覧表示する場合の実装方法
--------------------------------------------------------
-これまではページングを使用することを前提に解説してきたが、ここでは、1画面にすべての検索結果を一覧表示する場合の実装方法について解説する。
+---------------------------------------------------------------------------------
+How to implement displaying a list of all search results on a single screen
+---------------------------------------------------------------------------------
+Up to now, we have described how to implement on the basis of paging, but the method of implementation where all search results are listed on a single screen is described below.
 
-1画面にすべての検索結果を一覧表示する場合、基本的な実装方法はページングを使用する場合と変わらない。\
-また、検索処理や並び替えの処理もページングを使用する場合と同じ実装方法となる。
+When listing all search results on a single screen, the basic implementation method is the same as with paging.
+In addition, the search and sorting processes are implemented in the same way as with paging.
 
-以下に実装方法を解説する。\
-ページングを使用する場合と同じ、ユーザ検索を行う業務アプリケーションのクラスやJSPを実装例に使用する。
+The implementation method is described below.
+As with paging, the business application class and JSP that perform user search are used in the implementation example.
 
-**ListSearchInfoを継承するクラス(W11AC01SearchForm)の実装例**
+**Implementation example of a class (W11AC01SearchForm) that inherits from ListSearchInfo**
 
 .. code-block:: java
 
- // ListSearchInfoを継承したクラス。
+ // Class that inherits from ListSearchInfo.
  public class W11AC01SearchForm extends ListSearchInfo {
      
-     // 検索条件のプロパティ定義は省略。
+     // Property definition of the search condition is omitted.
      
-     // バリデーション機能に対応したコンストラクタ。
+     // Constructors corresponding to the validation function.
      public W11AC01SearchForm(Map<String, Object> params) {
      
-        // 検索条件のプロパティ設定は省略。
+        // Property configuration of the search condition is omitted.
         
-        // ページングを使用する場合と異なり、ListSearchInfoのpageNumberプロパティの設定は不要。
-        // pageNumberプロパティの初期値は1のため常に1ページ目となる。
+        // Unlike with paging, it is not necessary to configure pageNumber property of ListSearchInfo.
+        // The initial value of the pageNumber property is 1, so it is always the first page.
         
      }
      
-     /** 精査対象プロパティ(検索条件のプロパティのみとなる) */
+     /** Properties to be validated (Only properties of search condition) */
      private static final String[] SEARCH_COND_PROPS = new String[] { ... };
      
-     // オーバーライドして検索条件のプロパティ名を返す。
-     // 通常は精査対象プロパティと同じとなる。
-     // 並び替えの各サブミット要素が検索条件をサブミットする際に使用する。
+     // Override and return the property name of the search condition.
+     // Usually the same as the property under validation.
+     // Used when each sort submit element submits a search condition
      public String[] getSearchConditionProps() {
          return SEARCH_COND_PROPS;
      }
  }
 
-**JSP(ユーザ検索)への遷移を行うActionクラス**
+**Action class that moves to JSP (user search)**
 
 .. code-block:: java
 
@@ -785,35 +785,35 @@ CSSファイルから参照できる位置にイメージファイルが配置�
       @OnError(type = ApplicationException.class, path = "/ss11AC/W11AC0101.jsp")
       public HttpResponse doRW11AC0102(HttpRequest req, ExecutionContext ctx) {
           
-          // 業務処理は省略。
-          // 入力精査省略
+          // Business process is omitted.
+          // Input validation is omitted
           
-          // ListSearchInfo継承クラスを作成。
+          // ListSearchInfo inherited class is created.
           W11AC01SearchForm condition = searchConditionCtx.createObject();
           
-          // 検索結果の取得件数(1ページの表示件数)に検索結果の最大件数(上限)を設定する。
-          // ページングを使用しないため下記の設定が必須となる。
+          // Configure the maximum number of search results (upper limit) to the number search results to be acquired (number of results displayed on one page).
+          // Since paging is not used, the following configuration is required.
           condition.setMax(condition.getMaxResultCount());
           
           
-          // 検索処理省略
+          // Search process is omitted
           
       }
   }
 
 
 
-**JSP(ユーザ検索)の実装例**
+**Implementation example of JSP (user search)**
 
 .. code-block:: jsp
 
- <%-- ページングを使用しないのでusePaging属性にfalseを指定する。 --%>
- <%-- ページングを使用しないのでsearchUri属性の指定は不要。 --%>
+ <%-- Specify false in the usePaging attribute since paging is not used. --%> --%>
+ <%-- Since paging is not used, the searchUri attribute need not be specified. --%>
  <nbs:listSearchResult listSearchInfoName="11AC_W11AC01"
                      usePaging="false"
                      resultSetName="searchResult">
  
-     <%-- その他の属性は省略。 --%>
+     <%-- Other attributes are omitted. --%>
      
  </nbs:listSearchResult>
 
@@ -821,47 +821,47 @@ CSSファイルから参照できる位置にイメージファイルが配置�
 .. _ListSearchResult_DefaultCondition:
 
 -------------------------------------------------------------------------------------------------
-デフォルトの検索条件で検索した結果を初期表示する場合の実装方法
+How to implement the initial display of search results with the default search conditions
 -------------------------------------------------------------------------------------------------
-これまでは、検索画面の初期表示で単に検索条件フォームを表示する前提で説明してきた。
-しかし、検索画面の初期表示にて、デフォルトの検索条件で検索した結果を表示することが求められる場合もある。
+Up to now, this has been described on the premise that the initial display of the search screen simply displays the search conditions form.
+However, there may be a requirement to display the search results using the default search conditions in the initial display of the search screen.
 
-この場合、検索条件がリクエストパラメータとして送信されず、サーバサイドでデフォルトの検索条件を組み立てて検索するため、\
-ページングで使用する検索条件がウィンドウスコープに存在しない状態となる。\
-このため、アクションの初期表示処理にて、デフォルトの検索条件をウィンドウスコープに設定する実装が必要となる。\
-JSPなど、アクションの初期表示処理以外は、通常のページングを使用する場合と実装方法は変わらない。
+In this case, the search conditions are not sent as a request parameter and the default search conditions are assembled on the server side and searched.
+Hence, the search conditions used for paging do not exist in the window scope.
+Therefore, it is essential to set the default search conditions in the window scope in the initial display process of the action.
+The implementation method is the same as with normal paging, except for the initial display of actions such as JSP.
 
-デフォルトの検索条件をウィンドウスコープに設定する処理は、共通処理のため、\
-サンプル実装ではユーティリティ(ListSearchInfoUtil)として提供している。
+Since the process of setting the default search conditions in a window scope is common,
+it has been provided as a utility (ListSearchInfoUtil) in the sample implementation.
 
-以下に実装方法を解説する。\
-ページングを使用する場合と同じ、ユーザ検索を行う業務アプリケーションのクラスやJSPを実装例に使用する。
+The implementation method is described below.
+As with paging, the business application class and JSP that perform user search are used in the implementation example.
 
-**Actionクラスの初期表示処理**
+**Initial display process of the Action class**
 
 .. code-block:: java
 
     public HttpResponse doRW11AC0101(HttpRequest req, ExecutionContext ctx) {
         
-        // 業務処理は省略。
+        // Business process is omitted.
 
-        // フォームを生成しデフォルトの検索条件を設定
+        // Generate form and configure the default search conditions
         W11AC01SearchForm condition = new W11AC01SearchForm();
         condition.setUserIdLocked("0");
         condition.setSortId("kanjiName_asc");
         condition.setDate("20130703");
         condition.setMoney(BigDecimal.valueOf(123456789.12d));
 
-        // デフォルトの検索条件を入力フォームに表示するため、
-        // デフォルトの検索条件をリクエストスコープに設定
+        // To display the default search conditions in the input form,
+        // configure the default search conditions in the request scope
         ctx.setRequestScopedVar("11AC_W11AC01", condition);
 
-        // ページングでデフォルトの検索条件を使用するため、
-        // デフォルトの検索条件をウィンドウスコープに設定。
-        // この設定処理は共通処理のため、ユーティリティを使用。
+        // Since paging uses the default search conditions,
+        // configure the default search conditions in the window scope.
+        // Since this configuration process is common, use the utility.
         ListSearchInfoUtil.setDefaultCondition(req, "11AC_W11AC01", condition);
 
-        // 検索実行
+        // Execute search
         SqlResultSet searchResult;
         try {
             searchResult = selectByCondition(condition);
@@ -869,7 +869,7 @@ JSPなど、アクションの初期表示処理以外は、通常のページ�
             throw new ApplicationException(MessageUtil.createMessage(MessageLevel.ERROR, "MSG00035", e.getMaxResultCount()));
         }
 
-        // 検索結果をリクエストスコープに設定
+        // Set the search results to the request scope
         ctx.setRequestScopedVar("searchResult", searchResult);
         ctx.setRequestScopedVar("resultCount", condition.getResultCount());
 
@@ -878,73 +878,73 @@ JSPなど、アクションの初期表示処理以外は、通常のページ�
 
 .. _ListSearchResult_Setting:
 
-----------------------------------------------
-検索結果の一覧表示機能のデフォルト値設定
-----------------------------------------------
-検索結果の一覧表示機能のデフォルト値設定は、画面表示に関する設定と、一覧検索用の検索処理に関する設定に大別される。
+-------------------------------------------------------------
+Default settings for the search result list display function
+-------------------------------------------------------------
+The default settings for the search result list display function are broadly divided into the screen display settings and the settings for the search process for list search.
 
-画面表示に関する設定は、タグファイル内で直接デフォルト値を指定している。\
-画面表示に関する設定の詳細は、 :ref:`ListSearchResult_TagReference` を参照。
+The default values for the screen display settings are specified directly in the tag file.
+For more information on the screen display configuration, see :ref:`ListSearchResult_TagReference`.
 
-ここでは、一覧検索用の検索処理に関する設定について解説する。
+The settings for the search process for list search are described below.
 
-検索処理の設定では、下記の設定を行える。
+The following settings can be made for the search process.
 
-* 検索結果の最大件数(上限)
-* 検索結果の取得件数(1ページの表示件数)
+* Maximum number of search results (upper limit)
+* Number of acquired search results (number of results displayed on one page)
 
-これらの設定値は、システムリポジトリ機能の環境設定ファイルに指定する。
-property名と設定内容を下記に示す。
+The configuration values are specified in the environment configuration file of the system repository function.
+The property names and settings are shown below.
 
 ===================================================================== ===================================================================================
-property名                                                            設定内容
+property name                                                         Settings
 ===================================================================== ===================================================================================
-nablarch.listSearch.maxResultCount                                    検索結果の最大件数(上限)。
-nablarch.listSearch.max                                               検索結果の取得最大件数(1ページの表示件数)。
+nablarch.listSearch.maxResultCount                                    Maximum number of search results (upper limit)
+nablarch.listSearch.max                                               Maximum number of acquired search results (number of results displayed on one page)
 ===================================================================== ===================================================================================
 
-上記の設定値は、ListSearchInfoの生成時にシステムリポジトリから取得し、ListSearchInfo自身のプロパティに設定される。\
-システムリポジトリの設定値が存在しない場合は、下記のデフォルト値が設定される。
+The above settings are obtained from the system repository when ListSearchInfo is created and set in the properties of ListSearchInfo itself.
+If the the system repository settings do not exist, the following default values are set.
 
-* 検索結果の最大件数(上限)：200
-* 検索結果の取得最大件数(1ページの表示件数)：20
+* Maximum number of search results (upper limit): 200
+* Maximum number of acquired search results (number of results displayed on one page): 20
 
-尚、一部機能のみ個別に設定値を変更したい場合は、下記の通り個別機能の実装で対応する。
+To individually change the settings for only some functions, implement the individual functions as follows.
 
-* 画面表示に関する設定は、JSP上で :ref:`ListSearchResult_Tag` の属性を指定する。
-* ページング用の検索処理に関する設定は、該当の一覧表示画面を表示するActionのメソッドにて、ListSearchInfoを継承したクラスに値を設定する。
+* Specify the ListSearchResult_Tag attribute in JSP for the screen display configuration.
+* For settings concerned with the search process for paging, set the values in the class that inherits from ListSearchInfo in the Action method that displays the corresponding list display screen.
 
-下記に検索結果の最大件数(上限)を50、表示件数を10に変更する場合の実装例を下記に示す。
+An implementation example for changing the maximum number of search results (upper limit) to 50 and the number of results displayed to 10 is shown below.
 
 .. code-block:: java
 
     public class W11AC01Action extends DbAccessSupport {
         
-        // 一覧表示の最大表示件数
+        // Maximum number of records to be displayed in the list
         private static final int MAX_ROWS = 10;
         
-        // 一覧表示の検索結果件数（上限）
+        // Number of search results to be displayed on the list (upper limit)
         private static final int MAX_RESULT_COUNT = 50;
         
         
         @OnError(type = ApplicationException.class, path = "/ss11AC/W11AC0101.jsp")
         public HttpResponse doRW11AC0102(HttpRequest req, ExecutionContext ctx) {
             
-            // 業務処理は省略。
+            // Business process is omitted.
             
-            // 入力精査は省略。
+            // Input validation is omitted.
             
             W11AC01SearchForm condition = ... ;
             
-            // 最大表示件数を設定。
+            // Configure the maximum number to be displayed.
             condition.setMax(MAX_ROWS);
             
-            // 検索結果の最大件数（上限）を設定。
+            // Configure the maximum number of search results (upper limit).
             condition.setMaxResultCount(MAX_RESULT_COUNT);
             
-            // 検索処理は省略。
+            // Search process is omitted.
             
-            // 以降の処理は省略。
+            // Subsequent processes are omitted.
         }
     }
 
@@ -952,44 +952,44 @@ nablarch.listSearch.max                                               検索結�
 .. _ListSearchResult_Customize:
 
 ------------------------------------------------------------------------------------
-業務アプリケーションへのサンプル実装(タグファイル)の取り込み方法
+How to import a sample implementation (tag file) into the business application
 ------------------------------------------------------------------------------------
-業務アプリケーションへサンプル実装(タグファイル)を取り込む場合は、下記の手順で実施する。
+To import a sample implementation (tag file) into the business application, follow the procedure below.
 
-* 業務アプリケーションへタグファイルの配置
-* タグファイル内のプレフィックスの修正
+* Place the tag file in the business application
+* Revise the prefix in the tag file
 
-業務アプリケーションへタグファイルの配置
+Place the tag file in the business application
 =====================================================
-下記のとおり、listSearchResultパッケージを業務アプリケーションに配置する。\
+Place the listSearchResult package in the business application as follows.\
 
- コピー元
+ Copy from
    *META-INF/tags/*\ **listSearchResult**
 
- コピー先
-  業務アプリケーションの /WEB-INF/tags ディレクトリ
+ Copy to
+  /WEB-INF/tags directory of the business application
 
-タグファイル内のプレフィックスの修正
+Revise the prefix in the tag file
 =====================================================
-サンプル実装では、タグファイル内のプレフィックスに「nbs」を付けている。\
-業務アプリケーションの配置場所に応じて、プレフィックスの定義とプレフィックスを修正する。
-/WEB-INF/tags/listSearchResult に配置している前提で、修正前後の内容を示す。
+In the sample implementation, "nbs" is added to the prefix in the tag file.\
+Revise the prefix definition and prefix according to the location of the business application.
+The contents before and after the revision are displayed on the assumption that the file is placed in /WEB-INF/tags/listSearchResult.
 
- 修正前
-   プレフィックスの定義::
+ Before revision
+   Prefix definition::
    
     <%@ taglib prefix="nbs" uri="http://tis.co.jp/nablarch-biz-sample" %>
    
-   プレフィックス::
+   Prefix::
    
     nbs
 
- 修正後
-   プレフィックスの定義::
+ After revision
+   Prefix definition::
    
     <%@ taglib prefix="listSearchResult" tagdir="/WEB-INF/tags/listSearchResult" %>
    
-   プレフィックス::
+   Prefix::
    
     listSearchResult
 
@@ -997,21 +997,21 @@ nablarch.listSearch.max                                               検索結�
 .. _ListSearchResult_TagReference:
 
 ---------------------------------------------------------
-タグリファレンス
+Tag Reference
 ---------------------------------------------------------
 
 ====================================================== ==========================================================================================
-タグ                                                   機能
+Tag                                                     Function
 ====================================================== ==========================================================================================
-:ref:`ListSearchResult_Tag`                            検索結果の一覧表示を行う。
-:ref:`ListSearchResult_ListSearchSortSubmitTag`        検索結果の一覧表示で並び替え対応の列見出しを出力する。
+:ref:`ListSearchResult_Tag`                            Displays a list of the search results.
+:ref:`ListSearchResult_ListSearchSortSubmitTag`        Outputs the column headings that handle sorting in the list of search results.
 ====================================================== ==========================================================================================
 
 .. _ListSearchResult_Tag:
 
-listSearchResultタグ
+listSearchResult tag
 =====================================
-listSearchResultタグでは、画面要素毎に属性を示す。
+The listSearchResult tag dsiplays attributes for each screen element.
 
 |
 
@@ -1020,40 +1020,40 @@ listSearchResultタグでは、画面要素毎に属性を示す。
 
 |
 
-====================================== ==========================================================================================
-属性                                   説明
-====================================== ==========================================================================================
-全体
----------------------------------------------------------------------------------------------------------------------------------
-listSearchInfoName                     ListSearchInfoをリクエストスコープから取得する際に使用する名前。|br|
-                                       指定がない場合は「検索結果件数」および「ページング」を表示しない。|br|
-                                       一括削除確認画面など、一覧表示のみを行う場合は指定しない。
-listSearchResultWrapperCss             ページング付きテーブル全体(検索結果件数、ページング、検索結果)をラップするdivタグのclass属性。|br|
-                                       デフォルトは"nablarch_listSearchResultWrapper"。
-検索結果件数
----------------------------------------------------------------------------------------------------------------------------------
-useResultCount                         検索結果件数を表示するか否か。|br|
-                                       デフォルトはtrue。
-resultCountCss                         検索結果件数をラップするdivタグのclass属性。|br|
-                                       デフォルトは"nablarch_resultCount"。
-resultCountFragment                    検索結果件数を出力するJSPフラグメント。|br|
-                                       デフォルトは"検索結果 <PagingInfoのresultCountプロパティ>件"。
-ページング
----------------------------------------------------------------------------------------------------------------------------------
-usePaging                              ページングを表示するか否か。|br|
-                                       デフォルトはtrue。
-searchUri                              ページングのサブミット要素に使用するURI。|br|
-                                       ページングを表示する場合は必ず指定すること。
-pagingPosition                         ページングの表示位置。|br|
-                                       下記のいずれかを指定する。|br|
-                                       top(上側のみ) |br|
-                                       bottom(下側のみ) |br|
-                                       both(両方) |br|
-                                       none(表示なし) |br|
-                                       デフォルトはtop。
-pagingCss                              ページングのサブミット要素(前へ、次へなど)全体をラップするdivタグのclass属性。 |br|
-                                       デフォルトは"nablarch_paging"。
-====================================== ==========================================================================================
+====================================== =================================================================================================================================
+Attribute                              Description
+====================================== =================================================================================================================================
+Overall
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+listSearchInfoName                     Name used to acquire ListSearchInfo from the Request scope. |br|
+                                       If not specified, "Number of search results" and "Paging" are not displayed. |br|
+                                       Do not specify when displaying only a list such as batch deletion confirmation screen.
+listSearchResultWrapperCss             Class attribute of the div tag that wraps the entire table with paging (number of search results, paging, search results). |br|
+                                       Default is "nablarch_listSearchResultWrapper".
+Search result list
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+useResultCount                         Whether to display the number of search results.  |br|
+                                       Default is true。
+resultCountCss                         Class attribute of the div tag that wraps the number of search results.  |br|
+                                       Default is "nablarch_resultCount".
+resultCountFragment                    JSP fragment that outputs the number of search results.  |br|
+                                       Default is "search results <resultCount property of PagingInfo> record".
+Paging
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+usePaging                              Whether to display paging.  |br|
+                                       Default is true.
+searchUri                              URI to use for the paging submit element.  |br|
+                                       Must be specified when paging is displayed.
+pagingPosition                         The display position of paging. |br|
+                                       Specify one of the following. |br|
+                                       top(top only)  |br|
+                                       bottom(bottom only)  |br|
+                                       both(both)  |br|
+                                       none(no display)  |br|
+                                       Default is top.
+pagingCss                              Class attribute of the div tag that wraps the entire paging submit elements (previous, next, etc.).   |br|
+                                       Default is "nablarch_paging"
+====================================== =================================================================================================================================
 
 |
 
@@ -1062,131 +1062,131 @@ pagingCss                              ページングのサブミット要素(�
 
 |
 
-====================================== ==========================================================================================
-属性                                   説明
-====================================== ==========================================================================================
-現在のページ番号
----------------------------------------------------------------------------------------------------------------------------------
-useCurrentPageNumber                   現在のページ番号を使用するか否か。|br|
-                                       デフォルトはtrue。
-currentPageNumberCss                   現在のページ番号をラップするdivタグのclass属性。|br|
-                                       デフォルトは"nablarch_currentPageNumber"。
-currentPageNumberFragment              現在のページ番号を出力するJSPフラグメント。|br|
-                                       デフォルトは"[<PagingInfoのcurrentPageNumberプロパティ>/<PagingInfoのpageCountプロパティ>ページ]"。
-最初
----------------------------------------------------------------------------------------------------------------------------------
-useFirstSubmit                         最初のページに遷移するサブミットを使用するか否か。|br|
-                                       デフォルトはfalse。
-firstSubmitTag                         最初のページに遷移するサブミットに使用するNablarchタグ。|br|
-                                       下記のいずれかを指定する。|br|
-                                       submitLink(aタグ) |br|
-                                       submit(inputタグ) |br|
-                                       button(buttonタグ) |br|
-                                       デフォルトはsubmitLink。
-firstSubmitType                        最初のページに遷移するサブミットに使用するタグのtype属性。|br|
-                                       下記のみサポート。|br|
-                                       submit |br|
-                                       button |br|
-                                       サブミットに使用するNablarchタグがsubmitLinkの場合は使用しない。
-firstSubmitCss                         最初のページに遷移するサブミットをラップするdivタグのclass属性。|br|
-                                       デフォルトは"nablarch_firstSubmit"。
-firstSubmitLabel                       最初のページに遷移するサブミットに使用するラベル。|br|
-                                       デフォルトは"最初"。
-firstSubmitName                        最初のページに遷移するサブミットに使用するタグのname属性。|br|
-                                       デフォルトは"firstSubmit"。|br|
-                                       ページングの表示位置を表すサフィックス(上側は"_top"、下側は"_bottom")を付けて出力する。|br|
-                                       例えば、デフォルトかつ表示位置が上側の場合は"firstSubmit_top"となる。
-前へ
----------------------------------------------------------------------------------------------------------------------------------
-usePrevSubmit                          前のページに遷移するサブミットを使用するか否か。|br|
-                                       デフォルトはtrue。
-prevSubmitTag                          前のページに遷移するサブミットに使用するNablarchタグ。|br|
-                                       下記のいずれかを指定する。|br|
-                                       submitLink(aタグ) |br|
-                                       submit(inputタグ) |br|
-                                       button(buttonタグ) |br|
-                                       デフォルトはsubmitLink。
-prevSubmitType                         前のページに遷移するサブミットに使用するタグのtype属性。|br|
-                                       下記のみサポート。|br|
-                                       submit |br|
-                                       button |br|
-                                       サブミットに使用するNablarchタグがsubmitLinkの場合は使用しない。
-prevSubmitCss                          前のページに遷移するサブミットをラップするdivタグのclass属性。|br|
-                                       デフォルトは"nablarch_prevSubmit"。
-prevSubmitLabel                        前のページに遷移するサブミットに使用するラベル。|br|
-                                       デフォルトは"前へ"。
-prevSubmitName                         前のページに遷移するサブミットに使用するタグのname属性。|br|
-                                       デフォルトは"prevSubmit"。|br|
-                                       ページングの表示位置を表すサフィックス(上側は"_top"、下側は"_bottom")を付けて出力する。|br|
-                                       例えば、デフォルトかつ表示位置が上側の場合は"prevSubmit_top"となる。
-ページ番号(ページ番号をラベルとして使用するためラベル指定がない)
----------------------------------------------------------------------------------------------------------------------------------
-usePageNumberSubmit                    ページ番号のページに遷移するサブミットを使用するか否か。|br|
-                                       デフォルトはfalse。
-pageNumberSubmitTag                    ページ番号のページに遷移するサブミットに使用するNablarchタグ。|br|
-                                       下記のいずれかを指定する。|br|
-                                       submitLink(aタグ) |br|
-                                       submit(inputタグ) |br|
-                                       button(buttonタグ) |br|
-                                       デフォルトはsubmitLink。
-pageNumberSubmitType                   ページ番号のページに遷移するサブミットに使用するタグのtype属性。|br|
-                                       下記のみサポート。 |br|
-                                       submit |br|
-                                       button |br|
-                                       サブミットに使用するNablarchタグがsubmitLinkの場合は使用しない。
-pageNumberSubmitCss                    ページ番号のページに遷移するサブミットをラップするdivタグのclass属性。|br|
-                                       デフォルトは"nablarch_pageNumberSubmit"。
-pageNumberSubmitName                   ページ番号のページに遷移するサブミットに使用するタグのname属性。|br|
-                                       デフォルトは"pageNumberSubmit"。|br|
-                                       ページ番号とページングの表示位置を表すサフィックス(上側は"_top"、下側は"_bottom")を付けて出力する。|br|
-                                       例えば、デフォルトかつ表示位置が上側でページ番号が3の場合は"pageNumberSubmit3_top"となる。
-次へ
----------------------------------------------------------------------------------------------------------------------------------
-useNextSubmit                          次のページに遷移するサブミットを使用するか否か。|br|
-                                       デフォルトはtrue。
-nextSubmitTag                          次のページに遷移するサブミットに使用するNablarchタグ。|br|
-                                       下記のいずれかを指定する。|br|
-                                       submitLink(aタグ) |br|
-                                       submit(inputタグ) |br|
-                                       button(buttonタグ) |br|
-                                       デフォルトはsubmitLink。
-nextSubmitType                         次のページに遷移するサブミットに使用するタグのtype属性。|br|
-                                       下記のみサポート。|br|
-                                       submit |br|
-                                       button |br|
-                                       サブミットに使用するNablarchタグがsubmitLinkの場合は使用しない。
-nextSubmitCss                          次のページに遷移するサブミットをラップするdivタグのclass属性。|br|
-                                       デフォルトは"nablarch_nextSubmit"。
-nextSubmitLabel                        次のページに遷移するサブミットに使用するラベル。|br|
-                                       デフォルトは"次へ"。
-nextSubmitName                         次のページに遷移するサブミットに使用するタグのname属性。|br|
-                                       デフォルトは"nextSubmit"。|br|
-                                       ページングの表示位置を表すサフィックス(上側は"_top"、下側は"_bottom")を付けて出力する。|br|
-                                       例えば、デフォルトかつ表示位置が上側の場合は"nextSubmit_top"となる。
-最後
----------------------------------------------------------------------------------------------------------------------------------
-useLastSubmit                          最後のページに遷移するサブミットを使用するか否か。|br|
-                                       デフォルトはfalse。
-lastSubmitTag                          最後のページに遷移するサブミットに使用するNablarchタグ。|br|
-                                       下記のいずれかを指定する。|br|
-                                       submitLink(aタグ) |br|
-                                       submit(inputタグ) |br|
-                                       button(buttonタグ) |br|
-                                       デフォルトはsubmitLink。
-lastSubmitType                         最後のページに遷移するサブミットに使用するタグのtype属性。|br|
-                                       下記のみサポート。|br|
-                                       submit |br|
-                                       button |br|
-                                       サブミットに使用するNablarchタグがsubmitLinkの場合は使用しない。
-lastSubmitCss                          最後のページに遷移するサブミットをラップするdivタグのclass属性。|br|
-                                       デフォルトは"nablarch_lastSubmit"。
-lastSubmitLabel                        最後のページに遷移するサブミットに使用するラベル。|br|
-                                       デフォルトは"最後"。
-lastSubmitName                         最後のページに遷移するサブミットに使用するタグのname属性。|br|
-                                       デフォルトは"lastSubmit"。 |br|
-                                       ページングの表示位置を表すサフィックス(上側は"_top"、下側は"_bottom")を付けて出力する。|br|
-                                       例えば、デフォルトかつ表示位置が上側の場合は"lastSubmit_top"となる。
-====================================== ==========================================================================================
+====================================== ============================================================================================================================================================
+Attribute                              Description
+====================================== ============================================================================================================================================================
+Current page number
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+useCurrentPageNumber                   Whether to use the current page number.  |br|
+                                       Default is true.
+currentPageNumberCss                   Class attribute of the div tag that wraps the current page number.  |br|
+                                       Default is "nablarch_currentPageNumber"。
+currentPageNumberFragment              JSP fragment that outputs the current page number.  |br|
+                                       Default is "[<currentPageNumber property of PagingInfo>/<pageCount property of PagingInfo>page]".
+First
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+useFirstSubmit                         Whether to use the submit to move to the first page.  |br|
+                                       Default is false.
+firstSubmitTag                         Nablarch tag used by the submit for moving to the first page. |br|
+                                       Specify one of the following. |br|
+                                       submitLink(a Tag)  |br|
+                                       submit(input Tag)  |br|
+                                       button(button Tag)  |br|
+                                       Default is submitLink.
+firstSubmitType                        Type attribute of the tag used by the submit for moving to the first page. |br|
+                                       Only the following is supported. |br|
+                                       submit  |br|
+                                       button  |br|
+                                       Not used if the Nablarch tag used for the submit button submit is submitLink.
+firstSubmitCss                         Class attribute of the div tag that wraps the submit for moving to the first page.  |br|
+                                       Default is "nablarch_firstSubmit".
+firstSubmitLabel                       Label used by the submit for moving to the first page.  |br|
+                                       Default is "First".
+firstSubmitName                        Name attribute of the tag used by the submit for moving to the first page. |br|
+                                       Default is "firstSubmit". |br|
+                                       Outputs by adding the suffix (upper side is "_top" and lower side is "_bottom") indicating the display position of paging. |br|
+                                       For example, if the default and display position is upper, it will be "firstSubmit_top".
+Previous
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+usePrevSubmit                          Whether to use the submit to move to the previous page.  |br|
+                                       Default is true.
+prevSubmitTag                          Nablarch tag used by the submit for moving to the previous page. |br|
+                                       Specify one of the following. |br|
+                                       submitLink(aTag)  |br|
+                                       submit(inputTag)  |br|
+                                       button(buttonTag)  |br|
+                                       Default is submitLink.
+prevSubmitType                         Type attribute of the tag used by the submit for moving to the previous page. |br|
+                                       Only the following is supported. |br|
+                                       submit  |br|
+                                       button  |br|
+                                       Not used if the Nablarch tag used for the submit button submit is submitLink.
+prevSubmitCss                          Class attribute of the div tag that wraps the submit for moving to the previous page.  |br|
+                                       Default is "nablarch_prevSubmit".
+prevSubmitLabel                        Label used by the submit for moving to the previous page.  |br|
+                                       Default is "Previous".
+prevSubmitName                         Name attribute of the tag used by the submit for moving to the previous page. |br|
+                                       Default is "prevSubmit". |br|
+                                       Outputs by adding the suffix (upper side is "_top" and lower side is "_bottom") indicating the display position of paging. |br|
+                                       For example, if the default and display position is upper, it will be "firstSubmit_top".
+Page number (label is not specified since the page number is used as a label)
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+usePageNumberSubmit                    Whether to use the submit to moves to the page specified by the page number.  |br|
+                                       Default is false.
+pageNumberSubmitTag                    Nablarch tag used by the submit for moving to the page specified by the page number. |br|
+                                       Specify one of the following. |br|
+                                       submitLink(aTag)  |br|
+                                       submit(inputTag)  |br|
+                                       button(buttonTag)  |br|
+                                       Default is submitLink.
+pageNumberSubmitType                   Type attribute of the tag used by the submit for moving to the page specified by the page number. |br|
+                                       Only the following is supported.  |br|
+                                       submit  |br|
+                                       button  |br|
+                                       Not used if the Nablarch tag used for the submit button submit is submitLink.
+pageNumberSubmitCss                    Class attribute of the div tag that wraps the submit for moving to the page specified by the page number.  |br|
+                                       Default is "nablarch_pageNumberSubmit".
+pageNumberSubmitName                   Name attribute of the tag used by the submit for moving to the page specified by the page number. |br|
+                                       Default is "pageNumberSubmit". |br|
+                                       Outputs by adding the page number and suffix (upper side is "_top" and lower side is "_bottom") indicating the display position of paging. |br|
+                                       For example, if the default and display position is upper and the page number is 3, it will be " pageNumberSubmit3_top".
+Next
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+useNextSubmit                          Whether to use the submit to move to the next page.  |br|
+                                       Default is true。
+nextSubmitTag                          Nablarch tag used by the submit for moving to the next page. |br|
+                                       Specify one of the following. |br|
+                                       submitLink(aTag)  |br|
+                                       submit(inputTag)  |br|
+                                       button(buttonTag)  |br|
+                                       Default is submitLink。
+nextSubmitType                         Type attribute of the tag used by the submit for moving to the next page. |br|
+                                       Only the following is supported. |br|
+                                       submit  |br|
+                                       button  |br|
+                                       Not used if the Nablarch tag used for the submit button submit is submitLink.
+nextSubmitCss                          Class attribute of the div tag that wraps the submit for moving to the next page. |br|
+                                       Default is "nablarch_nextSubmit".
+nextSubmitLabel                        Label used by the submit for moving to the next page. |br|
+                                       Default is "Next".
+nextSubmitName                         Name attribute of the tag used by the submit for moving to the next page. |br|
+                                       Default is "nextSubmit". |br|
+                                       Outputs by adding the suffix (upper side is "_top" and lower side is "_bottom") indicating the display position of paging. |br|
+                                       For example, if the default and display position is upper, it will be "nextSubmit_top".
+List
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+useLastSubmit                          Whether to use the submit to move to the last page.  |br|
+                                       Default is false.
+lastSubmitTag                          Nablarch tag used by the submit for moving to the last page. |br|
+                                       Specify one of the following. |br|
+                                       submitLink(aTag)  |br|
+                                       submit(inputTag)  |br|
+                                       button(buttonTag)  |br|
+                                       Default is submitLink.
+lastSubmitType                         Type attribute of the tag used by the submit for moving to the last page. |br|
+                                       Only the following is supported. |br|
+                                       submit  |br|
+                                       button  |br|
+                                       Not used if the Nablarch tag used for the submit button submit is submitLink.
+lastSubmitCss                          Class attribute of the div tag that wraps the submit for moving to the last page. |br|
+                                       Default is "nablarch_lastSubmit".
+lastSubmitLabel                        Label used by the submit for moving to the last page. |br|
+                                       Default is "List".
+lastSubmitName                         Name attribute of the tag used by the submit for moving to the last page. |br|
+                                       Default is "lastSubmit".  |br|
+                                       Outputs by adding the suffix (upper side is "_top" and lower side is "_bottom") indicating the display position of paging. |br|
+                                       For example, if the default and display position is upper, it will be "lastSubmit_top".
+====================================== ============================================================================================================================================================
 
 |
 
@@ -1195,87 +1195,87 @@ lastSubmitName                         最後のページに遷移するサブ�
 
 |
 
-====================================== ==========================================================================================
-属性                                   説明
-====================================== ==========================================================================================
-検索結果
----------------------------------------------------------------------------------------------------------------------------------
-resultSetName(必須)                    検索結果をリクエストスコープから取得する際に使用する名前。
-resultSetCss                           検索結果テーブルのclass属性。|br|
-                                       デフォルトは"nablarch_resultSet"。
-headerRowFragment(必須)                ヘッダ行のJSPフラグメント。
-bodyRowFragment(必須)                  ボディ行のJSPフラグメント。
-varRowName                             ボディ行のフラグメントで行データ(c:forEachタグのvar属性)を参照する際に使用する変数名。|br|
-                                       デフォルトは"row"。
-varStatusName                          ボディ行のフラグメントでステータス(c:forEachタグのstatus属性)を参照する際に使用する変数名。|br|
-                                       デフォルトは"status"。
+====================================== =================================================================================================================================
+Attribute                              Description
+====================================== =================================================================================================================================
+Search result
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+resultSetName (required)               Name used to acquire the search results from the request scope.
+resultSetCss                           Class attribute of the search result table. |br|
+                                       Default is "nablarch_resultSet".
+headerRowFragment (required)           JSP fragment of the header row.
+bodyRowFragment (required)             JSP fragment for the body row.
+varRowName                             Variable name used when referring to row data (var attribute of the c:forEach tag) in the body row fragment. |br|
+                                       Default is"row".
+varStatusName                          Variable name used when referring to the status (status attribute of the c:forEach tag) in the body row fragment.  |br|
+                                       Default is "status".
                                        
                                        .. tip::
                                        
-                                        n:writeタグを使用してステータスにアクセスすると、n:writeタグとEL式でアクセス方法が異なるために\
-                                        エラーが発生し値を取得できない。\
-                                        n:setタグを使用してステータスにアクセスすることで、このエラーを回避できる。\
-                                        下記に使用例を示す。
+                                        When accessing the status using the n:write tag, an error occurs and the value cannot be obtained
+                                        since the access method differs between the n:write tag and the EL expression.
+                                        This error can be avoided by using the n:set tag to access the status.\
+                                        An example of its use is shown below.
                                         
                                         .. code-block:: jsp
                                         
                                          <n:set var="rowCount" value="${status.count}" />
                                          <n:write name="rowCount" />
                                        
-varCountName                           ステータス(c:forEachタグのstatus属性)のcountプロパティを参照する際に使用する変数名。|br|
-                                       デフォルトは"count"。
-varRowCountName                        検索結果のカウント(検索結果の取得開始位置＋ステータスのカウント)を参照する際に使用する変数名。|br|
-                                       デフォルトは"rowCount"。
-varOddEvenName                         ボディ行のclass属性を参照する際に使用する変数名。|br|
-                                       この変数名は、1行おきにclass属性の値を変更したい場合に使用する。|br|
-                                       デフォルトは"oddEvenCss"。
-oddValue                               ボディ行の奇数行に使用するclass属性。|br|
-                                       デフォルトは"nablarch_odd"。
-evenValue                              ボディ行の偶数行に使用するclass属性。|br|
-                                       デフォルトは"nablarch_even"。
-====================================== ==========================================================================================
+varCountName                           Variable name used when referring to the count property of the status (status attribute of the c:forEach tag).  |br|
+                                       Default is "count".
+varRowCountName                        Variable name used when referring to the search result count (start position of search result acquisition + status count).  |br|
+                                       Default is "rowCount".
+varOddEvenName                         Variable name used when referring to the class attribute of the body row. |br|
+                                       This variable name is used to change the value of the class attribute every other row. |br|
+                                       Default is "oddEvenCss".
+oddValue                               The class attribute to use for odd lines of body. |br|
+                                       Default is "nablarch_odd".
+evenValue                              The class attribute to use for even lines of body.  |br|
+                                       Default is "nablarch_even"。
+====================================== =================================================================================================================================
 
 .. _ListSearchResult_ListSearchSortSubmitTag:
 
-listSearchSortSubmitタグ
+listSearchSortSubmit tag
 =====================================
 
 ====================================== ==========================================================================================
-属性                                   説明
+Attribute                              Description
 ====================================== ==========================================================================================
-tag                                    並び替えを行うサブミットに使用するNablarchタグ。|br|
-                                       下記のいずれかを指定する。|br|
-                                       submitLink(aタグ) |br|
-                                       submit(inputタグ) |br|
-                                       button(buttonタグ) |br|
-                                       デフォルトはsubmitLink。
-type                                   並び替えを行うサブミットに使用するタグのtype属性。|br|
-                                       下記のみサポート。|br|
-                                       submit |br|
-                                       button |br|
-                                       サブミットに使用するNablarchタグがsubmitLinkの場合は使用しない。
-sortCss                                並び替えを行うサブミットのclass属性。|br|
-                                       常にサブミットのclass属性に出力される。|br|
-                                       デフォルトは"nablarch_sort"。
-ascCss                                 昇順に並び替えた場合に指定するサブミットのclass属性。|br|
-                                       sortCss属性に付加するかたちで出力される。|br|
-                                       デフォルトは"nablarch_asc"。(出力例: class="nablarch_sort nablarch_asc")
-descCss                                降順に並び替えた場合に指定するサブミットのclass属性。|br|
-                                       sortCss属性に付加するかたちで出力される。|br|
-                                       デフォルトは"nablarch_desc"。(出力例: class="nablarch_sort nablarch_desc")
-ascSortId(必須)                        昇順に並び替える場合のソートID。
-descSortId(必須)                       降順に並び替える場合のソートID。
-defaultSort                            デフォルトのソート。|br|
-                                       下記のいずれかを指定する。|br|
-                                       asc(昇順) |br| 
-                                       desc(降順) |br|
-                                       デフォルトは"asc"。
-label(必須)                            並び替えを行うサブミットに使用するラベル。
-name(必須)                             並び替えを行うサブミットに使用するタグのname属性。|br|
-                                       name属性は、画面内で一意にすること。
-listSearchInfoName(必須)               ListSearchInfoをリクエストスコープから取得する際に使用する名前。
+tag                                    Nablarch tag used to submit the sort. |br|
+                                       Specify one of the following. |br|
+                                       submitLink(aTag)  |br|
+                                       submit(inputTag)  |br|
+                                       button(buttonTag)  |br|
+                                       Default is submitLink.
+type                                   Type attribute of the tag used to submit the sort. |br|
+                                       Only the following is supported. |br|
+                                       submit  |br|
+                                       button  |br|
+                                       Not used if the Nablarch tag used for the submit button submit is submitLink.
+sortCss                                Class attribute of the submit to sort. |br|
+                                       It is always output in the submit class attribute. |br|
+                                       Default is "nablarch_sort".
+ascCss                                 Submit class attribute specified when sorting in the ascending order. |br|
+                                       It is output by adding to the sortCss attribute.  |br|
+                                       Default is "nablarch_asc".(Output example: class="nablarch_sort nablarch_asc")
+descCss                                Submit class attribute specified when sorting in the descending order.  |br|
+                                       It is output by adding to the sortCss attribute. |br|
+                                       Default is "nablarch_desc".(Output example: class="nablarch_sort nablarch_desc")
+ascSortId (required)                   Sort ID when sorting in ascending order.
+descSortId (required)                  Sort ID when sorting in descending order.
+defaultSort                            Default sort. |br|
+                                       Specify one of the following. |br|
+                                       asc(ascending)  |br|
+                                       desc(descending)  |br|
+                                       Default is "asc".
+label (required)                       Label to use for the submit to sort.
+name (required)                        Name attribute of the tag used to submit the sort. |br|
+                                       The name attribute should be unique in the screen.
+listSearchInfoName (required)          Name used to acquire ListSearchInfo from the Request scope.
 ====================================== ==========================================================================================
 
-.. |br| raw:: html
+..  |br| raw:: html
 
   <br />
