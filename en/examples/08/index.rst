@@ -1,164 +1,164 @@
-===========================
-HTMLメール送信機能サンプル
-===========================
+=====================================
+Sample of HTML Email Send Function
+=====================================
 
 .. important::
 
-  本サンプルは、Nablarch 1.4系に準拠したAPIを使用している。
+  This sample uses a Nablarch 1.4 compliant API.
 
-  Nablarch 1.4系より新しいNablarchと組み合わせる場合は、必要に応じてカスタマイズすること。
+  When combining with versions later than Nablarch 1.4 series, customize as necessary.
 
 
-概要
-====
+Summary
+========
 
-HTMLメールを送信する機能の実装サンプルを提供する。
+Provides the implementation sample of the function that sends the HTML email.
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all>`_
 
-本機能は、Nablarchアプリケーションフレームワークで提供されるメール送信機能(nablarch.common.mail.MailSender)の定型メールを利用してHTMLメールを送信するサンプルである。
-なお、本機能はサンプル実装のため、導入プロジェクトで使用する際には、ソースコード(プロダクション、テストコード共に）をプロジェクトに取り込み、使用すること。
+This function is a sample of sending HTML emails using the standard email send function (nablarch.common.mail.MailSender) provided in the Nablarch application framework.
+Since this function is a sample implementation, the source code (both production and test code) must be imported into the project when using it in an implementation project.
 
 
 .. important::
   
-  本サンプルはキャンペーンの通知のようなHTMLメールの一括送信には対応していない。
-  下記に当てはまる場合は、プロダクトの利用を推奨する。
+  This sample does not support the batch send of HTML emails such as campaign notifications.
+  Using specialized products is recommended when the following is applicable.
   
-    * キャンペーン通知やメールマガジンなど、一括で大量のメールを送信する。
-    * 配信したメールの開封率、クリックカウントの効果を測定する。
-    * メールアドレスからクライアント（例えば、フィーチャーフォンか否か）を判別し、送信するメールを切り替える。
-    * 絵文字を利用する。
-    * デコメールを送信する。
-    * HTMLメールのコンテンツ作成を支援し、顧客がコンテンツを作成する。
-      (本サンプルではドローツールやコンテンツ作成機能は存在しないため、開発者がコンテンツを作成する必要がある。)
+    * Sending mass emails such as campaign notifications and email newsletters.
+    * Measure the opening rate of the delivered email and effectiveness of click count.
+    * The client device (for example, whether it is a feature phone) is identified with the email address and emails sent are switched accordingly.
+    * Use emojis.
+    * Send a deco-mail.
+    * Supports content creation for HTML email, and the content is created by the customer.
+      (since there is no draw tool or content creation function in this sample, the developer has to create the content.)
 
 .. important::
 
-   一部のクライアントでは期待したとおりにHTMLメールが表示されないことにより、ユーザーがメールを参照しない可能性がある。このため、業務要件としてユーザー通知が重要なメールにはHTMLメールを利用しないこと。
+   Some clients do not display HTML email as expected, which may prevent the user from viewing the email. For this reason, do not use HTML email for emails where user notifications are important as a business requirement.
 
 
 .. important::
 
-   **HTMLメールのレイアウト**
+   **Layout of HTML email**
 
-    メールクライアントによりHTMLメールの表示に差異があるため、HTMLメール標準を策定し、顧客と合意すること。
-    HTMLメール標準では下記のような点を含め、PJにて検討すること。
+    Since HTML emails differ in display depending on the email client, establish an HTML email standard with mutual understanding or consent from the customer.
+    The following points should be considered with project in the HTML email standard.
 
-    * テスト対象とするメールクライアントとデバイス、OS。
-    * HTMLタグ、スタイル(CSSのプロパティ)などの使用範囲。
-    * フォント、配色などの使用範囲。
-    * コンテンツの横幅。(PCのみをサポートする場合でも、メールクライアントのプレビュー機能で確認できる程度のサイズ。)
+    * The email client, device and OS to be tested.
+    * The scope of use of HTML tags, styles (CSS properties), etc.
+    * Extent to which fonts, color schemes, etc. are used.
+    * Width of content. (Even when only PC is supported, the size that can be confirmed by the preview function of the email client.)
 
-   **コンテンツ作成時の留意点**
+   **Points to keep in mind when creating content**
 
-    * <head>タグの内容を無視するメールクライアントがあるため、HTMLメールは、一般的にスタイルをCSSファイルや<style>タグに切り出すことが **推奨されていない** 。
+    * Since some email clients ignore the contents of the <head> tag, it is **generally not recommended** to remove styles in CSS files and <style> tags for HTML mail.
 
-    * 極力シンプルなデザインにすること。
+    * Try to keep the design as simple as possible.
 
-    * メールクライアントによってはメディアクエリをサポートしていないため、極力レスポンシブデザインは採用しないこと。
+    * Since some email clients do not support media queries, do not use responsive design as much as possible.
 
 
-要求
-====
+Request
+========
 
-実装済み
---------
-* HTMLメール(代替テキストを含む)を送信できる。
-* 本文のプレースホルダー部分の文字列に対して、HTMLエスケープを行う。
-  これにより、通常のオンライン画面と同様のセキュリティ対策を行うことができる。
+Implemented
+-------------
+* HTML email can be sent (including alternative text).
+* Performs HTML escape for the string in the placeholder part of the text.
+  This enables the same security measures to be implemented as a normal online screen.
 
-取り下げ
---------
-* メールクライアント毎の差異を吸収できる。
-  (具体的にはCSSなどで定義されたスタイルの差異、JavaScriptの使用可否を含めた実装差異を吸収できる。)
+Discontinued
+-------------
+* It can absorb the differences between different email clients.
+  (Specifically, it can absorb differences in style defined by CSS, etc., as well as implementation differences, including whether JavaScript can be used or not.)
 
- HTMLメールを送信したいPJにてHTMLのデザインおよび対象クライアントの選定をするため、
- 本要求はコンテンツ作成時に対応するものとし、本サンプルでは提供しない。
+ Since the HTML design and target client are selected by the project that wants to send the HTML email,
+ this request should be dealt with during content creation and is not provided in this sample.
   
 
-* HTMLメールに画像を埋めこむことができる。
+* Images can be embedded in HTML email.
   
-  メールに画像を埋めこむとメール容量が増大し、メールクライアントでHTMLを拒否したユーザーでも受信に時間がかかる。また、メールサーバーへの負荷が増大する。
-  コンシューマ向けのWebサービスではURL形式の使用が多いため、本サンプルでは画像の埋めこみ機能を提供しない。
+  Embedded images in an email increases the size of the email, and it takes a long time to receive them even if the user rejects HTML in the email client.It also increases the load on the email server.
+  Since the consumer web services often use the URL format, this sample does not provide the image embedding function.
 
-構成
+Structure
 ============
 
-HTMLメールはコンテンツの内容に応じて、RFC 2557に準拠した下記のパターンのContent-Typeで送信する。
+Depending on the content, HTML emails should be sent with the following Content-Type patterns that conform to RFC 2557.
 
-送信するメールのパターンとデータモデルを示す。
+This shows the pattern and data model of the email to be sent.
 
-メールの形式
+Email format
 ------------
 
-本サンプルでは、以下のメールを送信することができる。
+The following emails can be sent in this sample.
 
-+-------------+----------------------------------------+--------------+----------------------+
-| メール形式  | 業務Actionが使用するコンテキストクラス | 添付ファイル | メール構造のパターン |
-+=============+========================================+==============+======================+
-| TEXT        | TemplateMailContext                    | 無し         | 1                    |
-|             |                                        +--------------+----------------------+
-|             |                                        | 有り         | 2                    |
-+-------------+----------------------------------------+--------------+----------------------+
-| HTML        | TemplateHtmlMailContext                | 無し         | 3                    |
-|             |                                        +--------------+----------------------+
-|             |                                        | 有り         | 4                    |
-+-------------+----------------------------------------+--------------+----------------------+
++-------------+----------------------------------------+-----------------+------------------------+
+| Email format| Context class used by business action  | Attachment files| Mail structure pattern |
++=============+========================================+=================+========================+
+| TEXT        | TemplateMailContext                    | No              | 1                      |
+|             |                                        +-----------------+------------------------+
+|             |                                        | Yes             | 2                      |
++-------------+----------------------------------------+-----------------+------------------------+
+| HTML        | TemplateHtmlMailContext                | No              | 3                      |
+|             |                                        +-----------------+------------------------+
+|             |                                        | Yes             | 4                      |
++-------------+----------------------------------------+-----------------+------------------------+
 
-**メール構造のパターン１**
+**Mail structure pattern 1**
  
  .. image:: _images/Mail_Pattern01.jpg
     :scale: 70
  
  
-**メール構造のパターン２**
+**Mail structure pattern 2**
 
  .. image:: _images/Mail_Pattern02.jpg
     :scale: 70
 
 
-**メール構造のパターン３**
+**Mail structure pattern 3**
 
  .. image:: _images/Mail_Pattern03.jpg
     :scale: 70
 
 
-**メール構造のパターン４**
+**Mail structure pattern 4**
 
  .. image:: _images/Mail_Pattern04.jpg
     :scale: 70
 
-クラス図
---------
+Class diagram
+-------------
 
  .. image:: _images/HtmlMail_ClassDiagram.png
     :height: 30em
     :width:  60em
  
 
-各クラスの責務
-^^^^^^^^^^^^^^^^
+Responsibilities of each class
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-  ==============================================================  ==============================================================================================
-  クラス名                                                        概要
-  ==============================================================  ==============================================================================================
-  please.change.me.common.mail.html.HtmlMailRequester             MailRequesterを拡張したHTMLメール送信要求を受け付けるクラス。
-  please.change.me.common.mail.html.TemplateHtmlMailContext       TemplateMailContextを拡張し、HTMLメールに必要な情報を保持するクラス。
-                                                                  代替テキストを本文に変換することで、HTMLメール用のテンプレートを利用して
-                                                                  プレーンテキスト形式のメールを送信する機能を実現する。
-  please.change.me.common.mail.html.HtmlMailTable                 HTMLメール用のテーブルにアクセスするクラス。
-  please.change.me.common.mail.html.HtmlMailSender                MailSenderを拡張したHTMLメールの送信をサポートするクラス。HTMLメール用の要求でない場合は、
-                                                                  親クラスに処理を委譲し、プレーンテキスト形式のメールを送信する。
-  please.change.me.common.mail.html.HtmlMailContentCreator        HTMLメール用のコンテンツを生成するクラス。
-  ==============================================================  ==============================================================================================
+  ==============================================================  ==================================================================================================
+  Class name                                                      Summary
+  ==============================================================  ==================================================================================================
+  please.change.me.common.mail.html.HtmlMailRequester             Class that accepts HTML email send request which is an extension of MailRequester
+  please.change.me.common.mail.html.TemplateHtmlMailContext       Class that extends TemplateMailContext and retains information required for HTML email.
+                                                                  By converting alternative text to the body, it is possible to implement the function
+                                                                  which sends email in plain text format using the template for HTML email.
+  please.change.me.common.mail.html.HtmlMailTable                 Class that accesses the HTML email table.
+  please.change.me.common.mail.html.HtmlMailSender                Class that supports sending HTML emails which is an extension of MailSender. If the request is
+                                                                  not for HTML email, delegates the process to parent class and sends email in plain text format.
+  please.change.me.common.mail.html.HtmlMailContentCreator        Class that generates content for HTML email.
+  ==============================================================  ==================================================================================================
 
-設定の記述
-^^^^^^^^^^^
+Description of configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
  .. code-block:: xml
 
-    <!-- メール送信要求API -->
+    <!-- Email send request API -->
     <component name="mailRequester" class="please.change.me.common.mail.html.HtmlMailRequester">
         <property name="mailRequestConfig" ref="mailRequestConfig" />
         <property name="mailRequestIdGenerator" ref="mailRequestIdGenerator" />
@@ -166,87 +166,87 @@ HTMLメールはコンテンツの内容に応じて、RFC 2557に準拠した�
         <property name="mailRecipientTable" ref="mailRecipientTable" />
         <property name="mailAttachedFileTable" ref="mailAttachedFileTable" />
         <property name="mailTemplateTable" ref="mailTemplateTable" />
-        <!-- 拡張したテーブルへのアクセス機能を設定する -->
+        <!-- Configure the access function to extended table -->
         <property name="htmlMailTable" ref="htmlMailTable" />
     </component>
 
     <!-- 
-    Nablarchアプリケーションフレームワークのメール送信機能ではスキーマ定義を行うが、
-    本ライブラリではソースコードを直接修正すれば良いため、設定ファイルでの定義は行わない。
-    ただし、テーブルアクセスの機能はRequester,Senderで共通のため、コンポーネントの定義を行うこと。
+    Although the schema is defined with the email send function of the Nablarch application framework,
+    it is not defined in the configuration file as modifying the source code directly in this library is better
+    Since the function of table access is common to Requester and Sender, the component should be defined.
     -->
-    <component name="htmlMailTable" class="please.change.me.common.mail.html.HtmlMailTable" />
+    <component name="databaseMetaDataExtractor" class=".dao.CustomDatabaseMetaDataExtractor" />
 
 
 
-データモデル
+Data model
 ------------
 
-メール機能からの拡張部分を示す。
+The extension from the email function is shown.
 
-本サンプルではメール関連テーブルにHTML用の拡張テーブルを関連付けることで
-TEXT+HTMLメールとして動作させる方式を採用している。
+This sample adopts a method to operate as TEXT+HTML email
+by associating the extended table for HTML to the email-related table.
 
 .. tip::
 
-  下記に示すデータモデルのDDLはテスト資源に含まれている。
+  The DDL of the data model shown below is included in the test resource.
 
-HTMLメール用代替テキストテンプレートテーブル
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Alternative text template table for HTML email
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-HTML用定型メールの代替テキストを管理するメールテンプレートの関連テーブル。
+A relation table of the email template that manages the alternative text of the standard email for HTML.
 
   ======================== ================ ==============================================================================================================
-  定義                     Javaの型         備考
+  Definition               Java type        Remarks
   ======================== ================ ==============================================================================================================
-  メールテンプレートID     java.lang.String | PK
-  言語                     java.lang.String | PK
-  代替テキスト             java.lang.String | HTMLメールを表示できないメーラーのためのテキスト。
+  Email template ID        java.lang.String | PK
+  Language                 java.lang.String | PK
+  Alternate text           java.lang.String | Text for mailers that cannot display HTML email messages.
   ======================== ================ ==============================================================================================================
 
 
-HTMLメール用代替テキストテーブル
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Alternative text table for HTML mail
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-HTMLメール用の代替テキストを管理するメール送信要求の関連テーブル。
+Relation table for email send requests that manages alternative text for HTML email.
 
   ======================== ================== ======================================================================================================================
-  定義                     Javaの型           備考
+  Definition               Java type          Remarks
   ======================== ================== ======================================================================================================================
-  メール送信要求ID         java.lang.String   | PK
-  代替テキスト             java.lang.String   | HTMLメールを表示できないメーラーのためのテキスト。
+  Email send request PK    java.lang.String   | PK
+  Alternate text           java.lang.String   | Text for mailers that cannot display HTML email messages.
   ======================== ================== ======================================================================================================================
 
-実装例
-======
+Implementation examples
+========================
 
-HTMLメールの送信
+Send HTML email
 ----------------
 
-本サンプルを利用した実装は、Nablarchアプリケーションフレームワークのメール送信機能の定型メール送信と同様である。
+The implementation using this sample is similar to the standard email send of the email send function of the Nablarch application framework.
 
-業務アクションで利用するコンテキストクラスが異なるだけなので、実装例は省略する。
+As the context class used in business action is different, implementation example is omitted.
 
 
 
-コンテンツの動的な切替
------------------------
-HTML用のテンプレートを利用して、業務アクションなどから動的にHTML形式とTEXT形式を切り替える実装のサンプルを提示する。
+Dynamic content switching
+----------------------------
+A sample implementation, by using an HTML template, that dynamically switches between HTML and TEXT formats from business actions is shown.
 
-切替方法
-^^^^^^^^^
+Switching method
+^^^^^^^^^^^^^^^^^^
 
- メール送信要求時、TemplateHtmlMailContextのcontentTypeに **プレーンテキスト** を指定した場合、
- 代替テキストを本文に差し替える。
+ When **plain text** is specified in the contentType of TemplateHtmlMailContext during email send request,
+ the body is replaced with the alternate text.
 
  +--------------------------+----------------+-------------------------------------------+----------------+
- | コンテキストクラス       | 指定されたType | 本文への移送元                            | Content-Type   |
+ | Context class            | Specified type | Transfer source to body text              | Content-Type   |
  +==========================+================+===========================================+================+
- | TemplateMailContext      | \-             | メールテンプレート.本文                   | text/plain     |
+ | TemplateMailContext      | \-             | Email template.Body                       | text/plain     |
  +--------------------------+----------------+-------------------------------------------+----------------+
- | TemplateHtmlMailContext  | *text/plain*   | *代替テキストテンプレート.代替テキスト*   | *text/plain*   |
+ | TemplateHtmlMailContext  | *text/plain*   | *Alternate text template.Alternate text*  | *text/plain*   |
  +                          +----------------+-------------------------------------------+----------------+
- |                          | text/html      | メールテンプレート.本文                   | text/html      |
+ |                          | text/html      |  Email template.Body                      | text/html      |
  +--------------------------+----------------+-------------------------------------------+----------------+
 
  .. code-block:: java
@@ -254,21 +254,21 @@ HTML用のテンプレートを利用して、業務アクションなどから�
     public HttpResponse doSendMail(HttpRequest req, ExecutionContext ctx) {
         MailSampleForm form = MailSampleForm.validate(req, "mail");
         TemplateHtmlMailContext mail = new TemplateHtmlMailContext();
-        // このとき、ユーザーがContentType.PLAINを選択していれば、代替テキストが本文に切り替わる。
+        // If the user has selected ContentType.PLAIN, the alternative text will be switched to the body.
         mail.setContentType(form.getType()); 
-        // その他のプロパティを設定し、MailRequesterを呼び出す。
+        // Configure other properties and call MailRequester.
     }
 
 
-電子署名の併用
----------------
+Combined use of digital signature
+----------------------------------
 
-電子署名を利用する場合は、電子署名の拡張サンプルとHTMLメールサンプルを併用する。
+When using a digital signature, use the extended sample of digital signature and HTML email sample together.
 
-  * メール送信要求の登録処理は本サンプルを利用する。
-  * メール送信バッチについては、本サンプルが提供するHtmlMailContentCreatorクラスを利用して、HTMLメールのコンテンツを作成できるように電子署名の拡張サンプル(SMIMESignedMailSender)を拡張し、利用する。
+  * This sample is used for the registration process of the email send request.
+  * For email send batch, use the HtmlMailContentCreator class provided by this sample to extend the digital signature extended sample (SMIMESignedMailSender) so that HTML email content can be created and used.
 
-実装イメージを下記に示す。
+The implementation image is shown below.
 
 .. code-block:: java
 
@@ -281,11 +281,11 @@ HTML用のテンプレートを利用して、業務アクションなどから�
         CertificateWrapper certificateWrapper = certificateChain.get(mailSendPatternId);
 
         try {
-            // 電子署名を生成するジェネレータの設定を行う。
+            // Configure the generator that creates the digital signature.
             SMIMESignedGenerator smimeSignedGenerator = new SMIMESignedGenerator();
-            // ---中略---
+            // ---Middle is omitted---
 
-            // HTMLメールとの分岐
+            // Branching with HTML email
             MimeBodyPart bodyPart;
             HtmlMailTable htmlTable = SystemRepository.get("htmlMailTable");
             SqlRow alternativeText = htmlTable.findAlternativeText(mailRequest.getMailRequestId());
@@ -295,10 +295,10 @@ HTML用のテンプレートを利用して、業務アクションなどから�
                                                                   alternativeText.getString("alternativeText"), attachedFiles));
                 mimeMessage.setContent(smimeSignedGenerator.generate(bodyPart));
             } else {
-              // SMIMESignedMailSenderの実装
+              // Implementation of SMIMESignedMailSender
               bodyPart = new MimeBodyPart();
               bodyPart.setText(mailRequest.getMailBody(), mailRequest.getCharset());
-              // ---後略---
+              // ---Rest is omitted---
         } catch (Exception e) {
             MailConfig mailConfig = SystemRepository.get("mailConfig");
             String mailRequestId = mailRequest.getMailRequestId();
@@ -311,34 +311,34 @@ HTML用のテンプレートを利用して、業務アクションなどから�
 
 
 
-タグを埋めこむ
+Embed tags
 --------------
 
 .. important::
 
-  タグの埋めこみは、下記の点から提供時には実装しておらず、推奨もしていない。
+  Embedding of tags is not implemented or recommended at the time of provision because of the following points.
  
-    * HTMLメールのレイアウト確認が困難になる
-    * セキュリティ対策もPJにて実施する必要がある
+    * It becomes difficult to check the layout of HTML email
+    * Security measures must be implemented with project
 
-  そのため、安易に利用せず、テンプレートを複数用意することで対応できないか検討すること。
-  ※テンプレートの作成コストでセキュリティ上のリスクを補填できる点も考慮すること。
+  Therefore, use it carefully after considering whether it can be handled by preparing multiple templates.
+  Consider whether template creation cost can compensate for the security risk.
 
-Nablarchが提供するサンプルでは、HTMLエスケープを強制するため、動的にHTMLタグをテンプレートに埋めこむことはできない。
+In the sample provided by Nablarch, HTML escape is enforced, so it is not possible to dynamically embed HTML tags in the template.
 
-動的に埋めこむ必要がある場合は、PJにてTemplateHtmlMailContextを修正し、TemplateMailContext#setReplaceKeyValueを呼び出すAPIを追加すること。
+When it is needed to embed it dynamically, modify TemplateHtmlMailContext in the project and add an API that calls TemplateMailContext#setReplaceKeyValue.
 
 .. code-block:: java
 
-  // HTMLエスケープをせずにタグを埋めこむ。
+  Embed the tag without doing HTML escape.
   public void setReplaceKeyRawValue(String key, String tag) {
       super.setReplaceKeyValue(key, tag);
   }
 
 .. tip::
 
- HTMLメールのテストは通常のメールと同様のテストを行う。
+ The test for HTML emails is the same as that for regular emails.
   
-  * HTMLテキストはメール送信要求のテーブルを検証する。
-  * 実際のメールクライアントでのレイアウト確認は送信バッチを利用して、メールを送信して確認する。
+  * The HTML text validates the table of email send requests.
+  * Layout confirmation in the actual email client uses the send batch to send and check the email.
 
