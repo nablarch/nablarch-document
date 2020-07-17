@@ -1,29 +1,29 @@
-================================
- UserAgent情報取得機能サンプル
-================================
+==================================================
+ Sample UserAgent Information Acquisition Function
+==================================================
 
 .. important::
 
-  本サンプルは、Nablarch 1.4系に準拠したAPIを使用している。
+  This sample uses a Nablarch 1.4 compliant API.
 
-  Nablarch 1.4系より新しいNablarchと組み合わせる場合は、必要に応じてカスタマイズすること。
+  When combining with versions later than Nablarch 1.4 series, customize as necessary.
 
 
-----
-概要
-----
+--------
+Summary
+--------
 
-UserAgent情報取得機能はHTTPヘッダ(User-Agent)より取得した値を設定ファイルに記述された内容に従って解析を行い、\
-以下の情報を取得する。
+The UserAgent information acquisition function analyzes the value obtained from the HTTP header (User-Agent) according to the contents described in the configuration file,
+and obtains the following information.
 
-* OSタイプ
-* OS名称
-* OSバージョン
-* ブラウザタイプ
-* ブラウザ名称
-* ブラウザバージョン
+* OS type
+* OS name
+* OS version
+* Browser type
+* Browser name
+* Browser version
 
-アプリケーションからは、\ ``HttpRequest#getUserAgent()``\ により取得できる。
+It can be obtained from the application with ``HttpRequest#getUserAgent()``.
 
 .. toctree::
   :hidden:
@@ -31,109 +31,109 @@ UserAgent情報取得機能はHTTPヘッダ(User-Agent)より取得した値を�
   useragent_sample
 
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all>`_
 
 
-----
-構成
-----
+----------
+Structure
+----------
 
-クラス図
-========
+Class diagram
+=============
 
 .. image:: ./_images/UserAgent_ClassDiagram.png
 
 
-各クラスの責務
-==============
+Responsibilities of each class
+===============================
 
-インタフェース定義
+Interface definition
+----------------------
+
+================================================================== ====================================================================================================
+Class name                                                           Summary
+================================================================== ====================================================================================================
+please.change.me.fw.web.useragent.UserAgentValueConvertor           | An interface that converts acquired values (browser name, version number, etc.).
+================================================================== ====================================================================================================
+
+
+Class definition
 ------------------
 
-================================================================== ====================================================================================================
-クラス名                                                           概要
-================================================================== ====================================================================================================
-please.change.me.fw.web.useragent.UserAgentValueConvertor           | 取得した値（ブラウザ名、バージョン番号等）を変換するインタフェース。
-================================================================== ====================================================================================================
+\a) Implementation class for nablarch.fw.web.UserAgentParser
 
+================================================================== =============================================================================================================
+Class name                                                           Summary
+================================================================== =============================================================================================================
+please.change.me.fw.web.useragent.RegexUserAgentParser             | UserAgent analysis class that obtains various information on the OS and browser using regular expressions.
+================================================================== =============================================================================================================
 
-クラス定義
-----------
-
-\a) nablarch.fw.web.UserAgentParserの実装クラス
+\b) Implementation class of nablarch.fw.web.useragent.UserAgentValueConvertor
 
 ================================================================== ====================================================================================================
-クラス名                                                           概要
+Class name                                                           Summary
 ================================================================== ====================================================================================================
-please.change.me.fw.web.useragent.RegexUserAgentParser             | 正規表現によりOSおよびブラウザの各種情報を取得するUserAgent解析クラス。
-================================================================== ====================================================================================================
-
-\b) nablarch.fw.web.useragent.UserAgentValueConvertorの実装クラス
-
-================================================================== ====================================================================================================
-クラス名                                                           概要
-================================================================== ====================================================================================================
-please.change.me.fw.web.useragent.UserAgentNameConvertor           | 名称項目の整形を行うコンバータ。
-                                                                   | 任意の文字列を置換する機能を持つ。
-please.change.me.fw.web.useragent.UserAgentVersionConvertor        | バージョン項目の整形を行うコンバータ。
-                                                                   | バージョン項目を分割し、各項目を任意の文字列でパディングする機能を持つ。
+please.change.me.fw.web.useragent.UserAgentNameConvertor           | Converter that formats name items.
+                                                                   | It has a function that replaces any strings.
+please.change.me.fw.web.useragent.UserAgentVersionConvertor        | Converter that formats version items.
+                                                                   | It has a function that divides version items and pads each item with an any string.
 ================================================================== ====================================================================================================
 
-\c) その他のクラス
+\c) Other classes
 
-================================================================== ======================================================================================================================
-クラス名                                                           概要
-================================================================== ======================================================================================================================
-nablarch.fw.web.HttpRequest                                        | HTTPプロトコルにおけるリクエストメッセージを格納するデータオブジェクト。
-                                                                   | アプリケーションでは本クラスの ``getUserAgent`` メソッドよりUserAgentクラスを取得する。
-nablarch.fw.web.useragent.UserAgent                                | UserAgent解析クラスにより解析された結果を保持するクラス。
-                                                                   | UserAgent解析クラスをカスタマイズし、任意の項目を取得したい場合、本クラスを拡張する。
-please.change.me.fw.web.useragent.UserAgentPatternSetting          | 解析パターンのリストやデフォルト値などの設定項目を保持するクラス。
-please.change.me.fw.web.useragent.TypePattern                      | 種別(OS/ブラウザ)を判定するための、解析パターンの正規表現を保持するクラス。
-please.change.me.fw.web.useragent.ItemPattern                      | 項目(具体的なブラウザ名等)を判定するための、解析パターンの正規表現やコンバータなどを保持するクラス。
-================================================================== ======================================================================================================================
+================================================================== =======================================================================================================================================
+Class name                                                           Summary
+================================================================== =======================================================================================================================================
+nablarch.fw.web.HttpRequest                                        | Data object that stores the request message in the HTTP protocol.
+                                                                   | The application obtains the UserAgent class from the ``getUserAgent`` method of this class.
+nablarch.fw.web.useragent.UserAgent                                | Class that stores the results analyzed by the UserAgent analysis class.
+                                                                   | Extend this class to customize the UserAgent analysis class and obtain any items.
+please.change.me.fw.web.useragent.UserAgentPatternSetting          | Class that stores configuration items such as the list of analysis patterns and default values.
+please.change.me.fw.web.useragent.TypePattern                      | Class that stores the regular expressions of parsing patterns to determine the type (OS/browser).
+please.change.me.fw.web.useragent.ItemPattern                      | Class that stores the regular expressions of analysis patterns and converters to determine items (such as specific browser names).
+================================================================== =======================================================================================================================================
 
 
  .. tip::
-   **UserAgentVersionConvertorについての補足説明**
+   **Additional information on the UserAgentVersionConvertor**
     
-   サンプル提供されている\ ``UserAgentValueConvertor``\ クラスの使用用途について説明をする。
-   本クラスは、文字列を「\D(数字以外)」で分割し、それぞれの要素をパディングし、スペース区切りで結合した値を変換値とする。
-   （例：「34.0.1847.116」→「_34 __0 ___1847」）
+   This section describes the usage of the ``UserAgentValueConvertor`` class provided in the sample.
+   In this class, strings are divided by "D (non-numeric)", each element is padded and the values that are separated by a space are used as the converted values.
+   (Example: "34.0.1847.116" → "_34 __0 ___1847")
     
-   なぜこのような変換を行うかというと、変換後のブラウザバージョン番号をCSSクラス名として使用するためである。
+   The reason for this conversion is to use the browser version number after conversion as the CSS class name.
     
-   ある特定のブラウザ、端末に対してのみ特別な表示制御が必要となることがあるが、この制御を行うのには様々な方法がある。
-   この制御方法がアプリケーション全体で統一されていなければ、
-   場当たり的な判定処理、制御処理が散在してしまい保守性が損なわれてしまう。
+   There are various ways to perform this control, although special display control may be required only for certain browsers and terminals.
+   If this control method is not standardized for all applications,
+   ad hoc judgment processes and control processes will be scattered, and maintainability will be impaired.
     
-   この制御方法を統一する方法として、「ユーザエージェント値から取得したブラウザバージョン番号をCSSクラス名とし、\
-   特定のブラウザ、端末に対する制御はこのCSS指定により行う」\
-   という方法を提供する。本クラスは、その表示制御用途に使用することを意図している。
+   To standardize this control method, a method for "using the browser version number obtained from the user agent value as the CSS class name
+   and controlling the specific browser or terminal by this CSS designation" has been provided.
+   This class is intended to be used for display control applications.
 
 
 
-----------
-設定の記述
-----------
-| UserAgent情報取得機能は、システムリポジトリ機能を利用して設定を行うことができる。
+------------------------------
+Description of configuration
+------------------------------
+| The UserAgent information acquisition function can be configured using the system repository function.
 
 
-UserAgent解析クラスの設定
-=========================
+Configuration of the UserAgent analysis class
+===============================================
 
-設定内容詳細
---------------
+Details of configuration contents
+----------------------------------
 
-please.change.me.fw.web.useragent.RegexUserAgentParserの設定
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Configuration of please.change.me.fw.web.useragent.RegexUserAgentParser
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   
 .. toctree::
   :hidden:
   
   useragent_sample
 
-RegexUserAgentParserの設定例と設定項目詳細は下記の通り。また、:doc:`useragent_sample` に、より具体的な設定および利用例を示す。
+Configuration examples and more information on the configuration items of RegexUserAgentParser are shown below. Also, more specific configuration and usage examples are shown in :doc:`useragent_sample`.
 
 .. code-block:: xml
 
@@ -141,29 +141,29 @@ RegexUserAgentParserの設定例と設定項目詳細は下記の通り。また
  <component-configuration xmlns="http://tis.co.jp/nablarch/component-configuration"
                           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   
-   <!-- OSのパターンマッピング設定 -->
+   <!-- OS pattern mapping configuration -->
    <component name="userAgentParser" class="please.change.me.fw.web.useragent.RegexUserAgentParser">
      <property name="osSetting">
        <component class="please.change.me.fw.web.useragent.UserAgentPatternSetting">
-         <!-- OSタイプを取得するためのパターン設定 -->
+         <!-- Pattern configuration for obtaining the OS type -->
          <property name="typePatternList">
            <list>
              <component class="please.change.me.fw.web.useragent.TypePattern">
                <property name="name"             value="desktop" />
-               <!-- OSタイプの抽出パターン(正規表現) -->
+               <!-- OS type extraction pattern (regular expression) -->
                <property name="pattern"          value="(?i).*(windows|mac os x).*" />
              </component>
            </list>
          </property>
-         <!-- OS情報を取得するためのパターン設定 -->
+         <!-- Pattern configuration for acquiring OS information -->
          <property name="itemPatternList">
            <list>
              
              <component class="please.change.me.fw.web.useragent.ItemPattern">
-               <!-- OS情報の抽出パターン(正規表現) -->
+               <!-- OS information extraction pattern (regular expression) -->
                <property name="pattern"          value="(?i).*(windows|mac os x)[\D+]*([\d\._]*).*" />
-               <property name="nameIndex"        value="1" />  <!-- １つ目のキャプチャグループをOS名にする -->
-               <property name="versionIndex"     value="2" />  <!-- ２つ目のキャプチャグループをOSバージョンにする -->
+               <property name="nameIndex"        value="1" />  <!-- Configure the first capture group to the OS name -->
+               <property name="versionIndex"     value="2" />  <!-- Configure the second capture group to the OS name -->
                <property name="nameConvertor"    ref="osNameConvertor" />
                <property name="versionConvertor" ref="deviceVersionConvertor" />
              </component>
@@ -185,7 +185,7 @@ RegexUserAgentParserの設定例と設定項目詳細は下記の通り。また
            <list>
              <component class="please.change.me.fw.web.useragent.ItemPattern">
                <property name="pattern"          value="(?i).*(msie\s|trident.+rv:)([\d\.]*).*" />
-               <property name="name"             value="ie" /> <!-- グループインデックスが指定されない場合に使用するブラウザ名 -->
+               <property name="name"             value="ie" /> <!-- Browser name to use when the group index is not specified -->
                <property name="versionIndex"     value="2" />
                <property name="versionConvertor" ref="browserVersionConvertor" />
              </component>
@@ -197,132 +197,132 @@ RegexUserAgentParserの設定例と設定項目詳細は下記の通り。また
  </component-configuration>
 
 
-RegexUserAgentParserのプロパティ値を以下に示す。
+The property values of RegexUserAgentParser are shown below.
 
-==================== ===================================================================
-property名           設定内容
-==================== ===================================================================
-osSetting            | OS情報の解析パターン設定を定義する。
-                     | 設定可能な値はUserAgentPatternSettingである。
-                     | 指定が無い場合、OSに関する情報は全てnullとなる。
-browserSetting       | ブラウザ情報の解析パターン設定を定義する。
-                     | 設定可能な値はUserAgentPatternSettingである。
-                     | 指定が無い場合、ブラウザに関する情報は全てnullとなる。
-==================== ===================================================================
+==================== ======================================================================
+property name        Settings
+==================== ======================================================================
+osSetting            | Defines the parsing pattern configuration for OS information.
+                     | The value that can be configured is UserAgentPatternSetting.
+                     | If not specified, all OS information will be null.
+browserSetting       | Defines the parsing pattern configuration for browser information.
+                     | The value that can be configured is UserAgentPatternSetting.
+                     | If not specified, all browser information will be null.
+==================== ======================================================================
 
-UserAgentPatternSettingのプロパティ値を以下に示す。
+The property values of UserAgentPatternSetting are shown below.
 
-==================== =======================================================================================================================================
-property名           設定内容
-==================== =======================================================================================================================================
-defaultType          | デフォルトの項目タイプを定義する。
-                     | UserAgentがいずれのパターンにもマッチしない場合、または判定中にエラーが発生した場合に使用される。
-                     | 指定がない場合、項目タイプは"UnknownType"となる。
+==================== =============================================================================================================================================================
+property name        Settings
+==================== =============================================================================================================================================================
+defaultType          | Defines the default item type.
+                     | Used when the UserAgent does not match any of the patterns, or when an error occurs during determination.
+                     | If not specified, the item type will be "UnknownType".
 
-defaultName          | デフォルトの項目名称を定義する。
-                     | UserAgentがいずれのパターンにもマッチしない場合、または判定中にエラーが発生した場合に使用される。
-                     | 指定がない場合、項目名称は"UnknownName"となる。
+defaultName          | Defines the default item name.
+                     | Used when the UserAgent does not match any of the patterns, or when an error occurs during determination.
+                     | If not specified, the item name will be "UnknownName".
 
-defaultVersion       | デフォルトのバージョンを定義する。
-                     | UserAgentがいずれのパターンにもマッチしない場合、または判定中にエラーが発生した場合に使用される。
-                     | 指定がない場合、バージョンは"UnknownVersion"となる。
+defaultVersion       | Defines the default version.
+                     | Used when the UserAgent does not match any of the patterns, or when an error occurs during determination.
+                     | If not specified, the version will be "UnknownVersion".
 
-typePatternList      | UserAgentから項目タイプを取得するための解析パターンをListで定義する。
-                     | Listの要素はUserAgentPatternとする。
-                     | パターンの解析はこのリストの定義順に行われ、マッチした時点で該当グループの解析を終了する。
-                     | 指定がない場合、解析が行われない。
+typePatternList      | Defines the parsing pattern in List to acquire item types from UserAgent.
+                     | UserAgentPattern is used as the element of the list.
+                     | Parsing of pattern is performed in the order in which the list is defined and parsing of the corresponding group is terminated when a match is made.
+                     | If not specified, parsing will be not performed.
 
-itemPatternList      | UserAgentから項目名称、バージョンを取得するための解析パターンをListで定義する。
-                     | Listの要素はUserAgentPatternとする。
-                     | パターンの解析はこのリストの定義順に行われ、マッチした時点で該当グループの解析を終了する。
-                     | 指定がない場合、解析が行われない。
-==================== =======================================================================================================================================
+itemPatternList      | Defines the parsing pattern with List to get the item name and version from UserAgent.
+                     | UserAgentPattern is used as the element of the list.
+                     | Parsing of pattern is performed in the order in which the list is defined and parsing of the corresponding group is terminated when a match is made.
+                     | If not specified, parsing will be not performed.
+==================== =============================================================================================================================================================
 
             
              
  
 
 
-TypePatternのプロパティ値を以下に示す。
+The property values of TypePattern are shown below.
 
 ==================== =======================================================================================================================================
-property名           設定内容
+property name        Settings
 ==================== =======================================================================================================================================
-name                 | このパターンの項目名を定義する。
-                     | 本値は他のパターンと同じ値を設定してもよい。
+name                 | Defines the item name of this pattern.
+                     | This value may be set to the same value as other patterns.
 
-pattern              | 解析パターンを正規表現で定義する。
-                     | 不正なパターンが指定された場合、初期化時にIllegalArgumentExceptionが送出される。
-==================== =======================================================================================================================================
-
-
-ItemPatternのプロパティ値を以下に示す。
-
-==================== =======================================================================================================================================
-property名           設定内容
-==================== =======================================================================================================================================
-name                 | このパターンの項目名を定義する。
-                     | 本値は他のパターンと同じ値を設定してもよい。
-                     | 本値はnameIndexでキャプチャするグループ番号を指定しない場合に使用される。
-                     | 指定がない場合、項目タイプはdefaultTypeで指定された値となる。
-
-pattern              | 解析パターンを正規表現で定義する。
-                     | nameIndexおよびversionIndexで指定されるグループ番号で値をキャプチャできるようグループを設定する必要がある。
-                     | 不正なパターンが指定された場合、初期化時にIllegalArgumentExceptionが送出される。
-                     | 指定がない場合、解析が行われない。
-
-nameIndex            | 解析パターンから項目名称としてキャプチャするグループ番号を定義する。
-                     | 不正なインデックスが指定された場合、初期化時にIllegalArgumentExceptionが送出される。
-                     | 指定がない場合、項目名称は項目タイプと同値となる。
-                     | 項目タイプも指定されていない場合、defaultNameで指定された値となる。
-
-versionIndex         | 解析パターンからバージョンとしてキャプチャするグループ番号を定義する。
-                     | 不正なインデックスが指定された場合、初期化時にIllegalArgumentExceptionが送出される。
-                     | 指定がない場合、バージョンはdefaultVersionで指定された値となる。
-
-nameConvertor        | 項目名称抽出後に文字列変換を行うUserAgentValueConvertorの実装クラスを定義する。
-                     | 標準の実装としてUserAgentNameConvertorが提供される。
-                     | UserAgentNameConvertorは、指定された置換前文字列を置換後文字列に単純に置き換える。
-                     | また、toLowerCaseプロパティが設定されている場合は置換前に文字列を小文字化する。
-                     | 例）「mac os x」→「mac_os_x」
-                     | 指定がない場合、変換を行わない。
-
-versionConvertor     | バージョン抽出後に文字列変換を行うUserAgentValueConvertorの実装クラスを定義する。
-                     | 標準の実装としてUserAgentVersionConvertorが提供される。
-                     | UserAgentVersionConvertorは、文字列を「\\D(数字以外)」で分割し、３つの要素にする。\
-                       それぞれの要素をパディングし、スペース区切りで結合した値を変換値とする。
-                     | 例）「34.0.1847.116」→「_34 __0 ___1847」
-                     | 指定がない場合、変換を行わない。
-==================== =======================================================================================================================================
-
-UserAgentNameConvertorのプロパティ値を以下に示す。
-
-==================== =======================================================================================================================================
-property名           設定内容
-==================== =======================================================================================================================================
-toLowerCase          | 文字列の小文字化フラグを定義する。
-                     | 指定がない場合、小文字化を行う。
-
-replaceFrom          | 置換前文字列を定義する。
-
-replaceTo            | 置換後文字列を定義する。
-                     | replaceFromおよびreplaceToの両方が指定されない場合、変換を行わない。
-==================== =======================================================================================================================================
-
-UserAgentVersionConvertorのプロパティ値を以下に示す。
-
-==================== =======================================================================================================================================
-property名           設定内容
-==================== =======================================================================================================================================
-padding              | パディング文字列を定義する。
-                     | 指定がない場合、変換を行わない。
+pattern              | Defines the parsing pattern as a regular expression.
+                     | If an invalid pattern is specified, IllegalArgumentException will be thrown during initialization.
 ==================== =======================================================================================================================================
 
 
+The property values of ItemPattern are shown below.
 
-------
-使用例
-------
+==================== =======================================================================================================================================
+property name        Settings
+==================== =======================================================================================================================================
+name                 | Defines the item name of this pattern.
+                     | This value may be set to the same value as other patterns.
+                     | This value is used when the group number to be captured with nameIndex is not specified.
+                     | If not specified, the item type will be the value specified by defaultType.
+
+pattern              | Defines the parsing pattern as a regular expression.
+                     | The group must be configured to capture the value with the group number specified in nameIndex and versionIndex.
+                     | If an invalid pattern is specified, IllegalArgumentException will be thrown during initialization.
+                     | If not specified, parsing will be not performed.
+
+nameIndex            | Defines a group number to be captured as an item name from the parsing pattern.
+                     | If an invalid index is specified, IllegalArgumentException will be thrown during initialization.
+                     | If not specified, the item name will have the same value as the item type.
+                     | If the item type is not specified, it will be the value specified by defaultName.
+
+versionIndex         | Defines a group number to be captured as a version from the parsing pattern.
+                     | If an invalid index is specified, IllegalArgumentException will be thrown during initialization.
+                     | If not specified, the version will be the value specified by defaultVersion.
+
+nameConvertor        | Defines an implementation class for UserAgentValueConvertor that performs string conversion after item name extraction.
+                     | UserAgentNameConvertor is provided as a standard implementation.
+                     | UserAgentNameConvertor simply replaces the specified string before replacement with the string after replacement .
+                     | Also, if the toLowerCase property is set, the string is converted to lower case before replacement.
+                     | Example: "mac os x" → "mac_os_x"
+                     | If not specified, conversion will be not performed.
+
+versionConvertor     | Defines an implementation class for UserAgentValueConvertor that performs string conversion after version extraction.
+                     | UserAgentVersionConvertor is provided as a standard implementation.
+                     | UserAgentVersionConvertor divides the string by "\D (non-numeric)" into three elements.
+                       Each element is padded and the values that are separated by a space are used as the converted values.
+                     | Example: "34.0.1847.116" → "_34 __0 ___1847"
+                     | If not specified, conversion will be not performed.
+==================== =======================================================================================================================================
+
+The property values of UserAgentNameConvertor are shown below.
+
+==================== =======================================================================================================================================
+property name        Settings
+==================== =======================================================================================================================================
+toLowerCase          | Defines the lowercase flag for string.
+                     | If not specified, lower case will be used.
+
+replaceFrom          | Defines the string before replacement.
+
+replaceTo            | Defines the string after replacement.
+                     | If both replaceFrom and replaceTo are not specified, conversion will not be performed.
+==================== =======================================================================================================================================
+
+The property values of UserAgentVersionConvertor are shown below.
+
+==================== =======================================================================================================================================
+property name        Settings
+==================== =======================================================================================================================================
+padding              | Define the padding string.
+                     | If not specified, conversion will be not performed.
+==================== =======================================================================================================================================
+
+
+
+----------
+Use case
+----------
 
 .. code-block:: java
 
@@ -331,10 +331,10 @@ padding              | パディング文字列を定義する。
      UserAgent userAgent = req.getUserAgent();
      
      if (userAgent.getOsType().equals("android")) {
-         ... // クライアントがandroidの場合に行う処理
+         ... // Processing when the client is android
      }
      
      if (userAgent.getBrowserName().equals("chrome")) {
-         ... // ブラウザがchromeの場合に行う処理
+         ... // Processing when the browser is chrome
      }
  }
