@@ -1,31 +1,31 @@
-bouncycastleを使用した電子署名つきメールの送信サンプルの使用方法
+How to Use a Sample to Send a Digitally Signed Email Using Bouncycastle
 ============================================================================
 
 .. important::
 
-  本サンプルは、Nablarch 1.4系に準拠したAPIを使用している。
+  This sample uses a Nablarch 1.4 compliant API.
 
-  Nablarch 1.4系より新しいNablarchと組み合わせる場合は、必要に応じてカスタマイズすること。
+  When combining with versions later than Nablarch 1.4 series, customize as necessary.
 
 
-本章では、bouncycastle\  [#bouncy]_\ を使用した電子署名付きメール送信機能の使用方法の解説を行う。
-なお、本機能はサンプル実装のため、導入プロジェクトで使用する際には、ソースコード(プロダクション、テストコード共に）をプロジェクトに取込使用すること。
+This chapter describes how to use the digitally signed send mail feature using bouncycastle. [#bouncy]_
+Since this function is a sample implementation, the source code (both production and test code) must be imported into the project when using it in an implementation project.
 
-`ソースコード <https://github.com/nablarch/nablarch-smime-integration>`_ 
+`Source code <https://github.com/nablarch/nablarch-smime-integration>`_ 
 
 .. [#bouncy]
-  bouncycastleとは、暗号化等のセキュリティ関連の機能を提供するオープンソースライブラリである。
+  Bouncycastle is an open source library that provides security-related functions such as encryption.
 
-  詳細は、bouncycastleのサイト(\ `http://www.bouncycastle.org/ <http://www.bouncycastle.org/>`_\ )を参照
+  For more information, see site of bouncycastle (\ `http://www.bouncycastle.org/ <http://www.bouncycastle.org/>`_\ ).
 
 
-環境準備
--------------
+Environment preparation
+-----------------------
 
-**ライブラリの準備**
+**Preparing the library**
 
- 本機能は、オープンソースライブラリのbouncycastleに依存しているため、
- クラスパスにbouncycastleの電子署名に関連するjarファイル(以下の3ファイル)を設定する必要がある。
+ Since this function depends on the open source library bouncycastle,
+ a jar file related to the digital signature of bouncycastle (the following three files) has to be configured in the classpath.
  
  * bcmail-jdk15on-147.jar
  * bcpkix-jdk15on-147.jar
@@ -33,52 +33,52 @@ bouncycastleを使用した電子署名つきメールの送信サンプルの�
  
  .. tip::
    
-   本機能のテストでは、\ **Release1.47**\ のライブラリを使用してテストを行なっている。
+   The library of **Release1.47** is used for the test of this function.
 
-   バグフィックスや脆弱性対応などが行われる可能性があるため、bouncycastleのサイトで最新リリースの有無を必ず確認すること。
-   もし、1.47以降のバージョンがリリースされている場合には、最新バージョンのライブラリをプロジェクトに適用すること。
+   Check the bouncycastle site for the latest release, as bug and vulnerability fixes may have been addressed.
+   If a version after 1.47 has been released, the latest version of the library should be used in the project.
 
-**電子署名用の証明書の準備**
+**Prepare a certificate for digital signature**
 
- 証明書は、認証局から発行してもらい任意のディレクトリ（メール送信機能（バッチ）からアクセス可能なディレクトリ）に配置すること。
- このディレクトリへのアクセス権限は必要最小限にし、必要のないユーザが証明書にアクセスできないようにすることを推奨する。
+ The certificate must be issued by the certification authority and placed in an any directory (a directory accessible by the email send function (batch)).
+ It is recommended that access privileges to this directory are kept to a minimum to prevent users for whom it is not required from accessing the certificate.
 
-電子署名付きメール送信機能の構造
----------------------------------------
-本機能は、Nablarchアプリケーションフレームワークで提供されるメール送信機能(\ *nablarch.common.mail.MailSender*\ )の拡張機能である。
+Structure of digitally signed email send function
+--------------------------------------------------
+This function is an extension of the email send function (\ *nablarch.common.mail.MailSender*\ ) provided by the Nablarch application framework.
 
-送信対象のメール送信パターンIDを元に証明書を特定し、電子署名を付加する仕様としている。
-このため、本機能を使用する場合には、必ずメール送信パターンIDを使用できるテーブル設計とすること。
+A certificate is identified based on the target email send pattern ID and a digital signature is added to the certificate.
+Therefore, when this function is used, ensure to design a table that can use the mail transmission pattern ID.
 
-詳細は、Nablarchアプリケーションフレームワークのメール送信機能のガイドを参照すること。
+For more information, see the guide to email send functions of the Nablarch application framework.
 
 
-設定ファイルの準備
-------------------------
-本機能を使用する際に必要となる設定は、証明書に関する設定を除き全てNablarchアプリケーションフレームワークのメール送信機能と同じである。
-このため、Nablarchアプリケーションフレームワークのメール送信機能のガイドを参照し、設定ファイルの準備をすること。
+Preparation of configuration file
+----------------------------------
+The configuration required to use this function are all the same as the email send function of Nablarch Application Framework, except for the certificate configuration.
+For this reason, refer to the guide to email send functions of the Nablarch application framework to prepare the configuration file.
 
-証明書に関する設定方法
-^^^^^^^^^^^^^^^^^^^^^^
-本機能を使用する際に必要となる証明書に関する設定方法を、設定例を元に解説する。
+How to configure certificates
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This section describes how to configure the certificates required to use this function using an example configuration.
 
 .. code-block:: xml
 
-  <!-- 証明書へアクセスするための設定 -->
+  <!-- Configuring access to certificates -->
   <!--
-  証明書へのアクセス設定は証明書のファイル単位で設定を行う。
-  この例では、証明書ファイルが２ファイルある場合を例にした設定としている。
-  name属性：任意の名前（証明書ファイルを識別出来る名前）を設定する。
-  class属性：please.change.me.common.mail.smime.CertificateWrapperを固定で設定する。
+  The access configuration to the certificate is configured for each certificate file.
+  In this example, the configuration is based on two certificate files.
+  Name attribute: Configure an any name (name that can identify the certificate file).
+  Class attribute: Configure tplease.change.me.common.mail.smime.CertificateWrapper to a fixed value.
   -->
   <component name="certificate_1" class="please.change.me.common.mail.smime.CertificateWrapper">
-    <!-- 証明書ファイルへアクセスするためのパスワードを設定する。 -->
+    <!-- Configure the password to access the certificate file. -->
     <property name="password" value="password" />
-    <!-- 証明書に格納された秘密鍵にアクセスするためのパスワードを設定する。 -->
+    <!-- Configure the password to access the private key stored in the certificate. -->
     <property name="keyPassword" value="password" />
-    <!-- 証明書ファイルのパスを設定する。 -->
+    <!-- Configure the path of the certificate file. -->
     <property name="certificateFileName" value="classpath:please/change/me/common/mail/smime/data/certificate_1.p12" />
-    <!-- 証明書のキーストアタイプを設定する。 -->
+    <!-- Configure the keystore type of the certificate. -->
     <property name="keyStoreType" value="PKCS12" />
   </component>
   <component name="certificate_2" class="please.change.me.common.mail.smime.CertificateWrapper">
@@ -88,18 +88,18 @@ bouncycastleを使用した電子署名つきメールの送信サンプルの�
     <property name="keyStoreType" value="JKS" />
   </component>
 
-  <!-- 電子署名付きメール送信機能用に証明書リストを設定 -->
+  <!-- Configure a certificate list for send function of digitally signed emails -->
   <map name="certificateList">
-    <!-- メール送信パターンID:01は、certificate_1で設定された証明書を使用して電子署名を付加する。 -->
+    <!-- The mail send pattern ID:01 is a digital signature that is added using the certificate set in certificate_1. -->
     <entry key="01" value-name="certificate_1" />
-    <!-- メール送信パターンID:02は、certificate_2で設定された証明書を使用して電子署名を付加する。 -->
+    <!-- The mail send pattern ID:02 is a digital signature that is added using the certificate set in certificate_2. -->
     <entry key="02" value-name="certificate_2" />
   </map>
 
-実行方法
+Execution
 ------------------
-実行対象のアクションクラスを、\ **please.change.me.common.mail.smime.SMIMESignedMailSender**\ としてメール送信のバッチプロセスを起動する。
-プロセス起動時には、このプロセスが処理すべきメールが特定できるメール送信パターンIDを引数として指定する。
+Launch a process of email send batch with the target action class as **please.change.me.common.mail.smime.SMIMESignedMailSender**.
+When a process is launched, an email send pattern ID that can identify the mail to be processed by this process is specified as a parameter.
 
-詳細は、Nablarchアプリケーションフレームワークのメール送信機能のガイドを参照すること。
+For more information, see the guide to email send functions of the Nablarch application framework.
 
