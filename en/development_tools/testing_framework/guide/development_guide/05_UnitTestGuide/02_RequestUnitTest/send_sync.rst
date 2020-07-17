@@ -21,6 +21,7 @@ The request unit test for the sending synchronous message process is done in the
 The following is an image of a request unit test
 
 .. image:: ./_image/send_sync_base.png
+  :width: 100%
 .. image:: ./_image/hanrei.png
 
 
@@ -28,7 +29,6 @@ The following is an image of a request unit test
 | (2) The Nablarch Application Framework reads the parameter (request in the case of screen, file or DB in the case of batch) that is the input for the action and starts the action.
 | (3) Action executes the message synchronous send process of the Nablarch Application Framework. Nablarch Application Framework converts the parameters received from the action into a request message.
 | (4) The automated test framework asserts the request statement based on the test data. (request message is not put into the queue)
-
 | (5) The automated test framework generates a response message based on the test data and returns it to the action. (response message is not got from the queue)
 
 
@@ -248,8 +248,7 @@ When sending a message multiple times, the test should be written with attention
 The following is a description example of the expected value of the request message body when a message is sent multiple times.
 
 .. image:: ./_image/send_sync_ok_pattern_expected.png
-   :scale: 80
-
+  :width: 100%
 
 .. tip::
  If there are multiple request IDs to be sent, testing the order is not possible. In the above example, the test is successful even if ``ProjectInsert2Messag`` is sent before ``ProjectInsertMessage``.
@@ -280,7 +279,7 @@ The following is an image of the setting in Excel.
 
 
  .. image:: ./_image/send_sync_error.png
-    :scale: 60
+   :width: 100%
 
 .. [#]
  If the business action does not explicitly control **MessagingException**,

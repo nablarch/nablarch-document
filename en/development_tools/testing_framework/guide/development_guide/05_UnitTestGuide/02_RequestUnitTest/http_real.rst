@@ -134,7 +134,7 @@ Describe the messages after the framework control header.
 
 
  +------------+-------------------+-----------------------------------------+
- |行          |Description content|Remarks                                  |
+ |Line        |Description content|Remarks                                  |
  +============+===================+=========================================+
  |First line  |Field name         |First cell is set to "no".               |
  +------------+-------------------+-----------------------------------------+

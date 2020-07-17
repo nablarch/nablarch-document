@@ -164,7 +164,7 @@ Data                       Describe the data only in the case of response messag
 
 .. tip::
  Field names, data types and field lengths can be efficiently created by copying and pasting them from the external interface design document.\
-  (Check the "\ **transpose matrix**\ " option when pasting.)
+ (Check the "\ **transpose matrix**\ " option when pasting.)
 
 
 Reload an Excel file
@@ -179,7 +179,7 @@ If the following response message data is defined, the response message of no. 1
 The response message of no. 2 is returned in the second message synchronous transmission.
 
 .. image:: ./_images/send_sync_test_data_no.png
-    :scale: 90
+    :width: 100%
 
 However, updating the timestamp by editing or overwriting the Excel file, the Excel file can be reloaded while the application server is running.
 
@@ -353,7 +353,7 @@ Configuring the library to be used for subfunction unit test
 The following jar files are required be passed to the classpath of application server in the subfunction unit test.
 
  * nablarch-tfw.jar
- * Apache POIのjar
+ * Apache POI jar
 
 The classpath of jar is configured by default in the standard sample applications provided by Nablarch. 
 Specifically, these jars are placed in the test/lib directory of the sample application, and the classpath is configured using the Eclipse function as shown below.
