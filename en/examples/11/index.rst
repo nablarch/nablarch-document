@@ -1,188 +1,184 @@
 
-メッセージング基盤テストシミュレータサンプル
+Messaging Platform Test Simulator Sample
 ================================================
 
 .. important::
 
-  本サンプルは、Nablarch 1.4系に準拠したAPIを使用している。
+  This sample uses a Nablarch 1.4 compliant API.
 
-  Nablarch 1.4系より新しいNablarchと組み合わせる場合は、必要に応じてカスタマイズすること。
+  When combining with versions later than Nablarch 1.4 series, customize as necessary.
 
 
-.. contents:: 目次
+.. contents:: Table of Contents
   :depth: 3
   :local:
 
-`ソースコード <https://github.com/nablarch/nablarch-messaging-simulator>`_
+`Source code <https://github.com/nablarch/nablarch-messaging-simulator>`_
 
-本サンプルは、Nablarchアプリケーションフレームワークの :ref:`mom_system_messaging` 、 :ref:`http_system_messaging` を使用する
-アプリケーションのテストにて、対向先システムをシミュレートするサンプル実装を提供する。
+This sample provides a sample implementation to simulate a destination system for testing applications using the Nablarch application framework  :ref:`mom_system_messaging` and :ref:`http_system_messaging`.
 
-テスト環境構築後の疎通テストやアプリケーションの結合テスト等で、アプリケーションの接続先として、
-利用することを想定している。
+It is assumed to be used as a connection destination for applications in communication and application coupling tests after a test environment is built.
 
-シミュレータの動作イメージを以下に示す。
+The operation image of the simulator is shown below.
 
-シミュレータがメッセージ受信する場合
+When the simulator receives a message
   .. image:: ./_images/behavior_illustration01.png
     :scale: 70
 
-シミュレータがメッセージ送信する場合
+When the simulator sends a message
   .. image:: ./_images/behavior_illustration02.png
     :scale: 70
 
-用途
+Uses
 ----------
 
-疎通テスト
+Communication test
+~~~~~~~~~~~~~~~~~~~~~~~
+
+It can be used as a destination system for simple communication in the communication test to confirm the configuration of Nablarch application framework, middleware, hardware, etc. after building the test environment.
+
+Combined test
+~~~~~~~~~~~~~~~~
+
+It can be used as a pseudo counterpart system for inter-system communication during application integration test. 
+By using the simulator to set the data to be used as the request message/response message, the test using the scenario can be performed.
+
+While testing using scenarios is possible in a subfunction unit test, 
+testing using a simulator is different in that it is possible to confirm the operation of the OS and middleware.
+
+Load test
 ~~~~~~~~~~~
 
-テスト環境を構築後のNablarchアプリケーションフレームワーク、ミドルウェア、ハードウェア等の設定を確認するための疎通テストにて、
-簡易的に通信を行う対向先システムとして利用することができる。
+It is possible to send and receive a large number of messages to apply a load when performing an application load test.
 
-結合テスト
-~~~~~~~~~~~
-
-アプリケーションの結合テストの際に、システム間通信の擬似的な対向先システムとして利用することができる。
-シミュレータに要求電文/応答電文として利用するデータを設定することで、シナリオを用いたテストを行うことができる。
-
-シナリオを用いたテストは取引単体テストにて可能であるが、
-シミュレータを使用したテストではOSやミドルウェアも含めた動作を確認することができる点が異なる。
-
-負荷テスト
-~~~~~~~~~~~
-
-アプリケーションの負荷テストを行う際に、負荷をかけるための大量のメッセージ送受信を行うことができる。
-
-特徴
+Features
 ----------
 
-取引単体テストと同じ手順でテストデータを作成できる
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Test data can be created in the same way as subfunction unit testing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-本シミュレータで使用するテストデータは、取引単体テストと同様の手順で作成できる。
-そのため、本シミュレータの使用時に余計な学習コストが発生しない。
+The test data used in this simulator can be created in the same way as the subfunction unit test. 
+Therefore, no extra learning cost is incurred when using this simulator.
 
-特殊および複雑なテストケースにも、カスタマイズすることで対応可能(メッセージ受信)
+Supports special and complex test cases by customizing (message reception)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-ソースコード提供しているシミュレータのソースコードを修正することによって、
-特殊および複雑なテストケースに合わせた、以下のようなテストが可能である。
+By modifying the source code of the provided simulator, 
+the following tests can be performed for special and complex test cases.
 
-* 要求電文の内容に応じて、応答電文の内容を動的に変更する必要があるテストを行う。
-* 意図的に応答の時間を遅らせることによってタイムアウトを発生させるなど、異常系のテストを行う。
+* Perform a test that needs to dynamically change the content of the response message according to the content of the request message.
+* Perform an abnormal system test by intentionally delaying the response time to cause a timeout.
 
 
-マルチスレッドで要求電文を送信することが可能（メッセージ送信）
+Capable of sending request messages in multiple threads (message sending)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Nablarchアプリケーションフレームワークのマルチスレッド実行制御ハンドラをシミュレータ内部で使用しており、
-マルチスレッドで要求電文を送信するこで、大量メッセージを送信した負荷テストが可能である。
+The multi-thread execution control handler of Nablarch application framework is used inside the simulator. 
+By sending a request message with multi-thread, it is possible to perform a load test that sends a large number of messages.
 
-要求
-----
+Request
+------------
 
-シミュレータがメッセージ受信する場合
+When the simulator receives a message
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* HTTPメッセージ受信、MOM同期応答メッセージ受信用の応答電文を送信することができる。
-* 要求電文のログを出力することができる。
-* 任意のHTTPステータスコードを返却できる。
-* シミュレータへの要求順序にあわせた応答電文を送信可能(単体テスト時と同様、Excelファイルに記述された内容を上から順に返却する)。
+* It is possible to send response messages on receiving HTTP messages and MOM receiving synchronous message.
+* It is possible to output a log of the request message.
+* Can return any HTTP status code.
+* It is possible to send response messages according to the order of requests to the simulator (similarly to the unit test, the contents described in the Excel file are returned in order from the top).
 
-シミュレータがメッセージ送信する場合
+When the simulator sends a message
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* HTTPメッセージ送信、MOM同期応答メッセージ送信、MOM応答不要メッセージ送信用の要求電文を送信することができる。
-* 指定回数、同じ電文を送信する。
-* 応答電文のログを出力することができる。
-* Excelファイルに記述された内容を順に送信することができる。
+* Request messages for sending HTTP messages, MOM sending synchronous message, and MOM sending asynchronous message can be sent.
+* Send the same message a specified number of times.
+* The response message log can be output.
+* The contents described in the Excel file can be sent sequentially.
 
 
-使用方法
+How to use
 ------------------------
 
-シミュレータの実行モジュールを作成する
+Create a simulator execution module
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-本サンプルは、利用者が目的とするテストを実施するために、Javaファイル等をカスタマイズすることを想定しているため、
-ソースコードや設定ファイルをサンプル提供する形態としている。
+In this sample, it is assumed that the user will customize the Java file etc. 
+in order to carry out the intended test, so the source code and configuration file are provided as samples.
 
-そのため、シミュレータを利用するには、以下の手順に従ってビルドを実行し、実行モジュールを作成する必要がある。
+Therefore, in order to use the simulator, it is necessary to execute a build and create an execution module according to the following procedure.
 
-シミュレータの取得
-  以下のコマンドを実行してシミュレータのソースコードを取得する。
+Getting a simulator
+  Execute the following command to get the source code of the simulator.
 
   .. code-block:: bash
 
     git clone https://github.com/nablarch/nablarch-messaging-simulator.git
 
-  なお、シミュレータを実行するには、以下のライブラリがローカルリポジトリにインストールされている必要がある。
+  The following libraries must be installed in the local repository to run the simulator.
 
-    * WebSphere MQ付属のjarファイル
+    * Jar file provided with WebSphere MQ
 
-実行モジュールの作成
-  以下のコマンドを実行し、 ``src/main/build`` 配下に実行モジュールを作成する。
+Creating an execution module
+  Execute the following command to create an execution module under ``src/main/build``.
 
   .. code-block:: bat
 
     gradlew setupBuild
 
-  作成した実行モジュールは、シミュレータを実行する環境に配置する。
+  The created execution module is placed in the environment where the simulator is to be executed.
 
-シミュレータを起動する
+Start the simulator
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-実行モジュールに含まれる以下のbatファイルを実行することでシミュレータが起動する。
+The simulator is started by executing the following bat file included in the execution module.
 
-:HTTPメッセージ受信: http-incoming-startup.bat
-:HTTPメッセージ送信: http-outgoing-startup.bat
-:MOMメッセージ受信: mom-incoming-startup.bat
-:MOMメッセージ送信: mom-outgoing-startup.bat
+:HTTP receive messages: http-incoming-startup.bat
+:Send HTTP message: http-outgoing-startup.bat
+:MOM receive messages: mom-incoming-startup.bat
+:Send MOM message: mom-outgoing-startup.bat
 
-拡張例
+Expansion example
 ---------------------------
 
-メッセージ送信時にリクエスト送信回数を指定する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Specify the number of times to send a request when sending a message
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-デフォルトでは、送信リストファイル(CSV)に記載した行数分のリクエストを送信するが、
-同一のデータを繰り返し送信したい場合などは、 ``sendCount`` オプションでリクエスト送信回数を指定できる。
+By default, the requests for the line count described in the send list file (CSV) are sent, 
+and the request send count can be specified with the ``sendCount`` option to send the same data repeatedly.
 
-オプションの指定例を以下に示す。
+An example for specifying options is shown below.
 
 .. code-block:: bat
 
-  java <省略> nablarch.fw.launcher.Main <省略> -sendCount 10000
+  java <omitted> nablarch.fw.launcher.Main <omitted> -sendCount 10000
 
-メッセージ受信時にリクエストの種類に応じてレスポンスを切り替える
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Switch the response according to the type of request when receiving a message
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-リクエストの種類に応じてレスポンスを切り替えるには、アクションクラスの ``getRequestId`` メソッドを修正する。
+To switch responses based on the request type, modify the ``getRequestId`` method of the action class.
 
-HTTPメッセージの受信時に、リクエストURIによってレスポンスを切り替える場合の実装例を以下に示す。
+Implementation example when switching the response by request URI when receiving HTTP message is shown below.
 
 .. code-block:: java
 
   public class HttpIncomingSimulateAction implements Handler<HttpRequest, HttpResponse> {
 
-      // 省略
+      // Omitted
 
       protected String getRequestId(HttpRequest request) {
-          // リクエストURIをもとに、レスポンスのリクエストIDを切り替える。
+          // Switch the request ID of the response based on the request URI.
           return request.getRequestUri().endsWith("RM11AC0101") ? "RM11AC0201" : "RM11AC0202";
       }
   }
 
 .. tip::
 
-  MOMメッセージの受信時にレスポンスを切り替えたい場合も、HTTPメッセージの受信時と同様に、
-  アクションクラスの ``getRequestId`` メソッドを修正すればよい。
+  To switch responses when receiving an MOM message, modify the ``getRequestId`` method of the action class in the same way as when receiving an HTTP message.
 
-メッセージ受信時に意図的にレスポンスを遅延させる
+Intentionally delay the response when receiving a message
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-メッセージ受信時に意図的にレスポンスを遅延させるには、
-以下の様にアクションクラスの ``handle`` メソッドに直接遅延処理を実装する。
+To delay the response intentionally when receiving a message, 
+implement the delay process directly in the ``handle`` method of action class as follows.
 
 .. code-block:: java
 
@@ -191,12 +187,12 @@ HTTPメッセージの受信時に、リクエストURIによってレスポン�
     public HttpResponse handle(HttpRequest request, ExecutionContext context) {
 
         try {
-            // 10秒遅延させる
+            // Delay for 10 seconds
             TimeUnit.SECONDS.sleep(10);
         } catch (InterruptedException e) {
-            // 例外処理
+            // Exception handling
         }
 
-        // 省略
+        // Omitted
     }
   }
