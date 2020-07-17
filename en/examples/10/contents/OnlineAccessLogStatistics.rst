@@ -1,39 +1,39 @@
-==============================
-オンラインアクセスログ集計機能
-==============================
-オンラインアクセスログ集計機能では、画面機能から出力されるアクセスログを元にリクエストID [#r1]_ 単位に以下の情報を集計する。
+========================================
+Online Access Log Aggregation Function
+========================================
+The Online Access Log Aggregation Function aggregates the following information into one request ID [#r1]_ , based on the access log output from the screen function.
 
-* リクエスト数
-* 閾値を超えた処理時間のリクエスト数
-* 処理時間（平均）
-* 処理時間（中央値）
-* 処理時間（最大値）
+* Number of requests
+* Number of requests with processing time exceeding the threshold
+* Processing time (average)
+* Processing time (median)
+* processing time（maximum value）
 
 .. [#r1]
-  リクエストIDは設定ファイルに指定することで、集計対象の機能を絞り込むことができる。
+  By specifying the request ID in the configuration file, the function to be aggregated can be narrowed down.
 
-  設定例は、後述の\ `オンラインアクセスログ解析及び集計サンプルの設定`_\ を参照。
+  See \ `Online access log analysis and configuration of aggregation`_\ sample for configuration examples.
 
 ------------------------------
-サンプル構成
+Sample structure
 ------------------------------
-本サンプルは、以下の3種類で構成される。
+This sample consists of the following three types.
 
-============================================================    ================================================================================================================
-サンプル名                                                      概要
-============================================================    ================================================================================================================
-`オンラインアクセスログ解析バッチ`_                             オンラインアクセスログを解析し、集計時に必要となる情報のみをCSVファイルに出力するバッチ処理。
-`オンラインアクセスログ解析結果集計バッチ`_                     `オンラインアクセスログ解析バッチ`_\ で出力されたCSVファイルを元に集計処理を行うバッチ処理。
+============================================================    ========================================================================================================================================
+Sample name                                                      Summary
+============================================================    ========================================================================================================================================
+`Online access log analysis batch`_                             Batch processing that analyzes the online access log and outputs only the information needed for aggregation to a CSV file.
+`Online access log analysis result aggregation batch`_          Batch processing to perform aggregate processing based on the CSV file output by `Online access log analysis batch`_\ .
 
-                                                                集計期間は、設定ファイルに指定された日数分となる。
+                                                                The aggregation period will be for the number of days specified in the configuration file.
 
-`オンラインアクセスログ集計結果レポートサンプル`_               `オンラインアクセスログ解析結果集計バッチ`_\ で出力した集計結果を元にExcelにレポート(集計結果表)を
-                                                                出力するExcelマクロ。
-============================================================    ================================================================================================================
+`Online access log aggregation result reporting sample`_        Excel marco that outputs a report (table of aggregate results) to Excel based on the aggregate results output 
+                                                                by the `Online access log analysis result aggregation batch`_\ .
+============================================================    ========================================================================================================================================
 
-処理の流れ
-==========
-上記のサンプルを使用してオンラインアクセスログと元にExcelにレポート情報を出力するまでの処理の流れを以下に示す。
+Process flow
+===============
+The following is a flow of processing until the online access log using the above sample and outputting the report information to Excel
 
  .. image:: ../_images/OnlineLogStatistics.png
 
@@ -41,324 +41,319 @@
 
 .. tip::
 
- 上記図では、オンラインログ配置サーバと運用担当者様端末を明示的に分けて記載している。
- これは、オンラインアクセスログには個人情報が含まれている可能性があり、セキュリティで保護された環境で事項することを推奨するためである。
+ In the above diagram, the online log deployment server and the terminal in charge of operations are explicitly described separately.
+ This is because the online access log may contain personal information and it is recommended to do it in a secure environment.
 
- なお、リクエスト情報集計結果には、個人情報等の項目は含まれないため、セキュリティで保護された環境以外で実行することも可能となっているが、
- ログの解析及び集計処理を実行した環境で実行することに特に問題はない。
+ Since the request information aggregation result does not include items such as personal information, although it may be run in a non-secure environment,
+ there is no particular problem in running the log analysis and aggregation process in the environment in which it was executed.
 
 
-------------------------------
-各サンプルの仕様及び実行手順
-------------------------------
+----------------------------------------------------------
+Specifications and execution procedures for each sample
+----------------------------------------------------------
 
-オンラインアクセスログ解析バッチ
+Online access log analysis batch
 ==================================
-オンラインアクセスログを解析し、集計処理を行う際に必要となる情報のみをCSVファイルに出力するバッチ処理。
+Batch processing that analyzes the online access log and outputs only the information needed for aggregate processing to a CSV file.
 
-本サンプルは、日次で実行することを想定している。
-また、解析結果のCSVファイルは削除せずに解析結果として蓄積すること。過去分の解析結果CSVを蓄積することにより、
-後続の\ `オンラインアクセスログ解析結果集計バッチ`_\ 処理で正確な集計処理を行うことが可能となる。
+This sample is assumed to be executed on a daily basis.
+In addition, CSV files of analysis results should be stored as analysis results without deleting them.By collecting the analysis results CSV for the past, 
+it is possible to perform accurate aggregation processing in the subsequent \ `Online access log analysis result aggregation batch`_\ processing.
 
-CSVのファイル名は、「REQUEST_INFO\_ + "システム日付(8桁)" + .csv」となる。
+The CSV file name is "REQUEST_INFO\_ + "system date (8 digits)" + .csv".
 
-本バッチ実行後のCSVファイルには、以下の情報を出力する。
+The following information is output to the CSV file after executing this batch.
 
-**CSVファイルへの出力内容**
+**Output contents to a CSV file**
 
 =================== =====================================================================
-項目名              備考
+Item name           Remarks
 =================== =====================================================================
-年                  リクエストの終了(END)ログ出力日時の年
-月                  リクエストの終了(END)ログ出力日時の日
-日                  リクエストの終了(END)ログ出力日時の日
-プロセス名          プロセス名
+Years               End of request (END) Year of log output date and time
+Month               End of request (END) date and time of log output
+Day                 End of request (END) date and time of log output
+Process name        Process name
 
-                    ※ ログにプロセス名が出力されていない場合は、ブランク
-リクエストID        リクエストID
-処理時間            リクエストの処理時間
-ステータスコード    処理ステータスコード
+                    ?Blank if no process name is output to the log
+Request ID          Request ID
+processing time     Request processing time
+Status code         Process status code
 =================== =====================================================================
 
-本サンプルを実行するための設定情報
-----------------------------------
-`オンラインアクセスログ解析及び集計サンプルの設定`_\ を参照。
+Configuration information for executing this sample
+------------------------------------------------------
+See `Online access log analysis and configuration of aggregation`_\  sample.
 
-実行方法
---------
-本バッチは、Nablarchのバッチ方式を使用して実装されている。このため、本バッチ実行には\ **Nablarch.jar**\ が必要である。
-また、Nablarchバッチはデータベースへの接続が必須となるため、 **データベース接続設定** も必要である。
+Execution
+----------
+This batch is implemented using the Nablarch batch method. Therefore, \ **Nablarch.jar**\ is required to run this batch. 
+Since the Nablarch batch requires a connection to the database, **database connection configuration** is also required.
 
-本サンプル実行時に必要となるパラメータを以下に示す。
+The following parameters are required when running this sample:
 
 * diConfig
 
-  ログ集計機能プロジェクトの「main/resources/statistics-batch.xml」を指定すれば良い。
-  resourcesディレクトリにクラスパスを設定した場合、指定する値は「statistics-batch.xml」となる。
+  You can specify "main/resources/statistics-batch.xml" in the log aggregation function project. 
+  When the classpath is configured to the resources directory, the specified value is "statistics-batch.xml".
 
 * requestPath
 
-  本バッチアクションクラスのクラス名(OnlineAccessLogParseAction)を指定する。
+  Specify the class name (OnlineAccessLogParseAction) of this batch action class.
 
-  ログ集計機能プロジェクトの設定値を変更した場合には、設定するクラス名にパッケージ名を含める必要が出てくるので、その場合は設定値を見直すこと。
+  If you change the configuration value of the log aggregation project, it is necessary to include the package name in the class name, so you should review the configuration value.
 
 
-* リクエストID
+* Request ID
 
-  リクエストIDを必要とする機能（二重起動防止や、バッチ停止制御）を使用しない場合は、本バッチにリクエストIDを付与しなくても実行可能である。
-  リクエストIDが必要とする機能を使用する場合には、プロジェクトの採番体系に従いリクエストIDを付与すること。
+  If the functions that require a request ID (such as prevention of double start, batch stop control, etc.) are not used, it is possible to execute this batch without granting a request ID. 
+  When using a function that requires a request ID, the request ID should be given according to the project numbering system.
 
 * userId
 
-  バッチユーザIDを設定する。
+  Configure the batch user ID.
 
 
 
-オンラインアクセスログ解析結果集計バッチ
-==================================================
-`オンラインアクセスログ解析バッチ`_\ で出力されたCSVファイルを元に集計処理を行うバッチ処理。集計期間は、設定ファイルに指定された日数分となる。
+Online access log analysis result aggregation batch
+=======================================================
+Batch processing to perform aggregate processing based on the CSV file output by `Online access log analysis batch`_\ . The aggregation period will be for the number of days specified in the configuration file.
 
 .. tip::
 
-  対象日数の判定は、解析結果のファイル名に含まれている日付を使用して行う。
+  The number of target days is determined by using the date included in the file name of the analysis result.
 
-  以下に例を示す。
+  An example is shown below.
 
-  * 解析処理が日次で実行している場合
+  * When analysis processing is executed daily.
 
-    以下4ファイルの解析結果をインプットとして集計処理を行う場合で、バッチ実行日次が2012/10/10で集計期間を過去2日とした場合、
-    20121008から20121010までのCSVファイルが集計対象となる。
+    When the analysis results of the following four files are used as inputs for tabulation, and the batch execution date is October 10, 2012 and the tabulation period is set to two days in the past, 
+    the CSV files from October 8 to October 10, 2012 are the tabulation targets.
 
-    それぞれのCSVファイルの内容は、1日分の解析結果のみが格納されているので、集計範囲は指定した過去2日と基本的に一致する。
+    The content of each CSV file contains only one day's analysis results, so the range of calculation is basically the same as the past two days specified.
 
-    | REQUEST_INFO_20121007.csv     (7日のオンラインログの解析結果)
-    | REQUEST_INFO_20121008.csv     (8日のオンラインログの解析結果)
-    | REQUEST_INFO_20121009.csv     (9日のオンラインログの解析結果)
-    | REQUEST_INFO_20121010.csv     (10日のオンラインログの解析結果)
+    | REQUEST_INFO_20121007.csv     (Analysis of the online logs for seventh)
+    | REQUEST_INFO_20121008.csv     (Analysis of the online logs for eighth)
+    | REQUEST_INFO_20121009.csv     (Analysis of the online logs for ninth)
+    | REQUEST_INFO_20121010.csv     (Analysis of the online logs for tenth)
 
-  * 解析処理が日次で実行されていない場合(例えば2日に一回実行されていた場合)
+  * When the analysis process is not executed daily (for example, when it is executed once every two days)
 
-    以下4ファイルの解析結果をインプットとして集計処理を行う場合で、バッチ実行日次が2012/10/10で集計期間を過去2日とした場合、
-    20121008から20121010までのCSVファイルが集計対象となる。
+    When the analysis results of the following four files are used as inputs for tabulation, and the batch execution date is October 10, 2012 and the tabulation period is set to two days in the past, 
+    the CSV files from October 8 to October 10, 2012 are the tabulation targets.
 
-    この場合、20121008のCSVファイルには、7,8の2日分の解析結果が格納されているため、
-    集計範囲の過去2日以前の7日のログも集計結果として出力される。
+    In this case, because the CSV file of 20121008 contains analysis results for two days (7 and 8), 
+    the logs for the previous two days in the aggregation range (7 days) are also output as aggregation results.
 
-    | REQUEST_INFO_20121008.csv     (7,8日のオンラインログの解析結果)
-    | REQUEST_INFO_20121010.csv     (9,10日のオンラインログの解析結果)
+    | REQUEST_INFO_20121008.csv     (Analysis of the online logs for the seventh and eighth)
+    | REQUEST_INFO_20121010.csv     (Analysis of the online logs for the ninth and tenth)
 
-集計結果のCSVファイルは、以下の3種類を出力する。
+The following three CSV files are output as the aggregation result.
 
-======================================= =====================================================================
-ファイル名                              出力内容
-======================================= =====================================================================
-時間別集計結果                          時間単位の集計処理を出力する。
+======================================= ======================================================================================================================
+File name                               Output contents
+======================================= ======================================================================================================================
+Aggregate results by time                          Outputs hourly aggregate processing.
 
-年月別集計結果                          日単位の集計結果を出力する。
+Aggregate results by year and month                          Outputs aggregate results on a daily basis.
 
-日別集計結果                            年月単位の集計結果を出力する。
+Daily aggregation result                            Outputs aggregate results for each year and month.
 
-                                        なお、年月単位の集計結果はシステム日次の年月のデータのみを集計対象とする。
-                                        このため、過去分の年月の集計結果は削除せずに蓄積していくこと。
+                                        Note that the year-month-by-year tabulation results only include data for the system monthly date. For this reason, 
+                                        the aggregate results of the past years should be accumulated without deleting them.
 
                                         .. tip::
 
-                                          集計範囲が10日のように1ヶ月未満の値の場合、\
-                                          年月集計結果に出力される値は10日のみの集計結果となる。
-                                          、30日に集計処理を実行した場合で集計範囲が10日の場合、\
-                                          20日から30日までの範囲が集計対象となる。
-======================================= =====================================================================
+                                          If the range is less than one month, such as 10 days, \
+                                          the value output in the month/year summary results will be 10 days only. 
+                                          If the aggregation process is executed on 30th and the range of aggregation is 10 days, \
+                                          the range from 20th to 30th is the target of aggregation.
+======================================= ======================================================================================================================
 
-**CSVファイルへの出力内容**
+**Output contents to a CSV file**
 
-=========================================== =====================================================================
-項目名                                      備考
-=========================================== =====================================================================
-リクエストID                                リクエストID
-集計対象期間                                ファイルごとに以下の値が出力される。
-                                            ::
+============================================================================== ==============================================================================================================
+Item name                                                                      Remarks
+============================================================================== ==============================================================================================================
+Request ID                                                                     Request ID
+Period for aggregation                                                         The following values are output for each file. :
+                                                                               ::
 
-                                             時間別:0～23
-                                             日別:1-31
-                                             年月別:システム日付の年月
-プロセス名                                  プロセス名
-リクエスト数                                集計対象期間内のリクエスト数
-処理時間が閾値を超えたリクエスト数          処理時間が、設定ファイルで指定された閾値時間を超えたリクエストの数
-処理時間（平均）                            集計対象期間内での平均値
-処理時間（中央値）                          集計対象期間内での中央値
-処理時間（集計対象期間内での最大処理時間）  集計対象期間内での最大処理時間
-=========================================== =====================================================================
+                                                                                By time: 0 - 23
+                                                                                By day1 - 31
+                                                                                By month and year: Month and year of system date
+Process name                                                                   Process name
+Number of requests                                                             Number of requests in the period under review
+Number of requests for which the processing time exceeds the threshold.        The number of requests whose processing time exceeds the threshold time specified in the configuration file.
+Processing time (average)                                                      Average value within the aggregation period
+Processing time (median)                                                       Median value within the aggregation period
+Processing time (maximum processing time within the aggregation target period) Maximum processing time within the aggregation target period
+============================================================================== ==============================================================================================================
 
-本サンプルを実行するための設定情報
-----------------------------------
-`オンラインアクセスログ解析及び集計サンプルの設定`_\ を参照。
+Configuration information for executing this sample
+----------------------------------------------------------
+See `Online access log analysis and configuration of aggregation`_\  sample.
 
 
-実行方法
---------
-本バッチは、Nablarchのバッチ方式を使用して実装されている。このため、本バッチ実行には\ **Nablarch.jar**\ が必要である。
-また、Nablarchバッチはデータベースへの接続が必須となるため、 **データベース接続設定** も必要である。
+Execution
+------------
+This batch is implemented using the Nablarch batch method. Therefore, \ **Nablarch.jar**\ is required to run this batch.
+Since the Nablarch batch requires a connection to the database, **database connection configuration** is also required.
 
-本サンプル実行時に必要となるパラメータを以下に示す。
+The following parameters are required when running this sample:
 
 * diConfig
 
-  ログ集計機能プロジェクトの「main/resources/statistics-batch.xml」を指定すれば良い。
-  resourcesディレクトリにクラスパスを設定した場合、指定する値は「statistics-batch.xml」となる。
+  You can specify "main/resources/statistics-batch.xml" in the log aggregation function project. 
+  When the classpath is configured to the resources directory, the specified value is "statistics-batch.xml".
 
 * requestPath
 
-  本バッチアクションクラスのクラス名(RequestInfoAggregateAction)を指定する。
+  Specify the class name (RequestInfoAggregateAction) of this batch action class.
 
-  ログ集計機能プロジェクトの設定値を変更した場合には、設定するクラス名にパッケージ名を含める必要が出てくるので、その場合は設定値を見直すこと。
+  If you change the configuration value of the log aggregation project, it is necessary to include the package name in the class name, so you should review the configuration value.
 
 
-* リクエストID
+* Request ID
 
-  リクエストIDを必要とする機能（二重起動防止や、バッチ停止制御）を使用しない場合は、本バッチにリクエストIDを付与しなくても実行可能である。
-  リクエストIDが必要とする機能を使用する場合には、プロジェクトの採番体系に従いリクエストIDを付与すること。
+  If the functions that require a request ID (such as prevention of double start, batch stop control, etc.) are not used, it is possible to execute this batch without granting a request ID. 
+  When using a function that requires a request ID, the request ID should be given according to the project numbering system.
 
 * userId
 
-  バッチユーザIDを設定する。
+  Configure the batch user ID.
 
 
-オンラインアクセスログ集計結果レポートサンプル
-================================================
-本サンプルは、オンラインアクセスログ解析結果集計バッチで出力した集計結果を元にExcelにレポート(集計結果表)を出力する。
+Online access log aggregation result reporting sample
+===========================================================
+This sample outputs a report (table of aggregate results) to Excel based on the aggregate results output by the online access log analysis result aggregation batch.
 
-本サンプルは、集計結果表を作成するサンプルである。表を元にグラフの作成などをする場合には、Excelの機能を使用してグラフ化を行うこと。
-
-
-実行方法
---------
-使用方法の詳細は、ログ集計プロジェクト配下の以下ファイルを参照。
-
-* /tool/ウェブアプリケーションリクエストレポートツール.xls
+This sample is a sample to create a table of aggregate results. When creating a graph based on a table, use the Excel function to create a graph.
 
 
-オンラインアクセスログ解析及び集計サンプルの設定
-===================================================
-`オンラインアクセスログ解析バッチ`_\ 及び\ `オンラインアクセスログ解析結果集計バッチ`_\ を実行するための設定値について解説する。
+Execution
+------------
+For details on how to use, refer to the following files under the log aggregation project.
 
-設定値は、\ **please.change.me.statistics.action.settings.OnlineStatisticsDefinition**\ のプロパティへ設定する必要があり、全て必須項目となる。
+* /tool/WebApplicationRequestReportingTool.xls
 
-ただし、標準構成の設定値を運用情報統計機能プロジェクトの以下ファイルに用意してあるので、
-本サンプルを使用するプロジェクトの環境などにより変更が必要な項目だけを修正すれば良い構成としている。
+
+Online access log analysis and configuration of aggregation
+===================================================================
+Describes the configuration values for executing `Online access log analysis batch`_\ and \ `Online access log analysis result aggregation batch`_\ .
+
+The configuration value must be set in the \ **please.change.me.statistics.action.settings.OnlineStatisticsDefinition**\  property and all are required items.
+
+However, since the configuration values of the standard configuration are prepared in the following files of the operational information statistical function project, 
+only the items that need to be changed depending on the environment of the project that uses this sample need to be modified.
 
 * main/resources/statistics/onlineStatisticsDefinition.xml
 * main/resources/statistics/statistics.config
 
-==============================    ================================================================================
-設定プロパティ名                  設定内容
-==============================    ================================================================================
-accessLogDir                      解析対象のオンラインアクセスログが格納されているディレクトリのパス
+==============================    ============================================================================================================================================
+Configuration property name                  Settings
+==============================    ============================================================================================================================================
+accessLogDir                      The path of the directory where the online access log to be analyzed is stored.
 
-                                  絶対パス or 相対パスで指定する。
+                                  Specify with absolute path or relative path.
 
-accessLogFileNamePattern          解析対象のオンラインアクセスログのファイル名パターン
+accessLogFileNamePattern          File name pattern of online access log to be analyzed
 
-                                  任意の値を指定する場合には、「*」を使用する。(正規表現とは異なるため注意すること)
+                                  Use "*" to specify any value. (Note that this is different from regular expressions.)
 
-                                  例::
-                                    ファイル名が必ず「access」で始まっている場合には、「access*」と指定する。
+                                  Example:
+                                    If the file name always starts with "access", specify "access*".
                                   
-accessLogParseDir                 アクセスログを解析するために使用する一時ディレクトリのパス
+accessLogParseDir                 Path to the temporary directory used to analyze the access log
 
-                                  解析対象のアクセスログは、このディレクトリにコピーし解析処理を行う。
+                                  The access log to be analyzed is copied to this directory and analyzed.
 
-                                  絶対パス or 相対パスで指定する。
+                                  Specify with absolute path or relative path.
 
 
-endLogPattern                     アクセスログの終了ログを特定するための正規表現パターン
+endLogPattern                     Regular expression pattern to identify the access log termination log
 
-includeRequestIdList              解析対象のリクエストIDリストを設定する。
+includeRequestIdList              Set the request ID list to be analyzed.
 
                                   .. tip::
 
-                                   リクエストIDが増減した場合は、解析対象のリクエストIDの追加（削除）を行うこと。
+                                   If the request ID has increased or decreased, add (delete) the request ID to be analyzed.
 
 
-findRequestIdPattern              終了ログからリクエストIDを抽出するための正規表現
+findRequestIdPattern              Regular expression for extracting request ID from end log[A5][A6]
 
-                                  リクエストIDが出力される部分はグループ化するように正規表現を設定すること。
+                                  Set a regular expression so that the part where the request ID is output is grouped.
 
-findProcessNamePattern            終了ログからプロセス名を抽出するための正規表現
+findProcessNamePattern            Regular expression for extracting the process name from the end log
 
-                                  プロセス名が出力される部分はグループ化するように正規表現を設定すること。
+                                  Set a regular expression so that the part where the process name is output is grouped.
 
-findStatusCodePattern             終了ログからステータスコードを抽出するための正規表現
+findStatusCodePattern             Regular expression for extracting status code from end log[A7][A8]
 
-                                  ステータスコードが出力される部分は、グループ化するように正規表現を設定すること。
+                                  Set the regular expression so that the part where the status code is output is grouped.
 
-logOutputDateTimeStartPosition    ログ出力日時が出力されているエリアの開始位置
+logOutputDateTimeStartPosition    Start position of the area where the log output date and time is output
 
-                                  0始まりの文字数で設定すること。(String#substringと同じ仕様である)
+                                  Set the number of characters starting from 0. (Same specification as String#substring)
 
-logOutputDateTimeEndPosition      ログ出力日時が出力されているエリアの終了位置
+logOutputDateTimeEndPosition      End position of the area where the log output date and time is output
 
-                                  0始まりの文字数で設定すること。(String#substringと同じ仕様である)
+                                  Set the number of characters starting from 0. (Same specification as String#substring)
 
-logOutputDateTimeFormat           ログ出力日時のフォーマット
+logOutputDateTimeFormat           Format of log output date and time
 
-                                  SimpleDateFormatに指定できる型式で設定する。
+                                  It is set by the type which can be specified in SimpleDateFormat.
 
-findExecutionTimePattern          リクエストの処理時間を抽出するための正規表現
+findExecutionTimePattern          Regular expression for extracting the processing time of a request
 
-                                  処理時間が出力されている部分はグループ化するように正規表現を設定すること。
+                                  Set the regular expression so that the part where the processing time is output is grouped.
 
-requestInfoFormatName             解析結果CSVのフォーマット定義ファイルのファイル名
+requestInfoFormatName             File name of the format definition file of the analysis result CSV
 
-                                  定義ファイルは、ログ集計プロジェクト配下の以下ファイルを使用する。
+                                  The definition file uses the following files under the log aggregation project.
 
-                                  このフォーマットファイルは、\ `オンラインアクセスログ解析結果集計バッチ`_
-                                  で解析結果を読み込む際にも使用する。
+                                  This format file is also used when reading the analysis results in \ `Online access log analysis result aggregation batch`_.
 
                                   * main/format/requestInfo.fmt
 
                                   .. tip::
 
-                                    基本的に上記フォーマット定義ファイル以外を指定する必要はない。
-                                    ただし、解析及び集計バッチを拡張してフォーマット定義ファイルに出力する項目を
-                                    追加(削除)した場合は、拡張したバッチに対応したフォーマット定義ファイルを
-                                    作成する必要がある。
-                                    このような場合は、あらたに作成したフォーマット定義ファイルの名前を設定する必要がある。
+                                    Basically, it is not necessary to specify any other format definition file than the one mentioned above.
+                                    However, when the analysis and aggregation batches are extended and the items output to the format definition file are added (deleted), 
+                                    it is necessary to create the format definition file corresponding to the extended batch.
+                                    In such a case, it is necessary to set the name of the newly created format definition file.
 
 
-requestInfo.dir                   解析結果CSVの出力先ディレクトリの論理名
+requestInfo.dir                   Logical name of the output destination directory of the analysis result CSV
 
-                                  実ディレクトリとのマッピングは、ログ集計プロジェクト配下の以下ファイルを参照すること。
-
-                                  * main/resources/statistics/file.xml
-
-requestInfoSummaryBaseName        集計結果CSVの出力先ディレクトリの論理名
-
-                                  実ディレクトリとのマッピングは、ログ集計プロジェクト配下の以下ファイルを参照すること。
+                                  Refer to the following files under the log aggregation project for mapping with the actual directory.
 
                                   * main/resources/statistics/file.xml
 
-requestInfoSummaryFormatName      集計結果CSVファイルのフォーマット定義ファイル名
+requestInfoSummaryBaseName        Logical name of the output destination directory for the aggregation result CSV
 
-                                  定義ファイルは、ログ集計プロジェクト配下の以下ファイルを使用する。
+                                  Refer to the following files under the log aggregation project for mapping with the actual directory.
+
+                                  * main/resources/statistics/file.xml
+
+requestInfoSummaryFormatName      Format definition file name of the aggregation result CSV file
+
+                                  The definition file uses the following files under the log aggregation project.
 
                                   * main/format/requestInfoAggregate.fmt
 
                                   .. tip::
 
-                                    基本的に上記フォーマット定義ファイル以外を指定する必要はない。
-                                    ただし、集計バッチを拡張してフォーマット定義ファイルに出力する項目を
-                                    追加(削除)した場合は、拡張したバッチに対応したフォーマット定義ファイルを
-                                    作成する必要がある。
-                                    このような場合は、あらたに作成したフォーマット定義ファイルの名前を設定する必要がある。
+                                    Basically, it is not necessary to specify any other format definition file than the one mentioned above.
+                                    However, when the item output to the format definition file is added (deleted) by extending the aggregation batch, 
+                                    it is necessary to create the format definition file corresponding to the extended batch.
+                                    In such a case, it is necessary to set the name of the newly created format definition file.
 
-thresholdExecutionTime            1リクエスト要求の処理時間の閾値(ミリ秒)
+thresholdExecutionTime            Threshold of the processing time for one request (milliseconds)
 
-                                  処理時間が閾値を超えているリクエスト数を求めるために使用する。
-                                  例えば、3000を設定すると3秒を超えているリクエスト数を求める事ができる。
+                                  This is used to obtain the number of requests whose processing time exceeds the threshold. 
+                                  For example, if it is set to 3000, the number of requests exceeding 3 seconds can be calculated.
 
-aggregatePeriod                   集計期間を設定する。
+aggregatePeriod                   Configure the aggregation period.
 
-                                  年月の集計処理をもれなく行うために、最低でも30を設定することを推奨する。
-==============================    ================================================================================
-
-
+                                  It is recommended to set a minimum of 30 to ensure that the year and month are aggregated without fail.
+==============================    ============================================================================================================================================
