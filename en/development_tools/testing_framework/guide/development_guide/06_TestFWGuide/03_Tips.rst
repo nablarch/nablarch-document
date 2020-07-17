@@ -736,12 +736,11 @@ In the default configuration, test data is read from under ``test/java``.
 To change the test data directory according to the directory configuration of the project,
 add the following configuration to the component configuration file .\ [#]_\
 
-============================ =================================================
+============================ ====================================================================================================================================
 Key                          Value
-============================ =================================================
-nablarch.test.resource-root  Relative path from the current directory
-                             at the time of test execution \ [#]_\
-============================ =================================================
+============================ ====================================================================================================================================
+nablarch.test.resource-root  Relative path from the current directory at the time of test execution  Multiple entries can be separated by semicolons (;) \ [#]_\
+============================ ====================================================================================================================================
 
 \
 

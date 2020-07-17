@@ -17,7 +17,8 @@ Overall picture
 =================
 
 .. image:: _images/request_unit_test_structure.png
-   :scale: 100
+   :width: 100%
+
 
 
  
@@ -91,14 +92,12 @@ For the specific usage method, refer to :doc:`../05_UnitTestGuide/02_RequestUnit
 AbstractHttpRequestTestTemplate
 ======================================
 
-Not used directly by the application programmers.\
-This is used to extend the automated testing framework when you want to change the way you write test data.\
+Not used directly by the application programmers. This is used to extend the automated testing framework when you want to change the way you write test data.\
 
 TestCaseInfo
 ============
 
-データシートに定義されたテストケース情報を格納するクラス。\
-テストデータの書き方を変えたい場合は、本クラス及び前述のAbstractHttpRequestTestTemplateを継承する。
+Class that stores test case information defined in a data sheet. If you want to change the way you write test data, inherit this class and the AbstractionHttpRequestTestTemplate described above.
 
 
 HttpRequestTestSupport
@@ -379,6 +378,7 @@ Configuration item list of component configuration file
 |dumpVariableItem            | Sets whether or not to output the variable items                                                  |false                                                  |
 |                            | when the HTML dump file is output.                                                                |                                                       |
 |                            | Here, the variable items are of the following two types:                                          |                                                       |
+|                            |                                                                                                   |                                                       |
 |                            | * JSESSIONID                                                                                      |                                                       |
 |                            | * Token for duplicate form submission prevention                                                  |                                                       |
 |                            |                                                                                                   |                                                       |
@@ -496,15 +496,15 @@ In addition, the execution speed is improved by omitting the verification of the
 
 How to configure with Eclipse is as shown below.
 
-* Select "Run" > "Run Configuration" from the menu bar.
+* Select "Run(実行)" > "Run Configuration(実行構成)" from the menu bar.
 
-* In the "Run Configuration" window, click on the "Arguments" tab and specify the above options in the "VM Arguments" field.
+* In the "Run Configuration(実行構成)" window, click on the "Arguments(引数)" tab and specify the above options in the "VM Arguments(VM引数)" field.
 
 .. image:: ./_images/vmoptions.png
 
 Also, you can set the default VM arguments with the following method without changing the execution configuration.
 
-* Select "Window" > "Settings" from the menu bar. In the "Settings" window that is displayed, select "Installed JREs(インストール済みのJRE)".
+* Select "Window(ウィンドウ)" > "Settings(設定)" from the menu bar. In the "Settings(設定)" window that is displayed, select "Installed JREs(インストール済みのJRE)".
 
 * Select the JRE you want to use from the list of installed JREs that is displayed, and click the "Edit(編集)" button.
 
@@ -524,15 +524,15 @@ the execution speed, especially the start-up speed.
 
 How to configure with Eclipse is as shown below.
 
-* Select "Run" > "Run Configuration" from the menu bar.
+* Select "Run(実行)" > "Run Configuration(実行構成)" from the menu bar.
 
-* On the "Execution Configuration" window that is displayed, click the "JRE" tab and select JRE of JavaSE6 in the "Alternate JRE(代替JRE)".
+* On the "Execution Configuration(実行構成)" window that is displayed, click the "JRE" tab and select JRE of JavaSE6 in the "Alternate JRE(代替JRE)".
 
 .. image:: ./_images/alternate_jre.png
 
 
 .. tip::
-  To configure this setting, you need to install the JavaSE6 JDK or JRE in advance and register it as "Installed JRE" in Eclipse.
+  To configure this setting, you need to install the JavaSE6 JDK or JRE in advance and register it as "Installed JRE(インストール済みのJRE)" in Eclipse.
 
 Suppression of HTML resource copying
 -------------------------------------
@@ -561,9 +561,9 @@ the HTML resources every time a test is executed.
 
 How to configure with Eclipse is as shown below.
 
-* Select "Run" > "Run Configuration" from the menu bar.
+* Select "Run(実行)" > "Run Configuration(実行構成)" from the menu bar.
 
-* In the "Run Configuration" window, click on the "Arguments(引数)" tab and specify the above options in the "VM Arguments(VM引数)" field.
+* In the "Run Configuration(実行構成)" window, click on the "Arguments(引数)" tab and specify the above options in the "VM Arguments(VM引数)" field.
 
 .. image:: ./_images/skip_resource_copy.png
 

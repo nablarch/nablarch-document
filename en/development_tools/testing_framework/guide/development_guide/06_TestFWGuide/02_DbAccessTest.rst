@@ -17,7 +17,8 @@ Overall picture
 ================
 
 .. image:: _images/class_structure.png
-   :scale: 100
+   :width: 100%
+
 
 
 Main Classes, resources
@@ -64,7 +65,7 @@ Sequence
 ----------
 
 .. image:: _images/select_sequence.png
-   :scale: 100
+   :width: 100%
 
 
 Example of test source code implementation
@@ -188,7 +189,8 @@ Sequence
 ----------
 
 .. image:: _images/update_sequence.png
-   :scale: 100
+   :width: 100%
+
 
 
 Example of test source code implementation

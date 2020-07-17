@@ -147,7 +147,7 @@ Structure of the automated testing framework
 |                             |the automated test framework.         |                                                    |
 +-----------------------------+--------------------------------------+----------------------------------------------------+
 |Component configuration file |The various settings at the time      |Application programmer（if a specific configuration |
-|and configuration file       | of executing a test are described.   |is required for individual tests）                  |
+|and configuration file       |of executing a test are described.    |is required for individual tests）                  |
 +-----------------------------+--------------------------------------+----------------------------------------------------+
 |Automated Testing Framework  |Provides the functions necessary      | \－                                                |
 |                             |for testing.                          |                                                    |
@@ -255,7 +255,7 @@ The following is a description example of a sheet.
  
 
 
-Various types of data can be written in a sheet, such as data to be stored in a database and database search results.In order to determine the type of test data, it is necessary to assign meta information called "data type" to the test data.The "data type" indicates what the test data represents.[A1][A2][A3]
+Various types of data can be written in a sheet, such as data to be stored in a database and database search results.In order to determine the type of test data, it is necessary to assign meta information called "data type" to the test data.The "data type" indicates what the test data represents.
 
 Currently, the following data types are available.
 
@@ -282,7 +282,7 @@ RESPONSE_BODY_MESSAGES            Fixed length file showing the request message 
 
 \
 
-.. [#] \ `setUpMessages`\ または\ `expectedMessages`\ 
+.. [#] \ `setUpMessages`\  or \ `expectedMessages`\ 
 
 
 

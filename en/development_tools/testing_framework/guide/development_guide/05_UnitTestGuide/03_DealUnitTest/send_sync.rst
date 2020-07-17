@@ -11,13 +11,13 @@ The normal process flow for sending synchronous messages in a web application an
 * The normal process flow of a web application with sending synchronous message process.
 
  .. image:: ./_images/send_sync_online_base.png
-    :scale: 70
+    :width: 100%
 
 
 * Process flow when using a mockup class to perform a subfunction unit test of a web application with synchronous message sending process.
 
  .. image:: ./_images/send_sync_online_mock.png
-    :scale: 70
+    :width: 100%
 
 
 
