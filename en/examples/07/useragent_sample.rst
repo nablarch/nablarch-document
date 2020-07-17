@@ -1,37 +1,37 @@
 .. _ThreadContextUserAgentSample:
 
----------------------------------
-UserAgent情報取得機能設定サンプル
----------------------------------
+------------------------------------------------------------------
+Configuration Sample of UserAgent Information Acquisition Function
+------------------------------------------------------------------
 
-本節では利用ケースごとに、設定例と各種UserAgent値から取得できる値の具体例を示す。
+In this section, configuration example and specific example of values that can be obtained from various UserAgent values are shown for each use case.
 
 .. tip::
 
-  以下に示すパターンは各利用ケースにおける全てのパターンを網羅しているわけではない。
-  利用プロジェクトにて実際に利用するパターンを十分に検討すること。
+  The patterns shown below do not cover all the patterns in each use case.
+  Thoroughly examine the pattern actually used in the project.
 
 
-UserAgentParserの設定サンプル
-=============================
+Configuration sample of UserAgentParser
+=======================================
 
-UserAgent値からブラウザの判定を行う設定例を以下に示す。
-以下の例では、ブラウザの種類を\ ``MSIE``\ 、\ ``WebKit``\ 、\ ``Gecko``\ の3種類に分別している。
+The following is an example of the configuration that determines the browser from the UserAgent value.
+In the following example, three types of browsers are classified into ``MSIE``, ``WebKit`` and ``Gecko``.
 
 .. code-block:: xml
 
-   <!-- UserAgentParserの設定 -->
+   <!-- Configuration of UserAgentParser -->
    <component name="userAgentParser" class="please.change.me.fw.web.useragent.UserAgentParser">
-     <!-- OSのパターンマッピング設定
-          この例ではOSの判定を行わないので各種プロパティを設定しない。 -->
+     <!-- OS pattern mapping configuration
+          The OS is not determined in this example, and various properties are not configured. -->
      <property name="osSetting">
        <component class="please.change.me.fw.web.useragent.UserAgentPatternSetting"/>
      </property>
    
-     <!-- ブラウザのパターンマッピング設定 -->
+     <!-- Browser pattern mapping settings -->
      <property name="browserSetting">
        <component class="please.change.me.fw.web.useragent.UserAgentPatternSetting">
-         <!-- ブラウザの種類をMSIE、WebKit、Geckoの3種類に分別 -->
+         <!--  -->
          <property name="typePatternList">
            <list>
              <component class="please.change.me.fw.web.useragent.TypePattern">
@@ -53,7 +53,7 @@ UserAgent値からブラウザの判定を行う設定例を以下に示す。
            </list>
          </property>
          <property name="itemPatternList">
-           <!-- 識別対象としたいユーザエージェントを判定できるパターンを必要なだけ記述する -->
+           <!-- Describes as many patterns as necessary that can be used to determine the user agent to be identified -->
            <list>
              <component class="please.change.me.fw.web.useragent.ItemPattern">
                <property name="name"             value="ie" />
@@ -89,25 +89,25 @@ UserAgent値からブラウザの判定を行う設定例を以下に示す。
 
 
 .. tip::
- typePatternList、itemPatternListは、記述された順番に使用されるので、 順番に注意して記述すること。
- 例えば、 パターン\ ``".*Gecko.*"``\を先頭に配置してしまうと、ChromeやIE11もGeckoと判定されてしまう。
- (ユーザエージェント値に\ ``Gecko``\ という文字列が含まれているため)
+ Since typePatternList and itemPatternList are used in the order they are written, they must be written carefully in order.
+ For example, if the pattern ``".*Gecko.*"`` is placed at the beginning, Chrome and IE11 will also be determined as Gecko.
+ (because the user agent value contains the string ``Gecko``)
  
             
             
 
 
-各種ユーザエージェント値から取得できる値の例
---------------------------------------------
+Examples of values that can be obtained from various UserAgent values
+-------------------------------------------------------------------------
 
 .. list-table::
   :widths: 50 10 10 10
   :header-rows: 1
 
   * - UserAgent
-    - ブラウザ種別
-    - ブラウザ名
-    - ブラウザバージョン
+    - Browser type
+    - Browser name
+    - Browser version
   
   * - ``Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)``
     - MSIE
@@ -120,44 +120,44 @@ UserAgent値からブラウザの判定を行う設定例を以下に示す。
     - 34.0.1847.116
   
 
-OSの判定についても、同様に設定することで判定が可能となる。
-具体例については、サンプルプロジェクト付属のコンポーネント設定ファイルを参照。
+The OS can also be determined by making the same configuration.
+For specific examples, see the component configuration file attached to the sample project.
 
 
-UserAgentValueConvertor実装クラスの設定サンプル
-===============================================
+Configuration sample of UserAgentValueConvertor implementation class
+========================================================================
 
-以下の例では、IEのパターンにマッチしたバージョン番号を変換するコンバータを設定している。
+In the following example, a converter is configured to convert the version number that matches the pattern of IE.
 
-例えば、\ ``Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko``\ というユーザエージェントの場合、
-\ ``11.0``\ がバージョン番号としてマッチする。そのバージョン番号が\ ``UserAgentValueConvertor``\ によって
-``_11 __0 ___``\ に変換される。
+For example, for a user agent called ``Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko`` matches the version number.
+``11.0`` matches the version number. This version number is converted to ``_11 __0 ___``
+by ``UserAgentValueConvertor``.
 
 
 .. code-block:: xml
 
-  <!-- UserAgent用コンバータの設定 -->
+  <!-- UserAgent converter configuration -->
   <component name="browserVersionConvertor" class="please.change.me.fw.web.useragent.UserAgentVersionConvertor">
     <property name="padding" value="_" />
   </component>
   
-   <!-- UserAgentParserの設定 -->
+   <!-- Configuration of UserAgentParser -->
    <component name="userAgentParser" class="please.change.me.fw.web.useragent.UserAgentParser">
-     <!-- 中略 -->   
-     <!-- ブラウザのパターンマッピング設定 -->
+     <!-- Middle is omitted -->   
+     <!-- Browser pattern mapping settings -->
      <property name="browserSetting">
        <component class="please.change.me.fw.web.useragent.UserAgentPatternSetting">
-         <!-- 中略 -->   
+         <!-- Middle is omitted -->   
          <property name="itemPatternList">
            <list>
              <component class="please.change.me.fw.web.useragent.ItemPattern">
                <property name="name"             value="ie" />
                <property name="pattern"          value="(?i).*(msie\s|trident.+rv:)([\d\.]*).*" />
                <property name="versionIndex"     value="2" />
-               <!-- パターンにマッチしたバージョン番号文字列を変換するコンバータを指定する。-->
+               <!-- Specify a converter that converts the version number string matching the pattern.-->
                <property name="versionConvertor" ref="browserVersionConvertor" />
              </component>
-           <!-- 中略 -->   
+           <!-- Middle is omitted -->   
            </list>
          </property>
        </component>
@@ -165,43 +165,43 @@ UserAgentValueConvertor実装クラスの設定サンプル
    </component>
  </component-configuration>
 
-ブラウザの種別を特定する場合の例
-================================
+An example when the browser type is specified
+==================================================
 
-ブラウザの種別を抽出し、種別毎の処理を行う例を以下に示す。
+An example of extracting the browser type and performing processes for each type is shown below.
 
-**実装例**
+**Implementation examples**
 
 .. code-block:: java
 
   public HttpResponse handle(HttpRequest request, ExecutionContext context) {
-      // ブラウザ種別により、処理を分岐する
+      // Branch the process according to the browser type
       UserAgent userAgent = request.getUserAgent();
       String browserType = userAgent.getBrowserType();      
       if browserType.equals("MSIE")) {
-          ... // "MSIE"の場合の処理
+          ... // Process for "MSIE"
     
       } else if (browserType.equals("WebKit")) {
-          ... // "WebKit"の場合の処理
+          ... // Process for "WebKit"
     
       } else if (browserType.equals("Gecko")) {
-          ... // "Gecko"の場合の処理
+          ... // Process for "Gecko"
       }
   }
 
 
-取得した情報を後続処理で使用する場合の例
-========================================
+An example of using the obtained information in subsequent processes
+======================================================================
 
-UserAgentからOS(デバイス)やブラウザの名称およびバージョン情報を抽出し、\
-リクエストスコープ変数に設定してJSPの中で利用する例を以下に示す。
+An example of extracting the OS (device) and browser name and version information from UserAgent,
+setting it in the request scope variable and using it in the JSP is shown below.
 
-**実装例**
+**Implementation examples**
 
 .. code-block:: java
 
   public HttpResponse handle(HttpRequest request, ExecutionContext context) {
-      // OS名、ブラウザ名をリクエストスコープ変数に設定する
+      // Configure the OS name and browser name in the request scope variable
       UserAgent userAgent = request.getUserAgent();
       
       context.setRequestScopedVar("deviceName",     userAgent.getOsName());
@@ -212,11 +212,11 @@ UserAgentからOS(デバイス)やブラウザの名称およびバージョン�
 
 
 
-各種ユーザエージェント値から取得できる値の例
-============================================
+Examples of values that can be obtained from various UserAgent values
+==========================================================================
 
-サンプルプロジェクト付属のコンポーネント設定ファイルを使用した場合に、
-取得できる値の例を以下に示す。
+An example of values that can be obtained when using the component configuration file
+attached to the sample project is shown below.
 
 
 .. list-table::
@@ -224,10 +224,10 @@ UserAgentからOS(デバイス)やブラウザの名称およびバージョン�
   :header-rows: 1
 
   * - UserAgent
-    - デバイス名
-    - デバイスバージョン
-    - ブラウザ名
-    - ブラウザバージョン
+    - Device name
+    - Device version
+    - Browser name
+    - Browser version
   
   * - ``Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko``
     - windows
@@ -273,23 +273,23 @@ UserAgentからOS(デバイス)やブラウザの名称およびバージョン�
 
   
 
-任意の解析クラスを実装する場合
-==============================
+When implementing an any analysis/parser class
+===============================================
 
-任意の解析クラスを実装し、利用する例を以下に示す。
+An example of implementing and using an any analysis/parser class is shown below.
 
-**設定例**
+**Configuration example**
 
 .. code-block:: xml
  
- <!-- UserAgentParserの設定 -->
+ <!-- Configuration of UserAgentParser -->
  <component name="userAgentParser" class="please.change.me.common.web.useragent.CustomUserAgentParser">
-   <!-- 設定内容はRegexUserAgentParserと同じ -->
+   <!-- Configuration is the same as for RegexUserAgentParser-->
  </component>
 
-**実装例**
+**Implementation examples**
 
-CustomUserAgentはUserAgentを継承し、以下の判定メソッドを追加することとする。
+CustomUserAgent inherits UserAgent and adds the following determination method.
 
 * isTablet()
 * isSmartPhone()
@@ -299,28 +299,28 @@ CustomUserAgentはUserAgentを継承し、以下の判定メソッドを追加�
 
  public class CustomUserAgent extends UserAgent {
 
-     /** タブレットであるか */
+     /** Is it a tablet? */
      private boolean isTablet;
   
-     /** スマートフォンであるか */
+     /** Is it a smartphone?  */
      private boolean isSmartPhone;
   
-     /** フィーチャーフォンであるか */
+     /** Is it a feature phone? */
      private boolean isFeaturePhone;
   
      /**
-      * コンストラクタ
+      * Constructor
       *
-      * @param original デフォルトパーサの解析結果
+      * @param original Parsing results of default parser
       */
      public CustomUserAgent(UserAgent original) {
          super(original);
      }
       
-      // getter, setter メソッドは省略
+      // Getter and setter methods are omitted }
   }
 
-また、CustomUserAgentParserはRegexUserAgentParserを継承し、parseメソッドでCustomUserAgentを返却する。
+The CustomUserAgentParser also inherits the RegexUserAgentParser and returns the CustomUserAgent using the parse method.
 
 .. code-block:: java
 
@@ -338,13 +338,13 @@ CustomUserAgentはUserAgentを継承し、以下の判定メソッドを追加�
       }
 
       /**
-       * タブレットであるかを判定する。
+       * Determine if it is a tablet.
        *
-       * @param userAgent 解析済みの{@link UserAgent}
-       * @return タブレットの場合、真
+       * @param userAgent Parsed {@link UserAgent}
+       * @return In the case of tablet, true
        */
       private boolean isTablet(UserAgent userAgent) {
-          // OS名およびOSタイプにより判定する
+          // Determine by OS name and OS type
           String osName = userAgent.getOsName();
           if (osName.equals("ipad")) {
               return true;
@@ -354,13 +354,13 @@ CustomUserAgentはUserAgentを継承し、以下の判定メソッドを追加�
       }
    
       /**
-       * スマートフォンであるかを判定する。
+       * Determine if it is a smartphone.
        *
-       * @param userAgent 解析済みの{@link UserAgent}
-       * @return スマートフォンの場合、真
+       * @param userAgent Parsed {@link UserAgent}
+       * @return In the case of a smartphone, true
        */
       private boolean isSmartPhone(UserAgent userAgent) {
-          // OS名およびOSタイプにより判定する
+          // Determine by OS name and OS type
           String osName = userAgent.getOsName();
           if (osName.equals("iphone")) {
               return true;
@@ -369,21 +369,21 @@ CustomUserAgentはUserAgentを継承し、以下の判定メソッドを追加�
       }
    
       /**
-       * フィーチャーフォンであるかを判定する。
+       * Determine if it is a feature phone.
        *
-       * @param userAgent 解析済みの{@link UserAgent}
-       * @return フィーチャーフォンの場合、真
+       * @param userAgent Parsed {@link UserAgent}
+       * @return In the case of a feature phone, true
        */
       private boolean isFeaturePhone(UserAgent userAgent) {
    
-          // タブレットでもスマートフォンでもなく、キャリア名が含まれる場合
+          // When it is not a tablet or a smartphone and it includes the name of the carrier
           if (isTablet(userAgent)) {
               return false;
           }
           if (isSmartPhone(userAgent)) {
               return false;
           }
-          // UserAgent文字列にキャリア名が含まれるか否かで判定する
+          // Determine whether a carrier name is included in the UserAgent string
           String uaText = userAgent.getText();
           return uaText.contains("DoCoMo")
                   || uaText.contains("kddi")
@@ -391,7 +391,7 @@ CustomUserAgentはUserAgentを継承し、以下の判定メソッドを追加�
       }
   }
 
-アクションクラスでは以下のように利用する。
+Use as follows in the action class:
 
 .. code-block:: java
 
@@ -400,13 +400,13 @@ CustomUserAgentはUserAgentを継承し、以下の判定メソッドを追加�
      CustomUserAgent userAgent = req.getUserAgent();
      
      if (userAgent.isTablet()) {
-         ... // クライアントがタブレットの場合に行う処理
+         ... // Process when the client is a Tablet
      } else if (userAgent.isSmartPhone()) {
-         ... // クライアントがスマートフォンの場合に行う処理
+         ... // Process when the client is a smartphone
      }
  }
 
-**各種UserAgent値から取得できる値の例**
+**Examples of values that can be obtained from various UserAgent values**
 
 .. list-table::
   :widths: 60 10 10 10 10
@@ -416,7 +416,7 @@ CustomUserAgentはUserAgentを継承し、以下の判定メソッドを追加�
     - isTablet
     - isSmartPhone
     - isFeaturePhone
-    - 備考
+    - Remarks
   
   * - ``Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)``
     - false
@@ -428,18 +428,18 @@ CustomUserAgentはUserAgentを継承し、以下の判定メソッドを追加�
     - true
     - false
     - false
-    - タブレット
+    - Tablet
   
   * - ``Mozilla/5.0 (Linux; U; Android 2.3.3; ja-jp; SC-02C Build/GINGERBREAD) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1``
     - false
     - true
     - false
-    - スマートフォン
+    - Smart phone
   
   * - ``DoCoMo/2.0 N2001(c10)``
     - false
     - false
     - true
-    - フィーチャーフォン
+    - Feature phone
   
   
