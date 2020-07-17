@@ -7,7 +7,7 @@ Request Unit Data Creation Tool
 Summary
 ========
 
-The keys and values in the request parameters from HTML are required to be created as test data for the request unit test (web application). \ [*]_ 。
+The keys and values in the request parameters from HTML are required to be created as test data for the request unit test (web application) \ [*]_ .
 If this request parameter is created manually, the name of the request parameter (name attribute in the form) may be copied incorrectly. 
 This possibility is more likely in screens with many parameters such as a registration screen.
 
@@ -33,7 +33,7 @@ How to use the tool is explained in reference to the following figure.
 
 
 .. image:: ./_image/requestDumpToolAbstract.png
-   :scale: 80
+   :width: 100%
 
 Prerequisites
 --------------------

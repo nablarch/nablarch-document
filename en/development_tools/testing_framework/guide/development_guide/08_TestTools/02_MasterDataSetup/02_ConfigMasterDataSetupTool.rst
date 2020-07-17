@@ -15,7 +15,7 @@ Prerequisites
 
 .. [#] 
  For information on creating backup schema and its tables, 
- see \ :ref:`master_data_backup_settings`\ of "\ :doc:`../../06_TestFWGuide/04_MasterDataRestore`\".
+ see \ :ref:`master_data_backup_settings`\  of "\ :doc:`../../06_TestFWGuide/04_MasterDataRestore`\".
 
 
 
@@ -69,7 +69,7 @@ This tool can be launched from Eclipse with the following settings.
 Launch Ant view
 --------------------
 
-From the toolbar, select Window → Show View to open the Ant view.
+From the toolbar, select Window(ウィンドウ) → Show View(ビューの表示) to open the Ant view.
 
 
 

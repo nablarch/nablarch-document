@@ -27,7 +27,7 @@ This tool is available in the Request Unit Test as a standard and is executed wh
 * The boolean attribute can be used. Example: <textarea disabled>
 * Omitting quotations in the attribute specification is not allowed. Example: ○ <table align="center"> × <table align=center>
 
-.. [#] The check contents can be customized by changing the configuration values. ↩︎。
+.. [#] The check contents can be customized by changing the configuration values.
 
 .. [#] There are some exceptions. See the next section, \ `Differences with HTML4.01`_ . 
 

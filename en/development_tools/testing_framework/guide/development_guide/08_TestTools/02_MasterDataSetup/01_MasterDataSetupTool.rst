@@ -55,18 +55,21 @@ From the Ant view, double-click on the target to be run
 
 For target details, see the table given below.
 
- +-----------------+----------------------------------------------------------------------------+
- | Target name     | Description                                                                |
- +=================+============================================================================+
- |Data input (main)| Use the configuration file of the main project to input the database.      |
- |データ投入(main) | Data is input in the schema when running the application                   |
- |                 | on the application server such as subfunction unit test.                   |
- +-----------------+----------------------------------------------------------------------------+
- |Data input (test)| The database is input using the configuration file of the test project.    |
- |データ投入(test) | The data is populated in the schema used by the automated test.            |
- |                 | Data is also input to the master data backup scheme simultaneously.        |
- +-----------------+----------------------------------------------------------------------------+
- |Master data input| Executes the above two targets together.                                   |
- |マスタデータ投入 |                                                                            |
- +-----------------+----------------------------------------------------------------------------+
+ +-----------------------+----------------------------------------------------------------------------+
+ | Target name           | Description                                                                |
+ +=======================+============================================================================+
+ |Data input (main) |br| | Use the configuration file of the main project to input the database.      |
+ |データ投入(main)       | Data is input in the schema when running the application                   |
+ |                       | on the application server such as subfunction unit test.                   |
+ +-----------------------+----------------------------------------------------------------------------+
+ |Data input (test) |br| | The database is input using the configuration file of the test project.    |
+ |データ投入(test)       | The data is populated in the schema used by the automated test.            |
+ |                       | Data is also input to the master data backup scheme simultaneously.        |
+ +-----------------------+----------------------------------------------------------------------------+
+ |Master data input |br| | Executes the above two targets together.                                   |
+ |マスタデータ投入       |                                                                            |
+ +-----------------------+----------------------------------------------------------------------------+
 
+..  |br| raw:: html
+
+  <br />
