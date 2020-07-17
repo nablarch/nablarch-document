@@ -94,7 +94,7 @@ expectedTable           When comparing the contents of the database,
                         the :ref:`Group ID<tips_groupId>` of the table that is be expected should be mentioned\ [1]_\.                                                                          
 expectedLog             Describe the LIST_MAP data ID that describes the expected log message.
                         The log message is verified by the automated test framework to see if it has actually been output.
-                        (See "Log Result Verification")
+                        (See "\ `Log result verification`_\ ")
 diConfig                Describe the path to the component configuration file when executing a batch.                                                       Required 
                         (See \ :ref:`Command line parameters <main-run_application>`\ )
 requestPath             The request path to execute the batch is described.                                                                                 Required 
