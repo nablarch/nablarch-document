@@ -24,76 +24,76 @@ Nablarch
 
 
 -----------------------------------------------
-Nablarchについて
+Information on Nablarch
 -----------------------------------------------
 
-Nablarch(ナブラーク)は、TISの豊富な基幹システム構築経験から得られたナレッジを集約したJavaアプリケーション開発/実行基盤です。
+Nablarch is a Java application development and execution platform that integrates the knowledge gained from extensive experience of TIS in building mission-critical systems.
 
- | :doc:`コンセプト <about_nablarch/concept>`
- | :doc:`ライセンス <about_nablarch/license>`
+ | :doc:`Concept <about_nablarch/concept>`
+ | :doc:`License <about_nablarch/license>`
 
 
 -----------------------------------------------
-Nablarchアプリケーションフレームワーク
+Nablarch Application Framework
 -----------------------------------------------
 
-  | :doc:`モジュール一覧 <about_nablarch/mvn_module>`
-  | :doc:`解説書 <application_framework/application_framework/index>`
-  | :doc:`アダプタ <application_framework/adaptors/index>`
+  | :doc:`Module list <about_nablarch/mvn_module>`
+  | :doc:`Manual <application_framework/application_framework/index>`
+  | :doc:`Adapter <application_framework/adaptors/index>`
   | :doc:`Example <application_framework/example/index>`
 
 -----------------------------------------------
-Nablarch拡張コンポーネント
+Nablarch extension component
 -----------------------------------------------
 
-帳票ライブラリ
+Form library
 ===========================
 
-  | :doc:`解説書 <extension_components/report/index>` | `サンプルアプリケーション <https://github.com/nablarch/nablarch-report-sample>`__
+  | :doc:`Manual <extension_components/report/index>` | `Sample application <https://github.com/nablarch/nablarch-report-sample>`__
   
-ワークフローライブラリ
+Workflow library
 ===========================
 
-  | :doc:`解説書 <extension_components/workflow/doc/index>`
-  | :doc:`ワークフロー定義データ自動生成ツール <extension_components/workflow/tool/index>` |
+  | :doc:`Manual <extension_components/workflow/doc/index>`
+  | :doc:`Automatic generation tool for workflow definition data <extension_components/workflow/tool/index>` |
 
-ETL基盤
+ETL platform
 ===========================
 
-  | :doc:`解説書 <extension_components/etl/index>`
-  | :doc:`ETL Mavenプラグイン <extension_components/etl/etl_maven_plugin>`
+  | :doc:`Manual <extension_components/etl/index>`
+  | :doc:`ETL Maven plug-in <extension_components/etl/etl_maven_plugin>`
 
 
 -----------------------------------------------
-Nablarch開発ツール
+Nablarch development tool
 -----------------------------------------------
 
-効率的なJava静的チェック
-===========================
+Efficient java static checks
+==============================
 
-  | :doc:`解説書 <development_tools/java_static_analysis/index>` 
+  | :doc:`Manual <development_tools/java_static_analysis/index>` 
 
-フロントエンド上級者向けのUI開発基盤
-====================================
+Ui development platform for front-end advanced users
+========================================================
 
-  | :doc:`解説書 <development_tools/ui_dev/index>` | :doc:`JSP/HTML作成ガイド <development_tools/ui_dev/guide/index>` 
-
-
-大規模開発向け重厚なテスティングフレームワーク
-==============================================
-
-  | :doc:`解説書 <development_tools/testing_framework/index>` | :doc:`モジュール一覧 <about_nablarch/mvn_module>`
+  | :doc:`Manual <development_tools/ui_dev/index>` | :doc:`JSP/HTML Creation Guide <development_tools/ui_dev/guide/index>` 
 
 
-アプリケーション開発時に使える便利なツール
+Full-fledged testing framework for large scale development
+============================================================
+
+  | :doc:`Manual <development_tools/testing_framework/index>` | :doc:`Module list <about_nablarch/mvn_module>`
+
+
+Useful tools for developing applications
 ==========================================
 
-  | :doc:`解説書 <development_tools/toolbox/index>` 
+  | :doc:`Manual <development_tools/toolbox/index>` 
 
 
 -----------------------------------------------
-Nablarch実装例集
+Nablarch implementation examples
 -----------------------------------------------
 
-  | :doc:`解説書 <examples/index>`
+  | :doc:`Manual <examples/index>`
 
