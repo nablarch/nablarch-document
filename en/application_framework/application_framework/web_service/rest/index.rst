@@ -1,6 +1,6 @@
 .. _`restful_web_service`:
 
-ReSTful Web Service Edition
+RESTful Web Service
 ==================================================
 This chapter provides the information needed to develop RESTful web service using the Nablarch application framework.
 
