@@ -34,7 +34,7 @@ The assumed execution control platform differs for MOM messaging depending on th
 
    * - Type of send and receive
      - Execution control platform
-   * - :ref:`Sending asynchronous message <mom_system_messaging-async_message_send>`
+   * - :ref:`Send asynchronous response message <mom_system_messaging-async_message_send>`
      - :ref:`nablarch_batch`
    * - :ref:`Send synchronous response message <mom_system_messaging-sync_message_send>`
      - Does not depend on the execution control platform
@@ -132,14 +132,14 @@ Point
 
 .. _mom_system_messaging-async_message_send:
 
-Send message with asynchronous response (sending asynchronous message)
+Send message with asynchronous response (send asynchronous response message)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Send a message to an external system.
 
 .. image:: ../images/system_messaging/mom_system_messaging-async_message_send.png
   :scale: 80
 
-送信電文に設定する :ref:`Common protocol header<mom_system_messaging-common_protocol_header>` の内容
+Contents of Common protocol header :ref:`Common protocol header<mom_system_messaging-common_protocol_header>` configured in send message
  Basically, only the send address header needs to be set.
 
   :Message ID: Configuration not required (numbered after sending)
@@ -465,7 +465,7 @@ Receive a message that is sent to a specific destination. Block until a message 
 .. image:: ../images/system_messaging/mom_system_messaging-async_message_receive.png
   :scale: 80
 
-外部システムが作成する受信電文の :ref:`Common protocol header<mom_system_messaging-common_protocol_header>` の内容
+Content of common protocol header :ref:`Common protocol header<mom_system_messaging-common_protocol_header>` of received message created by the external system
   :Message ID: Configuration not required (numbered after sending)
   :Correlation message ID: Configuration not required
   :Send address: Logical name of the address
