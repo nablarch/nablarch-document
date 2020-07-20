@@ -1,6 +1,6 @@
 .. _`web_service`:
 
-Web Service Edition
+Web Service
 ==================================================
 This chapter provides the information needed to develop web services using the Nablarch application framework.
 
