@@ -86,7 +86,7 @@ See `Online access log analysis and configuration of aggregation`_\  sample.
 
 Execution
 ----------
-This batch is implemented using the Nablarch batch method. Therefore, \ **Nablarch.jar**\ is required to run this batch. 
+This batch is implemented using the Nablarch batch architecture. Therefore, \ **Nablarch.jar**\ is required to run this batch. 
 Since the Nablarch batch requires a connection to the database, **database connection configuration** is also required.
 
 The following parameters are required when running this sample:
@@ -196,7 +196,7 @@ See `Online access log analysis and configuration of aggregation`_\  sample.
 
 Execution
 ------------
-This batch is implemented using the Nablarch batch method. Therefore, \ **Nablarch.jar**\ is required to run this batch.
+This batch is implemented using the Nablarch batch architecture. Therefore, \ **Nablarch.jar**\ is required to run this batch.
 Since the Nablarch batch requires a connection to the database, **database connection configuration** is also required.
 
 The following parameters are required when running this sample:

@@ -13,19 +13,19 @@ Sending Emails
 
 Provides the function to send emails.
 
-This function uses a method called delayed online process,
+This function uses a architecture called delayed online process,
 wherein instead of sending the emails immediately, the email send requests are briefly stored in the database
 and sent asynchronously using the :ref:`resident batch <nablarch_batch-resident_batch>`.
 
 .. image:: images/mail/mail_system.png
   :scale: 60
 
-The reasons for using this method are as below.
+The reasons for using this architecture are as below.
 
 * The sending of emails can be included as a business transaction in applications that issue email send requests.
 * There will be no effect on the application process, even when there is an email send failure due to email server or network failure.
 
-This function provides two functions to implement the method mentioned above.
+This function provides two functions to implement the architecture mentioned above.
 
 * :ref:`A function to register the email send requests in the database<mail-request>`
 * :ref:`A batch function that sends email based on the email send request<mail-send>`
@@ -616,7 +616,7 @@ Depending on the application requirements, addition of digital signature or encr
 
 For such cases, support by creating an inherited class of
 :java:extdoc:`MailSender<nablarch.common.mail.MailSender>` in the project.
-For details, see :java:extdoc:`MailSenderのJavadoc<nablarch.common.mail.MailSender>`.
+For details, see :java:extdoc:`MailSender㝮Javadoc<nablarch.common.mail.MailSender>`.
 
 Change the process when email send fails
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

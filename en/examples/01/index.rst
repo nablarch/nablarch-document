@@ -124,7 +124,7 @@ Class definition
   AuthenticationException         Exception that occurs when user authentication fails.
 
                                   Base class of exception related to authentication process.
-                                  Create an exception class that inherits from this class according to the authentication method.
+                                  Create an exception class that inherits from this class according to the authentication architecture.
                                   This class and its subclasses retain information necessary for the creation of 
                                   a message to be presented to a user, but do not create a message.
 

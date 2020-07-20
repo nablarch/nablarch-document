@@ -41,14 +41,14 @@ The sample is provided in the following package.
 Summary
 ------------
 
-CAPTCHA authentication is an authentication method used to verify that the responder is not a computer. 
+CAPTCHA authentication is an authentication architecture used to verify that the responder is not a computer. 
 
 In this sample, an authentication image is generated in the business process, the user inputs the string drawn on the image, and authentication is performed by comparing the input string with the string in the image.
 
 In general, CAPTCHA authentication process is often used prior to logging in.\
 CAPTCHA implementation libraries often store the generated string in the session information and compare them with the input string.\
 However, in Nablarch, as a general rule session information is generated after logging in, so it cannot be used.\
-Therefore, in this sample, the management table on the database is used as a method of linking the input and generated strings.\
+Therefore, in this sample, the management table on the database is used as a architecture of linking the input and generated strings.\
 
 Every time the CAPTCHA information is generated, the generated information is accumulated in the management table, so it becomes enlarged.\
 Therefore, it is necessary to consider creating a batch that performs maintenance of the management table separately.

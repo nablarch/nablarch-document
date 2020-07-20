@@ -16,7 +16,7 @@ Testability
 --------------------------------------------------
 
 High reliability is required for corporate information systems, including core systems, and various tests must be carried out during development.
-Nablarch is designed with emphasis on testability (easy to test) and provides mechanisms that enable testing with various processing methods and various granularities, such as various drivers, mocks and automated test frameworks.
+Nablarch is designed with emphasis on testability (easy to test) and provides mechanisms that enable testing with various processing architectures and various granularities, such as various drivers, mocks and automated test frameworks.
 
 
 --------------------------------------------------
