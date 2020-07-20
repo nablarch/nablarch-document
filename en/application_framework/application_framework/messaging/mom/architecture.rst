@@ -119,7 +119,7 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
      - Handler
      - Thread
      - Request process
-     - Return process
+     - Response process
      - Exception handling
 
    * - 1
@@ -252,7 +252,7 @@ The minimum handler configuration for asynchronous response messaging is the sam
      - Handler
      - Thread
      - Request process
-     - Return process
+     - Response process
      - Exception handling
 
    * - 1

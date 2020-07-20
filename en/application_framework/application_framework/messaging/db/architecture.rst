@@ -74,7 +74,7 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
     - Handler
     - Thread
     - Request process
-    - Return process
+    - Response process
     - Exception handling
 
   * - 1

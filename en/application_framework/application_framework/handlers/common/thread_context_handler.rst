@@ -13,7 +13,7 @@ Thread context is a mechanism for storing shared values within the same processi
 such as request ID and user ID, in the thread local area.
 
 .. important::
-  Use :ref:`thread_context_clear_handler`  to delete the value in the thread-local configured by this handler in return processing. 
+  Use :ref:`thread_context_clear_handler`  to delete the value in the thread-local configured by this handler in response processing.
   Since the value cannot be obtained if the thread context is accessed by the handler before this handler in request processing,
   be careful that the thread context is not accessed before this handler.
 

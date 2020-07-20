@@ -140,7 +140,7 @@ in the project according to the project requirements.
      - Handler
      - Thread
      - Request process
-     - Return process
+     - Response process
      - Exception handling
 
    * - 1
@@ -234,7 +234,7 @@ The minimum handler configuration of the resident batch is the same as the on-de
      - Handler
      - Thread
      - Request process
-     - Return process
+     - Response process
      - Exception handling
 
    * - 1
