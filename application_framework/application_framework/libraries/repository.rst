@@ -18,7 +18,8 @@
 --------------------------------------------------
 DIコンテナによるオブジェクトの構築ができる
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-DIコンテナ機能を使うことで、 :ref:`xml <repository-root_node>` に定義されたコンポーネントの定義を元にオブジェクトを構築できる。
+DIコンテナ機能を使うことで、 :ref:`xml <repository-root_node>` に定義されたコンポーネントの定義または 
+:ref:`アノテーションを付与したクラス <repository-inject-annotation-component>` を元にオブジェクトを構築できる。
 構築されるオブジェクトは **シングルトン** となる。
 
 DIコンテナ機能では、以下のことができる。
@@ -28,6 +29,7 @@ DIコンテナ機能では、以下のことができる。
 * :ref:`ListやMapをインジェクションできる。 <repository-map_list>`
 * :ref:`型や名前が一致するsetterへの自動インジェクションができる。 <repository-autowired>`
 * :ref:`ファクトリインジェクションができる。 <repository-factory_injection>`
+* :ref:`アノテーションを付与したクラスのオブジェクトが構築できる。 <repository-inject-annotation-component>`
 * :ref:`環境依存値を管理できる。 <repository-environment_configuration>`
 
 アプリケーションからはDIコンテナに直接アクセスするのではなく、システムリポジトリ経由でアクセスする。
@@ -577,7 +579,7 @@ OS環境変数による上書きを有効にするための設定方法
   具体的な設定は、次のようにして行う。
   
   #. クラスパス直下に ``META-INF/services`` というディレクトリを作成する
-  #. 上で作成したディレクトリの中に、 ``nablarch.core.repository.di.config.externalize.ExternalizedComponentDefinitionLoader`` という名前のテキス  トファイルを作成する
+  #. 上で作成したディレクトリの中に、 ``nablarch.core.repository.di.config.externalize.ExternalizedComponentDefinitionLoader`` という名前のテキストファイルを作成する
   #. ファイルの中に、使用する実装クラスの完全修飾名を改行区切りで列挙する
   
   例えば、 :java:extdoc:`OsEnvironmentVariableExternalizedLoader <nablarch.core.repository.di.config.externalize.OsEnvironmentVariableExternalizedLoader>` を使用する場合は、 ``nablarch.core.repository.di.config.externalize.ExternalizedComponentDefinitionLoader`` の中身を以下のように記述する。
@@ -662,6 +664,120 @@ Java Beansとして実装されているクラスであれば、setterインジ�
       <property name="sampleObject" ref="sampleComponent" />
     </component>
 
+.. _repository-inject-annotation-component:
+
+アノテーションを付与したクラスのオブジェクトを構築する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:java:extdoc:`SystemRepositoryComponent <nablarch.core.repository.di.config.externalize.annotation.SystemRepositoryComponent>` を
+クラスに付与することで、 :ref:`XMLに設定 <repository-definition_bean>` を書かなくともDIコンテナの管理対象とすることができる。
+
+使用方法
+**********
+
+収集対象のパッケージを特定するクラスを作成する。
+  :java:extdoc:`SystemRepositoryComponent <nablarch.core.repository.di.config.externalize.annotation.SystemRepositoryComponent>` が付与された
+  クラスの収集は :java:extdoc:`ExternalizedComponentDefinitionLoader <nablarch.core.repository.di.config.externalize.ExternalizedComponentDefinitionLoader>` インタフェースを実装したクラスで行っている。
+  このクラスは :java:extdoc:`AnnotationComponentDefinitionLoader <nablarch.core.repository.di.config.externalize.AnnotationComponentDefinitionLoader>` という抽象クラスで、収集対象の基点となるパッケージを返す
+  :java:extdoc:`getBasePackage <nablarch.core.repository.di.config.externalize.AnnotationComponentDefinitionLoader.getBasePackage()>` という抽象メソッドを持っている。
+
+  各プロジェクトのパッケージ名に合わせて収集が行われるよう上記の抽象メソッドをオーバーライドする。
+
+  .. code-block:: java
+
+    public class ExampleComponentDefinitionLoader extends AnnotationComponentDefinitionLoader {
+        @Override
+        protected String getBasePackage() {
+            return "com.example";
+        }
+    }
+
+作成したクラスをサービスプロバイダとして設定する。
+  ``java.util.ServiceLoader`` でロードされるよう :ref:`OS環境変数による上書きを有効にするための設定方法 <repository-overwrite_environment_configuration_by_os_env_var>` と同様
+  ``nablarch.core.repository.di.config.externalize.ExternalizedComponentDefinitionLoader`` というファイルを作成し上記のクラスの完全修飾名を記述する。
+
+DIコンテナで管理したいクラスにアノテーションを付与する。
+  :java:extdoc:`SystemRepositoryComponent <nablarch.core.repository.di.config.externalize.annotation.SystemRepositoryComponent>` を付与することでDIコンテナで管理される。
+
+  .. code-block:: java
+
+    @SystemRepositoryComponent
+    public class ExampleAction {
+
+コンストラクタインジェクションを使用する
+****************************************
+
+:java:extdoc:`SystemRepositoryComponent <nablarch.core.repository.di.config.externalize.annotation.SystemRepositoryComponent>` が付与されたクラスは構築時に以下の条件を満たすことでコンストラクタインジェクションが実行される。
+
+* コンストラクタが一つだけ定義されている
+* コンストラクタが引数をもつ
+
+条件を満たす場合、以下の仕様でインジェクションされる。
+
+* :java:extdoc:`ConfigValue <nablarch.core.repository.di.config.externalize.annotation.ConfigValue>` が付与されている引数には設定値がインジェクションされる
+* :java:extdoc:`ComponentRef <nablarch.core.repository.di.config.externalize.annotation.ComponentRef>` が付与されている引数にはDIコンテナに登録されたコンポーネントがインジェクションされる
+* 上記いずれのアノテーションも付与されていない場合は
+
+  * 引数の型に一致するコンポーネントがDIコンテナ上に1つしか存在しない場合は、そのコンポーネントを自動的にインジェクションする
+  * 引数の型に一致するコンポーネントがDIコンテナ上に存在しないまたは複数存在する場合は、何もインジェクションしない
+
+設定値をインジェクションする
+  コンストラクタ引数に :java:extdoc:`ConfigValue <nablarch.core.repository.di.config.externalize.annotation.ConfigValue>` を
+  付与することでアノテーションの ``value`` に設定した値がインジェクションされる。
+  使用可能な設定値の型は :ref:`文字列や数値、真偽値を設定値として使う <repository-property_type>` に準ずる。
+
+  :ref:`コンポーネント設定ファイルから環境依存値を参照する <repository-user_environment_configuration>` 場合同様
+  環境依存値のキー値を ``${`` と ``}`` で囲んで記述することができる。
+
+  .. code-block:: java
+
+    @SystemRepositoryComponent
+    public class ExampleService {
+
+        private final String errorMessageId;
+
+        public ExampleService(@ConfigValue("${example.service.errorMessageId}") String errorMessageId) {
+            this.errorMessageId = errorMessageId;
+        }
+
+コンポーネントをインジェクションする
+  コンストラクタ引数に :java:extdoc:`ComponentRef <nablarch.core.repository.di.config.externalize.annotation.ComponentRef>` を
+  付与することでアノテーションの ``value`` に設定した名前のコンポーネントがインジェクションされる。
+
+  以下の例では ``lettuceRedisClientProvider`` という名前で定義されたコンポーネントがインジェクションされる。
+
+  .. code-block:: java
+
+    @SystemRepositoryComponent
+    public class ExampleService {
+
+      private LettuceRedisClient client;
+
+      public ExampleService(@ComponentRef("lettuceRedisClientProvider") LettuceRedisClient client) {
+          this.client = client;
+      }
+
+.. tip::
+
+  コンストラクタインジェクションは :java:extdoc:`ConstructorInjectionComponentCreator <nablarch.core.repository.di.config.ConstructorInjectionComponentCreator>` というクラスで実現している。
+  ``AnnotationComponentDefinitionLoader`` の :java:extdoc:`newComponentCreator <nablarch.core.repository.di.config.externalize.AnnotationComponentDefinitionLoader.newComponentCreator()>` 
+  をオーバーライドすることで、アノテーションを付与したクラスのオブジェクト構築時に任意の処理を行う :java:extdoc:`ComponentCreator <nablarch.core.repository.di.ComponentCreator>` 実装に差し替えることができる。
+
+  .. code-block:: java
+
+    public class ExampleComponentDefinitionLoader extends AnnotationComponentDefinitionLoader {
+      @Override
+      protected String getBasePackage() {
+          return "com.example";
+      }
+
+      @Override
+      protected ComponentCreator newComponentCreator() {
+        // 任意のComponentCreator実装クラスに変更する。
+        return new ExampleComponentCreator();
+      }
+    }
+
 .. _repository-initialize_object:
 
 オブジェクトの初期化処理を行う
@@ -674,7 +790,7 @@ Java Beansとして実装されているクラスであれば、setterインジ�
 以下に詳細な手順を示す。
 
 Initializableインタフェースを実装する
-  :java:extdoc:`initialzie <nablarch.core.repository.initialization.Initializable.initialize()>` で初期化処理を行う。
+  :java:extdoc:`initialize <nablarch.core.repository.initialization.Initializable.initialize()>` で初期化処理を行う。
 
   .. code-block:: java
 
