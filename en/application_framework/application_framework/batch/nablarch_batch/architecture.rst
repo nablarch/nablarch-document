@@ -124,14 +124,14 @@ Others
   * :ref:`ServiceAvailabilityCheckHandler`
   * :ref:`file_record_writer_dispose_handler`
 
-Minimum handler configuration for on-demand startup batch
+Minimum handler configuration for on-demand batch
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-When building an on-demand startup batch, the minimum required handler queue is as below:
+When building an on-demand batch, the minimum required handler queue is as below:
 
 With this as the base, add standard handlers of Nablarch or custom handlers created
 in the project according to the project requirements.
 
-.. list-table:: Minimum handler configuration for on-demand startup batch
+.. list-table:: Minimum handler configuration for on-demand batch
    :header-rows: 1
    :class: white-space-normal
    :widths: 4,22,12,22,22,22
@@ -217,7 +217,7 @@ When building a resident batch, the minimum required handler queue is as below:
 
 With this as the base, add standard handlers of Nablarch or custom handlers created in the project according to the project requirements.
 
-The minimum handler configuration of the resident batch is the same as the on-demand startup batch excluding the point that the below handlers are added to the main thread.
+The minimum handler configuration of the resident batch is the same as the on-demand batch excluding the point that the below handlers are added to the main thread.
 
 * :ref:`thread_context_handler` ( required for :ref:`process_stop_handler` )
 * :ref:`thread_context_clear_handler`
