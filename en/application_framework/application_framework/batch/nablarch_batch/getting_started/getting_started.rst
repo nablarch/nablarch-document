@@ -23,7 +23,7 @@ Prerequisites
 
 .. tip::
  In Nablarch batch application, since there is no difference in how to implement the application
- with :ref:`each time startup batch<nablarch_batch-each_time_batch>` and :ref:`resident batch<nablarch_batch-resident_batch>`,
+ with :ref:`on-demand batch<nablarch_batch-on-demand_batch>` and :ref:`resident batch<nablarch_batch-resident_batch>`,
  so Getting Started is not prepared separately for each.
- The difference between :ref:`each time startup batch<nablarch_batch-each_time_batch>`
+ The difference between :ref:`on-demand batch<nablarch_batch-on-demand_batch>`
  and :ref:`resident batch<nablarch_batch-resident_batch>` is only the handler configuration.
