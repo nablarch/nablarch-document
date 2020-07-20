@@ -10,7 +10,7 @@ that repeatedly executes the process for each data record stored in the DB or fi
 
 The Nablarch batch application is divided into the following two types:
 
-.. _nablarch_batch-each_time_batch:
+.. _nablarch_batch-on-demand_batch:
 
 On-demand batch
  Launches the process periodically, that is, daily or monthly, and executes the batch process.

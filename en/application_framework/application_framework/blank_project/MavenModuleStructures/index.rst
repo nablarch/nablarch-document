@@ -289,7 +289,7 @@ Project structure
         |   +---java
         |   |
         |   +---resources
-        |   |   |   batch-boot.xml              … Configuration file to be specified in each time startup batch when it is launched.
+        |   |   |   batch-boot.xml              … Configuration file to be specified in on-demand batch when it is launched.
         |   |   |   mail-sender-boot.xml        … Configuration file to be specified while starting email send batch.
         |   |   |   resident-batch-boot.xml     … Configuration file to be specified while starting messaging using tables as queues.
         |   |   |
