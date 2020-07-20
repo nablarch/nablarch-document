@@ -369,4 +369,4 @@ For details of each action class, refer to the link.
 * :java:extdoc:`BatchAction (template class of generic batch action)<nablarch.fw.action.BatchAction>`
 * :java:extdoc:`FileBatchAction (template class of batch action for file input)<nablarch.fw.action.FileBatchAction>`
 * :java:extdoc:`NoInputDataBatchAction (template class of batch action that does not use input data)<nablarch.fw.action.NoInputDataBatchAction>`
-* :java:extdoc:`AsyncMessageSendAction (action class for send asynchronous response message)<nablarch.fw.messaging.action.AsyncMessageSendAction>`
+* :java:extdoc:`AsyncMessageSendAction (action class for sending asynchronous message)<nablarch.fw.messaging.action.AsyncMessageSendAction>`

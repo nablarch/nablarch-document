@@ -34,7 +34,7 @@ The assumed execution control platform differs for MOM messaging depending on th
 
    * - Type of send and receive
      - Execution control platform
-   * - :ref:`Send asynchronous response message <mom_system_messaging-async_message_send>`
+   * - :ref:`Sending asynchronous message <mom_system_messaging-async_message_send>`
      - :ref:`nablarch_batch`
    * - :ref:`Send synchronous response message <mom_system_messaging-sync_message_send>`
      - Does not depend on the execution control platform
@@ -132,7 +132,7 @@ Point
 
 .. _mom_system_messaging-async_message_send:
 
-Send message with asynchronous response (send asynchronous response message)
+Send message with asynchronous response (sending asynchronous message)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Send a message to an external system.
 
