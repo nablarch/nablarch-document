@@ -188,7 +188,7 @@ Implementation examples
   Point
    * The primary key is the column that stores the ID that uniquely identifies the message.
    * The attribute information of the table defines the columns corresponding to each item of the message to be sent.
-   * Define common items (update user ID, update date, etc.) according to each project method.
+   * Define common items (update user ID, update date, etc.) according to each project architecture.
 
   INS_PROJECT_SEND_MESSAGE
    ================================ ======================
@@ -502,7 +502,7 @@ Implementation examples
    * The primary key is the column that stores the ID that uniquely identifies the message.
      The value to be stored in this column is numbered by the framework using :ref:`generator`.
    * The attribute information of the table defines the columns corresponding to each item of the message to be received.
-   * Define common items (registration user ID, registration date and time, etc.) according to each project method.
+   * Define common items (registration user ID, registration date and time, etc.) according to each project architecture.
 
   INS_PROJECT_RECEIVE_MESSAGE
    ===================================== ======================
