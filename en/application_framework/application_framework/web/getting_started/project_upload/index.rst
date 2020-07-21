@@ -191,7 +191,7 @@ First, how to create the upload part of the batch registration function using up
     Key points of this implementation
       * Acquire the file :java:extdoc:`HttpRequest#getPart<nablarch.fw.web.HttpRequest.getPart(java.lang.String)>`.
       * When the file does not exist (not uploaded), then the size of :java:extdoc:`PartInfo<nablarch.fw.web.upload.PartInfo>` list that is acquired will be zero.
-        This value is used to perform control such as sending a business exception.
+        This value is used to perform control such as throwing a business exception.
       * The uploaded file is stored in a temporary area by the :ref:`multipart request handler<multipart_handler>`.
         Since the temporary area is automatically deleted, if you need to permanently (save) an uploaded file, move the file to an arbitrary directory.
         However, file transfers are possible only when the :ref:`file path management<file_path_management>` is used to manage the input and output of files and directories.
