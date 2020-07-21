@@ -227,7 +227,7 @@ The minimum listener configuration is described below. If the project requiremen
 
   * - 3
     - :java:extdoc:`Listener that performs transaction control <nablarch.fw.batch.ee.listener.step.StepTransactionManagementListener>`
-    - Starts the transaction.
+    - Begins the transaction.
     - Ends (commits or rollbacks) the transaction.
 
 .. list-table:: `ItemWriter` level minimum listener configuration

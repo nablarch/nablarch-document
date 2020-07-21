@@ -217,7 +217,7 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
    * - 14
      - :ref:`transaction_management_handler`
      - Sub
-     - Starts a transaction
+     - Begin a transaction
      - Commits the transaction.
      - Rolls back a transaction.
 
@@ -328,7 +328,7 @@ The minimum handler configuration for asynchronous response messaging is the sam
    * - 11
      - :ref:`transaction_management_handler`
      - Sub
-     - Starts a transaction
+     - Begin a transaction
      - Commits the transaction.
      - Rolls back a transaction.
 

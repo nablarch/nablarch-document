@@ -124,7 +124,7 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
     - :ref:`transaction_management_handler`
       (For initial processing/end processing)
     - Main
-    - Starts a transaction
+    - Begin a transaction
     - Commits the transaction.
     - Rolls back a transaction.
 
@@ -176,7 +176,7 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
     - :ref:`transaction_management_handler`
       (for business processing)
     - Sub
-    - Starts a transaction
+    - Begin a transaction
     - Commits the transaction.
     - Rolls back a transaction.
 

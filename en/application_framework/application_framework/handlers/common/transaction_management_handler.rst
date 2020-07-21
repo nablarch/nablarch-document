@@ -13,7 +13,7 @@ For transaction details, see :ref:`transaction` .
 
 This handler performs the following process.
 
-* Start a transaction
+* Begin a transaction
 * End a transaction (commit or rollback)
 * Callback at the end of the transaction
 

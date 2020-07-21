@@ -166,7 +166,7 @@ The detailed procedure is shown below.
 
 Add transaction implementation
   Transaction implements the :java:extdoc:`Transaction <nablarch.core.transaction.Transaction>` interface and implements
-  transaction start/end process for the transaction target resource.
+  transaction begin/end process for the transaction target resource.
 
   .. code-block:: java
 

@@ -11,7 +11,7 @@ performs transaction control, and commits the transaction at a certain number of
 while the data to be processed is present in the data reader.
 By increasing the transaction commit interval, it is possible to improve the throughput of batch processing.
 
-* Start a transaction
+* Begin a transaction
 * End a transaction (commit or rollback)
 * Callback at the end of the transaction
 

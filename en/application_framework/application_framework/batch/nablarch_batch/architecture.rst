@@ -198,7 +198,7 @@ in the project according to the project requirements.
    * - 8
      - :ref:`loop_handler`
      - Sub
-     - Starts a business transaction.
+     - Begin a business transaction.
      - Commits the business transaction at each commit interval.
        The loop is continued if the data to be processed is present in the data reader.
      - Rolls back a business transaction.
@@ -330,7 +330,7 @@ The minimum handler configuration of the resident batch is the same as the on-de
    * - 13
      - :ref:`loop_handler`
      - Sub
-     - Starts a business transaction.
+     - Begin a business transaction.
      - Commits the business transaction at each commit interval.
        The loop is continued if the data to be processed is present in the data reader.
      - Rolls back a business transaction.
