@@ -99,7 +99,7 @@ and a request is sent to the exception handler (:ref:`global_error_handler` or :
 
   // When an own exception is generated
   if (user == null) {
-      // Specify the end code and failure code.
+      // Specify the exit code and failure code.
       throw new TransactionAbnormalEnd(100, "USER_NOT_FOUND");
   }
 
@@ -107,7 +107,7 @@ and a request is sent to the exception handler (:ref:`global_error_handler` or :
   try {
       // Business process
   } catch (UserNotFoundException e) {
-      // Specify the end code, caught exception and failure code.
+      // Specify the exit code, caught exception and failure code.
       throw new ProcessAbnormalEnd(100, e, "USER_NOT_FOUND");
   }
 

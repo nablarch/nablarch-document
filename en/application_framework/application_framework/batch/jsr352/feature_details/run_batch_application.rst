@@ -31,9 +31,9 @@ Examples of using launch option
 
 .. _jsr352_exitcode_batch_application:
 
-Completion code for batch application
+Exit code for batch application
 --------------------------------------------------
-The completion code for the main class program mentioned above is as follows.
+The exit code for the main class program mentioned above is as follows.
 
 * Normal completion: 0 - When the exit status is other than "WARNING" and the batch status is :java:extdoc:`BatchStatus.COMPLETED <javax.batch.runtime.BatchStatus>` 
 * Abnormal completion: 1 - When the exit status is other than "WARNING" and the batch status is not :java:extdoc:`BatchStatus.COMPLETED <javax.batch.runtime.BatchStatus>`

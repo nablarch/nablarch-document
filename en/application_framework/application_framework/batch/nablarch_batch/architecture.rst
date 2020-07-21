@@ -85,8 +85,8 @@ The process flow starting from the Nablarch batch application reading the input 
 5. The action class returns :java:extdoc:`Result <nablarch.fw.Result>`, which shows the results.
 6. Repeat steps 2-5 until there is no more data to process.
 7. :java:extdoc:`StatusCodeConvertHandler (StatusCodeConvertHandler) <nablarch.fw.handler.StatusCodeConvertHandler>`
-   set in the handler queue converts the status code of the process result into the process end code,
-   and the process end code is returned as the processing result of the batch application.
+   set in the handler queue converts the status code of the process result into the process exit code,
+   and the process exit code is returned as the processing result of the batch application.
 
 .. _nablarch_batch-handler:
 
@@ -147,7 +147,7 @@ in the project according to the project requirements.
      - :ref:`status_code_convert_handler`
      - Main
      -
-     - Converts status code to process end code.
+     - Converts status code to process exit code.
      -
 
    * - 2
@@ -241,7 +241,7 @@ The minimum handler configuration of the resident batch is the same as the on-de
      - :ref:`status_code_convert_handler`
      - Main
      -
-     - Converts status code to process end code.
+     - Converts status code to process exit code.
      -
 
    * - 2

@@ -312,7 +312,7 @@ Common configuration for email send request and email send batch
      <!-- Failure code when send fails -->
      <property name="sendFailureCode" value="mail.send.failure" />
 
-     <!-- End code when send fails -->
+     <!-- Exit code when send fails -->
      <property name="abnormalEndExitCode" value="199" />
 
    </component>

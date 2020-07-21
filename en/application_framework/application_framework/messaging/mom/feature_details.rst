@@ -32,7 +32,7 @@ Although 2 types of exclusive control are offered, :ref:`universal_dao` is recom
 
 Execution control
 --------------------------------------------------
-* :ref:`Process end code<status_code_convert_handler-rules>`
+* :ref:`Process exit code<status_code_convert_handler-rules>`
 * :ref:`Returns an error response message when an error occurs <mom_system_messaging-sync_message_receive>`
 * :ref:`Terminate the messaging process abnormally <db_messaging-process_abnormal_end>` (same as messaging using tables as queues)
 * :ref:`Parallel execution of processing (multi-threading)<multi_thread_execution_handler>`

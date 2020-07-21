@@ -7,7 +7,7 @@ Status Code → Process End Code Conversion Handler
   :depth: 3
   :local:
 
-This handler converts the status code of the process result by the subsequent handler to the end code of the process.
+This handler converts the status code of the process result by the subsequent handler to the exit code of the process.
 
 The process flow is as follows.
 
@@ -29,19 +29,19 @@ Module list
 Constraints
 --------------------------------------------------
 Configure immediately after :ref:`main` 
-  This handler converts the status code of the process result to the end code of the process.
+  This handler converts the status code of the process result to the exit code of the process.
 
 .. _status_code_convert_handler-rules:
 
-Status code → Process end code conversion
+Status code → Process exit code conversion
 --------------------------------------------------------------
-Conversion of status code to process end code is performed according to the following rules.
+Conversion of status code to process exit code is performed according to the following rules.
 
 .. important::
  Use 100 to 199 when specifying the status code in the error process of the application.
 
 ============================== ============================
-Status code                    Process end code
+Status code                    Process exit code
 ============================== ============================
 -1 or less                     1
 0 ~ 199                        0 ~ 199 (not converted)

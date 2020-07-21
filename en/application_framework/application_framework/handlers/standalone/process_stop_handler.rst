@@ -81,6 +81,6 @@ Point
     <!-- Check interval for the process stop flag (optional) -->
     <property name="checkInterval" value="1" />
 
-    <!-- End code when the process is stopped (optional) -->
+    <!-- Exit code when the process is stopped (optional) -->
     <property name="exitCode" value="50" />
   </component>

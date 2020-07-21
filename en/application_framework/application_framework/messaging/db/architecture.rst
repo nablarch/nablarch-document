@@ -81,7 +81,7 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
     - :ref:`status_code_convert_handler`
     - Main
     -
-    - Converts the status code to process end code.
+    - Converts the status code to process exit code.
     -
     
   * - 2
