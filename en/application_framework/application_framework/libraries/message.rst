@@ -288,7 +288,7 @@ Style can be switched by using the :ref:`errors <tag-write_error_errors_tag>` ta
 
   Server
     Message strings are prepared in the server and set in the request scope.
-    As a message level is mandatory when generating a message, it is better to specify the INFO level.
+    As a message level is required when generating a message, it is better to specify the INFO level.
 
     .. code-block:: java
 

@@ -65,7 +65,7 @@ Usage example of :java:extdoc:`PerformanceLogUtil <nablarch.core.log.app.Perform
  PerformanceLogUtil.end(point, String.valueOf(searchResult.size()));
 
 .. important::
-  :java:extdoc:`PerformanceLogUtil <nablarch.core.log.app.PerformanceLogUtil>` uniquely identifies the measurement target with the :ref:`runtime ID <log-execution_id>`  + point name. 
+  :java:extdoc:`PerformanceLogUtil <nablarch.core.log.app.PerformanceLogUtil>` uniquely identifies the measurement target with the :ref:`execution ID <log-execution_id>`  + point name.
   Therefore, note that if  :java:extdoc:`PerformanceLogUtil <nablarch.core.log.app.PerformanceLogUtil>` is used during a recursive call, measurement cannot be performed.
 
 .. _performance_log-setting:

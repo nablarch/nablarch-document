@@ -47,7 +47,7 @@ Launch the application
 Launch the application by specifying :java:extdoc:`Main class <nablarch.fw.launcher.Main>`.
 
 The following three options must be specified for the framework operation.
-Terminated immediately if any one of the following options is missing.(End code = 127)
+Terminated immediately if any one of the following options is missing.(Exit code = 127)
 
 \-diConfig
  Specifies the path of the system repository configuration file.

@@ -402,7 +402,7 @@ An example of automatic injection with the default (ByType) configuration is sho
 
 Create an injection target class
   Create an injection target interface and implementation class.
-  Although the interface is created in this example, it is not mandatory.
+  Although the interface is created in this example, it is not required.
 
   .. code-block:: java
 

@@ -92,7 +92,7 @@ When tampering of the HIDDEN store is detected
   :java:extdoc:`HttpErrorResponse <nablarch.fw.web.HttpErrorResponse>` of status code 400 is thrown.
 
 When tampering of other stores is detected
-  Exception that occurred during the decryption process of the session store is sent without any changes.
+  Exception that occurred during the decryption process of the session store is thrown without any changes.
 
 .. _session_store_handler-error_forward_path:
 

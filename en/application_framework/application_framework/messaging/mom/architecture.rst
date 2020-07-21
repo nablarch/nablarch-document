@@ -62,8 +62,8 @@ The only difference with asynchronous response messaging is that no response mes
 4. The action class executes business logic for each request message using a form class and an entity class.
 5. The action class returns :java:extdoc:`ResponseMessage <nablarch.fw.messaging.ResponseMessage>` , which represents the response message.  
 6. Steps 2 to 5 are repeated until there is a process stop request.
-7. :java:extdoc:`status code → process end code conversion handler (StatusCodeConvertHandler) <nablarch.fw.handler.StatusCodeConvertHandler>`  set in the handler queue converts the status code of the process result into the process end code, 
-   and the process end code is returned as the processing result of MOM messaging.
+7. :java:extdoc:`status code → process exit code conversion handler (StatusCodeConvertHandler) <nablarch.fw.handler.StatusCodeConvertHandler>`  set in the handler queue converts the status code of the process result into the process exit code,
+   and the process exit code is returned as the processing result of MOM messaging.
 
 Handlers used in MOM messaging
 ------------------------------------------------------
@@ -126,7 +126,7 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
      - :ref:`status_code_convert_handler`
      - Main
      -
-     - Converts the status code to process end code.
+     - Converts the status code to process exit code.
      -
 
    * - 2
@@ -203,7 +203,7 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
      - :ref:`data_read_handler`
      - Sub
      - Use a data reader to read one request message and pass it as an argument of the subsequent handler. 
-       Also, the :ref:`runtime ID numbered <log-execution_id>` is numbered.
+       Also, the :ref:`execution ID numbered <log-execution_id>` is numbered.
      -
      - After generating output of the read message as a log, rethrows the original exception.
 
@@ -259,7 +259,7 @@ The minimum handler configuration for asynchronous response messaging is the sam
      - :ref:`status_code_convert_handler`
      - Main
      -
-     - Converts the status code to process end code.
+     - Converts the status code to process exit code.
      -
 
    * - 2
@@ -336,7 +336,7 @@ The minimum handler configuration for asynchronous response messaging is the sam
      - :ref:`data_read_handler`
      - Sub
      - Use a data reader to read one request message and pass it as an argument of the subsequent handler. 
-       Also, the :ref:`runtime ID numbered <log-execution_id>` is numbered.
+       Also, the :ref:`execution ID numbered <log-execution_id>` is numbered.
      -
      - After generating output of the read message as a log, rethrows the original exception.
 

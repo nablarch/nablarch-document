@@ -76,7 +76,7 @@ An example is shown below.
     <!-- Configure the class that performs the multiple launch prevention check -->
     <property name="duplicateProcessChecker" ref="duplicateProcessChecker" />
 
-    <!-- Configure the end code (optional) -->
+    <!-- Configure the exit code (optional) -->
     <property name="exitCode" value="10" />
   </component>
 

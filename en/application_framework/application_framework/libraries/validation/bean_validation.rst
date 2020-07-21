@@ -216,8 +216,8 @@ Creating Bean that defines the validation rules for each domain
 
   .. tip::
 
-   Configure the :java:extdoc:`@Required <nablarch.core.validation.ee.Required>` annotation which indicates mandatory items on the individual Bean side instead of in the domain Bean.
-   Whether an item is mandatory or not cannot be enforced on the domain side, since it depends on the function design.
+   Configure the :java:extdoc:`@Required <nablarch.core.validation.ee.Required>` annotation which indicates required items on the individual Bean side instead of in the domain Bean.
+   Whether an item is required or not cannot be enforced on the domain side, since it depends on the function design.
 
   .. code-block:: java
 
@@ -269,7 +269,7 @@ Use domain validation for each Bean
   In this example, validation configured in the `name` field of `SampleDomainBean` is performed for `userName`.
   Similarly, validation configured in the `date` field is performed for `birthday`.
 
-  * UserName is a mandatory item.
+  * UserName is a required item.
 
   .. code-block:: java
 
@@ -515,7 +515,7 @@ Some implementation examples are shown below.
 
 When parent Bean and nested Bean are 1:N
   The nested Bean will be a target for validation, and the fields of the nested Bean are also initialized when the parent Bean is initialized.
-  If the information of nested Bean is mandatory (select or input at least one),
+  If the information of nested Bean is required (select or input at least one),
   configure the :java:extdoc:`Size <nablarch.core.validation.ee.Size>` annotation.
 
   .. code-block:: java

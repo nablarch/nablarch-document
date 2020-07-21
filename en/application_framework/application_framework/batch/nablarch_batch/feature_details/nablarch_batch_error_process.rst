@@ -50,6 +50,6 @@ the batch process and abnormally terminate the process.
 In Nablarch batch application, the batch process can be abnormally terminated by throwing
 :java:extdoc:`ProcessAbnormalEnd<nablarch.fw.launcher.ProcessAbnormalEnd>`.
 When :java:extdoc:`ProcessAbnormalEnd<nablarch.fw.launcher.ProcessAbnormalEnd>`
-is thrown, the process end code value is as specified by this class.
+is thrown, the process exit code value is as specified by this class.
 
 

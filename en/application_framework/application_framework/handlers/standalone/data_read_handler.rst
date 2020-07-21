@@ -15,7 +15,7 @@ When the end of the :ref:`data reader <nablarch_batch-data_reader>` is reached, 
 This handler performs the following process.
 
 * Reads the input data using data reader
-* Numbering of :ref:`runtime ID <log-execution_id>`
+* Numbering of :ref:`execution ID <log-execution_id>`
 
 The process flow is as follows.
 

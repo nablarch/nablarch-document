@@ -55,7 +55,7 @@ If OK (service can be provided)
  Call the subsequent handler.
 
 If Not OK (service cannot be provided)
- :java:extdoc:`ServiceUnavailable <nablarch.fw.results.ServiceUnavailable>` (503) is sent.
+ :java:extdoc:`ServiceUnavailable <nablarch.fw.results.ServiceUnavailable>` (503) is thrown.
 
 To change the request ID obtained from :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` to the request ID of the forward destination,
 specify "true" in :java:extdoc:`usesInternalRequestId <nablarch.common.availability.ServiceAvailabilityCheckHandler.setUsesInternalRequestId(boolean)>`. The default is "false".

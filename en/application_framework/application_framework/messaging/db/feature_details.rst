@@ -42,7 +42,7 @@ Execution control
 
   feature_details/error_processing
 
-* :ref:`Process end code <status_code_convert_handler-rules>`
+* :ref:`Process exit code <status_code_convert_handler-rules>`
 * :ref:`Exclude error data and continue processing <db_messaging-exclude_error_data>`
 * :ref:`Abnormally terminate the messaging process <db_messaging-process_abnormal_end>`
 * :ref:`Parallel execution of processing (multi-threading) <multi_thread_execution_handler>`

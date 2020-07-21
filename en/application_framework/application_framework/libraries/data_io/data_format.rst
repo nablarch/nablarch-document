@@ -45,9 +45,9 @@ The fixed-length and variable-length data formats are compatible even with multi
     
     For example, some problem cases are given below.
     
-    When null is specified for mandatory items in XML and JSON:
+    When null is specified for required items in XML and JSON:
       * XML: Value is output as an empty character
-      * JSON: Throws a mandatory exception
+      * JSON: Throws a required exception
   
   * Depending on the output target data, JSON specifications may not be satisfied.
   
@@ -373,7 +373,7 @@ Format definition file
 
   .. important::
 
-    The parent element is arbitrary, it does not support the configuration of the child element being mandatory only if parent element exists. Therefore, when defining hierarchical structure data in the format definition file, it is recommended to define all items as optional.
+    The parent element is arbitrary, it does not support the configuration of the child element being required only if parent element exists. Therefore, when defining hierarchical structure data in the format definition file, it is recommended to define all items as optional.
 
 Map structure
   The structure of map that outputs data to XML and JSON using the above format definition file is as follows.

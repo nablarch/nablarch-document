@@ -81,7 +81,7 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
     - :ref:`status_code_convert_handler`
     - Main
     -
-    - Converts the status code to process end code.
+    - Converts the status code to process exit code.
     -
     
   * - 2
@@ -168,7 +168,7 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
     - :ref:`data_read_handler`
     - Sub
     - Use a data reader to read records one by one and pass it as an argument of the subsequent handler. 
-      Also, the :ref:`runtime ID numbered <log-execution_id>`  is numbered.
+      Also, the :ref:`execution ID numbered <log-execution_id>`  is numbered.
     -
     - After generating output of the read record as a log, rethrows the original exception.
 
