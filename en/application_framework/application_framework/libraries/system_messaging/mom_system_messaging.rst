@@ -159,7 +159,7 @@ that works with :ref:`nablarch_batch`.
  Registration of the send message in the temporary table is assumed to be done
  using :ref:`database_management` with :ref:`web_application` or :ref:`batch_application`.
 
-Only the following artifacts are required to be created using
+Only the following deliverables are required to be created using
 :java:extdoc:`AsyncMessageSendAction<nablarch.fw.messaging.action.AsyncMessageSendAction>`
 and the message send process can be implemented very easily.
 
@@ -359,7 +359,7 @@ Content of :ref:`Common protocol header<mom_system_messaging-common_protocol_hea
 
 Sending synchronous message provides
 :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>` as a utility class that wraps routine processing.
-Only the following artifacts are required to be created using
+Only the following deliverables are required to be created using
 :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>`
 and the send synchronous response message can be created very easily.
 
@@ -482,7 +482,7 @@ is an action class that works with :ref:`mom_messaging`.
  Assumption is that the data stored in the temporary table will be imported to this table in the system
  using the :ref:`batch_application`.
 
-Only the following artifacts are required to be created using :java:extdoc:`AsyncMessageReceiveAction<nablarch.fw.messaging.action.AsyncMessageReceiveAction>`
+Only the following deliverables are required to be created using :java:extdoc:`AsyncMessageReceiveAction<nablarch.fw.messaging.action.AsyncMessageReceiveAction>`
 and the messages can be saved in the table very easily.
 
 * Temporary table to register the messages
@@ -647,7 +647,7 @@ that performs routine processing.
 :java:extdoc:`MessagingAction<nablarch.fw.messaging.action.MessagingAction>` is an action class
 that works with :ref:`mom_messaging`.
 
-Only the following artifacts are required to be created by using
+Only the following deliverables are required to be created by using
 :java:extdoc:`MessagingAction<nablarch.fw.messaging.action.MessagingAction>`.
 
 * Format definition file that represents the message layout

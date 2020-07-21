@@ -2,7 +2,7 @@
 
 Getting Started
 ==========================================
-By reading this chapter, you can get an image of the development of web services using HTTP messaging.
+By reading this chapter, you can get the basic knowledge of the development of web services using HTTP messaging.
 
 Prerequisites
   The explanation of this chapter is based on  :ref:`example_application` . 

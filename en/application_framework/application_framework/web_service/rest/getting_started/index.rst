@@ -2,7 +2,7 @@
 
 Getting Started
 ==========================================
-By reading this chapter, you can get an image of the development of RESTful web service using the Nablarch application framework.
+By reading this chapter, you can get the basic knowledge of the development of a RESTful web service that conforms to Nablarch application framework.
 
 Prerequisites
   The explanation of this chapter is based on :ref:`example_application`. 

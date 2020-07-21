@@ -3,7 +3,7 @@
 Getting Started
 ==========================================
 
-By reading this chapter, you can get an image of the development of web applications using Nablarch.
+By reading this chapter, you can get the basic knowledge of the development of web applications that conforms to Nablarch.
 
 Since this chapter does not provide a detailed description of the function, when implementing refer to :doc:`../feature_details`,
 :doc:`../../libraries/index` and `API documentation` as appropriate.

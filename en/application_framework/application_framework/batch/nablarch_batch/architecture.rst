@@ -278,7 +278,7 @@ The minimum handler configuration of the resident batch is the same as the on-de
      - Executes the subsequent handler repeatedly at each data monitoring interval.
      - Continues the loop
      - Performs log output and if a runtime exception is thrown, wraps to a retryable exception and sent.
-       If an error is sent, it will be sent again without any change
+       If an error is sent, it will be rethrow without any change
 
    * - 7
      - :ref:`process_stop_handler`
@@ -341,7 +341,7 @@ The minimum handler configuration of the resident batch is the same as the on-de
      - Uses a data reader to read records one by one and pass it as an argument
        of the subsequent handler. Also, :ref:`the execution ID<log-execution_id>` is numbered.
      -
-     - Outputs the read record as a log, and resends the original exception.
+     - Outputs the read record as a log, and rethrows the original exception.
 
 .. _nablarch_batch-data_reader:
 
