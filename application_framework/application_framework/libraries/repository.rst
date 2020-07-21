@@ -778,6 +778,26 @@ DIコンテナで管理したいクラスにアノテーションを付与する
       }
     }
 
+ActionクラスをDIコンテナで管理する
+****************************************
+
+アノテーションをActionクラスに付与することでDIコンテナで管理することが可能となる。
+Nablarchで用意されたディスパッチハンドラ（ :ref:`ルーティングアダプタ <router_adaptor>` 、 :ref:`リクエストディスパッチハンドラ <request_path_java_package_mapping>` 、
+:ref:`HTTPリクエストディスパッチハンドラ <http_request_java_package_mapping>` ）では
+ディスパッチ先のクラスはディスパッチハンドラ内でインスタンス化される。
+そのため、ActionクラスをDIコンテナに登録する場合は、ディスパッチ先のクラスをシステムリポジトリから取得するよう :java:extdoc:`DelegateFactory <nablarch.fw.handler.DelegateFactory>` を
+差し替える必要がある。差し替えは以下のように :java:extdoc:`DispatchHandler#setDelegateFactory <nablarch.fw.handler.DispatchHandler.setDelegateFactory(nablarch.fw.handler.DelegateFactory)>` にて設定する。
+
+  .. code-block:: xml
+
+    <component name="packageMapping" class="nablarch.integration.router.RoutesMapping">
+      <!-- ディスパッチ先をシステムリポジトリから取得するDelegateFactory -->
+      <property name="delegateFactory">
+          <component class="nablarch.fw.handler.SystemRepositoryDelegateFactory"/>
+      </property>
+      <!-- その他のプロパティは省略 -->
+    </component>
+
 .. _repository-initialize_object:
 
 オブジェクトの初期化処理を行う
