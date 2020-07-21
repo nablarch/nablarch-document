@@ -2,7 +2,7 @@
 
 Getting Started
 ==========================================
-By reading this chapter, you can get an image of the development of a batch based on the Nablarch batch application architecture.
+By reading this chapter, you can get the basic knowledge of the development of a batch based on the Nablarch batch application architecture.
 
 Prerequisites
   The explanation of this chapter is based on :ref:`example_application`.
