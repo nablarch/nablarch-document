@@ -5,7 +5,7 @@ Initial Setup of JSR352-compliant Batch Project
 The following is configured in the initial setup of JSR352-compliant batch project:
 
 * Generate a JSR352-compliant batch project
-* Operation check of the JSR352-compliant batch project
+* Confirm communications of the JSR352-compliant batch project
 
 
 Overview of the generated project
@@ -154,7 +154,7 @@ sample-etl          Sample application of the ETL function provided by Nablarch.
 =================== ================================================================================
 
 
-Check the operations of the above 3 batch applications and confirm that the blank project has been successfully generated.
+Confirm the communications of the above 3 batch applications and confirm that the blank project has been successfully generated.
 
 
 .. _firstStepBatchEEBuild:

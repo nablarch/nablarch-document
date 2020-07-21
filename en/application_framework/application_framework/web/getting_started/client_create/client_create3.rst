@@ -40,7 +40,7 @@ Implementation of return process to the registration screen
       (to acquire the industry type information to be displayed again in the pull-down when the registration screen is displayed).
     * Delete the objects registered in the  :ref:`session store <session_store>` with the initial display process (considering the case where the registration screen transitions directly from the header menu without clicking the back button).
 
-Operation check
+Communication confirmation
   1. Displays the registration screen(登録画面).
 
     .. image:: ../images/client_create/input_display.png

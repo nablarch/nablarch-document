@@ -7,7 +7,7 @@ This section explains the :ref:`Chunk step<jsr352-batch_type_chunk>` batch archi
 Overview of the function to be created
   .. image:: ../images/chunk/overview.png
 
-Operation check procedure
+Communication confirmation procedure
   1. Delete data in the table (bonus table) to be registered
 
      Execute the following SQL from the console of H2 and delete the data in the bonus table.

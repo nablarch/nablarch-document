@@ -112,8 +112,8 @@ Create a link to the registration screen
   Key points of this implementation
     * Create a link using :ref:`tag-a_tag` of :ref:`tag`.
 
-Operation check
-  Check the operation with the following procedure.
+Communication confirmation
+  Confirm communications with the following procedure.
 
   1. Log in to the application and confirm that the "Client Registration"(顧客登録) link has been created in the header menu.
 

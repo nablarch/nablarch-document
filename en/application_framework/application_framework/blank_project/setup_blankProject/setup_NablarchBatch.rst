@@ -5,7 +5,7 @@ Initial Setup of the Nablarch Batch Project
 The following is configured in the initial setup of the Nablarch batch project:
 
 * Generate the Nablarch batch project
-* Operation check of the Nablarch batch project
+* Confirm communications of the Nablarch batch project
 
 
 Overview of the generated project
@@ -139,7 +139,7 @@ The on-demand batch is included in the generated project.
 ======================== ==================================================================================================================
 Batch class              Details
 ======================== ==================================================================================================================
-SampleAction             Operation check of the Nablarch functions commonly used when implementing batch applications.
+SampleAction             Confirm communications of the Nablarch functions commonly used when implementing batch applications.
 ======================== ==================================================================================================================
 
 

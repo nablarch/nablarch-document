@@ -5,7 +5,7 @@ This section describes the update function based on an example application.
 Description of the function to be created
   This function updates the project information that matches the project ID in the database by setting the JSON format project information in the request body during PUT requests.
 
-Operation check procedure
+Communication confirmation procedure
   1. Check the DB status in advance
  
      Execute the following SQL from the console of H2 and check the update target record.
@@ -45,7 +45,7 @@ Operation check procedure
             "version": 1
         }
  
-  3. Operation check
+  3. Communication confirmation
  
     Execute the following SQL from the console of H2 and confirm that the record has been updated.
  
