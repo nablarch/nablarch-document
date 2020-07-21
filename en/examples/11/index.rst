@@ -17,7 +17,7 @@ Messaging Platform Test Simulator Sample
 
 This sample provides a sample implementation to simulate a destination system for testing applications using the Nablarch application framework  :ref:`mom_system_messaging` and :ref:`http_system_messaging`.
 
-It is assumed to be used as a connection destination for applications in communication and application coupling tests after a test environment is built.
+It is assumed to be used as a connection destination for applications in communication confirmation and application coupling tests after a test environment is built.
 
 The operation image of the simulator is shown below.
 
@@ -32,7 +32,7 @@ When the simulator sends a message
 Uses
 ----------
 
-Communication test
+Communication confirmation test
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 It can be used as a destination system for simple communication in the communication test to confirm the configuration of Nablarch application framework, middleware, hardware, etc. after building the test environment.
@@ -40,7 +40,7 @@ It can be used as a destination system for simple communication in the communica
 Combined test
 ~~~~~~~~~~~~~~~~
 
-It can be used as a pseudo counterpart system for inter-system communication during application integration test. 
+It can be used as a pseudo counterpart system for inter-system communication confirmation during application integration test.
 By using the simulator to set the data to be used as the request message/response message, the test using the scenario can be performed.
 
 While testing using scenarios is possible in a subfunction unit test, 

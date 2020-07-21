@@ -137,7 +137,7 @@ Project structure
     |   |       \---WEB-INF         … web.xml is stored.
     |   |
     |   \---test
-    |       +---java                … Unit test for communication test is stored.
+    |       +---java                … Unit test for communication confirmation test is stored.
     |       |
     |       \---resources           … Configuration file for unit test is stored directly below.
     |           |
