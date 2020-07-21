@@ -303,7 +303,7 @@ It is assumed that the RequestHandlerEntry is used to configure and use the requ
 In addition, as in the above example, when mapping under /action and acting as a single action, \
 it is necessary to set additional settings for other handlers or change the contents of the request.
 
-The following are some points to consider for other handlers included in the standard handler configuration of the web application execution control infrastructure.
+The following are some points to consider for other handlers included in the standard handler configuration of the web application runtime platform.
 
 - Database connection management handlers and transaction control handlers
 

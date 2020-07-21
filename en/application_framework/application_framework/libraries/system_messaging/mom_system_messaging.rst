@@ -25,7 +25,7 @@ Also, :ref:`data_format` is used for the message format.
  Such cases must be supported by adding the implementation in the project
  by referring to :ref:`mom_system_messaging-change_fw_header`.
 
-The assumed execution control platform differs for MOM messaging depending on the type of send and receive.
+The assumed runtime platform differs for MOM messaging depending on the type of send and receive.
 
 .. list-table::
    :header-rows: 1
@@ -33,11 +33,11 @@ The assumed execution control platform differs for MOM messaging depending on th
    :widths: 50, 50
 
    * - Type of send and receive
-     - Execution control platform
+     - Runtime platform
    * - :ref:`Send asynchronous response message <mom_system_messaging-async_message_send>`
      - :ref:`nablarch_batch`
    * - :ref:`Send synchronous response message <mom_system_messaging-sync_message_send>`
-     - Does not depend on the execution control platform
+     - Does not depend on the runtime platform
    * - :ref:`Receive asynchronous response message <mom_system_messaging-async_message_receive>`
      - :ref:`mom_messaging`
    * - :ref:`Receive synchronous response message <mom_system_messaging-sync_message_receive>`

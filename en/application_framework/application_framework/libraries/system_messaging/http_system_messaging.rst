@@ -26,7 +26,7 @@ Also, :ref:`data_format` is used for the message format.
 
  If the use of this function is unavoidable, refer to :ref:`http_system_messaging-change_fw_header` and handle by adding the implementation in the project.
 
-The assumed execution control platform differs for HTTP messaging depending on the type of send and receive.
+The assumed runtime platform differs for HTTP messaging depending on the type of send and receive.
 
 .. list-table::
    :header-rows: 1
@@ -34,11 +34,11 @@ The assumed execution control platform differs for HTTP messaging depending on t
    :widths: 50, 50
 
    * - Type of send and receive
-     - Execution control platform
+     - Runtime platform
    * - :ref:`HTTP message send <http_system_messaging-message_receive>`
      - :ref:`HTTP messaging <http_messaging>`
    * - :ref:`HTTP send message <http_system_messaging-message_send>`
-     - Does not depend on the execution control platform
+     - Does not depend on the runtime platform
 
 Function overview
 --------------------------
@@ -71,7 +71,7 @@ How to use
 
 Configure settings to use HTTP messaging
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In the case of message reception, no special configuration is required other than the handler configuration of the execution control platform.
+In the case of message reception, no special configuration is required other than the handler configuration of the runtime platform.
 
 In the case of send message, add the following classes to the component definition.
 

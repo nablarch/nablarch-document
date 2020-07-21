@@ -803,7 +803,7 @@ The framework outputs logs based on the below output policy.
         Since the failure log is the target of failure monitoring, it is the starting point for primary isolation during failure, 
         and the policy is to output one failure log for each failure.
 
-        Therefore, the policy is to output an failure notification log from the execution control platform with a single handler (handler that processes exceptions).  
+        Therefore, the policy is to output an failure notification log from the runtime platform with a single handler (handler that processes exceptions).
 
     * - WARN
       - When the exceptions are linked when an error occurs, 
