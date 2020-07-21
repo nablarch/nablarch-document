@@ -67,7 +67,7 @@ By modifying the source code of the provided simulator,
 the following tests can be performed for special and complex test cases.
 
 * Perform a test that needs to dynamically change the content of the response message according to the content of the request message.
-* Perform an abnormal system test by intentionally delaying the response time to cause a timeout.
+* Perform an abnormal pattern test by intentionally delaying the response time to cause a timeout.
 
 
 Capable of sending request messages in multiple threads (message sending)
