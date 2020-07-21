@@ -7,7 +7,7 @@ The big picture of the Nablarch application framework is given below.
 .. image:: images/framework.png
   :scale: 80
 
-The Nablarch application framework consists of a runtime platform adapted to processing architectures such as Web and batch, and a library providing individual functions such as database access and validation.
+The Nablarch application framework consists of a runtime platform adapted to processing architectures such as web and batch, and a library providing individual functions such as database access and validation.
 
 The Nablarch application framework has the following features.
 

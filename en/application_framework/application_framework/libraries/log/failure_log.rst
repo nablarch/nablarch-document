@@ -219,7 +219,7 @@ Description rules
 
  .. tip::
   Derived source run time information can be output to the failure log by output of the process target data.
-  When the data from the Web has to be linked to the batch process,
+  When the data from the web has to be linked to the batch process,
   runtime information (request ID or run time ID etc.) during execution of the screen process is the derived source run time information in the batch process.
   For information on how to output the derived source run time information, :ref:`failure_log-output_src_exe_info`.
 
@@ -416,7 +416,7 @@ When exception is thrown withnablarch.common.authentication.PasswordAuthenticato
 
 Output the derived source run time information
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-When the data from the Web has to be linked to the batch,
+When the data from the web has to be linked to the batch,
 runtime information during execution of the screen process is the derived source run time information in the batch process.
 Hereinafter, when data is linked between the process architectures, the side that performs the process first is referred to as the pre-stage process, and the side that performs the process later is referred to as the post-stage process.
 When a failure occurs in the post-stage process, derived source run time information is output to reduce the tracking work of the pre-stage process.

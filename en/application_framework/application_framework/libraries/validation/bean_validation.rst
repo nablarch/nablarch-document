@@ -62,7 +62,7 @@ Module list
     <artifactId>nablarch-common-code</artifactId>
   </dependency>
 
-  <!-- For use in Web applications-->
+  <!-- For use in web applications-->
   <Dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-fw-web</artifactId>
@@ -98,7 +98,7 @@ MessageInterpolator configuration
 Configuration for domain validation
   See :ref:`bean_validation-domain_validation`
 
-Configuration for using Bean Validation in Web application
+Configuration for using Bean Validation in web application
   See :ref:`bean_validation-web_application`
 
 Define the error message for validation error
@@ -550,7 +550,7 @@ When parent Bean and nested Bean are 1:1
 
 Checking User Input Values for Web Applications
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The user input values for Web applications are checked using :ref:`inject_form_interceptor`.
+The user input values for web applications are checked using :ref:`inject_form_interceptor`.
 For details, see :ref:`inject_form_interceptor`.
 
 To use Bean Validation with :ref:`inject_form_interceptor`, it must be defined in the component configuration file.

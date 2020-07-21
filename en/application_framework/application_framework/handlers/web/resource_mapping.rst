@@ -15,7 +15,7 @@ This function is used to download static resources through the Nablarch handler.
 
   Therefore, using this handler for downloading static resources that do not need to go through
   the handler is not recommended.
-  Download static resources using the function of the Web container or Web server,
+  Download static resources using the function of the web container or web server,
   and use this handler only for contents that need to go through other handlers
   such as "authorization is required to be performed for contents download".
 

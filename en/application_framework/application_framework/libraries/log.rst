@@ -91,7 +91,7 @@ The log format can be changed with configuration and used according to the appli
      - Outputs execution time and memory usage for performance tuning of an arbitrary process.
 
    * - :ref:`HTTP access log <http_access_log>`
-     - Outputs the information to grasp the execution status of application in the Web application.
+     - Outputs the information to grasp the execution status of application in the web application.
        The log includes the output information required to measure the application performance and also for load measurement of the application.
        It is also used as a trail log that outputs all request and response information to detect unauthorized use of the application.       
 
@@ -419,7 +419,7 @@ Boot process
 .. _log-processing_system:
 
 Processing architecture
- Processing architecture refers to Web, batch, etc. 
+ Processing architecture refers to web, batch, etc. 
  If the application process architecture is to be identified separately, it is specified and used for each project.
 
 
@@ -578,7 +578,7 @@ Do not output the log initialization message
 An initialization message is output by this function to the log when each logger is initialized. 
 If the initialization message is not required for the monitored log, etc, then support by creating a Writer that does not output the initialization message based on the Writer provided by this function.
 
-If the  :ref:`log_adaptor` is used for the purpose of unifying the logger with the Web application server or OSS product, this support is not necessary as initialization messages are not output.
+If the  :ref:`log_adaptor` is used for the purpose of unifying the logger with the web application server or OSS product, this support is not necessary as initialization messages are not output.
 
 The corresponding example shown below.
 

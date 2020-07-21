@@ -33,7 +33,7 @@ The sample is provided in the following package.
 ------------
 Summary
 ------------
-Provide an implementation sample of the function to perform user authentication (authentication by user ID and password) in Web application.
+Provide an implementation sample of the function to perform user authentication (authentication by user ID and password) in web application.
 
 This sample is intended to be used in a business process [#auth_action]_  that executes login process.
 

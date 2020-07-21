@@ -25,7 +25,7 @@ Nablarch offers the following archetypes: All the archetype group IDs are ``com.
   * - nablarch-web-archetype
     - Archetype for using the web application runtime platform
   * - nablarch-jaxrs-archetype
-    - Archetype for using the RESTful Web service runtime platform
+    - Archetype for using the RESTful web service runtime platform
   * - nablarch-batch-ee-archetype
     - Archetype for using the JSR352-compliant batch application framework
   * - nablarch-batch-archetype
@@ -96,7 +96,7 @@ To check the configuration described in nablarch-archetype-parent, check the cac
 pj-web project
 ==================
 
-Project being packaged as a war file of the Web application.
+Project being packaged as a war file of the web application.
 
 Project structure
 ---------------------------
@@ -170,13 +170,13 @@ The main directories and files are shown below.
 pj-jaxrs project
 ====================
 
-Project packaged as a war file of the RESTful Web service application.
+Project packaged as a war file of the RESTful web service application.
 
 
 Project structure
 -------------------------------
 
-Omitted because it is the same as Web.
+Omitted because it is the same as web.
 
 
 pj-batch-ee project
@@ -189,7 +189,7 @@ Project packaged as a jar file for JSR352-compliant batch applications.
 Project structure
 -----------------------------
 
-(Descriptions of directories and files only for the elements that do not exist in Web and batch)
+(Descriptions of directories and files only for the elements that do not exist in web and batch)
 
 .. code-block:: text
 
@@ -504,7 +504,7 @@ Policy for recommended project configuration
 The following are the objectives of the recommended project configuration.
 
 * If only one application is to be created (web only, batch only, etc.), then configure a single project respectively.
-* If two Web applications are to be created for internal and external use, create separate Maven projects instead of consolidating them into a single Maven project.
+* If two web applications are to be created for internal and external use, create separate Maven projects instead of consolidating them into a single Maven project.
 * If there are multiple applications and a library is to be shared, create a Maven project to deploy the shared library.
 * While adding a runtime platform, create a Maven project for each execution control platform. For example, to add an application that uses the messaging execution control platform, create a new Maven project.
 * Do not split the project more than necessary. For details, see :ref:`mavenModuleStructuresProblemsOfExcessivelyDivided`.

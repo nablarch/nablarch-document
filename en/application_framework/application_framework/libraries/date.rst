@@ -95,7 +95,7 @@ When re-executed during failure in batch process, using the past date as the bus
 In such a case, only the re-execution process can execute with an arbitrary date as the business date.
 
 .. tip::
- If all functions are executed in one process like a Web application, 
+ If all functions are executed in one process like a web application, 
  simply change the date managed in the database.
 
 Business date is overwritten by using  :ref:`repository-overwrite_environment_configuration` . 

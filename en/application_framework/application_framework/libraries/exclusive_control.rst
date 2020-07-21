@@ -10,7 +10,7 @@ Exclusive Control
 This function performs exclusive control for updating data in the database.
 With this function,
 data integrity can be maintained even when the same data in the database is updated
-from multiple transactions (Web or batch) at the same time.
+from multiple transactions (web or batch) at the same time.
 
 .. _exclusive_control-deprecated:
 
@@ -42,7 +42,7 @@ The following can be realized with this function.
 
 Since, the optimistic lock/pessimistic lock provided by this function is realized by using the same exclusive control table,
 even if optimistic lock and pessimistic lock are used in parallel, it is possible to prevent the same data from being updated at the same time.
-For example, Web using optimistic lock and batch using pessimistic lock can run
+For example, web using optimistic lock and batch using pessimistic lock can run
 in parallel and still maintain the data integrity.
 
 The exclusive control table is defined for each unit of exclusive control and the largest unit in which conflicts are allowed.

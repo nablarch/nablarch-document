@@ -8,7 +8,7 @@ Mobile Terminal Access Handler
   :local:
 
 
-This handler implements the following to operate a Web application in an environment where JavaScript does not work,
+This handler implements the following to operate a web application in an environment where JavaScript does not work,
 such as the mobile phone (so called feature phone).
 
 * From the button name of the button pressed on the screen, dispatch to the expected URL

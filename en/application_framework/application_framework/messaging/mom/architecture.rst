@@ -39,7 +39,7 @@ See :ref:`nablarch_batch-structure` .
 Specify action and request ID based on the request message
 ------------------------------------------------------------------
 MOM messaging uses a specified field in the request message as the request ID. 
-Since the request ID does not include a hierarchical structure unlike request paths of Web applications, 
+Since the request ID does not include a hierarchical structure unlike request paths of web applications, 
 use :ref:`request_path_java_package_mapping` to specify the action class package and class name suffix in the configuration, 
 and dispatch it to the class corresponding to the request ID.
 

@@ -8,7 +8,7 @@ Permission Check
   :local:
 
 This function checks the permission for the functions provided by the application.
-This function enables access control such as limiting the functions that can be used by each user on the Web.
+This function enables access control such as limiting the functions that can be used by each user on the web.
 
 
 .. important::
@@ -16,7 +16,7 @@ This function enables access control such as limiting the functions that can be 
 
  This function manages the permission data used for permission check using the database and sets the permission for each request
  (see the conceptual model shown in :ref:`permission_check-authority_model`).
- For example, a Web registration function is generally composed of multiple requests such as initial display/confirmation/return/registration.
+ For example, a web registration function is generally composed of multiple requests such as initial display/confirmation/return/registration.
 
  Therefore, while permission can be configured in detail for this function, data design is also required in detail,
  which may reduce productivity during development and increase operational load after release.
@@ -46,7 +46,7 @@ The conceptual model of permission configuration used for permission check is as
 Groups are used for assigning permission to organization units such as departments.
 
 The permission check unit represents the minimum unit of permission check by collecting multiple requests.
-Requests required to realize the permission check, that is, multiple events on the screen for Web, are associated with the permission check unit.
+Requests required to realize the permission check, that is, multiple events on the screen for web, are associated with the permission check unit.
 For example, the data is as follows for a user registration function.
 
 Permission check unit

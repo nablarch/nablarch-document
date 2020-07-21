@@ -14,7 +14,7 @@ JSP Custom Tags
   tag/tag_reference
 
 
-This function provides custom tags supporting creation of screens for Web applications.
+This function provides custom tags supporting creation of screens for web applications.
 
 Custom tags have the following limitations:
 
@@ -38,7 +38,7 @@ Custom tags have the following limitations:
  Since HTML5 attributes other than the above cannot be used, if it becomes necessary to use other attributes, then extend the custom tags in each project.
 
 .. important::
- Custom tags are meant for Web applications in which simple screen transition as shown below is performed.
+ Custom tags are meant for web applications in which simple screen transition as shown below is performed.
  For this reason, custom tags are not compatible with creation of screens with rich content focusing on operability and SPAs (Single Page Application).
 
  * Search screen → Search/Detail Display based on detail screen
@@ -1943,7 +1943,7 @@ The method of formatting that uses :ref:`format` is recommended for the followin
 
  .. important::
   Request parameters cannot be referenced in EL expression.
-  Therefore, when checking the value input by the Web application user using :ref:`bean_validation`,
+  Therefore, when checking the value input by the web application user using :ref:`bean_validation`,
   the following must be configured:
 
   :ref:`bean_validation_onerror`

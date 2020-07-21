@@ -400,7 +400,7 @@ Implementation examples
     }
 
   To validate an input value request using the Bean described above, use :java:extdoc:`ValidationUtil <nablarch.core.validation.ValidationUtil>` as follows:
-  In the case of a Web application, validation can be performed more easily by `Checking User Input Values for Web Applications`_.
+  In the case of a web application, validation can be performed more easily by `Checking User Input Values for Web Applications`_.
 
   .. code-block:: java
 
@@ -685,7 +685,7 @@ See :ref:`validation correlation with the Bean validation database <bean_validat
 
 Checking User Input Values for Web Applications
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The user input values for Web applications are checked using :ref:`inject_form_interceptor`.
+The user input values for web applications are checked using :ref:`inject_form_interceptor`.
 For details, see :ref:`inject_form_interceptor`.
 
 Expansion example

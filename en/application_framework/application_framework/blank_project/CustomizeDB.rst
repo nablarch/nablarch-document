@@ -189,7 +189,7 @@ Immediately after a project is generated from an archetype, the following applie
 ========================================== =============================================================================
 Project type                               Config file of the environment that acquires connections from JNDI
 ========================================== =============================================================================
-Web, RESTful Web service                   * Production environment config(src/env/prod/resources/env.config)
+Web, RESTful web service                   * Production environment config(src/env/prod/resources/env.config)
 JSR352-compliant batch, Nablarch batch     No
 ========================================== =============================================================================
 
@@ -199,7 +199,7 @@ Immediately after creating a project from an archetype, the following applies to
 ========================================== ======================================================================================
 Project type                               config file of environments that create local connection pools
 ========================================== ======================================================================================
-Web, RESTful Web service                   * Unit test environment (manual test) config (src/env/dev/resources/env.config)
+Web, RESTful web service                   * Unit test environment (manual test) config (src/env/dev/resources/env.config)
 JSR352-compliant batch, Nablarch batch     * Unit test environment (manual test) config (src/env/dev/resources/env.config)
                                            * Production environment config(src/env/prod/resources/env.config)
 ========================================== ======================================================================================
@@ -456,7 +456,7 @@ The component configuration file name of each project is as follows.
      - Component configuration file name
    * - Web
      - web-component-configuration.xml
-   * - RESTful Web service
+   * - RESTful web service
      - rest-component-configuration.xml
 
 Change the following configuration in the above file.

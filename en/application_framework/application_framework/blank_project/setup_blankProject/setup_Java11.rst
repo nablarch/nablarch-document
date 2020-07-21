@@ -6,7 +6,7 @@ When using blank projects in Java 11, perform the following procedure before com
 
 * Add dependent module
 * Add dependent module used by gsp-dba-maven-plugin
-* Change of Jetty module used in automatic test (only for Web projects or RESTful Web service projects)
+* Change of Jetty module used in automatic test (only for web projects or RESTful web service projects)
 
 
 Add dependent module
@@ -54,7 +54,7 @@ Configure by referring to the following.
  `Configuration in java11 <https://github.com/coastland/gsp-dba-maven-plugin#java11での設定>`_ (external site)
 
 
-Change of Jetty module used in automatic test (only for Web projects or RESTful Web service projects)
+Change of Jetty module used in automatic test (only for web projects or RESTful web service projects)
 ------------------------------------------------------------------------------------------------------------------
 
 The Jetty version which is configured by default in the blank project does not support Java11.

@@ -11,14 +11,14 @@ This function checks the service availability for the functions provided by the 
 
 The following can be realized by using this function.
 
-* Blocks access to some functions on the Web and returns a 503 error.
+* Blocks access to some functions on the web and returns a 503 error.
 * Idles (standby without processing) in the resident batch.
 
 .. important::
  This function should be used only when the application requirements are met.
  This function manages the service availability status using the database and configures the service availability
  on a request basis (see :ref:`service_availability-settings`).
- For example, a Web registration function is generally composed of multiple requests such as initial display/confirmation/return/registration.
+ For example, a web registration function is generally composed of multiple requests such as initial display/confirmation/return/registration.
  Therefore, while service availability can be configured in detail for this function, data design is also required in detail,
  which may reduce productivity during development and increase operational load after release.
 
@@ -27,9 +27,9 @@ Function overview
 
 Service availability check on a request basis is possible
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Service availability check on a request basis is possible for both Web and resident batch
+Service availability check on a request basis is possible for both web and resident batch
 by configuring :ref:`ServiceAvailabilityCheckHandler` in the handler queue.
-This function does not depend on the processing architecture such as Web or resident batch.
+This function does not depend on the processing architecture such as web or resident batch.
 
 See below for details.
 

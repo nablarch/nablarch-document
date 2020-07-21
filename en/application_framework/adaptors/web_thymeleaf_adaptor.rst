@@ -7,14 +7,14 @@ Web Application Thymeleaf Adapter
   :depth: 3
   :local:
 
-Provides an adapter to use `Thymeleaf (external site) <http://www.thymeleaf.org>`_ for the template engine of Web application.
+Provides an adapter to use `Thymeleaf (external site) <http://www.thymeleaf.org>`_ for the template engine of web application.
 
 Module list
 --------------
 
 .. code-block:: xml
 
-  <!-- Web application Thymeleaf adapter -->
+  <!-- web application Thymeleaf adapter -->
   <dependency>
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-web-thymeleaf-adaptor</artifactId>
@@ -25,7 +25,7 @@ Module list
   Tests are conducted using Thymeleaf version 3.0.9 RELEASE. 
   When changing the version, test in the project to confirm that there are no problems.
 
-Configuration for using the Web application Thymeleaf adapter
+Configuration for using the web application Thymeleaf adapter
 ------------------------------------------------------------------
 
 To use this adapter, configure :java:extdoc:`ThymeleafResponseWriter<nablarch.fw.web.handler.responsewriter.thymeleaf.ThymeleafResponseWriter>` to :java:extdoc:`HttpResponseHandler<nablarch.fw.web.handler.HttpResponseHandler>`  in the component configuration file.

@@ -133,7 +133,7 @@ This handler returns `400(BadRequest)` to the client,
 when multipart parsing error [#part_error]_ or :ref:`file size exceeds the upper limit <multipart_handler-file_limit>` is encountered.
 
 Therefore, the error page corresponding to `400(BadRequest)` must be configured in `web.xml`.
-If the error page is not configured in `web.xml`, the default page of Web application server is returned to the client.
+If the error page is not configured in `web.xml`, the default page of web application server is returned to the client.
 
 .. important::
 

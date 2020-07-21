@@ -80,7 +80,7 @@ Thread-safe
 --------------------------------------------------
 The functionality provided by Nablarch is basically thread-safe.
 This is because Nablarch uses an architecture in which each thread executes a handler on the handler queue to process a request. For more information about architecture, see :ref:`the architecture chapter <nablarch_architecture>` .
-This ensures that a request can be safely processed and the result returned to the client even on a platform where each thread processes a request from the client, such as a Web application.
+This ensures that a request can be safely processed and the result returned to the client even on a platform where each thread processes a request from the client, such as a web application.
 
 Since the object on the :ref:`repository` is a singleton, it must be thread-safe.
 

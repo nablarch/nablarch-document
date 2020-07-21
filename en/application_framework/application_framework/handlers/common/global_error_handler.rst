@@ -32,7 +32,7 @@ Constraints
 This handler should be placed at the beginning of the handler queue as far as possible
   Since this handler processes exceptions, it should be placed at the start of the handler queue as far as possible, unless there is a particular reason.
 
-  If an exception has occurred in a handler that is placed before this handler, exception handling will be performed by the Web application server or JVM.
+  If an exception has occurred in a handler that is placed before this handler, exception handling will be performed by the web application server or JVM.
 
 Process details according to the exceptions and errors
 -------------------------------------------------------------------------

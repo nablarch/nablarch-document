@@ -52,8 +52,8 @@ Point
 
   .. important::
 
-    When the classpath scheme is used, this function cannot be used with some Web application servers. 
-    This is because the Web application server uses its own file system to manage the resources under the classpath.
+    When the classpath scheme is used, this function cannot be used with some web application servers. 
+    This is because the web application server uses its own file system to manage the resources under the classpath.
 
     For example, a virtual file system called vfs manages the resources under the classpath in Jboss and Wildfly and the classpath scheme cannot be used.
 

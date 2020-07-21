@@ -271,7 +271,7 @@ Point
 
 Read the data of an upload file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-An implementation example for reading a data file uploaded as a Java Beans object in the Web application from the screen is shown below.
+An implementation example for reading a data file uploaded as a Java Beans object in the web application from the screen is shown below.
 
 Point
  * Use :java:extdoc:`PartInfo#getInputStream <nablarch.fw.web.upload.PartInfo.getInputStream()>` to acquire the upload file stream.

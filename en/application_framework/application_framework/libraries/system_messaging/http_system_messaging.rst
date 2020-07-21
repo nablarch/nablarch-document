@@ -225,7 +225,7 @@ In HTTP messaging, the contents of sent and received messages are expressed with
 .. _http_system_messaging-protocol_header:
 
 Protocol header
- This header area mainly stores information used in message send and receive process of Web container.
+ This header area mainly stores information used in message send and receive process of web container.
  The protocol header can be accessed with the Map interface.
 
 .. _http_system_messaging-common_protocol_header:

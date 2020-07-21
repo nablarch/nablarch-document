@@ -312,7 +312,7 @@ An example is shown below.
 
 Execute the SQL by specifying the search scope
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-A specific range of results may be displayed by using a paging function on the search result list screen of a Web system. This function provides a function that can specify the range of search results for such applications.
+A specific range of results may be displayed by using a paging function on the search result list screen of a web system. This function provides a function that can specify the range of search results for such applications.
 
 Implementation examples
   When generating a statement from a database connection( `connection` ), specify the search target range. In this example, since the following values are specified, up to 10 records are fetched from the 11th record.
@@ -611,7 +611,7 @@ Description rules for variable conditions
 
   .. important::
 
-    This function is used when the search conditions change depending on the input contents of the user, such as the search screen of a Web application.
+    This function is used when the search conditions change depending on the input contents of the user, such as the search screen of a web application.
     It is not used to standardize multiple SQLs that differ only in conditions.
     If standardized, since the function may cause unexpected bugs when SQL is changed, be sure to define multiple SQL.
 
