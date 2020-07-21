@@ -21,7 +21,7 @@ This handler performs the following processes.
 
 .. tip::
 
-  In each time startup batch, this handler is used to forcibly stop the process when process corresponding to a large amount of data is not yet completed.
+  In on-demand batch, this handler is used to forcibly stop the process when process corresponding to a large amount of data is not yet completed.
 
 .. important::
 

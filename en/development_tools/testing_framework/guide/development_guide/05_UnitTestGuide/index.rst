@@ -24,7 +24,7 @@ How to Execute Unit Tests
    03_DealUnitTest/index
    03_DealUnitTest/send_sync
    03_DealUnitTest/http_send_sync
-   02_RequestUnitTest/double_transmission
+   02_RequestUnitTest/duplicate_form_submission
 
 
 *Batch process*

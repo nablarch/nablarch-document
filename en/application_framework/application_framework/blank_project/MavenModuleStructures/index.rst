@@ -23,13 +23,13 @@ Nablarch offers the following archetypes: All the archetype group IDs are ``com.
   * - Artifact ID
     - Description
   * - nablarch-web-archetype
-    - Archetype for using the web application execution control platform
+    - Archetype for using the web application runtime platform
   * - nablarch-jaxrs-archetype
-    - Archetype for using the RESTful Web service execution control platform
+    - Archetype for using the RESTful Web service runtime platform
   * - nablarch-batch-ee-archetype
     - Archetype for using the JSR352-compliant batch application framework
   * - nablarch-batch-archetype
-    - Archetype for using the Nablarch batch application execution control platform
+    - Archetype for using the Nablarch batch application runtime platform
 
 
 When ``pj-web``, ``pj-batch`` are specified respectively in ``artifactId``,
@@ -48,12 +48,12 @@ which is input during the project creation using nablarch-web-archetype and nabl
     - Application
   * - pj-web
     - war
-    - Develop an application that uses the web application execution control platform.
+    - Develop an application that uses the web application runtime platform.
 
       Finally, create in the unit to be deployed on the application server as war file.
   * - pj-batch
     - jar
-    - Develop an application that uses the Nablarch batch application execution control platform.
+    - Develop an application that uses the Nablarch batch application runtime platform.
 
 
 .. tip::
@@ -137,7 +137,7 @@ Project structure
     |   |       \---WEB-INF         … web.xml is stored.
     |   |
     |   \---test
-    |       +---java                … Unit test for communication test is stored.
+    |       +---java                … Unit test for communication confirmation test is stored.
     |       |
     |       \---resources           … Configuration file for unit test is stored directly below.
     |           |
@@ -223,8 +223,8 @@ Project structure
         |           |   beans.xml               … File required to enable CDI.
         |           |
         |           +---batch-jobs
-        |           |       sample-batchlet.xml … Job file of the application for communication confirmation of the batchlet method.
-        |           |       sample-chunk.xml    … Job file of the application for communication confirmation of the chunk method.
+        |           |       sample-batchlet.xml … Job file of the application for communication confirmation of the batchlet architecture.
+        |           |       sample-chunk.xml    … Job file of the application for communication confirmation of the chunk architecture.
         |           |       sample-etl.xml      … ETL function job file.
         |           |
         |           \---etl-config
@@ -289,7 +289,7 @@ Project structure
         |   +---java
         |   |
         |   +---resources
-        |   |   |   batch-boot.xml              … Configuration file to be specified in each time startup batch when it is launched.
+        |   |   |   batch-boot.xml              … Configuration file to be specified in on-demand batch when it is launched.
         |   |   |   mail-sender-boot.xml        … Configuration file to be specified while starting email send batch.
         |   |   |   resident-batch-boot.xml     … Configuration file to be specified while starting messaging using tables as queues.
         |   |   |
@@ -506,7 +506,7 @@ The following are the objectives of the recommended project configuration.
 * If only one application is to be created (web only, batch only, etc.), then configure a single project respectively.
 * If two Web applications are to be created for internal and external use, create separate Maven projects instead of consolidating them into a single Maven project.
 * If there are multiple applications and a library is to be shared, create a Maven project to deploy the shared library.
-* While adding an execution control platform, create a Maven project for each execution control platform. For example, to add an application that uses the messaging execution control platform, create a new Maven project.
+* While adding a runtime platform, create a Maven project for each execution control platform. For example, to add an application that uses the messaging execution control platform, create a new Maven project.
 * Do not split the project more than necessary. For details, see :ref:`mavenModuleStructuresProblemsOfExcessivelyDivided`.
 
 .. tip ::

@@ -1,6 +1,6 @@
 .. _batch_application:
 
-Batch Application Edition
+Batch Application
 ==================================================
 This chapter provides information necessary for developing batch applications using the Nablarch application framework.
 

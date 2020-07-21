@@ -19,9 +19,9 @@ Flow of a simple process is shown in the figure below.
 
 .. image:: images/session_store/session_store.png
 
-1. The outbound process of :ref:`session_store_handler` loads the session variable from the session store based on the session ID obtained from the cookie.
+1. The request process of :ref:`session_store_handler` loads the session variable from the session store based on the session ID obtained from the cookie.
 2. Reads from/writes to session variable using :java:extdoc:`SessionUtil <nablarch.common.web.session.SessionUtil>` from business action.
-3. The return process of :ref:`session_store_handler` saves the session variables in the session store.
+3. The response process of :ref:`session_store_handler` saves the session variables in the session store.
 4. Configure session variable in request scope so that it can be referenced in JSP. (Do not configure if a value with the same name already exists in the request scope.)
 
 .. important::

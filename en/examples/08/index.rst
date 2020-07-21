@@ -183,7 +183,7 @@ Data model
 
 The extension from the email function is shown.
 
-This sample adopts a method to operate as TEXT+HTML email
+This sample adopts a architecture to operate as TEXT+HTML email
 by associating the extended table for HTML to the email-related table.
 
 .. tip::

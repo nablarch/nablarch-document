@@ -62,7 +62,7 @@ The features and advantages of the request unit test of the synchronous response
 How to conduct the test
 ------------------------------------------------------------------------
 
-The testing of sending synchronous message process follows the testing methods of web applications and batch processing.
+The testing of sending synchronous message process follows the testing architectures of web applications and batch processing.
 For information on how to write test classes and prepare various preparatory data, refer to How to conduct these tests. \
 
 This section describes only how to execute the sending synchronous response message process.

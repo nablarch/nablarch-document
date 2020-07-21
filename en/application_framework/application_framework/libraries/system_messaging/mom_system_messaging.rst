@@ -139,7 +139,7 @@ Send a message to an external system.
 .. image:: ../images/system_messaging/mom_system_messaging-async_message_send.png
   :scale: 80
 
-送信電文に設定する :ref:`Common protocol header<mom_system_messaging-common_protocol_header>` の内容
+Contents of Common protocol header :ref:`Common protocol header<mom_system_messaging-common_protocol_header>` configured in send message
  Basically, only the send address header needs to be set.
 
   :Message ID: Configuration not required (numbered after sending)
@@ -188,7 +188,7 @@ Implementation examples
   Point
    * The primary key is the column that stores the ID that uniquely identifies the message.
    * The attribute information of the table defines the columns corresponding to each item of the message to be sent.
-   * Define common items (update user ID, update date, etc.) according to each project method.
+   * Define common items (update user ID, update date, etc.) according to each project architecture.
 
   INS_PROJECT_SEND_MESSAGE
    ================================ ======================
@@ -465,7 +465,7 @@ Receive a message that is sent to a specific destination. Block until a message 
 .. image:: ../images/system_messaging/mom_system_messaging-async_message_receive.png
   :scale: 80
 
-外部システムが作成する受信電文の :ref:`Common protocol header<mom_system_messaging-common_protocol_header>` の内容
+Content of common protocol header :ref:`Common protocol header<mom_system_messaging-common_protocol_header>` of received message created by the external system
   :Message ID: Configuration not required (numbered after sending)
   :Correlation message ID: Configuration not required
   :Send address: Logical name of the address
@@ -502,7 +502,7 @@ Implementation examples
    * The primary key is the column that stores the ID that uniquely identifies the message.
      The value to be stored in this column is numbered by the framework using :ref:`generator`.
    * The attribute information of the table defines the columns corresponding to each item of the message to be received.
-   * Define common items (registration user ID, registration date and time, etc.) according to each project method.
+   * Define common items (registration user ID, registration date and time, etc.) according to each project architecture.
 
   INS_PROJECT_RECEIVE_MESSAGE
    ===================================== ======================

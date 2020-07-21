@@ -7,7 +7,7 @@ Output of Failure Log
   :depth: 3
   :local:
 
-In the framework, the failure log is output by the exception handler for each process method.
+In the framework, the failure log is output by the exception handler for each process architecture.
 The log is output in the application when a subsequent process is continued in the case of a failure during a batch process.
 
 Output policy of failure log
@@ -418,7 +418,7 @@ Output the derived source run time information
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 When the data from the Web has to be linked to the batch,
 runtime information during execution of the screen process is the derived source run time information in the batch process.
-Hereinafter, when data is linked between the process methods, the side that performs the process first is referred to as the pre-stage process, and the side that performs the process later is referred to as the post-stage process.
+Hereinafter, when data is linked between the process architectures, the side that performs the process first is referred to as the pre-stage process, and the side that performs the process later is referred to as the post-stage process.
 When a failure occurs in the post-stage process, derived source run time information is output to reduce the tracking work of the pre-stage process.
 
 The placeholder "$data$" of this function can be used to output the derived source run time information.

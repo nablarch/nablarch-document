@@ -27,7 +27,7 @@ Continue the process even when there is an error in the batch process.
 ----------------------------------------------------------------------------------------------------
 Continuation of the process even when there an error,
 is supported only for :ref:`resident batch<nablarch_batch-resident_batch>`.
-:ref:`Each time startup batch<nablarch_batch-each_time_batch>` is not supported.
+:ref:`On-demand batch<nablarch_batch-on-demand_batch>` is not supported.
 
 If :java:extdoc:`TransactionAbnormalEnd<nablarch.fw.results.TransactionAbnormalEnd>`
 is thrown in :ref:`resident batch<nablarch_batch-resident_batch>`,
@@ -37,7 +37,7 @@ described in :ref:`nablarch_batch_error_process-rerun`.
 
 .. tip::
  If :java:extdoc:`TransactionAbnormalEnd<nablarch.fw.results.TransactionAbnormalEnd>`
- is thrown in :ref:`each time startup batch<nablarch_batch-each_time_batch>`,
+ is thrown in :ref:`on-demand batch<nablarch_batch-on-demand_batch>`,
  the batch process is terminated abnormally.
 
 .. _nablarch_batch_error_process-abnormal_end:

@@ -1,6 +1,6 @@
 Getting Started
 ========================================
-By reading this chapter, users can get an idea of the development of the messaging method using Nablarch tables as queues.
+By reading this chapter, users can get an idea of the development of the messaging architecture using Nablarch tables as queues.
 
 Prerequisites
   The explanation of this chapter is based on  :ref:`example_application` . 

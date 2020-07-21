@@ -86,7 +86,7 @@ such as batch and messaging processes.
  +----------------------------+----------------------------+
 
 Since the input data preparation and result confirmation logic is different for each batch and various messaging processes, \
-it can be customized according to the method.
+it can be customized according to the architecture.
 
 
 BatchRequestTestSupport

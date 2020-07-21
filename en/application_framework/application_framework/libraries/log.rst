@@ -402,7 +402,7 @@ The following items can be output in :java:extdoc:`BasicLogFormatter <nablarch.c
 Descriptions are provided for these output items.
 
 * :ref:`Boot process <log-boot_process>`
-* :ref:`Processing method <log-processing_system>`
+* :ref:`Processing architecture <log-processing_system>`
 * :ref:`Runtime ID <log-execution_id>`
 
 .. _log-boot_process:
@@ -418,12 +418,12 @@ Boot process
 
 .. _log-processing_system:
 
-Processing method
- Processing method refers to Web, batch, etc. 
- If the application process method is to be identified separately, it is specified and used for each project.
+Processing architecture
+ Processing architecture refers to Web, batch, etc. 
+ If the application process architecture is to be identified separately, it is specified and used for each project.
 
 
- The process method is specified in the property file that was explained in :ref:`log-basic_setting` , with the key ``nablarch.processingSystem`` . 
+ The process architecture is specified in the property file that was explained in :ref:`log-basic_setting` , with the key ``nablarch.processingSystem`` . 
  If the property is not specified, it will be blank.
 
 .. _log-execution_id:
@@ -803,7 +803,7 @@ The framework outputs logs based on the below output policy.
         Since the failure log is the target of failure monitoring, it is the starting point for primary isolation during failure, 
         and the policy is to output one failure log for each failure.
 
-        Therefore, the policy is to output an failure notification log from the execution control platform with a single handler (handler that processes exceptions).  
+        Therefore, the policy is to output an failure notification log from the runtime platform with a single handler (handler that processes exceptions).
 
     * - WARN
       - When the exceptions are linked when an error occurs, 

@@ -1,6 +1,6 @@
 .. _web_application:
 
-Web Application Edition
+Web Application
 ==================================================
 This chapter provides information necessary for developing web applications using the Nablarch application framework.
 

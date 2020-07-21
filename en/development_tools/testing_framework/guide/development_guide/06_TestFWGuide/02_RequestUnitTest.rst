@@ -34,7 +34,7 @@ Main Classes, resources
 |                                  |expected results, HTTP parameters, etc.                |                                           |
 |                                  |to be stored in a table.                               |                                           |
 +----------------------------------+-------------------------------------------------------+-------------------------------------------+
-|Class to be tested (Action)       |Class to be tested (includes each class that           | Create one class per subfunctio           |
+|Class to be tested (Action)       |Class to be tested (includes each class that           | Create one class per subfunction          |
 |                                  |implements business logic after Action)                |                                           |
 +----------------------------------+-------------------------------------------------------+-------------------------------------------+
 |DbAccessTestSupport               |Provides the necessary functions for testing using     | \－                                       |

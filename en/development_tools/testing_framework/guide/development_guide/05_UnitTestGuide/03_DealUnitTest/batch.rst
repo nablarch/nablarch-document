@@ -51,7 +51,7 @@ Basic description method
 Basically, one test case is written in a single sheet. \
 When multiple batch executions are written in a single sheet, it is a subfunction unit test.
 
-In the following example, a transaction consisting of three batches (file input batch, user deletion batch and file output batch) is executed.
+In the following example, a subfunction consisting of three batches (file input batch, user deletion batch and file output batch) is executed.
 
 .. code-block:: java
 

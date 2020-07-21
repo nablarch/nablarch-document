@@ -10,7 +10,7 @@ that repeatedly executes the process for each data record stored in the DB or fi
 
 The Nablarch batch application is divided into the following two types:
 
-.. _nablarch_batch-each_time_batch:
+.. _nablarch_batch-on-demand_batch:
 
 On-demand batch
  Launches the process periodically, that is, daily or monthly, and executes the batch process.
@@ -124,14 +124,14 @@ Others
   * :ref:`ServiceAvailabilityCheckHandler`
   * :ref:`file_record_writer_dispose_handler`
 
-Minimum handler configuration for on-demand startup batch
+Minimum handler configuration for on-demand batch
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-When building an on-demand startup batch, the minimum required handler queue is as below:
+When building an on-demand batch, the minimum required handler queue is as below:
 
 With this as the base, add standard handlers of Nablarch or custom handlers created
 in the project according to the project requirements.
 
-.. list-table:: Minimum handler configuration for on-demand startup batch
+.. list-table:: Minimum handler configuration for on-demand batch
    :header-rows: 1
    :class: white-space-normal
    :widths: 4,22,12,22,22,22
@@ -139,8 +139,8 @@ in the project according to the project requirements.
    * - No.
      - Handler
      - Thread
-     - Outbound process
-     - Return process
+     - Request process
+     - Response process
      - Exception handling
 
    * - 1
@@ -217,7 +217,7 @@ When building a resident batch, the minimum required handler queue is as below:
 
 With this as the base, add standard handlers of Nablarch or custom handlers created in the project according to the project requirements.
 
-The minimum handler configuration of the resident batch is the same as the on-demand startup batch excluding the point that the below handlers are added to the main thread.
+The minimum handler configuration of the resident batch is the same as the on-demand batch excluding the point that the below handlers are added to the main thread.
 
 * :ref:`thread_context_handler` ( required for :ref:`process_stop_handler` )
 * :ref:`thread_context_clear_handler`
@@ -233,8 +233,8 @@ The minimum handler configuration of the resident batch is the same as the on-de
    * - No.
      - Handler
      - Thread
-     - Outbound process
-     - Return process
+     - Request process
+     - Response process
      - Exception handling
 
    * - 1
@@ -369,4 +369,4 @@ For details of each action class, refer to the link.
 * :java:extdoc:`BatchAction (template class of generic batch action)<nablarch.fw.action.BatchAction>`
 * :java:extdoc:`FileBatchAction (template class of batch action for file input)<nablarch.fw.action.FileBatchAction>`
 * :java:extdoc:`NoInputDataBatchAction (template class of batch action that does not use input data)<nablarch.fw.action.NoInputDataBatchAction>`
-* :java:extdoc:`AsyncMessageSendAction (action class for send asynchronous response message)<nablarch.fw.messaging.action.AsyncMessageSendAction>`
+* :java:extdoc:`AsyncMessageSendAction (action class for sending asynchronous message)<nablarch.fw.messaging.action.AsyncMessageSendAction>`

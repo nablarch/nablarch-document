@@ -969,7 +969,7 @@ There are custom tags that support opening of multiple windows (hereinafter refe
 
   * Screen transition using a sub-window is less convenient.
 
-    The method of displaying a pop-up window on a page is common, and search using a sub-window is now obsolete.
+    The architecture of displaying a pop-up window on a page is common, and search using a sub-window is now obsolete.
     Display process of a pop-up window on a page can be handled by using an open source library.
 
 The pop-up tags differ from the custom tags that are associated with submit of the form on the screen, in the following aspects:
@@ -1132,7 +1132,7 @@ Implementation example of file download
 
    public HttpResponse doTempFile(HttpRequest request, ExecutionContext context) {
 
-       // The process of acquiring a file follows the project implementation method.
+       // The process of acquiring a file follows the project implementation architecture.
        File file = getTempFile();
 
        // Use StreamResponse for file download.

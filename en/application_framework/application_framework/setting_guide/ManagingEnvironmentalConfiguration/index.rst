@@ -1,7 +1,7 @@
 
-==================================================================================
-How to Manage the Configuration Depending on the Processing Method and Environment
-==================================================================================
+=========================================================================================
+How to Manage the Configuration Depending on the Processing Architecture and Environment
+=========================================================================================
 
 .. contents:: Table of Contents
   :depth: 2
@@ -11,11 +11,11 @@ How to Manage the Configuration Depending on the Processing Method and Environme
 Summary
 ========
 
-In many cases, a system is organized by multiple processing methods,
+In many cases, a system is organized by multiple processing architectures,
 and multiple environments (such as development environment, production environment) are used for developing and operating the system.
-Therefore, multiple application configurations must be managed according to each processing method and environment.
+Therefore, multiple application configurations must be managed according to each processing architecture and environment.
 
-This chapter describes how to manage the processing methods and environment-dependent configurations in Nablarch.
+This chapter describes how to manage the processing architectures and environment-dependent configurations in Nablarch.
 
 
 Organize application configuration
@@ -37,9 +37,9 @@ Nablarch recommends organizing the application configuration from two perspectiv
     - Specific examples
     - Description
 
-  * - Processing method
+  * - Processing architecture
     - Online, batch
-    - The component definition and environment configuration values vary for different processing methods.
+    - The component definition and environment configuration values vary for different processing architectures.
 
   * - Environment
     - Development environment and production environment
@@ -58,7 +58,7 @@ Prerequisites and how to switch application configuration files
 Prerequisites for switching application configuration files
 ------------------------------------------------------------
 
-Prepare the minimum application configuration files required for the combination of processing method and environment.
+Prepare the minimum application configuration files required for the combination of processing architecture and environment.
 
 The directory structure concerning the application configuration files of the project immediately after it is generated from the archetype is shown below.
 
@@ -180,7 +180,7 @@ This is achieved by switching the component configuration file (xml file).
 How to create a component configuration file (xml file)
 -------------------------------------------------------
 
-First, create production component definitions for each processing method based on the default configuration values provided by Nablarch.
+First, create production component definitions for each processing architecture based on the default configuration values provided by Nablarch.
 
 Next, create a component definition for each environment as a difference from production for those component definitions.
 
@@ -215,7 +215,7 @@ Additions can be made using the following methods
 Define profiles
 --------------------------------------------------
 
-Add a profile definition in the profiles of pom.xml for the project of each processing method (such as web and batch).
+Add a profile definition in the profiles of pom.xml for the project of each processing architecture (such as web and batch).
 
 Below, an integration test environment A has been added as an example.
 

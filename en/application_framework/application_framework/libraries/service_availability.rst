@@ -29,7 +29,7 @@ Service availability check on a request basis is possible
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Service availability check on a request basis is possible for both Web and resident batch
 by configuring :ref:`ServiceAvailabilityCheckHandler` in the handler queue.
-This function does not depend on the processing method such as Web or resident batch.
+This function does not depend on the processing architecture such as Web or resident batch.
 
 See below for details.
 
