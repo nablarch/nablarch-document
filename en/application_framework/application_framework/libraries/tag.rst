@@ -21,7 +21,7 @@ Custom tags have the following limitations:
 * They function in web containers supporting JSP 2.1 and above.
 * They use JSTL for controlling conditional branches and loops etc.
 * They support attributes compatible with XHTML 1.0 Transitional. (HTML5 attributes are not supported)
-* It is mandatory to have JavaScript in the client. (See :ref:`tag-onclick_override`)
+* It is required to have JavaScript in the client. (See :ref:`tag-onclick_override`)
 * Some custom tags cannot be used with GET request. (See :ref:`tag-using_get`)
 
 .. important::
@@ -126,7 +126,7 @@ and :java:extdoc:`CustomTagConfig<nablarch.common.web.tag.CustomTagConfig>`.
 
 :ref:`nablarch_tag_handler`
  Handler for pre-process that is required for the following functions when processing of requests that use custom tags.
- Configuring this handler is mandatory when using custom tags.
+ Configuring this handler is required when using custom tags.
 
  * :ref:`tag-checkbox_off_value`
  * :ref:`tag-hidden_encryption`
@@ -2317,7 +2317,7 @@ Implementation examples
                               $SHORTNAME$: Abbreviation of code corresponding to code value
                               $OPTIONALNAME$: Option name of code corresponding to code value
                                               When using this placeholder,
-                                              the optionColumnName attribute is mandatory.
+                                              the optionColumnName attribute is required.
                               $VALUE$: Code value
                               Default is $NAME$.
     -->

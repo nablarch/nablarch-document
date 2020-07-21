@@ -448,7 +448,7 @@ Implementation examples
 
           ValidationUtil.validate(context, new String[]{"userName", "prefectureCode"});
 
-          // Perform mandatory check on the userName
+          // Perform required check on the userName
           ValidationUtil.validate(context, "userName", Required.class);
 
           //  Specify annotation parameters in Map

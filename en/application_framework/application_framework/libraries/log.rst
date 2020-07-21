@@ -752,11 +752,11 @@ This function uses the following log levels.
 
    * - FATAL
      - Indicates the occurrence of a serious problem that prevents the application from continuing. 
-       Monitoring is mandatory and prompt notification and immediate response are necessary.       
+       Monitoring is required and prompt notification and immediate response are necessary.
 
    * - ERROR
      - Indicates the occurrence of a problem that prevents the application from continuing. 
-       Although monitoring is mandatory, notification and response are not as urgent as the FATAL level.       
+       Although monitoring is required, notification and response are not as urgent as the FATAL level.
 
    * - WARN
      - Though there is no immediate impact, it indicates that the event if not addressed could cause a problem that may interfere with the continuation of the application. 
