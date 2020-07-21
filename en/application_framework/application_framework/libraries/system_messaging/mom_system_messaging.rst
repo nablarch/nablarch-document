@@ -38,7 +38,7 @@ The assumed execution control platform differs for MOM messaging depending on th
      - :ref:`nablarch_batch`
    * - :ref:`Sending synchronous message <mom_system_messaging-sync_message_send>`
      - Does not depend on the execution control platform
-   * - :ref:`Receive asynchronous response message <mom_system_messaging-async_message_receive>`
+   * - :ref:`Receiving asynchronous message <mom_system_messaging-async_message_receive>`
      - :ref:`mom_messaging`
    * - :ref:`Receive synchronous response message <mom_system_messaging-sync_message_receive>`
      - :ref:`mom_messaging`
@@ -458,7 +458,7 @@ Implementation examples
 
 .. _mom_system_messaging-async_message_receive:
 
-Receive message with asynchronous response (Receivw asynchronous response message)
+Receive message with asynchronous response (Receiving asynchronous message)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Receive a message that is sent to a specific destination. Block until a message is received or the wait timeout expires.
 
@@ -472,7 +472,7 @@ Content of common protocol header :ref:`Common protocol header<mom_system_messag
   :Reply to address: Configuration not required
   :Expiry interval: Any
 
-Receive asynchronous response message provides
+Receiving asynchronous message provides
 :java:extdoc:`AsyncMessageReceiveAction<nablarch.fw.messaging.action.AsyncMessageReceiveAction>`
 as a common action to save the received message in the temporary table (message receive table).
 :java:extdoc:`AsyncMessageReceiveAction<nablarch.fw.messaging.action.AsyncMessageReceiveAction>`
@@ -775,7 +775,7 @@ For sending synchronous message
 
 .. _mom_system_messaging-change_fw_header_async_receive:
 
-For receive asynchronous response message
+For receiving asynchronous message
  The framework control header is read by a class
  that implements the :java:extdoc:`FwHeaderDefinition<nablarch.fw.messaging.FwHeaderDefinition>` interface
  configured in :java:extdoc:`FwHeaderReader<nablarch.fw.messaging.reader.FwHeaderReader>`.
@@ -789,7 +789,7 @@ For receive asynchronous response message
 
 For receive synchronous response message
  Reading the framework control header is the same as
- :ref:`receive asynchronous response message<mom_system_messaging-change_fw_header_async_receive>`.
+ :ref:`receiving asynchronous message <mom_system_messaging-change_fw_header_async_receive>`.
 
  Even when writing framework control header,
  creating the class with the implementation of :java:extdoc:`FwHeaderDefinition<nablarch.fw.messaging.FwHeaderDefinition>` interface is the same,
