@@ -69,8 +69,8 @@ Execution control of batch process
 
 Send MOM message
 ----------------------------------------
-* :ref:`Send synchronous response message<mom_system_messaging-sync_message_send>`
-* :ref:`Sending asynchronous message<mom_system_messaging-async_message_send>`
+* :ref:`Sending synchronous message<mom_system_messaging-sync_message_send>`
+* :ref:`Receiving asynchronous message<mom_system_messaging-async_message_send>`
 
 Maintain state during batch execution
 ----------------------------------------

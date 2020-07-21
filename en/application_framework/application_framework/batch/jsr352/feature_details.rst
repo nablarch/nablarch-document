@@ -66,7 +66,7 @@ How to create xml for job definitions
 
 Send MOM message
 ----------------------------------------
-* :ref:`Send synchronous response message<mom_system_messaging-sync_message_send>`
+* :ref:`Sending synchronous message<mom_system_messaging-sync_message_send>`
 
 Operation design
 ----------------------------------------

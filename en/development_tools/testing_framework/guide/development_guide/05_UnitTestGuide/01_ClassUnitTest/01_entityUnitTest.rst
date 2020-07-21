@@ -485,7 +485,7 @@ The values that result in single item validation errors for all the properties a
 Validation between items
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Create a case to check operations other than the validation target specification that is performed by the \ :ref:`entityUnitTest_ValidationMethodSpecifyNormal` 
+Create a case to confirm communications other than the validation target specification that is performed by the \ :ref:`entityUnitTest_ValidationMethodSpecifyNormal`
 validation method, such as validation between items.
 
 In the figure below, a normal case is created for the validation method "newPassword and confirmPassword are the same".

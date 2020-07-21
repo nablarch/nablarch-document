@@ -2,7 +2,7 @@
 How to Execute a Subfunction Unit (Receiving Synchronous Message)
 =====================================================================
 
-In the synchronous message receiving process, the scope of the request and the subfunction is almost always the same. 
+In the receiving synchronous message process, the scope of the request and the subfunction is almost always the same.
 Thus, if 1 request = 1 subfunction, there is no need to perform a subfunction unit test.
 
 However, if a subfunction is executed by multiple messages, \

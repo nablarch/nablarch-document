@@ -7,7 +7,7 @@ Service Availability Check
   :depth: 3
   :local:
 
-This function checks the availability of service for the functions provided by the application.
+This function checks the service availability for the functions provided by the application.
 
 The following can be realized by using this function.
 

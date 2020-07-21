@@ -588,10 +588,10 @@ By executing the insert statement, data that is used by Nablarch can be inserted
     db2 -tvf "C:\develop\myapp-web\db\data\data.sql"
 
 
-Operation check
+Communication confirmation
 ==========================================
 
-Refer to the following procedure and check the operation.
+Refer to the following procedure and confirm communications.
 
 * :ref:`Communication confirmation of Web<firstStepWebStartupTest>`
 * :ref:`Communication confirmation of RESTful Web service<firstStepWebServiceStartupTest>`

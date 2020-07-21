@@ -37,7 +37,7 @@ The following is an image of a request unit test
  Therefore, no special middleware installation or configuration is required.
 
 
-The features and advantages of the request unit test of the synchronous response message transmission process executed using the automated test framework are listed below.
+The features and advantages of the request unit test of the sending synchronous message process executed using the automated test framework are listed below.
 
 
 1. Easy-to-write test data
@@ -65,7 +65,7 @@ How to conduct the test
 The testing of sending synchronous message process follows the testing architectures of web applications and batch processing.
 For information on how to write test classes and prepare various preparatory data, refer to How to conduct these tests. \
 
-This section describes only how to execute the sending synchronous response message process.
+This section describes only how to execute the sending synchronous message process.
 
 
 
@@ -84,7 +84,7 @@ For information on how to write test data, refer to :ref:`how_to_write_excel`.
 The expected value of the request message and the preparation of the response message to be returned
 =====================================================================================================
 
-When sending a synchronous response message, the formats and data of the header and body parts of the request and response messages are defined for each request ID.
+When sending a sending synchronous message, the formats and data of the header and body parts of the request and response messages are defined for each request ID.
 
 The test case, the expected value of the request message, and the response message are associated with the group ID.
 Specifically, the group IDs listed in the expectedMessage and responseMessage fields
@@ -110,7 +110,7 @@ The following is the test data written in Excel. (Group ID association is also s
 
 .. tip::
 
- In the sending of synchronous response message function provided as standard by Nablarch, the header part of the request message and response message uses a common format,
+ In the sending synchronous message function provided as standard by Nablarch, the header part of the request message and response message uses a common format,
  so the format definition of the header part of the test data should also be unified for each request.
  Regarding the body part, different formats can be defined in the request message and the response message.
 

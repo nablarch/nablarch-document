@@ -4,7 +4,7 @@
 How to Perform a Subfunction Unit Test with Sending Synchronous Message Process
 =======================================================================================
 
-The mockup class provided by Nablarch should be used to perform a subfunction unit test in the case of a web application that uses the synchronous message sending process.
+The mockup class provided by Nablarch should be used to perform a subfunction unit test in the case of a web application that uses the sending synchronous message process.
 
 The normal process flow for sending synchronous messages in a web application and the process flow for using a mockup class to perform a subfunction unit test.
 
@@ -14,7 +14,7 @@ The normal process flow for sending synchronous messages in a web application an
     :width: 100%
 
 
-* Process flow when using a mockup class to perform a subfunction unit test of a web application with synchronous message sending process.
+* Process flow when using a mockup class to perform a subfunction unit test of a web application with sending synchronous message process.
 
  .. image:: ./_images/send_sync_online_mock.png
     :width: 100%
@@ -25,7 +25,7 @@ The mockup class provides the following functions.
 
 * Function to return a predetermined response message \ [#f1]_\ .
 
-  When the synchronous message sending process is performed from the screen, the response message required to perform the subfunction unit test can be returned without connecting to the send and receive queues.
+  When the sending synchronous message process is performed from the screen, the response message required to perform the subfunction unit test can be returned without connecting to the send and receive queues.
   
 * Function to output request message \ [#f1]_\  to the log
 
@@ -35,7 +35,7 @@ The mockup class provides the following functions.
 
 * Function to test the fault pattern
 
-  Timeout errors and message send and receive errors that occur when the synchronous message sending process is performed can be generated. 
+  Timeout errors and message send and receive errors that occur when the sending synchronous message process is performed can be generated.
   A fault pattern can be tested by using this function.
 
 

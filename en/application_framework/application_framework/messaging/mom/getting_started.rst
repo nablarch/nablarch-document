@@ -20,6 +20,6 @@ A description using the :ref:`example_application` is given in  :ref:`mom_messag
 Therefore, refer to the following description of  :ref:`mom_messaging` .
 
 * :ref:`Sending asynchronous message <mom_system_messaging-async_message_send>`
-* :ref:`Send synchronous response message <mom_system_messaging-sync_message_send>`
-* :ref:`Receive asynchronous response message <mom_system_messaging-async_message_receive>`
-* :ref:`Receive synchronous response message <mom_system_messaging-sync_message_receive>`
+* :ref:`Sending synchronous message <mom_system_messaging-sync_message_send>`
+* :ref:`Receiving asynchronous message <mom_system_messaging-async_message_receive>`
+* :ref:`Receiving synchronous message <mom_system_messaging-sync_message_receive>`

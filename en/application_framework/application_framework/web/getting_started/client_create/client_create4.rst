@@ -114,7 +114,7 @@ Implementation of the display process of the registration completion screen
             </body>
         </html>
 
-Operation check
+Communication confirmation
   Confirm that the registration process is implemented correctly by following the below steps.
 
   1. Displays the client registration screen(顧客登録画面).

@@ -202,8 +202,8 @@ Modify the registration screen
     * Items that are displayed only on the registration screen are described in the :ref:`tag-for_input_page_tag`.
     * Items that are displayed only on the confirmation screen are described in the :ref:`tag-for_confirmation_page_tag`.
 
-Operation check
-  Check the operation with the following procedure to ensure that the registration confirmation process is executed correctly.
+Communication confirmation
+  Confirm communications with the following procedure to ensure that the registration confirmation process is executed correctly.
 
 When validation error does not occur
   1. Displays the client registration screen(顧客登録画面).

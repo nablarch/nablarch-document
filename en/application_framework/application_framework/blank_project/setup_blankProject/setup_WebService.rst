@@ -5,7 +5,7 @@ Initial Setup of RESTful Web Service Project
 The following is configured in the initial setup of the RESTful web service project:
 
 * Generate RESTful web service project
-* Operation check of RESTful Web service project
+* Confirm communications of RESTful Web service project
 
 
 Preliminary preparations
@@ -164,7 +164,7 @@ The following service is included in the generated project.
   * - Class implementing the service
     - Details
   * - SampleAction
-    - Service for operation check of Nablarch functions commonly used when implementing RESTful Web service.
+    - Service for communication confirmation of Nablarch functions commonly used when implementing RESTful Web service.
 
       Some services use JSON and other services use XML for the response.
 

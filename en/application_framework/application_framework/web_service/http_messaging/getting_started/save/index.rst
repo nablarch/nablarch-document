@@ -7,7 +7,7 @@ This section describes the function for registering the requested information (i
 Overview of the function to be created
   .. image:: ../images/overview.png
 
-Operation check procedure
+Communication confirmation procedure
   1. Check the DB status in advance
 
      Execute the following SQL from the console of H2 and confirm that the record does not exist.
@@ -46,7 +46,7 @@ Operation check procedure
             "allocationOfCorpExpenses": 40000
         }
 
-  3. Operation check
+  3. Communication confirmation
 
     Execute the following SQL from the console of H2 and confirm that one record can be retrieved.
 

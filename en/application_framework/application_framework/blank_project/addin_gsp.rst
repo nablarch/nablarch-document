@@ -187,7 +187,7 @@ Since an edm file is present for each RDBMS under src/main/resources/entity, ren
 
 .. _confirm_gsp:
 
-Operation check
+Communication confirmation
 ===========================
 
 .. important::

@@ -36,11 +36,11 @@ The assumed execution control platform differs for MOM messaging depending on th
      - Execution control platform
    * - :ref:`Send asynchronous response message <mom_system_messaging-async_message_send>`
      - :ref:`nablarch_batch`
-   * - :ref:`Send synchronous response message <mom_system_messaging-sync_message_send>`
+   * - :ref:`Sending synchronous message <mom_system_messaging-sync_message_send>`
      - Does not depend on the execution control platform
-   * - :ref:`Receive asynchronous response message <mom_system_messaging-async_message_receive>`
+   * - :ref:`Receiving asynchronous message <mom_system_messaging-async_message_receive>`
      - :ref:`mom_messaging`
-   * - :ref:`Receive synchronous response message <mom_system_messaging-sync_message_receive>`
+   * - :ref:`Receiving synchronous message <mom_system_messaging-sync_message_receive>`
      - :ref:`mom_messaging`
 
 Function overview
@@ -327,7 +327,7 @@ Implementation examples
 
 .. _mom_system_messaging-sync_message_send:
 
-Send message with synchronous response (Send synchronous response message)
+Send message with synchronous response (Sending synchronous message)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Send a message to an external system and wait for the reply. Block until a response message is received or the wait timeout expires.
 
@@ -357,7 +357,7 @@ Content of :ref:`Common protocol header<mom_system_messaging-common_protocol_hea
   :Reply to address: Configuration not required
   :Expiry interval: Any
 
-Send synchronous response message provides
+Sending synchronous message provides
 :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>` as a utility class that wraps routine processing.
 Only the following artifacts are required to be created using
 :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>`
@@ -458,7 +458,7 @@ Implementation examples
 
 .. _mom_system_messaging-async_message_receive:
 
-Receive message with asynchronous response (Receivw asynchronous response message)
+Receive message with asynchronous response (Receiving asynchronous message)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Receive a message that is sent to a specific destination. Block until a message is received or the wait timeout expires.
 
@@ -472,7 +472,7 @@ Content of common protocol header :ref:`Common protocol header<mom_system_messag
   :Reply to address: Configuration not required
   :Expiry interval: Any
 
-Receive asynchronous response message provides
+Receiving asynchronous message provides
 :java:extdoc:`AsyncMessageReceiveAction<nablarch.fw.messaging.action.AsyncMessageReceiveAction>`
 as a common action to save the received message in the temporary table (message receive table).
 :java:extdoc:`AsyncMessageReceiveAction<nablarch.fw.messaging.action.AsyncMessageReceiveAction>`
@@ -626,7 +626,7 @@ Implementation examples
 
 .. _mom_system_messaging-sync_message_receive:
 
-Receive message with synchronous response (Receive synchronous response message)
+Receive message with synchronous response (Receiving synchronous message)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 It receives a message sent to a specific destination from a communication destination, and sends a response message to the reply to address configured in the message.
 At this time, the value of the message ID header of the received message is configured in the correlation message ID header of the response message.
@@ -642,7 +642,7 @@ Contents of :ref:`Common protocol header<mom_system_messaging-common_protocol_he
   :Reply to address: Configuration not required
   :Expiry interval: Any
 
-Receive synchronous response message provides :java:extdoc:`MessagingAction<nablarch.fw.messaging.action.MessagingAction>` as a template class
+Receiving synchronous message provides :java:extdoc:`MessagingAction<nablarch.fw.messaging.action.MessagingAction>` as a template class
 that performs routine processing.
 :java:extdoc:`MessagingAction<nablarch.fw.messaging.action.MessagingAction>` is an action class
 that works with :ref:`mom_messaging`.
@@ -763,7 +763,7 @@ For send asynchronous response message
  * :java:extdoc:`AsyncMessageSendAction#createHeaderRecordFormatter<nablarch.fw.messaging.action.AsyncMessageSendAction.createHeaderRecordFormatter()>`
  * :java:extdoc:`AsyncMessageSendAction#createHeaderRecord<nablarch.fw.messaging.action.AsyncMessageSendAction.createHeaderRecord(nablarch.core.db.statement.SqlRow)>`
 
-For send synchronous response message
+For sending synchronous message
  :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>` delegates the conversion process to
  :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` so the conversion process of sent and received messages can be changed,
  and this class reads and writes the framework control headers.
@@ -775,7 +775,7 @@ For send synchronous response message
 
 .. _mom_system_messaging-change_fw_header_async_receive:
 
-For receive asynchronous response message
+For receiving asynchronous message
  The framework control header is read by a class
  that implements the :java:extdoc:`FwHeaderDefinition<nablarch.fw.messaging.FwHeaderDefinition>` interface
  configured in :java:extdoc:`FwHeaderReader<nablarch.fw.messaging.reader.FwHeaderReader>`.
@@ -787,9 +787,9 @@ For receive asynchronous response message
  :java:extdoc:`FwHeaderReader#fwHeaderDefinition<nablarch.fw.messaging.reader.FwHeaderReader.setFwHeaderDefinition(nablarch.fw.messaging.FwHeaderDefinition)>`
  property in the component definition.
 
-For receive synchronous response message
+For receiving synchronous message
  Reading the framework control header is the same as
- :ref:`receive asynchronous response message<mom_system_messaging-change_fw_header_async_receive>`.
+ :ref:`receiving asynchronous message <mom_system_messaging-change_fw_header_async_receive>`.
 
  Even when writing framework control header,
  creating the class with the implementation of :java:extdoc:`FwHeaderDefinition<nablarch.fw.messaging.FwHeaderDefinition>` interface is the same,

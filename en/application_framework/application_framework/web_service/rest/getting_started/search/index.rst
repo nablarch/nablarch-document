@@ -9,7 +9,7 @@ Description of the function to be created
   ``Customer ID (exact match)`` and  ``project name (partial match)`` can be specified as the search conditions. 
   If a search condition is not specified, all project information is returned.
 
-Operation check procedure
+Communication confirmation procedure
   1. Search for project information
 
     The following searches the project information for customer ID `1`.

@@ -1,6 +1,6 @@
 .. _`ServiceAvailabilityCheckHandler`:
 
-Service Provision Availability Check Handler
+Service Availability Check Handler
 =============================================
 
 .. contents:: Table of contents
@@ -9,13 +9,13 @@ Service Provision Availability Check Handler
 
 This handler performs :ref:`ServiceAvailabilityCheckHandler-request_checking`.
 
-The service provision availability check is performed using :ref:`service_availability` from the library.
+The service availability check is performed using :ref:`service_availability` from the library.
 To use this handler,
 it is necessary to configure a class that implements :java:extdoc:`ServiceAvailability <nablarch.common.availability.ServiceAvailability>` in this handler.
 
 This handler performs the following process.
 
-* Service provision availability check
+* Service availability check
 
 The process flow is as follows.
 
@@ -37,18 +37,18 @@ Module list
 Constraints
 ------------------------------
 Place after :ref:`thread_context_handler`
-  Since this handler performs service provision availability check based on the request ID set in the thread context,
+  Since this handler performs service availability check based on the request ID set in the thread context,
   this handler must be placed after :ref:`thread_context_handler`.
 
 Place after :ref:`forwarding_handler`
-  To perform a service provision availability check based on the request ID of the forward destination when an internal forward is performed,
+  To perform a service availability check based on the request ID of the forward destination when an internal forward is performed,
   this handler must be placed after :ref:`forwarding_handler`.
 
 .. _ServiceAvailabilityCheckHandler-request_checking:
 
-Service provision availability check for request
+Service availability check for request
 --------------------------------------------------------------
-Get the request ID from :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` to perform service provision availability check.
+Get the request ID from :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` to perform service availability check.
 For details of check, see :ref:`service_availability`.
 
 If OK (service can be provided)
