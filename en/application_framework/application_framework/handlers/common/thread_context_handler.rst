@@ -112,7 +112,7 @@ These classes are used by adding definitions to the component configuration file
          <property name="defaultTimeZone" value="Asia/Tokyo" />
        </component>
 
-       <!-- Runtime ID -->
+       <!-- Execution ID -->
        <component class="nablarch.common.handler.threadcontext.ExecutionIdAttribute" />
      </list>
    </property>

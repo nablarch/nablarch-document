@@ -203,7 +203,7 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
      - :ref:`data_read_handler`
      - Sub
      - Use a data reader to read one request message and pass it as an argument of the subsequent handler. 
-       Also, the :ref:`runtime ID numbered <log-execution_id>` is numbered.
+       Also, the :ref:`execution ID numbered <log-execution_id>` is numbered.
      -
      - After generating output of the read message as a log, rethrows the original exception.
 
@@ -336,7 +336,7 @@ The minimum handler configuration for asynchronous response messaging is the sam
      - :ref:`data_read_handler`
      - Sub
      - Use a data reader to read one request message and pass it as an argument of the subsequent handler. 
-       Also, the :ref:`runtime ID numbered <log-execution_id>` is numbered.
+       Also, the :ref:`execution ID numbered <log-execution_id>` is numbered.
      -
      - After generating output of the read message as a log, rethrows the original exception.
 

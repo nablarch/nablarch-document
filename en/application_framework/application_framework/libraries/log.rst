@@ -403,7 +403,7 @@ Descriptions are provided for these output items.
 
 * :ref:`Boot process <log-boot_process>`
 * :ref:`Processing architecture <log-processing_system>`
-* :ref:`Runtime ID <log-execution_id>`
+* :ref:`Execution ID <log-execution_id>`
 
 .. _log-boot_process:
 
@@ -428,22 +428,22 @@ Processing architecture
 
 .. _log-execution_id:
 
-Runtime ID
- The runtime ID is given with respect to the request ID to identify each execution of the application. 
- Since the runtime ID is issued based on the number of executions for one request ID, the relationship between request ID and run time ID is one to many.
+Execution ID
+ The execution ID is given with respect to the request ID to identify each execution of the application.
+ Since the execution ID is issued based on the number of executions for one request ID, the relationship between request ID and run time ID is one to many.
 
- When multiple logs are output, the runtime ID is used to link the multiple logs that have been output.
+ When multiple logs are output, the execution ID is used to link the multiple logs that have been output.
 
- The runtime ID is issued at the timing of initializing : :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>`, and is configured in :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>`.
+ The execution ID is issued at the timing of initializing : :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>`, and is configured in :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>`.
 
- ID system for Runtime ID
+ ID system for Execution ID
   .. code-block:: properties
 
    # Added only when the boot process is specified.
    Boot process + system date and time (yyyyMMddHHmmssSSS) + serial number (4 digits)
 
 .. important::
- When the request ID, runtime ID and user ID are output, :ref:`thread_context_handler`  must be included in the handler configuration as they are acquired from  :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` .
+ When the request ID, execution ID and user ID are output, :ref:`thread_context_handler`  must be included in the handler configuration as they are acquired from  :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` .
 
 When line feed code and tab character are to be included
  When line feed code and tab character are to be included in the format, use the same description as Java shown below.
