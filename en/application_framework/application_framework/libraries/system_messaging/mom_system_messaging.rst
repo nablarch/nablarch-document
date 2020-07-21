@@ -36,7 +36,7 @@ The assumed execution control platform differs for MOM messaging depending on th
      - Execution control platform
    * - :ref:`Send asynchronous response message <mom_system_messaging-async_message_send>`
      - :ref:`nablarch_batch`
-   * - :ref:`Send synchronous response message <mom_system_messaging-sync_message_send>`
+   * - :ref:`Sending synchronous message <mom_system_messaging-sync_message_send>`
      - Does not depend on the execution control platform
    * - :ref:`Receive asynchronous response message <mom_system_messaging-async_message_receive>`
      - :ref:`mom_messaging`
@@ -327,7 +327,7 @@ Implementation examples
 
 .. _mom_system_messaging-sync_message_send:
 
-Send message with synchronous response (Send synchronous response message)
+Send message with synchronous response (Sending synchronous message)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Send a message to an external system and wait for the reply. Block until a response message is received or the wait timeout expires.
 
@@ -357,7 +357,7 @@ Content of :ref:`Common protocol header<mom_system_messaging-common_protocol_hea
   :Reply to address: Configuration not required
   :Expiry interval: Any
 
-Send synchronous response message provides
+Sending synchronous message provides
 :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>` as a utility class that wraps routine processing.
 Only the following artifacts are required to be created using
 :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>`
@@ -763,7 +763,7 @@ For send asynchronous response message
  * :java:extdoc:`AsyncMessageSendAction#createHeaderRecordFormatter<nablarch.fw.messaging.action.AsyncMessageSendAction.createHeaderRecordFormatter()>`
  * :java:extdoc:`AsyncMessageSendAction#createHeaderRecord<nablarch.fw.messaging.action.AsyncMessageSendAction.createHeaderRecord(nablarch.core.db.statement.SqlRow)>`
 
-For send synchronous response message
+For sending synchronous message
  :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>` delegates the conversion process to
  :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` so the conversion process of sent and received messages can be changed,
  and this class reads and writes the framework control headers.
