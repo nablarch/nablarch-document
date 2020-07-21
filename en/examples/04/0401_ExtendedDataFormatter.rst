@@ -4,7 +4,7 @@ Data Formatter Expansion
 
 The specifications of the formatter functions provided in this sample are described.
 
-For an overview of the formatter functions and more information on basic general-purpose data formatting functions, see the description for general-purpose data formatting functions in the Nablarch Application Framework manual.
+For an overview of the formatter functions and more information on basic general data formatting functions, see the description for general data formatting functions in the Nablarch Application Framework manual.
 
 ----------------------------
 Summary
@@ -37,7 +37,7 @@ This data is expressed by connecting sets of names and values using the equal to
 Multiple values can also be handled with the same key.
 
 Encode a URL in the value. 
-For keys, a URL cannot be encoded according to the format definition of general-purpose data formats, and special characters cannot be used for a key string.
+For keys, a URL cannot be encoded according to the format definition of general data formats, and special characters cannot be used for a key string.
 
 The following is a list of classes used in this function.
 
@@ -164,7 +164,7 @@ When handling multiple values with the same key
 --------------------------------------------------------------------
   When the same key handles multiple values, data is stored in the String array format.
   Multiplicity must be set in the format definition file.
-  For the definition method, see the general-purpose data formatting functions in the Nablarch Application Framework manual.
+  For the definition method, see the general data formatting functions in the Nablarch Application Framework manual.
 
 
 How to write test data
