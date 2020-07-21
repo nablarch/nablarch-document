@@ -141,7 +141,7 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
      - Main
      - Creates a sub-thread and executes the process of the subsequent handler in parallel.
      - Waits for normal termination of all threads.
-     - Waits for the current thread to complete and resends the cause exception.
+     - Waits for the current thread to complete and rethrows the cause exception.
 
    * - 4
      - :ref:`retry_handler`
@@ -205,7 +205,7 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
      - Use a data reader to read one request message and pass it as an argument of the subsequent handler. 
        Also, the :ref:`runtime ID numbered <log-execution_id>` is numbered.
      -
-     - After generating output of the read message as a log, resends the original exception.
+     - After generating output of the read message as a log, rethrows the original exception.
 
    * - 13
      - :ref:`request_path_java_package_mapping`
@@ -274,7 +274,7 @@ The minimum handler configuration for asynchronous response messaging is the sam
      - Main
      - Creates a sub-thread and executes the process of the subsequent handler in parallel.
      - Waits for normal termination of all threads.
-     - Waits for the current thread to complete and resends the cause exception.
+     - Waits for the current thread to complete and rethrows the cause exception.
 
    * - 4
      - :ref:`retry_handler`
@@ -338,7 +338,7 @@ The minimum handler configuration for asynchronous response messaging is the sam
      - Use a data reader to read one request message and pass it as an argument of the subsequent handler. 
        Also, the :ref:`runtime ID numbered <log-execution_id>` is numbered.
      -
-     - After generating output of the read message as a log, resends the original exception.
+     - After generating output of the read message as a log, rethrows the original exception.
 
    * - 13
      - :ref:`request_path_java_package_mapping`

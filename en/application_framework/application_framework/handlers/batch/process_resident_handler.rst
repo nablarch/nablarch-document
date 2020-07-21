@@ -98,10 +98,10 @@ Exception during service shutdown( :java:extdoc:`ServiceUnavailable <nablarch.fw
   In the case of an exception during service shutdown, executes the subsequent handler again after waiting for the time set in the data monitoring interval.
 
 Retryable exception
-  In the case of retryable exception ( :java:extdoc:`RetryUtil#isRetryable() <nablarch.fw.handler.retry.RetryUtil.isRetryable(java.lang.Throwable)>` returns true), re-throws the exception that is caught without doing anything.
+  In the case of retryable exception ( :java:extdoc:`RetryUtil#isRetryable() <nablarch.fw.handler.retry.RetryUtil.isRetryable(java.lang.Throwable)>` returns true), rethrows the exception that is caught without doing anything.
 
 Exception that terminates the process abnormally
-  For exceptions indicating abnormal termination, resends the caught exception without doing anything.
+  For exceptions indicating abnormal termination, rethrows the caught exception without doing anything.
 
   Configure exceptions that terminates the process abnormally to the :java:extdoc:`abnormalEndExceptions <nablarch.fw.handler.ProcessResidentHandler.setAbnormalEndExceptions(java.util.List)>` property.
   By default, :java:extdoc:`ProcessAbnormalEnd <nablarch.fw.launcher.ProcessAbnormalEnd>` (including subclasses) is the target class for abnormal termination.

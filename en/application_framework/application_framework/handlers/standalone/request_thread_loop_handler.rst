@@ -96,7 +96,7 @@ Exception indicating process stop request (:java:extdoc:`ProcessStop <nablarch.f
   Since the exception indicates the process stop request, processing of this handler is terminated.
 
 Exception indicating abnormal termination of the process (:java:extdoc:`ProcessAbnormalEnd <nablarch.fw.launcher.ProcessAbnormalEnd>`)
-  Re-throws the exception caught as the exception indicates abnormal termination of the process.
+  Rethrows the exception caught as the exception indicates abnormal termination of the process.
 
 Service error indicating that the process could not be continued (:java:extdoc:`ServiceError <nablarch.fw.results.ServiceError>`)
   Delegates the log output process to the exception class that is caught and throws :java:extdoc:`Retryable exception <nablarch.fw.handler.retry.Retryable>`.

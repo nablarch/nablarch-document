@@ -140,7 +140,7 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
     - Main
     - Creates a sub-thread and executes the process of the subsequent handler in parallel.
     - Waits for normal termination of all threads.
-    - Waits for the current thread to complete and resends the cause exception.
+    - Waits for the current thread to complete and rethrows the cause exception.
 
   * - 10
     - :ref:`database_connection_management_handler`
@@ -170,7 +170,7 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
     - Use a data reader to read records one by one and pass it as an argument of the subsequent handler. 
       Also, the :ref:`runtime ID numbered <log-execution_id>`  is numbered.
     -
-    - After generating output of the read record as a log, resends the original exception.
+    - After generating output of the read record as a log, rethrows the original exception.
 
   * - 14
     - :ref:`transaction_management_handler`
