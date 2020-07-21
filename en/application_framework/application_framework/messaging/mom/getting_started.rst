@@ -19,7 +19,7 @@ Prerequisites
 A description using the :ref:`example_application` is given in  :ref:`mom_messaging`  of the library, and Getting Started is not prepared because the contents are the same. 
 Therefore, refer to the following description of  :ref:`mom_messaging` .
 
-* :ref:`Send asynchronous response message <mom_system_messaging-async_message_send>`
+* :ref:`Sending asynchronous message <mom_system_messaging-async_message_send>`
 * :ref:`Send synchronous response message <mom_system_messaging-sync_message_send>`
 * :ref:`Receive asynchronous response message <mom_system_messaging-async_message_receive>`
 * :ref:`Receive synchronous response message <mom_system_messaging-sync_message_receive>`
