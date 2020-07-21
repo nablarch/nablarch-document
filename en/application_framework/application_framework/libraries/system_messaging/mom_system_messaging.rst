@@ -40,7 +40,7 @@ The assumed execution control platform differs for MOM messaging depending on th
      - Does not depend on the execution control platform
    * - :ref:`Receiving asynchronous message <mom_system_messaging-async_message_receive>`
      - :ref:`mom_messaging`
-   * - :ref:`Receive synchronous response message <mom_system_messaging-sync_message_receive>`
+   * - :ref:`Receiving synchronous message <mom_system_messaging-sync_message_receive>`
      - :ref:`mom_messaging`
 
 Function overview
@@ -626,7 +626,7 @@ Implementation examples
 
 .. _mom_system_messaging-sync_message_receive:
 
-Receive message with synchronous response (Receive synchronous response message)
+Receive message with synchronous response (Receiving synchronous message)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 It receives a message sent to a specific destination from a communication destination, and sends a response message to the reply to address configured in the message.
 At this time, the value of the message ID header of the received message is configured in the correlation message ID header of the response message.
@@ -642,7 +642,7 @@ Contents of :ref:`Common protocol header<mom_system_messaging-common_protocol_he
   :Reply to address: Configuration not required
   :Expiry interval: Any
 
-Receive synchronous response message provides :java:extdoc:`MessagingAction<nablarch.fw.messaging.action.MessagingAction>` as a template class
+Receiving synchronous message provides :java:extdoc:`MessagingAction<nablarch.fw.messaging.action.MessagingAction>` as a template class
 that performs routine processing.
 :java:extdoc:`MessagingAction<nablarch.fw.messaging.action.MessagingAction>` is an action class
 that works with :ref:`mom_messaging`.
@@ -787,7 +787,7 @@ For receiving asynchronous message
  :java:extdoc:`FwHeaderReader#fwHeaderDefinition<nablarch.fw.messaging.reader.FwHeaderReader.setFwHeaderDefinition(nablarch.fw.messaging.FwHeaderDefinition)>`
  property in the component definition.
 
-For receive synchronous response message
+For receiving synchronous message
  Reading the framework control header is the same as
  :ref:`receiving asynchronous message <mom_system_messaging-change_fw_header_async_receive>`.
 
