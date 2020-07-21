@@ -71,6 +71,7 @@ Shows the sample structure.
 Acquisition and authentication of the CAPTCHA information is performed in the following procedure.
 
   .. image:: ./_images/Captcha_Process.png
+     :width: 100%
 
 The procedure for incorporating the Captcha function into the application is written in the `link <06_Captcha_guide.html>`_ .
 

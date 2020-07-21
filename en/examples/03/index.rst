@@ -38,7 +38,7 @@ The tag file provides the following functions together with the search function 
 An example of the output on the list screen is shown below.
 
 .. image:: ./_images/ListSearchResult_Example.jpg
-   :scale: 60
+   :scale: 80
 
 .. _ListSearchResult_Structure:
 
@@ -245,7 +245,7 @@ The screen elements output by the listSearchResult tag are shown below.
 
 
 .. image:: ./_images/ListSearchResult_PagingTableFull.jpg
-   :scale: 60
+   :scale: 80
 
 
 Main attributes of the listSearchResult tag
@@ -328,7 +328,7 @@ Paging consists of the current page number and the submit elements for moving th
 |
 
 .. image:: ./_images/ListSearchResult_PagingFull.jpg
-   :scale: 60
+   :scale: 80
 
 |
 
@@ -386,7 +386,7 @@ First, assume that a search is performed and the search results are 44 results. 
 |
 
 .. image:: ./_images/ListSearchResult_PagingBefore.jpg
-   :scale: 60
+   :scale: 100
 
 |
 
@@ -396,7 +396,7 @@ Each paging screen element is displayed as a search result for the second page.
 |
 
 .. image:: ./_images/ListSearchResult_PagingAfter.jpg
-   :scale: 60
+   :scale: 100
 
 |
 
@@ -418,7 +418,7 @@ The paging display after selecting "Previous" is shown next. The correspondence 
 |
 
 .. image:: ./_images/ListSearchResult_PagingAfter2.jpg
-   :scale: 60
+   :scale: 90
 
 |
 
@@ -430,7 +430,7 @@ The screen elements of the search result are shown below.
 The search result consists of a header row that displays column headings, and a body row that displays row data.
 
 .. image:: ./_images/ListSearchResult_TableFull.jpg
-   :scale: 60
+   :scale: 80
 
 The search results are always displayed when they are in the request scope.
 When the search result is 0, only the header row is displayed.
@@ -522,7 +522,7 @@ The search results after the above specifications are shown below.
 
 
 .. image:: ./_images/ListSearchResult_TableStatus.jpg
-   :scale: 60
+   :scale: 80
 
 .. _ListSearchResult_Sort:
 
@@ -538,7 +538,7 @@ The screen image when sorting is applied to the user search is shown below.
 The user search provides sorting by kanji name and kana name.
 
 .. image:: ./_images/ListSearchResult_SortSubmitTag.jpg
-   :scale: 60
+   :scale: 80
 
 This section describes an implementation example in which sorting is applied to user search.
 
@@ -911,7 +911,7 @@ If the the system repository settings do not exist, the following default values
 
 To individually change the settings for only some functions, implement the individual functions as follows.
 
-* Specify the ListSearchResult_Tag attribute in JSP for the screen display configuration.
+* Specify the :ref:`ListSearchResult_Tag` attribute in JSP for the screen display configuration.
 * For settings concerned with the search process for paging, set the values in the class that inherits from ListSearchInfo in the Action method that displays the corresponding list display screen.
 
 An implementation example for changing the maximum number of search results (upper limit) to 50 and the number of results displayed to 10 is shown below.
@@ -1016,7 +1016,7 @@ The listSearchResult tag dsiplays attributes for each screen element.
 |
 
 .. image:: ./_images/ListSearchResult_PagingTableFull.jpg
-   :scale: 60
+   :scale: 80
 
 |
 
@@ -1058,7 +1058,7 @@ pagingCss                              Class attribute of the div tag that wraps
 |
 
 .. image:: ./_images/ListSearchResult_PagingTableFull.jpg
-   :scale: 60
+   :scale: 80
 
 |
 
@@ -1191,7 +1191,7 @@ lastSubmitName                         Name attribute of the tag used by the sub
 |
 
 .. image:: ./_images/ListSearchResult_PagingTableFull.jpg
-   :scale: 60
+   :scale: 80
 
 |
 

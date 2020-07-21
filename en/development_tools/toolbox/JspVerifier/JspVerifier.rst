@@ -254,7 +254,7 @@ The below required structure is to be satisfied.
 Tag attribute verification
 -----------------------------------------
 
-The attribute of the tag (the one with the tag file stored under C:\nablarch\workspace\tutorial\main\web\WEB-INF\tags\widget) being used in JSP should be the actual attribute that defines the tag.
+The attribute of the tag (the one with the tag file stored under C:\\nablarch\\workspace\\tutorial\\main\\web\\WEB-INF\\tags\\widget) being used in JSP should be the actual attribute that defines the tag.
 
 
 

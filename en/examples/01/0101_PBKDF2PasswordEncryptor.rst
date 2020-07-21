@@ -95,7 +95,7 @@ fixedSalt (required)  A fixed string is used for the salt that is common to all 
                         This configuration value is related to the encryption strength of the password. If the value is set too short,
                         it leaves the user vulnerable to password decryption using the rainbow table.
 
-                        Since salt concatenates the user ID,  ensure that the byte sequence concatenating this string and the user ID is more than 20 bytes [#]_ in length.
+                        Since salt concatenates the user ID,  ensure that the byte sequence concatenating this string and the user ID is **more than 20 bytes** [#]_ in length.
                         (It is recommended to secure 20 bytes with just this configuration alone.)
 
 iterationCount        Number of times password encryption is stretched.Default value is 3966. [#]_

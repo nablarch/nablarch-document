@@ -133,8 +133,7 @@ Class diagram
 -------------
 
  .. image:: _images/HtmlMail_ClassDiagram.png
-    :height: 30em
-    :width:  60em
+    :width: 100%
  
 
 Responsibilities of each class

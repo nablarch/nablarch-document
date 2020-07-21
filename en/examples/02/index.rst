@@ -91,7 +91,7 @@ The validation specifications for email address are as follows.
     * Numerals　 0 1 2 3 4 5 6 7 8 9
     * Other symbols 　! # $ % & \ * + - . / = ? @ ^ _ ` { | } ~
 
-  * Only one '@' (an at symbol[A4][A5][A6]) must be present.
+  * Only one '@' (an at symbol) must be present.
   * When sending an email with JavaMail, the format check should not result in an error.
 
   .. tip::

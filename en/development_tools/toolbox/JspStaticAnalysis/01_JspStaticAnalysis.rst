@@ -39,7 +39,7 @@ The syntax and tags that can be specified with this tool are shown below.
 * HTML comments [#html_comment]_
 * EL system
 * Declaration
-* 式
+* Expression
 * Scriptlet
 * Directive
 * Action tag
@@ -115,7 +115,8 @@ Describe the JSP comment to be invalidated according to the following rules.
 
 * Write the start tag and end tag of a comment on the same line.
 * Comments must always start with **suppress jsp check**
-  Comments can be described after suppress jsp check. In the comment section, it is good to describe the reason for disabling the check
+
+  Comments can be described after **suppress jsp check**. In the comment section, it is good to describe the reason for disabling the check
 
 
 

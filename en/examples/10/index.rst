@@ -14,7 +14,7 @@ This document describes how to use the sample implementation [#statistics]_  of 
 
 .. [#statistics]
 
-  1.	The log aggregation function aggregates the access status and processing time, etc. based on the logs and database status output by application in the production environment. 
+  The log aggregation function aggregates the access status and processing time, etc. based on the logs and database status output by application in the production environment. 
 
 
 List of samples provided

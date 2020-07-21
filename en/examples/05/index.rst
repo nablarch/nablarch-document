@@ -45,7 +45,7 @@ This sample stores that file to the DB in a binary format.
 
 
 .. image:: ./_images/DbFileManagement_outline01.png
-   :scale: 100
+   :width: 100%
 
 When downloading files
 ========================
@@ -55,7 +55,7 @@ If a file is requested but clicking on the download tag, the business class acti
 This sample gets the Stream from the DB.
 
 .. image:: ./_images/DbFileManagement_outline02.png
-   :scale: 100
+   :width: 100%
 
 
 ----------------------
@@ -111,7 +111,7 @@ Shows the sample structure.
 Class diagram
 ========================
 .. image:: ./_images/DbFileManagement_classdiagram.png
-   :scale: 100
+   :width: 100%
 
 
 Responsibilities of each class

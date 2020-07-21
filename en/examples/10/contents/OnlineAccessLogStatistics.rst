@@ -12,7 +12,7 @@ The Online Access Log Aggregation Function aggregates the following information 
 .. [#r1]
   By specifying the request ID in the configuration file, the function to be aggregated can be narrowed down.
 
-  See \ `Online access log analysis and configuration of aggregation`_\ sample for configuration examples.
+  See \ `Online access log analysis and configuration of aggregation`_\  sample for configuration examples.
 
 ------------------------------
 Sample structure
@@ -36,6 +36,7 @@ Process flow
 The following is a flow of processing until the online access log using the above sample and outputting the report information to Excel
 
  .. image:: ../_images/OnlineLogStatistics.png
+    :width: 100%
 
 \
 
@@ -279,7 +280,7 @@ includeRequestIdList              Set the request ID list to be analyzed.
                                    If the request ID has increased or decreased, add (delete) the request ID to be analyzed.
 
 
-findRequestIdPattern              Regular expression for extracting request ID from end log[A5][A6]
+findRequestIdPattern              Regular expression for extracting request ID from end log
 
                                   Set a regular expression so that the part where the request ID is output is grouped.
 
@@ -287,7 +288,7 @@ findProcessNamePattern            Regular expression for extracting the process 
 
                                   Set a regular expression so that the part where the process name is output is grouped.
 
-findStatusCodePattern             Regular expression for extracting status code from end log[A7][A8]
+findStatusCodePattern             Regular expression for extracting status code from end log
 
                                   Set the regular expression so that the part where the status code is output is grouped.
 
