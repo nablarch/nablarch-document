@@ -55,7 +55,7 @@ Workflow library
 ===========================
 
   | :doc:`Manual <extension_components/workflow/doc/index>`
-  | :doc:`Automatic generation tool for workflow definition data <extension_components/workflow/tool/index>` |
+  | :doc:`Automatic generation tool for workflow definition data <extension_components/workflow/tool/index>` 
 
 ETL platform
 ===========================
