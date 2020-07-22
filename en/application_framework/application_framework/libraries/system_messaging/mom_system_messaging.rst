@@ -549,7 +549,7 @@ Implementation examples
  Form class used to register a message
   Point
    * The file name is ``<Request ID of received message>Form``.
-   * Define a constructor with two parameters: :java:extdoc:`String<java.lang.String>`, :java:extdoc:`RequestMessage<nablarch.fw.messaging.RequestMessage>`.
+   * Define a constructor with two arguments: :java:extdoc:`String<java.lang.String>`, :java:extdoc:`RequestMessage<nablarch.fw.messaging.RequestMessage>`.
      The meaning of each parameter is as follows.
 
      * :java:extdoc:`String<java.lang.String>` -> Received message serial number

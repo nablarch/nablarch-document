@@ -122,7 +122,7 @@ Field type and field converter definition list
        | During input, the shift-out/shift-in codes are assumed to be added and converted to a string without anything being done,
        | while during output, the shift-out/shift-in codes are added automatically.
        | Sample implementation class: please.change.me.core.dataformat.converter.datatype.EbcdicDoubleByteCharacterString
-       | parameter: Byte length (numerical value, specification required)
+       | argument: Byte length (numerical value, specification required)
    * - EN
      - String
      - | Double-byte string (byte length = number of characters x 2)
@@ -130,4 +130,4 @@ Field type and field converter definition list
        | During input, the shift-out/shift-in codes are complemented internally and converted into a string,
        | while during output, the shift-out/shift-in codes are not added.
        | Sample implementation class: please.change.me.core.dataformat.converter.datatype.EbcdicNoShiftCodeDoubleByteCharacterString
-       | parameter: Byte length (numerical value, specification required)
+       | argument: Byte length (numerical value, specification required)

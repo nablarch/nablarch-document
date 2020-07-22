@@ -96,11 +96,11 @@ expectedLog             Describe the LIST_MAP data ID that describes the expecte
                         The log message is verified by the automated test framework to see if it has actually been output.
                         (See "\ `Log result verification`_\ ")
 diConfig                Describe the path to the component configuration file when executing a batch.                                                       Required 
-                        (See \ :ref:`Command line parameters <main-run_application>`\ )
+                        (See \ :ref:`Command line arguments <main-run_application>`\ )
 requestPath             The request path to execute the batch is described.                                                                                 Required 
-                        (See \ :ref:`Command line parameters <main-run_application>`\ )
+                        (See \ :ref:`Command line arguments <main-run_application>`\ )
 userId                  Enter the batch execution user ID.                                                                                                  Required 
-                        (See \ :ref:`Command line parameters <main-run_application>`\ )
+                        (See \ :ref:`Command line arguments <main-run_application>`\ )
 expectedMessage         When sending synchronous message, the :ref:`Group ID<tips_groupId>` of the expected request message is described. \
                         Messages are created by an automated test framework.
 responseMessage         If sending synchronous message, the :ref:`Group ID<tips_groupId>` of the response message to be returned is described.\
@@ -119,18 +119,18 @@ responseMessageByClient If sending synchronous HTTP message, the :ref:`Group ID<
  Default group ID and individual groups can be used together.
  When both data are mixed, both data of the default group ID and data of the specified group ID are valid.
 
-Command line parameters
+Command line arguments
 --------------------------
-The method to specify the \ :ref:`Command line parameters <main-run_application>`\  in the test data is described.
+The method to specify the \ :ref:`Command line arguments <main-run_application>`\  in the test data is described.
 
-To specify the batch start-up parameters, \
+To specify the batch start-up arguments, \
 add a column in the form of ``args[n]``\  (\ **where the index n is an integer greater than or equal to 0**\ ).
 
 
  == =========== === ================ =================== ================
  no case        ... args[0]          args[1]             args[2]
  == =========== === ================ =================== ================
- 1  xxx case    ... First parameter  Second parameter    Third parameter
+ 1  xxx case    ... First argument   Second argument     Third argument
  == =========== === ================ =================== ================
 
  .. important::

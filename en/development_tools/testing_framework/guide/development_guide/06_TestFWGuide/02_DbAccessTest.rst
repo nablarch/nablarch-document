@@ -84,7 +84,7 @@ Example of test source code implementation
         public void testSelectAll() {
 
             // Register preparation data in the database
-            //Write sheet name in the argument.
+            // Write sheet name in the argument.
             setUpDb("testSelectAll");
                         
             // Invoke the method to be tested.
@@ -92,8 +92,8 @@ Example of test source code implementation
             SqlResultSet actual = target.selectAll();
             
             // Confirmation of results
-            //  Confirm that the expected value described in Excel is equal to the actual value
-            //  In the parameter, specify the name of the sheet containing the expected value, ID of the expected value, and the actual value
+            // Confirm that the expected value described in Excel is equal to the actual value
+            // In the argument, specify the name of the sheet containing the expected value, ID of the expected value, and the actual value
             assertSqlResultSetEquals("testSelectAll", "expected", actual);
         }
     }
@@ -214,8 +214,8 @@ Example of test source code implementation
             commitTransactions();
 
             // Confirmation of results
-            //  Confirm that the expected value described in Excel is equal to the actual value
-            // In the parameter, specify the name of the sheet containing the expected value, and the actual value
+            // Confirm that the expected value described in Excel is equal to the actual value
+            // In the argument, specify the name of the sheet containing the expected value, and the actual value
             assertTableEquals("testDeleteExpired", actual);
         }
 
