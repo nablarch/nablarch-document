@@ -3,7 +3,7 @@
 Output File Release Handler
 ========================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
