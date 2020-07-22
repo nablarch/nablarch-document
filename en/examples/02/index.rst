@@ -315,6 +315,6 @@ An usage example of utility is shown below.
     // [Description] Perform code value validation using CodeValidationUtil#validate method.
     CodeValidationUtil.validate(context, "0001", "PATTERN1", "gender");
 
-    // [Description] To overwrite the message ID, specify the message ID in parameter 5.
+    // [Description] To overwrite the message ID, specify the message ID in argument 5.
     CodeValidationUtil.validate(context, "0001", "PATTERN1", "gender", "message_id");
   

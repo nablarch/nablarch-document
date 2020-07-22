@@ -99,7 +99,7 @@ This section describes how to configure the certificates required to use this fu
 Execution
 ------------------
 Launch a process of email send batch with the target action class as **please.change.me.common.mail.smime.SMIMESignedMailSender**.
-When a process is launched, an email send pattern ID that can identify the mail to be processed by this process is specified as a parameter.
+When a process is launched, an email send pattern ID that can identify the mail to be processed by this process is specified as an argument.
 
 For more information, see the guide to email send functions of the Nablarch application framework.
 

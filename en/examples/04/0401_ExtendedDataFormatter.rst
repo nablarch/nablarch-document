@@ -142,7 +142,7 @@ Field type and field converter definition list
      - | **During input:** (Nothing is to be done)
        | **During output:** Outputs the specified literal value if the output value is not set.
        | **Default implementation class:** nablarch.core.dataformat.convertor.value.DefaultValue
-       | **Parameter:** No
+       | **Argument:** No
 
    * - number
      - String <-> BigDecimal
@@ -151,13 +151,13 @@ Field type and field converter definition list
        | **During output:** Converts the output value to a string, and then outputs after format checking that it is an unsigned numeric value. 
        |         Outputs an empty character if the output value is null. 
        | **Default implementation class:** nablarch.core.dataformat.convertor.value.NumberString
-       | **Parameter:** No
+       | **Argument:** No
 
    * - signed_number
      - String <-> BigDecimal
      - | Except that signs are allowed, the specification is the same as **number** converter. 
        | **Default implementation class:** nablarch.core.dataformat.convertor.value.SignedNumberString
-       | **Parameter:** No
+       | **Argument:** No
 
 
 When handling multiple values with the same key

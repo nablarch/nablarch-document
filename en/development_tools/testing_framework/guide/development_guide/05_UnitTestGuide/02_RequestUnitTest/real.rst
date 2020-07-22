@@ -76,11 +76,11 @@ expectedTable      escribe the :ref:`group ID <tips_groupId>` of the expected ta
 expectedLog        Describe the ID of the expected log message.
                    The automated test framework verifies whether the log message was actually output.
 diConfig           Describe the path to the component configuration file when executing the resident process. Required
-                   See (\ :ref:`Command line parameters <main-run_application>`\ )\ [2]_\
+                   See (\ :ref:`Command line arguments <main-run_application>`\ )\ [2]_\
 requestPath        Describe the request path when executing the resident process.                             Required
-                   See (\ :ref:`Command line parameters <main-run_application>`\)\ [2]_\
+                   See (\ :ref:`Command line arguments <main-run_application>`\)\ [2]_\
 userId             Describe the resident process execution user ID.                                           Required
-                   See (\ :ref:`Command line parameters <main-run_application>`\ )\ [2]_\
+                   See (\ :ref:`Command line arguments <main-run_application>`\ )\ [2]_\
 ================== ========================================================================================== ========
 
 
@@ -283,8 +283,8 @@ In the test method, call one of the following methods of the superclass.
 * void execute()
 * void execute(String sheetName)
 
-In the execute method with parameters, the sheet name of the test data can be specified.
-If the execution method without parameters is used,
+In the execute method with arguments, the sheet name of the test data can be specified.
+If the execution method without arguments is used,
 the operation will be the same as when the test method name is specified in the test data sheet name in the execution method with parameters.
 
 Since the test sheet name and test method name are usually the same,

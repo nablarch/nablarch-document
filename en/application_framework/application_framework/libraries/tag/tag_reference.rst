@@ -738,9 +738,9 @@ popupSubmit tag
    secure                                 Whether to use https for URI.
                                           To use https ``true``, not to use https ``false``.
    popupWindowName                        Window name of pop-up.
-                                          Specify the second parameter (JavaScript) of the window.open function when opening a new window.
+                                          Specify the second argument (JavaScript) of the window.open function when opening a new window.
    popupOption                            Pop-up option information.
-                                          Specify the third parameter (JavaScript) of the window.open function when opening a new window.
+                                          Specify the third argument (JavaScript) of the window.open function when opening a new window.
    displayMethod                          A display method in the case of performing display control based on the result of authorization determination and service availability determination.
                                           Specify one of the following.
                                           NODISPLAY (no display)
@@ -771,9 +771,9 @@ popupButton tag
    secure                                 Whether to use https for URI.
                                           To use https ``true``, not to use https ``false``.
    popupWindowName                        Window name of pop-up.
-                                          Specify the second parameter (JavaScript) of the window.open function when opening a new window.
+                                          Specify the second argument (JavaScript) of the window.open function when opening a new window.
    popupOption                            Pop-up option information.
-                                          Specify the third parameter (JavaScript) of the window.open function when opening a new window.
+                                          Specify the third argument (JavaScript) of the window.open function when opening a new window.
    displayMethod                          A display method in the case of performing display control based on the result of authorization determination and service availability determination.
                                           Specify one of the following.
                                           NODISPLAY (no display)
@@ -802,9 +802,9 @@ popupLink tag
    secure                                 Whether to use https for URI.
                                           To use https ``true``, not to use https ``false``.
    popupWindowName                        Window name of pop-up.
-                                          Specify the second parameter (JavaScript) of the window.open function when opening a new window.
+                                          Specify the second argument (JavaScript) of the window.open function when opening a new window.
    popupOption                            Pop-up option information.
-                                          Specify the third parameter (JavaScript) of the window.open function when opening a new window.
+                                          Specify the third argument (JavaScript) of the window.open function when opening a new window.
    displayMethod                          A display method in the case of performing display control based on the result of authorization determination and service availability determination.
                                           Specify one of the following.
                                           NODISPLAY (no display)
@@ -1339,8 +1339,8 @@ message tag
    Attribute                              Description
    ====================================== ==========================================================================================
    messageId ``required``                 Message ID.
-   option0 ~ option9                      Optional parameters with index between 0 ~ 9 used for message format.
-                                          Up to 10 optional parameters can be specified.
+   option0 ~ option9                      Optional arguments with index between 0 ~ 9 used for message format.
+                                          Up to 10 optional arguments can be specified.
    language                               Language of the message.
                                           The language configured in the thread context is the default.
    var                                    Variable name used when storing in the request scope.
