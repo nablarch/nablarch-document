@@ -50,13 +50,13 @@ Implementation examples
 .. code-block:: java
 
   // Format using the default pattern
-  // Specify the name of the formatter to use for the first parameter
-  // Specify the value to format in the second parameter
+  // Specify the name of the formatter to use for the first argument
+  // Specify the value to format in the second argument
   FormatterUtil.format("dateTime", input);
 
   // When specifying a pattern for formatting
-  // Specify the first and second parameters in the same way as the default pattern
-  // Specify the format pattern to use for the third parameter.
+  // Specify the first and second arguments in the same way as the default pattern
+  // Specify the format pattern to use for the third argument.
   FormatterUtil.format("dateTime", input, "yyyy/MM/dd");
 
 The formatter provided by default with this function are shown below:

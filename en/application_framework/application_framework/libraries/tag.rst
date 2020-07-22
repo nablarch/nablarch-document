@@ -987,9 +987,9 @@ Implementation examples
   <!--
     The operation to open the window is controlled by the following attribute specifications.
     popupWindowName attribute: Window name of pop-up:
-                               Specified to the second parameter of the window.open function when opening a new window.
+                               Specified to the second argument of the window.open function when opening a new window.
     popupOption attribute: Pop-up option information.
-                           Specify to the third parameter of the window.open function when opening a new window.
+                           Specify to the third argument of the window.open function when opening a new window.
   -->
   <n:popupButton uri="/action/person/list"
                  popupWindowName="postalCodeSupport"
@@ -1792,7 +1792,7 @@ Unusable custom tags
  changeParamName tag
   Handling method
    The basic method of handling is the same as the :ref:`popupLink tag <tag-using_get_popup_link_tag>`.
-   Specify the query string key with the parameter name to bed changed in the first parameter of window.open()
+   Specify the query string key with the parameter name to bed changed in the first argument of window.open()
    within the function that displays a pop-up window.
 
   Implementation examples
@@ -1929,15 +1929,15 @@ The method of formatting that uses :ref:`format` is recommended for the followin
   .. code-block:: html
 
    <!-- When formatted using the default formatter pattern
-     The name of the formatter used is specified in the first parameter
-     The value to be formatted is specified in the second parameter
+     The name of the formatter used is specified in the first argument
+     The value to be formatted is specified in the second argument
      For the value attribute, n:formatByDefault call is written using EL expression-->
    <n:write value="${n:formatByDefault('dateTime', project.StartDate)}" />
 
    <!-- When formatted using the specified pattern
-     The name of the formatter used is specified in the first parameter
-     The value to be formatted is specified in the second parameter
-     The formatting pattern is specified in the third parameter
+     The name of the formatter used is specified in the first argument
+     The value to be formatted is specified in the second argument
+     The formatting pattern is specified in the third argument
      For the value attribute, n:format call in written using EL expression -->
    <n:text name="project.StartDate" value="${n:format('dateTime', project.StartDate, 'yyyy年MM月dd日')}" />
 

@@ -512,7 +512,7 @@ Conditions for extracting unsent data
 
  To extract the unsent data from every email send pattern ID,
  start an email send batch process for each email send pattern ID to be monitored.
- Therefore, at process startup, specify the email send pattern ID (mailSendPatternId) to be processed as the startup parameter.
+ Therefore, at process startup, specify the email send pattern ID (mailSendPatternId) to be processed as the startup argument.
 
  An execution example is shown below.
 

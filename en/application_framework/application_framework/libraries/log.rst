@@ -261,7 +261,7 @@ Description rules of property files
    loggers.<name>.nameRegex
     loggers.<name>.nameRegex specifies the regular expression used to match the logger name. 
     The regular expressions are used to narrow down the loggers that are the targets of logger configuration.
-    Matched to logger name specified when acquiring the logger (that is, the logger name specified in the parameter of  :java:extdoc:`LoggerManager#get <nablarch.core.log.LoggerManager.get(java.lang.String)>`).
+    Matched to logger name specified when acquiring the logger (that is, the logger name specified in the argument of  :java:extdoc:`LoggerManager#get <nablarch.core.log.LoggerManager.get(java.lang.String)>`).
 
    loggers.<name>.level
     Specify the name of loggers.<Name>.level :java:extdoc:`LogLevel <nablarch.core.log.basic.LogLevel>` . 
@@ -504,7 +504,7 @@ hen adding a new LogFormatter, create a class that implements the :java:extdoc:`
 To enable changing the text that indicates the log level in the configuration, use :java:extdoc:`LogLevelLabelProvider <nablarch.core.log.basic.LogLevelLabelProvider>` .
 
 Along with the addition of a new LogFormatter, there may be a need to increase parameters specified during log output, and receive the parameters increased by LogFormatter. 
-To increase the parameters specified during log output in this function, object types with variable length parameter options are provided in the log output method of :java:extdoc:`Logger <nablarch.core.log.Logger>`  interface.
+To increase the parameters specified during log output in this function, object types with variable length argument options are provided in the log output method of :java:extdoc:`Logger <nablarch.core.log.Logger>`  interface.
 
 .. code-block:: java
 
