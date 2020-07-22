@@ -919,7 +919,7 @@ Disabled
  For buttons, disabled attribute is enabled.
  For links, either only the label is displayed or JSP for displaying an inactive link is included.
  To include JSP, specify
- :java:extdoc:`submitLinkDisabledJspプロパティ<nablarch.common.web.tag.CustomTagConfig.setSubmitLinkDisabledJsp(java.lang.String)>`
+ :java:extdoc:`submitLinkDisabledJsp property<nablarch.common.web.tag.CustomTagConfig.setSubmitLinkDisabledJsp(java.lang.String)>`
  in :ref:`tag-setting`.
 
 Normal display
@@ -928,7 +928,7 @@ Normal display
 
 The default is ``Normal display``.
 Default can be changed by specifying
-:java:extdoc:`displayMethodプロパティ<nablarch.common.web.tag.CustomTagConfig.setDisplayMethod(java.lang.String)>`
+:java:extdoc:`displayMethod property <nablarch.common.web.tag.CustomTagConfig.setDisplayMethod(java.lang.String)>`
 in :ref:`tag-setting`.
 
 To change the display method individually, specify in the displayMethod attribute.
@@ -998,7 +998,7 @@ Implementation examples
   </n:popupButton>
 
 If the popupWindowName attribute is not specified, then the default value specified in
-:java:extdoc:`popupWindowNameプロパティ<nablarch.common.web.tag.CustomTagConfig.setPopupWindowName(java.lang.String)>`
+:java:extdoc:`popupWindowName property <nablarch.common.web.tag.CustomTagConfig.setPopupWindowName(java.lang.String)>`
 by the :ref:`tag-setting` is used.
 If no default value is configured, the custom tag uses the current time (milliseconds) acquired from the JavaScript date function for the name of the new window.
 The default action of a pop-up is determined as follows depending on whether the default value is specified.
