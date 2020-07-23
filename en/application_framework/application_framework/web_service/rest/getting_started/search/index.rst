@@ -25,7 +25,7 @@ Communication confirmation procedure
 
     Confirm that the following JSON format response is returned by executing 1.
 
-    .. code-block:: json
+    .. code-block:: javascript
 
       [{
           "projectId":1,
@@ -97,7 +97,7 @@ Create a SQL for search
   Create a SQL for searching.
 
     Project.sql
-      .. code-block:: sql
+      .. code-block:: none
 
         FIND_PROJECT =
         SELECT

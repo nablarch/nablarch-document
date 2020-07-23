@@ -33,7 +33,7 @@ Uses
 ----------
 
 Communication confirmation test
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It can be used as a destination system for simple communication in the communication test to confirm the configuration of Nablarch application framework, middleware, hardware, etc. after building the test environment.
 

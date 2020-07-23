@@ -50,7 +50,7 @@ Add input item to the registration screen
 
         <n:form>
             <div class="form-group label-static is-empty">
-                <label class="control-label"Client name</label>
+                <label class="control-label">Client name</label>
                 <!-- Client name text box -->
                 <n:text name="form.clientName"
                         cssClass="form-control input-text" errorCss="form-control input-error" />

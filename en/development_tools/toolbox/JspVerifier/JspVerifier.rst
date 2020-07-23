@@ -117,9 +117,11 @@ Modify the below setting value of verification_config.json at the directory wher
 
 .. code-block:: json
 
-    "TagAttributeVerifier": {
-      "directory": "C:\\nablarch\\workspace\\tutorial\\main\\web\\WEB-INF\\tags\\widget",
-      "encoding": "utf-8"
+    {
+      "TagAttributeVerifier" : {
+        "directory" : "C:\\nablarch\\workspace\\tutorial\\main\\web\\WEB-INF\\tags\\widget",
+        "encoding" : "utf-8"
+      }
     }
 
 
@@ -171,7 +173,7 @@ Verification is performed by detailing the verification contents to be executed 
 
   In the below example configuration file, for the purpose of explanation, though comments are written in JavaScript format, comments cannot be written in the actual JSON file.
 
-.. code-block:: json
+.. code-block:: javascript
 
   {
     // Verification contents to be implemented are described in verifiers.

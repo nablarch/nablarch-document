@@ -437,7 +437,7 @@ Execution ID
  The execution ID is issued at the timing of initializing : :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>`, and is configured in :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>`.
 
  ID system for Execution ID
-  .. code-block:: properties
+  .. code-block:: none
 
    # Added only when the boot process is specified.
    Boot process + system date and time (yyyyMMddHHmmssSSS) + serial number (4 digits)
@@ -448,7 +448,7 @@ Execution ID
 When line feed code and tab character are to be included
  When line feed code and tab character are to be included in the format, use the same description as Java shown below.
 
- .. code-block:: properties
+ .. code-block:: none
 
   Line feed code \n
   Tab character   \t

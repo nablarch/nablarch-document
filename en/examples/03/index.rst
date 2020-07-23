@@ -551,20 +551,20 @@ In the SQL statement below, the variable ORDER BY clause is used to sort kanji n
 To determine which ORDER BY to use, the value obtained from the sortId field of the search condition object is used, as described in $sort (sortId).\
 For example, if the sortId field of the search condition object is kanaName_asc, the ORDER BY clause is converted to "ORDER BY USR.KANA_NAME, SA.LOGIN_ID".
 
-.. code-block:: sql
+.. code-block:: none
 
- -- SQL statement using variable ORDER BY syntax
- SELECT
-   -- Omitted
- FROM
-     -- Omitted
- WHERE
-     -- Omitted
- $sort (sortId) {
-    (kanjiName_asc  USR.KANJI_NAME, SA.LOGIN_ID)
-    (kanjiName_desc USR.KANJI_NAME DESC, SA.LOGIN_ID)
-    (kanaName_asc   USR.KANA_NAME, SA.LOGIN_ID)
-    (kanaName_desc  USR.KANA_NAME DESC, SA.LOGIN_ID) }
+  -- SQL statement using variable ORDER BY syntax
+  SELECT
+      -- Omitted
+  FROM
+      -- Omitted
+  WHERE
+      -- Omitted
+  $sort (sortId) {
+      (kanjiName_asc  USR.KANJI_NAME, SA.LOGIN_ID)
+      (kanjiName_desc USR.KANJI_NAME DESC, SA.LOGIN_ID)
+      (kanaName_asc   USR.KANA_NAME, SA.LOGIN_ID)
+      (kanaName_desc  USR.KANA_NAME DESC, SA.LOGIN_ID) }
 
 The ListSearchInfo class defines sortId property to support sorting.
 The sortId property is included in the input validation when sorting the search results.

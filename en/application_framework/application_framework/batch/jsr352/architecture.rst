@@ -32,7 +32,7 @@ The configuration is shown below.
 
   Since the architecture of :ref:`jsr352_batch` conforms to the configuration defined by |jsr352|,
   the architecture is different from the handler-based architecture,
-  as described in the :ref:`nablarch_architecture of the Nablarch application framework`.
+  as described in the :ref:`nablarch_architecture` .
 
   In :ref:`jsr352_batch`, cross processing such as those performed by the handler (log output and transaction control, etc.) is realized by using a listener defined by |jsr352|
 

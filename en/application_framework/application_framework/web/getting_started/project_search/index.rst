@@ -129,7 +129,7 @@ Create a SQL for search
   Create a SQL for searching.
 
     Project.sql
-      .. code-block:: sql
+      .. code-block:: none
 
         SEARCH_PROJECT =
         SELECT

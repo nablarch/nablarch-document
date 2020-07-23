@@ -133,7 +133,7 @@ Add a method for validation.
     public static void validateForXxx(ValidationContext<LoginForm> context) {
 
         // Single item validation
-        ValidationUtil.validate(context, new String[] { …Middle is omitted…, "captchaKey", "captchaValue" });
+        ValidationUtil.validate(context, new String[] { /*…Middle is omitted    */, "captchaKey", "captchaValue" });
         if (!context.isValid()) {
             return;
         }
@@ -150,19 +150,20 @@ Edit jsp
 
 The following code is added to the JSP corresponding to the screen in which the captcha authentication function is incorporated.
 
-  .. code-block:: xml
+  .. code-block:: jsp
 
-    <n:form …Omitted…>
+    <%-- Attribute values of n:form are omitted. --%>
+    <n:form>
     
-    // Omitted
+    <%--  Omitted  --%>
     
-    // Addition of tags for acquisition of captcha image
+    <%-- Addition of tags for acquisition of captcha image  --%>
     <n:img src="/action/path/to/hoge?captchaKey=${form.captchaKey}" alt=""/>
 
-    // Addition of tags for sending information necessary for captcha authentication
+    <%--  Addition of tags for sending information necessary for captcha authentication  --%>
     <n:plainHidden name="form.captchaKey"></n:plainHidden>
     <n:text name="form.captchaValue" />
 
-    // Omitted
+    <%-- Omitted  --%>
     </n:form>
 

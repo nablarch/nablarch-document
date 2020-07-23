@@ -300,8 +300,8 @@ In the implementation project, implement the authentication process that meets t
 .. code-block:: java
 
   // Obtain the user ID and password to authenticate in advance.
-  String userId = ・・・;
-  Strign password = ・・・;
+  // String userId = ・・・;
+  // Strign password = ・・・;
 
   try {
 
