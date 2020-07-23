@@ -11,7 +11,11 @@ Prerequisites
 
 The following prerequisites must be met to use this tool.
 
-* Java command must be included in the path.
+* The following commands must be included in the path.
+
+  * java
+  * mvn
+
 * HTML file must be associated with the browser.
 * Browser proxy setting must exclude localhost.
 
@@ -19,25 +23,15 @@ The following prerequisites must be met to use this tool.
 Method of provision
 =========================
 
-This tool is provided in a package along with Nablarch sample application. 
-The tool configuration of this tool is shown below.
+This tool is provided in the following jar.
 
- ========================================== ====================================================================================
- File name                                  Description
- ========================================== ====================================================================================
- httpDump.bat                               | Startup batch file (for Windows)
- nablarch-tfw-X.X.jar                       | JAR files of Nablarch Testing Framework (X.X part is the version number)
- poi-X.X.jar                                | JAR files of Apache POI (X.X part is the version number)
- jetty.jar                                  | JAR files of Jetty Server
- jetty-util.jar                             | JAR files of Jetty Utilities
- servlet-api.jar                            | JAR file of Servlet Specification 2.5 API
- ========================================== ====================================================================================
+* nablarch-testing-XXX.jar
+* nablarch-testing-jetty6-XXX.jar (for Java 8 and earlier versions)
+* nablarch-testing-jetty9-XXX.jar (for Java 11 and later versions) 
 
-The HttpDump.bat file with the class path configuration to each JAR file is placed in the following path of the sample application.
+Get(save from right click menu) the bat file for launching this tool from the following, and place it in the same directory as project's pom.xml.
 
- .. code-block:: bash
-
-  /test/tool/httpDump.bat
+* :download:`httpDump.bat <download/httpDump.bat>`
 
 Integration with Eclipse
 ==============================
