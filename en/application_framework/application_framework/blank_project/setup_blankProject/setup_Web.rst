@@ -57,7 +57,7 @@ Change the current directory to the directory where the blank project (can be an
 
 After placing the file, specify the necessary parameters in the arguments and execute the bat file.
 
-generateWebProject.bat |nablarch_version| <<groupId>> <<artifactId>> <<version>> <<package(任意)>>
+generateWebProject.bat |nablarch_version| <<groupId>> <<artifactId>> <<version>> <<package(optional)>>
 
 The parameters configured in the above command are as follows.
 To change the version of nablarch, change |nablarch_version|.

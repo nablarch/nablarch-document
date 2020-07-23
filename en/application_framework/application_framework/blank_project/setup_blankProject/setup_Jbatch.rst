@@ -59,7 +59,7 @@ Change the current directory to the directory where the blank project (can be an
 
 After placing the file, specify the necessary parameters in the arguments and execute the bat file.
 
-generateJbatchProject.bat |nablarch_version| <<groupId>> <<artifactId>> <<version>> <<package(任意)>>
+generateJbatchProject.bat |nablarch_version| <<groupId>> <<artifactId>> <<version>> <<package(optional)>>
 
 The parameters configured in the above command are as follows.
 If you want to change the version of Nablarch, change |nablarch_version|.

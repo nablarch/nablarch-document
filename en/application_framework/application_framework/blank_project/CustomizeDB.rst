@@ -463,8 +463,8 @@ Change the following configuration in the above file.
 
 .. code-block:: xml
 
-    <!-- Dialect configuration -->
-    <!-- Configure dialect according to the DB to be used -->
+    <!-- ダイアレクト設定(Dialect configuration) -->
+    <!-- TODO:使用するDBに合わせてダイアレクトを設定すること(Configure dialect according to the DB to be used) -->
     <component name="dialect" class="nablarch.core.db.dialect.H2Dialect" />
 
 
@@ -510,8 +510,8 @@ When using Oracle, modify the description.
 
 .. code-block:: xml
 
-  <!-- TODO: 使用するDBに合せて設定してください。 -->
-  <!-- Configuration for Oracle -->
+  <!-- TODO: 使用するDBに合せて設定してください。(configure it for project DB.) -->
+  <!-- Oracle用の設定(Configuration for Oracle) -->
   <!--
     <import file="nablarch/test/test-db-info-oracle.xml"/>
   -->
