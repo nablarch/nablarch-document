@@ -33,6 +33,12 @@ Get(save from right click menu) the bat file for launching this tool from the fo
 
 * :download:`httpDump.bat <download/httpDump.bat>`
 
+Before executing the batch file, use the following command to download the necessary jar file.
+
+.. code-block:: text
+
+  mvn dependency:copy-dependencies -DoutputDirectory=lib
+
 Integration with Eclipse
 ==============================
 
