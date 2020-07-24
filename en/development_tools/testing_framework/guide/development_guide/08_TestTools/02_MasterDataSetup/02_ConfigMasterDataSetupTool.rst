@@ -9,7 +9,11 @@ This section describes how to install the :doc:`index`\ .
 Prerequisites
 ==============
 
-* Eclipse must be installed
+* The following must be installed
+
+  * Eclipse
+  * Maven
+
 * Table must be created
 * The table is already created in the backup schema\ [#]_
 
@@ -22,7 +26,13 @@ Prerequisites
 Method of provision
 ========================
 
-This tool is provided in a package along with Nablarch sample application. The tool configuration of this tool is shown below.
+This tool is included in nablarch-testing-XXX.jar.
+
+Download a configuration file for launching from the following link.
+
+* :download:`master-data-setup-tool.zip <download/master-data-setup-tool.zip>`
+
+The configuration file included in the above ZIP file is shown below.
 
 +-----------------------------------------+----------------------------------------+
 |File name                                |Description                             |
@@ -35,6 +45,13 @@ This tool is provided in a package along with Nablarch sample application. The t
 +-----------------------------------------+----------------------------------------+
 |MASTER_DATA.xlsx                         |Master data file                        |
 +-----------------------------------------+----------------------------------------+
+
+Execute the following commands before executing this tool.
+
+.. code-block:: text
+
+  mvn compile
+  mvn dependency:copy-dependencies -DoutputDirectory=lib
 
 
 Rewrite a property file
@@ -55,7 +72,7 @@ Other configuration values do not need to be modified as long as the directory s
 Placement
 ------------
 
-As in the sample application, place it directly under <main project>/tool/db/data.
+Place it directly under <main project>.
 
 .. _how_to_setup_ant_view_in_eclipse:
 
