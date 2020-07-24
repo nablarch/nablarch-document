@@ -72,7 +72,7 @@ Select the batch file (httpDump.bat) for Windows,
 and the shell script (httpDump.sh) for Linux.
 
 .. image:: ./_image/03_Eclipse_OpenFile.png
-   :scale: 100
+   :width: 100%
 
 
 .. _howToExecuteFromEclipse:
