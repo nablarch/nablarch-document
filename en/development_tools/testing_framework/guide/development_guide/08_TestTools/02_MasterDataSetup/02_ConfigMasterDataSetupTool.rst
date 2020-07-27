@@ -91,7 +91,7 @@ From the toolbar, select Window(ウィンドウ) → Show View(ビューの表�
 
 
 .. image:: ./_image/open_ant_view.png
-   :scale: 80
+   :width: 100%
 
  
 Build file registration

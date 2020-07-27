@@ -11,7 +11,11 @@
 
 本ツールを使用する際、以下の前提事項を満たす必要がある。
 
-* javaコマンドがパスに含まれていること
+* 以下のコマンドがパスに含まれていること
+
+  * java
+  * mvn
+
 * htmlファイルがブラウザに関連付けされていること
 * ブラウザのプロキシ設定で、localhostが除外されていること
 
@@ -19,25 +23,22 @@
 提供方法
 ==================
 
-本ツールは、Nablarchのサンプルアプリケーションに同梱して提供する。
-本ツールのツール構成を下記に示す。
+本ツールは以下のjarにて提供する。
 
- ========================================== ====================================================================================
- ファイル名                                 説明
- ========================================== ====================================================================================
- httpDump.bat                               | 起動バッチファイル（Windows用）
- nablarch-tfw-X.X.jar                       | Nablarch Testing Framework のJARファイル（X.Xの部分はバージョン番号）
- poi-X.X.jar                                | Apache POI のJARファイル（X.Xの部分はバージョン番号など）
- jetty.jar                                  | Jetty Server のJARファイル
- jetty-util.jar                             | Jetty Utilities のJARファイル
- servlet-api.jar                            | Servlet Specification 2.5 API のJARファイル
- ========================================== ====================================================================================
+* nablarch-testing-XXX.jar
+* nablarch-testing-jetty6-XXX.jar (Java 8 以前のバージョンで使用する)
+* nablarch-testing-jetty9-XXX.jar (Java 11 以降のバージョンで使用する) 
 
-各JARファイルへのクラスパスが設定されたhttpDump.batがサンプルアプリケーションの下記パスに配置されている。
+本ツールを起動するためのbatファイルが存在する。 |br|
+以下のリンクから取得(右クリックメニューから保存)し、プロジェクトのpom.xmlと同じディレクトリに配置する。
 
- .. code-block:: bash
+* :download:`httpDump.bat <download/httpDump.bat>`
 
-  /test/tool/httpDump.bat
+ダウンロードしたバッチファイルを実行する前に、以下のコマンドを使用して必要な jar ファイルをダウンロードする。
+
+.. code-block:: text
+
+  mvn dependency:copy-dependencies -DoutputDirectory=lib
 
 Eclipseとの連携
 ===============
@@ -72,7 +73,7 @@ Windowsの場合はバッチファイル(httpDump.bat)を、
 Linuxの場合はシェルスクリプト(httpDump.sh)を選択する。
 
 .. image:: ./_image/03_Eclipse_OpenFile.png
-   :scale: 100
+   :width: 100%
 
 
 .. _howToExecuteFromEclipse:
@@ -85,3 +86,7 @@ httpDumpで開くことでツールを起動できる。
 
 .. image:: ./_image/04_Eclipse_OpenWith.png
    :scale: 100
+
+.. |br| raw:: html
+
+  <br/>
