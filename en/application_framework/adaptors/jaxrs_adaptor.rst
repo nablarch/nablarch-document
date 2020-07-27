@@ -38,19 +38,18 @@ Module list
   
 .. tip::
 
-  Tests are conducted using jackson version 2.8.11.1 and 1.9.13. 
+  Tests are conducted using jackson version 2.10.3. 
   When changing the version, test in the project to confirm that there are no problems.
   
-  When using jackson1 system (nablarch.integration.jaxrs.jackson.Jackson1BodyConverter), add dependency to jackson1 system.
-    
-  .. code-block:: xml
-  
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
-      <version>1.9.13</version>
-    </dependency>
-    
+.. tip::
+
+  Due to the vulnerability of Jackson1-based libraries, support for Jackson1-based libraries is discontinued from Nablarch5u16.
+  If you have been using Jackson1-based libraries, you should migrate to Jackson2-based libraries.
+
+  [Reference information]
+
+  * https://jvndb.jvn.jp/ja/contents/2019/JVNDB-2019-012258.html
+  * https://github.com/advisories/GHSA-r6j9-8759-g62w
 
 Using RESTful web services under Jersey environment
 -------------------------------------------------------

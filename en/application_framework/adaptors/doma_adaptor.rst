@@ -7,7 +7,7 @@ Doma Adapter
   :depth: 3
   :local:
 
-Provides an adapter to access the database using `Doma2(external site) <https://doma.readthedocs.io/en/stable/>`_   
+Provides an adapter to access the database using `Doma2(external site, English) <https://doma.readthedocs.io/en/stable/>`_
 
 Using Doma for database access offers the following benefits:
 

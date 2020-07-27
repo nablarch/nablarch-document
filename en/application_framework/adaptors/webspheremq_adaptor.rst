@@ -7,7 +7,7 @@ IBM WebSphere MQ Adapter
   :depth: 3
   :local:
 
-Provides an adapter to use `IBM WebSphere MQ (external site, English) <http://www-03.ibm.com/software/products/ja/websphere-mq>`_ with :ref:`the MOM messaging function of Nablarch <mom_messaging>` .
+Provides an adapter to use `IBM WebSphere MQ (external site, English) <https://www.ibm.com/support/knowledgecenter/SSFKSJ_7.5.0/com.ibm.mq.pro.doc/q001010_.htm>`_ with :ref:`the MOM messaging function of Nablarch <mom_messaging>` .
 
 Refer to the official Website and manuals of IBM Corporation for the specifications and construction procedures of WebSphere MQ.
 
