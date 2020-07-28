@@ -11,14 +11,14 @@
 
 本ツールを使用する際、以下の前提事項を満たす必要がある。
 
-* 以下のコマンドがパスに含まれていること
+* 以下のツールがインストール済みであること
 
-  * java
-  * mvn
+  * Eclipse
+  * Maven
 
+* プロジェクトがMavenで管理されていること
 * htmlファイルがブラウザに関連付けされていること
 * ブラウザのプロキシ設定で、localhostが除外されていること
-
 
 提供方法
 ==================
@@ -29,16 +29,43 @@
 * nablarch-testing-jetty6-XXX.jar (Java 8 以前のバージョンで使用する)
 * nablarch-testing-jetty9-XXX.jar (Java 11 以降のバージョンで使用する) 
 
-本ツールを起動するためのbatファイルが存在する。 |br|
-以下のリンクから取得(右クリックメニューから保存)し、プロジェクトのpom.xmlと同じディレクトリに配置する。
+そのため、pom.xmlのdependencies要素以下の記述があることを確認する。
 
-* :download:`httpDump.bat <download/httpDump.bat>`
+.. code-block:: xml
 
-ダウンロードしたバッチファイルを実行する前に、以下のコマンドを使用して必要な jar ファイルをダウンロードする。
+  <dependencies>
+    <!-- 中略 -->
+    <dependency>
+      <groupId>com.nablarch.framework</groupId>
+      <artifactId>nablarch-testing</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- Java 8 以前のバージョンで使用する場合 -->
+    <dependency>
+      <groupId>com.nablarch.framework</groupId>
+      <artifactId>nablarch-testing-jetty6</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- Java 11 以降のバージョンで使用する場合 -->
+    <dependency>
+      <groupId>com.nablarch.framework</groupId>
+      <artifactId>nablarch-testing-jetty9</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- 中略 -->
+  </dependencies>
+
+プロジェクトのディレクトリで以下のコマンドを実行し、jar ファイルをダウンロードする。
 
 .. code-block:: text
 
   mvn dependency:copy-dependencies -DoutputDirectory=lib
+
+
+以下のファイルをプロジェクトのpom.xmlと同じディレクトリに配置する。
+
+* :download:`httpDump.bat <download/httpDump.bat>`
+
 
 Eclipseとの連携
 ===============
