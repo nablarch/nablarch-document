@@ -11,7 +11,12 @@ Prerequisites
 
 The following prerequisites must be met to use this tool.
 
-* Java command must be included in the path.
+* The following tools have been installed.
+
+  * Java
+  * Maven
+
+* The project is managed by Maven.
 * HTML file must be associated with the browser.
 * Browser proxy setting must exclude localhost.
 
@@ -19,25 +24,48 @@ The following prerequisites must be met to use this tool.
 Method of provision
 =========================
 
-This tool is provided in a package along with Nablarch sample application. 
-The tool configuration of this tool is shown below.
+This tool is provided in the following jar.
 
- ========================================== ====================================================================================
- File name                                  Description
- ========================================== ====================================================================================
- httpDump.bat                               | Startup batch file (for Windows)
- nablarch-tfw-X.X.jar                       | JAR files of Nablarch Testing Framework (X.X part is the version number)
- poi-X.X.jar                                | JAR files of Apache POI (X.X part is the version number)
- jetty.jar                                  | JAR files of Jetty Server
- jetty-util.jar                             | JAR files of Jetty Utilities
- servlet-api.jar                            | JAR file of Servlet Specification 2.5 API
- ========================================== ====================================================================================
+* nablarch-testing-XXX.jar
+* nablarch-testing-jetty6-XXX.jar (for Java 8 and earlier versions)
+* nablarch-testing-jetty9-XXX.jar (for Java 11 and later versions) 
 
-The HttpDump.bat file with the class path configuration to each JAR file is placed in the following path of the sample application.
+Therefore, make sure that the following descriptions are included in the dependencies element of pom.xml.
 
- .. code-block:: bash
+.. code-block:: xml
 
-  /test/tool/httpDump.bat
+  <dependencies>
+    <!-- omit -->
+    <dependency>
+      <groupId>com.nablarch.framework</groupId>
+      <artifactId>nablarch-testing</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- For use with Java 8 or earlier versions -->
+    <dependency>
+      <groupId>com.nablarch.framework</groupId>
+      <artifactId>nablarch-testing-jetty6</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- For use with Java 11 or later versions -->
+    <dependency>
+      <groupId>com.nablarch.framework</groupId>
+      <artifactId>nablarch-testing-jetty9</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- omit -->
+  </dependencies>
+
+Execute the following command in the project directory to download the jar file.
+
+.. code-block:: text
+
+  mvn dependency:copy-dependencies -DoutputDirectory=lib
+
+Place the following files in the same directory as project pom.xml.
+
+* :download:`httpDump.bat <download/httpDump.bat>`
+
 
 Integration with Eclipse
 ==============================
@@ -72,7 +100,7 @@ Select the batch file (httpDump.bat) for Windows,
 and the shell script (httpDump.sh) for Linux.
 
 .. image:: ./_image/03_Eclipse_OpenFile.png
-   :scale: 100
+   :width: 100%
 
 
 .. _howToExecuteFromEclipse:

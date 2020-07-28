@@ -9,7 +9,12 @@ This section describes how to install the :doc:`index`\ .
 Prerequisites
 ==============
 
-* Eclipse must be installed
+* The following must be installed.
+
+  * Eclipse
+  * Maven
+
+* The project must be generated from :ref:`the Nablarch archetype <blank_project>` .
 * Table must be created
 * The table is already created in the backup schema\ [#]_
 
@@ -22,20 +27,35 @@ Prerequisites
 Method of provision
 ========================
 
-This tool is provided in a package along with Nablarch sample application. The tool configuration of this tool is shown below.
+This tool is provided in nablarch-testing-XXX.jar.
 
-+-----------------------------------------+----------------------------------------+
-|File name                                |Description                             |
-+=========================================+========================================+
-|master_data-build.properties             |Configuration property file             |
-+-----------------------------------------+----------------------------------------+
-|master_data-build.xml                    |Ant build file                          |
-+-----------------------------------------+----------------------------------------+
-|master_data-log.properties               |Log output property file                |
-+-----------------------------------------+----------------------------------------+
-|MASTER_DATA.xlsx                         |Master data file                        |
-+-----------------------------------------+----------------------------------------+
+Before using the tool, you compile the project and download the jar file needed to run the tool, so that we can use the same DB settings as the project unit tests.
+Execute the following command.
 
+.. code-block:: text
+
+  mvn compile
+  mvn dependency:copy-dependencies -DoutputDirectory=lib
+
+Download the following file and extract the file with the directory to the project directory (where the pom.xml exists).
+
+* :download:`master-data-setup-tool.zip <download/master-data-setup-tool.zip>`
+
+The configuration file included in the above ZIP file is shown below.
+
++--------------------------------------------+----------------------------------------+
+|File name                                   |Description                             |
++============================================+========================================+
+|tool/db/data/master_data-build.properties   |Configuration property file             |
++--------------------------------------------+----------------------------------------+
+|tool/db/data/master_data-build.xml          |Ant build file                          |
++--------------------------------------------+----------------------------------------+
+|tool/db/data/master_data-log.properties     |Log output property file                |
++--------------------------------------------+----------------------------------------+
+|tool/db/data/master_data-app-log.properties |Log output property file                |
++--------------------------------------------+----------------------------------------+
+|tool/db/data/MASTER_DATA.xlsx               |Master data file                        |
++--------------------------------------------+----------------------------------------+
 
 Rewrite a property file
 ----------------------------
@@ -55,7 +75,7 @@ Other configuration values do not need to be modified as long as the directory s
 Placement
 ------------
 
-As in the sample application, place it directly under <main project>/tool/db/data.
+Place it directly under <main project>.
 
 .. _how_to_setup_ant_view_in_eclipse:
 
@@ -74,7 +94,7 @@ From the toolbar, select Window(ウィンドウ) → Show View(ビューの表�
 
 
 .. image:: ./_image/open_ant_view.png
-   :scale: 80
+   :width: 100%
 
  
 Build file registration
