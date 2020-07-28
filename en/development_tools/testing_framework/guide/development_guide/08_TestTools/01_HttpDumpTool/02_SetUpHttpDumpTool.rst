@@ -11,11 +11,12 @@ Prerequisites
 
 The following prerequisites must be met to use this tool.
 
-* The following commands must be included in the path.
+* The following tools have been installed.
 
-  * java
-  * mvn
+  * Java
+  * Maven
 
+* The project is managed by Maven.
 * HTML file must be associated with the browser.
 * Browser proxy setting must exclude localhost.
 
@@ -29,15 +30,42 @@ This tool is provided in the following jar.
 * nablarch-testing-jetty6-XXX.jar (for Java 8 and earlier versions)
 * nablarch-testing-jetty9-XXX.jar (for Java 11 and later versions) 
 
-Get(save from right click menu) the bat file for launching this tool from the following, and place it in the same directory as project's pom.xml.
+Therefore, make sure that the following descriptions are included in the dependencies element of pom.xml.
 
-* :download:`httpDump.bat <download/httpDump.bat>`
+.. code-block:: xml
 
-Before executing the batch file, use the following command to download the necessary jar file.
+  <dependencies>
+    <!-- omit -->
+    <dependency>
+      <groupId>com.nablarch.framework</groupId>
+      <artifactId>nablarch-testing</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- For use with Java 8 or earlier versions -->
+    <dependency>
+      <groupId>com.nablarch.framework</groupId>
+      <artifactId>nablarch-testing-jetty6</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- For use with Java 11 or later versions -->
+    <dependency>
+      <groupId>com.nablarch.framework</groupId>
+      <artifactId>nablarch-testing-jetty9</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- omit -->
+  </dependencies>
+
+Execute the following command in the project directory to download the jar file.
 
 .. code-block:: text
 
   mvn dependency:copy-dependencies -DoutputDirectory=lib
+
+Place the following files in the same directory as project pom.xml.
+
+* :download:`httpDump.bat <download/httpDump.bat>`
+
 
 Integration with Eclipse
 ==============================

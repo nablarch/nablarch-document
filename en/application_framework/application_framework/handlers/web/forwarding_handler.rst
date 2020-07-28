@@ -2,6 +2,11 @@
 
 Internal Forward Handler
 ==================================================
+
+.. contents:: Table of contents
+  :depth: 3
+  :local:
+
 This handler re-executes the subsequent handler with the specified request path when the content in the response from the subsequent handler indicates an internal forward.
 
 Internal forward is used when the transition destination screen is not a simple screen display and options such as check boxes and drop-down lists are acquired from the server.
