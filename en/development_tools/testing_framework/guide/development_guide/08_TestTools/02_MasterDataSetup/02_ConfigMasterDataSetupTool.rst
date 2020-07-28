@@ -9,11 +9,12 @@ This section describes how to install the :doc:`index`\ .
 Prerequisites
 ==============
 
-* The following must be installed
+* The following must be installed.
 
   * Eclipse
   * Maven
 
+* The project must be generated from :ref:`the Nablarch archetype <blank_project>` .
 * Table must be created
 * The table is already created in the backup schema\ [#]_
 
@@ -26,33 +27,35 @@ Prerequisites
 Method of provision
 ========================
 
-This tool is included in nablarch-testing-XXX.jar.
+This tool is provided in nablarch-testing-XXX.jar.
 
-Download a configuration file for launching from the following link.
-
-* :download:`master-data-setup-tool.zip <download/master-data-setup-tool.zip>`
-
-The configuration file included in the above ZIP file is shown below.
-
-+-----------------------------------------+----------------------------------------+
-|File name                                |Description                             |
-+=========================================+========================================+
-|master_data-build.properties             |Configuration property file             |
-+-----------------------------------------+----------------------------------------+
-|master_data-build.xml                    |Ant build file                          |
-+-----------------------------------------+----------------------------------------+
-|master_data-log.properties               |Log output property file                |
-+-----------------------------------------+----------------------------------------+
-|MASTER_DATA.xlsx                         |Master data file                        |
-+-----------------------------------------+----------------------------------------+
-
-Execute the following commands before executing this tool.
+Before using the tool, you compile the project and download the jar file needed to run the tool, so that we can use the same DB settings as the project unit tests.
+Execute the following command.
 
 .. code-block:: text
 
   mvn compile
   mvn dependency:copy-dependencies -DoutputDirectory=lib
 
+Download the following file and extract the file with the directory to the project directory (where the pom.xml exists).
+
+* :download:`master-data-setup-tool.zip <download/master-data-setup-tool.zip>`
+
+The configuration file included in the above ZIP file is shown below.
+
++--------------------------------------------+----------------------------------------+
+|File name                                   |Description                             |
++============================================+========================================+
+|tool/db/data/master_data-build.properties   |Configuration property file             |
++--------------------------------------------+----------------------------------------+
+|tool/db/data/master_data-build.xml          |Ant build file                          |
++--------------------------------------------+----------------------------------------+
+|tool/db/data/master_data-log.properties     |Log output property file                |
++--------------------------------------------+----------------------------------------+
+|tool/db/data/master_data-app-log.properties |Log output property file                |
++--------------------------------------------+----------------------------------------+
+|tool/db/data/MASTER_DATA.xlsx               |Master data file                        |
++--------------------------------------------+----------------------------------------+
 
 Rewrite a property file
 ----------------------------
