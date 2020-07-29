@@ -1,36 +1,35 @@
 .. _`db_double_submit`:
 
-データベースを使用した二重サブミット防止
+Double submission prevention using the database
 =====================================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-:ref:`二重サブミット防止 <tag-double_submission>` では、サーバ側のトークンはHTTPセッションに保存される。
-このため、アプリケーションサーバをスケールアウトする際には、スティッキーセッションやセッションレプリケーション等を
-使用する必要がある。
+In :ref:`Double submission prevention <tag-double_submission>`, server tokens are stored in an HTTP session.
+Therefore, when you scale out an application server, you should use sticky sessions or session replication.
 
-サーバ側のトークンをデータベースに保管する実装を使用することで、特にアプリケーションサーバの設定をしなくても、
-複数のアプリケーションサーバ間でトークンを共有できる。
+By using an implementation that stores server-side tokens in a database,
+tokens can be shared among multiple application servers without the need for any particular application server configuration.
 
 .. tip::
 
-  ブラウザが閉じられた場合などにテーブル上にトークンが残ってしまうことがある。
-  そのため、期限切れのトークンは定期的に削除する必要がある。
+  A token may remain on the table when the browser is closed, for example.
+  Therefore, expired tokens need to be deleted periodically.
 
 .. important::
 
-  HTTPセッションを使用した :ref:`二重サブミット防止 <tag-double_submission>` はCSRF対策に使用できたが、
-  本機能はユーザーを識別せずにトークンをDBに格納しているためCSRF対策に使用できない。
-  本機能を使用する場合は、CSRF対策に :ref:`csrf_token_verification_handler` を使用すること。
+  Although :ref:`Double submission prevention <tag-double_submission>` using HTTP session could be used for CSRF measure,
+  this feature cannot be used for CSRF measure because the token is stored in DB without identifying the user.
+  If you use this feature, use :ref:`csrf_token_verification_handler` for the CSRF measure.
 
-機能概要
+Function overview
 ---------------------------------------------------------------------
 
-サーバ側のトークンをデータベースに保管できる
+Server-side tokens can be stored in a database
 
-モジュール一覧
+Module list
 ---------------------------------------------------------------------
 .. code-block:: xml
 
@@ -40,30 +39,30 @@
   </dependency>
 
 
-使用方法
+How to use
 ---------------------------------------------------------------------
 
-データベース上にトークンを保存するためのテーブルが必要となる。
+A table for storing tokens in the database is required.
 
-作成するテーブルの定義を以下に示す。
+The following is the definition of the table to be created.
 
-`DOUBLE_SUBMISSION` テーブル
+`DOUBLE_SUBMISSION` table
   ==================== ====================
-  カラム名             データ型
+  Colum name           Data type
   ==================== ====================
   TOKEN(PK)            `java.lang.String`
   CREATED_AT           `java.sql.Timestamp`
   ==================== ====================
 
-テーブル名およびカラム名は変更可能である。
-変更する場合は、 :java:extdoc:`DbTokenManager.dbTokenSchema <nablarch.common.web.token.DbTokenManager.setDbTokenSchema(nablarch.common.web.token.DbTokenSchema)>` に
-:java:extdoc:`DbTokenSchema <nablarch.common.web.token.DbTokenSchema>` のコンポーネントを定義する。
+Table names and column names can be changed.
+If changing them, define a component of :java:extdoc:`DbTokenSchema <nablarch.common.web.token.DbTokenSchema>` in
+:java:extdoc:`DbTokenManager.dbTokenSchema <nablarch.common.web.token.DbTokenManager.setDbTokenSchema(nablarch.common.web.token.DbTokenSchema)>`.
 
-2種類のコンポーネント定義を追加する。
+Add two component definitions.
 
-``tokenManager`` という名前でコンポーネント定義を追加する。
-これにより、トークンがデータベースで管理されるようになる。
-``tokenManager`` は :ref:`初期化<repository-initialize_object>` が必要。
+Add a component definition named ``tokenManager``.
+This will allow the tokens to be managed in the database.
+``tokenManager`` needs :ref:`initialize <repository-initialize_object>`.
 
 .. code-block:: xml
                 
@@ -73,7 +72,8 @@
         <property name="dbTransactionName" value="tokenTransaction"/>
       </component>
     </property>
-    <!-- 上記のテーブル定義からテーブル名、カラム名を変更する場合のみ以下設定が必要 -->
+    <!-- The following settings are required only when changing table names
+         and column names from the above table definition -->
     <property name="dbTokenSchema">
       <component class="nablarch.common.web.token.DbTokenSchema">
         <property name="tableName" value="DB_TOKEN"/>
@@ -83,7 +83,7 @@
     </property>
   </component>
 
-  <!-- 初期化が必要なため、以下を設定 -->
+  <!-- Since initialization is required, set the following -->
   <component name="initializer" class="nablarch.core.repository.initialization.BasicApplicationInitializer">
     <property name="initializeList">
       <list>
@@ -93,8 +93,8 @@
   </component>
 
 
-``tokenGenerator`` という名前でコンポーネント定義を追加する。
-これによりトークンにUUIDが使用され、推測および衝突の可能性を考慮しなくてよくなる。
+Add a component definition named ``tokenGenerator``.
+This will use UUIDs for the tokens, and eliminate the guessing and potential collisions.
 
 .. code-block:: xml
 
@@ -103,10 +103,11 @@
 
 .. important::
 
-  :ref:`テスティングフレームワークのトークン発行<how_to_set_token_in_request_unit_test>` はトークンのDB保存に対応していない。
-  そのため、自動テスト実行時には :java:extdoc:`HttpSessionTokenManager <nablarch.common.web.token.HttpSessionTokenManager>` に差し替えてテストする必要がある。
+  The :ref:`Testing framework token issuance <how_to_set_token_in_request_unit_test>` does not support DB storage of tokens.
+  Therefore, you need to replace :java:extdoc:`HttpSessionTokenManager <nablarch.common.web.token.HttpSessionTokenManager>`
+  when you run the automated test.
 
   .. code-block:: xml
 
-    <!-- トークンをHTTPセッションに保存する -->
+    <!-- Storing a token in an HTTP session -->
     <component name="tokenManager" class="nablarch.common.web.token.HttpSessionTokenManager"/>
