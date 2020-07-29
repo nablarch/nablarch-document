@@ -30,10 +30,10 @@ Features that depend on HTTP sessions
 The following features depend on the HTTP session by default.
 
 * :ref:`session_store`
-* :ref:`Preventing double submission<tag-double_submission>`
+* :ref:`Double submission prevention<tag-double_submission>`
 * :ref:`thread_context_handler`
 * :ref:`http_rewrite_handler`
-* :ref:`hidden encryption<tag-hidden_encryption>`
+* :ref:`Hidden encryption<tag-hidden_encryption>`
 
 How to implement the HTTP session-independent feature
 --------------------------------------------------------------------
@@ -45,7 +45,7 @@ Session store
 
 * :ref:`db_managed_expiration`
 
-Preventing double submission
+Double submission prevention
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * :ref:`db_double_submit` 
