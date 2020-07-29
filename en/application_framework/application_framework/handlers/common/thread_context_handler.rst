@@ -67,6 +67,7 @@ Request ID, internal request ID
 
 User ID
  * :java:extdoc:`UserIdAttribute <nablarch.common.handler.threadcontext.UserIdAttribute>`
+ * :java:extdoc:`UserIdAttributeInSessionStore <nablarch.common.web.handler.threadcontext.UserIdAttributeInSessionStore>`
 
 Language
  * :java:extdoc:`LanguageAttribute <nablarch.common.handler.threadcontext.LanguageAttribute>`
@@ -118,6 +119,70 @@ These classes are used by adding definitions to the component configuration file
    </property>
  </component>
 
+.. _thread_context_handler-user_id_attribute_setting:
+
+Setting a User ID
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+:java:extdoc:`UserIdAttributeInSessionStore <nablarch.common.web.handler.threadcontext.UserIdAttributeInSessionStore>` gets the user ID from the session store by default.
+Because the framework does not set the user ID in the session store, it must be set in the application in the login process and so on.
+By default, "user.id" is used as the key for setting the user ID in the session store.
+To overwrite it, set the value to the :java:extdoc:`UserIdAttribute#sessionKey <nablarch.common.handler.threadcontext.UserIdAttribute.setSessionKey(java.lang.String)>`.
+The following is an example of how to override "login_id".
+
+.. code-block:: xml
+
+  <component name="threadContextHandler" class="nablarch.common.handler.threadcontext.ThreadContextHandler">
+    <property name="attributes">
+      <list>
+        <!-- User ID -->
+        <component class="nablarch.common.web.handler.threadcontext.UserIdAttributeInSessionStore">
+          <property name="sessionKey" value="login_id"/>
+          <property name="anonymousId" value="${nablarch.userIdAttribute.anonymousId}"/>
+        </component>
+        <!-- Other component definitions are omitted. -->
+      </list>
+    </property>
+  </component>
+
+The following is an example implementation of setting the user ID in the session store with a default key.
+
+.. code-block:: java
+
+  SessionUtil.put(context, "user.id", userId);
+
+Also, instead of storing the user ID directly in the session store, you may want to store the login information together.
+In that case, the user ID can be obtained from an arbitrary source by overriding
+:java:extdoc:`UserIdAttribute#getUserIdSession <nablarch.common.handler.threadcontext.UserIdAttribute.getUserIdSession(nablarch.fw.ExecutionContext-java.lang.String)>` as shown below.
+The following is an example of how to get the user ID from an object set in the session store using the "userContext" key.
+In the following case, you still need to set up the object in the session store in your application.
+
+.. code-block:: java
+
+  public class SessionStoreUserIdAttribute extends UserIdAttribute {
+      @Override
+      protected Object getUserIdSession(ExecutionContext ctx, String skey) {
+          LoginUserPrincipal userContext = SessionUtil.orNull(ctx, "userContext");
+          if (userContext == null) {
+              return null;
+          }
+          return String.valueOf(userContext.getUserId());
+      }
+  }
+
+.. code-block:: xml
+
+ <component class="nablarch.common.handler.threadcontext.ThreadContextHandler">
+   <property name="attributes">
+     <list>
+        <!-- User ID -->
+        <component class="com.nablarch.example.proman.web.common.handler.threadcontext.SessionStoreUserIdAttribute">
+          <property name="anonymousId" value="${nablarch.userIdAttribute.anonymousId}"/>
+        </component>
+        <!-- Other component definitions are omitted. -->
+     </list>
+   </property>
+ </component>
+
 .. _thread_context_handler-attribute_access:
 
 Set/get attribute value of thread context
@@ -153,18 +218,23 @@ Configuration example
   </component>
 
 Implementation example of JSP
- .. code-block:: jsp
+  .. code-block:: jsp
 
-  <%-- Output link using n:submitLink tag,
-       send a different language for each link using the n:param tag. --%>
-  <n:submitLink uri="/action/menu/index" name="switchToEnglish">
-    English
-    <n:param paramName="user.language" value="en" />
-  </n:submitLink>
-  <n:submitLink uri="/action/menu/index" name="switchToJapanese">
-    Japanese
-    <n:param paramName="user.language" value="ja" />
-  </n:submitLink>
+    <%-- Output link using n:submitLink tag,
+         send a different language for each link using the n:param tag. --%>
+
+    <n:submitLink uri="/action/menu/index" name="switchToEnglish">
+
+      English
+
+      <n:param paramName="user.language" value="en" />
+    </n:submitLink>
+    <n:submitLink uri="/action/menu/index" name="switchToJapanese">
+
+      Japanese
+
+      <n:param paramName="user.language" value="ja" />
+    </n:submitLink>
 
 Implementation example of handler
  .. code-block:: java
@@ -223,12 +293,17 @@ Implementation example of JSP
 
   <%-- Output link using n:submitLink tag,
        send a different time zone for each link using the n:param tag. --%>
+
   <n:submitLink uri="/action/menu/index" name="switchToNewYork">
+
     New York
+
     <n:param paramName="user.timeZone" value="America/New_York" />
   </n:submitLink>
   <n:submitLink uri="/action/menu/index" name="switchToTokyo">
+
     Tokyo
+
     <n:param paramName="user.timeZone" value="Asia/Tokyo" />
   </n:submitLink>
 
