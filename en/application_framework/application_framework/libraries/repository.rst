@@ -560,6 +560,61 @@ Overwrite values with system properties
 
   java -Dmessage= Message which will be overwritten
 
+.. _repository-overwrite_environment_configuration_by_os_env_var:
+
+Overwrite environment dependent values using OS environment variables
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+With the settings described below, you can override environment dependent values with OS environment variables.
+
+How to enable overwriting by OS environment variables
+  The mechanism for overriding environment dependent values is implemented by a class that implements the Externalsized :java:extdoc:`ExternalizedComponentDefinitionLoader <nablarch.core.repository.di.config.externalize.ExternalizedComponentDefinitionLoader>` interface.
+
+  This implementation class is loaded using ``java.util.ServiceLoader``.
+  If no service provider has been set, :java:extdoc:`SystemPropertyExternalizedLoader <nablarch.core.repository.di.config.externalize.SystemPropertyExternalizedLoader>` is used by default.
+  This class is a class for overwriting by system properties, and the overwriting by system properties described in the previous section is implemented by this class.
+
+  To override environment-dependent values with OS environment variables, use the :java:extdoc:`OsEnvironmentVariableExternalizedLoader <nablarch.core.repository.di.config.externalize.OsEnvironmentVariableExternalizedLoader>` as an implementation class.
+
+  The concrete configuration is as follows:
+
+  #. Create a directory named ``META-INF/services`` directly under the classpath
+  #. In the directory created above, create a text file named ``nablarch.core.repository.di.config.externalize.ExternalizedComponentDefinitionLoader``
+  #. In the file, list the fully qualified name of the implementation class to be used, separated by a new line
+
+  For example, to use an :java:extdoc:`OsEnvironmentVariableExternalizedLoader <nablarch.core.repository.di.config.externalize.OsEnvironmentVariableExternalizedLoader>`,
+  the content of the ``nablarch.core.repository.di.config.externalize.ExternalizedComponentDefinitionLoader`` is described as follows:
+
+  .. code-block:: text
+
+    nablarch.core.repository.di.config.externalize.OsEnvironmentVariableExternalizedLoader
+
+
+  When you combine multiple implementation classes, you can also enumerate them with a line separator as shown below.
+
+  .. code-block:: text
+
+    nablarch.core.repository.di.config.externalize.OsEnvironmentVariableExternalizedLoader
+    nablarch.core.repository.di.config.externalize.SystemPropertyExternalizedLoader
+
+  If multiple implementation classes are specified, they are overwritten in order from the top.
+  Therefore, when an environment dependent value with the same name is overwritten by each method, the class described at the bottom is finally adopted.
+  In the case of the above example, a value set in a system property takes precedence over a value set in an OS environment variable.
+
+About the names of OS environment variables
+  On Linux, you cannot use ``.`` or ``-`` in the name of the OS environment variable.
+  Therefore, it is not possible to define OS environment variables to override an environment dependent value with a name like ``example.error-message``.
+
+  In order to avoid this problem, Nablarch searches for OS environment variables after performing the following transformations to the names of environment dependent values.
+
+  #. Replace ``.`` and ``-`` with ``_``
+  #. Convert alphabet to uppercase
+
+  That is, the environment dependent value named ``example.error-message`` can be overridden by defining an OS environment variable named ``EXAMPLE_ERROR_MESSAGE``.
+
+  On Windows, you can use ``.`` and ``-`` as OS environment variables, but the above conversion process is performed regardless of the OS at the time of execution.
+  Therefore, the OS environment variable to override ``example.error-message`` must be named ``EXAMPLE_ERROR_MESSAGE`` on Windows as well.
+
+
 .. _repository-factory_injection:
 
 Inject the object created by the factory class
