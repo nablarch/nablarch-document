@@ -672,6 +672,15 @@ Java Beansとして実装されているクラスであれば、setterインジ�
 :java:extdoc:`SystemRepositoryComponent <nablarch.core.repository.di.config.externalize.annotation.SystemRepositoryComponent>` を
 クラスに付与することで、 :ref:`XMLに設定 <repository-definition_bean>` を書かなくともDIコンテナの管理対象とすることができる。
 
+.. important::
+
+  本機能は、クラスパス配下のリソースを独自のファイルシステムで管理している一部のウェブアプリケーションサーバーでは使用できない。
+
+  例えば、JbossやWildflyでは、vfsと呼ばれるバーチャルファイルシステムで
+  クラスパス配下のリソースが管理されるため、 ``SystemRepositoryComponent`` アノテーションで注釈されたクラスの検索ができない。
+
+  そのようなウェブアプリケーションサーバーを使用する場合は、コンポーネントの定義は従来通り :ref:`XMLに定義 <repository-definition_bean>` すること。
+
 使用方法
 **********
 
