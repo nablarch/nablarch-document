@@ -301,7 +301,8 @@ XMLのマッピング定義を使用する場合は、ディスパッチハン�
         }
     }
 
-パスパラメータはhttp-request-routerの記法ではなく、JAX-RSの仕様に準拠した形で記述する。
+| パスパラメータはhttp-request-routerの記法ではなく、JAX-RSの仕様に従った形で記述する。
+| これは、本機能（``Path`` アノテーションによるルーティング定義）がJAX-RSの仕様に準拠しているためである。
 
 | パスの一部を ``{パラメータ名}`` と記述することで、その部分をパラメータとして定義できる。
 | ここで定義したパラメータ名を :java:extdoc:`HttpRequest#getParam(String) <nablarch.fw.web.HttpRequest#getParam(String)>` に渡すことで、パスパラメータの値を取得できる。
