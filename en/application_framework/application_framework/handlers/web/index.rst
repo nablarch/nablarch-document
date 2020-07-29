@@ -21,3 +21,4 @@ Web Application Dedicated Handler
    normalize_handler
    session_concurrent_access_handler
    hot_deploy_handler
+   csrf_token_verification_handler
