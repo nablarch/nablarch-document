@@ -1,102 +1,102 @@
 .. _`stateless_web_app`:
 
-Webアプリケーションをステートレスにする
+Making Web Applications Stateless
 =====================================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
 
-基本的な考え方
+Basic concept
 --------------------------------------------------
 
-サーブレットAPIが提供するHTTPセッションはAPサーバで状態を持ってしまうため、そのままではスケールアウトができない。
-通常、APサーバのスケールアウトを行うには以下のような対処が必要となる。
+The HTTP session provided by the servlet API cannot be scaled out as it is because the AP server has its own state.
+Normally, you need to take the following measures to scale out the AP server.
 
-1. ロードバランサーでスティッキーセッションを有効にする
-2. APサーバのセッションレプリケーション機能を使用する
-3. APサーバのHTTPセッション保存先をNoSQLにする
+1. Enable sticky sessions in the load balancer
+2. use the session replication function of the AP server
+3. set the AP server's HTTP session destination to NoSQL
 
-1, 2は `Twelve-Factor App <https://12factor.net/ja/>`_ で言うところの廃棄容易性の点で劣り、2, 3はAPサーバ依存となる。
+1 and 2 are inferior in terms of ease of disposability, as referred to in the `Twelve-Factor App <https://12factor.net/ja/>`_, while 2 and 3 are dependent on the AP server.
 
-Nablarchが使用する機能では、HTTPセッションに依存しているものがあるが、
-これらの機能をHTTPセッション非依存のものに切り替えることで、
-APサーバをステートレスにすることができる。
+Although some of the features used by Nablarch depend on HTTP sessions,
+they are by switching these features to HTTP session-independent ones, the
+The AP server can be made stateless.
 
 .. _http-session-dependence:
 
-HTTPセッションに依存している機能
+Features that depend on HTTP sessions
 --------------------------------------------------
 
-以下の機能は、デフォルトではHTTPセッションに依存している。
+The following features depend on the HTTP session by default.
 
 * :ref:`session_store`
-* :ref:`2重サブミット防止<tag-double_submission>`
+* :ref:`Preventing double submission<tag-double_submission>`
 * :ref:`thread_context_handler`
 * :ref:`http_rewrite_handler`
-* :ref:`hidden暗号化<tag-hidden_encryption>`
+* :ref:`hidden encryption<tag-hidden_encryption>`
 
-HTTPセッション非依存機能の導入方法
---------------------------------------------------
+How to implement the HTTP session-independent feature
+--------------------------------------------------------------------
 
-:ref:`http-session-dependence` の各機能について以下の通り設定することでHTTPセッションへの依存をなくすことができる。
+You can remove dependence on HTTP sessions by configuring each function of :ref:`http-session-dependence` as follows.
 
-セッションストア
+Session store
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * :ref:`db_managed_expiration`
 
-2重サブミット防止
+Preventing double submission
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * :ref:`db_double_submit` 
 
-スレッドコンテキスト変数管理ハンドラ
+Thread context cariable management handler
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:ref:`スレッドコンテキストの初期化<thread_context_handler-initialization>` に以下の部品を使用しない。
+Do not use the following components in :ref:`thread context initialization<thread_context_handler-initialization>`.
 
 * :java:extdoc:`LanguageAttributeInHttpSession <nablarch.common.web.handler.threadcontext.LanguageAttributeInHttpSession>`
 * :java:extdoc:`TimeZoneAttributeInHttpSession <nablarch.common.web.handler.threadcontext.TimeZoneAttributeInHttpSession>`
 * :java:extdoc:`UserIdAttribute <nablarch.common.handler.threadcontext.UserIdAttribute>`
 
-
-それぞれ、HTTPセッションを使用しない実装として以下の部品で代替できる。
+Each of the following components can be substituted as implementations that do not use HTTP sessions.
 
 * :java:extdoc:`LanguageAttributeInHttpCookie <nablarch.common.web.handler.threadcontext.LanguageAttributeInHttpCookie>`
 * :java:extdoc:`TimeZoneAttributeInHttpCookie <nablarch.common.web.handler.threadcontext.TimeZoneAttributeInHttpCookie>`
 * :java:extdoc:`UserIdAttributeInSessionStore <nablarch.common.web.handler.threadcontext.UserIdAttributeInSessionStore>`
 
-HTTPリライトハンドラ
+HTTP rewrite handler
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:ref:`http_rewrite_handler` を使用しない。
-使用する場合にはセッションスコープにアクセスしないよう設定する。
+Do not use :ref:`http_rewrite_handler`.
+If it is used, configure it so that the session scope is not accessed.
 
-hidden暗号化
+Hidden encryption
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Nablarchでは :ref:`hidden暗号化<tag-hidden_encryption>` の機能を提供している。
-この機能はHTTPセッションに依存しているため、使用しないよう :ref:`useHiddenEncryption <tag-use_hidden_encryption>` に ``false`` を設定する。
+Nablarch provides the feature of :ref:`hidden encryption<tag-hidden_encryption>`.
+Since this feature is HTTP session dependent, set :ref:`useHiddenEncryption <tag-use_hidden_encryption>` to ``false`` to not use it.
 
-ローカルファイルシステムの使用
+Using the local file system
 --------------------------------------------------
-アップロードしたファイルなどをAPサーバのローカルに保存してしまうと、ステートを持つことになってしまう。
-このような場合は、共有のストレージを用意するなどして、APサーバがローカルにファイルを持たないようにする必要がある。
+If you store uploaded files and so on locally on the AP server, they will have state.
+In such a case, you need to prepare a shared storage space so that the AP server does not have files locally.
 
-HTTPセッションの誤生成を検知する
+Detecting accidental creation of HTTP sessions
 --------------------------------------------------
-設定漏れや実装ミスによって誤ってHTTPセッションを生成してしまうことを防ぐために、HTTPセッションの生成を検知する機能を提供している。
-この機能を有効にすると、HTTPセッションを生成しようとしたときに例外が送出されるようになる。
+To prevent accidental creation of HTTP sessions due to a misconfiguration or an implementation error, a feature to detect the creation of HTTP sessions is provided.
+When this feature is enabled, an exception is sent when an attempt to create an HTTP session is made.
 
-この機能は、 :java:extdoc:`WebFrontController <nablarch.fw.web.servlet.WebFrontController>` の ``preventSessionCreation`` プロパティに ``true`` を設定することで有効にできる（デフォルトは ``false`` で無効になっている）。
+This feature can be enabled by setting the ``preventSessionCreation`` property of the
+:java:extdoc:`WebFrontController <nablarch.fw.web.servlet.WebFrontController>` to ``true`` (disabled by default at ``false```).
 
-具体的には、 :java:extdoc:`WebFrontController <nablarch.fw.web.servlet.WebFrontController>` のコンポーネントを定義した設定ファイルで、次のように記述することで検知機能を有効にできる。
+Specifically, the detection function can be enabled by writing the following in the configuration file that defines the components of :java:extdoc:`WebFrontController <nablarch.fw.web.servlet.WebFrontController>`.
 
 .. code-block:: xml
 
-  <!-- ハンドラキュー構成 -->
+  <!-- handler queue configuration -->
   <component name="webFrontController"
              class="nablarch.fw.web.servlet.WebFrontController">
 
-    <!-- HTTPセッションの誤生成を検知する -->
+    <!-- Detecting accidental creation of HTTP sessions -->
     <property name="preventSessionCreation" value="true" />
