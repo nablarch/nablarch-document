@@ -301,6 +301,8 @@ XMLのマッピング定義を使用する場合は、ディスパッチハン�
         }
     }
 
+パスパラメータは、JAX-RSの仕様に準拠した形で記述できる。
+
 | パスの一部を ``{パラメータ名}`` と記述することで、その部分をパラメータとして定義できる。
 | ここで定義したパラメータ名を :java:extdoc:`HttpRequest#getParam(String) <nablarch.fw.web.HttpRequest#getParam(String)>` に渡すことで、パスパラメータの値を取得できる。
 
