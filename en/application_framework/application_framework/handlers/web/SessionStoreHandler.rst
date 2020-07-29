@@ -37,7 +37,7 @@ Module list
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-  <!-- Only when using the DB store -->
+  <!-- Only when using the DB store or using save the expiration date in the database -->
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-fw-web-dbstore</artifactId>
@@ -158,3 +158,79 @@ To change the cookie name or attribute, refer to the example given below.
 
 .. tip::
   Since the value of HttpOnly attribute is determined by the version of the Servlet API used in the application, an arbitrary value cannot be specified from the configuration file.
+
+.. _`db_managed_expiration`:
+
+Save the expiration date in the database
+--------------------------------------------------------------
+You can change where the session expiration date is stored.
+
+By default, :java:extdoc:`HttpSessionManagedExpiration <nablarch.common.web.session.HttpSessionManagedExpiration>`
+is used, so the session expiration is stored in the HTTP session.
+
+You can save the session expiration  to the database by setting the :java:extdoc:`DbManagedExpiration <nablarch.common.web.session.DbManagedExpiration>`
+to the :java:extdoc:`expiration <nablarch.common.web.session.SessionStoreHandler.setExpiration(nablarch.common.web.session.Expiration)>` property of this handler.
+
+Usage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The table used to store the expiratoin date on the database shall be the table described in the :ref:`DB store<session_store-use_config>` when using the DB store.
+
+.. important::
+
+  When saving the expiration date to the database, the SESSION_OBJECT column must not be a required attribute.
+  The SESSION_OBJECT column will be registered as null on logout, etc., so it must be defined as a null-allowed attribute.
+  In projects created from archetypes before 5u15, it is defined as a required attribute by default.
+  It is necessary to issue ALTER statement or recreate the table if necessary.
+
+If you change the table name and column names, define a component of the
+:java:extdoc:`UserSessionSchema <nablarch.common.web.session.store.UserSessionSchema>` in
+:java:extdoc:`DbManagedExpiration.userSessionSchema <nablarch.common.web.session.DbManagedExpiration.setUserSessionSchema(nablarch.common.web.session.store.UserSessionSchema)>`.
+Change the table columns in the DB store to the same ones.
+
+Also, the expiration date needs :ref:`initialize <repository-initialize_object>`.
+
+An example setting is shown below.
+
+.. code-block:: xml
+
+  <component name="sessionStoreHandler" class="nablarch.common.web.session.SessionStoreHandler">
+    <!-- Other properties are omitted -->
+    <property name="expiration" ref="expiration" />
+  </component>
+
+  <component name="expiration" class="nablarch.common.web.session.DbManagedExpiration">
+    <!-- A class that provides transaction control to the database -->
+    <property name="dbManager">
+      <component class="nablarch.core.db.transaction.SimpleDbTransactionManager">
+        <property name="dbTransactionName" value="expirationTransaction"/>
+      </component>
+    </property>
+    <!-- The following settings are required only when changing table names
+         and column names from the above table definition -->
+    <property name="userSessionSchema" ref="userSessionSchema" />
+  </component>
+
+  <!-- When you change the table definition, change the DB store definition as well -->
+  <component name="dbStore" class="nablarch.common.web.session.store.DbStore">
+    <!-- Other properties are omitted -->
+    <property name="userSessionSchema" ref="userSessionSchema" />
+  </component>
+
+  <!-- The following settings are required only when changing table names
+       and column names from the above table definition -->
+  <component name="userSessionSchema" class="nablarch.common.web.session.store.UserSessionSchema">
+    <property name="tableName" value="USER_SESSION_DB" />
+    <property name="sessionIdName" value="SESSION_ID_COL" />
+    <property name="sessionObjectName" value="SESSION_OBJECT_COL" />
+    <property name="expirationDatetimeName" value="EXPIRATION_DATETIME_COL" />
+  </component>
+
+  <component name="initializer" class="nablarch.core.repository.initialization.BasicApplicationInitializer">
+    <!-- Requires initialization for expiration date -->
+    <property name="initializeList">
+      <list>
+        <component-ref name="expiration"/>
+      </list>
+    </property>
+  </component>
