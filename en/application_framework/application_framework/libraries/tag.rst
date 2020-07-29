@@ -1424,6 +1424,19 @@ Preventing double submission in the server
   :java:extdoc:`RandomTokenGenerator <nablarch.common.web.token.RandomTokenGenerator>`.
   To change the token issuing process, refer to :ref:`tag-double_submission_server_side_change`.
 
+Storing server-side tokens in the database
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+In the default implementation, server-side tokens are stored in an HTTP session.
+Therefore, sticky sessions and session replication must be used when scaling out the application server.
+
+By using an implementation that stores server-side tokens in a database,
+tokens can be shared among multiple application servers without the need for any particular application server configuration.
+
+See :ref:`db_double_submit` for details.
+
+.. image:: images/tag/db-double-submit.png
+
 .. _`tag-make_common`:
 
 Common JSP for input screen and confirmation screen
