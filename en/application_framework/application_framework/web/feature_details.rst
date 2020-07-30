@@ -162,3 +162,13 @@ Screen transitions and status codes in the case of errors
 Send MOM message
 ----------------------------------------
 * :ref:`Sending synchronous message<mom_system_messaging-sync_message_send>`
+
+
+Scale-out design for web application
+---------------------------------------
+
+* :ref:`stateless_web_app`
+
+CSRF measures
+----------------------------------------
+* :ref:`CSRF measures <csrf_token_verification_handler>`
