@@ -17,69 +17,69 @@ import nablarch.core.validation.validator.NumberRange;
 import nablarch.core.validation.validator.Required;
 
 /**
- * システムアカウントテーブルの情報を保持するクラス。<br>
+ * Class to retain information from the system account table. <br>
  *
  * @author Miki Habu
  * @since 1.0
  */
 public class SystemAccountEntity {
 
-    /** 認可単位(権限設定)。 */
+    /** Certification unit (authority setting). */
     private String[] permissionUnit;
 
-    /** ユーザID。 */
+    /** User ID. */
     private String userId;
 
-    /** ログインID。 */
+    /** Login ID. */
     private String loginId;
 
-    /** パスワード。 */
+    /** Password. */
     private String password;
 
-    /** ユーザIDロック。 */
+    /** User ID lock. */
     private String userIdLocked;
 
-    /** パスワード有効期限。 */
+    /** Expiration date of password. */
     private String passwordExpirationDate;
 
-    /** 認証失敗回数。 */
+    /** Number of authentication failures. */
     private Integer failedCount;
 
-    /** ユーザ有効期限(FROM)。 */
+    /** User validity period (FROM). */
     private String effectiveDateFrom;
 
-    /** ユーザ有効期限(TO)。 */
+    /** User validity period (TO). */
     private String effectiveDateTo;
 
-    /** 登録者ID。 */
+    /** Registration ID. */
     @UserId
     private String insertUserId;
 
-    /** 登録日時。 */
+    /** Registration date/time. */
     @CurrentDateTime
     private Timestamp insertDate;
 
-    /** 更新者ID。 */
+    /** ID of updated user. */
     @UserId
     private String updatedUserId;
 
-    /** 更新日時。 */
+    /** Date/time of update. */
     @CurrentDateTime
     private Timestamp updatedDate;
-    
-    /** バージョン番号 */
+
+    /** Version number */
     private Long version;
 
     /**
-     * デフォルトコンストラクタ。
+     * Default constructor.
      */
     public SystemAccountEntity() {
     }
 
     /**
-     * Mapを引数にとるコンストラクタ。
+     * Constructor to take maps as arguments.
      *
-     * @param params 項目名をキーとし、項目値を値とするMap
+     * @param params Map using the item name as the key and the item value as the value
      */
     public SystemAccountEntity(Map<String, Object> params) {
         userId = (String) params.get("userId");
@@ -95,96 +95,95 @@ public class SystemAccountEntity {
 
 
     /**
-     * 認可単位(権限設定)を取得する。
+     * Acquires certification unit (authority setting).
      *
-     * @return 認可単位
+     * @return Certification unit
      */
     public String[] getPermissionUnit() {
         return permissionUnit;
     }
 
     /**
-     * 認可単位(権限設定)を設定する。
+     * Set certification unit (authority setting).
      *
-     * @param permissionUnit 設定する認可単位(権限設定)
+     * @param permissionUnit Certification unit to be set (authority setting)
      */
-    @PropertyName("認可単位ID")
+    @PropertyName("認可単位ID") // Certification unit ID
     @NumberChar
     @Length(min = 10, max = 10)
     public void setPermissionUnit(String[] permissionUnit) {
         this.permissionUnit = permissionUnit;
     }
 
-    /** ユーザ登録時にバリデーションを実施するプロパティ。 */
-    private static final String[] REGISTER_USER_VALIDATE_PROPS = new String[]{
-        "loginId", "permissionUnit"};
+    /** Property to be validated during user registration. */
+    private static final String[] REGISTER_USER_VALIDATE_PROPS = new String[]{ "loginId", "permissionUnit" };
 
     /**
-     * ユーザ登録時に実施するバリデーション。
+     * Validation performed during user registration.
      *
-     * @param context バリデーションの実行に必要なコンテキスト
+     * @param context Context required for validation
      */
     @ValidateFor("registerUser")
     public static void validateForRegisterUser(
             ValidationContext<SystemAccountEntity> context) {
-        // userIdを無視してバリデーションを実行
+        // Ignores userId and performs validation
         ValidationUtil.validate(context, REGISTER_USER_VALIDATE_PROPS);
 
-        // 単項目精査でエラーの場合はここで戻る
+        // Goes back at this point if an error occurs when scanning an item
         if (!context.isValid()) {
             return;
         }
 
     }
 
-    /** メッセージ送信によるユーザ登録時にバリデーションを実施するプロパティ。 */
+    /** Property to be validated by sending a message during user registration. */
     private static final String[] SEND_USER_VALIDATE_PROPS = new String[]{"loginId"};
 
     /**
-     * メッセージ送信によるユーザ登録時に実施するバリデーション。
+     /** Validation performed by sending a message during user registration.
      *
-     * @param context バリデーションの実行に必要なコンテキスト
+     * @param context Context required for validation
      */
     @ValidateFor("sendUser")
     public static void validateForSendUser(ValidationContext<SystemAccountEntity> context) {
-        // 権限情報はバリデーション対象外
+        // Authority information is not subject to validation
         ValidationUtil.validate(context, SEND_USER_VALIDATE_PROPS);
     }
 
-    /** ユーザ更新時に実施するバリデーション */
+    /** Validation performed during user update */
     private static final String[] UPDATE_USER_VALIDATE_PROPS = new String[]{"userId", "loginId", "permissionUnit"};
     
     /**
-     * ユーザ更新時に実施するバリデーション。
-     * 
-     * @param context バリデーションの実行に必要なコンテキスト
+     * Validation performed during user update.
+     *
+     * @param context Context required for validation
      */
     @ValidateFor("updateUser")
     public static void validateForUpdateUser(ValidationContext<SystemAccountEntity> context) {
         ValidationUtil.validate(context, UPDATE_USER_VALIDATE_PROPS);
     }
-    
-    /** 認可単位ID比較時に実施するバリデーション */
+
+    /** Validation performed during comparison of certification unit IDs */
     private static final String[] COMPARE_PERMISSION_VALIDATE_PROPS = new String[]{"permissionUnit"};
     
     /**
-     * 認可単位ID比較時に実施するバリデーション。
-     * 
-     * @param context バリデーションの実行に必要なコンテキスト
+     * Validation performed during comparison of certification unit IDs.
+     *
+     * @param context Context required for validation
      */
     @ValidateFor("comparePermission")
     public static void validateForComparePermission(ValidationContext<SystemAccountEntity> context) {
-        // 認可単位のみ精査
+        // Only certification units are scanned
         ValidationUtil.validate(context, COMPARE_PERMISSION_VALIDATE_PROPS);
     }
 
-    /** ユーザ情報取得時にバリデーションを実施するプロパティ。 */
+    /** Property to be validated when acquiring user information. */
     private static final String[] SELECT_USER_INFO_PROPS = new String[]{"userId"};
 
     /**
-     * ユーザ情報取得時に実施するバリデーション。
+     * Validation performed when acquiring user information.
      *
-     * @param context バリデーションの実行に必要なコンテキスト
+     * @param context Context required for validation
      */
     @ValidateFor({"selectUserInfo", "deleteUser"})
     public static void validateForSelectUserInfo(ValidationContext<SystemAccountEntity> context) {
@@ -192,20 +191,20 @@ public class SystemAccountEntity {
     }
     
     /**
-     * ユーザIDを取得する。
+     * Acquires user ID.
      *
-     * @return ユーザID。
+     * @return User ID.
      */
     public String getUserId() {
         return userId;
     }
 
     /**
-     * ユーザIDを設定する。
+     * Set user ID.
      *
-     * @param userId 設定するユーザID。
+     * @param userId User ID to be set.
      */
-    @PropertyName("ユーザID")
+    @PropertyName("ユーザID") // User ID
     @Required
     @Length(min = 10, max = 10)
     @NumberChar
@@ -214,20 +213,20 @@ public class SystemAccountEntity {
     }
 
     /**
-     * ログインIDを取得する。
+     * Acquires login ID.
      *
-     * @return ログインID。
+     * @return Login ID.
      */
     public String getLoginId() {
         return loginId;
     }
 
     /**
-     * ログインIDを設定する。
+     * Set login ID.
      *
-     * @param loginId 設定するログインID。
+     * @param loginId Login ID to be set.
      */
-    @PropertyName("ログインID")
+    @PropertyName("ログインID") // Login ID
     @Required
     @Length(max = 20)
     @AsciiChar
@@ -236,20 +235,20 @@ public class SystemAccountEntity {
     }
 
     /**
-     * パスワードを取得する。
+     * Acquires password.
      *
-     * @return パスワード。
+     * @return Password.
      */
     public String getPassword() {
         return password;
     }
 
     /**
-     * パスワードを設定する。
+     * Set password.
      *
-     * @param password 設定するパスワード。
+     * @param password Password to be set.
      */
-    @PropertyName("パスワード")
+    @PropertyName("パスワード") // Password
     @Required
     @Length(max = 44)
     @AsciiChar
@@ -258,20 +257,20 @@ public class SystemAccountEntity {
     }
 
     /**
-     * ユーザIDロックを取得する。
+     * Acquires user ID lock.
      *
-     * @return ユーザIDロック。
+     * @return User ID lock.
      */
     public String getUserIdLocked() {
         return userIdLocked;
     }
 
     /**
-     * ユーザIDロックを設定する。
+     * Set user ID lock.
      *
-     * @param userIdLocked 設定するユーザIDロック。
+     * @param userIdLocked User ID lock to be set.
      */
-    @PropertyName("ユーザIDロック")
+    @PropertyName("ユーザIDロック") // User ID lock
     @Required
     @NumberChar
     @Length(min = 1, max = 1)
@@ -280,20 +279,20 @@ public class SystemAccountEntity {
     }
 
     /**
-     * パスワード有効期限を取得する。
+     * Acquires expiry date of password.
      *
-     * @return パスワード有効期限。
+     * @return Expiration date of password.
      */
     public String getPasswordExpirationDate() {
         return passwordExpirationDate;
     }
 
     /**
-     * パスワード有効期限を設定する。
+     * Set expiration date of password.
      *
-     * @param passwordExpirationDate 設定するパスワード有効期限。
+     * @param passwordExpirationDate Password expiration date to be set.
      */
-    @PropertyName("パスワード有効期限")
+    @PropertyName("パスワード有効期限") // Expiration date of password
     @Required
     @Length(min = 8, max = 8)
     @NumberChar
@@ -302,20 +301,20 @@ public class SystemAccountEntity {
     }
 
     /**
-     * 認証失敗回数を取得する。
+     * Acquires number of authentication failures.
      *
-     * @return 認証失敗回数。
+     * @return Number of authentication failures.
      */
     public Integer getFailedCount() {
         return failedCount;
     }
 
     /**
-     * 認証失敗回数を設定する。
+     * Set number of authentication failures.
      *
-     * @param failedCount 設定する認証失敗回数。
+     * @param failedCount Number of authentication failures to be set.
      */
-    @PropertyName("認証失敗回数")
+    @PropertyName("認証失敗回数") // Number of authentication failures
     @Required
     @NumberRange(min = 0, max = 9)
     @Digits(integer = 1, fraction = 0)
@@ -324,20 +323,20 @@ public class SystemAccountEntity {
     }
 
     /**
-     * ユーザ有効期限(FROM)を取得する。
+     * Acquires user validity period (FROM).
      *
-     * @return ユーザ有効期限(FROM)。
+     * @return User validity period (FROM).
      */
     public String getEffectiveDateFrom() {
         return effectiveDateFrom;
     }
 
     /**
-     * ユーザ有効期限(FROM)を設定する。
+     * Set user validity period (FROM).
      *
-     * @param effectiveDateFrom 設定するユーザ有効期限(FROM)。
+     * @param effectiveDateFrom User validity period (FROM) to be set.
      */
-    @PropertyName("ユーザ有効期限(FROM)")
+    @PropertyName("ユーザ有効期限(FROM)") // User validity period (FROM)
     @Required
     @Length(min = 8, max = 8)
     @NumberChar
@@ -346,20 +345,20 @@ public class SystemAccountEntity {
     }
 
     /**
-     * ユーザ有効期限(TO)を取得する。
+     * Acquires user validity period (TO).
      *
-     * @return ユーザ有効期限(TO)。
+     * @return User validity period (TO).
      */
     public String getEffectiveDateTo() {
         return effectiveDateTo;
     }
 
     /**
-     * ユーザ有効期限(TO)を設定する。
+     * Set user validity period (TO).
      *
-     * @param effectiveDateTo 設定するユーザ有効期限(TO)。
+     * @param effectiveDateTo User validity period (TO) to be set.
      */
-    @PropertyName("ユーザ有効期限(TO)")
+    @PropertyName("ユーザ有効期限(TO)") // User validity period (TO)
     @Required
     @Length(min = 8, max = 8)
     @NumberChar
@@ -368,20 +367,20 @@ public class SystemAccountEntity {
     }
 
     /**
-     * 登録者IDを取得する。
+     * Acquires ID of registered user.
      *
-     * @return 登録者ID。
+     * @return Registered user ID.
      */
     public String getInsertUserId() {
         return insertUserId;
     }
 
     /**
-     * 登録者IDを設定する。
+     * Sets ID of registered user.
      *
-     * @param insertUserId 設定する登録者ID。
+     * @param insertUserId ID of registered user.
      */
-    @PropertyName("登録者ID")
+    @PropertyName("登録者ID") // Registered user ID
     @Required
     @Length(min = 10, max = 10)
     @NumberChar
@@ -390,40 +389,40 @@ public class SystemAccountEntity {
     }
 
     /**
-     * 登録日時を取得する。
+     * Acquires registration date/time.
      *
-     * @return 登録日時。
+     * @return Registration date/time.
      */
     public Timestamp getInsertDate() {
         return insertDate;
     }
 
     /**
-     * 登録日時を設定する。
+     * Set registration date/time.
      *
-     * @param insertDate 設定する登録日時。
+     * @param insertDate Registration date/time to be set.
      */
-    @PropertyName("登録日時")
+    @PropertyName("登録日時") // Registration date/time
     @Required
     public void setInsertDate(Timestamp insertDate) {
         this.insertDate = insertDate;
     }
 
     /**
-     * 更新者IDを取得する。
+     * Acquires ID of updated user.
      *
-     * @return 更新者ID。
+     * @return ID of updated user.
      */
     public String getUpdatedUserId() {
         return updatedUserId;
     }
 
     /**
-     * 更新者IDを設定する。
+     * Set ID of updated user.
      *
-     * @param updatedUserId 設定する更新者ID。
+     * @param updatedUserId Updated user ID to be set.
      */
-    @PropertyName("更新者ID")
+    @PropertyName("更新者ID") // ID of updated user
     @Required
     @Length(min = 10, max = 10)
     @NumberChar
@@ -432,36 +431,36 @@ public class SystemAccountEntity {
     }
 
     /**
-     * 更新日時を取得する。
+     * Acquires date/time of update.
      *
-     * @return 更新日時。
+     * @return Date/time of update.
      */
     public Timestamp getUpdatedDate() {
         return updatedDate;
     }
 
     /**
-     * 更新日時を設定する。
+     * Set date/time of update.
      *
-     * @param updatedDate 設定する更新日時。
+     * @param updatedDate Update date/time to be set.
      */
-    @PropertyName("更新日時")
+    @PropertyName("更新日時") // Date/time of update
     @Required
     public void setUpdatedDate(Timestamp updatedDate) {
         this.updatedDate = updatedDate;
     }
 
     /**
-     * バージョン番号を取得する。
-     * @return バージョン番号
+     * Acquires version number.
+     * @return Version number
      */
     public Long getVersion() {
         return version;
     }
 
     /**
-     * バージョン番号を設定する。
-     * @param version バージョン番号
+     * Sets version number.
+     * @param version Version number
      */
     @NumberRange(min = 0, max = 999999999)
     @Digits(integer = 10, fraction = 0)
