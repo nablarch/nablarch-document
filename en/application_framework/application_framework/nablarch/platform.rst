@@ -47,13 +47,13 @@ Java
 Database
  * Oracle Database 12c/19c
  * IBM Db2 10.5/11.5
- * SQL Server 2017/2019
- * PostgreSQL 10.0/11.5/12.2
+ * SQL Server 2017
+ * PostgreSQL 10.0/11.5
 
 Application server
  * Oracle Weblogic Server 12.2.1.3
  * WebSphere Application Server 9.0.5
- * WildFly 18.0.1
+ * WildFly 17.0.1
  * Apache Tomcat 9.0.24
 
 Java EE
