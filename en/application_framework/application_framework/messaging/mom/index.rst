@@ -5,7 +5,7 @@ Messaging with MOM
 This chapter uses the Nablarch application framework to provide the information needed to develop messaging using MOM.
 
 .. toctree::
-  :maxdepth: 2
+  :maxdepth: 1
 
   architecture
   application_design
