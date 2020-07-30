@@ -6,7 +6,7 @@ This chapter uses the Nablarch application framework to provide the information 
 
 
 .. toctree::
-  :maxdepth: 2
+  :maxdepth: 1
 
   architecture
   application_design
