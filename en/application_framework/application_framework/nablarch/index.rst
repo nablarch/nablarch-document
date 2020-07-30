@@ -2,7 +2,7 @@ What is Nablarch Application Framework?
 ==================================================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    big_picture
    architecture
