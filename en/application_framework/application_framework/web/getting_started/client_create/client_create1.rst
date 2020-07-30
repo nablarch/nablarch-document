@@ -89,6 +89,7 @@ Map URLs and business actions
       .. code-block:: xml
 
         <routes>
+          <!-- Set it before other mappings because it will be evaluated from above -->
           <get path="/action/client" to="Client#input"/>
           <!-- Other settings are omitted -->
         </routes>
