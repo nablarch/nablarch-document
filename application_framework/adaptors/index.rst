@@ -17,3 +17,4 @@
   mail_sender_velocity_adaptor
   web_thymeleaf_adaptor
   redisstore_lettuce_adaptor
+  aws_xray_adaptor
