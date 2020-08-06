@@ -43,49 +43,33 @@ Cookieなど前のレスポンスの情報を引き継ぐ方法
 RESTfulウェブサービス実行基盤向けテスティングフレームワークでは :java:extdoc:`RequestResponseProcessor<nablarch.test.core.http.RequestResponseProcessor>` という
 リクエスト・レスポンスを操作するためのインターフェースを用意している。
 
-各アプリケーションの要件に合わせてこのインタフェースの実装クラスを作成し、
-:java:extdoc:`SimpleRestTestSupport#setDefaultProcessor<nablarch.test.core.http.SimpleRestTestSupport.setDefaultProcessor(nablarch.test.core.http.RequestResponseProcessor)>`
-に設定する。
+各アプリケーションの要件に合わせてこのインタフェースの実装クラスを作成する。
 
 フレームワークではよく使われる実装として :java:extdoc:`NablarchSIDManager<nablarch.test.core.http.NablarchSIDManager>` を提供している。
 この実装ではレスポンスの ``Set-Cookie`` ヘッダーからセッションIDを抽出し、リクエストの ``Cookie`` ヘッダーに値を引き継ぐことができる。
 
-``SimpleRestTestSupport`` の ``DefaultProcessor`` に実装クラスを設定する
-**************************************************************************
-.. code-block:: java
+コンポーネント設定ファイルに ``defaultProcessor`` という名前で実装クラスを設定する
+***********************************************************************************
+.. code-block:: xml
 
-    public abstract class ExampleRestTest extends SimpleRestTestSupport {
-        // テストクラス実行前にsetDefaultProcessorする。
-        @BeforeClass
-        public void setUp(){
-            NablarchSIDManager processor = new NablarchSIDManager();
-            setDefaultProcessor(processor);
-        }
-    }
+  <component name="defaultProcessor" class="nablarch.test.core.http.NablarchSIDManager"/>
 
-アプリケーション全体で共通の ``RequestResponseProcessor`` を設定したい場合は基底クラスを作成しコンストラクタで設定することも可能である。
-
-.. code-block:: java
-
-    public abstract class ExampleRestTestBase extends SimpleRestTestSupport {
-        public ExampleRestBase() {
-            NablarchSIDManager processor = new NablarchSIDManager();
-            setDefaultProcessor(processor);
-        }
-    }
 
 また、複数の ``RequestResponseProcessor`` を設定したい場合は、 :java:extdoc:`ComplexRequestResponseProcessor<nablarch.test.core.http.ComplexRequestResponseProcessor>` を
 利用することで実現できる。
 
-.. code-block:: java
+.. code-block:: xml
 
-    ComplexRequestResponseProcessor processor = new ComplexRequestResponseProcessor();
-    processor.setProcessors(Arrays.asList(
-            new NablarchSIDManager(),
-            new CsrfTokenManager()));
-    setDefaultProcessor(processor);
+  <component name="defaultProcessor" class="nablarch.test.core.http.ComplexRequestResponseProcessor">
+    <property name="processors">
+      <list>
+        <component class="nablarch.test.core.http.NablarchSIDManager"/>
+        <component class="com.example.test.CSRFTokenManager"/>
+      </list>
+    </property>
+  </component>
 
-``SimpleRestTestSupport#setDefaultProcessor`` で設定された ``RequestResponseProcessor`` は、内蔵サーバへのリクエスト送信前に
-:java:extdoc:`RequestResponseProcessor#processRequest<nablarch.test.core.http.RequestResponseProcessor.processRequest(nablarch.fw.web.HttpRequest)>` が
+``defaultProcessor`` という名前で設定された ``RequestResponseProcessor`` は、内蔵サーバへのリクエスト送信前に
+:java:extdoc:`RequestResponseProcessor#processRequest<nablarch.test.core.http.RequestResponseProcessor.processRequest(nablarch.fw.web.HttpRequest)>` が、
 レスポンス受信後に :java:extdoc:`RequestResponseProcessor#processResponse<nablarch.test.core.http.RequestResponseProcessor.processResponse(nablarch.fw.web.HttpRequest,nablarch.fw.web.HttpResponse)>` が
 それぞれ実行される。 
