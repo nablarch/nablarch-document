@@ -299,16 +299,16 @@ using the name specified in the listSearchInfoName attribute.
 .. code-block:: jsp
 
  <nbs:listSearchResult listSearchInfoName="11AC_W11AC01"
-                     searchUri="/action/ss11AC/W11AC01Action/RW11AC0102"
-                     resultSetName="searchResult">
-     
-     <%-- Specify the JSP fragment in the resultCountFragment attribute. --%>
-     <jsp:attribute name="resultCountFragment">
-        [Search results <n:write name="searchCondition.resultCount" />page]
-     </jsp:attribute>
-     
-     <%-- Other attributes are omitted. --%>
-     
+                    searchUri="/action/ss11AC/W11AC01Action/RW11AC0102"
+                    resultSetName="searchResult">
+    
+    <%-- Specify the JSP fragment in the resultCountFragment attribute. --%>
+    <jsp:attribute name="resultCountFragment">
+    [Search results <n:write name="searchCondition.resultCount" />page]
+    </jsp:attribute>
+    
+    <%-- Other attributes are omitted. --%>
+    
  </nbs:listSearchResult>
 
 The format for the number of search results after the specification mentioned above is as follows.
@@ -485,37 +485,47 @@ An example of user search specifications is shown below. The tag file prefix sho
 .. code-block:: jsp
 
  <nbs:listSearchResult listSearchInfoName="11AC_W11AC01"
-                       searchUri="/action/ss11AC/W11AC01Action/RW11AC0102"
-                       resultSetName="searchResult">
-     
-     <%-- Specification of JSP fragment for the header row. --%>
-     <jsp:attribute name="headerRowFragment">
-         <tr>
-             <th>Login ID</th>
-             <th> Kanji name</th>
-             <th> Kana name</th>
-             <th>Group </th>
-             <th>Extension number </th>
-             <th>Email address</th>
-         </tr>
-     </jsp:attribute>
-     
-     <%-- Specify the JSP fragment for the body row. --%>
-     <jsp:attribute name="bodyRowFragment">
-     
-         <%-- Access the class attribute using the default variable name "oddEvenCss". --%>
-         <tr class="<n:write name='oddEvenCss' />">
-         
-             <%-- Access the row data using the default variable name "row". --%>
-             <td>[<n:write name="count" />]<br/>[<n:write name="rowCount" />]<br/><n:write name="row.loginId" /></td>
-             <td><n:write name="row.kanjiName" /></td>
-             <td><n:write name="row.kanaName" /></td>
-             <td><n:write name="row.ugroupId" />:<n:write name="row.ugroupName" /></td>
-             <td><n:write name="row.extensionNumberBuilding" />-<n:write name="row.extensionNumberPersonal" /></td>
-             <td><n:write name="row.mailAddress" /></td>
-             
-         </tr>
-     </jsp:attribute>
+                    searchUri="/action/ss11AC/W11AC01Action/RW11AC0102"
+                    resultSetName="searchResult">
+    
+    <%-- Specification of JSP fragment for the header row. --%>
+    
+    <jsp:attribute name="headerRowFragment">
+    
+        <tr>
+        
+            <th>Login ID</th>
+            <th> Kanji name</th>
+            <th> Kana name</th>
+            <th>Group </th>
+            <th>Extension number </th>
+            <th>Email address</th>
+            
+        </tr>
+        
+    </jsp:attribute>
+    
+    <%-- Specify the JSP fragment for the body row. --%>
+    
+    <jsp:attribute name="bodyRowFragment">
+    
+        <%-- Access the class attribute using the default variable name "oddEvenCss". --%>
+        
+        <tr class="<n:write name='oddEvenCss' />">
+        
+            <%-- Access the row data using the default variable name "row". --%>
+            
+            <td>[<n:write name="count" />]<br/>[<n:write name="rowCount" />]<br/><n:write name="row.loginId" /></td>
+            <td><n:write name="row.kanjiName" /></td>
+            <td><n:write name="row.kanaName" /></td>
+            <td><n:write name="row.ugroupId" />:<n:write name="row.ugroupName" /></td>
+            <td><n:write name="row.extensionNumberBuilding" />-<n:write name="row.extensionNumberPersonal" /></td>
+            <td><n:write name="row.mailAddress" /></td>
+            
+        </tr>
+        
+    </jsp:attribute>
+    
  </nbs:listSearchResult>
 
 The search results after the above specifications are shown below.
@@ -553,18 +563,24 @@ For example, if the sortId field of the search condition object is kanaName_asc,
 
 .. code-block:: none
 
-  -- SQL statement using variable ORDER BY syntax
-  SELECT
-      -- Omitted
-  FROM
-      -- Omitted
-  WHERE
-      -- Omitted
-  $sort (sortId) {
-      (kanjiName_asc  USR.KANJI_NAME, SA.LOGIN_ID)
-      (kanjiName_desc USR.KANJI_NAME DESC, SA.LOGIN_ID)
-      (kanaName_asc   USR.KANA_NAME, SA.LOGIN_ID)
-      (kanaName_desc  USR.KANA_NAME DESC, SA.LOGIN_ID) }
+ -- SQL statement using variable ORDER BY syntax
+ SELECT
+ 
+    -- Omitted
+    
+ FROM
+ 
+    -- Omitted
+    
+ WHERE
+ 
+    -- Omitted
+    
+ $sort (sortId) {
+    (kanjiName_asc  USR.KANJI_NAME, SA.LOGIN_ID)
+    (kanjiName_desc USR.KANJI_NAME DESC, SA.LOGIN_ID)
+    (kanaName_asc   USR.KANA_NAME, SA.LOGIN_ID)
+    (kanaName_desc  USR.KANA_NAME DESC, SA.LOGIN_ID) }
 
 The ListSearchInfo class defines sortId property to support sorting.
 The sortId property is included in the input validation when sorting the search results.
@@ -641,25 +657,38 @@ An implementation example of JSP using the listSearchSortSubmit tag is shown bel
 .. code-block:: jsp
 
  <nbs:listSearchResult listSearchInfoName="11AC_W11AC01"
-                     searchUri="/action/ss11AC/W11AC01Action/RW11AC0102"
-                     resultSetName="searchResult"
-                     usePageNumberSubmit="true"
-                     useLastSubmit="true">
-     <jsp:attribute name="headerRowFragment">
-         <tr>
-             <%-- Columns except for Kanji name are omitted. --%>
-             <th>
-                 <%-- Set Kanji name as a link for sorting.--%>
-                 <%-- Specify sort ID for ascending (kanjiName_asc) and descending (kanjiName_desc) according to the SQL statement. --%>
-                 <nbs:listSearchSortSubmit ascSortId="kanjiName_asc" descSortId="kanjiName_desc"
-                                         label="Kanji name" uri="/action/ss11AC/W11AC01Action/RW11AC0102"
-                                         name="kanjiNameSort" listSearchInfoName="11AC_W11AC01" />
-             </th>
-         </tr>
-     </jsp:attribute>
-     <jsp:attribute name="bodyRowFragment">
-         <%-- Omitted --%>
-     </jsp:attribute>
+                    searchUri="/action/ss11AC/W11AC01Action/RW11AC0102"
+                    resultSetName="searchResult"
+                    usePageNumberSubmit="true"
+                    useLastSubmit="true">
+                    
+    <jsp:attribute name="headerRowFragment">
+    
+        <tr>
+        
+            <%-- Columns except for Kanji name are omitted. --%>
+            
+            <th>
+            
+                <%-- Set Kanji name as a link for sorting.--%>
+                <%-- Specify sort ID for ascending (kanjiName_asc) and descending (kanjiName_desc) according to the SQL statement. --%>
+                
+                <nbs:listSearchSortSubmit ascSortId="kanjiName_asc" descSortId="kanjiName_desc"
+                                        label="Kanji name" uri="/action/ss11AC/W11AC01Action/RW11AC0102"
+                                        name="kanjiNameSort" listSearchInfoName="11AC_W11AC01" />
+                                        
+            </th>
+        
+        </tr>
+        
+    </jsp:attribute>
+    
+    <jsp:attribute name="bodyRowFragment">
+    
+        <%-- Omitted --%>
+        
+    </jsp:attribute>
+    
  </nbs:listSearchResult>
 
 The sort submit elements executes the search using the search conditions when searching from the search form.
@@ -684,9 +713,10 @@ This section describes the operation of the listSearchSortSubmit tag on the basi
 
  <%-- Set Kanji name as a link for sorting.--%>
  <%-- Specify sort ID for ascending (kanjiName_asc) and descending (kanjiName_desc) according to the SQL statement. --%>
+ 
  <nbs:listSearchSortSubmit ascSortId="kanjiName_asc" descSortId="kanjiName_desc"
-                           label="Kanji name" uri="/action/ss11AC/W11AC01Action/RW11AC0102"
-                           name="kanjiNameSort" listSearchInfoName="11AC_W11AC01" />
+                          label="Kanji name" uri="/action/ss11AC/W11AC01Action/RW11AC0102"
+                          name="kanjiNameSort" listSearchInfoName="11AC_W11AC01" />
 
 
 ==================================================== ============================================================================================================================== =======================================================================================================================================
@@ -809,11 +839,12 @@ As with paging, the business application class and JSP that perform user search 
 
  <%-- Specify false in the usePaging attribute since paging is not used. --%> --%>
  <%-- Since paging is not used, the searchUri attribute need not be specified. --%>
- <nbs:listSearchResult listSearchInfoName="11AC_W11AC01"
-                     usePaging="false"
-                     resultSetName="searchResult">
  
-     <%-- Other attributes are omitted. --%>
+ <nbs:listSearchResult listSearchInfoName="11AC_W11AC01"
+                      usePaging="false"
+                      resultSetName="searchResult">
+ 
+    <%-- Other attributes are omitted. --%>
      
  </nbs:listSearchResult>
 
