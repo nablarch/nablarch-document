@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>顧客登録画面</title>
+        <title>Client registration screen</title>
     </head>
     <body>
         <n:include path="/WEB-INF/view/common/menu.jsp" />
@@ -14,12 +14,12 @@
         <div class="container-fluid mainContents">
             <section class="row">
                 <div class="title-nav">
-                    <span class="page-title">顧客登録画面</span>
+                    <span class="page-title">Client registration screen</span>
                 </div>
             </section>
         </div>
         
-        <!-- ここに登録画面の初期表示部分を実装する -->
+        <!-- Implement initial display of registration screen here -->
         
         <n:include path="/WEB-INF/view/common/footer.jsp" />
     </body>

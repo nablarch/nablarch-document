@@ -15,23 +15,23 @@ import nablarch.sample.util.AuthenticationUtil;
 import nablarch.sample.util.IdGeneratorUtil;
 
 /**
- * ユーザ登録に関するサービスクラス<br/>
+ * Service class for user registration<br/>
  *
  * @author Tsuyoshi Kawasaki
  * @since 1.0
  */
 public class UserComponent extends DbAccessSupport {
 
-    /** ユーザーIDロックの状態:アンロック */
+    /** User ID lock status: unlocked */
     private static final String USER_ID_NOT_LOCKED = "0";
 
-    /** パスワード失敗回数の初期値 */
+    /** Default number of password failures */
     private static final int INITIAL_FAILED_COUNT = 0;
 
     /**
-     * ユーザグループの検索を実行する。
+     * Search user group.
      *
-     * @return 検索結果
+     * @return Search results
      */
     public SqlResultSet selectUserGroups() {
         SqlPStatement statement = getSqlPStatement("SELECT_ALL_UGROUPS");
@@ -39,9 +39,9 @@ public class UserComponent extends DbAccessSupport {
     }
 
     /**
-     * ユースケーステーブルに登録されている全てのユースケースIDと名称を取得する。
+     * Acquires all use test IDs and names registered in the use test table.
      *
-     * @return 検索結果。ユースケースIDの昇順でソート
+     * @return Search results. Sort by use test ID
      */
     public SqlResultSet getAllUseCase() {
         SqlPStatement statement = getSqlPStatement("SELECT_ALL_USE_CASES");
@@ -49,47 +49,47 @@ public class UserComponent extends DbAccessSupport {
     }
 
     /**
-     * ユーザ登録時の入力内容のチェックを行う。<br>
-     * チェックOKの場合は、名称も取得する。
+     * Checks input information on user registration. <br>
+     * The name is also acquired if the information passes the check.
      *
-     * @param systemAccount チェック対象の情報を保持した{@link SystemAccountEntity}
-     * @param ugroupSystemAccount チェック対象の情報を保持した{@link UgroupSystemAccountEntity}
+     * @param systemAccount {@link SystemAccountEntity} containing the information to be checked
+     * @param ugroupSystemAccount {@link UgroupSystemAccountEntity} containing the information to be checked
      */
     public void checkForRegisterUser(SystemAccountEntity systemAccount,
             UgroupSystemAccountEntity ugroupSystemAccount) {
 
-        // ログインIDのチェック
+        // Login ID check
         checkLoginId(systemAccount.getLoginId());
-        // グループIDのチェック
+        // Group ID check
         checkGroupId(ugroupSystemAccount);
-        // ユースケースIDのチェック
+        // Use case ID check
         if (systemAccount.getUseCase() != null) {
             checkUseCaseId(systemAccount);
         }
     }
 
     /**
-     * ユーザを登録する。
+     * Registers user.
      *
-     * @param systemAccount 画面入力された情報を持つ{@link SystemAccountEntity}
-     * @param users 画面入力された情報を持つ{@link UsersEntity}
-     * @param ugroupSystemAccount 画面入力された情報を持つ{@link UgroupSystemAccountEntity}
+     * @param systemAccount {@link SystemAccountEntity} containing information input in the screen
+     * @param users {@link UsersEntity} containing information input in the screen
+     * @param ugroupSystemAccount {@link UgroupSystemAccountEntity} containing information input in the screen
      */
     public void registerUser(SystemAccountEntity systemAccount,
             UsersEntity users,
             UgroupSystemAccountEntity ugroupSystemAccount) {
 
-        // 日付の取得
-        // ユーザIDを採番する
+        // Acquires date
+        // Assigns user ID
         String userId = IdGeneratorUtil.generateUserId();
-        // 現在(システム)日付
+        // Current (system) date
         String current = BusinessDateUtil.getDate();
-        // 1カ月後(パスワードの有効期限)
+        // After 1 month (expiration of password)
         String passwordExpirationDate = DateUtil.addMonth(current, 1);
-        // 12カ月後(ユーザの有効期限)
+        // After 12 months (expiration of user)
         String userEffectiveDateTo = DateUtil.addMonth(current, 12);
 
-        // システムアカウントの登録
+        // System account registration
         systemAccount.setPasswordExpirationDate(passwordExpirationDate);
         systemAccount.setEffectiveDateFrom(current);
         systemAccount.setEffectiveDateTo(userEffectiveDateTo);
@@ -102,17 +102,17 @@ public class UserComponent extends DbAccessSupport {
 
         registerSystemAccount(systemAccount);
 
-        // ユーザエンティティの登録
+        // User entity registration
         users.setUserId(userId);
         registerUsers(users);
 
-        // グループシステムアカウントの登録
+        // Group system account registration
         ugroupSystemAccount.setUserId(userId);
         ugroupSystemAccount.setEffectiveDateFrom(current);
         ugroupSystemAccount.setEffectiveDateTo(userEffectiveDateTo);
         registerUgroupSystemAccount(ugroupSystemAccount);
 
-        // システムアカウント権限の登録
+        // System account authority registration
         if (systemAccount.getUseCase() != null
                 && systemAccount.getUseCase().length != 0) {
             registerSystemAccountAuthority(systemAccount);
@@ -120,9 +120,9 @@ public class UserComponent extends DbAccessSupport {
     }
 
     /**
-     * ログインIDが既に登録されていないかチェックする。
+     * Checks whether the login ID is already registered.
      *
-     * @param loginId チェック対象のログインID
+     * @param loginId Login ID to be checked
      */
     private void checkLoginId(String loginId) {
         SqlPStatement statement = getSqlPStatement("SELECT_SYSTEM_ACCOUNT");
@@ -135,9 +135,9 @@ public class UserComponent extends DbAccessSupport {
     }
 
     /**
-     * グループIDがシステムに登録されているかチェックする。
+     * Checks whether the group ID is registered in the system.
      *
-     * @param ugroupSystemAccount チェック対象の情報を保持した{@link UgroupSystemAccountEntity}
+     * @param ugroupSystemAccount {@link UgroupSystemAccountEntity} containing the information to be checked
      */
     private void checkGroupId(
             UgroupSystemAccountEntity ugroupSystemAccount) {
@@ -153,9 +153,9 @@ public class UserComponent extends DbAccessSupport {
     }
 
     /**
-     * ユースケースIDがシステムに登録されているかチェックする。
+     * Checks whether the use case ID is registered in the system.
      *
-     * @param systemAccount チェック対象の上方を保持した{@link SystemAccountEntity}
+     * @param systemAccount {@link SystemAccountEntity} containing the information to be checked
      */
     private void checkUseCaseId(SystemAccountEntity systemAccount) {
         SqlPStatement statement = getSqlPStatement("SELECT_USE_CASE");
@@ -173,16 +173,16 @@ public class UserComponent extends DbAccessSupport {
 
 
     /**
-     * システムアカウントテーブルに1件登録する。<br>
+     * One registration is made in the system account table. <br>
      *
-     * @param systemAccount 登録する情報を保持した{@link SystemAccountEntity}
+     * @param systemAccount {@link SystemAccountEntity} containing the information to be checked
      */
     private void registerSystemAccount(SystemAccountEntity systemAccount) {
         ParameterizedSqlPStatement statement =
                 getParameterizedSqlStatement("INSERT_SYSTEM_ACCOUNT");
 
         try {
-            // システムアカウントに同じログインIDで既に登録されていたら例外を返す。
+            // An exception is returned if the same login ID is already registered as a system account.
             statement.executeUpdateByObject(systemAccount);
         } catch (DuplicateStatementException de) {
             throw new ApplicationException(
@@ -192,9 +192,9 @@ public class UserComponent extends DbAccessSupport {
 
 
     /**
-     * ユーザエンティティに1件登録する。
+     * One user entity registration is made.
      *
-     * @param users 登録する情報を保持した{@link UsersEntity}
+     * @param users {@link UsersEntity} containing the information to be checked
      */
     private void registerUsers(UsersEntity users) {
         ParameterizedSqlPStatement statement = getParameterizedSqlStatement(
@@ -204,9 +204,9 @@ public class UserComponent extends DbAccessSupport {
 
 
     /**
-     * グループシステムアカウントに1件登録する。
+     * One group system account registration is made.
      *
-     * @param ugroupSystemAccount 登録内容が設定されたグループシステムアカウントエンティティクラス
+     * @param ugroupSystemAccount Group system account entity class in which registration details are set
      */
     private void registerUgroupSystemAccount(
             UgroupSystemAccountEntity ugroupSystemAccount) {
@@ -218,9 +218,9 @@ public class UserComponent extends DbAccessSupport {
 
 
     /**
-     * システムアカウント権限に登録する。
+     * Registered as system account authority.
      *
-     * @param systemAccount システムアカウント
+     * @param systemAccount System account
      */
     private void registerSystemAccountAuthority(
             SystemAccountEntity systemAccount) {

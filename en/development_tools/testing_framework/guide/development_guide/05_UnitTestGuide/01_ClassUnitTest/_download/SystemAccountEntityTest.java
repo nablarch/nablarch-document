@@ -5,18 +5,18 @@ import org.junit.Test;
 import nablarch.test.core.db.EntityTestSupport;
 
 /**
- * SystemAccountEntityクラスに対するテストを実行するクラス。<br/>
- * テスト内容はエクセルシート参照のこと。
+ * Class for testing SystemAccountEntity classes. <br/>
+ * Refer to the Excel sheet for details on the content of the test.
  *
  * @author Miki Habu
  * @since 1.0
  */
 public class SystemAccountEntityTest extends EntityTestSupport {
 
-    /** テスト対象エンティティクラス */
+    /** Tested entity class */
     private static final Class<SystemAccountEntity> ENTITY_CLASS = SystemAccountEntity.class;
 
-    /** {@link SystemAccountEntity#validateForRegisterUser(nablarch.core.validation.ValidationContext)} のテスト。 */
+    /** Test of {@link SystemAccountEntity#validateForRegisterUser(nablarch.core.validation.ValidationContext)}. */
     @Test
     public void testValidateForRegisterUser() {
         String sheetName = "testValidateForRegisterUser";
@@ -25,7 +25,7 @@ public class SystemAccountEntityTest extends EntityTestSupport {
     }
 
     /**
-     * 文字種および文字列長の単項目精査テストケース
+     * Test cases for single-item scanning of character type and character string length
      */
     @Test
     public void testCharsetAndLength() {
@@ -35,7 +35,7 @@ public class SystemAccountEntityTest extends EntityTestSupport {
     }
 
     /**
-     * 単項目精査のテストケース（上記以外）
+     * Test cases for single-item scanning (other)
      */
     @Test
     public void testSingleValidation() {
@@ -44,7 +44,7 @@ public class SystemAccountEntityTest extends EntityTestSupport {
         testSingleValidation(ENTITY_CLASS, sheetName, id);
     }
 
-    /** setter、getterのテスト */
+    /** setter and getter testing */
     @Test
     public void testSetterAndGetter() {
         String sheetName = "testAccessor";
@@ -52,7 +52,7 @@ public class SystemAccountEntityTest extends EntityTestSupport {
         testSetterAndGetter(ENTITY_CLASS, sheetName, id);
     }
 
-    /** コンストラクタのテスト */
+    /** Constructor testing */
     @Test
     public void testConstructor() {
         String sheetName = "testAccessor";
