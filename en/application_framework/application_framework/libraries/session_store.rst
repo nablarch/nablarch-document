@@ -34,8 +34,8 @@ Flow of a simple process is shown in the figure below.
 .. tip::
  The cookie ( ``NABLARCH_SID`` ) used in this function is completely different from the JSESSIONID used for tracking the HTTP session.
 
- However, since the expiry interval of the session store is stored in the HTTP session,
- JSESSIONID is used regardless of whether :ref:`HTTP session store <session_store-http_session_store>` is used.
+.. tip::
+ Starting from Nablarch 5u16, you can choose the location for storing the expiration date of the session store other than HTTP sessions.
 
 .. tip::
  :java:extdoc:`UUID<java.util.UUID>` is used for the session ID used in the cookie ( ``NABLARCH_SID`` ).
@@ -237,7 +237,7 @@ Implementation example of session store between input-confirm-complete is shown 
 Holds credentials
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use HTTP session store to retain credentials.
+Use DB store to retain credentials.
 
 Implementation example of session store during login/logout is shown below.
 
@@ -248,7 +248,7 @@ Login to the application
     SessionUtil.invalidate(ctx);
 
     // Save login user information in session store
-    SessionUtil.put(ctx, "user", user, "httpSession");
+    SessionUtil.put(ctx, "user", user, "db");
 
 Logout from the application
   .. code-block:: java
@@ -400,6 +400,7 @@ HTTP session store
             | (depending on the application server configuration, it may be saved in a database or file.)
 
   :Features: * It is suitable for holding information such as credentials that are frequently used in the entire application.
+          * Since information is maintained on a per AP server basis, ingenuity is required when performing scale-out.
           * Saving a large amount of data such as the input contents of the screen may burden the heap area.
           * If the processing of the same session is executed by multiple threads, it will written later. (Data of previously saved session will be lost)
 
@@ -411,7 +412,7 @@ Application                                                                     
 ============================================================================================================== ===============================================================
 Hold input information between input-confirm-complete screens (screen operations on multiple tabs not allowed) :ref:`DB store <session_store-db_store>`
 Hold input information between input-confirm-complete screens (screen operations on multiple tabs allowed)     :ref:`HIDDEN store <session_store-hidden_store>`
-Hold credentials                                                                                               :ref:`HTTP session store <session_store-http_session_store>`
+Hold credentials                                                                                               :ref:`DB store <session_store-db_store>` or :ref:`HTTP session store <session_store-http_session_store>`
 Hold the search conditions                                                                                     Not used [1]_
 Hold the search results list                                                                                   Not used [2]_
 Hold screen display items such as select boxes                                                                 Not used [3]_
@@ -423,3 +424,17 @@ Hold error message                                                              
 .. [2] Large amounts of data such as list information may burden the storage area, so do not store it in the session store.
 .. [3] Values used for screen display can be transferred using the request scope.
 .. [4] Values used for screen display can be transferred using the request scope.
+
+
+.. _`session_store_expiration`:
+
+How to manage the expiration date
+------------------------------------
+
+Session expiration date is stored in an HTTP session by default.
+You can store the session expiration date in the database by changing the setting.
+
+See :ref:`db_managed_expiration` for details.
+
+.. tip::
+  See :ref:`stateless_web_app` for the significance of storing the expiration date in the database.

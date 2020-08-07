@@ -120,22 +120,17 @@ If the execution is successful, the log given below will be output to the consol
   [INFO] Building myapp-batch-ee 0.1.0
   [INFO] ------------------------------------------------------------------------
   (Omitted)
-  2016-08-26 09:41:52.727 -INFO- ROO [null] 削除件数：10件
-  2016-08-26 09:41:52.728 -DEBUG- SQL [null] nablarch.core.db.statement.BasicSqlPStatement#executeQuery
-          SQL = [SELECT FAMILY_NAME,FIRST_NAME,USER_ID FROM SAMPLE_USER]
-          additional_info:
-
-  2016-08-26 09:41:52.728 -DEBUG- SQL [null] nablarch.core.db.statement.BasicSqlPStatement#executeQuery
-          execute_time(ms) = [0]
-  Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.385 sec - in com.example.batchlet.SampleBatchletTest
-
-  Results :
-
-  Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
-
-  [INFO] ------------------------------------------------------------------------
-  [INFO] BUILD SUCCESS
-  [INFO] ------------------------------------------------------------------------
+  2020-03-25 18:39:11.013 -WARN- nablarch.core.repository.di.config.xml.XmlComponentDefinitionLoader [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] component property was overridden. component name = businessDateProvider, property = dbTransactionManager
+  18:39:11.060 INFO  c.z.h.HikariDataSource HikariPool-1 - Starting...
+  18:39:11.411 INFO  c.z.h.p.PoolBase HikariPool-1 - Driver does not support get/set network timeout for connections. (org.h2.jdbc.JdbcConnection.getNetworkTimeout()I)
+  18:39:11.415 INFO  c.z.h.HikariDataSource HikariPool-1 - Start completed.
+  2020-03-25 18:39:11.499 -INFO- com.example.batchlet.SampleBatchlet [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] 削除件数：10件
+  [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.877 s - in com.example.batchlet.SampleBatchletTest
+  [INFO]
+  [INFO] Results:
+  [INFO]
+  [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+  [INFO]
   (rest is omitted)
 
 
@@ -185,14 +180,14 @@ Execute the following command.
 
   mvn exec:java -Dexec.mainClass=nablarch.fw.batch.ee.Main -Dexec.args="'sample-batchlet'"
 
-If the execution is successful, the log given below will be output to ``log/progress.log``.
+If the execution is successful, the log given below will be output to ``./progress.log``.
 
 .. code-block:: text
 
-  11:27:28.099 INFO  progress start job. job name: [sample-batchlet]
-  11:27:28.105 INFO  progress start step. job name: [sample-batchlet] step name: [step1]
-  11:27:28.986 INFO  progress finish step. job name: [sample-batchlet] step name: [step1] step status: [SUCCESS]
-  11:27:28.986 INFO  progress finish job. job name: [sample-batchlet]
+  2020-03-25 18:32:26.669 -INFO- progress [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] start job. job name: [sample-batchlet]
+  2020-03-25 18:32:26.680 -INFO- progress [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] start step. job name: [sample-batchlet] step name: [step1]
+  2020-03-25 18:32:26.923 -INFO- progress [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] finish step. job name: [sample-batchlet] step name: [step1] step status: [SUCCESS]
+  2020-03-25 18:32:26.929 -INFO- progress [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] finish job. job name: [sample-batchlet]
 
 .. tip::
 
@@ -213,16 +208,16 @@ Execute the following command.
 
   mvn exec:java -Dexec.mainClass=nablarch.fw.batch.ee.Main -Dexec.args="'sample-etl'"
 
-If the launch is successful, the log given below will be output to ``log/progress.log``.
+If the launch is successful, the log given below will be output to ``./progress.log``.
 
 .. code-block:: text
 
-  11:28:45.260 INFO  progress start step. job name: [sample-etl] step name: [load]
-  11:28:45.270 INFO  progress job name: [sample-etl] step name: [load] input count: [10]
-  11:28:45.274 INFO  progress job name: [sample-etl] step name: [load] write table name: [SAMPLE_USER]
-  11:28:45.278 INFO  progress job name: [sample-etl] step name: [load] tps: [1250.00] estimated end time: [2017/04/27 11:28:45.278] remaining count: [0]
-  11:28:45.278 INFO  progress finish step. job name: [sample-etl] step name: [load] step status: [COMPLETED]
-  11:28:45.278 INFO  progress finish job. job name: [sample-etl]
+  2020-03-25 18:33:43.331 -INFO- progress [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] start step. job name: [sample-etl] step name: [load]
+  2020-03-25 18:33:43.345 -INFO- progress [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] job name: [sample-etl] step name: [load] input count: [10]
+  2020-03-25 18:33:43.353 -INFO- progress [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] job name: [sample-etl] step name: [load] write table name: [SAMPLE_USER]
+  2020-03-25 18:33:43.359 -INFO- progress [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] job name: [sample-etl] step name: [load] total tps: [769.23] current tps: [769.23] estimated end time: [2020/03/25 06:33:43.359] remaining count: [0]
+  2020-03-25 18:33:43.365 -INFO- progress [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] finish step. job name: [sample-etl] step name: [load] step status: [COMPLETED]
+  2020-03-25 18:33:43.370 -INFO- progress [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] finish job. job name: [sample-etl]
 
 
 Launch the batch application of the chunk architecture
@@ -235,17 +230,17 @@ Execute the following command.
 
   mvn exec:java -Dexec.mainClass=nablarch.fw.batch.ee.Main -Dexec.args="'sample-chunk'"
 
-If the launch is successful, the log given below will be output to ``log/progress.log``.
+If the launch is successful, the log given below will be output to ``./progress.log``.
 
 .. code-block:: text
 
-  11:30:10.664 INFO  progress start job. job name: [sample-chunk]
-  11:30:10.669 INFO  progress start step. job name: [sample-chunk] step name: [step1]
-  11:30:11.372 INFO  progress job name: [sample-chunk] step name: [step1] input count: [10]
-  11:30:11.394 INFO  progress job name: [sample-chunk] step name: [step1] tps: [238.10] estimated end time: [2017/04/27 11:30:11.394] remaining count: [5]
-  11:30:11.395 INFO  progress job name: [sample-chunk] step name: [step1] tps: [434.78] estimated end time: [2017/04/27 11:30:11.395] remaining count: [0]
-  11:30:11.397 INFO  progress finish step. job name: [sample-chunk] step name: [step1] step status: [COMPLETED]
-  11:30:11.398 INFO  progress finish job. job name: [sample-chunk]
+  2020-03-25 18:34:50.681 -INFO- progress [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] start job. job name: [sample-chunk]
+  2020-03-25 18:34:50.691 -INFO- progress [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] start step. job name: [sample-chunk] step name: [step1]
+  2020-03-25 18:34:50.925 -INFO- progress [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] job name: [sample-chunk] step name: [step1] input count: [10]
+  2020-03-25 18:34:50.960 -INFO- progress [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] job name: [sample-chunk] step name: [step1] total tps: [151.52] current tps: [151.52] estimated end time: [2020/03/25 06:34:50.959] remaining count: [5]
+  2020-03-25 18:34:50.966 -INFO- progress [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] job name: [sample-chunk] step name: [step1] total tps: [243.90] current tps: [714.29] estimated end time: [2020/03/25 06:34:50.966] remaining count: [0]
+  2020-03-25 18:34:50.977 -INFO- progress [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] finish step. job name: [sample-chunk] step name: [step1] step status: [COMPLETED]
+  2020-03-25 18:34:50.984 -INFO- progress [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] finish job. job name: [sample-chunk]
 
 
 The following data is output to testdata/output/outputdata.csv.

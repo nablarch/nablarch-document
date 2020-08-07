@@ -37,9 +37,70 @@ A configuration example of the log output for the above mentioned output policy 
 Configuration example of log.properties
  .. code-block:: properties
 
+  writerNames=appLog
+
+  # Output destination of the application log
+  writer.appLog.className=nablarch.core.log.basic.FileLogWriter
+  writer.appLog.filePath=/var/log/app/app.log
+  writer.appLog.encoding=UTF-8
+  writer.appLog.maxFileSize=10000
+  writer.appLog.formatter.className=nablarch.core.log.basic.BasicLogFormatter
+  writer.appLog.formatter.format=$date$ -$logLevel$- $runtimeLoggerName$ [$executionId$] boot_proc = [$bootProcess$] proc_sys = [$processingSystem$] req_id = [$requestId$] usr_id = [$userId$] $message$$information$$stackTrace$
+
+  availableLoggersNamesOrder=SQL,ROO
+
+  # Configure the application log
+  loggers.ROO.nameRegex=.*
+  loggers.ROO.level=INFO
+  loggers.ROO.writerNames=appLog
+
+  # Configure the SQL log
   loggers.SQL.nameRegex=SQL
   loggers.SQL.level=TRACE
-  loggers.SQL.writerNames=<LogWriter of output destination>
+  loggers.SQL.writerNames=appLog
+
+Configuration example of app-log.properties
+ .. code-block:: properties
+
+  # SqlLogFormatter
+  #sqlLogFormatter.className=
+  # The format of SqlPStatement#retrieve
+  sqlLogFormatter.startRetrieveFormat=$methodName$\
+                                        \n\tSQL = [$sql$]\
+                                        \n\tstart_position = [$startPosition$] size = [$size$]\
+                                        \n\tquery_timeout = [$queryTimeout$] fetch_size = [$fetchSize$]\
+                                        \n\tadditional_info:\
+                                        \n\t$additionalInfo$
+  sqlLogFormatter.endRetrieveFormat=$methodName$\
+                                      \n\texecute_time(ms) = [$executeTime$] retrieve_time(ms) = [$retrieveTime$] count = [$count$]
+  # The format of SqlPStatement#execute
+  sqlLogFormatter.startExecuteFormat=$methodName$\
+                                        \n\tSQL = [$sql$]\
+                                        \n\tadditional_info:\
+                                        \n\t$additionalInfo$
+  sqlLogFormatter.endExecuteFormat=$methodName$\
+                                      \n\texecute_time(ms) = [$executeTime$]
+  # The format of SqlPStatement#executeQuery
+  sqlLogFormatter.startExecuteQueryFormat=$methodName$\
+                                            \n\tSQL = [$sql$]\
+                                            \n\tadditional_info:\
+                                            \n\t$additionalInfo$
+  sqlLogFormatter.endExecuteQueryFormat=$methodName$\
+                                          \n\texecute_time(ms) = [$executeTime$]
+  # The format of SqlPStatement#executeUpdate
+  sqlLogFormatter.startExecuteUpdateFormat=$methodName$\
+                                              \n\tSQL = [$sql$]\
+                                              \n\tadditional_info:\
+                                              \n\t$additionalInfo$
+  sqlLogFormatter.endExecuteUpdateFormat=$methodName$\
+                                          \n\texecute_time(ms) = [$executeTime$] update_count = [$updateCount$]
+  # The format of SqlStatement#executeBatch
+  sqlLogFormatter.startExecuteBatchFormat=$methodName$\
+                                            \n\tSQL = [$sql$]\
+                                            \n\tadditional_info:\
+                                            \n\t$additionalInfo$
+  sqlLogFormatter.endExecuteBatchFormat=$methodName$\
+                                          \n\texecute_time(ms) = [$executeTime$] batch_count = [$updateCount$]
 
 How to use
 --------------------------------------------------

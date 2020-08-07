@@ -6,6 +6,11 @@ Example
 This chapter describes the procedures for building the environment and executing the application, which are necessary for an Example application created using the Nablarch application framework.
 
 
+  .. tip::
+    Example is an implementation for showing how to use the features of Nablarch and is not intended to be used to create a full-fledged application by modifying Example.
+    If you want to create a full-fledged application, create it from :ref:`blank_project`.
+ 
+ 
 Procedure to build the environment
 ------------------------------------------
 The example application uses Apache Maven to build and run the application. Refer to the following page to install Apache Maven on the PC and configure the necessary settings.

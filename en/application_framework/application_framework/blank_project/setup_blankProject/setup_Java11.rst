@@ -51,7 +51,7 @@ Add dependent module used by gsp-dba-maven-plugin
 ----------------------------------------------------------
 
 Configure by referring to the following.
- `Configuration in java11 <https://github.com/coastland/gsp-dba-maven-plugin#java11での設定>`_ (external site)
+ `Configuration in java11 <https://github.com/coastland/gsp-dba-maven-plugin#java11%E3%81%A7%E3%81%AE%E8%A8%AD%E5%AE%9A>`_ (external site)
 
 
 Change of Jetty module used in automatic test (only for web projects or RESTful web service projects)

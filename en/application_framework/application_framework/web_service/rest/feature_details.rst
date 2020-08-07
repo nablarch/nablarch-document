@@ -74,3 +74,13 @@ Response to be returned on error
 --------------------------------------------------
 * :ref:`jaxrs_response_handler-error_response_body`
 * :ref:`jaxrs_response_handler-individually_error_response`
+
+
+Scale-out design for web application
+---------------------------------------
+
+* :ref:`stateless_web_app`
+
+CSRF measures
+----------------------------------------
+* :ref:`CSRF measures <csrf_token_verification_handler>`

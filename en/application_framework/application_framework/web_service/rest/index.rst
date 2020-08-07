@@ -5,7 +5,7 @@ RESTful Web Service
 This chapter provides the information needed to develop RESTful web service using the Nablarch application framework.
 
 .. toctree::
-  :maxdepth: 1
+  :maxdepth: 2
 
   architecture
   application_design

@@ -13,16 +13,16 @@ Nablarch batch application provides the following two types of batch application
   nablarch_batch/index
 
 Although a batch application can be built using either framework,
-creating a batch application using :doc:`jsr352/index` is recommended for the following reasons.
+creating a batch application using :doc:`nablarch_batch/index` is recommended for the following reasons.
 
 Reason
-  :doc:`nablarch_batch/index` is similar to `JSR352(external site) <https://jcp.org/en/jsr/detail?id=352>`_
-  and `Spring Batch(external site) <http://projects.spring.io/spring-batch/>`_ [#spring_batch]_,
-  but there are many parts that are different.
-  For this reason, the disadvantage of using :doc:`nablarch_batch/index`
-  is that it requires extensive learning and the learning cost increases.
-  Parts that appear to be similar are a source of confusion for developers
-  and has the disadvantage of reducing development productivity.
+  Since JSR352 has little information as of 2020 and it is difficult for experts to assign it, we recommend creating a batch application using :doc:`nablarch_batch/index`.
+
+.. tip::
+
+  Although the manuals up to Nablarch 5u15 recommended JSR352-compliant batch applications, the policy has changed to recommend Nablarch batch applications due to their current prevalence and high learning costs in 2020.
+
+
 
 .. tip::
 

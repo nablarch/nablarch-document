@@ -59,6 +59,10 @@ Provides various log output functions in advance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This framework provides the output function of various logs commonly required by the applications. 
 The log format can be changed with configuration and used according to the application requirements.
+As described in the :ref:`log-app_log_setting`, the output function of various logs is performing formatting only,
+and this function is used for the output processing of the logs.
+The blank project generated from the archetype provided by Nablarch has various log formats set.
+See :download:`Default configuration list <../configuration/default-configuration-list.xlsx>` for more information.
 
 .. toctree::
   :hidden:
@@ -439,11 +443,14 @@ Execution ID
  ID system for Execution ID
   .. code-block:: none
 
-   # Added only when the boot process is specified.
-   Boot process + system date and time (yyyyMMddHHmmssSSS) + serial number (4 digits)
+    # Added only when the boot process is specified.
+    Boot process + system date and time (yyyyMMddHHmmssSSS) + serial number (4 digits)
 
 .. important::
- When the request ID, execution ID and user ID are output, :ref:`thread_context_handler`  must be included in the handler configuration as they are acquired from  :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` .
+ When the request ID, execution ID and user ID are output, :ref:`thread_context_handler` must be included in the handler configuration
+ as they are acquired from  :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>`.
+ In particular, you need to set a value for the user ID in your application
+ by referring to :ref:`thread_context_handler-user_id_attribute_setting`.
 
 When line feed code and tab character are to be included
  When line feed code and tab character are to be included in the format, use the same description as Java shown below.

@@ -71,7 +71,7 @@ An example of the command to register the downloaded JDBC driver to the local Ma
 
 .. code-block:: bash
 
-    mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.2.0 -Dpackaging=jar -Dfile=ojdbc6.jar
+    mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.4.0 -Dpackaging=jar -Dfile=ojdbc6.jar
 
 .. tip::
 
@@ -113,28 +113,7 @@ An example of the command to register the downloaded JDBC driver to the local Ma
 SQLServer
 ------------------
 
-
-Since SQLServer JDBC driver is not published in the Maven central repository, it is necessary to register it in the local Maven repository.
-
-The JDBC driver can be downloaded from the following site on the Internet.
-
-.. list-table::
-  :header-rows: 1
-  :class: white-space-normal
-  :widths: 10,5
-
-
-  * - Distribution site name
-    - URL
-
-  * - Download Microsoft JDBC Driver 4.2 for SQL Server, Microsoft JDBC Driver 4.1 for SQL Server and Microsoft JDBC Driver 4.0 for SQL Server from Official Microsoft Download Center
-    - https://www.microsoft.com/ja-JP/download/details.aspx?id=11774 (External site)
-
-An example of the command to register the downloaded JDBC driver to the local Maven repository is shown below.
-
-.. code-block:: bash
-
-    mvn install:install-file -DgroupId=com.microsoft -DartifactId=sqljdbc4 -Dversion=4.0 -Dpackaging=jar -Dfile=sqljdbc4.jar
+In the case of SQLServer, you don't need to register the JDBC driver because it is available in Maven's central repository
 
 
 .. _customizeDBNotExistPjRepo:
@@ -336,7 +315,7 @@ Oracle configuration example
         <dependency>
           <groupId>com.oracle</groupId>
           <artifactId>ojdbc6</artifactId>
-          <version>11.2.0.2.0</version>
+          <version>11.2.0.4.0</version>
           <scope>runtime</scope>
         </dependency>
         <!-- Omitted -->
@@ -400,9 +379,9 @@ SQLServer configuration example
       <dependencies>
         <!-- Omitted -->
         <dependency>
-          <groupId>com.microsoft</groupId>
-          <artifactId>sqljdbc4</artifactId>
-          <version>4.0</version>
+          <groupId>com.microsoft.sqlserver</groupId>
+          <artifactId>mssql-jdbc</artifactId>
+          <version>7.4.1.jre8</version>
           <scope>runtime</scope>
         </dependency>
         <!-- Omitted -->

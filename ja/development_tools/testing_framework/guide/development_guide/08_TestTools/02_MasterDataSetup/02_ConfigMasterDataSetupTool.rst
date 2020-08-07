@@ -58,6 +58,13 @@
 |tool/db/data/MASTER_DATA.xlsx               |マスタデータファイル                    |
 +--------------------------------------------+----------------------------------------+
 
+本ツールを実行する前に以下のコマンドを実行する。
+
+.. code-block:: text
+
+  mvn compile
+  mvn dependency:copy-dependencies -DoutputDirectory=lib
+
 
 プロパティファイルの書き換え
 ----------------------------

@@ -53,7 +53,7 @@ Configuration example of log.properties
   writer.appLog.encoding=UTF-8
   writer.appLog.maxFileSize=10000
   writer.appLog.formatter.className=nablarch.core.log.basic.BasicLogFormatter
-  writer.appLog.formatter.format=<Format for the application log>
+  writer.appLog.formatter.format=$date$ -$logLevel$- $runtimeLoggerName$ [$executionId$] boot_proc = [$bootProcess$] proc_sys = [$processingSystem$] req_id = [$requestId$] usr_id = [$userId$] $message$$information$$stackTrace$
 
   availableLoggersNamesOrder=ACC,ROO
 
@@ -66,6 +66,35 @@ Configuration example of log.properties
   loggers.ACC.nameRegex=HTTP_ACCESS
   loggers.ACC.level=INFO
   loggers.ACC.writerNames=appLog
+
+Configuration example of app-log.properties
+ .. code-block:: properties
+
+  # HttpAccessLogFormatter
+  #httpAccessLogFormatter.className=
+  #httpAccessLogFormatter.datePattern=
+  #httpAccessLogFormatter.maskingChar=
+  #httpAccessLogFormatter.maskingPatterns=
+  #httpAccessLogFormatter.parametersSeparator=
+  #httpAccessLogFormatter.sessionScopeSeparator=
+  #httpAccessLogFormatter.beginOutputEnabled=
+  #httpAccessLogFormatter.parametersOutputEnabled=
+  #httpAccessLogFormatter.dispatchingClassOutputEnabled=
+  #httpAccessLogFormatter.endOutputEnabled=
+  httpAccessLogFormatter.beginFormat=@@@@ BEGIN @@@@ rid = [$requestId$] uid = [$userId$] sid = [$sessionId$]\
+                                        \n\turl          = [$url$$query$]\
+                                        \n\tmethod      = [$method$]\
+                                        \n\tport        = [$port$]\
+                                        \n\tclient_ip   = [$clientIpAddress$]\
+                                        \n\tclient_host = [$clientHost$]
+  httpAccessLogFormatter.parametersFormat=@@@@ PARAMETERS @@@@\n\tparameters  = [$parameters$]
+  httpAccessLogFormatter.dispatchingClassFormat=@@@@ DISPATCHING CLASS @@@@ class = [$dispatchingClass$]
+  httpAccessLogFormatter.endFormat=@@@@ END @@@@ rid = [$requestId$] uid = [$userId$] sid = [$sessionId$] url = [$url$$query$] method = [$method$] status_code = [$statusCode$] content_path = [$contentPath$]\
+                                      \n\tstart_time     = [$startTime$]\
+                                      \n\tend_time       = [$endTime$]\
+                                      \n\texecution_time = [$executionTime$]\
+                                      \n\tmax_memory     = [$maxMemory$]\
+                                      \n\tfree_memory    = [$freeMemory$]
 
 How to use
 --------------------------------------------------
@@ -90,6 +119,7 @@ Description rules
    :Request ID: $requestId$
    :User ID: $userId$
    :URL: $url$
+   :Query string: $query$
    :Port number: $port$
    :HTTP method: $method$
    :Session ID: $sessionId$
@@ -109,7 +139,6 @@ Description rules
         \n\tport        = [$port$]
         \n\tclient_ip   = [$clientIpAddress$]
         \n\tclient_host = [$clientHost$]
-        \n\tparameters  = [$parameters$]
 
   .. tip::
    Request parameters are in the state before decryption of :ref:`hidden encryption <tag-hidden_encryption>`.
@@ -121,6 +150,8 @@ Description rules
    When the request ID and user ID are output,
    :ref:`thread_context_handler` must be included in the handler configuration as they are acquired
    from :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>`.
+   In particular, for user IDs, you need to set a value for the session in your application
+   by referring to the :ref:`thread_context_handler-user_id_attribute_setting`.
 
  httpAccessLogFormatter.parametersFormat
   Format used for the log output after decryption of hidden parameters.

@@ -24,7 +24,9 @@ Libraries Provided by Nablarch
   permission_check
   service_availability
   session_store
+  stateless_web_app
   tag
+  db_double_submit
   bean_util
   utility
   format

@@ -44,14 +44,14 @@ Configuration example of log.properties
   writer.monitorLog.className=nablarch.core.log.basic.FileLogWriter
   writer.monitorLog.filePath=/var/log/app/monitor.log
   writer.monitorLog.formatter.className=nablarch.core.log.basic.BasicLogFormatter
-  writer.monitorLog.formatter.format=<Format for failure notification log>
+  writer.monitorLog.formatter.format=$date$ -$logLevel$- $runtimeLoggerName$ [$executionId$] boot_proc = [$bootProcess$] proc_sys = [$processingSystem$] req_id = [$requestId$] usr_id = [$userId$] $message$
 
   # Output destination of application log
   writer.appLog.className=nablarch.core.log.basic.FileLogWriter
   writer.appLog.filePath=/var/log/app/app.log
   writer.appLog.maxFileSize=10000
   writer.appLog.formatter.className=nablarch.core.log.basic.BasicLogFormatter
-  writer.appLog.formatter.format=<Format for application log>
+  writer.appLog.formatter.format=$date$ -$logLevel$- $runtimeLoggerName$ [$executionId$] boot_proc = [$bootProcess$] proc_sys = [$processingSystem$] req_id = [$requestId$] usr_id = [$userId$] $message$$information$$stackTrace$
 
   availableLoggersNamesOrder=MON,ROO
 
@@ -64,6 +64,19 @@ Configuration example of log.properties
   loggers.MON.nameRegex=MONITOR
   loggers.MON.level=ERROR
   loggers.MON.writerNames=monitorLog
+
+Configuration example of app-log.properties
+ .. code-block:: properties
+
+  # FailureLogFormatter
+  #failureLogFormatter.className=
+  failureLogFormatter.defaultFailureCode=MSG99999
+  failureLogFormatter.defaultMessage=an unexpected exception occurred.
+  failureLogFormatter.language=ja
+  failureLogFormatter.notificationFormat=fail_code = [$failureCode$] $message$
+  failureLogFormatter.analysisFormat=fail_code = [$failureCode$] $message$\nInput Data :\n$data$
+  #failureLogFormatter.contactFilePath=
+  #failureLogFormatter.fwFailureCodeFilePath=
 
 .. tip::
 

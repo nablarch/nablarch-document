@@ -6,44 +6,98 @@ Nablarch SQL Executor
   :local:
 
 Nablarch SQL Executor is a tool for interactively executing SQL files containing Nablarch special syntax.
+This tool is used by designers to design SQL in the project.
 
-Prerequisites
+This tool should be used to configure and build the DB to be used in the project.
+
+Expected usage
 ----------------
 
-Prerequisites are shown below.
+Expected usage of this tool
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+To use this tool, you need to configure the DB and build it with Maven.
+Since the pre-built tool is distributable, only one member of the project needs to do this work.
 
-* Firefox or Chrome must be installed.
-* Nablarch development environment must be set up.
-* When using an RDBMS that does not have a JDBC driver in Maven Central Repository, a JDBC driver must be registered in Project Local Repository or Local Repository. 
-  For more information on the registration method, see :ref:`customizeDBAddFileMavenRepo`.
+This tool is intended to be used in the following ways.
+
+* The member in charge of building the project's environment builds and distributes the SQL Executor.
+* The distributed files must be used by the designers.
+
+Pre-built tools can be used if you have Java and a DB connection environment.
+
+.. figure:: ./_images/sql-executor-1.png
+   :alt: distribution image
+
+   [1]_
+
+Selecting the DB connection method
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This tool can take the following two methods for DB connection.
+
+* All users connect to the project common DB
+* Each user connects to a local DB
+
+Figure of All users connect to the project common DB:
+
+.. figure:: ./_images/sql-executor-db-same.png
+   :alt: All users connect to the project common DB
+
+   [1]_
+
+
+Figure of Each user connects to a local DB:
+
+.. figure:: ./_images/sql-executor-db-separate.png
+   :alt: Each user connects to a local DB
+
+   [1]_
+
  
 Limitations
--------------
-This tool has the following limitations: 
-Therefore, if you want to run these SQL, instead of this tool use the SQL execution environment attached to the database to be used.
+^^^^^^^^^^^
 
-* Conditions cannot be set for the in clause
-* SQL that starts with a with clause cannot be executed
+This tool has the following limitations.
+Therefore, if you want to execute these SQLs, use the SQL execution environment of the database instead of this tool.
+
+* SQL that starts with a WITH clause cannot be executed
+* Cannot include ``,`` in the IN clause
+* Cannot search for a DATETIME literal
 
 .. tip::
 
-  Nablarch provides an :ref:`adapter <doma_adaptor>` for `Doma (external site) <http://doma.readthedocs.io/ja/stable/>`_  that can describe SQL as 2-way SQL.
+  Nablarch provides an :ref:`adapter <doma_adaptor>` for `Doma (external site, english) <https://doma.readthedocs.io/en/stable/>`_  that can describe SQL as 2-way SQL.
   
   When using Doma, the SQL defined for the production environment can be easily test executed without setting up complicated tools such as this one. 
   (Even when constructing a dynamic condition, it can be executed without rewriting SQL)
   
   For this reason, it is recommended to consider the use of Doma.
 
-How to install
-----------------
+How to distribution
+-------------------
+
+Prerequisites
+^^^^^^^^^^^^^
+
+The prerequisites for building and distributing the tool are listed below.
+
+* Firefox or Chrome installed.
+* Nablarch development environment set up.
+* If you use a RDBMS that does not have a JDBC driver in the Maven Central Repository, the JDBC driver must have been registered in the Project Local Repository or Local Repository.
+  See :ref:`customizeDBAddFileMavenRepo` for registration instructions.
+
+Get the source code
+^^^^^^^^^^^^^^^^^^^
 
 Clone the repository published on the following site.
 
 https://github.com/nablarch/sql-executor (external site)
 
 
+.. _db-settings:
+
 DB configuration change
-------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^
 
 Change the settings according to the RDBMS being used.
 
@@ -247,10 +301,8 @@ An example of the configuration value is shown below.
      - nablarch.core.db.dialect.SqlServerDialect
 
 
-How to launch
-------------------
-
-**For Unix systems**
+How to confirm launch
+^^^^^^^^^^^^^^^^^^^^^
 
 Execute the following command.
 
@@ -261,25 +313,69 @@ Execute the following command.
 
 Then launch the browser and display http://localhost:7979/index.html.
 
-
-**For Windows**
-
-Execute the batch file located directly under the directory. 
-Double-click the file or start it from the command prompt.
-
-.. code-block:: bat
-
-  nse-web.bat
-
-
-When the command is executed, the browser starts automatically.
-
 .. tip::
 
-  * The browser may time out if it takes longer to start, for example when starting for the first time. 
+  * The browser may time out if it takes longer to start, for example when starting for the first time.
     In such a case, reload the browser after startup is complete.
   * This tool does not work properly on Internet Explorer. If Internet Explorer starts, copy the URL and paste it in the address field of Firefox or Chrome.
 
+
+How to create the distribution file
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Execute the following command.
+
+.. code-block:: text
+
+  mvn package
+
+
+Can use the tool without Git or Maven by distributing sql-executor-distribution.zip, which is created directly under target.
+
+How to use the distributed tools
+--------------------------------
+
+Prerequisites
+^^^^^^^^^^^^^
+
+The prerequisites for using the tool are listed below.
+
+- The version of Java used in the project be installed.
+- Be able to connect to the database specified in :ref:`db-settings`.
+- Firefox or Chrome installed.
+
+How to launch the distributed file
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Unzip the distributed sql-executor-distribution.zip.
+
+Run the file sql-executor.bat under sql-executor-distribution/sql-executor.
+Double-click the file or launch it from the command prompt.
+
+.. code-block:: bat
+
+  sql-executor.bat
+
+
+A case where you want to connect to a DB other than the one set up at the time of distribution
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Edit the file ``sql-executor.bat``. Configuration items are as follows.
+
+.. csv-table:: Setting items
+
+  "db.url", "database URL"
+  "db.user", "connect user"
+  "db.password", "pssword"
+
+As an example, the editing method when connecting to ``db.url=jdbc:h2:./h2/db/SAMPLE`` , ``db.user=SAMPLE``, ``db.password=SAMPLE`` is as follows.
+
+.. code-block:: bat
+  :emphasize-lines: 3
+
+  cd /d %~dp0
+
+  start java -Ddb.url=jdbc:h2:./h2/db/SAMPLE -Ddb.user=SAMPLE -Ddb.password=SAMPLE -jar sql-executor.jar （omitted）
+  cmd /c start http://localhost:7979/index.html
+
+See :ref:`faq` , if nothing happens and the process ends abnormally.
 
 How to operate
 ----------------
@@ -322,39 +418,94 @@ Click **[Fill]** to restore the contents of the input field from the previous ex
 
    SQL execution result (DML)
 
-Associated files
------------------
 
-The following log files are output during execution:
+Syntax of SQLExecutor
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Methods of writing strings
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* sql.log → Runtime log of SQL statements
-* app.log → All execution logs
+If you want to enter a string as a condition, you need to enclose the string in ``'``.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Methods of writing other than strings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It should not be enclosed in ``'`` except for strings.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Methods of writing IN clause
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Need to enclose the condition in ``[]`` to execute IN clause. Also, when multiple items are entered, they should be separated by ``,``.
+
+Also, if the same variable name is specified in the ``$if`` special syntax and in the IN clause, the same value must be entered.
+
+Examples are shown below.
+
+.. figure:: ./_images/in-success.png
+   :alt: Images with IN clauses enclosed
+
+If ``[]`` is not specified in the IN clause, the following errors are printed.
+``java.lang.IllegalArgumentException: object type in field is invalid. valid object type is Collection or Array.``
+
+.. figure:: ./_images/in-fail.png
+   :alt: Image with an IllegalArgumentException
+
+.. warning::
+
+    However, this tool does not allow you to use ``,`` as a search condition for IN clauses.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Methods of Date Type Settings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Set the value to date type (DATE) field in the same format as SQL92 DATE literal.
+
+Examples are shown below.
+
+::
+
+  1970-12-11
+
+
+Also, the current time is set by specifying the keyword ``SYSDATE``.
+
+
+.. warning::
+
+    Cannot search using a DATETIME literal as a condition.
+
+.. _faq:
 
 FAQ
 ---
 
-**Q1** :How to set the value of the DATE/DATETIME/TIMESTAMP field?
+**Q1** :I would like to see the log of the runtime, how can I check the log?
 
-**A1** :Use the same format as DATE/DATETIME literals of SQL92. 
-An example is shown below.
+**A1** :At runtime, the following log files are output.
 
-::
+        * sql.log → Runtime log of SQL statements
+        * app.log → All execution logs
 
-  12/11/1970
-
-
-::
-
-  12/11/1970 12:01:20
-
-The current time is set by specifying the keyword ``SYSDATE``.
-
---------------
+^^^^^^^^^^^^^^
 
 **Q2** :What is the solution if the program terminates abnormally without any output even after execution?
 
 **A2** :Some errors, such as DB connection errors during launch, are output to the execution log file instead of standard error output. 
 Since the execution log is output directly as ``app.log`` under the current directory, check the contents and take appropriate action.
+
+^^^^^^^^^^^^^^
+
+**Q3** : ``パラメータの指定方法が正しくありません。`` (The parameter is specified incorrectly.)  message is displayed, but I do not know what to do.
+
+**A3** :
+If you want to enter a string, make sure that the string is enclosed in ``'``.
+If you want to enter a boolean or date type, check for spelling and formatting errors.
+
+
+.. [1] Future Architect, Inc. Japan ( `Attribution 4.0 International (CC BY 4.0) <https://creativecommons.org/licenses/by/4.0/>`_ ） modified and created.
 
 .. |br| raw:: html
 

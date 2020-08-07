@@ -343,7 +343,57 @@ In the component configuration file, configure the path of the property file tha
            <entry key="format" value="fmt" />
          </map>
        </property>
+    </component>
+
+
+Configuring the test data analysis class
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Set up a test data analysis class to be used in subfunction unit tests in the component configuration file.
+
+ .. code-block:: xml
+ 
+   <!-- TestDataParser -->
+  <component name="messagingTestDataParser" class="nablarch.test.core.reader.BasicTestDataParser">
+    <property name="testDataReader">
+      <component name="xlsReaderForPoi" class="nablarch.test.core.reader.PoiXlsReader"/>
     </property>
+    <property name="interpreters" ref="messagingTestInterpreters" />
+  </component>
+   <!-- Classes for interpreting test data notation -->
+  <list name="messagingTestInterpreters">
+    <component class="nablarch.test.core.util.interpreter.NullInterpreter"/>
+    <component class="nablarch.test.core.util.interpreter.QuotationTrimmer"/>
+    <component class="nablarch.test.core.util.interpreter.CompositeInterpreter">
+      <property name="interpreters">
+        <list>
+          <component class="nablarch.test.core.util.interpreter.BasicJapaneseCharacterInterpreter"/>
+        </list>
+      </property>
+    </component>
+  </list>
+
+
+
+Add the necessary unit test libraries to pom.xml
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Add the following dependency to pom.xml
+
+ .. code-block:: xml
+ 
+        <dependency>
+          <groupId>com.nablarch.framework</groupId>
+          <artifactId>nablarch-testing</artifactId>
+          <exclusions>
+            <exclusion>
+              <groupId>org.mortbay.jetty</groupId>
+              <artifactId>*</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>com.google.code.findbugs</groupId>
+              <artifactId>*</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
 
 
 

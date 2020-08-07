@@ -2,6 +2,10 @@ Getting Started
 ========================================
 By reading this chapter, you can get the basic knowledge of the development of the messaging architecture using Nablarch tables as queues.
 
+.. tip::
+ Example is an sample implementation that shows how to use Nablarch's features and is not intended to be used to modify Example to create full-fledged applications.
+
+
 Prerequisites
   The explanation of this chapter is based on  :ref:`example_application` . 
   The operating environment of the example application must be built in advance.
