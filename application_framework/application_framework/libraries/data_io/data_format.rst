@@ -201,6 +201,24 @@
 .. important::
   出力するデータに不正な値が設定されていた場合に正しく処理できない可能性があるため、事前にアプリケーション側で不正な値でないかをチェックすること。
 
+.. important::
+
+  デフォルトの動作では1レコード毎にファイルへの書き込みを行う。
+  大量データを出力する場合はレコード毎にファイルに書き込むと性能要件を満たせない可能性がある。
+  そのような場合は、1レコード毎でなく指定したバッファサイズで書き込みを行うようにデフォルトの動作を変更して対応すること。
+
+  下記のコンポーネント定義を追加することで、1レコード毎でなく指定したバッファサイズで書き込みを行うようにできる。
+
+  .. code-block:: xml
+
+    <!-- コンポーネント名はdataFormatConfigとする -->
+    <component name="dataFormatConfig" class="nablarch.core.dataformat.DataFormatConfig">
+      <property name="flushEachRecordInWriting" value="false" />
+    </component>
+
+  出力に使用するバッファサイズは :java:extdoc:`FileRecordWriterHolder <nablarch.common.io.FileRecordWriterHolder>`
+  の `open` メソッドで指定できる。
+
 .. _data_format-file_download:
   
 ファイルダウンロードで使用する
