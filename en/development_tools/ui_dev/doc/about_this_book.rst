@@ -1,7 +1,7 @@
--------------------------
-本書の内容
--------------------------
-本書は、NablarchにおけるUI開発基盤に関する解説書である。
-主に本機能を採用するPJのアーキテクト向けに、本機能のグランドデザイン、
-アーキテクチャの詳細、カスタマイズ方法について記述している。
+---------------------------
+Contents of this document
+---------------------------
+Only japanese edition
+
+See `Contents of this document(Japanese Page) <https://nablarch.github.io/docs/LATEST/doc/development_tools/ui_dev/doc/about_this_book.html>`_
 
