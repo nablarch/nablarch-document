@@ -1,12 +1,9 @@
-===================================================
-disabled 項目切替えイベントアクション
-===================================================
-:doc:`event_toggle_disabled` は、
-チェックボックス・ラジオボタン・プルダウン要素の選択状態に応じて、
-特定の要素の `disabled` 属性値を動的に切替えるイベントアクションである。
+=====================================================
+disabled item switching event action
+=====================================================
 
-本イベントアクションの仕様は、切替え対象の属性が `disabeld` となっている点を除けば
-:doc:`event_toggle_readonly` と同等である。
+Only japanese edition
 
-詳細はそちらのドキュメントを参照すること。
+See `disabled item switching event action(Japanese Page) <https://nablarch.github.io/docs/LATEST/doc/development_tools/ui_dev/doc/reference_jsp_widgets/event_toggle_disabled.html>`_
+
 
