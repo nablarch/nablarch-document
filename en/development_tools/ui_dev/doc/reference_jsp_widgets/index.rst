@@ -1,8 +1,8 @@
 ===============================
-UI部品ウィジェット一覧
+List of UI widgets
 ===============================
 
-**データ表示部品**
+**Data display parts**
 
   - :doc:`table_plain`
   - :doc:`table_search_result`
@@ -14,7 +14,7 @@ UI部品ウィジェット一覧
   - :doc:`column_checkbox`
   - :doc:`column_radio`
 
-**入力フォーム部品**
+**Input form parts**
 
   - :doc:`field_checkbox`
   - :doc:`field_radio`
@@ -35,13 +35,13 @@ UI部品ウィジェット一覧
   - :doc:`field_hint`
   - :doc:`field_block`
 
-**コントロール部品**
+**Control parts**
 
   - :doc:`button_submit`
   - :doc:`link_submit`
   - :doc:`button_block`
 
-**イベント制御部品**
+**Event control parts**
 
   - :doc:`event_listen`
   - :doc:`event_listen_subwindow`
@@ -55,7 +55,7 @@ UI部品ウィジェット一覧
   - :doc:`event_write_to`
 
 
-**表示領域拡張部品**
+**Display area expansion parts**
 
   - :doc:`tab_group`
   - :doc:`box_title`
@@ -65,17 +65,17 @@ UI部品ウィジェット一覧
 
 .. _reference_jsp_widgets_index_spec:
 
-====================================
-設計情報記述用ウィジェット一覧
-====================================
+=========================================================
+List of widgets for design information description
+=========================================================
 
-**メタ情報記述用部品**
+**Parts for describing meta information**
   - :doc:`spec_author`
   - :doc:`spec_updated_by`
   - :doc:`spec_created_date`
   - :doc:`spec_updated_date`
 
-**画面仕様記述用部品**
+**Parts for screen specification description**
   - :doc:`spec_layout`
   - :doc:`spec_condition`
   - :doc:`spec_desc`
