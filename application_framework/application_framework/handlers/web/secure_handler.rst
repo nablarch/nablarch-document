@@ -13,6 +13,7 @@
 * X-Frame-Options: SAMEORIGIN
 * X-XSS-Protection: 1; mode=block
 * X-Content-Type-Options: nosniff
+* Referrer-Policy: strict-origin-when-cross-origin
 
 
 本ハンドラでは、以下の処理を行う。
@@ -75,6 +76,7 @@
   * :java:extdoc:`FrameOptionsHeader <nablarch.fw.web.handler.secure.FrameOptionsHeader>`
   * :java:extdoc:`ContentTypeOptionsHeader <nablarch.fw.web.handler.secure.ContentTypeOptionsHeader>`
   * :java:extdoc:`XssProtectionHeader <nablarch.fw.web.handler.secure.XssProtectionHeader>`
+  * :java:extdoc:`ReferrerPolicyHeader <nablarch.fw.web.handler.secure.ReferrerPolicyHeader>`
 
 
 デフォルト以外のレスポンスヘッダを設定する
