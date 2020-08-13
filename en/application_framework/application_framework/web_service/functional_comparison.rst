@@ -21,7 +21,7 @@ This section shows the comparison of the following functions:
 
    <br />
 
-.. list-table:: Function comparison (✓: Provided △: Partially provided ×: Not provided -: Not applicable)
+.. list-table:: Function comparison (A: Provided B: Partially provided C: Not provided D: Not applicable)
    :header-rows: 1
    :class: something-special-class
 
@@ -30,73 +30,73 @@ This section shows the comparison of the following functions:
      - HTTP |br| messaging
      - JSR 339
    * - Request and resource method mapping
-     - :ref:`△ <rest-action_mapping>`
-     - :ref:`✓ <http_messaging-action_mapping>`
-     - ✓
+     - :ref:`B <rest-action_mapping>`
+     - :ref:`A <http_messaging-action_mapping>`
+     - A
    * - Mapping of request and resource method
-     - :ref:`△ <rest-path_query_param>`
-     - × [1]_
-     - ✓
+     - :ref:`B <rest-path_query_param>`
+     - C [1]_
+     - A
    * - Mapping of HTTP method
-     - :ref:`△ <rest-action_mapping>`
-     - × [1]_
-     - ✓
+     - :ref:`B <rest-action_mapping>`
+     - C [1]_
+     - A
    * - Convert request/response |br| according to the media type
-     - :ref:`△ <body_convert_handler>`
-     - × [1]_
-     - ✓
+     - :ref:`B <body_convert_handler>`
+     - C [1]_
+     - A
    * - Entity validation
-     - :ref:`✓ <rest-request_validation>`
-     - :ref:`✓ <http_messaging-request_validation>`
-     - ✓
+     - :ref:`A <rest-request_validation>`
+     - :ref:`A <http_messaging-request_validation>`
+     - A
    * - Injection to resource class (CDI)
-     - × [2]_
-     - × [2]_
-     - ✓
+     - C [2]_
+     - C [2]_
+     - A
    * - Filter for request/response
-     - × [3]_
-     - × [3]_
-     - ✓
+     - C [3]_
+     - C [3]_
+     - A
    * - Interceptor for reading and writing the body
-     - × [4]_
-     - × [5]_
-     - ✓
+     - C [4]_
+     - C [5]_
+     - A
    * - Client API
-     - × [6]_
-     - :ref:`✓ <http_system_messaging-message_send>`
-     - ✓
+     - C [6]_
+     - :ref:`A <http_system_messaging-message_send>`
+     - A
    * - Asynchronous operation
-     - × [7]_
-     - × [7]_
-     - ✓
+     - C [7]_
+     - C [7]_
+     - A
    * - Error log output
-     - :ref:`✓ <jaxrs_response_handler-error_log>`
-     - :ref:`✓ <http_messaging_error_handler-error_response_and_log>`
-     - －
+     - :ref:`A <jaxrs_response_handler-error_log>`
+     - :ref:`A <http_messaging_error_handler-error_response_and_log>`
+     - D
    * - Checking the maximum capacity of the request body
-     - × [8]_
-     - :ref:`✓ <http_messaging_request_parsing_handler-limit_size>`
-     - －
+     - C [8]_
+     - :ref:`A <http_messaging_request_parsing_handler-limit_size>`
+     - D
    * - Output of the trail log
-     - × [9]_
-     - :ref:`✓ <messaging_log>`
-     - －
+     - C [9]_
+     - :ref:`A <messaging_log>`
+     - D
    * - Retransmission control
-     - × [9]_
-     - :ref:`✓ <message_resend_handler>`
-     - －
+     - C [9]_
+     - :ref:`A <message_resend_handler>`
+     - D
    * - Service availability check
-     - × [10]_
-     - × [10]_
-     - －
+     - C [10]_
+     - C [10]_
+     - D
    * - Transaction control
-     - × [11]_
-     - × [11]_
-     - －
+     - C [11]_
+     - C [11]_
+     - D
    * - Callback on business process errors
-     - × [12]_
-     - :java:extdoc:`✓ <nablarch.fw.messaging.action.MessagingAction>`
-     - －
+     - C [12]_
+     - :java:extdoc:`A <nablarch.fw.messaging.action.MessagingAction>`
+     - D
 
 .. [1] HTTP messaging is not designed in consideration of REST. Use JAX-RS support for RESTful web services.
 .. [2] CDI is not available because JAX-RS support and HTTP messaging run as Nablarch web applications.

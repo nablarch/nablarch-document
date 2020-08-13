@@ -13,7 +13,7 @@ This section compares the following functions:
   Functions related to annotations not described here cannot be used.
 
 
-.. list-table:: Function comparison (✓: Provided △: Partially provided ×: Not provided -: Not applicable)
+.. list-table:: Function comparison (A: Provided B: Partially provided C: Not provided D: Not applicable)
   :header-rows: 1
   :class: something-special-class
 
@@ -22,54 +22,54 @@ This section compares the following functions:
     - JSR317
 
   * - Supports relationship |br|
-    - × [#relation]_
-    - ✓
+    - C [#relation]_
+    - A
 
   * - CRUD can be executed based on Entity |br|
       CRUD SQL can be executed without writing SQL
-    - ✓ |br| :ref:`To the manual <universal_dao-execute_crud_sql>`
-    - ✓
+    - A |br| :ref:`To the manual <universal_dao-execute_crud_sql>`
+    - A
 
   * - Search results can be acquired as Java Beans objects
-    - ✓ |br| :ref:`To the manual <universal_dao-bean_mapping>`
-    - ✓
+    - A |br| :ref:`To the manual <universal_dao-bean_mapping>`
+    - A
 
   * - An arbitrary SQL statement can be executed
-    - ✓ |br| :ref:`To the manual <universal_dao-sql_file>`
-    - ✓
+    - A |br| :ref:`To the manual <universal_dao-sql_file>`
+    - A
 
   * - SQL can be dynamically assembled
-    - △ [#criteria]_ |br| :ref:`To the manual <universal_dao-sql_file>`
-    - ✓
+    - B [#criteria]_ |br| :ref:`To the manual <universal_dao-sql_file>`
+    - A
 
   * - Can be executed in a batch
-    - ✓ |br| :ref:`To the manual <universal_dao-batch_execute>`
-    - ×
+    - A |br| :ref:`To the manual <universal_dao-batch_execute>`
+    - C
 
   * - Allows deferred loading  |br| when fetching large amounts of data |br|
       (can process large amounts |br| of data without squeezing the heap)
-    - ✓ |br| :ref:`To the manual <universal_dao-lazy_load>`
-    - ×
+    - A |br| :ref:`To the manual <universal_dao-lazy_load>`
+    - C
 
   * - Can search using range for paging.
-    - ✓ |br| :ref:`To the manual <universal_dao-paging>`
-    - ✓
+    - A |br| :ref:`To the manual <universal_dao-paging>`
+    - A
 
   * - Can number surrogate key values
-    - ✓ |br| :ref:`To the manual <universal_dao-generate_surrogate_key>`
-    - ✓
+    - A |br| :ref:`To the manual <universal_dao-generate_surrogate_key>`
+    - A
 
   * - Can execute Bean Validation |br| when the Entity status is incorporated in the database
-    - × [#validaiton]_
-    - ✓
+    - C [#validaiton]_
+    - A
 
   * - Can execute arbitrary processing (callback call) |br| before and after database access
-    - × [#callback]_
-    - ✓
+    - C [#callback]_
+    - A
 
   * - Exclusive control is possible
-    - △ [#lock]_ |br| :ref:`To the manual(optimistic lock) <universal_dao_jpa_optimistic_lock>` |br| :ref:`To the manual(pessimistic lock) <universal_dao_jpa_pessimistic_lock>`
-    - ✓
+    - B [#lock]_ |br| :ref:`To the manual(optimistic lock) <universal_dao_jpa_optimistic_lock>` |br| :ref:`To the manual(pessimistic lock) <universal_dao_jpa_pessimistic_lock>`
+    - A
 
 .. [#relation] Searching for tables with relationships can be supported by creating SQL. Registration, update and deletion are handled by calling the necessary function for each table. 
 .. [#criteria] Universal DAO can perform dynamic processing only for conditions and sort items. For details, see :ref:`SQL dynamic assembly <database-variable_condition>` 
