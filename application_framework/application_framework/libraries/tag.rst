@@ -1419,9 +1419,9 @@ BLOB型カラムのダウンロードの実装例
   先に確認画面に遷移した画面はトークンが古いため、二重サブミットエラーとなる。
 
  .. tip::
-  トークンの発行は、 :java:extdoc:`RandomTokenGenerator <nablarch.common.web.token.RandomTokenGenerator>` が行う。
-  :java:extdoc:`RandomTokenGenerator <nablarch.common.web.token.RandomTokenGenerator>`
-  では、16文字のランダムな文字列を生成する。
+  トークンの発行は、 :java:extdoc:`UUIDV4TokenGenerator <nablarch.common.web.token.UUIDV4TokenGenerator>` が行う。
+  :java:extdoc:`UUIDV4TokenGenerator <nablarch.common.web.token.UUIDV4TokenGenerator>`
+  では、36文字のランダムな文字列を生成する。
   トークンの発行処理を変更したい場合は、:ref:`tag-double_submission_server_side_change` を参照。
 
 
