@@ -102,7 +102,7 @@ If it cannot be obtained, it generates a CSRF token and stores it in the session
 Determines whether or not the HTTP request is target to verification
   * The :java:extdoc:`VerificationTargetMatcher<nablarch.fw.web.handler.csrf.VerificationTargetMatcher>` determines whether the HTTP request is the target of the verification or not.
     By default, it uses the :java:extdoc:`HttpMethodVerificationTargetMatcher<nablarch.fw.web.handler.csrf.HttpMethodVerificationTargetMatcher>`, which determines whether an HTTP request is a target of verification or not.
-  * The :java:extdoc:`HttpMethodVerificationTargetMatcher<nablarch.fw.web.handler.csrf.HttpMethodVerificationTargetMatcher>` determines the HTTP method ``GET`` ``HEAD` ``TRACE`` ``OPTIONS`` as **outside** the CSRF token for verification (i.e., POST, PUT, etc. are targeted for verification).
+  * The :java:extdoc:`HttpMethodVerificationTargetMatcher<nablarch.fw.web.handler.csrf.HttpMethodVerificationTargetMatcher>` determines the HTTP method ``GET`` ``HEAD`` ``TRACE`` ``OPTIONS`` as **outside** the CSRF token for verification (i.e., POST, PUT, etc. are targeted for verification).
 
 If it is a target of verification, the CSRF token is acquired from the HTTP request, and verification is performed
   * The name to be used to store the CSRF token in the HTTP request is as follows
