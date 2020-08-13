@@ -4,7 +4,7 @@ Comparison of Function between Bean Validation and Nablarch Validation
 ----------------------------------------------------------------------------------------------------
 This section describes the functional comparison with the validation function provided by Nablarch.
 
-.. list-table:: Function comparison (O: Provided; △: Partially provided; ×: Not provided; -: Not applicable)
+.. list-table:: Function comparison (✓: Provided; △: Partially provided; ×: Not provided; -: Not applicable)
   :header-rows: 1
   :class: something-special-class
 
@@ -13,48 +13,48 @@ This section describes the functional comparison with the validation function pr
     - Nablarch |br| Validation
     - JSR 349
   * - Items to be validated can be specified
-    - ○ [#property_validation]_
-    - ○ |br| :ref:`To the manual <nablarch_validation-execute>`
-    - ○
+    - ✓ [#property_validation]_
+    - ✓ |br| :ref:`To the manual <nablarch_validation-execute>`
+    - ✓
   * - Validation can be performed  |br| for Java Beans objects |br| that have a hierarchical structure
-    - ○ [#jsr]_
-    - ○ |br| :ref:`To the manual <nablarch_validation-nest_bean>`
-    - ○
+    - ✓ [#jsr]_
+    - ✓ |br| :ref:`To the manual <nablarch_validation-nest_bean>`
+    - ✓
   * - Validation can be performed  |br| for method arguments and return values
     - × [#method]_
     - × [#method]_
-    - ○
+    - ✓
   * - Can perform correlation validation
-    - ○ |br| :ref:`To the manual <bean_validation-correlation_validation>`
-    - ○ |br| :ref:`To the manual <nablarch_validation-correlation_validation>`
-    - ○
+    - ✓ |br| :ref:`To the manual <bean_validation-correlation_validation>`
+    - ✓ |br| :ref:`To the manual <nablarch_validation-correlation_validation>`
+    - ✓
   * - Execution order of validation can be specified
     - × [#order]_
-    - ○ |br| :ref:`To the manual <nablarch_validation-execute>`
-    - ○
+    - ✓ |br| :ref:`To the manual <nablarch_validation-execute>`
+    - ✓
   * - Validation items can be switched based |br| on the value of a specific item
-    - ○ [#conditional]_
-    - ○ |br| :ref:`To the manual <nablarch_validation-conditional>`
-    - ○
+    - ✓ [#conditional]_
+    - ✓ |br| :ref:`To the manual <nablarch_validation-conditional>`
+    - ✓
   * - Embedded parameters can be used |br| in error messages
-    - ○ [#parameter]_ |br| :ref:`To the manual <message>`
-    - ○ |br| :ref:`To the manual <message>`
-    - ○
+    - ✓ [#parameter]_ |br| :ref:`To the manual <message>`
+    - ✓ |br| :ref:`To the manual <message>`
+    - ✓
   * - Can validate domains
-    - ○ |br| :ref:`To the manual <bean_validation-domain_validation>`
-    - ○ |br| :ref:`To the manual <nablarch_validation-domain_validation>`
+    - ✓ |br| :ref:`To the manual <bean_validation-domain_validation>`
+    - ✓ |br| :ref:`To the manual <nablarch_validation-domain_validation>`
     - ×
   * - Can convert value types
     - × [#type_converter]_
-    - ○ |br| :ref:`To the manual <nablarch_validation-definition_validator_convertor>`
+    - ✓ |br| :ref:`To the manual <nablarch_validation-definition_validator_convertor>`
     - ×
   * - Can normalize values
     - × [#normalized]_
-    - ○ |br| :ref:`To the manual <nablarch_validation-definition_validator_convertor>`
+    - ✓ |br| :ref:`To the manual <nablarch_validation-definition_validator_convertor>`
     - ×
   * - Can embed item names in error messages
-    - ○ |br| :ref:`To the manual <bean_validation-property_name>`
-    - ○ |br| :ref:`To the manual <nablarch_validation-property_name>`
+    - ✓ |br| :ref:`To the manual <bean_validation-property_name>`
+    - ✓ |br| :ref:`To the manual <nablarch_validation-property_name>`
     - ×
 
 

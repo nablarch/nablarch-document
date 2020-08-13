@@ -25,7 +25,7 @@ This tool is available in the Request Unit Test as a standard and is executed wh
 * Check whether the tags and attributes described in the configuration file \ [#]_ \ are used.
 * It is not case sensitive. Example: <tr>, <TR>, <Tr>, <tR>
 * The boolean attribute can be used. Example: <textarea disabled>
-* Omitting quotations in the attribute specification is not allowed. Example: ○ <table align="center"> × <table align=center>
+* Omitting quotations in the attribute specification is not allowed. Example: OK: <table align="center"> Not OK: <table align=center>
 
 .. [#] The check contents can be customized by changing the configuration values.
 

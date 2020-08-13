@@ -21,7 +21,7 @@ This section shows the comparison of the following functions:
 
    <br />
 
-.. list-table:: Function comparison (○: Provided △: Partially provided ×: Not provided-: Not applicable)
+.. list-table:: Function comparison (✓: Provided △: Partially provided ×: Not provided -: Not applicable)
    :header-rows: 1
    :class: something-special-class
 
@@ -31,59 +31,59 @@ This section shows the comparison of the following functions:
      - JSR 339
    * - Request and resource method mapping
      - :ref:`△ <rest-action_mapping>`
-     - :ref:`○ <http_messaging-action_mapping>`
-     - ○
+     - :ref:`✓ <http_messaging-action_mapping>`
+     - ✓
    * - Mapping of request and resource method
      - :ref:`△ <rest-path_query_param>`
      - × [1]_
-     - ○
+     - ✓
    * - Mapping of HTTP method
      - :ref:`△ <rest-action_mapping>`
      - × [1]_
-     - ○
+     - ✓
    * - Convert request/response |br| according to the media type
      - :ref:`△ <body_convert_handler>`
      - × [1]_
-     - ○
+     - ✓
    * - Entity validation
-     - :ref:`○ <rest-request_validation>`
-     - :ref:`○ <http_messaging-request_validation>`
-     - ○
+     - :ref:`✓ <rest-request_validation>`
+     - :ref:`✓ <http_messaging-request_validation>`
+     - ✓
    * - Injection to resource class (CDI)
      - × [2]_
      - × [2]_
-     - ○
+     - ✓
    * - Filter for request/response
      - × [3]_
      - × [3]_
-     - ○
+     - ✓
    * - Interceptor for reading and writing the body
      - × [4]_
      - × [5]_
-     - ○
+     - ✓
    * - Client API
      - × [6]_
-     - :ref:`○ <http_system_messaging-message_send>`
-     - ○
+     - :ref:`✓ <http_system_messaging-message_send>`
+     - ✓
    * - Asynchronous operation
      - × [7]_
      - × [7]_
-     - ○
+     - ✓
    * - Error log output
-     - :ref:`○ <jaxrs_response_handler-error_log>`
-     - :ref:`○ <http_messaging_error_handler-error_response_and_log>`
+     - :ref:`✓ <jaxrs_response_handler-error_log>`
+     - :ref:`✓ <http_messaging_error_handler-error_response_and_log>`
      - －
    * - Checking the maximum capacity of the request body
      - × [8]_
-     - :ref:`○ <http_messaging_request_parsing_handler-limit_size>`
+     - :ref:`✓ <http_messaging_request_parsing_handler-limit_size>`
      - －
    * - Output of the trail log
      - × [9]_
-     - :ref:`○ <messaging_log>`
+     - :ref:`✓ <messaging_log>`
      - －
    * - Retransmission control
      - × [9]_
-     - :ref:`○ <message_resend_handler>`
+     - :ref:`✓ <message_resend_handler>`
      - －
    * - Service availability check
      - × [10]_
@@ -95,7 +95,7 @@ This section shows the comparison of the following functions:
      - －
    * - Callback on business process errors
      - × [12]_
-     - :java:extdoc:`○ <nablarch.fw.messaging.action.MessagingAction>`
+     - :java:extdoc:`✓ <nablarch.fw.messaging.action.MessagingAction>`
      - －
 
 .. [1] HTTP messaging is not designed in consideration of REST. Use JAX-RS support for RESTful web services.

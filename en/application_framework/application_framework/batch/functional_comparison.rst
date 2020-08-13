@@ -7,7 +7,7 @@ This section compares the following features:
 * :doc:`jsr352/index`
 * :doc:`nablarch_batch/index`
 
-.. list-table:: Function comparison (JSR: Defined in JSR specifications ○: Provided △: Partially provided ×: Not provided -: Not applicable)
+.. list-table:: Function comparison (JSR: Defined in JSR specifications ✓: Provided △: Partially provided ×: Not provided -: Not applicable)
   :header-rows: 1
   :class: white-space-normal
   :widths: 30 35 35
@@ -18,23 +18,23 @@ This section compares the following features:
 
   * - Arbitrary parameters can be configured at startup
     - JSR
-    - ○ |br| :ref:`To the manual <main-option_parameter>`
+    - ✓ |br| :ref:`To the manual <main-option_parameter>`
 
   * - Simultaneous execution of the same batch applications can be prevented
-    - ○ |br| :java:extdoc:`To Javadoc <nablarch.fw.batch.ee.listener.job.DuplicateJobRunningCheckListener>`
-    - ○ |br| :ref:`To the manual <duplicate_process_check_handler>`
+    - ✓ |br| :java:extdoc:`To Javadoc <nablarch.fw.batch.ee.listener.job.DuplicateJobRunningCheckListener>`
+    - ✓ |br| :ref:`To the manual <duplicate_process_check_handler>`
 
   * - Batch applications that are running, can be safely stopped from the outside
     - JSR
-    - ○ |br| :ref:`To the manual <process_stop_handler>`
+    - ✓ |br| :ref:`To the manual <process_stop_handler>`
 
   * - The maximum number of records to be processed in one execution can be specified.
     - × |br| [#jsr_max]_
-    - ○ |br| :ref:`To the manual <data_read_handler-max_count>`
+    - ✓ |br| :ref:`To the manual <data_read_handler-max_count>`
 
   * - A fixed number of record units can be committed
     - JSR
-    - ○ |br| :ref:`To the manual <loop_handler-commit_interval>`
+    - ✓ |br| :ref:`To the manual <loop_handler-commit_interval>`
 
   * - Can re-run from the point of failure
     - JSR
@@ -42,7 +42,7 @@ This section compares the following features:
 
   * - Business processes can be executed in parallel by multiple threads
     - JSR
-    - ○ |br| :ref:`To the manual <multi_thread_execution_handler>`
+    - ✓ |br| :ref:`To the manual <multi_thread_execution_handler>`
 
   * - Processing can be continued ignoring specific exceptions (processing can be continued after rollback)
     - JSR
@@ -58,7 +58,7 @@ This section compares the following features:
 
   * - Batches can be executed by monitoring input data sources at regular intervals
     - × [#resident_batch]_
-    - ○ |br| :ref:`To the manual <nablarch_batch-resident_batch>`
+    - ✓ |br| :ref:`To the manual <nablarch_batch-resident_batch>`
 
 
 .. [#jsr]
