@@ -180,3 +180,60 @@ URLの例
 
 .. important::
   JSRで規定されている :java:extdoc:`QueryParam <javax.ws.rs.QueryParam>` は使用できないので注意すること。
+
+.. _rest_feature_details-response_header:
+
+レスポンスヘッダを設定する
+--------------------------------------------------
+リソースクラスのメソッドで個別にレスポンスヘッダを指定したい場合がある。
+
+.. important::
+  アプリケーション全体で共通となるレスポンスヘッダを指定したい場合はハンドラで設定すること。
+  セキュリティ関連のレスポンスヘッダを指定したい場合は :ref:`secure_handler` を使用すればよい。
+
+リソースクラスのメソッドで :java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>` を作成する場合は、
+HttpResponseにレスポンスヘッダを指定すればよい。
+
+  .. code-block:: java
+
+    public HttpResponse something(HttpRequest request) {
+
+        // 処理は省略
+
+        HttpResponse response = new HttpResponse();
+        response.setHeader("Cache-Control", "no-store"); // レスポンスヘッダを指定
+        return response;
+    }
+
+Producesアノテーションを使用し、リソースクラスのメソッドがエンティティ（Bean）を返す場合は、
+そのままではレスポンスヘッダを指定できない。
+
+  .. code-block:: java
+
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Client> something(HttpRequest request, ExecutionContext context) {
+
+        // 処理は省略
+        List<Client> clients = service.findClients(condition);
+
+        return clients;
+    }
+
+フレームワークではProducesアノテーションを使用した場合にレスポンスヘッダとステータスコードを指定するために、
+:java:extdoc:`EntityResponse <nablarch.fw.jaxrs.EntityResponse>` を提供している。
+エンティティの代わりにEntityResponseを返すように実装すればよい。
+
+  .. code-block:: java
+
+    @Produces(MediaType.APPLICATION_JSON)
+    public EntityResponse something(HttpRequest request, ExecutionContext context) {
+
+        // 処理は省略
+        List<Client> clients = service.findClients(condition);
+
+        EntityResponse response = new EntityResponse();
+        response.setEntity(clients); // エンティティを指定
+        response.setStatusCode(HttpResponse.Status.OK.getStatusCode()); // ステータスコードを指定
+        response.setHeader("Cache-Control", "no-store"); // レスポンスヘッダを指定
+        return response;
+    }
