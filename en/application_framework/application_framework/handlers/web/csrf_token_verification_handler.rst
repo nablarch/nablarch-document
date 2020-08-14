@@ -11,8 +11,8 @@ This handler can be used to implement the CSRF measure for :ref:`web application
 
 If you include this handler in the handler configuration, the CSRF token is generated and verified in the request process,
 and if you use :ref:`tag`, the CSRF token is automatically output to the screen.
-Therefore, because the application programmer does not implement it,
-the CSRF measure for the :ref:`web application<web_application>` can be performed without leakage.
+Therefore, it is possible to implement CSRF measures for :ref:`web application<web_application>`
+without the need for application programmers to implement them.
 
 To enable CSRF measures in :ref:`RESTful web service<restful_web_service>`,
 this handler obtains a CSRF token from the request header or request parameters.
@@ -97,12 +97,12 @@ Obtain a CSRF token from the session store
 If it cannot be obtained, it generates a CSRF token and stores it in the session store
   * CSRF token generation is done by :java:extdoc:`CsrfTokenGenerator<nablarch.fw.web.handler.csrf.CsrfTokenGenerator>`.
     By default, the :java:extdoc:`UUIDv4CsrfTokenGenerator<nablarch.fw.web.handler.csrf.UUIDv4CsrfTokenGenerator>` is used to generate CSRF tokens using version 4 UUID.
-  * The default session store is the session store where the CSRF tokens will be stored. (To store CSRF tokens without specifying the name of the session store.
+  * CSRF tokens are stored in the default session store. (Store CSRF tokens without specifying the name of the session store.)
 
 Determines whether or not the HTTP request is target to verification
   * The :java:extdoc:`VerificationTargetMatcher<nablarch.fw.web.handler.csrf.VerificationTargetMatcher>` determines whether the HTTP request is the target of the verification or not.
     By default, it uses the :java:extdoc:`HttpMethodVerificationTargetMatcher<nablarch.fw.web.handler.csrf.HttpMethodVerificationTargetMatcher>`, which determines if an HTTP request is a verification target from the HTTP method.
-  * The :java:extdoc:`HttpMethodVerificationTargetMatcher<nablarch.fw.web.handler.csrf.HttpMethodVerificationTargetMatcher>` determines the HTTP method ``GET`` ``HEAD`` ``TRACE`` ``OPTIONS`` as **outside** the CSRF token for verification (i.e., POST, PUT, etc. are targeted for verification).
+  * The :java:extdoc:`HttpMethodVerificationTargetMatcher<nablarch.fw.web.handler.csrf.HttpMethodVerificationTargetMatcher>` determines the HTTP method ``GET`` ``HEAD`` ``TRACE`` ``OPTIONS`` as **outside** the CSRF token for verification. (i.e., POST, PUT, etc. are targeted for verification.)
 
 If it is a target of verification, the CSRF token is acquired from the HTTP request, and verification is performed
   * The name to be used to store the CSRF token in the HTTP request is as follows
