@@ -14,6 +14,7 @@
 * X-XSS-Protection: 1; mode=block
 * X-Content-Type-Options: nosniff
 * Referrer-Policy: strict-origin-when-cross-origin
+* Cache-Control: no-store
 
 
 本ハンドラでは、以下の処理を行う。
@@ -65,6 +66,8 @@
         <!-- 上記以外のヘッダはデフォルトのまま -->
         <component class="nablarch.fw.web.handler.secure.XssProtectionHeader" />
         <component class="nablarch.fw.web.handler.secure.ContentTypeOptionsHeader" />
+        <component class="nablarch.fw.web.handler.secure.ReferrerPolicyHeader" />
+        <component class="nablarch.fw.web.handler.secure.CacheControlHeader" />
       </list>
     </property>
   </component>
@@ -77,6 +80,7 @@
   * :java:extdoc:`ContentTypeOptionsHeader <nablarch.fw.web.handler.secure.ContentTypeOptionsHeader>`
   * :java:extdoc:`XssProtectionHeader <nablarch.fw.web.handler.secure.XssProtectionHeader>`
   * :java:extdoc:`ReferrerPolicyHeader <nablarch.fw.web.handler.secure.ReferrerPolicyHeader>`
+  * :java:extdoc:`CacheControlHeader <nablarch.fw.web.handler.secure.CacheControlHeader>`
 
 
 デフォルト以外のレスポンスヘッダを設定する
@@ -85,6 +89,11 @@
 
 1. :java:extdoc:`SecureResponseHeader <nablarch.fw.web.handler.secure.SecureResponseHeader>` インタフェースの実装クラスで、
    レスポンスヘッダに設定するフィールド名と値を指定する。
+
+  .. tip::
+    ロジックを含まない単純なレスポンスヘッダを作成する場合は、
+    :java:extdoc:`SecureResponseHeaderSupport <nablarch.fw.web.handler.secure.SecureResponseHeaderSupport>`
+    を継承して作成すればよい。
 
 2. 本ハンドラ(:java:extdoc:`SecureHandler <nablarch.fw.web.handler.SecureHandler>`)に、``No1`` で作成したクラスを設定する。
 
@@ -103,6 +112,8 @@
           <component class="nablarch.fw.web.handler.secure.FrameOptionsHeader" />
           <component class="nablarch.fw.web.handler.secure.XssProtectionHeader" />
           <component class="nablarch.fw.web.handler.secure.ContentTypeOptionsHeader" />
+          <component class="nablarch.fw.web.handler.secure.ReferrerPolicyHeader" />
+          <component class="nablarch.fw.web.handler.secure.CacheControlHeader" />
 
           <!-- 追加で作成したコンポーネント -->
           <component class="nablarch.fw.web.handler.secure.SampleSecurityHeader" />
@@ -128,6 +139,8 @@ Content-Security-Policyレスポンスヘッダを設定する手順を以下に
         <component class="nablarch.fw.web.handler.secure.FrameOptionsHeader" />
         <component class="nablarch.fw.web.handler.secure.XssProtectionHeader" />
         <component class="nablarch.fw.web.handler.secure.ContentTypeOptionsHeader" />
+        <component class="nablarch.fw.web.handler.secure.ReferrerPolicyHeader" />
+        <component class="nablarch.fw.web.handler.secure.CacheControlHeader" />
 
         <!-- Content-Security-Policyを付与するコンポーネント -->
         <component class="nablarch.fw.web.handler.secure.ContentSecurityPolicyHeader">
@@ -152,6 +165,8 @@ report-only モードで動作させる場合は ``reportOnly`` を ``true`` に
         <component class="nablarch.fw.web.handler.secure.FrameOptionsHeader" />
         <component class="nablarch.fw.web.handler.secure.XssProtectionHeader" />
         <component class="nablarch.fw.web.handler.secure.ContentTypeOptionsHeader" />
+        <component class="nablarch.fw.web.handler.secure.ReferrerPolicyHeader" />
+        <component class="nablarch.fw.web.handler.secure.CacheControlHeader" />
 
         <component class="nablarch.fw.web.handler.secure.ContentSecurityPolicyHeader">
           <property name="policy" value="default-src 'self'; report-uri http://example.com/report" />
