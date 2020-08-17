@@ -506,10 +506,10 @@ The following table is written with a special method of writing provided in this
  
 .. [#]
  
- Excelセル内の改行（Alt+Enter）は\ *LF*\ として扱われる。これは本機能とは関係のないExcelの仕様である。
- 改行コードLFを表したい場合は、単にセル内で改行（Alt+Enter）すればよい。
+ Line breaks (Alt + Enter) in Excel cells are treated as *LF*. This is an Excel specification that has nothing to do with this feature.
+ If you want to show a line feed code LF, you just need to insert a new line (Alt+Enter) in a cell.
  
- 以下に例を示す。
+ Examples are shown below.
 
  +--------------------------+------------------------------+---------------------------------------------+ 
  | Description example      | Examples of converted values | Description                                 |

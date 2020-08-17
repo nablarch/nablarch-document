@@ -722,7 +722,7 @@ In the following example, the second record is a blank row.
 To conduct a test by changing the master data
 ----------------------------------------------
 
- :doc:`04_MasterDataRestore` を参照
+ See :doc:`04_MasterDataRestore`.
 
 
 .. _how_to_change_test_data_dir:
