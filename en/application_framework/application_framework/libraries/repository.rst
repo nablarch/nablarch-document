@@ -641,7 +641,7 @@ Create a factory class
         }
 
         public SampleComponent createObject() {
-          // Create an object.。
+          // Create an object.
           // In this example, an object is created using the value that is injected
           // by the setter into this class.
           return new SampleComponent(configValue);
