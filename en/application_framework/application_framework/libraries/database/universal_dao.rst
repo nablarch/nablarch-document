@@ -541,7 +541,7 @@ When configuring in a field, specify explicitly with @Access. Refers to the fiel
 Even when configuring an annotation in a field, since acquiring and configuring values are performed through properties in UniversalDao, getters and setters must be created.
 
 Since the field and property are linked by name, if the names are different, the annotation of the field cannot be referenced by the property.
-Therefore, be sure to use the same field and property names (get〇〇, set〇〇).
+Therefore, be sure to use the same field and property names (getXX, setXX).
 
 .. tip::
  For example, when using a library that generates boilerplate code such as Lombok,
