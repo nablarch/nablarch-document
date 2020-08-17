@@ -115,7 +115,7 @@ Configuration example
 Configure validation rules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Configure the annotations of validation rules in the properties (setter) of Bean class for validation.
-Also, note that annotations cannot be specified for a getter.(指定しても意味が無い)
+Also, note that annotations cannot be specified for a getter.(It is meaningless even if specified.)
 
 .. tip::
 
