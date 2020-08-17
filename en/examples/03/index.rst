@@ -1064,7 +1064,7 @@ listSearchResultWrapperCss             Class attribute of the div tag that wraps
 Search result list
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 useResultCount                         Whether to display the number of search results.  |br|
-                                       Default is true。
+                                       Default is true.
 resultCountCss                         Class attribute of the div tag that wraps the number of search results.  |br|
                                        Default is "nablarch_resultCount".
 resultCountFragment                    JSP fragment that outputs the number of search results.  |br|
@@ -1101,7 +1101,7 @@ Current page number
 useCurrentPageNumber                   Whether to use the current page number.  |br|
                                        Default is true.
 currentPageNumberCss                   Class attribute of the div tag that wraps the current page number.  |br|
-                                       Default is "nablarch_currentPageNumber"。
+                                       Default is "nablarch_currentPageNumber".
 currentPageNumberFragment              JSP fragment that outputs the current page number.  |br|
                                        Default is "[<currentPageNumber property of PagingInfo>/<pageCount property of PagingInfo>page]".
 First
@@ -1174,13 +1174,13 @@ pageNumberSubmitName                   Name attribute of the tag used by the sub
 Next
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 useNextSubmit                          Whether to use the submit to move to the next page.  |br|
-                                       Default is true。
+                                       Default is true.
 nextSubmitTag                          Nablarch tag used by the submit for moving to the next page. |br|
                                        Specify one of the following. |br|
                                        submitLink(aTag)  |br|
                                        submit(inputTag)  |br|
                                        button(buttonTag)  |br|
-                                       Default is submitLink。
+                                       Default is submitLink.
 nextSubmitType                         Type attribute of the tag used by the submit for moving to the next page. |br|
                                        Only the following is supported. |br|
                                        submit  |br|
@@ -1263,7 +1263,7 @@ varOddEvenName                         Variable name used when referring to the 
 oddValue                               The class attribute to use for odd lines of body. |br|
                                        Default is "nablarch_odd".
 evenValue                              The class attribute to use for even lines of body.  |br|
-                                       Default is "nablarch_even"。
+                                       Default is "nablarch_even".
 ====================================== =================================================================================================================================
 
 .. _ListSearchResult_ListSearchSortSubmitTag:
