@@ -838,7 +838,7 @@ Functional comparison with log4j
 --------------------------------------------------
 Function comparison between Nablrach and `log4j (external site, English) <http://logging.apache.org/log4j/1.2/>`_ are shown below.
 
-.. list-table:: Function comparison (O: Provided △: Partially provided ×: Not provided-: Not applicable)
+.. list-table:: Function comparison (A: Provided B: Partially provided C: Not provided D: Not applicable)
   :header-rows: 1
   :class: white-space-normal
   :widths: 50, 25, 25
@@ -848,104 +848,104 @@ Function comparison between Nablrach and `log4j (external site, English) <http:/
     - log4j
 
   * - Whether to output logs can be controlled at the log level
-    - ○
+    - A
       |br|
       :ref:`To the manual <log-basic_setting>`
-    - ○
+    - A
 
   * - Whether to output the log can be controlled by category (package unit, name, etc.)
-    - ○
+    - A
       |br|
       :ref:`To the manual <log-basic_setting>`
-    - ○
+    - A
 
   * - One log can be output to multiple output destinations
-    - ○
+    - A
       |br|
       :ref:`To the manual <log-basic_setting>`
-    - ○
+    - A
 
   * - Log can be output to standard output
-    - ○
+    - A
       |br|
       :ref:`To the manual <log-log_writers>`
-    - ○
+    - A
 
   * - Log can be output to a file
-    - ○
+    - A
       |br|
       :ref:`To the manual <log-log_writers>`
-    - ○
+    - A
 
   * - Log files can be rotated by file size
-    - △ [#logrolate]_
+    - B [#logrolate]_
       |br|
       :ref:`To the manual <log-log_writers>`
-    - ○
+    - A
 
   * - Log files can be rotated by date and time
-    - × [#extends_or_log4j]_
-    - ○
+    - C [#extends_or_log4j]_
+    - A
 
   * - Log can be sent by email
-    - × [#extends_or_log4j]_
-    - ○
+    - C [#extends_or_log4j]_
+    - A
 
   * - Logs can be sent by Telnet
-    - × [#extends_or_log4j]_
-    - ○
+    - C [#extends_or_log4j]_
+    - A
 
   * - Log can be sent by Syslog
-    - × [#extends_or_log4j]_
-    - ○
+    - C [#extends_or_log4j]_
+    - A
 
   * - Logs can be added to the Windows NT event log
-    - × [#extends_or_log4j]_
-    - ○
+    - C [#extends_or_log4j]_
+    - A
 
   * - Can output logs to the database
-    - × [#extends_or_log4j]_
-    - ○
+    - C [#extends_or_log4j]_
+    - A
 
   * - Log can be output asynchronously
-    - × [#extends_or_log4j]_
-    - ○
+    - C [#extends_or_log4j]_
+    - A
 
   * - Log format can be specified with a pattern string
-    - ○
+    - A
       |br|
       :ref:`To the manual <log-log_format>`
-    - ○
+    - A
 
   * - Can output failure log
-    - ○
+    - A
       |br|
       :ref:`To the manual <failure_log>`
-    - －
+    - D
 
   * - Can output HTTP access log
-    - ○
+    - A
       |br|
       :ref:`To the manual <http_access_log>`
-    - －
+    - D
 
   * - Can output SQL log
-    - ○
+    - A
       |br|
       :ref:`To the manual <sql_log>`
-    - －
+    - D
 
   * - Can output performance log
-    - ○
+    - A
       |br|
       :ref:`To the manual <performance_log>`
-    - －
+    - D
 
   * - Can output messaging log
-    - ○
+    - A
       |br|
       :ref:`To the manual <messaging_log>`
-    - －
+    - D
 
 .. [#logrolate] Nablarch log output does not provide file generation management, so it is partially provided.
 
