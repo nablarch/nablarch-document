@@ -79,7 +79,7 @@ This section compares the following functions:
 
 .. |jsr317| raw:: html
 
-   <a href="https://jcp.org/en/jsr/detail?id=317" target="_blank">JSR317(External site、English)</a>
+   <a href="https://jcp.org/en/jsr/detail?id=317" target="_blank">JSR317(External site, English)</a>
 
 .. |br| raw:: html
 
