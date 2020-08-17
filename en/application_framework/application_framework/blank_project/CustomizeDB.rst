@@ -403,7 +403,7 @@ An example of the dependency element described by default is shown.
 .. code-block:: xml
 
   <dependencies>
-    <!-- TODO: プロジェクトで使用するDB製品にあわせたJDBCドライバに修正してください。 -->
+    <!-- TODO: プロジェクトで使用するDB製品にあわせたJDBCドライバに修正してください。(Modify the JDBC driver according to the DB product used in the project.) -->
     <!-- Omitted -->
     <dependency>
       <groupId>com.h2database</groupId>
@@ -442,8 +442,8 @@ Change the following configuration in the above file.
 
 .. code-block:: xml
 
-    <!-- ダイアレクト設定(Dialect configuration) -->
-    <!-- TODO:使用するDBに合わせてダイアレクトを設定すること(Configure dialect according to the DB to be used) -->
+    <!-- ダイアレクト設定(Dialect configuration.) -->
+    <!-- TODO:使用するDBに合わせてダイアレクトを設定すること(Configure dialect according to the DB to be used.) -->
     <component name="dialect" class="nablarch.core.db.dialect.H2Dialect" />
 
 
