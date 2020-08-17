@@ -86,10 +86,10 @@ The validation specifications for email address are as follows.
   * Required validations are not performed.
   * It must consist of only valid character types for email addresses. Valid character types for email addresses are as follows.
 
-    * UPPER CASE Alphabets 　A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
-    * Lowercase alphabets 　a b c d e f g h i j k l m n o p q r s t u v w x y z
-    * Numerals　 0 1 2 3 4 5 6 7 8 9
-    * Other symbols 　! # $ % & \ * + - . / = ? @ ^ _ ` { | } ~
+    * UPPER CASE Alphabets:   A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+    * Lowercase alphabets:   a b c d e f g h i j k l m n o p q r s t u v w x y z
+    * Numerals:   0 1 2 3 4 5 6 7 8 9
+    * Other symbols:   ! # $ % & \ * + - . / = ? @ ^ _ ` { | } ~
 
   * Only one '@' (an at symbol) must be present.
   * When sending an email with JavaMail, the format check should not result in an error.
