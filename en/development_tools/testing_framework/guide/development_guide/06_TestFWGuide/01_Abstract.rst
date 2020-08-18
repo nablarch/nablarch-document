@@ -397,60 +397,60 @@ A number of special notations are provided to improve the convenience of automat
 The following table is written with a special method of writing provided in this framework.
 
 
-+-----------------------------------+----------------------------------+----------------------------------------------------------------------------------------------------------------+
-|Description method \               | Value in automated test [#]_\    |Description                                                                                                     |
-|(value described in cell)          |                                  |                                                                                                                |
-+===================================+==================================+================================================================================================================+
-|null                               | null                             |If "null" **(half-width uppercase and lowercase letters are not distinguished)**  is described in the cell, \   |
-+-----------------------------------+                                  |it is treated as "null" value. For example, use when you want to register a null value in the database\         |
-|Null                               |                                  |or when you want to set a null value with an expected value.                                                    |
-+-----------------------------------+----------------------------------+----------------------------------------------------------------------------------------------------------------+
-|"null"                             |null string                       |When double quotes (both half-width and full-width) are enclosed before and after the character string,\        |
-+-----------------------------------+                                  |the character string with double quotes removed is used.\ [#]_                                                  |
-|"NULL"                             |                                  |                                                                                                                |
-+-----------------------------------+----------------------------------+For example, if it is necessary to handle "null" or "NULL" as a character string, \                             |
-|"1⊔"                               | 1⊔                               |describe as ""null"" or ""NULL"" as described in the description method.                                        |
-+-----------------------------------+----------------------------------+                                                                                                                |
-|"⊔"                                | ⊔                                |In addition, for the purpose of making it easy to understand that there is a space in the value of the cell,    |
-+-----------------------------------+----------------------------------+"1?" or "?" can be used as described in the description method.                                                 |
-| "１△"                             | １△                              |                                                                                                                |
-|                                   |                                  |                                                                                                                |
-+-----------------------------------+----------------------------------+                                                                                                                |
-| "△△"                              | △△                               |                                                                                                                |
-+-----------------------------------+----------------------------------+                                                                                                                |
-| """                               | "                                |                                                                                                                |
-+-----------------------------------+----------------------------------+                                                                                                                |
-| "" [#]_                           | Empty string                     |                                                                                                                |
-+-----------------------------------+----------------------------------+----------------------------------------------------------------------------------------------------------------+
-|${systemTime}                      |System date and time [#]_         |Use when you want to enter the system date and time.                                                            |
-+-----------------------------------+                                  +----------------------------------------------------------------------------------------------------------------+
-|${updateTime}                      |                                  |An alias for ${systemTime}. Especially, it is used as an expected value when updating the database time stamp.\ |
-+-----------------------------------+----------------------------------+----------------------------------------------------------------------------------------------------------------+
-|${setUpTime}                       |Fixed value described in          |It is used when you want to use a fixed value for the time stamp at database setup.                             |
-|                                   |the component settings file       |                                                                                                                |
-+-----------------------------------+----------------------------------+----------------------------------------------------------------------------------------------------------------+
-|${Character type,word count} [#]_  |A value obtained by amplifying    |The character strings that can be used are as follows.                                                          |
-|                                   |the specified character type      |                                                                                                                |
-|                                   |up to the specified number        |半角英字,半角数字,半角記号,半角カナ,全角英字,全角数字,                                                          |
-|                                   |of characters                     |全角ひらがな,全角カタカナ,全角漢字,全角記号その他,外字                                                          |
-|                                   |                                  |                                                                                                                |
-+-----------------------------------+----------------------------------+----------------------------------------------------------------------------------------------------------------+
-|${binaryFile:File Path}            |Binary data stored in BLOB column |Used when you want to store file data in BLOB column.                                                           |
-|                                   |                                  |The file path is described as a relative path from Excel file.                                                  |
-+-----------------------------------+----------------------------------+----------------------------------------------------------------------------------------------------------------+
-|\\r                                |\ *CR*\                           |It is used to explicitly describe the line feed code. [#]_                                                      |
-+-----------------------------------+----------------------------------+                                                                                                                |
-|\\n                                |\ *LF*\                           |                                                                                                                |
-+-----------------------------------+----------------------------------+----------------------------------------------------------------------------------------------------------------+
++---------------------------------------+-------------------------------------+----------------------------------------------------------------------------------------------------------------+
+|Description method \                   | Value in automated test [#]_\       |Description                                                                                                     |
+|(value described in cell)              |                                     |                                                                                                                |
++=======================================+=====================================+================================================================================================================+
+|null                                   | null                                |If "null" **(half-width uppercase and lowercase letters are not distinguished)**  is described in the cell, \   |
++---------------------------------------+                                     |it is treated as "null" value. For example, use when you want to register a null value in the database\         |
+|Null                                   |                                     |or when you want to set a null value with an expected value.                                                    |
++---------------------------------------+-------------------------------------+----------------------------------------------------------------------------------------------------------------+
+|"null"                                 |null string                          |When double quotes (both half-width and full-width) are enclosed before and after the character string,\        |
++---------------------------------------+                                     |the character string with double quotes removed is used.\ [#]_                                                  |
+|"NULL"                                 |                                     |                                                                                                                |
++---------------------------------------+-------------------------------------+For example, if it is necessary to handle "null" or "NULL" as a character string, \                             |
+|"1(half-width space)"                  | 1(half-width space)                 |describe as ""null"" or ""NULL"" as described in the description method.                                        |
++---------------------------------------+-------------------------------------+                                                                                                                |
+|"(half-width space)"                   | (half-width space)                  |In addition, for the purpose of making it easy to understand that there is a space in the value of the cell,    |
++---------------------------------------+-------------------------------------+"1?" or "?" can be used as described in the description method.                                                 |
+| "１(full-width space)"                | １(full-width space)                |                                                                                                                |
+|                                       |                                     |                                                                                                                |
++---------------------------------------+-------------------------------------+                                                                                                                |
+| "(full-width space)(full-width space)"| (full-width space)(full-width space)|                                                                                                                |
++---------------------------------------+-------------------------------------+                                                                                                                |
+| """                                   | "                                   |                                                                                                                |
++---------------------------------------+-------------------------------------+                                                                                                                |
+| "" [#]_                               | Empty string                        |                                                                                                                |
++---------------------------------------+-------------------------------------+----------------------------------------------------------------------------------------------------------------+
+|${systemTime}                          |System date and time [#]_            |Use when you want to enter the system date and time.                                                            |
++---------------------------------------+                                     +----------------------------------------------------------------------------------------------------------------+
+|${updateTime}                          |                                     |An alias for ${systemTime}. Especially, it is used as an expected value when updating the database time stamp.\ |
++---------------------------------------+-------------------------------------+----------------------------------------------------------------------------------------------------------------+
+|${setUpTime}                           |Fixed value described in             |It is used when you want to use a fixed value for the time stamp at database setup.                             |
+|                                       |the component settings file          |                                                                                                                |
++---------------------------------------+-------------------------------------+----------------------------------------------------------------------------------------------------------------+
+|${Character type,word count} [#]_      |A value obtained by amplifying       |The character strings that can be used are as follows.                                                          |
+|                                       |the specified character type         |                                                                                                                |
+|                                       |up to the specified number           |半角英字,半角数字,半角記号,半角カナ,全角英字,全角数字,                                                          |
+|                                       |of characters                        |全角ひらがな,全角カタカナ,全角漢字,全角記号その他,外字                                                          |
+|                                       |                                     |                                                                                                                |
++---------------------------------------+-------------------------------------+----------------------------------------------------------------------------------------------------------------+
+|${binaryFile:File Path}                |Binary data stored in BLOB column    |Used when you want to store file data in BLOB column.                                                           |
+|                                       |                                     |The file path is described as a relative path from Excel file.                                                  |
++---------------------------------------+-------------------------------------+----------------------------------------------------------------------------------------------------------------+
+|\\r                                    |\ *CR*\                              |It is used to explicitly describe the line feed code. [#]_                                                      |
++---------------------------------------+-------------------------------------+                                                                                                                |
+|\\n                                    |\ *LF*\                              |                                                                                                                |
++---------------------------------------+-------------------------------------+----------------------------------------------------------------------------------------------------------------+
 
 
 .. tip::
   **Legend**
   
-  *  ⊔ stands for half-width space
-  *  △stands for full-width space
-  * *CR* stands for the line feed code CR(0x0D).
-  * *LF* LF stands for the line feed code LF(0x0A).
+  *  (half-width space): stands for half-width space
+  *  (full-width space): stands for full-width space
+  * *CR*: stands for the line feed code CR(0x0D).
+  * *LF*: LF stands for the line feed code LF(0x0A).
 
 .. [#]
  Converted by Automated Testing Framework after reading from cell.
