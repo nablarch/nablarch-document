@@ -695,10 +695,17 @@ SynchronousFileLogWriterを使用するにあたっての注意事項
 
 .. important::
  :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`
+ は複数プロセスからの書き込み用に作成したものであるが、 :ref:`障害通知ログ <failure_log>` のように出力頻度が低いログ出力にのみ使用することを想定している。
+ 頻繁にログの出力が行われる場面で :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>` を使用すると
+ ロック取得待ちによる性能劣化や競合によるログの消失が発生する可能性があるので、アプリケーションログやアクセスログのように出力頻度の高いログの出力に
+ :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>` を使用してはいけない。
+
+ また、:java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`
  には以下の制約があるため、利用にあたっては十分検討すること。
 
  * ログのローテーションができない。
  * 出力されるログの内容が正常でない場合がある。
+
 
 :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>` は、
 ロックファイルを用いて排他制御を行いながらファイルにログを書き込む。
