@@ -64,6 +64,11 @@ JAX-RSレスポンスハンドラ
     </property>
   </component>
 
+.. important::
+  ErrorResponseBuilderは例外及びエラーに応じたレスポンス生成を行う役割のため、ErrorResponseBuilderの処理中に例外が発生するとレスポンスが生成されず、クライアントにレスポンスを返せない状態となる。
+  そのため、プロジェクトでErrorResponseBuilderをカスタマイズする場合は、ErrorResponseBuilderの処理中に例外が発生しないように実装すること。
+  ErrorResponseBuilderの処理中に例外が発生した場合、フレームワークはErrorResponseBuilderの処理中に発生した例外をWARNレベルで
+  ログ出力を行い、ステータスコード500のレスポンスを生成し、後続処理を継続する。
 
 .. _jaxrs_response_handler-error_log:
 
