@@ -98,6 +98,41 @@ BeanUtilの使用例
     final String postNo2 = user.getAddress()
                           .getPostNo();             // 54321が取得できる。
 
+.. important::
+
+  BeanUtilはList型の型パラメータに対応していない。List型の型パラメータを使いたい場合は具象クラスでgetterをオーバーライドして対応すること。
+
+  .. code-block:: java
+
+    public class ItemsForm<D extends Serializable> {
+        private List<D> items;
+        public List<D> getItems() {
+            return items;
+        }
+        public void setItems(List<D> items) {
+            this.items = items;
+        }
+    }
+
+    public class Item implements Serializable {
+        // プロパティは省略
+    }
+
+    // 具象クラスでオーバーライドしない場合。
+    // BeanUtil.createAndCopy(BadSampleForm.class, map)を呼び出すと、
+    // List型の型パラメータに対応していないため実行時例外が発生する。
+    public class BadSampleForm extends ItemsForm<Item> {
+    }
+
+    // 具象クラスでオーバーライドした場合。
+    // BeanUtil.createAndCopy(GoodSampleForm.class, map)が正常に動作する。
+    public static class GoodSampleForm extends ItemsForm<Item> {
+        @Override
+        public List<Item> getItems() {
+            return super.getItems();
+        }
+    }
+
 .. _utility-conversion:
 
 BeanUtilの型変換ルール
