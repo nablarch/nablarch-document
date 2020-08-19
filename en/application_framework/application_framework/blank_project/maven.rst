@@ -37,8 +37,8 @@ It has the following features.
   * - Model-based build
     - For models such as WAR and JAR that are defined in advance, they can be generated without writing a script.
   * - Easy to expand the functionality with plugins
-    - Many plugins have been published.Plug-ins can be included to be automatically executed when compiling the project.|br|
-      Standalone activation of the plug-in is also possible.
+    - Many plugins have been published.Plugins can be included to be automatically executed when compiling the project.|br|
+      Standalone activation of the plugin is also possible.
 
 
 Maven repository
@@ -72,7 +72,7 @@ The following are the repositories that appear when developing with Nablarch.
       * Stores proprietary libraries. Generally, JDBC driver for a proprietary RDBMS.
 
   * - Maven Central Repository
-    - A repository that stores modules on which Nablarch depends, various Maven plug-ins and various OSS.
+    - A repository that stores modules on which Nablarch depends, various Maven plugins and various OSS.
 
   * - 3rd Party Repository
     - Product-specific Maven repository.

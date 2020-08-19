@@ -75,7 +75,7 @@ Check if unauthorized APIs are being used
 -------------------------------------------------
 
 `nablarch-intellij-plugin <https://github.com/nablarch/nablarch-intellij-plugin>`_ is used for this check.
-nablarch-intellij-plugin is a plug-in to use IntelliJ IDEA for supporting Nablarch development and has the following functions.
+nablarch-intellij-plugin is a plugin to use IntelliJ IDEA for supporting Nablarch development and has the following functions.
 
 * Throws a warning if Nablarch private API is used.
 * Throws warning if Java API registered in the black list is used.

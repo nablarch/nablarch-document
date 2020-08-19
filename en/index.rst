@@ -61,7 +61,7 @@ ETL platform
 ===========================
 
   | :doc:`Manual <extension_components/etl/index>`
-  | :doc:`ETL Maven plug-in <extension_components/etl/etl_maven_plugin>`
+  | :doc:`ETL Maven plugin <extension_components/etl/etl_maven_plugin>`
 
 
 -----------------------------------------------
