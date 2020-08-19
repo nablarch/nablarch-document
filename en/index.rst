@@ -24,7 +24,7 @@ Nablarch
 
 
 -----------------------------------------------
-Information on Nablarch
+What is the Nablarch?
 -----------------------------------------------
 
 Nablarch is a Java application development and execution platform that integrates the knowledge gained from extensive experience of TIS in building mission-critical systems.
