@@ -80,7 +80,7 @@ How to use
 
 .. _code-setup_table:
 
-Initial configuration to use the code valuep management function
+Initial configuration to use the code value management function
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 To use this function, create a table to manage the code and configure the information in a configuration file.
 
