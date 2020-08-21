@@ -331,7 +331,7 @@ When binding to a Java Beans class
 
   .. code-block:: java
 
-    <!-- Specify CUSTOM in the type attribute.
+    // Specify CUSTOM in the type attribute.
     @Csv(type = Csv.CsvType.CUSTOM, properties = {"age", "name"})
     @CsvFormat(
             fieldSeparator = '\t',

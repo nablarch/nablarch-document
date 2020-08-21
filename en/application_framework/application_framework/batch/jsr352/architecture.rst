@@ -165,7 +165,7 @@ Job level listener
 Step level listener
   Listener that is called back before and after executing the step
 
-  * :java:extdoc:`Listener that outputs the start and end logs of the job <nablarch.fw.batch.ee.listener.step.StepProgressLogListener>`
+  * :java:extdoc:`Listener that outputs the start and end logs of the step <nablarch.fw.batch.ee.listener.step.StepProgressLogListener>`
   * :java:extdoc:`Listener that connects to the database <nablarch.fw.batch.ee.listener.step.DbConnectionManagementListener>`
   * :java:extdoc:`Listener that performs transaction control <nablarch.fw.batch.ee.listener.step.StepTransactionManagementListener>`
 
