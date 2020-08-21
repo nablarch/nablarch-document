@@ -601,8 +601,8 @@ List of available field types for Fixed (fixed-length) data format
 
         By default, left trim/padding is performed with ``0``.
 
-        :Argument 1:: Byte length (numeric) ``required``
-        :Argument 2:: Number of digits after decimal point (numeric) ``optional`` Default: ``0``
+        :Argument 1: Byte length (numeric) ``required``
+        :Argument 2: Number of digits after decimal point (numeric) ``optional`` Default: ``0``
 
         If the output target value is ``null``, the value is converted to ``0`` before processing.
 
@@ -616,10 +616,10 @@ List of available field types for Fixed (fixed-length) data format
 
         By default, left trim/padding is performed with ``0``.
 
-        :Argument 1:: Byte length (numeric) ``required``
-        :Argument 2:: Number of digits after the decimal point (numeric) ``optional`` Default: ``0``
-        :Argument 3:: Plus sign to be configured in the zone section (hexadecimal string) ``optional``
-        :Argument 4:: Minus sign to be configured in the zone section (hexadecimal string) ``optional``
+        :Argument 1: Byte length (numeric) ``required``
+        :Argument 2: Number of digits after the decimal point (numeric) ``optional`` Default: ``0``
+        :Argument 3: Plus sign to be configured in the zone section (hexadecimal string) ``optional``
+        :Argument 4: Minus sign to be configured in the zone section (hexadecimal string) ``optional``
 
         Argument 3 and argument 4 are configured when overwriting the :ref:`plus sign of the signed zone numeric <data_format-positive_zone_sign_nibble>`
         and minus sign of the :ref:`signed zone numeric <data_format-negative_zone_sign_nibble>`.
@@ -633,8 +633,8 @@ List of available field types for Fixed (fixed-length) data format
 
         By default, left trim/padding is performed with ``0``.
 
-        :Argument 1:: Byte length (numeric) ``required``
-        :Argument 2:: Number of digits after the decimal point (numeric) ``optional`` Default: ``0``
+        :Argument 1: Byte length (numeric) ``required``
+        :Argument 2: Number of digits after the decimal point (numeric) ``optional`` Default: ``0``
 
         When the output target value is ``null`` or the number of bytes of the read value is ``0``,
         then the handling is the same as :ref:`zone numeric field type <data_format-field_type-zoned_decimal>`.
@@ -645,10 +645,10 @@ List of available field types for Fixed (fixed-length) data format
 
         By default, left trim/padding is performed with ``0``.
 
-        :Argument 1:: Byte length (numeric) ``required``
-        :Argument 2:: Number of digits after the decimal point (numeric) ``optional`` Default: ``0``
-        :Argument 3:: Plus sign to be configured in the zone section (hexadecimal string) ``optional``
-        :Argument 4:: Minus sign to be configured in the zone section (hexadecimal string) ``optional``
+        :Argument 1: Byte length (numeric) ``required``
+        :Argument 2: Number of digits after the decimal point (numeric) ``optional`` Default: ``0``
+        :Argument 3: Plus sign to be configured in the zone section (hexadecimal string) ``optional``
+        :Argument 4: Minus sign to be configured in the zone section (hexadecimal string) ``optional``
 
         Argument 3 and argument 4 are configured when overwriting the :ref:`plus sign of the signed pack numeric <data_format-positive_pack_sign_nibble>`
         and minus sign of the :ref:`signed pack numeric <data_format-negative_pack_sign_nibble>`.
@@ -680,8 +680,8 @@ List of available field types for Fixed (fixed-length) data format
         By default, left trim/padding is performed with ``0``.
         Decimal point sign ( ``.`` ) can be included in the string.
 
-        :Argument 1:: Byte length (numeric) ``required``
-        :Argument 2:: Number of digits after the decimal point (numeric) for fixed decimal point ``optional`` Default: ``0``
+        :Argument 1: Byte length (numeric) ``required``
+        :Argument 2: Number of digits after the decimal point (numeric) for fixed decimal point ``optional`` Default: ``0``
 
         When the output value is ``null``,
         then the handling is the same as :ref:`zone numeric field type <data_format-field_type-zoned_decimal>`.
@@ -697,8 +697,8 @@ List of available field types for Fixed (fixed-length) data format
         Single byte string (X) in the field is treated as a signed numeric.
         By default, left trim/padding is performed with ``0``.
 
-        :Argument 1:: Byte length (numeric) ``required``
-        :Argument 2:: Number of digits after the decimal point (numeric) for fixed decimal point ``optional`` Default: ``0``
+        :Argument 1: Byte length (numeric) ``required``
+        :Argument 2: Number of digits after the decimal point (numeric) for fixed decimal point ``optional`` Default: ``0``
 
         When the output value is ``null``,
         then the handling is the same as :ref:`zone numeric field type <data_format-field_type-zoned_decimal>`.
