@@ -91,7 +91,7 @@ If the implementation of `JAX-RS (external site, English) <https://jcp.org/en/js
 
 An application of RESTEasy adapter is shown below.
 
-For :java:extdoc:`JaxRsMethodBinderFactory#handlerList <nablarch.fw.jaxrs.JaxRsMethodBinderFactory.setHandlerList(java.util.List)>`, a factory class that constructs a RESTEasy handler (:java:extdoc:`ResteasyJaxRsHandlerListFactory <nablarch.integration.jaxrs.resteasy.ResteasyJaxRsHandlerListFactory>`) is factory injected. 
+For :java:extdoc:`JaxRsMethodBinderFactory#setHandlerList <nablarch.fw.jaxrs.JaxRsMethodBinderFactory.setHandlerList(java.util.List)>`, a factory class that constructs a RESTEasy handler (:java:extdoc:`ResteasyJaxRsHandlerListFactory <nablarch.integration.jaxrs.resteasy.ResteasyJaxRsHandlerListFactory>`) is factory injected. 
 As a result, the following handler configurations for RESTEasy are automatically configured.
 
 *  Configuration of :ref:`body_convert_handler` (the following converters are set)
