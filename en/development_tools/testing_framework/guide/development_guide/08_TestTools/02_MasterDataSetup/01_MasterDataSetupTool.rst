@@ -32,7 +32,7 @@ How to Use
 Prerequisites
 ----------------
 
-See \ :ref:`master_data_setup_prerequisite`\ of :doc:`02_ConfigMasterDataSetupTool`\ .
+See \ :ref:`master_data_setup_prerequisite` of :doc:`02_ConfigMasterDataSetupTool`\ .
 
 How to create data
 --------------------
@@ -43,7 +43,7 @@ For more information on how to enter the data, see "\ :ref:`how_to_write_setup_t
 How to execute
 ----------------
 
-From the Ant view, double-click on the target to be run
+From the Ant view, double-click on the target to be run.
 
 
 .. image:: ./_image/build_file_in_view.png
