@@ -41,7 +41,7 @@ A configuration example when H2 is used is shown below.
 Point
  * The defined dialect should be an implementation class of  ``org.seasar.doma.jdbc.dialect.Dialect`` .
  * The component name of the dialect should be ``domaDialect`` .
- * •	The component name of the data source should be ``dataSource`` .
+ * The component name of the data source should be ``dataSource`` .
 
 .. code-block:: xml
 
