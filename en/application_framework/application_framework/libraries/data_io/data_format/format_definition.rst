@@ -669,7 +669,7 @@ List of available field types for Fixed (fixed-length) data format
         :java:extdoc:`InvalidDataFormatException <nablarch.core.dataformat.InvalidDataFormatException>`
         is thrown.
 
-         When using this field type, configure the value explicitly in the application according to the requirements.
+        When using this field type, configure the value explicitly in the application according to the requirements.
 
     * - X9
       - BigDecimal
