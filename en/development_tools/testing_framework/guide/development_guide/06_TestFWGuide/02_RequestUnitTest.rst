@@ -37,17 +37,17 @@ Main Classes, resources
 |Class to be tested (Action)       |Class to be tested (includes each class that           | Create one class per subfunction          |
 |                                  |implements business logic after Action)                |                                           |
 +----------------------------------+-------------------------------------------------------+-------------------------------------------+
-|DbAccessTestSupport               |Provides the necessary functions for testing using     | \－                                       |
+|DbAccessTestSupport               |Provides the necessary functions for testing using     | \-                                        |
 |                                  |the database, such as preparation data input.          |                                           |
 |                                  |                                                       |                                           |
 +----------------------------------+-------------------------------------------------------+-------------------------------------------+
-|HttpServer                        |Built-in server. Operates as a servlet container       | \－                                       |
+|HttpServer                        |Built-in server. Operates as a servlet container       | \-                                        |
 |                                  |having the function to output HTTP response to a file. |                                           |
 +----------------------------------+-------------------------------------------------------+-------------------------------------------+
-|HttpRequestTestSupport            |Provides various asserts that are required for starting| \－                                       |
+|HttpRequestTestSupport            |Provides various asserts that are required for starting| \-                                        |
 |                                  |the built-in server and for the request unit test.     |                                           |
 +----------------------------------+-------------------------------------------------------+-------------------------------------------+
-|AbstractHttpReqestTestSupport |br||Class for templating the request unit test.            | \－                                       |
+|AbstractHttpReqestTestSupport |br||Class for templating the request unit test.            | \-                                        |
 |BasicHttpReqestTestSupport        |Standardizes the test source and test data             |                                           |
 |                                  |of the request unit test.                              |                                           |
 +----------------------------------+-------------------------------------------------------+-------------------------------------------+
