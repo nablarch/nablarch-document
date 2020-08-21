@@ -909,7 +909,7 @@ Since these exceptions are all unchecked exceptions, there is no need to catch t
 Exception when there is a database access error
   The exception that occurs when accessing the database, and :java:extdoc:`DbAccessException <nablarch.core.db.DbAccessException>` is thrown.
 
-Exception when there is a d database connection error
+Exception when there is a database connection error
   If the exception during database access indicates a database connection error, :java:extdoc:`DbConnectionException <nablarch.core.db.connection.exception.DbConnectionException>` is thrown. This exception is handled by the :ref:`retry_handler`. (If :ref:`retry_handler` is not applied, it is handled as a runtime exception.)
 
   :ref:`Dialect <database-dialect>` is used when determining a database connection error.
