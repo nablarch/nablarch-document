@@ -57,7 +57,7 @@ Create an e-mail template
 --------------------------------------------------
 In standard e-mail process using Thymeleaf, the subject and body are described in one template.
 
-In standard e-mail process using Thymeleaf, the subject and body are described in one template.
+
 The subject and body are separated by lines called delimiters. The default delimiter is ``---`` (three single-byte hyphens).
 
 An example of the template is shown below.
