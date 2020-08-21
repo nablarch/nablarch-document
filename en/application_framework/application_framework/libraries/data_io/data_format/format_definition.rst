@@ -557,7 +557,7 @@ List of available field types for Fixed (fixed-length) data format
 
         By default, right trim/padding is performed using half-width space.
 
-        :Argument: Byte length (numeric)``required``
+        :Argument: Byte length (numeric) ``required``
 
         If the output target value is ``null``, the value is converted to an empty character before processing.
 
