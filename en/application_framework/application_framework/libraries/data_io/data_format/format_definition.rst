@@ -662,7 +662,7 @@ List of available field types for Fixed (fixed-length) data format
 
         Padding and trimming are not performed.
 
-        :Argument:Byte length (numeric) ``required``
+        :Argument: Byte length (numeric) ``required``
 
         The conversion specifications for each application are different when the output value is ``null``.
         Therefore, the value is not converted for this field type even in such a case and
