@@ -59,7 +59,7 @@ The process of reading data from the input data source is described.
 .. _`getting_started_nablarch_batch-form`:
 
 Create a form that accepts input files
-  Create a form that binds CVS (mailing address file) using :ref:`data_bind`.
+  Create a form that binds CSV(mailing address file) using :ref:`data_bind`.
 
   ZipCodeForm.java
     .. code-block:: java
