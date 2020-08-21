@@ -30,29 +30,29 @@ Main Classes, resources
 |Excel file\           |Describe test data, such as preparation data to be stored in the table, \  |Create one per test class                  |
 |（Test data）         |expected results and input files.                                          |                                           |
 +----------------------+---------------------------------------------------------------------------+-------------------------------------------+
-|StandaloneTest\       |It provides a test execution environment for batch, messaging, \           | \－                                       |
+|StandaloneTest\       |It provides a test execution environment for batch, messaging, \           | \-                                        |
 |SupportTemplate       |and other processes that run outside the container.                        |                                           |
 +----------------------+---------------------------------------------------------------------------+-------------------------------------------+
-|MessagingRequest\     |Provides test preparation functions and \                                  | \－                                       |
+|MessagingRequest\     |Provides test preparation functions and \                                  | \-                                        |
 |TestSupport           |various assertions required for request unit tests \                       |                                           |
 |                      |of receiving synchronous message process.                                  |                                           |
 +----------------------+---------------------------------------------------------------------------+-------------------------------------------+
-|MessagingReceive\     |Provides test preparation functions and \                                  | \－                                       |
+|MessagingReceive\     |Provides test preparation functions and \                                  | \-                                        |
 |TestSupport           |various assertions required for request unit tests                         |                                           |
 |                      |of receiving asynchronous message process.                                 |                                           |
 +----------------------+---------------------------------------------------------------------------+-------------------------------------------+
-|TestShot              |A class that stores information for one test case \                        | \－                                       |
+|TestShot              |A class that stores information for one test case \                        | \-                                        |
 |                      |defined in a datasheet.                                                    |                                           |
 +----------------------+---------------------------------------------------------------------------+-------------------------------------------+
-|MainForRequestTesting |Main class for testing. Absorb the differences during test execution.      | \－                                       |
+|MainForRequestTesting |Main class for testing. Absorb the differences during test execution.      | \-                                        |
 +----------------------+---------------------------------------------------------------------------+-------------------------------------------+
-|DbAccessTestSupport   |Provides the necessary functions for testing using the database, \         | \－                                       |
+|DbAccessTestSupport   |Provides the necessary functions for testing using the database, \         | \-                                        |
 |                      |such as DB preparation data input.                                         |                                           |
 +----------------------+---------------------------------------------------------------------------+-------------------------------------------+
-|MQSupport             |Provides the necessary functions for testing messaging, \                  | \－                                       |
+|MQSupport             |Provides the necessary functions for testing messaging, \                  | \-                                        |
 |                      |such as message creation.                                                  |                                           |
 +----------------------+---------------------------------------------------------------------------+-------------------------------------------+
-|TestDataConvertor     |Interface for editing the test data read from Excel. \                     | \－                                       |
+|TestDataConvertor     |Interface for editing the test data read from Excel. \                     | \-                                        |
 |                      |If necessary, the architect implements the converter                       |                                           |
 |                      |for each data type.                                                        |                                           |
 +----------------------+---------------------------------------------------------------------------+-------------------------------------------+

@@ -33,21 +33,21 @@ Main Classes, resources
 |Excel file \          |Describe test data, such as preparation data to be stored in the table, \  |Create one per test class                  |
 |（Test data）         |expected results and input files.                                          |                                           |
 +----------------------+---------------------------------------------------------------------------+-------------------------------------------+
-|StandaloneTest\       |Provides a test execution environment for batch, messaging, \              | \－                                       |
+|StandaloneTest\       |Provides a test execution environment for batch, messaging, \              | \-                                        |
 |SupportTemplate       |and other processes that run outside the container.                        |                                           |
 +----------------------+---------------------------------------------------------------------------+-------------------------------------------+
-|BatchRequest\         |Provides test preparation function and \                                   | \－                                       |
+|BatchRequest\         |Provides test preparation function and \                                   | \-                                        |
 |TestSupport           |various asserts required for batch request unit test.                      |                                           |
 +----------------------+---------------------------------------------------------------------------+-------------------------------------------+
-|TestShot              |A class that stores information for one test case defined in a datasheet.\ | \－                                       |
+|TestShot              |A class that stores information for one test case defined in a datasheet.\ | \-                                        |
 |                      |                                                                           |                                           |
 +----------------------+---------------------------------------------------------------------------+-------------------------------------------+
-|MainForRequestTesting |Main class for testing. Absorb the differences during test execution.      | \－                                       |
+|MainForRequestTesting |Main class for testing. Absorb the differences during test execution.      | \-                                        |
 +----------------------+---------------------------------------------------------------------------+-------------------------------------------+
-|DbAccessTestSupport   |Provides the necessary functions for testing using the database, \         | \－                                       |
+|DbAccessTestSupport   |Provides the necessary functions for testing using the database, \         | \-                                        |
 |                      |such as DB preparation data input.                                         |                                           |
 +----------------------+---------------------------------------------------------------------------+-------------------------------------------+
-|FileSupport           |Provides the necessary functions for testing using the file, \             | \－                                       |
+|FileSupport           |Provides the necessary functions for testing using the file, \             | \-                                        |
 |                      |such as preparation of input file.                                         |                                           |
 +----------------------+---------------------------------------------------------------------------+-------------------------------------------+
 

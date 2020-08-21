@@ -45,20 +45,20 @@ Main Classes, resources
 |Excel file \                                  |Describe test data such as expected value of                |Create one per test class                  |
 |（Test data）                                 |request message and response message.\                      |                                           |
 +----------------------------------------------+------------------------------------------------------------+-------------------------------------------+
-|StandaloneTest\                               |After the action is executed,                               | \－                                       |
+|StandaloneTest\                               |After the action is executed,                               | \-                                        |
 |SupportTemplate                               |MockMessagingContext is used to assert the request message. |                                           |
 +----------------------------------------------+------------------------------------------------------------+-------------------------------------------+
-|AbstractHttpRequest\                          |After the action is executed,                               | \－                                       |
+|AbstractHttpRequest\                          |After the action is executed,                               | \-                                        |
 |TestTemplate                                  |MockMessagingContext is used to assert the request message. |                                           |
 +----------------------------------------------+------------------------------------------------------------+-------------------------------------------+
-|MessageSender                                 |The component used for sending synchronous message.\        | \－                                       |
+|MessageSender                                 |The component used for sending synchronous message.\        | \-                                        |
 |                                              |                                                            |                                           |
 +----------------------------------------------+------------------------------------------------------------+-------------------------------------------+
-|RequestTestingMessagingProvider               |Provides a function to assert a request message \           | \－                                       |
+|RequestTestingMessagingProvider               |Provides a function to assert a request message \           | \-                                        |
 |                                              |and a function to generate and return a request message \   |                                           |
 |                                              |in the request unit test.                                   |                                           |
 +----------------------------------------------+------------------------------------------------------------+-------------------------------------------+
-|TestDataConvertor                             |Interface for editing the test data read from Excel. \      | \－                                       |
+|TestDataConvertor                             |Interface for editing the test data read from Excel. \      | \-                                        |
 |                                              |If necessary, the architect implements the converter        |                                           |
 |                                              |for each data type.                                         |                                           |
 +----------------------------------------------+------------------------------------------------------------+-------------------------------------------+
