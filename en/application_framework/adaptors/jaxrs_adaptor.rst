@@ -57,7 +57,7 @@ If the implementation of `JAX-RS(external site, English) <https://jcp.org/en/jsr
 
 An application of Jersey adapter is shown below.
 
-For :java:extdoc:`JaxRsMethodBinderFactory#handlerList <nablarch.fw.jaxrs.JaxRsMethodBinderFactory.setHandlerList(java.util.List)>`, a factory class that constructs a Jersey handler (:java:extdoc:`JerseyJaxRsHandlerListFactory <nablarch.integration.jaxrs.jersey.JerseyJaxRsHandlerListFactory>`) is factory injected. As a result, the following handler configurations for Jersey are automatically configured.
+For :java:extdoc:`JaxRsMethodBinderFactory#setHandlerList <nablarch.fw.jaxrs.JaxRsMethodBinderFactory.setHandlerList(java.util.List)>`, a factory class that constructs a Jersey handler (:java:extdoc:`JerseyJaxRsHandlerListFactory <nablarch.integration.jaxrs.jersey.JerseyJaxRsHandlerListFactory>`) is factory injected. As a result, the following handler configurations for Jersey are automatically configured.
 
 * Configuration of :ref:`body_convert_handler` (the following converters are set)
 
