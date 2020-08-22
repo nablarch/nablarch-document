@@ -72,7 +72,7 @@ Execution procedure of the example application
 
   4. Confirm that the data has been registered in the project table.
 
-  Execute the following SQL and check whether =unprocessed data is imported into the project table.
+  Execute the following SQL and check whether unprocessed data is imported into the project table.
   
   .. code-block:: sql
 
