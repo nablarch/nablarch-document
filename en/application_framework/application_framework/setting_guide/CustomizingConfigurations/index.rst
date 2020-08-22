@@ -33,7 +33,7 @@ Structure of the configuration file is shown below.
       For items that are changed very rarely, placeholders are not used and values are set directly.
 
   * - PJ deliverables
-    - When using the archetypes provided by Nablarch, the dependency on the default configuration (jar) is set in advance.|br|
+    - When using the archetypes provided by Nablarch, the dependency on the default configuration (jar) is set in advance.
       In the component configuration file of PJ deliverables, the components are provided immediately after they are generated from the archetype, with default values set.
 
 
