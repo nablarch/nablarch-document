@@ -10,7 +10,7 @@ This handler converts the HTTP request (:java:extdoc:`HttpRequest<nablarch.fw.we
 
 This handler performs the following processes:
 
-* Convert the HTTP request to request message。
+* Convert the HTTP request to request message.
   For details, see :ref:`http_messaging_request_parsing_handler-convert` .
 
 The process flow is as follows.
