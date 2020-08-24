@@ -239,22 +239,22 @@ Common configuration for email send request and email send batch
 
    <!-- Schema of email send request table-->
    <component name="mailRequestTable" class="nablarch.common.mail.MailRequestTable">
-     <!-- Specify the table name and column name.It is omitted here. -->
+     <!-- Specify the table name and column name. It is omitted here. -->
    </component>
 
    <!-- Schema of email send recipient table -->
    <component name="mailRecipientTable" class="nablarch.common.mail.MailRecipientTable">
-     <!-- Specify the table name and column name.It is omitted here. -->
+     <!-- Specify the table name and column name. It is omitted here. -->
    </component>
 
    <!-- Schema of attachment file table -->
    <component name="mailAttachedFileTable" class="nablarch.common.mail.MailAttachedFileTable">
-     <!-- Specify the table name and column name.It is omitted here. -->
+     <!-- Specify the table name and column name. It is omitted here. -->
    </component>
 
    <!-- Schema of email template table -->
    <component name="mailTemplateTable" class="nablarch.common.mail.MailTemplateTable">
-     <!-- Specify the table name and column name.It is omitted here. -->
+     <!-- Specify the table name and column name. It is omitted here. -->
    </component>
 
    <!-- Initialization configuration -->
