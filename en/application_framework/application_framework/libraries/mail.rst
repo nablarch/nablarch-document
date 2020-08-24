@@ -153,7 +153,7 @@ The table layout is as follows.
   :class: white-space-normal
   :widths: 24,18,58
 
-  * - Request to send emailID ``PK``
+  * - Request to send email ID ``PK``
     - String type
     -
   * - Serial number ``PK``
@@ -171,7 +171,7 @@ The table layout is as follows.
   :class: white-space-normal
   :widths: 24,18,58
 
-  * - Request to send emailID ``PK``
+  * - Request to send email ID ``PK``
     - String type
     -
   * - Serial number ``PK``
@@ -192,7 +192,7 @@ The table layout is as follows.
   :class: white-space-normal
   :widths: 24,18,58
 
-  * - Email templateID ``PK``
+  * - Email template ID ``PK``
     - String type
     -
   * - Language ``PK``
