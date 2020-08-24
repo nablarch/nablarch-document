@@ -111,7 +111,7 @@ The table layout is as follows.
   :class: white-space-normal
   :widths: 24,18,58
 
-  * - Request to send emailID ``PK``
+  * - Request to send email ID ``PK``
     - String type
     - ID that uniquely identifies the email send request
   * - Email send pattern ID (optional item)
@@ -153,7 +153,7 @@ The table layout is as follows.
   :class: white-space-normal
   :widths: 24,18,58
 
-  * - Request to send emailID ``PK``
+  * - Request to send email ID ``PK``
     - String type
     -
   * - Serial number ``PK``
@@ -171,7 +171,7 @@ The table layout is as follows.
   :class: white-space-normal
   :widths: 24,18,58
 
-  * - Request to send emailID ``PK``
+  * - Request to send email ID ``PK``
     - String type
     -
   * - Serial number ``PK``
@@ -192,7 +192,7 @@ The table layout is as follows.
   :class: white-space-normal
   :widths: 24,18,58
 
-  * - Email templateID ``PK``
+  * - Email template ID ``PK``
     - String type
     -
   * - Language ``PK``
@@ -239,22 +239,22 @@ Common configuration for email send request and email send batch
 
    <!-- Schema of email send request table-->
    <component name="mailRequestTable" class="nablarch.common.mail.MailRequestTable">
-     <!-- Specify the table name and column name.It is omitted here. -->
+     <!-- Specify the table name and column name. It is omitted here. -->
    </component>
 
    <!-- Schema of email send recipient table -->
    <component name="mailRecipientTable" class="nablarch.common.mail.MailRecipientTable">
-     <!-- Specify the table name and column name.It is omitted here. -->
+     <!-- Specify the table name and column name. It is omitted here. -->
    </component>
 
    <!-- Schema of attachment file table -->
    <component name="mailAttachedFileTable" class="nablarch.common.mail.MailAttachedFileTable">
-     <!-- Specify the table name and column name.It is omitted here. -->
+     <!-- Specify the table name and column name. It is omitted here. -->
    </component>
 
    <!-- Schema of email template table -->
    <component name="mailTemplateTable" class="nablarch.common.mail.MailTemplateTable">
-     <!-- Specify the table name and column name.It is omitted here. -->
+     <!-- Specify the table name and column name. It is omitted here. -->
    </component>
 
    <!-- Initialization configuration -->
