@@ -10,6 +10,7 @@
    01_Abstract
    02_DbAccessTest
    02_RequestUnitTest
+   RequestUnitTest_rest
    RequestUnitTest_batch
    RequestUnitTest_real
    RequestUnitTest_send_sync

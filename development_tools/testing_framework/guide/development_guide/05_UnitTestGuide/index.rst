@@ -27,6 +27,16 @@
    02_RequestUnitTest/double_transmission
 
 
+*RESTfulウェブサービス*
+
+
+.. toctree::
+  :maxdepth: 1
+
+  02_RequestUnitTest/rest
+  03_DealUnitTest/rest
+
+
 *バッチ処理*
 
 
