@@ -1424,11 +1424,11 @@ set tag
    ====================================== ==========================================================================================
    var ``required``                       Variable name used when storing in the request scope.
    name                                   The name to acquire the value. Specify either name attribute or value attribute.
-   value                                  Value.Used to specify a value directly.Specify either name attribute or value attribute.
+   value                                  Value. Used to specify a value directly.Specify either name attribute or value attribute.
    scope                                  Configure the scope for storing variables.
                                           Scope that can be specified is given below.
-                                          page: Page scope
-                                          request: Request scope
+                                          page: Page scope.
+                                          request: Request scope.
                                           Default is request scope.
    bySingleValue                          Whether to acquire the value corresponding to the name attribute as a single value.
                                           Default is ``true``.
@@ -1461,7 +1461,7 @@ includeParam tag
    ====================================== ==========================================================================================
    paramName ``required``                 Name of the parameter to use for include.
    name                                   The name to acquire the value. Specify either name attribute or value attribute.
-   value                                  Value.Used to specify a value directly.Specify either name attribute or value attribute.
+   value                                  Value. Used to specify a value directly.Specify either name attribute or value attribute.
    ====================================== ==========================================================================================
 
 .. _tag-confirmation_page_tag:
