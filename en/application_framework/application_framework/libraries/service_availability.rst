@@ -62,7 +62,7 @@ The table layout is as follows.
 
 ============================= ===================================================================
 Request ID (PK)               Values for identifying the request. String type
-Service availability status   If yes, "1".String type.Value can be changed in the configuration.
+Service availability status   If yes, "1". String type.Value can be changed in the configuration.
 ============================= ===================================================================
 
 To use the service availability check,
