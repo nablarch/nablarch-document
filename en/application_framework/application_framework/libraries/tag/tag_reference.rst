@@ -1366,7 +1366,7 @@ write tag
    Attribute                              Description
    ====================================== ======================================================================================================================
    name                                   Name used to acquire the value to be displayed from the variable scope. Cannot be specified at the same time as the value attribute.
-   value                                  Value to be displayed.Used to specify a value directly.Cannot be specified at the same time as the name attribute.
+   value                                  Value to be displayed.Used to specify a value directly. Cannot be specified at the same time as the name attribute.
    withHtmlFormat                         Whether to use the HTML format (conversion of line feed and half-width).
                                           HTML format is valid only when HTML escape is used.
                                           Default is ``true``.
