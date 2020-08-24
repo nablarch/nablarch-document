@@ -418,7 +418,7 @@ This function supports free-format non-standard emails,
 and standard emails that use preregistered templates,
 and creates the email send requests by using the corresponding classes.
 
-An implementation example of a standard email is shown below
+An implementation example of a standard email is shown below.
 
 .. code-block:: java
 
