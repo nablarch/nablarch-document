@@ -103,7 +103,7 @@ Specify as a system property in the following format.
 Format of system property
  BasicBusinessDateProvider. <Category> = date
 
- * Date is in yyyyMMdd format
+ \*\ Date is in yyyyMMdd format
 
 Example of system property file
  When overwriting the date of category "batch" to "2016/03/17"
