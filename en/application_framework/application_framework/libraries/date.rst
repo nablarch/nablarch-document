@@ -65,10 +65,9 @@ Category (PK)         A value for identifying the business date. String type
 Date             Business date. String type and value in yyyyMMdd format
 ================ ===================================================
 
-Business date. String type and value in yyyyMMdd format
 To use the business date management function, 
 add :java:extdoc:`BasicBusinessDateProvider <nablarch.core.date.BasicBusinessDateProvider>` configuration to the component definition. 
-Specify the component name as  **businessDateProvider** .
+Specify the component name as  **businessDateProvider**.
 
 .. code-block:: xml
 
