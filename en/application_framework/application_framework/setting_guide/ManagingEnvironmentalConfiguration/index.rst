@@ -151,7 +151,7 @@ The operation when built with Maven by specifying the production environment in 
   Built-By: tie301686
   Build-Jdk: 1.7.0_60
   Created-By: Apache Maven 3.2.3
-  Target-Environment: 本番Environment
+  Target-Environment: Production Environment
   Archiver-Version: Plexus Archiver
 
 
