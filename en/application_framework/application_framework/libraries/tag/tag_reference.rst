@@ -54,7 +54,7 @@ Submit
 .. _tag_reference_output:
 
 Output
- 値
+ Value
   | :ref:`tag-write_tag` (object value)
   | :ref:`tag-pretty_print_tag` (object value. Do not perform escape only for qualified HTML (such as b tag))
   | :ref:`tag-raw_write_tag` (object value. Do not perform HTML escape)
