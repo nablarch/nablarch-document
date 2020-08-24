@@ -32,7 +32,7 @@ Exclusive control
 
 .. important::
 
-  The :ref:`exclusive_control` unction cannot be used in RESTful web services
+  The :ref:`exclusive_control` function cannot be used in RESTful web services
   because it is assumed to work with the client (taglib).
 
 .. _rest-action_mapping:
