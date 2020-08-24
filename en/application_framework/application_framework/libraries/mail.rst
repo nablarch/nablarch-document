@@ -111,7 +111,7 @@ The table layout is as follows.
   :class: white-space-normal
   :widths: 24,18,58
 
-  * - Request to send emailID ``PK``
+  * - Request to send email ID ``PK``
     - String type
     - ID that uniquely identifies the email send request
   * - Email send pattern ID (optional item)
