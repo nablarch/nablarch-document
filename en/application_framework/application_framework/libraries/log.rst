@@ -680,19 +680,19 @@ The property names that configure the failure code are shown below.
 failureCodeCreateLockFile
  :Details of the failure: Cannot generate the lock file
  :Log level: FATAL
- :Message configuration example (lock file path is set in {0}): Failed to generate the lock file.The lock file path may be wrong.Lock file path = [{0}]
+ :Message configuration example (lock file path is set in {0}): Failed to generate the lock file. The lock file path may be wrong.Lock file path = [{0}].
  :Default log output (failure code etc, are not output): failed to create lock file. perhaps lock file path was invalid. lock file path=[{0}].
 
 failureCodeReleaseLockFile
  :Details of the failure: The generated lock file cannot be released (deleted)
  :Log level: FATAL
- :Message configuration example (lock file path is set in {0}): Failed to delete the lock file. Lock file path = [{0}]
+ :Message configuration example (lock file path is set in {0}): Failed to delete the lock file. Lock file path = [{0}].
  :Default log output (failure code etc, are not output): failed to delete lock file. lock file path=[{0}].
 
 failureCodeForceDeleteLockFile
  :Details of the failure: Unable to force delete the lock files that are not released
  :Log level: FATAL
- :Message configuration example (lock file path is set in {0}): Force delete of the lock file failed.The lock file has been opened incorrectly.Lock file path = [{0}]
+ :Message configuration example (lock file path is set in {0}): Force delete of the lock file failed. The lock file has been opened incorrectly.Lock file path = [{0}].
  :Default log output (failure code etc, are not output): failed to delete lock file forcedly. lock file was opened illegally. lock file path=[{0}].
 
 failureCodeInterruptLockWait
