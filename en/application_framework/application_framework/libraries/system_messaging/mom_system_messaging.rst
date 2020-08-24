@@ -389,7 +389,7 @@ Implementation examples
     file-type:        "Fixed" # Fixed-length
     text-encoding:    "MS932" # Character encoding of string type field
     record-length:    2120    # Length of each record
-    record-separator: "\r\n"  # 改行コード
+    record-separator: "\r\n"  # Line feed code
 
     [data]
     Item definition omitted
@@ -399,8 +399,8 @@ Implementation examples
 
     file-type:        "Fixed" # Fixed-length
     text-encoding:    "MS932" # Character encoding of string type field
-    record-length:    130     # 各レコードの長さ
-    record-separator: "\r\n"  # 改行コード
+    record-length:    130     # Length of each record
+    record-separator: "\r\n"  # Line feed code
 
     [data]
     Item definition omitted
