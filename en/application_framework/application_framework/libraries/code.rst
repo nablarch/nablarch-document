@@ -353,7 +353,7 @@ Define option name column in the code name table
   ======= ========= ====  ==========  ==========  =========== =========== ===========
   ID      VALUE     LANG  SORT_ORDER  NAME        SHORT_NAME  FORM_NAME   KANA_NAME
   ======= ========= ====  ==========  ==========  =========== =========== ===========
-  GENDER  MALE      ja    1           おとこ        男          Male        おとこ
+  GENDER  MALE      ja    1           男性        男          Male        おとこ
   GENDER  FEMALE    ja    2           女性        女          Female      おんな
   GENDER  OTHER     ja    3           その他      他          Other       そのた
   ======= ========= ====  ==========  ==========  =========== =========== ===========
