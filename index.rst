@@ -19,7 +19,6 @@ Nablarch
   application_framework/index
   extension_components/index
   development_tools/index
-  cloud_native/index
   examples/index
   nablarch_api/index
 
@@ -42,6 +41,7 @@ Nablarchアプリケーションフレームワーク
   | :doc:`解説書 <application_framework/application_framework/index>`
   | :doc:`アダプタ <application_framework/adaptors/index>`
   | :doc:`Example <application_framework/example/index>`
+  | :doc:`クラウドネイティブ対応 <application_framework/application_framework/cloud_native/index>`
 
 -----------------------------------------------
 Nablarch拡張コンポーネント
