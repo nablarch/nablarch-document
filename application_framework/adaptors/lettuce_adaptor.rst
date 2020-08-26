@@ -24,7 +24,7 @@ Nablarchが提供する下記の機能で `Redis(外部サイト、英語) <http
   <!-- RedisStore Lettuceアダプタ -->
   <dependency>
     <groupId>com.nablarch.integration</groupId>
-    <artifactId>nablarch-redisstore-lettuce-adaptor</artifactId>
+    <artifactId>nablarch-lettuce-adaptor</artifactId>
   </dependency>
 
   <!-- デフォルトコンフィグレーション -->
