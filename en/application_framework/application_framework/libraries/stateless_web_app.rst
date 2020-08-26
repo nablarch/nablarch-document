@@ -88,7 +88,7 @@ To prevent accidental creation of HTTP sessions due to a misconfiguration or an 
 When this feature is enabled, an exception is sent when an attempt to create an HTTP session is made.
 
 This feature can be enabled by setting the ``preventSessionCreation`` property of the
-:java:extdoc:`WebFrontController <nablarch.fw.web.servlet.WebFrontController>` to ``true`` (disabled by default at ``false```).
+:java:extdoc:`WebFrontController <nablarch.fw.web.servlet.WebFrontController>` to ``true`` (disabled by default at ``false``).
 
 Specifically, the detection function can be enabled by writing the following in the configuration file that defines the components of :java:extdoc:`WebFrontController <nablarch.fw.web.servlet.WebFrontController>`.
 
