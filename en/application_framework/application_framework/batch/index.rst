@@ -36,6 +36,3 @@ Reason
   functional_comparison
 
 
-.. [#spring_batch] JSR352 has been standardized with many features inherited from Spring Batch.
-                   For this reason, experienced users of Spring Batch can develop batch applications
-                   using JSR352 without having to learn much.
