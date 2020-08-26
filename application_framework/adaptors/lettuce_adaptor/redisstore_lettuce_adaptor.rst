@@ -9,36 +9,10 @@ Redisストア(Lettuce)アダプタ
 
 セッションストアに `Redis(外部サイト、英語) <https://redis.io/>`_ を使用できるようにするアダプタを提供する。
 
-本アダプタでは、Redisのクライアントライブラリとして `Lettuce(外部サイト、英語) <https://lettuce.io/>`_ を使用している。
-
 セッションストアにRedisを使用すると、DBストアを選択した場合と比較して次のようなメリットが得られる。
 
 * セッション情報を保存するためのテーブルを事前に用意する必要がない
 * 有効期限が切れたセッション情報を削除するためのバッチを作る必要がない
-
-.. _redisstore_module_list:
-
-モジュール一覧
------------------------------------------------------------------------------------------------
-
-.. code-block:: xml
-
-  <!-- RedisStore Lettuceアダプタ -->
-  <dependency>
-    <groupId>com.nablarch.integration</groupId>
-    <artifactId>nablarch-redisstore-lettuce-adaptor</artifactId>
-  </dependency>
-
-  <!-- デフォルトコンフィグレーション -->
-  <dependency>
-    <groupId>com.nablarch.configuration</groupId>
-    <artifactId>nablarch-main-default-configuration</artifactId>
-  </dependency>
-
-.. tip::
-
-  Redisは5.0.9、Lettuceは5.3.0.RELEASEのバージョンを使用してテストを行っている。
-  バージョンを変更する場合は、プロジェクト側でテストを行い問題ないことを確認すること。
 
 .. _redisstore_minimum_settings:
 
