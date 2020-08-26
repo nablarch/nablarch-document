@@ -4,7 +4,7 @@ logアダプタ
 ==================================================
 Nablarchの提供する :ref:`ログ出力機能 <log>` のログ出力処理を以下のログフレームワークに委譲するアダプタ。
 
-* `slf4j(外部サイト、英語) <https://www.slf4j.org/>`_ 
+* `SLF4J(外部サイト、英語) <https://www.slf4j.org/>`_
 * `JBoss Logging(外部サイト、英語) <https://github.com/jboss-logging>`_
 
 顧客からの要求や使用する製品などにあわせてロガーを統一したい場合に、アダプタを使用する。
@@ -14,7 +14,7 @@ Nablarchの提供する :ref:`ログ出力機能 <log>` のログ出力処理を
 
   Nablarch5u15まで提供されていたlog4jアダプタは、EOLを迎えた `log4j1.2(外部サイト、英語) <http://logging.apache.org/log4j/1.2/>`_ を使用しており
   `脆弱性 <https://jvndb.jvn.jp/ja/contents/2019/JVNDB-2019-013606.html>`_ への修正が公開されないため廃止します。
-  slf4jまたはJBoss Loggingを使用してください。
+  SLF4JまたはJBoss Loggingを使用してください。
 
 .. tip::
 
@@ -23,11 +23,11 @@ Nablarchの提供する :ref:`ログ出力機能 <log>` のログ出力処理を
 モジュール一覧
 --------------------------------------------------
 
-slf4j
+SLF4J
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: xml
 
-  <!-- slf4jアダプタ -->
+  <!-- SLF4Jアダプタ -->
   <dependency>
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-slf4j-adaptor</artifactId>
@@ -35,7 +35,7 @@ slf4j
   
 .. tip::
   
-  slf4jのバージョン1.7.22を使用してテストを行っている。
+  SLF4Jのバージョン1.7.22を使用してテストを行っている。
   バージョンを変更する場合は、プロジェクト側でテストを行い問題ないことを確認すること。
 
 
@@ -59,11 +59,11 @@ JBoss Logging
 :ref:`ログ出力機能 <log>` の設定ファイル(\ **log.properties**\ )に以下の設定を行う。
 この設定によりログ出力処理が、ロギングフレームワークに委譲される。
 
-slf4j
+SLF4J
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: properties
 
-  # slf4jを使用するためのファクトリの設定
+  # SLF4Jを使用するためのファクトリの設定
   loggerFactory.className=nablarch.integration.log.slf4j.Slf4JLoggerFactory
   
 JBoss Logging

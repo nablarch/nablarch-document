@@ -18,3 +18,4 @@
   web_thymeleaf_adaptor
   redisstore_lettuce_adaptor
   aws_xray_adaptor
+  slf4j_adaptor
