@@ -118,6 +118,7 @@ DB等のリソースのヘルスチェックは、 :java:extdoc:`HealthChecker <
 .. code-block:: bash
 
   // 成功時
+  // ステータスコードは200
   {
     "status":"UP",
     "targets":[
@@ -126,6 +127,7 @@ DB等のリソースのヘルスチェックは、 :java:extdoc:`HealthChecker <
   }
 
   // 失敗時
+  // ステータスコードは503
   {
     "status":"DOWN",
     "targets":[
