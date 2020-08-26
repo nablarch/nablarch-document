@@ -66,7 +66,7 @@ The configuration example of the component configuration file is shown below.
 
   For this reason, use another implementation class such as ``ClassLoaderTemplateResolver``  and not ``ServletContextTemplateResolver`` .
 
-Process target determination
+Determine processing target 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   
 :java:extdoc:`ThymeleafResponseWriter<nablarch.fw.web.handler.responsewriter.thymeleaf.ThymeleafResponseWriter>` determines whether to output a response using the template engine based on the content path of :java:extdoc:`HttpResponse<nablarch.fw.web.HttpResponse>` . 

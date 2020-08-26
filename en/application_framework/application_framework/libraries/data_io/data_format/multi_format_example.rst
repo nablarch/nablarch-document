@@ -49,7 +49,7 @@ Example of identifying format with multiple fields
 
     # Define record identification field
     [Classifier]
-    1   dataKbn X(1)      # 2 bytes from the 10th byte
+    1   dataKbn X(1)      # First 1 byte
     10  type    X(2)      # 2 bytes from the 10th byte
 
     [parentData]
@@ -87,7 +87,7 @@ Example when the identification item is different for each record
 
     # Define record identification field
     [Classifier]
-    1   dataKbn X(1)      # 2 bytes from the 10th byte
+    1   dataKbn X(1)      # First 1 byte
     10  type    X(2)      # 2 bytes from the 10th byte
 
     # Header

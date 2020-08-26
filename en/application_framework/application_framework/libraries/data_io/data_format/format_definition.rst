@@ -66,7 +66,7 @@ An example is shown below.
   # 
   file-type:     "Fixed"  # Fixed-length
   text-encoding: "ms932"  # Character code is ms932
-  record-length:  120     # The length of each business is 120 bytes
+  record-length:  120     # The length of each line is 120 bytes
 
 
 
