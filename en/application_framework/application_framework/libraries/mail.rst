@@ -437,7 +437,7 @@ An implementation example of a standard email is shown below
  mailRequest.setVariable("address", "Mailing address");
  mailRequest.setVariable("tel", "Telephone number");
  // When null is configured to the value, it is replaced by an empty string as shown below.
- mailRequest.setVariable("opeion", null);
+ mailRequest.setVariable("option", null);
 
  // Configure the attachment file.
  AttachedFile attachedFile = new AttachedFile("text/plain", new File("path/to/file"));
