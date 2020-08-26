@@ -38,4 +38,5 @@ SLF4Jが実行時に必要なクラスを自動で検出するため、本アダ
   <dependency>
     <groupId>com.nablarch.integration</groupId>
     <artifactId>slf4j-nablarch-adaptor</artifactId>
+    <scope>runtime</scope>
   </dependency>
