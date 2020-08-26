@@ -17,8 +17,8 @@ Outputs the following content to the log:
 
   * TPS (calculated from the number of logs for processing and number of processed logs) from the start
   * Latest TPS (TPS calculated from the elapsed time during previous TPS calculation and number of processed logs)
-  * Number of unprocessed logs
-  * Estimated end time (estimated end time of step determined from the number of unprocessed logs and TPS).
+  * Unprocessed number
+  * Estimated end time (estimated end time of step determined from unprocessed number and TPS).
   
 An output example is shown below.
 

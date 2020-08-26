@@ -293,7 +293,7 @@ Example of using title record
     [TrailerRecord]              # Trailer record type
       Kubun = "2"                # Trailer format application conditions
     1   Kubun      X             # Data partition
-    2   RecordNum  X             # 2
+    2   RecordNum  X             # The total number of cases
 
   .. tip::
     
