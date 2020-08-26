@@ -2834,7 +2834,7 @@ Switching between https and http
    .. code-block:: bash
 
     # URI to be assembled
-    https: //sample.co.jp: 8080 /<Context path>/ action/logout
+    https://sample.co.jp:8080/<Context path>/action/logout
 
     # If the port number for http in the custom tag configuration is not specified
     # Port number is not output.
