@@ -215,7 +215,7 @@ Output result
 
  .. _'tag-input_form_name_constraint':
 
- The name attribute of :ref:'tag-form_tag' has the following limitations:
+ The name attribute of :ref:`tag-form_tag` has the following limitations:
 
  * Specify a unique name for the name attribute within the screen
  * Specify a value in accordance with the variable name syntax of JavaScript
@@ -225,7 +225,7 @@ Output result
   Refer to :ref:`tag-onclick_override` for JavaScript.
 
   In this JavaScript, name attribute of
-  :ref:'tag-form_tag' is used for identifying the form to be submitted.
+  :ref:`tag-form_tag` is used for identifying the form to be submitted.
   Therefore, when specifying the name attribute of :ref:`tag-form_tag`,
   it is necessary to specify a unique name for the name attribute within the screen.
 
@@ -1805,7 +1805,7 @@ Unusable custom tags
  changeParamName tag
   Handling method
    The basic method of handling is the same as the :ref:`popupLink tag <tag-using_get_popup_link_tag>`.
-   Specify the query string key with the parameter name to bed changed in the first argument of window.open()
+   Specify the query string key with the parameter name to changed in the first argument of window.open()
    within the function that displays a pop-up window.
 
   Implementation examples
