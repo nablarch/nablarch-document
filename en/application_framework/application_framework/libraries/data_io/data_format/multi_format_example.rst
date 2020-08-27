@@ -14,7 +14,7 @@ Example of identifying format with a single field
     file-type:        "Fixed" # Fixed-length
     text-encoding:    "MS932" # Character encoding of the string type field
     record-length:    40      # Length of each record
-    record-separator: "\r\n"  # Line feed code (crlf)
+    record-separator: "\r\n"  # Carriage return and Line feed (crlf)
 
     # Define record identification field
     [Classifier]
@@ -45,7 +45,7 @@ Example of identifying format with multiple fields
     file-type:        "Fixed" # Fixed-length
     text-encoding:    "MS932" # Character encoding of the string type field
     record-length:    40      # Length of each record
-    record-separator: "\r\n"  # Line feed code (crlf)
+    record-separator: "\r\n"  # Carriage return and Line feed (crlf)
 
     # Define record identification field
     [Classifier]
@@ -83,7 +83,7 @@ Example when the identification item is different for each record
     file-type:        "Fixed" # Fixed-length
     text-encoding:    "MS932" # Character encoding of the string type field
     record-length:    40      # Length of each record
-    record-separator: "\r\n"  # Line feed code (crlf)
+    record-separator: "\r\n"  # Carriage return and Line feed (crlf)
 
     # Define record identification field
     [Classifier]
@@ -128,7 +128,7 @@ Example of identifying format with a single field
 
     file-type:        "Variable" # Variable length
     text-encoding:    "MS932"    # Character encoding of the string type field
-    record-separator: "\r\n"     # Line feed code (crlf)
+    record-separator: "\r\n"     # Carriage return and Line feed (crlf)
     field-separator:  ","        # csv
 
 
@@ -160,7 +160,7 @@ Example of identifying format with multiple fields
 
     file-type:        "Variable" # Variable length
     text-encoding:    "MS932"    # Character encoding of the string type field
-    record-separator: "\r\n"     # Line feed code (crlf)
+    record-separator: "\r\n"     # Carriage return and Line feed (crlf)
     field-separator:  ","        # csv
 
     # Define record identification field
@@ -198,7 +198,7 @@ Example when the identification item is different for each record
 
     file-type:        "Variable" # Variable length
     text-encoding:    "MS932"    # Character encoding of the string type field
-    record-separator: "\r\n"     # Line feed code (crlf)
+    record-separator: "\r\n"     # Carriage return and Line feed (crlf)
     field-separator:  ","        # csv
 
     # Define record identification field
@@ -264,7 +264,7 @@ Example of using title record
 
     file-type:    "Variable"     # Variable length
     text-encoding:     "ms932"   # File encoding
-    record-separator:  "\r\n"    # Line feed with CRLF
+    record-separator:  "\r\n"    # Carriage return and Line feed line break
     field-separator:   ","       # Field separator character
     quoting-delimiter: "\""      # Enclosing character
     requires-title: true         # Read/write first line as title

@@ -1335,9 +1335,9 @@ message tag
 .. table::
    :class: tag-reference
 
-   ====================================== ==========================================================================================
+   ====================================== ===============================================================================================
    Attribute                              Description
-   ====================================== ==========================================================================================
+   ====================================== ===============================================================================================
    messageId ``required``                 Message ID.
    option0 ~ option9                      Optional arguments with index between 0 ~ 9 used for message format.
                                           Up to 10 optional arguments can be specified.
@@ -1349,10 +1349,10 @@ message tag
    htmlEscape                             Whether HTML escape is to be performed.
                                           To perform HTML escape ``true``, not to perform HTML escape ``false``.
                                           Default is ``true``.
-   withHtmlFormat                         Whether to use the HTML format (conversion of line feed and half-width).
+   withHtmlFormat                         Whether to use the HTML format (conversion of carriage return and line feed and half-width).
                                           HTML format is valid only when HTML escape is used.
                                           Default is ``true``.
-   ====================================== ==========================================================================================
+   ====================================== ===============================================================================================
 
 .. _tag-write_tag:
 
@@ -1367,7 +1367,7 @@ write tag
    ====================================== ======================================================================================================================
    name                                   Name used to acquire the value to be displayed from the variable scope. Cannot be specified at the same time as the value attribute.
    value                                  Value to be displayed.Used to specify a value directly. Cannot be specified at the same time as the name attribute.
-   withHtmlFormat                         Whether to use the HTML format (conversion of line feed and half-width).
+   withHtmlFormat                         Whether to use the HTML format (conversion of carriage return and line feed and half-width).
                                           HTML format is valid only when HTML escape is used.
                                           Default is ``true``.
    valueFormat                            Format used for output.

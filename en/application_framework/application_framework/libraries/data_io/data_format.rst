@@ -120,7 +120,7 @@ The format definition file is created in a text file format as below. For detail
 
   file-type:        "Variable" # Variable length
   text-encoding:    "MS932"    # Character encoding of the string type field
-  record-separator: "\r\n"     # Line feed code (crlf)
+  record-separator: "\r\n"     # Carriage return and Line feed (crlf)
   field-separator:  ","        # csv
 
   # Define record identification field

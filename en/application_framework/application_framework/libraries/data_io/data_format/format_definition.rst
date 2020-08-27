@@ -131,7 +131,7 @@ Directive definitions used in all data formats are as follows.
       takes precedence over this configured value.
 
   * - record-separator ``optional``
-    - Specify the record end character (line feed character).
+    - Specify the record end character (Carriage return and Line feed).
 
       This is ``required`` if Variable (variable length) is specified for `file-type`.
 
@@ -269,12 +269,12 @@ The directives used for data in variable (variable length) format are as follows
       By default, quotes are not used.
       
       If the value is configured, the quote characters before and after the field is removed during input.
-      For handling line feed and quote characters in the fields, see RFC4180.
+      For handling Carriage return and Line feed and quote characters in the fields, see RFC4180.
 
   * - ignore-blank-lines ``optional``
     - Configures if blank lines should be ignored when reading the data.
 
-      When configured to ``true``, records on blank lines (only line feed) are ignored.
+      When configured to ``true``, records on blank lines (only Carriage return and Line feed) are ignored.
 
       By default, blank lines are ignored.
 
@@ -323,7 +323,7 @@ An example is shown below.
   #
   file-type:                  "Variable"  # Variable length file
   text-encoding:              "utf-8"     # Character encoding of the string type field
-  record-separator:           "\\r\\n"    # Line feed
+  record-separator:           "\\r\\n"    # Carriage return and Line feed
 
   field-separator:            ","         # CSV
   quoting-delimiter:          "\""        # Enclose items in double quotes
@@ -503,7 +503,7 @@ Points
   file-type:        "Fixed" # Fixed-length
   text-encoding:    "MS932" # Character encoding of the string type field
   record-length:    40      # Length of each record
-  record-separator: "\r\n"  # Line feed code (crlf)
+  record-separator: "\r\n"  # Carriage return and Line feed (crlf)
 
   # Define the record identification condition
   [Classifier]
