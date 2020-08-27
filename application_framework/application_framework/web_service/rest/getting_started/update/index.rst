@@ -57,19 +57,6 @@ Exampleアプリケーションを元に、更新機能の解説を行う。
 プロジェクト情報を更新する
 ---------------------------------
 
-URLとのマッピングを定義
-  :ref:`router_adaptor` を使用して、業務アクションとURLのマッピングを行う。
-
-    routes.xml
-      .. code-block:: xml
-
-        <routes>
-          <put path="projects" to="Project#update" />
-        </routes>
-
-    この実装のポイント
-     * ``put`` タグを使用して、PUTリクエスト時にマッピングする業務アクションメソッドを定義する。
-
 フォームの作成
   クライアントから送信された値を受け付けるフォームを作成する。
  
@@ -133,3 +120,25 @@ URLとのマッピングを定義
       :java:extdoc:`OptimisticLockException<javax.persistence.OptimisticLockException>` が発生した場合は ``409``
       のレスポンスを生成してクライアントに返却している。
 
+URLとのマッピングを定義
+  :ref:`router_adaptor` を使用して、業務アクションとURLのマッピングを行う。
+  マッピングには :ref:`JAX-RSのPathアノテーション <router_adaptor_path_annotation>` を使用する。
+
+  ProjectAction.java
+    .. code-block:: java
+
+      @Path("/projects")
+      public class ProjectAction {
+        @PUT
+        @Consumes(MediaType.APPLICATION_JSON)
+        @Valid
+        public HttpResponse update(ProjectUpdateForm form) {
+            Project project = BeanUtil.createAndCopy(Project.class, form);
+
+            UniversalDao.update(project);
+
+            return new HttpResponse(HttpResponse.Status.OK.getStatusCode());
+        }
+
+  この実装のポイント
+    * ``@Path`` アノテーションと ``@PUT`` アノテーションを使用して、PUTリクエスト時にマッピングする業務アクションメソッドを定義する。
