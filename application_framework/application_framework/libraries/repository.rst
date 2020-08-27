@@ -664,6 +664,24 @@ Java Beansとして実装されているクラスであれば、setterインジ�
       <property name="sampleObject" ref="sampleComponent" />
     </component>
 
+.. important::
+
+  Nablarchではファクトリクラスの入れ子に対応していない。
+  つまり、ファクトリクラスのプロパティに他のファクトリクラスを指定できない。
+
+  .. code-block:: xml
+
+      <component name="sampleComponent" class="sample.SampleComponentFactory">
+        <!-- ファクトリクラスの入れ子 -->
+        <property name="property">
+          <component class="sample.OtherSampleComponentFactory">
+        </property>
+      </component>
+
+  この場合は、1つのファクトリクラス内で入れ子のファクトリクラスで構築するオブジェクトも含めてオブジェクトを構築するか、
+  入れ子のファクトリクラスで構築するオブジェクトを生成するCreator/Builder/Providerといったクラスを作成し、
+  コンポーネントとしてインジェクションすることで対応すること。
+
 .. _repository-inject-annotation-component:
 
 アノテーションを付与したクラスのオブジェクトを構築する
