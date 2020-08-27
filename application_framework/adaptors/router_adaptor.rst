@@ -116,6 +116,7 @@
   LoginAction#index    /action/login/index
   ==================== =====================
 
+.. _router_adaptor_path_annotation:
 
 JAX-RSのPathアノテーションでマッピングする
 --------------------------------------------------------

@@ -55,19 +55,6 @@ Exampleアプリケーションを元に、登録機能の解説を行う。
 プロジェクト情報を登録する
 ---------------------------------
 
-URLとのマッピングを定義
-  :ref:`router_adaptor` を使用して、業務アクションとURLのマッピングを行う。
-
-    routes.xml
-      .. code-block:: xml
-
-        <routes>
-          <post path="projects" to="Project#save"/>
-        </routes>
-
-    この実装のポイント
-     * ``post`` タグを使用して、POSTリクエスト時にマッピングする業務アクションメソッドを定義する。
-
 フォームの作成
   クライアントから送信された値を受け付けるフォームを作成する。
 
@@ -110,4 +97,24 @@ URLとのマッピングを定義
     * :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` でフォームをエンティティに変換し、
       :ref:`universal_dao` を使用してプロジェクト情報をデータベースに登録する。
     * 戻り値として、リソースの作成完了(ステータスコード： ``201`` )を表す :java:extdoc:`HttpResponse<nablarch.fw.web.HttpResponse>` を返却する。
+
+URLとのマッピングを定義
+  :ref:`router_adaptor` を使用して、業務アクションとURLのマッピングを行う。
+  マッピングには :ref:`JAX-RSのPathアノテーション <router_adaptor_path_annotation>` を使用する。
+
+  ProjectAction.java
+    .. code-block:: java
+
+      @Path("/projects")
+      public class ProjectAction {
+        @POST
+        @Consumes(MediaType.APPLICATION_JSON)
+        @Valid
+        public HttpResponse save(ProjectForm project) {
+          UniversalDao.insert(BeanUtil.createAndCopy(Project.class, project));
+          return new HttpResponse(HttpResponse.Status.CREATED.getStatusCode());
+      }
+
+  この実装のポイント
+    * ``@Path`` アノテーションと ``@POST`` アノテーションを使用して、POSTリクエスト時にマッピングする業務アクションメソッドを定義する。
 
