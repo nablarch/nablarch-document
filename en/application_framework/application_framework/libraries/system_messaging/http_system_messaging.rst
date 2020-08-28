@@ -238,7 +238,7 @@ Common protocol header
   Uniquely numbered string for each message
 
   :Sending: Value numbered during send process
-  :Time of receipt: Value issued by the sender
+  :Receiving: Value issued by the sender
 
  Correlation message ID (X-Correlation-Id)
   Message ID of the message to which the message is related
