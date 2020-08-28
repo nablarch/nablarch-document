@@ -35,7 +35,7 @@ The assumed runtime platform differs for HTTP messaging depending on the type of
 
    * - Type of send and receive
      - Runtime platform
-   * - :ref:`HTTP message send <http_system_messaging-message_receive>`
+   * - :ref:`HTTP receive message <http_system_messaging-message_receive>`
      - :ref:`HTTP messaging <http_messaging>`
    * - :ref:`HTTP send message <http_system_messaging-message_send>`
      - Does not depend on the runtime platform
