@@ -416,8 +416,8 @@ Database access (JDBC wrapper) delegates the type conversion of variables used f
 
 If an arbitrary type conversion is necessary, the application performs type conversion on the variables used for input to/output from the database.
 
-- When using a Bean for input, configure a value in the property of the Bean, and when using a Bean for output, perform type conversion after extracting the value from the property.
-- When using Map for input, configure the value in Map. When using Map for output, perform type conversion after extracting the value.
+- When using Bean for input, perform type conversion when setting the value to Bean property. when using a Bean for output, perform type conversion after extracting the value from the property.
+- When using Map for input, type conversion is performed when setting the value in Map. When using Map for output, perform type conversion after extracting the value.
 - When configuring a bind variable by specifying an index, convert the object to be configured to the bind variable to an appropriate type. When acquiring a value from :java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` , perform type conversion after the value has been acquired.
 
 
