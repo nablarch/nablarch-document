@@ -57,7 +57,8 @@ URIとリソース(アクション)クラスのマッピング
 
 レスポンスヘッダ
 ----------------------------------------------------------------------------------------------------
-* :ref:`rest_feature_details-response_header`
+* :ref:`リソースクラスのメソッドで個別にレスポンスヘッダを設定する <rest_feature_details-response_header>`
+* :ref:`jaxrs_response_handler-response_finisher`
 
 国際化対応
 ----------------------------------------
@@ -88,3 +89,7 @@ Webアプリケーションのスケールアウト設計
 CSRF対策
 ----------------------------------------
 * :ref:`CSRF対策 <csrf_token_verification_handler>`
+
+CORS
+----------------------------------------
+* :ref:`CORS <cors_preflight_request_handler>`
