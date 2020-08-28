@@ -477,8 +477,6 @@ Note that the annotation being used is :java:extdoc:`@SystemChar <nablarch.core.
 and the fully qualified name is different from :ref:`bean_validation` (annotation name is the same).
 
 Allowing Surrogate Pairs
-  このバリデーションでは、デフォルトではサロゲートペアを許容しない。
-  （例え `LiteralCharsetDef` で明示的にサロゲートペアの文字を定義していても許容しない）
   This validation does not allow surrogate pairs by default.
   (They are not allowed even if the characters for surrogate pairs are explicitly defined in `LiteralCharsetDef`.)
 
