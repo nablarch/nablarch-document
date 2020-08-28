@@ -389,7 +389,7 @@ Implementation examples
     file-type:        "Fixed" # Fixed-length
     text-encoding:    "MS932" # Character encoding of string type field
     record-length:    2120    # Length of each record
-    record-separator: "\r\n"  # Line feed code
+    record-separator: "\r\n"  # Carriage return and Line feed
 
     [data]
     Item definition omitted
@@ -400,7 +400,7 @@ Implementation examples
     file-type:        "Fixed" # Fixed-length
     text-encoding:    "MS932" # Character encoding of string type field
     record-length:    130     # Length of each record
-    record-separator: "\r\n"  # Line feed code
+    record-separator: "\r\n"  # Carriage return and Line feed
 
     [data]
     Item definition omitted
@@ -672,7 +672,7 @@ Implementation examples
     file-type:        "Fixed" # Fixed-length
     text-encoding:    "MS932" # Character encoding of string type field
     record-length:    2120    # Length of each record
-    record-separator: "\r\n"  # Line feed code
+    record-separator: "\r\n"  # Carriage return and Line feed
 
     [data]
     Item definition omitted
@@ -683,7 +683,7 @@ Implementation examples
     file-type:        "Fixed" # Fixed-length
     text-encoding:    "MS932" # Character encoding of string type field
     record-length:    130     # Length of each record
-    record-separator: "\r\n"  # Line feed code
+    record-separator: "\r\n"  # Carriage return and Line feed
 
     [data]
     Item definition omitted

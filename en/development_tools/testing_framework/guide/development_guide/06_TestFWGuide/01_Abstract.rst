@@ -449,7 +449,7 @@ The following table is written with a special method of writing provided in this
   
   *  (half-width space): stands for half-width space
   *  (full-width space): stands for full-width space
-  * *CR*: stands for the line feed code CR(0x0D).
+  * *CR*: stands for the carriage return CR(0x0D).
   * *LF*: LF stands for the line feed code LF(0x0A).
 
 .. [#]
@@ -511,19 +511,19 @@ The following table is written with a special method of writing provided in this
  
  Examples are shown below.
 
- +--------------------------+------------------------------+---------------------------------------------+ 
- | Description example      | Examples of converted values | Description                                 |
- +==========================+==============================+=============================================+
- |こんにちは |br|           |こんにちは\ *LF*\             |The line break (Alt+Enter) in the cell       |
- |さようなら                |さようなら                    |becomes LF(0x0A).                            |
- +--------------------------+------------------------------+---------------------------------------------+
- |こんにちは\\n             |こんにちは\ *LF*\             |'\\n' is converted to LF(0x0A)               |
- |さようなら                |さようなら                    |by this function.                            |
- +--------------------------+------------------------------+---------------------------------------------+
- |こんにちは\\r |br|        |こんにちは\ *CRLF*\           |'\\r' is converted to CR(0x0D)               |
- |さようなら                |さようなら                    |by this function. The line feed (Alt+Enter)  |
- |                          |                              |in the cell（Alt+Enter）becomes LF(0x0A).    |
- +--------------------------+------------------------------+---------------------------------------------+
+ +--------------------------+------------------------------+--------------------------------------------------------------------+
+ | Description example      | Examples of converted values | Description                                                        |
+ +==========================+==============================+====================================================================+
+ |こんにちは |br|           |こんにちは\ *LF*\             |The line break (Alt+Enter) in the cell                              |
+ |さようなら                |さようなら                    |becomes LF(0x0A).                                                   |
+ +--------------------------+------------------------------+--------------------------------------------------------------------+
+ |こんにちは\\n             |こんにちは\ *LF*\             |'\\n' is converted to LF(0x0A)                                      |
+ |さようなら                |さようなら                    |by this function.                                                   |
+ +--------------------------+------------------------------+--------------------------------------------------------------------+
+ |こんにちは\\r |br|        |こんにちは\ *CRLF*\           |'\\r' is converted to CR(0x0D)                                      |
+ |さようなら                |さようなら                    |by this function. The Carriage return and Line feed (Alt+Enter)     |
+ |                          |                              |in the cell（Alt+Enter）becomes LF(0x0A).                           |
+ +--------------------------+------------------------------+--------------------------------------------------------------------+
 
 --------
 Note

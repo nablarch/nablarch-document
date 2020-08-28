@@ -94,7 +94,7 @@ An implementation example to read all the data is shown below.
 
 .. important::
 
-  The resources are released with :java:extdoc:`ObjectMapper#close <nablarch.common.databind.ObjectMapper.close()>` after reading all the data.
+  After reading all the data, release the resource using :java:extdoc:`ObjectMapper#close <nablarch.common.databind.ObjectMapper.close()>` .
 
   However, it is possible to omit the close process in Java7 or later environments by using ``try-with-resources`` .
 
@@ -644,17 +644,17 @@ Format sets that can be specified as the CSV file format
 ---------------------------------------------------------------------
 The format sets and configuration values for the CSV file provided by default are as follows.
 
-========================= ==================== ==================== ==================== ====================
-\                         DEFAULT              RFC4180              EXCEL                TSV
-========================= ==================== ==================== ==================== ====================
-Column break              Comma (,)            Comma (,)            Comma (,)            Tab(\\t)
-Line break                Line feed (\\r\\n)   Line feed (\\r\\n)   Line feed (\\r\\n)   Line feed (\\r\\n)
-Field enclosing character Double quotation (") Double quotation (") Double quotation (") Double quotation (")
-Ignore empty lines        true                 false                false                false
-With header line          true                 false                false                false
-Character code            UTF-8                UTF-8                UTF-8                UTF-8
-Quote mode                NORMAL               NORMAL               NORMAL               NORMAL
-========================= ==================== ==================== ==================== ====================
+========================= ======================================== ======================================== ======================================== ========================================
+\                         DEFAULT                                  RFC4180                                  EXCEL                                    TSV
+========================= ======================================== ======================================== ======================================== ========================================
+Column break              Comma (,)                                Comma (,)                                Comma (,)                                Tab(\\t)
+Line break                Carriage return and Line feed (\\r\\n)   Carriage return and Line feed (\\r\\n)   Carriage return and Line feed (\\r\\n)   Carriage return and Line feed (\\r\\n)
+Field enclosing character Double quotation (")                     Double quotation (")                     Double quotation (")                     Double quotation (")
+Ignore empty lines        true                                     false                                    false                                    false
+With header line          true                                     false                                    false                                    false
+Character code            UTF-8                                    UTF-8                                    UTF-8                                    UTF-8
+Quote mode                NORMAL                                   NORMAL                                   NORMAL                                   NORMAL
+========================= ======================================== ======================================== ======================================== ========================================
 
 Quote mode
   Quote mode indicates which field is enclosed by field enclosing characters when writing to a CSV file. The following modes can be selected from for the quote mode.

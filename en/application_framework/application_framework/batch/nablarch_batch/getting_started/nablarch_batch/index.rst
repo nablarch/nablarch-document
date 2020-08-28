@@ -115,8 +115,8 @@ Create a form that accepts input files
 .. _`getting_started_nablarch_batch-data_reader`:
 
 Create a data reader
-  Create the implementation class of :java:extdoc:`DataReader<nablarch.fw.DataReader>`
-  after reading the file and passing one line at a time to the business action method.
+  Create an implementation class of :java:extdoc:`DataReader<nablarch.fw.DataReader>` 
+  that reads the file and passing one line at a time to the business action method.
 
   ZipCodeFileReader.java
     .. code-block:: java

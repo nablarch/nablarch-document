@@ -120,7 +120,7 @@ The format definition file is created in a text file format as below. For detail
 
   file-type:        "Variable" # Variable length
   text-encoding:    "MS932"    # Character encoding of the string type field
-  record-separator: "\r\n"     # Line feed code (crlf)
+  record-separator: "\r\n"     # Carriage return and Line feed (crlf)
   field-separator:  ","        # csv
 
   # Define record identification field
@@ -320,7 +320,7 @@ Loading an upload file using the upload helper
 
     * Configure the message ID for validation error using :java:extdoc:`setUpMessageIdOnError <nablarch.fw.web.upload.util.BulkValidator.setUpMessageIdOnError(java.lang.String-java.lang.String-java.lang.String)>` .
     * Configure the Java Beans class that executes validation and the validation method using :java:extdoc:`validateWith <nablarch.fw.web.upload.util.BulkValidator.ErrorHandlingBulkValidator.validateWith(java.lang.Class-java.lang.String)>` .
-    * Register the contents of the Java Bean object after implementing the validation using :java:extdoc:`importWith <nablarch.fw.web.upload.util.BulkValidationResult.importWith(nablarch.core.db.support.DbAccessSupport-java.lang.String)>` to the database.
+    * Register the validated Javabeans object in DB using :java:extdoc:`importWith <nablarch.fw.web.upload.util.BulkValidationResult.importWith(nablarch.core.db.support.DbAccessSupport-java.lang.String)>` .
 
   .. code-block:: java
 
