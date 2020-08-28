@@ -211,7 +211,7 @@ For example, ``Accept: text/json,text/xml`` is configured in the HTTP header of 
 If the default operation of :java:extdoc:`HttpMessagingClient<nablarch.fw.messaging.realtime.http.client.HttpMessagingClient>`
 does not meet the project requirements,
 customize by creating a class that inherits :java:extdoc:`HttpMessagingClient<nablarch.fw.messaging.realtime.http.client.HttpMessagingClient>`
-and configuring to the component with the method given in :ref:`http_system_messaging-settings`.
+and configuring to the component definition with the method given in :ref:`http_system_messaging-settings`.
 
 .. _http_system_messaging-data_model:
 
