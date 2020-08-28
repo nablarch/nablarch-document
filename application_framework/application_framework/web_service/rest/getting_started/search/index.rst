@@ -39,19 +39,6 @@ Exampleアプリケーションを元に、検索機能の解説を行う。
 プロジェクト情報を検索する
 ---------------------------------
 
-URLとのマッピングを定義
-  :ref:`router_adaptor` を使用して、業務アクションとURLのマッピングを行う。
-
-    routes.xml
-      .. code-block:: xml
-
-        <routes>
-          <get path="projects" to="Project#find"/>
-        </routes>
-
-    この実装のポイント
-     * ``get`` タグを使用して、GETリクエスト時にマッピングする業務アクションメソッドを定義する。
-
 フォームの作成
   クライアントから送信された値を受け付けるフォームを作成する。
 
@@ -144,3 +131,31 @@ URLとのマッピングを定義
    * :ref:`universal_dao` を使用して取得したプロジェクト情報のリストを戻り値として返却する。
    * 戻り値のオブジェクトは :ref:`body_convert_handler` によってJSON形式に変換されるため、
      業務アクションメソッド内で変換処理を実装する必要はない。
+
+URLとのマッピングを定義
+  :ref:`router_adaptor` を使用して、業務アクションとURLのマッピングを行う。
+  マッピングには :ref:`JAX-RSのPathアノテーション <router_adaptor_path_annotation>` を使用する。
+
+  ProjectAction.java
+    .. code-block:: java
+
+      @Path("/projects")
+      public class ProjectAction {
+        @GET
+        @Produces(MediaType.APPLICATION_JSON)
+        public List<Project> find(HttpRequest req) {
+
+            // リクエストパラメータをBeanに変換
+            ProjectSearchForm form =
+                    BeanUtil.createAndCopy(ProjectSearchForm.class, req.getParamMap());
+
+            // BeanValidation実行
+            ValidatorUtil.validate(form);
+
+            ProjectSearchDto searchCondition = BeanUtil.createAndCopy(ProjectSearchDto.class, form);
+            return UniversalDao.findAllBySqlFile(Project.class, "FIND_PROJECT", searchCondition);
+        }
+
+  この実装のポイント
+    * ``@Path`` アノテーションと ``@GET`` アノテーションを使用して、GETリクエスト時にマッピングする業務アクションメソッドを定義する。
+

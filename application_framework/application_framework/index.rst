@@ -15,3 +15,4 @@
   blank_project/index
   setting_guide/index
   configuration/index
+  cloud_native/index
