@@ -63,6 +63,9 @@ Nablarchでは、ウェブアプリケーションを構築するために必要
   * :ref:`database_connection_management_handler`
   * :ref:`transaction_management_handler`
 
+リクエストの検証を行うハンドラ
+  * :ref:`csrf_token_verification_handler`
+
 エラー処理に関するハンドラ
   * :ref:`http_error_handler`
   * :ref:`global_error_handler`
@@ -74,6 +77,7 @@ Nablarchでは、ウェブアプリケーションを構築するために必要
   * :ref:`thread_context_clear_handler`
   * :ref:`http_access_log_handler`
   * :ref:`file_record_writer_dispose_handler`
+  * :ref:`health_check_endpoint_handler`
 
 最小ハンドラ構成
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

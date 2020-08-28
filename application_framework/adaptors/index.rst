@@ -16,6 +16,6 @@
   mail_sender_thymeleaf_adaptor
   mail_sender_velocity_adaptor
   web_thymeleaf_adaptor
-  redisstore_lettuce_adaptor
+  lettuce_adaptor
   aws_xray_adaptor
   slf4j_adaptor
