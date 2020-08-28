@@ -616,7 +616,7 @@ Depending on the application requirements, addition of digital signature or encr
 
 For such cases, support by creating an inherited class of
 :java:extdoc:`MailSender<nablarch.common.mail.MailSender>` in the project.
-For details, see :java:extdoc:`MailSender㝮Javadoc<nablarch.common.mail.MailSender>`.
+For details, see :java:extdoc:`Javadoc of MailSender<nablarch.common.mail.MailSender>`.
 
 Change the process when email send fails
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -12,7 +12,7 @@ Summary
 
 To use a different formatter from those provided by Nablarch (ex: Json format or Xml format), add a data formatter.
 
-In this sample, assume that a formatter corresponding to the data format (application/x-www-form-urlencoded) that combines Key item=Value item with &, such as a HTTP POST parameter, is created.
+In this sample, assume creating a formatter corresponding to the data format (application/x-www-form-urlencoded) that combines Key item=Value item with &, such as a HTTP POST parameter.
 
 Delivery package
 --------------------------------------------------------------------

@@ -822,7 +822,7 @@ Common protocol header
   String assigned by MOM for each message
 
   :Sending: Value assigned by MOM
-  :Time of receipt: The value issued by the sender MOM
+  :Receiving: The value issued by the sender MOM
 
  Correlation message ID (CorrelationId)
   Message ID of the message to which the message is related
@@ -834,21 +834,21 @@ Common protocol header
   Logical name that represents the send address of the message
 
   :Sending: Logical name of the send queue
-  :Time of receipt: Logical name of the receive queue
+  :Receiving: Logical name of the receive queue
 
  Reply to address (ReplyTo)
   Logical name that represents the address used when sending a response to this message
 
   :Sending: Logical name of the receive response queue for synchronous responses.
             Configuration not required if no response is required
-  :Time of receipt: Logical name of the reply to address queue for synchronous responses.
+  :Receiving: Logical name of the reply to address queue for synchronous responses.
                     Usually not configured if no response is required
 
  Expiry interval (TimeToLive)
   Expiry interval (msec) of message starting from the send process start point
 
   :Sending: Expiry interval of sent message
-  :Time of receipt: Not set
+  :Receiving: Not set
 
  .. tip::
   Headers other than the common protocol header can be defined arbitrarily in each messaging provider.

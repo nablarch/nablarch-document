@@ -35,7 +35,7 @@ The assumed runtime platform differs for HTTP messaging depending on the type of
 
    * - Type of send and receive
      - Runtime platform
-   * - :ref:`HTTP message send <http_system_messaging-message_receive>`
+   * - :ref:`HTTP receive message <http_system_messaging-message_receive>`
      - :ref:`HTTP messaging <http_messaging>`
    * - :ref:`HTTP send message <http_system_messaging-message_send>`
      - Does not depend on the runtime platform
@@ -211,7 +211,7 @@ For example, ``Accept: text/json,text/xml`` is configured in the HTTP header of 
 If the default operation of :java:extdoc:`HttpMessagingClient<nablarch.fw.messaging.realtime.http.client.HttpMessagingClient>`
 does not meet the project requirements,
 customize by creating a class that inherits :java:extdoc:`HttpMessagingClient<nablarch.fw.messaging.realtime.http.client.HttpMessagingClient>`
-and configuring to the component with the method given in :ref:`http_system_messaging-settings`.
+and configuring to the component definition with the method given in :ref:`http_system_messaging-settings`.
 
 .. _http_system_messaging-data_model:
 
@@ -238,7 +238,7 @@ Common protocol header
   Uniquely numbered string for each message
 
   :Sending: Value numbered during send process
-  :Time of receipt: Value issued by the sender
+  :Receiving: Value issued by the sender
 
  Correlation message ID (X-Correlation-Id)
   Message ID of the message to which the message is related

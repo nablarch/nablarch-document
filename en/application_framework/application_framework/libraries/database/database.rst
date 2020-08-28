@@ -460,7 +460,7 @@ Bean object (Entity)
       private String id;
 
       // Registration date and time
-      // Automatically configured when registering/updating
+      // Automatically configured when registering
       @CurrentDateTime
       private Timestamp createdAt;
 

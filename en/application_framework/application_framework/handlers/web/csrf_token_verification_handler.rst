@@ -2,7 +2,7 @@
 
 CSRF Token Verification Handler
 ==================================================
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
