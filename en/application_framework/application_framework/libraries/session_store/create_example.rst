@@ -17,7 +17,7 @@ Transition from the input screen to the confirmation screen
   // Acquire input information from the request scope
   ProjectForm form = context.getRequestScopedVar("form");
 
-  // Convert Entity to Form
+  // Convert Form to Entity
   Project project = BeanUtil.createAndCopy(Project.class, form);
 
   // Save input information in session store
