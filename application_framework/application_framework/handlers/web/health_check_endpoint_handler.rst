@@ -10,7 +10,8 @@
 本ハンドラを使用して、 :ref:`Webアプリケーション<web_application>` と :ref:`RESTfulウェブサービス<restful_web_service>`
 のヘルスチェックを行うエンドポイントを実現できる。
 
-ヘルスチェックのデフォルト実装としてDBのヘルスチェックを提供している。
+ヘルスチェックのデフォルト実装として :java:extdoc:`DB <nablarch.fw.web.handler.health.DbHealthChecker>` と
+:ref:`Redis<lettuce_adaptor>` のヘルスチェックを提供している。
 
 本ハンドラでは、以下の処理を行う。
 
