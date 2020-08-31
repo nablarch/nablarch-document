@@ -131,19 +131,19 @@ Exception handling during conversion
  :java:extdoc:`nablarch.fw.results.RequestEntityTooLarge`
   :Log level: INFO
   :Response: 400
-  :Description: Since the size limit of the request body was exceeded, recorded as a trail log. 
+  :Description: Since the size limit of the request body was exceeded, recorded as a trace log. 
          HTTP status code generates the response *400*  to indicate that the size has been exceeded.
 
  :java:extdoc:`nablarch.fw.messaging.MessagingException`
   :Log level: INFO
   :Response: 400
-  :Description: Since the request body is invalid, it is recorded as a trail log. 
+  :Description: Since the request body is invalid, it is recorded as a trace log. 
          To indicate a client error, the HTTP status code generates the response  *400*  .
 
  :java:extdoc:`nablarch.core.dataformat.InvalidDataFormatException`
   :Log level: INFO
   :Response: 400
-  :Description: Since the request body format is invalid, it is recorded as a trail log. 
+  :Description: Since the request body format is invalid, it is recorded as a trace log. 
          To indicate a client error, the HTTP status code generates the response  *400*  .
 
 .. _http_messaging_request_parsing_handler-limit_size:

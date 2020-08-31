@@ -22,8 +22,8 @@ The handlers required to output the HTTP access log are as follows.
  :ref:`http_request_java_package_mapping`
   Outputs the log after the dispatch class is determined.
 
-If the requirements of the trail log of the individual application can be met by output of the request information including the request parameters,
-then the HTTP access and trail logs can be used together.
+If the requirements of the trace log of the individual application can be met by output of the request information including the request parameters,
+then the HTTP access and trace logs can be used together.
 
 Output policy of HTTP access log
 --------------------------------------------------
