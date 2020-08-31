@@ -21,7 +21,7 @@ Enter
  | :ref:`tag-composite_key_radio_button_tag` (radio button corresponding to the composite key)
  | :ref:`tag-composite_key_checkbox_tag` (checkbox corresponding to the composite key)
  | :ref:`tag-radio_buttons_tag` (multiple radio buttons)
- | :ref:`tag-checkboxes_tag` (multiple radio checkboxes)
+ | :ref:`tag-checkboxes_tag` (multiple checkboxes)
  | :ref:`tag-code_select_tag` (code value pull-down)
  | :ref:`tag-code_checkbox_tag` (code value checkbox)
  | :ref:`tag-code_radio_buttons_tag` (multiple radio buttons for code values)
