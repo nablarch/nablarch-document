@@ -77,7 +77,7 @@ This section shows the comparison of the following functions:
      - C [8]_
      - :ref:`A <http_messaging_request_parsing_handler-limit_size>`
      - D
-   * - Output of the trail log
+   * - Output of the trace log
      - C [9]_
      - :ref:`A <messaging_log>`
      - D

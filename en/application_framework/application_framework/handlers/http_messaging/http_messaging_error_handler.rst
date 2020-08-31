@@ -48,7 +48,7 @@ Processes the log output and generates response according to the exception type
 :java:extdoc:`nablarch.fw.NoMoreHandlerException`
   :Log level: INFO
   :Response: 404
-  :Description: It is recorded as a trail log since it means that the handler to process the request is not available.
+  :Description: It is recorded as a trace log since it means that the handler to process the request is not available.
          The HTTP status code generates a response of *404*, which means that there was no *action class* to process.
 
 :java:extdoc:`nablarch.fw.web.HttpErrorResponse`

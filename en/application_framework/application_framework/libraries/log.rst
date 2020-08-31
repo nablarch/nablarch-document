@@ -97,7 +97,7 @@ See :download:`Default configuration list <../configuration/default-configuratio
    * - :ref:`HTTP access log <http_access_log>`
      - Outputs the information to grasp the execution status of application in the web application.
        The log includes the output information required to measure the application performance and also for load measurement of the application.
-       It is also used as a trail log that outputs all request and response information to detect unauthorized use of the application.       
+       It is also used as a trace log that outputs all request and response information to detect unauthorized use of the application.       
 
    * - :ref:`Messaging log <messaging_log>`
      - The log outputs information for grasping the status of message send and receive in the messaging process.
