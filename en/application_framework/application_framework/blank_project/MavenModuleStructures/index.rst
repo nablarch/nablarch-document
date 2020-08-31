@@ -501,7 +501,7 @@ For Nablarch libraries, usually the version number need not be specified in pom.
 Policy for recommended project configuration
 ================================================
 
-The following are the objectives of the recommended project configuration.
+The following are the policy of the recommended project configuration.
 
 * If only one application is to be created (web only, batch only, etc.), then configure a single project respectively.
 * If two web applications are to be created for internal and external use, create separate Maven projects instead of consolidating them into a single Maven project.

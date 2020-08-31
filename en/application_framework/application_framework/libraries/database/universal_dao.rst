@@ -420,13 +420,13 @@ An usage example is shown below.
 Component configuration file
   Define :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` in the component configuration file.
 
-  * Configure implementation class :java:extdoc:`ConnectionFactory <nablarch.core.db.connection.ConnectionFactory>`
+  * Configure implementation class of :java:extdoc:`ConnectionFactory <nablarch.core.db.connection.ConnectionFactory>`
     to :java:extdoc:`connectionFactory <nablarch.core.db.transaction.SimpleDbTransactionManager.setConnectionFactory(nablarch.core.db.connection.ConnectionFactory)>` property.
-    For details of implementation class :java:extdoc:`ConnectionFactory <nablarch.core.db.connection.ConnectionFactory>`, see :ref:`database-connect`.
+    For details of implementation class of :java:extdoc:`ConnectionFactory <nablarch.core.db.connection.ConnectionFactory>`, see :ref:`database-connect`.
 
-  * Configure implementation class :java:extdoc:`TransactionFactory <nablarch.core.transaction.TransactionFactory>`
+  * Configure implementation class of :java:extdoc:`TransactionFactory <nablarch.core.transaction.TransactionFactory>`
     to :java:extdoc:`transactionFactory <nablarch.core.db.transaction.SimpleDbTransactionManager.setTransactionFactory(nablarch.core.transaction.TransactionFactory)>` property.
-    For details of implementation :java:extdoc:`TransactionFactory <nablarch.core.transaction.TransactionFactory>`, see :ref:`transaction-database`.
+    For details of implementation of :java:extdoc:`TransactionFactory <nablarch.core.transaction.TransactionFactory>`, see :ref:`transaction-database`.
 
   .. code-block:: xml
 

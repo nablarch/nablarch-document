@@ -1219,26 +1219,26 @@ This section describes the procedure to switch the exception class during databa
 
 For example, to change the exception class of deadlock error, work according to this procedure.
 
-#. Create the implementation class :java:extdoc:`DbAccessExceptionFactory <nablarch.core.db.connection.DbAccessExceptionFactory>` that generates database access error.
-#. Create the implementation class :java:extdoc:`SqlStatementExceptionFactory <nablarch.core.db.statement.SqlStatementExceptionFactory>` that generates SQL run-time error.
+#. Create the implementation class of :java:extdoc:`DbAccessExceptionFactory <nablarch.core.db.connection.DbAccessExceptionFactory>` that generates database access error.
+#. Create the implementation class of :java:extdoc:`SqlStatementExceptionFactory <nablarch.core.db.statement.SqlStatementExceptionFactory>` that generates SQL run-time error.
 #. Define the class that is created in the component configuration file.
 
 The detailed procedure is shown below.
 
-Create the implementation class :java:extdoc:`DbAccessExceptionFactory <nablarch.core.db.connection.DbAccessExceptionFactory>`
+Create the implementation class of :java:extdoc:`DbAccessExceptionFactory <nablarch.core.db.connection.DbAccessExceptionFactory>`
   Create an implementation class of this interface to change :java:extdoc:`DbAccessException <nablarch.core.db.DbAccessException>` that is generated during database connection acquisition and transaction control (commit and rollback).
 
-Create the implementation class :java:extdoc:`SqlStatementExceptionFactory <nablarch.core.db.statement.SqlStatementExceptionFactory>`
+Create the implementation class of :java:extdoc:`SqlStatementExceptionFactory <nablarch.core.db.statement.SqlStatementExceptionFactory>`
   Create an implementation class of this interface to change :java:extdoc:`SqlStatementException <nablarch.core.db.statement.exception.SqlStatementException>` that occurs when SQL is executed.
 
 Define in the component configuration file
-  Implementation class :java:extdoc:`DbAccessExceptionFactory <nablarch.core.db.connection.DbAccessExceptionFactory>` must be configured in the component that acquires the database connection defined in :ref:`database-connect` .
+  Implementation class of :java:extdoc:`DbAccessExceptionFactory <nablarch.core.db.connection.DbAccessExceptionFactory>` must be configured in the component that acquires the database connection defined in :ref:`database-connect` .
 
   .. code-block:: xml
 
     <component class="sample.SampleDbAccessExceptionFactory" />
 
-  The implementation class :java:extdoc:`SqlStatementExceptionFactory <nablarch.core.db.statement.SqlStatementExceptionFactory>` is configured for :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` . :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` must be configured in the component that acquires the database connection defined in :ref:`database-connect` .
+  The implementation class of :java:extdoc:`SqlStatementExceptionFactory <nablarch.core.db.statement.SqlStatementExceptionFactory>` is configured for :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` . :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` must be configured in the component that acquires the database connection defined in :ref:`database-connect` .
 
   .. code-block:: xml
 

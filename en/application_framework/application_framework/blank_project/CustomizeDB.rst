@@ -1,6 +1,6 @@
 
 =======================================================
-Procedure for Changing the RDBMS to Use
+Procedure for Changing the RDBMS used
 =======================================================
 
 .. contents:: Table of contents
