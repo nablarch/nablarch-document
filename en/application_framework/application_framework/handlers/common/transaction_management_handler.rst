@@ -59,7 +59,7 @@ This handler uses the factory class ( :java:extdoc:`TransactionFactory <nablarch
 
 When managing on a thread, configure a name to identify the transaction.
 By default,  ``transaction``  is used but to use a different name, configure the name in the  :java:extdoc:`transactionName <nablarch.common.handler.TransactionManagementHandler.setTransactionName(java.lang.String)>` . 
-:ref:`When using multiple transactions <transaction_management_handler-multi_transaction>` , it is required to set the value of <transaction_management_handler-multi_transaction> in the  :java:extdoc:`transactionName <nablarch.common.handler.TransactionManagementHandler.setTransactionName(java.lang.String)>`  property.
+:ref:`When using multiple transactions <transaction_management_handler-multi_transaction>` , it is required to set the value to the  :java:extdoc:`transactionName <nablarch.common.handler.TransactionManagementHandler.setTransactionName(java.lang.String)>`  property.
 
 .. tip::
 
