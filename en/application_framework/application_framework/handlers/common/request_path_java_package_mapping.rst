@@ -101,8 +101,7 @@ If you do not want to provide a class name prefix and suffix in the request path
 the specification in the request path can be omitted by configuring ``classNamePrefix`` and ``classNameSuffix`` of this handler.
 
 For example, when following the rule that specifies ``XxxProject`` as the prefix and ``BatchAction`` as the suffix,
-for a class name ``XxxProjectXxxxBatchAction``, the request path ``/app/action/Xxxx``
-can be omitted by configuring as follows:
+for a class name ``XxxProjectXxxxBatchAction``, the request path can be omitted like ``/app/action/Xxxx`` by configuring as follows:
 
 
 
