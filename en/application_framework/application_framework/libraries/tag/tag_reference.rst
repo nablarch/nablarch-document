@@ -1134,7 +1134,7 @@ codeSelect tag
                                           ``$NAME$``: Code name corresponding to the code value
                                           ``$SHORTNAME$``: Abbreviation of code corresponding to the code value
                                           ``$OPTIONALNAME$``: Option name of code corresponding to the code value
-                                          ``$VALUE$``: When code value
+                                          ``$VALUE$``: Code value
                                           ``$OPTIONALNAME$`` is used, specifying the optionColumnName attribute is required.
                                           Default is ``$NAME$``.
    listFormat                             Format to use when displaying the list.
@@ -1186,7 +1186,7 @@ codeRadioButtons tag
                                           ``$NAME$``: Code name corresponding to the code value
                                           ``$SHORTNAME$``: Abbreviation of code corresponding to the code value
                                           ``$OPTIONALNAME$``: Option name of code corresponding to the code value
-                                          ``$VALUE$``: When code value
+                                          ``$VALUE$``: Code value
                                           ``$OPTIONALNAME$`` is used, specifying the optionColumnName attribute is required.
                                           Default is ``$NAME$``.
    listFormat                             Format to use when displaying the list.
@@ -1231,7 +1231,7 @@ codeCheckboxes tag
                                           ``$NAME$``: Code name corresponding to the code value
                                           ``$SHORTNAME$``: Abbreviation of code corresponding to the code value
                                           ``$OPTIONALNAME$``: Option name of code corresponding to the code value
-                                          ``$VALUE$``: When code value
+                                          ``$VALUE$``: Code value
                                           ``$OPTIONALNAME$`` is used, specifying the optionColumnName attribute is required.
                                           Default is ``$NAME$``.
    listFormat                             Format to use when displaying the list.
@@ -1274,7 +1274,7 @@ codeCheckbox tag
                                           ``$NAME$``: Code name corresponding to the code value
                                           ``$SHORTNAME$``: Abbreviation of code corresponding to the code value
                                           ``$OPTIONALNAME$``: Option name of code corresponding to the code value
-                                          ``$VALUE$``: When code value
+                                          ``$VALUE$``: Code value
                                           ``$OPTIONALNAME$`` is used, specifying the optionColumnName attribute is required.
                                           Default is ``$NAME$``.
    offCodeValue                           The code value used when there is no checkmark.
@@ -1313,7 +1313,7 @@ code tag
                                           ``$NAME$``: Code name corresponding to the code value
                                           ``$SHORTNAME$``: Abbreviation of code corresponding to the code value
                                           ``$OPTIONALNAME$``: Option name of code corresponding to the code value
-                                          ``$VALUE$``: When code value
+                                          ``$VALUE$``: Code value
                                           ``$OPTIONALNAME$`` is used, specifying the optionColumnName attribute is required.
                                           Default is ``$NAME$``.
    listFormat                             Format to use when displaying the list.
