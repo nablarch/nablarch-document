@@ -52,7 +52,7 @@ However, when the exception class that has occurred is :java:extdoc:`HttpErrorRe
 :java:extdoc:`HttpErrorResponse#getResponse() <nablarch.fw.web.HttpErrorResponse.getResponse()>` is returned to the client.
 
 If the setting is omitted, :java:extdoc:`ErrorResponseBuilder <nablarch.fw.jaxrs.ErrorResponseBuilder>` of the default implementation will be used.
-When the project requirements cannot be met with the default implementation by inheriting the default implementation class.
+If the default implementation cannot meet the project requirements, inherit the default implementation class.
 
 A configuration example is shown below.
 
@@ -73,7 +73,7 @@ Log output in response to exceptions and errors is performed by :java:extdoc:`Ja
 configured in the property :java:extdoc:`errorLogWriter <nablarch.fw.jaxrs.JaxRsResponseHandler.setErrorLogWriter(nablarch.fw.jaxrs.JaxRsErrorLogWriter)>`.
 
 If the setting is omitted, :java:extdoc:`JaxRsErrorLogWriter <nablarch.fw.jaxrs.JaxRsErrorLogWriter>` of the default implementation
-will be used. When the project requirements cannot be met with the default implementation by inheriting the default implementation class.
+will be used. If the default implementation cannot meet the project requirements, inherit the default implementation class.
 
 A configuration example is shown below.
 
