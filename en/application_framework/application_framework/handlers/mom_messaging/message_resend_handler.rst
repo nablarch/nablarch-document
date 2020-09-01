@@ -6,7 +6,7 @@ Resent Message Control Handler
   :depth: 3
   :local:
 
-This handler resends control when the same message is received repeatedly.
+This handler controls the resend when the same message is received repeatedly.
 
 Specifically, when the same message is received repeatedly, it determines whether the processing for the message has been completed (whether a response message has been created). 
 If the process has already been completed (if a response message has been created), the created response message is automatically sent instead of repeating the business process.
