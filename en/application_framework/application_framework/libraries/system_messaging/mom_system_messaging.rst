@@ -34,7 +34,7 @@ The assumed execution control platform differs for MOM messaging depending on th
 
    * - Type of send and receive
      - Execution control platform
-   * - :ref:`Send asynchronous response message <mom_system_messaging-async_message_send>`
+   * - :ref:`Sending asynchronous message <mom_system_messaging-async_message_send>`
      - :ref:`nablarch_batch`
    * - :ref:`Sending synchronous message <mom_system_messaging-sync_message_send>`
      - Does not depend on the execution control platform
@@ -132,7 +132,7 @@ Point
 
 .. _mom_system_messaging-async_message_send:
 
-Send message with asynchronous response (send asynchronous response message)
+Send message with asynchronous response (Sending asynchronous message)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Send a message to an external system.
 
@@ -148,7 +148,7 @@ Contents of Common protocol header :ref:`Common protocol header<mom_system_messa
   :Reply to address: Configuration not required
   :Expiry interval: Any
 
-Send asynchronous response message provides
+Sending asynchronous message provides
 :java:extdoc:`AsyncMessageSendAction<nablarch.fw.messaging.action.AsyncMessageSendAction>`
 as a common action to acquire the data to be sent from the table (called a temporary table) held by the send message data,
 and create and send messages.
@@ -176,7 +176,7 @@ and the message send process can be implemented very easily.
 .. tip::
  The only properties required for the form class are those that correspond to the table items required for status update.
  As a result, by defining a common table layout of the temporary table for the project,
- a single form class can be used in all send asynchronous response message.
+ a single form class can be used in all sending asynchronous message.
 
 Below is an implementation example based on
 :ref:`Example application<example_application-mom_system_messaging-async_message_send>` to send project information.
@@ -756,7 +756,7 @@ when the message format is already defined in the external system.
 To support this, add the implementation in the project.
 The following shows the support method for each type of send and receive.
 
-For send asynchronous response message
+For sending asynchronous message
  Since writing of the framework control header is performed by the following method,
  support is provided by overriding the following method.
 
