@@ -71,7 +71,7 @@ How to use
 
 Configure settings to use HTTP messaging
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In the case of message reception, no special configuration is required other than the handler configuration of the runtime platform.
+In the case of receive message, no special configuration is required other than the handler configuration of the runtime platform.
 
 In the case of send message, add the following classes to the component definition.
 
@@ -91,7 +91,7 @@ Point
 
 .. _http_system_messaging-message_receive:
 
-Receive message (HTTP message reception)
+Receive message (HTTP receive message)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Receive a message from an external system and send a response.
 
