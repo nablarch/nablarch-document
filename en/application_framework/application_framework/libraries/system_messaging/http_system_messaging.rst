@@ -206,7 +206,7 @@ As explained in :ref:`http_system_messaging-settings`,
 
 :java:extdoc:`HttpMessagingClient<nablarch.fw.messaging.realtime.http.client.HttpMessagingClient>`
 performs various processes as an HTTP client.
-For example, ``Accept: text/json,text/xml`` is configured in the HTTP header of the message to be sent.
+For example, ``Accept: text/json,text/xml`` is fixedly configured in the HTTP header of the message to be sent.
 
 If the default operation of :java:extdoc:`HttpMessagingClient<nablarch.fw.messaging.realtime.http.client.HttpMessagingClient>`
 does not meet the project requirements,
