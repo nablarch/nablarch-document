@@ -19,7 +19,7 @@ Even if the batches are processed with the same batch actions and the request ID
 This handler performs the following processes.
 
 * Multiple launch check processing of the process (change the startup flag to launching during multiple launch check)
-* Reset the launch flag (not launched)
+* Change the flag to initialized (not launched)
 
 The process flow is as follows.
 
