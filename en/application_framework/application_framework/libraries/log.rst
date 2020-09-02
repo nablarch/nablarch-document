@@ -758,11 +758,11 @@ This function uses the following log levels.
      - Description
 
    * - FATAL
-     - Indicates the occurrence of a serious problem that prevents the application from continuing. 
+     - Indicates that a serious problem has occurred that makes it impossible for the application to continue. 
        Monitoring is required and prompt notification and immediate response are necessary.
 
    * - ERROR
-     - Indicates the occurrence of a problem that prevents the application from continuing. 
+     - Indicates that a problem has occurred that interferes with the continuation of the application. 
        Although monitoring is required, notification and response are not as urgent as the FATAL level.
 
    * - WARN
