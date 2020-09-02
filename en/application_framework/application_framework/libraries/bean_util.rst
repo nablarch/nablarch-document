@@ -127,7 +127,7 @@ The following steps are required to add type conversion rules.
   * :java:extdoc:`Converter <nablarch.core.beans.Converter>`
   * :java:extdoc:`ExtensionConverter <nablarch.core.beans.ExtensionConverter>`
 
-2. Create implementation class :java:extdoc:`ConversionManager <nablarch.core.beans.ConversionManager>` . To set rules in addition to the standard type conversion rules, create an implementation class :java:extdoc:`ConversionManager <nablarch.core.beans.ConversionManager>` that has :java:extdoc:`ConversionManager <nablarch.core.beans.ConversionManager>` as a property.
+2. Create implementation class :java:extdoc:`ConversionManager <nablarch.core.beans.ConversionManager>` . To set rules in addition to the standard type conversion rules, create an implementation class for :java:extdoc:`ConversionManager <nablarch.core.beans.ConversionManager>` that has :java:extdoc:`ConversionManager <nablarch.core.beans.ConversionManager>` as a property.
 
   .. code-block:: java
 
