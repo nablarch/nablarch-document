@@ -920,7 +920,7 @@ SQL execution exception
 Exception when the SQL execution is a violation of unique constraint
   If the exception during SQL execution is an exception indicating a unique constraint violation, :java:extdoc:`DuplicateStatementException <nablarch.core.db.statement.exception.DuplicateStatementException>` is thrown.
 
-  To handle a unique constraint violation, use :ref:`database-duplicated_error` .
+  To handle a unique constraint violation, refer :ref:`database-duplicated_error` .
 
   :ref:`Dialect <database-dialect>` is used to determine a unique constraint violation.
 
