@@ -167,7 +167,7 @@ Create an ItemReader
     * When reading a large amount of data, to prevent straining of the memory, use :java:extdoc:`UniversalDao#defer <nablarch.common.dao.UniversalDao.defer()>`
       to :ref:`defer the loading<universal_dao-lazy_load>` of the search results.
     * Returns one line of data from the data read by `readItem` method.
-      The object returned by this method is given as an argument of `processItem` method of :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemProcessor>` that follows.
+      The object returned by this method is given as an argument of `processItem` method of :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>` that follows.
 
 .. _`getting_started_chunk-business_logic`:
 

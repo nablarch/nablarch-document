@@ -193,7 +193,7 @@
       が保持している。 `getParamMap` メソッドを使用してリクエストボディの値を取得する。
     * :ref:`bean_validation` を使用してリクエスト値のバリデーションを行う。
     * :java:extdoc:`UniversalDao <nablarch.common.dao.UniversalDao>` を用いてプロジェクトをDBに登録する。
-    * 処理結果を表すレスポンスコードを :java:extdoc:`ResponseMessage <nablarch.fw.messaging.RequestMessage>` に設定して返却する。
+    * 処理結果を表すレスポンスコードを :java:extdoc:`ResponseMessage <nablarch.fw.messaging.ResponseMessage>` に設定して返却する。
 
   .. tip::
     業務例外が送出された場合は、 :ref:`http_messaging_error_handler` の処理によってレスポンスコード「400」が設定される。
