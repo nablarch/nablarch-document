@@ -296,7 +296,7 @@ Specify the language and get the code information
 
     // Abbreviation
     CodeUtil.getShortName("GENDER", "MALE", Locale.JAPANESE) // -> 男
-    CodeUtil.getShortName("GENDER", "MALE", Locale.JAPANESE) // -> M
+    CodeUtil.getShortName("GENDER", "MALE", Locale.ENGLISH) // -> M
 
 .. important::
 
