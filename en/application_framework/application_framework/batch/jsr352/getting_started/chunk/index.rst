@@ -2,7 +2,7 @@
 
 Create Batch to Derive Data (Chunk Step)
 ===============================================================
-This section explains the :ref:`Chunk step<jsr352-batch_type_chunk>` batch architecture, which calculates from existing data and derives new data based on the application.
+This section explains the :ref:`Chunk step<jsr352-batch_type_chunk>` batch architecture, which calculates from existing data and derives new data based on the Example application.
 
 Overview of the function to be created
   .. image:: ../images/chunk/overview.png
