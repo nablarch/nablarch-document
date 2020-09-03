@@ -16,7 +16,7 @@ The following is an implementation example of :ref:`Thymeleaf <web_thymeleaf_ada
 
 To display a message corresponding to a specific property
   :java:extdoc:`ErrorMessages#hasError <nablarch.fw.web.message.ErrorMessages.hasError(java.lang.String)>` and
-  :java:extdoc:`ErrorMessages#hasError <nablarch.fw.web.message.ErrorMessages.getMessage(java.lang.String)>`
+  :java:extdoc:`ErrorMessages#getMessage <nablarch.fw.web.message.ErrorMessages.getMessage(java.lang.String)>`
   can be used to display the error or message corresponding to the property (value of the name attribute of the input item).
 
   In this example, the message is displayed if the request scope has an error message corresponding to the ``form.userName`` property.

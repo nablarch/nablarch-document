@@ -4,7 +4,7 @@ Retain the Execution Status in Batch Application
 ==================================================
 Sometimes, retaining the status of the batch application during execution may be necessary.
 For example, cases when it is necessary to retain the number of registrations or number of updates performed in the batch action.
-In such cases, the requirements are supported by retaining the conditions within the batch action.
+In such a case, the state is retained in the batch action.
 
 Implementation example of an action that retains the number of registrations is shown below.
 

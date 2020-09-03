@@ -167,7 +167,7 @@ ItemReaderの作成
     * 大量のデータを読み込む場合は、メモリの逼迫を防ぐために :java:extdoc:`UniversalDao#defer <nablarch.common.dao.UniversalDao.defer()>` を使用して
       検索結果を :ref:`遅延ロード<universal_dao-lazy_load>` する。
     * `readItem` メソッドで読み込んだデータから一行分のデータを返却する。
-      このメソッドで返却したオブジェクトが、後続する :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemProcessor>` の `processItem` メソッドの引数として与えられる。
+      このメソッドで返却したオブジェクトが、後続する :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>` の `processItem` メソッドの引数として与えられる。
 
 .. _`getting_started_chunk-business_logic`:
 

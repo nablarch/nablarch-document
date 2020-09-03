@@ -137,7 +137,7 @@ If the error page is not configured in `web.xml`, the default page of web applic
 
 .. important::
 
-  This handler must be configured before the :ref:`session_store_handler` as described in :ref:`multipart_handler-constraint`.
+  This handler must be configured before the :ref:`session_store_handler` as described in :ref:`session_store_handler-constraint`.
   Therefore, :ref:`HttpErrorHandler_DefaultPage` of the :ref:`http_error_handler`, configured after the :ref:`session_store_handler` cannot be used.
 
 .. [#part_error]

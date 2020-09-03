@@ -192,7 +192,7 @@ Create a business action
       Acquire the value of the request body using the `getParamMap`  method.
     * :ref:`bean_validation`  is used to validate the request value.
     * :java:extdoc:`UniversalDao <nablarch.common.dao.UniversalDao>`  is used to register the project to the DB.
-    * The response code representing the processing result is set in :java:extdoc:`ResponseMessage <nablarch.fw.messaging.RequestMessage>` and returned.
+    * The response code representing the processing result is set in :java:extdoc:`ResponseMessage <nablarch.fw.messaging.ResponseMessage>` and returned.
     
   .. tip::
     When a business exception is thrown, the response code "400" is set by processing :ref:`http_messaging_error_handler` .
