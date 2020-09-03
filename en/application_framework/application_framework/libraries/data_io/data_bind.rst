@@ -453,14 +453,14 @@ Specify multiple formats for the fixed-length file
 There are 2 ways of specifying the fixed-length file with multiple formats: When binding to a Java Beans class and when binding to a Map class.
 
 When binding to a Java Beans class
-  Fixed-length files in multiple formats can be supported by defining a JavaBeans class for each format and creating an inherited class :java:extdoc:`MultiLayout <nablarch.common.databind.fixedlength.MultiLayout>` with the Java Beans classes as properties.
+  Fixed-length files in multiple formats can be supported by defining a JavaBeans class for each format and creating an inherited class of :java:extdoc:`MultiLayout <nablarch.common.databind.fixedlength.MultiLayout>` with the Java Beans classes as properties.
 
   An implementation example for specifying the formats is shown below.
 
   Point
     * Define a Java Beans class for each format.
-    * Define an inherited class :java:extdoc:`MultiLayout <nablarch.common.databind.fixedlength.MultiLayout>` with a Java Beans class that defines the above format as a property.
-    * Configure the :java:extdoc:`FixedLength <nablarch.common.databind.fixedlength.FixedLength>` annotation to the inherited class :java:extdoc:`MultiLayout <nablarch.common.databind.fixedlength.MultiLayout>` and configure ``true`` in the ``multiLayout`` attribute.
+    * Define an inherited class of :java:extdoc:`MultiLayout <nablarch.common.databind.fixedlength.MultiLayout>` with a Java Beans class that defines the above format as a property.
+    * Configure the :java:extdoc:`FixedLength <nablarch.common.databind.fixedlength.FixedLength>` annotation to the inherited class of :java:extdoc:`MultiLayout <nablarch.common.databind.fixedlength.MultiLayout>` and configure ``true`` in the ``multiLayout`` attribute.
     * Override the :java:extdoc:`MultiLayout#getRecordIdentifier <nablarch.common.databind.fixedlength.MultiLayout.getRecordIdentifier()>` method and return :java:extdoc:`RecordIdentifier <nablarch.common.databind.fixedlength.MultiLayoutConfig.RecordIdentifier>` that identifies the format to which the target data is associated.
 
   .. code-block:: java
