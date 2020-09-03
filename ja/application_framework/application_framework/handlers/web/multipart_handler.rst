@@ -137,7 +137,7 @@ HTTPリクエストがマルチパート形式の場合に、ボディ部を解�
 
 .. important::
 
-  このハンドラは、:ref:`multipart_handler-constraint` にあるとおり、 :ref:`session_store_handler` より手前に設定する必要がある。
+  このハンドラは、:ref:`session_store_handler-constraint` にあるとおり、 :ref:`session_store_handler` より手前に設定する必要がある。
   このため、 :ref:`session_store_handler` の後続に設定される :ref:`http_error_handler` の :ref:`HttpErrorHandler_DefaultPage` は使用することができない。
 
 .. [#part_error]
