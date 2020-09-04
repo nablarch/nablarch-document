@@ -560,7 +560,7 @@ When binding to a Map class
 
   Point
     * Call the ``multiLayout`` method and generate DataBindConfig for multi-layout.
-    * Specify the implementation class :java:extdoc:`RecordIdentifier <nablarch.common.databind.fixedlength.MultiLayoutConfig.RecordIdentifier>` in the ``recordIdentifier``  method to identify the associated format of the target data.
+    * Specify the implementation class of :java:extdoc:`RecordIdentifier <nablarch.common.databind.fixedlength.MultiLayoutConfig.RecordIdentifier>` in the ``recordIdentifier``  method to identify the associated format of the target data.
 
   .. code-block:: java
 
@@ -627,9 +627,9 @@ Add a file format that can be bound to the Java Beans class.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The following steps are required to add a file format that can be bound to the Java Beans class.
 
-1. Create an implementation class :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` to bind the Java Beans class with the file of a specified format.
-2. Create a class inheriting :java:extdoc:`ObjectMapperFactory <nablarch.common.databind.ObjectMapperFactory>` , and add the process to generate the implementation class :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` created earlier.
-3. Configure the inherited class :java:extdoc:`ObjectMapperFactory <nablarch.common.databind.ObjectMapperFactory>` in the component configuration file. The configuration example of the component configuration file is shown below.
+1. Create an implementation class of :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` to bind the Java Beans class with the file of a specified format.
+2. Create a class inheriting :java:extdoc:`ObjectMapperFactory <nablarch.common.databind.ObjectMapperFactory>` , and add the process to generate the implementation class of :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` created earlier.
+3. Configure the inherited class of :java:extdoc:`ObjectMapperFactory <nablarch.common.databind.ObjectMapperFactory>` in the component configuration file. The configuration example of the component configuration file is shown below.
 
   Point
    * The component name should be **objectMapperFactory** .
