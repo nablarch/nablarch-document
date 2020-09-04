@@ -19,3 +19,4 @@
   lettuce_adaptor
   aws_xray_adaptor
   slf4j_adaptor
+  micrometer_adaptor
