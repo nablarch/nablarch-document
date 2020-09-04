@@ -76,3 +76,20 @@ RESTfulウェブサービス実行基盤向けテスティングフレームワ�
 :java:extdoc:`RequestResponseProcessor#processRequest<nablarch.test.core.http.RequestResponseProcessor.processRequest(nablarch.fw.web.HttpRequest)>` が、
 レスポンス受信後に :java:extdoc:`RequestResponseProcessor#processResponse<nablarch.test.core.http.RequestResponseProcessor.processResponse(nablarch.fw.web.HttpRequest,nablarch.fw.web.HttpResponse)>` が
 それぞれ実行される。 
+
+複数テストケースで状態が引き継がれないよう ``reset`` メソッドを呼び出す
+****************************************************************************
+``RequestResponseProcessor`` は1つの取引単体テストケース内で先に受信したレスポンスの値を次のリクエストに受け渡すために利用する。
+レスポンスから抽出した値を内部にプロパティとして持つことになるが、NablarchのDIコンテナではインスタンスはシングルトンとなってしまうため
+明示的にプロパティの値を初期化しないと、複数のテストケース間でプロパティが引き継がれてしまう。
+複数テストケース間でプロパティを引き継ぎたくない場合は、 :java:extdoc:`RequestResponseProcessor#reset<nablarch.test.core.http.RequestResponseProcessor.reset()>` を呼び出す必要がある。
+
+.. code-block:: java
+
+  @Before
+  public void resetProcessor(){
+    defaultProcessor.reset();
+  }
+
+JUnitの ``@Before`` を使ってテストケース毎にテスト実行前に初期化する。
+内部に状態を持たない場合や、複数テストケース間で状態を引き継ぎたい場合には、 ``reset()`` を呼び出す必要はない。
