@@ -255,21 +255,27 @@ The relevant parts are shown below.
 .. code-block:: xml
 
   <!-- データソース設定 -->
+  <!-- Data Source Configuration -->
   <component name="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
     <!-- JDBC driver class name設定 -->
+    <!-- Configure JDBC driver class name -->
     <!-- TODO: Database接続情報を変更する場合、ここを修正します -->
+    <!--  If you want to change the Database connection information, modify this.-->
     <property name="driverClassName"
               value="org.h2.Driver" />
     <!-- Middle is omitted -->
   </component>
 
   <!-- Database接続用設定 -->
+  <!-- Configuration for Database Connection -->
   <component name="connectionFactory"
       class="nablarch.core.db.connection.BasicDbConnectionFactoryForDataSource">
     <!-- Middle is omitted -->
     <property name="dialect">
-      <!-- Dialect class name設定 -->
-      <!-- TODO: Databaseを変更する場合、ここを修正します。-->
+      <!-- Dialect class name設定 --> 
+      <!-- Configure Dialect class name -->
+      <!-- TODO: Databaseを変更する場合、ここを修正します。--> 
+      <!--  If you want to change the database, modify this.-->
       <component class="nablarch.core.db.dialect.H2Dialect"/>
     </property>
   </component>
