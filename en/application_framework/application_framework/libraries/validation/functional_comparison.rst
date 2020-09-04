@@ -2,7 +2,7 @@
 
 Comparison of Function between Bean Validation and Nablarch Validation
 ----------------------------------------------------------------------------------------------------
-This section describes the functional comparison with the validation function provided by Nablarch.
+This section compares the validation capabilities of Nablarch with those of |jsr349| (external site).
 
 .. list-table:: Function comparison (A: Provided; B: Partially provided; C: Not provided; D: Not applicable)
   :header-rows: 1

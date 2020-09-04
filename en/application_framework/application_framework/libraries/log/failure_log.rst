@@ -8,7 +8,7 @@ Output of Failure Log
   :local:
 
 In the framework, the failure log is output by the exception handler for each process architecture.
-The log is output in the application when a subsequent process is continued in the case of a failure during a batch process.
+The log is output in the application if a subsequent process is continued in the case of a failure during a batch process.
 
 Output policy of failure log
 --------------------------------------------------
