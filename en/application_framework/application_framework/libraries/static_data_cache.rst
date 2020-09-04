@@ -45,8 +45,8 @@ Cache arbitrarily data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The following operations are necessary to cache arbitrary static data.
 
-#. Implement :java:extdoc:`StaticDataLoader <nablarch.core.cache.StaticDataLoader>` and then implement the process to load data.
-#. Configure the implementation class :java:extdoc:`StaticDataLoader <nablarch.core.cache.StaticDataLoader>` to :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>`.
+#. Implement the :java:extdoc:`StaticDataLoader <nablarch.core.cache.StaticDataLoader>` interface and then implement the process to load data.
+#. Configure the implementation class of :java:extdoc:`StaticDataLoader <nablarch.core.cache.StaticDataLoader>` to :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>`.
 #. Configure  :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>` to the class that uses the cache.
 
 The detailed procedure is shown below.

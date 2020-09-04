@@ -593,7 +593,7 @@ Use a fixed value for the email header. Do not use the external input values.
 Send email using the standard API of programming language. For Java, use |JavaMail| .
  This function uses |JavaMail| .
  However, even if |JavaMail| is used, there are items that can be sent by email even if some of the items in the email header include a line feed code.
- Therefore, as a security measure, a check functionality is provided to prevent an email send when a line feed code is not included in these items.
+ Therefore, as a security measure, a check functionality is provided to prevent an email send when a line feed code is included in these items.
  If line feed code is included,
  :java:extdoc:`InvalidCharacterException<nablarch.common.mail.InvalidCharacterException>`
  is thrown and log is output (log level: ERROR), and the sending process is handled as a failure for the corresponding email.
