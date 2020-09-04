@@ -41,38 +41,56 @@ Cookieなど前のレスポンスの情報を引き継ぐ方法
 次のリクエストに含めたい場合がある。
 そのような場合は以下の方法で実現することができる。
 
-``RequestResponseProcessor`` の実装クラスを作成する
-****************************************************************
+``RequestResponseProcessor`` の実装クラスとファクトリクラスを作成する
+***********************************************************************************
+
 RESTfulウェブサービス実行基盤向けテスティングフレームワークでは :java:extdoc:`RequestResponseProcessor<nablarch.test.core.http.RequestResponseProcessor>` という
 リクエスト・レスポンスを操作するためのインターフェースを用意している。
 
 各アプリケーションの要件に合わせてこのインタフェースの実装クラスを作成する。
 
-フレームワークではよく使われる実装として :java:extdoc:`NablarchSIDManager<nablarch.test.core.http.NablarchSIDManager>` を提供している。
+フレームワークではよく使われる実装として :java:extdoc:`NablarchSIDManager<nablarch.test.core.http.NablarchSIDManagerFactory.NablarchSIDManager>` を提供している。
 この実装ではレスポンスの ``Set-Cookie`` ヘッダーからセッションIDを抽出し、リクエストの ``Cookie`` ヘッダーに値を引き継ぐことができる。
 
-コンポーネント設定ファイルに ``defaultProcessor`` という名前で実装クラスを設定する
-***********************************************************************************
-.. code-block:: xml
+:java:extdoc:`NablarchSIDManagerFactory<nablarch.test.core.http.NablarchSIDManagerFactory>` を参考に、 ``RequestResponseProcessor`` の実装クラスと
+そのインスタンスを取得するためのファクトリクラスを作成する。
 
-  <component name="defaultProcessor" class="nablarch.test.core.http.NablarchSIDManager"/>
-
-
-また、複数の ``RequestResponseProcessor`` を設定したい場合は、 :java:extdoc:`ComplexRequestResponseProcessor<nablarch.test.core.http.ComplexRequestResponseProcessor>` を
-利用することで実現できる。
+コンポーネント設定ファイルに ``processorFactory`` という名前でファクトリクラスを設定する
+******************************************************************************************************
 
 .. code-block:: xml
 
-  <component name="defaultProcessor" class="nablarch.test.core.http.ComplexRequestResponseProcessor">
-    <property name="processors">
+  <component name="processorFactory" class="nablarch.test.core.http.NablarchSIDManagerFactory"/>
+
+.. important::
+
+  実装クラスを直接コンポーネント定義せず、ファクトリクラスを定義する理由は、以下の通り。
+
+  NablarchのDIコンテナで管理されるインスタンスはシングルトンとなる。
+  ``RequestResponseProcessor`` は前回のレスポンスから必要な値を取り出し、次のリクエストに受け渡すために内部に状態を保持している。
+  ``RequestResponseProcessor`` の実装クラスをDIコンテナで管理してしまうと、シングルトンなインスタンスとなって1つのテスト内だけではなく複数のテストをまたいで状態が引き継がれてしまう。
+  複数テスト間で状態を引き継ぐことにより、予期せぬ動作でテストに失敗してしまう事態が予想される。  
+  
+  DIコンテナではファクトリクラスを管理し、テストごとにファクトリクラスから
+  ``RequestResponseProcessor`` のインスタンスを取得することで、このような事態を回避し実装者が状態を管理しやすくなる。
+
+また、複数の ``RequestResponseProcessor`` を設定したい場合は、 :java:extdoc:`ComplexRequestResponseProcessor<nablarch.test.core.http.ComplexRequestResponseProcessorFactory.ComplexRequestResponseProcessor>` を
+利用することで実現できる。 :java:extdoc:`ComplexRequestResponseProcessorFactory<nablarch.test.core.http.ComplexRequestResponseProcessorFactory>` を ``processorFactory`` に設定し
+``processorFactories`` に使用したい ``RequestResponseProcessor`` のファクトリクラスのリストを設定する。
+
+.. code-block:: xml
+
+  <component name="processorFactory" class="nablarch.test.core.http.ComplexRequestResponseProcessorFactory">
+    <property name="processorFactories">
       <list>
-        <component class="nablarch.test.core.http.NablarchSIDManager"/>
-        <component class="com.example.test.CSRFTokenManager"/>
+        <component class="nablarch.test.core.http.NablarchSIDManagerFactory"/>
+        <component class="com.example.test.CSRFTokenManagerFactory"/>
       </list>
     </property>
   </component>
 
-``defaultProcessor`` という名前で設定された ``RequestResponseProcessor`` は、内蔵サーバへのリクエスト送信前に
+``processorFactory`` という名前で設定されたファクトリクラスは、各テストの実行前に ``RequestResponseProcessor`` をインスタンス化する。
+インスタンス化された ``RequestResponseProcessor`` は、内蔵サーバへのリクエスト送信前に
 :java:extdoc:`RequestResponseProcessor#processRequest<nablarch.test.core.http.RequestResponseProcessor.processRequest(nablarch.fw.web.HttpRequest)>` が、
 レスポンス受信後に :java:extdoc:`RequestResponseProcessor#processResponse<nablarch.test.core.http.RequestResponseProcessor.processResponse(nablarch.fw.web.HttpRequest,nablarch.fw.web.HttpResponse)>` が
 それぞれ実行される。 
