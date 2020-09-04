@@ -600,6 +600,8 @@ OS環境変数による上書きを有効にするための設定方法
   したがって、同じ名前の環境依存値をそれぞれの方法で上書きした場合は、一番下に記述したクラスによる上書きが最終的に採用されることになる。
   上記例の場合は、OS環境変数で設定した値よりもシステムプロパティで設定した値の方が優先されることになる。
 
+.. _repository-overwrite_environment_configuration_by_os_env_var_naming_rule:
+
 OS環境変数の名前について
   Linuxでは、OS環境変数の名前に ``.`` や ``-`` を使用できない。
   したがって、 ``example.error-message`` のような名前の環境依存値があった場合に、これを上書きするためのOS環境変数をそのままの名前で定義することはできない。
@@ -881,6 +883,95 @@ Initializableインタフェースを実装する
       </property>
 
     </component>
+
+.. _repository-dispose_object:
+
+オブジェクトの廃棄処理を行う
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+5u18で、オブジェクトの廃棄処理を行うための仕組みが追加された。
+
+オブジェクトの廃棄処理を行うためには、以下の手順が必要となる。
+
+#. :java:extdoc:`Disposable <nablarch.core.repository.disposal.Disposable>` インタフェースを実装する。
+#. コンポーネント設定ファイルに廃棄対象のリストを設定する。
+
+以下に詳細な手順を示す。
+
+Disposableインタフェースを実装する
+  :java:extdoc:`dispose <nablarch.core.repository.disposal.Disposable.dispose()>` で初期化処理を行う。
+
+  .. code-block:: java
+
+    public class SampleComponent implements Disposable {
+      public void dispose() throws Exception{
+        // リソースの解放など、廃棄処理を行う
+      }
+    }
+
+コンポーネント設定ファイルに廃棄対象のリストを設定する
+  廃棄対象のオブジェクトを :java:extdoc:`BasicApplicationDisposer <nablarch.core.repository.disposal.BasicApplicationDisposer>` に設定する。
+
+  廃棄対象のオブジェクトの廃棄順を意識する必要がある場合は、先に廃棄を行いたいオブジェクトをより **下に設定する** 。
+  下の設定例の場合、以下の順で初期化が行われる。
+  
+  #. `sampleObject2`
+  #. `sampleObject3`
+  #. `sampleObject`
+
+  .. important::
+    
+    :java:extdoc:`BasicApplicationDisposer <nablarch.core.repository.disposal.BasicApplicationDisposer>` のコンポーネント名は、 必ず **disposer** とすること。
+
+  .. code-block:: xml
+
+    <!-- 廃棄対象のオブジェクトの設定 -->
+    <component name="sampleObject" class="sample.SampleComponent" />
+    <component name="sampleObject2" class="sample.SampleComponent2" />
+    <component name="sampleObject3" class="sample.SampleComponent3" />
+
+    <component name="disposer"
+        class="nablarch.core.repository.disposal.BasicApplicationDisposer">
+
+      <!-- disposableListプロパティにlist要素で廃棄対象のオブジェクトを列挙する -->
+      <property name="disposableList">
+        <list>
+          <component-ref name="sampleObject"/>
+          <component-ref name="sampleObject3" />
+          <component-ref name="sampleObject2" />
+        </list>
+      </property>
+
+    </component>
+
+  ``BasicApplicationDisposer`` には :java:extdoc:`addDisposable <nablarch.core.repository.disposal.BasicApplicationDisposer.addDisposable(Disposable)>` というメソッドが用意されており、コンポーネント生成後に任意の :java:extdoc:`Disposable <nablarch.core.repository.disposal.Disposable>` を追加できる。
+
+  | この :java:extdoc:`addDisposable <nablarch.core.repository.disposal.BasicApplicationDisposer.addDisposable(Disposable)>` で追加される :java:extdoc:`Disposable <nablarch.core.repository.disposal.Disposable>` は、そのインスタンスが生成された順番で追加されることが予想される。
+  | その場合、廃棄処理はインスタンス生成とは逆の順序で行うことが望ましい（例：JDBCの ``Connection``, ``Statement``, ``ResultSet``）。
+  
+  このため、 :java:extdoc:`BasicApplicationDisposer <nablarch.core.repository.disposal.BasicApplicationDisposer>` では ``disposableList`` に設定されている順序とは逆の順序で廃棄処理を呼ぶようになっている。
+
+Closeableオブジェクトを廃棄対象リストに設定する
+  ``java.io.Closeable`` を実装したコンポーネントであれば、 :java:extdoc:`DisposableAdaptor <nablarch.core.repository.disposal.DisposableAdaptor>` を用いることで、次のように廃棄対象リストに簡単に設定できる。
+
+  .. code-block:: xml
+
+    <!-- java.io.Closeable を実装したコンポーネント -->
+    <component name="closeableComponent" class="sample.CloseableComponent" />
+
+    <component name="disposer"
+        class="nablarch.core.repository.disposal.BasicApplicationDisposer">
+
+      <property name="disposableList">
+        <list>
+          <component class="nablarch.core.repository.disposal.DisposableAdaptor">
+            <!-- DisposableAdaptor の target プロパティに、 Closeable を実装したコンポーネントを設定する -->
+            <property name="target" ref="closeableComponent" />
+          </component>
+        </list>
+      </property>
+
+    </component>
+
 
 .. _repository-use_system_repository:
 
