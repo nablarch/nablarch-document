@@ -554,7 +554,7 @@ The user input values for web applications are checked using :ref:`inject_form_i
 For details, see :ref:`inject_form_interceptor`.
 
 To use Bean Validation with :ref:`inject_form_interceptor`, it must be defined in the component configuration file.
-As shown in the example below, the component :java:extdoc:`BeanValidationStrategy <nablarch.common.web.validator.BeanValidationStrategy>` is defined with the name ``validationStrategy``.
+As shown in the example below, Define a component definition of :java:extdoc:`BeanValidationStrategy <nablarch.common.web.validator.BeanValidationStrategy>` with the name  ``validationStrategy``.
 
 .. code-block:: xml
 

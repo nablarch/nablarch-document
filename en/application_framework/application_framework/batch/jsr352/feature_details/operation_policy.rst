@@ -12,7 +12,8 @@ In JSR352-compliant batch applications, fault monitoring and a log output policy
   For log output when an exception occurs, see :ref:`jsr352-batch_error_flow` .
 * Outputs a progress log to predict the end time when the batch process is delayed.
 
-The following advantages are obtained by following these policies, and can be expected to reduce the operation load on the developers.
+The following advantages are obtained by following these policies.
+In other words, it increases the possibility that operators alone can respond to failures and customer inquiries, and can be expected to reduce the operational burden on developers.
 
 * If the recovery procedure is output to the log for the operators when a failure occurs, the operator can perform the recovery.
 * Output of the progress log eliminates the need for the developer to check the progress status by other means, and the operator can reply to the customer about the expected end time by referring to the progress log.

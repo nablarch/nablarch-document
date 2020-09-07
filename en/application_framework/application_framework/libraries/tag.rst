@@ -2209,7 +2209,7 @@ Individual display of error messages
 
     // Method for performing correlation validation
     // Error messages are configured with this property name.
-    @AssertTrue(message = "Passwords do not match.")
+    @AssertTrue(message = "The password do not match.")
     public boolean isComparePassword() {
         return Objects.equals(password, confirmPassword);
     }

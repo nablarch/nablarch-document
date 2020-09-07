@@ -40,7 +40,7 @@ Module list
 Constraints
 ------------------------------
 Configure this handler after the :ref:`http_response_handler`
-  Since the :ref:`http_response_handler` configures the response header configured by this handler in the response object of Servlet API.
+  To set the response header set in this handler to the response object of Servlet API by the :ref:`http_response_handler`.
 
 To change the value of the header applied by default
 ------------------------------------------------------

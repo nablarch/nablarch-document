@@ -39,7 +39,7 @@ The functions are provided in the below package.
 Structure of field type
 --------------------------------------------------------------------
 
-In this sample, it is assumed that the fixed-length file of EBCDIC (CP930) corresponds to both cases where a shift code is assigned to the double-byte string items and cases where it is not. 
+The sample is an assumption that corresponds to both the case where a 2-byte string item in a fixed length file in EBCDIC (CP930) is assigned a shift code and the case where it is not assigned.
 Hence, the following field type classes are added.
 
 The following is a list of classes used in this function.

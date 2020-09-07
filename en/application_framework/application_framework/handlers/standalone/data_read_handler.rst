@@ -41,9 +41,9 @@ If :java:extdoc:`DataReader <nablarch.fw.DataReader>` is not configured by the t
 
 .. _data_read_handler-max_count:
 
-Configure the maximum number of processes
+Configure the maximum number of processing
 --------------------------------------------------
-The maximum number of processes can be configured in this handler. When the maximum number of data items have been processed, this handler returns :java:extdoc:`NoMoreRecord <nablarch.fw.DataReader.NoMoreRecord>` indicating that there is no more records to be processed.
+The maximum number of processing can be configured in this handler. When the maximum number of data items have been processed, this handler returns :java:extdoc:`NoMoreRecord <nablarch.fw.DataReader.NoMoreRecord>` indicating that there is no more records to be processed.
 
 This configuration value is specified when batch processing large amount of data that is processed for several days, etc.
 This configured value can be used to implement a batch that processes a maximum of 1 million records over a period of 10 days with a maximum of 100,000 items per day.
