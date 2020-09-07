@@ -58,7 +58,7 @@ Constraints
 
 Place this handler before the :ref:`nablarch_tag_handler`
   This handler redirects the process while holding the request contents in the session.
-  This handler must be placed before the :ref:`nablarch_tag_handler` as it is necessary to redirect before signaling the encryption parameter in the custom tag control handler.
+  This handler must be placed before the :ref:`nablarch_tag_handler` as it is necessary to redirect before sending the encryption parameter in the custom tag control handler.
 
 
 How to use post resubmit prevention

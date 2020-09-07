@@ -15,7 +15,7 @@ This sample is an implementation sample of the authentication function by CAPTCH
 
 .. important::
 
-  The kapcha used in this feature is known to be vulnerable and should not be used (possibility of image authentication being breached in a short period of time). 
+  The CAPTCHA used in this feature is known to be vulnerable and should not be used (possibility of image authentication being breached in a short period of time). 
   Examine implementing a robust image authentication product (for example, `Google reCAPTCHA (external site, English)) <https://www.google.com/recaptcha/intro/>`_  if image authentication is required.
 
 `Source code <https://github.com/nablarch/nablarch-biz-sample-all>`_
