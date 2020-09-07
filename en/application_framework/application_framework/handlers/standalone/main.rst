@@ -111,8 +111,8 @@ To use option in the application, acquire from :java:extdoc:`ExecutionContext <n
 
   Refer to :ref:`main-run_application` for the options that must be specified while launching the application.
 
-Process details according to the exceptions and errors
---------------------------------------------------------
+Processing contents according to the exceptions and errors
+-----------------------------------------------------------
 This handler returns the following processes and results depending on the contents of the exceptions and errors that are caught.
 
 .. list-table::
@@ -121,7 +121,7 @@ This handler returns the following processes and results depending on the conten
   :widths: 25 75
 
   * - Exception class
-    - Process details
+    - Processing contents
 
   * - :java:extdoc:`Result.Error <nablarch.fw.Result.Error>`
 

@@ -131,7 +131,7 @@ Create the confirm method and configure so that validation is performed
       * Execute :ref:`bean_validation` assigning :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` to the business action method.
       * Configure the `path` attribute of :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` for internally forwarding to the input method when a validation error occurs
         (to refresh the registration screen, the industry type list must be configured).
-      * A validated object can be imported from the request scope if a validation error does not occur.
+      * A validated object can be obtained from the request scope if a validation error does not occur.
 
 Implements the display process of the registration confirmation screen.
   Saves the client information used in the subsequent registration process to :ref:`session_store` and displays the registration confirmation screen.

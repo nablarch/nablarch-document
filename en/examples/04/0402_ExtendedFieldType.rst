@@ -19,7 +19,7 @@ Thus, depending on the interface with the connection destination system, the shi
 This sample provides a data type class for double-byte characters of EBCDIC (CP930) with a shift code, 
 and a data type class for double-byte characters of EBCDIC (CP930) without a shift code.
 
-Since it is assumed that the double-byte string data type (DoubleByteCharacterString) provided in Nablarch by default is used for input/output of the full-width characters (double-byte characters) field when the character code of the file is Shift_JIS or MS932, each project must be expanded when handling EBCDIC (CP930).
+Since it is assumed that the double-byte string data type (DoubleByteCharacterString) provided in Nablarch by default is used for input/output of the full-width characters (double-byte characters) field when the character code of the file is Shift_JIS or MS932, each project must expand when handling EBCDIC (CP930).
 
 (Whether a shift code is added or not depends on the JDK, 
 and CP930 used in the JDK must have a shift code added to double-byte characters.)

@@ -25,7 +25,8 @@ Also, it has the capability to change the verification contents in the settings 
 
 **Not implemented**
 
-  * It can verify that attribute value of each tag is indeed a value that corresponds to the specific attribute.
+  * It can verify that attribute value of each tag corresponds to the type of attribute.
+
 
 -----------------------------------------
 Initial Environment Construction
