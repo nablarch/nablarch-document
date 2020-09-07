@@ -24,7 +24,7 @@ The main components of the Nablarch application framework are as follows:
 
 Handler queue
 ------------------------------------------------------------
-A handler queue refers to a queue in which a group of handlers performing cross-processes for requests or responses is defined in a predetermined order.
+A handler queue refers to a queue in which a group of handlers performing traverse processing for requests or responses is defined in a predetermined order.
 
 The handler queue executes the same processes as the chain execution of a servlet filter as shown in the following figure.
 

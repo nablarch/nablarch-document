@@ -34,7 +34,7 @@ The configuration is shown below.
   the architecture is different from the handler-based architecture,
   as described in the :ref:`nablarch_architecture` .
 
-  In :ref:`jsr352_batch`, cross processing such as those performed by the handler (log output and transaction control, etc.) is realized by using a listener defined by |jsr352|
+  In :ref:`jsr352_batch`, traverse processing such as those performed by the handler (log output and transaction control, etc.) is realized by using a listener defined by |jsr352|
 
   However, the listener is started at a predetermined timing, and is different from the handler in that it does not directly process the input and output.
   Therefore, the listener cannot filter and convert input values, such as those realized by the handler.
