@@ -100,6 +100,25 @@ Redisストア(Lettuce)アダプタ
 
 この設定の説明については、 :ref:`redisstore_initialize_client` を参照。
 
+
+.. code-block:: xml
+
+  <!-- 廃棄が必要なコンポーネント -->
+  <component name="disposer"
+             class="nablarch.core.repository.disposal.BasicApplicationDisposer">
+    <property name="disposableList">
+      <list>
+        <!-- 省略 -->
+        <component-ref name="lettuceRedisClientProvider"/>
+      </list>
+    </property>
+  </component>
+
+さらに、 :java:extdoc:`LettuceRedisClientProvider<nablarch.integration.redisstore.lettuce.LettuceRedisClientProvider>` のコンポーネントを :java:extdoc:`BasicApplicationDisposer<nablarch.core.repository.disposal.BasicApplicationDisposer>` の ``disposableList`` に追加する。
+
+この設定の説明については、 :ref:`repository-dispose_object` を参照。
+
+
 .. _redisstore_minimum_settings_how_modify_env_config:
 
 環境設定値を修正する
@@ -365,6 +384,28 @@ LettuceでClusterのトポロジ更新を監視できるようにするには、
   </component>
 
 こうすることで、コンポーネント定義の記述を変更することなく、決定されたクライアントクラスのコンポーネントを初期化できる。
+
+クライアントクラスの廃棄処理
+-----------------------------------------------------------------------------------------------
+
+各クライアントクラスは :java:extdoc:`Disposable<nablarch.core.repository.disposal.Disposable>` を実装しており、 ``dispose()`` メソッドを実行することでRedisへの接続が閉じられる。
+したがって、使用するクライアントクラスのコンポーネントを :java:extdoc:`BasicApplicationDisposer<nablarch.core.repository.disposal.BasicApplicationDisposer>` の ``disposableList`` プロパティに設定することで、アプリケーション終了時にRedisとの接続を閉じることができる。
+
+.. code-block:: xml
+
+  <!-- 廃棄が必要なコンポーネント -->
+  <component name="disposer"
+             class="nablarch.core.repository.disposal.BasicApplicationDisposer">
+    <property name="disposableList">
+      <list>
+        <!-- 省略 -->
+        <component-ref name="lettuceRedisClientProvider"/>
+      </list>
+    </property>
+  </component>
+
+``BasicApplicationInitializer`` の ``initializeList`` と同様で、 ``disposableList`` プロパティに ``LettuceRedisClientProvider`` コンポーネントを指定することで、実際に使用されるクライアントクラスの廃棄処理が実行されるようになる。
+
 
 .. _redisstore_session_persistence:
 

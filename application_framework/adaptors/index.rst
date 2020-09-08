@@ -18,3 +18,4 @@
   web_thymeleaf_adaptor
   lettuce_adaptor
   slf4j_adaptor
+  micrometer_adaptor
