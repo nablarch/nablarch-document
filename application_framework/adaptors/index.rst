@@ -17,5 +17,4 @@
   mail_sender_velocity_adaptor
   web_thymeleaf_adaptor
   lettuce_adaptor
-  aws_xray_adaptor
   slf4j_adaptor
