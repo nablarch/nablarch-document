@@ -222,7 +222,7 @@ DefaultMeterBinderListProviderを廃棄処理対象にする
 
 .. code-block:: text
 
-  nablarch.micrometer.<subPrefix>.<key>
+  nablarch.micrometer.<subPrefix>.<key>=設定する値
 
 ここで、 ``<subPrefix>`` に設定する値は、使用するレジストリファクトリごとに異なる値を指定する。
 
