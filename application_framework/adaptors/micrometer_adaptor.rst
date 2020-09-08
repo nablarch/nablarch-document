@@ -37,6 +37,14 @@ Micrometerでメトリクスを収集するためには、 `レジストリ(外�
 
 ここでは、 `LoggingMeterRegistry(外部サイト、英語)`_ をコンポーネントとして登録する :java:extdoc:`LoggingMeterRegistryFactory<nablarch.integration.micrometer.logging.LoggingMeterRegistryFactory>` を例にして設定方法について説明する。
 
+.. tip::
+
+  `LoggingMeterRegistry(外部サイト、英語)`_ は、 SLF4J または Java Util Logging を使ってメトリクスをログに出力する機能を提供する。
+  特に設定をしていない場合は、 Java Util Logging を使って標準出力にメトリクスが出力されるため、簡単な動作確認をするのに適している。
+
+  他のレジストリは連携先のサービスの準備や、収集したメトリクスを出力する実装を作りこむなどの手間がかかる。
+  このため、この説明では最も簡単に動作を確認できる `LoggingMeterRegistry(外部サイト、英語)`_ を使用している。
+
 なお、ベースとなるアプリケーションには `ウェブアプリケーションのExample(外部サイト) <https://github.com/nablarch/nablarch-example-web>`_ を使用する。
 
 DefaultMeterBinderListProviderをコンポーネントとして宣言する
