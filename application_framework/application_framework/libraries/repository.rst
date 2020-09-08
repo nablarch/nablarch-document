@@ -898,7 +898,7 @@ Initializableインタフェースを実装する
 以下に詳細な手順を示す。
 
 Disposableインタフェースを実装する
-  :java:extdoc:`dispose <nablarch.core.repository.disposal.Disposable.dispose()>` で初期化処理を行う。
+  :java:extdoc:`dispose <nablarch.core.repository.disposal.Disposable.dispose()>` で廃棄処理を行う。
 
   .. code-block:: java
 
@@ -912,7 +912,7 @@ Disposableインタフェースを実装する
   廃棄対象のオブジェクトを :java:extdoc:`BasicApplicationDisposer <nablarch.core.repository.disposal.BasicApplicationDisposer>` に設定する。
 
   廃棄対象のオブジェクトの廃棄順を意識する必要がある場合は、先に廃棄を行いたいオブジェクトをより **下に設定する** 。
-  下の設定例の場合、以下の順で初期化が行われる。
+  下の設定例の場合、以下の順で廃棄処理が行われる。
   
   #. `sampleObject2`
   #. `sampleObject3`
