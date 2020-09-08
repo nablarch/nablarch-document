@@ -42,18 +42,19 @@ Micrometerアダプタを使用するための設定を行う
 DefaultMeterBinderListProviderをコンポーネントとして宣言する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: xml
-
-  <component name="meterBinderListProvider"
-             class="nablarch.integration.micrometer.DefaultMeterBinderListProvider" />
-
-まず、 ``src/main/resources/web-component-configuration.xml`` に :java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` の宣言を追加する。
-
 | Micrometerには、 `MeterBinder(外部サイト、英語)`_ というインタフェースが存在する。
 | JVMのメモリ使用量やCPU使用率など、よく利用するメトリクスの収集は、このインタフェースを実装したクラスとしてあらかじめ用意されている。
 | （例：JVMのメモリ使用量は `JvmMemoryMetrics(外部サイト、英語)`_ 、CPU使用率は `ProcessorMetrics(外部サイト、英語)`_ ）
 
 :java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` は、この `MeterBinder(外部サイト、英語)`_ のリストを提供するクラスで、本クラスを使用することでJVMのメモリ使用量やCPU使用率などのメトリクスを収集できるようになる。
+
+まず ``src/main/resources/web-component-configuration.xml`` に、この :java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` の宣言を追加する。
+
+.. code-block:: xml
+
+  <component name="meterBinderListProvider"
+             class="nablarch.integration.micrometer.DefaultMeterBinderListProvider" />
+
 
 収集されるメトリクスの具体的な説明については、 :ref:`micrometer_default_metrics` を参照。
 
