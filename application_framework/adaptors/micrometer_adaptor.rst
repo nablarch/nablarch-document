@@ -32,8 +32,8 @@ Micrometerアダプタ
 
 Micrometerアダプタを使用するための設定を行う
 --------------------------------------------------
-| Micrometerでメトリクスを収集するためには、 `レジストリ(外部サイト、英語) <https://micrometer.io/docs/concepts#_registry>`_ と呼ばれるクラスを作成する必要がある。
-| 本アダプタでは、このレジストリを :ref:`repository` に登録するための :java:extdoc:`ComponentFactory<nablarch.core.repository.di.ComponentFactory>` を提供している。
+Micrometerでメトリクスを収集するためには、 `レジストリ(外部サイト、英語) <https://micrometer.io/docs/concepts#_registry>`_ と呼ばれるクラスを作成する必要がある。
+本アダプタでは、このレジストリを :ref:`repository` に登録するための :java:extdoc:`ComponentFactory<nablarch.core.repository.di.ComponentFactory>` を提供している。
 
 ここでは、 `LoggingMeterRegistry(外部サイト、英語)`_ をコンポーネントとして登録する :java:extdoc:`LoggingMeterRegistryFactory<nablarch.integration.micrometer.logging.LoggingMeterRegistryFactory>` を例にして設定方法について説明する。
 
@@ -42,9 +42,10 @@ Micrometerアダプタを使用するための設定を行う
 DefaultMeterBinderListProviderをコンポーネントとして宣言する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-| Micrometerには、 `MeterBinder(外部サイト、英語)`_ というインタフェースが存在する。
-| JVMのメモリ使用量やCPU使用率など、よく利用するメトリクスの収集は、このインタフェースを実装したクラスとしてあらかじめ用意されている。
-| （例：JVMのメモリ使用量は `JvmMemoryMetrics(外部サイト、英語)`_ 、CPU使用率は `ProcessorMetrics(外部サイト、英語)`_ ）
+Micrometerには、 `MeterBinder(外部サイト、英語)`_ というインタフェースが存在する。
+
+JVMのメモリ使用量やCPU使用率など、よく利用するメトリクスの収集は、このインタフェースを実装したクラスとしてあらかじめ用意されている。
+（例：JVMのメモリ使用量は `JvmMemoryMetrics(外部サイト、英語)`_ 、CPU使用率は `ProcessorMetrics(外部サイト、英語)`_ ）
 
 :java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` は、この `MeterBinder(外部サイト、英語)`_ のリストを提供するクラスで、本クラスを使用することでJVMのメモリ使用量やCPU使用率などのメトリクスを収集できるようになる。
 
@@ -61,7 +62,7 @@ DefaultMeterBinderListProviderをコンポーネントとして宣言する
 DefaultMeterBinderListProviderを廃棄処理対象にする
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-| :java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` は廃棄処理が必要なコンポーネントなので、下記のように廃棄処理対象として宣言する。
+:java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` は廃棄処理が必要なコンポーネントなので、下記のように廃棄処理対象として宣言する。
 
 .. code-block:: xml
   
@@ -90,8 +91,8 @@ DefaultMeterBinderListProviderを廃棄処理対象にする
 
 次に、使用するレジストリごとに用意されているファクトリクラスをコンポーネントとして宣言する。
 
-| このとき、 ``meterBinderListProvider`` と ``applicationDisposer`` の２つのプロパティを設定する。
-| それぞれのプロパティには、上で宣言した :java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` と :java:extdoc:`BasicApplicationDisposer <nablarch.core.repository.disposal.BasicApplicationDisposer>` を設定する。
+このとき、 ``meterBinderListProvider`` と ``applicationDisposer`` の２つのプロパティを設定する。
+それぞれのプロパティには、上で宣言した :java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` と :java:extdoc:`BasicApplicationDisposer <nablarch.core.repository.disposal.BasicApplicationDisposer>` を設定する。
 
 なお、本アダプタが提供しているファクトリクラスについては :ref:`micrometer_registry_factory` に一覧を記載している。
 
@@ -231,8 +232,8 @@ DefaultMeterBinderListProviderを廃棄処理対象にする
 
 また、 ``<key>`` には Micrometer がレジストリごとに提供している `設定クラス(外部サイト、英語) <https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/config/MeterRegistryConfig.html>`_ で定義されたメソッドと同じ名前を指定する。
 
-| 例えば、 `DatadogMeterRegistry(外部サイト、英語)`_ に対しては `DatadogConfig(外部サイト、英語)`_ という設定クラスが用意されている。
-| そして、この設定クラスには `apyKey(外部サイト、英語) <https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogConfig.html#apiKey()>`_ というメソッドが定義されている。
+例えば、 `DatadogMeterRegistry(外部サイト、英語)`_ に対しては `DatadogConfig(外部サイト、英語)`_ という設定クラスが用意されている。
+そして、この設定クラスには `apyKey(外部サイト、英語) <https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogConfig.html#apiKey()>`_ というメソッドが定義されている。
 
 
 
@@ -329,8 +330,8 @@ OS環境変数で上書きするときの名前のルールについては、 :r
     <property name="xmlConfigPath" value="config/metrics.xml" />
   </component>
 
-| そして、 ``xmlConfigPath`` プロパティで指定した場所に、設定ファイルを読み込むXMLファイルを配置する。
-| 下記設定では、クラスパス内の ``config/metrics.properties`` が設定ファイルとして読み込まれるようになる。
+そして、 ``xmlConfigPath`` プロパティで指定した場所に、設定ファイルを読み込むXMLファイルを配置する。
+下記設定では、クラスパス内の ``config/metrics.properties`` が設定ファイルとして読み込まれるようになる。
 
 .. code-block:: xml
 
@@ -458,8 +459,8 @@ DefaultMeterBinderListProviderで収集されるメトリクス
     </property>
   </component>
 
-| ``tags`` プロパティの型は ``Map<String, String>`` となっており、 ``<map>`` タグを使って設定できる。
-| このとき、マップのキーがタグの名前、マップの値がタグの値に対応付けられる。
+``tags`` プロパティの型は ``Map<String, String>`` となっており、 ``<map>`` タグを使って設定できる。
+このとき、マップのキーがタグの名前、マップの値がタグの値に対応付けられる。
 
 上記設定の場合、収集されるメトリクスは次のようになる。
 
@@ -544,11 +545,11 @@ CloudWatch と連携する
 
     $ export AWS_SECRET_ACCESS_KEY=YYYYYYYYYYYYYYYYYYYYY
 
-  | ``micrometer-registry-cloudwatch2`` モジュールは AWS SDK を利用している。
-  | したがって、リージョンやアクセスキーなどの設定は AWS SDK の方法に準拠する。
+  ``micrometer-registry-cloudwatch2`` モジュールは AWS SDK を利用している。
+  したがって、リージョンやアクセスキーなどの設定は AWS SDK の方法に準拠する。
 
-  | 上記は、LinuxでOS環境変数を使って設定する場合の例を記載している。
-  | より詳細な情報は、 `AWSのドキュメント(外部サイト) <https://docs.aws.amazon.com/ja_jp/sdk-for-java/v1/developer-guide/setup-credentials.html>`_ を参照。
+  上記は、LinuxでOS環境変数を使って設定する場合の例を記載している。
+  より詳細な情報は、 `AWSのドキュメント(外部サイト) <https://docs.aws.amazon.com/ja_jp/sdk-for-java/v1/developer-guide/setup-credentials.html>`_ を参照。
 
 名前空間を設定する
   .. code-block:: text
@@ -579,8 +580,8 @@ CloudWatch と連携する
           }
       }
 
-  | :java:extdoc:`CloudWatchAsyncClientProvider <nablarch.integration.micrometer.cloudwatch.CloudWatchAsyncClientProvider>` は ``CloudWatchAsyncClient`` を提供する ``provide()`` メソッドを持つ。
-  | カスタムプロバイダでは、任意の設定を行った ``CloudWatchAsyncClient`` を構築して返すように ``provide()`` メソッドを実装する。
+  :java:extdoc:`CloudWatchAsyncClientProvider <nablarch.integration.micrometer.cloudwatch.CloudWatchAsyncClientProvider>` は ``CloudWatchAsyncClient`` を提供する ``provide()`` メソッドを持つ。
+  カスタムプロバイダでは、任意の設定を行った ``CloudWatchAsyncClient`` を構築して返すように ``provide()`` メソッドを実装する。
 
   .. code-block:: xml
 
@@ -605,11 +606,11 @@ CloudWatch と連携する
 StatsD で連携する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-| Datadog は `DogStatsD(外部サイト) <https://docs.datadoghq.com/ja/developers/dogstatsd/?tab=hostagent>`_ という `StatsD(外部サイト、英語) <https://github.com/statsd/statsd>`_ プロトコルを使った連携をサポートしている。
-| したがって、 ``micrometer-registry-statsd`` モジュールを用いることで、 StatsD で Datadog と連携することもできる。
+Datadog は `DogStatsD(外部サイト) <https://docs.datadoghq.com/ja/developers/dogstatsd/?tab=hostagent>`_ という `StatsD(外部サイト、英語) <https://github.com/statsd/statsd>`_ プロトコルを使った連携をサポートしている。
+したがって、 ``micrometer-registry-statsd`` モジュールを用いることで、 StatsD で Datadog と連携することもできる。
 
-| ここでは、 Datadog に StatsD プロトコルで連携する場合を例にして説明する。
-| なお、DogStatsD のインストール方法などについては `Datadogのサイト(外部サイト) <https://docs.datadoghq.com/ja/agent/>`_ を参照。
+ここでは、 Datadog に StatsD プロトコルで連携する場合を例にして説明する。
+なお、DogStatsD のインストール方法などについては `Datadogのサイト(外部サイト) <https://docs.datadoghq.com/ja/agent/>`_ を参照。
 
 依存関係を追加する
   .. code-block:: xml
