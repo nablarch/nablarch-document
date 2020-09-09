@@ -506,7 +506,7 @@ Datadog と連携する
       <version>1.5.4</version>
     </dependency>
 
-レジストファクトリを宣言する
+レジストリファクトリを宣言する
   .. code-block:: xml
   
     <component name="meterRegistry" class="nablarch.integration.micrometer.datadog.DatadogMeterRegistryFactory">
@@ -536,7 +536,7 @@ CloudWatch と連携する
       <version>1.5.4</version>
     </dependency>
 
-レジストファクトリを宣言する
+レジストリファクトリを宣言する
   .. code-block:: xml
   
     <component name="meterRegistry" class="nablarch.integration.micrometer.statsd.StatsdMeterRegistryFactory">
@@ -629,7 +629,7 @@ Datadog は `DogStatsD(外部サイト) <https://docs.datadoghq.com/ja/developer
       <version>1.5.4</version>
     </dependency>
 
-レジストファクトリを宣言する
+レジストリファクトリを宣言する
   .. code-block:: xml
   
     <component name="meterRegistry" class="nablarch.integration.micrometer.statsd.StatsdMeterRegistryFactory">
