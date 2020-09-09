@@ -539,7 +539,7 @@ CloudWatch と連携する
 レジストリファクトリを宣言する
   .. code-block:: xml
   
-    <component name="meterRegistry" class="nablarch.integration.micrometer.statsd.StatsdMeterRegistryFactory">
+    <component name="meterRegistry" class="nablarch.integration.micrometer.cloudwatch.CloudWatchMeterRegistryFactory">
       <property name="meterBinderListProvider" ref="meterBinderListProvider" />
       <property name="applicationDisposer" ref="disposer" />
     </component>
