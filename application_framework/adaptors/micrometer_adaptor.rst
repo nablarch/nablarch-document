@@ -276,9 +276,9 @@ OS環境変数
 
   .. code-block:: text
 
-    $ export NABLARCH_MICROMETER_EXAMPLE_ONE=OS_ENV
-
     $ export NABLARCH_MICROMETER_EXAMPLE_TWO=OS_ENV
+
+    $ export NABLARCH_MICROMETER_EXAMPLE_THREE=OS_ENV
 
 システムプロパティ
 
