@@ -855,9 +855,9 @@ Initializableインタフェースを実装する
   初期化対象のオブジェクトの初期化順を意識する必要がある場合は、先に初期化を行いたいオブジェクトをより上に設定する。
   下の設定例の場合、以下の順で初期化が行われる。
   
-  #. `sampleObject`
-  #. `sampleObject3`
+  #. `sampleObject1`
   #. `sampleObject2`
+  #. `sampleObject3`
 
   .. important::
     
@@ -866,7 +866,7 @@ Initializableインタフェースを実装する
   .. code-block:: xml
 
     <!-- 初期化対象のオブジェクトの設定 -->
-    <component name="sampleObject" class="sample.SampleComponent" />
+    <component name="sampleObject1" class="sample.SampleComponent1" />
     <component name="sampleObject2" class="sample.SampleComponent2" />
     <component name="sampleObject3" class="sample.SampleComponent3" />
 
@@ -876,9 +876,9 @@ Initializableインタフェースを実装する
       <!-- initializeListプロパティにlist要素で初期化対象のオブジェクトを列挙する -->
       <property name="initializeList">
         <list>
-          <component-ref name="sampleObject"/>
-          <component-ref name="sampleObject3" />
+          <component-ref name="sampleObject1" />
           <component-ref name="sampleObject2" />
+          <component-ref name="sampleObject3" />
         </list>
       </property>
 
@@ -914,9 +914,9 @@ Disposableインタフェースを実装する
   廃棄対象のオブジェクトの廃棄順を意識する必要がある場合は、先に廃棄を行いたいオブジェクトをより **下に設定する** 。
   下の設定例の場合、以下の順で廃棄処理が行われる。
   
+  #. `sampleObject1`
   #. `sampleObject2`
   #. `sampleObject3`
-  #. `sampleObject`
 
   .. important::
     
@@ -925,7 +925,7 @@ Disposableインタフェースを実装する
   .. code-block:: xml
 
     <!-- 廃棄対象のオブジェクトの設定 -->
-    <component name="sampleObject" class="sample.SampleComponent" />
+    <component name="sampleObject1" class="sample.SampleComponent1" />
     <component name="sampleObject2" class="sample.SampleComponent2" />
     <component name="sampleObject3" class="sample.SampleComponent3" />
 
@@ -935,9 +935,9 @@ Disposableインタフェースを実装する
       <!-- disposableListプロパティにlist要素で廃棄対象のオブジェクトを列挙する -->
       <property name="disposableList">
         <list>
-          <component-ref name="sampleObject"/>
           <component-ref name="sampleObject3" />
           <component-ref name="sampleObject2" />
+          <component-ref name="sampleObject1" />
         </list>
       </property>
 
