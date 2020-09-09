@@ -222,7 +222,7 @@ Description rules
 
  failureLogFormatter.fwFailureCodeFilePath
   Path to the property file that specifies the information change of the failure code in the framework.
-  Specify when changing the failure code of the framework when the failure log is output.
+  Specify when changing the failure code of the framework at the time of failure log output.
   For details, see :ref:`failure_log-change_fw_failure_code`.
 
 
