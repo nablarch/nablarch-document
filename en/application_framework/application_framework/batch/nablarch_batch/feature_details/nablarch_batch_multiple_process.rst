@@ -26,7 +26,7 @@ after the pessimistic lock referring to the example below.
         final Map<String, String> param = new HashMap<>();
         param.put("processId", processId);
 
-        // Create the DatabaseRecordReader to extract unprocessed data that you have pessimistically locked
+        // Create the DatabaseRecordReader to extract unprocessed data that have pessimistically locked by self.
         final DatabaseRecordReader reader = new DatabaseRecordReader();
         final ParameterizedSqlPStatement statement =
             DbConnectionContext.getConnection()

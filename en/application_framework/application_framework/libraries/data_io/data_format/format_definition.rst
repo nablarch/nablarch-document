@@ -546,7 +546,7 @@ List of available field types for Fixed (fixed-length) data format
     :widths: 13 15 72
 
     * - Type
-      - Java type
+      - Java data types
       - Description
 
     * - .. _data_format-field_type-single_byte_character_string:
@@ -719,7 +719,7 @@ List of available field types for Variable (Variable length) data format
     :widths: 13 15 72
 
     * - Type
-      - Java type
+      - Java data types
       - Description
 
     * - X |br|
@@ -750,7 +750,7 @@ List of available field types for JSON and XML data formats
     :widths: 13 15 72
 
     * - Type
-      - Java type
+      - Java data types
       - Description
 
     * - .. _data_format-field_type-nullable_string:
