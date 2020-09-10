@@ -178,7 +178,7 @@ DB等のリソースのヘルスチェックは :java:extdoc:`HealthChecker <nab
         <list>
           <!-- DBのヘルスチェック -->
           <component class="nablarch.fw.web.handler.health.DbHealthChecker">
-            <!-- 省略データソースを指定 -->
+            <!-- 省略 -->
           </component>
           <!-- HealthCheckerを継承して作成したクラスを指定 -->
           <component class="com.example.CustomHealthChecker">
