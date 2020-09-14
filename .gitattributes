@@ -1,2 +1,3 @@
 # batだけは、動かなくなるからCRLF固定。
+# CRLF is fixed for bat as this does not move.
 *.bat text eol=crlf

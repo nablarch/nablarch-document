@@ -11,8 +11,15 @@ OSS版Nablarchドキュメントです。
 * sphinx-rtd-theme(0.2.4)
 
 ## ドキュメントのビルド方法
+
+**日本語**
 ```bash
-make html
+make html ja
+```
+
+**英語**
+```bash
+make html en
 ```
 
 ## textlintの実行方法

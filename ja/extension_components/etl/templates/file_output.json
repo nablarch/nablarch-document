@@ -1,0 +1,8 @@
+{
+  "file-output": {
+    "type": "db2file",
+    "bean": "entity class name(データを取得するテーブルのEntityクラス(FQCN)名)",
+    "fileName": "file name(出力ファイルのファイル名)",
+    "sqlId": "ファイルに出力するデータを抽出するSQLのSQL_ID"
+  }
+}
