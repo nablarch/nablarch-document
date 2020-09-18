@@ -448,7 +448,7 @@ DefaultMeterBinderListProviderで収集されるメトリクス
 
 レジストリファクトリの :java:extdoc:`tags <nablarch.integration.micrometer.MeterRegistryFactory.setTags(Map)>` プロパティで、すべてのメトリクスに共通するタグを設定できる。
 
-この機能は、アプリケーションが稼働しているホスト、インスタンス、リージョンなどを識別できる情報を設定するといった用途として利用できる。
+この機能は、アプリケーションが稼働しているホスト、インスタンス、リージョンなどを識別できる情報を設定するといった用途として使用できる。
 
 以下に設定方法を記載する。
 
