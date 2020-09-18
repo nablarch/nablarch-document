@@ -448,7 +448,7 @@ DefaultMeterBinderListProviderで収集されるメトリクス
 
 レジストリファクトリの :java:extdoc:`tags <nablarch.integration.micrometer.MeterRegistryFactory.setTags(Map)>` プロパティで、すべてのメトリクスに共通するタグを設定できる。
 
-この機能は、アプリケーションが稼働しているホスト、インスタンス、リージョンなどを識別できる情報を設定するといった用途として利用できる。
+この機能は、アプリケーションが稼働しているホスト、インスタンス、リージョンなどを識別できる情報を設定するといった用途として使用できる。
 
 以下に設定方法を記載する。
 
@@ -688,11 +688,11 @@ HTTPリクエストの処理時間を収集する
 
 .. code-block:: text
 
-  2020-09-04 19:16:29.085 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{exception=None,method=GET,outcome=SUCCESS,path=/action/projectBulk/index,status=200} throughput=0.4/s mean=0.8634947s max=1.6078096s
-  2020-09-04 19:16:29.086 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{exception=None,method=GET,outcome=SUCCESS,path=/action/project/index,status=200} throughput=0.4/s mean=0.27510795s max=0.4464502s
-  2020-09-04 19:16:29.086 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{exception=None,method=GET,outcome=SUCCESS,path=/action/projectUpload,status=200} throughput=0.2/s mean=0.4478871s max=0.4478871s
-  2020-09-04 19:16:29.086 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{exception=None,method=POST,outcome=REDIRECTION,path=/action/login,status=303} throughput=0.2/s mean=0.4280518s max=0.4280518s
-  2020-09-04 19:16:34.084 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{exception=None,method=GET,outcome=SUCCESS,path=/action/project/index,status=200} throughput=0.2/s mean=0.0953379s max=0.4464502s
+  2020-09-18 13:22:16.279 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.ProjectBulkAction,exception=None,httpMethod=GET,method=index,outcome=SUCCESS,status=200} throughput=0.2/s mean=1.507005999s max=1.507005999s
+  2020-09-18 13:22:16.280 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.ProjectUploadAction,exception=None,httpMethod=GET,method=index,outcome=SUCCESS,status=200} throughput=0.2/s mean=0.0799081s max=0.0799081s
+  2020-09-18 13:22:26.255 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.IndustryAction,exception=None,httpMethod=GET,method=find,outcome=SUCCESS,status=200} throughput=0.4/s mean=0.0071457s max=0.0116725s
+  2020-09-18 13:22:26.255 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.ProjectAction,exception=None,httpMethod=GET,method=list,outcome=SUCCESS,status=200} throughput=0.4/s mean=0.086836149s max=0.129430299s
+  2020-09-18 13:22:31.295 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.ProjectAction,exception=None,httpMethod=GET,method=show,outcome=SUCCESS,status=200} throughput=0.2/s mean=0.0729236s max=0.0729236s
 
 本ハンドラが収集するメトリクスは、 ``http.server.requests`` という名前で作成される。
 
@@ -702,9 +702,11 @@ HTTPリクエストの処理時間を収集する
 
   * - タグ名
     - 説明
-  * - ``path``
-    - リクエストのパス（クエリ文字列を除く）
+  * - ``class``
+    - リクエストを処理したアクションクラスの名前（HTTPステータスコードが ``404`` 、またはクラス名が取得できない場合は ``UNKNOWN``）
   * - ``method``
+    - リクエストを処理したアクションクラスのメソッド名（HTTPステータスコードが ``404`` 、またはメソッド名が取得できない場合は ``UNKNOWN``）
+  * - ``httpMethod``
     - HTTPメソッド
   * - ``status``
     - HTTPステータスコード
