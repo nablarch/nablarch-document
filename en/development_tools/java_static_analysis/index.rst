@@ -25,7 +25,7 @@ Inspection is a function that provides real time alerts by checking if the code 
 The configuration file of inspection used in the development of Nablarch is provided for the project.
 Inspection configuration is applied by downloading the below file and storing them under ``PROJECT_ROOT/.idea/inspectionProfiles``.
 
-:download:`Configuration file <download/Project_default.xml>`
+:download:`Configuration file <download/Project_Default.xml>`
 
 .. important::
   To ensure that the same syntax check is performed by all developers, the inspection configuration file must be managed by VCS.
