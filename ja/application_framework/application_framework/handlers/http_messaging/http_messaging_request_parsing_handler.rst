@@ -148,13 +148,13 @@ HTTPリクエストを要求電文に変換する
 
  :java:extdoc:`nablarch.fw.messaging.MessagingException`
   :ログレベル: INFO
-  :レスポンス: 400
+  :レスポンス: 413
   :説明: リクエストボディが不正なため、証跡ログとして記録する。
          そして、クライアントエラーを表すため、HTTPステータスコードが *400*  のレスポンスを生成する。
 
  :java:extdoc:`nablarch.core.dataformat.InvalidDataFormatException`
   :ログレベル: INFO
-  :レスポンス: 400
+  :レスポンス: 413
   :説明: リクエストボディのフォーマットが不正なため、証跡ログとして記録する。
          そして、クライアントエラーを表すため、HTTPステータスコードが *400*  のレスポンスを生成する。
 

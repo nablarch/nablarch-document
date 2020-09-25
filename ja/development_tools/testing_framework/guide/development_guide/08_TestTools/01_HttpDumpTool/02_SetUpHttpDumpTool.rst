@@ -11,61 +11,33 @@
 
 本ツールを使用する際、以下の前提事項を満たす必要がある。
 
-* 以下のツールがインストール済みであること
-
-  * Java
-  * Maven
-
-* プロジェクトがMavenで管理されていること
+* javaコマンドがパスに含まれていること
 * htmlファイルがブラウザに関連付けされていること
 * ブラウザのプロキシ設定で、localhostが除外されていること
+
 
 提供方法
 ==================
 
-本ツールは以下のjarにて提供する。
+本ツールは、Nablarchのサンプルアプリケーションに同梱して提供する。
+本ツールのツール構成を下記に示す。
 
-* nablarch-testing-XXX.jar
-* nablarch-testing-jetty6-XXX.jar (Java 8 以前のバージョンで使用する)
-* nablarch-testing-jetty9-XXX.jar (Java 11 以降のバージョンで使用する) 
+ ========================================== ====================================================================================
+ ファイル名                                 説明
+ ========================================== ====================================================================================
+ httpDump.bat                               | 起動バッチファイル（Windows用）
+ nablarch-tfw-X.X.jar                       | Nablarch Testing Framework のJARファイル（X.Xの部分はバージョン番号）
+ poi-X.X.jar                                | Apache POI のJARファイル（X.Xの部分はバージョン番号など）
+ jetty.jar                                  | Jetty Server のJARファイル
+ jetty-util.jar                             | Jetty Utilities のJARファイル
+ servlet-api.jar                            | Servlet Specification 2.5 API のJARファイル
+ ========================================== ====================================================================================
 
-そのため、pom.xmlのdependencies要素以下の記述があることを確認する。
+各JARファイルへのクラスパスが設定されたhttpDump.batがサンプルアプリケーションの下記パスに配置されている。
 
-.. code-block:: xml
+ .. code-block:: bash
 
-  <dependencies>
-    <!-- 中略 -->
-    <dependency>
-      <groupId>com.nablarch.framework</groupId>
-      <artifactId>nablarch-testing</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <!-- Java 8 以前のバージョンで使用する場合 -->
-    <dependency>
-      <groupId>com.nablarch.framework</groupId>
-      <artifactId>nablarch-testing-jetty6</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <!-- Java 11 以降のバージョンで使用する場合 -->
-    <dependency>
-      <groupId>com.nablarch.framework</groupId>
-      <artifactId>nablarch-testing-jetty9</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <!-- 中略 -->
-  </dependencies>
-
-プロジェクトのディレクトリで以下のコマンドを実行し、jar ファイルをダウンロードする。
-
-.. code-block:: text
-
-  mvn dependency:copy-dependencies -DoutputDirectory=lib
-
-
-以下のファイルをプロジェクトのpom.xmlと同じディレクトリに配置する。
-
-* :download:`httpDump.bat <download/httpDump.bat>`
-
+  /test/tool/httpDump.bat
 
 Eclipseとの連携
 ===============
@@ -100,7 +72,7 @@ Windowsの場合はバッチファイル(httpDump.bat)を、
 Linuxの場合はシェルスクリプト(httpDump.sh)を選択する。
 
 .. image:: ./_image/03_Eclipse_OpenFile.png
-   :width: 100%
+   :scale: 100
 
 
 .. _howToExecuteFromEclipse:
@@ -113,7 +85,3 @@ httpDumpで開くことでツールを起動できる。
 
 .. image:: ./_image/04_Eclipse_OpenWith.png
    :scale: 100
-
-.. |br| raw:: html
-
-  <br/>

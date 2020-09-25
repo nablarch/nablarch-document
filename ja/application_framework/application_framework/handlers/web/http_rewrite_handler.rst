@@ -42,7 +42,7 @@ HTTPリライトハンドラ
 
 :ref:`thread_context_handler` より後ろに配置すること
   本ハンドラでは、スレッドコンテキストに入れられるリクエストパスの書き換えを行う。
-  このため、本ハンドラは :ref:`thread_context_handler` より後ろ配置する必要がある。
+  このため、本ハンドラは :ref:`thread_context_handler` より前に配置する必要がある。
 
 
 書き換えの設定

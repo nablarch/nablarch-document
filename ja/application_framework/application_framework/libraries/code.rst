@@ -284,7 +284,7 @@ female    女性     女
   ======= ========= ====  ==========  ==========  ===========
 
 言語を指定してコード情報を取得する
-  :java:extdoc:`CodeUtil <nablarch.common.code.CodeUtil>` を使用して、言語に対応した名称を取得出来る。
+  :java:extdoc:`CodeUtil <nablarch.common.code.CodeUtil>` を使用して、コード名称などを取得する際に、言語を指定することで言語に対応した名称を取得出来る。
 
   .. code-block:: java
 
@@ -294,7 +294,7 @@ female    女性     女
 
     // 略称
     CodeUtil.getShortName("GENDER", "MALE", Locale.JAPANESE) // -> 男
-    CodeUtil.getShortName("GENDER", "MALE", Locale.ENGLISH) // -> M
+    CodeUtil.getShortName("GENDER", "MALE", Locale.JAPANESE) // -> M
 
 .. important::
 
