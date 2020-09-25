@@ -738,7 +738,7 @@ DIコンテナで管理したいクラスにアノテーションを付与する
 
 :java:extdoc:`SystemRepositoryComponent <nablarch.core.repository.di.config.externalize.annotation.SystemRepositoryComponent>` が付与されたクラスは構築時に以下の条件を満たすことでコンストラクタインジェクションが実行される。
 
-* コンストラクタが一つだけ定義されている
+* コンストラクタが1つだけ定義されている
 * コンストラクタが引数をもつ
 
 条件を満たす場合、以下の仕様でインジェクションされる。
