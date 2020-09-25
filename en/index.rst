@@ -76,7 +76,7 @@ Efficient java static checks
 Ui development platform for front-end advanced users
 ========================================================
 
-  | :doc:`Manual <development_tools/ui_dev/index>` | :doc:`JSP/HTML Creation Guide <development_tools/ui_dev/guide/index>` 
+  | :doc:`Manual <development_tools/ui_dev/index>` | JSP/HTML Creation Guide
 
 
 Full-fledged testing framework for large scale development
