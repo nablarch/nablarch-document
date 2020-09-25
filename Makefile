@@ -1,7 +1,9 @@
 # Makefile for Sphinx documentation
 #
 
+
 # You can set these variables from the command line.
+LANG          = ja
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         =
@@ -15,9 +17,15 @@ endif
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
-ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees/$(LANG) $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) $(LANG)
 # the i18n builder cannot share the environment and doctrees with the others
 I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+HTMLPATH        = $(BUILDDIR)/html/
+
+ifeq ($(LANG),en)
+  HTMLPATH=$(BUILDDIR)/html/$(LANG)
+endif
+
 
 .PHONY: help clean html dirhtml singlehtml pickle json htmlhelp qthelp devhelp epub latex latexpdf text man changes linkcheck doctest coverage gettext
 
@@ -52,9 +60,11 @@ clean:
 	rm -rf $(BUILDDIR)/*
 
 html:
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	@echo "HTMLPATH: $(HTMLPATH)"
+	@echo "ALLSPHINXOPTS: $(ALLSPHINXOPTS)"
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(HTMLPATH)
 	@echo
-	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+	@echo "Build finished. The HTML pages are in $(HTMLPATH)."
 
 dirhtml:
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml

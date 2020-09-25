@@ -1,0 +1,182 @@
+Implementation of the Resource (Action) Class
+==================================================
+
+
+.. _rest_feature_details-method_signature:
+
+Signature of resource class methods
+--------------------------------------------------
+This section describes the types available for method arguments and return values of the resource classes.
+
+Method argument
+  .. list-table::
+    :header-rows: 1
+    :class: white-space-normal
+    :widths: 30 70
+
+    * - Argument definition
+      - Description
+
+    * - No argument
+      - If no parameters or request bodies are required, the method can be defined with no arguments.
+
+        Example:
+          .. code-block:: java
+
+            public HttpResponse sample() {
+              // Omitted
+            }
+
+    * - Form (Java Beans)
+      - When processed based on the form converted from the request body, the form is defined as an argument.
+      
+        Example:
+          .. code-block:: java
+
+            public HttpResponse sample(SampleForm form) {
+              // Omitted
+            }
+
+    * - :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>`
+      - When :ref:`path parameter <rest_feature_details-path_param>` and :ref:`query parameter <rest_feature_details-query_param>` are used or when the value of HTTP header is acquired,
+        :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` is defined as an argument.
+
+        Example:
+          .. code-block:: java
+
+            public HttpResponse sample(HttpRequest request) {
+              // Omitted
+            }
+
+    * - :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>`
+      - To access the scope variables provided by  :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>`, 
+        :java:extdoc:`ExecutionContext <nablarch.fw.ExecutionContext>` is defined as an argument.
+        
+        Example:
+          .. code-block:: java
+
+            public HttpResponse sample(ExecutionContext context) {
+              // Omitted
+            }
+
+    * - Combination
+      - The above types can be combined according to the application.
+        
+        For example, a method that requires HTTP header information and a Form converted from the request body is defined as follows.
+
+        .. code-block:: java
+
+          public HttpResponse sample(SampleForm form, HttpRequest request) {
+            // Omitted
+          }
+
+Method return value
+  .. list-table::
+    :header-rows: 1
+    :class: white-space-normal
+    :widths: 30 70
+
+    * - Form of return values
+      - Description
+
+    * - void
+      - Returns ``204: NoContent`` to the client, indicating that the response body is empty.
+
+    * - Form (Java Beans)
+      - The form returned from the method is converted to the content to be output to the response body by using :ref:`body_convert_handler` and returned to the client.
+
+    * - :java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>`
+      - The information of  :java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>` returned from the method is returned to the client.
+
+
+.. _rest_feature_details-path_param:
+
+Handle path parameters
+--------------------------------------------------
+This section shows how to implement when a value indicating a resource to be searched, updated, or deleted is specified as the path parameter.
+
+URL example
+  ``123`` in ``GET /users/123`` is the path parameter.
+
+Routing Configuration
+  Configure an arbitrary name as the path parameter when mapping between URL and action. 
+  In this example, the name ``id`` is configured to allow only numbers.
+  
+  For more information, see :ref:`router_adaptor`.
+
+  .. code-block:: xml
+
+    <routes>
+      <get path="users/:id" to="UsersResource#find">
+        <requirements>
+          <requirement name="id" value="\d+$" />
+        </requirements>
+      </get>
+    </routes>
+
+Implementation of resource class methods
+  Acquires the path parameter from  :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` . 
+  For this reason,  :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` is defined as a temporary argument for the method of the resource.
+
+  For the parameter name specified in :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` , 
+  use the path parameter name specified in the routing configuration.
+
+  .. code-block:: java
+
+    @Produces(MediaType.APPLICATION_JSON)
+    public User delete(HttpRequest req) {
+      // Acquire the path parameter value from HttpRequest
+      Long id = Long.valueOf(req.getParam("id")[0]);
+      return UniversalDao.findById(User.class, id);
+    }
+
+.. important::
+  Note that :java:extdoc:`PathParam <javax.ws.rs.PathParam>` specified in JSR cannot be used.
+
+.. _rest_feature_details-query_param:
+
+Handling query parameters
+--------------------------------------------------
+Specifying the search condition as a query parameter in the resource search process may be required. 
+The implementation method for such a case is shown below.
+
+URL example
+  ``GET /users/search?name=Duke``
+
+Routing Configuration
+  In the routing configuration, mapping to the resource class is performed based on the path excluding the query parameter.
+
+  .. code-block:: xml
+
+    <routes>
+      <get path="users/search" to="Users#search"/>
+    </routes>
+
+Implementation of resource class methods
+  Acquires the query parameter from  :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` . 
+  For this reason,  :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` is defined as a temporary argument for the method of the resource.
+
+  Parameters acquired from :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>`  is mapped to form class using :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>`.
+
+  .. code-block:: java
+
+    public HttpResponse search(HttpRequest req) {
+
+      // Convert request parameters to Bean
+      UserSearchForm form = BeanUtil.createAndCopy(UserSearchForm.class, req.getParamMap());
+
+      // Perform validation
+      ValidatorUtil.validate(form)
+
+      // Execute the business logic (omitted)
+    }
+
+    // Form for mapping query parameters
+    public UserSearchForm {
+      private String name;
+      // Omitted
+    }
+
+.. important::
+  Note that  :java:extdoc:`QueryParam <javax.ws.rs.QueryParam>` specified in JSR cannot be used.
+
