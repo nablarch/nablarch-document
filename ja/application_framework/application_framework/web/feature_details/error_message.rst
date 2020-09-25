@@ -16,7 +16,7 @@
 
 特定のプロパティに対応したメッセージを表示したい
   :java:extdoc:`ErrorMessages#hasError <nablarch.fw.web.message.ErrorMessages.hasError(java.lang.String)>` や
-  :java:extdoc:`ErrorMessages#hasError <nablarch.fw.web.message.ErrorMessages.getMessage(java.lang.String)>`
+  :java:extdoc:`ErrorMessages#getMessage <nablarch.fw.web.message.ErrorMessages.getMessage(java.lang.String)>`
   を使用することでプロパティ(入力項目のname属性の値)に対応したエラー有無やメッセージの表示ができる。
 
   この例では、 ``form.userName`` プロパティに対応したエラーメッセージがリクエストスコープにある場合にメッセージが表示される。
