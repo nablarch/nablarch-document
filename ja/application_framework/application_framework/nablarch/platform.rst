@@ -58,7 +58,7 @@ Java
  * Apache Tomcat 9.0.24
 
 Java EE
- * Hibernate Validator 5.1.3.Final
+ * Hibernate Validator 5.3.6.Final
  * JBeret 1.3.4.Final
 
 MOM（メッセージ指向ミドルウェア）
