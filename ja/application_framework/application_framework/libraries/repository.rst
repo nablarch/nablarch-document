@@ -907,7 +907,7 @@ Disposableインタフェースを実装する
     }
 
 コンポーネント設定ファイルに廃棄対象のリストを設定する
-  廃棄対象のオブジェクトを :java:extdoc:`BasicApplicationDisposer <nablarch.core.repository.disposal.BasicApplicationDisposer>` に設定する。
+  廃棄対象のオブジェクトを ``BasicApplicationDisposer`` に設定する。
 
   廃棄対象のオブジェクトの廃棄順を意識する必要がある場合は、先に廃棄を行いたいオブジェクトをより **下に設定する** 。
   下の設定例の場合、以下の順で廃棄処理が行われる。
@@ -941,9 +941,9 @@ Disposableインタフェースを実装する
 
     </component>
 
-  ``BasicApplicationDisposer`` には :java:extdoc:`addDisposable <nablarch.core.repository.disposal.BasicApplicationDisposer.addDisposable(Disposable)>` というメソッドが用意されており、コンポーネント生成後に任意の :java:extdoc:`Disposable <nablarch.core.repository.disposal.Disposable>` を追加できる。
+  ``BasicApplicationDisposer`` には :java:extdoc:`addDisposable <nablarch.core.repository.disposal.BasicApplicationDisposer.addDisposable(nablarch.core.repository.disposal.Disposable)>` というメソッドが用意されており、コンポーネント生成後に任意の :java:extdoc:`Disposable <nablarch.core.repository.disposal.Disposable>` を追加できる。
 
-  | この :java:extdoc:`addDisposable <nablarch.core.repository.disposal.BasicApplicationDisposer.addDisposable(Disposable)>` で追加される :java:extdoc:`Disposable <nablarch.core.repository.disposal.Disposable>` は、そのインスタンスが生成された順番で追加されることが予想される。
+  | この :java:extdoc:`addDisposable <nablarch.core.repository.disposal.BasicApplicationDisposer.addDisposable(nablarch.core.repository.disposal.Disposable)>` で追加される :java:extdoc:`Disposable <nablarch.core.repository.disposal.Disposable>` は、そのインスタンスが生成された順番で追加されることが予想される。
   | その場合、廃棄処理はインスタンス生成とは逆の順序で行うことが望ましい（例：JDBCの ``Connection``, ``Statement``, ``ResultSet``）。
   
   このため、 :java:extdoc:`BasicApplicationDisposer <nablarch.core.repository.disposal.BasicApplicationDisposer>` では ``disposableList`` に設定されている順序とは逆の順序で廃棄処理を呼ぶようになっている。

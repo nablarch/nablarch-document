@@ -43,12 +43,12 @@ Cookieなど前のレスポンスの情報を引き継ぐ方法
 
 ``RequestResponseProcessor`` の実装クラスを作成する
 ****************************************************************
-RESTfulウェブサービス実行基盤向けテスティングフレームワークでは :java:extdoc:`RequestResponseProcessor<nablarch.test.core.http.RequestResponseProcessor>` という
+RESTfulウェブサービス実行基盤向けテスティングフレームワークでは ``RequestResponseProcessor`` という
 リクエスト・レスポンスを操作するためのインターフェースを用意している。
 
 各アプリケーションの要件に合わせてこのインタフェースの実装クラスを作成する。
 
-フレームワークではよく使われる実装として :java:extdoc:`NablarchSIDManager<nablarch.test.core.http.NablarchSIDManager>` を提供している。
+フレームワークではよく使われる実装として ``NablarchSIDManager`` を提供している。
 この実装ではレスポンスの ``Set-Cookie`` ヘッダーからセッションIDを抽出し、リクエストの ``Cookie`` ヘッダーに値を引き継ぐことができる。
 
 コンポーネント設定ファイルに ``defaultProcessor`` という名前で実装クラスを設定する
@@ -58,7 +58,7 @@ RESTfulウェブサービス実行基盤向けテスティングフレームワ�
   <component name="defaultProcessor" class="nablarch.test.core.http.NablarchSIDManager"/>
 
 
-また、複数の ``RequestResponseProcessor`` を設定したい場合は、 :java:extdoc:`ComplexRequestResponseProcessor<nablarch.test.core.http.ComplexRequestResponseProcessor>` を
+また、複数の ``RequestResponseProcessor`` を設定したい場合は、``ComplexRequestResponseProcessor`` を
 利用することで実現できる。
 
 .. code-block:: xml
@@ -73,6 +73,6 @@ RESTfulウェブサービス実行基盤向けテスティングフレームワ�
   </component>
 
 ``defaultProcessor`` という名前で設定された ``RequestResponseProcessor`` は、内蔵サーバへのリクエスト送信前に
-:java:extdoc:`RequestResponseProcessor#processRequest<nablarch.test.core.http.RequestResponseProcessor.processRequest(nablarch.fw.web.HttpRequest)>` が、
-レスポンス受信後に :java:extdoc:`RequestResponseProcessor#processResponse<nablarch.test.core.http.RequestResponseProcessor.processResponse(nablarch.fw.web.HttpRequest,nablarch.fw.web.HttpResponse)>` が
+``RequestResponseProcessor#processRequest`` が、
+レスポンス受信後に ``RequestResponseProcessor#processResponse`` が
 それぞれ実行される。 

@@ -301,7 +301,7 @@ OS環境変数で上書きするときの名前のルールについては、 :r
 設定のプレフィックスを変更する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-設定のプレフィックス (``nablarch.micrometer.<subPrefix>``) は、各レジストリファクトリごとに :java:extdoc:`prefix <nablarch.integration.micrometer.MeterRegistryFactory.setPrefix(String)>` プロパティを指定することで変更できる。
+設定のプレフィックス (``nablarch.micrometer.<subPrefix>``) は、各レジストリファクトリごとに :java:extdoc:`prefix <nablarch.integration.micrometer.MeterRegistryFactory.setPrefix(java.lang.String)>` プロパティを指定することで変更できる。
 
 以下に、プレフィックスを変更する例を記載する。
 
@@ -326,7 +326,7 @@ OS環境変数で上書きするときの名前のルールについては、 :r
 
 設定ファイル（``micrometer.properties``）の場所は、以下の方法で変更できる。
 
-まず、レジストリファクトリの :java:extdoc:`xmlConfigPath <nablarch.integration.micrometer.MeterRegistryFactory.xmlConfigPath(String)>` プロパティに、設定ファイルを読み込むXMLファイルのパスを指定する。
+まず、レジストリファクトリの :java:extdoc:`xmlConfigPath <nablarch.integration.micrometer.MeterRegistryFactory.setXmlConfigPath(java.lang.String)>` プロパティに、設定ファイルを読み込むXMLファイルのパスを指定する。
 
 .. code-block:: xml
 
@@ -446,7 +446,7 @@ DefaultMeterBinderListProviderで収集されるメトリクス
 共通のタグを設定する
 --------------------------------------------------
 
-レジストリファクトリの :java:extdoc:`tags <nablarch.integration.micrometer.MeterRegistryFactory.setTags(Map)>` プロパティで、すべてのメトリクスに共通するタグを設定できる。
+レジストリファクトリの :java:extdoc:`tags <nablarch.integration.micrometer.MeterRegistryFactory.setTags(java.util.Map)>` プロパティで、すべてのメトリクスに共通するタグを設定できる。
 
 この機能は、アプリケーションが稼働しているホスト、インスタンス、リージョンなどを識別できる情報を設定するといった用途として使用できる。
 
@@ -603,7 +603,7 @@ CloudWatch と連携する
       </property>
     </component>
 
-  作成したカスタムプロバイダは、 ``CloudWatchMeterRegistryFactory`` の :java:extdoc:`cloudWatchAsyncClientProvider <nablarch.integration.micrometer.cloudwatch.CloudWatchMeterRegistryFactory.setCloudWatchAsyncClientProvider(CloudWatchAsyncClientProvider)>` プロパティに設定する。
+  作成したカスタムプロバイダは、 ``CloudWatchMeterRegistryFactory`` の :java:extdoc:`cloudWatchAsyncClientProvider <nablarch.integration.micrometer.cloudwatch.CloudWatchMeterRegistryFactory.setCloudWatchAsyncClientProvider(nablarch.integration.micrometer.cloudwatch.CloudWatchAsyncClientProvider)>` プロパティに設定する。
 
   これにより、カスタムプロバイダが生成した ``CloudWatchAsyncClient`` がメトリクスの連携で使用されるようになる。
 
