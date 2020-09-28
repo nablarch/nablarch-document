@@ -907,7 +907,7 @@ Disposableインタフェースを実装する
     }
 
 コンポーネント設定ファイルに廃棄対象のリストを設定する
-  廃棄対象のオブジェクトを ``BasicApplicationDisposer`` に設定する。
+  廃棄対象のオブジェクトを :java:extdoc:`BasicApplicationDisposer <nablarch.core.repository.disposal.BasicApplicationDisposer>` に設定する。
 
   廃棄対象のオブジェクトの廃棄順を意識する必要がある場合は、先に廃棄を行いたいオブジェクトをより **下に設定する** 。
   下の設定例の場合、以下の順で廃棄処理が行われる。
