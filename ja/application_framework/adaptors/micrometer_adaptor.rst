@@ -649,6 +649,114 @@ Datadog は `DogStatsD(外部サイト) <https://docs.datadoghq.com/ja/developer
     # ポートを変更
     nablarch.micrometer.statsd.port=9999
 
+HTTPリクエストの処理時間を収集する
+--------------------------------------------------
+
+:java:extdoc:`HttpRequestMetricsHandler <nablarch.integration.micrometer.instrument.handler.http.HttpRequestMetricsHandler>` を使用することで、 HTTP リクエストの処理時間をメトリクスとして収集できる。
+
+このハンドラを使用する場合は、次のようにハンドラキューを構成する。
+
+.. code-block:: xml
+
+  <component name="meterRegistry" class="nablarch.integration.micrometer.logging.LoggingMeterRegistryFactory">
+    <property name="meterBinderListProvider" ref="meterBinderListProvider" />
+    <property name="applicationDisposer" ref="disposer" />
+  </component>
+
+  <component name="webFrontController"
+             class="nablarch.fw.web.servlet.WebFrontController">
+    <property name="handlerQueue">
+      <list>
+        <!-- HTTPリクエストのメトリクス収集ハンドラ -->
+        <component class="nablarch.integration.micrometer.instrument.handler.http.HttpRequestMetricsHandler">
+          <!-- レジストリファクトリが生成する MeterRegistry を meterRegistry プロパティに設定する -->
+          <property name="meterRegistry" ref="meterRegistry" />
+        </component>
+
+        <component class="nablarch.fw.web.handler.HttpCharacterEncodingHandler"/>
+
+        <!-- 省略 -->
+     </list>
+    </property>
+  </component>
+
+本ハンドラはリクエストの処理時間を計測するため、ハンドラキューの先頭に設定する。
+
+また ``meterRegistry`` プロパティには、使用しているレジストリファクトリが生成した `MeterRegistry(外部サイト、英語)`_ を渡すように設定する。
+
+以上の設定で、次のようなメトリクスが収集されるようになる。
+
+.. code-block:: text
+
+  2020-10-06 13:52:10.309 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.AuthenticationAction,exception=None,httpMethod=POST,method=login_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext,outcome=REDIRECTION,status=303} throughput=0.2/s mean=0.4617585s max=0.4617585s
+  2020-10-06 13:52:10.309 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.IndustryAction,exception=None,httpMethod=GET,method=find,outcome=SUCCESS,status=200} throughput=0.2/s mean=0.103277s max=0.103277s
+  2020-10-06 13:52:10.310 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.AuthenticationAction,exception=None,httpMethod=GET,method=index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext,outcome=SUCCESS,status=200} throughput=0.2/s mean=4.7409146s max=4.7409146s
+  2020-10-06 13:52:10.310 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.ProjectAction,exception=None,httpMethod=GET,method=index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext,outcome=SUCCESS,status=200} throughput=0.2/s mean=0.5329547s max=0.5329547s
+
+本ハンドラは、 `Timer(外部サイト、英語)`_ を使って ``http.server.requests`` という名前でメトリクスを収集する。
+
+また、メトリクスには以下のタグが付与される。
+
+.. list-table::
+
+  * - タグ名
+    - 説明
+  * - ``class``
+    - リクエストを処理したアクションクラスの名前(``Class.getName()``)。
+      取得できない場合は ``UNKNOWN``。
+  * - ``method``
+    - リクエストを処理したアクションクラスのメソッド名と、引数の型名(``Class.getCanonicalName()``)をアンダースコア(``_``)で繋げた文字列。
+      取得できない場合は ``UNKNOWN``。
+  * - ``httpMethod``
+    - HTTPメソッド
+  * - ``status``
+    - HTTPステータスコード
+  * - ``outcome``
+    - ステータスコードの種類を表す文字列（1XX: ``INFORMATION``, 2XX: ``SUCCESS``, 3XX: ``REDIRECTION``, 4XX: ``CLIENT_ERROR``, 5XX: ``SERVER_ERROR``, その他: ``UNKNOWN``）
+  * - ``exception``
+    - リクエスト処理中のスローされた例外の単純名（例外スローされていない場合は ``None``）
+
+メトリクスに設定するタグを変更する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:java:extdoc:`HttpRequestMetricsHandler <nablarch.integration.micrometer.instrument.handler.http.HttpRequestMetricsHandler>` がメトリクスに設定するタグは、デフォルトでは、 :java:extdoc:`DefaultHttpRequestMetricsTagBuilder <nablarch.integration.micrometer.instrument.handler.http.DefaultHttpRequestMetricsTagBuilder>` によって生成されている。
+
+メトリクスに設定するタグを独自の実装に切り替えたい場合は、 :java:extdoc:`HttpRequestMetricsTagBuilder <nablarch.integration.micrometer.instrument.handler.http.HttpRequestMetricsTagBuilder>` インタフェースを実装したクラスを作成して、 :java:extdoc:`HttpRequestMetricsHandler <nablarch.integration.micrometer.instrument.handler.http.HttpRequestMetricsHandler>` の ``httpRequestMetricsTagBuilder`` プロパティに設定する。
+
+以下に実装例を示す。
+
+.. code-block:: java
+
+  package com.nablarch.example.app.metrics;
+
+  import io.micrometer.core.instrument.Tag;
+  import nablarch.fw.ExecutionContext;
+  import nablarch.fw.web.HttpRequest;
+  import nablarch.integration.micrometer.instrument.handler.http.HttpRequestMetricsTagBuilder;
+
+  import java.util.List;
+
+  // HttpRequestMetricsTagBuilder を実装して独自のタグビルダーを作る
+  public class CustomHttpRequestMetricsTagBuilder implements HttpRequestMetricsTagBuilder {
+      @Override
+      public List<Tag> build(HttpRequest request, ExecutionContext context, Throwable thrownThrowable) {
+          // メトリクスに設定するタグを List<Tag> で返すように実装する。
+      }
+  }
+
+.. code-block:: xml
+
+  <component name="httpRequestMetricsHandler"
+             class="nablarch.integration.micrometer.instrument.handler.http.HttpRequestMetricsHandler">
+    <property name="meterRegistry" ref="meterRegistry" />
+
+    <!-- httpRequestMetricsTagBuilder プロパティに作成したタグビルダーを設定する -->
+    <property name="httpRequestMetricsTagBuilder">
+      <component class="com.nablarch.example.app.metrics.CustomHttpRequestMetricsTagBuilder" />
+    </property>
+  </component>
+
+
 
 .. _MeterBinder(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/MeterBinder.html
 .. _DatadogConfig(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogConfig.html
@@ -668,3 +776,4 @@ Datadog は `DogStatsD(外部サイト) <https://docs.datadoghq.com/ja/developer
 .. _ClassLoaderMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/ClassLoaderMetrics.html
 .. _FileDescriptorMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/FileDescriptorMetrics.html
 .. _UptimeMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/UptimeMetrics.html
+.. _Timer(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/Timer.html
