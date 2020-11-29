@@ -30,7 +30,10 @@ Nablarch offers the following archetypes: All the archetype group IDs are ``com.
     - Archetype for using the JSR352-compliant batch application framework
   * - nablarch-batch-archetype
     - Archetype for using the Nablarch batch application runtime platform
-
+  * - nablarch-container-web-archetype
+    - Docker container edition of the ``nablarch-web-archetype`` archetype
+  * - nablarch-container-jaxrs-archetype
+    - Docker container edition of the ``nablarch-jaxrs-archetype`` archetype
 
 When ``pj-web``, ``pj-batch`` are specified respectively in ``artifactId``,
 which is input during the project creation using nablarch-web-archetype and nablarch-batch-archetype archetypes, the configuration is as follows.
@@ -324,6 +327,88 @@ Therefore, while releasing to the production environment, batch can be executed 
         -requestPath <Request path> ^
         -userId <User ID>
 
+.. _container_web_project_summary:
+
+pj-container-web project
+===============================
+
+Project to build a Tomcat-based Docker image where the web application is deployed.
+
+Project structure
+------------------
+
+.. code-block:: text
+
+    myapp-container-web
+    |
+    |   pom.xml                     … Maven configuration file
+    |   README.md                   … Supplementary explanation of this project (can be deleted after reading)
+    |
+    +---db                          … DDL and Insert statements for communication applications. Stored for each RDBMS.
+    |
+    +---h2
+    |   +---bin                     … Contains files used to start H2.
+    |   |
+    |   \---db
+    |           SAMPLE.mv.db        … Data file of H2.
+    |           SAMPLE.mv.db.org    … Backup of H2 data files. If H2 does not start, copy it to "SAMPLE.mv.db" and use it.
+    |
+    +---src
+    |   +---main
+    |   |   +---java                … Class of the communication confirmation application is stored.
+    |   |   |
+    |   |   +---resources           … The configuration file used in both the development environment and production environment are stored directly below.
+    |   |   |   |
+    |   |   |   +---entity          … Sample of ER diagram. Prepared as sample data when using the gsp-dba-maven-plugin.
+    |   |   |   |
+    |   |   |   \---net             … Contains the configuration file for the routing adapter.
+    |   |   |
+    |   |   +---jib                 … It contains files to be placed against the container image.
+    |   |   |
+    |   |   \---webapp
+    |   |       +---errorPages      … Sample of error screen is stored.
+    |   |       |
+    |   |       +---test            … File for communication confirmation screen is stored.
+    |   |       |
+    |   |       \---WEB-INF         … web.xml is stored.
+    |   |
+    |   \---test
+    |       +---java                … Unit test for communication confirmation test is stored.
+    |       |
+    |       \---resources           … Configuration file for unit test is stored directly below.
+    |           |
+    |           +---data            … Prepared as sample data when using gsp-dba-maven-plugin.
+    |           |
+    |           \---nablarch        … Data for HTML check tool is stored.
+    |
+    \---tools                       … Configuration files of the tool used in conjunction with Maven is stored.
+    
+    
+About src/main/jib
+  Directories and files placed in ``src/main/jib`` will be placed on the container.
+  For example, if place the ``src/main/jib/var/foo.txt`` file before building the container image, it enters the ``/var/foo.txt`` in the container.
+  See `Jib's documentation (external site, English) <https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#adding-arbitrary-files-to-the-image>`_ for more information.
+
+  In the blank project, a number of Tomcat configuration files have been placed in order to make all of Tomcat's log output standard output.
+
+
+
+Tool configuration
+-----------------------------------
+
+Omitted as it is identical to the web.
+
+
+pj-container-jaxrs project
+===============================
+
+Project to build a Tomcat-based Docker image where the RESTful web services application is deployed.
+
+Project structure
+------------------
+
+Omitted as it is identical to the container edition Web.
+
 .. _about_maven_web_batch_module:
 
 Common configurations for each project
@@ -372,6 +457,10 @@ The defined profiles are shown below.
 .. tip::
    The activeByDefault element is described in dev profile of ``pom.xml`` and the dev profile can be used as default.
 
+.. note::
+   In a project for containers, the differences between environments switch using OS environment variables instead of profiles.
+   Therefore, the project for containers has no profile defined.
+   See :ref:`container_production_config` for more information.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 How to use profiles
