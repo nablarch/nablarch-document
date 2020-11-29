@@ -178,14 +178,14 @@ If the launch is successful, the log given below will be output to the console.
 
 .. code-block:: text
 
-  2020-03-25 18:40:40.229 -INFO- com.example.SampleBatch [202003251840402290002] boot_proc = [] proc_sys = [] req_id = [SampleBatch] usr_id = [batch_user] 疎通確認を開始します。
-  2020-03-25 18:40:40.258 -INFO- com.example.SampleBatch [202003251840402290002] boot_proc = [] proc_sys = [] req_id = [SampleBatch] usr_id = [batch_user] 取得したコード名称：ロック
-  2020-03-25 18:40:40.264 -INFO- com.example.SampleBatch [202003251840402290002] boot_proc = [] proc_sys = [] req_id = [SampleBatch] usr_id = [batch_user] 疎通確認が完了しました。
-  2020-03-25 18:40:40.273 -INFO- nablarch.fw.handler.MultiThreadExecutionHandler [202003251840402220001] boot_proc = [] proc_sys = [] req_id = [SampleBatch] usr_id = [batch_user]
+  2020-04-28 08:56:23.353 -INFO- com.example.SampleBatch [202004280856233530002] boot_proc = [] proc_sys = [batch] req_id = [SampleBatch] usr_id = [batch_user] 疎通確認を開始します。
+  2020-04-28 08:56:23.379 -INFO- com.example.SampleBatch [202004280856233530002] boot_proc = [] proc_sys = [batch] req_id = [SampleBatch] usr_id = [batch_user] 取得したコード名称：ロック
+  2020-04-28 08:56:23.383 -INFO- com.example.SampleBatch [202004280856233530002] boot_proc = [] proc_sys = [batch] req_id = [SampleBatch] usr_id = [batch_user] 疎通確認が完了しました。
+  2020-04-28 08:56:23.396 -INFO- nablarch.fw.handler.MultiThreadExecutionHandler [202004280856233470001] boot_proc = [] proc_sys = [batch] req_id = [SampleBatch] usr_id = [batch_user] 
   Thread Status: normal end.
   Thread Result:[200 Success] The request has succeeded.
-  2020-03-25 18:40:40.281 -INFO- nablarch.core.log.app.BasicCommitLogger [202003251840402220001] boot_proc = [] proc_sys = [] req_id = [SampleBatch] usr_id = [batch_user] TOTAL COMMIT COUNT = [1]
-  2020-03-25 18:40:40.285 -INFO- nablarch.fw.launcher.Main [null] boot_proc = [] proc_sys = [] req_id = [null] usr_id = [null] @@@@ END @@@@ exit code = [0] execute time(ms) = [486]
+  2020-04-28 08:56:23.407 -INFO- nablarch.core.log.app.BasicCommitLogger [202004280856233470001] boot_proc = [] proc_sys = [batch] req_id = [SampleBatch] usr_id = [batch_user] TOTAL COMMIT COUNT = [1]
+  2020-04-28 08:56:23.413 -INFO- nablarch.fw.launcher.Main [null] boot_proc = [] proc_sys = [batch] req_id = [null] usr_id = [null] @@@@ END @@@@ exit code = [0] execute time(ms) = [559]
 
 Communication confirmation (messaging using tables as queues)
 --------------------------------------------------------------------
@@ -237,12 +237,12 @@ If the launch is successful, the log given below will be output to the console.
 
 .. code-block:: text
 
-    2020-03-25 18:41:20.767 -INFO- nablarch.fw.reader.DatabaseTableQueueReader [202003251841207560001] boot_proc = [] proc_sys = [] req_id = [SampleResiBatch] usr_id = [batch_user] read database record. key info: {USER_INFO_ID=00000000000000000001}
-    2020-03-25 18:41:20.774 -INFO- com.example.SampleResiBatch [202003251841207740002] boot_proc = [] proc_sys = [] req_id = [SampleResiBatch] usr_id = [batch_user] handleが呼ばれました。
-    2020-03-25 18:41:20.779 -INFO- com.example.SampleResiBatch [202003251841207740002] boot_proc = [] proc_sys = [] req_id = [SampleResiBatch] usr_id = [batch_user] USER_INFO_ID:00000000000000000001
-    2020-03-25 18:41:20.784 -INFO- com.example.SampleResiBatch [202003251841207740002] boot_proc = [] proc_sys = [] req_id = [SampleResiBatch] usr_id = [batch_user] LOGIN_ID:TAROU
-    2020-03-25 18:41:20.792 -INFO- com.example.SampleResiBatch [202003251841207740002] boot_proc = [] proc_sys = [] req_id = [SampleResiBatch] usr_id = [batch_user] KANA_NAME:たろう
-    2020-03-25 18:41:20.799 -INFO- com.example.SampleResiBatch [202003251841207740002] boot_proc = [] proc_sys = [] req_id = [SampleResiBatch] usr_id = [batch_user] KANJI_NAME:太郎
+    2020-04-28 08:58:15.350 -INFO- nablarch.fw.reader.DatabaseTableQueueReader [202004280858153390001] boot_proc = [] proc_sys = [batch] req_id = [SampleResiBatch] usr_id = [batch_user] read database record. key info: {USER_INFO_ID=00000000000000000001}
+    2020-04-28 08:58:15.356 -INFO- com.example.SampleResiBatch [202004280858153560002] boot_proc = [] proc_sys = [batch] req_id = [SampleResiBatch] usr_id = [batch_user] handleが呼ばれました。
+    2020-04-28 08:58:15.363 -INFO- com.example.SampleResiBatch [202004280858153560002] boot_proc = [] proc_sys = [batch] req_id = [SampleResiBatch] usr_id = [batch_user] USER_INFO_ID:00000000000000000001
+    2020-04-28 08:58:15.367 -INFO- com.example.SampleResiBatch [202004280858153560002] boot_proc = [] proc_sys = [batch] req_id = [SampleResiBatch] usr_id = [batch_user] LOGIN_ID:TAROU
+    2020-04-28 08:58:15.371 -INFO- com.example.SampleResiBatch [202004280858153560002] boot_proc = [] proc_sys = [batch] req_id = [SampleResiBatch] usr_id = [batch_user] KANA_NAME:たろう
+    2020-04-28 08:58:15.379 -INFO- com.example.SampleResiBatch [202004280858153560002] boot_proc = [] proc_sys = [batch] req_id = [SampleResiBatch] usr_id = [batch_user] KANJI_NAME:太郎
 
 Forcibly terminate with ctrl + c.
 
