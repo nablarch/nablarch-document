@@ -41,6 +41,7 @@ Nablarch Application Framework
   | :doc:`Manual <application_framework/application_framework/index>`
   | :doc:`Adapter <application_framework/adaptors/index>`
   | :doc:`Example <application_framework/example/index>`
+  | :doc:`Cloud native support <application_framework/application_framework/cloud_native/index>`
 
 -----------------------------------------------
 Nablarch extension component
@@ -79,7 +80,7 @@ Ui development platform for front-end advanced users
   | :doc:`Manual <development_tools/ui_dev/index>` | JSP/HTML Creation Guide
 
 
-Full-fledged testing framework for large scale development
+Testing framework
 ============================================================
 
   | :doc:`Manual <development_tools/testing_framework/index>` | :doc:`Module list <about_nablarch/mvn_module>`
