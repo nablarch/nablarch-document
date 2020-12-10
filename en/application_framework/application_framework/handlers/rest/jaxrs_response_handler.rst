@@ -65,10 +65,10 @@ A configuration example is shown below.
   </component>
 
 .. important::
-  ErrorResponseBuilderは例外及びエラーに応じたレスポンス生成を行う役割のため、ErrorResponseBuilderの処理中に例外が発生するとレスポンスが生成されず、クライアントにレスポンスを返せない状態となる。
-  そのため、プロジェクトでErrorResponseBuilderをカスタマイズする場合は、ErrorResponseBuilderの処理中に例外が発生しないように実装すること。
-  ErrorResponseBuilderの処理中に例外が発生した場合、フレームワークはErrorResponseBuilderの処理中に発生した例外をWARNレベルで
-  ログ出力を行い、ステータスコード500のレスポンスを生成し、後続処理を継続する。
+  Because ErrorResponseBuilder is responsible for generating responses in response to exceptions and errors, if an exception occurs during the processing of ErrorResponseBuilder,
+  the response will not be generated and the response will not be returned to the client.
+  Therefore, if you are customizing ErrorResponseBuilder in your project, ensure that no exceptions are thrown during the processing of ErrorResponseBuilder.
+  If an exception is thrown during the processing of ErrorResponseBuilder, the framework logs the exception at the WARN level, generates a response with status code 500, and continues with the subsequent processing.
 
 .. _jaxrs_response_handler-error_log:
 
@@ -162,22 +162,22 @@ An implementation example is shown below.
 
 .. _jaxrs_response_handler-response_finisher:
 
-クライアントに返すレスポンスに共通処理を追加する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-正常時やエラー発生時を問わず、クライアントに返すレスポンスに対してCORS対応やセキュリティ対応で共通的にレスポンスヘッダを指定したい場合がある。
+Add common processing to the response returned to the client
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+At any time, such as during normal times or when an error occurs, there are cases when the response returned to the client may want to specify a common response header to support CORS or security for the response.
 
-そのような場合に対応するため、フレームワークはレスポンスを仕上げる :java:extdoc:`ResponseFinisher <nablarch.fw.jaxrs.ResponseFinisher>` インタフェースを提供している。
-レスポンスに共通処理を追加したい場合は、ResponseFinisherインタフェースを実装したクラスを作成し、
-本ハンドラのresponseFinishersプロパティに指定すればよい。
+To handle such cases, the framework provides the :java:extdoc:`ResponseFinisher <nablarch.fw.jaxrs.ResponseFinisher>` interface to finish the response.
+If it is necessary to add common processing to the response,　simply create a class that implements the ResponseFinisher interface
+and specify it in the responseFinishers property of this handler.
 
-実装例と設定例を以下に示す。
+Implementation and configuration examples are shown below.
 
 .. code-block:: java
 
   public class CustomResponseFinisher implements ResponseFinisher {
       @Override
       public void finish(HttpRequest request, HttpResponse response, ExecutionContext context) {
-          // レスポンスヘッダを設定するなど、共通処理を行う。
+          // Common processing, such as setting the response header.
       }
   }
 
@@ -186,19 +186,19 @@ An implementation example is shown below.
   <component class="nablarch.fw.jaxrs.JaxRsResponseHandler">
     <property name="responseFinishers">
       <list>
-        <!-- ResponseFinisherを実装したクラスを指定 -->
+        <!-- Specify a class that implements ResponseFinisher -->
         <component class="sample.CustomResponseFinisher" />
       </list>
     </property>
   </component>
 
-セキュリティ関連のレスポンスヘッダを設定する :ref:`secure_handler` のような既存のハンドラをResponseFinisherとして利用したい場合がある。
-このような場合に対応するため、ハンドラをResponseFinisherに適用する
-:java:extdoc:`AdoptHandlerResponseFinisher <nablarch.fw.jaxrs.AdoptHandlerResponseFinisher>` クラスを提供している。
+In some cases, an existing handler such as :ref:`secure_handler`, which sets security-related response headers, may be used as a ResponseFinisher.
+To handle such cases, the framework provides the :java:extdoc:`AdoptHandlerResponseFinisher <nablarch.fw.jaxrs.AdoptHandlerResponseFinisher>` class
+that applies the handler to ResponseFinisher.
 
-AdoptHandlerResponseFinisherで使用できるハンドラは、自らレスポンスを作成せず、後続ハンドラが返すレスポンスに変更を加えるハンドラに限定される。
+The handlers that can be used with AdoptHandlerResponseFinisher are limited to handlers that do not create their own responses and change the responses returned by subsequent handlers.
 
-AdoptHandlerResponseFinisherの使用例を下記に示す。
+An example of the use of AdoptHandlerResponseFinisher is shown below.
 
 .. code-block:: xml
 
@@ -207,7 +207,7 @@ AdoptHandlerResponseFinisherの使用例を下記に示す。
       <list>
         <!-- AdoptHandlerResponseFinisher -->
         <component class="nablarch.fw.jaxrs.AdoptHandlerResponseFinisher">
-          <!-- handlerプロパティにハンドラを指定 -->
+          <!-- Specify the handler for the handler property -->
           <property name="handler" ref="secureHandler" />
         </component>
       </list>
