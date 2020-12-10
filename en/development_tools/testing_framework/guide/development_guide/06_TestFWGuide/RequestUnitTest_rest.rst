@@ -189,8 +189,8 @@ the built-in server will be started and the request will be sent.
 
 .. _rest_test_assert:
 
-Results Check
-=============
+Result validation
+==================
 
 
 Status code
