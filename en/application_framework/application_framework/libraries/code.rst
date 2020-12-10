@@ -286,7 +286,7 @@ Data of code name table
   ======= ========= ====  ==========  ==========  ===========
 
 Specify the language and get the code information
-  The name corresponding to the language can be obtained by specifying the language when acquiring the code name, etc. by using :java:extdoc:`CodeUtil <nablarch.common.code.CodeUtil>` .
+  The name corresponding to the language can be obtained by specifying the language by using :java:extdoc:`CodeUtil <nablarch.common.code.CodeUtil>` .
 
   .. code-block:: java
 
