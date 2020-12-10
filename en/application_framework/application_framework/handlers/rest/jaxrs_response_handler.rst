@@ -64,6 +64,11 @@ A configuration example is shown below.
     </property>
   </component>
 
+.. important::
+  ErrorResponseBuilderは例外及びエラーに応じたレスポンス生成を行う役割のため、ErrorResponseBuilderの処理中に例外が発生するとレスポンスが生成されず、クライアントにレスポンスを返せない状態となる。
+  そのため、プロジェクトでErrorResponseBuilderをカスタマイズする場合は、ErrorResponseBuilderの処理中に例外が発生しないように実装すること。
+  ErrorResponseBuilderの処理中に例外が発生した場合、フレームワークはErrorResponseBuilderの処理中に発生した例外をWARNレベルで
+  ログ出力を行い、ステータスコード500のレスポンスを生成し、後続処理を継続する。
 
 .. _jaxrs_response_handler-error_log:
 
@@ -154,3 +159,57 @@ An implementation example is shown below.
           }
       }
   }
+
+.. _jaxrs_response_handler-response_finisher:
+
+クライアントに返すレスポンスに共通処理を追加する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+正常時やエラー発生時を問わず、クライアントに返すレスポンスに対してCORS対応やセキュリティ対応で共通的にレスポンスヘッダを指定したい場合がある。
+
+そのような場合に対応するため、フレームワークはレスポンスを仕上げる :java:extdoc:`ResponseFinisher <nablarch.fw.jaxrs.ResponseFinisher>` インタフェースを提供している。
+レスポンスに共通処理を追加したい場合は、ResponseFinisherインタフェースを実装したクラスを作成し、
+本ハンドラのresponseFinishersプロパティに指定すればよい。
+
+実装例と設定例を以下に示す。
+
+.. code-block:: java
+
+  public class CustomResponseFinisher implements ResponseFinisher {
+      @Override
+      public void finish(HttpRequest request, HttpResponse response, ExecutionContext context) {
+          // レスポンスヘッダを設定するなど、共通処理を行う。
+      }
+  }
+
+.. code-block:: xml
+
+  <component class="nablarch.fw.jaxrs.JaxRsResponseHandler">
+    <property name="responseFinishers">
+      <list>
+        <!-- ResponseFinisherを実装したクラスを指定 -->
+        <component class="sample.CustomResponseFinisher" />
+      </list>
+    </property>
+  </component>
+
+セキュリティ関連のレスポンスヘッダを設定する :ref:`secure_handler` のような既存のハンドラをResponseFinisherとして利用したい場合がある。
+このような場合に対応するため、ハンドラをResponseFinisherに適用する
+:java:extdoc:`AdoptHandlerResponseFinisher <nablarch.fw.jaxrs.AdoptHandlerResponseFinisher>` クラスを提供している。
+
+AdoptHandlerResponseFinisherで使用できるハンドラは、自らレスポンスを作成せず、後続ハンドラが返すレスポンスに変更を加えるハンドラに限定される。
+
+AdoptHandlerResponseFinisherの使用例を下記に示す。
+
+.. code-block:: xml
+
+  <component class="nablarch.fw.jaxrs.JaxRsResponseHandler">
+    <property name="responseFinishers">
+      <list>
+        <!-- AdoptHandlerResponseFinisher -->
+        <component class="nablarch.fw.jaxrs.AdoptHandlerResponseFinisher">
+          <!-- handlerプロパティにハンドラを指定 -->
+          <property name="handler" ref="secureHandler" />
+        </component>
+      </list>
+    </property>
+  </component>
