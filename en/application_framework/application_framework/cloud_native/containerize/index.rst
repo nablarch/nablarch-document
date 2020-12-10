@@ -1,101 +1,103 @@
 .. _docker_container:
 
-Dockerコンテナ化
-=========================
+Docker Containerization
+==================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 2
   :local:
 
-本章では、Nablarchで作ったアプリケーションを、クラウドネイティブを意識した形でDockerコンテナイメージにする方法について説明する。
+This chapter describes how to turn an application created with Nablarch into a Docker container image in a cloud-native manner.
 
-まず、コンテナ化するためには従来のNablarchアプリケーションに対して、どのような修正を入れなければならないのかについて説明する。
-そして、あらかじめコンテナ化のための設定を組み込んだブランクプロジェクトを作成する、専用のアーキタイプについて説明する。
+First, we will describe what modifications must be made to a traditional Nablarch application in order to containerize it.
+And describe the dedicated archetype, which creates a blank project that includes the settings for containerization in advance.
 
 .. _requirement_for_cloud_native:
 
-クラウド環境に適したシステムに必要なこと
+What a suitable system for a cloud environment requires
 --------------------------------------------------------------------------------------------------
 
-クラウドネイティブ
+Cloud native
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**クラウドネイティブ** とは、はじめからAWSなどのクラウド環境で動かすことを前提とし、クラウド環境に最適化して開発されたシステムのことを指す。
+**Cloud native** refers to a system that was developed from the start to run in a cloud environment such as AWS and is optimized for the cloud environment.
 
-クラウド環境に適したシステムには、オンプレミス環境で動かすような従来のシステムとは異なる設計が必要となる。
-例えば、スケーラビリティを持たせるためにアプリケーションが状態を持たないようにするといった対応が必要になる。
+A system suitable for a cloud environment requires a different design than a traditional system that would run in an on-premises environment.
+For example, it is necessary to keep the application stateless in order to have scalability.
 
 
 The Twelve-Factor App
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-`The Twelve-Factor App`_ (外部サイト)とは、 `Heroku <https://jp.heroku.com/>`_ (外部サイト、英語)のエンジニアが提唱したシステム開発の方法論で、クラウド環境に適したシステムを開発するときに考慮すべきことを12の要素（Twelve-Factor）にまとめたものになる。
+The `The Twelve-Factor App`_ (external site) is a system development methodology proposed by `Heroku <https://heroku.com/>`_ (external site) engineers that summarizes the twelve factors to be considered when developing a system suitable for the cloud environment.
 
-本章で説明するコンテナ化のために必要となるNablarchアプリケーションの修正内容は、この `The Twelve-Factor App`_ (外部サイト)で説明されている方法をもとにしている。
+The modifications of the Nablarch application needed for containerization described in this chapter are based on the method described in this `The Twelve-Factor App`_ (external site).
 
 .. _modify_nablarch_app_for_cloud_native:
 
-Nablarchアプリケーションに必要な修正
+Modifications required for Nablarch applications
 --------------------------------------------------------------------------------------------------
 
-:ref:`標準のウェブアプリケーションのブランクプロジェクト <firstStepGenerateWebBlankProject>` を使ってNablarchアプリケーションを構築した場合、以下の点が `The Twelve-Factor App`_ (外部サイト)に反した状態になっている。
+If building a Nablarch application using :ref:`the standard web application blank project <firstStepGenerateWebBlankProject>` ,
+the following points are in violation of `The Twelve-Factor App`_ (external site).
 
-ステートレス
-  `VI. プロセス <https://12factor.net/ja/processes>`_ (外部サイト)では、アプリケーションはステートレスでなければならないとされている。
-  つまり、個々のアプリケーションは状態を保持してはいけない、ということになる。
+Stateless
+  The `VI. Processes <https://12factor.net/processes>`_ (external site) is said that the application must be stateless.
+  That is, an individual application must not hold state.
 
-  標準のブランクプロジェクトでは、HTTPセッションを使った状態管理が有効となっているため、この方針に反している。
+  The standard blank project violates this policy because state management using HTTP sessions is enabled.
 
-  Nablarchアプリケーションをステートレスにするための設定については、 :ref:`stateless_web_app` を参照。
+  See :ref:`stateless_web_app` for configuration to make a Nablarch application stateless.
 
-ログ出力
-  `XI. ログ <https://12factor.net/ja/logs>`_ (外部サイト)では、アプリケーションのログはすべて標準出力に書き出し、ファイルには出力すべきでないとされている。
+Log output
+  The `XI. Logs <https://12factor.net/logs>`_ (external site) is said that all application logs should be written to standard output and not output to a file.
 
-  標準のブランクプロジェクトでは、ロガーの出力先にファイルが指定されているため、この方針に反している。
+  The standard blank project violates this policy because a file is specified as the output destination for the logger.
 
-  Nablarchのログ出力設定については、 :ref:`log-basic_setting` を参照。
+  See :ref:`log-basic_setting` for Nablarch's log output settings.
 
-環境変数を使った設定
-  `III. 設定 <https://12factor.net/ja/config>`_ (外部サイト)では、環境ごとによって切り替える設定（連携する他サービスとの接続設定など）は、アプリケーション内部に持たずに環境変数から設定すべきとしている。
+Setting using environment variables
+  `III. Config <https://12factor.net/config>`_ (external site) is said that settings (such as settings for connecting to other services),
+  which are switched for each environment, should be set from environment variables, not from within the application.
 
-  標準のブランクプロジェクトでは、開発環境と本番環境の設定の違いをMavenのプロファイルを使って切り替えているため、この方針に反している。
+  The standard blank project violates this policy because it uses Maven profiles to switch the difference between the development and production environment settings.
 
-  環境変数を使って環境依存値を上書きする方法については、 :ref:`repository-overwrite_environment_configuration_by_os_env_var` を参照。
+  See :ref:`repository-overwrite_env_configuration_by_os_env_var` for how to override environment-dependent values using environment variables.
 
 
 .. _nablarch_container_archetype:
 
-コンテナ用のアーキタイプ
+Archetype for container
 --------------------------------------------------------------------------------------------------
 
-Nablarchでは、Dockerコンテナ上で動かすことを前提としたウェブアプリケーションのアーキタイプを用意している。
+Nablarch provides an archetype for web applications that are designed to run on Docker containers.
 
-このアーキタイプを使って生成されるブランクプロジェクトには、 :ref:`modify_nablarch_app_for_cloud_native` で説明した修正があらかじめ適用されている。
-また、 `Jib`_ (外部サイト、英語)というDockerコンテナを簡単に生成するためのMavenプラグインが組み込まれているため、開発者はすぐにDockerコンテナ用のNablarchアプリケーションの開発を始めることができる。
+Blank projects generated using this archetype have the modifications described in :ref:`modify_nablarch_app_for_cloud_native` applied in advance.
+Also, a Maven plugin called `Jib`_ (external site) is built in for easy generation of Docker containers, so developers can start developing Nablarch applications for Docker containers soon.
 
 .. tip::
   
-  Jibを使用すると、Dockerfileを書かなくてもコンテナイメージを作成できる。
+  Using Jib, it is possible to create container images without having to write a Dockerfile.
 
-  DockerfileはDockerのコンテナイメージを作成するための、最も基本的な命令を記述できる。
-  このため、Dockerfileを使用すれば自由な形でコンテナイメージを作成できる。
-  しかし一方で、Dockerfileを使用することには次のようなデメリットもある。
+  Dockerfile can describe the most basic instructions for creating Docker container images.
+  For this reason, Dockerfile allows to create container images in a flexible way.
+  But on the other hand, using Dockerfile also has the following disadvantages.
 
-  * 基本的な命令で記述するため、内容が複雑になりやすい
-  * コンテナイメージのレイヤ構造など、ベストプラクティスを意識した記述が必要で高い知識が要求される
+  * The content can be complex because it is written in basic instructions
+  * A high level of knowledge is required, which makes it necessary to write with best practices in mind, such as container image layer structure
 
-  JibはJavaアプリケーションのDockerコンテナイメージを作成することに特化したツールとなっている。
-  設定の記述はJavaアプリケーション向けに抽象化され、特別な設定をしなくてもベストプラクティスを考慮した形でコンテナイメージを作成できるようになっている。
+  Jib has been specialized in creating Docker container images for Java applications.
+  The description of the configuration is abstracted for Java applications and allows to create container images in a way that takes into consideration best practices without any special configuration.
 
-  以上の理由により、Nablarchのコンテナ用アーキタイプは、Dockerfileを直接記述するのではなくJibを使用してコンテナイメージを作成する方式を採用している。
+  For these reasons, the Nablarch archetype for container adopts the method of creating container images using Jib instead of writing Dockerfile directly.
 
 
-Dockerコンテナ用のアーキタイプの説明については以下を参照。
+See below for a description of the archetype for Docker containers.
 
-* :ref:`前提条件 <firstStepPreamble>`
-* :ref:`プロジェクトの構成 <container_web_project_summary>`
-* :ref:`環境ごとの設定の切り替えについて <container_production_config>`
-* :ref:`初期セットアップ手順 <first_step_container>`
+* :ref:`Prerequisites <firstStepPreamble>`
+* :ref:`Project structure <container_web_project_summary>`
+* :ref:`About switching settings for each environment <container_production_config>`
+* :ref:`Initial Setup Procedure <first_step_container>`
 
-.. _The Twelve-Factor App: https://12factor.net/ja/
+.. _The Twelve-Factor App: https://12factor.net/
 .. _Jib: https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin
