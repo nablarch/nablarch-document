@@ -1,4 +1,4 @@
-Nablarchクラウドネイティブ対応
+Nablarch Cloud Native Support
 ===================================
 
 .. toctree::
