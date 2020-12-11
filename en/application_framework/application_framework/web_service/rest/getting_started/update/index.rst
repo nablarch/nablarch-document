@@ -56,19 +56,6 @@ Communication confirmation procedure
 Update the project information
 ---------------------------------------
 
-Define the mapping to the URL
-  Use :ref:`router_adaptor` to map business actions and URLs.
-
-    routes.xml
-      .. code-block:: xml
-
-        <routes>
-          <put path="projects" to="Project#update" />
-        </routes>
-
-    Key points of this implementation
-     * The ``put`` tag is used to define the business action method to be mapped during PUT requests.
-
 Create a form
   Create a form to accept the value submitted by the client.
  
@@ -127,4 +114,25 @@ Implementation of a business action method
       In the example application, :java:extdoc:`ErrorResponseBuilder<nablarch.fw.jaxrs.ErrorResponseBuilder>`  is uniquely extended, 
       response ``404`` if :java:extdoc:`NoDataException<nablarch.common.dao.NoDataException>` occurs and ``409`` if :java:extdoc:`OptimisticLockException<javax.persistence.OptimisticLockException>` occurs is generated and returned to the client.
 
+Define the mapping to the URL
+  Use :ref:`router_adaptor` to map business actions and URLs.
+  Use :ref:`Path annotation for JAX-RS <router_adaptor_path_annotation>` for mapping.
 
+  ProjectAction.java
+    .. code-block:: java
+
+      @Path("/projects")
+      public class ProjectAction {
+        @PUT
+        @Consumes(MediaType.APPLICATION_JSON)
+        @Valid
+        public HttpResponse update(ProjectUpdateForm form) {
+            Project project = BeanUtil.createAndCopy(Project.class, form);
+
+            UniversalDao.update(project);
+
+            return new HttpResponse(HttpResponse.Status.OK.getStatusCode());
+        }
+
+  Key points of this implementation
+    * The ``@Path`` and ``@PUT`` annotations are used to define the business action methods to be mapped on PUT requests.

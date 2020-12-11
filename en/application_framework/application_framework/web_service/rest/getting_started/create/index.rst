@@ -54,19 +54,6 @@ Communication confirmation procedure
 Register project information
 ---------------------------------
 
-Define the mapping to the URL
-  Use :ref:`router_adaptor` to map business actions and URLs.
-
-    routes.xml
-      .. code-block:: xml
-
-        <routes>
-          <post path="projects" to="Project#save"/>
-        </routes>
-
-    Key points of this implementation
-     * The ``post`` tag is used to define the business action method to be mapped during POST requests.
-
 Create a form
   Create a form to accept the value submitted by the client.
 
@@ -107,4 +94,24 @@ Implementation of a business action method
       For details, see :ref:`jaxrs_bean_validation_handler` .
     * Convert the form to an entity with :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` and register the project information in the database using :ref:`universal_dao`. 
     * :java:extdoc:`HttpResponse<nablarch.fw.web.HttpResponse>` is returned as the return value, indicating that the creation of the resource is complete (status code: ``201``).
+
+Define the mapping to the URL
+  Use :ref:`router_adaptor` to map business actions and URLs.
+  Use :ref:`Path annotation for JAX-RS <router_adaptor_path_annotation>` for mapping.
+
+  ProjectAction.java
+    .. code-block:: java
+
+      @Path("/projects")
+      public class ProjectAction {
+        @POST
+        @Consumes(MediaType.APPLICATION_JSON)
+        @Valid
+        public HttpResponse save(ProjectForm project) {
+          UniversalDao.insert(BeanUtil.createAndCopy(Project.class, project));
+          return new HttpResponse(HttpResponse.Status.CREATED.getStatusCode());
+      }
+
+  Key points of this implementation
+    * The ``@Path`` and ``@POST`` annotations are used to define the business action methods to be mapped on POST requests.
 
