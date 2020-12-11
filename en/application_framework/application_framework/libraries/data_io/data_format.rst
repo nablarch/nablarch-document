@@ -192,6 +192,23 @@ Point
 .. important::
   If an invalid value is configured in the output data, it may not be processed correctly, therefore check in advance for invalid values in the application.
 
+.. important::
+
+  The default behavior is to write to the file for each record.
+  When outputting a large amount of data, writing each record to a file may not meet the performance requirements.
+  In such a case, the default behavior should be changed to write in the specified buffer size instead of per record.
+
+  By adding the following component definition, it can be made to write in the specified buffer size instead of each record.
+
+  .. code-block:: xml
+
+    <!-- The component name should be dataFormatConfig. -->
+    <component name="dataFormatConfig" class="nablarch.core.dataformat.DataFormatConfig">
+      <property name="flushEachRecordInWriting" value="false" />
+    </component>
+
+  The buffer size used for output can be specified with the `open` method of :java:extdoc:`FileRecordWriterHolder <nablarch.common.io.FileRecordWriterHolder>`.
+
 .. _data_format-file_download:
   
 Used for file download
