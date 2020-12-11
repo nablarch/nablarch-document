@@ -63,7 +63,7 @@ Handlers associated with database
   * :ref:`database_connection_management_handler`
   * :ref:`transaction_management_handler`
 
-Handlers to validate the request
+Handlers for request verification
   * :ref:`csrf_token_verification_handler`
 
 Error handling handler
