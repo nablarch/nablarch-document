@@ -6,7 +6,6 @@ Useful Tools When Developing Applications
 .. toctree::
    :maxdepth: 1
    :hidden:
-   :numbered:
 
    JspStaticAnalysis/index.rst
    SqlExecutor/SqlExecutor
