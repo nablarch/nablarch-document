@@ -1,5 +1,5 @@
 ==========================================================
-Full-fledged testing framework for large scale development
+Testing framework
 ==========================================================
 
 
