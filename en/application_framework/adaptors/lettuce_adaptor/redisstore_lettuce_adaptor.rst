@@ -146,7 +146,7 @@ Configure it for Redis composition
 -----------------------------------------------------------------------------------------------
 :ref:`redisstore_minimum_settings` showed an example of connecting to a single Redis instance that starts locally.
 
-However, when ctually use Redis in production, you need to be able to connect to Redis with the following composition.
+However, when actually use Redis in production enviroment, you need to be able to connect to Redis with the following composition.
 
 * Master-Replica composition with Sentinel
 * Cluster Composition
@@ -325,13 +325,13 @@ Next, define this custom client class as the component.
 Since the original client class of ``CustomClusterRedisClient`` is ``LettuceClusterRedisClient`` , can override the component by defining it by the name ``lettuceClusterRedisClient`` .
 
 The configuration of the ``uriList`` property is the same as in the original ``redisstore-lettuce.xml`` .
-Even if you create a class that extends another client class, the property settings should be the same as in ``redisstore-lettuce.xml`` .
+If you create a class that extends another client class, the property settings should be the same as in ``redisstore-lettuce.xml`` .
 
 Now it is possible to monitor the topology updates.
 
 .. _redisstore_mechanism_to_decide_client:
 
-mechanism for determining the client class to use
+Mechanism for determining the client class to use
 -----------------------------------------------------------------------------------------------
 In the section :ref:`redisstore_redis_client_config_how_select_client` , we described how the client class to be used can be set using the Environment settings key ``nablarch.lettuce.clientType`` .
 In this section, will describe how the client class is determined and the details of the mechanism.
@@ -374,7 +374,7 @@ All three client classes provided by this adapter require initialization to esta
 Each client class implements :java:extdoc:`Initializable<nablarch.core.repository.initialization.Initializable>` , and a connection to Redis is established by executing the ``initialize()`` method.
 Therefore, the component of the client class to be used must be configured for the ``initializeList`` property of :java:extdoc:`BasicApplicationInitializer<nablarch.core.repository.initialization.BasicApplicationInitializer>` .
 
-The actual configuration of the initializeList uses the ``LettuceRedisClientProvider`` component described in :ref:`redisstore_mechanism_to_decide_client` as follow.
+The actual configuration of the initializeList is achieved by using the function of ``LettuceRedisClientProvider`` component described in :ref:`redisstore_mechanism_to_decide_client` as shown below.
 
 .. code-block:: xml
 

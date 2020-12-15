@@ -196,7 +196,7 @@ Result validation
 Status code
 -----------------
 
-Verify that the response HTTP status code is as expected by calling the following method in ``RestTestSupport``.
+validate that the response HTTP status code is as expected by calling the following method in ``RestTestSupport``.
 
 .. code-block:: java
 
@@ -230,7 +230,7 @@ or `XMLUnit(external site, English) <https://github.com/xmlunit/user-guide/wiki>
   Delete or replace libraries as necessary.
 
 
-**Supplementary features of response body verification**
+**Supplementary features of response body validation**
 
 In some case of validating a response body, you may want to prepare the expected body as a JSON or XML file.
 To assist testing when an external library accepts only a ``String`` as an expectation value argument, such as JSONAssert,

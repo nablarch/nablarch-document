@@ -10,7 +10,7 @@ Docker Containerization
 This chapter describes how to turn an application created with Nablarch into a Docker container image in a cloud-native manner.
 
 First, we will describe what modifications must be made to a traditional Nablarch application in order to containerize it.
-And describe the dedicated archetype, which creates a blank project that includes the settings for containerization in advance.
+And describe the dedicated archetype, which creates a blank project that includes the configuration for containerization in advance.
 
 .. _requirement_for_cloud_native:
 
@@ -54,13 +54,13 @@ Log output
 
   The standard blank project violates this policy because a file is specified as the output destination for the logger.
 
-  See :ref:`log-basic_setting` for Nablarch's log output settings.
+  See :ref:`log-basic_setting` for Nablarch's log output configuration.
 
-Setting using environment variables
-  `III. Config <https://12factor.net/config>`_ (external site) is said that settings (such as settings for connecting to other services),
-  which are switched for each environment, should be set from environment variables, not from within the application.
+Configuration using environment variables
+  `III. Config <https://12factor.net/config>`_ (external site) is said that configuration (such as configuration for connecting to other services),
+  which are switched for each environment, should be configured from environment variables, not from within the application.
 
-  The standard blank project violates this policy because it uses Maven profiles to switch the difference between the development and production environment settings.
+  The standard blank project violates this policy because it uses Maven profiles to switch the difference between the development and production environment configurations.
 
   See :ref:`repository-overwrite_env_configuration_by_os_env_var` for how to override environment-dependent values using environment variables.
 

@@ -133,7 +133,7 @@ Can see the images stored in the local repository with the following command.
 
 Can see that there are 2 images registered: ``myapp-container-web:0.1.0`` and ``myapp-container-web:latest`` .
 
-Thus, ``jib:dockerBuild`` on a blank project is set to create two images:.
+As you can see, the blank project is configured to create the following two images by executing ``jib:dockerBuild``.
 
 * ``${project.artifactId}:latest``
 * ``${project.artifactId}:${project.version}``
