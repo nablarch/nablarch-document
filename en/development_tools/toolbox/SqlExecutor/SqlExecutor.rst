@@ -66,7 +66,7 @@ Therefore, if you want to execute these SQLs, use the SQL execution environment 
 
 .. tip::
 
-  Nablarch provides an :ref:`adapter <doma_adaptor>` for `Doma (external site, english) <https://doma.readthedocs.io/en/stable/>`_  that can describe SQL as 2-way SQL.
+  Nablarch provides an :ref:`adapter <doma_adaptor>` for `Doma (external site) <https://doma.readthedocs.io/en/stable/>`_  that can describe SQL as 2-way SQL.
   
   When using Doma, the SQL defined for the production environment can be easily test executed without setting up complicated tools such as this one. 
   (Even when constructing a dynamic condition, it can be executed without rewriting SQL)

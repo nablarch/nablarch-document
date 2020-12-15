@@ -62,7 +62,7 @@ because of the :ref:`reasons for recommending UniversalDao <exclusive_control-de
 
 How to create xml for job definitions
 --------------------------------------------------
-* `See JSR352 Specification (external site, English) <https://jcp.org/en/jsr/detail?id=352>`_
+* `See JSR352 Specification (external site) <https://jcp.org/en/jsr/detail?id=352>`_
 
 Send MOM message
 ----------------------------------------

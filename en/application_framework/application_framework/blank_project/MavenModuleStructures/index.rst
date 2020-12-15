@@ -387,7 +387,7 @@ Project structure
 About src/main/jib
   Directories and files placed in ``src/main/jib`` will be placed on the container.
   For example, if place the ``src/main/jib/var/foo.txt`` file before building the container image, it enters the ``/var/foo.txt`` in the container.
-  See `Jib's documentation (external site, English) <https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#adding-arbitrary-files-to-the-image>`_ for more information.
+  See `Jib's documentation (external site) <https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#adding-arbitrary-files-to-the-image>`_ for more information.
 
   In the blank project, a number of Tomcat configuration files have been placed in order to make all of Tomcat's log output standard output.
 

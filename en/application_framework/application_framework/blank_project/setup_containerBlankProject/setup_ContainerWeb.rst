@@ -97,7 +97,7 @@ The mechanism and procedure for checking communication is the same as for a norm
 Create a container image
 ----------------------------------
 
-The blank project has a plugin named `Jib <https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin>`_ (External sites, English) built in to create an image of a Docker container.
+The blank project has a plugin named `Jib <https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin>`_ (External sites) built in to create an image of a Docker container.
 
 The ``jib: dockerBuild`` goal of this plugin can be executed to create a container image.
 
@@ -138,7 +138,7 @@ As you can see, the blank project is configured to create the following two imag
 * ``${project.artifactId}:latest``
 * ``${project.artifactId}:${project.version}``
 
-`Tomcat image <https://hub.docker.com/_/tomcat>`_ (External sites, English) is used as base image by default.
+`Tomcat image <https://hub.docker.com/_/tomcat>`_ (External sites) is used as base image by default.
 
 The base image is specified in ``pom.xml`` in ``nablarch-archetype-parent`` but can be changed with the ``jib.from.image`` property.
 For example, if you want to use ``tomcat:9.0.31-jdk11-adoptopenjdk-hotspot`` for your base image, you would write it in ``pom.xml`` .

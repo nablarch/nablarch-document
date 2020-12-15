@@ -11,7 +11,7 @@ This section shows the comparison of the following functions:
 
  - :ref:`Nablarch JAX-RS support <restful_web_service>`
  - :ref:`HTTP messaging <http_messaging>`
- - `JSR 339: JAX-RS 2.0: The Java API for RESTful Web Services(external site, English) <https://jcp.org/en/jsr/detail?id=339>`_
+ - `JSR 339: JAX-RS 2.0: The Java API for RESTful Web Services(external site) <https://jcp.org/en/jsr/detail?id=339>`_
 
 .. tip::
 

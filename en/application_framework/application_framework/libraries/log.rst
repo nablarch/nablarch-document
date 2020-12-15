@@ -847,7 +847,7 @@ The framework outputs logs based on the below output policy.
 
 Functional comparison with log4j
 --------------------------------------------------
-Function comparison between Nablrach and `log4j (external site, English) <http://logging.apache.org/log4j/1.2/>`_ are shown below.
+Function comparison between Nablrach and `log4j (external site) <http://logging.apache.org/log4j/1.2/>`_ are shown below.
 
 .. list-table:: Function comparison (A: Provided B: Partially provided C: Not provided D: Not applicable)
   :header-rows: 1

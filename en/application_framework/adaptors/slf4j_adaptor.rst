@@ -7,7 +7,7 @@ SLF4J Adapter
   :depth: 3
   :local:
 
-A lot of Java OSS modules use `SLF4J(external site, English) <https://www.slf4j.org/>`_  for logging, and if you use these modules, you may want to aggregate the log output into Nablarch's :ref:`Log Output function<log>`.
+A lot of Java OSS modules use `SLF4J(external site) <https://www.slf4j.org/>`_  for logging, and if you use these modules, you may want to aggregate the log output into Nablarch's :ref:`Log Output function<log>`.
 To address this case, provide an adapter to log output in Nablarch's log output function via the SLF4J API.
 
 Module list

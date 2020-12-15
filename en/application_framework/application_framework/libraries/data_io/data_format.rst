@@ -63,7 +63,7 @@ The fixed-length and variable-length data formats are compatible even with multi
     :fixed-length: Use :ref:`data_bind` .
     :Variable length: Use  :ref:`data_bind` .
     :XML: :java:extdoc:`JAXB <javax.xml.bind>` is recommended.
-    :JSON: Use of OSS is recommended. For example, `Jackson (external site, English) <https://github.com/FasterXML/jackson>`_ is widely used.
+    :JSON: Use of OSS is recommended. For example, `Jackson (external site) <https://github.com/FasterXML/jackson>`_ is widely used.
 
 
 Supports various character sets, character types and data formats

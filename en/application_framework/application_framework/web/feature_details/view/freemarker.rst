@@ -2,7 +2,7 @@
 
 Screen Development Using FreeMarker
 ==================================================
-This section explains screen development using `FreeMarker(external site, English) <https://freemarker.apache.org/>`_ .
+This section explains screen development using `FreeMarker(external site) <https://freemarker.apache.org/>`_ .
 
 The installation procedure of FreeMarker is as follows. For more information on the procedure, see  `FreeMarker document <https://freemarker.apache.org/docs/pgui_misc_servlet.html>`_ .
 
