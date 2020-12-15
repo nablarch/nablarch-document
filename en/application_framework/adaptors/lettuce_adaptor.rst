@@ -7,12 +7,12 @@ Lettuce Adapter
   :depth: 3
   :local:
 
-Provides adapters to use `Redis(external site, English) <https://redis.io/>`_ for the following features provided by Nablarch.
+Provides adapters to use `Redis(external site) <https://redis.io/>`_ for the following features provided by Nablarch.
 
 - :ref:`session_store`
 - :ref:`health_check_endpoint_handler`
 
-This adapter uses `Lettuce (external site, English) <https://lettuce.io/>`_ as a client library for Redis.
+This adapter uses `Lettuce (external site) <https://lettuce.io/>`_ as a client library for Redis.
 
 .. _lettuce_adaptor_module_list:
 

@@ -7,7 +7,7 @@ Redis Health Checker (Lettus) adapter
   :depth: 3
   :local:
 
-Provides adapters that enable `Redis(External sites, English) <https://redis.io/>`_ health checks.
+Provides adapters that enable `Redis(External sites) <https://redis.io/>`_ health checks.
 See :ref:`health_check_endpoint_handler` for health checks.
 
 You can add health checks by creating a class that inherits from :java:extdoc:`HealthChecker <nablarch.fw.web.handler.health.HealthChecker>` , described in :ref:`health_check_endpoint_handler-add_health_checker` .

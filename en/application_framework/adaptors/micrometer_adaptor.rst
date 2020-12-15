@@ -7,7 +7,7 @@ Micrometer Adapter
   :depth: 3
   :local:
 
-Provides an adapter to perform metrics collection using `Micrometer (external site, English) <https://micrometer.io/>`_ .
+Provides an adapter to perform metrics collection using `Micrometer (external site) <https://micrometer.io/>`_ .
 
 This adapter can be used to do the following. This provides the advantage of easier operational monitoring of the application.
 
@@ -32,18 +32,18 @@ Module list
 
 Setting up to use the Micrometer adapter
 --------------------------------------------------
-In order to collect metrics in Micrometer, need to create a class called `Registry (external site, in English) <https://micrometer.io/docs/concepts#_registry>`_ .
+In order to collect metrics in Micrometer, need to create a class called `Registry (external site) <https://micrometer.io/docs/concepts#_registry>`_ .
 This adapter provides a :java:extdoc:`ComponentFactory<nablarch.core.repository.di.ComponentFactory>` to register this registry in the System Repository.
 
-In this section,  describe how to set up :java:extdoc:`LoggingMeterRegistryFactory<nablarch.integration.micrometer.logging.LoggingMeterRegistryFactory>` as an example, registering `LoggingMeterRegistry (external site, English)`_ as a component.
+In this section,  describe how to set up :java:extdoc:`LoggingMeterRegistryFactory<nablarch.integration.micrometer.logging.LoggingMeterRegistryFactory>` as an example, registering `LoggingMeterRegistry (external site)`_ as a component.
 
 .. tip::
 
-  `LoggingMeterRegistry (external site, English)`_ provides the feature to log metrics using SLF4J or Java Util Logging.
+  `LoggingMeterRegistry (external site)`_ provides the feature to log metrics using SLF4J or Java Util Logging.
   When no specific configuration is made, metrics are output to standard output using Java Util Logging, which is useful for a quick behavior check.
 
   Other registries require a lot of work to prepare the services to be federated and to create an implementation to output the collected metrics.
-  For this reason, we have used `LoggingMeterRegistry (external site, English)`_ , which is the easiest to behavior check.
+  For this reason, we have used `LoggingMeterRegistry (external site)`_ , which is the easiest to behavior check.
 
 In this example, use `Web application Example (external site) <https://github.com/nablarch/nablarch-example-web>`_ as the base application.
 
@@ -51,12 +51,12 @@ In this example, use `Web application Example (external site) <https://github.co
 Declare the DefaultsMeterBinderListProvider as a component
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The Micrometer has an interface called `MeterBinder (external site, English)`_  .
+The Micrometer has an interface called `MeterBinder (external site)`_  .
 
 The collection of frequently used metrics, such as JVM memory usage and CPU usage, is provided in advance as a class that implements this interface.
-(e.g., `JvmMemoryMetrics (external site, English)`_ for JVM memory usage and `ProcessorMetrics (external site, English)`_ for CPU usage)
+(e.g., `JvmMemoryMetrics (external site)`_ for JVM memory usage and `ProcessorMetrics (external site)`_ for CPU usage)
 
-:java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` is a class that provides this `MeterBinder (external site, English)`_ list , which can be used to collect metrics such as JVM memory usage and CPU usage.
+:java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` is a class that provides this `MeterBinder (external site)`_ list , which can be used to collect metrics such as JVM memory usage and CPU usage.
 
 First, add this :java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` declaration to ``src/main/resources/web-component-configuration.xml`` .
 
@@ -192,19 +192,19 @@ This adapter provides the following registry factory classes.
   * - Registry
     - Factory class
     - The version of the adapter being provided
-  * - `SimpleMeterRegistry (external site, English)`_
+  * - `SimpleMeterRegistry (external site)`_
     - :java:extdoc:`SimpleMeterRegistryFactory <nablarch.integration.micrometer.simple.SimpleMeterRegistryFactory>`
     - ``1.0.0`` or higher
-  * - `LoggingMeterRegistry (external site, English)`_
+  * - `LoggingMeterRegistry (external site)`_
     - :java:extdoc:`LoggingMeterRegistryFactory <nablarch.integration.micrometer.logging.LoggingMeterRegistryFactory>`
     - ``1.0.0`` or higher
-  * - `CloudWatchMeterRegistry (external site, English)`_
+  * - `CloudWatchMeterRegistry (external site)`_
     - :java:extdoc:`CloudWatchMeterRegistryFactory <nablarch.integration.micrometer.cloudwatch.CloudWatchMeterRegistryFactory>`
     - ``1.0.0`` or higher
-  * - `DatadogMeterRegistry (external site, English)`_
+  * - `DatadogMeterRegistry (external site)`_
     - :java:extdoc:`DatadogMeterRegistryFactory <nablarch.integration.micrometer.datadog.DatadogMeterRegistryFactory>`
     - ``1.0.0`` or higher
-  * - `StatsdMeterRegistry (external site, English)`_
+  * - `StatsdMeterRegistry (external site)`_
     - :java:extdoc:`StatsdMeterRegistryFactory <nablarch.integration.micrometer.statsd.StatsdMeterRegistryFactory>`
     - ``1.0.0`` or higher
 
@@ -241,10 +241,10 @@ Registry factory                    subPrefix
 ``StatsdMeterRegistryFactory``      ``statsd``
 =================================== ================
 
-``<key>`` should be the same name as the method defined in `configuration class (external site, English) <https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/config/MeterRegistryConfig.html>`_  that Micrometer provides per registry.
+``<key>`` should be the same name as the method defined in `configuration class (external site) <https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/config/MeterRegistryConfig.html>`_  that Micrometer provides per registry.
 
-For example, there is a configuration class named `DatadogConfig (external site, English)`_ for `DatadogMeterRegistry (external site, English)`_ .
-And in this configuration class, a method named `apyKey (external site, English) <https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogConfig.html#apiKey()>`_ is defined.
+For example, there is a configuration class named `DatadogConfig (external site)`_ for `DatadogMeterRegistry (external site)`_ .
+And in this configuration class, a method named `apyKey (external site) <https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogConfig.html#apiKey()>`_ is defined.
 
 Therefore, can configure your ``apiKey`` by writing in your ``micrometer.properties`` like this.
 
@@ -368,16 +368,16 @@ In the following configuration, ``config/metrics.properties`` in the classpath w
 Metrics collected by the DefaultMeterBinderListProvider
 -------------------------------------------------------
 
-`MeterBinder (external site, English)`_ list generated by the :java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` contains the following classes.
+`MeterBinder (external site)`_ list generated by the :java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` contains the following classes.
 
 
-* `JvmMemoryMetrics (external site, English)`_
-* `JvmGcMetrics (external site, English)`_
-* `JvmThreadMetrics (external site, English)`_
-* `ClassLoaderMetrics (external site, English)`_
-* `ProcessorMetrics (external site, English)`_
-* `FileDescriptorMetrics (external site, English)`_
-* `UptimeMetrics (external site, English)`_
+* `JvmMemoryMetrics (external site)`_
+* `JvmGcMetrics (external site)`_
+* `JvmThreadMetrics (external site)`_
+* `ClassLoaderMetrics (external site)`_
+* `ProcessorMetrics (external site)`_
+* `FileDescriptorMetrics (external site)`_
+* `UptimeMetrics (external site)`_
 * :java:extdoc:`NablarchGcCountMetrics <nablarch.integration.micrometer.instrument.binder.jvm.NablarchGcCountMetrics>`
 
 
@@ -524,7 +524,7 @@ Configuring the API key
 
   The API key can be set in ``nablarch.micrometer.datadog.apyKey`` .
 
-  See `DatadogConfig (external site, English)`_ for other configuration.
+  See `DatadogConfig (external site)`_ for other configuration.
 
 
 Working with CloudWatch
@@ -560,7 +560,7 @@ Configure the region, access keys, etc
   Therefore, the configuration of the region, access keys, etc. follows the AWS SDK ways.
 
   The above describes an example of how to set up an OS environment variable in Linux.
-  For more information, see the `AWS documentation (external site, English) <https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html>`_ .
+  For more information, see the `AWS documentation (external site) <https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html>`_ .
 
 Configuring the namespace
   .. code-block:: text
@@ -569,7 +569,7 @@ Configuring the namespace
 
   Custom metrics namespaces can be configured in ``nablarch.micrometer.cloudwatch.namespace`` .
 
-  See `CloudWatchConfig (external site, English)`_ for more configuration information.
+  See `CloudWatchConfig (external site)`_ for more configuration information.
 
 
 More detailed configuration
@@ -614,13 +614,13 @@ More detailed configuration
 
   .. tip::
 
-    By default, the instance created by `CloudWatchAsyncClient.create() (external site, English) <https://javadoc.io/static/software.amazon.awssdk/cloudwatch/2.13.4/software/amazon/awssdk/services/cloudwatch/CloudWatchAsyncClient.html#create-->`_ is used.
+    By default, the instance created by `CloudWatchAsyncClient.create() (external site) <https://javadoc.io/static/software.amazon.awssdk/cloudwatch/2.13.4/software/amazon/awssdk/services/cloudwatch/CloudWatchAsyncClient.html#create-->`_ is used.
 
 
 Working with Datadog using StatsD
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Datadog supports `DogStatsD (external site) <https://docs.datadoghq.com/developers/dogstatsd/?tab=hostagent>`_, which is a cooperation using the `StatsD (external site, English) <https://github.com/statsd/statsd>`_ protocol. 
+Datadog supports `DogStatsD (external site) <https://docs.datadoghq.com/developers/dogstatsd/?tab=hostagent>`_, which is a cooperation using the `StatsD (external site) <https://github.com/statsd/statsd>`_ protocol. 
 
 Therefore, Can use ``micrometer-registry-statsd`` module to connect to Datadog with StatsD.
 
@@ -650,7 +650,7 @@ Write a configuration file if necessary
   
   Therefore, if DogStatsD is installed in the default configuration, the cooperation by DogStatsD will work without any explicit settings.
 
-  If you have installed a non-default configuration, refer to `StatsdConfig (external site, English)`_ to configure it for actual environment.
+  If you have installed a non-default configuration, refer to `StatsdConfig (external site)`_ to configure it for actual environment.
 
   .. code-block:: text
 
@@ -658,21 +658,21 @@ Write a configuration file if necessary
     nablarch.micrometer.statsd.port=9999
 
 
-.. _MeterBinder (external site, English): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/MeterBinder.html
-.. _DatadogConfig (external site, English): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogConfig.html
-.. _CloudWatchConfig (external site, English): https://javadoc.io/doc/io.micrometer/micrometer-registry-cloudwatch2/1.5.4/io/micrometer/cloudwatch2/CloudWatchConfig.html
-.. _StatsdConfig (external site, English): https://javadoc.io/doc/io.micrometer/micrometer-registry-statsd/1.5.4/io/micrometer/statsd/StatsdConfig.html
-.. _MeterRegistry (external site, English): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/MeterRegistry.html
-.. _DatadogMeterRegistry (external site, English): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogMeterRegistry.html
-.. _StatsdMeterRegistry (external site, English): https://javadoc.io/doc/io.micrometer/micrometer-registry-statsd/1.5.4/io/micrometer/statsd/StatsdMeterRegistry.html
-.. _DatadogMeterRegistry (external site, English): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogMeterRegistry.html
-.. _CloudWatchMeterRegistry (external site, English): https://javadoc.io/doc/io.micrometer/micrometer-registry-cloudwatch2/1.5.4/io/micrometer/cloudwatch2/CloudWatchMeterRegistry.html
-.. _LoggingMeterRegistry (external site, English): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/logging/LoggingMeterRegistry.html
-.. _SimpleMeterRegistry (external site, English): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/simple/SimpleMeterRegistry.html
-.. _JvmMemoryMetrics (external site, English): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/JvmMemoryMetrics.html
-.. _ProcessorMetrics (external site, English): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/ProcessorMetrics.html
-.. _JvmGcMetrics (external site, English): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/JvmGcMetrics.html
-.. _JvmThreadMetrics (external site, English): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/JvmThreadMetrics.html
-.. _ClassLoaderMetrics (external site, English): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/ClassLoaderMetrics.html
-.. _FileDescriptorMetrics (external site, English): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/FileDescriptorMetrics.html
-.. _UptimeMetrics (external site, English): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/UptimeMetrics.html
+.. _MeterBinder (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/MeterBinder.html
+.. _DatadogConfig (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogConfig.html
+.. _CloudWatchConfig (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-cloudwatch2/1.5.4/io/micrometer/cloudwatch2/CloudWatchConfig.html
+.. _StatsdConfig (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-statsd/1.5.4/io/micrometer/statsd/StatsdConfig.html
+.. _MeterRegistry (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/MeterRegistry.html
+.. _DatadogMeterRegistry (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogMeterRegistry.html
+.. _StatsdMeterRegistry (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-statsd/1.5.4/io/micrometer/statsd/StatsdMeterRegistry.html
+.. _DatadogMeterRegistry (external site: https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogMeterRegistry.html
+.. _CloudWatchMeterRegistry (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-cloudwatch2/1.5.4/io/micrometer/cloudwatch2/CloudWatchMeterRegistry.html
+.. _LoggingMeterRegistry (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/logging/LoggingMeterRegistry.html
+.. _SimpleMeterRegistry (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/simple/SimpleMeterRegistry.html
+.. _JvmMemoryMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/JvmMemoryMetrics.html
+.. _ProcessorMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/ProcessorMetrics.html
+.. _JvmGcMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/JvmGcMetrics.html
+.. _JvmThreadMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/JvmThreadMetrics.html
+.. _ClassLoaderMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/ClassLoaderMetrics.html
+.. _FileDescriptorMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/FileDescriptorMetrics.html
+.. _UptimeMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/UptimeMetrics.html
