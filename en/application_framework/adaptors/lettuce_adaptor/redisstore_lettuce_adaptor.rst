@@ -146,7 +146,7 @@ Configure it for Redis composition
 -----------------------------------------------------------------------------------------------
 :ref:`redisstore_minimum_settings` showed an example of connecting to a single Redis instance that starts locally.
 
-However, when actually use Redis in production enviroment, you need to be able to connect to Redis with the following composition.
+However, when actually use Redis in production environment, you need to be able to connect to Redis with the following composition.
 
 * Master-Replica composition with Sentinel
 * Cluster Composition
