@@ -85,7 +85,7 @@ If the command ends normally, a blank project is created under the current direc
 Communication confirmation
 -------------------------------------------
 
-The communication confirmation mechanism and steps are the same as for a normal web project. Thus, see :ref:`Initial Setup of Web Project <firstStepWebStartupTest>`.
+The communication confirmation mechanism and procedures are the same as for a normal web project. Thus, see :ref:`Initial Setup of Web Project <firstStepWebStartupTest>`.
 
 .. note::
 

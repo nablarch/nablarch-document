@@ -99,7 +99,7 @@ If the command ends normally, a blank project is created under the current direc
 Communication confirmation
 -------------------------------------------
 
-The communication confirmation mechanism and steps are the same as for a normal RESTful web service project. Thus, see :ref:`Initial Setup of RESTful Web Service Project <firstStepWebServiceStartupTest>`.
+The communication confirmation mechanism and procedures are the same as for a normal RESTful web service project. Thus, see :ref:`Initial Setup of RESTful Web Service Project <firstStepWebServiceStartupTest>`.
 
 .. note::
 
