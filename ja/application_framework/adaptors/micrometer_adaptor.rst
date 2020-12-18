@@ -649,53 +649,111 @@ Datadog は `DogStatsD(外部サイト) <https://docs.datadoghq.com/ja/developer
     # ポートを変更
     nablarch.micrometer.statsd.port=9999
 
-HTTPリクエストの処理時間を収集する
+処理時間を計測するハンドラ
 --------------------------------------------------
 
-:java:extdoc:`HttpRequestMetricsHandler <nablarch.integration.micrometer.instrument.handler.http.HttpRequestMetricsHandler>` を使用することで、 HTTP リクエストの処理時間をメトリクスとして収集できる。
+:java:extdoc:`TimerMetricsHandler <nablarch.integration.micrometer.instrument.handler.TimerMetricsHandler>` をハンドラキューに設定すると、後続ハンドラの処理時間を計測しメトリクスとして収集できるようになる。
+これにより、ハンドラキュー内の処理の平均処理時間や最大処理時間をモニターできるようになる。
 
-このハンドラを使用する場合は、次のようにハンドラキューを構成する。
+``TimerMetricsHandler`` には、 :java:extdoc:`HandlerMetricsMetaDataBuilder <nablarch.integration.micrometer.instrument.handler.HandlerMetricsMetaDataBuilder>` インタフェースを実装したクラスのインスタンスを設定する必要がある。
+``HandlerMetricsMetaDataBuilder`` は、収集したメトリクスに設定する以下のメタ情報を構築する機能を提供する。
+
+* メトリクスの名前
+* メトリクスの説明
+* メトリクスに設定するタグの一覧
+
+``HandlerMetricsMetaDataBuilder`` の実装例を以下に示す。
+
+.. code-block:: java
+
+  import io.micrometer.core.instrument.Tag;
+  import nablarch.fw.ExecutionContext;
+  import nablarch.integration.micrometer.instrument.handler.HandlerMetricsMetaDataBuilder;
+
+  import java.util.Arrays;
+  import java.util.List;
+
+  public class CustomHandlerMetricsMetaDataBuilder<TData, TResult>
+      implements HandlerMetricsMetaDataBuilder<TData, TResult> {
+    
+      @Override
+      public String getMetricsName() {
+          return "metrics.name";
+      }
+
+      @Override
+      public String getMetricsDescription() {
+          return "Description of this metrics.";
+      }
+
+      @Override
+      public List<Tag> buildTagList(TData param, ExecutionContext executionContext, TResult tResult, Throwable thrownThrowable) {
+          return Arrays.asList(Tag.of("foo", "FOO"), Tag.of("bar", "BAR"));
+      }
+  }
+
+``getMetricsName()`` と ``getMetricsDescription()`` は、それぞれメトリクスの名前と説明を返すように実装する。
+
+``buildTagList()`` には、ハンドラに渡されたパラメータと後続ハンドラの実行結果、そして後続ハンドラがスローした例外が渡される（例外がスローされていない場合は ``null``）。
+本メソッドは必要に応じてこれらの情報を参照し、メトリクスに設定するタグの一覧を ``List<io.micrometer.core.instrument.Tag>`` で返すように実装する。
+
+次に、 ``TimerMetricsHandler`` をハンドラキューに設定する例を以下に示す。
 
 .. code-block:: xml
 
-  <component name="meterRegistry" class="nablarch.integration.micrometer.logging.LoggingMeterRegistryFactory">
-    <property name="meterBinderListProvider" ref="meterBinderListProvider" />
-    <property name="applicationDisposer" ref="disposer" />
-  </component>
-
+  <!-- ハンドラキュー構成 -->
   <component name="webFrontController"
              class="nablarch.fw.web.servlet.WebFrontController">
     <property name="handlerQueue">
       <list>
-        <!-- HTTPリクエストのメトリクス収集ハンドラ -->
-        <component class="nablarch.integration.micrometer.instrument.handler.http.HttpRequestMetricsHandler">
-          <!-- レジストリファクトリが生成する MeterRegistry を meterRegistry プロパティに設定する -->
+        <!-- 省略 -->
+
+        <component class="nablarch.integration.micrometer.instrument.handler.TimerMetricsHandler">
           <property name="meterRegistry" ref="meterRegistry" />
+
+          <property name="handlerMetricsMetaDataBuilder">
+            <component class="xxx.CustomHandlerMetricsMetaDataBuilder" />
+          </property>
         </component>
 
-        <component class="nablarch.fw.web.handler.HttpCharacterEncodingHandler"/>
-
         <!-- 省略 -->
-     </list>
+      </list>
     </property>
   </component>
 
-本ハンドラはリクエストの処理時間を計測するため、ハンドラキューの先頭に設定する。
+ハンドラキューに ``TimerMetricsHandler`` を追加し、 ``handlerMetricsMetaDataBuilder`` プロパティに作成した ``HandlerMetricsMetaDataBuilder`` のコンポーネントを設定する。
 
 また ``meterRegistry`` プロパティには、使用しているレジストリファクトリが生成した `MeterRegistry(外部サイト、英語)`_ を渡すように設定する。
 
-以上の設定で、次のようなメトリクスが収集されるようになる。
+これにより、ここより後ろのハンドラの処理時間をメトリクスとして収集できるようになる。
 
-.. code-block:: text
+なお、Nablarchでは ``HandlerMetricsMetaDataBuilder`` の実装として以下の機能を提供するクラスを用意している。
 
-  2020-10-06 13:52:10.309 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.AuthenticationAction,exception=None,httpMethod=POST,method=login_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext,outcome=REDIRECTION,status=303} throughput=0.2/s mean=0.4617585s max=0.4617585s
-  2020-10-06 13:52:10.309 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.IndustryAction,exception=None,httpMethod=GET,method=find,outcome=SUCCESS,status=200} throughput=0.2/s mean=0.103277s max=0.103277s
-  2020-10-06 13:52:10.310 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.AuthenticationAction,exception=None,httpMethod=GET,method=index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext,outcome=SUCCESS,status=200} throughput=0.2/s mean=4.7409146s max=4.7409146s
-  2020-10-06 13:52:10.310 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.ProjectAction,exception=None,httpMethod=GET,method=index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext,outcome=SUCCESS,status=200} throughput=0.2/s mean=0.5329547s max=0.5329547s
+* :ref:`micrometer_adaptor_http_request_process_time_metrics`
+* :ref:`micrometer_adaptor_batch_process_time_metrics`
 
-本ハンドラは、 `Timer(外部サイト、英語)`_ を使って ``http.server.requests`` という名前でメトリクスを収集する。
+詳細は、それぞれの説明を参照のこと。
 
-また、メトリクスには以下のタグが付与される。
+パーセンタイルを収集する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+TODO
+
+あらかじめ用意されているHandlerMetricsMetaDataBuilderの実装
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ここでは、Nablarchがあらかじめ用意している ``HandlerMetricsMetaDataBuilder`` の実装クラスについて紹介する。
+
+.. _micrometer_adaptor_http_request_process_time_metrics:
+
+HTTPリクエストの処理時間を収集する
+*********************************************************************
+
+:java:extdoc:`HttpRequestTimeMetricsMetaDataBuilder <nablarch.integration.micrometer.instrument.http.HttpRequestTimeMetricsMetaDataBuilder>` は、HTTPリクエストの処理時間計測のためのメトリクスのメタ情報を構築する。
+
+本クラスは、メトリクスの名前に ``http.server.requests`` を使用する。
+
+また、本クラスは以下のタグを生成する。
 
 .. list-table::
 
@@ -716,45 +774,104 @@ HTTPリクエストの処理時間を収集する
   * - ``exception``
     - リクエスト処理中のスローされた例外の単純名（例外スローされていない場合は ``None``）
 
-メトリクスに設定するタグを変更する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-:java:extdoc:`HttpRequestMetricsHandler <nablarch.integration.micrometer.instrument.handler.http.HttpRequestMetricsHandler>` がメトリクスに設定するタグは、デフォルトでは、 :java:extdoc:`DefaultHttpRequestMetricsTagBuilder <nablarch.integration.micrometer.instrument.handler.http.DefaultHttpRequestMetricsTagBuilder>` によって生成されている。
-
-メトリクスに設定するタグを独自の実装に切り替えたい場合は、 :java:extdoc:`HttpRequestMetricsTagBuilder <nablarch.integration.micrometer.instrument.handler.http.HttpRequestMetricsTagBuilder>` インタフェースを実装したクラスを作成して、 :java:extdoc:`HttpRequestMetricsHandler <nablarch.integration.micrometer.instrument.handler.http.HttpRequestMetricsHandler>` の ``httpRequestMetricsTagBuilder`` プロパティに設定する。
-
-以下に実装例を示す。
-
-.. code-block:: java
-
-  package com.nablarch.example.app.metrics;
-
-  import io.micrometer.core.instrument.Tag;
-  import nablarch.fw.ExecutionContext;
-  import nablarch.fw.web.HttpRequest;
-  import nablarch.integration.micrometer.instrument.handler.http.HttpRequestMetricsTagBuilder;
-
-  import java.util.List;
-
-  // HttpRequestMetricsTagBuilder を実装して独自のタグビルダーを作る
-  public class CustomHttpRequestMetricsTagBuilder implements HttpRequestMetricsTagBuilder {
-      @Override
-      public List<Tag> build(HttpRequest request, ExecutionContext context, Throwable thrownThrowable) {
-          // メトリクスに設定するタグを List<Tag> で返すように実装する。
-      }
-  }
+本クラスを使った場合の設定例を以下に示す。
 
 .. code-block:: xml
 
-  <component name="httpRequestMetricsHandler"
-             class="nablarch.integration.micrometer.instrument.handler.http.HttpRequestMetricsHandler">
-    <property name="meterRegistry" ref="meterRegistry" />
+  <!-- ハンドラキュー構成 -->
+  <component name="webFrontController"
+             class="nablarch.fw.web.servlet.WebFrontController">
+    <property name="handlerQueue">
+      <list>
+        <!-- HTTPリクエストの処理時間のメトリクス収集ハンドラ -->
+        <component class="nablarch.integration.micrometer.instrument.handler.TimerMetricsHandler">
+          <!-- レジストリファクトリが生成する MeterRegistry を meterRegistry プロパティに設定する -->
+          <property name="meterRegistry" ref="meterRegistry" />
 
-    <!-- httpRequestMetricsTagBuilder プロパティに作成したタグビルダーを設定する -->
-    <property name="httpRequestMetricsTagBuilder">
-      <component class="com.nablarch.example.app.metrics.CustomHttpRequestMetricsTagBuilder" />
+          <!-- HttpRequestTimeMetricsMetaDataBuilder を handlerMetricsMetaDataBuilder に設定する -->
+          <property name="handlerMetricsMetaDataBuilder">
+            <component class="nablarch.integration.micrometer.instrument.http.HttpRequestTimeMetricsMetaDataBuilder" />
+          </property>
+        </component>
+
+        <component class="nablarch.fw.web.handler.HttpCharacterEncodingHandler"/>
+
+        <!-- 省略 -->
+     </list>
     </property>
   </component>
+
+リクエスト全体の処理時間を計測するため、 ``TimerMetricsHandler`` はハンドラキューの先頭に設定する。
+
+以上の設定で、 ``LoggingMeterRegistry`` を使っていた場合は次のようなメトリクスが収集されるようになる。
+
+.. code-block:: text
+
+  2020-10-06 13:52:10.309 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.AuthenticationAction,exception=None,httpMethod=POST,method=login_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext,outcome=REDIRECTION,status=303} throughput=0.2/s mean=0.4617585s max=0.4617585s
+  2020-10-06 13:52:10.309 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.IndustryAction,exception=None,httpMethod=GET,method=find,outcome=SUCCESS,status=200} throughput=0.2/s mean=0.103277s max=0.103277s
+  2020-10-06 13:52:10.310 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.AuthenticationAction,exception=None,httpMethod=GET,method=index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext,outcome=SUCCESS,status=200} throughput=0.2/s mean=4.7409146s max=4.7409146s
+  2020-10-06 13:52:10.310 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.ProjectAction,exception=None,httpMethod=GET,method=index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext,outcome=SUCCESS,status=200} throughput=0.2/s mean=0.5329547s max=0.5329547s
+
+.. _micrometer_adaptor_batch_process_time_metrics:
+
+バッチの処理時間を収集する
+*********************************************************************
+
+:java:extdoc:`BatchProcessTimeMetricsMetaDataBuilder <nablarch.integration.micrometer.instrument.batch.BatchProcessTimeMetricsMetaDataBuilder>` は、 :doc:`/application_framework/application_framework/batch/nablarch_batch/index` の処理時間計測のためのメトリクスのメタ情報を構築する。
+
+本クラスは、メトリクスの名前に ``batch.process.time`` を使用する。
+
+また、本クラスは以下のタグを生成する。
+
+.. list-table::
+
+  * - タグ名
+    - 説明
+  * - ``class``
+    - アクションのクラス名（ :ref:`-requestPath <nablarch_batch-resolve_action>` から取得した値）
+  * - ``status``
+    - 直後のハンドラが返した値
+
+.. tip::
+
+  ``status`` には通常、 :ref:`プロセス終了コード <status_code_convert_handler-rules>` が設定される。
+  
+  後述する設定例のように、バッチ処理時間計測用の ``TimerMetricsHandler`` はハンドラキューの先頭に設定する。
+  この場合、 ``TimerMetricsHandler`` の直後のハンドラは :doc:`/application_framework/application_framework/handlers/standalone/status_code_convert_handler` になる。
+  したがって、 ``status`` には「プロセス終了コード」が設定されることになる。
+
+本クラスを使った場合の設定例を以下に示す。
+
+.. code-block:: xml
+
+  <!-- ハンドラキュー構成 -->
+  <list name="handlerQueue">
+
+    <!-- バッチの処理時間のメトリクス収集ハンドラ -->
+    <component class="nablarch.integration.micrometer.instrument.handler.TimerMetricsHandler">
+      <!-- レジストリファクトリが生成する MeterRegistry を meterRegistry プロパティに設定する -->
+      <property name="meterRegistry" ref="meterRegistry" />
+
+      <!-- BatchProcessTimeMetricsMetaDataBuilder を handlerMetricsMetaDataBuilder に設定する -->
+      <property name="handlerMetricsMetaDataBuilder">
+        <component class="nablarch.integration.micrometer.instrument.batch.BatchProcessTimeMetricsMetaDataBuilder" />
+      </property>
+    </component>
+
+    <!-- ステータスコードを終了コードに変換するハンドラ -->
+    <component class="nablarch.fw.handler.StatusCodeConvertHandler" />
+
+    <!-- 省略 -->
+  </list>
+
+バッチ全体の処理時間を計測するため、 ``TimerMetricsHandler`` はハンドラキューの先頭に設定する。
+
+以上の設定で、 ``LoggingMeterRegistry`` を使っていた場合は次のようなメトリクスが収集されるようになる。
+
+.. code-block:: text
+
+  12 18, 2020 10:54:47 午前 io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$5
+  情報: batch.process.time{class=MetricsTestAction,status=0} throughput=0/s mean=0s max=1m 24.128662s
 
 .. _micrometer_adaptor_batch_transaction_time:
 
