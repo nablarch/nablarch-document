@@ -737,7 +737,137 @@ Datadog は `DogStatsD(外部サイト) <https://docs.datadoghq.com/ja/developer
 パーセンタイルを収集する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-TODO
+``TimerMetricsHandler`` には、パーセンタイル値を監視サービスに連携するために以下のプロパティが用意されている。
+
+.. list-table::
+
+  * - プロパティ
+    - 説明
+  * - ``percentiles``
+    - 収集するパーセンタイル値のリスト。
+      95パーセンタイルを収集する場合、 ``0.95`` と指定する。
+  * - ``enablePercentileHistogram``
+    - 収集したヒストグラムのバケットを監視サービスに連携するかどうかのフラグ。
+      連携先の監視サービスがヒストグラムからパーセンタイル値を計算する仕組みをサポートしていない場合、この設定は無視される。
+  * - ``serviceLevelObjectives``
+    - 収集するヒストグラムに追加するバケットの値のリスト。
+      単位はミリ秒。
+      この値は、SLO(Service Level Objective)に基づいて設定する。
+  * - ``minimumExpectedValue``
+    - 収集するヒストグラムバケットの最小値を設定する。
+      単位はミリ秒。
+  * - ``maximumExpectedValue``
+    - 収集するヒストグラムバケットの最大値を設定する。
+      単位はミリ秒。
+
+これらのプロパティは、Micrometerが提供する `Timer(外部サイト、英語)`_ に設定する値として使用される。
+より詳細な説明は、 `Micrometerのドキュメント <https://micrometer.io/docs/concepts#_histograms_and_percentiles>`_ を参照のこと。
+
+なお、これらのプロパティはデフォルトでは全て未設定のため、パーセンタイルの情報は収集されない。
+パーセンタイルの情報を収集する必要がある場合は、これらのプロパティを明示的に設定すること。
+以下に、設定例を示す。
+
+.. code-block:: xml
+
+  <component class="nablarch.integration.micrometer.instrument.handler.TimerMetricsHandler">
+    <property name="meterRegistry" ref="meterRegistry" />
+    <property name="handlerMetricsMetaDataBuilder">
+      <component class="nablarch.integration.micrometer.instrument.http.HttpRequestTimeMetricsMetaDataBuilder" />
+    </property>
+
+    <!-- 98, 90, 50 パーセンタイルを収集する -->
+    <property name="percentiles">
+      <list>
+        <value>0.98</value>
+        <value>0.90</value>
+        <value>0.50</value>
+      </list>
+    </property>
+
+    <!-- ヒストグラムバケットを監視サービスに連携する -->
+    <property name="enablePercentileHistogram" value="true" />
+
+    <!-- SLO として 1000ms, 1500ms を設定 -->
+    <property name="serviceLevelObjectives">
+      <list>
+        <value>1000</value>
+        <value>1500</value>
+      </list>
+    </property>
+    
+    <!-- バケットの最小値に 500 ms を設定 -->
+    <property name="minimumExpectedValue" value="500" />
+    <!-- バケットの最大値に 3000 ms を設定 -->
+    <property name="maximumExpectedValue" value="3000" />
+  </component>
+
+``MeterRegistry`` として `PrometheusMeterRegistry(外部サイト、英語)`_ を使用した場合、上記設定により次のようなメトリクスが収集できるようになる。
+
+.. code-block:: text
+
+  http_server_requests_seconds{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",quantile="0.98",} 1.475346432
+  http_server_requests_seconds{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",quantile="0.9",} 1.408237568
+  http_server_requests_seconds{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",quantile="0.5",} 0.737148928
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="0.5",} 9.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="0.536870911",} 9.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="0.626349396",} 12.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="0.715827881",} 16.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="0.805306366",} 16.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="0.894784851",} 17.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="0.984263336",} 17.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="1.0",} 18.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="1.073741824",} 20.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="1.431655765",} 29.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="1.5",} 32.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="1.789569706",} 32.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="2.147483647",} 32.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="2.505397588",} 32.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="2.863311529",} 32.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="3.0",} 32.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="+Inf",} 32.0
+
+.. tip::
+  
+  ここでは、ヒストグラムバケットの具体例（``http_server_requests_seconds_bucket``）を示すため ``PrometheusMeterRegistry`` を使用している（`Prometheus(外部サイト、英語) <https://prometheus.io/>`_ は、ヒストグラムによるパーセンタイルの計算をサポートしている）。
+
+  ただし、 ``PrometheusMeterRegistry`` の ``MeterRegistryFactory`` は、本アダプタでは提供していない。
+  実際にヒストグラムバケットのメトリクスを試したい場合は、以下のようなクラスを自前で用意すること。
+
+  .. code-block:: java
+
+    package example.micrometer.prometheus;
+
+    import io.micrometer.prometheus.PrometheusConfig;
+    import io.micrometer.prometheus.PrometheusMeterRegistry;
+    import nablarch.core.repository.di.DiContainer;
+    import nablarch.integration.micrometer.MeterRegistryFactory;
+    import nablarch.integration.micrometer.MicrometerConfiguration;
+    import nablarch.integration.micrometer.NablarchMeterRegistryConfig;
+
+    public class PrometheusMeterRegistryFactory extends MeterRegistryFactory<PrometheusMeterRegistry> {
+
+        @Override
+        protected PrometheusMeterRegistry createMeterRegistry(MicrometerConfiguration micrometerConfiguration) {
+            return new PrometheusMeterRegistry(new Config(prefix, micrometerConfiguration));
+        }
+
+        @Override
+        public PrometheusMeterRegistry createObject() {
+            return doCreateObject();
+        }
+
+        static class Config extends NablarchMeterRegistryConfig implements PrometheusConfig {
+
+            public Config(String prefix, DiContainer diContainer) {
+                super(prefix, diContainer);
+            }
+
+            @Override
+            protected String subPrefix() {
+                return "prometheus";
+            }
+        }
+    }
 
 あらかじめ用意されているHandlerMetricsMetaDataBuilderの実装
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -959,3 +1089,4 @@ Nablarchバッチは、 :ref:`loop_handler` によってトランザクション
 .. _FileDescriptorMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/FileDescriptorMetrics.html
 .. _UptimeMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/UptimeMetrics.html
 .. _Timer(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/Timer.html
+.. _PrometheusMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-prometheus/1.5.4/io/micrometer/prometheus/PrometheusMeterRegistry.html
