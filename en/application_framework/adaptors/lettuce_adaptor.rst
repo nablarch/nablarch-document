@@ -36,7 +36,7 @@ Module List
 .. tip::
 
   Tested with Redis 5.0.9 and Lettuce 5.3.0.RELEASE.
-  If you change the version, the project should be tested on the project side to make sure it is working.
+  If you change the version, the project  should be tested to make sure it is working.
 
 See below for a description of the adapters that support each feature.
 

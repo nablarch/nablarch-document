@@ -181,7 +181,7 @@ Once the container is up and running, you can check the application in your web 
 
 .. tip::
 
-  Running Docker assumes you are using Docker Desktop :ref:`Prerequisite <firstStepPreamble>` .
+  Running Docker assumes that you are using Docker Desktop (see :ref:`Prerequisite <firstStepPreamble>`).
   If you are using the Docker Toolbox, the volume specification in the above example will fail.
 
   If you are using the Docker Toolbox, Docker is running in a VM on VirtualBox.

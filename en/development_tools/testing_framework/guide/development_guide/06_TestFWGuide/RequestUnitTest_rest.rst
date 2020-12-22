@@ -119,11 +119,11 @@ It inherits from ``SimpleRestTestSupport`` and has database related features.
 Database related features
 =========================
 
-Functionality about the database related features is achieved by delegating processing from the ``RestTestSupport`` class to the ``DbAccessTestSupport`` class.
+Database related features is achieved by delegating processing from the ``RestTestSupport`` class to the ``DbAccessTestSupport`` class.
 For more information on the ``DbAccessTestSupport`` class, see \ :doc:`02_DbAccessTest`\ .
 
 However, the following methods of ``DbAccessTestSupport`` are not needed for Request Unit Testing (REST).
-The following methods in DbAccessTestSupport are not intentionally delegated to avoid misleading application programmers.
+The following methods in DbAccessTestSupport are not delegated intentionally. Because it avoids misleading application programmers.
 
 * ``public void beginTransactions()``
 * ``public void commitTransactions()``

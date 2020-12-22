@@ -28,7 +28,7 @@ Module list
 .. tip::
 
   Tests are conducted using Micrometer version 1.5.4.
-  If you change the version, the project should be tested on the project side to make sure it is working.
+  If you change the version, the project  should be tested to make sure it is working.
 
 Setting up to use the Micrometer adapter
 --------------------------------------------------
@@ -395,9 +395,9 @@ This will enable the following metrics to be collected.
   * - ``jvm.buffer.total.capacity``
     - Total capacity of the buffer pool
   * - ``jvm.memory.used``
-    - Memory Pool Memory Usage
+    - Memory pool memory usage
   * - ``jvm.memory.committed``
-    - The committed memory amount of the memory pool
+    - The committed amount of memory in the memory pool
   * - ``jvm.memory.max``
     - The maximum amount of memory in the memory pool
   * - ``jvm.gc.max.data.size``
@@ -413,7 +413,7 @@ This will enable the following metrics to be collected.
   * - ``jvm.gc.pause``
     - Time spent on GC pause
   * - ``jvm.threads.peak``
-    - Peak Number of Threads
+    - Peak number of threads
   * - ``jvm.threads.daemon``
     - The number of current daemon threads
   * - ``jvm.threads.live``
