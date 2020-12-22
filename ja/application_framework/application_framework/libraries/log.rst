@@ -49,6 +49,7 @@ LogWriter
  * :java:extdoc:`FileLogWriter (ファイルへ出力。ファイルサイズによるローテーション) <nablarch.core.log.basic.FileLogWriter>`
  * :java:extdoc:`SynchronousFileLogWriter (複数プロセスから1ファイルへの出力) <nablarch.core.log.basic.SynchronousFileLogWriter>`
  * :java:extdoc:`StandardOutputLogWriter (標準出力へ出力) <nablarch.core.log.basic.StandardOutputLogWriter>`
+ * :java:extdoc:`LogPublisher (任意のリスナーへ出力) <nablarch.core.log.basic.LogPublisher>`
 
 .. _log-log_formatters:
 
@@ -794,6 +795,70 @@ failureCodeInterruptLockWait
  maxFileSizeプロパティを指定するとログのローテーションが発生し、
  ログの出力が出来なくなることがあるので指定しないこと。
 
+.. _log-publisher_usage:
+
+LogPublisherの使い方
+--------------------------------------------------
+
+:java:extdoc:`LogPublisher <nablarch.core.log.basic.LogPublisher>` は、出力されたログの情報(:java:extdoc:`LogContext <nablarch.core.log.basic.LogContext>`)を登録された :java:extdoc:`LogListener <nablarch.core.log.basic.LogListener>` に連携する機能を提供する。
+出力されたログ情報に対して何らかの処理をプログラム的に行いたい場合に、この機能が利用できる。
+
+``LogPublisher`` を利用するには、まず ``LogPublisher`` を ``LogWriter`` として設定する。
+
+.. code-block:: properties
+
+  # ...省略
+
+  # writerNames に LogPublisher の writer を追加する
+  writerNames=monitorFile,appFile,stdout,logPublisher
+
+  # logPublisher を定義する
+  writer.logPublisher.className=nablarch.core.log.basic.LogPublisher
+  writer.logPublisher.formatter.className=nablarch.core.log.basic.BasicLogFormatter
+  # ...省略
+
+  # ログ情報を処理したい logger の writerNames に、 LogPublisher の writer を追加する
+  # ROO
+  loggers.ROO.nameRegex=.*
+  loggers.ROO.level=INFO
+  loggers.ROO.writerNames=appFile,stdout,logPublisher
+
+  # MON
+  loggers.MON.nameRegex=MONITOR
+  loggers.MON.level=ERROR
+  loggers.MON.writerNames=monitorFile,logPublisher
+
+  # ...省略
+
+
+次に、 ``LogWriter`` に登録する ``LogListener`` の実装クラスを作成する。
+
+.. code-block:: java
+
+  package example.micrometer.log;
+
+  import nablarch.core.log.basic.LogContext;
+  import nablarch.core.log.basic.LogListener;
+
+  public class CustomLogListener implements LogListener {
+
+      @Override
+      public void onWritten(LogContext context) {
+          // LogContext を使った処理を実装する
+      }
+  }
+
+最後に、作成した ``LogListener`` のインスタンスを ``LogPublisher`` に登録する。
+``LogListener`` の登録は、 ``LogPublisher`` の ``static`` メソッドを介して行う。
+
+.. code-block:: java
+
+  LogListener listener = new CustomLogListener();
+  LogPublisher.addListener(listener);
+
+以上で、 ``LogPublisher`` に対して出力されたログ情報が ``CustomLogListener`` に連携されるようになる。
+
+登録した ``LogListener`` は、 :java:extdoc:`removeListener(LogListener) <nablarch.core.log.basic.LogPublisher.removeListener(nablarch.core.log.basic.LogListener)>` または :java:extdoc:`removeAllListeners() <nablarch.core.log.basic.LogPublisher.removeAllListeners()>` で削除できる。
 
 .. _log-log_level:
 
