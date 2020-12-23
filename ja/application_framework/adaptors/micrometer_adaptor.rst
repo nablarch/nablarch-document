@@ -1071,6 +1071,62 @@ Nablarchバッチは、 :ref:`loop_handler` によってトランザクション
   12 17, 2020 1:50:33 午後 io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$5
   情報: batch.transaction.time{class=MetricsTestAction} throughput=1/s mean=2.61463556s max=3.0790852s
 
+バッチの処理件数を計測する
+--------------------------------------------------
+
+:java:extdoc:`BatchProcessedRecordCountMetricsLogger <nablarch.integration.micrometer.instrument.batch.BatchProcessedRecordCountMetricsLogger>` を使用すると、 :ref:`nablarch_batch` が処理した入力データの件数を計測できるようになる。
+これにより、バッチの進捗状況や処理速度の変化をモニターできるようになる。
+
+``BatchProcessedRecordCountMetricsLogger`` は `Counter(外部サイト、英語)`_ を使って ``batch.processed.record.count`` という名前でメトリクスを収集する。
+この名前は、 :java:extdoc:`setMetricsName(String) <nablarch.integration.micrometer.instrument.batch.BatchProcessedRecordCountMetricsLogger.setMetricsName(java.lang.String)>` で変更できる。
+
+また、メトリクスには以下のタグが付与される。
+
+.. list-table::
+
+  * - タグ名
+    - 説明
+  * - ``class``
+    - アクションのクラス名（ :ref:`-requestPath <nablarch_batch-resolve_action>` から取得した値）
+
+以下に ``BatchTransactionTimeMetricsLogger`` を使うための設定例を示す。
+
+.. code-block:: xml
+
+  <!-- CommitLogger を複数組み合わせる -->
+  <component name="commitLogger"
+             class="nablarch.core.log.app.CompositeCommitLogger">
+    <property name="commitLoggerList">
+      <list>
+        <!-- デフォルトの CommitLogger を設定 -->
+        <component class="nablarch.core.log.app.BasicCommitLogger">
+          <property name="interval" value="${nablarch.commitLogger.interval}" />
+        </component>
+
+        <!-- 処理件数を計測する -->
+        <component class="nablarch.integration.micrometer.instrument.batch.BatchProcessedRecordCountMetricsLogger">
+          <property name="meterRegistry" ref="meterRegistry" />
+        </component>
+      </list>
+    </property>
+  </component>
+
+``BatchProcessedRecordCountMetricsLogger`` は、「バッチのトランザクション単位の処理時間の計測」と同じく、 :java:extdoc:`CommitLogger <nablarch.core.log.app.CommitLogger>` の仕組みを利用して処理件数を計測している。
+``CommitLogger`` の仕組みや、その利用の仕方については :ref:`micrometer_adaptor_batch_transaction_time` を参照のこと。
+
+以上の設定で、 ``BatchProcessedRecordCountMetricsLogger`` を使用できるようになる。
+
+``LoggingMeterRegistry`` を使用している場合、以下のようにメトリクスが出力されることを確認できる。
+
+.. code-block:: text
+
+  12 23, 2020 3:23:24 午後 io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$4
+  情報: batch.processed.record.count{class=MetricsTestAction} throughput=10/s
+  12 23, 2020 3:23:34 午後 io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$4
+  情報: batch.processed.record.count{class=MetricsTestAction} throughput=13/s
+  12 23, 2020 3:23:39 午後 io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$4
+  情報: batch.processed.record.count{class=MetricsTestAction} throughput=13/s
+
 ログレベルごとの出力回数を計測する
 --------------------------------------------------
 
