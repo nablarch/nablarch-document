@@ -1171,6 +1171,66 @@ LogPublisher を設定する
   ログレベルのしきい値を下げすぎると、アプリケーションによっては大量のメトリクスが収集される可能性がある。
   使用する監視サービスの料金体系によっては使用料金が増大する可能性があるため、注意して設定すること。
 
+SQLの処理時間を計測する
+--------------------------------------------------
+
+:java:extdoc:`SqlTimeMetricsDaoContext <nablarch.integration.micrometer.instrument.dao.SqlTimeMetricsDaoContext>` を使用することで、 :ref:`universal_dao` を通じて実行したSQLの処理時間を計測できるようになる。
+これにより、SQLごとの平均処理時間や最大処理時間をモニターできるようになる。
+
+``SqlTimeMetricsDaoContext`` は `Timer(外部サイト、英語)`_ を使って ``sql.process.time`` という名前でメトリクスを収集する。
+この名前は、 ``SqlTimeMetricsDaoContext`` のファクトリクラスである :java:extdoc:`SqlTimeMetricsDaoContextFactory <nablarch.integration.micrometer.instrument.dao.SqlTimeMetricsDaoContextFactory>` の :java:extdoc:`setMetricsName(String) <nablarch.integration.micrometer.instrument.dao.SqlTimeMetricsDaoContextFactory.setMetricsName(java.lang.String)>` で変更できる。
+
+また、メトリクスには以下のタグが付与される。
+
+.. list-table::
+
+  * - タグ名
+    - 説明
+  * - ``sql.id``
+    - ``DaoContext`` のメソッド引数に渡されたSQLID（SQLIDが無い場合は ``"None"``）
+  * - ``entity``
+    - エンティティクラスの名前（``Class.getName()``）
+  * - ``method``
+    - 実行された ``DaoContext`` のメソッド名
+
+以下に ``SqlTimeMetricsDaoContext`` を使うための設定例を示す。
+
+.. code-block:: xml
+
+  <!-- SqlTimeMetricsDaoContextFactory を daoContextFactory という名前で定義 -->
+  <component name="daoContextFactory"
+             class="nablarch.integration.micrometer.instrument.dao.SqlTimeMetricsDaoContextFactory">
+    <!-- delegate に、移譲先となる DaoContext のファクトリを設定する -->
+    <property name="delegate">
+      <component class="nablarch.common.dao.BasicDaoContextFactory">
+        <property name="sequenceIdGenerator">
+          <component class="nablarch.common.idgenerator.SequenceIdGenerator" />
+        </property>
+      </component>
+    </property>
+
+    <!-- レジストリファクトリが生成する MeterRegistry を meterRegistry プロパティに設定する -->
+    <property name="meterRegistry" ref="meterRegistry" />
+  </component>
+
+``SqlTimeMetricsDaoContext`` は、 :java:extdoc:`DaoContext <nablarch.common.dao.DaoContext>` をラップすることで各データベースアクセスメソッドの処理時間を計測する仕組みになっている。
+そして、 :java:extdoc:`SqlTimeMetricsDaoContextFactory <nablarch.integration.micrometer.instrument.dao.SqlTimeMetricsDaoContextFactory>` は、 ``DaoContext`` をラップした ``SqlTimeMetricsDaoContext`` を生成するファクトリクラスとなる。
+
+この ``SqlTimeMetricsDaoContextFactory`` を ``daoContextFactory`` という名前でコンポーネントとして定義する。
+これにより、 :ref:`universal_dao` が使用する ``DaoContext`` が ``SqlTimeMetricsDaoContext`` に置き換わる。
+
+以上で、 ``SqlTimeMetricsDaoContext`` が使用できるようになる。
+
+``LoggingMeterRegistry`` を使用した場合、以下のようにメトリクスが出力されることが確認できる。
+
+.. code-block:: text
+
+  2020-12-23 15:00:25.161 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: sql.process.time{entity=com.nablarch.example.app.entity.Project,method=delete,sql.id=None} throughput=0.2/s mean=0.0005717s max=0.0005717s
+  2020-12-23 15:00:25.161 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: sql.process.time{entity=com.nablarch.example.app.entity.Project,method=findAllBySqlFile,sql.id=SEARCH_PROJECT} throughput=0.6/s mean=0.003364233s max=0.0043483s
+  2020-12-23 15:00:25.161 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: sql.process.time{entity=com.nablarch.example.app.web.dto.ProjectDto,method=findBySqlFile,sql.id=FIND_BY_PROJECT} throughput=0.2/s mean=0.000475s max=0.0060838s
+  2020-12-23 15:00:25.162 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: sql.process.time{entity=com.nablarch.example.app.entity.Industry,method=findAll,sql.id=None} throughput=0.8/s mean=0.00058155s max=0.0013081s
+
+
 .. _MeterBinder(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/MeterBinder.html
 .. _Counter(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/Counter.html
 .. _DatadogConfig(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogConfig.html
@@ -1183,7 +1243,7 @@ LogPublisher を設定する
 .. _CloudWatchMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-cloudwatch2/1.5.4/io/micrometer/cloudwatch2/CloudWatchMeterRegistry.html
 .. _LoggingMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/logging/LoggingMeterRegistry.html
 .. _SimpleMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/simple/SimpleMeterRegistry.html
-.. _JvmMemoryMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/JvmMemoryMetrics.html
+.. _JvmMemoryMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/JvmMemoryMetrics.html 
 .. _ProcessorMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/ProcessorMetrics.html
 .. _JvmGcMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/JvmGcMetrics.html
 .. _JvmThreadMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/JvmThreadMetrics.html
