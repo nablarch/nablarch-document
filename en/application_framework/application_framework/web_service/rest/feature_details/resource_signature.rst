@@ -180,3 +180,58 @@ Implementation of resource class methods
 .. important::
   Note that  :java:extdoc:`QueryParam <javax.ws.rs.QueryParam>` specified in JSR cannot be used.
 
+.. _rest_feature_details-response_header:
+
+Set the response header
+--------------------------------------------------
+In some cases, it may be necessary to specify individual response headers for methods of the resource class.
+
+.. important::
+  If it is necessary to specify a response header that is common to the entire application, it should be set in the handler.
+  If security-related response headers are to be specified, use :ref:`secure_handler`.
+
+To create an :java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>` with a method of the resource class, just set the response header to HttpResponse.
+
+  .. code-block:: java
+
+    public HttpResponse something(HttpRequest request) {
+
+        // Processing omitted.
+
+        HttpResponse response = new HttpResponse();
+        response.setHeader("Cache-Control", "no-store"); // Specify the response header
+        return response;
+    }
+
+If the Produces annotation is used and the method of the resource class returns an entity (bean),
+the response header cannot be specified.
+
+  .. code-block:: java
+
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Client> something(HttpRequest request, ExecutionContext context) {
+
+        // Processing omitted.
+        List<Client> clients = service.findClients(condition);
+
+        return clients;
+    }
+
+The framework provides :java:extdoc:`EntityResponse <nablarch.fw.jaxrs.EntityResponse>`
+to set the response header and status code when Produces annotation is used.
+It should be implemented to return an EntityResponse instead of an entity.
+
+  .. code-block:: java
+
+    @Produces(MediaType.APPLICATION_JSON)
+    public EntityResponse something(HttpRequest request, ExecutionContext context) {
+
+        // Processing omitted.
+        List<Client> clients = service.findClients(condition);
+
+        EntityResponse response = new EntityResponse();
+        response.setEntity(clients); // Specify an entity
+        response.setStatusCode(HttpResponse.Status.OK.getStatusCode()); // Specify the status code
+        response.setHeader("Cache-Control", "no-store"); // Specify the response header
+        return response;
+    }

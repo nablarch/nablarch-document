@@ -31,7 +31,7 @@ Item reader (ItemReader class)
   Converts the read data into a form and returns the form.
 
   Item reader is an interface specified by JSR352.
-  For this reason, see `JSR352 Specification(external site, English) <https://jcp.org/en/jsr/detail?id=352>`_  for details of the implementation method.
+  For this reason, see `JSR352 Specification(external site) <https://jcp.org/en/jsr/detail?id=352>`_  for details of the implementation method.
 
 Item processor (ItemProcessor class)
   Executes the business logic based on the data read by the item reader to generate the data to be output.
@@ -40,7 +40,7 @@ Item processor (ItemProcessor class)
   If the output target is not a database, converts the data after the execution of business logic to a form for output.
 
   Item processor is an interface specified by JSR352.
-  For this reason, see `JSR352 Specification(external site, English) <https://jcp.org/en/jsr/detail?id=352>`_  for details of the implementation method.
+  For this reason, see `JSR352 Specification(external site) <https://jcp.org/en/jsr/detail?id=352>`_  for details of the implementation method.
 
   .. tip::
     If the data read by the item reader is externally acquired data, checks the input values before executing the business logic.
@@ -50,7 +50,7 @@ Item writer (ItemWriter class)
   Item writer implements the process to output the entity or form, converted by the item processor, to a database or file.
 
   Item writer is an interface specified by JSR352.
-  For this reason, see `JSR352 Specification(external site, English) <https://jcp.org/en/jsr/detail?id=352>`_  for details of the implementation method.
+  For this reason, see `JSR352 Specification(external site) <https://jcp.org/en/jsr/detail?id=352>`_  for details of the implementation method.
 
 Form (form class)
   This class holds the data read by the item reader. A class that holds the data to be output if the output target is not a database.
@@ -62,5 +62,5 @@ Form (form class)
 Entity (entity class)
   A class with a one-to-one correspondence with a table. The entity class has property corresponding to columns.
 
-.. [#batchlet_status] For details on the character string returned by the batchlet (end status of batchlet), see `JSR352 Specification (external site, English) <https://jcp.org/en/jsr/detail?id=352>`_ .
+.. [#batchlet_status] For details on the character string returned by the batchlet (end status of batchlet), see `JSR352 Specification (external site) <https://jcp.org/en/jsr/detail?id=352>`_ .
 .. [#insert_select] For example, it refers to the execution of SQL that completes the process only by ``insert ~ select``.

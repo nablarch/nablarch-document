@@ -20,7 +20,8 @@ The initial setup shows how to create the following blank project.
 * RESTful web service project
 * JSR352-compliant batch project
 * Nablarch batch project
-
+* Web project for container
+* RESTful web service project for container
 
 
 Blank project design concept and points to note
@@ -47,9 +48,15 @@ Prerequisites for initial setup
 
 The following software are assumed to be installed in the execution environment.
 
-* JDK1.8 or higher
-* Maven 3.0.5 or higher
+All projects
+  * Maven 3.0.5 or higher
 
+Web, RESTful web service, JSR352-compliant batch, Nablarch batch
+  * JDK1.8 or higher
+
+Web for container, RESTful web service for container
+  * JDK11 or higher
+  * Docker Desktop 2.2.0.0 or higher
 
 The following do not require advance preparation in the initial setup.
 
@@ -134,4 +141,8 @@ When performing the initial setup, note the following points.
 * Do not include multi-byte characters in the path of the directory where the blank project is created.
   An error may occur as some maven plugins do not work properly if multi-byte characters are included.
 * Execute "mvn archetype:generate" from the command line. If it is executed from eclipse4.4.2, unintended files are output.
+* Sometimes you get an error about Maven's life cycle when you open a blank project you created in eclipse.
 
+    * Example error message: Plugin execution not covered by lifecycle configuration
+    * If this error occurs, eclipse will suggest the installation of the plugin, and you can resolve it by following the suggestion and installing the plugin.
+    * If the network environment is unstable, each developer may take time to install the plug-ins, so you should consider measures such as distributing eclipse with the plug-ins installed in advance.

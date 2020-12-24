@@ -66,12 +66,14 @@ Handlers associated with database
 
 Handlers for request verification
   * :ref:`jaxrs_bean_validation_handler`
+  * :ref:`csrf_token_verification_handler`
 
 Error handling handler
   * :ref:`global_error_handler`
 
 Other handlers
   * :ref:`Handler to link request URI and action <router_adaptor>`
+  * :ref:`health_check_endpoint_handler`
 
 Standard handler configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

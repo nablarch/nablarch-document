@@ -22,3 +22,4 @@ Web Application Dedicated Handler
    session_concurrent_access_handler
    hot_deploy_handler
    csrf_token_verification_handler
+   health_check_endpoint_handler

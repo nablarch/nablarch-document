@@ -55,6 +55,11 @@ Path and query parameters
 * :ref:`rest_feature_details-path_param`
 * :ref:`rest_feature_details-query_param`
 
+Response headers
+----------------------------------------------------------------------------------------------------
+* :ref:`Setting individual response headers in resource class methods <rest_feature_details-response_header>`
+* :ref:`jaxrs_response_handler-response_finisher`
+
 Internationalization
 ----------------------------------------
 See the following for multilingualization of static resources.
@@ -84,3 +89,7 @@ Scale-out design for web application
 CSRF measures
 ----------------------------------------
 * :ref:`CSRF measures <csrf_token_verification_handler>`
+
+CORS
+----------------------------------------
+* :ref:`CORS <cors_preflight_request_handler>`

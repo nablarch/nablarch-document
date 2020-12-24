@@ -4,8 +4,8 @@ log Adapter
 ==================================================
 Adapter that delegates the log output process of :ref:`log output function <log>` provided by Nablarch to the following log framework.
 
-* `slf4j (external site, English) <https://www.slf4j.org/>`_ 
-* `JBoss Logging (external site, English) <https://github.com/jboss-logging>`_
+* `slf4j (external site) <https://www.slf4j.org/>`_ 
+* `JBoss Logging (external site) <https://github.com/jboss-logging>`_
 
 Use an adapter to unify loggers according to customer requests and products to be used. 
 When an adapter is used, all log output processing using :ref:`the log output function <log>` of Nablarch is delegated to the selected logging framework.

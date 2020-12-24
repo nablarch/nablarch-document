@@ -130,9 +130,9 @@ Exception handling during conversion
 
  :java:extdoc:`nablarch.fw.results.RequestEntityTooLarge`
   :Log level: INFO
-  :Response: 400
+  :Response: 413
   :Description: Since the size limit of the request body was exceeded, recorded as a trace log. 
-         HTTP status code generates the response *400*  to indicate that the size has been exceeded.
+         HTTP status code generates the response *413*  to indicate that the size has been exceeded.
 
  :java:extdoc:`nablarch.fw.messaging.MessagingException`
   :Log level: INFO

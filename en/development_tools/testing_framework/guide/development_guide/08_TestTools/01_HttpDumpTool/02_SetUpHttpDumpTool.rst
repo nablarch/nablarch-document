@@ -112,3 +112,7 @@ You can start the tool by right-clicking the HTML file from Package Explorer of 
 
 .. image:: ./_image/04_Eclipse_OpenWith.png
    :scale: 100
+
+.. |br| raw:: html
+
+  <br/>

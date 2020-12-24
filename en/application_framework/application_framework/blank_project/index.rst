@@ -14,5 +14,6 @@ and how to change the initial configuration.
    maven
    beforeFirstStep
    FirstStep
+   FirstStepContainer
    MavenModuleStructures/index
    ModifySettings

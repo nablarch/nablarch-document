@@ -64,6 +64,11 @@ A configuration example is shown below.
     </property>
   </component>
 
+.. important::
+  Because ErrorResponseBuilder is responsible for generating responses in response to exceptions and errors, if an exception occurs during the processing of ErrorResponseBuilder,
+  the response will not be generated and the response will not be returned to the client.
+  Therefore, if you are customizing ErrorResponseBuilder in your project, ensure that no exceptions are thrown during the processing of ErrorResponseBuilder.
+  If an exception is thrown during the processing of ErrorResponseBuilder, the framework logs the exception at the WARN level, generates a response with status code 500, and continues with the subsequent processing.
 
 .. _jaxrs_response_handler-error_log:
 
@@ -154,3 +159,57 @@ An implementation example is shown below.
           }
       }
   }
+
+.. _jaxrs_response_handler-response_finisher:
+
+Add common processing to the response returned to the client
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+At any time, such as during normal times or when an error occurs, there are cases when the response returned to the client may want to specify a common response header to support CORS or security for the response.
+
+To handle such cases, the framework provides the :java:extdoc:`ResponseFinisher <nablarch.fw.jaxrs.ResponseFinisher>` interface to finish the response.
+If it is necessary to add common processing to the response,　simply create a class that implements the ResponseFinisher interface
+and specify it in the responseFinishers property of this handler.
+
+Implementation and configuration examples are shown below.
+
+.. code-block:: java
+
+  public class CustomResponseFinisher implements ResponseFinisher {
+      @Override
+      public void finish(HttpRequest request, HttpResponse response, ExecutionContext context) {
+          // Common processing, such as setting the response header.
+      }
+  }
+
+.. code-block:: xml
+
+  <component class="nablarch.fw.jaxrs.JaxRsResponseHandler">
+    <property name="responseFinishers">
+      <list>
+        <!-- Specify a class that implements ResponseFinisher -->
+        <component class="sample.CustomResponseFinisher" />
+      </list>
+    </property>
+  </component>
+
+In some cases, an existing handler such as :ref:`secure_handler`, which sets security-related response headers, may be used as a ResponseFinisher.
+To handle such cases, the framework provides the :java:extdoc:`AdoptHandlerResponseFinisher <nablarch.fw.jaxrs.AdoptHandlerResponseFinisher>` class
+that applies the handler to ResponseFinisher.
+
+The handlers that can be used with AdoptHandlerResponseFinisher are limited to handlers that do not create their own responses and change the responses returned by subsequent handlers.
+
+An example of the use of AdoptHandlerResponseFinisher is shown below.
+
+.. code-block:: xml
+
+  <component class="nablarch.fw.jaxrs.JaxRsResponseHandler">
+    <property name="responseFinishers">
+      <list>
+        <!-- AdoptHandlerResponseFinisher -->
+        <component class="nablarch.fw.jaxrs.AdoptHandlerResponseFinisher">
+          <!-- Specify the handler for the handler property -->
+          <property name="handler" ref="secureHandler" />
+        </component>
+      </list>
+    </property>
+  </component>

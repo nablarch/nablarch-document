@@ -656,6 +656,17 @@ Notes on using the SynchronousFileLogWriter
 --------------------------------------------------------------------------
 
 .. important::
+ Although :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`
+ is designed for writing from multiple processes, it is assumed to be used only for low frequency log output
+ such as :ref:`Failure notification log <failure_log>`.
+ If :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>` is used for frequent log output,
+ it may cause performance degradation due to waiting for lock acquisition or log loss due to conflict,
+ so do not use :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`
+ for frequent log output such as application log or access log.
+
+ In addition, :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`
+ has the following restrictions, so consider carefully before using it.
+
  As :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>` has the following restrictions, use after sufficient consideration.
 
  * Cannot rotate logs.
@@ -836,7 +847,7 @@ The framework outputs logs based on the below output policy.
 
 Functional comparison with log4j
 --------------------------------------------------
-Function comparison between Nablrach and `log4j (external site, English) <http://logging.apache.org/log4j/1.2/>`_ are shown below.
+Function comparison between Nablrach and `log4j (external site) <http://logging.apache.org/log4j/1.2/>`_ are shown below.
 
 .. list-table:: Function comparison (A: Provided B: Partially provided C: Not provided D: Not applicable)
   :header-rows: 1

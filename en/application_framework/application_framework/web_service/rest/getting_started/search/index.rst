@@ -39,19 +39,6 @@ Communication confirmation procedure
 Search the project information
 ---------------------------------
 
-Define the mapping to the URL
-  Use :ref:`router_adaptor` to map business actions and URLs.
-
-    routes.xml
-      .. code-block:: xml
-
-        <routes>
-          <get path="projects" to="Project#find"/>
-        </routes>
-
-    Key points of this implementation
-     * The ``get`` tag is used to define the business action method to be mapped during GET requests.
-
 Create a form
   Create a form to accept the value submitted by the client.
 
@@ -142,4 +129,31 @@ Implementation of a business action method
    * Returns a list of project information obtained using :ref:`universal_dao`, as a return value.
    * As the returned object is converted to JSON format by :ref:`body_convert_handler` , 
      conversion process implementation in the business action method is not required.
+
+Define the mapping to the URL
+  Use :ref:`router_adaptor` to map business actions and URLs.
+  Use :ref:`Path annotation for JAX-RS <router_adaptor_path_annotation>` for mapping.
+
+  ProjectAction.java
+    .. code-block:: java
+
+      @Path("/projects")
+      public class ProjectAction {
+        @GET
+        @Produces(MediaType.APPLICATION_JSON)
+        public List<Project> find(HttpRequest req) {
+
+            // Convert request parameters to beans
+            ProjectSearchForm form =
+                    BeanUtil.createAndCopy(ProjectSearchForm.class, req.getParamMap());
+
+            // Validate
+            ValidatorUtil.validate(form);
+
+            ProjectSearchDto searchCondition = BeanUtil.createAndCopy(ProjectSearchDto.class, form);
+            return UniversalDao.findAllBySqlFile(Project.class, "FIND_PROJECT", searchCondition);
+        }
+
+  Key points of this implementation
+    * The ``@Path`` and ``@GET`` annotations are used to define the business action methods to be mapped on GET requests.
 

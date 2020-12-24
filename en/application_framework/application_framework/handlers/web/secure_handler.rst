@@ -13,6 +13,8 @@ By default, the following response headers are configured.
 * X-Frame-Options: SAMEORIGIN
 * X-XSS-Protection: 1; mode=block
 * X-Content-Type-Options: nosniff
+* Referrer-Policy: strict-origin-when-cross-origin
+* Cache-Control: no-store
 
 
 This handler performs the following process.
@@ -64,6 +66,8 @@ An example is shown below.
         <!-- Default vales are used for headers other than the above -->
         <component class="nablarch.fw.web.handler.secure.XssProtectionHeader" />
         <component class="nablarch.fw.web.handler.secure.ContentTypeOptionsHeader" />
+        <component class="nablarch.fw.web.handler.secure.ReferrerPolicyHeader" />
+        <component class="nablarch.fw.web.handler.secure.CacheControlHeader" />
       </list>
     </property>
   </component>
@@ -75,6 +79,8 @@ An example is shown below.
   * :java:extdoc:`FrameOptionsHeader <nablarch.fw.web.handler.secure.FrameOptionsHeader>`
   * :java:extdoc:`ContentTypeOptionsHeader <nablarch.fw.web.handler.secure.ContentTypeOptionsHeader>`
   * :java:extdoc:`XssProtectionHeader <nablarch.fw.web.handler.secure.XssProtectionHeader>`
+  * :java:extdoc:`ReferrerPolicyHeader <nablarch.fw.web.handler.secure.ReferrerPolicyHeader>`
+  * :java:extdoc:`CacheControlHeader <nablarch.fw.web.handler.secure.CacheControlHeader>`
 
 
 Configure a response header other than the default
@@ -83,6 +89,9 @@ The procedure for configuring the security-related response headers other than t
 
 1. Specify the field name and value to be configured for the response header in the implementation class
    of the :java:extdoc:`SecureResponseHeader <nablarch.fw.web.handler.secure.SecureResponseHeader>` interface.
+
+  .. tip::
+    If a simple response header with no logic is created, it can be created by extending :java:extdoc:`SecureResponseHeaderSupport <nablarch.fw.web.handler.secure.SecureResponseHeaderSupport>`.
 
 2. Configure the class created in ``No1`` in this handler (:java:extdoc:`SecureHandler <nablarch.fw.web.handler.SecureHandler>`).
 
@@ -101,6 +110,8 @@ The procedure for configuring the security-related response headers other than t
           <component class="nablarch.fw.web.handler.secure.FrameOptionsHeader" />
           <component class="nablarch.fw.web.handler.secure.XssProtectionHeader" />
           <component class="nablarch.fw.web.handler.secure.ContentTypeOptionsHeader" />
+          <component class="nablarch.fw.web.handler.secure.ReferrerPolicyHeader" />
+          <component class="nablarch.fw.web.handler.secure.CacheControlHeader" />
 
           <!-- Additional component created -->
           <component class="nablarch.fw.web.handler.secure.SampleSecurityHeader" />
@@ -126,6 +137,8 @@ An example is shown below.
         <component class="nablarch.fw.web.handler.secure.FrameOptionsHeader" />
         <component class="nablarch.fw.web.handler.secure.XssProtectionHeader" />
         <component class="nablarch.fw.web.handler.secure.ContentTypeOptionsHeader" />
+        <component class="nablarch.fw.web.handler.secure.ReferrerPolicyHeader" />
+        <component class="nablarch.fw.web.handler.secure.CacheControlHeader" />
 
         <!-- Component that assigns Content-Security-Policy -->
         <component class="nablarch.fw.web.handler.secure.ContentSecurityPolicyHeader">
@@ -150,6 +163,8 @@ An example is shown below.
         <component class="nablarch.fw.web.handler.secure.FrameOptionsHeader" />
         <component class="nablarch.fw.web.handler.secure.XssProtectionHeader" />
         <component class="nablarch.fw.web.handler.secure.ContentTypeOptionsHeader" />
+        <component class="nablarch.fw.web.handler.secure.ReferrerPolicyHeader" />
+        <component class="nablarch.fw.web.handler.secure.CacheControlHeader" />
 
         <component class="nablarch.fw.web.handler.secure.ContentSecurityPolicyHeader">
           <property name="policy" value="default-src 'self'; report-uri http://example.com/report" />

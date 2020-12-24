@@ -165,24 +165,41 @@ Modify the following location in env.config.
 
 Immediately after a project is generated from an archetype, the following applies to the "config file of the environment that acquires connections from JNDI".
 
-========================================== =============================================================================
-Project type                               Config file of the environment that acquires connections from JNDI
-========================================== =============================================================================
-Web, RESTful web service                   * Production environment config(src/env/prod/resources/env.config)
-JSR352-compliant batch, Nablarch batch     No
-========================================== =============================================================================
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+  :widths: 4,6
 
+  * - Project type
+    - Config file of the environment that acquires connections from JNDI
+  * - * Web
+      * RESTful web service
+    - * Production environment config(src/env/prod/resources/env.config)
+  * - * JSR352-compliant batch
+      * Nablarch batch
+      * Web for container
+      * RESTful web service for container
+    - No
 
 Immediately after creating a project from an archetype, the following applies to the "config file of environments that create local connection pools".
 
-========================================== ======================================================================================
-Project type                               config file of environments that create local connection pools
-========================================== ======================================================================================
-Web, RESTful web service                   * Unit test environment (manual test) config (src/env/dev/resources/env.config)
-JSR352-compliant batch, Nablarch batch     * Unit test environment (manual test) config (src/env/dev/resources/env.config)
-                                           * Production environment config(src/env/prod/resources/env.config)
-========================================== ======================================================================================
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+  :widths: 4,6
 
+  * - Project type
+    - config file of environments that create local connection pools
+  * - * Web
+      * RESTful web service
+    - * Unit test environment (manual test) config (src/env/dev/resources/env.config)
+  * - * JSR352-compliant batch
+      * Nablarch batch
+    - * Unit test environment (manual test) config (src/env/dev/resources/env.config)
+      * Production environment config(src/env/prod/resources/env.config)
+  * - * Web for container
+      * RESTful web service for container
+    - * src/main/resources/env.config - :ref:`commentary <container_production_config>`
 
 The configuration example for a config file of the environment that creates local connection pools is shown below.
 
@@ -255,6 +272,20 @@ SQL Server configuration example
 
   Should be configured even in the config file as configured in the DB.
 
+.. _container_production_config:
+
+Production configuration of containers
+----------------------------------------------
+
+In projects for containers, do not switch the preferences by profile.
+Instead, it uses the OS environment variable of the environment in which the application will run to override the configuration values declared in ``env.config``.
+
+Thus, the configuration in ``src/main/resources/env.config`` is used in the environment where OS environment variables are not set.
+When running in a production container environment, the OS environment variables must be used to properly override environment-dependent values such as ``nablarch.db.url``.
+
+See :ref:`repository-overwrite_env_env_configuration_by_os_env_var` for how to overwrite the configuration in OS environment variables.
+
+See `The Twelve-Factor App's III. Configuration <https://12factor.net/ja/config>`_ (external site) for the reason why it switches settings by OS environment variables instead of profiles.
 
 .. _customizeDB_pom_dependencies:
 
@@ -576,7 +607,8 @@ Refer to the following procedure and confirm communications.
 * :ref:`Communication confirmation of RESTful Web service<firstStepWebServiceStartupTest>`
 * :ref:`Communication confirmation of JSR352-compliant batch<firstStepBatchEEStartupTest>`
 * :ref:`Communication confirmation of Nablarch batch<firstStepBatchStartupTest>`
-
+* :ref:`Communication confirmation of Web for container<firstStepContainerWebStartupTest>`
+* :ref:`Communication confirmation of RESTful Web service for container<firstStepContainerWebServiceStartupTest>`
 
 .. |br| raw:: html
 

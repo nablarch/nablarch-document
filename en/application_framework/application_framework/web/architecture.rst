@@ -63,6 +63,9 @@ Handlers associated with database
   * :ref:`database_connection_management_handler`
   * :ref:`transaction_management_handler`
 
+Handlers for request verification
+  * :ref:`csrf_token_verification_handler`
+
 Error handling handler
   * :ref:`http_error_handler`
   * :ref:`global_error_handler`
@@ -74,6 +77,7 @@ Others
   * :ref:`thread_context_clear_handler`
   * :ref:`http_access_log_handler`
   * :ref:`file_record_writer_dispose_handler`
+  * :ref:`health_check_endpoint_handler`
 
 Minimum handler configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

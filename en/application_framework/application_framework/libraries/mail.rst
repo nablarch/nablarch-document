@@ -9,7 +9,7 @@ Sending Emails
 
 .. |JavaMail| raw:: html
 
-  <a href="https://javamail.java.net/nonav/docs/api/" target="_blank">JavaMail API(External site, English)</a>
+  <a href="https://javamail.java.net/nonav/docs/api/" target="_blank">JavaMail API(External site)</a>
 
 Provides the function to send emails.
 

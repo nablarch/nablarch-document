@@ -27,6 +27,16 @@ How to Execute Unit Tests
    02_RequestUnitTest/duplicate_form_submission
 
 
+*RESTful web Services*
+
+
+.. toctree::
+  :maxdepth: 1
+
+  02_RequestUnitTest/rest
+  03_DealUnitTest/rest
+
+
 *Batch process*
 
 

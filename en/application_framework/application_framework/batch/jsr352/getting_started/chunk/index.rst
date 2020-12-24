@@ -46,7 +46,7 @@ A method to implement a batch that calculates from existing data and derives new
 For the process flow, see :ref:`process flow of Chunk step batch<jsr352-batch_flow_chunk>`.
 For responsibility assignment, see :ref:`responsibility assignment of the Chunk step<jsr352-chunk_design>`.
 
-Batch process is configured by a listener that provides common processes such as transaction control in addition to the implementation of the interface specified in `JSR352 (external site, English) <https://jcp.org/en/jsr/detail?id=352>`_.
+Batch process is configured by a listener that provides common processes such as transaction control in addition to the implementation of the interface specified in `JSR352 (external site) <https://jcp.org/en/jsr/detail?id=352>`_.
 For details of the listener, see :ref:`listener used in the batch application<jsr352-listener>`, and :ref:`how to specify the listener<jsr352-listener>`.
 
 .. _`getting_started_chunk-read`:
@@ -291,8 +291,8 @@ Create a file with the job execution configuration.
     * The job definition file is located under `/src/main/resources/META-INF/batch-jobs/`.
     * Specify the `job` name in the `id` attribute of the job element.
     * Configure the number of `writeItems` processed each time by the `item-count` attribute of the `chunk` element.
-    * Refer to `JSR352 specification (external site, English) <https://jcp.org/en/jsr/detail?id=352>`_ for detailed description method of the configuration file.
+    * Refer to `JSR352 specification (external site) <https://jcp.org/en/jsr/detail?id=352>`_ for detailed description method of the configuration file.
 
 .. |jsr352| raw:: html
 
-  <a href="https://jcp.org/en/jsr/detail?id=352" target="_blank">JSR352(外部サイト、英語)</a>
+  <a href="https://jcp.org/en/jsr/detail?id=352" target="_blank">JSR352(external site)</a>

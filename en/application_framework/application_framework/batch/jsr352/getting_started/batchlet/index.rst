@@ -162,11 +162,11 @@ Create a job definition file
     * For a batch job consisting of multiple steps, define multiple `step` elements and execute the process sequentially.
     * Specify a name with the first letter of the batchlet class name in lowercase for the `ref` attribute of `batchlet` element.
     * Specify the value to be injected into the property of batchlet class in the `property` element.
-    * Refer to `JSR352 Specification(external site, English) <https://jcp.org/en/jsr/detail?id=352>`_ for detailed description method of the configuration file.
+    * Refer to `JSR352 Specification(external site) <https://jcp.org/en/jsr/detail?id=352>`_ for detailed description method of the configuration file.
 
 .. |jsr352| raw:: html
 
-  <a href="https://jcp.org/en/jsr/detail?id=352" target="_blank">JSR352(外部サイト、英語)</a>
+  <a href="https://jcp.org/en/jsr/detail?id=352" target="_blank">JSR352(external site)</a>
 
 .. |br| raw:: html
 
