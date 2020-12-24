@@ -97,6 +97,43 @@ Usage example of BeanUtil
     final String postNo2 = user.getAddress()
                           .getPostNo();             // 54321 can be acquired.
 
+.. important::
+
+  BeanUtil does not support type parameters of the List type.
+  If a type parameter of the List type is needed, override getter in the concrete class.
+
+  .. code-block:: java
+
+    public class ItemsForm<D extends Serializable> {
+        private List<D> items;
+        public List<D> getItems() {
+            return items;
+        }
+        public void setItems(List<D> items) {
+            this.items = items;
+        }
+    }
+
+    public class Item implements Serializable {
+        // Properties omitted
+    }
+
+    // When not to override in the concrete class.
+    // Calling BeanUtil.createAndCopy(BadSampleForm.class, map)
+    // throws a runtime exception because it does not support
+    // type parameters of List type.
+    public class BadSampleForm extends ItemsForm<Item> {
+    }
+
+    // When overridden by a concrete class.
+    // BeanUtil.createAndCopy(GoodSampleForm.class, map) works correctly.
+    public static class GoodSampleForm extends ItemsForm<Item> {
+        @Override
+        public List<Item> getItems() {
+            return super.getItems();
+        }
+    }
+
 .. _utility-conversion:
 
 Type conversion rules of BeanUtil

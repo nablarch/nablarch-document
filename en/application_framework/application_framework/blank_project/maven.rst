@@ -236,7 +236,7 @@ Specify the goal when executing Maven. A command example is as follows.
 
 
 
-The frequently used goals are shown below (all links in the table are links to external sites in English).
+The frequently used goals are shown below (all links in the table are links to external sites).
 
 
 .. list-table::

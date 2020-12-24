@@ -35,7 +35,7 @@ Description of the function to be created
 Display a pop-up (dialog) screen
 ------------------------------------------------
 The pop-up (dialog) display is realized using OSS (Bootstrap).
-For more information, see  `Bootstrap documentation (external site, English) <http://fezvrasta.github.io/bootstrap-material-design/>`_ .
+For more information, see  `Bootstrap documentation (external site) <http://fezvrasta.github.io/bootstrap-material-design/>`_ .
 
 .. _`popup-action`:
 
@@ -51,7 +51,7 @@ Create a JSP for the pop-up screen
   Use jQuery to build a DOM based on the result of the Ajax call and display the result.
   Since jQuery is used, the detailed explanation is omitted.
   
-  For more information, see `Documentation (external site, English) <https://jquery.com/>`_ .
+  For more information, see `Documentation (external site) <https://jquery.com/>`_ .
 
 .. _`popup-parent_hand_over`:
 
@@ -59,7 +59,7 @@ Create a JavaScript function to pass a value from the pop-up screen to the paren
   Use jQuery to set the information in the dialog to the client name and client ID part.
   Since jQuery is used, the detailed explanation is omitted.
   
- For more information, see `Documentation (external site, English) <https://jquery.com/>`_ .
+ For more information, see `Documentation (external site) <https://jquery.com/>`_ .
   
 This completes the explanation of the pop-up screen.
 

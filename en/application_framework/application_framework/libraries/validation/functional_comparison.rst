@@ -70,7 +70,7 @@ This section compares the validation capabilities of Nablarch with those of |jsr
 
 .. |jsr349| raw:: html
 
-   <a href="https://jcp.org/en/jsr/detail?id=349" target="_blank">JSR349(external site, English)</a>
+   <a href="https://jcp.org/en/jsr/detail?id=349" target="_blank">JSR349(external site)</a>
 
 .. |br| raw:: html
 

@@ -10,10 +10,10 @@ Architecture Overview
 Configuration of batch application
 --------------------------------------------------
 |jsr352| is required for the execution of a batch application compliant with |jsr352|.
-The implementation will mainly be selected from the following two, the use of `jBeret(external site, English) <https://jberet.gitbooks.io/jberet-user-guide/content/>`_ is recommended due to the extensive documentation and ease with which libraries can be obtained from Maven Central.
+The implementation will mainly be selected from the following two, the use of `jBeret(external site) <https://jberet.gitbooks.io/jberet-user-guide/content/>`_ is recommended due to the extensive documentation and ease with which libraries can be obtained from Maven Central.
 
-* `jBeret(external site, English) <https://jberet.gitbooks.io/jberet-user-guide/content/>`_
-* `jBatchof reference implementation(external site, English) <https://github.com/WASdev/standards.jsr352.jbatch>`_
+* `jBeret(external site) <https://jberet.gitbooks.io/jberet-user-guide/content/>`_
+* `jBatchof reference implementation(external site) <https://github.com/WASdev/standards.jsr352.jbatch>`_
 
 The configuration is shown below.
 
@@ -340,7 +340,7 @@ Points
     
 .. |jsr352| raw:: html
 
-  <a href="https://jcp.org/en/jsr/detail?id=352" target="_blank">JSR352(external site, English)</a>
+  <a href="https://jcp.org/en/jsr/detail?id=352" target="_blank">JSR352(external site)</a>
 
 .. |br| raw:: html
 

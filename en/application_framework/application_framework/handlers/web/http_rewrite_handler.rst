@@ -40,9 +40,9 @@ Place this handler after the :ref:`http_response_handler`
   The content path rewritten by this handler is used by the response handler.
   Therefore, this handler must be placed after the :ref:`http_response_handler`.
 
-Place this handler after the :ref:`thread_context_handler`
+Place this handler before the :ref:`thread_context_handler`
   This handler rewrites the request path placed in the thread context.
-  Therefore, this handler must be placed after the :ref:`thread_context_handler`.
+  Therefore, this handler must be placed before the :ref:`thread_context_handler`.
 
 
 Rewrite settings

@@ -18,7 +18,8 @@ Function overview
 --------------------------------------------------
 Objects can be constructed using DI containers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The DI container feature allows objects to be constructed based on the definition of components defined in :ref:`xml <repository-root_node>`.
+The DI container feature allows objects to be constructed based on the definition of components defined in :ref:`xml <repository-root_node>`
+or the :ref:`annotated class <repository-inject-annotation-component>`.
 The constructed object is a **singleton**.
 
 The DI container function can do the following:
@@ -28,6 +29,7 @@ The DI container function can do the following:
 * :ref:`Can inject list and map. <repository-map_list>`
 * :ref:`Allows automatic injection into setters with matching types and names. <repository-autowired>`
 * :ref:`Can inject factory.  <repository-factory_injection>`
+* :ref:`Can construct objects of the annotated classes. <repository-inject-annotation-component>`
 * :ref:`Allows management of environment-dependent values. <repository-environment_configuration>`
 
 DI container is accessed from the system repository instead of direct access from the application.
@@ -600,6 +602,8 @@ How to enable overwriting by OS environment variables
   Therefore, when an environment dependent value with the same name is overwritten by each method, the class described at the bottom is finally adopted.
   In the case of the above example, a value set in a system property takes precedence over a value set in an OS environment variable.
 
+.. _repository-overwrite_environment_configuration_by_os_env_var_naming_rule:
+
 About the names of OS environment variables
   On Linux, you cannot use ``.`` or ``-`` in the name of the OS environment variable.
   Therefore, it is not possible to define OS environment variables to override an environment dependent value with a name like ``example.error-message``.
@@ -665,6 +669,170 @@ Configure the factory class in the component configuration file
       <property name="sampleObject" ref="sampleComponent" />
     </component>
 
+.. important::
+
+  Nablarch does not support nesting of factory classes.
+  That is, the properties of a factory class can not specify other factory classes.
+
+  .. code-block:: xml
+
+      <component name="sampleComponent" class="sample.SampleComponentFactory">
+        <!-- Nesting of the factory class -->
+        <property name="property">
+          <component class="sample.OtherSampleComponentFactory">
+        </property>
+      </component>
+
+  In this case, building objects within one factory class, including objects to be built in nested factory classes,
+  or Create a class such as Creator/Builder/Provider to generate objects to be built in the nested factory class,
+  and Corresponding to the injection as a component.
+
+.. _repository-inject-annotation-component:
+
+Constructing objects of annotated classes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Adding :java:extdoc:`SystemRepositoryComponent <nablarch.core.repository.di.config.externalize.annotation.SystemRepositoryComponent>`
+to the class allows it to be managed in DI container without having to write :ref:`the settings in XML <repository-definition_bean>`.
+
+.. important::
+
+  This feature is not available on some web application servers that manage the resources under the classpath in their own file system.
+
+  For example, Jboss and Wildfly cannot search for classes annotated with the ``SystemRepositoryComponent`` annotation
+  because the resources under the classpath are managed by a virtual file system called vfs.
+
+  If such a web application server is used, the component definitions should be :ref:`defined in XML <repository-definition_bean>` as usual.
+
+How to use
+********************
+
+Create a class to identify the packages to be collected.
+  The collection of the class to which :java:extdoc:`SystemRepositoryComponent <nablarch.core.repository.di.config.externalize.annotation.SystemRepositoryComponent>`
+  is assigned is handled by a class that implements the :java:extdoc:`ExternalizedComponentDefinitionLoader <nablarch.core.repository.di.config.externalize.ExternalizedComponentDefinitionLoader>`
+  interface. This class is an abstract class named :java:extdoc:`AnnotationComponentDefinitionLoader <nablarch.core.repository.di.config.externalize.AnnotationComponentDefinitionLoader>`
+  and has an abstract method named :java:extdoc:`getBasePackage <nablarch.core.repository.di.config.externalize.AnnotationComponentDefinitionLoader.getBasePackage()>`
+  that returns the base package for the collection target.
+
+  Override the above abstract methods so that collection is carried out in accordance with each project's package name.
+
+  .. code-block:: java
+
+    public class ExampleComponentDefinitionLoader extends AnnotationComponentDefinitionLoader {
+        @Override
+        protected String getBasePackage() {
+            return "com.example";
+        }
+    }
+
+Set the created class as a service provider.
+  Create a file named ``nablarch.core.repository.di.config.externalize.ExternalizedComponentDefinitionLoader``
+  as well as :ref:`How to enable overwriting by OS environment variables <repository-overwrite_environment_configuration_by_os_env_var>`
+  to be loaded with ``java.util.ServiceLoader`` and write the fully qualified names of the above classes.
+
+Annotate the classes to be managed in the DI container.
+  By assigning :java:extdoc:`SystemRepositoryComponent <nablarch.core.repository.di.config.externalize.annotation.SystemRepositoryComponent>` to be managed in a DI container.
+
+  .. code-block:: java
+
+    @SystemRepositoryComponent
+    public class ExampleAction {
+
+Using the constructor injection
+****************************************
+
+:java:extdoc:`SystemRepositoryComponent <nablarch.core.repository.di.config.externalize.annotation.SystemRepositoryComponent>`
+assigned classes are performed with constructor injection if they fulfill the following conditions at the time of construction.
+
+* Only one constructor is defined
+* Constructor with arguments
+
+If the conditions are fulfilled, it is injected with the following specifications.
+
+* Arguments assigned with :java:extdoc:`ConfigValue <nablarch.core.repository.di.config.externalize.annotation.ConfigValue>` are injected with a set value
+* The argument given by :java:extdoc:`ComponentRef <nablarch.core.repository.di.config.externalize.annotation.ComponentRef>` is the component registered in the DI container is injected
+* If none of the above annotations are assigned
+
+  * If there is only one component on the DI container that matches the argument type, automatically inject that component
+  * If no or multiple components matching the argument type exist on the DI container, do not inject anything
+
+Injection of configuration values
+  The value of the annotation ``value`` is injected into the constructor by assigning :java:extdoc:`ConfigValue <nablarch.core.repository.di.config.externalize.annotation.ConfigValue>`
+  to the constructor argument. The available types of values are the same as :ref:`Use a string, numeric, or boolean value as the configuration value <repository-property_type>`.
+
+  As in case :ref:`Reference environment dependent value from the component configuration file <repository-user_environment_configuration>`,
+  key values of environment-dependent values can be described by enclosing them in ``${``` and ``}``.
+
+  .. code-block:: java
+
+    @SystemRepositoryComponent
+    public class ExampleService {
+
+        private final String errorMessageId;
+
+        public ExampleService(@ConfigValue("${example.service.errorMessageId}") String errorMessageId) {
+            this.errorMessageId = errorMessageId;
+        }
+
+Injecting components
+  The component with the name of the annotation ``value`` is injected by assigning
+  :java:extdoc:`ComponentRef <nablarch.core.repository.di.config.externalize.annotation.ComponentRef>` to the constructor argument.
+
+  The following example injects a component named ``lettuceRedisClientProvider``.
+
+  .. code-block:: java
+
+    @SystemRepositoryComponent
+    public class ExampleService {
+
+      private LettuceRedisClient client;
+
+      public ExampleService(@ComponentRef("lettuceRedisClientProvider") LettuceRedisClient client) {
+          this.client = client;
+      }
+
+.. tip::
+
+  The constructor injection is handled by class :java:extdoc:`ConstructorInjectionComponentCreator <nablarch.core.repository.di.config.ConstructorInjectionComponentCreator>`.
+  By overriding :java:extdoc:`newComponentCreator <nablarch.core.repository.di.config.externalize.AnnotationComponentDefinitionLoader.newComponentCreator()>` in ``AnnotationComponentDefinitionLoader``,
+  it can be replaced with a :java:extdoc:`ComponentCreator <nablarch.core.repository.di.ComponentCreator>`
+  implementation that handles any processing at object construction time in the annotated class.
+
+  .. code-block:: java
+
+    public class ExampleComponentDefinitionLoader extends AnnotationComponentDefinitionLoader {
+      @Override
+      protected String getBasePackage() {
+          return "com.example";
+      }
+
+      @Override
+      protected ComponentCreator newComponentCreator() {
+        // Change to any ComponentCreator implementation class.
+        return new ExampleComponentCreator();
+      }
+    }
+
+Managing the Action class in a DI container
+************************************************************
+
+Annotations can be assigned to the Action class to be managed in a DI container.
+In the dispatch handlers (:ref:`Routing Adapter <router_adaptor>`, :ref:`Request Dispatch Handler <request_path_java_package_mapping>`, :ref:`HTTP Request Dispatch Handler <http_request_java_package_mapping>`)
+provided by Nablarch, the class to be dispatched is instantiated in the dispatcher.
+Therefore, when registering an Action class to the DI container, it is necessary to replace :java:extdoc:`DelegateFactory <nablarch.fw.handler.DelegateFactory>`
+to obtain the dispatch target class from the system repository.
+The replacement is set up using :java:extdoc:`DispatchHandler#setDelegateFactory <nablarch.fw.handler.DispatchHandler.setDelegateFactory(nablarch.fw.handler.DelegateFactory)>` as follows:
+
+  .. code-block:: xml
+
+    <component name="packageMapping" class="nablarch.integration.router.RoutesMapping">
+      <!-- DelegateFactory to get the dispatch destination from the system repository -->
+      <property name="delegateFactory">
+          <component class="nablarch.fw.handler.SystemRepositoryDelegateFactory"/>
+      </property>
+      <!-- Other properties omitted -->
+    </component>
+
 .. _repository-initialize_object:
 
 Initialize the object
@@ -677,7 +845,7 @@ The following steps are required for the initialization process of the object.
 The detailed procedure is shown below.
 
 Implement Initializable interface
-  Initialize with :java:extdoc:`initialzie <nablarch.core.repository.initialization.Initializable.initialize()>`.
+  Initialize with :java:extdoc:`initialize <nablarch.core.repository.initialization.Initializable.initialize()>`.
 
   .. code-block:: java
 
@@ -693,7 +861,7 @@ Configure a list targets for initialization in the component configuration file
   If information of the initialization order of the object to be initialized is required, configure the object that is to be initialized first to a higher order.
   For the configuration example given below, initialization is performed in the following order.
   
-  #. `sampleObject`
+  #. `sampleObject1`
   #. `sampleObject3`
   #. `sampleObject2`
 
@@ -704,7 +872,7 @@ Configure a list targets for initialization in the component configuration file
   .. code-block:: xml
 
     <!-- Configure the object to be initialized -->
-    <component name="sampleObject" class="sample.SampleComponent" />
+    <component name="sampleObject1" class="sample.SampleComponent" />
     <component name="sampleObject2" class="sample.SampleComponent2" />
     <component name="sampleObject3" class="sample.SampleComponent3" />
 
@@ -714,9 +882,98 @@ Configure a list targets for initialization in the component configuration file
       <!-- List the objects to be initialized with the list element in the initializeList property-->
       <property name="initializeList">
         <list>
-          <component-ref name="sampleObject"/>
+          <component-ref name="sampleObject1"/>
           <component-ref name="sampleObject3" />
           <component-ref name="sampleObject2" />
+        </list>
+      </property>
+
+    </component>
+
+.. _repository-dispose_object:
+
+Handling the disposal of objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In order to perform the disposal process of an object, the following steps are required.
+
+#. Implement the :java:extdoc:`Disposable <nablarch.core.repository.disposal.Disposable>` interface.
+#. Set the list of discarded targets in the component configuration file.
+
+Detailed steps are shown below.
+
+Implementing the Disposable Interface
+  Disposal process in :java:extdoc:`dispose <nablarch.core.repository.disposal.Disposable.dispose()>`.
+
+  .. code-block:: java
+
+    public class SampleComponent implements Disposable {
+      public void dispose() throws Exception{
+        // Release of resources, etc., for the disposal process
+      }
+    }
+
+Set the list of discarded targets in the component configuration file
+  Set the object to be discarded to :java:extdoc:`BasicApplicationDisposer <nablarch.core.repository.disposal.BasicApplicationDisposer>`.
+
+  If the discard order of the objects to be discarded needs to be considered, set the objects which want to be discarded first to **down**.
+  In the case of the example configuration below, the disposal process is done in the following order.
+
+  #. `sampleObject1`
+  #. `sampleObject2`
+  #. `sampleObject3`
+
+  .. important::
+
+    The component name of :java:extdoc:`BasicApplicationDisposer <nablarch.core.repository.disposal.BasicApplicationDisposer>` must be **disposer**.
+
+
+  .. code-block:: xml
+
+    <!-- Setting up the objects to be discarded -->
+    <component name="sampleObject1" class="sample.SampleComponent1" />
+    <component name="sampleObject2" class="sample.SampleComponent2" />
+    <component name="sampleObject3" class="sample.SampleComponent3" />
+
+    <component name="disposer"
+        class="nablarch.core.repository.disposal.BasicApplicationDisposer">
+
+      <!-- Enumerate the objects to be discarded by the list element in the disposableList property -->
+      <property name="disposableList">
+        <list>
+          <component-ref name="sampleObject3" />
+          <component-ref name="sampleObject2" />
+          <component-ref name="sampleObject1" />
+        </list>
+      </property>
+
+    </component>
+
+  The ``BasicApplicationDisposer`` has a method, :java:extdoc:`addDisposable <nablarch.core.repository.disposal.BasicApplicationDisposer.addDisposable(nablarch.core.repository.disposal.Disposable)>`,
+  to which any :java:extdoc:`Disposable <nablarch.core.repository.disposal.Disposable>` can be added after the component is created.
+
+  | The :java:extdoc:`Disposable <nablarch.core.repository.disposal.Disposable>` added in this :java:extdoc:`addDisposable <nablarch.core.repository.disposal.BasicApplicationDisposer.addDisposable(nablarch.core.repository.disposal.Disposable)>` is expected to be added in the order in which its instance was created.
+  | In that case, the discard process should be done in the opposite order of instance creation (e.g., JDBC ``Connection``, ``Statement``, and ``ResultSet``).
+
+  For this reason, :java:extdoc:`BasicApplicationDisposer <nablarch.core.repository.disposal.BasicApplicationDisposer>` calls the disposal process in the opposite order to that set in the ``disposableList``.
+
+Set the Closeable object in the list of objects to be discarded
+  If a component implements ``java.io.Closeable``, it can easily be set up in the list of discarded items by using
+  :java:extdoc:`DisposableAdaptor <nablarch.core.repository.disposal.DisposableAdaptor>`
+
+  .. code-block:: xml
+
+    <!-- Components that implement java.io.Closeable -->
+    <component name="closeableComponent" class="sample.CloseableComponent" />
+
+    <component name="disposer"
+        class="nablarch.core.repository.disposal.BasicApplicationDisposer">
+
+      <property name="disposableList">
+        <list>
+          <component class="nablarch.core.repository.disposal.DisposableAdaptor">
+            <!-- Set the target property of DisposableAdaptor to a component that implements Closeable -->
+            <property name="target" ref="closeableComponent" />
+          </component>
         </list>
       </property>
 

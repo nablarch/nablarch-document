@@ -55,6 +55,8 @@ The following three types of stores are provided as standard.
 
 For the features and selection criteria of the session store, see :ref:`session_store-future_of_store`.
 
+Also, Redis can be used as a store destination by using :ref:`redisstore_lettuce_adaptor`.
+
 .. _session_store-serialize:
 
 Serialization mechanism for session variable can be selected
@@ -416,15 +418,16 @@ Hold credentials                                                                
 Hold the search conditions                                                                                     Not used [1]_
 Hold the search results list                                                                                   Not used [2]_
 Hold screen display items such as select boxes                                                                 Not used [3]_
-Hold error message                                                                                             Not used [4]_
+Hold error message                                                                                             Not used [3]_
 ============================================================================================================== ===============================================================
 
 .. [1] Except for credentials, the session store is not intended to hold data spanning multiple functions.
        Design and implement the session store according to the requirements of the application, such as holding the URL in the local storage of the browser for search.
 .. [2] Large amounts of data such as list information may burden the storage area, so do not store it in the session store.
 .. [3] Values used for screen display can be transferred using the request scope.
-.. [4] Values used for screen display can be transferred using the request scope.
 
+.. tip::
+  As for :ref:`redisstore_lettuce_adaptor`, its features are the same as the DB store, only the destination is different.
 
 .. _`session_store_expiration`:
 
@@ -435,6 +438,8 @@ Session expiration date is stored in an HTTP session by default.
 You can store the session expiration date in the database by changing the setting.
 
 See :ref:`db_managed_expiration` for details.
+
+Also, the expiration date can be stored in Redis if using :ref:`redisstore_lettuce_adaptor`.
 
 .. tip::
   See :ref:`stateless_web_app` for the significance of storing the expiration date in the database.
