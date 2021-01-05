@@ -1,9 +1,11 @@
-アプリケーションフレームワーク
+ページ内検索用目次一覧
 ==========================================
 
+目次一覧
+------------
+
 .. toctree::
-  :maxdepth: 2
-  :numbered:
+  :maxdepth: 20
 
   nablarch/index
   web/index
@@ -16,4 +18,3 @@
   setting_guide/index
   configuration/index
   cloud_native/index
-  search_index
