@@ -116,8 +116,10 @@ DefaultMeterBinderListProviderを廃棄処理対象にする
 
 .. code-block:: properties
 
-  # 5秒ごとにメトリクスを出力する
+  # 確認を楽にするため、5秒ごとにメトリクスを出力する（デフォルトは1分）
   nablarch.micrometer.logging.step=5s
+  # step で指定した時間よりも早くアプリケーションが終了した場合でも廃棄処理でログが出力されるよう設定
+  nablarch.micrometer.logging.logInactive=true
 
 .. important::
 
