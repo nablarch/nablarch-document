@@ -734,7 +734,6 @@ Datadog は `DogStatsD(外部サイト) <https://docs.datadoghq.com/ja/developer
 なお、Nablarchでは ``HandlerMetricsMetaDataBuilder`` の実装として以下の機能を提供するクラスを用意している。
 
 * :ref:`micrometer_adaptor_http_request_process_time_metrics`
-* :ref:`micrometer_adaptor_batch_process_time_metrics`
 
 詳細は、それぞれの説明を参照のこと。
 
@@ -945,67 +944,6 @@ HTTPリクエストの処理時間を収集する
   2020-10-06 13:52:10.309 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.IndustryAction,exception=None,httpMethod=GET,method=find,outcome=SUCCESS,status=200} throughput=0.2/s mean=0.103277s max=0.103277s
   2020-10-06 13:52:10.310 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.AuthenticationAction,exception=None,httpMethod=GET,method=index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext,outcome=SUCCESS,status=200} throughput=0.2/s mean=4.7409146s max=4.7409146s
   2020-10-06 13:52:10.310 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.ProjectAction,exception=None,httpMethod=GET,method=index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext,outcome=SUCCESS,status=200} throughput=0.2/s mean=0.5329547s max=0.5329547s
-
-.. _micrometer_adaptor_batch_process_time_metrics:
-
-バッチの処理時間を収集する
-*********************************************************************
-
-:java:extdoc:`BatchProcessTimeMetricsMetaDataBuilder <nablarch.integration.micrometer.instrument.batch.BatchProcessTimeMetricsMetaDataBuilder>` は、 :doc:`/application_framework/application_framework/batch/nablarch_batch/index` の処理時間計測のためのメトリクスのメタ情報を構築する。
-
-本クラスは、メトリクスの名前に ``batch.process.time`` を使用する。
-
-また、本クラスは以下のタグを生成する。
-
-.. list-table::
-
-  * - タグ名
-    - 説明
-  * - ``class``
-    - アクションのクラス名（ :ref:`-requestPath <nablarch_batch-resolve_action>` から取得した値）
-  * - ``status``
-    - 直後のハンドラが返した値
-
-.. tip::
-
-  ``status`` には通常、 :ref:`プロセス終了コード <status_code_convert_handler-rules>` が設定される。
-  
-  後述する設定例のように、バッチ処理時間計測用の ``TimerMetricsHandler`` はハンドラキューの先頭に設定する。
-  この場合、 ``TimerMetricsHandler`` の直後のハンドラは :doc:`/application_framework/application_framework/handlers/standalone/status_code_convert_handler` になる。
-  したがって、 ``status`` には「プロセス終了コード」が設定されることになる。
-
-本クラスを使った場合の設定例を以下に示す。
-
-.. code-block:: xml
-
-  <!-- ハンドラキュー構成 -->
-  <list name="handlerQueue">
-
-    <!-- バッチの処理時間のメトリクス収集ハンドラ -->
-    <component class="nablarch.integration.micrometer.instrument.handler.TimerMetricsHandler">
-      <!-- レジストリファクトリが生成する MeterRegistry を meterRegistry プロパティに設定する -->
-      <property name="meterRegistry" ref="meterRegistry" />
-
-      <!-- BatchProcessTimeMetricsMetaDataBuilder を handlerMetricsMetaDataBuilder に設定する -->
-      <property name="handlerMetricsMetaDataBuilder">
-        <component class="nablarch.integration.micrometer.instrument.batch.BatchProcessTimeMetricsMetaDataBuilder" />
-      </property>
-    </component>
-
-    <!-- ステータスコードを終了コードに変換するハンドラ -->
-    <component class="nablarch.fw.handler.StatusCodeConvertHandler" />
-
-    <!-- 省略 -->
-  </list>
-
-バッチ全体の処理時間を計測するため、 ``TimerMetricsHandler`` はハンドラキューの先頭に設定する。
-
-以上の設定で、 ``LoggingMeterRegistry`` を使っていた場合は次のようなメトリクスが収集されるようになる。
-
-.. code-block:: text
-
-  12 18, 2020 10:54:47 午前 io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$5
-  情報: batch.process.time{class=MetricsTestAction,status=0} throughput=0/s mean=0s max=1m 24.128662s
 
 .. _micrometer_adaptor_batch_transaction_time:
 
