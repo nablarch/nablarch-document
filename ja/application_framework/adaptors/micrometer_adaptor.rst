@@ -653,6 +653,114 @@ Datadog は `DogStatsD(外部サイト) <https://docs.datadoghq.com/ja/developer
     # ポートを変更
     nablarch.micrometer.statsd.port=9999
 
+アプリケーションの形式ごとに収集するメトリクスの例
+---------------------------------------------------------
+
+ここでは、アプリケーションの形式（ウェブ・バッチ）ごとに、どのようなメトリクスを収集すると良いか説明する。
+
+ウェブアプリケーションで収集するメトリクスの例
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+HTTPリクエストの処理時間
+  HTTPリクエストごとの処理時間を計測することで、以下のようなことができるようになる。
+
+  * 各URLごとにどの程度アクセスがあるか確認する
+  * リクエストの処理にどれくらい時間がかかっているか確認する
+
+  また、パーセンタイルを計測することで、大部分のリクエストがどれくらいの時間で処理できているかを確認できるようにもなる。
+
+  これらのメトリクスを収集する方法については、以下のガイドを参照のこと。
+
+  * :ref:`micrometer_timer_metrics_handler`
+  * :ref:`micrometer_timer_metrics_handler_percentiles`
+
+SQLの処理時間
+  SQLの処理時間を計測することで、以下のようなことができるようになる。
+
+  * それぞれのSQLがどの程度の時間で処理されているか確認する
+  * 想定よりも時間がかかっているSQLが無いか確認する
+
+  SQLの処理時間を計測する方法については、以下のガイドを参照のこと。
+
+  * :ref:`micrometer_sql_time`
+
+ログレベルごとの出力回数
+  ログレベルごとの出力回数を計測することで、以下のようなことができるようになる。
+
+  * 警告ログが異常な回数出力されていないか確認する（攻撃の検知）
+  * エラーログを検知する
+
+  ログレベルごとの出力回数については、以下のガイドを参照のこと。
+
+  * :ref:`micrometer_log_count`
+
+アプリケーションサーバーやライブラリが提供するリソースの情報
+  アプリケーションサーバーやライブラリが提供するリソース（スレッドプールやDBのコネクションプールなど）の状態を
+  メトリクスとして収集しておくことで、障害発生時に原因箇所を特定するための情報源として活用できるようになる。
+
+  多くのアプリケーションサーバーは、リソースの状態をJMXのMBeanを通じて公開している。
+  MBeanの情報を収集する方法については、以下のガイドを参照のこと。
+
+  * :ref:`micrometer_mbean_metrics`
+
+バッチアプリケーションで収集するメトリクスの例
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+バッチの処理時間
+  普段からバッチの処理時間を計測しておくことで、平常時の処理時間を知ることができる。
+  これにより、処理時間が平常時とは異なる値になったときに、異常を迅速に検知できるようになる。
+
+  バッチの処理時間は、 :ref:`micrometer_default_metrics` で収集される ``process.uptime`` で計測できる。
+
+トランザクション単位の処理時間
+  トランザクション単位の処理時間を計測することで、マルチスレッドのバッチが均等に処理を分散できているかなどを確認できるようになる。
+
+  また、バッチの処理時間と同様に、処理時間が平常時から逸脱したときに異常を迅速に検知することもできる。
+
+  バッチのトランザクション単位の処理時間の計測については、以下のガイドを参照のこと。
+
+  * :ref:`micrometer_adaptor_batch_transaction_time`
+
+バッチの処理件数
+  バッチの処理件数を計測することで、以下のようなことができるようになる。
+
+  * バッチの進捗状況を確認する
+  * 想定通りの速度で処理が進んでいるか確認する
+  * 想定通りの件数が処理できているか確認する
+
+  バッチの処理件数の計測については、以下のガイドを参照のこと。
+
+  * :ref:`micrometer_batch_processed_count`
+
+SQLの処理時間
+  SQLの処理時間を計測することで、以下のようなことができるようになる。
+
+  * それぞれのSQLがどの程度の時間で処理されているか確認する
+  * 想定よりも時間がかかっているSQLが無いか確認する
+
+  SQLの処理時間を計測する方法については、以下のガイドを参照のこと。
+
+  * :ref:`micrometer_sql_time`
+
+ログレベルごとの出力回数
+  ログレベルごとの出力回数を計測することで、警告ログやエラーログの検知ができるようになる。
+
+  ログレベルごとの出力回数については、以下のガイドを参照のこと。
+
+  * :ref:`micrometer_log_count`
+
+ライブラリが提供するリソースの情報
+  ライブラリが提供するリソース（DBのコネクションプールなど）の状態をメトリクスとして収集しておくことで、
+  障害発生時に原因箇所を特定するための情報源として活用できるようになる。
+
+  ライブラリによっては、リソースの状態をJMXのMBeanで公開していることがある。
+  MBeanの情報を収集する方法については、以下のガイドを参照のこと。
+
+  * :ref:`micrometer_mbean_metrics`
+
+
+.. _micrometer_timer_metrics_handler:
+
 処理時間を計測するハンドラ
 --------------------------------------------------
 
@@ -736,6 +844,8 @@ Datadog は `DogStatsD(外部サイト) <https://docs.datadoghq.com/ja/developer
 * :ref:`micrometer_adaptor_http_request_process_time_metrics`
 
 詳細は、それぞれの説明を参照のこと。
+
+.. _micrometer_timer_metrics_handler_percentiles:
 
 パーセンタイルを収集する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1011,6 +1121,8 @@ Nablarchバッチは、 :ref:`loop_handler` によってトランザクション
   12 17, 2020 1:50:33 午後 io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$5
   情報: batch.transaction.time{class=MetricsTestAction} throughput=1/s mean=2.61463556s max=3.0790852s
 
+.. _micrometer_batch_processed_count:
+
 バッチの処理件数を計測する
 --------------------------------------------------
 
@@ -1066,6 +1178,8 @@ Nablarchバッチは、 :ref:`loop_handler` によってトランザクション
   情報: batch.processed.record.count{class=MetricsTestAction} throughput=13/s
   12 23, 2020 3:23:39 午後 io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$4
   情報: batch.processed.record.count{class=MetricsTestAction} throughput=13/s
+
+.. _micrometer_log_count:
 
 ログレベルごとの出力回数を計測する
 --------------------------------------------------
@@ -1167,6 +1281,8 @@ LogPublisher を設定する
   ログレベルのしきい値を下げすぎると、アプリケーションによっては大量のメトリクスが収集される可能性がある。
   使用する監視サービスの料金体系によっては使用料金が増大する可能性があるため、注意して設定すること。
 
+.. _micrometer_sql_time:
+
 SQLの処理時間を計測する
 --------------------------------------------------
 
@@ -1225,6 +1341,8 @@ SQLの処理時間を計測する
   2020-12-23 15:00:25.161 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: sql.process.time{entity=com.nablarch.example.app.entity.Project,method=findAllBySqlFile,sql.id=SEARCH_PROJECT} throughput=0.6/s mean=0.003364233s max=0.0043483s
   2020-12-23 15:00:25.161 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: sql.process.time{entity=com.nablarch.example.app.web.dto.ProjectDto,method=findBySqlFile,sql.id=FIND_BY_PROJECT} throughput=0.2/s mean=0.000475s max=0.0060838s
   2020-12-23 15:00:25.162 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: sql.process.time{entity=com.nablarch.example.app.entity.Industry,method=findAll,sql.id=None} throughput=0.8/s mean=0.00058155s max=0.0013081s
+
+.. _micrometer_mbean_metrics:
 
 任意のMBeanから取得した値をメトリクスとして計測する
 -------------------------------------------------------------
