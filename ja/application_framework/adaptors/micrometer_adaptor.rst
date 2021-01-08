@@ -1435,7 +1435,7 @@ HikariCPのコネクションプールの状態を取得する
 
 * `MBean (JMX) Monitoring and Management(外部サイト、英語) <https://github.com/brettwooldridge/HikariCP/wiki/MBean-(JMX)-Monitoring-and-Management>`_
 
-この機能を利用することで、 ``JmxGaugeMetrics`` でコネクションプールの情報を収集できるようになる。
+この機能を使用することで、 ``JmxGaugeMetrics`` でコネクションプールの情報を収集できるようになる。
 
 まず、HikariCPのMBeanで情報を公開する機能を有効にする。
 MBeanによる情報公開を有効にするには、 ``com.zaxxer.hikari.HikariDataSource`` の ``registerMbeans`` プロパティに ``true`` を設定する。
@@ -1567,7 +1567,7 @@ Micrometerが監視サービスにメトリクスを連携する方法には、�
   24-Dec-2020 17:01:31.443 情報 [logging-metrics-publisher] io.micrometer.core.instrument.logging.LoggingMeterRegistry.lambda$publish$3 db.pool.active{} value=NaN
   24-Dec-2020 17:01:31.443 情報 [logging-metrics-publisher] io.micrometer.core.instrument.logging.LoggingMeterRegistry.lambda$publish$3 db.pool.total{} value=NaN
 
-この警告ログは最初の一度だけ出力され、二回目以降は抑制されるようになっている。
+この警告ログは最初の一度だけ出力され、2回目以降は抑制されるようになっている。
 また、データベースアクセスが実行されコネクションプールが生成されると、そのあとは正常にコネクションプールの値が収集されるようになる。
 
 つまり、この警告ログはアプリケーションが正常な場合であってもタイミング次第で出力される可能性があるということになる。
