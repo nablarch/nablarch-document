@@ -840,10 +840,9 @@ SQLの処理時間
 これにより、ここより後ろのハンドラの処理時間をメトリクスとして収集できるようになる。
 
 なお、Nablarchでは ``HandlerMetricsMetaDataBuilder`` の実装として以下の機能を提供するクラスを用意している。
+詳細は、リンク先の説明を参照のこと。
 
 * :ref:`micrometer_adaptor_http_request_process_time_metrics`
-
-詳細は、それぞれの説明を参照のこと。
 
 .. _micrometer_timer_metrics_handler_percentiles:
 
