@@ -984,7 +984,7 @@ SQLの処理時間
 あらかじめ用意されているHandlerMetricsMetaDataBuilderの実装
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-ここでは、Nablarchがあらかじめ用意している ``HandlerMetricsMetaDataBuilder`` の実装クラスについて紹介する。
+ここでは、Nablarchによってあらかじめ用意されている ``HandlerMetricsMetaDataBuilder`` の実装クラスについて紹介する。
 
 .. _micrometer_adaptor_http_request_process_time_metrics:
 
