@@ -1242,7 +1242,7 @@ LogPublisher を設定する
       }
   }
 
-最後に、作成したクラスを、使用する ``MeterRegistryFactory`` の ``meterBinderListProvider`` プロパティに設定する。
+最後に、 ``MeterRegistryFactory`` コンポーネントの ``meterBinderListProvider`` プロパティに、作成したカスタムの ``DefaultMeterBinderListProvider`` を設定する。
 以上で、 ``LogCountMetrics`` が使用できるようになる。
 
 ``LoggingMeterRegistry`` を使用した場合、以下のようにメトリクスが出力されることが確認できる。
