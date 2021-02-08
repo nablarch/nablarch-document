@@ -616,6 +616,52 @@ More detailed configuration
 
     By default, the instance created by `CloudWatchAsyncClient.create() (external site) <https://javadoc.io/static/software.amazon.awssdk/cloudwatch/2.13.4/software/amazon/awssdk/services/cloudwatch/CloudWatchAsyncClient.html#create-->`_ is used.
 
+Working with Azure
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+How to send metrics to Azure with Micrometer
+  Azure provides the library using the Java agent (**Java 3.0 agent**) for sending metrics from Java applications to Azure.
+
+  * `Java codeless application monitoring Azure Monitor Application Insights(external site) <https://docs.microsoft.com/en-us/azure/azure-monitor/app/java-in-process-agent>`_
+
+  The Java 3.0 agent automatically collects metrics output to Micrometer's `Global Registry(external site) <https://micrometer.io/docs/concepts#_global_registry>`_, and sends to Azure.
+
+  * `Send custom telemetry from your application(external site) <https://docs.microsoft.com/en-us/azure/azure-monitor/app/java-in-process-agent#send-custom-telemetry-from-your-application>`_
+
+How to configure Micrometer adaptor
+  You need to configure following settings to send metrics to Azure with Micrometer adaptor.
+
+  * Add the Java 3.0 agent to your application's JVM args
+  * Define a ``MeterRegistry`` component using the Global Registry
+
+  See the `Azure documentation(external site) <https://docs.microsoft.com/en-us/azure/azure-monitor/app/java-in-process-agent#quickstart>`_ for how to set JVM args.
+
+  This adaptor provides :java:extdoc:`GlobalMeterRegistryFactory <nablarch.integration.micrometer.GlobalMeterRegistryFactory>` for factory of Global Registry component.
+  The following is an example of a component definition for this factory class.
+
+  .. code-block:: xml
+
+    <component name="meterRegistry" class="nablarch.integration.micrometer.GlobalMeterRegistryFactory">
+      <property name="meterBinderListProvider" ref="meterBinderListProvider" />
+      <property name="applicationDisposer" ref="disposer" />
+    </component>
+
+  This configuration makes the Global Registry to collect metrics.
+  The Java 3.0 agent sends metrics collected by the Global Registry to Azure.
+
+  .. tip::
+    ``MeterRegistry`` is not used in this approach using Java 3.0 agent.
+    Therefore, you can send metrics without additional dependent modules for Azure.
+
+Configuration
+  The metrics are sent by the Java 3.0 agent provided by Azure.
+  Therefore, you must use configuration options provided by the Java 3.0 agent.
+
+  For more information, see `Configuration Options(external site) <https://docs.microsoft.com/en-us/azure/azure-monitor/app/java-standalone-config>`_.
+
+  .. important::
+    The configuration file for this adapter, ``micrometer.properties``, is not used.
+    However, you must place the ``micrometer.properties`` file (the content can be empty).
 
 Working with Datadog using StatsD
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
