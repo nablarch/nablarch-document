@@ -1098,3 +1098,24 @@ configファイルの仕様
   .. code-block:: bash
 
     key = \u0020
+
+.. tip::
+
+  値が空の場合の挙動について、configファイルでは値が空の場合キーごと読み込まれないが、propertiesファイルでは空文字として扱われる。
+  そのため、コンポーネント設定ファイルから環境依存値を参照する際の挙動が異なるため注意が必要となる。
+
+  以下のようなコンポーネント設定と環境設定ファイルを定義した場合の挙動は下記の通り。
+  
+  * 環境設定ファイルがconfigファイルの場合 ``config.value`` は存在しないため例外が送出される。(※)  
+  * 環境設定ファイルがpropertiesファイルの場合、コンポーネントの ``property`` には空文字が設定される。
+
+  .. code-block:: xml
+
+    <property name="property" value="${config.value}" />
+
+  .. code-block:: bash
+
+    # 値が空の設定値
+    config.value=
+
+  ※5u18までのNablarchでは設定値が存在しない場合は例外は送出されず、WARNINGレベルのログが出力され ``property`` に"${config.value}"という文字列が設定される。

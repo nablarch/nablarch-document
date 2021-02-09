@@ -1106,3 +1106,24 @@ config file specifications
   .. code-block:: bash
 
     key = \u0020
+
+.. tip::
+
+  Empty value is not supported in the config file, but it is treated as an empty character in the properties file.
+   Therefore, care must be taken when referring to environment-dependent values from the component configuration file because the behavior is different.
+
+  In the case of the following component definition, describe the behavior of the config and properties files.
+  
+  * If the configuration file is a config file, ``config.value`` does not exist and an exception will be thrown.(※)  
+  * If the configuration file is a properties file, the ``property`` of the component is set to an empty string.
+
+  .. code-block:: xml
+
+    <property name="property" value="${config.value}" />
+
+  .. code-block:: bash
+
+    # empty value
+    config.value=
+
+  ※Prior to Nablarch5u18, if the configuration value does not exist, no exception will be thrown, and a WARNING level log will be output and ``property`` will be set to the string "${config.value}".
