@@ -15,7 +15,7 @@ How to Change
 
 The following are the examples of blank projects generated from each archetype provided by Nablarch, where the table name used by the Nablarch framework is uniformly changed to "T_Table name".
 
-Add table configuration required for the function used by a project in src/main/resources/common.config. The necessary configuration and the configuration examples for each function are described below:
+Add table configuration required for the function used by a project in src/main/resources/common.properties. The necessary configuration and the configuration examples for each function are described below:
 
  .. code-block:: properties
     

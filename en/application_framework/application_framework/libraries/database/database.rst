@@ -398,7 +398,7 @@ Implementation examples
 
 .. tip::
 
-  Access method to Bean can be changed from property to field. For changing to field access method, add the following configuration to the config file.
+  Access method to Bean can be changed from property to field. For changing to field access method, add the following configuration to the properties file.
 
   .. code-block:: properties
 

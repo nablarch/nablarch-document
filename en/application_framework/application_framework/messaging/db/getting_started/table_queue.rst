@@ -11,7 +11,7 @@ Overview of the function to be created
 
 Execution procedure of the example application
   SQL should be executed within the procedure after connecting any arbitrary database client to H2.
-  For information on the connection destination, see ``config/database.config``.
+  For information on the connection destination, see ``config/database.properties``.
 
   1. Delete data in the project table.
 

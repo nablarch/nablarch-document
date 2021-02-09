@@ -122,10 +122,10 @@ File modification
 ===========================
 
 ---------------------------------------------
-Modification of the config file
+Modification of the properties file
 ---------------------------------------------
 
-Modify the following location in env.config.
+Modify the following location in env.properties.
 
 .. list-table::
   :header-rows: 1
@@ -140,30 +140,30 @@ Modify the following location in env.config.
       jndiResourceName
     - Resource name when acquiring the DataSource with JNDI
     - * Projects generated from each archetype
-        (configure in the config file (described below) of environment that acquires connections from JNDI)
+        (configure in the properties file (described below) of environment that acquires connections from JNDI)
   * - nablarch.db.jdbcDriver
     - JDBC driver class name
     - * Projects generated from each archetype
-        (configure in the config file (described below) of environments that create local connection pools)
+        (configure in the properties file (described below) of environments that create local connection pools)
   * - nablarch.db.url
     - Database connection URL
     - * Projects generated from each archetype
-        (configure in the config file (described below) of environments that create local connection pools)
+        (configure in the properties file (described below) of environments that create local connection pools)
   * - nablarch.db.user
     - Database access user name
     - * Projects generated from each archetype
-        (configure in the config file (described below) of environments that create local connection pools)
+        (configure in the properties file (described below) of environments that create local connection pools)
   * - nablarch.db.password
     - Database access user password
     - * Projects generated from each archetype
-        (configure in the config file (described below) of environments that create local connection pools)
+        (configure in the properties file (described below) of environments that create local connection pools)
   * - nablarch.db.schema
     - Connection schema name
     - * Nablarch testing framework
 
 
 
-Immediately after a project is generated from an archetype, the following applies to the "config file of the environment that acquires connections from JNDI".
+Immediately after a project is generated from an archetype, the following applies to the "properties file of the environment that acquires connections from JNDI".
 
 .. list-table::
   :header-rows: 1
@@ -174,14 +174,14 @@ Immediately after a project is generated from an archetype, the following applie
     - Config file of the environment that acquires connections from JNDI
   * - * Web
       * RESTful web service
-    - * Production environment config(src/env/prod/resources/env.config)
+    - * Production environment properties(src/env/prod/resources/env.properties)
   * - * JSR352-compliant batch
       * Nablarch batch
       * Web for container
       * RESTful web service for container
     - No
 
-Immediately after creating a project from an archetype, the following applies to the "config file of environments that create local connection pools".
+Immediately after creating a project from an archetype, the following applies to the "properties file of environments that create local connection pools".
 
 .. list-table::
   :header-rows: 1
@@ -189,19 +189,19 @@ Immediately after creating a project from an archetype, the following applies to
   :widths: 4,6
 
   * - Project type
-    - config file of environments that create local connection pools
+    - properties file of environments that create local connection pools
   * - * Web
       * RESTful web service
-    - * Unit test environment (manual test) config (src/env/dev/resources/env.config)
+    - * Unit test environment (manual test) properties (src/env/dev/resources/env.properties)
   * - * JSR352-compliant batch
       * Nablarch batch
-    - * Unit test environment (manual test) config (src/env/dev/resources/env.config)
-      * Production environment config(src/env/prod/resources/env.config)
+    - * Unit test environment (manual test) properties (src/env/dev/resources/env.properties)
+      * Production environment properties(src/env/prod/resources/env.properties)
   * - * Web for container
       * RESTful web service for container
-    - * src/main/resources/env.config - :ref:`commentary <container_production_config>`
+    - * src/main/resources/env.properties - :ref:`commentary <container_production_config>`
 
-The configuration example for a config file of the environment that creates local connection pools is shown below.
+The configuration example for a properties file of the environment that creates local connection pools is shown below.
 
 H2 configuration example (default)
 ----------------------------------------
@@ -270,7 +270,7 @@ SQL Server configuration example
 .. important::
   Depending on the DB, user names, passwords and schemas are case-sensitive.
 
-  Should be configured even in the config file as configured in the DB.
+  Should be configured even in the properties file as configured in the DB.
 
 .. _container_production_config:
 
@@ -278,9 +278,9 @@ Production configuration of containers
 ----------------------------------------------
 
 In projects for containers, do not switch the preferences by profile.
-Instead, it uses the OS environment variable of the environment in which the application will run to override the configuration values declared in ``env.config``.
+Instead, it uses the OS environment variable of the environment in which the application will run to override the configuration values declared in ``env.properties``.
 
-Thus, the configuration in ``src/main/resources/env.config`` is used in the environment where OS environment variables are not set.
+Thus, the configuration in ``src/main/resources/env.properties`` is used in the environment where OS environment variables are not set.
 When running in a production container environment, the OS environment variables must be used to properly override environment-dependent values such as ``nablarch.db.url``.
 
 See :ref:`repository-overwrite_env_env_configuration_by_os_env_var` for how to overwrite the configuration in OS environment variables.

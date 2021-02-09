@@ -2532,7 +2532,7 @@ To avoid this problem, a function is provided in which a version is appended to 
 
 As a result, the latest static content can be referenced instead of the cache in the client when the static content is replaced.
 
-The version of the static content that is added using parameters is configured in the :ref:`configuration file (config file)<repository-environment_configuration>`.
+The version of the static content that is added using parameters is configured in the :ref:`configuration file (properties file)<repository-environment_configuration>`.
 This function is disabled if the version of the static content is not configured in the configuration file.
 
 The version of the static content is specified with the key name ``static_content_version``.
