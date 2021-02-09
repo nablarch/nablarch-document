@@ -615,6 +615,53 @@ CloudWatch と連携する
 
     デフォルトでは、 `CloudWatchAsyncClient.create() (外部サイト、英語) <https://javadoc.io/static/software.amazon.awssdk/cloudwatch/2.13.4/software/amazon/awssdk/services/cloudwatch/CloudWatchAsyncClient.html#create-->`_ で作成されたインスタンスが使用される。
 
+Azure と連携する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+MicrometerでメトリクスをAzureに連携する方法
+  Azureは、JavaアプリケーションからAzureにメトリクスを連携するための仕組みとして、Javaエージェントを用いた方法(**Java 3.0 エージェント**)を提供している。
+
+  * `Azure Monitor Application Insights を監視する Java のコード不要のアプリケーション(外部サイト) <https://docs.microsoft.com/ja-jp/azure/azure-monitor/app/java-in-process-agent>`_
+
+  このJava 3.0 エージェントは、Micrometerの `グローバルレジストリ(外部サイト、英語) <https://micrometer.io/docs/concepts#_global_registry>`_ に出力したメトリクスを自動的に収集し、Azureに連携する仕組みを提供している。
+
+  * `アプリケーションからカスタム テレメトリを送信する(外部サイト) <https://docs.microsoft.com/ja-jp/azure/azure-monitor/app/java-in-process-agent#send-custom-telemetry-from-your-application>`_
+
+MicrometerアダプタでメトリクスをAzureに連携するための設定
+  MicrometerアダプタでメトリクスをAzureに連携するためには、以下の設定を行う必要がある。
+
+  * アプリケーションの起動オプションに、Java 3.0 エージェントを追加する
+  * ``MeterRegistry`` にグローバルレジストリを使うようにコンポーネントを定義する
+
+  1つ目の起動オプションの設定方法については、 `Azureのドキュメント <https://docs.microsoft.com/ja-jp/azure/azure-monitor/app/java-in-process-agent#quickstart>`_ を参照のこと。
+
+  2つ目のグローバルレジストリを使う方法について、本アダプタではグローバルレジストリのファクトリクラスとして :java:extdoc:`GlobalMeterRegistryFactory <nablarch.integration.micrometer.GlobalMeterRegistryFactory>` を用意している。
+  以下に、このファクトリクラスのコンポーネント定義の例を示す。
+
+  .. code-block:: xml
+
+    <component name="meterRegistry" class="nablarch.integration.micrometer.GlobalMeterRegistryFactory">
+      <property name="meterBinderListProvider" ref="meterBinderListProvider" />
+      <property name="applicationDisposer" ref="disposer" />
+    </component>
+
+  この設定により、メトリクスの収集はグローバルレジストリによって行われるようになる。
+  そして、グローバルレジストリで収集されたメトリクスは、Java 3.0 エージェントによってAzureに連携されるようになる。
+
+  .. tip::
+    Java 3.0 エージェントを使うこの方法では、Azure用の ``MeterRegistry`` は使用しない。
+    したがって、Azure用のモジュールを依存関係に追加しなくてもメトリクスを連携できる。
+
+
+詳細設定について
+  メトリクスの連携は、Azureが提供するJava 3.0 エージェントによって行われる。
+  このため、メトリクスの連携に関する設定は全てJava 3.0 エージェントが提供する方法で行う必要がある。
+
+  Java 3.0 エージェントの設定の詳細については、 `構成オプション(外部サイト) <https://docs.microsoft.com/ja-jp/azure/azure-monitor/app/java-standalone-config>`_ を参照のこと。
+
+  .. important::
+    本アダプタ用の設定ファイルである ``micrometer.properties`` は使用できないが、ファイルは配置しておく必要がある（内容は空で構わない）。
+
 StatsD で連携する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
