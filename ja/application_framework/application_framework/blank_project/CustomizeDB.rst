@@ -123,10 +123,10 @@ SQLServerの場合、JDBCドライバはMavenのセントラルリポジトリ�
 ===========================
 
 ---------------------------
-configファイルの修正
+propertiesファイルの修正
 ---------------------------
 
-env.config内の以下の箇所を修正する。
+env.properties内の以下の箇所を修正する。
 
 .. list-table::
   :header-rows: 1
@@ -141,30 +141,30 @@ env.config内の以下の箇所を修正する。
       jndiResourceName
     - JNDIでDataSourceを取得する際のリソース名
     - * 各アーキタイプから生成したプロジェクト |br|
-        (JNDIからコネクションを取得する環境のconfigファイル(後述)に設定)
+        (JNDIからコネクションを取得する環境のpropertiesファイル(後述)に設定)
   * - nablarch.db.jdbcDriver
     - JDBCドライバのクラス名
     - * 各アーキタイプから生成したプロジェクト |br|
-        (ローカルにコネクションプールを作成する環境のconfigファイル(後述)に設定)
+        (ローカルにコネクションプールを作成する環境のpropertiesファイル(後述)に設定)
   * - nablarch.db.url
     - データベースの接続URL
     - * 各アーキタイプから生成したプロジェクト |br|
-        (ローカルにコネクションプールを作成する環境のconfigファイル(後述)に設定)
+        (ローカルにコネクションプールを作成する環境のpropertiesファイル(後述)に設定)
   * - nablarch.db.user
     - データベースアクセスユーザ名
     - * 各アーキタイプから生成したプロジェクト |br|
-        (ローカルにコネクションプールを作成する環境のconfigファイル(後述)に設定)
+        (ローカルにコネクションプールを作成する環境のpropertiesファイル(後述)に設定)
   * - nablarch.db.password
     - データベースアクセスユーザのパスワード
     - * 各アーキタイプから生成したプロジェクト |br|
-        (ローカルにコネクションプールを作成する環境のconfigファイル(後述)に設定)
+        (ローカルにコネクションプールを作成する環境のpropertiesファイル(後述)に設定)
   * - nablarch.db.schema
     - 接続するスキーマ名
     - * Nablarchのテスティングフレームワーク
 
 
 
-アーキタイプからプロジェクトを生成した直後は、「JNDIからコネクションを取得する環境のconfigファイル」に以下が該当する。
+アーキタイプからプロジェクトを生成した直後は、「JNDIからコネクションを取得する環境のpropertiesファイル」に以下が該当する。
 
 
 .. list-table::
@@ -173,17 +173,17 @@ env.config内の以下の箇所を修正する。
   :widths: 4,6
 
   * - プロジェクト種別
-    - JNDIからコネクションを取得する環境のconfigファイル
+    - JNDIからコネクションを取得する環境のpropertiesファイル
   * - * ウェブ
       * RESTfulウェブサービス
-    - * 本番環境用config(src/env/prod/resources/env.config)
+    - * 本番環境用properties(src/env/prod/resources/env.properties)
   * - * JSR352に準拠したバッチ
       * Nablarchバッチ
       * コンテナ版ウェブ
       * コンテナ版RESTfulウェブサービス
     - なし
 
-アーキタイプからプロジェクトを生成した直後は、「ローカルにコネクションプールを作成する環境のconfigファイル」に以下が該当する。
+アーキタイプからプロジェクトを生成した直後は、「ローカルにコネクションプールを作成する環境のpropertiesファイル」に以下が該当する。
 
 .. list-table::
   :header-rows: 1
@@ -191,20 +191,20 @@ env.config内の以下の箇所を修正する。
   :widths: 4,6
 
   * - プロジェクト種別
-    - ローカルにコネクションプールを作成する環境のconfigファイル
+    - ローカルにコネクションプールを作成する環境のpropertiesファイル
   * - * ウェブ
       * RESTfulウェブサービス
-    - * 単体試験環境(打鍵テスト)用config(src/env/dev/resources/env.config)
+    - * 単体試験環境(打鍵テスト)用properties(src/env/dev/resources/env.properties)
   * - * JSR352に準拠したバッチ
       * Nablarchバッチ
-    - * 単体試験環境(打鍵テスト)用config(src/env/dev/resources/env.config)
-      * 本番環境用config(src/env/prod/resources/env.config)
+    - * 単体試験環境(打鍵テスト)用properties(src/env/dev/resources/env.properties)
+      * 本番環境用properties(src/env/prod/resources/env.properties)
   * - * コンテナ版ウェブ
       * コンテナ版RESTfulウェブサービス
-    - * src/main/resources/env.config :ref:`※解説 <container_production_config>`
+    - * src/main/resources/env.properties :ref:`※解説 <container_production_config>`
 
 
-以下に、ローカルにコネクションプールを作成する環境のconfigファイル設定例を示す。
+以下に、ローカルにコネクションプールを作成する環境のpropertiesファイル設定例を示す。
 
 H2の設定例(デフォルト)
 ----------------------
@@ -273,7 +273,7 @@ SQL Serverの設定例
 .. important::
   DBによっては、ユーザ名、パスワード、スキーマの大文字小文字を区別する。
   
-  DBに設定した通りに、configファイルにも設定すること。
+  DBに設定した通りに、propertiesファイルにも設定すること。
   
 
 .. _container_production_config:
@@ -282,9 +282,9 @@ SQL Serverの設定例
 -----------------------
 
 コンテナ用のプロジェクトでは、プロファイルによる環境設定の切り替えは行わない。
-代わりに、アプリケーションを動かす環境のOS環境変数を使って、 ``env.config`` に宣言した設定値を上書きする。
+代わりに、アプリケーションを動かす環境のOS環境変数を使って、 ``env.properties`` に宣言した設定値を上書きする。
 
-したがって、OS環境変数を設定していない環境では ``src/main/resources/env.config`` に書かれた設定がそのまま使用される。
+したがって、OS環境変数を設定していない環境では ``src/main/resources/env.properties`` に書かれた設定がそのまま使用される。
 本番等のコンテナ環境で動かすときは、OS環境変数を使って ``nablarch.db.url`` などの環境依存値を適切に上書きしなければならない。
 
 OS環境変数で設定を上書きする方法については、 :ref:`repository-overwrite_environment_configuration_by_os_env_var` を参照。

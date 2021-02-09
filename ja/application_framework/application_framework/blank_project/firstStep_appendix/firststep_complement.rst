@@ -26,7 +26,7 @@ Password      ``SAMPLE``
 
 .. important ::
 
-  URLは上記の通り入力すること。h2.batからの相対パスを指定する必要があるため、env.configからコピーするとパスがずれる。
+  URLは上記の通り入力すること。h2.batからの相対パスを指定する必要があるため、env.propertiesからコピーするとパスがずれる。
 
 
 3.画面下部に「Test successful」と表示されていることを確認する。
