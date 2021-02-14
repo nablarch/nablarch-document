@@ -527,6 +527,18 @@ APIキーを設定する
 
   その他の設定については `DatadogConfig(外部サイト、英語)`_ を参照。
 
+連携を無効にする
+  .. code-block:: text
+
+    nablarch.micrometer.datadog.enabled=false
+    nablarch.micrometer.datadog.apiKey=XXXXXXXXXXXXXXXX
+
+  ``micrometer.properties`` で ``nablarch.micrometer.datadog.enabled`` に ``false`` を設定することで、メトリクスの連携を無効にできる。
+  この設定は環境変数で上書きできるので、本番環境のみ環境変数で ``true`` に上書きして連携を有効にできる。
+
+  .. important::
+    連携を無効にした場合も、 ``nablarch.micrometer.datadog.apiKey`` には何らかの値を設定しておく必要がある。
+    値はダミーで問題ない。
 
 CloudWatch と連携する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -615,6 +627,21 @@ CloudWatch と連携する
 
     デフォルトでは、 `CloudWatchAsyncClient.create() (外部サイト、英語) <https://javadoc.io/static/software.amazon.awssdk/cloudwatch/2.13.4/software/amazon/awssdk/services/cloudwatch/CloudWatchAsyncClient.html#create-->`_ で作成されたインスタンスが使用される。
 
+連携を無効にする
+  .. code-block:: text
+
+    nablarch.micrometer.cloudwatch.enabled=false
+    nablarch.micrometer.cloudwatch.namespace=test
+
+  ``micrometer.properties`` で ``nablarch.micrometer.cloudwatch.enabled`` に ``false`` を設定することで、メトリクスの連携を無効にできる。
+  この設定は環境変数で上書きできるので、本番環境のみ環境変数で ``true`` に上書きして連携を有効にできる。
+
+  .. important::
+    連携を無効にした場合も、 ``nablarch.micrometer.cloudwatch.namespace`` には何らかの値を設定しておく必要がある。
+    また、環境変数 ``AWS_REGION`` を設定しておく必要がある。
+
+    いずれも、値はダミーで問題ない。
+
 Azure と連携する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -662,6 +689,9 @@ MicrometerアダプタでメトリクスをAzureに連携するための設定
   .. important::
     本アダプタ用の設定ファイルである ``micrometer.properties`` は使用できないが、ファイルは配置しておく必要がある（内容は空で構わない）。
 
+連携を無効にする
+  Java 3.0 エージェントを使用せずにアプリケーションを起動することで、メトリクスの連携を無効にできる。
+
 StatsD で連携する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -699,6 +729,14 @@ Datadog は `DogStatsD(外部サイト) <https://docs.datadoghq.com/ja/developer
 
     # ポートを変更
     nablarch.micrometer.statsd.port=9999
+
+連携を無効にする
+  .. code-block:: text
+
+    nablarch.micrometer.statsd.enabled=false
+
+  ``micrometer.properties`` で ``nablarch.micrometer.statsd.enabled`` に ``false`` を設定することで、メトリクスの連携を無効にできる。
+  この設定は環境変数で上書きできるので、本番環境のみ環境変数で ``true`` に上書きして連携を有効にできる。
 
 アプリケーションの形式ごとに収集するメトリクスの例
 ---------------------------------------------------------

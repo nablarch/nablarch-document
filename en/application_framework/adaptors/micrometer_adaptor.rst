@@ -526,6 +526,19 @@ Configuring the API key
 
   See `DatadogConfig (external site)`_ for other configuration.
 
+Disable the registry
+  .. code-block:: text
+
+    nablarch.micrometer.datadog.enabled=false
+    nablarch.micrometer.datadog.apiKey=XXXXXXXXXXXXXXXX
+
+  You can disable the registry by setting ``nablarch.micrometer.datadog.enabled`` to ``false`` in ``micrometer.properties``.
+  You can override this configuration by environment variable.
+  Therefor, you can enable the registry by setting ``true`` with environment variable only at production.
+
+  .. important::
+    Even if you disable the registry, you still need to set some value for ``nablarch.micrometer.datadog.apiKey``.
+    You can set dummy value to the ``apiKey``.
 
 Working with CloudWatch
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -616,6 +629,22 @@ More detailed configuration
 
     By default, the instance created by `CloudWatchAsyncClient.create() (external site) <https://javadoc.io/static/software.amazon.awssdk/cloudwatch/2.13.4/software/amazon/awssdk/services/cloudwatch/CloudWatchAsyncClient.html#create-->`_ is used.
 
+Disable the registry
+  .. code-block:: text
+
+    nablarch.micrometer.cloudwatch.enabled=false
+    nablarch.micrometer.cloudwatch.namespace=test
+
+  You can disable the registry by setting ``nablarch.micrometer.cloudwatch.enabled`` to ``false`` in ``micrometer.properties``.
+  You can override this configuration by environment variable.
+  Therefor, you can enable the registry by setting ``true`` with environment variable only at production.
+
+  .. important::
+    Even if you disable the registry, you still need to set some value for ``nablarch.micrometer.cloudwatch.namespace``.
+    You also need to set the environment variable ``AWS_REGION``.
+
+    You can set dummy values to the ``namespace`` and ``AWS_REGION``.
+
 Working with Azure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -663,6 +692,9 @@ Configuration
     The configuration file for this adapter, ``micrometer.properties``, is not used.
     However, you must place the ``micrometer.properties`` file (the content can be empty).
 
+Disable the registry
+  You can disable to send metrics by launching application without the Java 3.0 agent.
+
 Working with Datadog using StatsD
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -703,6 +735,14 @@ Write a configuration file if necessary
     # Change Port
     nablarch.micrometer.statsd.port=9999
 
+Disable the registry
+  .. code-block:: text
+
+    nablarch.micrometer.statsd.enabled=false
+
+  You can disable the registry by setting ``nablarch.micrometer.statsd.enabled`` to ``false`` in ``micrometer.properties``.
+  You can override this configuration by environment variable.
+  Therefor, you can enable the registry by setting ``true`` with environment variable only at production.
 
 .. _MeterBinder (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/MeterBinder.html
 .. _DatadogConfig (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogConfig.html
