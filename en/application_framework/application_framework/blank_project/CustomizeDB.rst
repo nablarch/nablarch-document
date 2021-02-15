@@ -283,7 +283,7 @@ Instead, it uses the OS environment variable of the environment in which the app
 Thus, the configuration in ``src/main/resources/env.config`` is used in the environment where OS environment variables are not set.
 When running in a production container environment, the OS environment variables must be used to properly override environment-dependent values such as ``nablarch.db.url``.
 
-See :ref:`repository-overwrite_env_env_configuration_by_os_env_var` for how to overwrite the configuration in OS environment variables.
+See :ref:`repository-overwrite_environment_configuration` for how to overwrite the configuration in OS environment variables.
 
 See `The Twelve-Factor App's III. Configuration <https://12factor.net/ja/config>`_ (external site) for the reason why it switches settings by OS environment variables instead of profiles.
 
