@@ -167,7 +167,7 @@ userId             常駐プロセス実行ユーザIDを記載する。        
 .. important::
 
   フレームワーク制御ヘッダの項目をPJで変更している場合、
-  以下のようにコンフィグファイルに ``reader.fwHeaderfields`` というキーでフレームワーク制御ヘッダ名を指定する必要がある。
+  以下のようにpropertiesファイルに ``reader.fwHeaderfields`` というキーでフレームワーク制御ヘッダ名を指定する必要がある。
 
   .. code-block:: properties
 

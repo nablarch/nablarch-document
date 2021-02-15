@@ -16,9 +16,9 @@ For the message management function in Nablarch, see :doc:`../../libraries/messa
 How to change the link between error content and message ID
 ============================================================
 
-Error content is linked to the message ID in src/main/resources/common.config
+Error content is linked to the message ID in src/main/resources/common.properties
 
-In common.config, the item described as "Message ID of XXX (XXXのメッセージID)" in the comment, is the item that links the error content to the message ID.
+In common.properties, the item described as "Message ID of XXX (XXXのメッセージID)" in the comment, is the item that links the error content to the message ID.
 
 For example, in the following statement, M000000017 is the message ID.
 

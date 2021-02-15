@@ -27,7 +27,7 @@ Password      ``SAMPLE``
 .. important ::
 
   The URL must be entered as above.
-  You need to specify a relative path from h2.bat, so copy it from env.config And the path is shifting.
+  You need to specify a relative path from h2.bat, so copy it from env.properties And the path is shifting.
 
 
 3. Check that "Test successful" is displayed at the bottom of the screen.

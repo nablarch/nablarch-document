@@ -52,8 +52,8 @@ Redisストア(Lettuce)アダプタ
 
   <!-- 省略 -->
   <config-file file="nablarch/webui/redisstore-lettuce.config" />
-  <config-file file="common.config" />
-  <config-file file="env.config" />
+  <config-file file="common.properties" />
+  <config-file file="env.properties" />
   
   <!-- 省略 -->
   <import file="nablarch/webui/redisstore-lettuce.xml" />
@@ -65,7 +65,7 @@ Redisストア(Lettuce)アダプタ
 
 ``redisstore-lettuce.config`` には、 ``redisstore-lettuce.xml`` で使用しているプレースホルダのデフォルト値が宣言されている。
 
-アプリケーションで用意している環境設定ファイル（``env.config`` など）がある場合、 ``redisstore-lettuce.config`` はそれよりも前に読み込むようにする。
+アプリケーションで用意している環境設定ファイル（``env.properties`` など）がある場合、 ``redisstore-lettuce.config`` はそれよりも前に読み込むようにする。
 こうすることで、必要に応じてデフォルトのプレースホルダの値をアプリケーションの環境設定ファイルで上書きできるようになる。
 
 さらに、 :ref:`repository-overwrite_environment_configuration_by_os_env_var` で説明している方法を用いることで、実行環境ごとに接続先のRedisを切り替えることができるようになる。
@@ -134,7 +134,7 @@ Redisストア(Lettuce)アダプタ
 
 .. tip::
 
-  :ref:`ウェブのアーキタイプ <firstStepGenerateWebBlankProject>` でプロジェクトを生成している場合は、 ``src/main/resources/common.config`` に ``nablarch.sessionManager.defaultStoreName`` が宣言されている。
+  :ref:`ウェブのアーキタイプ <firstStepGenerateWebBlankProject>` でプロジェクトを生成している場合は、 ``src/main/resources/common.properties`` に ``nablarch.sessionManager.defaultStoreName`` が宣言されている。
 
 
 以上で、 ``localhost`` の ``6379`` ポートで起動しているRedisをセッションストアとして使用できるようになる。

@@ -607,7 +607,7 @@ Mapデータ
 以下に使用方法を示す。
 
 置き換えルールを定義したプロパティを作成する
-  プロパティファイルには、「置き換え前の文字=置き換え後の文字」形式で、置き換えルールを定義する。
+  propertiesファイルには、「置き換え前の文字=置き換え後の文字」形式で、置き換えルールを定義する。
 
   置き換え前、置き換え後の文字に定義できる値は、ともに1文字のみである。
   また、サロゲートペアには対応していない。
@@ -621,13 +621,13 @@ Mapデータ
     唖=■
 
   .. tip::
-    接続先ごとに置き換えルールを定義する場合には、複数のコンフィグファイルを作成する。
+    接続先ごとに置き換えルールを定義する場合には、複数のpropertiesファイルを作成する。
 
 置き換えルールの設定をコンポーネント設定ファイルに追加する
   ポイント
     * :java:extdoc:`CharacterReplacementManager <nablarch.core.dataformat.CharacterReplacementManager>` をコンポーネント名 ``characterReplacementManager`` で設定する。
     * :java:extdoc:`configList <nablarch.core.dataformat.CharacterReplacementManager.setConfigList(java.util.List)>` プロパティにリスト形式で :java:extdoc:`CharacterReplacementConfig <nablarch.core.dataformat.CharacterReplacementConfig>` を設定する。
-    * 複数のプロパティファイルを定義する場合は、 :java:extdoc:`typeName <nablarch.core.dataformat.CharacterReplacementConfig.setTypeName(java.lang.String)>` プロパティに異なる名前を設定する。
+    * 複数のpropertiesファイルを定義する場合は、 :java:extdoc:`typeName <nablarch.core.dataformat.CharacterReplacementConfig.setTypeName(java.lang.String)>` プロパティに異なる名前を設定する。
 
   .. code-block:: xml
 

@@ -15,7 +15,7 @@ Nablarchフレームワークが認可チェックなどで使用するテーブ
 
 以下、Nablarchが提供する各アーキタイプから生成したブランクプロジェクトで、Nablarchフレームワークが使用するテーブル名を一律「T_テーブル名」に変更する場合の例である。
 
-src/main/resources/common.configに、プロジェクトが使用する機能に必要なテーブルの設定を追加する。各機能に対して必要な設定と設定例を以下に記載する。
+src/main/resources/common.propertiesに、プロジェクトが使用する機能に必要なテーブルの設定を追加する。各機能に対して必要な設定と設定例を以下に記載する。
 
  .. code-block:: properties
     

@@ -2538,7 +2538,7 @@ HTML
 
 これにより、静的コンテンツ置き換え時にクライアント側のキャッシュではなく最新の静的コンテンツを参照することができる。
 
-パラメータに付加する静的コンテンツのバージョンは、 :ref:`設定ファイル(configファイル)<repository-environment_configuration>` に設定する。
+パラメータに付加する静的コンテンツのバージョンは、 :ref:`設定ファイル(propertiesファイル)<repository-environment_configuration>` に設定する。
 設定ファイルに静的コンテンツのバージョンが設定されていない場合は、この機能は無効化される。
 
 静的コンテンツのバージョンは、 ``static_content_version`` というキー名で指定する。

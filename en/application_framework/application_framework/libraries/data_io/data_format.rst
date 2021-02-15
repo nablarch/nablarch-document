@@ -582,7 +582,7 @@ The collate function is used to replace with any character available in the syst
 The usage method is shown below.
 
 Create a property to define the replacement rules.
-  In the property file, define the replacement rule in the "Character before replacement = Character after replacement" format.
+  In the properties file, define the replacement rule in the "Character before replacement = Character after replacement" format.
 
   Only one character can be defined as the value for the character before and after replacement. Also, surrogate pairs are not supported.
 
@@ -595,13 +595,13 @@ Create a property to define the replacement rules.
     唖=■
 
   .. tip::
-    To define the replacement rules for each connection destination, create multiple config files.
+    To define the replacement rules for each connection destination, create multiple properties files.
 
 Add the replacement rule configuration to the component configuration file
   Point
     * Configure :java:extdoc:`CharacterReplacementManager <nablarch.core.dataformat.CharacterReplacementManager>` with component name ``characterReplacementManager`` .
     * Configure :java:extdoc:`CharacterReplacementConfig <nablarch.core.dataformat.CharacterReplacementConfig>` in list format to the :java:extdoc:`configList <nablarch.core.dataformat.CharacterReplacementManager.setConfigList(java.util.List)>` property.
-    * To define multiple property files, configure different names for the :java:extdoc:`typeName <nablarch.core.dataformat.CharacterReplacementConfig.setTypeName(java.lang.String)>` property.
+    * To define multiple properties files, configure different names for the :java:extdoc:`typeName <nablarch.core.dataformat.CharacterReplacementConfig.setTypeName(java.lang.String)>` property.
 
 
   .. code-block:: xml

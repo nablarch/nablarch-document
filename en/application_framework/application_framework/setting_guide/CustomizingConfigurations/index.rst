@@ -76,13 +76,13 @@ See \ :doc:`config_key_naming`\ for the naming rules for configuration item name
 Modifying the configuration items where TODO comment is embedded
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-TODO comment is embedded in the configuration file (config file) at places to be modified almost certainly in each project, such as DB connection configuration. Modify the set values at such places.
+TODO comment is embedded in the configuration file (properties file) at places to be modified almost certainly in each project, such as DB connection configuration. Modify the set values at such places.
 
 
 Changing the default value if the PJ requirements are not met with the default value
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Check the \ :download:`Default configuration list <../../configuration/default-configuration-list.xlsx>`\  and wherever the default value does not meet the PJ requirements, modify the configuration file (config file).
+Check the \ :download:`Default configuration list <../../configuration/default-configuration-list.xlsx>`\  and wherever the default value does not meet the PJ requirements, modify the configuration file (properties file).
 
 
 .. _how_to_customize_overwite_config_files:
@@ -90,7 +90,7 @@ Check the \ :download:`Default configuration list <../../configuration/default-c
 Overriding environment configuration values
 --------------------------------------------
 
-If you want to override the environment configuration values configured in the configuration file (config) of the default configuration, redefine them with a placeholder of the same name.
+If you want to override the environment configuration values configured in the configuration file (properties) of the default configuration, redefine them with a placeholder of the same name.
 
 In the \ :download:`Default configuration list <../../configuration/default-configuration-list.xlsx>`\, you can check the contents configured in the default configuration.
 
@@ -193,7 +193,7 @@ To change the handler configuration in PJ, edit this file.
 Example of configuration change
 ================================
 
-See below for specific examples of changing the configuration of the component configuration file and the configuration file (config file).
+See below for specific examples of changing the configuration of the component configuration file and the configuration file (properties file).
 
 * :doc:`CustomizeMessageIDAndMessage`
 * :doc:`CustomizeAvailableCharacters`

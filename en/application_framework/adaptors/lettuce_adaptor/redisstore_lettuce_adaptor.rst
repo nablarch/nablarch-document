@@ -51,8 +51,8 @@ Describes how to modify the component definition file.
 
   <!-- Omitted -->
   <config-file file="nablarch/webui/redisstore-lettuce.config" />
-  <config-file file="common.config" />
-  <config-file file="env.config" />
+  <config-file file="common.properties" />
+  <config-file file="env.properties" />
   
   <!-- Omitted -->
   <import file="nablarch/webui/redisstore-lettuce.xml" />
@@ -65,7 +65,7 @@ First, load the following two configuration files, which are provided by the def
 
 ``redisstore-lettuce.config`` has already declared the default values for the placeholders used in ``redisstore-lettuce.xml`` .
 
-If your application has a configuration file (such as ``env.config`` ), ``redisstore-lettuce.config`` should be loaded before it.
+If your application has a configuration file (such as ``env.properties`` ), ``redisstore-lettuce.config`` should be loaded before it.
 This way, can override the default placeholder values with the application's configuration file, if necessary.
 
 In addition, by using the methods described in Overriding Environment Dependencies with :ref:`repository-overwrite_environment_configuration_by_os_env_var` , it is possible to switch the destination Redis for each execution environment.
@@ -135,7 +135,7 @@ In the project's configuration file, define a configuration item named ``nablarc
 
 .. tip::
 
-  If you are creating a project with :ref:`web archetype <firstStepGenerateWebBlankProject>` , ``nablarch.sessionManager.defaultStoreName`` is declared in ``src/main/resources/common.config`` .
+  If you are creating a project with :ref:`web archetype <firstStepGenerateWebBlankProject>` , ``nablarch.sessionManager.defaultStoreName`` is declared in ``src/main/resources/common.properties`` .
 
 
 Now can use Redis running on port ``6379`` of the ``localhost`` as a session store.

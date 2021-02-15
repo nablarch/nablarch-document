@@ -68,30 +68,30 @@ The directory structure concerning the application configuration files of the pr
     |
     \---src
         +---env
-        |   +---dev                … development environment
+        |   +---dev                   … development environment
         |   |   |
-        |   |   \---env.config     … Environment configuration file for development environment (config)
+        |   |   \---env.properties    … Environment configuration file for development environment (properties)
         |   |
-        |   \---prod               … Production environment
+        |   \---prod                  … Production environment
         |       |
-        |       \---env.config     … Environment configuration file for production environment (config)
+        |       \---env.properties    … Environment configuration file for production environment (properties)
         |
         +---main
         |   +---java
         |   |
-        |   +---resources          … Resources that do not differ for each environment
+        |   +---resources             … Resources that do not differ for each environment
         |       |
-        |       \---common.config  … Environment-independent configuration files (config)
+        |       \---common.properties … Environment-independent configuration files (properties)
         |
         \---test
             +---java
             |
-            \---resources          … Unit test environment
+            \---resources             … Unit test environment
 
 
 .. tip::
 
- * The environment-independent environment configuration file (config) is used in all environments.
+ * The environment-independent environment configuration file (properties) is used in all environments.
  * If the environment is not sufficient, see :ref:`how_to_add_profile` below to add an environment.
  * When using a common project that is referenced from an execution-based project (such as web application, batch application), the application configuration files for each environment of the single common project are not required.
 
@@ -136,7 +136,7 @@ The operation when built with Maven by specifying the production environment in 
 
 .. tip::
 
- In the above figure, only the "component configuration file (xml)" and "environment configuration value definition file (config file)" are described, but all the files under resources are copied.
+ In the above figure, only the "component configuration file (xml)" and "environment configuration value definition file (properties file)" are described, but all the files under resources are copied.
 
 
 .. tip::
@@ -192,12 +192,12 @@ Place the created component configuration file in the directory of each environm
 How to switch the environment configuration value for each environment
 ========================================================================
 
-This is achieved by switching the environment configuration file (env.config) placed in each environment.
+This is achieved by switching the environment configuration file (env.properties) placed in each environment.
 
 .. tip::
 
- * Configuration items that are unlikely to change in each environment are described in common.config immediately after being generated from the archetype. |br|
-   To change the values described in common.config for each environment, move (cut and paste) the items to env.config.
+ * Configuration items that are unlikely to change in each environment are described in common.properties immediately after being generated from the archetype. |br|
+   To change the values described in common.properties for each environment, move (cut and paste) the items to env.properties.
 
 
 .. _how_to_add_profile:

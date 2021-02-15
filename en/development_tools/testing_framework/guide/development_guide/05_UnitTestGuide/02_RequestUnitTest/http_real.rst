@@ -120,7 +120,7 @@ The request statement that is the input data for the test is described. An examp
 .. important::
 
   If the item of the framework control header is changed by project,
-  it is necessary to specify the framework control header name with the key ``reader.fwHeaderfields`` in the config file as follows.
+  it is necessary to specify the framework control header name with the key ``reader.fwHeaderfields`` in the properties file as follows.
 
   .. code-block:: properties
 
