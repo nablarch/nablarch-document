@@ -62,7 +62,7 @@ Configuration using environment variables
 
   The standard blank project violates this policy because it uses Maven profiles to switch the difference between the development and production environment configurations.
 
-  See :ref:`repository-overwrite_env_configuration_by_os_env_var` for how to override environment-dependent values using environment variables.
+  See :ref:`repository-overwrite_environment_configuration_by_os_env_var` for how to override environment-dependent values using environment variables.
 
 
 .. _nablarch_container_archetype:
