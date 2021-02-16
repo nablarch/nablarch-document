@@ -854,20 +854,20 @@ Status of resources provided by libraries
 
 .. _micrometer_timer_metrics_handler:
 
-処理時間を計測するハンドラ
+Handler to measure processing time
 --------------------------------------------------
 
-:java:extdoc:`TimerMetricsHandler <nablarch.integration.micrometer.instrument.handler.TimerMetricsHandler>` をハンドラキューに設定すると、後続ハンドラの処理時間を計測しメトリクスとして収集できるようになる。
-これにより、ハンドラキュー内の処理の平均処理時間や最大処理時間をモニターできるようになる。
+By setting :java:extdoc:`TimerMetricsHandler <nablarch.integration.micrometer.instrument.handler.TimerMetricsHandler>` to the handler queue, you can measure processing time of subsequent handlers as metrics.
+You can monitor the average and maximum processing times in handler queue.
 
-``TimerMetricsHandler`` には、 :java:extdoc:`HandlerMetricsMetaDataBuilder <nablarch.integration.micrometer.instrument.handler.HandlerMetricsMetaDataBuilder>` インタフェースを実装したクラスのインスタンスを設定する必要がある。
-``HandlerMetricsMetaDataBuilder`` は、収集したメトリクスに設定する以下のメタ情報を構築する機能を提供する。
+``TimerMetricsHandler`` needs an instance of a class that implements the :java:extdoc:`HandlerMetricsMetaDataBuilder <nablarch.integration.micrometer.instrument.handler.HandlerMetricsMetaDataBuilder>` interface.
+The ``HandlerMetrcisMetaDataBuilder`` provides a function to build the following meta data for setting to collected metrics.
 
-* メトリクスの名前
-* メトリクスの説明
-* メトリクスに設定するタグの一覧
+* Name of metrics
+* Description of metrics
+* Tag list of metrics
 
-``HandlerMetricsMetaDataBuilder`` の実装例を以下に示す。
+The following is an example for implementation of ``HandlerMetricsMetaDataBuilder``.
 
 .. code-block:: java
 
@@ -897,21 +897,21 @@ Status of resources provided by libraries
       }
   }
 
-``getMetricsName()`` と ``getMetricsDescription()`` は、それぞれメトリクスの名前と説明を返すように実装する。
+You need implement methods ``getMetricsName()`` and ``getMetricsDescription()`` that return name and description of the metrics.
 
-``buildTagList()`` には、ハンドラに渡されたパラメータと後続ハンドラの実行結果、そして後続ハンドラがスローした例外が渡される（例外がスローされていない場合は ``null``）。
-本メソッドは必要に応じてこれらの情報を参照し、メトリクスに設定するタグの一覧を ``List<io.micrometer.core.instrument.Tag>`` で返すように実装する。
+``buildTagList()`` is passed the parameters passed to the handler, the execution result of the subsequent handler, and any exceptions thrown by the subsequent handler (or ``null`` if no exceptions were thrown).
+You need implement this method that returns list of tags for the metrics.
 
-次に、 ``TimerMetricsHandler`` をハンドラキューに設定する例を以下に示す。
+The following is an example for setting ``TimerMetricsHandler`` to the handler queue.
 
 .. code-block:: xml
 
-  <!-- ハンドラキュー構成 -->
+  <!-- Handler queue -->
   <component name="webFrontController"
              class="nablarch.fw.web.servlet.WebFrontController">
     <property name="handlerQueue">
       <list>
-        <!-- 省略 -->
+        <!-- ... -->
 
         <component class="nablarch.integration.micrometer.instrument.handler.TimerMetricsHandler">
           <property name="meterRegistry" ref="meterRegistry" />
@@ -921,56 +921,56 @@ Status of resources provided by libraries
           </property>
         </component>
 
-        <!-- 省略 -->
+        <!-- ... -->
       </list>
     </property>
   </component>
 
-ハンドラキューに ``TimerMetricsHandler`` を追加し、 ``handlerMetricsMetaDataBuilder`` プロパティに作成した ``HandlerMetricsMetaDataBuilder`` のコンポーネントを設定する。
+Add ``TimerMetricsHandler`` to the handler queue and set the ``HandlerMetricsMetaDataBuilder`` component  to ``handlerMetricsMetaDataBuilder`` property.
 
-また ``meterRegistry`` プロパティには、使用しているレジストリファクトリが生成した `MeterRegistry(外部サイト、英語)`_ を渡すように設定する。
+Then, set the `MeterRegistry (external site)`_ created by registry factory to ``meterRegistry`` property.
 
-これにより、ここより後ろのハンドラの処理時間をメトリクスとして収集できるようになる。
+Now the ``TimerMetricsHandler`` can collect the processing time of subsequent handlers as metrics.
 
-なお、Nablarchでは ``HandlerMetricsMetaDataBuilder`` の実装として以下の機能を提供するクラスを用意している。
-詳細は、リンク先の説明を参照のこと。
+Nablarch provides a class that implements ``HandlerMetricsMetaDataBuilder`` to provide the following function.
+For more information, please refer to the linked explanation.
 
 * :ref:`micrometer_adaptor_http_request_process_time_metrics`
 
 .. _micrometer_timer_metrics_handler_percentiles:
 
-パーセンタイルを収集する
+Collect the percentiles
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``TimerMetricsHandler`` には、パーセンタイル値を監視サービスに連携するために以下のプロパティが用意されている。
+``TimerMetricsHandler`` has the following properties to send percentiles to the monitoring services.
 
 .. list-table::
 
-  * - プロパティ
-    - 説明
+  * - Property
+    - Description
   * - ``percentiles``
-    - 収集するパーセンタイル値のリスト。
-      95パーセンタイルを収集する場合、 ``0.95`` と指定する。
+    - A list of percentile values to be collected.
+      If you want to collect the 95th percentile, specify ``0.95``.
   * - ``enablePercentileHistogram``
-    - 収集したヒストグラムのバケットを監視サービスに連携するかどうかのフラグ。
-      連携先の監視サービスがヒストグラムからパーセンタイル値を計算する仕組みをサポートしていない場合、この設定は無視される。
+    - A flag whether the bucket of collected histograms should be sent to the monitoring service.
+      If the monitoring service does not support a mechanism to calculate percentile values from histograms, this property will be ignored.
   * - ``serviceLevelObjectives``
-    - 収集するヒストグラムに追加するバケットの値のリスト。
-      単位はミリ秒。
-      この値は、SLO(Service Level Objective)に基づいて設定する。
+    - A list of bucket values to be added to the histogram.
+      The unit is milliseconds.
+      This value is set based on the SLO (Service Level Objective).
   * - ``minimumExpectedValue``
-    - 収集するヒストグラムバケットの最小値を設定する。
-      単位はミリ秒。
+    - A minimum value of the histogram bucket to be collected.
+      The unit is milliseconds.
   * - ``maximumExpectedValue``
-    - 収集するヒストグラムバケットの最大値を設定する。
-      単位はミリ秒。
+    - A maximum value of the histogram bucket to be collected.
+      The unit is milliseconds.
 
-これらのプロパティは、Micrometerが提供する `Timer(外部サイト、英語)`_ に設定する値として使用される。
-より詳細な説明は、 `Micrometerのドキュメント <https://micrometer.io/docs/concepts#_histograms_and_percentiles>`_ を参照のこと。
+These properties are used as values to be set in `Timer(external site)`_ provided by Micrometer.
+For more details, see the `Micrometer documentation (external site) <https://micrometer.io/docs/concepts#_histograms_and_percentiles>`_.
 
-なお、これらのプロパティはデフォルトでは全て未設定のため、パーセンタイルの情報は収集されない。
-パーセンタイルの情報を収集する必要がある場合は、これらのプロパティを明示的に設定すること。
-以下に、設定例を示す。
+These properties are unset by default. Therefore, no percentile information is collected.
+You must configure these properties explicitly if you want collect percentiles.
+The following is an example for configuration.
 
 .. code-block:: xml
 
@@ -980,7 +980,7 @@ Status of resources provided by libraries
       <component class="nablarch.integration.micrometer.instrument.http.HttpRequestTimeMetricsMetaDataBuilder" />
     </property>
 
-    <!-- 98, 90, 50 パーセンタイルを収集する -->
+    <!-- Collect 98th, 90th, 50th percentiles -->
     <property name="percentiles">
       <list>
         <value>0.98</value>
@@ -989,10 +989,10 @@ Status of resources provided by libraries
       </list>
     </property>
 
-    <!-- ヒストグラムバケットを監視サービスに連携する -->
+    <!-- Send the histogram backets to the monitoring service  -->
     <property name="enablePercentileHistogram" value="true" />
 
-    <!-- SLO として 1000ms, 1500ms を設定 -->
+    <!-- Set 1000ms and 1500ms as SLO -->
     <property name="serviceLevelObjectives">
       <list>
         <value>1000</value>
@@ -1000,13 +1000,13 @@ Status of resources provided by libraries
       </list>
     </property>
     
-    <!-- バケットの最小値に 500 ms を設定 -->
+    <!-- Set the minimum bucket value to 500ms -->
     <property name="minimumExpectedValue" value="500" />
-    <!-- バケットの最大値に 3000 ms を設定 -->
+    <!-- Set the maximum bucket value to 3000ms -->
     <property name="maximumExpectedValue" value="3000" />
   </component>
 
-``MeterRegistry`` として `PrometheusMeterRegistry(外部サイト、英語)`_ を使用した場合、上記設定により次のようなメトリクスが収集できるようになる。
+If you use `PrometheusMeterRegistry(external site)`_ as ``MeterRegistry``, the above configuration will allow you to collect the following metrics.
 
 .. code-block:: text
 
@@ -1033,10 +1033,11 @@ Status of resources provided by libraries
 
 .. tip::
   
-  ここでは、ヒストグラムバケットの具体例（``http_server_requests_seconds_bucket``）を示すため ``PrometheusMeterRegistry`` を使用している（`Prometheus(外部サイト、英語) <https://prometheus.io/>`_ は、ヒストグラムによるパーセンタイルの計算をサポートしている）。
+  In above example, we use ``PrometheusMeterRegistry`` to show a concrete example of a histogram bucket(``http_server_requests_seconds_bucket``).
+  `Prometheus(external site) <https://prometheus.io/>`_ supports calculating percentiles by histogram.
 
-  ただし、 ``PrometheusMeterRegistry`` の ``MeterRegistryFactory`` は、本アダプタでは提供していない。
-  実際にヒストグラムバケットのメトリクスを試したい場合は、以下のようなクラスを自前で用意すること。
+  However, this adaptor does not provide ``MeterRegistryFactory`` of ``PrometheusMeterRegistry``.
+  If you want to try the metrics of the histogram bucket, you should create the following class.
 
   .. code-block:: java
 
@@ -1074,56 +1075,56 @@ Status of resources provided by libraries
         }
     }
 
-あらかじめ用意されているHandlerMetricsMetaDataBuilderの実装
+The provided HandlerMetricsMetaDataBuilder implementation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-ここでは、Nablarchによってあらかじめ用意されている ``HandlerMetricsMetaDataBuilder`` の実装クラスについて紹介する。
+In this section, we explain the implementation class of ``HandlerMetricsMetaDataBuilder``, which is provided by Nablarch.
 
 .. _micrometer_adaptor_http_request_process_time_metrics:
 
-HTTPリクエストの処理時間を収集する
+Collect the processing time of HTTP requests
 *********************************************************************
 
-:java:extdoc:`HttpRequestTimeMetricsMetaDataBuilder <nablarch.integration.micrometer.instrument.http.HttpRequestTimeMetricsMetaDataBuilder>` は、HTTPリクエストの処理時間計測のためのメトリクスのメタ情報を構築する。
+The :java:extdoc:`HttpRequestTimeMetricsMetaDataBuilder <nablarch.integration.micrometer.instrument.http.HttpRequestTimeMetricsMetaDataBuilder>` builds meta data of metrics for measuring processing time of HTTP requrest.
 
-本クラスは、メトリクスの名前に ``http.server.requests`` を使用する。
+This class uses ``http.server.requirements`` as the name of the metrics.
 
-また、本クラスは以下のタグを生成する。
+This class set the following tags to metrics.
 
 .. list-table::
 
-  * - タグ名
-    - 説明
+  * - Tag name
+    - Description
   * - ``class``
-    - リクエストを処理したアクションクラスの名前(``Class.getName()``)。
-      取得できない場合は ``UNKNOWN``。
+    - The name of the action class that handled the request (``Class.getName()``).
+      If it cannot be obtained, it will be ``UNKNOWN``.
   * - ``method``
-    - リクエストを処理したアクションクラスのメソッド名と、引数の型名(``Class.getCanonicalName()``)をアンダースコア(``_``)で繋げた文字列。
-      取得できない場合は ``UNKNOWN``。
+    - A string consisting of the method name of the action class that handled the request and the type name of the argument (``Class.getCanonicalName()``), joined by an underscore (``_``).
+      If it cannot be obtained, it will be ``UNKNOWN``.
   * - ``httpMethod``
-    - HTTPメソッド
+    - A HTTP method.
   * - ``status``
-    - HTTPステータスコード
+    - A HTTP status code.
   * - ``outcome``
-    - ステータスコードの種類を表す文字列（1XX: ``INFORMATION``, 2XX: ``SUCCESS``, 3XX: ``REDIRECTION``, 4XX: ``CLIENT_ERROR``, 5XX: ``SERVER_ERROR``, その他: ``UNKNOWN``）
+    - A string indicating the status code type (1XX: ``INFORMATION``, 2XX: ``SUCCESS``, 3XX: ``REDIRECTION``, 4XX: ``CLIENT_ERROR``, 5XX: ``SERVER_ERROR``, Others: ``UNKNOWN``).
   * - ``exception``
-    - リクエスト処理中のスローされた例外の単純名（例外スローされていない場合は ``None``）
+    - A simple name of the exception thrown during request processing (or ``None`` if no exception was thrown).
 
-本クラスを使った場合の設定例を以下に示す。
+The following is an example using this class.
 
 .. code-block:: xml
 
-  <!-- ハンドラキュー構成 -->
+  <!-- Handler queue -->
   <component name="webFrontController"
              class="nablarch.fw.web.servlet.WebFrontController">
     <property name="handlerQueue">
       <list>
-        <!-- HTTPリクエストの処理時間のメトリクス収集ハンドラ -->
+        <!-- Handler to collect metrics of processing time of HTTP requests -->
         <component class="nablarch.integration.micrometer.instrument.handler.TimerMetricsHandler">
-          <!-- レジストリファクトリが生成する MeterRegistry を meterRegistry プロパティに設定する -->
+          <!-- Set the MeterRegistry created by the registry factory to meterRegistry property -->
           <property name="meterRegistry" ref="meterRegistry" />
 
-          <!-- HttpRequestTimeMetricsMetaDataBuilder を handlerMetricsMetaDataBuilder に設定する -->
+          <!-- Set the HttpRequestTimeMetricsMetaDataBuilder to handlerMetricsMetaDataBuilder property -->
           <property name="handlerMetricsMetaDataBuilder">
             <component class="nablarch.integration.micrometer.instrument.http.HttpRequestTimeMetricsMetaDataBuilder" />
           </property>
@@ -1131,14 +1132,12 @@ HTTPリクエストの処理時間を収集する
 
         <component class="nablarch.fw.web.handler.HttpCharacterEncodingHandler"/>
 
-        <!-- 省略 -->
+        <!-- ... -->
      </list>
     </property>
   </component>
 
-リクエスト全体の処理時間を計測するため、 ``TimerMetricsHandler`` はハンドラキューの先頭に設定する。
-
-以上の設定で、 ``LoggingMeterRegistry`` を使っていた場合は次のようなメトリクスが収集されるようになる。
+If you use ``LoggingMeterRegistry``, you will get like the following metrics.
 
 .. code-block:: text
 
