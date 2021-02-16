@@ -748,109 +748,106 @@ Disable the registry
   You can override this configuration by environment variable.
   Therefor, you can enable the registry by setting ``true`` with environment variable only at production.
 
-
-アプリケーションの形式ごとに収集するメトリクスの例
+Examples of metrics for each application type.
 ---------------------------------------------------------
 
-ここでは、アプリケーションの形式（ウェブ・バッチ）ごとに、どのようなメトリクスを収集すると良いか説明する。
+In this section, we will explain what metrics should be collected for each application type (web and batch).
 
-ウェブアプリケーションで収集するメトリクスの例
+Examples of metrics for web applications
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-HTTPリクエストの処理時間
-  HTTPリクエストごとの処理時間を計測することで、以下のようなことができるようになる。
+Processing time for HTTP requests
+  By measuring the processing time for each HTTP request, you can do the following.
 
-  * 各URLごとにどの程度アクセスがあるか確認する
-  * リクエストの処理にどれくらい時間がかかっているか確認する
+  * You can check how much traffic each URL
+  * You can check how long it takes to process the request
 
-  また、パーセンタイルを計測することで、大部分のリクエストがどれくらいの時間で処理できているかを確認できるようにもなる。
+  By measuring percentiles, you can also check how long it takes to process most of the requests.
 
-  これらのメトリクスを収集する方法については、以下のガイドを参照のこと。
+  See the following guide for more informations on how to collect these metrics.
 
   * :ref:`micrometer_timer_metrics_handler`
   * :ref:`micrometer_timer_metrics_handler_percentiles`
 
-SQLの処理時間
-  SQLの処理時間を計測することで、以下のようなことができるようになる。
+Processing time for SQL
+  By measuring the SQL processing time, you can do the following.
 
-  * それぞれのSQLがどの程度の時間で処理されているか確認する
-  * 想定よりも時間がかかっているSQLが無いか確認する
+  * You can check how long it takes for each SQL to be processed
+  * You can check for SQLs that are taking longer than expected
 
-  SQLの処理時間を計測する方法については、以下のガイドを参照のこと。
+  See the following guide for more informations on how to collect metrics.
 
   * :ref:`micrometer_sql_time`
 
-ログレベルごとの出力回数
-  ログレベルごとの出力回数を計測することで、以下のようなことができるようになる。
+Output count per log level
+  By measuring the count of outputs per log level, you can do the following.
 
-  * 警告ログが異常な回数出力されていないか確認する（攻撃の検知）
-  * エラーログを検知する
+  * You can check if the warning log is output an abnormal number of times (attack detection)
+  * You can detect error logs
 
-  ログレベルごとの出力回数については、以下のガイドを参照のこと。
+  See the following guide for more informations on how to collect metrics.
 
   * :ref:`micrometer_log_count`
 
-アプリケーションサーバーやライブラリが提供するリソースの情報
-  アプリケーションサーバーやライブラリが提供するリソース（スレッドプールやDBのコネクションプールなど）の状態を
-  メトリクスとして収集しておくことで、障害発生時に原因箇所を特定するための情報源として活用できるようになる。
+Status of resources provided by application servers and libraries
+  By collecting metrics on the status of resources provided by application servers and libraries (thread pools, DB connection pools, etc.), you can use it as a source of information to identify the cause of system failures.
 
-  多くのアプリケーションサーバーは、リソースの状態をJMXのMBeanを通じて公開している。
-  MBeanの情報を収集する方法については、以下のガイドを参照のこと。
+  Many application servers expose the status of their resources through MBean in JMX.
+  See the following guide for more informations on how to collect metrics.
 
   * :ref:`micrometer_mbean_metrics`
 
-バッチアプリケーションで収集するメトリクスの例
+Examples of metrics for batch applications
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-バッチの処理時間
-  普段からバッチの処理時間を計測しておくことで、平常時の処理時間を知ることができる。
-  これにより、処理時間が平常時とは異なる値になったときに、異常を迅速に検知できるようになる。
+Processing time for batch
+  By measuring the processing time of batches in normally, you can know the processing time under normal conditions.
+  Therefore, you can quickly detect abnormalities when processing time deviates from normal.
 
-  バッチの処理時間は、 :ref:`micrometer_default_metrics` で収集される ``process.uptime`` で計測できる。
+  You can get processing time of batch by ``process.uptime`` described in :ref:`micrometer_default_metrics`.
 
-トランザクション単位の処理時間
-  トランザクション単位の処理時間を計測することで、マルチスレッドのバッチが均等に処理を分散できているかなどを確認できるようになる。
+Processing time per transaction
+  By measuring the processing time per transaction, you can check whether each threads are distributed evenly in the multi-thread batch.
 
-  また、バッチの処理時間と同様に、処理時間が平常時から逸脱したときに異常を迅速に検知することもできる。
+  As with processing time for batch, you can quickly detect abnormalities when processing time deviates from normal.
 
-  バッチのトランザクション単位の処理時間の計測については、以下のガイドを参照のこと。
+  See the following guide for more informations on how to collect metrics.
 
   * :ref:`micrometer_adaptor_batch_transaction_time`
 
-バッチの処理件数
-  バッチの処理件数を計測することで、以下のようなことができるようになる。
+Processed count with batch
+  By measuring the count that was processed by batch, you can do the following.
 
-  * バッチの進捗状況を確認する
-  * 想定通りの速度で処理が進んでいるか確認する
-  * 想定通りの件数が処理できているか確認する
+  * You can check the progress of the batch
+  * You can check that the batch process is proceeding at the expected speed
+  * You can check that the count processed with batch is expected
 
-  バッチの処理件数の計測については、以下のガイドを参照のこと。
+  See the following guide for more informations on how to collect metrics.
 
   * :ref:`micrometer_batch_processed_count`
 
-SQLの処理時間
-  SQLの処理時間を計測することで、以下のようなことができるようになる。
+Processing time for SQL
+  By measuring the SQL processing time, you can do the following.
 
-  * それぞれのSQLがどの程度の時間で処理されているか確認する
-  * 想定よりも時間がかかっているSQLが無いか確認する
+  * You can check how long it takes for each SQL to be processed
+  * You can check for SQLs that are taking longer than expected
 
-  SQLの処理時間を計測する方法については、以下のガイドを参照のこと。
+  See the following guide for more informations on how to collect metrics.
 
   * :ref:`micrometer_sql_time`
 
-ログレベルごとの出力回数
-  ログレベルごとの出力回数を計測することで、警告ログやエラーログの検知ができるようになる。
+Output count per log level
+  By measuring the count of outputs per log level, you can detect warning logs and error logs.
 
-  ログレベルごとの出力回数については、以下のガイドを参照のこと。
+  See the following guide for more informations on how to collect metrics.
 
   * :ref:`micrometer_log_count`
 
-ライブラリが提供するリソースの情報
-  ライブラリが提供するリソース（DBのコネクションプールなど）の状態をメトリクスとして収集しておくことで、
-  障害発生時に原因箇所を特定するための情報源として活用できるようになる。
+Status of resources provided by libraries
+  By collecting metrics on the status of resources provided by  libraries (DB connection pools, etc.), you can use it as a source of information to identify the cause of system failures.
 
-  ライブラリによっては、リソースの状態をJMXのMBeanで公開していることがある。
-  MBeanの情報を収集する方法については、以下のガイドを参照のこと。
+  Some libraries expose the status of the resource through MBean in JMX.
+  See the following guide for more informations on how to collect metrics.
 
   * :ref:`micrometer_mbean_metrics`
 
