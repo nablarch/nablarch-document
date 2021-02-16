@@ -118,9 +118,10 @@ Describe the contents as follows.
 
 .. code-block:: properties
 
-  # Output metrics every 5 seconds
+  # Output metrics every 5 seconds (1 minute in default)
   nablarch.micrometer.logging.step=5s
-  # step で指定した時間よりも早くアプリケーションが終了した場合でも廃棄処理でログが出力されるよう設定
+  # Configuring to output log at disposal process
+  # even if the application is terminated earlier than the time specified in step.
   nablarch.micrometer.logging.logInactive=true
 
 .. important::
