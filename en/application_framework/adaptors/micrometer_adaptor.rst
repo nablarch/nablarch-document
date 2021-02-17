@@ -1278,45 +1278,46 @@ If you use ``LoggingMeterRegistry``, you will get like the following metrics.
 
 .. _micrometer_log_count:
 
-ログレベルごとの出力回数を計測する
+Measure the output count per log level
 --------------------------------------------------
 
-:java:extdoc:`LogCountMetrics <nablarch.integration.micrometer.instrument.binder.logging.LogCountMetrics>` を使用すると、ログレベルごとの出力回数を計測できるようになる。
-これにより、特定レベルのログ出力頻度をモニターしたり、エラーログの監視などができるようになる。
+You can measure the output count per log level with the :java:extdoc:`LogCountMetrics <nablarch.integration.micrometer.instrument.binder.logging.LogCountMetrics>`.
+This will allow you to monitor the frequency of output at specific log levels, monitor error logs.
 
-``LogCountMetrics`` は `Counter(外部サイト、英語)`_ を使って ``log.count`` という名前でメトリクスを収集する。
-この名前は、 :java:extdoc:`MetricsMetaData <nablarch.integration.micrometer.instrument.binder.MetricsMetaData>` を受け取る :java:extdoc:`コンストラクタ <nablarch.integration.micrometer.instrument.binder.logging.LogCountMetrics.LogCountMetrics(nablarch.integration.micrometer.instrument.binder.MetricsMetaData)>` で変更できる。
+The ``LogCountMetrics`` collects metrics with `Counter(external site)`_.
+Metrics name is ``log.count``.
+You can change the name with the :java:extdoc:`constructor <nablarch.integration.micrometer.instrument.binder.logging.LogCountMetrics.LogCountMetrics(nablarch.integration.micrometer.instrument.binder.MetricsMetaData)>` that receives the :java:extdoc:`MetricsMetaData <nablarch.integration.micrometer.instrument.binder.MetricsMetaData>`.
 
-また、メトリクスには以下のタグが付与される。
+Metrics have the following tags.
 
 .. list-table::
 
-  * - タグ名
-    - 説明
+  * - Tag name
+    - Description
   * - ``level``
-    - ログレベル。
+    - The log level.
   * - ``logger``
-    - :java:extdoc:`LoggerManager <nablarch.core.log.LoggerManager>` からロガーを取得するときに使用した名前。
+    - The name used to get the logger from the :java:extdoc:`LoggerManager <nablarch.core.log.LoggerManager>`.
 
-LogPublisher を設定する
+Configure LogPublisher
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``LogCountMetrics`` は、ログ出力イベントを検知するために :java:extdoc:`LogPublisher <nablarch.core.log.basic.LogPublisher>` の仕組みを使用している。
+``LogCountMetrics`` uses the :java:extdoc:`LogPublisher <nablarch.core.log.basic.LogPublisher>` mechanism to detect log output events.
 
-したがって ``LogCountMetrics`` を使い始めるためには、まず ``LogPublisher`` の設定をする必要がある。
-``LogPublisher`` の設定については、 :ref:`log-publisher_usage` を参照のこと。
+Therefore, you need to configure ``LogPublisher`` at first to use ``LogCountMetrics``.
+For ``LogPublisher`` settings, see :ref:`log-publisher_usage`.
 
-カスタムのDefaultMeterBinderListProviderを作成する
+Create a custom DefaultMeterBinderListProvider
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``LogCountMetrics`` は `MeterBinder(外部サイト、英語)`_ の実装クラスとして提供されている。
-したがって、 :java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` を継承したクラスを作り、 ``LogCountMetrics`` を含んだ ``MeterBinder`` のリストを返すように実装する必要がある。
+``LogCountMetrics`` is provided as an implementation class of `MeterBinder (external site)`_.
+Therefore, you need create a class that inherits from :java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` and implement it to return a list of MeterBinders that contains ``LogCountMetrics``.
 
 .. tip::
 
-  ``DefaultMeterBinderListProvider`` の説明については、 :ref:`micrometer_adaptor_declare_default_meter_binder_list_provider_as_component` を参照。
+  For a description of the ``DefaultMeterBinderListProvider``, see :ref:`micrometer_adaptor_declare_default_meter_binder_list_provider_as_component`.
 
-以下に、その実装例を示す。
+The following is an example for a custom ``DefaultMeterBinderListProvider``.
 
 .. code-block:: java
 
@@ -1333,34 +1334,35 @@ LogPublisher を設定する
 
       @Override
       protected List<MeterBinder> createMeterBinderList() {
-          // デフォルトの MeterBinder リストに LogCountMetrics を追加
+          // Add LogCountMetrics to the default MeterBinder list.
           List<MeterBinder> meterBinderList = new ArrayList<>(super.createMeterBinderList());
           meterBinderList.add(new LogCountMetrics());
           return meterBinderList;
       }
   }
 
-最後に、 ``MeterRegistryFactory`` コンポーネントの ``meterBinderListProvider`` プロパティに、作成したカスタムの ``DefaultMeterBinderListProvider`` を設定する。
-以上で、 ``LogCountMetrics`` が使用できるようになる。
+Finally, set the custom ``DefaultMeterBinderListProvider`` that you created to the ``meterBinderListProvider`` property of the ``MeterRegistryFactory`` component.
+Now you can use the ``LogCountMetrics``.
 
-``LoggingMeterRegistry`` を使用した場合、以下のようにメトリクスが出力されることが確認できる。
+If you use ``LoggingMeterRegistry``, you will get like the following metrics.
 
 .. code-block:: text
 
   2020-12-22 14:25:36.978 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: log.count{level=WARN,logger=com.nablarch.example.app.web.action.MetricsAction} throughput=0.4/s
   2020-12-22 14:25:41.978 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: log.count{level=ERROR,logger=com.nablarch.example.app.web.action.MetricsAction} throughput=1.4/s
 
-集計対象のログレベル
+Log level to be aggregated
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-デフォルトでは、 ``WARN`` 以上のログ出力回数のみが集計の対象となる。
+By default, only log outputs above the warning log will be counted.
 
-集計対象のログレベルのしきい値は、 ``LogCountMetrics`` のコンストラクタに :java:extdoc:`LogLevel <nablarch.core.log.basic.LogLevel>` を渡すことで変更できる。
-以下の実装例では、しきい値を ``INFO`` に変更している。
+``LogCountMetrics`` has a constructor that receives a :java:extdoc:`LogLevel <nablarch.core.log.basic.LogLevel>`.
+You can change the threshold of the log level to be aggregated with the constructor.
+In the following implementation example, the threshold value is changed to INFO.
 
 .. code-block:: java
 
-  // （省略）
+  // ...
   import nablarch.core.log.basic.LogLevel;
 
   public class CustomMeterBinderListProvider extends DefaultMeterBinderListProvider {
@@ -1368,15 +1370,15 @@ LogPublisher を設定する
       @Override
       protected List<MeterBinder> createMeterBinderList() {
           List<MeterBinder> meterBinderList = new ArrayList<>(super.createMeterBinderList());
-          meterBinderList.add(new LogCountMetrics(LogLevel.INFO)); // LogLevel のしきい値を指定
+          meterBinderList.add(new LogCountMetrics(LogLevel.INFO)); // Specify the threshold of log level.
           return meterBinderList;
       }
   }
 
 .. important::
 
-  ログレベルのしきい値を下げすぎると、アプリケーションによっては大量のメトリクスが収集される可能性がある。
-  使用する監視サービスの料金体系によっては使用料金が増大する可能性があるため、注意して設定すること。
+  If you lower the log level threshold too much, a large amount of metrics may be collected depending on the application.
+  Depending on the fee structure of the monitoring service to be used, the usage fee may increase, so it should be set with care.
 
 .. _micrometer_sql_time:
 
