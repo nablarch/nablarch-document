@@ -1217,39 +1217,41 @@ If you use ``LoggingMeterRegistry``, you will get like the following metrics.
 
 .. _micrometer_batch_processed_count:
 
-バッチの処理件数を計測する
+Measure the count that was processed by batch
 --------------------------------------------------
 
-:java:extdoc:`BatchProcessedRecordCountMetricsLogger <nablarch.integration.micrometer.instrument.batch.BatchProcessedRecordCountMetricsLogger>` を使用すると、 :ref:`nablarch_batch` が処理した入力データの件数を計測できるようになる。
-これにより、バッチの進捗状況や処理速度の変化をモニターできるようになる。
+You can measure the count of input data processed by the :ref:`nablarch_batch` with the :java:extdoc:`BatchProcessedRecordCountMetricsLogger <nablarch.integration.micrometer.instrument.batch.BatchProcessedRecordCountMetricsLogger>`.
+This will allow you to monitor the progress of the batch and changes in processing speed.
 
-``BatchProcessedRecordCountMetricsLogger`` は `Counter(外部サイト、英語)`_ を使って ``batch.processed.record.count`` という名前でメトリクスを収集する。
-この名前は、 :java:extdoc:`setMetricsName(String) <nablarch.integration.micrometer.instrument.batch.BatchProcessedRecordCountMetricsLogger.setMetricsName(java.lang.String)>` で変更できる。
+The ``BatchProcessedRecordCountMetricsLogger`` collects metrics with `Counter(external site)`_.
+Metrics name is ``batch.processed.record.count``.
 
-また、メトリクスには以下のタグが付与される。
+You can change the name with :java:extdoc:`setMetricsName(String) <nablarch.integration.micrometer.instrument.batch.BatchProcessedRecordCountMetricsLogger.setMetricsName(java.lang.String)>`.
+
+Metrics have the following tag.
 
 .. list-table::
 
-  * - タグ名
-    - 説明
+  * - Tag name
+    - Description
   * - ``class``
-    - アクションのクラス名（ :ref:`-requestPath <nablarch_batch-resolve_action>` から取得した値）
+    - The name of action class (This value is obtained from :ref:`-requestPath <nablarch_batch-resolve_action>`).
 
-以下に ``BatchTransactionTimeMetricsLogger`` を使うための設定例を示す。
+The following is an example to use ``BatchProcessedRecordCountMetricsLogger``.
 
 .. code-block:: xml
 
-  <!-- CommitLogger を複数組み合わせる -->
+  <!-- Combining multiple CommitLoggers -->
   <component name="commitLogger"
              class="nablarch.core.log.app.CompositeCommitLogger">
     <property name="commitLoggerList">
       <list>
-        <!-- デフォルトの CommitLogger を設定 -->
+        <!-- Configure the default CommitLogger -->
         <component class="nablarch.core.log.app.BasicCommitLogger">
           <property name="interval" value="${nablarch.commitLogger.interval}" />
         </component>
 
-        <!-- 処理件数を計測する -->
+        <!-- Measure the processed count -->
         <component class="nablarch.integration.micrometer.instrument.batch.BatchProcessedRecordCountMetricsLogger">
           <property name="meterRegistry" ref="meterRegistry" />
         </component>
@@ -1257,12 +1259,13 @@ If you use ``LoggingMeterRegistry``, you will get like the following metrics.
     </property>
   </component>
 
-``BatchProcessedRecordCountMetricsLogger`` は、「バッチのトランザクション単位の処理時間の計測」と同じく、 :java:extdoc:`CommitLogger <nablarch.core.log.app.CommitLogger>` の仕組みを利用して処理件数を計測している。
-``CommitLogger`` の仕組みや、その利用の仕方については :ref:`micrometer_adaptor_batch_transaction_time` を参照のこと。
+The ``BatchProcessedRecordCountMetricsLogger`` uses the :java:extdoc:`CommitLogger <nablarch.core.log.app.CommitLogger>` mechanism to measure the processed count, just as in "Measure the processing time per transaction of a batch".
 
-以上の設定で、 ``BatchProcessedRecordCountMetricsLogger`` を使用できるようになる。
+For more information on how ``CommitLogger`` works and how to use it, please refer to :ref:`micrometer_adaptor_batch_transaction_time`.
 
-``LoggingMeterRegistry`` を使用している場合、以下のようにメトリクスが出力されることを確認できる。
+Now you can use ``BatchProcessedRecordCountMetricsLogger``.
+
+If you use ``LoggingMeterRegistry``, you will get like the following metrics.
 
 .. code-block:: text
 
