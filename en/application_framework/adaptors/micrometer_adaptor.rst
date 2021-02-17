@@ -1444,38 +1444,38 @@ If you use ``LoggingMeterRegistry``, you will get like the following metrics.
 
 .. _micrometer_mbean_metrics:
 
-任意のMBeanから取得した値をメトリクスとして計測する
+Measure the value obtained from any MBean as a metric
 -------------------------------------------------------------
 
-:java:extdoc:`JmxGaugeMetrics <nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics>` を使用すると、任意のMBeanから取得した値をメトリクスとして計測できるようになる。
-これにより、使用しているアプリケーションサーバーやライブラリがMBeanで提供している様々な情報を計測し、モニターできるようになる。
+:java:extdoc:`JmxGaugeMetrics <nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics>` allows you to measure the values obtained from any MBean as metrics.
+This will allow you to measure the various status of the application server or libraries provided by MBean and monitor them.
 
 .. tip::
 
-  MBeanとは、Java Management Extensions(JMX)で定義されたJavaオブジェクトで、管理対象リソースの情報へアクセスするためのAPIなどを提供する。
-  Tomcatなどのアプリケーションサーバーの多くは、サーバーの状態（スレッドプールの状態など）をMBeanで公開している。
-  アプリケーションからこれらのMBeanにアクセスすることで、サーバーの状態を取得できるようになっている。
+  MBean is a Java object defined in Java Management Extensions (JMX), which provides APIs for accessing information on managed resources.
+  Many application servers, such as Tomcat, expose the server status (thread pool status, etc.) in MBean.
+  By accessing these MBeans from the application, you can get the status of the server.
 
-  JMXについての詳細は、 `Java Management Extensions Guide(外部サイト、英語) <https://docs.oracle.com/en/java/javase/11/jmx/java-management-extensions-jmx-user-guide.html>`_ を参照。
+  For more information about JMX, see the `Java Management Extensions Guide (external site) <https://docs.oracle.com/en/java/javase/11/jmx/java-management-extensions-jmx-user-guide.html>`_.
 
-``JmxGaugeMetrics`` は、 `Gauge(外部サイト、英語)`_ を使用して、MBeanから取得した値を計測する。
+The ``JmxGaugeMetrics`` measure values obtained from MBean with `Gauge(external site)`_.
 
-以下で、 ``JmxGaugeMetrics`` の設定例を説明する。
+This section explains how to use ``JmxGaugeMetrics``.
 
-まず、アプリケーションサーバーが提供するMBeanを参照する例として、Tomcatのスレッドプールの状態を取得する例を示す。
-次にアプリケーションに組み込んだライブラリが提供するMBeanを参照する例として、HikariCPのコネクションプールの状態を取得する例を示す。
+First, as an example of referring to the MBean provided by the application server, we show an example of obtaining the status of the Tomcat thread pool.
+Next, as an example of referring to the MBean provided by the library embedded in the application, we show an example of obtaining the status of the HikariCP connection pool.
 
-Tomcatのスレッドプールの状態を取得する
+Obtain the status of the Tomcat thread pool
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``JmxGaugeMetrics`` は `MeterBinder(外部サイト、英語)`_ の実装クラスとして提供されている。
-したがって、 :java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` を継承したクラスを作り、 ``JmxGaugeMetrics`` を含んだ ``MeterBinder`` のリストを返すように実装する必要がある。
+``JmxGaugeMetrics`` implements `MeterBinder (external site)`_.
+Therefore, you need create a class that inherits from :java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` and implement it to return a list of MeterBinders that contains ``JmxGaugeMetrics``.
 
 .. tip::
 
-  ``DefaultMeterBinderListProvider`` の説明については、 :ref:`micrometer_adaptor_declare_default_meter_binder_list_provider_as_component` を参照。
+  For a description of the ``DefaultMeterBinderListProvider``, see :ref:`micrometer_adaptor_declare_default_meter_binder_list_provider_as_component`.
 
-以下に、実装例を示す。
+The following is an example for a custom ``DefaultMeterBinderListProvider``.
 
 .. code-block:: java
 
@@ -1496,49 +1496,49 @@ Tomcatのスレッドプールの状態を取得する
       protected List<MeterBinder> createMeterBinderList() {
           List<MeterBinder> meterBinderList = new ArrayList<>(super.createMeterBinderList());
           meterBinderList.add(new JmxGaugeMetrics(
-              // メトリクスの名前と説明
+              // Name and description of metrics.
               new MetricsMetaData("thread.count.current", "Current thread count."),
-              // 収集する MBean の属性を特定する情報
+              // The conditions to specify the attribute of MBean.
               new MBeanAttributeCondition("Catalina:type=ThreadPool,name=\"http-nio-8080\"", "currentThreadCount")
           ));
           return meterBinderList;
       }
   }
 
-``JmxGaugeMetrics`` のコンストラクタには、次の２つのクラスを渡す必要がある。
+You must pass following classes to the constructor of ``JmxGaugeMetrics``.
 
 * :java:extdoc:`MetricsMetaData <nablarch.integration.micrometer.instrument.binder.MetricsMetaData>`
-    * メトリクスの名前や説明、タグなどのメタ情報を指定する
+    * Specify meta data such as the name, description, and tags of the metrics.
 * :java:extdoc:`MBeanAttributeCondition <nablarch.integration.micrometer.instrument.binder.jmx.MBeanAttributeCondition>`
-    * 収集するMbeanを特定するための、オブジェクト名と属性名を指定する
+    * Specify the object name and attribute name to identify the MBean.
 
-``JmxGaugeMetrics`` は、 ``MBeanAttributeCondition`` で指定された情報に基づいてMBeanの情報を取得する。
-そして、 ``MetricsMetaData`` で指定された情報でメトリクスを構築する。
+``JmxGaugeMetrics`` gets the MBean based on the information specified in ``MBeanAttributeCondition``.
+Then, the ``JmxGaugeMetrics`` constructs metrics with the information specified in ``MetricsMetaData``.
 
 .. tip::
 
-  Tomcatが作成するMBeanのオブジェクト名・属性名は、JDKに付属しているJConsoleというツールを使って確認できる。
-  JConsoleでTomcatを実行しているJVMに接続し「MBeans」タブを開くと、接続しているJVMで取得可能なMBeanの一覧が表示される。
+  You can check the object and attribute names of the MBean created by Tomcat with JConsole tool that comes with the JDK.
+  When you connect to the JVM running Tomcat with JConsole and open the "MBeans" tab, you get the list of MBeans in the connected JVM.
 
-  JConsoleについての詳細は、 `Monitoring and Management Guide(外部サイト、英語) <https://docs.oracle.com/en/java/javase/15/management/using-jconsole.html#GUID-77416B38-7F15-4E35-B3D1-34BFD88350B5>`_ を参照。
+  For more details about JConsole, refer to the `Monitoring and Management Guide (external site) <https://docs.oracle.com/en/java/javase/15/management/using-jconsole.html#GUID-77416B38-7F15-4E35-B3D1-34BFD88350B5>`_.
 
-以上の設定で ``LoggingMeterRegistry`` を使用した場合、以下のようにメトリクスが出力されることが確認できる。
+If you use ``LoggingMeterRegistry``, you will get like the following metrics.
 
 .. code-block:: text
 
   24-Dec-2020 16:20:24.467 情報 [logging-metrics-publisher] io.micrometer.core.instrument.logging.LoggingMeterRegistry.lambda$publish$3 thread.count.current{} value=10
 
-HikariCPのコネクションプールの状態を取得する
+Obtain the status of the HikariCP connection pool
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-`HikariCP(外部サイト、英語) <https://github.com/brettwooldridge/HikariCP>`_ には、コネクションプールの情報をMBeanで参照できるようにする機能が用意されている。
+`HikariCP (external site) <https://github.com/brettwooldridge/HikariCP>`_ has a function to get status of the connection pool by MBean.
 
-* `MBean (JMX) Monitoring and Management(外部サイト、英語) <https://github.com/brettwooldridge/HikariCP/wiki/MBean-(JMX)-Monitoring-and-Management>`_
+* `MBean (JMX) Monitoring and Management (external site) <https://github.com/brettwooldridge/HikariCP/wiki/MBean-(JMX)-Monitoring-and-Management>`_
 
-この機能を使用することで、 ``JmxGaugeMetrics`` でコネクションプールの情報を収集できるようになる。
+This function will allow ``JmxGaugeMetrics`` to collect connection pool status.
 
-まず、HikariCPのMBeanで情報を公開する機能を有効にする。
-MBeanによる情報公開を有効にするには、 ``com.zaxxer.hikari.HikariDataSource`` の ``registerMbeans`` プロパティに ``true`` を設定する。
+First, enable the function to publish status by MBean.
+You must set ``true`` to ``registerMbeans`` property of ``com.zaxxer.hikari.HikariDataSource``.
 
 .. code-block:: xml
 
@@ -1547,9 +1547,9 @@ MBeanによる情報公開を有効にするには、 ``com.zaxxer.hikari.Hikari
           xmlns="http://tis.co.jp/nablarch/component-configuration"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://tis.co.jp/nablarch/component-configuration https://nablarch.github.io/schema/component-configuration.xsd">
-    <!-- 省略 -->
+    <!-- ... -->
 
-    <!-- データソース設定 -->
+    <!-- Datasource configuration -->
     <component name="dataSource"
               class="com.zaxxer.hikari.HikariDataSource" autowireType="None">
       <property name="driverClassName" value="${nablarch.db.jdbcDriver}"/>
@@ -1557,18 +1557,18 @@ MBeanによる情報公開を有効にするには、 ``com.zaxxer.hikari.Hikari
       <property name="username"        value="${nablarch.db.user}"/>
       <property name="password"        value="${nablarch.db.password}"/>
       <property name="maximumPoolSize" value="${nablarch.db.maxPoolSize}"/>
-      <!-- MBeanによる情報公開を有効にする -->
+      <!-- Enable MBean to publish status. -->
       <property name="registerMbeans"  value="true"/>
     </component>
 
   </component-configuration>
 
-上記設定では、 ``HikariDataSource`` のコンポーネント定義で ``registerMbeans`` プロパティに ``true`` を設定している。
+In the above configuration, we set true to the ``registerMbeans`` property in the component definition of ``HikariDataSource``.
 
-次に、HikariCPが公開するMBeanのオブジェクト名と、計測したい属性名を指定した形で ``JmxGaugeMetrics`` を設定する。
-なお、オブジェクト名や属性名の仕様は、 `前述のHikariCPのドキュメント(外部サイト、英語) <https://github.com/brettwooldridge/HikariCP/wiki/MBean-(JMX)-Monitoring-and-Management#programmatic-access>`_ に記載されている。
+Next, configure the ``JmxGaugeMetrics`` with the object name and attribute name that you want to measure.
+The specifications of object names and attribute names are described in the `HikariCP document mentioned above (external site) <https://github.com/brettwooldridge/HikariCP/wiki/MBean-(JMX)-Monitoring-and-Management#programmatic-access>`_.
 
-以下は、コネクションプールの最大数とアクティブ数を計測する場合の ``JmxGaugeMetrics`` の実装例になる。
+The following is an example implementation of ``JmxGaugeMetrics`` for measuring the maximum count of connection pools and the count of active connections.
 
 .. code-block:: java
 
@@ -1588,12 +1588,12 @@ MBeanによる情報公開を有効にするには、 ``com.zaxxer.hikari.Hikari
       @Override
       protected List<MeterBinder> createMeterBinderList() {
           List<MeterBinder> meterBinderList = new ArrayList<>(super.createMeterBinderList());
-          // 最大数
+          // The maximum count.
           meterBinderList.add(new JmxGaugeMetrics(
               new MetricsMetaData("db.pool.total", "Total DB pool count."),
               new MBeanAttributeCondition("com.zaxxer.hikari:type=Pool (HikariPool-1)", "TotalConnections")
           ));
-          // アクティブ数
+          // The active count.
           meterBinderList.add(new JmxGaugeMetrics(
               new MetricsMetaData("db.pool.active", "Active DB pool count."),
               new MBeanAttributeCondition("com.zaxxer.hikari:type=Pool (HikariPool-1)", "ActiveConnections")
@@ -1602,28 +1602,28 @@ MBeanによる情報公開を有効にするには、 ``com.zaxxer.hikari.Hikari
       }
   }
 
-以上の設定で ``LoggingMeterRegistry`` を使用した場合、以下のようにメトリクスが出力されることが確認できる。
+If you use ``LoggingMeterRegistry``, you will get like the following metrics.
 
 .. code-block:: text
 
   2020-12-24 16:37:57.143 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: db.pool.active{} value=0
   2020-12-24 16:37:57.143 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: db.pool.total{} value=5
 
-サーバー起動時に出力される警告ログについて
+About the warning log output when the server is started
 *********************************************************************
 
-Micrometerが監視サービスにメトリクスを連携する方法には、大きく次の２つの方法が存在する。
+There are two main ways for Micrometer to send metrics to the monitoring service.
 
-* 一定間隔でアプリケーションが監視サービスにメトリクスを送信する (Client pushes)
-    * Datadog, CloudWatch など
-* 一定間隔で監視サービスがアプリケーションにメトリクスを問い合わせに来る (Server polls)
-    * Prometheus など
+* Applications send metrics to the monitoring service at regular intervals (Client pushes)
+    * Datadog, CloudWatch, etc
+* The monitoring service queries to the application for metrics at regular intervals (Server polls)
+    * Prometheus, etc
 
-前者(Client pushes)の場合、 ``MeterRegistry`` はコンポーネント生成後に一定間隔でメトリクスの送信を開始する。
-一方で、HikariCPのコネクションプールは、一番最初にデータベースアクセスが行われたときに初めて作成される仕様となっている。
+In the former case (Client pushes), ``MeterRegistry`` will start sending metrics at regular intervals after component creation.
+On the other hand, HikariCP's connection pool is designed to be created the first time when the first database access is made.
 
-このため、最初のデータベースアクセスが発生する前にメトリクスの送信が実行されると、 ``JmxGaugeMetrics`` は存在しないコネクションプールの情報を参照することになる。
-このとき、Micrometerは以下のような警告ログを出力する。
+Therefore, ``JmxGaugeMetrics`` will refer to a connection pool that does not exist if it sends metrics before the first database access occurs.
+At this time, the Micrometer will output the following warning log.
 
 .. code-block:: text
 
@@ -1660,26 +1660,27 @@ Micrometerが監視サービスにメトリクスを連携する方法には、�
                   at nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics.obtainGaugeValue(JmxGaugeMetrics.java:38)
                   ... 23 more
 
-なお、コネクションプールが生成されていない間、メトリクスの値は ``NaN`` となる。
+The value of the metrics will be NaN while the connection pool is not created.
 
 .. code-block:: text
 
   24-Dec-2020 17:01:31.443 情報 [logging-metrics-publisher] io.micrometer.core.instrument.logging.LoggingMeterRegistry.lambda$publish$3 db.pool.active{} value=NaN
   24-Dec-2020 17:01:31.443 情報 [logging-metrics-publisher] io.micrometer.core.instrument.logging.LoggingMeterRegistry.lambda$publish$3 db.pool.total{} value=NaN
 
-この警告ログは最初の一度だけ出力され、2回目以降は抑制されるようになっている。
-また、データベースアクセスが実行されコネクションプールが生成されると、そのあとは正常にコネクションプールの値が収集されるようになる。
+The Micrometer outputs this warning log only the first time, and it suppresses after the second time.
+The connection pool values will be collected correctly after connection pool is created.
 
-つまり、この警告ログはアプリケーションが正常な場合であってもタイミング次第で出力される可能性があるということになる。
-しかし、実害は無いので無視しても問題はない。
+This means that this warning log may be output even when the application is normal, depending on the timing.
+However, there is no harm.
+You can ignore this warning log.
 
-ただし、どうしても警告ログを抑制したい場合は、以下のように実装することである程度回避できるようになる。
+If you really want to suppress the warning log, you can avoid it to some extent by implementing the following.
 
 .. code-block:: java
 
   package example.micrometer;
 
-  // 省略
+  // ...
   import nablarch.core.log.Logger;
   import nablarch.core.log.LoggerManager;
   import nablarch.core.repository.initialization.Initializable;
@@ -1694,7 +1695,7 @@ Micrometerが監視サービスにメトリクスを連携する方法には、�
 
       @Override
       protected List<MeterBinder> createMeterBinderList() {
-          // 省略
+          // ...
       }
 
       public void setDataSource(DataSource dataSource) {
@@ -1704,46 +1705,46 @@ Micrometerが監視サービスにメトリクスを連携する方法には、�
       @Override
       public void initialize() {
           try (Connection con = dataSource.getConnection()) {
-              // 初期化時にコネクションを確立することで、MBeanが取れないことによる警告ログの出力を抑制する
+              // Preventing the warning log by establishing a connection during initialization.
           } catch (SQLException e) {
               LOGGER.logWarn("Failed initial connection.", e);
           }
       }
   }
 
-カスタムの ``DefaultMeterBinderListProvider`` で :java:extdoc:`Initializable <nablarch.core.repository.initialization.Initializable>` を実装する。
-また、 ``java.sql.DataSource`` をプロパティとして受け取れるように実装を修正する。
-そして、 ``initialize()`` メソッドの中でデータベース接続を行うように実装する。
+Implement a custom ``DefaultMeterBinderListProvider`` with :java:extdoc:`Initializable <nablarch.core.repository.initialization.Initializable>`.
+Next, implement to accept ``java.sql.DataSource`` as a property.
+Finally, implement the ``initialize()`` method that connects to the database.
 
-コンポーネント定義では、 ``DataSource`` をプロパティで渡すように変更する。
-そして、初期化対象のコンポーネント一覧に、このクラスを追加する。
+In the component definition, set the ``DataSource`` to the property.
+Then, add this custom class to the list of components that need initialization.
 
 .. code-block:: xml
 
   <component name="meterBinderListProvider"
              class="example.micrometer.CustomMeterBinderListProvider">
-    <!-- DataSource を設定する -->
+    <!-- Set the DataSource -->
     <property name="dataSource" ref="dataSource" />
   </component>
 
-  <!-- 初期化が必要なコンポーネント -->
+  <!-- The components that need initialization. -->
   <component name="initializer"
              class="nablarch.core.repository.initialization.BasicApplicationInitializer">
     <property name="initializeList">
       <list>
-        <!-- 省略 -->
+        <!-- ... -->
 
-        <!-- 初期化対象のコンポーネントとして追加 -->
+        <!-- Add CustomMeterBinderListProvider for initialization. -->
         <component-ref name="meterBinderListProvider" />
       </list>
     </property>
   </component>
 
-以上の修正により、システムリポジトリが初期化されたときにデータベース接続が行われるようになる。
-メトリクスの送信間隔はデフォルトで１分なので、たいていの場合メトリクス送信よりも前にコネクションプールが作成されるようになる。
-これにより、警告ログは出力されなくなる。
+With the above modifications, the database connection will be made when the system repository is initialized.
+The default interval for sending metrics is 1 minute, so in most cases the connection pool will be created before the metrics are sent.
+This will cause no warning log to be output.
 
-ただし、メトリクスの送信間隔を非常に短い時間に設定している場合、システムリポジトリが初期化される前にメトリクスが送信されて警告ログが出力される可能性がある点に注意すること。
+Note, however, that if the interval for sending metrics is set to a very short time, the metrics may be sent before the system repository is initialized and a warning log may be output.
 
 .. _MeterBinder (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/MeterBinder.html
 .. _Counter(external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/Counter.html
