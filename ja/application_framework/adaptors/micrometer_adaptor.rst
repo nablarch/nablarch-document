@@ -1225,7 +1225,7 @@ Nablarchバッチは、 :ref:`loop_handler` によってトランザクション
   * - ``class``
     - アクションのクラス名（ :ref:`-requestPath <nablarch_batch-resolve_action>` から取得した値）
 
-以下に ``BatchTransactionTimeMetricsLogger`` を使うための設定例を示す。
+以下に ``BatchProcessedRecordCountMetricsLogger`` を使うための設定例を示す。
 
 .. code-block:: xml
 
