@@ -1148,39 +1148,41 @@ If you use ``LoggingMeterRegistry``, you will get like the following metrics.
 
 .. _micrometer_adaptor_batch_transaction_time:
 
-バッチのトランザクション単位の処理時間を計測する
---------------------------------------------------
+Measure the processing time per transaction of a batch
+-----------------------------------------------------------------------
 
-:java:extdoc:`BatchTransactionTimeMetricsLogger <nablarch.integration.micrometer.instrument.batch.BatchTransactionTimeMetricsLogger>` を使用することで、 :ref:`nablarch_batch` のトランザクション単位の処理時間をメトリクスとして計測できるようになる。
-これにより、トランザクション単位の平均処理時間や最大処理時間をモニターできるようになる。
+You can measure the processing time per transaction of the :ref:`nablarch_batch` as metrics with :java:extdoc:`BatchTransactionTimeMetricsLogger <nablarch.integration.micrometer.instrument.batch.BatchTransactionTimeMetricsLogger>`.
+This will allow you to monitor the average and maximum processing time per transaction.
 
-``BatchTransactionTimeMetricsLogger`` は `Timer(外部サイト、英語)`_ を使って ``batch.transaction.time`` という名前でメトリクスを収集する。
-この名前は、 :java:extdoc:`setMetricsName(String) <nablarch.integration.micrometer.instrument.batch.BatchTransactionTimeMetricsLogger.setMetricsName(java.lang.String)>` で変更できる。
+The ``BatchTransactionTimeMetricsLogger`` collects metrics with `Timer(external site)`_.
+Metrics name is ``batch.transaction.time``.
 
-また、メトリクスには以下のタグが付与される。
+You can change the name with :java:extdoc:`setMetricsName(String) <nablarch.integration.micrometer.instrument.batch.BatchTransactionTimeMetricsLogger.setMetricsName(java.lang.String)>`.
+
+Metrics have the following tag.
 
 .. list-table::
 
-  * - タグ名
-    - 説明
+  * - Tag name
+    - Description
   * - ``class``
-    - アクションのクラス名（ :ref:`-requestPath <nablarch_batch-resolve_action>` から取得した値）
+    - The name of action class (This value is obtained from :ref:`-requestPath <nablarch_batch-resolve_action>`).
 
-以下に ``BatchTransactionTimeMetricsLogger`` を使うための設定例を示す。
+The following is an example to use ``BatchTransactionTimeMetricsLogger``.
 
 .. code-block:: xml
 
-  <!-- CommitLogger を複数組み合わせる -->
+  <!-- Combining multiple CommitLoggers -->
   <component name="commitLogger"
              class="nablarch.core.log.app.CompositeCommitLogger">
     <property name="commitLoggerList">
       <list>
-        <!-- デフォルトの CommitLogger を設定 -->
+        <!-- Configure the default CommitLogger -->
         <component class="nablarch.core.log.app.BasicCommitLogger">
           <property name="interval" value="${nablarch.commitLogger.interval}" />
         </component>
 
-        <!-- トランザクション単位の処理時間の計測 -->
+        <!-- Measuring the processing time per transaction -->
         <component class="nablarch.integration.micrometer.instrument.batch.BatchTransactionTimeMetricsLogger">
           <property name="meterRegistry" ref="meterRegistry" />
         </component>
@@ -1188,24 +1190,25 @@ If you use ``LoggingMeterRegistry``, you will get like the following metrics.
     </property>
   </component>
 
-まず、 :java:extdoc:`CompositeCommitLogger <nablarch.core.log.app.CompositeCommitLogger>` を ``commitLogger`` という名前でコンポーネントとして定義する。
-そして、 ``commitLoggerList`` プロパティに :java:extdoc:`BasicCommitLogger <nablarch.core.log.app.BasicCommitLogger>` と ``BatchTransactionTimeMetricsLogger`` のコンポーネントを設定する。
+First, define the :java:extdoc:`CompositeCommitLogger <nablarch.core.log.app.CompositeCommitLogger>` component with the name ``commitLogger``.
 
-以上の設定により、トランザクション単位の時間計測が可能となる。
-以下で、その仕組みを説明する。
+Then, set  :java:extdoc:`BasicCommitLogger <nablarch.core.log.app.BasicCommitLogger>` and ``BatchTransactionTimeMetricsLogger`` components to the ``commitLoggerList`` property.
 
-Nablarchバッチは、 :ref:`loop_handler` によってトランザクションのコミット間隔を制御している。
-このトランザクションループ制御ハンドラは、トランザクションがコミットされるときに :java:extdoc:`CommitLogger <nablarch.core.log.app.CommitLogger>` の ``increment(long)`` メソッドをコールする仕組みを提供している。
-この ``CommitLogger`` の実体は、 ``commitLogger`` という名前でコンポーネントを定義することで上書きできる。
+Now you can measure time per transaction units.
+In the following, we explain how it works.
 
-``BatchTransactionTimeMetricsLogger`` は ``CommitLogger`` インタフェースを実装している。
-そして、 ``increment(long)`` の呼び出し間隔を計測することでトランザクション単位の時間計測を行っている。
-このため、 ``BatchTransactionTimeMetricsLogger`` を ``commitLogger`` という名前でコンポーネント定義すると、トランザクション単位の時間計測ができる仕組みとなっている。
+The Nablarch batch controls the transaction commit interval by the :ref:`loop_handler`.
+This handler provides a mechanism to call the ``increment(long)`` method of the :java:extdoc:`CommitLogger <nablarch.core.log.app.CommitLogger>` when a transaction is committed.
+This ``CommitLogger`` entity can be overridden by defining a component named ``commitLogger``.
 
-しかし、 ``BatchTransactionTimeMetricsLogger`` をそのまま ``commitLogger`` という名前で定義した場合、デフォルトで定義されている ``CommitLogger`` のコンポーネントである ``BasicCommitLogger`` が動作しなくなる。
-そこで上記設定例では、複数の ``CommitLogger`` を組み合わせることができる ``CompositeCommitLogger`` を使用して、 ``BasicCommitLogger`` と ``BatchTransactionTimeMetricsLogger`` を併用するようにしている。
+The ``BatchTransactionTimeMetricsLogger`` implements the ``CommitLogger`` interface.
+Then, the ``BatchTransactionTimeMetricsLogger`` measures the time per transaction by measuring the interval between calls to ``increment(long)``.
+Therefore, you can measure time per transaction by defining the ``BatchTransactionTimeMetricsLogger`` component that is named ``commitLogger``.
 
-``LoggingMeterRegistry`` を使用している場合、 ``BatchTransactionTimeMetricsLogger`` の計測結果は以下のように出力される。
+However, if you define ``BatchTransactionTimeMetricsLogger`` as ``commitLogger``, the default component of ``CommitLogger``, ``BasicCommitLogger``, will not work.
+Therefore, the above configuration example uses the ``CompositeCommitLogger``, which can combine multiple CommitLoggers, to use the ``BasicCommitLogger`` and ``BatchTransactionTimeMetricsLogger``.
+
+If you use ``LoggingMeterRegistry``, you will get like the following metrics.
 
 .. code-block:: text
 
