@@ -1212,8 +1212,8 @@ If you use ``LoggingMeterRegistry``, you will get like the following metrics.
 
 .. code-block:: text
 
-  12 17, 2020 1:50:33 午後 io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$5
-  情報: batch.transaction.time{class=MetricsTestAction} throughput=1/s mean=2.61463556s max=3.0790852s
+  Feb 18, 2021 11:51:54 AM io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$5
+  INFO: batch.transaction.time{class=MetricsTestAction} throughput=0.8/s mean=2.394144925s max=4.692886s
 
 .. _micrometer_batch_processed_count:
 
@@ -1269,12 +1269,12 @@ If you use ``LoggingMeterRegistry``, you will get like the following metrics.
 
 .. code-block:: text
 
-  12 23, 2020 3:23:24 午後 io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$4
-  情報: batch.processed.record.count{class=MetricsTestAction} throughput=10/s
-  12 23, 2020 3:23:34 午後 io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$4
-  情報: batch.processed.record.count{class=MetricsTestAction} throughput=13/s
-  12 23, 2020 3:23:39 午後 io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$4
-  情報: batch.processed.record.count{class=MetricsTestAction} throughput=13/s
+  Feb 18, 2021 11:51:44 AM io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$4
+  INFO: batch.processed.record.count{class=MetricsTestAction} throughput=4/s
+  Feb 18, 2021 11:51:49 AM io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$4
+  INFO: batch.processed.record.count{class=MetricsTestAction} throughput=10/s
+  Feb 18, 2021 11:51:54 AM io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$4
+  INFO: batch.processed.record.count{class=MetricsTestAction} throughput=8/s
 
 .. _micrometer_log_count:
 
@@ -1526,7 +1526,7 @@ If you use ``LoggingMeterRegistry``, you will get like the following metrics.
 
 .. code-block:: text
 
-  24-Dec-2020 16:20:24.467 情報 [logging-metrics-publisher] io.micrometer.core.instrument.logging.LoggingMeterRegistry.lambda$publish$3 thread.count.current{} value=10
+  18-Feb-2021 13:17:38.168 INFO [logging-metrics-publisher] io.micrometer.core.instrument.logging.LoggingMeterRegistry.lambda$publish$3 thread.count.current{} value=10
 
 Obtain the status of the HikariCP connection pool
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1627,9 +1627,9 @@ At this time, the Micrometer will output the following warning log.
 
 .. code-block:: text
 
-  24-Dec-2020 16:57:16.729 警告 [logging-metrics-publisher] io.micrometer.core.util.internal.logging.WarnThenDebugLogger.log Failed to apply the value function for the gauge 'db.pool.active'. Note that subsequent logs will be logged at debug level.
+  18-Feb-2021 13:17:37.953 WARNING [logging-metrics-publisher] io.micrometer.core.util.internal.logging.WarnThenDebugLogger.log Failed to apply the value function for the gauge 'db.pool.active'. Note that subsequent logs will be logged at debug level.
           java.lang.RuntimeException: javax.management.InstanceNotFoundException: com.zaxxer.hikari:type=Pool (HikariPool-1)
-                  at nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics.obtainGaugeValue(JmxGaugeMetrics.java:45)
+                  at nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics.obtainGaugeValue(JmxGaugeMetrics.java:59)
                   at io.micrometer.core.instrument.Gauge.lambda$builder$0(Gauge.java:58)
                   at io.micrometer.core.instrument.StrongReferenceGaugeFunction.applyAsDouble(StrongReferenceGaugeFunction.java:47)
                   at io.micrometer.core.instrument.internal.DefaultGauge.value(DefaultGauge.java:54)
@@ -1657,15 +1657,15 @@ At this time, the Micrometer will output the following warning log.
                   at com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.getMBean(DefaultMBeanServerInterceptor.java:1095)
                   at com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.getAttribute(DefaultMBeanServerInterceptor.java:643)
                   at com.sun.jmx.mbeanserver.JmxMBeanServer.getAttribute(JmxMBeanServer.java:678)
-                  at nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics.obtainGaugeValue(JmxGaugeMetrics.java:38)
+                  at nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics.obtainGaugeValue(JmxGaugeMetrics.java:52)
                   ... 23 more
 
 The value of the metrics will be NaN while the connection pool is not created.
 
 .. code-block:: text
 
-  24-Dec-2020 17:01:31.443 情報 [logging-metrics-publisher] io.micrometer.core.instrument.logging.LoggingMeterRegistry.lambda$publish$3 db.pool.active{} value=NaN
-  24-Dec-2020 17:01:31.443 情報 [logging-metrics-publisher] io.micrometer.core.instrument.logging.LoggingMeterRegistry.lambda$publish$3 db.pool.total{} value=NaN
+  18-Feb-2021 13:18:32.933 INFO [logging-metrics-publisher] io.micrometer.core.instrument.logging.LoggingMeterRegistry.lambda$publish$3 db.pool.active{} value=NaN
+  18-Feb-2021 13:18:32.933 INFO [logging-metrics-publisher] io.micrometer.core.instrument.logging.LoggingMeterRegistry.lambda$publish$3 db.pool.total{} value=NaN
 
 The Micrometer outputs this warning log only the first time, and it suppresses after the second time.
 The connection pool values will be collected correctly after connection pool is created.
