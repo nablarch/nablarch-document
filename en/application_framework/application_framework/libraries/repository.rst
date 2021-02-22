@@ -272,16 +272,18 @@ Use list or map as the configuration value
 By configuring the component using list element and map element, setter can be injected for the property receiving list or map.
 
 Configuration of the list using the list element
-  In this example, list with [1, 2, 3] in the element is configured for the integerList property of SampleBean.
+  List element can be set to a string or any Java Beans object.
+
+  In this example, list of strings with [string1, string2, string3] is configured for the stringList property of SampleBean.
 
   .. code-block:: xml
 
     <component class="sample.SampleBean">
-      <property name="integerList">
+      <property name="stringList">
         <list>
-          <value>1</value>
-          <value>2</value>
-          <value>3</value>
+          <value>string1</value>
+          <value>string2</value>
+          <value>string3</value>
         </list>
       </property>
     </component>
@@ -291,19 +293,19 @@ Configuration of the list using the list element
 
   .. code-block:: xml
 
-    <list name="numList">
-      <value>1</value>
-      <value>2</value>
-      <value>3</value>
+    <list name="strList">
+      <value>string1</value>
+      <value>string2</value>
+      <value>string3</value>
     </list>
 
     <component class="sample.ListSample">
-      <!-- Configure a List named numList -->
-      <property name="integerList" ref="numList" />
+      <!-- Configure a List named strList -->
+      <property name="stringList" ref="strList" />
     </component>
 
-  Any Java Beans object can be configured for the list.
-  In this example, list with `SampleHandler1`, `SampleHandler2` and `SampleHandler3` is configured for the handlers property.
+  In this example, list of Java Beans objects with `SampleHandler1`, `SampleHandler2` and `SampleHandler3` is configured for the handlers property.
+
   The name can be referenced by using the component-ref element, which is also shown in the following example.
 
   .. code-block:: xml
