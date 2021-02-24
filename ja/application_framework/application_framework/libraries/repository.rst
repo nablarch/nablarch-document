@@ -538,6 +538,10 @@ DIコンテナで管理するオブジェクトに対して環境依存値を設
   環境設定ファイルの仕様は、 :ref:`repository-environment_configuration_file_rule` を参照。
 
 
+.. important::
+
+  環境設定ファイルで定義されていない環境依存値のキーをコンポーネント定義ファイルに記載した場合、ConfigurationLoadExceptionが送出される。
+
 .. _repository-overwrite_environment_configuration:
 
 システムプロパティを使って環境依存値を上書きする
