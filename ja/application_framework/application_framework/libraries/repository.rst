@@ -271,16 +271,18 @@ ListやMapを設定値として使う
 list要素やmap要素を使ってコンポーネント設定をすることで、ListやMapを受け取るpropertyに対するsetterインジェクションが行える。
 
 list要素を使ったListの設定
-  この例では、SampleBeanのintegerListプロパティに対して、要素に[1, 2, 3]を持つListが設定される。
+  list要素には、文字列または任意のJava Beansオブジェクトを設定することができる。
+
+  この例では、SampleBeanのstringListプロパティに対して、[string1, string2, string3]を持つ文字列のListが設定される。
 
   .. code-block:: xml
 
     <component class="sample.SampleBean">
-      <property name="integerList">
+      <property name="stringList">
         <list>
-          <value>1</value>
-          <value>2</value>
-          <value>3</value>
+          <value>string1</value>
+          <value>string2</value>
+          <value>string3</value>
         </list>
       </property>
     </component>
@@ -290,19 +292,18 @@ list要素を使ったListの設定
 
   .. code-block:: xml
 
-    <list name="numList">
-      <value>1</value>
-      <value>2</value>
-      <value>3</value>
+    <list name="strList">
+      <value>string1</value>
+      <value>string2</value>
+      <value>string3</value>
     </list>
 
     <component class="sample.ListSample">
-      <!-- numListという名前のListを設定する -->
-      <property name="integerList" ref="numList" />
+      <!-- strListという名前のListを設定する -->
+      <property name="stringList" ref="strList" />
     </component>
 
-  Listに対しては、任意のJava Beansオブジェクトを設定できる。
-  この例では、handlersプロパティに対して `SampleHandler1` 、 `SampleHandler2` 、 `SampleHandler3` を持つListが設定される。
+  この例では、handlersプロパティに対して、 `SampleHandler1` 、 `SampleHandler2` 、 `SampleHandler3` を持つJava BeansオブジェクトのListが設定される。
   なお、下の例にもあるがcomponent-ref要素を使用することで、名前参照することができる。
 
   .. code-block:: xml
