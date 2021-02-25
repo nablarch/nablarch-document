@@ -47,6 +47,7 @@ In this section,  describe how to set up :java:extdoc:`LoggingMeterRegistryFacto
 
 In this example, use `Web application Example (external site) <https://github.com/nablarch/nablarch-example-web>`_ as the base application.
 
+.. _micrometer_adaptor_declare_default_meter_binder_list_provider_as_component:
 
 Declare the DefaultsMeterBinderListProvider as a component
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -117,8 +118,11 @@ Describe the contents as follows.
 
 .. code-block:: properties
 
-  # Output metrics every 5 seconds
+  # Output metrics every 5 seconds (1 minute in default)
   nablarch.micrometer.logging.step=5s
+  # Configuring to output log at disposal process
+  # even if the application is terminated earlier than the time specified in step.
+  nablarch.micrometer.logging.logInactive=true
 
 .. important::
 
@@ -744,7 +748,1007 @@ Disable the registry
   You can override this configuration by environment variable.
   Therefor, you can enable the registry by setting ``true`` with environment variable only at production.
 
+Examples of metrics for each application type.
+---------------------------------------------------------
+
+In this section, we will explain what metrics should be collected for each application type (web and batch).
+
+Examples of metrics for web applications
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Processing time for HTTP requests
+  By measuring the processing time for each HTTP request, you can do the following.
+
+  * You can check how much traffic each URL
+  * You can check how long it takes to process the request
+
+  By measuring percentiles, you can also check how long it takes to process most of the requests.
+
+  See the following guide for more informations on how to collect these metrics.
+
+  * :ref:`micrometer_timer_metrics_handler`
+  * :ref:`micrometer_timer_metrics_handler_percentiles`
+
+Processing time for SQL
+  By measuring the SQL processing time, you can do the following.
+
+  * You can check how long it takes for each SQL to be processed
+  * You can check for SQLs that are taking longer than expected
+
+  See the following guide for more informations on how to collect metrics.
+
+  * :ref:`micrometer_sql_time`
+
+Output count per log level
+  By measuring the count of outputs per log level, you can do the following.
+
+  * You can check if the warning log is output an abnormal number of times (attack detection)
+  * You can detect error logs
+
+  See the following guide for more informations on how to collect metrics.
+
+  * :ref:`micrometer_log_count`
+
+Status of resources provided by application servers and libraries
+  By collecting metrics on the status of resources provided by application servers and libraries (thread pools, DB connection pools, etc.), you can use it as a source of information to identify the cause of system failures.
+
+  Many application servers expose the status of their resources through MBean in JMX.
+  See the following guide for more informations on how to collect metrics.
+
+  * :ref:`micrometer_mbean_metrics`
+
+Examples of metrics for batch applications
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Processing time for batch
+  By measuring the processing time of batches in normally, you can know the processing time under normal conditions.
+  Therefore, you can quickly detect abnormalities when processing time deviates from normal.
+
+  You can get processing time of batch by ``process.uptime`` described in :ref:`micrometer_default_metrics`.
+
+Processing time per transaction
+  By measuring the processing time per transaction, you can check whether each threads are distributed evenly in the multi-thread batch.
+
+  As with processing time for batch, you can quickly detect abnormalities when processing time deviates from normal.
+
+  See the following guide for more informations on how to collect metrics.
+
+  * :ref:`micrometer_adaptor_batch_transaction_time`
+
+Processed count with batch
+  By measuring the count that was processed by batch, you can do the following.
+
+  * You can check the progress of the batch
+  * You can check that the batch process is proceeding at the expected speed
+  * You can check that the count processed with batch is expected
+
+  See the following guide for more informations on how to collect metrics.
+
+  * :ref:`micrometer_batch_processed_count`
+
+Processing time for SQL
+  By measuring the SQL processing time, you can do the following.
+
+  * You can check how long it takes for each SQL to be processed
+  * You can check for SQLs that are taking longer than expected
+
+  See the following guide for more informations on how to collect metrics.
+
+  * :ref:`micrometer_sql_time`
+
+Output count per log level
+  By measuring the count of outputs per log level, you can detect warning logs and error logs.
+
+  See the following guide for more informations on how to collect metrics.
+
+  * :ref:`micrometer_log_count`
+
+Status of resources provided by libraries
+  By collecting metrics on the status of resources provided by  libraries (DB connection pools, etc.), you can use it as a source of information to identify the cause of system failures.
+
+  Some libraries expose the status of the resource through MBean in JMX.
+  See the following guide for more informations on how to collect metrics.
+
+  * :ref:`micrometer_mbean_metrics`
+
+
+.. _micrometer_timer_metrics_handler:
+
+Handler to measure processing time
+--------------------------------------------------
+
+By setting :java:extdoc:`TimerMetricsHandler <nablarch.integration.micrometer.instrument.handler.TimerMetricsHandler>` to the handler queue, you can measure processing time of subsequent handlers as metrics.
+You can monitor the average and maximum processing times in handler queue.
+
+``TimerMetricsHandler`` needs an instance of a class that implements the :java:extdoc:`HandlerMetricsMetaDataBuilder <nablarch.integration.micrometer.instrument.handler.HandlerMetricsMetaDataBuilder>` interface.
+The ``HandlerMetrcisMetaDataBuilder`` provides a function to build the following meta data for setting to collected metrics.
+
+* Name of metrics
+* Description of metrics
+* Tag list of metrics
+
+The following is an example for implementation of ``HandlerMetricsMetaDataBuilder``.
+
+.. code-block:: java
+
+  import io.micrometer.core.instrument.Tag;
+  import nablarch.fw.ExecutionContext;
+  import nablarch.integration.micrometer.instrument.handler.HandlerMetricsMetaDataBuilder;
+
+  import java.util.Arrays;
+  import java.util.List;
+
+  public class CustomHandlerMetricsMetaDataBuilder<TData, TResult>
+      implements HandlerMetricsMetaDataBuilder<TData, TResult> {
+    
+      @Override
+      public String getMetricsName() {
+          return "metrics.name";
+      }
+
+      @Override
+      public String getMetricsDescription() {
+          return "Description of this metrics.";
+      }
+
+      @Override
+      public List<Tag> buildTagList(TData param, ExecutionContext executionContext, TResult tResult, Throwable thrownThrowable) {
+          return Arrays.asList(Tag.of("foo", "FOO"), Tag.of("bar", "BAR"));
+      }
+  }
+
+You need implement methods ``getMetricsName()`` and ``getMetricsDescription()`` that return name and description of the metrics.
+
+``buildTagList()`` is passed the parameters passed to the handler, the execution result of the subsequent handler, and any exceptions thrown by the subsequent handler (or ``null`` if no exceptions were thrown).
+You need implement this method that returns list of tags for the metrics.
+
+The following is an example for setting ``TimerMetricsHandler`` to the handler queue.
+
+.. code-block:: xml
+
+  <!-- Handler queue -->
+  <component name="webFrontController"
+             class="nablarch.fw.web.servlet.WebFrontController">
+    <property name="handlerQueue">
+      <list>
+        <!-- ... -->
+
+        <component class="nablarch.integration.micrometer.instrument.handler.TimerMetricsHandler">
+          <property name="meterRegistry" ref="meterRegistry" />
+
+          <property name="handlerMetricsMetaDataBuilder">
+            <component class="xxx.CustomHandlerMetricsMetaDataBuilder" />
+          </property>
+        </component>
+
+        <!-- ... -->
+      </list>
+    </property>
+  </component>
+
+Add ``TimerMetricsHandler`` to the handler queue and set the ``HandlerMetricsMetaDataBuilder`` component  to ``handlerMetricsMetaDataBuilder`` property.
+
+Then, set the `MeterRegistry (external site)`_ created by registry factory to ``meterRegistry`` property.
+
+Now the ``TimerMetricsHandler`` can collect the processing time of subsequent handlers as metrics.
+
+Nablarch provides a class that implements ``HandlerMetricsMetaDataBuilder`` to provide the following function.
+For more information, please refer to the linked explanation.
+
+* :ref:`micrometer_adaptor_http_request_process_time_metrics`
+
+.. _micrometer_timer_metrics_handler_percentiles:
+
+Collect the percentiles
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``TimerMetricsHandler`` has the following properties to send percentiles to the monitoring services.
+
+.. list-table::
+
+  * - Property
+    - Description
+  * - ``percentiles``
+    - A list of percentile values to be collected.
+      If you want to collect the 95th percentile, specify ``0.95``.
+  * - ``enablePercentileHistogram``
+    - A flag whether the bucket of collected histograms should be sent to the monitoring service.
+      If the monitoring service does not support a mechanism to calculate percentile values from histograms, this property will be ignored.
+  * - ``serviceLevelObjectives``
+    - A list of bucket values to be added to the histogram.
+      The unit is milliseconds.
+      This value is set based on the SLO (Service Level Objective).
+  * - ``minimumExpectedValue``
+    - A minimum value of the histogram bucket to be collected.
+      The unit is milliseconds.
+  * - ``maximumExpectedValue``
+    - A maximum value of the histogram bucket to be collected.
+      The unit is milliseconds.
+
+These properties are used as values to be set in `Timer(external site)`_ provided by Micrometer.
+For more details, see the `Micrometer documentation (external site) <https://micrometer.io/docs/concepts#_histograms_and_percentiles>`_.
+
+These properties are unset by default. Therefore, no percentile information is collected.
+You must configure these properties explicitly if you want collect percentiles.
+The following is an example for configuration.
+
+.. code-block:: xml
+
+  <component class="nablarch.integration.micrometer.instrument.handler.TimerMetricsHandler">
+    <property name="meterRegistry" ref="meterRegistry" />
+    <property name="handlerMetricsMetaDataBuilder">
+      <component class="nablarch.integration.micrometer.instrument.http.HttpRequestTimeMetricsMetaDataBuilder" />
+    </property>
+
+    <!-- Collect 98th, 90th, 50th percentiles -->
+    <property name="percentiles">
+      <list>
+        <value>0.98</value>
+        <value>0.90</value>
+        <value>0.50</value>
+      </list>
+    </property>
+
+    <!-- Send the histogram backets to the monitoring service  -->
+    <property name="enablePercentileHistogram" value="true" />
+
+    <!-- Set 1000ms and 1500ms as SLO -->
+    <property name="serviceLevelObjectives">
+      <list>
+        <value>1000</value>
+        <value>1500</value>
+      </list>
+    </property>
+    
+    <!-- Set the minimum bucket value to 500ms -->
+    <property name="minimumExpectedValue" value="500" />
+    <!-- Set the maximum bucket value to 3000ms -->
+    <property name="maximumExpectedValue" value="3000" />
+  </component>
+
+If you use `PrometheusMeterRegistry(external site)`_ as ``MeterRegistry``, the above configuration will allow you to collect the following metrics.
+
+.. code-block:: text
+
+  http_server_requests_seconds{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",quantile="0.98",} 1.475346432
+  http_server_requests_seconds{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",quantile="0.9",} 1.408237568
+  http_server_requests_seconds{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",quantile="0.5",} 0.737148928
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="0.5",} 9.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="0.536870911",} 9.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="0.626349396",} 12.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="0.715827881",} 16.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="0.805306366",} 16.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="0.894784851",} 17.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="0.984263336",} 17.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="1.0",} 18.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="1.073741824",} 20.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="1.431655765",} 29.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="1.5",} 32.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="1.789569706",} 32.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="2.147483647",} 32.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="2.505397588",} 32.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="2.863311529",} 32.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="3.0",} 32.0
+  http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="+Inf",} 32.0
+
+.. tip::
+  
+  In above example, we use ``PrometheusMeterRegistry`` to show a concrete example of a histogram bucket(``http_server_requests_seconds_bucket``).
+  `Prometheus(external site) <https://prometheus.io/>`_ supports calculating percentiles by histogram.
+
+  However, this adaptor does not provide ``MeterRegistryFactory`` of ``PrometheusMeterRegistry``.
+  If you want to try the metrics of the histogram bucket, you should create the following class.
+
+  .. code-block:: java
+
+    package example.micrometer.prometheus;
+
+    import io.micrometer.prometheus.PrometheusConfig;
+    import io.micrometer.prometheus.PrometheusMeterRegistry;
+    import nablarch.core.repository.di.DiContainer;
+    import nablarch.integration.micrometer.MeterRegistryFactory;
+    import nablarch.integration.micrometer.MicrometerConfiguration;
+    import nablarch.integration.micrometer.NablarchMeterRegistryConfig;
+
+    public class PrometheusMeterRegistryFactory extends MeterRegistryFactory<PrometheusMeterRegistry> {
+
+        @Override
+        protected PrometheusMeterRegistry createMeterRegistry(MicrometerConfiguration micrometerConfiguration) {
+            return new PrometheusMeterRegistry(new Config(prefix, micrometerConfiguration));
+        }
+
+        @Override
+        public PrometheusMeterRegistry createObject() {
+            return doCreateObject();
+        }
+
+        static class Config extends NablarchMeterRegistryConfig implements PrometheusConfig {
+
+            public Config(String prefix, DiContainer diContainer) {
+                super(prefix, diContainer);
+            }
+
+            @Override
+            protected String subPrefix() {
+                return "prometheus";
+            }
+        }
+    }
+
+The provided HandlerMetricsMetaDataBuilder implementation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In this section, we explain the implementation class of ``HandlerMetricsMetaDataBuilder``, which is provided by Nablarch.
+
+.. _micrometer_adaptor_http_request_process_time_metrics:
+
+Collect the processing time of HTTP requests
+*********************************************************************
+
+The :java:extdoc:`HttpRequestTimeMetricsMetaDataBuilder <nablarch.integration.micrometer.instrument.http.HttpRequestTimeMetricsMetaDataBuilder>` builds meta data of metrics for measuring processing time of HTTP requrest.
+
+This class uses ``http.server.requirements`` as the name of the metrics.
+
+This class set the following tags to metrics.
+
+.. list-table::
+
+  * - Tag name
+    - Description
+  * - ``class``
+    - The name of the action class that handled the request (``Class.getName()``).
+      If it cannot be obtained, it will be ``UNKNOWN``.
+  * - ``method``
+    - A string consisting of the method name of the action class that handled the request and the type name of the argument (``Class.getCanonicalName()``), joined by an underscore (``_``).
+      If it cannot be obtained, it will be ``UNKNOWN``.
+  * - ``httpMethod``
+    - A HTTP method.
+  * - ``status``
+    - A HTTP status code.
+  * - ``outcome``
+    - A string indicating the status code type (1XX: ``INFORMATION``, 2XX: ``SUCCESS``, 3XX: ``REDIRECTION``, 4XX: ``CLIENT_ERROR``, 5XX: ``SERVER_ERROR``, Others: ``UNKNOWN``).
+  * - ``exception``
+    - A simple name of the exception thrown during request processing (or ``None`` if no exception was thrown).
+
+The following is an example using this class.
+
+.. code-block:: xml
+
+  <!-- Handler queue -->
+  <component name="webFrontController"
+             class="nablarch.fw.web.servlet.WebFrontController">
+    <property name="handlerQueue">
+      <list>
+        <!-- Handler to collect metrics of processing time of HTTP requests -->
+        <component class="nablarch.integration.micrometer.instrument.handler.TimerMetricsHandler">
+          <!-- Set the MeterRegistry created by the registry factory to meterRegistry property -->
+          <property name="meterRegistry" ref="meterRegistry" />
+
+          <!-- Set the HttpRequestTimeMetricsMetaDataBuilder to handlerMetricsMetaDataBuilder property -->
+          <property name="handlerMetricsMetaDataBuilder">
+            <component class="nablarch.integration.micrometer.instrument.http.HttpRequestTimeMetricsMetaDataBuilder" />
+          </property>
+        </component>
+
+        <component class="nablarch.fw.web.handler.HttpCharacterEncodingHandler"/>
+
+        <!-- ... -->
+     </list>
+    </property>
+  </component>
+
+If you use ``LoggingMeterRegistry``, you will get like the following metrics.
+
+.. code-block:: text
+
+  2020-10-06 13:52:10.309 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.AuthenticationAction,exception=None,httpMethod=POST,method=login_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext,outcome=REDIRECTION,status=303} throughput=0.2/s mean=0.4617585s max=0.4617585s
+  2020-10-06 13:52:10.309 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.IndustryAction,exception=None,httpMethod=GET,method=find,outcome=SUCCESS,status=200} throughput=0.2/s mean=0.103277s max=0.103277s
+  2020-10-06 13:52:10.310 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.AuthenticationAction,exception=None,httpMethod=GET,method=index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext,outcome=SUCCESS,status=200} throughput=0.2/s mean=4.7409146s max=4.7409146s
+  2020-10-06 13:52:10.310 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: http.server.requests{class=com.nablarch.example.app.web.action.ProjectAction,exception=None,httpMethod=GET,method=index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext,outcome=SUCCESS,status=200} throughput=0.2/s mean=0.5329547s max=0.5329547s
+
+.. _micrometer_adaptor_batch_transaction_time:
+
+Measure the processing time per transaction of a batch
+-----------------------------------------------------------------------
+
+You can measure the processing time per transaction of the :ref:`nablarch_batch` as metrics with :java:extdoc:`BatchTransactionTimeMetricsLogger <nablarch.integration.micrometer.instrument.batch.BatchTransactionTimeMetricsLogger>`.
+This will allow you to monitor the average and maximum processing time per transaction.
+
+The ``BatchTransactionTimeMetricsLogger`` collects metrics with `Timer(external site)`_.
+Metrics name is ``batch.transaction.time``.
+
+You can change the name with :java:extdoc:`setMetricsName(String) <nablarch.integration.micrometer.instrument.batch.BatchTransactionTimeMetricsLogger.setMetricsName(java.lang.String)>`.
+
+Metrics have the following tag.
+
+.. list-table::
+
+  * - Tag name
+    - Description
+  * - ``class``
+    - The name of action class (This value is obtained from :ref:`-requestPath <nablarch_batch-resolve_action>`).
+
+The following is an example to use ``BatchTransactionTimeMetricsLogger``.
+
+.. code-block:: xml
+
+  <!-- Combining multiple CommitLoggers -->
+  <component name="commitLogger"
+             class="nablarch.core.log.app.CompositeCommitLogger">
+    <property name="commitLoggerList">
+      <list>
+        <!-- Configure the default CommitLogger -->
+        <component class="nablarch.core.log.app.BasicCommitLogger">
+          <property name="interval" value="${nablarch.commitLogger.interval}" />
+        </component>
+
+        <!-- Measuring the processing time per transaction -->
+        <component class="nablarch.integration.micrometer.instrument.batch.BatchTransactionTimeMetricsLogger">
+          <property name="meterRegistry" ref="meterRegistry" />
+        </component>
+      </list>
+    </property>
+  </component>
+
+First, define the :java:extdoc:`CompositeCommitLogger <nablarch.core.log.app.CompositeCommitLogger>` component with the name ``commitLogger``.
+
+Then, set  :java:extdoc:`BasicCommitLogger <nablarch.core.log.app.BasicCommitLogger>` and ``BatchTransactionTimeMetricsLogger`` components to the ``commitLoggerList`` property.
+
+Now you can measure time per transaction units.
+In the following, we explain how it works.
+
+The Nablarch batch controls the transaction commit interval by the :ref:`loop_handler`.
+This handler provides a mechanism to call the ``increment(long)`` method of the :java:extdoc:`CommitLogger <nablarch.core.log.app.CommitLogger>` when a transaction is committed.
+This ``CommitLogger`` entity can be overridden by defining a component named ``commitLogger``.
+
+The ``BatchTransactionTimeMetricsLogger`` implements the ``CommitLogger`` interface.
+Then, the ``BatchTransactionTimeMetricsLogger`` measures the time per transaction by measuring the interval between calls to ``increment(long)``.
+Therefore, you can measure time per transaction by defining the ``BatchTransactionTimeMetricsLogger`` component that is named ``commitLogger``.
+
+However, if you define ``BatchTransactionTimeMetricsLogger`` as ``commitLogger``, the default component of ``CommitLogger``, ``BasicCommitLogger``, will not work.
+Therefore, the above configuration example uses the ``CompositeCommitLogger``, which can combine multiple CommitLoggers, to use the ``BasicCommitLogger`` and ``BatchTransactionTimeMetricsLogger``.
+
+If you use ``LoggingMeterRegistry``, you will get like the following metrics.
+
+.. code-block:: text
+
+  Feb 18, 2021 11:51:54 AM io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$5
+  INFO: batch.transaction.time{class=MetricsTestAction} throughput=0.8/s mean=2.394144925s max=4.692886s
+
+.. _micrometer_batch_processed_count:
+
+Measure the count that was processed by batch
+--------------------------------------------------
+
+You can measure the count of input data processed by the :ref:`nablarch_batch` with the :java:extdoc:`BatchProcessedRecordCountMetricsLogger <nablarch.integration.micrometer.instrument.batch.BatchProcessedRecordCountMetricsLogger>`.
+This will allow you to monitor the progress of the batch and changes in processing speed.
+
+The ``BatchProcessedRecordCountMetricsLogger`` collects metrics with `Counter(external site)`_.
+Metrics name is ``batch.processed.record.count``.
+
+You can change the name with :java:extdoc:`setMetricsName(String) <nablarch.integration.micrometer.instrument.batch.BatchProcessedRecordCountMetricsLogger.setMetricsName(java.lang.String)>`.
+
+Metrics have the following tag.
+
+.. list-table::
+
+  * - Tag name
+    - Description
+  * - ``class``
+    - The name of action class (This value is obtained from :ref:`-requestPath <nablarch_batch-resolve_action>`).
+
+The following is an example to use ``BatchProcessedRecordCountMetricsLogger``.
+
+.. code-block:: xml
+
+  <!-- Combining multiple CommitLoggers -->
+  <component name="commitLogger"
+             class="nablarch.core.log.app.CompositeCommitLogger">
+    <property name="commitLoggerList">
+      <list>
+        <!-- Configure the default CommitLogger -->
+        <component class="nablarch.core.log.app.BasicCommitLogger">
+          <property name="interval" value="${nablarch.commitLogger.interval}" />
+        </component>
+
+        <!-- Measure the processed count -->
+        <component class="nablarch.integration.micrometer.instrument.batch.BatchProcessedRecordCountMetricsLogger">
+          <property name="meterRegistry" ref="meterRegistry" />
+        </component>
+      </list>
+    </property>
+  </component>
+
+The ``BatchProcessedRecordCountMetricsLogger`` uses the :java:extdoc:`CommitLogger <nablarch.core.log.app.CommitLogger>` mechanism to measure the processed count, just as in "Measure the processing time per transaction of a batch".
+
+For more information on how ``CommitLogger`` works and how to use it, please refer to :ref:`micrometer_adaptor_batch_transaction_time`.
+
+Now you can use ``BatchProcessedRecordCountMetricsLogger``.
+
+If you use ``LoggingMeterRegistry``, you will get like the following metrics.
+
+.. code-block:: text
+
+  Feb 18, 2021 11:51:44 AM io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$4
+  INFO: batch.processed.record.count{class=MetricsTestAction} throughput=4/s
+  Feb 18, 2021 11:51:49 AM io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$4
+  INFO: batch.processed.record.count{class=MetricsTestAction} throughput=10/s
+  Feb 18, 2021 11:51:54 AM io.micrometer.core.instrument.logging.LoggingMeterRegistry lambda$publish$4
+  INFO: batch.processed.record.count{class=MetricsTestAction} throughput=8/s
+
+.. _micrometer_log_count:
+
+Measure the output count per log level
+--------------------------------------------------
+
+You can measure the output count per log level with the :java:extdoc:`LogCountMetrics <nablarch.integration.micrometer.instrument.binder.logging.LogCountMetrics>`.
+This will allow you to monitor the frequency of output at specific log levels, monitor error logs.
+
+The ``LogCountMetrics`` collects metrics with `Counter(external site)`_.
+Metrics name is ``log.count``.
+You can change the name with the :java:extdoc:`constructor <nablarch.integration.micrometer.instrument.binder.logging.LogCountMetrics.LogCountMetrics(nablarch.integration.micrometer.instrument.binder.MetricsMetaData)>` that receives the :java:extdoc:`MetricsMetaData <nablarch.integration.micrometer.instrument.binder.MetricsMetaData>`.
+
+Metrics have the following tags.
+
+.. list-table::
+
+  * - Tag name
+    - Description
+  * - ``level``
+    - The log level.
+  * - ``logger``
+    - The name used to get the logger from the :java:extdoc:`LoggerManager <nablarch.core.log.LoggerManager>`.
+
+Configure LogPublisher
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``LogCountMetrics`` uses the :java:extdoc:`LogPublisher <nablarch.core.log.basic.LogPublisher>` mechanism to detect log output events.
+
+Therefore, you need to configure ``LogPublisher`` at first to use ``LogCountMetrics``.
+For ``LogPublisher`` settings, see :ref:`log-publisher_usage`.
+
+Create a custom DefaultMeterBinderListProvider
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``LogCountMetrics`` is provided as an implementation class of `MeterBinder (external site)`_.
+Therefore, you need create a class that inherits from :java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` and implement it to return a list of MeterBinders that contains ``LogCountMetrics``.
+
+.. tip::
+
+  For a description of the ``DefaultMeterBinderListProvider``, see :ref:`micrometer_adaptor_declare_default_meter_binder_list_provider_as_component`.
+
+The following is an example for a custom ``DefaultMeterBinderListProvider``.
+
+.. code-block:: java
+
+  package example.micrometer.log;
+
+  import io.micrometer.core.instrument.binder.MeterBinder;
+  import nablarch.integration.micrometer.DefaultMeterBinderListProvider;
+  import nablarch.integration.micrometer.instrument.binder.logging.LogCountMetrics;
+
+  import java.util.ArrayList;
+  import java.util.List;
+
+  public class CustomMeterBinderListProvider extends DefaultMeterBinderListProvider {
+
+      @Override
+      protected List<MeterBinder> createMeterBinderList() {
+          // Add LogCountMetrics to the default MeterBinder list.
+          List<MeterBinder> meterBinderList = new ArrayList<>(super.createMeterBinderList());
+          meterBinderList.add(new LogCountMetrics());
+          return meterBinderList;
+      }
+  }
+
+Finally, set the custom ``DefaultMeterBinderListProvider`` that you created to the ``meterBinderListProvider`` property of the ``MeterRegistryFactory`` component.
+Now you can use the ``LogCountMetrics``.
+
+If you use ``LoggingMeterRegistry``, you will get like the following metrics.
+
+.. code-block:: text
+
+  2020-12-22 14:25:36.978 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: log.count{level=WARN,logger=com.nablarch.example.app.web.action.MetricsAction} throughput=0.4/s
+  2020-12-22 14:25:41.978 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: log.count{level=ERROR,logger=com.nablarch.example.app.web.action.MetricsAction} throughput=1.4/s
+
+Log level to be aggregated
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default, only log outputs above the warning log will be counted.
+
+``LogCountMetrics`` has a constructor that receives a :java:extdoc:`LogLevel <nablarch.core.log.basic.LogLevel>`.
+You can change the threshold of the log level to be aggregated with the constructor.
+In the following implementation example, the threshold value is changed to INFO.
+
+.. code-block:: java
+
+  // ...
+  import nablarch.core.log.basic.LogLevel;
+
+  public class CustomMeterBinderListProvider extends DefaultMeterBinderListProvider {
+
+      @Override
+      protected List<MeterBinder> createMeterBinderList() {
+          List<MeterBinder> meterBinderList = new ArrayList<>(super.createMeterBinderList());
+          meterBinderList.add(new LogCountMetrics(LogLevel.INFO)); // Specify the threshold of log level.
+          return meterBinderList;
+      }
+  }
+
+.. important::
+
+  If you lower the log level threshold too much, a large amount of metrics may be collected depending on the application.
+  Depending on the fee structure of the monitoring service to be used, the usage fee may increase, so it should be set with care.
+
+.. _micrometer_sql_time:
+
+Measure SQL processing time
+--------------------------------------------------
+
+By using :java:extdoc:`SqlTimeMetricsDaoContext <nablarch.integration.micrometer.instrument.dao.SqlTimeMetricsDaoContext>`, you can measure the processing time of SQL executed using the :ref:`universal_dao`.
+This will allow you to monitor the average and maximum processing time for each SQL.
+
+The ``SqlTimeMetricsDaoContext`` collects metrics with `Timer(external site)`_.
+Metrics name is ``sql.process.time``.
+You can change the name with :java:extdoc:`setMetricsName(String) <nablarch.integration.micrometer.instrument.dao.SqlTimeMetricsDaoContextFactory.setMetricsName(java.lang.String)>` of the :java:extdoc:`SqlTimeMetricsDaoContextFactory <nablarch.integration.micrometer.instrument.dao.SqlTimeMetricsDaoContextFactory>` that is a factory class for ``SqlTimeMetricsDaoContext``.
+
+Metrics have the following tags.
+
+.. list-table::
+
+  * - Tag name
+    - Description
+  * - ``sql.id``
+    - The SQLID passed in the method argument of ``DaoContext`` (``"None"`` if there is no SQLID)
+  * - ``entity``
+    - The name of the entity class (``Class.getName()``)
+  * - ``method``
+    - The method name of the executed ``DaoContext``.
+
+The following is an example of the configuration for using ``SqlTimeMetricsDaoContext``.
+
+.. code-block:: xml
+
+  <!-- Define SqlTimeMetricsDaoContextFactory as daoContextFactory. -->
+  <component name="daoContextFactory"
+             class="nablarch.integration.micrometer.instrument.dao.SqlTimeMetricsDaoContextFactory">
+    <!-- Set the factory of the DaoContext to be transferred to the delegate. -->
+    <property name="delegate">
+      <component class="nablarch.common.dao.BasicDaoContextFactory">
+        <property name="sequenceIdGenerator">
+          <component class="nablarch.common.idgenerator.SequenceIdGenerator" />
+        </property>
+      </component>
+    </property>
+
+    <!-- Set the meterRegistry generated by the registry factory to the meterRegistry property. -->
+    <property name="meterRegistry" ref="meterRegistry" />
+  </component>
+
+``SqlTimeMetricsDaoContext`` measures the processing time of each database access method by wrapping :java:extdoc:`DaoContext <nablarch.common.dao.DaoContext>`.
+Then, :java:extdoc:`SqlTimeMetricsDaoContextFactory <nablarch.integration.micrometer.instrument.dao.SqlTimeMetricsDaoContextFactory>` is a factory class that generates a ``SqlTimeMetricsDaoContext`` that wraps a ``DaoContext``.
+
+Define this ``SqlTimeMetricsDaoContextFactory`` as a component with the name ``daoContextFactory``.
+This will replace the ``DaoContext`` used by :ref:`universal_dao` with ``SqlTimeMetricsDaoContext``.
+
+Now you can use ``SqlTimeMetricsDaoContext``.
+
+If you use ``LoggingMeterRegistry``, you will get like the following metrics.
+
+.. code-block:: text
+
+  2020-12-23 15:00:25.161 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: sql.process.time{entity=com.nablarch.example.app.entity.Project,method=delete,sql.id=None} throughput=0.2/s mean=0.0005717s max=0.0005717s
+  2020-12-23 15:00:25.161 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: sql.process.time{entity=com.nablarch.example.app.entity.Project,method=findAllBySqlFile,sql.id=SEARCH_PROJECT} throughput=0.6/s mean=0.003364233s max=0.0043483s
+  2020-12-23 15:00:25.161 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: sql.process.time{entity=com.nablarch.example.app.web.dto.ProjectDto,method=findBySqlFile,sql.id=FIND_BY_PROJECT} throughput=0.2/s mean=0.000475s max=0.0060838s
+  2020-12-23 15:00:25.162 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: sql.process.time{entity=com.nablarch.example.app.entity.Industry,method=findAll,sql.id=None} throughput=0.8/s mean=0.00058155s max=0.0013081s
+
+.. _micrometer_mbean_metrics:
+
+Measure the value obtained from any MBean as a metric
+-------------------------------------------------------------
+
+:java:extdoc:`JmxGaugeMetrics <nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics>` allows you to measure the values obtained from any MBean as metrics.
+This will allow you to measure the various status of the application server or libraries provided by MBean and monitor them.
+
+.. tip::
+
+  MBean is a Java object defined in Java Management Extensions (JMX), which provides APIs for accessing information on managed resources.
+  Many application servers, such as Tomcat, expose the server status (thread pool status, etc.) in MBean.
+  By accessing these MBeans from the application, you can get the status of the server.
+
+  For more information about JMX, see the `Java Management Extensions Guide (external site) <https://docs.oracle.com/en/java/javase/11/jmx/java-management-extensions-jmx-user-guide.html>`_.
+
+The ``JmxGaugeMetrics`` measure values obtained from MBean with `Gauge(external site)`_.
+
+This section explains how to use ``JmxGaugeMetrics``.
+
+First, as an example of referring to the MBean provided by the application server, we show an example of obtaining the status of the Tomcat thread pool.
+Next, as an example of referring to the MBean provided by the library embedded in the application, we show an example of obtaining the status of the HikariCP connection pool.
+
+Obtain the status of the Tomcat thread pool
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``JmxGaugeMetrics`` implements `MeterBinder (external site)`_.
+Therefore, you need create a class that inherits from :java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` and implement it to return a list of MeterBinders that contains ``JmxGaugeMetrics``.
+
+.. tip::
+
+  For a description of the ``DefaultMeterBinderListProvider``, see :ref:`micrometer_adaptor_declare_default_meter_binder_list_provider_as_component`.
+
+The following is an example for a custom ``DefaultMeterBinderListProvider``.
+
+.. code-block:: java
+
+  package example.micrometer;
+
+  import io.micrometer.core.instrument.binder.MeterBinder;
+  import nablarch.integration.micrometer.DefaultMeterBinderListProvider;
+  import nablarch.integration.micrometer.instrument.binder.MetricsMetaData;
+  import nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics;
+  import nablarch.integration.micrometer.instrument.binder.jmx.MBeanAttributeCondition;
+
+  import java.util.Arrays;
+  import java.util.List;
+
+  public class CustomMeterBinderListProvider extends DefaultMeterBinderListProvider {
+
+      @Override
+      protected List<MeterBinder> createMeterBinderList() {
+          List<MeterBinder> meterBinderList = new ArrayList<>(super.createMeterBinderList());
+          meterBinderList.add(new JmxGaugeMetrics(
+              // Name and description of metrics.
+              new MetricsMetaData("thread.count.current", "Current thread count."),
+              // The conditions to specify the attribute of MBean.
+              new MBeanAttributeCondition("Catalina:type=ThreadPool,name=\"http-nio-8080\"", "currentThreadCount")
+          ));
+          return meterBinderList;
+      }
+  }
+
+You must pass following classes to the constructor of ``JmxGaugeMetrics``.
+
+* :java:extdoc:`MetricsMetaData <nablarch.integration.micrometer.instrument.binder.MetricsMetaData>`
+    * Specify meta data such as the name, description, and tags of the metrics.
+* :java:extdoc:`MBeanAttributeCondition <nablarch.integration.micrometer.instrument.binder.jmx.MBeanAttributeCondition>`
+    * Specify the object name and attribute name to identify the MBean.
+
+``JmxGaugeMetrics`` gets the MBean based on the information specified in ``MBeanAttributeCondition``.
+Then, the ``JmxGaugeMetrics`` constructs metrics with the information specified in ``MetricsMetaData``.
+
+.. tip::
+
+  You can check the object and attribute names of the MBean created by Tomcat with JConsole tool that comes with the JDK.
+  When you connect to the JVM running Tomcat with JConsole and open the "MBeans" tab, you get the list of MBeans in the connected JVM.
+
+  For more details about JConsole, refer to the `Monitoring and Management Guide (external site) <https://docs.oracle.com/en/java/javase/15/management/using-jconsole.html#GUID-77416B38-7F15-4E35-B3D1-34BFD88350B5>`_.
+
+If you use ``LoggingMeterRegistry``, you will get like the following metrics.
+
+.. code-block:: text
+
+  18-Feb-2021 13:17:38.168 INFO [logging-metrics-publisher] io.micrometer.core.instrument.logging.LoggingMeterRegistry.lambda$publish$3 thread.count.current{} value=10
+
+Obtain the status of the HikariCP connection pool
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+`HikariCP (external site) <https://github.com/brettwooldridge/HikariCP>`_ has a function to get status of the connection pool by MBean.
+
+* `MBean (JMX) Monitoring and Management (external site) <https://github.com/brettwooldridge/HikariCP/wiki/MBean-(JMX)-Monitoring-and-Management>`_
+
+This function will allow ``JmxGaugeMetrics`` to collect connection pool status.
+
+First, enable the function to publish status by MBean.
+You must set ``true`` to ``registerMbeans`` property of ``com.zaxxer.hikari.HikariDataSource``.
+
+.. code-block:: xml
+
+  <?xml version="1.0" encoding="UTF-8"?>
+  <component-configuration
+          xmlns="http://tis.co.jp/nablarch/component-configuration"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://tis.co.jp/nablarch/component-configuration https://nablarch.github.io/schema/component-configuration.xsd">
+    <!-- ... -->
+
+    <!-- Datasource configuration -->
+    <component name="dataSource"
+              class="com.zaxxer.hikari.HikariDataSource" autowireType="None">
+      <property name="driverClassName" value="${nablarch.db.jdbcDriver}"/>
+      <property name="jdbcUrl"         value="${nablarch.db.url}"/>
+      <property name="username"        value="${nablarch.db.user}"/>
+      <property name="password"        value="${nablarch.db.password}"/>
+      <property name="maximumPoolSize" value="${nablarch.db.maxPoolSize}"/>
+      <!-- Enable MBean to publish status. -->
+      <property name="registerMbeans"  value="true"/>
+    </component>
+
+  </component-configuration>
+
+In the above configuration, we set true to the ``registerMbeans`` property in the component definition of ``HikariDataSource``.
+
+Next, configure the ``JmxGaugeMetrics`` with the object name and attribute name that you want to measure.
+The specifications of object names and attribute names are described in the `HikariCP document mentioned above (external site) <https://github.com/brettwooldridge/HikariCP/wiki/MBean-(JMX)-Monitoring-and-Management#programmatic-access>`_.
+
+The following is an example implementation of ``JmxGaugeMetrics`` for measuring the maximum count of connection pools and the count of active connections.
+
+.. code-block:: java
+
+  package com.nablarch.example.app.metrics;
+
+  import io.micrometer.core.instrument.binder.MeterBinder;
+  import nablarch.integration.micrometer.DefaultMeterBinderListProvider;
+  import nablarch.integration.micrometer.instrument.binder.MetricsMetaData;
+  import nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics;
+  import nablarch.integration.micrometer.instrument.binder.jmx.MBeanAttributeCondition;
+
+  import java.util.ArrayList;
+  import java.util.List;
+
+  public class CustomMeterBinderListProvider extends DefaultMeterBinderListProvider {
+
+      @Override
+      protected List<MeterBinder> createMeterBinderList() {
+          List<MeterBinder> meterBinderList = new ArrayList<>(super.createMeterBinderList());
+          // The maximum count.
+          meterBinderList.add(new JmxGaugeMetrics(
+              new MetricsMetaData("db.pool.total", "Total DB pool count."),
+              new MBeanAttributeCondition("com.zaxxer.hikari:type=Pool (HikariPool-1)", "TotalConnections")
+          ));
+          // The active count.
+          meterBinderList.add(new JmxGaugeMetrics(
+              new MetricsMetaData("db.pool.active", "Active DB pool count."),
+              new MBeanAttributeCondition("com.zaxxer.hikari:type=Pool (HikariPool-1)", "ActiveConnections")
+          ));
+          return meterBinderList;
+      }
+  }
+
+If you use ``LoggingMeterRegistry``, you will get like the following metrics.
+
+.. code-block:: text
+
+  2020-12-24 16:37:57.143 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: db.pool.active{} value=0
+  2020-12-24 16:37:57.143 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: db.pool.total{} value=5
+
+About the warning log output when the server is started
+*********************************************************************
+
+There are two main ways for Micrometer to send metrics to the monitoring service.
+
+* Applications send metrics to the monitoring service at regular intervals (Client pushes)
+    * Datadog, CloudWatch, etc
+* The monitoring service queries to the application for metrics at regular intervals (Server polls)
+    * Prometheus, etc
+
+In the former case (Client pushes), ``MeterRegistry`` will start sending metrics at regular intervals after component creation.
+On the other hand, HikariCP's connection pool is designed to be created the first time when the first database access is made.
+
+Therefore, ``JmxGaugeMetrics`` will refer to a connection pool that does not exist if it sends metrics before the first database access occurs.
+At this time, the Micrometer will output the following warning log.
+
+.. code-block:: text
+
+  18-Feb-2021 13:17:37.953 WARNING [logging-metrics-publisher] io.micrometer.core.util.internal.logging.WarnThenDebugLogger.log Failed to apply the value function for the gauge 'db.pool.active'. Note that subsequent logs will be logged at debug level.
+          java.lang.RuntimeException: javax.management.InstanceNotFoundException: com.zaxxer.hikari:type=Pool (HikariPool-1)
+                  at nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics.obtainGaugeValue(JmxGaugeMetrics.java:59)
+                  at io.micrometer.core.instrument.Gauge.lambda$builder$0(Gauge.java:58)
+                  at io.micrometer.core.instrument.StrongReferenceGaugeFunction.applyAsDouble(StrongReferenceGaugeFunction.java:47)
+                  at io.micrometer.core.instrument.internal.DefaultGauge.value(DefaultGauge.java:54)
+                  at io.micrometer.core.instrument.logging.LoggingMeterRegistry.lambda$publish$3(LoggingMeterRegistry.java:98)
+                  at io.micrometer.core.instrument.Meter.use(Meter.java:158)
+                  at io.micrometer.core.instrument.logging.LoggingMeterRegistry.lambda$publish$12(LoggingMeterRegistry.java:97)
+                  at java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:183)
+                  at java.util.stream.SortedOps$SizedRefSortingSink.end(SortedOps.java:357)
+                  at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:483)
+                  at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:472)
+                  at java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:150)
+                  at java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:173)
+                  at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+                  at java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:485)
+                  at io.micrometer.core.instrument.logging.LoggingMeterRegistry.publish(LoggingMeterRegistry.java:95)
+                  at io.micrometer.core.instrument.push.PushMeterRegistry.publishSafely(PushMeterRegistry.java:52)
+                  at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+                  at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+                  at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+                  at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+                  at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+                  at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+                  at java.lang.Thread.run(Thread.java:748)
+          Caused by: javax.management.InstanceNotFoundException: com.zaxxer.hikari:type=Pool (HikariPool-1)
+                  at com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.getMBean(DefaultMBeanServerInterceptor.java:1095)
+                  at com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.getAttribute(DefaultMBeanServerInterceptor.java:643)
+                  at com.sun.jmx.mbeanserver.JmxMBeanServer.getAttribute(JmxMBeanServer.java:678)
+                  at nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics.obtainGaugeValue(JmxGaugeMetrics.java:52)
+                  ... 23 more
+
+The value of the metrics will be NaN while the connection pool is not created.
+
+.. code-block:: text
+
+  18-Feb-2021 13:18:32.933 INFO [logging-metrics-publisher] io.micrometer.core.instrument.logging.LoggingMeterRegistry.lambda$publish$3 db.pool.active{} value=NaN
+  18-Feb-2021 13:18:32.933 INFO [logging-metrics-publisher] io.micrometer.core.instrument.logging.LoggingMeterRegistry.lambda$publish$3 db.pool.total{} value=NaN
+
+The Micrometer outputs this warning log only the first time, and it suppresses after the second time.
+The connection pool values will be collected correctly after connection pool is created.
+
+This means that this warning log may be output even when the application is normal, depending on the timing.
+However, there is no harm.
+You can ignore this warning log.
+
+If you really want to suppress the warning log, you can avoid it to some extent by implementing the following.
+
+.. code-block:: java
+
+  package example.micrometer;
+
+  // ...
+  import nablarch.core.log.Logger;
+  import nablarch.core.log.LoggerManager;
+  import nablarch.core.repository.initialization.Initializable;
+  import java.sql.SQLException;
+  import javax.sql.DataSource;
+  import java.sql.Connection;
+
+  public class CustomMeterBinderListProvider extends DefaultMeterBinderListProvider implements Initializable {
+      private static final Logger LOGGER = LoggerManager.get(CustomMeterBinderListProvider.class);
+
+      private DataSource dataSource;
+
+      @Override
+      protected List<MeterBinder> createMeterBinderList() {
+          // ...
+      }
+
+      public void setDataSource(DataSource dataSource) {
+          this.dataSource = dataSource;
+      }
+
+      @Override
+      public void initialize() {
+          try (Connection con = dataSource.getConnection()) {
+              // Preventing the warning log by establishing a connection during initialization.
+          } catch (SQLException e) {
+              LOGGER.logWarn("Failed initial connection.", e);
+          }
+      }
+  }
+
+Implement a custom ``DefaultMeterBinderListProvider`` with :java:extdoc:`Initializable <nablarch.core.repository.initialization.Initializable>`.
+Next, implement to accept ``java.sql.DataSource`` as a property.
+Finally, implement the ``initialize()`` method that connects to the database.
+
+In the component definition, set the ``DataSource`` to the property.
+Then, add this custom class to the list of components that need initialization.
+
+.. code-block:: xml
+
+  <component name="meterBinderListProvider"
+             class="example.micrometer.CustomMeterBinderListProvider">
+    <!-- Set the DataSource -->
+    <property name="dataSource" ref="dataSource" />
+  </component>
+
+  <!-- The components that need initialization. -->
+  <component name="initializer"
+             class="nablarch.core.repository.initialization.BasicApplicationInitializer">
+    <property name="initializeList">
+      <list>
+        <!-- ... -->
+
+        <!-- Add CustomMeterBinderListProvider for initialization. -->
+        <component-ref name="meterBinderListProvider" />
+      </list>
+    </property>
+  </component>
+
+With the above modifications, the database connection will be made when the system repository is initialized.
+The default interval for sending metrics is 1 minute, so in most cases the connection pool will be created before the metrics are sent.
+This will cause no warning log to be output.
+
+Note, however, that if the interval for sending metrics is set to a very short time, the metrics may be sent before the system repository is initialized and a warning log may be output.
+
 .. _MeterBinder (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/MeterBinder.html
+.. _Counter(external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/Counter.html
+.. _Gauge(external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/Gauge.html
 .. _DatadogConfig (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogConfig.html
 .. _CloudWatchConfig (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-cloudwatch2/1.5.4/io/micrometer/cloudwatch2/CloudWatchConfig.html
 .. _StatsdConfig (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-statsd/1.5.4/io/micrometer/statsd/StatsdConfig.html
@@ -762,3 +1766,5 @@ Disable the registry
 .. _ClassLoaderMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/ClassLoaderMetrics.html
 .. _FileDescriptorMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/FileDescriptorMetrics.html
 .. _UptimeMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/UptimeMetrics.html
+.. _Timer(external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/Timer.html
+.. _PrometheusMeterRegistry(external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-prometheus/1.5.4/io/micrometer/prometheus/PrometheusMeterRegistry.html

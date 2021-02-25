@@ -41,7 +41,8 @@ Logger/LoggerFactory
 LogWriter
  * :java:extdoc:`FileLogWriter (Output to file. Rotation by file size) <nablarch.core.log.basic.FileLogWriter>`
  * :java:extdoc:`SynchronousFileLogWriter (output from multiple processes to one file) <nablarch.core.log.basic.SynchronousFileLogWriter>`
- *  :java:extdoc:`StandardOutputLogWriter (output to standard output) <nablarch.core.log.basic.StandardOutputLogWriter>`
+ * :java:extdoc:`StandardOutputLogWriter (output to standard output) <nablarch.core.log.basic.StandardOutputLogWriter>`
+ * :java:extdoc:`LogPublisher (output to any listener) <nablarch.core.log.basic.LogPublisher>`
 
 .. _log-log_formatters:
 
@@ -753,6 +754,69 @@ A configuration example of :java:extdoc:`SynchronousFileLogWriter <nablarch.core
 
  Do not specify the maxFileSize property because log rotation may occur and log may not be output.
 
+.. _log-publisher_usage:
+
+How to use LogPublisher
+--------------------------------------------------
+
+:java:extdoc:`LogPublisher <nablarch.core.log.basic.LogPublisher>` provides a function to send the output log information (:java:extdoc:`LogContext <nablarch.core.log.basic.LogContext>`) to the registered :java:extdoc:`LogListener <nablarch.core.log.basic.LogListener>`.
+This function is useful to process the output log programmatically.
+
+At first, define ``LogPublisher`` as ``LogWriter``.
+
+.. code-block:: properties
+
+  # ...
+
+  # Add the writer of LogPublisher to writerNames
+  writerNames=monitorFile,appFile,stdout,logPublisher
+
+  # Define the logPublisher
+  writer.logPublisher.className=nablarch.core.log.basic.LogPublisher
+  writer.logPublisher.formatter.className=nablarch.core.log.basic.BasicLogFormatter
+  # ...
+
+  # Add the writer of LogPublisher to the writerNames of the logger that you want to process the log information.
+  # ROO
+  loggers.ROO.nameRegex=.*
+  loggers.ROO.level=INFO
+  loggers.ROO.writerNames=appFile,stdout,logPublisher
+
+  # MON
+  loggers.MON.nameRegex=MONITOR
+  loggers.MON.level=ERROR
+  loggers.MON.writerNames=monitorFile,logPublisher
+
+  # ...
+
+Next, create an implementation class of ``LogListener`` to register with ``LogWriter``.
+
+.. code-block:: java
+
+  package example.micrometer.log;
+
+  import nablarch.core.log.basic.LogContext;
+  import nablarch.core.log.basic.LogListener;
+
+  public class CustomLogListener implements LogListener {
+
+      @Override
+      public void onWritten(LogContext context) {
+          // Implementing a process using LogContext.
+      }
+  }
+
+Finally, register the instance of ``LogListener`` to ``LogPublisher``.
+You can register ``LogListener`` with the static method of ``LogPublisher``.
+
+.. code-block:: java
+
+  LogListener listener = new CustomLogListener();
+  LogPublisher.addListener(listener);
+
+Now the ``LogPublisher`` can send the output log information to the ``CustomLogListener``.
+
+You can remove the ``LogListener`` from the ``LogPublisher`` with :java:extdoc:`removeListener(LogListener) <nablarch.core.log.basic.LogPublisher.removeListener(nablarch.core.log.basic.LogListener)>` or :java:extdoc:`removeAllListeners() <nablarch.core.log.basic.LogPublisher.removeAllListeners()>`.
 
 .. _log-log_level:
 

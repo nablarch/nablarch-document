@@ -1225,7 +1225,7 @@ Nablarchバッチは、 :ref:`loop_handler` によってトランザクション
   * - ``class``
     - アクションのクラス名（ :ref:`-requestPath <nablarch_batch-resolve_action>` から取得した値）
 
-以下に ``BatchTransactionTimeMetricsLogger`` を使うための設定例を示す。
+以下に ``BatchProcessedRecordCountMetricsLogger`` を使うための設定例を示す。
 
 .. code-block:: xml
 
@@ -1613,7 +1613,7 @@ Micrometerが監視サービスにメトリクスを連携する方法には、�
 
   24-Dec-2020 16:57:16.729 警告 [logging-metrics-publisher] io.micrometer.core.util.internal.logging.WarnThenDebugLogger.log Failed to apply the value function for the gauge 'db.pool.active'. Note that subsequent logs will be logged at debug level.
           java.lang.RuntimeException: javax.management.InstanceNotFoundException: com.zaxxer.hikari:type=Pool (HikariPool-1)
-                  at nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics.obtainGaugeValue(JmxGaugeMetrics.java:45)
+                  at nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics.obtainGaugeValue(JmxGaugeMetrics.java:59)
                   at io.micrometer.core.instrument.Gauge.lambda$builder$0(Gauge.java:58)
                   at io.micrometer.core.instrument.StrongReferenceGaugeFunction.applyAsDouble(StrongReferenceGaugeFunction.java:47)
                   at io.micrometer.core.instrument.internal.DefaultGauge.value(DefaultGauge.java:54)
@@ -1641,7 +1641,7 @@ Micrometerが監視サービスにメトリクスを連携する方法には、�
                   at com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.getMBean(DefaultMBeanServerInterceptor.java:1095)
                   at com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.getAttribute(DefaultMBeanServerInterceptor.java:643)
                   at com.sun.jmx.mbeanserver.JmxMBeanServer.getAttribute(JmxMBeanServer.java:678)
-                  at nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics.obtainGaugeValue(JmxGaugeMetrics.java:38)
+                  at nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics.obtainGaugeValue(JmxGaugeMetrics.java:52)
                   ... 23 more
 
 なお、コネクションプールが生成されていない間、メトリクスの値は ``NaN`` となる。
