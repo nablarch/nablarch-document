@@ -654,6 +654,12 @@ MicrometerでメトリクスをAzureに連携する方法
 
   * `アプリケーションからカスタム テレメトリを送信する(外部サイト) <https://docs.microsoft.com/ja-jp/azure/azure-monitor/app/java-in-process-agent#send-custom-telemetry-from-your-application>`_
 
+  .. important::
+    Java 3.0 エージェントは、初期化処理中に大量のjarファイルをロードする。
+    これにより、Java 3.0 エージェントの初期化処理中はGCが頻発することがある。
+
+    このため、アプリケーション起動後しばらくは、GCの影響により性能が一時的に劣化する可能性がある点に注意すること。
+
 MicrometerアダプタでメトリクスをAzureに連携するための設定
   MicrometerアダプタでメトリクスをAzureに連携するためには、以下の設定を行う必要がある。
 
