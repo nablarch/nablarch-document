@@ -814,7 +814,7 @@ You can register ``LogListener`` with the static method of ``LogPublisher``.
   LogListener listener = new CustomLogListener();
   LogPublisher.addListener(listener);
 
-That's all, the ``LogPublisher`` sends the output log information to the ``CustomLogListener``.
+Now the ``LogPublisher`` can send the output log information to the ``CustomLogListener``.
 
 You can remove the ``LogListener`` from the ``LogPublisher`` with :java:extdoc:`removeListener(LogListener) <nablarch.core.log.basic.LogPublisher.removeListener(nablarch.core.log.basic.LogListener)>` or :java:extdoc:`removeAllListeners() <nablarch.core.log.basic.LogPublisher.removeAllListeners()>`.
 
