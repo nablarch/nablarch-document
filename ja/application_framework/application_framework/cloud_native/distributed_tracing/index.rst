@@ -5,5 +5,4 @@
 .. toctree::
   :maxdepth: 1
 
-  aws_distributed_tracing
   azure_distributed_tracing
