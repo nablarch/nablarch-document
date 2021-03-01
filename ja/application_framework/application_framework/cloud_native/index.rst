@@ -5,3 +5,4 @@ Nablarchクラウドネイティブ対応
   :maxdepth: 1
 
   containerize/index
+  distributed_tracing/index
