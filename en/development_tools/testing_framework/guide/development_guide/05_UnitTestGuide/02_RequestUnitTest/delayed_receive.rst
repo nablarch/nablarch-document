@@ -37,29 +37,20 @@ For example, if the package of the function to be tested is nablarch.sample.ss21
   public class RM21AA100RequestTest extends MessagingReceiveTestSupport {
 
 -------------------------
-How to write a datasheet
+How to write test data
 -------------------------
-This section explains how to describe the data sheets required to test the `Deliverables to be tested`_.
+This section explains how to describe the test data required to test the `Deliverables to be tested`_.
 
-Refer to :ref:`real_request_test` for details on how to write a datasheet.
+Refer to :ref:`real_request_test` for details on how to write test data.
 In this section, the differences in the description method with :ref:`real_request_test` are explained.
 
 
-Case of a normal pattern
+Various expected values
 ==========================
 
-  In this case, make sure that the messages are correctly imported into the database.
+Response message
+----------------
 
-  .. tip::
+In the process of receiving asynchronous message, there is no need to confirm that the response message meets the expected value as there is no response message. Only the status of the expected database is to be verified.
 
-   In the process of receiving asynchronous message, there is no need to confirm that the response message meets the expected value as there is no response message.
-   For this reason, the following statements are not required in the datasheet.
-
-   * Definition of expected value and preparation data
-
-     * "MESSAGE=expectedMessages" is not required to be defined
-   
-
-
-
-
+For this reason, "MESSAGE=expectedMessages" is not required to be defined.
