@@ -32,6 +32,11 @@ Nablarch is a Java application development and execution platform that integrate
  | :doc:`Concept <about_nablarch/concept>`
  | :doc:`License <about_nablarch/license>`
 
+-----------------------------------------------
+Nablarch System Development Guide
+-----------------------------------------------
+
+ | `Guide <https://fintan.jp/?p=5403&lang=en>`__
 
 -----------------------------------------------
 Nablarch Application Framework
