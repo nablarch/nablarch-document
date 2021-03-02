@@ -661,6 +661,15 @@ How to send metrics to Azure with Micrometer
 
   * `Send custom telemetry from your application(external site) <https://docs.microsoft.com/en-us/azure/azure-monitor/app/java-in-process-agent#send-custom-telemetry-from-your-application>`_
 
+  .. important::
+    The Java 3.0 agent loads a large number of jar files during the initialization process.
+    This may cause frequent GC during the initialization process of the Java 3.0 agent.
+
+    Therefore, note that the performance may temporarily deteriorate due to GC for a while after the application is launched.
+
+    Also, under heavy load, the overhead caused by the processing of the Java 3.0 agent may affect the performance.
+    Therefore, you should confirm the performance in the performance test with the Java 3.0 agent as in production.
+
 How to configure Micrometer adaptor
   You need to configure following settings to send metrics to Azure with Micrometer adaptor.
 
