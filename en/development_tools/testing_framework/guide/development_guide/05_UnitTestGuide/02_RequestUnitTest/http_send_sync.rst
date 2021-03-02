@@ -97,7 +97,7 @@ This value should be in the **first field, excluding "no", in both the header an
  there is no need to perform fault testing in individual request unit tests.
 
 .. [#http_send_sync_abnormal_test_behavior]
- It throws  out a different class than \ :ref:`message_sendSyncMessage_test`\.
+ It throws out a different class than \ :ref:`message_sendSyncMessage_test`\.
 
 
 
