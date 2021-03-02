@@ -42,16 +42,32 @@ For example, if the package of the function to be tested is nablarch.sample.ss21
 
 
 ------------------------------
-How to write a datasheet
+How to write test data
 ------------------------------
-This section explains how to describe the data sheets required to test the `Deliverables to be tested`_.
+This section explains how to describe the test data required to test the `Deliverables to be tested`_.
 
-Refer to :ref:`message_sendSyncMessage_test` for details on how to write a datasheet.
+Refer to :ref:`message_sendSyncMessage_test` for details on how to write test data.
 In this section, the differences in the description method with :ref:`message_sendSyncMessage_test` are explained.
 
+The expected value of the request message and the preparation of the response message to be returned
+====================================================================================================
 
-Preparing a normal pattern case
-================================
+In the process of sending Asynchronous a message that does not require a response, there is no need to confirm that the response message is as expected because there is no response message.
+
+For this reason, The following settings are not required.
+
+* testShots definition
+
+  * responseMessage
+
+* Definition of expected value and preparation data
+
+  * RESPONSE_HEADER_MESSAGES
+  * RESPONSE_BODY_MESSAGES
+
+Normal pattern test
+-------------------
+
 
  | Check of case in which the message is sent correctly.
  | This case checks that the message is sent and confirms the status update of the relevant data.
@@ -62,21 +78,8 @@ Preparing a normal pattern case
  .. image:: _image/delayed_send.png
     :scale: 50
 
- .. tip::
-
-  The following settings are not required for the data sheet.
-
-  * testShots definition
-
-    * responseMessage
-
-  * Definition of expected value and preparation data
-
-    * RESPONSE_HEADER_MESSAGES
-    * RESPONSE_BODY_MESSAGES
-
-Preparing an abnormal pattern case
-===================================
+Abnormal pattern test(Failure pattern test)
+-------------------------------------------
   
  | Abnormal pattern testing is necessary to check UPDATE statements that update the status of the relevant data to an error when message sending fails.
  | To execute the test case, add "KEY = errorCase" and "VALUE = true" to the definition of "testShots" as shown in the following image.

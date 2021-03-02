@@ -1,4 +1,4 @@
-ma.. _`mail_request_test`:
+.. _`mail_request_test`:
 
 ================================================
 How to Execute a Request Unit Test (Email Send)

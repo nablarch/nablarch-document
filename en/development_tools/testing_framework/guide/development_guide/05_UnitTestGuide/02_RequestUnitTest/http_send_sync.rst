@@ -74,6 +74,32 @@ The following is a description example of the expected value of a request messag
 .. tip::
  If there are multiple request IDs to be sent, testing the order is not possible. In the above example, the test is successful even if ``ProjectSaveMessage2`` is sent before ``ProjectSaveMessage``.
 
+Failure pattern test
+--------------------
+
+The failure pattern can be tested by configuring a specific value starting with "errorMode:" in the table of the response message.\ [#http_send_sync_abnormal_test]_\ 
+
+The correspondence between the configuration values and failure pattern tests is shown below.
+
+ +-------------------------------------------+-------------------------------------------------------------+-----------------------------------------------------------------------------------+
+ | Value to be configured for the first field| Failure description                                         | Operation of the automated test framework                                         |
+ +===========================================+=============================================================+===================================================================================+
+ |  ``errorMode:timeout``                    | Test if timeout error occurs while sending the message      | Throws **HttpMessagingTimeoutException**                                          |
+ |                                           |                                                             | (subclass of **MessagingException**) \ [#http_send_sync_abnormal_test_behavior]_\ |
+ +-------------------------------------------+-------------------------------------------------------------+-----------------------------------------------------------------------------------+
+ |  ``errorMode:msgException``               | Test when a message send and receive error occurs           | Throws **MessagingException**                                                     |
+ +-------------------------------------------+-------------------------------------------------------------+-----------------------------------------------------------------------------------+
+
+This value should be in the **first field, excluding "no", in both the header and the body** of the table in the response message.
+
+.. [#http_send_sync_abnormal_test]
+ If the business action does not explicitly control **MessagingException**,
+ there is no need to perform fault testing in individual request unit tests.
+
+.. [#http_send_sync_abnormal_test_behavior]
+ It throws out a different class than \ :ref:`message_sendSyncMessage_test`\.
+
+
 
 Description for using the mockup
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
