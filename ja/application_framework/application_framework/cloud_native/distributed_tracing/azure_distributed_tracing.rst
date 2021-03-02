@@ -30,7 +30,20 @@ Azureで分散トレーシングを行う方法
   まず、 `Azureの公式サイト <https://docs.microsoft.com/ja-jp/azure/azure-monitor/app/java-in-process-agent#quickstart>`_  よりエージェントをダウンロードする。
   その後、``src/main/jib`` 以下に任意のディレクトリを作成し、エージェントを格納する。
 
-  次に、 ``pom.xml`` の ``jib-maven-plugin`` に 環境変数として ``CATALINA_OPTS`` を追加する。
+  次に、先程エージェントを格納したディレクトリに ``applicationinsights.json`` を配置する。
+  ``connectionString`` にはAzure Application Insightsのリソースを作成したあとに発行されるインストルメンテーションキーを指定する。
+  そのほかの構成オプションについては `ガイド <https://docs.microsoft.com/ja-jp/azure/azure-monitor/app/java-standalone-config>`_ を参照のこと。
+
+  * applicationinsights.json
+
+  .. code-block:: json
+
+    {
+      "connectionString": "InstrumentationKey=XXXXX",
+    }
+
+
+  最後に、 ``pom.xml`` の ``jib-maven-plugin`` に 環境変数として ``CATALINA_OPTS`` を追加する。
   設定内容は、先程配置したエージェントを指定する。
   （例では ``applicationInsights`` ディレクトリ直下に配置した ``applicationinsights-agent-3.0.2.jar`` を指定している）
 
