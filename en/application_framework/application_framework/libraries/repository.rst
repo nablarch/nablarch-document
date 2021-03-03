@@ -540,6 +540,9 @@ Component configuration file
 
   For specifications of the environment configuration file, refer to :ref:`repository-environment_configuration_file_rule`.
 
+.. important::
+
+  Throws ConfigurationLoadException if a key with an environment dependent value that is not defined in the configuration file is referenced from the component configuration file.
 
 .. _repository-overwrite_environment_configuration:
 
