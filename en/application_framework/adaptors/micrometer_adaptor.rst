@@ -1496,7 +1496,7 @@ The following is an example for a custom ``DefaultMeterBinderListProvider``.
   import nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics;
   import nablarch.integration.micrometer.instrument.binder.jmx.MBeanAttributeCondition;
 
-  import java.util.Arrays;
+  import java.util.ArrayList;
   import java.util.List;
 
   public class CustomMeterBinderListProvider extends DefaultMeterBinderListProvider {
