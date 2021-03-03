@@ -540,7 +540,7 @@ Component configuration file
 
 .. important::
 
-  Throws ConfigurationLoadException if a key with an environment dependent value that is not defined in the configuration file is referenced from the component definition file.
+  Throws ConfigurationLoadException if a key with an environment dependent value that is not defined in the configuration file is referenced from the component configuration file.
 
 .. _repository-overwrite_environment_configuration:
 

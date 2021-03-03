@@ -539,7 +539,7 @@ DIコンテナで管理するオブジェクトに対して環境依存値を設
 
 .. important::
 
-  環境設定ファイルで定義されていない環境依存値のキーをコンポーネント定義ファイルに記載した場合、ConfigurationLoadExceptionが送出される。
+  環境設定ファイルで定義されていない環境依存値のキーをコンポーネント設定ファイルに記載した場合、ConfigurationLoadExceptionが送出される。
 
 .. _repository-overwrite_environment_configuration:
 
