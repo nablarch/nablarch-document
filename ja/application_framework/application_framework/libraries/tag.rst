@@ -20,22 +20,9 @@ JSPカスタムタグ
 
 * JSP2.1以降をサポートしているWebコンテナで動作する。
 * 条件分岐やループなどの制御にはJSTLを使用する。
-* XHTML 1.0 Transitionalに対応した属性をサポートする。(HTML5の属性には未対応)
+* HTML5で追加された属性を含め任意の属性をサポートする。
 * クライアントのJavaScriptが必須である。( :ref:`tag-onclick_override` を参照)
 * GETリクエストで一部のカスタムタグが使用できない。( :ref:`tag-using_get` を参照)
-
-.. important::
- カスタムタグはHTML5に対応できていない。
- ただし、HTML5の属性のうち、頻繁に使用されそうな次の属性のみ先行で取り込んでいる。
- 属性を追加したHTMLのタグ名をカッコ内に記載する。
-
- * autocomplete(input、password、form)
- * autofocus(input、textarea、select、button)
- * placeholder(text、password、textarea)
- * maxlength(textarea)
- * multiple(input)
-
- 上記以外のHTML5の属性は使用できないため、必要となった場合は各プロジェクトでカスタムタグを拡張する。
 
 .. important::
  カスタムタグは、以下のような単純な画面遷移を行うウェブアプリケーションを対象にしている。
@@ -2559,6 +2546,63 @@ HTML
 
   静的コンテンツの変更時にキャッシュを参照しないようにするには、この機能を使用するのではなく、
   静的コンテンツのファイル名を変更する等で対応すること。
+
+任意の属性を指定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+カスタムタグでは ``javax.servlet.jsp.tagext.DynamicAttributes`` インタフェースを使用して動的属性を扱っている。
+これにより、HTML5で追加された属性を含む任意の属性をカスタムタグで出力することができる。
+タグごとの動的属性の利用可否は :ref:`tag_reference` を参照。
+
+論理属性を出力する
+++++++++++++++++++++++++++++++++++++++++++
+タグライブラリ記述子に宣言されていない動的属性を論理属性として出力することができる。
+論理属性に指定した属性は、値に `true` を指定した場合は属性名と同じ値が属性の値として出力される。
+値に `false` を指定した場合は属性が出力されない。
+デフォルトでは以下の属性が論理属性として定義されている。
+
+* async
+* autofocus
+* checked
+* disabled
+* formnovalidate
+* hidden
+* ismap
+* itemscope
+* multiple
+* nomodule
+* novalidate
+* readonly
+* required
+* reversed
+* selected
+
+asyncを例に実装例を以下に示す。
+
+  JSP
+   .. code-block:: jsp
+
+    <!-- 論理属性にtrueを指定 -->
+    <n:script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="true" />
+
+  出力されるHTML
+   .. code-block:: html
+
+    <!-- 論理属性が出力される -->
+    <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="async"></script>
+
+  JSP
+   .. code-block:: jsp
+
+    <!-- 論理属性にfalseを指定 -->
+    <n:script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="false" />
+
+  出力されるHTML
+   .. code-block:: html
+
+    <!-- 論理属性が出力されない -->
+    <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js"></script>
+
+上記に含まれない属性を論理属性として扱いたい場合は論理属性のリストを ``CustomTagConfig`` の :java:extdoc:`dynamicBooleanAttributesプロパティ<nablarch.common.web.tag.CustomTagConfig.setDynamicBooleanAttributes(java.util.List)>` に設定する。
 
 拡張例
 ---------------------------------------------------------------------

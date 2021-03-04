@@ -20,22 +20,9 @@ Custom tags have the following limitations:
 
 * They function in web containers supporting JSP 2.1 and above.
 * They use JSTL for controlling conditional branches and loops etc.
-* They support attributes compatible with XHTML 1.0 Transitional. (HTML5 attributes are not supported)
+* They support any attribute, including those added in HTML5.
 * It is required to have JavaScript in the client. (See :ref:`tag-onclick_override`)
 * Some custom tags cannot be used with GET request. (See :ref:`tag-using_get`)
-
-.. important::
- Custom tags are not compatible with HTML5.
- However, among the attributes of HTML5, only the following attributes that are likely to be used frequently are incorporated on priority basis.
- Write the HTML tag name with the attribute added in the parentheses.
-
- * autocomplete(input、password、form)
- * autofocus(input、textarea、select、button)
- * placeholder(text、password、textarea)
- * maxlength(textarea)
- * multiple(input)
-
- Since HTML5 attributes other than the above cannot be used, if it becomes necessary to use other attributes, then extend the custom tags in each project.
 
 .. important::
  Custom tags are meant for web applications in which simple screen transition as shown below is performed.
@@ -2553,6 +2540,63 @@ Configuration example
 
   The file name of the static content should be changed instead of using this function
   so that the cache is not referenced when the static content is changed.
+
+Specify any attribute
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Dynamic attributes are handled in custom tags using the ``javax.servlet.jsp.tagext.DynamicAttributes`` interface.
+This allows custom tags to output any attributes, including those added in HTML5.
+See :ref:`tag_reference` for availability of dynamic attributes per tag.
+
+Output Boolean attributes
+++++++++++++++++++++++++++++++++++++++++++
+Dynamic attributes that are not declared in the tag library descriptor can be output as Boolean attributes.
+If `true` is specified for the value of an attribute, the same value as the attribute name is output as the attribute value .
+If `false` is specified for the value, the attribute will not be output.
+By default, the following attributes are defined as Boolean attributes.
+
+* async
+* autofocus
+* checked
+* disabled
+* formnovalidate
+* hidden
+* ismap
+* itemscope
+* multiple
+* nomodule
+* novalidate
+* readonly
+* required
+* reversed
+* selected
+
+An example implementation of async is shown below.
+
+  JSP
+   .. code-block:: jsp
+
+    <!-- Specify true for Boolean attribute -->
+    <n:script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="true" />
+
+  Output HTML
+   .. code-block:: html
+
+    <!-- Boolean attributes will be output -->
+    <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="async"></script>
+
+  JSP
+   .. code-block:: jsp
+
+    <!-- Specify false for Boolean attribute -->
+    <n:script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="false" />
+
+  Output HTML
+   .. code-block:: html
+
+    <!-- Boolean attributes will not be output -->
+    <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js"></script>
+
+If you want to use attributes not included in the above as Boolean attributes, set the list of Boolean attributes to the :java:extdoc:`dynamicBooleanAttributes property <nablarch.common.web.tag. CustomTagConfig.setDynamicBooleanAttributes(java.util.List)>` of ``CustomTagConfig``.
 
 Expansion example
 ---------------------------------------------------------------------
