@@ -20,9 +20,45 @@ Custom tags have the following limitations:
 
 * They function in web containers supporting JSP 2.1 and above.
 * They use JSTL for controlling conditional branches and loops etc.
-* They support any attribute, including those added in HTML5.
+* They support attributes compatible with XHTML 1.0 Transitional. 
+* Support dynamic attributes in some tags.
 * It is required to have JavaScript in the client. (See :ref:`tag-onclick_override`)
 * Some custom tags cannot be used with GET request. (See :ref:`tag-using_get`)
+
+.. important::
+ Custom tags are not compatible with HTML5.
+ However, among the attributes of HTML5, only the following attributes that are likely to be used frequently
+ and and the following input elements that were added in HTML5 are incorporated on priority basis.
+ 
+ * added attributes (Write the HTML tag name with the attribute added in the parentheses.)
+
+  Since HTML5 attributes other than the following cannot be used, if it becomes necessary to use other attributes,
+  then extend the custom tags in each project or use :ref:`dynamic attributes <dynamic_attribute>` .
+
+  * autocomplete(input、password、form)
+  * autofocus(input、textarea、select、button)
+  * placeholder(text、password、textarea)
+  * maxlength(textarea)
+  * multiple(input)
+
+ * added input elements
+  
+  The following input elements have been created by extending :ref:`tag-text_tag` .
+  Since unique attributes for each type are not supported,
+  attributes not listed in :ref:`tag_reference` should be described by dynamic attributes.
+
+  * :ref:`tag-search_tag`
+  * :ref:`tag-tel_tag`
+  * :ref:`tag-url_tag`
+  * :ref:`tag-email_tag`
+  * :ref:`tag-date_tag`
+  * :ref:`tag-month_tag`
+  * :ref:`tag-week_tag`
+  * :ref:`tag-time_tag`
+  * :ref:`tag-datetimeLocal_tag`
+  * :ref:`tag-number_tag`
+  * :ref:`tag-range_tag`
+  * :ref:`tag-color_tag`
 
 .. important::
  Custom tags are meant for web applications in which simple screen transition as shown below is performed.
@@ -2540,6 +2576,8 @@ Configuration example
 
   The file name of the static content should be changed instead of using this function
   so that the cache is not referenced when the static content is changed.
+
+.. _dynamic_attribute:
 
 Specify any attribute
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
