@@ -26,13 +26,12 @@ JSPカスタムタグ
 * GETリクエストで一部のカスタムタグが使用できない。( :ref:`tag-using_get` を参照)
 
 .. important::
- カスタムタグはHTML5に対応できていない。
- ただし、HTML5の属性のうち、頻繁に使用されそうな次の属性とHTML5で追加された以下のinput要素のみ先行で取り込んでいる。
+ HTML5で追加された属性は、 :ref:`動的属性 <dynamic_attribute>` を利用して記述することができる。
+ ただし、頻繁に使用されそうな次の属性は予めカスタムタグの属性として定義している。
+ また、HTML5で追加されたinput要素は、それぞれ :ref:`tag-text_tag` をベースに以下のタグを追加している。
+ 各input要素固有の属性はカスタムタグで個別に定義していないため、動的属性により指定する必要がある。
 
  * 追加した属性（属性を追加したHTMLのタグ名をカッコ内に記載する。）
-
-  下記以外のHTML5の属性は使用できないため、必要となった場合は各プロジェクトでカスタムタグを拡張するか
-  :ref:`動的属性 <dynamic_attribute>` で記述する。
 
   * autocomplete(input、password、form)
   * autofocus(input、textarea、select、button)
@@ -41,10 +40,6 @@ JSPカスタムタグ
   * multiple(input)
 
  * 追加したinput要素
-  
-  以下のinput要素は :ref:`tag-text_tag` を拡張する形で作成されている。
-  各typeに応じた固有の属性はサポートされていないため
-  :ref:`tag_reference` に記載のない属性は動的属性で記述する。
 
   * :ref:`tag-search_tag` (検索テキスト)
   * :ref:`tag-tel_tag` (電話番号)
