@@ -1,20 +1,42 @@
 AWSにおける分散トレーシング
 =========================================
 
-本章では、AWS上で分散トレーシングを行う方法について説明する。
+.. contents:: 目次
+  :depth: 3
+  :local:
 
-AWSでは[AWS X-Ray](https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/aws-xray.html)というサービスが用意されており、アプリケーションにAWS X-Ray SDKを組み込むことで分散トレーシングが可能となります。
-詳細な設定方法は[AWS X-Ray SDK for Java](https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java.html)を参照してください。
+AWSでは `AWS X-Ray(外部サイト)`_ という分散トレーシングを実現するためのサービスが用意されている。
+Javaアプリケーションの分散トレーシングは以下2つの方法で実現できる。
 
-以下はアーキタイプから作成されたコンテナ用RESTfulウェブサービスプロジェクトに、分散トレーシングを設定する例です。
+* AWS X-Ray SDK for Java
+* AWS X-Ray Java 用 自動計測エージェント
 
-AWS X-Ray SDKを使用するため、[Submodules](https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java.html#xray-sdk-java-submodules)のうち必要なものを依存関係に追加します。
-※上記SubmodulesではSQLクエリのトレースには`aws-xray-recorder-sdk-sql-postgres`または`aws-xray-recorder-sdk-sql-mysql`を使用するとなっていますが、本記事では任意のJDBCデータソースをトレース可能な[aws-xray-sdk-java](https://github.com/aws/aws-xray-sdk-java)に含まれる`aws-xray-recorder-sdk-sql`を使用します。
+`自動計測エージェント(外部サイト)`_ を使用するとアプリケーションのランタイムにコードを追加することなく計測が可能だが、
+Nablarchはフレームワークの構造上、自動計測エージェントを使用することができない。そのため本手順ではAWS X-Ray SDK for Javaをアプリケーションに組み込む方法について説明する。
+以下で触れない詳細な設定方法については `AWS X-Ray SDK for Java(外部サイト)`_ を参照。
 
-`pom.xml`に以下を追記します。
+.. important::
 
-```xml
+  2020年10月に第3の方法として `AWS Distro for OpenTelemetry(外部サイト、英語)`_ が発表された。
+  しかし、2021年3月現在production-readyとなっているが、正式リリースはされておらずNablarchでも動作確認は行っていない。
+  そのため、今後 AWS Distro for OpenTelemetry で動作確認がとれた場合は、本章は AWS Distro for OpenTelemetry を使用した手順に差し替える可能性がある。
+
+以下にコンテナ用アーキタイプを使用した場合の例を示す。
+
+依存関係の追加
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+AWS X-Ray SDKのサブモジュールから必要なものを依存関係に追加する。
+使用できるサブモジュールは以下参照。
+
+* `Submodules(外部サイト)`_
+
+``pom.xml`` に以下を追記する。
+
+.. code-block:: xml
+
   <dependencyManagement>
+    <dependencies>
       <!--  中略  -->
       <dependency>
         <groupId>com.amazonaws</groupId>
@@ -41,12 +63,21 @@ AWS X-Ray SDKを使用するため、[Submodules](https://docs.aws.amazon.com/ja
       <artifactId>aws-xray-recorder-sdk-sql</artifactId>
     </dependency>
   </dependencies>
-```
 
-依存を追加したら受信HTTPリクエストのトレースするためX-Ray サーブレットフィルタをアプリケーションに追加します。
-`src/main/webapp/WEB-INF/web.xml`に以下を追記します。
+.. tip::
 
-```xml
+  `AWS X-Ray SDK for Java(外部サイト)`_ ではSQLクエリのトレースには
+  ``aws-xray-recorder-sdk-sql-postgres`` または ``aws-xray-recorder-sdk-sql-mysql`` を使用すると記載されている。
+  本手順では任意のJDBCデータソースをトレース可能な `aws-xray-sdk-java(外部サイト)`_ に含まれる ``aws-xray-recorder-sdk-sql`` を使用する。
+
+受信HTTPリクエスト
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+受信HTTPリクエストをトレースするためX-Ray サーブレットフィルタをアプリケーションに追加する。
+``src/main/webapp/WEB-INF/web.xml`` に以下を追記。
+
+.. code-block:: xml
+
   <filter>
     <filter-name>AWSXRayServletFilter</filter-name>
     <filter-class>com.amazonaws.xray.javax.servlet.AWSXRayServletFilter</filter-class>
@@ -65,18 +96,27 @@ AWS X-Ray SDKを使用するため、[Submodules](https://docs.aws.amazon.com/ja
     <filter-name>entryPoint</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-```
 
-続いて他のサービスへのHTTPリクエストをトレースするための設定を追加します。
+送信HTTP呼び出し
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-X-Ray SDK for Javaには、送信HTTP呼び出しを計測するためのAPIとして[Apache HttpComponents](https://hc.apache.org/)のインタフェースで[使用できるクラス](https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java-httpclients.html)が用意されています。
-Apache HttpComponentsを直接使うと処理が煩雑になるため、今回はJAX-RSクライアントの実装である[Jersey](https://eclipse-ee4j.github.io/jersey/)経由で利用します。
-Jerseyは、デフォルトでは`java.net.HttpURLConnection`をトランスポート層に利用します。JerseyクライアントにConnectorSPIを実装する`HttpUrlConnectorProvider`を登録することで[トランスポート層の置き換えが可能](https://eclipse-ee4j.github.io/jersey.github.io/documentation/latest/client.html#d0e4974)です。
-Apache HttpComponentsを利用するため、`org.glassfish.jersey.apache.connector.ApacheConnectorProvider`を使用します。
+他のサービスへのHTTPリクエストをトレースするための設定を追加する。
 
-まず依存にJerseyを加えます。
+X-Ray SDK for Javaには、送信HTTP呼び出しを計測するためのAPIとして `Apache HttpComponents(外部サイト、英語)`_ のインタフェースで使用できるクラスが用意されている。
 
-```xml
+* `X-Ray SDK for Java を使用してダウンストリーム HTTP ウェブサービスの呼び出しをトレースする(外部サイト)`_
+
+Apache HttpComponentsを直接使うと処理が煩雑になるため、本手順ではJAX-RSクライアントの実装である `Jersey(外部サイト、英語)`_ 経由で利用する。
+Jerseyは、デフォルトでは ``java.net.HttpURLConnection`` をトランスポート層に利用する。
+JerseyクライアントにConnectorSPIを実装する ``HttpUrlConnectorProvider`` を登録することでトランスポート層の置き換えが可能となる。
+本手順ではApache HttpComponentsを利用するため、 ``org.glassfish.jersey.apache.connector.ApacheConnectorProvider`` を使用する。
+
+* `Client Transport Connectors(外部サイト、英語)`_
+
+まず依存にJerseyを加える。
+
+.. code-block:: xml
+
   <dependencyManagement>
     <dependencies>
       <!--  中略  -->
@@ -110,146 +150,159 @@ Apache HttpComponentsを利用するため、`org.glassfish.jersey.apache.connec
       <artifactId>jersey-hk2</artifactId>
     </dependency>
   </dependencies>
-```
 
-Jerseyには`org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConfigurator`インタフェースが用意されています。このインタフェースを使用することで、`HttpClientBuilder`に追加の設定をしたり、`HttpClientBuilder`そのものを差し替えたりといった処理が可能になります。
-下記では`HttpClientBuilder`をAWS SDKの`com.amazonaws.xray.proxies.apache.http.HttpClientBuilder`に差し替えています。
+Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConfigurator`` インタフェースが用意されている。
+このインタフェースを使用することで、 ``HttpClientBuilder`` に追加の設定をしたり、 ``HttpClientBuilder`` そのものを差し替えたりといった処理が可能となる。
+下記では ``HttpClientBuilder`` をAWS SDKの ``com.amazonaws.xray.proxies.apache.http.HttpClientBuilder`` に差し替えている。
 
-```java
-package com.example.system.httpclient;
+.. code-block:: java
 
-import nablarch.core.repository.di.ComponentFactory;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
-import org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConfigurator;
-import org.glassfish.jersey.client.ClientConfig;
+  package com.example.system.httpclient;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.Configuration;
-import java.util.function.UnaryOperator;
+  import nablarch.core.repository.di.ComponentFactory;
+  import org.apache.http.impl.client.HttpClientBuilder;
+  import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
+  import org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConfigurator;
+  import org.glassfish.jersey.client.ClientConfig;
 
-public class JerseyHttpClientWithAWSXRayFactory implements ComponentFactory<Client> {
-    @Override
-    public Client createObject() {
-        ApacheHttpClientBuilderConfigurator clientBuilderConfigurator 
-                = (httpClientBuilder) -> HttpClientBuilder.create();
+  import javax.ws.rs.client.Client;
+  import javax.ws.rs.client.ClientBuilder;
+  import javax.ws.rs.core.Configuration;
+  import java.util.function.UnaryOperator;
 
-        Configuration config = new ClientConfig()
-                .register(clientBuilderConfigurator)
-                .connectorProvider(new ApacheConnectorProvider());
-        return ClientBuilder.newClient(config);
-    }
-}
-```
+  public class JerseyHttpClientWithAWSXRayFactory implements ComponentFactory<Client> {
+      @Override
+      public Client createObject() {
+          ApacheHttpClientBuilderConfigurator clientBuilderConfigurator 
+                  = (httpClientBuilder) -> HttpClientBuilder.create();
 
-`ComponentFactory`を`src/main/resources/rest-component-configuration.xml`に記述し、HTTPクライアントをシステムリポジトリに登録します。
+          Configuration config = new ClientConfig()
+                  .register(clientBuilderConfigurator)
+                  .connectorProvider(new ApacheConnectorProvider());
+          return ClientBuilder.newClient(config);
+      }
+  }
 
-```xml
+``ComponentFactory`` を ``src/main/resources/rest-component-configuration.xml`` に記述し、HTTPクライアントをシステムリポジトリに登録する。
+
+.. code-block:: xml
+
   <!-- HTTPクライアントの設定 -->
   <component name="httpClient" class="com.example.system.httpclient.JerseyHttpClientWithAWSXRayFactory" />
-```
 
-以下はシステムリポジトリに登録したHTTPクライアントを利用するクラスの例です。
-このクラスは`@SystemRepositoryComponent`のアノテーションを付与することで[DIコンテナの構築対象となり](https://nablarch.github.io/docs/LATEST/doc/application_framework/application_framework/libraries/repository.html#repository-inject-annotation-component)コンストラクタインジェクションでHTTPクライアントが登録されます。
+システムリポジトリに登録したHTTPクライアントを利用するクラスの例を以下に示す。
+このクラスは ``@SystemRepositoryComponent`` のアノテーションを付与することでDIコンテナの構築対象となり、コンストラクタインジェクションでHTTPクライアントが登録される。
 
-```java
-package com.example.recommendation.infrastracture;
+.. code-block:: java
 
-import com.example.recommendation.domain.model.Product;
-import com.example.recommendation.domain.model.ProductId;
-import com.example.recommendation.domain.model.ProductImage;
-import com.example.recommendation.domain.model.ProductName;
-import com.example.recommendation.domain.model.ProductPrice;
-import com.example.recommendation.domain.model.Products;
-import com.example.recommendation.domain.repository.ProductRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import nablarch.core.repository.di.config.externalize.annotation.ComponentRef;
-import nablarch.core.repository.di.config.externalize.annotation.ConfigValue;
-import nablarch.core.repository.di.config.externalize.annotation.SystemRepositoryComponent;
+  package com.example.recommendation.infrastracture;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericType;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
+  import com.example.recommendation.domain.model.Product;
+  import com.example.recommendation.domain.model.ProductId;
+  import com.example.recommendation.domain.model.ProductImage;
+  import com.example.recommendation.domain.model.ProductName;
+  import com.example.recommendation.domain.model.ProductPrice;
+  import com.example.recommendation.domain.model.Products;
+  import com.example.recommendation.domain.repository.ProductRepository;
+  import com.fasterxml.jackson.databind.ObjectMapper;
+  import nablarch.core.repository.di.config.externalize.annotation.ComponentRef;
+  import nablarch.core.repository.di.config.externalize.annotation.ConfigValue;
+  import nablarch.core.repository.di.config.externalize.annotation.SystemRepositoryComponent;
 
-@SystemRepositoryComponent
-public class HttpProductRepository implements ProductRepository {
+  import javax.ws.rs.client.Client;
+  import javax.ws.rs.client.WebTarget;
+  import javax.ws.rs.core.GenericType;
+  import java.math.BigDecimal;
+  import java.util.List;
+  import java.util.stream.Collectors;
 
-    private final Client httpClient;
-    private final String productAPI;
+  @SystemRepositoryComponent
+  public class HttpProductRepository implements ProductRepository {
 
-    public HttpProductRepository(@ComponentRef("httpClient") Client httpClient,
-                                 @ConfigValue("${api.product.url}") String productAPI) {
-        this.httpClient = httpClient;
-        this.productAPI = productAPI;
-    }
+      private final Client httpClient;
+      private final String productAPI;
 
-    @Override
-    public Products findAll() {
-        WebTarget target = httpClient.target(productAPI).path("/products");
-        List<ProductResponse> products = target.request().get(new GenericType<>() {});
-        return new Products(products.stream().map(ProductResponse::toProduct).collect(Collectors.toList()));
-    }
+      public HttpProductRepository(@ComponentRef("httpClient") Client httpClient,
+                                  @ConfigValue("${api.product.url}") String productAPI) {
+          this.httpClient = httpClient;
+          this.productAPI = productAPI;
+      }
 
-    public static class ProductResponse {
-        public String id;
-        public String name;
-        public BigDecimal price;
-        public String image;
+      @Override
+      public Products findAll() {
+          WebTarget target = httpClient.target(productAPI).path("/products");
+          List<ProductResponse> products = target.request().get(new GenericType<>() {});
+          return new Products(products.stream().map(ProductResponse::toProduct).collect(Collectors.toList()));
+      }
 
-        public Product toProduct() {
-            return new Product(new ProductId(id), new ProductName(name), new ProductPrice(price), new ProductImage(image));
-        }
-    }
-}
-```
+      public static class ProductResponse {
+          public String id;
+          public String name;
+          public BigDecimal price;
+          public String image;
 
-次にSQLクエリも計測対象とするための設定を加えます。
+          public Product toProduct() {
+              return new Product(new ProductId(id), new ProductName(name), new ProductPrice(price), new ProductImage(image));
+          }
+      }
+  }
 
-aws-xray-sdk-javaの[Intercept JDBC-Based SQL Queries](https://github.com/aws/aws-xray-sdk-java#intercept-jdbc-based-sql-queries)に記載のようにデータソースを`com.amazonaws.xray.sql.TracingDataSource`でデコレートすることでSQLクエリの計測が可能となります。
-デコレートされたデータソースを作成する`TracingDataSourceFactory`を作成します。
+SQLクエリ
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-```java
-package com.example.system.awsxray;
+次にSQLクエリも計測対象とするための設定を加える。
 
-import com.amazonaws.xray.sql.TracingDataSource;
-import nablarch.core.log.Logger;
-import nablarch.core.log.LoggerManager;
-import nablarch.core.repository.di.ComponentFactory;
+aws-xray-sdk-javaに記載のようにデータソースを ``com.amazonaws.xray.sql.TracingDataSource`` でデコレートすることでSQLクエリの計測が可能となります。
 
-import javax.sql.DataSource;
+* `Intercept JDBC-Based SQL Queries(外部サイト、英語)`_
 
-public class TracingDataSourceFactory implements ComponentFactory<DataSource> {
-    /** ロガー */
-    private static final Logger LOGGER = LoggerManager.get(TracingDataSourceFactory.class);
-    /** データソース */
-    private DataSource dataSource;
+デコレートされたデータソースを作成する ``TracingDataSourceFactory`` を作成する。
 
-    @Override
-    public DataSource createObject() {
-        LOGGER.logInfo("Wrap " + dataSource + " in " + TracingDataSource.class.getName());
-        return TracingDataSource.decorate(dataSource);
-    }
+.. code-block:: java
 
-    /**
-     * データソースを設定する。
-     *
-     * @param dataSource データソース
-     */
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-}
-```
+  package com.example.system.awsxray;
 
-アーキタイプから生成したプロジェクトではデータソースの設定が`src/main/resources/data-source.xml`に記述されています。これを以下のように編集します。
-`dataSource`という名前で`com.zaxxer.hikari.HikariDataSource`が定義されているので、`rawDataSource`という名前に変更します。代わりに上記で作成した`TracingDataSourceFactory`を`dataSource`という名前で定義します。`TracingDataSourceFactory`には元になるデータソースをプロパティとして設定します。元になるデータソースには、`rawDataSource`を設定します。
-Nablarchは`dataSource`という名前でデータソースコンポーネントを取得します。このように編集することでX-Ray SDK for Java JDBCインターセプターがデータソース設定に追加され、SQLクエリが計測されるようになります。
+  import com.amazonaws.xray.sql.TracingDataSource;
+  import nablarch.core.log.Logger;
+  import nablarch.core.log.LoggerManager;
+  import nablarch.core.repository.di.ComponentFactory;
 
-```xml
+  import javax.sql.DataSource;
+
+  public class TracingDataSourceFactory implements ComponentFactory<DataSource> {
+      /** ロガー */
+      private static final Logger LOGGER = LoggerManager.get(TracingDataSourceFactory.class);
+      /** データソース */
+      private DataSource dataSource;
+
+      @Override
+      public DataSource createObject() {
+          LOGGER.logInfo("Wrap " + dataSource + " in " + TracingDataSource.class.getName());
+          return TracingDataSource.decorate(dataSource);
+      }
+
+      /**
+      * データソースを設定する。
+      *
+      * @param dataSource データソース
+      */
+      public void setDataSource(DataSource dataSource) {
+          this.dataSource = dataSource;
+      }
+  }
+
+アーキタイプから生成したプロジェクトではデータソースの設定が ``src/main/resources/data-source.xml`` に記述されている。
+これを以下のように編集する。
+
+* ``dataSource`` という名前で ``com.zaxxer.hikari.HikariDataSource`` が定義されているので、 ``rawDataSource`` という名前に変更する。
+* 代わりに上記で作成した ``TracingDataSourceFactory`` を ``dataSource`` という名前で定義する。
+* ``TracingDataSourceFactory`` には元になるデータソースをプロパティとして設定する必要がある。元になるデータソースには、 ``rawDataSource`` を設定する。
+
+Nablarchは ``dataSource`` という名前でデータソースコンポーネントを取得する。
+このように編集することでX-Ray SDK for Java JDBCインターセプターがデータソース設定に追加され、SQLクエリが計測されるようになる。
+
+.. code-block:: xml
+
   <component name="rawDataSource"
              class="com.zaxxer.hikari.HikariDataSource" autowireType="None">
     <property name="driverClassName" value="${nablarch.db.jdbcDriver}"/>
@@ -266,6 +319,15 @@ Nablarchは`dataSource`という名前でデータソースコンポーネント
   <component name="dataSource" class="com.example.system.awsxray.TracingDataSourceFactory">
     <property name="dataSource" ref="rawDataSource" />
   </component>
-```
 
-以上でAWS X-Rayでの分散トレーシング設定は完了です。
+.. _AWS X-Ray(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/aws-xray.html
+.. _自動計測エージェント(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/aws-x-ray-auto-instrumentation-agent-for-java.html
+.. _AWS X-Ray SDK for Java(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java.html
+.. _AWS Distro for OpenTelemetry(外部サイト、英語): https://aws-otel.github.io/
+.. _Submodules(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java.html#xray-sdk-java-submodules
+.. _aws-xray-sdk-java(外部サイト): https://github.com/aws/aws-xray-sdk-java
+.. _Apache HttpComponents(外部サイト、英語): https://hc.apache.org/
+.. _X-Ray SDK for Java を使用してダウンストリーム HTTP ウェブサービスの呼び出しをトレースする(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java-httpclients.html
+.. _Jersey(外部サイト、英語): https://eclipse-ee4j.github.io/jersey/
+.. _Client Transport Connectors(外部サイト、英語): https://eclipse-ee4j.github.io/jersey.github.io/documentation/latest/client.html#d0e4974
+.. _Intercept JDBC-Based SQL Queries(外部サイト、英語): https://github.com/aws/aws-xray-sdk-java#intercept-jdbc-based-sql-queries
