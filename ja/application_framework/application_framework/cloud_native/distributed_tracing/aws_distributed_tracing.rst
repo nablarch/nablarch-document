@@ -22,6 +22,8 @@ Nablarchはフレームワークの構造上、自動計測エージェントを
   そのため、今後 AWS Distro for OpenTelemetry で動作確認がとれた場合は、本章は AWS Distro for OpenTelemetry を使用した手順に差し替える可能性がある。
 
 以下にコンテナ用アーキタイプを使用した場合の例を示す。
+:ref:`xray_configuration_incoming_request` の設定だけでサービス間の関連はトレースできる。
+:ref:`xray_configuration_outgoing_http_calls` と :ref:`xray_configuration_sql_queries` はアプリケーションの要件に応じて設定する必要がある。
 
 依存関係の追加
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -70,6 +72,8 @@ AWS X-Ray SDKのサブモジュールから必要なものを依存関係に追�
   ``aws-xray-recorder-sdk-sql-postgres`` または ``aws-xray-recorder-sdk-sql-mysql`` を使用すると記載されている。
   本手順では任意のJDBCデータソースをトレース可能な `aws-xray-sdk-java(外部サイト)`_ に含まれる ``aws-xray-recorder-sdk-sql`` を使用する。
 
+.. _xray_configuration_incoming_request:
+
 受信HTTPリクエスト
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -96,6 +100,8 @@ AWS X-Ray SDKのサブモジュールから必要なものを依存関係に追�
     <filter-name>entryPoint</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+
+.. _xray_configuration_outgoing_http_calls:
 
 送信HTTP呼び出し
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -190,7 +196,7 @@ Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConf
   <!-- HTTPクライアントの設定 -->
   <component name="httpClient" class="com.example.system.httpclient.JerseyHttpClientWithAWSXRayFactory" />
 
-システムリポジトリに登録したHTTPクライアントを利用するクラスの例を以下に示す。
+システムリポジトリに登録したHTTPクライアントを使用するクラスの例を以下に示す。
 このクラスは ``@SystemRepositoryComponent`` のアノテーションを付与することでDIコンテナの構築対象となり、コンストラクタインジェクションでHTTPクライアントが登録される。
 
 .. code-block:: java
@@ -247,16 +253,18 @@ Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConf
       }
   }
 
+.. _xray_configuration_sql_queries:
+
 SQLクエリ
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-次にSQLクエリも計測対象とするための設定を加える。
+SQLクエリを計測対象とするための設定を加える。
 
-aws-xray-sdk-javaに記載のようにデータソースを ``com.amazonaws.xray.sql.TracingDataSource`` でデコレートすることでSQLクエリの計測が可能となります。
+以下に記載のように、データソースを ``com.amazonaws.xray.sql.TracingDataSource`` でデコレートすることでSQLクエリの計測が可能となる。
 
 * `Intercept JDBC-Based SQL Queries(外部サイト、英語)`_
 
-デコレートされたデータソースを作成する ``TracingDataSourceFactory`` を作成する。
+デコレートされたデータソースを作成するファクトリクラスを作成する。
 
 .. code-block:: java
 
