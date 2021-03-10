@@ -87,7 +87,8 @@ AWS X-Ray SDKのサブモジュールから必要なものを依存関係に追�
     <filter-class>com.amazonaws.xray.javax.servlet.AWSXRayServletFilter</filter-class>
     <init-param>
       <param-name>fixedName</param-name>
-      <param-value>gateway</param-value>
+      <!-- サービスマップでアプリケーションを識別する名前を指定する -->
+      <param-value>example-app</param-value>
     </init-param>
   </filter>
 
