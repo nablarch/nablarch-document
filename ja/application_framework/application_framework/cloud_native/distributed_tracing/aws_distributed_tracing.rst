@@ -331,7 +331,7 @@ Nablarchは ``dataSource`` という名前でデータソースコンポーネ�
 .. _AWS X-Ray(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/aws-xray.html
 .. _自動計測エージェント(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/aws-x-ray-auto-instrumentation-agent-for-java.html
 .. _AWS X-Ray SDK for Java(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java.html
-.. _AWS Distro for OpenTelemetry(外部サイト、英語): https://aws-otel.github.io/
+.. _AWS Distro for OpenTelemetry(外部サイト、英語): https://aws.amazon.com/jp/otel/?otel-blogs.sort-by=item.additionalFields.createdDate&otel-blogs.sort-order=desc
 .. _Submodules(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java.html#xray-sdk-java-submodules
 .. _aws-xray-sdk-java(外部サイト): https://github.com/aws/aws-xray-sdk-java
 .. _Apache HttpComponents(外部サイト、英語): https://hc.apache.org/
