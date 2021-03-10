@@ -21,19 +21,16 @@ Custom tags have the following limitations:
 * They function in web containers supporting JSP 2.1 and above.
 * They use JSTL for controlling conditional branches and loops etc.
 * They support attributes compatible with XHTML 1.0 Transitional. 
-* Support dynamic attributes in some tags.
 * It is required to have JavaScript in the client. (See :ref:`tag-onclick_override`)
 * Some custom tags cannot be used with GET request. (See :ref:`tag-using_get`)
 
 .. important::
- Custom tags are not compatible with HTML5.
- However, among the attributes of HTML5, only the following attributes that are likely to be used frequently
- and and the following input elements that were added in HTML5 are incorporated on priority basis.
- 
- * added attributes (Write the HTML tag name with the attribute added in the parentheses.)
+ Attributes added in HTML5 can be described using :ref:`dynamic attribute <dynamic_attribute>` .
+ However, the following attributes that are likely to be used frequently are defined as custom tag attributes in advance.
+ In addition, each input element added in HTML5 has the following tags added based on :ref:`tag-text_tag` .
+ Since the attributes specific to each input element are not defined individually in the custom tag, they need to be specified by dynamic attributes.
 
-  Since HTML5 attributes other than the following cannot be used, if it becomes necessary to use other attributes,
-  then extend the custom tags in each project or use :ref:`dynamic attributes <dynamic_attribute>` .
+ * added attributes (Write the HTML tag name with the attribute added in the parentheses.)
 
   * autocomplete(input、password、form)
   * autofocus(input、textarea、select、button)
@@ -43,10 +40,6 @@ Custom tags have the following limitations:
 
  * added input elements
   
-  The following input elements have been created by extending :ref:`tag-text_tag` .
-  Since unique attributes for each type are not supported,
-  attributes not listed in :ref:`tag_reference` should be described by dynamic attributes.
-
   * :ref:`tag-search_tag`
   * :ref:`tag-tel_tag`
   * :ref:`tag-url_tag`
@@ -2585,12 +2578,10 @@ Dynamic attributes are handled in custom tags using the ``javax.servlet.jsp.tage
 This allows custom tags to output any attributes, including those added in HTML5.
 See :ref:`tag_reference` for availability of dynamic attributes per tag.
 
-Output Boolean attributes
+Handling of Boolean attributes
 ++++++++++++++++++++++++++++++++++++++++++
-Dynamic attributes that are not declared in the tag library descriptor can be output as Boolean attributes.
-If `true` is specified for the value of an attribute, the same value as the attribute name is output as the attribute value .
-If `false` is specified for the value, the attribute will not be output.
-By default, the following attributes are defined as Boolean attributes.
+As with the existing custom tags, the Boolean attributes of dynamic attributes can be controlled by specifying `true` / `false` for the value to output or not.
+By default, the following attributes are treated as Boolean attributes.
 
 * async
 * autofocus
@@ -2634,7 +2625,8 @@ An example implementation of async is shown below.
     <!-- Boolean attributes will not be output -->
     <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js"></script>
 
-If you want to use attributes not included in the above as Boolean attributes, set the list of Boolean attributes to the :java:extdoc:`dynamicBooleanAttributes property <nablarch.common.web.tag. CustomTagConfig.setDynamicBooleanAttributes(java.util.List)>` of ``CustomTagConfig``.
+Attributes that are treated as Boolean attributes can be changed.
+To do so, set the list of Boolean attributes to :java:extdoc:`dynamicBooleanAttributes property <nablarch.common.web.tag.CustomTagConfig.se tDynamicBooleanAttributes(java.util.List)>` of ``CustomTagConfig`` .
 
 Expansion example
 ---------------------------------------------------------------------
