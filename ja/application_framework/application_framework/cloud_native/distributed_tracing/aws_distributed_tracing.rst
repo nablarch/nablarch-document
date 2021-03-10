@@ -165,7 +165,7 @@ Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConf
 
 .. code-block:: java
 
-  package com.example.system.httpclient;
+  package com.example;
 
   import com.amazonaws.xray.proxies.apache.http.HttpClientBuilder;
   import nablarch.core.repository.di.ComponentFactory;
@@ -270,7 +270,7 @@ SQLクエリを計測対象とするための設定を加える。
 
 .. code-block:: java
 
-  package com.example.system.awsxray;
+  package com.example;
 
   import com.amazonaws.xray.sql.TracingDataSource;
   import nablarch.core.log.Logger;
