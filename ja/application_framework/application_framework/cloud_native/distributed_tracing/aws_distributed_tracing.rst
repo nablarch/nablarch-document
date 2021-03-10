@@ -203,7 +203,7 @@ Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConf
 
 .. code-block:: java
 
-  package com.example.recommendation.infrastracture;
+  package com.example;
 
   import nablarch.core.repository.di.config.externalize.annotation.ComponentRef;
   import nablarch.core.repository.di.config.externalize.annotation.ConfigValue;
