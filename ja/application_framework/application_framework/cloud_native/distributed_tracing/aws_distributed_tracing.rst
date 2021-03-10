@@ -224,9 +224,9 @@ Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConf
           this.productAPI = productAPI;
       }
 
-      public ProductResponse findAll() {
+      public ProductList findAll() {
           WebTarget target = httpClient.target(productAPI).path("/products");
-          return target.request().get(ProductResponse.class);
+          return target.request().get(ProductList.class);
       }
 
       //以下省略
