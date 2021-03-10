@@ -1,3 +1,5 @@
+.. _azure_distributed_tracing:
+
 Distributed Tracing in Azure
 =========================================
 
