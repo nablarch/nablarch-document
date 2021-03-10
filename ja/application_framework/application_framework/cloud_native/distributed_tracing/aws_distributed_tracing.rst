@@ -115,7 +115,7 @@ X-Ray SDK for Javaには、送信HTTP呼び出しを計測するためのAPIと�
 
 Apache HttpComponentsを直接使うと処理が煩雑になるため、本手順ではJAX-RSクライアントの実装である `Jersey(外部サイト、英語)`_ 経由で利用する。
 Jerseyは、デフォルトではHTTP通信に ``java.net.HttpURLConnection`` を利用するため、Apache HttpComponentsを利用するためには設定が必要となる。
-JerseyクライアントにConnectorSPIを実装する ``HttpUrlConnectorProvider`` を登録することで ``java.net.HttpURLConnection`` 以外の方法でHTTP通信が可能となる。
+``HttpUrlConnectorProvider`` というインタフェースが用意されているので、その実装クラスをJerseyクライアントに登録することで ``java.net.HttpURLConnection`` 以外の方法でHTTP通信が可能となる。
 
 * `Client Transport Connectors(外部サイト、英語)`_
 
