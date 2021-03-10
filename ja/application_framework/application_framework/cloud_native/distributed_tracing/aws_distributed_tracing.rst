@@ -167,8 +167,8 @@ Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConf
 
   package com.example.system.httpclient;
 
+  import com.amazonaws.xray.proxies.apache.http.HttpClientBuilder;
   import nablarch.core.repository.di.ComponentFactory;
-  import org.apache.http.impl.client.HttpClientBuilder;
   import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
   import org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConfigurator;
   import org.glassfish.jersey.client.ClientConfig;
