@@ -114,13 +114,13 @@ X-Ray SDK for Javaには、送信HTTP呼び出しを計測するためのAPIと�
 * `X-Ray SDK for Java を使用してダウンストリーム HTTP ウェブサービスの呼び出しをトレースする(外部サイト)`_
 
 Apache HttpComponentsを直接使うと処理が煩雑になるため、本手順ではJAX-RSクライアントの実装である `Jersey(外部サイト、英語)`_ 経由で利用する。
-JerseyでApache HttpComponentsを利用するためにはトランスポート層の置き換えが必要となる。
-Jerseyは、デフォルトでは ``java.net.HttpURLConnection`` をトランスポート層に利用する。
-JerseyクライアントにConnectorSPIを実装する ``HttpUrlConnectorProvider`` を登録することでトランスポート層の置き換えが可能となる。
+Jerseyは、デフォルトではHTTP通信に ``java.net.HttpURLConnection`` を利用するため、Apache HttpComponentsを利用するためには設定が必要となる。
+JerseyクライアントにConnectorSPIを実装する ``HttpUrlConnectorProvider`` を登録することで ``java.net.HttpURLConnection`` 以外の方法でHTTP通信が可能となる。
 
 * `Client Transport Connectors(外部サイト、英語)`_
 
-Apache HttpComponentsを利用するために ``org.glassfish.jersey.apache.connector.ApacheConnectorProvider`` でトランスポート層の置き換えを行う。
+Apache HttpComponentsを利用するための ``HttpUrlConnectorProvider`` として ``org.glassfish.jersey.apache.connector.ApacheConnectorProvider`` が用意されている。
+
 まず依存にJerseyを加える。
 
 .. code-block:: xml
@@ -222,10 +222,10 @@ Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConf
           this.productAPI = productAPI;
       }
 
-      public Products findAll() {
+      public List<ProductResponse> findAll() {
           WebTarget target = httpClient.target(productAPI).path("/products");
           List<ProductResponse> products = target.request().get(new GenericType<>() {});
-          return new Products(products.stream().map(ProductResponse::toProduct).collect(Collectors.toList()));
+          return products;
       }
 
       //以下省略
