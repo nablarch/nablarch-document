@@ -211,7 +211,7 @@ Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConf
   import javax.ws.rs.client.Client;
 
   @SystemRepositoryComponent
-  public class HttpProductRepository implements ProductRepository {
+  public class HttpProductRepository {
 
       private final Client httpClient;
       private final String productAPI;
@@ -222,10 +222,9 @@ Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConf
           this.productAPI = productAPI;
       }
 
-      public List<ProductResponse> findAll() {
+      public ProductResponse findAll() {
           WebTarget target = httpClient.target(productAPI).path("/products");
-          List<ProductResponse> products = target.request().get(new GenericType<>() {});
-          return products;
+          return target.request().get(ProductResponse.class);
       }
 
       //以下省略
@@ -237,7 +236,7 @@ Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConf
 
   Client httpClient = SystemRepository.get("httpclient");
   WebTarget target = httpClient.target(productAPI).path("/products");
-  List<ProductResponse> products = target.request().get(new GenericType<>() {});
+  ProductResponse products = target.request().get(ProductResponse.class);
 
 
 .. _xray_configuration_sql_queries:
