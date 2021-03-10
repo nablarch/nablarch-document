@@ -205,24 +205,10 @@ Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConf
 
   package com.example.recommendation.infrastracture;
 
-  import com.example.recommendation.domain.model.Product;
-  import com.example.recommendation.domain.model.ProductId;
-  import com.example.recommendation.domain.model.ProductImage;
-  import com.example.recommendation.domain.model.ProductName;
-  import com.example.recommendation.domain.model.ProductPrice;
-  import com.example.recommendation.domain.model.Products;
-  import com.example.recommendation.domain.repository.ProductRepository;
-  import com.fasterxml.jackson.databind.ObjectMapper;
   import nablarch.core.repository.di.config.externalize.annotation.ComponentRef;
   import nablarch.core.repository.di.config.externalize.annotation.ConfigValue;
   import nablarch.core.repository.di.config.externalize.annotation.SystemRepositoryComponent;
-
   import javax.ws.rs.client.Client;
-  import javax.ws.rs.client.WebTarget;
-  import javax.ws.rs.core.GenericType;
-  import java.math.BigDecimal;
-  import java.util.List;
-  import java.util.stream.Collectors;
 
   @SystemRepositoryComponent
   public class HttpProductRepository implements ProductRepository {
@@ -236,24 +222,23 @@ Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConf
           this.productAPI = productAPI;
       }
 
-      @Override
       public Products findAll() {
           WebTarget target = httpClient.target(productAPI).path("/products");
           List<ProductResponse> products = target.request().get(new GenericType<>() {});
           return new Products(products.stream().map(ProductResponse::toProduct).collect(Collectors.toList()));
       }
 
-      public static class ProductResponse {
-          public String id;
-          public String name;
-          public BigDecimal price;
-          public String image;
-
-          public Product toProduct() {
-              return new Product(new ProductId(id), new ProductName(name), new ProductPrice(price), new ProductImage(image));
-          }
-      }
+      //以下省略
   }
+
+また、システムリポジトリから直接HTTPクライアントを取得して使用することも可能。
+
+.. code-block:: java
+
+  Client httpClient = SystemRepository.get("httpclient");
+  WebTarget target = httpClient.target(productAPI).path("/products");
+  List<ProductResponse> products = target.request().get(new GenericType<>() {});
+
 
 .. _xray_configuration_sql_queries:
 
