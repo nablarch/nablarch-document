@@ -664,7 +664,7 @@ MicrometerでメトリクスをAzureに連携する方法
     したがって、性能試験では本番同様に Java 3.0 エージェントを導入し、想定内の性能になることを確認すること。
 
 
-  詳細な設定方法については :ref:`Azureにおける分散トレーシング <azure_distributed_tracing>` でも同様の設定をしているため、そちらを参照すること。
+  Java 3.0 エージェントの設定方法は :ref:`Azureにおける分散トレーシング <azure_distributed_tracing>` 参照。
 
 MicrometerアダプタでメトリクスをAzureに連携するための設定
   MicrometerアダプタでメトリクスをAzureに連携するためには、以下の設定を行う必要がある。

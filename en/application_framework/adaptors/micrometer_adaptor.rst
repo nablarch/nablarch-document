@@ -670,8 +670,7 @@ How to send metrics to Azure with Micrometer
     Also, under heavy load, the overhead caused by the processing of the Java 3.0 agent may affect the performance.
     Therefore, you should confirm the performance in the performance test with the Java 3.0 agent as in production.
 
-
-  For detailed settings, please refer to :ref:`Distributed Tracing in Azure <azure_distributed_tracing>` , which has similar settings.
+  For information on how to set up a Java 3.0 agent, see :ref:`Distributed Tracing in Azure <azure_distributed_tracing>` .
 
 How to configure Micrometer adaptor
   You need to configure following settings to send metrics to Azure with Micrometer adaptor.
