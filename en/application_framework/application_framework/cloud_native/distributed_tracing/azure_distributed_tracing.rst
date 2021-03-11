@@ -31,7 +31,7 @@ How to perform distributed tracing on Azure
   Then, create an arbitrary directory under ``src/main/jib`` and store the agent.
 
   Next, place ``applicationinsights.json`` in the directory where you have just stored the agent.
-  The ``connectionString`` should be the instrumentation key that will be issued after the Azure Application Insights resource is created.
+  The ``connectionString`` is a connection string containing the instrumentation key that will be issued after the Azure Application Insights resource is created.
   For other configuration options, see the `Guide <https://docs.microsoft.com/en-us/azure/azure-monitor/app/java-standalone-config>`_.
 
   * applicationinsights.json
@@ -39,7 +39,7 @@ How to perform distributed tracing on Azure
   .. code-block:: json
 
     {
-      "connectionString": "InstrumentationKey=XXXXX",
+      "connectionString": "InstrumentationKey=XXXXX"
     }
 
 

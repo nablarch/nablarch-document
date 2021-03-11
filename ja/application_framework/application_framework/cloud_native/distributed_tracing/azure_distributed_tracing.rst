@@ -31,7 +31,7 @@ Azureで分散トレーシングを行う方法
   その後、``src/main/jib`` 以下に任意のディレクトリを作成し、エージェントを格納する。
 
   次に、先程エージェントを格納したディレクトリに ``applicationinsights.json`` を配置する。
-  ``connectionString`` にはAzure Application Insightsのリソースを作成したあとに発行されるインストルメンテーションキーを指定する。
+  ``connectionString`` にはAzure Application Insightsのリソースを作成したあとに発行されるインストルメンテーションキーを含む接続文字列を指定する。
   そのほかの構成オプションについては `ガイド <https://docs.microsoft.com/ja-jp/azure/azure-monitor/app/java-standalone-config>`_ を参照のこと。
 
   * applicationinsights.json
@@ -39,7 +39,7 @@ Azureで分散トレーシングを行う方法
   .. code-block:: json
 
     {
-      "connectionString": "InstrumentationKey=XXXXX",
+      "connectionString": "InstrumentationKey=XXXXX"
     }
 
 
