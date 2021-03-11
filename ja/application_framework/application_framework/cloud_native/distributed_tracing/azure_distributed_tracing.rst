@@ -39,7 +39,7 @@ Azureで分散トレーシングを行う方法
   .. code-block:: json
 
     {
-      "connectionString": "InstrumentationKey=XXXXX",
+      "connectionString": "InstrumentationKey=XXXXX"
     }
 
 

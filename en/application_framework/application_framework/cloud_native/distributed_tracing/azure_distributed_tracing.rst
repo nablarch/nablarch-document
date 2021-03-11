@@ -39,7 +39,7 @@ How to perform distributed tracing on Azure
   .. code-block:: json
 
     {
-      "connectionString": "InstrumentationKey=XXXXX",
+      "connectionString": "InstrumentationKey=XXXXX"
     }
 
 
