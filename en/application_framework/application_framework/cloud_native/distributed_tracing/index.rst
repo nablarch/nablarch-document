@@ -5,4 +5,5 @@ In this chapter, we will explain how to achieve distributed tracing in the cloud
 .. toctree::
   :maxdepth: 1
 
+  aws_distributed_tracing
   azure_distributed_tracing
