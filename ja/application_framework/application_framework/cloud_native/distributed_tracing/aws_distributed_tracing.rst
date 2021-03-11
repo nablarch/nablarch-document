@@ -70,7 +70,7 @@ AWS X-Ray SDKのサブモジュールから必要なものを依存関係に追�
 
   `AWS X-Ray SDK for Java(外部サイト)`_ ではSQLクエリのトレースには
   ``aws-xray-recorder-sdk-sql-postgres`` または ``aws-xray-recorder-sdk-sql-mysql`` を使用すると記載されている。
-  本手順では任意のJDBCデータソースをトレース可能な `aws-xray-sdk-java(外部サイト)`_ に含まれる ``aws-xray-recorder-sdk-sql`` を使用する。
+  本手順では任意のJDBCデータソースをトレース可能な `aws-xray-sdk-java(外部サイト、英語)`_ に含まれる ``aws-xray-recorder-sdk-sql`` を使用する。
 
 .. _xray_configuration_incoming_request:
 
@@ -114,8 +114,6 @@ AWS X-Ray SDKのサブモジュールから必要なものを依存関係に追�
 他のサービスへのHTTPリクエストをトレースするための設定を追加する。
 
 X-Ray SDK for Javaには、送信HTTP呼び出しを計測するためのAPIとして `Apache HttpComponents(外部サイト、英語)`_ のインタフェースで使用できるクラスが用意されている。
-
-* `X-Ray SDK for Java を使用してダウンストリーム HTTP ウェブサービスの呼び出しをトレースする(外部サイト)`_
 
 Apache HttpComponentsを直接使うと処理が煩雑になるため、本手順ではJAX-RSクライアントの実装である `Jersey(外部サイト、英語)`_ 経由で利用する。
 Jerseyは、デフォルトではHTTP通信に ``java.net.HttpURLConnection`` を利用するため、Apache HttpComponentsを利用するためには設定が必要となる。
@@ -327,7 +325,7 @@ Nablarchは ``dataSource`` という名前でデータソースコンポーネ�
 .. _AWS X-Ray SDK for Java(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java.html
 .. _AWS Distro for OpenTelemetry(外部サイト、英語): https://aws.amazon.com/jp/otel/?otel-blogs.sort-by=item.additionalFields.createdDate&otel-blogs.sort-order=desc
 .. _Submodules(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java.html#xray-sdk-java-submodules
-.. _aws-xray-sdk-java(外部サイト): https://github.com/aws/aws-xray-sdk-java
+.. _aws-xray-sdk-java(外部サイト、英語): https://github.com/aws/aws-xray-sdk-java
 .. _X-Ray SDK for Java を使用して受信リクエストをトレースする(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java-filters.html
 .. _X-Ray SDK for Java を使用してダウンストリーム HTTP ウェブサービスの呼び出しをトレースする(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java-httpclients.html
 .. _Apache HttpComponents(外部サイト、英語): https://hc.apache.org/
