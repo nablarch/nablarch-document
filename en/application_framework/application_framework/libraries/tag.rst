@@ -40,18 +40,18 @@ Custom tags have the following limitations:
 
  * added input elements
   
-  * :ref:`tag-search_tag`
-  * :ref:`tag-tel_tag`
-  * :ref:`tag-url_tag`
-  * :ref:`tag-email_tag`
-  * :ref:`tag-date_tag`
-  * :ref:`tag-month_tag`
-  * :ref:`tag-week_tag`
-  * :ref:`tag-time_tag`
-  * :ref:`tag-datetimeLocal_tag`
-  * :ref:`tag-number_tag`
-  * :ref:`tag-range_tag`
-  * :ref:`tag-color_tag`
+  * :ref:`tag-search_tag` (search)
+  * :ref:`tag-tel_tag` (tel)
+  * :ref:`tag-url_tag` (URL)
+  * :ref:`tag-email_tag` (email)
+  * :ref:`tag-date_tag` (date)
+  * :ref:`tag-month_tag` (month)
+  * :ref:`tag-week_tag` (week)
+  * :ref:`tag-time_tag` (time)
+  * :ref:`tag-datetimeLocal_tag` (datetimeLocal)
+  * :ref:`tag-number_tag` (number)
+  * :ref:`tag-range_tag` (range)
+  * :ref:`tag-color_tag` (color)
 
 .. important::
  Custom tags are meant for web applications in which simple screen transition as shown below is performed.
@@ -2575,13 +2575,13 @@ Configuration example
 Specify any attribute
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Dynamic attributes are handled in custom tags using the ``javax.servlet.jsp.tagext.DynamicAttributes`` interface.
-This allows custom tags to output any attributes, including those added in HTML5.
-See :ref:`tag_reference` for availability of dynamic attributes per tag.
+This makes it possible to output arbitrary attributes including attributes added in HTML5 with custom tags.
+For tags that output HTML, dynamic attributes can be used.
 
 Handling of Boolean attributes
 ++++++++++++++++++++++++++++++++++++++++++
 As with the existing custom tags, the Boolean attributes of dynamic attributes can be controlled by specifying `true` / `false` for the value to output or not.
-By default, the following attributes are treated as Boolean attributes.
+By default, the following attributes are regarded as logical attributes.
 
 * async
 * autofocus
@@ -2625,8 +2625,8 @@ An example implementation of async is shown below.
     <!-- Boolean attributes will not be output -->
     <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js"></script>
 
-Attributes that are treated as Boolean attributes can be changed.
-To do so, set the list of Boolean attributes to :java:extdoc:`dynamicBooleanAttributes property <nablarch.common.web.tag.CustomTagConfig.se tDynamicBooleanAttributes(java.util.List)>` of ``CustomTagConfig`` .
+Attributes that are regarded as Boolean attributes can be modified.
+To do so, configure the list of Boolean attributes to :java:extdoc:`dynamicBooleanAttributes property <nablarch.common.web.tag.CustomTagConfig.setDynamicBooleanAttributes(java.util.List)>` of ``CustomTagConfig`` .
 
 Expansion example
 ---------------------------------------------------------------------
