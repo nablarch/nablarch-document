@@ -38,7 +38,7 @@ Nablarch System Development Guide
 
 Indicates as to what should be done before and during development, by engineers engaged in system development using Nablarch.
 
- | `Guide <https://fintan.jp/?p=5403&lang=en>`__
+ | `System Development Guide <https://fintan.jp/?p=5403&lang=en>`__
 
 -----------------------------------------------
 Nablarch Development Standard
