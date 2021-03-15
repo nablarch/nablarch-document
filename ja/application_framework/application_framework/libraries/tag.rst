@@ -20,22 +20,38 @@ JSPカスタムタグ
 
 * JSP2.1以降をサポートしているWebコンテナで動作する。
 * 条件分岐やループなどの制御にはJSTLを使用する。
-* XHTML 1.0 Transitionalに対応した属性をサポートする。(HTML5の属性には未対応)
+* XHTML 1.0 Transitionalに対応した属性をサポートする。
 * クライアントのJavaScriptが必須である。( :ref:`tag-onclick_override` を参照)
 * GETリクエストで一部のカスタムタグが使用できない。( :ref:`tag-using_get` を参照)
 
 .. important::
- カスタムタグはHTML5に対応できていない。
- ただし、HTML5の属性のうち、頻繁に使用されそうな次の属性のみ先行で取り込んでいる。
- 属性を追加したHTMLのタグ名をカッコ内に記載する。
+ HTML5で追加された属性は、 :ref:`動的属性 <dynamic_attribute>` を利用して記述することができる。
+ ただし、頻繁に使用されそうな次の属性は予めカスタムタグの属性として定義している。
+ また、HTML5で追加されたinput要素は、それぞれ :ref:`tag-text_tag` をベースに以下のタグを追加している。
+ 各input要素固有の属性はカスタムタグで個別に定義していないため、動的属性により指定する必要がある。
 
- * autocomplete(input、password、form)
- * autofocus(input、textarea、select、button)
- * placeholder(text、password、textarea)
- * maxlength(textarea)
- * multiple(input)
+ * 追加した属性（属性を追加したHTMLのタグ名をカッコ内に記載する。）
 
- 上記以外のHTML5の属性は使用できないため、必要となった場合は各プロジェクトでカスタムタグを拡張する。
+  * autocomplete(input、password、form)
+  * autofocus(input、textarea、select、button)
+  * placeholder(text、password、textarea)
+  * maxlength(textarea)
+  * multiple(input)
+
+ * 追加したinput要素
+
+  * :ref:`tag-search_tag` (検索テキスト)
+  * :ref:`tag-tel_tag` (電話番号)
+  * :ref:`tag-url_tag` (URL)
+  * :ref:`tag-email_tag` (メールアドレス)
+  * :ref:`tag-date_tag` (日付)
+  * :ref:`tag-month_tag` (月)
+  * :ref:`tag-week_tag` (週)
+  * :ref:`tag-time_tag` (時間)
+  * :ref:`tag-datetimeLocal_tag` (ローカル日時)
+  * :ref:`tag-number_tag` (数値)
+  * :ref:`tag-range_tag` (レンジ)
+  * :ref:`tag-color_tag` (色)
 
 .. important::
  カスタムタグは、以下のような単純な画面遷移を行うウェブアプリケーションを対象にしている。
@@ -2559,6 +2575,64 @@ HTML
 
   静的コンテンツの変更時にキャッシュを参照しないようにするには、この機能を使用するのではなく、
   静的コンテンツのファイル名を変更する等で対応すること。
+
+.. _dynamic_attribute:
+
+任意の属性を指定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+カスタムタグでは ``javax.servlet.jsp.tagext.DynamicAttributes`` インタフェースを使用して動的属性を扱っている。
+これにより、HTML5で追加された属性を含む任意の属性をカスタムタグで出力することができる。
+HTMLを出力するタグについては動的属性を使用可能としている。
+
+論理属性の扱い
+++++++++++++++++++++++++++++++++++++++++++
+動的属性の論理属性についても、既存のカスタムタグ同様、値に `true` / `false` を指定して出力有無を制御することができる。
+デフォルトでは以下の属性を論理属性として扱う。
+
+* async
+* autofocus
+* checked
+* disabled
+* formnovalidate
+* hidden
+* ismap
+* itemscope
+* multiple
+* nomodule
+* novalidate
+* readonly
+* required
+* reversed
+* selected
+
+asyncを例に実装例を以下に示す。
+
+  JSP
+   .. code-block:: jsp
+
+    <!-- 論理属性にtrueを指定 -->
+    <n:script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="true" />
+
+  出力されるHTML
+   .. code-block:: html
+
+    <!-- 論理属性が出力される -->
+    <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="async"></script>
+
+  JSP
+   .. code-block:: jsp
+
+    <!-- 論理属性にfalseを指定 -->
+    <n:script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="false" />
+
+  出力されるHTML
+   .. code-block:: html
+
+    <!-- 論理属性が出力されない -->
+    <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js"></script>
+
+論理属性として扱う属性は変更することができる。
+変更する場合は論理属性のリストを ``CustomTagConfig`` の :java:extdoc:`dynamicBooleanAttributesプロパティ<nablarch.common.web.tag.CustomTagConfig.setDynamicBooleanAttributes(java.util.List)>` に設定する。
 
 拡張例
 ---------------------------------------------------------------------

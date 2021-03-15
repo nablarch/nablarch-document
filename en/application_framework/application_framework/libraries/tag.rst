@@ -20,22 +20,38 @@ Custom tags have the following limitations:
 
 * They function in web containers supporting JSP 2.1 and above.
 * They use JSTL for controlling conditional branches and loops etc.
-* They support attributes compatible with XHTML 1.0 Transitional. (HTML5 attributes are not supported)
+* They support attributes compatible with XHTML 1.0 Transitional. 
 * It is required to have JavaScript in the client. (See :ref:`tag-onclick_override`)
 * Some custom tags cannot be used with GET request. (See :ref:`tag-using_get`)
 
 .. important::
- Custom tags are not compatible with HTML5.
- However, among the attributes of HTML5, only the following attributes that are likely to be used frequently are incorporated on priority basis.
- Write the HTML tag name with the attribute added in the parentheses.
+ Attributes added in HTML5 can be described using :ref:`dynamic attribute <dynamic_attribute>` .
+ However, the following attributes that are likely to be used frequently are defined as custom tag attributes in advance.
+ In addition, each input element added in HTML5 has the following tags added based on :ref:`tag-text_tag` .
+ Since the attributes specific to each input element are not defined individually in the custom tag, they need to be specified by dynamic attributes.
 
- * autocomplete(input、password、form)
- * autofocus(input、textarea、select、button)
- * placeholder(text、password、textarea)
- * maxlength(textarea)
- * multiple(input)
+ * added attributes (Write the HTML tag name with the attribute added in the parentheses.)
 
- Since HTML5 attributes other than the above cannot be used, if it becomes necessary to use other attributes, then extend the custom tags in each project.
+  * autocomplete(input、password、form)
+  * autofocus(input、textarea、select、button)
+  * placeholder(text、password、textarea)
+  * maxlength(textarea)
+  * multiple(input)
+
+ * added input elements
+  
+  * :ref:`tag-search_tag` (search)
+  * :ref:`tag-tel_tag` (tel)
+  * :ref:`tag-url_tag` (URL)
+  * :ref:`tag-email_tag` (email)
+  * :ref:`tag-date_tag` (date)
+  * :ref:`tag-month_tag` (month)
+  * :ref:`tag-week_tag` (week)
+  * :ref:`tag-time_tag` (time)
+  * :ref:`tag-datetimeLocal_tag` (datetimeLocal)
+  * :ref:`tag-number_tag` (number)
+  * :ref:`tag-range_tag` (range)
+  * :ref:`tag-color_tag` (color)
 
 .. important::
  Custom tags are meant for web applications in which simple screen transition as shown below is performed.
@@ -2553,6 +2569,64 @@ Configuration example
 
   The file name of the static content should be changed instead of using this function
   so that the cache is not referenced when the static content is changed.
+
+.. _dynamic_attribute:
+
+Specify any attribute
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Dynamic attributes are handled in custom tags using the ``javax.servlet.jsp.tagext.DynamicAttributes`` interface.
+This makes it possible to output arbitrary attributes including attributes added in HTML5 with custom tags.
+For tags that output HTML, dynamic attributes can be used.
+
+Handling of Boolean attributes
+++++++++++++++++++++++++++++++++++++++++++
+As with the existing custom tags, the Boolean attributes of dynamic attributes can be controlled by specifying `true` / `false` for the value to output or not.
+By default, the following attributes are regarded as logical attributes.
+
+* async
+* autofocus
+* checked
+* disabled
+* formnovalidate
+* hidden
+* ismap
+* itemscope
+* multiple
+* nomodule
+* novalidate
+* readonly
+* required
+* reversed
+* selected
+
+An example implementation of async is shown below.
+
+  JSP
+   .. code-block:: jsp
+
+    <!-- Specify true for Boolean attribute -->
+    <n:script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="true" />
+
+  Output HTML
+   .. code-block:: html
+
+    <!-- Boolean attributes will be output -->
+    <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="async"></script>
+
+  JSP
+   .. code-block:: jsp
+
+    <!-- Specify false for Boolean attribute -->
+    <n:script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="false" />
+
+  Output HTML
+   .. code-block:: html
+
+    <!-- Boolean attributes will not be output -->
+    <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js"></script>
+
+Attributes that are regarded as Boolean attributes can be modified.
+To do so, configure the list of Boolean attributes to :java:extdoc:`dynamicBooleanAttributes property <nablarch.common.web.tag.CustomTagConfig.setDynamicBooleanAttributes(java.util.List)>` of ``CustomTagConfig`` .
 
 Expansion example
 ---------------------------------------------------------------------
