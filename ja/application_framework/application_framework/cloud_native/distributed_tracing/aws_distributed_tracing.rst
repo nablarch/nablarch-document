@@ -18,8 +18,8 @@ Nablarchはフレームワークの構造上、自動計測エージェントを
 .. important::
 
   2020年10月に第3の方法として `AWS Distro for OpenTelemetry(外部サイト、英語)`_ が発表された。
-  しかし、2021年3月現在production-readyとなっているが、正式リリースはされておらずNablarchでも動作確認は行っていない。
-  そのため、今後 AWS Distro for OpenTelemetry で動作確認がとれた場合は、本章は AWS Distro for OpenTelemetry を使用した手順に差し替える可能性がある。
+  しかし、2021年3月現在production-readyとなっているが、正式リリースはされていない。
+  そのため今後 AWS Distro for OpenTelemetry がリリースされ、Nablarchでの動作確認がとれた場合は、本章は AWS Distro for OpenTelemetry を使用した手順に差し替える可能性がある。
 
 以下にコンテナ用アーキタイプを使用した場合の例を示す。
 :ref:`xray_configuration_incoming_request` の設定だけでサービス間の関連はトレースできる。
@@ -164,7 +164,7 @@ Apache HttpComponentsを利用するための ``org.glassfish.jersey.client.spi.
   </dependencies>
 
 Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConfigurator`` インタフェースが用意されている。
-このインタフェースを使用することで、 ``HttpClientBuilder`` に追加の設定をしたり、 ``HttpClientBuilder`` そのものを差し替えたりといった処理が可能となる。
+このインタフェースを使用することで、 ``HttpClientBuilder`` に追加の設定を行うことや、 ``HttpClientBuilder`` そのものを差し替えるといった処理が可能となる。
 下記では ``HttpClientBuilder`` をAWS SDKの ``com.amazonaws.xray.proxies.apache.http.HttpClientBuilder`` に差し替えている。
 
 .. code-block:: java
