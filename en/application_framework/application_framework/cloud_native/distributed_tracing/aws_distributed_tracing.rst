@@ -19,8 +19,8 @@ See `AWS X-Ray SDK for Java (external site)`_ for detailed configuration methods
 .. important::
 
   In October 2020, `AWS Distro for OpenTelemetry (external site)`_ was announced as the third method.
-  However, although it is production-ready as of March 2021, it has not been officially released and Nablarch has not confirmed its operation.
-  Therefore, this chapter may be replaced with the procedure using AWS Distro for OpenTelemetry if the operation is confirmed by AWS Distro for OpenTelemetry in the future.
+  However, although it is production-ready as of March 2021, it has not been officially released.
+  Therefore, if AWS Distro for OpenTelemetry is released in the future and its operation is confirmed on Nablarch, this chapter may be replaced with the procedure using AWS Distro for OpenTelemetry.
 
 The following is an example of using the archetype for containers.
 :ref:`xray_configuration_incoming_request` setting is enough to trace the relationship between services.
