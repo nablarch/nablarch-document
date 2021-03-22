@@ -49,12 +49,12 @@ Java
  * Oracle Database 12c/19c
  * IBM Db2 10.5/11.5
  * SQL Server 2017/2019
- * PostgreSQL 10.0/11.5/12.2
+ * PostgreSQL 10.0/11.5/12.2/13.2
 
 アプリケーションサーバ
  * Oracle Weblogic Server 12.2.1.3
  * WebSphere Application Server 9.0.5
- * WildFly 18.0.1
+ * WildFly 18.0.1/23.0.0.Final
  * Apache Tomcat 9.0.24
 
 Java EE
