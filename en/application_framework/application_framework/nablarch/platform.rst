@@ -53,7 +53,7 @@ Database
 Application server
  * Oracle Weblogic Server 12.2.1.3
  * WebSphere Application Server 9.0.5
- * WildFly 18.0.1/23.0.0.Final
+ * WildFly 23.0.0.Final
  * Apache Tomcat 9.0.24
 
 Java EE
