@@ -101,7 +101,6 @@ CORSの処理は :java:extdoc:`Cors <nablarch.fw.jaxrs.cors.Cors>` インタフ�
       - HTTPメソッド：OPSTIONS
       - Originヘッダ：存在する
       - Access-Control-Request-Methodヘッダ：存在する
-      - Access-Control-Request-Headersヘッダ：存在する
 
   - リクエストがプリフライトリクエストの場合は以下のレスポンスを返す。
 
