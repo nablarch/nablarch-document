@@ -101,7 +101,6 @@ Preflight Request (the process called by CorsPreflightRequestHandler)
       - HTTP method：OPSTIONS
       - Origin header：exist
       - Access-Control-Request-Method header：exist
-      - Access-Control-Request-Headers header：exist
 
   - Return the following response if the request is a preflight request
 
