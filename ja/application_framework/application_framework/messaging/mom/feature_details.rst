@@ -49,7 +49,7 @@ MOMメッセージング
 
 * :ref:`再送制御<message_resend_handler>`
 
-.. _data_format-formatter:
+.. _data_format-messaging-formatter:
 
 出力するデータの表示形式のフォーマット
 --------------------------------------------------
