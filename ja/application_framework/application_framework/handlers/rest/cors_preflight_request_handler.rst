@@ -98,7 +98,7 @@ CORSの処理は :java:extdoc:`Cors <nablarch.fw.jaxrs.cors.Cors>` インタフ�
 プリフライトリクエスト(CorsPreflightRequestHandlerが呼び出す処理)
   - リクエストが以下の条件を全て満たす場合にプリフライトリクエストと判定する。
 
-      - HTTPメソッド：OPSTIONS
+      - HTTPメソッド：OPTIONS
       - Originヘッダ：存在する
       - Access-Control-Request-Methodヘッダ：存在する
 

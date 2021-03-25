@@ -98,7 +98,7 @@ The settings are shown below.
 Preflight Request (the process called by CorsPreflightRequestHandler)
   - A request is considered a preflight request if it satisfies all of the following conditions
 
-      - HTTP method：OPSTIONS
+      - HTTP method：OPTIONS
       - Origin header：exist
       - Access-Control-Request-Method header：exist
 
