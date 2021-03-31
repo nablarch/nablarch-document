@@ -112,6 +112,8 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
   :java:extdoc:`HttpAccessLogFormatter <nablarch.fw.web.handler.HttpAccessLogFormatter>` を実装したクラス。
   差し替える場合に指定する。
 
+ .. _http_access_log-prop_begin_format:
+
  httpAccessLogFormatter.beginFormat
   リクエスト処理開始時のログ出力に使用するフォーマット。
 
@@ -175,6 +177,8 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
    .. code-block:: bash
 
     @@@@ DISPATCHING CLASS @@@@ class = [$dispatchingClass$]
+
+ .. _http_access_log-prop_end_format:
 
  httpAccessLogFormatter.endFormat
   リクエスト処理終了時のログ出力に使用するフォーマット。
@@ -275,3 +279,137 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
   httpAccessLogFormatter.parametersOutputEnabled=true
   httpAccessLogFormatter.dispatchingClassOutputEnabled=true
   httpAccessLogFormatter.endOutputEnabled=true
+
+.. _http_access_log-json_setting:
+
+JSON形式の構造化ログとして出力する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:ref:`log-json_log_setting` 設定を行うことでログをJSON形式で出力できるが、
+:java:extdoc:`HttpAccessLogFormatter <nablarch.fw.web.handler.HttpAccessLogFormatter>` では
+障害ログの各項目はmessageの値に文字列として出力される。
+障害ログの各項目もJSONの値として出力するには、
+:java:extdoc:`HttpAccessJsonLogFormatter <nablarch.fw.web.handler.HttpAccessJsonLogFormatter>` を使用する。
+設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
+
+記述ルール
+ :java:extdoc:`HttpAccessJsonLogFormatter <nablarch.fw.web.handler.HttpAccessJsonLogFormatter>` を用いる際に
+ 指定するプロパティは以下の通り。
+ 
+ httpAccessLogFormatter.className ``必須``
+  JSON形式でログを出力する場合、
+  :java:extdoc:`HttpAccessJsonLogFormatter <nablarch.fw.web.handler.HttpAccessJsonLogFormatter>` を指定する。
+
+ .. _http_access_log-prop_begin_targets:
+
+ httpAccessLogFormatter.beginTargets
+  リクエスト処理開始時のログ出力項目。カンマ区切りで指定する。
+
+  指定可能な出力項目およびデフォルトの出力項目
+   :リクエストID: requestId ``デフォルト``
+   :ユーザID: userId ``デフォルト``
+   :セッションID: sessionId ``デフォルト``
+   :URL: url ``デフォルト``
+   :ポート番号: port ``デフォルト``
+   :HTTPメソッド: method ``デフォルト``
+   :クエリ文字列: query
+   :リクエストパラメータ: parameters
+   :セッションスコープ情報: sessionScope
+   :クライアント端末IPアドレス: clientIpAddress ``デフォルト``
+   :クライアント端末ホスト: clientHost ``デフォルト``
+   :HTTPヘッダのUser-Agent: clientUserAgent
+   :リクエストパラメータ: parameters
+
+  出力項目の詳細は、
+  :ref:`リクエスト処理開始時のログ出力に使用するフォーマット <http_access_log-prop_begin_format>` 
+  のプレースホルダーと同じため省略。
+
+ httpAccessLogFormatter.parametersTargets
+  hiddenパラメータ復号後のログ出力項目。カンマ区切りで指定する。
+  指定可能な出力項目は、
+  :ref:`リクエスト処理開始時の出力項目 <http_access_log-prop_begin_targets>` と同じため省略。
+  デフォルトのフォーマットは ``parameters`` となる。
+        
+ httpAccessLogFormatter.dispatchingClassTargets
+  ディスパッチ先クラス決定後のログ出力項目。カンマ区切りで指定する。
+
+  指定可能な出力項目およびデフォルトの出力項目
+   :セッションID: sessionId
+   :ディスパッチ先クラス: dispatchingClass ``デフォルト``
+
+ httpAccessLogFormatter.endTargets
+  リクエスト処理終了時のログ出力項目。カンマ区切りで指定する。
+
+  指定可能な出力項目およびデフォルトの出力項目
+   :リクエストID: requestId ``デフォルト``
+   :ユーザID: userId ``デフォルト``
+   :セッションID: sessionId ``デフォルト``
+   :URL: url ``デフォルト``
+   :ディスパッチ先クラス: dispatchingClass
+   :ステータスコード(内部): statusCode
+   :ステータスコード(クライアント): responseStatusCode
+   :コンテンツパス: contentPath ``デフォルト``
+   :開始日時: startTime ``デフォルト``
+   :終了日時: endTime ``デフォルト``
+   :実行時間: executionTime ``デフォルト``
+   :最大メモリ量: maxMemory ``デフォルト``
+   :空きメモリ量(開始時): freeMemory ``デフォルト``
+
+  出力項目の詳細は、
+  :ref:`リクエスト処理終了時のログ出力に使用するフォーマット <http_access_log-prop_end_format>` 
+  のプレースホルダーと同じため省略。
+
+ httpAccessLogFormatter.datePattern
+  開始日時と終了日時に使用する日時パターン。
+  パターンには、 :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>` が規程している構文を指定する。
+  デフォルトは ``yyyy-MM-dd HH:mm:ss.SSS`` 。
+
+ httpAccessLogFormatter.maskingPatterns
+  マスク対象のパラメータ名又は変数名を正規表現で指定する（部分一致）。
+  複数指定する場合はカンマ区切り。
+  リクエストパラメータとセッションスコープ情報の両方のマスキングに使用する。
+  指定した正規表現は大文字小文字を区別しない。
+  例えば、\ ``password``\ と指定した場合、 ``password`` ``newPassword`` ``password2`` 等にマッチする。
+
+ httpAccessLogFormatter.maskingChar
+  マスクに使用する文字。デフォルトは ``*`` 。
+
+ httpAccessLogFormatter.beginOutputEnabled
+  リクエスト処理開始時の出力が有効か否か。
+  デフォルトはtrue。
+  falseを指定するとリクエスト処理開始時の出力を行わない。
+
+ httpAccessLogFormatter.parametersOutputEnabled
+  hiddenパラメータ復号後の出力が有効か否か。
+  デフォルトはtrue。
+  falseを指定するとhiddenパラメータ復号後の出力を行わない。
+
+ httpAccessLogFormatter.dispatchingClassOutputEnabled
+  ディスパッチ先クラス決定後の出力が有効か否か。
+  デフォルトはtrue。
+  falseを指定するとディスパッチ先クラス決定後の出力を行わない。
+
+ httpAccessLogFormatter.endOutputEnabled
+  リクエスト処理終了時の出力が有効か否か。
+  デフォルトはtrue。
+  falseを指定するとリクエスト処理終了時の出力を行わない。
+
+ httpAccessLogFormatter.structuredMessagePrefix
+  各種ログからのJSON形式で出力をするためのマーカー文字列。
+  デフォルトは ``"$JSON$"`` となる。
+ 
+ httpAccessLogFormatter.jsonSerializationManagerClassName
+  JSON形式への変換する :java:extdoc:`JsonSerializer <nablarch.core.text.json.JsonSerializer>` を管理するクラス。
+  デフォルトは :java:extdoc:`BasicJsonSerializationManager <nablarch.core.text.json.BasicJsonSerializationManager>` となる。
+  独自の変換ルールにする場合はに指定する。
+  詳細は :ref:`log-json_log_setting` を参照。
+
+記述例
+ .. code-block:: properties
+
+  httpAccessLogFormatter.className=nablarch.fw.web.handler.HttpAccessJsonLogFormatter
+  httpAccessLogFormatter.jsonSerializationManagerClassName=nablarch.core.text.json.BasicJsonSerializationManager
+  httpAccessLogFormatter.structuredMessagePrefix=$JSON$
+  httpAccessLogFormatter.beginTargets=sessionId,url,method
+  httpAccessLogFormatter.parametersTargets=sessionId,parameters
+  httpAccessLogFormatter.dispatchingClassTargets=sessionId,dispatchingClass
+  httpAccessLogFormatter.endTargets=sessionId,url,statusCode,contentPath
