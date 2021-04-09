@@ -67,7 +67,7 @@ Create a form that accepts input files
       @Csv(properties = {/** Property definition is omitted **/}, type = CsvType.CUSTOM)
       @CsvFormat(charset = "UTF-8", fieldSeparator = ',',
               ignoreEmptyLine = true, lineSeparator = "\r\n", quote = '"',
-              quoteMode = QuoteMode.NORMAL, requiredHeader = false)
+              quoteMode = QuoteMode.NORMAL, requiredHeader = false, emptyToNull = true)
       public class ZipCodeForm {
 
           // Excerpt of only some items
