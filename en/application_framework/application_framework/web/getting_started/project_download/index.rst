@@ -64,7 +64,6 @@ Create a download button
               <c:param name="searchForm.pageNumber" value="${searchForm.pageNumber}"/>
           </c:url>
           <n:a href="${download_uri}">
-          <n:a href="download">
               <n:write name="label" />
               <n:img src="/images/download.png" alt="Download" />
           </n:a>
@@ -83,7 +82,7 @@ Create a Bean to bind a file
               type = Csv.CsvType.CUSTOM)
       @CsvFormat(charset = "Shift_JIS", fieldSeparator = ',',ignoreEmptyLine = true,
               lineSeparator = "\r\n", quote = '"',
-              quoteMode = CsvDataBindConfig.QuoteMode.NORMAL, requiredHeader = true)
+              quoteMode = CsvDataBindConfig.QuoteMode.NORMAL, requiredHeader = true, emptyToNull = true)
       public class ProjectDownloadDto implements Serializable {
 
           // Excerpt of some items only. Getter and setter are omitted

@@ -64,7 +64,6 @@ CSVファイルをダウンロードする機能の実装方法を解説する�
               <c:param name="searchForm.pageNumber" value="${searchForm.pageNumber}"/>
           </c:url>
           <n:a href="${download_uri}">
-          <n:a href="download">
               <n:write name="label" />
               <n:img src="/images/download.png" alt="ダウンロード" />
           </n:a>
@@ -83,7 +82,7 @@ CSVファイルをダウンロードする機能の実装方法を解説する�
               type = Csv.CsvType.CUSTOM)
       @CsvFormat(charset = "Shift_JIS", fieldSeparator = ',',ignoreEmptyLine = true,
               lineSeparator = "\r\n", quote = '"',
-              quoteMode = CsvDataBindConfig.QuoteMode.NORMAL, requiredHeader = true)
+              quoteMode = CsvDataBindConfig.QuoteMode.NORMAL, requiredHeader = true, emptyToNull = true)
       public class ProjectDownloadDto implements Serializable {
 
           // 一部項目のみ抜粋。ゲッタ及びセッタは省略

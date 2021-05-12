@@ -65,7 +65,7 @@ Exampleアプリケーションを元に、ファイルをDBに登録するバ�
       @Csv(properties = {/** プロパティ定義は省略 **/}, type = CsvType.CUSTOM)
       @CsvFormat(charset = "UTF-8", fieldSeparator = ',',
               ignoreEmptyLine = true, lineSeparator = "\r\n", quote = '"',
-              quoteMode = QuoteMode.NORMAL, requiredHeader = false)
+              quoteMode = QuoteMode.NORMAL, requiredHeader = false, emptyToNull = true)
       public class ZipCodeForm {
 
           // 一部項目のみ抜粋
