@@ -225,14 +225,9 @@ Project structure
         |       \---META-INF
         |           |   beans.xml               … File required to enable CDI.
         |           |
-        |           +---batch-jobs
-        |           |       sample-batchlet.xml … Job file of the application for communication confirmation of the batchlet architecture.
-        |           |       sample-chunk.xml    … Job file of the application for communication confirmation of the chunk architecture.
-        |           |       sample-etl.xml      … ETL function job file.
-        |           |
-        |           \---etl-config
-        |                   sample-etl.json     … ETL function job configuration file.
-        |
+        |           \---batch-jobs
+        |                   sample-batchlet.xml … Job file of the application for communication confirmation of the batchlet architecture.
+        |                   sample-chunk.xml    … Job file of the application for communication confirmation of the chunk architecture.
         |
         \---test
             +---java
