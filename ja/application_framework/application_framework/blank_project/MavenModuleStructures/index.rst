@@ -254,9 +254,14 @@ JSR352に準拠したバッチアプリケーションのjarファイルとし�
         |       \---META-INF
         |           |   beans.xml               … CDIを有効化するために必要なファイル。
         |           |
-        |           \---batch-jobs
-        |                   sample-batchlet.xml … batchlet方式の疎通確認用アプリケーションのジョブファイル。
-        |                   sample-chunk.xml    … chunk方式の疎通確認用アプリケーションのジョブファイル。
+        |           +---batch-jobs
+        |           |       sample-batchlet.xml … batchlet方式の疎通確認用アプリケーションのジョブファイル。
+        |           |       sample-chunk.xml    … chunk方式の疎通確認用アプリケーションのジョブファイル。
+        |           |       sample-etl.xml      … ETL機能のジョブファイル。
+        |           |
+        |           \---etl-config
+        |                   sample-etl.json     … ETL機能のジョブの設定ファイル。
+        |
         |
         \---test
             +---java
