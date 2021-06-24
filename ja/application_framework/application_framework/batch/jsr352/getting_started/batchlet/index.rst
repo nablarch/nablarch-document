@@ -16,15 +16,14 @@ Exampleアプリケーションを元に、 :ref:`batchletステップ<jsr352-ba
 
      データが登録されていない場合は 2の手順を実施する。
 
-  2. (データが登録されていない場合)住所登録バッチを実行
+  2. (データが登録されていない場合)データベースを初期状態にリセット
 
     コマンドプロンプトから下記コマンドを実行する。
 
     .. code-block:: bash
 
       $cd {nablarch-example-batch-eeシステムリポジトリ}
-      $mvn exec:java -Dexec.mainClass=nablarch.fw.batch.ee.Main ^
-          -Dexec.args=etl-zip-code-csv-to-db-chunk
+      $mvn generate-resources
 
     H2のコンソールから下記SQLを実行してデータが登録されたことを確認する。
 
