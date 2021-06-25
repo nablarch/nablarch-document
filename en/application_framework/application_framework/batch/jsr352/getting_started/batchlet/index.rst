@@ -16,15 +16,14 @@ Description of the function to be created
 
      If data is not registered, perform step 2.
 
-  2. (If data is not registered) Execute the mailing address registration batch
+  2. (If data is not registered) Reset the database to its initial state
 
     Execute the following command from the command prompt
 
     .. code-block:: bash
 
       $cd {nablarch-example-batch-ee System repository}
-      $mvn exec:java -Dexec.mainClass=nablarch.fw.batch.ee.Main ^
-          -Dexec.args=etl-zip-code-csv-to-db-chunk
+      $mvn generate-resources
 
     Execute the following SQL from the console of H2 and confirm that the data is registered.
 
