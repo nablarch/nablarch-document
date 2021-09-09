@@ -34,6 +34,9 @@ Nablarchでは、以下のアーキタイプを提供している。なお、ア
     - ``nablarch-web-archetype`` のDockerコンテナ版アーキタイプ
   * - nablarch-container-jaxrs-archetype
     - ``nablarch-jaxrs-archetype`` のDockerコンテナ版アーキタイプ
+  * - nablarch-container-batch-archetype
+      - ``nablarch-batch-archetype`` のDockerコンテナ版アーキタイプ
+
 
 
 nablarch-web-archetypeとnablarch-batch-archetypeのアーキタイプを使用し、
@@ -411,7 +414,69 @@ RESTfulウェブサービスアプリケーションがデプロイされたTomc
 
 コンテナ版Webと同一であるため省略。
 
+pj-container-batchプロジェクト
+===============================
 
+NablarchバッチアプリケーションがデプロイされたLinuxサーバのDockerイメージをビルドするプロジェクト。
+
+プロジェクトの構成
+------------------
+
+(ディレクトリ及びファイルの説明は、Webに存在しない要素についてのみ記載)
+
+.. code-block:: text
+
+    myapp-container-batch
+    |
+    |   pom.xml
+    |   README.md
+    |   distribution.xml                      … maven-assembly-pluginで使用する設定ファイル
+    |
+    +---db
+    |
+    \---src
+        +---main
+        |  +---java
+        |  |
+        |  +---jib                            … コンテナイメージ上に配置するファイルが格納されている。
+        |  |  +---h2
+        |  |  |  +---bin
+        |  |  |  |
+        |  |  |  \---db
+        |  |  |          SAMPLE.mv.db
+        |  |  |          SAMPLE.mv.db.org
+        |  |  |
+        |  |  \---var
+        |  |      \---nablarch
+        |  |          \---format
+        |  |
+        |  +---resources
+        |  |  |   batch-boot.xml              … 都度起動バッチ起動時に指定する設定ファイル。
+        |  |  |   mail-sender-boot.xml        … メール送信バッチ起動時に指定する設定ファイル。
+        |  |  |   resident-batch-boot.xml     … テーブルをキューとして使ったメッセージング起動時に指定する設定ファイル。
+        |  |  |
+        |  |  +---entity
+        |  |
+        |  \---scripts
+        |
+        \---test
+            +---java
+            |
+            \---resources
+                |
+                \---data
+
+src/main/jib について
+  ``src/main/jib`` に配置したディレクトリやファイルは、そのままコンテナ上に配置される。
+  たとえば、 ``src/main/jib/var/foo.txt`` というファイルを配置した状態でコンテナイメージをビルドすると、コンテナ上の ``/var/foo.txt`` にファイルが配置される。
+  詳細は `Jibのドキュメントを参照 <https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#adding-arbitrary-files-to-the-image>`_ (外部サイト、英語)。
+
+
+
+ツールの設定
+-----------------------------------
+
+Webと同一であるため省略。
 
 .. _about_maven_web_batch_module:
 
