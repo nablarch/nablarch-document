@@ -35,7 +35,7 @@ Nablarchでは、以下のアーキタイプを提供している。なお、ア
   * - nablarch-container-jaxrs-archetype
     - ``nablarch-jaxrs-archetype`` のDockerコンテナ版アーキタイプ
   * - nablarch-container-batch-archetype
-      - ``nablarch-batch-archetype`` のDockerコンテナ版アーキタイプ
+    - ``nablarch-batch-archetype`` のDockerコンテナ版アーキタイプ
 
 
 
@@ -72,6 +72,9 @@ nablarch-web-archetypeとnablarch-batch-archetypeのアーキタイプを使用�
 ----------------
 各構成要素の詳細
 ----------------
+
+上記 ``pj-web`` 、 ``pj-batch`` 同様、 ``nablarch-jaxrs-archetype`` から ``pj-jaxrs`` 、 ``nablarch-batch-ee-archetype`` から ``pj-batch-ee`` 、 ``nablarch-container-web-archetype`` から ``pj-container-web`` 、 ``nablarch-container-jaxrs-archetype`` から ``pj-container-jaxrs`` 、 ``nablarch-container-batch-archetype`` から ``pj-container-batch`` を作成したものとして各構成要素についての詳細を記載する。
+
 
 .. _about_maven_parent_module:
 
@@ -430,34 +433,31 @@ NablarchバッチアプリケーションがデプロイされたLinuxサーバ�
     |
     |   pom.xml
     |   README.md
-    |   distribution.xml                      … maven-assembly-pluginで使用する設定ファイル
     |
     +---db
     |
-    \---src
+    |
+    +---h2
+    |   +---bin
+    |   |
+    |   \---db
+    |           SAMPLE.mv.db
+    |           SAMPLE.mv.db.org
+    |
+    +---src
         +---main
-        |  +---java
-        |  |
-        |  +---jib                            … コンテナイメージ上に配置するファイルが格納されている。
-        |  |  +---h2
-        |  |  |  +---bin
-        |  |  |  |
-        |  |  |  \---db
-        |  |  |          SAMPLE.mv.db
-        |  |  |          SAMPLE.mv.db.org
-        |  |  |
-        |  |  \---var
-        |  |      \---nablarch
-        |  |          \---format
-        |  |
-        |  +---resources
-        |  |  |   batch-boot.xml              … 都度起動バッチ起動時に指定する設定ファイル。
-        |  |  |   mail-sender-boot.xml        … メール送信バッチ起動時に指定する設定ファイル。
-        |  |  |   resident-batch-boot.xml     … テーブルをキューとして使ったメッセージング起動時に指定する設定ファイル。
-        |  |  |
-        |  |  +---entity
-        |  |
-        |  \---scripts
+        |   +---java
+        |   |
+        |   +---jib                             … コンテナイメージ上に配置するファイルが格納されている。
+        |   |
+        |   +---resources
+        |   |   |   batch-boot.xml              … 都度起動バッチ起動時に指定する設定ファイル。
+        |   |   |   mail-sender-boot.xml        … メール送信バッチ起動時に指定する設定ファイル。
+        |   |   |   resident-batch-boot.xml     … テーブルをキューとして使ったメッセージング起動時に指定する設定ファイル。
+        |   |   |
+        |   |   \---entity
+        |   |
+        |   \---scripts                         … バッチ等の起動に使用するためのシェルスクリプトファイル(使用は任意)。
         |
         \---test
             +---java
@@ -471,12 +471,6 @@ src/main/jib について
   たとえば、 ``src/main/jib/var/foo.txt`` というファイルを配置した状態でコンテナイメージをビルドすると、コンテナ上の ``/var/foo.txt`` にファイルが配置される。
   詳細は `Jibのドキュメントを参照 <https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#adding-arbitrary-files-to-the-image>`_ (外部サイト、英語)。
 
-
-
-ツールの設定
------------------------------------
-
-Webと同一であるため省略。
 
 .. _about_maven_web_batch_module:
 
