@@ -111,7 +111,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 .. code-block:: text
 
   cd myapp-container-batch
-  mvn package jib:dockerBuild
+  mvn compile jib:dockerBuild
 
 
 実行に成功すると、以下のようなログがコンソールに出力される。
@@ -179,40 +179,53 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 .. code-block:: text
 
   cd myapp-container-batch
-  docker run --rm --name myapp-container-batch myapp-container-batch:latest -diConfig classpath:batch-boot.xml -requestPath SampleBatch -userId batch_user
+  docker run  --rm -v %CD%\\h2:/h2 -v %CD%\\src\\main\\format:/var/nablarch/format -v %CD%\\work\\output:/var/nablarch/output  --name myapp-container-batch myapp-container-batch:latest -diConfig classpath:batch-boot.xml -requestPath SampleBatch -userId batch_user
 
 動作は通常のNablarchバッチプロジェクトと同じである。
 起動に成功すると、:ref:`都度起動バッチアプリケーションの起動 <firstStepBatchExecOnDemandBatch>` と同様なログがコンソールに出力される。
-
-上記コマンドでは、コンテナが起動し、バッチ処理実行後、コンテナは自動的に終了する。
-
 
 常駐バッチ
 ~~~~~~~~~~~~~~~~~
 .. code-block:: text
 
   cd myapp-container-batch
-  docker run -it --name myapp-container-batch --rm myapp-container-batch:latest -diConfig classpath:resident-batch-boot.xml -requestPath SampleResiBatch -userId batch_user
+  docker run -it  --rm -v %CD%\\h2:/h2 --name myapp-container-batch --rm myapp-container-batch:latest -diConfig classpath:resident-batch-boot.xml -requestPath SampleResiBatch -userId batch_user
 
 動作は通常のNablarchバッチプロジェクトと同じである。
 起動に成功すると、:ref:`常駐バッチアプリケーションの起動 <firstStepBatchExecResidentBatch>` と同様なログがコンソールに出力される。
 通常のNablarchバッチプロジェクトと同様に待機状態となるので、確認後はctrl+c等で強制終了させる。
 
-.. tip::
-
-  常駐バッチにおいてもdockerコマンドのitオプションは省略できるが、ホスト側からのctrl+cでバッチを強制終了できなくなる。
-  その場合は、以下のコマンドにてコンテナを終了させればよい。
-
-   .. code-block:: text
-
-    docker stop myapp-container-batch
-
-
-
-
-上記コマンドでは、コンテナが起動し、バッチ処理実行後、コンテナは自動的に終了する。
 
 補足
 --------------------
 
-H2のデータの確認方法や、ブランクプロジェクトに組み込まれているツールに関しては、 :doc:`../firstStep_appendix/firststep_complement` を参照すること。
+ 都度起動バッチ、常駐バッチの実行コマンドについて
+  * 上記コマンドを実行すると、コンテナが起動し、バッチ処理実行後、コンテナは自動的に終了する。
+    また、 ``-rmオプション`` により、コンテナ終了時に、コンテナを自動削除するようにしている。
+
+  * 上記コマンドは、データベースとしてブランクプロジェクトにあらかじめ組み込んでいるSAMPLE.h2.dbを使用する場合の例となっている。
+    SAMPLE.h2.dbを使用しない場合は、ボリュームの指定(``-v``)は不要になる。
+
+  * 都度起動バッチでは上記に加えてブランクプロジェクトの ``./work/format`` , ``./work/output`` のディレクトリをコンテナにマウントしている。
+
+  * 常駐バッチにおいてもdockerコマンドの ``-itオプション`` は省略できるが、ホスト側からのctrl+cでバッチを強制終了できなくなる。
+    その場合は、以下のコマンドにてコンテナを終了させればよい。
+
+     .. code-block:: text
+
+      docker stop myapp-container-batch
+
+
+ Docker環境について
+  Dockerの実行は、Docker Desktopを使用していることを :ref:`前提 <firstStepPreamble>` としている。
+  Docker Toolboxを使用している場合は、上記例のボリューム指定ではエラーになる。
+
+  Docker Toolboxを使用している場合、DockerはVirtualBox上のVMで動いている。
+  このため、ボリュームのホスト側に指定できるパスは、VM上のパスになる。
+
+  Windowsの場合、デフォルトでは ``C:\Users`` がVM上の ``/c/users`` にマウントされている。
+  したがって、Docker Toolboxを使用している場合は、ボリュームの指定を ``-v /c/users/path/to/project/h2:/usr/local/tomcat/h2`` のようにしなければならない。
+
+ H2、ツールについて
+  H2のデータの確認方法や、ブランクプロジェクトに組み込まれているツールに関しては、 :doc:`../firstStep_appendix/firststep_complement` を参照すること。
+
