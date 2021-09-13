@@ -677,7 +677,7 @@ SQL
     from
       user
     where
-      $if (userName) {user_name like :user_name%}
+      $if (userName) {user_name like :userName%}
       and $if (userKbn) {user_kbn in ('1', '2')}
       and birthday = :birthday
 
@@ -808,7 +808,7 @@ SQL
     from
       user
     where
-      user_name = :user_name
+      user_name = :userName
     $sort(sortId) {
       (user_id_asc  user_id asc)
       (user_id_desc user_id desc)
