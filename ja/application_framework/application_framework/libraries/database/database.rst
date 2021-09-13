@@ -1265,18 +1265,20 @@ SQL文中のスキーマを環境毎に切り替える
 
 .. code-block:: xml
                 
-   <component name="statementFactory" class="nablarch.core.db.statement.BasicStatementFactory">
-     <component name="sqlLoader" class="nablarch.core.db.statement.BasicSqlLoader">
-       <property name="sqlLoaderCallback">
-         <list>
-           <!-- SQL文中の#SCHEMA#を指定した値で置き換え -->
-           <component class="nablarch.core.db.statement.sqlloader.SchemaReplacer">
-             <property name="schemaName" value="${nablarch.schemaReplacer.schemaName}"/>
-           </component>
-         </list>
-       </property>
-     </component>
-   </component>
+  <component name="statementFactory" class="nablarch.core.db.statement.BasicStatementFactory">
+    <property name="sqlLoader">
+      <component name="sqlLoader" class="nablarch.core.db.statement.BasicSqlLoader">
+        <property name="sqlLoaderCallback">
+          <list>
+            <!-- SQL文中の#SCHEMA#を指定した値で置き換え -->
+            <component class="nablarch.core.db.statement.sqlloader.SchemaReplacer">
+              <property name="schemaName" value="${nablarch.schemaReplacer.schemaName}"/>
+            </component>
+          </list>
+        </property>
+      </component>
+    </property>
+  </component>
 
 プレースホルダーをどのような値に置き換えるかは、
 :java:extdoc:`SchemaReplacer <nablarch.core.db.statement.sqlloader.SchemaReplacer>`
