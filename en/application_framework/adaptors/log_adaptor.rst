@@ -34,7 +34,7 @@ slf4j
   
 .. important::
 
-  With nablarch-slf4j-adaptor, FATAL log level is mapped to ERROR log level because slf4j cannot output FATAL log level messages.
+  With nablarch-slf4j-adaptor, FATAL log level is mapped to ERROR log level because FATAL log level is not supported by slf4j.
 
 .. tip::
   
