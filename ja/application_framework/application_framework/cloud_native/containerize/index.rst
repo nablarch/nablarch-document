@@ -64,7 +64,7 @@ Nablarchウェブアプリケーションに必要な修正
 
 .. _modify_nablarch_batch_for_cloud_native:
 
-Nablarchバッチアプリケーションにに必要な修正
+Nablarchバッチアプリケーションに必要な修正
 --------------------------------------------------------------------------------------------------
 
 :ref:`標準のバッチアプリケーションのブランクプロジェクト <firstStepGenerateBatchBlankProject>` を使ってNablarchバッチアプリケーションを構築した場合、以下の点が `The Twelve-Factor App`_ (外部サイト)に反した状態になっている。
