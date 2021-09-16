@@ -390,8 +390,16 @@ pj-container-webプロジェクト
     |           \---nablarch        … HTMLチェックツール用のデータが格納されている。
     |
     \---tools                       … Mavenと連携させて使用するツールの設定ファイルが格納されている。
-    
-    
+
+
+src/main/jib について
+  ``src/main/jib`` に配置したディレクトリやファイルは、そのままコンテナ上に配置される。
+  たとえば、 ``src/main/jib/var/foo.txt`` というファイルを配置した状態でコンテナイメージをビルドすると、コンテナ上の ``/var/foo.txt`` にファイルが配置される。
+  詳細は `Jibのドキュメントを参照 <https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#adding-arbitrary-files-to-the-image>`_ (外部サイト、英語)。
+
+  ブランクプロジェクトでは、Tomcatのログ出力を全て標準出力にするために、Tomcatの設定ファイルがいくつか配置されている。
+
+
 
 ツールの設定
 -----------------------------------
@@ -457,11 +465,6 @@ NablarchバッチアプリケーションがデプロイされたLinuxサーバ�
             \---resources
                 |
                 \---data
-
-src/main/jib について
-  ``src/main/jib`` に配置したディレクトリやファイルは、そのままコンテナ上に配置される。
-  たとえば、 ``src/main/jib/var/foo.txt`` というファイルを配置した状態でコンテナイメージをビルドすると、コンテナ上の ``/var/foo.txt`` にファイルが配置される。
-  詳細は `Jibのドキュメントを参照 <https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#adding-arbitrary-files-to-the-image>`_ (外部サイト、英語)。
 
 
 .. _about_maven_web_batch_module:
