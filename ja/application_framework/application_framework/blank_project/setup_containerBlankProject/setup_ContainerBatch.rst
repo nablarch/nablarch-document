@@ -156,16 +156,23 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
     <!--省略...-->
     <properties>
       <!--省略...-->
-      <!-- adoptopenjdk:11.0.11_9-jre-hotspot -->
-      <jib.from.image>adoptopenjdk@sha256:df316691a2c655de2f835a626f8611c74af67dad2cf92711f6608b54e5aa6c61</jib.from.image>
+      <jib.from.image>adoptopenjdk:11.0.11_9-jre-hotspot</jib.from.image>
+      <!--省略...-->
     </properties>
     <!--省略...-->
   </project>
 
 .. tip::
 
-  Dockerイメージのタグは不変ではなく更新される可能性がある。
-  このため、ベースイメージの指定はダイジェストを用いる方法を推奨する。
+  ブランクプロジェクトではイメージをタグで指定しているが、この場合、指定したイメージの最新バージョンが選択される。
+  検証時と異なるバージョンが選択された場合、アプリケーションの動作に影響が出る可能性があるので、
+  プロジェクトにおける検証が完了した段階で、バージョンを固定するために、イメージをダイジェストで指定することを推奨する。
+
+  ダイジェストによる設定例を以下に示す。
+
+  .. code-block:: xml
+
+    <jib.from.image>adoptopenjdk@sha256:df316691a2c655de2f835a626f8611c74af67dad2cf92711f6608b54e5aa6c61</jib.from.image>
 
 .. _firstStepRunContainerBatchDockerImage:
 
