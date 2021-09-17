@@ -181,6 +181,7 @@ env.properties内の以下の箇所を修正する。
       * Nablarchバッチ
       * コンテナ版ウェブ
       * コンテナ版RESTfulウェブサービス
+      * コンテナ版Nablarchバッチ
     - なし
 
 アーキタイプからプロジェクトを生成した直後は、「ローカルにコネクションプールを作成する環境のpropertiesファイル」に以下が該当する。
@@ -201,6 +202,7 @@ env.properties内の以下の箇所を修正する。
       * 本番環境用properties(src/env/prod/resources/env.properties)
   * - * コンテナ版ウェブ
       * コンテナ版RESTfulウェブサービス
+      * コンテナ版Nablarchバッチ
     - * src/main/resources/env.properties :ref:`※解説 <container_production_config>`
 
 
@@ -612,6 +614,7 @@ Nablarchが使用するテーブル作成とデータの投入
 * :ref:`Nablarchバッチの疎通確認<firstStepBatchStartupTest>`
 * :ref:`コンテナ用ウェブの疎通確認<firstStepContainerWebStartupTest>`
 * :ref:`コンテナ用RESTfulウェブサービスの疎通確認<firstStepContainerWebServiceStartupTest>`
+* :ref:`コンテナ用Nablarchバッチの疎通確認<firstStepContainerBatchStartupTest>`
 
 
 .. |br| raw:: html
