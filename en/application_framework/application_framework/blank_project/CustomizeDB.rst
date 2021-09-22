@@ -179,6 +179,7 @@ Immediately after a project is generated from an archetype, the following applie
       * Nablarch batch
       * Web for container
       * RESTful web service for container
+      * Nablarch batch for container
     - No
 
 Immediately after creating a project from an archetype, the following applies to the "properties file of environments that create local connection pools".
@@ -199,6 +200,7 @@ Immediately after creating a project from an archetype, the following applies to
       * Production environment properties(src/env/prod/resources/env.properties)
   * - * Web for container
       * RESTful web service for container
+      * Nablarch batch for container
     - * src/main/resources/env.properties - :ref:`commentary <container_production_config>`
 
 The configuration example for a properties file of the environment that creates local connection pools is shown below.

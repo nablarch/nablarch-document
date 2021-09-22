@@ -35,10 +35,10 @@ The modifications of the Nablarch application needed for containerization descri
 
 .. _modify_nablarch_app_for_cloud_native:
 
-Modifications required for Nablarch applications
+Modifications required for Nablarch web applications
 --------------------------------------------------------------------------------------------------
 
-If building a Nablarch application using :ref:`the standard web application blank project <firstStepGenerateWebBlankProject>` ,
+If building a Nablarch web application using :ref:`the standard web application blank project <firstStepGenerateWebBlankProject>` ,
 the following points are in violation of `The Twelve-Factor App`_ (external site).
 
 Stateless
@@ -47,7 +47,7 @@ Stateless
 
   The standard blank project violates this policy because state management using HTTP sessions is enabled.
 
-  See :ref:`stateless_web_app` for configuration to make a Nablarch application stateless.
+  See :ref:`stateless_web_app` for configuration to make a Nablarch web application stateless.
 
 Log output
   The `XI. Logs <https://12factor.net/logs>`_ (external site) is said that all application logs should be written to standard output and not output to a file.
@@ -64,15 +64,32 @@ Configuration using environment variables
 
   See :ref:`repository-overwrite_environment_configuration_by_os_env_var` for how to override environment-dependent values using environment variables.
 
+.. _modify_nablarch_batch_for_cloud_native:
+
+Modifications required for Nablarch batch applications
+--------------------------------------------------------------------------------------------------
+
+`The Twelve-Factor App`_ (external site) is a methodology for developing SaaS applications, but many of its factor can also be applied when developing batch applications suitable for cloud environments.
+
+If building a Nablarch batch application using :ref:`the standard Nablarch batch application blank project <firstStepGenerateBatchBlankProject>` ,
+the points that need to be modified are as follows.
+
+Log output
+  (Omitted as it is identical to the Nablarch web application)
+
+Configuration using environment variables
+  (Omitted as it is identical to the Nablarch web application)
+
+
 
 .. _nablarch_container_archetype:
 
 Archetype for container
 --------------------------------------------------------------------------------------------------
 
-Nablarch provides an archetype for web applications that are designed to run on Docker containers.
+Nablarch provides archetypes for web and batch applications that are designed to run on Docker containers.
 
-Blank projects generated using this archetype have the modifications described in :ref:`modify_nablarch_app_for_cloud_native` applied in advance.
+Blank projects generated using this archetype have the modifications described in such as :ref:`modify_nablarch_app_for_cloud_native` and :ref:`modify_nablarch_batch_for_cloud_native` applied in advance.
 Also, a Maven plugin called `Jib`_ (external site) is built in for easy generation of Docker containers, so developers can start developing Nablarch applications for Docker containers soon.
 
 .. tip::
