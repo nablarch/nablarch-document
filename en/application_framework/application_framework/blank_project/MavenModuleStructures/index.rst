@@ -70,7 +70,24 @@ which is input during the project creation using nablarch-web-archetype and nabl
 Details of each component
 ----------------------------------
 
-In the same way as ``pj-web`` and ``pj-batch`` above, we will describe the details of each component assume ``pj-jaxrs`` were created from ``nablarch-jaxrs-archetype``, ``pj-batch-ee`` from ``nablarch-batch-ee-archetype``, ``pj-container-web`` from ``nablarch-container-web-archetype``, ``pj-container-jaxrs`` from ``nablarch-container-jaxrs-archetype``, and ``pj-container-batch`` from ``nablarch-container-batch-archetype``.
+As in the case of pj-web and pj-batch above, the details of each component will be described assuming that the project was created according to the following table.
+
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+
+  * - Maven project name
+    - Maven archetype
+  * - pj-jaxrs
+    - nablarch-jaxrs-archetype
+  * - pj-batch-ee
+    - nablarch-batch-ee-archetype
+  * - pj-container-web
+    - nablarch-container-web-archetype
+  * - pj-container-jaxrs
+    - nablarch-container-jaxrs-archetype
+  * - pj-container-batch
+    - nablarch-container-batch-archetype
 
 .. _about_maven_parent_module:
 

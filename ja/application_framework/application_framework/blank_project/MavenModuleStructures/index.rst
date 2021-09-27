@@ -73,7 +73,24 @@ nablarch-web-archetypeとnablarch-batch-archetypeのアーキタイプを使用�
 各構成要素の詳細
 ----------------
 
-上記 ``pj-web`` 、 ``pj-batch`` 同様、 ``nablarch-jaxrs-archetype`` から ``pj-jaxrs`` 、 ``nablarch-batch-ee-archetype`` から ``pj-batch-ee`` 、 ``nablarch-container-web-archetype`` から ``pj-container-web`` 、 ``nablarch-container-jaxrs-archetype`` から ``pj-container-jaxrs`` 、 ``nablarch-container-batch-archetype`` から ``pj-container-batch`` を作成したものとして各構成要素についての詳細を記載する。
+上記 ``pj-web`` 、``pj-batch`` と同様に、下表の通りにプロジェクトを作成したものとして各構成要素についての詳細を記載する。
+
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+
+  * - Mavenプロジェクト名
+    - 生成元のMaven archetype
+  * - pj-jaxrs
+    - nablarch-jaxrs-archetype
+  * - pj-batch-ee
+    - nablarch-batch-ee-archetype
+  * - pj-container-web
+    - nablarch-container-web-archetype
+  * - pj-container-jaxrs
+    - nablarch-container-jaxrs-archetype
+  * - pj-container-batch
+    - nablarch-container-batch-archetype
 
 
 .. _about_maven_parent_module:
