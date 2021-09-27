@@ -22,6 +22,7 @@ The initial setup shows how to create the following blank project.
 * Nablarch batch project
 * Web project for container
 * RESTful web service project for container
+* Nablarch batch project for container
 
 
 Blank project design concept and points to note
@@ -54,7 +55,7 @@ All projects
 Web, RESTful web service, JSR352-compliant batch, Nablarch batch
   * JDK1.8 or higher
 
-Web for container, RESTful web service for container
+Web for container, RESTful web service for container, Nablarch batch for container
   * JDK11 or higher
   * Docker Desktop 2.2.0.0 or higher
 

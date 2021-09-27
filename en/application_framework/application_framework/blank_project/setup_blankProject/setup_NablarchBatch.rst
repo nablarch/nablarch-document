@@ -164,6 +164,8 @@ Execute the following command to build the batch application.
 
   mvn package
 
+.. _firstStepBatchExecOnDemandBatch:
+
 Launching the on-demand batch application
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -214,6 +216,7 @@ Build an application
 
 If it has not yet been built, see :ref:`firstStepBatchBuild` and build.
 
+.. _firstStepBatchExecResidentBatch:
 
 Launch the application
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

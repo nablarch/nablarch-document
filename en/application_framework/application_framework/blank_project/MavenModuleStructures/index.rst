@@ -34,6 +34,8 @@ Nablarch offers the following archetypes: All the archetype group IDs are ``com.
     - Docker container edition of the ``nablarch-web-archetype`` archetype
   * - nablarch-container-jaxrs-archetype
     - Docker container edition of the ``nablarch-jaxrs-archetype`` archetype
+  * - nablarch-container-batch-archetype
+    - Docker container edition of the ``nablarch-batch-archetype`` archetype
 
 When ``pj-web``, ``pj-batch`` are specified respectively in ``artifactId``,
 which is input during the project creation using nablarch-web-archetype and nablarch-batch-archetype archetypes, the configuration is as follows.
@@ -67,6 +69,25 @@ which is input during the project creation using nablarch-web-archetype and nabl
 ----------------------------------
 Details of each component
 ----------------------------------
+
+As in the case of pj-web and pj-batch above, the details of each component will be described assuming that the project was created according to the following table.
+
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+
+  * - Maven project name
+    - Maven archetype
+  * - pj-jaxrs
+    - nablarch-jaxrs-archetype
+  * - pj-batch-ee
+    - nablarch-batch-ee-archetype
+  * - pj-container-web
+    - nablarch-container-web-archetype
+  * - pj-container-jaxrs
+    - nablarch-container-jaxrs-archetype
+  * - pj-container-batch
+    - nablarch-container-batch-archetype
 
 .. _about_maven_parent_module:
 
@@ -409,6 +430,55 @@ Project structure
 
 Omitted as it is identical to the container edition Web.
 
+pj-container-batch project
+===============================
+
+Project to build a Docker image of a Linux Server where the Nablarch batch applications is deployed.
+
+Project structure
+------------------
+
+(Descriptions of directories and files only for the elements that do not exist in the container edition Web.)
+
+.. code-block:: text
+
+    myapp-container-batch
+    |
+    |   pom.xml
+    |   README.md
+    |
+    +---db
+    |
+    |
+    +---h2
+    |   +---bin
+    |   |
+    |   \---db
+    |           SAMPLE.mv.db
+    |           SAMPLE.mv.db.org
+    |
+    +---src
+        +---main
+        |   +---java
+        |   |
+        |   +---jib
+        |   |
+        |   +---resources
+        |   |   |   batch-boot.xml              … Configuration file to be specified in on-demand batch when it is launched.
+        |   |   |   mail-sender-boot.xml        … Configuration file to be specified while starting email send batch.
+        |   |   |   resident-batch-boot.xml     … Configuration file to be specified while starting messaging using tables as queues.
+        |   |   |
+        |   |   \---entity
+        |   |
+        |   \---scripts                         … Shell script file to be used for starting a batch, etc. (use is optional)
+        |
+        \---test
+            +---java
+            |
+            \---resources
+                |
+                \---data
+                
 .. _about_maven_web_batch_module:
 
 Common configurations for each project
