@@ -198,7 +198,7 @@ Resident Batch
 
 It works the same as for a normal Nablarch batch project.
 If the startup is successful, a log similar to :ref:`Launching the resident batch application <firstStepBatchExecResidentBatch>` will be output to the console.
-It will go into standby mode just like a normal Nablarch batch project, so force quit it with CTRL+C after confirming.
+It will go into standby mode just like a normal Nablarch batch project, so force quit it with ctrl+c after confirming.
 
 Supplementary notes
 --------------------
