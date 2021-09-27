@@ -611,6 +611,7 @@ Refer to the following procedure and confirm communications.
 * :ref:`Communication confirmation of Nablarch batch<firstStepBatchStartupTest>`
 * :ref:`Communication confirmation of Web for container<firstStepContainerWebStartupTest>`
 * :ref:`Communication confirmation of RESTful Web service for container<firstStepContainerWebServiceStartupTest>`
+* :ref:`Communication confirmation of Nablarch batch for container<firstStepContainerBatchStartupTest>`
 
 .. |br| raw:: html
 
