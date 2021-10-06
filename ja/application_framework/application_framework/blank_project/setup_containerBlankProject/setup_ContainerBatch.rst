@@ -147,7 +147,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 
 また、初期設定ではベースイメージとして `OpenJDK のイメージ <https://hub.docker.com/_/adoptopenjdk>`_ (外部サイト、英語)が使用される。
 
-ベースイメージは ``nablarch-archetype-parent`` の ``pom.xml`` で指定されているが、 ``jib.from.image`` プロパティで変更することもできる。
+ベースイメージは ``jib.from.image`` プロパティで変更することができる。
 例えば、ベースイメージに ``adoptopenjdk:11.0.11_9-jre-hotspot`` を使用したい場合は、次のように ``pom.xml`` に記述する。
 
 .. code-block:: xml

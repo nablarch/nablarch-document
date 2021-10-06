@@ -140,7 +140,7 @@ As you can see, the blank project is configured to create the following two imag
 
 `Tomcat image <https://hub.docker.com/_/tomcat>`_ (External sites) is used as base image by default.
 
-The base image is specified in ``pom.xml`` in ``nablarch-archetype-parent`` but can be changed with the ``jib.from.image`` property.
+The base image can be changed with the ``jib.from.image`` property.
 For example, if you want to use ``tomcat:9.0.31-jdk11-adoptopenjdk-hotspot`` for your base image, you would write it in ``pom.xml`` .
 
 .. code-block:: xml
