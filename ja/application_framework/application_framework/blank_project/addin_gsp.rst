@@ -38,26 +38,28 @@ gsp-dba-maven-pluginを使用するにあたって、3rd Party Repositoryの設�
     <profiles>
       <profile>
         <id>my-repository</id>
-        <repository>
-          <id>maven.seasar.org</id>
-          <name>The Seasar Foundation Maven Repository</name>
-          <url>http://maven.seasar.org/maven2</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-        <repository>
-          <id>maven-snapshot.seasar.org</id>
-          <name>The Seasar Foundation Maven Snapshot Repository</name>
-          <url>http://maven.seasar.org/maven2-snapshot</url>
-          <releases>
-            <enabled>false</enabled>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-            <updatePolicy>always</updatePolicy>
-          </snapshots>
-        </repository>
+        <pluginRepositories>
+          <pluginRepository>
+            <id>maven.seasar.org</id>
+            <name>The Seasar Foundation Maven Repository</name>
+            <url>https://maven.seasar.org/maven2</url>
+            <snapshots>
+              <enabled>false</enabled>
+            </snapshots>
+          </pluginRepository>
+          <pluginRepository>
+            <id>maven-snapshot.seasar.org</id>
+            <name>The Seasar Foundation Maven Snapshot Repository</name>
+            <url>https://maven.seasar.org/maven2-snapshot</url>
+            <releases>
+              <enabled>false</enabled>
+            </releases>
+            <snapshots>
+              <enabled>true</enabled>
+              <updatePolicy>always</updatePolicy>
+            </snapshots>
+          </pluginRepository>
+        </pluginRepositories>
       </profile>
     </profiles>
     <!-- 中略 -->
