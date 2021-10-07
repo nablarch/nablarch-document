@@ -188,7 +188,7 @@ On-demand batch
   cd myapp-container-batch
   docker run  --rm -v %CD%\\h2:/h2 -v %CD%\\src\\main\\format:/var/nablarch/format -v %CD%\\work\\output:/var/nablarch/output  --name myapp-container-batch myapp-container-batch:latest -diConfig classpath:batch-boot.xml -requestPath SampleBatch -userId batch_user
 
-It works the same as for a normal Nablarch batch project.
+It works the same as for :ref:`Communication confirmation (on-demand batch))<firstStepBatchStartupTest>`.
 If the startup is successful, a log similar to :ref:`Launching the on-demand batch application <firstStepBatchExecOnDemandBatch>` will be output to the console.
 
 .. _firstStepContainerBatchStartupInnerBatchDbMessaging:
@@ -200,9 +200,9 @@ Messaging Using Tables as Queues
   cd myapp-container-batch
   docker run -it  --rm -v %CD%\\h2:/h2 --name myapp-container-batch --rm myapp-container-batch:latest -diConfig classpath:resident-batch-boot.xml -requestPath SampleResiBatch -userId batch_user
 
-It works the same as for a normal Nablarch batch project.
-If the startup is successful, a log similar to :ref:`Launching the application <firstStepBatchExecResidentBatch>` will be output to the console.
-It will go into standby mode just like a normal Nablarch batch project, so force quit it with ctrl+c after confirming.
+It works the same as for :ref:`Communication confirmation (messaging using tables as queues)<firstStepBatchStartupTestDbMessagingBatch>` .
+If the startup is successful, a log similar to :ref:`Launching the application <firstStepBatchExecDbMessagingBatch>` will be output to the console.
+It will go into standby mode, so force quit it with ctrl+c after confirming.
 
 Supplementary notes
 --------------------
