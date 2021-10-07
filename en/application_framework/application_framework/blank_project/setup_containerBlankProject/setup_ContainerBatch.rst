@@ -179,6 +179,8 @@ Run a container image
 
 Once you have created a container image, you can run it with the following command.
 
+.. _firstStepContainerBatchStartupInnerBatchOndemand:
+
 On-demand batch
 ~~~~~~~~~~~~~~~~~
 .. code-block:: text
@@ -186,33 +188,35 @@ On-demand batch
   cd myapp-container-batch
   docker run  --rm -v %CD%\\h2:/h2 -v %CD%\\src\\main\\format:/var/nablarch/format -v %CD%\\work\\output:/var/nablarch/output  --name myapp-container-batch myapp-container-batch:latest -diConfig classpath:batch-boot.xml -requestPath SampleBatch -userId batch_user
 
-It works the same as for a normal Nablarch batch project.
+It works the same as for :ref:`Communication confirmation (on-demand batch))<firstStepBatchStartupTest>`.
 If the startup is successful, a log similar to :ref:`Launching the on-demand batch application <firstStepBatchExecOnDemandBatch>` will be output to the console.
 
-Resident Batch
-~~~~~~~~~~~~~~~~~
+.. _firstStepContainerBatchStartupInnerBatchDbMessaging:
+
+Messaging Using Tables as Queues
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: text
 
   cd myapp-container-batch
   docker run -it  --rm -v %CD%\\h2:/h2 --name myapp-container-batch --rm myapp-container-batch:latest -diConfig classpath:resident-batch-boot.xml -requestPath SampleResiBatch -userId batch_user
 
-It works the same as for a normal Nablarch batch project.
-If the startup is successful, a log similar to :ref:`Launching the resident batch application <firstStepBatchExecResidentBatch>` will be output to the console.
-It will go into standby mode just like a normal Nablarch batch project, so force quit it with ctrl+c after confirming.
+It works the same as for :ref:`Communication confirmation (messaging using tables as queues)<firstStepBatchStartupTestDbMessagingBatch>` .
+If the startup is successful, a log similar to :ref:`Launching the application <firstStepBatchExecDbMessagingBatch>` will be output to the console.
+It will go into standby mode, so force quit it with ctrl+c after confirming.
 
 Supplementary notes
 --------------------
  
- About the execution commands for on-demand batch and resident Batch.
+ About the commands to run the container image.
   * When the above command is executed, the container will be started, batch processing will be executed, and then the container will be terminated automatically.
     Also, -rm option is specified in order to make automatically container deleted when the container is ended.
 
   * The above command is an example of the case where SAMPLE.h2.db, which is included in the blank project beforehand, is used as the database.
     If you do not use SAMPLE.h2.db, you do not need to specify a volume (``-v``) for ``%CD%\\h2:/h2``.
 
-  * In addition to the above, in on-demand batch The blank project ``./work/format`` and ``./work/output`` are mounted in a container.
+  * In addition to the above, in :ref:`On-demand batch<firstStepContainerBatchStartupInnerBatchOndemand>` The blank project ``./work/format`` and ``./work/output`` are mounted in a container.
 
-  * Even for resident batches,the ``-it option`` of the docker command can be omitted, but the batch cannot be killed by ctrl+c from the docker host.
+  * Even for :ref:`Messaging Using Tables as Queues<firstStepContainerBatchStartupInnerBatchDbMessaging>`, the ``-it option`` of the docker command can be omitted, but the batch cannot be killed by ctrl+c from the docker host.
     In that case, exit the container with the following command.
 
 

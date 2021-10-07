@@ -181,6 +181,8 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 
 作成したコンテナイメージは、次のコマンドで実行できる。
 
+.. _firstStepContainerBatchStartupInnerBatchOndemand:
+
 都度起動バッチ
 ~~~~~~~~~~~~~~~~~
 .. code-block:: text
@@ -188,34 +190,36 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
   cd myapp-container-batch
   docker run  --rm -v %CD%\\h2:/h2 -v %CD%\\src\\main\\format:/var/nablarch/format -v %CD%\\work\\output:/var/nablarch/output  --name myapp-container-batch myapp-container-batch:latest -diConfig classpath:batch-boot.xml -requestPath SampleBatch -userId batch_user
 
-動作は通常のNablarchバッチプロジェクトと同じである。
+動作は :ref:`疎通確認(都度起動バッチ)<firstStepBatchStartupTest>` と同じである。
 起動に成功すると、:ref:`都度起動バッチアプリケーションの起動 <firstStepBatchExecOnDemandBatch>` と同様なログがコンソールに出力される。
 
-常駐バッチ
-~~~~~~~~~~~~~~~~~
+.. _firstStepContainerBatchStartupInnerBatchDbMessaging:
+
+テーブルをキューとして使ったメッセージング
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: text
 
   cd myapp-container-batch
   docker run -it  --rm -v %CD%\\h2:/h2 --name myapp-container-batch --rm myapp-container-batch:latest -diConfig classpath:resident-batch-boot.xml -requestPath SampleResiBatch -userId batch_user
 
-動作は通常のNablarchバッチプロジェクトと同じである。
-起動に成功すると、:ref:`常駐バッチアプリケーションの起動 <firstStepBatchExecResidentBatch>` と同様なログがコンソールに出力される。
-通常のNablarchバッチプロジェクトと同様に待機状態となるので、確認後はctrl+c等で強制終了させる。
+動作は :ref:`疎通確認(テーブルをキューとして使ったメッセージング)<firstStepBatchStartupTestDbMessagingBatch>` と同じである。
+起動に成功すると、:ref:`アプリケーションの起動 <firstStepBatchExecDbMessagingBatch>` と同様なログがコンソールに出力される。
+待機状態となるので、確認後はctrl+c等で強制終了させる。
 
 
 補足
 --------------------
 
- 都度起動バッチ、常駐バッチの実行コマンドについて
+ コンテナイメージの実行コマンドについて
   * 上記コマンドを実行すると、コンテナが起動し、バッチ処理実行後、コンテナは自動的に終了する。
     また、 ``-rmオプション`` により、コンテナ終了時に、コンテナを自動削除するようにしている。
 
   * 上記コマンドは、データベースとしてブランクプロジェクトにあらかじめ組み込んでいるSAMPLE.h2.dbを使用する場合の例となっている。
     SAMPLE.h2.dbを使用しない場合は、``%CD%\\h2:/h2`` のボリュームの指定(``-v``)は不要になる。
 
-  * 都度起動バッチでは上記に加えてブランクプロジェクトの ``./work/format`` , ``./work/output`` のディレクトリをコンテナにマウントしている。
+  * :ref:`都度起動バッチ<firstStepContainerBatchStartupInnerBatchOndemand>` では上記に加えてブランクプロジェクトの ``./work/format`` , ``./work/output`` のディレクトリをコンテナにマウントしている。
 
-  * 常駐バッチにおいてもdockerコマンドの ``-itオプション`` は省略できるが、ホスト側からのctrl+cでバッチを強制終了できなくなる。
+  * :ref:`テーブルをキューとして使ったメッセージング<firstStepContainerBatchStartupInnerBatchDbMessaging>` においてもdockerコマンドの ``-itオプション`` は省略できるが、ホスト側からのctrl+cでバッチを強制終了できなくなる。
     その場合は、以下のコマンドにてコンテナを終了させればよい。
 
      .. code-block:: text
