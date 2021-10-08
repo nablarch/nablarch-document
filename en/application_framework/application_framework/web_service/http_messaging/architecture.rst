@@ -76,17 +76,17 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
     - Exception handling
  
   * - 1
-    - :ref:`thread_context_clear_handler`
-    -
-    - Deletes all the values configured on the thread local by the :ref:`thread_context_handler` .
-    -
-    
-  * - 2
     - :ref:`global_error_handler`
     -
     -
     - Outputs the log for a runtime exception or error.
 
+  * - 2
+    - :ref:`thread_context_clear_handler`
+    -
+    - Deletes all the values configured on the thread local by the :ref:`thread_context_handler` .
+    -
+    
   * - 3
     - :ref:`http_response_handler`
     -

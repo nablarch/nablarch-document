@@ -86,18 +86,18 @@ Nablarchでは、データベースをキューとして扱うメッセージン
     -
     
   * - 2
-    - :ref:`thread_context_clear_handler`
-    - メイン
-    - 
-    - :ref:`thread_context_handler` でスレッドローカル上に設定した値を全て削除する。
-    -
-
-  * - 3
     - :ref:`global_error_handler`
     - メイン
     -
     -
     - 実行時例外、またはエラーの場合、ログ出力を行う。
+
+  * - 3
+    - :ref:`thread_context_clear_handler`
+    - メイン
+    - 
+    - :ref:`thread_context_handler` でスレッドローカル上に設定した値を全て削除する。
+    -
 
   * - 4
     - :ref:`thread_context_handler`

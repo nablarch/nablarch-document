@@ -85,18 +85,18 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
     -
     
   * - 2
-    - :ref:`thread_context_clear_handler`
-    - Main
-    - 
-    - Deletes all the values configured on the thread local by the :ref:`thread_context_handler` .
-    -
-
-  * - 3
     - :ref:`global_error_handler`
     - Main
     -
     -
     - Outputs the log for a runtime exception or error.
+
+  * - 3
+    - :ref:`thread_context_clear_handler`
+    - Main
+    - 
+    - Deletes all the values configured on the thread local by the :ref:`thread_context_handler` .
+    -
 
   * - 4
     - :ref:`thread_context_handler`
