@@ -33,7 +33,7 @@ Module list
 Constraints
 ---------------------------------------
 This handler should be placed at the beginning as far as possible. 
-The reason is that the handlers before this handler cannot access the thread context in request processing.
+The reason is that the handlers before this handler cannot access the thread context in response processing.
 
 .. _thread_context_clear_handler-clear:
 
