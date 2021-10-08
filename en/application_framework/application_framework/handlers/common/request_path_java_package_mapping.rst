@@ -58,10 +58,7 @@ Module list
 Constraints
 ------------------------------
 
-Must be placed at the end of the handler queue
-  This handler does not call subsequent handlers.
-  Place this handler at the end of the handler queue.
-
+If property ``immediate`` is not set or is set to true, this handler should be placed at the end of the handler queue.(see :ref:`request_path_java_package_mapping_optional_immediate` )
 
 .. _request_path_java_package_mapping_path_setting:
 
@@ -157,4 +154,24 @@ To perform such a dispatch, the ``optionalPackageMappingEntries`` is configured 
       <!-- Java package used when there is no match for optionalPackageMappingEntries -->
       <property name="basePackage" value="nablarch.sample.base" />
   </component>
+
+.. _request_path_java_package_mapping_optional_immediate:
+
+Specifying when to call the handle method of an action
+------------------------------------------------------------------------------------------------------------------------
+
+The timing for calling the handle method of an action can be specified by the property ``immediate``.
+
+.. list-table::
+  :header-rows: 1
+  :widths: 3,7
+  :class: white-space-normal
+
+  * -   Setting value
+    -   Description
+  * -   immediate = true
+        or omitted (default)
+    -   Immediately after the execution of this handler, the handle method of the action will be called. If the process of calling the subsequent handler is not explicitly described in the action, the subsequent handler will not be called.
+  * -   immediate = false
+    -   When this handler is executed, the action is only determined. The handle method of the action will be called after all subsequent handlers have been called.
 

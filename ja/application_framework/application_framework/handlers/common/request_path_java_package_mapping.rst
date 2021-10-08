@@ -58,10 +58,7 @@ className     クラス名 (必須)
 制約
 ------------------------------
 
-ハンドラキューの最後に置くこと
-  本ハンドラは、後続のハンドラの呼び出しを行わない。
-  このため、本ハンドラはハンドラキューの最後に配置すること。
-
+``immediate`` プロパティを未設定もしくはtrueに設定する場合は、本ハンドラはハンドラキューの最後に置くこと。( :ref:`request_path_java_package_mapping_optional_immediate` 参照)
 
 .. _request_path_java_package_mapping_path_setting:
 
@@ -159,3 +156,23 @@ className     クラス名 (必須)
       <property name="basePackage" value="nablarch.sample.base" />
   </component>
 
+
+.. _request_path_java_package_mapping_optional_immediate:
+
+アクションの handle メソッドを呼び出すタイミングの指定
+------------------------------------------------------------------------------------------------------------------------
+
+アクションのhandleメソッドを呼び出すタイミングについて、プロパティ ``immediate`` で指定できる。
+
+.. list-table::
+  :header-rows: 1
+  :widths: 3,7
+  :class: white-space-normal
+
+  * -   設定値
+    -   意味
+  * -   immediate = true
+        または　省略（デフォルト）
+    -   本ハンドラの実行直後にアクションのhandleメソッドが呼び出される。アクション内で明示的に後続のハンドラを呼び出す処理を記述しない場合は、後続のハンドラは呼び出されない。
+  * -   immediate = false
+    -   本ハンドラの実行時は、アクションの決定だけ実施する。後続のハンドラがすべて呼び出された後にアクションのhandleメソッドが呼び出される。
