@@ -221,7 +221,7 @@ Description rules
   Default is ``yyyy-MM-dd HH:mm:ss.SSS``.
 
  httpAccessLogFormatter.maskingPatterns
-  Specify the parameter name and variable name to be masked with a regular expression (partial match).
+  Specify the parameter name and variable name to be masked with a regular expression.
   If more than one is specified, separate them with commas.
   Used for masking both the request parameters and session scope information.
   The specified regular expression is not case-sensitive.
