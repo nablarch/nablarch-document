@@ -159,20 +159,15 @@ className     クラス名 (必須)
 
 .. _request_path_java_package_mapping_optional_immediate:
 
-アクションの handle メソッドを呼び出すタイミングの指定
+ディスパッチ対象クラスを遅延実行する
 ------------------------------------------------------------------------------------------------------------------------
 
-アクションのhandleメソッドを呼び出すタイミングについて、プロパティ ``immediate`` で指定できる。
+デフォルトではディスパッチ対象クラスへの委譲は即時実行されるが、ハンドラキュー上の後続のハンドラ実行後にディスパッチ対象クラスへの委譲を行いたい場合は、以下の例を参照して ``immediate`` プロパティにfalseを設定すること。
 
-.. list-table::
-  :header-rows: 1
-  :widths: 3,7
-  :class: white-space-normal
+.. code-block:: xml
 
-  * -   設定値
-    -   意味
-  * -   immediate = true
-        または　省略（デフォルト）
-    -   本ハンドラの実行直後にアクションのhandleメソッドが呼び出される。アクション内で明示的に後続のハンドラを呼び出す処理を記述しない場合は、後続のハンドラは呼び出されない。
-  * -   immediate = false
-    -   本ハンドラの実行時は、アクションの決定だけ実施する。後続のハンドラがすべて呼び出された後にアクションのhandleメソッドが呼び出される。
+    <component class="nablarch.fw.handler.RequestPathJavaPackageMapping">
+      <property name="basePackage" value="${nablarch.commonProperty.basePackage}" />
+      <property name="immediate" value="false" />
+    </component>
+

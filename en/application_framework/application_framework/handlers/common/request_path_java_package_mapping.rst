@@ -157,21 +157,15 @@ To perform such a dispatch, the ``optionalPackageMappingEntries`` is configured 
 
 .. _request_path_java_package_mapping_optional_immediate:
 
-Specifying when to call the handle method of an action
+Lazy execution of the class to be dispatched
 ------------------------------------------------------------------------------------------------------------------------
 
-The timing for calling the handle method of an action can be specified by the property ``immediate``.
+By default, delegation to the dispatched class is performed immediately.
+If you want to delegate to the dispatched class after the execution of subsequent handlers on the handler queue, set the ``immediate`` property to false by referring to the following example.
 
-.. list-table::
-  :header-rows: 1
-  :widths: 3,7
-  :class: white-space-normal
+.. code-block:: xml
 
-  * -   Setting value
-    -   Description
-  * -   immediate = true
-        or omitted (default)
-    -   Immediately after the execution of this handler, the handle method of the action will be called. If the process of calling the subsequent handler is not explicitly described in the action, the subsequent handler will not be called.
-  * -   immediate = false
-    -   When this handler is executed, the action is only determined. The handle method of the action will be called after all subsequent handlers have been called.
-
+    <component class="nablarch.fw.handler.RequestPathJavaPackageMapping">
+      <property name="basePackage" value="${nablarch.commonProperty.basePackage}" />
+      <property name="immediate" value="false" />
+    </component>
