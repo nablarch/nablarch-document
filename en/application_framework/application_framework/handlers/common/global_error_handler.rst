@@ -34,7 +34,7 @@ This handler should be placed at the beginning of the handler queue as far as po
 
   If an exception has occurred in a handler that is placed before this handler, exception handling will be performed by the web application server or JVM.
 
-  If you want to output thread context information to the log, put it after :ref:`thread_context_clear_handler`.
+  If you want to output thread context information to the log when an exception is raised, put it after :ref:`thread_context_clear_handler`.
 
 Process details according to the exceptions and errors
 -------------------------------------------------------------------------
