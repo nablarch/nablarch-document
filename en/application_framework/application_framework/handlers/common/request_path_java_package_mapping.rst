@@ -58,7 +58,7 @@ Module list
 Constraints
 ------------------------------
 
-If property ``immediate`` is not set or is set to true, this handler should be placed at the end of the handler queue.(see :ref:`request_path_java_package_mapping_optional_immediate` )
+None
 
 .. _request_path_java_package_mapping_path_setting:
 

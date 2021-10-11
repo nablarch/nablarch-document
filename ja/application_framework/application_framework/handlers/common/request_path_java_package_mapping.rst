@@ -58,7 +58,7 @@ className     クラス名 (必須)
 制約
 ------------------------------
 
-``immediate`` プロパティを未設定もしくはtrueに設定する場合は、本ハンドラはハンドラキューの最後に置くこと。( :ref:`request_path_java_package_mapping_optional_immediate` 参照)
+なし。
 
 .. _request_path_java_package_mapping_path_setting:
 
