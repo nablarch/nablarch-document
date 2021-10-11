@@ -245,18 +245,18 @@ The minimum handler configuration of the resident batch is the same as the on-de
      -
 
    * - 2
-     - :ref:`global_error_handler`
-     - Main
-     -
-     -
-     - Outputs log in the case of a runtime exception or error.
-
-   * - 3
      - :ref:`thread_context_clear_handler`
      - Main
      -
      - Deletes all the values configured on the thread local with :ref:`thread_context_handler`.
      -
+
+   * - 3
+     - :ref:`global_error_handler`
+     - Main
+     -
+     -
+     - Outputs log in the case of a runtime exception or error.
 
    * - 4
      - :ref:`thread_context_handler`
