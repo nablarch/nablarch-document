@@ -58,10 +58,7 @@ Module list
 Constraints
 ------------------------------
 
-Must be placed at the end of the handler queue
-  This handler does not call subsequent handlers.
-  Place this handler at the end of the handler queue.
-
+None
 
 .. _request_path_java_package_mapping_path_setting:
 
@@ -158,3 +155,17 @@ To perform such a dispatch, the ``optionalPackageMappingEntries`` is configured 
       <property name="basePackage" value="nablarch.sample.base" />
   </component>
 
+.. _request_path_java_package_mapping_optional_immediate:
+
+Lazy execution of the class to be dispatched
+------------------------------------------------------------------------------------------------------------------------
+
+By default, delegation to the dispatched class is performed immediately.
+If you want to delegate to the dispatched class after the execution of subsequent handlers on the handler queue, set the ``immediate`` property to false by referring to the following example.
+
+.. code-block:: xml
+
+    <component class="nablarch.fw.handler.RequestPathJavaPackageMapping">
+      <property name="basePackage" value="${nablarch.commonProperty.basePackage}" />
+      <property name="immediate" value="false" />
+    </component>
