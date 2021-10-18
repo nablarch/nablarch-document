@@ -5,7 +5,7 @@
 .. list-table::
   :header-rows: 1
   :class: white-space-normal
-  :widths: 8,4,20,20
+  :widths: 10,10,15,15
 
 
   * - リリース日付
