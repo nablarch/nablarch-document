@@ -2,6 +2,8 @@
 リリース情報
 ============================================================
 
+:download:`全リリースノート一括ダウンロード <./nablarch-5-OSS-all-releasenote.zip>`
+
 .. list-table::
   :header-rows: 1
   :class: white-space-normal
