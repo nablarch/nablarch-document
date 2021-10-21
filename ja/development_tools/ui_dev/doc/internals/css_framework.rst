@@ -158,7 +158,7 @@ JavaScript UI部品スタイル    △        △       /css/ui/\*.less         
 
   グリッドベースレイアウトの一般的な解説については、以下のサイトなどを参照すること。
   
-    http://xdissent.github.com/grid-less/ 
+    https://xdissent.github.io/grid-less/ 
 
 
 
