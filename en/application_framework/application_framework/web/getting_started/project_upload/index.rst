@@ -237,7 +237,7 @@ Create a bean to bind the contents of the file
               type = Csv.CsvType.CUSTOM)
       @CsvFormat(charset = "Shift_JIS", fieldSeparator = ',',ignoreEmptyLine = true,
               lineSeparator = "\r\n", quote = '"',
-              quoteMode = CsvDataBindConfig.QuoteMode.NORMAL, requiredHeader = true)
+              quoteMode = CsvDataBindConfig.QuoteMode.NORMAL, requiredHeader = true, emptyToNull = true)
       public class ProjectUploadDto implements Serializable {
 
           // Excerpt of some items only.Getter and setter are omitted

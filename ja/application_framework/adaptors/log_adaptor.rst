@@ -32,7 +32,11 @@ slf4j
     <groupId>com.nablarch.integration</groupId>
     <artifactId>nablarch-slf4j-adaptor</artifactId>
   </dependency>
-  
+
+.. important::
+
+  slf4jにはFATALレベルが存在しないため、nablarch-slf4j-adaptorはFATALレベルでログ出力しようとした場合は全てERRORレベルで出力する仕様となっている。
+
 .. tip::
   
   slf4jのバージョン1.7.22を使用してテストを行っている。

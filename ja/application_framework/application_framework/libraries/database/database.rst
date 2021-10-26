@@ -677,7 +677,7 @@ SQL
     from
       user
     where
-      $if (userName) {user_name like :user_name%}
+      $if (userName) {user_name like :userName%}
       and $if (userKbn) {user_kbn in ('1', '2')}
       and birthday = :birthday
 
@@ -808,7 +808,7 @@ SQL
     from
       user
     where
-      user_name = :user_name
+      user_name = :userName
     $sort(sortId) {
       (user_id_asc  user_id asc)
       (user_id_desc user_id desc)
@@ -1265,18 +1265,20 @@ SQL文中のスキーマを環境毎に切り替える
 
 .. code-block:: xml
                 
-   <component name="statementFactory" class="nablarch.core.db.statement.BasicStatementFactory">
-     <component name="sqlLoader" class="nablarch.core.db.statement.BasicSqlLoader">
-       <property name="sqlLoaderCallback">
-         <list>
-           <!-- SQL文中の#SCHEMA#を指定した値で置き換え -->
-           <component class="nablarch.core.db.statement.sqlloader.SchemaReplacer">
-             <property name="schemaName" value="${nablarch.schemaReplacer.schemaName}"/>
-           </component>
-         </list>
-       </property>
-     </component>
-   </component>
+  <component name="statementFactory" class="nablarch.core.db.statement.BasicStatementFactory">
+    <property name="sqlLoader">
+      <component name="sqlLoader" class="nablarch.core.db.statement.BasicSqlLoader">
+        <property name="sqlLoaderCallback">
+          <list>
+            <!-- SQL文中の#SCHEMA#を指定した値で置き換え -->
+            <component class="nablarch.core.db.statement.sqlloader.SchemaReplacer">
+              <property name="schemaName" value="${nablarch.schemaReplacer.schemaName}"/>
+            </component>
+          </list>
+        </property>
+      </component>
+    </property>
+  </component>
 
 プレースホルダーをどのような値に置き換えるかは、
 :java:extdoc:`SchemaReplacer <nablarch.core.db.statement.sqlloader.SchemaReplacer>`

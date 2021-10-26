@@ -34,6 +34,9 @@ Nablarchでは、以下のアーキタイプを提供している。なお、ア
     - ``nablarch-web-archetype`` のDockerコンテナ版アーキタイプ
   * - nablarch-container-jaxrs-archetype
     - ``nablarch-jaxrs-archetype`` のDockerコンテナ版アーキタイプ
+  * - nablarch-container-batch-archetype
+    - ``nablarch-batch-archetype`` のDockerコンテナ版アーキタイプ
+
 
 
 nablarch-web-archetypeとnablarch-batch-archetypeのアーキタイプを使用し、
@@ -69,6 +72,26 @@ nablarch-web-archetypeとnablarch-batch-archetypeのアーキタイプを使用�
 ----------------
 各構成要素の詳細
 ----------------
+
+上記 ``pj-web`` 、``pj-batch`` と同様に、下表の通りにプロジェクトを作成したものとして各構成要素についての詳細を記載する。
+
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+
+  * - Mavenプロジェクト名
+    - 生成元のMaven archetype
+  * - pj-jaxrs
+    - nablarch-jaxrs-archetype
+  * - pj-batch-ee
+    - nablarch-batch-ee-archetype
+  * - pj-container-web
+    - nablarch-container-web-archetype
+  * - pj-container-jaxrs
+    - nablarch-container-jaxrs-archetype
+  * - pj-container-batch
+    - nablarch-container-batch-archetype
+
 
 .. _about_maven_parent_module:
 
@@ -384,8 +407,8 @@ pj-container-webプロジェクト
     |           \---nablarch        … HTMLチェックツール用のデータが格納されている。
     |
     \---tools                       … Mavenと連携させて使用するツールの設定ファイルが格納されている。
-    
-    
+
+
 src/main/jib について
   ``src/main/jib`` に配置したディレクトリやファイルは、そのままコンテナ上に配置される。
   たとえば、 ``src/main/jib/var/foo.txt`` というファイルを配置した状態でコンテナイメージをビルドすると、コンテナ上の ``/var/foo.txt`` にファイルが配置される。
@@ -411,6 +434,54 @@ RESTfulウェブサービスアプリケーションがデプロイされたTomc
 
 コンテナ版Webと同一であるため省略。
 
+pj-container-batchプロジェクト
+===============================
+
+NablarchバッチアプリケーションがデプロイされたLinuxサーバのDockerイメージをビルドするプロジェクト。
+
+プロジェクトの構成
+------------------
+
+(ディレクトリ及びファイルの説明は、コンテナ版Webに存在しない要素についてのみ記載)
+
+.. code-block:: text
+
+    myapp-container-batch
+    |
+    |   pom.xml
+    |   README.md
+    |
+    +---db
+    |
+    |
+    +---h2
+    |   +---bin
+    |   |
+    |   \---db
+    |           SAMPLE.mv.db
+    |           SAMPLE.mv.db.org
+    |
+    +---src
+        +---main
+        |   +---java
+        |   |
+        |   +---jib
+        |   |
+        |   +---resources
+        |   |   |   batch-boot.xml              … 都度起動バッチ起動時に指定する設定ファイル。
+        |   |   |   mail-sender-boot.xml        … メール送信バッチ起動時に指定する設定ファイル。
+        |   |   |   resident-batch-boot.xml     … テーブルをキューとして使ったメッセージング起動時に指定する設定ファイル。
+        |   |   |
+        |   |   \---entity
+        |   |
+        |   \---scripts                         … バッチ等の起動に使用するためのシェルスクリプトファイル(使用は任意)。
+        |
+        \---test
+            +---java
+            |
+            \---resources
+                |
+                \---data
 
 
 .. _about_maven_web_batch_module:

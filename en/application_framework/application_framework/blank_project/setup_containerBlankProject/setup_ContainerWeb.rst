@@ -140,7 +140,7 @@ As you can see, the blank project is configured to create the following two imag
 
 `Tomcat image <https://hub.docker.com/_/tomcat>`_ (External sites) is used as base image by default.
 
-The base image is specified in ``pom.xml`` in ``nablarch-archetype-parent`` but can be changed with the ``jib.from.image`` property.
+The base image can be changed with the ``jib.from.image`` property.
 For example, if you want to use ``tomcat:9.0.31-jdk11-adoptopenjdk-hotspot`` for your base image, you would write it in ``pom.xml`` .
 
 .. code-block:: xml
@@ -149,16 +149,24 @@ For example, if you want to use ``tomcat:9.0.31-jdk11-adoptopenjdk-hotspot`` for
     <! -- Omitted ...-->
     <properties>
       <! -- Omitted ...-->
-      <!-- tomcat:9.0.31-jdk11-adoptopenjdk-hotspot -->
-      <jib.from.image>tomcat@sha256:e1f3ec646689c558bdd1a8b7045c5eed7c0ca9dbe664a82ba47d1591e3c5faf0</jib.from.image>
+      <jib.from.image>tomcat:9.0.36-jdk11-adoptopenjdk-hotspot</jib.from.image>
+      <! -- Omitted ...-->
     </properties>
     <! -- Omitted ...-->
   </project>
 
 .. tip::
 
-  Docker image tags are not immutable and may be updated.
-  Therefore, it is recommended to use a digest to specify the base image.
+  In the blank project, the base image is specified with a Docker image tag. In this case, the latest version of the specified image will be selected.
+  If a different version is selected than at the time of verification, it may affect the operation of the application.
+  Therefore, it is recommended to specify the base image as a digest in order to specify exactly which version, after the test is completed.
+
+
+  An example of setting by digest is shown below.
+
+ .. code-block:: xml
+
+    <jib.from.image>tomcat@sha256:7d59567f61e79f5dc1226a3ee26b4a4c2befc5cae182f7e0823199cf5885409b</jib.from.image>
 
 .. _firstStepRunContainerWebDockerImage:
 

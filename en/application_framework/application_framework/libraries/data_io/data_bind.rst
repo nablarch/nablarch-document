@@ -340,7 +340,8 @@ When binding to a Java Beans class
             ignoreEmptyLine = false,
             requiredHeader = false,
             charset = "UTF−8",
-            quoteMode = CsvDataBindConfig.QuoteMode.ALL)
+            quoteMode = CsvDataBindConfig.QuoteMode.ALL, 
+            emptyToNull = true)
     public class Person {
         private Integer age;
         private String name;

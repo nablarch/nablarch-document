@@ -164,6 +164,8 @@ SampleAction             バッチアプリケーション実装する際に一�
 
   mvn package
 
+.. _firstStepBatchExecOnDemandBatch:
+
 都度起動バッチアプリケーションの起動
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -186,6 +188,8 @@ SampleAction             バッチアプリケーション実装する際に一�
   Thread Result:[200 Success] The request has succeeded.
   2020-04-28 08:56:23.407 -INFO- nablarch.core.log.app.BasicCommitLogger [202004280856233470001] boot_proc = [] proc_sys = [batch] req_id = [SampleBatch] usr_id = [batch_user] TOTAL COMMIT COUNT = [1]
   2020-04-28 08:56:23.413 -INFO- nablarch.fw.launcher.Main [null] boot_proc = [] proc_sys = [batch] req_id = [null] usr_id = [null] @@@@ END @@@@ exit code = [0] execute time(ms) = [559]
+
+.. _firstStepBatchStartupTestDbMessagingBatch:
 
 疎通確認(テーブルをキューとして使ったメッセージング)
 --------------------------------------------------------------------
@@ -214,6 +218,7 @@ SampleAction             バッチアプリケーション実装する際に一�
 
 まだビルドしていない場合は、 :ref:`firstStepBatchBuild` を参照してビルドする。
 
+.. _firstStepBatchExecDbMessagingBatch:
 
 アプリケーションの起動
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

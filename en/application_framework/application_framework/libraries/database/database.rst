@@ -630,7 +630,7 @@ SQL
     from
       user
     where
-      $if (userName) {user_name like :user_name%}
+      $if (userName) {user_name like :userName%}
       and $if (userKbn) {user_kbn in ('1', '2')}
       and birthday = :birthday
 
@@ -752,7 +752,7 @@ SQL
     from
       user
     where
-      user_name = :user_name
+      user_name = :userName
     $sort(sortId) {
       (user_id_asc  user_id asc)
       (user_id_desc user_id desc)
@@ -1168,18 +1168,20 @@ Configure :java:extdoc:`BasicSqlLoader <nablarch.core.db.statement.BasicSqlLoade
 
 .. code-block:: xml
                 
-   <component name="statementFactory" class="nablarch.core.db.statement.BasicStatementFactory">
-     <component name="sqlLoader" class="nablarch.core.db.statement.BasicSqlLoader">
-       <property name="sqlLoaderCallback">
-         <list>
-           <!-- Replace #SCHEMA# in SQL statement with specified value -->
-           <component class="nablarch.core.db.statement.sqlloader.SchemaReplacer">
-             <property name="schemaName" value="${nablarch.schemaReplacer.schemaName}"/>
-           </component>
-         </list>
-       </property>
-     </component>
-   </component>
+  <component name="statementFactory" class="nablarch.core.db.statement.BasicStatementFactory">
+    <property name="sqlLoader">
+      <component name="sqlLoader" class="nablarch.core.db.statement.BasicSqlLoader">
+        <property name="sqlLoaderCallback">
+          <list>
+            <!-- Replace #SCHEMA# in SQL statement with specified value -->
+            <component class="nablarch.core.db.statement.sqlloader.SchemaReplacer">
+              <property name="schemaName" value="${nablarch.schemaReplacer.schemaName}"/>
+            </component>
+          </list>
+        </property>
+      </component>
+    </property>
+  </component>
 
 Configure the value to replace the placeholder in ``schemaName`` of :java:extdoc:`SchemaReplacer <nablarch.core.db.statement.sqlloader.SchemaReplacer>` . In the above example, the value after replacement is configured in the environment-dependent value ``nablarch.schemaReplacer.schemaName`` . By switching this value for each environment, the schema in the SQL statement can be replaced with the one corresponding to the environment (see :ref:`how_to_switch_env_values` for details of the switching method).
 

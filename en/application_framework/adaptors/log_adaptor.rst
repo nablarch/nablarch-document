@@ -32,6 +32,10 @@ slf4j
     <artifactId>nablarch-slf4j-adaptor</artifactId>
   </dependency>
   
+.. important::
+
+  With nablarch-slf4j-adaptor, FATAL log level is mapped to ERROR log level because FATAL log level is not supported by slf4j.
+
 .. tip::
   
   Tests are conducted using slf4j version 1.7.22. 

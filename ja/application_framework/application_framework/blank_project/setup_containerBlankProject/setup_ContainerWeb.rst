@@ -140,7 +140,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 
 また、初期設定ではベースイメージとして `Tomcat のイメージ <https://hub.docker.com/_/tomcat>`_ (外部サイト、英語)が使用される。
 
-ベースイメージは ``nablarch-archetype-parent`` の ``pom.xml`` で指定されているが、 ``jib.from.image`` プロパティで変更することもできる。
+ベースイメージは ``jib.from.image`` プロパティで変更することができる。
 例えば、ベースイメージに ``tomcat:9.0.31-jdk11-adoptopenjdk-hotspot`` を使用したい場合は、次のように ``pom.xml`` に記述する。
 
 .. code-block:: xml
@@ -149,16 +149,23 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
     <!--省略...-->
     <properties>
       <!--省略...-->
-      <!-- tomcat:9.0.31-jdk11-adoptopenjdk-hotspot -->
-      <jib.from.image>tomcat@sha256:e1f3ec646689c558bdd1a8b7045c5eed7c0ca9dbe664a82ba47d1591e3c5faf0</jib.from.image>
+      <jib.from.image>tomcat:9.0.36-jdk11-adoptopenjdk-hotspot</jib.from.image>
+      <!--省略...-->
     </properties>
     <!--省略...-->
   </project>
 
 .. tip::
 
-  Dockerイメージのタグは不変ではなく更新される可能性がある。
-  このため、ベースイメージの指定はダイジェストを用いる方法を推奨する。
+  ブランクプロジェクトではイメージをタグで指定しているが、この場合、指定したイメージの最新バージョンが選択される。
+  検証時と異なるバージョンが選択された場合、アプリケーションの動作に影響が出る可能性があるので、
+  プロジェクトにおける検証が完了した段階で、バージョンを固定するために、イメージをダイジェストで指定することを推奨する。
+
+  ダイジェストによる設定例を以下に示す。
+
+  .. code-block:: xml
+
+    <jib.from.image>tomcat@sha256:7d59567f61e79f5dc1226a3ee26b4a4c2befc5cae182f7e0823199cf5885409b</jib.from.image>
 
 .. _firstStepRunContainerWebDockerImage:
 

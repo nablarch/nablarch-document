@@ -22,6 +22,7 @@
 * Nablarchバッチプロジェクト
 * コンテナ用ウェブプロジェクト
 * コンテナ用RESTfulウェブサービスプロジェクト
+* コンテナ用Nablarchバッチプロジェクト
 
 
 
@@ -55,7 +56,7 @@
 ウェブ、RESTfulウェブサービス、JSR352に準拠したバッチ、Nablarchバッチ
   * JDK1.8以上
 
-コンテナ用ウェブ、コンテナ用RESTfulウェブサービス
+コンテナ用ウェブ、コンテナ用RESTfulウェブサービス、コンテナ用Nablarchバッチ
   * JDK11以上
   * Docker Desktop 2.2.0.0 以上
 

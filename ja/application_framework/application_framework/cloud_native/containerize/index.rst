@@ -35,10 +35,10 @@ The Twelve-Factor App
 
 .. _modify_nablarch_app_for_cloud_native:
 
-Nablarchアプリケーションに必要な修正
+Nablarchウェブアプリケーションに必要な修正
 --------------------------------------------------------------------------------------------------
 
-:ref:`標準のウェブアプリケーションのブランクプロジェクト <firstStepGenerateWebBlankProject>` を使ってNablarchアプリケーションを構築した場合、以下の点が `The Twelve-Factor App`_ (外部サイト)に反した状態になっている。
+:ref:`標準のウェブアプリケーションのブランクプロジェクト <firstStepGenerateWebBlankProject>` を使ってNablarchウェブアプリケーションを構築した場合、以下の点が `The Twelve-Factor App`_ (外部サイト)に反した状態になっている。
 
 ステートレス
   `VI. プロセス <https://12factor.net/ja/processes>`_ (外部サイト)では、アプリケーションはステートレスでなければならないとされている。
@@ -46,7 +46,7 @@ Nablarchアプリケーションに必要な修正
 
   標準のブランクプロジェクトでは、HTTPセッションを使った状態管理が有効となっているため、この方針に反している。
 
-  Nablarchアプリケーションをステートレスにするための設定については、 :ref:`stateless_web_app` を参照。
+  Nablarchウェブアプリケーションをステートレスにするための設定については、 :ref:`stateless_web_app` を参照。
 
 ログ出力
   `XI. ログ <https://12factor.net/ja/logs>`_ (外部サイト)では、アプリケーションのログはすべて標準出力に書き出し、ファイルには出力すべきでないとされている。
@@ -62,15 +62,30 @@ Nablarchアプリケーションに必要な修正
 
   環境変数を使って環境依存値を上書きする方法については、 :ref:`repository-overwrite_environment_configuration_by_os_env_var` を参照。
 
+.. _modify_nablarch_batch_for_cloud_native:
+
+Nablarchバッチアプリケーションに必要な修正
+--------------------------------------------------------------------------------------------------
+
+`The Twelve-Factor App`_ (外部サイト)はSaaSアプリケーションを開発するための方法論であるが、その要素の多くは、クラウド環境に適したバッチアプリケーションを開発するときにおいても適用できる。
+
+:ref:`標準のバッチアプリケーションのブランクプロジェクト <firstStepGenerateBatchBlankProject>` を使ってNablarchバッチアプリケーションを構築した場合に修正が必要な点は、以下の通りである。
+
+ログ出力
+  (Nablarchウェブアプリケーションのものと同じなので記述省略)
+
+環境変数を使った設定
+  (Nablarchウェブアプリケーションのものと同じなので記述省略)
+
 
 .. _nablarch_container_archetype:
 
 コンテナ用のアーキタイプ
 --------------------------------------------------------------------------------------------------
 
-Nablarchでは、Dockerコンテナ上で動かすことを前提としたウェブアプリケーションのアーキタイプを用意している。
+Nablarchでは、Dockerコンテナ上で動かすことを前提としたウェブアプリケーションとバッチアプリケーションのアーキタイプを用意している。
 
-このアーキタイプを使って生成されるブランクプロジェクトには、 :ref:`modify_nablarch_app_for_cloud_native` で説明した修正があらかじめ適用されている。
+このアーキタイプを使って生成されるブランクプロジェクトには、 :ref:`modify_nablarch_app_for_cloud_native` や :ref:`modify_nablarch_batch_for_cloud_native` で説明した修正があらかじめ適用されている。
 また、 `Jib`_ (外部サイト、英語)というDockerコンテナを簡単に生成するためのMavenプラグインが組み込まれているため、開発者はすぐにDockerコンテナ用のNablarchアプリケーションの開発を始めることができる。
 
 .. tip::

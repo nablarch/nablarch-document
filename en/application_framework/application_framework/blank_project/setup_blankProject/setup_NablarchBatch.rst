@@ -164,6 +164,8 @@ Execute the following command to build the batch application.
 
   mvn package
 
+.. _firstStepBatchExecOnDemandBatch:
+
 Launching the on-demand batch application
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -186,6 +188,8 @@ If the launch is successful, the log given below will be output to the console.
   Thread Result:[200 Success] The request has succeeded.
   2020-04-28 08:56:23.407 -INFO- nablarch.core.log.app.BasicCommitLogger [202004280856233470001] boot_proc = [] proc_sys = [batch] req_id = [SampleBatch] usr_id = [batch_user] TOTAL COMMIT COUNT = [1]
   2020-04-28 08:56:23.413 -INFO- nablarch.fw.launcher.Main [null] boot_proc = [] proc_sys = [batch] req_id = [null] usr_id = [null] @@@@ END @@@@ exit code = [0] execute time(ms) = [559]
+
+.. _firstStepBatchStartupTestDbMessagingBatch:
 
 Communication confirmation (messaging using tables as queues)
 --------------------------------------------------------------------
@@ -214,6 +218,7 @@ Build an application
 
 If it has not yet been built, see :ref:`firstStepBatchBuild` and build.
 
+.. _firstStepBatchExecDbMessagingBatch:
 
 Launch the application
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

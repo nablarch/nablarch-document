@@ -58,10 +58,7 @@ className     クラス名 (必須)
 制約
 ------------------------------
 
-ハンドラキューの最後に置くこと
-  本ハンドラは、後続のハンドラの呼び出しを行わない。
-  このため、本ハンドラはハンドラキューの最後に配置すること。
-
+なし。
 
 .. _request_path_java_package_mapping_path_setting:
 
@@ -158,4 +155,19 @@ className     クラス名 (必須)
       <!-- optionalPackageMappingEntriesにマッチするものが存在しない場合に使用されるJavaパッケージ -->
       <property name="basePackage" value="nablarch.sample.base" />
   </component>
+
+
+.. _request_path_java_package_mapping_optional_immediate:
+
+ディスパッチ対象クラスを遅延実行する
+------------------------------------------------------------------------------------------------------------------------
+
+デフォルトではディスパッチ対象クラスへの委譲は即時実行されるが、ハンドラキュー上の後続のハンドラ実行後にディスパッチ対象クラスへの委譲を行いたい場合は、以下の例を参照して ``immediate`` プロパティにfalseを設定すること。
+
+.. code-block:: xml
+
+    <component class="nablarch.fw.handler.RequestPathJavaPackageMapping">
+      <property name="basePackage" value="${nablarch.commonProperty.basePackage}" />
+      <property name="immediate" value="false" />
+    </component>
 
