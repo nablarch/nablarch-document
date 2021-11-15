@@ -206,9 +206,9 @@ pom.xml中の「使用するRDBMSにあわせて、下記JDBCドライバの dep
 
       <!-- 使用するRDBMSにあわせて、下記JDBCドライバの dependency を更新してください。 -->
       <dependency>
-        <groupId>com.oracle</groupId>
+        <groupId>com.oracle.database.jdbc</groupId>
         <artifactId>ojdbc6</artifactId>
-        <version>11.2.0.2.0</version>
+        <version>11.2.0.4</version>
         <scope>runtime</scope>
       </dependency>
     </dependencies>
