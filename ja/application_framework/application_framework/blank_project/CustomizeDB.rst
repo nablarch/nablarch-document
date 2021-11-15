@@ -327,9 +327,9 @@ Oracleの設定例
       <dependencies>
         <!-- 中略 -->
         <dependency>
-          <groupId>com.oracle</groupId>
+          <groupId>com.oracle.database.jdbc</groupId>
           <artifactId>ojdbc6</artifactId>
-          <version>11.2.0.4.0</version>
+          <version>11.2.0.4</version>
           <scope>runtime</scope>
         </dependency>
         <!-- 中略 -->
