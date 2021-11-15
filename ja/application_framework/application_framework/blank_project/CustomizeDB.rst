@@ -48,34 +48,11 @@ H2
 
 H2の場合、JDBCドライバはMavenのセントラルリポジトリに公開されているため登録は不要である。
 
+
 Oracle
 ------
 
-OracleのJDBCドライバはMavenのセントラルリポジトリに公開されていないため、ローカルのMavenリポジトリに登録する必要がある。
-
-JDBCドライバをWebから取得する場合は、以下のサイトから入手する。
-
-.. list-table::
-  :header-rows: 1
-  :class: white-space-normal
-  :widths: 6,10
-
-
-  * - 配布サイトの名前
-    - URL
-
-  * - JDBC, SQLJ, Oracle JPublisher and Universal Connection Pool (UCP)
-    - http://www.oracle.com/technetwork/jp/database/features/jdbc/index-099275-ja.html (外部サイト)
-
-以下に、入手したJDBCドライバをローカルのMavenリポジトリに登録するコマンドの例を示す。
-
-.. code-block:: bash
-
-    mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.4.0 -Dpackaging=jar -Dfile=ojdbc6.jar
-
-.. tip::
-
-  ローカルのMavenリポジトリへの登録には、`maven-install-plugin(外部サイト、英語) <https://maven.apache.org/plugins/maven-install-plugin/install-file-mojo.html>`_  を使用している。
+Oracleの場合、JDBCドライバはMavenのセントラルリポジトリに公開されているため登録は不要である。
 
 
 PostgreSQL
@@ -350,9 +327,9 @@ Oracleの設定例
       <dependencies>
         <!-- 中略 -->
         <dependency>
-          <groupId>com.oracle</groupId>
+          <groupId>com.oracle.database.jdbc</groupId>
           <artifactId>ojdbc6</artifactId>
-          <version>11.2.0.4.0</version>
+          <version>11.2.0.4</version>
           <scope>runtime</scope>
         </dependency>
         <!-- 中略 -->
