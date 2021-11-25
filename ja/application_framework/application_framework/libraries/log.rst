@@ -691,16 +691,6 @@ JSON形式の構造化ログとして出力する
   :java:extdoc:`Map <java.util.Map>` オブジェクトは複数指定することが出来るが、
   キーが重複した場合はいずれかの値は無視され、出力されない。
 
-.. _log-change_json_serialization:
-
-JSONへの出力方法を変更する
- JSON形式への変換は :java:extdoc:`JsonSerializer <nablarch.core.text.json.JsonSerializer>` の実装クラスにて行われる。
- これらを管理する :java:extdoc:`JsonSerializationManager <nablarch.core.text.json.JsonSerializationManager>` の実装クラスを切り替えることで、
- 独自のシリアライズルールによる出力が行えるようになる。
- 使用するシリアライズ管理クラスは、 ``jsonSerializationManagerClassName`` プロパティで指定する。
- :java:extdoc:`JsonLogFormatter <nablarch.core.text.json.JsonLogFormatter>` のデフォルトは各種ログ出力に対応した
- :java:extdoc:`AppLogJsonSerializationManager <nablarch.core.log.basic.AppLogJsonSerializationManager>` となる。
-
 各種ログを構造化ログで出力する
  下記、各種ログの出力機能についてもそれぞれフォーマッターを差し替えることで、JSON形式のログを出力できる。
 
