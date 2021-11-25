@@ -625,7 +625,7 @@ JSON形式の構造化ログとして出力する
    * - 出力可能なJavaのクラス
      - JSONによる出力
  
-   * - :java:extdoc:`String <java.lang.String>` 及びそのサブクラス
+   * - :java:extdoc:`String <java.lang.String>`
      - JSONの文字列として出力する。
 
    * - :java:extdoc:`Number <java.lang.Number>` 及びそのサブクラス |br|
@@ -642,7 +642,7 @@ JSON形式の構造化ログとして出力する
      - ``toString()`` メソッドの戻り値をJSONの数値として出力する。
        NaN及び無限大はJSONの文字列として出力する。
 
-   * - :java:extdoc:`Boolean <java.lang.Boolean>` 及びそのサブクラス
+   * - :java:extdoc:`Boolean <java.lang.Boolean>`
      - JSONの真理値（ ``true`` / ``false`` ）として出力する。
    
    * - :java:extdoc:`Date <java.util.Date>` |br|
