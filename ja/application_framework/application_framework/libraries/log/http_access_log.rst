@@ -400,8 +400,6 @@ JSON形式の構造化ログとして出力する
  httpAccessLogFormatter.jsonSerializationManagerClassName
   変換で使用する :java:extdoc:`JsonSerializationManager <nablarch.core.text.json.JsonSerializationManager>` の実装クラス名を指定する。
   デフォルトは :java:extdoc:`BasicJsonSerializationManager <nablarch.core.text.json.BasicJsonSerializationManager>` となる。
-  独自の変換ルールにする場合はに指定する。
-  詳細は :ref:`log-json_log_setting` を参照。
 
 記述例
  .. code-block:: properties
