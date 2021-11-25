@@ -435,7 +435,7 @@ JSON形式の構造化ログとして出力する
   デフォルトは ``"$JSON$"`` となる。
  
  sqlLogFormatter.jsonSerializationManagerClassName
-  JSON形式への変換する :java:extdoc:`JsonSerializer <nablarch.core.text.json.JsonSerializer>` を管理するクラス。
+  変換で使用する :java:extdoc:`JsonSerializationManager <nablarch.core.text.json.JsonSerializationManager>` の実装クラス名を指定する。
   デフォルトは :java:extdoc:`BasicJsonSerializationManager <nablarch.core.text.json.BasicJsonSerializationManager>` となる。
   独自の変換ルールにする場合はに指定する。
   詳細は :ref:`log-json_log_setting` を参照。
