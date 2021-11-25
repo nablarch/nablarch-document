@@ -339,8 +339,8 @@ JSON形式の構造化ログとして出力する
 
 .. [#placeholder_json]
 
-  * **$messageBody$:** 電文をISO-8859-1固定でエンコードした結果を出力する。
-  * **$messageBodyHex$:** $messageBody$の内容をヘキサダンプして出力する。
+  * **messageBody:** 電文をISO-8859-1固定でエンコードした結果を出力する。
+  * **messageBodyHex:** messageBodyの内容をヘキサダンプして出力する。
 
 記述例
  .. code-block:: properties
