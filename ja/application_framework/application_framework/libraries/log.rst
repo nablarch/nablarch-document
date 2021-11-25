@@ -727,12 +727,6 @@ JSONへの出力方法を変更する
   * - :ref:`メッセージングログ <messaging_log-json_setting>`
     - :java:extdoc:`MessagingJsonLogFormatter <nablarch.fw.messaging.logging.MessagingJsonLogFormatter>`
 
- .. tip::
-  各種ログからのJSON形式で出力をするために、message先頭に埋め込み用のマーカー文字列として ``"$JSON$"`` が使用される。
-  この文字列を変更するには、structuredMessagePrefixプロパティを変更する。
-  （変更は :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>`
-  および各種ログの両方に対して実施する。）
-
 拡張例
 ---------------------------------------------------------------------
 
