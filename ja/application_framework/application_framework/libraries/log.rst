@@ -548,6 +548,7 @@ JSON形式の構造化ログとして出力する
  :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` では、
  ``targets`` プロパティにカンマ区切りで出力項目を指定する。 
  使用できる出力項目については、下記の通り。
+ なお、デフォルトでは全ての項目が出力される。
  
  .. list-table:: targetsプロパティで指定できる出力項目
    :header-rows: 1
