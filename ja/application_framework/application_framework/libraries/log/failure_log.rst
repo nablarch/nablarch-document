@@ -658,7 +658,8 @@ JSON形式の構造化ログとして出力する
   詳細は :ref:`failure_log-change_fw_failure_code` を参照。
  
  failureLogFormatter.structuredMessagePrefix
-  各種ログからのJSON形式で出力をするためのマーカー文字列。
+  フォーマット後のメッセージ文字列が JSON 形式に整形されていることを識別できるようにするために、メッセージの先頭に付与するマーカー文字列。
+  メッセージの先頭にこのマーカーがある場合、 :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` はメッセージを JSON データとして処理する。
   デフォルトは ``"$JSON$"`` となる。
  
  failureLogFormatter.jsonSerializationManagerClassName
