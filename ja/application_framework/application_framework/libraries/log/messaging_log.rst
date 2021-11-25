@@ -278,6 +278,7 @@ JSON形式の構造化ログとして出力する
   MOM送信メッセージログの出力項目。カンマ区切りで指定する。
 
   指定可能な出力項目およびデフォルトの出力項目
+   :ラベル: label ``デフォルト``
    :スレッド名: threadName ``デフォルト``
    :メッセージID: messageId ``デフォルト``
    :送信宛先: destination ``デフォルト``
@@ -292,6 +293,7 @@ JSON形式の構造化ログとして出力する
   MOM受信メッセージログの出力項目。カンマ区切りで指定する。
 
   指定可能な出力項目およびデフォルトの出力項目
+   :ラベル: label ``デフォルト``
    :スレッド名: threadName ``デフォルト``
    :メッセージID: messageId ``デフォルト``
    :送信宛先: destination ``デフォルト``
@@ -306,6 +308,7 @@ JSON形式の構造化ログとして出力する
   HTTP送信メッセージログの出力項目。カンマ区切りで指定する。
 
   指定可能な出力項目およびデフォルトの出力項目
+   :ラベル: label ``デフォルト``
    :スレッド名: threadName ``デフォルト``
    :メッセージID: messageId ``デフォルト``
    :送信先: destination ``デフォルト``
@@ -319,6 +322,7 @@ JSON形式の構造化ログとして出力する
   HTTP受信メッセージログの出力項目。カンマ区切りで指定する。
 
   指定可能な出力項目およびデフォルトの出力項目
+   :ラベル: label ``デフォルト``
    :スレッド名: threadName ``デフォルト``
    :メッセージID: messageId ``デフォルト``
    :送信先: destination ``デフォルト``
@@ -327,6 +331,22 @@ JSON形式の構造化ログとして出力する
    :メッセージボディのヘキサダンプ: messageBodyHex [#placeholder_json]_
    :メッセージボディのバイト長: messageBodyLength
    :メッセージのヘッダ: messageHeader ``デフォルト``
+
+ messagingLogFormatter.sentMessageLabel
+  MOM送信メッセージログのlabelに出力する値。
+  デフォルトは ``"SENT MESSAGE"``。
+
+ messagingLogFormatter.receivedMessageLabel
+  MOM受信メッセージログのlabelに出力する値。
+  デフォルトは ``"RECEIVED MESSAGE"``。
+
+ messagingLogFormatter.httpSentMessageLabel
+  HTTP送信メッセージログのlabelに出力する値。
+  デフォルトは ``"HTTP SENT MESSAGE"``。
+
+ messagingLogFormatter.httpReceivedMessageLabel
+  HTTP受信メッセージログのlabelに出力する値。
+  デフォルトは ``"HTTP RECEIVED MESSAGE"``。
 
  messagingLogFormatter.structuredMessagePrefix
   フォーマット後のメッセージ文字列が JSON 形式に整形されていることを識別できるようにするために、メッセージの先頭に付与するマーカー文字列。

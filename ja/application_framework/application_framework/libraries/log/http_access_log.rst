@@ -305,6 +305,7 @@ JSON形式の構造化ログとして出力する
   リクエスト処理開始時のログ出力項目。カンマ区切りで指定する。
 
   指定可能な出力項目およびデフォルトの出力項目
+   :ラベル: label ``デフォルト``
    :リクエストID: requestId ``デフォルト``
    :ユーザID: userId ``デフォルト``
    :セッションID: sessionId ``デフォルト``
@@ -327,12 +328,13 @@ JSON形式の構造化ログとして出力する
   hiddenパラメータ復号後のログ出力項目。カンマ区切りで指定する。
   指定可能な出力項目は、
   :ref:`リクエスト処理開始時の出力項目 <http_access_log-prop_begin_targets>` と同じため省略。
-  デフォルトのフォーマットは ``parameters`` となる。
+  デフォルトの出力項目は ``label,parameters`` となる。
         
  httpAccessLogFormatter.dispatchingClassTargets
   ディスパッチ先クラス決定後のログ出力項目。カンマ区切りで指定する。
 
   指定可能な出力項目およびデフォルトの出力項目
+   :ラベル: label ``デフォルト``
    :セッションID: sessionId
    :ディスパッチ先クラス: dispatchingClass ``デフォルト``
 
@@ -340,6 +342,7 @@ JSON形式の構造化ログとして出力する
   リクエスト処理終了時のログ出力項目。カンマ区切りで指定する。
 
   指定可能な出力項目およびデフォルトの出力項目
+   :ラベル: label ``デフォルト``
    :リクエストID: requestId ``デフォルト``
    :ユーザID: userId ``デフォルト``
    :セッションID: sessionId ``デフォルト``
@@ -392,6 +395,22 @@ JSON形式の構造化ログとして出力する
   リクエスト処理終了時の出力が有効か否か。
   デフォルトはtrue。
   falseを指定するとリクエスト処理終了時の出力を行わない。
+
+ httpAccessLogFormatter.beginLabel
+  リクエスト処理開始時ログのlabelに出力する値。
+  デフォルトは ``"BEGIN"``。
+
+ httpAccessLogFormatter.parametersLabel
+  hiddenパラメータ復号後ログのlabelに出力する値。
+  デフォルトは ``"PARAMETERS"``。
+
+ httpAccessLogFormatter.dispatchingClassLabel
+  ディスパッチ先クラス決定後ログのlabelに出力する値。
+  デフォルトは ``"DISPATCHING CLASS"``。
+
+ httpAccessLogFormatter.endLabel
+  リクエスト処理終了時ログのlabelに出力する値。
+  デフォルトは ``"END"``。
 
  httpAccessLogFormatter.structuredMessagePrefix
   フォーマット後のメッセージ文字列が JSON 形式に整形されていることを識別できるようにするために、メッセージの先頭に付与するマーカー文字列。
