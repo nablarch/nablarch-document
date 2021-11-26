@@ -398,7 +398,7 @@ JSON形式の構造化ログとして出力する
 
  httpAccessLogFormatter.beginLabel
   リクエスト処理開始時ログのlabelに出力する値。
-  デフォルトは ``"BEGIN"``。
+  デフォルトは ``"HTTP ACCESS BEGIN"``。
 
  httpAccessLogFormatter.parametersLabel
   hiddenパラメータ復号後ログのlabelに出力する値。
@@ -410,7 +410,7 @@ JSON形式の構造化ログとして出力する
 
  httpAccessLogFormatter.endLabel
   リクエスト処理終了時ログのlabelに出力する値。
-  デフォルトは ``"END"``。
+  デフォルトは ``"HTTP ACCESS END"``。
 
  httpAccessLogFormatter.structuredMessagePrefix
   フォーマット後のメッセージ文字列が JSON 形式に整形されていることを識別できるようにするために、メッセージの先頭に付与するマーカー文字列。
@@ -426,3 +426,7 @@ JSON形式の構造化ログとして出力する
   httpAccessLogFormatter.parametersTargets=sessionId,parameters
   httpAccessLogFormatter.dispatchingClassTargets=sessionId,dispatchingClass
   httpAccessLogFormatter.endTargets=sessionId,url,statusCode,contentPath
+  httpAccessLogFormatter.beginLabel=HTTP ACCESS BEGIN
+  httpAccessLogFormatter.parametersLabel=PARAMETERS
+  httpAccessLogFormatter.dispatchingClassLabel=DISPATCHING CLASS
+  httpAccessLogFormatter.endLabel=HTTP ACCESS END

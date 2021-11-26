@@ -1008,10 +1008,10 @@ LauncherLogFormatterをJSON用に切り替える
   デフォルトは全ての出力項目が対象となる。
  
  launcherLogFormatter.startLogMsgLabel
-  開始ログのlabelで出力する値。デフォルトは ``"BEGIN"``。
+  開始ログのlabelで出力する値。デフォルトは ``"BATCH BEGIN"``。
  
  launcherLogFormatter.endLogMsgLabel
-  終了ログのlabelで出力する値。デフォルトは ``"END"``。
+  終了ログのlabelで出力する値。デフォルトは ``"BATCH END"``。
 
  launcherLogFormatter.structuredMessagePrefix
   フォーマット後のメッセージ文字列が JSON 形式に整形されていることを識別できるようにするために、メッセージの先頭に付与するマーカー文字列。
@@ -1025,8 +1025,8 @@ LauncherLogFormatterをJSON用に切り替える
   launcherLogFormatter.structuredMessagePrefix=$JSON$
   launcherLogFormatter.startTargets=label,commandLineOptions,commandLineArguments
   launcherLogFormatter.endTargets=label,exitCode,executionTime
-  launcherLogFormatter.startLogMsgLabel=BEGIN
-  launcherLogFormatter.endLogMsgLabel=END
+  launcherLogFormatter.startLogMsgLabel=BATCH BEGIN
+  launcherLogFormatter.endLogMsgLabel=BATCH END
 
 
 .. _log-json_set_jsoncommitlogger:
