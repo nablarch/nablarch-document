@@ -960,16 +960,11 @@ ApplicationSettingLogFormatterをJSON用に切り替える
   フォーマット後のメッセージ文字列が JSON 形式に整形されていることを識別できるようにするために、メッセージの先頭に付与するマーカー文字列。
   メッセージの先頭にこのマーカーがある場合、 :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` はメッセージを JSON データとして処理する。
   デフォルトは ``"$JSON$"`` となる。
- 
- applicationSettingLogFormatter.jsonSerializationManagerClassName
-  変換で使用する :java:extdoc:`JsonSerializationManager <nablarch.core.text.json.JsonSerializationManager>` の実装クラス名を指定する。
-  デフォルトは :java:extdoc:`BasicJsonSerializationManager <nablarch.core.text.json.BasicJsonSerializationManager>` となる。
 
 記述例
  .. code-block:: properties
 
   applicationSettingLogFormatter.className=nablarch.core.log.app.ApplicationSettingJsonLogFormatter
-  applicationSettingLogFormatter.jsonSerializationManagerClassName=nablarch.core.text.json.BasicJsonSerializationManager
   applicationSettingLogFormatter.structuredMessagePrefix=$JSON$
   applicationSettingLogFormatter.appSettingTargets=systemSettings
   applicationSettingLogFormatter.appSettingWithDateTargets=systemSettings,businessDate
@@ -1022,16 +1017,11 @@ LauncherLogFormatterをJSON用に切り替える
   フォーマット後のメッセージ文字列が JSON 形式に整形されていることを識別できるようにするために、メッセージの先頭に付与するマーカー文字列。
   メッセージの先頭にこのマーカーがある場合、 :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` はメッセージを JSON データとして処理する。
   デフォルトは ``"$JSON$"`` となる。
- 
- launcherLogFormatter.jsonSerializationManagerClassName
-  変換で使用する :java:extdoc:`JsonSerializationManager <nablarch.core.text.json.JsonSerializationManager>` の実装クラス名を指定する。
-  デフォルトは :java:extdoc:`BasicJsonSerializationManager <nablarch.core.text.json.BasicJsonSerializationManager>` となる。
 
 記述例
  .. code-block:: properties
 
   launcherLogFormatter.className=nablarch.fw.launcher.logging.LauncherJsonLogFormatter
-  launcherLogFormatter.jsonSerializationManagerClassName=nablarch.core.text.json.BasicJsonSerializationManager
   launcherLogFormatter.structuredMessagePrefix=$JSON$
   launcherLogFormatter.startTargets=label,commandLineOptions,commandLineArguments
   launcherLogFormatter.endTargets=label,exitCode,executionTime

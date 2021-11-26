@@ -352,10 +352,6 @@ JSON形式の構造化ログとして出力する
   フォーマット後のメッセージ文字列が JSON 形式に整形されていることを識別できるようにするために、メッセージの先頭に付与するマーカー文字列。
   メッセージの先頭にこのマーカーがある場合、 :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` はメッセージを JSON データとして処理する。
   デフォルトは ``"$JSON$"`` となる。
- 
- messagingLogFormatter.jsonSerializationManagerClassName
-  変換で使用する :java:extdoc:`JsonSerializationManager <nablarch.core.text.json.JsonSerializationManager>` の実装クラス名を指定する。
-  デフォルトは :java:extdoc:`BasicJsonSerializationManager <nablarch.core.text.json.BasicJsonSerializationManager>` となる。
 
 .. [#placeholder_json]
 
@@ -366,7 +362,6 @@ JSON形式の構造化ログとして出力する
  .. code-block:: properties
 
   messagingLogFormatter.className=nablarch.fw.messaging.logging.MessagingJsonLogFormatter
-  messagingLogFormatter.jsonSerializationManagerClassName=nablarch.core.text.json.BasicJsonSerializationManager
   messagingLogFormatter.structuredMessagePrefix=$JSON$
 
   # MOMメッセージング用フォーマット

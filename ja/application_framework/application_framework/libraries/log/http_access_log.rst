@@ -416,16 +416,11 @@ JSON形式の構造化ログとして出力する
   フォーマット後のメッセージ文字列が JSON 形式に整形されていることを識別できるようにするために、メッセージの先頭に付与するマーカー文字列。
   メッセージの先頭にこのマーカーがある場合、 :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` はメッセージを JSON データとして処理する。
   デフォルトは ``"$JSON$"`` となる。
- 
- httpAccessLogFormatter.jsonSerializationManagerClassName
-  変換で使用する :java:extdoc:`JsonSerializationManager <nablarch.core.text.json.JsonSerializationManager>` の実装クラス名を指定する。
-  デフォルトは :java:extdoc:`BasicJsonSerializationManager <nablarch.core.text.json.BasicJsonSerializationManager>` となる。
 
 記述例
  .. code-block:: properties
 
   httpAccessLogFormatter.className=nablarch.fw.web.handler.HttpAccessJsonLogFormatter
-  httpAccessLogFormatter.jsonSerializationManagerClassName=nablarch.core.text.json.BasicJsonSerializationManager
   httpAccessLogFormatter.structuredMessagePrefix=$JSON$
   httpAccessLogFormatter.beginTargets=sessionId,url,method
   httpAccessLogFormatter.parametersTargets=sessionId,parameters

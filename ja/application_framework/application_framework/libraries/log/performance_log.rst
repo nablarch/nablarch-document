@@ -215,16 +215,11 @@ JSON形式の構造化ログとして出力する
   フォーマット後のメッセージ文字列が JSON 形式に整形されていることを識別できるようにするために、メッセージの先頭に付与するマーカー文字列。
   メッセージの先頭にこのマーカーがある場合、 :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` はメッセージを JSON データとして処理する。
   デフォルトは ``"$JSON$"`` となる。
- 
- performanceLogFormatter.jsonSerializationManagerClassName
-  変換で使用する :java:extdoc:`JsonSerializationManager <nablarch.core.text.json.JsonSerializationManager>` の実装クラス名を指定する。
-  デフォルトは :java:extdoc:`BasicJsonSerializationManager <nablarch.core.text.json.BasicJsonSerializationManager>` となる。
 
 記述例
  .. code-block:: properties
 
   performanceLogFormatter.className=nablarch.core.log.app.PerformanceJsonLogFormatter
-  performanceLogFormatter.jsonSerializationManagerClassName=nablarch.core.text.json.BasicJsonSerializationManager
   performanceLogFormatter.structuredMessagePrefix=$JSON$
   performanceLogFormatter.targetPoints=UserSearchAction#doUSERS00101
   performanceLogFormatter.datePattern=yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
