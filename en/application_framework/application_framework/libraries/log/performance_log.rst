@@ -159,56 +159,52 @@ Example of the description
 
 .. _performance_log-json_setting:
 
-JSON形式の構造化ログとして出力する
+Output as a structured log in JSON format
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`log-json_log_setting` 設定を行うことでログをJSON形式で出力できるが、
-:java:extdoc:`PerformanceLogFormatter <nablarch.core.log.app.PerformanceLogFormatter>` では
-障害ログの各項目はmessageの値に文字列として出力される。
-障害ログの各項目もJSONの値として出力するには、
-:java:extdoc:`PerformanceJsonLogFormatter <nablarch.core.log.app.PerformanceJsonLogFormatter>` を使用する。
-設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
+Logs can be output in JSON format by using :ref:`log-json_log_setting` setting, but :java:extdoc:`PerformanceLogFormatter <nablarch.core.log.app.PerformanceLogFormatter>` outputs each item of the performance log as a string in the message value.
 
-記述ルール
- :java:extdoc:`PerformanceJsonLogFormatter <nablarch.core.log.app.PerformanceJsonLogFormatter>` を用いる際に
- 指定するプロパティは以下の通り。
+To output each item in the performance log as a JSON value as well, use the :java:extdoc:`PerformanceJsonLogFormatter <nablarch.core.log.app.PerformanceJsonLogFormatter>`.
+You can configure in the property file described in :ref:`log-app_log_setting`.
+
+Description rules
+ The properties to be specified when using :java:extdoc:`PerformanceJsonLogFormatter <nablarch.core.log.app.PerformanceJsonLogFormatter>` are as follows.
  
- performanceLogFormatter.className ``必須``
-  JSON形式でログを出力する場合、
-  :java:extdoc:`PerformanceJsonLogFormatter <nablarch.core.log.app.PerformanceJsonLogFormatter>` を指定する。
+ performanceLogFormatter.className ``required``
+  To output logs in JSON format, specify :java:extdoc:`PerformanceJsonLogFormatter <nablarch.core.log.app.PerformanceJsonLogFormatter>`.
 
  performanceLogFormatter.targets
-  パフォーマンスログの出力項目。カンマ区切りで指定する。
+  Output items of the performance log. Separated by comma.
 
-  指定可能な出力項目
-   :測定対象を識別するID: point
-   :処理結果を表す文字列: result
-   :処理の開始日時: startTime
-   :処理の終了日時: endTime
-   :処理の実行時間(終了日時 - 開始日時): executionTime
-   :処理の開始時点のヒープサイズ: maxMemory
-   :処理の開始時点の空きヒープサイズ: startFreeMemory
-   :処理の開始時点の使用ヒープサイズ: startUsedMemory
-   :処理の終了時点の空きヒープサイズ: endFreeMemory
-   :処理の終了時点の使用ヒープサイズ: endUsedMemory
+  Output items that can be specified
+   :Measurement target identification ID: point
+   :Character string that represents the process result: result
+   :Start date and time of process: startTime
+   :End date and time of process: endTime
+   :Execution time of the process (End date and time – Start date and time): executionTime
+   :Heap size at the start of the process: maxMemory
+   :Free heap size at the start of the process: startFreeMemory
+   :Used heap size used at the start of the process: startUsedMemory
+   :Free heap size at the end of the process: endFreeMemory
+   :Used heap size at the end of the process: endUsedMemory
 
-  デフォルトは全ての出力項目が対象となる。
+  All items are output in default.
 
  performanceLogFormatter.datePattern
-  開始日時と終了日時に使用する日時パターン。
-  パターンには、 :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>` が規程している構文を指定する。
-  デフォルトは”yyyy-MM-dd HH:mm:ss.SSS”。
+  Date and time pattern to use for date and time of the start and end.
+  For the pattern, specify the syntax specified by  :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>` . 
+  Default is "yyyy-MM-dd HH:mm:ss.SSS".
 
  performanceLogFormatter.targetPoints
-  出力対象とするポイント名。
-  複数指定する場合はカンマ区切り。
-  パフォーマンスログは、誤設定による無駄な出力を防ぐため、この設定に基づき出力する。
+  Point name to be output.
+  If more than one is specified, separate them with commas.
+  The performance log is output based on this configuration to prevent unwanted output because of incorrect configuration.
 
  performanceLogFormatter.structuredMessagePrefix
-  フォーマット後のメッセージ文字列が JSON 形式に整形されていることを識別できるようにするために、メッセージの先頭に付与するマーカー文字列。
-  メッセージの先頭にこのマーカーがある場合、 :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` はメッセージを JSON データとして処理する。
-  デフォルトは ``"$JSON$"`` となる。
+  A marker string given at the beginning of a message to identify that the message string after formatting has been formatted into JSON format.
+  If this marker is present at the beginning of the message, :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` processes the message as JSON data.
+  The default is ``"$JSON$"``.
 
-記述例
+Example of the description
  .. code-block:: properties
 
   performanceLogFormatter.className=nablarch.core.log.app.PerformanceJsonLogFormatter
