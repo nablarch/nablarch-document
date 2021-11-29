@@ -247,8 +247,8 @@ JSON形式の構造化ログとして出力する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :ref:`log-json_log_setting` 設定を行うことでログをJSON形式で出力できるが、
 :java:extdoc:`MessagingLogFormatter <nablarch.fw.messaging.logging.MessagingLogFormatter>` では
-障害ログの各項目はmessageの値に文字列として出力される。
-障害ログの各項目もJSONの値として出力するには、
+メッセージングログの各項目はmessageの値に文字列として出力される。
+メッセージングログの各項目もJSONの値として出力するには、
 :java:extdoc:`MessagingJsonLogFormatter <nablarch.fw.messaging.logging.MessagingJsonLogFormatter>` を使用する。
 設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
 
