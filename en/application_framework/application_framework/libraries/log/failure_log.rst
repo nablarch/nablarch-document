@@ -578,41 +578,37 @@ Configure such that a class that inherits :java:extdoc:`FailureLogFormatter <nab
 
 .. _failure_log-json_setting:
 
-JSON形式の構造化ログとして出力する
+Output as a structured log in JSON format
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`log-json_log_setting` 設定を行うことでログをJSON形式で出力できるが、
-:java:extdoc:`FailureLogFormatter <nablarch.core.log.app.FailureLogFormatter>` では
-障害ログの各項目はmessageの値に文字列として出力される。
-障害ログの各項目もJSONの値として出力するには、
-:java:extdoc:`FailureJsonLogFormatter <nablarch.core.log.app.FailureJsonLogFormatter>` を使用する。
-設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
+Logs can be output in JSON format by using :ref:`log-json_log_setting` setting, but :java:extdoc:`FailureLogFormatter <nablarch.core.log.app.FailureLogFormatter>` outputs each item of the failure log as a string in the message value.
 
-記述ルール
- :java:extdoc:`FailureJsonLogFormatter <nablarch.core.log.app.FailureJsonLogFormatter>` を用いる際に
- 指定するプロパティは以下の通り。
+To output each item in the failure log as a JSON value as well, use the :java:extdoc:`FailureJsonLogFormatter <nablarch.core.log.app.FailureJsonLogFormatter>`.
+You can configure in the property file described in :ref:`log-app_log_setting`.
+
+Description rules
+ The properties to be specified when using :java:extdoc:`FailureJsonLogFormatter <nablarch.core.log.app.FailureJsonLogFormatter>` are as follows.
  
- failureLogFormatter.className ``必須``
-  JSON形式でログを出力する場合、
-  :java:extdoc:`FailureJsonLogFormatter <nablarch.core.log.app.FailureJsonLogFormatter>` を指定する。
+ failureLogFormatter.className ``required``
+  To output logs in JSON format, specify :java:extdoc:`FailureJsonLogFormatter <nablarch.core.log.app.FailureJsonLogFormatter>`.
  
- failureLogFormatter.defaultFailureCode ``必須``
-  デフォルトの障害コード。
-  例外ハンドラで例外がエラーを捕捉した場合など、障害コードの指定がない場合に使用する。
+ failureLogFormatter.defaultFailureCode ``required``
+  Default fault code.
+  Use when there is no failure code specified, like in cases where an error is captured by the exception handler.
  
- failureLogFormatter.defaultMessage ``必須``
-  デフォルトのメッセージ。
-  デフォルトの障害コードを使用する場合に出力するメッセージとなる。
+ failureLogFormatter.defaultMessage ``required``
+  Default message.
+  This message is output when a default failure code is used.
  
  failureLogFormatter.language
-  障害コードからメッセージを取得する際に使用する言語。
-  指定がない場合は :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` に設定されている言語を使用する。
+  The language used to acquire the message from the failure code.
+  If it is not specified, the language configured in :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` will be used.
  
  .. _failure_log-prop_notification_targets:
  
  failureLogFormatter.notificationTargets
-  障害通知ログの出力項目。カンマ区切りで指定する。
+  Output items of failure notification log. Separated by comma.
  
-  指定可能な出力項目およびデフォルトの出力項目
+  Output items that can be specified and default output items
    \
  
    .. list-table::
@@ -620,53 +616,52 @@ JSON形式の構造化ログとして出力する
       :class: white-space-normal
       :widths: 25,20,60,30
  
-      * - 項目名
-        - 出力項目
-        - 説明
-        - デフォルト出力
+      * - Item name
+        - Output item
+        - Description
+        - Default output
  
-      * - 障害コード
+      * - Failure code
         - failureCode
-        - 障害を一意に識別するコード。障害内容の特定に使用する。
-        - ○
+        - A code that uniquely identifies the failure. Used to identify the nature of the failure.
+        - YES
  
-      * - メッセージ
+      * - Message
         - message
-        - 障害コードに対応するメッセージ。障害内容の特定に使用する。
-        - ○
+        - The message corresponding to the failure code. Used to identify the nature of the failure.
+        - YES
  
-      * - 処理対象データ
+      * - Data to be processed
         - data
-        - 障害が発生した処理が対象としていたデータを特定するために使用する。
-          データリーダを使用して読み込まれたデータオブジェクトのtoStringメソッドを呼び出し出力される。
+        - Used to identify the data targeted by the process in which the failure occurred.
+          Outputs by calling the toString method of the data object read using the data reader.
         - 
  
-      * - 連絡先
+      * - Contact
         - contact
-        - 連絡先を特定するために使用する。
+        - Used to identify the contacts.
         - 
  
  failureLogFormatter.analysisTargets
-  障害解析ログの出力項目。カンマ区切りで指定する。
-  指定可能な出力項目とデフォルト設定は、
-  :ref:`障害通知ログの出力項目 <failure_log-prop_notification_targets>` と同じ。
+  Output item of failure analysis log. Separated by comma.
+  Items that can be specified for the targets and default items are same as :ref:`targets for failure notification log <failure_log-prop_notification_targets>`.
  
  failureLogFormatter.contactFilePath
-  障害の連絡先情報を指定したプロパティファイルのパス。
-  障害の連絡先情報を出力する場合に指定する。
-  詳細は :ref:`failure_log-add_contact` を参照。
+  Path to the property file that specifies the contact information of the failure.
+  Specify to output the contact information of the failure.
+  For details, see :ref:`failure_log-add_contact`.
  
  failureLogFormatter.fwFailureCodeFilePath
-  フレームワークの障害コードの変更情報を指定したプロパティファイルのパス。
-  障害ログ出力時にフレームワークの障害コードを変更する場合に指定する。
-  詳細は :ref:`failure_log-change_fw_failure_code` を参照。
+  Path to the property file that specifies the information change of the failure code in the framework.
+  Specify when changing the failure code of the framework at the time of failure log output.
+  For details, see :ref:`failure_log-change_fw_failure_code`.
  
  failureLogFormatter.structuredMessagePrefix
-  フォーマット後のメッセージ文字列が JSON 形式に整形されていることを識別できるようにするために、メッセージの先頭に付与するマーカー文字列。
-  メッセージの先頭にこのマーカーがある場合、 :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` はメッセージを JSON データとして処理する。
-  デフォルトは ``"$JSON$"`` となる。
+  A marker string given at the beginning of a message to identify that the message string after formatting has been formatted into JSON format.
+  If this marker is present at the beginning of the message, :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` processes the message as JSON data.
+  The default is ``"$JSON$"``.
  
-記述例
+Example of the description
  .. code-block:: properties
  
   failureLogFormatter.className=nablarch.core.log.app.FailureJsonLogFormatter
