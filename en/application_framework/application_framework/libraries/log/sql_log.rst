@@ -300,142 +300,138 @@ Example of the description
 
 .. _sql_log-json_setting:
 
-JSON形式の構造化ログとして出力する
+Output as a structured log in JSON format
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`log-json_log_setting` 設定を行うことでログをJSON形式で出力できるが、
-:java:extdoc:`SqlLogFormatter <nablarch.core.db.statement.SqlLogFormatter>` では
-障害ログの各項目はmessageの値に文字列として出力される。
-障害ログの各項目もJSONの値として出力するには、
-:java:extdoc:`SqlJsonLogFormatter <nablarch.core.db.statement.SqlJsonLogFormatter>` を使用する。
-設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
+Logs can be output in JSON format by using :ref:`log-json_log_setting` setting, but :java:extdoc:`SqlLogFormatter <nablarch.core.db.statement.SqlLogFormatter>` outputs each item of the sql log as a string in the message value.
 
-記述ルール
- :java:extdoc:`SqlJsonLogFormatter <nablarch.core.db.statement.SqlJsonLogFormatter>` を用いる際に
- 指定するプロパティは以下の通り。
+To output each item in the sql log as a JSON value as well, use the :java:extdoc:`SqlJsonLogFormatter <nablarch.core.db.statement.SqlJsonLogFormatter>`.
+You can configure in the property file described in :ref:`log-app_log_setting`.
+
+Description rules
+ The properties to be specified when using :java:extdoc:`SqlJsonLogFormatter <nablarch.core.db.statement.SqlJsonLogFormatter>` are as follows.
  
- sqlLogFormatter.className ``必須``
-  JSON形式でログを出力する場合、
-  :java:extdoc:`SqlJsonLogFormatter <nablarch.core.db.statement.SqlJsonLogFormatter>` を指定する。
+ sqlLogFormatter.className ``required``
+  To output logs in JSON format, specify :java:extdoc:`SqlJsonLogFormatter <nablarch.core.db.statement.SqlJsonLogFormatter>`.
 
  sqlLogFormatter.startRetrieveTargets
-  :java:extdoc:`SqlPStatement#retrieve <nablarch.core.db.statement.SqlPStatement.retrieve()>`
-  の開始時のログ出力項目。カンマ区切りで指定する。
+  Items used at the start of :java:extdoc:`SqlPStatement#retrieve <nablarch.core.db.statement.SqlPStatement.retrieve()>`.
+  Separated by comma.
 
-  指定可能な出力項目
-   :メソッド名: methodName
-   :SQL文: sql
-   :取得開始位置: startPosition
-   :取得最大件数: size
-   :タイムアウト時間: queryTimeout
-   :フェッチする行数: fetchSize
-   :付加情報: additionalInfo
+  Output items that can be specified
+   :Method name: methodName
+   :SQL statement: sql
+   :Acquire start position: startPosition
+   :Acquisition maximum count: size
+   :Timeout time: queryTimeout
+   :Number of rows to fetch: fetchSize
+   :Additional information: additionalInfo
  
-  デフォルトは全ての出力項目が対象となる。
+  All items are output in default.
 
  sqlLogFormatter.endRetrieveTargets
-  :java:extdoc:`SqlPStatement#retrieve <nablarch.core.db.statement.SqlPStatement.retrieve()>`
-  の終了時のログ出力項目。カンマ区切りで指定する。
+  Items used at the end of :java:extdoc:`SqlPStatement#retrieve <nablarch.core.db.statement.SqlPStatement.retrieve()>`.
+  Separated by comma.
 
-  指定可能な出力項目
-   :メソッド名: methodName
-   :実行時間: executeTime
-   :データ取得時間: retrieveTime
-   :検索件数: count
+  Output items that can be specified
+   :Method name: methodName
+   :Execution time: executeTime
+   :Data acquisition time: retrieveTime
+   :Search count: count
 
-  デフォルトは全ての出力項目が対象となる。
+  All items are output in default.
 
  sqlLogFormatter.startExecuteTargets
-  :java:extdoc:`SqlPStatement#execute <nablarch.core.db.statement.SqlPStatement.execute()>`
-  の開始時のログ出力項目。カンマ区切りで指定する。
+  Items used at the start of  :java:extdoc:`SqlPStatement#execute <nablarch.core.db.statement.SqlPStatement.execute()>`
+  Separated by comma.
 
-  指定可能な出力項目
-   :メソッド名: methodName
-   :SQL文: sql
-   :付加情報: additionalInfo
+  Output items that can be specified
+   :Method name: methodName
+   :SQL statement: sql
+   :Additional information: additionalInfo
 
-  デフォルトは全ての出力項目が対象となる。
+  All items are output in default.
 
  sqlLogFormatter.endExecuteTargets
-  :java:extdoc:`SqlPStatement#execute <nablarch.core.db.statement.SqlPStatement.execute()>`
-  の終了時のログ出力項目。カンマ区切りで指定する。
+  Items used at the end of :java:extdoc:`SqlPStatement#execute <nablarch.core.db.statement.SqlPStatement.execute()>`
+  Separated by comma.
 
-  指定可能な出力項目
-   :メソッド名: methodName
-   :実行時間: executeTime
+  Output items that can be specified
+   :Method name: methodName
+   :Execution time: executeTime
 
-  デフォルトは全ての出力項目が対象となる。
+  All items are output in default.
 
  sqlLogFormatter.startExecuteQueryTargets
-  :java:extdoc:`SqlPStatement#executeQuery <nablarch.core.db.statement.SqlPStatement.executeQuery()>`
-  の開始時のログ出力項目。カンマ区切りで指定する。
+  Items used at the start of :java:extdoc:`SqlPStatement#executeQuery <nablarch.core.db.statement.SqlPStatement.executeQuery()>`
+  Separated by comma.
 
-  指定可能な出力項目
-   :メソッド名: methodName
-   :SQL文: sql
-   :付加情報: additionalInfo
+  Output items that can be specified
+   :Method name: methodName
+   :SQL statement: sql
+   :Additional information: additionalInfo
 
-  デフォルトは全ての出力項目が対象となる。
+  All items are output in default.
 
  sqlLogFormatter.endExecuteQueryTargets
-  :java:extdoc:`SqlPStatement#executeQuery <nablarch.core.db.statement.SqlPStatement.executeQuery()>`
-  の終了時のログ出力項目。カンマ区切りで指定する。
+  Items used at the end of :java:extdoc:`SqlPStatement#executeQuery <nablarch.core.db.statement.SqlPStatement.executeQuery()>`
+  Separated by comma.
 
-  指定可能な出力項目
-   :メソッド名: methodName
-   :実行時間: executeTime
+  Output items that can be specified
+   :Method name: methodName
+   :Execution time: executeTime
 
-  デフォルトは全ての出力項目が対象となる。
+  All items are output in default.
 
  sqlLogFormatter.startExecuteUpdateTargets
-  :java:extdoc:`SqlPStatement#executeUpdate <nablarch.core.db.statement.SqlPStatement.executeUpdate()>`
-  の開始時のログ出力項目。カンマ区切りで指定する。
+  Items used at the start of :java:extdoc:`SqlPStatement#executeUpdate <nablarch.core.db.statement.SqlPStatement.executeUpdate()>`
+  Separated by comma.
 
-  指定可能な出力項目
-   :メソッド名: methodName
-   :SQL文: sql
-   :付加情報: additionalInfo
+  Output items that can be specified
+   :Method name: methodName
+   :SQL statement: sql
+   :Additional information: additionalInfo
 
-  デフォルトは全ての出力項目が対象となる。
+  All items are output in default.
 
  sqlLogFormatter.endExecuteUpdateTargets
-  :java:extdoc:`SqlPStatement#executeUpdate <nablarch.core.db.statement.SqlPStatement.executeUpdate()>`
-  の終了時のログ出力項目。カンマ区切りで指定する。
+  Items used at the end of :java:extdoc:`SqlPStatement#executeUpdate <nablarch.core.db.statement.SqlPStatement.executeUpdate()>`
+  Separated by comma.
 
-  指定可能な出力項目
-   :メソッド名: methodName
-   :実行時間: executeTime
-   :更新件数: updateCount
+  Output items that can be specified
+   :Method name: methodName
+   :Execution time: executeTime
+   :Update count: updateCount
 
-  デフォルトは全ての出力項目が対象となる。
+  All items are output in default.
 
  sqlLogFormatter.startExecuteBatchTargets
-  :java:extdoc:`SqlStatement#executeBatch <nablarch.core.db.statement.SqlStatement.executeBatch()>`
-  の開始時のログ出力項目。カンマ区切りで指定する。
+  Items used at the start of :java:extdoc:`SqlStatement#executeBatch <nablarch.core.db.statement.SqlStatement.executeBatch()>`
+  Separated by comma.
 
-  指定可能な出力項目
-   :メソッド名: methodName
-   :SQL文: sql
-   :付加情報: additionalInfo
+  Output items that can be specified
+   :Method name: methodName
+   :SQL statement: sql
+   :Additional information: additionalInfo
 
-  デフォルトは全ての出力項目が対象となる。
+  All items are output in default.
 
  sqlLogFormatter.endExecuteBatchTargets
-  :java:extdoc:`SqlStatement#executeBatch <nablarch.core.db.statement.SqlStatement.executeBatch()>`
-  の終了時のログ出力項目。カンマ区切りで指定する。
+  Items used at the end of :java:extdoc:`SqlStatement#executeBatch <nablarch.core.db.statement.SqlStatement.executeBatch()>`
+  Separated by comma.
 
-  指定可能な出力項目
-   :メソッド名: methodName
-   :実行時間: executeTime
-   :バッチ件数: batchCount
+  Output items that can be specified
+   :Method name: methodName
+   :Execution time: executeTime
+   :Batch count: batchCount
 
-  デフォルトは全ての出力項目が対象となる。
+  All items are output in default.
 
  sqlLogFormatter.structuredMessagePrefix
-  フォーマット後のメッセージ文字列が JSON 形式に整形されていることを識別できるようにするために、メッセージの先頭に付与するマーカー文字列。
-  メッセージの先頭にこのマーカーがある場合、 :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` はメッセージを JSON データとして処理する。
-  デフォルトは ``"$JSON$"`` となる。
+  A marker string given at the beginning of a message to identify that the message string after formatting has been formatted into JSON format.
+  If this marker is present at the beginning of the message, :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` processes the message as JSON data.
+  The default is ``"$JSON$"``.
 
-記述例
+Example of the description
  .. code-block:: properties
 
   sqlLogFormatter.className=nablarch.core.db.statement.SqlJsonLogFormatter
