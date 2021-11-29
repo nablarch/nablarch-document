@@ -112,6 +112,8 @@ Description rules
   Class that implements :java:extdoc:`HttpAccessLogFormatter <nablarch.fw.web.handler.HttpAccessLogFormatter>`.
   Specify to replace.
 
+ .. _http_access_log-prop_begin_format:
+
  httpAccessLogFormatter.beginFormat
   Format used for the log output at the start of the request process.
 
@@ -175,6 +177,8 @@ Description rules
    .. code-block:: bash
 
     @@@@ DISPATCHING CLASS @@@@ class = [$dispatchingClass$]
+
+ .. _http_access_log-prop_end_format:
 
  httpAccessLogFormatter.endFormat
   Format used for the log output at the end of the request process.
@@ -278,142 +282,134 @@ Example of the description
 
 .. _http_access_log-json_setting:
 
-JSON形式の構造化ログとして出力する
+Output as a structured log in JSON format
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`log-json_log_setting` 設定を行うことでログをJSON形式で出力できるが、
-:java:extdoc:`HttpAccessLogFormatter <nablarch.fw.web.handler.HttpAccessLogFormatter>` では
-障害ログの各項目はmessageの値に文字列として出力される。
-障害ログの各項目もJSONの値として出力するには、
-:java:extdoc:`HttpAccessJsonLogFormatter <nablarch.fw.web.handler.HttpAccessJsonLogFormatter>` を使用する。
-設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
 
-記述ルール
- :java:extdoc:`HttpAccessJsonLogFormatter <nablarch.fw.web.handler.HttpAccessJsonLogFormatter>` を用いる際に
- 指定するプロパティは以下の通り。
+Logs can be output in JSON format by using :ref:`log-json_log_setting` setting, but :java:extdoc:`HttpAccessLogFormatter <nablarch.fw.web.handler.HttpAccessLogFormatter>` outputs each item of the http access log as a string in the message value.
+
+To output each item in the http access log as a JSON value as well, use the :java:extdoc:`HttpAccessJsonLogFormatter <nablarch.fw.web.handler.HttpAccessJsonLogFormatter>`.
+
+You can configure in the property file described in :ref:`log-app_log_setting`.
+
+Description rules
+ The properties to be specified when using :java:extdoc:`HttpAccessJsonLogFormatter <nablarch.fw.web.handler.HttpAccessJsonLogFormatter>` are as follows.
  
- httpAccessLogFormatter.className ``必須``
-  JSON形式でログを出力する場合、
-  :java:extdoc:`HttpAccessJsonLogFormatter <nablarch.fw.web.handler.HttpAccessJsonLogFormatter>` を指定する。
+ httpAccessLogFormatter.className ``required``
+  To output logs in JSON format, specify :java:extdoc:`HttpAccessJsonLogFormatter <nablarch.fw.web.handler.HttpAccessJsonLogFormatter>`.
 
  .. _http_access_log-prop_begin_targets:
 
  httpAccessLogFormatter.beginTargets
-  リクエスト処理開始時のログ出力項目。カンマ区切りで指定する。
+  Items for the log output at the start of the request process. Separated by comma.
 
-  指定可能な出力項目およびデフォルトの出力項目
-   :ラベル: label ``デフォルト``
-   :リクエストID: requestId ``デフォルト``
-   :ユーザID: userId ``デフォルト``
-   :セッションID: sessionId ``デフォルト``
-   :URL: url ``デフォルト``
-   :ポート番号: port ``デフォルト``
-   :HTTPメソッド: method ``デフォルト``
-   :クエリ文字列: query
-   :リクエストパラメータ: parameters
-   :セッションスコープ情報: sessionScope
-   :クライアント端末IPアドレス: clientIpAddress ``デフォルト``
-   :クライアント端末ホスト: clientHost ``デフォルト``
-   :HTTPヘッダのUser-Agent: clientUserAgent
-   :リクエストパラメータ: parameters
+  Output items that can be specified and default output items
+   :Label: label ``default``
+   :Request ID: requestId ``default``
+   :Usre ID: userId ``default``
+   :Session ID: sessionId ``default``
+   :URL: url ``default``
+   :Port number: port ``default``
+   :HTTP method: method ``default``
+   :Query string: query
+   :Request parameters: parameters
+   :Session scope information: sessionScope
+   :Client terminal IP address: clientIpAddress ``default``
+   :Client terminal host: clientHost ``default``
+   :User-Agent of HTTP header: clientUserAgent
 
-  出力項目の詳細は、
-  :ref:`リクエスト処理開始時のログ出力に使用するフォーマット <http_access_log-prop_begin_format>` 
-  のプレースホルダーと同じため省略。
+  The details of the output items are omitted because they are the same as the placeholders for :ref:`the format used to output the log at the start of the request process <http_access_log-prop_begin_format>`.
 
  httpAccessLogFormatter.parametersTargets
-  hiddenパラメータ復号後のログ出力項目。カンマ区切りで指定する。
-  指定可能な出力項目は、
-  :ref:`リクエスト処理開始時の出力項目 <http_access_log-prop_begin_targets>` と同じため省略。
-  デフォルトの出力項目は ``label,parameters`` となる。
-        
+  Items used for the log output after decryption of hidden parameters. Separated by comma.
+  Omitted as it is the same as :ref:`format used for the log output at the start of the request process <http_access_log-prop_begin_targets>`.
+  The default output item is ``label,parameters``.
+ 
  httpAccessLogFormatter.dispatchingClassTargets
-  ディスパッチ先クラス決定後のログ出力項目。カンマ区切りで指定する。
+  Items used for the output log after the dispatch class has been determined. Separated by comma.
 
-  指定可能な出力項目およびデフォルトの出力項目
-   :ラベル: label ``デフォルト``
-   :セッションID: sessionId
-   :ディスパッチ先クラス: dispatchingClass ``デフォルト``
+  Output items that can be specified and default output items
+   :Label: label ``default``
+   :Session ID: sessionId
+   :Dispatch destination class: dispatchingClass ``default``
 
  httpAccessLogFormatter.endTargets
-  リクエスト処理終了時のログ出力項目。カンマ区切りで指定する。
+  Items used for the log output at the end of the request process. Separated by comma.
 
-  指定可能な出力項目およびデフォルトの出力項目
-   :ラベル: label ``デフォルト``
-   :リクエストID: requestId ``デフォルト``
-   :ユーザID: userId ``デフォルト``
-   :セッションID: sessionId ``デフォルト``
-   :URL: url ``デフォルト``
-   :ディスパッチ先クラス: dispatchingClass
-   :ステータスコード(内部): statusCode
-   :ステータスコード(クライアント): responseStatusCode
-   :コンテンツパス: contentPath ``デフォルト``
-   :開始日時: startTime ``デフォルト``
-   :終了日時: endTime ``デフォルト``
-   :実行時間: executionTime ``デフォルト``
-   :最大メモリ量: maxMemory ``デフォルト``
-   :空きメモリ量(開始時): freeMemory ``デフォルト``
+  Output items that can be specified and default output items
+   :Label: label ``default``
+   :Request ID: requestId ``default``
+   :User ID: userId ``default``
+   :Session ID: sessionId ``default``
+   :URL: url ``default``
+   :Dispatch destination class: dispatchingClass
+   :Status code (internal): statusCode
+   :Status code (client): responseStatusCode
+   :Content path: contentPath ``default``
+   :Start date and time: startTime ``default``
+   :End date and time: endTime ``default``
+   :Executuion time: executionTime ``default``
+   :Maximum memory: maxMemory ``default``
+   :Free memory(at start): freeMemory ``default``
 
-  出力項目の詳細は、
-  :ref:`リクエスト処理終了時のログ出力に使用するフォーマット <http_access_log-prop_end_format>` 
-  のプレースホルダーと同じため省略。
+  Omitted as it is the same as :ref:`format used for the log output at the end of the request process <http_access_log-prop_end_format>`.
 
  httpAccessLogFormatter.datePattern
-  開始日時と終了日時に使用する日時パターン。
-  パターンには、 :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>` が規程している構文を指定する。
-  デフォルトは ``yyyy-MM-dd HH:mm:ss.SSS`` 。
+  Date and time pattern to use for date and time of the start and end.
+  For the pattern, specify the syntax specified by :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>`.
+  Default is ``yyyy-MM-dd HH:mm:ss.SSS``.
 
  httpAccessLogFormatter.maskingPatterns
-  マスク対象のパラメータ名又は変数名を正規表現で指定する（部分一致）。
-  複数指定する場合はカンマ区切り。
-  リクエストパラメータとセッションスコープ情報の両方のマスキングに使用する。
-  指定した正規表現は大文字小文字を区別しない。
-  例えば、\ ``password``\ と指定した場合、 ``password`` ``newPassword`` ``password2`` 等にマッチする。
+  Specify the parameter name and variable name to be masked with a regular expression (partial match).
+  If more than one is specified, separate them with commas.
+  Used for masking both the request parameters and session scope information.
+  The specified regular expression is not case-sensitive.
+  For example, if specified as \ ``password``\, matches with ``password``, ``newPassword`` and ``password2``, etc.
 
  httpAccessLogFormatter.maskingChar
-  マスクに使用する文字。デフォルトは ``*`` 。
+  Character used for masking. Default is ``*``.
 
  httpAccessLogFormatter.beginOutputEnabled
-  リクエスト処理開始時の出力が有効か否か。
-  デフォルトはtrue。
-  falseを指定するとリクエスト処理開始時の出力を行わない。
+  Whether output at the start of the request process is enabled.
+  Default is true.
+  If specified as false, it is not output at the start of the request process.
 
  httpAccessLogFormatter.parametersOutputEnabled
-  hiddenパラメータ復号後の出力が有効か否か。
-  デフォルトはtrue。
-  falseを指定するとhiddenパラメータ復号後の出力を行わない。
+  Whether output after hidden parameter decryption is enabled.
+  Default is true.
+  If specified as false, it is not output after decryption of the hidden parameter.
 
  httpAccessLogFormatter.dispatchingClassOutputEnabled
-  ディスパッチ先クラス決定後の出力が有効か否か。
-  デフォルトはtrue。
-  falseを指定するとディスパッチ先クラス決定後の出力を行わない。
+  Whether output after determining the dispatch class is enabled.
+  Default is true.
+  If specified as false, it is not output after determining the dispatch class.
 
  httpAccessLogFormatter.endOutputEnabled
-  リクエスト処理終了時の出力が有効か否か。
-  デフォルトはtrue。
-  falseを指定するとリクエスト処理終了時の出力を行わない。
+  Whether output at the end of the request process is enabled.
+  Default is true.
+  If specified as false, it is not output at the end of the request process.
 
  httpAccessLogFormatter.beginLabel
-  リクエスト処理開始時ログのlabelに出力する値。
-  デフォルトは ``"HTTP ACCESS BEGIN"``。
+  Value to be output to the label in the log at the start of the request process.
+  Default is ``"HTTP ACCESS BEGIN"``。
 
  httpAccessLogFormatter.parametersLabel
-  hiddenパラメータ復号後ログのlabelに出力する値。
-  デフォルトは ``"PARAMETERS"``。
+  Value to be output to the label in the log after hidden parameter decryption.
+  Default is ``"PARAMETERS"``。
 
  httpAccessLogFormatter.dispatchingClassLabel
-  ディスパッチ先クラス決定後ログのlabelに出力する値。
-  デフォルトは ``"DISPATCHING CLASS"``。
+  Value to be output to the label in the log after determining the dispatch class.
+  Default is ``"DISPATCHING CLASS"``。
 
  httpAccessLogFormatter.endLabel
-  リクエスト処理終了時ログのlabelに出力する値。
-  デフォルトは ``"HTTP ACCESS END"``。
+  Value to be output to the label in the log at the end of the request process.
+  Default is ``"HTTP ACCESS END"``。
 
  httpAccessLogFormatter.structuredMessagePrefix
-  フォーマット後のメッセージ文字列が JSON 形式に整形されていることを識別できるようにするために、メッセージの先頭に付与するマーカー文字列。
-  メッセージの先頭にこのマーカーがある場合、 :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` はメッセージを JSON データとして処理する。
-  デフォルトは ``"$JSON$"`` となる。
+  A marker string given at the beginning of a message to identify that the message string after formatting has been formatted into JSON format.
+  If this marker is present at the beginning of the message, :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` processes the message as JSON data.
+  The default is ``"$JSON$"``.
 
-記述例
+Example of the description
  .. code-block:: properties
 
   httpAccessLogFormatter.className=nablarch.fw.web.handler.HttpAccessJsonLogFormatter
