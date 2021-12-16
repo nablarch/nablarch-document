@@ -74,7 +74,7 @@ By making effective use of this, it is possible to commit the code will in accor
 Check if unauthorized APIs are being used
 -------------------------------------------------
 
-We prepared two tools for this check: the IntelliJ IDEA plugin and the SpotBugs plugin which does not depend on IntelliJ IDEA.
+We provide two tools for this check: the IntelliJ IDEA plugin and the SpotBugs plugin which does not depend on IntelliJ IDEA.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 use nablarch-intellij-plugin
