@@ -77,7 +77,7 @@ Check if unauthorized APIs are being used
 We provide two tools for this check: the IntelliJ IDEA plugin and the SpotBugs plugin which does not depend on IntelliJ IDEA.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-use nablarch-intellij-plugin
+Use nablarch-intellij-plugin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 `nablarch-intellij-plugin <https://github.com/nablarch/nablarch-intellij-plugin/tree/master/en>`_  is a plugin to use IntelliJ IDEA for supporting Nablarch development and has the following functions.
 
@@ -85,7 +85,7 @@ use nablarch-intellij-plugin
 * Throws warning if Java API registered in the black list is used.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-use Unauthorized API Check Tool
+Use Unauthorized API Check Tool
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Unauthorized API Check Tool is provided as a SpotBugs plugin. 
 See `Nablarch style guide <https://github.com/nablarch-development-standards/nablarch-style-guide/blob/master/en/java/staticanalysis/unpublished-api/README.md>`_ for detailed specifications and instructions.
