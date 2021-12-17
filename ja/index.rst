@@ -22,6 +22,7 @@ Nablarch
   examples/index
   nablarch_api/index
   releases/index
+  about_nablarch/versionup_policy
   inquiry/index
 
 -----------------------------------------------
