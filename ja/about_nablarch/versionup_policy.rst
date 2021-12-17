@@ -79,9 +79,11 @@ Nablarchのバージョンアップは3種類あります。
   * - バグフィックス
     - セキュリティ・運用レベルに致命的な影響を与える、緊急性が高いアプリケーションフレームワークの不具合に対応します。
     - アプリケーションフレームワーク
-    - 随時 |br|
-      |br|
-      不具合検出後直ちに対応します。
+    - 随時 [#release_schedule_for_bugs_bug_fix]_
+
+
+.. [#release_schedule_for_bugs_revision_up] 不具合については、影響範囲を見定めリリーススケジュールを決定し、リリースします。
+.. [#release_schedule_for_bugs_bug_fix] 不具合検出後直ちに対応します。
 
 .. _`versionup_policy-product_version_number`:
 
