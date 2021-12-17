@@ -56,7 +56,7 @@ Nablarchのバージョンアップは3種類あります。
 .. list-table:: バージョンアップの種類
   :header-rows: 1
   :class: white-space-normal
-  :widths: 15 40 25 20
+  :widths: 15 40 25 25
 
   * - 種類
     - 説明
