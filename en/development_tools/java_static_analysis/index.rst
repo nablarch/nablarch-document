@@ -74,9 +74,19 @@ By making effective use of this, it is possible to commit the code will in accor
 Check if unauthorized APIs are being used
 -------------------------------------------------
 
-`nablarch-intellij-plugin <https://github.com/nablarch/nablarch-intellij-plugin/tree/master/en>`_ is used for this check.
-nablarch-intellij-plugin is a plugin to use IntelliJ IDEA for supporting Nablarch development and has the following functions.
+We provide two tools for this check: the IntelliJ IDEA plugin and the SpotBugs plugin which does not depend on IntelliJ IDEA.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Use nablarch-intellij-plugin
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+`nablarch-intellij-plugin <https://github.com/nablarch/nablarch-intellij-plugin/tree/master/en>`_  is a plugin to use IntelliJ IDEA for supporting Nablarch development and has the following functions.
 
 * Throws a warning if Nablarch private API is used.
 * Throws warning if Java API registered in the black list is used.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Use Unauthorized API Check Tool
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Unauthorized API Check Tool is provided as a SpotBugs plugin. 
+See `Nablarch style guide <https://github.com/nablarch-development-standards/nablarch-style-guide/blob/master/en/java/staticanalysis/unpublished-api/README.md>`_ for detailed specifications and instructions.
+Note that the blank project has been preconfigured to `run in Maven <https://github.com/nablarch-development-standards/nablarch-style-guide/blob/master/en/java/staticanalysis/spotbugs/docs/Maven-settings.md>`_ , so it can be checked immediately.

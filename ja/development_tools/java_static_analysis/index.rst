@@ -74,9 +74,19 @@ IntelliJ IDEAでは、VCSへのコミット時にコミット対象のファイ�
 許可していないAPIが使用されていないかチェックする
 -------------------------------------------------
 
-このチェックには、 `nablarch-intellij-plugin <https://github.com/nablarch/nablarch-intellij-plugin>`_ を使用する。
-nablarch-intellij-pluginはNablarch開発を支援するためのIntelliJ IDEA用のプラグインであり、下記の機能を有している。
+このチェックにはIntelliJ IDEAのプラグインとIntelliJ IDEAに依存しないSpotBugsプラグインの2種類のツールを提供している。
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+nablarch-intellij-pluginを使用する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+`nablarch-intellij-plugin <https://github.com/nablarch/nablarch-intellij-plugin>`_ はNablarch開発を支援するためのIntelliJ IDEA用のプラグインであり、下記の機能を有している。
 
 * Nablarch非公開APIが使用されている場合に警告を出す
 * ブラックリストに登録したJava APIが使用されている場合に警告を出す
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+使用不許可APIチェックツールを使用する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+使用不許可APIチェックツールはSpotBugsのプラグインとして作成されたツールである。
+詳細な仕様と実行方法は `Nablarchスタイルガイドの解説 <https://github.com/nablarch-development-standards/nablarch-style-guide/blob/master/java/staticanalysis/unpublished-api/README.md>`_ を参照。
+なお、ブランクプロジェクトには `Mavenで実行するための設定 <https://github.com/nablarch-development-standards/nablarch-style-guide/blob/master/java/staticanalysis/spotbugs/docs/Maven-settings.md>`_ をあらかじめ設定してあるため、すぐにチェックを実施することが可能である。
