@@ -138,7 +138,7 @@ Nablarchの後方互換性ポリシーについて説明します。
 
  Nablarchでは、非公開APIの使用を検知するツールを提供しています。
  プロジェクトにてこのツールを使用して非公開APIが使用されないように運用してください。
- ツールの詳細は、`nablarch-intellij-plugin <https://github.com/nablarch/nablarch-intellij-plugin>`_ を参照してください。
+ ツールの詳細は、`許可していないAPIが使用されていないかチェックする <https://nablarch.github.io/docs/LATEST/doc/development_tools/java_static_analysis/index.html#api>`_ を参照してください。
 
 .. tip::
   Publishedアノテーションを付与する際は、アーキテクト向けとアプリケーションプログラマ向けに分類しています。
