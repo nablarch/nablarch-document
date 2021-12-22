@@ -145,7 +145,7 @@ Nablarchの後方互換性ポリシーについて説明します。
 
  Nablarchでは、非公開APIの使用を検知するツールを提供しています。
  プロジェクトにてこのツールを使用して非公開APIが使用されないように運用してください。
- ツールの詳細は、`許可していないAPIが使用されていないかチェックする <https://nablarch.github.io/docs/LATEST/doc/development_tools/java_static_analysis/index.html#api>`_ を参照してください。
+ ツールの詳細は、 :ref:`許可していないAPIが使用されていないかチェックする <api-analysis>`  を参照してください。
 
 .. tip::
   Publishedアノテーションを付与する際は、アーキテクト向けとアプリケーションプログラマ向けに分類しています。
@@ -183,7 +183,7 @@ Nablarchは、Nablarch自身のバージョンアップの際に発生する作�
 * 既存の自動テストコードの修正。
 * 既存の自動テストデータの修正。
 
-この後方互換性維持の方針により フレームワークは、基本的にビルドツール(:ref:`Apache Maven<maven>`)の設定ファイル(pom.xml)の変更のみでバージョンアップできます。
+この後方互換性維持の方針により フレームワークは、基本的に、 :ref:`使用するNablarchのバージョン <beforefirstStepSpecityNablarchVer>` の差し替えと設定ファイルの変更のみでバージョンアップできます。
 
 .. _`versionup_policy-backward_compatibility_is_not_maintained`:
 

@@ -88,6 +88,7 @@ Mavenの設定
 
   以降の手順で、Maven関連と思われるトラブルに遭遇した場合は、 :ref:`mvnFrequentlyTrouble` を参照すること。
 
+.. _beforefirstStepSpecityNablarchVer:
 
 ----------------------------------------------------------
 使用するNablarchのバージョンの指定
