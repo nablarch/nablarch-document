@@ -81,3 +81,13 @@ For instructions on how to run the Example application, refer to the README on t
 
     Messaging Using Tables as Queues
      https://github.com/nablarch/nablarch-example-db-queue
+
+Running on Java 11 or higher
+--------------------------------------------------
+
+Example is assumed to run in Java 8.
+If you want to run it on Java 11 or higher, you will need to modify the dependent libraries.
+For more information, see the description of the blank project below.
+
+* :ref:`setup_blank_project_for_Java11`
+* :ref:`setup_blank_project_for_Java17`
