@@ -16,6 +16,13 @@ Add dependent module
 
 Add the following modules to the created blank project POM.
 
+There are two differences from the :ref:`Add dependent module in Java 11 <setup_blank_project_for_Java11_add_dependencies>`.
+
+* Specify ``jaxb-impl`` version as ``2.3.5``.
+* Remove the ``jaxb-api`` artifact.
+
+  * Because ``2.3.5`` of ``jaxb-impl`` transitively uses another artifact called ``jakarta.xml.bind-api``.
+
 .. code-block:: xml
 
   <dependencies>
@@ -57,7 +64,27 @@ Change of Jetty module used in automatic test (only for web projects or RESTful 
 ------------------------------------------------------------------------------------------------------------------
 
 The Jetty version which is configured by default in the blank project does not support Java17.
-The fix is the same as for Java 11, so refer to :ref:`the Java 11 description <setup_java11_jetty9>` for detailed instructions.
+Therefore, make changes to 2 files as given below.
+
+* pom.xml
+
+.. code-block:: xml
+
+  <!-- Change the location of nablarch-testing-jetty6 as follows -->
+  <dependency>
+    <groupId>com.nablarch.framework</groupId>
+    <artifactId>nablarch-testing-jetty9</artifactId>
+    <scope>test</scope>
+  </dependency>
+
+
+* src/test/resources/unit-test.xml
+
+.. code-block:: xml
+
+  <!-- Change the location of HttpServerFactoryJetty6 as follows -->
+  <component name="httpServerFactory" class="nablarch.fw.web.httpserver.HttpServerFactoryJetty9"/>
+
 
 Add --add-opens options (only for JSR352-compliant batch project)
 ------------------------------------------------------------------------------------------------------------------

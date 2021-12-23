@@ -16,6 +16,13 @@ Java17で使用する場合のセットアップ方法
 
 作成したブランクプロジェクトのPOMに以下のモジュールを追加する。
 
+なお、 :ref:`Java 11 の依存モジュールの追加<setup_blank_project_for_Java11_add_dependencies>` とは、以下2点の違いがある。
+
+* ``jaxb-impl`` のバージョンに ``2.3.5`` を指定する
+* ``jaxb-api`` のアーティファクトを外す
+
+  * ``jaxb-impl`` の ``2.3.5`` が、 ``jakarta.xml.bind-api`` という別のアーティファクトを推移的に使用するため
+
 .. code-block:: xml
 
   <dependencies>
@@ -57,7 +64,26 @@ gsp-dba-maven-pluginがJava17で動くように設定する
 ------------------------------------------------------------------------------------------------------------------
 
 ブランクプロジェクトのデフォルトで設定されているJettyのバージョンはJava17に対応していない。
-対応内容自体はJava11の場合と同じであるため、詳細な手順については :ref:`Java11の説明 <setup_java11_jetty9>` を参照。
+そのため以下のように2ファイルの変更を行う。
+
+* pom.xml
+
+.. code-block:: xml
+
+  <!-- nablarch-testing-jetty6の箇所を以下のように変更する -->
+  <dependency>
+    <groupId>com.nablarch.framework</groupId>
+    <artifactId>nablarch-testing-jetty9</artifactId>
+    <scope>test</scope>
+  </dependency>
+
+
+* src/test/resources/unit-test.xml
+
+.. code-block:: xml
+
+  <!-- HttpServerFactoryJetty6の箇所を以下のように変更する -->
+  <component name="httpServerFactory" class="nablarch.fw.web.httpserver.HttpServerFactoryJetty9"/>
 
 
 --add-opensオプションの追加（JSR352に準拠したバッチプロジェクトの場合のみ）

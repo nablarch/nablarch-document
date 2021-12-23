@@ -14,6 +14,8 @@ When using blank projects in Java 11, perform the following procedure before com
    The blank project for containers assumes Java 11, and the modifications described in this chapter have been applied beforehand.
    Therefore, in a blank project for containers the procedures of this chapter are not necessary.
 
+.. _setup_blank_project_for_Java11_add_dependencies:
+
 Add dependent module
 -------------------------------------------------------------
 
