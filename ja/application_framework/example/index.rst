@@ -82,3 +82,14 @@ Exampleアプリケーションの実行手順は、各Exampleアプリケーシ
 
     テーブルをキューとして使ったメッセージング
      https://github.com/nablarch/nablarch-example-db-queue
+
+
+Java 11 以上で動かす場合について
+--------------------------------------------------
+
+ExampleはJava 8での実行を前提としている。
+Java 11以上で動かす場合は、依存ライブラリの修正が必要となる。
+詳細は、以下のブランクプロジェクトの説明を参照のこと。
+
+* :ref:`setup_blank_project_for_Java11`
+* :ref:`setup_blank_project_for_Java17`

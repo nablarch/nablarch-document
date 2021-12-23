@@ -1,25 +1,27 @@
-.. _setup_blank_project_for_Java11:
+.. _setup_blank_project_for_Java17:
 
 ----------------------------------------------------------
-Java11で使用する場合のセットアップ方法
+Java17で使用する場合のセットアップ方法
 ----------------------------------------------------------
 
-ブランクプロジェクトをJava11で使用する場合、各ブランクプロジェクトの疎通確認前に以下の手順を行う。
+ブランクプロジェクトをJava17で使用する場合、各ブランクプロジェクトの疎通確認前に以下の手順を行う。
 
 * 依存モジュールの追加
-* gsp-dba-maven-pluginが使用する依存モジュールの追加
+* gsp-dba-maven-pluginがJava17で動くように設定する
 * 自動テストで使用するJettyのモジュール変更(ウェブプロジェクト または RESTfulウェブサービスプロジェクトの場合のみ)
-
-.. tip::
-   コンテナ用のブランクプロジェクトはJava11を前提としており、本章で説明している修正があらかじめ適用されている。
-   したがって、コンテナ用のブランクプロジェクトでは本章の手順は必要ない。
-
-.. _setup_blank_project_for_Java11_add_dependencies:
+* --add-opensオプションの追加（JSR352に準拠したバッチプロジェクトの場合のみ）
 
 依存モジュールの追加
 -------------------------------------------------------------
 
 作成したブランクプロジェクトのPOMに以下のモジュールを追加する。
+
+なお、 :ref:`Java 11 の依存モジュールの追加<setup_blank_project_for_Java11_add_dependencies>` とは、以下2点の違いがある。
+
+* ``jaxb-impl`` のバージョンに ``2.3.5`` を指定する
+* ``jaxb-api`` のアーティファクトを外す
+
+  * ``jaxb-impl`` の ``2.3.5`` が、 ``jakarta.xml.bind-api`` という別のアーティファクトを推移的に使用するため
 
 .. code-block:: xml
 
@@ -32,11 +34,6 @@ Java11で使用する場合のセットアップ方法
       <version>1.2.0</version>
     </dependency>
     <dependency>
-      <groupId>javax.xml.bind</groupId>
-      <artifactId>jaxb-api</artifactId>
-      <version>2.3.0</version>
-    </dependency>
-    <dependency>
       <groupId>com.sun.xml.bind</groupId>
       <artifactId>jaxb-core</artifactId>
       <version>2.3.0</version>
@@ -44,7 +41,7 @@ Java11で使用する場合のセットアップ方法
     <dependency>
       <groupId>com.sun.xml.bind</groupId>
       <artifactId>jaxb-impl</artifactId>
-      <version>2.3.0</version>
+      <version>2.3.5</version>
     </dependency>
     <dependency>
       <groupId>javax.annotation</groupId>
@@ -54,19 +51,19 @@ Java11で使用する場合のセットアップ方法
   </dependencies>
 
 
-gsp-dba-maven-pluginが使用する依存モジュールの追加
+gsp-dba-maven-pluginがJava17で動くように設定する
 ----------------------------------------------------------
 
 以下を参照して設定する。
 
-`Java 11 での設定 <https://github.com/coastland/gsp-dba-maven-plugin#java11%E3%81%A7%E3%81%AE%E8%A8%AD%E5%AE%9A>`_ (外部サイト)
+`Java 17 での設定 <https://github.com/coastland/gsp-dba-maven-plugin#java17%E3%81%A7%E3%81%AE%E8%A8%AD%E5%AE%9A>`_ (外部サイト)
 
-.. _setup_java11_jetty9:
+.. _setup_java17_jetty9:
 
 自動テストで使用するJettyのモジュール変更(ウェブプロジェクト または RESTfulウェブサービスプロジェクトの場合のみ)
 ------------------------------------------------------------------------------------------------------------------
 
-ブランクプロジェクトのデフォルトで設定されているJettyのバージョンはJava11に対応していない。
+ブランクプロジェクトのデフォルトで設定されているJettyのバージョンはJava17に対応していない。
 そのため以下のように2ファイルの変更を行う。
 
 * pom.xml
@@ -88,3 +85,23 @@ gsp-dba-maven-pluginが使用する依存モジュールの追加
   <!-- HttpServerFactoryJetty6の箇所を以下のように変更する -->
   <component name="httpServerFactory" class="nablarch.fw.web.httpserver.HttpServerFactoryJetty9"/>
 
+
+--add-opensオプションの追加（JSR352に準拠したバッチプロジェクトの場合のみ）
+------------------------------------------------------------------------------------------------------------------
+
+JSR352に準拠したバッチプロジェクトを動かす際は、以下のJVMオプションを設定する必要がある。
+
+* ``--add-opens java.base/java.lang=ALL-UNNAMED``
+* ``--add-opens java.base/java.security=ALL-UNNAMED``
+
+以下に、オプションを指定した場合のコマンドの例を記載する。
+
+.. code-block:: batch
+
+  > java --add-opens java.base/java.lang=ALL-UNNAMED ^
+         --add-opens java.base/java.security=ALL-UNNAMED ^
+         -jar target\myapp-batch-ee-0.1.0\myapp-batch-ee-0.1.0.jar ^
+         sample-batchlet
+
+.. tip::
+  Mavenから実行する場合は、環境変数 ``MAVEN_OPTS`` を使うことでJVMオプションを設定できる。

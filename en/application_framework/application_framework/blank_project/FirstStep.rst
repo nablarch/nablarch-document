@@ -10,6 +10,7 @@ Initial Setup Procedure
    setup_blankProject/setup_Jbatch
    setup_blankProject/setup_NablarchBatch
    setup_blankProject/setup_Java11
+   setup_blankProject/setup_Java17
 
 .. toctree::
    :maxdepth: 1
