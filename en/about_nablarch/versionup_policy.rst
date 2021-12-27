@@ -150,7 +150,7 @@ except in cases where :ref:`versionup_policy-backward_compatibility_is_not_maint
 
  Content other than frameworks is not subject to backward compatibility.
 
- For example, what does it mean to maintain backward compatibility of documents?
+ What does it mean to maintain backward compatibility of documents?
  Do you want to keep the description of the old version of the framework?
  But even if you don't do that, you can solve it by looking at the old version of the documentation.
  The same is true for development standards.
