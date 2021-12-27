@@ -129,13 +129,13 @@ except in cases where :ref:`versionup_policy-backward_compatibility_is_not_maint
  When all APIs of a class are published, the :java:extdoc:`Published <nablarch.core.util.annotation.Published>`
  annotation is added to the class declaration, and when individual methods are published,
  the :java:extdoc:`Published <nablarch.core.util.annotation.Published>` annotation is added to the method declaration.
- An API without the Published annotation is a private API.
+ An API without the Published annotation is a unauthorized  API.
 
- **Do not use the private API in your project as the private API may be upgraded without maintaining backward compatibility.**
- **If you use non-public APIs in your project, backward compatibility will not be maintained when upgrading, and unexpected problems may occur.**
+ **Do not use the unauthorized  API in your project as the unauthorized API may be upgraded without maintaining backward compatibility.**
+ **If you use unauthorized  APIs in your project, backward compatibility will not be maintained when upgrading, and unexpected problems may occur.**
 
- Nablarch provides a tool to detect the use of non-public APIs.
- Please use this tool in your project to prevent the use of non-public APIs.
+ Nablarch provides a tool to detect the use of unauthorized APIs.
+ Please use this tool in your project to prevent the use of unauthorized APIs.
  For more information on the tool, see :ref:`Checking for unauthorized API. <api-analysis>`
 
 .. tip::
