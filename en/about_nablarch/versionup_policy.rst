@@ -75,7 +75,7 @@ There are three types of Nablarch version upgrades.
     - 1 year ~
 
   * - Revision up
-    - Respond to defects, add/change functions.
+    - Respond to bugs, add/change functions. |br|
       |br|
       e.g., Follow the latest version of Java, Addition/change of development standards |br|
     - Same as above
@@ -86,7 +86,7 @@ There are three types of Nablarch version upgrades.
     - As needed  [#release_schedule_for_bugs_bug_fix]_
 
 
-.. [#release_schedule_for_bugs_revision_up] For defects, we will determine the scope of impact, determine the release schedule, and release it.
+.. [#release_schedule_for_bugs_revision_up] For bugs, we will determine the scope of impact, determine the release schedule, and release it.
 .. [#release_schedule_for_bugs_bug_fix] We will respond immediately after detecting the problem.
 
 .. _`versionup_policy-product_version_number`:
