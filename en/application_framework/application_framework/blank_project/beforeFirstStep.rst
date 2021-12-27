@@ -87,6 +87,7 @@ If the xml file is not configured, refer to :ref:`mvnSetting` and configure.
 
   In the following steps, if you run into any problems that you think are Maven-related, please refer to :ref:`mvnFrequentlyTrouble`.
 
+.. _beforefirstStepSpecityNablarchVer:
 
 ----------------------------------------------------------
 Specifying the version of Nablarch to use
