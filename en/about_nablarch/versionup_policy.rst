@@ -72,7 +72,7 @@ There are three types of Nablarch version upgrades.
       Extension component |br|
       Development tool |br|
       Development standard |br|
-      Implementation example collection
+      Implementation Examples
     - 1 year ~
 
   * - Revision up
