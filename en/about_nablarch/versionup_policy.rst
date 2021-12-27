@@ -66,8 +66,7 @@ There are three types of Nablarch version upgrades.
   * - Minor upgrade
     - Functional changes that involve large-scale additions and changes to the application framework. |br|
       |br|
-      Example: |br|
-      Renewal of the execution control platform.
+      e.g., Renewal of the execution control platform
     - Application framework |br|
       Extension component |br|
       Development tool |br|
@@ -78,9 +77,7 @@ There are three types of Nablarch version upgrades.
   * - Revision up
     - Respond to defects, add/change functions.
       |br|
-      Example: |br|
-      - Follow the latest version of Java |br|
-      - Addition/change of development standards |br|
+      e.g., Follow the latest version of Java, Addition/change of development standards |br|
     - Same as above
     - Half year [#release_schedule_for_bugs_revision_up]_
   * - Bug fix
@@ -102,18 +99,16 @@ The version numbering system is as follows.
 
   (product version number)u(update number)
 
- Example:
-  | 5   ： Product version 5 initial release
-  | 5u1 ： Product version 5 update release 1
+ e.g., 5(initial release of product version 5), 5u1(Update release 1 of product version 5)
 
  Product Version Number
   It will be incremented at the time of minor version upgrade. |br|
-  Example: Nablarch 5u6 → Nablarch 6 |br|
+  e.g., Nablarch 5u6 → Nablarch 6 |br|
   The starting number is 5.
 
  Update Number
   Incremented at revision up or bug fix. |br|
-  Example: Nablarch 5u6 -> Nablarch 5u7 |br|
+  e.g., Nablarch 5u6 -> Nablarch 5u7 |br|
   The starting number is 0. However, if the number is 0, no update number will be given.
 
 .. _`versionup_policy-backward_compatibility_policy`:
