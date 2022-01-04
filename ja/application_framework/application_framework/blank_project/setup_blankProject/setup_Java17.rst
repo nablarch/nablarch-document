@@ -104,4 +104,4 @@ JSR352に準拠したバッチプロジェクトを動かす際は、以下のJV
          sample-batchlet
 
 .. tip::
-  Mavenから実行する場合は、環境変数 ``MAVEN_OPTS`` を使うことでJVMオプションを設定できる。
+  Mavenから実行する場合は、環境変数 `MAVEN_OPTS (外部サイト) <https://maven.apache.org/configure.html#maven_opts-environment-variable>`_ を使うことでJVMオプションを設定できる。
