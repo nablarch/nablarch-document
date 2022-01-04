@@ -164,3 +164,63 @@ app-log.propertiesの設定例
   performanceLogFormatter.targetPoints=UserSearchAction#doUSERS00101
   performanceLogFormatter.datePattern=yyyy-MM-dd HH:mm:ss.SSS
   performanceLogFormatter.format=point:$point$ result:$result$ exe_time:$executionTime$ms
+
+.. _performance_log-json_setting:
+
+JSON形式の構造化ログとして出力する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:ref:`log-json_log_setting` 設定を行うことでログをJSON形式で出力できるが、
+:java:extdoc:`PerformanceLogFormatter <nablarch.core.log.app.PerformanceLogFormatter>` では
+パフォーマンスログの各項目はmessageの値に文字列として出力される。
+パフォーマンスログの各項目もJSONの値として出力するには、
+:java:extdoc:`PerformanceJsonLogFormatter <nablarch.core.log.app.PerformanceJsonLogFormatter>` を使用する。
+設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
+
+記述ルール
+ :java:extdoc:`PerformanceJsonLogFormatter <nablarch.core.log.app.PerformanceJsonLogFormatter>` を用いる際に
+ 指定するプロパティは以下の通り。
+ 
+ performanceLogFormatter.className ``必須``
+  JSON形式でログを出力する場合、
+  :java:extdoc:`PerformanceJsonLogFormatter <nablarch.core.log.app.PerformanceJsonLogFormatter>` を指定する。
+
+ performanceLogFormatter.targets
+  パフォーマンスログの出力項目。カンマ区切りで指定する。
+
+  指定可能な出力項目
+   :測定対象を識別するID: point
+   :処理結果を表す文字列: result
+   :処理の開始日時: startTime
+   :処理の終了日時: endTime
+   :処理の実行時間(終了日時 - 開始日時): executionTime
+   :処理の開始時点のヒープサイズ: maxMemory
+   :処理の開始時点の空きヒープサイズ: startFreeMemory
+   :処理の開始時点の使用ヒープサイズ: startUsedMemory
+   :処理の終了時点の空きヒープサイズ: endFreeMemory
+   :処理の終了時点の使用ヒープサイズ: endUsedMemory
+
+  デフォルトは全ての出力項目が対象となる。
+
+ performanceLogFormatter.datePattern
+  開始日時と終了日時に使用する日時パターン。
+  パターンには、 :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>` が規程している構文を指定する。
+  デフォルトは”yyyy-MM-dd HH:mm:ss.SSS”。
+
+ performanceLogFormatter.targetPoints
+  出力対象とするポイント名。
+  複数指定する場合はカンマ区切り。
+  パフォーマンスログは、誤設定による無駄な出力を防ぐため、この設定に基づき出力する。
+
+ performanceLogFormatter.structuredMessagePrefix
+  フォーマット後のメッセージ文字列が JSON 形式に整形されていることを識別できるようにするために、メッセージの先頭に付与するマーカー文字列。
+  メッセージの先頭にこのマーカーがある場合、 :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` はメッセージを JSON データとして処理する。
+  デフォルトは ``"$JSON$"`` となる。
+
+記述例
+ .. code-block:: properties
+
+  performanceLogFormatter.className=nablarch.core.log.app.PerformanceJsonLogFormatter
+  performanceLogFormatter.structuredMessagePrefix=$JSON$
+  performanceLogFormatter.targetPoints=UserSearchAction#doUSERS00101
+  performanceLogFormatter.datePattern=yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+  performanceLogFormatter.targets=point,result,executionTime

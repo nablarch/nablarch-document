@@ -156,3 +156,59 @@ Example of the description
   performanceLogFormatter.targetPoints=UserSearchAction#doUSERS00101
   performanceLogFormatter.datePattern=yyyy-MM-dd HH:mm:ss.SSS
   performanceLogFormatter.format=point:$point$ result:$result$ exe_time:$executionTime$ms
+
+.. _performance_log-json_setting:
+
+Output as a structured log in JSON format
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Logs can be output in JSON format by using :ref:`log-json_log_setting` setting, but :java:extdoc:`PerformanceLogFormatter <nablarch.core.log.app.PerformanceLogFormatter>` outputs each item of the performance log as a string in the message value.
+
+To output each item in the performance log as a JSON value as well, use the :java:extdoc:`PerformanceJsonLogFormatter <nablarch.core.log.app.PerformanceJsonLogFormatter>`.
+You can configure in the property file described in :ref:`log-app_log_setting`.
+
+Description rules
+ The properties to be specified when using :java:extdoc:`PerformanceJsonLogFormatter <nablarch.core.log.app.PerformanceJsonLogFormatter>` are as follows.
+ 
+ performanceLogFormatter.className ``required``
+  To output logs in JSON format, specify :java:extdoc:`PerformanceJsonLogFormatter <nablarch.core.log.app.PerformanceJsonLogFormatter>`.
+
+ performanceLogFormatter.targets
+  Output items of the performance log. Separated by comma.
+
+  Output items that can be specified
+   :Measurement target identification ID: point
+   :Character string that represents the process result: result
+   :Start date and time of process: startTime
+   :End date and time of process: endTime
+   :Execution time of the process (End date and time – Start date and time): executionTime
+   :Heap size at the start of the process: maxMemory
+   :Free heap size at the start of the process: startFreeMemory
+   :Used heap size used at the start of the process: startUsedMemory
+   :Free heap size at the end of the process: endFreeMemory
+   :Used heap size at the end of the process: endUsedMemory
+
+  All items are output in default.
+
+ performanceLogFormatter.datePattern
+  Date and time pattern to use for date and time of the start and end.
+  For the pattern, specify the syntax specified by  :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>` . 
+  Default is "yyyy-MM-dd HH:mm:ss.SSS".
+
+ performanceLogFormatter.targetPoints
+  Point name to be output.
+  If more than one is specified, separate them with commas.
+  The performance log is output based on this configuration to prevent unwanted output because of incorrect configuration.
+
+ performanceLogFormatter.structuredMessagePrefix
+  A marker string given at the beginning of a message to identify that the message string after formatting has been formatted into JSON format.
+  If this marker is present at the beginning of the message, :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` processes the message as JSON data.
+  The default is ``"$JSON$"``.
+
+Example of the description
+ .. code-block:: properties
+
+  performanceLogFormatter.className=nablarch.core.log.app.PerformanceJsonLogFormatter
+  performanceLogFormatter.structuredMessagePrefix=$JSON$
+  performanceLogFormatter.targetPoints=UserSearchAction#doUSERS00101
+  performanceLogFormatter.datePattern=yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+  performanceLogFormatter.targets=point,result,executionTime
