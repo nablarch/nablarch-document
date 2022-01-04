@@ -64,20 +64,20 @@ There are three types of Nablarch version upgrades.
     - release cycle
 
   * - Minor upgrade
-    - Functional changes that involve large-scale additions and changes to the application framework. |br|
+    - Make changes to the application framework that involve large-scale feature additions or functional changes. |br|
       |br|
       e.g., Renewal of the execution control platform
     - Application framework |br|
       Extension component |br|
-      Development tool |br|
+      Development tools |br|
       Development standard |br|
       Implementation Examples
     - 1 year ~
 
   * - Revision up
-    - Respond to bugs, add/change functions. |br|
+    - Fix bugs, add/change functions. |br|
       |br|
-      e.g., Follow the latest version of Java, Addition/change of development standards |br|
+      e.g., Follow the latest version of Java, Addition/change of development standard |br|
     - Same as above
     - Half year [#release_schedule_for_bugs_revision_up]_
   * - Bug fix
@@ -87,7 +87,7 @@ There are three types of Nablarch version upgrades.
 
 
 .. [#release_schedule_for_bugs_revision_up] For bugs, we will determine the scope of impact, determine the release schedule, and release it.
-.. [#release_schedule_for_bugs_bug_fix] We will respond immediately after detecting the problem.
+.. [#release_schedule_for_bugs_bug_fix] We will fix bugs immediately after detecting .
 
 .. _`versionup_policy-product_version_number`:
 
@@ -102,13 +102,13 @@ The version numbering system is as follows.
  e.g., 5(initial release of product version 5), 5u1(Update release 1 of product version 5)
 
  Product Version Number
-  It will be incremented at the time of minor version upgrade. |br|
+  Incremented at minor upgrade. |br|
   e.g., Nablarch 5u6 → Nablarch 6 |br|
   The starting number is 5.
 
  Update Number
   Incremented at revision up or bug fix. |br|
-  e.g., Nablarch 5u6 -> Nablarch 5u7 |br|
+  e.g., Nablarch 5u6 → Nablarch 5u7 |br|
   The starting number is 0. However, if the number is 0, no update number will be given.
 
 .. _`versionup_policy-backward_compatibility_policy`:
@@ -180,7 +180,7 @@ Backward compatibility exception
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 If any of the following applies, we may upgrade the version so that backward compatibility is not maintained.
 
-* Changes to the log level and wording output by the framework.
+* When changing the level or wording of the log output by the framework.
 * When a framework bug is detected and cannot be fixed while maintaining backward compatibility.
 * When a problem occurs due to a version upgrade of JDK, which is the environment in which the framework operates, and it cannot be fixed while maintaining backward compatibility.
 
