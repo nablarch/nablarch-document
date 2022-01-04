@@ -87,7 +87,7 @@ There are three types of Nablarch version upgrades.
 
 
 .. [#release_schedule_for_bugs_revision_up] For bugs, we will determine the scope of impact, determine the release schedule, and release it.
-.. [#release_schedule_for_bugs_bug_fix] We will fix bugs immediately after detecting .
+.. [#release_schedule_for_bugs_bug_fix] We will fix bugs immediately after detecting.
 
 .. _`versionup_policy-product_version_number`:
 
@@ -121,7 +121,7 @@ Extent to which backward compatibility is maintained
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Version upgrades of the Application Framework and Testing Framework (hereinafter referred to as the "Frameworks") shall maintain backward compatibility
 as described in the section on :ref:`versionup_policy-backward_compatibility_contents` ,
-except in cases where :ref:`versionup_policy-backward_compatibility_is_not_maintained` .
+except in cases where :ref:`Backward compatibility exception.<versionup_policy-backward_compatibility_is_not_maintained>`
 
 .. important::
  This backward compatibility policy covers the public APIs defined by Nablarch among the framework's APIs.
@@ -136,7 +136,7 @@ except in cases where :ref:`versionup_policy-backward_compatibility_is_not_maint
 
  Nablarch provides a tool to detect the use of unauthorized APIs.
  Please use this tool in your project to prevent the use of unauthorized APIs.
- For more information on the tool, see :ref:`Checking for unauthorized API. <api-analysis>`
+ For more information on the tool, see :ref:`Check if unauthorized APIs are being used. <api-analysis>`
 
 .. tip::
   When giving Published annotations, we categorize them into those for architects and those for application programmers.
@@ -172,7 +172,7 @@ This backward compatibility policy is as follows When the framework is upgraded,
 * Modification of existing automated test code.
 * Modification of existing automated test data.
 
-Considering this backward compatibility policy, the framework can basically be upgraded by simply :ref:`specifying the version of Nablarch to be used  <beforefirstStepSpecityNablarchVer>` and changing the configuration file.
+Considering this backward compatibility policy, the framework can basically be upgraded by simply :ref:`Specifying the version of Nablarch to use <beforefirstStepSpecityNablarchVer>` and changing the configuration file.
 
 .. _`versionup_policy-backward_compatibility_is_not_maintained`:
 
