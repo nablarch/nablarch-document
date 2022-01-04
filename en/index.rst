@@ -21,6 +21,7 @@ Nablarch
   development_tools/index
   examples/index
   nablarch_api/index
+  about_nablarch/versionup_policy
 
 
 -----------------------------------------------
