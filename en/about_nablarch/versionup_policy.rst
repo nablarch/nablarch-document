@@ -121,7 +121,7 @@ Extent to which backward compatibility is maintained
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Version upgrades of the Application Framework and Testing Framework (hereinafter referred to as the "Frameworks") shall maintain backward compatibility
 as described in the section on :ref:`versionup_policy-backward_compatibility_contents` ,
-except in cases where :ref:`Backward compatibility exception.<versionup_policy-backward_compatibility_is_not_maintained>`
+except in cases where :ref:`versionup_policy-backward_compatibility_is_not_maintained`.
 
 .. important::
  This backward compatibility policy covers the public APIs defined by Nablarch among the framework's APIs.
@@ -136,7 +136,7 @@ except in cases where :ref:`Backward compatibility exception.<versionup_policy-b
 
  Nablarch provides a tool to detect the use of unauthorized APIs.
  Please use this tool in your project to prevent the use of unauthorized APIs.
- For more information on the tool, see :ref:`Check if unauthorized APIs are being used. <api-analysis>`
+ For more information on the tool, see :ref:`api-analysis`.
 
 .. tip::
   When giving Published annotations, we categorize them into those for architects and those for application programmers.
@@ -172,7 +172,7 @@ This backward compatibility policy is as follows When the framework is upgraded,
 * Modification of existing automated test code.
 * Modification of existing automated test data.
 
-Considering this backward compatibility policy, the framework can basically be upgraded by simply :ref:`Specifying the version of Nablarch to use <beforefirstStepSpecityNablarchVer>` and changing the configuration file.
+Considering this backward compatibility policy, the framework can basically be upgraded by simply :ref:`beforefirstStepSpecityNablarchVer` and changing the configuration file.
 
 .. _`versionup_policy-backward_compatibility_is_not_maintained`:
 
@@ -184,5 +184,5 @@ If any of the following applies, we may upgrade the version so that backward com
 * When a framework bug is detected and cannot be fixed while maintaining backward compatibility.
 * When a problem occurs due to a version upgrade of JDK, which is the environment in which the framework operates, and it cannot be fixed while maintaining backward compatibility.
 
-If we make changes that don't maintain backward compatibility, we'll explain what they're doing and how to deal with them in the "Impact on the system and how to deal with it(システムへの影響の可能性の内容と対処)" section of the `Release Notes(Japanese Page). <https://nablarch.github.io/docs/LATEST/doc/releases/index.html>`_
+If we make changes that don't maintain backward compatibility, we'll explain what they're doing and how to deal with them in the "Impact on the system and how to deal with it(システムへの影響の可能性の内容と対処)" section of the `Release Notes(Japanese Page) <https://nablarch.github.io/docs/LATEST/doc/releases/index.html>`_.
 
