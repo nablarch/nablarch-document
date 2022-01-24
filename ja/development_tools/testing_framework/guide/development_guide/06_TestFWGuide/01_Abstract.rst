@@ -13,6 +13,10 @@ JUnit4ベース
 自動テストフレームワークは、JUnit4をベースとしている。
 各種アノテーション、assertメソッドやMatcherクラスなど、JUnit4で提供されている機能を使用する。
 
+.. tip::
+
+  JUnit 5の上で自動テストフレームワークを動かしたい場合は、 :ref:`run_ntf_on_junit5_with_vintage_engine` を参照のこと。
+
 
 テストデータの外部化
 ====================
@@ -615,3 +619,80 @@ Excelとテストソースコードとでテストデータが混在している
 .. |br| raw:: html
 
   <br />
+
+
+.. _run_ntf_on_junit5_with_vintage_engine:
+
+------------------------------------------
+JUnit 5で自動テストフレームワークを動かす
+------------------------------------------
+
+JUnit Vintage
+===============
+
+JUnit 5には、JUnit Vintageというプロジェクトがある。
+このプロジェクトは、JUnit 5の上でJUnit 4で書かれたテストを実行できるようにするための機能を提供している。
+この機能を利用することで、自動テストフレームワークをJUnit 5の上で動かすことができる。
+
+.. important::
+  この機能は、あくまでJUnit 4のテストをJUnit 4として動かしているにすぎない。
+  したがって、この機能を使ったからといって、JUnit 4のテストの中でJUnit 5の機能が使えるわけではない。
+
+  この機能は、JUnit 4からJUnit 5への移行を段階的進めるための補助として利用できる。
+  JUnit 4からJUnit 5に移行するときの手順については、 `公式のガイド(外部サイト、英語) <https://junit.org/junit5/docs/5.8.2/user-guide/#migrating-from-junit4>`_ を参照。
+
+以下で、JUnit Vintageを使用して自動テストフレームワークをJUnit 5で動かす方法について説明する。
+
+
+前提条件
+============
+
+JUnit 5を使用するには、以下の条件を満たしている必要がある。
+
+* Java 8 以上であること
+* maven-surefire-plugin が 2.22.0 以上であること
+
+依存関係の追加
+===============
+
+JUnit Vintageは、pom.xmlで以下２つのアーティファクトを依存関係に追加することで有効にできる。
+
+* ``org.junit.jupiter:junit-jupiter``
+* ``org.junit.vintage:junit-vintage-engine``
+
+以下に、pom.xmlの記述例を記載する。
+
+.. code-block:: xml
+
+  <dependencyManagement>
+    <dependencies>
+      ...
+
+      <!-- バージョンを揃えるため、JUnitが提供しているbomを読み込む -->
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>5.8.2</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    ...
+
+    <!-- 以下の依存関係を追加する -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+以上の設定により、自動テストフレームワークをJUnit 5の上で動かすことができるようになる。
