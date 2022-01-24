@@ -655,7 +655,7 @@ JUnit 5を使用するには、以下の条件を満たしている必要があ�
 依存関係の追加
 ===============
 
-JUnit Vintageは、pom.xmlで以下２つのアーティファクトを依存関係を追加することによって有効にできる。
+JUnit Vintageは、pom.xmlで以下２つのアーティファクトを依存関係に追加することで有効にできる。
 
 * ``org.junit.jupiter:junit-jupiter``
 * ``org.junit.vintage:junit-vintage-engine``
