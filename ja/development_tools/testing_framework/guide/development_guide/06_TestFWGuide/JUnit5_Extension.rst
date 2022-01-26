@@ -46,13 +46,13 @@ JUnit 5を利用するには、以下の条件を満たしている必要があ�
 基本的な使い方
 ---------------
 
-自動フレームワークは、 :java:extdoc:`TestSupport <nablarch.test.TestSupport>` などのテストに必要な機能を実装したクラスを提供している。
-従来のJUnit 4では、これらの自動フレームワークが提供するクラスをテストクラスが継承することで、提供するクラスが持つ機能をテストクラスから利用できるようにしていた。
+自動テストフレームワークは、 :java:extdoc:`TestSupport <nablarch.test.TestSupport>` などのテストに必要な機能を実装したクラスを提供している。
+従来のJUnit 4では、これらの自動テストフレームワークが提供するクラスをテストクラスが継承することで、提供するクラスが持つ機能をテストクラスから利用できるようにしていた。
 
-本拡張機能は、自動フレームワークが提供するクラスのインスタンスを拡張機能側で生成し、テストクラスにインジェクションする仕組みを提供する。
+本拡張機能は、自動テストフレームワークが提供するクラスのインスタンスを拡張機能側で生成し、テストクラスにインジェクションする仕組みを提供する。
 この仕組みには、JUnit 5の `Extension (外部サイト、英語) <https://junit.org/junit5/docs/5.8.2/user-guide/#extensions>`_ を利用している。
 
-本拡張機能では、自動フレームワークが提供するクラスごとに **Extension クラス** と **合成アノテーション** を用意している。
+本拡張機能では、自動テストフレームワークが提供するクラスごとに **Extension クラス** と **合成アノテーション** を用意している。
 例えば、 :java:extdoc:`TestSupport <nablarch.test.TestSupport>` には :java:extdoc:`TestSupportExtension <nablarch.test.junit5.extension.TestSupportExtension>` と :java:extdoc:`NablarchTest <nablarch.test.junit5.extension.NablarchTest>` が用意されている。
 
 .. tip::
@@ -102,7 +102,7 @@ Extension クラスと合成アノテーションの一覧
 .. list-table:: 拡張機能が提供するExtensionクラスと合成アノテーションの一覧
    :header-rows: 1
 
-   * - 自動フレームワークが提供するクラス
+   * - 自動テストフレームワークが提供するクラス
      - Extension クラス
      - 合成アノテーション
    * - :java:extdoc:`TestSupport <nablarch.test.TestSupport>`
@@ -196,7 +196,7 @@ BasicHttpRequestTest の使い方の補足
       // 独自の拡張メソッドを実装する
   }
 
-基本的に、自動フレームワークが提供するクラスは、インスタンス生成時にテストクラスの ``Class`` オブジェクトを渡す必要がある。
+基本的に、自動テストフレームワークが提供するクラスは、インスタンス生成時にテストクラスの ``Class`` オブジェクトを渡す必要がある。
 したがって、独自拡張クラスにはテストクラスの ``Class`` オブジェクトを受け取れるようにコンストラクタを定義する必要がある。
 
 .. tip::
@@ -443,7 +443,7 @@ JUnit 5では、Extensionのインスタンスを手続き的に生成してテ�
       @RegisterExtension
       static TestSupportExtension extension = new TestSupportExtension();
   
-      // 2. 自動フレームワークが提供するクラスのインスタンスフィールドを宣言する
+      // 2. 自動テストフレームワークが提供するクラスのインスタンスフィールドを宣言する
       TestSupport support;
   
       @Test
