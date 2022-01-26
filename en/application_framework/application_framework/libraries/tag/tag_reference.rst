@@ -4,6 +4,9 @@
 Tag Reference
 ==================================================
 
+| This reference describes the tags and their attributes provided by Nablarch.
+| See :ref:`tag` for details on how to use each tag and examples of its use.
+
 Form
  | :ref:`tag-form_tag` (form)
 
