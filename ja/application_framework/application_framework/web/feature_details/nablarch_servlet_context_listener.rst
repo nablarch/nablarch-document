@@ -83,6 +83,20 @@ Nablarchサーブレットコンテキスト初期化リスナ
           }
       }
 
+なお、サーブレットコンテキストリスナの実行順は `web.xml` に記載した順序となる。
+システムリポジトリを使用するサーブレットコンテキストリスナを登録する場合は、
+以下のように本クラスより後に `web.xml` に記載する必要がある。
+また、 `@WebListener` アノテーションによるサーブレットコンテキストリスナの登録では実行順序は保証されないため、
+必ず `web.xml` で定義すること。
+
+.. code-block:: xml
+
+  <listener>
+    <listener-class>nablarch.fw.web.servlet.NablarchServletContextListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>please.change.me.CustomServletContextListener</listener-class>
+  </listener>
 
 .. tip::
 
