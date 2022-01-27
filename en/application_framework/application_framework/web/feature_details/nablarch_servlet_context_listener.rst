@@ -88,7 +88,7 @@ successfully initialized, as follows.
 
 The order of execution of servlet context listeners is the order described in `web.xml`.
 If you register a servlet context listener that uses the system repository, 
-you need to describe it in web.xml after this class as follows.
+you need to describe it in `web.xml` after this class as follows.
 Also, the order of execution is not guaranteed when registering servlet context listener 
 by ``@WebListener`` annotation, so be sure to define it in `web.xml`.
 
