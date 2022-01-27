@@ -61,3 +61,49 @@ Point
   <listener>
     <listener-class>nablarch.fw.web.servlet.NablarchServletContextListener</listener-class>
   </listener>
+  
+Get the success or failure of the initialization in the subsequent process
+----------------------------------------------------------------------------------------------------
+
+Whether the initialization of this class has succeeded or not 
+can be obtained by using :java:extdoc:`NablarchServletContextListener#isInitializationCompleted <nablarch.fw.web.servlet.NablarchServletContextListener.isInitializationCompleted()>`.
+If the initialization is successful, the above method returns ``true``.
+
+If the initialization of this class fails, the application will also fail to start, 
+but if multiple servlet context listeners have been registered, the processing of 
+the servlet context listeners following this class may be executed.
+This function makes it possible for the servlet context listener after this class 
+to make a branch that continues processing only if the system repository is 
+successfully initialized, as follows.
+
+.. code-block:: java
+
+  public class CustomServletContextListener implements ServletContextListener {
+      @Override
+      public void contextInitialized(ServletContextEvent sce) {
+          if(NablarchServletContextListener.isInitializationCompleted()){
+            // Processing using the system repository
+          }
+      }
+
+The order of execution of servlet context listeners is the order described in `web.xml`.
+If you register a servlet context listener that uses the system repository, 
+you need to describe it in `web.xml` after this class as follows.
+Also, the order of execution is not guaranteed when registering servlet context listener 
+by ``@WebListener`` annotation, so be sure to define it in `web.xml`.
+
+.. code-block:: xml
+
+  <listener>
+    <listener-class>nablarch.fw.web.servlet.NablarchServletContextListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>please.change.me.CustomServletContextListener</listener-class>
+  </listener>
+
+.. tip::
+
+  When multiple servlet context listeners are registered,
+  whether to detect an exception in the processing of the previously executed servlet context listener and abort the processing,
+  or to ignore the exception and continue the processing of the subsequent servlet context listener
+  depends on the implementation of the servlet container.
