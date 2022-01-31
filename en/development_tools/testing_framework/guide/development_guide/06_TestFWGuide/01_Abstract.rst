@@ -630,6 +630,9 @@ By using this feature, you can run the automated testing framework with JUnit 5.
   This feature can be used to assist in the gradual migration from JUnit 4 to JUnit 5.
   For instructions on migrating from JUnit 4 to JUnit 5, please refer to `the official guide (external site) <https://junit.org/junit5/docs/5.8.2/user-guide/#migrating-from-junit4>`_.
 
+.. tip::
+  See :ref:`ntf_junit5_extension` for information on how to use the automated testing framework with JUnit 5 tests.
+
 In the following, we will explain how to use JUnit Vintage to run the automated testing framework with JUnit 5.
 
 Prerequisite
