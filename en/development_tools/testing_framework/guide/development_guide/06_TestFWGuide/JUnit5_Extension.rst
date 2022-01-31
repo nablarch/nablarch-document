@@ -54,7 +54,7 @@ This extension provides a mechanism to generate instances of the classes provide
 This mechanism makes use of the JUnit 5 `Extension (external site) <https://junit.org/junit5/docs/5.8.2/user-guide/#extensions>`_.
 
 In this extension, **Extension classes** and **Composed annotations** are provided for each class provided by the automated testing framework.
-For example, :java:extdoc:`TestSupport <nablarch.test.TestSupport>` provides :java:extdoc:`TestSupportExtension <nablarch.test.junit5.extension.TestSupportExtension>` and :java:extdoc:`NablarchTest <nablarch.test.junit5.extension.NablarchTest>`.
+For example, :java:extdoc:`TestSupportExtension <nablarch.test.junit5.extension.TestSupportExtension>` and :java:extdoc:`NablarchTest <nablarch.test.junit5.extension.NablarchTest>` are provided for :java:extdoc:`TestSupport <nablarch.test.TestSupport>`.
 
 .. tip::
   Composed annotation is a feature provided by JUnit 5 that allows you to combine the settings of multiple annotations into one annotation.
