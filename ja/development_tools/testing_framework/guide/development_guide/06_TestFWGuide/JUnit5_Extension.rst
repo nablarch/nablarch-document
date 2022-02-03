@@ -201,10 +201,7 @@ BasicHttpRequestTest の使い方の補足
 したがって、独自拡張クラスにはテストクラスの ``Class`` オブジェクトを受け取れるようにコンストラクタを定義する必要がある。
 
 .. tip::
-  以下のクラスは、テストクラスの ``Class`` オブジェクトをコンストラクタで渡さなくてもインスタンス化できる。
-  
-  * :java:extdoc:`RestTestSupport <nablarch.test.core.http.RestTestSupport>`
-  * :java:extdoc:`SimpleRestTestSupport <nablarch.test.core.http.SimpleRestTestSupport>`
+  :java:extdoc:`SimpleRestTestSupport <nablarch.test.core.http.SimpleRestTestSupport>` は、テストクラスの ``Class`` オブジェクトをコンストラクタで渡さなくても使用できる。
 
 独自拡張用のExtensionを作成する
 ====================================

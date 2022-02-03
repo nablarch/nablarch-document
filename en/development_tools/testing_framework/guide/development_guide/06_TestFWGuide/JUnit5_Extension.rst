@@ -200,10 +200,7 @@ Basically, the classes provided by the automated testing framework need to be pa
 Therefore, you need to define a constructor of your own extension class that can accept ``Class`` objects of the test class.
 
 .. tip::
-  The following classes can be instantiated without passing a ``Class`` object of the test class in the constructor.
-  
-  * :java:extdoc:`RestTestSupport <nablarch.test.core.http.RestTestSupport>`
-  * :java:extdoc:`SimpleRestTestSupport <nablarch.test.core.http.SimpleRestTestSupport>`
+  :java:extdoc:`SimpleRestTestSupport <nablarch.test.core.http.SimpleRestTestSupport>` can be used without passing a ``Class`` object of the test class to the constructor.
 
 Create the Extension for your own extension
 ============================================
