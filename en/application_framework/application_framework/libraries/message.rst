@@ -113,7 +113,7 @@ Note that the language corresponding to the default locale is not required to be
 
 .. important:: 
 
-  The default locale is set by :java:extdoc:`PropertiesStringResourceLoader.defaultLocale  <nablarch.core.message.PropertiesStringResourceLoader.setDefaultLocale(java.lang.String defaultLocale)>` (Default language). If it is not set, the value of :java:extdoc:`Locale.getDefault().getLanguage() <java.util.Locale.getLanguage()>` is used as the default locale.
+  The default locale is set by :java:extdoc:`PropertiesStringResourceLoader.defaultLocale  <nablarch.core.message.PropertiesStringResourceLoader.setDefaultLocale(java.lang.String)>` (Default language). If it is not set, the value of :java:extdoc:`Locale.getDefault().getLanguage() <java.util.Locale.getLanguage()>` is used as the default locale.
   
   Since the value of :java:extdoc:`Locale.getDefault().getLanguage() <java.util.Locale.getLanguage()>` changes depending on the OS settings, using this value as the default locale may change the value depending on the environment in which it is executed and cause a failure. Be sure to set the default language.
 

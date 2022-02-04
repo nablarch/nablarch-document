@@ -113,7 +113,7 @@
 
 .. important:: 
 
-  デフォルトのロケールは、:java:extdoc:`PropertiesStringResourceLoader.defaultLocale  <nablarch.core.message.PropertiesStringResourceLoader.setDefaultLocale(java.lang.String defaultLocale)>` (デフォルトの言語)で設定する。設定しなかった場合、デフォルトのロケールは :java:extdoc:`Locale.getDefault().getLanguage() <java.util.Locale.getLanguage()>` の値が採用される。
+  デフォルトのロケールは、:java:extdoc:`PropertiesStringResourceLoader.defaultLocale  <nablarch.core.message.PropertiesStringResourceLoader.setDefaultLocale(java.lang.String)>` (デフォルトの言語)で設定する。設定しなかった場合、デフォルトのロケールは :java:extdoc:`Locale.getDefault().getLanguage() <java.util.Locale.getLanguage()>` の値が採用される。
   
   :java:extdoc:`Locale.getDefault().getLanguage() <java.util.Locale.getLanguage()>` の値はOSの設定によって変化するため、この値をデフォルトのロケールとして使用すると実行する環境に応じて値が変わり障害の原因になる可能性がある。必ずデフォルトの言語を設定すること。
 
