@@ -296,3 +296,47 @@ If successful, the log given below will be output to the console.
   [INFO] Finished at: 2016-05-12T14:49:58+09:00
   [INFO] Final Memory: 9M/23M
   [INFO] ------------------------------------------------------------------------
+
+Additional information about data modeling tools
+===========================================================
+
+The blank project assumes that the data model (data-model.edm) will be created using a modeling tool called `SI Object Browser ER (external site) <https://products.sint.co.jp/ober>`_.
+However, the data-model.edm is only used when generating DDL.
+Therefore, once the DDL is generated and executed in any way and the database is built, functions other than DDL generation/execution, 
+such as generating Entity classes from the database and registering test data in the database, can be executed using modeling tools other than SI Object Browser ER.
+
+If you use modeling tools other than SI Object Browser ER, modify pom.xml so that the goals of generate-ddl and execute-ddl are not executed as follows.
+
+.. code-block:: xml
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>jp.co.tis.gsp</groupId>
+        <artifactId>gsp-dba-maven-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>default-cli</id>
+              <phase>generate-resources</phase>
+              <goals>
+                <!-- <goal>generate-ddl</goal> Remove this line --> 
+                <!-- <goal>execute-ddl</goal> Remove this line -->
+                <goal>generate-entity</goal>
+                <goal>load-data</goal>
+                <goal>export-schema</goal>
+              </goals>
+            </execution>
+          </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+By executing the following command after the modification, the Entity class will be generated, the test data will be registered, and the dump file will be created.
+Note that it is necessary to build the database in any way before executing the command.
+
+.. code-block:: bash
+
+  mvn -P gsp clean generate-resources
+
+.. tip::
+  If you do not use the DDL generation function of gsp-dba-maven-plugin, the use of the DDL execution function is also not recommended.

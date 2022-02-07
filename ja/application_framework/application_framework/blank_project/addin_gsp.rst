@@ -295,3 +295,48 @@ src/main/resources/entity以下にRDBMS毎にedmファイルが存在するの�
   [INFO] Finished at: 2016-05-12T14:49:58+09:00
   [INFO] Final Memory: 9M/23M
   [INFO] ------------------------------------------------------------------------
+
+データモデリングツールについての補足
+====================================
+
+ブランクプロジェクトは `SI Object Browser ER(外部サイト) <https://products.sint.co.jp/ober>`_ というモデリングツールを使用してデータモデル(data-model.edm)を作成することを前提としている。
+しかし、data-model.edm が使われるのはDDLの生成時だけである。
+そのため、任意の方法でDDLを生成・実行しデータベースを構築すれば、
+データベースから Entity クラスを生成したり、テストデータをデータベースに登録したりといった、
+DDL の生成/実行以外の機能は SI Object Browser ER 以外のモデリングツールを利用した場合でも実行可能である。
+
+SI Object Browser ER 以外のモデリングツールを利用する場合は、以下のように generate-ddl 、execute-ddl のゴールが実行されないようpom.xmlを修正する。
+
+.. code-block:: xml
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>jp.co.tis.gsp</groupId>
+        <artifactId>gsp-dba-maven-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>default-cli</id>
+              <phase>generate-resources</phase>
+              <goals>
+                <!-- <goal>generate-ddl</goal> この行を削除する --> 
+                <!-- <goal>execute-ddl</goal> この行を削除する -->
+                <goal>generate-entity</goal>
+                <goal>load-data</goal>
+                <goal>export-schema</goal>
+              </goals>
+            </execution>
+          </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+修正後に以下のコマンドを実行することでEntity クラスの生成、テストデータの登録、ダンプファイルの作成が行われる。
+なお、コマンド実行前に任意の方法でデータベースを構築する必要がある。
+
+.. code-block:: bash
+
+  mvn -P gsp clean generate-resources
+
+.. tip::
+  gsp-dba-maven-pluginはDDL生成機能を使用しない場合は、DDL実行機能の使用も推奨しない。
