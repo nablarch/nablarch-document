@@ -302,7 +302,6 @@ src/main/resources/entity以下にRDBMS毎にedmファイルが存在するの�
 ブランクプロジェクトは `SI Object Browser ER(外部サイト) <https://products.sint.co.jp/ober>`_ というモデリングツールを使用してデータモデル(data-model.edm)を作成することを前提としている。
 しかし、data-model.edm が使われるのはDDLの生成時だけである。
 そのため、任意の方法でDDLを生成・実行しデータベースを構築すれば、
-データベースから Entity クラスを生成したり、テストデータをデータベースに登録したりといった、
 DDL の生成/実行以外の機能は SI Object Browser ER 以外のモデリングツールを利用した場合でも実行可能である。
 
 SI Object Browser ER 以外のモデリングツールを利用する場合は、以下のように generate-ddl 、execute-ddl のゴールが実行されないようpom.xmlを修正する。

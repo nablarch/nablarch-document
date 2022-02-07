@@ -302,8 +302,8 @@ Additional information about data modeling tools
 
 The blank project assumes that the data model (data-model.edm) will be created using a modeling tool called `SI Object Browser ER (external site) <https://products.sint.co.jp/ober>`_.
 However, the data-model.edm is only used when generating DDL.
-Therefore, once the DDL is generated and executed in any way and the database is built, functions other than DDL generation/execution, 
-such as generating Entity classes from the database and registering test data in the database, can be executed using modeling tools other than SI Object Browser ER.
+Therefore, once the DDL is generated and executed in any way and the database is built, 
+functions other than DDL generation/execution can be executed using modeling tools other than SI Object Browser ER.
 
 If you use modeling tools other than SI Object Browser ER, modify pom.xml so that the goals of generate-ddl and execute-ddl are not executed as follows.
 
