@@ -193,7 +193,7 @@ BasicHttpRequestTest の使い方の補足
 
   public class CustomTestSupport extends TestSupport {
       // テストクラスの Class インスタンスを TestSupport のコンストラクタに渡せるように実装する
-      public class CustomTestSupport(Class<?> testClass) {
+      public CustomTestSupport(Class<?> testClass) {
           super(testClass);
       }
 

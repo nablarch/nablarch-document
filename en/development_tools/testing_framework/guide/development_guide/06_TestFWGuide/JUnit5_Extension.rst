@@ -192,7 +192,7 @@ First, create your own extension class that inherits from :java:extdoc:`TestSupp
 
   public class CustomTestSupport extends TestSupport {
       // Implement the constructor to pass the Class instance of the test class to TestSupport.
-      public class CustomTestSupport(Class<?> testClass) {
+      public CustomTestSupport(Class<?> testClass) {
           super(testClass);
       }
 
