@@ -109,7 +109,13 @@ Example of property files
 Multi-lingual support
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 For multilingual messages, prepare a property file for each language and configure the supported languages to :java:extdoc:`PropertiesStringResourceLoader.locales <nablarch.core.message.PropertiesStringResourceLoader.setLocales(java.util.List)>`.
-Note that the language corresponding to the default locale ( `Locale.getDefault().getLanguage()` ) is not required to be added to the supported languages.
+Note that the language corresponding to the default locale is not required to be added to the supported languages.
+
+.. important:: 
+
+  The default locale is set by :java:extdoc:`PropertiesStringResourceLoader.defaultLocale  <nablarch.core.message.PropertiesStringResourceLoader.setDefaultLocale(java.lang.String)>` (Default language). If it is not set, the value of :java:extdoc:`Locale.getDefault().getLanguage() <java.util.Locale.getLanguage()>` is used as the default locale.
+  
+  Since the value of :java:extdoc:`Locale.getDefault().getLanguage() <java.util.Locale.getLanguage()>` changes depending on the OS settings, using this value as the default locale may change the value depending on the environment in which it is executed and cause a failure. Be sure to set the default language.
 
 When acquiring the message, the language used is determined by the locale returned by :java:extdoc:`ThreadContext#getLanguage <nablarch.core.ThreadContext.getLanguage()>`.
 If the locale can not be acquired from :java:extdoc:`ThreadContext#getLanguage <nablarch.core.ThreadContext.getLanguage()>` , :java:extdoc:`Locale.getDefault() <java.util.Locale.getDefault()>` is used.

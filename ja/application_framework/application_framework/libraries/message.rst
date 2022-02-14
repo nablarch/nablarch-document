@@ -109,7 +109,13 @@
 多言語化対応を行う
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 メッセージの多言語化を行う場合には、言語ごとのプロパティファイルを用意し、サポートする言語を :java:extdoc:`PropertiesStringResourceLoader.locales <nablarch.core.message.PropertiesStringResourceLoader.setLocales(java.util.List)>` に設定する。
-なお、デフォルトのロケールに対応する言語( `Locale.getDefault().getLanguage()` )については、サポートする言語に追加しなくても良い。
+なお、デフォルトのロケールに対応する言語については、サポートする言語に追加しなくても良い。
+
+.. important:: 
+
+  デフォルトのロケールは、:java:extdoc:`PropertiesStringResourceLoader.defaultLocale  <nablarch.core.message.PropertiesStringResourceLoader.setDefaultLocale(java.lang.String)>` (デフォルトの言語)で設定する。設定しなかった場合、デフォルトのロケールは :java:extdoc:`Locale.getDefault().getLanguage() <java.util.Locale.getLanguage()>` の値が採用される。
+  
+  :java:extdoc:`Locale.getDefault().getLanguage() <java.util.Locale.getLanguage()>` の値はOSの設定によって変化するため、この値をデフォルトのロケールとして使用すると実行する環境に応じて値が変わり障害の原因になる可能性がある。必ずデフォルトの言語を設定すること。
 
 メッセージ取得時にどの言語が使用されるかは、 :java:extdoc:`ThreadContext#getLanguage <nablarch.core.ThreadContext.getLanguage()>` が返すロケールによって決定される。
 もし、 :java:extdoc:`ThreadContext#getLanguage <nablarch.core.ThreadContext.getLanguage()>` からロケールが取得できない場合は :java:extdoc:`Locale.getDefault() <java.util.Locale.getDefault()>` が使用される。
