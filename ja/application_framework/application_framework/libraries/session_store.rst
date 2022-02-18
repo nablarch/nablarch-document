@@ -247,8 +247,8 @@ Oracleで正常に動作しないケースがあるため、 `SESSION_ID` はCHA
 アプリケーションにログインする
   .. code-block:: java
 
-    // ログイン前に既存のセッションストアを破棄
-    SessionUtil.invalidate(ctx);
+    // ログイン前にセッションIDを変更する
+    SessionUtil.changeId(ctx);
 
     // ログインユーザの情報をセッションストアに保存
     SessionUtil.put(ctx, "user", user, "db");
