@@ -390,7 +390,26 @@ Coloring of borders and cells can be set as per your choice. By setting colors f
 .. important::
  | When data is written in a format other than String in an Excel file, the data cannot be read correctly.
 
-The dates can be written in the following format. If the time is omitted, each field is treated as if it were set to 0.
+How to write a date
+===================
+
+The dates can be written in the following format. 
+
+- yyyyMMddHHmmssSSS
+
+- yyyy-MM-dd HH:mm:ss.SSS
+
+The millisecond or all of the time can be omitted as follows.
+
++---------------------------------------------+------------------------------------------------------------+
+|How to omit                                  |Behavior when omitted                                       |
++=============================================+============================================================+
+|Omit millisecond (SSS / .SSS)                |It is treated as if 0 is specified as millisecond.          |
++---------------------------------------------+------------------------------------------------------------+
+|Omit all of time (HHmmssSSS / HH:mm:ss.SSS)  |It is treated as if 00:00:00.000 is specified as the time.  |
++---------------------------------------------+------------------------------------------------------------+
+
+An example is shown below.
 
 +-------------------------+---------------------------+------------------------------------+
 | Format                  | Description example       | Evaluation Results                 |
