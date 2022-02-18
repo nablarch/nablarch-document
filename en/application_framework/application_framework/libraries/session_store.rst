@@ -246,8 +246,8 @@ Implementation example of session store during login/logout is shown below.
 Login to the application
   .. code-block:: java
 
-    // Delete existing session store before login
-    SessionUtil.invalidate(ctx);
+    // Change session ID before login
+    SessionUtil.changeId(ctx);
 
     // Save login user information in session store
     SessionUtil.put(ctx, "user", user, "db");
