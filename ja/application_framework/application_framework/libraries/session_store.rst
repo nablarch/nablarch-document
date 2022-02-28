@@ -250,8 +250,19 @@ Oracleで正常に動作しないケースがあるため、 `SESSION_ID` はCHA
     // ログイン前にセッションIDを変更する
     SessionUtil.changeId(ctx);
 
+    // CSRFトークンを再生成する（CSRFトークン検証ハンドラを使用している場合）
+    CsrfTokenUtil.regenerateCsrfToken(ctx);
+
     // ログインユーザの情報をセッションストアに保存
     SessionUtil.put(ctx, "user", user, "db");
+
+.. important::
+  以下の条件を全て満たす場合、ログインのときにCSRFトークンの再生成が必要になる。
+
+  * :ref:`csrf_token_verification_handler` を使用している
+  * ログイン時にセッションIDの変更のみを行う（セッション情報は維持する）
+
+  詳しくは :ref:`csrf_token_verification_handler-regeneration` を参照。
 
 アプリケーションからログアウトする
   .. code-block:: java
