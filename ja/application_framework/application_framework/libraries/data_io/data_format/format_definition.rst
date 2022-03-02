@@ -867,6 +867,7 @@ JSONおよびXMLデータ形式で利用可能なフィールドタイプ一覧
           2 age     X9
           3 address N
 
+
 .. _data_format-field_convertor_list:
 
 フィールドコンバータ一覧
