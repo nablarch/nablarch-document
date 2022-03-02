@@ -124,7 +124,8 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
    :クエリ文字列: $query$
    :ポート番号: $port$
    :HTTPメソッド: $method$
-   :セッションID: $sessionId$
+   :HTTPセッションID: $sessionId$
+   :セッションストアID: $sessionStoreId$
    :リクエストパラメータ: $parameters$
    :セッションスコープ情報: $sessionScope$
    :クライアント端末IPアドレス: $clientIpAddress$
@@ -172,6 +173,7 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
 
   フォーマットに指定可能なプレースホルダ
    :ディスパッチ先クラス: $dispatchingClass$
+   :セッションストアID: $sessionStoreId$
 
   デフォルトのフォーマット
    .. code-block:: bash
@@ -193,6 +195,7 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
    :実行時間: $executionTime$
    :最大メモリ量: $maxMemory$
    :空きメモリ量(開始時): $freeMemory$
+   :セッションストアID: $sessionStoreId$
 
   デフォルトのフォーマット
    .. code-block:: bash
@@ -308,7 +311,8 @@ HTTPアクセスログの各項目もJSONの値として出力するには、
    :ラベル: label ``デフォルト``
    :リクエストID: requestId ``デフォルト``
    :ユーザID: userId ``デフォルト``
-   :セッションID: sessionId ``デフォルト``
+   :HTTPセッションID: sessionId ``デフォルト``
+   :セッションストアID: sessionStoreId
    :URL: url ``デフォルト``
    :ポート番号: port ``デフォルト``
    :HTTPメソッド: method ``デフォルト``
@@ -334,7 +338,8 @@ HTTPアクセスログの各項目もJSONの値として出力するには、
 
   指定可能な出力項目およびデフォルトの出力項目
    :ラベル: label ``デフォルト``
-   :セッションID: sessionId
+   :HTTPセッションID: sessionId
+   :セッションストアID: sessionStoreId
    :ディスパッチ先クラス: dispatchingClass ``デフォルト``
 
  httpAccessLogFormatter.endTargets
@@ -344,7 +349,8 @@ HTTPアクセスログの各項目もJSONの値として出力するには、
    :ラベル: label ``デフォルト``
    :リクエストID: requestId ``デフォルト``
    :ユーザID: userId ``デフォルト``
-   :セッションID: sessionId ``デフォルト``
+   :HTTPセッションID: sessionId ``デフォルト``
+   :セッションストアID: sessionStoreId
    :URL: url ``デフォルト``
    :ディスパッチ先クラス: dispatchingClass
    :ステータスコード(内部): statusCode
@@ -429,3 +435,18 @@ HTTPアクセスログの各項目もJSONの値として出力するには、
   httpAccessLogFormatter.parametersLabel=PARAMETERS
   httpAccessLogFormatter.dispatchingClassLabel=DISPATCHING CLASS
   httpAccessLogFormatter.endLabel=HTTP ACCESS END
+
+.. _http_access_log-session_store_id:
+
+セッションストアIDについて
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+セッションストアIDを出力に含めた場合、 :ref:`session_store` が発行するセッションを識別するIDが出力される。
+
+この値は :ref:`session_store_handler` の往路で記録されたものが使用される。
+したがってセッションストアIDをログに出力する場合、 :ref:`http_access_log_handler` は :ref:`session_store_handler` より後に配置しなければならない。
+
+また、セッションストアIDに出力される値には、以下の制約がある。
+
+* 初めてセッションストアIDが発行されるリクエストでは、リクエスト処理終了時のログにも値は出力されない
+* リクエストの処理中に :java:extdoc:`セッションストアの破棄 <nablarch.common.web.session.SessionUtil.invalidate(nablarch.fw.ExecutionContext)>` や :java:extdoc:`セッションストアIDの変更 <nablarch.common.web.session.SessionUtil.changeId(nablarch.fw.ExecutionContext)>` が行われた場合でも、そのリクエストの間のログには往路で記録されたセッションストアIDの値が出力される
