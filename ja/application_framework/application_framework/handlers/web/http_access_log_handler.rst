@@ -40,6 +40,8 @@ HTTPアクセスログハンドラ
 :ref:`http_error_handler` より前に配置すること
   また、完了時のログ出力にはエラーコードが必要となるため、 :ref:`http_error_handler` より前に配置する必要がある。
 
+セッションストアIDを出力する場合は :ref:`session_store_handler` より後ろに配置すること
+  詳細は :ref:`http_access_log-session_store_id` を参照。
 
 アクセスログ出力内容の切り替え
 --------------------------------------------------
