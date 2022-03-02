@@ -369,7 +369,6 @@ Points
   * The fields (items) in the record are defined from the next line of the record type.
   * The field (item) definition are repeated for the number of fields.
   * For field definition format, see :ref:`field definition format <data_format-field_definition>`.
-  * The field type corresponding to a field name should be unique in the format definition file.
 
 .. code-block:: bash
 
@@ -377,6 +376,23 @@ Points
   1 name  N(100)      # Name
   2 age   X9(3)       # Age
 
+.. important::
+
+  When defining fields in JSON and XML data formats, in multiple fields with the same field name, fields with the field type ``OB`` should not be mixed with fields with other field types.
+
+  Inappropriate examples
+    .. code-block:: bash
+
+      [order]
+      1 id     N
+      2 data   OB  # field type:OB
+      3 detail OB
+
+      [detail]
+      1 data   N   # field type:N  <- Do not mix with OB.
+
+      [data]
+      1 value  N
 
 .. _data_format-field_definition:
 
@@ -474,11 +490,6 @@ Details of each element of the field definition are as given below.
     - Defines the data type of the field.
 
       For field types that can be specified by default, see :ref:`data_format-field_type_list`.
-      
-      .. important::
-
-        If the field name matches the name of any record type in the format definition file, the field type must be set to ``OB``.
-        If any other field type is specified, it is equivalent to specifying ``OB``.
 
   * - Field convertor ``optional``
     - Defines the contents of input/output pre-processing, such as specifying options for field types or data conversion.
