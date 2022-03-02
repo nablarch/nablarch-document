@@ -124,7 +124,8 @@ Description rules
    :Query string: $query$
    :Port number: $port$
    :HTTP method: $method$
-   :Session ID: $sessionId$
+   :HTTP Session ID: $sessionId$
+   :Session Store ID: $sessionStoreId$
    :Request parameters: $parameters$
    :Session scope information: $sessionScope$
    :Client terminal IP address: $clientIpAddress$
@@ -172,6 +173,7 @@ Description rules
 
   Placeholders that can be specified for the format
    :Dispatch destination class: $dispatchingClass$
+   :Session Store ID: $sessionStoreId$
 
   Default format
    .. code-block:: bash
@@ -193,6 +195,7 @@ Description rules
    :Execution time: $executionTime$
    :Maximum memory: $maxMemory$
    :Free memory (at start): $freeMemory$
+   :Session Store ID: $sessionStoreId$
 
   Default format
    .. code-block:: bash
@@ -306,7 +309,8 @@ Description rules
    :Label: label ``default``
    :Request ID: requestId ``default``
    :Usre ID: userId ``default``
-   :Session ID: sessionId ``default``
+   :HTTP Session ID: sessionId ``default``
+   :Session Store ID: sessionStoreId
    :URL: url ``default``
    :Port number: port ``default``
    :HTTP method: method ``default``
@@ -329,7 +333,8 @@ Description rules
 
   Output items that can be specified and default output items
    :Label: label ``default``
-   :Session ID: sessionId
+   :HTTP Session ID: sessionId
+   :Session Store ID: sessionStoreId
    :Dispatch destination class: dispatchingClass ``default``
 
  httpAccessLogFormatter.endTargets
@@ -339,7 +344,8 @@ Description rules
    :Label: label ``default``
    :Request ID: requestId ``default``
    :User ID: userId ``default``
-   :Session ID: sessionId ``default``
+   :HTTP Session ID: sessionId ``default``
+   :Session Store ID: sessionStoreId
    :URL: url ``default``
    :Dispatch destination class: dispatchingClass
    :Status code (internal): statusCode
@@ -422,3 +428,19 @@ Example of the description
   httpAccessLogFormatter.parametersLabel=PARAMETERS
   httpAccessLogFormatter.dispatchingClassLabel=DISPATCHING CLASS
   httpAccessLogFormatter.endLabel=HTTP ACCESS END
+
+
+.. _http_access_log-session_store_id:
+
+About Session Store ID
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If the session store ID is included in the output, the ID identifying the session issued by :ref:`session_store` is output.
+
+The value saved in the request process of the :ref:`session_store_handler` is used for this value.
+Therefore, if the session store ID is to be logged, the :ref:`http_access_log_handler` must be placed after the :ref:`session_store_handler`.
+
+In addition, the value output to the session store ID has the following restrictions:.
+
+* The first time a session store ID is issued, the value is not output to the log at the end of the request process.
+* Even if the :java:extdoc:`session store is destroyed <nablarch.common.web.session.SessionUtil.invalidate(nablarch.fw.ExecutionContext)>` or the :java:extdoc:`session store ID is changed <nablarch.common.web.session.SessionUtil.changeId(nablarch.fw.ExecutionContext)>` during the processing of a request, the value of the session store ID recorded in the request process is output in the log during the request.
