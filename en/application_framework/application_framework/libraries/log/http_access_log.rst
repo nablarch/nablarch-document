@@ -440,7 +440,7 @@ If the session store ID is included in the output, the ID identifying the sessio
 The value saved in the request process of the :ref:`session_store_handler` is used for this value.
 Therefore, if the session store ID is to be logged, the :ref:`http_access_log_handler` must be placed after the :ref:`session_store_handler`.
 
-In addition, the value output to the session store ID has the following restrictions:.
+Since the session store ID is fixed in the state at the start of request processing, the specification is as follows.
 
-* The first time a session store ID is issued, the value is not output to the log at the end of the request process.
-* Even if the :java:extdoc:`session store is destroyed <nablarch.common.web.session.SessionUtil.invalidate(nablarch.fw.ExecutionContext)>` or the :java:extdoc:`session store ID is changed <nablarch.common.web.session.SessionUtil.changeId(nablarch.fw.ExecutionContext)>` during the processing of a request, the value of the session store ID recorded in the request process is output in the log during the request.
+* For requests that do not have a session store ID, all session store IDs output within the same request are empty, even if an ID is issued in the middle.
+* If the :java:extdoc:`session is destroyed <nablarch.common.web.session.SessionUtil.invalidate(nablarch.fw.ExecutionContext)>` or the :java:extdoc:`ID is changed <nablarch.common.web.session.SessionUtil.changeId(nablarch.fw.ExecutionContext)>`, the value in the log does not change from the value at the start of the request processing.

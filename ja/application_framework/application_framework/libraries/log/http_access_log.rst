@@ -446,7 +446,7 @@ HTTPアクセスログの各項目もJSONの値として出力するには、
 この値は :ref:`session_store_handler` の往路で記録されたものが使用される。
 したがってセッションストアIDをログに出力する場合、 :ref:`http_access_log_handler` は :ref:`session_store_handler` より後に配置しなければならない。
 
-また、セッションストアIDに出力される値には、以下の制約がある。
+セッションストアIDはリクエスト処理開始時の状態で固定されるため、以下のような仕様になる。
 
-* 初めてセッションストアIDが発行されるリクエストでは、リクエスト処理終了時のログにも値は出力されない
-* リクエストの処理中に :java:extdoc:`セッションストアの破棄 <nablarch.common.web.session.SessionUtil.invalidate(nablarch.fw.ExecutionContext)>` や :java:extdoc:`セッションストアIDの変更 <nablarch.common.web.session.SessionUtil.changeId(nablarch.fw.ExecutionContext)>` が行われた場合でも、そのリクエストの間のログには往路で記録されたセッションストアIDの値が出力される
+* セッションストアIDが発行されていないリクエストでは、途中でIDが発行されたとしても、同一リクエスト内で出力されるセッションストアIDは全て空になる
+* 途中で :java:extdoc:`セッションを破棄 <nablarch.common.web.session.SessionUtil.invalidate(nablarch.fw.ExecutionContext)>` したり :java:extdoc:`IDを変更 <nablarch.common.web.session.SessionUtil.changeId(nablarch.fw.ExecutionContext)>` しても、ログに出力される値はリクエスト処理開始時のものから変化しない
