@@ -380,7 +380,10 @@ Points
 
   When defining fields in JSON and XML data formats, in multiple fields with the same field name, fields with the field type ``OB`` should not be mixed with fields with other field types.
 
-  If mixed, the field type is considered to be ``OB``.
+  When mixed, the field type of the field that specifies other than OB is ignored because the definition of OB has priority.
+
+  As a result, even though the field is not actually an OB, it is treated as an OB type when reading and writing.
+  This can cause problems where data and format item definitions do not match and data cannot be read and written correctly.
 
   Inappropriate examples
     .. code-block:: bash
