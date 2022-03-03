@@ -380,6 +380,8 @@ Points
 
   When defining fields in JSON and XML data formats, in multiple fields with the same field name, fields with the field type ``OB`` should not be mixed with fields with other field types.
 
+  If mixed, the field type is considered to be ``OB``.
+
   Inappropriate examples
     .. code-block:: bash
 
@@ -388,11 +390,11 @@ Points
       2 data   OB  # field type:OB
       3 detail OB
 
-      [detail]
-      1 data   N   # field type:N  <- Do not mix with OB.
-
       [data]
       1 value  N
+
+      [detail]
+      1 data   N   # field type:N  <- Inappropriate notation: The field type is considered to be OB.
 
 .. _data_format-field_definition:
 
