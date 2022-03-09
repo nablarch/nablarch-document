@@ -32,47 +32,6 @@ gsp-dba-maven-pluginは、利用開始前にRDBMSにあわせた設定を行う�
 
 * アーキタイプから生成後、:doc:`CustomizeDB` の手順を実施した各種プロジェクト。
 
-Mavenの設定
-===============
-
-gsp-dba-maven-pluginを使用するにあたって、3rd Party Repositoryの設定が必要である。
-
-設定は、<ホームディレクトリ>/.m2/settings.xmlに行う。
-
-.. code-block:: xml
-
-  <settings>
-    <!-- 中略 -->
-    <profiles>
-      <profile>
-        <id>my-repository</id>
-        <pluginRepositories>
-          <pluginRepository>
-            <id>maven.seasar.org</id>
-            <name>The Seasar Foundation Maven Repository</name>
-            <url>https://maven.seasar.org/maven2</url>
-            <snapshots>
-              <enabled>false</enabled>
-            </snapshots>
-          </pluginRepository>
-          <pluginRepository>
-            <id>maven-snapshot.seasar.org</id>
-            <name>The Seasar Foundation Maven Snapshot Repository</name>
-            <url>https://maven.seasar.org/maven2-snapshot</url>
-            <releases>
-              <enabled>false</enabled>
-            </releases>
-            <snapshots>
-              <enabled>true</enabled>
-              <updatePolicy>always</updatePolicy>
-            </snapshots>
-          </pluginRepository>
-        </pluginRepositories>
-      </profile>
-    </profiles>
-    <!-- 中略 -->
-  </settings>
-
 .. tip::
 
   gsp-dba-maven-pluginはデフォルトでH2 Database Engine(以下H2)を使うように設定されている。

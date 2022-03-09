@@ -33,47 +33,6 @@ The following projects are covered.
 
 * Various projects that have implemented :doc:`CustomizeDB` procedures after generation from archetypes.
 
-Configuration of Maven
-=============================================
-
-Configuration of third party repository is required to use gsp-dba-maven-plugin.
-
-Configured in >/.m2/settings.xml.
-
-.. code-block:: xml
-
-  <settings>
-    <!-- Omitted -->
-    <profiles>
-      <profile>
-        <id>my-repository</id>
-        <pluginRepositories>
-          <pluginRepository>
-            <id>maven.seasar.org</id>
-            <name>The Seasar Foundation Maven Repository</name>
-            <url>https://maven.seasar.org/maven2</url>
-            <snapshots>
-              <enabled>false</enabled>
-            </snapshots>
-          </pluginRepository>
-          <pluginRepository>
-            <id>maven-snapshot.seasar.org</id>
-            <name>The Seasar Foundation Maven Snapshot Repository</name>
-            <url>https://maven.seasar.org/maven2-snapshot</url>
-            <releases>
-              <enabled>false</enabled>
-            </releases>
-            <snapshots>
-              <enabled>true</enabled>
-              <updatePolicy>always</updatePolicy>
-            </snapshots>
-          </pluginRepository>
-        </pluginRepositories>
-      </profile>
-    </profiles>
-    <!-- Omitted -->
-  </settings>
-
 .. tip::
 
   gsp-dba-maven-plugin is configured to use H2 Database Engine (hereinafter H2) by default.
