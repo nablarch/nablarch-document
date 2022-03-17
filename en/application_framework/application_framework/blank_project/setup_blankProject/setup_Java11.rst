@@ -19,7 +19,9 @@ When using blank projects in Java 11, perform the following procedure before com
 Add dependent module
 -------------------------------------------------------------
 
-Add the following modules to the created blank project POM.
+With Java 11, some modules, such as JAXB, have been removed from the standard library.
+Removed modules need to be explicitly added to dependencies.
+Therefore, add the following modules to the created blank project POM.
 
 .. code-block:: xml
 

@@ -14,11 +14,16 @@ When using blank projects in Java 17, perform the following procedure before com
 Add dependent module
 -------------------------------------------------------------
 
-Add the following modules to the created blank project POM.
+With Java 11, some modules, such as JAXB, have been removed from the standard library.
+Removed modules need to be explicitly added to dependencies.
+Therefore, add the following modules to the created blank project POM.
 
 There are two differences from the :ref:`Add dependent module in Java 11 <setup_blank_project_for_Java11_add_dependencies>`.
 
 * Specify ``jaxb-impl`` version as ``2.3.5``.
+
+  * This version includes support for Java 17 enhanced encapsulation.
+
 * Remove the ``jaxb-api`` artifact.
 
   * Because ``2.3.5`` of ``jaxb-impl`` transitively uses another artifact called ``jakarta.xml.bind-api``.
@@ -89,10 +94,18 @@ Therefore, make changes to 2 files as given below.
 Add --add-opens options (only for JSR352-compliant batch project)
 ------------------------------------------------------------------------------------------------------------------
 
-When running a JSR352-compliant batch project, the following JVM options need to be set.
+Encapsulation has been enhanced in Java 17, and internal APIs such as the standard API are no longer available for reflection by default.
+The canonical fix for this change would be to migrate to an alternate API. However, jBeret, the JSR352 implementation used in JSR352-compliant batch project, does not include this fix.
+
+Therefore, in order to run JSR352-compliant batch project in Java 17 as well, the following JVM options must be set so that the internal API can be used in reflection.
 
 * ``--add-opens java.base/java.lang=ALL-UNNAMED``
 * ``--add-opens java.base/java.security=ALL-UNNAMED``
+
+.. tip::
+  Specifying this JVM option is also the method used by WildFly, which includes jBeret.
+  
+  * `Running WildFly with SE 17 (external site) <https://www.wildfly.org/news/2021/12/16/WildFly26-Final-Released/#running-wildfly-with-se-17>`_
 
 The following is an example of a command with the options specified.
 
