@@ -240,7 +240,7 @@ JavaScript UI部品スタイル    △        △       /css/ui/\*.less         
 通常の文字と同様にサイズ、色、配置を調整することができる。
 使用可能なアイコン名については、以下のサイトを参照すること。
 
-  http://fortawesome.github.io/Font-Awesome/icons/
+  https://fontawesome.com/v5/search
 
 
 .. |br| raw:: html
