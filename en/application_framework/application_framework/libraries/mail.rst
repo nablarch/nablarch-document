@@ -64,6 +64,8 @@ For details of the function, see :ref:`mail-request`.
  * :ref:`mail_sender_thymeleaf_adaptor`
  * :ref:`mail_sender_velocity_adaptor`
 
+.. _`do-not-use-for-campaign-mail`:
+
 Sending of mass emails such as campaign notifications is not supported
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This function does not support simultaneous sending of emails such as campaign notifications.
@@ -576,6 +578,16 @@ The following configuration is required to use this function.
    If the configuration mentioned in step 2 is not done, then there is a possibility of multiple processes processing a single email send request as there is no exclusive control.
    However, the email send batch apparently continues to operate, and detecting the omission of this configuration is difficult.
    Configure the above without fail for multiple processing of email send.
+
+ .. important::
+
+  Nablarch's email-sending feature :ref:`doesn't support mass emails such as campaign notifications <do-not-use-for-campaign-mail>` . 
+  The purpose of multi-processing is not to distribute a large amount of mail but to continue the mail transmission function
+  even if a failure occurs in a part of servers in a redundant configuration.
+  Therefore, the mail sent by each process is all the mail (*) not sent at the time of starting the process,
+  and it is not distributed evenly among the processes.
+
+  * When a mail sending pattern ID is specified, all unsent mail of the corresponding mail sending pattern ID is subject to the processing.
 
 .. _`mail-mail_header_injection`:
 
