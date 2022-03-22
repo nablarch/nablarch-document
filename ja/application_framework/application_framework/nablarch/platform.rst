@@ -54,7 +54,7 @@ Java
 アプリケーションサーバ
  * Oracle Weblogic Server 14.1.1
  * WebSphere Application Server 9.0.5.8
- * WildFly 25.0.0.Final
+ * WildFly 26.0.1.Final
  * Apache Tomcat 9.0.54
 
 Java EE
