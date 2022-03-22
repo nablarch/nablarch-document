@@ -584,8 +584,8 @@ The following configuration is required to use this function.
   Nablarch's email-sending feature :ref:`doesn't support mass emails such as campaign notifications <do-not-use-for-campaign-mail>` . 
   The purpose of multi-processing is not to distribute a large amount of mail but to continue the mail transmission function
   even if a failure occurs in a part of servers in a redundant configuration.
-  Therefore, the mail to be sent by each process becomes all unsent mail (*) at the time of starting the process,
-  and the equal distribution is not performed among the processes.
+  Therefore, the mail sent by each process is all the mail (*) not sent at the time of starting the process,
+  and it is not distributed evenly among the processes.
 
   * When a mail sending pattern ID is specified, all unsent mail of the corresponding mail sending pattern ID is subject to the processing.
 
