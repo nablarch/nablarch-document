@@ -112,6 +112,8 @@ Description rules
   Class that implements :java:extdoc:`HttpAccessLogFormatter <nablarch.fw.web.handler.HttpAccessLogFormatter>`.
   Specify to replace.
 
+ .. _http_access_log-prop_begin_format:
+
  httpAccessLogFormatter.beginFormat
   Format used for the log output at the start of the request process.
 
@@ -122,7 +124,8 @@ Description rules
    :Query string: $query$
    :Port number: $port$
    :HTTP method: $method$
-   :Session ID: $sessionId$
+   :HTTP Session ID: $sessionId$
+   :Session Store ID: $sessionStoreId$
    :Request parameters: $parameters$
    :Session scope information: $sessionScope$
    :Client terminal IP address: $clientIpAddress$
@@ -170,11 +173,14 @@ Description rules
 
   Placeholders that can be specified for the format
    :Dispatch destination class: $dispatchingClass$
+   :Session Store ID: $sessionStoreId$
 
   Default format
    .. code-block:: bash
 
     @@@@ DISPATCHING CLASS @@@@ class = [$dispatchingClass$]
+
+ .. _http_access_log-prop_end_format:
 
  httpAccessLogFormatter.endFormat
   Format used for the log output at the end of the request process.
@@ -189,6 +195,7 @@ Description rules
    :Execution time: $executionTime$
    :Maximum memory: $maxMemory$
    :Free memory (at start): $freeMemory$
+   :Session Store ID: $sessionStoreId$
 
   Default format
    .. code-block:: bash
@@ -275,3 +282,165 @@ Example of the description
   httpAccessLogFormatter.parametersOutputEnabled=true
   httpAccessLogFormatter.dispatchingClassOutputEnabled=true
   httpAccessLogFormatter.endOutputEnabled=true
+
+.. _http_access_log-json_setting:
+
+Output as a structured log in JSON format
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Logs can be output in JSON format by using :ref:`log-json_log_setting` setting, but :java:extdoc:`HttpAccessLogFormatter <nablarch.fw.web.handler.HttpAccessLogFormatter>` outputs each item of the http access log as a string in the message value.
+
+To output each item in the http access log as a JSON value as well, use the :java:extdoc:`HttpAccessJsonLogFormatter <nablarch.fw.web.handler.HttpAccessJsonLogFormatter>`.
+
+You can configure in the property file described in :ref:`log-app_log_setting`.
+
+Description rules
+ The properties to be specified when using :java:extdoc:`HttpAccessJsonLogFormatter <nablarch.fw.web.handler.HttpAccessJsonLogFormatter>` are as follows.
+ 
+ httpAccessLogFormatter.className ``required``
+  To output logs in JSON format, specify :java:extdoc:`HttpAccessJsonLogFormatter <nablarch.fw.web.handler.HttpAccessJsonLogFormatter>`.
+
+ .. _http_access_log-prop_begin_targets:
+
+ httpAccessLogFormatter.beginTargets
+  Items for the log output at the start of the request process. Separated by comma.
+
+  Output items that can be specified and default output items
+   :Label: label ``default``
+   :Request ID: requestId ``default``
+   :Usre ID: userId ``default``
+   :HTTP Session ID: sessionId ``default``
+   :Session Store ID: sessionStoreId
+   :URL: url ``default``
+   :Port number: port ``default``
+   :HTTP method: method ``default``
+   :Query string: query
+   :Request parameters: parameters
+   :Session scope information: sessionScope
+   :Client terminal IP address: clientIpAddress ``default``
+   :Client terminal host: clientHost ``default``
+   :User-Agent of HTTP header: clientUserAgent
+
+  The details of the output items are omitted because they are the same as the placeholders for :ref:`the format used to output the log at the start of the request process <http_access_log-prop_begin_format>`.
+
+ httpAccessLogFormatter.parametersTargets
+  Items used for the log output after decryption of hidden parameters. Separated by comma.
+  Omitted as it is the same as :ref:`format used for the log output at the start of the request process <http_access_log-prop_begin_targets>`.
+  The default output item is ``label,parameters``.
+ 
+ httpAccessLogFormatter.dispatchingClassTargets
+  Items used for the output log after the dispatch class has been determined. Separated by comma.
+
+  Output items that can be specified and default output items
+   :Label: label ``default``
+   :HTTP Session ID: sessionId
+   :Session Store ID: sessionStoreId
+   :Dispatch destination class: dispatchingClass ``default``
+
+ httpAccessLogFormatter.endTargets
+  Items used for the log output at the end of the request process. Separated by comma.
+
+  Output items that can be specified and default output items
+   :Label: label ``default``
+   :Request ID: requestId ``default``
+   :User ID: userId ``default``
+   :HTTP Session ID: sessionId ``default``
+   :Session Store ID: sessionStoreId
+   :URL: url ``default``
+   :Dispatch destination class: dispatchingClass
+   :Status code (internal): statusCode
+   :Status code (client): responseStatusCode
+   :Content path: contentPath ``default``
+   :Start date and time: startTime ``default``
+   :End date and time: endTime ``default``
+   :Executuion time: executionTime ``default``
+   :Maximum memory: maxMemory ``default``
+   :Free memory(at start): freeMemory ``default``
+
+  Omitted as it is the same as :ref:`format used for the log output at the end of the request process <http_access_log-prop_end_format>`.
+
+ httpAccessLogFormatter.datePattern
+  Date and time pattern to use for date and time of the start and end.
+  For the pattern, specify the syntax specified by :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>`.
+  Default is ``yyyy-MM-dd HH:mm:ss.SSS``.
+
+ httpAccessLogFormatter.maskingPatterns
+  Specify the parameter name and variable name to be masked with a regular expression (partial match).
+  If more than one is specified, separate them with commas.
+  Used for masking both the request parameters and session scope information.
+  The specified regular expression is not case-sensitive.
+  For example, if specified as \ ``password``\, matches with ``password``, ``newPassword`` and ``password2``, etc.
+
+ httpAccessLogFormatter.maskingChar
+  Character used for masking. Default is ``*``.
+
+ httpAccessLogFormatter.beginOutputEnabled
+  Whether output at the start of the request process is enabled.
+  Default is true.
+  If specified as false, it is not output at the start of the request process.
+
+ httpAccessLogFormatter.parametersOutputEnabled
+  Whether output after hidden parameter decryption is enabled.
+  Default is true.
+  If specified as false, it is not output after decryption of the hidden parameter.
+
+ httpAccessLogFormatter.dispatchingClassOutputEnabled
+  Whether output after determining the dispatch class is enabled.
+  Default is true.
+  If specified as false, it is not output after determining the dispatch class.
+
+ httpAccessLogFormatter.endOutputEnabled
+  Whether output at the end of the request process is enabled.
+  Default is true.
+  If specified as false, it is not output at the end of the request process.
+
+ httpAccessLogFormatter.beginLabel
+  Value to be output to the label in the log at the start of the request process.
+  Default is ``"HTTP ACCESS BEGIN"``。
+
+ httpAccessLogFormatter.parametersLabel
+  Value to be output to the label in the log after hidden parameter decryption.
+  Default is ``"PARAMETERS"``。
+
+ httpAccessLogFormatter.dispatchingClassLabel
+  Value to be output to the label in the log after determining the dispatch class.
+  Default is ``"DISPATCHING CLASS"``。
+
+ httpAccessLogFormatter.endLabel
+  Value to be output to the label in the log at the end of the request process.
+  Default is ``"HTTP ACCESS END"``。
+
+ httpAccessLogFormatter.structuredMessagePrefix
+  A marker string given at the beginning of a message to identify that the message string after formatting has been formatted into JSON format.
+  If this marker is present at the beginning of the message, :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` processes the message as JSON data.
+  The default is ``"$JSON$"``.
+
+Example of the description
+ .. code-block:: properties
+
+  httpAccessLogFormatter.className=nablarch.fw.web.handler.HttpAccessJsonLogFormatter
+  httpAccessLogFormatter.structuredMessagePrefix=$JSON$
+  httpAccessLogFormatter.beginTargets=sessionId,url,method
+  httpAccessLogFormatter.parametersTargets=sessionId,parameters
+  httpAccessLogFormatter.dispatchingClassTargets=sessionId,dispatchingClass
+  httpAccessLogFormatter.endTargets=sessionId,url,statusCode,contentPath
+  httpAccessLogFormatter.beginLabel=HTTP ACCESS BEGIN
+  httpAccessLogFormatter.parametersLabel=PARAMETERS
+  httpAccessLogFormatter.dispatchingClassLabel=DISPATCHING CLASS
+  httpAccessLogFormatter.endLabel=HTTP ACCESS END
+
+
+.. _http_access_log-session_store_id:
+
+About Session Store ID
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If the session store ID is included in the output, the ID identifying the session issued by :ref:`session_store` is output.
+
+The value saved in the request process of the :ref:`session_store_handler` is used for this value.
+Therefore, if the session store ID is to be logged, the :ref:`http_access_log_handler` must be placed after the :ref:`session_store_handler`.
+
+Since the session store ID is fixed in the state at the start of request processing, the specification is as follows.
+
+* For requests that do not have a session store ID, all session store IDs output within the same request are empty, even if an ID is issued in the middle.
+* If the :java:extdoc:`session is destroyed <nablarch.common.web.session.SessionUtil.invalidate(nablarch.fw.ExecutionContext)>` or the :java:extdoc:`ID is changed <nablarch.common.web.session.SessionUtil.changeId(nablarch.fw.ExecutionContext)>`, the value in the log does not change from the value at the start of the request processing.

@@ -17,5 +17,6 @@ How to Use the Automated Test Framework
    RequestUnitTest_http_send_sync
    03_Tips
    04_MasterDataRestore
+   JUnit5_Extension
 .. 04_env_guide
 

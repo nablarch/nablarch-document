@@ -51,7 +51,7 @@
 実行環境に以下のソフトウェアがインストールされている前提とする。
 
 全プロジェクトで共通
-  * Maven 3.0.5以上
+  * Maven 3.6.3以上
 
 ウェブ、RESTfulウェブサービス、JSR352に準拠したバッチ、Nablarchバッチ
   * JDK1.8以上
@@ -88,6 +88,7 @@ Mavenの設定
 
   以降の手順で、Maven関連と思われるトラブルに遭遇した場合は、 :ref:`mvnFrequentlyTrouble` を参照すること。
 
+.. _beforefirstStepSpecityNablarchVer:
 
 ----------------------------------------------------------
 使用するNablarchのバージョンの指定

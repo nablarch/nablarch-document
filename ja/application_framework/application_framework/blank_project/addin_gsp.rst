@@ -17,53 +17,20 @@ gsp-dba-maven-pluginは、利用開始前にRDBMSにあわせた設定を行う�
 
 本手順では、アーキタイプから生成したプロジェクトで、gsp-dba-maven-pluginを使用するための設定方法を示す。
 
+.. important::
+
+  `ツールのREADME(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ にもある通り、gsp-dba-maven-pluginは開発フェーズで用いることを想定している。
+  開発者のローカルDBを主ターゲットとしたツールであり、本番環境での使用は推奨しない。
+
+  ER図からツールによって生成されたDDLをそのまま本番環境に配置して実行するというような使い方も想定していない。
+  ツールによって生成されたDDLを流用して本番環境向けのDDLを作成する場合はDBAの責任でDDLに問題ないかを確認すること。
+
 前提
 ====================================================
 
 以下のプロジェクトを対象とする。
 
 * アーキタイプから生成後、:doc:`CustomizeDB` の手順を実施した各種プロジェクト。
-
-Mavenの設定
-===============
-
-gsp-dba-maven-pluginを使用するにあたって、3rd Party Repositoryの設定が必要である。
-
-設定は、<ホームディレクトリ>/.m2/settings.xmlに行う。
-
-.. code-block:: xml
-
-  <settings>
-    <!-- 中略 -->
-    <profiles>
-      <profile>
-        <id>my-repository</id>
-        <pluginRepositories>
-          <pluginRepository>
-            <id>maven.seasar.org</id>
-            <name>The Seasar Foundation Maven Repository</name>
-            <url>https://maven.seasar.org/maven2</url>
-            <snapshots>
-              <enabled>false</enabled>
-            </snapshots>
-          </pluginRepository>
-          <pluginRepository>
-            <id>maven-snapshot.seasar.org</id>
-            <name>The Seasar Foundation Maven Snapshot Repository</name>
-            <url>https://maven.seasar.org/maven2-snapshot</url>
-            <releases>
-              <enabled>false</enabled>
-            </releases>
-            <snapshots>
-              <enabled>true</enabled>
-              <updatePolicy>always</updatePolicy>
-            </snapshots>
-          </pluginRepository>
-        </pluginRepositories>
-      </profile>
-    </profiles>
-    <!-- 中略 -->
-  </settings>
 
 .. tip::
 
@@ -287,3 +254,47 @@ src/main/resources/entity以下にRDBMS毎にedmファイルが存在するの�
   [INFO] Finished at: 2016-05-12T14:49:58+09:00
   [INFO] Final Memory: 9M/23M
   [INFO] ------------------------------------------------------------------------
+
+データモデリングツールについての補足
+====================================
+
+ブランクプロジェクトは `SI Object Browser ER(外部サイト) <https://products.sint.co.jp/ober>`_ というモデリングツールを使用してデータモデル(data-model.edm)を作成することを前提としている。
+しかし、data-model.edm が使われるのはDDLの生成時だけである。
+そのため、任意の方法でDDLを生成・実行しデータベースを構築すれば、
+DDL の生成/実行以外の機能は SI Object Browser ER 以外のモデリングツールを利用した場合でも実行可能である。
+
+SI Object Browser ER 以外のモデリングツールを利用する場合は、以下のように generate-ddl 、execute-ddl のゴールが実行されないようpom.xmlを修正する。
+
+.. code-block:: xml
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>jp.co.tis.gsp</groupId>
+        <artifactId>gsp-dba-maven-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>default-cli</id>
+              <phase>generate-resources</phase>
+              <goals>
+                <!-- <goal>generate-ddl</goal> この行を削除する --> 
+                <!-- <goal>execute-ddl</goal> この行を削除する -->
+                <goal>generate-entity</goal>
+                <goal>load-data</goal>
+                <goal>export-schema</goal>
+              </goals>
+            </execution>
+          </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+修正後に以下のコマンドを実行することでEntity クラスの生成、テストデータの登録、ダンプファイルの作成が行われる。
+なお、コマンド実行前に任意の方法でデータベースを構築する必要がある。
+
+.. code-block:: bash
+
+  mvn -P gsp clean generate-resources
+
+.. tip::
+  gsp-dba-maven-pluginはDDL生成機能を使用しない場合は、DDL実行機能の使用も推奨しない。

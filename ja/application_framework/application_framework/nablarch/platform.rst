@@ -43,10 +43,10 @@ Nablarchフレームワークのテスト環境
 Nablarchフレームワークは、以下の環境においてテストを実施し、正常に動作することを確認している。
 
 Java
- * Java SE 6/8/11 [#java11]_
+ * Java SE 6/8/11 [#java11]_/17 [#java17]_
 
 データベース
- * Oracle Database 12c/19c
+ * Oracle Database 12c/19c/21c
  * IBM Db2 10.5/11.5
  * SQL Server 2017/2019
  * PostgreSQL 10.0/11.5/12.2/13.2/14.0
@@ -54,7 +54,7 @@ Java
 アプリケーションサーバ
  * Oracle Weblogic Server 14.1.1
  * WebSphere Application Server 9.0.5.8
- * WildFly 25.0.0.Final
+ * WildFly 26.0.1.Final
  * Apache Tomcat 9.0.54
 
 Java EE
@@ -103,3 +103,4 @@ MOM（メッセージ指向ミドルウェア）
  * WebSphere MQ 7
 
 .. [#java11] Java11で使用する場合、別途設定変更が必要となる。設定方法は :doc:`../blank_project/setup_blankProject/setup_Java11` を参照。
+.. [#java17] Java17で使用する場合、別途設定変更が必要となる。設定方法は :doc:`../blank_project/setup_blankProject/setup_Java17` を参照。

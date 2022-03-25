@@ -50,7 +50,7 @@ Prerequisites for initial setup
 The following software are assumed to be installed in the execution environment.
 
 All projects
-  * Maven 3.0.5 or higher
+  * Maven 3.6.3 or higher
 
 Web, RESTful web service, JSR352-compliant batch, Nablarch batch
   * JDK1.8 or higher
@@ -87,6 +87,7 @@ If the xml file is not configured, refer to :ref:`mvnSetting` and configure.
 
   In the following steps, if you run into any problems that you think are Maven-related, please refer to :ref:`mvnFrequentlyTrouble`.
 
+.. _beforefirstStepSpecityNablarchVer:
 
 ----------------------------------------------------------
 Specifying the version of Nablarch to use

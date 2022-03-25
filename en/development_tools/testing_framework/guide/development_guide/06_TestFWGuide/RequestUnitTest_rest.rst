@@ -145,13 +145,14 @@ Pre-preparation assistance features
 ===================================
 
 Sending a request to the built-in server requires an instance of ``HttpRequest``.
-``RestTestSupport`` class provides four methods to make it easy to create a ``RestMockHttpRequest`` object that extends ``HttpRequest`` for request unit testing.
+``RestTestSupport`` class provides five methods to make it easy to create a ``RestMockHttpRequest`` object that extends ``HttpRequest`` for request unit testing.
 
 .. code-block:: java
 
   RestMockHttpRequest get(String uri)
   RestMockHttpRequest post(String uri)
   RestMockHttpRequest put(String uri)
+  RestMockHttpRequest patch(String uri)
   RestMockHttpRequest delete(String uri)
 
 
@@ -161,6 +162,14 @@ In the argument, the following values are passed on.
 
 These methods create a ``RestMockHttpRequest`` instance based on the received request URI and return it with the HTTP method set according to the method name. \
 If you want to set data other than the URI, such as request parameters, set the data for the instance obtained by this method call.
+
+If you want to create an object of ``RestMockHttpRequest`` using an HTTP method other than the above, use the following method.
+
+.. code-block:: java
+
+  RestMockHttpRequest newRequest(String httpMethod, String uri)
+
+Pass the HTTP method in the first argument and the request URI for testing in the second argument.
 
 .. tip::
 

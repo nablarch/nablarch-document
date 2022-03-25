@@ -297,3 +297,152 @@ Example of the description
   sqlLogFormatter.endExecuteUpdateFormat=$methodName$\n\texe:$executeTime$ms count:$updateCount$
   sqlLogFormatter.startExecuteBatchFormat=$methodName$\n\tSQL:$sql$\n\tadditional_info:\n\t$additionalInfo$
   sqlLogFormatter.endExecuteBatchFormat=$methodName$\n\texe:$executeTime$ms count:$updateCount$
+
+.. _sql_log-json_setting:
+
+Output as a structured log in JSON format
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Logs can be output in JSON format by using :ref:`log-json_log_setting` setting, but :java:extdoc:`SqlLogFormatter <nablarch.core.db.statement.SqlLogFormatter>` outputs each item of the sql log as a string in the message value.
+
+To output each item in the sql log as a JSON value as well, use the :java:extdoc:`SqlJsonLogFormatter <nablarch.core.db.statement.SqlJsonLogFormatter>`.
+You can configure in the property file described in :ref:`log-app_log_setting`.
+
+Description rules
+ The properties to be specified when using :java:extdoc:`SqlJsonLogFormatter <nablarch.core.db.statement.SqlJsonLogFormatter>` are as follows.
+ 
+ sqlLogFormatter.className ``required``
+  To output logs in JSON format, specify :java:extdoc:`SqlJsonLogFormatter <nablarch.core.db.statement.SqlJsonLogFormatter>`.
+
+ sqlLogFormatter.startRetrieveTargets
+  Items used at the start of :java:extdoc:`SqlPStatement#retrieve <nablarch.core.db.statement.SqlPStatement.retrieve()>`.
+  Separated by comma.
+
+  Output items that can be specified
+   :Method name: methodName
+   :SQL statement: sql
+   :Acquire start position: startPosition
+   :Acquisition maximum count: size
+   :Timeout time: queryTimeout
+   :Number of rows to fetch: fetchSize
+   :Additional information: additionalInfo
+ 
+  All items are output in default.
+
+ sqlLogFormatter.endRetrieveTargets
+  Items used at the end of :java:extdoc:`SqlPStatement#retrieve <nablarch.core.db.statement.SqlPStatement.retrieve()>`.
+  Separated by comma.
+
+  Output items that can be specified
+   :Method name: methodName
+   :Execution time: executeTime
+   :Data acquisition time: retrieveTime
+   :Search count: count
+
+  All items are output in default.
+
+ sqlLogFormatter.startExecuteTargets
+  Items used at the start of  :java:extdoc:`SqlPStatement#execute <nablarch.core.db.statement.SqlPStatement.execute()>`
+  Separated by comma.
+
+  Output items that can be specified
+   :Method name: methodName
+   :SQL statement: sql
+   :Additional information: additionalInfo
+
+  All items are output in default.
+
+ sqlLogFormatter.endExecuteTargets
+  Items used at the end of :java:extdoc:`SqlPStatement#execute <nablarch.core.db.statement.SqlPStatement.execute()>`
+  Separated by comma.
+
+  Output items that can be specified
+   :Method name: methodName
+   :Execution time: executeTime
+
+  All items are output in default.
+
+ sqlLogFormatter.startExecuteQueryTargets
+  Items used at the start of :java:extdoc:`SqlPStatement#executeQuery <nablarch.core.db.statement.SqlPStatement.executeQuery()>`
+  Separated by comma.
+
+  Output items that can be specified
+   :Method name: methodName
+   :SQL statement: sql
+   :Additional information: additionalInfo
+
+  All items are output in default.
+
+ sqlLogFormatter.endExecuteQueryTargets
+  Items used at the end of :java:extdoc:`SqlPStatement#executeQuery <nablarch.core.db.statement.SqlPStatement.executeQuery()>`
+  Separated by comma.
+
+  Output items that can be specified
+   :Method name: methodName
+   :Execution time: executeTime
+
+  All items are output in default.
+
+ sqlLogFormatter.startExecuteUpdateTargets
+  Items used at the start of :java:extdoc:`SqlPStatement#executeUpdate <nablarch.core.db.statement.SqlPStatement.executeUpdate()>`
+  Separated by comma.
+
+  Output items that can be specified
+   :Method name: methodName
+   :SQL statement: sql
+   :Additional information: additionalInfo
+
+  All items are output in default.
+
+ sqlLogFormatter.endExecuteUpdateTargets
+  Items used at the end of :java:extdoc:`SqlPStatement#executeUpdate <nablarch.core.db.statement.SqlPStatement.executeUpdate()>`
+  Separated by comma.
+
+  Output items that can be specified
+   :Method name: methodName
+   :Execution time: executeTime
+   :Update count: updateCount
+
+  All items are output in default.
+
+ sqlLogFormatter.startExecuteBatchTargets
+  Items used at the start of :java:extdoc:`SqlStatement#executeBatch <nablarch.core.db.statement.SqlStatement.executeBatch()>`
+  Separated by comma.
+
+  Output items that can be specified
+   :Method name: methodName
+   :SQL statement: sql
+   :Additional information: additionalInfo
+
+  All items are output in default.
+
+ sqlLogFormatter.endExecuteBatchTargets
+  Items used at the end of :java:extdoc:`SqlStatement#executeBatch <nablarch.core.db.statement.SqlStatement.executeBatch()>`
+  Separated by comma.
+
+  Output items that can be specified
+   :Method name: methodName
+   :Execution time: executeTime
+   :Batch count: batchCount
+
+  All items are output in default.
+
+ sqlLogFormatter.structuredMessagePrefix
+  A marker string given at the beginning of a message to identify that the message string after formatting has been formatted into JSON format.
+  If this marker is present at the beginning of the message, :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` processes the message as JSON data.
+  The default is ``"$JSON$"``.
+
+Example of the description
+ .. code-block:: properties
+
+  sqlLogFormatter.className=nablarch.core.db.statement.SqlJsonLogFormatter
+  sqlLogFormatter.structuredMessagePrefix=$JSON$
+  sqlLogFormatter.startRetrieveTargets=methodName,sql,start,startPosition,size,additionalInfo
+  sqlLogFormatter.endRetrieveTargets=methodName,executeTime,retrieveTime,count
+  sqlLogFormatter.startExecuteTargets=methodName,sql,additionalInfo
+  sqlLogFormatter.endExecuteTargets=methodName,executeTime
+  sqlLogFormatter.startExecuteQueryTargets=methodName,sql,additionalInfo
+  sqlLogFormatter.endExecuteQueryTargets=methodName,executeTime
+  sqlLogFormatter.startExecuteUpdateTargets=methodName,sql,additionalInfo
+  sqlLogFormatter.endExecuteUpdateTargets=methodName,executeTime,updateCount
+  sqlLogFormatter.startExecuteBatchTargets=methodName,sql,additionalInfo
+  sqlLogFormatter.endExecuteBatchTargets=methodName,executeTime,updateCount

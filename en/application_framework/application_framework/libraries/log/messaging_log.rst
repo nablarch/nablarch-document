@@ -242,3 +242,133 @@ Example of the description
   messagingLogFormatter.httpReceivedMessageFormat=@@@@ HTTP RECEIVED MESSAGE @@@@\n\tthread_name    = [$threadName$]\n\tmessage_id     = [$messageId$]\n\tdestination    = [$destination$]\n\tcorrelation_id = [$correlationId$]\n\tmessage_header = [$messageHeader$]\n\tmessage_body   = [$messageBody$]
 
 
+
+.. _messaging_log-json_setting:
+
+Output as a structured log in JSON format
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Logs can be output in JSON format by using :ref:`log-json_log_setting` setting, but :java:extdoc:`MessagingLogFormatter <nablarch.fw.messaging.logging.MessagingLogFormatter>` outputs each item of the failure log as a string in the message value.
+
+To output each item in the failure log as a JSON value as well, use the :java:extdoc:`MessagingJsonLogFormatter <nablarch.fw.messaging.logging.MessagingJsonLogFormatter>`.
+You can configure in the property file described in :ref:`log-app_log_setting`.
+
+
+Description rules
+ The properties to be specified when using :java:extdoc:`MessagingJsonLogFormatter <nablarch.fw.messaging.logging.MessagingJsonLogFormatter>` are as follows.
+ 
+ messagingLogFormatter.className ``required``
+  To output logs in JSON format, specify :java:extdoc:`MessagingJsonLogFormatter <nablarch.fw.messaging.logging.MessagingJsonLogFormatter>`.
+
+ messagingLogFormatter.maskingPatterns
+  Specify the character string to be masked in the message body with a regular expression. 
+  The first capture part (enclosed in parentheses) specified by the regular expression will be the target for masking.
+
+  For example, if "<password>(.+?)</password>" is specified as the pattern, 
+  and "<password>hoge</password>" is included in the message, 
+  then the output string will be "<password>****</password>".
+
+  If more than one is specified, separate them with commas. 
+  The specified regular expression is not case-sensitive.
+
+ messagingLogFormatter.maskingChar
+  Character used for masking. Default is "*".
+
+ messagingLogFormatter.sentMessageTargets
+  Items used for the log output of MOM outgoing message. Separated by comma.
+
+  Output items that can be specified and default output items
+   :Label: label ``default``
+   :Thread name: threadName ``default``
+   :Message ID: messageId ``default``
+   :Send destination: destination ``default``
+   :Correlation message ID: correlationId ``default``
+   :Reply to: replyTo ``default``
+   :Expiry interval: timeToLive ``default``
+   :Message body content: messageBody [#placeholder_json]_ ``default``
+   :Hex dump of message body: messageBodyHex [#placeholder_json]_
+   :Message body byte length: messageBodyLength
+
+ messagingLogFormatter.receivedMessageTargets
+  Items used for the log output of MOM incoming message. Separated by comma.
+
+  Output items that can be specified and default output items
+   :Label: label ``default``
+   :Thread name: threadName ``default``
+   :Message ID: messageId ``default``
+   :Send destination: destination ``default``
+   :Correlation message ID: correlationId ``default``
+   :Reply to: replyTo ``default``
+   :Expiry interval: timeToLive
+   :Message body content: messageBody [#placeholder_json]_ ``default``
+   :Hex dump of message body: messageBodyHex [#placeholder_json]_
+   :Message body byte length: messageBodyLength
+
+ messagingLogFormatter.httpSentMessageTargets
+  Items used for the log output of HTTP outgoing message. Separated by comma.
+
+  Output items that can be specified and default output items
+   :Label: label ``default``
+   :Thread name: threadName ``default``
+   :Message ID: messageId ``default``
+   :Send destination: destination ``default``
+   :Correlation message ID: correlationId ``default``
+   :Message body content: messageBody [#placeholder_json]_ ``default``
+   :Hex dump of message body: messageBodyHex [#placeholder_json]_
+   :Message body byte length: messageBodyLength
+   :Message header: messageHeader ``default``
+
+ messagingLogFormatter.httpReceivedMessageTargets
+  Items used for the log output of HTTP incoming message. Separated by comma.
+
+  Output items that can be specified and default output items
+   :Label: label ``default``
+   :Thread name: threadName ``default``
+   :Message ID: messageId ``default``
+   :Send destination: destination ``default``
+   :Correlation message ID: correlationId ``default``
+   :Message body content: messageBody [#placeholder_json]_ ``default``
+   :Hex dump of message body: messageBodyHex [#placeholder_json]_
+   :Message body byte length: messageBodyLength
+   :Message header: messageHeader ``default``
+
+ messagingLogFormatter.sentMessageLabel
+  Value to be output to the label in the log output of MOM outgoing message.
+  Default is ``"SENT MESSAGE"``。
+
+ messagingLogFormatter.receivedMessageLabel
+  Value to be output to the label in the log output of MOM incoming message.
+  Default is ``"RECEIVED MESSAGE"``。
+
+ messagingLogFormatter.httpSentMessageLabel
+  Value to be output to the label in the log output of HTTP outgoing message.
+  Default is ``"HTTP SENT MESSAGE"``。
+
+ messagingLogFormatter.httpReceivedMessageLabel
+  Value to be output to the label in the log output of HTTP incoming message.
+  Default is ``"HTTP RECEIVED MESSAGE"``。
+
+ messagingLogFormatter.structuredMessagePrefix
+  A marker string given at the beginning of a message to identify that the message string after formatting has been formatted into JSON format.
+  If this marker is present at the beginning of the message, :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` processes the message as JSON data.
+  The default is ``"$JSON$"``.
+
+.. [#placeholder_json]
+
+  * **messageBody:** Outputs the result of encoding the message with ISO-8859-1 fixed.
+  * **messageBodyHex:** messageBody are output by hexadump.
+
+Example of the description
+ .. code-block:: properties
+
+  messagingLogFormatter.className=nablarch.fw.messaging.logging.MessagingJsonLogFormatter
+  messagingLogFormatter.structuredMessagePrefix=$JSON$
+
+  # Targets for MOM messaging
+  messagingLogFormatter.sentMessageTargets=threadName,messageId,destination,correlationId,replyTo,timeToLive,messageBody
+  messagingLogFormatter.receivedMessageTargets=threadName,messageId,destination,correlationId,replyTo,messageBody
+
+  # Targets for HTTP messaging
+  messagingLogFormatter.httpSentMessageTargets=threadName,messageId,destination,correlationId,messageHeader,messageBody
+  messagingLogFormatter.httpReceivedMessageTargets=threadName,messageId,destination,correlationId,messageHeader,messageBody
+
+

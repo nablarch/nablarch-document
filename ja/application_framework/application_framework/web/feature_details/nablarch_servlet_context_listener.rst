@@ -61,3 +61,44 @@ Nablarchサーブレットコンテキスト初期化リスナ
   <listener>
     <listener-class>nablarch.fw.web.servlet.NablarchServletContextListener</listener-class>
   </listener>
+
+初期化の成否を後続処理で取得する
+--------------------------------------------------
+
+本クラスの初期化に成功したか否かは、:java:extdoc:`NablarchServletContextListener#isInitializationCompleted <nablarch.fw.web.servlet.NablarchServletContextListener.isInitializationCompleted()>` を使用して取得することができる。
+初期化に成功した場合は上記メソッドは ``true`` を返却する。
+
+本クラスの初期化に失敗するとアプリケーションの起動も失敗するが、サーブレットコンテキストリスナを複数登録していた場合は、
+本クラスの後続のサーブレットコンテキストリスナの処理が実行されることがある。
+この機能を使用することで本クラスの後続のサーブレットコンテキストリスナにおいて、
+以下のようにシステムリポジトリの初期化に成功した場合だけ処理を続行するといった分岐が可能となる。
+
+.. code-block:: java
+
+  public class CustomServletContextListener implements ServletContextListener {
+      @Override
+      public void contextInitialized(ServletContextEvent sce) {
+          if(NablarchServletContextListener.isInitializationCompleted()){
+            // システムリポジトリを使用した処理
+          }
+      }
+
+なお、サーブレットコンテキストリスナの実行順は `web.xml` に記載した順序となる。
+システムリポジトリを使用するサーブレットコンテキストリスナを登録する場合は、
+以下のように本クラスより後に `web.xml` に記載する必要がある。
+また、 ``@WebListener`` アノテーションによるサーブレットコンテキストリスナの登録では実行順序は保証されないため、
+必ず `web.xml` で定義すること。
+
+.. code-block:: xml
+
+  <listener>
+    <listener-class>nablarch.fw.web.servlet.NablarchServletContextListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>please.change.me.CustomServletContextListener</listener-class>
+  </listener>
+
+.. tip::
+
+  複数のサーブレットコンテキストリスナが登録されている場合に、先に実行されたサーブレットコンテキストリスナの処理の例外を検知して処理を中止するか、
+  例外を無視して後続のサーブレットコンテキストリスナの処理を継続するかはサーブレットコンテナの実装に依存する。

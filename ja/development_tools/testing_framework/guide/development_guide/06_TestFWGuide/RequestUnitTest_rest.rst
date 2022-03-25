@@ -153,13 +153,14 @@ RestTestSupport
 内蔵サーバへのリクエスト送信には、 ``HttpRequest`` のインスタンスが必要となる。\
 ``RestTestSupport`` クラスでは、 ``HttpRequest`` をリクエスト単体テスト用に拡張した\
 ``RestMockHttpRequest`` のオブジェクトを簡単に作成できるよう\
-4つのメソッドを用意している。\
+5つのメソッドを用意している。\
 
 .. code-block:: java
 
   RestMockHttpRequest get(String uri)
   RestMockHttpRequest post(String uri)
   RestMockHttpRequest put(String uri)
+  RestMockHttpRequest patch(String uri)
   RestMockHttpRequest delete(String uri)
 
 
@@ -171,6 +172,14 @@ RestTestSupport
 メソッド名に応じたHTTPメソッドを設定した上で返却する。\
 リクエストパラメータなどURI以外のデータを設定したい場合は、\
 本メソッド呼び出しにより取得したインスタンスに対してデータの設定を行うとよい。
+
+また上記以外のHTTPメソッドで ``RestMockHttpRequest`` のオブジェクトを作成したい場合は以下のメソッドを使用する。
+
+.. code-block:: java
+
+  RestMockHttpRequest newRequest(String httpMethod, String uri)
+
+第1引数にはHTTPメソッドを、第2引数にはテスト対象となるリクエストURIを引き渡す。
 
 .. tip::
 

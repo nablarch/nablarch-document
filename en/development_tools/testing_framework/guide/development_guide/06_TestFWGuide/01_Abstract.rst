@@ -13,6 +13,9 @@ Junit4 base
 The automated testing framework is based on JUnit4. 
 The framework uses the functions provided in JUnit 4, such as various annotations, the assert method, and the Matcher class.
 
+.. tip::
+
+  If you want to run the automated testing framework with JUnit 5, see :ref:`run_ntf_on_junit5_with_vintage_engine`.
 
 Externalization of test data
 ==============================
@@ -387,7 +390,46 @@ Coloring of borders and cells can be set as per your choice. By setting colors f
 .. important::
  | When data is written in a format other than String in an Excel file, the data cannot be read correctly.
 
+How to write a date
+===================
 
+The dates can be written in the following format. 
+
+- yyyyMMddHHmmssSSS
+
+- yyyy-MM-dd HH:mm:ss.SSS
+
+The millisecond or all of the time can be omitted as follows.
+
++---------------------------+------------------------------------------------------------+
+|How to omit                |Behavior when omitted                                       |
++===========================+============================================================+
+| | Omit millisecond        |It is treated as if 0 is specified as millisecond.          |
+| | ・yyyMMddHHmmss         |                                                            |
+| | ・yyy-MM-dd HH:mm:ss    |                                                            |
++---------------------------+------------------------------------------------------------+
+| | Omit all of time        |It is treated as if 00:00:00.000 is specified as the time.  |
+| | ・yyyMMdd               |                                                            |
+| | ・yyy-MM-dd             |                                                            |
++---------------------------+------------------------------------------------------------+
+
+An example is shown below.
+
++--------------------------+-----------------------------------+
+|Description example       |Evaluation Results                 |
++==========================+===================================+
+|20210123123456789         |2021/1/23 12:34:56.789             |
++--------------------------+-----------------------------------+
+|20210123123456            |2021/1/23 12:34:56.000             |
++--------------------------+-----------------------------------+
+|20210123                  |2021/1/23 00:00:00.000             |
++--------------------------+-----------------------------------+
+|2021-01-23 12:34:56.789   |2021/1/23 12:34:56.789             |
++--------------------------+-----------------------------------+
+|2021-01-23 12:34:56       |2021/1/23 12:34:56.000             |
++--------------------------+-----------------------------------+
+|2021-01-23                |2021/1/23 00:00:00.000             |
++--------------------------+-----------------------------------+
 
 .. _`special_notation_in_cell`:
 
@@ -605,3 +647,82 @@ the data should be grouped together and described based on data types as follows
 .. |br| raw:: html
 
   <br />
+
+
+.. _run_ntf_on_junit5_with_vintage_engine:
+
+------------------------------------------------------
+Running The Automated Testing Framework with JUnit 5
+------------------------------------------------------
+
+JUnit Vintage
+===============
+
+JUnit 5 has a project called JUnit Vintage.
+This project provides the feature to run tests written in JUnit 4 with JUnit 5.
+By using this feature, you can run the automated testing framework with JUnit 5.
+
+.. important::
+  This feature is just running JUnit 4 tests as JUnit 4.
+  Therefore, even though you use this feature, you can not use the features of JUnit 5 in tests of JUnit 4.
+
+  This feature can be used to assist in the gradual migration from JUnit 4 to JUnit 5.
+  For instructions on migrating from JUnit 4 to JUnit 5, please refer to `the official guide (external site) <https://junit.org/junit5/docs/5.8.2/user-guide/#migrating-from-junit4>`_.
+
+.. tip::
+  See :ref:`ntf_junit5_extension` for information on how to use the automated testing framework with JUnit 5 tests.
+
+In the following, we will explain how to use JUnit Vintage to run the automated testing framework with JUnit 5.
+
+Prerequisite
+==============
+
+In order to use JUnit 5, the following conditions must be met.
+
+* Java 8 or higher
+* maven-surefire-plugin must be 2.22.0 or higher
+
+Add dependencies
+==================
+
+JUnit Vintage can be enabled by adding the following two artifacts to the dependencies in pom.xml.
+
+* ``org.junit.jupiter:junit-jupiter``
+* ``org.junit.vintage:junit-vintage-engine``
+
+An example of pom.xml is given below.
+
+.. code-block:: xml
+
+  <dependencyManagement>
+    <dependencies>
+      ...
+
+      <!-- Load the bom provided by JUnit in order to align the versions. -->
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>5.8.2</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    ...
+
+    <!-- Add the following dependencies -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+With the above settings, you can now run the automated testing framework with JUnit 5.

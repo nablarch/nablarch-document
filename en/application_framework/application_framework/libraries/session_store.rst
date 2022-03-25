@@ -246,11 +246,22 @@ Implementation example of session store during login/logout is shown below.
 Login to the application
   .. code-block:: java
 
-    // Delete existing session store before login
-    SessionUtil.invalidate(ctx);
+    // Change session ID before login
+    SessionUtil.changeId(ctx);
+
+    // Regenerate CSRF token (If you are using the CSRF Token Verification Handler)
+    CsrfTokenUtil.regenerateCsrfToken(ctx);
 
     // Save login user information in session store
     SessionUtil.put(ctx, "user", user, "db");
+
+.. important::
+  If all of the following conditions are met, a CSRF token must be regenerated at login.
+
+  * Using the :ref:`csrf_token_verification_handler`
+  * Only change session ID at login (keep session information)
+
+  See :ref:`csrf_token_verification_handler-regeneration` for more information.
 
 Logout from the application
   .. code-block:: java

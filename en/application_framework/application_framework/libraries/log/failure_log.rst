@@ -575,3 +575,98 @@ Configure such that a class that inherits :java:extdoc:`FailureLogFormatter <nab
   failureLogFormatter.defaultMessage=an unexpected exception occurred.
   failureLogFormatter.notificationFormat=fail_code = [$failureCode$] $message$
   failureLogFormatter.analysisFormat=fail_code = [$failureCode$] $message$\nInput Data :\n$data$
+
+.. _failure_log-json_setting:
+
+Output as a structured log in JSON format
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Logs can be output in JSON format by using :ref:`log-json_log_setting` setting, but :java:extdoc:`FailureLogFormatter <nablarch.core.log.app.FailureLogFormatter>` outputs each item of the failure log as a string in the message value.
+
+To output each item in the failure log as a JSON value as well, use the :java:extdoc:`FailureJsonLogFormatter <nablarch.core.log.app.FailureJsonLogFormatter>`.
+You can configure in the property file described in :ref:`log-app_log_setting`.
+
+Description rules
+ The properties to be specified when using :java:extdoc:`FailureJsonLogFormatter <nablarch.core.log.app.FailureJsonLogFormatter>` are as follows.
+ 
+ failureLogFormatter.className ``required``
+  To output logs in JSON format, specify :java:extdoc:`FailureJsonLogFormatter <nablarch.core.log.app.FailureJsonLogFormatter>`.
+ 
+ failureLogFormatter.defaultFailureCode ``required``
+  Default fault code.
+  Use when there is no failure code specified, like in cases where an error is captured by the exception handler.
+ 
+ failureLogFormatter.defaultMessage ``required``
+  Default message.
+  This message is output when a default failure code is used.
+ 
+ failureLogFormatter.language
+  The language used to acquire the message from the failure code.
+  If it is not specified, the language configured in :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` will be used.
+ 
+ .. _failure_log-prop_notification_targets:
+ 
+ failureLogFormatter.notificationTargets
+  Output items of failure notification log. Separated by comma.
+ 
+  Output items that can be specified and default output items
+   \
+ 
+   .. list-table::
+      :header-rows: 1
+      :class: white-space-normal
+      :widths: 25,20,60,30
+ 
+      * - Item name
+        - Output item
+        - Description
+        - Default output
+ 
+      * - Failure code
+        - failureCode
+        - A code that uniquely identifies the failure. Used to identify the nature of the failure.
+        - YES
+ 
+      * - Message
+        - message
+        - The message corresponding to the failure code. Used to identify the nature of the failure.
+        - YES
+ 
+      * - Data to be processed
+        - data
+        - Used to identify the data targeted by the process in which the failure occurred.
+          Outputs by calling the toString method of the data object read using the data reader.
+        - 
+ 
+      * - Contact
+        - contact
+        - Used to identify the contacts.
+        - 
+ 
+ failureLogFormatter.analysisTargets
+  Output item of failure analysis log. Separated by comma.
+  Items that can be specified for the targets and default items are same as :ref:`targets for failure notification log <failure_log-prop_notification_targets>`.
+ 
+ failureLogFormatter.contactFilePath
+  Path to the property file that specifies the contact information of the failure.
+  Specify to output the contact information of the failure.
+  For details, see :ref:`failure_log-add_contact`.
+ 
+ failureLogFormatter.fwFailureCodeFilePath
+  Path to the property file that specifies the information change of the failure code in the framework.
+  Specify when changing the failure code of the framework at the time of failure log output.
+  For details, see :ref:`failure_log-change_fw_failure_code`.
+ 
+ failureLogFormatter.structuredMessagePrefix
+  A marker string given at the beginning of a message to identify that the message string after formatting has been formatted into JSON format.
+  If this marker is present at the beginning of the message, :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` processes the message as JSON data.
+  The default is ``"$JSON$"``.
+ 
+Example of the description
+ .. code-block:: properties
+ 
+  failureLogFormatter.className=nablarch.core.log.app.FailureJsonLogFormatter
+  failureLogFormatter.structuredMessagePrefix=$JSON$
+  failureLogFormatter.notificationTargets=failureCode,message,contact
+  failureLogFormatter.analysisTargets=failureCode,message,data
+  failureLogFormatter.defaultFailureCode=UNEXPECTED_ERROR
+  failureLogFormatter.defaultMessage=an unexpected exception occurred.
