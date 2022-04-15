@@ -16,7 +16,7 @@
     - バージョン
     - リリースノート
     - ドキュメント
-  * - 2021/3/24
+  * - 2022/3/24
     - 5u21
     - :download:`リリースノート(5u21) <./nablarch5u21-releasenote.xlsx>`
     - `ドキュメント(5u21) <https://nablarch.github.io/docs/5u21/doc/>`_
