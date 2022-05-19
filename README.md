@@ -8,7 +8,7 @@ OSS版Nablarchドキュメントです。
 WindowsまたはDockerを想定しています。
 ### Windows
 #### ドキュメントビルド環境
-Python 3.6.x 及び以下のプラグインををインストールします。
+Python 3.6.x 及び以下のプラグインをインストールします。
 * Sphinx(1.6.3)
 * javasphinx(0.9.15)
 * sphinx-rtd-theme(0.2.4)
