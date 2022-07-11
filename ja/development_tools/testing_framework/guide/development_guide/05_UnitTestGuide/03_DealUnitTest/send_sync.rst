@@ -221,31 +221,6 @@ noのインクリメントが行われる。そして２回目のメッセージ
 .. _send_sync_test_data_path:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Excelファイルの配置場所の設定
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Excelファイルの配置場所のパスは、下記設定例のようにfilepath.configに設定している。
-
-Excelファイルは、このパスで指定されたディレクトリに配置する。もし配置場所を変更する場合はこのパスを修正すること。
-
- .. code-block:: bash
-  
-  # Excelファイルのパス
-  file.path.send.sync.test.data=file:///C:/nablarch/workspace/Nablarch_sample/test/message
-
-
-以下に、Excelファイルの配置イメージを示す。
-
- .. image:: ./_images/send_sync_test_data_structure.png
-
-.. tip::
-
- 配置ディレクトリのパスは、クラスパス（classpath:）ではなく、ファイルシステムのパス（file:）で指定することを推奨する。
- ファイルシステムのパスを指定することで、サーバ起動中に直接Excelファイルの内容を編集し、テストすることが可能となる。
-
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 要求電文のログ出力
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -322,22 +297,19 @@ Map形式のログはデバッグ用に、CSV形式のログはエビデンス�
 
 
 
-Excelファイルの配置場所を記載するプロパティファイルのパスの設定
+Excelファイルの配置場所の設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-コンポーネント設定ファイルで、Excelファイルの配置場所のパスが記載されるプロパティファイルのパスや、プロパティのキーを設定する。
+コンポーネント設定ファイルで、Excelファイルの配置場所のパスを設定する。
 
  .. code-block:: xml
-
-    <!-- Excelファイルの配置場所のパスを記載するプロパティファイルのパスを指定する -->
-    <config-file file="web/filepath.config" />
   
     <component name="filePathSetting"
              class="nablarch.core.util.FilePathSetting" autowireType="None">
        <property name="basePathSettings">
          <map>
-           <!- Excelファイルの配置場所のパスを記載するプロパティのキー名を指定する -->
-           <entry key="sendSyncTestData" value="${file.path.send.sync.test.data}" />
+           <!- Excelファイルの配置場所のパスを指定する -->
+           <entry key="sendSyncTestData" value="file:///C:/nablarch/workspace/Nablarch_sample/test/message" />
            <entry key="format" value="classpath:web/format" /> 
          </map>
        </property>
@@ -349,6 +321,15 @@ Excelファイルの配置場所を記載するプロパティファイルのパ
          </map>
        </property>
     </component>
+
+以下に、Excelファイルの配置イメージを示す。
+
+ .. image:: ./_images/send_sync_test_data_structure.png
+
+.. tip::
+
+ 配置ディレクトリのパスは、クラスパス（classpath:）ではなく、ファイルシステムのパス（file:）で指定することを推奨する。
+ ファイルシステムのパスを指定することで、サーバ起動中に直接Excelファイルの内容を編集し、テストすることが可能となる。
 
 
 テストデータ解析クラスの設定

@@ -218,29 +218,6 @@ A description example is shown below.
 .. _send_sync_test_data_path:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Configure the location of the Excel file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The location path of the Excel file is configured in filepath.config as shown in the following example.
-
-The Excel file is placed in the directory specified in this path. If this location has been changed, correct the path.
-
- .. code-block:: bash
-  
-  # Excel file path
-  file.path.send.sync.test.data=file:///C:/nablarch/workspace/Nablarch_sample/test/message
-
-
-A deployment image of an Excel file is shown below.
-
- .. image:: ./_images/send_sync_test_data_structure.png
-
-.. tip::
-
- It is recommended that the path of the deployment directory be specified by the file system path (file:) instead of the classpath (classpath:). 
- By specifying the file system path, the contents of an Excel file can be edited and tested directly while the server is running.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Log output of the request message
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -317,22 +294,19 @@ Configure mockup class to be used in subfunction unit test in the component conf
 
 
 
-Configure the property file path to describe the location of the Excel file.
+Configure the location of the Excel file.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In the component configuration file, configure the path of the property file that describes the path where the Excel file is placed, and the property key.
+In the component configuration file, configure the path where the Excel file is placed.
 
  .. code-block:: xml
-
-    <!-- Specify the path of the property file that describes the path to the Excel file location  -->
-    <config-file file="web/filepath.config" />
   
     <component name="filePathSetting"
              class="nablarch.core.util.FilePathSetting" autowireType="None">
        <property name="basePathSettings">
          <map>
-           <!- Specify the key name of the property that describes the path to the location of the Excel file -->
-           <entry key="sendSyncTestData" value="${file.path.send.sync.test.data}" />
+           <!- Specify the path to the location of the Excel file -->
+           <entry key="sendSyncTestData" value="file:///C:/nablarch/workspace/Nablarch_sample/test/message" />
            <entry key="format" value="classpath:web/format" /> 
          </map>
        </property>
@@ -345,6 +319,14 @@ In the component configuration file, configure the path of the property file tha
        </property>
     </component>
 
+A deployment image of an Excel file is shown below.
+
+ .. image:: ./_images/send_sync_test_data_structure.png
+
+.. tip::
+
+ It is recommended that the path of the deployment directory be specified by the file system path (file:) instead of the classpath (classpath:). 
+ By specifying the file system path, the contents of an Excel file can be edited and tested directly while the server is running.
 
 Configuring the test data analysis class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
