@@ -304,14 +304,14 @@ In the component configuration file, configure the path where the Excel file is 
              class="nablarch.core.util.FilePathSetting" autowireType="None">
        <property name="basePathSettings">
          <map>
-           <!- Specify the path to the location of the Excel file -->
+           <!-- Specify the path to the location of the Excel file -->
            <entry key="sendSyncTestData" value="file:///C:/nablarch/workspace/Nablarch_sample/test/message" />
            <entry key="format" value="classpath:web/format" /> 
          </map>
        </property>
        <property name="fileExtensions">
          <map>
-           <!- Define the extension (xlsx) of an Excel file -->
+           <!-- Define the extension (xlsx) of an Excel file -->
            <entry key="sendSyncTestData" value="xlsx" />
            <entry key="format" value="fmt" />
          </map>
@@ -397,4 +397,3 @@ Since the jars are used only for the unit tests, it is recommended to place the 
 
 .. [#f1] 
  A message sent to a queue is called a "request message" and a message received from a queue is called a "response message".
- 

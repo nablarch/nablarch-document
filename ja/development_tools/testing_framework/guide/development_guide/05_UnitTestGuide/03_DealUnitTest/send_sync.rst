@@ -305,14 +305,14 @@ Excelファイルの配置場所の設定
              class="nablarch.core.util.FilePathSetting" autowireType="None">
        <property name="basePathSettings">
          <map>
-           <!- Excelファイルの配置場所のパスを指定する -->
+           <!-- Excelファイルの配置場所のパスを指定する -->
            <entry key="sendSyncTestData" value="file:///C:/nablarch/workspace/Nablarch_sample/test/message" />
            <entry key="format" value="classpath:web/format" /> 
          </map>
        </property>
        <property name="fileExtensions">
          <map>
-           <!- Excelファイルの拡張子（xlsx）を定義する-->
+           <!-- Excelファイルの拡張子（xlsx）を定義する-->
            <entry key="sendSyncTestData" value="xlsx" />
            <entry key="format" value="fmt" />
          </map>
@@ -399,4 +399,3 @@ Nablarchが標準で提供するサンプルアプリケーションは、デフ
 
 .. [#f1] 
  キューへ送信するメッセージのことを「要求電文」、キューから受信するメッセージのことを「応答電文」と称す。
- 
