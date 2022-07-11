@@ -215,8 +215,6 @@ A description example is shown below.
  .. image:: ./_images/send_sync_test_data_error.png
 
 
-.. _send_sync_test_data_path:
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Log output of the request message
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -293,6 +291,7 @@ Configure mockup class to be used in subfunction unit test in the component conf
       </component>
 
 
+.. _send_sync_test_data_path:
 
 Configure the location of the Excel file.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
