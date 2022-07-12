@@ -445,9 +445,9 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
        :java:extdoc:`MessageSenderSettings<nablarch.fw.messaging.MessageSenderSettings.MessageSenderSettings(java.lang.String)>`
        を参照。
      * :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>` では、送受信する電文の変換処理を変更できるように、
-        変換処理を :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` に委譲しており、
-        このクラスがフレームワーク制御ヘッダの読み書きを行っている。
-        コンポーネント設定ファイルに :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` を設定する。
+       変換処理を :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` に委譲しており、
+       このクラスがフレームワーク制御ヘッダの読み書きを行っている。
+       コンポーネント設定ファイルに :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` を設定する。
 
   messaging.properties
    .. code-block:: properties
