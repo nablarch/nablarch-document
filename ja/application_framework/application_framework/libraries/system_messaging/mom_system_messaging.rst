@@ -444,6 +444,10 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
        設定項目については、
        :java:extdoc:`MessageSenderSettings<nablarch.fw.messaging.MessageSenderSettings.MessageSenderSettings(java.lang.String)>`
        を参照。
+     * :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>` では、送受信する電文の変換処理を変更できるように、
+        変換処理を :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` に委譲しており、
+        このクラスがフレームワーク制御ヘッダの読み書きを行っている。
+        コンポーネント設定ファイルに :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` を設定する。
 
   messaging.properties
    .. code-block:: properties
@@ -455,6 +459,15 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
     messageSender.DEFAULT.formatDir=format
     messageSender.DEFAULT.headerFormatName=HEADER
     messageSender.DEFAULT.messageConvertorName=defaultSyncMessageConvertor
+
+  コンポーネント設定ファイル
+   .. code-block:: xml
+
+    <!-- MessageSender設定を読込 -->
+    <config-file file="messaging/messaging.properties"/>
+    <!-- 電文変換コンポーネント -->
+    <component name="defaultSyncMessageConvertor" class="nablarch.fw.messaging.SyncMessageConvertor" />
+
 
 .. _mom_system_messaging-async_message_receive:
 
@@ -934,4 +947,3 @@ MOMメッセージングでは、送受信電文の内容を以下のデータ�
 
  また、将来的な任意項目の追加およびフレームワークの機能追加に伴うヘッダ追加に対応するため、
  予備領域を設けておくことを強く推奨する。
-

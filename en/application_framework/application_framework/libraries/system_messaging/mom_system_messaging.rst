@@ -444,6 +444,10 @@ Implementation examples
        For configuration items,
        see
        :java:extdoc:`MessageSenderSettings<nablarch.fw.messaging.MessageSenderSettings.MessageSenderSettings(java.lang.String)>`.
+     * :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>` delegates the conversion process to
+       :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` so the conversion process of sent and received messages can be changed,
+       and this class reads and writes the framework control headers.
+       Define :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` in the component configuration file.
 
   messaging.properties
    .. code-block:: properties
@@ -455,6 +459,14 @@ Implementation examples
     messageSender.DEFAULT.formatDir=format
     messageSender.DEFAULT.headerFormatName=HEADER
     messageSender.DEFAULT.messageConvertorName=defaultSyncMessageConvertor
+
+  component configuration file
+   .. code-block:: xml
+
+    <!-- Load MessageSender settings -->
+    <config-file file="messaging/messaging.properties"/>
+    <!-- Message conversion component -->
+    <component name="defaultSyncMessageConvertor" class="nablarch.fw.messaging.SyncMessageConvertor" />
 
 .. _mom_system_messaging-async_message_receive:
 
@@ -934,4 +946,3 @@ Framework control header
 
  It is highly recommended to provide a reserve area to add headers
  that are required to manage optional items and framework functions that may be added in the future.
-
