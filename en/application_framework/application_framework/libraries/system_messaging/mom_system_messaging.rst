@@ -445,7 +445,7 @@ Implementation examples
        see
        :java:extdoc:`MessageSenderSettings<nablarch.fw.messaging.MessageSenderSettings.MessageSenderSettings(java.lang.String)>`.
 
-  messaging.config
+  messaging.properties
    .. code-block:: properties
 
     messageSender.DEFAULT.messagingProviderName=defaultMessagingProvider

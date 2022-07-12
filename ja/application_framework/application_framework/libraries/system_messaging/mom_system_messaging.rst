@@ -445,7 +445,7 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
        :java:extdoc:`MessageSenderSettings<nablarch.fw.messaging.MessageSenderSettings.MessageSenderSettings(java.lang.String)>`
        を参照。
 
-  messaging.config
+  messaging.properties
    .. code-block:: properties
 
     messageSender.DEFAULT.messagingProviderName=defaultMessagingProvider
