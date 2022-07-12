@@ -375,25 +375,3 @@ Add the following dependency to pom.xml
             </exclusion>
           </exclusions>
         </dependency>
-
-
-
-Configuring the library to be used for subfunction unit test
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The following jar files are required be passed to the classpath of application server in the subfunction unit test.
-
- * nablarch-tfw.jar
- * Apache POI jar
-
-The classpath of jar is configured by default in the standard sample applications provided by Nablarch. 
-Specifically, these jars are placed in the test/lib directory of the sample application, and the classpath is configured using the Eclipse function as shown below.
-
-.. image:: ./_images/send_sync_jar_path.png
-
-Since the jars are used only for the unit tests, it is recommended to place the jars in another directory instead of WEB-INF/lib as in the above example.
-
------------
-
-.. [#f1] 
- A message sent to a queue is called a "request message" and a message received from a queue is called a "response message".
