@@ -82,8 +82,8 @@ Excelファイルに定義した応答電文のフォーマットおよびデー
 以下に、Excelファイルの記載例を示す。
 
 
-.. image:: ./_images/send_sync_test_data.png
-    :scale: 70
+.. image:: ./_images/send_sync_test_data.jpg
+    :width: 100%
 
 .. _send_sync_test_data_format:
 
