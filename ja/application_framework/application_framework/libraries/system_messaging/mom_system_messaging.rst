@@ -447,7 +447,7 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
      * :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>` では、送受信する電文の変換処理を変更できるように、
        変換処理を :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` に委譲しており、
        このクラスがフレームワーク制御ヘッダの読み書きを行っている。
-       コンポーネント設定ファイルに :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` を設定する。
+       コンポーネント定義ファイルに :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` を設定する。
 
   messaging.properties
    .. code-block:: properties
@@ -460,7 +460,7 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
     messageSender.DEFAULT.headerFormatName=HEADER
     messageSender.DEFAULT.messageConvertorName=defaultSyncMessageConvertor
 
-  コンポーネント設定ファイル
+  コンポーネント定義ファイル
    .. code-block:: xml
 
     <!-- MessageSender設定を読込 -->

@@ -447,7 +447,7 @@ Implementation examples
      * :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>` delegates the conversion process to
        :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` so the conversion process of sent and received messages can be changed,
        and this class reads and writes the framework control headers.
-       Define :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` in the component configuration file.
+       Define :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` in the component definition file.
 
   messaging.properties
    .. code-block:: properties
@@ -460,7 +460,7 @@ Implementation examples
     messageSender.DEFAULT.headerFormatName=HEADER
     messageSender.DEFAULT.messageConvertorName=defaultSyncMessageConvertor
 
-  component configuration file
+  component definition file
    .. code-block:: xml
 
     <!-- Load MessageSender settings -->
