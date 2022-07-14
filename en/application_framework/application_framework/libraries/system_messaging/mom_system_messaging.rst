@@ -458,7 +458,6 @@ Implementation examples
     messageSender.DEFAULT.retryCount=10
     messageSender.DEFAULT.formatDir=format
     messageSender.DEFAULT.headerFormatName=HEADER
-    messageSender.DEFAULT.messageConvertorName=defaultSyncMessageConvertor
 
   component definition file
    .. code-block:: xml
