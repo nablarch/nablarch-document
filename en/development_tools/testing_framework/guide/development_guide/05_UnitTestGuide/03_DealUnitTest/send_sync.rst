@@ -277,7 +277,7 @@ Configuring the classes to be used in the framework
 
 These settings are required only for subfunction unit test.
 Therefore, set these in the test profile.
-For How to switch components in each environment, see: ref: `how_to_change_componet_define` .
+For How to switch components in each environment, see :ref:`how_to_change_componet_define` .
 
 Usually, the classes are configured by the architect and do not need to be set by the application programmer.
 
