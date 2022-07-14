@@ -82,8 +82,8 @@ Excelファイルに定義した応答電文のフォーマットおよびデー
 以下に、Excelファイルの記載例を示す。
 
 
-.. image:: ./_images/send_sync_test_data.png
-    :scale: 70
+.. image:: ./_images/send_sync_test_data.jpg
+    :width: 100%
 
 .. _send_sync_test_data_format:
 
@@ -216,35 +216,6 @@ noのインクリメントが行われる。そして２回目のメッセージ
  .. image:: ./_images/send_sync_test_data_error.png
 
 
-
-
-.. _send_sync_test_data_path:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Excelファイルの配置場所の設定
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Excelファイルの配置場所のパスは、下記設定例のようにfilepath.configに設定している。
-
-Excelファイルは、このパスで指定されたディレクトリに配置する。もし配置場所を変更する場合はこのパスを修正すること。
-
- .. code-block:: bash
-  
-  # Excelファイルのパス
-  file.path.send.sync.test.data=file:///C:/nablarch/workspace/Nablarch_sample/test/message
-
-
-以下に、Excelファイルの配置イメージを示す。
-
- .. image:: ./_images/send_sync_test_data_structure.png
-
-.. tip::
-
- 配置ディレクトリのパスは、クラスパス（classpath:）ではなく、ファイルシステムのパス（file:）で指定することを推奨する。
- ファイルシステムのパスを指定することで、サーバ起動中に直接Excelファイルの内容を編集し、テストすることが可能となる。
-
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 要求電文のログ出力
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -305,8 +276,10 @@ Map形式のログはデバッグ用に、CSV形式のログはエビデンス�
 フレームワークで使用するクラスの設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-通常、これらの設定はアーキテクトが行うものでありアプリケーションプログラマが設定する必要はない。
+これらの設定は取引単体テストでのみ必要な設定である。そのため、テスト用のプロファイルにこれらを設定する。
+環境ごとにコンポーネントを切り替える方法については :ref:`how_to_change_componet_define` 参照。
 
+通常、これらの設定はアーキテクトが行うものでありアプリケーションプログラマが設定する必要はない。
 
 モックアップクラスの設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -321,34 +294,41 @@ Map形式のログはデバッグ用に、CSV形式のログはエビデンス�
       </component>
 
 
+.. _send_sync_test_data_path:
 
-Excelファイルの配置場所を記載するプロパティファイルのパスの設定
+Excelファイルの配置場所の設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-コンポーネント設定ファイルで、Excelファイルの配置場所のパスが記載されるプロパティファイルのパスや、プロパティのキーを設定する。
+コンポーネント設定ファイルで、Excelファイルの配置場所のパスを設定する。
 
  .. code-block:: xml
-
-    <!-- Excelファイルの配置場所のパスを記載するプロパティファイルのパスを指定する -->
-    <config-file file="web/filepath.config" />
   
     <component name="filePathSetting"
              class="nablarch.core.util.FilePathSetting" autowireType="None">
        <property name="basePathSettings">
          <map>
-           <!- Excelファイルの配置場所のパスを記載するプロパティのキー名を指定する -->
-           <entry key="sendSyncTestData" value="${file.path.send.sync.test.data}" />
+           <!-- Excelファイルの配置場所のパスを指定する -->
+           <entry key="sendSyncTestData" value="file:///C:/nablarch/workspace/Nablarch_sample/test/message" />
            <entry key="format" value="classpath:web/format" /> 
          </map>
        </property>
        <property name="fileExtensions">
          <map>
-           <!- Excelファイルの拡張子（xlsx）を定義する-->
+           <!-- Excelファイルの拡張子（xlsx）を定義する-->
            <entry key="sendSyncTestData" value="xlsx" />
            <entry key="format" value="fmt" />
          </map>
        </property>
     </component>
+
+以下に、Excelファイルの配置イメージを示す。
+
+ .. image:: ./_images/send_sync_test_data_structure.png
+
+.. tip::
+
+ 配置ディレクトリのパスは、クラスパス（classpath:）ではなく、ファイルシステムのパス（file:）で指定することを推奨する。
+ ファイルシステムのパスを指定することで、サーバ起動中に直接Excelファイルの内容を編集し、テストすることが可能となる。
 
 
 テストデータ解析クラスの設定
@@ -399,26 +379,3 @@ Excelファイルの配置場所を記載するプロパティファイルのパ
             </exclusion>
           </exclusions>
         </dependency>
-
-
-
-取引単体テストで使用するライブラリの設定
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-取引単体テストでは、以下のjarファイルをアプリケーションサーバのクラスパスに通す必要がある。
-
- * nablarch-tfw.jar
- * Apache POIのjar
-
-Nablarchが標準で提供するサンプルアプリケーションは、デフォルトでこれらのjarのクラスパス設定が行われた状態になっている。
-具体的には、サンプルアプリケーションのtest/libディレクトリにこれらのjarを配置し、下図のとおりEclipseの機能を使用し、クラスパス設定を行っている。
-
-.. image:: ./_images/send_sync_jar_path.png
-
-これらのjarは単体テスト以外では使用しないので、上記の例のようにWEB-INF/libではなく、別の場所に配置することを推奨する。
-
------------
-
-.. [#f1] 
- キューへ送信するメッセージのことを「要求電文」、キューから受信するメッセージのことを「応答電文」と称す。
- 

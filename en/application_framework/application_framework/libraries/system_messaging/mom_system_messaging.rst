@@ -444,8 +444,12 @@ Implementation examples
        For configuration items,
        see
        :java:extdoc:`MessageSenderSettings<nablarch.fw.messaging.MessageSenderSettings.MessageSenderSettings(java.lang.String)>`.
+     * If you want to change the conversion process of sent and received messages,
+       you can change it by defining a class that inherits :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>`
+       in the component definition file and specifying the name of the component in ``messageSender.DEFAULT.messageConvertorName``.
+       For details, see :ref:`Change the reading and writing of the framework control header(For sending synchronous message)<mom_system_messaging-change_fw_header_sync_ex>`.
 
-  messaging.config
+  messaging.properties
    .. code-block:: properties
 
     messageSender.DEFAULT.messagingProviderName=defaultMessagingProvider
@@ -454,7 +458,13 @@ Implementation examples
     messageSender.DEFAULT.retryCount=10
     messageSender.DEFAULT.formatDir=format
     messageSender.DEFAULT.headerFormatName=HEADER
-    messageSender.DEFAULT.messageConvertorName=defaultSyncMessageConvertor
+
+  component definition file
+   .. code-block:: xml
+
+    <!-- Load MessageSender settings -->
+    <config-file file="messaging/messaging.properties"/>
+
 
 .. _mom_system_messaging-async_message_receive:
 
@@ -763,6 +773,8 @@ For sending asynchronous message
  * :java:extdoc:`AsyncMessageSendAction#createHeaderRecordFormatter<nablarch.fw.messaging.action.AsyncMessageSendAction.createHeaderRecordFormatter()>`
  * :java:extdoc:`AsyncMessageSendAction#createHeaderRecord<nablarch.fw.messaging.action.AsyncMessageSendAction.createHeaderRecord(nablarch.core.db.statement.SqlRow)>`
 
+.. _mom_system_messaging-change_fw_header_sync_ex:
+
 For sending synchronous message
  :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>` delegates the conversion process to
  :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` so the conversion process of sent and received messages can be changed,
@@ -934,4 +946,3 @@ Framework control header
 
  It is highly recommended to provide a reserve area to add headers
  that are required to manage optional items and framework functions that may be added in the future.
-

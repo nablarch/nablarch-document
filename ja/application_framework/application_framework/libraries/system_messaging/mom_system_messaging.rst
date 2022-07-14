@@ -444,8 +444,11 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
        設定項目については、
        :java:extdoc:`MessageSenderSettings<nablarch.fw.messaging.MessageSenderSettings.MessageSenderSettings(java.lang.String)>`
        を参照。
+     * 送受信する電文の変換処理を変更する場合は、コンポーネント定義ファイルに :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>`
+       を継承したクラスを定義して、コンポーネントの名前を ``messageSender.DEFAULT.messageConvertorName`` に指定することで変更できる。
+       詳細については、 :ref:`フレームワーク制御ヘッダの読み書きを変更する（同期応答メッセージ送信の場合）<mom_system_messaging-change_fw_header_sync_ex>` を参照。
 
-  messaging.config
+  messaging.properties
    .. code-block:: properties
 
     messageSender.DEFAULT.messagingProviderName=defaultMessagingProvider
@@ -454,7 +457,13 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
     messageSender.DEFAULT.retryCount=10
     messageSender.DEFAULT.formatDir=format
     messageSender.DEFAULT.headerFormatName=HEADER
-    messageSender.DEFAULT.messageConvertorName=defaultSyncMessageConvertor
+
+  コンポーネント定義ファイル
+   .. code-block:: xml
+
+    <!-- MessageSender設定を読込 -->
+    <config-file file="messaging/messaging.properties"/>
+
 
 .. _mom_system_messaging-async_message_receive:
 
@@ -763,6 +772,8 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
  * :java:extdoc:`AsyncMessageSendAction#createHeaderRecordFormatter<nablarch.fw.messaging.action.AsyncMessageSendAction.createHeaderRecordFormatter()>`
  * :java:extdoc:`AsyncMessageSendAction#createHeaderRecord<nablarch.fw.messaging.action.AsyncMessageSendAction.createHeaderRecord(nablarch.core.db.statement.SqlRow)>`
 
+.. _mom_system_messaging-change_fw_header_sync_ex:
+
 同期応答メッセージ送信の場合
  :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>` では、送受信する電文の変換処理を変更できるように、
  変換処理を :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` に委譲しており、
@@ -934,4 +945,3 @@ MOMメッセージングでは、送受信電文の内容を以下のデータ�
 
  また、将来的な任意項目の追加およびフレームワークの機能追加に伴うヘッダ追加に対応するため、
  予備領域を設けておくことを強く推奨する。
-
