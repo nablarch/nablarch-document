@@ -43,7 +43,7 @@ The process flow of RESTful web service, from processing a request to returning 
 4. The action class executes business logic using a form class and an entity class. |br|
    For more information on each class, see :ref:`rest-application_design`.
 
-5. The action class creates and returns a form class and `HttpResponse` that shows the processing result.
+5. The action class creates and returns a DTO and `HttpResponse` that shows the processing result.
 6. The HTTP response handler (`JaxRsResponseHandler`) in the handler queue converts the `HttpResponse` into a response to be returned to the client, and returns the response to the client. |br|
    If the processing result of the action class is a form class, it will be converted into `HttpResponse` by `BodyConvertHandler`. |br|
    The format of the `HttpResponse` body to be converted is the media type configured in the action class.
@@ -178,4 +178,3 @@ With this as the base, add standard handlers of Nablarch or custom handlers crea
 .. |br| raw:: html
  
    <br />
- 

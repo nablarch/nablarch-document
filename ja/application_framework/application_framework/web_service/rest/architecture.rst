@@ -43,7 +43,7 @@ RESTfulウェブサービスがリクエストを処理し、レスポンスを�
 4. アクションクラス(action class)は、フォームクラス(form class)やエンティティクラス(entity class)を使用して業務ロジック(business logic) を実行する。 |br|
    各クラスの詳細は、 :ref:`rest-application_design` を参照。
 
-5. action classは、処理結果を示すフォームクラス(form class)や `HttpResponse` を作成し返却する。
+5. action classは、処理結果を示すDTOや `HttpResponse` を作成し返却する。
 6. ハンドラキュー内のHTTPレスポンスハンドラ(`JaxRsResponseHandler`)が、 `HttpResponse` をクライアントに返却するレスポンスに変換し、クライアントへ応答を返す。 |br|
    なお、アクションクラス(action class)の処理結果がフォームクラス(form class)の場合には、 `BodyConvertHandler` により `HttpResponse` に変換される。 |br|
    変換される `HttpResponse` のボディの形式は、 アクションクラス(action class)に設定されたメディアタイプとなる。
@@ -178,4 +178,3 @@ NablarchでRESTfulウェブサービスを構築する際の、必要最小限�
 .. |br| raw:: html
  
    <br />
- 
