@@ -2,6 +2,9 @@
   "plugins": [
     "rst"
   ],
+  "filters": {
+    "comments": true
+  },
   "rules": {
     "preset-ja-technical-writing": {
       "sentence-length": false,               // 改行入れてないだけなので
