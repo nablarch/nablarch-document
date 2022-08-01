@@ -20,7 +20,8 @@
           allow: [
             "倍精度浮動小数点数"
           ]
-      }
+      },
+      "no-unmatched-pair": false
     },
     "prh": {
       "rulePaths" :[".textlint/conf/prh.yml"]
