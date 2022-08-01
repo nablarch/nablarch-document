@@ -16,7 +16,7 @@ JavaScript UI部品
 
 - UI標準に準じた挙動、統一的なデザインが実現されること。
 
-利用可能な各部品の仕様については :doc:`../reference_js_framework` を参照すること。
+使用可能な各部品の仕様については :doc:`../reference_js_framework` を参照すること。
 
 使用例
 ---------------------
@@ -182,13 +182,13 @@ sugar.js                     ○        △       /js/sugar.js                 E
                                               SimpleDateFormat.js          日付に関する処理のサブセットを実装する。 
 
 日付ライブラリ               ○        △       /js/nablarch/util/           JavaScriptネイティブ日付型(Date)と
-                                              DateUtil.js                  日付文字列との相互変換を行うためのライブラリ。
+                                              DateUtil.js                  日付文字列を相互変換するためのライブラリ。
 
 UI部品共通プロトタイプ       ○        △       /js/nablarch/ui/             UI部品の実装に必要な共通機能(HTMLノードへのバインド
                                               Widget.js                    /イベント定義/画面ロード時処理の起動)などを実装
                                                                            する共通プロトタイプ。
 
-自動集計                     ○        △       /js/nablarch/ui/             入出力項目の自動集計を行うUI部品。
+自動集計                     ○        △       /js/nablarch/ui/             入出力項目を自動集計するUI部品。
                                               AutoSum.js                 
 
 日付入力部品                 ○        △       /js/nablarch/ui/             カレンダーを用いた日付入力を実装するUI部品

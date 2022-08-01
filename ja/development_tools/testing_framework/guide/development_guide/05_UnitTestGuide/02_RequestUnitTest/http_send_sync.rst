@@ -8,7 +8,7 @@
 
 ただし、「送信キュー」「受信キュー」を「通信先」と読み替えること。
 
-本項では、\ :ref:`message_sendSyncMessage_test`\ と異なる箇所の解説を行う。
+本項では、\ :ref:`message_sendSyncMessage_test`\ と異なる箇所を解説する。
 
 
 .. _`http_send_sync_request_write_test_data`:
@@ -28,7 +28,7 @@
 
 
 .. tip::
- RESPONSE_BODY_MESSAGES(及び後の例で使用するEXPECTED_REQUEST_BODY_MESSAGES)は、複数フィールドに分割して記述することが可能である。
+ RESPONSE_BODY_MESSAGES(及び後の例で使用するEXPECTED_REQUEST_BODY_MESSAGES)は、複数フィールドに分割して記述可能である。
 
  文字列が長く、1セルに全部記述すると可読性が落ちる場合に分割して記述する。
 
@@ -94,7 +94,7 @@
 この値は、応答電文の表の\ **ヘッダおよび本文両方の、「no」を除く最初のフィールド**\ に記載すること。
 
 .. [#http_send_sync_abnormal_test]
- 業務アクション内で、明示的に **MessagingException** の制御を行っていないのであれば、
+ 業務アクション内で、明示的に **MessagingException** を制御していないのであれば、
  個別のリクエスト単体テストにおいて障害系のテストを行う必要は無い。
 
 .. [#http_send_sync_abnormal_test_behavior]
@@ -157,7 +157,7 @@ testShotsに ``expectedMessageByClient`` および ``responseMessageByClient`` �
         <property name="charset" value="Shift-JIS"/>
       </component>
 
-なお、\ ``charset``\ に、文字コード名を指定することでログに出力する文字コードを変更することができる。
+なお、\ ``charset``\ に、文字コード名を指定することでログに出力する文字コードを変更できる。
 通常は省略可能で、省略した場合はUTF-8が使用される。
 
 

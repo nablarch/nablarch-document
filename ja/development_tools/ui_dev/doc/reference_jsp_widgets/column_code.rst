@@ -130,7 +130,7 @@ additional           付加情報として扱うかどうか     真偽値      
                                                                                           .. important::
 
                                                                                            autospan/rowspan 属性を使用している\
-                                                                                           テーブルではadditional 属性を使用することは\
+                                                                                           テーブルではadditional 属性を使用\
                                                                                            できない。
 
 colspan              横方向に結合するカラム数       数値           ○          ○           使用方法は、\ :doc:`table_row`\を参照
