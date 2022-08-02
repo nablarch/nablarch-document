@@ -362,7 +362,7 @@ OS環境変数で上書きするときの名前のルールについては、 :r
 
   このXMLファイルはコンポーネント設定ファイルと同じ書式で記述できる。
 
-  ただし、このファイルでコンポーネントを定義しても、システムリポジトリから参照を取得することはできない。
+  ただし、このファイルでコンポーネントを定義しても、システムリポジトリから参照を取得できない。
 
 
 .. _micrometer_default_metrics:
@@ -489,11 +489,11 @@ DefaultMeterBinderListProviderで収集されるメトリクス
 監視サービスと連携する
 --------------------------------------------------
 
-監視サービスと連携するためには、大きく次の設定を行う必要がある。
+監視サービスと連携するためには、大きく次のとおり設定する必要がある。
 
 #. 監視サービスごとに用意された Micrometer のモジュールを依存関係に追加する
 #. 監視サービス用のレジストリファクトリをコンポーネントとして定義する
-#. その他、監視サービスごとに独自の設定を行う
+#. その他、監視サービスごとに独自に設定する
 
 ここでは、それぞれの監視サービスと連携する方法について説明する。
 
@@ -585,7 +585,7 @@ CloudWatch と連携する
   その他の設定については `CloudWatchConfig(外部サイト、英語)`_ を参照。
 
 より詳細な設定
-  OS環境変数や設定ファイルでは指定できない、より詳細な設定を行いたい場合は、 :java:extdoc:`CloudWatchAsyncClientProvider <nablarch.integration.micrometer.cloudwatch.CloudWatchAsyncClientProvider>` を実装したカスタムプロバイダを作ることで対応できる。
+  OS環境変数や設定ファイルでは指定できない、より詳細に設定したい場合は、 :java:extdoc:`CloudWatchAsyncClientProvider <nablarch.integration.micrometer.cloudwatch.CloudWatchAsyncClientProvider>` を実装したカスタムプロバイダを作ることで対応できる。
 
   .. code-block:: java
 
@@ -605,7 +605,7 @@ CloudWatch と連携する
       }
 
   :java:extdoc:`CloudWatchAsyncClientProvider <nablarch.integration.micrometer.cloudwatch.CloudWatchAsyncClientProvider>` は ``CloudWatchAsyncClient`` を提供する ``provide()`` メソッドを持つ。
-  カスタムプロバイダでは、任意の設定を行った ``CloudWatchAsyncClient`` を構築して返すように ``provide()`` メソッドを実装する。
+  カスタムプロバイダでは、任意で設定した ``CloudWatchAsyncClient`` を構築して返すように ``provide()`` メソッドを実装する。
 
   .. code-block:: xml
 
@@ -667,7 +667,7 @@ MicrometerでメトリクスをAzureに連携する方法
   Java 3.0 エージェントの設定方法は :ref:`Azureにおける分散トレーシング <azure_distributed_tracing>` 参照。
 
 MicrometerアダプタでメトリクスをAzureに連携するための設定
-  MicrometerアダプタでメトリクスをAzureに連携するためには、以下の設定を行う必要がある。
+  MicrometerアダプタでメトリクスをAzureに連携するためには、以下のとおり設定する必要がある。
 
   * アプリケーションの起動オプションに、Java 3.0 エージェントを追加する
   * ``MeterRegistry`` にグローバルレジストリを使うようにコンポーネントを定義する
@@ -812,7 +812,7 @@ SQLの処理時間
 トランザクション単位の処理時間
   トランザクション単位の処理時間を計測することで、マルチスレッドのバッチが均等に処理を分散できているかなどを確認できるようになる。
 
-  また、バッチの処理時間と同様に、処理時間が平常時から逸脱したときに異常を迅速に検知することもできる。
+  また、バッチの処理時間と同様に、処理時間が平常時から逸脱したときにも異常を迅速に検知できる。
 
   バッチのトランザクション単位の処理時間の計測については、以下のガイドを参照のこと。
 
@@ -1204,7 +1204,7 @@ Nablarchバッチは、 :ref:`loop_handler` によってトランザクション
 この ``CommitLogger`` の実体は、 ``commitLogger`` という名前でコンポーネントを定義することで上書きできる。
 
 ``BatchTransactionTimeMetricsLogger`` は ``CommitLogger`` インタフェースを実装している。
-そして、 ``increment(long)`` の呼び出し間隔を計測することでトランザクション単位の時間計測を行っている。
+そして、 ``increment(long)`` の呼び出し間隔を計測することでトランザクション単位の時間を計測をしている。
 このため、 ``BatchTransactionTimeMetricsLogger`` を ``commitLogger`` という名前でコンポーネント定義すると、トランザクション単位の時間計測ができる仕組みとなっている。
 
 しかし、 ``BatchTransactionTimeMetricsLogger`` をそのまま ``commitLogger`` という名前で定義した場合、デフォルトで定義されている ``CommitLogger`` のコンポーネントである ``BasicCommitLogger`` が動作しなくなる。
@@ -1709,7 +1709,7 @@ Micrometerが監視サービスにメトリクスを連携する方法には、�
 
 カスタムの ``DefaultMeterBinderListProvider`` で :java:extdoc:`Initializable <nablarch.core.repository.initialization.Initializable>` を実装する。
 また、 ``java.sql.DataSource`` をプロパティとして受け取れるように実装を修正する。
-そして、 ``initialize()`` メソッドの中でデータベース接続を行うように実装する。
+そして、 ``initialize()`` メソッドの中でデータベースに接続するように実装する。
 
 コンポーネント定義では、 ``DataSource`` をプロパティで渡すように変更する。
 そして、初期化対象のコンポーネント一覧に、このクラスを追加する。
