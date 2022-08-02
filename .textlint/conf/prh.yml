@@ -14,7 +14,7 @@ rules:
       - NABLARCH
       - なぶちゃん
   - expected: 使用
-    pattern: /利用(者)?/
+    pattern: /(再)?利用(?!者|ケース)/
     regexpMustEmpty: $1
     specs:
       # 普通に変換
