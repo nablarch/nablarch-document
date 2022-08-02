@@ -76,9 +76,9 @@ CaptchaGenerateHandlerクラスを配置したパッケージに合わせてく�
         class="com.nablarch.example.app.web.common.captcha.CaptchaGenerateHandler"/>
 
 
-下記のrequestPatternに設定するＵＲＬについては、対応するActionクラスやFormクラスの実体が存在しないＵＲＬを指定します。
+下記のrequestPatternに設定するURLについては、対応するActionクラスやFormクラスの実体が存在しないURLを指定します。
 
-ただし、Captcha画像をリクエストするためのＪＳＰ内の<img>タグのsrc属性とは揃っている必要があります。
+ただし、Captcha画像をリクエストするためのJSP内の<img>タグのsrc属性とは揃っている必要があります。
 
 RequestHandlerEntryの設定は、dbConnectionManagementHandler、transactionManagementHandler の設定よりも後に定義する必要があります。
 
