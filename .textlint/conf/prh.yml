@@ -7,7 +7,7 @@ rules:
     patterns:
       - ウエアー
       - ウェアー
-      - ウエア      
+      - ウエア
   - expected: Nablarch
     patterns:
       - Ｎａｂｌａｒｃｈ
