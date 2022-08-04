@@ -11,7 +11,7 @@ rules:
   - expected: Nablarch
     patterns:
       - Ｎａｂｌａｒｃｈ
-      - NABLARCH
+      - /NABLARCH(?!_SID)/
       - なぶちゃん
   - expected: 使用
     pattern: /(再)?利用(?!者|ケース)/
