@@ -20,9 +20,6 @@ rules:
       # 普通に変換
       - from: 利用する
         to:   使用する
-      # 「利用者」は変換しない
-      - from: 利用者
-        to: 利用者
   - expected: シミュレーション
     pattern: シュミレーション
   - expected: シミュレータ
