@@ -26,3 +26,7 @@ rules:
     pattern: シュミレータ
   - expected: 内蔵
     pattern: 内臓
+  - expected: ユーザ
+    pattern: ユーザー
+  - expected: サーバ
+    pattern: サーバー
