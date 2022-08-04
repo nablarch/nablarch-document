@@ -17,7 +17,7 @@ CSVやTSV、固定長といったデータをJava Beansオブジェクト及びM
 データファイルのデータをJava Beansオブジェクトとして扱うことができる。
 
 Java Beansオブジェクトへの変換時、Java Beansクラスに定義されたプロパティの型に
-:java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用して自動的に型変換を行う。
+:java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用して自動的に型変換する。
 型変換に失敗した場合は例外が発生し、Java Beansオブジェクトは生成されない。
 
 .. important::
@@ -42,10 +42,10 @@ Mapオブジェクトへの変換時、値は全てString型で格納される�
 * :ref:`data_bind-file_to_map`
 * :ref:`data_bind-map_to_file`
 
-データファイルのフォーマットをアノテーションで指定することができる
+データファイルのフォーマットをアノテーションで指定できる
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 データファイルのフォーマットは設定ファイルに記述するのではなく、
-アノテーションや :java:extdoc:`DataBindConfig <nablarch.common.databind.DataBindConfig>` を使用して定義することができる。
+アノテーションや :java:extdoc:`DataBindConfig <nablarch.common.databind.DataBindConfig>` を使用して定義できる。
 
 詳細なフォーマットの指定方法は以下を参照。
 
@@ -75,7 +75,7 @@ Mapオブジェクトへの変換時、値は全てString型で格納される�
 
 データをJava Beansオブジェクトとして読み込む
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データファイルを先頭から1データずつ読み込み、Java Beansオブジェクトとして取得することができる。
+データファイルを先頭から1データずつ読み込み、Java Beansオブジェクトとして取得できる。
 
 データの読み込みは、 :java:extdoc:`ObjectMapperFactory#create <nablarch.common.databind.ObjectMapperFactory.create(java.lang.Class-java.io.InputStream)>`
 で生成した :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` [#thread-unsafe]_ を使用して行い、
@@ -141,7 +141,7 @@ Java Beansクラスへのアノテーション定義方法の詳細は以下を�
 
 データをMapオブジェクトとして読み込む
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データファイルを先頭から1データずつ読み込み、Mapオブジェクトとして取得することができる。
+データファイルを先頭から1データずつ読み込み、Mapオブジェクトとして取得できる。
 
 データの読み込みは、
 :java:extdoc:`ObjectMapperFactory#create <nablarch.common.databind.ObjectMapperFactory.create(java.lang.Class-java.io.InputStream-nablarch.common.databind.DataBindConfig)>`
@@ -210,7 +210,7 @@ Mapオブジェクトの内容をデータファイルに1データずつ書き�
 ファイルのデータの論理行番号を取得する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ファイルのデータをJava Beansオブジェクトとして取得する際、Java Beansクラスにプロパティを定義して
-:java:extdoc:`LineNumber <nablarch.common.databind.LineNumber>` を使用することで、データの論理行番号も一緒に取得することができる。
+:java:extdoc:`LineNumber <nablarch.common.databind.LineNumber>` を使用することで、データの論理行番号も一緒に取得できる。
 
 例えば、入力値チェック時にバリデーションエラーが発生したデータの行番号をログに出力したい場合などに使用する。
 
@@ -334,7 +334,7 @@ Java Beansクラスにバインドする場合
   * :java:extdoc:`Csv <nablarch.common.databind.csv.Csv>`
   * :java:extdoc:`CsvFormat <nablarch.common.databind.csv.CsvFormat>`
 
-  CSVファイルのフォーマットは予め用意したフォーマットセットの中から選択することができる。
+  CSVファイルのフォーマットは予め用意したフォーマットセットの中から選択できる。
   フォーマットセットについては  :ref:`data_bind-csv_format_set` を参照。
 
   以下に実装例を示す。
@@ -350,7 +350,7 @@ Java Beansクラスにバインドする場合
     }
 
   また、CSVファイルのフォーマットが、予め用意したフォーマットセットのいずれにも当てはまらない場合は、
-  :java:extdoc:`CsvFormat <nablarch.common.databind.csv.CsvFormat>` を使用して個別にフォーマットを指定することができる。
+  :java:extdoc:`CsvFormat <nablarch.common.databind.csv.CsvFormat>` を使用して個別にフォーマットを指定できる。
 
   以下に実装例を示す。
 
@@ -417,7 +417,7 @@ Java Beansクラスにバインドする場合
   * :java:extdoc:`FixedLength <nablarch.common.databind.fixedlength.FixedLength>`
   * :java:extdoc:`Field <nablarch.common.databind.fixedlength.Field>`
 
-  また、固定長ファイルの各フィールドに対し、パディングやトリム等の変換を行うコンバータを指定することができる。
+  また、固定長ファイルの各フィールドに対し、パディングやトリム等を変換するコンバータを指定できる。
   標準で指定できるコンバータについては、 :java:extdoc:`nablarch.common.databind.fixedlength.converter` パッケージ配下を参照。
 
   以下に実装例を示す。
@@ -464,7 +464,7 @@ Mapクラスにバインドする場合
   :java:extdoc:`FixedLengthDataBindConfig <nablarch.common.databind.fixedlength.FixedLengthDataBindConfig>` を使用して個別にフォーマットを指定する。
 
   :java:extdoc:`FixedLengthDataBindConfig <nablarch.common.databind.fixedlength.FixedLengthDataBindConfig>` は、
-  :java:extdoc:`FixedLengthDataBindConfigBuilder <nablarch.common.databind.fixedlength.FixedLengthDataBindConfigBuilder>` を使用して生成することができる。
+  :java:extdoc:`FixedLengthDataBindConfigBuilder <nablarch.common.databind.fixedlength.FixedLengthDataBindConfigBuilder>` を使用して生成できる。
 
   以下に実装例を示す。
 
@@ -492,7 +492,7 @@ Java Beansクラスにバインドする場合とMapクラスにバインドす�
 Java Beansクラスにバインドする場合
   フォーマットごとにJavaBeansクラスを定義して、それらのJava Beansクラスをプロパティとして持つ
   :java:extdoc:`MultiLayout <nablarch.common.databind.fixedlength.MultiLayout>` の継承クラスを作成することで、
-  複数フォーマットの固定長ファイルに対応することができる。
+  複数フォーマットの固定長ファイルに対応できる。
 
   以下にフォーマット指定の実装例を示す。
 
@@ -596,7 +596,7 @@ Java Beansクラスにバインドする場合
 
 Mapクラスにバインドする場合
   :ref:`固定長ファイルをMapクラスにバインドする場合のフォーマット指定方法 <data_bind-fixed_length_format-map>`
-  と同様の手順でフォーマットを指定することができる。
+  と同様の手順でフォーマットを指定できる。
 
   以下にフォーマット指定の実装例を示す。
 
@@ -659,7 +659,7 @@ Mapクラスにバインドする場合
 
 出力するデータの表示形式をフォーマットする
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データを出力する際に、 :ref:`format` を使用することで日付や数値などのデータの表示形式をフォーマットすることができる。
+データを出力する際に、 :ref:`format` を使用することで日付や数値などのデータの表示形式をフォーマットできる。
 
 詳細は :ref:`format` を参照すること。
 
@@ -704,7 +704,7 @@ CSVファイルのフォーマットとして指定できるフォーマット�
 
 クォートモード
   クォートモードとは、CSVファイルへの書き込み時にどのフィールドをフィールド囲み文字で囲むかを示すモードである。
-  クォートモードは以下のモードから選択することができる。
+  クォートモードは以下のモードから選択できる。
 
   ================ ================================================================
   クォートモード名 フィールド囲み文字で囲む対象のフィールド

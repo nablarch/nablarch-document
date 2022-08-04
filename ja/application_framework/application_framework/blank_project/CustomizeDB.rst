@@ -7,7 +7,7 @@
   :depth: 2
   :local:
 
-Nablarchのアーキタイプを利用して作成したプロジェクトは、 **初期状態ではH2 Database Engine** (以下H2)を使用するように設定されている。
+Nablarchのアーキタイプを使用して作成したプロジェクトは、 **初期状態ではH2 Database Engine** (以下H2)を使用するように設定されている。
 
 別のRDBMSを使用するように設定変更する手順を記述する。
 
@@ -428,7 +428,7 @@ dependencies要素内で、JDBCドライバの依存関係が記述されてい�
     <!-- 中略 -->
   </dependencies>
 
-dependency要素内の各要素については、:ref:`customizeDBProfiles` と同じ記述を行う。
+dependency要素内の各要素については、:ref:`customizeDBProfiles` と同じように記述する。
 
 
 .. _customizeDBWebComponentConfiguration:

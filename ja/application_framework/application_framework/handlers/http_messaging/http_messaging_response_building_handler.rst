@@ -61,14 +61,14 @@ HTTPメッセージングレスポンス変換ハンドラ
 :関連メッセージID: レスポンスヘッダーの ``X-Correlation-Id`` に、応答電文オブジェクトのヘッダーに設定された ``CorrelationId`` の値を設定する。
 
 .. important::
-  このハンドラでは、上記に記載のないレスポンスヘッダーを設定することはできない。
+  このハンドラでは、上記に記載のないレスポンスヘッダーを設定できない。
 
   上記外のレスポンスヘッダーを使用したい場合は、プロジェクトでハンドラを作成し対応すること。
 
 フレームワーク制御ヘッダのレイアウトを変更する
 --------------------------------------------------
 応答電文内のフレームワーク制御ヘッダの定義を変更する場合には、プロジェクトで拡張したフレームワーク制御ヘッダの定義を設定する必要がある。
-設定を行わない場合は、デフォルトの :java:extdoc:`StructuredFwHeaderDefinition <nablarch.fw.messaging.reader.StructuredFwHeaderDefinition>` が使用される。
+設定しない場合は、デフォルトの :java:extdoc:`StructuredFwHeaderDefinition <nablarch.fw.messaging.reader.StructuredFwHeaderDefinition>` が使用される。
 
 フレームワーク制御ヘッダの詳細は、 :ref:`フレームワーク制御ヘッダ <http_system_messaging-fw_header>` を参照。
 

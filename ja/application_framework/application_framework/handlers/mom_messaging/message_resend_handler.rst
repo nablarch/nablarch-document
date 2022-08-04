@@ -17,7 +17,7 @@
   本ハンドラを適用するメリットは以下のとおり。
 
   * 既に応答電文が作成済みの場合、業務処理が省略出来るため、システム負荷を低減できる。
-  * データベースへの登録を行う処理の場合に、業務処理を省略できるため2重取り込みの防止ロジックなどを実装する必要がない。
+  * データベースへ登録する処理の場合に、業務処理を省略できるため2重取り込みの防止ロジックなどを実装する必要がない。
 
 本ハンドラでは、以下の処理を行う。
 
@@ -98,7 +98,7 @@
     - 応答電文の内容 |br|
       (:java:extdoc:`ResponseMessage#getBodyBytes() <nablarch.fw.messaging.ResponseMessage.getBodyBytes()>`)
 
-デフォルトのテーブル名やカラム名を変更したい場合には、設定により変更することができる。
+デフォルトのテーブル名やカラム名を変更したい場合には、設定により変更できる。
 詳細は、 :java:extdoc:`SentMessageTableSchema <nablarch.fw.messaging.tableschema.SentMessageTableSchema>` 及び
 :java:extdoc:`sentMessageTableSchemaプロパティ <nablarch.fw.messaging.handler.MessageResendHandler.setSentMessageTableSchema(nablarch.fw.messaging.tableschema.SentMessageTableSchema)>` を参照。
 
@@ -116,7 +116,7 @@
 .. important::
 
   相手先システムが要求電文を再送する際には、以下の制約を満たす必要がある。
-  この制約を満たせない場合、本ハンドラを利用することはできないので、プロジェクト側で再送制御を実現するハンドラを新たに作成する必要がある。
+  この制約を満たせない場合、本ハンドラを使用できないので、プロジェクト側で再送制御を実現するハンドラを新たに作成する必要がある。
 
   * 再送電文の相関メッセージIDには、初回送信時の要求電文のメッセージIDを設定すること
   * フレームワーク制御ヘッダの再送要求フラグに値を設定すること
@@ -124,7 +124,7 @@
 フレームワーク制御ヘッダの設定
 --------------------------------------------------
 応答電文内のフレームワーク制御ヘッダの定義を変更する場合には、プロジェクトで拡張したフレームワーク制御ヘッダの定義を設定する必要がある。
-設定を行わない場合は、デフォルトの :java:extdoc:`StandardFwHeaderDefinition <nablarch.fw.messaging.StandardFwHeaderDefinition>` が使用される。
+設定しない場合は、デフォルトの :java:extdoc:`StandardFwHeaderDefinition <nablarch.fw.messaging.StandardFwHeaderDefinition>` が使用される。
 
 フレームワーク制御ヘッダの詳細は、 :ref:`フレームワーク制御ヘッダ <mom_system_messaging-fw_header>` を参照。
 

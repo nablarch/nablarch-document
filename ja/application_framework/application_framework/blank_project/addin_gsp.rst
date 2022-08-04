@@ -13,7 +13,7 @@ gsp-dba-maven-plugin(DBA作業支援ツール)の初期設定方法
 
 `gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ は、Apache License Version 2.0 ライセンスで提供されるオープンソースのツールである。
 
-gsp-dba-maven-pluginは、利用開始前にRDBMSにあわせた設定を行う必要がある。
+gsp-dba-maven-pluginは、使用開始前にRDBMSにあわせて設定する必要がある。
 
 本手順では、アーキタイプから生成したプロジェクトで、gsp-dba-maven-pluginを使用するための設定方法を示す。
 
@@ -263,7 +263,7 @@ src/main/resources/entity以下にRDBMS毎にedmファイルが存在するの�
 そのため、任意の方法でDDLを生成・実行しデータベースを構築すれば、
 DDL の生成/実行以外の機能は SI Object Browser ER 以外のモデリングツールを利用した場合でも実行可能である。
 
-SI Object Browser ER 以外のモデリングツールを利用する場合は、以下のように generate-ddl 、execute-ddl のゴールが実行されないようpom.xmlを修正する。
+SI Object Browser ER 以外のモデリングツールを使用する場合は、以下のように generate-ddl 、execute-ddl のゴールが実行されないようpom.xmlを修正する。
 
 .. code-block:: xml
 

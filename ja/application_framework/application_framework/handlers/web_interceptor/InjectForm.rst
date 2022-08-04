@@ -36,7 +36,7 @@ InjectForm インターセプター
     <artifactId>nablarch-core-validation</artifactId>
   </dependency>
 
-InjectFormを利用する
+InjectFormを使用する
 --------------------------------------------------
 :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` アノテーションを、業務アクションのリクエストを処理するメソッドに対して設定する。
 

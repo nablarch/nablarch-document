@@ -7,7 +7,7 @@ UseTokenインターセプター
   :depth: 3
   :local:
 
-:ref:`二重サブミット(同一リクエストの二重送信)防止 <tag-double_submission_server_side>` のためのトークン発行を行うインターセプター。
+:ref:`二重サブミット(同一リクエストの二重送信)防止 <tag-double_submission_server_side>` のためのトークンを発行するインターセプター。
 
 このインターセプターが使用されることを想定しているのは、主にJSP以外のテンプレートエンジンを採用している場合である。
 

@@ -28,7 +28,7 @@ OnDoubleSubmissionインターセプター
     <artifactId>nablarch-fw-web-tag</artifactId>
   </dependency>
 
-OnDoubleSubmissionを利用する
+OnDoubleSubmissionを使用する
 --------------------------------------------------
 :java:extdoc:`OnDoubleSubmission <nablarch.common.web.token.OnDoubleSubmission>` アノテーションを、
 アクションのメソッドに対して設定する。

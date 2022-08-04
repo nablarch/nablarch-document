@@ -46,7 +46,7 @@
 ------------------------------
 なし。
 
-データベースの接続先の設定を行う
+データベースの接続先を設定する
 --------------------------------------------------
 このハンドラは、 :java:extdoc:`connectionFactory <nablarch.common.handler.DbConnectionManagementHandler.setConnectionFactory(nablarch.core.db.connection.ConnectionFactory)>`
 プロパティに設定されたファクトリクラス( :java:extdoc:`ConnectionFactory <nablarch.core.db.connection.ConnectionFactory>` 実装クラス )を使用してデータベース接続を取得する。

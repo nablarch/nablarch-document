@@ -41,7 +41,7 @@ Nablarchサーブレットコンテキスト初期化リスナ
 システムリポジトリを初期化する
 --------------------------------------------------
 
-システムリポジトリの初期化を行うには、以下の設定を行う必要がある。
+システムリポジトリの初期化を行うには、以下のとおり設定する必要がある。
 
 * サーブレットコンテキストリスナとして、本クラスを登録する。
 * サーブレットコンテキストの初期化パラメータとして、コンポーネント設定ファイルのパスを設定する。
@@ -65,7 +65,7 @@ Nablarchサーブレットコンテキスト初期化リスナ
 初期化の成否を後続処理で取得する
 --------------------------------------------------
 
-本クラスの初期化に成功したか否かは、:java:extdoc:`NablarchServletContextListener#isInitializationCompleted <nablarch.fw.web.servlet.NablarchServletContextListener.isInitializationCompleted()>` を使用して取得することができる。
+本クラスの初期化に成功したか否かは、:java:extdoc:`NablarchServletContextListener#isInitializationCompleted <nablarch.fw.web.servlet.NablarchServletContextListener.isInitializationCompleted()>` を使用して取得できる。
 初期化に成功した場合は上記メソッドは ``true`` を返却する。
 
 本クラスの初期化に失敗するとアプリケーションの起動も失敗するが、サーブレットコンテキストリスナを複数登録していた場合は、

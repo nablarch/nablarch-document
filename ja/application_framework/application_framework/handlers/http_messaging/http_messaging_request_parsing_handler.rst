@@ -45,7 +45,7 @@ HTTPリクエスト(
 :ref:`thread_context_handler` より後ろに配置すること
   スレッドコンテキスト上に設定されたリクエストIDをもとに、
   要求電文と応答電文の変換に使う
-  :java:extdoc:`DataRecordFormatter<nablarch.core.dataformat.DataRecordFormatter>` の取得を行うため、
+  :java:extdoc:`DataRecordFormatter<nablarch.core.dataformat.DataRecordFormatter>` を取得するため、
   :ref:`thread_context_handler` より後ろに本ハンドラを配置する必要がある。
 
 .. _http_messaging_request_parsing_handler-convert:

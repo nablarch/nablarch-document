@@ -24,7 +24,7 @@
 .. tip::
 
   ユニバーサルDAOは、共通項目(全てのテーブルに定義する登録ユーザや更新ユーザ等)に対する値の自動設定機能は提供しない。
-  共通項目に対する値の自動設定を行いたい場合は、 :ref:`doma_adaptor` を適用し、Domaのエンティティリスナー機能を使用すれば良い。
+  共通項目に対する値を自動設定したい場合は、 :ref:`doma_adaptor` を適用し、Domaのエンティティリスナー機能を使用すれば良い。
 
   どうしてもユニバーサルDAOを使用したい場合は、ユニバーサルDAOの機能を使用する前にアプリケーションで明示的に共通項目を設定すること。
 
@@ -49,7 +49,7 @@ Entityに使用できるJPAアノテーションについては、 :ref:`univers
 
 
 .. tip::
-   ユニバーサルDAOの上記CRUD機能では、\ ``@Table``\ アノテーションを使ってスキーマを指定することができる\
+   ユニバーサルDAOの上記CRUD機能では、\ ``@Table``\ アノテーションを使ってスキーマを指定できる\
    （ :ref:`universal_dao_jpa_annotations` を参照）。
    ただし、 :ref:`database` の :ref:`database-replace_schema` 機能は、ユニバーサルDAOの上記CRUD機能では使用できない。\
    環境毎にスキーマを切り替える用途には、ユニバーサルDAOではなく :ref:`database` を使用すること。
@@ -178,24 +178,24 @@ JDBCのフェッチサイズによってメモリの使用量が変わる。
 型を変換する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-ユニバーサルDAOでは、 :ref:`@Temporal <universal_dao_jpa_temporal>` を使用して、 ``java.util.Date`` 及び ``java.util.Calendar`` 型の値をデータベースにマッピングする方法を指定することができる。
-他の型については、任意のマッピングは不可能であるため、Entityのプロパティは、データベースの型及び使用するJDBCドライバの仕様に応じた定義を行うこと。
+ユニバーサルDAOでは、 :ref:`@Temporal <universal_dao_jpa_temporal>` を使用して、 ``java.util.Date`` 及び ``java.util.Calendar`` 型の値をデータベースにマッピングする方法を指定できる。
+他の型については、任意のマッピングは不可能であるため、Entityのプロパティは、データベースの型及び使用するJDBCドライバの仕様に応じて定義すること。
 
 また、ユニバーサルDAOは、自動生成したSQLをDBに送信する場合はJPAアノテーションの情報を使用するが、任意のSQLをDBに送信する場合はJPAアノテーションの情報は使用しない。
 そのため、型変換については、以下のようになる。
 
 :ref:`Entityから自動的に生成したSQLを実行する場合 <universal_dao-execute_crud_sql>`
   データベースへの出力時
-    * :ref:`@Temporal <universal_dao_jpa_temporal>` が設定されているプロパティについては、@Temporalに指定された型への変換を行う。
-    * 上記以外については、:ref:`database` に処理を委譲して変換を行う。
+    * :ref:`@Temporal <universal_dao_jpa_temporal>` が設定されているプロパティについては、@Temporalに指定された型へ変換する。
+    * 上記以外については、:ref:`database` に処理を委譲して変換する。
 
   データベースから取得時
-    * :ref:`@Temporal <universal_dao_jpa_temporal>` が設定されているプロパティについては、@Temporalに指定された型からの変換を行う。
+    * :ref:`@Temporal <universal_dao_jpa_temporal>` が設定されているプロパティについては、@Temporalに指定された型から変換する。
     * 上記以外はEntityの情報を元に、値が変換される。
 
 :ref:`任意のSQLで検索する場合 <universal_dao-sql_file>`
   データベースへの出力時
-    * :ref:`database` に処理を委譲して変換を行う。
+    * :ref:`database` に処理を委譲して変換する。
 
   データベースから取得時
     * Entityから自動的に生成したSQLを実行する場合と同様の処理を行う。
@@ -324,7 +324,7 @@ GenerationType.TABLE
 バッチ実行(一括登録、更新、削除)を行う
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ユニバーサルDAOでは、大量データの一括登録や更新、削除時にバッチ実行ができる。
-バッチ実行を行うことで、アプリケーション稼働サーバとデータベースサーバとのラウンドトリップ回数を削減でき、パフォーマンスの向上が期待できる。
+バッチ実行することで、アプリケーション稼働サーバとデータベースサーバとのラウンドトリップ回数を削減でき、パフォーマンスの向上が期待できる。
 
 バッチ実行は以下のメソッドを使用する。
 
@@ -445,7 +445,7 @@ OracleのCLOBのように、データサイズの大きいテキストデータ�
 
 実装例
   コンポーネント設定ファイルに設定した  :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を使って、ユニバーサルDAOを実行する。
-  なお、 :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を直接使うのではなくトランザクション制御を行う、
+  なお、 :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を直接使うのではなくトランザクションを制御する、
   :java:extdoc:`UniversalDao.Transaction <nablarch.common.dao.UniversalDao.Transaction>` を使用すること。
 
   まず、 :java:extdoc:`UniversalDao.Transaction <nablarch.common.dao.UniversalDao.Transaction>` を継承したクラスを作成する。

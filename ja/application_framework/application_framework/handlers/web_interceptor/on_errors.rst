@@ -8,7 +8,7 @@ OnErrorsインターセプター
   :local:
 
 業務アクションでの例外発生時に、指定したレスポンスを返却するインターセプター。
-複数の例外に対してレスポンスを指定することができる。
+複数の例外に対してレスポンスを指定できる。
 
 このインターセプターは、業務アクションのメソッドに対して、 :java:extdoc:`OnErrors <nablarch.fw.web.interceptor.OnErrors>` を設定することで有効となる。
 
@@ -25,7 +25,7 @@ OnErrorsインターセプター
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-OnErrorsを利用する
+OnErrorsを使用する
 --------------------------------------------------
 :java:extdoc:`OnErrors <nablarch.fw.web.interceptor.OnErrors>` アノテーションを、
 業務アクションのリクエストを処理するメソッドに対して設定する。

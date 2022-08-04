@@ -2,7 +2,7 @@
 
 検索機能の作成
 ==========================================
-Exampleアプリケーションを元に検索機能の解説を行う。
+Exampleアプリケーションを元に検索機能を解説する。
 
 作成する機能の説明
   1. サイドメニュー「プロジェクト名」欄に検索条件を入力し、検索ボタンを押下する。
@@ -120,13 +120,13 @@ Exampleアプリケーションを元に検索機能の解説を行う。
         :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` は、プロパティ名が同一の項目を移送するため、
         検索条件に使用する項目のプロパティ名は、フォームと検索条件Beanで合わせる必要がある。
       * :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を用いて値を移送する場合は、互換性のある型であれば、
-        プロパティを型変換した上で移送することができる。詳細は :ref:`BeanUtilの型変換ルール<utility-conversion>` を参照。
+        プロパティを型変換した上で移送できる。詳細は :ref:`BeanUtilの型変換ルール<utility-conversion>` を参照。
       * Beanのプロパティは、対応するカラムの型に合わせたJavaの型で定義する。
 
 .. _`project_search-create_sql`:
 
-検索に利用するSQLの作成
-  検索に利用するSQLを作成する。
+検索に使用するSQLの作成
+  検索に使用するSQLを作成する。
 
     Project.sql
       .. code-block:: none

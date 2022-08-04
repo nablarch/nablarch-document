@@ -259,7 +259,7 @@ Apache Maven(以下Maven)のプロファイル\ [#profile]_\ 機能により
     - リソースを格納するディレクトリ。
 
   * - env.classifier
-    - war及びjarファイル名部分の末尾につける識別子。半角英数で任意の名前をつける。|br|
+    - warファイル名、jarファイル名の末尾につける識別子。半角英数で任意の名前をつける。|br|
       ファイル名の末尾に識別子をつける処理は、pom.xml中で、maven-war-plugin及びmaven-jar-pluginのclassifierプロパティに値を設定することで実現している。
 
   * - webxml.path

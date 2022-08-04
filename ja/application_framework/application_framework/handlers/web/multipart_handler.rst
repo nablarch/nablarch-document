@@ -47,7 +47,7 @@ HTTPリクエストがマルチパート形式の場合に、ボディ部を解�
 
 このハンドラの動作条件
 --------------------------------------------------
-このハンドラはマルチパート形式のリクエストの場合のみ、リクエストボディの解析を行う。マルチパート形式かどうかは、リクエストヘッダーの ``Content-Type`` で判断する。
+このハンドラはマルチパート形式のリクエストの場合のみ、リクエストボディを解析する。マルチパート形式かどうかは、リクエストヘッダーの ``Content-Type`` で判断する。
 
 ``Content-Type`` が ``multipart/form-data`` と一致する場合は、リクエストがマルチパート形式だと判断し、ボディの解析処理を行う。
 それ以外の場合には、このハンドラは何もせずに後続のハンドラに処理を委譲する。
@@ -138,7 +138,7 @@ HTTPリクエストがマルチパート形式の場合に、ボディ部を解�
 .. important::
 
   このハンドラは、:ref:`session_store_handler-constraint` にあるとおり、 :ref:`session_store_handler` より手前に設定する必要がある。
-  このため、 :ref:`session_store_handler` の後続に設定される :ref:`http_error_handler` の :ref:`HttpErrorHandler_DefaultPage` は使用することができない。
+  このため、 :ref:`session_store_handler` の後続に設定される :ref:`http_error_handler` の :ref:`HttpErrorHandler_DefaultPage` は使用できない。
 
 .. [#part_error]
   マルチパート解析エラーが発生するケース

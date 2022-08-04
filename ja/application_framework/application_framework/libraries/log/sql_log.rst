@@ -8,7 +8,7 @@ SQLログの出力
   :local:
 
 SQLログは、パフォーマンスチューニングに使用するために、SQL文の実行時間やSQL文を出力する。
-アプリケーションでは、ログ出力の設定を行うことにより出力する。
+アプリケーションでは、ログ出力を設定することにより出力する。
 
 SQLログの出力方針
 --------------------------------------------------
@@ -107,7 +107,7 @@ app-log.propertiesの設定例
 
 .. _sql_log-setting:
 
-SQLログの設定を行う
+SQLログの設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 SQLログの設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
 
@@ -302,7 +302,7 @@ SQLログの設定は、 :ref:`log-app_log_setting` で説明したプロパテ�
 
 JSON形式の構造化ログとして出力する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`log-json_log_setting` 設定を行うことでログをJSON形式で出力できるが、
+:ref:`log-json_log_setting` 設定によりログをJSON形式で出力できるが、
 :java:extdoc:`SqlLogFormatter <nablarch.core.db.statement.SqlLogFormatter>` では
 SQLログの各項目はmessageの値に文字列として出力される。
 SQLログの各項目もJSONの値として出力するには、

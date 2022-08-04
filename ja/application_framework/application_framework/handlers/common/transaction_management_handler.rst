@@ -52,7 +52,7 @@
   データベースに対するトランザクションを制御する場合には、トランザクション管理対象のデータベース接続がスレッド上に存在している必要がある。
   このため、本ハンドラは :ref:`database_connection_management_handler` より後ろに配置する必要がある。
 
-トランザクション制御対象の設定を行う
+トランザクション制御対象を設定する
 --------------------------------------------------
 このハンドラは、 :java:extdoc:`transactionFactory <nablarch.common.handler.TransactionManagementHandler.setTransactionFactory(nablarch.core.transaction.TransactionFactory)>`
 プロパティに設定されたファクトリクラス( :java:extdoc:`TransactionFactory <nablarch.core.transaction.TransactionFactory>` 実装クラス)を使用してトランザクションの制御対象を取得しスレッド上で管理する。
@@ -63,14 +63,14 @@
 
 .. tip::
 
-  :ref:`database_connection_management_handler` で設定したデータベースに対するトランザクション制御を行う場合は、
+  :ref:`database_connection_management_handler` で設定したデータベースに対するトランザクションを制御する場合は、
   :java:extdoc:`DbConnectionManagementHandler#connectionName <nablarch.common.handler.DbConnectionManagementHandler.setConnectionName(java.lang.String)>` に設定した値と同じ値を
   :java:extdoc:`transactionName <nablarch.common.handler.TransactionManagementHandler.setTransactionName(java.lang.String)>` プロパティに設定すること。
 
   なお、 :java:extdoc:`DbConnectionManagementHandler#connectionName <nablarch.common.handler.DbConnectionManagementHandler.setConnectionName(java.lang.String)>` に値を設定していない場合は、
   :java:extdoc:`transactionName <nablarch.common.handler.TransactionManagementHandler.setTransactionName(java.lang.String)>` への設定は省略して良い。
 
-以下の設定ファイル例を参考にし、このハンドラの設定を行うこと。
+以下の設定ファイル例を参考にし、このハンドラを設定すること。
 
 .. code-block:: xml
 

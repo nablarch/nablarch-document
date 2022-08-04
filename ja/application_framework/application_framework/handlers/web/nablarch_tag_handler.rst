@@ -13,7 +13,7 @@ Nablarchの :ref:`tag` に必要なリクエスト処理を行うハンドラ。
 
 * カスタムタグのデフォルト値をJSPで参照できるように、
   :java:extdoc:`CustomTagConfig<nablarch.common.web.tag.CustomTagConfig>` をリクエストスコープに設定する。
-* :ref:`hidden暗号化<tag-hidden_encryption>` に対応する改竄チェックと復号を行う。
+* :ref:`hidden暗号化<tag-hidden_encryption>` に対応する改竄チェックと復号処理を行う。
 * :ref:`チェックボックスのチェックなしに対する値を指定する<tag-checkbox_off_value>` ために、リクエストにチェックなしに対応する値を設定する。
 * :ref:`ボタン又はリンク毎のパラメータ追加<tag-submit_change_parameter>` のために、リクエストにパラメータを追加する。
 * :ref:`http_access_log` のリクエストパラメータを出力する。
@@ -61,7 +61,7 @@ Nablarchの :ref:`tag` に必要なリクエスト処理を行うハンドラ。
 
 それぞれ、
 :java:extdoc:`NablarchTagHandler<nablarch.common.web.handler.NablarchTagHandler>` の設定で、
-エラー発生時のエラーページとステータスコードを指定することができる。
+エラー発生時のエラーページとステータスコードを指定できる。
 
 .. code-block:: xml
 

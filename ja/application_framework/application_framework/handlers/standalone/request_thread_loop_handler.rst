@@ -20,7 +20,7 @@
 本ハンドラでは、以下の処理を行う。
 
 * 後続ハンドラを繰り返し実行
-* プロセス停止要求例外発生時の後続ハンドラ実行の停止 |br|
+* プロセス停止要求を示す例外発生時の後続ハンドラ実行の停止 |br|
   詳細は、 :ref:`request_thread_loop_handler-stop` を参照
 * 後続ハンドラで発生した例外(エラー)に応じた処理(ログ出力等) |br|
   詳細は、 :ref:`request_thread_loop_handler-error_handling` を参照

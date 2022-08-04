@@ -106,7 +106,7 @@
 
 .. _message-multi_lang:
 
-多言語化対応を行う
+多言語化対応
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 メッセージの多言語化を行う場合には、言語ごとのプロパティファイルを用意し、サポートする言語を :java:extdoc:`PropertiesStringResourceLoader.locales <nablarch.core.message.PropertiesStringResourceLoader.setLocales(java.util.List)>` に設定する。
 なお、デフォルトのロケールに対応する言語については、サポートする言語に追加しなくても良い。
@@ -337,7 +337,7 @@ errorsタグを使用したメッセージレベルに応じたスタイル切�
       error=エラー
 
   スタイルシート
-    メッセージレベルに対応したスタイル定義を行う。
+    メッセージレベルに対応したスタイルを定義する。
 
     .. code-block:: css
 
@@ -388,7 +388,7 @@ errorsタグを使用したメッセージレベルに応じたスタイル切�
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 メッセージをデータベースで管理するには :java:extdoc:`BasicStringResourceLoader <nablarch.core.message.BasicStringResourceLoader>` を使用してメッセージをロードする必要がある。
 
-以下にデータベースで管理するメッセージを利用するための設定例を示す。
+以下にデータベースで管理するメッセージを使用するための設定例を示す。
 
 .. code-block:: xml
 
