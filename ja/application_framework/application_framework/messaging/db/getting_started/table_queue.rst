@@ -164,7 +164,7 @@ Exampleアプリケーションの実行手順
 
   * :java:extdoc:`DatabaseTableQueueReader <nablarch.fw.reader.DatabaseTableQueueReader>` には以下を指定する。
 
-    * データベースから検索を行うためのリーダ(:java:extdoc:`DatabaseRecordReader <nablarch.fw.reader.DatabaseRecordReader>`)
+    * データベースから検索するためのリーダ(:java:extdoc:`DatabaseRecordReader <nablarch.fw.reader.DatabaseRecordReader>`)
     * 未処理データが存在しない場合の待機時間(この例では1秒)
     * 主キーのカラム名のリスト
 

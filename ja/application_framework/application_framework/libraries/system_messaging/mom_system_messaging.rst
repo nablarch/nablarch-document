@@ -149,7 +149,7 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
   :有効期間: 任意
 
 応答不要メッセージ送信では、送信電文のデータを保持するテーブル(一時テーブルと呼ぶ)から送信対象のデータを取得し、
-電文の作成及び送信を行う共通的なアクションとして、
+電文の作成及び送信の共通的なアクションとして、
 :java:extdoc:`AsyncMessageSendAction<nablarch.fw.messaging.action.AsyncMessageSendAction>`
 を提供している。
 :java:extdoc:`AsyncMessageSendAction<nablarch.fw.messaging.action.AsyncMessageSendAction>` は、

@@ -104,13 +104,13 @@ requestPath             バッチを実行する際のリクエストパスを�
                         (\ :ref:`コマンドライン引数 <main-run_application>`\ を参照)
 userId                  バッチ実行ユーザIDを記載する。                                                            必須 
                         (\ :ref:`コマンドライン引数 <main-run_application>`\ を参照)
-expectedMessage         メッセージ同期送信を行う場合、期待する要求電文の :ref:`グループID<tips_groupId>`\
+expectedMessage         メッセージ同期送信処理を行う場合、期待する要求電文の :ref:`グループID<tips_groupId>`\
                         を記載する。メッセージの作成は自動テストフレームワークにより行われる。
-responseMessage         メッセージ同期送信を行う場合、返却する応答電文の :ref:`グループID<tips_groupId>`\
+responseMessage         メッセージ同期送信処理を行う場合、返却する応答電文の :ref:`グループID<tips_groupId>`\
                         を記載する。メッセージの作成は自動テストフレームワークにより行われる。
-expectedMessageByClient HTTPメッセージ同期送信を行う場合、期待する要求電文の :ref:`グループID<tips_groupId>`\
+expectedMessageByClient HTTPメッセージ同期送信処理を行う場合、期待する要求電文の :ref:`グループID<tips_groupId>`\
                         を記載する。メッセージの作成は自動テストフレームワークにより行われる。
-responseMessageByClient HTTPメッセージ同期送信を行う場合、返却する応答電文の :ref:`グループID<tips_groupId>`\
+responseMessageByClient HTTPメッセージ同期送信処理を行う場合、返却する応答電文の :ref:`グループID<tips_groupId>`\
                         を記載する。メッセージの作成は自動テストフレームワークにより行われる。
 ======================= ========================================================================================= =====
 

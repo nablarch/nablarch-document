@@ -552,7 +552,7 @@ SQL
 
 .. _database-like_condition:
 
-like検索を行う
+like検索をする
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 like検索は、 :ref:`database-input_bean` を使用し、SQLにはlike検索用の条件を以下のルールで記述する。
 

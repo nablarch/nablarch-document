@@ -25,7 +25,7 @@ Exampleアプリケーションを元に検索機能を解説する。
     .. image:: ../images/project_search/project_search_start_date_result.png
       :scale: 80
 
-検索を行う
+検索をする
 -----------
 
 検索機能の基本的な実装方法を、以下の順に説明する。
@@ -175,7 +175,7 @@ Exampleアプリケーションを元に検索機能を解説する。
   業務アクションに、検索処理を実装する。
 
   業務アクションメソッドの作成
-    画面から与えられた検索条件を元に検索を行うメソッドを作成する。
+    画面から与えられた検索条件を元に検索するメソッドを作成する。
 
     ProjectAction.java
       .. code-block:: java
@@ -201,7 +201,7 @@ Exampleアプリケーションを元に検索機能を解説する。
         リクエストスコープから取り出すことができる。
       * フォームの値を :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を利用して検索条件Beanにコピーする。
 
-  検索を行うプライベートメソッドの作成
+  データベースを検索するプライベートメソッドの作成
     このメソッドでは、前述のSQLを指定してデータベースを検索する。
 
       ProjectAction.java

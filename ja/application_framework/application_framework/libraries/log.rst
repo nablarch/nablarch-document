@@ -561,7 +561,7 @@ Object型の可変長引数optionsを設けている。
 :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>` は、
 :java:extdoc:`LogItem <nablarch.core.log.LogItem>` インタフェースを使用して、
 各プレースホルダに対応する出力項目を取得する。
-そのため、新規にプレースホルダを追加したい場合は、以下の作業を行う。
+そのため、新規にプレースホルダを追加したい場合は、以下の作業をする。
 
 * :java:extdoc:`LogItem <nablarch.core.log.LogItem>` を実装したクラスを作る
 * :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>` を継承したクラスを作り、プレースホルダを追加する
