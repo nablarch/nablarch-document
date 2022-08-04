@@ -160,7 +160,7 @@ HTTPメッセージングを使うための設定
   // 要求電文の送信
   SyncMessage responseMessage = MessageSender.sendSync(requestMessage);
 
- また、HTTPヘッダーとして独自の項目を送信したい場合は、下記のように作成したメッセージのヘッダレコードに設定する。
+ また、HTTPヘッダとして独自の項目を送信したい場合は、下記のように作成したメッセージのヘッダレコードに設定する。
 
  .. code-block:: java
 

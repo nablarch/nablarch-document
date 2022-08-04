@@ -105,7 +105,7 @@ Captcha識別子の生成、および、生成した値をJSPが参照できる�
        return new HttpResponse("/WEB-INF/view/xxx/xxx.jsp");
     }
 
-ユーザーが入力した値をバリデーションするタイミングで呼び出されるActionのメソッドに、
+ユーザが入力した値をバリデーションするタイミングで呼び出されるActionのメソッドに、
 Formに定義するバリデーション用のメソッドとの関連付けが設定されていることを確認します。
 
   .. code-block:: java

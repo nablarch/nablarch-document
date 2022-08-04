@@ -397,19 +397,19 @@ DefaultMeterBinderListProviderで収集されるメトリクス
   * - ``jvm.buffer.total.capacity``
     - バッファプールの合計容量
   * - ``jvm.memory.used``
-    - メモリープールのメモリー使用量
+    - メモリプールのメモリ使用量
   * - ``jvm.memory.committed``
-    - メモリープールのコミットされたメモリー量
+    - メモリプールのコミットされたメモリ量
   * - ``jvm.memory.max``
-    - メモリープールの最大メモリー量
+    - メモリプールの最大メモリ量
   * - ``jvm.gc.max.data.size``
-    - OLD領域の最大メモリー量
+    - OLD領域の最大メモリ量
   * - ``jvm.gc.live.data.size``
-    - Full GC 後の OLD 領域のメモリー使用量
+    - Full GC 後の OLD 領域のメモリ使用量
   * - ``jvm.gc.memory.promoted``
-    - GC 前後で増加した、 OLD 領域のメモリー使用量の増分
+    - GC 前後で増加した、 OLD 領域のメモリ使用量の増分
   * - ``jvm.gc.memory.allocated``
-    - 前回の GC 後から今回の GC までの、 Young 領域のメモリー使用量の増分
+    - 前回の GC 後から今回の GC までの、 Young 領域のメモリ使用量の増分
   * - ``jvm.gc.concurrent.phase.time``
     - コンカレントフェーズの処理時間
   * - ``jvm.gc.pause``
@@ -791,11 +791,11 @@ SQLの処理時間
 
   * :ref:`micrometer_log_count`
 
-アプリケーションサーバーやライブラリが提供するリソースの情報
-  アプリケーションサーバーやライブラリが提供するリソース（スレッドプールやDBのコネクションプールなど）の状態を
+アプリケーションサーバやライブラリが提供するリソースの情報
+  アプリケーションサーバやライブラリが提供するリソース（スレッドプールやDBのコネクションプールなど）の状態を
   メトリクスとして収集しておくことで、障害発生時に原因箇所を特定するための情報源として活用できるようになる。
 
-  多くのアプリケーションサーバーは、リソースの状態をJMXのMBeanを通じて公開している。
+  多くのアプリケーションサーバは、リソースの状態をJMXのMBeanを通じて公開している。
   MBeanの情報を収集する方法については、以下のガイドを参照のこと。
 
   * :ref:`micrometer_mbean_metrics`
@@ -862,7 +862,7 @@ SQLの処理時間
 --------------------------------------------------
 
 :java:extdoc:`TimerMetricsHandler <nablarch.integration.micrometer.instrument.handler.TimerMetricsHandler>` をハンドラキューに設定すると、後続ハンドラの処理時間を計測しメトリクスとして収集できるようになる。
-これにより、ハンドラキュー内の処理の平均処理時間や最大処理時間をモニターできるようになる。
+これにより、ハンドラキュー内の処理の平均処理時間や最大処理時間をモニタできるようになる。
 
 ``TimerMetricsHandler`` には、 :java:extdoc:`HandlerMetricsMetaDataBuilder <nablarch.integration.micrometer.instrument.handler.HandlerMetricsMetaDataBuilder>` インタフェースを実装したクラスのインスタンスを設定する必要がある。
 ``HandlerMetricsMetaDataBuilder`` は、収集したメトリクスに設定する以下のメタ情報を構築する機能を提供する。
@@ -1157,7 +1157,7 @@ HTTPリクエストの処理時間を収集する
 --------------------------------------------------
 
 :java:extdoc:`BatchTransactionTimeMetricsLogger <nablarch.integration.micrometer.instrument.batch.BatchTransactionTimeMetricsLogger>` を使用することで、 :ref:`nablarch_batch` のトランザクション単位の処理時間をメトリクスとして計測できるようになる。
-これにより、トランザクション単位の平均処理時間や最大処理時間をモニターできるようになる。
+これにより、トランザクション単位の平均処理時間や最大処理時間をモニタできるようになる。
 
 ``BatchTransactionTimeMetricsLogger`` は `Timer(外部サイト、英語)`_ を使って ``batch.transaction.time`` という名前でメトリクスを収集する。
 この名前は、 :java:extdoc:`setMetricsName(String) <nablarch.integration.micrometer.instrument.batch.BatchTransactionTimeMetricsLogger.setMetricsName(java.lang.String)>` で変更できる。
@@ -1223,7 +1223,7 @@ Nablarchバッチは、 :ref:`loop_handler` によってトランザクション
 --------------------------------------------------
 
 :java:extdoc:`BatchProcessedRecordCountMetricsLogger <nablarch.integration.micrometer.instrument.batch.BatchProcessedRecordCountMetricsLogger>` を使用すると、 :ref:`nablarch_batch` が処理した入力データの件数を計測できるようになる。
-これにより、バッチの進捗状況や処理速度の変化をモニターできるようになる。
+これにより、バッチの進捗状況や処理速度の変化をモニタできるようになる。
 
 ``BatchProcessedRecordCountMetricsLogger`` は `Counter(外部サイト、英語)`_ を使って ``batch.processed.record.count`` という名前でメトリクスを収集する。
 この名前は、 :java:extdoc:`setMetricsName(String) <nablarch.integration.micrometer.instrument.batch.BatchProcessedRecordCountMetricsLogger.setMetricsName(java.lang.String)>` で変更できる。
@@ -1281,7 +1281,7 @@ Nablarchバッチは、 :ref:`loop_handler` によってトランザクション
 --------------------------------------------------
 
 :java:extdoc:`LogCountMetrics <nablarch.integration.micrometer.instrument.binder.logging.LogCountMetrics>` を使用すると、ログレベルごとの出力回数を計測できるようになる。
-これにより、特定レベルのログ出力頻度をモニターしたり、エラーログの監視などができるようになる。
+これにより、特定レベルのログ出力頻度をモニタしたり、エラーログの監視などができるようになる。
 
 ``LogCountMetrics`` は `Counter(外部サイト、英語)`_ を使って ``log.count`` という名前でメトリクスを収集する。
 この名前は、 :java:extdoc:`MetricsMetaData <nablarch.integration.micrometer.instrument.binder.MetricsMetaData>` を受け取る :java:extdoc:`コンストラクタ <nablarch.integration.micrometer.instrument.binder.logging.LogCountMetrics.LogCountMetrics(nablarch.integration.micrometer.instrument.binder.MetricsMetaData)>` で変更できる。
@@ -1383,7 +1383,7 @@ SQLの処理時間を計測する
 --------------------------------------------------
 
 :java:extdoc:`SqlTimeMetricsDaoContext <nablarch.integration.micrometer.instrument.dao.SqlTimeMetricsDaoContext>` を使用することで、 :ref:`universal_dao` を通じて実行したSQLの処理時間を計測できるようになる。
-これにより、SQLごとの平均処理時間や最大処理時間をモニターできるようになる。
+これにより、SQLごとの平均処理時間や最大処理時間をモニタできるようになる。
 
 ``SqlTimeMetricsDaoContext`` は `Timer(外部サイト、英語)`_ を使って ``sql.process.time`` という名前でメトリクスを収集する。
 この名前は、 ``SqlTimeMetricsDaoContext`` のファクトリクラスである :java:extdoc:`SqlTimeMetricsDaoContextFactory <nablarch.integration.micrometer.instrument.dao.SqlTimeMetricsDaoContextFactory>` の :java:extdoc:`setMetricsName(String) <nablarch.integration.micrometer.instrument.dao.SqlTimeMetricsDaoContextFactory.setMetricsName(java.lang.String)>` で変更できる。
@@ -1444,13 +1444,13 @@ SQLの処理時間を計測する
 -------------------------------------------------------------
 
 :java:extdoc:`JmxGaugeMetrics <nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics>` を使用すると、任意のMBeanから取得した値をメトリクスとして計測できるようになる。
-これにより、使用しているアプリケーションサーバーやライブラリがMBeanで提供している様々な情報を計測し、モニターできるようになる。
+これにより、使用しているアプリケーションサーバやライブラリがMBeanで提供している様々な情報を計測し、モニタできるようになる。
 
 .. tip::
 
   MBeanとは、Java Management Extensions(JMX)で定義されたJavaオブジェクトで、管理対象リソースの情報へアクセスするためのAPIなどを提供する。
-  Tomcatなどのアプリケーションサーバーの多くは、サーバーの状態（スレッドプールの状態など）をMBeanで公開している。
-  アプリケーションからこれらのMBeanにアクセスすることで、サーバーの状態を取得できるようになっている。
+  Tomcatなどのアプリケーションサーバの多くは、サーバの状態（スレッドプールの状態など）をMBeanで公開している。
+  アプリケーションからこれらのMBeanにアクセスすることで、サーバの状態を取得できるようになっている。
 
   JMXについての詳細は、 `Java Management Extensions Guide(外部サイト、英語) <https://docs.oracle.com/en/java/javase/11/jmx/java-management-extensions-jmx-user-guide.html>`_ を参照。
 
@@ -1458,7 +1458,7 @@ SQLの処理時間を計測する
 
 以下で、 ``JmxGaugeMetrics`` の設定例を説明する。
 
-まず、アプリケーションサーバーが提供するMBeanを参照する例として、Tomcatのスレッドプールの状態を取得する例を示す。
+まず、アプリケーションサーバが提供するMBeanを参照する例として、Tomcatのスレッドプールの状態を取得する例を示す。
 次にアプリケーションに組み込んだライブラリが提供するMBeanを参照する例として、HikariCPのコネクションプールの状態を取得する例を示す。
 
 Tomcatのスレッドプールの状態を取得する
@@ -1605,7 +1605,7 @@ MBeanによる情報公開を有効にするには、 ``com.zaxxer.hikari.Hikari
   2020-12-24 16:37:57.143 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: db.pool.active{} value=0
   2020-12-24 16:37:57.143 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: db.pool.total{} value=5
 
-サーバー起動時に出力される警告ログについて
+サーバ起動時に出力される警告ログについて
 *********************************************************************
 
 Micrometerが監視サービスにメトリクスを連携する方法には、大きく次の２つの方法が存在する。

@@ -78,7 +78,7 @@ _                            ローカル サーバ  _                          
                                                                                 **subwindow_app_top_nav.jsp**\ は、 |br|
                                                                                 サブウィンドウ用
 
-ヘッダー領域JSP              △        ○       /WEB-INF/include/ |br|           業務画面のヘッダー領域を実装するJSP。 |br|
+ヘッダ領域JSP                △        ○       /WEB-INF/include/ |br|           業務画面のヘッダ領域を実装するJSP。 |br|
                                               * app_header.jsp |br|             |br|
                                               * subwindow_app_header.jsp        **subwindow_app_header.jsp**\ は、 |br|
                                                                                 サブウィンドウ用

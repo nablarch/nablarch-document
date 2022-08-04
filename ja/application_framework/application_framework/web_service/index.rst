@@ -20,7 +20,7 @@ Nablarchでは、以下2種類のRESTfulウェブサービス用のフレーム�
 理由
   :ref:`restful_web_service` では、 `JSR 339(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=339>`_ で規定されている一部のアノテーションを使用して容易にウェブサービスを構築できる。
   
-  一方、 :ref:`http_messaging` はボディ部やHTTPヘッダー、例外制御に以下の制約があり柔軟な設計及び実装ができない。
+  一方、 :ref:`http_messaging` はボディ部やHTTPヘッダ、例外制御に以下の制約があり柔軟な設計及び実装ができない。
 
   * Nablarchの制御用領域がHTTPヘッダやボディ部に必要となる。
 

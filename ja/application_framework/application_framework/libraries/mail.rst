@@ -388,7 +388,7 @@
 .. _mail-mail_sender_settings:
 
 メール送信バッチの設定
- メール送信バッチが使用するSMTPサーバーへの接続情報を設定する。
+ メール送信バッチが使用するSMTPサーバへの接続情報を設定する。
  :java:extdoc:`MailSessionConfig<nablarch.common.mail.MailSessionConfig>` をコンポーネント定義に追加する。
  設定項目の詳細は、リンク先のJavadocを参照。
 
@@ -533,7 +533,7 @@
 
 メール送信時のエラー処理
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:java:extdoc:`MailSender<nablarch.common.mail.MailSender>` は、外部からの入力データ(アドレスやヘッダー)に起因する例外やメール送信失敗の例外が発生した場合、
+:java:extdoc:`MailSender<nablarch.common.mail.MailSender>` は、外部からの入力データ(アドレスやヘッダ)に起因する例外やメール送信失敗の例外が発生した場合、
 対象のメール送信要求のステータスを送信失敗にして次のメール送信処理を行う。
 また、上記以外の例外が発生した場合は、メール送信要求のステータスを送信失敗にしてリトライする。
 
@@ -548,7 +548,7 @@
   * - 送信要求のメールアドレス変換時の `JavaMailのAddressException <https://javamail.java.net/nonav/docs/api/javax/mail/internet/AddressException.html>`_
     - 変換に失敗したアドレスをログ出力(ログレベル: ERROR)する。
   * - :ref:`mail-mail_header_injection` での :java:extdoc:`InvalidCharacterException<nablarch.common.mail.InvalidCharacterException>`
-    - ヘッダー文字列をログ出力(ログレベル: ERROR)する。
+    - ヘッダ文字列をログ出力(ログレベル: ERROR)する。
   * - メール送信失敗時の `JavaMailのSendFailureException <https://javamail.java.net/nonav/docs/api/javax/mail/SendFailedException.html>`_
     - 送信されたアドレス、送信されなかったアドレス、不正なアドレスをログ出力(ログレベル: ERROR)する。
   * - 上記以外のメール送信時の :java:extdoc:`Exception <java.lang.Exception>`

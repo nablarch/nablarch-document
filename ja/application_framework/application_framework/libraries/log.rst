@@ -696,7 +696,7 @@ LogFormatterの設定は、下記を想定する。
 JSON形式の構造化ログとして出力する
 --------------------------------------------------------------------------
 
-LogWriterや各種ログで使用するフォーマッターをJSON出力用のクラスに差し替えることで、ログの出力をJSON形式にできる。
+LogWriterや各種ログで使用するフォーマッタをJSON出力用のクラスに差し替えることで、ログの出力をJSON形式にできる。
 
 具体的には、以下のとおり修正することで、ログをJSON形式にできる。
 
@@ -707,10 +707,10 @@ LogWriterや各種ログで使用するフォーマッターをJSON出力用の�
 
 .. _log-json_set_jsonlogformatter_for_logwriter:
 
-LogWriterで使用するフォーマッターをJsonLogFormatterに変更する
+LogWriterで使用するフォーマッタをJsonLogFormatterに変更する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-LogWriterで使用するフォーマッターを :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` に変更することで、
+LogWriterで使用するフォーマッタを :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` に変更することで、
 ログの出力をJSON形式にできる。
 
 使用方法
@@ -877,21 +877,21 @@ LogWriterで使用するフォーマッターを :java:extdoc:`JsonLogFormatter 
 
 .. _log-json_app_logs:
 
-各種ログで使用するフォーマッターをJSONログ用に差し替える
+各種ログで使用するフォーマッタをJSONログ用に差し替える
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  各種ログは、メッセージ部分を個別の方法でフォーマットしている。
- それぞれのフォーマットで使用しているフォーマッターをJSON用のフォーマッターに差し替えることで、各種ログが出力する内容もJSONログとして出力できるようになる。
+ それぞれのフォーマットで使用しているフォーマッタをJSON用のフォーマッタに差し替えることで、各種ログが出力する内容もJSONログとして出力できるようになる。
 
- 各フォーマッターの具体的な設定方法については、下記表のそれぞれのリンク先を参照のこと。
+ 各フォーマッタの具体的な設定方法については、下記表のそれぞれのリンク先を参照のこと。
 
- .. list-table:: 各種ログのJSON版フォーマッター
+ .. list-table:: 各種ログのJSON版フォーマッタ
   :header-rows: 1
   :class: white-space-normal
   :widths: 30,50
   
   * - ログの種類
-    - 対応するフォーマッター
+    - 対応するフォーマッタ
  
   * - :ref:`障害ログ <failure_log-json_setting>`
     - :java:extdoc:`FailureJsonLogFormatter <nablarch.core.log.app.FailureJsonLogFormatter>`
@@ -913,7 +913,7 @@ LogWriterで使用するフォーマッターを :java:extdoc:`JsonLogFormatter 
 NablarchバッチのログをJSON形式にする
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Nablarchバッチで出力するログをJSON形式にするには、上述のフォーマッターの設定に加えて下記のとおり修正する必要がある。
+Nablarchバッチで出力するログをJSON形式にするには、上述のフォーマッタの設定に加えて下記のとおり修正する必要がある。
 
 * :ref:`log-json_set_applicationsettingsjsonlogformatter`
 * :ref:`log-json_set_launcherjsonlogformatter`
@@ -927,7 +927,7 @@ ApplicationSettingLogFormatterをJSON用に切り替える
 ******************************************************
 
 :java:extdoc:`ApplicationSettingLogFormatter <nablarch.core.log.app.ApplicationSettingLogFormatter>` は、システム設定値をログに出力するときに用いられる。
-これをJSON形式で出力するには、フォーマッターを :java:extdoc:`ApplicationSettingJsonLogFormatter <nablarch.core.log.app.ApplicationSettingJsonLogFormatter>` に切り替える。
+これをJSON形式で出力するには、フォーマッタを :java:extdoc:`ApplicationSettingJsonLogFormatter <nablarch.core.log.app.ApplicationSettingJsonLogFormatter>` に切り替える。
 設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
 
 記述ルール
@@ -978,7 +978,7 @@ LauncherLogFormatterをJSON用に切り替える
 ******************************************************
 
 :java:extdoc:`LauncherLogFormatter <nablarch.fw.launcher.logging.LauncherLogFormatter>` は、バッチの開始・終了ログを出力するときに用いられる。
-これをJSON形式で出力するには、フォーマッターを :java:extdoc:`LauncherJsonLogFormatter <nablarch.fw.launcher.logging.LauncherJsonLogFormatter>` に切り替える。
+これをJSON形式で出力するには、フォーマッタを :java:extdoc:`LauncherJsonLogFormatter <nablarch.fw.launcher.logging.LauncherJsonLogFormatter>` に切り替える。
 設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
 
 記述ルール

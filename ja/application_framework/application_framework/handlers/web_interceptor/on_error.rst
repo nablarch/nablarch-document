@@ -1,19 +1,19 @@
 .. _on_error_interceptor:
 
-OnErrorインターセプター
+OnErrorインターセプタ
 ============================
 
 .. contents:: 目次
   :depth: 3
   :local:
 
-業務アクションでの例外発生時に、指定したレスポンスを返却するインターセプター。
+業務アクションでの例外発生時に、指定したレスポンスを返却するインターセプタ。
 
 :ref:`inject_form_interceptor` を使用して入力値チェックを行う場合も、
-:ref:`inject_form_interceptor` よりも前にこのインターセプターが実行されるように設定することで、
+:ref:`inject_form_interceptor` よりも前にこのインターセプタが実行されるように設定することで、
 バリデーションエラーに対するレスポンスを指定できる。
 
-このインターセプターは、業務アクションのメソッドに対して、 :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` を設定することで有効となる。
+このインターセプタは、業務アクションのメソッドに対して、 :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` を設定することで有効となる。
 
 .. tip::
 
@@ -24,7 +24,7 @@ OnErrorインターセプター
   単一の例外に対して複数のレスポンスは指定できない。
   例外に対して複数のレスポンスを指定したい場合は、 :ref:`on_error-multiple` を参照。
   
-インターセプタークラス名
+インターセプタクラス名
 --------------------------------------------------
 * :java:extdoc:`nablarch.fw.web.interceptor.OnError`
 
@@ -98,7 +98,7 @@ OnErrorを使用する
 
 複数のレスポンスを指定する
 --------------------------------------------------
-本インターセプターでは、単一の例外に対して複数のレスポンスは指定できないため、
+本インターセプタでは、単一の例外に対して複数のレスポンスは指定できないため、
 複数のレスポンスを指定したい場合は、業務アクションのメソッド内に個別に :java:extdoc:`HttpErrorResponse <nablarch.fw.web.HttpErrorResponse>` を生成する必要がある。
 
 以下に実装例を示す。

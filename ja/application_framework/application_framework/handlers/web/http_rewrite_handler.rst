@@ -128,7 +128,7 @@ exports              変数の書き換え設定
 リクエストスコープ           %{request:(変数名)}            HttpRequestRewriteRule / ContentPathRewriteRule
 スレッドコンテキスト         %{thread:(変数名)}             HttpRequestRewriteRule / ContentPathRewriteRule
 リクエストパラメータ         %{param:(変数名)}              HttpRequestRewriteRule
-HTTPヘッダ                   %{header:(ヘッダー名)}         HttpRequestRewriteRule / ContentPathRewriteRule
+HTTPヘッダ                   %{header:(ヘッダ名)}          HttpRequestRewriteRule / ContentPathRewriteRule
 HTTPリクエストメソッド       %{httpMethod}                  HttpRequestRewriteRule
 HTTPバージョン               %{httpVersion}                 HttpRequestRewriteRule
 全リクエストパラメータ名     %{paramNames}                  HttpRequestRewriteRule

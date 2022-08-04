@@ -178,7 +178,7 @@ FileManagementUtil使用時に必要となる各コンポーネントのプロ�
   ============================== ============================================================
   ファイル管理機能本体           fileManagement
   採番機能                       oracleSequenceIdGenerator
-  採番時に使用するフォーマッター dbFileManagementFormatter
+  採番時に使用するフォーマッタ    dbFileManagementFormatter
   ============================== ============================================================
 
 設定例を以下に示す。
@@ -197,7 +197,7 @@ FileManagementUtil使用時に必要となる各コンポーネントのプロ�
       <!-- 採番機能 -->
       <property name="idGenerator" ref="oracleSequenceIdGenerator" />
 
-      <!-- 採番時に使用するフォーマッター -->
+      <!-- 採番時に使用するフォーマッタ -->
       <property name="idFormatter" ref="dbFileManagementFormatter" />
     </component>
 
@@ -213,7 +213,7 @@ FileManagementUtil使用時に必要となる各コンポーネントのプロ�
     </component>
 
 
-    <!-- 採番時に使用するフォーマッター(ファイル管理機能から使用) -->
+    <!-- 採番時に使用するフォーマッタ(ファイル管理機能から使用) -->
     <component name="dbFileManagementFormatter" class="nablarch.common.idgenerator.formatter.LpadFormatter">
       <!-- 桁数 -->
       <property name="length" value="18" />

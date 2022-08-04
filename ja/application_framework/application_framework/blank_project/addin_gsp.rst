@@ -55,8 +55,8 @@ pom.xmlのpropertiesタグ内の以下の箇所を修正する。
 =============================================== ===========================================
 nablarch.db.jdbcDriver                          JDBCドライバのクラス名
 nablarch.db.url                                 データベースの接続URL
-nablarch.db.adminUser                           管理者ユーザー名                           
-nablarch.db.adminPassword                       管理者ユーザーのパスワード                 
+nablarch.db.adminUser                           管理者ユーザ名                           
+nablarch.db.adminPassword                       管理者ユーザのパスワード                 
 nablarch.db.user                                データベースアクセスユーザ名
 nablarch.db.password                            データベースアクセスユーザのパスワード
 nablarch.db.schema                              接続するスキーマ名

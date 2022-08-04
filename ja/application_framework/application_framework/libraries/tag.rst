@@ -918,8 +918,8 @@ JavaScriptの詳細については、 :ref:`tag-onclick_override` を参照。
 認可チェック/サービス提供可否に応じてボタン/リンクの表示/非表示を切り替える
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :ref:`permission_check` と :ref:`service_availability` の結果に応じて、
-:ref:`フォームのサブミットを行うボタン/リンク<tag_reference_submit>` の表示を切り替える機能を提供する。
-これにより、ユーザーが実際にボタン/リンクを選択する前に該当機能が使用可能かどうかが分かるため、ユーザビリティの向上につながる。
+:ref:`フォームのサブミットを行うボタン/リンク<tag_reference_submit>` の表示を切り替える機能をする。
+これにより、ユーザが実際にボタン/リンクを選択する前に該当機能が使用可能かどうかが分かるため、ユーザビリティの向上につながる。
 
 :ref:`フォームのサブミットを行うボタン/リンク<tag_reference_submit>`
 に指定されたリクエストIDに対して、 :ref:`permission_check` と :ref:`service_availability` を行い、
@@ -1265,8 +1265,8 @@ BLOB型カラムのダウンロードの実装例
        // フォーマット定義のファイル名を指定する。
        DataRecordResponse response = new DataRecordResponse("format", "N11AA001");
 
-       // DataRecordResponse#writeメソッドを使用してヘッダーを書き込む。
-       // フォーマット定義に指定したデフォルトのヘッダー情報を使用するため、
+       // DataRecordResponse#writeメソッドを使用してヘッダを書き込む。
+       // フォーマット定義に指定したデフォルトのヘッダ情報を使用するため、
        // 空のマップを指定する。
        response.write("header", Collections.<String, Object>emptyMap());
 

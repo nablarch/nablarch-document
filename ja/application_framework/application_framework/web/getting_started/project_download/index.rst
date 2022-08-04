@@ -77,7 +77,7 @@ CSVファイルをダウンロードする機能の実装方法を解説する�
   ProjectDownloadDto.java
     .. code-block:: java
 
-      @Csv(headers = { /** ヘッダーを記述 **/},
+      @Csv(headers = { /** ヘッダを記述 **/},
               properties = { /** バインド対象のプロパティ **/},
               type = Csv.CsvType.CUSTOM)
       @CsvFormat(charset = "Shift_JIS", fieldSeparator = ',',ignoreEmptyLine = true,

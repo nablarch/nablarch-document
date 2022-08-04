@@ -22,7 +22,7 @@
 .. important::
 
   HTTPセッションを使用した :ref:`二重サブミット防止 <tag-double_submission>` はCSRF対策に使用できたが、
-  本機能はユーザーを識別せずにトークンをDBに格納しているためCSRF対策に使用できない。
+  本機能はユーザを識別せずにトークンをDBに格納しているためCSRF対策に使用できない。
   本機能を使用する場合は、CSRF対策に :ref:`csrf_token_verification_handler` を使用すること。
 
 機能概要

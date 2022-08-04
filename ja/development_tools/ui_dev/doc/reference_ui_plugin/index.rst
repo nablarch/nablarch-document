@@ -145,10 +145,10 @@ nablarch-device-fix-android_browser          android向けパッチ             
 プラグインID                                 名称                            カスタマイズ 概要
 ============================================ =============================== ============ ===================================================================
 nablarch-dev-tool-installer                  Nablarch UI開発基盤             不可         Nablarch UI基盤標準プラグインをプロジェクト側にインストール\
-                                             標準プラグインインストーラー                 するスクリプト。
+                                             標準プラグインインストーラ                   するスクリプト。
 
 nablarch-dev-tool-server                     Nablarch UI開発基盤             不可         Nablarch UI開発基盤自体の各種テストに用いる\
-                                             テスト用簡易サーバー                         簡易アプリケーションサーバー
+                                             テスト用簡易サーバ                          簡易アプリケーションサーバ
 
 
 nablarch-dev-ui_test-support                 Nablarch UI開発基盤             不可         Nablarch UI開発基盤自体のテストケースで使用している\
@@ -464,7 +464,7 @@ nablarch-template-app_nav              アプリケーション共通ナビゲ�
                                                                                                               内容はUI開発基盤用プロジェクトテンプレート\
                                                                                                               と同じものなので、PJ側で修正する必要がある。
 
-nablarch-template-app_header           アプリケーション共通ヘッダー サンプル                   必須           業務画面の共通ヘッダー領域を描画するJSPおよび\
+nablarch-template-app_header           アプリケーション共通ヘッダサンプル                     必須           業務画面の共通ヘッダ領域を描画するJSPおよび\
                                                                                                               スタイル定義などのリソース。
                                                                                                               JSPは :ref:`page_template_tag` から\
                                                                                                               インクルードされる。|br|

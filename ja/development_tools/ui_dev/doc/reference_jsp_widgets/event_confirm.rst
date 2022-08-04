@@ -58,7 +58,7 @@ stop                      ダイアログキャンセル時に         真偽値
                                                                                                    本属性はローカルでの動作に制約がある。 |br|
                                                                                                    詳細は、
                                                                                                    :ref:`event:confirmタグの制約事項 <localrendering-limitation-eventconfirmtag>`
-                                                                                                   を参照。　
+                                                                                                   を参照。
 revert                    ダイアログキャンセル時に         真偽値         ○          ○         changeイベント発生時のみ
                           各入力値の状態をイベント発生前                                       意味をもつ。
                           の状態に戻すかどうか。                                               デフォルトは'true'

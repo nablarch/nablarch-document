@@ -299,7 +299,7 @@ SQLクエリを計測対象とするための設定を加える。
 * ``TracingDataSourceFactory`` には元になるデータソースをプロパティとして設定する必要がある。元になるデータソースには、 ``rawDataSource`` を設定する。
 
 Nablarchは ``dataSource`` という名前でデータソースコンポーネントを取得する。
-このように編集することでX-Ray SDK for Java JDBCインターセプターがデータソース設定に追加され、SQLクエリが計測されるようになる。
+このように編集することでX-Ray SDK for Java JDBCインターセプタがデータソース設定に追加され、SQLクエリが計測されるようになる。
 
 .. code-block:: xml
 

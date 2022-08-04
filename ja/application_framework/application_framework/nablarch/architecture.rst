@@ -66,21 +66,21 @@ Nablarchは受け取ったリクエストに対し、ハンドラキュー上に
 
 .. _nablarch_architecture-interceptor:
 
-インターセプター(interceptor)
+インターセプタ(interceptor)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-インターセプターとは、実行時に動的にハンドラキューに追加されるハンドラのことを指す。
+インターセプタとは、実行時に動的にハンドラキューに追加されるハンドラのことを指す。
 
 例えば、特定のリクエストの場合のみ処理（ハンドラ）を追加する場合や、
-リクエストごとに設定値を切り替えて処理(ハンドラ)を実行したい場合にはハンドラよりもインターセプターが適している。
+リクエストごとに設定値を切り替えて処理(ハンドラ)を実行したい場合にはハンドラよりもインターセプタが適している。
 
 .. tip::
-  インターセプターは、Java EEのCDI(JSR-346)で定義されているインターセプターと同じように処理を実行する。
+  インターセプタは、Java EEのCDI(JSR-346)で定義されているインターセプタと同じように処理を実行する。
 
 .. important::
-  インターセプターの実行順序は、設定ファイルに設定する必要がある。
-  設定がない場合、インターセプターの実行順はJVM依存となるため注意すること。
+  インターセプタの実行順序は、設定ファイルに設定する必要がある。
+  設定がない場合、インターセプタの実行順はJVM依存となるため注意すること。
 
-  Nablarchがデフォルトで提供するインターセプターの実行順は、以下のとおり設定する必要がある。
+  Nablarchがデフォルトで提供するインターセプタの実行順は、以下のとおり設定する必要がある。
 
   #. :java:extdoc:`nablarch.common.web.token.OnDoubleSubmission`
   #. :java:extdoc:`nablarch.common.web.token.UseToken`
@@ -88,7 +88,7 @@ Nablarchは受け取ったリクエストに対し、ハンドラキュー上に
   #. :java:extdoc:`nablarch.fw.web.interceptor.OnError`
   #. :java:extdoc:`nablarch.common.web.interceptor.InjectForm`
 
-  インターセプターの実行順設定に関する詳細は、\ :java:extdoc:`nablarch.fw.Interceptor.Factory`\ を参照。
+  インターセプタの実行順設定に関する詳細は、\ :java:extdoc:`nablarch.fw.Interceptor.Factory`\ を参照。
 
 ライブラリ(library)
 --------------------------------------------------

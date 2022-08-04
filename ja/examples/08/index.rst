@@ -35,7 +35,7 @@ HTMLメールを送信する機能の実装サンプルを提供する。
 
 .. important::
 
-   一部のクライアントでは期待したとおりにHTMLメールが表示されないことにより、ユーザーがメールを参照しない可能性がある。このため、業務要件としてユーザー通知が重要なメールにはHTMLメールを使用しないこと。
+   一部のクライアントでは期待したとおりにHTMLメールが表示されないことにより、ユーザがメールを参照しない可能性がある。このため、業務要件としてユーザ通知が重要なメールにはHTMLメールを使用しないこと。
 
 
 .. important::
@@ -79,7 +79,7 @@ HTMLメールを送信する機能の実装サンプルを提供する。
 
 * HTMLメールに画像を埋めこむことができる。
   
-  メールに画像を埋めこむとメール容量が増大し、メールクライアントでHTMLを拒否したユーザーでも受信に時間がかかる。また、メールサーバーへの負荷が増大する。
+  メールに画像を埋めこむとメール容量が増大し、メールクライアントでHTMLを拒否したユーザでも受信に時間がかかる。また、メールサーバへの負荷が増大する。
   コンシューマ向けのWebサービスではURL形式の使用が多いため、本サンプルでは画像の埋めこみ機能を提供しない。
 
 構成
@@ -254,7 +254,7 @@ HTML用のテンプレートを使用して、業務アクションなどから�
     public HttpResponse doSendMail(HttpRequest req, ExecutionContext ctx) {
         MailSampleForm form = MailSampleForm.validate(req, "mail");
         TemplateHtmlMailContext mail = new TemplateHtmlMailContext();
-        // このとき、ユーザーがContentType.PLAINを選択していれば、代替テキストが本文に切り替わる。
+        // このとき、ユーザがContentType.PLAINを選択していれば、代替テキストが本文に切り替わる。
         mail.setContentType(form.getType()); 
         // その他のプロパティを設定し、MailRequesterを呼び出す。
     }

@@ -531,9 +531,9 @@ XMLデータ形式固有のディレクティブは存在いない。
   [Classifier]
   1 dataKbn X(1)      # 先頭1バイトのフィールドを使用してどのレコードかを判定する
 
-  # ヘッダーレコードの定義
+  # ヘッダレコードの定義
   [header]
-  dataKbn = "1"         # dataKbnが"1"の場合ヘッダーレコード
+  dataKbn = "1"         # dataKbnが"1"の場合ヘッダレコード
   1 dataKbn X(1)
   2 data    X(39)
 

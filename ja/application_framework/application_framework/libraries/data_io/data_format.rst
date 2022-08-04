@@ -307,11 +307,11 @@
       final File format = FilePathSetting.getInstance()
                                          .getFile("format", "users-layout");
 
-      // フォーマット定義ファイルを取得し、アップロードファイルを読み込むためのフォーマッターを生成する。
+      // フォーマット定義ファイルを取得し、アップロードファイルを読み込むためのフォーマッタを生成する。
       try (final DataRecordFormatter formatter = FormatterFactory.getInstance()
                                                                  .createFormatter(format)) {
 
-        // アップロードファイルを読み込むためのInputStreamをフォーマッターに設定し初期化する。
+        // アップロードファイルを読み込むためのInputStreamをフォーマッタに設定し初期化する。
         // mark/resetがサポートされている必要が有るため、BufferedInputStreamでラップする。
         formatter.setInputStream(new BufferedInputStream(partInfoList.get(0).getInputStream()))
                  .initialize();
