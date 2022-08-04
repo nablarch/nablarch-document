@@ -458,7 +458,7 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
     messageSender.DEFAULT.formatDir=format
     messageSender.DEFAULT.headerFormatName=HEADER
 
-  コンポーネント定義ファイル
+  コンポーネント設定ファイル
    .. code-block:: xml
 
     <!-- MessageSender設定を読込 -->
