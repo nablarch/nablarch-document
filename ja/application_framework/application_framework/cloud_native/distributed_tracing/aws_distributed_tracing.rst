@@ -164,7 +164,7 @@ Apache HttpComponentsを使用するための ``org.glassfish.jersey.client.spi.
   </dependencies>
 
 Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConfigurator`` インタフェースが用意されている。
-このインタフェースを使用することで、 ``HttpClientBuilder`` に追加で設定することや、 ``HttpClientBuilder`` そのものを差し替えるといった処理が可能となる。
+このインタフェースを使用することで、 ``HttpClientBuilder`` への追加設定や、 ``HttpClientBuilder`` そのものを差し替えるといった処理が可能となる。
 下記では ``HttpClientBuilder`` をAWS SDKの ``com.amazonaws.xray.proxies.apache.http.HttpClientBuilder`` に差し替えている。
 
 .. code-block:: java
