@@ -68,7 +68,7 @@ JSRに準拠したバッチアプリケーションとNablarchバッチアプリ
 
 .. [#jsr_max]
   :java:extdoc:`ItemReader <javax.batch.api.chunk.ItemReader>` の実装クラスに、1回の実行で読み込む最大件数を指定できるプロパティを持たせるなどで対応可能。
-ｄ
+
 .. [#resumable]
   :java:extdoc:`ResumeDataReader (レジューム機能付き読み込み)<nablarch.fw.reader.ResumeDataReader>` を使用することで障害発生ポイントからの再実行が可能。
   ただし、この機能はファイルを入力としている場合にのみ利用できる。それ以外のデータを入力とする場合には、アプリケーション側で設計及び実装が必要となる。
