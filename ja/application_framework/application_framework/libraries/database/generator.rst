@@ -81,7 +81,7 @@
 
 .. _generator_dao_setting:
 
-ユニバーサルDAO用に採番を設定
+ユニバーサルDAO用に採番を設定する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :ref:`universal_dao` で本機能を使用するためには、 :java:extdoc:`BasicDaoContextFactory <nablarch.common.dao.BasicDaoContextFactory>` に対する設定が必要となる。
 

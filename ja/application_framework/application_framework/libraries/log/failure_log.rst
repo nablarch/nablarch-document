@@ -486,7 +486,7 @@ app-log.propertiesの設定例
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 処理対象データ($data$)はデフォルトでtoStringメソッドにより全てのデータ項目が出力されるため、
 プロジェクトのセキュリティ要件で特定項目をマスクした出力が要求されるケースが考えられる。
-このように、プレースホルダに対する出力処理をカスタマイズしたい場合は、以下の作業をする。
+このように、プレースホルダに対する出力処理をカスタマイズしたい場合は、以下のとおり対応する。
 
 * :java:extdoc:`LogItem <nablarch.core.log.LogItem>` を実装したクラスを作る
 * :java:extdoc:`FailureLogFormatter <nablarch.core.log.app.FailureLogFormatter>` を継承したクラスを作り、プレースホルダを追加する

@@ -734,7 +734,7 @@ Fixed(固定長)データ形式で使用可能なフィールドタイプ一覧
 
         フィールドタイプの追加については、 :ref:`data_format-field_type_add` を参照。
 
-Variable(可変長)データ形式で使用可能フィールドタイプ一覧
+Variable(可変長)データ形式で使用可能なフィールドタイプ一覧
   .. list-table::
     :class: white-space-normal
     :header-rows: 1
