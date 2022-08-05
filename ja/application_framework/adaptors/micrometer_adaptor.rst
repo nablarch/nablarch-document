@@ -1204,7 +1204,7 @@ Nablarchバッチは、 :ref:`loop_handler` によってトランザクション
 この ``CommitLogger`` の実体は、 ``commitLogger`` という名前でコンポーネントを定義することで上書きできる。
 
 ``BatchTransactionTimeMetricsLogger`` は ``CommitLogger`` インタフェースを実装している。
-そして、 ``increment(long)`` の呼び出し間隔を計測することでトランザクション単位の時間を計測をしている。
+そして、 ``increment(long)`` の呼び出し間隔を計測することでトランザクション単位の時間を計測している。
 このため、 ``BatchTransactionTimeMetricsLogger`` を ``commitLogger`` という名前でコンポーネント定義すると、トランザクション単位の時間計測ができる仕組みとなっている。
 
 しかし、 ``BatchTransactionTimeMetricsLogger`` をそのまま ``commitLogger`` という名前で定義した場合、デフォルトで定義されている ``CommitLogger`` のコンポーネントである ``BasicCommitLogger`` が動作しなくなる。

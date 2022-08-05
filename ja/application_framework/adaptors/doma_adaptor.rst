@@ -139,7 +139,7 @@ JSR352に準拠したバッチアプリケーションでもDomaを使用した�
 
 .. important::
 
-  :ref:`Chunkステップ <jsr352-batch_type_chunk>` のItemWriterでデータベースに対するバッチ更新(バッチinsertやバッチupdateなど)する場合、バッチサイズの指定を明示的に行う必要がある。
+  :ref:`Chunkステップ <jsr352-batch_type_chunk>` のItemWriterでデータベースに対してバッチ更新(バッチinsertやバッチupdateなど)する場合、バッチサイズの指定を明示的に行う必要がある。
   ※Chunkステップのitem-countのサイズがバッチサイズとなるわけではないので注意すること
 
   これを行わなかった場合、Domaのデフォルト値が適用されるため、バッチ更新を使用してもパフォーマンスが向上しない可能性がある。
