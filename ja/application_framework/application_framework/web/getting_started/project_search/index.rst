@@ -25,7 +25,7 @@ Exampleアプリケーションを元に検索機能を解説する。
     .. image:: ../images/project_search/project_search_start_date_result.png
       :scale: 80
 
-検索をする
+検索する
 -----------
 
 検索機能の基本的な実装方法を、以下の順に説明する。
