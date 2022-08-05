@@ -80,7 +80,7 @@
 データベース接続名は、スレッド内で一意とする必要がある。
 
 データベース接続名は、このハンドラの :java:extdoc:`connectionName <nablarch.common.handler.DbConnectionManagementHandler.setConnectionName(java.lang.String)>` プロパティに設定する。
-:java:extdoc:`connectionName <nablarch.common.handler.DbConnectionManagementHandler.setConnectionName(java.lang.String)>` への設定を省略した場合、その接続はデフォルトのデータベース接続となり簡易的に利用できる。
+:java:extdoc:`connectionName <nablarch.common.handler.DbConnectionManagementHandler.setConnectionName(java.lang.String)>` への設定を省略した場合、その接続はデフォルトのデータベース接続となり簡易的に使用できる。
 このため、最もよく使うデータベース接続をデフォルトとし、それ以外のデータベース接続に対して任意の名前をつけると良い。
 
 以下にデータベース接続名の設定例を示す。

@@ -159,7 +159,7 @@ nablarch-dev-tool-uibuild                    ウェブアプリケーション�
                                                                                           スクリプトのミニファイおよびスタイル定義の\
                                                                                           LESSコンパイルとミニファイも合わせて行う。
 
-nablarch-dev-tool-update_support             Nablarch 標準プラグイン         不可         利用しているプラグインとリリース資材のプラグイン間で\
+nablarch-dev-tool-update_support             Nablarch 標準プラグイン         不可         使用しているプラグインとリリース資材のプラグイン間で\
                                              更新補助スクリプト                           バージョンが異なるプラグイン名を出力するスクリプト。
 ============================================ =============================== ============ ===================================================================
 
@@ -206,7 +206,7 @@ nablarch-dev-ui_tool-spec_view-core      設計書ビューコアプラグイン
 nablarch-dev-ui_tool-spec_view           設計書ビュープラグイン                                  不要           設計情報をJSPから取得する拡張機能。
                                                                                                                 (jQueryの拡張プラグインとして提供する。) |br|
                                                                                                                 画面設計書ViewなどJSPの値を取得、変換
-                                                                                                                する際に本拡張機能が利用できる。
+                                                                                                                する際に本拡張機能が使用できる。
 
 nablarch-dev-ui_tool-spec_view-resource  設計書ビュー用のリソース管理プラグイン                  可             表示される設計書のテンプレート。
                                                                                                                 フォーマットを変更する場合は、
@@ -326,7 +326,7 @@ nablarch-widget-readonly               変更不可項目制御                 
 
 nablarch-widget-slide-menu             スライドメニューウィジェット                                         必須           narrow,compact表示でメニューを省スペース化する\
                                                                                                                            サンプル機能。
-                                                                                                                           JavaScript,LESSの定義はそのまま利用できるが、
+                                                                                                                           JavaScript,LESSの定義はそのまま使用できるが、
                                                                                                                            JSPはPJ側で修正する必要がある。
 
 nablarch-widget-spec                   :ref:`画面仕様記述用ウィジェット <reference_jsp_widgets_index_spec>` 可             画面仕様の情報を記述するタグの実装。|br|

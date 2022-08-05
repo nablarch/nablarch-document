@@ -97,7 +97,7 @@ CSVファイルをダウンロードする機能の実装方法を解説する�
   この実装のポイント
     * ダウンロードするCSVファイルの内容と、Beanのプロパティとの紐付けの設定は、 :java:extdoc:`@Csv<nablarch.common.databind.csv.Csv>` を使用する。
       受け付けるCSVのフォーマットの指定は、 :java:extdoc:`@CsvFormat<nablarch.common.databind.csv.CsvFormat>` を使用する。
-      （ :ref:`デフォルトのフォーマットの指定<data_bind-csv_format_set>` を利用する場合は、 :java:extdoc:`@CsvFormat<nablarch.common.databind.csv.CsvFormat>` は不要）
+      （ :ref:`デフォルトのフォーマットの指定<data_bind-csv_format_set>` を使用する場合は、 :java:extdoc:`@CsvFormat<nablarch.common.databind.csv.CsvFormat>` は不要）
       アノテーションの設定方法の詳細は、 :ref:`CSVファイルをJava Beansクラスにバインドする場合のフォーマット指定方法 <data_bind-csv_format-beans>` を参照。
 
 .. _`project_upload-file_download_action`:

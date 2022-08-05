@@ -189,8 +189,8 @@ CSRFトークンの再生成は、アクション等のリクエスト処理の�
 :java:extdoc:`CsrfTokenUtil.regenerateCsrfToken <nablarch.common.web.csrf.CsrfTokenUtil.regenerateCsrfToken(nablarch.fw.ExecutionContext)>`
 メソッドを呼び出すと、本ハンドラの戻りの処理でCSRFトークンの再生成が行われる。
 
-ログイン時にセッションストアを破棄して再生成する実装であればこのメソッドを利用する必要はない。
+ログイン時にセッションストアを破棄して再生成する実装であればこのメソッドを使用する必要はない。
 セッションストアの破棄と共にCSRFトークンも破棄され、その後のページ表示時に新しいCSRFトークンが生成されるためである。
 ログイン時にセッションストアそのものの破棄ではなくセッションIDの再生成にとどめる実装の場合は、
-このメソッドを利用してCSRFトークンも再生成すること。
+このメソッドを使用してCSRFトークンも再生成すること。
 

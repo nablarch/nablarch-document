@@ -54,7 +54,7 @@ DefaultMeterBinderListProviderをコンポーネントとして宣言する
 
 Micrometerには、 `MeterBinder(外部サイト、英語)`_ というインタフェースが存在する。
 
-JVMのメモリ使用量やCPU使用率など、よく利用するメトリクスの収集は、このインタフェースを実装したクラスとしてあらかじめ用意されている。
+JVMのメモリ使用量やCPU使用率など、よく使用するメトリクスの収集は、このインタフェースを実装したクラスとしてあらかじめ用意されている。
 （例：JVMのメモリ使用量は `JvmMemoryMetrics(外部サイト、英語)`_ 、CPU使用率は `ProcessorMetrics(外部サイト、英語)`_ ）
 
 :java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` は、この `MeterBinder(外部サイト、英語)`_ のリストを提供するクラスで、本クラスを使用することでJVMのメモリ使用量やCPU使用率などのメトリクスを収集できるようになる。
@@ -569,7 +569,7 @@ CloudWatch と連携する
 
     $ export AWS_SECRET_ACCESS_KEY=YYYYYYYYYYYYYYYYYYYYY
 
-  ``micrometer-registry-cloudwatch2`` モジュールは AWS SDK を利用している。
+  ``micrometer-registry-cloudwatch2`` モジュールは AWS SDK を使用している。
   したがって、リージョンやアクセスキーなどの設定は AWS SDK の方法に準拠する。
 
   上記は、LinuxでOS環境変数を使って設定する場合の例を記載している。

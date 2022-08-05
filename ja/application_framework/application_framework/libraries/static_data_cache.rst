@@ -113,7 +113,7 @@ BasicStaticDataCacheクラスにローダーを設定する
     </component>
 
     <!--
-    ローダーでロードしたキャッシュを利用するクラス。
+    ローダーでロードしたキャッシュを使用するクラス。
     このクラスに設定した、BasicStaticDataCacheを使ってキャッシュにアクセスする。
     -->
     <component class="sample.SampleService">

@@ -52,7 +52,7 @@ JAX-RSアダプタ
   * https://github.com/advisories/GHSA-r6j9-8759-g62w
   
    
-Jersey環境下でRESTfulウェブサービスを利用する
+Jersey環境下でRESTfulウェブサービスを使用する
 --------------------------------------------------
 ウェブアプリケーションサーバにバンドルされている `JAX-RS(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=339>`_ の実装が、
 `Jersey(外部サイト、英語) <https://jersey.java.net/>`_ の場合には、Jersey用のアダプタを使用する。
@@ -90,7 +90,7 @@ Jersey環境下でRESTfulウェブサービスを利用する
   使用するウェブアプリケーションサーバに `Jackson(外部サイト、英語) <https://github.com/FasterXML/jackson>`_ が
   バンドルされていない場合は、Jacksonのモジュールをアプリケーションモジュールとセットでデプロイすること。
   
-RESTEasy環境下でRESTfulウェブサービスを利用する
+RESTEasy環境下でRESTfulウェブサービスを使用する
 --------------------------------------------------
 ウェブアプリケーションサーバにバンドルされている `JAX-RS(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=339>`_ の実装が、
 `RESTEasy(外部サイト、英語) <http://resteasy.jboss.org/>`_ の場合には、RESTEasy用のアダプタを使用する。
@@ -128,7 +128,7 @@ RESTEasy環境下でRESTfulウェブサービスを利用する
   使用するウェブアプリケーションサーバに `Jackson(外部サイト、英語) <https://github.com/FasterXML/jackson>`_ が
   バンドルされていない場合は、Jacksonのモジュールをアプリケーションモジュールとセットでデプロイすること。
 
-各環境下で利用するボディコンバータを変更（追加）したい
+各環境下で使用するボディコンバータを変更（追加）したい
 ----------------------------------------------------------------------
 プロジェクトで対応すべきMIMEが増えた場合には、 :java:extdoc:`JaxRsHandlerListFactory <nablarch.fw.jaxrs.JaxRsHandlerListFactory>` を実装し対応する。
 

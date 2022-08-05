@@ -339,7 +339,7 @@ DomaとNablarchのデータベースアクセスを併用する
     </component>
     
     <!-- 
-    JSR352に準拠したバッチアプリケーションで利用する場合は、Domaのトランザクションを制御するリスナーに
+    JSR352に準拠したバッチアプリケーションで使用する場合は、Domaのトランザクションを制御するリスナーに
     上記で定義したconnectionFactoryFromDomaを設定する。
      -->
     <component class="nablarch.integration.doma.batch.ee.listener.DomaTransactionItemWriteListener">

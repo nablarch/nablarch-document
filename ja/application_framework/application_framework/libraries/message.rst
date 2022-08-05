@@ -453,7 +453,7 @@ MessageFormatterの実装クラス
 
 :java:extdoc:`BasicMessageFormatter <nablarch.core.message.BasicMessageFormatter>`:
   :ref:`埋め込み文字の仕様 <message-format-spec>` に従いメッセージをフォーマットする。
-  `MessageFormatter` の実装クラスがコンポーネント定義されていない場合は本クラスが利用される。
+  `MessageFormatter` の実装クラスがコンポーネント定義されていない場合は本クラスが使用される。
 :java:extdoc:`JavaMessageFormatBaseMessageFormatter <nablarch.core.message.JavaMessageFormatBaseMessageFormatter>`:
   :java:extdoc:`MessageFormat <java.text.MessageFormat>` を使用してメッセージをフォーマットする。
 

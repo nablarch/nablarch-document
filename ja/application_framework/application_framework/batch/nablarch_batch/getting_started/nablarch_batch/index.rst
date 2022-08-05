@@ -179,7 +179,7 @@ Exampleアプリケーションを元に、ファイルをDBに登録するバ�
               FilePathSetting filePathSetting = FilePathSetting.getInstance();
               File zipCodeFile = filePathSetting.getFileWithoutCreate("csv-input", FILE_NAME);
 
-              // ファイルの読み出しに利用するイテレータを生成
+              // ファイルの読み出しに使用するイテレータを生成
               try {
                   iterator
                       = new ObjectMapperIterator<>(ObjectMapperFactory.create(ZipCodeForm.class,

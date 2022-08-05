@@ -63,7 +63,7 @@
 
   ただし、**codeId** 属性にコードIDを指定した場合、下記のファイル内のエントリから、
   該当するコードの名称を取得し、表示する。 **pattern** 属性によるパターン指定や
-  **optionColumnName** 属性によるオプション名称指定も利用できる。
+  **optionColumnName** 属性によるオプション名称指定も使用できる。
   (**codeId** と **sample** を両方指定した場合は **sample** の値を優先する。)
 
   **パス**
@@ -83,7 +83,7 @@ title                カラムヘッダに表示する文字列   文字列     
 cssClass             各カラムに指定するCSSクラス    文字列         ○          ○
 
 sortable             カラムのソートリンクを表示\    文字列         ○          ○           デフォルトは'false'
-                     するかどうか                                                         :doc:`table_search_result` でのみ利用可能
+                     するかどうか                                                         :doc:`table_search_result` でのみ使用可能
 
 sample               テスト用のダミー表示値         文字列         ×          ○         "|" 区切りで複数指定する。
 

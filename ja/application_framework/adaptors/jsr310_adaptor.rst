@@ -7,8 +7,8 @@ JSR310(Date and Time API)アダプタ
   :depth: 3
   :local:
   
-JSR310(Date and Time API)で追加された日時関連を利用可能にするためのアダプタを提供する。
-このアダプタを使用することで、 :ref:`bean_util` でJSR310(Date and Time API)を利用できる。
+JSR310(Date and Time API)で追加された日時関連を使用可能にするためのアダプタを提供する。
+このアダプタを使用することで、 :ref:`bean_util` でJSR310(Date and Time API)を使用できる。
 
 .. important::
 

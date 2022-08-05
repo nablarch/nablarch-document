@@ -158,7 +158,7 @@ confirmメソッドを作成し、バリデーションが行われるように�
     *  :ref:`セッションストア <session_store>` への保存は、:java:extdoc:`SessionUtil <nablarch.common.web.session.SessionUtil>` を使用する。
     * :ref:`セッションストアにフォームは格納しない <session_store-form>` ため、
       :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用してフォームをエンティティに変換した上で :ref:`セッションストア <session_store>` に登録する。
-    * :ref:`セッションストア <session_store>` を利用する際の詳しい実装例は :ref:`create_example` を参照。
+    * :ref:`セッションストア <session_store>` を使用する際の詳しい実装例は :ref:`create_example` を参照。
 
 .. _`client_create_forConfirmationPage`:
 

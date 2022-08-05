@@ -72,7 +72,7 @@ PBKDF2を使用して、ソルト付加およびストレッチングを行っ�
   <component name="passwordEncryptor"
              class="please.change.me.common.authentication.PBKDF2PasswordEncryptor">
 
-    <!-- システム共通でソルトに利用する固定文字列を設定する。20バイト以上の文字列を設定しておく。 -->
+    <!-- システム共通でソルトに使用する固定文字列を設定する。20バイト以上の文字列を設定しておく。 -->
     <property name="fixedSalt" value=" !!! please.change.me !!! TODO: MUST CHANGE THIS VALUE." />
 
     <!-- SHA-256ハッシュ計算の10000倍程度の計算時間となるように、ストレッチング回数を設定する。 -->

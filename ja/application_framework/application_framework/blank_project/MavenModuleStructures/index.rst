@@ -500,7 +500,7 @@ NablarchバッチアプリケーションがデプロイされたLinuxサーバ�
   * JDBCドライバ
 * :ref:`firstStepBuiltInTools` に記載されているツールの設定。以下のような設定が存在する。
   
-  * `gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ で利用するデータベース接続設定（JDBC接続URLやデータベーススキーマなど）
+  * `gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ で使用するデータベース接続設定（JDBC接続URLやデータベーススキーマなど）
   * カバレッジ設定 
 
 

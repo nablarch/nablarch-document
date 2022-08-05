@@ -128,7 +128,7 @@ build要素内
 gsp-dba-maven-pluginに対する依存関係を、H2のJDBCドライバから使用するRDBMSにあわせたものに修正する。
 
 POMの設定例は、 :ref:`customizeDB_pom_dependencies` を参照。
-例えば、PostgreSQLを利用する場合は以下のように設定する。
+例えば、PostgreSQLを使用する場合は以下のように設定する。
 
 .. code-block:: xml
 
@@ -261,7 +261,7 @@ src/main/resources/entity以下にRDBMS毎にedmファイルが存在するの�
 ブランクプロジェクトは `SI Object Browser ER(外部サイト) <https://products.sint.co.jp/ober>`_ というモデリングツールを使用してデータモデル(data-model.edm)を作成することを前提としている。
 しかし、data-model.edm が使われるのはDDLの生成時だけである。
 そのため、任意の方法でDDLを生成・実行しデータベースを構築すれば、
-DDL の生成/実行以外の機能は SI Object Browser ER 以外のモデリングツールを利用した場合でも実行可能である。
+DDL の生成/実行以外の機能は SI Object Browser ER 以外のモデリングツールを使用した場合でも実行可能である。
 
 SI Object Browser ER 以外のモデリングツールを使用する場合は、以下のように generate-ddl 、execute-ddl のゴールが実行されないようpom.xmlを修正する。
 

@@ -62,7 +62,7 @@ Exampleアプリケーションを元に、既存データから計算を行い�
 
 フォームの作成
   Chunkステップでは、 :java:extdoc:`ItemReader<javax.batch.api.chunk.ItemReader>` と
-  :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>` とのデータ連携にフォームを利用する。
+  :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>` とのデータ連携にフォームを使用する。
 
   EmployeeForm.java
     .. code-block:: java

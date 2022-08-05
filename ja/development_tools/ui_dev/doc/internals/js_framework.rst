@@ -39,7 +39,7 @@ JavaScript UI部品
 ここでは、 `<button>` 要素に適用する :doc:`js_framework` を指定する **マーカCSS** と呼ばれる識別子(**nablarch_DatePicker**)
 の後に当該の部品の挙動を定義する各種オプション(**-format yyyy/MM/dd -locale ja -input effectiveDate**)
 が続いている。
-このように :doc:`js_framework` の利用するには上記のようなCSSの指定のみを行えばよく、JavaScriptを直接記述する必要はない。
+このように :doc:`js_framework` の使用するには上記のようなCSSの指定のみを行えばよく、JavaScriptを直接記述する必要はない。
 
 
 **注)**  :doc:`js_framework` は基本的には :doc:`jsp_widgets` 内で使用することを想定しており、

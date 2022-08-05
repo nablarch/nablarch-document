@@ -133,7 +133,7 @@ please.change.me.fw.web.useragent.RegexUserAgentParserの設定
   
   useragent_sample
 
-RegexUserAgentParserの設定例と設定項目詳細は下記の通り。また、:doc:`useragent_sample` に、より具体的な設定および利用例を示す。
+RegexUserAgentParserの設定例と設定項目詳細は下記の通り。また、:doc:`useragent_sample` に、より具体的な設定および使用例を示す。
 
 .. code-block:: xml
 

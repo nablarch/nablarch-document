@@ -95,6 +95,6 @@
 --------------------------------------------------
 多重起動防止チェック処理をカスタマイズしたい場合は、 :java:extdoc:`DuplicateProcessChecker <nablarch.fw.handler.DuplicateProcessChecker>` の実装クラスを作成することで対応出来る。
 
-実装したクラスは、 :ref:`duplicate_process_check_handler-configuration` で説明したように、本ハンドラに設定することで利用することが出来る。
+実装したクラスは、 :ref:`duplicate_process_check_handler-configuration` で説明したように、本ハンドラに設定することで使用できる。
 
 

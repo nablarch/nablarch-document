@@ -26,7 +26,7 @@ JDBCを使用してデータベースに対してSQL文を実行する機能を�
 
 .. _database-dialect:
 
-データベースの方言を意識することなく利用できる
+データベースの方言を意識することなく使用できる
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 使用するデータベース製品に対応した :java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` を設定することで、
 製品ごとの方言を意識せずにアプリケーションを実装できる。
@@ -161,7 +161,7 @@ SQLのクエリ結果をキャッシュできる
 データベース製品に対応したダイアレクトをコンポーネント設定ファイルに設定することで、ダイアレクト機能が有効になる。
 
 .. tip::
-  設定しなかった場合は :java:extdoc:`DefaultDialect <nablarch.core.db.dialect.DefaultDialect>` が利用される。
+  設定しなかった場合は :java:extdoc:`DefaultDialect <nablarch.core.db.dialect.DefaultDialect>` が使用される。
   :java:extdoc:`DefaultDialect <nablarch.core.db.dialect.DefaultDialect>` は原則全ての機能が無効化されるので、必ずデータベース製品に対応したダイアレクトを設定すること。
 
   なお、使用するデータベース製品に対応するダイアレクトが存在しない場合や、

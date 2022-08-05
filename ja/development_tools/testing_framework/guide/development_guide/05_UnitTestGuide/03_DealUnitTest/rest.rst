@@ -67,7 +67,7 @@ RESTfulウェブサービス実行基盤向けテスティングフレームワ�
 
 
 また、複数の ``RequestResponseProcessor`` を設定したい場合は、 :java:extdoc:`ComplexRequestResponseProcessor<nablarch.test.core.http.ComplexRequestResponseProcessor>` を
-利用することで実現できる。
+使用することで実現できる。
 
 .. code-block:: xml
 

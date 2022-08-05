@@ -1064,7 +1064,7 @@ SynchronousFileLogWriterを使用するにあたっての注意事項
  :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>` を使用してはいけない。
 
  また、:java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`
- には以下の制約があるため、利用にあたっては十分検討すること。
+ には以下の制約があるため、使用にあたっては十分検討すること。
 
  * ログのローテーションができない。
  * 出力されるログの内容が正常でない場合がある。
@@ -1163,9 +1163,9 @@ LogPublisherの使い方
 --------------------------------------------------
 
 :java:extdoc:`LogPublisher <nablarch.core.log.basic.LogPublisher>` は、出力されたログの情報(:java:extdoc:`LogContext <nablarch.core.log.basic.LogContext>`)を登録された :java:extdoc:`LogListener <nablarch.core.log.basic.LogListener>` に連携する機能を提供する。
-出力されたログ情報に対して何らかの処理をプログラム的に行いたい場合に、この機能が利用できる。
+出力されたログ情報に対して何らかの処理をプログラム的に行いたい場合に、この機能が使用できる。
 
-``LogPublisher`` を利用するには、まず ``LogPublisher`` を ``LogWriter`` として設定する。
+``LogPublisher`` を使用するには、まず ``LogPublisher`` を ``LogWriter`` として設定する。
 
 .. code-block:: properties
 

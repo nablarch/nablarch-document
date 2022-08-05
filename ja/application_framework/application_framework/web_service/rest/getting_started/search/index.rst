@@ -124,10 +124,10 @@ Exampleアプリケーションを元に、検索機能を解説する。
    * 検索結果をJSON形式でクライアントに返却するため、 :java:extdoc:`Produces<javax.ws.rs.Produces>` アノテーションに
      ``MediaType.APPLICATION_JSON`` を指定する。
    * クエリパラメータは :java:extdoc:`HttpRequest<nablarch.fw.web.HttpRequest>` から取得する。
-   * :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を利用してリクエストパラメータからフォームを作成する。
+   * :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用してリクエストパラメータからフォームを作成する。
    * :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object)>`
      を使用してフォームのバリデーションを行う。
-   * フォームの値を :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を利用して検索条件Beanにコピーする。
+   * フォームの値を :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用して検索条件Beanにコピーする。
    * :ref:`universal_dao` を使用して取得したプロジェクト情報のリストを戻り値として返却する。
    * 戻り値のオブジェクトは :ref:`body_convert_handler` によってJSON形式に変換されるため、
      業務アクションメソッド内で変換処理を実装する必要はない。

@@ -31,7 +31,7 @@ LESS形式からCSSへのコンパイル及びファイルの結合は、\ :ref:
 詳細は、\ :ref:`ui_genless` を参照
 
 結合されたCSSファイルは\ **/css/built/**\ 配下に配置され、各画面から外部参照される。
-この<link>タグは\ **/WEB-INF/tags/device/media.tag**\ (/WEB-INF/include/html_head.jspから利用されているタグファイル)に以下のように定義されている。
+この<link>タグは\ **/WEB-INF/tags/device/media.tag**\ (/WEB-INF/include/html_head.jspから使用されているタグファイル)に以下のように定義されている。
 
   .. code-block:: jsp
 
@@ -221,7 +221,7 @@ JavaScript UI部品スタイル    △        △       /css/ui/\*.less         
 
 .. tip::
   上記ソースコードはあくまでグリッドレイアウトを説明するためのものである。
-  通常は :doc:`../internals/jsp_widgets` を利用して実装するので、
+  通常は :doc:`../internals/jsp_widgets` を使用して実装するので、
   上記のようなソースコードを実際に記述することはない。
 
 ------------------------

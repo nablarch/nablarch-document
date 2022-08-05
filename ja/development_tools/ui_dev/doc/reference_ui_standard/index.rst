@@ -154,7 +154,7 @@ UI標準2. 画面構成
 
 .. important::
 
-  **nablarch-widget-slide_menu** プラグインは **nablarch-template-app_aside** に依存しているため、利用する際には両方のプラグインが必要になる。
+  **nablarch-widget-slide_menu** プラグインは **nablarch-template-app_aside** に依存しているため、使用する際には両方のプラグインが必要になる。
 
 フッター領域の表示内容を修正したい
 ===================================================================

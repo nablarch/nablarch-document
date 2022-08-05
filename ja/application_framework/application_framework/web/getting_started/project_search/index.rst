@@ -33,7 +33,7 @@ Exampleアプリケーションを元に検索機能を解説する。
   #. :ref:`フォームの作成<project_search-create_form>`
   #. :ref:`検索条件入力部分のJSPの作成<project_search-create_jsp>`
   #. :ref:`検索条件Beanの作成<project_search-create_bean>`
-  #. :ref:`検索に利用するSQLの作成<project_search-create_sql>`
+  #. :ref:`検索に使用するSQLの作成<project_search-create_sql>`
   #. :ref:`業務アクションの実装<project_search-create_action>`
   #. :ref:`検索結果表示部分の作成<project_search-create_result_jsp>`
 
@@ -199,7 +199,7 @@ Exampleアプリケーションを元に検索機能を解説する。
         :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` を付与してバリデーションを行う。
       * :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` によるバリデーションが済んだフォームは、
         リクエストスコープから取り出すことができる。
-      * フォームの値を :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を利用して検索条件Beanにコピーする。
+      * フォームの値を :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用して検索条件Beanにコピーする。
 
   データベースを検索するプライベートメソッドの作成
     このメソッドでは、前述のSQLを指定してデータベースを検索する。
