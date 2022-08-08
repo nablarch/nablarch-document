@@ -30,3 +30,21 @@ rules:
     pattern: ユーザー
   - expected: サーバ
     pattern: サーバー
+  - expected: メモリ
+    pattern: メモリー
+  - expected: モニタ
+    pattern: モニター
+  - expected: ヘッダ
+    pattern: ヘッダー
+  - expected: インターセプタ
+    pattern: インターセプター
+  - expected: フォーマッタ
+    pattern: フォーマッター
+  - expected: フィルタ
+    pattern: フィルター
+  - expected: エントリ
+    pattern: エントリー
+  - expected: ブラウザ
+    pattern: ブラウザー
+  - expected: プリンタ
+    pattern: プリンター
