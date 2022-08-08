@@ -605,7 +605,7 @@ CloudWatch と連携する
       }
 
   :java:extdoc:`CloudWatchAsyncClientProvider <nablarch.integration.micrometer.cloudwatch.CloudWatchAsyncClientProvider>` は ``CloudWatchAsyncClient`` を提供する ``provide()`` メソッドを持つ。
-  カスタムプロバイダでは、任意で設定した ``CloudWatchAsyncClient`` を構築して返すように ``provide()`` メソッドを実装する。
+  カスタムプロバイダでは、任意の設定を行った ``CloudWatchAsyncClient`` を構築して返すように ``provide()`` メソッドを実装する。
 
   .. code-block:: xml
 
