@@ -17,7 +17,7 @@ Nablarchではウェブアプリケーションを構築する場合、ServletAP
 .. image:: images/application_structure.png
 
 :ref:`nablarch_servlet_context_listener` (NablarchServletContextListener)
-  システムリポジトリやログの初期化処理を行うサーブレットコンテキストリスナ。
+  システムリポジトリやログの初期化処理を行うサーブレットコンテキストリスナー
 
 :ref:`web_front_controller` (WebFrontController)
   受け取ったリクエストに対する処理をハンドラキューに委譲するサーブレットフィルタ。
