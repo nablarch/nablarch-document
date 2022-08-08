@@ -25,13 +25,7 @@
       "ja-no-redundant-expression": {
         "dictOptions": {
           "dict5": {
-            allows: [
-              "/^\\)を.?行[ぁ-ん]/",
-              // デフォルトの許可リストは上書きされるので、デフォルト値も追加
-              "/^処理を行[ぁ-ん]/",
-              "/^[ァ-ヶ]+を.?行[ぁ-ん]/",
-              "/^[a-zA-Z]+を.?行[ぁ-ん]/"
-            ]
+            "disabled": true
           },
           "dict6": {
             allows: [
