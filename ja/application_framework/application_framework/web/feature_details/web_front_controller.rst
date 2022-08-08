@@ -56,7 +56,7 @@ Webフロントコントローラ
   `web.xml` への設定例を以下に示す。
 
   ポイント
-   * システムリポジトリを初期化するため、 :ref:`nablarch_servlet_context_listener` をリスナとして設定すること。
+   * システムリポジトリを初期化するため、 :ref:`nablarch_servlet_context_listener` をリスナーとして設定すること。
 
   .. code-block:: xml
 
