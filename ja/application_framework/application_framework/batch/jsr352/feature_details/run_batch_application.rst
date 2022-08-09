@@ -26,7 +26,7 @@ Nablarchでは、標準の実装クラスとして、:java:extdoc:`nablarch.fw.b
   
 .. tip::
 
-  プロジェクト独自で起動クラスを作成する際にも、このMainクラスを参考に実装することができる。
+  プロジェクト独自で起動クラスを作成する際にも、このMainクラスを参考に実装できる。
 
 
 .. _jsr352_exitcode_batch_application:
@@ -43,7 +43,7 @@ Nablarchでは、標準の実装クラスとして、:java:extdoc:`nablarch.fw.b
 
 バリデーションエラーなど警告すべき事項が発生している場合に、警告終了させることができる。
 警告終了の方法はchunkまたはbatchlet内で、 :java:extdoc:`JobContext#setExitStatus(String) <javax.batch.runtime.context.JobContext.setExitStatus(java.lang.String)>`
-を呼び出し "WARNING" を終了ステータスとして設定する。警告終了時は、バッチステータスは任意の値を許可するため、chunkまたはbatchlet内で、
+を呼び出し "WARNING" を終了ステータスとして設定する。警告終了時は、バッチステータスは任意の値を許可するため、
 例外を送出しバッチステータスが :java:extdoc:`BatchStatus.COMPLETED <javax.batch.runtime.BatchStatus>` 以外となる場合であっても、
 終了ステータスに "WARNING" を設定していれば、上記クラスは警告終了する。
 

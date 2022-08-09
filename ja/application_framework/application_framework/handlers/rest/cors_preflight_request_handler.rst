@@ -44,7 +44,7 @@ ResponseFinisherを実装した :java:extdoc:`CorsResponseFinisher <nablarch.fw.
 
 CORSを実現する
 --------------------------------------------------
-CORSを実現するには本ハンドラと :java:extdoc:`CorsResponseFinisher <nablarch.fw.jaxrs.cors.CorsResponseFinisher>` の設定を行う。
+CORSを実現するには本ハンドラと :java:extdoc:`CorsResponseFinisher <nablarch.fw.jaxrs.cors.CorsResponseFinisher>` を設定する。
 
 CORSの処理は :java:extdoc:`Cors <nablarch.fw.jaxrs.cors.Cors>` インタフェースが行う。
 フレームワークはCORSの基本実装として :java:extdoc:`BasicCors <nablarch.fw.jaxrs.cors.BasicCors>` クラスを提供している。
@@ -104,11 +104,13 @@ CORSの処理は :java:extdoc:`Cors <nablarch.fw.jaxrs.cors.Cors>` インタフ�
 
   - リクエストがプリフライトリクエストの場合は以下のレスポンスを返す。
 
+.. textlint-disable ja-technical-writing/max-comma
       - ステータスコード：204
       - Access-Control-Allow-Methodsヘッダ：OPTIONS, GET, POST, PUT, DELETE, PATCH
       - Access-Control-Allow-Headersヘッダ：Content-Type, X-CSRF-TOKEN
       - Access-Control-Max-Ageヘッダ：-1
       - 以下の「実際のリクエスト」と同じレスポンスヘッダも設定する。
+.. textlint-enable ja-technical-writing/max-comma
 
 実際のリクエスト(CorsResponseFinisherが呼び出す処理)
   - 以下のレスポンスヘッダを設定する。

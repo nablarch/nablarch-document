@@ -16,7 +16,7 @@
       :scale: 60
 
 設計書ビューの各項目は、 **Ctrl** キーを押しながらマウスでドラッグすることにより、
-セル単位で選択することができる。
+セル単位で選択できる。
 
    .. image:: _image/selecting_cells_on_specsheet_view.png
       :align: center

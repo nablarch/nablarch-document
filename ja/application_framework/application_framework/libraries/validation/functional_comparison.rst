@@ -65,12 +65,12 @@ Bean ValidationとNablarch Validationの機能比較
 .. [#jsr] 対応方法は、 |jsr349| の仕様に準拠する。
 .. [#method] Nablarchでは外部からデータを受け付けたタイミングで必ずバリデーションを行うため、
    メソッドの引数や戻り値に対するバリデーションには対応していない。
-.. [#order] バリデーションの実行順を制御することはできないため、バリデーションの実行順序を期待するような実装は行わないこと。
+.. [#order] バリデーションの実行順は制御できないため、バリデーションの実行順序を期待するような実装は行わないこと。
    例えば、項目毎のバリデーション後に相関バリデーションが実行されるといったことを期待してはならない。
 .. [#conditional]  |jsr349| のクラスレベルのバリデーション機能を使用して、ロジックによりバリデーション項目を切り替えること。
 .. [#parameter] Bean Validationでは、EL式を使用してパラメータを埋め込むこともできる。
 .. [#type_converter] Bean Validationでは、プロパティの型は全てStringとして定義する(:ref:`Stringで定義する理由 <bean_validation-form_property>`)ため型変換は行わない。
-   型変換が必要な場合には、バリデーション実施後に :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使って型変換を行う。
+   型変換が必要な場合には、バリデーション実施後に :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使って型変換する。
 .. [#normalized] 正規化は、Bean Validationの機能ではなくハンドラとして提供している。正規化が必要な場合には、 :ref:`normalize_handler` を使用して行う。
 
 .. |jsr349| raw:: html

@@ -45,8 +45,8 @@
 1つの例外クラスに対して複数の遷移先がある場合の実装方法
 ---------------------------------------------------------
 業務例外( :java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>` )が発生した箇所によって、エラー時の遷移先画面を切り替えたい場合がる。
-しかし、 :ref:`on_error_interceptor` では、例外クラスに対して1つの遷移先しか指定することができないため、
-:java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>` に対して複数の遷移先の画面を指定することができない。
+しかし、 :ref:`on_error_interceptor` では、例外クラスに対して1つの遷移先しか指定できないため、
+:java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>` に対して複数の遷移先の画面を指定できない。
 
 このような場合は、アクションのメソッド内で ``try-catch`` を用いて、例外を捕捉しエラー時の遷移先画面を設定する必要がある。
 

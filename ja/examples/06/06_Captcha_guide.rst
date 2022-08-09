@@ -76,9 +76,9 @@ CaptchaGenerateHandlerクラスを配置したパッケージに合わせてく�
         class="com.nablarch.example.app.web.common.captcha.CaptchaGenerateHandler"/>
 
 
-下記のrequestPatternに設定するＵＲＬについては、対応するActionクラスやFormクラスの実体が存在しないＵＲＬを指定します。
+下記のrequestPatternに設定するURLについては、対応するActionクラスやFormクラスの実体が存在しないURLを指定します。
 
-ただし、Captcha画像をリクエストするためのＪＳＰ内の<img>タグのsrc属性とは揃っている必要があります。
+ただし、Captcha画像をリクエストするためのJSP内の<img>タグのsrc属性とは揃っている必要があります。
 
 RequestHandlerEntryの設定は、dbConnectionManagementHandler、transactionManagementHandler の設定よりも後に定義する必要があります。
 
@@ -105,7 +105,7 @@ Captcha識別子の生成、および、生成した値をJSPが参照できる�
        return new HttpResponse("/WEB-INF/view/xxx/xxx.jsp");
     }
 
-ユーザーが入力した値をバリデーションするタイミングで呼び出されるActionのメソッドに、
+ユーザが入力した値をバリデーションするタイミングで呼び出されるActionのメソッドに、
 Formに定義するバリデーション用のメソッドとの関連付けが設定されていることを確認します。
 
   .. code-block:: java

@@ -1,6 +1,6 @@
 テーブルキューを監視し未処理データを取り込むアプリケーションの作成
 ======================================================================================
-Exampleアプリケーションを元にテーブルキューを監視し、未処理データを取り込むアプリケーションの解説を行う。
+Exampleアプリケーションを元にテーブルキューを監視し、未処理データを取り込むアプリケーションを解説する。
 
 作成する機能の概要
   テーブルキューを定期的に監視し、未処理データ(ステータス:``0``)のデータを取り込む。
@@ -164,7 +164,7 @@ Exampleアプリケーションの実行手順
 
   * :java:extdoc:`DatabaseTableQueueReader <nablarch.fw.reader.DatabaseTableQueueReader>` には以下を指定する。
 
-    * データベースから検索を行うためのリーダ(:java:extdoc:`DatabaseRecordReader <nablarch.fw.reader.DatabaseRecordReader>`)
+    * データベースから検索するためのリーダ(:java:extdoc:`DatabaseRecordReader <nablarch.fw.reader.DatabaseRecordReader>`)
     * 未処理データが存在しない場合の待機時間(この例では1秒)
     * 主キーのカラム名のリスト
 

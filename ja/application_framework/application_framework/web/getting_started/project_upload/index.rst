@@ -2,7 +2,7 @@
 
 アップロードを用いた一括登録機能の作成
 ==========================================
-Exampleアプリケーションを元に、CSVファイルをアップロードして一括登録する機能の解説を行う。
+Exampleアプリケーションを元に、CSVファイルをアップロードして一括登録する機能を解説する。
 
 作成する機能の説明
   1. ヘッダメニューの「プロジェクト一括登録」を押下する。
@@ -232,7 +232,7 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
   ProjectUploadDto.java
     .. code-block:: java
 
-      @Csv(headers = { /** ヘッダーを記述 **/},
+      @Csv(headers = { /** ヘッダを記述 **/},
               properties = { /** バインド対象のプロパティ **/},
               type = Csv.CsvType.CUSTOM)
       @CsvFormat(charset = "Shift_JIS", fieldSeparator = ',',ignoreEmptyLine = true,
@@ -269,7 +269,7 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
   この実装のポイント
     * アップロードされたCSVファイルの内容と、Beanのプロパティとの紐付けの設定は、 :java:extdoc:`@Csv<nablarch.common.databind.csv.Csv>` を使用する。
       受け付けるCSVのフォーマットの指定は、 :java:extdoc:`@CsvFormat<nablarch.common.databind.csv.CsvFormat>` を使用する。
-      （ :ref:`デフォルトのフォーマットの指定<data_bind-csv_format_set>` を利用する場合は、 :java:extdoc:`@CsvFormat<nablarch.common.databind.csv.CsvFormat>` は不要）
+      （ :ref:`デフォルトのフォーマットの指定<data_bind-csv_format_set>` を使用する場合は、 :java:extdoc:`@CsvFormat<nablarch.common.databind.csv.CsvFormat>` は不要）
       アノテーションの設定方法の詳細は、 :ref:`CSVファイルをJava Beansクラスにバインドする場合のフォーマット指定方法 <data_bind-csv_format-beans>` を参照。
     * プロパティに :java:extdoc:`@Required<nablarch.core.validation.ee.Required>` や :java:extdoc:`@Domain<nablarch.core.validation.ee.Domain>`
       などのバリデーション用のアノテーションを付与して :ref:`Bean Validation<bean_validation>` を行う。
@@ -361,8 +361,8 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
       * 取得した :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` オブジェクトに対して、
         :java:extdoc:`ObjectMapper#read <nablarch.common.databind.ObjectMapper.read()>` を実行することで、バインド済みBeanのリストを取得できる。
       * :java:extdoc:`ValidatorUtil#getValidator <nablarch.core.validation.ee.ValidatorUtil.getValidator()>` を使用して
-        :java:extdoc:`Validator <javax.validation.Validator>` オブジェクトを生成することで、任意のBeanに対して :ref:`Bean Validation<bean_validation>` を実行することができる。
-      * エラーが発生した時点でバリデーションを中止せず、最終行まで検証を行う場合、
+        :java:extdoc:`Validator <javax.validation.Validator>` オブジェクトを生成することで、任意のBeanに対して :ref:`Bean Validation<bean_validation>` を実行できる。
+      * エラーが発生した時点でバリデーションを中止せず、最終行まで検証する場合、
         バリデーション終了後に全行分のエラーメッセージを格納した :java:extdoc:`Message<nablarch.core.message.Message>` のリスト
         を引数に :java:extdoc:`ApplicationException<nablarch.core.message.ApplicationException>` を生成して送出することで、
         :ref:`tag-errors_tag` で画面に出力できる。
@@ -412,7 +412,7 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
     この実装のポイント
       * 一括登録は、 :java:extdoc:`UniversalDao#batchInsert <nablarch.common.dao.UniversalDao.batchInsert(java.util.List)>`
         を使用して実行する。
-      * 一度に登録する件数が膨大になるとパフォーマンスの低下を招く可能性があるため、一括登録一回ごとの件数に上限を設定する。
+      * 一度に登録する件数が膨大になるとパフォーマンスの低下を招く可能性があるため、一括登録１回ごとの件数に上限を設定する。
 
 アップロードを用いた一括登録機能の解説は以上。
 

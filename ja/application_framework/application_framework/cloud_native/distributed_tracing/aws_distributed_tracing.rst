@@ -12,7 +12,7 @@ Javaアプリケーションの分散トレーシングは以下2つの方法で
 * AWS X-Ray Java 用 自動計測エージェント
 
 `自動計測エージェント(外部サイト)`_ を使用するとアプリケーションのランタイムにコードを追加することなく計測が可能だが、
-Nablarchはフレームワークの構造上、自動計測エージェントを使用することができない。そのため本手順ではAWS X-Ray SDK for Javaをアプリケーションに組み込む方法について説明する。
+Nablarchはフレームワークの構造上、自動計測エージェントが使用できない。そのため本手順ではAWS X-Ray SDK for Javaをアプリケーションに組み込む方法について説明する。
 以下で触れない詳細な設定方法については `AWS X-Ray SDK for Java(外部サイト)`_ を参照。
 
 .. important::
@@ -115,14 +115,14 @@ AWS X-Ray SDKのサブモジュールから必要なものを依存関係に追�
 
 X-Ray SDK for Javaには、送信HTTP呼び出しを計測するためのAPIとして `Apache HttpComponents(外部サイト、英語)`_ のインタフェースで使用できるクラスが用意されている。
 
-Apache HttpComponentsを直接使うと処理が煩雑になるため、本手順ではJAX-RSクライアントの実装である `Jersey(外部サイト、英語)`_ 経由で利用する。
-Jerseyは、デフォルトではHTTP通信に ``java.net.HttpURLConnection`` を利用するため、Apache HttpComponentsを利用するためには設定が必要となる。
+Apache HttpComponentsを直接使うと処理が煩雑になるため、本手順ではJAX-RSクライアントの実装である `Jersey(外部サイト、英語)`_ 経由で使用する。
+Jerseyは、デフォルトではHTTP通信に ``java.net.HttpURLConnection`` を使用するため、Apache HttpComponentsを利用するためには設定が必要となる。
 ``org.glassfish.jersey.client.spi.ConnectorProvider`` というインタフェースが用意されているので、
 その実装クラスをJerseyクライアントに登録することで ``java.net.HttpURLConnection`` 以外の方法でHTTP通信が可能となる。
 
 * `Client Transport Connectors(外部サイト、英語)`_
 
-Apache HttpComponentsを利用するための ``org.glassfish.jersey.client.spi.ConnectorProvider`` の実装として 
+Apache HttpComponentsを使用するための ``org.glassfish.jersey.client.spi.ConnectorProvider`` の実装として 
 ``org.glassfish.jersey.apache.connector.ApacheConnectorProvider`` が用意されている。
 
 まず依存にJerseyを加える。
@@ -164,7 +164,7 @@ Apache HttpComponentsを利用するための ``org.glassfish.jersey.client.spi.
   </dependencies>
 
 Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConfigurator`` インタフェースが用意されている。
-このインタフェースを使用することで、 ``HttpClientBuilder`` に追加の設定を行うことや、 ``HttpClientBuilder`` そのものを差し替えるといった処理が可能となる。
+このインタフェースを使用することで、 ``HttpClientBuilder`` への追加設定や、 ``HttpClientBuilder`` そのものを差し替えるといった処理が可能となる。
 下記では ``HttpClientBuilder`` をAWS SDKの ``com.amazonaws.xray.proxies.apache.http.HttpClientBuilder`` に差し替えている。
 
 .. code-block:: java
@@ -299,7 +299,7 @@ SQLクエリを計測対象とするための設定を加える。
 * ``TracingDataSourceFactory`` には元になるデータソースをプロパティとして設定する必要がある。元になるデータソースには、 ``rawDataSource`` を設定する。
 
 Nablarchは ``dataSource`` という名前でデータソースコンポーネントを取得する。
-このように編集することでX-Ray SDK for Java JDBCインターセプターがデータソース設定に追加され、SQLクエリが計測されるようになる。
+このように編集することでX-Ray SDK for Java JDBCインターセプタがデータソース設定に追加され、SQLクエリが計測されるようになる。
 
 .. code-block:: xml
 

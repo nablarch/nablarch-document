@@ -6,7 +6,7 @@
   :depth: 3
   :local:
 
-本ハンドラは、データリーダ上に処理対象のデータが存在する間、後続ハンドラの処理を繰り返し実行するとともに、トランザクション制御を行ない、一定の繰り返し回数ごとにトランザクションをコミットする。
+本ハンドラは、データリーダ上に処理対象のデータが存在する間、後続ハンドラの処理を繰り返し実行する。実行中はトランザクションを制御し、一定の繰り返し回数ごとにトランザクションをコミットする。
 トランザクションのコミット間隔を大きくすることで、バッチ処理のスループットを向上させることができる。
 
 * トランザクションの開始
@@ -48,7 +48,7 @@
 :ref:`database_connection_management_handler` より後ろに設定すること
   データベースに対するトランザクションを制御する場合には、トランザクション管理対象のデータベース接続がスレッド上に存在している必要がある。
 
-トランザクション制御対象の設定を行う
+トランザクション制御対象を設定する
 --------------------------------------------------
 このハンドラは、 :java:extdoc:`transactionFactory <nablarch.fw.handler.LoopHandler.setTransactionFactory(nablarch.core.transaction.TransactionFactory)>`
 プロパティに設定されたファクトリクラス( :java:extdoc:`TransactionFactory <nablarch.core.transaction.TransactionFactory>` の実装クラス)を使用してトランザクションの制御対象を取得しスレッド上で管理する。
@@ -58,14 +58,14 @@
 
 .. tip::
 
-  :ref:`database_connection_management_handler` で設定したデータベースに対するトランザクション制御を行う場合は、
+  :ref:`database_connection_management_handler` で設定したデータベースに対してトランザクションを制御する場合は、
   :java:extdoc:`DbConnectionManagementHandler#connectionName <nablarch.common.handler.DbConnectionManagementHandler.setConnectionName(java.lang.String)>` に設定した値と同じ値を
   :java:extdoc:`transactionName <nablarch.fw.handler.LoopHandler.setTransactionName(java.lang.String)>` プロパティに設定すること。
 
   なお、 :java:extdoc:`DbConnectionManagementHandler#connectionName <nablarch.common.handler.DbConnectionManagementHandler.setConnectionName(java.lang.String)>` に値を設定していない場合は、
   :java:extdoc:`transactionName <nablarch.fw.handler.LoopHandler.setTransactionName(java.lang.String)>` への設定は省略して良い。
 
-以下の設定ファイル例を参考にし、このハンドラの設定を行うこと。
+以下の設定ファイル例を参考にし、このハンドラを設定すること。
 
 .. code-block:: xml
 

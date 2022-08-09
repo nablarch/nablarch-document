@@ -79,8 +79,8 @@
   
 :java:extdoc:`ThymeleafResponseWriter<nablarch.fw.web.handler.responsewriter.thymeleaf.ThymeleafResponseWriter>` は\
 :java:extdoc:`HttpResponse<nablarch.fw.web.HttpResponse>` のコンテンツパスの内容によって、
-テンプレートエンジンを使用してレスポンス出力を行うか否かを判断する。
-デフォルトではコンテンツパスが ``.html`` で終了している場合、処理対象と判定しテンプレートエンジンによる出力を行う。
+テンプレートエンジンを使用してレスポンスを出力するか否かを判断する。
+デフォルトではコンテンツパスが ``.html`` で終了している場合、処理対象と判定しテンプレートエンジンにより出力する。
 
 例えば、アクションクラスで以下のように ``HttpResponse`` を返却したとする。
 

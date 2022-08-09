@@ -1,18 +1,18 @@
 検索機能の作成
 ================================================================
-Exampleアプリケーションを元に、検索機能の解説を行う。
+Exampleアプリケーションを元に、検索機能を解説する。
 
 作成する機能の説明
   本機能は、GETリクエスト時にクエリパラメータに検索条件を付与することで、
   条件に合致するプロジェクト情報をJSON形式で返却する。
 
-  検索条件として、 ``顧客ID(完全一致)``  、 ``プロジェクト名(部分一致)`` を指定することができる。
+  検索条件として、 ``顧客ID(完全一致)``  、 ``プロジェクト名(部分一致)`` を指定できる。
   検索条件を指定しない場合は、全てのプロジェクト情報を返却する。
 
 動作確認手順
   1. プロジェクト情報の検索
 
-    ここでは、顧客IDが `1` のプロジェクト情報の検索を行う。
+    ここでは、顧客IDが `1` のプロジェクト情報を検索する。
 
     任意のRESTクライアントを使用して、以下のリクエストを送信する。
 
@@ -80,8 +80,8 @@ Exampleアプリケーションを元に、検索機能の解説を行う。
   この実装のポイント
    * Beanのプロパティは、:ref:`対応する条件カラムの定義(型)と互換性のある型とする<universal_dao-search_with_condition>` こと。
 
-検索に利用するSQLの作成
-  検索に利用するSQLを作成する。
+検索に使用するSQLの作成
+  検索に使用するSQLを作成する。
 
     Project.sql
       .. code-block:: none
@@ -124,10 +124,10 @@ Exampleアプリケーションを元に、検索機能の解説を行う。
    * 検索結果をJSON形式でクライアントに返却するため、 :java:extdoc:`Produces<javax.ws.rs.Produces>` アノテーションに
      ``MediaType.APPLICATION_JSON`` を指定する。
    * クエリパラメータは :java:extdoc:`HttpRequest<nablarch.fw.web.HttpRequest>` から取得する。
-   * :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を利用してリクエストパラメータからフォームを作成する。
+   * :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用してリクエストパラメータからフォームを作成する。
    * :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object)>`
      を使用してフォームのバリデーションを行う。
-   * フォームの値を :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を利用して検索条件Beanにコピーする。
+   * フォームの値を :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用して検索条件Beanにコピーする。
    * :ref:`universal_dao` を使用して取得したプロジェクト情報のリストを戻り値として返却する。
    * 戻り値のオブジェクトは :ref:`body_convert_handler` によってJSON形式に変換されるため、
      業務アクションメソッド内で変換処理を実装する必要はない。

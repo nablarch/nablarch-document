@@ -111,7 +111,7 @@ app-log.propertiesの設定例
 
 .. _performance_log-setting:
 
-パフォーマンスログの設定を行う
+パフォーマンスログの設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 パフォーマンスログの設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
 
@@ -169,7 +169,7 @@ app-log.propertiesの設定例
 
 JSON形式の構造化ログとして出力する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`log-json_log_setting` 設定を行うことでログをJSON形式で出力できるが、
+:ref:`log-json_log_setting` 設定によりログをJSON形式で出力できるが、
 :java:extdoc:`PerformanceLogFormatter <nablarch.core.log.app.PerformanceLogFormatter>` では
 パフォーマンスログの各項目はmessageの値に文字列として出力される。
 パフォーマンスログの各項目もJSONの値として出力するには、

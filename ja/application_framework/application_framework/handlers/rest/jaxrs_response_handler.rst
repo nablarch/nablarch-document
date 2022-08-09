@@ -12,11 +12,11 @@ JAX-RSレスポンスハンドラ
 
 本ハンドラでは、以下の処理を行う。
 
-* 例外及びエラー発生時のレスポンス情報の生成を行う。
+* 例外及びエラー発生時のレスポンス情報を生成する。
   詳細は、 :ref:`jaxrs_response_handler-error_response` を参照。
-* 例外及びエラー発生時のログ出力を行う。
+* 例外及びエラー発生時のログを出力する。
   詳細は、 :ref:`jaxrs_response_handler-error_log` を参照
-* クライアントへのレスポンスの返却を行う。
+* クライアントへのレスポンスを返却する。
 
 処理の流れは以下のとおり。
 
@@ -65,7 +65,7 @@ JAX-RSレスポンスハンドラ
   </component>
 
 .. important::
-  ErrorResponseBuilderは例外及びエラーに応じたレスポンス生成を行う役割のため、ErrorResponseBuilderの処理中に例外が発生するとレスポンスが生成されず、クライアントにレスポンスを返せない状態となる。
+  ErrorResponseBuilderは例外及びエラーに応じたレスポンスを生成する役割のため、ErrorResponseBuilderの処理中に例外が発生するとレスポンスが生成されず、クライアントにレスポンスを返せない状態となる。
   そのため、プロジェクトでErrorResponseBuilderをカスタマイズする場合は、ErrorResponseBuilderの処理中に例外が発生しないように実装すること。
   ErrorResponseBuilderの処理中に例外が発生した場合、フレームワークはErrorResponseBuilderの処理中に発生した例外をWARNレベルで
   ログ出力を行い、ステータスコード500のレスポンスを生成し、後続処理を継続する。
@@ -192,7 +192,7 @@ JAX-RSレスポンスハンドラ
     </property>
   </component>
 
-セキュリティ関連のレスポンスヘッダを設定する :ref:`secure_handler` のような既存のハンドラをResponseFinisherとして利用したい場合がある。
+セキュリティ関連のレスポンスヘッダを設定する :ref:`secure_handler` のような既存のハンドラをResponseFinisherとして使用したい場合がある。
 このような場合に対応するため、ハンドラをResponseFinisherに適用する
 :java:extdoc:`AdoptHandlerResponseFinisher <nablarch.fw.jaxrs.AdoptHandlerResponseFinisher>` クラスを提供している。
 

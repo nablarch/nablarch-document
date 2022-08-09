@@ -13,7 +13,7 @@ gsp-dba-maven-plugin(DBA作業支援ツール)の初期設定方法
 
 `gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ は、Apache License Version 2.0 ライセンスで提供されるオープンソースのツールである。
 
-gsp-dba-maven-pluginは、利用開始前にRDBMSにあわせた設定を行う必要がある。
+gsp-dba-maven-pluginは、使用開始前にRDBMSにあわせて設定する必要がある。
 
 本手順では、アーキタイプから生成したプロジェクトで、gsp-dba-maven-pluginを使用するための設定方法を示す。
 
@@ -55,8 +55,8 @@ pom.xmlのpropertiesタグ内の以下の箇所を修正する。
 =============================================== ===========================================
 nablarch.db.jdbcDriver                          JDBCドライバのクラス名
 nablarch.db.url                                 データベースの接続URL
-nablarch.db.adminUser                           管理者ユーザー名                           
-nablarch.db.adminPassword                       管理者ユーザーのパスワード                 
+nablarch.db.adminUser                           管理者ユーザ名                           
+nablarch.db.adminPassword                       管理者ユーザのパスワード                 
 nablarch.db.user                                データベースアクセスユーザ名
 nablarch.db.password                            データベースアクセスユーザのパスワード
 nablarch.db.schema                              接続するスキーマ名
@@ -128,7 +128,7 @@ build要素内
 gsp-dba-maven-pluginに対する依存関係を、H2のJDBCドライバから使用するRDBMSにあわせたものに修正する。
 
 POMの設定例は、 :ref:`customizeDB_pom_dependencies` を参照。
-例えば、PostgreSQLを利用する場合は以下のように設定する。
+例えば、PostgreSQLを使用する場合は以下のように設定する。
 
 .. code-block:: xml
 
@@ -261,9 +261,9 @@ src/main/resources/entity以下にRDBMS毎にedmファイルが存在するの�
 ブランクプロジェクトは `SI Object Browser ER(外部サイト) <https://products.sint.co.jp/ober>`_ というモデリングツールを使用してデータモデル(data-model.edm)を作成することを前提としている。
 しかし、data-model.edm が使われるのはDDLの生成時だけである。
 そのため、任意の方法でDDLを生成・実行しデータベースを構築すれば、
-DDL の生成/実行以外の機能は SI Object Browser ER 以外のモデリングツールを利用した場合でも実行可能である。
+DDL の生成/実行以外の機能は SI Object Browser ER 以外のモデリングツールを使用した場合でも実行可能である。
 
-SI Object Browser ER 以外のモデリングツールを利用する場合は、以下のように generate-ddl 、execute-ddl のゴールが実行されないようpom.xmlを修正する。
+SI Object Browser ER 以外のモデリングツールを使用する場合は、以下のように generate-ddl 、execute-ddl のゴールが実行されないようpom.xmlを修正する。
 
 .. code-block:: xml
 

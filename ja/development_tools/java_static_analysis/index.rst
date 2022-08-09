@@ -34,7 +34,7 @@ Nablarch開発に使用したInspectionの設定ファイルをプロジェク�
   Inspectionの設定内容は、警告された箇所から参照可能で、IDE上で効率よく確認できる。そのため、チェック内容の一覧など、別資料を作らないこと。
 
 .. tip::
-  InspectionはPJで必要に応じてカスタマイズすることができる。
+  InspectionはPJで必要に応じてカスタマイズできる。
   カスタマイズした設定は ``PROJECT_ROOT/.idea/inspectionProfiles`` 配下の設定ファイルに反映される。
 
 ~~~~~~~~~~~~~~~~~

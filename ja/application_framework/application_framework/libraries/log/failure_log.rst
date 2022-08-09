@@ -145,7 +145,7 @@ app-log.propertiesの設定例
 
 .. _failure_log-setting:
 
-障害ログの設定を行う
+障害ログの設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 障害ログの設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
 
@@ -232,7 +232,7 @@ app-log.propertiesの設定例
   :ref:`failure_log-placeholder_customize` を参照し、プロジェクトでカスタマイズすること。
 
  .. tip::
-  処理対象データの出力により、障害ログに派生元実行時情報を出力することができる。
+  処理対象データの出力により、障害ログに派生元実行時情報を出力できる。
   派生元実行時情報とは、例えば、ウェブからバッチ処理にデータ連携する場合であれば、
   画面処理を実行した時点の実行時情報(リクエストIDや実行時IDなど)がバッチ処理での派生元実行時情報となる。
   派生元実行時情報の出力方法は、 :ref:`failure_log-output_src_exe_info` を参照。
@@ -326,7 +326,7 @@ app-log.propertiesの設定例
 障害監視において、障害コードにより監視対象をフィルタリングしたいケースが考えられるため、
 障害ログの出力では、フレームワークの障害コードを指定する機能を提供する。
 
-フレームワークの障害コードは、例外が送出されたクラス名毎に指定することができる。
+フレームワークの障害コードは、例外が送出されたクラス名毎に指定できる。
 「例外が送出されたクラス」とは、スタックトレースのルート要素を指している。
 例えば、下記のスタックトレースであれば、nablarch.core.message.StringResourceHolderクラスとなる。
 
@@ -341,7 +341,7 @@ app-log.propertiesの設定例
      # 以降のスタックトレースは省略。(以降Caused byは出現しない)
 
 ただし、フレームワークのクラス毎に障害コードを設定するのは、分類が細かすぎるため現実的ではない。
-基本はパッケージ名単位に障害コードを指定することで、フレームワークのどの機能で例外が送出されたか判断することができる。
+基本はパッケージ名単位に障害コードを指定することで、フレームワークのどの機能で例外が送出されたか判断できる。
 
 フレームワークの障害コードは、プロパティファイルに指定する。
 プロパティファイルでは、キーにフレームワークのパッケージ名、値に障害コードを指定する。
@@ -486,7 +486,7 @@ app-log.propertiesの設定例
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 処理対象データ($data$)はデフォルトでtoStringメソッドにより全てのデータ項目が出力されるため、
 プロジェクトのセキュリティ要件で特定項目をマスクした出力が要求されるケースが考えられる。
-このように、プレースホルダに対する出力処理をカスタマイズしたい場合は、以下の作業を行う。
+このように、プレースホルダに対する出力処理をカスタマイズしたい場合は、以下のとおり対応する。
 
 * :java:extdoc:`LogItem <nablarch.core.log.LogItem>` を実装したクラスを作る
 * :java:extdoc:`FailureLogFormatter <nablarch.core.log.app.FailureLogFormatter>` を継承したクラスを作り、プレースホルダを追加する
@@ -566,7 +566,7 @@ app-log.propertiesの設定例
    }
 
 :java:extdoc:`FailureLogFormatter <nablarch.core.log.app.FailureLogFormatter>` を継承したクラスを使うように設定する
- 障害ログのフォーマッタとしてCustomDataFailureLogFormatterを使用するように ``app-log.properties`` に設定を行う。
+ 障害ログのフォーマッタとしてCustomDataFailureLogFormatterを使用するように ``app-log.properties`` に設定する。
 
  .. code-block:: properties
 
@@ -581,7 +581,7 @@ app-log.propertiesの設定例
 
 JSON形式の構造化ログとして出力する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`log-json_log_setting` 設定を行うことでログをJSON形式で出力できるが、
+:ref:`log-json_log_setting` 設定でログをJSON形式で出力できるが、
 :java:extdoc:`FailureLogFormatter <nablarch.core.log.app.FailureLogFormatter>` では
 障害ログの各項目はmessageの値に文字列として出力される。
 障害ログの各項目もJSONの値として出力するには、

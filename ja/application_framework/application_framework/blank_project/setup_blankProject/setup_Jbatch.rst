@@ -195,7 +195,7 @@ batchlet方式のバッチアプリケーションでは、SAMPLE_USERテーブ�
 
 .. tip::
 
-  このbatchletはSAMPLE_USERテーブルのデータの全件削除を行っている。削除したデータを復元したい場合は、 :ref:`firstStepBatchEERunETL` のコマンドを実行すること。
+  このbatchletはSAMPLE_USERテーブルのデータを全件削除している。削除したデータを復元したい場合は、 :ref:`firstStepBatchEERunETL` のコマンドを実行すること。
 
 
 

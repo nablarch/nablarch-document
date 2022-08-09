@@ -13,7 +13,7 @@
 概要
 ----
 
-UserAgent情報取得機能はHTTPヘッダ(User-Agent)より取得した値を設定ファイルに記述された内容に従って解析を行い、\
+UserAgent情報取得機能はHTTPヘッダ(User-Agent)より取得した値を設定ファイルに記述された内容に従って解析し、\
 以下の情報を取得する。
 
 * OSタイプ
@@ -116,7 +116,7 @@ please.change.me.fw.web.useragent.ItemPattern                      | 項目(具�
 ----------
 設定の記述
 ----------
-| UserAgent情報取得機能は、システムリポジトリ機能を利用して設定を行うことができる。
+| UserAgent情報取得機能は、システムリポジトリ機能を使用して設定を行うことができる。
 
 
 UserAgent解析クラスの設定
@@ -133,7 +133,7 @@ please.change.me.fw.web.useragent.RegexUserAgentParserの設定
   
   useragent_sample
 
-RegexUserAgentParserの設定例と設定項目詳細は下記の通り。また、:doc:`useragent_sample` に、より具体的な設定および利用例を示す。
+RegexUserAgentParserの設定例と設定項目詳細は下記の通り。また、:doc:`useragent_sample` に、より具体的な設定および使用例を示す。
 
 .. code-block:: xml
 

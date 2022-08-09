@@ -7,27 +7,44 @@ rules:
     patterns:
       - ウエアー
       - ウェアー
-      - ウエア      
+      - ウエア
   - expected: Nablarch
     patterns:
       - Ｎａｂｌａｒｃｈ
-      - NABLARCH
+      - /NABLARCH(?!_SID)/
       - なぶちゃん
   - expected: 使用
-    pattern: /利用(者)?/
+    pattern: /(再)?利用(?!者|ケース)/
     regexpMustEmpty: $1
     specs:
       # 普通に変換
       - from: 利用する
         to:   使用する
-      # 「利用者」は変換しない
-      - from: 利用者
-        to: 利用者
-  - expected: 積極的にお勧めはしない
-    pattern: 非推奨
   - expected: シミュレーション
     pattern: シュミレーション
   - expected: シミュレータ
     pattern: シュミレータ
   - expected: 内蔵
     pattern: 内臓
+  - expected: ユーザ
+    pattern: ユーザー
+  - expected: サーバ
+    pattern: サーバー
+  - expected: メモリ
+    pattern: メモリー
+  - expected: モニタ
+    pattern: モニター
+  - expected: ヘッダ
+    pattern: ヘッダー
+  - expected: インターセプタ
+    pattern: インターセプター
+  - expected: フォーマッタ
+    pattern: フォーマッター
+  - expected: フィルタ
+    pattern: フィルター
+  - expected: エントリ
+    pattern: エントリー
+  - expected: ブラウザ
+    pattern: ブラウザー
+  - expected: プリンタ
+    pattern: プリンター

@@ -1,0 +1,26 @@
+diff --git a/node_modules/textlint-plugin-rst/lib/rst-to-ast.js b/node_modules/textlint-plugin-rst/lib/rst-to-ast.js
+index f06c082..7b54939 100644
+--- a/node_modules/textlint-plugin-rst/lib/rst-to-ast.js
++++ b/node_modules/textlint-plugin-rst/lib/rst-to-ast.js
+@@ -35,7 +35,7 @@ function filterAndReplaceNodeAttributes(node) {
+  * @returns {TxtNode}
+  */
+ function parse(text) {
+-    var ast = JSON.parse((0, _child_process.execSync)("rst2ast -q", { input: text }));
++    var ast = JSON.parse((0, _child_process.execSync)("rst2ast -q", { input: text, maxBuffer: 1024 * 1024 * 2 }));
+     var src = new _structuredSource2.default(text);
+     (0, _traverse2.default)(ast).forEach(function (node) {
+         if (this.notLeaf) {
+diff --git a/node_modules/textlint-plugin-rst/src/rst-to-ast.js b/node_modules/textlint-plugin-rst/src/rst-to-ast.js
+index 1287304..bb00070 100644
+--- a/node_modules/textlint-plugin-rst/src/rst-to-ast.js
++++ b/node_modules/textlint-plugin-rst/src/rst-to-ast.js
+@@ -21,7 +21,7 @@ function filterAndReplaceNodeAttributes(node) {
+  * @returns {TxtNode}
+  */
+ export function parse(text) {
+-    let ast = JSON.parse(execSync("rst2ast -q", {input: text}));
++    let ast = JSON.parse(execSync("rst2ast -q", {input: text, maxBuffer: 1024 * 1024 * 2 }));
+     const src = new StructuredSource(text);
+     traverse(ast).forEach(function (node) {
+         if (this.notLeaf) {

@@ -36,7 +36,7 @@
 制約
 ------------------------------
 本ハンドラは、リトライハンドラよりも後ろに設定すること
-  本ハンドラで実行時例外を補足した場合、リトライ可能例外( :java:extdoc:`RetryableException <nablarch.fw.handler.retry.RetryableException>` )でラップしてから再送出し、
+  本ハンドラで実行時例外を捕捉した場合、リトライ可能例外( :java:extdoc:`RetryableException <nablarch.fw.handler.retry.RetryableException>` )でラップしてから再送出し、
   プロセスの継続制御を :ref:`retry_handler` に委譲する。
   このため、このハンドラはリトライハンドラより後に設定する必要がある。
 

@@ -19,7 +19,7 @@
 --------------------------------------------------
 任意のデータをキャッシュできる
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-この機能が提供するインタフェースを実装することで、容易に任意のデータをキャッシュすることができる。
+この機能が提供するインタフェースを実装することで、容易に任意のデータをキャッシュできる。
 
 なお、データのキャッシュの制御はこの機能が提供するクラスで行っている。
 このため、新たなデータをキャッシュしたい場合には、データをロードする処理のみを実装すればよい。
@@ -47,7 +47,7 @@
 
 #. :java:extdoc:`StaticDataLoader <nablarch.core.cache.StaticDataLoader>` インタフェースを実装し、データをロードする処理を実装する。
 #. :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>` クラスに、 :java:extdoc:`StaticDataLoader <nablarch.core.cache.StaticDataLoader>` の実装クラスを設定する。
-#. キャッシュを利用するクラスに :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>` を設定する。
+#. キャッシュを使用するクラスに :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>` を設定する。
 
 以下に詳細な手順を示す。
 
@@ -74,11 +74,11 @@ BasicStaticDataCacheクラスにローダーを設定する
     設定例でも行っているように、 :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>` は必ず初期化対象に設定すること。
     初期化の詳細は、 :ref:`repository-initialize_object` を参照。
 
-キャッシュを利用するクラスにBasicStaticDataCacheを設定する
-  キャッシュを利用するクラスに、ローダーを持つ :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>` を設定することで、キャッシュされたデータにアクセスすることができる。
+キャッシュを使用するクラスにBasicStaticDataCacheを設定する
+  キャッシュを使用するクラスに、ローダーを持つ :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>` を設定することで、キャッシュされたデータにアクセスできる。
 
 
-  以下にキャッシュを利用するクラスの例を示す。
+  以下にキャッシュを使用するクラスの例を示す。
 
   この例では、設定された :java:extdoc:`StaticDataCache <nablarch.core.cache.StaticDataCache>` を使用して、キャッシュしたデータを取得している。
 
@@ -113,7 +113,7 @@ BasicStaticDataCacheクラスにローダーを設定する
     </component>
 
     <!--
-    ローダーでロードしたキャッシュを利用するクラス。
+    ローダーでロードしたキャッシュを使用するクラス。
     このクラスに設定した、BasicStaticDataCacheを使ってキャッシュにアクセスする。
     -->
     <component class="sample.SampleService">

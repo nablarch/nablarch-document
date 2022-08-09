@@ -82,7 +82,7 @@
              │
              │
              ├── ui_plugins/            # UI開発基盤プロジェクトカスタマイズ用フォルダ
-             │     ├── package.json     # 利用プラグイン定義
+             │     ├── package.json     # 使用プラグイン定義
              │     └── node_modules/    # UIプラグインフォルダ
              │           │
              │           ├── jquery/                         # jqueryプラグイン

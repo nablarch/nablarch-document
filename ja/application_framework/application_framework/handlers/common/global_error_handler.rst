@@ -6,7 +6,7 @@
   :depth: 3
   :local:
 
-後続ハンドラで発生した未捕捉の例外及びエラーを捕捉し、ログ出力及び結果返却を行うハンドラ。
+後続ハンドラで発生した未捕捉の例外及びエラーを捕捉し、ログ出力及び結果を返すハンドラ。
 
 処理の流れは以下のとおり。
 
@@ -38,7 +38,7 @@
 
 例外及びエラーに応じた処理内容
 --------------------------------------------------
-このハンドラでは捕捉した例外及びエラーの内容に応じて、以下の処理と結果の生成を行う。
+このハンドラでは捕捉した例外及びエラーの内容に応じて、以下の処理を行い結果を生成する。
 
 例外に応じた処理内容
   .. list-table::
@@ -53,7 +53,7 @@
       
         (サブクラス含む)
 
-      - :java:extdoc:`ServiceError#writeLog <nablarch.fw.results.ServiceError.writeLog(nablarch.fw.ExecutionContext)>` を呼び出し、ログ出力を行う。
+      - :java:extdoc:`ServiceError#writeLog <nablarch.fw.results.ServiceError.writeLog(nablarch.fw.ExecutionContext)>` を呼び出し、ログを出力する。
 
         ログレベルは、 :java:extdoc:`ServiceError <nablarch.fw.results.ServiceError>` の実装クラスにより異なる。
 
@@ -63,13 +63,13 @@
 
         (サブクラス含む)
 
-      - FATALレベルのログ出力を行う。
+      - FATALレベルのログを出力する。
 
         ログ出力後、ハンドラの処理結果として、 :java:extdoc:`Result.Error <nablarch.fw.Result.Error>` を返却する。
 
     * - 上記以外の例外クラス
 
-      - FATALレベルのログ出力を行う。
+      - FATALレベルのログを出力する。
         
         ログ出力後、捕捉した例外を原因に持つ :java:extdoc:`InternalError <nablarch.fw.results.InternalError>` を生成し、ハンドラの処理結果として返却する。
 

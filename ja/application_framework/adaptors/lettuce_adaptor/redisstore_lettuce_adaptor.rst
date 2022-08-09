@@ -44,9 +44,9 @@ Redisストア(Lettuce)アダプタ
 
 .. _redisstore_minimum_settings_how_modify_component_definition:
 
-コンポーネント定義ファイルを修正する
+コンポーネント設定ファイルを修正する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-最初に、コンポーネントの定義ファイルを修正する方法について説明する。
+最初に、コンポーネント設定ファイルを修正する方法について説明する。
 
 .. code-block:: xml
 
@@ -222,10 +222,10 @@ Clusterの設定値は、各ノードに接続するためのURIを半角カン�
 
 .. _redisstore_redis_client_config_advanced:
 
-より高度な設定を行う
+より高度な設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 環境設定値で指定できるのは、クライアントクラスの種類とURIのみとなっている。
-より細かい設定を行いたい場合は、各クライアントクラスを継承したカスタムクライアントクラスを作成する必要がある。
+より細かく設定したい場合は、各クライアントクラスを継承したカスタムクライアントクラスを作成する必要がある。
 
 各クライアントクラスには、Lettuceのインスタンスを生成するメソッドが ``protected`` で定義されている。
 各クライアントクラスに用意されている、 ``protected`` メソッドを以下に表で示す。
@@ -241,7 +241,7 @@ Clusterの設定値は、各ノードに接続するためのURIを半角カン�
 \                                   ``createConnection(RedisClusterClient)`` `StatefulRedisClusterConnection<byte[], byte[]>(外部サイト、英語) <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/cluster/api/StatefulRedisClusterConnection.html>`_
 =================================== ======================================== =============
 
-これらのメソッドをカスタムクライアントクラスでオーバーライドし、独自の設定を行ったLettuceのインスタンスを返すように実装することで、任意の設定ができるようになる。
+これらのメソッドをカスタムクライアントクラスでオーバーライドし、独自に設定したLettuceのインスタンスを返すように実装することで、任意で設定できるようになる。
 
 そして、元となったコンポーネントと同じ名前でカスタムクライアントクラスのコンポーネントを定義することで、クライアントクラスのコンポーネントを差し替えることができる。
 
@@ -299,9 +299,9 @@ Clusterのトポロジ更新の監視を有効にする設定を例に、カス�
       }
   }
 
-LettuceでClusterのトポロジ更新を監視できるようにするには、必要な設定を行った `ClusterTopologyRefreshOptions（外部サイト、英語） <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/cluster/ClusterTopologyRefreshOptions.html>`_ を `RedisClusterClient（外部サイト、英語） <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/cluster/RedisClusterClient.html>`_ に設定する必要がある。
+LettuceでClusterのトポロジ更新を監視できるようにするには、必要な情報を設定した `ClusterTopologyRefreshOptions（外部サイト、英語） <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/cluster/ClusterTopologyRefreshOptions.html>`_ を `RedisClusterClient（外部サイト、英語） <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/cluster/RedisClusterClient.html>`_ に設定する必要がある。
 
-したがって、 ``CustomClusterRedisClient`` では ``RedisClusterClient`` を生成する ``createClient()`` をオーバーライドして、必要な設定を行った ``RedisClusterClient`` のインスタンスを返すように実装する。
+したがって、 ``CustomClusterRedisClient`` では ``RedisClusterClient`` を生成する ``createClient()`` をオーバーライドして、必要な情報を設定した ``RedisClusterClient`` のインスタンスを返すように実装する。
 
 .. tip::
 

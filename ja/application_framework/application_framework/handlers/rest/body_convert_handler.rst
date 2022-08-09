@@ -75,7 +75,7 @@
 リクエストボディをFormに変換する
 --------------------------------------------------
 リクエストボディの変換処理で使用するフォーマットは、リクエストを処理するメソッドに設定された :java:extdoc:`Consumes <javax.ws.rs.Consumes>` により決まる。
-もし、 :java:extdoc:`Consumes <javax.ws.rs.Consumes>` に設定されたMIMEと異なるMIMEがリクエストヘッダーのContent-Typeに設定されていた場合は、
+もし、 :java:extdoc:`Consumes <javax.ws.rs.Consumes>` に設定されたMIMEと異なるMIMEがリクエストヘッダのContent-Typeに設定されていた場合は、
 サポートしていないメディアタイプであることを示すステータスコード(``415``)を返却する。
 
 リソース(アクション)のメソッドの実装例を以下に示す。

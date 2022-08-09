@@ -39,7 +39,7 @@
 このカテゴリ名を使用して、進捗ログ用のファイルにログを出力することが出来る。
 
 :ref:`log` を使用した場合の ``log.properties`` の設定例を以下に示す。
-:ref:`log_adaptor` を使用している場合には、アダプタに対応したログライブラリのマニュアルなどを参照し設定を行うこと。
+:ref:`log_adaptor` を使用している場合には、アダプタに対応したログライブラリのマニュアルなどを参照して設定すること。
 
 .. code-block:: properties
 
@@ -198,16 +198,16 @@ ItemReader
       </job>
 
 .. important::
-  :ref:`ItemReader <jsr352-progress_reader>` で処理対象件数の設定を行わずに、
+  :ref:`ItemReader <jsr352-progress_reader>` で処理対象件数を設定せずに、
   :ref:`進捗ログ出力リスナー <jsr352-progress_listener>` を設定した場合には、設定不備として例外を送出し処理を異常終了させる。
   このため、進捗ログを必要としない場合には、 :ref:`進捗ログ出力リスナー <jsr352-progress_listener>` の設定を必ず削除すること。
   
 .. important::
-  chunkステップでRetrying Exceptionsの設定を行った場合は、リスナーによる進捗ログの出力が正しく機能しなくなる。
+  chunkステップでRetrying Exceptionsを設定した場合は、リスナーによる進捗ログの出力が正しく機能しなくなる。
   これは、リスナーが処理済み件数として使用している :java:extdoc:`metrics <javax.batch.runtime.context.StepContext.getMetrics()>`
   の読み込み済み件数が実態とずれることに起因する。
   
   このため、Retrying Exceptionsを使用して例外発生時のリトライ処理を行いたい場合には、 :java:extdoc:`ItemWriter <javax.batch.api.chunk.ItemWriter>` の実装クラスにて処理済み件数を計算し、
-  :java:extdoc:`outputProgressInfo <nablarch.fw.batch.ee.progress.ProgressManager.outputProgressInfo(long)>` を使用して進捗ログの出力を行うこと。
+  :java:extdoc:`outputProgressInfo <nablarch.fw.batch.ee.progress.ProgressManager.outputProgressInfo(long)>` を使用して進捗ログを出力すること。
   
 

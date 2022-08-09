@@ -42,7 +42,7 @@ female    女性     女
   しかし、Nablarchはenumの値とデータベースの値との相互変換の機能を持っておらず、enumの値をデータベースに登録できない。
 
   Domaを使用することで、enumの値をデータベース登録できる。
-  Domaを使用する際は、 :ref:`doma_adaptor` を参照し設定を行うこと。
+  Domaを使用する際は、 :ref:`doma_adaptor` を参照して設定すること。
 
 
 機能概要
@@ -80,7 +80,7 @@ female    女性     女
 
 .. _code-setup_table:
 
-コード管理機能を使用する為の初期設定を行う
+コード管理機能を使用する為の初期設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 この機能を使用するためには、コードを管理するためのテーブルを作成し、その情報を設定ファイルに設定する必要がある。
 
@@ -113,7 +113,7 @@ female    女性     女
 
   :LANG:          言語
 
-                  多言語化対応を行う場合に、サポートする言語の *Local#getLanguage()* を格納する。
+                  多言語化対応する場合に、サポートする言語の *Local#getLanguage()* を格納する。
 
                   日本語のみをサポートする場合は、 ``ja`` を設定する。
 
@@ -201,7 +201,7 @@ female    女性     女
 コードパターンテーブルにパターンカラムを定義する
   コードパターンテーブルに表示パターンを持つパターン列を定義する。
 
-  パターン列は、 :java:extdoc:`CodePatternSchema.patternColumnNames <nablarch.common.code.schema.CodePatternSchema.setPatternColumnNames(java.lang.String:A)>` に設定することで利用可能となる。
+  パターン列は、 :java:extdoc:`CodePatternSchema.patternColumnNames <nablarch.common.code.schema.CodePatternSchema.setPatternColumnNames(java.lang.String:A)>` に設定することで使用可能となる。
   設定ファイルへの設定方法は、 :ref:`code-setup_table` を参照。
 
 
@@ -263,7 +263,7 @@ female    女性     女
 
 .. _code-use_multilingualization:
 
-名称の多言語化対応を行う
+名称の多言語化対応
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 名称の多言語化対応を行うには、コード名称テーブルにサポートする言語ごとのデータを準備する。
 
@@ -344,7 +344,7 @@ female    女性     女
 コード名称テーブルにオプション名称カラムを定義する
   コード名称テーブルに、オプションの名称を持つカラムを定義する。
 
-  パターン列は、 :java:extdoc:`CodePatternSchema.patternColumnNames <nablarch.common.code.schema.CodePatternSchema.setPatternColumnNames(java.lang.String:A)>` に設定することで利用可能となる。
+  パターン列は、 :java:extdoc:`CodePatternSchema.patternColumnNames <nablarch.common.code.schema.CodePatternSchema.setPatternColumnNames(java.lang.String:A)>` に設定することで使用可能となる。
   設定ファイルへの設定方法は、 :ref:`code-setup_table` を参照。
 
   この例では、オプション名称のカラムとして、 ``FORM_NAME`` と ``KANA_NAME`` の2つを定義している。
@@ -418,7 +418,7 @@ female    女性     女
 バリデーション時にもそのパターン内で有効な値かをチェックする必要がある。
 
 バリデーション用のアノテーションの `pattern` 属性にパターン名を指定することで、
-そのパターンで有効な値かをチェックする事ができる。
+そのパターンで有効な値かをチェックできる。
 
 以下に例を示す。
 

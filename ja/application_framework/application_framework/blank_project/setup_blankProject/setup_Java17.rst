@@ -69,7 +69,7 @@ gsp-dba-maven-pluginがJava17で動くように設定する
 ------------------------------------------------------------------------------------------------------------------
 
 ブランクプロジェクトのデフォルトで設定されているJettyのバージョンはJava17に対応していない。
-そのため以下のように2ファイルの変更を行う。
+そのため以下のように2ファイルを変更する。
 
 * pom.xml
 
@@ -103,7 +103,7 @@ Java 17でカプセル化が強化され、デフォルトでは標準APIなど�
 * ``--add-opens java.base/java.security=ALL-UNNAMED``
 
 .. tip::
-  このJVMオプションの指定は、jBeretを組み込んでいるWildFlyでも利用されている方法になる。
+  このJVMオプションの指定は、jBeretを組み込んでいるWildFlyでも使用されている方法になる。
   
   * `Running WildFly with SE 17 (外部サイト、英語) <https://www.wildfly.org/news/2021/12/16/WildFly26-Final-Released/#running-wildfly-with-se-17>`_
 

@@ -2,7 +2,7 @@
 
 ファイルダウンロード機能の作成
 ==========================================
-Exampleアプリケーションを元に、CSVファイルをダウンロードする機能の解説を行う。
+Exampleアプリケーションを元に、CSVファイルをダウンロードする機能を解説する。
 
 作成する機能の説明
   1. プロジェクト一覧画面の、検索結果右横のダウンロードボタンを押下する。
@@ -77,7 +77,7 @@ CSVファイルをダウンロードする機能の実装方法を解説する�
   ProjectDownloadDto.java
     .. code-block:: java
 
-      @Csv(headers = { /** ヘッダーを記述 **/},
+      @Csv(headers = { /** ヘッダを記述 **/},
               properties = { /** バインド対象のプロパティ **/},
               type = Csv.CsvType.CUSTOM)
       @CsvFormat(charset = "Shift_JIS", fieldSeparator = ',',ignoreEmptyLine = true,
@@ -97,7 +97,7 @@ CSVファイルをダウンロードする機能の実装方法を解説する�
   この実装のポイント
     * ダウンロードするCSVファイルの内容と、Beanのプロパティとの紐付けの設定は、 :java:extdoc:`@Csv<nablarch.common.databind.csv.Csv>` を使用する。
       受け付けるCSVのフォーマットの指定は、 :java:extdoc:`@CsvFormat<nablarch.common.databind.csv.CsvFormat>` を使用する。
-      （ :ref:`デフォルトのフォーマットの指定<data_bind-csv_format_set>` を利用する場合は、 :java:extdoc:`@CsvFormat<nablarch.common.databind.csv.CsvFormat>` は不要）
+      （ :ref:`デフォルトのフォーマットの指定<data_bind-csv_format_set>` を使用する場合は、 :java:extdoc:`@CsvFormat<nablarch.common.databind.csv.CsvFormat>` は不要）
       アノテーションの設定方法の詳細は、 :ref:`CSVファイルをJava Beansクラスにバインドする場合のフォーマット指定方法 <data_bind-csv_format-beans>` を参照。
 
 .. _`project_upload-file_download_action`:

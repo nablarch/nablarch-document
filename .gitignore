@@ -56,3 +56,6 @@ make.log
 ~$*
 
 node_modules/
+
+# textlint
+.textlintcache

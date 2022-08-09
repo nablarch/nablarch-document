@@ -8,7 +8,7 @@ bouncycastleを使用した電子署名つきメールの送信サンプルの�
   Nablarch 1.4系より新しいNablarchと組み合わせる場合は、必要に応じてカスタマイズすること。
 
 
-本章では、bouncycastle\  [#bouncy]_\ を使用した電子署名付きメール送信機能の使用方法の解説を行う。
+本章では、bouncycastle\  [#bouncy]_\ を使用した電子署名付きメール送信機能の使用方法を解説する。
 なお、本機能はサンプル実装のため、導入プロジェクトで使用する際には、ソースコード(プロダクション、テストコード共に）をプロジェクトに取込使用すること。
 
 `ソースコード <https://github.com/nablarch/nablarch-smime-integration>`_ 
