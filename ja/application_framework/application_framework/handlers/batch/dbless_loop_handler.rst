@@ -14,7 +14,7 @@
 
 処理の流れは以下のとおり。
 
-.. image:: ../images/LoopHandler/flow.png
+.. image:: ../images/DbLessLoopHandler/flow.png
   :scale: 80
 
 ハンドラクラス名
