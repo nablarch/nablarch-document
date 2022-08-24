@@ -418,6 +418,9 @@ Nablarchでは、バッチアプリケーションを構築するために必要
  :java:extdoc:`DataReader <nablarch.fw.DataReader>` インタフェースを実装したクラスを
  プロジェクトで作成して対応する。
 
+.. important::
+ 標準で提供しているデータリーダでは、データへのアクセスに :ref:`data_format` を使用している。データへのアクセスに :ref:`data_bind` を使用する場合は、これらのデータリーダを使用しないこと。
+
 .. _nablarch_batch-action:
 
 Nablarchバッチアプリケーションで使用するアクション
@@ -429,3 +432,6 @@ Nablarchでは、バッチアプリケーションを構築するために必要
 * :java:extdoc:`FileBatchAction (ファイル入力のバッチアクションのテンプレートクラス)<nablarch.fw.action.FileBatchAction>`
 * :java:extdoc:`NoInputDataBatchAction (入力データを使用しないバッチアクションのテンプレートクラス)<nablarch.fw.action.NoInputDataBatchAction>`
 * :java:extdoc:`AsyncMessageSendAction (応答不要メッセージ送信用のアクションクラス)<nablarch.fw.messaging.action.AsyncMessageSendAction>`
+
+.. important::
+ 標準で提供している :java:extdoc:`FileBatchAction (ファイル入力のバッチアクションのテンプレートクラス)<nablarch.fw.action.FileBatchAction>` では、データへのアクセスに :ref:`data_format` を使用している。データへのアクセスに :ref:`data_bind` を使用する場合は、他のアクションクラスを使用すること。
