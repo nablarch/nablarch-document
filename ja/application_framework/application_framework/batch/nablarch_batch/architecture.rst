@@ -419,7 +419,7 @@ Nablarchでは、バッチアプリケーションを構築するために必要
  プロジェクトで作成して対応する。
 
 .. important::
- 標準で提供しているデータリーダでは、データへのアクセスに :ref:`data_format` を使用している。データへのアクセスに :ref:`data_bind` を使用する場合は、これらのデータリーダを使用しないこと。
+ 標準で提供している :java:extdoc:`FileDataReader (ファイル読み込み)<nablarch.fw.reader.FileDataReader>` 、 :java:extdoc:`ValidatableFileDataReader (バリデージョン機能付きファイル読み込み)<nablarch.fw.reader.ValidatableFileDataReader>` では、データへのアクセスに :ref:`data_format` を使用している。データへのアクセスに :ref:`data_bind` を使用する場合は、これらのデータリーダを使用しないこと。
 
 .. _nablarch_batch-action:
 
