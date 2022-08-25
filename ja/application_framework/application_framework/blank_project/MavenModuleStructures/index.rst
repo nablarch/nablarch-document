@@ -30,6 +30,8 @@ Nablarchでは、以下のアーキタイプを提供している。なお、ア
     - JSR352に準拠したバッチアプリケーションフレームワークを使用する場合のアーキタイプ
   * - nablarch-batch-archetype
     - Nablarch独自のバッチアプリケーション実行制御基盤を使用する場合のアーキタイプ
+  * - nablarch-batch-dbless-archetype
+    - Nablarch独自のバッチアプリケーション実行制御基盤を使用するがDBに接続しない場合のアーキタイプ
   * - nablarch-container-web-archetype
     - ``nablarch-web-archetype`` のDockerコンテナ版アーキタイプ
   * - nablarch-container-jaxrs-archetype
