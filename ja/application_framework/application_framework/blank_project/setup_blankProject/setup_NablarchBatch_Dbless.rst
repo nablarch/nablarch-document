@@ -62,7 +62,7 @@ generateNablarchBatchDblessProject.bat |nablarch_version| <<groupId>> <<artifact
 入力項目    説明                                      設定例
 =========== ========================================= =======================
 groupId      グループID（通常はパッケージ名を入力）   ``com.example``
-artifactId   アーティファクトID                       ``myapp-batch``
+artifactId   アーティファクトID                       ``myapp-batch-dbless``
 version      バージョン番号                           ``0.1.0``
 package      パッケージ(通常はグループIDと同じ)       ``com.example``
 =========== ========================================= =======================
@@ -101,7 +101,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 
 .. code-block:: text
 
-  cd myapp-batch
+  cd myapp-batch-dbless
   mvn test
 
 
@@ -111,7 +111,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 
   (中略)
   [INFO] ------------------------------------------------------------------------
-  [INFO] Building myapp-batch 0.1.0
+  [INFO] Building myapp-batch-dbless 0.1.0
   [INFO] ------------------------------------------------------------------------
   (中略)
   Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
@@ -145,7 +145,7 @@ SampleAction             バッチアプリケーション実装する際に一�
 
 .. code-block:: text
 
-  cd myapp-batch
+  cd myapp-batch-dbless
 
 
 以下のコマンドを実行することで、バッチアプリケーションのビルドを行う。
