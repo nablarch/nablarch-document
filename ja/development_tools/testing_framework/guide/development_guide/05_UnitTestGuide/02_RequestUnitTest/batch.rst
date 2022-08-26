@@ -245,12 +245,15 @@ SETUP_FIXED[グループID]=ファイルパス
 
 
 .. important::
-.. textlint-disable ja-technical-writing/no-doubled-conjunction
  ひとつのレコード種別において、フィールド名称に\ **重複した名称は許容されない**\ 。例えば、「氏名」というフィールドが2つ以上存在してはならない。
  （通常、このような場合は「本会員氏名」と「家族会員氏名」のようにユニークなフィールド名称が付与される）
+ 
+ .. textlint-disable ja-technical-writing/no-doubled-conjunction 
+ 
  異なるレコード種別間で、同一の名称が存在する場合は問題ない。
  （例えばヘッダレコードとトレーラレコードにそれぞれ「件数」というフィールド名称が存在してよい）
-.. textlint-enable ja-technical-writing/no-doubled-conjunction
+ 
+ .. textlint-enable ja-technical-writing/no-doubled-conjunction
 
 .. tip::
  フィールド名称、データ型、フィールド長の記述は、外部インタフェース設計書からコピー＆ペーストすることで効率良く作成できる。\
