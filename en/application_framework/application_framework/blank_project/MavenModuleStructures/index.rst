@@ -360,31 +360,7 @@ Project packaged as a jar file for Nablarch batch applications without DB connec
 Project structure
 ------------------------------
 
-(Description is omitted because the DB related items are only removed from the pj-batch project configuration)
-
-.. code-block:: text
-
-    myapp-batch
-    |
-    |   pom.xml
-    |   README.md
-    |   distribution.xml                        … Configuration file used in maven-assembly-plugin
-    |
-    +---src
-        +---env
-        |
-        +---main
-        |   +---java
-        |   |
-        |   +---resources
-        |   |   |   batch-boot.xml              … Configuration file to be specified in on-demand batch when it is launched.
-        |   |
-        |   \---scripts                         … Shell script file to be used for starting a batch, etc. (use is optional)
-        |
-        \---test
-            +---java
-            |
-            \---resources
+Omitted because the DB-related directory and files are excluded from :ref:`pj-batch project structure <firstStepBatchProjectStructure>` .
 
 Release to production environment
 -------------------------------------
