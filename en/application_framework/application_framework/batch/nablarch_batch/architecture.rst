@@ -257,7 +257,7 @@ If you don't connect to DB, you don't need DB connection-related handlers and yo
      - Waits for the current thread to complete and rethrows the cause exception.
 
    * - 5
-     - :ref:`loop_handler`
+     - :ref:`dbless_loop_handler`
      - Sub
      - 
      - The loop is continued if the data to be processed is present in the data reader.
