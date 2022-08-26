@@ -30,6 +30,8 @@ Nablarch offers the following archetypes: All the archetype group IDs are ``com.
     - Archetype for using the JSR352-compliant batch application framework
   * - nablarch-batch-archetype
     - Archetype for using the Nablarch batch application runtime platform
+  * - nablarch-batch-dbless-archetype
+    - Archetype for using the Nablarch batch application runtime platform without DB connection
   * - nablarch-container-web-archetype
     - Docker container edition of the ``nablarch-web-archetype`` archetype
   * - nablarch-container-jaxrs-archetype
@@ -80,6 +82,8 @@ As in the case of pj-web and pj-batch above, the details of each component will 
     - Maven archetype
   * - pj-jaxrs
     - nablarch-jaxrs-archetype
+  * - pj-batch-dbless
+    - nablarch-batch-dbless-archetype
   * - pj-batch-ee
     - nablarch-batch-ee-archetype
   * - pj-container-web
@@ -326,9 +330,61 @@ Project structure
             |
             \---resources
                 |
-                +---data
-                |
-                \---nablarch
+                \---data
+
+Release to production environment
+-------------------------------------
+
+The executable jar and dependent libraries of the batch application are stored in the zip file
+generated under ``target`` during build of the batch application.
+
+Therefore, while releasing to the production environment, batch can be executed with the following procedure.
+
+1. Unzip the zip file into any directory.
+2. Execute the batch with the following command.
+
+  .. code-block:: bash
+
+    java -jar <Executable jar file name> ^
+        -diConfig <Component configuration file > ^
+        -requestPath <Request path> ^
+        -userId <User ID>
+
+pj-batch-dbless project
+============================
+
+Project packaged as a jar file for Nablarch batch applications without DB connection.
+
+.. _firstStepDbLessBatchProjectStructure:
+
+Project structure
+------------------------------
+
+(Description is omitted because the DB related items are only removed from the pj-batch project configuration)
+
+.. code-block:: text
+
+    myapp-batch
+    |
+    |   pom.xml
+    |   README.md
+    |   distribution.xml                        … Configuration file used in maven-assembly-plugin
+    |
+    +---src
+        +---env
+        |
+        +---main
+        |   +---java
+        |   |
+        |   +---resources
+        |   |   |   batch-boot.xml              … Configuration file to be specified in on-demand batch when it is launched.
+        |   |
+        |   \---scripts                         … Shell script file to be used for starting a batch, etc. (use is optional)
+        |
+        \---test
+            +---java
+            |
+            \---resources
 
 Release to production environment
 -------------------------------------
