@@ -128,7 +128,7 @@ autospan             項目値による自動カラム連結     真偽値      
 tree_indent          階層の深さに応じたインデ\      文字列           ○          ○           デフォルトは'false'。
                      ントで表示するかどうか。                                               :doc:`table_treelist` でのみ有効。
 
-tree_toggler         各階層を開閉するボタンを\    文字列           ○          ○           デフォルトは'false'。
+tree_toggler         各階層を開閉するボタンを\      文字列           ○          ○           デフォルトは'false'。
                      このカラム内に表示するか\                                              :doc:`table_treelist` でのみ有効。
                      どうか。
 
