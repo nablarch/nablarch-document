@@ -364,31 +364,7 @@ DBに接続しないNablarchバッチアプリケーションのjarファイル�
 プロジェクトの構成
 ------------------
 
-(pj-batchプロジェクトの構成からDB関連のものを除いたものになるため、説明は省略)
-
-.. code-block:: text
-
-    myapp-batch-dbless
-    |
-    |   pom.xml
-    |   README.md
-    |   distribution.xml                        … maven-assembly-pluginで使用する設定ファイル
-    |
-    +---src
-        +---env
-        |
-        +---main
-        |   +---java
-        |   |
-        |   +---resources
-        |   |   |   batch-boot.xml              … 都度起動バッチ起動時に指定する設定ファイル。
-        |   |
-        |   \---scripts
-        |
-        \---test
-            +---java
-            |
-            \---resources
+:ref:`pj-batchプロジェクトの構成 <firstStepBatchProjectStructure>` からDB関連のディレクトリ及びファイルを除いただけであるため省略。
 
 本番環境へのリリースについて
 -------------------------------------

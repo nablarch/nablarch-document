@@ -623,9 +623,7 @@ LogFormatterの設定は、下記を想定する。
 監視対象のログなどで、初期化メッセージが不要な場合には本機能が提供するWriterを元に、
 初期化メッセージを出力しないWriterを作成し対応する必要がある。
 
-.. textlint-disable ja-technical-writing/no-mix-dearu-desumasu
-なお、WebアプリケーションサーバなどやOSS製品とロガーを統一する目的などで :ref:`log_adaptor` を使用した場合は初期化メッセージは出力されないため、本対応は不要である。
-.. textlint-enable ja-technical-writing/no-mix-dearu-desumasu
+なお、WebアプリケーションサーバなどやOSS製品とロガーを統一する目的などで :ref:`log_adaptor` を使用した場合は初期化メッセージは出力されないため、本対応は必要無い。
 
 対応例を以下に示す。
 

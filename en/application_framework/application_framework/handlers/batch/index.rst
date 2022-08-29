@@ -6,3 +6,4 @@ Batch Application Dedicated Handler
 
    process_resident_handler
    loop_handler
+   dbless_loop_handler
