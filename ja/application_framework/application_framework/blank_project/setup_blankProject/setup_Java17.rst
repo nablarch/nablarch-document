@@ -10,6 +10,7 @@ Java17で使用する場合のセットアップ方法
 * gsp-dba-maven-pluginがJava17で動くように設定する
 * 自動テストで使用するJettyのモジュール変更(ウェブプロジェクト または RESTfulウェブサービスプロジェクトの場合のみ)
 * --add-opensオプションの追加（JSR352に準拠したバッチプロジェクトの場合のみ）
+* Javaバージョンの変更
 
 依存モジュールの追加
 -------------------------------------------------------------
@@ -118,3 +119,30 @@ Java 17でカプセル化が強化され、デフォルトでは標準APIなど�
 
 .. tip::
   Mavenから実行する場合は、環境変数 `MAVEN_OPTS (外部サイト) <https://maven.apache.org/configure.html#maven_opts-environment-variable>`_ を使うことでJVMオプションを設定できる。
+
+Javaバージョンの変更
+-----------------------------
+
+ブランクプロジェクトのデフォルトで設定されているJavaのバージョンはJava17となっていないため
+以下のようにファイルを変更する。
+
+* pom.xml
+
+.. code-block:: xml
+
+  <properties>
+    <!-- ソース及びclassファイルが準拠するJavaのバージョン-->
+    <java.version>17</java.version>
+
+    <!-- 環境ごとのリソースディレクトリ(プロファイルにより切り替わる) -->
+    <env.resources>${project.basedir}/src/env/${env.dir}/resources</env.resources>
+
+    <!-- gsp-dba-maven-pluginが使用するデータベース設定 -->
+    <nablarch.db.jdbcDriver>org.h2.Driver</nablarch.db.jdbcDriver>
+    <nablarch.db.url>jdbc:h2:./h2/db/SAMPLE</nablarch.db.url>
+    <nablarch.db.adminUser>SAMPLE</nablarch.db.adminUser>
+    <nablarch.db.adminPassword>SAMPLE</nablarch.db.adminPassword>
+    <nablarch.db.user>SAMPLE</nablarch.db.user>
+    <nablarch.db.password>SAMPLE</nablarch.db.password>
+    <nablarch.db.schema>PUBLIC</nablarch.db.schema>
+  </properties>
