@@ -94,13 +94,13 @@ Therefore, make changes to 2 files as given below.
 Change of Java Version
 ------------------------------
 
-In an blank project, Java 8 is set as the Java version 
+In a blank project, Java 8 is set as the Java version 
 that the source and class files conform to, so change the file as below.
 
 * pom.xml
 
 .. code-block:: xml
 
-    <!-- Change the location of Java version as follows -->
+    <!-- Change Java version as follows -->
     <java.version>11</java.version>
 
