@@ -94,7 +94,7 @@ gsp-dba-maven-pluginが使用する依存モジュールの追加
 Javaバージョンの変更
 -----------------------------
 
-ブランクプロジェクトのデフォルトで設定されているJavaのバージョンはJava11となっていないため
+ブランクプロジェクトのデフォルトで設定されているJavaのバージョンはJava8となっているため
 以下のようにファイルを変更する。
 
 * pom.xml
@@ -105,15 +105,3 @@ Javaバージョンの変更
     <!-- ソース及びclassファイルが準拠するJavaのバージョン-->
     <java.version>11</java.version>
 
-    <!-- 環境ごとのリソースディレクトリ(プロファイルにより切り替わる) -->
-    <env.resources>${project.basedir}/src/env/${env.dir}/resources</env.resources>
-
-    <!-- gsp-dba-maven-pluginが使用するデータベース設定 -->
-    <nablarch.db.jdbcDriver>org.h2.Driver</nablarch.db.jdbcDriver>
-    <nablarch.db.url>jdbc:h2:./h2/db/SAMPLE</nablarch.db.url>
-    <nablarch.db.adminUser>SAMPLE</nablarch.db.adminUser>
-    <nablarch.db.adminPassword>SAMPLE</nablarch.db.adminPassword>
-    <nablarch.db.user>SAMPLE</nablarch.db.user>
-    <nablarch.db.password>SAMPLE</nablarch.db.password>
-    <nablarch.db.schema>PUBLIC</nablarch.db.schema>
-  </properties>
