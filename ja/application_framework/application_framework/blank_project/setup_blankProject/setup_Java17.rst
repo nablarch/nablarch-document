@@ -130,7 +130,6 @@ Javaバージョンの変更
 
 .. code-block:: xml
 
-  <properties>
-    <!-- ソース及びclassファイルが準拠するJavaのバージョン-->
+    <!-- Javaバージョンの箇所を以下のように変更する-->
     <java.version>17</java.version>
 

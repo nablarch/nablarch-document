@@ -130,7 +130,6 @@ that the source and class files conform to, so change the file as below.
 
 .. code-block:: xml
 
-  <properties>
-    <!-- ソース及びclassファイルが準拠するJavaのバージョン-->
+    <!-- Change the location of Java version as follows -->
     <java.version>17</java.version>
 
