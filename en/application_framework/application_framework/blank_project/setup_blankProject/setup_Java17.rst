@@ -123,8 +123,8 @@ The following is an example of a command with the options specified.
 Change of Java Version
 ------------------------------
 
-In an empty project, Java 8 is set as the Java version 
-that the source and class files conform to, so change the file as below
+In an blank project, Java 8 is set as the Java version 
+that the source and class files conform to, so change the file as below.
 
 * pom.xml
 

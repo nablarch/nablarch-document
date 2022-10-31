@@ -94,8 +94,8 @@ Therefore, make changes to 2 files as given below.
 Change of Java Version
 ------------------------------
 
-In an empty project, Java 8 is set as the Java version 
-that the source and class files conform to, so change the file as below
+In an blank project, Java 8 is set as the Java version 
+that the source and class files conform to, so change the file as below.
 
 * pom.xml
 
