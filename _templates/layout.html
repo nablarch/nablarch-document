@@ -6,6 +6,10 @@
   {{ super() }}
 {% endblock %}
 
+{% block extrahead %}
+<script defer data-domain="nablarch.github.io,all.fintan" src=https://plausible.io/js/script.js></script>
+{% endblock %}
+
 {% block sidebartitle %}
   {% if logo and theme_logo_only %}
   <a href="{{ pathto(master_doc) }}">
