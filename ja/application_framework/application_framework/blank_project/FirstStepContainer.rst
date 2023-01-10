@@ -10,3 +10,4 @@
    setup_containerBlankProject/setup_ContainerWeb
    setup_containerBlankProject/setup_ContainerWebService
    setup_containerBlankProject/setup_ContainerBatch
+   setup_containerBlankProject/setup_ContainerBatch_Dbless
