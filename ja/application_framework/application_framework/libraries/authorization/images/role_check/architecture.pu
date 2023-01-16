@@ -1,0 +1,34 @@
+@startuml architecture
+annotation CheckRole {
+    value: String[]
+    anyOf: boolean = false
+}
+interface RoleEvaluator {
+    evaluateAnyOf(userId: String, roles: Collection<String>, context: ExecutionContext): boolean
+    evaluateAllOf(userId: String, roles: Collection<String>, context: ExecutionContext): boolean
+}
+class BasicRoleEvaluator implements RoleEvaluator {
+
+}
+class CheckRoleUtil {
+    {static} checkRole(role: String, context: ExecutionContext): boolean
+    {static} checkRoleAllOf(roles: Collection<String>, context: ExecutionContext): boolean
+    {static} checkRoleAnyOf(roles: Collection<String>, context: ExecutionContext): boolean
+}
+interface UserRoleResolver {
+    resolve(userId: String, context: ExecutionContext): Collection<String>
+}
+class SessionStoreUserRoleResolver implements UserRoleResolver {}
+class ThreadContext {
+    {static} getUserId(): String
+}
+class SystemRepository {}
+
+SystemRepository <-- CheckRole
+SystemRepository <-- CheckRoleUtil
+ThreadContext <-- CheckRole
+ThreadContext <-- CheckRoleUtil
+CheckRole --> RoleEvaluator
+CheckRoleUtil --> RoleEvaluator
+BasicRoleEvaluator -> UserRoleResolver
+@enduml
