@@ -68,7 +68,7 @@
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-common-auth-session</artifactId>
   </dependency>
-  <!-- デフォルトコンフィギュレーションを利用する場合 -->
+  <!-- デフォルトコンフィグレーションを利用する場合 -->
   <dependency>
     <groupId>com.nablarch.configuration</groupId>
     <artifactId>nablarch-main-default-configuration</artifactId>
@@ -97,8 +97,8 @@
 認可チェック(簡易版)を使用するためには、まず :java:extdoc:`BasicRoleEvaluator <nablarch.common.authorization.role.BasicRoleEvaluator>` のコンポーネントを定義する。
 また、このとき ``userRoleResolver`` プロパティには :java:extdoc:`SessionStoreUserRoleResolver <nablarch.common.authorization.role.session.SessionStoreUserRoleResolver>` を設定する。
 
-なお、この設定はデフォルトコンフィギュレーションとしても提供している。
-デフォルトコンフィギュレーションを使う場合は、以下のようにファイルをインポートすることで同様の設定となる。
+なお、この設定はデフォルトコンフィグレーションとしても提供している。
+デフォルトコンフィグレーションを使う場合は、以下のようにファイルをインポートすることで同様の設定となる。
 
 .. code-block:: xml
 
@@ -122,7 +122,7 @@ interceptorsOrderに追加する
 
 ``interceptorsOrder`` を定義していない場合は、この対応は不要である。
 
-また、デフォルトコンフィギュレーションの ``nablarch/webui/interceptors.xml`` を読み込んでいる場合も特に対応は必要ない。
+また、デフォルトコンフィグレーションの ``nablarch/webui/interceptors.xml`` を読み込んでいる場合も特に対応は必要ない。
 
 
 ロールを定義する
@@ -373,7 +373,7 @@ JSPで判定する
   <component name="roleEvaluator" class="com.example.CustomRoleEvaluator" />
 
 :java:extdoc:`RoleEvaluator <nablarch.common.authorization.role.RoleEvaluator>` の実体には :java:extdoc:`BasicRoleEvaluator <nablarch.common.authorization.role.BasicRoleEvaluator>` を使いつつ、 :java:extdoc:`UserRoleResolver <nablarch.common.authorization.role.UserRoleResolver>` の実体だけを差し替えたい場合は、 :java:extdoc:`BasicRoleEvaluator <nablarch.common.authorization.role.BasicRoleEvaluator>` の ``userRoleResolver`` プロパティに設定するコンポーネントを差し替えればいい。
-デフォルトコンフィギュレーションを利用している場合は、 ``userRoleResolver`` という名前のコンポーネントを設定するように定義されているので、同じ名前で独自クラスのコンポーネントを定義することで差し替えができる。
+デフォルトコンフィグレーションを利用している場合は、 ``userRoleResolver`` という名前のコンポーネントを設定するように定義されているので、同じ名前で独自クラスのコンポーネントを定義することで差し替えができる。
 
 .. code-block:: xml
 
