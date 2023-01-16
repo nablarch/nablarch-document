@@ -1,8 +1,8 @@
-認可チェック
+Permission Check
 =====================================================================
-ユーザがシステムの機能を利用する権限を持つかチェックする、認可チェック機能を提供する。
+Provide the permission check function to check whether a user is permitted to use system functions.
 
-Nablarchでは、以下の2種類の認可チェック機能を提供している。
+Nablarch provides the following two types of permission check functions.
 
 .. toctree::
   :maxdepth: 1
@@ -11,11 +11,11 @@ Nablarchでは、以下の2種類の認可チェック機能を提供してい�
   authorization/role_check
 
 .. tip::
-  **両機能の使い分け**
+  **Differences in the use of each function**
 
-  :doc:`authorization/role_check` は、権限管理のモデル構造を簡素化し、処理とデータの紐づけを一部ハードコーディングすることでデータ管理の煩雑さを軽減している。
-  したがって、権限管理の条件が基本的に変わらないシステムで、少ないコストで素早く権限管理を導入したい場合に適している。
+  :doc:`authorization/role_check` reduces the complexity of data management by simplifying the model structure of authority management and partially hard-coding the linkage between processing and data.
+  Therefore, it is suitable for systems where the conditions for authority management remain basically the same and where you want to quickly introduce authority management at a small cost.
   
-  一方で、権限管理の条件が変わる可能性があるシステムでは、導入のコストは高まるがしっかりとしたデータ管理で権限管理が行える :doc:`authorization/permission_check` が適している。
+  On the other hand, in a system where the conditions for authority management may change, :doc:`authorization/permission_check` is suitable for authority management with solid data management, although the cost of implementation will increase.
   
-  詳細は、それぞれの説明を参照のこと。
+  For details, see the respective descriptions.

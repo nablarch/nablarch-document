@@ -1,34 +1,33 @@
 .. _`role_check`:
 
-認可チェック(簡易版)
+Permission Check (simplified version)
 =====================================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-この機能は、 :doc:`permission_check` と同様にアプリケーションが提供する機能に対して認可チェックを行う。
+This function, like :doc:`permission_check`, performs permission checks on the functions provided by the application.
 
-
-機能概要
+Function overview
 ---------------------------------------------------------------------
 
-煩雑なデータ管理をせずに認可チェックができる
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Permission checks can be performed without complicated data management
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. image:: images/role_check/conceptual_model.jpg
 
-認可チェック(簡易版)では、ユーザに対してロール(役割)を割り当てる。
-また、認可チェックを行いたい機能に対しても、その機能を実行するのに必要なロールを割り当てる。
-そして、現在のユーザが実行対象の機能に割り当てられたロールを有するかどうかで、認可の判定を行う。
+Permission check (simplified version) assigns roles to users.
+Also, for functions that you want to check for authorization, assign the roles necessary to perform them.
+Then authorization is determined by whether the current user has the role assigned to the function to be performed.
 
-機能とロールの割り当ては、基本的にアノテーションを用いてJavaのプログラム上で行う。
-また、ユーザとロールの割り当てについては、フレームワークでは特に方法を規定しておらず自由な方法を選択できるようにしている。
+Roles are basically assigned to functions by an annotation.
+You can choose any method for assigning users and roles, because the framework does not specify any particular method.
 
-このように認可チェック(簡易版)では、 :doc:`permission_check` よりも単純なデータ構造で権限を管理できるようになっている。
+Thus, the permission check (simplified version) can manage authorization with a simpler data structure than :doc:`permission_check`.
 
 
-アノテーションで認可チェックができる
+You can check the permission by the annotation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
@@ -36,26 +35,25 @@
   @CheckRole("ADMIN")
   public HttpResponse index(HttpRequest request, ExecutionContext context) {
 
-認可チェック(簡易版)では、アクションクラスのメソッドに対してアノテーションを使ってロールを割り当てることができる。
-上記例では、 ``index`` メソッドを実行するために ``ADMIN`` ロールが必要であることを定義している。
+In the permission check (simplified version), roles can be assigned to methods of the action class using annotations.
+The above example defines that the ``ADMIN`` role is required to execute the ``index`` method.
 
 
-もう一つの認可機能との使い分け
+Difference from the other permission check function
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-本認可チェック(簡易版)と :doc:`もう一つの認可チェック <permission_check>` を使い分ける基準について説明する。
+This section explains the criteria for using this permission check (simplified version) versus :doc:`the other permission check <permission_check>`.
 
-認可チェック(簡易版)は、前述のとおりロール単位で権限を管理する。
-また、ロールと機能の割り当てはJavaのアノテーションで行う仕組みとなっている。
-したがって、本認可チェック(簡易版)を用いることが適しているのは、ロール自体の増減やロールに割り当てる機能の変更が頻繁に発生しない場合となる。
+Permission check (simplified version) manages authorization in units of roles as described above.
+And the mechanism for assigning roles and functions is through Java annotations.
+Therefore, the use of this permission check (simplified version) is appropriate when the increase or decrease of roles themselves or changes in functions assigned to roles do not occur frequently.
 
-例えば、権限管理が必要なロールの種類と機能の組み合わせが決まっており今後それらが大きく変化する予定がない場合は、本認可チェック(簡易版)を用いることで簡単に認可チェックを実現できる。
+For example, if the types of roles and combinations of functions that require authorization management have been determined and are not expected to change significantly in the future, this permission check (simplified version) can be used to easily perform permission checks.
 
-一方で、ユーザが所属する部署によって権限を制御したいようなシステムでは、組織変更で部署の構成や利用できる機能の組み合わせも大きく変わることが予想される。このようなシステムで本認可チェック(簡易版)を用いると、変更のたびにアノテーションの書き換えが必要になり大きな修正工数が必要となる。
-このようなシステムでは、 :doc:`もう一つの認可チェック <permission_check>` を用いて権限の組み合わせをデータで管理することを推奨する。
+On the other hand, in a system where users want to control permissions according to the department to which they belong, it is expected that the composition of departments and the combination of available functions will change significantly due to organizational changes. If this permission check (simplified version) is used in such a system, the annotations will need to be rewritten for each change, which will require a large amount of man-hours for modification.
+In such a system, it is recommended that :doc:`the other permission check <permission_check>` be used to manage the combination of authorizations with data.
 
-
-モジュール一覧
+Module list
 ---------------------------------------------------------------------
 
 .. code-block:: xml
@@ -68,20 +66,20 @@
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-common-auth-session</artifactId>
   </dependency>
-  <!-- デフォルトコンフィグレーションを利用する場合 -->
+  <!-- When using the default configuration -->
   <dependency>
     <groupId>com.nablarch.configuration</groupId>
     <artifactId>nablarch-main-default-configuration</artifactId>
   </dependency>
 
 
-使用方法
+How to use
 ---------------------------------------------------------------------
 
-事前準備
+Advance preparation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-コンポーネントを定義する
+Define components
 *********************************************************************
 
 .. code-block:: xml
@@ -94,83 +92,83 @@
   <component name="userRoleResolver"
              class="nablarch.common.authorization.role.session.SessionStoreUserRoleResolver" />
 
-認可チェック(簡易版)を使用するためには、まず :java:extdoc:`BasicRoleEvaluator <nablarch.common.authorization.role.BasicRoleEvaluator>` のコンポーネントを定義する。
-また、このとき ``userRoleResolver`` プロパティには :java:extdoc:`SessionStoreUserRoleResolver <nablarch.common.authorization.role.session.SessionStoreUserRoleResolver>` を設定する。
+To use the authorization check (simplified version), first define the component of the :java:extdoc:`BasicRoleEvaluator <nablarch.common.authorization.role.BasicRoleEvaluator>`.
+And set the :java:extdoc:`SessionStoreUserRoleResolver <nablarch.common.authorization.role.session.SessionStoreUserRoleResolver>`  to the ``userRoleResolver`` property.
 
-なお、この設定はデフォルトコンフィグレーションとしても提供している。
-デフォルトコンフィグレーションを使う場合は、以下のようにファイルをインポートすることで同様の設定となる。
+Note that this setting is also provided as the default configuration.
+When using the default configuration, the same settings can be made by importing the file as follows.
 
 .. code-block:: xml
 
   <import file="nablarch/common/authorization/role/session/authorization-session.xml" />
 
-interceptorsOrderに追加する
+Add to interceptorsOrder
 *********************************************************************
 
-アノテーションによるチェックは、Nablarchの :java:extdoc:`インターセプタ <nablarch.fw.Interceptor>` の仕組みを用いて実現している。
-したがって、既にコンポーネント定義にて ``interceptorsOrder`` を定義している場合は、 :java:extdoc:`CheckRole <nablarch.common.authorization.role.CheckRole>` を追加する必要がある。
+Checking by annotation is realized using Nablarch's :java:extdoc:`interceptor <nablarch.fw.Interceptor>` mechanism.
+Therefore, if you have already defined ``interceptorsOrder`` in your component definition, you need to add the :java:extdoc:`CheckRole <nablarch.common.authorization.role.CheckRole>`.
 
 .. code-block:: xml
 
-  <!-- インターセプタの実行順定義 -->
+  <!-- The definition of execution order of interceptors. -->
   <list name="interceptorsOrder">
-    <!-- CheckRole を追加する -->
+    <!-- Add the CheckRole -->
     <value>nablarch.common.authorization.role.CheckRole</value>
-    <!-- 他のインターセプターの記述は省略 -->
+    <!-- Other interceptor descriptions are omitted. -->
   </list>
 
 
-``interceptorsOrder`` を定義していない場合は、この対応は不要である。
+If ``interceptorsOrder`` is not defined, this step is not required.
 
-また、デフォルトコンフィグレーションの ``nablarch/webui/interceptors.xml`` を読み込んでいる場合も特に対応は必要ない。
+Also, if the default configuration ``nablarch/webui/interceptors.xml`` is loaded, no special action is required.
 
 
-ロールを定義する
+Define the roles
 *********************************************************************
 
 .. code-block:: java
 
   public class Roles {
-      /** システム管理者のロール。 */
+      /** The role of the system administrator. */
       public static final String ROLE_ADMIN = "ADMIN";
-      /** プロジェクト管理者のロール。 */
+      /** The role of the project manager. */
       public static final String ROLE_PROJECT_MANAGER = "PROJECT_MANAGER";
   }
 
-アノテーションなどで指定するロールを定義する。
+Define the roles to be used in the annotation.
 
-ロールは任意の文字列として定義する。
-システムで扱えるのであれば文字種やフォーマットに制限はないが、管理しやすいように何のロールか理解しやすい値にすることを推奨する。
+Roles are defined as any strings.
+There are no restrictions on character type or format as long as the system can handle it, but it is recommended that the value be easy to understand what the roll is for ease of management.
 
-また、アノテーションで指定する際は定数ではなく文字列リテラルを直接指定することも可能だが、修正が容易になるように定数で管理することを推奨する。
-なお、上記例では専用の定数クラスを用意しているが、より適切なクラスがある場合はプロジェクトの事情に合わせて変更して構わない。
+Although it is also possible to directly specify string literals instead of constants when specifying with annotations, it is recommended that they be managed as constants to facilitate modification.
+In the above example, a dedicated constant class is provided, but if a more appropriate class is available, it may be modified to suit the project's circumstances.
 
 
-ユーザのロールを保存する
+Save the user's roles
 *********************************************************************
 
-認可チェック(簡易版)では、ユーザに割り当てられたロールをセッションストアに保存する実装をデフォルトで提供している。
-ログイン時に、ユーザに割り当てられたロールを解決してセッションストアに保存しておくことで、その後の認可チェックはセッションストアに保存されたロールの情報を用いて行われるようになる。
+The permission check (simplified version) provides by default an implementation that stores the roles assigned to users in the session store.
+By resolving the role assigned to the user and storing it in the session store at login, subsequent permission checks can be performed using the role information stored in the session store.
 
-以下に、ログイン時にロールをセッションストアに保存する実装例を記載する。
+Below is an example implementation that stores roles in the session store upon login.
 
 .. code-block:: java
 
   List<String> userRoles = resolveUserRoles(loginId);
   SessionStoreUserRoleUtil.save(userRoles, executionContext);
 
-ここでは、ログインIDを元にユーザに割り当てられたロールの一覧を解決し、それを :java:extdoc:`SessionStoreUserRoleUtil <nablarch.common.authorization.role.session.SessionStoreUserRoleUtil>` の ``save`` メソッドでセッションストアに保存している。
+In this example, the list of roles assigned to the user is resolved based on the login ID, which is then stored in the session store using the ``save`` method of :java:extdoc:`SessionStoreUserRoleUtil <nablarch.common.authorization.role.session.SessionStoreUserRoleUtil>`.
 
 .. tip::
-  ``resolveUserRoles`` メソッドが行う、ユーザからロールを解決する方法については、フレームワークでは特に規定していない。
-  したがって、プロジェクトごとの事情に合わせてロールを解決する実装を作りこむことになる。
+  The framework does not specify how the ``resolveUserRoles`` method resolves roles from the user.
+  Therefore, the implementation that resolves the roles will be built to suit the circumstances of each project.
   
-  多くの場合はデータベースから解決することが想定される。
-  例えば、ロールが「管理者」だけのようなシステムでは、ユーザの情報を管理するテーブルの「管理者フラグ」の値を見て解決するような方法が考えられる。
-  また、ユーザにいくつかのロールを割り当てるようなシステムでは、ユーザとロールを関連付けるテーブルを検索することで解決するような方法が考えられる。
+  In many cases, it is expected to be resolved from the database.
+  For example, in a system where the only role is "administrator," the solution could be to look at the value of the "administrator flag" in the table that manages user information.
+  In a system that assigns several roles to a user, it is possible to resolve the user's role by searching a table that associates users with roles.
 
 
-アクションのメソッドにアノテーションでロールを割り当てる
+Assign roles to methods of actions with annotations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
@@ -178,23 +176,23 @@ interceptorsOrderに追加する
   @CheckRole(Roles.ROLE_ADMIN)
   public HttpResponse index(HttpRequest request, ExecutionContext context) {
 
-:java:extdoc:`CheckRole <nablarch.common.authorization.role.CheckRole>` アノテーションをアクションメソッドに設定し ``value`` にロールを指定することで、アクションメソッドにロールを割り当てることができる。
-上記例では、 ``index`` メソッドに対して ``ADMIN`` ロールを割り当てている。
-これにより、 ``index`` メソッドは ``ADMIN`` ロールを持つユーザだけが実行できるようになる。
-もし ``ADMIN`` ロールを持たないユーザがメソッドを実行しようとした場合は、 :java:extdoc:`Forbidden <nablarch.fw.results.Forbidden>` がスローされる。
+You can assigne roles to an action method by the ``value`` of :java:extdoc:`CheckRole <nablarch.common.authorization.role.CheckRole>` annotation.
+In the above example, the ``ADMIN`` role is assigned to the ``index`` method.
+This allows the ``index`` method to be executed only by users with the ``ADMIN`` role.
+If a user without the ``ADMIN`` role tries to execute a method, :java:extdoc:`Forbidden <nablarch.fw.results.Forbidden>` is thrown.
 
-複数のロールを割り当てたい場合は、配列で指定できる。
-以下に実装例を示す。
+If you want assigne multiple roles, you can specify by an array.
+An example implementation is shown below.
 
 .. code-block:: java
 
   @CheckRole({Roles.ROLE_ADMIN, Roles.ROLE_PROJECT_MANAGER})
   public HttpResponse index(HttpRequest request, ExecutionContext context) {
 
-この場合、 ``index`` メソッドを実行するためには ``ADMIN`` と ``PROJECT_MANAGER`` の両方のロールを保有している必要がある(AND条件)。
+In this case, the ``ADMIN`` and ``PROJECT_MANAGER`` roles must both be held (AND condition) in order to execute the ``index`` method.
 
-OR条件にしたい場合は、 ``anyOf`` に ``true`` を設定する。
-以下に実装例を示す。
+Set ``anyOf`` to ``true`` if you want an OR condition.
+An example implementation is shown below.
 
 .. code-block:: java
 
@@ -204,28 +202,28 @@ OR条件にしたい場合は、 ``anyOf`` に ``true`` を設定する。
   )
   public HttpResponse index(HttpRequest request, ExecutionContext context) {
 
-上記例では、 ``index`` メソッドを実行するためには ``ADMIN`` か ``PROJECT_MANAGER`` のいずれかのロールを保有していれば良いということになる。
+In the above example, to execute the ``index`` method, a user need to have either the ``ADMIN`` or ``PROJECT_MANAGER`` role.
 
 
-アノテーションに割り当てた CheckRole の設定を一覧で確認する
+List CheckRole settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-アクションメソッドに設定した :java:extdoc:`CheckRole <nablarch.common.authorization.role.CheckRole>` アノテーションに誤りがないかチェックするために、アノテーションの設定状況を一覧表示する機能を提供している。
-本機能を利用することで、アノテーションの設定に漏れが無いか、設定されている内容に過不足がないかをチェックできるようになる。
+To check for errors in :java:extdoc:`CheckRole <nablarch.common.authorization.role.CheckRole>` annotations set for action methods, this function is provided to list the annotation setting status.
+By using this function, it will be possible to check whether there are any omissions in the annotation settings and whether the set contents are excessive or insufficient.
 
-本機能は、システム起動時にアノテーションの設定情報を収集して、デバッグレベルでログに出力するという方法で実現している。
-以下で、設定方法について説明する。
+This function is achieved by collecting annotation setting information at system startup and outputting them to the log at the debug level.
+The configuration method is described below.
 
-まず、 :java:extdoc:`CheckRoleLogger <nablarch.common.authorization.role.CheckRoleLogger>` のコンポーネントを以下のように定義する。
+First, define the :java:extdoc:`CheckRoleLogger <nablarch.common.authorization.role.CheckRoleLogger>` component as follows.
 
 .. code-block:: xml
 
-  <!-- 初期化が必要なコンポーネント -->
+  <!-- Components that need to be initialized -->
   <component name="initializer"
              class="nablarch.core.repository.initialization.BasicApplicationInitializer">
     <property name="initializeList">
       <list>
-        <!-- 他の初期化が必要なコンポーネントの記述は省略 -->
+        <!-- Omit other components that require initialization. -->
 
         <component class="nablarch.common.authorization.role.CheckRoleLogger">
           <property name="targetPackage" value="com.nablarch.example.app.web.action" />
@@ -234,52 +232,52 @@ OR条件にしたい場合は、 ``anyOf`` に ``true`` を設定する。
     </property>
   </component>
 
-:java:extdoc:`CheckRoleLogger <nablarch.common.authorization.role.CheckRoleLogger>` は、初期化が必要なコンポーネントとして :java:extdoc:`BasicApplicationInitializer <nablarch.core.repository.initialization.BasicApplicationInitializer>` の ``initializeList`` に設定する。
-またこのとき、 ``targetPackage`` プロパティにアクションクラスが存在するパッケージを指定する(サブパッケージも対象となる)。
+:java:extdoc:`CheckRoleLogger <nablarch.common.authorization.role.CheckRoleLogger>` is set in the ``initializeList`` of the :java:extdoc:`BasicApplicationInitializer <nablarch.core.repository.initialization.BasicApplicationInitializer>` as the component that needs to be initialized.
+Also, at this time, specify the package in which action classes exist in the ``targetPackage`` property (including subpackages).
 
-なお、デフォルトでは末尾が ``Action`` で終わる名前のクラスが処理の対象となる。
-この設定は ``targetClassPattern`` プロパティに任意の正規表現を指定することで変更できる。
-詳細は :java:extdoc:`CheckRoleLogger <nablarch.common.authorization.role.CheckRoleLogger>` のJavadocを参照のこと。
+By default, classes with names ending in ``Action`` are processed.
+This setting can be changed by specifying any regular expression for the ``targetClassPattern`` property.
+See :java:extdoc:`CheckRoleLogger <nablarch.common.authorization.role.CheckRoleLogger>`'s Javadoc for details.
 
-上記設定が完了したら、ログレベルをデバッグレベルにしてシステムを起動する。
-これにより、システム起動時に以下のようなログが出力されるようになる。
+After completing the above settings, start the system with the log level set to debug level.
+This will result in the following log output at system startup.
 
 .. code-block:: text
 
   2023-01-11 14:29:31.643 -DEBUG- nablarch.common.authorization.role.CheckRoleLogger [null] boot_proc = [] proc_sys = [nablarch-example-web] req_id = [null] usr_id = [null] CheckRole Annotation Settings
   class	signature	role	anyOf
   com.nablarch.example.app.web.action.AuthenticationAction	index(nablarch.fw.web.HttpRequest, nablarch.fw.ExecutionContext)		
-  (中略)
+  (omission)
   com.nablarch.example.app.web.action.ProjectBulkAction	update(nablarch.fw.web.HttpRequest, nablarch.fw.ExecutionContext)		
   com.nablarch.example.app.web.action.ProjectUploadAction	index(nablarch.fw.web.HttpRequest, nablarch.fw.ExecutionContext)	ADMIN	true
   com.nablarch.example.app.web.action.ProjectUploadAction	index(nablarch.fw.web.HttpRequest, nablarch.fw.ExecutionContext)	PROJECT_MANAGER	true
 
-ログには、以下の要素がタブ区切りで出力されるようになっている。
+The following elements are output in the log, separated by tabs.
 
-.. list-table:: ログ出力要素
+.. list-table:: log output element
    :widths: 1, 5, 10
    :header-rows: 1
    :stub-columns: 0
 
-   * - 要素
-     - 説明
-     - 出力例
+   * - Element
+     - Description
+     - Output example
    * - ``class``
-     - クラスの完全修飾名
+     - Fully qualified name of the class.
      - ``com.nablarch.example.app.web.action.ProjectUploadAction``
    * - ``signature``
-     - メソッドのシグネチャ
+     - Method signature
      - ``upload(nablarch.fw.web.HttpRequest, nablarch.fw.ExecutionContext)``
    * - ``role``
-     - 割り当てられているロール(アノテーション未設定の場合は空)
+     - Role assigned (empty if not annotated).
      - ``ADMIN``
    * - ``anyOf``
-     - ``@CheckRole`` の ``anyOf`` に設定された値(アノテーション未設定の場合は空)
+     - The value set to ``anyOf`` in ``@CheckRole`` (empty if not annotated).
      - ``false``
 
-複数のロールが割り当てられている場合、それぞれのロールは別の行に分けて出力される。
-例えば上記出力例では、 ``ProjectUploadAction`` の ``index`` メソッドには ``ADMIN`` と ``PROJECT_MANAGER`` の2つのロールが割り当てられていることが分かる。
-実装に置き換えると、以下のように設定されていることになる。
+If multiple roles are assigned, each role is output on a separate line.
+For example, in the above output example, we see that the ``index`` method of ``ProjectUploadAction`` is assigned two roles, ``ADMIN`` and ``PROJECT_MANAGER``.
+When replaced by an implementation, this would be set up as follows.
 
 .. code-block:: java
 
@@ -290,33 +288,33 @@ OR条件にしたい場合は、 ``anyOf`` に ``true`` を設定する。
   public HttpResponse index(HttpRequest request, ExecutionContext context) {
 
 
-プログラムで判定する
+Programmatic check
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-ロールの有無を、プログラム上の任意の場所で判定できる。
+The presence or absence of a role can be checked anywhere in the program.
 
 .. code-block:: java
 
   if (CheckRoleUtil.checkRole(Roles.ROLE_ADMIN, executionContext)) {
-      // ADMIN ロールを持つ場合の処理
+      // Processing when user has the ADMIN role
   }
 
-プログラムでロールの有無を判定する場合は、 :java:extdoc:`CheckRoleUtil <nablarch.common.authorization.role.CheckRoleUtil>` を使用する。
-上記例では、 ``checkRole`` メソッドを使って現在のユーザが ``ADMIN`` ロールを持っているかどうかを判定している。
+To programmatic check the presence or absence of a role, use :java:extdoc:`CheckRoleUtil <nablarch.common.authorization.role.CheckRoleUtil>`.
+In the above example, the ``checkRole`` method is used to check if the current user has the ``ADMIN`` role.
 
-複数のロールを指定する場合は、 ``checkRoleAllOf`` メソッドか ``checkRoleAnyOf`` メソッドを使用して判定できる。
+Multiple roles can be checked using the ``checkRoleAllOf`` or ``checkRoleAnyOf`` methods.
 
 
-JSPで判定する
+Check in JSP
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:doc:`もう一つの認可チェック <permission_check>` では、JSPのカスタムタグで認可チェックを行い自動的にボタンの表示・非表示を切り替えるような仕組みが提供されている。
-しかし本認可チェック(簡易版)では、このような仕組みは提供していない。
+:doc:`The other permission check <permission_check>` provides a mechanism for JSP custom tags to perform permision checks and automatically show or hide buttons.
+However, this permission check (simplified version) does not provide such a mechanism.
 
-そこでここでは、本認可チェック(簡易版)を採用したうえでJSPの表示・非表示をロールの有無で制御する方法について説明する。
+Therefore, this section describes how to control the display of tags in JSP by role after adopting this permission check (simplified version).
 
-ロールによる表示の制御は、サーバー側で判定した結果をセッションストアなどに保存することで実現する。
-実装例を以下に示す。
+The control of display by role is achieved by storing the results of the check on the server side in a session store or other location.
+An example implementation is shown below.
 
 .. code-block:: java
 
@@ -326,54 +324,54 @@ JSPで判定する
 
   SessionUtil.put(executionContext, "userContext", userContext);
 
-この例では、ログイン時にユーザのロールを判定した結果を ``UserContext`` クラスに保存してセッションストアに格納している(``UserContext`` はただのJava Beansで、プロジェクトごとに必要に応じて作成する)。
-これにより、JSPではEL式やJSTLを使うことで以下のように表示を制御できるようになる。
+In this example, the result of check the user's role at login is stored in the ``UserContext`` class and stored in the session store (``UserContext`` is just Java Beans, created as needed for each project).
+This will allow you to use EL expressions and JSTL in JSP to control the display as follows
 
 .. code-block:: jsp
 
   <c:if test="${userContext.admin}">
-    <%-- ADMIN ロールを持つ場合に表示する --%>
+    <%-- Show when a user has the ADMIN role --%>
   </c:if>
   <c:if test="${userContext.projectManager}">
-    <%-- PROJECT_MANAGER ロールを持つ場合に表示する  --%>
+    <%-- Show when a user has the PROJECT_MANAGER role  --%>
   </c:if>
 
 
-仕組み
+Architecture
 ---------------------------------------------------------------------
 
-ここでは、認可チェック(簡易版)の仕組みについて説明する。
+This section explains how the permission check (simplified version) works.
 
 .. image:: images/role_check/architecture.png
 
-アノテーションを用いたチェック処理の実行は、Nablarchの :java:extdoc:`インターセプタ <nablarch.fw.Interceptor>` の仕組みを利用して実現している。
-:java:extdoc:`CheckRole <nablarch.common.authorization.role.CheckRole>` アノテーションは、このインターセプタを実装したものとなっている。
+The execution of the check process using annotations is realized using Nablarch's :java:extdoc:`interceptor <nablarch.fw.Interceptor>` mechanism.
+The :java:extdoc:`CheckRole <nablarch.common.authorization.role.CheckRole>` annotation is an implementation of this interceptor.
 
-:java:extdoc:`CheckRole <nablarch.common.authorization.role.CheckRole>` と :java:extdoc:`CheckRoleUtil <nablarch.common.authorization.role.CheckRoleUtil>` 自体は直接認可チェックは行わず、 :java:extdoc:`RoleEvaluator <nablarch.common.authorization.role.RoleEvaluator>` に処理を委譲する。
-このとき、 :java:extdoc:`RoleEvaluator <nablarch.common.authorization.role.RoleEvaluator>` のインスタンスは :java:extdoc:`SystemRepository <nablarch.core.repository.SystemRepository>` から ``roleEvaluator`` という名前で取得したものを使用する。
-また、チェック処理に渡すユーザIDは、 :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` の ``getUserId`` メソッドで取得したものを使用する。
+:java:extdoc:`CheckRole <nablarch.common.authorization.role.CheckRole>` and :java:extdoc:`CheckRoleUtil <nablarch.common.authorization.role.CheckRoleUtil>` themselves do not perform permission checks directly, but delegate the process to the :java:extdoc:`RoleEvaluator <nablarch.common.authorization.role.RoleEvaluator>`.
+The instace of the :java:extdoc:`RoleEvaluator <nablarch.common.authorization.role.RoleEvaluator>` is obtained from the :java:extdoc:`SystemRepository <nablarch.core.repository.SystemRepository>` by name ``roleEvaluator``
+The user ID to be passed to the check process is obtained from the ``getUserId`` method of the :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>`.
 
-:java:extdoc:`RoleEvaluator <nablarch.common.authorization.role.RoleEvaluator>` のデフォルトの実装クラスとして、認証チェック(簡易版)では :java:extdoc:`BasicRoleEvaluator <nablarch.common.authorization.role.BasicRoleEvaluator>` というクラスを提供している。
-このクラスは、ユーザに紐づくロールと引数で渡されたロールとを比較し、条件を満たすかどうかを判定するシンプルな作りとなっている。
-なお、ユーザに紐づくロールの解決は :java:extdoc:`UserRoleResolver <nablarch.common.authorization.role.UserRoleResolver>` に委譲している。
+As the default implementation class of :java:extdoc:`RoleEvaluator <nablarch.common.authorization.role.RoleEvaluator>`, the permission check (simplified version) provides a class called :java:extdoc:`BasicRoleEvaluator <nablarch.common.authorization.role.BasicRoleEvaluator>`.
+This class is simple enough to compare the roles associated with a user with the roles passed as an argument and check if the condition is met.
+And, that the resolution of roles associated with a user is delegated to :java:extdoc:`UserRoleResolver <nablarch.common.authorization.role.UserRoleResolver>`.
 
-:java:extdoc:`UserRoleResolver <nablarch.common.authorization.role.UserRoleResolver>` のデフォルト実装としては、　:java:extdoc:`SessionStoreUserRoleResolver <nablarch.common.authorization.role.session.SessionStoreUserRoleResolver>` を提供している。
-このクラスは、セッションストアに保存された情報でユーザのロールを解決する仕組みとなっている。
+The :java:extdoc:`SessionStoreUserRoleResolver <nablarch.common.authorization.role.session.SessionStoreUserRoleResolver>` is provided as the default implementation of :java:extdoc:`UserRoleResolver <nablarch.common.authorization.role.UserRoleResolver>`.
+This class resolves the user's roles with information stored in the session store.
 
 
-拡張方法
+Extension method
 ---------------------------------------------------------------------
 
-前述の仕組みの説明から、 :java:extdoc:`RoleEvaluator <nablarch.common.authorization.role.RoleEvaluator>` または :java:extdoc:`UserRoleResolver <nablarch.common.authorization.role.UserRoleResolver>` の実体を差し替えることで任意の処理に拡張できることがわかる。
+From the foregoing description of the mechanism, it can be seen that you can extend to any processing by replacing the :java:extdoc:`RoleEvaluator <nablarch.common.authorization.role.RoleEvaluator>` or :java:extdoc:`UserRoleResolver <nablarch.common.authorization.role.UserRoleResolver>` entity.
 
-:java:extdoc:`RoleEvaluator <nablarch.common.authorization.role.RoleEvaluator>` の実体の差し替えは、 :java:extdoc:`RoleEvaluator <nablarch.common.authorization.role.RoleEvaluator>` を実装した独自クラスを作成し、そのクラスを ``roleEvaluator`` という名前でコンポーネント登録することで実現できる。
+Replacing the :java:extdoc:`RoleEvaluator <nablarch.common.authorization.role.RoleEvaluator>` entity can be accomplished by creating your own class that implements the :java:extdoc:`RoleEvaluator <nablarch.common.authorization.role.RoleEvaluator>` and registering that class as a component under the name ``roleEvaluator``.
 
 .. code-block:: xml
 
   <component name="roleEvaluator" class="com.example.CustomRoleEvaluator" />
 
-:java:extdoc:`RoleEvaluator <nablarch.common.authorization.role.RoleEvaluator>` の実体には :java:extdoc:`BasicRoleEvaluator <nablarch.common.authorization.role.BasicRoleEvaluator>` を使いつつ、 :java:extdoc:`UserRoleResolver <nablarch.common.authorization.role.UserRoleResolver>` の実体だけを差し替えたい場合は、 :java:extdoc:`BasicRoleEvaluator <nablarch.common.authorization.role.BasicRoleEvaluator>` の ``userRoleResolver`` プロパティに設定するコンポーネントを差し替えればいい。
-デフォルトコンフィグレーションを利用している場合は、 ``userRoleResolver`` という名前のコンポーネントを設定するように定義されているので、同じ名前で独自クラスのコンポーネントを定義することで差し替えができる。
+If you want to use :java:extdoc:`BasicRoleEvaluator <nablarch.common.authorization.role.BasicRoleEvaluator>` for the :java:extdoc:`RoleEvaluator <nablarch.common.authorization.role.RoleEvaluator>` entity and replace only the :java:extdoc:`UserRoleResolver <nablarch.common.authorization.role.UserRoleResolver>` entity, simply replace the component that is set to the ``userRoleResolver`` property of :java:extdoc:`BasicRoleEvaluator <nablarch.common.authorization.role.BasicRoleEvaluator>`.
+If you are using the default configuration, it is defined to set a component named ``userRoleResolver``, which can be replaced by defining a component of your own class with the same name.
 
 .. code-block:: xml
 
