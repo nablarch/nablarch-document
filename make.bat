@@ -2,6 +2,7 @@
 
 REM Command file for Sphinx documentation
 
+set BUILDDIR=_build
 set HTMLPATH=%BUILDDIR%/html
 if "%2" == "en" (
     set HTMLPATH=%BUILDDIR%/html/%2
@@ -10,7 +11,6 @@ if "%2" == "en" (
 if "%SPHINXBUILD%" == "" (
 	set SPHINXBUILD=sphinx-build
 )
-set BUILDDIR=_build
 set ALLSPHINXOPTS=-d %BUILDDIR%/doctrees/%2 %SPHINXOPTS% %2
 set I18NSPHINXOPTS=%SPHINXOPTS% .
 if NOT "%PAPER%" == "" (
