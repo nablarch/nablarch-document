@@ -92,7 +92,7 @@ Define components
   <component name="userRoleResolver"
              class="nablarch.common.authorization.role.session.SessionStoreUserRoleResolver" />
 
-To use the authorization check (simplified version), first define the component of the :java:extdoc:`BasicRoleEvaluator <nablarch.common.authorization.role.BasicRoleEvaluator>`.
+To use the permission check (simplified version), first define the component of the :java:extdoc:`BasicRoleEvaluator <nablarch.common.authorization.role.BasicRoleEvaluator>`.
 And set the :java:extdoc:`SessionStoreUserRoleResolver <nablarch.common.authorization.role.session.SessionStoreUserRoleResolver>`  to the ``userRoleResolver`` property.
 
 Note that this setting is also provided as the default configuration.
