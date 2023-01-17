@@ -176,12 +176,12 @@ Assign roles to methods of actions with annotations
   @CheckRole(Roles.ROLE_ADMIN)
   public HttpResponse index(HttpRequest request, ExecutionContext context) {
 
-You can assigne roles to an action method by the ``value`` of :java:extdoc:`CheckRole <nablarch.common.authorization.role.CheckRole>` annotation.
+You can assign roles to an action method by the ``value`` of :java:extdoc:`CheckRole <nablarch.common.authorization.role.CheckRole>` annotation.
 In the above example, the ``ADMIN`` role is assigned to the ``index`` method.
 This allows the ``index`` method to be executed only by users with the ``ADMIN`` role.
 If a user without the ``ADMIN`` role tries to execute a method, :java:extdoc:`Forbidden <nablarch.fw.results.Forbidden>` is thrown.
 
-If you want assigne multiple roles, you can specify by an array.
+If you want assign multiple roles, you can specify by an array.
 An example implementation is shown below.
 
 .. code-block:: java
