@@ -138,7 +138,7 @@ Define the roles
 Define the roles to be used in the annotation.
 
 Roles are defined as any strings.
-There are no restrictions on character type or format as long as the system can handle it, but it is recommended that the value be easy to understand what the roll is for ease of management.
+There are no restrictions on character type or format as long as the system can handle it, but it is recommended that the value be easy to understand what the role is for ease of management.
 
 Although it is also possible to directly specify string literals instead of constants when specifying with annotations, it is recommended that they be managed as constants to facilitate modification.
 In the above example, a dedicated constant class is provided, but if a more appropriate class is available, it may be modified to suit the project's circumstances.
