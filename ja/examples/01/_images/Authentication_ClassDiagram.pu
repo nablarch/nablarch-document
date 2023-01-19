@@ -44,7 +44,6 @@ class AuthenticationUtil {
 }
 
 class UniversalDao <<not sample>>
-class SystemTimeUtil <<not sample>>
 
 AuthenticationUtil ..> PasswordEncryptor : <<use>>
 AuthenticationUtil ..> PasswordAuthenticator : <<use>>
@@ -52,7 +51,6 @@ AuthenticationUtil ..> PasswordAuthenticator : <<use>>
 SystemAccountAuthenticator ..> SystemAccount : <<use>>
 SystemAccountAuthenticator ..> PasswordEncryptor: <<use>>
 SystemAccountAuthenticator ..> UniversalDao : <<use>>
-SystemAccountAuthenticator ..> SystemTimeUtil : <<use>>
 
 UniversalDao ..> SystemAccount: <<find>>
 
