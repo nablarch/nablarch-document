@@ -43,9 +43,7 @@ class AuthenticationUtil {
     {static} + authenticate(userId: String, password: String): void
 }
 
-class UniversalDao <<not sample>> {
-    {static} + findBySqlFile(entityClass: Class<T>, sqlId: String, params: Object): T
-}
+class UniversalDao <<not sample>>
 
 AuthenticationUtil ..> PasswordEncryptor : <<use>>
 AuthenticationUtil ..> PasswordAuthenticator : <<use>>
