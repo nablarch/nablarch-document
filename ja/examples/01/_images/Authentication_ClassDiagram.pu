@@ -15,25 +15,15 @@ package encrypt {
 package entity {
     class SystemAccount {
         + getUserId(): Integer
-        + setUserId(userId: Integer): void
         + getLoginId(): Integer
-        + setLoginId(loginId: Integer): void
         + getUserPassword(): String
-        + setUserPassword(userPassword: String): void
         + isUserIdLocked(): boolean
-        + setUserIdLocked(userIdLocked: boolean): void
         + getPasswordExpirationDate(): Date
-        + setPasswordExpirationDate(passwordExpirationDate: Date): void
         + getFailedCount(): Short
-        + setFailedCount(failedCount: Short): void
         + getEffectiveDateFrom(): Date
-        + setEffectiveDateFrom(effectiveDateFrom: Date): void
         + getEffectiveDateTo(): Date
-        + setEffectiveDateTo(effectiveDateTo: Date): void
         + getLastLoginDateTime(): Date
-        + setLastLoginDateTime(lastLoginDateTime: Date): void
         + getVersion(): Long
-        + setVersion(version: Long): void
     }
 }
 
