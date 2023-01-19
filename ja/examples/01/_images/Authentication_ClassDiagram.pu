@@ -60,4 +60,6 @@ SystemAccountAuthenticator ..> SystemAccount : <<use>>
 SystemAccountAuthenticator ..> PasswordEncryptor: <<use>>
 SystemAccountAuthenticator ..> UniversalDao : <<use>>
 
+UniversalDao ..> SystemAccount: <<find>>
+
 @enduml
