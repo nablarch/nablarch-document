@@ -232,7 +232,7 @@ dbManager(必須)                                                       デー�
                                                                       nablarch.core.db.transaction.SimpleDbTransactionManagerクラスのインスタンスを指定する。
 
                                                                       .. important::
-                                                                         PasswordAuthenticatorのトランザクション制御が個別アプリケーションの処理に影響を与えないように、個別アプリケーションとは別のトランザクションを使用するように設定すること。
+                                                                         SystemAccountAuthenticatorのトランザクション制御が個別アプリケーションの処理に影響を与えないように、個別アプリケーションとは別のトランザクションを使用するように設定すること。
                                                                          設定例では、dbTransactionNameに"authenticator"という名前を指定しているので、個別アプリケーションでは同じ名前を使用しないように設定する。
 
 failedCountToLock                                                     ユーザIDをロックする認証失敗回数。
