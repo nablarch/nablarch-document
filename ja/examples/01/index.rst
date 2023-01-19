@@ -150,7 +150,7 @@ PasswordEncryptor     パスワードを暗号化するインタフェース。
 
   パスワード                PASSWORD                  java.lang.String
 
-  ユーザIDロック            USER_ID_LOCKED            java.lang.String     ロックしていない場合は"0"、ロックしている場合は"1"
+  ユーザIDロック            USER_ID_LOCKED            boolean                ロックしていない場合はfalse、ロックしている場合はtrue
 
   パスワード有効期限        PASSWORD_EXPIRATION_DATE   java.util.Date     
 
