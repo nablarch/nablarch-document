@@ -4,8 +4,6 @@ skinparam class {
     BackgroundColor<<not sample>> Gray
 }
 
-'hide circle
-
 package encrypt {
     interface PasswordEncryptor {
         {abstract} encrypt(saltSeed: String, password: String): String
