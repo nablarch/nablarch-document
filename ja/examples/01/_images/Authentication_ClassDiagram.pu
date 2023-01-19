@@ -53,11 +53,11 @@ class UniversalDao <<not sample>> {
 
 }
 
-AuthenticationUtil ..> PasswordEncryptor : use
-AuthenticationUtil ..> PasswordAuthenticator : use
+AuthenticationUtil ..> PasswordEncryptor : <<use>>
+AuthenticationUtil ..> PasswordAuthenticator : <<use>>
 
-SystemAccountAuthenticator ..> SystemAccount : use
-SystemAccountAuthenticator ..> PasswordEncryptor: use
-SystemAccountAuthenticator ..> UniversalDao : use
+SystemAccountAuthenticator ..> SystemAccount : <<use>>
+SystemAccountAuthenticator ..> PasswordEncryptor: <<use>>
+SystemAccountAuthenticator ..> UniversalDao : <<use>>
 
 @enduml
