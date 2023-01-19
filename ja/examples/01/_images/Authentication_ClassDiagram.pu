@@ -1,0 +1,75 @@
+@startuml
+
+skinparam class {
+    BackgroundColor<<not sample>> Gray
+}
+
+'hide circle
+
+package encrypt {
+    interface PasswordEncryptor {
+        {abstract} encrypt(saltSeed: String, password: String): String
+    }
+
+    class PBKDF2PasswordEncryptor implements PasswordEncryptor
+}
+
+package entity {
+    class SystemAccount {
+        + getUserId(): Integer
+        + setUserId(userId: Integer): void
+        + getLoginId(): Integer
+        + setLoginId(loginId: Integer): void
+        + getUserPassword(): String
+        + setUserPassword(userPassword: String): void
+        + isUserIdLocked(): boolean
+        + setUserIdLocked(userIdLocked: boolean): void
+        + getPasswordExpirationDate(): Date
+        + setPasswordExpirationDate(passwordExpirationDate: Date): void
+        + getFailedCount(): Short
+        + setFailedCount(failedCount: Short): void
+        + getEffectiveDateFrom(): Date
+        + setEffectiveDateFrom(effectiveDateFrom: Date): void
+        + getEffectiveDateTo(): Date
+        + setEffectiveDateTo(effectiveDateTo: Date): void
+        + getLastLoginDateTime(): Date
+        + setLastLoginDateTime(lastLoginDateTime: Date): void
+        + getVersion(): Long
+        + setVersion(version: Long): void
+    }
+}
+
+package exception {
+    class RuntimeException <<not sample>>
+
+    class AuthenticationException extends RuntimeException
+    class UserIdLockedException extends AuthenticationException
+    class PasswordExpiredException extends AuthenticationException
+    class AuthenticationFailedException extends AuthenticationException
+}
+
+interface PasswordAuthenticator {
+    {abstract} authenticate(userId: String, password: String): void
+}
+
+class SystemAccountAuthenticator implements PasswordAuthenticator
+
+skinparam classAttributeIconSize 0
+class AuthenticationUtil {
+    {static} + encryptPassword(userId: String, password: String): String
+    {static} + authenticate(userId: String, password: String): void
+}
+
+class UniversalDao <<not sample>> {
+    {static} + findBySqlFile(entityClass: Class<T>, sqlId: String, params: Object): T
+
+}
+
+AuthenticationUtil ..> SystemAccountAuthenticator : use
+AuthenticationUtil ..> PasswordAuthenticator : use
+
+SystemAccountAuthenticator ..> SystemAccount : use
+SystemAccountAuthenticator ..> PasswordEncryptor: use
+SystemAccountAuthenticator ..> UniversalDao : use
+
+@enduml
