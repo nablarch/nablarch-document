@@ -6,37 +6,31 @@ skinparam class {
     BackgroundColor<<not sample>> Gray
 }
 
-package encrypt {
-    interface PasswordEncryptor {
-        {abstract} encrypt(saltSeed: String, password: String): String
-    }
-
-    class PBKDF2PasswordEncryptor implements PasswordEncryptor
+interface PasswordEncryptor {
+    {abstract} encrypt(saltSeed: String, password: String): String
 }
 
-package entity {
-    class SystemAccount {
-        + getUserId(): Integer
-        + getLoginId(): Integer
-        + getUserPassword(): String
-        + isUserIdLocked(): boolean
-        + getPasswordExpirationDate(): Date
-        + getFailedCount(): Short
-        + getEffectiveDateFrom(): Date
-        + getEffectiveDateTo(): Date
-        + getLastLoginDateTime(): Date
-        + getVersion(): Long
-    }
+class PBKDF2PasswordEncryptor implements PasswordEncryptor
+
+class SystemAccount {
+    + getUserId(): Integer
+    + getLoginId(): Integer
+    + getUserPassword(): String
+    + isUserIdLocked(): boolean
+    + getPasswordExpirationDate(): Date
+    + getFailedCount(): Short
+    + getEffectiveDateFrom(): Date
+    + getEffectiveDateTo(): Date
+    + getLastLoginDateTime(): Date
+    + getVersion(): Long
 }
 
-package exception {
-    class RuntimeException <<not sample>>
+class RuntimeException <<not sample>>
 
-    class AuthenticationException extends RuntimeException
-    class UserIdLockedException extends AuthenticationException
-    class PasswordExpiredException extends AuthenticationException
-    class AuthenticationFailedException extends AuthenticationException
-}
+class AuthenticationException extends RuntimeException
+class UserIdLockedException extends AuthenticationException
+class PasswordExpiredException extends AuthenticationException
+class AuthenticationFailedException extends AuthenticationException
 
 interface PasswordAuthenticator {
     {abstract} authenticate(userId: String, password: String): void
