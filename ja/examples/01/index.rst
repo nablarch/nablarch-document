@@ -201,6 +201,9 @@ SystemAccountAuthenticatorの使用方法について解説する。
 .. code-block:: xml
 
     <component name="authenticator" class="please.change.me.common.authentication.SystemAccountAuthenticator">
+      <!-- パスワードを暗号化するPasswordEncryptor -->
+      <property name="passwordEncryptor" ref="passwordEncryptor" />
+
       <!-- データベースへのトランザクション制御を行うクラス -->
       <property name="dbManager">
         <component class="nablarch.core.db.transaction.SimpleDbTransactionManager">
@@ -220,6 +223,10 @@ SystemAccountAuthenticatorの使用方法について解説する。
 ===================================================================== ==================================================================================================================================================================================
 property名                                                            設定内容
 ===================================================================== ==================================================================================================================================================================================
+passwordEncryptor(必須)                                               パスワードの暗号化に使用するPasswordEncryptor。
+
+                                                                      :doc:`0101_PBKDF2PasswordEncryptor` を参考に設定したコンポーネント名を、refに指定すること。
+
 dbManager(必須)                                                       データベースへのトランザクションを制御するSimpleDbTransactionManager。
 
                                                                       nablarch.core.db.transaction.SimpleDbTransactionManagerクラスのインスタンスを指定する。
