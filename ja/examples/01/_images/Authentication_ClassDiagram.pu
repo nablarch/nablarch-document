@@ -53,7 +53,7 @@ class UniversalDao <<not sample>> {
 
 }
 
-AuthenticationUtil ..> SystemAccountAuthenticator : use
+AuthenticationUtil ..> PasswordEncryptor : use
 AuthenticationUtil ..> PasswordAuthenticator : use
 
 SystemAccountAuthenticator ..> SystemAccount : use
