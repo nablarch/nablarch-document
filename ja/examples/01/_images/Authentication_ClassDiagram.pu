@@ -1,5 +1,7 @@
 @startuml
 
+skinparam classAttributeIconSize 0
+
 skinparam class {
     BackgroundColor<<not sample>> Gray
 }
@@ -42,7 +44,6 @@ interface PasswordAuthenticator {
 
 class SystemAccountAuthenticator implements PasswordAuthenticator
 
-skinparam classAttributeIconSize 0
 class AuthenticationUtil {
     {static} + encryptPassword(userId: String, password: String): String
     {static} + authenticate(userId: String, password: String): void
@@ -50,7 +51,6 @@ class AuthenticationUtil {
 
 class UniversalDao <<not sample>> {
     {static} + findBySqlFile(entityClass: Class<T>, sqlId: String, params: Object): T
-
 }
 
 AuthenticationUtil ..> PasswordEncryptor : <<use>>
