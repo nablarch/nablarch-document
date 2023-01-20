@@ -13,7 +13,7 @@ PBKDF2を用いたパスワード暗号化機能サンプル
 
 本サンプルは、以下のパッケージで提供される。
 
-  *please.change.me.*\ **common.authentication**
+  *please.change.me.*\ **common.authentication.encrypt**
 
 
 ------------
@@ -70,7 +70,7 @@ PBKDF2を使用して、ソルト付加およびストレッチングを行っ�
 
   <!-- パスワード暗号化モジュールの設定 -->
   <component name="passwordEncryptor"
-             class="please.change.me.common.authentication.PBKDF2PasswordEncryptor">
+             class="please.change.me.common.authentication.encrypt.PBKDF2PasswordEncryptor">
 
     <!-- システム共通でソルトに使用する固定文字列を設定する。20バイト以上の文字列を設定しておく。 -->
     <property name="fixedSalt" value=" !!! please.change.me !!! TODO: MUST CHANGE THIS VALUE." />
@@ -113,7 +113,7 @@ iterationCount        パスワード暗号化のストレッチング回数。�
 
 keyLength             暗号化されたパスワードの長さ（ビット数）。デフォルト値は256。
 
-                      内部で使用されているハッシュ関数がSHA-1であるため、設定値には160以上の値を設定すること。
+                      内部で使用されているハッシュ関数がSHA-256であるため、設定値には256以上の値を設定すること。
 
                       本機能を使用して生成される文字列の長さは、ここで指定した長さのバイト列をBase64で
                       エンコードした長さになる。

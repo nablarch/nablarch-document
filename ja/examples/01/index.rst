@@ -4,13 +4,6 @@
 データベースを用いたパスワード認証機能サンプル
 ====================================================
 
-.. important::
-
-  本サンプルは、Nablarch 1.4系に準拠したAPIを使用している。
-
-  Nablarch 1.4系より新しいNablarchと組み合わせる場合は、必要に応じてカスタマイズすること。
-
-
 本サンプルは、データベースに保存されたアカウント情報(ユーザID、パスワード)を使用して認証処理を行う実装サンプルである。
 
 .. toctree::
@@ -60,7 +53,7 @@
 
 クラス図
 ========================
-.. image:: ./_images/Authentication_ClassDiagram.jpg
+.. image:: ./_images/Authentication_ClassDiagram.png
    :scale: 75
 
 各クラスの責務
@@ -69,24 +62,24 @@
 インタフェース定義
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-=================== ===============================================================
-インタフェース名     概要
-=================== ===============================================================
-Authenticator       ユーザを認証するインタフェース。
+===================== ===============================================================
+インタフェース名        概要
+===================== ===============================================================
+PasswordAuthenticator ユーザを認証するインタフェース。
 
-PasswordEncryptor   パスワードを暗号化するインタフェース。
+PasswordEncryptor     パスワードを暗号化するインタフェース。
 
-=================== ===============================================================
+===================== ===============================================================
 
 クラス定義
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-\a) Authenticatorの実装クラス
+\a) PasswordAuthenticatorの実装クラス
 
   =============================== ==========================================================================
   クラス名                        概要
   =============================== ==========================================================================
-  PasswordAuthenticator           データベースに保存されたアカウント情報に対してパスワード認証するクラス。
+  SystemAccountAuthenticator      データベースに保存されたアカウント情報に対してパスワード認証するクラス。
   =============================== ==========================================================================
 
 \b) PasswordEncryptorの実装クラス
@@ -102,17 +95,23 @@ PasswordEncryptor   パスワードを暗号化するインタフェース。
   =============================== ==========================================================================
   クラス名                        概要
   =============================== ==========================================================================
-  AuthenticationUtil              システムリポジトリから Authenticator および PasswordEncryptor を
+  AuthenticationUtil              システムリポジトリから PasswordAuthenticator および PasswordEncryptor を
                                   取得して、ユーザ認証およびパスワード暗号化を行うユーティリティ。
   =============================== ==========================================================================
 
-\d) その他のクラス
+\d) エンティティクラス
 
   =============================== ==========================================================================
   クラス名                        概要
   =============================== ==========================================================================
-  SystemAccount                   ユーザのアカウント情報を保持するクラス。
+  SystemAccount                   ユーザのアカウント情報を保持するクラス。ユニバーサルDAOの検索結果を格納する。
   =============================== ==========================================================================
+
+.. tip::
+
+  Nablarch導入プロジェクトでは、エンティティクラスは :ref:`gsp-dba-maven-plugin(DBA作業支援ツール) <gsp-maven-plugin>` を使用して自動生成する。
+  本サンプルには動作確認のため :ref:`system-account-table-definition` に記載の定義に合わせて自動生成したエンティティクラスを同梱している。
+  プロジェクトにて実装する際は本サンプルのエンティティクラスを使用するのではなく、各プロジェクトで自動生成したエンティティクラスを使用するよう修正すること。
 
 \e) 例外クラス
 
@@ -139,6 +138,8 @@ PasswordEncryptor   パスワードを暗号化するインタフェース。
                                   対象ユーザのユーザIDとユーザIDをロックする認証失敗回数を保持する。
   =============================== ==========================================================================
 
+.. _system-account-table-definition:
+
 テーブル定義
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 本サンプルで使用しているアカウントテーブルの定義を以下に示す。
@@ -151,26 +152,23 @@ PasswordEncryptor   パスワードを暗号化するインタフェース。
   ========================= ========================= ==================== =====================================
   論理名                    物理名                    Javaの型             制約
   ========================= ========================= ==================== =====================================
-  ユーザID                  USER_ID                   java.lang.String     主キー
+  ユーザID                  USER_ID                   java.lang.Integer     主キー
+
+  ログインID                LOGIN_ID                  java.lang.String
 
   パスワード                PASSWORD                  java.lang.String
 
-  ユーザIDロック            USER_ID_LOCKED            java.lang.String     ロックしていない場合は"0"、ロックしている場合は"1"
+  ユーザIDロック            USER_ID_LOCKED            boolean                ロックしている場合はtrue
 
-  パスワード有効期限        PASSWORD_EXPIRATION_DATE  java.lang.String     書式 yyyyMMdd
+  パスワード有効期限        PASSWORD_EXPIRATION_DATE   java.util.Date     
 
-                                                                           指定しない場合は"99991231"
-  認証失敗回数              FAILED_COUNT              int
+  認証失敗回数              FAILED_COUNT              java.lang.Short
 
-  有効日(From)              EFFECTIVE_DATE_FROM       java.lang.String     書式 yyyyMMdd
+  有効日(From)              EFFECTIVE_DATE_FROM       java.util.Date     
 
-                                                                           指定しない場合は"19000101"
+  有効日(To)                EFFECTIVE_DATE_TO         java.util.Date     
 
-  有効日(To)                EFFECTIVE_DATE_TO         java.lang.String     書式 yyyyMMdd
-
-                                                                           指定しない場合は"99991231"
-
-  最終ログイン日時          LAST_LOGIN_DATE_TIME      java.sql.Timestamp
+  最終ログイン日時          LAST_LOGIN_DATE_TIME       java.util.Date
   ========================= ========================= ==================== =====================================
 
 .. tip::
@@ -193,7 +191,7 @@ PasswordEncryptor   パスワードを暗号化するインタフェース。
 * 暗号化されたパスワードを使用して認証する。本機能は、デフォルトでPBKDF2を使用したパスワードの暗号化を提供する。
 * 最終ログイン日時を記録する。認証に成功した場合のみシステム日時を使用して最終ログイン日時を更新する。
 
-また、 Authenticator および PasswordEncryptor は、Nablarchのシステムリポジトリから取得して使用する想定となっている。
+また、 PasswordAuthenticator および PasswordEncryptor は、Nablarchのシステムリポジトリから取得して使用する想定となっている。
 業務機能で使用する各箇所でシステムリポジトリからコンポーネントを取得して使用するべきではないため、
 本機能では、システムリポジトリからのコンポーネントの取得と、パスワード認証およびパスワード暗号化処理をラップした
 AuthenticationUtil を提供している。
@@ -203,18 +201,14 @@ AuthenticationUtil を提供している。
 
 .. _passwordAuth-settings-label:
 
-PasswordAuthenticatorの使用方法
+SystemAccountAuthenticatorの使用方法
 =============================================================================================
-PasswordAuthenticatorの使用方法について解説する。
+SystemAccountAuthenticatorの使用方法について解説する。
 
 
 .. code-block:: xml
 
-    <component name="authenticator" class="please.change.me.common.authentication.PasswordAuthenticator">
-
-      <!-- ユーザIDをロックする認証失敗回数 -->
-      <property name="failedCountToLock" value="3"/>
-
+    <component name="authenticator" class="please.change.me.common.authentication.SystemAccountAuthenticator">
       <!-- パスワードを暗号化するPasswordEncryptor -->
       <property name="passwordEncryptor" ref="passwordEncryptor" />
 
@@ -227,14 +221,9 @@ PasswordAuthenticatorの使用方法について解説する。
         </component>
       </property>
 
-      <!-- システム日付 -->
-      <property name="systemTimeProvider" ref="systemTimeProvider" />
-      <!-- 業務日付 -->
-      <property name="businessDateProvider" ref="businessDateProvider" />
+      <!-- ユーザIDをロックする認証失敗回数 -->
+      <property name="failedCountToLock" value="5"/>
     </component>
-
-    <component name="systemTimeProvider" class="nablarch.core.date.BasicSystemTimeProvider" />
-    <component name="businessDateProvider" class="nablarch.core.date.BasicBusinessDateProvider" />
 
 
 プロパティの説明を下記に示す。
@@ -242,10 +231,6 @@ PasswordAuthenticatorの使用方法について解説する。
 ===================================================================== ==================================================================================================================================================================================
 property名                                                            設定内容
 ===================================================================== ==================================================================================================================================================================================
-failedCountToLock                                                     ユーザIDをロックする認証失敗回数。
-
-                                                                      指定しない場合は0となり、ユーザIDのロック機能を使用しないことになる。
-
 passwordEncryptor(必須)                                               パスワードの暗号化に使用するPasswordEncryptor。
 
                                                                       :doc:`0101_PBKDF2PasswordEncryptor` を参考に設定したコンポーネント名を、refに指定すること。
@@ -255,18 +240,12 @@ dbManager(必須)                                                       デー�
                                                                       nablarch.core.db.transaction.SimpleDbTransactionManagerクラスのインスタンスを指定する。
 
                                                                       .. important::
-                                                                         PasswordAuthenticatorのトランザクション制御が個別アプリケーションの処理に影響を与えないように、個別アプリケーションとは別のトランザクションを使用するように設定すること。
+                                                                         SystemAccountAuthenticatorのトランザクション制御が個別アプリケーションの処理に影響を与えないように、個別アプリケーションとは別のトランザクションを使用するように設定すること。
                                                                          設定例では、dbTransactionNameに"authenticator"という名前を指定しているので、個別アプリケーションでは同じ名前を使用しないように設定する。
 
-systemTimeProvider(必須)                                              システム日時の取得に使用するSystemTimeProvider。
+failedCountToLock                                                     ユーザIDをロックする認証失敗回数。
 
-                                                                      nablarch.core.date.SystemTimeProviderインタフェースを実装したクラスのインスタンスを指定する。
-                                                                      システム日時は最終ログイン日時の更新に使用する。
-
-businessDateProvider(必須)                                            業務日付の取得に使用するBusinessDateProvider。
-
-                                                                      nablarch.core.date.BusinessDateProviderインタフェースを実装したクラスのインスタンスを指定する。
-                                                                      業務日付は、有効日（From/To）とパスワード有効期限のチェックに使用する。
+                                                                      指定しない場合は0となり、ユーザIDのロック機能を使用しないことになる。
 ===================================================================== ==================================================================================================================================================================================
 
 
@@ -285,8 +264,8 @@ AuthenticationUtilでは、以下のユーティリティメソッドを実装�
 encryptPassword    システムリポジトリから、 passwordEncryptor というコンポーネント名で PasswordEncryptor を取得し、
                    PasswordEncryptor#encrypt(String, String) を呼び出す。
 
-authenticate       システムリポジトリから、 authenticator というコンポーネント名で Authenticator を取得し、
-                   Authenticator#authenticate(String, String) を呼び出す。
+authenticate       システムリポジトリから、 authenticator というコンポーネント名で PasswordAuthenticator を取得し、
+                   PasswordAuthenticator#authenticate(String, String) を呼び出す。
 ================== ==============================================================================================
 
 
