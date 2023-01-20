@@ -70,7 +70,7 @@ PBKDF2を使用して、ソルト付加およびストレッチングを行っ�
 
   <!-- パスワード暗号化モジュールの設定 -->
   <component name="passwordEncryptor"
-             class="please.change.me.common.authentication.PBKDF2PasswordEncryptor">
+             class="please.change.me.common.authentication.encrypt.PBKDF2PasswordEncryptor">
 
     <!-- システム共通でソルトに使用する固定文字列を設定する。20バイト以上の文字列を設定しておく。 -->
     <property name="fixedSalt" value=" !!! please.change.me !!! TODO: MUST CHANGE THIS VALUE." />
