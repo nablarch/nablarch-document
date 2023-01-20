@@ -106,7 +106,7 @@ Class definition
   =============================== ==========================================================================
   Class name                      Summary
   =============================== ==========================================================================
-  SystemAccount                   Class that retains user account information. Exchange Universal DAO search results.
+  SystemAccount                   Class that retains user account information. Class for mapping Universal DAO search results.
   =============================== ==========================================================================
 
 .. tip::
