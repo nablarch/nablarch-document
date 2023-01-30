@@ -4,13 +4,6 @@
 検索結果の一覧表示
 ======================================================
 
-.. important::
-
-  本サンプルは、Nablarch 1.4系に準拠したAPIを使用している。
-
-  Nablarch 1.4系より新しいNablarchと組み合わせる場合は、必要に応じてカスタマイズすること。
-
-
 本サンプルは、検索結果の一覧表示を行うタグファイルの実装サンプルである。
 
 `ソースコード <https://github.com/nablarch/nablarch-biz-sample-all>`_
@@ -33,7 +26,6 @@
 * 検索結果件数の表示機能
 * 1画面にすべての検索結果を表示する一覧表示機能
 * 検索結果を指定件数毎に表示する機能(以降はページングと称す)
-* 検索結果の並び替え機能
 
 一覧画面の出力例を示す。
 
@@ -49,31 +41,17 @@
 ------------
 本サンプルの構成を示す。
 
-クラス図
+タグ関連図
 ========================
-フレームワークが提供するクラスやタグファイルの位置付けを明示するために、\
-ユーザを検索する業務アプリケーションのクラスとJSPを構成に含めている。
 
 ページングを実現したい場合、フレームワークが提供するクラスとサンプル提供のタグファイルがページングに必要な処理を行うため、\
 アプリケーションプログラマはページングを作り込みせずに実現できる。
 
-.. image:: ./_images/ListSearchResult_Structure.jpg
+.. image:: ./_images/ListSearchResult_Structure.png
    :scale: 60
 
-フレームワークが提供するクラスとタグファイルの責務
+タグファイルの責務
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-\a) フレームワーク
-
-  =============================== ==========================================================================
-  クラス名                        概要
-  =============================== ==========================================================================
-  DBAccessSupport                 一覧検索用の検索を行うsearchメソッドを提供する。
-  ListSearchInfo                  一覧検索用の情報を保持するクラス。
-  TooManyResultException          一覧検索において検索結果件数が検索結果の最大件数(上限)を超えた場合に発生する例外。
-  =============================== ==========================================================================
-
-\b) タグファイル
 
   =============================== ==========================================================================
   タグ名                          概要
@@ -81,9 +59,7 @@
   listSearchResult                検索結果の一覧表示を行うタグ。
   listSearchPaging                ページングを出力するタグ。
   listSearchSubmit                ページングのサブミット要素を出力するタグ。
-  listSearchParams                ページングのサブミット要素用に変更パラメータを出力するタグ。
   table                           テーブルを出力するタグ。
-  listSearchSortSubmit            ソート用のサブミット要素を出力するタグ。
   =============================== ==========================================================================
 
 |
@@ -94,146 +70,6 @@
 ページングを使用する場合を想定し、本サンプルの使用方法を解説する。
 ユーザを検索する業務アプリケーションを実装例に解説する。
 
-.. _ListSearchResult_DbAccessSupport:
-
-DbAccessSupportクラス
-===============================================================================
-DbAccessSupportクラスは、データベースアクセス機能が提供するデータベースアクセス処理を簡易的に実装するためのサポートクラスである。
-
-DbAccessSupportは、一覧検索用に検索するsearchメソッドを提供する。\
-searchメソッドは、SQL_IDとListSearchInfoを受け取り、次の処理を行う。
-
-* 指定されたSQL_IDとListSearchInfoから検索結果の件数を取得する。
-* 検索結果件数が上限を超えている場合は、TooManyResultExceptionを送出する。
-* 検索結果件数が上限を超えていない場合は、検索して検索結果を返す。検索結果件数は引数で指定されたListSearchInfoに設定する。
-
-SQL_IDで指定するSQL文は、業務に必要な検索条件を基に検索するSQL文(つまりSELECT文)を指定する。\
-SQL文を基にした検索結果の件数取得や検索結果の開始位置と取得件数を指定した検索は、フレームワークで行う。
-
-TooManyResultExceptionは、検索結果の最大件数(上限)と(実際の)検索結果の取得件数を保持する。\
-検索結果件数の上限設定については、 :ref:`ListSearchResult_Setting` を参照。
-
-searchメソッドを使用した検索処理の実装例を示す。
-
-.. code-block:: java
-
- // 入力精査済みの検索条件の取得
- W11AC01SearchForm condition = ...;
- 
- // 検索実行
- SqlResultSet searchResult = null;
- try {
- 
-     // ページング付きの検索処理。
-     // "SELECT_USER_BY_CONDITION"は、ユーザを検索するSELECT文に対するSQL_ID。
-     searchResult = search("SELECT_USER_BY_CONDITION", condition);
- 
- } catch (TooManyResultException e) {
- 
-     // 検索結果件数が上限を超えた場合のエラー処理。
-     // TooManyResultExceptionは、検索結果の最大件数(上限)、実際の検索結果件数を提供する。
-     // "MSG00024"は「検索結果が上限件数({0}件)を超えました。」というメッセージに対するメッセージID。
-     throw new ApplicationException(
-         MessageUtil.createMessage(MessageLevel.ERROR, "MSG00024", e.getMaxResultCount()));
- }
-
-.. _ListSearchResult_ListSearcInfo:
-
-----------------------------
-ListSearchInfoクラス
-----------------------------
-ListSearchInfoクラスは、一覧検索用の情報を保持するクラスである。\
-業務アプリケーションで検索条件を保持するクラスは、ListSearchInfoを継承して作成する。
-
-ListSearchInfoを継承するクラスでは、下記の実装が必要となる。\
-
-* ページング用の検索処理に必要な下記プロパティを他の検索条件と同様に入力精査に含める。
-
- * pageNumber(取得対象のページ番号)
-
-さらに、アクションでは、下記の実装が必要となる。
-
-* 検索結果を表示する際は、ListSearchInfoを継承したクラスのオブジェクトをリクエストスコープに設定する。
-
-ListSearchInfoを継承したクラス(W11AC01SearchForm)とアクション(W11AC01Action)の実装例を下記に示す。
-
-.. code-block:: java
-
- // ListSearchInfoを継承したクラス。
- public class W11AC01SearchForm extends ListSearchInfo {
-     
-     // 検索条件のプロパティ定義は省略。
-     
-     // バリデーション機能に対応したコンストラクタ。
-     public W11AC01SearchForm(Map<String, Object> params) {
-     
-        // 検索条件のプロパティ設定は省略。
-        
-        // ListSearchInfoのプロパティを設定する。
-        setPageNumber((Integer) params.get("pageNumber"));
-     }
-     
-     // オーバーライドして入力精査用のアノテーションを付加する。
-     // 検索結果の最大件数(上限):200件、1ページの表示件数:20件の場合。
-     @PropertyName("ページ番号")
-     @Required
-     @NumberRange(max = 10, min = 1)
-     @Digits(integer = 2)
-     public void setPageNumber(Integer pageNumber) {
-         super.setPageNumber(pageNumber);
-     }
-     
-     /** 精査対象プロパティ(検索条件のプロパティは省略) */
-     private static final String[] SEARCH_COND_PROPS = new String[] { ..., "pageNumber"};
-     
-     // オーバーライドして検索条件のプロパティ名を返す。
-     // 通常は精査対象プロパティと同じとなる。
-     public String[] getSearchConditionProps() {
-         return SEARCH_COND_PROPS;
-     }
- }
-
-.. code-block:: java
-
- // 検索画面のアクション。
- public class W11AC01Action extends DbAccessSupport {
- 
-     // 初期表示
-     public HttpResponse doRW11AC0101(HttpRequest req, ExecutionContext ctx) {
-         // 初期表示は、業務処理のみのため省略。
-     }
-     
-     // 検索
-     @OnError(type = ApplicationException.class, path = "/ss11AC/W11AC0101.jsp")
-    public HttpResponse doRW11AC0102(HttpRequest req, ExecutionContext ctx) {
-         
-         // 業務処理は省略。
-         
-         // 入力精査
-         ValidationContext<W11AC01SearchForm> searchConditionCtx = ...;
-         searchConditionCtx.abortIfInvalid();
-         
-         // ListSearchInfoを継承したクラス(UserSearchCondition)をリクエストスコープに設定する。
-         UserSearchCondition condition = searchConditionCtx.createObject();
-         ctx.setRequestScopedVar("11AC_W11AC01", condition);
-         
-         // 検索実行
-         SqlResultSet searchResult = null;
-         try {
-             searchResult = search("SELECT_USER_BY_CONDITION", condition);
-         } catch (TooManyResultException e) {
-             throw new ApplicationException(
-                 MessageUtil.createMessage(MessageLevel.ERROR, "MSG00024", e.getMaxResultCount()));
-         }
-         
-         // 検索結果をリクエストスコープに設定
-         ctx.setRequestScopedVar("searchResult", searchResult);
-         
-         return new HttpResponse("/ss11AC/W11AC0101.jsp");
-     }
- }
-
-.. /*
 
 .. _ListSearchResult_ListSearchResultTag:
 
@@ -275,7 +111,7 @@ searchUri                              ページングのサブミット要素�
                                        ページングを表示する場合は必ず指定すること。
 検索結果
 ---------------------------------------------------------------------------------------------------------------------------------
-resultSetName(必須)                    検索結果をリクエストスコープから取得する際に使用する名前。|br|
+resultSetName(必須)                    :java:extdoc:`ユニバーサルDAOの検索結果 <nablarch.common.dao.EntityList>` をリクエストスコープから取得する際に使用する名前。検索結果には、ページネーションのためのページ数や検索条件に一致した件数なども含まれる。
 headerRowFragment(必須)                ヘッダ行のJSPフラグメント。ヘッダ行については、 :ref:`ListSearchResult_TableElement` を参照。|br|
 bodyRowFragment(必須)                  ボディ行のJSPフラグメント。ボディ行については、 :ref:`ListSearchResult_TableElement` を参照。
 ====================================== ==========================================================================================
@@ -534,234 +370,6 @@ evenValue                              ボディ行の偶数行に使用するcl
 .. image:: ./_images/ListSearchResult_TableStatus.jpg
    :scale: 60
 
-.. _ListSearchResult_Sort:
-
---------------------------------
-検索結果の並び替え
---------------------------------
-検索結果の一覧表示では、列見出しを選択することで選択された列データによる並び替えを行いたい場合がある。\
-検索結果の並び替えは、並び替え用の列見出しを出力する :ref:`ListSearchResult_ListSearchSortSubmitTag` と、\
-データベースアクセス機能が提供する可変ORDER BY構文(ORDER BY句を動的に変更する構文)を使用した検索処理により実現する。\
-可変ORDER BY構文の詳細については、フレームワークの解説書を参照。
-
-ユーザ検索に並び替えを適用した場合の画面イメージを下記に示す。\
-ユーザ検索では、漢字氏名とカナ氏名による並び替えを提供している。
-
-.. image:: ./_images/ListSearchResult_SortSubmitTag.jpg
-   :scale: 60
-
-ここでは、ユーザ検索に並び替えを適用する場合の実装例を使用して解説する。
-
-検索処理の実装方法
-===============================
-検索結果の並び替えを行うには、可変ORDER BY構文を使用してSQL文を定義する。\
-可変ORDER BY構文を使用したSQL文の例を下記に示す。
-
-下記のSQL文では、漢字氏名とカナ氏名を並び替えるための可変ORDER BY句を使用している。
-どのORDER BYを使用するかは、$sort (sortId)の記述により、検索条件オブジェクトのsortIdフィールドから取得した値が使用される。\
-例えば、検索条件オブジェクトのsortIdフィールドが kanaName_asc の場合、ORDER BY句は"ORDER BY USR.KANA_NAME, SA.LOGIN_ID"に変換される。
-
-.. code-block:: sql
-
- -- 可変ORDER BY構文を使用したSQL文
- SELECT
- 
-    -- 省略
- 
- FROM
- 
-    -- 省略
- 
- WHERE
- 
-    -- 省略
- 
- $sort (sortId) {
-    (kanjiName_asc  USR.KANJI_NAME, SA.LOGIN_ID)
-    (kanjiName_desc USR.KANJI_NAME DESC, SA.LOGIN_ID)
-    (kanaName_asc   USR.KANA_NAME, SA.LOGIN_ID)
-    (kanaName_desc  USR.KANA_NAME DESC, SA.LOGIN_ID) }
-
-ListSearchInfoクラスは、並び替えに対応するためにsortIdプロパティを定義している。\
-検索結果の並び替えを行う場合は、sortIdプロパティを入力精査に含める。\
-ListSearchInfoを継承したクラス(W11AC01SearchForm)の実装例を下記に示す。
-
-.. code-block:: java
-
- // ListSearchInfoを継承したクラス。
- public class W11AC01SearchForm extends ListSearchInfo {
-     
-     // 検索条件のプロパティ定義は省略。
-     
-     // バリデーション機能に対応したコンストラクタ。
-     public W11AC01SearchForm(Map<String, Object> params) {
-     
-        // 検索条件のプロパティ設定は省略。
-        
-        // ListSearchInfoのsortIdプロパティを設定する。
-        setSortId((String) params.get("sortId"));
-     }
-     
-     // オーバーライドして入力精査用のアノテーションを付加する。
-     @PropertyName("ソートID")
-     @Required
-     public void setSortId(String sortId) {
-         super.setSortId(sortId);
-     }
-     
-     /** 精査対象プロパティ(検索条件のプロパティは省略) */
-     private static final String[] SEARCH_COND_PROPS = new String[] { ..., "sortId"};
-     
-     // オーバーライドして検索条件のプロパティ名を返す。
-     // 通常は精査対象プロパティと同じとなる。
-     // ページングの各サブミット要素が検索条件をサブミットする際に使用する。
-     public String[] getSearchConditionProps() {
-         return SEARCH_COND_PROPS;
-     }
- }
-
-listSearchSortSubmitタグ
-===============================
-listSearchSortSubmitタグは、並び替え用のサブミット要素を出力する。
-
-listSearchSortSubmitタグの必須属性及び代表的な属性を下記に示す。\
-listSearchSortSubmitタグで指定できる全ての属性については、 :ref:`ListSearchResult_ListSearchSortSubmitTag` を参照。
-
-====================================== ==========================================================================================
-属性                                   説明
-====================================== ==========================================================================================
-sortCss                                並び替えを行うサブミットのclass属性。|br|
-                                       常にサブミットのclass属性に出力される。|br|
-                                       デフォルトは"nablarch_sort"。
-ascCss                                 昇順に並び替えた場合に指定するサブミットのclass属性。|br|
-                                       sortCss属性に付加するかたちで出力される。|br|
-                                       デフォルトは"nablarch_asc"。(出力例: class="nablarch_sort nablarch_asc")
-descCss                                降順に並び替えた場合に指定するサブミットのclass属性。|br|
-                                       sortCss属性に付加するかたちで出力される。|br|
-                                       デフォルトは"nablarch_desc"。(出力例: class="nablarch_sort nablarch_desc")
-ascSortId(必須)                        昇順に並び替える場合のソートID。
-descSortId(必須)                       降順に並び替える場合のソートID。
-defaultSort                            デフォルトのソートID。|br|
-                                       下記のいずれかを指定する。|br|
-                                       asc(昇順) |br|
-                                       desc(降順) |br|
-                                       デフォルトは"asc"。
-label(必須)                            並び替えを行うサブミットに使用するラベル。
-name(必須)                             並び替えを行うサブミットに使用するタグのname属性。|br|
-                                       name属性は、画面内で一意にすること。
-listSearchInfoName(必須)               ListSearchInfoをリクエストスコープから取得する際に使用する名前。
-====================================== ==========================================================================================
-
-listSearchSortSubmitタグを使用したJSPの実装例を下記に示す。タグファイルのプレフィックスは nbs とする。
-
-.. code-block:: jsp
-
- <nbs:listSearchResult listSearchInfoName="11AC_W11AC01"
-                    searchUri="/action/ss11AC/W11AC01Action/RW11AC0102"
-                    resultSetName="searchResult"
-                    usePageNumberSubmit="true"
-                    useLastSubmit="true">
- 
-    <jsp:attribute name="headerRowFragment">
- 
-        <tr>
- 
-            <%-- 漢字氏名以外の列は省略。 --%>
- 
-            <th>
- 
-                <%-- 漢字氏名を並び替え用のリンクにする。--%>
-                <%-- SQL文に合わせて昇順(kanjiName_asc)と降順(kanjiName_desc)のソートIDを指定する。 --%>
- 
-                <nbs:listSearchSortSubmit ascSortId="kanjiName_asc" descSortId="kanjiName_desc"
-                                        label="漢字氏名" uri="/action/ss11AC/W11AC01Action/RW11AC0102"
-                                        name="kanjiNameSort" listSearchInfoName="11AC_W11AC01" />
- 
-            </th>
- 
-        </tr>
- 
-    </jsp:attribute>
- 
-    <jsp:attribute name="bodyRowFragment">
- 
-        <%-- 省略 --%>
- 
-    </jsp:attribute>
- 
- </nbs:listSearchResult>
-
-並び替えのサブミット要素では、検索フォームから検索された時点の検索条件を使用して検索する。\
-ページング使用時の検索条件と同様に、ウィンドウスコープを使用して検索条件を維持する。
-
-並び替えのサブミット要素では、常に先頭ページ(ページ番号:1)を検索する。\
-並び替えが変更された場合、検索前のページ番号は異なる並び順に対する相対位置となり、\
-検索後に意味のあるページ位置とならないためである。
-
-
-**現在の並び替え状態に応じたlistSearchSortSubmitタグの動作**
-
-listSearchSortSubmitタグは、現在の並び替え状態に応じて下記の値を決定する。\
-現在の並び替え状態は、検索に使用されたソートIDとなる。
-
-* サブミット要素が選択された場合にリスエスト送信するソートID
-* 昇順又は降順に応じてサブミット要素に指定するCSSクラス
-
-ここでは、下記の実装例を前提に、listSearchSortSubmitタグの動作を解説する。\
-
-.. code-block:: jsp
-
- <%-- 漢字氏名を並び替え用のリンクにする。--%>
- <%-- SQL文に合わせて昇順(kanjiName_asc)と降順(kanjiName_desc)のソートIDを指定する。 --%>
- 
- <nbs:listSearchSortSubmit ascSortId="kanjiName_asc" descSortId="kanjiName_desc"
-                          label="漢字氏名" uri="/action/ss11AC/W11AC01Action/RW11AC0102"
-                          name="kanjiNameSort" listSearchInfoName="11AC_W11AC01" />
-
-
-==================================================== ================================================================================================== ======================================================================================================
-検索に使用されたソートID                             リクエスト送信するソートID                                                                         使用されるCSSクラス
-==================================================== ================================================================================================== ======================================================================================================
-kanjiName_asc                                        ascSortId属性(=kanjiName_asc)と等しいため、descSortId属性の値(=kanjiName_desc)を使用する。         ascSortId属性(=kanjiName_asc)と等しいため、ascCss属性の値(nablarch_asc)を使用する。
-kanjiName_desc                                       descSortId属性(=kanjiName_desc)と等しいため、ascSortId属性の値(=kanjiName_asc)を使用する。         descSortId属性(=kanjiName_desc)と等しいため、descCss属性の値(nablarch_desc)を使用する。
-漢字氏名とは異なる列のソートID                       ascSortId属性(=kanjiName_asc)及びdescSortId属性(=kanjiName_desc)に等しくないため、\                ascSortId属性(=kanjiName_asc)及びdescSortId属性(=kanjiName_desc)に等しくないため、指定する値はなし。
-                                                     defaultSortId属性の値(=asc)に応じて、ascSortId属性の値(=kanjiName_asc)を使用する。  
-==================================================== ================================================================================================== ======================================================================================================
-
-
-**昇順又は降順に応じたCSSの実装例**
-
-画面イメージのように、並び替え用のリンクに対して、昇順又は降順を明示するイメージを表示したい場合は、\
-CSSにより実現する。CSSの実装例を下記に示す。\
-CSSファイルから参照できる位置にイメージファイルが配置されているものとし、CSSクラス名はデフォルトの名前で定義している。
-
-.. code-block:: css
-
- /*
-  * sortCss属性に対する設定。
-  * sortCss属性のCSSクラス名は常に出力される。
-  */
- a.nablarch_sort {
-     padding-right: 15px;
-     background-position: 100% 0%;
-     background-repeat: no-repeat;
- }
- 
- /*
-  * ascCss属性に対する設定。
-  * ascCss属性のCSSクラス名はサブミット要素が選択され、かつ昇順の場合のみ出力される。
-  */
- a.nablarch_asc {
-     background-image: url("../img/asc.jpg");
- }
- 
- /*
-  * descCss属性に対する設定。
-  * descCss属性のCSSクラス名はサブミット要素が選択され、かつ降順の場合のみ出力される。
-  */
- a.nablarch_desc {
-     background-image: url("../img/desc.jpg");
- }
 
 .. _ListSearchResult_NoPaging:
 
@@ -1000,29 +608,6 @@ nablarch.listSearch.max                                               検索結�
  コピー先
   業務アプリケーションの /WEB-INF/tags ディレクトリ
 
-タグファイル内のプレフィックスの修正
-=====================================================
-サンプル実装では、タグファイル内のプレフィックスに「nbs」を付けている。\
-業務アプリケーションの配置場所に応じて、プレフィックスの定義とプレフィックスを修正する。
-/WEB-INF/tags/listSearchResult に配置している前提で、修正前後の内容を示す。
-
- 修正前
-   プレフィックスの定義::
-   
-    <%@ taglib prefix="nbs" uri="http://tis.co.jp/nablarch-biz-sample" %>
-   
-   プレフィックス::
-   
-    nbs
-
- 修正後
-   プレフィックスの定義::
-   
-    <%@ taglib prefix="listSearchResult" tagdir="/WEB-INF/tags/listSearchResult" %>
-   
-   プレフィックス::
-   
-    listSearchResult
 
 
 .. _ListSearchResult_TagReference:
@@ -1231,7 +816,7 @@ lastSubmitName                         最後のページに遷移するサブ�
 ====================================== ==========================================================================================
 検索結果
 ---------------------------------------------------------------------------------------------------------------------------------
-resultSetName(必須)                    検索結果をリクエストスコープから取得する際に使用する名前。
+resultSetName(必須)                    :java:extdoc:`ユニバーサルDAOの検索結果 <nablarch.common.dao.EntityList>` をリクエストスコープから取得する際に使用する名前。検索結果には、ページネーションのためのページ数や検索条件に一致した件数なども含まれる。
 resultSetCss                           検索結果テーブルのclass属性。|br|
                                        デフォルトは"nablarch_resultSet"。
 headerRowFragment(必須)                ヘッダ行のJSPフラグメント。
@@ -1266,46 +851,6 @@ evenValue                              ボディ行の偶数行に使用するcl
                                        デフォルトは"nablarch_even"。
 ====================================== ==========================================================================================
 
-.. _ListSearchResult_ListSearchSortSubmitTag:
-
-listSearchSortSubmitタグ
-=====================================
-
-====================================== ==========================================================================================
-属性                                   説明
-====================================== ==========================================================================================
-tag                                    並び替えを行うサブミットに使用するNablarchタグ。|br|
-                                       下記のいずれかを指定する。|br|
-                                       submitLink(aタグ) |br|
-                                       submit(inputタグ) |br|
-                                       button(buttonタグ) |br|
-                                       デフォルトはsubmitLink。
-type                                   並び替えを行うサブミットに使用するタグのtype属性。|br|
-                                       下記のみサポート。|br|
-                                       submit |br|
-                                       button |br|
-                                       サブミットに使用するNablarchタグがsubmitLinkの場合は使用しない。
-sortCss                                並び替えを行うサブミットのclass属性。|br|
-                                       常にサブミットのclass属性に出力される。|br|
-                                       デフォルトは"nablarch_sort"。
-ascCss                                 昇順に並び替えた場合に指定するサブミットのclass属性。|br|
-                                       sortCss属性に付加するかたちで出力される。|br|
-                                       デフォルトは"nablarch_asc"。(出力例: class="nablarch_sort nablarch_asc")
-descCss                                降順に並び替えた場合に指定するサブミットのclass属性。|br|
-                                       sortCss属性に付加するかたちで出力される。|br|
-                                       デフォルトは"nablarch_desc"。(出力例: class="nablarch_sort nablarch_desc")
-ascSortId(必須)                        昇順に並び替える場合のソートID。
-descSortId(必須)                       降順に並び替える場合のソートID。
-defaultSort                            デフォルトのソート。|br|
-                                       下記のいずれかを指定する。|br|
-                                       asc(昇順) |br| 
-                                       desc(降順) |br|
-                                       デフォルトは"asc"。
-label(必須)                            並び替えを行うサブミットに使用するラベル。
-name(必須)                             並び替えを行うサブミットに使用するタグのname属性。|br|
-                                       name属性は、画面内で一意にすること。
-listSearchInfoName(必須)               ListSearchInfoをリクエストスコープから取得する際に使用する名前。
-====================================== ==========================================================================================
 
 .. |br| raw:: html
 

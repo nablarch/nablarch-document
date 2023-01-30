@@ -1,0 +1,25 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+hide circle
+hide members
+
+package listSearchResult {
+
+class ListSearchPaging << tag >>
+
+class ListSearchSubmit << tag >>
+
+class ListSearchResult << tag >>
+
+class table << tag >>
+
+ListSearchResult ..> table
+
+ListSearchResult ..> ListSearchPaging
+
+ListSearchPaging ..> ListSearchSubmit
+
+}
+
+@enduml
