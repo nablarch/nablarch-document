@@ -28,13 +28,13 @@ IDトークンの取得方法や実装場所などはアプリケーション構
 
 OIDCは様々なサービスで対応しているが、本サンプルでは以下のユーザー管理サービスで発行されるIDトークンを取り扱う。
 
-* Amazon Web Services（以下AWS）
+* `Amazon Web Services <https://aws.amazon.com/jp/>`_ （以下AWS）
 
-  * Amazon Cognito ユーザープール（以下ユーザープール）
+  * `Amazon Cognito ユーザープール <https://aws.amazon.com/jp/cognito/>`_ （以下ユーザープール）
 
-* Microsoft Azure（以下Azure）
+* `Microsoft Azure <https://azure.microsoft.com/ja-jp>`_ （以下Azure）
 
-  * Azure Active Directory B2C（以下ADB2C）
+  * `Azure Active Directory B2C <https://azure.microsoft.com/ja-jp/services/active-directory/external-identities/b2c/>`_ （以下ADB2C）
 
 提供パッケージ内では、対象のサービス別にさらにパッケージを分けている。
 
