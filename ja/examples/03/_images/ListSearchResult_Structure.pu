@@ -1,25 +1,34 @@
 @startuml
 
 skinparam classAttributeIconSize 0
-hide circle
 hide members
 
-package listSearchResult {
+package "framework" {
+  abstract class ListSearchInfo
+  class Pagination extends ListSearchInfo
 
-class ListSearchPaging << tag >>
+  class EntityList
+  EntityList --> Pagination
 
-class ListSearchSubmit << tag >>
-
-class ListSearchResult << tag >>
-
-class table << tag >>
-
-ListSearchResult ..> table
-
-ListSearchResult ..> ListSearchPaging
-
-ListSearchPaging ..> ListSearchSubmit
-
+  class UniversalDao
+  UniversalDao ..> EntityList: <<find>>
 }
+
+package listSearchResult {
+  hide circle
+
+  class ListSearchResult <<tag>>
+
+  class ListSearchPaging <<tag>>
+  ListSearchResult ..> ListSearchPaging: <<use>>
+
+  class ListSearchSubmit <<tag>>
+  ListSearchPaging ..> ListSearchSubmit: <<use>>
+
+  class table <<tag>>
+  ListSearchResult ..> table: <<use>>
+}
+
+ListSearchResult --> EntityList
 
 @enduml
