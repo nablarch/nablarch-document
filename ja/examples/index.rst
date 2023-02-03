@@ -7,7 +7,6 @@ Nablarch実装例集
     :maxdepth: 1
 
     01/index
-    02/index
     03/index
     04/index
     05/index
