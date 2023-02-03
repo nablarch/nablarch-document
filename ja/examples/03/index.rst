@@ -199,9 +199,7 @@ bodyRowFragment(必須)                  ボディ行のJSPフラグメント。
  検索結果 <%-- paginationのresultCountプロパティ --%>件
 
 デフォルトの書式を変更したい場合は、resultCountFragment属性にJSPフラグメントを指定する。\
-resultCountFragment属性の指定例を下記に示す。\
-JSPフラグメントは、カスタムタグから呼び出されて評価されるため、searchFormName属性で指定した名前を使用して\
-searchFormオブジェクトにアクセスすることが可能となる。
+resultCountFragment属性の指定例を下記に示す。
 
 .. code-block:: jsp
 
@@ -209,7 +207,7 @@ searchFormオブジェクトにアクセスすることが可能となる。
     
     <%-- resultCountFragment属性にJSPフラグメントを指定する。 --%>
     <jsp:attribute name="resultCountFragment">
-      [サーチ結果 <n:write name="searchResult.pagination.resultCount" />頁]
+      [サーチ結果 <n:write name="pagination.resultCount" />件]
     </jsp:attribute>
     
     <%-- その他の属性は省略。 --%>
@@ -220,7 +218,12 @@ searchFormオブジェクトにアクセスすることが可能となる。
 
 .. code-block:: jsp
 
- [サーチ結果 <%-- paginationのresultCountプロパティ --%>頁]
+ [サーチ結果 <%-- paginationのresultCountプロパティ --%>件]
+
+.. tip::
+  listSearchResultタグ内で、paginationをリクエストスコープにセットしているので、\
+  JSPフラグメントからアクセスするときはresultSetの中のpaginationではなく、paginationという名前でアクセスできる変数を使用すること。
+
 
 .. _ListSearchResult_PagingElement:
 
