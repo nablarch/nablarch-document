@@ -89,9 +89,8 @@
 
 UniversalDaoクラス
 ===============================================================================
-UniversalDaoクラスは、SQLファイルを使用した検索を実行する :java:extdoc:`findAllBySqlFile <nablarch.common.dao.UniversalDao.findAllBySqlFile(java.lang.Class-java.lang.String-java.lang.Object)>` メソッドを提供する。\
-その他の検索メソッドは、 :java:extdoc:`UniversalDao <nablarch.common.dao.UniversalDao>` を参照。\
-findAllBySqlFileメソッドは、エンティティクラスオブジェクトとSQL_IDとバインド変数を受け取り、次の処理を行う。
+:java:extdoc:`UniversalDao <nablarch.common.dao.UniversalDao>` クラスは、複数件の検索結果をEntityListとして返すAPIを持つ。
+SQLファイルを使用した検索を実行する :java:extdoc:`findAllBySqlFile <nablarch.common.dao.UniversalDao.findAllBySqlFile(java.lang.Class-java.lang.String-java.lang.Object)>` を使用した場合を例に説明する。
 
 * 指定されたSQL_IDとバインド変数から、検索を実行する。
 
@@ -102,7 +101,7 @@ findAllBySqlFileメソッドは、エンティティクラスオブジェクト�
 
 * 検索結果を保持したエンティティクラスオブジェクトのリストを返す。
 
-findAllBySqlFileメソッドを使用した検索処理の実装例を示す。
+検索処理の実装例を示す。
 
 .. code-block:: java
 
