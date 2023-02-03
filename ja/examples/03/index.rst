@@ -191,15 +191,7 @@ bodyRowFragment(必須)                  ボディ行のJSPフラグメント。
 
 検索結果件数
 =====================================
-検索結果件数は、useResultCount属性にtrue(デフォルトはtrue)が指定され、検索結果がリクエストスコープに存在する場合に表示される。\
-resultSetNameで取得した、ユニバーサルDAOの検索結果から、Paginationを変数に保存し、変数からresultCountプロパティを取得すること。
-
-
-.. tip::
-
-  resultSetはListを継承したクラスであるため、EL式ではindex番号以外でのアクセスができない。\
-  そのため、paginationを一旦別変数に保存して使用する。
-
+検索結果件数は、useResultCount属性にtrue(デフォルトはtrue)が指定され、検索結果がリクエストスコープに存在する場合に表示される。
 検索結果件数は、デフォルトでは下記の書式で出力される。
 
 .. code-block:: jsp
@@ -575,7 +567,7 @@ useResultCount                         検索結果件数を表示するか否�
 resultCountCss                         検索結果件数をラップするdivタグのclass属性。|br|
                                        デフォルトは"nablarch_resultCount"。
 resultCountFragment                    検索結果件数を出力するJSPフラグメント。|br|
-                                       デフォルトは"検索結果 <PagingInfoのresultCountプロパティ>件"。
+                                       デフォルトは"検索結果 <paginationのresultCountプロパティ>件"。
 ページング
 ---------------------------------------------------------------------------------------------------------------------------------
 usePaging                              ページングを表示するか否か。|br|
