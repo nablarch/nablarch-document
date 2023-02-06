@@ -83,7 +83,7 @@
 UniversalDaoクラス
 ---------------------------
 :java:extdoc:`UniversalDao <nablarch.common.dao.UniversalDao>` クラスは、複数件の検索結果をEntityListとして返すAPIを持つ。
-ページング機能を使う際は、:ref:`こちら <universal_dao-paging>` を参照。
+ページング機能を使う際は、:ref:`universal_dao-paging` を参照。
 
 
 .. _ListSearchResult_ListSearchInfo:
