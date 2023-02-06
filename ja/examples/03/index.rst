@@ -77,42 +77,13 @@
 
 |
 
----------------------------
-使用方法
----------------------------
-ページングを使用する場合を想定し、本サンプルの使用方法を解説する。
-プロジェクトを検索する業務アプリケーションを実装例に解説する。
-ページングについての詳細は、:ref:`こちら <universal_dao-paging>` を参照。
-
-
 .. _ListSearchResult_UniversalDao:
 
+---------------------------
 UniversalDaoクラス
-===============================================================================
+---------------------------
 :java:extdoc:`UniversalDao <nablarch.common.dao.UniversalDao>` クラスは、複数件の検索結果をEntityListとして返すAPIを持つ。
-SQLファイルを使用した検索を実行する :java:extdoc:`findAllBySqlFile <nablarch.common.dao.UniversalDao.findAllBySqlFile(java.lang.Class-java.lang.String-java.lang.Object)>` を使用した場合を例に説明する。
-
-* 指定されたSQL_IDとバインド変数から、検索を実行する。
-
-  * SQL_IDで指定するSQL文は、業務に必要な検索条件を基に検索するSQL文(つまりSELECT文)を指定する。\
-    SQL文を基にした検索結果の件数取得や検索結果の開始位置と取得件数を指定した検索は、フレームワークで行う。
-
-  * 取得するページ数の指定と、1ページにつき何件取得するかを指定可能。
-
-* 検索結果を保持したエンティティクラスオブジェクトのリストを返す。
-
-検索処理の実装例を示す。
-
-.. code-block:: java
-
- // 入力精査済みの検索条件の取得
- ProjectSearchDto searchCondition = ...;
-
- // 検索実行
- List<Project> searchResult = UniversalDao
-         .page(searchCondition.getPageNumber()) // ページ数を指定
-         .per(20L) // 1ページにつき何件取得するかを指定
-         .findAllBySqlFile(Project.class, "SEARCH_PROJECT", searchCondition);
+ページング機能を使う際は、:ref:`こちら <universal_dao-paging>` を参照。
 
 
 .. _ListSearchResult_ListSearchInfo:
