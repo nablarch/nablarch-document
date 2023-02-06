@@ -381,14 +381,13 @@ evenValue                              ボディ行の偶数行に使用するcl
                                        デフォルトは"nablarch_even"。
 ====================================== ==========================================================================================
 
-ユーザ検索の指定例を下記に示す。タグファイルのプレフィックスは nbs とする。
+プロジェクト検索の指定例を下記に示す。タグファイルのプレフィックスは nbs とする。
 
 .. code-block:: jsp
 
  <nbs:listSearchResult resultSetName="searchResult">
 
     <%-- ヘッダ行のJSPフラグメント指定。 --%>
-
     <jsp:attribute name="headerRowFragment">
         <tr>
             <th>プロジェクトID</th>
@@ -400,11 +399,10 @@ evenValue                              ボディ行の偶数行に使用するcl
     </jsp:attribute>
 
     <%-- ボディ行のJSPフラグメント指定。 --%>
-
     <jsp:attribute name="bodyRowFragment">
         <tr class="info">
             <td>
-                <!-- プロジェクトIDをパラメータとするリンクを表示する -->
+                <%-- デフォルトの変数名"row"を使用して行データにアクセスし、プロジェクトIDをパラメータとするリンクを表示する --%>
                 <n:a href="/action/project/show/${row.projectId}">
                     <n:write name="row.projectId"/>
                 </n:a>
