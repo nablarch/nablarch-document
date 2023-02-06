@@ -183,8 +183,8 @@ searchUri                              ページングのサブミット要素�
 検索結果
 ---------------------------------------------------------------------------------------------------------------------------------
 resultSetName(必須)                    :java:extdoc:`ユニバーサルDAOの検索結果 <nablarch.common.dao.EntityList>` をリクエストスコープから取得する際に使用する名前。検索結果には、ページネーションのためのページ数や検索条件に一致した件数なども含まれる。
-headerRowFragment(必須)                ヘッダ行のJSPフラグメント。ヘッダ行については、 :ref:`ListSearchResult_TableElement` を参照。|br|
-bodyRowFragment(必須)                  ボディ行のJSPフラグメント。ボディ行については、 :ref:`ListSearchResult_TableElement` を参照。
+headerRowFragment                      ヘッダ行のJSPフラグメント。ヘッダ行については、 :ref:`ListSearchResult_TableElement` を参照。|br|
+bodyRowFragment                        ボディ行のJSPフラグメント。ボディ行については、 :ref:`ListSearchResult_TableElement` を参照。
 ====================================== ==========================================================================================
 
 .. _ListSearchResult_ResultCountElement:
@@ -599,8 +599,8 @@ showResult                             検索結果を表示するか否か。�
 resultSetName(必須)                    :java:extdoc:`ユニバーサルDAOの検索結果 <nablarch.common.dao.EntityList>` をリクエストスコープから取得する際に使用する名前。検索結果には、ページネーションのためのページ数や検索条件に一致した件数なども含まれる。
 resultSetCss                           検索結果テーブルのclass属性。|br|
                                        デフォルトは"nablarch_resultSet"。
-headerRowFragment(必須)                ヘッダ行のJSPフラグメント。
-bodyRowFragment(必須)                  ボディ行のJSPフラグメント。
+headerRowFragment                      ヘッダ行のJSPフラグメント。
+bodyRowFragment                        ボディ行のJSPフラグメント。
 varRowName                             ボディ行のフラグメントで行データ(c:forEachタグのvar属性)を参照する際に使用する変数名。|br|
                                        デフォルトは"row"。
 varStatusName                          ボディ行のフラグメントでステータス(c:forEachタグのstatus属性)を参照する際に使用する変数名。|br|
