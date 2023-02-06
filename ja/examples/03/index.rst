@@ -207,7 +207,7 @@ resultCountFragment属性の指定例を下記に示す。
     
     <%-- resultCountFragment属性にJSPフラグメントを指定する。 --%>
     <jsp:attribute name="resultCountFragment">
-      [サーチ結果 <n:write name="pagination.resultCount" />件]
+      [サーチ結果 <n:write name="searchResult.pagination.resultCount" />件]
     </jsp:attribute>
     
     <%-- その他の属性は省略。 --%>
@@ -218,12 +218,10 @@ resultCountFragment属性の指定例を下記に示す。
 
 .. code-block:: jsp
 
- [サーチ結果 <%-- paginationのresultCountプロパティ --%>件]
+ [サーチ結果 <%-- resultSetのpaginationのresultCountプロパティ --%>件]
 
 .. tip::
-  listSearchResultタグ内で、paginationをリクエストスコープにセットしているので、\
-  JSPフラグメントからアクセスするときはresultSetの中のpaginationではなく、paginationという名前でアクセスできる変数を使用すること。
-
+  JSPフラグメントから検索結果件数にアクセスするときは、resultSetNameで取得したユニバーサルDAOの検索結果の中のpaginationからresultCountプロパティを取得すること。
 
 .. _ListSearchResult_PagingElement:
 
