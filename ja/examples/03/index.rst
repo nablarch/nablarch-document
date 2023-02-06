@@ -90,7 +90,7 @@ UniversalDaoクラス
 ----------------------------
 ListSearchInfoクラス
 ----------------------------
-ListSearchInfoクラスは、一覧検索用の情報を保持する基底クラスである。
+ListSearchInfoクラスは、一覧検索用の情報を保持する抽象クラスである。
 ページネーションのためのページ数や検索条件に一致した件数などのフィールドおよびアクセッサメソッドは、本クラスで定義する。
 詳細は、 :java:extdoc:`nablarch.core.db.support.ListSearchInfo` を参照。
 
