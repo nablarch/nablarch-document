@@ -249,8 +249,26 @@ resultCountFragment属性の指定例を下記に示す。
 
 **ページング時の検索条件**
 
-ページング時の検索条件は、前回検索時の条件（現在表示されている検索結果を取得した時の条件）を使用する。
-また、検索条件を変更した場合には、検索処理が再実行され、検索結果一覧の最初のページを表示する。
+ページング時の検索条件に、前回検索時の条件（現在表示されている検索結果を取得した時の条件）を使用する場合、検索条件をパラメータにセットしたURIを組み立て、searchUri属性に渡すことで実現できる。
+検索条件にプロジェクト名が含まれる場合の例を、下記に示す。
+
+.. code-block:: jsp
+
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="app" tagdir="/WEB-INF/tags/listSearchResult" %>
+
+ <%-- 現在の検索結果の表示に使用した検索条件をパラメータとして持つURIを、変数としてpageスコープに登録する。
+      この変数は、<app:listSearchResult>タグのページング用のURIとして使用される。--%>
+ <c:url value="/action/project/list" var="uri" context="/">
+    <%-- フォームから取得したプロジェクト名をセットする。 --%>
+    <c:param name="searchForm.projectName" value="${searchForm.projectName}"/>
+ </c:url>
+
+ <%-- searchUri属性に渡す。 --%>
+ <app:listSearchResult resultSetName="searchResult" searchUri="${uri}"
+
+ <%-- その他の属性は省略。 --%>
+
 
 |
 
