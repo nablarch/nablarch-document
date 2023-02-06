@@ -199,6 +199,24 @@ resultCountFragment属性の指定例を下記に示す。
 ページング
 =====================================
 ページングは、usePaging属性にtrue(デフォルトはtrue)が指定された場合に表示される。\
+
+ページング機能を使用する場合、フォームにpageNumberの名前の属性およびアクセッサを定義すること。
+例を下記に示す。
+
+.. code-block:: java
+
+  public class ProjectSearchForm {
+    private String pageNumber;
+    public String getPageNumber(){
+      return this.pageNumber;
+    }
+    public void setPageNumber(String pageNumber){
+      this.pageNumber = pageNumber;
+    }
+
+    // その他の属性は省略。
+  }
+
 ページングの画面要素を下記に示す。\
 ページングは、現在のページ番号とページを移動するためのサブミット要素から構成される。
 
