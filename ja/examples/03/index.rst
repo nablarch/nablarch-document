@@ -173,7 +173,7 @@ resultCountFragment属性の指定例を下記に示す。
 
 .. code-block:: jsp
 
- <nbs:listSearchResult resultSetName="searchResult" useResultCount="true">
+ <app:listSearchResult resultSetName="searchResult" useResultCount="true">
     
     <%-- resultCountFragment属性にJSPフラグメントを指定する。 --%>
     <jsp:attribute name="resultCountFragment">
@@ -182,7 +182,7 @@ resultCountFragment属性の指定例を下記に示す。
     
     <%-- その他の属性は省略。 --%>
     
- </nbs:listSearchResult>
+ </app:listSearchResult>
 
 上記指定後の検索結果件数の書式を下記に示す。
 
@@ -380,11 +380,11 @@ evenValue                              ボディ行の偶数行に使用するcl
                                        デフォルトは"nablarch_even"。
 ====================================== ==========================================================================================
 
-プロジェクト検索の指定例を下記に示す。タグファイルのプレフィックスは nbs とする。
+プロジェクト検索の指定例を下記に示す。タグファイルのプレフィックスは app とする。
 
 .. code-block:: jsp
 
- <nbs:listSearchResult resultSetName="searchResult">
+ <app:listSearchResult resultSetName="searchResult">
 
     <%-- ヘッダ行のJSPフラグメント指定。 --%>
     <jsp:attribute name="headerRowFragment">
@@ -424,7 +424,7 @@ evenValue                              ボディ行の偶数行に使用するcl
             </td>
         </tr>
     </jsp:attribute>
- </nbs:listSearchResult>
+ </app:listSearchResult>
 
 上記指定後の検索結果を下記に示す。
 
