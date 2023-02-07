@@ -31,9 +31,6 @@ Configure in the component configuration file
 
   The configuration example of the component configuration file is shown below.
 
-  Point
-   * The component name should be **webFrontController** .
-
   .. code-block:: xml
 
     <component name="webFrontController" class="nablarch.fw.web.servlet.WebFrontController">
@@ -57,6 +54,7 @@ Configure servlet filters
 
   Point
    * To initialize the system repository, configure :ref:`nablarch_servlet_context_listener` as a listener.
+   * Set the component name set in the component configuration file in the parameter value of component-name.
 
   .. code-block:: xml
 
@@ -72,6 +70,10 @@ Configure servlet filters
     <filter>
       <filter-name>entryPoint</filter-name>
       <filter-class>nablarch.fw.web.servlet.RepositoryBasedWebFrontController</filter-class>
+      <init-param>
+        <param-name>component-name</param-name>
+        <param-value>webFrontController</param-value>
+      </init-param>
     </filter>
 
     <filter-mapping>
