@@ -191,9 +191,6 @@ resultCountFragment属性の指定例を下記に示す。
 
  [サーチ結果 <%-- resultSetのpaginationのresultCountプロパティ --%>件]
 
-.. tip::
-  JSPフラグメントから検索結果件数にアクセスするときは、resultSetNameで取得したユニバーサルDAOの検索結果の中のpaginationからresultCountプロパティを取得すること。
-
 .. _ListSearchResult_PagingElement:
 
 ページング
