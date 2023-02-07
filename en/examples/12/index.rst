@@ -312,7 +312,7 @@ The component obtains the Json Web Key (hereafter referred to as "JWK") and publ
 .. code-block:: java
 
   /**
-   * Cognitoが発行するトークンの検証に使用するRSA公開鍵を提供する。
+   * Provides RSA public key used to verify token issued by Cognito.
    */
   public class CognitoRSAKeyProvider implements RSAKeyProvider, Initializable {
 
