@@ -203,10 +203,15 @@ resultCountFragment属性の指定例を下記に示す。
 .. code-block:: java
 
   public class ProjectSearchForm {
+
+    @Required
+    @Domain("pageNumber")
     private String pageNumber;
+
     public String getPageNumber(){
       return this.pageNumber;
     }
+
     public void setPageNumber(String pageNumber){
       this.pageNumber = pageNumber;
     }
