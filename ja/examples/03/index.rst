@@ -119,8 +119,7 @@ listSearchResultタグ
 ---------------------------
 :ref:`ListSearchResult_Tag` は、検索結果のリストを表示するタグである。\
 searchFormName属性で指定された検索フォームを受け取り、resultSetName属性で指定された検索結果を表示する。
-フォームクラスについては、 :ref:`application_design` を参考にすること。
-listSearchResultタグで出力する画面要素を下記に示す。 
+listSearchResultタグで出力する画面要素を下記に示す。
 
 
 .. image:: ./_images/ListSearchResult_PagingTableFull.jpg
