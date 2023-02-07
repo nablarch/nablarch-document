@@ -28,13 +28,13 @@ Although the method of acquiring ID token and the implementation location may va
 
 OIDC is supported by a variety of services, but this sample deals with ID token issued by the following services.
 
-* `Amazon Web Services <https://aws.amazon.com/jp/>`_ （hereafter referred to as "AWS"）
+* `Amazon Web Services <https://aws.amazon.com>`_ （hereafter referred to as "AWS"）
 
-  * `Amazon Cognito User pool <https://aws.amazon.com/jp/cognito/>`_ (hereafter referred to as "User pool")
+  * `Amazon Cognito User pool <https://aws.amazon.com/cognito/>`_ (hereafter referred to as "User pool")
 
-* `Microsoft Azure <https://azure.microsoft.com/ja-jp>`_ （hereafter referred to as "Azure"）
+* `Microsoft Azure <https://azure.microsoft.com/en-us/>`_ （hereafter referred to as "Azure"）
 
-  * `Azure Active Directory B2C <https://azure.microsoft.com/ja-jp/services/active-directory/external-identities/b2c/>`_ （hereafter referred to as "ADB2C"）
+  * `Azure Active Directory B2C <https://azure.microsoft.com/en-us/services/active-directory/external-identities/b2c/>`_ （hereafter referred to as "ADB2C"）
 
 Within the offering packages, the packages are further divided by targeted services.
 
@@ -256,7 +256,7 @@ In the sample, in order to facilitate the implementation of tests in the local d
       @Override
       public DecodedJWT verify(String idToken) throws JWTVerificationException {
           // Follow Cognito's guide on how to verify a token is valid.
-          //   https://docs.aws.amazon.com/ja_jp/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-verifying-a-jwt.html
+          //   https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-verifying-a-jwt.html
           // Assuming that the ID token is sent immediately after acquisition on the front-end, the allowed duration of validity is 60 seconds.
           JWTVerifier verifier = JWT.require(signatureAlgorithmProvider.get())
                   .acceptExpiresAt(60)
