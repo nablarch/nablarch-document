@@ -189,7 +189,7 @@ resultCountFragment属性の指定例を下記に示す。
 
 .. code-block:: jsp
 
- [サーチ結果 <%-- resultSetのpaginationのresultCountプロパティ --%>件]
+ [サーチ結果 <%-- paginationのresultCountプロパティ --%>件]
 
 .. _ListSearchResult_PagingElement:
 
