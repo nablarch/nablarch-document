@@ -31,6 +31,9 @@ Webフロントコントローラ
 
   コンポーネント設定ファイルの設定例を以下に示す。
 
+  ポイント
+   * コンポーネント名は **webFrontController** とすること。
+
   .. code-block:: xml
 
     <component name="webFrontController" class="nablarch.fw.web.servlet.WebFrontController">
@@ -54,7 +57,6 @@ Webフロントコントローラ
 
   ポイント
    * システムリポジトリを初期化するため、 :ref:`nablarch_servlet_context_listener` をリスナーとして設定すること。
-   * component-nameのパラメータ値には、コンポーネント設定ファイルに設定したコンポーネント名を設定すること。
 
   .. code-block:: xml
 
@@ -70,10 +72,6 @@ Webフロントコントローラ
     <filter>
       <filter-name>entryPoint</filter-name>
       <filter-class>nablarch.fw.web.servlet.RepositoryBasedWebFrontController</filter-class>
-      <init-param>
-        <param-name>component-name</param-name>
-        <param-value>webFrontController</param-value>
-      </init-param>
     </filter>
 
     <filter-mapping>
