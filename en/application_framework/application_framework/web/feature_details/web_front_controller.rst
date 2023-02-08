@@ -20,8 +20,6 @@ Module list
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-.. _handlerqueue:
-
 Configure a handler queue
 --------------------------------------------------
 This section describes the procedure for delegating the processing of a request to the handler queue.
@@ -81,19 +79,46 @@ Configure servlet filters
       <url-pattern>/action/*</url-pattern>
     </filter-mapping>
 
-Change the delegating web front controller
---------------------------------------------------
+Change the name of the delegating web front controller
+--------------------------------------------------------------
 
-  Set the controller name in `web.xml`.
-  The default value of the controller name that the servlet filter transfers is **webFrontController**, so if you set the component name to 
-  **webFrontController** at :ref:`handlerqueue`, this setting is not necessary.
-  
-  A configuration example for `web.xml` is shown below.
+  For example, if you want to process some requests as RESTful web services in a web application-based application.
+  There may be a case where you want to use a web application and a web service together.
+  In such a case, it is necessary to define multiple web front controllers with different handler configurations.
+  :java:extdoc:`RepositoryBasedWebFrontController <nablarch.fw.web.servlet.RepositoryBasedWebFrontController>` is by default
+  Get the web front controller transferred from the system repository with the name ``webFrontController``.
+  You can change the name of the web front controller retrieved from the system repository by setting initialization parameters in `web.xml`.
+
+  An example web front controller configuration with two handler configurations, one for web applications and one for RESTful web services, is shown below.
+
+  First, in the component definition, set the web front controller with a different component name than ``webFrontController``.
+
+  .. code-block:: xml
+
+    <component name="webFrontController"
+              class="nablarch.fw.web.servlet.WebFrontController">
+      <property name="handlerQueue">
+        <list>
+          <!-- ウェブアプリケーション用のハンドラ構成 -->
+        </list>
+      </property>
+    </component>
+
+    <component name="jaxrsController"
+              class="nablarch.fw.web.servlet.WebFrontController">
+      <property name="handlerQueue">
+        <list>
+          <!-- RESTfulウェブサービス用のハンドラ構成 -->
+        </list>
+      </property>
+    </component>
+
+  Next, set up a servlet filter in `web.xml` to use the web front controller set up above.
 
   Point
-   * Set the controller name as a parameter value of controllerName.
-   * Used to separate handler configurations in cases such as when web applications and web services are used together.
-
+   * Use ``<init-param>`` to set the parameter ``controllerName`` to the name of the controller to retrieve from the system repository.
+   * Set the URL pattern to be processed by each web front controller in ``<filter-mapping>``.
+  
   .. code-block:: xml
 
     <context-param>

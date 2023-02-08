@@ -20,8 +20,6 @@ Webフロントコントローラ
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
-.. _handlerqueue:
-
 ハンドラキューを設定する
 --------------------------------------------------
 リクエストに対する処理をハンドラキューに委譲するための手順を示す。
@@ -81,18 +79,45 @@ Webフロントコントローラ
       <url-pattern>/action/*</url-pattern>
     </filter-mapping>
 
-移譲するWebフロントコントローラを変更する
+移譲するWebフロントコントローラの名前を変更する
 --------------------------------------------------
 
-  コントローラ名を `web.xml` に設定する。
-  サーブレットフィルタが移譲するコントローラ名のデフォルト値は **webFrontController** であるため、 :ref:`handlerqueue` でコンポーネント名を
-  **webFrontController** とした場合、この設定は不要である。
-  
-  `web.xml` への設定例を以下に示す。
+  ウェブアプリケーションをベースとしたアプリケーションにおいて一部のリクエストをRESTfulウェブサービスとして処理したい場合など、
+  ウェブアプリケーションとウェブサービスを併用したい場合が考えられる。
+  そのような場合は、ハンドラ構成の異なるWebフロントコントローラを複数個定義する必要がある。
+  :java:extdoc:`RepositoryBasedWebFrontController <nablarch.fw.web.servlet.RepositoryBasedWebFrontController>` はデフォルトでは
+  ``webFrontController`` という名前でシステムリポジトリから移譲するWebフロントコントローラを取得する。
+  `web.xml` に初期化パラメータを設定することで、システムリポジトリから取得するWebフロントコントローラの名前を変更することができる。
+
+  ウェブアプリケーション用とRESTfulウェブサービス用2つのハンドラ構成を持つWebフロントコントローラの設定例を以下に示す。
+
+  まず、コンポーネント定義で、 ``webFrontController`` と異なるコンポーネント名でWebフロントコントローラを設定する。
+
+  .. code-block:: xml
+
+    <component name="webFrontController"
+              class="nablarch.fw.web.servlet.WebFrontController">
+      <property name="handlerQueue">
+        <list>
+          <!-- ウェブアプリケーション用のハンドラ構成 -->
+        </list>
+      </property>
+    </component>
+
+    <component name="jaxrsController"
+              class="nablarch.fw.web.servlet.WebFrontController">
+      <property name="handlerQueue">
+        <list>
+          <!-- RESTfulウェブサービス用のハンドラ構成 -->
+        </list>
+      </property>
+    </component>
+
+  次に `web.xml` に上記で設定したWebフロントコントローラを使用するためのサーブレットフィルタを設定する。
 
   ポイント
-   * controllerNameのパラメータ値としてコントローラ名を設定する。
-   * ウェブアプリケーションとウェブサービスを併用するなどの場合に、ハンドラ構成を分けるために使用する。
+   * ``<init-param>`` を使い ``controllerName`` というパラメータにシステムリポジトリから取得する際のコントローラ名を設定する。
+   * ``<filter-mapping>`` でそれぞれのWebフロントコントローラが処理対象とするURLのパターンを設定する。
 
   .. code-block:: xml
 
