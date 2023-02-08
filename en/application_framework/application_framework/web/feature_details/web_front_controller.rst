@@ -20,6 +20,8 @@ Module list
     <artifactId>nablarch-fw-web</artifactId>
   </dependency>
 
+.. _handlerqueue:
+
 Configure a handler queue
 --------------------------------------------------
 This section describes the procedure for delegating the processing of a request to the handler queue.
@@ -78,3 +80,51 @@ Configure servlet filters
       <filter-name>entryPoint</filter-name>
       <url-pattern>/action/*</url-pattern>
     </filter-mapping>
+
+Change the delegating web front controller
+--------------------------------------------------
+
+  Set the controller name in `web.xml`.
+  The default value of the controller name that the servlet filter transfers is **webFrontController**, so if you set the component name to 
+  **webFrontController** at :ref:`handlerqueue`, this setting is not necessary.
+  
+  A configuration example for `web.xml` is shown below.
+
+  Point
+   * Set the controller name as a parameter value of controllerName.
+   * Used to separate handler configurations in cases such as when web applications and web services are used together.
+
+  .. code-block:: xml
+
+    <context-param>
+      <param-name>di.config</param-name>
+      <param-value>web-boot.xml</param-value>
+    </context-param>
+
+    <listener>
+      <listener-class>nablarch.fw.web.servlet.NablarchServletContextListener</listener-class>
+    </listener>
+
+    <filter>
+      <filter-name>webEntryPoint</filter-name>
+      <filter-class>nablarch.fw.web.servlet.RepositoryBasedWebFrontController</filter-class>
+    </filter>
+    <filter>
+      <filter-name>jaxrsEntryPoint</filter-name>
+      <filter-class>nablarch.fw.web.servlet.RepositoryBasedWebFrontController</filter-class>
+      <init-param>
+        <param-name>controllerName</param-name>
+        <param-value>jaxrsController</param-value>
+      </init-param>
+    </filter>
+
+    <filter-mapping>
+      <filter-name>webEntryPoint</filter-name>
+      <url-pattern>/action/*</url-pattern>
+      <url-pattern>/</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+      <filter-name>jaxrsEntryPoint</filter-name>
+      <url-pattern>/api/*</url-pattern>
+    </filter-mapping>
+
