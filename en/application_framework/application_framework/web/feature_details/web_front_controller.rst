@@ -99,7 +99,7 @@ Change the name of the delegating web front controller
               class="nablarch.fw.web.servlet.WebFrontController">
       <property name="handlerQueue">
         <list>
-          <!-- ウェブアプリケーション用のハンドラ構成 -->
+          <!-- Handler configuration for web applications -->
         </list>
       </property>
     </component>
@@ -108,7 +108,7 @@ Change the name of the delegating web front controller
               class="nablarch.fw.web.servlet.WebFrontController">
       <property name="handlerQueue">
         <list>
-          <!-- RESTfulウェブサービス用のハンドラ構成 -->
+          <!-- Handler configuration for RESTful web services -->
         </list>
       </property>
     </component>
