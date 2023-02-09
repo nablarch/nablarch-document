@@ -118,7 +118,6 @@ java.util.ArrayListクラスを継承し、Paginationクラスのインスタン
 listSearchResultタグ
 ---------------------------
 :ref:`ListSearchResult_Tag` は、検索結果のリストを表示するタグである。\
-検索フォームを受け取り、resultSetName属性で指定された検索結果を表示する。
 listSearchResultタグで出力する画面要素を下記に示す。
 
 
