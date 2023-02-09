@@ -79,6 +79,8 @@ Configure servlet filters
       <url-pattern>/action/*</url-pattern>
     </filter-mapping>
 
+.. _change_web_front_controller_name:
+
 Change the name of the delegating web front controller
 --------------------------------------------------------------
 
