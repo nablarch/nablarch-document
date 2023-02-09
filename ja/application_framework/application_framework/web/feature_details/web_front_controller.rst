@@ -79,6 +79,8 @@ Webフロントコントローラ
       <url-pattern>/action/*</url-pattern>
     </filter-mapping>
 
+.. _change_web_front_controller_name:
+
 移譲するWebフロントコントローラの名前を変更する
 --------------------------------------------------
 
