@@ -409,7 +409,7 @@ An example of project search specifications is shown below. The tag file prefix 
     <jsp:attribute name="bodyRowFragment">
         <tr class="info">
             <td>
-                <%-- Access run data using acceleration variable name "row". --%>
+                <%-- Access the row data using the default variable name "row". --%>
                 <n:a href="/action/project/show/${row.projectId}">
                     <n:write name="row.projectId"/>
                 </n:a>
