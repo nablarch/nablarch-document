@@ -601,6 +601,9 @@ Attribute                              Description
 ====================================== =================================================================================================================================
 Search result
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+showResult                             Whether to display search results. |br|
+                                       Default is true.
+resultSetName(required)                The name to use when fetching :java:extdoc:`Universal DAO search results <nablarch.common.dao.EntityList>` from the request scope. The search results also include the number of pages for pagination and the number of items that match the search conditions.
 resultSetCss                           Class attribute of the search result table. |br|
                                        Default is "nablarch_resultSet".
 headerRowFragment                      JSP fragment of the header row.
