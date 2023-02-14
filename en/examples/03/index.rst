@@ -139,7 +139,7 @@ Overall
 listSearchInfoName                     Name used to acquire ListSearchInfo from the Request scope.  |br|
                                        If not specified, "Number of search results" and "Paging" are not displayed.  |br|
                                        Do not specify when displaying only a list such as batch deletion confirmation screen.
-searchFormName                         Name used to acquire 検索フォーム from the Request scope.  |br|
+searchFormName                         Name used to acquire search form from the Request scope.  |br|
                                        The search form holds search criteria and page numbers for paging.
 Search result list
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
