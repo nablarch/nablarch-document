@@ -241,7 +241,7 @@ Paging screen element                   Description
 ====================================== ==============================================================================================================================================
 Current page number                     The current page number is displayed when true is specified in the useCurrentPageNumber attribute.
 First, Previous, Next, Last             If it is possible to transition from the current page number to the page indicated by each screen element, it will be displayed in a state where it can be submitted.
-                                        If transition is not possible, a link is displayed as a label, and a button is displayed as an unusable state.
+                                        If transition is not possible, a link is displayed as a label is displayed as an unusable state.
 Page number                             All page numbers (1..n) are displayed only when the total number of pages is 2 or more.
 ====================================== ==============================================================================================================================================
 
