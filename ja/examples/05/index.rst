@@ -173,8 +173,8 @@ FileManagementUtil使用時に必要となる各コンポーネントのプロ�
 
 .. code-block:: xml
 
-    <!-- ファイル管理機能(論理名dbFileManagementのコンポーネントを、FileManagementUtilクラスが使用する) -->
-    <component name="fileManagement" class="please.change.me.common.file.management.fileManagement">
+    <!-- ファイル管理機能(論理名fileManagementのコンポーネントを、FileManagementUtilクラスが使用する) -->
+    <component name="fileManagement" class="please.change.me.common.file.management.DbFileManagement">
 
       <!-- 格納ファイルの最大長(単位：バイト) -->
       <property name="maxFileSize" value="10000000"/>
