@@ -9,11 +9,11 @@ skinparam class {
 class 業務Action <<not sample>>
 class FileManagementUtil {
     - FileManagementUtil()
-    + delete(String): void
-    + find(String): Blob
-    + getFileManagement(): FileManagement
-    + save(PartInfo): String
-    + save(File): String
+    - {static} getFileManagement(): FileManagement
+    + {static} delete(String): void
+    + {static} find(String): Blob
+    + {static} save(PartInfo): String
+    + {static} save(File): String
 }
 
 業務Action ..> FileManagementUtil
