@@ -4,7 +4,7 @@
 
 本サンプルで提供するフォーマッタ機能の仕様を解説する。
 
-フォーマッタ機能の概要、基本となる汎用データフォーマット機能に関する詳細は、Nablarch Application Framework解説書の汎用データフォーマット機能に関する解説を参照すること。
+フォーマッタ機能の概要、基本となる汎用データフォーマット機能に関する詳細は、Nablarch Application Framework解説書の :ref:`data_format` を参照すること。
 
 ----------------------------
 概要
@@ -69,40 +69,26 @@ JDKで使用されるCP930はダブルバイト文字に対して必ずシフト
 
 フィールドタイプの使用方法
 --------------------------------------------------------------------
-  追加したデータタイプクラスを使用する場合、以下の設定を行う必要がある。
-  下記のサンプルでは、デフォルトの設定に、"ESN"と"EN"のデータタイプを追加している。
+  Nablarchが提供する標準データタイプは、:ref:`data_format-field_type_list` を参照。
 
-  .. code-block:: xml
-  
-    <component name="fixedLengthConvertorSetting"
-        class="nablarch.core.dataformat.convertor.FixedLengthConvertorSetting">
-      <property name="convertorTable">
-        <map>
-          <!-- EBCDIC(CP930)用のデータタイプ ESN, EN を追加する -->
-          <entry key="ESN" value="please.change.me.core.dataformat.convertor.datatype.EbcdicDoubleByteCharacterString"/>
-          <entry key="EN" value="please.change.me.core.dataformat.convertor.datatype.EbcdicNoShiftCodeDoubleByteCharacterString"/>
-          
-          <!-- 以下はデフォルト設定 -->
-          <entry key="X" value="nablarch.core.dataformat.convertor.datatype.SingleByteCharacterString"/>
-          <entry key="N" value="nablarch.core.dataformat.convertor.datatype.DoubleByteCharacterString"/>
-          <entry key="XN" value="nablarch.core.dataformat.convertor.datatype.ByteStreamDataString"/>
-          <entry key="Z" value="nablarch.core.dataformat.convertor.datatype.ZonedDecimal"/>
-          <entry key="SZ" value="nablarch.core.dataformat.convertor.datatype.SignedZonedDecimal"/>
-          <entry key="P" value="nablarch.core.dataformat.convertor.datatype.PackedDecimal"/>
-          <entry key="SP" value="nablarch.core.dataformat.convertor.datatype.SignedPackedDecimal"/>
-          <entry key="B" value="nablarch.core.dataformat.convertor.datatype.Bytes"/>
-          <entry key="X9" value="nablarch.core.dataformat.convertor.datatype.NumberStringDecimal"/>
-          <entry key="SX9" value="nablarch.core.dataformat.convertor.datatype.SignedNumberStringDecimal"/>
-          <entry key="pad" value="nablarch.core.dataformat.convertor.value.Padding"/>
-          <entry key="encoding" value="nablarch.core.dataformat.convertor.value.UseEncoding"/>
-          <entry key="_LITERAL_" value="nablarch.core.dataformat.convertor.value.DefaultValue"/>
-          <entry key="number" value="nablarch.core.dataformat.convertor.value.NumberString"/>
-          <entry key="signed_number" value="nablarch.core.dataformat.convertor.value.SignedNumberString"/>
-          <entry key="replacement" value="nablarch.core.dataformat.convertor.value.CharacterReplacer"/>
-        </map>
-      </property>
-    </component>
+  追加したデータタイプクラスを使用する場合、フォーマットに応じたファクトリの継承クラスの作成をする必要がある。
+  詳細は :ref:`data_format-field_type_add` を参照。
 
+  下記のサンプルでは、Fixed(固定長)のファクトリクラスを継承し、標準データタイプに"ESN"と"EN"のデータタイプを追加している。
+
+  .. code-block:: java
+
+    public class CustomFixedLengthConvertorFactory extends FixedLengthConvertorFactory {
+        @Override
+        protected Map<String, Class<?>> getDefaultConvertorTable() {
+            final Map<String, Class<?>> defaultConvertorTable = new CaseInsensitiveMap<Class<?>>(
+                    new ConcurrentHashMap<String, Class<?>>(super.getDefaultConvertorTable()));
+            // EBCDIC(CP930)用のデータタイプ ESN, EN を追加する
+            defaultConvertorTable.put("ESN", EbcdicDoubleByteCharacterString.class);
+            defaultConvertorTable.put("EN", EbcdicNoShiftCodeDoubleByteCharacterString.class);
+            return Collections.unmodifiableMap(defaultConvertorTable);
+        }
+    }
 
 
 フィールドタイプ・フィールドコンバータ定義一覧
