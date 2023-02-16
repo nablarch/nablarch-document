@@ -4,13 +4,6 @@
 データベースを用いたファイル管理機能サンプル
 ============================================
 
-.. important::
-
-  本サンプルは、Nablarch 1.4系に準拠したAPIを使用している。
-
-  Nablarch 1.4系より新しいNablarchと組み合わせる場合は、必要に応じてカスタマイズすること。
-
-
 ------------
 概要
 ------------
@@ -29,7 +22,7 @@
 
 .. tip::
 
-  本サンプルはDBとしてOracleを使用している。Oracle以外を使用する場合は、各DBに合わせた実装に修正し使用すること。
+  本サンプルはDBとしてH2を使用している。H2以外を使用する場合は、各DBに合わせた実装に修正し使用すること。
   
 
 
@@ -111,7 +104,7 @@
 クラス図
 ========================
 .. image:: ./_images/DbFileManagement_classdiagram.png
-   :scale: 100
+   :scale: 75
 
 
 各クラスの責務
@@ -150,11 +143,6 @@
   ================ ================== ============ ========= ========================================================
 
 
-.. tip::
-
-  上記テーブルの他、サンプルではNablarchの採番機能でファイル管理IDを採番する際に、Oracleのシーケンスを使用している。
-  
-
 ---------------------------
 使用方法
 ---------------------------
@@ -177,7 +165,7 @@ FileManagementUtil使用時に必要となる各コンポーネントのプロ�
   設定対象のコンポーネント       設定例で使用している論理名
   ============================== ============================================================
   ファイル管理機能本体           fileManagement
-  採番機能                       oracleSequenceIdGenerator
+  採番機能                       sequenceIdGenerator
   採番時に使用するフォーマッタ    dbFileManagementFormatter
   ============================== ============================================================
 
@@ -185,8 +173,8 @@ FileManagementUtil使用時に必要となる各コンポーネントのプロ�
 
 .. code-block:: xml
 
-    <!-- ファイル管理機能(論理名dbFileManagementのコンポーネントを、FileManagementUtilクラスが使用する) -->
-    <component name="fileManagement" class="please.change.me.common.file.management.fileManagement">
+    <!-- ファイル管理機能(論理名fileManagementのコンポーネントを、FileManagementUtilクラスが使用する) -->
+    <component name="fileManagement" class="please.change.me.common.file.management.DbFileManagement">
 
       <!-- 格納ファイルの最大長(単位：バイト) -->
       <property name="maxFileSize" value="10000000"/>
@@ -195,23 +183,14 @@ FileManagementUtil使用時に必要となる各コンポーネントのプロ�
       <property name="fileIdKey" value="1103" />
 
       <!-- 採番機能 -->
-      <property name="idGenerator" ref="oracleSequenceIdGenerator" />
+      <property name="idGenerator" ref="sequenceIdGenerator" />
 
       <!-- 採番時に使用するフォーマッタ -->
       <property name="idFormatter" ref="dbFileManagementFormatter" />
     </component>
 
-
     <!-- 採番機能(ファイル管理機能から使用) -->
-    <component name="oracleSequenceIdGenerator" class="nablarch.common.idgenerator.OracleSequenceIdGenerator">
-      <property name="idTable">
-        <map>
-          <!-- keyとシーケンス名の対応付け-->
-          <entry key="1103" value="FILE_ID_SEQ"/>
-        </map>
-      </property>
-    </component>
-
+    <component name="sequenceIdGenerator" class="nablarch.common.idgenerator.SequenceIdGenerator" />
 
     <!-- 採番時に使用するフォーマッタ(ファイル管理機能から使用) -->
     <component name="dbFileManagementFormatter" class="nablarch.common.idgenerator.formatter.LpadFormatter">
