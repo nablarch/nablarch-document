@@ -1,0 +1,54 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+skinparam class {
+    BackgroundColor<<not sample>> Gray
+}
+
+class 業務Action <<not sample>>
+class FileManagementUtil {
+    - FileManagementUtil()
+    + delete(String): void
+    + find(String): Blob
+    + getFileManagement(): FileManagement
+    + save(PartInfo): String
+    + save(File): String
+}
+
+業務Action ..> FileManagementUtil
+
+interface FileManagement {
+    + delete(String): void
+    + find(String): Blob
+    + save(PartInfo): String
+    + save(File): String
+}
+
+FileManagementUtil ..> FileManagement
+
+class DbFileManagement implements FileManagement {
+    - fileIdKey: String
+    - idGenerator: IdGenerator
+    - idFormatter: IdFormatter
+    - maxFileSize: int = 10000000
+
+    + delete(String): void
+    + find(String): Blob
+    + save(PartInfo): String
+    + save(File): String
+    + setIdFormatter(IdFormatter): void
+    + setIdGenerator(IdGenerator): void
+    + setMaxFileSize(int): void
+}
+
+class UniversalDao <<not sample>>
+DbFileManagement ..> UniversalDao
+
+interface IdGenerator <<not sample>>
+DbFileManagement ..> IdGenerator
+
+interface IdFormatter <<not sample>>
+DbFileManagement ..> IdFormatter
+
+@enduml
