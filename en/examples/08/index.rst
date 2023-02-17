@@ -2,13 +2,6 @@
 Sample of HTML Email Send Function
 =====================================
 
-.. important::
-
-  This sample uses a Nablarch 1.4 compliant API.
-
-  When combining with versions later than Nablarch 1.4 series, customize as necessary.
-
-
 Summary
 ========
 
