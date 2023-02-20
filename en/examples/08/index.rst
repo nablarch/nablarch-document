@@ -9,7 +9,7 @@ Provides the implementation sample of the function that sends the HTML email.
 
 `Source code <https://github.com/nablarch/nablarch-biz-sample-all>`_
 
-This function is a sample of sending HTML emails using the standard email send function (nablarch.common.mail.MailSender) provided in the Nablarch application framework.
+This function is a sample to send HTML mail using :ref:`mail` .
 Since this function is a sample implementation, the source code (both production and test code) must be imported into the project when using it in an implementation project.
 
 
