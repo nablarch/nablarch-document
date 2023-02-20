@@ -255,7 +255,7 @@ Switching method
 Combined use of digital signature
 ----------------------------------
 
-When using a digital signature, use the extended sample of digital signature and HTML email sample together.
+When using a digital signature, use :ref:`the extended sample of digital signature<bouncycastle_mail_sample>` and HTML email sample together.
 
   * This sample is used for the registration process of the email send request.
   * For email send batch, use the HtmlMailContentCreator class provided by this sample to extend the digital signature extended sample (SMIMESignedMailSender) so that HTML email content can be created and used.
