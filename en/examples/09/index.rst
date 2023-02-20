@@ -1,3 +1,5 @@
+.. _bouncycastle_mail_sample:
+
 How to Use a Sample to Send a Digitally Signed Email Using Bouncycastle
 ============================================================================
 

@@ -2,13 +2,6 @@
 Sample of HTML Email Send Function
 =====================================
 
-.. important::
-
-  This sample uses a Nablarch 1.4 compliant API.
-
-  When combining with versions later than Nablarch 1.4 series, customize as necessary.
-
-
 Summary
 ========
 
@@ -16,7 +9,7 @@ Provides the implementation sample of the function that sends the HTML email.
 
 `Source code <https://github.com/nablarch/nablarch-biz-sample-all>`_
 
-This function is a sample of sending HTML emails using the standard email send function (nablarch.common.mail.MailSender) provided in the Nablarch application framework.
+This function is a sample to send HTML mail using :ref:`mail` .
 Since this function is a sample implementation, the source code (both production and test code) must be imported into the project when using it in an implementation project.
 
 
@@ -262,7 +255,7 @@ Switching method
 Combined use of digital signature
 ----------------------------------
 
-When using a digital signature, use the extended sample of digital signature and HTML email sample together.
+When using a digital signature, use :ref:`the extended sample of digital signature<bouncycastle_mail_sample>` and HTML email sample together.
 
   * This sample is used for the registration process of the email send request.
   * For email send batch, use the HtmlMailContentCreator class provided by this sample to extend the digital signature extended sample (SMIMESignedMailSender) so that HTML email content can be created and used.
