@@ -1408,7 +1408,7 @@ SQLの処理時間を計測する
   <!-- SqlTimeMetricsDaoContextFactory を daoContextFactory という名前で定義 -->
   <component name="daoContextFactory"
              class="nablarch.integration.micrometer.instrument.dao.SqlTimeMetricsDaoContextFactory">
-    <!-- delegate に、移譲先となる DaoContext のファクトリを設定する -->
+    <!-- delegate に、委譲先となる DaoContext のファクトリを設定する -->
     <property name="delegate">
       <component class="nablarch.common.dao.BasicDaoContextFactory">
         <property name="sequenceIdGenerator">
