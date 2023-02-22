@@ -175,4 +175,4 @@ CSRF対策
 
 ウェブアプリケーションとRESTfulウェブサービスの併用
 -----------------------------------------------------
-* :ref:`移譲するWebフロントコントローラの名前を変更する <change_web_front_controller_name>`
+* :ref:`委譲するWebフロントコントローラの名前を変更する <change_web_front_controller_name>`
