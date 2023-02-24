@@ -48,7 +48,7 @@ This function is an extension of the email send function (\ *nablarch.common.mai
 A certificate is identified based on the target email send pattern ID and a digital signature is added to the certificate.
 Therefore, when this function is used, ensure to design a table that can use the mail transmission pattern ID.
 
-For more information, see the guide to :ref:`email send functions<mail>`.
+For more information, see the guide to :ref:`mail`.
 
 
 Preparation of configuration file
