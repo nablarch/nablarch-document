@@ -70,8 +70,8 @@ The following information is output to the CSV file after executing this batch.
 =================== =====================================================================
 Item name           Remarks
 =================== =====================================================================
-Years               End of request (END) Year of log output date and time
-Month               End of request (END) date and time of log output
+Years               End of request (END) Year of log output
+Month               End of request (END) Month of log output
 Day                 End of request (END) date and time of log output
 Process name        Process name
 
@@ -87,8 +87,7 @@ See `Online access log analysis and configuration of aggregation`_\  sample.
 
 Execution
 ----------
-This batch is implemented using the Nablarch batch architecture. Therefore, \ **Nablarch.jar**\ is required to run this batch. 
-Since the Nablarch batch requires a connection to the database, **database connection configuration** is also required.
+This batch is implemented using the :ref:`nablarch_batch` .
 
 The following parameters are required when running this sample:
 
@@ -100,14 +99,6 @@ The following parameters are required when running this sample:
 * requestPath
 
   Specify the class name (OnlineAccessLogParseAction) of this batch action class.
-
-  If you change the configuration value of the log aggregation project, it is necessary to include the package name in the class name, so you should review the configuration value.
-
-
-* Request ID
-
-  If the functions that require a request ID (such as prevention of double start, batch stop control, etc.) are not used, it is possible to execute this batch without granting a request ID. 
-  When using a function that requires a request ID, the request ID should be given according to the project numbering system.
 
 * userId
 
@@ -127,15 +118,13 @@ Batch processing to perform aggregate processing based on the CSV file output by
 
   * When analysis processing is executed daily.
 
-    When the analysis results of the following four files are used as inputs for tabulation, and the batch execution date is October 10, 2012 and the tabulation period is set to two days in the past, 
+    When the analysis results of the following two files are used as inputs for tabulation, and the batch execution date is October 10, 2012 and the tabulation period is set to two days in the past,
     the CSV files from October 8 to October 10, 2012 are the tabulation targets.
 
-    The content of each CSV file contains only one day's analysis results, so the range of calculation is basically the same as the past two days specified.
+    In this case, the CSV file for October 8, 2012 contains the analysis results for the two days 7 and 8, so the logs for the 7 days before the past 2 days in the aggregation range are also output as aggregation results.
 
-    | REQUEST_INFO_20121007.csv     (Analysis of the online logs for seventh)
-    | REQUEST_INFO_20121008.csv     (Analysis of the online logs for eighth)
-    | REQUEST_INFO_20121009.csv     (Analysis of the online logs for ninth)
-    | REQUEST_INFO_20121010.csv     (Analysis of the online logs for tenth)
+    | REQUEST_INFO_20121008.csv     (Analysis of the online logs for seventh and eighth)
+    | REQUEST_INFO_20121010.csv     (Analysis of the online logs for ninth and tenth)
 
   * When the analysis process is not executed daily (for example, when it is executed once every two days)
 
@@ -153,11 +142,9 @@ The following three CSV files are output as the aggregation result.
 ======================================= ======================================================================================================================
 File name                               Output contents
 ======================================= ======================================================================================================================
-Aggregate results by time                          Outputs hourly aggregate processing.
+Aggregate results by time               Outputs hourly aggregate processing.
 
-Aggregate results by year and month                          Outputs aggregate results on a daily basis.
-
-Daily aggregation result                            Outputs aggregate results for each year and month.
+Daily aggregation result                Outputs aggregate results for each year and month.
 
                                         Note that the year-month-by-year tabulation results only include data for the system monthly date. For this reason, 
                                         the aggregate results of the past years should be accumulated without deleting them.
@@ -168,6 +155,8 @@ Daily aggregation result                            Outputs aggregate results fo
                                           the value output in the month/year summary results will be 10 days only. 
                                           If the aggregation process is executed on 30th and the range of aggregation is 10 days, \
                                           the range from 20th to 30th is the target of aggregation.
+
+Aggregate results by year and month     Outputs aggregate results on a daily basis.
 ======================================= ======================================================================================================================
 
 **Output contents to a CSV file**
@@ -197,8 +186,7 @@ See `Online access log analysis and configuration of aggregation`_\  sample.
 
 Execution
 ------------
-This batch is implemented using the Nablarch batch architecture. Therefore, \ **Nablarch.jar**\ is required to run this batch.
-Since the Nablarch batch requires a connection to the database, **database connection configuration** is also required.
+This batch is implemented using the :ref:`nablarch_batch` .
 
 The following parameters are required when running this sample:
 
@@ -210,14 +198,6 @@ The following parameters are required when running this sample:
 * requestPath
 
   Specify the class name (RequestInfoAggregateAction) of this batch action class.
-
-  If you change the configuration value of the log aggregation project, it is necessary to include the package name in the class name, so you should review the configuration value.
-
-
-* Request ID
-
-  If the functions that require a request ID (such as prevention of double start, batch stop control, etc.) are not used, it is possible to execute this batch without granting a request ID. 
-  When using a function that requires a request ID, the request ID should be given according to the project numbering system.
 
 * userId
 
@@ -279,7 +259,12 @@ includeRequestIdList              Set the request ID list to be analyzed.
 
                                    If the request ID has increased or decreased, add (delete) the request ID to be analyzed.
 
+==============================    ============================================================================================================================================
 
+
+==============================    ============================================================================================================================================
+Configuration property name                  Settings
+==============================    ============================================================================================================================================
 findRequestIdPattern              Regular expression for extracting request ID from end log
 
                                   Set a regular expression so that the part where the request ID is output is grouped.
@@ -308,6 +293,20 @@ findExecutionTimePattern          Regular expression for extracting the processi
 
                                   Set the regular expression so that the part where the processing time is output is grouped.
 
+thresholdExecutionTime            Threshold of the processing time for one request (milliseconds)
+
+                                  This is used to obtain the number of requests whose processing time exceeds the threshold.
+                                  For example, if it is set to 3000, the number of requests exceeding 3 seconds can be calculated.
+
+aggregatePeriod                   Configure the aggregation period.
+
+                                  It is recommended to set a minimum of 30 to ensure that the year and month are aggregated without fail.
+==============================    ============================================================================================================================================
+
+
+==============================    ============================================================================================================================================
+Configuration property name                  Settings
+==============================    ============================================================================================================================================
 requestInfoFormatName             File name of the format definition file of the analysis result CSV
 
                                   The definition file uses the following files under the log aggregation project.
@@ -349,12 +348,4 @@ requestInfoSummaryFormatName      Format definition file name of the aggregation
                                     it is necessary to create the format definition file corresponding to the extended batch.
                                     In such a case, it is necessary to set the name of the newly created format definition file.
 
-thresholdExecutionTime            Threshold of the processing time for one request (milliseconds)
-
-                                  This is used to obtain the number of requests whose processing time exceeds the threshold. 
-                                  For example, if it is set to 3000, the number of requests exceeding 3 seconds can be calculated.
-
-aggregatePeriod                   Configure the aggregation period.
-
-                                  It is recommended to set a minimum of 30 to ensure that the year and month are aggregated without fail.
 ==============================    ============================================================================================================================================
