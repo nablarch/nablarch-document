@@ -118,13 +118,15 @@ Batch processing to perform aggregate processing based on the CSV file output by
 
   * When analysis processing is executed daily.
 
-    When the analysis results of the following two files are used as inputs for tabulation, and the batch execution date is October 10, 2012 and the tabulation period is set to two days in the past,
+    When the analysis results of the following four files are used as inputs for tabulation, and the batch execution date is October 10, 2012 and the tabulation period is set to two days in the past,
     the CSV files from October 8 to October 10, 2012 are the tabulation targets.
 
-    In this case, the CSV file for October 8, 2012 contains the analysis results for the two days 7 and 8, so the logs for the 7 days before the past 2 days in the aggregation range are also output as aggregation results.
+    The content of each CSV file contains only one day's analysis results, so the range of calculation is basically the same as the past two days specified.
 
-    | REQUEST_INFO_20121008.csv     (Analysis of the online logs for seventh and eighth)
-    | REQUEST_INFO_20121010.csv     (Analysis of the online logs for ninth and tenth)
+    | REQUEST_INFO_20121007.csv     (Analysis of the online logs for seventh)
+    | REQUEST_INFO_20121008.csv     (Analysis of the online logs for eighth)
+    | REQUEST_INFO_20121009.csv     (Analysis of the online logs for ninth)
+    | REQUEST_INFO_20121010.csv     (Analysis of the online logs for tenth)
 
   * When the analysis process is not executed daily (for example, when it is executed once every two days)
 
@@ -144,19 +146,19 @@ File name                               Output contents
 ======================================= ======================================================================================================================
 Aggregate results by time               Outputs hourly aggregate processing.
 
-Daily aggregation result                Outputs aggregate results for each year and month.
+Daily aggregation result                Outputs aggregate results on a daily basis.
 
-                                        Note that the year-month-by-year tabulation results only include data for the system monthly date. For this reason, 
+Aggregate results by year and month     Outputs aggregate results for each year and month.
+
+                                        Note that the year-month-by-year tabulation results only include data for the system monthly date. For this reason,
                                         the aggregate results of the past years should be accumulated without deleting them.
 
                                         .. tip::
 
                                           If the range is less than one month, such as 10 days, \
-                                          the value output in the month/year summary results will be 10 days only. 
+                                          the value output in the month/year summary results will be 10 days only.
                                           If the aggregation process is executed on 30th and the range of aggregation is 10 days, \
                                           the range from 20th to 30th is the target of aggregation.
-
-Aggregate results by year and month     Outputs aggregate results on a daily basis.
 ======================================= ======================================================================================================================
 
 **Output contents to a CSV file**
