@@ -100,7 +100,7 @@ DoS攻撃を防ぐためにも、アップロードサイズの上限は常に�
   <component class="nablarch.fw.web.upload.MultipartHandler" name="multipartHandler">
     <property name="uploadSettings">
       <component class="nablarch.fw.web.upload.UploadSettings">
-        <!-- アップロードサイズ(Content-Length)の上限(約10M) -->
+        <!-- アップロードサイズ(Content-Length)の上限(約1MB) -->
         <property name="contentLengthLimit" value="1000000" />
       </component>
     </property>
