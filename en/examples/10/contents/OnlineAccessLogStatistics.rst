@@ -118,7 +118,7 @@ Batch processing to perform aggregate processing based on the CSV file output by
 
   * When analysis processing is executed daily.
 
-    When the analysis results of the following four files are used as inputs for tabulation, and the batch execution date is October 10, 2012 and the tabulation period is set to two days in the past,
+    When the analysis results of the following four files are used as inputs for tabulation, and the batch execution date is October 10, 2012 and the tabulation period is set to two days in the past, 
     the CSV files from October 8 to October 10, 2012 are the tabulation targets.
 
     The content of each CSV file contains only one day's analysis results, so the range of calculation is basically the same as the past two days specified.
