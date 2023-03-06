@@ -46,7 +46,7 @@ Logger/LoggerFactory
 .. _log-log_writers:
 
 LogWriter
- * :java:extdoc:`FileLogWriter (ファイルへ出力。ファイルサイズによるローテーション) <nablarch.core.log.basic.FileLogWriter>`
+ * :java:extdoc:`FileLogWriter (ファイルへ出力) <nablarch.core.log.basic.FileLogWriter>`
  * :java:extdoc:`SynchronousFileLogWriter (複数プロセスから1ファイルへの出力) <nablarch.core.log.basic.SynchronousFileLogWriter>`
  * :java:extdoc:`StandardOutputLogWriter (標準出力へ出力) <nablarch.core.log.basic.StandardOutputLogWriter>`
  * :java:extdoc:`LogPublisher (任意のリスナーへ出力) <nablarch.core.log.basic.LogPublisher>`
@@ -1437,11 +1437,13 @@ log4jとの機能比較
   * - ファイルサイズによるログファイルのローテーションができる
     - △ [#logrolate]_
       |br|
-      :ref:`解説書へ <log-log_writers>`
+      :ref:`解説書へ <log-rotation>`
     - ○
 
   * - 日時によるログファイルのローテーションができる
-    - × [#extends_or_log4j]_
+    - △ [#logrolate]_
+      |br|
+      :ref:`解説書へ <log-rotation>`
     - ○
 
   * - ログをメールで送信できる
