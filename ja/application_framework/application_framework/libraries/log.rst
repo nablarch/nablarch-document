@@ -523,6 +523,85 @@ Nablarchの提供するアーキタイプから生成したブランクプロジ
  * :ref:`http_access_log-setting`
  * :ref:`messaging_log-setting`
 
+.. _log-rotation:
+
+ログファイルのローテーションを行う
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+本フレームワークでは、一定のポリシー（ルール）に従ってログファイルのローテーションを行う機能を提供している。
+ローテーションは、LogWriterとして :java:extdoc:`FileLogWriter <nablarch.core.log.basic.FileLogWriter>` を使用している場合のみ有効である。
+
+ローテーションポリシーの設定は、プロパティファイルに :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>` が実装された
+クラスのFQCNを指定する。デフォルトでは汎用的に使用できるクラスとして、ファイルサイズによるローテーションを行う :java:extdoc:`FileSizeRotatePolicy <nablarch.core.log.basic.FileSizeRotatePolicy>` 
+と、日時によるローテーションを行う :java:extdoc:`DateRotatePolicy <nablarch.core.log.basic.DateRotatePolicy>` を提供している。
+独自のポリシーに従ってローテーションを行いたい場合は、このような :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>` の実装クラスを
+作成する必要がある。
+
+サイズによるローテーションを行う場合
+  ログ書き込み時に、現在のファイルサイズと書き込むログのバイト数の合計値が ``maxFileSize`` で指定したバイト数を超える場合にローテーションを行う。
+  
+  古いログファイル名は、 ``<ログファイルパス>.yyyyMMddHHmmssSSS.old`` のフォーマットで出力される。
+  日時には、ローテーション実施時刻が出力される。
+
+ 記述ルール
+  rotatePolicy
+   :java:extdoc:`FileSizeRotatePolicy <nablarch.core.log.basic.FileSizeRotatePolicy>` を指定する。
+   デフォルト値は :java:extdoc:`FileSizeRotatePolicy <nablarch.core.log.basic.FileSizeRotatePolicy>` 。
+  maxFileSize
+   書き込み先ファイルの最大サイズ。オプション。
+   単位はキロバイト。1000バイトを1キロバイトと換算する。
+   デフォルト値は0。
+
+   以下の場合はローテーションしない。
+
+    * 指定されていない。
+    * 指定値が解析可能な整数値でない。
+    * 指定値が0以下である。
+
+  設定例を以下に示す。
+
+  .. code-block:: properties
+
+    writerNames=sample
+
+    # writerのrotatePolicyにRotatePolicyが実装されたクラスのFQCNを指定する
+    writer.sample.rotatePolicy=nablarch.core.log.basic.FileSizeRotatePolicy
+    # 書き込み先ファイルの最大サイズ。オプション。
+    writer.sample.maxFileSize=20
+
+日時によるローテーションを行う場合
+  更新時刻を過ぎた後の初回ログ書き込み時に、ローテーションを行う。
+  更新時刻のデフォルト値は ``00:00:00`` となるため、デフォルトでは日付が変わった後の初回ログ書き込み時に、ローテーションを行う。
+  
+  古いログファイル名は、 ``<ログファイルパス>.yyyyMMddHHmmss.old`` のフォーマットで出力される。
+  日時には、 :java:extdoc:`DateRotatePolicy <nablarch.core.log.basic.DateRotatePolicy>` が保持している更新時刻が出力される。
+  もし、ローテーション先に同名のファイルが存在している場合、 ``<ログファイルパス>.yyyyMMddHHmmssSSS.old`` のフォーマット
+  で出力される。日時には、ローテーション実施時刻が出力される。
+
+  また、起動時にログファイルパスにログファイルが既に存在する場合は、ファイルの更新時刻から次回の更新時刻を算出する。
+  例えば、2023年3月6日にログファイルに書き込み後アプリを停止。２日後にアプリを再起動する場合
+  起動時に :java:extdoc:`DateRotatePolicy <nablarch.core.log.basic.DateRotatePolicy>` が保持する次回更新時刻は2023年3月7日
+  となる。そのため起動後の初回ログ書き込み時にローテーションを行う。
+
+ 記述ルール
+  rotatePolicy
+    :java:extdoc:`DateRotatePolicy <nablarch.core.log.basic.DateRotatePolicy>` を指定する。
+  updateTime
+   更新時刻。オプション。
+   特定の時刻以降のログファイルをローテーションしたい場合に指定する。
+   時刻は、HH, HH:mm, HH:mm:ss のいずれかのフォーマットで指定する。
+   デフォルト値は00:00:00。
+
+  設定例を以下に示す。
+
+  .. code-block:: properties
+
+    writerNames=sample
+    
+    # writerのrotatePolicyにRotatePolicyが実装されたクラスのFQCNを指定する
+    writer.sample.rotatePolicy=nablarch.core.log.basic.DateRotatePolicy
+    # 更新時刻。オプション。
+    writer.sample.updateTime=12:00
+
 拡張例
 ---------------------------------------------------------------------
 
