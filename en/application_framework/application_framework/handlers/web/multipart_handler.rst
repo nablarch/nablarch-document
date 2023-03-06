@@ -121,6 +121,7 @@ Prevent uploading of mass files
 --------------------------------------------------
 Even if you set the maximum upload size, a large number of files can be uploaded at once by reducing the size of each file.
 To reduce unnecessary processing, this handler allows you to set a limit on the number of files that can be uploaded at once.
+This handler returns 400 (Bad Request) to the client when a file exceeding the limit is uploaded.
 
 A setting example is shown below.
 
