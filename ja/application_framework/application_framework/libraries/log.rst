@@ -46,7 +46,7 @@ Logger/LoggerFactory
 .. _log-log_writers:
 
 LogWriter
- * :java:extdoc:`FileLogWriter (ファイルへ出力) <nablarch.core.log.basic.FileLogWriter>`
+ * :java:extdoc:`FileLogWriter (ファイルへ出力。ログのローテーション。) <nablarch.core.log.basic.FileLogWriter>`
  * :java:extdoc:`SynchronousFileLogWriter (複数プロセスから1ファイルへの出力) <nablarch.core.log.basic.SynchronousFileLogWriter>`
  * :java:extdoc:`StandardOutputLogWriter (標準出力へ出力) <nablarch.core.log.basic.StandardOutputLogWriter>`
  * :java:extdoc:`LogPublisher (任意のリスナーへ出力) <nablarch.core.log.basic.LogPublisher>`
@@ -56,6 +56,12 @@ LogWriter
 LogFormatter
  * :java:extdoc:`BasicLogFormatter (パターン文字列によるフォーマット) <nablarch.core.log.basic.BasicLogFormatter>`
 
+.. _log-log_policies:
+
+RotatePolicy
+ * :java:extdoc:`DateRotatePolicy (日時でログのローテーション) <nablarch.core.log.basic.DateRotatePolicy>`
+ * :java:extdoc:`FileSizeRotatePolicy (ファイルサイズによるログのローテーション) <nablarch.core.log.basic.FileSizeRotatePolicy>`
+  
 .. important::
  :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`
  を使う場合は、 :ref:`log-synchronous_file_log_writer_attention` を参照すること。
