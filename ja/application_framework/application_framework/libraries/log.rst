@@ -535,11 +535,25 @@ Nablarchの提供するアーキタイプから生成したブランクプロジ
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 本機能で提供するFileLogWiterは、設定したポリシーに従ってログファイルのローテーションを行う。
 
-ローテーションポリシーの設定は、プロパティファイルに :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>` が実装された
-クラスのFQCNを指定する。デフォルトでは汎用的に使用できるクラスとして、ファイルサイズによるローテーションを行う :java:extdoc:`FileSizeRotatePolicy <nablarch.core.log.basic.FileSizeRotatePolicy>` 
-と、日時によるローテーションを行う :java:extdoc:`DateRotatePolicy <nablarch.core.log.basic.DateRotatePolicy>` を提供している。
-独自のポリシーに従ってローテーションを行いたい場合は、このような :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>` の実装クラスを
-作成する必要がある。
+ローテーションポリシーはデフォルトではファイルサイズによるローテーションを行う :java:extdoc:`FileSizeRotatePolicy <nablarch.core.log.basic.FileSizeRotatePolicy>`
+が使用される。 :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>` の実装クラスを作成することで、ローテーションポリシーを変更することができる。
+
+本機能が提供している :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>` の実装クラスは以下。
+各 :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>` の設定はそれぞれのJavadocを参照。
+
+* :java:extdoc:`FileSizeRotatePolicy <nablarch.core.log.basic.FileSizeRotatePolicy>`
+* :java:extdoc:`DateRotatePolicy <nablarch.core.log.basic.DateRotatePolicy>`
+
+ローテーションポリシーの設定例を以下に示す。ローテーションポリシーはLogWriterのプロパティに指定する。
+
+  .. code-block:: properties
+
+    writerNames=sample
+    
+    # writerのrotatePolicyにRotatePolicyが実装されたクラスのFQCNを指定する
+    writer.sample.rotatePolicy=nablarch.core.log.basic.DateRotatePolicy
+    # 更新時刻。オプション。
+    writer.sample.updateTime=12:00
 
 サイズによるローテーションを行う場合
   ログ書き込み時に、現在のファイルサイズと書き込むログのバイト数の合計値が ``maxFileSize`` で指定したバイト数を超える場合にローテーションを行う。
