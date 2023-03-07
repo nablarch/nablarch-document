@@ -527,7 +527,7 @@ Nablarchの提供するアーキタイプから生成したブランクプロジ
 
 ログファイルのローテーションを行う
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-本フレームワークでは、一定のポリシー（ルール）に従ってログファイルのローテーションを行う機能を提供している。
+本フレームワークでは、一定のポリシーに従ってログファイルのローテーションを行う機能を提供している。
 ローテーションは、LogWriterとして :java:extdoc:`FileLogWriter <nablarch.core.log.basic.FileLogWriter>` を使用している場合のみ有効である。
 
 ローテーションポリシーの設定は、プロパティファイルに :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>` が実装された
