@@ -108,13 +108,14 @@
     </routes>
 
 業務アクションとマッピングするURLの例
-  ==================== =====================
-  業務アクション       URL
-  ==================== =====================
-  PersonAction#index   /action/person/index
-  PersonAction#search  /action/person/search
-  LoginAction#index    /action/login/index
-  ==================== =====================
+  ========================== ===========================
+  業務アクション              URL
+  ========================== ===========================
+  PersonAction#index         /action/person/index
+  PersonAction#search        /action/person/search
+  LoginAction#index          /action/login/index
+  projectUploadAction#index  /action/projectUpload/index
+  ========================== ===========================
 
 .. _router_adaptor_path_annotation:
 
@@ -355,4 +356,3 @@ HTTPリクエストのディスパッチの例は次のようになる。
       <component class="com.example.CustomPathOptionsFormatter" />
     </property>
   </component>
-
