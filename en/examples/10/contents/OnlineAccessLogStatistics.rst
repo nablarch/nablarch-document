@@ -89,11 +89,11 @@ Execution
 ----------
 This batch is implemented using the :ref:`nablarch_batch` .
 
-The following parameters are required when running this sample:
+The following parameters are required when running this sample.
 
 * diConfig
 
-  You can specify "main/resources/statistics-batch.xml" in the log aggregation function project. 
+  Specify "main/resources/statistics-batch.xml" of the amount summary function project.
   When the classpath is configured to the resources directory, the specified value is "statistics-batch.xml".
 
 * requestPath
@@ -130,7 +130,7 @@ Batch processing to perform aggregate processing based on the CSV file output by
 
   * When the analysis process is not executed daily (for example, when it is executed once every two days)
 
-    When the analysis results of the following four files are used as inputs for tabulation, and the batch execution date is October 10, 2012 and the tabulation period is set to two days in the past, 
+    When the analysis results of the following two files are used as inputs for tabulation, and the batch execution date is October 10, 2012 and the tabulation period is set to two days in the past,
     the CSV files from October 8 to October 10, 2012 are the tabulation targets.
 
     In this case, because the CSV file of 20121008 contains analysis results for two days (7 and 8), 
@@ -167,7 +167,7 @@ Aggregate results by year and month     Outputs aggregate results for each year 
 Item name                                                                      Remarks
 ============================================================================== ==============================================================================================================
 Request ID                                                                     Request ID
-Period for aggregation                                                         The following values are output for each file. :
+Period for aggregation                                                         The following values are output for each file.
                                                                                ::
 
                                                                                 By time: 0 - 23
@@ -190,11 +190,11 @@ Execution
 ------------
 This batch is implemented using the :ref:`nablarch_batch` .
 
-The following parameters are required when running this sample:
+The following parameters are required when running this sample.
 
 * diConfig
 
-  You can specify "main/resources/statistics-batch.xml" in the log aggregation function project. 
+  Specify "main/resources/statistics-batch.xml" of the amount summary function project.
   When the classpath is configured to the resources directory, the specified value is "statistics-batch.xml".
 
 * requestPath
