@@ -27,7 +27,7 @@ Form class
 
   Depending on the API specification, a form class may have a hierarchical structure (form class has a form class).
 
-  .. _`application_design-form_html`:
+  .. _`rest-application_design-form_html`:
 
   Form class is created for each API
     The form class defines the interface with the client, and a separate form class is created if the interface (API) is different.
