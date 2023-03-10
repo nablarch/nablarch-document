@@ -146,7 +146,7 @@ File name                               Output contents
 ======================================= ======================================================================================================================
 Aggregate results by time               Outputs hourly aggregate processing.
 
-Daily aggregation result                Outputs aggregate results on a daily basis.
+Aggregate results by day                Outputs aggregate results on a daily basis.
 
 Aggregate results by year and month     Outputs aggregate results for each year and month.
 
