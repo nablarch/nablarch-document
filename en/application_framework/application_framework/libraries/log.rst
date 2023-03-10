@@ -39,7 +39,7 @@ Logger/LoggerFactory
 .. _log-log_writers:
 
 LogWriter
- * :java:extdoc:`FileLogWriter (Output to file. Rotation by file size) <nablarch.core.log.basic.FileLogWriter>`
+ * :java:extdoc:`FileLogWriter (Output to file. Log rotation) <nablarch.core.log.basic.FileLogWriter>`
  * :java:extdoc:`SynchronousFileLogWriter (output from multiple processes to one file) <nablarch.core.log.basic.SynchronousFileLogWriter>`
  * :java:extdoc:`StandardOutputLogWriter (output to standard output) <nablarch.core.log.basic.StandardOutputLogWriter>`
  * :java:extdoc:`LogPublisher (output to any listener) <nablarch.core.log.basic.LogPublisher>`
@@ -48,7 +48,13 @@ LogWriter
 
 LogFormatter
  * :java:extdoc:`BasicLogFormatter  (format by pattern string) <nablarch.core.log.basic.BasicLogFormatter>`
- 
+
+.. _log-log_policies:
+
+RotatePolicy
+ * :java:extdoc:`DateRotatePolicy (Log rotation by date and time) <nablarch.core.log.basic.DateRotatePolicy>`
+ * :java:extdoc:`FileSizeRotatePolicy (Log rotation by file size) <nablarch.core.log.basic.FileSizeRotatePolicy>`
+
 .. important::
  If you want to use :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`, 
  see  :ref:`log-synchronous_file_log_writer_attention` .
@@ -495,6 +501,31 @@ Description rules of property files
  * :ref:`http_access_log-setting`
  * :ref:`messaging_log-setting`
 
+.. _log-rotation:
+
+Rotate log files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+FileLogWiter provided by this function rotates log files according to the configured policy.
+
+The default rotation policy is :java:extdoc:`FileSizeRotatePolicy <nablarch.core.log.basic.FileSizeRotatePolicy>` which rotates by file size.
+By creating an implementation class of :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>`, you can change the rotation policy.
+
+The implementation class of :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>` provided by this function is as follows.
+See the Javadoc for each :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>` setting.
+
+* :java:extdoc:`FileSizeRotatePolicy <nablarch.core.log.basic.FileSizeRotatePolicy>`
+* :java:extdoc:`DateRotatePolicy <nablarch.core.log.basic.DateRotatePolicy>`
+
+An example of rotation policy setting is shown below. Rotation policy is specified in LogWriter property.
+
+  .. code-block:: properties
+
+    writerNames=sample
+    
+    # Specify the FQCN of the class that implements RotatePolicy in the rotatePolicy of the writer
+    writer.sample.rotatePolicy=nablarch.core.log.basic.DateRotatePolicy
+    # Update time. option.
+    writer.sample.rotateTime=12:00
 
 Expansion example
 ---------------------------------------------------------------------
@@ -1307,11 +1338,13 @@ Function comparison between Nablrach and `log4j (external site) <http://logging.
   * - Log files can be rotated by file size
     - B [#logrolate]_
       |br|
-      :ref:`To the manual <log-log_writers>`
+      :ref:`To the manual <log-rotation>`
     - A
 
   * - Log files can be rotated by date and time
-    - C [#extends_or_log4j]_
+    - B [#logrolate]_
+      |br|
+      :ref:`To the manual <log-rotation>`
     - A
 
   * - Log can be sent by email
