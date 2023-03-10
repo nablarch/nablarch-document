@@ -134,7 +134,7 @@ Batch processing to perform aggregate processing based on the CSV file output by
     the CSV files from October 8 to October 10, 2012 are the tabulation targets.
 
     In this case, because the CSV file of 20121008 contains analysis results for two days (7 and 8), 
-    the logs for the previous two days in the aggregation range (7 days) are also output as aggregation results.
+    Logs output on October 7 beyond the past two days, which is the aggregation range, are also output as aggregate results.
 
     | REQUEST_INFO_20121008.csv     (Analysis of the online logs for the seventh and eighth)
     | REQUEST_INFO_20121010.csv     (Analysis of the online logs for the ninth and tenth)
