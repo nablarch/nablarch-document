@@ -93,7 +93,7 @@ The following parameters are required when running this sample.
 
 * diConfig
 
-  Specify "main/resources/statistics-batch.xml" of the amount summary function project.
+  You can specify "main/resources/statistics-batch.xml" in the log aggregation function project. 
   When the classpath is configured to the resources directory, the specified value is "statistics-batch.xml".
 
 * requestPath
@@ -194,7 +194,7 @@ The following parameters are required when running this sample.
 
 * diConfig
 
-  Specify "main/resources/statistics-batch.xml" of the amount summary function project.
+  You can specify "main/resources/statistics-batch.xml" in the log aggregation function project. 
   When the classpath is configured to the resources directory, the specified value is "statistics-batch.xml".
 
 * requestPath
