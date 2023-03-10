@@ -505,7 +505,7 @@ Description rules of property files
 
 Rotate log files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-FileLogWiter provided by this function rotates log files according to the set policy.。
+FileLogWiter provided by this function rotates log files according to the configured policy.
 
 The default rotation policy is :java:extdoc:`FileSizeRotatePolicy <nablarch.core.log.basic.FileSizeRotatePolicy>` which rotates by file size.
 By creating an implementation class of :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>`, you can change the rotation policy.
@@ -525,7 +525,7 @@ An example of rotation policy setting is shown below. Rotation policy is specifi
     # Specify the FQCN of the class that implements RotatePolicy in the rotatePolicy of the writer
     writer.sample.rotatePolicy=nablarch.core.log.basic.DateRotatePolicy
     # Update time. option.
-    writer.sample.updateTime=12:00
+    writer.sample.rotateTime=12:00
 
 Expansion example
 ---------------------------------------------------------------------

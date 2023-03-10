@@ -59,7 +59,7 @@ LogFormatter
 .. _log-log_policies:
 
 RotatePolicy
- * :java:extdoc:`DateRotatePolicy (日時でログのローテーション) <nablarch.core.log.basic.DateRotatePolicy>`
+ * :java:extdoc:`DateRotatePolicy (日時によるログのローテーション) <nablarch.core.log.basic.DateRotatePolicy>`
  * :java:extdoc:`FileSizeRotatePolicy (ファイルサイズによるログのローテーション) <nablarch.core.log.basic.FileSizeRotatePolicy>`
   
 .. important::
@@ -553,7 +553,7 @@ Nablarchの提供するアーキタイプから生成したブランクプロジ
     # writerのrotatePolicyにRotatePolicyが実装されたクラスのFQCNを指定する
     writer.sample.rotatePolicy=nablarch.core.log.basic.DateRotatePolicy
     # 更新時刻。オプション。
-    writer.sample.updateTime=12:00
+    writer.sample.rotateTime=12:00
 
 拡張例
 ---------------------------------------------------------------------
