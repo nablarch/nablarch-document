@@ -93,7 +93,8 @@ Change the name of the delegating web front controller
 
   An example web front controller configuration with two handler configurations, one for web applications and one for RESTful web services, is shown below.
 
-  First, in the component definition, set the web front controller with a different component name than ``webFrontController``.
+  First, in the component definition, set the web front controller with a handler configuration for a web application named ``webFrontController`` 
+  and the web front controller with a handler configuration for a RESTful web service named a component name different from ``webFrontController``.
 
   .. code-block:: xml
 
