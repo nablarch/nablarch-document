@@ -1,6 +1,6 @@
 .. _`permission_check`:
 
-Permission Check
+Permission Check by handler
 =====================================================================
 
 .. contents:: Table of contents
@@ -20,6 +20,9 @@ This function enables access control such as limiting the functions that can be 
 
  Therefore, while permission can be configured in detail for this function, data design is also required in detail,
  which may reduce productivity during development and increase operational load after release.
+
+ In addition, :doc:`role_check` provides a function to manage permission with a simpler data structure than this function.
+ If it is difficult to use this function, :doc:`role_check` can be an option.
 
 Function overview
 ---------------------------------------------------------------------

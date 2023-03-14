@@ -22,17 +22,17 @@ In this sample, authentication is performed using an ID token that can be obtain
 Although the method of acquiring ID token and the implementation location may vary depending on the application configuration, the following configuration is assumed in this sample.
 
 * Running a RESTful web services application with Nablarch on back-end.
-* ID token are acquired on the front-end (web, mobile app, etc.) and then sent to back-end.
+* ID token are acquired on the front-end (SPA, mobile app, etc.) and then sent to back-end.
 * Establish login session upon successful authentication and stateful session management after authentication.
 * Authentication processes are implemented in business action.
 
 OIDC is supported by a variety of services, but this sample deals with ID token issued by the following services.
 
-* `Amazon Web Services <https://aws.amazon.com>`_ （hereafter referred to as "AWS"）
+* Amazon Web Services（hereafter referred to as "AWS"）
 
   * `Amazon Cognito User pool <https://aws.amazon.com/cognito/>`_ (hereafter referred to as "User pool")
 
-* `Microsoft Azure <https://azure.microsoft.com/en-us/>`_ （hereafter referred to as "Azure"）
+* Microsoft Azure（hereafter referred to as "Azure"）
 
   * `Azure Active Directory B2C <https://azure.microsoft.com/en-us/services/active-directory/external-identities/b2c/>`_ （hereafter referred to as "ADB2C"）
 
@@ -47,6 +47,12 @@ Samples of handling ID token issued by ADB2C.
   *please.change.me.common.oidc.verification.*\ **adb2c**
 
 Since the concept is the same for all packages, this page is based on the sample cognito package.
+When using the adb2c package, replace it with the corresponding component as appropriate.
+
+.. tip::
+
+  This sample is implemented according to the specifications of User pool and ADB2C as of March 2023.
+  Be sure to check the latest specifications of the services you use and customize accordingly.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 Scope of this sample
@@ -167,11 +173,6 @@ Setting environment dependent values
 The process for verification of ID token is created as a component. Environment dependent values are referenced as properties to set information for accessing the service.
 Therefore, the following environment dependent values should be set in the execution environment.
 
-.. tip::
-
-  As mentioned above, this page is based on a package designed for use with Cognito.
-  ADB2C packages require environment dependent values tailored to ADB2C, so refer to the package tailored to the service.
-
 =============================== =================================================================================================
 Name                             Summary
 =============================== =================================================================================================
@@ -195,11 +196,6 @@ Component Definition Settings
 
 The process for verification of ID token is created as a component, taking into account the use of properties and initialization at startup.
 Therefore, those components are defined in the component configuration file.
-
-.. tip::
-
-  As mentioned above, this page is based on a package designed for use with Cognito.
-  ADB2C packages require environment dependent values tailored to ADB2C, so refer to the package tailored to the service.
 
 .. code-block:: xml
 
@@ -228,11 +224,6 @@ The component that verifies ID tokens should do so in accordance with the verifi
 
 Note that the signature verification included in the verification method requires access to the JWKS endpoint provided by the service to obtain public key information.
 In the sample, in order to facilitate the implementation of tests in the local development environment for processes other than signature verification, the information necessary for signature verification shall be provided by a separate component for easy replacement.
-
-.. tip::
-
-  As mentioned above, this page is based on a package designed for use with Cognito.
-  ADB2C packages require environment dependent values tailored to ADB2C, so refer to the package tailored to the service.
 
 .. code-block:: java
 

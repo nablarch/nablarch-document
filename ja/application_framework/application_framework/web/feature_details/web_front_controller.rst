@@ -88,12 +88,13 @@ Webフロントコントローラ
   ウェブアプリケーションとウェブサービスを併用したい場合が考えられる。
   そのような場合は、ハンドラ構成の異なるWebフロントコントローラを複数個定義する必要がある。
   :java:extdoc:`RepositoryBasedWebFrontController <nablarch.fw.web.servlet.RepositoryBasedWebFrontController>` はデフォルトでは
-  ``webFrontController`` という名前でシステムリポジトリか委譲するWebフロントコントローラを取得する。
+  ``webFrontController`` という名前でシステムリポジトリが委譲するWebフロントコントローラを取得する。
   `web.xml` に初期化パラメータを設定することで、システムリポジトリから取得するWebフロントコントローラの名前を変更することができる。
 
   ウェブアプリケーション用とRESTfulウェブサービス用2つのハンドラ構成を持つWebフロントコントローラの設定例を以下に示す。
 
-  まず、コンポーネント定義で、 ``webFrontController`` と異なるコンポーネント名でWebフロントコントローラを設定する。
+  まず、コンポーネント定義で、ウェブアプリケーション用のハンドラ構成をもったWebフロントコントローラを ``webFrontController`` という名前で定義し、
+  RESTfulウェブサービス用のハンドラ構成をもったWebフロントコントローラを ``webFrontController`` と異なるコンポーネント名で定義する。
 
   .. code-block:: xml
 

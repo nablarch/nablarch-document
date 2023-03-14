@@ -1,6 +1,6 @@
 .. _`role_check`:
 
-Permission Check (simplified version)
+Permission Check by annotation
 =====================================================================
 
 .. contents:: Table of contents
@@ -17,14 +17,14 @@ Permission checks can be performed without complicated data management
 
 .. image:: images/role_check/conceptual_model.jpg
 
-Permission check (simplified version) assigns roles to users.
+Permission check by annotation assigns roles to users.
 Also, for functions that you want to check for authorization, assign the roles necessary to perform them.
 Then authorization is determined by whether the current user has the role assigned to the function to be performed.
 
 Roles are basically assigned to functions by an annotation.
 You can choose any method for assigning users and roles, because the framework does not specify any particular method.
 
-Thus, the permission check (simplified version) can manage authorization with a simpler data structure than :doc:`permission_check`.
+Thus, the permission check by annotation can manage authorization with a simpler data structure than :doc:`permission_check`.
 
 
 You can check the permission by the annotation
@@ -35,23 +35,23 @@ You can check the permission by the annotation
   @CheckRole("ADMIN")
   public HttpResponse index(HttpRequest request, ExecutionContext context) {
 
-In the permission check (simplified version), roles can be assigned to methods of the action class using annotations.
+In the permission check by annotation, roles can be assigned to methods of the action class using annotations.
 The above example defines that the ``ADMIN`` role is required to execute the ``index`` method.
 
 
-Difference from the other permission check function
+Difference from permission check by handler function
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This section explains the criteria for using this permission check (simplified version) versus :doc:`the other permission check <permission_check>`.
+This section explains the criteria for using this permission check by annotation versus :doc:`permission_check`.
 
-Permission check (simplified version) manages authorization in units of roles as described above.
+Permission check by annotation manages authorization in units of roles as described above.
 And the mechanism for assigning roles and functions is through Java annotations.
-Therefore, the use of this permission check (simplified version) is appropriate when the increase or decrease of roles themselves or changes in functions assigned to roles do not occur frequently.
+Therefore, the use of this permission check by annotation is appropriate when the increase or decrease of roles themselves or changes in functions assigned to roles do not occur frequently.
 
-For example, if the types of roles and combinations of functions that require authorization management have been determined and are not expected to change significantly in the future, this permission check (simplified version) can be used to easily perform permission checks.
+For example, if the types of roles and combinations of functions that require authorization management have been determined and are not expected to change significantly in the future, this permission check by annotation can be used to easily perform permission checks.
 
-On the other hand, in a system where users want to control permissions according to the department to which they belong, it is expected that the composition of departments and the combination of available functions will change significantly due to organizational changes. If this permission check (simplified version) is used in such a system, the annotations will need to be rewritten for each change, which will require a large amount of man-hours for modification.
-In such a system, it is recommended that :doc:`the other permission check <permission_check>` be used to manage the combination of authorizations with data.
+On the other hand, in a system where users want to control permissions according to the department to which they belong, it is expected that the composition of departments and the combination of available functions will change significantly due to organizational changes. If this permission check by annotation is used in such a system, the annotations will need to be rewritten for each change, which will require a large amount of man-hours for modification.
+In such a system, it is recommended that :doc:`permission_check` be used to manage the combination of authorizations with data.
 
 Module list
 ---------------------------------------------------------------------
@@ -92,7 +92,7 @@ Define components
   <component name="userRoleResolver"
              class="nablarch.common.authorization.role.session.SessionStoreUserRoleResolver" />
 
-To use the permission check (simplified version), first define the component of the :java:extdoc:`BasicRoleEvaluator <nablarch.common.authorization.role.BasicRoleEvaluator>`.
+To use the permission check by annotation, first define the component of the :java:extdoc:`BasicRoleEvaluator <nablarch.common.authorization.role.BasicRoleEvaluator>`.
 And set the :java:extdoc:`SessionStoreUserRoleResolver <nablarch.common.authorization.role.session.SessionStoreUserRoleResolver>`  to the ``userRoleResolver`` property.
 
 Note that this setting is also provided as the default configuration.
@@ -147,7 +147,7 @@ In the above example, a dedicated constant class is provided, but if a more appr
 Save the user's roles
 *********************************************************************
 
-The permission check (simplified version) provides by default an implementation that stores the roles assigned to users in the session store.
+The permission check by annotation provides by default an implementation that stores the roles assigned to users in the session store.
 By resolving the role assigned to the user and storing it in the session store at login, subsequent permission checks can be performed using the role information stored in the session store.
 
 Below is an example implementation that stores roles in the session store upon login.
@@ -308,10 +308,10 @@ Multiple roles can be checked using the ``checkRoleAllOf`` or ``checkRoleAnyOf``
 Check in JSP
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:doc:`The other permission check <permission_check>` provides a mechanism for JSP custom tags to perform permision checks and automatically show or hide buttons.
-However, this permission check (simplified version) does not provide such a mechanism.
+:doc:`permission_check` provides a mechanism for JSP custom tags to perform permision checks and automatically show or hide buttons.
+However, this permission check by annotation does not provide such a mechanism.
 
-Therefore, this section describes how to control the display of tags in JSP by role after adopting this permission check (simplified version).
+Therefore, this section describes how to control the display of tags in JSP by role after adopting this permission check by annotation.
 
 The control of display by role is achieved by storing the results of the check on the server side in a session store or other location.
 An example implementation is shown below.
@@ -340,7 +340,7 @@ This will allow you to use EL expressions and JSTL in JSP to control the display
 Architecture
 ---------------------------------------------------------------------
 
-This section explains how the permission check (simplified version) works.
+This section explains how the permission check by annotation works.
 
 .. image:: images/role_check/architecture.png
 
@@ -351,7 +351,7 @@ The :java:extdoc:`CheckRole <nablarch.common.authorization.role.CheckRole>` anno
 The instace of the :java:extdoc:`RoleEvaluator <nablarch.common.authorization.role.RoleEvaluator>` is obtained from the :java:extdoc:`SystemRepository <nablarch.core.repository.SystemRepository>` by name ``roleEvaluator``
 The user ID to be passed to the check process is obtained from the ``getUserId`` method of the :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>`.
 
-As the default implementation class of :java:extdoc:`RoleEvaluator <nablarch.common.authorization.role.RoleEvaluator>`, the permission check (simplified version) provides a class called :java:extdoc:`BasicRoleEvaluator <nablarch.common.authorization.role.BasicRoleEvaluator>`.
+As the default implementation class of :java:extdoc:`RoleEvaluator <nablarch.common.authorization.role.RoleEvaluator>`, the permission check by annotation provides a class called :java:extdoc:`BasicRoleEvaluator <nablarch.common.authorization.role.BasicRoleEvaluator>`.
 This class is simple enough to compare the roles associated with a user with the roles passed as an argument and check if the condition is met.
 And, that the resolution of roles associated with a user is delegated to :java:extdoc:`UserRoleResolver <nablarch.common.authorization.role.UserRoleResolver>`.
 
