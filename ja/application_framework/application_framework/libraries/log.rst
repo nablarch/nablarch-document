@@ -46,7 +46,7 @@ Logger/LoggerFactory
 .. _log-log_writers:
 
 LogWriter
- * :java:extdoc:`FileLogWriter (ファイルへ出力。ファイルサイズによるローテーション) <nablarch.core.log.basic.FileLogWriter>`
+ * :java:extdoc:`FileLogWriter (ファイルへ出力。ログのローテーション。) <nablarch.core.log.basic.FileLogWriter>`
  * :java:extdoc:`SynchronousFileLogWriter (複数プロセスから1ファイルへの出力) <nablarch.core.log.basic.SynchronousFileLogWriter>`
  * :java:extdoc:`StandardOutputLogWriter (標準出力へ出力) <nablarch.core.log.basic.StandardOutputLogWriter>`
  * :java:extdoc:`LogPublisher (任意のリスナーへ出力) <nablarch.core.log.basic.LogPublisher>`
@@ -56,6 +56,12 @@ LogWriter
 LogFormatter
  * :java:extdoc:`BasicLogFormatter (パターン文字列によるフォーマット) <nablarch.core.log.basic.BasicLogFormatter>`
 
+.. _log-log_policies:
+
+RotatePolicy
+ * :java:extdoc:`DateRotatePolicy (日時によるログのローテーション) <nablarch.core.log.basic.DateRotatePolicy>`
+ * :java:extdoc:`FileSizeRotatePolicy (ファイルサイズによるログのローテーション) <nablarch.core.log.basic.FileSizeRotatePolicy>`
+  
 .. important::
  :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`
  を使う場合は、 :ref:`log-synchronous_file_log_writer_attention` を参照すること。
@@ -522,6 +528,32 @@ Nablarchの提供するアーキタイプから生成したブランクプロジ
  * :ref:`performance_log-setting`
  * :ref:`http_access_log-setting`
  * :ref:`messaging_log-setting`
+
+.. _log-rotation:
+
+ログファイルのローテーションを行う
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+本機能で提供するFileLogWiterは、設定したポリシーに従ってログファイルのローテーションを行う。
+
+ローテーションポリシーはデフォルトではファイルサイズによるローテーションを行う :java:extdoc:`FileSizeRotatePolicy <nablarch.core.log.basic.FileSizeRotatePolicy>`
+が使用される。 :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>` の実装クラスを作成することで、ローテーションポリシーを変更することができる。
+
+本機能が提供している :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>` の実装クラスは以下。
+各 :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>` の設定はそれぞれのJavadocを参照。
+
+* :java:extdoc:`FileSizeRotatePolicy <nablarch.core.log.basic.FileSizeRotatePolicy>`
+* :java:extdoc:`DateRotatePolicy <nablarch.core.log.basic.DateRotatePolicy>`
+
+ローテーションポリシーの設定例を以下に示す。ローテーションポリシーはLogWriterのプロパティに指定する。
+
+  .. code-block:: properties
+
+    writerNames=sample
+    
+    # writerのrotatePolicyにRotatePolicyが実装されたクラスのFQCNを指定する
+    writer.sample.rotatePolicy=nablarch.core.log.basic.DateRotatePolicy
+    # 更新時刻。オプション。
+    writer.sample.rotateTime=12:00
 
 拡張例
 ---------------------------------------------------------------------
@@ -1358,11 +1390,13 @@ log4jとの機能比較
   * - ファイルサイズによるログファイルのローテーションができる
     - △ [#logrolate]_
       |br|
-      :ref:`解説書へ <log-log_writers>`
+      :ref:`解説書へ <log-rotation>`
     - ○
 
   * - 日時によるログファイルのローテーションができる
-    - × [#extends_or_log4j]_
+    - △ [#logrolate]_
+      |br|
+      :ref:`解説書へ <log-rotation>`
     - ○
 
   * - ログをメールで送信できる

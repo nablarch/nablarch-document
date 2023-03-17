@@ -1,12 +1,7 @@
+.. _bouncycastle_mail_sample:
+
 How to Use a Sample to Send a Digitally Signed Email Using Bouncycastle
 ============================================================================
-
-.. important::
-
-  This sample uses a Nablarch 1.4 compliant API.
-
-  When combining with versions later than Nablarch 1.4 series, customize as necessary.
-
 
 This chapter describes how to use the digitally signed send mail feature using bouncycastle. [#bouncy]_
 Since this function is a sample implementation, the source code (both production and test code) must be imported into the project when using it in an implementation project.
@@ -24,19 +19,22 @@ Environment preparation
 
 **Preparing the library**
 
- Since this function depends on the open source library bouncycastle,
- a jar file related to the digital signature of bouncycastle (the following three files) has to be configured in the classpath.
- 
- * bcmail-jdk15on-147.jar
- * bcpkix-jdk15on-147.jar
- * bcprov-jdk15on-147.jar
- 
+ Add the following to your pom.xml.
+
+ .. code-block:: xml
+
+   <dependency>
+     <groupId>org.bouncycastle</groupId>
+     <artifactId>bcmail-jdk18on</artifactId>
+     <version>1.72</version>
+   </dependency>
+
  .. tip::
-   
-   The library of **Release1.47** is used for the test of this function.
+
+   The library of **Release1.72** is used for the test of this function.
 
    Check the bouncycastle site for the latest release, as bug and vulnerability fixes may have been addressed.
-   If a version after 1.47 has been released, the latest version of the library should be used in the project.
+   If a version after 1.72 has been released, the latest version of the library should be used in the project.
 
 **Prepare a certificate for digital signature**
 
@@ -50,7 +48,7 @@ This function is an extension of the email send function (\ *nablarch.common.mai
 A certificate is identified based on the target email send pattern ID and a digital signature is added to the certificate.
 Therefore, when this function is used, ensure to design a table that can use the mail transmission pattern ID.
 
-For more information, see the guide to email send functions of the Nablarch application framework.
+For more information, see the guide to :ref:`mail`.
 
 
 Preparation of configuration file

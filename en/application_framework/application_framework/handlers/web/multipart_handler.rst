@@ -88,9 +88,10 @@ Point
 Prevent uploading of large files
 --------------------------------------------------
 If a large file is uploaded, the system may not operate normally due to insufficient disc space.
-Therefore, this handler returns 400 (Bad Request) to the client when the maximum upload size is exceeded.
+Therefore, this handler returns 413 (Payload Too Large) to the client when the maximum upload size is exceeded.
 
 The upper limit of upload size is configured in bytes. If the value is not configured, there is no limit to the upload size.
+Always set a maximum upload size to prevent DoS attacks.
 
 A configuration example for the upload size is shown below.
 
@@ -99,7 +100,7 @@ A configuration example for the upload size is shown below.
   <component class="nablarch.fw.web.upload.MultipartHandler" name="multipartHandler">
     <property name="uploadSettings">
       <component class="nablarch.fw.web.upload.UploadSettings">
-        <!-- Upload size (Content-Length) upper limit (about 10M) -->
+        <!-- Upload size (Content-Length) upper limit (about 1MB) -->
         <property name="contentLengthLimit" value="1000000" />
       </component>
     </property>
@@ -113,6 +114,32 @@ A configuration example for the upload size is shown below.
   Therefore, when multiple files are uploaded, the upper limit check is based on the total of the file sizes (strictly speaking, by Content-Length).
 
   If the size of each file is to be checked, implement the check in the action.
+
+.. _multipart_handler-max_file_count:
+
+Prevent uploading of mass files
+--------------------------------------------------
+Even if you set the maximum upload size, a large number of files can be uploaded at once by reducing the size of each file.
+To reduce unnecessary processing, this handler allows you to set a limit on the number of files that can be uploaded at once.
+This handler returns 400 (Bad Request) to the client when a file exceeding the limit is uploaded.
+
+A setting example is shown below.
+
+.. code-block:: xml
+
+  <component class="nablarch.fw.web.upload.MultipartHandler" name="multipartHandler">
+    <property name="uploadSettings">
+      <component class="nablarch.fw.web.upload.UploadSettings">
+        <!-- Maximum number of uploaded files -->
+        <property name="maxFileCount" value="100" />
+      </component>
+    </property>
+  </component>
+
+If ``maxFileCount`` is set to a value greater than or equal to 0, that value will be the maximum number of files that can be uploaded at once.
+A negative number means unlimited.
+Defaults to -1 if not set.
+
 
 Delete (clean) temporary files
 --------------------------------------------------

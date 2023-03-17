@@ -4,12 +4,6 @@
 Sample File Management Function Using Database
 ==================================================
 
-.. important::
-
-  This sample uses a Nablarch 1.4 compliant API.
-
-  When combining with versions later than Nablarch 1.4 series, customize as necessary.
-
 
 ------------
 Summary
@@ -29,7 +23,7 @@ The sample is intended for the following applications:
 
 .. tip::
 
-  This sample uses Oracle as a DB. If the DB is not Oracle, use by modifying the implementation to match the DB used.
+  This sample uses H2 as a DB. If the DB is not H2, use by modifying the implementation to match the DB used.
   
 
 
@@ -45,7 +39,7 @@ This sample stores that file to the DB in a binary format.
 
 
 .. image:: ./_images/DbFileManagement_outline01.png
-   :width: 100%
+   :width: 75%
 
 When downloading files
 ========================
@@ -150,11 +144,6 @@ The file management ID is stored along with the file in the file management tabl
   ==================== ================== ============ =============== ==========================================================================
 
 
-.. tip::
-
-  In addition to the table above, Oracle sequence is used in this sample when assigning the file management ID with the Nablarch index function.
-  
-
 ---------------------------
 How to Use
 ---------------------------
@@ -177,7 +166,7 @@ The components to be configured are shown below.
   Component to be configured       Logical name used in configuration example
   ================================ ============================================================
   File management function body    fileManagement
-  Numbering function               oracleSequenceIdGenerator
+  Numbering function               sequenceIdGenerator
   The formatter used for numbering dbFileManagementFormatter
   ================================ ============================================================
 
@@ -185,8 +174,8 @@ The configuration example shown below.
 
 .. code-block:: xml
 
-    <!-- File management function (the component of logical name dbFileManagement is used by FileManagementUtil class) -->
-    <component name="fileManagement" class="please.change.me.common.file.management.fileManagement">
+    <!-- File management function (the component of logical name fileManagement is used by FileManagementUtil class) -->
+    <component name="fileManagement" class="please.change.me.common.file.management.DbFileManagement">
 
       <!-- Maximum length of storage file (unit: bytes) -->
       <property name="maxFileSize" value="10000000"/>
@@ -195,23 +184,14 @@ The configuration example shown below.
       <property name="fileIdKey" value="1103" />
 
       <!-- Numbering function -->
-      <property name="idGenerator" ref="oracleSequenceIdGenerator" />
+      <property name="idGenerator" ref="sequenceIdGenerator" />
 
       <!--  Formatter used for numbering -->
       <property name="idFormatter" ref="dbFileManagementFormatter" />
     </component>
 
-
     <!-- Numbering function (used from the file management function) -->
-    <component name="oracleSequenceIdGenerator" class="nablarch.common.idgenerator.OracleSequenceIdGenerator">
-      <property name="idTable">
-        <map>
-          <!-- Mapping key to the sequence name -->
-          <entry key="1103" value="FILE_ID_SEQ"/>
-        </map>
-      </property>
-    </component>
-
+    <component name="sequenceIdGenerator" class="nablarch.common.idgenerator.SequenceIdGenerator" />
 
     <!-- Formatter used for numbering (used from the file management function) -->
     <component name="dbFileManagementFormatter" class="nablarch.common.idgenerator.formatter.LpadFormatter">

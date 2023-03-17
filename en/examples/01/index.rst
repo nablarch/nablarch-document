@@ -4,13 +4,6 @@
 Sample Password Encryption Function Using Database
 ====================================================
 
-.. important::
-
-  This sample uses a Nablarch 1.4 compliant API.
-
-  When combining with versions later than Nablarch 1.4 series, customize as necessary.
-
-
 This is an implementation sample that performs authentication process using account information (user ID, password) stored in the database.
 
 .. toctree::
@@ -61,7 +54,7 @@ Shows the sample structure.
 
 Class diagram
 ========================
-.. image:: ./_images/Authentication_ClassDiagram.jpg
+.. image:: ./_images/Authentication_ClassDiagram.png
    :scale: 75
 
 Responsibilities of each class
@@ -70,24 +63,24 @@ Responsibilities of each class
 Interface definition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-=================== ===============================================================
-Interface Name      Summary
-=================== ===============================================================
-Authenticator       An interface that authenticates users.
+===================== ===============================================================
+Interface Name        Summary
+===================== ===============================================================
+PasswordAuthenticator  An interface that authenticates users.
 
-PasswordEncryptor   An interface that encrypts a password.
+PasswordEncryptor      An interface that encrypts a password.
 
-=================== ===============================================================
+===================== ===============================================================
 
 Class definition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-\a) Implementation class of Authenticator
+\a) PasswordAuthenticator implementation class
 
   =============================== ======================================================================================================
   Class name                      Summary
   =============================== ======================================================================================================
-  PasswordAuthenticator           Class that performs password authentication for the account information stored in the database.
+  SystemAccountAuthenticator      Class that performs password authentication for the account information stored in the database.
   =============================== ======================================================================================================
 
 
@@ -104,17 +97,23 @@ Class definition
   =============================== ================================================================================
   Class name                      Summary
   =============================== ================================================================================
-  AuthenticationUtil              Utility to get Authenticator and PasswordEncryptor 
+  AuthenticationUtil              Utility to get PasswordAuthenticator and PasswordEncryptor
                                   from system repository and perform user authentication and password encryption.
   =============================== ================================================================================
 
-\d) Other classes
+\d) Entity class
 
   =============================== ==========================================================================
   Class name                      Summary
   =============================== ==========================================================================
-  SystemAccount                   Class that retains user account information.
+  SystemAccount                   Class retains user account information and to which Universal DAO search results are mapped.
   =============================== ==========================================================================
+
+.. tip::
+
+  In the Nablarch implementation project, entity classes are automatically generated using :ref:`gsp-dba-maven-plugin <gsp-maven-plugin>`.
+  This sample includes an entity class automatically generated according to the definition described in :ref:`system-account-table-definition` for operation confirmation.
+  When implementing in a project, instead of using the entity class of this sample, modify to use the entity class automatically generated in each project.
 
 \e) Exception class
 
@@ -141,6 +140,8 @@ Class definition
                                   Stores the user ID of the target user and the number of authentication failures that lock the user ID.
   =============================== ========================================================================================================
 
+.. _system-account-table-definition:
+
 Table definition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The definition of the account table used in this sample is shown below. 
@@ -153,26 +154,23 @@ The system account table stores the account information.
   ============================ ========================= ==================== =====================================
   Logical name                    Physical name          Java type            Limitations
   ============================ ========================= ==================== =====================================
-  User ID                      USER_ID                   java.lang.String     Primary key
+  User ID                      USER_ID                   java.lang.Integer    Primary key
+
+  Login ID                     LOGIN_ID                  java.lang.String
 
   Password                     PASSWORD                  java.lang.String
 
-  User ID lock                 USER_ID_LOCKED            java.lang.String     "0" when not locked, "1" when locked
+  User ID lock                 USER_ID_LOCKED            boolean              true when locked
 
-  Password expiration date     PASSWORD_EXPIRATION_DATE  java.lang.String     Format yyyyMMdd
+  Password expiration date     PASSWORD_EXPIRATION_DATE  java.util.Date
 
-                                                                              When not specified "99991231"
-  Authentication failed count  FAILED_COUNT              int
+  Authentication failed count  FAILED_COUNT              java.lang.Short
 
-  Effective date (From)        EFFECTIVE_DATE_FROM       java.lang.String     Format yyyyMMdd
+  Effective date (From)        EFFECTIVE_DATE_FROM       java.util.Date
 
-                                                                              When not specified "19000101"
+  Effective date (To)          EFFECTIVE_DATE_TO         java.util.Date
 
-  Effective date (To)          EFFECTIVE_DATE_TO         java.lang.String     Format yyyyMMdd
-
-                                                                              When not specified "99991231"
-
-  Last login date and time     LAST_LOGIN_DATE_TIME      java.sql.Timestamp
+  Last login date and time     LAST_LOGIN_DATE_TIME      java.util.Date
   ============================ ========================= ==================== =====================================
 
 .. tip::
@@ -195,7 +193,7 @@ The features of password authentication are shown below.
 * Authenticate using an encrypted password. This feature provides password encryption using PBKDF2 by default.
 * Record the date and time of the last login. The system date and time is used to update the last login date and time only if the authentication is successful.
 
-In addition, Authenticator and PasswordEncryptor are supposed to be obtained from Nablarch system repository and used. 
+In addition, PasswordAuthenticator and PasswordEncryptor are supposed to be obtained from Nablarch system repository and used.
 Because components from the system repository should not be retrieved and used at each point in the business function, this function provides AuthenticationUtil, 
 which wraps the retrieval of components from the system repository and the password authentication and password encryption processes.
 
@@ -204,18 +202,14 @@ AuthenticationUtil should be used for the login and user registration functions 
 
 .. _passwordAuth-settings-label:
 
-How to Use PasswordAuthenticator
+How to Use SystemAccountAuthenticator
 =============================================================================================
-This section describes how to use the PasswordAuthenticator.
+This section describes how to use the SystemAccountAuthenticator.
 
 
 .. code-block:: xml
 
-    <component name="authenticator" class="please.change.me.common.authentication.PasswordAuthenticator">
-
-      <!-- Number of authentication failures to lock user IDs -->
-      <property name="failedCountToLock" value="3"/>
-
+    <component name="authenticator" class="please.change.me.common.authentication.SystemAccountAuthenticator">
       <!-- PasswordEncryptor to encrypt passwords -->
       <property name="passwordEncryptor" ref="passwordEncryptor" />
 
@@ -228,14 +222,9 @@ This section describes how to use the PasswordAuthenticator.
         </component>
       </property>
 
-      <!-- System date -->
-      <property name="systemTimeProvider" ref="systemTimeProvider" />
-      <!-- Business date -->
-      <property name="businessDateProvider" ref="businessDateProvider" />
+      <!-- Number of authentication failures to lock user IDs -->
+      <property name="failedCountToLock" value="5"/>
     </component>
-
-    <component name="systemTimeProvider" class="nablarch.core.date.BasicSystemTimeProvider" />
-    <component name="businessDateProvider" class="nablarch.core.date.BasicBusinessDateProvider" />
 
 
 A description of the property is given below.
@@ -243,10 +232,6 @@ A description of the property is given below.
 ===================================================================== ===================================================================================================================================================================================================================================================================
 property name                                                            Settings
 ===================================================================== ===================================================================================================================================================================================================================================================================
-failedCountToLock                                                     Number of authentication failures to lock the user ID.
-
-                                                                      If this is not specified, it is set to 0 and the user ID lock function is not used.
-
 passwordEncryptor (required)                                          A PasswordEncryptor used to encrypt the password.
 
                                                                       Specify the component name, which was configured by referring to :doc:`0101_PBKDF2PasswordEncryptor` , to ref.
@@ -256,18 +241,12 @@ dbManager (required)                                                  SimpleDbTr
                                                                       Specify an instance of nablarch.core.db.transaction.SimpleDbTransactionManager class.
 
                                                                       .. important::
-                                                                         PasswordAuthenticator transaction control shall be configured to use a separate transaction from the individual application so that the transaction control of the PasswordAuthenticator does not affect the processing of the individual application. 
+                                                                         SystemAccountAuthenticator transaction control shall be configured to use a separate transaction from the individual application so that the transaction control of the PasswordAuthenticator does not affect the processing of the individual application.
                                                                          In the configuration example, since the name "authenticator" is specified for dbTransactionName, configure the transaction settings such that the same name is not used in individual applications.
 
-systemTimeProvider (required)                                         SystemTimeProvider, which is used to get the system date and time.
+failedCountToLock                                                     Number of authentication failures to lock the user ID.
 
-                                                                      Specify instance of the class that implements the nablarch.core.date.SystemTimeProvider interface. 
-                                                                      The system date and time is used to update the last login date and time.
-
-businessDateProvider (required)                                       BusinessDateProvider used to get the business date.
-
-                                                                      Specify instance of the class that implements the nablarch.core.date.BusinessDateProvider interface. 
-                                                                      The business date is used to check the effective date (From/To) and password expiration date.
+                                                                      If this is not specified, it is set to 0 and the user ID lock function is not used.
 ===================================================================== ===================================================================================================================================================================================================================================================================
 
 
@@ -285,8 +264,8 @@ Method
 encryptPassword    Obtain PasswordEncryptor from the system repository with the component name passwordEncryptor 
                    and call PasswordEncryptor#encrypt(String, String).
 
-authenticate       Obtain the Authenticator from the system repository with the component name authenticator 
-                   and call Authenticator#authenticate(String, String).
+authenticate       Obtain the PasswordAuthenticator from the system repository with the component name authenticator
+                   and call PasswordAuthenticator#authenticate(String, String).
 ================== ==============================================================================================
 
 

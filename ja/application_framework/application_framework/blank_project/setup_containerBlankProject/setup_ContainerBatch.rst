@@ -188,7 +188,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 .. code-block:: text
 
   cd myapp-container-batch
-  docker run  --rm -v %CD%\\h2:/h2 -v %CD%\\src\\main\\format:/var/nablarch/format -v %CD%\\work\\output:/var/nablarch/output  --name myapp-container-batch myapp-container-batch:latest -diConfig classpath:batch-boot.xml -requestPath SampleBatch -userId batch_user
+  docker run --rm -v %CD%\\h2:/h2 -v %CD%\\src\\main\\format:/var/nablarch/format -v %CD%\\work\\output:/var/nablarch/output --name myapp-container-batch myapp-container-batch:latest -diConfig classpath:batch-boot.xml -requestPath SampleBatch -userId batch_user
 
 動作は :ref:`疎通確認(都度起動バッチ)<firstStepBatchStartupTest>` と同じである。
 起動に成功すると、:ref:`都度起動バッチアプリケーションの起動 <firstStepBatchExecOnDemandBatch>` と同様なログがコンソールに出力される。
@@ -200,7 +200,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 .. code-block:: text
 
   cd myapp-container-batch
-  docker run -it  --rm -v %CD%\\h2:/h2 --name myapp-container-batch --rm myapp-container-batch:latest -diConfig classpath:resident-batch-boot.xml -requestPath SampleResiBatch -userId batch_user
+  docker run -it --rm -v %CD%\\h2:/h2 --name myapp-container-batch myapp-container-batch:latest -diConfig classpath:resident-batch-boot.xml -requestPath SampleResiBatch -userId batch_user
 
 動作は :ref:`疎通確認(テーブルをキューとして使ったメッセージング)<firstStepBatchStartupTestDbMessagingBatch>` と同じである。
 起動に成功すると、:ref:`アプリケーションの起動 <firstStepBatchExecDbMessagingBatch>` と同様なログがコンソールに出力される。
