@@ -24,6 +24,7 @@ Nablarch
   releases/index
   about_nablarch/versionup_policy
   inquiry/index
+  migration/index
 
 -----------------------------------------------
 Nablarchについて
@@ -130,3 +131,9 @@ Nablarch実装例集
 -----------------------------------------------
 
   | :doc:`機能追加要望・改善要望 <inquiry/index>`
+
+-----------------------------------------------
+Nablarch 5から6への移行ガイド
+-----------------------------------------------
+
+  | :doc:`Nablarch 5から6への移行ガイド <migration/index>`
