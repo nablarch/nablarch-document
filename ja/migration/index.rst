@@ -183,7 +183,7 @@ Jakarta EEのAPIにはbomが用意されているので、これを読み込む�
 バージョンを調べる手間や指定のミスが減り管理も楽になるため、bomを読み込むことを推奨する。
 
 Java EEのAPIの ``dependency`` は、jarの提供元やバージョンによってバラバラになっており統一されていない。
-このため、Java EEとJakarta EEの ``dependency`` の完全な対応表を提供することはできない。
+このため、 ``groupId`` などから機械的に判断することはできない。
 どの ``dependency`` がJava EEのAPIなのかは、 ``groupId`` や ``artifactId`` 、jarの中に含まれるクラスなどから判断しなければならない。
 
 参考までに、本ページ末尾の付録に :ref:`java_ee_jakarta_ee_comparation` を記載する。
