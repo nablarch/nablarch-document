@@ -1,68 +1,68 @@
 =========================================================================
-Nablarch 5から6への移行ガイド
+Nablarch 5 to 6 Migration Guide
 =========================================================================
 
-.. contents:: 目次
+.. contents:: Table of contents
   :depth: 3
   :local:
 
-ここでは、Nablarch 5で作られたプロジェクトをNablarch 6にバージョンアップする方法について説明する。
+This document will explain how to upgrade a project created with Nablarch 5 to Nablarch 6.
 
-Nablarch 5と6で異なる点
+Differences between Nablarch 5 and 6
 =========================================================================
 
-Nablarch 6がNablarch 5と比べて大きく異なっている点に、Jakarta EE 10に対応していることが挙げられる。
+One of the major differences between Nablarch 6 and Nablarch 5 is that it supports Jakarta EE 10.
 
-Jakarta EEとは、Java EEがEclipse Foundationに移管された後の名前で、Java EEの後継となる。
-基本的にはJava EEの仕様がそのまま移管されているが、Jakarta EE 9でパッケージが ``javax.*`` から ``jakarta.*`` になるという大きな変更が入っている。
+Jakarta EE is the name after Java EE was transferred to the Eclipse Foundation and is the successor to Java EE.
+Basically, the Java EE specifications have been transferred as they are, but with Jakarta EE 9, there has been a major change in that the package has changed from ``javax.*`` to ``jakarta.*``.
 
-したがって、Nablarch 5で作られたプロジェクトをNablarch 6にバージョンアップするためには、プロジェクトにもこれと同様の対応を行う必要がある。
+Therefore, in order to upgrade a project created with Nablarch 5 to Nablarch 6, it is necessary to do the same for the project.
 
-前提条件
+Prerequisites
 =========================================================================
 
-ここで説明する手順は、Nablarch 5の最新版へのバージョンアップが済んでいることを前提としている。
+The instructions here assume that you have already upgraded to the latest version of Nablarch 5.
 
-古いバージョンで作られたプロジェクトは、まずはNablarch 5の最新版へのバージョンアップを済ませてからNablarch 6へのバージョンアップを行うこと。
-Nablarch 5の最新版へのバージョンアップに必要となる修正内容については、 :doc:`../releases/index` を参照のこと。
+For projects created with an older version, first upgrade to the latest version of Nablarch 5, then upgrade to Nablarch 6.
+See `the release notes <https://nablarch.github.io/docs/LATEST/doc/releases/index.html>`_ for details on the modifications required to upgrade to the latest version of Nablarch 5.
 
-また、Nablarch 6のモジュールはJava 17でコンパイルされているため、実行にはJava 17以上が必要となる。
+Also, Nablarch 6 modules are compiled with Java 17, so they require Java 17 or higher to run.
 
 
-移行手順の概要
+Overview of migration steps
 =========================================================================
 
-Nablarch 5のプロジェクトをNablarch 6に上げるためには、大まかに次の2つの修正が必要となる。
+To get a Nablarch 5 project up to Nablarch 6, roughly two modifications are required:
 
-* Nablarchのバージョンアップ
-* Jakarta EE対応
+* Nablarch version upgrade
+* Compatible with Jakarta EE
 
-1つ目の「Nablarchのバージョンアップ」は、プロジェクトで使用しているNablarchのバージョンを5から6に変更することを指す。
+The first "Nablarch version upgrade" refers to changing the version of Nablarch used in the project from 5 to 6.
 
-2つ目の「Jakarta EE対応」は、プロジェクトをJakarta EE 10に対応させることを指す。
-これには、Jakarta EE 9で入ったパッケージの変更対応や、Java EEに依存しているライブラリをJakarta EE対応版に変更する対応が含まれる。
+The second, "Compatible with Jakarta EE", refers to making the project compatible with Jakarta EE 10.
+This includes changes to packages introduced in Jakarta EE 9, and changes libraries that depend on Java EE to Jakarta EE-compatible versions.
 
-以下で、それぞれの具体的な手順について説明する。
+Each specific procedure will be described below.
 
 
-移行手順の詳細
+Details of migration steps
 =========================================================================
 
-ここでは、Nablarch 5のプロジェクトをNablarch 6にバージョンアップする際に必要になる移行手順について、それぞれ詳細な内容を説明する。
+In this section will explain in detail each of the migration steps required when upgrading a Nablarch 5 project to Nablarch 6.
 
-なお、具体的な修正内容をイメージしやすくするため、ここではNablarch 5の `nablarch-example-web (外部サイト) <https://github.com/nablarch/nablarch-example-web>`_ をNablarch 6にバージョンアップする場合を例にして説明している。
-プロジェクトによっては不要な手順が含まれる可能性があるが、その場合は適宜取捨選択して読み進めること（例えば、 :ref:`waitt-to-jetty` や :ref:`update-ntf-jetty` はウェブプロジェクト固有の手順なので、バッチプロジェクトでは読み飛ばして問題ない）。
+In order to make it easier to imagine the specific modifications, here we will use the case of upgrading Nablarch 5's `nablarch-example-web (external site) <https://github.com/nablarch/nablarch-example-web>`_ to Nablarch 6 as an example.
+Depending on the project, unnecessary steps may be included, but in that case, select and read as appropriate (for example, :ref:`waitt-to-jetty` and :ref:`update-ntf-jetty` are steps specific to web projects, so there is no problem in skipping them in batch projects).
 
 .. tip::
-    nablarch-example-webの5系のコードは、 ``5uXX`` のタグに切り替えることで取得できる。
-    タグの一覧は `こちら (外部サイト) <https://github.com/nablarch/nablarch-example-web/tags>`_ から確認できる。
+    The 5 series code of nablarch-example-web can be obtained by switching to the ``5uXX`` tag.
+    A list of tags can be found at `here (external site) <https://github.com/nablarch/nablarch-example-web/tags>`_.
 
 --------------------------------------------------------------------
-Nablarchのバージョンアップ
+Nablarch version upgrade
 --------------------------------------------------------------------
 
-Nablarchを構成する各モジュールのバージョンはbomで管理しているので、bomのバージョンを変えることでNablarchのバージョンアップができる。
-以下のように、 ``pom.xml`` でNablarchのbomを読み込んでいる部分の ``<version>`` を6に変更する。
+The version of each module that makes up Nablarch is managed by bom, so you can upgrade Nablarch by changing the version of bom.
+Change ``<version>`` to 6 in ``pom.xml`` where Nablarch's bom is loaded, as shown below.
 
 .. code-block:: xml
 
@@ -71,7 +71,7 @@ Nablarchを構成する各モジュールのバージョンはbomで管理して
       <dependency>
         <groupId>com.nablarch.profile</groupId>
         <artifactId>nablarch-bom</artifactId>
-        <version>6</version> <!-- bom のバージョンを 6 にする-->
+        <version>6</version> <!-- set bom version to 6-->
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -80,17 +80,17 @@ Nablarchを構成する各モジュールのバージョンはbomで管理して
   </dependencyManagement>
 
 --------------------------------------------------------------------
-Jakarta EE対応
+Compatible with Jakarta EE
 --------------------------------------------------------------------
 
 
-Java EEの依存関係をJakarta EEに変更する
+Change Java EE dependency to Jakarta EE
 -----------------------------------------------------------------
 
-Java EEのAPIの依存関係(``dependency``)を、Jakarta EEのものに変更する必要がある。
-例えば代表的なものとしては、Java Servletなどが挙げられる。
+Java EE API dependencies (``dependency``) must be changed to those of Jakarta EE.
+For example, a typical example is Java Servlet.
 
-nablarch-example-webの ``pom.xml`` では、以下がJava EEのAPIの依存関係になる。
+In ``pom.xml`` of nablarch-example-web, the following are Java EE API dependencies.
 
 .. code-block:: xml
 
@@ -130,7 +130,7 @@ nablarch-example-webの ``pom.xml`` では、以下がJava EEのAPIの依存関�
     <artifactId>geronimo-jpa_2.0_spec</artifactId>
   </dependency>
 
-これをJakarta EEが提供するものに置き換えると、以下のようになる。
+Replacing this with the one provided by Jakarta EE gives the following:
 
 .. code-block:: xml
 
@@ -179,22 +179,22 @@ nablarch-example-webの ``pom.xml`` では、以下がJava EEのAPIの依存関�
     <artifactId>jakarta.persistence-api</artifactId>
   </dependency>
 
-Jakarta EEのAPIにはbomが用意されているので、これを読み込むことでAPIごとにバージョンを指定する必要がなくなる。
-バージョンを調べる手間や指定のミスが減り管理も楽になるため、基本的にbomを読み込むことを推奨する。
+Bom is prepared for Jakarta EE API, so reading this eliminates the need to specify the version for each API.
+It is recommended to read bom because it reduces the trouble of checking the version and mistakes in specification, and makes management easier.
 
-Java EEのAPIの ``dependency`` は、jarの提供元やバージョンによってバラバラになっており統一されていない。
-このため、Java EEとJakarta EEの ``dependency`` の完全な対応表を提供することはできない。
-どの ``dependency`` がJava EEのAPIなのかは、 ``groupId`` や ``artifactId`` 、jarの中に含まれるクラスなどから判断しなければならない。
+The ``dependency`` of Java EE API is different and not unified depending on the jar provider and version.
+Therefore, it cannot be determined mechanically from ``groupId``.
+Which ``dependency`` is a Java EE API must be determined from ``groupId``, ``artifactId``, classes included in the jar, and so on.
 
-参考までに、本ページ末尾の付録に :ref:`java_ee_jakarta_ee_comparation` を記載する。
-Jakarta EEでの ``dependency`` が何になるかは各仕様のページに記載されているので、そちらを確認すること（例えば `Jakarta Servlet 6.0 の仕様のページ (外部サイト、英語) <https://jakarta.ee/specifications/servlet/6.0/#details>`_ には、「Maven coordinates」のところに ``jakarta.servlet:jakarta.servlet-api:jar:6.0.0`` と記載されている）。
+For reference, :ref:`java_ee_jakarta_ee_comparation` is included in the appendix at the end of this page.
+What is ``dependency`` in Jakarta EE is described on each specification page, so please check it (for example, `Jakarta Servlet 6.0 specification page (external site) <https: //jakarta.ee/specifications/servlet/6.0/#details>`_ shows ``jakarta.servlet:jakarta.servlet-api:jar:6.0.0`` in "Maven coordinates").
 
 
-Java EE関係のランタイムを更新する
+Update runtimes related to the Java EE
 -----------------------------------------------------------------
 
-Java EEの仕様のランタイムをアプリケーションに組み込んでいる場合は、これらをJakarta EEのものに置き換える。
-例えば、nablarch-example-webにはBean ValidationのランタイムであるHibernate Validatorが含まれている。
+If you have embedded runtimes from the Java EE specification in your application, replace them with those from Jakarta EE.
+For example, nablarch-example-web includes Hibernate Validator, a runtime for Bean Validation.
 
 .. code-block:: xml
 
@@ -204,7 +204,7 @@ Java EEの仕様のランタイムをアプリケーションに組み込んで�
     <version>5.3.6.Final</version>
   </dependency>
 
-これを、Jakarta EE版の ``dependency`` に変更すると以下のようになる。
+If this is changed to ``dependency`` of Jakarta EE version, it will be as follows.
 
 .. code-block:: xml
 
@@ -214,49 +214,49 @@ Java EEの仕様のランタイムをアプリケーションに組み込んで�
     <version>8.0.0.Final</version>
   </dependency>
 
-どの ``dependency`` がJava EEのランタイムなのかは、それぞれの ``dependency`` ごとに個別に調査するしかない。
-また、Java EEのランタイムであることが分かった場合、そのランタイムのJakarta EE対応版の ``dependency`` が何になるかはランタイムごとに異なる。
-したがって、プロジェクトで使用しているランタイムごとに公式サイトなどを確認する必要がある。
+To find out which ``dependency`` is the Java EE runtime, you need to investigate each ``dependency`` individually.
+Also, if it is found to be a Java EE runtime, what the ``dependency`` of the Jakarta EE compliant version of that runtime will be depends on the runtime.
+Therefore, it is necessary to check the official site etc. for each runtime used in the project.
 
-参考までに、代表的なランタイムのJava EEとJakarta EEでの ``dependency`` を本ページの付録の :ref:`jakarta_ee_runtime_dependency` に記載している。
-その他の仕様のランタイムについてはJakarta EEの各仕様のページで互換実装が紹介されているので、そちらも参考にすること。
-(例えば、 `Jakarta RESTful Web Services 3.1 の仕様のページ (外部サイト、英語) <https://jakarta.ee/specifications/restful-ws/3.1/#compatible-implementations>`_ では、互換実装として Eclipse Jersey 3.1.0 が紹介されている)
+For reference, the ``dependencies`` of typical runtimes Java EE and Jakarta EE are listed in :ref:`jakarta_ee_runtime_dependency` in the appendix of this page.
+For runtimes of other specifications, compatible implementations are introduced on each Jakarta EE specification page, so please refer to that as well.
+(For example, the `Jakarta RESTful Web Services 3.1 specification page (external site) <https://jakarta.ee/specifications/restful-ws/3.1/#compatible-implementations>`_ lists Eclipse Jersey as a compatible implementation. 3.1.0 is introduced)
 
-gsp-dba-maven-pluginを更新する
+Update gsp-dba-maven-plugin
 -----------------------------------------------------------------
 
-nablarch-example-webをはじめ、アーキタイプから作ったNablarchプロジェクトなどには `gsp-dba-maven-plugin (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ があらかじめ組み込まれている。
-このプラグインは、データベーステーブルのメタデータからJavaのエンティティクラスを生成する機能(``generate-entity``)を提供している。
-このエンティティクラスにはJPAなどのJava EEのアノテーションが設定されるため、そのままではJakarta EE環境で使用できない。
+`gsp-dba-maven-plugin (external site) <https://github.com/coastland/gsp-dba-maven-plugin>`_ is preinstalled in nablarch-example-web and other Nablarch projects built from archetypes. 
+This plugin provides a function (``generate-entity``) to generate Java entity classes from database table metadata.
+Since Java EE annotations such as JPA are set in this entity class, it cannot be used as is in the Jakarta EE environment.
 
-gsp-dba-maven-pluginは5.0.0でJakarta EE対応が入ったので、 ``pom.xml`` を以下のように修正する。
+Since gsp-dba-maven-plugin has Jakarta EE support in 5.0.0, modify ``pom.xml`` as follows.
 
 .. code-block:: xml
 
     <plugin>
       <groupId>jp.co.tis.gsp</groupId>
       <artifactId>gsp-dba-maven-plugin</artifactId>
-      <version>5.0.0</version> <!-- gsp-dba-maven-plugin の version を Jakarta EE 対応版に変更する -->
+      <version>5.0.0</version> <!-- Change gsp-dba-maven-plugin version to Jakarta EE compatible version -->
       <configuration>
       ...
 
-さらに、Jakarta EE対応されたgsp-dba-maven-pluginの ``generate-entity`` を使うためには、 ``dependency`` やJVM引数の追加が必要となる。
-詳細については `gsp-dba-maven-pluginのガイド (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin#generate-entity>`_ を参照のこと。
+Furthermore, in order to use the ``generate-entity`` of the gsp-dba-maven-plugin that supports Jakarta EE, it is necessary to add ``dependency`` and JVM arguments.
+See the `gsp-dba-maven-plugin guide (external site) <https://github.com/coastland/gsp-dba-maven-plugin#generate-entity>`_ for details.
 
-以上で、Jakarta EEのアノテーションが設定されたエンティティが生成されるようになる。
+As described above, an entity for which Jakarta EE annotations are set will be generated.
 
 .. _waitt-to-jetty:
 
-waitt-maven-pluginをjetty-ee10-maven-pluginに変更する
+Change waitt-maven-plugin to jetty-ee10-maven-plugin
 -----------------------------------------------------------------
 
-nablarch-example-webをはじめ、アーキタイプから作ったNablarchプロジェクトなどには `waitt-maven-plugin (外部サイト、英語) <https://github.com/kawasima/waitt>`_ があらかじめ組み込まれている。
-このプラグインは、プロジェクトのコードを組み込みサーバ(Tomcatなど)にデプロイして簡単に実行できる機能を提供している。
-しかし、このプラグインはJakarta EE対応がされていないので、同様の機能を提供していてJakarta EEにも対応しているjetty-ee10-maven-pluginに変更する。
+The `waitt-maven-plugin (external site) <https://github.com/kawasima/waitt>`_ is preinstalled in nablarch-example-web and other Nablarch projects built from archetypes. 
+This plugin provides the ability to easily deploy and run your project's code on an embedded server (such as Tomcat).
+However, this plugin is not compatible with Jakarta EE, so change it to jetty-ee10-maven-plugin which provides similar functionality and also supports Jakarta EE.
 
-修正前、nablarch-example-webでは以下のようにwaitt-maven-pluginが ``pom.xml`` に設定されている。
+Before modification, waitt-maven-plugin is set in ``pom.xml`` in nablarch-example-web as follows.
 
-**修正前**
+**Before modification**
 
 .. code-block:: xml
 
@@ -275,9 +275,9 @@ nablarch-example-webをはじめ、アーキタイプから作ったNablarchプ�
     </configuration>
   </plugin>
 
-これを、以下のようにしてjetty-ee10-maven-pluginに変更する。
+Change this to jetty-ee10-maven-plugin as follows.
 
-**修正後**
+**After modification**
 
 .. code-block:: xml
 
@@ -287,9 +287,9 @@ nablarch-example-webをはじめ、アーキタイプから作ったNablarchプ�
     <version>12.0.0</version>
   </plugin>
 
-これで、アプリケーションのコードをJettyにデプロイして実行できるようになる。
+Now you can deploy and run your application code on Jetty.
 
-実際に動かしたい場合は、以下のコマンドでJettyを起動できる。
+If you want to actually run it, you can start Jetty with the following command.
 
 .. code-block:: batch
 
@@ -297,106 +297,106 @@ nablarch-example-webをはじめ、アーキタイプから作ったNablarchプ�
 
 .. _update-ntf-jetty:
 
-nablarch-testing-jetty6をnablarch-testing-jetty12に変更する
+Change nablarch-testing-jetty6 to nablarch-testing-jetty12
 -----------------------------------------------------------------
 
-ウェブアプリケーションのプロジェクトでNTF (Nablarch Testing Framework)を使用している場合、JUnitのテストで組み込みサーバを実行するために ``nablarch-testing-jetty6`` というモジュールを使用する。
-このモジュールで起動するJetty 6はJakarta EEに対応していない。
-JettyがJakarta EE 10に対応したのはJetty 12なので、Jetty 12を起動できる ``nablarch-testing-jetty12`` を使うように変更する必要がある。
+If your web application project uses NTF (Nablarch Testing Framework), use the module ``nablarch-testing-jetty6`` to run the embedded server in your JUnit tests.
+Jetty 6 launched with this module does not support Jakarta EE.
+Jetty supports Jakarta EE 10 with Jetty 12, so you need to change it to use ``nablarch-testing-jetty12`` which can start Jetty 12.
 
 .. tip::
-  Java 11以上のプロジェクトではJetty 9を起動する ``nablarch-testing-jetty9`` を使用するが、これもJakarta EEには対応していないため ``nablarch-testing-jetty12`` に変更する必要がある。
+  Java 11 or higher projects use ``nablarch-testing-jetty9`` to launch Jetty 9, but this is also not compatible with Jakarta EE, so it is necessary to change to ``nablarch-testing-jetty12``.
 
-まずは、 ``pom.xml`` を以下のように修正する。
+First, modify ``pom.xml`` as follows.
 
 .. code-block:: xml
 
   <dependency>
     <groupId>com.nablarch.framework</groupId>
-    <artifactId>nablarch-testing-jetty12</artifactId> <!-- artifactId を nablarch-testing-jetty12 に変更する -->
+    <artifactId>nablarch-testing-jetty12</artifactId> <!-- Change the artifactId to nablarch-testing-jetty12 -->
     <scope>test</scope>
   </dependency>
 
-次に、 ``HttpServerFactory`` のコンポーネントを定義している部分を以下のように修正する。
+Next, modify the part that defines the components of ``HttpServerFactory`` as follows.
 
-**修正前**
+**Before modification**
 
 .. code-block:: xml
 
   <component name="httpServerFactory" class="nablarch.fw.web.httpserver.HttpServerFactoryJetty6"/>
 
-**修正後**
+**After modification**
 
 .. code-block:: xml
 
   <component name="httpServerFactory" class="nablarch.fw.web.httpserver.HttpServerFactoryJetty12"/>
 
-nablarch-example-webの場合は、 ``src/test/resources/unit-test.xml`` に上記設定が存在する。
+In case of nablarch-example-web, the above settings exist in ``src/test/resources/unit-test.xml``.
 
-以上で、NTF実行時に起動される組み込みサーバがJakarta EE対応版に切り替わる。
+With the above, the embedded server that is started when NTF is executed is switched to the version that supports Jakarta EE.
 
-javaxパッケージをjakartaパッケージに変更する
+Change javax package to jakarta package
 -----------------------------------------------------------------
 
-Jakarta EE 9で入ったパッケージ変更の対応を、アプリケーションのコードにも実施する。
-パッケージ変更対応の大まかな流れを以下に記載する。
+The package changes that came with Jakarta EE 9 will also be applied to the application code.
+The general flow of handling package changes is described below.
 
-1. プロジェクト全体を ``javax`` でGrep検索する
-2. 検索で見つかった箇所に関して、Java EEのパッケージかどうか判定する
-3. Java EEのパッケージである場合は、 ``javax`` を ``jakarta`` に置換する
+1. Grep the whole project with ``javax``
+2. Judge whether the location found in the search is a Java EE package
+3. If it is a Java EE package, replace ``javax`` with ``jakarta``
 
-以下で、詳細について説明する。
+Details are described below.
 
-``javax`` の記述は、多くの場合はJavaソースコード上の ``import`` 文に現れる。
-ここまでの修正でJava EEの依存関係がなくなりJakarta EEの依存関係に置き換わっているため、 ``javax`` パッケージで ``import`` している部分はコンパイルエラーが発生するようになっている。
+``javax`` descriptions often appear in ``import`` statements in Java source code.
+With the modifications made so far, Java EE dependencies have been removed and replaced with Jakarta EE dependencies, so ``import`` in the ``javax`` package causes compilation errors.
 
-しかし、 ``javax`` が現れるのは ``import`` 文だけとは限らず、コンパイルエラーにならない場所にも存在する可能性がある。
-たとえば、Java Servletでフォワード元のリクエストURIを取得するためのキー ``javax.servlet.forward.request_uri`` は文字列で指定するため、コンパイルエラーにはならない（このキーは、Jakarta Servletでは ``jakarta.servlet.forward.request_uri`` に変える必要がある）。
-他にも、JSPや設定ファイルの中に記述されている場合も、コンパイルエラーにはならないが修正対象となる。
+However, ``javax`` appears not only in ``import`` statements, but also in places where compilation errors do not occur.
+For example, the key ``javax.servlet.forward.request_uri`` for obtaining the request URI before forwarding in Java Servlet is specified as a character string, so a compilation error does not occur (This key should be changed to ``jakarta.servlet.forward.request_uri`` for Jakarta Servlet).
+In addition, even if it is described in JSP or configuration file, it will not be a compilation error, but it will be subject to correction.
 
-したがって ``javax`` パッケージの有無を調査するには、プロジェクト全体に対してGrep検索を行わなければならない。
+Therefore, to check for the presence of the ``javax`` package, you must do a Grep search of the entire project.
 
-次に、 ``javax`` で検索にヒットした箇所について、それが本当にJava EEのパッケージであるかどうかを判定する。
-例えば、nablarch-example-webを ``javax`` で検索すると、以下のような記述がヒットする。
+Next, for the location hit by ``javax``, determine whether it is really a Java EE package.
+For example, if you search nablarch-example-web with ``javax``, the following description will be hit.
 
 .. code-block:: java
 
   import javax.validation.ConstraintValidator;
 
-これは、Bean Validationのクラスを ``import`` している箇所なので、Java EEのパッケージと判断できる。
+This is where the Bean Validation class is ``import``, so it can be judged as a Java EE package.
 
-一方で、以下のような記述もヒットする。
+On the other hand, the following description also hits.
 
 .. code-block:: java
 
   import javax.crypto.SecretKeyFactory;
 
-これは標準ライブラリに含まれる暗号処理に関するクラスを ``import`` している箇所になるので、Java EEのパッケージではない。
+This is not a Java EE package because it imports the classes related to cryptographic processing included in the standard library.
 
-このように、 ``javax`` でヒットしたからといって、それらが全てJava EEのパッケージとは一概には判断できない。
-本ページ付録の :ref:`java_ee_jakarta_ee_comparation` に各仕様のパッケージを記載しているので、これを参考にヒットした ``javax`` がJava EEのものか判断すること。
+In this way, even if ``javax`` is hit, you cannot simply judge that they are all Java EE packages.
+Packages for each specification are listed in the appendix :ref:`java_ee_jakarta_ee_comparation` on this page, so refer to this to determine if the hit ``javax`` is Java EE.
 
-Java EEのパッケージであると判断できた場合は、 ``javax`` の部分を ``jakarta`` に置換する。
-以下は、前述の ``import`` を ``jakarta`` に置換した場合の例になる。
+If it can be determined that it is a Java EE package, replace ``javax`` with ``jakarta``.
+Below is an example of replacing ``import`` with ``jakarta``.
 
 .. code-block:: java
 
   import jakarta.validation.ConstraintValidator;
 
 
-以上の修正で、nablarch-example-webに関してはJakarta EE 10対応されたアプリケーションサーバ上で動作できるようになる。
+With the above modifications, nablarch-example-web can now run on an application server that supports Jakarta EE 10.
 
 
-JSR352に準拠したバッチアプリケーションの移行手順
+Migration procedure of JSR352-compliant Batch Application
 =========================================================================
 
-Nablarchが提供する実行制御基盤は、いずれも前節で説明した移行手順でバージョンアップができる。
+All execution control platforms provided by Nablarch can be upgraded using the migration procedure described in the previous section.
 
-ただし :doc:`../application_framework/application_framework/batch/jsr352/index` のみ、JBatchのランタイムとして使用しているJBeretと関連するライブラリの更新が複雑であるため、ここで追加で説明する。
+However, for :doc:`../application_framework/application_framework/batch/jsr352/index` only, JBeret, which is used as the runtime of JBatch, and related libraries are complicated to update, so an additional explanation is given here.
 
-JSR352に準拠したバッチアプリケーションをアーキタイプから生成した場合、Nablarch 5までは以下のように ``dependency`` が ``pom.xml`` に設定されている。
+When a JSR352-compliant Batch Application is generated from an archetype, ``dependency`` is set in ``pom.xml`` as shown below up to Nablarch 5.
 
-**修正前**
+**Before modification**
 
 .. code-block:: xml
 
@@ -472,9 +472,9 @@ JSR352に準拠したバッチアプリケーションをアーキタイプか�
       <version>...</version>
     </dependency>
 
-Nablarch 6に上げる場合は、これを以下のように修正する。
+When upgrading to Nablarch 6, modify this as follows.
 
-**修正後**
+**After modification**
 
 .. code-block:: xml
 
@@ -547,10 +547,10 @@ Nablarch 6に上げる場合は、これを以下のように修正する。
     </dependency>
 
 --------------------------------------------------------------------
-実行時にエラーになる場合の対処方法
+What to do if an error occurs during execution
 --------------------------------------------------------------------
 
-NoClassDefFoundErrorになる場合
+When NoClassDefFoundError occurs
 -----------------------------------------------------------------
 
 .. code-block:: text
@@ -564,7 +564,7 @@ NoClassDefFoundErrorになる場合
   Caused by: java.lang.NoClassDefFoundError: Could not initialize class org.jboss.weld.logging.BeanLogger
       at org.jboss.weld.util.Beans.getBeanConstructor (Beans.java:279)
 
-実行時に上記のようなスタックトレースが出力されてエラーになる場合、 ``pom.xml`` 上の ``slf4j-nablarch-adaptor`` の位置をLogbackより下に配置することでエラーを解消できる。
+If the above stack trace is output at runtime and an error occurs, the error can be resolved by placing ``slf4j-nablarch-adaptor`` below Logback in ``pom.xml``.
 
 .. code-block:: xml
 
@@ -574,7 +574,7 @@ NoClassDefFoundErrorになる場合
     <version>1.2.4</version>
   </dependency>
 
-  <!-- Logbackより下にslf4j-nablarch-adaptorを配置する -->
+  <!-- Place slf4j-nablarch-adaptor below Logback -->
   <dependency>
     <groupId>com.nablarch.integration</groupId>
     <artifactId>slf4j-nablarch-adaptor</artifactId>
@@ -582,129 +582,129 @@ NoClassDefFoundErrorになる場合
   </dependency>
 
 
-付録
+Appendix
 =========================================================================
 
 .. _java_ee_jakarta_ee_comparation:
 
 --------------------------------------------------------------------
-Java EEとJakarta EEの仕様の対応表
+Correspondence table between Java EE and Jakarta EE specifications
 --------------------------------------------------------------------
 
-.. list-table:: Java EEとJakarta EEの仕様の対応表
+.. list-table:: Correspondence table between Java EE and Jakarta EE specifications
     :widths: 3, 1, 1, 3
     :header-rows: 1
 
     * - Java EE
-      - 省略名
-      - パッケージプレフィックス
+      - Short name
+      - Package prefix
       - Jakarta EE
     * - Java Servlet
       - 
       - ``javax.servlet``
-      - `Jakarta Servlet (外部サイト、英語) <https://jakarta.ee/specifications/servlet/>`_
+      - `Jakarta Servlet (external site) <https://jakarta.ee/specifications/servlet/>`_
     * - JavaServer Faces
       - JSF
       - ``javax.faces``
-      - `Jakarta Faces (外部サイト、英語) <https://jakarta.ee/specifications/faces/>`_
+      - `Jakarta Faces (external site) <https://jakarta.ee/specifications/faces/>`_
     * - Java API for WebSocket
       - 
       - ``javax.websocket``
-      - `Jakarta WebSocket (外部サイト、英語) <https://jakarta.ee/specifications/websocket/>`_
+      - `Jakarta WebSocket (external site) <https://jakarta.ee/specifications/websocket/>`_
     * - Concurrency Utilities for Java EE
       - 
       - ``javax.enterprise.concurrent``
-      - `Jakarta Concurrency (外部サイト、英語) <https://jakarta.ee/specifications/concurrency/>`_
+      - `Jakarta Concurrency (external site) <https://jakarta.ee/specifications/concurrency/>`_
     * - Interceptors
       - 
       - ``javax.interceptor``
-      - `Jakarta Interceptors (外部サイト、英語) <https://jakarta.ee/specifications/interceptors/>`_
+      - `Jakarta Interceptors (external site) <https://jakarta.ee/specifications/interceptors/>`_
     * - Java Authentication SPI for Containers
       - JASPIC
       - ``javax.security.auth.message``
-      - `Jakarta Authentication (外部サイト、英語) <https://jakarta.ee/specifications/authentication/>`_
+      - `Jakarta Authentication (external site) <https://jakarta.ee/specifications/authentication/>`_
     * - Java Authorization Contract for Containers
       - JACC
       - ``javax.security.jacc``
-      - `Jakarta Authorization (外部サイト、英語) <https://jakarta.ee/specifications/authorization/>`_
+      - `Jakarta Authorization (external site) <https://jakarta.ee/specifications/authorization/>`_
     * - Java EE Security API
       - 
       - ``javax.security.enterprise``
-      - `Jakarta Security (外部サイト、英語) <https://jakarta.ee/specifications/security/>`_
+      - `Jakarta Security (external site) <https://jakarta.ee/specifications/security/>`_
     * - Java Message Service
       - JMS
       - ``javax.jms``
-      - `Jakarta Messaging (外部サイト、英語) <https://jakarta.ee/specifications/messaging/>`_
+      - `Jakarta Messaging (external site) <https://jakarta.ee/specifications/messaging/>`_
     * - Java Persistence API
       - JPA
       - ``javax.persistence``
-      - `Jakarta Persistence (外部サイト、英語) <https://jakarta.ee/specifications/persistence/>`_
+      - `Jakarta Persistence (external site) <https://jakarta.ee/specifications/persistence/>`_
     * - Java Transaction API
       - JTA
       - ``javax.transaction``
-      - `Jakarta Transactions (外部サイト、英語) <https://jakarta.ee/specifications/transactions/>`_
+      - `Jakarta Transactions (external site) <https://jakarta.ee/specifications/transactions/>`_
     * - Batch Application for the Java Platform
       - JBatch
       - ``javax.batch``
-      - `Jakarta Batch (外部サイト、英語) <https://jakarta.ee/specifications/batch/>`_
+      - `Jakarta Batch (external site) <https://jakarta.ee/specifications/batch/>`_
     * - JavaMail
       - 
       - ``javax.mail``
-      - `Jakarta Mail (外部サイト、英語) <https://jakarta.ee/specifications/mail/>`_
+      - `Jakarta Mail (external site) <https://jakarta.ee/specifications/mail/>`_
     * - Java EE Connector Architecture
       - JCA
       - ``javax.resource``
-      - `Jakarta Connectors (外部サイト、英語) <https://jakarta.ee/specifications/connectors/>`_
+      - `Jakarta Connectors (external site) <https://jakarta.ee/specifications/connectors/>`_
     * - Common Annotations for the Java Platform
       - 
       - ``javax.annotation``
-      - `Jakarta Annotations (外部サイト、英語) <https://jakarta.ee/specifications/annotations/>`_
+      - `Jakarta Annotations (external site) <https://jakarta.ee/specifications/annotations/>`_
     * - JavaBeans Activation Framework
       - JAF
       - ``javax.activation``
-      - `Jakarta Activation (外部サイト、英語) <https://jakarta.ee/specifications/activation/>`_
+      - `Jakarta Activation (external site) <https://jakarta.ee/specifications/activation/>`_
     * - Bean Validation
       - 
       - ``javax.validation``
-      - `Jakarta Bean Validation (外部サイト、英語) <https://jakarta.ee/specifications/bean-validation/>`_
+      - `Jakarta Bean Validation (external site) <https://jakarta.ee/specifications/bean-validation/>`_
     * - Expression Language
       - EL
       - ``javax.el``
-      - `Jakarta Expression Language (外部サイト、英語) <https://jakarta.ee/specifications/expression-language/>`_
+      - `Jakarta Expression Language (external site) <https://jakarta.ee/specifications/expression-language/>`_
     * - Enterprise JavaBeans
       - EJB
       - ``javax.ejb``
-      - `Jakarta Enterprise Beans (外部サイト、英語) <https://jakarta.ee/specifications/enterprise-beans/>`_
+      - `Jakarta Enterprise Beans (external site) <https://jakarta.ee/specifications/enterprise-beans/>`_
     * - Java Architecture for XML Binding
       - JAXB
       - ``javax.xml.bind``
-      - `Jakarta XML Binding (外部サイト、英語) <https://jakarta.ee/specifications/xml-binding/>`_
+      - `Jakarta XML Binding (external site) <https://jakarta.ee/specifications/xml-binding/>`_
     * - Java API for JSON Binding
       - JSON-B
       - ``javax.json.bind``
-      - `Jakarta JSON Binding (外部サイト、英語) <https://jakarta.ee/specifications/jsonb/>`_
+      - `Jakarta JSON Binding (external site) <https://jakarta.ee/specifications/jsonb/>`_
     * - Java API for JSON Processing
       - JSON-P
       - * ``javax.json``
         * ``javax.json.spi``
         * ``javax.json.stream``
-      - `Jakarta JSON Processing (外部サイト、英語) <https://jakarta.ee/specifications/jsonp/>`_
+      - `Jakarta JSON Processing (external site) <https://jakarta.ee/specifications/jsonp/>`_
     * - JavaServer Pages
       - JSP
       - ``javax.servlet.jsp``
-      - `Jakarta Server Pages (外部サイト、英語) <https://jakarta.ee/specifications/pages/>`_
+      - `Jakarta Server Pages (external site) <https://jakarta.ee/specifications/pages/>`_
     * - Java API for XML-Based Web Services
       - JAX-WS
       - ``javax.xml.ws``
-      - `Jakarta XML Web Services (外部サイト、英語) <https://jakarta.ee/specifications/xml-web-services/>`_
+      - `Jakarta XML Web Services (external site) <https://jakarta.ee/specifications/xml-web-services/>`_
     * - Java API for RESTful Web Services
       - JAX-RS
       - ``javax.ws.rs``
-      - `Jakarta RESTful Web Services (外部サイト、英語) <https://jakarta.ee/specifications/restful-ws/>`_
+      - `Jakarta RESTful Web Services (external site) <https://jakarta.ee/specifications/restful-ws/>`_
     * - JavaServer Pages Standard Tag Library
       - JSTL
       - ``javax.servlet.jsp.jstl``
-      - `Jakarta Standard Tag Library (外部サイト、英語) <https://jakarta.ee/specifications/tags/>`_
+      - `Jakarta Standard Tag Library (external site) <https://jakarta.ee/specifications/tags/>`_
     * - Contexts and Dependency Injection for Java
       - CDI
       - * ``javax.decorator``
@@ -712,23 +712,23 @@ Java EEとJakarta EEの仕様の対応表
         * ``javax.enterprise.event``
         * ``javax.enterprise.inject``
         * ``javax.enterprise.util``
-      - `Jakarta Contexts and Dependency Injection (外部サイト、英語) <https://jakarta.ee/specifications/cdi/>`_
+      - `Jakarta Contexts and Dependency Injection (external site) <https://jakarta.ee/specifications/cdi/>`_
     * - Dependency Injection for Java
       - 
       - ``javax.inject``
-      - `Jakarta Dependency Injection (外部サイト、英語) <https://jakarta.ee/specifications/dependency-injection/>`_
+      - `Jakarta Dependency Injection (external site) <https://jakarta.ee/specifications/dependency-injection/>`_
 
 .. _jakarta_ee_runtime_dependency:
 
 --------------------------------------------------------------------
-代表的な仕様のランタイムのdependency
+Dependencies of runtimes of the typical specification
 --------------------------------------------------------------------
 
 
 JAX-RS, Jakarta RESTful Web Services
 -----------------------------------------------------------------
 
-※記載しているアーティファクトはあくまで例であり、全てのプロジェクトでこれらが必要になるというわけではない。
+Note: Artifacts listed are examples only and may not be required for all projects.
 
 **Java EE**
 

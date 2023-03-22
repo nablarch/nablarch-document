@@ -116,7 +116,7 @@ Nablarch implementation examples
   | :doc:`Manual <examples/index>`
 
 -----------------------------------------------
-Nablarch 5から6への移行ガイド
+Nablarch 5 to 6 Migration Guide
 -----------------------------------------------
 
-  | :doc:`Nablarch 5から6への移行ガイド <migration/index>`
+  | :doc:`Nablarch 5 to 6 Migration Guide <migration/index>`
