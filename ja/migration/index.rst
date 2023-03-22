@@ -180,7 +180,7 @@ nablarch-example-webの ``pom.xml`` では、以下がJava EEのAPIの依存関�
   </dependency>
 
 Jakarta EEのAPIにはbomが用意されているので、これを読み込むことでAPIごとにバージョンを指定する必要がなくなる。
-バージョンを調べる手間や指定のミスが減り管理も楽になるため、基本的にbomを読み込むことを推奨する。
+バージョンを調べる手間や指定のミスが減り管理も楽になるため、bomを読み込むことを推奨する。
 
 Java EEのAPIの ``dependency`` は、jarの提供元やバージョンによってバラバラになっており統一されていない。
 このため、Java EEとJakarta EEの ``dependency`` の完全な対応表を提供することはできない。
