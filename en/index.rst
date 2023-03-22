@@ -22,6 +22,7 @@ Nablarch
   examples/index
   nablarch_api/index
   about_nablarch/versionup_policy
+  migration/index
 
 
 -----------------------------------------------
@@ -113,3 +114,9 @@ Nablarch implementation examples
 -----------------------------------------------
 
   | :doc:`Manual <examples/index>`
+
+-----------------------------------------------
+Nablarch 5 to 6 Migration Guide
+-----------------------------------------------
+
+  | :doc:`Nablarch 5 to 6 Migration Guide <migration/index>`
