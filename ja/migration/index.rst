@@ -214,7 +214,7 @@ Java EEの仕様のランタイムをアプリケーションに組み込んで�
     <version>8.0.0.Final</version>
   </dependency>
 
-どの ``dependency`` がJava EEのランタイムなのかは、それぞれの ``dependency`` ごとに個別に調査するしかない。
+どの ``dependency`` がJava EEのランタイムなのかは、それぞれの ``dependency`` ごとに個別に調査する必要がある。
 また、Java EEのランタイムであることが分かった場合、そのランタイムのJakarta EE対応版の ``dependency`` が何になるかはランタイムごとに異なる。
 したがって、プロジェクトで使用しているランタイムごとに公式サイトなどを確認する必要がある。
 
