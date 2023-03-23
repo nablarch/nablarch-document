@@ -60,7 +60,7 @@ adb2c パッケージを使用する場合は、適宜対応するコンポー�
 
 全体の処理の流れ、および本サンプルで取り扱う範囲について、以下に示す。
 
-.. image:: ./_images/nablarch-example-oidc-scope.drawio.svg
+.. image:: ./_images/nablarch-example-oidc-scope.drawio.png
 
 本サンプルで取り扱うのはNablarchを使用するバックエンドアプリケーションのみとし、フロントエンドアプリケーション（Web、モバイルアプリ等）で行うIDトークンの取得方法については本サンプルの対象外とする。
 
@@ -74,7 +74,7 @@ adb2c パッケージを使用する場合は、適宜対応するコンポー�
 
 本サンプルで提供するクラスについて、クラス図を以下に示す。
 
-.. image:: ./_images/nablarch-example-oidc-class.drawio.svg
+.. image:: ./_images/nablarch-example-oidc-class.drawio.png
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 各クラスの責務
