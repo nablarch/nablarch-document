@@ -307,7 +307,7 @@ H2の設定例(デフォルト)
         <dependency>
           <groupId>com.h2database</groupId>
           <artifactId>h2</artifactId>
-          <version>1.4.191</version>
+          <version>2.1.214</version>
           <scope>runtime</scope>
         </dependency>
         <!-- 中略 -->
@@ -422,7 +422,7 @@ dependencies要素内で、JDBCドライバの依存関係が記述されてい�
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
-      <version>1.4.191</version>
+      <version>2.1.214</version>
       <scope>runtime</scope>
     </dependency>
     <!-- 中略 -->
