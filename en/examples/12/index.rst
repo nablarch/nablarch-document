@@ -60,7 +60,7 @@ Scope of this sample
 
 The overall process flow and the scope addressed in this sample are described below.
 
-.. image:: ./_images/nablarch-example-oidc-scope.drawio.svg
+.. image:: ./_images/nablarch-example-oidc-scope.drawio.png
 
 This sample deals only with back-end application that use Nablarch, and does not cover how to obtain ID token for front-end application (web, mobile apps, etc.).
 
@@ -74,7 +74,7 @@ Class diagram
 
 A class diagram is shown below for the classes provided in this sample.
 
-.. image:: ./_images/nablarch-example-oidc-class.drawio.svg
+.. image:: ./_images/nablarch-example-oidc-class.drawio.png
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Responsibilities of each class
