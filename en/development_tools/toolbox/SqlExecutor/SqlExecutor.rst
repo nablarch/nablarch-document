@@ -188,7 +188,6 @@ Hereinafter, configuration examples will be described for each type of database.
       <dependency>
         <groupId>com.h2database</groupId>
         <artifactId>h2</artifactId>
-        <version>1.3.176</version>
         <scope>runtime</scope>
       </dependency>
     </dependencies>

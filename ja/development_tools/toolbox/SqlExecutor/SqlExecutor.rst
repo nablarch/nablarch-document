@@ -191,7 +191,6 @@ pom.xml中の「使用するRDBMSにあわせて、下記JDBCドライバの dep
       <dependency>
         <groupId>com.h2database</groupId>
         <artifactId>h2</artifactId>
-        <version>1.3.176</version>
         <scope>runtime</scope>
       </dependency>
     </dependencies>
