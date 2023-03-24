@@ -113,6 +113,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 
   (中略)
   [INFO] Built image to Docker daemon as myapp-container-web, myapp-container-web, myapp-container-web:0.1.0
+  (中略)
   [INFO] Executing tasks:
   [INFO] [==============================] 100.0% complete
   [INFO]
