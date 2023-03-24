@@ -113,6 +113,7 @@ If the execution is successful, the log given below will be output to the consol
 
   (omission)
   [INFO] Built image to Docker daemon as myapp-container-web, myapp-container-web, myapp-container-web:0.1.0
+  (omission)
   [INFO] Executing tasks:
   [INFO] [==============================] 100.0% complete
   [INFO]

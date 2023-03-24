@@ -120,12 +120,14 @@ If the execution is successful, the log given below will be output to the consol
 .. code-block:: text
 
   (omitted)
-  [INFO] ------------------------------------------------------------------------
+  [INFO] ----------------------< com.example:myapp-batch >-----------------------
   [INFO] Building myapp-batch 0.1.0
-  [INFO] ------------------------------------------------------------------------
+  [INFO] --------------------------------[ jar ]---------------------------------
   (omitted)
-  Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
-
+  [INFO] Results:
+  [INFO]
+  [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+  [INFO]
   [INFO] ------------------------------------------------------------------------
   [INFO] BUILD SUCCESS
   [INFO] ------------------------------------------------------------------------
