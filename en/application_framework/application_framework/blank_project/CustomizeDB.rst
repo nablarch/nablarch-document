@@ -304,7 +304,7 @@ H2 configuration example (default)
         <dependency>
           <groupId>com.h2database</groupId>
           <artifactId>h2</artifactId>
-          <version>1.4.191</version>
+          <version>2.1.214</version>
           <scope>runtime</scope>
         </dependency>
         <!-- Omitted -->
@@ -419,7 +419,7 @@ An example of the dependency element described by default is shown.
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
-      <version>1.4.191</version>
+      <version>2.1.214</version>
       <scope>runtime</scope>
     </dependency>
     <!-- Omitted -->

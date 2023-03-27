@@ -8,7 +8,7 @@
   :local:
 
 メッセージングログは、 :ref:`system_messaging` の中でメッセージ送受信時に出力する。
-アプリケーションでは、ログ出力の設定を行うことにより出力する。
+アプリケーションでは、ログ出力を設定することにより出力する。
 
 メッセージングログの出力方針
 --------------------------------------------------
@@ -96,7 +96,7 @@ app-log.propertiesの設定例
 
 .. _messaging_log-setting:
 
-メッセージングログの設定を行う
+メッセージングログの設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 メッセージングログの設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
 
@@ -245,7 +245,7 @@ app-log.propertiesの設定例
 
 JSON形式の構造化ログとして出力する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`log-json_log_setting` 設定を行うことでログをJSON形式で出力できるが、
+:ref:`log-json_log_setting` 設定によりログをJSON形式で出力できるが、
 :java:extdoc:`MessagingLogFormatter <nablarch.fw.messaging.logging.MessagingLogFormatter>` では
 メッセージングログの各項目はmessageの値に文字列として出力される。
 メッセージングログの各項目もJSONの値として出力するには、

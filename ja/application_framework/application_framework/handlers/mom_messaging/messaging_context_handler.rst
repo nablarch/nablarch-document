@@ -37,7 +37,7 @@ MOMメッセージングの詳細は、 :ref:`system_messaging` を参照。
 ------------------------------
 なし。
 
-MQの接続先の設定を行う
+MQの接続先を設定する
 --------------------------------------------------
 このハンドラは、 :java:extdoc:`messagingProvider <nablarch.fw.messaging.handler.MessagingContextHandler.setMessagingProvider(nablarch.fw.messaging.MessagingProvider)>`
 プロパティに設定されたプロバイダクラス( :java:extdoc:`MessagingProvider <nablarch.fw.messaging.MessagingProvider>` 実装クラス)を使用してMQ接続を取得する。

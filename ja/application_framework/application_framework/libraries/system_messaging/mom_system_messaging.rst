@@ -52,13 +52,13 @@ MOMメッセージングでは、多様なMOMに対応するため、
 :java:extdoc:`MessagingProvider<nablarch.fw.messaging.MessagingProvider>` インタフェースを設けている。
 MOMに依存するMQ接続やメッセージ送受信は、このインタフェースを実装したクラスが行う。
 そのため、 :java:extdoc:`MessagingProvider<nablarch.fw.messaging.MessagingProvider>` インタフェースを実装したクラスを作成することで、
-本機能を様々なMOMで使用することができる。
+本機能を様々なMOMで使用できる。
 
 MOMメッセージングはJMSに対応しており、
 :java:extdoc:`JmsMessagingProvider<nablarch.fw.messaging.provider.JmsMessagingProvider>` を提供している。
 詳細は、リンク先のJavadocを参照。
 
-さらに、MOMとして利用実績が多い WebSphere MQ にも対応している。
+さらに、MOMとして使用実績が多い WebSphere MQ にも対応している。
 詳細は、 :ref:`webspheremq_adaptor` を参照。
 
 モジュール一覧
@@ -79,7 +79,7 @@ MOMメッセージングはJMSに対応しており、
 
 .. _mom_system_messaging-settings:
 
-MOMメッセージングを使うための設定を行う
+MOMメッセージングを使うための設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 MOMメッセージングでは、以下のクラスをコンポーネント定義に追加する。
 
@@ -149,7 +149,7 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
   :有効期間: 任意
 
 応答不要メッセージ送信では、送信電文のデータを保持するテーブル(一時テーブルと呼ぶ)から送信対象のデータを取得し、
-電文の作成及び送信を行う共通的なアクションとして、
+電文の作成及び送信の共通的なアクションとして、
 :java:extdoc:`AsyncMessageSendAction<nablarch.fw.messaging.action.AsyncMessageSendAction>`
 を提供している。
 :java:extdoc:`AsyncMessageSendAction<nablarch.fw.messaging.action.AsyncMessageSendAction>` は、
@@ -335,7 +335,7 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
   :scale: 80
 
 :ref:`mom_system_messaging-async_message_send` とは異なり、応答電文を受信するので、
-通信先で処理が正しく行われることをある程度保証することができる。
+通信先で処理が正しく行われることをある程度保証できる。
 ただし、何らかの問題により、規定時間内に応答を受信できずにタイムアウトした場合は、何らかのエラー処理(例えば、電文の再試行や障害通知など)を行う必要がある。
 
 送信電文に設定する :ref:`共通プロトコルヘッダ<mom_system_messaging-common_protocol_header>` の内容
@@ -444,8 +444,11 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
        設定項目については、
        :java:extdoc:`MessageSenderSettings<nablarch.fw.messaging.MessageSenderSettings.MessageSenderSettings(java.lang.String)>`
        を参照。
+     * 送受信する電文の変換処理を変更する場合は、コンポーネント設定ファイルに :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>`
+       を継承したクラスを定義して、コンポーネントの名前を ``messageSender.DEFAULT.messageConvertorName`` に指定することで変更できる。
+       詳細については、 :ref:`フレームワーク制御ヘッダの読み書きを変更する（同期応答メッセージ送信の場合）<mom_system_messaging-change_fw_header_sync_ex>` を参照。
 
-  messaging.config
+  messaging.properties
    .. code-block:: properties
 
     messageSender.DEFAULT.messagingProviderName=defaultMessagingProvider
@@ -454,7 +457,13 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
     messageSender.DEFAULT.retryCount=10
     messageSender.DEFAULT.formatDir=format
     messageSender.DEFAULT.headerFormatName=HEADER
-    messageSender.DEFAULT.messageConvertorName=defaultSyncMessageConvertor
+
+  コンポーネント設定ファイル
+   .. code-block:: xml
+
+    <!-- MessageSender設定を読込 -->
+    <config-file file="messaging/messaging.properties"/>
+
 
 .. _mom_system_messaging-async_message_receive:
 
@@ -763,10 +772,12 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
  * :java:extdoc:`AsyncMessageSendAction#createHeaderRecordFormatter<nablarch.fw.messaging.action.AsyncMessageSendAction.createHeaderRecordFormatter()>`
  * :java:extdoc:`AsyncMessageSendAction#createHeaderRecord<nablarch.fw.messaging.action.AsyncMessageSendAction.createHeaderRecord(nablarch.core.db.statement.SqlRow)>`
 
+.. _mom_system_messaging-change_fw_header_sync_ex:
+
 同期応答メッセージ送信の場合
  :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>` では、送受信する電文の変換処理を変更できるように、
  変換処理を :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` に委譲しており、
- このクラスがフレームワーク制御ヘッダの読み書きを行っている。
+ このクラスがフレームワーク制御ヘッダを読み書きしている。
 
  そのため、:java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>` を継承したクラスを作成し、
  :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>` の設定に指定すればよい。
@@ -815,7 +826,7 @@ MOMメッセージングでは、送受信電文の内容を以下のデータ�
 .. _mom_system_messaging-common_protocol_header:
 
 共通プロトコルヘッダ
- プロトコルヘッダのうち、フレームワークが使用する以下のヘッダについては、特定のキー名でアクセスすることができる。
+ プロトコルヘッダのうち、フレームワークが使用する以下のヘッダについては、特定のキー名でアクセスできる。
  キー名をカッコで示す。
 
  メッセージID(MessageId)
@@ -851,7 +862,7 @@ MOMメッセージングでは、送受信電文の内容を以下のデータ�
   :受信時: 設定なし
 
  .. tip::
-  共通プロトコルヘッダ以外のヘッダについては、各メッセージングプロバイダ側で任意に定義することが可能である。
+  共通プロトコルヘッダ以外のヘッダについては、各メッセージングプロバイダ側で任意に定義可能である。
   このようなヘッダは **個別プロトコルヘッダ** と呼ばれる。
   例えば、JMSメッセージングプロバイダの場合、全てのJMSヘッダ、JMS拡張ヘッダおよび任意属性は、個別プロトコルヘッダとして扱われる。
 
@@ -864,7 +875,7 @@ MOMメッセージングでは、送受信電文の内容を以下のデータ�
  それ以外のデータ領域については、未解析の単なるバイナリデータとして扱うものとする。
 
  メッセージボディの解析は、 :ref:`data_format` によって行う。
- これにより、電文の内容をフィールド名をキーとするMap形式で読み書きすることが可能である。
+ これにより、電文の内容をフィールド名をキーとするMap形式で読み書き可能である。
 
 .. _mom_system_messaging-fw_header:
 
@@ -892,7 +903,7 @@ MOMメッセージングでは、送受信電文の内容を以下のデータ�
   | :ref:`permission_check_handler`
 
  再送要求フラグ
-  再送要求電文送信時に設定されるフラグ
+  再送要求電文の送信時に設定されるフラグ
 
   このヘッダを使用する主要なハンドラ：
 
@@ -929,9 +940,8 @@ MOMメッセージングでは、送受信電文の内容を以下のデータ�
   #====================================================================
 
  フォーマット定義にフレームワーク制御ヘッダ以外の項目を含めた場合、
- フレームワーク制御ヘッダの任意ヘッダ項目としてアクセスすることができ、
- プロジェクト毎にフレームワーク制御ヘッダを簡易的に拡張する目的で使用することができる。
+ フレームワーク制御ヘッダの任意ヘッダ項目としてアクセスでき、
+ プロジェクト毎にフレームワーク制御ヘッダを簡易的に拡張する目的で使用できる。
 
  また、将来的な任意項目の追加およびフレームワークの機能追加に伴うヘッダ追加に対応するため、
  予備領域を設けておくことを強く推奨する。
-

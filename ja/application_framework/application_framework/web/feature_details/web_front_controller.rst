@@ -9,7 +9,7 @@ Webフロントコントローラ
 
 ウェブアプリケーションにおけるハンドラキューの実行の起点となるクラス。
 
-本クラスを使用することで、クライアントから受け取ったリクエストに対する処理をハンドラキューに委譲することができる。
+本クラスを使用することで、クライアントから受け取ったリクエストに対する処理をハンドラキューに委譲できる。
 
 モジュール一覧
 --------------------------------------------------
@@ -56,7 +56,7 @@ Webフロントコントローラ
   `web.xml` への設定例を以下に示す。
 
   ポイント
-   * システムリポジトリを初期化するため、 :ref:`nablarch_servlet_context_listener` をリスナとして設定すること。
+   * システムリポジトリを初期化するため、 :ref:`nablarch_servlet_context_listener` をリスナーとして設定すること。
 
   .. code-block:: xml
 
@@ -78,3 +78,81 @@ Webフロントコントローラ
       <filter-name>entryPoint</filter-name>
       <url-pattern>/action/*</url-pattern>
     </filter-mapping>
+
+.. _change_web_front_controller_name:
+
+委譲するWebフロントコントローラの名前を変更する
+--------------------------------------------------
+
+  ウェブアプリケーションをベースとしたアプリケーションにおいて一部のリクエストをRESTfulウェブサービスとして処理したい場合など、
+  ウェブアプリケーションとウェブサービスを併用したい場合が考えられる。
+  そのような場合は、ハンドラ構成の異なるWebフロントコントローラを複数個定義する必要がある。
+  :java:extdoc:`RepositoryBasedWebFrontController <nablarch.fw.web.servlet.RepositoryBasedWebFrontController>` はデフォルトでは
+  ``webFrontController`` という名前でシステムリポジトリが委譲するWebフロントコントローラを取得する。
+  `web.xml` に初期化パラメータを設定することで、システムリポジトリから取得するWebフロントコントローラの名前を変更することができる。
+
+  ウェブアプリケーション用とRESTfulウェブサービス用2つのハンドラ構成を持つWebフロントコントローラの設定例を以下に示す。
+
+  まず、コンポーネント定義で、ウェブアプリケーション用のハンドラ構成をもったWebフロントコントローラを ``webFrontController`` という名前で定義し、
+  RESTfulウェブサービス用のハンドラ構成をもったWebフロントコントローラを ``webFrontController`` と異なるコンポーネント名で定義する。
+
+  .. code-block:: xml
+
+    <component name="webFrontController"
+              class="nablarch.fw.web.servlet.WebFrontController">
+      <property name="handlerQueue">
+        <list>
+          <!-- ウェブアプリケーション用のハンドラ構成 -->
+        </list>
+      </property>
+    </component>
+
+    <component name="jaxrsController"
+              class="nablarch.fw.web.servlet.WebFrontController">
+      <property name="handlerQueue">
+        <list>
+          <!-- RESTfulウェブサービス用のハンドラ構成 -->
+        </list>
+      </property>
+    </component>
+
+  次に `web.xml` に上記で設定したWebフロントコントローラを使用するためのサーブレットフィルタを設定する。
+
+  ポイント
+   * ``<init-param>`` を使い ``controllerName`` というパラメータにシステムリポジトリから取得する際のコントローラ名を設定する。
+   * ``<filter-mapping>`` でそれぞれのWebフロントコントローラが処理対象とするURLのパターンを設定する。
+
+  .. code-block:: xml
+
+    <context-param>
+      <param-name>di.config</param-name>
+      <param-value>web-boot.xml</param-value>
+    </context-param>
+
+    <listener>
+      <listener-class>nablarch.fw.web.servlet.NablarchServletContextListener</listener-class>
+    </listener>
+
+    <filter>
+      <filter-name>webEntryPoint</filter-name>
+      <filter-class>nablarch.fw.web.servlet.RepositoryBasedWebFrontController</filter-class>
+    </filter>
+    <filter>
+      <filter-name>jaxrsEntryPoint</filter-name>
+      <filter-class>nablarch.fw.web.servlet.RepositoryBasedWebFrontController</filter-class>
+      <init-param>
+        <param-name>controllerName</param-name>
+        <param-value>jaxrsController</param-value>
+      </init-param>
+    </filter>
+
+    <filter-mapping>
+      <filter-name>webEntryPoint</filter-name>
+      <url-pattern>/action/*</url-pattern>
+      <url-pattern>/</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+      <filter-name>jaxrsEntryPoint</filter-name>
+      <url-pattern>/api/*</url-pattern>
+    </filter-mapping>
+

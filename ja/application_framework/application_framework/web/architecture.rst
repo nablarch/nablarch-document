@@ -17,7 +17,7 @@ Nablarchではウェブアプリケーションを構築する場合、ServletAP
 .. image:: images/application_structure.png
 
 :ref:`nablarch_servlet_context_listener` (NablarchServletContextListener)
-  システムリポジトリやログの初期化処理を行うサーブレットコンテキストリスナ。
+  システムリポジトリやログの初期化処理を行うサーブレットコンテキストリスナー。
 
 :ref:`web_front_controller` (WebFrontController)
   受け取ったリクエストに対する処理をハンドラキューに委譲するサーブレットフィルタ。
@@ -82,7 +82,7 @@ Nablarchでは、ウェブアプリケーションを構築するために必要
 最小ハンドラ構成
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Nablarchでウェブアプリケーションを構築する際の、必要最小限のハンドラキューを以下に示す。
-これをベースに、プロジェクト要件に従ってNablarchの標準ハンドラやプロジェクトで作成したカスタムハンドラの追加を行う。
+これをベースに、プロジェクト要件に従ってNablarchの標準ハンドラやプロジェクトで作成したカスタムハンドラを追加する。
 
 .. list-table:: 最小ハンドラ構成
    :header-rows: 1

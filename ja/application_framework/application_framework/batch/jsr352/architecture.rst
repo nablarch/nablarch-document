@@ -130,7 +130,7 @@ Chunkステップの責務配置については、 :ref:`Chunkの責務配置 <j
 
   JSR352に準拠したバッチアプリケーションがこのようなアーキテクチャを採用した理由は以下の通り。
 
-  JSR352に準拠したバッチアプリケーションは、JSR352上でNablarchを利用するためのコンポーネントのみの提供であり、実行制御自体はJSR352実装によって行われる。
+  JSR352に準拠したバッチアプリケーションは、JSR352上でNablarchを使用するためのコンポーネントのみの提供であり、実行制御自体はJSR352実装によって行われる。
   このため、Nablarchにより全ての例外を捕捉し処理を行うことは不可能であり、例外制御がNablarchとJSR352で分散することで設計などが複雑化するのを防ぐためこのような方針としている。
   
 例外発生時のバッチの状態
@@ -167,8 +167,8 @@ JSR352の実装で補足された例外の情報は、JSR352の実装により�
   ステップの実行前及び実行後にコールバックされるリスナー
 
   * :java:extdoc:`ステップの開始、終了ログを出力するリスナー <nablarch.fw.batch.ee.listener.step.StepProgressLogListener>`
-  * :java:extdoc:`データベースへの接続を行うリスナー <nablarch.fw.batch.ee.listener.step.DbConnectionManagementListener>`
-  * :java:extdoc:`トランザクション制御を行うリスナー <nablarch.fw.batch.ee.listener.step.StepTransactionManagementListener>`
+  * :java:extdoc:`データベースへ接続するリスナー <nablarch.fw.batch.ee.listener.step.DbConnectionManagementListener>`
+  * :java:extdoc:`トランザクションを制御するリスナー <nablarch.fw.batch.ee.listener.step.StepTransactionManagementListener>`
 
 ItemWriterレベルのリスナー
   `ItemWriter` の実行前及び実行後にコールバックされるリスナー
@@ -176,11 +176,11 @@ ItemWriterレベルのリスナー
   * :java:extdoc:`Chunkの進捗ログを出力するリスナー(非推奨) <nablarch.fw.batch.ee.listener.chunk.ChunkProgressLogListener>`
     (:ref:`jsr352-progress_log` を使用して進捗ログを出力すること)
     
-  * :java:extdoc:`トランザクション制御を行うリスナー <nablarch.fw.batch.ee.listener.chunk.ItemWriteTransactionManagementListener>`
+  * :java:extdoc:`トランザクションを制御するリスナー <nablarch.fw.batch.ee.listener.chunk.ItemWriteTransactionManagementListener>`
 
 .. tip::
   |jsr352| で規定されているリスナーは、複数設定した場合の実行順を保証しないことが仕様上明記されている。
-  このため、Nablarchでは以下の対応を行うことで、リスナーを指定した順で実行出来るよう対応している。
+  このため、Nablarchでは以下の点に対応することで、リスナーを指定した順で実行出来るよう対応している。
 
   * 各レベルのリスナーには、リスナーの実行順を保証するリスナーのみを設定する
   * リスナーの実行順を保証するリスナーは、 :ref:`repository` からリスナーリストを取得し、定義順にリスナーを実行する。
@@ -222,12 +222,12 @@ ItemWriterレベルのリスナー
     - ステップ名称とステップステータスをログに出力する。
 
   * - 2
-    - :java:extdoc:`データベースへの接続を行うリスナー <nablarch.fw.batch.ee.listener.step.DbConnectionManagementListener>`
+    - :java:extdoc:`データベースへ接続するリスナー <nablarch.fw.batch.ee.listener.step.DbConnectionManagementListener>`
     - DB接続を取得する。
     - DB接続を解放する。
 
   * - 3
-    - :java:extdoc:`トランザクション制御を行うリスナー <nablarch.fw.batch.ee.listener.step.StepTransactionManagementListener>`
+    - :java:extdoc:`トランザクションを制御するリスナー <nablarch.fw.batch.ee.listener.step.StepTransactionManagementListener>`
     - トランザクションを開始する。
     - トランザクションを終了(commit or rollback)する。
 
@@ -242,7 +242,7 @@ ItemWriterレベルのリスナー
     - `ItemWriter` 実行後の処理
 
   * - 1
-    - :java:extdoc:`トランザクション制御を行うリスナー <nablarch.fw.batch.ee.listener.chunk.ItemWriteTransactionManagementListener>` [#chunk_tran]_
+    - :java:extdoc:`トランザクションを制御するリスナー <nablarch.fw.batch.ee.listener.chunk.ItemWriteTransactionManagementListener>` [#chunk_tran]_
     - 
     - トランザクションを終了(commit or rollback)する。
 

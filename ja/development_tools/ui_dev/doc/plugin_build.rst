@@ -692,8 +692,8 @@ JavaScriptの自動生成
 
   .. tip::
 
-    install.batを利用して、変更管理済みのpluginを削除するとIDE上からコミットできないことがある。
-    その場合、別のクライアントを利用してコミットすること。
+    install.batを使用して、変更管理済みのpluginを削除するとIDE上からコミットできないことがある。
+    その場合、別のクライアントを使用してコミットすること。
 
   .. image:: ./_image/build_install.png
 

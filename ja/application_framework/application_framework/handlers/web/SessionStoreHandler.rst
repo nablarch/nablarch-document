@@ -61,18 +61,18 @@
 :ref:`forwarding_handler` より前に配置すること
   :ref:`forwarding_handler` を本ハンドラよりも前に設定した場合、セッションストアの読み込み、保存が複数回実行されるが、
   HIDDENストアはリクエストパラメータからセッション変数を読み込み、リクエストスコープにセッション変数を保存するため、
-  内部フォーワード時にHIDDENストアを使用した場合、最新のセッション変数を取得することができない問題がある。
+  内部フォーワード時にHIDDENストアを使用した場合、最新のセッション変数を取得できない問題がある。
   このため、本ハンドラは :ref:`forwarding_handler` より前に配置すること。
 
-セッションストアを使用するための設定を行う
+セッションストアを使用するための設定
 --------------------------------------------------------------
-セッションストアを使用するには、以下の設定を行った :java:extdoc:`SessionManager <nablarch.common.web.session.SessionManager>`
+セッションストアを使用するには、以下のとおり設定した :java:extdoc:`SessionManager <nablarch.common.web.session.SessionManager>`
 を本ハンドラの :java:extdoc:`sessionManager <nablarch.common.web.session.SessionStoreHandler.setSessionManager(nablarch.common.web.session.SessionManager)>` プロパティに設定する必要がある。
 
 * アプリケーションで使用するセッションストア（複数指定可）
 * デフォルトで使用するセッションストア名
 
-以下の設定例を参考に、本ハンドラの設定を行うこと。
+以下の設定例を参考に、本ハンドラを設定すること。
 
 .. code-block:: xml
 
@@ -89,7 +89,7 @@
 
 セッション変数を直列化してセッションストアに保存する
 --------------------------------------------------------------
-本ハンドラでセッション変数をセッションストアに保存する際、直列化の仕組みを選択することができる。
+本ハンドラでセッション変数をセッションストアに保存する際、直列化の仕組みを選択できる。
 
 選択可能な直列化の仕組みの詳細は :ref:`session_store-serialize` を参照。
 
@@ -109,7 +109,7 @@ HIDDENストアの改竄を検知した場合
 --------------------------------------------------------------
 セッションストアの改竄を検知した場合に表示するエラーページは `web.xml` に記載する必要がある。
 なぜなら、本ハンドラは :ref:`session_store_handler-constraint` に記載の通り、 :ref:`forwarding_handler` よりも前に設定する必要がある。
-この場合、以下の理由により本ハンドラで発生した例外に対して、 :ref:`HttpErrorHandler_DefaultPage` を適用することができないため、
+この場合、以下の理由により本ハンドラで発生した例外に対して、 :ref:`HttpErrorHandler_DefaultPage` を適用できないため、
 `web.xml` に対する設定が必要となる。
 
 理由
@@ -122,7 +122,7 @@ HIDDENストアの改竄を検知した場合
 
 セッションIDを保持するクッキーの名前や属性を変更する
 --------------------------------------------------------------
-セッションIDを保持するクッキーの名前や属性を任意の値に変更することができる。
+セッションIDを保持するクッキーの名前や属性を任意の値に変更できる。
 
 デフォルトの設定は以下のとおり。
 
@@ -136,7 +136,7 @@ HIDDENストアの改竄を検知した場合
 :MaxAge属性:    | 指定しない
 :HttpOnly属性:  | ServletAPIのバージョンが3.0以上であれば使用する
 
-クッキー名や属性を変更したい場合は、以下の例を参考に設定を行うこと。
+クッキー名や属性を変更したい場合は、以下の例を参考に設定すること。
 
 .. code-block:: xml
 
@@ -174,19 +174,19 @@ HIDDENストアの改竄を検知した場合
 
 .. tip::
   HttpOnly属性の値はアプリケーションで使用しているServletAPIのバージョンによって決定されるため、
-  設定ファイル等から任意の値を指定することはできない。
+  設定ファイル等から任意の値は指定できない。
 
 .. _`db_managed_expiration`:
 
 有効期間をデータベースに保存する
 --------------------------------------------------------------
-セッションの有効期間保存先を変更することができる。
+セッションの有効期間保存先を変更できる。
 
 デフォルトでは :java:extdoc:`HttpSessionManagedExpiration <nablarch.common.web.session.HttpSessionManagedExpiration>` 
 が使用されるためセッションの有効期間はHTTPセッションに保存される。
 
 本ハンドラの :java:extdoc:`expiration <nablarch.common.web.session.SessionStoreHandler.setExpiration(nablarch.common.web.session.Expiration)>` 
-プロパティを :java:extdoc:`DbManagedExpiration <nablarch.common.web.session.DbManagedExpiration>` に差し替えることでデータベースに保存することができる。
+プロパティを :java:extdoc:`DbManagedExpiration <nablarch.common.web.session.DbManagedExpiration>` に差し替えることでデータベースに保存できる。
 
 使用方法
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

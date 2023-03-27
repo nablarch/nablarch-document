@@ -87,7 +87,7 @@ className     クラス名 (必須)
 本ハンドラを使ってディスパッチする場合、ディスパッチ先のクラスは、リクエストパスの指定によって複数振り分けることができる。
 この際は、リクエストパスでクラス名を指定する箇所で、ベースパッケージからの相対パッケージ名を指定する。
 
-たとえば上記 :ref:`request_path_java_package_mapping_path_setting` の設定を行った際に、 ``nablarch.application.xxx.ExampleBatchAction``
+たとえば上記 :ref:`request_path_java_package_mapping_path_setting` を設定した際に、 ``nablarch.application.xxx.ExampleBatchAction``
 クラスにディスパッチする場合、リクエストパスには ``/app/action/xxx/ExampleBatchAction`` を指定すればよい。
 
 
@@ -134,7 +134,7 @@ className     クラス名 (必須)
 ========================================== ======================================
 
 このようなディスパッチを行う場合、以下のように ``optionalPackageMappingEntries`` プロパティに
-:java:extdoc:`JavaPackageMappingEntry <nablarch.fw.handler.JavaPackageMappingEntry>` クラスを使用して設定を行う。
+:java:extdoc:`JavaPackageMappingEntry <nablarch.fw.handler.JavaPackageMappingEntry>` クラスを使用して設定する。
 
 .. code-block:: xml
 
@@ -162,7 +162,7 @@ className     クラス名 (必須)
 ディスパッチ対象クラスを遅延実行する
 ------------------------------------------------------------------------------------------------------------------------
 
-デフォルトではディスパッチ対象クラスへの委譲は即時実行されるが、ハンドラキュー上の後続のハンドラ実行後にディスパッチ対象クラスへの委譲を行いたい場合は、以下の例を参照して ``immediate`` プロパティにfalseを設定すること。
+デフォルトではディスパッチ対象クラスへの委譲は即時実行されるが、ハンドラキュー上の後続のハンドラ実行後にディスパッチ対象クラスへ委譲したい場合は、以下の例を参照して ``immediate`` プロパティにfalseを設定すること。
 
 .. code-block:: xml
 

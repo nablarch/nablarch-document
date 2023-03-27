@@ -22,13 +22,12 @@ Action class
 
 Form class
   Class to map the value (HTTP body) sent from the client (browser, external system, smartphone application, etc.).
-  A class that holds the value to be mapped to the value (response body) that responds to the client.
 
   The form class that holds the value submitted by the client has annotations to validate the value and correlation validation logic.
 
   Depending on the API specification, a form class may have a hierarchical structure (form class has a form class).
 
-  .. _`application_design-form_html`:
+  .. _`rest-application_design-form_html`:
 
   Form class is created for each API
     The form class defines the interface with the client, and a separate form class is created if the interface (API) is different.
@@ -43,6 +42,8 @@ Form class
   All the form class properties must be defined by a `String`.
     See :ref:`Bean Validation <bean_validation-form_property>` for the reason why the property must be a `String`.
 
+DTO(data transfer object)
+  A class that holds the value to be mapped to the value (response body) that responds to the client.
+
 Entity class
   A class with a one-to-one correspondence with a table. Has the property corresponding to columns.
-

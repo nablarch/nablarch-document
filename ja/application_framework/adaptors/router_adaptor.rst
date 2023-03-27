@@ -72,7 +72,7 @@
 ルート定義ファイルを作成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 クラスパス直下に `routes.xml` を作成し、
-指定したURLと業務アクションをマッピングする設定を行う。
+指定したURLと業務アクションのマッピングを設定する。
 
 ルート定義ファイルへの設定方法は、`ライブラリのREADMEドキュメント(外部サイト) <https://github.com/kawasima/http-request-router/blob/master/README.ja.md>`_ を参照。
 
@@ -108,13 +108,14 @@
     </routes>
 
 業務アクションとマッピングするURLの例
-  ==================== =====================
-  業務アクション       URL
-  ==================== =====================
-  PersonAction#index   /action/person/index
-  PersonAction#search  /action/person/search
-  LoginAction#index    /action/login/index
-  ==================== =====================
+  ========================== ===========================
+  業務アクション              URL
+  ========================== ===========================
+  PersonAction#index         /action/person/index
+  PersonAction#search        /action/person/search
+  LoginAction#index          /action/login/index
+  projectUploadAction#index  /action/projectUpload/index
+  ========================== ===========================
 
 .. _router_adaptor_path_annotation:
 
@@ -126,12 +127,12 @@ JAX-RSのPathアノテーションでマッピングする
 
 .. important::
 
-  本機能は、クラスパス配下のリソースを独自のファイルシステムで管理している一部のウェブアプリケーションサーバーでは使用できない。
+  本機能は、クラスパス配下のリソースを独自のファイルシステムで管理している一部のウェブアプリケーションサーバでは使用できない。
 
   例えば、JbossやWildflyでは、vfsと呼ばれるバーチャルファイルシステムで
   クラスパス配下のリソースが管理されるため、 ``Path`` アノテーションで注釈されたクラスの検索ができない。
 
-  そのようなウェブアプリケーションサーバーを使用する場合は、従来通りXMLを用いたルーティングの定義を使用すること。
+  そのようなウェブアプリケーションサーバを使用する場合は、従来通りXMLを用いたルーティングの定義を使用すること。
 
 ディスパッチハンドラを変更する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -245,7 +246,7 @@ XMLのマッピング定義を使用する場合は、ディスパッチハン�
   * ``javax.ws.rs.POST``
   * ``javax.ws.rs.PUT``
 
-さらに、以下のようにメソッドを ``Path`` アノテーションで注釈することで、サブパスのマッピングを定義することもできる。
+さらに、以下のようにメソッドを ``Path`` アノテーションで注釈することで、サブパスのマッピングも定義できる。
 
 .. code-block:: java
 
@@ -355,4 +356,3 @@ HTTPリクエストのディスパッチの例は次のようになる。
       <component class="com.example.CustomPathOptionsFormatter" />
     </property>
   </component>
-

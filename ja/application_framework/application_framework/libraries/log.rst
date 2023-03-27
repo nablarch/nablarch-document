@@ -35,7 +35,7 @@
 
 詳細は、:ref:`log_adaptor` を参照。
 
-本機能と利用実績の多いlog4jとの機能比較は、 :ref:`log-functional_comparison` を参照。
+本機能と使用実績の多いlog4jとの機能比較は、 :ref:`log-functional_comparison` を参照。
 
 ログ出力機能がデフォルトで提供しているクラスを示す。
 
@@ -46,7 +46,7 @@ Logger/LoggerFactory
 .. _log-log_writers:
 
 LogWriter
- * :java:extdoc:`FileLogWriter (ファイルへ出力。ファイルサイズによるローテーション) <nablarch.core.log.basic.FileLogWriter>`
+ * :java:extdoc:`FileLogWriter (ファイルへ出力。ログのローテーション。) <nablarch.core.log.basic.FileLogWriter>`
  * :java:extdoc:`SynchronousFileLogWriter (複数プロセスから1ファイルへの出力) <nablarch.core.log.basic.SynchronousFileLogWriter>`
  * :java:extdoc:`StandardOutputLogWriter (標準出力へ出力) <nablarch.core.log.basic.StandardOutputLogWriter>`
  * :java:extdoc:`LogPublisher (任意のリスナーへ出力) <nablarch.core.log.basic.LogPublisher>`
@@ -56,6 +56,12 @@ LogWriter
 LogFormatter
  * :java:extdoc:`BasicLogFormatter (パターン文字列によるフォーマット) <nablarch.core.log.basic.BasicLogFormatter>`
 
+.. _log-log_policies:
+
+RotatePolicy
+ * :java:extdoc:`DateRotatePolicy (日時によるログのローテーション) <nablarch.core.log.basic.DateRotatePolicy>`
+ * :java:extdoc:`FileSizeRotatePolicy (ファイルサイズによるログのローテーション) <nablarch.core.log.basic.FileSizeRotatePolicy>`
+  
 .. important::
  :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`
  を使う場合は、 :ref:`log-synchronous_file_log_writer_attention` を参照すること。
@@ -185,7 +191,7 @@ Nablarchの提供するアーキタイプから生成したブランクプロジ
 
 .. _log-basic_setting:
 
-ログ出力の設定を行う
+ログ出力の設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ログ出力の設定は、プロパティファイルに行う。
 
@@ -377,7 +383,7 @@ Nablarchの提供するアーキタイプから生成したブランクプロジ
 ログ出力の設定を上書く
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ログ出力の設定は、システムプロパティを使用して、
-プロパティファイルと同じキー名で値を指定することにより上書きすることができる。
+プロパティファイルと同じキー名で値を指定することにより上書きできる。
 これにより、共通のプロパティファイルを用意しておき、プロセス毎にログ出力設定を変更するといったことができる。
 
 ロガー設定 ``root`` のログレベルをINFOに変更したい場合の例を以下に示す。
@@ -436,7 +442,7 @@ Nablarchの提供するアーキタイプから生成したブランクプロジ
 起動プロセス
  起動プロセスとは、アプリケーションを起動した実行環境を特定するために使用する名前である。
  起動プロセスにサーバ名とJOBIDなどの識別文字列を組み合わせた名前を使用することで、
- 同一サーバの複数プロセスから出力されたログの実行環境を特定することができる。
+ 同一サーバの複数プロセスから出力されたログの実行環境を特定できる。
  起動プロセスは、プロジェクト毎にID体系などで体系を規定することを想定している。
 
  起動プロセスは、システムプロパティに ``nablarch.bootProcess`` というキーで指定する。
@@ -490,16 +496,16 @@ Nablarchの提供するアーキタイプから生成したブランクプロジ
 
  .. tip::
   :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>` では
-  ``\n`` と ``\t`` という文字列を出力することはできない。
+  ``\n`` と ``\t`` という文字列は出力できない。
 
 .. _log-app_log_setting:
 
-各種ログの設定を行う
+各種ログの設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 各種ログの出力機能は、各種ログの用途に合わせたフォーマット処理のみを行っており、
 ログの出力処理自体は本機能を使用している。
 つまり、各種ログの出力機能では、 :java:extdoc:`Logger <nablarch.core.log.Logger>`
-に指定するメッセージ作成を行う。
+に指定するメッセージを作成する。
 
 このため、各種ログの出力機能を使うには、 :ref:`log-basic_setting` に加えて、各種ログの設定が必要となる。
 各種ログの設定は、プロパティファイルに行う。
@@ -522,6 +528,32 @@ Nablarchの提供するアーキタイプから生成したブランクプロジ
  * :ref:`performance_log-setting`
  * :ref:`http_access_log-setting`
  * :ref:`messaging_log-setting`
+
+.. _log-rotation:
+
+ログファイルのローテーションを行う
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+本機能で提供するFileLogWiterは、設定したポリシーに従ってログファイルのローテーションを行う。
+
+ローテーションポリシーはデフォルトではファイルサイズによるローテーションを行う :java:extdoc:`FileSizeRotatePolicy <nablarch.core.log.basic.FileSizeRotatePolicy>`
+が使用される。 :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>` の実装クラスを作成することで、ローテーションポリシーを変更することができる。
+
+本機能が提供している :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>` の実装クラスは以下。
+各 :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>` の設定はそれぞれのJavadocを参照。
+
+* :java:extdoc:`FileSizeRotatePolicy <nablarch.core.log.basic.FileSizeRotatePolicy>`
+* :java:extdoc:`DateRotatePolicy <nablarch.core.log.basic.DateRotatePolicy>`
+
+ローテーションポリシーの設定例を以下に示す。ローテーションポリシーはLogWriterのプロパティに指定する。
+
+  .. code-block:: properties
+
+    writerNames=sample
+    
+    # writerのrotatePolicyにRotatePolicyが実装されたクラスのFQCNを指定する
+    writer.sample.rotatePolicy=nablarch.core.log.basic.DateRotatePolicy
+    # 更新時刻。オプション。
+    writer.sample.rotateTime=12:00
 
 拡張例
 ---------------------------------------------------------------------
@@ -561,7 +593,7 @@ Object型の可変長引数optionsを設けている。
 :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>` は、
 :java:extdoc:`LogItem <nablarch.core.log.LogItem>` インタフェースを使用して、
 各プレースホルダに対応する出力項目を取得する。
-そのため、新規にプレースホルダを追加したい場合は、以下の作業を行う。
+そのため、新規にプレースホルダを追加したい場合は、以下のとおり対応する。
 
 * :java:extdoc:`LogItem <nablarch.core.log.LogItem>` を実装したクラスを作る
 * :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>` を継承したクラスを作り、プレースホルダを追加する
@@ -623,7 +655,7 @@ LogFormatterの設定は、下記を想定する。
 監視対象のログなどで、初期化メッセージが不要な場合には本機能が提供するWriterを元に、
 初期化メッセージを出力しないWriterを作成し対応する必要がある。
 
-なお、WebアプリケーションサーバなどやOSS製品とロガーを統一する目的などで :ref:`log_adaptor` を使用した場合は初期化メッセージは出力されないため、本対応は不要である。
+なお、WebアプリケーションサーバなどやOSS製品とロガーを統一する目的などで :ref:`log_adaptor` を使用した場合は初期化メッセージは出力されないため、本対応は必要無い。
 
 対応例を以下に示す。
 
@@ -694,9 +726,9 @@ LogFormatterの設定は、下記を想定する。
 JSON形式の構造化ログとして出力する
 --------------------------------------------------------------------------
 
-LogWriterや各種ログで使用するフォーマッターをJSON出力用のクラスに差し替えることで、ログの出力をJSON形式にすることができる。
+LogWriterや各種ログで使用するフォーマッタをJSON出力用のクラスに差し替えることで、ログの出力をJSON形式にできる。
 
-具体的には、以下の修正を行うことで、ログをJSON形式にできる。
+具体的には、以下のとおり修正することで、ログをJSON形式にできる。
 
 * :ref:`log-json_set_jsonlogformatter_for_logwriter`
 * :ref:`log-json_app_logs`
@@ -705,11 +737,11 @@ LogWriterや各種ログで使用するフォーマッターをJSON出力用の�
 
 .. _log-json_set_jsonlogformatter_for_logwriter:
 
-LogWriterで使用するフォーマッターをJsonLogFormatterに変更する
+LogWriterで使用するフォーマッタをJsonLogFormatterに変更する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-LogWriterで使用するフォーマッターを :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` に変更することで、
-ログの出力をJSON形式にすることができる。
+LogWriterで使用するフォーマッタを :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` に変更することで、
+ログの出力をJSON形式にできる。
 
 使用方法
  :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` の設定例を以下に示す。 
@@ -875,21 +907,21 @@ LogWriterで使用するフォーマッターを :java:extdoc:`JsonLogFormatter 
 
 .. _log-json_app_logs:
 
-各種ログで使用するフォーマッターをJSONログ用に差し替える
+各種ログで使用するフォーマッタをJSONログ用に差し替える
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  各種ログは、メッセージ部分を個別の方法でフォーマットしている。
- それぞれのフォーマットで使用しているフォーマッターをJSON用のフォーマッターに差し替えることで、各種ログが出力する内容もJSONログとして出力できるようになる。
+ それぞれのフォーマットで使用しているフォーマッタをJSON用のフォーマッタに差し替えることで、各種ログが出力する内容もJSONログとして出力できるようになる。
 
- 各フォーマッターの具体的な設定方法については、下記表のそれぞれのリンク先を参照のこと。
+ 各フォーマッタの具体的な設定方法については、下記表のそれぞれのリンク先を参照のこと。
 
- .. list-table:: 各種ログのJSON版フォーマッター
+ .. list-table:: 各種ログのJSON版フォーマッタ
   :header-rows: 1
   :class: white-space-normal
   :widths: 30,50
   
   * - ログの種類
-    - 対応するフォーマッター
+    - 対応するフォーマッタ
  
   * - :ref:`障害ログ <failure_log-json_setting>`
     - :java:extdoc:`FailureJsonLogFormatter <nablarch.core.log.app.FailureJsonLogFormatter>`
@@ -911,7 +943,7 @@ LogWriterで使用するフォーマッターを :java:extdoc:`JsonLogFormatter 
 NablarchバッチのログをJSON形式にする
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Nablarchバッチで出力するログをJSON形式にするには、上述のフォーマッターの設定に加えて下記修正を行う必要がある。
+Nablarchバッチで出力するログをJSON形式にするには、上述のフォーマッタの設定に加えて下記のとおり修正する必要がある。
 
 * :ref:`log-json_set_applicationsettingsjsonlogformatter`
 * :ref:`log-json_set_launcherjsonlogformatter`
@@ -925,7 +957,7 @@ ApplicationSettingLogFormatterをJSON用に切り替える
 ******************************************************
 
 :java:extdoc:`ApplicationSettingLogFormatter <nablarch.core.log.app.ApplicationSettingLogFormatter>` は、システム設定値をログに出力するときに用いられる。
-これをJSON形式で出力するには、フォーマッターを :java:extdoc:`ApplicationSettingJsonLogFormatter <nablarch.core.log.app.ApplicationSettingJsonLogFormatter>` に切り替える。
+これをJSON形式で出力するには、フォーマッタを :java:extdoc:`ApplicationSettingJsonLogFormatter <nablarch.core.log.app.ApplicationSettingJsonLogFormatter>` に切り替える。
 設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
 
 記述ルール
@@ -976,7 +1008,7 @@ LauncherLogFormatterをJSON用に切り替える
 ******************************************************
 
 :java:extdoc:`LauncherLogFormatter <nablarch.fw.launcher.logging.LauncherLogFormatter>` は、バッチの開始・終了ログを出力するときに用いられる。
-これをJSON形式で出力するには、フォーマッターを :java:extdoc:`LauncherJsonLogFormatter <nablarch.fw.launcher.logging.LauncherJsonLogFormatter>` に切り替える。
+これをJSON形式で出力するには、フォーマッタを :java:extdoc:`LauncherJsonLogFormatter <nablarch.fw.launcher.logging.LauncherJsonLogFormatter>` に切り替える。
 設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
 
 記述ルール
@@ -1062,7 +1094,7 @@ SynchronousFileLogWriterを使用するにあたっての注意事項
  :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>` を使用してはいけない。
 
  また、:java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`
- には以下の制約があるため、利用にあたっては十分検討すること。
+ には以下の制約があるため、使用にあたっては十分検討すること。
 
  * ログのローテーションができない。
  * 出力されるログの内容が正常でない場合がある。
@@ -1071,20 +1103,20 @@ SynchronousFileLogWriterを使用するにあたっての注意事項
 :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>` は、
 ロックファイルを用いて排他制御を行いながらファイルにログを書き込む。
 そして、ロック取得の待機時間を超えてもロックを取得できない場合、強制的にロックファイルを削除し、
-自身のスレッド用のロックファイルを生成してからログの出力を行う。
+自身のスレッド用のロックファイルを生成してからログを出力する。
 
-もし強制的にロックファイルを削除できない場合は、ロックを取得していない状態で強制的にログの出力を行う。
+もし強制的にロックファイルを削除できない場合は、ロックを取得していない状態で強制的にログを出力する。
 また、ロックファイルの生成に失敗した場合および、ロック取得待ちの際に割り込みが発生した場合も、
-ロックを取得していない状態で強制的にログの出力を行う。
+ロックを取得していない状態で強制的にログを出力する。
 
 **ロックを取得しない状態で強制的にログを出力する場合に、複数プロセスからのログ出力が競合するとログが正常に出力されない場合がある点に注意すること。**
 
 このような障害が発生した場合には、強制出力したログに加えて、同一のログファイルに障害のログを出力する。
 デフォルトでは本フレームワークが用意したログが出力されるが、
 :java:extdoc:`SynchronousFileLogWriter <nablarch.core.log.basic.SynchronousFileLogWriter>`
-のプロパティに障害コードを設定することで、障害通知ログのフォーマット(障害コードを含む)でログを出力することができる。
+のプロパティに障害コードを設定することで、障害通知ログのフォーマット(障害コードを含む)でログを出力できる。
 障害通知ログのフォーマットで出力することで通常の障害通知ログと同様の方法でログの監視が可能となるので、
-障害コードの設定を行うことを推奨する。
+障害コードを設定することを推奨する。
 
 障害コードを設定するプロパティ名を以下に示す。
 
@@ -1161,9 +1193,9 @@ LogPublisherの使い方
 --------------------------------------------------
 
 :java:extdoc:`LogPublisher <nablarch.core.log.basic.LogPublisher>` は、出力されたログの情報(:java:extdoc:`LogContext <nablarch.core.log.basic.LogContext>`)を登録された :java:extdoc:`LogListener <nablarch.core.log.basic.LogListener>` に連携する機能を提供する。
-出力されたログ情報に対して何らかの処理をプログラム的に行いたい場合に、この機能が利用できる。
+出力されたログ情報に対して何らかの処理をプログラム的に行いたい場合に、この機能が使用できる。
 
-``LogPublisher`` を利用するには、まず ``LogPublisher`` を ``LogWriter`` として設定する。
+``LogPublisher`` を使用するには、まず ``LogPublisher`` を ``LogWriter`` として設定する。
 
 .. code-block:: properties
 
@@ -1358,11 +1390,13 @@ log4jとの機能比較
   * - ファイルサイズによるログファイルのローテーションができる
     - △ [#logrolate]_
       |br|
-      :ref:`解説書へ <log-log_writers>`
+      :ref:`解説書へ <log-rotation>`
     - ○
 
   * - 日時によるログファイルのローテーションができる
-    - × [#extends_or_log4j]_
+    - △ [#logrolate]_
+      |br|
+      :ref:`解説書へ <log-rotation>`
     - ○
 
   * - ログをメールで送信できる

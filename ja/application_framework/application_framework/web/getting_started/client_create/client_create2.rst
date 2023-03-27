@@ -2,12 +2,12 @@
 
 登録内容の確認
 ==========================================
-本章では、登録した内容を確認する処理について解説を行う。
+本章では、登録した内容を確認する処理について解説する。
 
 :ref:`前へ<client_create_1>`
 
 登録画面へ入力項目を追加する
-  登録確認画面への遷移を行うにあたり、まず顧客情報の登録に必要な以下の入力項目を登録画面に追加する。
+  登録確認画面へ遷移するにあたり、まず顧客情報の登録に必要な以下の入力項目を登録画面に追加する。
 
   フォームの作成
     登録画面に入力された値を受け付けるため、 `ClientForm` クラスを新規作成する。
@@ -158,7 +158,7 @@ confirmメソッドを作成し、バリデーションが行われるように�
     *  :ref:`セッションストア <session_store>` への保存は、:java:extdoc:`SessionUtil <nablarch.common.web.session.SessionUtil>` を使用する。
     * :ref:`セッションストアにフォームは格納しない <session_store-form>` ため、
       :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用してフォームをエンティティに変換した上で :ref:`セッションストア <session_store>` に登録する。
-    * :ref:`セッションストア <session_store>` を利用する際の詳しい実装例は :ref:`create_example` を参照。
+    * :ref:`セッションストア <session_store>` を使用する際の詳しい実装例は :ref:`create_example` を参照。
 
 .. _`client_create_forConfirmationPage`:
 

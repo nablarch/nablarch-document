@@ -101,13 +101,14 @@ Route definition file
     </routes>
 
 Example of mapping URL to business action
-  ==================== =====================
-  Business action       URL
-  ==================== =====================
-  PersonAction#index   /action/person/index
-  PersonAction#search  /action/person/search
-  LoginAction#index    /action/login/index
-  ==================== =====================
+  ========================== ===========================
+  Business action            URL
+  ========================== ===========================
+  PersonAction#index         /action/person/index
+  PersonAction#search        /action/person/search
+  LoginAction#index          /action/login/index
+  projectUploadAction#index  /action/projectUpload/index
+  ========================== ===========================
 
 .. _router_adaptor_path_annotation:
 
@@ -347,4 +348,3 @@ If want to change the format of the log, write a class that implements :java:ext
       <component class="com.example.CustomPathOptionsFormatter" />
     </property>
   </component>
-

@@ -108,6 +108,7 @@ Nablarchでは、バッチアプリケーションを構築するために必要
   * :ref:`request_path_java_package_mapping`
   * :ref:`multi_thread_execution_handler`
   * :ref:`loop_handler`
+  * :ref:`dbless_loop_handler`
   * :ref:`retry_handler`
   * :ref:`process_resident_handler`
   * :ref:`process_stop_handler`
@@ -128,9 +129,11 @@ Nablarchでは、バッチアプリケーションを構築するために必要
 都度起動バッチの最小ハンドラ構成
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 都度起動バッチを構築する際の、必要最小限のハンドラキューを以下に示す。
-これをベースに、プロジェクト要件に従ってNablarchの標準ハンドラやプロジェクトで作成したカスタムハンドラの追加を行う。
+これをベースに、プロジェクト要件に従ってNablarchの標準ハンドラやプロジェクトで作成したカスタムハンドラを追加する。
 
-.. list-table:: 都度起動バッチの最小ハンドラ構成
+DBに接続する場合は以下の構成となる。
+
+.. list-table:: 都度起動バッチ（DB接続有り）の最小ハンドラ構成
    :header-rows: 1
    :class: white-space-normal
    :widths: 4,22,12,22,22,22
@@ -210,10 +213,67 @@ Nablarchでは、バッチアプリケーションを構築するために必要
      -
      - 読み込んだレコードをログ出力した後、元例外を再送出する。
 
+DBに接続しない場は、DB接続関連ハンドラが不要であるのと、ループ制御ハンドラでトランザクション制御が不要であるため、以下の構成となる。
+
+.. list-table:: 都度起動バッチ（DB接続無し）の最小ハンドラ構成
+   :header-rows: 1
+   :class: white-space-normal
+   :widths: 4,22,12,22,22,22
+
+   * - No.
+     - ハンドラ
+     - スレッド
+     - 往路処理
+     - 復路処理
+     - 例外処理
+
+   * - 1
+     - :ref:`status_code_convert_handler`
+     - メイン
+     -
+     - ステータスコードをプロセス終了コードに変換する。
+     -
+
+   * - 2
+     - :ref:`global_error_handler`
+     - メイン
+     -
+     -
+     - 実行時例外、またはエラーの場合、ログ出力を行う。
+
+   * - 3
+     - :ref:`request_path_java_package_mapping`
+     - メイン
+     - コマンドライン引数をもとに呼び出すアクションを決定する。
+     -
+     -
+
+   * - 4
+     - :ref:`multi_thread_execution_handler`
+     - メイン
+     - サブスレッドを作成し、後続ハンドラの処理を並行実行する。
+     - 全スレッドの正常終了まで待機する。
+     - 処理中のスレッドが完了するまで待機し起因例外を再送出する。
+
+   * - 5
+     - :ref:`dbless_loop_handler`
+     - サブ
+     -
+     - データリーダ上に処理対象データが残っていればループを継続する。
+     -
+
+   * - 6
+     - :ref:`data_read_handler`
+     - サブ
+     - データリーダを使用してレコードを1件読み込み、後続ハンドラの引数として渡す。
+       また :ref:`実行時ID<log-execution_id>` を採番する。
+     -
+     - 読み込んだレコードをログ出力した後、元例外を再送出する。
+
 常駐バッチの最小ハンドラ構成
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 常駐バッチを構築する際の、必要最小限のハンドラキューを以下に示す。
-これをベースに、プロジェクト要件に従ってNablarchの標準ハンドラやプロジェクトで作成したカスタムハンドラの追加を行う。
+これをベースに、プロジェクト要件に従ってNablarchの標準ハンドラやプロジェクトで作成したカスタムハンドラを追加する。
 
 常駐バッチの最小ハンドラ構成は、以下のハンドラがメインスレッド側に追加されている点を除けば都度起動バッチと同じである。
 
@@ -358,6 +418,9 @@ Nablarchでは、バッチアプリケーションを構築するために必要
  :java:extdoc:`DataReader <nablarch.fw.DataReader>` インタフェースを実装したクラスを
  プロジェクトで作成して対応する。
 
+.. important::
+ 標準で提供している :java:extdoc:`FileDataReader (ファイル読み込み)<nablarch.fw.reader.FileDataReader>` 、 :java:extdoc:`ValidatableFileDataReader (バリデージョン機能付きファイル読み込み)<nablarch.fw.reader.ValidatableFileDataReader>` では、データへのアクセスに :ref:`data_format` を使用している。データへのアクセスに :ref:`data_bind` を使用する場合は、これらのデータリーダを使用しないこと。
+
 .. _nablarch_batch-action:
 
 Nablarchバッチアプリケーションで使用するアクション
@@ -369,3 +432,6 @@ Nablarchでは、バッチアプリケーションを構築するために必要
 * :java:extdoc:`FileBatchAction (ファイル入力のバッチアクションのテンプレートクラス)<nablarch.fw.action.FileBatchAction>`
 * :java:extdoc:`NoInputDataBatchAction (入力データを使用しないバッチアクションのテンプレートクラス)<nablarch.fw.action.NoInputDataBatchAction>`
 * :java:extdoc:`AsyncMessageSendAction (応答不要メッセージ送信用のアクションクラス)<nablarch.fw.messaging.action.AsyncMessageSendAction>`
+
+.. important::
+ 標準で提供している :java:extdoc:`FileBatchAction (ファイル入力のバッチアクションのテンプレートクラス)<nablarch.fw.action.FileBatchAction>` では、データへのアクセスに :ref:`data_format` を使用している。データへのアクセスに :ref:`data_bind` を使用する場合は、他のアクションクラスを使用すること。

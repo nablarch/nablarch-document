@@ -7,7 +7,7 @@
 
 .. tip::
 
-  :doc:`table_row` は :doc:`table_plain` および :doc:`table_search_result` で使用することができる。
+  :doc:`table_row` は :doc:`table_plain` および :doc:`table_search_result` で使用できる。
   :doc:`table_treelist` には対応していない。
 
 .. tip::
@@ -23,9 +23,9 @@
 その上で、これらのタグの直接の子要素として `<table:row>` を配置する。
 
 各 `<table:row>` タグの中では、通常のテーブルタグの場合と同様に `<column:xxx>` タグを使用して
-行レイアウトを定義することができる。
+行レイアウトを定義できる。
 
-また、 `<table:row>` の `cond` 属性値を指定することで、当該の行レイアウトを出力する条件を指定することができる。
+また、 `<table:row>` の `cond` 属性値を指定することで、当該の行レイアウトを出力する条件を指定できる。
 省略した場合は全てのレコードに対して当該行を出力する。
 
 

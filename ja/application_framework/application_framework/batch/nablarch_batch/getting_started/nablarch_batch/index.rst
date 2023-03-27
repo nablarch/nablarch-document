@@ -2,7 +2,7 @@
 
 ファイルをDBに登録するバッチの作成
 ==========================================================
-Exampleアプリケーションを元に、ファイルをDBに登録するバッチの解説を行う。
+Exampleアプリケーションを元に、ファイルをDBに登録するバッチを解説する。
 
 作成する機能の概要
   .. image:: ../images/overview.png
@@ -38,7 +38,7 @@ Exampleアプリケーションを元に、ファイルをDBに登録するバ�
 ----------------------
 ファイルをDBに登録するバッチの作成方法について、
 :ref:`入力データソースからのデータ読み込み<getting_started_nablarch_batch-read>`
-と :ref:`業務ロジックの実行<getting_started_nablarch_batch-business-action>` に分けて解説を行う。
+と :ref:`業務ロジックの実行<getting_started_nablarch_batch-business-action>` に分けて解説する。
 
 処理フローについては、 :ref:`Nablarchバッチの処理フロー<nablarch_batch-process_flow>` を参照。
 責務配置については :ref:`Nablarchバッチの責務配置<nablarch_batch-application_design>` を参照。
@@ -179,7 +179,7 @@ Exampleアプリケーションを元に、ファイルをDBに登録するバ�
               FilePathSetting filePathSetting = FilePathSetting.getInstance();
               File zipCodeFile = filePathSetting.getFileWithoutCreate("csv-input", FILE_NAME);
 
-              // ファイルの読み出しに利用するイテレータを生成
+              // ファイルの読み出しに使用するイテレータを生成
               try {
                   iterator
                       = new ObjectMapperIterator<>(ObjectMapperFactory.create(ZipCodeForm.class,

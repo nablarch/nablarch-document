@@ -54,7 +54,7 @@ DefaultMeterBinderListProviderをコンポーネントとして宣言する
 
 Micrometerには、 `MeterBinder(外部サイト、英語)`_ というインタフェースが存在する。
 
-JVMのメモリ使用量やCPU使用率など、よく利用するメトリクスの収集は、このインタフェースを実装したクラスとしてあらかじめ用意されている。
+JVMのメモリ使用量やCPU使用率など、よく使用するメトリクスの収集は、このインタフェースを実装したクラスとしてあらかじめ用意されている。
 （例：JVMのメモリ使用量は `JvmMemoryMetrics(外部サイト、英語)`_ 、CPU使用率は `ProcessorMetrics(外部サイト、英語)`_ ）
 
 :java:extdoc:`DefaultMeterBinderListProvider <nablarch.integration.micrometer.DefaultMeterBinderListProvider>` は、この `MeterBinder(外部サイト、英語)`_ のリストを提供するクラスで、本クラスを使用することでJVMのメモリ使用量やCPU使用率などのメトリクスを収集できるようになる。
@@ -362,7 +362,7 @@ OS環境変数で上書きするときの名前のルールについては、 :r
 
   このXMLファイルはコンポーネント設定ファイルと同じ書式で記述できる。
 
-  ただし、このファイルでコンポーネントを定義しても、システムリポジトリから参照を取得することはできない。
+  ただし、このファイルでコンポーネントを定義しても、システムリポジトリから参照を取得できない。
 
 
 .. _micrometer_default_metrics:
@@ -397,19 +397,19 @@ DefaultMeterBinderListProviderで収集されるメトリクス
   * - ``jvm.buffer.total.capacity``
     - バッファプールの合計容量
   * - ``jvm.memory.used``
-    - メモリープールのメモリー使用量
+    - メモリプールのメモリ使用量
   * - ``jvm.memory.committed``
-    - メモリープールのコミットされたメモリー量
+    - メモリプールのコミットされたメモリ量
   * - ``jvm.memory.max``
-    - メモリープールの最大メモリー量
+    - メモリプールの最大メモリ量
   * - ``jvm.gc.max.data.size``
-    - OLD領域の最大メモリー量
+    - OLD領域の最大メモリ量
   * - ``jvm.gc.live.data.size``
-    - Full GC 後の OLD 領域のメモリー使用量
+    - Full GC 後の OLD 領域のメモリ使用量
   * - ``jvm.gc.memory.promoted``
-    - GC 前後で増加した、 OLD 領域のメモリー使用量の増分
+    - GC 前後で増加した、 OLD 領域のメモリ使用量の増分
   * - ``jvm.gc.memory.allocated``
-    - 前回の GC 後から今回の GC までの、 Young 領域のメモリー使用量の増分
+    - 前回の GC 後から今回の GC までの、 Young 領域のメモリ使用量の増分
   * - ``jvm.gc.concurrent.phase.time``
     - コンカレントフェーズの処理時間
   * - ``jvm.gc.pause``
@@ -489,11 +489,11 @@ DefaultMeterBinderListProviderで収集されるメトリクス
 監視サービスと連携する
 --------------------------------------------------
 
-監視サービスと連携するためには、大きく次の設定を行う必要がある。
+監視サービスと連携するためには、大きく次のとおり設定する必要がある。
 
 #. 監視サービスごとに用意された Micrometer のモジュールを依存関係に追加する
 #. 監視サービス用のレジストリファクトリをコンポーネントとして定義する
-#. その他、監視サービスごとに独自の設定を行う
+#. その他、監視サービスごとに独自に設定する
 
 ここでは、それぞれの監視サービスと連携する方法について説明する。
 
@@ -569,7 +569,7 @@ CloudWatch と連携する
 
     $ export AWS_SECRET_ACCESS_KEY=YYYYYYYYYYYYYYYYYYYYY
 
-  ``micrometer-registry-cloudwatch2`` モジュールは AWS SDK を利用している。
+  ``micrometer-registry-cloudwatch2`` モジュールは AWS SDK を使用している。
   したがって、リージョンやアクセスキーなどの設定は AWS SDK の方法に準拠する。
 
   上記は、LinuxでOS環境変数を使って設定する場合の例を記載している。
@@ -585,7 +585,7 @@ CloudWatch と連携する
   その他の設定については `CloudWatchConfig(外部サイト、英語)`_ を参照。
 
 より詳細な設定
-  OS環境変数や設定ファイルでは指定できない、より詳細な設定を行いたい場合は、 :java:extdoc:`CloudWatchAsyncClientProvider <nablarch.integration.micrometer.cloudwatch.CloudWatchAsyncClientProvider>` を実装したカスタムプロバイダを作ることで対応できる。
+  OS環境変数や設定ファイルでは指定できない、より詳細に設定したい場合は、 :java:extdoc:`CloudWatchAsyncClientProvider <nablarch.integration.micrometer.cloudwatch.CloudWatchAsyncClientProvider>` を実装したカスタムプロバイダを作ることで対応できる。
 
   .. code-block:: java
 
@@ -667,7 +667,7 @@ MicrometerでメトリクスをAzureに連携する方法
   Java 3.0 エージェントの設定方法は :ref:`Azureにおける分散トレーシング <azure_distributed_tracing>` 参照。
 
 MicrometerアダプタでメトリクスをAzureに連携するための設定
-  MicrometerアダプタでメトリクスをAzureに連携するためには、以下の設定を行う必要がある。
+  MicrometerアダプタでメトリクスをAzureに連携するためには、以下のとおり設定する必要がある。
 
   * アプリケーションの起動オプションに、Java 3.0 エージェントを追加する
   * ``MeterRegistry`` にグローバルレジストリを使うようにコンポーネントを定義する
@@ -791,11 +791,11 @@ SQLの処理時間
 
   * :ref:`micrometer_log_count`
 
-アプリケーションサーバーやライブラリが提供するリソースの情報
-  アプリケーションサーバーやライブラリが提供するリソース（スレッドプールやDBのコネクションプールなど）の状態を
+アプリケーションサーバやライブラリが提供するリソースの情報
+  アプリケーションサーバやライブラリが提供するリソース（スレッドプールやDBのコネクションプールなど）の状態を
   メトリクスとして収集しておくことで、障害発生時に原因箇所を特定するための情報源として活用できるようになる。
 
-  多くのアプリケーションサーバーは、リソースの状態をJMXのMBeanを通じて公開している。
+  多くのアプリケーションサーバは、リソースの状態をJMXのMBeanを通じて公開している。
   MBeanの情報を収集する方法については、以下のガイドを参照のこと。
 
   * :ref:`micrometer_mbean_metrics`
@@ -812,7 +812,7 @@ SQLの処理時間
 トランザクション単位の処理時間
   トランザクション単位の処理時間を計測することで、マルチスレッドのバッチが均等に処理を分散できているかなどを確認できるようになる。
 
-  また、バッチの処理時間と同様に、処理時間が平常時から逸脱したときに異常を迅速に検知することもできる。
+  また、バッチの処理時間と同様に、処理時間が平常時から逸脱したときにも異常を迅速に検知できる。
 
   バッチのトランザクション単位の処理時間の計測については、以下のガイドを参照のこと。
 
@@ -862,7 +862,7 @@ SQLの処理時間
 --------------------------------------------------
 
 :java:extdoc:`TimerMetricsHandler <nablarch.integration.micrometer.instrument.handler.TimerMetricsHandler>` をハンドラキューに設定すると、後続ハンドラの処理時間を計測しメトリクスとして収集できるようになる。
-これにより、ハンドラキュー内の処理の平均処理時間や最大処理時間をモニターできるようになる。
+これにより、ハンドラキュー内の処理の平均処理時間や最大処理時間をモニタできるようになる。
 
 ``TimerMetricsHandler`` には、 :java:extdoc:`HandlerMetricsMetaDataBuilder <nablarch.integration.micrometer.instrument.handler.HandlerMetricsMetaDataBuilder>` インタフェースを実装したクラスのインスタンスを設定する必要がある。
 ``HandlerMetricsMetaDataBuilder`` は、収集したメトリクスに設定する以下のメタ情報を構築する機能を提供する。
@@ -1157,7 +1157,7 @@ HTTPリクエストの処理時間を収集する
 --------------------------------------------------
 
 :java:extdoc:`BatchTransactionTimeMetricsLogger <nablarch.integration.micrometer.instrument.batch.BatchTransactionTimeMetricsLogger>` を使用することで、 :ref:`nablarch_batch` のトランザクション単位の処理時間をメトリクスとして計測できるようになる。
-これにより、トランザクション単位の平均処理時間や最大処理時間をモニターできるようになる。
+これにより、トランザクション単位の平均処理時間や最大処理時間をモニタできるようになる。
 
 ``BatchTransactionTimeMetricsLogger`` は `Timer(外部サイト、英語)`_ を使って ``batch.transaction.time`` という名前でメトリクスを収集する。
 この名前は、 :java:extdoc:`setMetricsName(String) <nablarch.integration.micrometer.instrument.batch.BatchTransactionTimeMetricsLogger.setMetricsName(java.lang.String)>` で変更できる。
@@ -1204,7 +1204,7 @@ Nablarchバッチは、 :ref:`loop_handler` によってトランザクション
 この ``CommitLogger`` の実体は、 ``commitLogger`` という名前でコンポーネントを定義することで上書きできる。
 
 ``BatchTransactionTimeMetricsLogger`` は ``CommitLogger`` インタフェースを実装している。
-そして、 ``increment(long)`` の呼び出し間隔を計測することでトランザクション単位の時間計測を行っている。
+そして、 ``increment(long)`` の呼び出し間隔を計測することでトランザクション単位の時間を計測している。
 このため、 ``BatchTransactionTimeMetricsLogger`` を ``commitLogger`` という名前でコンポーネント定義すると、トランザクション単位の時間計測ができる仕組みとなっている。
 
 しかし、 ``BatchTransactionTimeMetricsLogger`` をそのまま ``commitLogger`` という名前で定義した場合、デフォルトで定義されている ``CommitLogger`` のコンポーネントである ``BasicCommitLogger`` が動作しなくなる。
@@ -1223,7 +1223,7 @@ Nablarchバッチは、 :ref:`loop_handler` によってトランザクション
 --------------------------------------------------
 
 :java:extdoc:`BatchProcessedRecordCountMetricsLogger <nablarch.integration.micrometer.instrument.batch.BatchProcessedRecordCountMetricsLogger>` を使用すると、 :ref:`nablarch_batch` が処理した入力データの件数を計測できるようになる。
-これにより、バッチの進捗状況や処理速度の変化をモニターできるようになる。
+これにより、バッチの進捗状況や処理速度の変化をモニタできるようになる。
 
 ``BatchProcessedRecordCountMetricsLogger`` は `Counter(外部サイト、英語)`_ を使って ``batch.processed.record.count`` という名前でメトリクスを収集する。
 この名前は、 :java:extdoc:`setMetricsName(String) <nablarch.integration.micrometer.instrument.batch.BatchProcessedRecordCountMetricsLogger.setMetricsName(java.lang.String)>` で変更できる。
@@ -1281,7 +1281,7 @@ Nablarchバッチは、 :ref:`loop_handler` によってトランザクション
 --------------------------------------------------
 
 :java:extdoc:`LogCountMetrics <nablarch.integration.micrometer.instrument.binder.logging.LogCountMetrics>` を使用すると、ログレベルごとの出力回数を計測できるようになる。
-これにより、特定レベルのログ出力頻度をモニターしたり、エラーログの監視などができるようになる。
+これにより、特定レベルのログ出力頻度をモニタしたり、エラーログの監視などができるようになる。
 
 ``LogCountMetrics`` は `Counter(外部サイト、英語)`_ を使って ``log.count`` という名前でメトリクスを収集する。
 この名前は、 :java:extdoc:`MetricsMetaData <nablarch.integration.micrometer.instrument.binder.MetricsMetaData>` を受け取る :java:extdoc:`コンストラクタ <nablarch.integration.micrometer.instrument.binder.logging.LogCountMetrics.LogCountMetrics(nablarch.integration.micrometer.instrument.binder.MetricsMetaData)>` で変更できる。
@@ -1383,7 +1383,7 @@ SQLの処理時間を計測する
 --------------------------------------------------
 
 :java:extdoc:`SqlTimeMetricsDaoContext <nablarch.integration.micrometer.instrument.dao.SqlTimeMetricsDaoContext>` を使用することで、 :ref:`universal_dao` を通じて実行したSQLの処理時間を計測できるようになる。
-これにより、SQLごとの平均処理時間や最大処理時間をモニターできるようになる。
+これにより、SQLごとの平均処理時間や最大処理時間をモニタできるようになる。
 
 ``SqlTimeMetricsDaoContext`` は `Timer(外部サイト、英語)`_ を使って ``sql.process.time`` という名前でメトリクスを収集する。
 この名前は、 ``SqlTimeMetricsDaoContext`` のファクトリクラスである :java:extdoc:`SqlTimeMetricsDaoContextFactory <nablarch.integration.micrometer.instrument.dao.SqlTimeMetricsDaoContextFactory>` の :java:extdoc:`setMetricsName(String) <nablarch.integration.micrometer.instrument.dao.SqlTimeMetricsDaoContextFactory.setMetricsName(java.lang.String)>` で変更できる。
@@ -1408,7 +1408,7 @@ SQLの処理時間を計測する
   <!-- SqlTimeMetricsDaoContextFactory を daoContextFactory という名前で定義 -->
   <component name="daoContextFactory"
              class="nablarch.integration.micrometer.instrument.dao.SqlTimeMetricsDaoContextFactory">
-    <!-- delegate に、移譲先となる DaoContext のファクトリを設定する -->
+    <!-- delegate に、委譲先となる DaoContext のファクトリを設定する -->
     <property name="delegate">
       <component class="nablarch.common.dao.BasicDaoContextFactory">
         <property name="sequenceIdGenerator">
@@ -1444,13 +1444,13 @@ SQLの処理時間を計測する
 -------------------------------------------------------------
 
 :java:extdoc:`JmxGaugeMetrics <nablarch.integration.micrometer.instrument.binder.jmx.JmxGaugeMetrics>` を使用すると、任意のMBeanから取得した値をメトリクスとして計測できるようになる。
-これにより、使用しているアプリケーションサーバーやライブラリがMBeanで提供している様々な情報を計測し、モニターできるようになる。
+これにより、使用しているアプリケーションサーバやライブラリがMBeanで提供している様々な情報を計測し、モニタできるようになる。
 
 .. tip::
 
   MBeanとは、Java Management Extensions(JMX)で定義されたJavaオブジェクトで、管理対象リソースの情報へアクセスするためのAPIなどを提供する。
-  Tomcatなどのアプリケーションサーバーの多くは、サーバーの状態（スレッドプールの状態など）をMBeanで公開している。
-  アプリケーションからこれらのMBeanにアクセスすることで、サーバーの状態を取得できるようになっている。
+  Tomcatなどのアプリケーションサーバの多くは、サーバの状態（スレッドプールの状態など）をMBeanで公開している。
+  アプリケーションからこれらのMBeanにアクセスすることで、サーバの状態を取得できるようになっている。
 
   JMXについての詳細は、 `Java Management Extensions Guide(外部サイト、英語) <https://docs.oracle.com/en/java/javase/11/jmx/java-management-extensions-jmx-user-guide.html>`_ を参照。
 
@@ -1458,7 +1458,7 @@ SQLの処理時間を計測する
 
 以下で、 ``JmxGaugeMetrics`` の設定例を説明する。
 
-まず、アプリケーションサーバーが提供するMBeanを参照する例として、Tomcatのスレッドプールの状態を取得する例を示す。
+まず、アプリケーションサーバが提供するMBeanを参照する例として、Tomcatのスレッドプールの状態を取得する例を示す。
 次にアプリケーションに組み込んだライブラリが提供するMBeanを参照する例として、HikariCPのコネクションプールの状態を取得する例を示す。
 
 Tomcatのスレッドプールの状態を取得する
@@ -1605,7 +1605,7 @@ MBeanによる情報公開を有効にするには、 ``com.zaxxer.hikari.Hikari
   2020-12-24 16:37:57.143 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: db.pool.active{} value=0
   2020-12-24 16:37:57.143 [INFO ]      i.m.c.i.l.LoggingMeterRegistry: db.pool.total{} value=5
 
-サーバー起動時に出力される警告ログについて
+サーバ起動時に出力される警告ログについて
 *********************************************************************
 
 Micrometerが監視サービスにメトリクスを連携する方法には、大きく次の２つの方法が存在する。
@@ -1709,7 +1709,7 @@ Micrometerが監視サービスにメトリクスを連携する方法には、�
 
 カスタムの ``DefaultMeterBinderListProvider`` で :java:extdoc:`Initializable <nablarch.core.repository.initialization.Initializable>` を実装する。
 また、 ``java.sql.DataSource`` をプロパティとして受け取れるように実装を修正する。
-そして、 ``initialize()`` メソッドの中でデータベース接続を行うように実装する。
+そして、 ``initialize()`` メソッドの中でデータベースに接続するように実装する。
 
 コンポーネント定義では、 ``DataSource`` をプロパティで渡すように変更する。
 そして、初期化対象のコンポーネント一覧に、このクラスを追加する。

@@ -1,17 +1,17 @@
 .. _inject_form_interceptor:
 
-InjectForm インターセプター
+InjectForm インターセプタ
 ============================
 
 .. contents:: 目次
   :depth: 3
   :local:
 
-入力値に対するバリデーションを行い、生成したフォームオブジェクトをリクエストスコープに設定するインターセプター。
+入力値に対するバリデーションを行い、生成したフォームオブジェクトをリクエストスコープに設定するインターセプタ。
 
-このインターセプターは、業務アクションのメソッドに対して、 :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` を設定することで有効となる。
+このインターセプタは、業務アクションのメソッドに対して、 :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` を設定することで有効となる。
 
-インターセプタークラス名
+インターセプタクラス名
 --------------------------------------------------
 * :java:extdoc:`nablarch.common.web.interceptor.InjectForm`
 
@@ -36,7 +36,7 @@ InjectForm インターセプター
     <artifactId>nablarch-core-validation</artifactId>
   </dependency>
 
-InjectFormを利用する
+InjectFormを使用する
 --------------------------------------------------
 :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` アノテーションを、業務アクションのリクエストを処理するメソッドに対して設定する。
 

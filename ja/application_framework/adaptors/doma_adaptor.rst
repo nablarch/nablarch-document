@@ -11,11 +11,11 @@ Domaアダプタ
 
 データベースアクセスにDomaを使用することで以下のメリットが得られる。
 
-* Nablarchと同じように、実行時に動的にSQL文を構築することができる。
-* 2waySQLなので、NablarchのようにSQL文を書き換える必要がなく、SQLツール等でそのまま実行することができる。
+* Nablarchと同じように、実行時に動的にSQL文を構築できる。
+* 2waySQLなので、NablarchのようにSQL文を書き換える必要がなく、SQLツール等でそのまま実行できる。
 
 また、本アダプタを使用することで、 :java:extdoc:`Transactional<nablarch.integration.doma.Transactional>` インターセプタで
-指定したアクションのみトランザクション管理対象とすることができるため、
+指定したアクションのみトランザクション管理対象にできるため、
 不要なトランザクション制御処理を削減でき、パフォーマンスの向上が期待できる。
 
 モジュール一覧
@@ -100,7 +100,7 @@ Daoインタフェースを作成する
 別のトランザクションを使用してデータベースアクセスを行いたい場合がある。
 
 その場合は、 :java:extdoc:`DomaConfig#getTransactionManager <nablarch.integration.doma.DomaConfig.getTransactionManager()>` で取得した
-`TransactionManager` を使用して別トランザクションでの制御を行う。
+`TransactionManager` を使用して別トランザクションで制御する。
 
 実装例を以下に示す。
 
@@ -139,7 +139,7 @@ JSR352に準拠したバッチアプリケーションでもDomaを使用した�
 
 .. important::
 
-  :ref:`Chunkステップ <jsr352-batch_type_chunk>` のItemWriterでデータベースに対するバッチ更新(バッチinsertやバッチupdateなど)を行う場合、バッチサイズの指定を明示的に行う必要がある。
+  :ref:`Chunkステップ <jsr352-batch_type_chunk>` のItemWriterでデータベースに対してバッチ更新(バッチinsertやバッチupdateなど)する場合、バッチサイズの指定を明示的に行う必要がある。
   ※Chunkステップのitem-countのサイズがバッチサイズとなるわけではないので注意すること
 
   これを行わなかった場合、Domaのデフォルト値が適用されるため、バッチ更新を使用してもパフォーマンスが向上しない可能性がある。
@@ -318,7 +318,7 @@ DomaとNablarchのデータベースアクセスを併用する
 データベースアクセスにDomaを採用した場合でも、 :ref:`Nablarch提供のデータベースアクセス <database_management>` を使用したい場合がある。
 例えば、 :ref:`メール送信ライブラリ <mail>` を使用する場合が該当する。(:ref:`メール送信要求 <mail-request>` で :ref:`database` を使用している。)
 
-この問題を解決するため、Nablarchのデータベースアクセス処理が、Domaと同じトランザクション(データベース接続)を利用できる機能を提供している。
+この問題を解決するため、Nablarchのデータベースアクセス処理が、Domaと同じトランザクション(データベース接続)を使用できる機能を提供している。
 
 利用手順
   コンポーネント設定ファイルに以下の定義を追加する。
@@ -339,7 +339,7 @@ DomaとNablarchのデータベースアクセスを併用する
     </component>
     
     <!-- 
-    JSR352に準拠したバッチアプリケーションで利用する場合は、Domaのトランザクションを制御するリスナーに
+    JSR352に準拠したバッチアプリケーションで使用する場合は、Domaのトランザクションを制御するリスナーに
     上記で定義したconnectionFactoryFromDomaを設定する。
      -->
     <component class="nablarch.integration.doma.batch.ee.listener.DomaTransactionItemWriteListener">
@@ -352,7 +352,7 @@ DomaとNablarchのデータベースアクセスを併用する
 
 ロガーを切り替える
 --------------------------------------------------
-本アダプタではDomaが使うロガーの実装として、Nablarchのロガーを利用する :java:extdoc:`NablarchJdbcLogger<nablarch.integration.doma.NablarchJdbcLogger>` を提供している。
+本アダプタではDomaが使うロガーの実装として、Nablarchのロガーを使用する :java:extdoc:`NablarchJdbcLogger<nablarch.integration.doma.NablarchJdbcLogger>` を提供している。
 デフォルトでは :java:extdoc:`NablarchJdbcLogger<nablarch.integration.doma.NablarchJdbcLogger>` が使用されるが、他のものに差し替える場合はコンポーネント定義ファイルに設定する必要がある。
 
 ``org.seasar.doma.jdbc.UtilLoggingJdbcLogger`` を使用する場合の設定例を以下に示す。

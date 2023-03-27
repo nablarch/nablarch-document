@@ -7,14 +7,14 @@ HTTPリライトハンドラ
   :local:
 
 本ハンドラは、HTTPのリクエストおよびレスポンスに対して、リクエストパスとコンテンツパス、
-および変数の書き換えを行う機能を提供する。
+および変数を書き換える機能を提供する。
 このハンドラは、「未ログイン状態の際は強制的にログイン画面に遷移させる」といった、特殊な
 遷移が必要になった際に使用する。
 
 本ハンドラでは、以下の処理を行う。
 
-* リクエストパスの書き換えを行う
-* コンテンツパスの書き換えを行う
+* リクエストパスを書き換える
+* コンテンツパスを書き換える
 
 処理の流れは以下のとおり。
 
@@ -41,7 +41,7 @@ HTTPリライトハンドラ
   このため、本ハンドラは :ref:`http_response_handler` の後ろに配置する必要がある。
 
 :ref:`thread_context_handler` より前に配置すること
-  本ハンドラでは、スレッドコンテキストに入れられるリクエストパスの書き換えを行う。
+  本ハンドラでは、スレッドコンテキストに入れられるリクエストパスを書き換える。
   このため、本ハンドラは :ref:`thread_context_handler` より前に配置する必要がある。
 
 
@@ -128,7 +128,7 @@ exports              変数の書き換え設定
 リクエストスコープ           %{request:(変数名)}            HttpRequestRewriteRule / ContentPathRewriteRule
 スレッドコンテキスト         %{thread:(変数名)}             HttpRequestRewriteRule / ContentPathRewriteRule
 リクエストパラメータ         %{param:(変数名)}              HttpRequestRewriteRule
-HTTPヘッダ                   %{header:(ヘッダー名)}         HttpRequestRewriteRule / ContentPathRewriteRule
+HTTPヘッダ                   %{header:(ヘッダ名)}           HttpRequestRewriteRule / ContentPathRewriteRule
 HTTPリクエストメソッド       %{httpMethod}                  HttpRequestRewriteRule
 HTTPバージョン               %{httpVersion}                 HttpRequestRewriteRule
 全リクエストパラメータ名     %{paramNames}                  HttpRequestRewriteRule

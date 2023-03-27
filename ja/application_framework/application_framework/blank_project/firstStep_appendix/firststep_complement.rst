@@ -79,7 +79,7 @@ Password      ``SAMPLE``
   * - `gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_
     - －
     - 起動は、「mvn -P gsp gsp-dba:<ゴール名>」で行う。|br|
-      例えば、「mvn -P gsp gsp-dba:generate-ddl」でgenerate-ddlの実行を行うことができる。
+      例えば、「mvn -P gsp gsp-dba:generate-ddl」でgenerate-ddlを実行できる。
 
       また、「mvn -P gsp generate-resources」と実行することで、「generate-ddl」「execute-ddl」「generate-entity」「load-data」「export-schema」を順に実行できる。
 

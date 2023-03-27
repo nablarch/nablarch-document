@@ -7,8 +7,8 @@ JSR310(Date and Time API)アダプタ
   :depth: 3
   :local:
   
-JSR310(Date and Time API)で追加された日時関連を利用可能にするためのアダプタを提供する。
-このアダプタを使用することで、 :ref:`bean_util` でJSR310(Date and Time API)を利用できる。
+JSR310(Date and Time API)で追加された日時関連を使用可能にするためのアダプタを提供する。
+このアダプタを使用することで、 :ref:`bean_util` でJSR310(Date and Time API)を使用できる。
 
 .. important::
 
@@ -50,7 +50,7 @@ JSR310(Date and Time API)で追加された日時関連を利用可能にする�
     基本実装の :java:extdoc:`BasicDateTimeConfiguration <nablarch.integration.jsr310.util.BasicDateTimeConfiguration>` を参考にすると良い
     
   追加したクラスをコンポーネント設定ファイルに定義する
-    コンポーネント名を ``dateTimeConfiguration`` として、コンポーネント定義を行う。
+    コンポーネント名を ``dateTimeConfiguration`` として、コンポーネントを定義する。
     
     例を以下に示す。
     

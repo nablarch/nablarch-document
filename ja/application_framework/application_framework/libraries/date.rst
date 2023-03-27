@@ -40,7 +40,7 @@
 
 .. _date-system_time_settings:
 
-システム日時の管理機能を使うための設定を行う
+システム日時の管理機能を使うための設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 システム日時の管理機能を使うためには、
 :java:extdoc:`BasicSystemTimeProvider <nablarch.core.date.BasicSystemTimeProvider>` の設定をコンポーネント定義に追加する。
@@ -56,7 +56,7 @@
 
 .. _date-business_date_settings:
 
-業務日付管理機能を使うための設定を行う
+業務日付管理機能を使うための設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 業務日付管理機能では、データベースを使用して複数の業務日付を管理する。
 テーブルのレイアウトは以下となる。
@@ -92,14 +92,14 @@
 業務日付を任意の日付に上書く
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 バッチ処理で障害時の再実行時に、過去日付をバッチ実行時の業務日付としたい場合がある。
-このような場合に、再実行を行うプロセスのみ任意の日付を業務日付として実行することができる。
+このような場合に、再実行するプロセスのみ任意の日付を業務日付として実行できる。
 
 .. tip::
  ウェブアプリケーションのように、全ての機能が１プロセス内で実行される場合は、
  単純にデータベースで管理されている日付を変更すればよい。
 
 業務日付の上書きは、 :ref:`repository-overwrite_environment_configuration` を使用して行う。
-システムプロパティとして、以下の形式で指定を行う。
+システムプロパティとして、以下の形式で指定する。
 
 システムプロパティの形式
  BasicBusinessDateProvider.<区分>=日付
@@ -133,7 +133,7 @@
 ユニットテストの実行時など、システム日時を切り替えたい場合は、以下の手順で行う。
 
 1. :java:extdoc:`SystemTimeProvider <nablarch.core.date.SystemTimeProvider>` を実装したクラスを作成する。
-2. :ref:`date-system_time_settings` に従い設定を行う。
+2. :ref:`date-system_time_settings` に従い設定する。
 
 .. _date-business_date_change:
 
@@ -142,4 +142,4 @@
 ユニットテストの実行時など、業務日付を切り替えたい場合は、以下の手順で行う。
 
 1. :java:extdoc:`BusinessDateProvider <nablarch.core.date.BusinessDateProvider>` を実装したクラスを作成する。
-2. :ref:`date-business_date_settings` に従い設定を行う。
+2. :ref:`date-business_date_settings` に従い設定する。

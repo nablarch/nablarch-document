@@ -71,8 +71,8 @@
 .. [#csv_multi_format] レコード毎に異なるフォーマットのCSVを扱う場合には、 :ref:`data_format` を使用すること。
 .. [#json_layout] JSONデータの入出力は未実装。JSONデータを扱う場合は、 :ref:`data_format` やOSSを使用すること。
 .. [#xml_layout] XMLデータの入出力は未実装。XMLデータを扱う場合は、 :ref:`data_format` やJAXBを使用すること。
-.. [#converter] 固定長データのみtrim等のコンバータを提供している。CSVで値の変換を行いたい場合は、出力前及び入力後にデータの形式変換などを行うこと。
-.. [#char_replace] 入力データの寄せ字(文字変換)は、文字変換用のハンドラを作成し対応すること
+.. [#converter] 固定長データのみtrim等のコンバータを提供している。CSVで値を変換したい場合は、出力前及び入力後に変換すること。
+.. [#char_replace] 入力データの寄せ字(文字変換)は、文字変換用のハンドラを作成し対応すること。
 
 .. |br| raw:: html
 

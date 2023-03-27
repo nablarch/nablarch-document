@@ -1,21 +1,21 @@
 .. _on_double_submission_interceptor:
 
-OnDoubleSubmissionインターセプター
+OnDoubleSubmissionインターセプタ
 =====================================
 
 .. contents:: 目次
   :depth: 3
   :local:
 
-:ref:`二重サブミット(同一リクエストの二重送信)のチェック <tag-double_submission_server_side>` を行うインターセプター。
+:ref:`二重サブミット(同一リクエストの二重送信)のチェック <tag-double_submission_server_side>` を行うインターセプタ。
 
-このインターセプターを使用するためには、
+このインターセプタを使用するためには、
 :ref:`jspでのformタグによるトークン設定 <tag-double_submission_token_setting>`
 または
-:ref:`UseTokenインターセプターによるトークン設定 <use_token_interceptor>`
+:ref:`UseTokenインターセプタによるトークン設定 <use_token_interceptor>`
 が必要である。
 
-インターセプタークラス名
+インターセプタクラス名
 --------------------------------------------------
 * :java:extdoc:`nablarch.common.web.token.OnDoubleSubmission`
 
@@ -28,7 +28,7 @@ OnDoubleSubmissionインターセプター
     <artifactId>nablarch-fw-web-tag</artifactId>
   </dependency>
 
-OnDoubleSubmissionを利用する
+OnDoubleSubmissionを使用する
 --------------------------------------------------
 :java:extdoc:`OnDoubleSubmission <nablarch.common.web.token.OnDoubleSubmission>` アノテーションを、
 アクションのメソッドに対して設定する。

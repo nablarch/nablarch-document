@@ -29,10 +29,10 @@ E-mail Velocityアダプタを使用するための設定を行う
 本アダプタを使用するためには、コンポーネント設定ファイルで :java:extdoc:`VelocityMailProcessor<nablarch.integration.mail.velocity.VelocityMailProcessor>` を :java:extdoc:`MailRequester<nablarch.common.mail.MailRequester>` へ設定する。
 
 ``VelocityMailProcessor`` にはVelocityが提供する ``VelocityEngine`` を設定する必要がある。
-``VelocityEngine`` は以下の理由により :java:extdoc:`ComponentFactory<nablarch.core.repository.di.ComponentFactory>` の実装クラスを作成してコンポーネント設定を行うことを推奨する。
+``VelocityEngine`` は以下の理由により :java:extdoc:`ComponentFactory<nablarch.core.repository.di.ComponentFactory>` の実装クラスを作成してコンポーネントを設定することを推奨する。
 
 * ``VelocityEngine`` への設定はコンポーネント設定ファイルよりもJavaコードで行う方がやりやすい
-* ``VelocityEngine`` への設定を行ったあとに ``init`` メソッドを呼ぶ必要がある
+* ``VelocityEngine`` を設定した後に ``init`` メソッドを呼ぶ必要がある
 
 ``VelocityEngine`` を作成する ``ComponentFactory`` 実装クラスの例を以下に示す。
 

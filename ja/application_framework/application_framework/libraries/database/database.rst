@@ -26,7 +26,7 @@ JDBCを使用してデータベースに対してSQL文を実行する機能を�
 
 .. _database-dialect:
 
-データベースの方言を意識することなく利用できる
+データベースの方言を意識することなく使用できる
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 使用するデータベース製品に対応した :java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` を設定することで、
 製品ごとの方言を意識せずにアプリケーションを実装できる。
@@ -117,15 +117,15 @@ SQLのクエリ結果をキャッシュできる
 
 .. _database-connect:
 
-データベースに対する接続設定を行う
+データベースに対する接続設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データベースに対する接続設定は、以下の2通りから選択することができる。
+データベースに対する接続設定は、以下の2通りから選択できる。
 
 * :java:extdoc:`javax.sql.DataSource` を使ったデータベース接続の生成
 * アプリケーションサーバなどに登録されたデータソースを使ったデータベース接続の生成
 
 上記以外の接続方法を使用したい場合(例えばOSSのコネクションプーリングライブラリを使う場合など)は、
-:ref:`database-add_connection_factory` を参照し、データベース接続を行う実装を追加すること。
+:ref:`database-add_connection_factory` を参照し、データベースに接続する実装を追加すること。
 
 接続設定例
   :java:extdoc:`javax.sql.DataSource` からデータベース接続の生成
@@ -151,7 +151,7 @@ SQLのクエリ結果をキャッシュできる
   上記に設定したクラスを直接使用することは基本的にない。
   データベースアクセスを必要とする場合には、 :ref:`database_connection_management_handler` を使用すること。
 
-  なお、データベースを利用する場合はトランザクション管理も必要となる。
+  なお、データベースを使用する場合はトランザクション管理も必要となる。
   トランザクション管理については、 :ref:`transaction` を参照。
 
 .. _database-use_dialect:
@@ -161,7 +161,7 @@ SQLのクエリ結果をキャッシュできる
 データベース製品に対応したダイアレクトをコンポーネント設定ファイルに設定することで、ダイアレクト機能が有効になる。
 
 .. tip::
-  設定を行わなかった場合は :java:extdoc:`DefaultDialect <nablarch.core.db.dialect.DefaultDialect>` が利用される。
+  設定しなかった場合は :java:extdoc:`DefaultDialect <nablarch.core.db.dialect.DefaultDialect>` が使用される。
   :java:extdoc:`DefaultDialect <nablarch.core.db.dialect.DefaultDialect>` は原則全ての機能が無効化されるので、必ずデータベース製品に対応したダイアレクトを設定すること。
 
   なお、使用するデータベース製品に対応するダイアレクトが存在しない場合や、
@@ -360,14 +360,14 @@ SQLIDと実際に実行されるSQLとのマッピングルールは以下のと
     SqlResultSet result = statement.retrieve();
 
 .. tip::
-  検索範囲が指定された場合、検索用のSQLを取得範囲指定のSQLに書き換えてから実行を行う。
+  検索範囲が指定された場合、検索用のSQLを取得範囲指定のSQLに書き換えてから実行する。
   なお、取得範囲指定のSQLは :ref:`ダイアレクト <database-dialect>` により行われる。
 
 .. _database-input_bean:
 
 Beanオブジェクトを入力としてSQLを実行する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`database-bean` で説明したように、Beanオブジェクトを入力としてSQLを実行することができる。
+:ref:`database-bean` で説明したように、Beanオブジェクトを入力としてSQLを実行できる。
 
 Beanオブジェクトを入力としてSQLを実行する場合は、SQLのINパラメータには名前付きバインド変数を用いる。
 名前付きパラメータには、 ``:`` に続けて入力として受け取るBeanのプロパティ名を記述する。
@@ -423,13 +423,13 @@ SQL例
   Mapを指定した場合は、Mapのキー値と一致するINパラメータに対して、Mapの値が設定される。
 
   なお、Beanを指定した場合は :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用して、Mapに変換後に処理を行う。
-  :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` で対応していない型がBeanのプロパティに存在した場合、そのプロパティについてはこの機能で使用することが出来ない。
+  :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` で対応していない型がBeanのプロパティに存在した場合、そのプロパティについてはこの機能で使用できない。
   
   :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` でMapにコピーできる型を増やしたい場合には、 :ref:`utility-conversion` を参照し対応すること。
 
 .. tip::
 
-  Beanへのアクセス方法をプロパティからフィールドに変更することができる。
+  Beanへのアクセス方法をプロパティからフィールドに変更できる。
   フィールドアクセスに変更する場合には、propertiesファイルに以下の設定を追加する。
 
   .. code-block:: properties
@@ -446,13 +446,13 @@ SQL例
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 データベースアクセス(JDBCラッパー)は、データベースとの入出力に使用する変数の型変換をJDBCドライバに委譲する。
-よって、入出力に使用する変数の型は、データベースの型及び使用するJDBCドライバの仕様に応じた定義を行う必要がある。
+よって、入出力に使用する変数の型は、データベースの型及び使用するJDBCドライバの仕様に応じて定義する必要がある。
 
-任意の型変換が必要な場合は、データベースとの入出力に使用する変数に対して、アプリケーション側で型変換を行うこととなる。
+任意の型変換が必要な場合は、データベースとの入出力に使用する変数に対して、アプリケーション側で型変換することとなる。
 
-- 入力にBeanを使用する場合はBeanのプロパティに値を設定する際、出力にBeanを使用する場合はプロパティから値を取り出した後に型変換を行う。
-- 入力にMapを使用する場合はMapに値を設定する際、出力にMapを使用する場合は値を取り出した後に型変換を行う。
-- インデックスを指定してバインド変数を設定する際に、バインド変数に設定するオブジェクトを適切な型に変換する。 :java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` から値を取得する際は、取得後に型変換を行う。
+- 入力にBeanを使用する場合はBeanのプロパティに値を設定する際、出力にBeanを使用する場合はプロパティから値を取り出した後に型変換する。
+- 入力にMapを使用する場合はMapに値を設定する際、出力にMapを使用する場合は値を取り出した後に型変換する。
+- インデックスを指定してバインド変数を設定する際に、バインド変数に設定するオブジェクトを適切な型に変換する。 :java:extdoc:`SqlRow <nablarch.core.db.statement.SqlRow>` から値を取得する際は、取得後に型変換する。
 
 
 .. _database-common_bean:
@@ -462,13 +462,13 @@ SQL実行時に共通的な値を自動的に設定したい
 データ登録時や更新時に毎回設定する値をSQLの実行直前に自動的に設定する機能を提供する。
 例えば、登録日時や更新日時といった項目に対して、この機能が使用できる。
 
-この機能は、プロパティに設定されたアノテーションを元に、値の自動設定を行うため、
+この機能は、プロパティに設定されたアノテーションを元に、値を自動設定するため、
 :ref:`database-input_bean` を使用した場合のみ有効となる。
 
 以下に使用例を示す。
 
 コンポーネント設定ファイル
-  この機能を使用するには、コンポーネント設定ファイルに値の自動設定を行うクラスを設定する。
+  この機能を使用するには、コンポーネント設定ファイルに値を自動設定するクラスを設定する。
 
   以下の例のように、 :java:extdoc:`BasicStatementFactory#updatePreHookObjectHandlerList <nablarch.core.db.statement.BasicStatementFactory.setUpdatePreHookObjectHandlerList(java.util.List)>` に対して、
   :java:extdoc:`AutoPropertyHandler <nablarch.core.db.statement.AutoPropertyHandler>` 実装クラスをlistで設定する。
@@ -653,8 +653,8 @@ like検索時のエスケープ文字及びエスケープ対象文字を定義�
 
   なお、 ``$if`` 特殊構文には以下の制約がある。
 
-  * 利用できる箇所はwhere句のみ
-  * ``$if`` 内に ``$if`` を使用することはできない
+  * 使用できる箇所はwhere句のみ
+  * ``$if`` 内に ``$if`` を使用できない
 
   .. important::
 
@@ -720,7 +720,7 @@ in句の記述ルール
     もし、可変条件としなかった場合でプロパティ値がnullの場合、条件が ``xxxx in (null)`` となるため、
     検索結果が正しく取得できない可能性がある。
 
-    ※in句は、条件式(カッコの中)を空にすることはできないため、サイズ0の配列やnullが指定された場合には、条件式を ``in (null)`` とする仕様としている。
+    ※in句は、条件式(カッコの中)を空にできないため、サイズ0の配列やnullが指定された場合には、条件式を ``in (null)`` とする仕様としている。
 
 以下に例を示す。
 
@@ -1057,7 +1057,7 @@ SQL実行時の例外が一意制約違反の場合の例外
 
 実装例
   コンポーネント設定ファイルに設定した :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を使って、SQLを実行する。
-  なお、 :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を直接使うのではなくトランザクション制御を行う、
+  なお、 :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>` を直接使うのではなくトランザクションを制御する、
   :java:extdoc:`SimpleDbTransactionExecutor<nablarch.core.db.transaction.SimpleDbTransactionExecutor>` を使用すること。
 
   .. code-block:: java
@@ -1082,9 +1082,9 @@ SQL実行時の例外が一意制約違反の場合の例外
 検索結果をキャッシュする（同じSQLで同じ条件の場合にキャッシュしたデータを扱いたい)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 更新時間が決まっているデータや、頻繁にアクセスされるが必ず最新のデータを返す必要がない場合には、
-データベースの負荷を軽減させるために検索結果をキャッシュすることが出来る。
+データベースの負荷を軽減させるために検索結果をキャッシュできる。
 
-この機能は、以下のような機能で有効に利用できる。
+この機能は、以下のような機能で有効に活用できる。
 
 * 売り上げランキングのように結果が厳密に最新である必要が無く大量に参照されるデータ
 * データ更新タイミングが夜間のみで日中は更新されないデータ
@@ -1122,7 +1122,7 @@ SQL実行時の例外が一意制約違反の場合の例外
 以下に使用例を示す。
 
 コンポーネント設定ファイル
-  以下の手順に従い、検索結果のキャッシュを有効化する設定を行う。
+  以下の手順に従い、検索結果のキャッシュを有効化する。
 
   #. クエリ結果をキャッシュするコンポーネントの定義
   #. SQLID毎の検索結果のキャッシュ設定
@@ -1139,7 +1139,7 @@ SQL実行時の例外が一意制約違反の場合の例外
       </component>
 
   SQLID毎のキャッシュ設定
-    SQLID毎のキャッシュ設定を行う。
+    SQLID毎のキャッシュを設定する。
     デフォルトで提供される :java:extdoc:`BasicExpirationSetting <nablarch.core.cache.expirable.BasicExpirationSetting>` では、SQLID毎にキャッシュの有効期限が設定できる。
 
     有効期限には、以下の単位が使用できる。
@@ -1208,7 +1208,7 @@ JDBCのネイティブなデータベース接続( :java:extdoc:`java.sql.Connec
 
 .. important::
 
-  :java:extdoc:`java.sql.Connection` を使用した場合、チェック例外である :java:extdoc:`java.sql.SQLException` をハンドリングして例外制御を行う必要がある。
+  :java:extdoc:`java.sql.Connection` を使用した場合、チェック例外である :java:extdoc:`java.sql.SQLException` をハンドリングして例外を制御する必要がある。
   この例外制御は実装を誤ると、障害が検知されなかったり障害時の調査ができないなどの問題が発生することがある。
   このため、どうしても :java:extdoc:`java.sql.Connection` を使わないと満たせない要件がない限り、この機能は使用しないこと。
 

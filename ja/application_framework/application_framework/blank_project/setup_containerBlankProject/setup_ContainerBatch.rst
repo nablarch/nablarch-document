@@ -32,14 +32,14 @@
     - 生成されたプロジェクトには以下が含まれる。
        
       * Nablarchバッチアプリケーション用の基本的な設定
-      * 疎通確認用都度起動バッチアプリケーション
+      * 疎通確認用の都度起動バッチアプリケーション
       * 疎通確認用のテーブルをキューとして使ったメッセージング
       * メール送信バッチの設定 \ [#mailSendBatch]_\
       * Mavenと連動して動作するツールの初期設定( :ref:`about_maven_parent_module` を参照することによって取り込んでいる)。
 
 
 .. [#mailSendBatch]
-   メール送信バッチは、:ref:`常駐バッチ<nablarch_batch-resident_batch>`  として動作し、SMTPサーバに対してメール送信を行うものである。
+   メール送信バッチは、:ref:`常駐バッチ<nablarch_batch-resident_batch>`  として動作し、SMTPサーバに対してメールを送信するものである。
    コンポーネント設定ファイルのサンプルは ``src/main/resources/mail-sender-boot.xml`` に存在する。
    メール送信バッチは初期環境構築時には必要ないが、必要になったタイミングで :ref:`メール送信<mail>` の解説を読んだ上で使用する。
 
@@ -147,7 +147,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 
 また、初期設定ではベースイメージとして `OpenJDK のイメージ <https://hub.docker.com/_/adoptopenjdk>`_ (外部サイト、英語)が使用される。
 
-ベースイメージは ``jib.from.image`` プロパティで変更することができる。
+ベースイメージは ``jib.from.image`` プロパティで変更できる。
 例えば、ベースイメージに ``adoptopenjdk:11.0.11_9-jre-hotspot`` を使用したい場合は、次のように ``pom.xml`` に記述する。
 
 .. code-block:: xml
@@ -188,7 +188,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 .. code-block:: text
 
   cd myapp-container-batch
-  docker run  --rm -v %CD%\\h2:/h2 -v %CD%\\src\\main\\format:/var/nablarch/format -v %CD%\\work\\output:/var/nablarch/output  --name myapp-container-batch myapp-container-batch:latest -diConfig classpath:batch-boot.xml -requestPath SampleBatch -userId batch_user
+  docker run --rm -v %CD%\\h2:/h2 -v %CD%\\src\\main\\format:/var/nablarch/format -v %CD%\\work\\output:/var/nablarch/output --name myapp-container-batch myapp-container-batch:latest -diConfig classpath:batch-boot.xml -requestPath SampleBatch -userId batch_user
 
 動作は :ref:`疎通確認(都度起動バッチ)<firstStepBatchStartupTest>` と同じである。
 起動に成功すると、:ref:`都度起動バッチアプリケーションの起動 <firstStepBatchExecOnDemandBatch>` と同様なログがコンソールに出力される。
@@ -200,7 +200,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 .. code-block:: text
 
   cd myapp-container-batch
-  docker run -it  --rm -v %CD%\\h2:/h2 --name myapp-container-batch --rm myapp-container-batch:latest -diConfig classpath:resident-batch-boot.xml -requestPath SampleResiBatch -userId batch_user
+  docker run -it --rm -v %CD%\\h2:/h2 --name myapp-container-batch myapp-container-batch:latest -diConfig classpath:resident-batch-boot.xml -requestPath SampleResiBatch -userId batch_user
 
 動作は :ref:`疎通確認(テーブルをキューとして使ったメッセージング)<firstStepBatchStartupTestDbMessagingBatch>` と同じである。
 起動に成功すると、:ref:`アプリケーションの起動 <firstStepBatchExecDbMessagingBatch>` と同様なログがコンソールに出力される。

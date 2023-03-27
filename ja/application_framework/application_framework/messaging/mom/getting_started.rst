@@ -5,13 +5,13 @@ Getting Started
 本章を通読することで、MOMメッセージングの開発イメージを掴むことができる。
 
 .. tip::
- ExampleはNablarchの機能の利用方法を示した実装例であり、Exampleを改修して本格的なアプリケーションを作成することは想定していない。
+ ExampleはNablarchの機能の使用方法を示した実装例であり、Exampleを改修して本格的なアプリケーションを作成することは想定していない。
  
  本格的なアプリケーションを作成する場合は :ref:`blank_project` から作成すること。
 
 
 前提条件
-  本章は :ref:`example_application` をベースに解説を行う。
+  本章は :ref:`example_application` をベースに解説する。
   Exampleアプリケーションの動作環境を事前に構築しておくこと。
 
   .. tip::
@@ -23,7 +23,7 @@ Getting Started
     - 使用しているOSSプラグインについて
 
 ライブラリの :ref:`mom_messaging` にて、
-:ref:`example_application` を用いた説明を行っており、
+:ref:`example_application` を用いて説明しており、
 内容が重複するため、Getting Startedを用意していない。
 そのため、 :ref:`mom_messaging` の以下の説明を参照すること。
 

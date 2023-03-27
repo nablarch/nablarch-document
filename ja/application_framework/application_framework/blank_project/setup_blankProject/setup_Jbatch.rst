@@ -116,17 +116,10 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 .. code-block:: text
 
   (中略)
-  [INFO] ------------------------------------------------------------------------
+  [INFO] ---------------------< com.example:myapp-batch-ee >---------------------
   [INFO] Building myapp-batch-ee 0.1.0
-  [INFO] ------------------------------------------------------------------------
+  [INFO] --------------------------------[ jar ]---------------------------------
   (中略)
-  2020-04-28 10:32:31.096 -WARN- nablarch.core.repository.di.config.xml.XmlComponentDefinitionLoader [null] boot_proc = [] proc_sys = [batch-ee] req_id = [null] usr_id = [null] component property was overridden. component name = businessDateProvider, property = dbTransactionManager
-  10:32:31.144 INFO  c.z.h.HikariDataSource HikariPool-1 - Starting...
-  10:32:31.477 INFO  c.z.h.p.PoolBase HikariPool-1 - Driver does not support get/set network timeout for connections. (org.h2.jdbc.JdbcConnection.getNetworkTimeout()I)
-  10:32:31.480 INFO  c.z.h.HikariDataSource HikariPool-1 - Start completed.
-  2020-04-28 10:32:31.555 -INFO- com.example.batchlet.SampleBatchlet [null] boot_proc = [] proc_sys = [batch-ee] req_id = [null] usr_id = [null] 削除件数：10件
-  [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.877 s - in com.example.batchlet.SampleBatchletTest
-  [INFO]
   [INFO] Results:
   [INFO]
   [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
@@ -195,7 +188,7 @@ batchlet方式のバッチアプリケーションでは、SAMPLE_USERテーブ�
 
 .. tip::
 
-  このbatchletはSAMPLE_USERテーブルのデータの全件削除を行っている。削除したデータを復元したい場合は、 :ref:`firstStepBatchEERunETL` のコマンドを実行すること。
+  このbatchletはSAMPLE_USERテーブルのデータを全件削除している。削除したデータを復元したい場合は、 :ref:`firstStepBatchEERunETL` のコマンドを実行すること。
 
 
 

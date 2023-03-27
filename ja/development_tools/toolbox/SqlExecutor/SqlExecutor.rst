@@ -9,17 +9,17 @@ Nablarch SQL Executor
 -------
 
 Nablarch SQL ExecutorはNablarch特殊構文を含むSQLファイルを対話的に実行するツールである。
-PJにおいて設計者がSQL設計を行う際などに使用する。
+PJにおいて設計者がSQLを設計する際などに使用する。
 
-本ツールはPJで使用するDBの設定を行い、ビルドして使う必要がある。
+本ツールはPJで使用するDBを設定して、ビルドして使う必要がある。
 
 想定使用方法
 --------------
 
 本ツールの想定使用方法
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-本ツールを使用するためには、DBの設定を行い、Mavenでビルドする必要がある。
-ビルド済みのツールは配布可能であるため、本作業を行うのはPJ内の1人でよい。
+本ツールを使用するためには、DBを設定して、Mavenでビルドする必要がある。
+ビルド済みのツールは配布可能であるため、本作業はPJ内で1人が対応すればよい。
 
 
 本ツールは以下のような使用方法を想定している。
@@ -50,7 +50,7 @@ DB接続方法の選択
 
    [1]_
 
-ツール使用者がそれぞれがローカルのDBを使用することもできる。
+ツール使用者それぞれがローカルのDBも使用できる。
 
 .. figure:: ./_images/sql-executor-db-separate.png
    :alt: 各ユーザが別々のDBに接続するイメージ
@@ -191,7 +191,6 @@ pom.xml中の「使用するRDBMSにあわせて、下記JDBCドライバの dep
       <dependency>
         <groupId>com.h2database</groupId>
         <artifactId>h2</artifactId>
-        <version>1.3.176</version>
         <scope>runtime</scope>
       </dependency>
     </dependencies>

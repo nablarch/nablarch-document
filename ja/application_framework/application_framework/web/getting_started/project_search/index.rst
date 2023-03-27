@@ -2,7 +2,7 @@
 
 検索機能の作成
 ==========================================
-Exampleアプリケーションを元に検索機能の解説を行う。
+Exampleアプリケーションを元に検索機能を解説する。
 
 作成する機能の説明
   1. サイドメニュー「プロジェクト名」欄に検索条件を入力し、検索ボタンを押下する。
@@ -25,7 +25,7 @@ Exampleアプリケーションを元に検索機能の解説を行う。
     .. image:: ../images/project_search/project_search_start_date_result.png
       :scale: 80
 
-検索を行う
+検索する
 -----------
 
 検索機能の基本的な実装方法を、以下の順に説明する。
@@ -33,7 +33,7 @@ Exampleアプリケーションを元に検索機能の解説を行う。
   #. :ref:`フォームの作成<project_search-create_form>`
   #. :ref:`検索条件入力部分のJSPの作成<project_search-create_jsp>`
   #. :ref:`検索条件Beanの作成<project_search-create_bean>`
-  #. :ref:`検索に利用するSQLの作成<project_search-create_sql>`
+  #. :ref:`検索に使用するSQLの作成<project_search-create_sql>`
   #. :ref:`業務アクションの実装<project_search-create_action>`
   #. :ref:`検索結果表示部分の作成<project_search-create_result_jsp>`
 
@@ -120,13 +120,13 @@ Exampleアプリケーションを元に検索機能の解説を行う。
         :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` は、プロパティ名が同一の項目を移送するため、
         検索条件に使用する項目のプロパティ名は、フォームと検索条件Beanで合わせる必要がある。
       * :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を用いて値を移送する場合は、互換性のある型であれば、
-        プロパティを型変換した上で移送することができる。詳細は :ref:`BeanUtilの型変換ルール<utility-conversion>` を参照。
+        プロパティを型変換した上で移送できる。詳細は :ref:`BeanUtilの型変換ルール<utility-conversion>` を参照。
       * Beanのプロパティは、対応するカラムの型に合わせたJavaの型で定義する。
 
 .. _`project_search-create_sql`:
 
-検索に利用するSQLの作成
-  検索に利用するSQLを作成する。
+検索に使用するSQLの作成
+  検索に使用するSQLを作成する。
 
     Project.sql
       .. code-block:: none
@@ -175,7 +175,7 @@ Exampleアプリケーションを元に検索機能の解説を行う。
   業務アクションに、検索処理を実装する。
 
   業務アクションメソッドの作成
-    画面から与えられた検索条件を元に検索を行うメソッドを作成する。
+    画面から与えられた検索条件を元に検索するメソッドを作成する。
 
     ProjectAction.java
       .. code-block:: java
@@ -199,9 +199,9 @@ Exampleアプリケーションを元に検索機能の解説を行う。
         :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` を付与してバリデーションを行う。
       * :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` によるバリデーションが済んだフォームは、
         リクエストスコープから取り出すことができる。
-      * フォームの値を :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を利用して検索条件Beanにコピーする。
+      * フォームの値を :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用して検索条件Beanにコピーする。
 
-  検索を行うプライベートメソッドの作成
+  データベースを検索するプライベートメソッドの作成
     このメソッドでは、前述のSQLを指定してデータベースを検索する。
 
       ProjectAction.java

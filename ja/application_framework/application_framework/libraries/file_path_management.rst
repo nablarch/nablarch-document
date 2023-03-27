@@ -36,15 +36,15 @@
 
 ディレクトリと拡張子を設定する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:java:extdoc:`FilePathSetting <nablarch.core.util.FilePathSetting>` にディレクトリ及び拡張子の設定を行い、
+:java:extdoc:`FilePathSetting <nablarch.core.util.FilePathSetting>` にディレクトリ及び拡張子を設定し、
 コンポーネント設定ファイルに定義する。
 
 以下に例を示す。
 
 ポイント
   * :java:extdoc:`FilePathSetting <nablarch.core.util.FilePathSetting>` のコンポーネント名は ``filePathSetting`` とすること
-  * :java:extdoc:`basePathSettings <nablarch.core.util.FilePathSetting.setBasePathSettings(java.util.Map)>` にディレクトリの設定を行う
-  * :java:extdoc:`fileExtensions <nablarch.core.util.FilePathSetting.setFileExtensions(java.util.Map)>` に拡張子の設定を行う
+  * :java:extdoc:`basePathSettings <nablarch.core.util.FilePathSetting.setBasePathSettings(java.util.Map)>` にディレクトリを設定する
+  * :java:extdoc:`fileExtensions <nablarch.core.util.FilePathSetting.setFileExtensions(java.util.Map)>` に拡張子を設定する
   * 1つのディレクトリに対して複数の拡張子を設定する場合には、論理名を複数設定する
   * 拡張子のないファイルの場合には、その論理名の拡張子設定を省略する
   * スキームは ``file`` と ``classpath`` が使用できる。省略した場合は、 ``classpath`` となる
@@ -53,12 +53,12 @@
 
   .. important::
 
-    classpathスキームを使用した場合、一部のウェブアプリケーションサーバでは本機能を使用することができない。
+    classpathスキームを使用した場合、一部のウェブアプリケーションサーバでは本機能を使用できない。
     これは、ウェブアプリケーションサーバが独自のファイルシステムを使用して、
     クラスパス配下のリソースなどを管理していることに起因する。
 
     例えば、JbossやWildflyでは、vfsと呼ばれるバーチャルファイルシステムで、
-    クラスパス配下のリソースが管理されるため、classpathスキームは利用することができない。
+    クラスパス配下のリソースが管理されるため、classpathスキームは使用できない。
 
     このため、classpthスキームではなくfileスキームを使用することを推奨する。
 

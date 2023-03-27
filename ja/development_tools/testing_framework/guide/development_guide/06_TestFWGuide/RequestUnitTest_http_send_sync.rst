@@ -4,7 +4,7 @@
 
 リクエスト単体テストのテスト方法は、\ :doc:`RequestUnitTest_send_sync`\ を参照すること。
 
-本項では、\ :doc:`RequestUnitTest_send_sync`\ と異なる箇所の解説を行う。
+本項では、\ :doc:`RequestUnitTest_send_sync`\ と異なる箇所を解説する。
 
 ただし、以下のように読み替えること。
 

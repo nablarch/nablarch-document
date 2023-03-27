@@ -29,7 +29,7 @@
   * - :doc:`SqlExecutor/SqlExecutor`
     - SQL文を対話的に実行するツール。
   * - :doc:`JspVerifier/JspVerifier`
-    - 業務画面JSPの検証を行うツール。
+    - 業務画面JSPを検証するツール。
 
 .. |br| raw:: html
 

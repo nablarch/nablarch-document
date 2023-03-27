@@ -172,3 +172,7 @@ Scale-out design for web application
 CSRF measures
 ----------------------------------------
 * :ref:`CSRF measures <csrf_token_verification_handler>`
+
+Use web applications and RESTful web services together
+----------------------------------------------------------------
+* :ref:`Change the name of the delegating web front controller <change_web_front_controller_name>`

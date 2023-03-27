@@ -10,6 +10,7 @@ When using blank projects in Java 17, perform the following procedure before com
 * Configure gsp-dba-maven-plugin to work with Java 17
 * Change of Jetty module used in automatic test (only for web projects or RESTful web service projects)
 * Add --add-opens options (only for JSR352-compliant batch project)
+* Change of Java Version
 
 Add dependent module
 -------------------------------------------------------------
@@ -118,3 +119,17 @@ The following is an example of a command with the options specified.
 
 .. tip::
   When running from Maven, the environment variable `MAVEN_OPTS (external site) <https://maven.apache.org/configure.html#maven_opts-environment-variable>`_ can be used to set the JVM options.
+
+Change of Java Version
+------------------------------
+
+In a blank project, Java 8 is set as the Java version 
+that the source and class files conform to, so change the file as below.
+
+* pom.xml
+
+.. code-block:: xml
+
+    <!-- Change Java version as follows -->
+    <java.version>17</java.version>
+

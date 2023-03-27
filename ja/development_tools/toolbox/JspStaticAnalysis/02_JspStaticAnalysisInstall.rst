@@ -29,7 +29,7 @@ JSP静的解析ツール 設定変更ガイド
     - 説明
 
   * - pom.xml
-    - 起動に必要な設定と、jspanalysis.excludePatternsの設定を行う。
+    - 起動に必要な設定と、jspanalysis.excludePatternsを設定する。
 
   * - tools/nablarch-tools.xml
     - Antタスクの定義ファイル [1]_ 。通常編集することはない。
@@ -42,7 +42,7 @@ JSP静的解析ツール 設定変更ガイド
       記述方法は、 :ref:`01_outputJspAnalysis` の「JSP解析(XMLレポート出力)」を参照。
 
   * - nablarch-archetype-parentのpom.xml
-    - jspanalysis.excludePatterns以外の設定を行う。
+    - jspanalysis.excludePatterns以外を設定する。
 
 
 

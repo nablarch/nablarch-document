@@ -107,6 +107,7 @@ Handlers that control the execution of the batch
   * :ref:`request_path_java_package_mapping`
   * :ref:`multi_thread_execution_handler`
   * :ref:`loop_handler`
+  * :ref:`dbless_loop_handler`
   * :ref:`retry_handler`
   * :ref:`process_resident_handler`
   * :ref:`process_stop_handler`
@@ -131,7 +132,9 @@ When building an on-demand batch, the minimum required handler queue is as below
 With this as the base, add standard handlers of Nablarch or custom handlers created
 in the project according to the project requirements.
 
-.. list-table:: Minimum handler configuration for on-demand batch
+If you connect to DB, this is the base.
+
+.. list-table:: Minimum handler configuration for on-demand batch (with DB connection)
    :header-rows: 1
    :class: white-space-normal
    :widths: 4,22,12,22,22,22
@@ -210,6 +213,64 @@ in the project according to the project requirements.
        Also, :ref:`the execution ID<log-execution_id>` is numbered.
      -
      - Outputs the read record as a log, and resends the original exception.
+
+If you don't connect to DB, you don't need DB connection-related handlers and you don't need transaction control in loop control handlers, so this is the base.
+
+.. list-table:: Minimum handler configuration for on-demand batch (without DB connection)
+   :header-rows: 1
+   :class: white-space-normal
+   :widths: 4,22,12,22,22,22
+
+   * - No.
+     - Handler
+     - Thread
+     - Request process
+     - Response process
+     - Exception handling
+
+   * - 1
+     - :ref:`status_code_convert_handler`
+     - Main
+     -
+     - Converts status code to process exit code.
+     -
+
+   * - 2
+     - :ref:`global_error_handler`
+     - Main
+     -
+     -
+     - Outputs log in the case of a runtime exception or error.
+
+   * - 3
+     - :ref:`request_path_java_package_mapping`
+     - Main
+     - Determine the action to invoke based on the command line arguments.
+     -
+     -
+
+   * - 4
+     - :ref:`multi_thread_execution_handler`
+     - Main
+     - Creates a sub thread and execute the process of the subsequent handler in parallel.
+     - Waits for normal termination of all threads.
+     - Waits for the current thread to complete and rethrows the cause exception.
+
+   * - 5
+     - :ref:`dbless_loop_handler`
+     - Sub
+     - 
+     - The loop is continued if the data to be processed is present in the data reader.
+     - 
+
+   * - 6
+     - :ref:`data_read_handler`
+     - Sub
+     - Uses a data reader to read records one by one and pass it as an argument of the subsequent handler.
+       Also, :ref:`the execution ID<log-execution_id>` is numbered.
+     -
+     - Outputs the read record as a log, and resends the original exception.
+
 
 Minimum handler configuration of resident batch
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -359,6 +420,9 @@ For details of each data reader, refer to the links.
  If the above data readers cannot meet the project requirements,
  create a class that implements the :java:extdoc:`DataReader <nablarch.fw.DataReader>` interface in the project.
 
+.. important::
+ Standard :java:extdoc:`FileDataReader (read file)<nablarch.fw.reader.FileDataReader>` and :java:extdoc:`ValidatableFileDataReader (read files with validation function)<nablarch.fw.reader.ValidatableFileDataReader>` use :ref:`data_format` to access data. Do not use these data readers if you use :ref:`data_bind` to access data.
+
 .. _nablarch_batch-action:
 
 Action used in the Nablarch batch application
@@ -370,3 +434,7 @@ For details of each action class, refer to the link.
 * :java:extdoc:`FileBatchAction (template class of batch action for file input)<nablarch.fw.action.FileBatchAction>`
 * :java:extdoc:`NoInputDataBatchAction (template class of batch action that does not use input data)<nablarch.fw.action.NoInputDataBatchAction>`
 * :java:extdoc:`AsyncMessageSendAction (action class for sending asynchronous message)<nablarch.fw.messaging.action.AsyncMessageSendAction>`
+
+.. important::
+ Standard :java:extdoc:`FileBatchAction (template class of batch action for file input)<nablarch.fw.action.FileBatchAction>` use :ref:`data_format` to access data. If you use :ref:`data_bind` to access data, use another action class.
+ 

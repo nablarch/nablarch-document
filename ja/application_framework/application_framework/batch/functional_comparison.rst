@@ -24,7 +24,7 @@ JSRに準拠したバッチアプリケーションとNablarchバッチアプリ
     - ○ |br| :java:extdoc:`Javadocへ <nablarch.fw.batch.ee.listener.job.DuplicateJobRunningCheckListener>`
     - ○ |br| :ref:`解説書へ <duplicate_process_check_handler>`
 
-  * - 実行中のバッチアプリケーションを |br| 外部から安全に停止することができる
+  * - 実行中のバッチアプリケーションを |br| 外部から安全に停止できる
     - JSR
     - ○ |br| :ref:`解説書へ <process_stop_handler>`
 
@@ -36,7 +36,7 @@ JSRに準拠したバッチアプリケーションとNablarchバッチアプリ
     - JSR
     - ○ |br| :ref:`解説書へ <loop_handler-commit_interval>`
 
-  * - 障害発生ポイントから再実行ができる
+  * - 障害発生ポイントから再実行できる
     - JSR
     - △ |br| [#resumable]_
 
@@ -44,7 +44,7 @@ JSRに準拠したバッチアプリケーションとNablarchバッチアプリ
     - JSR
     - ○ |br| :ref:`解説書へ <multi_thread_execution_handler>`
 
-  * - 特定の例外を無視して処理を継続することができる |br|
+  * - 特定の例外を無視して処理を継続できる |br|
       (ロールバック後に処理を継続できる)
     - JSR
     - × |br| [#skip_exception]_
@@ -71,14 +71,14 @@ JSRに準拠したバッチアプリケーションとNablarchバッチアプリ
 
 .. [#resumable]
   :java:extdoc:`ResumeDataReader (レジューム機能付き読み込み)<nablarch.fw.reader.ResumeDataReader>` を使用することで障害発生ポイントからの再実行が可能。
-  ただし、この機能はファイルを入力としている場合にのみ利用できる。それ以外のデータを入力とする場合には、アプリケーション側で設計及び実装が必要となる。
+  ただし、この機能はファイルを入力としている場合にのみ使用できる。それ以外のデータを入力とする場合には、アプリケーション側で設計及び実装が必要となる。
 
 .. [#skip_exception]
   特定例外を無視して処理を継続したい場合は、ハンドラを追加して対応すること。
 
 .. [#retry_exception]
-  :ref:`retry_handler` でリトライ可能例外の場合にリトライすることはできるが、JSR352のように例外が発生したデータの単純なリトライを行うことはできない。
-  :ref:`retry_handler` では、リトライ対象の例外を柔軟に指定することができない。
+  :ref:`retry_handler` でリトライ可能例外の場合にリトライできるが、JSR352のように例外が発生したデータの単純なリトライはできない。
+  :ref:`retry_handler` では、リトライ対象の例外を柔軟に指定できない。
 
   :ref:`retry_handler` で要件を満たすことができない(例外が発生したデータの単純なリトライや柔軟に例外を指定したい)場合は、ハンドラを追加して対応すること。
 
@@ -86,7 +86,7 @@ JSRに準拠したバッチアプリケーションとNablarchバッチアプリ
   ジョブスケジューラなどで対応すること。例えば、終了コードを元に次に実行するジョブを切り替える等の対応が必要になる。
 
 .. [#resident_batch]
-  JSR352に準拠したバッチアプリケーションでは、一定間隔で入力データソースを監視するようなバッチ処理を実現することができない。
+  JSR352に準拠したバッチアプリケーションでは、一定間隔で入力データソースを監視するようなバッチ処理は実現できない。
   このため、このようなバッチアプリケーションが必要となった場合は、 :ref:`Nablarchバッチアプリケーションの常駐バッチ  <nablarch_batch-resident_batch>` を使用して実現すること。
 
 .. |br| raw:: html

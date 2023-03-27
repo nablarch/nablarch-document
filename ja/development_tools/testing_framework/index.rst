@@ -11,7 +11,7 @@
    guide/development_guide/06_TestFWGuide/index
    guide/development_guide/08_TestTools/index
 
-テスティングフレームワークを利用して機能のテストを実装するテストの実装者は :ref:`unitTestGuide` を、
+テスティングフレームワークを使用して機能のテストを実装するテストの実装者は :ref:`unitTestGuide` を、
 テスティングフレームワークの導入をするアーキテクトは :ref:`testFWGuide` を参照してください。
 
 .. important::

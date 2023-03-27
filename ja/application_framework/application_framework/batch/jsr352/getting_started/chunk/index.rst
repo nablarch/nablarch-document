@@ -2,7 +2,7 @@
 
 データを導出するバッチの作成(Chunkステップ)
 ===============================================================
-Exampleアプリケーションを元に、既存データから計算を行い新たにデータを導出する :ref:`Chunkステップ<jsr352-batch_type_chunk>` 方式のバッチの解説を行う。
+Exampleアプリケーションを元に、既存データから計算を行い新たにデータを導出する :ref:`Chunkステップ<jsr352-batch_type_chunk>` 方式のバッチを解説する。
 
 作成する機能の概要
   .. image:: ../images/chunk/overview.png
@@ -36,7 +36,7 @@ Exampleアプリケーションを元に、既存データから計算を行い�
 
 データを導出する
 -------------------
-既存データから計算を行い、新たにデータを導出するバッチの実装方法を以下の順に説明する。
+既存データから新たにデータを導出するバッチの実装方法を以下の順に説明する。
 
 #. :ref:`getting_started_chunk-read`
 #. :ref:`getting_started_chunk-business_logic`
@@ -62,7 +62,7 @@ Exampleアプリケーションを元に、既存データから計算を行い�
 
 フォームの作成
   Chunkステップでは、 :java:extdoc:`ItemReader<javax.batch.api.chunk.ItemReader>` と
-  :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>` とのデータ連携にフォームを利用する。
+  :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>` とのデータ連携にフォームを使用する。
 
   EmployeeForm.java
     .. code-block:: java

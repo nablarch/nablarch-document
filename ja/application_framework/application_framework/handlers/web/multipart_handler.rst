@@ -47,7 +47,7 @@ HTTPリクエストがマルチパート形式の場合に、ボディ部を解�
 
 このハンドラの動作条件
 --------------------------------------------------
-このハンドラはマルチパート形式のリクエストの場合のみ、リクエストボディの解析を行う。マルチパート形式かどうかは、リクエストヘッダーの ``Content-Type`` で判断する。
+このハンドラはマルチパート形式のリクエストの場合のみ、リクエストボディを解析する。マルチパート形式かどうかは、リクエストヘッダの ``Content-Type`` で判断する。
 
 ``Content-Type`` が ``multipart/form-data`` と一致する場合は、リクエストがマルチパート形式だと判断し、ボディの解析処理を行う。
 それ以外の場合には、このハンドラは何もせずに後続のハンドラに処理を委譲する。
@@ -88,9 +88,10 @@ HTTPリクエストがマルチパート形式の場合に、ボディ部を解�
 巨大なファイルのアップロードを防ぐ
 --------------------------------------------------
 巨大なファイルをアップロードされると、ディスクリソースが枯渇するなどが原因でシステムが正常に稼働しなくなる可能性がある。
-このため、このハンドラではアップロードサイズの上限を超過した場合には、400(BadRequest)をクライアントに返却する。
+このため、このハンドラではアップロードサイズの上限を超過した場合には、413(Payload Too Large)をクライアントに返却する。
 
 アップロードサイズの上限は、バイト数で設定する。設定を省略した場合は、無制限となる。
+DoS攻撃を防ぐためにも、アップロードサイズの上限は常に設定しておくこと。
 
 以下にアップロードサイズの設定例を示す。
 
@@ -99,7 +100,7 @@ HTTPリクエストがマルチパート形式の場合に、ボディ部を解�
   <component class="nablarch.fw.web.upload.MultipartHandler" name="multipartHandler">
     <property name="uploadSettings">
       <component class="nablarch.fw.web.upload.UploadSettings">
-        <!-- アップロードサイズ(Content-Length)の上限(約10M) -->
+        <!-- アップロードサイズ(Content-Length)の上限(約1MB) -->
         <property name="contentLengthLimit" value="1000000" />
       </component>
     </property>
@@ -113,6 +114,32 @@ HTTPリクエストがマルチパート形式の場合に、ボディ部を解�
   このため、複数のファイルをアップロードした場合には、それらのファイルサイズの合計値(厳密には、Content-Length)により、上限チェックが実施される。
 
   もし、ファイル単位でサイズチェックをする必要がある場合には、アクション側で実装すること。
+
+.. _multipart_handler-max_file_count:
+
+ファイルの大量アップロードを防ぐ
+--------------------------------------------------
+アップロードサイズの上限を設定しても、1つ1つのファイルサイズを小さくすることで一度に大量のファイルをアップロードできる。
+不必要な処理を減らすため、マルチパートリクエストハンドラでは一度にアップロードできるファイル数に上限を設定できるようになっている。
+上限を超えるファイルがアップロードされた場合、このハンドラは400(Bad Request)を返す。
+
+以下に設定例を示す。
+
+.. code-block:: xml
+
+  <component class="nablarch.fw.web.upload.MultipartHandler" name="multipartHandler">
+    <property name="uploadSettings">
+      <component class="nablarch.fw.web.upload.UploadSettings">
+        <!-- アップロードファイル数の上限 -->
+        <property name="maxFileCount" value="100" />
+      </component>
+    </property>
+  </component>
+
+``maxFileCount`` に0以上の値を設定すると、その値が一度にアップロードできるファイル数の上限となる。
+負数を設定した場合は無制限となる。
+未設定の場合はデフォルトで-1となる。
+
 
 一時ファイルの削除（クリーニング）を行う
 --------------------------------------------------
@@ -138,12 +165,12 @@ HTTPリクエストがマルチパート形式の場合に、ボディ部を解�
 .. important::
 
   このハンドラは、:ref:`session_store_handler-constraint` にあるとおり、 :ref:`session_store_handler` より手前に設定する必要がある。
-  このため、 :ref:`session_store_handler` の後続に設定される :ref:`http_error_handler` の :ref:`HttpErrorHandler_DefaultPage` は使用することができない。
+  このため、 :ref:`session_store_handler` の後続に設定される :ref:`http_error_handler` の :ref:`HttpErrorHandler_DefaultPage` は使用できない。
 
 .. [#part_error]
   マルチパート解析エラーが発生するケース
 
-  * アップロード中にクライアントからの切断要求があり、ボディー部が不完全な場合
+  * アップロード中にクライアントからの切断要求があり、ボディ部が不完全な場合
   * バウンダリーが存在しない
 
 .. _multipart_handler-read_upload_file:

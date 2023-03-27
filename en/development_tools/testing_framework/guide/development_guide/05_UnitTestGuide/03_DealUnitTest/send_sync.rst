@@ -41,6 +41,8 @@ The mockup class provides the following functions.
 
 Using the mockup class eliminates the need to prepare queues, and unit tests can be conducted without installing special middleware or configuring the environment.
 
+.. [#f1]
+ A message sent to a queue is called a "request message" and a message received from a queue is called a "response message".
 
 -------------------------------------------------------------------------------------
 How to run a subfunction unit test using a mockup class
@@ -81,8 +83,8 @@ Example of description
 A description example for Excel file is shown below.
 
 
-.. image:: ./_images/send_sync_test_data.png
-    :scale: 70
+.. image:: ./_images/send_sync_test_data.jpg
+    :width: 100%
 
 .. _send_sync_test_data_format:
 
@@ -215,31 +217,6 @@ A description example is shown below.
  .. image:: ./_images/send_sync_test_data_error.png
 
 
-.. _send_sync_test_data_path:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Configure the location of the Excel file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The location path of the Excel file is configured in filepath.config as shown in the following example.
-
-The Excel file is placed in the directory specified in this path. If this location has been changed, correct the path.
-
- .. code-block:: bash
-  
-  # Excel file path
-  file.path.send.sync.test.data=file:///C:/nablarch/workspace/Nablarch_sample/test/message
-
-
-A deployment image of an Excel file is shown below.
-
- .. image:: ./_images/send_sync_test_data_structure.png
-
-.. tip::
-
- It is recommended that the path of the deployment directory be specified by the file system path (file:) instead of the classpath (classpath:). 
- By specifying the file system path, the contents of an Excel file can be edited and tested directly while the server is running.
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Log output of the request message
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -300,6 +277,10 @@ The log output is configured in log.properties. The configuration example shown 
 Configuring the classes to be used in the framework
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+These settings are required only for subfunction unit test.
+Therefore, set these in the test profile.
+For How to switch components in each environment, see :ref:`how_to_change_componet_define` .
+
 Usually, the classes are configured by the architect and do not need to be set by the application programmer.
 
 
@@ -316,35 +297,41 @@ Configure mockup class to be used in subfunction unit test in the component conf
       </component>
 
 
+.. _send_sync_test_data_path:
 
-Configure the property file path to describe the location of the Excel file.
+Configure the location of the Excel file.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In the component configuration file, configure the path of the property file that describes the path where the Excel file is placed, and the property key.
+In the component configuration file, configure the path where the Excel file is placed.
 
  .. code-block:: xml
-
-    <!-- Specify the path of the property file that describes the path to the Excel file location  -->
-    <config-file file="web/filepath.config" />
   
     <component name="filePathSetting"
              class="nablarch.core.util.FilePathSetting" autowireType="None">
        <property name="basePathSettings">
          <map>
-           <!- Specify the key name of the property that describes the path to the location of the Excel file -->
-           <entry key="sendSyncTestData" value="${file.path.send.sync.test.data}" />
+           <!-- Specify the path to the location of the Excel file -->
+           <entry key="sendSyncTestData" value="file:///C:/nablarch/workspace/Nablarch_sample/test/message" />
            <entry key="format" value="classpath:web/format" /> 
          </map>
        </property>
        <property name="fileExtensions">
          <map>
-           <!- Define the extension (xlsx) of an Excel file -->
+           <!-- Define the extension (xlsx) of an Excel file -->
            <entry key="sendSyncTestData" value="xlsx" />
            <entry key="format" value="fmt" />
          </map>
        </property>
     </component>
 
+A deployment image of an Excel file is shown below.
+
+ .. image:: ./_images/send_sync_test_data_structure.png
+
+.. tip::
+
+ It is recommended that the path of the deployment directory be specified by the file system path (file:) instead of the classpath (classpath:). 
+ By specifying the file system path, the contents of an Excel file can be edited and tested directly while the server is running.
 
 Configuring the test data analysis class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -394,26 +381,3 @@ Add the following dependency to pom.xml
             </exclusion>
           </exclusions>
         </dependency>
-
-
-
-Configuring the library to be used for subfunction unit test
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The following jar files are required be passed to the classpath of application server in the subfunction unit test.
-
- * nablarch-tfw.jar
- * Apache POI jar
-
-The classpath of jar is configured by default in the standard sample applications provided by Nablarch. 
-Specifically, these jars are placed in the test/lib directory of the sample application, and the classpath is configured using the Eclipse function as shown below.
-
-.. image:: ./_images/send_sync_jar_path.png
-
-Since the jars are used only for the unit tests, it is recommended to place the jars in another directory instead of WEB-INF/lib as in the above example.
-
------------
-
-.. [#f1] 
- A message sent to a queue is called a "request message" and a message received from a queue is called a "response message".
- 

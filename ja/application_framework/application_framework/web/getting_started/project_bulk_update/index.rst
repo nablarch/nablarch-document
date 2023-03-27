@@ -2,7 +2,7 @@
 
 一括更新機能の作成
 ==========================================
-Exampleアプリケーションを元に一括更新機能の解説を行う。
+Exampleアプリケーションを元に一括更新機能を解説する。
 
 作成する機能の説明
   1. メニューの一括更新リンクを押下し、一括更新画面へ遷移する。
@@ -54,15 +54,15 @@ Exampleアプリケーションを元に一括更新機能の解説を行う。
   更新フォームの作成
     複数のプロジェクトの更新情報を一括で送信するため、フォームを2種類作成する。
 
-      #. :ref:`プロジェクト一つ分の更新情報を受け付けるフォーム<project_bulk_update-create_single_pj_form>`
-      #. :ref:`プロジェクト一つ分のフォームのリストをプロパティとして持つ親フォーム<project_bulk_update-create_multi_pj_form>`
+      #. :ref:`プロジェクト１つ分の更新情報を受け付けるフォーム<project_bulk_update-create_single_pj_form>`
+      #. :ref:`プロジェクト１つ分のフォームのリストをプロパティとして持つ親フォーム<project_bulk_update-create_multi_pj_form>`
 
         .. image:: ../images/project_bulk_update/project_bulk_update-form.png
 
     .. _`project_bulk_update-create_single_pj_form`:
 
-    プロジェクト一つ分の更新情報を受け付けるフォーム
-      プロジェクト一つ分の更新値を受け付けるフォームを作成する。
+    プロジェクト１つ分の更新情報を受け付けるフォーム
+      プロジェクト１つ分の更新値を受け付けるフォームを作成する。
 
         InnerProjectForm.java
           .. code-block:: java
@@ -86,8 +86,8 @@ Exampleアプリケーションを元に一括更新機能の解説を行う。
 
     .. _`project_bulk_update-create_multi_pj_form`:
 
-    プロジェクト一つ分のフォームのリストをプロパティとして持つ親フォーム
-      複数プロジェクトの更新情報を一括で受け付けるために、プロジェクト一つ分の更新情報を受け付けるフォームのリストを定義した親フォームを作成する。
+    プロジェクト１つ分のフォームのリストをプロパティとして持つ親フォーム
+      複数プロジェクトの更新情報を一括で受け付けるために、プロジェクト１つ分の更新情報を受け付けるフォームのリストを定義した親フォームを作成する。
 
       ProjectBulkForm.java
         .. code-block:: java
@@ -163,7 +163,7 @@ Exampleアプリケーションを元に一括更新機能の解説を行う。
 .. _`project_bulk_update-update_jsp`:
 
 一括更新画面JSPの作成
-  検索結果の表示と複数のプロジェクトの情報の編集を行う、一括更新画面のJSPを作成する。
+  検索結果の表示と複数のプロジェクトの情報を編集する、一括更新画面のJSPを作成する。
 
   /src/main/webapp/WEB-INF/projectBulk/update.jsp
     .. code-block:: jsp
@@ -235,8 +235,8 @@ Exampleアプリケーションを元に一括更新機能の解説を行う。
 
 .. _`project_bulk_update-confirm_action`:
 
-更新内容の確認を行う業務アクションメソッドの作成
-  更新内容の確認を行う業務アクションメソッドを作成する。
+更新内容を確認する業務アクションメソッドの作成
+  更新内容を確認する業務アクションメソッドを作成する。
 
   ProjectBulkAction.java
     .. code-block:: java

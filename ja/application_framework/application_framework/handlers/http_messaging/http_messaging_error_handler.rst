@@ -14,7 +14,7 @@ HTTPメッセージングエラー制御ハンドラ
 * 例外(エラー)に応じたログ出力とレスポンスの生成を行う。
   詳細は、 :ref:`http_messaging_error_handler-error_response_and_log` を参照。
 
-* デフォルトのレスポンスボディの設定を行う。
+* デフォルトのレスポンスボディを設定する。
   詳細は、 :ref:`http_messaging_error_handler-default_page` を参照。
 
 処理の流れは以下のとおり。
@@ -43,7 +43,7 @@ HTTPメッセージングエラー制御ハンドラ
 
 .. _http_messaging_error_handler-error_response_and_log:
 
-例外の種類に応じたログ出力処理とレスポンスの生成
+例外の種類に応じたログ出力とレスポンス生成
 --------------------------------------------------------------
 :java:extdoc:`nablarch.fw.NoMoreHandlerException`
   :ログレベル: INFO

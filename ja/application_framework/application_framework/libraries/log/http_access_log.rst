@@ -8,7 +8,7 @@ HTTPアクセスログの出力
   :local:
 
 HTTPアクセスログは、フレームワークが提供するハンドラを使用して出力する。
-アプリケーションでは、ハンドラの設定を行うことでHTTPアクセスログを出力する。
+アプリケーションでは、ハンドラを設定することでHTTPアクセスログを出力する。
 
 HTTPアクセスログの出力に必要となるハンドラは以下のとおり。
 
@@ -101,7 +101,7 @@ app-log.propertiesの設定例
 
 .. _http_access_log-setting:
 
-HTTPアクセスログの設定を行う
+HTTPアクセスログの設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明したプロパティファイルに行う。
 
@@ -248,22 +248,22 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
  httpAccessLogFormatter.beginOutputEnabled
   リクエスト処理開始時の出力が有効か否か。
   デフォルトはtrue。
-  falseを指定するとリクエスト処理開始時の出力を行わない。
+  falseを指定するとリクエスト処理開始時に出力しない。
 
  httpAccessLogFormatter.parametersOutputEnabled
   hiddenパラメータ復号後の出力が有効か否か。
   デフォルトはtrue。
-  falseを指定するとhiddenパラメータ復号後の出力を行わない。
+  falseを指定するとhiddenパラメータ復号後に出力しない。
 
  httpAccessLogFormatter.dispatchingClassOutputEnabled
   ディスパッチ先クラス決定後の出力が有効か否か。
   デフォルトはtrue。
-  falseを指定するとディスパッチ先クラス決定後の出力を行わない。
+  falseを指定するとディスパッチ先クラス決定後に出力しない。
 
  httpAccessLogFormatter.endOutputEnabled
   リクエスト処理終了時の出力が有効か否か。
   デフォルトはtrue。
-  falseを指定するとリクエスト処理終了時の出力を行わない。
+  falseを指定するとリクエスト処理終了時に出力しない。
 
 記述例
  .. code-block:: properties
@@ -287,7 +287,7 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
 
 JSON形式の構造化ログとして出力する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:ref:`log-json_log_setting` 設定を行うことでログをJSON形式で出力できるが、
+:ref:`log-json_log_setting` 設定によりログをJSON形式で出力できるが、
 :java:extdoc:`HttpAccessLogFormatter <nablarch.fw.web.handler.HttpAccessLogFormatter>` では
 HTTPアクセスログの各項目はmessageの値に文字列として出力される。
 HTTPアクセスログの各項目もJSONの値として出力するには、
@@ -384,22 +384,22 @@ HTTPアクセスログの各項目もJSONの値として出力するには、
  httpAccessLogFormatter.beginOutputEnabled
   リクエスト処理開始時の出力が有効か否か。
   デフォルトはtrue。
-  falseを指定するとリクエスト処理開始時の出力を行わない。
+  falseを指定するとリクエスト処理開始時に出力しない。
 
  httpAccessLogFormatter.parametersOutputEnabled
   hiddenパラメータ復号後の出力が有効か否か。
   デフォルトはtrue。
-  falseを指定するとhiddenパラメータ復号後の出力を行わない。
+  falseを指定するとhiddenパラメータ復号後に出力しない。
 
  httpAccessLogFormatter.dispatchingClassOutputEnabled
   ディスパッチ先クラス決定後の出力が有効か否か。
   デフォルトはtrue。
-  falseを指定するとディスパッチ先クラス決定後の出力を行わない。
+  falseを指定するとディスパッチ先クラス決定後に出力しない。
 
  httpAccessLogFormatter.endOutputEnabled
   リクエスト処理終了時の出力が有効か否か。
   デフォルトはtrue。
-  falseを指定するとリクエスト処理終了時の出力を行わない。
+  falseを指定するとリクエスト処理終了時に出力しない。
 
  httpAccessLogFormatter.beginLabel
   リクエスト処理開始時ログのlabelに出力する値。
