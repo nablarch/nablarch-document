@@ -14,7 +14,7 @@ Nablarch 5と6で異なる点
 Nablarch 6がNablarch 5と比べて大きく異なっている点に、Jakarta EE 10に対応していることが挙げられる。
 
 Jakarta EEとは、Java EEがEclipse Foundationに移管された後の名前で、Java EEの後継となる。
-基本的にはJava EEの仕様がそのまま移管されているが、Jakarta EE 9でパッケージが ``javax.*`` から ``jakarta.*`` になるという大きな変更が入っている。
+基本的にはJava EEの仕様がそのまま移管されているが、Jakarta EE 9で名前空間が ``javax.*`` から ``jakarta.*`` になるという大きな変更が入っている。
 
 したがって、Nablarch 5で作られたプロジェクトをNablarch 6にバージョンアップするためには、プロジェクトにもこれと同様の対応を行う必要がある。
 
@@ -40,7 +40,7 @@ Nablarch 5のプロジェクトをNablarch 6に上げるためには、大まか
 1つ目の「Nablarchのバージョンアップ」は、プロジェクトで使用しているNablarchのバージョンを5から6に変更することを指す。
 
 2つ目の「Jakarta EE対応」は、プロジェクトをJakarta EE 10に対応させることを指す。
-これには、Jakarta EE 9で入ったパッケージの変更対応や、Java EEに依存しているライブラリをJakarta EE対応版に変更する対応が含まれる。
+これには、Jakarta EE 9で入った名前空間の変更対応や、Java EEに依存しているライブラリをJakarta EE対応版に変更する対応が含まれる。
 
 以下で、それぞれの具体的な手順について説明する。
 
@@ -335,35 +335,35 @@ nablarch-example-webの場合は、 ``src/test/resources/unit-test.xml`` に上�
 
 以上で、NTF実行時に起動される組み込みサーバがJakarta EE対応版に切り替わる。
 
-javaxパッケージをjakartaパッケージに変更する
+javax名前空間をjakarta名前空間に変更する
 -----------------------------------------------------------------
 
-Jakarta EE 9で入ったパッケージ変更の対応を、アプリケーションのコードにも実施する。
-パッケージ変更対応の大まかな流れを以下に記載する。
+Jakarta EE 9で入った名前空間の変更の対応を、アプリケーションのコードにも実施する。
+名前空間の変更対応の大まかな流れを以下に記載する。
 
 1. プロジェクト全体を ``javax`` でGrep検索する
-2. 検索で見つかった箇所に関して、Java EEのパッケージかどうか判定する
-3. Java EEのパッケージである場合は、 ``javax`` を ``jakarta`` に置換する
+2. 検索で見つかった箇所に関して、Java EEの名前空間かどうか判定する
+3. Java EEの名前空間である場合は、 ``javax`` を ``jakarta`` に置換する
 
 以下で、詳細について説明する。
 
 ``javax`` の記述は、多くの場合はJavaソースコード上の ``import`` 文に現れる。
-ここまでの修正でJava EEの依存関係がなくなりJakarta EEの依存関係に置き換わっているため、 ``javax`` パッケージで ``import`` している部分はコンパイルエラーが発生するようになっている。
+ここまでの修正でJava EEの依存関係がなくなりJakarta EEの依存関係に置き換わっているため、 ``javax`` 名前空間で ``import`` している部分はコンパイルエラーが発生するようになっている。
 
 しかし、 ``javax`` が現れるのは ``import`` 文だけとは限らず、コンパイルエラーにならない場所にも存在する可能性がある。
 たとえば、Java Servletでフォワード元のリクエストURIを取得するためのキー ``javax.servlet.forward.request_uri`` は文字列で指定するため、コンパイルエラーにはならない（このキーは、Jakarta Servletでは ``jakarta.servlet.forward.request_uri`` に変える必要がある）。
 他にも、JSPや設定ファイルの中に記述されている場合も、コンパイルエラーにはならないが修正対象となる。
 
-したがって ``javax`` パッケージの有無を調査するには、プロジェクト全体に対してGrep検索を行わなければならない。
+したがって ``javax`` 名前空間の有無を調査するには、プロジェクト全体に対してGrep検索を行わなければならない。
 
-次に、 ``javax`` で検索にヒットした箇所について、それが本当にJava EEのパッケージであるかどうかを判定する。
+次に、 ``javax`` で検索にヒットした箇所について、それが本当にJava EEの名前空間であるかどうかを判定する。
 例えば、nablarch-example-webを ``javax`` で検索すると、以下のような記述がヒットする。
 
 .. code-block:: java
 
   import javax.validation.ConstraintValidator;
 
-これは、Bean Validationのクラスを ``import`` している箇所なので、Java EEのパッケージと判断できる。
+これは、Bean Validationのクラスを ``import`` している箇所なので、Java EEの名前空間と判断できる。
 
 一方で、以下のような記述もヒットする。
 
@@ -371,12 +371,12 @@ Jakarta EE 9で入ったパッケージ変更の対応を、アプリケーシ�
 
   import javax.crypto.SecretKeyFactory;
 
-これは標準ライブラリに含まれる暗号処理に関するクラスを ``import`` している箇所になるので、Java EEのパッケージではない。
+これは標準ライブラリに含まれる暗号処理に関するクラスを ``import`` している箇所になるので、Java EEの名前空間ではない。
 
-このように、 ``javax`` でヒットしたからといって、それらが全てJava EEのパッケージとは一概には判断できない。
-本ページ付録の :ref:`java_ee_jakarta_ee_comparation` に各仕様のパッケージを記載しているので、これを参考にヒットした ``javax`` がJava EEのものか判断すること。
+このように、 ``javax`` でヒットしたからといって、それらが全てJava EEの名前空間とは一概には判断できない。
+本ページ付録の :ref:`java_ee_jakarta_ee_comparation` に各仕様の名前空間を記載しているので、これを参考にヒットした ``javax`` がJava EEのものか判断すること。
 
-Java EEのパッケージであると判断できた場合は、 ``javax`` の部分を ``jakarta`` に置換する。
+Java EEの名前空間であると判断できた場合は、 ``javax`` の部分を ``jakarta`` に置換する。
 以下は、前述の ``import`` を ``jakarta`` に置換した場合の例になる。
 
 .. code-block:: java
@@ -597,7 +597,7 @@ Java EEとJakarta EEの仕様の対応表
 
     * - Java EE
       - 省略名
-      - パッケージプレフィックス
+      - 名前空間プレフィックス
       - Jakarta EE
     * - Java Servlet
       - 

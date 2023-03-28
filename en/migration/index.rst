@@ -14,7 +14,7 @@ Differences between Nablarch 5 and 6
 One of the major differences between Nablarch 6 and Nablarch 5 is that it supports Jakarta EE 10.
 
 Jakarta EE is the name after Java EE was transferred to the Eclipse Foundation and is the successor to Java EE.
-Basically, the Java EE specifications have been transferred as they are, but with Jakarta EE 9, there has been a major change in that the package has changed from ``javax.*`` to ``jakarta.*``.
+Basically, the Java EE specifications have been transferred as they are, but with Jakarta EE 9, there has been a major change in that the namespace has changed from ``javax.*`` to ``jakarta.*``.
 
 Therefore, in order to upgrade a project created with Nablarch 5 to Nablarch 6, it is necessary to do the same for the project.
 
@@ -40,7 +40,7 @@ To get a Nablarch 5 project up to Nablarch 6, roughly two modifications are requ
 The first "Nablarch version upgrade" refers to changing the version of Nablarch used in the project from 5 to 6.
 
 The second, "Compatible with Jakarta EE", refers to making the project compatible with Jakarta EE 10.
-This includes changes to packages introduced in Jakarta EE 9, and changes libraries that depend on Java EE to Jakarta EE-compatible versions.
+This includes changes to namespaces introduced in Jakarta EE 9, and changes libraries that depend on Java EE to Jakarta EE-compatible versions.
 
 Each specific procedure will be described below.
 
@@ -335,35 +335,35 @@ In case of nablarch-example-web, the above settings exist in ``src/test/resource
 
 With the above, the embedded server that is started when NTF is executed is switched to the version that supports Jakarta EE.
 
-Change javax package to jakarta package
+Change javax namespace to jakarta namespace
 -----------------------------------------------------------------
 
-The package changes that came with Jakarta EE 9 will also be applied to the application code.
-The general flow of handling package changes is described below.
+The namespace changes that came with Jakarta EE 9 will also be applied to the application code.
+The general flow of handling namespace changes is described below.
 
 1. Grep the whole project with ``javax``
-2. Judge whether the location found in the search is a Java EE package
-3. If it is a Java EE package, replace ``javax`` with ``jakarta``
+2. Judge whether the location found in the search is a Java EE namespace
+3. If it is a Java EE namespace, replace ``javax`` with ``jakarta``
 
 Details are described below.
 
 ``javax`` descriptions often appear in ``import`` statements in Java source code.
-With the modifications made so far, Java EE dependencies have been removed and replaced with Jakarta EE dependencies, so ``import`` in the ``javax`` package causes compilation errors.
+With the modifications made so far, Java EE dependencies have been removed and replaced with Jakarta EE dependencies, so ``import`` in the ``javax`` namespace causes compilation errors.
 
 However, ``javax`` appears not only in ``import`` statements, but also in places where compilation errors do not occur.
 For example, the key ``javax.servlet.forward.request_uri`` for obtaining the request URI before forwarding in Java Servlet is specified as a character string, so a compilation error does not occur (This key should be changed to ``jakarta.servlet.forward.request_uri`` for Jakarta Servlet).
 In addition, even if it is described in JSP or configuration file, it will not be a compilation error, but it will be subject to correction.
 
-Therefore, to check for the presence of the ``javax`` package, you must do a Grep search of the entire project.
+Therefore, to check for the presence of the ``javax`` namespace, you must do a Grep search of the entire project.
 
-Next, for the location hit by ``javax``, determine whether it is really a Java EE package.
+Next, for the location hit by ``javax``, determine whether it is really a Java EE namespace.
 For example, if you search nablarch-example-web with ``javax``, the following description will be hit.
 
 .. code-block:: java
 
   import javax.validation.ConstraintValidator;
 
-This is where the Bean Validation class is ``import``, so it can be judged as a Java EE package.
+This is where the Bean Validation class is ``import``, so it can be judged as a Java EE namespace.
 
 On the other hand, the following description also hits.
 
@@ -371,12 +371,12 @@ On the other hand, the following description also hits.
 
   import javax.crypto.SecretKeyFactory;
 
-This is not a Java EE package because it imports the classes related to cryptographic processing included in the standard library.
+This is not a Java EE namespace because it imports the classes related to cryptographic processing included in the standard library.
 
-In this way, even if ``javax`` is hit, you cannot simply judge that they are all Java EE packages.
-Packages for each specification are listed in the appendix :ref:`java_ee_jakarta_ee_comparation` on this page, so refer to this to determine if the hit ``javax`` is Java EE.
+In this way, even if ``javax`` is hit, you cannot simply judge that they are all Java EE namespaces.
+Namespaces for each specification are listed in the appendix :ref:`java_ee_jakarta_ee_comparation` on this page, so refer to this to determine if the hit ``javax`` is Java EE.
 
-If it can be determined that it is a Java EE package, replace ``javax`` with ``jakarta``.
+If it can be determined that it is a Java EE namespace, replace ``javax`` with ``jakarta``.
 Below is an example of replacing ``import`` with ``jakarta``.
 
 .. code-block:: java
@@ -597,7 +597,7 @@ Correspondence table between Java EE and Jakarta EE specifications
 
     * - Java EE
       - Short name
-      - Package prefix
+      - Namespace prefix
       - Jakarta EE
     * - Java Servlet
       - 
