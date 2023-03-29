@@ -67,7 +67,7 @@ This section compares the following features:
 
 .. [#jsr_max]
   The property to specify the maximum number to read in a single run
-  can be included in the implementation class :java:extdoc:`ItemReader <javax.batch.api.chunk.ItemReader>`.
+  can be included in the implementation class :java:extdoc:`ItemReader <jakarta.batch.api.chunk.ItemReader>`.
 
 .. [#resumable]
   Re-execution from the point of failure is possible by using

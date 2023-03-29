@@ -79,7 +79,7 @@ Configure settings to use Bean Validation
 The configuration required to use Bean Validation are shown below.
 
 MessageInterpolator configuration
-  Configure the class that constructs the message when validation errors occur in Bean Validation (a class that implements :java:extdoc:`MessageInterpolator <javax.validation.MessageInterpolator>`).
+  Configure the class that constructs the message when validation errors occur in Bean Validation (a class that implements :java:extdoc:`MessageInterpolator <jakarta.validation.MessageInterpolator>`).
 
   If this is not configured, then :java:extdoc:`NablarchMessageInterpolator <nablarch.core.validation.ee.NablarchMessageInterpolator>` which uses :ref:`message` is used.
 
@@ -149,7 +149,7 @@ Message definition example
 
 .. tip::
   When the default behavior is changed in :ref:`bean_validation-configuration`,
-  the message is defined according to the :java:extdoc:`MessageInterpolator <javax.validation.MessageInterpolator>` implementation.
+  the message is defined according to the :java:extdoc:`MessageInterpolator <jakarta.validation.MessageInterpolator>` implementation.
 
 
 How to configure validation rules
@@ -396,7 +396,7 @@ Allowing Surrogate Pairs
 
 Performing Correlation Validation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-To perform correlation validation using multiple items, use the :java:extdoc:`@AssertTrue <javax.validation.constraints.AssertTrue>` annotation of Bean Validation.
+To perform correlation validation using multiple items, use the :java:extdoc:`@AssertTrue <jakarta.validation.constraints.AssertTrue>` annotation of Bean Validation.
 
 Implementation examples
   In this example, it has been verified that the email address and the confirmation email address match.

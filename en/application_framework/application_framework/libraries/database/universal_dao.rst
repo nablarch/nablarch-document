@@ -251,7 +251,7 @@ When numbering the surrogate keys, use the following annotations.
 * :ref:`@SequenceGenerator <universal_dao_jpa_sequence_generator>`
 * :ref:`@TableGenerator <universal_dao_jpa_table_generator>`
 
-Universal DAO supports all strategies of :java:extdoc:`javax.persistence.GenerationType`.
+Universal DAO supports all strategies of :java:extdoc:`jakarta.persistence.GenerationType`.
 
 GenerationType.AUTO
  \
@@ -345,7 +345,7 @@ Optimistic locking
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Universal DAO automatically performs optimistic locking
 when an Entity with :ref:`@Version <universal_dao_jpa_version>` is updated.
-Throws :java:extdoc:`javax.persistence.OptimisticLockException` if an exclusive error occurs in optimistic locking.
+Throws :java:extdoc:`jakarta.persistence.OptimisticLockException` if an exclusive error occurs in optimistic locking.
 
 .. important::
  :ref:`@Version <universal_dao_jpa_version>` can be specified only for numeric type properties.

@@ -72,9 +72,9 @@ Batchletの作成
    ==================================================================   =============================================================================================
    インタフェース                                                       実装
    ==================================================================   =============================================================================================
-   :java:extdoc:`Batchlet<javax.batch.api.Batchlet>`                    バッチ処理を実装する。
+   :java:extdoc:`Batchlet<jakarta.batch.api.Batchlet>`                    バッチ処理を実装する。
 
-                                                                        デフォルト実装を提供する :java:extdoc:`AbstractBatchlet<javax.batch.api.AbstractBatchlet>` を継承する。
+                                                                        デフォルト実装を提供する :java:extdoc:`AbstractBatchlet<jakarta.batch.api.AbstractBatchlet>` を継承する。
 
                                                                           * `Batchlet#process`
                                                                           * `Batchlet#stop`
@@ -109,11 +109,11 @@ Batchletの作成
       }
 
     この実装のポイント
-      * :java:extdoc:`AbstractBatchlet<javax.batch.api.AbstractBatchlet>` を継承し、 `process` メソッドで業務処理を行う。
+      * :java:extdoc:`AbstractBatchlet<jakarta.batch.api.AbstractBatchlet>` を継承し、 `process` メソッドで業務処理を行う。
 
       .. _getting_started_batchlet-cdi:
 
-      * :java:extdoc:`Named<javax.inject.Named>` と :java:extdoc:`Dependent<javax.enterprise.context.Dependent>` をクラスに付与する。 |br|
+      * :java:extdoc:`Named<jakarta.inject.Named>` と :java:extdoc:`Dependent<jakarta.enterprise.context.Dependent>` をクラスに付与する。 |br|
         Named及びDependentアノテーションを設定することで、Batchlet実装クラスをCDIの管理Beanにできる。
         これにより、ジョブ定義に指定するBatchletクラス名をCDIの管理名で記述出来るようになる。 |br|
         (CDI管理Beanとしなかった場合は、完全修飾名(FQCN)で記述する)

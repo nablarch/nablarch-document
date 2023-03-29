@@ -46,7 +46,7 @@ Configure this handler after the :ref:`body_convert_handler`
 Execute validation for Form (Bean) received by resource (action)
 ----------------------------------------------------------------------------------------------------
 To validate the Form (Bean) received by the resource (action) method,
-configure :java:extdoc:`Valid <javax.validation.Valid>` annotation for that method.
+configure :java:extdoc:`Valid <jakarta.validation.Valid>` annotation for that method.
 
 An example is shown below.
 

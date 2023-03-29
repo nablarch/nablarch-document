@@ -79,7 +79,7 @@ Bean Validationを使うための設定
 Bean Validationを使うために必要となる設定を以下に示す。
 
 MessageInterpolatorの設定
-  Bean Validationでバリデーションエラーが発生した際のメッセージを構築するクラス( :java:extdoc:`MessageInterpolator <javax.validation.MessageInterpolator>` を実装したクラス)を設定する。
+  Bean Validationでバリデーションエラーが発生した際のメッセージを構築するクラス( :java:extdoc:`MessageInterpolator <jakarta.validation.MessageInterpolator>` を実装したクラス)を設定する。
 
   設定を省略した場合(デフォルト)は、 :ref:`message` を使用する :java:extdoc:`NablarchMessageInterpolator <nablarch.core.validation.ee.NablarchMessageInterpolator>` が使用される。
 
@@ -149,7 +149,7 @@ Java実装例
 
 .. tip:: 
   :ref:`bean_validation-configuration` で、デフォルト動作を変更している場合には、
-  :java:extdoc:`MessageInterpolator <javax.validation.MessageInterpolator>` の実装に従いメッセージを定義すること。
+  :java:extdoc:`MessageInterpolator <jakarta.validation.MessageInterpolator>` の実装に従いメッセージを定義すること。
 
 
 バリデーションルールの設定方法
@@ -396,7 +396,7 @@ Java実装例
 
 相関バリデーションを行う
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-複数の項目を使用した相関バリデーションを行うには、Bean Validationの :java:extdoc:`@AssertTrue <javax.validation.constraints.AssertTrue>` アノテーションを使用する。
+複数の項目を使用した相関バリデーションを行うには、Bean Validationの :java:extdoc:`@AssertTrue <jakarta.validation.constraints.AssertTrue>` アノテーションを使用する。
 
 実装例
   この例では、メールアドレスと確認用メールアドレスが一致していることを検証している。

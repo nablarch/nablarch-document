@@ -14,7 +14,7 @@ Nablarch provides :java:extdoc:`nablarch.fw.batch.ee.Main`  as the standard impl
 This class specifies the XML file name (file name excluding .xml) of the target JOB as an execution argument.
 
 To specify the parameters during job execution, specify the launch option for  :java:extdoc:`nablarch.fw.batch.ee.Main` . 
-The value specified in the launch option is configured in jobParameters of  :java:extdoc:`JobOperator#start <javax.batch.operations.JobOperator.start(java.lang.String-java.util.Properties)>` .
+The value specified in the launch option is configured in jobParameters of  :java:extdoc:`JobOperator#start <jakarta.batch.operations.JobOperator.start(java.lang.String-java.util.Properties)>` .
 
 For the launch option, add ``--`` to the name and configure a value for the argument following the name.
 
@@ -35,15 +35,15 @@ Exit code for batch application
 --------------------------------------------------
 The exit code for the main class program mentioned above is as follows.
 
-* Normal completion: 0 - When the exit status is other than "WARNING" and the batch status is :java:extdoc:`BatchStatus.COMPLETED <javax.batch.runtime.BatchStatus>` 
-* Abnormal completion: 1 - When the exit status is other than "WARNING" and the batch status is not :java:extdoc:`BatchStatus.COMPLETED <javax.batch.runtime.BatchStatus>`
+* Normal completion: 0 - When the exit status is other than "WARNING" and the batch status is :java:extdoc:`BatchStatus.COMPLETED <jakarta.batch.runtime.BatchStatus>` 
+* Abnormal completion: 1 - When the exit status is other than "WARNING" and the batch status is not :java:extdoc:`BatchStatus.COMPLETED <jakarta.batch.runtime.BatchStatus>`
 * Warning completion: 2 - When the completion status is "WARNING"
 
 If the JOB is interrupted while waiting for completion, it will return an abnormal completion code.
 
 If errors such as a validation error have occurred, for which a warning has to be issued, then warning completion can be used.
-The method for warning completion is to call  :java:extdoc:`JobContext#setExitStatus(String) <javax.batch.runtime.context.JobContext.setExitStatus(java.lang.String)>` in chunk or batchlet, and configure the completion status as "WARNING". 
-Since the batch status permits an arbitrary value at the time of warning completion, even if an exception is thrown in chunk or batchlet and batch status is other than  :java:extdoc:`BatchStatus.COMPLETED <javax.batch.runtime.BatchStatus>` , the above mentioned class ends with a warning if the completion status is configured as "WARNING".
+The method for warning completion is to call  :java:extdoc:`JobContext#setExitStatus(String) <jakarta.batch.runtime.context.JobContext.setExitStatus(java.lang.String)>` in chunk or batchlet, and configure the completion status as "WARNING". 
+Since the batch status permits an arbitrary value at the time of warning completion, even if an exception is thrown in chunk or batchlet and batch status is other than  :java:extdoc:`BatchStatus.COMPLETED <jakarta.batch.runtime.BatchStatus>` , the above mentioned class ends with a warning if the completion status is configured as "WARNING".
 
 .. _jsr352_run_batch_init_repository:
 

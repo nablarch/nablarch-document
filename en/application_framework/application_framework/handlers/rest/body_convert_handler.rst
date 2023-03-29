@@ -8,7 +8,7 @@ Request Body Conversion Handler
 
 This handler performs conversion process of request body and response body.
 
-The format used for conversion is specified in :java:extdoc:`Consumes <javax.ws.rs.Consumes>` and :java:extdoc:`Produces <javax.ws.rs.Produces>` annotations
+The format used for conversion is specified in :java:extdoc:`Consumes <jakarta.ws.rs.Consumes>` and :java:extdoc:`Produces <jakarta.ws.rs.Produces>` annotations
 which are configured in the method of resource (action) class that processes the request.
 
 This handler performs the following process.
@@ -74,8 +74,8 @@ An example is shown below.
 
 Convert request body to form
 --------------------------------------------------
-The format used for the request body conversion is determined by :java:extdoc:`Consumes <javax.ws.rs.Consumes>` configured in the method that processes the request.
-If MIME different from the MIME configured in :java:extdoc:`Consumes <javax.ws.rs.Consumes>` is configured in the Content-Type of the request header,
+The format used for the request body conversion is determined by :java:extdoc:`Consumes <jakarta.ws.rs.Consumes>` configured in the method that processes the request.
+If MIME different from the MIME configured in :java:extdoc:`Consumes <jakarta.ws.rs.Consumes>` is configured in the Content-Type of the request header,
 a status code (``415``) indicating that it is an unsupported media type is returned.
 
 An implementation example of the resource (action) method is shown below.
@@ -96,7 +96,7 @@ corresponding to the ``application/json`` indicated by ``MediaType.APPLICATION_J
 
 Convert the processing result of resource (action) to response body
 ----------------------------------------------------------------------
-The format used for the response body conversion is determined by :java:extdoc:`Produces <javax.ws.rs.Produces>` configured in the method that processes the request.
+The format used for the response body conversion is determined by :java:extdoc:`Produces <jakarta.ws.rs.Produces>` configured in the method that processes the request.
 
 An implementation example of the resource (action) method is shown below.
 

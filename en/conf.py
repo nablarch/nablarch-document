@@ -305,13 +305,14 @@ todo_include_todos=False
 
 javadoc_url_map = {
   'nablarch' : ("https://nablarch.github.io/docs/LATEST/javadoc/", 'javadoc8'),
-  'javax.persistence' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8'),
-  'javax.validation' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8'),
-  'javax.servlet' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8'),
-  'javax.batch' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8'),
-  'javax.inject' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8'),
-  'javax.enterprise' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8'),
-  'javax.ws' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8')
+  'jakarta.persistence' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc'),
+  'jakarta.validation' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc'),
+  'jakarta.servlet' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc'),
+  'jakarta.batch' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc'),
+  'jakarta.inject' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc'),
+  'jakarta.enterprise' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc'),
+  'jakarta.ws' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc'),
+  'jakarta.mail' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc')
 }
 
 # add custom javascript

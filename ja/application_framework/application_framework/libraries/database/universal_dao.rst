@@ -251,7 +251,7 @@ JDBCのフェッチサイズによってメモリの使用量が変わる。
 * :ref:`@SequenceGenerator <universal_dao_jpa_sequence_generator>`
 * :ref:`@TableGenerator <universal_dao_jpa_table_generator>`
 
-ユニバーサルDAOでは、 :java:extdoc:`javax.persistence.GenerationType` のすべてのストラテジをサポートしている。
+ユニバーサルDAOでは、 :java:extdoc:`jakarta.persistence.GenerationType` のすべてのストラテジをサポートしている。
 
 GenerationType.AUTO
  \
@@ -345,7 +345,7 @@ GenerationType.TABLE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ユニバーサルDAOでは、 :ref:`@Version <universal_dao_jpa_version>`
 が付いているEntityを更新した場合、自動で楽観的ロックを行う。
-楽観的ロックで排他エラーが発生した場合は、 :java:extdoc:`javax.persistence.OptimisticLockException` を送出する。
+楽観的ロックで排他エラーが発生した場合は、 :java:extdoc:`jakarta.persistence.OptimisticLockException` を送出する。
 
 .. important::
  :ref:`@Version <universal_dao_jpa_version>` は数値型のプロパティのみに指定できる。

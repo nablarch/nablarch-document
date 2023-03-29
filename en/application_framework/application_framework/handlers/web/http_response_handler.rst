@@ -21,7 +21,7 @@ Redirect
   Returns a response to redirect to the client.
 
 Direct response
-   Direct response using `getOutputStream` method of :java:extdoc:`ServletResponse <javax.servlet.ServletResponse>`.
+   Direct response using `getOutputStream` method of :java:extdoc:`ServletResponse <jakarta.servlet.ServletResponse>`.
 
 The process flow is as follows.
 

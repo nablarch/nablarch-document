@@ -9,7 +9,7 @@
 本ハンドラでは、リクエストボディとレスポンスボディの変換処理を行う。
 
 変換時に使用するフォーマットは、リクエストを処理するリソース(アクション)クラスのメソッドに設定された
-:java:extdoc:`Consumes <javax.ws.rs.Consumes>` 及び :java:extdoc:`Produces <javax.ws.rs.Produces>` アノテーションで指定する。
+:java:extdoc:`Consumes <jakarta.ws.rs.Consumes>` 及び :java:extdoc:`Produces <jakarta.ws.rs.Produces>` アノテーションで指定する。
 
 本ハンドラでは、以下の処理を行う。
 
@@ -74,8 +74,8 @@
 
 リクエストボディをFormに変換する
 --------------------------------------------------
-リクエストボディの変換処理で使用するフォーマットは、リクエストを処理するメソッドに設定された :java:extdoc:`Consumes <javax.ws.rs.Consumes>` により決まる。
-もし、 :java:extdoc:`Consumes <javax.ws.rs.Consumes>` に設定されたMIMEと異なるMIMEがリクエストヘッダのContent-Typeに設定されていた場合は、
+リクエストボディの変換処理で使用するフォーマットは、リクエストを処理するメソッドに設定された :java:extdoc:`Consumes <jakarta.ws.rs.Consumes>` により決まる。
+もし、 :java:extdoc:`Consumes <jakarta.ws.rs.Consumes>` に設定されたMIMEと異なるMIMEがリクエストヘッダのContent-Typeに設定されていた場合は、
 サポートしていないメディアタイプであることを示すステータスコード(``415``)を返却する。
 
 リソース(アクション)のメソッドの実装例を以下に示す。
@@ -96,7 +96,7 @@
 
 リソース(アクション)の処理結果をレスポンスボディに変換する
 ----------------------------------------------------------------------
-レスポンスボディへの変換処理で使用するフォーマットは、リクエストを処理したメソッドに設定された :java:extdoc:`Produces <javax.ws.rs.Produces>` により決まる。
+レスポンスボディへの変換処理で使用するフォーマットは、リクエストを処理したメソッドに設定された :java:extdoc:`Produces <jakarta.ws.rs.Produces>` により決まる。
 
 リソース(アクション)のメソッドの実装例を以下に示す。
 

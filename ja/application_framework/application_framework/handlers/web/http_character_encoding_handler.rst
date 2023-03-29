@@ -6,8 +6,8 @@ HTTP文字エンコード制御ハンドラ
   :depth: 3
   :local:
 
-本ハンドラではリクエスト( :java:extdoc:`HttpServletRequest <javax.servlet.http.HttpServletRequest>` )
-及びレスポンス( :java:extdoc:`HttpServletResponse <javax.servlet.http.HttpServletResponse>` )に対して規定の文字エンコーディングを設定する。
+本ハンドラではリクエスト( :java:extdoc:`HttpServletRequest <jakarta.servlet.http.HttpServletRequest>` )
+及びレスポンス( :java:extdoc:`HttpServletResponse <jakarta.servlet.http.HttpServletResponse>` )に対して規定の文字エンコーディングを設定する。
 
 本ハンドラでは、以下の処理を行う。
 

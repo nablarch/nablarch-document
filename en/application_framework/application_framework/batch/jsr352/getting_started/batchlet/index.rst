@@ -72,9 +72,9 @@ Create batchlet
    ==================================================================   =============================================================================================
    Interface                                                            Implementation
    ==================================================================   =============================================================================================
-   :java:extdoc:`Batchlet<javax.batch.api.Batchlet>`                    Implement batch processing.
+   :java:extdoc:`Batchlet<jakarta.batch.api.Batchlet>`                    Implement batch processing.
 
-                                                                        Inherits :java:extdoc:`AbstractBatchlet<javax.batch.api.AbstractBatchlet>`, which provides the default implementation.
+                                                                        Inherits :java:extdoc:`AbstractBatchlet<jakarta.batch.api.AbstractBatchlet>`, which provides the default implementation.
 
                                                                           * `Batchlet#process`
                                                                           * `Batchlet#stop`
@@ -109,11 +109,11 @@ Create batchlet
       }
 
     Key points of this implementation
-      * Inherits :java:extdoc:`AbstractBatchlet<javax.batch.api.AbstractBatchlet>`, and performs the business process by `process` method.
+      * Inherits :java:extdoc:`AbstractBatchlet<jakarta.batch.api.AbstractBatchlet>`, and performs the business process by `process` method.
 
       .. _getting_started_batchlet-cdi:
 
-      * :java:extdoc:`Named<javax.inject.Named>` and :java:extdoc:`Dependent<javax.enterprise.context.Dependent>` are assigned to the class. |br|
+      * :java:extdoc:`Named<jakarta.inject.Named>` and :java:extdoc:`Dependent<jakarta.enterprise.context.Dependent>` are assigned to the class. |br|
         By configuring named and dependent annotations, batchlet implementation class can be used as CDI management bean.
         As a result, the batchlet class name specified in the job definition can be described with the CDI management name. |br|
         (If CDI management bean is not used, describe with fully qualified name (FQCN))

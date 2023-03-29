@@ -9,7 +9,7 @@ Sending Emails
 
 .. |JavaMail| raw:: html
 
-  <a href="https://javamail.java.net/nonav/docs/api/" target="_blank">JavaMail API(External site)</a>
+  <a href="https://jakarta.ee/specifications/platform/10/apidocs/jakarta/mail/package-summary.html" target="_blank">JavaMail API(External site)</a>
 
 Provides the function to send emails.
 
@@ -545,11 +545,11 @@ The following table shows the exception types and their error handling.
 
   * - Exception
     - Processing
-  * - `AddressException of JavaMail <https://javamail.java.net/nonav/docs/api/javax/mail/internet/AddressException.html>`_ when changing the email address of the send request
+  * - :java:extdoc:`AddressException of JavaMail <jakarta.mail.internet.AddressException>` when changing the email address of the send request
     - Log output of the address that failed during conversion (log level: ERROR)
   * - :java:extdoc:`InvalidCharacterException<nablarch.common.mail.InvalidCharacterException>` in :ref:`mail-mail_header_injection`
     - Log output of header string (log level: ERROR).
-  * - `SendFailureException of JavaMail <https://javamail.java.net/nonav/docs/api/javax/mail/SendFailedException.html>`_ when email send fails
+  * - :java:extdoc:`SendFailureException of JavaMail <jakarta.mail.SendFailedException>` when email send fails
     - Log output of sent address, unsent address and invalid address (log level: ERROR)
   * - :java:extdoc:`Exception <java.lang.Exception>` other than the above during email send
     - Wraps the exception and throws retry exception.

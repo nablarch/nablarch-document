@@ -21,7 +21,7 @@ HTTPレスポンスハンドラ
   クライアントにリダイレクトを行う応答を返す。
 
 直接レスポンス
-   :java:extdoc:`ServletResponse <javax.servlet.ServletResponse>` の `getOutputStream` メソッドを使用して直接
+   :java:extdoc:`ServletResponse <jakarta.servlet.ServletResponse>` の `getOutputStream` メソッドを使用して直接
    レスポンスを行う。
 
 処理の流れは以下のとおり。

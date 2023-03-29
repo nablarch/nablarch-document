@@ -6,8 +6,8 @@ HTTP Character Encoding Control Handler
   :depth: 3
   :local:
 
-In this handler, the specified character encoding is configured for the request ( :java:extdoc:`HttpServletRequest <javax.servlet.http.HttpServletRequest>` )
-and response ( :java:extdoc:`HttpServletResponse <javax.servlet.http.HttpServletResponse>` ).
+In this handler, the specified character encoding is configured for the request ( :java:extdoc:`HttpServletRequest <jakarta.servlet.http.HttpServletRequest>` )
+and response ( :java:extdoc:`HttpServletResponse <jakarta.servlet.http.HttpServletResponse>` ).
 
 This handler performs the following process.
 

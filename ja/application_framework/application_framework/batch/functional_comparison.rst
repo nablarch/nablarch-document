@@ -67,7 +67,7 @@ JSRに準拠したバッチアプリケーションとNablarchバッチアプリ
   詳細は、 `JSR352(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=352>`_ のSpecificationを参照すること。
 
 .. [#jsr_max]
-  :java:extdoc:`ItemReader <javax.batch.api.chunk.ItemReader>` の実装クラスに、1回の実行で読み込む最大件数を指定できるプロパティを持たせるなどで対応可能。
+  :java:extdoc:`ItemReader <jakarta.batch.api.chunk.ItemReader>` の実装クラスに、1回の実行で読み込む最大件数を指定できるプロパティを持たせるなどで対応可能。
 
 .. [#resumable]
   :java:extdoc:`ResumeDataReader (レジューム機能付き読み込み)<nablarch.fw.reader.ResumeDataReader>` を使用することで障害発生ポイントからの再実行が可能。
