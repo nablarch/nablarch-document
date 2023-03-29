@@ -132,7 +132,7 @@ URLの例
     }
 
 .. important::
-  JSRで規定されている :java:extdoc:`PathParam <jakarta.ws.rs.PathParam>` は使用できないので注意すること。
+  Jakarta RESTful Web Servicesで規定されている :java:extdoc:`PathParam <jakarta.ws.rs.PathParam>` は使用できないので注意すること。
 
 .. _rest_feature_details-query_param:
 
@@ -179,7 +179,7 @@ URLの例
     }
 
 .. important::
-  JSRで規定されている :java:extdoc:`QueryParam <jakarta.ws.rs.QueryParam>` は使用できないので注意すること。
+  Jakarta RESTful Web Servicesで規定されている :java:extdoc:`QueryParam <jakarta.ws.rs.QueryParam>` は使用できないので注意すること。
 
 .. _rest_feature_details-response_header:
 

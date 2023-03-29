@@ -18,7 +18,7 @@ JAX-RSサポートは、Nablarchのウェブアプリケーションをベース
  - Consumes(リクエストのメディアタイプの指定)
  - Valid(リクエストに対するBeanValidationの実行)
 
-JSR339とJAX-RSサポートとの機能比較は、 :ref:`restful_web_service_functional_comparison` を参照。
+Jakarta RESTful Web ServicesとJAX-RSサポートとの機能比較は、 :ref:`restful_web_service_functional_comparison` を参照。
 
 .. important::
 

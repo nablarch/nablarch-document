@@ -27,7 +27,7 @@ Nablarch offers the following archetypes: All the archetype group IDs are ``com.
   * - nablarch-jaxrs-archetype
     - Archetype for using the RESTful web service runtime platform
   * - nablarch-batch-ee-archetype
-    - Archetype for using the JSR352-compliant batch application framework
+    - Archetype for using the Jakarta Batch-compliant batch application framework
   * - nablarch-batch-archetype
     - Archetype for using the Nablarch batch application runtime platform
   * - nablarch-batch-dbless-archetype
@@ -210,7 +210,7 @@ Omitted because it is the same as web.
 pj-batch-ee project
 =======================
 
-Project packaged as a jar file for JSR352-compliant batch applications.
+Project packaged as a jar file for Jakarta Batch-compliant batch applications.
 
 .. _firstStepBatchEEProjectStructure:
 

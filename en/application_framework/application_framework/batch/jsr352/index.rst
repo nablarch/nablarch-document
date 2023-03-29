@@ -1,9 +1,9 @@
 .. _jsr352_batch:
 
-JSR352-compliant Batch Application
+Jakarta Batch-compliant Batch Application
 ====================================================================================================
 This chapter provides information required for developing batch applications using a batch application framework 
-compliant with JSR352(Batch Applications for the Java Platform).
+compliant with Jakarta Batch.
 
 .. toctree::
   :maxdepth: 2

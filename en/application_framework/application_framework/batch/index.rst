@@ -16,11 +16,11 @@ Although a batch application can be built using either framework,
 creating a batch application using :doc:`nablarch_batch/index` is recommended for the following reasons.
 
 Reason
-  Since JSR352 has little information as of 2020 and it is difficult for experts to assign it, we recommend creating a batch application using :doc:`nablarch_batch/index`.
+  Since Jakarta Batch has little information as of 2020 and it is difficult for experts to assign it, we recommend creating a batch application using :doc:`nablarch_batch/index`.
 
 .. tip::
 
-  Although the manuals up to Nablarch 5u15 recommended JSR352-compliant batch applications, the policy has changed to recommend Nablarch batch applications due to their current prevalence and high learning costs in 2020.
+  Although the manuals up to Nablarch 5u15 recommended Jakarta Batch-compliant batch applications, the policy has changed to recommend Nablarch batch applications due to their current prevalence and high learning costs in 2020.
 
 
 

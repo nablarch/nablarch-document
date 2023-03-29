@@ -6,7 +6,7 @@ Bean Validation
   :depth: 3
   :local:
 
-This chapter describes the validation function compliant with Bean Validation (JSR349) of Jakarta EE.
+This chapter describes the validation function compliant with Jakarta Bean Validation of Jakarta EE.
 
 .. important::
 
@@ -628,7 +628,7 @@ By enabling this function, the JSP mentioned above can be described as follows.
 
 Embed the item name in the message when a validation error occurs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Although the item name cannot be embedded in the message as per the Bean Validation (JSR349) specifications,
+Although the item name cannot be embedded in the message as per the Jakarta Bean Validation specifications,
 you may want to embed the item name in the message according to the requirements etc.
 Therefore, Nablarch provides a function that embeds the item name of the item in which an error has occurred, even if Bean Validation is used.
 
@@ -699,5 +699,5 @@ annotations and validation logic are added on the project side.
 For details on the implementation method, see the following links and Nablarch implementation.
 
 * `Hibernate Validator(external site) <http://hibernate.org/validator/>`_
-* `JSR349(external site) <https://jcp.org/en/jsr/detail?id=349>`_
+* `Jakarta Bean Validation(external site) <https://jakarta.ee/specifications/bean-validation/>`_
 

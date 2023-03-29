@@ -7,7 +7,7 @@
    :depth: 3
    :local:
 
-ユニバーサルDAOでは、 `JPA2.0(JSR317) (外部サイト、英語) <https://jcp.org/en/jsr/detail?id=317>`_
+ユニバーサルDAOでは、 `Jakarta Persistence (外部サイト、英語) <https://jakarta.ee/specifications/persistence/>`_
 のアノテーションを使った簡易的なO/Rマッパーを提供する。
 
 ユニバーサルDAOの内部では、 :ref:`database` を使用しているので、

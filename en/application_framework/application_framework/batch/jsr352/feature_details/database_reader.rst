@@ -4,7 +4,7 @@ Chunk Step with Database as Input
   :depth: 3
   :local:
   
-When extracting data for processing from the database, implement :java:extdoc:`BaseDatabaseItemReader <nablarch.fw.batch.ee.chunk.BaseDatabaseItemReader>` that is provided by this function instead of the reader provided by JSR352.
+When extracting data for processing from the database, implement :java:extdoc:`BaseDatabaseItemReader <nablarch.fw.batch.ee.chunk.BaseDatabaseItemReader>` that is provided by this function instead of the reader provided by Jakarta Batch.
 
 By implementing :java:extdoc:`BaseDatabaseItemReader <nablarch.fw.batch.ee.chunk.BaseDatabaseItemReader>` , data can be extracted using a database connection that is exclusive for the reader. 
 As a result, Chunk step can be implemented with database as input even in the case of databases that automatically close the cursor during transaction control.

@@ -6,7 +6,7 @@ Bean Validation
   :depth: 3
   :local:
 
-この章では、Jakarta EEのBean Validation(JSR349)に準拠したバリデーション機能を解説する。
+この章では、Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能を解説する。
 
 .. important::
 
@@ -629,7 +629,7 @@ Java実装例
 
 バリデーションエラー時のメッセージに項目名を含めたい
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Bean Validation(JSR349)の仕様では、項目名をメッセージに含めることができないが、
+Jakarta Bean Validationの仕様では、項目名をメッセージに含めることができないが、
 要件などによってはメッセージに項目名を含めたい場合がある。
 このため、NablarchではBean Validationを使用した場合でもメッセージにエラーが発生した項目の項目名を含める機能を提供している。
 
@@ -700,5 +700,5 @@ Bean Validation(JSR349)の仕様では、項目名をメッセージに含める
 実装方法などの詳細については、以下のリンク先及びNablarchの実装を参照。
 
 * `Hibernate Validator(外部サイト、英語) <http://hibernate.org/validator/>`_
-* `JSR349(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=349>`_
+* `Jakarta Bean Validation(外部サイト、英語) <https://jakarta.ee/specifications/bean-validation/>`_
 

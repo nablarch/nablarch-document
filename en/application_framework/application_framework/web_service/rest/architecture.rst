@@ -18,7 +18,7 @@ The following annotations are available for JAX-RS support.
  - Consumption (specify the media type of the request)
  - Valid (runs BeanValidation for the request)
 
-For comparison of functions between JSR339 and JAX-RS support , see :ref:`restful_web_service_functional_comparison`.
+For comparison of functions between Jakarta RESTful Web Services and JAX-RS support , see :ref:`restful_web_service_functional_comparison`.
 
 .. important::
 

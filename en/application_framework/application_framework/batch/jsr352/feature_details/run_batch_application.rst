@@ -1,4 +1,4 @@
-Launching the JSR352 Batch Application
+Launching the Jakarta Batch Application
 ==================================================
 .. contents:: Table of contents
   :depth: 3
@@ -8,7 +8,7 @@ Launching the JSR352 Batch Application
 
 Launch the batch application
 --------------------------------------------------
-In the case of JSR352-compliant batch application, the batch is launched using an API specified by JSR352.
+In the case of Jakarta Batch-compliant batch application, the batch is launched using an API specified by Jakarta Batch.
 
 Nablarch provides :java:extdoc:`nablarch.fw.batch.ee.Main`  as the standard implementation class. 
 This class specifies the XML file name (file name excluding .xml) of the target JOB as an execution argument.

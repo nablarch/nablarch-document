@@ -1,6 +1,6 @@
-Pessimistic Lock for JSR352-compliant Batch Applications
-============================================================
-This section shows an implementation example for pessimistic lock in a JSR352-compliant batch application. 
+Pessimistic Lock for Jakarta Batch-compliant Batch Applications
+================================================================
+This section shows an implementation example for pessimistic lock in a Jakarta Batch-compliant batch application. 
 By implementing with reference to the examples shown below, the lock time can be reduced and the effect on other processes can be reduced.
 
 Point

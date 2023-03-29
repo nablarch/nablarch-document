@@ -291,8 +291,8 @@ JOBの実行設定を記載したファイルを作成する。
     * ジョブ定義ファイルは `/src/main/resources/META-INF/batch-jobs/` 配下に配置する。
     * `job` 要素 の `id` 属性で、ジョブ名称を指定する。
     * `chunk` 要素の `item-count` 属性で `writeItems` 一回当たりで処理する件数を設定する。
-    * 設定ファイルの詳細な記述方法は `JSR352 Specificationを参照(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=352>`_ を参照。
+    * 設定ファイルの詳細な記述方法は |jsr352| を参照。
 
 .. |jsr352| raw:: html
 
-  <a href="https://jcp.org/en/jsr/detail?id=352" target="_blank">JSR352(外部サイト、英語)</a>
+  <a href="https://jakarta.ee/specifications/batch/" target="_blank">Jakarta Batch(外部サイト、英語)</a>

@@ -18,7 +18,7 @@
 
 * ウェブプロジェクト
 * RESTfulウェブサービスプロジェクト
-* JSR352に準拠したバッチプロジェクト
+* Jakarta Batchに準拠したバッチプロジェクト
 * Nablarchバッチプロジェクト
 * コンテナ用ウェブプロジェクト
 * コンテナ用RESTfulウェブサービスプロジェクト
@@ -53,7 +53,7 @@
 全プロジェクトで共通
   * Maven 3.6.3以上
 
-ウェブ、RESTfulウェブサービス、JSR352に準拠したバッチ、Nablarchバッチ
+ウェブ、RESTfulウェブサービス、Jakarta Batchに準拠したバッチ、Nablarchバッチ
   * JDK17以上
 
 コンテナ用ウェブ、コンテナ用RESTfulウェブサービス、コンテナ用Nablarchバッチ

@@ -161,11 +161,11 @@ Batchletの作成
     * 複数ステップで構成されるバッチジョブの場合は、 `step` 要素を複数定義し、処理を順次実行する。
     * `batchlet` 要素の `ref` 属性には、Batchletクラス名の頭文字を小文字にした名称を指定する。
     * `property` 要素で、Batchletクラスのプロパティにインジェクトする値を指定する。
-    * 設定ファイルの詳細な記述方法は `JSR352 Specification(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=352>`_ を参照
+    * 設定ファイルの詳細な記述方法は |jsr352| を参照
 
 .. |jsr352| raw:: html
 
-  <a href="https://jcp.org/en/jsr/detail?id=352" target="_blank">JSR352(外部サイト、英語)</a>
+  <a href="https://jakarta.ee/specifications/batch/" target="_blank">Jakarta Batch(外部サイト、英語)</a>
 
 .. |br| raw:: html
 

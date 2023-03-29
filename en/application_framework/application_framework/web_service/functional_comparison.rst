@@ -1,7 +1,7 @@
 .. _`restful_web_service_functional_comparison`:
 
-Function Comparison of JAX-RS Support /JSR339/HTTP Messaging
-=============================================================
+Function Comparison of JAX-RS Support /Jakarta RESTful Web Services/HTTP Messaging
+=====================================================================================
 
 .. contents:: Table of Contents
   :depth: 3
@@ -11,7 +11,7 @@ This section shows the comparison of the following functions:
 
  - :ref:`Nablarch JAX-RS support <restful_web_service>`
  - :ref:`HTTP messaging <http_messaging>`
- - `JSR 339: JAX-RS 2.0: The Java API for RESTful Web Services(external site) <https://jcp.org/en/jsr/detail?id=339>`_
+ - `Jakarta RESTful Web Services(external site) <https://jakarta.ee/specifications/restful-ws/>`_
 
 .. tip::
 
@@ -28,7 +28,7 @@ This section shows the comparison of the following functions:
    * - Function
      - JAX-RS |br| support
      - HTTP |br| messaging
-     - JSR 339
+     - Jakarta |br| RESTful Web Services
    * - Request and resource method mapping
      - :ref:`B <rest-action_mapping>`
      - :ref:`A <http_messaging-action_mapping>`

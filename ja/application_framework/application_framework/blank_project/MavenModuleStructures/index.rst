@@ -27,7 +27,7 @@ Nablarchでは、以下のアーキタイプを提供している。なお、ア
   * - nablarch-jaxrs-archetype
     - RESTfulウェブサービス実行制御基盤を使用する場合のアーキタイプ
   * - nablarch-batch-ee-archetype
-    - JSR352に準拠したバッチアプリケーションフレームワークを使用する場合のアーキタイプ
+    - Jakarta Batchに準拠したバッチアプリケーションフレームワークを使用する場合のアーキタイプ
   * - nablarch-batch-archetype
     - Nablarch独自のバッチアプリケーション実行制御基盤を使用する場合のアーキタイプ
   * - nablarch-batch-dbless-archetype
@@ -214,7 +214,7 @@ Webと同一であるため省略。
 pj-batch-eeプロジェクト
 =======================
 
-JSR352に準拠したバッチアプリケーションのjarファイルとしてパッケージされるプロジェクト。
+Jakarta Batchに準拠したバッチアプリケーションのjarファイルとしてパッケージされるプロジェクト。
 
 .. _firstStepBatchEEProjectStructure:
 

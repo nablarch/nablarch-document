@@ -18,7 +18,7 @@ The initial setup shows how to create the following blank project.
 
 * Web projects
 * RESTful web service project
-* JSR352-compliant batch project
+* Jakarta Batch-compliant batch project
 * Nablarch batch project
 * Web project for container
 * RESTful web service project for container
@@ -52,7 +52,7 @@ The following software are assumed to be installed in the execution environment.
 All projects
   * Maven 3.6.3 or higher
 
-Web, RESTful web service, JSR352-compliant batch, Nablarch batch
+Web, RESTful web service, Jakarta Batch-compliant batch, Nablarch batch
   * JDK17 or higher
 
 Web for container, RESTful web service for container, Nablarch batch for container

@@ -47,7 +47,7 @@ For instructions on how to run the Example application, refer to the README on t
   Batch application
    \
 
-   JSR352-compliant batch applications
+   Jakarta Batch-compliant batch applications
     https://github.com/nablarch/nablarch-example-batch-ee
 
    Nablarch Batch Application

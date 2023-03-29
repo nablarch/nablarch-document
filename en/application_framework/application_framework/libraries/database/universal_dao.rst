@@ -8,7 +8,7 @@ Universal DAO
    :local:
 
 Universal DAO provides a simple O/R mapper that
-uses `JPA2.0(JSR317) (external site) <https://jcp.org/en/jsr/detail?id=317>`_ annotations.
+uses `Jakarta Persistence (external site) <https://jakarta.ee/specifications/persistence/>`_ annotations.
 
 Since Universal DAO uses a :ref:`database`,
 the :ref:`database` must be configured to use Universal DAO.

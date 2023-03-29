@@ -131,7 +131,7 @@ Implementation of resource class methods
     }
 
 .. important::
-  Note that :java:extdoc:`PathParam <jakarta.ws.rs.PathParam>` specified in JSR cannot be used.
+  Note that :java:extdoc:`PathParam <jakarta.ws.rs.PathParam>` specified in Jakarta RESTful Web Services cannot be used.
 
 .. _rest_feature_details-query_param:
 
@@ -178,7 +178,7 @@ Implementation of resource class methods
     }
 
 .. important::
-  Note that  :java:extdoc:`QueryParam <jakarta.ws.rs.QueryParam>` specified in JSR cannot be used.
+  Note that  :java:extdoc:`QueryParam <jakarta.ws.rs.QueryParam>` specified in Jakarta RESTful Web Services cannot be used.
 
 .. _rest_feature_details-response_header:
 

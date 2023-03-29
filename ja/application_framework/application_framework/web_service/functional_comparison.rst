@@ -1,7 +1,7 @@
 .. _`restful_web_service_functional_comparison`:
 
-JAX-RSサポート/JSR339/HTTPメッセージングの機能比較
-==========================================================
+JAX-RSサポート/Jakarta RESTful Web Services/HTTPメッセージングの機能比較
+==========================================================================
 
 .. contents:: 目次
   :depth: 3
@@ -11,7 +11,7 @@ JAX-RSサポート/JSR339/HTTPメッセージングの機能比較
 
  - :ref:`NablarchのJAX-RSサポート <restful_web_service>`
  - :ref:`HTTPメッセージング <http_messaging>`
- - `JSR 339: JAX-RS 2.0: The Java API for RESTful Web Services(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=339>`_
+ - `Jakarta RESTful Web Services(外部サイト、英語) <https://jakarta.ee/specifications/restful-ws/>`_
 
 .. tip::
 
@@ -28,7 +28,7 @@ JAX-RSサポート/JSR339/HTTPメッセージングの機能比較
    * - 機能
      - JAX-RS |br| サポート
      - HTTP |br| メッセージング
-     - JSR 339
+     - Jakarta |br| RESTful Web Services
    * - リクエストとリソースメソッドのマッピング
      - :ref:`△ <rest-action_mapping>`
      - :ref:`○ <http_messaging-action_mapping>`

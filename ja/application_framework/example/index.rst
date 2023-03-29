@@ -48,7 +48,7 @@ Exampleアプリケーションの実行手順は、各Exampleアプリケーシ
   バッチアプリケーション
    \
 
-   JSR352に準拠したバッチアプリケーション
+   Jakarta Batchに準拠したバッチアプリケーション
     https://github.com/nablarch/nablarch-example-batch-ee
 
    Nablarchバッチアプリケーション
