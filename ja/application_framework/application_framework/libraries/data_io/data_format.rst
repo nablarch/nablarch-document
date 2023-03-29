@@ -501,16 +501,6 @@ XMLでDTDを使う
       </component>
     </component-configuration>
 
-.. tip::
-
-  以下のバージョンのJDKにはAPIに不具合があり、本機能を使用した場合に ``NullPointerException`` が発生する。
-  本バグを回避するには、JDKのバージョンをアップする。
-  
-  - JDK6 6u65 未満
-  - JDK7 7u6 b15 未満
-
-  不具合詳細は `JDK-7157610 : NullPointerException occurs when parsing XML doc <https://bugs.java.com/bugdatabase/view_bug.do?bug_id=7157610>`_ 参照。
-
 XMLで名前空間を使う
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 接続先システムとの接続要件で、名前空間を使用しなければならない場合がある。

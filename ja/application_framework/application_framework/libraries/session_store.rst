@@ -320,7 +320,7 @@ HIDDENストアの暗号化設定をカスタマイズする
   * :java:extdoc:`SecureRandom <java.security.SecureRandom>` を使用してIVを生成する。
   
   なお、base64エンコードは :java:extdoc:`Base64Util <nablarch.core.util.Base64Util>` や、
-  Java8で追加された ``java.util.Base64.Encoder`` を使用して行うと良い。
+  ``java.util.Base64.Encoder`` を使用して行うと良い。
 
 セッション変数に値が存在しない場合の遷移先画面を指定する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

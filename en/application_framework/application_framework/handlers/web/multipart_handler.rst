@@ -212,7 +212,7 @@ As described in :ref:`data_converter`, :ref:`data_bind` is recommended.
 
   If the uploaded file is a binary file such as an image file, use the binary data that has been read for processing.
 
-  If the file is Java8, the byte data of the uploaded file can be read with the following implementation.
+  The byte data of the uploaded file can be read with the following implementation.
 
   .. code-block:: java
 

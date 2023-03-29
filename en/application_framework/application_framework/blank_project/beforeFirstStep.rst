@@ -53,10 +53,10 @@ All projects
   * Maven 3.6.3 or higher
 
 Web, RESTful web service, JSR352-compliant batch, Nablarch batch
-  * JDK1.8 or higher
+  * JDK17 or higher
 
 Web for container, RESTful web service for container, Nablarch batch for container
-  * JDK11 or higher
+  * JDK17 or higher
   * Docker Desktop 2.2.0.0 or higher
 
 The following do not require advance preparation in the initial setup.

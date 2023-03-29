@@ -13,7 +13,7 @@ Configuration of batch application
 The implementation will mainly be selected from the following two, the use of `jBeret(external site) <https://jberet.gitbooks.io/jberet-user-guide/content/>`_ is recommended due to the extensive documentation and ease with which libraries can be obtained from Maven Central.
 
 * `jBeret(external site) <https://jberet.gitbooks.io/jberet-user-guide/content/>`_
-* `jBatchof reference implementation(external site) <https://github.com/WASdev/standards.jsr352.jbatch>`_
+* `jBatchof compatible implementation(external site) <https://github.com/WASdev/standards.jsr352.jbatch>`_
 
 The configuration is shown below.
 

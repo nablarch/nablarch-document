@@ -104,7 +104,7 @@ Java Beansクラスへのアノテーション定義方法の詳細は以下を�
 
   全データの読み込みが完了したら、 :java:extdoc:`ObjectMapper#close <nablarch.common.databind.ObjectMapper.close()>` でリソースを解放すること。
 
-  ただし、Java7以降の環境であれば ``try-with-resources`` を使用することでクローズ処理を省略可能。
+  ``try-with-resources`` を使用することでクローズ処理を省略可能。
 
 .. _data_bind-bean_to_file:
 

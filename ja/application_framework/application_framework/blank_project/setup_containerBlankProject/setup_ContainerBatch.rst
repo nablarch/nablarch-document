@@ -145,10 +145,10 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 * ``${project.artifactId}:latest``
 * ``${project.artifactId}:${project.version}``
 
-また、初期設定ではベースイメージとして `OpenJDK のイメージ <https://hub.docker.com/_/adoptopenjdk>`_ (外部サイト、英語)が使用される。
+また、初期設定ではベースイメージとして `OpenJDK のイメージ <https://hub.docker.com/_/eclipse-temurin>`_ (外部サイト、英語)が使用される。
 
 ベースイメージは ``jib.from.image`` プロパティで変更できる。
-例えば、ベースイメージに ``adoptopenjdk:11.0.11_9-jre-hotspot`` を使用したい場合は、次のように ``pom.xml`` に記述する。
+例えば、ベースイメージに ``eclipse-temurin:17.0.6_10-jre-jammy`` を使用したい場合は、次のように ``pom.xml`` に記述する。
 
 .. code-block:: xml
 
@@ -156,7 +156,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
     <!--省略...-->
     <properties>
       <!--省略...-->
-      <jib.from.image>adoptopenjdk:11.0.11_9-jre-hotspot</jib.from.image>
+      <jib.from.image>eclipse-temurin:17.0.6_10-jre-jammy</jib.from.image>
       <!--省略...-->
     </properties>
     <!--省略...-->
@@ -172,7 +172,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 
   .. code-block:: xml
 
-    <jib.from.image>adoptopenjdk@sha256:df316691a2c655de2f835a626f8611c74af67dad2cf92711f6608b54e5aa6c61</jib.from.image>
+    <jib.from.image>eclipse-temurin@sha256:7dacdab7c335d90cf4e110f5744ca27d5a3ed87901a7c08022c8c12055438bd2</jib.from.image>
 
 .. _firstStepRunContainerBatchDockerImage:
 

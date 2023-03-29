@@ -233,8 +233,8 @@ Path         HTTP method    Method of dispatching target
   * ``javax.ws.rs.DELETE``
   * ``javax.ws.rs.GET``
   * ``javax.ws.rs.HEAD``
-  * ``javax.ws.rs.OPTIONS`` (JAX-RS 1.1 or higher)
-  * ``javax.ws.rs.PATCH`` (JAX-RS 2.1 or higher)
+  * ``javax.ws.rs.OPTIONS``
+  * ``javax.ws.rs.PATCH``
   * ``javax.ws.rs.POST``
   * ``javax.ws.rs.PUT``
 

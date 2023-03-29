@@ -241,8 +241,8 @@ XMLのマッピング定義を使用する場合は、ディスパッチハン�
   * ``javax.ws.rs.DELETE``
   * ``javax.ws.rs.GET``
   * ``javax.ws.rs.HEAD``
-  * ``javax.ws.rs.OPTIONS`` (JAX-RS 1.1 以上)
-  * ``javax.ws.rs.PATCH`` (JAX-RS 2.1 以上)
+  * ``javax.ws.rs.OPTIONS``
+  * ``javax.ws.rs.PATCH``
   * ``javax.ws.rs.POST``
   * ``javax.ws.rs.PUT``
 

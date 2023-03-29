@@ -96,7 +96,7 @@ An implementation example to read all the data is shown below.
 
   After reading all the data, release the resource using :java:extdoc:`ObjectMapper#close <nablarch.common.databind.ObjectMapper.close()>` .
 
-  However, it is possible to omit the close process in Java7 or later environments by using ``try-with-resources`` .
+  It is possible to omit the close process by using ``try-with-resources`` .
 
 .. _data_bind-bean_to_file:
 

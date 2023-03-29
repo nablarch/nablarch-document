@@ -17,7 +17,7 @@ Nablarchフレームワークの環境要件
 -----------------------------------------------------
 Nablarchフレームワークは、Java標準仕様のみを使って作成しており、動かすには最低以下が必要となる。
 
-* Java SE 6
+* Java SE 17
 * JDBC 3.0
 
 さらに、使用するNablarchの機能に応じて、以下のJakarta EE仕様が必要となる。
@@ -43,7 +43,7 @@ Nablarchフレームワークのテスト環境
 Nablarchフレームワークは、以下の環境においてテストを実施し、正常に動作することを確認している。
 
 Java
- * Java SE 6/8/11 [#java11]_/17 [#java17]_
+ * Java SE 17
 
 データベース
  * Oracle Database 12c/19c/21c
@@ -71,6 +71,3 @@ MOM（メッセージ指向ミドルウェア）
  スマートフォン
   * Safari(iOS)
   * Google Chrome(Android)
-
-.. [#java11] Java11で使用する場合、別途設定変更が必要となる。設定方法は :doc:`../blank_project/setup_blankProject/setup_Java11` を参照。
-.. [#java17] Java17で使用する場合、別途設定変更が必要となる。設定方法は :doc:`../blank_project/setup_blankProject/setup_Java17` を参照。

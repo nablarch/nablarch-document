@@ -482,15 +482,6 @@ Configure by explicitly mentioning the name ``XmlDataParser`` in the configurati
       </component>
     </component-configuration>
 
-.. tip::
-
-  The API of the below versions of JDK has a bug, and a ``NullPointerException`` occurs when this function is used. To avoid this bug, update the version of JDK.
-  
-  - JDK6 6u65 or below
-  - JDK7 7u6 b15 or below
-
-  For details of the failure, see `JDK-7157610 : NullPointerException occurs when parsing XML doc <https://bugs.java.com/bugdatabase/view_bug.do?bug_id=7157610>`_ .
-
 Using namespaces in XML
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Namespaces may have to be used for the connection requirements with the connection destination system. Such cases are managed by defining the namespace in the format definition file.

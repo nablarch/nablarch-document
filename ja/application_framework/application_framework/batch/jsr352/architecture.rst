@@ -13,7 +13,7 @@
 実装は、主に以下の2つから選択することになるが、ドキュメントが豊富であること及びMaven Centralからライブラリを取得出来る手軽さから `jBeret(外部サイト、英語) <https://jberet.gitbooks.io/jberet-user-guide/content/>`_ の使用を推奨する。
 
 * `jBeret(外部サイト、英語) <https://jberet.gitbooks.io/jberet-user-guide/content/>`_
-* `参照実装のjBatch(外部サイト、英語) <https://github.com/WASdev/standards.jsr352.jbatch>`_
+* `互換実装のjBatch(外部サイト、英語) <https://github.com/WASdev/standards.jsr352.jbatch>`_
 
 以下に構成を示す。
 

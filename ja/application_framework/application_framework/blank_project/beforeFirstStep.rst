@@ -54,10 +54,10 @@
   * Maven 3.6.3以上
 
 ウェブ、RESTfulウェブサービス、JSR352に準拠したバッチ、Nablarchバッチ
-  * JDK1.8以上
+  * JDK17以上
 
 コンテナ用ウェブ、コンテナ用RESTfulウェブサービス、コンテナ用Nablarchバッチ
-  * JDK11以上
+  * JDK17以上
   * Docker Desktop 2.2.0.0 以上
 
 以下は、初期セットアップでは事前準備不要である。
