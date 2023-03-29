@@ -632,7 +632,7 @@ For the following cases, change pom.xml of each module.
 Example of changing the version of Nablarch used
 -------------------------------------------------------------------
 
-A configuration example when Nablarch 5u6 is used is shown below.
+A configuration example when Nablarch 6u2 is used is shown below.
 
 .. code-block:: xml
 
@@ -644,9 +644,9 @@ A configuration example when Nablarch 5u6 is used is shown below.
 
         <!--
         Specify the version corresponding to the version of Nablarch to be used.
-        In this example 5u6 is specified.
+        In this example 6u2 is specified.
         -->
-        <version>5u6</version>
+        <version>6u2</version>
 
         <type>pom</type>
         <scope>import</scope>

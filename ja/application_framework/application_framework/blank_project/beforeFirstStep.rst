@@ -127,7 +127,7 @@ nablarch-bom内の定義（抜粋）
       <dependency>
         <groupId>com.nablarch.profile</groupId>
         <artifactId>nablarch-bom</artifactId>
-        <version>5u6</version> <!-- 指定したバージョン -->
+        <version>6</version> <!-- 指定したバージョン -->
         <type>pom</type>
         <scope>import</scope>
       </dependency>

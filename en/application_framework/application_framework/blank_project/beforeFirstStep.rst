@@ -126,7 +126,7 @@ The specified version is reflected in pom.xml of the generated blank project as 
       <dependency>
         <groupId>com.nablarch.profile</groupId>
         <artifactId>nablarch-bom</artifactId>
-        <version>5u6</version> <!--  Specified version -->
+        <version>6</version> <!--  Specified version -->
         <type>pom</type>
         <scope>import</scope>
       </dependency>

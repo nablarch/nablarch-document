@@ -26,26 +26,26 @@ A version consists of a combination of multiple modules.
   :widths: 40 20 20 20
 
   * - Module Example
-    - Nablarch5
-    - Nablarch5u1
-    - Nablarch5u2
+    - Nablarch6
+    - Nablarch6u1
+    - Nablarch6u2
 
   * - nablarch-fw
-    - 1.0.0
-    - 1.0.1
-    - 1.0.2
+    - 2.0.0
+    - 2.0.1
+    - 2.0.2
 
   * - nablarch-common-dao
-    - 1.0.0
-    - 1.1.0
-    - 1.1.0
+    - 2.0.0
+    - 2.1.0
+    - 2.1.0
 
   * - nablarch-fw-jaxrs
     - －
     - －
-    - 1.0.0
+    - 2.0.0
 
-In the above table, 5/5u1/5u2 are the release versions of Nablarch.
+In the above table, 6/6u1/6u2 are the release versions of Nablarch.
 
 .. _`versionup_policy-versionup_type`:
 
@@ -99,16 +99,16 @@ The version numbering system is as follows.
 
   (product version number)u(update number)
 
- e.g., 5(initial release of product version 5), 5u1(Update release 1 of product version 5)
+ e.g., 6(initial release of product version 6), 6u1(Update release 1 of product version 6)
 
  Product Version Number
   Incremented at minor upgrade. |br|
-  e.g., Nablarch 5u6 → Nablarch 6 |br|
-  The starting number is 5.
+  e.g., Nablarch 6u6 → Nablarch 7 |br|
+  The starting number is 6.
 
  Update Number
   Incremented at revision up or bug fix. |br|
-  e.g., Nablarch 5u6 → Nablarch 5u7 |br|
+  e.g., Nablarch 6u6 → Nablarch 6u7 |br|
   The starting number is 0. However, if the number is 0, no update number will be given.
 
 .. _`versionup_policy-backward_compatibility_policy`:
