@@ -550,7 +550,7 @@ Therefore, be sure to use the same field and property names (getXX, setXX).
 
 .. _`universal_dao_jpa_entity`:
 
-*javax.persistence.Entity*
+*jakarta.persistence.Entity*
  This annotation is configured in the Entity class corresponding to the database table.
 
  When this annotation is configured, the table name is derived from the class name.
@@ -567,7 +567,7 @@ Therefore, be sure to use the same field and property names (getXX, setXX).
 
 .. _`universal_dao_jpa_table`:
 
-*javax.persistence.Table*
+*jakarta.persistence.Table*
  This annotation is used to specify the table name.
 
  If a value is specified in the name attribute, that value will be used as the table name.
@@ -576,14 +576,14 @@ Therefore, be sure to use the same field and property names (getXX, setXX).
 
 .. _`universal_dao_jpa_access`:
 
-*javax.persistence.Access*
+*jakarta.persistence.Access*
  This annotation is used to specify the location to configure the annotation.
 
  Refers to the field annotation only when explicitly specified in the field.
 
 .. _`universal_dao_jpa_column`:
 
-*javax.persistence.Column*
+*jakarta.persistence.Column*
  This annotation is used to specify the column name.
 
  If a value is specified in the name attribute, that value will be used as the column name.
@@ -595,14 +595,14 @@ Therefore, be sure to use the same field and property names (getXX, setXX).
 
 .. _`universal_dao_jpa_id`:
 
-*javax.persistence.Id*
+*jakarta.persistence.Id*
  This annotation is configured in the primary key.
 
  In the case of a compound primary key, configure this annotation to multiple getters or fields.
 
 .. _`universal_dao_jpa_version`:
 
-*javax.persistence.Version*
+*jakarta.persistence.Version*
  This annotation is configured in the version column used for exclusive control.
 
  This annotation can be specified only for numeric type properties.
@@ -616,7 +616,7 @@ Therefore, be sure to use the same field and property names (getXX, setXX).
 
 .. _`universal_dao_jpa_temporal`:
 
-*javax.persistence.Temporal*
+*jakarta.persistence.Temporal*
  This annotation specifies how to map the values of
  *java.util.Date* and *java.util.Calendar* types to the database.
 
@@ -624,7 +624,7 @@ Therefore, be sure to use the same field and property names (getXX, setXX).
 
 .. _`universal_dao_jpa_generated_value`:
 
-*javax.persistence.GeneratedValue*
+*jakarta.persistence.GeneratedValue*
  This annotation indicates that the automatically numbered value is registered.
 
  Configures the numbering method to the strategy attribute.
@@ -649,7 +649,7 @@ Therefore, be sure to use the same field and property names (getXX, setXX).
 
 .. _`universal_dao_jpa_sequence_generator`:
 
-*javax.persistence.SequenceGenerator*
+*jakarta.persistence.SequenceGenerator*
  This annotation has to be configured when using sequence numbering.
 
  In the name attribute, configure the same value as the generator attribute of
@@ -663,7 +663,7 @@ Therefore, be sure to use the same field and property names (getXX, setXX).
 
 .. _`universal_dao_jpa_table_generator`:
 
-*javax.persistence.TableGenerator*
+*jakarta.persistence.TableGenerator*
  This annotation is configured when using table numbering.
 
  In the name attribute, configure the same value as the generator attribute of

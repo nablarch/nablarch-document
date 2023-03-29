@@ -37,7 +37,7 @@ RESTfulウェブサービスがリクエストを処理し、レスポンスを�
 .. image:: images/rest-design.png 
   :scale: 75
 
-1. :ref:`web_front_controller` ( `javax.servlet.Filter` の実装クラス)がrequestを受信する。
+1. :ref:`web_front_controller` ( `jakarta.servlet.Filter` の実装クラス)がrequestを受信する。
 2. :ref:`web_front_controller` は、requestに対する処理をハンドラキュー(handler queue)に委譲する。
 3. ハンドラキューに設定されたディスパッチハンドラ(`DispatchHandler`) が、URIを元に処理すべきアクションクラス(action class)を特定しハンドラキューの末尾に追加する。
 4. アクションクラス(action class)は、フォームクラス(form class)やエンティティクラス(entity class)を使用して業務ロジック(business logic) を実行する。 |br|

@@ -79,8 +79,8 @@ WEB APIのように全てのレスポンスに対して規定の文字エンコ�
 以下に例を示す。
 
 ポイント
-  * リクエストのエンコーディングを変更する場合は、 :java:extdoc:`resolveRequestEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveRequestEncoding(javax.servlet.http.HttpServletRequest)>` をオーバライドする。
-  * レスポンスのエンコーディングを変更する場合は、 :java:extdoc:`resolveResponseEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveResponseEncoding(javax.servlet.http.HttpServletRequest)>` をオーバライドする。
+  * リクエストのエンコーディングを変更する場合は、 :java:extdoc:`resolveRequestEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveRequestEncoding(jakarta.servlet.http.HttpServletRequest)>` をオーバライドする。
+  * レスポンスのエンコーディングを変更する場合は、 :java:extdoc:`resolveResponseEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveResponseEncoding(jakarta.servlet.http.HttpServletRequest)>` をオーバライドする。
 
 .. code-block:: java
 

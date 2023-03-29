@@ -564,7 +564,7 @@ Java実装例
 
   BeanValidationStrategyでは、バリデーションエラーのエラーメッセージを、以下の順でソートする。
 
-  * javax.servlet.ServletRequest#getParameterNamesが返す項目名順
+  * jakarta.servlet.ServletRequest#getParameterNamesが返す項目名順
     (エラーが発生した項目がリクエストパラメータに存在しない場合は、末尾に移動する)
 
   ``getParameterNames`` が返す値は実装依存であり、使用するアプリケーションサーバによっては並び順が変わる可能性がある点に注意すること。

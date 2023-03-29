@@ -61,8 +61,8 @@ The configuration example of the component configuration file is shown below.
 
   Though ``org.thymeleaf.templateresolver.ServletContextTemplateResolver``  is present in the implementation class of ``ITemplateResolver`` , it cannot be registered to the :ref:`repository` for the following reasons:
 
-  * ``javax.servlet.ServletContext`` is required as a constructor argument (it has no default constructor).
-  * ``javax.servlet.ServletContext`` cannot be accessed when building a system repository and objects cannot be created by :ref:`factory <repository-factory_injection>`.
+  * ``jakarta.servlet.ServletContext`` is required as a constructor argument (it has no default constructor).
+  * ``jakarta.servlet.ServletContext`` cannot be accessed when building a system repository and objects cannot be created by :ref:`factory <repository-factory_injection>`.
 
   For this reason, use another implementation class such as ``ClassLoaderTemplateResolver``  and not ``ServletContextTemplateResolver`` .
 

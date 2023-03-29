@@ -177,9 +177,9 @@ In the following, we replace the ``HttpClientBuilder`` with the AWS SDK ``com.am
   import org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConfigurator;
   import org.glassfish.jersey.client.ClientConfig;
 
-  import javax.ws.rs.client.Client;
-  import javax.ws.rs.client.ClientBuilder;
-  import javax.ws.rs.core.Configuration;
+  import jakarta.ws.rs.client.Client;
+  import jakarta.ws.rs.client.ClientBuilder;
+  import jakarta.ws.rs.core.Configuration;
   import java.util.function.UnaryOperator;
 
   public class JerseyHttpClientWithAWSXRayFactory implements ComponentFactory<Client> {
@@ -211,7 +211,7 @@ By annotating this class with ``@SystemRepositoryComponent``, it becomes a targe
   import nablarch.core.repository.di.config.externalize.annotation.ComponentRef;
   import nablarch.core.repository.di.config.externalize.annotation.ConfigValue;
   import nablarch.core.repository.di.config.externalize.annotation.SystemRepositoryComponent;
-  import javax.ws.rs.client.Client;
+  import jakarta.ws.rs.client.Client;
 
   @SystemRepositoryComponent
   public class HttpProductRepository {

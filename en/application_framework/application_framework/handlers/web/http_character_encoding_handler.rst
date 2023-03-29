@@ -79,8 +79,8 @@ For example, in a system that processes requests from external sites, this suppo
 An example is shown below.
 
 Point
-  * To change the request encoding, override :java:extdoc:`resolveRequestEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveRequestEncoding(javax.servlet.http.HttpServletRequest)>`.
-  * To change the response encoding, override :java:extdoc:`resolveResponseEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveResponseEncoding(javax.servlet.http.HttpServletRequest)>`.
+  * To change the request encoding, override :java:extdoc:`resolveRequestEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveRequestEncoding(jakarta.servlet.http.HttpServletRequest)>`.
+  * To change the response encoding, override :java:extdoc:`resolveResponseEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveResponseEncoding(jakarta.servlet.http.HttpServletRequest)>`.
 
 .. code-block:: java
 

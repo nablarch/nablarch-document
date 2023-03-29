@@ -29,7 +29,7 @@ The process flow of web applications, from processing a request to returning a r
 .. image:: images/web-design.png
   :scale: 80
 
-1. :ref:`web_front_controller` (implementation class of `javax.servlet.Filter`) receives a request.
+1. :ref:`web_front_controller` (implementation class of `jakarta.servlet.Filter`) receives a request.
 2. :ref:`web_front_controller` delegates the processing of the request to a handler queue (handler queue).
 3. `DispatchHandler` configured in the handler queue specifies the action class to be processed based on the URI and adds it to the end of the handler queue.
 4. The action class executes business logic using a form class and an entity class.

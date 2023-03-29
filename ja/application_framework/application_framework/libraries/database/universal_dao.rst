@@ -549,7 +549,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_entity`:
 
-*javax.persistence.Entity*
+*jakarta.persistence.Entity*
  データベースのテーブルに対応したEntityクラスに設定するアノテーション。
 
  本アノテーションを設定した場合、クラス名からテーブル名が導出される。
@@ -566,7 +566,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_table`:
 
-*javax.persistence.Table*
+*jakarta.persistence.Table*
  テーブル名を指定するために使用するアノテーション。
 
  name属性に値が指定されている場合、その値がテーブル名として使用される。
@@ -575,14 +575,14 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_access`:
 
-*javax.persistence.Access*
+*jakarta.persistence.Access*
  アノテーションを設定する場所を指定するために使用するアノテーション。
 
  明示的にフィールドに指定した場合のみ、フィールドのアノテーションを参照する。
 
 .. _`universal_dao_jpa_column`:
 
-*javax.persistence.Column*
+*jakarta.persistence.Column*
  カラム名を指定するために使用するアノテーション。
 
  name属性に値が指定されている場合、その値がカラム名として使用される。
@@ -594,14 +594,14 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_id`:
 
-*javax.persistence.Id*
+*jakarta.persistence.Id*
  主キーに設定するアノテーション。
 
  複合主キーの場合には、複数のgettterもしくはフィールドに本アノテーションを設定する。
 
 .. _`universal_dao_jpa_version`:
 
-*javax.persistence.Version*
+*jakarta.persistence.Version*
  排他制御で使用するバージョンカラムに設定するアノテーション。
 
  本アノテーションは数値型のプロパティのみに指定できる。
@@ -615,7 +615,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_temporal`:
 
-*javax.persistence.Temporal*
+*jakarta.persistence.Temporal*
  *java.util.Date* 及び *java.util.Calendar* 型の値を
  データベースにマッピングする方法を指定するアノテーション。
 
@@ -623,7 +623,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_generated_value`:
 
-*javax.persistence.GeneratedValue*
+*jakarta.persistence.GeneratedValue*
  自動採番された値を登録することを示すアノテーション。
 
  strategy属性に採番方法を設定する。
@@ -648,7 +648,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_sequence_generator`:
 
-*javax.persistence.SequenceGenerator*
+*jakarta.persistence.SequenceGenerator*
  シーケンス採番を使用する場合に設定するアノテーション。
 
  name属性には、:ref:`@GeneratedValue <universal_dao_jpa_generated_value>`
@@ -662,7 +662,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_table_generator`:
 
-*javax.persistence.TableGenerator*
+*jakarta.persistence.TableGenerator*
  テーブル採番を使用する場合に設定するアノテーション。
 
  name属性には、 :ref:`@GeneratedValue <universal_dao_jpa_generated_value>`

@@ -2574,7 +2574,7 @@ Configuration example
 
 Specify any attribute
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Dynamic attributes are handled in custom tags using the ``javax.servlet.jsp.tagext.DynamicAttributes`` interface.
+Dynamic attributes are handled in custom tags using the ``jakarta.servlet.jsp.tagext.DynamicAttributes`` interface.
 This makes it possible to output arbitrary attributes including attributes added in HTML5 with custom tags.
 For tags that output HTML, dynamic attributes can be used.
 

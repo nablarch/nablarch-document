@@ -564,7 +564,7 @@ As shown in the example below, Define a component definition of :java:extdoc:`Be
 
   BeanValidationStrategy sorts the error messages for validation errors in the following order.
 
-  * Order of item names returned by javax.servlet.ServletRequest#getParameterNames
+  * Order of item names returned by jakarta.servlet.ServletRequest#getParameterNames
     (If the item in which the error occurred does not exist in the request parameter, it is moved to the end)
 
   Note that the value returned by ``getParameterNames`` is implementation-dependent, and the alignment order may change depending on the application server used.
