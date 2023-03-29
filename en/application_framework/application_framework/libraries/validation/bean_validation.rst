@@ -6,15 +6,15 @@ Bean Validation
   :depth: 3
   :local:
 
-This chapter describes the validation function compliant with Bean Validation (JSR349) of Java EE7.
+This chapter describes the validation function compliant with Bean Validation (JSR349) of Jakarta EE.
 
 .. important::
 
   The Bean Validation engine is not implemented by this function.
 
-  Java EE environments (such as WebLogic and WildFly) use the Bean Validation implementation that is bundled in the server.
-  For use outside Java EE environments, the Bean Validation implementation must be added to the reference library separately.
-  (It is recommended that the reference implementation `Hibernate Validator(external site) <http://hibernate.org/validator/>`_ be used.)
+  Jakarta EE environments (such as WebLogic and WildFly) use the Bean Validation implementation that is bundled in the server.
+  For use outside Jakarta EE environments, the Bean Validation implementation must be added to the reference library separately.
+  (It is recommended that the compatible implementation `Hibernate Validator(external site) <http://hibernate.org/validator/>`_ be used.)
 
 Function overview
 ---------------------

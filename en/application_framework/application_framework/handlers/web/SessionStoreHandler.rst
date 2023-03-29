@@ -119,7 +119,7 @@ The default configuration is as follows.
 :Secure attribute:    | Not used
                       | To use in an HTTPS environment, configure to ``Use``
 :MaxAge attribute:    | Not specified
-:HttpOnly attribute:  | Use if the Servlet API version is 3.0 or higher
+:HttpOnly attribute:  | Always use
 
 To change the cookie name or attribute, refer to the example given below.
 
@@ -157,7 +157,7 @@ To change the cookie name or attribute, refer to the example given below.
   The expiry interval of the session store is saved in the HTTP session. If different expiry intervals are configured between multiple stores, the longest expiry interval value is stored in the HTTP session.
 
 .. tip::
-  Since the value of HttpOnly attribute is determined by the version of the Servlet API used in the application, an arbitrary value cannot be specified from the configuration file.
+  The HttpOnly attribute is always used and cannot be changed from configuration files.
 
 .. _`db_managed_expiration`:
 

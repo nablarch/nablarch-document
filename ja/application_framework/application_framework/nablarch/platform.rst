@@ -20,23 +20,23 @@ Nablarchフレームワークは、Java標準仕様のみを使って作成し�
 * Java SE 6
 * JDBC 3.0
 
-さらに、使用するNablarchの機能に応じて、以下のJava標準仕様が必要となる。
+さらに、使用するNablarchの機能に応じて、以下のJakarta EE仕様が必要となる。
 
-* JavaServer Pages Standard Tag Library 1.1
-* JavaBeans Activation Framework 1.1
-* JavaServer Pages 2.1
-* Java Servlet 2.5
-* JavaMail API 1.4
-* Java Message Service API 1.1-rev-1
-* Java Persistence 2.0
-* Batch Applications for the Java Platform 1.0
-* Bean Validation 1.1
-* Java API for RESTful Web Services (JAX-RS) 2.0
+* Jakarta Standard Tag Library 3.0
+* Jakarta Activation 2.1
+* Jakarta Server Pages 3.1
+* Jakarta Servlet 6.0
+* Jakarta Mail 2.1
+* Jakarta Messaging 3.1
+* Jakarta Persistence 3.1
+* Jakarta Batch 2.1
+* Jakarta Bean Validation 3.0
+* Jakarta RESTful Web Services 3.1
 
 .. important::
  ここで示したバージョン番号は、特定バージョンを表記しているが、
  基本的に表記しているバージョン番号以上と読み替えて問題ない。
- Java標準仕様のバージョンアップで、基本的に後方互換が維持されるため。
+ Java標準仕様とJakarta EE仕様のバージョンアップで、基本的に後方互換が維持されるため。
 
 Nablarchフレームワークのテスト環境
 -----------------------------------------------------
@@ -52,21 +52,18 @@ Java
  * PostgreSQL 10.0/11.5/12.2/13.2/14.0
 
 アプリケーションサーバ
- * Oracle Weblogic Server 14.1.1
- * WebSphere Application Server 9.0.5.8
- * WildFly 26.0.1.Final
- * Apache Tomcat 9.0.54
+ * WildFly 27.0.1.Final
+ * Apache Tomcat 10.1.7
 
-Java EE
- * Hibernate Validator 5.3.6.Final
- * JBeret 1.3.4.Final
+Jakarta EE
+ * Hibernate Validator 8.0.0.Final
+ * JBeret 2.1.1.Final
 
 MOM（メッセージ指向ミドルウェア）
  * WebSphere MQ 7
 
 ブラウザ
  PC
-  * Internet Explorer 11
   * Microsoft Edge
   * Mozilla Firefox
   * Google Chrome
@@ -74,33 +71,6 @@ MOM（メッセージ指向ミドルウェア）
  スマートフォン
   * Safari(iOS)
   * Google Chrome(Android)
-
-Nablarchフレームワークの稼動実績
------------------------------------------------------
-2016年2月時点の稼働実績を以下に示す。
-
-OS
- * RedHat Enterprise Linux 5/6
- * WindowsServer 2008
- * AIX 7
-
-Java
- * Java SE 6/7/8
-
-データベース
- * Oracle Database 11g/12c
- * DB2 10
- * SQLServer 2008
- * PostgreSQL 9
-
-アプリケーションサーバ
- * Oracle Weblogic Server 11g/12c
- * WebSphere Application Server 7/8
- * JBoss Application Server 7
- * Apache Tomcat 6/7/8
-
-MOM（メッセージ指向ミドルウェア）
- * WebSphere MQ 7
 
 .. [#java11] Java11で使用する場合、別途設定変更が必要となる。設定方法は :doc:`../blank_project/setup_blankProject/setup_Java11` を参照。
 .. [#java17] Java17で使用する場合、別途設定変更が必要となる。設定方法は :doc:`../blank_project/setup_blankProject/setup_Java17` を参照。

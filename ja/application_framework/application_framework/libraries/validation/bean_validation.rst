@@ -6,15 +6,15 @@ Bean Validation
   :depth: 3
   :local:
 
-この章では、Java EE7のBean Validation(JSR349)に準拠したバリデーション機能を解説する。
+この章では、Jakarta EEのBean Validation(JSR349)に準拠したバリデーション機能を解説する。
 
 .. important::
 
   この機能は、Bean Validationのエンジンを実装しているわけではない。
 
-  Java EE環境(WebLogicやWildFlyなど)では、そのサーバ内にバンドルされているBean Validationの実装が使用される。
-  Java EE環境外で使用するには、別途Bean Validationの実装を参照ライブラリに追加する必要がある。
-  (参照実装である `Hibernate Validator(外部サイト、英語) <http://hibernate.org/validator/>`_ を使用することを推奨する。)
+  Jakarta EE環境(WebLogicやWildFlyなど)では、そのサーバ内にバンドルされているBean Validationの実装が使用される。
+  Jakarta EE環境外で使用するには、別途Bean Validationの実装を参照ライブラリに追加する必要がある。
+  (互換実装である `Hibernate Validator(外部サイト、英語) <http://hibernate.org/validator/>`_ を使用することを推奨する。)
 
 機能概要
 ---------------------

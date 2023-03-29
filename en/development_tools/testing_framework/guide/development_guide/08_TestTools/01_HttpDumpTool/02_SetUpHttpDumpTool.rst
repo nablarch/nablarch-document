@@ -27,8 +27,7 @@ Method of provision
 This tool is provided in the following jar.
 
 * nablarch-testing-XXX.jar
-* nablarch-testing-jetty6-XXX.jar (for Java 8 and earlier versions)
-* nablarch-testing-jetty9-XXX.jar (for Java 11 and later versions) 
+* nablarch-testing-jetty12-XXX.jar
 
 Therefore, make sure that the following descriptions are included in the dependencies element of pom.xml.
 
@@ -41,16 +40,9 @@ Therefore, make sure that the following descriptions are included in the depende
       <artifactId>nablarch-testing</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- For use with Java 8 or earlier versions -->
     <dependency>
       <groupId>com.nablarch.framework</groupId>
-      <artifactId>nablarch-testing-jetty6</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <!-- For use with Java 11 or later versions -->
-    <dependency>
-      <groupId>com.nablarch.framework</groupId>
-      <artifactId>nablarch-testing-jetty9</artifactId>
+      <artifactId>nablarch-testing-jetty12</artifactId>
       <scope>test</scope>
     </dependency>
     <!-- omit -->

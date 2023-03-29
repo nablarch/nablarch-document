@@ -63,7 +63,7 @@ Module list
     <!--  Implementation of an built-in server used by the testing framework  -->
     <dependency>
       <groupId>com.nablarch.framework</groupId>
-      <artifactId>nablarch-testing-jetty6</artifactId>
+      <artifactId>nablarch-testing-jetty12</artifactId>
       <scope>test</scope>
     </dependency>
 
@@ -71,9 +71,6 @@ Module list
 .. important::
    ``nablarch-testing-rest`` depends on ``nablarch-testing`` (:ref:`Testing framework <unitTestGuide>`) . 
    Adding the above module to the dependencies allows you to use :ref:`Testing framework <unitTestGuide>`'s API as well.
-
-.. tip::
-  If you are using Java11 replace the built-in server as described in :ref:`Change of Jetty module used in automatic test (only for web projects or RESTful web service projects) <setup_java11_jetty9>` .
 
 Configuration
 =============
