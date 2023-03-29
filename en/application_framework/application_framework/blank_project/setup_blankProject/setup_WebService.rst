@@ -136,12 +136,14 @@ If the execution is successful, the log given below will be output to the consol
 .. code-block:: text
 
   (omitted)
-  [INFO] ------------------------------------------------------------------------
+  [INFO] ----------------------< com.example:myapp-jaxrs >-----------------------
   [INFO] Building myapp-jaxrs 0.1.0
-  [INFO] ------------------------------------------------------------------------
+  [INFO] --------------------------------[ war ]---------------------------------
   (omitted)
-  Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
-
+  [INFO] Results:
+  [INFO]
+  [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+  [INFO]
   [INFO] ------------------------------------------------------------------------
   [INFO] BUILD SUCCESS
   [INFO] ------------------------------------------------------------------------

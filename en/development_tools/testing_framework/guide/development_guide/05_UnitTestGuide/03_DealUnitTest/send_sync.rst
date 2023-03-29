@@ -41,6 +41,8 @@ The mockup class provides the following functions.
 
 Using the mockup class eliminates the need to prepare queues, and unit tests can be conducted without installing special middleware or configuring the environment.
 
+.. [#f1]
+ A message sent to a queue is called a "request message" and a message received from a queue is called a "response message".
 
 -------------------------------------------------------------------------------------
 How to run a subfunction unit test using a mockup class
