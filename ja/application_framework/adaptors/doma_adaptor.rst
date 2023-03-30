@@ -220,44 +220,6 @@ ItemReaderクラス
         }
     }
 
-ETLで使用する
---------------------------------------------------
-ETL使用時に、プロジェクトで追加したステップの中でDomaを使用したい場合がある。
-その場合は、ジョブ名およびステップ名を指定したリスナーリストを定義して対応する。
-
-設定例を以下に示す。
-
-ジョブ定義ファイル
-  .. code-block:: xml
-
-    <job id="sampleJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
-      <step id="sampleStep">
-        <listeners>
-          <listener ref="nablarchStepListenerExecutor" />
-          <listener ref="nablarchItemWriteListenerExecutor" />
-        </listeners>
-        <chunk>
-          <reader ref="sampleItemReader" />
-          <writer ref="sampleItemWriter" />
-        </chunk>
-      </step>
-    </job>
-
-コンポーネント設定ファイル
-  .. code-block:: xml
-
-    <list name="sampleJob.sampleStep.stepListeners">
-      <!-- その他のリスナーは省略 -->
-      <component
-          class="nablarch.integration.doma.batch.ee.listener.DomaTransactionStepListener" />
-    </list>
-
-    <list name="sampleJob.sampleStep.itemWriteListeners">
-      <!-- その他のリスナーは省略 -->
-      <component
-          class="nablarch.integration.doma.batch.ee.listener.DomaTransactionItemWriteListener" />
-    </list>
-
 複数のデータベースにアクセスする
 --------------------------------------------------
 複数のデータベースにアクセスする必要がある場合は、新しくConfigクラスを作成し、

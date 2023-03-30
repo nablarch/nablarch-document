@@ -10,7 +10,7 @@
 Nablarchフレームワークの稼動環境について説明する。
 
 .. tip::
- Nablarchフレームワーク以外のコンテンツ(例えばUI開発基盤など)に関する稼動環境は、
+ Nablarchフレームワーク以外のコンテンツ(例えばNablarch SQL Executorなど)に関する稼動環境は、
  各コンテンツのドキュメントを参照。
 
 Nablarchフレームワークの環境要件
@@ -68,6 +68,3 @@ MOM（メッセージ指向ミドルウェア）
   * Mozilla Firefox
   * Google Chrome
   * Safari
- スマートフォン
-  * Safari(iOS)
-  * Google Chrome(Android)

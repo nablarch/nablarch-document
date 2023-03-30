@@ -210,43 +210,6 @@ ItemReader class
         }
     }
 
-Use in ETL
---------------------------------------------------
-When using ETL, using Doma in steps added to the project may be required.
-In such a case, a listener list in which a job name and step name are specified is defined.
-
-The configuration example shown below.
-
-Job definition file
-  .. code-block:: xml
-
-    <job id="sampleJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
-      <step id="sampleStep">
-        <listeners>
-          <listener ref="nablarchStepListenerExecutor" />
-          <listener ref="nablarchItemWriteListenerExecutor" />
-        </listeners>
-        <chunk>
-          <reader ref="sampleItemReader" />
-          <writer ref="sampleItemWriter" />
-        </chunk>
-      </step>
-    </job>
-
-Component configuration file
-  .. code-block:: xml
-
-    <list name="sampleJob.sampleStep.stepListeners">
-      <!--  Other listeners are omitted  -->
-      <component
-          class="nablarch.integration.doma.batch.ee.listener.DomaTransactionStepListener" />
-    </list>
-
-    <list name="sampleJob.sampleStep.itemWriteListeners">
-      <!--  Other listeners are omitted  -->
-      <component
-          class="nablarch.integration.doma.batch.ee.listener.DomaTransactionItemWriteListener" />
-    </list>
 
 Accessing multiple databases
 --------------------------------------------------

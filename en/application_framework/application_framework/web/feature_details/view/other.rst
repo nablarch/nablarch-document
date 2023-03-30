@@ -2,10 +2,10 @@
 
 Screen Development Using Other Template Engines
 ==================================================
-This section describes how to use template engines other than :ref:`web_thymeleaf_adaptor` and :ref:`FreeMarker <view_freemarker>`.
+This section describes how to use template engines other than :ref:`web_thymeleaf_adaptor`.
 
 If the template engine to be used provides a Servlet for returning a response to the client using Servlet forward,
-like :ref:`FreeMarker <view_freemarker>`,it can be handled by registering the Servlet in ``web.xml``.
+it can be handled by registering the Servlet in ``web.xml``.
 
 In the case of a template engine that does not provide Servlet,
 like :ref:`web_thymeleaf_adaptor`, it can be handled by creating an implementation class of :java:extdoc:`CustomResponseWriter <nablarch.fw.web.handler.responsewriter.CustomResponseWriter>`.

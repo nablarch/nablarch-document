@@ -68,10 +68,8 @@ There are three types of Nablarch version upgrades.
       |br|
       e.g., Renewal of the execution control platform
     - Application framework |br|
-      Extension component |br|
       Development tools |br|
-      Development standard |br|
-      Implementation Examples
+      Development standard
     - 1 year ~
 
   * - Revision up

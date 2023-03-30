@@ -10,7 +10,7 @@ Operating Environment
 This section describes the operating environment of the Nablarch framework.
 
 .. tip::
- For operating environments concerning contents other than the Nablarch framework (example: UI development platform), 
+ For operating environments concerning contents other than the Nablarch framework (example: Nablarch SQL Executor), 
  see the documentation of each content.
 
 Environment Requirements of the Nablarch Framework
@@ -67,6 +67,3 @@ Browser
   * Mozilla Firefox
   * Google Chrome
   * Safari
- Smart phone
-  * Safari(iOS)
-  * Google Chrome(Android)

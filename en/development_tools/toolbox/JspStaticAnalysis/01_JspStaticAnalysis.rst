@@ -96,8 +96,7 @@ How to specify the files to be checked
 The file (directory) of the check target is specified as the start argument to this tool. 
 If a directory is specified, the target file (default is a file with the extension jsp, but the extension can be added by setting) is checked recursively.
 
-In the development project of UI development infrastructure, 
-there is a case that files to be checked (files deployed to the production environment) and files not to be checked (files for testing, etc. that are not deployed to the production environment) are mixed in the directory to be checked. 
+There is a case that files to be checked (files deployed to the production environment) and files not to be checked (files for testing, etc. that are not deployed to the production environment) are mixed in the directory to be checked. 
 In such a case, the check for unnecessary files can be disabled by using the exclusion file setting.
 
 Refer to :ref:`01_customJspAnalysisProp` for how to set the files (directories) to be checked and the files (directories) not to be checked.
