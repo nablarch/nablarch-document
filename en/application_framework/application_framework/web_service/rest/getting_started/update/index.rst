@@ -116,7 +116,7 @@ Implementation of a business action method
 
 Define the mapping to the URL
   Use :ref:`router_adaptor` to map business actions and URLs.
-  Use :ref:`Path annotation for JAX-RS <router_adaptor_path_annotation>` for mapping.
+  Use :ref:`Path annotation for Jakarta RESTful Web Services <router_adaptor_path_annotation>` for mapping.
 
   ProjectAction.java
     .. code-block:: java

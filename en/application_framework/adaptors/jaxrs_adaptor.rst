@@ -1,7 +1,7 @@
 .. _jaxrs_adaptor:
 
-JAX-RS Adapter
-============================
+Jakarta RESTful Web Services Adapter
+===========================================
 
 .. contents:: Table of contents
   :depth: 3
@@ -53,7 +53,7 @@ Module list
 
 Using RESTful web services under Jersey environment
 -------------------------------------------------------
-If the implementation of `JAX-RS(external site) <https://jakarta.ee/specifications/restful-ws/>`_ bundled with the web application server is `Jersey(external site) <https://jersey.java.net/>`_ , use the adapter for Jersey.
+If the implementation of `Jakarta RESTful Web Services(external site) <https://jakarta.ee/specifications/restful-ws/>`_ bundled with the web application server is `Jersey(external site) <https://jersey.java.net/>`_ , use the adapter for Jersey.
 
 An application of Jersey adapter is shown below.
 
@@ -87,7 +87,7 @@ For :java:extdoc:`JaxRsMethodBinderFactory#setHandlerList <nablarch.fw.jaxrs.Jax
   
 Using RESTful web services under RESTEasy environment
 --------------------------------------------------------
-If the implementation of `JAX-RS (external site) <https://jakarta.ee/specifications/restful-ws/>`_ bundled with the web application server is `RESTEasy (external site) <http://resteasy.jboss.org/>`_ , use the adapter for RESTEasy.
+If the implementation of `Jakarta RESTful Web Services (external site) <https://jakarta.ee/specifications/restful-ws/>`_ bundled with the web application server is `RESTEasy (external site) <http://resteasy.jboss.org/>`_ , use the adapter for RESTEasy.
 
 An application of RESTEasy adapter is shown below.
 

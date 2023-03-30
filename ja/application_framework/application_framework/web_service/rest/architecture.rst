@@ -7,23 +7,23 @@
   :depth: 3
   :local:
 
-Nablarchでは、JAX-RSのリソースクラスを作るのと同じように、ウェブアプリケーションの業務アクションを使用して
-RESTfulウェブサービスを作成する機能（JAX-RSサポート）を提供する。
+Nablarchでは、Jakarta RESTful Web Servicesのリソースクラスを作るのと同じように、ウェブアプリケーションの業務アクションを使用して
+RESTfulウェブサービスを作成する機能（Jakarta RESTful Web Servicesサポート）を提供する。
 
-JAX-RSサポートは、Nablarchのウェブアプリケーションをベースとする。
-そのため、JAX-RSで使用できる@Contextアノテーションを使用したServletリソースのインジェクションやCDIなどは使用できない。
-以下に、JAX-RSサポートで使用できるアノテーションを示す。
+Jakarta RESTful Web Servicesサポートは、Nablarchのウェブアプリケーションをベースとする。
+そのため、Jakarta RESTful Web Servicesで使用できる@Contextアノテーションを使用したServletリソースのインジェクションやJakarta Contexts and Dependency Injectionなどは使用できない。
+以下に、Jakarta RESTful Web Servicesサポートで使用できるアノテーションを示す。
 
  - Produces(レスポンスのメディアタイプの指定)
  - Consumes(リクエストのメディアタイプの指定)
  - Valid(リクエストに対するBeanValidationの実行)
 
-Jakarta RESTful Web ServicesとJAX-RSサポートとの機能比較は、 :ref:`restful_web_service_functional_comparison` を参照。
+Jakarta RESTful Web ServicesとJakarta RESTful Web Servicesサポートとの機能比較は、 :ref:`restful_web_service_functional_comparison` を参照。
 
 .. important::
 
- JAX-RSサポートでは、クライアントサイドの機能は提供しない。
- JAX-RSクライアントを使用する必要がある場合は、JAX-RS実装(JerseyやRESTEasyなど)を使用すること。
+ Jakarta RESTful Web Servicesサポートでは、クライアントサイドの機能は提供しない。
+ Jakarta RESTful Web Servicesのクライアントを使用する必要がある場合は、Jakarta RESTful Web Servicesの実装(JerseyやRESTEasyなど)を使用すること。
 
 RESTfulウェブサービスの構成
 ----------------------------------------

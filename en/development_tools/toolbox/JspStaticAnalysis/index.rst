@@ -1,6 +1,6 @@
-===========================
-JSP Static Analysis Tool
-===========================
+=========================================
+Jakarta Server Pages Static Analysis Tool
+=========================================
 
 .. toctree::
    :maxdepth: 1

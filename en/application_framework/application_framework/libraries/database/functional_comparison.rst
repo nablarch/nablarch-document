@@ -59,7 +59,7 @@ This section compares the following functions:
     - A |br| :ref:`To the manual <universal_dao-generate_surrogate_key>`
     - A
 
-  * - Can execute Bean Validation |br| when the Entity status is incorporated in the database
+  * - Can execute Jakarta Bean Validation |br| when the Entity status is incorporated in the database
     - C [#validaiton]_
     - A
 

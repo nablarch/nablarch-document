@@ -1,6 +1,6 @@
 .. _jaxrs_response_handler:
 
-JAX-RSレスポンスハンドラ
+Jakarta RESTful Web Servicesレスポンスハンドラ
 ==================================================
 .. contents:: 目次
   :depth: 3

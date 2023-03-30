@@ -54,7 +54,7 @@ MQ connection that depends on MOM and message send/receive are performed by the 
 Therefore, this function can be used in various MOMs
 by creating a class that implements the :java:extdoc:`MessagingProvider<nablarch.fw.messaging.MessagingProvider>` interface.
 
-MOM messaging is compatible with JMS
+MOM messaging is compatible with Jakarta Messaging
 and offers :java:extdoc:`JmsMessagingProvider<nablarch.fw.messaging.provider.JmsMessagingProvider>`.
 For details, refer to the linked Javadoc.
 

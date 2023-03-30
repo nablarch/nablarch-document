@@ -62,7 +62,7 @@ The fixed-length and variable-length data formats are compatible even with multi
   Alternative to this function
     :fixed-length: Use :ref:`data_bind` .
     :Variable length: Use  :ref:`data_bind` .
-    :XML: :java:extdoc:`JAXB <javax.xml.bind>` is recommended.
+    :XML: `Jakarta XML Binding <https://jakarta.ee/specifications/xml-binding/>`_ is recommended.
     :JSON: Use of OSS is recommended. For example, `Jackson (external site) <https://github.com/FasterXML/jackson>`_ is widely used.
 
 

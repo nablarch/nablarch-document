@@ -1,6 +1,6 @@
 .. _`tag`:
 
-JSPカスタムタグ
+Jakarta Server Pagesカスタムタグ
 ==================================================
 
 .. contents:: 目次
@@ -18,8 +18,8 @@ JSPカスタムタグ
 
 カスタムタグには、以下の制約がある。
 
-* JSP2.1以降をサポートしているWebコンテナで動作する。
-* 条件分岐やループなどの制御にはJSTLを使用する。
+* Jakarta Server Pages 3.1以降をサポートしているWebコンテナで動作する。
+* 条件分岐やループなどの制御にはJakarta Standard Tag Libraryを使用する。
 * XHTML 1.0 Transitionalに対応した属性をサポートする。
 * クライアントのJavaScriptが必須である。( :ref:`tag-onclick_override` を参照)
 * GETリクエストで一部のカスタムタグが使用できない。( :ref:`tag-using_get` を参照)

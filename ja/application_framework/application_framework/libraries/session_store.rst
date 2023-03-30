@@ -67,7 +67,7 @@ HTTPセッションを抽象化した機能を提供する。
 
 * :java:extdoc:`Java標準のシリアライズによる直列化(デフォルト) <nablarch.common.web.session.encoder.JavaSerializeStateEncoder>`
 * :java:extdoc:`Java標準のシリアライズによる直列化、および暗号化 <nablarch.common.web.session.encoder.JavaSerializeEncryptStateEncoder>`
-* :java:extdoc:`JAXBによるXMLベースの直列化 <nablarch.common.web.session.encoder.JaxbStateEncoder>`
+* :java:extdoc:`Jakarta XML BindingによるXMLベースの直列化 <nablarch.common.web.session.encoder.JaxbStateEncoder>`
 
 モジュール一覧
 ---------------------------------------------------------------------

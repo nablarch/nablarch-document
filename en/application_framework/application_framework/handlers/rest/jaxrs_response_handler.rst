@@ -1,6 +1,6 @@
 .. _jaxrs_response_handler:
 
-JAX-RS Response Handler
+Jakarta RESTful Web Services Response Handler
 ==================================================
 .. contents:: Table of contents
   :depth: 3

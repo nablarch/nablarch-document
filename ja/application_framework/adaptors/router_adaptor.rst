@@ -119,9 +119,9 @@
 
 .. _router_adaptor_path_annotation:
 
-JAX-RSのPathアノテーションでマッピングする
---------------------------------------------------------
-本アダプタのバージョン1.2.0から、JAX-RSの ``jakarta.ws.rs.Path`` アノテーション（以下 ``Path`` アノテーションと表記）を使ったルーティングのマッピングができるようになった。
+Jakarta RESTful Web ServicesのPathアノテーションでマッピングする
+--------------------------------------------------------------------
+本アダプタのバージョン1.2.0から、Jakarta RESTful Web Servicesの ``jakarta.ws.rs.Path`` アノテーション（以下 ``Path`` アノテーションと表記）を使ったルーティングのマッピングができるようになった。
 
 ここでは、既存の :ref:`RESTfulウェブサービス <restful_web_service>` に対して ``Path`` アノテーションを使ったルーティングを有効にする方法と、各種設定の詳細について説明する。
 
@@ -177,7 +177,7 @@ XMLのマッピング定義を使用する場合は、ディスパッチハン�
 **applicationPath**
 
   | マッピングするパスに共通するプレフィックスを設定する。
-  | JAX-RS の ``jakarta.ws.rs.ApplicationPath`` アノテーションで設定する値と同じものを意味する。
+  | Jakarta RESTful Web Services の ``jakarta.ws.rs.ApplicationPath`` アノテーションで設定する値と同じものを意味する。
 
 **basePackage**
 
@@ -303,8 +303,8 @@ XMLのマッピング定義を使用する場合は、ディスパッチハン�
         }
     }
 
-| パスパラメータはhttp-request-routerの記法ではなく、JAX-RSの仕様に従った形で記述する。
-| これは、本機能（``Path`` アノテーションによるルーティング定義）がJAX-RSの仕様に準拠しているためである。
+| パスパラメータはhttp-request-routerの記法ではなく、Jakarta RESTful Web Servicesの仕様に従った形で記述する。
+| これは、本機能（``Path`` アノテーションによるルーティング定義）がJakarta RESTful Web Servicesの仕様に準拠しているためである。
 
 | パスの一部を ``{パラメータ名}`` と記述することで、その部分をパラメータとして定義できる。
 | ここで定義したパラメータ名を :java:extdoc:`HttpRequest#getParam(String) <nablarch.fw.web.HttpRequest.getParam(java.lang.String)>` に渡すことで、パスパラメータの値を取得できる。

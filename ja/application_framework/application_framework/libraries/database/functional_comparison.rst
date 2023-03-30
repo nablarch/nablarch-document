@@ -58,7 +58,7 @@
     - ○ |br| :ref:`解説書へ <universal_dao-generate_surrogate_key>`
     - ○
 
-  * - Entityの状態をデータベースに反映時に |br| Bean Validationが実行できる
+  * - Entityの状態をデータベースに反映時に |br| Jakarta Bean Validationが実行できる
     - × [#validaiton]_
     - ○
 

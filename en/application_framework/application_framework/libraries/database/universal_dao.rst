@@ -37,15 +37,15 @@ Function overview
 
 Simple CRUD without writing SQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Just by adding JPA annotation to Entity, a simple CRUD can be created without writing SQL.
-SQL statements are constructed at runtime based on JPA annotations.
+Just by adding Jakarta Persistence annotation to Entity, a simple CRUD can be created without writing SQL.
+SQL statements are constructed at runtime based on Jakarta Persistence annotations.
 
 * Registration/Batch registration
 * Update/Batch update by specifying the primary key
 * Delete/Batch delete by specifying the primary key
 * Search by specifying the primary key
 
-For JPA annotations that can be used in Entity, see :ref:`universal_dao_jpa_annotations`.
+For Jakarta Persistence annotations that can be used in Entity, see :ref:`universal_dao_jpa_annotations`.
 
 
 .. tip::
@@ -181,7 +181,7 @@ Convert type
 In Universal DAO, :ref:`@Temporal <universal_dao_jpa_temporal>` can be used to specify how to map ``java.util.Date`` and ``java.util.Calendar`` type values to the database.
 Since arbitrary mapping is not possible for other types, Entity properties must be defined according to the database type and specifications of the JDBC driver to be used.
 
-Though Universal DAO uses JPA annotation information when sending automatically generated SQL to the DB, JPA annotation information is not used when sending arbitrary SQL to the DB.
+Though Universal DAO uses Jakarta Persistence annotation information when sending automatically generated SQL to the DB, Jakarta Persistence annotation information is not used when sending arbitrary SQL to the DB.
 Therefore, the type conversion is as follows.
 
 :ref:`When executing SQL automatically generated from the Entity <universal_dao-execute_crud_sql>`
@@ -514,9 +514,9 @@ Configuration is required to use the created class.
 
 .. _`universal_dao_jpa_annotations`:
 
-JPA annotation that can be used for Entity
+Jakarta Persistence annotation that can be used for Entity
 ---------------------------------------------------------------------
-JPA annotations that can be used for entity are as follows.
+Jakarta Persistence annotations that can be used for entity are as follows.
 
 * Annotation configured in class
 
@@ -706,7 +706,7 @@ Data types that can be used in Bean, which maps search results, are as follows.
 
 *java.util.Date*
  The data type has to be specified in the database
- with :ref:`@Temporal <universal_dao_jpa_temporal>` of JPA.
+ with :ref:`@Temporal <universal_dao_jpa_temporal>` of Jakarta Persistence.
 
 
 *java.sql.Date*

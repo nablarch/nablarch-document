@@ -190,9 +190,9 @@ The main directories and files are shown below.
   * - Directory or file
     - Description
   * - nablarch-tools.xml
-    - Configuration file used while executing the JSP static analysis tool
+    - Configuration file used while executing the Jakarta Server Pages static analysis tool
   * - static-analysis/jspanalysis
-    - Configuration file for the JSP static analysis tool is stored.
+    - Configuration file for the Jakarta Server Pages static analysis tool is stored.
 
 
 pj-jaxrs project
@@ -248,7 +248,7 @@ Project structure
         |       +---entity
         |       |
         |       \---META-INF
-        |           |   beans.xml               … File required to enable CDI.
+        |           |   beans.xml               … File required to enable Jakarta Contexts and Dependency Injection.
         |           |
         |           \---batch-jobs
         |                   sample-batchlet.xml … Job file of the application for communication confirmation of the batchlet architecture.

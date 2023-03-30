@@ -1,6 +1,6 @@
 .. _`tag`:
 
-JSP Custom Tags
+Jakarta Server Pages Custom Tags
 ==================================================
 
 .. contents:: Table of contents
@@ -18,8 +18,8 @@ This function provides custom tags supporting creation of screens for web applic
 
 Custom tags have the following limitations:
 
-* They function in web containers supporting JSP 2.1 and above.
-* They use JSTL for controlling conditional branches and loops etc.
+* They function in web containers supporting Jakarta Server Pages 3.1 and above.
+* They use Jakarta Standard Tag Library for controlling conditional branches and loops etc.
 * They support attributes compatible with XHTML 1.0 Transitional. 
 * It is required to have JavaScript in the client. (See :ref:`tag-onclick_override`)
 * Some custom tags cannot be used with GET request. (See :ref:`tag-using_get`)

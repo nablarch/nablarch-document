@@ -37,15 +37,15 @@
 
 SQLを書かなくても単純なCRUDができる
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-JPAアノテーションをEntityに付けるだけで、SQLを書かなくても、以下の単純なCRUDができる。
-SQL文は、JPAアノテーションを元に実行時に構築する。
+Jakarta PersistenceアノテーションをEntityに付けるだけで、SQLを書かなくても、以下の単純なCRUDができる。
+SQL文は、Jakarta Persistenceアノテーションを元に実行時に構築する。
 
 * 登録/一括登録
 * 主キーを指定した更新/一括更新
 * 主キーを指定した削除/一括削除
 * 主キーを指定した検索
 
-Entityに使用できるJPAアノテーションについては、 :ref:`universal_dao_jpa_annotations` を参照。
+Entityに使用できるJakarta Persistenceアノテーションについては、 :ref:`universal_dao_jpa_annotations` を参照。
 
 
 .. tip::
@@ -181,7 +181,7 @@ JDBCのフェッチサイズによってメモリの使用量が変わる。
 ユニバーサルDAOでは、 :ref:`@Temporal <universal_dao_jpa_temporal>` を使用して、 ``java.util.Date`` 及び ``java.util.Calendar`` 型の値をデータベースにマッピングする方法を指定できる。
 他の型については、任意のマッピングは不可能であるため、Entityのプロパティは、データベースの型及び使用するJDBCドライバの仕様に応じて定義すること。
 
-また、ユニバーサルDAOは、自動生成したSQLをDBに送信する場合はJPAアノテーションの情報を使用するが、任意のSQLをDBに送信する場合はJPAアノテーションの情報は使用しない。
+また、ユニバーサルDAOは、自動生成したSQLをDBに送信する場合はJakarta Persistenceアノテーションの情報を使用するが、任意のSQLをDBに送信する場合はJakarta Persistenceアノテーションの情報は使用しない。
 そのため、型変換については、以下のようになる。
 
 :ref:`Entityから自動的に生成したSQLを実行する場合 <universal_dao-execute_crud_sql>`
@@ -513,9 +513,9 @@ DatabaseMetaDataから情報を取得できない場合に対応する
 
 .. _`universal_dao_jpa_annotations`:
 
-Entityに使用できるJPAアノテーション
+Entityに使用できるJakarta Persistenceアノテーション
 ---------------------------------------------------------------------
-Entityに使用できるJPAアノテーションは以下のとおり。
+Entityに使用できるJakarta Persistenceアノテーションは以下のとおり。
 
 * クラスに設定するアノテーション
 
@@ -704,7 +704,7 @@ Beanに使用できるデータタイプ
  プリミティブ型の場合は、リードメソッド名がisで開始されていても良い。
 
 *java.util.Date*
- JPAの :ref:`@Temporal <universal_dao_jpa_temporal>`
+ Jakarta Persistenceの :ref:`@Temporal <universal_dao_jpa_temporal>`
  でデータベース上のデータ型を指定する必要がある。
 
 

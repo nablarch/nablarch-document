@@ -64,7 +64,7 @@
   本機能の代替機能
     :固定長: :ref:`data_bind` を使用すること。
     :可変長: :ref:`data_bind` を使用すること。
-    :XML: :java:extdoc:`JAXB <javax.xml.bind>` を推奨する。
+    :XML: `Jakarta XML Binding <https://jakarta.ee/specifications/xml-binding/>`_ を推奨する。
     :JSON: OSSの使用を推奨する。例えば、 `Jackson(外部サイト、英語) <https://github.com/FasterXML/jackson>`_ が広く使われている。
 
 

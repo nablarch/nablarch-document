@@ -134,7 +134,7 @@ Exampleアプリケーションを元に、検索機能を解説する。
 
 URLとのマッピングを定義
   :ref:`router_adaptor` を使用して、業務アクションとURLのマッピングを行う。
-  マッピングには :ref:`JAX-RSのPathアノテーション <router_adaptor_path_annotation>` を使用する。
+  マッピングには :ref:`Jakarta RESTful Web ServicesのPathアノテーション <router_adaptor_path_annotation>` を使用する。
 
   ProjectAction.java
     .. code-block:: java

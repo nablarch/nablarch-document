@@ -66,7 +66,7 @@ For details of each function, refer to the linked Javadoc.
 
 * :java:extdoc:`serialization by Java standard serialize (default) <nablarch.common.web.session.encoder.JavaSerializeStateEncoder>`
 * :java:extdoc:`serialization and encryption by Java standard serialize <nablarch.common.web.session.encoder.JavaSerializeEncryptStateEncoder>`
-* :java:extdoc:`XML-based serialization with JAXB <nablarch.common.web.session.encoder.JaxbStateEncoder>`
+* :java:extdoc:`XML-based serialization with Jakarta XML Binding <nablarch.common.web.session.encoder.JaxbStateEncoder>`
 
 Module list
 ---------------------------------------------------------------------

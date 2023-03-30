@@ -194,9 +194,9 @@ toolsフォルダには、Mavenと連携させて使用するツールの設定�
   * - ディレクトリまたはファイル
     - 説明
   * - nablarch-tools.xml
-    - JSP静的解析ツールを実行する際に使用する設定ファイル
+    - Jakarta Server Pages静的解析ツールを実行する際に使用する設定ファイル
   * - static-analysis/jspanalysis
-    - JSP静的解析ツールの設定ファイルが格納されている。
+    - Jakarta Server Pages静的解析ツールの設定ファイルが格納されている。
 
 
 pj-jaxrsプロジェクト
@@ -252,7 +252,7 @@ Jakarta Batchに準拠したバッチアプリケーションのjarファイル�
         |       +---entity
         |       |
         |       \---META-INF
-        |           |   beans.xml               … CDIを有効化するために必要なファイル。
+        |           |   beans.xml               … Jakarta Contexts and Dependency Injectionを有効化するために必要なファイル。
         |           |
         |           \---batch-jobs
         |                   sample-batchlet.xml … batchlet方式の疎通確認用アプリケーションのジョブファイル。

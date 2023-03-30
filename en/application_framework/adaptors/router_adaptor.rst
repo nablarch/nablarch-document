@@ -112,9 +112,9 @@ Example of mapping URL to business action
 
 .. _router_adaptor_path_annotation:
 
-Mapping in JAX-RS Path Annotation
---------------------------------------------------------
-Since version 1.2.0 of this adapter, it is possible to map routing using the ``jakarta.ws.rs.Path`` annotation (hereafter referred to as ``Path`` annotation) in JAX-RS.
+Mapping in Jakarta RESTful Web Services Path Annotation
+-------------------------------------------------------------
+Since version 1.2.0 of this adapter, it is possible to map routing using the ``jakarta.ws.rs.Path`` annotation (hereafter referred to as ``Path`` annotation) in Jakarta RESTful Web Services.
 
 This section describes how to enable routing with ``Path`` annotations for existing :ref:`RESTful Web Service <restful_web_service>` and details of the various configurations.
 
@@ -170,7 +170,7 @@ In addition, this :java:extdoc:`JaxRsPathOptionsProvider <nablarch.integration.r
 **applicationPath**
 
   | Specify a common prefix for the path to be mapped.
-  | This means the same value as in ``jakarta.ws.rs.ApplicationPath`` annotation in JAX-RS.
+  | This means the same value as in ``jakarta.ws.rs.ApplicationPath`` annotation in Jakarta RESTful Web Services.
 
 **basePackage**
 
@@ -295,8 +295,8 @@ Can also include parameters in the path, as follows
         }
     }
 
-| The path parameter should be written in accordance with the JAX-RS specification, not in the http-request-router syntax.
-| This is because this feature (routing definition with ``Path`` annotations) follows the JAX-RS specification.
+| The path parameter should be written in accordance with the Jakarta RESTful Web Services specification, not in the http-request-router syntax.
+| This is because this feature (routing definition with ``Path`` annotations) follows the Jakarta RESTful Web Services specification.
 
 | By describing a part of the path as ``{parameter name}``, can define that part of the path as a parameter.
 | Can get the value of the path parameter by passing the parameter name defined here to :java:extdoc:`HttpRequest#getParam(String) <nablarch.fw.web.HttpRequest.getParam(java.lang.String)>` .

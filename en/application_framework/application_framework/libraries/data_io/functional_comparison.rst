@@ -70,7 +70,7 @@ This section compares the following functions:
 
 .. [#csv_multi_format] When handling CSV of different format for each record, use :ref:`data_format`.
 .. [#json_layout] Input/output of JSON data is not implemented. When handling JSON data, use :ref:`data_format` or OSS.
-.. [#xml_layout] Input/output of XML data is not implemented. When handling XML data, use :ref:`data_format` or JAXB.
+.. [#xml_layout] Input/output of XML data is not implemented. When handling XML data, use :ref:`data_format` or Jakarta XML Binding.
 .. [#converter] Converters such as trim only for fixed-length data are provided. To convert the value with CSV, data format conversion has to be performed before output and after input.
 .. [#char_replace] Create a handler for character conversion to handle the collated characters (character conversion) of input data.
 

@@ -116,7 +116,7 @@ Add a setting to trace HTTP requests to other services.
 
 X-Ray SDK for Java provides a class that can be used in the interface of `Apache HttpComponents(external site)`_ as an API for measuring outgoing HTTP calls.
 
-Since using Apache HttpComponents directly is complicated, this procedure uses it via `Jersey(external site)`_, which is an implementation of JAX-RS client.
+Since using Apache HttpComponents directly is complicated, this procedure uses it via `Jersey(external site)`_, which is an implementation of Jakarta RESTful Web Services client.
 Jersey uses ``java.net.HttpURLConnection`` for HTTP communication by default, so it needs to be configured to use Apache HttpComponents.
 Jersey provides the interface ``org.glassfish.jersey.client.spi.ConnectorProvider``. 
 By registering your own ``ConnectorProvider`` implementation to the Jersey client, HTTP communication can be performed by a method other than ``java.net.HttpURLConnection``.

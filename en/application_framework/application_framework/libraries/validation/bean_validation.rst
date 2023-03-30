@@ -10,10 +10,10 @@ This chapter describes the validation function compliant with Jakarta Bean Valid
 
 .. important::
 
-  The Bean Validation engine is not implemented by this function.
+  The Jakarta Bean Validation engine is not implemented by this function.
 
-  Jakarta EE environments (such as WebLogic and WildFly) use the Bean Validation implementation that is bundled in the server.
-  For use outside Jakarta EE environments, the Bean Validation implementation must be added to the reference library separately.
+  Jakarta EE environments (such as WebLogic and WildFly) use the Jakarta Bean Validation implementation that is bundled in the server.
+  For use outside Jakarta EE environments, the Jakarta Bean Validation implementation must be added to the reference library separately.
   (It is recommended that the compatible implementation `Hibernate Validator(external site) <http://hibernate.org/validator/>`_ be used.)
 
 Function overview
@@ -79,7 +79,7 @@ Configure settings to use Bean Validation
 The configuration required to use Bean Validation are shown below.
 
 MessageInterpolator configuration
-  Configure the class that constructs the message when validation errors occur in Bean Validation (a class that implements :java:extdoc:`MessageInterpolator <jakarta.validation.MessageInterpolator>`).
+  Configure the class that constructs the message when validation errors occur in Jakarta Bean Validation (a class that implements :java:extdoc:`MessageInterpolator <jakarta.validation.MessageInterpolator>`).
 
   If this is not configured, then :java:extdoc:`NablarchMessageInterpolator <nablarch.core.validation.ee.NablarchMessageInterpolator>` which uses :ref:`message` is used.
 
@@ -396,7 +396,7 @@ Allowing Surrogate Pairs
 
 Performing Correlation Validation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-To perform correlation validation using multiple items, use the :java:extdoc:`@AssertTrue <jakarta.validation.constraints.AssertTrue>` annotation of Bean Validation.
+To perform correlation validation using multiple items, use the :java:extdoc:`@AssertTrue <jakarta.validation.constraints.AssertTrue>` annotation of Jakarta Bean Validation.
 
 Implementation examples
   In this example, it has been verified that the email address and the confirmation email address match.
@@ -417,7 +417,7 @@ Implementation examples
 
 .. important::
 
-  Since the execution order of the validation is not guaranteed in Bean Validation,
+  Since the execution order of the validation is not guaranteed in Jakarta Bean Validation,
   correlation validation may be called even before the validation of individual items.
 
   Therefore, it is necessary to implement validation logic so that unexpected exceptions do not occur,
@@ -475,7 +475,7 @@ There are cases where the same information is input multiple times, such as in b
 In such cases, a nested Bean is defined for the Bean for validation.
 
 .. tip::
-  Since this is the specifications for Bean Validation, see Bean Validation specifications for details.
+  Since this is the specifications for Jakarta Bean Validation, see Jakarta Bean Validation specifications for details.
 
 An example is shown below.
 
@@ -630,7 +630,7 @@ Embed the item name in the message when a validation error occurs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Although the item name cannot be embedded in the message as per the Jakarta Bean Validation specifications,
 you may want to embed the item name in the message according to the requirements etc.
-Therefore, Nablarch provides a function that embeds the item name of the item in which an error has occurred, even if Bean Validation is used.
+Therefore, Nablarch provides a function that embeds the item name of the item in which an error has occurred, even if Jakarta Bean Validation is used.
 
 The usage method is shown below.
 

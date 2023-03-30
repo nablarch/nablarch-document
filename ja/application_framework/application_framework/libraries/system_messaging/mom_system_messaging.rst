@@ -54,7 +54,7 @@ MOMに依存するMQ接続やメッセージ送受信は、このインタフェ
 そのため、 :java:extdoc:`MessagingProvider<nablarch.fw.messaging.MessagingProvider>` インタフェースを実装したクラスを作成することで、
 本機能を様々なMOMで使用できる。
 
-MOMメッセージングはJMSに対応しており、
+MOMメッセージングはJakarta Messagingに対応しており、
 :java:extdoc:`JmsMessagingProvider<nablarch.fw.messaging.provider.JmsMessagingProvider>` を提供している。
 詳細は、リンク先のJavadocを参照。
 

@@ -7,23 +7,23 @@ Architecture Overview
   :depth: 3
   :local:
 
-Nablarch provides the functions to create RESTful web service using the business action of a web application (JAX-RS support)
-in the same way JAX-RS resource class is created.
+Nablarch provides the functions to create RESTful web service using the business action of a web application (Jakarta RESTful Web Services support)
+in the same way Jakarta RESTful Web Services resource class is created.
 
-JAX-RS support is based on web applications of Nablarch.
-Therefore, JAX-RS cannot use Servlet resource injection or CDI using @Context annotations, which can be used in JAX-RS.
-The following annotations are available for JAX-RS support.
+Jakarta RESTful Web Services support is based on web applications of Nablarch.
+Therefore, Jakarta RESTful Web Services cannot use Servlet resource injection or Jakarta Contexts and Dependency Injection using @Context annotations, which can be used in Jakarta RESTful Web Services.
+The following annotations are available for Jakarta RESTful Web Services support.
 
  - Produces (specify media type for the response)
  - Consumption (specify the media type of the request)
  - Valid (runs BeanValidation for the request)
 
-For comparison of functions between Jakarta RESTful Web Services and JAX-RS support , see :ref:`restful_web_service_functional_comparison`.
+For comparison of functions between Jakarta RESTful Web Services and Jakarta RESTful Web Services support , see :ref:`restful_web_service_functional_comparison`.
 
 .. important::
 
- JAX-RS support does not provide client-side functions.
- If you need to use a JAX-RS client, use a JAX-RS implementation (such as Jersey or RESTEasy).
+ Jakarta RESTful Web Services support does not provide client-side functions.
+ If you need to use a Jakarta RESTful Web Services client, use a Jakarta RESTful Web Services implementation (such as Jersey or RESTEasy).
 
 Structure of RESTful web service
 ----------------------------------------

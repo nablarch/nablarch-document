@@ -1,6 +1,6 @@
-====================================================
-JSP Static Analysis Tool Configuration Change Guide
-====================================================
+======================================================================
+Jakarta Server Pages Static Analysis Tool Configuration Change Guide
+======================================================================
 
 .. contents:: Table of Contents
   :depth: 2
@@ -35,11 +35,11 @@ The structure of the configuration file is shown in the table below.
     - Check the Ant task definition file [1]_ . Usually it need not be edited
 
   * - tools/static-analysis/jspanalysis/config.txt
-    - JSP static analysis tool configuration file. Refer to :ref:`01_customJspAnalysis` for the description method
+    - Jakarta Server Pages static analysis tool configuration file. Refer to :ref:`01_customJspAnalysis` for the description method
 
 
   * - tools/static-analysis/jspanalysis/transform-to-html.xsl
-    - Definition file for converting JSP static analysis result XML to HTML. |br|
+    - Definition file for converting analysis result XML to HTML. |br|
       Refer to "JSP Analysis (XML Report Output)" in :ref:`01_outputJspAnalysis` for the description method.
 
   * - Pom.xml of nablarch-archetype-parent
@@ -54,7 +54,7 @@ The structure of the configuration file is shown in the table below.
 
 Rewriting pom.xml
 -----------------------------------------------
-When modifying properties for the JSP static analysis tool according to the execution environment, if there are modifications to jspanalysis.excludePatterns, modify the pom.xml of the project that executes the tool. When other items are to be modified, modify pom.xml of nablarch-archetype-parent.
+When modifying properties for the Jakarta Server Pages static analysis tool according to the execution environment, if there are modifications to jspanalysis.excludePatterns, modify the pom.xml of the project that executes the tool. When other items are to be modified, modify pom.xml of nablarch-archetype-parent.
 
 ================================  ============================================================================================================
 Configuration property                    Description
@@ -82,7 +82,7 @@ jspanalysis.htmloutput            Configure the output path of HTML report file 
 
                                      ./build/reports/jsp/report.html
 
-jspanalysis.checkconfig           Configure the file path of the JSP static analysis tool configuration file.
+jspanalysis.checkconfig           Configure the file path of the Jakarta Server Pages static analysis tool configuration file.
 
                                   Example::
 

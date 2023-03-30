@@ -115,7 +115,7 @@ AWS X-Ray SDKのサブモジュールから必要なものを依存関係に追�
 
 X-Ray SDK for Javaには、送信HTTP呼び出しを計測するためのAPIとして `Apache HttpComponents(外部サイト、英語)`_ のインタフェースで使用できるクラスが用意されている。
 
-Apache HttpComponentsを直接使うと処理が煩雑になるため、本手順ではJAX-RSクライアントの実装である `Jersey(外部サイト、英語)`_ 経由で使用する。
+Apache HttpComponentsを直接使うと処理が煩雑になるため、本手順ではJakarta RESTful Web Servicesのクライアントの実装である `Jersey(外部サイト、英語)`_ 経由で使用する。
 Jerseyは、デフォルトではHTTP通信に ``java.net.HttpURLConnection`` を使用するため、Apache HttpComponentsを利用するためには設定が必要となる。
 ``org.glassfish.jersey.client.spi.ConnectorProvider`` というインタフェースが用意されているので、
 その実装クラスをJerseyクライアントに登録することで ``java.net.HttpURLConnection`` 以外の方法でHTTP通信が可能となる。

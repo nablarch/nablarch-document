@@ -10,10 +10,10 @@ Bean Validation
 
 .. important::
 
-  この機能は、Bean Validationのエンジンを実装しているわけではない。
+  この機能は、Jakarta Bean Validationのエンジンを実装しているわけではない。
 
-  Jakarta EE環境(WebLogicやWildFlyなど)では、そのサーバ内にバンドルされているBean Validationの実装が使用される。
-  Jakarta EE環境外で使用するには、別途Bean Validationの実装を参照ライブラリに追加する必要がある。
+  Jakarta EE環境(WebLogicやWildFlyなど)では、そのサーバ内にバンドルされているJakarta Bean Validationの実装が使用される。
+  Jakarta EE環境外で使用するには、別途Jakarta Bean Validationの実装を参照ライブラリに追加する必要がある。
   (互換実装である `Hibernate Validator(外部サイト、英語) <http://hibernate.org/validator/>`_ を使用することを推奨する。)
 
 機能概要
@@ -79,7 +79,7 @@ Bean Validationを使うための設定
 Bean Validationを使うために必要となる設定を以下に示す。
 
 MessageInterpolatorの設定
-  Bean Validationでバリデーションエラーが発生した際のメッセージを構築するクラス( :java:extdoc:`MessageInterpolator <jakarta.validation.MessageInterpolator>` を実装したクラス)を設定する。
+  Jakarta Bean Validationでバリデーションエラーが発生した際のメッセージを構築するクラス( :java:extdoc:`MessageInterpolator <jakarta.validation.MessageInterpolator>` を実装したクラス)を設定する。
 
   設定を省略した場合(デフォルト)は、 :ref:`message` を使用する :java:extdoc:`NablarchMessageInterpolator <nablarch.core.validation.ee.NablarchMessageInterpolator>` が使用される。
 
@@ -396,7 +396,7 @@ Java実装例
 
 相関バリデーションを行う
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-複数の項目を使用した相関バリデーションを行うには、Bean Validationの :java:extdoc:`@AssertTrue <jakarta.validation.constraints.AssertTrue>` アノテーションを使用する。
+複数の項目を使用した相関バリデーションを行うには、Jakarta Bean Validationの :java:extdoc:`@AssertTrue <jakarta.validation.constraints.AssertTrue>` アノテーションを使用する。
 
 実装例
   この例では、メールアドレスと確認用メールアドレスが一致していることを検証している。
@@ -417,7 +417,7 @@ Java実装例
 
 .. important::
 
-  Bean Validationでは、バリデーションの実行順序は保証されないため、
+  Jakarta Bean Validationでは、バリデーションの実行順序は保証されないため、
   項目単体のバリデーションよりも前に相関バリデーションが呼び出される場合がある。
 
   このため、相関バリデーションでは項目単体のバリデーションが実行されていない場合でも、
@@ -475,7 +475,7 @@ Java実装例
 このような場合には、バリデーション対象のBeanに対してネストしたBeanを定義することで対応する。
 
 .. tip::
-  これはBean Validationの仕様のため、詳細はBean Validationの仕様を参照すること。
+  これはJakarta Bean Validationの仕様のため、詳細はJakarta Bean Validationの仕様を参照すること。
 
 以下に例を示す。
 
@@ -631,7 +631,7 @@ Java実装例
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Jakarta Bean Validationの仕様では、項目名をメッセージに含めることができないが、
 要件などによってはメッセージに項目名を含めたい場合がある。
-このため、NablarchではBean Validationを使用した場合でもメッセージにエラーが発生した項目の項目名を含める機能を提供している。
+このため、NablarchではJakarta Bean Validationを使用した場合でもメッセージにエラーが発生した項目の項目名を含める機能を提供している。
 
 以下に使用方法を示す。
 

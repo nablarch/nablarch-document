@@ -1,7 +1,7 @@
 .. _jaxrs_bean_validation_handler:
 
-JAX-RS BeanValidationハンドラ
-==================================================
+Jakarta RESTful Web Servcies Bean Validationハンドラ
+======================================================
 .. contents:: 目次
   :depth: 3
   :local:

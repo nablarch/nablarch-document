@@ -16,12 +16,12 @@ Nablarch offers two types of validation functions:
 .. toctree::
   :maxdepth: 1
 
-  Validation function compliant with Jakarta EE Bean Validation (JSR349) (Bean Validation) <validation/bean_validation>
+  Validation function compliant with Jakarta Bean Validation of Jakarta EE (Bean Validation) <validation/bean_validation>
   Nablarch independent validation function (Nablarch Validation) <validation/nablarch_validation>
 
 Input value can be checked by using any one of the functions, but it is recommended to use the Jakarta EE-compliant function for the following reasons.
 
-* Bean Validation is specified in Jakarta EE and extensive information is available.
+* Jakarta Bean Validation is specified in Jakarta EE and extensive information is available.
 * Developers do not have to learn how to use the independent validation of Nablarch.
 
 .. tip::

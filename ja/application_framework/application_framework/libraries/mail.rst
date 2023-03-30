@@ -9,7 +9,7 @@
 
 .. |JavaMail| raw:: html
 
-  <a href="https://jakarta.ee/specifications/platform/10/apidocs/jakarta/mail/package-summary.html" target="_blank">JavaMail API(外部サイト、英語)</a>
+  <a href="https://jakarta.ee/specifications/platform/10/apidocs/jakarta/mail/package-summary.html" target="_blank">Jakarta Mail (外部サイト、英語)</a>
 
 メールを送信する機能を提供する。
 
@@ -545,11 +545,11 @@
 
   * - 例外
     - 処理
-  * - 送信要求のメールアドレス変換時の :java:extdoc:`JavaMailのAddressException <jakarta.mail.internet.AddressException>`
+  * - 送信要求のメールアドレス変換時の :java:extdoc:`Jakarta MailのAddressException <jakarta.mail.internet.AddressException>`
     - 変換に失敗したアドレスをログ出力(ログレベル: ERROR)する。
   * - :ref:`mail-mail_header_injection` での :java:extdoc:`InvalidCharacterException<nablarch.common.mail.InvalidCharacterException>`
     - ヘッダ文字列をログ出力(ログレベル: ERROR)する。
-  * - メール送信失敗時の :java:extdoc:`JavaMailのSendFailureException <jakarta.mail.SendFailedException>`
+  * - メール送信失敗時の :java:extdoc:`Jakarta MailのSendFailureException <jakarta.mail.SendFailedException>`
     - 送信されたアドレス、送信されなかったアドレス、不正なアドレスをログ出力(ログレベル: ERROR)する。
   * - 上記以外のメール送信時の :java:extdoc:`Exception <java.lang.Exception>`
     - 例外をラップしてリトライ例外を送出する。
