@@ -168,7 +168,7 @@ HTMLエスケープの詳細は以下を参照。
 
 .. code-block:: jsp
 
- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="c" uri="jakarta.tags.core" %>
  <%@ taglib prefix="n" uri="http://tis.co.jp/nablarch" %>
 
 .. _`tag-input_form`:

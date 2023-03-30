@@ -168,7 +168,7 @@ Since it is assumed that custom tags and JSTL will be used, specify the taglib d
 
 .. code-block:: jsp
 
- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="c" uri="jakarta.tags.core" %>
  <%@ taglib prefix="n" uri="http://tis.co.jp/nablarch" %>
 
 .. _`tag-input_form`:
