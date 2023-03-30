@@ -22,7 +22,7 @@ Module list
   
 .. tip::
 
-  Tests are conducted using Thymeleaf version 3.0.9 RELEASE. 
+  Tests are conducted using Thymeleaf version 3.1.1 RELEASE. 
   When changing the version, test in the project to confirm that there are no problems.
 
 Configuration for using the web application Thymeleaf adapter

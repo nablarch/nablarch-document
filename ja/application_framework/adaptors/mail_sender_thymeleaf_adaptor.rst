@@ -21,7 +21,7 @@ E-mail Thymeleafアダプタ
   
 .. tip::
 
-  Thymeleafのバージョン3.0.9.RELEASEを使用してテストを行っている。
+  Thymeleafのバージョン3.1.1.RELEASEを使用してテストを行っている。
   バージョンを変更する場合は、プロジェクト側でテストを行い問題ないことを確認すること。
 
 E-mail Thymeleafアダプタを使用するための設定を行う
