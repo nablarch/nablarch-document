@@ -176,7 +176,7 @@ Job definition file
   Implementation examples
     .. code-block:: xml
     
-      <job id="batchlet-progress-test" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+      <job id="batchlet-progress-test" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
         <listeners>
           <listener ref="nablarchJobListenerExecutor" />
         </listeners>

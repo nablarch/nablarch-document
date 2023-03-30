@@ -61,7 +61,7 @@ Nablarchでは、標準の実装クラスとして、:java:extdoc:`nablarch.fw.b
 デフォルトの ``batch-boot.xml`` を使用する場合の例
   .. code-block:: xml
 
-    <job id="sample-job" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <job id="sample-job" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
       <listeners>
         <!-- ジョブリスナーにnablarchJobListenerExecutorを設定する -->
         <listener ref="nablarchJobListenerExecutor" />
@@ -73,7 +73,7 @@ Nablarchでは、標準の実装クラスとして、:java:extdoc:`nablarch.fw.b
 デフォルト以外の設定ファイルを使用する例
   .. code-block:: xml
 
-    <job id="sample-job" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <job id="sample-job" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
       <listeners>
         <listener ref="nablarchJobListenerExecutor">
           <properties>

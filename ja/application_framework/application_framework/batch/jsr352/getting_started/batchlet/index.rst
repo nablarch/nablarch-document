@@ -128,7 +128,7 @@ Batchletの作成
   zip-code-truncate-table.xml
     .. code-block:: xml
 
-     <job id="zip-code-truncate-table" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+     <job id="zip-code-truncate-table" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
        <listeners>
          <listener ref="nablarchJobListenerExecutor" />
        </listeners>

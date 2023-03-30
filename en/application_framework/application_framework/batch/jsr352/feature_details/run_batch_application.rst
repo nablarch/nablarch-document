@@ -59,7 +59,7 @@ An example is shown below.
 Example of the default ``batch-boot.xml`` configuration file
   .. code-block:: xml
 
-    <job id="sample-job" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <job id="sample-job" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
       <listeners>
         <!-- Configure nablarchJobListenerExecutor in job listener -->
         <listener ref="nablarchJobListenerExecutor" />
@@ -71,7 +71,7 @@ Example of the default ``batch-boot.xml`` configuration file
 Example of a configuration file other than default
   .. code-block:: xml
 
-    <job id="sample-job" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <job id="sample-job" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
       <listeners>
         <listener ref="nablarchJobListenerExecutor">
           <properties>

@@ -193,13 +193,13 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 
 .. code-block:: text
 
-  mvn waitt:run-headless
+  mvn jetty-ee10:run
 
 .. tip::
 
-  上記のコマンド例で使用しているMavenの「waitt:run-headless」は、 waitt maven pluginのrun-headlessゴールを使用するという指定である。
+  上記のコマンド例で使用しているMavenの「jetty-ee10:run」は、 Jetty Maven Pluginのrunゴールを使用するという指定である。
   
-  waitt maven pluginについては `waitt maven plugin(外部サイト、英語) <https://github.com/kawasima/waitt>`_  を参照。
+  Jetty Maven Pluginについては `Jetty Maven Plugin(外部サイト、英語) <https://www.eclipse.org/jetty/documentation/jetty-12/programming-guide/index.html#jetty-maven-plugin>`_  を参照。
 
 
 起動に成功するとコンソールに以下のようなログが出力される。

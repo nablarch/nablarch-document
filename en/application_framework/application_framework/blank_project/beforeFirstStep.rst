@@ -69,7 +69,7 @@ The following do not require advance preparation in the initial setup.
   * - Software
     - Description
   * - AP server
-    - Use Tomcat8 to confirm the communication between the web project and RESTful web service project. Since the waitt-maven-plugin is executed from the mvn command, and the application is deployed and launched to Tomcat8 embedded in the waitt-maven-plugin during the procedure, advance preparation is not required.
+    - Use Jetty12 to confirm the communication between the web project and RESTful web service project. Since the jetty-ee10-maven-plugin is executed from the mvn command, and the application is deployed and launched to Jetty12 embedded in the jetty-ee10-maven-plugin during the procedure, advance preparation is not required.
   * - DB server
     - Since the H2 Database Engine (hereinafter H2) is incorporated in the archetype for communication confirmation, separate installation is not required.
 

@@ -262,7 +262,7 @@ ItemWriterレベルのリスナー
 ジョブ定義ファイルへの設定
   .. code-block:: xml
 
-    <job id="chunk-integration-test" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <job id="chunk-integration-test" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
       <listeners>
         <!-- ジョブレベルのリスナー -->
         <listener ref="nablarchJobListenerExecutor" />

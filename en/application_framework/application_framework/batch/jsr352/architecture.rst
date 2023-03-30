@@ -261,7 +261,7 @@ The steps required to define a listener list are as follows:
 Configure in the job definition file
   .. code-block:: xml
 
-    <job id="chunk-integration-test" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <job id="chunk-integration-test" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
       <listeners>
         <!-- Job-level listener -->
         <listener ref="nablarchJobListenerExecutor" />

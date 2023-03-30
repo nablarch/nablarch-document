@@ -170,16 +170,23 @@ Execute the following command to start the application for communication confirm
 
 .. code-block:: text
 
-  mvn waitt:run
+  mvn jetty-ee10:run
 
 .. tip::
 
-  "waitt:run" of Maven used in the above command example is a specification to use the run goal of the waitt maven plugin.
+  "jetty-ee10:run" of Maven used in the above command example is a specification to use the run goal of the Jetty Maven Plugin.
 
-  For information on the waitt maven plugin, see `waitt maven plugin (external site) <https://github.com/kawasima/waitt>`_.
+  For information on the Jetty Maven Plugin, see `Jetty Maven Plugin (external site) <https://www.eclipse.org/jetty/documentation/jetty-12/programming-guide/index.html#jetty-maven-plugin>`_.
 
+If the launch is successful, the log given below will be output to the console.
 
-The browser will automatically start up if the launch is successful and the communication confirmation screen will be displayed. Read the contents of the displayed page and confirm that the launch was successful.
+.. code-block:: text
+
+  (omitted)
+  2023-03-30 10:04:42.148 -INFO- nablarch.fw.web.servlet.NablarchServletContextListener [null] boot_proc = [] proc_sys = [web] req_id = [null] usr_id = [null] [nablarch.fw.web.servlet.NablarchServletContextListener#contextInitialized] initialization completed.
+
+If the launch is successful, access ``http://localhost:9080/`` with a browser and open the communication confirmation screen.
+Read the contents of the displayed page and confirm that the launch was successful.
 
 Check the log to make sure that an error has not occurred.
 
@@ -201,13 +208,6 @@ web.xml is shared instead of being separated for each environment for ease of ma
 When acquiring the connection through JNDI only in the production environment, <resource-ref> element definition is not required as a setting for the development environment of the local PC,
 and unless the code that uses the definition is written in the application, <resource-ref> elements are not used.
 Therefore, a problem does not occur during the operation of the application in the development environment of the local PC.
-
-.. tip::
-
-  Custom server.xml cannot be loaded in Tomcat, which is launched by waitt maven plugin.
-  When running the application using the waitt maven plugin,
-  JNDI cannot be used even if the element <resource-ref> is defined in web.xml.
-
 
 Supplementary notes
 --------------------

@@ -268,7 +268,7 @@ JOBの実行設定を記載したファイルを作成する。
   bonus-calculate.xml
     .. code-block:: xml
 
-     <job id="bonus-calculate" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+     <job id="bonus-calculate" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
        <listeners>
          <listener ref="nablarchJobListenerExecutor" />
        </listeners>
