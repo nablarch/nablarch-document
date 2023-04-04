@@ -23,6 +23,7 @@ Nablarch
   about_nablarch/versionup_policy
   inquiry/index
   migration/index
+  jakarta_ee/index
 
 -----------------------------------------------
 Nablarchについて
@@ -101,3 +102,9 @@ Nablarch 5から6への移行ガイド
 -----------------------------------------------
 
   | :doc:`Nablarch 5から6への移行ガイド <migration/index>`
+
+-----------------------------------------------
+Jakarta EEの仕様名に関して
+-----------------------------------------------
+
+  | :doc:`Jakarta EEの仕様名に関して <migration/index>`

@@ -21,6 +21,7 @@ Nablarch
   nablarch_api/index
   about_nablarch/versionup_policy
   migration/index
+  jakarta_ee/index
 
 
 -----------------------------------------------
@@ -86,3 +87,9 @@ Nablarch 5 to 6 Migration Guide
 -----------------------------------------------
 
   | :doc:`Nablarch 5 to 6 Migration Guide <migration/index>`
+
+-----------------------------------------------
+Regarding the specification name of Jakarta EE
+-----------------------------------------------
+
+  | :doc:`Regarding the specification name of Jakarta EE <migration/index>`
