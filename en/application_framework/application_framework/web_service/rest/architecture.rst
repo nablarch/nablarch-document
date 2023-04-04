@@ -10,6 +10,14 @@ Architecture Overview
 Nablarch provides the functions to create RESTful web service using the business action of a web application (Jakarta RESTful Web Services support)
 in the same way Jakarta RESTful Web Services resource class is created.
 
+.. tip::
+  This function was called "JAX-RS support" until Nablarch5.
+  However, as Java EE was transferred to the Eclipse Foundation and the specification name changed, the name was changed to "Jakarta RESTful Web Services support".
+
+  Only the name has changed, there is no functional difference.
+
+  For other features renamed in Nablarch 6, see :ref:`renamed_features_in_nablarch_6`.
+
 Jakarta RESTful Web Services support is based on web applications of Nablarch.
 Therefore, Jakarta RESTful Web Services cannot use Servlet resource injection or Jakarta Contexts and Dependency Injection using @Context annotations, which can be used in Jakarta RESTful Web Services.
 The following annotations are available for Jakarta RESTful Web Services support.

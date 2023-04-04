@@ -6,6 +6,15 @@ Jakarta RESTful Web Servcies Bean Validation Handler
   :depth: 3
   :local:
 
+.. tip::
+  This function was called "JAX-RS BeanValidation Handler" until Nablarch5.
+  However, as Java EE was transferred to the Eclipse Foundation and the specification name changed, the name was changed to "Jakarta RESTful Web Servcies Bean Validation Handler".
+
+  Only the name has changed, there is no functional difference.
+
+  For other features renamed in Nablarch 6, see :ref:`renamed_features_in_nablarch_6`.
+
+
 This handler executes :ref:`bean_validation` for Form (Bean) received by the resource (action) class.
 If a validation error occurs during validation, the process is not delegated to the subsequent handler,
 and the process is ended after sending :java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>`.

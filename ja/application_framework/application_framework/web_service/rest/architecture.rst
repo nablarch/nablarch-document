@@ -10,6 +10,14 @@
 Nablarchでは、Jakarta RESTful Web Servicesのリソースクラスを作るのと同じように、ウェブアプリケーションの業務アクションを使用して
 RESTfulウェブサービスを作成する機能（Jakarta RESTful Web Servicesサポート）を提供する。
 
+.. tip::
+  本機能は、Nablarch5までは「JAX-RSサポート」という名称だった。
+  しかし、Java EEがEclipse Foundationに移管され仕様名が変わったことに伴い「Jakarta RESTful Web Servicesサポート」という名称に変更された。
+
+  変更されたのは名称のみで、機能的な差は無い。
+
+  その他、Nablarch6で名称が変更された機能については :ref:`renamed_features_in_nablarch_6` を参照のこと。
+
 Jakarta RESTful Web Servicesサポートは、Nablarchのウェブアプリケーションをベースとする。
 そのため、Jakarta RESTful Web Servicesで使用できる@Contextアノテーションを使用したServletリソースのインジェクションやJakarta Contexts and Dependency Injectionなどは使用できない。
 以下に、Jakarta RESTful Web Servicesサポートで使用できるアノテーションを示す。

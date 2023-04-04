@@ -6,6 +6,14 @@ Jakarta RESTful Web Servicesレスポンスハンドラ
   :depth: 3
   :local:
 
+.. tip::
+  本機能は、Nablarch5までは「JAX-RSレスポンスハンドラ」という名称だった。
+  しかし、Java EEがEclipse Foundationに移管され仕様名が変わったことに伴い「Jakarta RESTful Web Servicesレスポンスハンドラ」という名称に変更された。
+
+  変更されたのは名称のみで、機能的な差は無い。
+
+  その他、Nablarch6で名称が変更された機能については :ref:`renamed_features_in_nablarch_6` を参照のこと。
+
 本ハンドラでは、後続のハンドラ(リソース(アクション)クラスや :ref:`body_convert_handler`)
 から戻されたレスポンス情報を、クライアントに返却する。
 後続のハンドラで例外及びエラーが送出された場合には、エラー及び例外に対応したレスポンス情報を構築しクライアントに返却する。

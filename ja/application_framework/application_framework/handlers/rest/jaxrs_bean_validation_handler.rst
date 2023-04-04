@@ -6,6 +6,15 @@ Jakarta RESTful Web Servcies Bean Validationハンドラ
   :depth: 3
   :local:
 
+.. tip::
+  本機能は、Nablarch5までは「JAX-RS BeanValidationハンドラ」という名称だった。
+  しかし、Java EEがEclipse Foundationに移管され仕様名が変わったことに伴い「Jakarta RESTful Web Servcies Bean Validationハンドラ」という名称に変更された。
+
+  変更されたのは名称のみで、機能的な差は無い。
+
+  その他、Nablarch6で名称が変更された機能については :ref:`renamed_features_in_nablarch_6` を参照のこと。
+
+
 本ハンドラは、リソース(アクション)クラスが受け取るForm(Bean)に対して、:ref:`bean_validation` を実行する。
 バリデーションでバリデーションエラーが発生した場合には、後続のハンドラに処理は委譲せずに、
 :java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>` を送出して処理を終了する。

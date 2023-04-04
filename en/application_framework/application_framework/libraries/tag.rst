@@ -13,6 +13,14 @@ Jakarta Server Pages Custom Tags
 
   tag/tag_reference
 
+.. tip::
+  This function was called "JSP Custom Tags" until Nablarch5.
+  However, as Java EE was transferred to the Eclipse Foundation and the specification name changed, the name was changed to "Jakarta Server Pages Custom Tags".
+
+  Only the name has changed, there is no functional difference.
+
+  For other features renamed in Nablarch 6, see :ref:`renamed_features_in_nablarch_6`.
+
 
 This function provides custom tags supporting creation of screens for web applications.
 

@@ -7,6 +7,14 @@ Jakarta RESTful Web Services Adapter
   :depth: 3
   :local:
 
+.. tip::
+  This function was called "JAX-RS Adapter" until Nablarch5.
+  However, as Java EE was transferred to the Eclipse Foundation and the specification name changed, the name was changed to "Jakarta RESTful Web Services Adapter".
+
+  Only the name has changed, there is no functional difference.
+
+  For other features renamed in Nablarch 6, see :ref:`renamed_features_in_nablarch_6`.
+
 Provides the following adapter to use in :ref:`RESTful web service <restful_web_service>`.
 
 

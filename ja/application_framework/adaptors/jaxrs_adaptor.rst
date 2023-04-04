@@ -7,6 +7,14 @@ Jakarta RESTful Web Servicesアダプタ
   :depth: 3
   :local:
 
+.. tip::
+  本機能は、Nablarch5までは「JAX-RS アダプタ」という名称だった。
+  しかし、Java EEがEclipse Foundationに移管され仕様名が変わったことに伴い「Jakarta RESTful Web Servicesアダプタ」という名称に変更された。
+
+  変更されたのは名称のみで、機能的な差は無い。
+
+  その他、Nablarch6で名称が変更された機能については :ref:`renamed_features_in_nablarch_6` を参照のこと。
+
 :ref:`RESTfulウェブサービス <restful_web_service>` で使用するための以下のアダプタを提供する。
 
 * JSONを `Jackson(外部サイト、英語) <https://github.com/FasterXML/jackson>`_ を使って変換するアダプタ
