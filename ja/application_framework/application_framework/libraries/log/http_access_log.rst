@@ -131,7 +131,6 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
    :クライアント端末IPアドレス: $clientIpAddress$
    :クライアント端末ホスト: $clientHost$
    :HTTPヘッダのUser-Agent: $clientUserAgent$
-   :リクエストパラメータ: $parameters$
 
   デフォルトのフォーマット
    .. code-block:: bash
