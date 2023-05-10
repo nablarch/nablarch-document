@@ -353,7 +353,7 @@ HTTPアクセスログの各項目もJSONの値として出力するには、
    :セッションストアID: sessionStoreId
    :URL: url ``デフォルト``
    :ディスパッチ先クラス: dispatchingClass
-   :ステータスコード(内部): statusCode
+   :ステータスコード(内部): statusCode ``デフォルト``
    :ステータスコード(クライアント): responseStatusCode
    :コンテンツパス: contentPath ``デフォルト``
    :開始日時: startTime ``デフォルト``
