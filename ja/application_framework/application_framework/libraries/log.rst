@@ -115,6 +115,12 @@ Nablarchの提供するアーキタイプから生成したブランクプロジ
        さらに、アプリケーションの不正使用を検知するために、
        全てのリクエスト及びレスポンス情報を出力する証跡ログとしても使用する。
 
+   * - :ref:`HTTPアクセスログ（RESTfulウェブサービス用） <jaxrs_access_log>`
+     - RESTfulウェブサービスアプリケーションで、アプリケーションの実行状況を把握するための情報を出力する。
+       アプリケーションの性能測定に必要な情報、アプリケーションの負荷測定に必要な情報の出力も含む。
+       さらに、アプリケーションの不正使用を検知するために、
+       全てのリクエスト及びレスポンス情報を出力する証跡ログとしても使用する。
+
    * - :ref:`メッセージングログ <messaging_log>`
      - メッセージング処理において、メッセージ送受信の状況を把握するための情報を出力する。
 
@@ -144,6 +150,12 @@ Nablarchの提供するアーキタイプから生成したブランクプロジ
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-fw-web</artifactId>
+  </dependency>
+
+  <!-- HTTPアクセスログ（RESTfulウェブサービス用）を使用する場合のみ -->
+  <dependency>
+    <groupId>com.nablarch.framework</groupId>
+    <artifactId>nablarch-fw-jaxrs</artifactId>
   </dependency>
 
   <!-- メッセージングログを使用する場合のみ -->
@@ -527,6 +539,7 @@ Nablarchの提供するアーキタイプから生成したブランクプロジ
  * :ref:`sql_log-setting`
  * :ref:`performance_log-setting`
  * :ref:`http_access_log-setting`
+ * :ref:`jaxrs_access_log-setting`
  * :ref:`messaging_log-setting`
 
 .. _log-rotation:
@@ -934,7 +947,10 @@ LogWriterで使用するフォーマッタを :java:extdoc:`JsonLogFormatter <na
   
   * - :ref:`HTTPアクセスログ <http_access_log-json_setting>`
     - :java:extdoc:`HttpAccessJsonLogFormatter <nablarch.fw.web.handler.HttpAccessJsonLogFormatter>`
-  
+
+  * - :ref:`HTTPアクセスログ（RESTfulウェブサービス用） <jaxrs_access_log-json_setting>`
+    - :java:extdoc:`JaxRsAccessJsonLogFormatter <nablarch.fw.jaxrs.JaxRsAccessJsonLogFormatter>`
+
   * - :ref:`メッセージングログ <messaging_log-json_setting>`
     - :java:extdoc:`MessagingJsonLogFormatter <nablarch.fw.messaging.logging.MessagingJsonLogFormatter>`
 
@@ -1467,4 +1483,3 @@ log4jとの機能比較
 .. |br| raw:: html
 
   <br />
-
