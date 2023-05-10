@@ -539,6 +539,7 @@ Nablarchの提供するアーキタイプから生成したブランクプロジ
  * :ref:`sql_log-setting`
  * :ref:`performance_log-setting`
  * :ref:`http_access_log-setting`
+ * :ref:`jaxrs_access_log-setting`
  * :ref:`messaging_log-setting`
 
 .. _log-rotation:
@@ -948,7 +949,7 @@ LogWriterで使用するフォーマッタを :java:extdoc:`JsonLogFormatter <na
     - :java:extdoc:`HttpAccessJsonLogFormatter <nablarch.fw.web.handler.HttpAccessJsonLogFormatter>`
 
   * - :ref:`HTTPアクセスログ（RESTfulウェブサービス用） <jaxrs_access_log-json_setting>`
-    - :java:extdoc:`JaxRsAccessLogFormatter <nablarch.fw.jaxrs.JaxRsAccessLogFormatter>`
+    - :java:extdoc:`JaxRsAccessJsonLogFormatter <nablarch.fw.jaxrs.JaxRsAccessJsonLogFormatter>`
 
   * - :ref:`メッセージングログ <messaging_log-json_setting>`
     - :java:extdoc:`MessagingJsonLogFormatter <nablarch.fw.messaging.logging.MessagingJsonLogFormatter>`
