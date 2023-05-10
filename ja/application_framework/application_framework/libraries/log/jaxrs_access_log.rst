@@ -279,7 +279,7 @@ HTTPアクセスログの各項目もJSONの値として出力するには、
    :リクエストボディ: requestBody
 
   出力項目の詳細は、
-  :ref:`リクエスト処理開始時のログ出力に使用するフォーマット <jax_access_log-prop_begin_format>`
+  :ref:`リクエスト処理開始時のログ出力に使用するフォーマット <jaxrs_access_log-prop_begin_format>`
   のプレースホルダーと同じため省略。
 
  jaxRsAccessLogFormatter.endTargets
