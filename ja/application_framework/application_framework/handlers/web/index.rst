@@ -12,7 +12,6 @@
    resource_mapping
    nablarch_tag_handler
    http_access_log_handler
-   jaxrs_access_log_handler
    multipart_handler
    SessionStoreHandler
    http_request_java_package_mapping
