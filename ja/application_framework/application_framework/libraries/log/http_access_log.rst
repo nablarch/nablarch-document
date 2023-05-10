@@ -316,7 +316,7 @@ HTTPアクセスログの各項目もJSONの値として出力するには、
    :URL: url ``デフォルト``
    :ポート番号: port ``デフォルト``
    :HTTPメソッド: method ``デフォルト``
-   :クエリ文字列: query
+   :クエリ文字列: queryString
    :リクエストパラメータ: parameters
    :セッションスコープ情報: sessionScope
    :クライアント端末IPアドレス: clientIpAddress ``デフォルト``
