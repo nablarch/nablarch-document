@@ -86,6 +86,7 @@ Nablarchの提供するアーキタイプから生成したブランクプロジ
   log/sql_log
   log/performance_log
   log/http_access_log
+  log/jaxrs_access_log
   log/messaging_log
 
 .. list-table:: ログの種類
