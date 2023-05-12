@@ -360,7 +360,7 @@ HTTPアクセスログの各項目もJSONの値として出力するには、
 セッションストアIDを出力に含めた場合、 :ref:`session_store` が発行するセッションを識別するIDが出力される。
 
 この値は :ref:`session_store_handler` の往路で記録されたものが使用される。
-したがってセッションストアIDをログに出力する場合、 :ref:`http_access_log_handler` は :ref:`session_store_handler` より後に配置しなければならない。
+したがってセッションストアIDをログに出力する場合、 :ref:`jaxrs_access_log_handler` は :ref:`session_store_handler` より後に配置しなければならない。
 
 セッションストアIDはリクエスト処理開始時の状態で固定されるため、以下のような仕様になる。
 
