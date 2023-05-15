@@ -57,7 +57,7 @@ Configuration example of log.properties
 
   availableLoggersNamesOrder=ACC,ROO
 
-  # Configure the application log
+  # Configuration the application log
   loggers.ROO.nameRegex=.*
   loggers.ROO.level=INFO
   loggers.ROO.writerNames=appLog
