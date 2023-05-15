@@ -79,6 +79,7 @@ See :download:`Default configuration list <../configuration/default-configuratio
   log/sql_log
   log/performance_log
   log/http_access_log
+  log/jaxrs_access_log
   log/messaging_log
 
 .. list-table:: Log type
