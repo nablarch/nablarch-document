@@ -131,7 +131,6 @@ Description rules
    :Client terminal IP address: $clientIpAddress$
    :Client terminal host: $clientHost$
    :User-Agent of HTTP header: $clientUserAgent$
-   :Request parameters: $parameters$
 
   Default format
    .. code-block:: bash
@@ -314,7 +313,7 @@ Description rules
    :URL: url ``default``
    :Port number: port ``default``
    :HTTP method: method ``default``
-   :Query string: query
+   :Query string: queryString
    :Request parameters: parameters
    :Session scope information: sessionScope
    :Client terminal IP address: clientIpAddress ``default``
@@ -348,7 +347,7 @@ Description rules
    :Session Store ID: sessionStoreId
    :URL: url ``default``
    :Dispatch destination class: dispatchingClass
-   :Status code (internal): statusCode
+   :Status code (internal): statusCode ``default``
    :Status code (client): responseStatusCode
    :Content path: contentPath ``default``
    :Start date and time: startTime ``default``
