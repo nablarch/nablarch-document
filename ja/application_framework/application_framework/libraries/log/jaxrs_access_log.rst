@@ -15,7 +15,7 @@ HTTPアクセスログの出力に必要となるハンドラは以下のとお�
  :ref:`jaxrs_access_log_handler`
   リクエスト処理開始時と終了時のログ出力を行う。
 
-リクエストパラメータやリクエストボディを含めたリクエスト情報を出力することで、
+リクエストパラメータを含めたリクエスト情報を出力することで、
 個別アプリケーションの証跡ログの要件を満たせる場合は、HTTPアクセスログと証跡ログを兼用することも想定している。
 
 HTTPアクセスログ（RESTfulウェブサービス用）の出力方針
@@ -134,6 +134,10 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
         \n\tport        = [$port$]
         \n\tclient_ip   = [$clientIpAddress$]
         \n\tclient_host = [$clientHost$]
+
+  .. tip::
+    プレースホルダ ``$parameters$`` で出力されるリクエストパラメータには、リクエストボディは含まれていない。
+    リクエストボディを出力する場合は、 ``$requestBody$`` を使用する。
 
   .. important::
    リクエストIDとユーザIDは、 :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>`
