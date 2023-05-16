@@ -1,7 +1,7 @@
 .. _jaxrs_access_log:
 
 Output of HTTP Access Log (for RESTful Web Service)
-==================================================
+=====================================================
 
 .. contents:: Table of contents
   :depth: 3
@@ -94,7 +94,7 @@ How to use
 .. _jaxrs_access_log-setting:
 
 Configure the HTTP access log (for RESTful Web Service)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The http access log is configured in the property file described in :ref:`log-app_log_setting`.
 
 Description rules
