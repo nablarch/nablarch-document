@@ -135,6 +135,10 @@ Description rules
         \n\tclient_ip   = [$clientIpAddress$]
         \n\tclient_host = [$clientHost$]
 
+  .. tip::
+   Request parameters output with the placeholder ``$parameters$`` do not include the request body.
+   Use ``$requestBody$`` to output the request body.
+
   .. important::
    Although request ID and user ID might overlap with the output items of  :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>`,
    they have been provided to increase the flexibility of the HTTP access log format.
