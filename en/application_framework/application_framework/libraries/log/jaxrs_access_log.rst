@@ -50,7 +50,7 @@ Configuration example of log.properties
 
   availableLoggersNamesOrder=ACC,ROO
 
-  # Configuration the application log
+  # Configuration of the application log
   loggers.ROO.nameRegex=.*
   loggers.ROO.level=INFO
   loggers.ROO.writerNames=appLog
@@ -220,9 +220,9 @@ Description rules
   If specified as false, it is not output at the start of the request process.
 
  jaxRsAccessLogFormatter.endOutputEnabled
-  Whether output after hidden parameter decryption is enabled.
+  Whether output at the end of the request process is enabled.
   Default is true.
-  If specified as false, it is not output after decryption of the hidden parameter.
+  If specified as false, it is not output at the end of the request process.
 
 Example of the description
  .. code-block:: properties
