@@ -211,7 +211,7 @@ Logbookの デフォルトフォーマットでは、メッセージの種類（
   Remote: localhost
   GET http://localhost:3000/users HTTP/1.1
 
-* リクエストのログ
+* レスポンスのログ
 
 .. code-block:: text
 
