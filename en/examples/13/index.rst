@@ -25,7 +25,7 @@ This sample uses `Logbook <https://github.com/zalando/logbook>`_ to log HTTP req
   Therefore, Java 11 is used in this sample.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Scope covered in this sample
+Scope of this sample
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Although Logbook supports a variety of message formats and output methods, this sample deals with the following implementation.
@@ -101,7 +101,7 @@ Logbook has several modules available for the environment in which the system is
 
 .. tip::
 
-  In this sample, Jersey uses a version that takes into account the version of Jackson used by the :ref:`jaxrs_adaptor`.
+  The version of Jersey used in this sample takes into account the version of Jackson used by the :ref:`jaxrs_adaptor`.
   For the version to be specified for the dependency, set the appropriate version for the execution environment.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
