@@ -2582,25 +2582,25 @@ An example implementation of async is shown below.
    .. code-block:: jsp
 
     <!-- Specify true for Boolean attribute -->
-    <n:script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="true" />
+    <n:text name="form.userId" disabled="true" />
 
   Output HTML
    .. code-block:: html
 
     <!-- Boolean attributes will be output -->
-    <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="async"></script>
+    <input type="text" name="form.userId" disabled="disabled" />
 
   JSP
    .. code-block:: jsp
 
     <!-- Specify false for Boolean attribute -->
-    <n:script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="false" />
+    <n:text name="form.userId" disabled="false" />
 
   Output HTML
    .. code-block:: html
 
     <!-- Boolean attributes will not be output -->
-    <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js"></script>
+    <input type="text" name="form.userId" />
 
 .. _dynamic_attribute:
 

@@ -2588,25 +2588,25 @@ asyncを例に実装例を以下に示す。
    .. code-block:: jsp
 
     <!-- 論理属性にtrueを指定 -->
-    <n:script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="true" />
+    <n:text name="form.userId" disabled="true" />
 
   出力されるHTML
    .. code-block:: html
 
     <!-- 論理属性が出力される -->
-    <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="async"></script>
+    <input type="text" name="form.userId" disabled="disabled" />
 
   JSP
    .. code-block:: jsp
 
     <!-- 論理属性にfalseを指定 -->
-    <n:script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="false" />
+    <n:text name="form.userId" disabled="false" />
 
   出力されるHTML
    .. code-block:: html
 
     <!-- 論理属性が出力されない -->
-    <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js"></script>
+    <input type="text" name="form.userId" />
 
 .. _dynamic_attribute:
 
