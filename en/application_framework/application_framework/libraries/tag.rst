@@ -2574,24 +2574,7 @@ Configuration example
 
 Specify Boolean attributes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-As with the existing custom tags, the Boolean attributes of dynamic attributes can be controlled by specifying `true` / `false` for the value to output or not.
-By default, the following attributes are regarded as logical attributes.
-
-* async
-* autofocus
-* checked
-* disabled
-* formnovalidate
-* hidden
-* ismap
-* itemscope
-* multiple
-* nomodule
-* novalidate
-* readonly
-* required
-* reversed
-* selected
+Boolean attributes defined in Custom Tags can be controlled by specifying `true` / `false` for the value to output or not.
 
 An example implementation of async is shown below.
 
@@ -2619,9 +2602,6 @@ An example implementation of async is shown below.
     <!-- Boolean attributes will not be output -->
     <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js"></script>
 
-Attributes that are regarded as Boolean attributes can be modified.
-To do so, configure the list of Boolean attributes to :java:extdoc:`dynamicBooleanAttributes property <nablarch.common.web.tag.CustomTagConfig.setDynamicBooleanAttributes(java.util.List)>` of ``CustomTagConfig`` .
-
 .. _dynamic_attribute:
 
 Specify any attribute
@@ -2629,6 +2609,31 @@ Specify any attribute
 Dynamic attributes are handled in custom tags using the ``javax.servlet.jsp.tagext.DynamicAttributes`` interface.
 This makes it possible to output arbitrary attributes including attributes added in HTML5 with custom tags.
 For tags that output HTML, dynamic attributes can be used.
+
+Handling of Boolean attribute
+++++++++++++++++++++++++++++++++++++++++++
+As with the Boolean attributes defined in Custom Tags,
+Dynamic attributes regarded as Boolean attributes can be controlled by specifying `true` / `false` for the value to output or not.
+By default, the following attributes are regarded as Boolean attributes.
+
+* async
+* autofocus
+* checked
+* disabled
+* formnovalidate
+* hidden
+* ismap
+* itemscope
+* multiple
+* nomodule
+* novalidate
+* readonly
+* required
+* reversed
+* selected
+
+Dynamic attributes regarded as Boolean attributes can be modified. 
+To do so, configure the list of Boolean attributes to :java:extdoc:`dynamicBooleanAttributes property <nablarch.common.web.tag.CustomTagConfig.setDynamicBooleanAttributes(java.util.List)>` of ``CustomTagConfig`` .
 
 Expansion example
 ---------------------------------------------------------------------

@@ -2580,24 +2580,7 @@ HTML
 
 論理属性を指定する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-動的属性の論理属性についても、既存のカスタムタグ同様、値に `true` / `false` を指定して出力有無を制御できる。
-デフォルトでは以下の属性を論理属性として扱う。
-
-* async
-* autofocus
-* checked
-* disabled
-* formnovalidate
-* hidden
-* ismap
-* itemscope
-* multiple
-* nomodule
-* novalidate
-* readonly
-* required
-* reversed
-* selected
+カスタムタグで定義されている論理属性は、値に `true` / `false` を指定して出力有無を制御できる。
 
 asyncを例に実装例を以下に示す。
 
@@ -2625,9 +2608,6 @@ asyncを例に実装例を以下に示す。
     <!-- 論理属性が出力されない -->
     <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js"></script>
 
-論理属性として扱う属性は変更できる。
-変更する場合は論理属性のリストを ``CustomTagConfig`` の :java:extdoc:`dynamicBooleanAttributesプロパティ<nablarch.common.web.tag.CustomTagConfig.setDynamicBooleanAttributes(java.util.List)>` に設定する。
-
 .. _dynamic_attribute:
 
 任意の属性を指定する
@@ -2635,6 +2615,30 @@ asyncを例に実装例を以下に示す。
 カスタムタグでは ``javax.servlet.jsp.tagext.DynamicAttributes`` インタフェースを使用して動的属性を扱っている。
 これにより、HTML5で追加された属性を含む任意の属性をカスタムタグで出力できる。
 HTMLを出力するタグについては動的属性を使用可能としている。
+
+論理属性の扱い
++++++++++++++++++++++++++++++++++++
+論理属性として扱う動的属性は、カスタムタグで定義されている論理属性と同様、値に `true` / `false` を指定して出力有無を制御できる。
+デフォルトでは以下の動的属性を論理属性として扱う。
+
+* async
+* autofocus
+* checked
+* disabled
+* formnovalidate
+* hidden
+* ismap
+* itemscope
+* multiple
+* nomodule
+* novalidate
+* readonly
+* required
+* reversed
+* selected
+
+論理属性として扱う動的属性は変更できる。
+変更する場合は論理属性のリストを ``CustomTagConfig`` の :java:extdoc:`dynamicBooleanAttributesプロパティ<nablarch.common.web.tag.CustomTagConfig.setDynamicBooleanAttributes(java.util.List)>` に設定する。
 
 拡張例
 ---------------------------------------------------------------------
