@@ -213,7 +213,7 @@ text tag
    :ref:`tag-focus_attributes_tag`
    name ``required``                      XHTML name attribute. When displaying values, the value attribute is also used for the XHTML value attribute if no value attribute is specified.
    value                                  XHTML value attribute.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    readonly                               XHTML readonly attribute.
    size                                   XHTML size attribute.
    maxlength                              XHTML maxlength attribute.

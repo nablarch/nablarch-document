@@ -2570,16 +2570,10 @@ Configuration example
   The file name of the static content should be changed instead of using this function
   so that the cache is not referenced when the static content is changed.
 
-.. _dynamic_attribute:
+.. _boolean_attribute:
 
-Specify any attribute
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Dynamic attributes are handled in custom tags using the ``javax.servlet.jsp.tagext.DynamicAttributes`` interface.
-This makes it possible to output arbitrary attributes including attributes added in HTML5 with custom tags.
-For tags that output HTML, dynamic attributes can be used.
-
-Handling of Boolean attributes
-++++++++++++++++++++++++++++++++++++++++++
+Specify Boolean attributes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 As with the existing custom tags, the Boolean attributes of dynamic attributes can be controlled by specifying `true` / `false` for the value to output or not.
 By default, the following attributes are regarded as logical attributes.
 
@@ -2627,6 +2621,14 @@ An example implementation of async is shown below.
 
 Attributes that are regarded as Boolean attributes can be modified.
 To do so, configure the list of Boolean attributes to :java:extdoc:`dynamicBooleanAttributes property <nablarch.common.web.tag.CustomTagConfig.setDynamicBooleanAttributes(java.util.List)>` of ``CustomTagConfig`` .
+
+.. _dynamic_attribute:
+
+Specify any attribute
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Dynamic attributes are handled in custom tags using the ``javax.servlet.jsp.tagext.DynamicAttributes`` interface.
+This makes it possible to output arbitrary attributes including attributes added in HTML5 with custom tags.
+For tags that output HTML, dynamic attributes can be used.
 
 Expansion example
 ---------------------------------------------------------------------

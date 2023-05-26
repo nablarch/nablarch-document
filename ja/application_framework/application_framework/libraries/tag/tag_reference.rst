@@ -213,7 +213,7 @@ textタグ
    :ref:`tag-focus_attributes_tag`      
    name ``必須``                          XHTMLのname属性。値表示の際、value属性が指定されていない場合はXHTMLのvalue属性にも使用される
    value                                  XHTMLのvalue属性。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    readonly                               XHTMLのreadonly属性。
    size                                   XHTMLのsize属性。
    maxlength                              XHTMLのmaxlength属性。
