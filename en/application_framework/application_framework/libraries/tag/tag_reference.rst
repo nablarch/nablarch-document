@@ -213,14 +213,14 @@ text tag
    :ref:`tag-focus_attributes_tag`
    name ``required``                      XHTML name attribute. When displaying values, the value attribute is also used for the XHTML value attribute if no value attribute is specified.
    value                                  XHTML value attribute.
-   disabled                               XHTML disabled attribute.
-   readonly                               XHTML readonly attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
+   readonly                               XHTML readonly attribute (:ref:`Boolean attribute <boolean_attribute>`).
    size                                   XHTML size attribute.
    maxlength                              XHTML maxlength attribute.
    onselect                               XHTML onselect attribute.
    onchange                               XHTML onchange attribute.
    autocomplete                           HTML5 autocomplete attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    placeholder                            HTML5 placeholder attribut.
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
@@ -247,9 +247,9 @@ search tag
    :ref:`tag-focus_attributes_tag`      
    name ``required``                      XHTML name attribute. When displaying values, the value attribute is also used for the XHTML value attribute if no value attribute is specified.
    value                                  XHTML value attribute.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    autocomplete                           HTML5 autocomplete attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    nameAlias                              Configure alias of name attribute.
@@ -275,9 +275,9 @@ tel tag
    :ref:`tag-focus_attributes_tag`      
    name ``required``                      XHTML name attribute. When displaying values, the value attribute is also used for the XHTML value attribute if no value attribute is specified.
    value                                  XHTML value attribute.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    autocomplete                           HTML5 autocomplete attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    nameAlias                              Configure alias of name attribute.
@@ -303,9 +303,9 @@ url tag
    :ref:`tag-focus_attributes_tag`      
    name ``required``                      XHTML name attribute. When displaying values, the value attribute is also used for the XHTML value attribute if no value attribute is specified.
    value                                  XHTML value attribute.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    autocomplete                           HTML5 autocomplete attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    nameAlias                              Configure alias of name attribute.
@@ -331,9 +331,9 @@ email tag
    :ref:`tag-focus_attributes_tag`      
    name ``required``                      XHTML name attribute. When displaying values, the value attribute is also used for the XHTML value attribute if no value attribute is specified.
    value                                  XHTML value attribute.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    autocomplete                           HTML5 autocomplete attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    nameAlias                              Configure alias of name attribute.
@@ -359,9 +359,9 @@ date tag
    :ref:`tag-focus_attributes_tag`      
    name ``required``                      XHTML name attribute. When displaying values, the value attribute is also used for the XHTML value attribute if no value attribute is specified.
    value                                  XHTML value attribute.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    autocomplete                           HTML5 autocomplete attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    nameAlias                              Configure alias of name attribute.
@@ -387,9 +387,9 @@ month tag
    :ref:`tag-focus_attributes_tag`      
    name ``required``                      XHTML name attribute. When displaying values, the value attribute is also used for the XHTML value attribute if no value attribute is specified.
    value                                  XHTML value attribute.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    autocomplete                           HTML5 autocomplete attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    nameAlias                              Configure alias of name attribute.
@@ -415,9 +415,9 @@ week tag
    :ref:`tag-focus_attributes_tag`      
    name ``required``                      XHTML name attribute. When displaying values, the value attribute is also used for the XHTML value attribute if no value attribute is specified.
    value                                  XHTML value attribute.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    autocomplete                           HTML5 autocomplete attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    nameAlias                              Configure alias of name attribute.
@@ -443,9 +443,9 @@ time tag
    :ref:`tag-focus_attributes_tag`      
    name ``required``                      XHTML name attribute. When displaying values, the value attribute is also used for the XHTML value attribute if no value attribute is specified.
    value                                  XHTML value attribute.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    autocomplete                           HTML5 autocomplete attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    nameAlias                              Configure alias of name attribute.
@@ -471,9 +471,9 @@ datetimeLocal tag
    :ref:`tag-focus_attributes_tag`      
    name ``required``                      XHTML name attribute. When displaying values, the value attribute is also used for the XHTML value attribute if no value attribute is specified.
    value                                  XHTML value attribute.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    autocomplete                           HTML5 autocomplete attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    nameAlias                              Configure alias of name attribute.
@@ -499,9 +499,9 @@ number tag
    :ref:`tag-focus_attributes_tag`      
    name ``required``                      XHTML name attribute. When displaying values, the value attribute is also used for the XHTML value attribute if no value attribute is specified.
    value                                  XHTML value attribute.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    autocomplete                           HTML5 autocomplete attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    nameAlias                              Configure alias of name attribute.
@@ -527,9 +527,9 @@ range tag
    :ref:`tag-focus_attributes_tag`      
    name ``required``                      XHTML name attribute. When displaying values, the value attribute is also used for the XHTML value attribute if no value attribute is specified.
    value                                  XHTML value attribute.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    autocomplete                           HTML5 autocomplete attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    nameAlias                              Configure alias of name attribute.
@@ -555,9 +555,9 @@ color tag
    :ref:`tag-focus_attributes_tag`      
    name ``required``                      XHTML name attribute. When displaying values, the value attribute is also used for the XHTML value attribute if no value attribute is specified.
    value                                  XHTML value attribute.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    autocomplete                           HTML5 autocomplete attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    nameAlias                              Configure alias of name attribute.
@@ -584,11 +584,11 @@ textarea tag
    name ``required``                      XHTML name attribute.
    rows ``required``                      XHTML rows attribute.
    cols ``required``                      XHTML cols attribute.
-   disabled                               XHTML disabled attribute.
-   readonly                               XHTML readonly attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
+   readonly                               XHTML readonly attribute (:ref:`Boolean attribute <boolean_attribute>`).
    onselect                               XHTML onselect attribute.
    onchange                               XHTML onchange attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    placeholder                            HTML5 placeholder attribute.
    maxlength                              HTML5 maxlength attribute.
    errorCss                               CSS class name used for error level messages.
@@ -613,14 +613,14 @@ password tag
    :ref:`tag-generic_attributes_tag`
    :ref:`tag-focus_attributes_tag`
    name ``required``                      XHTML name attribute.
-   disabled                               XHTML disabled attribute.
-   readonly                               XHTML readonly attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
+   readonly                               XHTML readonly attribute (:ref:`Boolean attribute <boolean_attribute>`).
    size                                   XHTML size attribute.
    maxlength                              XHTML maxlength attribute.
    onselect                               XHTML onselect attribute.
    onchange                               XHTML onchange attribute.
    autocomplete                           HTML5 autocomplete attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    placeholder                            HTML5 placeholder attribute.
    restoreValue                           Whether to restore the input data when the input screen is redisplayed.
                                           ``True`` to restore, ``false`` to not restore.
@@ -651,9 +651,9 @@ radioButton tag
    name ``required``                      XHTML name attribute.
    value ``required``                     XHTML value attribute.
    label ``required``                     Label.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    onchange                               XHTML onchange attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    nameAlias                              Configure alias of name attribute.
@@ -679,7 +679,7 @@ checkbox tag
    value                                  XHTML value attribute.
                                           The value used when there is a checkmark.
                                           Default is ``1``.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    label                                  The label used when there is a checkmark.
                                           This label is displayed on the input screen.
    useOffValue                            Whether to use the value configuration without the checkmark.
@@ -687,7 +687,7 @@ checkbox tag
    offLabel                               The label used when there is no checkmark.
    offValue                               The value used when there is no checkmark.
                                           Default is ``0``.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    onchange                               XHTML onchange attribute.
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
@@ -718,10 +718,10 @@ compositeKeyCheckbox Tag
    namePrefix ``required``                Prefix to use when deploying to the request parameter.
                                           Unlike the normal name attribute, values that match the key name specified with ``.`` in this name and keyNames attribute are handled in the same way as normal name attributes. For example, if ``form`` is specified in the namePrefix attribute and ``key1`` and ``key2`` are specified in the keyNames attribute, the value of this checkbox will be output using the value included in the request scope with ``form.key1`` and ``form.key2`` during display. In addition, the value selected from the request parameters ``form.key1``, ``form.key2`` can be obtained in the process of the submitted request.
                                           The name attribute has a special restriction that it must have a name different from the key combination specified by the namePrefix and keyNames attributes. Pay attention to this point during implementation.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    label                                  The label used when there is a checkmark.
                                           This label is displayed on the input screen.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    onchange                               XHTML onchange attribute.
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
@@ -752,10 +752,10 @@ compositeKeyRadioButton tag
    namePrefix ``required``                Prefix to use when deploying to the request parameter.
                                           Unlike the normal name attribute, values that match the key name specified with ``.`` in this name and keyNames attribute are handled in the same way as normal name attributes. For example, if ``form`` is specified in the namePrefix attribute and ``key1`` and ``key2`` are specified in the keyNames attribute, the value of this checkbox will be output using the value included in the request scope with ``form.key1`` and ``form.key2`` during display. In addition, the value selected from the request parameters ``form.key1``, ``form.key2`` can be obtained in the process of the submitted request.
                                           The name attribute has a special restriction that it must have a name different from the key combination specified by the namePrefix and keyNames attributes. Pay attention to this point during implementation.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    label                                  The label used when there is a checkmark.
                                           This label is displayed on the input screen.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    onchange                               XHTML onchange attribute.
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
@@ -779,15 +779,15 @@ file tag
    :ref:`tag-generic_attributes_tag`
    :ref:`tag-focus_attributes_tag`
    name ``required``                      XHTML name attribute.
-   disabled                               XHTML disabled attribute.
-   readonly                               XHTML readonly attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
+   readonly                               XHTML readonly attribute (:ref:`Boolean attribute <boolean_attribute>`).
    size                                   XHTML size attribute.
    maxlength                              XHTML maxlength attribute.
    onselect                               XHTML onselect attribute.
    onchange                               XHTML onchange attribute.
    accept                                 XHTML accept attribute.
-   autofocus                              HTML5 autofocus attribute.
-   multiple                               HTML5 multiple attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
+   multiple                               HTML5 multiple attribute (:ref:`Boolean attribute <boolean_attribute>`).
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
    nameAlias                              Configure alias of name attribute.
@@ -817,7 +817,7 @@ Outputs value to the window scope without HTML tag output.
    :ref:`tag-generic_attributes_tag`
    :ref:`tag-focus_attributes_tag`
    name ``required``                      XHTML name attribute.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    ====================================== ==========================================================================================
 
 .. _tag-plain_hidden_tag:
@@ -836,7 +836,7 @@ plainHidden tag
    :ref:`tag-generic_attributes_tag`
    :ref:`tag-focus_attributes_tag`
    name ``required``                      XHTML name attribute.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    ====================================== ==========================================================================================
 
 .. _tag-hidden_store_tag:
@@ -855,7 +855,7 @@ hiddenStore tag
    :ref:`tag-generic_attributes_tag`
    :ref:`tag-focus_attributes_tag`
    name ``required``                      XHTML name attribute.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    ====================================== ==========================================================================================
 
 .. _tag-select_tag:
@@ -879,13 +879,13 @@ select tag
    elementLabelProperty ``required``      Property name to acquire the label from list element.
    elementValueProperty ``required``      Property name to acquire value from the list element.
    size                                   XHTML size attribute.
-   multiple                               XHTML multiple attribute.
-   disabled                               XHTML disabled attribute.
+   multiple                               XHTML multiple attribute (:ref:`Boolean attribute <boolean_attribute>`).
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    tabindex                               XHTML tabindex attribute.
    onfocus                                XHTML onfocus attribute.
    onblur                                 XHTML onblur attribute.
    onchange                               XHTML onchange attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    elementLabelPattern                    Pattern to format the label.
                                           Placeholders are shown below.
                                           ``$LABEL$`` : Label
@@ -933,9 +933,9 @@ radioButtons tag
                                           If the option list acquired from the request scope is empty, nothing is displayed on the screen.
    elementLabelProperty ``required``      Property name to acquire the label from list element.
    elementValueProperty ``required``      Property name to acquire value from the list element.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    onchange                               XHTML onchange attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
                                           Output the autofocus attribute only for the first element among the options.
    elementLabelPattern                    Pattern to format the label.
                                           Placeholders are shown below.
@@ -978,9 +978,9 @@ checkbox tag
                                           If the option list acquired from the request scope is empty, nothing is displayed on the screen.
    elementLabelProperty ``required``      Property name to acquire the label from list element.
    elementValueProperty ``required``      Property name to acquire value from the list element.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    onchange                               XHTML onchange attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
                                           Output the autofocus attribute only for the first element among the options.
    elementLabelPattern                    Pattern to format the label.
                                           Placeholders are shown below.
@@ -1021,13 +1021,13 @@ submit tag
    type ``required``                      XHTML type attribute.
    uri ``required``                       URI.
                                           See :ref:`tag-specify_uri`.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    value                                  XHTML value attribute.
    src                                    XHTML src attribute.
    alt                                    XHTML alt attribute.
    usemap                                 XHTML usemap attribute.
    align                                  XHTML align attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    allowDoubleSubmission                  Whether to allow double submission.
                                           Configure to ``true`` when allowed and to ``false`` when not allowed.
                                           Default is ``true``.
@@ -1060,8 +1060,8 @@ button tag
                                           See :ref:`tag-specify_uri`.
    value                                  XHTML value attribute.
    type                                   XHTML type attribute.
-   disabled                               XHTML disabled attribute.
-   autofocus                              HTML5 autofocus attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    allowDoubleSubmission                  Whether to allow double submission.
                                           Configure to ``true`` when allowed and to ``false`` when not allowed.
                                           Default is ``true``.
@@ -1125,13 +1125,13 @@ popupSubmit tag
    type ``required``                      XHTML type attribute.
    uri ``required``                       URI.
                                           See :ref:`tag-specify_uri`.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    value                                  XHTML value attribute.
    src                                    XHTML src attribute.
    alt                                    XHTML alt attribute.
    usemap                                 XHTML usemap attribute.
    align                                  XHTML align attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    secure                                 Whether to use https for URI.
                                           To use https ``true``, not to use https ``false``.
    popupWindowName                        Window name of pop-up.
@@ -1165,8 +1165,8 @@ popupButton tag
                                           See :ref:`tag-specify_uri`.
    value                                  XHTML value attribute.
    type                                   XHTML type attribute.
-   disabled                               XHTML disabled attribute.
-   autofocus                              HTML5 autofocus attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    secure                                 Whether to use https for URI.
                                           To use https ``true``, not to use https ``false``.
    popupWindowName                        Window name of pop-up.
@@ -1232,13 +1232,13 @@ downloadSubmit tag
    type ``required``                      XHTML type attribute.
    uri ``required``                       URI.
                                           See :ref:`tag-specify_uri`.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    value                                  XHTML value attribute.
    src                                    XHTML src attribute.
    alt                                    XHTML alt attribute.
    usemap                                 XHTML usemap attribute.
    align                                  XHTML align attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    allowDoubleSubmission                  Whether to allow double submission.
                                           Configure to ``true`` when allowed and to ``false`` when not allowed.
                                           Default is ``true``.
@@ -1271,8 +1271,8 @@ downloadButton tag
                                           See :ref:`tag-specify_uri`.
    value                                  XHTML value attribute.
    type                                   XHTML type attribute.
-   disabled                               XHTML disabled attribute.
-   autofocus                              HTML5 autofocus attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    allowDoubleSubmission                  Whether to allow double submission.
                                           Configure to ``true`` when allowed and to ``false`` when not allowed.
                                           Default is ``true``.
@@ -1547,13 +1547,13 @@ codeSelect tag
    name ``required``                      XHTML name attribute.
    codeId ``required``                    Code ID.
    size                                   XHTML size attribute.
-   multiple                               XHTML multiple attribute.
-   disabled                               XHTML disabled attribute.
+   multiple                               XHTML multiple attribute (:ref:`Boolean attribute <boolean_attribute>`).
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    tabindex                               XHTML tabindex attribute.
    onfocus                                XHTML onfocus attribute.
    onblur                                 XHTML onblur attribute.
    onchange                               XHTML onchange attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    pattern                                Column name of the pattern used.
                                           Default is not specified.
    optionColumnName                       Column name of option name to acquire.
@@ -1604,9 +1604,9 @@ codeRadioButtons tag
    :ref:`tag-focus_attributes_tag`        accesskey attribute cannot be specified.
    name ``required``                      XHTML name attribute.
    codeId ``required``                    Code ID.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    onchange                               XHTML onchange attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
                                           Output the autofocus attribute only for the first element among the options.
    pattern                                Column name of the pattern used.
                                           Default is not specified.
@@ -1651,9 +1651,9 @@ codeCheckboxes tag
    :ref:`tag-focus_attributes_tag`        accesskey attribute cannot be specified.
    name ``required``                      XHTML name attribute.
    codeId ``required``                    Code ID.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    onchange                               XHTML onchange attribute.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
                                           Output the autofocus attribute only for the first element among the options.
    pattern                                Column name of the pattern used.
                                           Default is not specified.
@@ -1700,7 +1700,7 @@ codeCheckbox tag
    value                                  XHTML value attribute.
                                           The code value used when there is a checkmark.
                                           Default is ``1``.
-   autofocus                              HTML5 autofocus attribute.
+   autofocus                              HTML5 autofocus attribute (:ref:`Boolean attribute <boolean_attribute>`).
    codeId ``required``                    Code ID.
    optionColumnName                       Column name of option name to acquire.
    labelPattern                           Pattern to format the label.
@@ -1717,7 +1717,7 @@ codeCheckbox tag
                                           If there are 2 search results and one is the value of the value attribute,
                                           use the remaining as a code value without check.
                                           If not found with the search, use the default value ``0``.
-   disabled                               XHTML disabled attribute.
+   disabled                               XHTML disabled attribute (:ref:`Boolean attribute <boolean_attribute>`).
    onchange                               XHTML onchange attribute.
    errorCss                               CSS class name used for error level messages.
                                           Default is ``nablarch_error``.
