@@ -2604,13 +2604,13 @@ An example implementation of disabled is shown below.
 
 .. _dynamic_attribute:
 
-Specify any attribute
+Specify any attributes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Dynamic attributes are handled in custom tags using the ``javax.servlet.jsp.tagext.DynamicAttributes`` interface.
 This makes it possible to output arbitrary attributes including attributes added in HTML5 with custom tags.
 For tags that output HTML, dynamic attributes can be used.
 
-Handling of Boolean attribute
+Handling of Boolean attributes
 ++++++++++++++++++++++++++++++++++++++++++
 As with the Boolean attributes defined in Custom Tags,
 Dynamic attributes regarded as Boolean attributes can be controlled by specifying `true` / `false` for the value to output or not.
