@@ -329,7 +329,7 @@ HTTPリクエストパラメータは、ひとつのキーに対して複数の�
 
 .. image:: ./_image/expected_table.png
    :scale: 80
-p
+
 .. _`05_02_howToCodingTestMethod`:
 
 ----------------------
