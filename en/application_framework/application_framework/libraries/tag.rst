@@ -2576,7 +2576,7 @@ Specify Boolean attributes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Boolean attributes defined in Custom Tags can be controlled by specifying `true` / `false` for the value to output or not.
 
-An example implementation of async is shown below.
+An example implementation of disabled is shown below.
 
   JSP
    .. code-block:: jsp
