@@ -50,7 +50,10 @@ RESTfulウェブサービス実行基盤向けテスティングフレームワ�
 
 フレームワークではよく使われる実装として :java:extdoc:`RequestResponseCookieManager<nablarch.test.core.http.RequestResponseCookieManager>` を提供している。
 この実装ではレスポンスの ``Set-Cookie`` ヘッダからプロパティで指定した名前のクッキーを抽出し、リクエストの ``Cookie`` ヘッダに値を引き継ぐことができる。
-クッキーのうち、セッションIDに特化した実装として :java:extdoc:`NablarchSIDManager<nablarch.test.core.http.NablarchSIDManager>` も提供している。
+
+クッキーのうち、 :ref:`session_store` のセッションIDに特化した実装として :java:extdoc:`NablarchSIDManager<nablarch.test.core.http.NablarchSIDManager>` も提供している。
+この実装では、 :ref:`session_store_handler` がセッションIDを保持する際のデフォルトのクッキー名 ``NABLARCH_SID`` で、 ``Set-Cookie`` ヘッダからクッキーを抽出する。
+セッションIDのクッキー名をデフォルトから変更した場合は、 :java:extdoc:`RequestResponseCookieManager<nablarch.test.core.http.RequestResponseCookieManager>` を使用し、クッキー名を明示する。
 
 ``RequestResponseProcessor`` は1つの取引単体テストケース内で先に受信したレスポンスの値を次のリクエストに受け渡すために使用する。
 この時、レスポンスから抽出した値をリクエストに受け渡すために内部に状態として持つことになる。
