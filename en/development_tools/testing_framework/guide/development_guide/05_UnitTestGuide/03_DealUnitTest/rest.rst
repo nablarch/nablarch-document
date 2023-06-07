@@ -48,8 +48,12 @@ to manipulate the request and response.
 
 Create an implementation class of this interface to fit the requirements of each application.
 
-The framework provides the :java:extdoc:`NablarchSIDManager<nablarch.test.core.http.NablarchSIDManager>` as a frequently used implementation.
-This implementation is able to extract the session ID from the ``Set-Cookie`` header of the response and pass the value to the ``Cookie`` header of the request.
+The framework provides the :java:extdoc:`RequestResponseCookieManager<nablarch.test.core.http.RequestResponseCookieManager>` as a frequently used implementation.
+This implementation is able to extract the Cookie with the name specified by the property from the ``Set-Cookie`` header of the response and pass the value to the ``Cookie`` header of the request.
+
+Among the implementations that handle cookies, the framework also provides :java:extdoc:`NablarchSIDManager<nablarch.test.core.http.NablarchSIDManager>` as a specialized implementation for session IDs of the :ref:`session_store` .
+This implementation extracts the cookie from the ``Set-Cookie`` header with the default cookie name ``NABLARCH_SID`` of the session ID held by the :ref:`session_store_handler` .
+If the cookie name for the session ID is changed from the default, use :java:extdoc:`RequestResponseCookieManager<nablarch.test.core.http.RequestResponseCookieManager>` and specify the cookie name explicitly.
 
 ``RequestResponseProcessor`` is used to pass the value of a response received earlier during the execution of one subfunction unit test case to the next request.
 At that time, the values extracted from the response are held as states internally to be passed on to the request.
@@ -63,7 +67,9 @@ Configure the implementation class with the name ``defaultProcessor`` in the com
 *********************************************************************************************************
 .. code-block:: xml
 
-  <component name="defaultProcessor" class="nablarch.test.core.http.NablarchSIDManager"/>
+  <component name="defaultProcessor" class="nablarch.test.core.http.RequestResponseCookieManager"/>
+    <property name="cookieName" value="JSESSIONID"/>
+  </component>
 
 
 And if want to set up multiple ``RequestResponseProcessor``, can do so by using :java:extdoc:`ComplexRequestResponseProcessor<nablarch.test.core.http.ComplexRequestResponseProcessor>`.
@@ -73,6 +79,9 @@ And if want to set up multiple ``RequestResponseProcessor``, can do so by using 
   <component name="defaultProcessor" class="nablarch.test.core.http.ComplexRequestResponseProcessor">
     <property name="processors">
       <list>
+        <component class="nablarch.test.core.http.RequestResponseCookieManager"/>
+          <property name="cookieName" value="JSESSIONID"/>
+        </component>
         <component class="nablarch.test.core.http.NablarchSIDManager"/>
         <component class="com.example.test.CSRFTokenManager"/>
       </list>
