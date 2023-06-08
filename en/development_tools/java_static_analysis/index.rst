@@ -88,5 +88,5 @@ Use nablarch-intellij-plugin
 Use Unauthorized API Check Tool
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Unauthorized API Check Tool is provided as a SpotBugs plugin. 
-See `Nablarch style guide <https://github.com/nablarch-development-standards/nablarch-style-guide/blob/master/en/java/staticanalysis/unpublished-api/README.md>`_ for detailed specifications and instructions.
-Note that the blank project has been preconfigured to `run in Maven <https://github.com/nablarch-development-standards/nablarch-style-guide/blob/master/en/java/staticanalysis/spotbugs/docs/Maven-settings.md>`_ , so it can be checked immediately.
+See `Nablarch style guide <https://github.com/Fintan-contents/coding-standards/blob/main/en/java/staticanalysis/unpublished-api/README.md>`_ for detailed specifications and instructions.
+Note that the blank project has been preconfigured to `run in Maven <https://github.com/Fintan-contents/coding-standards/blob/main/en/java/staticanalysis/spotbugs/docs/Maven-settings.md>`_ , so it can be checked immediately.

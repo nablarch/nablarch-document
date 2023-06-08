@@ -88,5 +88,5 @@ nablarch-intellij-pluginを使用する
 使用不許可APIチェックツールを使用する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 使用不許可APIチェックツールはSpotBugsのプラグインとして作成されたツールである。
-詳細な仕様と実行方法は `Nablarchスタイルガイドの解説 <https://github.com/nablarch-development-standards/nablarch-style-guide/blob/master/java/staticanalysis/unpublished-api/README.md>`_ を参照。
-なお、ブランクプロジェクトには `Mavenで実行するための設定 <https://github.com/nablarch-development-standards/nablarch-style-guide/blob/master/java/staticanalysis/spotbugs/docs/Maven-settings.md>`_ をあらかじめ設定してあるため、すぐにチェックを実施することが可能である。
+詳細な仕様と実行方法は `Nablarchスタイルガイドの解説 <https://github.com/Fintan-contents/coding-standards/blob/main/java/staticanalysis/unpublished-api/README.md>`_ を参照。
+なお、ブランクプロジェクトには `Mavenで実行するための設定 <https://github.com/Fintan-contents/coding-standards/blob/main/java/staticanalysis/spotbugs/docs/Maven-settings.md>`_ をあらかじめ設定してあるため、すぐにチェックを実施することが可能である。
