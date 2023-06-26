@@ -312,7 +312,7 @@ Configuration item list of component configuration file
 +----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
 | Configuration item name    | Description                                                                                       | Default values                                        |
 +============================+===================================================================================================+=======================================================+
-| htmlDumpDir                | Specifies the directory to output the HTML dump file.                                             | ./tmp/http_dump                                       |
+| htmlDumpDir                | Specifies the directory to output the HTML dump file.                                             | ./tmp/html_dump                                       |
 +----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
 | webBaseDir                 | Root directory of the web application\ [#]_\                                                      | ../main/web                                           |
 +----------------------------+---------------------------------------------------------------------------------------------------+-------------------------------------------------------+
@@ -431,7 +431,7 @@ In addition to the default values described above, the following values are set 
 .. code-block:: xml
 
     <component name="httpTestConfiguration" class="nablarch.test.core.http.HttpTestConfiguration">
-        <property name="htmlDumpDir" value="./tmp/http_dump"/>
+        <property name="htmlDumpDir" value="./tmp/html_dump"/>
         <property name="webBaseDir" value="../main/web"/>
         <property name="xmlComponentFile" value="http-request-test.xml"/>
         <property name="userIdSessionKey" value="user.id"/>
