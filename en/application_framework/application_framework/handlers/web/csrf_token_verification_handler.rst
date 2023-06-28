@@ -152,7 +152,7 @@ You can change the default behavior by changing the settings. An example is show
   you can disable the CSRF measure in the request unit test.
   You can disable the CSRF measure by replacing this handler with a handler that does not do anything in the test execution setting.
   The following is an example of the configuration.
-  This example uses :java:extdoc:`NopHandler<nablarch.test.NopHandler>` provided by the testing framework as a handler that does not process anything.
+  This example uses :java:extdoc:`NopHandler<nablarch.test.NopHandler>` , a handler that does not process anything provided by the testing framework.
 
   .. code-block:: xml
 
