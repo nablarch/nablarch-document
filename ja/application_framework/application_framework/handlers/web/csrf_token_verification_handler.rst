@@ -152,19 +152,7 @@ HTTPリクエストが検証対象か否かを判定する
   CSRF対策はアプリケーションプログラマが実装して作り込む部分ではないため、
   リクエスト単体テストではCSRF対策を無効化してテストを行えばよい。
   テスト実行時の設定において本ハンドラを何も処理しないハンドラに差し替えることでCSRF対策を無効化できる。
-  以下に設定例を示す。
-
-  .. code-block:: java
-
-    /**
-     * 何も処理しないハンドラ。
-     */
-    public class NopHandler implements HttpRequestHandler {
-        @Override
-        public HttpResponse handle(HttpRequest request, ExecutionContext context) {
-            return context.handleNext(request);
-        }
-    }
+  以下に設定例を示す。以下ではテスティングフレームワークが提供する何も処理しないハンドラである :java:extdoc:`NopHandler<nablarch.test.NopHandler>` を使用している。
 
   .. code-block:: xml
 
@@ -172,8 +160,7 @@ HTTPリクエストが検証対象か否かを判定する
          コンポーネント名を合わせることで上書きを行う。 -->
 
     <!-- CSRF対策の無効化 -->
-    <component name="csrfTokenVerificationHandler"
-               class="com.nablarch.example.app.test.NopHandler" />
+    <component name="csrfTokenVerificationHandler" class="nablarch.test.NopHandler" />
 
 .. _csrf_token_verification_handler-regeneration:
 
