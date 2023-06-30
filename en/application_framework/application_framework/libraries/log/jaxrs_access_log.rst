@@ -1,7 +1,7 @@
-.. _http_access_log:
+.. _jaxrs_access_log:
 
-Output of HTTP Access Log
-==================================================
+Output of HTTP Access Log (for RESTful Web Service)
+=====================================================
 
 .. contents:: Table of contents
   :depth: 3
@@ -12,29 +12,22 @@ The HTTP access log is output in the application by configuring the handler.
 
 The handlers required to output the HTTP access log are as follows.
 
- :ref:`http_access_log_handler`
+:ref:`jaxrs_access_log_handler`
   Outputs the log at the start and end of the request process.
-
- :ref:`nablarch_tag_handler`
-  Outputs the log after decrypting the hidden parameters.
-  For hidden parameters, see :ref:`hidden encryption <tag-hidden_encryption>`.
-
- :ref:`http_request_java_package_mapping`
-  Outputs the log after the dispatch class is determined.
 
 If the requirements of the trace log of the individual application can be met by output of the request information including the request parameters,
 then the HTTP access and trace logs can be used together.
 
 Output policy of HTTP access log
---------------------------------------------------
+------------------------------------------------------
 The HTTP access log is output to an application log that outputs the log of the entire application.
 
-.. list-table:: Output policy of HTTP access log
+.. list-table:: Output policy of HTTP access log for RESTful web service
    :header-rows: 1
    :class: white-space-normal
    :widths: 15,15
 
-   * - Log level
+   * - Log Level
      - Logger name
 
    * - INFO
@@ -70,26 +63,25 @@ Configuration example of log.properties
 Configuration example of app-log.properties
  .. code-block:: properties
 
-  # HttpAccessLogFormatter
-  #httpAccessLogFormatter.className=
-  #httpAccessLogFormatter.datePattern=
-  #httpAccessLogFormatter.maskingChar=
-  #httpAccessLogFormatter.maskingPatterns=
-  #httpAccessLogFormatter.parametersSeparator=
-  #httpAccessLogFormatter.sessionScopeSeparator=
-  #httpAccessLogFormatter.beginOutputEnabled=
-  #httpAccessLogFormatter.parametersOutputEnabled=
-  #httpAccessLogFormatter.dispatchingClassOutputEnabled=
-  #httpAccessLogFormatter.endOutputEnabled=
-  httpAccessLogFormatter.beginFormat=@@@@ BEGIN @@@@ rid = [$requestId$] uid = [$userId$] sid = [$sessionId$]\
-                                        \n\turl          = [$url$$query$]\
+  # JaxRsAccessLogFormatter
+  #jaxRsAccessLogFormatter.className=
+  #jaxRsAccessLogFormatter.datePattern=
+  #jaxRsAccessLogFormatter.maskingChar=
+  #jaxRsAccessLogFormatter.maskingPatterns=
+  #jaxRsAccessLogFormatter.bodyLogTargetMatcher=
+  #jaxRsAccessLogFormatter.bodyMaskingFilter=
+  #jaxRsAccessLogFormatter.bodyMaskingItemNames=
+  #jaxRsAccessLogFormatter.parametersSeparator=
+  #jaxRsAccessLogFormatter.sessionScopeSeparator=
+  #jaxRsAccessLogFormatter.beginOutputEnabled=
+  #jaxRsAccessLogFormatter.endOutputEnabled=
+  jaxRsAccessLogFormatter.beginFormat=@@@@ BEGIN @@@@ rid = [$requestId$] uid = [$userId$] sid = [$sessionId$]\
+                                        \n\turl         = [$url$$query$]\
                                         \n\tmethod      = [$method$]\
                                         \n\tport        = [$port$]\
                                         \n\tclient_ip   = [$clientIpAddress$]\
                                         \n\tclient_host = [$clientHost$]
-  httpAccessLogFormatter.parametersFormat=@@@@ PARAMETERS @@@@\n\tparameters  = [$parameters$]
-  httpAccessLogFormatter.dispatchingClassFormat=@@@@ DISPATCHING CLASS @@@@ class = [$dispatchingClass$]
-  httpAccessLogFormatter.endFormat=@@@@ END @@@@ rid = [$requestId$] uid = [$userId$] sid = [$sessionId$] url = [$url$$query$] method = [$method$] status_code = [$statusCode$] content_path = [$contentPath$]\
+  jaxRsAccessLogFormatter.endFormat=@@@@ END @@@@ rid = [$requestId$] uid = [$userId$] sid = [$sessionId$] url = [$url$$query$] method = [$method$] status_code = [$statusCode$]\
                                       \n\tstart_time     = [$startTime$]\
                                       \n\tend_time       = [$endTime$]\
                                       \n\texecution_time = [$executionTime$]\
@@ -99,22 +91,22 @@ Configuration example of app-log.properties
 How to use
 --------------------------------------------------
 
-.. _http_access_log-setting:
+.. _jaxrs_access_log-setting:
 
-Configure the HTTP access log
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Configure the HTTP access log (for RESTful Web Service)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The http access log is configured in the property file described in :ref:`log-app_log_setting`.
 
 Description rules
  \
 
- httpAccessLogFormatter.className
-  Class that implements :java:extdoc:`HttpAccessLogFormatter <nablarch.fw.web.handler.HttpAccessLogFormatter>`.
+ jaxRsAccessLogFormatter.className
+  Class that implements :java:extdoc:`JaxRsAccessLogFormatter <nablarch.fw.jaxrs.JaxRsAccessLogFormatter>`.
   Specify to replace.
 
- .. _http_access_log-prop_begin_format:
+ .. _jaxrs_access_log-prop_begin_format:
 
- httpAccessLogFormatter.beginFormat
+ jaxRsAccessLogFormatter.beginFormat
   Format used for the log output at the start of the request process.
 
   Placeholders that can be specified for the format
@@ -131,6 +123,7 @@ Description rules
    :Client terminal IP address: $clientIpAddress$
    :Client terminal host: $clientHost$
    :User-Agent of HTTP header: $clientUserAgent$
+   :Request Body: $requestBody$
 
   Default format
    .. code-block:: bash
@@ -143,7 +136,8 @@ Description rules
         \n\tclient_host = [$clientHost$]
 
   .. tip::
-   Request parameters are in the state before decryption of :ref:`hidden encryption <tag-hidden_encryption>`.
+   Request parameters output with the placeholder ``$parameters$`` do not include the request body.
+   Use ``$requestBody$`` to output the request body.
 
   .. important::
    Although request ID and user ID might overlap with the output items of  :java:extdoc:`BasicLogFormatter <nablarch.core.log.basic.BasicLogFormatter>`,
@@ -155,111 +149,77 @@ Description rules
    In particular, for user IDs, you need to set a value for the session in your application
    by referring to the :ref:`thread_context_handler-user_id_attribute_setting`.
 
- httpAccessLogFormatter.parametersFormat
-  Format used for the log output after decryption of hidden parameters.
+ .. _jaxrs_access_log-prop_end_format:
 
-  Placeholders that can be specified for the format
-   Omitted as it is the same as "format used for the log output at the start of the request process".
-
-  Default format
-   .. code-block:: bash
-
-    @@@@ PARAMETERS @@@@
-        \n\tparameters  = [$parameters$]
-
- httpAccessLogFormatter.dispatchingClassFormat
-  Format used for the output log after the dispatch class has been determined.
-
-  Placeholders that can be specified for the format
-   :Dispatch destination class: $dispatchingClass$
-   :Session Store ID: $sessionStoreId$
-
-  Default format
-   .. code-block:: bash
-
-    @@@@ DISPATCHING CLASS @@@@ class = [$dispatchingClass$]
-
- .. _http_access_log-prop_end_format:
-
- httpAccessLogFormatter.endFormat
+ jaxRsAccessLogFormatter.endFormat
   Format used for the log output at the end of the request process.
 
   Placeholders that can be specified for the format
-   :Dispatch destination class: $dispatchingClass$
-   :Status code (internal): $statusCode$
-   :Status code (client): $responseStatusCode$
-   :Content path: $contentPath$
+   :Status code: $statusCode$
    :Start date and time: $startTime$
    :End date and time: $endTime$
    :Execution time: $executionTime$
    :Maximum memory: $maxMemory$
    :Free memory (at start): $freeMemory$
    :Session Store ID: $sessionStoreId$
+   :Response body: $responseBody$
 
   Default format
    .. code-block:: bash
 
-    @@@@ END @@@@ rid = [$requestId$] uid = [$userId$] sid = [$sessionId$] url = [$url$] status_code = [$statusCode$] content_path = [$contentPath$]
+    @@@@ END @@@@ rid = [$requestId$] uid = [$userId$] sid = [$sessionId$] url = [$url$] status_code = [$statusCode$]
         \n\tstart_time     = [$startTime$]
         \n\tend_time       = [$endTime$]
         \n\texecution_time = [$executionTime$]
         \n\tmax_memory     = [$maxMemory$]
         \n\tfree_memory    = [$freeMemory$]
 
-  .. tip::
-
-    The status code (internal) indicates the status code when :ref:`http_access_log_handler` is returned.
-    Status code (client) is :ref:`http_response_handler` and indicates the status code returned to the client.
-
-    Although the status code (client) is not finalized when this log is output,
-    the log is output by deriving the status code (client) using the same function as :ref:`http_response_handler`.
-
-    For status code conversion rules, see :ref:`http_response_handler-convert_status_code`.
-
-  .. important::
-   Value of the ``status code (client)`` may be different form the internal code when system errors such as JSP error occur after the HTTP access log handler is processed.
-   Since a separate failure monitoring log is output as system error in such cases,
-   consider the possibility that this value may be incorrect whenever a failure monitoring log is generated and verify the log.
-
- httpAccessLogFormatter.datePattern
+ jaxRsAccessLogFormatter.datePattern
   Date and time pattern to use for date and time of the start and end.
   For the pattern, specify the syntax specified by :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>`.
   Default is ``yyyy-MM-dd HH:mm:ss.SSS``.
 
- httpAccessLogFormatter.maskingPatterns
+ jaxRsAccessLogFormatter.maskingPatterns
   Specify the parameter name and variable name to be masked with a regular expression.
   If more than one is specified, separate them with commas.
   Used for masking both the request parameters and session scope information.
   The specified regular expression is not case-sensitive.
   For example, if specified as \ ``password``\, matches with ``password``, ``newPassword`` and ``password2``, etc.
 
- httpAccessLogFormatter.maskingChar
+ jaxRsAccessLogFormatter.maskingChar
   Character used for masking. Default is ``*``.
 
- httpAccessLogFormatter.parametersSeparator
+ jaxRsAccessLogFormatter.bodyLogTargetMatcher
+  Class for determining whether to output the request body.
+  Specify the class name that implements :java:extdoc:`MessageBodyLogTargetMatcher <nablarch.fw.jaxrs.MessageBodyLogTargetMatcher>`.
+  Default is :java:extdoc:`JaxRsBodyLogTargetMatcher <nablarch.fw.jaxrs.JaxRsBodyLogTargetMatcher>`.
+
+ jaxRsAccessLogFormatter.bodyMaskingFilter
+  Class for mask processing of the request body.
+  Specify the class name that implements :java:extdoc:`LogContentMaskingFilter <nablarch.fw.jaxrs.LogContentMaskingFilter>`.
+  Default is :java:extdoc:`JaxRsBodyMaskingFilter <nablarch.fw.jaxrs.JaxRsBodyMaskingFilter>`.
+
+  .. important::
+   There are several body formats that can be sent and received by RESTful web services, but the default :java:extdoc:`JaxRsBodyMaskingFilter <nablarch.fw.jaxrs.JaxRsBodyMaskingFilter>` supports only the JSON format.  
+
+ jaxRsAccessLogFormatter.bodyMaskingItemNames
+  When masking the request body, specify the names of items to be masked.
+  If multiple items are specified, they are separated by commas.
+ 
+ jaxRsAccessLogFormatter.parametersSeparator
   Request parameter separator.
   Default is ``\n\t\t`` .
 
- httpAccessLogFormatter.sessionScopeSeparator
+ jaxRsAccessLogFormatter.sessionScopeSeparator
   Separator for session scope information.
   Default is ``\n\t\t`` .
 
- httpAccessLogFormatter.beginOutputEnabled
+ jaxRsAccessLogFormatter.beginOutputEnabled
   Whether output at the start of the request process is enabled.
   Default is true.
   If specified as false, it is not output at the start of the request process.
 
- httpAccessLogFormatter.parametersOutputEnabled
-  Whether output after hidden parameter decryption is enabled.
-  Default is true.
-  If specified as false, it is not output after decryption of the hidden parameter.
-
- httpAccessLogFormatter.dispatchingClassOutputEnabled
-  Whether output after determining the dispatch class is enabled.
-  Default is true.
-  If specified as false, it is not output after determining the dispatch class.
-
- httpAccessLogFormatter.endOutputEnabled
+ jaxRsAccessLogFormatter.endOutputEnabled
   Whether output at the end of the request process is enabled.
   Default is true.
   If specified as false, it is not output at the end of the request process.
@@ -267,41 +227,39 @@ Description rules
 Example of the description
  .. code-block:: properties
 
-  httpAccessLogFormatter.className=nablarch.fw.web.handler.HttpAccessLogFormatter
-  httpAccessLogFormatter.beginFormat=> sid = [$sessionId$] @@@@ BEGIN @@@@\n\turl = [$url$]\n\tmethod = [$method$]
-  httpAccessLogFormatter.parametersFormat=> sid = [$sessionId$] @@@@ PARAMETERS @@@@\n\tparameters  = [$parameters$]
-  httpAccessLogFormatter.dispatchingClassFormat=> sid = [$sessionId$] @@@@ DISPATCHING CLASS @@@@ class = [$dispatchingClass$]
-  httpAccessLogFormatter.endFormat=< sid = [$sessionId$] @@@@ END @@@@ url = [$url$] status_code = [$statusCode$] content_path = [$contentPath$]
-  httpAccessLogFormatter.datePattern="yyyy-MM-dd HH:mm:ss.SSS"
-  httpAccessLogFormatter.maskingChar=#
-  httpAccessLogFormatter.maskingPatterns=password,mobilePhoneNumber
-  httpAccessLogFormatter.parametersSeparator=,
-  httpAccessLogFormatter.sessionScopeSeparator=,
-  httpAccessLogFormatter.beginOutputEnabled=true
-  httpAccessLogFormatter.parametersOutputEnabled=true
-  httpAccessLogFormatter.dispatchingClassOutputEnabled=true
-  httpAccessLogFormatter.endOutputEnabled=true
+  jaxRsAccessLogFormatter.className=nablarch.fw.jaxrs.JaxRsAccessLogFormatter
+  jaxRsAccessLogFormatter.beginFormat=> sid = [$sessionId$] @@@@ BEGIN @@@@\n\turl = [$url$]\n\tmethod = [$method$]
+  jaxRsAccessLogFormatter.endFormat=< sid = [$sessionId$] @@@@ END @@@@ url = [$url$] status_code = [$statusCode$]
+  jaxRsAccessLogFormatter.datePattern="yyyy-MM-dd HH:mm:ss.SSS"
+  jaxRsAccessLogFormatter.maskingChar=#
+  jaxRsAccessLogFormatter.maskingPatterns=password,mobilePhoneNumber
+  jaxRsAccessLogFormatter.bodyLogTargetMatcher=nablarch.fw.jaxrs.JaxRsBodyLogTargetMatcher
+  jaxRsAccessLogFormatter.bodyMaskingFilter=nablarch.fw.jaxrs.JaxRsBodyMaskingFilter
+  jaxRsAccessLogFormatter.bodyMaskingItemNames=password,mobilePhoneNumber
+  jaxRsAccessLogFormatter.parametersSeparator=,
+  jaxRsAccessLogFormatter.sessionScopeSeparator=,
+  jaxRsAccessLogFormatter.beginOutputEnabled=true
+  jaxRsAccessLogFormatter.endOutputEnabled=true
 
-.. _http_access_log-json_setting:
+.. _jaxrs_access_log-json_setting:
 
 Output as a structured log in JSON format
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Logs can be output in JSON format by using :ref:`log-json_log_setting` setting, but :java:extdoc:`JaxRsAccessLogFormatter <nablarch.fw.jaxrs.JaxRsAccessLogFormatter>` outputs each item of the http access log as a string in the message value.
 
-Logs can be output in JSON format by using :ref:`log-json_log_setting` setting, but :java:extdoc:`HttpAccessLogFormatter <nablarch.fw.web.handler.HttpAccessLogFormatter>` outputs each item of the http access log as a string in the message value.
-
-To output each item in the http access log as a JSON value as well, use the :java:extdoc:`HttpAccessJsonLogFormatter <nablarch.fw.web.handler.HttpAccessJsonLogFormatter>`.
+To output each item in the http access log as a JSON value as well, use the :java:extdoc:`JaxRsAccessJsonLogFormatter <nablarch.fw.jaxrs.JaxRsAccessJsonLogFormatter>`.
 
 You can configure in the property file described in :ref:`log-app_log_setting`.
 
 Description rules
- The properties to be specified when using :java:extdoc:`HttpAccessJsonLogFormatter <nablarch.fw.web.handler.HttpAccessJsonLogFormatter>` are as follows.
+ The properties to be specified when using :java:extdoc:`JaxRsAccessJsonLogFormatter <nablarch.fw.jaxrs.JaxRsAccessJsonLogFormatter>` are as follows.
  
  httpAccessLogFormatter.className ``required``
-  To output logs in JSON format, specify :java:extdoc:`HttpAccessJsonLogFormatter <nablarch.fw.web.handler.HttpAccessJsonLogFormatter>`.
+  To output logs in JSON format, specify :java:extdoc:`JaxRsAccessJsonLogFormatter <nablarch.fw.jaxrs.JaxRsAccessJsonLogFormatter>`.
 
- .. _http_access_log-prop_begin_targets:
+ .. _jaxrs_access_log-prop_begin_targets:
 
- httpAccessLogFormatter.beginTargets
+ jaxRsAccessLogFormatter.beginTargets
   Items for the log output at the start of the request process. Separated by comma.
 
   Output items that can be specified and default output items
@@ -319,24 +277,11 @@ Description rules
    :Client terminal IP address: clientIpAddress ``default``
    :Client terminal host: clientHost ``default``
    :User-Agent of HTTP header: clientUserAgent
+   :Request body: requestBody
 
-  The details of the output items are omitted because they are the same as the placeholders for :ref:`the format used to output the log at the start of the request process <http_access_log-prop_begin_format>`.
+  The details of the output items are omitted because they are the same as the placeholders for :ref:`the format used to output the log at the start of the request process  <jaxrs_access_log-prop_begin_format>`.
 
- httpAccessLogFormatter.parametersTargets
-  Items used for the log output after decryption of hidden parameters. Separated by comma.
-  Omitted as it is the same as :ref:`format used for the log output at the start of the request process <http_access_log-prop_begin_targets>`.
-  The default output item is ``label,parameters``.
- 
- httpAccessLogFormatter.dispatchingClassTargets
-  Items used for the output log after the dispatch class has been determined. Separated by comma.
-
-  Output items that can be specified and default output items
-   :Label: label ``default``
-   :HTTP Session ID: sessionId
-   :Session Store ID: sessionStoreId
-   :Dispatch destination class: dispatchingClass ``default``
-
- httpAccessLogFormatter.endTargets
+ jaxRsAccessLogFormatter.endTargets
   Items used for the log output at the end of the request process. Separated by comma.
 
   Output items that can be specified and default output items
@@ -346,90 +291,65 @@ Description rules
    :HTTP Session ID: sessionId ``default``
    :Session Store ID: sessionStoreId
    :URL: url ``default``
-   :Dispatch destination class: dispatchingClass
-   :Status code (internal): statusCode ``default``
-   :Status code (client): responseStatusCode
-   :Content path: contentPath ``default``
+   :Status code: statusCode ``default``
    :Start date and time: startTime ``default``
    :End date and time: endTime ``default``
    :Executuion time: executionTime ``default``
    :Maximum memory: maxMemory ``default``
    :Free memory(at start): freeMemory ``default``
+   :Response body: responseBody
 
-  Omitted as it is the same as :ref:`format used for the log output at the end of the request process <http_access_log-prop_end_format>`.
+  Omitted as it is the same as :ref:`format used for the log output at the end of the request process <jaxrs_access_log-prop_end_format>`.
 
- httpAccessLogFormatter.datePattern
+ jaxRsAccessLogFormatter.datePattern
   Date and time pattern to use for date and time of the start and end.
   For the pattern, specify the syntax specified by :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>`.
   Default is ``yyyy-MM-dd HH:mm:ss.SSS``.
 
- httpAccessLogFormatter.maskingPatterns
+ jaxRsAccessLogFormatter.maskingPatterns
   Specify the parameter name and variable name to be masked with a regular expression (partial match).
   If more than one is specified, separate them with commas.
   Used for masking both the request parameters and session scope information.
   The specified regular expression is not case-sensitive.
   For example, if specified as \ ``password``\, matches with ``password``, ``newPassword`` and ``password2``, etc.
 
- httpAccessLogFormatter.maskingChar
+ jaxRsAccessLogFormatter.maskingChar
   Character used for masking. Default is ``*``.
 
- httpAccessLogFormatter.beginOutputEnabled
+ jaxRsAccessLogFormatter.beginOutputEnabled
   Whether output at the start of the request process is enabled.
   Default is true.
   If specified as false, it is not output at the start of the request process.
 
- httpAccessLogFormatter.parametersOutputEnabled
-  Whether output after hidden parameter decryption is enabled.
-  Default is true.
-  If specified as false, it is not output after decryption of the hidden parameter.
-
- httpAccessLogFormatter.dispatchingClassOutputEnabled
-  Whether output after determining the dispatch class is enabled.
-  Default is true.
-  If specified as false, it is not output after determining the dispatch class.
-
- httpAccessLogFormatter.endOutputEnabled
+ jaxRsAccessLogFormatter.endOutputEnabled
   Whether output at the end of the request process is enabled.
   Default is true.
   If specified as false, it is not output at the end of the request process.
 
- httpAccessLogFormatter.beginLabel
+ jaxRsAccessLogFormatter.beginLabel
   Value to be output to the label in the log at the start of the request process.
   Default is ``"HTTP ACCESS BEGIN"``。
 
- httpAccessLogFormatter.parametersLabel
-  Value to be output to the label in the log after hidden parameter decryption.
-  Default is ``"PARAMETERS"``。
-
- httpAccessLogFormatter.dispatchingClassLabel
-  Value to be output to the label in the log after determining the dispatch class.
-  Default is ``"DISPATCHING CLASS"``。
-
- httpAccessLogFormatter.endLabel
+ jaxRsAccessLogFormatter.endLabel
   Value to be output to the label in the log at the end of the request process.
   Default is ``"HTTP ACCESS END"``。
 
- httpAccessLogFormatter.structuredMessagePrefix
+ jaxRsAccessLogFormatter.structuredMessagePrefix
   A marker string given at the beginning of a message to identify that the message string after formatting has been formatted into JSON format.
-  If this marker is present at the beginning of the message, :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` processes the message as JSON data.
+  If the marker string at the beginning of the message matches the marker string set in :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>`, :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` processes the message as JSON data.
   The default is ``"$JSON$"``.
 
 Example of the description
  .. code-block:: properties
 
-  httpAccessLogFormatter.className=nablarch.fw.web.handler.HttpAccessJsonLogFormatter
+  httpAccessLogFormatter.className=nablarch.fw.jaxrs.JaxRsAccessJsonLogFormatter
   httpAccessLogFormatter.structuredMessagePrefix=$JSON$
   httpAccessLogFormatter.beginTargets=sessionId,url,method
-  httpAccessLogFormatter.parametersTargets=sessionId,parameters
-  httpAccessLogFormatter.dispatchingClassTargets=sessionId,dispatchingClass
-  httpAccessLogFormatter.endTargets=sessionId,url,statusCode,contentPath
+  httpAccessLogFormatter.endTargets=sessionId,url,statusCode
   httpAccessLogFormatter.beginLabel=HTTP ACCESS BEGIN
-  httpAccessLogFormatter.parametersLabel=PARAMETERS
-  httpAccessLogFormatter.dispatchingClassLabel=DISPATCHING CLASS
   httpAccessLogFormatter.endLabel=HTTP ACCESS END
 
-
-.. _http_access_log-session_store_id:
+.. _jaxrs_access_log-session_store_id:
 
 About Session Store ID
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -437,7 +357,7 @@ About Session Store ID
 If the session store ID is included in the output, the ID identifying the session issued by :ref:`session_store` is output.
 
 The value saved in the request process of the :ref:`session_store_handler` is used for this value.
-Therefore, if the session store ID is to be logged, the :ref:`http_access_log_handler` must be placed after the :ref:`session_store_handler`.
+Therefore, if the session store ID is to be logged, the :ref:`jaxrs_access_log_handler` must be placed after the :ref:`session_store_handler`.
 
 Since the session store ID is fixed in the state at the start of request processing, the specification is as follows.
 

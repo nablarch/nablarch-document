@@ -79,6 +79,7 @@ See :download:`Default configuration list <../configuration/default-configuratio
   log/sql_log
   log/performance_log
   log/http_access_log
+  log/jaxrs_access_log
   log/messaging_log
 
 .. list-table:: Log type
@@ -103,6 +104,11 @@ See :download:`Default configuration list <../configuration/default-configuratio
 
    * - :ref:`HTTP access log <http_access_log>`
      - Outputs the information to grasp the execution status of application in the web application.
+       The log includes the output information required to measure the application performance and also for load measurement of the application.
+       It is also used as a trace log that outputs all request and response information to detect unauthorized use of the application.       
+
+   * - :ref:`HTTP access log (for RESTful web service) <jaxrs_access_log>`
+     - Outputs the information to grasp the execution status of application in the RESTful web service application.
        The log includes the output information required to measure the application performance and also for load measurement of the application.
        It is also used as a trace log that outputs all request and response information to detect unauthorized use of the application.       
 
@@ -135,6 +141,12 @@ Module list
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-fw-web</artifactId>
+  </dependency>
+
+  <!-- Only when using HTTP access logs (for RESTful web service) -->
+  <dependency>
+    <groupId>com.nablarch.framework</groupId>
+    <artifactId>nablarch-fw-jaxrs</artifactId>
   </dependency>
 
   <!-- Only when using messaging logs -->
@@ -499,6 +511,7 @@ Description rules of property files
  * :ref:`sql_log-setting`
  * :ref:`performance_log-setting`
  * :ref:`http_access_log-setting`
+ * :ref:`jaxrs_access_log-setting`
  * :ref:`messaging_log-setting`
 
 .. _log-rotation:
@@ -892,6 +905,9 @@ Replace the formatter used in various logs with one for JSON logs
   * - :ref:`HTTP access log <http_access_log-json_setting>`
     - :java:extdoc:`HttpAccessJsonLogFormatter <nablarch.fw.web.handler.HttpAccessJsonLogFormatter>`
   
+  * - :ref:`HTTP access log (for RESTful web service) <jaxrs_access_log-json_setting>`
+    - :java:extdoc:`JaxRsAccessJsonLogFormatter <nablarch.fw.jaxrs.JaxRsAccessJsonLogFormatter>`
+
   * - :ref:`Messaging log <messaging_log-json_setting>`
     - :java:extdoc:`MessagingJsonLogFormatter <nablarch.fw.messaging.logging.MessagingJsonLogFormatter>`
 

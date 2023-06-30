@@ -48,8 +48,12 @@ RESTfulウェブサービス実行基盤向けテスティングフレームワ�
 
 各アプリケーションの要件に合わせてこのインタフェースの実装クラスを作成する。
 
-フレームワークではよく使われる実装として :java:extdoc:`NablarchSIDManager<nablarch.test.core.http.NablarchSIDManager>` を提供している。
-この実装ではレスポンスの ``Set-Cookie`` ヘッダからセッションIDを抽出し、リクエストの ``Cookie`` ヘッダに値を引き継ぐことができる。
+フレームワークではよく使われる実装として :java:extdoc:`RequestResponseCookieManager<nablarch.test.core.http.RequestResponseCookieManager>` を提供している。
+この実装ではレスポンスの ``Set-Cookie`` ヘッダからプロパティで指定した名前のクッキーを抽出し、リクエストの ``Cookie`` ヘッダに値を引き継ぐことができる。
+
+クッキーのうち、 :ref:`session_store` のセッションIDに特化した実装として :java:extdoc:`NablarchSIDManager<nablarch.test.core.http.NablarchSIDManager>` も提供している。
+この実装では、 :ref:`session_store_handler` がセッションIDを保持する際のデフォルトのクッキー名 ``NABLARCH_SID`` で、 ``Set-Cookie`` ヘッダからクッキーを抽出する。
+セッションIDのクッキー名をデフォルトから変更した場合は、 :java:extdoc:`RequestResponseCookieManager<nablarch.test.core.http.RequestResponseCookieManager>` を使用し、クッキー名を明示する。
 
 ``RequestResponseProcessor`` は1つの取引単体テストケース内で先に受信したレスポンスの値を次のリクエストに受け渡すために使用する。
 この時、レスポンスから抽出した値をリクエストに受け渡すために内部に状態として持つことになる。
@@ -63,7 +67,9 @@ RESTfulウェブサービス実行基盤向けテスティングフレームワ�
 ***********************************************************************************
 .. code-block:: xml
 
-  <component name="defaultProcessor" class="nablarch.test.core.http.NablarchSIDManager"/>
+  <component name="defaultProcessor" class="nablarch.test.core.http.RequestResponseCookieManager"/>
+    <property name="cookieName" value="JSESSIONID"/>
+  </component>
 
 
 また、複数の ``RequestResponseProcessor`` を設定したい場合は、 :java:extdoc:`ComplexRequestResponseProcessor<nablarch.test.core.http.ComplexRequestResponseProcessor>` を
@@ -74,6 +80,9 @@ RESTfulウェブサービス実行基盤向けテスティングフレームワ�
   <component name="defaultProcessor" class="nablarch.test.core.http.ComplexRequestResponseProcessor">
     <property name="processors">
       <list>
+        <component class="nablarch.test.core.http.RequestResponseCookieManager"/>
+          <property name="cookieName" value="JSESSIONID"/>
+        </component>
         <component class="nablarch.test.core.http.NablarchSIDManager"/>
         <component class="com.example.test.CSRFTokenManager"/>
       </list>

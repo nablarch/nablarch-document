@@ -43,13 +43,13 @@ Nablarchフレームワークのテスト環境
 Nablarchフレームワークは、以下の環境においてテストを実施し、正常に動作することを確認している。
 
 Java
- * Java SE 6/8/11 [#java11]_/17 [#java17]_
+ * Java SE 6/7/8/11 [#java11]_/17 [#java17]_
 
 データベース
  * Oracle Database 12c/19c/21c
  * IBM Db2 10.5/11.5
- * SQL Server 2017/2019
- * PostgreSQL 10.0/11.5/12.2/13.2/14.0
+ * SQL Server 2017/2019/2022
+ * PostgreSQL 10.0/11.5/12.2/13.2/14.0/15.2
 
 アプリケーションサーバ
  * Oracle Weblogic Server 14.1.1

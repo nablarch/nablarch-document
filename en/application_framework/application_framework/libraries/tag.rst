@@ -2570,9 +2570,41 @@ Configuration example
   The file name of the static content should be changed instead of using this function
   so that the cache is not referenced when the static content is changed.
 
+.. _boolean_attribute:
+
+Specify Boolean attributes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Boolean attributes defined in Custom Tags can be controlled by specifying `true` / `false` for the value to output or not.
+
+An example implementation of disabled is shown below.
+
+  JSP
+   .. code-block:: jsp
+
+    <!-- Specify true for Boolean attribute -->
+    <n:text name="form.userId" disabled="true" />
+
+  Output HTML
+   .. code-block:: html
+
+    <!-- Boolean attributes will be output -->
+    <input type="text" name="form.userId" disabled="disabled" />
+
+  JSP
+   .. code-block:: jsp
+
+    <!-- Specify false for Boolean attribute -->
+    <n:text name="form.userId" disabled="false" />
+
+  Output HTML
+   .. code-block:: html
+
+    <!-- Boolean attributes will not be output -->
+    <input type="text" name="form.userId" />
+
 .. _dynamic_attribute:
 
-Specify any attribute
+Specify any attributes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Dynamic attributes are handled in custom tags using the ``javax.servlet.jsp.tagext.DynamicAttributes`` interface.
 This makes it possible to output arbitrary attributes including attributes added in HTML5 with custom tags.
@@ -2580,8 +2612,9 @@ For tags that output HTML, dynamic attributes can be used.
 
 Handling of Boolean attributes
 ++++++++++++++++++++++++++++++++++++++++++
-As with the existing custom tags, the Boolean attributes of dynamic attributes can be controlled by specifying `true` / `false` for the value to output or not.
-By default, the following attributes are regarded as logical attributes.
+As with the Boolean attributes defined in Custom Tags,
+Dynamic attributes regarded as Boolean attributes can be controlled by specifying `true` / `false` for the value to output or not.
+By default, the following attributes are regarded as Boolean attributes.
 
 * async
 * autofocus
@@ -2599,33 +2632,7 @@ By default, the following attributes are regarded as logical attributes.
 * reversed
 * selected
 
-An example implementation of async is shown below.
-
-  JSP
-   .. code-block:: jsp
-
-    <!-- Specify true for Boolean attribute -->
-    <n:script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="true" />
-
-  Output HTML
-   .. code-block:: html
-
-    <!-- Boolean attributes will be output -->
-    <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="async"></script>
-
-  JSP
-   .. code-block:: jsp
-
-    <!-- Specify false for Boolean attribute -->
-    <n:script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="false" />
-
-  Output HTML
-   .. code-block:: html
-
-    <!-- Boolean attributes will not be output -->
-    <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js"></script>
-
-Attributes that are regarded as Boolean attributes can be modified.
+Dynamic attributes regarded as Boolean attributes can be modified. 
 To do so, configure the list of Boolean attributes to :java:extdoc:`dynamicBooleanAttributes property <nablarch.common.web.tag.CustomTagConfig.setDynamicBooleanAttributes(java.util.List)>` of ``CustomTagConfig`` .
 
 Expansion example

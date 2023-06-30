@@ -2576,6 +2576,38 @@ HTML
   静的コンテンツの変更時にキャッシュを参照しないようにするには、この機能を使用するのではなく、
   静的コンテンツのファイル名を変更する等で対応すること。
 
+.. _boolean_attribute:
+
+論理属性を指定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+カスタムタグで定義されている論理属性は、値に `true` / `false` を指定して出力有無を制御できる。
+
+disabled を例に実装例を以下に示す。
+
+  JSP
+   .. code-block:: jsp
+
+    <!-- 論理属性にtrueを指定 -->
+    <n:text name="form.userId" disabled="true" />
+
+  出力されるHTML
+   .. code-block:: html
+
+    <!-- 論理属性が出力される -->
+    <input type="text" name="form.userId" disabled="disabled" />
+
+  JSP
+   .. code-block:: jsp
+
+    <!-- 論理属性にfalseを指定 -->
+    <n:text name="form.userId" disabled="false" />
+
+  出力されるHTML
+   .. code-block:: html
+
+    <!-- 論理属性が出力されない -->
+    <input type="text" name="form.userId" />
+
 .. _dynamic_attribute:
 
 任意の属性を指定する
@@ -2585,9 +2617,9 @@ HTML
 HTMLを出力するタグについては動的属性を使用可能としている。
 
 論理属性の扱い
-++++++++++++++++++++++++++++++++++++++++++
-動的属性の論理属性についても、既存のカスタムタグ同様、値に `true` / `false` を指定して出力有無を制御できる。
-デフォルトでは以下の属性を論理属性として扱う。
++++++++++++++++++++++++++++++++++++
+論理属性として扱う動的属性は、カスタムタグで定義されている論理属性と同様、値に `true` / `false` を指定して出力有無を制御できる。
+デフォルトでは以下の動的属性を論理属性として扱う。
 
 * async
 * autofocus
@@ -2605,33 +2637,7 @@ HTMLを出力するタグについては動的属性を使用可能としてい�
 * reversed
 * selected
 
-asyncを例に実装例を以下に示す。
-
-  JSP
-   .. code-block:: jsp
-
-    <!-- 論理属性にtrueを指定 -->
-    <n:script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="true" />
-
-  出力されるHTML
-   .. code-block:: html
-
-    <!-- 論理属性が出力される -->
-    <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="async"></script>
-
-  JSP
-   .. code-block:: jsp
-
-    <!-- 論理属性にfalseを指定 -->
-    <n:script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js" async="false" />
-
-  出力されるHTML
-   .. code-block:: html
-
-    <!-- 論理属性が出力されない -->
-    <script type="text/javascript" src="/javascripts/lib/jquery-ui.min.js"></script>
-
-論理属性として扱う属性は変更できる。
+論理属性として扱う動的属性は変更できる。
 変更する場合は論理属性のリストを ``CustomTagConfig`` の :java:extdoc:`dynamicBooleanAttributesプロパティ<nablarch.common.web.tag.CustomTagConfig.setDynamicBooleanAttributes(java.util.List)>` に設定する。
 
 拡張例

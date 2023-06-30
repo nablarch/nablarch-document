@@ -16,6 +16,10 @@
     - バージョン
     - リリースノート
     - ドキュメント
+  * - 2023/3/28
+    - 5u22
+    - :download:`リリースノート(5u22) <./nablarch5u22-releasenote.xlsx>`
+    - `ドキュメント(5u22) <https://nablarch.github.io/docs/5u22/doc/>`_
   * - 2022/3/24
     - 5u21
     - :download:`リリースノート(5u21) <./nablarch5u21-releasenote.xlsx>`

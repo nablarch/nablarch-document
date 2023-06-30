@@ -158,11 +158,13 @@ Project structure
     |   |   |   \---net             … Contains the configuration file for the routing adapter.
     |   |   |
     |   |   \---webapp
-    |   |       +---errorPages      … Sample of error screen is stored.
-    |   |       |
-    |   |       +---test            … File for communication confirmation screen is stored.
+    |   |       +---images          … Image file for communication confirmation is stored.
     |   |       |
     |   |       \---WEB-INF         … web.xml is stored.
+    |   |            |
+    |   |            +---errorPages … Sample of error screen is stored.
+    |   |            |
+    |   |            \---test       … File for communication confirmation screen is stored.
     |   |
     |   \---test
     |       +---java                … Unit test for communication confirmation test is stored.
@@ -414,11 +416,13 @@ Project structure
     |   |   +---jib                 … It contains files to be placed against the container image.
     |   |   |
     |   |   \---webapp
-    |   |       +---errorPages      … Sample of error screen is stored.
-    |   |       |
-    |   |       +---test            … File for communication confirmation screen is stored.
+    |   |       +---images          … Image file for communication confirmation is stored.
     |   |       |
     |   |       \---WEB-INF         … web.xml is stored.
+    |   |            |
+    |   |            +---errorPages … Sample of error screen is stored.
+    |   |            |
+    |   |            \---test       … File for communication confirmation screen is stored.
     |   |
     |   \---test
     |       +---java                … Unit test for communication confirmation test is stored.
