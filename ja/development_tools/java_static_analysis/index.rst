@@ -22,7 +22,10 @@ Inspectionを行う
 IntelliJ IDEAには静的検査を行う `Inspection機能(外部サイト) <https://www.jetbrains.com/help/idea/code-inspection.html>`_ があり、Javaコーディングの慣例に沿っているか、潜在的なバグが含まれていないかなどをチェックし、リアルタイムに警告してくれる。
 
 Inspectionはデフォルトで、一般的に注意すべき点について警告する設定となっている。
-`Javaスタイルガイド <https://github.com/Fintan-contents/coding-standards/blob/main/java/README.md>`_ を参考に、プロジェクトに適した設定に変更することで、Inspectionをより有効に活用することができる。
+
+プロジェクトで規約を策定している場合は、プロジェクトに適した設定に変更することで、Inspectionをより有効に活用することができる。
+変更した設定はエクスポートおよびインポートすることで、プロジェクトの開発者間で共有することができる。
+エクスポートおよびインポートの方法については `プロファイルの構成(外部サイト) <https://www.jetbrains.com/help/idea/customizing-profiles.html>`_ を参照。
 
 .. _code-format:
 

@@ -22,7 +22,10 @@ Run inspection
 IntelliJ IDEA has an `inspection feature(external site) <https://www.jetbrains.com/help/idea/code-inspection.html>`_ that performs static analysis, checking for conformity to Java coding conventions and potential bugs, and alerting you in real time.
 
 By default, Inspection is set to warn you about things you should generally be aware of.
-Inspection can be used more effectively by changing the settings suitable for the project by referring to `Java style guide <https://github.com/Fintan-contents/coding-standards/blob/main/java/README.md>`_ .
+
+If you have established rules for your project, you can use Inspection more effectively by changing the settings to suit your project.
+Changed settings can be exported and imported to be shared among project developers.
+See `Configure profiles(external site) <https://www.jetbrains.com/help/idea/customizing-profiles.html>`_ for how to export and import.
 
 .. _code-format:
 
