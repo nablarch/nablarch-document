@@ -64,7 +64,10 @@
 
 リクエストID、内部リクエストID
  * :java:extdoc:`RequestIdAttribute <nablarch.common.handler.threadcontext.RequestIdAttribute>`
- * :java:extdoc:`InternalRequestIdAttribute <nablarch.common.handler.threadcontext.InternalRequestIdAttribute>`
+ * :java:extdoc:`InternalRequestIdAttribute <nablarch.common.handler.threadcontext.InternalRequestIdAttribute>` \ [#]_\
+
+.. [#] 
+   内部リクエストIDは、 :ref:`permission_check_handler` 及び :ref:`ServiceAvailabilityCheckHandler` で使用されている。
 
 ユーザID
  * :java:extdoc:`UserIdAttribute <nablarch.common.handler.threadcontext.UserIdAttribute>`

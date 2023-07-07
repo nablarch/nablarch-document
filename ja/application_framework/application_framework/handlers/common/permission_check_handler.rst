@@ -41,8 +41,9 @@
   :ref:`thread_context_handler` より後ろに本ハンドラを配置する必要がある。
 
 :ref:`forwarding_handler` より後ろに配置すること
-  内部フォーワードが行われた際に、フォーワード先のリクエストIDをもとに
+  内部フォーワードが行われた際に、フォーワード先のリクエストID（ :ref:`内部リクエストID <internal_request_id>` ）をもとに
   認可チェックを行いたい場合は、 :ref:`forwarding_handler` より後ろに本ハンドラを配置する必要がある。
+  合わせて、 :ref:`thread_context_handler` の ``attributes`` に :java:extdoc:`InternalRequestIdAttribute <nablarch.common.handler.threadcontext.InternalRequestIdAttribute>` を追加すること。
 
 :ref:`http_error_handler` より後ろに配置すること
   認可チェックエラーの場合に表示するエラーページを指定するため、
