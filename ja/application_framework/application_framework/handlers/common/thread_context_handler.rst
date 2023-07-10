@@ -67,7 +67,7 @@
  * :java:extdoc:`InternalRequestIdAttribute <nablarch.common.handler.threadcontext.InternalRequestIdAttribute>` \ [#]_\
 
 .. [#] 
-   内部リクエストIDは、 :ref:`permission_check_handler` 及び :ref:`ServiceAvailabilityCheckHandler` で使用されている。
+   :ref:`permission_check_handler` や :ref:`ServiceAvailabilityCheckHandler` のような、内部リクエストIDに対する処理を実施するハンドラを使用する場合に設定する。
 
 ユーザID
  * :java:extdoc:`UserIdAttribute <nablarch.common.handler.threadcontext.UserIdAttribute>`

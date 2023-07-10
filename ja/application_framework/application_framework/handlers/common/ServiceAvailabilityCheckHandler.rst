@@ -58,7 +58,7 @@ OK(サービス提供可)の場合
 NG(サービス提供不可)の場合
  :java:extdoc:`ServiceUnavailable <nablarch.fw.results.ServiceUnavailable>` (503) を送出する。
 
-:java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` から取得するリクエストIDをフォーワード先のリクエストIDに変更したい場合は、
-:java:extdoc:`usesInternalRequestId <nablarch.common.availability.ServiceAvailabilityCheckHandler.setUsesInternalRequestId(boolean)>` にtrueを指定する。デフォルトはfalseである。
-
+チェック対象のリクエストIDをフォーワード先のリクエストIDに変更したい場合は、
+:java:extdoc:`usesInternalRequestId <nablarch.common.availability.ServiceAvailabilityCheckHandler.setUsesInternalRequestId(boolean)>`
+でtrueを指定する。デフォルトはfalseである。
 
