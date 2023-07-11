@@ -96,4 +96,4 @@ If the current request URI is ``action/users/save``, the internal forward destin
 
 Internal Request ID
 -----------------------------------------------
-The request ID of the forwarding destination is retained in the thread context as an internal request ID during internal forwarding,
+The request ID of the forwarding destination is retained in the thread context as an internal request ID during internal forwarding.
