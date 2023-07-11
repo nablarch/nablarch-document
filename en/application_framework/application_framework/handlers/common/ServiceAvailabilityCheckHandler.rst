@@ -41,8 +41,9 @@ Place after :ref:`thread_context_handler`
   this handler must be placed after :ref:`thread_context_handler`.
 
 Place after :ref:`forwarding_handler`
-  To perform a service availability check based on the request ID of the forward destination when an internal forward is performed,
+  To perform a service availability check based on the request ID of the forward destination ( :ref:`Internal Request ID <internal_request_id>` ) when an internal forward is performed,
   this handler must be placed after :ref:`forwarding_handler`.
+  In addition, add :java:extdoc:`InternalRequestIdAttribute <nablarch.common.handler.threadcontext.InternalRequestIdAttribute>` to ``attributes`` of :ref:`thread_context_handler` .
 
 .. _ServiceAvailabilityCheckHandler-request_checking:
 
@@ -57,7 +58,7 @@ If OK (service can be provided)
 If Not OK (service cannot be provided)
  :java:extdoc:`ServiceUnavailable <nablarch.fw.results.ServiceUnavailable>` (503) is thrown.
 
-To change the request ID obtained from :java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` to the request ID of the forward destination,
-specify "true" in :java:extdoc:`usesInternalRequestId <nablarch.common.availability.ServiceAvailabilityCheckHandler.setUsesInternalRequestId(boolean)>`. The default is "false".
-
+To change the request ID of the check target to the forward request ID, specify "true" in
+:java:extdoc:`ServiceAvailabilityCheckHandler.setUsesInternalRequestId <nablarch.common.availability.ServiceAvailabilityCheckHandler.setUsesInternalRequestId(boolean)>`.
+The default is "false".
 

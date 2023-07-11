@@ -63,7 +63,10 @@ The following classes are provided by default:
 
 Request ID, internal request ID
  * :java:extdoc:`RequestIdAttribute <nablarch.common.handler.threadcontext.RequestIdAttribute>`
- * :java:extdoc:`InternalRequestIdAttribute <nablarch.common.handler.threadcontext.InternalRequestIdAttribute>`
+ * :java:extdoc:`InternalRequestIdAttribute <nablarch.common.handler.threadcontext.InternalRequestIdAttribute>` \ [#]_\
+
+.. [#] 
+   Set if you are using a handler to process internal request IDs, such as :ref:`permission_check_handler` or :ref:`ServiceAvailabilityCheckHandler` .
 
 User ID
  * :java:extdoc:`UserIdAttribute <nablarch.common.handler.threadcontext.UserIdAttribute>`
