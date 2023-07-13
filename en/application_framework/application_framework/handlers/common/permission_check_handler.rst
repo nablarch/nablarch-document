@@ -40,8 +40,10 @@ Place after :ref:`thread_context_handler`
   this handler must be placed after :ref:`thread_context_handler`.
 
 Place after :ref:`forwarding_handler`
-  To perform an permission check based on the request ID of the forward destination when an internal forward is performed,
+  To perform an permission check based on the request ID of the forward destination ( :ref:`Internal Request ID <internal_request_id>` ) when an internal forward is performed,
   this handler must be placed after :ref:`forwarding_handler`.
+  In addition, add :java:extdoc:`InternalRequestIdAttribute <nablarch.common.handler.threadcontext.InternalRequestIdAttribute>` to ``attributes`` of :ref:`thread_context_handler` .
+
 
 Place after :ref:`http_error_handler`
   To specify the error page to be displayed when a permission check error occurs,
