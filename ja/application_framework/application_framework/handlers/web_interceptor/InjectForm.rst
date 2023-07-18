@@ -90,18 +90,18 @@ InjectFormを使用する
 
 Bean Validationのグループを指定する
 -------------------------------------------------
-入力値チェック機能として :ref:`Bean Validation <bean_validation>` を使用している場合は、 ``InjectForm`` アノテーションにBean Validationのグループを指定することができる。
+``validationStrategy`` に :java:extdoc:`BeanValidationStrategy <nablarch.common.web.validator.BeanValidationStrategy>` を設定している場合は、 ``InjectForm`` アノテーションにBean Validationのグループを指定することができる。
 
 以下に実装例を示す。
-本実装例においては、 :ref:`bean_validation-use_groups` に記載した ``SampleForm`` を、 ``Test1`` グループでバリデーションする場合を記載している。
 
   .. code-block:: java
 
-    @InjectForm(form = SampleForm.class, prefix = "form", validationGroup = SampleForm.Test1.class)
+    // UserFormクラス内で設定されたバリデーションルールのうち、Createグループに所属するルールのみを使用して検証する。
+    @InjectForm(form = UserForm.class, prefix = "form", validationGroup = Create.class)
     public HttpResponse handle(HttpRequest req, ExecutionContext ctx) {
 
       // リクエストスコープからバリデーション済みのフォームを取得する。
-      SampleForm form = ctx.getRequestScopedVar("form");
+      UserForm form = ctx.getRequestScopedVar("form");
 
       // formを元に業務処理を行う。
     }
