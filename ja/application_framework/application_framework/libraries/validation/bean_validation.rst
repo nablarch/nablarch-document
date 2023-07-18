@@ -690,6 +690,56 @@ Bean Validation(JSR349)の仕様では、項目名をメッセージに含める
   メッセージへの項目名の追加方法を変更したい場合には、 :java:extdoc:`ItemNamedConstraintViolationConverterFactory <nablarch.core.validation.ee.ItemNamedConstraintViolationConverterFactory>` 
   を参考にし、プロジェクト側で実装を追加し対応すること。
 
+
+.. _bean_validation-use_groups:
+
+Bean Validationのグループ機能を使用したい
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Bean Validation(JSR349)の仕様では、バリデーション実行時にグループを指定すると、バリデーションに使用するルールを特定のグループに制限することができる。
+Nablarchでも、Bean Validationでグループ指定可能なAPIを提供している。
+
+以下に使用例を示す。
+
+バリデーション対象のForm
+  .. code-block:: java
+
+    public class SampleBean {
+    
+        @SystemChar(charsetDef = "数字", groups = {Default.class, Test1.class})
+        String id;
+    
+        @SystemChar.List({
+                @SystemChar(charsetDef = "全角文字") // グループを指定しない場合は、 Defaultグループに所属していると見なされる
+                @SystemChar(charsetDef = "半角英数", groups = Test1.class),
+        })
+        String name;
+    
+        public interface Test1 {}
+    }
+     
+
+バリデーションを実行する処理
+  .. code-block:: java
+                  
+    SampleBean bean = new SampleBean();
+
+    ...
+
+    // グループを指定しない場合は、Defaultグループに所属するルールを使用してバリデーションされる。
+    ValidatorUtil.validate(bean);
+
+    // グループを指定する場合は、指定したグループに所属するルールを使用してバリデーションされる。
+    ValidatorUtil.validateWithGroup(bean, SampleBean.Test1.class);
+
+
+APIの詳細は、 :java:extdoc:`ValidatorUtil <nablarch.core.validation.ee.ValidatorUtil>` を参照。
+
+.. tip::
+   グループ機能を使用してバリデーションのルールを切り替えることで、一つのフォームクラスを複数の画面やAPIで共通化できるようになる。
+   ただし、Nablarchではそのような使用方法を推奨していない（ :ref:`フォームクラスは、htmlのform単位に作成する <application_design-form_html>` 及び :ref:`フォームクラスはAPI単位に作成する <rest-application_design-form_html>` を参照 ）。
+   フォームクラスを共通化する目的でグループ機能を使用する場合は、プロジェクト側で十分検討の上で使用すること。
+
+
 拡張例
 ---------------
 プロジェクト固有のアノテーションとバリデーションロジックを追加したい
