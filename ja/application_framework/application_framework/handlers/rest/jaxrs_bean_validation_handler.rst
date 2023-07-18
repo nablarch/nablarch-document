@@ -61,3 +61,34 @@ JAX-RS BeanValidationハンドラ
       UniversalDao.insert(person);
       return new HttpResponse();
   }
+
+
+Bean Validationのグループを指定する
+-------------------------------------------------
+:java:extdoc:`Valid <javax.validation.Valid>` アノテーションを設定したメソッドに対して
+:java:extdoc:`ConvertGroup <javax.validation.groups.ConvertGroup>` アノテーションを設定することで、Bean Validationのグループを指定することができる。
+
+:java:extdoc:`ConvertGroup <javax.validation.groups.ConvertGroup>` アノテーションは ``from`` 属性と ``to`` 属性の指定が必須である。
+それぞれ以下のように指定すること。
+
+* ``from`` ・・・ :java:extdoc:`Default <javax.validation.groups.Default>` を指定する
+
+  * メソッドに :java:extdoc:`Valid <javax.validation.Valid>` アノテーションを設定する場合、
+    バリデーションは :java:extdoc:`Default <javax.validation.groups.Default>` グループを設定したものとして実行されるため。
+
+* ``to`` ・・・Bean Validationのグループを指定する
+
+以下に例を示す。
+
+.. code-block:: java
+
+  // Personクラス内で設定されたバリデーションルールのうち、
+  // Createグループに所属するルールのみを使用して検証する。
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Valid
+  @ConvertGroup(from = Default.class, to = Create.class)
+  public HttpResponse save(Person person) {
+      UniversalDao.insert(person);
+      return new HttpResponse();
+  }
