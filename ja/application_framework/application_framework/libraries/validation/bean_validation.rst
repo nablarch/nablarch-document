@@ -571,6 +571,13 @@ Java実装例
   プロジェクトでソート順を変更したい場合は、BeanValidationStrategyを継承し対応すること。
 
 
+.. _bean_validation-restful_web_service:
+
+RESTfulウェブサービスのユーザ入力値のチェックを行う
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+RESTfulウェブサービスのユーザ入力値のチェックは、入力値を受け取るリソースクラスのメソッドに :java:extdoc:`Valid <javax.validation.Valid>` アノテーションを設定することで行う。
+詳細は、 :ref:`jaxrs_bean_validation_handler` を参照。
+
 .. _bean_validation_onerror:
 
 
