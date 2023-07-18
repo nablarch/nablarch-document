@@ -703,7 +703,7 @@ Nablarchでも、Bean Validationでグループ指定可能なAPIを提供して
 バリデーション対象のForm
   .. code-block:: java
 
-    public class SampleBean {
+    public class SampleForm {
     
         @SystemChar(charsetDef = "数字", groups = {Default.class, Test1.class})
         String id;
@@ -720,16 +720,16 @@ Nablarchでも、Bean Validationでグループ指定可能なAPIを提供して
 
 バリデーションを実行する処理
   .. code-block:: java
-                  
-    SampleBean bean = new SampleBean();
+
+    SampleForm form = new SampleForm();
 
     ...
 
     // グループを指定しない場合は、Defaultグループに所属するルールを使用してバリデーションされる。
-    ValidatorUtil.validate(bean);
+    ValidatorUtil.validate(form);
 
     // グループを指定する場合は、指定したグループに所属するルールを使用してバリデーションされる。
-    ValidatorUtil.validateWithGroup(bean, SampleBean.Test1.class);
+    ValidatorUtil.validateWithGroup(form, SampleForm.Test1.class);
 
 
 APIの詳細は、 :java:extdoc:`ValidatorUtil <nablarch.core.validation.ee.ValidatorUtil>` を参照。
