@@ -570,6 +570,16 @@ As shown in the example below, Define a component definition of :java:extdoc:`Be
   Note that the value returned by ``getParameterNames`` is implementation-dependent, and the alignment order may change depending on the application server used.
   To change the sort order in the project, BeanValidationStrategy is inherited.
 
+
+.. _bean_validation-restful_web_service:
+
+Checking User Input Values for RESTful Web Services
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Checking user input values for RESTful web services is done by setting the :java:extdoc:`Valid <javax.validation.Valid>` annotation on the method of the resource class that receives input values.
+For details, see :ref:`jaxrs_bean_validation_handler` .
+
+
+
 .. _bean_validation_onerror:
 
 
