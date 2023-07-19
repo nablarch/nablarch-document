@@ -699,6 +699,56 @@ Generated Message
   To change the method of adding the item name to the message, see :java:extdoc:`ItemNamedConstraintViolationConverterFactory <nablarch.core.validation.ee.ItemNamedConstraintViolationConverterFactory>`
   and add the implementation on the project side.
 
+
+.. _bean_validation-use_groups:
+
+Use groups of Bean Validation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The Bean Validation (JSR349) specification allows you to limit the rules used for validation to a specific group by specifying a group at the time of validation execution.
+Nablarch also provides APIs that allow group specification in Bean Validation.
+
+The usage method is shown below.
+
+Form to be validated
+  .. code-block:: java
+
+    public class SampleForm {
+
+        @SystemChar(charsetDef = "数字", groups = {Default.class, Test1.class})
+        String id;
+
+        @SystemChar.List({
+                @SystemChar(charsetDef = "全角文字") // If no group is specified, the validation rule is assumed to belong to the Default group.
+                @SystemChar(charsetDef = "半角英数", groups = Test1.class),
+        })
+        String name;
+
+        public interface Test1 {}
+    }
+
+
+Process to perform validation
+  .. code-block:: java
+
+    SampleForm form = new SampleForm();
+
+    ...
+
+    // If no group is specified, the rules belonging to the Default group are used for validation.
+    ValidatorUtil.validate(form);
+
+    // If groups are specified, validation is performed using the rules belonging to the specified groups.
+    ValidatorUtil.validateWithGroup(form, SampleForm.Test1.class);
+
+
+See :java:extdoc:`ValidatorUtil <nablarch.core.validation.ee.ValidatorUtil>` for details on the APIs.
+
+.. tip::
+   By using the group function to switch validation rules, a single form class can be shared by multiple screens and APIs.
+   However, Nablarch does not recommend such usage (see :ref:`Form class is created for each HTML form <application_design-form_html>` and :ref:`Form class is created for each API <rest-application_design-form_html>` for details ).
+   If the group function is used for the purpose of sharing form classes, it should be used after due consideration by the project side.
+
+
 Expansion example
 -------------------------
 To add project-specific annotations and validation logic
