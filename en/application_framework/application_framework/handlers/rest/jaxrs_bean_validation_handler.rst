@@ -61,3 +61,34 @@ An example is shown below.
       UniversalDao.insert(person);
       return new HttpResponse();
   }
+
+
+Specify Group of Bean Validation
+-------------------------------------------------
+A Bean Validation group can be specified by setting the :java:extdoc:`ConvertGroup <javax.validation.groups.ConvertGroup>` annotation for the method with the :java:extdoc:`Valid <javax.validation.Valid>` annotation set.
+
+The ``from`` and ``to`` attributes must be specified for the :java:extdoc:`ConvertGroup <javax.validation.groups.ConvertGroup>` annotation.
+Each must be specified as follows.
+
+* ``from`` : Specify :java:extdoc:`Default <javax.validation.groups.Default>` .
+
+  * If you set the :java:extdoc:`Valid <javax.validation.Valid>` annotation to a method,
+    the validation is considered to have set the :java:extdoc:`Default <javax.validation.groups.Default>` group and will be executed.
+
+* ``to`` : Specify the group of Bean Validation.
+
+
+An example is shown below.
+
+.. code-block:: java
+
+  // Among the validation rules set within the Person class,
+  // only the rules belonging to the Create group are used for validation.
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Valid
+  @ConvertGroup(from = Default.class, to = Create.class)
+  public HttpResponse save(Person person) {
+      UniversalDao.insert(person);
+      return new HttpResponse();
+  }
