@@ -79,6 +79,26 @@ Example of business action
   If :ref:`bean_validation` is used for validation, it can be configured such that the objects can be fetched
   from the request scope even during validation errors. For details, see \ :ref:`bean_validation_onerror`\.
     
+
+Specify Groups of Bean Validation
+-------------------------------------------------
+If you set the :java:extdoc:`BeanValidationStrategy <nablarch.common.web.validator.BeanValidationStrategy>` to the ``validationStrategy``, you can specify groups of bean validation in the ``InjectForm`` annotation.
+
+An implementation example is shown below.
+
+  .. code-block:: java
+
+    // Among the validation rules set within the UserForm class, only the rules belonging to the Create group are used for validation.
+    @InjectForm(form = UserForm.class, prefix = "form", validationGroup = Create.class)
+    public HttpResponse handle(HttpRequest req, ExecutionContext ctx) {
+
+      // Obtain the validated form from the request scope.
+      UserForm form = ctx.getRequestScopedVar("form");
+
+      // Perform the business process based on the form.
+    }
+
+
 Specify the transition destination when a validation error occurs
 -------------------------------------------------------------------
 The transition destination screen when a validation error occurs is configured using the :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` annotation.
