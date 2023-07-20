@@ -711,19 +711,19 @@ Nablarchでも、Bean Validationでグループ指定可能なAPIを提供して
   .. code-block:: java
 
     public class SampleForm {
-    
+
         @SystemChar(charsetDef = "数字", groups = {Default.class, Test1.class})
         String id;
-    
+
         @SystemChar.List({
                 @SystemChar(charsetDef = "全角文字") // グループを指定しない場合は、 Defaultグループに所属していると見なされる
                 @SystemChar(charsetDef = "半角英数", groups = Test1.class),
         })
         String name;
-    
+
         public interface Test1 {}
     }
-     
+
 
 バリデーションを実行する処理
   .. code-block:: java
