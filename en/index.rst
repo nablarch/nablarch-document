@@ -22,6 +22,7 @@ Nablarch
   examples/index
   nablarch_api/index
   about_nablarch/versionup_policy
+  external_transmission/index  
 
 
 -----------------------------------------------
@@ -113,3 +114,9 @@ Nablarch implementation examples
 -----------------------------------------------
 
   | :doc:`Manual <examples/index>`
+
+-----------------------------------------------
+External Transmssion Of Information
+-----------------------------------------------
+
+  | :doc:`External Transmssion Of Information <external_transmission/index>`
