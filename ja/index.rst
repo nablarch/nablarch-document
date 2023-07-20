@@ -24,6 +24,7 @@ Nablarch
   releases/index
   about_nablarch/versionup_policy
   inquiry/index
+  external_transmission/index
 
 -----------------------------------------------
 Nablarchについて
@@ -130,3 +131,9 @@ Nablarch実装例集
 -----------------------------------------------
 
   | :doc:`機能追加要望・改善要望 <inquiry/index>`
+
+-----------------------------------------------
+情報の外部送信について
+-----------------------------------------------
+
+  | :doc:`情報の外部送信について <external_transmission/index>`
