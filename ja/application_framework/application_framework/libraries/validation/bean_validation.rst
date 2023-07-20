@@ -576,7 +576,7 @@ Java実装例
 RESTfulウェブサービスのユーザ入力値のチェックを行う
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 RESTfulウェブサービスのユーザ入力値のチェックは、入力値を受け取るリソースクラスのメソッドに :java:extdoc:`Valid <javax.validation.Valid>` アノテーションを設定することで行う。
-詳細は、 :ref:`jaxrs_bean_validation_handler` を参照。
+詳細は、 :ref:`jaxrs_bean_validation_handler_perform_validation` を参照。
 
 .. _bean_validation_onerror:
 
@@ -739,7 +739,8 @@ Nablarchでも、Bean Validationでグループ指定可能なAPIを提供して
     ValidatorUtil.validateWithGroup(form, SampleForm.Test1.class);
 
 
-APIの詳細は、 :java:extdoc:`ValidatorUtil <nablarch.core.validation.ee.ValidatorUtil>` を参照。
+APIの詳細は、 :java:extdoc:`ValidatorUtil#validateWithGroup <nablarch.core.validation.ee.ValidatorUtil#validateWithGroup(java.lang.Object, java.lang.Class...)>`
+及び :java:extdoc:`ValidatorUtil#validateProperty <nablarch.core.validation.ee.ValidatorUtil#validateProperty(java.lang.Object, java.lang.String, java.lang.Class...)>` を参照。
 
 .. tip::
    グループ機能を使用してバリデーションのルールを切り替えることで、一つのフォームクラスを複数の画面やAPIで共通化できるようになる。
