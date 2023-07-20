@@ -116,7 +116,7 @@ Nablarch implementation examples
   | :doc:`Manual <examples/index>`
 
 -----------------------------------------------
-External Transmssion Of Information
+External transmssion of information
 -----------------------------------------------
 
-  | :doc:`External Transmssion Of Information <external_transmission/index>`
+  | :doc:`External Transmssion of Information <external_transmission/index>`

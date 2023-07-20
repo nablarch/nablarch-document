@@ -1,5 +1,5 @@
 ===================================
-External Transmssion Of Information
+External Transmssion of Information
 ===================================
 
 This Website collects information such as browsing history by browsers.
@@ -29,19 +29,27 @@ The information we collect and its specific uses are as follows:
 +-----------------------+-----------------------------------------------------------+---------------------+-------------------------------------------------------------------------+
 | HTTP Referer          | https://twitter.com/                                      | Referring page      | Used to measure from which page a visitor arrived at this This Website. |
 +-----------------------+-----------------------------------------------------------+---------------------+-------------------------------------------------------------------------+
-| Browser               | Chrome 86.0                                               | User's browser type | Used to measure the user's browsing environment [^1].                   |
+| Browser               | Chrome 86.0                                               | User's browser type | Used to measure the user's browsing environment [1]_.                   |
 +-----------------------+-----------------------------------------------------------+---------------------+-------------------------------------------------------------------------+
-| Operating System      | macOS 10.15                                               | User's OS type      | Used to measure the user's browsing environment [^1].                   |
+| Operating System      | macOS 10.15                                               | User's OS type      | Used to measure the user's browsing environment [2]_.                   |
 +-----------------------+-----------------------------------------------------------+---------------------+-------------------------------------------------------------------------+
-| Device type           | Desktop                                                   | User's device type  | Used to measure the user's browsing environment [^1].                   |
+| Device type           | Desktop                                                   | User's device type  | Used to measure the user's browsing environment [3]_.                   |
 +-----------------------+-----------------------------------------------------------+---------------------+-------------------------------------------------------------------------+
-| Country, region, city | United Kingdom, England, London                           | User's location     | Used to measure the user's browsing environment [^2].                   |
+| Country, region, city | United Kingdom, England, London                           | User's location     | Used to measure the user's browsing environment [4]_.                   |
 +-----------------------+-----------------------------------------------------------+---------------------+-------------------------------------------------------------------------+
 
 
-For more information, Please refer to the `Plausible Analyticsのポリシー <https://plausible.io/data-policy>`__ .
+For more information, Please refer to the `Plausible Analytics Policy <https://plausible.io/data-policy>`__ .
 
-.. [1]: This is derived from the User-Agent HTTP header. The full User-Agent is discarded.
+.. [1]
+   This is derived from the User-Agent HTTP header. The full User-Agent is discarded.
 
-.. [2]: We look up the visitor location using their IP address. We do not track anything more granular than the city level and the IP address of the visitor is discarded. We never store IP addresses in our database or logs.
+.. [2]
+   This is derived from the User-Agent HTTP header. The full User-Agent is discarded.
+
+.. [3]
+   This is derived from the User-Agent HTTP header. The full User-Agent is discarded.
+
+.. [4]
+   We look up the visitor location using their IP address. We do not track anything more granular than the city level and the IP address of the visitor is discarded. We never store IP addresses in our database or logs.
 
