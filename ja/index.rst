@@ -24,6 +24,7 @@ Nablarch
   releases/index
   about_nablarch/versionup_policy
   inquiry/index
+  terms_of_use/index
 
 -----------------------------------------------
 Nablarchについて
@@ -130,5 +131,3 @@ Nablarch実装例集
 -----------------------------------------------
 
   | :doc:`機能追加要望・改善要望 <inquiry/index>`
-
-

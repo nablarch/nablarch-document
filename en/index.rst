@@ -22,6 +22,7 @@ Nablarch
   examples/index
   nablarch_api/index
   about_nablarch/versionup_policy
+  terms_of_use/index
 
 
 -----------------------------------------------
@@ -113,4 +114,3 @@ Nablarch implementation examples
 -----------------------------------------------
 
   | :doc:`Manual <examples/index>`
-
