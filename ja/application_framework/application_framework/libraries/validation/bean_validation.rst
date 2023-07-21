@@ -101,6 +101,9 @@ MessageInterpolatorの設定
 ウェブアプリケーションでBean Validationを使うための設定
   :ref:`bean_validation-web_application` を参照
 
+RESTfulウェブサービスでBean Validationを使うための設定
+  :ref:`bean_validation-restful_web_service` を参照
+
 バリデーションエラー時のエラーメッセージを定義する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :ref:`bean_validation-configuration` で説明したように、デフォルトでは :ref:`message` を使用してバリデーションエラー時のメッセージを構築する。

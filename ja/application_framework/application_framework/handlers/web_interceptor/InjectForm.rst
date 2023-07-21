@@ -90,7 +90,7 @@ InjectFormを使用する
 
 Bean Validationのグループを指定する
 -------------------------------------------------
-バリデーションに :ref:`bean_validation` を使用する場合は、 ``InjectForm`` アノテーションにグループを指定することができる。
+バリデーションに :ref:`bean_validation` を使用する場合は、 :java:extdoc:`InjectForm#validationGroup <nablarch.common.web.interceptor.InjectForm.validationGroup()>` にグループを指定することができる。
 
 以下に実装例を示す。
 
