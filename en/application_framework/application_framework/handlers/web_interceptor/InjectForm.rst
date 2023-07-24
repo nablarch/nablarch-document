@@ -78,7 +78,6 @@ Example of business action
 .. tip::
   If :ref:`bean_validation` is used for validation, it can be configured such that the objects can be fetched
   from the request scope even during validation errors. For details, see \ :ref:`bean_validation_onerror`\.
-    
 
 Specify the transition destination when a validation error occurs
 -------------------------------------------------------------------

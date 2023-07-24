@@ -582,7 +582,6 @@ Checking user input values for RESTful web services is done by setting the :java
 For details, see :ref:`jaxrs_bean_validation_handler_perform_validation` .
 
 
-
 .. _bean_validation_onerror:
 
 
