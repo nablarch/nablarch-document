@@ -14,7 +14,7 @@ Python 3.6.x 及び以下のプラグインをインストールします。
 * sphinx-rtd-theme(0.2.4)
 #### textlint実行環境
 上記に加えて、以下をインストールします。
-* Node.js（v8.9.3で動作確認済み）
+* Node.js（v16.16.0で動作確認済み）
 * npmで依存ライブラリをインストールします。
   ```sh
   npm install
@@ -110,4 +110,3 @@ Python 3.6.x 及び以下のプラグインをインストールします。
   ```bash
   docker run --rm -v <リポジトリをクローンしたディレクトリ(フルパス)>:/root/document nablarch-document-build /bin/bash -c "cd /root/document; sphinx-build -d _build/.doctrees/en -b linkcheck en _build/linkcheck/en"
   ```
-
