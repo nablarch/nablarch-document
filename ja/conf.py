@@ -48,7 +48,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'∇Nablarch '
-copyright = u'2010-' + str(date.today().year) + u', TIS Inc'
+copyright = u'2010-2022, TIS Inc'
 author = u'TIS Inc'
 
 # The version info for the project you're documenting, acts as replacement for
