@@ -22,22 +22,45 @@ Type and use of information
 
 The information we collect and its specific uses are as follows:
 
-+-----------------------+-----------------------------------------------------------+---------------------+---------------------------------------------------------------------+
-| Information Type      | Example                                                   | Description         | Usage                                                               |
-+=======================+===========================================================+=====================+=====================================================================+
-| Page URL              | https://nablarch.github.io/docs/LATEST/doc/index.html     | URL of This Website | Used to measure which pages have been viewed.                       |
-+-----------------------+-----------------------------------------------------------+---------------------+---------------------------------------------------------------------+
-| HTTP Referer          | https://twitter.com/                                      | Referring page      | Used to measure from which page a visitor arrived at this Website.  |
-+-----------------------+-----------------------------------------------------------+---------------------+---------------------------------------------------------------------+
-| Browser               | Chrome 86.0                                               | User's browser type | Used to measure the user's browsing environment [1]_.               |
-+-----------------------+-----------------------------------------------------------+---------------------+---------------------------------------------------------------------+
-| Operating System      | macOS 10.15                                               | User's OS type      | Used to measure the user's browsing environment [2]_.               |
-+-----------------------+-----------------------------------------------------------+---------------------+---------------------------------------------------------------------+
-| Device type           | Desktop                                                   | User's device type  | Used to measure the user's browsing environment [3]_.               |
-+-----------------------+-----------------------------------------------------------+---------------------+---------------------------------------------------------------------+
-| Country, region, city | United Kingdom, England, London                           | User's location     | Used to measure the user's browsing environment [4]_.               |
-+-----------------------+-----------------------------------------------------------+---------------------+---------------------------------------------------------------------+
+.. list-table::
+   :widths: 15 30 25 30
+   :header-rows: 1
+   :class: white-space-normal
 
+   * - Information Type
+     - Example
+     - Description
+     - Usage
+
+   * - Page URL
+     - `https://nablarch.github.io/docs/LATEST​/doc/en/index.html <https://nablarch.github.io/docs/LATEST/doc/en/index.html>`_
+     - URL of This Website
+     - Used to measure which pages have been viewed.
+
+   * - HTTP Referer
+     - https://twitter.com/
+     - Referring page
+     - Used to measure from which page a visitor arrived at this Website.
+
+   * - Browser
+     - Chrome 86.0
+     - User's browser type
+     - Used to measure the user's browsing environment [1]_.
+
+   * - Operating System
+     - macOS 10.15
+     - User's OS type
+     - Used to measure the user's browsing environment [2]_.
+
+   * - Device type
+     - Desktop
+     - User's device type
+     - Used to measure the user's browsing environment [3]_.
+
+   * - Country, region, city
+     - United Kingdom, England, London
+     - User's location
+     - Used to measure the user's browsing environment [4]_.
 
 For more information, Please refer to the `Plausible Analytics Policy <https://plausible.io/data-policy>`__ .
 
