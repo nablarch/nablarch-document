@@ -80,6 +80,16 @@ Example of business action
   from the request scope even during validation errors. For details, see \ :ref:`bean_validation_onerror`\.
     
 
+Specify the transition destination when a validation error occurs
+-------------------------------------------------------------------
+The transition destination screen when a validation error occurs is configured using the :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` annotation.
+
+Configure for :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` for the business action method to which :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` that has been configured for the business action method.
+Note that if :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` is not configured, validation error is handled as a system error.
+
+To acquire data for display on the transition destination screen when a validation error occurs, see :ref:`on_error-forward`.
+
+
 Specify Groups of Bean Validation
 -------------------------------------------------
 When using :ref:`bean_validation` for validation, groups can be specified in :java:extdoc:`InjectForm#validationGroup <nablarch.common.web.interceptor.InjectForm.validationGroup()>` .
@@ -98,13 +108,3 @@ An implementation example is shown below.
 
       // Perform the business process based on the form.
     }
-
-
-Specify the transition destination when a validation error occurs
--------------------------------------------------------------------
-The transition destination screen when a validation error occurs is configured using the :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` annotation.
-
-Configure for :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` for the business action method to which :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` that has been configured for the business action method.
-Note that if :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` is not configured, validation error is handled as a system error.
-
-To acquire data for display on the transition destination screen when a validation error occurs, see :ref:`on_error-forward`.

@@ -73,7 +73,7 @@ A Bean Validation group can be specified by setting the :java:extdoc:`ConvertGro
 The ``from`` and ``to`` attributes must be specified for the :java:extdoc:`ConvertGroup <javax.validation.groups.ConvertGroup>` annotation.
 Each must be specified as follows.
 
-* ``from`` : Fix to :java:extdoc:`Default <javax.validation.groups.Default>` .
+* ``from`` : Specify :java:extdoc:`Default.class <javax.validation.groups.Default>` as a fixed value.
 
   * If you set the :java:extdoc:`Valid <javax.validation.Valid>` annotation to a method,
     the validation is considered to have set the :java:extdoc:`Default <javax.validation.groups.Default>` group and will be executed.

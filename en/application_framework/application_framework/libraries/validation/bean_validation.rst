@@ -750,7 +750,7 @@ and :java:extdoc:`ValidatorUtil#validateProperty <nablarch.core.validation.ee.Va
 .. tip::
    By using the group function to switch validation rules, a single form class can be shared by multiple screens and APIs.
    However, Nablarch does not recommend such usage (see :ref:`Form class is created for each HTML form <application_design-form_html>` and :ref:`Form class is created for each API <rest-application_design-form_html>` for details ).
-   If the group function is used for the purpose of sharing form classes, it should be used after due consideration by the project side.
+   If you use the group function for the purpose of sharing form classes, please use it after careful consideration in your project.
 
 
 Expansion example
