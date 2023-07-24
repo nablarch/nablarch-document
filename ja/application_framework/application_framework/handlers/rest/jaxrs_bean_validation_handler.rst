@@ -74,7 +74,7 @@ Bean Validationのグループを指定する
 :java:extdoc:`ConvertGroup <javax.validation.groups.ConvertGroup>` アノテーションは ``from`` 属性と ``to`` 属性の指定が必須である。
 それぞれ以下のように指定すること。
 
-* ``from`` ・・・ :java:extdoc:`Default <javax.validation.groups.Default>` 固定
+* ``from`` ・・・ :java:extdoc:`Default.class <javax.validation.groups.Default>` 固定
 
   * メソッドに :java:extdoc:`Valid <javax.validation.Valid>` アノテーションを設定する場合、
     バリデーションは :java:extdoc:`Default <javax.validation.groups.Default>` グループを設定したものとして実行されるため。

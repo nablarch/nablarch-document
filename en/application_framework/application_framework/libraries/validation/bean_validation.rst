@@ -101,6 +101,9 @@ Configuration for domain validation
 Configuration for using Bean Validation in web application
   See :ref:`bean_validation-web_application`
 
+Configuration for using Bean Validation in RESTful web service
+  See :ref:`bean_validation-restful_web_service`
+
 Define the error message for validation error
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 As explained in :ref:`bean_validation-configuration`, message during an error is built using :ref:`message` by default.
@@ -570,6 +573,15 @@ As shown in the example below, Define a component definition of :java:extdoc:`Be
   Note that the value returned by ``getParameterNames`` is implementation-dependent, and the alignment order may change depending on the application server used.
   To change the sort order in the project, BeanValidationStrategy is inherited.
 
+
+.. _bean_validation-restful_web_service:
+
+Checking User Input Values for RESTful Web Services
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Checking user input values for RESTful web services is done by setting the :java:extdoc:`Valid <javax.validation.Valid>` annotation on the method of the resource class that receives input values.
+For details, see :ref:`jaxrs_bean_validation_handler_perform_validation` .
+
+
 .. _bean_validation_onerror:
 
 
@@ -688,6 +700,57 @@ Generated Message
 .. tip::
   To change the method of adding the item name to the message, see :java:extdoc:`ItemNamedConstraintViolationConverterFactory <nablarch.core.validation.ee.ItemNamedConstraintViolationConverterFactory>`
   and add the implementation on the project side.
+
+
+.. _bean_validation-use_groups:
+
+Use groups of Bean Validation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The Bean Validation (JSR349) specification allows you to limit the rules used for validation to a specific group by specifying a group at the time of validation execution.
+Nablarch also provides APIs that allow group specification in Bean Validation.
+
+The usage method is shown below.
+
+Form to be validated
+  .. code-block:: java
+
+    public class SampleForm {
+
+        @SystemChar(charsetDef = "Number", groups = {Default.class, Test1.class})
+        String id;
+
+        @SystemChar.List({
+                @SystemChar(charsetDef = "Full-width character") // If no group is specified, the validation rule is assumed to belong to the Default group.
+                @SystemChar(charsetDef = "Half-width character", groups = Test1.class),
+        })
+        String name;
+
+        public interface Test1 {}
+    }
+
+
+Process to perform validation
+  .. code-block:: java
+
+    SampleForm form = new SampleForm();
+
+    ...
+
+    // If no group is specified, the rules belonging to the Default group are used for validation.
+    ValidatorUtil.validate(form);
+
+    // If groups are specified, validation is performed using the rules belonging to the specified groups.
+    ValidatorUtil.validateWithGroup(form, SampleForm.Test1.class);
+
+
+See :java:extdoc:`ValidatorUtil#validateWithGroup <nablarch.core.validation.ee.ValidatorUtil#validateWithGroup(java.lang.Object, java.lang.Class...)>`
+and :java:extdoc:`ValidatorUtil#validateProperty <nablarch.core.validation.ee.ValidatorUtil#validateProperty(java.lang.Object, java.lang.String, java.lang.Class...)>` for details on the APIs.
+
+.. tip::
+   By using the group function to switch validation rules, a single form class can be shared by multiple screens and APIs.
+   However, Nablarch does not recommend such usage (see :ref:`Form class is created for each HTML form <application_design-form_html>` and :ref:`Form class is created for each API <rest-application_design-form_html>` for details ).
+   If you use the group function for the purpose of sharing form classes, please use it after careful consideration in your project.
+
 
 Expansion example
 -------------------------
