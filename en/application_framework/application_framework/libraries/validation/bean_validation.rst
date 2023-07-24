@@ -101,6 +101,9 @@ Configuration for domain validation
 Configuration for using Bean Validation in web application
   See :ref:`bean_validation-web_application`
 
+Configuration for using Bean Validation in RESTful web service
+  See :ref:`bean_validation-restful_web_service`
+
 Define the error message for validation error
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 As explained in :ref:`bean_validation-configuration`, message during an error is built using :ref:`message` by default.
@@ -576,7 +579,7 @@ As shown in the example below, Define a component definition of :java:extdoc:`Be
 Checking User Input Values for RESTful Web Services
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Checking user input values for RESTful web services is done by setting the :java:extdoc:`Valid <javax.validation.Valid>` annotation on the method of the resource class that receives input values.
-For details, see :ref:`jaxrs_bean_validation_handler` .
+For details, see :ref:`jaxrs_bean_validation_handler_perform_validation` .
 
 
 
@@ -714,12 +717,12 @@ Form to be validated
 
     public class SampleForm {
 
-        @SystemChar(charsetDef = "数字", groups = {Default.class, Test1.class})
+        @SystemChar(charsetDef = "Number", groups = {Default.class, Test1.class})
         String id;
 
         @SystemChar.List({
-                @SystemChar(charsetDef = "全角文字") // If no group is specified, the validation rule is assumed to belong to the Default group.
-                @SystemChar(charsetDef = "半角英数", groups = Test1.class),
+                @SystemChar(charsetDef = "Full-width character") // If no group is specified, the validation rule is assumed to belong to the Default group.
+                @SystemChar(charsetDef = "Half-width character", groups = Test1.class),
         })
         String name;
 
@@ -741,7 +744,8 @@ Process to perform validation
     ValidatorUtil.validateWithGroup(form, SampleForm.Test1.class);
 
 
-See :java:extdoc:`ValidatorUtil <nablarch.core.validation.ee.ValidatorUtil>` for details on the APIs.
+See :java:extdoc:`ValidatorUtil#validateWithGroup <nablarch.core.validation.ee.ValidatorUtil#validateWithGroup(java.lang.Object, java.lang.Class...)>`
+and :java:extdoc:`ValidatorUtil#validateProperty <nablarch.core.validation.ee.ValidatorUtil#validateProperty(java.lang.Object, java.lang.String, java.lang.Class...)>` for details on the APIs.
 
 .. tip::
    By using the group function to switch validation rules, a single form class can be shared by multiple screens and APIs.

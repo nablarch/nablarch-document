@@ -82,13 +82,14 @@ Example of business action
 
 Specify Groups of Bean Validation
 -------------------------------------------------
-If you set the :java:extdoc:`BeanValidationStrategy <nablarch.common.web.validator.BeanValidationStrategy>` to the ``validationStrategy``, you can specify groups of bean validation in the ``InjectForm`` annotation.
+When using :ref:`bean_validation` for validation, groups can be specified in :java:extdoc:`InjectForm#validationGroup <nablarch.common.web.interceptor.InjectForm.validationGroup()>` .
 
 An implementation example is shown below.
 
   .. code-block:: java
 
-    // Among the validation rules set within the UserForm class, only the rules belonging to the Create group are used for validation.
+    // Among the validation rules set within the UserForm class,
+    // only the rules belonging to the Create group are used for validation.
     @InjectForm(form = UserForm.class, prefix = "form", validationGroup = Create.class)
     public HttpResponse handle(HttpRequest req, ExecutionContext ctx) {
 
