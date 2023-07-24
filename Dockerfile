@@ -6,7 +6,7 @@ RUN pip install --upgrade pip && pip install Sphinx==1.6.3 && pip install javasp
 
 # textlintのセットアップ
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt-get install -y nodejs npm
+RUN apt-get install -y nodejs
 COPY package*.json /root/
 WORKDIR /root
 RUN npm install && npm audit fix
