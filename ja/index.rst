@@ -24,6 +24,7 @@ Nablarch
   releases/index
   about_nablarch/versionup_policy
   inquiry/index
+  terms_of_use/index
 
 -----------------------------------------------
 Nablarchについて
