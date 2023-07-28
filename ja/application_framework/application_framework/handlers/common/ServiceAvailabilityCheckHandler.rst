@@ -41,8 +41,9 @@
   :ref:`thread_context_handler` より後ろに本ハンドラを配置する必要がある。
 
 :ref:`forwarding_handler` より後ろに配置すること
-  内部フォーワードが行われた際に、フォーワード先のリクエストIDをもとに
+  内部フォーワードが行われた際に、フォーワード先のリクエストID（ :ref:`内部リクエストID <internal_request_id>` ）をもとに
   サービス提供可否チェックを行いたい場合は、 :ref:`forwarding_handler` より後ろに本ハンドラを配置する必要がある。
+  合わせて、 :ref:`thread_context_handler` の ``attributes`` に :java:extdoc:`InternalRequestIdAttribute <nablarch.common.handler.threadcontext.InternalRequestIdAttribute>` を追加すること。
 
 .. _ServiceAvailabilityCheckHandler-request_checking:
 
@@ -57,7 +58,7 @@ OK(サービス提供可)の場合
 NG(サービス提供不可)の場合
  :java:extdoc:`ServiceUnavailable <nablarch.fw.results.ServiceUnavailable>` (503) を送出する。
 
-:java:extdoc:`ThreadContext <nablarch.core.ThreadContext>` から取得するリクエストIDをフォーワード先のリクエストIDに変更したい場合は、
-:java:extdoc:`usesInternalRequestId <nablarch.common.availability.ServiceAvailabilityCheckHandler.setUsesInternalRequestId(boolean)>` にtrueを指定する。デフォルトはfalseである。
-
+チェック対象のリクエストIDをフォーワード先のリクエストIDに変更したい場合は、
+:java:extdoc:`ServiceAvailabilityCheckHandler.setUsesInternalRequestId <nablarch.common.availability.ServiceAvailabilityCheckHandler.setUsesInternalRequestId(boolean)>`
+でtrueを指定する。デフォルトはfalseである。
 

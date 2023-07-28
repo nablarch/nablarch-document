@@ -90,6 +90,9 @@
   // 絶対パス
   new HttpResponse("forward:///action/users/initialize");
 
-  
 
+.. _internal_request_id:
 
+内部リクエストIDについて
+-----------------------------------------------
+内部フォーワード時、フォーワード先のリクエストIDを内部リクエストIDとしてスレッドコンテキストに保持する。

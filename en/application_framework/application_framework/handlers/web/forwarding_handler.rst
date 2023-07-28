@@ -92,5 +92,8 @@ If the current request URI is ``action/users/save``, the internal forward destin
   new HttpResponse("forward:///action/users/initialize");
 
   
+.. _internal_request_id:
 
-
+Internal Request ID
+-----------------------------------------------
+The request ID of the forwarding destination is retained in the thread context as an internal request ID during internal forwarding.

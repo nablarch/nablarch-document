@@ -24,6 +24,7 @@ Nablarch
   inquiry/index
   migration/index
   jakarta_ee/index
+  terms_of_use/index
 
 -----------------------------------------------
 Nablarchについて

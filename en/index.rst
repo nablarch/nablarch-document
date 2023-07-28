@@ -22,6 +22,7 @@ Nablarch
   about_nablarch/versionup_policy
   migration/index
   jakarta_ee/index
+  terms_of_use/index
 
 
 -----------------------------------------------
