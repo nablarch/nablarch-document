@@ -706,7 +706,7 @@ Generated Message
 
 Use groups of Bean Validation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The Bean Validation (JSR349) specification allows you to limit the rules used for validation to a specific group by specifying a group at the time of validation execution.
+Jakarta Bean Validation specification allows you to limit the rules used for validation to a specific group by specifying a group at the time of validation execution.
 Nablarch also provides APIs that allow group specification in Bean Validation.
 
 The usage method is shown below.
