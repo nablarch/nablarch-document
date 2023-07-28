@@ -25,6 +25,7 @@ Nablarch
   about_nablarch/versionup_policy
   inquiry/index
   migration/index
+  terms_of_use/index
 
 -----------------------------------------------
 Nablarchについて

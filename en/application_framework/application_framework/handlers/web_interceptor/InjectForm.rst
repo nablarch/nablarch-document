@@ -78,7 +78,7 @@ Example of business action
 .. tip::
   If :ref:`bean_validation` is used for validation, it can be configured such that the objects can be fetched
   from the request scope even during validation errors. For details, see \ :ref:`bean_validation_onerror`\.
-    
+
 Specify the transition destination when a validation error occurs
 -------------------------------------------------------------------
 The transition destination screen when a validation error occurs is configured using the :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` annotation.
@@ -87,3 +87,23 @@ Configure for :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` for t
 Note that if :java:extdoc:`OnError <nablarch.fw.web.interceptor.OnError>` is not configured, validation error is handled as a system error.
 
 To acquire data for display on the transition destination screen when a validation error occurs, see :ref:`on_error-forward`.
+
+
+Specify Groups of Bean Validation
+-------------------------------------------------
+When using :ref:`bean_validation` for validation, groups can be specified in :java:extdoc:`InjectForm#validationGroup <nablarch.common.web.interceptor.InjectForm.validationGroup()>` .
+
+An implementation example is shown below.
+
+  .. code-block:: java
+
+    // Among the validation rules set within the UserForm class,
+    // only the rules belonging to the Create group are used for validation.
+    @InjectForm(form = UserForm.class, prefix = "form", validationGroup = Create.class)
+    public HttpResponse handle(HttpRequest req, ExecutionContext ctx) {
+
+      // Obtain the validated form from the request scope.
+      UserForm form = ctx.getRequestScopedVar("form");
+
+      // Perform the business process based on the form.
+    }

@@ -23,6 +23,7 @@ Nablarch
   nablarch_api/index
   about_nablarch/versionup_policy
   migration/index
+  terms_of_use/index
 
 
 -----------------------------------------------
