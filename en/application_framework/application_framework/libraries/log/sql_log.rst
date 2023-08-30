@@ -437,7 +437,7 @@ Example of the description
 
   sqlLogFormatter.className=nablarch.core.db.statement.SqlJsonLogFormatter
   sqlLogFormatter.structuredMessagePrefix=$JSON$
-  sqlLogFormatter.startRetrieveTargets=methodName,sql,start,startPosition,size,additionalInfo
+  sqlLogFormatter.startRetrieveTargets=methodName,sql,startPosition,size,additionalInfo
   sqlLogFormatter.endRetrieveTargets=methodName,executeTime,retrieveTime,count
   sqlLogFormatter.startExecuteTargets=methodName,sql,additionalInfo
   sqlLogFormatter.endExecuteTargets=methodName,executeTime
@@ -446,4 +446,4 @@ Example of the description
   sqlLogFormatter.startExecuteUpdateTargets=methodName,sql,additionalInfo
   sqlLogFormatter.endExecuteUpdateTargets=methodName,executeTime,updateCount
   sqlLogFormatter.startExecuteBatchTargets=methodName,sql,additionalInfo
-  sqlLogFormatter.endExecuteBatchTargets=methodName,executeTime,updateCount
+  sqlLogFormatter.endExecuteBatchTargets=methodName,executeTime,batchCount
