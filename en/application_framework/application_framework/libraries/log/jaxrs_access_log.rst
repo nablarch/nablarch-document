@@ -338,6 +338,7 @@ Description rules
   A marker string given at the beginning of a message to identify that the message string after formatting has been formatted into JSON format.
   If the marker string at the beginning of the message matches the marker string set in :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>`, :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` processes the message as JSON data.
   The default is ``"$JSON$"``.
+  If you change it, set the same value in :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` using LogWriter's ``structuredMessagePrefix`` property (see :ref:`log-basic_setting` for LogWriter properties).
 
 Example of the description
  .. code-block:: properties

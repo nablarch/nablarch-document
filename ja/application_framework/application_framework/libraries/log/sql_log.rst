@@ -432,15 +432,16 @@ SQLログの各項目もJSONの値として出力するには、
 
  sqlLogFormatter.structuredMessagePrefix
   フォーマット後のメッセージ文字列が JSON 形式に整形されていることを識別できるようにするために、メッセージの先頭に付与するマーカー文字列。
-  メッセージの先頭にこのマーカーがある場合、 :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` はメッセージを JSON データとして処理する。
+  メッセージの先頭にあるマーカー文字列が :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` に設定しているマーカー文字列と一致する場合、 :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` はメッセージを JSON データとして処理する。
   デフォルトは ``"$JSON$"`` となる。
+  変更する場合は、LogWriterの ``structuredMessagePrefix`` プロパティを使用して :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` にも同じ値を設定すること（LogWriterのプロパティについては :ref:`log-basic_setting` を参照）。
 
 記述例
  .. code-block:: properties
 
   sqlLogFormatter.className=nablarch.core.db.statement.SqlJsonLogFormatter
   sqlLogFormatter.structuredMessagePrefix=$JSON$
-  sqlLogFormatter.startRetrieveTargets=methodName,sql,start,startPosition,size,additionalInfo
+  sqlLogFormatter.startRetrieveTargets=methodName,sql,startPosition,size,additionalInfo
   sqlLogFormatter.endRetrieveTargets=methodName,executeTime,retrieveTime,count
   sqlLogFormatter.startExecuteTargets=methodName,sql,additionalInfo
   sqlLogFormatter.endExecuteTargets=methodName,executeTime
@@ -449,4 +450,4 @@ SQLログの各項目もJSONの値として出力するには、
   sqlLogFormatter.startExecuteUpdateTargets=methodName,sql,additionalInfo
   sqlLogFormatter.endExecuteUpdateTargets=methodName,executeTime,updateCount
   sqlLogFormatter.startExecuteBatchTargets=methodName,sql,additionalInfo
-  sqlLogFormatter.endExecuteBatchTargets=methodName,executeTime,updateCount
+  sqlLogFormatter.endExecuteBatchTargets=methodName,executeTime,batchCount

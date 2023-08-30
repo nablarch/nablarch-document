@@ -428,15 +428,16 @@ Description rules
 
  sqlLogFormatter.structuredMessagePrefix
   A marker string given at the beginning of a message to identify that the message string after formatting has been formatted into JSON format.
-  If this marker is present at the beginning of the message, :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` processes the message as JSON data.
+  If the marker string at the beginning of the message matches the marker string set in :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>`, :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` processes the message as JSON data.
   The default is ``"$JSON$"``.
+  If you change it, set the same value in :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` using LogWriter's ``structuredMessagePrefix`` property (see :ref:`log-basic_setting` for LogWriter properties).
 
 Example of the description
  .. code-block:: properties
 
   sqlLogFormatter.className=nablarch.core.db.statement.SqlJsonLogFormatter
   sqlLogFormatter.structuredMessagePrefix=$JSON$
-  sqlLogFormatter.startRetrieveTargets=methodName,sql,start,startPosition,size,additionalInfo
+  sqlLogFormatter.startRetrieveTargets=methodName,sql,startPosition,size,additionalInfo
   sqlLogFormatter.endRetrieveTargets=methodName,executeTime,retrieveTime,count
   sqlLogFormatter.startExecuteTargets=methodName,sql,additionalInfo
   sqlLogFormatter.endExecuteTargets=methodName,executeTime
@@ -445,4 +446,4 @@ Example of the description
   sqlLogFormatter.startExecuteUpdateTargets=methodName,sql,additionalInfo
   sqlLogFormatter.endExecuteUpdateTargets=methodName,executeTime,updateCount
   sqlLogFormatter.startExecuteBatchTargets=methodName,sql,additionalInfo
-  sqlLogFormatter.endExecuteBatchTargets=methodName,executeTime,updateCount
+  sqlLogFormatter.endExecuteBatchTargets=methodName,executeTime,batchCount
