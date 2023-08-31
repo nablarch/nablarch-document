@@ -8,6 +8,7 @@
    :maxdepth: 1
    
    01_entityUnitTest
+   03_entityUnitTestWithBeanValidation
    02_componentUnitTest
    
 
