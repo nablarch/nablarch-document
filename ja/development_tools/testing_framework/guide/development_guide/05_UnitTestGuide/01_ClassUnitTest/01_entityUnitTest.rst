@@ -1,7 +1,7 @@
 .. _entityUnitTest:
 
 =============================
-Form/Entityのクラス単体テスト
+Nablarch Validationに対応したForm/Entityのクラス単体テスト
 =============================
 本項では、入力値チェックを :ref:`nablarch_validation` で実施しているFormおよびFormの一種であるEntityのクラス単体テスト(以下Form単体テストまたはEntity単体テスト)について説明する。
 両者はほぼ同じように単体テストを行えるため、共通する内容についてはEntity単体テストをベースに説明し、特有の処理については個別に説明する。
