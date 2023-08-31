@@ -495,8 +495,12 @@ Form全体の精査のテストケース
 テストメソッドの作成方法
 ------------------------
 
-これまでに作成したテストケース、データを使用するテストメソッドを以下に示す。\
-下記コードの変数内容を変更するだけで、異なるFormの精査のテストに対応できる。
+スーパクラスの以下のメソッドを起動する。
+
+.. code-block:: java
+
+   void testBeanValidation(Class entityClass, String sheetName)
+
 
 .. code-block:: java
 
