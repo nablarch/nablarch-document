@@ -446,7 +446,7 @@ Form全体の精査のテストケース
     入力パラメータ表には、Form全体の整合性を検証するために必要なプロパティの値を記載する。
 
     具体例を以下に示す。
-    下図では、"newPasswordとconfirmPasswordが等しいか否か"を ``boolean`` として返すプロパティに対する正常系のケースを作成している。
+    下図では、個別のプロパティの値の妥当性確認の他、"newPasswordとconfirmPasswordが等しいか否か"を ``boolean`` として返すプロパティに対する異常系のケースを作成している。
 
     .. image:: ./_image/entityUnitTest_validationTestData_BeanValidation.png
           :scale: 70
