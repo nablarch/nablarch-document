@@ -53,4 +53,17 @@ public class UserRegistrationFormTest extends EntityTestSupport {
 
         testBeanValidation(TARGET_CLASS, sheetName);
     }
+
+    /**
+     * setter、getterのテストケース
+     */
+    @Test
+    public void testSetterAndGetter() {
+
+        String sheetName = "testSetterAndGetter";
+
+        String id = "setterAndGetter";
+
+        testSetterAndGetter(TARGET_CLASS, sheetName, id);
+    }
 }
