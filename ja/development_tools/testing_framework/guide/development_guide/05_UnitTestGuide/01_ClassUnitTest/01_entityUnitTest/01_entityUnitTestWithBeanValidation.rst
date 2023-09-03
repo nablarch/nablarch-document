@@ -419,8 +419,7 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 項目間精査のテストケース
 ========================
 
-上記までの単項目精査のテストでは、Formの1個のプロパティに対して、フィールドもしくはゲッターメソッドに付与されたアノテーションが正しいかテストされるが、
-単項目精査でテストできないような、 :java:extdoc:`@AssertTrue <javax.validation.constraints.AssertTrue>` を指定した項目間精査などは、別途テストを作成する必要がある。
+上記までの単項目精査でテストできないような、 :java:extdoc:`@AssertTrue <javax.validation.constraints.AssertTrue>` を指定した項目間精査などは、別途テストを作成する必要がある。
 
 
 テストケース表の作成
