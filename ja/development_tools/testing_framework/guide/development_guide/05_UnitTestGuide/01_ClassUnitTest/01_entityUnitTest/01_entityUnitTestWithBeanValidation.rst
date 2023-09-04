@@ -696,6 +696,7 @@ Excelへの定義
   .. image:: ../_image/entityUnitTest_SetterAndGetter_PostNo.png
     :scale: 80
 
+.. _entityUnitTest_EntityTestConfiguration_BeanValidation:
 
 自動テストフレームワーク設定値
 ==============================
