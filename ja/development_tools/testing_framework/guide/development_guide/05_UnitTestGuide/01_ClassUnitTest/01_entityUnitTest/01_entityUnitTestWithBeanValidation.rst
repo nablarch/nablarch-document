@@ -491,8 +491,6 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
     .. image:: ../_image/entityUnitTest_validationTestData_BeanValidation.png
           :scale: 70
 
-    ※Formの保有するプロパティ名のExcelへの記述手順は、 :ref:`property-name-copy-label` を参照。
-
 .. tip::
 
    Form単体テストのテストケースやテストデータを作成する際、\
@@ -597,8 +595,6 @@ Excelへの定義
 .. image:: ../_image/entityUnitTest_SetterAndGetter.png
     :scale: 90
 
-※Entityの保有するプロパティ名のExcelへの記述手順は、 :ref:`property-name-copy-label` を参照。
-
 .. _test-setterGetter-java-label:
 
 このデータを使用するテストメソッドを以下に示す。
@@ -700,33 +696,6 @@ Excelへの定義
   .. image:: ../_image/entityUnitTest_SetterAndGetter_PostNo.png
     :scale: 80
 
-
-.. _property-name-copy-label:
-
-プロパティ名の一覧を簡易的に取得する手順
-========================================
-
-1. IntelliJ IDEAでテスト対象のFormクラスをオープンし、構造(ストラクチャー)を表示する。
-   デフォルトでは、 ``Alt + 7`` のショートカットで表示できる。
-   「Fields」ボタン及び「Non-public」ボタンを活性化させること。
-
-  .. image:: ../_image/entityUnitTest_PropertyWrite1.png
-    :scale: 85
-
-2. コピーしたいプロパティを選択する。
-
-  .. image:: ../_image/entityUnitTest_PropertyWrite2.png
-    :scale: 100         
-
-3. マウスの右クリックで表示されるメニューからCopyを選択する。
-
-  .. image:: ../_image/entityUnitTest_PropertyWrite3.png
-    :scale: 100         
-
-4. コピーしたプロパティ名のリストをエクセルに貼り付ける。
-
-
-.. _entityUnitTest_EntityTestConfiguration_BeanValidation:
 
 自動テストフレームワーク設定値
 ==============================

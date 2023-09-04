@@ -427,8 +427,6 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
     .. image:: ../_image/entityUnitTest_validationTestData.png
       :scale: 70
 
-    ※Entityの保有するプロパティ名のExcelへの記述手順は、 :ref:`property-name-copy-label` を参照。
-
 
 
 テストケース、テストデータの作成
@@ -581,8 +579,6 @@ Excelへの定義
 -------------
 .. image:: ../_image/entityUnitTest_Constructor.png
     :scale: 80
-
-※Entityの保有するプロパティ名のExcelへの記述手順は、 :ref:`property-name-copy-label` を参照。
 
 上記設定値のテスト内容(抜粋)
 
