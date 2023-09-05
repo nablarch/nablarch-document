@@ -20,7 +20,6 @@ For architects who will be adopting testing frameworks, refer to :ref:`testFWGui
   For this reason, testing framework such as `JUnit (external site) <http://junit.org>`_  should be used for testing applications that use these platforms and libraries.
 
   * :ref:`JSR352-compliant batch application <jsr352_batch>`
-  * :ref:`Bean Validation <bean_validation>`
 
 .. important::
 

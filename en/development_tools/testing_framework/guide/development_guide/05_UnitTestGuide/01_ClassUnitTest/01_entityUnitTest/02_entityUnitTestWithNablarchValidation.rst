@@ -1,9 +1,9 @@
 .. _entityUnitTest:
 
-==================================
-Class Unit Testing of Form/Entity
-==================================
-This chapter describes the class unit test for Form and Entity, which is a type of Form (hereinafter referred to as Form unit test or Entity unit test).
+====================================================================
+Class Unit Testing of Form/Entity supporting Nablarch Validation
+====================================================================
+This chapter describes the class unit test for Form and Entity, which is a type of Form (hereinafter referred to as Form unit test or Entity unit test), in which input value checks are performed using :ref:`nablarch_validation`.
 Since both can perform unit tests in almost the same way, common content shall be described based on the Entity unit test, and the specific processing shall be described separately.
 
 .. tip::
@@ -14,9 +14,9 @@ How to write a Form/Entity unit test
 -------------------------------------
 The test class and test data used as examples in this chapter are as follows (right click -> Download and Save).
 
-* :download:`Test class(SystemAccountEntityTest.java)<./_download/SystemAccountEntityTest.java>`
-* :download:`Test data(SystemAccountEntityTest.xlsx)<./_download/SystemAccountEntityTest.xlsx>`
-* :download:`Test target class(SystemAccountEntity.java)<./_download/SystemAccountEntity.java>`
+* :download:`Test class(SystemAccountEntityTest.java)<../_download/SystemAccountEntityTest.java>`
+* :download:`Test data(SystemAccountEntityTest.xlsx)<../_download/SystemAccountEntityTest.xlsx>`
+* :download:`Test target class(SystemAccountEntity.java)<../_download/SystemAccountEntity.java>`
 
 Create test data
 ==================
@@ -27,7 +27,7 @@ It is a prerequisite that the
 \ :ref:`test cases for setters and getters <entityUnitTest_SetterGetterCase>`
 will be used one sheet at a time respectively.
 
-For details on how to describe the test data, see \ :doc:`../../06_TestFWGuide/01_Abstract`\ , \ :doc:`../../06_TestFWGuide/02_DbAccessTest`\.
+For details on how to describe the test data, see \ :doc:`../../../06_TestFWGuide/01_Abstract`\ , \ :doc:`../../../06_TestFWGuide/02_DbAccessTest`\.
 
 It is a prerequisite that the static master data stored in the database, such as message data and code master,
 has been input with data managed by the project in advance (these data are not created as individual test data).
@@ -120,42 +120,63 @@ How to create a test case table
 
 Prepare the following columns.
 
-+-----------------------------------------------+------------------------------------------------------------+
-| Column name                                   | Contents to be mentioned                                   |
-+===============================================+============================================================+
-|propertyName                                   |The property name to be tested.                             |
-+-----------------------------------------------+------------------------------------------------------------+
-|allowEmpty                                     |Whether the property allows for no input                    |
-+-----------------------------------------------+------------------------------------------------------------+
-|         min                                   |Minimum string length allowed by the property               |
-|                                               |as input value (optional)                                   |
-+-----------------------------------------------+------------------------------------------------------------+
-|         max                                   |Maximum string length allowed by the property as input value|
-+-----------------------------------------------+------------------------------------------------------------+
-|messageIdWhenNotApplicable                     |Message ID to expect when character type is incompatible    |
-+-----------------------------------------------+------------------------------------------------------------+
-|Half-width alphabetic characters (半角英字)    |Whether half-width alphabetic characters are allowed?       |
-+-----------------------------------------------+------------------------------------------------------------+
-|Half-width numbers (半角数字)                  |Whether half-width numbers are allowed?                     |
-+-----------------------------------------------+------------------------------------------------------------+
-|Half-width symbols (半角記号)                  |Whether half-width symbols are allowed?                     |
-+-----------------------------------------------+------------------------------------------------------------+
-|Half-width kana (半角カナ)                     |Whether half-width kana are allowed?                        |
-+-----------------------------------------------+------------------------------------------------------------+
-|Full-width alphabets (全角英字)                |Whether full-width alphabets are allowed?                   |
-+-----------------------------------------------+------------------------------------------------------------+
-|Full-width numbers (全角数字)                  |Whether full-width numbers are allowed?                     |
-+-----------------------------------------------+------------------------------------------------------------+
-|Full-width Hiragana (全角ひらがな)             |Whether full-width Hiragana are allowed?                    |
-+-----------------------------------------------+------------------------------------------------------------+
-|Full-width Katakana (全角カタカナ)             |Whether full-width Katakana are allowed?                    |
-+-----------------------------------------------+------------------------------------------------------------+
-|Full-width Kanji (全角漢字)                    |Whether full-width Kanji are allowed?                       |
-+-----------------------------------------------+------------------------------------------------------------+
-|Full-width symbols and others (全角記号その他) |Whether full-width symbols and others are allowed?          |
-+-----------------------------------------------+------------------------------------------------------------+
-|External characters (外字)                     |Whether external characters are allowed?                    |
-+-----------------------------------------------+------------------------------------------------------------+
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+| Column name                                   | Contents to be mentioned                                                                                     |
++===============================================+==============================================================================================================+
+|propertyName                                   |The property name to be tested.                                                                               |
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+|allowEmpty                                     |Whether the property allows for no input                                                                      |
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+|         min                                   |Minimum string length allowed by the property                                                                 |
+|                                               |as input value (optional)                                                                                     |
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+|         max                                   |Maximum string length allowed by the property as input value                                                  |
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+|messageIdWhenEmptyInput                        |Message ID to expect when input is empty (optional) \ [#]_\                                                   |
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+|messageIdWhenInvalidLength                     |Message ID to expect when input length is incompatible (optional) \ [#]_\                                     |
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+|messageIdWhenNotApplicable                     |Message ID to expect when character type is incompatible                                                      |
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+|Half-width alphabetic characters (半角英字)    |Whether half-width alphabetic characters are allowed?                                                         |
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+|Half-width numbers (半角数字)                  |Whether half-width numbers are allowed?                                                                       |
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+|Half-width symbols (半角記号)                  |Whether half-width symbols are allowed?                                                                       |
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+|Half-width kana (半角カナ)                     |Whether half-width kana are allowed?                                                                          |
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+|Full-width alphabets (全角英字)                |Whether full-width alphabets are allowed?                                                                     |
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+|Full-width numbers (全角数字)                  |Whether full-width numbers are allowed?                                                                       |
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+|Full-width Hiragana (全角ひらがな)             |Whether full-width Hiragana are allowed?                                                                      |
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+|Full-width Katakana (全角カタカナ)             |Whether full-width Katakana are allowed?                                                                      |
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+|Full-width Kanji (全角漢字)                    |Whether full-width Kanji are allowed?                                                                         |
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+|Full-width symbols and others (全角記号その他) |Whether full-width symbols and others are allowed?                                                            |
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+|External characters (外字)                     |Whether external characters are allowed?                                                                      |
++-----------------------------------------------+--------------------------------------------------------------------------------------------------------------+
+
+.. [#] If messageIdWhenEmptyInput is omitted, the value of emptyInputMessageId set in :ref:`entityUnitTest_EntityTestConfiguration` is used.
+
+\
+
+.. [#] If messageIdWhenInvalidLength is omitted, the default value set in :ref:`entityUnitTest_EntityTestConfiguration` is used. Which default value is used when omitted is determined by the descriptions in the max and min fields, as follows.
+
++--------------+---------------------------------+---------------------------------------------------------------+
+| min column   | compiration between max and min | Default value used when omitted                               |
++==============+=================================+===============================================================+
+| unset        | N/A                             | maxMessageId                                                  |
++--------------+---------------------------------+---------------------------------------------------------------+
+| set          | max > min                       | maxAndMinMessageId(exceed), underLimitMessageId (insufficient)|
++--------------+---------------------------------+---------------------------------------------------------------+
+| set          | max = min                       | fixLengthMessageId                                            |
++--------------+---------------------------------+---------------------------------------------------------------+
+
 
 Configure the following values in the column to indicate the permission.
 
@@ -166,9 +187,10 @@ Configure the following values in the column to indicate the permission.
  Not allowed               x                lower-case alphabet X
  ====================== =================== ========================
 
+
 A specific example is shown below.
 
-.. image:: ./_image/entityUnitTest_CharsetAndLengthExample.png
+.. image:: ../_image/entityUnitTest_CharsetAndLengthExample.png
 
 
 
@@ -217,43 +239,43 @@ Invoke the following methods of the superclass:
 
 When this method is executed, the test is executed for each row of test data from the following perspectives.
 
-+---------------------------+--------------------------------+--------------------------------------------------------+
-| Perspective               |Input value                     | Remarks                                                |
-+===========================+================================+========================================================+
-| Character type            |Half-width alphabetic characters|Consists of a string of length described                |
-+---------------------------+--------------------------------+in the character type max (maximum string length) field |
-| Character type            |Half-width numbers              |                                                        |
-+---------------------------+--------------------------------+                                                        |
-| Character type            |Half-width numbers              |                                                        |
-+---------------------------+--------------------------------+                                                        |
-| Character type            |Half-width symbols              |                                                        |
-+---------------------------+--------------------------------+                                                        |
-| Character type            |Half-width kana                 |                                                        |
-+---------------------------+--------------------------------+                                                        |
-| Character type            |Full-width alphabets            |                                                        |
-+---------------------------+--------------------------------+                                                        |
-| Character type            |Full-width numbers              |                                                        |
-+---------------------------+--------------------------------+                                                        |
-| Character type            |Full-width Hiragana             |                                                        |
-+---------------------------+--------------------------------+                                                        |
-| Character type            |Full-width Katakana             |                                                        |
-+---------------------------+--------------------------------+                                                        |
-| Character type            |Full-width Kanji                |                                                        |
-+---------------------------+--------------------------------+                                                        |
-| Character type            |Full-width symbols and others   |                                                        |
-+---------------------------+--------------------------------+                                                        |
-| Character type            |External characters             |                                                        |
-+---------------------------+--------------------------------+--------------------------------------------------------+
-| Not entered               |Empty character                 |Zero-length string                                      |
-+---------------------------+--------------------------------+--------------------------------------------------------+
-| Minimum string            |Minimum string-length string    |The minimum character string input value                |
-+---------------------------+--------------------------------+consists of the character type marked with 0            |
-| Maximum string            |Maximum string length string    |                                                        |
-+---------------------------+--------------------------------+                                                        |
-| String length insufficient|Minimum string length -1 string |                                                        |
-+---------------------------+--------------------------------+                                                        |
-| String length exceeded    |Maximum string length +1 string |                                                        |
-+---------------------------+--------------------------------+--------------------------------------------------------+
++---------------------------+--------------------------------+-----------------------------------------------------------+
+| Perspective               |Input value                     | Remarks                                                   |
++===========================+================================+===========================================================+
+| Character type            |Half-width alphabetic characters| | Consists of a string of length described                |
++---------------------------+--------------------------------+ | in the character type max (maximum string length) field |
+| Character type            |Half-width numbers              |                                                           |
++---------------------------+--------------------------------+                                                           |
+| Character type            |Half-width numbers              |                                                           |
++---------------------------+--------------------------------+                                                           |
+| Character type            |Half-width symbols              |                                                           |
++---------------------------+--------------------------------+                                                           |
+| Character type            |Half-width kana                 |                                                           |
++---------------------------+--------------------------------+                                                           |
+| Character type            |Full-width alphabets            |                                                           |
++---------------------------+--------------------------------+                                                           |
+| Character type            |Full-width numbers              |                                                           |
++---------------------------+--------------------------------+                                                           |
+| Character type            |Full-width Hiragana             |                                                           |
++---------------------------+--------------------------------+                                                           |
+| Character type            |Full-width Katakana             |                                                           |
++---------------------------+--------------------------------+                                                           |
+| Character type            |Full-width Kanji                |                                                           |
++---------------------------+--------------------------------+                                                           |
+| Character type            |Full-width symbols and others   |                                                           |
++---------------------------+--------------------------------+                                                           |
+| Character type            |External characters             |                                                           |
++---------------------------+--------------------------------+-----------------------------------------------------------+
+| Not entered               |Empty character                 | | Zero-length string                                      |
++---------------------------+--------------------------------+-----------------------------------------------------------+
+| Minimum string            |Minimum string-length string    | | The minimum character string input value                |
++---------------------------+--------------------------------+ | consists of the character type marked with o            |
+| Maximum string            |Maximum string length string    | | If the min field is omitted, the test for insufficient  |
++---------------------------+--------------------------------+ | string length is not performed.                         |
+| String length insufficient|Minimum string length -1 string |                                                           |
++---------------------------+--------------------------------+                                                           |
+| String length exceeded    |Maximum string length +1 string |                                                           |
++---------------------------+--------------------------------+-----------------------------------------------------------+
 
 
 
@@ -307,7 +329,7 @@ Prepare the following columns.
 
 A specific example is shown below.
 
-.. image:: ./_image/entityUnitTest_singleValidationDataExample.png
+.. image:: ../_image/entityUnitTest_singleValidationDataExample.png
 
 
 How to create a test method
@@ -371,19 +393,19 @@ Create a test case table
 * ID is fixed to "testShots".
 * Prepare the following columns.
 
- +---------------------------+-----------------------------------------------------------+
- | Column name               | Contents to be mentioned                                  |
- +===========================+===========================================================+
- | title                     | Title of the test case                                    |
- +---------------------------+-----------------------------------------------------------+
- | description               | Brief description of the test case                        |
- +---------------------------+-----------------------------------------------------------+
- |  expectedMessageId\ *ｎ*  | Expected message (\ *ｎ*\ is a sequential number from 1)  |
- +---------------------------+-----------------------------------------------------------+
- | propertyName\ *ｎ*        | Expected property (\ *ｎ*\ is a sequential number from 1) |
- +---------------------------+-----------------------------------------------------------+
+ +------------------------------------+-----------------------------------------------------------+
+ | Column name                        | Contents to be mentioned                                  |
+ +====================================+===========================================================+
+ | title                              | Title of the test case                                    |
+ +------------------------------------+-----------------------------------------------------------+
+ | description                        | Brief description of the test case                        |
+ +------------------------------------+-----------------------------------------------------------+
+ | expectedMessageId\ *ｎ* \ [#]_\    | Expected message (\ *ｎ*\ is a sequential number from 1)  |
+ +------------------------------------+-----------------------------------------------------------+
+ | propertyName\ *ｎ*                 | Expected property (\ *ｎ*\ is a sequential number from 1) |
+ +------------------------------------+-----------------------------------------------------------+
 
- When multiple messages are expected, add more numerical values such as expectedMessageId2 and propertyName2 on the right.
+.. [#]  When multiple messages are expected, add more numerical values such as expectedMessageId2 and propertyName2 on the right.
 
 * Create an input parameter table
 
@@ -398,11 +420,8 @@ Create a test case table
 
     A specific example is shown below.
 
-    .. image:: ./_image/entityUnitTest_validationTestData.png
+    .. image:: ../_image/entityUnitTest_validationTestData.png
       :scale: 70
-
-    * For the procedure to describe the property name of Entity to Excel, see :ref:`property-name-copy-label`.
-
 
 
 Create test cases and test data
@@ -435,14 +454,14 @@ Therefore, the names of all properties to be validated, and the message ID when 
 The property name of all properties for validation and the single item validation error message ID \
 of those properties are listed in the test case table.
 
-.. image:: ./_image/entityUnitTest_ValidationPropTestCases.png
+.. image:: ../_image/entityUnitTest_ValidationPropTestCases.png
  :scale: 70
 
 
 The values that result in single item validation errors for all the properties are listed in the input parameters table.
 
 
-.. image:: ./_image/entityUnitTest_ValidationPropParams.png
+.. image:: ../_image/entityUnitTest_ValidationPropParams.png
  :scale: 68
 
 
@@ -490,7 +509,7 @@ validation method, such as validation between items.
 
 In the figure below, a normal case is created for the validation method "newPassword and confirmPassword are the same".
 
-.. image:: ./_image/entityUnitTest_RelationalValidation.png
+.. image:: ../_image/entityUnitTest_RelationalValidation.png
  :scale: 100
 
 
@@ -550,10 +569,8 @@ For more information, see :ref:`test code<test-constructor-java-label>`.
 
 Definition to Excel
 --------------------
-.. image:: ./_image/entityUnitTest_Constructor.png
+.. image:: ../_image/entityUnitTest_Constructor.png
     :scale: 80
-
-* For the procedure to describe the property name of Entity to Excel, see :ref:`property-name-copy-label`.
 
 Test contents of the above configuration values (excerpt)
 
@@ -601,11 +618,11 @@ The following test methods use this data:
   * Class with valueOf(String) method and its array class (ex: Integer or Long, java.sql.Date or java.sql.Timestamp etc.)
 
   Examples of individual test execution methods are given below.
-
+  This example assumes that Form has the property ``users`` of type ``List<String>``.
 
     * Example of data description to Excel
 
-      .. image:: _image/entityUnitTest_ConstructorOther.png
+      .. image:: ../_image/entityUnitTest_ConstructorOther.png
         :scale: 80
 
     
@@ -652,105 +669,11 @@ The following test methods use this data:
 Test cases for setters and getters
 ===================================
 
-In the test for setters and getters, a case to check whether the value set by the setter and the value obtained by the getter are as expected is created. \
-At this time, the target properties are all the properties defined in Entity.
-
-For each property, prepare the data to be transferred to the setter and the expected value (data to be compared with the value obtained by the getter).
-In the test method, the setter is called with the data to be transferred to the aforementioned setter as an argument and whether the value obtained\
-by the getter and the expected value are equal is checked immediately.
-
-In the actual test code, setting of value to the setter and checking of the value (comparing it with the expected value)
-are performed in the method provided by the automated test framework. For more information, see the test code.
-
-
-.. tip::
-   
-   Since the Entity is automatically generated, setters/ getters that are not used in the application may be generated. \
-   In that case, make sure to test the setter/ getter with the Entity unit test since they cannot be tested with the request unit test.
-   
-   On the other hand, only the setter/ getter used in the application are created in the case of a general Form.\
-   Therefore, the setter/ getter can be tested with the request unit test.\
-   Thus, for a general Form, the setter/ getter need not be tested with the class unit test.
-
-
-Definition to Excel
---------------------
-.. image:: ./_image/entityUnitTest_SetterAndGetter.png
-    :scale: 90
-
-* For the procedure to describe the property name of Entity to Excel, see :ref:`property-name-copy-label`.
-
-The following test methods use this data:
-
-.. code-block:: java
-
-   // [Description] ~ Previous is omitted ~
-
-   public class SystemAccountEntityTest extends EntityTestSupport {
-
-       /**
-        * Setter, getter test
-        */
-       @Test
-       public void testSetterAndGetter() {
-           Class<?> entityClass = SystemAccountEntity.class;
-           String sheetName = "testAccessor";
-           String id = "testGetterAndSetter";
-           testSetterAndGetter(entityClass, sheetName, id);
-       }
-
-       // [Description] ~ Rest is omitted ~
-
-.. tip::
-
-  There are restrictions on the type (class) of properties that can be tested with testGetterAndSetter.
-  For information on the restrictions, see :ref:`entityUnitTest_ConstructorCase`.
-
-.. tip::
-
-  When describing logic in a setter or getter (for example, when a setter is divided into the first 3 digits and last 4 digits of a zip code, but a getter acquires 7 digits altogether),
-  create a test case to check the logic.
-
-  When defining the above test in Excel, define it as shown in the image below. ::
-
-    Example for checking that a 7-digit zip code (0010001) is acquired correctly when the following is set for the zip code
-      First 3 digits of the zip code: 001
-      Last 4 digits of postal code: 0001
-
-  .. image:: ./_image/entityUnitTest_SetterAndGetter_PostNo.png
-    :scale: 80
-
-
-.. _property-name-copy-label:
-
-Procedure for easily acquiring a list of property names
-=======================================================
-(1) Open the Entity class to be tested in Eclipse, and display the Outline.
-
-  .. image:: ./_image/entityUnitTest_PropertyWrite1.png
-    :scale: 85
-
-(2) Select the property you want to copy.
-
-  .. image:: ./_image/entityUnitTest_PropertyWrite2.png
-
-(3) Select Copy Qualified Name from the menu that is displayed when you right-click the mouse.
-
-  .. image:: ./_image/entityUnitTest_PropertyWrite3.png
-
-(4) Paste the copied list of property names into Excel.
-
- The pasted value is in the form of fully qualified name "class name + property name", as shown in the image below.
- Use the Replace function of Excel to delete unnecessary class names.
-
- Replacement example when the Entity class is "nablarch.sample.management.user.SystemAccountEntity"::
- 
-  Search string: nablarch.sample.management.user.SystemAccountEntity.
-  Replaced string: (blank)
-
- .. image:: ./_image/entityUnitTest_PropertyWrite4.png
+Refer to :ref:`entityUnitTest_SetterGetterCase_BeanValidation` .
 
 \
+
+.. _entityUnitTest_EntityTestConfiguration:
 
 Automated test framework configuration values
 =============================================
@@ -779,8 +702,6 @@ and configure the following values in the component configuration file (all item
 +------------------------+---------------------------------------------------------------------------------------+
 |characterGenerator      |String generation class \ [#]_\                                                        |
 +------------------------+---------------------------------------------------------------------------------------+
-
-\
 
 .. [#]
  Specify the implementation class of ``nablarch.test.core.util.generator.CharacterGenerator``\.
