@@ -44,7 +44,7 @@ public class UserRegistrationFormTest extends EntityTestSupport {
     }
 
     /**
-     * Form全体の精査のテストケース
+     * 項目間精査のテストケース
      */
     @Test
     public void testWholeFormValidation() {
