@@ -194,6 +194,7 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 具体例を以下に示す。
 
 .. image:: ../_image/entityUnitTest_CharsetAndLengthExample.png
+   :scale: 100
 
 
 
@@ -333,6 +334,7 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 具体例を以下に示す。
 
 .. image:: ../_image/entityUnitTest_singleValidationDataExample.png
+   :scale: 70           
 
 
 テストメソッドの作成方法
