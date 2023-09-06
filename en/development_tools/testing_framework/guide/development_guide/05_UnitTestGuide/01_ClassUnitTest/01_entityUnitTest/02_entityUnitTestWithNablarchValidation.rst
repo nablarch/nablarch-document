@@ -191,6 +191,7 @@ Configure the following values in the column to indicate the permission.
 A specific example is shown below.
 
 .. image:: ../_image/entityUnitTest_CharsetAndLengthExample.png
+   :scale: 100
 
 
 
@@ -330,6 +331,7 @@ Prepare the following columns.
 A specific example is shown below.
 
 .. image:: ../_image/entityUnitTest_singleValidationDataExample.png
+   :scale: 70
 
 
 How to create a test method

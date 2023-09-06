@@ -212,6 +212,7 @@ Please enter between {min} and {max} characters.    Message as is (with pad char
 A specific example is shown below.
 
 .. image:: ../_image/entityUnitTest_CharsetAndLengthExample_BeanValidation.png
+   :scale: 100
 
 
 
@@ -364,6 +365,7 @@ Prepare the following columns.
 A specific example is shown below.
 
 .. image:: ../_image/entityUnitTest_singleValidationDataExample_BeanValidation.png
+   :scale: 70           
 
 
 How to create a test method
