@@ -195,7 +195,7 @@ Configure the following values in the column to indicate the permission.
  Not allowed               x                lower-case alphabet X
  ====================== =================== ========================
 
-The column specifying the message should contain the message expected in case of a scrutiny error.
+The column specifying the message should contain the message expected in case of a validation error.
 Parts of the message enclosed in ``{}`` are considered to be pad characters in the :ref:`message-format-spec`.
 If the whole message is enclosed in ``{}``, it is considered to be a message ID, and is resolved with :ref:`message`.
 
