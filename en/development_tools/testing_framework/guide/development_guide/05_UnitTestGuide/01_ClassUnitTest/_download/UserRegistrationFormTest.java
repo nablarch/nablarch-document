@@ -4,8 +4,8 @@ import nablarch.test.core.db.EntityTestSupport;
 import org.junit.Test;
 
 /**
- * {@link UserRegistrationForm}に対するテストを実行するクラス。
- * テスト内容はExcelシート参照のこと。
+ * Class that executes tests for the {@link UserRegistrationForm} class. <br/>
+ * Refer to the Excel sheet for test content.
  *
  * @author Takayuki Uchida
  * @since 1.0
@@ -13,12 +13,12 @@ import org.junit.Test;
 public class UserRegistrationFormTest extends EntityTestSupport {
 
     /**
-     * テスト対象Formクラス。
+     * Form class to be tested
      */
     private static final Class<?> TARGET_CLASS = UserRegistrationForm.class;
 
     /**
-     * 文字種および文字列長の単項目精査テストケース
+     * Test cases for character type and string length
      */
     @Test
     public void testCharsetAndLength() {
@@ -31,7 +31,7 @@ public class UserRegistrationFormTest extends EntityTestSupport {
     }
 
     /**
-     * 単項目精査のテストケース（上記以外）
+     * Test cases for single item validation (not listed above)
      */
     @Test
     public void testSingleValidation() {
@@ -44,7 +44,7 @@ public class UserRegistrationFormTest extends EntityTestSupport {
     }
 
     /**
-     * 項目間精査のテストケース
+     * Test cases for validation between items
      */
     @Test
     public void testWholeFormValidation() {
@@ -55,7 +55,7 @@ public class UserRegistrationFormTest extends EntityTestSupport {
     }
 
     /**
-     * setter、getterのテストケース
+     * test case for setter and getter
      */
     @Test
     public void testSetterAndGetter() {

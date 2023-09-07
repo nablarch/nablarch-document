@@ -550,7 +550,7 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
        // 【説明】〜中略〜   
 
        /**
-        * Form全体の精査のテストケース
+        * 項目間精査のテストケース
         */
        @Test
        public void testWholeFormValidation() {
