@@ -319,26 +319,28 @@ Project structure
     |           SAMPLE.mv.db.org
     |
     +---src
-        +---env
-        |
-        +---main
-        |   +---java
-        |   |
-        |   +---resources
-        |   |   |   batch-boot.xml              … Configuration file to be specified in on-demand batch when it is launched.
-        |   |   |   mail-sender-boot.xml        … Configuration file to be specified while starting email send batch.
-        |   |   |   resident-batch-boot.xml     … Configuration file to be specified while starting messaging using tables as queues.
-        |   |   |
-        |   |   \---entity
-        |   |
-        |   \---scripts                         … Shell script file to be used for starting a batch, etc. (use is optional)
-        |
-        \---test
-            +---java
-            |
-            \---resources
-                |
-                \---data
+    |   +---env
+    |   |
+    |   +---main
+    |   |   +---java
+    |   |   |
+    |   |   +---resources
+    |   |   |   |   batch-boot.xml              … Configuration file to be specified in on-demand batch when it is launched.
+    |   |   |   |   mail-sender-boot.xml        … Configuration file to be specified while starting email send batch.
+    |   |   |   |   resident-batch-boot.xml     … Configuration file to be specified while starting messaging using tables as queues.
+    |   |   |   |
+    |   |   |   \---entity
+    |   |   |
+    |   |   \---scripts                         … Shell script file to be used for starting a batch, etc. (use is optional)
+    |   |
+    |   \---test
+    |       +---java
+    |       |
+    |       \---resources
+    |           |
+    |           \---data
+    |
+    \---work
 
 Release to production environment
 -------------------------------------
