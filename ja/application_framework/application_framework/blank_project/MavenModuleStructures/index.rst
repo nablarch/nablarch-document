@@ -512,27 +512,28 @@ NablarchバッチアプリケーションがデプロイされたLinuxサーバ�
     |           SAMPLE.mv.db.org
     |
     +---src
-        +---main
-        |   +---java
-        |   |
-        |   +---jib
-        |   |
-        |   +---resources
-        |   |   |   batch-boot.xml              … 都度起動バッチ起動時に指定する設定ファイル。
-        |   |   |   mail-sender-boot.xml        … メール送信バッチ起動時に指定する設定ファイル。
-        |   |   |   resident-batch-boot.xml     … テーブルをキューとして使ったメッセージング起動時に指定する設定ファイル。
-        |   |   |
-        |   |   \---entity
-        |   |
-        |   \---scripts                         … バッチ等の起動に使用するためのシェルスクリプトファイル(使用は任意)。
-        |
-        \---test
-            +---java
-            |
-            \---resources
-                |
-                \---data
-
+    |   +---main
+    |   |   +---java
+    |   |   |
+    |   |   +---jib
+    |   |   |
+    |   |   +---resources
+    |   |   |   |   batch-boot.xml              … 都度起動バッチ起動時に指定する設定ファイル。
+    |   |   |   |   mail-sender-boot.xml        … メール送信バッチ起動時に指定する設定ファイル。
+    |   |   |   |   resident-batch-boot.xml     … テーブルをキューとして使ったメッセージング起動時に指定する設定ファイル。
+    |   |   |   |
+    |   |   |   \---entity
+    |   |   |
+    |   |   \---scripts                         … バッチ等の起動に使用するためのシェルスクリプトファイル(使用は任意)。
+    |   |
+    |   \---test
+    |       +---java
+    |       |
+    |       \---resources
+    |           |
+    |           \---data
+    |
+    \---work
 
 .. _about_maven_web_batch_module:
 

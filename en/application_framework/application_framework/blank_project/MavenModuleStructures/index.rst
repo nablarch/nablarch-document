@@ -506,26 +506,28 @@ Project structure
     |           SAMPLE.mv.db.org
     |
     +---src
-        +---main
-        |   +---java
-        |   |
-        |   +---jib
-        |   |
-        |   +---resources
-        |   |   |   batch-boot.xml              … Configuration file to be specified in on-demand batch when it is launched.
-        |   |   |   mail-sender-boot.xml        … Configuration file to be specified while starting email send batch.
-        |   |   |   resident-batch-boot.xml     … Configuration file to be specified while starting messaging using tables as queues.
-        |   |   |
-        |   |   \---entity
-        |   |
-        |   \---scripts                         … Shell script file to be used for starting a batch, etc. (use is optional)
-        |
-        \---test
-            +---java
-            |
-            \---resources
-                |
-                \---data
+    |   +---main
+    |   |   +---java
+    |   |   |
+    |   |   +---jib
+    |   |   |
+    |   |   +---resources
+    |   |   |   |   batch-boot.xml              … Configuration file to be specified in on-demand batch when it is launched.
+    |   |   |   |   mail-sender-boot.xml        … Configuration file to be specified while starting email send batch.
+    |   |   |   |   resident-batch-boot.xml     … Configuration file to be specified while starting messaging using tables as queues.
+    |   |   |   |
+    |   |   |   \---entity
+    |   |   |
+    |   |   \---scripts                         … Shell script file to be used for starting a batch, etc. (use is optional)
+    |   |
+    |   \---test
+    |       +---java
+    |       |
+    |       \---resources
+    |           |
+    |           \---data
+    |
+    \---work
                 
 .. _about_maven_web_batch_module:
 
