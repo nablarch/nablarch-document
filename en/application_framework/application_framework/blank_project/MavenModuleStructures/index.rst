@@ -175,7 +175,11 @@ Project structure
     |           |
     |           \---nablarch        … Data for HTML check tool is stored.
     |
-    \---tools                       … Configuration files of the tool used in conjunction with Maven is stored.
+    +---tmp                         … Directory used in web application request unit tests. It is automatically generated when the communication test is executed.
+    |
+    +---tools                       … Configuration files of the tool used in conjunction with Maven is stored.
+    |
+    \---work                        … Working directory for storing input and output files during development. It is automatically generated at the time of communication confirmation.
 
 
 Tool configuration
