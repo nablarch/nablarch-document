@@ -247,34 +247,36 @@ JSR352に準拠したバッチアプリケーションのjarファイルとし�
     |           SAMPLE.mv.db.org
     |
     +---src
-        +---env
-        |
-        +---main
-        |   +---java
-        |   |
-        |   \---resources
-        |       |   batch-boot.xml              … バッチ起動時に使用する設定ファイル。
-        |       |
-        |       +---entity
-        |       |
-        |       \---META-INF
-        |           |   beans.xml               … CDIを有効化するために必要なファイル。
-        |           |
-        |           +---batch-jobs
-        |           |       sample-batchlet.xml … batchlet方式の疎通確認用アプリケーションのジョブファイル。
-        |           |       sample-chunk.xml    … chunk方式の疎通確認用アプリケーションのジョブファイル。
-        |           |       sample-etl.xml      … ETL機能のジョブファイル。
-        |           |
-        |           \---etl-config
-        |                   sample-etl.json     … ETL機能のジョブの設定ファイル。
-        |
-        |
-        \---test
-            +---java
-            |
-            \---resources
-                |
-                +---data
+    |   +---env
+    |   |
+    |   +---main
+    |   |   +---java
+    |   |   |
+    |   |   \---resources
+    |   |       |   batch-boot.xml              … バッチ起動時に使用する設定ファイル。
+    |   |       |
+    |   |       +---entity
+    |   |       |
+    |   |       \---META-INF
+    |   |           |   beans.xml               … CDIを有効化するために必要なファイル。
+    |   |           |
+    |   |           +---batch-jobs
+    |   |           |       sample-batchlet.xml … batchlet方式の疎通確認用アプリケーションのジョブファイル。
+    |   |           |       sample-chunk.xml    … chunk方式の疎通確認用アプリケーションのジョブファイル。
+    |   |           |       sample-etl.xml      … ETL機能のジョブファイル。
+    |   |           |
+    |   |           \---etl-config
+    |   |                   sample-etl.json     … ETL機能のジョブの設定ファイル。
+    |   |
+    |   |
+    |   \---test
+    |       +---java
+    |       |
+    |       \---resources
+    |           |
+    |           +---data
+    |
+    \---work
 
 本番環境へのリリースについて
 -------------------------------------
