@@ -86,6 +86,7 @@ HTTPレスポンスハンドラ
       :java:extdoc:`HttpResponse#getContentPath() <nablarch.fw.web.HttpResponse.getContentPath()>`
       で取得した  :java:extdoc:`ResourceLocator <nablarch.fw.web.ResourceLocator>` の
       :java:extdoc:`getScheme() メソッド <nablarch.fw.web.ResourceLocator.getScheme()>` の戻り値のことを指す。
+      明示的にスキームを指定しない場合のデフォルトスキームは ``servlet`` である。
 
 .. [#statusCode]
       ここで言う「ステータスコード」とは、後続ハンドラが返す
