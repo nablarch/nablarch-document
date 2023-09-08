@@ -272,6 +272,8 @@ Project structure
     |           |
     |           +---data
     |
+    +---testdata                                … Working directory for storing input and output files for ETL functions during development.
+    |
     \---work
 
 Release to production environment
