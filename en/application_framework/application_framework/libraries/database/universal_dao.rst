@@ -156,15 +156,13 @@ since server cursor is used internally,
  }
 
 .. important::
-   Note that transaction control is not executed during processing when processing large amounts of data using deferred loading in PostgreSQL.
+   When processing large amounts of data using deferred loading, care should be taken to ensure that transaction control is not executed during processing.
 
-   In PostgreSQL, if transaction control is performed while a cursor is open, the cursor is closed.
+   Depending on the RDBMS used, if transaction control is performed while a cursor is open, the cursor will be closed.
    Therefore, if transaction control is performed during processing of large amounts of data using deferred loading,
    the deferred loading will refer to a cursor that has already been closed, resulting in an error.
-   In particular, in the case of which :ref:`specifies the commit interval in batch processing <loop_handler-commit_interval>` ,
-   if the commit interval is reached while data to be processed still exists, the cursor is closed with the commit, and subsequent data cannot be processed, resulting in an abnormal termination.
-
-   Use :ref:`paging <universal_dao-paging>` instead of deferred loading if you want to perform large amount of data processing including transaction control.
+   In particular, in the case of which specifies :ref:`the commit interval in batch processing <loop_handler-commit_interval>` ,
+   if the commit interval is reached while data to be processed still exists, the cursor will be closed with the commit and subsequent data, the data cannot be processed and the process ends abnormally.
 
 .. _universal_dao-search_with_condition:
 
