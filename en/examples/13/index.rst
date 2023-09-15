@@ -109,8 +109,9 @@ Configuration of log.properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To output Logbook logs with Nablarch's log output function, make the following settings in **log.properties**.
+It is recommended to define a logger for Logbook, as Logbook requires the log level to be set to TRACE.
 
-* Set the log level to TRACE because logs are output at the TRACE level
+* Set the log level to TRACE, as Logbook logs output at the TRACE level.
 * Set the log output destination
 
 In this sample, the output destination is set to :java:extdoc:`StandardOutputLogWriter (output to standard output) <nablarch.core.log.basic.StandardOutputLogWriter>`
