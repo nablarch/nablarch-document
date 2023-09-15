@@ -110,8 +110,9 @@ log.propertiesの設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Nablarchのログ出力機能でLogbookのログを出力するため、 **log.properties** に以下の設定を行う。
+なお、LogbookはログレベルをTRACEに設定する必要があるため、Logbook用のロガーを定義することを推奨する。
 
-* ログはTRACEレベルで出力されるため、ログレベルをTRACEに設定する
+* LogbookはTRACEレベルでログ出力を行うため、ログレベルをTRACEに設定する
 * ログの出力先を設定する
 
 本サンプルでは、出力先に :java:extdoc:`StandardOutputLogWriter (標準出力へ出力) <nablarch.core.log.basic.StandardOutputLogWriter>` を設定する。
