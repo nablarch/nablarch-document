@@ -7,7 +7,7 @@ This chapter describes the class unit test for Form and Entity in which input va
 Since both can perform unit tests in almost the same way, common content shall be described based on the Entity unit test, and the specific processing shall be described separately.
 
 .. tip::
-   The responsibility of Form and Entity are generally the same for each processing archetecture, but there are differences. For details, refer to the responsibility assignment of each processing architecture.
+   For the responsibilitiy of Form and Entity, see the responsibility assignment for each processing archetecture.
    e.g. :ref:`Responsibility assignment of web application<application_design>` , :ref:`Responsibility assignment of Nablarch batch application<nablarch_batch-application_design>`
 
 .. tip::

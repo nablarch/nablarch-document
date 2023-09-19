@@ -7,7 +7,7 @@ Nablarch Validationに対応したForm/Entityのクラス単体テスト
 両者はほぼ同じように単体テストを行えるため、共通する内容についてはEntity単体テストをベースに説明し、特有の処理については個別に説明する。
 
 .. tip::
-   Form、Entityの責務は、処理方式毎に概ね共通しているが、差異も存在する。詳細は各処理方式の責務配置を参照すること。
+   Form、Entityの責務については、各処理方式の責務配置を参照すること。
    例： :ref:`ウェブアプリケーションの責務配置<application_design>` 、 :ref:`Nablarchバッチアプリケーションの責務配置<nablarch_batch-application_design>` 
 
 .. tip::
