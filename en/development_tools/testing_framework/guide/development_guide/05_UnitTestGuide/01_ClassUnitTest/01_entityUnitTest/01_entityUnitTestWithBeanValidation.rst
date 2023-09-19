@@ -3,11 +3,11 @@
 =============================================================
 Class Unit Testing of Form/Entity supporting Bean Validation
 =============================================================
-This chapter describes the class unit test for Form and Entity, which is a type of Form (hereinafter referred to as Form unit test or Entity unit test), in which input value checks are performed using :ref:`bean_validation`.
+This chapter describes the class unit test for Form and Entity in which input value checks are performed using :ref:`bean_validation`.
 Since both can perform unit tests in almost the same way, common content shall be described based on the Form unit test, and the specific processing shall be described separately.
 
 .. tip::
-   Entity is a Form that has properties that correspond one-to-one with the columns of a table.
+   Entity is a class that corresponds one-to-one to a table. It has properties corresponding to columns.
 
 -------------------------------------
 How to write a Form/Entity unit test
