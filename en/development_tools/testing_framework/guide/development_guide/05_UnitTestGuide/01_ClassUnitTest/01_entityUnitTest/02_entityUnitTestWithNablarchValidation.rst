@@ -7,7 +7,8 @@ This chapter describes the class unit test for Form and Entity in which input va
 Since both can perform unit tests in almost the same way, common content shall be described based on the Entity unit test, and the specific processing shall be described separately.
 
 .. tip::
-   Entity is a class that corresponds one-to-one to a table. It has properties corresponding to columns.
+   For the responsibilitiy of Form and Entity, see the responsibility assignment for each processing archetecture.
+   e.g. :ref:`Responsibility assignment of web application<application_design>` , :ref:`Responsibility assignment of Nablarch batch application<nablarch_batch-application_design>`
 
 .. tip::
    In the following, a code example is provided to illustrate this function.
