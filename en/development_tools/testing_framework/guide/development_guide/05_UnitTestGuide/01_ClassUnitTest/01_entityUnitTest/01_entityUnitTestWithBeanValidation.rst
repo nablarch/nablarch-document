@@ -9,6 +9,9 @@ Since both can perform unit tests in almost the same way, common content shall b
 .. tip::
    Entity is a class that corresponds one-to-one to a table. It has properties corresponding to columns.
 
+In the following, a code example is provided to illustrate this function.
+Among the comments in the code example, the one with [Description] at the beginning is the explanatory comment for this function.
+
 -------------------------------------
 How to write a Form/Entity unit test
 -------------------------------------
@@ -57,9 +60,6 @@ The test class of form/entity unit test should be created to satisfy the followi
    // [Description] Class name is UserRegistrationForm and it inherits from EntityTestSupport
 
    // ~ Rest is omitted ~
-
-.. tip::
-   Comments with "[Description]" at the beginning are for the explanation of this function, other comments are normal Javadoc. The same applies below.
 
 For details on how to describe the test method, see the code examples described below.
 
