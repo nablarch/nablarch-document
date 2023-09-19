@@ -10,10 +10,6 @@ Since both can perform unit tests in almost the same way, common content shall b
    For the responsibilitiy of Form and Entity, see the responsibility assignment for each processing archetecture.
    e.g. :ref:`Responsibility assignment of web application<application_design>` , :ref:`Responsibility assignment of Nablarch batch application<nablarch_batch-application_design>`
 
-.. tip::
-   In the following, a code example is provided to illustrate this function.
-   Among the comments in the code example, the one with [Description] at the beginning is the explanatory comment for this function.
-
 -------------------------------------
 How to write a Form/Entity unit test
 -------------------------------------
