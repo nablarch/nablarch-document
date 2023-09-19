@@ -182,7 +182,7 @@ Description rules
  jaxRsAccessLogFormatter.maskingPatterns
   Specify the parameter name and variable name to be masked with a regular expression.
   If more than one is specified, separate them with commas.
-  Used for masking the request parameters, the response body and session scope information.
+  Used for masking both the request parameters and session scope information.
   The specified regular expression is not case-sensitive.
   For example, if specified as \ ``password``\, matches with ``password``, ``newPassword`` and ``password2``, etc.
 
@@ -309,7 +309,7 @@ Description rules
  jaxRsAccessLogFormatter.maskingPatterns
   Specify the parameter name and variable name to be masked with a regular expression (partial match).
   If more than one is specified, separate them with commas.
-  Used for masking the request parameters, the response body and session scope information.
+  Used for masking both the request parameters and session scope information.
   The specified regular expression is not case-sensitive.
   For example, if specified as \ ``password``\, matches with ``password``, ``newPassword`` and ``password2``, etc.
 
