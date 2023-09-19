@@ -9,8 +9,9 @@ Since both can perform unit tests in almost the same way, common content shall b
 .. tip::
    Entity is a class that corresponds one-to-one to a table. It has properties corresponding to columns.
 
-In the following, a code example is provided to illustrate this function.
-Among the comments in the code example, the one with [Description] at the beginning is the explanatory comment for this function.
+.. tip::
+   In the following, a code example is provided to illustrate this function.
+   Among the comments in the code example, the one with [Description] at the beginning is the explanatory comment for this function.
 
 -------------------------------------
 How to write a Form/Entity unit test
