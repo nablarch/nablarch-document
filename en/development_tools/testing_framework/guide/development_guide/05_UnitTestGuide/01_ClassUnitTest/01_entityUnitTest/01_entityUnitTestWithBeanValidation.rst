@@ -58,6 +58,8 @@ The test class of form/entity unit test should be created to satisfy the followi
 
    // ~ Rest is omitted ~
 
+.. tip::
+   Comments with "[Description]" at the beginning are for the explanation of this function, other comments are normal Javadoc. The same applies below.
 
 For details on how to describe the test method, see the code examples described below.
 
