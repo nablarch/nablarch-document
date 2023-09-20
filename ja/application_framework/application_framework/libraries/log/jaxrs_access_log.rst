@@ -195,7 +195,7 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
   デフォルトは :java:extdoc:`JaxRsBodyLogTargetMatcher <nablarch.fw.jaxrs.JaxRsBodyLogTargetMatcher>` 。
 
  jaxRsAccessLogFormatter.bodyMaskingFilter
-  リクエスト及びレスポンスボディをマスク処理するためのクラス。
+  リクエストボディ及びレスポンスボディをマスク処理するためのクラス。
   :java:extdoc:`LogContentMaskingFilter <nablarch.fw.jaxrs.LogContentMaskingFilter>` を実装するクラス名を指定する。
   デフォルトは :java:extdoc:`JaxRsBodyMaskingFilter <nablarch.fw.jaxrs.JaxRsBodyMaskingFilter>` 。
 
