@@ -3,11 +3,12 @@
 ====================================================================
 Class Unit Testing of Form/Entity supporting Nablarch Validation
 ====================================================================
-This chapter describes the class unit test for Form and Entity, which is a type of Form (hereinafter referred to as Form unit test or Entity unit test), in which input value checks are performed using :ref:`nablarch_validation`.
+This chapter describes the class unit test for Form and Entity in which input value checks are performed using :ref:`nablarch_validation`.
 Since both can perform unit tests in almost the same way, common content shall be described based on the Entity unit test, and the specific processing shall be described separately.
 
 .. tip::
-   Entity is a Form that has properties that correspond one-to-one with the columns of a table.
+   For the responsibilitiy of Form and Entity, see the responsibility assignment for each processing archetecture.
+   e.g. :ref:`Responsibility assignment of web application<application_design>` , :ref:`Responsibility assignment of Nablarch batch application<nablarch_batch-application_design>`
 
 -------------------------------------
 How to write a Form/Entity unit test

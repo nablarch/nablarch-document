@@ -190,12 +190,12 @@ Description rules
   Character used for masking. Default is ``*``.
 
  jaxRsAccessLogFormatter.bodyLogTargetMatcher
-  Class for determining whether to output the request body.
+  Class for determining whether to output the request body and the response body.
   Specify the class name that implements :java:extdoc:`MessageBodyLogTargetMatcher <nablarch.fw.jaxrs.MessageBodyLogTargetMatcher>`.
   Default is :java:extdoc:`JaxRsBodyLogTargetMatcher <nablarch.fw.jaxrs.JaxRsBodyLogTargetMatcher>`.
 
  jaxRsAccessLogFormatter.bodyMaskingFilter
-  Class for mask processing of the request body.
+  Class for mask processing of the request body and the response body.
   Specify the class name that implements :java:extdoc:`LogContentMaskingFilter <nablarch.fw.jaxrs.LogContentMaskingFilter>`.
   Default is :java:extdoc:`JaxRsBodyMaskingFilter <nablarch.fw.jaxrs.JaxRsBodyMaskingFilter>`.
 
@@ -203,7 +203,7 @@ Description rules
    There are several body formats that can be sent and received by RESTful web services, but the default :java:extdoc:`JaxRsBodyMaskingFilter <nablarch.fw.jaxrs.JaxRsBodyMaskingFilter>` supports only the JSON format.  
 
  jaxRsAccessLogFormatter.bodyMaskingItemNames
-  When masking the request body, specify the names of items to be masked.
+  When masking the request body and the response body, specify the names of items to be masked.
   If multiple items are specified, they are separated by commas.
  
  jaxRsAccessLogFormatter.parametersSeparator
