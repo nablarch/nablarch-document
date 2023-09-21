@@ -115,8 +115,7 @@ Each case should have the following elements:
 |                        |Used for the filename of the HTML dump file output in the request unit test of                 |        |
 |                        |the web application. \ [#]_\                                                                   |Required|
 +------------------------+-----------------------------------------------------------------------------------------------+--------+
-|context                 |Describe the request ID, user, and HTTP method used to send the request in that test case.     |Required|
-|                        |The HTTP method is optional (default is POST).                                                 |        |
+|context                 |Describe the user information used to send the request in that test case.                      |Required|
 |                        |For more information, see :ref:`request_test_user_info`.                                       |        |
 +------------------------+-----------------------------------------------------------------------------------------------+--------+
 |cookie                  |Describe the cookie information required for that test case.                                   |        |
