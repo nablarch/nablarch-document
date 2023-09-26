@@ -155,6 +155,11 @@ since server cursor is used internally,
      }
  }
 
+.. important::
+   Depending on the RDBMS used, if transaction control is performed while a cursor is open, the cursor will be closed.
+   Note that this may result in an error when transaction control is performed during processing of large amounts of data using lazy loading, as it may refer to a cursor that has already been closed.
+   Avoid this by adjusting the cursor behavior according to the manual provided by the database vendor, or by :ref:`paging <universal_dao-paging>` to avoid handling large amounts of data.
+
 .. _universal_dao-search_with_condition:
 
 Searching by specifying the conditions

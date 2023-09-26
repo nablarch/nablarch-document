@@ -85,6 +85,7 @@ The conversion conditions and response method are as shown in the table below.
       :java:extdoc:`getScheme() method <nablarch.fw.web.ResourceLocator.getScheme()>`
       of :java:extdoc:`ResourceLocator <nablarch.fw.web.ResourceLocator>` acquired with
       :java:extdoc:`HttpResponse#getContentPath() <nablarch.fw.web.HttpResponse.getContentPath()>` returned by the subsequent handler.
+      If no scheme is explicitly specified, the default scheme is ``servlet`` .
 
 .. [#statusCode]
       The "status code" here refers to the return value of
