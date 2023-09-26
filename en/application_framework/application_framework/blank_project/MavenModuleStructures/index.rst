@@ -175,7 +175,11 @@ Project structure
     |           |
     |           \---nablarch        … Data for HTML check tool is stored.
     |
-    \---tools                       … Configuration files of the tool used in conjunction with Maven is stored.
+    +---tmp                         … Directory used in web application request unit tests. It is automatically generated when the communication test is executed.
+    |
+    +---tools                       … Configuration files of the tool used in conjunction with Maven is stored.
+    |
+    \---work                        … Working directory for storing input and output files during development. It is automatically generated at the time of communication confirmation.
 
 
 Tool configuration
@@ -239,29 +243,33 @@ Project structure
     |           SAMPLE.mv.db.org
     |
     +---src
-        +---env
-        |
-        +---main
-        |   +---java
-        |   |
-        |   \---resources
-        |       |   batch-boot.xml              … Configuration files to be used when the batch is started.
-        |       |
-        |       +---entity
-        |       |
-        |       \---META-INF
-        |           |   beans.xml               … File required to enable Jakarta Contexts and Dependency Injection.
-        |           |
-        |           \---batch-jobs
-        |                   sample-batchlet.xml … Job file of the application for communication confirmation of the batchlet architecture.
-        |                   sample-chunk.xml    … Job file of the application for communication confirmation of the chunk architecture.
-        |
-        \---test
-            +---java
-            |
-            \---resources
-                |
-                +---data
+    |   +---env
+    |   |
+    |   +---main
+    |   |   +---java
+    |   |   |
+    |   |   \---resources
+    |   |       |   batch-boot.xml              … Configuration files to be used when the batch is started.
+    |   |       |
+    |   |       +---entity
+    |   |       |
+    |   |       \---META-INF
+    |   |           |   beans.xml               … File required to enable Jakarta Contexts and Dependency Injection.
+    |   |           |
+    |   |           \---batch-jobs
+    |   |                   sample-batchlet.xml … Job file of the application for communication confirmation of the batchlet architecture.
+    |   |                   sample-chunk.xml    … Job file of the application for communication confirmation of the chunk architecture.
+    |   |
+    |   \---test
+    |       +---java
+    |       |
+    |       \---resources
+    |           |
+    |           +---data
+    |
+    +---testdata                                … Working directory for storing input and output files for ETL functions during development.
+    |
+    \---work
 
 Release to production environment
 -------------------------------------
@@ -308,26 +316,28 @@ Project structure
     |           SAMPLE.mv.db.org
     |
     +---src
-        +---env
-        |
-        +---main
-        |   +---java
-        |   |
-        |   +---resources
-        |   |   |   batch-boot.xml              … Configuration file to be specified in on-demand batch when it is launched.
-        |   |   |   mail-sender-boot.xml        … Configuration file to be specified while starting email send batch.
-        |   |   |   resident-batch-boot.xml     … Configuration file to be specified while starting messaging using tables as queues.
-        |   |   |
-        |   |   \---entity
-        |   |
-        |   \---scripts                         … Shell script file to be used for starting a batch, etc. (use is optional)
-        |
-        \---test
-            +---java
-            |
-            \---resources
-                |
-                \---data
+    |   +---env
+    |   |
+    |   +---main
+    |   |   +---java
+    |   |   |
+    |   |   +---resources
+    |   |   |   |   batch-boot.xml              … Configuration file to be specified in on-demand batch when it is launched.
+    |   |   |   |   mail-sender-boot.xml        … Configuration file to be specified while starting email send batch.
+    |   |   |   |   resident-batch-boot.xml     … Configuration file to be specified while starting messaging using tables as queues.
+    |   |   |   |
+    |   |   |   \---entity
+    |   |   |
+    |   |   \---scripts                         … Shell script file to be used for starting a batch, etc. (use is optional)
+    |   |
+    |   \---test
+    |       +---java
+    |       |
+    |       \---resources
+    |           |
+    |           \---data
+    |
+    \---work
 
 Release to production environment
 -------------------------------------
@@ -433,7 +443,11 @@ Project structure
     |           |
     |           \---nablarch        … Data for HTML check tool is stored.
     |
-    \---tools                       … Configuration files of the tool used in conjunction with Maven is stored.
+    +---tmp                         … Directory used in web application request unit tests. It is automatically generated when the communication test is executed.
+    |
+    +---tools                       … Configuration files of the tool used in conjunction with Maven is stored.
+    |
+    \---work                        … Working directory for storing input and output files during development. It is automatically generated at the time of communication confirmation.
     
     
 About src/main/jib
@@ -489,26 +503,28 @@ Project structure
     |           SAMPLE.mv.db.org
     |
     +---src
-        +---main
-        |   +---java
-        |   |
-        |   +---jib
-        |   |
-        |   +---resources
-        |   |   |   batch-boot.xml              … Configuration file to be specified in on-demand batch when it is launched.
-        |   |   |   mail-sender-boot.xml        … Configuration file to be specified while starting email send batch.
-        |   |   |   resident-batch-boot.xml     … Configuration file to be specified while starting messaging using tables as queues.
-        |   |   |
-        |   |   \---entity
-        |   |
-        |   \---scripts                         … Shell script file to be used for starting a batch, etc. (use is optional)
-        |
-        \---test
-            +---java
-            |
-            \---resources
-                |
-                \---data
+    |   +---main
+    |   |   +---java
+    |   |   |
+    |   |   +---jib
+    |   |   |
+    |   |   +---resources
+    |   |   |   |   batch-boot.xml              … Configuration file to be specified in on-demand batch when it is launched.
+    |   |   |   |   mail-sender-boot.xml        … Configuration file to be specified while starting email send batch.
+    |   |   |   |   resident-batch-boot.xml     … Configuration file to be specified while starting messaging using tables as queues.
+    |   |   |   |
+    |   |   |   \---entity
+    |   |   |
+    |   |   \---scripts                         … Shell script file to be used for starting a batch, etc. (use is optional)
+    |   |
+    |   \---test
+    |       +---java
+    |       |
+    |       \---resources
+    |           |
+    |           \---data
+    |
+    \---work
                 
 .. _about_maven_web_batch_module:
 

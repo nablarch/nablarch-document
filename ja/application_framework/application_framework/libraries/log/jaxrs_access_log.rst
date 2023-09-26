@@ -190,12 +190,12 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
   マスクに使用する文字。デフォルトは ``*`` 。
 
  jaxRsAccessLogFormatter.bodyLogTargetMatcher
-  リクエストボディを出力するか判定するためのクラス。
+  リクエストボディ及びレスポンスボディを出力するか判定するためのクラス。
   :java:extdoc:`MessageBodyLogTargetMatcher <nablarch.fw.jaxrs.MessageBodyLogTargetMatcher>` を実装するクラス名を指定する。
   デフォルトは :java:extdoc:`JaxRsBodyLogTargetMatcher <nablarch.fw.jaxrs.JaxRsBodyLogTargetMatcher>` 。
 
  jaxRsAccessLogFormatter.bodyMaskingFilter
-  リクエストボディをマスク処理するためのクラス。
+  リクエストボディ及びレスポンスボディをマスク処理するためのクラス。
   :java:extdoc:`LogContentMaskingFilter <nablarch.fw.jaxrs.LogContentMaskingFilter>` を実装するクラス名を指定する。
   デフォルトは :java:extdoc:`JaxRsBodyMaskingFilter <nablarch.fw.jaxrs.JaxRsBodyMaskingFilter>` 。
 
@@ -203,7 +203,7 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
    RESTfulウェブサービスで送受信するボディの形式にはいくつかあるが、デフォルトの :java:extdoc:`JaxRsBodyMaskingFilter <nablarch.fw.jaxrs.JaxRsBodyMaskingFilter>` ではJSON形式のみサポートしている。
 
  jaxRsAccessLogFormatter.bodyMaskingItemNames
-  リクエストボディをマスク処理する場合、マスク対象の項目名を指定する。
+  リクエストボディ及びレスポンスボディをマスク処理する場合、マスク対象の項目名を指定する。
   複数指定する場合はカンマ区切り。
 
  jaxRsAccessLogFormatter.parametersSeparator
@@ -345,6 +345,7 @@ HTTPアクセスログの各項目もJSONの値として出力するには、
   フォーマット後のメッセージ文字列が JSON 形式に整形されていることを識別できるようにするために、メッセージの先頭に付与するマーカー文字列。
   メッセージの先頭にあるマーカー文字列が :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` に設定しているマーカー文字列と一致する場合、 :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` はメッセージを JSON データとして処理する。
   デフォルトは ``"$JSON$"`` となる。
+  変更する場合は、LogWriterの ``structuredMessagePrefix`` プロパティを使用して :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` にも同じ値を設定すること（LogWriterのプロパティについては :ref:`log-basic_setting` を参照）。
 
 記述例
  .. code-block:: properties
