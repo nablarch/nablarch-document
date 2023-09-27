@@ -578,7 +578,7 @@ As shown in the example below, Define a component definition of :java:extdoc:`Be
 
 Checking User Input Values for RESTful Web Services
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Checking user input values for RESTful web services is done by setting the :java:extdoc:`Valid <javax.validation.Valid>` annotation on the method of the resource class that receives input values.
+Checking user input values for RESTful web services is done by setting the :java:extdoc:`Valid <jakarta.validation.Valid>` annotation on the method of the resource class that receives input values.
 For details, see :ref:`jaxrs_bean_validation_handler_perform_validation` .
 
 

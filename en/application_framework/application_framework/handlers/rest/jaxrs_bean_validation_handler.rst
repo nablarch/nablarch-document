@@ -77,15 +77,15 @@ An example is shown below.
 
 Specify Group of Bean Validation
 -------------------------------------------------
-A Bean Validation group can be specified by setting the :java:extdoc:`ConvertGroup <javax.validation.groups.ConvertGroup>` annotation for the method with the :java:extdoc:`Valid <javax.validation.Valid>` annotation set.
+A Bean Validation group can be specified by setting the :java:extdoc:`ConvertGroup <jakarta.validation.groups.ConvertGroup>` annotation for the method with the :java:extdoc:`Valid <jakarta.validation.Valid>` annotation set.
 
-The ``from`` and ``to`` attributes must be specified for the :java:extdoc:`ConvertGroup <javax.validation.groups.ConvertGroup>` annotation.
+The ``from`` and ``to`` attributes must be specified for the :java:extdoc:`ConvertGroup <jakarta.validation.groups.ConvertGroup>` annotation.
 Each must be specified as follows.
 
-* ``from`` : Specify :java:extdoc:`Default.class <javax.validation.groups.Default>` as a fixed value.
+* ``from`` : Specify :java:extdoc:`Default.class <jakarta.validation.groups.Default>` as a fixed value.
 
-  * If you set the :java:extdoc:`Valid <javax.validation.Valid>` annotation to a method,
-    the validation is considered to have set the :java:extdoc:`Default <javax.validation.groups.Default>` group and will be executed.
+  * If you set the :java:extdoc:`Valid <jakarta.validation.Valid>` annotation to a method,
+    the validation is considered to have set the :java:extdoc:`Default <jakarta.validation.groups.Default>` group and will be executed.
 
 * ``to`` : Specify the group of Bean Validation.
 

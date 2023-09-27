@@ -77,16 +77,16 @@ Jakarta RESTful Web Servcies Bean Validationハンドラ
 
 Bean Validationのグループを指定する
 -------------------------------------------------
-:java:extdoc:`Valid <javax.validation.Valid>` アノテーションを設定したメソッドに対して
-:java:extdoc:`ConvertGroup <javax.validation.groups.ConvertGroup>` アノテーションを設定することで、Bean Validationのグループを指定することができる。
+:java:extdoc:`Valid <jakarta.validation.Valid>` アノテーションを設定したメソッドに対して
+:java:extdoc:`ConvertGroup <jakarta.validation.groups.ConvertGroup>` アノテーションを設定することで、Bean Validationのグループを指定することができる。
 
-:java:extdoc:`ConvertGroup <javax.validation.groups.ConvertGroup>` アノテーションは ``from`` 属性と ``to`` 属性の指定が必須である。
+:java:extdoc:`ConvertGroup <jakarta.validation.groups.ConvertGroup>` アノテーションは ``from`` 属性と ``to`` 属性の指定が必須である。
 それぞれ以下のように指定すること。
 
-* ``from`` ・・・ :java:extdoc:`Default.class <javax.validation.groups.Default>` 固定
+* ``from`` ・・・ :java:extdoc:`Default.class <jakarta.validation.groups.Default>` 固定
 
-  * メソッドに :java:extdoc:`Valid <javax.validation.Valid>` アノテーションを設定する場合、
-    バリデーションは :java:extdoc:`Default <javax.validation.groups.Default>` グループを設定したものとして実行されるため。
+  * メソッドに :java:extdoc:`Valid <jakarta.validation.Valid>` アノテーションを設定する場合、
+    バリデーションは :java:extdoc:`Default <jakarta.validation.groups.Default>` グループを設定したものとして実行されるため。
 
 * ``to`` ・・・Bean Validationのグループを指定する
 

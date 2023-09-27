@@ -578,7 +578,7 @@ Java実装例
 
 RESTfulウェブサービスのユーザ入力値のチェックを行う
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-RESTfulウェブサービスのユーザ入力値のチェックは、入力値を受け取るリソースクラスのメソッドに :java:extdoc:`Valid <javax.validation.Valid>` アノテーションを設定することで行う。
+RESTfulウェブサービスのユーザ入力値のチェックは、入力値を受け取るリソースクラスのメソッドに :java:extdoc:`Valid <jakarta.validation.Valid>` アノテーションを設定することで行う。
 詳細は、 :ref:`jaxrs_bean_validation_handler_perform_validation` を参照。
 
 .. _bean_validation_onerror:
