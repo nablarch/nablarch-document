@@ -213,14 +213,14 @@ textタグ
    :ref:`tag-focus_attributes_tag`      
    name ``必須``                          XHTMLのname属性。値表示の際、value属性が指定されていない場合はXHTMLのvalue属性にも使用される
    value                                  XHTMLのvalue属性。
-   disabled                               XHTMLのdisabled属性。
-   readonly                               XHTMLのreadonly属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
+   readonly                               XHTMLのreadonly属性 (:ref:`論理属性 <boolean_attribute>`) 。
    size                                   XHTMLのsize属性。
    maxlength                              XHTMLのmaxlength属性。
    onselect                               XHTMLのonselect属性。
    onchange                               XHTMLのonchange属性。
    autocomplete                           HTML5のautocomplete属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    placeholder                            HTML5のplaceholder属性。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。
@@ -247,9 +247,9 @@ searchタグ
    :ref:`tag-focus_attributes_tag`      
    name ``必須``                          XHTMLのname属性。値表示の際、value属性が指定されていない場合はXHTMLのvalue属性にも使用される
    value                                  XHTMLのvalue属性。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    autocomplete                           HTML5のautocomplete属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。
    nameAlias                              name属性のエイリアスを設定する。
@@ -275,9 +275,9 @@ telタグ
    :ref:`tag-focus_attributes_tag`      
    name ``必須``                          XHTMLのname属性。値表示の際、value属性が指定されていない場合はXHTMLのvalue属性にも使用される
    value                                  XHTMLのvalue属性。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    autocomplete                           HTML5のautocomplete属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。
    nameAlias                              name属性のエイリアスを設定する。
@@ -303,9 +303,9 @@ urlタグ
    :ref:`tag-focus_attributes_tag`      
    name ``必須``                          XHTMLのname属性。値表示の際、value属性が指定されていない場合はXHTMLのvalue属性にも使用される
    value                                  XHTMLのvalue属性。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    autocomplete                           HTML5のautocomplete属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。
    nameAlias                              name属性のエイリアスを設定する。
@@ -331,9 +331,9 @@ emailタグ
    :ref:`tag-focus_attributes_tag`      
    name ``必須``                          XHTMLのname属性。値表示の際、value属性が指定されていない場合はXHTMLのvalue属性にも使用される
    value                                  XHTMLのvalue属性。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    autocomplete                           HTML5のautocomplete属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。
    nameAlias                              name属性のエイリアスを設定する。
@@ -359,9 +359,9 @@ dateタグ
    :ref:`tag-focus_attributes_tag`      
    name ``必須``                          XHTMLのname属性。値表示の際、value属性が指定されていない場合はXHTMLのvalue属性にも使用される
    value                                  XHTMLのvalue属性。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    autocomplete                           HTML5のautocomplete属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。
    nameAlias                              name属性のエイリアスを設定する。
@@ -387,9 +387,9 @@ monthタグ
    :ref:`tag-focus_attributes_tag`      
    name ``必須``                          XHTMLのname属性。値表示の際、value属性が指定されていない場合はXHTMLのvalue属性にも使用される
    value                                  XHTMLのvalue属性。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    autocomplete                           HTML5のautocomplete属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。
    nameAlias                              name属性のエイリアスを設定する。
@@ -415,9 +415,9 @@ weekタグ
    :ref:`tag-focus_attributes_tag`      
    name ``必須``                          XHTMLのname属性。値表示の際、value属性が指定されていない場合はXHTMLのvalue属性にも使用される
    value                                  XHTMLのvalue属性。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    autocomplete                           HTML5のautocomplete属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。
    nameAlias                              name属性のエイリアスを設定する。
@@ -443,9 +443,9 @@ timeタグ
    :ref:`tag-focus_attributes_tag`      
    name ``必須``                          XHTMLのname属性。値表示の際、value属性が指定されていない場合はXHTMLのvalue属性にも使用される
    value                                  XHTMLのvalue属性。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    autocomplete                           HTML5のautocomplete属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。
    nameAlias                              name属性のエイリアスを設定する。
@@ -471,9 +471,9 @@ datetimeLocalタグ
    :ref:`tag-focus_attributes_tag`      
    name ``必須``                          XHTMLのname属性。値表示の際、value属性が指定されていない場合はXHTMLのvalue属性にも使用される
    value                                  XHTMLのvalue属性。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    autocomplete                           HTML5のautocomplete属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。
    nameAlias                              name属性のエイリアスを設定する。
@@ -499,9 +499,9 @@ numberタグ
    :ref:`tag-focus_attributes_tag`      
    name ``必須``                          XHTMLのname属性。値表示の際、value属性が指定されていない場合はXHTMLのvalue属性にも使用される
    value                                  XHTMLのvalue属性。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    autocomplete                           HTML5のautocomplete属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。
    nameAlias                              name属性のエイリアスを設定する。
@@ -527,9 +527,9 @@ rangeタグ
    :ref:`tag-focus_attributes_tag`      
    name ``必須``                          XHTMLのname属性。値表示の際、value属性が指定されていない場合はXHTMLのvalue属性にも使用される
    value                                  XHTMLのvalue属性。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    autocomplete                           HTML5のautocomplete属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。
    nameAlias                              name属性のエイリアスを設定する。
@@ -555,9 +555,9 @@ colorタグ
    :ref:`tag-focus_attributes_tag`      
    name ``必須``                          XHTMLのname属性。値表示の際、value属性が指定されていない場合はXHTMLのvalue属性にも使用される
    value                                  XHTMLのvalue属性。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    autocomplete                           HTML5のautocomplete属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。
    nameAlias                              name属性のエイリアスを設定する。
@@ -584,11 +584,11 @@ textareaタグ
    name ``必須``                          XHTMLのname属性。
    rows ``必須``                          XHTMLのrows属性。
    cols ``必須``                          XHTMLのcols属性。
-   disabled                               XHTMLのdisabled属性。
-   readonly                               XHTMLのreadonly属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
+   readonly                               XHTMLのreadonly属性 (:ref:`論理属性 <boolean_attribute>`) 。
    onselect                               XHTMLのonselect属性。
    onchange                               XHTMLのonchange属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    placeholder                            HTML5のplaceholder属性。
    maxlength                              HTML5のmaxlength属性。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
@@ -613,14 +613,14 @@ passwordタグ
    :ref:`tag-generic_attributes_tag`    
    :ref:`tag-focus_attributes_tag`      
    name ``必須``                          XHTMLのname属性。
-   disabled                               XHTMLのdisabled属性。
-   readonly                               XHTMLのreadonly属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
+   readonly                               XHTMLのreadonly属性 (:ref:`論理属性 <boolean_attribute>`) 。
    size                                   XHTMLのsize属性。
    maxlength                              XHTMLのmaxlength属性。
    onselect                               XHTMLのonselect属性。
    onchange                               XHTMLのonchange属性。
    autocomplete                           HTML5のautocomplete属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    placeholder                            HTML5のplaceholder属性。
    restoreValue                           入力画面の再表示時に入力データを復元するか否か。
                                           復元する場合は ``true`` 、復元しない場合は ``false`` 。
@@ -651,9 +651,9 @@ radioButtonタグ
    name ``必須``                          XHTMLのname属性。
    value ``必須``                         XHTMLのvalue属性。
    label ``必須``                         ラベル。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    onchange                               XHTMLのonchange属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。
    nameAlias                              name属性のエイリアスを設定する。
@@ -679,7 +679,7 @@ checkboxタグ
    value                                  XHTMLのvalue属性。
                                           チェックありの場合に使用する値。
                                           デフォルトは ``1`` 。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    label                                  チェックありの場合に使用するラベル。
                                           入力画面では、このラベルが表示される。
    useOffValue                            チェックなしの値設定を使用するか否か。
@@ -687,7 +687,7 @@ checkboxタグ
    offLabel                               チェックなしの場合に使用するラベル。
    offValue                               チェックなしの場合に使用する値。
                                           デフォルトは ``0`` 。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    onchange                               XHTMLのonchange属性。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。
@@ -726,10 +726,10 @@ compositeKeyCheckboxタグ
                                           なお、name属性は、namePrefix属性とkeyNames属性で指定した\
                                           キーの組み合わせと異なる名称にしなければならない特殊な制約がある。\
                                           実装時はこの点に十分注意すること。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    label                                  チェックありの場合に使用するラベル。
                                           入力画面では、このラベルが表示される。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    onchange                               XHTMLのonchange属性。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。
@@ -768,10 +768,10 @@ compositeKeyRadioButtonタグ
                                           なお、name属性は、namePrefix属性とkeyNames属性で指定した\
                                           キーの組み合わせと異なる名称にしなければならない特殊な制約がある。\
                                           実装時はこの点に十分注意すること。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    label                                  チェックありの場合に使用するラベル。
                                           入力画面では、このラベルが表示される。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    onchange                               XHTMLのonchange属性。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。
@@ -795,15 +795,15 @@ fileタグ
    :ref:`tag-generic_attributes_tag`    
    :ref:`tag-focus_attributes_tag`      
    name ``必須``                          XHTMLのname属性。
-   disabled                               XHTMLのdisabled属性。
-   readonly                               XHTMLのreadonly属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
+   readonly                               XHTMLのreadonly属性 (:ref:`論理属性 <boolean_attribute>`) 。
    size                                   XHTMLのsize属性。
    maxlength                              XHTMLのmaxlength属性。
    onselect                               XHTMLのonselect属性。
    onchange                               XHTMLのonchange属性。
    accept                                 XHTMLのaccept属性。
-   autofocus                              HTML5のautofocus属性。
-   multiple                               HTML5のmultiple属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
+   multiple                               HTML5のmultiple属性 (:ref:`論理属性 <boolean_attribute>`) 。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。
    nameAlias                              name属性のエイリアスを設定する。
@@ -833,7 +833,7 @@ HTMLタグを出力せず、ウィンドウスコープに値を出力する。
    :ref:`tag-generic_attributes_tag`    
    :ref:`tag-focus_attributes_tag`      
    name ``必須``                          XHTMLのname属性。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    ====================================== ==========================================================================================
 
 .. _tag-plain_hidden_tag:
@@ -852,7 +852,7 @@ plainHiddenタグ
    :ref:`tag-generic_attributes_tag`    
    :ref:`tag-focus_attributes_tag`      
    name ``必須``                          XHTMLのname属性。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    ====================================== ==========================================================================================
 
 .. _tag-hidden_store_tag:
@@ -871,7 +871,7 @@ hiddenStoreタグ
    :ref:`tag-generic_attributes_tag`
    :ref:`tag-focus_attributes_tag`
    name ``必須``                          XHTMLのname属性。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    ====================================== ==========================================================================================
 
 .. _tag-select_tag:
@@ -895,13 +895,13 @@ selectタグ
    elementLabelProperty ``必須``          リスト要素からラベルを取得するためのプロパティ名。
    elementValueProperty ``必須``          リスト要素から値を取得するためのプロパティ名。
    size                                   XHTMLのsize属性。
-   multiple                               XHTMLのmultiple属性。
-   disabled                               XHTMLのdisabled属性。
+   multiple                               XHTMLのmultiple属性 (:ref:`論理属性 <boolean_attribute>`) 。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    tabindex                               XHTMLのtabindex属性。
    onfocus                                XHTMLのonfocus属性。
    onblur                                 XHTMLのonblur属性。
    onchange                               XHTMLのonchange属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    elementLabelPattern                    ラベルを整形するためのパターン。
                                           プレースホルダを下記に示す。
                                           ``$LABEL$`` : ラベル
@@ -949,9 +949,9 @@ radioButtonsタグ
                                           リクエストスコープから取得した選択肢リストが空の場合、画面には何も表示しない。
    elementLabelProperty ``必須``          リスト要素からラベルを取得するためのプロパティ名。
    elementValueProperty ``必須``          リスト要素から値を取得するためのプロパティ名。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    onchange                               XHTMLのonchange属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
                                           選択肢のうち、先頭要素のみautofocus属性を出力する。
    elementLabelPattern                    ラベルを整形するためのパターン。
                                           プレースホルダを下記に示す。
@@ -994,9 +994,9 @@ checkboxesタグ
                                           リクエストスコープから取得した選択肢リストが空の場合、画面には何も表示しない。
    elementLabelProperty ``必須``          リスト要素からラベルを取得するためのプロパティ名。
    elementValueProperty ``必須``          リスト要素から値を取得するためのプロパティ名。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    onchange                               XHTMLのonchange属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
                                           選択肢のうち、先頭要素のみautofocus属性を出力する。
    elementLabelPattern                    ラベルを整形するためのパターン。
                                           プレースホルダを下記に示す。
@@ -1037,13 +1037,13 @@ submitタグ
    type ``必須``                          XHTMLのtype属性。
    uri ``必須``                           URI。
                                           :ref:`tag-specify_uri` を参照。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    value                                  XHTMLのvalue属性。
    src                                    XHTMLのsrc属性。
    alt                                    XHTMLのalt属性。
    usemap                                 XHTMLのusemap属性。
    align                                  XHTMLのalign属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    allowDoubleSubmission                  二重サブミットを許可するか否か。
                                           許可する場合は ``true`` 、許可しない場合は ``false`` 。
                                           デフォルトは ``true`` 。
@@ -1076,8 +1076,8 @@ buttonタグ
                                           :ref:`tag-specify_uri` を参照。
    value                                  XHTMLのvalue属性。
    type                                   XHTMLのtype属性。
-   disabled                               XHTMLのdisabled属性。
-   autofocus                              HTML5のautofocus属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    allowDoubleSubmission                  二重サブミットを許可するか否か。
                                           許可する場合は ``true`` 、許可しない場合は ``false`` 。
                                           デフォルトは ``true`` 。
@@ -1141,13 +1141,13 @@ popupSubmitタグ
    type ``必須``                          XHTMLのtype属性。
    uri ``必須``                           URI。
                                           :ref:`tag-specify_uri` を参照。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    value                                  XHTMLのvalue属性。
    src                                    XHTMLのsrc属性。
    alt                                    XHTMLのalt属性。
    usemap                                 XHTMLのusemap属性。
    align                                  XHTMLのalign属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    secure                                 URIをhttpsにするか否か。
                                           httpsにする場合は ``true`` 、しない場合は ``false`` 。
    popupWindowName                        ポップアップのウィンドウ名。
@@ -1181,8 +1181,8 @@ popupButtonタグ
                                           :ref:`tag-specify_uri` を参照。
    value                                  XHTMLのvalue属性。
    type                                   XHTMLのtype属性。
-   disabled                               XHTMLのdisabled属性。
-   autofocus                              HTML5のautofocus属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    secure                                 URIをhttpsにするか否か。
                                           httpsにする場合は ``true`` 、しない場合は ``false`` 。
    popupWindowName                        ポップアップのウィンドウ名。
@@ -1248,13 +1248,13 @@ downloadSubmitタグ
    type ``必須``                          XHTMLのtype属性。
    uri ``必須``                           URI。
                                           :ref:`tag-specify_uri` を参照。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    value                                  XHTMLのvalue属性。
    src                                    XHTMLのsrc属性。
    alt                                    XHTMLのalt属性。
    usemap                                 XHTMLのusemap属性。
    align                                  XHTMLのalign属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    allowDoubleSubmission                  二重サブミットを許可するか否か。
                                           許可する場合は ``true`` 、許可しない場合は ``false`` 。
                                           デフォルトは ``true`` 。
@@ -1287,8 +1287,8 @@ downloadButtonタグ
                                           :ref:`tag-specify_uri` を参照。
    value                                  XHTMLのvalue属性。
    type                                   XHTMLのtype属性。
-   disabled                               XHTMLのdisabled属性。
-   autofocus                              HTML5のautofocus属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    allowDoubleSubmission                  二重サブミットを許可するか否か。
                                           許可する場合は ``true`` 、許可しない場合は ``false`` 。
                                           デフォルトは ``true`` 。
@@ -1565,13 +1565,13 @@ codeSelectタグ
    name ``必須``                          XHTMLのname属性。
    codeId ``必須``                        コードID。
    size                                   XHTMLのsize属性。
-   multiple                               XHTMLのmultiple属性。
-   disabled                               XHTMLのdisabled属性。
+   multiple                               XHTMLのmultiple属性 (:ref:`論理属性 <boolean_attribute>`) 。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    tabindex                               XHTMLのtabindex属性。
    onfocus                                XHTMLのonfocus属性。
    onblur                                 XHTMLのonblur属性。
    onchange                               XHTMLのonchange属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    pattern                                使用するパターンのカラム名。
                                           デフォルトは指定なし。
    optionColumnName                       取得するオプション名称のカラム名。
@@ -1622,9 +1622,9 @@ codeRadioButtonsタグ
    :ref:`tag-focus_attributes_tag`        accesskey属性は指定不可。
    name ``必須``                          XHTMLのname属性。
    codeId ``必須``                        コードID。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    onchange                               XHTMLのonchange属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
                                           選択肢のうち、先頭要素のみautofocus属性を出力する。
    pattern                                使用するパターンのカラム名。
                                           デフォルトは指定なし。
@@ -1669,9 +1669,9 @@ codeCheckboxesタグ
    :ref:`tag-focus_attributes_tag`        accesskey属性は指定不可。
    name ``必須``                          XHTMLのname属性。
    codeId ``必須``                        コードID。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    onchange                               XHTMLのonchange属性。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
                                           選択肢のうち、先頭要素のみautofocus属性を出力する。
    pattern                                使用するパターンのカラム名。
                                           デフォルトは指定なし。
@@ -1718,7 +1718,7 @@ codeCheckboxタグ
    value                                  XHTMLのvalue属性。
                                           チェックありの場合に使用するコード値。
                                           デフォルトは ``1`` 。
-   autofocus                              HTML5のautofocus属性。
+   autofocus                              HTML5のautofocus属性 (:ref:`論理属性 <boolean_attribute>`) 。
    codeId ``必須``                        コードID。
    optionColumnName                       取得するオプション名称のカラム名。
    labelPattern                           ラベルを整形するパターン。
@@ -1735,7 +1735,7 @@ codeCheckboxタグ
                                           検索結果が2件、かつ1件がvalue属性の値である場合は、
                                           残りの1件をチェックなしのコード値として使用する。
                                           検索で見つからない場合は、デフォルト値の ``0`` を使用する。
-   disabled                               XHTMLのdisabled属性。
+   disabled                               XHTMLのdisabled属性 (:ref:`論理属性 <boolean_attribute>`) 。
    onchange                               XHTMLのonchange属性。
    errorCss                               エラーレベルのメッセージに使用するCSSクラス名。
                                           デフォルトは ``nablarch_error`` 。

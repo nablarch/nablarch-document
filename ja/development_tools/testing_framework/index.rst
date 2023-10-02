@@ -20,7 +20,6 @@
   このため、これらの基盤やライブラリを使用するアプリケーションに対するテストは、 `JUnit(外部サイト、英語) <http://junit.org>`_ などのテスティングフレームワークを使用して行うこと。
 
   * :ref:`JSR352に準拠したバッチアプリケーション <jsr352_batch>`
-  * :ref:`Bean Validation <bean_validation>`
 
 .. important::
 

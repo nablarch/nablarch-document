@@ -131,7 +131,6 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
    :クライアント端末IPアドレス: $clientIpAddress$
    :クライアント端末ホスト: $clientHost$
    :HTTPヘッダのUser-Agent: $clientUserAgent$
-   :リクエストパラメータ: $parameters$
 
   デフォルトのフォーマット
    .. code-block:: bash
@@ -316,7 +315,7 @@ HTTPアクセスログの各項目もJSONの値として出力するには、
    :URL: url ``デフォルト``
    :ポート番号: port ``デフォルト``
    :HTTPメソッド: method ``デフォルト``
-   :クエリ文字列: query
+   :クエリ文字列: queryString
    :リクエストパラメータ: parameters
    :セッションスコープ情報: sessionScope
    :クライアント端末IPアドレス: clientIpAddress ``デフォルト``
@@ -353,7 +352,7 @@ HTTPアクセスログの各項目もJSONの値として出力するには、
    :セッションストアID: sessionStoreId
    :URL: url ``デフォルト``
    :ディスパッチ先クラス: dispatchingClass
-   :ステータスコード(内部): statusCode
+   :ステータスコード(内部): statusCode ``デフォルト``
    :ステータスコード(クライアント): responseStatusCode
    :コンテンツパス: contentPath ``デフォルト``
    :開始日時: startTime ``デフォルト``
@@ -419,8 +418,9 @@ HTTPアクセスログの各項目もJSONの値として出力するには、
 
  httpAccessLogFormatter.structuredMessagePrefix
   フォーマット後のメッセージ文字列が JSON 形式に整形されていることを識別できるようにするために、メッセージの先頭に付与するマーカー文字列。
-  メッセージの先頭にこのマーカーがある場合、 :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` はメッセージを JSON データとして処理する。
+  メッセージの先頭にあるマーカー文字列が :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` に設定しているマーカー文字列と一致する場合、 :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` はメッセージを JSON データとして処理する。
   デフォルトは ``"$JSON$"`` となる。
+  変更する場合は、LogWriterの ``structuredMessagePrefix`` プロパティを使用して :java:extdoc:`JsonLogFormatter <nablarch.core.log.basic.JsonLogFormatter>` にも同じ値を設定すること（LogWriterのプロパティについては :ref:`log-basic_setting` を参照）。
 
 記述例
  .. code-block:: properties

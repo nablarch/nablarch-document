@@ -115,11 +115,14 @@ Each case should have the following elements:
 |                        |Used for the filename of the HTML dump file output in the request unit test of                 |        |
 |                        |the web application. \ [#]_\                                                                   |Required|
 +------------------------+-----------------------------------------------------------------------------------------------+--------+
-|context                 |Describe which request ID to send a request to, by which user in the test case.                |Required|
+|context                 |Describe the user information used to send the request in that test case.                      |Required|
 |                        |For more information, see :ref:`request_test_user_info`.                                       |        |
 +------------------------+-----------------------------------------------------------------------------------------------+--------+
 |cookie                  |Describe the cookie information required for that test case.                                   |        |
 |                        |For more information, see :ref:`request_test_cookie_info`.                                     |        |
++------------------------+-----------------------------------------------------------------------------------------------+--------+
+|queryParams             |Describe the query parameter information required for that test case.                          |        |
+|                        |For more information, see :ref:`request_test_queryparams_info`.                                |        |
 +------------------------+-----------------------------------------------------------------------------------------------+--------+
 |isValidToken            |Set to true when configuring a token. For more information on tokens, refer to                 |        |
 |                        |:ref:`server-side double submission prevention <tag-double_submission_server_side>`.           |        |
@@ -129,7 +132,7 @@ Each case should have the following elements:
 |                        |registering the data in the database before executing each test case.                          |        |
 |                        |Data submission is carried out by the automated test framework.                                |        |
 +------------------------+-----------------------------------------------------------------------------------------------+--------+
-|expectedStatusCode      |Describe the expected HTTP status code.  \ [#]_\                                               |Required|
+|expectedStatusCode      |Describe the expected HTTP status code.                                                        |Required|
 |                        |                                                                                               |        |
 +------------------------+-----------------------------------------------------------------------------------------------+--------+
 |expectedMessageId       |When a message is expected to be output, describe the **message ID** of that message.          |        |
@@ -184,13 +187,6 @@ Describe the HTTP `Request parameter`_ to be sent in the test case in a separate
   or if the length limit for the file name is exceeded. Hence, the content allowed as the file name should be entered.
   For example, if a line feed code is included in the description, an error will occur when the test is executed since line feed code is invalid as a file name.
 
-.. [#] 
-  In the request unit test of a web application, when asserting the HTTP status code, the status codes 302 and 303, which have the same redirection behavior in a normal browser,
-  are asserted identically. In other words, not only when the expected result and the executed result have exactly the same HTTP status code,
-  but also when the expected result code is 303 and the executed result code is 302, and when the expected result code is 302 and the executed result code is 303, the assertion result shows successful completion.
-  
-  <Reason> As per the RFC regulation, for browsers that understand HTTP 1.1, it is better to return 303 for redirect,
-  however, currently the major web containers use the 302 response code taking into account the legacy browsers.
 
 .. _`request_test_user_info`:
 
@@ -198,14 +194,17 @@ Describe the HTTP `Request parameter`_ to be sent in the test case in a separate
 User information
 =================
 
-In the test case, describe with the data type of LIST_MAP to which request ID and by which user to send the request.
-By using information of multiple users,
-it is possible to test functions that are processed differently depending on the user permissions.
+In that test case, describe the request ID, user, and HTTP method used to send the request, using the LIST_MAP data type.
+By using multiple user information, it is possible to test functions that are processed differently depending on the user permissions and the HTTP method used.
+The HTTP method information is an optional item. If omitted, POST is set.
 
 For example, when the accessible data differs depending on the permissions, user information is used differently as follows:
 
 .. image:: ./_image/testcase-user.png
 
+For another example, when multiple HTTP methods are accepted with the same request ID, user information is used differently as follows:
+
+.. image:: ./_image/testcase-user2.png
 
 .. _`request_test_cookie_info`:
 
@@ -222,6 +221,21 @@ For cases not requiring cookies, cookie information should be left blank without
 
 .. image:: ./_image/requestCookie.png
 
+
+.. _`request_test_queryparams_info`:
+
+Query parameter information
+==============================
+
+Describe the query parameter information required for that test case with the data type of LIST_MAP.
+This makes it possible to perform the test by sending different query parameter information for each case.
+
+There is no need to describe query parameter information for cases not requiring query parameters for optional items.
+
+For example, when it is required to change the value of the query parameter depending on the case, configure the query parameter information as follows:
+For cases not requiring query parameter, query parameter information should be left blank without describing the value as in Case 3 of the example below.
+
+.. image:: ./_image/queryParams.png
 
 .. _`request_test_req_params`:
 

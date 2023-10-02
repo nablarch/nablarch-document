@@ -107,7 +107,7 @@ Example of mapping URL to business action
   PersonAction#index         /action/person/index
   PersonAction#search        /action/person/search
   LoginAction#index          /action/login/index
-  projectUploadAction#index  /action/projectUpload/index
+  ProjectUploadAction#index  /action/projectUpload/index
   ========================== ===========================
 
 .. _router_adaptor_path_annotation:
