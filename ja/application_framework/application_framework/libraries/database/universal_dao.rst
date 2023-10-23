@@ -240,6 +240,10 @@ JDBCのフェッチサイズによってメモリの使用量が変わる。
 .. tip::
   ページング用の検索処理は、 :ref:`データベースアクセス(JDBCラッパー)の範囲指定検索機能 <database-paging>` を使用して行う。
 
+.. tip::
+  ページングでは、実際の範囲指定レコードの取得処理の前に、件数取得SQLが発行される。
+  件数取得SQLの実行で性能劣化が発生している場合は、 :ref:`universal_dao-customize_sql_for_counting` を参考にして件数取得SQLを変更する。
+
 .. _universal_dao-generate_surrogate_key:
 
 サロゲートキーを採番する
@@ -515,6 +519,78 @@ DatabaseMetaDataから情報を取得できない場合に対応する
  コンポーネント名は"databaseMetaDataExtractor"で設定する。
  -->
  <component name="databaseMetaDataExtractor" class="sample.dao.CustomDatabaseMetaDataExtractor" />
+
+.. _universal_dao-customize_sql_for_counting:
+
+件数取得用SQLの性能劣化に対応する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:ref:`ページング <universal_dao-paging>` 処理では、実際の範囲指定レコードの取得処理の前に、件数取得SQLが発行される。
+件数取得SQLは、デフォルトでは元のSQLを ``SELECT COUNT(*) FROM`` で包んだSQLとなる。
+そのため、元のSQLが ``ORDER BY`` 句を含むなど処理負荷が大きいSQLの場合、件数取得SQLの実行も同様に処理負荷が大きくなり、性能劣化に繋がるおそれがある。
+そのような場合には、 使用しているダイアレクトをカスタマイズし、件数取得SQLを変更することで対応する。
+
+件数取得SQLは、元のSQLと同一の検索条件を持つ必要がある。件数取得SQLを用意する場合は、両者の検索条件に差分が発生しないよう注意すること。
+
+以下に :javadoc:`nablarch.core.db.dialect.H2Dialect` をカスタマイズする例を示す。
+カスタマイズ対象のメソッドは :java:extdoc:`convertCountSql(String, Object, StatementFactory) <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String-java.lang.Object-nablarch.core.db.statement.StatementFactory)>` である。
+
+.. code-block:: java
+   public class CustomH2Dialect extends H2Dialect {
+   
+       /**
+        * 件数取得SQLを表すサフィックス
+        */
+       private static final String COUNTSQLID_SUFFIX = "_FORCOUNT";
+   
+       /**
+        * SQLローダ
+        */
+       private BasicSqlLoader sqlLoader;
+   
+       /**
+        * {@inheritDoc}
+        *
+        * {@code sqlId}に{@link CustomH2Dialect#COUNTSQLID_SUFFIX}をサフィックスとして付与したSQLが存在すれば、
+        * それを件数取得SQLとして返却する。
+        */
+       @Override
+       public String convertCountSql(String sqlId, Object params, StatementFactory statementFactory) {
+   
+           String[] sqlIds = sqlId.split("#");
+           if (2 != sqlIds.length) {
+               throw new IllegalArgumentException();
+           }
+   
+           String sqlResourceName = sqlIds[0];
+           String countSqlId = sqlIds[1] + COUNTSQLID_SUFFIX;
+           Map<String, String> sqlVal = getSqlLoader().getValue(sqlResourceName);
+   
+           if (sqlVal.containsKey(countSqlId)) {
+               return statementFactory.getVariableConditionSql(sqlVal.get(countSqlId), params);
+           }
+   
+           return convertCountSql(statementFactory.getVariableConditionSqlBySqlId(sqlId, params));
+       }
+   
+       /**
+        * SQLローダを取得する。
+        *
+        * @return BasicSqlLoader
+        */
+       private BasicSqlLoader getSqlLoader() {
+           if(null == sqlLoader) {
+               sqlLoader = SystemRepository.get("sqlLoader");
+           }
+   
+           return sqlLoader;
+       }
+   
+   }
+
+
+上記の例では、元のSQLのSQLIDに ``_FORCOUNT`` を付与し、SQLローダからSQLIDを検索する。
+SQLIDが存在すれば、それを件数取得SQLのSQLIDとしてSQLを返却する。
+元のSQLと件数取得SQLのマッピングルールは、プロジェクトごとに決定すれば良い。
 
 .. _`universal_dao_jpa_annotations`:
 
