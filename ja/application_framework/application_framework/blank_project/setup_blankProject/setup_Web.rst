@@ -170,11 +170,11 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 
 .. code-block:: text
 
-  mvn jetty-ee10:run
+  mvn jetty:run
 
 .. tip::
 
-  上記のコマンド例で使用しているMavenの「jetty-ee10:run」は、 Jetty Maven Pluginのrunゴールを使用するという指定である。
+  上記のコマンド例で使用しているMavenの「jetty:run」は、 Jetty Maven Pluginのrunゴールを使用するという指定である。
   
   Jetty Maven Pluginについては `Jetty Maven Plugin(外部サイト、英語) <https://www.eclipse.org/jetty/documentation/jetty-12/programming-guide/index.html#jetty-maven-plugin>`_  を参照。
 

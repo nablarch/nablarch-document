@@ -293,7 +293,7 @@ If you want to actually run it, you can start Jetty with the following command.
 
 .. code-block:: batch
 
-  mvn jetty-ee10:run
+  mvn jetty:run
 
 .. _update-ntf-jetty:
 

@@ -293,7 +293,7 @@ nablarch-example-webをはじめ、アーキタイプから作ったNablarchプ�
 
 .. code-block:: batch
 
-  mvn jetty-ee10:run
+  mvn jetty:run
 
 .. _update-ntf-jetty:
 

@@ -193,11 +193,11 @@ Execute the following command to start the application for communication confirm
 
 .. code-block:: text
 
-  mvn jetty-ee10:run
+  mvn jetty:run
 
 .. tip::
 
-  "jetty-ee10:run" of Maven used in the above command example is a specification to use the run goal of the Jetty Maven Plugin.
+  "jetty:run" of Maven used in the above command example is a specification to use the run goal of the Jetty Maven Plugin.
 
   For information on the Jetty Maven Plugin, see `Jetty Maven Plugin (external site) <https://www.eclipse.org/jetty/documentation/jetty-12/programming-guide/index.html#jetty-maven-plugin>`_.
 
