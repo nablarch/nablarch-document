@@ -46,10 +46,10 @@ Java
  * Java SE 17
 
 データベース
- * Oracle Database 12c/19c/21c/23c
- * IBM Db2 10.5/11.5
+ * Oracle Database 19c/21c/23c
+ * IBM Db2 11.5
  * SQL Server 2017/2019/2022
- * PostgreSQL 10.0/11.5/12.2/13.2/14.0/15.2
+ * PostgreSQL 12.2/13.2/14.0/15.2
 
 アプリケーションサーバ
  * WildFly 27.0.1.Final
