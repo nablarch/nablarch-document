@@ -102,7 +102,7 @@ The version numbering system is as follows.
  Product Version Number
   Incremented at minor upgrade. |br|
   e.g., Nablarch 6u6 → Nablarch 7 |br|
-  The starting number is 6.
+  The starting number is 5.
 
  Update Number
   Incremented at revision up or bug fix. |br|
@@ -183,4 +183,3 @@ If any of the following applies, we may upgrade the version so that backward com
 * When a problem occurs due to a version upgrade of JDK, which is the environment in which the framework operates, and it cannot be fixed while maintaining backward compatibility.
 
 If we make changes that don't maintain backward compatibility, we'll explain what they're doing and how to deal with them in the "Impact on the system and how to deal with it(システムへの影響の可能性の内容と対処)" section of the `Release Notes(Japanese Page) <https://nablarch.github.io/docs/LATEST/doc/releases/index.html>`_.
-
