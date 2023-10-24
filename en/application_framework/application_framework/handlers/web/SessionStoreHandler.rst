@@ -119,7 +119,6 @@ The default configuration is as follows.
 :Secure attribute:    | Not used
                       | To use in an HTTPS environment, configure to ``Use``
 :MaxAge attribute:    | Not specified
-:HttpOnly attribute:  | Always use
 
 To change the cookie name or attribute, refer to the example given below.
 
