@@ -119,6 +119,9 @@ The default configuration is as follows.
 :Secure attribute:    | Not used
                       | To use in an HTTPS environment, configure to ``Use``
 :MaxAge attribute:    | Not specified
+                      | The MaxAge attribute is not used because the cookie holding the session ID is a session cookie (cookie that is destroyed when the browser is closed)
+:HttpOnly attribute:  | Use
+                      | The HttpOnly attribute is always used and cannot be changed from configuration files
 
 To change the cookie name or attribute, refer to the example given below.
 
@@ -151,12 +154,9 @@ To change the cookie name or attribute, refer to the example given below.
     </component>
 
 .. important::
-  The MaxAge attribute is not used because the cookie holding the session ID is a session cookie (cookie that is destroyed when the browser is closed).
-
-  The expiry interval of the session store is saved in the HTTP session. If different expiry intervals are configured between multiple stores, the longest expiry interval value is stored in the HTTP session.
-
-.. tip::
-  The HttpOnly attribute is always used and cannot be changed from configuration files.
+  The expiry interval of the session store is saved in the HTTP session or database.
+  If different expiry intervals are configured between multiple stores, use the value with the longest expiry interval.
+  (Refer to :ref:`db_managed_expiration` for settings to save to database)
 
 .. _`db_managed_expiration`:
 
