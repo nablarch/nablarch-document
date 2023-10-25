@@ -123,6 +123,11 @@ The default configuration is as follows.
 :HttpOnly attribute:  | Use
                       | The HttpOnly attribute is always used and cannot be changed from configuration files
 
+.. important::
+  By default, the expiry interval of the session store is saved in the HTTP session.
+  If different expiry intervals are configured between multiple stores, use the value with the longest expiry interval.
+  (If you want to change the storage location of the expiry interval to database, Refer to :ref:`db_managed_expiration` )
+
 To change the cookie name or attribute, refer to the example given below.
 
 .. code-block:: xml
@@ -152,11 +157,6 @@ To change the cookie name or attribute, refer to the example given below.
       </property>
       <!-- Other properties are omitted -->
     </component>
-
-.. important::
-  The expiry interval of the session store is saved in the HTTP session or database.
-  If different expiry intervals are configured between multiple stores, use the value with the longest expiry interval.
-  (Refer to :ref:`db_managed_expiration` for settings to save to database)
 
 .. _`db_managed_expiration`:
 
