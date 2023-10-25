@@ -6,8 +6,8 @@ HTTP文字エンコード制御ハンドラ
   :depth: 3
   :local:
 
-本ハンドラではリクエスト( :java:extdoc:`HttpServletRequest <javax.servlet.http.HttpServletRequest>` )
-及びレスポンス( :java:extdoc:`HttpServletResponse <javax.servlet.http.HttpServletResponse>` )に対して規定の文字エンコーディングを設定する。
+本ハンドラではリクエスト( :java:extdoc:`HttpServletRequest <jakarta.servlet.http.HttpServletRequest>` )
+及びレスポンス( :java:extdoc:`HttpServletResponse <jakarta.servlet.http.HttpServletResponse>` )に対して規定の文字エンコーディングを設定する。
 
 本ハンドラでは、以下の処理を行う。
 
@@ -79,8 +79,8 @@ WEB APIのように全てのレスポンスに対して規定の文字エンコ�
 以下に例を示す。
 
 ポイント
-  * リクエストのエンコーディングを変更する場合は、 :java:extdoc:`resolveRequestEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveRequestEncoding(javax.servlet.http.HttpServletRequest)>` をオーバライドする。
-  * レスポンスのエンコーディングを変更する場合は、 :java:extdoc:`resolveResponseEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveResponseEncoding(javax.servlet.http.HttpServletRequest)>` をオーバライドする。
+  * リクエストのエンコーディングを変更する場合は、 :java:extdoc:`resolveRequestEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveRequestEncoding(jakarta.servlet.http.HttpServletRequest)>` をオーバライドする。
+  * レスポンスのエンコーディングを変更する場合は、 :java:extdoc:`resolveResponseEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveResponseEncoding(jakarta.servlet.http.HttpServletRequest)>` をオーバライドする。
 
 .. code-block:: java
 

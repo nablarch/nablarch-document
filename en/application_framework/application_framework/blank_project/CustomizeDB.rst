@@ -153,7 +153,7 @@ Immediately after a project is generated from an archetype, the following applie
   * - * Web
       * RESTful web service
     - * Production environment properties(src/env/prod/resources/env.properties)
-  * - * JSR352-compliant batch
+  * - * Jakarta Batch-compliant batch
       * Nablarch batch
       * Web for container
       * RESTful web service for container
@@ -172,7 +172,7 @@ Immediately after creating a project from an archetype, the following applies to
   * - * Web
       * RESTful web service
     - * Unit test environment (manual test) properties (src/env/dev/resources/env.properties)
-  * - * JSR352-compliant batch
+  * - * Jakarta Batch-compliant batch
       * Nablarch batch
     - * Unit test environment (manual test) properties (src/env/dev/resources/env.properties)
       * Production environment properties(src/env/prod/resources/env.properties)
@@ -585,7 +585,7 @@ Refer to the following procedure and confirm communications.
 
 * :ref:`Communication confirmation of Web<firstStepWebStartupTest>`
 * :ref:`Communication confirmation of RESTful Web service<firstStepWebServiceStartupTest>`
-* :ref:`Communication confirmation of JSR352-compliant batch<firstStepBatchEEStartupTest>`
+* :ref:`Communication confirmation of Jakarta Batch-compliant batch<firstStepBatchEEStartupTest>`
 * :ref:`Communication confirmation of Nablarch batch<firstStepBatchStartupTest>`
 * :ref:`Communication confirmation of Web for container<firstStepContainerWebStartupTest>`
 * :ref:`Communication confirmation of RESTful Web service for container<firstStepContainerWebServiceStartupTest>`

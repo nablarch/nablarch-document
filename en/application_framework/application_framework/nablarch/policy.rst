@@ -88,15 +88,14 @@ Since the object on the :ref:`repository` is a singleton, it must be thread-safe
 
   Thread-unsafe functions (for example, database connection, etc.) have been specified on Javadoc as thread-unsafe.
 
-Compliant with Java6
+Compliant with Java17
 --------------------------------------------------
-Nablarch production code is compliant with Java6 and does not use the APIs provided in Java7 or later.
+Nablarch production code is compliant with Java17 and does not use the APIs provided in Java18 or later.
 
-Since the latest version during development was Java6, 
-Nablarch remains Java6 compliant to maintain backward compatibility with existing projects that have implemented Nablarch.
+This is to maintain backward compatibility for existing Nablarch 6 implementation projects.
 
-When developing an application that uses Nablarch, Java6 or a later version can be used, 
-and APIs provided in Java7 or later can also be used without any problem.
+When developing an application that uses Nablarch, Java17 or a later version can be used, 
+and APIs provided in Java18 or later can also be used without any problem.
 
 .. _nablarch_architecture-backward_compatible:
 

@@ -293,7 +293,7 @@ nablarch-example-webをはじめ、アーキタイプから作ったNablarchプ�
 
 .. code-block:: batch
 
-  mvn jetty-ee10:run
+  mvn jetty:run
 
 .. _update-ntf-jetty:
 
@@ -392,7 +392,7 @@ JSR352に準拠したバッチアプリケーションの移行手順
 
 Nablarchが提供する実行制御基盤は、いずれも前節で説明した移行手順でバージョンアップができる。
 
-ただし :doc:`../application_framework/application_framework/batch/jsr352/index` のみ、JBatchのランタイムとして使用しているJBeretと関連するライブラリの更新が複雑であるため、ここで追加で説明する。
+ただし :doc:`../application_framework/application_framework/batch/jsr352/index` のみ、JSR352のランタイムとして使用しているJBeretと関連するライブラリの更新が複雑であるため、ここで追加で説明する。
 
 JSR352に準拠したバッチアプリケーションをアーキタイプから生成した場合、Nablarch 5までは以下のように ``dependency`` が ``pom.xml`` に設定されている。
 

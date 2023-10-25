@@ -293,7 +293,7 @@ If you want to actually run it, you can start Jetty with the following command.
 
 .. code-block:: batch
 
-  mvn jetty-ee10:run
+  mvn jetty:run
 
 .. _update-ntf-jetty:
 
@@ -392,7 +392,7 @@ Migration procedure of JSR352-compliant Batch Application
 
 All execution control platforms provided by Nablarch can be upgraded using the migration procedure described in the previous section.
 
-However, for :doc:`../application_framework/application_framework/batch/jsr352/index` only, JBeret, which is used as the runtime of JBatch, and related libraries are complicated to update, so an additional explanation is given here.
+However, for :doc:`../application_framework/application_framework/batch/jsr352/index` only, JBeret, which is used as the runtime of JSR352, and related libraries are complicated to update, so an additional explanation is given here.
 
 When a JSR352-compliant Batch Application is generated from an archetype, ``dependency`` is set in ``pom.xml`` as shown below up to Nablarch 5.
 

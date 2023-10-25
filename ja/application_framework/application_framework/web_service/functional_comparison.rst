@@ -1,7 +1,7 @@
 .. _`restful_web_service_functional_comparison`:
 
-JAX-RSサポート/JSR339/HTTPメッセージングの機能比較
-==========================================================
+Jakarta RESTful Web Servicesサポート/Jakarta RESTful Web Services/HTTPメッセージングの機能比較
+=================================================================================================
 
 .. contents:: 目次
   :depth: 3
@@ -9,13 +9,13 @@ JAX-RSサポート/JSR339/HTTPメッセージングの機能比較
 
 ここでは、以下の機能比較を示す。
 
- - :ref:`NablarchのJAX-RSサポート <restful_web_service>`
+ - :ref:`NablarchのJakarta RESTful Web Servicesサポート <restful_web_service>`
  - :ref:`HTTPメッセージング <http_messaging>`
- - `JSR 339: JAX-RS 2.0: The Java API for RESTful Web Services(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=339>`_
+ - `Jakarta RESTful Web Services(外部サイト、英語) <https://jakarta.ee/specifications/restful-ws/>`_
 
 .. tip::
 
- NablarchのJAX-RSサポートとHTTPメッセージングのみ、表内のマークをクリックすると、解説書の説明ページに遷移する。
+ NablarchのJakarta RESTful Web ServicesサポートとHTTPメッセージングのみ、表内のマークをクリックすると、解説書の説明ページに遷移する。
 
 .. |br| raw:: html
 
@@ -26,9 +26,9 @@ JAX-RSサポート/JSR339/HTTPメッセージングの機能比較
    :class: something-special-class
 
    * - 機能
-     - JAX-RS |br| サポート
+     - Jakarta RESTful |br| Web Services |br| サポート
      - HTTP |br| メッセージング
-     - JSR 339
+     - Jakarta RESTful |br| Web Services
    * - リクエストとリソースメソッドのマッピング
      - :ref:`△ <rest-action_mapping>`
      - :ref:`○ <http_messaging-action_mapping>`
@@ -49,7 +49,7 @@ JAX-RSサポート/JSR339/HTTPメッセージングの機能比較
      - :ref:`○ <rest-request_validation>`
      - :ref:`○ <http_messaging-request_validation>`
      - ○
-   * - リソースクラスへのインジェクション(CDI)
+   * - リソースクラスへのインジェクション |br| (Jakarta Contexts and Dependency Injection)
      - × [2]_
      - × [2]_
      - ○
@@ -98,12 +98,12 @@ JAX-RSサポート/JSR339/HTTPメッセージングの機能比較
      - :java:extdoc:`○ <nablarch.fw.messaging.action.MessagingAction>`
      - －
 
-.. [1] HTTPメッセージングはRESTを考慮した作りになっていない。RESTfulウェブサービスには、JAX-RSサポートを使用する。
-.. [2] JAX-RSサポートとHTTPメッセージングは、Nablarchのウェブアプリケーションとして動作するため、CDIは使用できない。
+.. [1] HTTPメッセージングはRESTを考慮した作りになっていない。RESTfulウェブサービスには、Jakarta RESTful Web Servicesサポートを使用する。
+.. [2] Jakarta RESTful Web ServicesサポートとHTTPメッセージングは、Nablarchのウェブアプリケーションとして動作するため、Jakarta Contexts and Dependency Injectionは使用できない。
 .. [3] リクエスト/レスポンスに対するフィルタを作りたい場合は、ハンドラを作成する。
-.. [4] ボディの読み書きに対するインターセプタを作りたい場合は、JAX-RSサポートのBodyConverterを作成する。
+.. [4] ボディの読み書きに対するインターセプタを作りたい場合は、Jakarta RESTful Web ServicesサポートのBodyConverterを作成する。
 .. [5] ボディの読み書きにはNablarchのデータフォーマットを使用している。変更したい場合は、データフォーマットのDataRecordFormatterを作成する。
-.. [6] JAX-RSクライアントが必要な場合は、JAX-RSの実装(JerseyやRESTEasyなど)を使用する。
+.. [6] Jakarta RESTful Web Servicesクライアントが必要な場合は、Jakarta RESTful Web Servicesの実装(JerseyやRESTEasyなど)を使用する。
 .. [7] サーバサイドで非同期処理が必要になる要件がないと想定している。要望があれば対応を検討する。
 .. [8] ウェブサーバやアプリケーションサーバにあるリクエストサイズをチェックする機能を使用する。
 .. [9] アプリケーションごとに要件が異なると想定している。アプリケーションで設計/実装する。

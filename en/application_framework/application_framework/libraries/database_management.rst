@@ -25,7 +25,7 @@ use of  :ref:`universal DAO <universal_dao>`  is recommended for the following r
   Therefore, configuration for using :ref:`JDBC wrapper function <database>`  are required.
 
 .. tip::
- For comparison of functions between :ref:`universal_dao` and JSR317 (JPA2.0), refer to  :ref:`database-functional_comparison` .
+ For comparison of functions between :ref:`universal_dao` and Jakarta Persistence, refer to  :ref:`database-functional_comparison` .
 
 .. toctree::
   :hidden:

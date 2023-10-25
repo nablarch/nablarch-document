@@ -17,12 +17,11 @@ Nablarch
 
   about_nablarch/index
   application_framework/index
-  extension_components/index
   development_tools/index
-  examples/index
   nablarch_api/index
   about_nablarch/versionup_policy
   migration/index
+  jakarta_ee/index
   terms_of_use/index
 
 
@@ -61,27 +60,6 @@ Nablarch Application Framework
   | :doc:`Example <application_framework/example/index>`
   | :doc:`Cloud native support <application_framework/application_framework/cloud_native/index>`
 
------------------------------------------------
-Nablarch extension component
------------------------------------------------
-
-Form library
-===========================
-
-  | :doc:`Manual <extension_components/report/index>` | `Sample application <https://github.com/nablarch/nablarch-report-sample>`__
-  
-Workflow library
-===========================
-
-  | :doc:`Manual <extension_components/workflow/doc/index>`
-  | :doc:`Automatic generation tool for workflow definition data <extension_components/workflow/tool/index>` 
-
-ETL platform
-===========================
-
-  | :doc:`Manual <extension_components/etl/index>`
-  | :doc:`ETL Maven plugin <extension_components/etl/etl_maven_plugin>`
-
 
 -----------------------------------------------
 Nablarch development tool
@@ -91,11 +69,6 @@ Efficient java static checks
 ==============================
 
   | :doc:`Manual <development_tools/java_static_analysis/index>` 
-
-Ui development platform for front-end advanced users
-========================================================
-
-  | :doc:`Manual <development_tools/ui_dev/index>` | JSP/HTML Creation Guide
 
 
 Testing framework
@@ -111,13 +84,13 @@ Useful tools for developing applications
 
 
 -----------------------------------------------
-Nablarch implementation examples
------------------------------------------------
-
-  | :doc:`Manual <examples/index>`
-
------------------------------------------------
 Nablarch 5 to 6 Migration Guide
 -----------------------------------------------
 
   | :doc:`Nablarch 5 to 6 Migration Guide <migration/index>`
+
+-----------------------------------------------
+Regarding the specification name of Jakarta EE
+-----------------------------------------------
+
+  | :doc:`Regarding the specification name of Jakarta EE <migration/index>`

@@ -1,11 +1,19 @@
 .. _jaxrs_adaptor:
 
-JAX-RSアダプタ
-============================
+Jakarta RESTful Web Servicesアダプタ
+===========================================
 
 .. contents:: 目次
   :depth: 3
   :local:
+
+.. tip::
+  本機能は、Nablarch5までは「JAX-RS アダプタ」という名称だった。
+  しかし、Java EEがEclipse Foundationに移管され仕様名が変わったことに伴い「Jakarta RESTful Web Servicesアダプタ」という名称に変更された。
+
+  変更されたのは名称のみで、機能的な差は無い。
+
+  その他、Nablarch6で名称が変更された機能については :ref:`renamed_features_in_nablarch_6` を参照のこと。
 
 :ref:`RESTfulウェブサービス <restful_web_service>` で使用するための以下のアダプタを提供する。
 
@@ -54,7 +62,7 @@ JAX-RSアダプタ
    
 Jersey環境下でRESTfulウェブサービスを使用する
 --------------------------------------------------
-ウェブアプリケーションサーバにバンドルされている `JAX-RS(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=339>`_ の実装が、
+ウェブアプリケーションサーバにバンドルされている `Jakarta RESTful Web Services(外部サイト、英語) <https://jakarta.ee/specifications/restful-ws/>`_ の実装が、
 `Jersey(外部サイト、英語) <https://jersey.java.net/>`_ の場合には、Jersey用のアダプタを使用する。
 
 以下にJersey用アダプタの適用方法を示す。
@@ -92,7 +100,7 @@ Jersey環境下でRESTfulウェブサービスを使用する
   
 RESTEasy環境下でRESTfulウェブサービスを使用する
 --------------------------------------------------
-ウェブアプリケーションサーバにバンドルされている `JAX-RS(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=339>`_ の実装が、
+ウェブアプリケーションサーバにバンドルされている `Jakarta RESTful Web Services(外部サイト、英語) <https://jakarta.ee/specifications/restful-ws/>`_ の実装が、
 `RESTEasy(外部サイト、英語) <http://resteasy.jboss.org/>`_ の場合には、RESTEasy用のアダプタを使用する。
 
 以下にRESTEasy用アダプタの適用方法を示す。

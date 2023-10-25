@@ -18,7 +18,7 @@ The initial setup shows how to create the following blank project.
 
 * Web projects
 * RESTful web service project
-* JSR352-compliant batch project
+* Jakarta Batch-compliant batch project
 * Nablarch batch project
 * Web project for container
 * RESTful web service project for container
@@ -52,11 +52,11 @@ The following software are assumed to be installed in the execution environment.
 All projects
   * Maven 3.6.3 or higher
 
-Web, RESTful web service, JSR352-compliant batch, Nablarch batch
-  * JDK1.8 or higher
+Web, RESTful web service, Jakarta Batch-compliant batch, Nablarch batch
+  * JDK17 or higher
 
 Web for container, RESTful web service for container, Nablarch batch for container
-  * JDK11 or higher
+  * JDK17 or higher
   * Docker Desktop 2.2.0.0 or higher
 
 The following do not require advance preparation in the initial setup.
@@ -69,7 +69,7 @@ The following do not require advance preparation in the initial setup.
   * - Software
     - Description
   * - AP server
-    - Use Tomcat8 to confirm the communication between the web project and RESTful web service project. Since the waitt-maven-plugin is executed from the mvn command, and the application is deployed and launched to Tomcat8 embedded in the waitt-maven-plugin during the procedure, advance preparation is not required.
+    - Use Jetty12 to confirm the communication between the web project and RESTful web service project. Since the jetty-ee10-maven-plugin is executed from the mvn command, and the application is deployed and launched to Jetty12 embedded in the jetty-ee10-maven-plugin during the procedure, advance preparation is not required.
   * - DB server
     - Since the H2 Database Engine (hereinafter H2) is incorporated in the archetype for communication confirmation, separate installation is not required.
 
@@ -126,7 +126,7 @@ The specified version is reflected in pom.xml of the generated blank project as 
       <dependency>
         <groupId>com.nablarch.profile</groupId>
         <artifactId>nablarch-bom</artifactId>
-        <version>5u6</version> <!--  Specified version -->
+        <version>6</version> <!--  Specified version -->
         <type>pom</type>
         <scope>import</scope>
       </dependency>

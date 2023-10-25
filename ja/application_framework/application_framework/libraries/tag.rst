@@ -1,6 +1,6 @@
 .. _`tag`:
 
-JSPカスタムタグ
+Jakarta Server Pagesカスタムタグ
 ==================================================
 
 .. contents:: 目次
@@ -13,13 +13,21 @@ JSPカスタムタグ
 
   tag/tag_reference
 
+.. tip::
+  本機能は、Nablarch5までは「JSPカスタムタグ」という名称だった。
+  しかし、Java EEがEclipse Foundationに移管され仕様名が変わったことに伴い「Jakarta Server Pagesカスタムタグ」という名称に変更された。
+
+  変更されたのは名称のみで、機能的な差は無い。
+
+  その他、Nablarch6で名称が変更された機能については :ref:`renamed_features_in_nablarch_6` を参照のこと。
+
 
 この機能では、ウェブアプリケーションの画面作成を支援するカスタムタグを提供する。
 
 カスタムタグには、以下の制約がある。
 
-* JSP2.1以降をサポートしているWebコンテナで動作する。
-* 条件分岐やループなどの制御にはJSTLを使用する。
+* Jakarta Server Pages 3.1以降をサポートしているWebコンテナで動作する。
+* 条件分岐やループなどの制御にはJakarta Standard Tag Libraryを使用する。
 * XHTML 1.0 Transitionalに対応した属性をサポートする。
 * クライアントのJavaScriptが必須である。( :ref:`tag-onclick_override` を参照)
 * GETリクエストで一部のカスタムタグが使用できない。( :ref:`tag-using_get` を参照)
@@ -168,7 +176,7 @@ HTMLエスケープの詳細は以下を参照。
 
 .. code-block:: jsp
 
- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="c" uri="jakarta.tags.core" %>
  <%@ taglib prefix="n" uri="http://tis.co.jp/nablarch" %>
 
 .. _`tag-input_form`:
@@ -2612,7 +2620,7 @@ disabled を例に実装例を以下に示す。
 
 任意の属性を指定する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-カスタムタグでは ``javax.servlet.jsp.tagext.DynamicAttributes`` インタフェースを使用して動的属性を扱っている。
+カスタムタグでは ``jakarta.servlet.jsp.tagext.DynamicAttributes`` インタフェースを使用して動的属性を扱っている。
 これにより、HTML5で追加された属性を含む任意の属性をカスタムタグで出力できる。
 HTMLを出力するタグについては動的属性を使用可能としている。
 

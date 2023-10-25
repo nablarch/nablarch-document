@@ -112,16 +112,16 @@ Daoインタフェースを作成する
                   DomaDaoRepository.get(ProjectDao.class).insert(project);
 
 
-JSR352に準拠したバッチアプリケーションで使用する
+Jakarta Batchに準拠したバッチアプリケーションで使用する
 ----------------------------------------------------------------
-JSR352に準拠したバッチアプリケーションでDomaを使用するために、
+Jakarta Batchに準拠したバッチアプリケーションでDomaを使用するために、
 本アダプタでは以下のリスナーを提供している。
 
 * :java:extdoc:`DomaTransactionStepListener<nablarch.integration.doma.batch.ee.listener.DomaTransactionStepListener>`
 * :java:extdoc:`DomaTransactionItemWriteListener<nablarch.integration.doma.batch.ee.listener.DomaTransactionItemWriteListener>`
 
 これらのリスナーをリスナーリストに定義することで、
-JSR352に準拠したバッチアプリケーションでもDomaを使用したデータベースアクセスを行うことができる。
+Jakarta Batchに準拠したバッチアプリケーションでもDomaを使用したデータベースアクセスを行うことができる。
 
 設定例を以下に示す。
 
@@ -153,9 +153,9 @@ JSR352に準拠したバッチアプリケーションでもDomaを使用した�
       int[] batchInsert(List<Bonus> bonuses);
 
 
-JSR352に準拠したバッチアプリケーションで遅延ロードを行う
----------------------------------------------------------
-JSR352に準拠したバッチアプリケーションで大量データの読み込みを行う際に、遅延ロードを使用したい場合がある。
+Jakarta Batchに準拠したバッチアプリケーションで遅延ロードを行う
+----------------------------------------------------------------
+Jakarta Batchに準拠したバッチアプリケーションで大量データの読み込みを行う際に、遅延ロードを使用したい場合がある。
 
 その場合は、Daoアノテーションのconfig属性に
 :java:extdoc:`DomaTransactionNotSupportedConfig<nablarch.integration.doma.DomaTransactionNotSupportedConfig>` を指定する。
@@ -219,44 +219,6 @@ ItemReaderクラス
             stream.close();
         }
     }
-
-ETLで使用する
---------------------------------------------------
-ETL使用時に、プロジェクトで追加したステップの中でDomaを使用したい場合がある。
-その場合は、ジョブ名およびステップ名を指定したリスナーリストを定義して対応する。
-
-設定例を以下に示す。
-
-ジョブ定義ファイル
-  .. code-block:: xml
-
-    <job id="sampleJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
-      <step id="sampleStep">
-        <listeners>
-          <listener ref="nablarchStepListenerExecutor" />
-          <listener ref="nablarchItemWriteListenerExecutor" />
-        </listeners>
-        <chunk>
-          <reader ref="sampleItemReader" />
-          <writer ref="sampleItemWriter" />
-        </chunk>
-      </step>
-    </job>
-
-コンポーネント設定ファイル
-  .. code-block:: xml
-
-    <list name="sampleJob.sampleStep.stepListeners">
-      <!-- その他のリスナーは省略 -->
-      <component
-          class="nablarch.integration.doma.batch.ee.listener.DomaTransactionStepListener" />
-    </list>
-
-    <list name="sampleJob.sampleStep.itemWriteListeners">
-      <!-- その他のリスナーは省略 -->
-      <component
-          class="nablarch.integration.doma.batch.ee.listener.DomaTransactionItemWriteListener" />
-    </list>
 
 複数のデータベースにアクセスする
 --------------------------------------------------
@@ -326,7 +288,7 @@ DomaとNablarchのデータベースアクセスを併用する
   
   * コンポーネント設定ファイルに :java:extdoc:`ConnectionFactoryFromDomaConnection <nablarch.integration.doma.ConnectionFactoryFromDomaConnection>` を定義する。
     コンポーネント名は、 ``connectionFactoryFromDoma`` とする。
-  * JSR352用のDomaのトランザクションを制御するリスナーに、ConnectionFactoryFromDomaConnectionを設定する。
+  * Jakarta Batch用のDomaのトランザクションを制御するリスナーに、ConnectionFactoryFromDomaConnectionを設定する。
 
   .. code-block:: xml
 
@@ -339,7 +301,7 @@ DomaとNablarchのデータベースアクセスを併用する
     </component>
     
     <!-- 
-    JSR352に準拠したバッチアプリケーションで使用する場合は、Domaのトランザクションを制御するリスナーに
+    Jakarta Batchに準拠したバッチアプリケーションで使用する場合は、Domaのトランザクションを制御するリスナーに
     上記で定義したconnectionFactoryFromDomaを設定する。
      -->
     <component class="nablarch.integration.doma.batch.ee.listener.DomaTransactionItemWriteListener">

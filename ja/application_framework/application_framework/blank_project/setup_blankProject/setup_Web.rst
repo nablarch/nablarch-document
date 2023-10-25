@@ -170,16 +170,23 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 
 .. code-block:: text
 
-  mvn waitt:run
+  mvn jetty:run
 
 .. tip::
 
-  上記のコマンド例で使用しているMavenの「waitt:run」は、 waitt maven pluginのrunゴールを使用するという指定である。
+  上記のコマンド例で使用しているMavenの「jetty:run」は、 Jetty Maven Pluginのrunゴールを使用するという指定である。
   
-  waitt maven pluginについては `waitt maven plugin(外部サイト、英語) <https://github.com/kawasima/waitt>`_  を参照。
+  Jetty Maven Pluginについては `Jetty Maven Plugin(外部サイト、英語) <https://www.eclipse.org/jetty/documentation/jetty-12/programming-guide/index.html#jetty-maven-plugin>`_  を参照。
 
+起動に成功するとコンソールに以下のようなログが出力される。
 
-起動に成功するとブラウザが自動的に立ち上がり、疎通確認画面が表示される。表示されたページの内容を読み、成功していることを確認する。
+.. code-block:: text
+
+  (中略)
+  2023-03-30 10:04:42.148 -INFO- nablarch.fw.web.servlet.NablarchServletContextListener [null] boot_proc = [] proc_sys = [web] req_id = [null] usr_id = [null] [nablarch.fw.web.servlet.NablarchServletContextListener#contextInitialized] initialization completed.
+
+起動に成功したらブラウザで ``http://localhost:9080/`` にアクセスし、疎通確認画面を開く。
+表示されたページの内容を読み、成功していることを確認する。
 
 また、ログを確認しエラーが出ていないことを確認する。
 
@@ -201,13 +208,6 @@ JNDI経由で接続を取得させる場合、web.xmlに<resource-ref>要素を�
 本番環境のみJNDI経由で接続を取得する場合、<resource-ref>要素の定義はローカルＰＣの開発環境向けの設定としては不要なものとなるが、
 アプリケーション内でその定義を使用するコードを書かない限り、<resource-ref>要素は使用されない。
 よって、ローカルＰＣの開発環境内でのアプリケーションの動作において問題は発生しない。
-
-.. tip::
-
-  waitt maven pluginが起動するTomcatには、独自のserver.xmlを読み込ませることができない。
-  そのため、waitt maven pluginを使用してアプリケーションを実行する場合、web.xmlに<resource-ref>要素を定義しても、
-  JNDIは使用できない。
-
 
 補足
 --------------------

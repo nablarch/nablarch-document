@@ -12,11 +12,11 @@
 
   feature_details/run_batch_application
 
-* :ref:`JSR352バッチアプリケーションの起動方法 <jsr352_run_batch_application>`
+* :ref:`Jakarta Batchアプリケーションの起動方法 <jsr352_run_batch_application>`
 
 システムリポジトリの初期化
 --------------------------------------------------
-* :ref:`JSR352バッチアプリケーションでシステムリポジトリの初期化 <jsr352_run_batch_init_repository>`
+* :ref:`Jakarta Batchアプリケーションでシステムリポジトリの初期化 <jsr352_run_batch_init_repository>`
 
 バッチジョブに適用するリスナーの定義方法
 --------------------------------------------------
@@ -62,7 +62,7 @@
 
 ジョブ定義のxmlの作成方法
 --------------------------------------------------
-* `JSR352 Specificationを参照(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=352>`_
+* `Jakarta Batch Specificationを参照(外部サイト、英語) <https://jakarta.ee/specifications/batch/>`_
 
 MOMメッセージ送信
 ----------------------------------------

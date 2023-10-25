@@ -178,7 +178,7 @@ ItemReader
   実装例
     .. code-block:: xml
     
-      <job id="batchlet-progress-test" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+      <job id="batchlet-progress-test" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
         <listeners>
           <listener ref="nablarchJobListenerExecutor" />
         </listeners>
@@ -204,10 +204,10 @@ ItemReader
   
 .. important::
   chunkステップでRetrying Exceptionsを設定した場合は、リスナーによる進捗ログの出力が正しく機能しなくなる。
-  これは、リスナーが処理済み件数として使用している :java:extdoc:`metrics <javax.batch.runtime.context.StepContext.getMetrics()>`
+  これは、リスナーが処理済み件数として使用している :java:extdoc:`metrics <jakarta.batch.runtime.context.StepContext.getMetrics()>`
   の読み込み済み件数が実態とずれることに起因する。
   
-  このため、Retrying Exceptionsを使用して例外発生時のリトライ処理を行いたい場合には、 :java:extdoc:`ItemWriter <javax.batch.api.chunk.ItemWriter>` の実装クラスにて処理済み件数を計算し、
+  このため、Retrying Exceptionsを使用して例外発生時のリトライ処理を行いたい場合には、 :java:extdoc:`ItemWriter <jakarta.batch.api.chunk.ItemWriter>` の実装クラスにて処理済み件数を計算し、
   :java:extdoc:`outputProgressInfo <nablarch.fw.batch.ee.progress.ProgressManager.outputProgressInfo(long)>` を使用して進捗ログを出力すること。
   
 

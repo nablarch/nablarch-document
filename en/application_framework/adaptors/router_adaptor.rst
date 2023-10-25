@@ -112,9 +112,9 @@ Example of mapping URL to business action
 
 .. _router_adaptor_path_annotation:
 
-Mapping in JAX-RS Path Annotation
---------------------------------------------------------
-Since version 1.2.0 of this adapter, it is possible to map routing using the ``javax.ws.rs.Path`` annotation (hereafter referred to as ``Path`` annotation) in JAX-RS.
+Mapping in Jakarta RESTful Web Services Path Annotation
+-------------------------------------------------------------
+Since version 1.2.0 of this adapter, it is possible to map routing using the ``jakarta.ws.rs.Path`` annotation (hereafter referred to as ``Path`` annotation) in Jakarta RESTful Web Services.
 
 This section describes how to enable routing with ``Path`` annotations for existing :ref:`RESTful Web Service <restful_web_service>` and details of the various configurations.
 
@@ -170,7 +170,7 @@ In addition, this :java:extdoc:`JaxRsPathOptionsProvider <nablarch.integration.r
 **applicationPath**
 
   | Specify a common prefix for the path to be mapped.
-  | This means the same value as in ``javax.ws.rs.ApplicationPath`` annotation in JAX-RS.
+  | This means the same value as in ``jakarta.ws.rs.ApplicationPath`` annotation in Jakarta RESTful Web Services.
 
 **basePackage**
 
@@ -215,7 +215,7 @@ The following is an example implementation that defines the mapping using the ``
     }
 
 | By annotating the action class with a ``Path`` annotation, we can associate the path set in the ``value`` of the ``Path`` annotation with the action class.
-| In addition, can map a HTTP method to methods in the action class by annotating methods in the action class with a corresponding annotation of HTTP method such as ``javax.ws.rs.GET`` .
+| In addition, can map a HTTP method to methods in the action class by annotating methods in the action class with a corresponding annotation of HTTP method such as ``jakarta.ws.rs.GET`` .
 
 In the above example implementation, the HTTP request will be dispatched as follows
 
@@ -230,13 +230,13 @@ Path         HTTP method    Method of dispatching target
 .. tip::
  The following annotations mapping the HTTP method are provided by default.
 
-  * ``javax.ws.rs.DELETE``
-  * ``javax.ws.rs.GET``
-  * ``javax.ws.rs.HEAD``
-  * ``javax.ws.rs.OPTIONS`` (JAX-RS 1.1 or higher)
-  * ``javax.ws.rs.PATCH`` (JAX-RS 2.1 or higher)
-  * ``javax.ws.rs.POST``
-  * ``javax.ws.rs.PUT``
+  * ``jakarta.ws.rs.DELETE``
+  * ``jakarta.ws.rs.GET``
+  * ``jakarta.ws.rs.HEAD``
+  * ``jakarta.ws.rs.OPTIONS``
+  * ``jakarta.ws.rs.PATCH``
+  * ``jakarta.ws.rs.POST``
+  * ``jakarta.ws.rs.PUT``
 
 In addition, you can also define a subpath mapping by annotating the method with a ``Path`` annotation as follows.
 
@@ -295,8 +295,8 @@ Can also include parameters in the path, as follows
         }
     }
 
-| The path parameter should be written in accordance with the JAX-RS specification, not in the http-request-router syntax.
-| This is because this feature (routing definition with ``Path`` annotations) follows the JAX-RS specification.
+| The path parameter should be written in accordance with the Jakarta RESTful Web Services specification, not in the http-request-router syntax.
+| This is because this feature (routing definition with ``Path`` annotations) follows the Jakarta RESTful Web Services specification.
 
 | By describing a part of the path as ``{parameter name}``, can define that part of the path as a parameter.
 | Can get the value of the path parameter by passing the parameter name defined here to :java:extdoc:`HttpRequest#getParam(String) <nablarch.fw.web.HttpRequest.getParam(java.lang.String)>` .

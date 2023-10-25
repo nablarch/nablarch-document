@@ -1,6 +1,6 @@
-====================================
-JSP静的解析ツール 設定変更ガイド
-====================================
+===================================================
+Jakarta Server Pages静的解析ツール 設定変更ガイド
+===================================================
 
 .. contents:: 目次
   :depth: 2
@@ -35,10 +35,10 @@ JSP静的解析ツール 設定変更ガイド
     - Antタスクの定義ファイル [1]_ 。通常編集することはない。
 
   * - tools/static-analysis/jspanalysis/config.txt
-    - JSP静的解析ツール設定ファイル。記述方法は、 :ref:`01_customJspAnalysis` を参照。
+    - Jakarta Server Pages静的解析ツール設定ファイル。記述方法は、 :ref:`01_customJspAnalysis` を参照。
 
   * - tools/static-analysis/jspanalysis/transform-to-html.xsl
-    - JSP静的解析結果XMLをHTMLに変換する際の定義ファイル。|br|
+    - 解析結果のXMLをHTMLに変換する際の定義ファイル。|br|
       記述方法は、 :ref:`01_outputJspAnalysis` の「JSP解析(XMLレポート出力)」を参照。
 
   * - nablarch-archetype-parentのpom.xml
@@ -53,7 +53,7 @@ JSP静的解析ツール 設定変更ガイド
 
 pom.xmlの書き換え
 -----------------------------------------------
-JSP静的解析ツール用のプロパティを実行環境にあわせて修正する際は、jspanalysis.excludePatternsの修正であればツールを実行するプロジェクトのpom.xmlを修正する。それ以外の項目の修正であればnablarch-archetype-parentのpom.xmlを修正する。
+Jakarta Server Pages静的解析ツール用のプロパティを実行環境にあわせて修正する際は、jspanalysis.excludePatternsの修正であればツールを実行するプロジェクトのpom.xmlを修正する。それ以外の項目の修正であればnablarch-archetype-parentのpom.xmlを修正する。
 
 ================================  ======================================================================================
 設定プロパティ                    説明
@@ -81,7 +81,7 @@ jspanalysis.htmloutput            チェック結果のHTMLレポートファイ
 
                                      ./build/reports/jsp/report.html
 
-jspanalysis.checkconfig           JSP静的解析ツール設定ファイルのファイルパスを設定する。
+jspanalysis.checkconfig           Jakarta Server Pages静的解析ツール設定ファイルのファイルパスを設定する。
 
                                   例::
 

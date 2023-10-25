@@ -8,6 +8,5 @@ Nablarch開発ツール
    :numbered:
 
    java_static_analysis/index
-   ui_dev/index
    testing_framework/index
    toolbox/index

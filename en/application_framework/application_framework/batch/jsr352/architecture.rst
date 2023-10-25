@@ -13,7 +13,7 @@ Configuration of batch application
 The implementation will mainly be selected from the following two, the use of `jBeret(external site) <https://jberet.gitbooks.io/jberet-user-guide/content/>`_ is recommended due to the extensive documentation and ease with which libraries can be obtained from Maven Central.
 
 * `jBeret(external site) <https://jberet.gitbooks.io/jberet-user-guide/content/>`_
-* `jBatchof reference implementation(external site) <https://github.com/WASdev/standards.jsr352.jbatch>`_
+* `jBatchof compatible implementation(external site) <https://github.com/WASdev/standards.jsr352.jbatch>`_
 
 The configuration is shown below.
 
@@ -71,11 +71,11 @@ The process flow of Batchlet type batch application is shown below.
 .. image:: images/batchlet-flow.png
   :scale: 75
 
-1. Batch Runtime of JSR352 calls :java:extdoc:`NablarchStepListenerExecutor <nablarch.fw.batch.ee.listener.step.NablarchStepListenerExecutor>` as the callback process before execution of batchlet step.
+1. Batch Runtime of Jakarta Batch calls :java:extdoc:`NablarchStepListenerExecutor <nablarch.fw.batch.ee.listener.step.NablarchStepListenerExecutor>` as the callback process before execution of batchlet step.
 2. Sequentially executes the listener before executing the batchlet step.
-3. `Batchlet` is executed from the Batch Runtime of JSR352.
+3. `Batchlet` is executed from the Batch Runtime of Jakarta Batch.
 4. `Batchlet` executes business logic is executed. (For the responsibility assignment of Batchlet, refer to the :ref:`Batchlet responsibility assignment <jsr352-batchlet_design>`).
-5. Batch Runtime of JSR352 calls :java:extdoc:`NablarchStepListenerExecutor <nablarch.fw.batch.ee.listener.step.NablarchStepListenerExecutor>` as the callback process after execution of batchlet step.
+5. Batch Runtime of Jakarta Batch calls :java:extdoc:`NablarchStepListenerExecutor <nablarch.fw.batch.ee.listener.step.NablarchStepListenerExecutor>` as the callback process after execution of batchlet step.
 6. Sequentially executes the listener after executing the batchlet step. (Executes in the reverse order of No 2)
 
 .. _jsr352-batch_flow_chunk:
@@ -87,30 +87,30 @@ The process flow of Chunk type batch application is shown below.
 .. image:: images/chunk-flow.png
   :scale: 75
 
-1. Batch Runtime in JSR352 calls :java:extdoc:`NablarchStepListenerExecutor <nablarch.fw.batch.ee.listener.step.NablarchStepListenerExecutor>` as the callback process before execution of chunk step.
+1. Batch Runtime in Jakarta Batch calls :java:extdoc:`NablarchStepListenerExecutor <nablarch.fw.batch.ee.listener.step.NablarchStepListenerExecutor>` as the callback process before execution of chunk step.
 
 2. Sequentially executes the listener before executing the chunk step.
 
-3. `ItemReader` of chunk step is executed from the Batch Runtime of JSR352.|br|
+3. `ItemReader` of chunk step is executed from the Batch Runtime of Jakarta Batch.|br|
    `ItemReader` reads data from the input data source.
 
-4. `ItemProcessor` of chunk step is executed from the Batch Runtime of JSR352.|br|
+4. `ItemProcessor` of chunk step is executed from the Batch Runtime of Jakarta Batch.|br|
 
 5. `ItemProcessor` executes the business logic using `Form` and `Entity`.|br|
    * Writing and updating of data to the database are not performed in this step.
 
-6. Batch Runtime of JSR352 calls :java:extdoc:`NablarchItemWriteListenerExecutor <nablarch.fw.batch.ee.listener.chunk.NablarchItemWriteListenerExecutor>` as the callback process before execution of the `ItemWriter`.
+6. Batch Runtime of Jakarta Batch calls :java:extdoc:`NablarchItemWriteListenerExecutor <nablarch.fw.batch.ee.listener.chunk.NablarchItemWriteListenerExecutor>` as the callback process before execution of the `ItemWriter`.
 
 7. Sequentially executes the listener before executing the `ItemWriter`.
 
-8. `ItemWriter` of chunk step is executed from the Batch Runtime of JSR352.|br|
+8. `ItemWriter` of chunk step is executed from the Batch Runtime of Jakarta Batch.|br|
    `ItemWriter` performs results reflection processing, such as registering (updating, deleting) to a table and file output processing.
 
-9. Batch Runtime of JSR352 calls :java:extdoc:`NablarchItemWriteListenerExecutor <nablarch.fw.batch.ee.listener.chunk.NablarchItemWriteListenerExecutor>` as the callback process after execution of `ItemWriter`.
+9. Batch Runtime of Jakarta Batch calls :java:extdoc:`NablarchItemWriteListenerExecutor <nablarch.fw.batch.ee.listener.chunk.NablarchItemWriteListenerExecutor>` as the callback process after execution of `ItemWriter`.
 
 10. Sequentially executes the listener after executing the `ItemWriter`. (Execute in the reverse order of No 7).
 
-11. Batch Runtime of JSR352 calls :java:extdoc:`NablarchStepListenerExecutor <nablarch.fw.batch.ee.listener.step.NablarchStepListenerExecutor>` as the callback process after execution of chunk step.
+11. Batch Runtime of Jakarta Batch calls :java:extdoc:`NablarchStepListenerExecutor <nablarch.fw.batch.ee.listener.step.NablarchStepListenerExecutor>` as the callback process after execution of chunk step.
 
 12. Sequentially executes the listener after executing the Chunk step. (Executes in the reverse order of No 2)
 
@@ -122,19 +122,19 @@ For the responsibility assignment of chunk step, see :ref:`responsibility assign
 
 Process flow when an exception (including error) occurs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-If an exception occurs during batch execution, Nablarch does not catch the exception and exception handling is performed on the implementation side of JSR352.
-Note that this is a specific behavior for JSR352-compliant batch application and is different from other platforms (:ref:`Web application <web_application>` and :ref:`nablarch_batch`, etc.).
+If an exception occurs during batch execution, Nablarch does not catch the exception and exception handling is performed on the implementation side of Jakarta Batch.
+Note that this is a specific behavior for Jakarta Batch-compliant batch application and is different from other platforms (:ref:`Web application <web_application>` and :ref:`nablarch_batch`, etc.).
 
 .. tip:: 
 
-  The reason why JSR352-compliant batch application adopted such an architecture is as follows.
+  The reason why Jakarta Batch-compliant batch application adopted such an architecture is as follows.
 
-  JSR352-compliant batch applications provide only components for using Nablarch in JSR352, and execution control is carried out by JSR352 implementation.
-  For this reason, it is not possible to catch and handle all exceptions with Nablarch, and this policy is adopted to avoid complex designs that will be required if exception control is distributed between Nablarch and JSR352.
+  Jakarta Batch-compliant batch applications provide only components for using Nablarch in Jakarta Batch, and execution control is carried out by Jakarta Batch implementation.
+  For this reason, it is not possible to catch and handle all exceptions with Nablarch, and this policy is adopted to avoid complex designs that will be required if exception control is distributed between Nablarch and Jakarta Batch.
   
 Batch status when an exception occurs
 ```````````````````````````````````````````````
-As described above, all controls when an exception occurs are performed by the implementation of JSR352.
+As described above, all controls when an exception occurs are performed by the implementation of Jakarta Batch.
 Refer to the specification of  |jsr352| for the batch status (batch status and exit status) when an exception occurs.
 Retry and continuation status according to the exception type are operations in accordance with the job definition. For details of the job definition, refer to the specification of |jsr352|.
 
@@ -142,11 +142,11 @@ For the return code that is returned by the Java process after the exception, se
 
 Log output
 ``````````````````````````````````````````````````
-The information of the exception caught by JSR352 implementation is output as a log by JSR352 implementation.
-Configure (configuration such as format and output destination) the log by referring to the logging framework manual used by JSR352 implementation.
+The information of the exception caught by Jakarta Batch implementation is output as a log by Jakarta Batch implementation.
+Configure (configuration such as format and output destination) the log by referring to the logging framework manual used by Jakarta Batch implementation.
 
-Error logs, etc. explicitly output by the application can be output to the same log file as that of JSR352
-by unifying JSR352 implementation and logging framework using :ref:`log_adaptor`.
+Error logs, etc. explicitly output by the application can be output to the same log file as that of Jakarta Batch
+by unifying Jakarta Batch implementation and logging framework using :ref:`log_adaptor`.
 
 .. _jsr352-listener:
 
@@ -261,7 +261,7 @@ The steps required to define a listener list are as follows:
 Configure in the job definition file
   .. code-block:: xml
 
-    <job id="chunk-integration-test" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <job id="chunk-integration-test" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
       <listeners>
         <!-- Job-level listener -->
         <listener ref="nablarchJobListenerExecutor" />
@@ -340,7 +340,7 @@ Points
     
 .. |jsr352| raw:: html
 
-  <a href="https://jcp.org/en/jsr/detail?id=352" target="_blank">JSR352(external site)</a>
+  <a href="https://jakarta.ee/specifications/batch/" target="_blank">Jakarta Batch(external site)</a>
 
 .. |br| raw:: html
 

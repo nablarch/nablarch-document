@@ -121,7 +121,7 @@ Implementation of a business action method
       }
 
   Key points of this implementation
-   * Specifies ``MediaType.APPLICATION_JSON``  in  :java:extdoc:`Produces<javax.ws.rs.Produces>` annotation to return the search results in JSON format to the client.
+   * Specifies ``MediaType.APPLICATION_JSON``  in  :java:extdoc:`Produces<jakarta.ws.rs.Produces>` annotation to return the search results in JSON format to the client.
    * Acquires the query parameter from :java:extdoc:`HttpRequest<nablarch.fw.web.HttpRequest>` .
    * Creates a form from the request parameters using :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` .
    * Validates form using :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object)>`.
@@ -132,7 +132,7 @@ Implementation of a business action method
 
 Define the mapping to the URL
   Use :ref:`router_adaptor` to map business actions and URLs.
-  Use :ref:`Path annotation for JAX-RS <router_adaptor_path_annotation>` for mapping.
+  Use :ref:`Path annotation for Jakarta RESTful Web Services <router_adaptor_path_annotation>` for mapping.
 
   ProjectAction.java
     .. code-block:: java

@@ -1,10 +1,19 @@
 .. _jaxrs_bean_validation_handler:
 
-JAX-RS BeanValidationハンドラ
-==================================================
+Jakarta RESTful Web Servcies Bean Validationハンドラ
+======================================================
 .. contents:: 目次
   :depth: 3
   :local:
+
+.. tip::
+  本機能は、Nablarch5までは「JAX-RS BeanValidationハンドラ」という名称だった。
+  しかし、Java EEがEclipse Foundationに移管され仕様名が変わったことに伴い「Jakarta RESTful Web Servcies Bean Validationハンドラ」という名称に変更された。
+
+  変更されたのは名称のみで、機能的な差は無い。
+
+  その他、Nablarch6で名称が変更された機能については :ref:`renamed_features_in_nablarch_6` を参照のこと。
+
 
 本ハンドラは、リソース(アクション)クラスが受け取るForm(Bean)に対して、:ref:`bean_validation` を実行する。
 バリデーションでバリデーションエラーが発生した場合には、後続のハンドラに処理は委譲せずに、
@@ -49,7 +58,7 @@ JAX-RS BeanValidationハンドラ
 リソース(アクション)で受け取るForm(Bean)に対してバリデーションを実行する
 ----------------------------------------------------------------------------------------------------
 リソース(アクション)のメソッドで受け取るForm(Bean)に対して、バリデーションを実行したい場合は、
-そのメソッドに対して :java:extdoc:`Valid <javax.validation.Valid>` アノテーションを設定する。
+そのメソッドに対して :java:extdoc:`Valid <jakarta.validation.Valid>` アノテーションを設定する。
 
 以下に例を示す。
 
@@ -68,16 +77,16 @@ JAX-RS BeanValidationハンドラ
 
 Bean Validationのグループを指定する
 -------------------------------------------------
-:java:extdoc:`Valid <javax.validation.Valid>` アノテーションを設定したメソッドに対して
-:java:extdoc:`ConvertGroup <javax.validation.groups.ConvertGroup>` アノテーションを設定することで、Bean Validationのグループを指定することができる。
+:java:extdoc:`Valid <jakarta.validation.Valid>` アノテーションを設定したメソッドに対して
+:java:extdoc:`ConvertGroup <jakarta.validation.groups.ConvertGroup>` アノテーションを設定することで、Bean Validationのグループを指定することができる。
 
-:java:extdoc:`ConvertGroup <javax.validation.groups.ConvertGroup>` アノテーションは ``from`` 属性と ``to`` 属性の指定が必須である。
+:java:extdoc:`ConvertGroup <jakarta.validation.groups.ConvertGroup>` アノテーションは ``from`` 属性と ``to`` 属性の指定が必須である。
 それぞれ以下のように指定すること。
 
-* ``from`` ・・・ :java:extdoc:`Default.class <javax.validation.groups.Default>` 固定
+* ``from`` ・・・ :java:extdoc:`Default.class <jakarta.validation.groups.Default>` 固定
 
-  * メソッドに :java:extdoc:`Valid <javax.validation.Valid>` アノテーションを設定する場合、
-    バリデーションは :java:extdoc:`Default <javax.validation.groups.Default>` グループを設定したものとして実行されるため。
+  * メソッドに :java:extdoc:`Valid <jakarta.validation.Valid>` アノテーションを設定する場合、
+    バリデーションは :java:extdoc:`Default <jakarta.validation.groups.Default>` グループを設定したものとして実行されるため。
 
 * ``to`` ・・・Bean Validationのグループを指定する
 

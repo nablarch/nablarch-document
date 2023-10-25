@@ -1,7 +1,7 @@
 .. _`restful_web_service_functional_comparison`:
 
-Function Comparison of JAX-RS Support /JSR339/HTTP Messaging
-=============================================================
+Function Comparison of Jakarta RESTful Web Services Support /Jakarta RESTful Web Services/HTTP Messaging
+============================================================================================================
 
 .. contents:: Table of Contents
   :depth: 3
@@ -9,13 +9,13 @@ Function Comparison of JAX-RS Support /JSR339/HTTP Messaging
 
 This section shows the comparison of the following functions:
 
- - :ref:`Nablarch JAX-RS support <restful_web_service>`
+ - :ref:`Nablarch Jakarta RESTful Web Services support <restful_web_service>`
  - :ref:`HTTP messaging <http_messaging>`
- - `JSR 339: JAX-RS 2.0: The Java API for RESTful Web Services(external site) <https://jcp.org/en/jsr/detail?id=339>`_
+ - `Jakarta RESTful Web Services(external site) <https://jakarta.ee/specifications/restful-ws/>`_
 
 .. tip::
 
- Only for Nablarch's JAX-RS support and HTTP messaging only, click the mark in the table to jump to the description page of the manual.
+ Only for Nablarch's Jakarta RESTful Web Services support and HTTP messaging only, click the mark in the table to jump to the description page of the manual.
 
 .. |br| raw:: html
 
@@ -26,9 +26,9 @@ This section shows the comparison of the following functions:
    :class: something-special-class
 
    * - Function
-     - JAX-RS |br| support
+     - Jakarta RESTful |br| Web Services |br| support
      - HTTP |br| messaging
-     - JSR 339
+     - Jakarta RESTful |br| Web Services
    * - Request and resource method mapping
      - :ref:`B <rest-action_mapping>`
      - :ref:`A <http_messaging-action_mapping>`
@@ -49,7 +49,7 @@ This section shows the comparison of the following functions:
      - :ref:`A <rest-request_validation>`
      - :ref:`A <http_messaging-request_validation>`
      - A
-   * - Injection to resource class (CDI)
+   * - Injection to resource class |br| (Jakarta Contexts and Dependency Injection)
      - C [2]_
      - C [2]_
      - A
@@ -98,12 +98,12 @@ This section shows the comparison of the following functions:
      - :java:extdoc:`A <nablarch.fw.messaging.action.MessagingAction>`
      - D
 
-.. [1] HTTP messaging is not designed in consideration of REST. Use JAX-RS support for RESTful web services.
-.. [2] CDI is not available because JAX-RS support and HTTP messaging run as Nablarch web applications.
+.. [1] HTTP messaging is not designed in consideration of REST. Use Jakarta RESTful Web Services support for RESTful web services.
+.. [2] Jakarta Contexts and Dependency Injection is not available because Jakarta RESTful Web Services support and HTTP messaging run as Nablarch web applications.
 .. [3] Create a handler for creating a request/response filter.
-.. [4] Create a BodyConverter with JAX-RS support for creating an interceptor to read and write the body.
+.. [4] Create a BodyConverter with Jakarta RESTful Web Services support for creating an interceptor to read and write the body.
 .. [5] Use data format of Nablarch to read and write the body. Create a DataRecordFormatter to change the data format.
-.. [6] If JAX-RS client is needed, use a JAX-RS implementation (such as Jersey or RESTEasy).
+.. [6] If Jakarta RESTful Web Services client is needed, use a Jakarta RESTful Web Services implementation (such as Jersey or RESTEasy).
 .. [7] It is assumed that asynchronous operation in the server is not required. Support will be considered if there is a request.
 .. [8] Use the function to check the request size on the web server or application server.
 .. [9] Each application is assumed to have different requirements. Design/implement in the application.

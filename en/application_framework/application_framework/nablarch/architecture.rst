@@ -71,7 +71,7 @@ An interceptor is a handler that is dynamically added to the handler queue durin
 For example, if a process (handler) is added only for a specific request, or to execute a process (handler) by switching the configuration value for each request, an interceptor would be more suitable than a handler.
 
 .. tip::
-  Interceptors perform the same process as the interceptors defined in CDI (JSR-346) of Java EE.
+  Interceptors perform the same process as the interceptors defined in Jakarta Contexts and Dependency Injection of Jakarta EE.
 
 .. important::
   The execution order of interceptors must be configured in the configuration file. 

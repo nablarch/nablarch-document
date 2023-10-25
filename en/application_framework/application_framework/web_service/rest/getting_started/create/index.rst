@@ -89,15 +89,15 @@ Implementation of a business action method
       }
 
    Key points of this implementation
-    * To accept the request in JSON format, specify :java:extdoc:`Consumes<javax.ws.rs.Consumes>` in the ``MediaType.APPLICATION_JSON`` annotation.
-    * Validates the request using the :java:extdoc:`Valid <javax.validation.Valid>` . 
+    * To accept the request in JSON format, specify :java:extdoc:`Consumes<jakarta.ws.rs.Consumes>` in the ``MediaType.APPLICATION_JSON`` annotation.
+    * Validates the request using the :java:extdoc:`Valid <jakarta.validation.Valid>` . 
       For details, see :ref:`jaxrs_bean_validation_handler` .
     * Convert the form to an entity with :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` and register the project information in the database using :ref:`universal_dao`. 
     * :java:extdoc:`HttpResponse<nablarch.fw.web.HttpResponse>` is returned as the return value, indicating that the creation of the resource is complete (status code: ``201``).
 
 Define the mapping to the URL
   Use :ref:`router_adaptor` to map business actions and URLs.
-  Use :ref:`Path annotation for JAX-RS <router_adaptor_path_annotation>` for mapping.
+  Use :ref:`Path annotation for Jakarta RESTful Web Services <router_adaptor_path_annotation>` for mapping.
 
   ProjectAction.java
     .. code-block:: java

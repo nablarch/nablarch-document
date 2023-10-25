@@ -16,7 +16,7 @@
 
 以下に例を示す。
 
-この例では、 :java:extdoc:`NoDataException <nablarch.common.dao.NoDataException>` と :java:extdoc:`javax.persistence.OptimisticLockException` が発生した場合に、専用のエラー画面へ遷移させている。
+この例では、 :java:extdoc:`NoDataException <nablarch.common.dao.NoDataException>` と :java:extdoc:`jakarta.persistence.OptimisticLockException` が発生した場合に、専用のエラー画面へ遷移させている。
 
 .. code-block:: java
 

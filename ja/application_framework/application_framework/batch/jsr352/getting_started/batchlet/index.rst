@@ -72,9 +72,9 @@ Batchletの作成
    ==================================================================   =============================================================================================
    インタフェース                                                       実装
    ==================================================================   =============================================================================================
-   :java:extdoc:`Batchlet<javax.batch.api.Batchlet>`                    バッチ処理を実装する。
+   :java:extdoc:`Batchlet<jakarta.batch.api.Batchlet>`                    バッチ処理を実装する。
 
-                                                                        デフォルト実装を提供する :java:extdoc:`AbstractBatchlet<javax.batch.api.AbstractBatchlet>` を継承する。
+                                                                        デフォルト実装を提供する :java:extdoc:`AbstractBatchlet<jakarta.batch.api.AbstractBatchlet>` を継承する。
 
                                                                           * `Batchlet#process`
                                                                           * `Batchlet#stop`
@@ -109,11 +109,11 @@ Batchletの作成
       }
 
     この実装のポイント
-      * :java:extdoc:`AbstractBatchlet<javax.batch.api.AbstractBatchlet>` を継承し、 `process` メソッドで業務処理を行う。
+      * :java:extdoc:`AbstractBatchlet<jakarta.batch.api.AbstractBatchlet>` を継承し、 `process` メソッドで業務処理を行う。
 
       .. _getting_started_batchlet-cdi:
 
-      * :java:extdoc:`Named<javax.inject.Named>` と :java:extdoc:`Dependent<javax.enterprise.context.Dependent>` をクラスに付与する。 |br|
+      * :java:extdoc:`Named<jakarta.inject.Named>` と :java:extdoc:`Dependent<jakarta.enterprise.context.Dependent>` をクラスに付与する。 |br|
         Named及びDependentアノテーションを設定することで、Batchlet実装クラスをCDIの管理Beanにできる。
         これにより、ジョブ定義に指定するBatchletクラス名をCDIの管理名で記述出来るようになる。 |br|
         (CDI管理Beanとしなかった場合は、完全修飾名(FQCN)で記述する)
@@ -128,7 +128,7 @@ Batchletの作成
   zip-code-truncate-table.xml
     .. code-block:: xml
 
-     <job id="zip-code-truncate-table" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+     <job id="zip-code-truncate-table" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
        <listeners>
          <listener ref="nablarchJobListenerExecutor" />
        </listeners>
@@ -161,11 +161,11 @@ Batchletの作成
     * 複数ステップで構成されるバッチジョブの場合は、 `step` 要素を複数定義し、処理を順次実行する。
     * `batchlet` 要素の `ref` 属性には、Batchletクラス名の頭文字を小文字にした名称を指定する。
     * `property` 要素で、Batchletクラスのプロパティにインジェクトする値を指定する。
-    * 設定ファイルの詳細な記述方法は `JSR352 Specification(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=352>`_ を参照
+    * 設定ファイルの詳細な記述方法は |jsr352| を参照
 
 .. |jsr352| raw:: html
 
-  <a href="https://jcp.org/en/jsr/detail?id=352" target="_blank">JSR352(外部サイト、英語)</a>
+  <a href="https://jakarta.ee/specifications/batch/" target="_blank">Jakarta Batch(外部サイト、英語)</a>
 
 .. |br| raw:: html
 

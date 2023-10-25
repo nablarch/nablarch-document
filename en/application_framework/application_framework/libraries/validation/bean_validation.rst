@@ -6,15 +6,15 @@ Bean Validation
   :depth: 3
   :local:
 
-This chapter describes the validation function compliant with Bean Validation (JSR349) of Java EE7.
+This chapter describes the validation function compliant with Jakarta Bean Validation of Jakarta EE.
 
 .. important::
 
-  The Bean Validation engine is not implemented by this function.
+  The Jakarta Bean Validation engine is not implemented by this function.
 
-  Java EE environments (such as WebLogic and WildFly) use the Bean Validation implementation that is bundled in the server.
-  For use outside Java EE environments, the Bean Validation implementation must be added to the reference library separately.
-  (It is recommended that the reference implementation `Hibernate Validator(external site) <http://hibernate.org/validator/>`_ be used.)
+  Jakarta EE environments (such as WebLogic and WildFly) use the Jakarta Bean Validation implementation that is bundled in the server.
+  For use outside Jakarta EE environments, the Jakarta Bean Validation implementation must be added to the reference library separately.
+  (It is recommended that the compatible implementation `Hibernate Validator(external site) <http://hibernate.org/validator/>`_ be used.)
 
 Function overview
 ---------------------
@@ -79,7 +79,7 @@ Configure settings to use Bean Validation
 The configuration required to use Bean Validation are shown below.
 
 MessageInterpolator configuration
-  Configure the class that constructs the message when validation errors occur in Bean Validation (a class that implements :java:extdoc:`MessageInterpolator <javax.validation.MessageInterpolator>`).
+  Configure the class that constructs the message when validation errors occur in Jakarta Bean Validation (a class that implements :java:extdoc:`MessageInterpolator <jakarta.validation.MessageInterpolator>`).
 
   If this is not configured, then :java:extdoc:`NablarchMessageInterpolator <nablarch.core.validation.ee.NablarchMessageInterpolator>` which uses :ref:`message` is used.
 
@@ -152,7 +152,7 @@ Message definition example
 
 .. tip::
   When the default behavior is changed in :ref:`bean_validation-configuration`,
-  the message is defined according to the :java:extdoc:`MessageInterpolator <javax.validation.MessageInterpolator>` implementation.
+  the message is defined according to the :java:extdoc:`MessageInterpolator <jakarta.validation.MessageInterpolator>` implementation.
 
 
 How to configure validation rules
@@ -399,7 +399,7 @@ Allowing Surrogate Pairs
 
 Performing Correlation Validation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-To perform correlation validation using multiple items, use the :java:extdoc:`@AssertTrue <javax.validation.constraints.AssertTrue>` annotation of Bean Validation.
+To perform correlation validation using multiple items, use the :java:extdoc:`@AssertTrue <jakarta.validation.constraints.AssertTrue>` annotation of Jakarta Bean Validation.
 
 Implementation examples
   In this example, it has been verified that the email address and the confirmation email address match.
@@ -420,7 +420,7 @@ Implementation examples
 
 .. important::
 
-  Since the execution order of the validation is not guaranteed in Bean Validation,
+  Since the execution order of the validation is not guaranteed in Jakarta Bean Validation,
   correlation validation may be called even before the validation of individual items.
 
   Therefore, it is necessary to implement validation logic so that unexpected exceptions do not occur,
@@ -478,7 +478,7 @@ There are cases where the same information is input multiple times, such as in b
 In such cases, a nested Bean is defined for the Bean for validation.
 
 .. tip::
-  Since this is the specifications for Bean Validation, see Bean Validation specifications for details.
+  Since this is the specifications for Jakarta Bean Validation, see Jakarta Bean Validation specifications for details.
 
 An example is shown below.
 
@@ -567,7 +567,7 @@ As shown in the example below, Define a component definition of :java:extdoc:`Be
 
   BeanValidationStrategy sorts the error messages for validation errors in the following order.
 
-  * Order of item names returned by javax.servlet.ServletRequest#getParameterNames
+  * Order of item names returned by jakarta.servlet.ServletRequest#getParameterNames
     (If the item in which the error occurred does not exist in the request parameter, it is moved to the end)
 
   Note that the value returned by ``getParameterNames`` is implementation-dependent, and the alignment order may change depending on the application server used.
@@ -578,7 +578,7 @@ As shown in the example below, Define a component definition of :java:extdoc:`Be
 
 Checking User Input Values for RESTful Web Services
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Checking user input values for RESTful web services is done by setting the :java:extdoc:`Valid <javax.validation.Valid>` annotation on the method of the resource class that receives input values.
+Checking user input values for RESTful web services is done by setting the :java:extdoc:`Valid <jakarta.validation.Valid>` annotation on the method of the resource class that receives input values.
 For details, see :ref:`jaxrs_bean_validation_handler_perform_validation` .
 
 
@@ -640,9 +640,9 @@ By enabling this function, the JSP mentioned above can be described as follows.
 
 Embed the item name in the message when a validation error occurs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Although the item name cannot be embedded in the message as per the Bean Validation (JSR349) specifications,
+Although the item name cannot be embedded in the message as per the Jakarta Bean Validation specifications,
 you may want to embed the item name in the message according to the requirements etc.
-Therefore, Nablarch provides a function that embeds the item name of the item in which an error has occurred, even if Bean Validation is used.
+Therefore, Nablarch provides a function that embeds the item name of the item in which an error has occurred, even if Jakarta Bean Validation is used.
 
 The usage method is shown below.
 
@@ -706,7 +706,7 @@ Generated Message
 
 Use groups of Bean Validation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The Bean Validation (JSR349) specification allows you to limit the rules used for validation to a specific group by specifying a group at the time of validation execution.
+Jakarta Bean Validation specification allows you to limit the rules used for validation to a specific group by specifying a group at the time of validation execution.
 Nablarch also provides APIs that allow group specification in Bean Validation.
 
 The usage method is shown below.
@@ -762,5 +762,5 @@ annotations and validation logic are added on the project side.
 For details on the implementation method, see the following links and Nablarch implementation.
 
 * `Hibernate Validator(external site) <http://hibernate.org/validator/>`_
-* `JSR349(external site) <https://jcp.org/en/jsr/detail?id=349>`_
+* `Jakarta Bean Validation(external site) <https://jakarta.ee/specifications/bean-validation/>`_
 

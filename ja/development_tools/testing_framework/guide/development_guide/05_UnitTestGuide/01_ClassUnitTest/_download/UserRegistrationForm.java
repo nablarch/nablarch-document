@@ -6,8 +6,8 @@ import nablarch.core.validation.ee.Length;
 import nablarch.core.validation.ee.Required;
 import nablarch.core.validation.ee.SystemChar;
 
-import javax.validation.constraints.AssertTrue;
-import javax.validation.groups.Default;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.groups.Default;
 
 /**
  * ユーザー登録情報のフォーム。

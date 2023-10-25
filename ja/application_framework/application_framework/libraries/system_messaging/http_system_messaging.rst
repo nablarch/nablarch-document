@@ -22,7 +22,7 @@ HTTPメッセージングでは、 :ref:`http_system_messaging-data_model` に�
  このため、本機能ではなく以下の機能を使用することを推奨する。
 
  * サーバサイド(メッセージ受信)については、 :ref:`RESTfulウェブサービス <restful_web_service>` の使用を推奨する。
- * クライアントサイド(メッセージ送信)については、JSR339(JAX-RS2.0)にて提供されるClient機能の使用を推奨する。
+ * クライアントサイド(メッセージ送信)については、Jakarta RESTful Web Servicesにて提供されるClient機能の使用を推奨する。
 
  なお、本機能をやむを得ない事情にて使用しなければならない場合は、 :ref:`http_system_messaging-change_fw_header` を参照し、プロジェクトで実装を追加して対応すること。
 

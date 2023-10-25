@@ -19,7 +19,7 @@ The process flow of HTTP messaging, from processing a request to returning a res
 .. image:: images/http_messaging_flow.png
   :scale: 75
 
-1. :ref:`WebFrontController <web_front_controller>` (implementation class of `javax.servlet.Filter`) receives a request.
+1. :ref:`WebFrontController <web_front_controller>` (implementation class of `jakarta.servlet.Filter`) receives a request.
 2. :ref:`WebFrontController <web_front_controller>` delegates the process for the request to a handler queue (handler queue).
 3. `DispatchHandler` configured in the handler queue specifies the action class to be processed based on the URI and adds it to the end of the handler queue.
 4. The action class executes business logic using a form class and an entity class. |br|

@@ -2,7 +2,7 @@
 
 Getting Started
 ==========================================
-By reading this chapter, you can get the basic knowledge of the development of a batch application that conforms to Nablarch based on `JSR352 (external site) <https://jcp.org/en/jsr/detail?id=352>`_.
+By reading this chapter, you can get the basic knowledge of the development of a batch application that conforms to Nablarch based on |jsr352|.
 
 .. tip::
  Example is an sample implementation that shows how to use Nablarch's features and is not intended to be used to modify Example to create full-fledged applications.
@@ -29,4 +29,4 @@ Prerequisites
 
 .. |jsr352| raw:: html
 
-  <a href="https://jcp.org/en/jsr/detail?id=352" target="_blank">JSR352 (external site)</a>
+  <a href="https://jakarta.ee/specifications/batch/" target="_blank">Jakarta Batch (external site)</a>

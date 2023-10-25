@@ -93,7 +93,6 @@ URIとアクションクラスのマッピング
   :hidden:
 
   feature_details/jsp_session
-  feature_details/view/freemarker
   feature_details/view/other
 
 * JSPを使用する場合
@@ -104,7 +103,6 @@ URIとアクションクラスのマッピング
 * JSP以外のテンプレートエンジンを使用する場合
 
   * :ref:`Thymeleafを使用した画面開発 <web_thymeleaf_adaptor>`
-  * :ref:`view_freemarker`
   * :ref:`view_other`
 
 国際化対応

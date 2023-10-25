@@ -6,15 +6,15 @@ Bean Validation
   :depth: 3
   :local:
 
-この章では、Java EE7のBean Validation(JSR349)に準拠したバリデーション機能を解説する。
+この章では、Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能を解説する。
 
 .. important::
 
-  この機能は、Bean Validationのエンジンを実装しているわけではない。
+  この機能は、Jakarta Bean Validationのエンジンを実装しているわけではない。
 
-  Java EE環境(WebLogicやWildFlyなど)では、そのサーバ内にバンドルされているBean Validationの実装が使用される。
-  Java EE環境外で使用するには、別途Bean Validationの実装を参照ライブラリに追加する必要がある。
-  (参照実装である `Hibernate Validator(外部サイト、英語) <http://hibernate.org/validator/>`_ を使用することを推奨する。)
+  Jakarta EE環境(WebLogicやWildFlyなど)では、そのサーバ内にバンドルされているJakarta Bean Validationの実装が使用される。
+  Jakarta EE環境外で使用するには、別途Jakarta Bean Validationの実装を参照ライブラリに追加する必要がある。
+  (互換実装である `Hibernate Validator(外部サイト、英語) <http://hibernate.org/validator/>`_ を使用することを推奨する。)
 
 機能概要
 ---------------------
@@ -79,7 +79,7 @@ Bean Validationを使うための設定
 Bean Validationを使うために必要となる設定を以下に示す。
 
 MessageInterpolatorの設定
-  Bean Validationでバリデーションエラーが発生した際のメッセージを構築するクラス( :java:extdoc:`MessageInterpolator <javax.validation.MessageInterpolator>` を実装したクラス)を設定する。
+  Jakarta Bean Validationでバリデーションエラーが発生した際のメッセージを構築するクラス( :java:extdoc:`MessageInterpolator <jakarta.validation.MessageInterpolator>` を実装したクラス)を設定する。
 
   設定を省略した場合(デフォルト)は、 :ref:`message` を使用する :java:extdoc:`NablarchMessageInterpolator <nablarch.core.validation.ee.NablarchMessageInterpolator>` が使用される。
 
@@ -152,7 +152,7 @@ Java実装例
 
 .. tip:: 
   :ref:`bean_validation-configuration` で、デフォルト動作を変更している場合には、
-  :java:extdoc:`MessageInterpolator <javax.validation.MessageInterpolator>` の実装に従いメッセージを定義すること。
+  :java:extdoc:`MessageInterpolator <jakarta.validation.MessageInterpolator>` の実装に従いメッセージを定義すること。
 
 
 バリデーションルールの設定方法
@@ -399,7 +399,7 @@ Java実装例
 
 相関バリデーションを行う
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-複数の項目を使用した相関バリデーションを行うには、Bean Validationの :java:extdoc:`@AssertTrue <javax.validation.constraints.AssertTrue>` アノテーションを使用する。
+複数の項目を使用した相関バリデーションを行うには、Jakarta Bean Validationの :java:extdoc:`@AssertTrue <jakarta.validation.constraints.AssertTrue>` アノテーションを使用する。
 
 実装例
   この例では、メールアドレスと確認用メールアドレスが一致していることを検証している。
@@ -420,7 +420,7 @@ Java実装例
 
 .. important::
 
-  Bean Validationでは、バリデーションの実行順序は保証されないため、
+  Jakarta Bean Validationでは、バリデーションの実行順序は保証されないため、
   項目単体のバリデーションよりも前に相関バリデーションが呼び出される場合がある。
 
   このため、相関バリデーションでは項目単体のバリデーションが実行されていない場合でも、
@@ -478,7 +478,7 @@ Java実装例
 このような場合には、バリデーション対象のBeanに対してネストしたBeanを定義することで対応する。
 
 .. tip::
-  これはBean Validationの仕様のため、詳細はBean Validationの仕様を参照すること。
+  これはJakarta Bean Validationの仕様のため、詳細はJakarta Bean Validationの仕様を参照すること。
 
 以下に例を示す。
 
@@ -567,7 +567,7 @@ Java実装例
 
   BeanValidationStrategyでは、バリデーションエラーのエラーメッセージを、以下の順でソートする。
 
-  * javax.servlet.ServletRequest#getParameterNamesが返す項目名順
+  * jakarta.servlet.ServletRequest#getParameterNamesが返す項目名順
     (エラーが発生した項目がリクエストパラメータに存在しない場合は、末尾に移動する)
 
   ``getParameterNames`` が返す値は実装依存であり、使用するアプリケーションサーバによっては並び順が変わる可能性がある点に注意すること。
@@ -578,7 +578,7 @@ Java実装例
 
 RESTfulウェブサービスのユーザ入力値のチェックを行う
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-RESTfulウェブサービスのユーザ入力値のチェックは、入力値を受け取るリソースクラスのメソッドに :java:extdoc:`Valid <javax.validation.Valid>` アノテーションを設定することで行う。
+RESTfulウェブサービスのユーザ入力値のチェックは、入力値を受け取るリソースクラスのメソッドに :java:extdoc:`Valid <jakarta.validation.Valid>` アノテーションを設定することで行う。
 詳細は、 :ref:`jaxrs_bean_validation_handler_perform_validation` を参照。
 
 .. _bean_validation_onerror:
@@ -639,9 +639,9 @@ RESTfulウェブサービスのユーザ入力値のチェックは、入力値�
 
 バリデーションエラー時のメッセージに項目名を含めたい
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Bean Validation(JSR349)の仕様では、項目名をメッセージに含めることができないが、
+Jakarta Bean Validationの仕様では、項目名をメッセージに含めることができないが、
 要件などによってはメッセージに項目名を含めたい場合がある。
-このため、NablarchではBean Validationを使用した場合でもメッセージにエラーが発生した項目の項目名を含める機能を提供している。
+このため、NablarchではJakarta Bean Validationを使用した場合でもメッセージにエラーが発生した項目の項目名を含める機能を提供している。
 
 以下に使用方法を示す。
 
@@ -705,7 +705,7 @@ Bean Validation(JSR349)の仕様では、項目名をメッセージに含める
 
 Bean Validationのグループ機能を使用したい
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Bean Validation(JSR349)の仕様では、バリデーション実行時にグループを指定すると、バリデーションに使用するルールを特定のグループに制限することができる。
+Jakarta Bean Validationの仕様では、バリデーション実行時にグループを指定すると、バリデーションに使用するルールを特定のグループに制限することができる。
 Nablarchでも、Bean Validationでグループ指定可能なAPIを提供している。
 
 以下に使用例を示す。
@@ -761,5 +761,5 @@ APIの詳細は、 :java:extdoc:`ValidatorUtil#validateWithGroup <nablarch.core.
 実装方法などの詳細については、以下のリンク先及びNablarchの実装を参照。
 
 * `Hibernate Validator(外部サイト、英語) <http://hibernate.org/validator/>`_
-* `JSR349(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=349>`_
+* `Jakarta Bean Validation(外部サイト、英語) <https://jakarta.ee/specifications/bean-validation/>`_
 

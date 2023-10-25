@@ -18,7 +18,7 @@ Nablarchでは、以下2種類のRESTfulウェブサービス用のフレーム�
 以下の理由により :ref:`restful_web_service` を使用してウェブサービスを作成することを推奨する。
 
 理由
-  :ref:`restful_web_service` では、 `JSR 339(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=339>`_ で規定されている一部のアノテーションを使用して容易にウェブサービスを構築できる。
+  :ref:`restful_web_service` では、 `Jakarta RESTful Web Services(外部サイト、英語) <https://jakarta.ee/specifications/restful-ws/>`_ で規定されている一部のアノテーションを使用して容易にウェブサービスを構築できる。
   
   一方、 :ref:`http_messaging` はボディ部やHTTPヘッダ、例外制御に以下の制約があり柔軟な設計及び実装ができない。
 

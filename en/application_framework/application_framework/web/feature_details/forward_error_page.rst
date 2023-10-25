@@ -16,7 +16,7 @@ instead of specifying the transition destination for every particular action.
 
 An example is shown below.
 
-In this example, :java:extdoc:`NoDataException <nablarch.common.dao.NoDataException>` and :java:extdoc:`javax.persistence.OptimisticLockException` are thrown, and then transitions to the dedicated error screen.
+In this example, :java:extdoc:`NoDataException <nablarch.common.dao.NoDataException>` and :java:extdoc:`jakarta.persistence.OptimisticLockException` are thrown, and then transitions to the dedicated error screen.
 
 .. code-block:: java
 

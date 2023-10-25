@@ -7,7 +7,7 @@
    :depth: 3
    :local:
 
-ユニバーサルDAOでは、 `JPA2.0(JSR317) (外部サイト、英語) <https://jcp.org/en/jsr/detail?id=317>`_
+ユニバーサルDAOでは、 `Jakarta Persistence (外部サイト、英語) <https://jakarta.ee/specifications/persistence/>`_
 のアノテーションを使った簡易的なO/Rマッパーを提供する。
 
 ユニバーサルDAOの内部では、 :ref:`database` を使用しているので、
@@ -37,15 +37,15 @@
 
 SQLを書かなくても単純なCRUDができる
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-JPAアノテーションをEntityに付けるだけで、SQLを書かなくても、以下の単純なCRUDができる。
-SQL文は、JPAアノテーションを元に実行時に構築する。
+Jakarta PersistenceアノテーションをEntityに付けるだけで、SQLを書かなくても、以下の単純なCRUDができる。
+SQL文は、Jakarta Persistenceアノテーションを元に実行時に構築する。
 
 * 登録/一括登録
 * 主キーを指定した更新/一括更新
 * 主キーを指定した削除/一括削除
 * 主キーを指定した検索
 
-Entityに使用できるJPAアノテーションについては、 :ref:`universal_dao_jpa_annotations` を参照。
+Entityに使用できるJakarta Persistenceアノテーションについては、 :ref:`universal_dao_jpa_annotations` を参照。
 
 
 .. tip::
@@ -186,7 +186,7 @@ JDBCのフェッチサイズによってメモリの使用量が変わる。
 ユニバーサルDAOでは、 :ref:`@Temporal <universal_dao_jpa_temporal>` を使用して、 ``java.util.Date`` 及び ``java.util.Calendar`` 型の値をデータベースにマッピングする方法を指定できる。
 他の型については、任意のマッピングは不可能であるため、Entityのプロパティは、データベースの型及び使用するJDBCドライバの仕様に応じて定義すること。
 
-また、ユニバーサルDAOは、自動生成したSQLをDBに送信する場合はJPAアノテーションの情報を使用するが、任意のSQLをDBに送信する場合はJPAアノテーションの情報は使用しない。
+また、ユニバーサルDAOは、自動生成したSQLをDBに送信する場合はJakarta Persistenceアノテーションの情報を使用するが、任意のSQLをDBに送信する場合はJakarta Persistenceアノテーションの情報は使用しない。
 そのため、型変換については、以下のようになる。
 
 :ref:`Entityから自動的に生成したSQLを実行する場合 <universal_dao-execute_crud_sql>`
@@ -256,7 +256,7 @@ JDBCのフェッチサイズによってメモリの使用量が変わる。
 * :ref:`@SequenceGenerator <universal_dao_jpa_sequence_generator>`
 * :ref:`@TableGenerator <universal_dao_jpa_table_generator>`
 
-ユニバーサルDAOでは、 :java:extdoc:`javax.persistence.GenerationType` のすべてのストラテジをサポートしている。
+ユニバーサルDAOでは、 :java:extdoc:`jakarta.persistence.GenerationType` のすべてのストラテジをサポートしている。
 
 GenerationType.AUTO
  \
@@ -350,7 +350,7 @@ GenerationType.TABLE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ユニバーサルDAOでは、 :ref:`@Version <universal_dao_jpa_version>`
 が付いているEntityを更新した場合、自動で楽観的ロックを行う。
-楽観的ロックで排他エラーが発生した場合は、 :java:extdoc:`javax.persistence.OptimisticLockException` を送出する。
+楽観的ロックで排他エラーが発生した場合は、 :java:extdoc:`jakarta.persistence.OptimisticLockException` を送出する。
 
 .. important::
  :ref:`@Version <universal_dao_jpa_version>` は数値型のプロパティのみに指定できる。
@@ -518,9 +518,9 @@ DatabaseMetaDataから情報を取得できない場合に対応する
 
 .. _`universal_dao_jpa_annotations`:
 
-Entityに使用できるJPAアノテーション
+Entityに使用できるJakarta Persistenceアノテーション
 ---------------------------------------------------------------------
-Entityに使用できるJPAアノテーションは以下のとおり。
+Entityに使用できるJakarta Persistenceアノテーションは以下のとおり。
 
 * クラスに設定するアノテーション
 
@@ -554,7 +554,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_entity`:
 
-*javax.persistence.Entity*
+*jakarta.persistence.Entity*
  データベースのテーブルに対応したEntityクラスに設定するアノテーション。
 
  本アノテーションを設定した場合、クラス名からテーブル名が導出される。
@@ -571,7 +571,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_table`:
 
-*javax.persistence.Table*
+*jakarta.persistence.Table*
  テーブル名を指定するために使用するアノテーション。
 
  name属性に値が指定されている場合、その値がテーブル名として使用される。
@@ -580,14 +580,14 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_access`:
 
-*javax.persistence.Access*
+*jakarta.persistence.Access*
  アノテーションを設定する場所を指定するために使用するアノテーション。
 
  明示的にフィールドに指定した場合のみ、フィールドのアノテーションを参照する。
 
 .. _`universal_dao_jpa_column`:
 
-*javax.persistence.Column*
+*jakarta.persistence.Column*
  カラム名を指定するために使用するアノテーション。
 
  name属性に値が指定されている場合、その値がカラム名として使用される。
@@ -599,14 +599,14 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_id`:
 
-*javax.persistence.Id*
+*jakarta.persistence.Id*
  主キーに設定するアノテーション。
 
  複合主キーの場合には、複数のgettterもしくはフィールドに本アノテーションを設定する。
 
 .. _`universal_dao_jpa_version`:
 
-*javax.persistence.Version*
+*jakarta.persistence.Version*
  排他制御で使用するバージョンカラムに設定するアノテーション。
 
  本アノテーションは数値型のプロパティのみに指定できる。
@@ -620,7 +620,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_temporal`:
 
-*javax.persistence.Temporal*
+*jakarta.persistence.Temporal*
  *java.util.Date* 及び *java.util.Calendar* 型の値を
  データベースにマッピングする方法を指定するアノテーション。
 
@@ -628,7 +628,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_generated_value`:
 
-*javax.persistence.GeneratedValue*
+*jakarta.persistence.GeneratedValue*
  自動採番された値を登録することを示すアノテーション。
 
  strategy属性に採番方法を設定する。
@@ -653,7 +653,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_sequence_generator`:
 
-*javax.persistence.SequenceGenerator*
+*jakarta.persistence.SequenceGenerator*
  シーケンス採番を使用する場合に設定するアノテーション。
 
  name属性には、:ref:`@GeneratedValue <universal_dao_jpa_generated_value>`
@@ -667,7 +667,7 @@ Entityに使用できるJPAアノテーションは以下のとおり。
 
 .. _`universal_dao_jpa_table_generator`:
 
-*javax.persistence.TableGenerator*
+*jakarta.persistence.TableGenerator*
  テーブル採番を使用する場合に設定するアノテーション。
 
  name属性には、 :ref:`@GeneratedValue <universal_dao_jpa_generated_value>`
@@ -709,7 +709,7 @@ Beanに使用できるデータタイプ
  プリミティブ型の場合は、リードメソッド名がisで開始されていても良い。
 
 *java.util.Date*
- JPAの :ref:`@Temporal <universal_dao_jpa_temporal>`
+ Jakarta Persistenceの :ref:`@Temporal <universal_dao_jpa_temporal>`
  でデータベース上のデータ型を指定する必要がある。
 
 

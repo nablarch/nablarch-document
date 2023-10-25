@@ -13,7 +13,7 @@
 実装は、主に以下の2つから選択することになるが、ドキュメントが豊富であること及びMaven Centralからライブラリを取得出来る手軽さから `jBeret(外部サイト、英語) <https://jberet.gitbooks.io/jberet-user-guide/content/>`_ の使用を推奨する。
 
 * `jBeret(外部サイト、英語) <https://jberet.gitbooks.io/jberet-user-guide/content/>`_
-* `参照実装のjBatch(外部サイト、英語) <https://github.com/WASdev/standards.jsr352.jbatch>`_
+* `互換実装のjBatch(外部サイト、英語) <https://github.com/WASdev/standards.jsr352.jbatch>`_
 
 以下に構成を示す。
 
@@ -72,11 +72,11 @@ Batchletタイプのバッチアプリケーションの処理の流れを以下
 .. image:: images/batchlet-flow.png
   :scale: 75
 
-1. JSR352のBatch RuntimeからBatchletステップ実行前のコールバック処理として :java:extdoc:`NablarchStepListenerExecutor <nablarch.fw.batch.ee.listener.step.NablarchStepListenerExecutor>` が呼び出される。
+1. Jakarta BatchのBatch RuntimeからBatchletステップ実行前のコールバック処理として :java:extdoc:`NablarchStepListenerExecutor <nablarch.fw.batch.ee.listener.step.NablarchStepListenerExecutor>` が呼び出される。
 2. Batchletステップ実行前のリスナーを順次実行する。
-3. JSR352のBatch Runtimeから `Batchlet` が実行される。
+3. Jakarta BatchのBatch Runtimeから `Batchlet` が実行される。
 4. `Batchlet` では業務ロジックを実行する。(Batchletの責務配置は、 :ref:`Batchletの責務配置 <jsr352-batchlet_design>` を参照)
-5. JSR352のBatch RuntimeからBatchletステップ実行後のコールバック処理として :java:extdoc:`NablarchStepListenerExecutor <nablarch.fw.batch.ee.listener.step.NablarchStepListenerExecutor>` が呼び出される。
+5. Jakarta BatchのBatch RuntimeからBatchletステップ実行後のコールバック処理として :java:extdoc:`NablarchStepListenerExecutor <nablarch.fw.batch.ee.listener.step.NablarchStepListenerExecutor>` が呼び出される。
 6. Batchletステップ実行後のリスナーを順次実行する。(No2とは逆順に実行する)
 
 .. _jsr352-batch_flow_chunk:
@@ -88,30 +88,30 @@ Chunkタイプのバッチアプリケーションの処理の流れを以下に
 .. image:: images/chunk-flow.png
   :scale: 75
 
-1. JSR352のBatch RuntimeからChunkステップ実行前のコールバック処理として :java:extdoc:`NablarchStepListenerExecutor <nablarch.fw.batch.ee.listener.step.NablarchStepListenerExecutor>` が呼び出される。
+1. Jakarta BatchのBatch RuntimeからChunkステップ実行前のコールバック処理として :java:extdoc:`NablarchStepListenerExecutor <nablarch.fw.batch.ee.listener.step.NablarchStepListenerExecutor>` が呼び出される。
 
 2. Chunkステップ実行前のリスナーを順次実行する。
 
-3. JSR352のBatch RuntimeからChunkステップの `ItemReader` が実行される。 |br|
+3. Jakarta BatchのBatch RuntimeからChunkステップの `ItemReader` が実行される。 |br|
    `ItemReader` では、入力データソースからデータを読み込む。
 
-4. JSR352のBatch RuntimeからChunkステップの `ItemProcessor` が実行される。 |br|
+4. Jakarta BatchのBatch RuntimeからChunkステップの `ItemProcessor` が実行される。 |br|
 
 5. `ItemProcessor` は、 `Form` や `Entity` を使って業務ロジックを実行する。 |br|
    ※データーベースに対するデータの書き込みや更新はここでは実施しない。
 
-6. JSR352のBatch Runtimeから `ItemWriter` 実行前のコールバック処理として :java:extdoc:`NablarchItemWriteListenerExecutor <nablarch.fw.batch.ee.listener.chunk.NablarchItemWriteListenerExecutor>` が呼び出される。
+6. Jakarta BatchのBatch Runtimeから `ItemWriter` 実行前のコールバック処理として :java:extdoc:`NablarchItemWriteListenerExecutor <nablarch.fw.batch.ee.listener.chunk.NablarchItemWriteListenerExecutor>` が呼び出される。
 
 7. `ItemWriter` 実行前のリスナーを順次実行する。
 
-8. JSR352のBatch RuntimeからChunkステップの `ItemWriter` が実行される。 |br|
+8. Jakarta BatchのBatch RuntimeからChunkステップの `ItemWriter` が実行される。 |br|
    `ItemWriter` では、テーブルへの登録(更新、削除)やファイル出力処理などの結果反映処理を行う。
 
-9. JSR352のBatch Runtimeから `ItemWriter` 実行後のコールバック処理として :java:extdoc:`NablarchItemWriteListenerExecutor <nablarch.fw.batch.ee.listener.chunk.NablarchItemWriteListenerExecutor>` が呼び出される。
+9. Jakarta BatchのBatch Runtimeから `ItemWriter` 実行後のコールバック処理として :java:extdoc:`NablarchItemWriteListenerExecutor <nablarch.fw.batch.ee.listener.chunk.NablarchItemWriteListenerExecutor>` が呼び出される。
 
 10. `ItemWriter` 実行後のリスナーを順次実行する。(No7とは逆順で実行する)
 
-11. JSR352のBatch RuntimeからChunkステップ実行後のコールバック処理として :java:extdoc:`NablarchStepListenerExecutor <nablarch.fw.batch.ee.listener.step.NablarchStepListenerExecutor>` が呼び出される。
+11. Jakarta BatchのBatch RuntimeからChunkステップ実行後のコールバック処理として :java:extdoc:`NablarchStepListenerExecutor <nablarch.fw.batch.ee.listener.step.NablarchStepListenerExecutor>` が呼び出される。
 
 12. Chunkステップ実行後のリスナーを順次実行する。(No2とは逆順に実行する)
 
@@ -123,19 +123,19 @@ Chunkステップの責務配置については、 :ref:`Chunkの責務配置 <j
 
 例外(エラー含む)発生時の処理の流れ
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-バッチ実行中に例外が発生した場合、Nablarchでは例外の捕捉は行わずJSR352の実装側で例外ハンドリングを行う方針としている。
-これは、JSR352に準拠したバッチアプリケーション特有の振る舞いであり、他の基盤( :ref:`Webアプリケーション <web_application>` や :ref:`nablarch_batch` など)とは異なる振る舞いである点に注意すること。
+バッチ実行中に例外が発生した場合、Nablarchでは例外の捕捉は行わずJakarta Batchの実装側で例外ハンドリングを行う方針としている。
+これは、Jakarta Batchに準拠したバッチアプリケーション特有の振る舞いであり、他の基盤( :ref:`Webアプリケーション <web_application>` や :ref:`nablarch_batch` など)とは異なる振る舞いである点に注意すること。
 
 .. tip:: 
 
-  JSR352に準拠したバッチアプリケーションがこのようなアーキテクチャを採用した理由は以下の通り。
+  Jakarta Batchに準拠したバッチアプリケーションがこのようなアーキテクチャを採用した理由は以下の通り。
 
-  JSR352に準拠したバッチアプリケーションは、JSR352上でNablarchを使用するためのコンポーネントのみの提供であり、実行制御自体はJSR352実装によって行われる。
-  このため、Nablarchにより全ての例外を捕捉し処理を行うことは不可能であり、例外制御がNablarchとJSR352で分散することで設計などが複雑化するのを防ぐためこのような方針としている。
+  Jakarta Batchに準拠したバッチアプリケーションは、Jakarta Batch上でNablarchを使用するためのコンポーネントのみの提供であり、実行制御自体はJakarta Batch実装によって行われる。
+  このため、Nablarchにより全ての例外を捕捉し処理を行うことは不可能であり、例外制御がNablarchとJakarta Batchで分散することで設計などが複雑化するのを防ぐためこのような方針としている。
   
 例外発生時のバッチの状態
 ```````````````````````````````````````````````
-上述したように、例外発生時の制御は全てJSR352の実装が行う。
+上述したように、例外発生時の制御は全てJakarta Batchの実装が行う。
 このため、例外発生時のバッチの状態(batch statusやexit status)については、 |jsr352| の仕様を参照すること。
 また、例外の種類に応じたリトライや継続有無などもジョブ定義に従った動作となる。ジョブ定義の詳細は、 |jsr352| の仕様を参照すること。
 
@@ -143,11 +143,11 @@ Chunkステップの責務配置については、 :ref:`Chunkの責務配置 <j
 
 ログ出力
 ``````````````````````````````````````````````````
-JSR352の実装で補足された例外の情報は、JSR352の実装によりログ出力される。
-ログの設定(フォーマットや出力先などの設定)は、JSR352実装が使用しているロギングフレームワークのマニュアルなどを参照して行うこと。
+Jakarta Batchの実装で補足された例外の情報は、Jakarta Batchの実装によりログ出力される。
+ログの設定(フォーマットや出力先などの設定)は、Jakarta Batch実装が使用しているロギングフレームワークのマニュアルなどを参照して行うこと。
 
-なお、アプリケーションで明示的に出力するエラーログ等をJSR352と同じログファイルに出力したい場合には、
-:ref:`log_adaptor` を使用してJSR352の実装とロギングフレームワークを統一することで対応できる。
+なお、アプリケーションで明示的に出力するエラーログ等をJakarta Batchと同じログファイルに出力したい場合には、
+:ref:`log_adaptor` を使用してJakarta Batchの実装とロギングフレームワークを統一することで対応できる。
 
 .. _jsr352-listener:
 
@@ -262,7 +262,7 @@ ItemWriterレベルのリスナー
 ジョブ定義ファイルへの設定
   .. code-block:: xml
 
-    <job id="chunk-integration-test" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <job id="chunk-integration-test" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
       <listeners>
         <!-- ジョブレベルのリスナー -->
         <listener ref="nablarchJobListenerExecutor" />
@@ -341,7 +341,7 @@ ItemWriterレベルのリスナー
     
 .. |jsr352| raw:: html
 
-  <a href="https://jcp.org/en/jsr/detail?id=352" target="_blank">JSR352(外部サイト、英語)</a>
+  <a href="https://jakarta.ee/specifications/batch/" target="_blank">Jakarta Batch(外部サイト、英語)</a>
 
 .. |br| raw:: html
 

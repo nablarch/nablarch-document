@@ -27,7 +27,7 @@ Nablarch offers the following archetypes: All the archetype group IDs are ``com.
   * - nablarch-jaxrs-archetype
     - Archetype for using the RESTful web service runtime platform
   * - nablarch-batch-ee-archetype
-    - Archetype for using the JSR352-compliant batch application framework
+    - Archetype for using the Jakarta Batch-compliant batch application framework
   * - nablarch-batch-archetype
     - Archetype for using the Nablarch batch application runtime platform
   * - nablarch-batch-dbless-archetype
@@ -196,9 +196,9 @@ The main directories and files are shown below.
   * - Directory or file
     - Description
   * - nablarch-tools.xml
-    - Configuration file used while executing the JSP static analysis tool
+    - Configuration file used while executing the Jakarta Server Pages static analysis tool
   * - static-analysis/jspanalysis
-    - Configuration file for the JSP static analysis tool is stored.
+    - Configuration file for the Jakarta Server Pages static analysis tool is stored.
 
 
 pj-jaxrs project
@@ -216,7 +216,7 @@ Omitted because it is the same as web.
 pj-batch-ee project
 =======================
 
-Project packaged as a jar file for JSR352-compliant batch applications.
+Project packaged as a jar file for Jakarta Batch-compliant batch applications.
 
 .. _firstStepBatchEEProjectStructure:
 
@@ -254,7 +254,7 @@ Project structure
     |   |       +---entity
     |   |       |
     |   |       \---META-INF
-    |   |           |   beans.xml               … File required to enable CDI.
+    |   |           |   beans.xml               … File required to enable Jakarta Contexts and Dependency Injection.
     |   |           |
     |   |           \---batch-jobs
     |   |                   sample-batchlet.xml … Job file of the application for communication confirmation of the batchlet architecture.
@@ -652,7 +652,7 @@ For the following cases, change pom.xml of each module.
 Example of changing the version of Nablarch used
 -------------------------------------------------------------------
 
-A configuration example when Nablarch 5u6 is used is shown below.
+A configuration example when Nablarch 6u2 is used is shown below.
 
 .. code-block:: xml
 
@@ -664,9 +664,9 @@ A configuration example when Nablarch 5u6 is used is shown below.
 
         <!--
         Specify the version corresponding to the version of Nablarch to be used.
-        In this example 5u6 is specified.
+        In this example 6u2 is specified.
         -->
-        <version>5u6</version>
+        <version>6u2</version>
 
         <type>pom</type>
         <scope>import</scope>

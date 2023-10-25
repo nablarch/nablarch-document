@@ -414,7 +414,7 @@ Invoke the following methods of the superclass:
 
 Test case for validation between items
 =======================================
-For validation between items with :java:extdoc:`@AssertTrue <javax.validation.constraints.AssertTrue>` that cannot be tested with the single-item validation described above, it is necessary to create another test.
+For validation between items with :java:extdoc:`@AssertTrue <jakarta.validation.constraints.AssertTrue>` that cannot be tested with the single-item validation described above, it is necessary to create another test.
 
 
 Create a test case table

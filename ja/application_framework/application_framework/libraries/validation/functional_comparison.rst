@@ -11,7 +11,7 @@ Bean ValidationとNablarch Validationの機能比較
   * - 機能
     - Bean |br| Validation
     - Nablarch |br| Validation
-    - JSR 349
+    - Jakarta |br| Bean Validation
   * - バリデーション対象の項目を指定できる
     - ○ [#property_validation]_
     - ○ |br| :ref:`解説書へ <nablarch_validation-execute>`
@@ -75,7 +75,7 @@ Bean ValidationとNablarch Validationの機能比較
 
 .. |jsr349| raw:: html
 
-   <a href="https://jcp.org/en/jsr/detail?id=349" target="_blank">JSR349(外部サイト、英語)</a>
+   <a href="https://jakarta.ee/specifications/bean-validation/" target="_blank">Jakarta Bean Validation(外部サイト、英語)</a>
 
 .. |br| raw:: html
 

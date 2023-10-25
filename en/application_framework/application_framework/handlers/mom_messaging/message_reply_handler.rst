@@ -41,7 +41,7 @@ Positional relationship with the :ref:`transaction_management_handler`
   The positional relationship with :ref:`transaction_management_handler`  changes depending on whether a two-phase commit is used.
 
   Two-phase commit is used
-    Collates and commits the database transaction and message queue (JMS) transaction together in the transaction manager. 
+    Collates and commits the database transaction and message queue (Jakarta Messaging) transaction together in the transaction manager. 
     Therefore, a response message is required to be sent before the transaction control, and this handler has to be configured after the :ref:`transaction_management_handler` .
 
   Two-phase commit is not used

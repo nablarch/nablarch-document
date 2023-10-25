@@ -8,7 +8,7 @@ Universal DAO
    :local:
 
 Universal DAO provides a simple O/R mapper that
-uses `JPA2.0(JSR317) (external site) <https://jcp.org/en/jsr/detail?id=317>`_ annotations.
+uses `Jakarta Persistence (external site) <https://jakarta.ee/specifications/persistence/>`_ annotations.
 
 Since Universal DAO uses a :ref:`database`,
 the :ref:`database` must be configured to use Universal DAO.
@@ -37,15 +37,15 @@ Function overview
 
 Simple CRUD without writing SQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Just by adding JPA annotation to Entity, a simple CRUD can be created without writing SQL.
-SQL statements are constructed at runtime based on JPA annotations.
+Just by adding Jakarta Persistence annotation to Entity, a simple CRUD can be created without writing SQL.
+SQL statements are constructed at runtime based on Jakarta Persistence annotations.
 
 * Registration/Batch registration
 * Update/Batch update by specifying the primary key
 * Delete/Batch delete by specifying the primary key
 * Search by specifying the primary key
 
-For JPA annotations that can be used in Entity, see :ref:`universal_dao_jpa_annotations`.
+For Jakarta Persistence annotations that can be used in Entity, see :ref:`universal_dao_jpa_annotations`.
 
 
 .. tip::
@@ -186,7 +186,7 @@ Convert type
 In Universal DAO, :ref:`@Temporal <universal_dao_jpa_temporal>` can be used to specify how to map ``java.util.Date`` and ``java.util.Calendar`` type values to the database.
 Since arbitrary mapping is not possible for other types, Entity properties must be defined according to the database type and specifications of the JDBC driver to be used.
 
-Though Universal DAO uses JPA annotation information when sending automatically generated SQL to the DB, JPA annotation information is not used when sending arbitrary SQL to the DB.
+Though Universal DAO uses Jakarta Persistence annotation information when sending automatically generated SQL to the DB, Jakarta Persistence annotation information is not used when sending arbitrary SQL to the DB.
 Therefore, the type conversion is as follows.
 
 :ref:`When executing SQL automatically generated from the Entity <universal_dao-execute_crud_sql>`
@@ -256,7 +256,7 @@ When numbering the surrogate keys, use the following annotations.
 * :ref:`@SequenceGenerator <universal_dao_jpa_sequence_generator>`
 * :ref:`@TableGenerator <universal_dao_jpa_table_generator>`
 
-Universal DAO supports all strategies of :java:extdoc:`javax.persistence.GenerationType`.
+Universal DAO supports all strategies of :java:extdoc:`jakarta.persistence.GenerationType`.
 
 GenerationType.AUTO
  \
@@ -350,7 +350,7 @@ Optimistic locking
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Universal DAO automatically performs optimistic locking
 when an Entity with :ref:`@Version <universal_dao_jpa_version>` is updated.
-Throws :java:extdoc:`javax.persistence.OptimisticLockException` if an exclusive error occurs in optimistic locking.
+Throws :java:extdoc:`jakarta.persistence.OptimisticLockException` if an exclusive error occurs in optimistic locking.
 
 .. important::
  :ref:`@Version <universal_dao_jpa_version>` can be specified only for numeric type properties.
@@ -519,9 +519,9 @@ Configuration is required to use the created class.
 
 .. _`universal_dao_jpa_annotations`:
 
-JPA annotation that can be used for Entity
+Jakarta Persistence annotation that can be used for Entity
 ---------------------------------------------------------------------
-JPA annotations that can be used for entity are as follows.
+Jakarta Persistence annotations that can be used for entity are as follows.
 
 * Annotation configured in class
 
@@ -555,7 +555,7 @@ Therefore, be sure to use the same field and property names (getXX, setXX).
 
 .. _`universal_dao_jpa_entity`:
 
-*javax.persistence.Entity*
+*jakarta.persistence.Entity*
  This annotation is configured in the Entity class corresponding to the database table.
 
  When this annotation is configured, the table name is derived from the class name.
@@ -572,7 +572,7 @@ Therefore, be sure to use the same field and property names (getXX, setXX).
 
 .. _`universal_dao_jpa_table`:
 
-*javax.persistence.Table*
+*jakarta.persistence.Table*
  This annotation is used to specify the table name.
 
  If a value is specified in the name attribute, that value will be used as the table name.
@@ -581,14 +581,14 @@ Therefore, be sure to use the same field and property names (getXX, setXX).
 
 .. _`universal_dao_jpa_access`:
 
-*javax.persistence.Access*
+*jakarta.persistence.Access*
  This annotation is used to specify the location to configure the annotation.
 
  Refers to the field annotation only when explicitly specified in the field.
 
 .. _`universal_dao_jpa_column`:
 
-*javax.persistence.Column*
+*jakarta.persistence.Column*
  This annotation is used to specify the column name.
 
  If a value is specified in the name attribute, that value will be used as the column name.
@@ -600,14 +600,14 @@ Therefore, be sure to use the same field and property names (getXX, setXX).
 
 .. _`universal_dao_jpa_id`:
 
-*javax.persistence.Id*
+*jakarta.persistence.Id*
  This annotation is configured in the primary key.
 
  In the case of a compound primary key, configure this annotation to multiple getters or fields.
 
 .. _`universal_dao_jpa_version`:
 
-*javax.persistence.Version*
+*jakarta.persistence.Version*
  This annotation is configured in the version column used for exclusive control.
 
  This annotation can be specified only for numeric type properties.
@@ -621,7 +621,7 @@ Therefore, be sure to use the same field and property names (getXX, setXX).
 
 .. _`universal_dao_jpa_temporal`:
 
-*javax.persistence.Temporal*
+*jakarta.persistence.Temporal*
  This annotation specifies how to map the values of
  *java.util.Date* and *java.util.Calendar* types to the database.
 
@@ -629,7 +629,7 @@ Therefore, be sure to use the same field and property names (getXX, setXX).
 
 .. _`universal_dao_jpa_generated_value`:
 
-*javax.persistence.GeneratedValue*
+*jakarta.persistence.GeneratedValue*
  This annotation indicates that the automatically numbered value is registered.
 
  Configures the numbering method to the strategy attribute.
@@ -654,7 +654,7 @@ Therefore, be sure to use the same field and property names (getXX, setXX).
 
 .. _`universal_dao_jpa_sequence_generator`:
 
-*javax.persistence.SequenceGenerator*
+*jakarta.persistence.SequenceGenerator*
  This annotation has to be configured when using sequence numbering.
 
  In the name attribute, configure the same value as the generator attribute of
@@ -668,7 +668,7 @@ Therefore, be sure to use the same field and property names (getXX, setXX).
 
 .. _`universal_dao_jpa_table_generator`:
 
-*javax.persistence.TableGenerator*
+*jakarta.persistence.TableGenerator*
  This annotation is configured when using table numbering.
 
  In the name attribute, configure the same value as the generator attribute of
@@ -711,7 +711,7 @@ Data types that can be used in Bean, which maps search results, are as follows.
 
 *java.util.Date*
  The data type has to be specified in the database
- with :ref:`@Temporal <universal_dao_jpa_temporal>` of JPA.
+ with :ref:`@Temporal <universal_dao_jpa_temporal>` of Jakarta Persistence.
 
 
 *java.sql.Date*

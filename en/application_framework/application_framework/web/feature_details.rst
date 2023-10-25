@@ -93,7 +93,6 @@ Screen creation
   :hidden:
 
   feature_details/jsp_session
-  feature_details/view/freemarker
   feature_details/view/other
 
 * When JSP is used
@@ -104,7 +103,6 @@ Screen creation
 * When using a template engine other than JSP
 
   * :ref:`Screen development using Thymeleaf <web_thymeleaf_adaptor>`
-  * :ref:`view_freemarker`
   * :ref:`view_other`
 
 Internationalization

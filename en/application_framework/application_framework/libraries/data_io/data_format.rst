@@ -62,7 +62,7 @@ The fixed-length and variable-length data formats are compatible even with multi
   Alternative to this function
     :fixed-length: Use :ref:`data_bind` .
     :Variable length: Use  :ref:`data_bind` .
-    :XML: :java:extdoc:`JAXB <javax.xml.bind>` is recommended.
+    :XML: `Jakarta XML Binding <https://jakarta.ee/specifications/xml-binding/>`_ is recommended.
     :JSON: Use of OSS is recommended. For example, `Jackson (external site) <https://github.com/FasterXML/jackson>`_ is widely used.
 
 
@@ -481,15 +481,6 @@ Configure by explicitly mentioning the name ``XmlDataParser`` in the configurati
         <property name="allowDTD" value="true" />
       </component>
     </component-configuration>
-
-.. tip::
-
-  The API of the below versions of JDK has a bug, and a ``NullPointerException`` occurs when this function is used. To avoid this bug, update the version of JDK.
-  
-  - JDK6 6u65 or below
-  - JDK7 7u6 b15 or below
-
-  For details of the failure, see `JDK-7157610 : NullPointerException occurs when parsing XML doc <https://bugs.java.com/bugdatabase/view_bug.do?bug_id=7157610>`_ .
 
 Using namespaces in XML
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

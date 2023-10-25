@@ -361,7 +361,7 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
       * 取得した :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` オブジェクトに対して、
         :java:extdoc:`ObjectMapper#read <nablarch.common.databind.ObjectMapper.read()>` を実行することで、バインド済みBeanのリストを取得できる。
       * :java:extdoc:`ValidatorUtil#getValidator <nablarch.core.validation.ee.ValidatorUtil.getValidator()>` を使用して
-        :java:extdoc:`Validator <javax.validation.Validator>` オブジェクトを生成することで、任意のBeanに対して :ref:`Bean Validation<bean_validation>` を実行できる。
+        :java:extdoc:`Validator <jakarta.validation.Validator>` オブジェクトを生成することで、任意のBeanに対して :ref:`Bean Validation<bean_validation>` を実行できる。
       * エラーが発生した時点でバリデーションを中止せず、最終行まで検証する場合、
         バリデーション終了後に全行分のエラーメッセージを格納した :java:extdoc:`Message<nablarch.core.message.Message>` のリスト
         を引数に :java:extdoc:`ApplicationException<nablarch.core.message.ApplicationException>` を生成して送出することで、

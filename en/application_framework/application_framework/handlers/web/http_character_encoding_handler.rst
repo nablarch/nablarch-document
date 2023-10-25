@@ -6,8 +6,8 @@ HTTP Character Encoding Control Handler
   :depth: 3
   :local:
 
-In this handler, the specified character encoding is configured for the request ( :java:extdoc:`HttpServletRequest <javax.servlet.http.HttpServletRequest>` )
-and response ( :java:extdoc:`HttpServletResponse <javax.servlet.http.HttpServletResponse>` ).
+In this handler, the specified character encoding is configured for the request ( :java:extdoc:`HttpServletRequest <jakarta.servlet.http.HttpServletRequest>` )
+and response ( :java:extdoc:`HttpServletResponse <jakarta.servlet.http.HttpServletResponse>` ).
 
 This handler performs the following process.
 
@@ -79,8 +79,8 @@ For example, in a system that processes requests from external sites, this suppo
 An example is shown below.
 
 Point
-  * To change the request encoding, override :java:extdoc:`resolveRequestEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveRequestEncoding(javax.servlet.http.HttpServletRequest)>`.
-  * To change the response encoding, override :java:extdoc:`resolveResponseEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveResponseEncoding(javax.servlet.http.HttpServletRequest)>`.
+  * To change the request encoding, override :java:extdoc:`resolveRequestEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveRequestEncoding(jakarta.servlet.http.HttpServletRequest)>`.
+  * To change the response encoding, override :java:extdoc:`resolveResponseEncoding <nablarch.fw.web.handler.HttpCharacterEncodingHandler.resolveResponseEncoding(jakarta.servlet.http.HttpServletRequest)>`.
 
 .. code-block:: java
 

@@ -63,7 +63,7 @@ RESTfulウェブサービス用実行基盤のみ、必要なモジュールが�
     <!--  テスティングフレームワークで使用する内蔵サーバの実装  -->
     <dependency>
       <groupId>com.nablarch.framework</groupId>
-      <artifactId>nablarch-testing-jetty6</artifactId>
+      <artifactId>nablarch-testing-jetty12</artifactId>
       <scope>test</scope>
     </dependency>
 
@@ -71,10 +71,6 @@ RESTfulウェブサービス用実行基盤のみ、必要なモジュールが�
 .. important::
    ``nablarch-testing-rest`` は ``nablarch-testing`` (:ref:`テスティングフレームワーク <unitTestGuide>`) に依存している。
    上記のモジュールを依存に追加することで :ref:`テスティングフレームワーク <unitTestGuide>` のAPIも同時に使用できる。
-
-.. tip::
-  Java11を使用している場合は :ref:`自動テストで使用するJettyのモジュール変更 <setup_java11_jetty9>` の通り
-  内蔵サーバを差し替えること。
 
 設定
 ========

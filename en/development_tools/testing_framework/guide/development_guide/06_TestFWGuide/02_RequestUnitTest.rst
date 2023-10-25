@@ -514,26 +514,6 @@ Also, you can set the default VM arguments with the following method without cha
 
 .. image:: ./_images/edit_jre.png
 
-
-Specifying an alternate JRE
-----------------------------
-
-If you are developing with JavaSE5 JDK, then using JavaSE6 JRE only at the time of test execution will improve
-the execution speed, especially the start-up speed.
-
-
-How to configure with Eclipse is as shown below.
-
-* Select "Run(実行)" > "Run Configuration(実行構成)" from the menu bar.
-
-* On the "Execution Configuration(実行構成)" window that is displayed, click the "JRE" tab and select JRE of JavaSE6 in the "Alternate JRE(代替JRE)".
-
-.. image:: ./_images/alternate_jre.png
-
-
-.. tip::
-  To configure this setting, you need to install the JavaSE6 JDK or JRE in advance and register it as "Installed JRE(インストール済みのJRE)" in Eclipse.
-
 Suppression of HTML resource copying
 -------------------------------------
 
