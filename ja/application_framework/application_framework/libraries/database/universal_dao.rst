@@ -531,10 +531,11 @@ DatabaseMetaDataから情報を取得できない場合に対応する
 
 件数取得SQLは、元のSQLと同一の検索条件を持つ必要がある。件数取得SQLを用意する場合は、両者の検索条件に差分が発生しないよう注意すること。
 
-以下に :javadoc:`nablarch.core.db.dialect.H2Dialect` をカスタマイズする例を示す。
+以下に :java:extdoc:`nablarch.core.db.dialect.H2Dialect` をカスタマイズする例を示す。
 カスタマイズ対象のメソッドは :java:extdoc:`convertCountSql(String, Object, StatementFactory) <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String-java.lang.Object-nablarch.core.db.statement.StatementFactory)>` である。
 
 .. code-block:: java
+
    public class CustomH2Dialect extends H2Dialect {
    
        /**
