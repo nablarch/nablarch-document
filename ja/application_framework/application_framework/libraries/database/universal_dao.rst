@@ -539,55 +539,47 @@ DatabaseMetaDataから情報を取得できない場合に対応する
    public class CustomH2Dialect extends H2Dialect {
    
        /**
-        * 件数取得SQLを表すサフィックス
+        * 件数取得SQLのマッピング
         */
-       private static final String COUNTSQLID_SUFFIX = "_FORCOUNT";
-   
-       /**
-        * SQLローダ
-        */
-       private BasicSqlLoader sqlLoader;
+       private Map<String, String> sqlMap;
    
        /**
         * {@inheritDoc}
         *
-        * {@code sqlId}に{@link CustomH2Dialect#COUNTSQLID_SUFFIX}をサフィックスとして付与したSQLが存在すれば、
+        * {@link CustomH2Dialect#sqlMap}内に{@code sqlId}に対応するSQLIDが存在すれば、
         * それを件数取得SQLとして返却する。
         */
        @Override
        public String convertCountSql(String sqlId, Object params, StatementFactory statementFactory) {
    
-           String[] sqlIds = sqlId.split("#");
-           if (2 != sqlIds.length) {
-               throw new IllegalArgumentException();
-           }
-   
-           String sqlResourceName = sqlIds[0];
-           String countSqlId = sqlIds[1] + COUNTSQLID_SUFFIX;
-           Map<String, String> sqlVal = getSqlLoader().getValue(sqlResourceName);
-   
-           if (sqlVal.containsKey(countSqlId)) {
-               return statementFactory.getVariableConditionSql(sqlVal.get(countSqlId), params);
+           if (sqlMap.containsKey(sqlId)) {
+               return statementFactory.getVariableConditionSqlBySqlId(sqlMap.get(sqlId), params);
            }
    
            return convertCountSql(statementFactory.getVariableConditionSqlBySqlId(sqlId, params));
        }
    
        /**
-        * SQLローダを取得する。
+        * 件数取得SQLのマッピングを設定する。
         *
-        * @return BasicSqlLoader
+        * @param sqlMap 件数取得SQLのマッピング
         */
-       private BasicSqlLoader getSqlLoader() {
-           if(null == sqlLoader) {
-               sqlLoader = SystemRepository.get("sqlLoader");
-           }
-   
-           return sqlLoader;
+       public void setSqlMap(Map<String, String> sqlMap){
+           this.sqlMap = sqlMap;
        }
-   
    }
 
+
+.. code-block:: xml
+                
+   <component name="dialect" class="com.nablarch.example.app.db.dialect.CustomH2Dialect">
+     <property name="sqlMap">
+       <map>
+         <entry key="com.nablarch.example.app.entity.Project#SEARCH_PROJECT"
+                value="com.nablarch.example.app.entity.Project#SEARCH_PROJECT_FORCOUNT"/>
+       </map>
+     </property>
+   </component>
 
 上記の例では、元のSQLのSQLIDに ``_FORCOUNT`` を付与し、SQLローダからSQLIDを検索する。
 SQLIDが存在すれば、それを件数取得SQLのSQLIDとしてSQLを返却する。
