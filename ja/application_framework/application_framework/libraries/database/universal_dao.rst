@@ -242,7 +242,7 @@ JDBCのフェッチサイズによってメモリの使用量が変わる。
 
 .. tip::
   ページングでは、実際の範囲指定レコードの取得処理の前に、件数取得SQLが発行される。
-  件数取得SQLの実行で性能劣化が発生している場合は、 :ref:`universal_dao-customize_sql_for_counting` を参考にして件数取得SQLを変更する。
+  件数取得SQLに起因して性能劣化が発生した場合等、必要に応じて :ref:`universal_dao-customize_sql_for_counting` を参考にして件数取得SQLを変更する。
 
 .. _universal_dao-generate_surrogate_key:
 
