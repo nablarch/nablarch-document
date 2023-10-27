@@ -522,7 +522,7 @@ DatabaseMetaDataから情報を取得できない場合に対応する
 
 .. _universal_dao-customize_sql_for_counting:
 
-件数取得用SQLの性能劣化に対応する
+ページング処理の件数取得用SQLを変更する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :ref:`ページング <universal_dao-paging>` 処理では、実際の範囲指定レコードの取得処理の前に、件数取得SQLが発行される。
 件数取得SQLは、デフォルトでは元のSQLを ``SELECT COUNT(*) FROM`` で包んだSQLとなる。
