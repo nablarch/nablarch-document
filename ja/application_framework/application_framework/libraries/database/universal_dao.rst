@@ -532,8 +532,13 @@ DatabaseMetaDataから情報を取得できない場合に対応する
 .. important::
    件数取得SQLは、元のSQLと同一の検索条件を持つ必要がある。件数取得SQLを用意する場合は、両者の検索条件に差分が発生しないよう注意すること。
 
+ダイアレクトをカスタマイズする場合は、プロジェクトで使用しているダイアレクトを継承した上で、 :java:extdoc:`Dialect#convertCountSql(String, Object, StatementFactory) <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String-java.lang.Object-nablarch.core.db.statement.StatementFactory)>` を実装する。
+
 以下に :java:extdoc:`nablarch.core.db.dialect.H2Dialect` をカスタマイズする例を示す。
-カスタマイズ対象のメソッドは :java:extdoc:`convertCountSql(String, Object, StatementFactory) <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String-java.lang.Object-nablarch.core.db.statement.StatementFactory)>` である。
+この例では、元のSQLと件数取得SQLのマッピングをコンポーネントに設定している。
+マッピングが存在すれば対応する件数取得SQLを返却し、存在しない場合は元のSQLを返却する。
+
+プロジェクトごとに、適切なマッピングルールを検討すること。
 
 .. code-block:: java
 
@@ -570,7 +575,6 @@ DatabaseMetaDataから情報を取得できない場合に対応する
        }
    }
 
-
 .. code-block:: xml
                 
    <component name="dialect" class="com.nablarch.example.app.db.dialect.CustomH2Dialect">
@@ -581,10 +585,6 @@ DatabaseMetaDataから情報を取得できない場合に対応する
        </map>
      </property>
    </component>
-
-上記の例では、元のSQLのSQLIDに ``_FORCOUNT`` を付与し、SQLローダからSQLIDを検索する。
-SQLIDが存在すれば、それを件数取得SQLのSQLIDとしてSQLを返却する。
-元のSQLと件数取得SQLのマッピングルールは、プロジェクトごとに決定すれば良い。
 
 .. _`universal_dao_jpa_annotations`:
 
