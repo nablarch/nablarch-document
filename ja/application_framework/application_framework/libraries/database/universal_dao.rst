@@ -552,7 +552,7 @@ DatabaseMetaDataから情報を取得できない場合に対応する
        /**
         * {@inheritDoc}
         *
-        * {@link CustomH2Dialect#sqlMap}内に{@code sqlId}に対応するSQLIDが存在すれば、
+        * 件数取得SQLのマッピング内に{@code sqlId}に対応するSQLIDが存在すれば、
         * それを件数取得SQLとして返却する。
         */
        @Override
