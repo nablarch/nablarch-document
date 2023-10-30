@@ -532,7 +532,7 @@ DatabaseMetaDataから情報を取得できない場合に対応する
 .. important::
    件数取得SQLは、元のSQLと同一の検索条件を持つ必要がある。件数取得SQLを用意する場合は、両者の検索条件に差分が発生しないよう注意すること。
 
-件数取得SQLを変更する場合は、プロジェクトで使用しているダイアレクトを継承した上で、 :java:extdoc:`Dialect#convertCountSql(String, Object, StatementFactory) <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String-java.lang.Object-nablarch.core.db.statement.StatementFactory)>` の実装を変更する
+件数取得SQLを変更する場合は、プロジェクトで使用しているダイアレクトを継承した上で、 :java:extdoc:`Dialect#convertCountSql(String, Object, StatementFactory) <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String-java.lang.Object-nablarch.core.db.statement.StatementFactory)>` の実装を変更する。
 
 以下に :java:extdoc:`nablarch.core.db.dialect.H2Dialect` をカスタマイズする例を示す。
 この例では、元のSQLと件数取得SQLのマッピングをコンポーネントに設定している。
@@ -574,6 +574,11 @@ DatabaseMetaDataから情報を取得できない場合に対応する
            this.sqlMap = sqlMap;
        }
    }
+
+
+カスタマイズしたダイアレクトは、コンポーネント設定ファイルで設定する必要がある。
+以下に、カスタマイズしたダイアレクトをコンポーネント設定ファイルに設定する例を示す。
+この例では、件数取得SQLのマッピングを ``<property>`` 要素で設定している。
 
 .. code-block:: xml
                 
