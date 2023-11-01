@@ -534,61 +534,63 @@ DatabaseMetaDataから情報を取得できない場合に対応する
 
 件数取得SQLを変更する場合は、プロジェクトで使用しているダイアレクトを継承した上で、 :java:extdoc:`Dialect#convertCountSql(String, Object, StatementFactory) <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String-java.lang.Object-nablarch.core.db.statement.StatementFactory)>` の実装を変更する。
 
-以下に :java:extdoc:`nablarch.core.db.dialect.H2Dialect` をカスタマイズする例を示す。
-この例では、元のSQLと件数取得SQLのマッピングをコンポーネントに設定し、件数取得SQLを変更している。
+実装例
+   以下に :java:extdoc:`nablarch.core.db.dialect.H2Dialect` をカスタマイズする例を示す。
+   この例では、元のSQLと件数取得SQLのマッピングをコンポーネントに設定し、件数取得SQLを変更している。
 
-プロジェクトごとに、適切なマッピングルールを検討すること。
-
-.. code-block:: java
-
-   public class CustomH2Dialect extends H2Dialect {
+   .. tip::
+      プロジェクトごとに適切なマッピングルールを検討すること。
    
-       /**
-        * 件数取得SQLのマッピング
-        */
-       private Map<String, String> sqlMap;
+   .. code-block:: java
    
-       /**
-        * {@inheritDoc}
-        *
-        * 件数取得SQLのマッピング内に{@code sqlId}に対応するSQLIDが存在すれば、
-        * それを件数取得SQLとして返却する。
-        */
-       @Override
-       public String convertCountSql(String sqlId, Object params, StatementFactory statementFactory) {
-   
-           if (sqlMap.containsKey(sqlId)) {
-               return statementFactory.getVariableConditionSqlBySqlId(sqlMap.get(sqlId), params);
-           }
-   
-           return convertCountSql(statementFactory.getVariableConditionSqlBySqlId(sqlId, params));
-       }
-   
-       /**
-        * 件数取得SQLのマッピングを設定する。
-        *
-        * @param sqlMap 件数取得SQLのマッピング
-        */
-       public void setSqlMap(Map<String, String> sqlMap){
-           this.sqlMap = sqlMap;
-       }
-   }
+      public class CustomH2Dialect extends H2Dialect {
+      
+          /**
+           * 件数取得SQLのマッピング
+           */
+          private Map<String, String> sqlMap;
+      
+          /**
+           * {@inheritDoc}
+           *
+           * 件数取得SQLのマッピング内に{@code sqlId}に対応するSQLIDが存在すれば、
+           * それを件数取得SQLとして返却する。
+           */
+          @Override
+          public String convertCountSql(String sqlId, Object params, StatementFactory statementFactory) {
+      
+              if (sqlMap.containsKey(sqlId)) {
+                  return statementFactory.getVariableConditionSqlBySqlId(sqlMap.get(sqlId), params);
+              }
+      
+              return convertCountSql(statementFactory.getVariableConditionSqlBySqlId(sqlId, params));
+          }
+      
+          /**
+           * 件数取得SQLのマッピングを設定する。
+           *
+           * @param sqlMap 件数取得SQLのマッピング
+           */
+          public void setSqlMap(Map<String, String> sqlMap){
+              this.sqlMap = sqlMap;
+          }
+      }
 
-
-カスタマイズしたダイアレクトは、コンポーネント設定ファイルで設定する必要がある。
-以下に、カスタマイズしたダイアレクトをコンポーネント設定ファイルに設定する例を示す。
-この例では、件数取得SQLのマッピングを ``<property>`` 要素で設定している。
-
-.. code-block:: xml
-                
-   <component name="dialect" class="com.nablarch.example.app.db.dialect.CustomH2Dialect">
-     <property name="sqlMap">
-       <map>
-         <entry key="com.nablarch.example.app.entity.Project#SEARCH_PROJECT"
-                value="com.nablarch.example.app.entity.Project#SEARCH_PROJECT_FORCOUNT"/>
-       </map>
-     </property>
-   </component>
+コンポーネント設定ファイル
+   カスタマイズしたダイアレクトは、コンポーネント設定ファイルで設定する必要がある。
+   以下に、カスタマイズしたダイアレクトをコンポーネント設定ファイルに設定する例を示す。
+   この例では、件数取得SQLのマッピングを ``<property>`` 要素で設定している。
+   
+   .. code-block:: xml
+                   
+      <component name="dialect" class="com.nablarch.example.app.db.dialect.CustomH2Dialect">
+        <property name="sqlMap">
+          <map>
+            <entry key="com.nablarch.example.app.entity.Project#SEARCH_PROJECT"
+                   value="com.nablarch.example.app.entity.Project#SEARCH_PROJECT_FORCOUNT"/>
+          </map>
+        </property>
+      </component>
 
 .. _`universal_dao_jpa_annotations`:
 
