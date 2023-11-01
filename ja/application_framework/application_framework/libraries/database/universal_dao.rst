@@ -535,8 +535,7 @@ DatabaseMetaDataから情報を取得できない場合に対応する
 件数取得SQLを変更する場合は、プロジェクトで使用しているダイアレクトを継承した上で、 :java:extdoc:`Dialect#convertCountSql(String, Object, StatementFactory) <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String-java.lang.Object-nablarch.core.db.statement.StatementFactory)>` の実装を変更する。
 
 以下に :java:extdoc:`nablarch.core.db.dialect.H2Dialect` をカスタマイズする例を示す。
-この例では、元のSQLと件数取得SQLのマッピングをコンポーネントに設定している。
-マッピングが存在すれば対応する件数取得SQLを返却し、存在しない場合は元のSQLを返却する。
+この例では、元のSQLと件数取得SQLのマッピングをコンポーネントに設定し、件数取得SQLを変更している。
 
 プロジェクトごとに、適切なマッピングルールを検討すること。
 
