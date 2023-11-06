@@ -241,7 +241,7 @@ Information such as the number of search results required for displaying the pag
   Search process for paging is performed using :ref:`range specified search function of database access (JDBC wrapper) <database-paging>`.
 
 .. tip::
-  In paging, the number acquisition SQL is issued before the actual acquisition process of the range-specified records.
+  In paging, the number acquisition SQL is issued before the actual acquisition process of the range specified records.
   If performance degradation occurs due to the number acquisition SQL, change the number acquisition SQL as necessary by referring to :ref:`universal_dao-customize_sql_for_counting`.
 
 .. _universal_dao-generate_surrogate_key:
@@ -525,7 +525,7 @@ Configuration is required to use the created class.
 
 Change the number acquisition SQL for the paging process
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In :ref:`paging <universal_dao-paging>`, the number acquisition SQL is issued before the actual acquisition process of the range-specified records.
+In :ref:`paging <universal_dao-paging>`, the number acquisition SQL is issued before the actual acquisition process of the range specified records.
 By default, the number acquisition SQL is the original SQL wrapped in a ``SELECT COUNT(*) FROM`` .
 If the original SQL has a heavy processing load, such as containing a ``ORDER BY`` clause, and you want to remove the ``ORDER BY`` clause to reduce the load, you can customise the dialect you are using and change the number acquisition SQL.
 
