@@ -39,7 +39,8 @@ By configuring :java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` corresp
 * A method for generating SQL statement to acquire the next value from the sequence object (:java:extdoc:`buildSequenceGeneratorSql <nablarch.core.db.dialect.Dialect.buildSequenceGeneratorSql(java.lang.String)>` )
 * A method that returns :java:extdoc:`ResultSetConvertor <nablarch.core.db.statement.ResultSetConvertor>` , which acquires value from :java:extdoc:`ResultSet <java.sql.ResultSet>` (:java:extdoc:`getResultSetConvertor <nablarch.core.db.dialect.Dialect.getResultSetConvertor()>` )
 * A method to convert search query to range specification (for paging) SQL (:java:extdoc:`convertPaginationSql <nablarch.core.db.dialect.Dialect.convertPaginationSql(java.lang.String-nablarch.core.db.statement.SelectOption)>` )
-* A method for converting search query to the number acquisition SQL (:java:extdoc:`convertCountSql <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String)>` )
+* A method for converting search query to the number acquisition SQL (:java:extdoc:`convertCountSql(String) <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String)>` )
+* A method for converting SQL ID to the number acquisition SQL (:java:extdoc:`convertCountSql(String, Object, StatementFactory) <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String-java.lang.Object-nablarch.core.db.statement.StatementFactory)>` )
 * A method that returns SQL to check if :java:extdoc:`Connection <java.sql.Connection>` is connected to the database (:java:extdoc:`getPingSql <nablarch.core.db.dialect.Dialect.getPingSql()>` )
 
 See :ref:`database-use_dialect` for how to configure :java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` .
