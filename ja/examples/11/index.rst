@@ -109,16 +109,12 @@ Nablarchアプリケーションフレームワークのマルチスレッド実
 
     git clone https://github.com/nablarch/nablarch-messaging-simulator.git
 
-  なお、シミュレータを実行するには、以下のライブラリがローカルリポジトリにインストールされている必要がある。
-
-    * WebSphere MQ付属のjarファイル
-
 実行モジュールの作成
-  以下のコマンドを実行し、 ``src/main/build`` 配下に実行モジュールを作成する。
+  以下のコマンドを実行し、 ``target/build`` 配下に実行モジュールを作成する。
 
   .. code-block:: bat
 
-    gradlew setupBuild
+    mvn clean dependency:copy-dependencies -DoutputDirectory=target/build/lib package
 
   作成した実行モジュールは、シミュレータを実行する環境に配置する。
 
