@@ -401,7 +401,7 @@ Java EEの名前空間であると判断できた場合は、 ``javax`` の部�
   import jakarta.validation.ConstraintValidator;
 
 
-以上の修正で、nablarch-example-webに関してはJakarta EE 10対応されたアプリケーションサーバ上で動作できるようになる。
+以上の修正で、nablarch-example-webに関してはJakarta EE 10に対応したアプリケーションサーバ上で動作できるようになる。
 
 
 JSR352に準拠したバッチアプリケーションの移行手順
