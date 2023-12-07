@@ -24,6 +24,11 @@
   .. image:: ./_images/behavior_illustration02.png
     :scale: 70
 
+.. important::
+
+  本サンプルではMOMとしてIBM MQ を使用している。
+  IBM MQ はJavaのバージョン 8 以上がサポート対象であるため、本サンプルでは Java 8を使用する。
+
 用途
 ----------
 
