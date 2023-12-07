@@ -401,6 +401,53 @@ Java EEの名前空間であると判断できた場合は、 ``javax`` の部�
   import jakarta.validation.ConstraintValidator;
 
 
+XMLスキーマ指定をJakarta EE 10のスキーマに変更する
+-----------------------------------------------------------------
+
+``web.xml`` 等のXMLファイルではXMLスキーマを指定しているが、これをJakarta EE 10に対応したスキーマに変更する。
+Jakarta EE 10で提供されているスキーマは、 `Jakarta EE XML Schemas (外部サイト、英語) <https://jakarta.ee/xml/ns/jakartaee/#10>`_ で確認できる。
+（指定例については  `Jakarta Servlet Specification (外部サイト、英語) <https://jakarta.ee/specifications/servlet/6.0/jakarta-servlet-spec-6.0.html#a-basic-example>`_ で確認できる）
+
+**修正前**
+
+.. code-block:: xml
+
+  <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+           http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+           version="3.1">
+
+**修正後**
+
+.. code-block:: xml
+
+  <web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                               web-app_6_0.xsd"
+           version="6.0">
+
+
+タグライブラリのネームスペースをJakarta EE 10のネームスペースに変更する
+-----------------------------------------------------------------------------
+
+JSPファイルでは taglib ディレクティブでタグライブラリのネームスペースを指定しているが、これをJakarta EE 10に対応したネームスペースに変更する。
+Jakarta EE 10で提供されているネームスペースは、 `Jakarta Standard Tag Library 3.0 (外部サイト、英語) <https://jakarta.ee/specifications/tags/3.0/>`_ で確認できる。
+
+**修正前**
+
+.. code-block:: xml
+
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+**修正後**
+
+.. code-block:: xml
+
+  <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
+
 以上の修正で、nablarch-example-webに関してはJakarta EE 10に対応したアプリケーションサーバ上で動作できるようになる。
 
 
