@@ -61,8 +61,8 @@ Nablarch 5のプロジェクトをNablarch 6に上げるためには、大まか
 Nablarchのバージョンアップ
 --------------------------------------------------------------------
 
-Nablarchを構成する各モジュールのバージョンはbomで管理しているので、bomのバージョンを変えることでNablarchのバージョンアップができる。
-以下のように、 ``pom.xml`` でNablarchのbomを読み込んでいる部分の ``<version>`` を6に変更する。
+Nablarchを構成する各モジュールのバージョンはBOMで管理しているので、BOMのバージョンを変えることでNablarchのバージョンアップができる。
+以下のように、 ``pom.xml`` でNablarchのBOMを読み込んでいる部分の ``<version>`` を6に変更する。
 
 .. code-block:: xml
 
@@ -71,7 +71,7 @@ Nablarchを構成する各モジュールのバージョンはbomで管理して
       <dependency>
         <groupId>com.nablarch.profile</groupId>
         <artifactId>nablarch-bom</artifactId>
-        <version>6</version> <!-- bom のバージョンを 6 にする-->
+        <version>6</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -179,8 +179,8 @@ nablarch-example-webの ``pom.xml`` では、以下がJava EEのAPIの依存関�
     <artifactId>jakarta.persistence-api</artifactId>
   </dependency>
 
-Jakarta EEのAPIにはbomが用意されているので、これを読み込むことでAPIごとにバージョンを指定する必要がなくなる。
-バージョンを調べる手間や指定のミスが減り管理も楽になるため、bomを読み込むことを推奨する。
+Jakarta EEのAPIにはBOMが用意されているので、これを読み込むことでAPIごとにバージョンを指定する必要がなくなる。
+バージョンを調べる手間や指定のミスが減り管理も楽になるため、BOMを読み込むことを推奨する。
 
 Java EEのAPIの ``dependency`` は、jarの提供元やバージョンによってバラバラになっており統一されていない。
 このため、 ``groupId`` などから機械的に判断することはできない。
