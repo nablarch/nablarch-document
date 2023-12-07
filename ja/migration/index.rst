@@ -229,14 +229,14 @@ nablarch-example-webをはじめ、アーキタイプから作ったNablarchプ�
 このプラグインは、データベーステーブルのメタデータからJavaのエンティティクラスを生成する機能(``generate-entity``)を提供している。
 このエンティティクラスにはJPAなどのJava EEのアノテーションが設定されるため、そのままではJakarta EE環境で使用できない。
 
-gsp-dba-maven-pluginは5.0.0でJakarta EE対応が入ったので、 ``pom.xml`` を以下のように修正する。
+gsp-dba-maven-pluginは5.0.0でJakarta EE対応が入ったので、 ``pom.xml`` でgsp-dba-maven-pluginの ``<version>`` を変更する。
 
 .. code-block:: xml
 
     <plugin>
       <groupId>jp.co.tis.gsp</groupId>
       <artifactId>gsp-dba-maven-plugin</artifactId>
-      <version>5.0.0</version> <!-- gsp-dba-maven-plugin の version を Jakarta EE 対応版に変更する -->
+      <version>5.0.0</version>
       <configuration>
       ...
 
