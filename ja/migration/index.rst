@@ -205,11 +205,11 @@ Java EEのAPIの ``dependency`` は、jarの提供元やバージョンによっ
 Jakarta EEでの ``dependency`` が何になるかは各仕様のページに記載されているので、そちらを確認すること（例えば `Jakarta Servlet 6.0 の仕様のページ (外部サイト、英語) <https://jakarta.ee/specifications/servlet/6.0/#details>`_ には、「Maven coordinates」のところに ``jakarta.servlet:jakarta.servlet-api:jar:6.0.0`` と記載されている）。
 
 
-Java EE関係のランタイムを更新する
+Java EE仕様の実装ライブラリを更新する
 -----------------------------------------------------------------
 
-Java EEの仕様のランタイムをアプリケーションに組み込んでいる場合は、これらをJakarta EEのものに置き換える。
-例えば、nablarch-example-webにはBean ValidationのランタイムであるHibernate Validatorが含まれている。
+Java EE仕様の実装ライブラリをアプリケーションに組み込んでいる場合は、これらをJakarta EEのものに置き換える。
+例えば、nablarch-example-webにはBean Validationを実装したHibernate Validatorが含まれている。
 
 .. code-block:: xml
 
@@ -219,7 +219,7 @@ Java EEの仕様のランタイムをアプリケーションに組み込んで�
     <version>5.3.6.Final</version>
   </dependency>
 
-これを、Jakarta EE版の ``dependency`` に変更すると以下のようになる。
+これを、Jakarta EE対応版の ``dependency`` に変更すると以下のようになる。
 
 .. code-block:: xml
 
@@ -229,12 +229,12 @@ Java EEの仕様のランタイムをアプリケーションに組み込んで�
     <version>8.0.0.Final</version>
   </dependency>
 
-どの ``dependency`` がJava EEのランタイムなのかは、それぞれの ``dependency`` ごとに個別に調査する必要がある。
-また、Java EEのランタイムであることが分かった場合、そのランタイムのJakarta EE対応版の ``dependency`` が何になるかはランタイムごとに異なる。
-したがって、プロジェクトで使用しているランタイムごとに公式サイトなどを確認する必要がある。
+どの ``dependency`` がJava EE仕様の実装ライブラリであるのかは、それぞれの ``dependency`` ごとに個別に調査する必要がある。
+また、Java EE仕様の実装ライブラリであることが分かった場合、Jakarta EE対応版の ``dependency`` が何になるかは実装ライブラリごとに異なる。
+したがって、プロジェクトで使用している実装ライブラリごとに公式サイトなどを確認する必要がある。
 
-参考までに、代表的なランタイムのJava EEとJakarta EEでの ``dependency`` を本ページの付録の :ref:`jakarta_ee_runtime_dependency` に記載している。
-その他の仕様のランタイムについてはJakarta EEの各仕様のページで互換実装が紹介されているので、そちらも参考にすること。
+参考までに、代表的な実装ライブラリのJava EEとJakarta EEでの ``dependency`` を本ページの付録の :ref:`jakarta_ee_runtime_dependency` に記載している。
+その他の仕様の実装ライブラリについてはJakarta EEの各仕様のページで互換実装が紹介されているので、そちらも参考にすること。
 (例えば、 `Jakarta RESTful Web Services 3.1 の仕様のページ (外部サイト、英語) <https://jakarta.ee/specifications/restful-ws/3.1/#compatible-implementations>`_ では、互換実装として Eclipse Jersey 3.1.0 が紹介されている)
 
 gsp-dba-maven-pluginを更新する
@@ -409,7 +409,7 @@ JSR352に準拠したバッチアプリケーションの移行手順
 
 Nablarchが提供する実行制御基盤は、いずれも前節で説明した手順で移行できる。
 
-ただし :doc:`../application_framework/application_framework/batch/jsr352/index` のみ、JSR352のランタイムとして使用しているJBeretと関連するライブラリの更新が複雑であるため、ここで追加で説明する。
+ただし :doc:`../application_framework/application_framework/batch/jsr352/index` のみ、JSR352に準拠した実装として使用しているJBeretと関連するライブラリの更新が複雑であるため、ここで追加で説明する。
 
 JSR352に準拠したバッチアプリケーションをアーキタイプから生成した場合、Nablarch 5までは以下のように ``dependency`` が ``pom.xml`` に設定されている。
 
@@ -739,7 +739,7 @@ Java EEとJakarta EEの仕様の対応表
 .. _jakarta_ee_runtime_dependency:
 
 --------------------------------------------------------------------
-代表的な仕様のランタイムのdependency
+代表的な仕様の実装ライブラリのdependency
 --------------------------------------------------------------------
 
 
