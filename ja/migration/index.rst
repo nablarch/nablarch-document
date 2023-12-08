@@ -437,13 +437,13 @@ Jakarta EE 10で提供されているネームスペースは、 `Jakarta Standa
 
 **修正前**
 
-.. code-block:: xml
+.. code-block:: jsp
 
   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 **修正後**
 
-.. code-block:: xml
+.. code-block:: jsp
 
   <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
