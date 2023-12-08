@@ -628,7 +628,7 @@ NoClassDefFoundErrorになる場合
   Caused by: java.lang.NoClassDefFoundError: Could not initialize class org.jboss.weld.logging.BeanLogger
       at org.jboss.weld.util.Beans.getBeanConstructor (Beans.java:279)
 
-実行時に上記のようなスタックトレースが出力されてエラーになる場合、クラスパスの順序においてslf4j-nablarch-adaptorをLogbackより後にすることでエラーを解消できる。
+実行時に上記のようなスタックトレースが出力されてエラーになる場合、クラスパスの順序において ``slf4j-nablarch-adaptor`` をLogbackより後にすることでエラーを解消できる。
 Mavenで実行する場合は、 ``pom.xml`` 上の ``slf4j-nablarch-adaptor`` の位置をLogbackより下に配置することで順序を変更できる。
 
 .. code-block:: xml
