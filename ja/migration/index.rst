@@ -435,7 +435,7 @@ JMS → Jakarta Messaging
 gsp-dba-maven-pluginを更新する
 -----------------------------------------------------------------
 
-nablarch-example-webをはじめ、アーキタイプから作ったNablarchプロジェクトなどには `gsp-dba-maven-plugin (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/v5-master>`_ があらかじめ組み込まれている。
+nablarch-example-webをはじめ、アーキタイプから作ったプロジェクトには `gsp-dba-maven-plugin (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/v5-master>`_ があらかじめ組み込まれている。
 このプラグインは、データベーステーブルのメタデータからJavaのエンティティクラスを生成する機能(``generate-entity``)を提供している。
 このエンティティクラスにはJPAなどのJava EEのアノテーションが設定されるため、そのままではJakarta EE環境で使用できない。
 
@@ -460,7 +460,7 @@ gsp-dba-maven-pluginは5.0.0でJakarta EE対応が入ったので、 ``pom.xml``
 waitt-maven-pluginをjetty-ee10-maven-pluginに変更する
 -----------------------------------------------------------------
 
-nablarch-example-webをはじめ、アーキタイプから作ったNablarchプロジェクトなどには `waitt-maven-plugin (外部サイト、英語) <https://github.com/kawasima/waitt>`_ があらかじめ組み込まれている。
+nablarch-example-webをはじめ、アーキタイプから作ったウェブアプリケーションのプロジェクトには `waitt-maven-plugin (外部サイト、英語) <https://github.com/kawasima/waitt>`_ があらかじめ組み込まれている。
 このプラグインは、プロジェクトのコードを組み込みサーバ(Tomcatなど)にデプロイして簡単に実行できる機能を提供している。
 しかし、このプラグインはJakarta EE対応がされていないので、同様の機能を提供していてJakarta EEにも対応しているjetty-ee10-maven-pluginに変更する。
 
