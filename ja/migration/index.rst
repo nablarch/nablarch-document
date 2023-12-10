@@ -716,7 +716,7 @@ JSR352に準拠したバッチアプリケーションをアーキタイプか�
       <version>...</version>
     </dependency>
 
-    <!-- JBereteをJavaSEで動作させるための依存関係 -->
+    <!-- JBeretをJavaSEで動作させるための依存関係 -->
     <dependency>
       <groupId>org.jberet</groupId>
       <artifactId>jberet-se</artifactId>
@@ -790,7 +790,7 @@ Nablarch 6へ移行するためには、これらを以下のように修正す�
       <version>31.1-jre</version>
     </dependency>
 
-    <!-- JBereteをJavaSEで動作させるための依存関係 -->
+    <!-- JBeretをJavaSEで動作させるための依存関係 -->
     <dependency>
       <groupId>org.jberet</groupId>
       <artifactId>jberet-se</artifactId>

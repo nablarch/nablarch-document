@@ -460,7 +460,7 @@ When a JSR352-compliant Batch Application is generated from an archetype, ``depe
       <version>...</version>
     </dependency>
 
-    <!-- JBereteをJavaSEで動作させるための依存関係 -->
+    <!-- JBeretをJavaSEで動作させるための依存関係 -->
     <dependency>
       <groupId>org.jberet</groupId>
       <artifactId>jberet-se</artifactId>
@@ -534,7 +534,7 @@ When upgrading to Nablarch 6, modify this as follows.
       <version>31.1-jre</version>
     </dependency>
 
-    <!-- JBereteをJavaSEで動作させるための依存関係 -->
+    <!-- JBeretをJavaSEで動作させるための依存関係 -->
     <dependency>
       <groupId>org.jberet</groupId>
       <artifactId>jberet-se</artifactId>
