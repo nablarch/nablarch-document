@@ -451,6 +451,9 @@ gsp-dba-maven-pluginは5.0.0でJakarta EE対応が入ったので、 ``pom.xml``
 さらに、Jakarta EE対応されたgsp-dba-maven-pluginの ``generate-entity`` を使うためには、 ``dependency`` やJVM引数の追加が必要となる。
 詳細については `gsp-dba-maven-pluginのガイド (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/v5-master#generate-entity>`_ を参照のこと。
 
+.. tip::
+  gsp-dba-maven-pluginのガイドでは ``dependency`` へJakarta EEの依存関係を追加する際に ``<version>`` を指定しているが、前述のとおりJakarta EEが提供しているBOMを読み込んでいるため、 ``<version>`` の指定は不要となる。
+
 以上で、Jakarta EEのアノテーションが設定されたエンティティが生成されるようになる。
 
 .. _waitt-to-jetty:
