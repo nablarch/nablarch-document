@@ -134,7 +134,7 @@ Jakarta EEでの ``dependency`` が何になるかは各仕様のページに記
 Java Servlet → Jakarta Servlet
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**Java EE**
+**修正前**
 
 .. code-block:: xml
 
@@ -145,7 +145,7 @@ Java Servlet → Jakarta Servlet
     <scope>provided</scope>
   </dependency>
 
-**Jakarta EE 10**
+**修正後**
 
 .. code-block:: xml
 
@@ -159,7 +159,7 @@ Java Servlet → Jakarta Servlet
 JSP → Jakarta Server Pages
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**Java EE**
+**修正前**
 
 .. code-block:: xml
 
@@ -170,7 +170,7 @@ JSP → Jakarta Server Pages
     <scope>provided</scope>
   </dependency>
 
-**Jakarta EE 10**
+**修正後**
 
 .. code-block:: xml
 
@@ -183,7 +183,7 @@ JSP → Jakarta Server Pages
 JSTL → Jakarta Standard Tag Library
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**Java EE**
+**修正前**
 
 .. code-block:: xml
 
@@ -193,7 +193,7 @@ JSTL → Jakarta Standard Tag Library
     <version>...</version>
   </dependency>
 
-**Jakarta EE 10**
+**修正後**
 
 .. code-block:: xml
 
@@ -205,7 +205,7 @@ JSTL → Jakarta Standard Tag Library
 JPA → Jakarta Persistence
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**Java EE**
+**修正前**
 
 .. code-block:: xml
 
@@ -215,7 +215,7 @@ JPA → Jakarta Persistence
     <version>...</version>
   </dependency>
 
-**Jakarta EE 10**
+**修正後**
 
 .. code-block:: xml
 
@@ -227,7 +227,7 @@ JPA → Jakarta Persistence
 JAX-RS → Jakarta RESTful Web Services
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**Java EE**
+**修正前**
 
 .. code-block:: xml
 
@@ -237,7 +237,7 @@ JAX-RS → Jakarta RESTful Web Services
     <version>...</version>
   </dependency>
 
-**Jakarta EE 10**
+**修正後**
 
 .. code-block:: xml
 
@@ -249,7 +249,7 @@ JAX-RS → Jakarta RESTful Web Services
 Common Annotations for the Java Platform → Jakarta Annotations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**Java EE**
+**修正前**
 
 .. code-block:: xml
 
@@ -259,7 +259,7 @@ Common Annotations for the Java Platform → Jakarta Annotations
     <version>...</version>
   </dependency>
 
-**Jakarta EE 10**
+**修正後**
 
 .. code-block:: xml
 
@@ -286,7 +286,7 @@ Java EE仕様の実装ライブラリをアプリケーションに組み込ん�
 Bean Validation → Jakarta Bean Validation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**Java EE**
+**修正前**
 
 .. code-block:: xml
 
@@ -296,7 +296,7 @@ Bean Validation → Jakarta Bean Validation
     <version>5.3.6.Final</version>
   </dependency>
 
-**Jakarta EE 10**
+**修正後**
 
 .. code-block:: xml
 
@@ -309,7 +309,7 @@ Bean Validation → Jakarta Bean Validation
 JSTL → Jakarta Standard Tag Library
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**Java EE**
+**修正前**
 
 .. code-block:: xml
 
@@ -319,7 +319,7 @@ JSTL → Jakarta Standard Tag Library
     <version>...</version>
   </dependency>
 
-**Jakarta EE 10**
+**修正後**
 
 .. code-block:: xml
 
@@ -332,7 +332,7 @@ JSTL → Jakarta Standard Tag Library
 JAX-RS → Jakarta RESTful Web Services
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**Java EE**
+**修正前**
 
 .. code-block:: xml
 
@@ -364,7 +364,7 @@ JAX-RS → Jakarta RESTful Web Services
     <artifactId>jersey-hk2</artifactId>
   </dependency>
 
-**Jakarta EE 10**
+**修正後**
 
 .. code-block:: xml
 
@@ -399,7 +399,7 @@ JAX-RS → Jakarta RESTful Web Services
 JMS → Jakarta Messaging
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**Java EE**
+**修正前**
 
 .. code-block:: xml
 
@@ -409,7 +409,7 @@ JMS → Jakarta Messaging
     <version>...</version>
   </dependency>
 
-**Jakarta EE 10**
+**修正後**
 
 .. code-block:: xml
 
