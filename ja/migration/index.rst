@@ -644,8 +644,6 @@ Jakarta EE 10で提供されているネームスペースは、 `Jakarta Standa
   <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 
-.. _batch_ee_migration:
-
 JSR352に準拠したバッチアプリケーションの移行手順
 =========================================================================
 
