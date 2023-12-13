@@ -3,36 +3,51 @@ Nablarch 5から6への移行ガイド
 =========================================================================
 
 .. contents:: 目次
-  :depth: 3
+  :depth: 4
   :local:
 
-ここでは、Nablarch 5で作られたプロジェクトをNablarch 6にバージョンアップする方法について説明する。
+ここでは、Nablarch 5で作られたプロジェクトをNablarch 6へ移行するための方法について説明する。
 
-Nablarch 5と6で異なる点
+.. important::
+  アップデート番号があるバージョン（6u1等）へのバージョンアップについては、ここで説明する手順以外にも
+  追加の手順が必要となる場合があるため、リリースノートのバージョンアップ手順を必ず確認すること。
+
+Nablarch 5と6で大きく異なる点
 =========================================================================
 
-Nablarch 6がNablarch 5と比べて大きく異なっている点に、Jakarta EE 10に対応していることが挙げられる。
+--------------------------------------------------------------------
+Jakarta EE 10に対応
+--------------------------------------------------------------------
+
+Nablarch 6ではJakarta EE 10に対応している。
 
 Jakarta EEとは、Java EEがEclipse Foundationに移管された後の名前で、Java EEの後継となる。
 基本的にはJava EEの仕様がそのまま移管されているが、Jakarta EE 9で名前空間が ``javax.*`` から ``jakarta.*`` になるという大きな変更が入っている。
 
-したがって、Nablarch 5で作られたプロジェクトをNablarch 6にバージョンアップするためには、プロジェクトにもこれと同様の対応を行う必要がある。
+したがって、Nablarch 5で作られたプロジェクトでNablarch 6へ移行するためには、NablarchのバージョンアップだけでなくプロジェクトもJakarta EE 10に対応する必要がある。
+
+また、名前空間の変更などにより後方互換性が維持されないため、アプリケーションサーバ上で動作させるにはJakarta EE 10に対応しているアプリケーションサーバが必要となる。
+
+--------------------------------------------------------------------
+動作に必要なJavaの最低バージョンを17に変更
+--------------------------------------------------------------------
+
+Nablarch 6のモジュールはJava 17でコンパイルされているため、動作させるにはJava 17以上が必要となる。
 
 前提条件
 =========================================================================
 
 ここで説明する手順は、Nablarch 5の最新版へのバージョンアップが済んでいることを前提としている。
 
-古いバージョンで作られたプロジェクトは、まずはNablarch 5の最新版へのバージョンアップを済ませてからNablarch 6へのバージョンアップを行うこと。
+古いバージョンで作られたプロジェクトは、まずはNablarch 5の最新版へのバージョンアップを済ませてからNablarch 6への移行を行うこと。
 Nablarch 5の最新版へのバージョンアップに必要となる修正内容については、 :doc:`../releases/index` を参照のこと。
 
-また、Nablarch 6のモジュールはJava 17でコンパイルされているため、実行にはJava 17以上が必要となる。
-
+また、前述のとおり動作させるにはJava 17以上およびJakarta EE 10に対応しているアプリケーションサーバが必要であるため、これらに対応した環境にて動作させるものとする。
 
 移行手順の概要
 =========================================================================
 
-Nablarch 5のプロジェクトをNablarch 6に上げるためには、大まかに次の2つの修正が必要となる。
+Nablarch 5のプロジェクトをNablarch 6へ移行するためには、大まかに次の2つの修正が必要となる。
 
 * Nablarchのバージョンアップ
 * Jakarta EE対応
@@ -48,21 +63,20 @@ Nablarch 5のプロジェクトをNablarch 6に上げるためには、大まか
 移行手順の詳細
 =========================================================================
 
-ここでは、Nablarch 5のプロジェクトをNablarch 6にバージョンアップする際に必要になる移行手順について、それぞれ詳細な内容を説明する。
+ここでは、Nablarch 5のプロジェクトをNablarch 6へ移行する際に必要となる手順について、それぞれ詳細な内容を説明する。
 
-なお、具体的な修正内容をイメージしやすくするため、ここではNablarch 5の `nablarch-example-web (外部サイト) <https://github.com/nablarch/nablarch-example-web>`_ をNablarch 6にバージョンアップする場合を例にして説明している。
 プロジェクトによっては不要な手順が含まれる可能性があるが、その場合は適宜取捨選択して読み進めること（例えば、 :ref:`waitt-to-jetty` や :ref:`update-ntf-jetty` はウェブプロジェクト固有の手順なので、バッチプロジェクトでは読み飛ばして問題ない）。
 
 .. tip::
-    nablarch-example-webの5系のコードは、 ``5uXX`` のタグに切り替えることで取得できる。
-    タグの一覧は `こちら (外部サイト) <https://github.com/nablarch/nablarch-example-web/tags>`_ から確認できる。
+    Nablarch 6系のコードは、 ``v6-master`` ブランチに切り替えることで取得できる。
+    （現時点では5系のコードを ``master`` ブランチ、6系のコードを ``v6-master`` ブランチで公開している）
 
 --------------------------------------------------------------------
 Nablarchのバージョンアップ
 --------------------------------------------------------------------
 
-Nablarchを構成する各モジュールのバージョンはbomで管理しているので、bomのバージョンを変えることでNablarchのバージョンアップができる。
-以下のように、 ``pom.xml`` でNablarchのbomを読み込んでいる部分の ``<version>`` を6に変更する。
+Nablarchを構成する各モジュールのバージョンはBOMで管理しているので、BOMのバージョンを変えることでNablarchのバージョンアップができる。
+以下のように、 ``pom.xml`` でNablarchのBOMを読み込んでいる部分の ``<version>`` を変更する。
 
 .. code-block:: xml
 
@@ -71,7 +85,7 @@ Nablarchを構成する各モジュールのバージョンはbomで管理して
       <dependency>
         <groupId>com.nablarch.profile</groupId>
         <artifactId>nablarch-bom</artifactId>
-        <version>6</version> <!-- bom のバージョンを 6 にする-->
+        <version>6</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -90,47 +104,13 @@ Java EEの依存関係をJakarta EEに変更する
 Java EEのAPIの依存関係(``dependency``)を、Jakarta EEのものに変更する必要がある。
 例えば代表的なものとしては、Java Servletなどが挙げられる。
 
-nablarch-example-webの ``pom.xml`` では、以下がJava EEのAPIの依存関係になる。
+ただ、Java EEのAPIの ``dependency`` は、jarの提供元やバージョンによってバラバラになっており統一されていない。
+このため、 ``groupId`` などから機械的に判断することはできない。
+どの ``dependency`` がJava EEのAPIなのかは、 ``groupId`` や ``artifactId`` 、jarの中に含まれるクラスなどから判断しなければならない。
 
-.. code-block:: xml
-
-  <!-- Java API for RESTful Web Services (JAX-RS) -->
-  <dependency>
-    <groupId>javax.ws.rs</groupId>
-    <artifactId>javax.ws.rs-api</artifactId>
-    <version>2.0</version>
-  </dependency>
-
-  <!-- Java Servlet -->
-  <dependency>
-    <groupId>javax.servlet</groupId>
-    <artifactId>javax.servlet-api</artifactId>
-    <version>3.1.0</version>
-    <scope>provided</scope>
-  </dependency>
-
-  <!-- JavaServer Pages (JSP) -->
-  <dependency>
-    <groupId>javax.servlet.jsp</groupId>
-    <artifactId>javax.servlet.jsp-api</artifactId>
-    <version>2.3.1</version>
-    <scope>provided</scope>
-  </dependency>
-
-  <!-- JavaServer Pages Standard Tag Library (JSTL) -->
-  <dependency>
-    <groupId>javax.servlet.jsp.jstl</groupId>
-    <artifactId>javax.servlet.jsp.jstl-api</artifactId>
-    <version>1.2.1</version>
-  </dependency>
-
-  <!-- Java Persistence API (JPA) -->
-  <dependency>
-    <groupId>org.apache.geronimo.specs</groupId>
-    <artifactId>geronimo-jpa_2.0_spec</artifactId>
-  </dependency>
-
-これをJakarta EEが提供するものに置き換えると、以下のようになる。
+参考までに、Nablarchが提供しているアーキタイプやExampleでの変更内容を以下に記載する。
+なお、ExampleではJakarta EEが提供しているBOMを読み込むことで、個別にバージョンを指定しないようにしている。
+バージョンを調べる手間や指定のミスが減り管理も楽になるため、BOMを読み込むことを推奨する。
 
 .. code-block:: xml
 
@@ -147,54 +127,166 @@ nablarch-example-webの ``pom.xml`` では、以下がJava EEのAPIの依存関�
     </dependencies>
   </dependencyManagement>
 
-  <!-- Jakarta RESTful Web Services -->
+また、ここで記載されていない依存関係を変更するための参考として、本ページ末尾の付録に :ref:`java_ee_jakarta_ee_comparation` を記載する。
+Jakarta EEでの ``dependency`` が何になるかは各仕様のページに記載されているので、そちらも参考にすること。
+（例えば `Jakarta Servlet 6.0 の仕様のページ (外部サイト、英語) <https://jakarta.ee/specifications/servlet/6.0/#details>`_ には、「Maven coordinates」のところに ``jakarta.servlet:jakarta.servlet-api:jar:6.0.0`` と記載されている）
+
+Java Servlet → Jakarta Servlet
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**修正前**
+
+.. code-block:: xml
+
   <dependency>
-    <groupId>jakarta.ws.rs</groupId>
-    <artifactId>jakarta.ws.rs-api</artifactId>
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <version>...</version>
+    <scope>provided</scope>
   </dependency>
 
-  <!-- Jakarta Servlet -->
+**修正後**
+
+.. code-block:: xml
+
   <dependency>
     <groupId>jakarta.servlet</groupId>
     <artifactId>jakarta.servlet-api</artifactId>
     <scope>provided</scope>
   </dependency>
 
-  <!-- Jakarta Server Pages -->
+
+JSP → Jakarta Server Pages
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**修正前**
+
+.. code-block:: xml
+
+  <dependency>
+    <groupId>javax.servlet.jsp</groupId>
+    <artifactId>javax.servlet.jsp-api</artifactId>
+    <version>...</version>
+    <scope>provided</scope>
+  </dependency>
+
+**修正後**
+
+.. code-block:: xml
+
   <dependency>
     <groupId>jakarta.servlet.jsp</groupId>
     <artifactId>jakarta.servlet.jsp-api</artifactId>
     <scope>provided</scope>
   </dependency>
 
-  <!-- Jakarta Standard Tag Library -->
+JSTL → Jakarta Standard Tag Library
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**修正前**
+
+.. code-block:: xml
+
+  <dependency>
+    <groupId>javax.servlet.jsp.jstl</groupId>
+    <artifactId>javax.servlet.jsp.jstl-api</artifactId>
+    <version>...</version>
+  </dependency>
+
+**修正後**
+
+.. code-block:: xml
+
   <dependency>
     <groupId>jakarta.servlet.jsp.jstl</groupId>
     <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
   </dependency>
 
-  <!-- Jakarta Persistence -->
+JPA → Jakarta Persistence
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**修正前**
+
+.. code-block:: xml
+
+  <dependency>
+    <groupId>org.apache.geronimo.specs</groupId>
+    <artifactId>geronimo-jpa_2.0_spec</artifactId>
+    <version>...</version>
+  </dependency>
+
+**修正後**
+
+.. code-block:: xml
+
   <dependency>
     <groupId>jakarta.persistence</groupId>
     <artifactId>jakarta.persistence-api</artifactId>
   </dependency>
 
-Jakarta EEのAPIにはbomが用意されているので、これを読み込むことでAPIごとにバージョンを指定する必要がなくなる。
-バージョンを調べる手間や指定のミスが減り管理も楽になるため、bomを読み込むことを推奨する。
+JAX-RS → Jakarta RESTful Web Services
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Java EEのAPIの ``dependency`` は、jarの提供元やバージョンによってバラバラになっており統一されていない。
-このため、 ``groupId`` などから機械的に判断することはできない。
-どの ``dependency`` がJava EEのAPIなのかは、 ``groupId`` や ``artifactId`` 、jarの中に含まれるクラスなどから判断しなければならない。
+**修正前**
 
-参考までに、本ページ末尾の付録に :ref:`java_ee_jakarta_ee_comparation` を記載する。
-Jakarta EEでの ``dependency`` が何になるかは各仕様のページに記載されているので、そちらを確認すること（例えば `Jakarta Servlet 6.0 の仕様のページ (外部サイト、英語) <https://jakarta.ee/specifications/servlet/6.0/#details>`_ には、「Maven coordinates」のところに ``jakarta.servlet:jakarta.servlet-api:jar:6.0.0`` と記載されている）。
+.. code-block:: xml
+
+  <dependency>
+    <groupId>javax.ws.rs</groupId>
+    <artifactId>javax.ws.rs-api</artifactId>
+    <version>...</version>
+  </dependency>
+
+**修正後**
+
+.. code-block:: xml
+
+  <dependency>
+    <groupId>jakarta.ws.rs</groupId>
+    <artifactId>jakarta.ws.rs-api</artifactId>
+  </dependency>
+
+Common Annotations for the Java Platform → Jakarta Annotations
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**修正前**
+
+.. code-block:: xml
+
+  <dependency>
+    <groupId>javax.annotation</groupId>
+    <artifactId>javax.annotation-api</artifactId>
+    <version>...</version>
+  </dependency>
+
+**修正後**
+
+.. code-block:: xml
+
+  <dependency>
+    <groupId>jakarta.annotation</groupId>
+    <artifactId>jakarta.annotation-api</artifactId>
+  </dependency>
 
 
-Java EE関係のランタイムを更新する
+Java EE仕様の実装ライブラリを更新する
 -----------------------------------------------------------------
 
-Java EEの仕様のランタイムをアプリケーションに組み込んでいる場合は、これらをJakarta EEのものに置き換える。
-例えば、nablarch-example-webにはBean ValidationのランタイムであるHibernate Validatorが含まれている。
+Java EE仕様の実装ライブラリをアプリケーションに組み込んでいる場合は、これらをJakarta EEのものに置き換える。
+
+どの ``dependency`` がJava EE仕様の実装ライブラリであるのかは、それぞれの ``dependency`` ごとに個別に調査する必要がある。
+また、Java EE仕様の実装ライブラリであることが分かった場合、Jakarta EE対応版の ``dependency`` が何になるかは実装ライブラリごとに異なる。
+したがって、プロジェクトで使用している実装ライブラリごとに公式サイトなどを確認する必要がある。
+
+参考までに、Nablarchが提供しているアーキタイプやExampleでの変更内容を以下に記載する。
+
+また、Jakarta EEの各仕様のページでも互換実装が紹介されているので、そちらも参考にすること。
+(例えば、 `Jakarta RESTful Web Services 3.1 の仕様のページ (外部サイト、英語) <https://jakarta.ee/specifications/restful-ws/3.1/#compatible-implementations>`_ では、互換実装として Eclipse Jersey 3.1.0 が紹介されている)
+
+Bean Validation → Jakarta Bean Validation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**修正前**
 
 .. code-block:: xml
 
@@ -204,7 +296,7 @@ Java EEの仕様のランタイムをアプリケーションに組み込んで�
     <version>5.3.6.Final</version>
   </dependency>
 
-これを、Jakarta EE版の ``dependency`` に変更すると以下のようになる。
+**修正後**
 
 .. code-block:: xml
 
@@ -214,34 +306,153 @@ Java EEの仕様のランタイムをアプリケーションに組み込んで�
     <version>8.0.0.Final</version>
   </dependency>
 
-どの ``dependency`` がJava EEのランタイムなのかは、それぞれの ``dependency`` ごとに個別に調査する必要がある。
-また、Java EEのランタイムであることが分かった場合、そのランタイムのJakarta EE対応版の ``dependency`` が何になるかはランタイムごとに異なる。
-したがって、プロジェクトで使用しているランタイムごとに公式サイトなどを確認する必要がある。
+JSTL → Jakarta Standard Tag Library
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-参考までに、代表的なランタイムのJava EEとJakarta EEでの ``dependency`` を本ページの付録の :ref:`jakarta_ee_runtime_dependency` に記載している。
-その他の仕様のランタイムについてはJakarta EEの各仕様のページで互換実装が紹介されているので、そちらも参考にすること。
-(例えば、 `Jakarta RESTful Web Services 3.1 の仕様のページ (外部サイト、英語) <https://jakarta.ee/specifications/restful-ws/3.1/#compatible-implementations>`_ では、互換実装として Eclipse Jersey 3.1.0 が紹介されている)
+**修正前**
+
+.. code-block:: xml
+
+  <dependency>
+    <groupId>taglibs</groupId>
+    <artifactId>standard</artifactId>
+    <version>...</version>
+  </dependency>
+
+**修正後**
+
+.. code-block:: xml
+
+  <dependency>
+    <groupId>org.glassfish.web</groupId>
+    <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+    <version>3.0.0</version>
+  </dependency>
+
+JAX-RS → Jakarta RESTful Web Services
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**修正前**
+
+.. code-block:: xml
+
+  <dependencyManagement>
+    <dependencies>
+      ...
+      <dependency>
+        <groupId>org.glassfish.jersey</groupId>
+        <artifactId>jersey-bom</artifactId>
+        <version>...</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependency>
+    <groupId>org.glassfish.jersey.media</groupId>
+    <artifactId>jersey-media-json-jackson</artifactId>
+  </dependency>
+
+  <dependency>
+    <groupId>org.glassfish.jersey.core</groupId>
+    <artifactId>jersey-client</artifactId>
+  </dependency>
+
+  <dependency>
+    <groupId>org.glassfish.jersey.inject</groupId>
+    <artifactId>jersey-hk2</artifactId>
+  </dependency>
+
+**修正後**
+
+.. code-block:: xml
+
+  <dependencyManagement>
+    <dependencies>
+      ...
+      <dependency>
+        <groupId>org.glassfish.jersey</groupId>
+        <artifactId>jersey-bom</artifactId>
+        <version>3.1.1</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependency>
+    <groupId>org.glassfish.jersey.media</groupId>
+    <artifactId>jersey-media-json-jackson</artifactId>
+  </dependency>
+
+  <dependency>
+    <groupId>org.glassfish.jersey.core</groupId>
+    <artifactId>jersey-client</artifactId>
+  </dependency>
+
+  <dependency>
+    <groupId>org.glassfish.jersey.inject</groupId>
+    <artifactId>jersey-hk2</artifactId>
+  </dependency>
+
+JMS → Jakarta Messaging
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**修正前**
+
+.. code-block:: xml
+
+  <dependency>
+    <groupId>org.apache.activemq</groupId>
+    <artifactId>activemq-all</artifactId>
+    <version>...</version>
+  </dependency>
+
+**修正後**
+
+.. code-block:: xml
+
+  <dependency>
+    <groupId>org.apache.activemq</groupId>
+    <artifactId>artemis-server</artifactId>
+    <version>2.28.0</version>
+  </dependency>
+  <dependency>
+    <groupId>org.apache.activemq</groupId>
+    <artifactId>artemis-jakarta-server</artifactId>
+    <version>2.28.0</version>
+  </dependency>
+  <dependency>
+    <groupId>org.apache.activemq</groupId>
+    <artifactId>artemis-jakarta-client</artifactId>
+    <version>2.28.0</version>
+  </dependency>
+
 
 gsp-dba-maven-pluginを更新する
 -----------------------------------------------------------------
 
-nablarch-example-webをはじめ、アーキタイプから作ったNablarchプロジェクトなどには `gsp-dba-maven-plugin (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ があらかじめ組み込まれている。
+nablarch-example-webをはじめ、アーキタイプから作ったプロジェクトには `gsp-dba-maven-plugin (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/v5-master>`_ があらかじめ組み込まれている。
 このプラグインは、データベーステーブルのメタデータからJavaのエンティティクラスを生成する機能(``generate-entity``)を提供している。
 このエンティティクラスにはJPAなどのJava EEのアノテーションが設定されるため、そのままではJakarta EE環境で使用できない。
 
-gsp-dba-maven-pluginは5.0.0でJakarta EE対応が入ったので、 ``pom.xml`` を以下のように修正する。
+gsp-dba-maven-pluginは5.0.0でJakarta EE対応が入ったので、 ``pom.xml`` でgsp-dba-maven-pluginの ``<version>`` を変更する。
 
 .. code-block:: xml
 
     <plugin>
       <groupId>jp.co.tis.gsp</groupId>
       <artifactId>gsp-dba-maven-plugin</artifactId>
-      <version>5.0.0</version> <!-- gsp-dba-maven-plugin の version を Jakarta EE 対応版に変更する -->
+      <version>5.0.0</version>
       <configuration>
       ...
 
 さらに、Jakarta EE対応されたgsp-dba-maven-pluginの ``generate-entity`` を使うためには、 ``dependency`` やJVM引数の追加が必要となる。
-詳細については `gsp-dba-maven-pluginのガイド (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin#generate-entity>`_ を参照のこと。
+詳細については `gsp-dba-maven-pluginのガイド (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/v5-master#generate-entity>`_ を参照のこと。
+
+.. tip::
+  gsp-dba-maven-pluginのガイドでは ``dependency`` へJakarta EEの依存関係を追加する際に ``<version>`` を指定しているが、前述のとおりJakarta EEが提供しているBOMを読み込んでいるため、 ``<version>`` の指定は不要となる。
 
 以上で、Jakarta EEのアノテーションが設定されたエンティティが生成されるようになる。
 
@@ -250,7 +461,7 @@ gsp-dba-maven-pluginは5.0.0でJakarta EE対応が入ったので、 ``pom.xml``
 waitt-maven-pluginをjetty-ee10-maven-pluginに変更する
 -----------------------------------------------------------------
 
-nablarch-example-webをはじめ、アーキタイプから作ったNablarchプロジェクトなどには `waitt-maven-plugin (外部サイト、英語) <https://github.com/kawasima/waitt>`_ があらかじめ組み込まれている。
+nablarch-example-webをはじめ、アーキタイプから作ったウェブアプリケーションのプロジェクトには `waitt-maven-plugin (外部サイト、英語) <https://github.com/kawasima/waitt>`_ があらかじめ組み込まれている。
 このプラグインは、プロジェクトのコードを組み込みサーバ(Tomcatなど)にデプロイして簡単に実行できる機能を提供している。
 しかし、このプラグインはJakarta EE対応がされていないので、同様の機能を提供していてJakarta EEにも対応しているjetty-ee10-maven-pluginに変更する。
 
@@ -341,14 +552,16 @@ javax名前空間をjakarta名前空間に変更する
 Jakarta EE 9で入った名前空間の変更の対応を、アプリケーションのコードにも実施する。
 名前空間の変更対応の大まかな流れを以下に記載する。
 
-1. プロジェクト全体を ``javax`` でGrep検索する
-2. 検索で見つかった箇所に関して、Java EEの名前空間かどうか判定する
-3. Java EEの名前空間である場合は、 ``javax`` を ``jakarta`` に置換する
+1. ``javax`` 名前空間で ``import`` している部分等がコンパイルエラーになるため、 ``jakarta`` 名前空間に変更する
+2. コンパイルエラーにならない場所を対応するため、プロジェクト全体を ``javax`` でGrep検索する
+3. 検索で見つかった箇所に関して、Java EEの名前空間かどうか判定する
+4. Java EEの名前空間である場合は、 ``javax`` を ``jakarta`` に置換する
 
 以下で、詳細について説明する。
 
 ``javax`` の記述は、多くの場合はJavaソースコード上の ``import`` 文に現れる。
 ここまでの修正でJava EEの依存関係がなくなりJakarta EEの依存関係に置き換わっているため、 ``javax`` 名前空間で ``import`` している部分はコンパイルエラーが発生するようになっている。
+そのため、まずはコンパイルエラーが発生している箇所を確認し、 ``jakarta`` 名前空間に変更する。
 
 しかし、 ``javax`` が現れるのは ``import`` 文だけとは限らず、コンパイルエラーにならない場所にも存在する可能性がある。
 たとえば、Java Servletでフォワード元のリクエストURIを取得するためのキー ``javax.servlet.forward.request_uri`` は文字列で指定するため、コンパイルエラーにはならない（このキーは、Jakarta Servletでは ``jakarta.servlet.forward.request_uri`` に変える必要がある）。
@@ -384,15 +597,61 @@ Java EEの名前空間であると判断できた場合は、 ``javax`` の部�
   import jakarta.validation.ConstraintValidator;
 
 
-以上の修正で、nablarch-example-webに関してはJakarta EE 10対応されたアプリケーションサーバ上で動作できるようになる。
+XMLスキーマ指定をJakarta EE 10のスキーマに変更する
+-----------------------------------------------------------------
 
+``web.xml`` 等のXMLファイルではXMLスキーマを指定しているが、これをJakarta EE 10に対応したスキーマに変更する。
+Jakarta EE 10で提供されているスキーマは、 `Jakarta EE XML Schemas (外部サイト、英語) <https://jakarta.ee/xml/ns/jakartaee/#10>`_ で確認できる。
+（指定例については  `Jakarta Servlet Specification (外部サイト、英語) <https://jakarta.ee/specifications/servlet/6.0/jakarta-servlet-spec-6.0.html#a-basic-example>`_ で確認できる）
+
+**修正前**
+
+.. code-block:: xml
+
+  <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+           http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+           version="3.1">
+
+**修正後**
+
+.. code-block:: xml
+
+  <web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                               web-app_6_0.xsd"
+           version="6.0">
+
+
+タグライブラリのネームスペースをJakarta EE 10のネームスペースに変更する
+-----------------------------------------------------------------------------
+
+JSPファイルでは taglib ディレクティブでタグライブラリのネームスペースを指定しているが、これをJakarta EE 10に対応したネームスペースに変更する。
+Jakarta EE 10で提供されているネームスペースは、 `Jakarta Standard Tag Library 3.0 (外部サイト、英語) <https://jakarta.ee/specifications/tags/3.0/>`_ で確認できる。
+
+**修正前**
+
+.. code-block:: jsp
+
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+**修正後**
+
+.. code-block:: jsp
+
+  <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
+
+.. _batch_ee_migration:
 
 JSR352に準拠したバッチアプリケーションの移行手順
 =========================================================================
 
-Nablarchが提供する実行制御基盤は、いずれも前節で説明した移行手順でバージョンアップができる。
+Nablarchが提供する実行制御基盤は、いずれも前節で説明した手順で移行できる。
 
-ただし :doc:`../application_framework/application_framework/batch/jsr352/index` のみ、JSR352のランタイムとして使用しているJBeretと関連するライブラリの更新が複雑であるため、ここで追加で説明する。
+ただし :doc:`../application_framework/application_framework/batch/jsr352/index` のみ、JSR352に準拠した実装として使用しているJBeretと関連するライブラリの更新が複雑であるため、ここで追加で説明する。
 
 JSR352に準拠したバッチアプリケーションをアーキタイプから生成した場合、Nablarch 5までは以下のように ``dependency`` が ``pom.xml`` に設定されている。
 
@@ -460,7 +719,7 @@ JSR352に準拠したバッチアプリケーションをアーキタイプか�
       <version>...</version>
     </dependency>
 
-    <!-- JBereteをJavaSEで動作させるための依存関係 -->
+    <!-- JBeretをJavaSEで動作させるための依存関係 -->
     <dependency>
       <groupId>org.jberet</groupId>
       <artifactId>jberet-se</artifactId>
@@ -472,7 +731,7 @@ JSR352に準拠したバッチアプリケーションをアーキタイプか�
       <version>...</version>
     </dependency>
 
-Nablarch 6に上げる場合は、これを以下のように修正する。
+Nablarch 6へ移行するためには、これらを以下のように修正する。
 
 **修正後**
 
@@ -534,7 +793,7 @@ Nablarch 6に上げる場合は、これを以下のように修正する。
       <version>31.1-jre</version>
     </dependency>
 
-    <!-- JBereteをJavaSEで動作させるための依存関係 -->
+    <!-- JBeretをJavaSEで動作させるための依存関係 -->
     <dependency>
       <groupId>org.jberet</groupId>
       <artifactId>jberet-se</artifactId>
@@ -564,7 +823,8 @@ NoClassDefFoundErrorになる場合
   Caused by: java.lang.NoClassDefFoundError: Could not initialize class org.jboss.weld.logging.BeanLogger
       at org.jboss.weld.util.Beans.getBeanConstructor (Beans.java:279)
 
-実行時に上記のようなスタックトレースが出力されてエラーになる場合、 ``pom.xml`` 上の ``slf4j-nablarch-adaptor`` の位置をLogbackより下に配置することでエラーを解消できる。
+実行時に上記のようなスタックトレースが出力されてエラーになる場合、クラスパスの順序において ``slf4j-nablarch-adaptor`` をLogbackより後にすることでエラーを解消できる。
+Mavenで実行する場合は、 ``pom.xml`` 上の ``slf4j-nablarch-adaptor`` の位置をLogbackより下に配置することで順序を変更できる。
 
 .. code-block:: xml
 
@@ -717,128 +977,3 @@ Java EEとJakarta EEの仕様の対応表
       - 
       - ``javax.inject``
       - `Jakarta Dependency Injection (外部サイト、英語) <https://jakarta.ee/specifications/dependency-injection/>`_
-
-.. _jakarta_ee_runtime_dependency:
-
---------------------------------------------------------------------
-代表的な仕様のランタイムのdependency
---------------------------------------------------------------------
-
-
-JAX-RS, Jakarta RESTful Web Services
------------------------------------------------------------------
-
-※記載しているアーティファクトはあくまで例であり、全てのプロジェクトでこれらが必要になるというわけではない。
-
-**Java EE**
-
-.. code-block:: xml
-    
-  <dependencyManagement>
-    <dependencies>
-      ...
-      <dependency>
-        <groupId>org.glassfish.jersey</groupId>
-        <artifactId>jersey-bom</artifactId>
-        <version>...</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
-  <dependency>
-    <groupId>org.glassfish.jersey.media</groupId>
-    <artifactId>jersey-media-json-jackson</artifactId>
-  </dependency>
-
-  <dependency>
-    <groupId>org.glassfish.jersey.core</groupId>
-    <artifactId>jersey-client</artifactId>
-  </dependency>
-
-  <dependency>
-    <groupId>org.glassfish.jersey.inject</groupId>
-    <artifactId>jersey-hk2</artifactId>
-  </dependency>
-
-
-**Jakarta EE 10**
-
-.. code-block:: xml
-    
-  <dependencyManagement>
-    <dependencies>
-      ...
-      <dependency>
-        <groupId>org.glassfish.jersey</groupId>
-        <artifactId>jersey-bom</artifactId>
-        <version>3.1.1</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
-  <dependency>
-    <groupId>org.glassfish.jersey.media</groupId>
-    <artifactId>jersey-media-json-jackson</artifactId>
-  </dependency>
-
-  <dependency>
-    <groupId>org.glassfish.jersey.core</groupId>
-    <artifactId>jersey-client</artifactId>
-  </dependency>
-
-  <dependency>
-    <groupId>org.glassfish.jersey.inject</groupId>
-    <artifactId>jersey-hk2</artifactId>
-  </dependency>
-
-
-EL, Jakarta Expression Language
------------------------------------------------------------------
-
-**Java EE**
-
-.. code-block:: xml
-
-  <dependency>
-    <groupId>org.glassfish</groupId>
-    <artifactId>javax.el</artifactId>
-    <version>...</version>
-  </dependency>
-
-**Jakarta EE 10**
-
-.. code-block:: xml
-
-  <dependency>
-    <groupId>org.glassfish.expressly</groupId>
-    <artifactId>expressly</artifactId>
-    <version>5.0.0</version>
-  </dependency>
-
-
-JSTL, Jakarta Standard Tag Library
------------------------------------------------------------------
-
-**Java EE**
-
-.. code-block:: xml
-
-  <dependency>
-    <groupId>taglibs</groupId>
-    <artifactId>standard</artifactId>
-    <version>...</version>
-  </dependency>
-
-**Jakarta EE 10**
-
-.. code-block:: xml
-
-  <dependency>
-    <groupId>org.glassfish.web</groupId>
-    <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-    <version>3.0.0</version>
-  </dependency>
