@@ -288,7 +288,11 @@ Exampleアプリケーションを元に検索機能を解説する。
 
     * 値を出力するために、 :ref:`tag-write_tag` を用いる。
       値を「日付」や「金額」等の形式でフォーマットして出力したい場合は、 `valueFormat` 属性で形式を指定する。詳細は :ref:`tag-format_value` を参照。
-    * `<app:listSearchResult>` の使用方法については :ref:`list_search_result` を参照。
+
+    .. important::
+
+      `<app:listSearchResult>` の使用方法については準備中のため、:ref:`リリースノート<release-notes>` より過去バージョンのドキュメントを参考とすること。
+
 
 検索機能の解説は以上。
 
