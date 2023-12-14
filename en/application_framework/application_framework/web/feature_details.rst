@@ -123,7 +123,7 @@ For this reason, use :ref:`internationalization of message tags <tag-write_messa
 Authentication
 ----------------------------------------
 Authentication is not provided as a flake work because the specifications vary depending on the project requirements.
-Implement :ref:`authentication` in the project according to the project requirements, referring to authentication.
+Implement in the project according to the project requirements.
 
 See below for information on retaining the authentication information.
 
