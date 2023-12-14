@@ -109,7 +109,7 @@ Which ``dependency`` is a Java EE API must be determined from ``groupId``, ``art
 
 For your reference, archetypes and examples provided by Nablarch changes listed below.
 
-In addition, in example, by reading the BOM provided by Jakarta EE, it is possible to avoid specifying the version individually.
+In addition, in example applications, by reading the BOM provided by Jakarta EE, it is possible to avoid specifying the version individually.
 It is recommended to read BOM because it reduces the trouble of checking the version and mistakes in specification, and makes management easier.
 
 .. code-block:: xml
