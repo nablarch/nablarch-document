@@ -75,7 +75,7 @@ Nablarch version upgrade
 --------------------------------------------------------------------
 
 The version of each module that makes up Nablarch is managed by BOM, so you can upgrade Nablarch by changing the version of BOM.
-Change ``<version>`` to 6 in ``pom.xml`` where Nablarch's BOM is loaded, as shown below.
+Change ``<version>`` in ``pom.xml`` where Nablarch's BOM is loaded, as shown below.
 
 .. code-block:: xml
 
