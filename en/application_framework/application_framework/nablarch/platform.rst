@@ -51,8 +51,8 @@ Database
  * PostgreSQL 12.2/13.2/14.0/15.2
 
 Application server
- * WildFly 27.0.1.Final
- * Apache Tomcat 10.1.7
+ * WildFly 30.0.1.Final
+ * Apache Tomcat 10.1.17
 
 Jakarta EE
  * Hibernate Validator 8.0.0.Final
