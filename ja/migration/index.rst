@@ -602,7 +602,6 @@ XMLスキーマ指定をJakarta EE 10のスキーマに変更する
 
 ``web.xml`` 等のXMLファイルではXMLスキーマを指定しているが、これをJakarta EE 10に対応したスキーマに変更する。
 Jakarta EE 10で提供されているスキーマは、 `Jakarta EE XML Schemas (外部サイト、英語) <https://jakarta.ee/xml/ns/jakartaee/#10>`_ で確認できる。
-（指定例については  `Jakarta Servlet Specification (外部サイト、英語) <https://jakarta.ee/specifications/servlet/6.0/jakarta-servlet-spec-6.0.html#a-basic-example>`_ で確認できる）
 
 **修正前**
 
