@@ -604,7 +604,6 @@ Change XML schema specification to Jakarta EE 10 schema
 
 XML files such as ``web.xml`` specify an XML schema, but change this to a schema compatible with Jakarta EE 10.
 Schemas provided in Jakarta EE 10 can be found at `Jakarta EE XML Schemas (external site) <https://jakarta.ee/xml/ns/jakartaee/#10>`_ .
-(For specification examples, see `Jakarta Servlet Specification (external site) <https://jakarta.ee/specifications/servlet/6.0/jakarta-servlet-spec-6.0.html#a-basic-example>`_ )
 
 **Before modification**
 
