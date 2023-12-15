@@ -495,7 +495,7 @@ nablarch-example-webをはじめ、アーキタイプから作ったウェブア
   <plugin>
     <groupId>org.eclipse.jetty.ee10</groupId>
     <artifactId>jetty-ee10-maven-plugin</artifactId>
-    <version>12.0.0</version>
+    <version>12.0.3</version>
   </plugin>
 
 これで、アプリケーションのコードをJettyにデプロイして実行できるようになる。
