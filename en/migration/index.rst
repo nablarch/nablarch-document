@@ -43,6 +43,11 @@ See `the release notes <https://nablarch.github.io/docs/LATEST/doc/releases/inde
 
 Additionally, in order to operate, an application server that supports Java 17 or higher and Jakarta EE 10 is required, so it must be operated in an environment that supports these.
 
+.. tip::
+  In addition to upgrade to the latest version of Nablarch 5, it will also need to be supported for use with Java 17 or higher.
+  See Nablarch 5 manual for instructions on how to respond.
+
+
 Overview of migration steps
 =========================================================================
 
