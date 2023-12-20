@@ -4,7 +4,7 @@
 リリース情報
 ============================================================
 
-:download:`全リリースノート一括ダウンロード <./nablarch-5-OSS-all-releasenote.zip>`
+:download:`全リリースノート一括ダウンロード <./nablarch-OSS-all-releasenote.zip>`
 
 .. list-table::
   :header-rows: 1
@@ -16,6 +16,10 @@
     - バージョン
     - リリースノート
     - ドキュメント
+  * - 2023/12/22
+    - 6
+    - :download:`リリースノート(6) <./nablarch6-releasenote.xlsx>`
+    - `ドキュメント(6) <https://nablarch.github.io/docs/6/doc/>`_
   * - 2023/9/27
     - 5u23
     - :download:`リリースノート(5u23) <./nablarch5u23-releasenote.xlsx>`
