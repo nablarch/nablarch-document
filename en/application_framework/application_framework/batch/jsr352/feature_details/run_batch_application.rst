@@ -14,7 +14,7 @@ Nablarch provides :java:extdoc:`nablarch.fw.batch.ee.Main`  as the standard impl
 This class specifies the XML file name (file name excluding .xml) of the target JOB as an execution argument.
 
 To specify the parameters during job execution, specify the launch option for  :java:extdoc:`nablarch.fw.batch.ee.Main` . 
-The value specified in the launch option is configured in jobParameters of  :java:extdoc:`JobOperator#start <jakarta.batch.operations.JobOperator.start(java.lang.String-java.util.Properties)>` .
+The value specified in the launch option is configured in jobParameters of  :java:extdoc:`JobOperator#start <jakarta.batch.operations.JobOperator.start(java.lang.String,java.util.Properties)>` .
 
 For the launch option, add ``--`` to the name and configure a value for the argument following the name.
 

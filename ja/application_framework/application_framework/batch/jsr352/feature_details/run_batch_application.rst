@@ -14,7 +14,7 @@ Nablarchでは、標準の実装クラスとして、:java:extdoc:`nablarch.fw.b
 このクラスは実行引数として対象JOBのXMLファイル名(.xmlを除いたファイル名)を指定する。
 
 ジョブ実行時にパラメータを指定したい場合は、 :java:extdoc:`nablarch.fw.batch.ee.Main` に対して起動オプションを指定する。
-起動オプションで指定した値は、 :java:extdoc:`JobOperator#start <jakarta.batch.operations.JobOperator.start(java.lang.String-java.util.Properties)>` のjobParametersに設定される。
+起動オプションで指定した値は、 :java:extdoc:`JobOperator#start <jakarta.batch.operations.JobOperator.start(java.lang.String,java.util.Properties)>` のjobParametersに設定される。
 
 起動オプションは、名前に ``--`` を付加し、名前の次の引数に値を設定する。
 
