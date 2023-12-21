@@ -16,4 +16,4 @@ Nablarch API
   For example, :javadoc_url:`DaoContext <nablarch-all/NablarchApi/nablarch/common/dao/DaoContext.html>` is a public API for architects because ``@Published(tag="architect")`` is described at the class.
   On the other hand, the :javadoc_url:`findAll method of BasicDaoContext <nablarch-all/NablarchApi/nablarch/common/dao/BasicDaoContext.html#findAll(java.lang.Class)>` is a non published API because ``@Published`` is not described in either the class or the method.
 
-  Please refer to :ref:`versionup_policy-backward_compatibility_policy` and `README of Unauthorized API Check Tool (external site) <https://github.com/Fintan-contents/coding-standards/tree/main/en/java/staticanalysis/unpublished-api#check-specifications-for-inheritance-and-interface-implementation>`_ for the details of specifications related to public API.
+  Please refer to :ref:`versionup_policy-backward_compatibility_policy` and `README of Unauthorized API Check Tool (external site) <https://github.com/Fintan-contents/coding-standards/blob/main/en/java/staticanalysis/unpublished-api/README.md>`_ for the details of specifications related to public API.
