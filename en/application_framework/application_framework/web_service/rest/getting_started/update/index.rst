@@ -104,19 +104,19 @@ Implementation of a business action method
       }
  
    Point of this implementation
-    * To accept the request body in JSON format, specify :java:extdoc:`Consumes<javax.ws.rs.Consumes>` in the ``MediaType.APPLICATION_JSON`` annotation. 
-    * Validates the request using the :java:extdoc:`Valid <javax.validation.Valid>` annotation.
+    * To accept the request body in JSON format, specify :java:extdoc:`Consumes<jakarta.ws.rs.Consumes>` in the ``MediaType.APPLICATION_JSON`` annotation. 
+    * Validates the request using the :java:extdoc:`Valid <jakarta.validation.Valid>` annotation.
       For details, see :ref:`jaxrs_bean_validation_handler`.
     * Create an entity from a form with :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` and update the project information using :ref:`universal_dao`.
     * If the update is successful, :java:extdoc:`HttpResponse<nablarch.fw.web.HttpResponse>` , which indicates a successful completion (status code:``200``) is returned.
     
     .. tip::
       In the example application, :java:extdoc:`ErrorResponseBuilder<nablarch.fw.jaxrs.ErrorResponseBuilder>`  is uniquely extended, 
-      response ``404`` if :java:extdoc:`NoDataException<nablarch.common.dao.NoDataException>` occurs and ``409`` if :java:extdoc:`OptimisticLockException<javax.persistence.OptimisticLockException>` occurs is generated and returned to the client.
+      response ``404`` if :java:extdoc:`NoDataException<nablarch.common.dao.NoDataException>` occurs and ``409`` if :java:extdoc:`OptimisticLockException<jakarta.persistence.OptimisticLockException>` occurs is generated and returned to the client.
 
 Define the mapping to the URL
   Use :ref:`router_adaptor` to map business actions and URLs.
-  Use :ref:`Path annotation for JAX-RS <router_adaptor_path_annotation>` for mapping.
+  Use :ref:`Path annotation for Jakarta RESTful Web Services <router_adaptor_path_annotation>` for mapping.
 
   ProjectAction.java
     .. code-block:: java

@@ -102,7 +102,7 @@ Create a form
           }
 
       Key points of this implementation
-        * By assigning :java:extdoc:`@Valid<javax.validation.Valid>`, nested forms can also be included as targets of :ref:`Bean Validation<bean_validation>`.
+        * By assigning :java:extdoc:`@Valid<jakarta.validation.Valid>`, nested forms can also be included as targets of :ref:`Bean Validation<bean_validation>`.
 
 .. _`project_bulk_update-create_bean`:
 
@@ -327,7 +327,7 @@ Create a business action method that updates the database in a batch
       When an exclusive control error occurs, all updates are rolled back.
 
       .. tip::
-        Since an error control handler is added to the example application, if :java:extdoc:`OptimisticLockException<javax.persistence.OptimisticLockException>` occurs due to an exclusive control error,
+        Since an error control handler is added to the example application, if :java:extdoc:`OptimisticLockException<jakarta.persistence.OptimisticLockException>` occurs due to an exclusive control error,
         the screen transitions to the exclusive control error screen. For how to create error control handler, refer to :ref:`transition to the error page for the exception class with the handler <forward_error_page-handler>`.
 
     * Although :java:extdoc:`UniversalDao<nablarch.common.dao.UniversalDao>` also provides a

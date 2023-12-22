@@ -1,10 +1,18 @@
 .. _jaxrs_response_handler:
 
-JAX-RS Response Handler
+Jakarta RESTful Web Services Response Handler
 ==================================================
 .. contents:: Table of contents
   :depth: 3
   :local:
+
+.. tip::
+  This function was called "JAX-RS Response Handler" until Nablarch5.
+  However, as Java EE was transferred to the Eclipse Foundation and the specification name changed, the name was changed to "Jakarta RESTful Web Services Response Handler".
+
+  Only the name has changed, there is no functional difference.
+
+  For other features renamed in Nablarch 6, see :ref:`renamed_features_in_nablarch_6`.
 
 This handler returns the response information from the subsequent handler (resource (action) class or :ref:`body_convert_handler`) to the client.
 If an exception and error is thrown by the subsequent handler, constructs the response information corresponding to the error and exception,

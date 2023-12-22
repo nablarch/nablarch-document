@@ -1,6 +1,6 @@
 .. _`tag`:
 
-JSP Custom Tags
+Jakarta Server Pages Custom Tags
 ==================================================
 
 .. contents:: Table of contents
@@ -13,13 +13,21 @@ JSP Custom Tags
 
   tag/tag_reference
 
+.. tip::
+  This function was called "JSP Custom Tags" until Nablarch5.
+  However, as Java EE was transferred to the Eclipse Foundation and the specification name changed, the name was changed to "Jakarta Server Pages Custom Tags".
+
+  Only the name has changed, there is no functional difference.
+
+  For other features renamed in Nablarch 6, see :ref:`renamed_features_in_nablarch_6`.
+
 
 This function provides custom tags supporting creation of screens for web applications.
 
 Custom tags have the following limitations:
 
-* They function in web containers supporting JSP 2.1 and above.
-* They use JSTL for controlling conditional branches and loops etc.
+* They function in web containers supporting Jakarta Server Pages 3.1 and above.
+* They use Jakarta Standard Tag Library for controlling conditional branches and loops etc.
 * They support attributes compatible with XHTML 1.0 Transitional. 
 * It is required to have JavaScript in the client. (See :ref:`tag-onclick_override`)
 * Some custom tags cannot be used with GET request. (See :ref:`tag-using_get`)
@@ -168,7 +176,7 @@ Since it is assumed that custom tags and JSTL will be used, specify the taglib d
 
 .. code-block:: jsp
 
- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="c" uri="jakarta.tags.core" %>
  <%@ taglib prefix="n" uri="http://tis.co.jp/nablarch" %>
 
 .. _`tag-input_form`:
@@ -2606,7 +2614,7 @@ An example implementation of disabled is shown below.
 
 Specify any attributes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Dynamic attributes are handled in custom tags using the ``javax.servlet.jsp.tagext.DynamicAttributes`` interface.
+Dynamic attributes are handled in custom tags using the ``jakarta.servlet.jsp.tagext.DynamicAttributes`` interface.
 This makes it possible to output arbitrary attributes including attributes added in HTML5 with custom tags.
 For tags that output HTML, dynamic attributes can be used.
 

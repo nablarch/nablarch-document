@@ -108,14 +108,14 @@ An implementation example is shown below.
                   DomaDaoRepository.get(ProjectDao.class).insert(project);
 
 
-Using in a JSR352-compliant batch application
+Using in a Jakarta Batch-compliant batch application
 ----------------------------------------------------------------
-The following listeners are provided in this adapter to use Doma in JSR352-compliant batch applications.
+The following listeners are provided in this adapter to use Doma in Jakarta Batch-compliant batch applications.
 
 * :java:extdoc:`DomaTransactionStepListener<nablarch.integration.doma.batch.ee.listener.DomaTransactionStepListener>`
 * :java:extdoc:`DomaTransactionItemWriteListener<nablarch.integration.doma.batch.ee.listener.DomaTransactionItemWriteListener>`
 
-By defining these listeners in the listener list, it is possible to access the database using Doma even in JSR352-compliant batch applications.
+By defining these listeners in the listener list, it is possible to access the database using Doma even in Jakarta Batch-compliant batch applications.
 
 The configuration example shown below.
 
@@ -147,9 +147,9 @@ The configuration example shown below.
       int[] batchInsert(List<Bonus> bonuses);
 
 
-Deferred loading in jsr352-compliant batch applications
----------------------------------------------------------
-When loading a large amount of data with JSR352-compliant batch applications, you may want to use deferred loading.
+Deferred loading in Jakarta Batch-compliant batch applications
+---------------------------------------------------------------
+When loading a large amount of data with Jakarta Batch-compliant batch applications, you may want to use deferred loading.
 
 In that case, specify :java:extdoc:`DomaTransactionNotSupportedConfig<nablarch.integration.doma.DomaTransactionNotSupportedConfig>` in the config attribute of Dao annotation.
 
@@ -210,43 +210,6 @@ ItemReader class
         }
     }
 
-Use in ETL
---------------------------------------------------
-When using ETL, using Doma in steps added to the project may be required.
-In such a case, a listener list in which a job name and step name are specified is defined.
-
-The configuration example shown below.
-
-Job definition file
-  .. code-block:: xml
-
-    <job id="sampleJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
-      <step id="sampleStep">
-        <listeners>
-          <listener ref="nablarchStepListenerExecutor" />
-          <listener ref="nablarchItemWriteListenerExecutor" />
-        </listeners>
-        <chunk>
-          <reader ref="sampleItemReader" />
-          <writer ref="sampleItemWriter" />
-        </chunk>
-      </step>
-    </job>
-
-Component configuration file
-  .. code-block:: xml
-
-    <list name="sampleJob.sampleStep.stepListeners">
-      <!--  Other listeners are omitted  -->
-      <component
-          class="nablarch.integration.doma.batch.ee.listener.DomaTransactionStepListener" />
-    </list>
-
-    <list name="sampleJob.sampleStep.itemWriteListeners">
-      <!--  Other listeners are omitted  -->
-      <component
-          class="nablarch.integration.doma.batch.ee.listener.DomaTransactionItemWriteListener" />
-    </list>
 
 Accessing multiple databases
 --------------------------------------------------
@@ -315,7 +278,7 @@ Usage procedure
   
   * Define :java:extdoc:`ConnectionFactoryFromDomaConnection <nablarch.integration.doma.ConnectionFactoryFromDomaConnection>` in the component configuration file.
     The component name should be ``connectionFactoryFromDoma``.
-  * Configure ConnectionFactoryFromDomaConnection in the listener that controls the transaction of JSR352 Doma.
+  * Configure ConnectionFactoryFromDomaConnection in the listener that controls the transaction of Doma for Jakarta Batch.
 
   .. code-block:: xml
 
@@ -328,7 +291,7 @@ Usage procedure
     </component>
     
     <!--  
-    When using in JSR352-compliant batch application configure connectionFactoryFromDoma defined 
+    When using in Jakarta Batch-compliant batch application configure connectionFactoryFromDoma defined 
     above in the listener that controls the transaction of Doma.
     -->
     <component class="nablarch.integration.doma.batch.ee.listener.DomaTransactionItemWriteListener">

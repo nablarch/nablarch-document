@@ -679,7 +679,6 @@ Prerequisite
 
 In order to use JUnit 5, the following conditions must be met.
 
-* Java 8 or higher
 * maven-surefire-plugin must be 2.22.0 or higher
 
 Add dependencies

@@ -26,8 +26,7 @@
 本ツールは以下のjarにて提供する。
 
 * nablarch-testing-XXX.jar
-* nablarch-testing-jetty6-XXX.jar (Java 8 以前のバージョンで使用する)
-* nablarch-testing-jetty9-XXX.jar (Java 11 以降のバージョンで使用する) 
+* nablarch-testing-jetty12-XXX.jar
 
 そのため、pom.xmlのdependencies要素以下の記述があることを確認する。
 
@@ -40,16 +39,9 @@
       <artifactId>nablarch-testing</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- Java 8 以前のバージョンで使用する場合 -->
     <dependency>
       <groupId>com.nablarch.framework</groupId>
-      <artifactId>nablarch-testing-jetty6</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <!-- Java 11 以降のバージョンで使用する場合 -->
-    <dependency>
-      <groupId>com.nablarch.framework</groupId>
-      <artifactId>nablarch-testing-jetty9</artifactId>
+      <artifactId>nablarch-testing-jetty12</artifactId>
       <scope>test</scope>
     </dependency>
     <!-- 中略 -->

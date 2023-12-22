@@ -176,7 +176,7 @@ Job definition file
   Implementation examples
     .. code-block:: xml
     
-      <job id="batchlet-progress-test" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+      <job id="batchlet-progress-test" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
         <listeners>
           <listener ref="nablarchJobListenerExecutor" />
         </listeners>
@@ -201,8 +201,8 @@ Job definition file
   
 .. important::
   If the setting of retrying exceptions was performed in the chunk step, the progress log output by the listener will not function properly. 
-  This is because the number of read logs :java:extdoc:`metrics <javax.batch.runtime.context.StepContext.getMetrics()>` being used by the listener as the number of processed logs, deviates from the actual number.
+  This is because the number of read logs :java:extdoc:`metrics <jakarta.batch.runtime.context.StepContext.getMetrics()>` being used by the listener as the number of processed logs, deviates from the actual number.
   
-  To perform the retry process using retrying exceptions when an exception occurs, calculate the number of processed logs with the implementation class :java:extdoc:`ItemWriter <javax.batch.api.chunk.ItemWriter>` and output the progress log using :java:extdoc:`outputProgressInfo <nablarch.fw.batch.ee.progress.ProgressManager.outputProgressInfo(long)>` .
+  To perform the retry process using retrying exceptions when an exception occurs, calculate the number of processed logs with the implementation class :java:extdoc:`ItemWriter <jakarta.batch.api.chunk.ItemWriter>` and output the progress log using :java:extdoc:`outputProgressInfo <nablarch.fw.batch.ee.progress.ProgressManager.outputProgressInfo(long)>` .
   
 

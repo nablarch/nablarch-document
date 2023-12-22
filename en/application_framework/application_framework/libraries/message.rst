@@ -92,7 +92,7 @@ Defining messages in property files
 By default, the property file path is ``classpath:messages.properties``.
 
 Message is loaded using :java:extdoc:`java.util.Properties`.
-Since Nablarch assumes that Java6 or higher is used, Unicode conversion (native2ascii) is not required as long as the messages are created in **UTF-8**.
+Since Nablarch6 assumes that Java17 or higher is used, Unicode conversion (native2ascii) is not required as long as the messages are created in **UTF-8**.
 
 Example of property files
   .. code-block:: properties

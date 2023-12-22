@@ -1,4 +1,4 @@
-JSR352バッチアプリケーションの起動
+Jakarta Batchアプリケーションの起動
 ==================================================
 .. contents:: 目次
   :depth: 3
@@ -8,13 +8,13 @@ JSR352バッチアプリケーションの起動
 
 バッチアプリケーションを起動する
 --------------------------------------------------
-JSR352に準拠したバッチアプリケーションの場合、バッチの起動はJSR352で規定されたAPIを使用して行う。
+Jakarta Batchに準拠したバッチアプリケーションの場合、バッチの起動はJakarta Batchで規定されたAPIを使用して行う。
 
 Nablarchでは、標準の実装クラスとして、:java:extdoc:`nablarch.fw.batch.ee.Main` を提供している。
 このクラスは実行引数として対象JOBのXMLファイル名(.xmlを除いたファイル名)を指定する。
 
 ジョブ実行時にパラメータを指定したい場合は、 :java:extdoc:`nablarch.fw.batch.ee.Main` に対して起動オプションを指定する。
-起動オプションで指定した値は、 :java:extdoc:`JobOperator#start <javax.batch.operations.JobOperator.start(java.lang.String-java.util.Properties)>` のjobParametersに設定される。
+起動オプションで指定した値は、 :java:extdoc:`JobOperator#start <jakarta.batch.operations.JobOperator.start(java.lang.String,java.util.Properties)>` のjobParametersに設定される。
 
 起動オプションは、名前に ``--`` を付加し、名前の次の引数に値を設定する。
 
@@ -35,16 +35,16 @@ Nablarchでは、標準の実装クラスとして、:java:extdoc:`nablarch.fw.b
 --------------------------------------------------
 上記のMainクラスのプログラムの終了コードは以下のようになる。
 
-* 正常終了：0 - 終了ステータスが “WARNING” 以外の場合で、バッチステータスが  :java:extdoc:`BatchStatus.COMPLETED <javax.batch.runtime.BatchStatus>` の場合
-* 異常終了：1 - 終了ステータスが “WARNING” 以外の場合で、バッチステータスが  :java:extdoc:`BatchStatus.COMPLETED <javax.batch.runtime.BatchStatus>` 以外の場合
+* 正常終了：0 - 終了ステータスが “WARNING” 以外の場合で、バッチステータスが  :java:extdoc:`BatchStatus.COMPLETED <jakarta.batch.runtime.BatchStatus>` の場合
+* 異常終了：1 - 終了ステータスが “WARNING” 以外の場合で、バッチステータスが  :java:extdoc:`BatchStatus.COMPLETED <jakarta.batch.runtime.BatchStatus>` 以外の場合
 * 警告終了：2 - 終了ステータスが “WARNING” の場合
 
 なお、JOBの終了待ちの間に中断された場合は、異常終了のコードを返す。
 
 バリデーションエラーなど警告すべき事項が発生している場合に、警告終了させることができる。
-警告終了の方法はchunkまたはbatchlet内で、 :java:extdoc:`JobContext#setExitStatus(String) <javax.batch.runtime.context.JobContext.setExitStatus(java.lang.String)>`
+警告終了の方法はchunkまたはbatchlet内で、 :java:extdoc:`JobContext#setExitStatus(String) <jakarta.batch.runtime.context.JobContext.setExitStatus(java.lang.String)>`
 を呼び出し "WARNING" を終了ステータスとして設定する。警告終了時は、バッチステータスは任意の値を許可するため、
-例外を送出しバッチステータスが :java:extdoc:`BatchStatus.COMPLETED <javax.batch.runtime.BatchStatus>` 以外となる場合であっても、
+例外を送出しバッチステータスが :java:extdoc:`BatchStatus.COMPLETED <jakarta.batch.runtime.BatchStatus>` 以外となる場合であっても、
 終了ステータスに "WARNING" を設定していれば、上記クラスは警告終了する。
 
 .. _jsr352_run_batch_init_repository:
@@ -61,7 +61,7 @@ Nablarchでは、標準の実装クラスとして、:java:extdoc:`nablarch.fw.b
 デフォルトの ``batch-boot.xml`` を使用する場合の例
   .. code-block:: xml
 
-    <job id="sample-job" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <job id="sample-job" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
       <listeners>
         <!-- ジョブリスナーにnablarchJobListenerExecutorを設定する -->
         <listener ref="nablarchJobListenerExecutor" />
@@ -73,7 +73,7 @@ Nablarchでは、標準の実装クラスとして、:java:extdoc:`nablarch.fw.b
 デフォルト以外の設定ファイルを使用する例
   .. code-block:: xml
 
-    <job id="sample-job" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <job id="sample-job" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
       <listeners>
         <listener ref="nablarchJobListenerExecutor">
           <properties>

@@ -1,6 +1,6 @@
 .. _`database-functional_comparison`:
 
-Functional Comparison Between Universal DAO and JSR317 (JPA2.0)
+Functional Comparison Between Universal DAO and Jakarta Persistence
 ----------------------------------------------------------------------------------------------------
 This section compares the following functions:
 
@@ -19,7 +19,7 @@ This section compares the following functions:
 
   * - Function
     - Universal DAO
-    - JSR317
+    - Jakarta Persistence
 
   * - Supports relationship |br|
     - C [#relation]_
@@ -59,7 +59,7 @@ This section compares the following functions:
     - A |br| :ref:`To the manual <universal_dao-generate_surrogate_key>`
     - A
 
-  * - Can execute Bean Validation |br| when the Entity status is incorporated in the database
+  * - Can execute Jakarta Bean Validation |br| when the Entity status is incorporated in the database
     - C [#validaiton]_
     - A
 
@@ -75,11 +75,11 @@ This section compares the following functions:
 .. [#criteria] Universal DAO can perform dynamic processing only for conditions and sort items. For details, see :ref:`SQL dynamic assembly <database-variable_condition>` 
 .. [#validaiton] Nablarch performs validation when data is received from the outside, and converts to Entity and saves to database only when there is no validation error.
 .. [#callback] If an arbitrary process is required, it is handled by the process that calls the universal DAO.
-.. [#lock] Universal DAO only supports optimistic locking. Pessimistic lock or lock mode specification at the time of search defined in JSR are not supported. (Pessimistic lock can be realized by using  ``select for update`` .) 
+.. [#lock] Universal DAO only supports optimistic locking. Pessimistic lock or lock mode specification at the time of search defined in Jakarta Persistence are not supported. (Pessimistic lock can be realized by using  ``select for update`` .) 
 
 .. |jsr317| raw:: html
 
-   <a href="https://jcp.org/en/jsr/detail?id=317" target="_blank">JSR317(External site)</a>
+   <a href="https://jakarta.ee/specifications/persistence/" target="_blank">Jakarta Persistence(External site)</a>
 
 .. |br| raw:: html
 

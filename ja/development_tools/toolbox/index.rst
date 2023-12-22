@@ -9,7 +9,6 @@
 
    JspStaticAnalysis/index.rst
    SqlExecutor/SqlExecutor
-   JspVerifier/JspVerifier
 
 .. _nablarchToolBoxPage:
 
@@ -28,8 +27,6 @@
     - JSPで使用を許可する構文とタグを規定し、許可する構文とタグのみを使用していることをチェックするツール。
   * - :doc:`SqlExecutor/SqlExecutor`
     - SQL文を対話的に実行するツール。
-  * - :doc:`JspVerifier/JspVerifier`
-    - 業務画面JSPを検証するツール。
 
 .. |br| raw:: html
 

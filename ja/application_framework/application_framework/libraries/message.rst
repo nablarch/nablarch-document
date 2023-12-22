@@ -92,7 +92,7 @@
 デフォルトの設定では、プロパティファイルのパスは ``classpath:messages.properties`` となる。
 
 メッセージは、 :java:extdoc:`java.util.Properties` を使用してロードする。
-なお、NablarchはJava6以上を想定しているため、 **UTF-8** で作成すればよくユニコード変換(native2ascii)は必要ない。
+なお、Nablarch6はJava17以上を想定しているため、 **UTF-8** で作成すればよくユニコード変換(native2ascii)は必要ない。
 
 プロパティファイルの例
   .. code-block:: properties

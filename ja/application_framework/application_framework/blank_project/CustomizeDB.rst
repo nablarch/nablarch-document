@@ -154,7 +154,7 @@ env.properties内の以下の箇所を修正する。
   * - * ウェブ
       * RESTfulウェブサービス
     - * 本番環境用properties(src/env/prod/resources/env.properties)
-  * - * JSR352に準拠したバッチ
+  * - * Jakarta Batchに準拠したバッチ
       * Nablarchバッチ
       * コンテナ版ウェブ
       * コンテナ版RESTfulウェブサービス
@@ -173,7 +173,7 @@ env.properties内の以下の箇所を修正する。
   * - * ウェブ
       * RESTfulウェブサービス
     - * 単体試験環境(打鍵テスト)用properties(src/env/dev/resources/env.properties)
-  * - * JSR352に準拠したバッチ
+  * - * Jakarta Batchに準拠したバッチ
       * Nablarchバッチ
     - * 単体試験環境(打鍵テスト)用properties(src/env/dev/resources/env.properties)
       * 本番環境用properties(src/env/prod/resources/env.properties)
@@ -587,7 +587,7 @@ Nablarchが使用するテーブル作成とデータの投入
 
 * :ref:`ウェブの疎通確認<firstStepWebStartupTest>`
 * :ref:`RESTfulウェブサービスの疎通確認<firstStepWebServiceStartupTest>`
-* :ref:`JSR352に準拠したバッチの疎通確認<firstStepBatchEEStartupTest>`
+* :ref:`Jakarta Batchに準拠したバッチの疎通確認<firstStepBatchEEStartupTest>`
 * :ref:`Nablarchバッチの疎通確認<firstStepBatchStartupTest>`
 * :ref:`コンテナ用ウェブの疎通確認<firstStepContainerWebStartupTest>`
 * :ref:`コンテナ用RESTfulウェブサービスの疎通確認<firstStepContainerWebServiceStartupTest>`

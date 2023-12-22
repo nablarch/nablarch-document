@@ -12,11 +12,11 @@ How to launch the batch application
 
   feature_details/run_batch_application
 
-* :ref:`How to launch the JSR352 batch application <jsr352_run_batch_application>`
+* :ref:`How to launch the Jakarta Batch application <jsr352_run_batch_application>`
 
 Initializing the system repository
 --------------------------------------------------
-* :ref:`Initializing the system repository with the JSR352 batch application <jsr352_run_batch_init_repository>`
+* :ref:`Initializing the system repository with the Jakarta Batch application <jsr352_run_batch_init_repository>`
 
 How to define a listener for application to batch jobs
 --------------------------------------------------------
@@ -62,7 +62,7 @@ because of the :ref:`reasons for recommending UniversalDao <exclusive_control-de
 
 How to create xml for job definitions
 --------------------------------------------------
-* `See JSR352 Specification (external site) <https://jcp.org/en/jsr/detail?id=352>`_
+* `See Jakarta Batch Specification (external site) <https://jakarta.ee/specifications/batch/>`_
 
 Send MOM message
 ----------------------------------------

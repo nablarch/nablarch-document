@@ -834,7 +834,7 @@ Add your own items
    
    * - :java:extdoc:`Date <java.util.Date>` |br|
        :java:extdoc:`Calendar <java.util.Calendar>` and its subclasses |br|
-       :java:extdoc:`LocalDateTime <java.time.LocalDateTime>` (Java 8 or later)
+       :java:extdoc:`LocalDateTime <java.time.LocalDateTime>`
      - Output as a JSON string. The default format is ``"yyyy-MM-dd HH:mm:ss.SSS"``.
        To change the format, specify it with the ``datePattern`` property.
    

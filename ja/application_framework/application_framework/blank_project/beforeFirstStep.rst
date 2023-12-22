@@ -18,7 +18,7 @@
 
 * ウェブプロジェクト
 * RESTfulウェブサービスプロジェクト
-* JSR352に準拠したバッチプロジェクト
+* Jakarta Batchに準拠したバッチプロジェクト
 * Nablarchバッチプロジェクト
 * コンテナ用ウェブプロジェクト
 * コンテナ用RESTfulウェブサービスプロジェクト
@@ -53,11 +53,11 @@
 全プロジェクトで共通
   * Maven 3.6.3以上
 
-ウェブ、RESTfulウェブサービス、JSR352に準拠したバッチ、Nablarchバッチ
-  * JDK1.8以上
+ウェブ、RESTfulウェブサービス、Jakarta Batchに準拠したバッチ、Nablarchバッチ
+  * JDK17以上
 
 コンテナ用ウェブ、コンテナ用RESTfulウェブサービス、コンテナ用Nablarchバッチ
-  * JDK11以上
+  * JDK17以上
   * Docker Desktop 2.2.0.0 以上
 
 以下は、初期セットアップでは事前準備不要である。
@@ -70,7 +70,7 @@
   * - ソフトウェア
     - 説明
   * - APサーバ
-    - ウェブプロジェクト及び RESTfulウェブサービスプロジェクトの疎通確認時にTomcat8を使用する。手順中で、mvnコマンドからwaitt-maven-pluginを実行し、waitt-maven-pluginに組み込みのTomcat8へアプリケーションをデプロイ、起動するため、事前準備は不要である。
+    - ウェブプロジェクト及び RESTfulウェブサービスプロジェクトの疎通確認時にJetty12を使用する。手順中で、mvnコマンドからjetty-ee10-maven-pluginを実行し、jetty-ee10-maven-pluginに組み込まれているJetty12へアプリケーションをデプロイ、起動するため、事前準備は不要である。
   * - DBサーバ
     - アーキタイプには疎通確認用にH2 Database Engine(以下H2)を組み込んであるため、別途インストールの必要はない。
 
@@ -127,7 +127,7 @@ nablarch-bom内の定義（抜粋）
       <dependency>
         <groupId>com.nablarch.profile</groupId>
         <artifactId>nablarch-bom</artifactId>
-        <version>5u6</version> <!-- 指定したバージョン -->
+        <version>6</version> <!-- 指定したバージョン -->
         <type>pom</type>
         <scope>import</scope>
       </dependency>

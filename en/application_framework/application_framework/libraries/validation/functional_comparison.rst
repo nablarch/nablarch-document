@@ -11,7 +11,7 @@ This section compares the validation capabilities of Nablarch with those of |jsr
   * - Function
     - Bean |br| Validation
     - Nablarch |br| Validation
-    - JSR 349
+    - Jakarta |br| Bean Validation
   * - Items to be validated can be specified
     - A [#property_validation]_
     - A |br| :ref:`To the manual <nablarch_validation-execute>`
@@ -70,7 +70,7 @@ This section compares the validation capabilities of Nablarch with those of |jsr
 
 .. |jsr349| raw:: html
 
-   <a href="https://jcp.org/en/jsr/detail?id=349" target="_blank">JSR349(external site)</a>
+   <a href="https://jakarta.ee/specifications/bean-validation/" target="_blank">Jakarta Bean Validation(external site)</a>
 
 .. |br| raw:: html
 

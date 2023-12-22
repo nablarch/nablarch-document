@@ -7,23 +7,31 @@
   :depth: 3
   :local:
 
-Nablarchでは、JAX-RSのリソースクラスを作るのと同じように、ウェブアプリケーションの業務アクションを使用して
-RESTfulウェブサービスを作成する機能（JAX-RSサポート）を提供する。
+Nablarchでは、Jakarta RESTful Web Servicesのリソースクラスを作るのと同じように、ウェブアプリケーションの業務アクションを使用して
+RESTfulウェブサービスを作成する機能（Jakarta RESTful Web Servicesサポート）を提供する。
 
-JAX-RSサポートは、Nablarchのウェブアプリケーションをベースとする。
-そのため、JAX-RSで使用できる@Contextアノテーションを使用したServletリソースのインジェクションやCDIなどは使用できない。
-以下に、JAX-RSサポートで使用できるアノテーションを示す。
+.. tip::
+  本機能は、Nablarch5までは「JAX-RSサポート」という名称だった。
+  しかし、Java EEがEclipse Foundationに移管され仕様名が変わったことに伴い「Jakarta RESTful Web Servicesサポート」という名称に変更された。
+
+  変更されたのは名称のみで、機能的な差は無い。
+
+  その他、Nablarch6で名称が変更された機能については :ref:`renamed_features_in_nablarch_6` を参照のこと。
+
+Jakarta RESTful Web Servicesサポートは、Nablarchのウェブアプリケーションをベースとする。
+そのため、Jakarta RESTful Web Servicesで使用できる@Contextアノテーションを使用したServletリソースのインジェクションやJakarta Contexts and Dependency Injectionなどは使用できない。
+以下に、Jakarta RESTful Web Servicesサポートで使用できるアノテーションを示す。
 
  - Produces(レスポンスのメディアタイプの指定)
  - Consumes(リクエストのメディアタイプの指定)
  - Valid(リクエストに対するBeanValidationの実行)
 
-JSR339とJAX-RSサポートとの機能比較は、 :ref:`restful_web_service_functional_comparison` を参照。
+Jakarta RESTful Web ServicesとJakarta RESTful Web Servicesサポートとの機能比較は、 :ref:`restful_web_service_functional_comparison` を参照。
 
 .. important::
 
- JAX-RSサポートでは、クライアントサイドの機能は提供しない。
- JAX-RSクライアントを使用する必要がある場合は、JAX-RS実装(JerseyやRESTEasyなど)を使用すること。
+ Jakarta RESTful Web Servicesサポートでは、クライアントサイドの機能は提供しない。
+ Jakarta RESTful Web Servicesのクライアントを使用する必要がある場合は、Jakarta RESTful Web Servicesの実装(JerseyやRESTEasyなど)を使用すること。
 
 RESTfulウェブサービスの構成
 ----------------------------------------
@@ -37,7 +45,7 @@ RESTfulウェブサービスがリクエストを処理し、レスポンスを�
 .. image:: images/rest-design.png 
   :scale: 75
 
-1. :ref:`web_front_controller` ( `javax.servlet.Filter` の実装クラス)がrequestを受信する。
+1. :ref:`web_front_controller` ( `jakarta.servlet.Filter` の実装クラス)がrequestを受信する。
 2. :ref:`web_front_controller` は、requestに対する処理をハンドラキュー(handler queue)に委譲する。
 3. ハンドラキューに設定されたディスパッチハンドラ(`DispatchHandler`) が、URIを元に処理すべきアクションクラス(action class)を特定しハンドラキューの末尾に追加する。
 4. アクションクラス(action class)は、フォームクラス(form class)やエンティティクラス(entity class)を使用して業務ロジック(business logic) を実行する。 |br|

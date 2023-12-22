@@ -18,7 +18,7 @@ Although web services can be built using either framework,
 creating web services using :ref:`restful_web_service` is recommended for the following reasons.
 
 Reason
-  In :ref:`restful_web_service`, a web service can be easily built using some annotations defined in `JSR 339(external site) <https://jcp.org/en/jsr/detail?id=339>`_ .
+  In :ref:`restful_web_service`, a web service can be easily built using some annotations defined in `Jakarta RESTful Web Services(external site) <https://jakarta.ee/specifications/restful-ws/>`_ .
   
   On the other hand, :ref:`http_messaging` cannot be flexibly designed and implemented because of the following restrictions on the body, HTTP headers and exception control.
 

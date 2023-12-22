@@ -90,9 +90,9 @@ Exampleアプリケーションを元に、登録機能を解説する。
       }
 
    この実装のポイント
-    * リクエストをJSON形式で受け付けるため、 :java:extdoc:`Consumes<javax.ws.rs.Consumes>` アノテーションに
+    * リクエストをJSON形式で受け付けるため、 :java:extdoc:`Consumes<jakarta.ws.rs.Consumes>` アノテーションに
       ``MediaType.APPLICATION_JSON`` を指定する。
-    * :java:extdoc:`Valid <javax.validation.Valid>` アノテーションを使用して、リクエストのバリデーションを行う。
+    * :java:extdoc:`Valid <jakarta.validation.Valid>` アノテーションを使用して、リクエストのバリデーションを行う。
       詳細は :ref:`jaxrs_bean_validation_handler` を参照。
     * :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` でフォームをエンティティに変換し、
       :ref:`universal_dao` を使用してプロジェクト情報をデータベースに登録する。
@@ -100,7 +100,7 @@ Exampleアプリケーションを元に、登録機能を解説する。
 
 URLとのマッピングを定義
   :ref:`router_adaptor` を使用して、業務アクションとURLのマッピングを行う。
-  マッピングには :ref:`JAX-RSのPathアノテーション <router_adaptor_path_annotation>` を使用する。
+  マッピングには :ref:`Jakarta RESTful Web ServicesのPathアノテーション <router_adaptor_path_annotation>` を使用する。
 
   ProjectAction.java
     .. code-block:: java

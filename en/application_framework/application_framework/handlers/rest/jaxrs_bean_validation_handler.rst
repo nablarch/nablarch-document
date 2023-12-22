@@ -1,10 +1,19 @@
 .. _jaxrs_bean_validation_handler:
 
-JAX-RS BeanValidation Handler
-==================================================
+Jakarta RESTful Web Servcies Bean Validation Handler
+=====================================================
 .. contents:: Table of contents
   :depth: 3
   :local:
+
+.. tip::
+  This function was called "JAX-RS BeanValidation Handler" until Nablarch5.
+  However, as Java EE was transferred to the Eclipse Foundation and the specification name changed, the name was changed to "Jakarta RESTful Web Servcies Bean Validation Handler".
+
+  Only the name has changed, there is no functional difference.
+
+  For other features renamed in Nablarch 6, see :ref:`renamed_features_in_nablarch_6`.
+
 
 This handler executes :ref:`bean_validation` for Form (Bean) received by the resource (action) class.
 If a validation error occurs during validation, the process is not delegated to the subsequent handler,
@@ -49,7 +58,7 @@ Configure this handler after the :ref:`body_convert_handler`
 Execute validation for Form (Bean) received by resource (action)
 ----------------------------------------------------------------------------------------------------
 To validate the Form (Bean) received by the resource (action) method,
-configure :java:extdoc:`Valid <javax.validation.Valid>` annotation for that method.
+configure :java:extdoc:`Valid <jakarta.validation.Valid>` annotation for that method.
 
 An example is shown below.
 
@@ -68,15 +77,15 @@ An example is shown below.
 
 Specify Group of Bean Validation
 -------------------------------------------------
-A Bean Validation group can be specified by setting the :java:extdoc:`ConvertGroup <javax.validation.groups.ConvertGroup>` annotation for the method with the :java:extdoc:`Valid <javax.validation.Valid>` annotation set.
+A Bean Validation group can be specified by setting the :java:extdoc:`ConvertGroup <jakarta.validation.groups.ConvertGroup>` annotation for the method with the :java:extdoc:`Valid <jakarta.validation.Valid>` annotation set.
 
-The ``from`` and ``to`` attributes must be specified for the :java:extdoc:`ConvertGroup <javax.validation.groups.ConvertGroup>` annotation.
+The ``from`` and ``to`` attributes must be specified for the :java:extdoc:`ConvertGroup <jakarta.validation.groups.ConvertGroup>` annotation.
 Each must be specified as follows.
 
-* ``from`` : Specify :java:extdoc:`Default.class <javax.validation.groups.Default>` as a fixed value.
+* ``from`` : Specify :java:extdoc:`Default.class <jakarta.validation.groups.Default>` as a fixed value.
 
-  * If you set the :java:extdoc:`Valid <javax.validation.Valid>` annotation to a method,
-    the validation is considered to have set the :java:extdoc:`Default <javax.validation.groups.Default>` group and will be executed.
+  * If you set the :java:extdoc:`Valid <jakarta.validation.Valid>` annotation to a method,
+    the validation is considered to have set the :java:extdoc:`Default <jakarta.validation.groups.Default>` group and will be executed.
 
 * ``to`` : Specify the group of Bean Validation.
 

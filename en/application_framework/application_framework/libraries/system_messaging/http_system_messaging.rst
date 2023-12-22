@@ -22,7 +22,7 @@ Also, :ref:`data_format` is used for the message format.
  Therefore, using the following functions is recommended.
 
  * The use of :ref:`RESTful Web service <restful_web_service>` is recommended for the server (message receive).
- * The use of Client function provided by JSR339 (JAX-RS2.0) is recommended for client (message send).
+ * The use of Client function provided by Jakarta RESTful Web Services is recommended for client (message send).
 
  If the use of this function is unavoidable, refer to :ref:`http_system_messaging-change_fw_header` and handle by adding the implementation in the project.
 

@@ -66,7 +66,7 @@ For details of each function, refer to the linked Javadoc.
 
 * :java:extdoc:`serialization by Java standard serialize (default) <nablarch.common.web.session.encoder.JavaSerializeStateEncoder>`
 * :java:extdoc:`serialization and encryption by Java standard serialize <nablarch.common.web.session.encoder.JavaSerializeEncryptStateEncoder>`
-* :java:extdoc:`XML-based serialization with JAXB <nablarch.common.web.session.encoder.JaxbStateEncoder>`
+* :java:extdoc:`XML-based serialization with Jakarta XML Binding <nablarch.common.web.session.encoder.JaxbStateEncoder>`
 
 Module list
 ---------------------------------------------------------------------
@@ -318,8 +318,8 @@ Point
   * Generate the key using :java:extdoc:`KeyGenerator <javax.crypto.KeyGenerator>`.
   * Generate IV using :java:extdoc:`SecureRandom <java.security.SecureRandom>`.
   
-  Using :java:extdoc:`Base64Util <nablarch.core.util.Base64Util>` or ``java.util.Base64.Encoder``,
-  which is added in Java 8, is better for base64 encoding.
+  Using :java:extdoc:`Base64Util <nablarch.core.util.Base64Util>` or
+  ``java.util.Base64.Encoder`` is better for base64 encoding.
 
 Specify the transition destination screen when the value does not exist in the session variable
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

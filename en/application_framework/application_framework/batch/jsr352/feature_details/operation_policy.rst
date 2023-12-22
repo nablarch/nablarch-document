@@ -4,7 +4,7 @@ Operation Policy
   :depth: 3
   :local:
 
-In JSR352-compliant batch applications, fault monitoring and a log output policy in accordance with the following policies is recommended.
+In Jakarta Batch-compliant batch applications, fault monitoring and a log output policy in accordance with the following policies is recommended.
 
 * Perform :ref:`jsr352-failure_monitoring` with the batch exit status.
 * Outputs logs for operators for recovery when an expected failure occurs, such as when the imported file does not exist.

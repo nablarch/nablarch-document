@@ -121,7 +121,7 @@ Exampleアプリケーションを元に、検索機能を解説する。
       }
 
   この実装のポイント
-   * 検索結果をJSON形式でクライアントに返却するため、 :java:extdoc:`Produces<javax.ws.rs.Produces>` アノテーションに
+   * 検索結果をJSON形式でクライアントに返却するため、 :java:extdoc:`Produces<jakarta.ws.rs.Produces>` アノテーションに
      ``MediaType.APPLICATION_JSON`` を指定する。
    * クエリパラメータは :java:extdoc:`HttpRequest<nablarch.fw.web.HttpRequest>` から取得する。
    * :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用してリクエストパラメータからフォームを作成する。
@@ -134,7 +134,7 @@ Exampleアプリケーションを元に、検索機能を解説する。
 
 URLとのマッピングを定義
   :ref:`router_adaptor` を使用して、業務アクションとURLのマッピングを行う。
-  マッピングには :ref:`JAX-RSのPathアノテーション <router_adaptor_path_annotation>` を使用する。
+  マッピングには :ref:`Jakarta RESTful Web ServicesのPathアノテーション <router_adaptor_path_annotation>` を使用する。
 
   ProjectAction.java
     .. code-block:: java

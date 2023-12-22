@@ -17,13 +17,13 @@ Nablarch
 
   about_nablarch/index
   application_framework/index
-  extension_components/index
   development_tools/index
-  examples/index
   nablarch_api/index
   releases/index
   about_nablarch/versionup_policy
   inquiry/index
+  migration/index
+  jakarta_ee/index
   terms_of_use/index
 
 -----------------------------------------------
@@ -64,28 +64,6 @@ Nablarchアプリケーションフレームワーク
   | :doc:`クラウドネイティブ対応 <application_framework/application_framework/cloud_native/index>`
 
 -----------------------------------------------
-Nablarch拡張コンポーネント
------------------------------------------------
-
-帳票ライブラリ
-===========================
-
-  | :doc:`解説書 <extension_components/report/index>` | `サンプルアプリケーション <https://github.com/nablarch/nablarch-report-sample>`__
-  
-ワークフローライブラリ
-===========================
-
-  | :doc:`解説書 <extension_components/workflow/doc/index>`
-  | :doc:`ワークフロー定義データ自動生成ツール <extension_components/workflow/tool/index>` |
-
-ETL基盤
-===========================
-
-  | :doc:`解説書 <extension_components/etl/index>`
-  | :doc:`ETL Mavenプラグイン <extension_components/etl/etl_maven_plugin>`
-
-
------------------------------------------------
 Nablarch開発ツール
 -----------------------------------------------
 
@@ -93,11 +71,6 @@ Nablarch開発ツール
 ===========================
 
   | :doc:`解説書 <development_tools/java_static_analysis/index>` 
-
-フロントエンド上級者向けのUI開発基盤
-====================================
-
-  | :doc:`解説書 <development_tools/ui_dev/index>` | :doc:`JSP/HTML作成ガイド <development_tools/ui_dev/guide/index>` 
 
 
 テスティングフレームワーク
@@ -113,13 +86,6 @@ Nablarch開発ツール
 
 
 -----------------------------------------------
-Nablarch実装例集
------------------------------------------------
-
-  | :doc:`解説書 <examples/index>`
-
-
------------------------------------------------
 リリース情報
 -----------------------------------------------
 
@@ -131,3 +97,15 @@ Nablarch実装例集
 -----------------------------------------------
 
   | :doc:`機能追加要望・改善要望 <inquiry/index>`
+
+-----------------------------------------------
+Nablarch 5から6への移行ガイド
+-----------------------------------------------
+
+  | :doc:`Nablarch 5から6への移行ガイド <migration/index>`
+
+-----------------------------------------------
+Jakarta EEの仕様名に関して
+-----------------------------------------------
+
+  | :doc:`Jakarta EEの仕様名に関して <migration/index>`

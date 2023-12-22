@@ -1,8 +1,8 @@
 .. _jsp_static_analysis_tool:
 
-=============================
-JSP Static Analysis Tool
-=============================
+============================================
+Jakarta Server Pages Static Analysis Tool
+============================================
 
 .. contents:: Table of Contents
   :depth: 2
@@ -96,8 +96,7 @@ How to specify the files to be checked
 The file (directory) of the check target is specified as the start argument to this tool. 
 If a directory is specified, the target file (default is a file with the extension jsp, but the extension can be added by setting) is checked recursively.
 
-In the development project of UI development infrastructure, 
-there is a case that files to be checked (files deployed to the production environment) and files not to be checked (files for testing, etc. that are not deployed to the production environment) are mixed in the directory to be checked. 
+There is a case that files to be checked (files deployed to the production environment) and files not to be checked (files for testing, etc. that are not deployed to the production environment) are mixed in the directory to be checked. 
 In such a case, the check for unnecessary files can be disabled by using the exclusion file setting.
 
 Refer to :ref:`01_customJspAnalysisProp` for how to set the files (directories) to be checked and the files (directories) not to be checked.
@@ -148,8 +147,8 @@ Confirmation of the existence of a configuration file
 
 Confirm that the following files required to execute this tool exist in the static-analysis/jspanalysis directory of the tools project.
 
-* :download:`config.txt<../tools/JspStaticAnalysis/config.txt>` … JSP static analysis tool configuration file
-* :download:`transform-to-html.xsl<../tools/JspStaticAnalysis/transform-to-html.xsl>` … Definition file for converting JSP static analysis result XML to HTML
+* :download:`config.txt<../tools/JspStaticAnalysis/config.txt>` … Jakarta Server Pages static analysis tool configuration file
+* :download:`transform-to-html.xsl<../tools/JspStaticAnalysis/transform-to-html.xsl>` … Definition file for converting analysis result XML to HTML
 
 Refer to  :doc:`02_JspStaticAnalysisInstall`  for more information about these files.
 
@@ -183,7 +182,7 @@ Confirm that the following definition exists in nablarch-tools.xml of tools proj
         <arg value="${jspanalysis.charset}" />
         <arg value="${jspanalysis.lineseparator}" />
         <arg value="${jspanalysis.additionalexts}" />
-        <!-- "Configure the directory (file) name not to be checked as a regular expression" for JSP static analysis tool.
+        <!-- "Configure the directory (file) name not to be checked as a regular expression" for Jakarta Server Pages static analysis tool.
              When this value is enabled in pom.xml of parent project, comment out is canceled.
         <arg value="${jspanalysis.excludePatterns}" />
         -->
@@ -196,16 +195,16 @@ Confirm that the following definition exists in nablarch-tools.xml of tools proj
   </project>
 
 
-Check the pom.xml of the target project that you want to check with the JSP static analysis tool
-======================================================================================================
+Check the pom.xml of the target project that you want to check with the Jakarta Server Pages static analysis tool
+====================================================================================================================
 
-Confirm that the following description exists in pom.xml of the target project that you want to check with JSP static analysis tool.
+Confirm that the following description exists in pom.xml of the target project that you want to check with Jakarta Server Pages static analysis tool.
 
 .. code-block:: xml
 
   <properties>
     <!-- Middle is omitted -->
-    <!-- "Configure the directory (file) name not to be checked as a regular expression" for JSP static analysis tool.
+    <!-- "Configure the directory (file) name not to be checked as a regular expression" for Jakarta Server Pages static analysis tool.
          To enable this configuration, uncomment the configuration in nablarch-tools.xml of the tools project.
     <jspanalysis.excludePatterns></jspanalysis.excludePatterns>
     -->
@@ -228,13 +227,13 @@ Confirm that the following description exists in pom.xml of the target project t
 
 .. tip::
     
-    The configuration values of the JSP static analysis tool are described in pom.xml of nablarch-archetype-parent.
+    The configuration values of the Jakarta Server Pages static analysis tool are described in pom.xml of nablarch-archetype-parent.
     
     .. code-block:: xml
     
       <properties>
         <!-- Middle is omitted -->
-        <!-- Configuration items of JSP static analysis tool -->
+        <!-- Configuration items of Jakarta Server Pages static analysis tool -->
         <jspanalysis.checkjspdir>${project.basedir}/src/main/webapp</jspanalysis.checkjspdir>
         <jspanalysis.xmloutput>${project.basedir}/target/jspanalysis-result.xml</jspanalysis.xmloutput>
         <jspanalysis.checkconfig>${nablarch.tools.dir}/static-analysis/jspanalysis/config.txt</jspanalysis.checkconfig>
@@ -251,8 +250,8 @@ Confirm that the following description exists in pom.xml of the target project t
 
 .. _01_customJspAnalysis:
 
-How to write the JSP static analysis tool configuration file
-======================================================================
+How to write the Jakarta Server Pages static analysis tool configuration file
+==============================================================================
 
 Modify the configuration file to reflect the project's conventions.
 

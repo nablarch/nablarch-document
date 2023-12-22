@@ -93,7 +93,6 @@ Screen creation
   :hidden:
 
   feature_details/jsp_session
-  feature_details/view/freemarker
   feature_details/view/other
 
 * When JSP is used
@@ -104,7 +103,6 @@ Screen creation
 * When using a template engine other than JSP
 
   * :ref:`Screen development using Thymeleaf <web_thymeleaf_adaptor>`
-  * :ref:`view_freemarker`
   * :ref:`view_other`
 
 Internationalization
@@ -125,7 +123,7 @@ For this reason, use :ref:`internationalization of message tags <tag-write_messa
 Authentication
 ----------------------------------------
 Authentication is not provided as a flake work because the specifications vary depending on the project requirements.
-Implement :ref:`authentication` in the project according to the project requirements, referring to authentication.
+Implement authentication in the project according to the project requirements.
 
 See below for information on retaining the authentication information.
 

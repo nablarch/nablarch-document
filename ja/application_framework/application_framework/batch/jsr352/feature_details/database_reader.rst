@@ -4,7 +4,7 @@
   :depth: 3
   :local:
   
-データベースから処理対象データを抽出する場合は、JSR352で提供されているリーダではなく
+データベースから処理対象データを抽出する場合は、Jakarta Batchで提供されているリーダではなく
 本機能で提供する :java:extdoc:`BaseDatabaseItemReader <nablarch.fw.batch.ee.chunk.BaseDatabaseItemReader>` を実装すること。
 
 :java:extdoc:`BaseDatabaseItemReader <nablarch.fw.batch.ee.chunk.BaseDatabaseItemReader>` を実装することで、

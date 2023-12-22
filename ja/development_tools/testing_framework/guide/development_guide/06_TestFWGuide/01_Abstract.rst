@@ -691,7 +691,6 @@ JUnit 5には、JUnit Vintageというプロジェクトがある。
 
 JUnit 5を使用するには、以下の条件を満たしている必要がある。
 
-* Java 8 以上であること
 * maven-surefire-plugin が 2.22.0 以上であること
 
 依存関係の追加

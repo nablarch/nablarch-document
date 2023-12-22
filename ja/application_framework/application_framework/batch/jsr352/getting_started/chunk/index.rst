@@ -61,8 +61,8 @@ Exampleアプリケーションを元に、既存データから計算を行い�
 .. _`getting_started_chunk-form`:
 
 フォームの作成
-  Chunkステップでは、 :java:extdoc:`ItemReader<javax.batch.api.chunk.ItemReader>` と
-  :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>` とのデータ連携にフォームを使用する。
+  Chunkステップでは、 :java:extdoc:`ItemReader<jakarta.batch.api.chunk.ItemReader>` と
+  :java:extdoc:`ItemProcessor<jakarta.batch.api.chunk.ItemProcessor>` とのデータ連携にフォームを使用する。
 
   EmployeeForm.java
     .. code-block:: java
@@ -96,14 +96,14 @@ Exampleアプリケーションを元に、既存データから計算を行い�
 .. _`getting_started_chunk-reader`:
 
 ItemReaderの作成
-  :java:extdoc:`AbstractItemReader<javax.batch.api.chunk.AbstractItemReader>` を継承し、データの読み込みを行う。
+  :java:extdoc:`AbstractItemReader<jakarta.batch.api.chunk.AbstractItemReader>` を継承し、データの読み込みを行う。
 
     ==================================================================   =============================================================================================
     インタフェース名                                                       責務
     ==================================================================   =============================================================================================
-    :java:extdoc:`ItemReader<javax.batch.api.chunk.ItemReader>`          データの読み込みを行う。
+    :java:extdoc:`ItemReader<jakarta.batch.api.chunk.ItemReader>`          データの読み込みを行う。
 
-                                                                         空実装を提供する :java:extdoc:`AbstractItemReader<javax.batch.api.chunk.AbstractItemReader>` を継承する。
+                                                                         空実装を提供する :java:extdoc:`AbstractItemReader<jakarta.batch.api.chunk.AbstractItemReader>` を継承する。
 
                                                                            * `ItemReader#open`
                                                                            * `ItemReader#readItem`
@@ -160,14 +160,14 @@ ItemReaderの作成
       INNER JOIN GRADE ON EMPLOYEE.GRADE_CODE = GRADE.GRADE_CODE
 
   この実装のポイント
-    * :java:extdoc:`Named<javax.inject.Named>` と :java:extdoc:`Dependent<javax.enterprise.context.Dependent>` をクラスに付与する。
+    * :java:extdoc:`Named<jakarta.inject.Named>` と :java:extdoc:`Dependent<jakarta.enterprise.context.Dependent>` をクラスに付与する。
       詳細は、 :ref:`BatchletのNamedとDependentの説明 <getting_started_batchlet-cdi>` を参照。
     * `open` メソッドで処理対象のデータを読み込む。
     * SQLファイルの配置場所や作成方法などは、 :ref:`universal_dao-sql_file` を参照。
     * 大量のデータを読み込む場合は、メモリの逼迫を防ぐために :java:extdoc:`UniversalDao#defer <nablarch.common.dao.UniversalDao.defer()>` を使用して
       検索結果を :ref:`遅延ロード<universal_dao-lazy_load>` する。
     * `readItem` メソッドで読み込んだデータから一行分のデータを返却する。
-      このメソッドで返却したオブジェクトが、後続する :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>` の `processItem` メソッドの引数として与えられる。
+      このメソッドで返却したオブジェクトが、後続する :java:extdoc:`ItemProcessor<jakarta.batch.api.chunk.ItemProcessor>` の `processItem` メソッドの引数として与えられる。
 
 .. _`getting_started_chunk-business_logic`:
 
@@ -176,16 +176,16 @@ ItemReaderの作成
 賞与の計算等の業務ロジックを実装する。
 
 ItemProcessorの作成
-  :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>` を実装し、
-  業務ロジックを行う(永続化処理は :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemWriter>` の責務であるため実施しない)。
+  :java:extdoc:`ItemProcessor<jakarta.batch.api.chunk.ItemProcessor>` を実装し、
+  業務ロジックを行う(永続化処理は :java:extdoc:`ItemWriter<jakarta.batch.api.chunk.ItemWriter>` の責務であるため実施しない)。
 
-    ==================================================================   =============================================================================================
-    インタフェース名                                                       責務
-    ==================================================================   =============================================================================================
-    :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>`    一行分のデータに対する業務処理を行う。
+    ====================================================================   =============================================================================================
+    インタフェース名                                                         責務
+    ====================================================================   =============================================================================================
+    :java:extdoc:`ItemProcessor<jakarta.batch.api.chunk.ItemProcessor>`      一行分のデータに対する業務処理を行う。
 
-                                                                           * `ItemProcessor#processItem`
-    ==================================================================   =============================================================================================
+                                                                             * `ItemProcessor#processItem`
+    ====================================================================   =============================================================================================
 
   BonusCalculateProcessor.java
     .. code-block:: java
@@ -222,7 +222,7 @@ ItemProcessorの作成
 
   この実装のポイント
     * `processItem` メソッドで一定数( :ref:`getting_started_chunk-job` にて設定方法を解説)のエンティティを返却した時点で、
-      後続する :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemWriter>` の `writeItems` メソッドが実行される。
+      後続する :java:extdoc:`ItemWriter<jakarta.batch.api.chunk.ItemWriter>` の `writeItems` メソッドが実行される。
 
 .. _`getting_started_chunk-persistence`:
 
@@ -231,12 +231,12 @@ ItemProcessorの作成
 DB更新等の、永続化処理を実装する。
 
 ItemWriterの作成
-  :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemWriter>` を実装し、データの永続化を行う。
+  :java:extdoc:`ItemWriter<jakarta.batch.api.chunk.ItemWriter>` を実装し、データの永続化を行う。
 
     ==================================================================   =============================================================================================
     インタフェース名                                                        責務
     ==================================================================   =============================================================================================
-    :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemWriter>`          データを永続化する。
+    :java:extdoc:`ItemWriter<jakarta.batch.api.chunk.ItemWriter>`          データを永続化する。
 
                                                                            * `ItemWriter#writeItems`
     ==================================================================   =============================================================================================
@@ -268,7 +268,7 @@ JOBの実行設定を記載したファイルを作成する。
   bonus-calculate.xml
     .. code-block:: xml
 
-     <job id="bonus-calculate" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+     <job id="bonus-calculate" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
        <listeners>
          <listener ref="nablarchJobListenerExecutor" />
        </listeners>
@@ -291,8 +291,8 @@ JOBの実行設定を記載したファイルを作成する。
     * ジョブ定義ファイルは `/src/main/resources/META-INF/batch-jobs/` 配下に配置する。
     * `job` 要素 の `id` 属性で、ジョブ名称を指定する。
     * `chunk` 要素の `item-count` 属性で `writeItems` 一回当たりで処理する件数を設定する。
-    * 設定ファイルの詳細な記述方法は `JSR352 Specificationを参照(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=352>`_ を参照。
+    * 設定ファイルの詳細な記述方法は |jsr352| を参照。
 
 .. |jsr352| raw:: html
 
-  <a href="https://jcp.org/en/jsr/detail?id=352" target="_blank">JSR352(外部サイト、英語)</a>
+  <a href="https://jakarta.ee/specifications/batch/" target="_blank">Jakarta Batch(外部サイト、英語)</a>

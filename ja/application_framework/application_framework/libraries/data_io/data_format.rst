@@ -64,7 +64,7 @@
   本機能の代替機能
     :固定長: :ref:`data_bind` を使用すること。
     :可変長: :ref:`data_bind` を使用すること。
-    :XML: :java:extdoc:`JAXB <javax.xml.bind>` を推奨する。
+    :XML: `Jakarta XML Binding <https://jakarta.ee/specifications/xml-binding/>`_ を推奨する。
     :JSON: OSSの使用を推奨する。例えば、 `Jackson(外部サイト、英語) <https://github.com/FasterXML/jackson>`_ が広く使われている。
 
 
@@ -500,16 +500,6 @@ XMLでDTDを使う
         <property name="allowDTD" value="true" />
       </component>
     </component-configuration>
-
-.. tip::
-
-  以下のバージョンのJDKにはAPIに不具合があり、本機能を使用した場合に ``NullPointerException`` が発生する。
-  本バグを回避するには、JDKのバージョンをアップする。
-  
-  - JDK6 6u65 未満
-  - JDK7 7u6 b15 未満
-
-  不具合詳細は `JDK-7157610 : NullPointerException occurs when parsing XML doc <https://bugs.java.com/bugdatabase/view_bug.do?bug_id=7157610>`_ 参照。
 
 XMLで名前空間を使う
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -144,10 +144,10 @@ As you can see, the blank project is configured to create the following two imag
 * ``${project.artifactId}:latest``
 * ``${project.artifactId}:${project.version}``
 
-`OpenJDK image <https://hub.docker.com/_/adoptopenjdk>`_ (External sites) is used as base image by default.
+`OpenJDK image <https://hub.docker.com/_/eclipse-temurin>`_ (External sites) is used as base image by default.
 
 The base image can be changed with the ``jib.from.image`` property.
-For example, if you want to use ``adoptopenjdk:11.0.11_9-jre-hotspot`` for your base image, you would write it in ``pom.xml`` .
+For example, if you want to use ``eclipse-temurin:17.0.6_10-jre-jammy`` for your base image, you would write it in ``pom.xml`` .
 
 .. code-block:: xml
 
@@ -155,7 +155,7 @@ For example, if you want to use ``adoptopenjdk:11.0.11_9-jre-hotspot`` for your 
     <! -- Omitted ...-->
     <properties>
       <! -- Omitted ...-->
-      <jib.from.image>adoptopenjdk:11.0.11_9-jre-hotspot</jib.from.image>
+      <jib.from.image>eclipse-temurin:17.0.6_10-jre-jammy</jib.from.image>
     </properties>
     <! -- Omitted ...-->
   </project>
@@ -170,7 +170,7 @@ For example, if you want to use ``adoptopenjdk:11.0.11_9-jre-hotspot`` for your 
 
   .. code-block:: xml
 
-    <jib.from.image>adoptopenjdk@sha256:df316691a2c655de2f835a626f8611c74af67dad2cf92711f6608b54e5aa6c61</jib.from.image>
+    <jib.from.image>eclipse-temurin@sha256:7dacdab7c335d90cf4e110f5744ca27d5a3ed87901a7c08022c8c12055438bd2</jib.from.image>
 
 .. _firstStepRunContainerBatchDockerImage:
 

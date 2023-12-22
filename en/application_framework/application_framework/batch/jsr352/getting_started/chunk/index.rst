@@ -46,7 +46,7 @@ A method to implement a batch that calculates from existing data and derives new
 For the process flow, see :ref:`process flow of Chunk step batch<jsr352-batch_flow_chunk>`.
 For responsibility assignment, see :ref:`responsibility assignment of the Chunk step<jsr352-chunk_design>`.
 
-Batch process is configured by a listener that provides common processes such as transaction control in addition to the implementation of the interface specified in `JSR352 (external site) <https://jcp.org/en/jsr/detail?id=352>`_.
+Batch process is configured by a listener that provides common processes such as transaction control in addition to the implementation of the interface specified in |jsr352|.
 For details of the listener, see :ref:`listener used in the batch application<jsr352-listener>`, and :ref:`how to specify the listener<jsr352-listener>`.
 
 .. _`getting_started_chunk-read`:
@@ -61,8 +61,8 @@ Implements the process to fetch the data required for calculation.
 .. _`getting_started_chunk-form`:
 
 Create a form
-  In the Chunk step, use form to link data with :java:extdoc:`ItemReader<javax.batch.api.chunk.ItemReader>`
-  and :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>`.
+  In the Chunk step, use form to link data with :java:extdoc:`ItemReader<jakarta.batch.api.chunk.ItemReader>`
+  and :java:extdoc:`ItemProcessor<jakarta.batch.api.chunk.ItemProcessor>`.
 
   EmployeeForm.java
     .. code-block:: java
@@ -96,14 +96,14 @@ Create a form
 .. _`getting_started_chunk-reader`:
 
 Create an ItemReader
-  Inherits :java:extdoc:`AbstractItemReader<javax.batch.api.chunk.AbstractItemReader>` and reads data.
+  Inherits :java:extdoc:`AbstractItemReader<jakarta.batch.api.chunk.AbstractItemReader>` and reads data.
 
     ==================================================================   =============================================================================================
     Interface Name                                                       Obligation
     ==================================================================   =============================================================================================
-    :java:extdoc:`ItemReader<javax.batch.api.chunk.ItemReader>`          Reads data.
+    :java:extdoc:`ItemReader<jakarta.batch.api.chunk.ItemReader>`          Reads data.
 
-                                                                         Inherits :java:extdoc:`AbstractItemReader<javax.batch.api.chunk.AbstractItemReader>`, which provides a empty implementation.
+                                                                         Inherits :java:extdoc:`AbstractItemReader<jakarta.batch.api.chunk.AbstractItemReader>`, which provides a empty implementation.
 
                                                                            * `ItemReader#open`
                                                                            * `ItemReader#readItem`
@@ -160,14 +160,14 @@ Create an ItemReader
       INNER JOIN GRADE ON EMPLOYEE.GRADE_CODE = GRADE.GRADE_CODE
 
   Key points of this implementation
-    * :java:extdoc:`Named<javax.inject.Named>` and :java:extdoc:`Dependent<javax.enterprise.context.Dependent>` are assigned to the class.
+    * :java:extdoc:`Named<jakarta.inject.Named>` and :java:extdoc:`Dependent<jakarta.enterprise.context.Dependent>` are assigned to the class.
       For details, see :ref:`Explanation of named and dependent of batchlet<getting_started_batchlet-cdi>`.
     * Read the data to be processed with `open` method.
     * For the location and how to create the SQL file, see :ref:`universal_dao-sql_file`.
     * When reading a large amount of data, to prevent straining of the memory, use :java:extdoc:`UniversalDao#defer <nablarch.common.dao.UniversalDao.defer()>`
       to :ref:`defer the loading<universal_dao-lazy_load>` of the search results.
     * Returns one line of data from the data read by `readItem` method.
-      The object returned by this method is given as an argument of `processItem` method of :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>` that follows.
+      The object returned by this method is given as an argument of `processItem` method of :java:extdoc:`ItemProcessor<jakarta.batch.api.chunk.ItemProcessor>` that follows.
 
 .. _`getting_started_chunk-business_logic`:
 
@@ -176,16 +176,16 @@ Execute business logic
 Implements the business logic of bonus calculation.
 
 Create ItemProcessor
-  Implements :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>`
-  and carries out the business logic (since the persistence process is a duty of :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemWriter>`, it is not executed).
+  Implements :java:extdoc:`ItemProcessor<jakarta.batch.api.chunk.ItemProcessor>`
+  and carries out the business logic (since the persistence process is a duty of :java:extdoc:`ItemWriter<jakarta.batch.api.chunk.ItemWriter>`, it is not executed).
 
-    ==================================================================   =============================================================================================
-    Interface Name                                                       Obligation
-    ==================================================================   =============================================================================================
-    :java:extdoc:`ItemProcessor<javax.batch.api.chunk.ItemProcessor>`    Performs the business process on one line of data.
+    ====================================================================   =============================================================================================
+    Interface Name                                                         Obligation
+    ====================================================================   =============================================================================================
+    :java:extdoc:`ItemProcessor<jakarta.batch.api.chunk.ItemProcessor>`      Performs the business process on one line of data.
 
-                                                                           * `ItemProcessor#processItem`
-    ==================================================================   =============================================================================================
+                                                                             * `ItemProcessor#processItem`
+    ====================================================================   =============================================================================================
 
   BonusCalculateProcessor.java
     .. code-block:: java
@@ -222,7 +222,7 @@ Create ItemProcessor
 
   Key points of this implementation
     * At the timing when a certain number of entities (how to configure is described in :ref:`getting_started_chunk-job`) are returned by the `processItem` method,
-      the `writeItems` method of :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemWriter>` that follows is executed.
+      the `writeItems` method of :java:extdoc:`ItemWriter<jakarta.batch.api.chunk.ItemWriter>` that follows is executed.
 
 .. _`getting_started_chunk-persistence`:
 
@@ -231,12 +231,12 @@ Persistence process
 Implements the persistence process for DB update, etc.
 
 Create ItemWriter
-  Implements :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemWriter>` and makes data persistence.
+  Implements :java:extdoc:`ItemWriter<jakarta.batch.api.chunk.ItemWriter>` and makes data persistence.
 
     ==================================================================   =============================================================================================
     Interface Name                                                        Obligation
     ==================================================================   =============================================================================================
-    :java:extdoc:`ItemWriter<javax.batch.api.chunk.ItemWriter>`          Persistence of data
+    :java:extdoc:`ItemWriter<jakarta.batch.api.chunk.ItemWriter>`          Persistence of data
 
                                                                            * `ItemWriter#writeItems`
     ==================================================================   =============================================================================================
@@ -268,7 +268,7 @@ Create a file with the job execution configuration.
   bonus-calculate.xml
     .. code-block:: xml
 
-     <job id="bonus-calculate" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+     <job id="bonus-calculate" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
        <listeners>
          <listener ref="nablarchJobListenerExecutor" />
        </listeners>
@@ -291,8 +291,8 @@ Create a file with the job execution configuration.
     * The job definition file is located under `/src/main/resources/META-INF/batch-jobs/`.
     * Specify the `job` name in the `id` attribute of the job element.
     * Configure the number of `writeItems` processed each time by the `item-count` attribute of the `chunk` element.
-    * Refer to `JSR352 specification (external site) <https://jcp.org/en/jsr/detail?id=352>`_ for detailed description method of the configuration file.
+    * Refer to |jsr352| for detailed description method of the configuration file.
 
 .. |jsr352| raw:: html
 
-  <a href="https://jcp.org/en/jsr/detail?id=352" target="_blank">JSR352(external site)</a>
+  <a href="https://jakarta.ee/specifications/batch/" target="_blank">Jakarta Batch(external site)</a>

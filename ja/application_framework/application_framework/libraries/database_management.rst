@@ -25,7 +25,7 @@ Nablarchでは、以下の2種類のデータベースアクセス機能を提�
   このため、 :ref:`JDBCのラッパー機能 <database>` を使うための設定などは必要になる。
 
 .. tip::
- :ref:`universal_dao` とJSR317(JPA2.0)との機能比較は、 :ref:`database-functional_comparison` を参照。
+ :ref:`universal_dao` とJakarta Persistenceとの機能比較は、 :ref:`database-functional_comparison` を参照。
 
 .. toctree::
   :hidden:

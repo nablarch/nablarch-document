@@ -16,12 +16,12 @@ Nablarchでは、以下の2種類のバリデーション機能を提供して�
 .. toctree::
   :maxdepth: 1
 
-  Java EE7のBean Validation(JSR349)に準拠したバリデーション機能 (Bean Validation) <validation/bean_validation>
+  Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能 (Bean Validation) <validation/bean_validation>
   Nablarch独自のバリデーション機能 (Nablarch Validation) <validation/nablarch_validation>
 
-どちらの機能を使用しても入力値のチェックは行えるが、以下の理由によりJava EE7に準拠した機能を使用することを推奨する。
+どちらの機能を使用しても入力値のチェックは行えるが、以下の理由によりJakarta EEに準拠した機能を使用することを推奨する。
 
-* Bean ValidationはJava EEで仕様が定められており情報が豊富である。
+* Jakarta Bean ValidationはJakarta EEで仕様が定められており情報が豊富である。
 * 開発者がNablarch独自のバリデーションの使い方などを覚える必要がない。
 
 .. tip::

@@ -27,7 +27,7 @@ Nablarchでは、以下のアーキタイプを提供している。なお、ア
   * - nablarch-jaxrs-archetype
     - RESTfulウェブサービス実行制御基盤を使用する場合のアーキタイプ
   * - nablarch-batch-ee-archetype
-    - JSR352に準拠したバッチアプリケーションフレームワークを使用する場合のアーキタイプ
+    - Jakarta Batchに準拠したバッチアプリケーションフレームワークを使用する場合のアーキタイプ
   * - nablarch-batch-archetype
     - Nablarch独自のバッチアプリケーション実行制御基盤を使用する場合のアーキタイプ
   * - nablarch-batch-dbless-archetype
@@ -200,9 +200,9 @@ toolsフォルダには、Mavenと連携させて使用するツールの設定�
   * - ディレクトリまたはファイル
     - 説明
   * - nablarch-tools.xml
-    - JSP静的解析ツールを実行する際に使用する設定ファイル
+    - Jakarta Server Pages静的解析ツールを実行する際に使用する設定ファイル
   * - static-analysis/jspanalysis
-    - JSP静的解析ツールの設定ファイルが格納されている。
+    - Jakarta Server Pages静的解析ツールの設定ファイルが格納されている。
 
 
 pj-jaxrsプロジェクト
@@ -220,7 +220,7 @@ Webと同一であるため省略。
 pj-batch-eeプロジェクト
 =======================
 
-JSR352に準拠したバッチアプリケーションのjarファイルとしてパッケージされるプロジェクト。
+Jakarta Batchに準拠したバッチアプリケーションのjarファイルとしてパッケージされるプロジェクト。
 
 .. _firstStepBatchEEProjectStructure:
 
@@ -258,16 +258,11 @@ JSR352に準拠したバッチアプリケーションのjarファイルとし�
     |   |       +---entity
     |   |       |
     |   |       \---META-INF
-    |   |           |   beans.xml               … CDIを有効化するために必要なファイル。
+    |   |           |   beans.xml               … Jakarta Contexts and Dependency Injectionを有効化するために必要なファイル。
     |   |           |
-    |   |           +---batch-jobs
-    |   |           |       sample-batchlet.xml … batchlet方式の疎通確認用アプリケーションのジョブファイル。
-    |   |           |       sample-chunk.xml    … chunk方式の疎通確認用アプリケーションのジョブファイル。
-    |   |           |       sample-etl.xml      … ETL機能のジョブファイル。
-    |   |           |
-    |   |           \---etl-config
-    |   |                   sample-etl.json     … ETL機能のジョブの設定ファイル。
-    |   |
+    |   |           \---batch-jobs
+    |   |                   sample-batchlet.xml … batchlet方式の疎通確認用アプリケーションのジョブファイル。
+    |   |                   sample-chunk.xml    … chunk方式の疎通確認用アプリケーションのジョブファイル。
     |   |
     |   \---test
     |       +---java
@@ -664,7 +659,7 @@ Mavenのデフォルトのビルドフェーズ定義に加えて、以下のゴ
 使用するNablarchのバージョンを変更する場合の例
 ----------------------------------------------
 
-以下にNablarch5u6を使用する場合の設定例を示す。
+以下にNablarch6u2を使用する場合の設定例を示す。
 
 .. code-block:: xml
 
@@ -676,9 +671,9 @@ Mavenのデフォルトのビルドフェーズ定義に加えて、以下のゴ
 
         <!--
         使用するNablarchのバージョンと対応したバージョンを指定する。
-        この例は5u6を指定している。
+        この例は6u2を指定している。
         -->
-        <version>5u6</version>
+        <version>6u2</version>
 
         <type>pom</type>
         <scope>import</scope>

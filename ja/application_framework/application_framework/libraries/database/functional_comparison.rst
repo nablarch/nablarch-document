@@ -1,6 +1,6 @@
 .. _`database-functional_comparison`:
 
-ユニバーサルDAOとJSR317(JPA2.0)との機能比較
+ユニバーサルDAOとJakarta Persistenceとの機能比較
 ----------------------------------------------------------------------------------------------------
 この章では、以下の機能の比較を示す。
 
@@ -18,7 +18,7 @@
 
   * - 機能
     - ユニバーサルDAO
-    - JSR317
+    - Jakarta Persistence
 
   * - リレーションシップに対応できる |br|
     - × [#relation]_
@@ -58,7 +58,7 @@
     - ○ |br| :ref:`解説書へ <universal_dao-generate_surrogate_key>`
     - ○
 
-  * - Entityの状態をデータベースに反映時に |br| Bean Validationが実行できる
+  * - Entityの状態をデータベースに反映時に |br| Jakarta Bean Validationが実行できる
     - × [#validaiton]_
     - ○
 
@@ -74,11 +74,11 @@
 .. [#criteria] ユニバーサルDAOでは、条件及びソート項目に限り動的な組み立てができる。詳細は、 :ref:`SQLの動的組み立て <database-variable_condition>` を参照
 .. [#validaiton] Nablarchでは、外部からのデータを受け付けたタイミングでバリデーションを実施し、バリデーションエラーがない場合のみEntityへ変換しデータベースへ保存する。
 .. [#callback] 任意の処理が必要となる場合は、ユニバーサルDAOを呼び出す側で処理を行うことで対応する。
-.. [#lock] ユニバーサルDAOでは、楽観的ロックのみサポートする。悲観的ロックやJSRで定義されている検索時のロックモードの指定などはサポートしない。(悲観的ロックは、 ``select for update`` などを使用することで実現できる。)
+.. [#lock] ユニバーサルDAOでは、楽観的ロックのみサポートする。悲観的ロックやJakarta Persistenceで定義されている検索時のロックモードの指定などはサポートしない。(悲観的ロックは、 ``select for update`` などを使用することで実現できる。)
 
 .. |jsr317| raw:: html
 
-   <a href="https://jcp.org/en/jsr/detail?id=317" target="_blank">JSR317(外部サイト、英語)</a>
+   <a href="https://jakarta.ee/specifications/persistence/" target="_blank">Jakarta Persistence(外部サイト、英語)</a>
 
 .. |br| raw:: html
 

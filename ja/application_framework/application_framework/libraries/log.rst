@@ -875,7 +875,7 @@ LogWriterで使用するフォーマッタを :java:extdoc:`JsonLogFormatter <na
    
    * - :java:extdoc:`Date <java.util.Date>` |br|
        :java:extdoc:`Calendar <java.util.Calendar>`  及びそのサブクラス |br|
-       :java:extdoc:`LocalDateTime <java.time.LocalDateTime>` ※Java8以降
+       :java:extdoc:`LocalDateTime <java.time.LocalDateTime>`
      - JSONの文字列として出力する。デフォルトの書式は、 ``"yyyy-MM-dd HH:mm:ss.SSS"`` 。
        書式を変更する場合は、 ``datePattern`` プロパティにて指定する。
    

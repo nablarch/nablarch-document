@@ -16,15 +16,14 @@ Description of the function to be created
 
      If data is not registered, perform step 2.
 
-  2. (If data is not registered) Execute the mailing address registration batch
+  2. (If data is not registered) Reset the database to its initial state
 
     Execute the following command from the command prompt
 
     .. code-block:: bash
 
       $cd {nablarch-example-batch-ee System repository}
-      $mvn exec:java -Dexec.mainClass=nablarch.fw.batch.ee.Main ^
-          -Dexec.args=etl-zip-code-csv-to-db-chunk
+      $mvn generate-resources
 
     Execute the following SQL from the console of H2 and confirm that the data is registered.
 
@@ -73,9 +72,9 @@ Create batchlet
    ==================================================================   =============================================================================================
    Interface                                                            Implementation
    ==================================================================   =============================================================================================
-   :java:extdoc:`Batchlet<javax.batch.api.Batchlet>`                    Implement batch processing.
+   :java:extdoc:`Batchlet<jakarta.batch.api.Batchlet>`                    Implement batch processing.
 
-                                                                        Inherits :java:extdoc:`AbstractBatchlet<javax.batch.api.AbstractBatchlet>`, which provides the default implementation.
+                                                                        Inherits :java:extdoc:`AbstractBatchlet<jakarta.batch.api.AbstractBatchlet>`, which provides the default implementation.
 
                                                                           * `Batchlet#process`
                                                                           * `Batchlet#stop`
@@ -110,11 +109,11 @@ Create batchlet
       }
 
     Key points of this implementation
-      * Inherits :java:extdoc:`AbstractBatchlet<javax.batch.api.AbstractBatchlet>`, and performs the business process by `process` method.
+      * Inherits :java:extdoc:`AbstractBatchlet<jakarta.batch.api.AbstractBatchlet>`, and performs the business process by `process` method.
 
       .. _getting_started_batchlet-cdi:
 
-      * :java:extdoc:`Named<javax.inject.Named>` and :java:extdoc:`Dependent<javax.enterprise.context.Dependent>` are assigned to the class. |br|
+      * :java:extdoc:`Named<jakarta.inject.Named>` and :java:extdoc:`Dependent<jakarta.enterprise.context.Dependent>` are assigned to the class. |br|
         By configuring named and dependent annotations, batchlet implementation class can be used as CDI management bean.
         As a result, the batchlet class name specified in the job definition can be described with the CDI management name. |br|
         (If CDI management bean is not used, describe with fully qualified name (FQCN))
@@ -129,7 +128,7 @@ Create a job definition file
   zip-code-truncate-table.xml
     .. code-block:: xml
 
-     <job id="zip-code-truncate-table" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+     <job id="zip-code-truncate-table" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
        <listeners>
          <listener ref="nablarchJobListenerExecutor" />
        </listeners>
@@ -162,11 +161,11 @@ Create a job definition file
     * For a batch job consisting of multiple steps, define multiple `step` elements and execute the process sequentially.
     * Specify a name with the first letter of the batchlet class name in lowercase for the `ref` attribute of `batchlet` element.
     * Specify the value to be injected into the property of batchlet class in the `property` element.
-    * Refer to `JSR352 Specification(external site) <https://jcp.org/en/jsr/detail?id=352>`_ for detailed description method of the configuration file.
+    * Refer to |jsr352| for detailed description method of the configuration file.
 
 .. |jsr352| raw:: html
 
-  <a href="https://jcp.org/en/jsr/detail?id=352" target="_blank">JSR352(external site)</a>
+  <a href="https://jakarta.ee/specifications/batch/" target="_blank">Jakarta Batch(external site)</a>
 
 .. |br| raw:: html
 

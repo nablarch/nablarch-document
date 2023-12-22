@@ -119,9 +119,9 @@
 
 .. _router_adaptor_path_annotation:
 
-JAX-RSのPathアノテーションでマッピングする
---------------------------------------------------------
-本アダプタのバージョン1.2.0から、JAX-RSの ``javax.ws.rs.Path`` アノテーション（以下 ``Path`` アノテーションと表記）を使ったルーティングのマッピングができるようになった。
+Jakarta RESTful Web ServicesのPathアノテーションでマッピングする
+--------------------------------------------------------------------
+本アダプタのバージョン1.2.0から、Jakarta RESTful Web Servicesの ``jakarta.ws.rs.Path`` アノテーション（以下 ``Path`` アノテーションと表記）を使ったルーティングのマッピングができるようになった。
 
 ここでは、既存の :ref:`RESTfulウェブサービス <restful_web_service>` に対して ``Path`` アノテーションを使ったルーティングを有効にする方法と、各種設定の詳細について説明する。
 
@@ -177,7 +177,7 @@ XMLのマッピング定義を使用する場合は、ディスパッチハン�
 **applicationPath**
 
   | マッピングするパスに共通するプレフィックスを設定する。
-  | JAX-RS の ``javax.ws.rs.ApplicationPath`` アノテーションで設定する値と同じものを意味する。
+  | Jakarta RESTful Web Services の ``jakarta.ws.rs.ApplicationPath`` アノテーションで設定する値と同じものを意味する。
 
 **basePackage**
 
@@ -223,7 +223,7 @@ XMLのマッピング定義を使用する場合は、ディスパッチハン�
     }
 
 | アクションクラスを ``Path`` アノテーションで注釈することで、 ``Path`` アノテーションの ``value`` で設定したパスとアクションクラスを紐づけることができる。
-| さらに、 ``javax.ws.rs.GET`` などのHTTPメソッドを表すアノテーションでアクションクラスのメソッドを注釈することで、HTTPメソッドとアクションクラスのメソッドを紐づけることができる。
+| さらに、 ``jakarta.ws.rs.GET`` などのHTTPメソッドを表すアノテーションでアクションクラスのメソッドを注釈することで、HTTPメソッドとアクションクラスのメソッドを紐づけることができる。
 
 上記の実装例では、次のように HTTP リクエストがディスパッチされる。
 
@@ -238,13 +238,13 @@ XMLのマッピング定義を使用する場合は、ディスパッチハン�
 .. tip::
  HTTPメソッドを紐づけるアノテーションは、標準で以下のものが用意されている。
 
-  * ``javax.ws.rs.DELETE``
-  * ``javax.ws.rs.GET``
-  * ``javax.ws.rs.HEAD``
-  * ``javax.ws.rs.OPTIONS`` (JAX-RS 1.1 以上)
-  * ``javax.ws.rs.PATCH`` (JAX-RS 2.1 以上)
-  * ``javax.ws.rs.POST``
-  * ``javax.ws.rs.PUT``
+  * ``jakarta.ws.rs.DELETE``
+  * ``jakarta.ws.rs.GET``
+  * ``jakarta.ws.rs.HEAD``
+  * ``jakarta.ws.rs.OPTIONS``
+  * ``jakarta.ws.rs.PATCH``
+  * ``jakarta.ws.rs.POST``
+  * ``jakarta.ws.rs.PUT``
 
 さらに、以下のようにメソッドを ``Path`` アノテーションで注釈することで、サブパスのマッピングも定義できる。
 
@@ -303,8 +303,8 @@ XMLのマッピング定義を使用する場合は、ディスパッチハン�
         }
     }
 
-| パスパラメータはhttp-request-routerの記法ではなく、JAX-RSの仕様に従った形で記述する。
-| これは、本機能（``Path`` アノテーションによるルーティング定義）がJAX-RSの仕様に準拠しているためである。
+| パスパラメータはhttp-request-routerの記法ではなく、Jakarta RESTful Web Servicesの仕様に従った形で記述する。
+| これは、本機能（``Path`` アノテーションによるルーティング定義）がJakarta RESTful Web Servicesの仕様に準拠しているためである。
 
 | パスの一部を ``{パラメータ名}`` と記述することで、その部分をパラメータとして定義できる。
 | ここで定義したパラメータ名を :java:extdoc:`HttpRequest#getParam(String) <nablarch.fw.web.HttpRequest.getParam(java.lang.String)>` に渡すことで、パスパラメータの値を取得できる。

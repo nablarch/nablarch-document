@@ -93,7 +93,6 @@ URIとアクションクラスのマッピング
   :hidden:
 
   feature_details/jsp_session
-  feature_details/view/freemarker
   feature_details/view/other
 
 * JSPを使用する場合
@@ -104,7 +103,6 @@ URIとアクションクラスのマッピング
 * JSP以外のテンプレートエンジンを使用する場合
 
   * :ref:`Thymeleafを使用した画面開発 <web_thymeleaf_adaptor>`
-  * :ref:`view_freemarker`
   * :ref:`view_other`
 
 国際化対応
@@ -125,7 +123,7 @@ URIとアクションクラスのマッピング
 認証
 ----------------------------------------
 認証については、プロジェクト要件により仕様が異なるため、フレークワークとしては提供していない。
-:ref:`authentication` を参考に、プロジェクト要件に合わせてPJで実装する。
+プロジェクト要件に合わせてPJで実装する。
 
 認証情報の保持については、以下を参照。
 

@@ -102,7 +102,7 @@ Exampleアプリケーションを元に一括更新機能を解説する。
           }
 
       この実装のポイント
-        * :java:extdoc:`@Valid<javax.validation.Valid>` を付与することで、入れ子としたフォームも :ref:`Bean Validation<bean_validation>` の対象に含めることができる。
+        * :java:extdoc:`@Valid<jakarta.validation.Valid>` を付与することで、入れ子としたフォームも :ref:`Bean Validation<bean_validation>` の対象に含めることができる。
 
 .. _`project_bulk_update-create_bean`:
 
@@ -327,7 +327,7 @@ Exampleアプリケーションを元に一括更新機能を解説する。
       排他制御エラーが発生した場合は全件の更新がロールバックされる。
 
       .. tip::
-        Exampleアプリケーションでは独自のエラー制御ハンドラを追加しているため、排他制御エラーにより :java:extdoc:`OptimisticLockException<javax.persistence.OptimisticLockException>` が発生した場合、
+        Exampleアプリケーションでは独自のエラー制御ハンドラを追加しているため、排他制御エラーにより :java:extdoc:`OptimisticLockException<jakarta.persistence.OptimisticLockException>` が発生した場合、
         排他制御エラー画面へ遷移する。ハンドラによるエラー制御の作成方法は、 :ref:`ハンドラで例外クラスに対応したエラーページに遷移させる <forward_error_page-handler>` を参照。
 
     * :java:extdoc:`UniversalDao<nablarch.common.dao.UniversalDao>` には、エンティティのリストを引数に取る

@@ -105,9 +105,9 @@ Exampleアプリケーションを元に、更新機能を解説する。
       }
  
    この実装のポイント
-    * リクエストボディをJSON形式で受け付けるため、 :java:extdoc:`Consumes<javax.ws.rs.Consumes>` アノテーションに
+    * リクエストボディをJSON形式で受け付けるため、 :java:extdoc:`Consumes<jakarta.ws.rs.Consumes>` アノテーションに
       ``MediaType.APPLICATION_JSON`` を指定する。
-    * :java:extdoc:`Valid <javax.validation.Valid>` アノテーションを使用して、リクエストのバリデーションを行う。
+    * :java:extdoc:`Valid <jakarta.validation.Valid>` アノテーションを使用して、リクエストのバリデーションを行う。
       詳細は :ref:`jaxrs_bean_validation_handler` を参照。
     * :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` でフォームからエンティティを作成し、
       :ref:`universal_dao` を使用してプロジェクト情報を更新する。
@@ -117,12 +117,12 @@ Exampleアプリケーションを元に、更新機能を解説する。
 
       Exampleアプリケーションでは :java:extdoc:`ErrorResponseBuilder<nablarch.fw.jaxrs.ErrorResponseBuilder>` を独自に拡張しており、
       :java:extdoc:`NoDataException<nablarch.common.dao.NoDataException>` が発生した場合は ``404`` 、
-      :java:extdoc:`OptimisticLockException<javax.persistence.OptimisticLockException>` が発生した場合は ``409``
+      :java:extdoc:`OptimisticLockException<jakarta.persistence.OptimisticLockException>` が発生した場合は ``409``
       のレスポンスを生成してクライアントに返却している。
 
 URLとのマッピングを定義
   :ref:`router_adaptor` を使用して、業務アクションとURLのマッピングを行う。
-  マッピングには :ref:`JAX-RSのPathアノテーション <router_adaptor_path_annotation>` を使用する。
+  マッピングには :ref:`Jakarta RESTful Web ServicesのPathアノテーション <router_adaptor_path_annotation>` を使用する。
 
   ProjectAction.java
     .. code-block:: java

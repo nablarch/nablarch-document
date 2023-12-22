@@ -430,7 +430,7 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 項目間精査のテストケース
 ========================
 
-上記までの単項目精査でテストできないような、 :java:extdoc:`@AssertTrue <javax.validation.constraints.AssertTrue>` を指定した項目間精査などは、別途テストを作成する必要がある。
+上記までの単項目精査でテストできないような、 :java:extdoc:`@AssertTrue <jakarta.validation.constraints.AssertTrue>` を指定した項目間精査などは、別途テストを作成する必要がある。
 
 
 テストケース表の作成

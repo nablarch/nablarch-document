@@ -1,8 +1,8 @@
 .. _jsp_static_analysis_tool:
 
-=========================
-JSP静的解析ツール
-=========================
+=====================================
+Jakarta Server Pages静的解析ツール
+=====================================
 
 .. contents:: 目次
   :depth: 2
@@ -96,7 +96,7 @@ JSPで使用を許可する構文とタグを規定し、許可する構文と�
 チェック対象のファイル（ディレクトリ）は、本ツールへの起動引数として指定する。
 ディレクトリを指定した場合は、対象のファイル(デフォルトでは拡張子がjspのファイルで、設定により拡張子は追加可能)を再帰的にチェックする。
 
-UI開発基盤の開発プロジェクトでは、チェック対象のファイル（本番環境にデプロイされるファイル）と、
+チェック対象のファイル（本番環境にデプロイされるファイル）と、
 チェック対象外のファイル（テスト用のファイルなどで本番環境にはデプロイされないファイル）が、
 チェック対象ディレクトリに混在するケースがある。
 このような場合には、除外ファイル設定を使用することで、不要なファイルへのチェックを無効にできる。
@@ -151,8 +151,8 @@ UI開発基盤の開発プロジェクトでは、チェック対象のファイ
 
 toolsプロジェクトのstatic-analysis/jspanalysisディレクトリに、本ツールを実行するために必要な以下のファイルが存在することを確認する。
 
-* :download:`config.txt<../tools/JspStaticAnalysis/config.txt>` … JSP静的解析ツール設定ファイル
-* :download:`transform-to-html.xsl<../tools/JspStaticAnalysis/transform-to-html.xsl>` … JSP静的解析結果XMLをHTMLに変換する際の定義ファイル
+* :download:`config.txt<../tools/JspStaticAnalysis/config.txt>` … Jakarta Server Pages静的解析ツール設定ファイル
+* :download:`transform-to-html.xsl<../tools/JspStaticAnalysis/transform-to-html.xsl>` … 解析結果のXMLをHTMLに変換する際の定義ファイル
 
 これらファイルについての詳細は :doc:`02_JspStaticAnalysisInstall` を参照のこと。
 
@@ -185,7 +185,7 @@ toolsプロジェクトのnablarch-tools.xmlに以下の定義が存在するこ
         <arg value="${jspanalysis.charset}" />
         <arg value="${jspanalysis.lineseparator}" />
         <arg value="${jspanalysis.additionalexts}" />
-        <!-- JSP静的解析ツールにおいて、「チェック対象外とするディレクトリ（ファイル）名を正規表現で設定する」ための項目。
+        <!-- Jakarta Server Pages静的解析ツールにおいて、「チェック対象外とするディレクトリ（ファイル）名を正規表現で設定する」ための項目。
              parentプロジェクトのpom.xmlにて、本値を有効にした場合は、コメントアウトを解除する。
         <arg value="${jspanalysis.excludePatterns}" />
         -->
@@ -198,16 +198,16 @@ toolsプロジェクトのnablarch-tools.xmlに以下の定義が存在するこ
   </project>
 
 
-JSP静的解析ツールでチェックしたい対象の存在するプロジェクトのpom.xmlの確認
+Jakarta Server Pages静的解析ツールでチェックしたい対象の存在するプロジェクトのpom.xmlの確認
 ===========================================================================================
 
-JSP静的解析ツールでチェックしたい対象の存在するプロジェクトのpom.xmlに、以下の記述が存在することを確認する。
+Jakarta Server Pages静的解析ツールでチェックしたい対象の存在するプロジェクトのpom.xmlに、以下の記述が存在することを確認する。
 
 .. code-block:: xml
 
   <properties>
     <!-- 中略 -->
-    <!-- JSP静的解析ツールにおいて、「チェック対象外とするディレクトリ（ファイル）名を正規表現で設定する」ための項目。
+    <!-- Jakarta Server Pages静的解析ツールにおいて、「チェック対象外とするディレクトリ（ファイル）名を正規表現で設定する」ための項目。
          本設定を有効にする場合は、toolsプロジェクト中のnablarch-tools.xml中の設定のコメントアウトも解除すること。
     <jspanalysis.excludePatterns></jspanalysis.excludePatterns>
     -->
@@ -230,13 +230,13 @@ JSP静的解析ツールでチェックしたい対象の存在するプロジ�
 
 .. tip::
     
-    JSP静的解析ツールの設定値は、nablarch-archetype-parentのpom.xmlに記述している。
+    Jakarta Server Pages静的解析ツールの設定値は、nablarch-archetype-parentのpom.xmlに記述している。
     
     .. code-block:: xml
     
       <properties>
         <!-- 中略 -->
-        <!-- JSP静的解析ツールの設定項目 -->
+        <!-- Jakarta Server Pages静的解析ツールの設定項目 -->
         <jspanalysis.checkjspdir>${project.basedir}/src/main/webapp</jspanalysis.checkjspdir>
         <jspanalysis.xmloutput>${project.basedir}/target/jspanalysis-result.xml</jspanalysis.xmloutput>
         <jspanalysis.checkconfig>${nablarch.tools.dir}/static-analysis/jspanalysis/config.txt</jspanalysis.checkconfig>
@@ -253,8 +253,8 @@ JSP静的解析ツールでチェックしたい対象の存在するプロジ�
 
 .. _01_customJspAnalysis:
 
-JSP静的解析ツール設定ファイルの記述方法
-============================================
+Jakarta Server Pages静的解析ツール設定ファイルの記述方法
+========================================================
 
 プロジェクトの規約を反映するために設定ファイルを変更する。
 
