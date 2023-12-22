@@ -304,7 +304,7 @@ extensions = ['sphinx.ext.todo', 'javasphinx', 'sphinx.ext.extlinks']
 todo_include_todos=False
 
 javadoc_url_map = {
-  'nablarch' : ("https://nablarch.github.io/docs/LATEST/javadoc/", 'javadoc8'),
+  'nablarch' : ("https://nablarch.github.io/docs/" + version + "/javadoc/", 'javadoc8'),
   'jakarta.persistence' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc'),
   'jakarta.validation' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc'),
   'jakarta.servlet' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc'),
@@ -323,4 +323,3 @@ rst_prolog= u".. |nablarch_version| replace:: " + version + """
 """
 
 extlinks = {'javadoc_url' : ('https://nablarch.github.io/docs/' + version + '/publishedApi/%s', 'path')}
-
