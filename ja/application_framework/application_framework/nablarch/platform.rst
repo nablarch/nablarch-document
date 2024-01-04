@@ -62,7 +62,7 @@ Java EE
  * JBeret 1.3.4.Final
 
 MOM（メッセージ指向ミドルウェア）
- * WebSphere MQ 7
+ * IBM MQ 9.3
 
 ブラウザ
  PC
@@ -100,7 +100,7 @@ Java
  * Apache Tomcat 6/7/8
 
 MOM（メッセージ指向ミドルウェア）
- * WebSphere MQ 7
+ * IBM MQ 9.3
 
 .. [#java11] Java11で使用する場合、別途設定変更が必要となる。設定方法は :doc:`../blank_project/setup_blankProject/setup_Java11` を参照。
 .. [#java17] Java17で使用する場合、別途設定変更が必要となる。設定方法は :doc:`../blank_project/setup_blankProject/setup_Java17` を参照。
