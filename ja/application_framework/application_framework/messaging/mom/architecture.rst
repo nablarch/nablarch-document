@@ -254,7 +254,7 @@ Nablarchでは、MOMメッセージングを構築するために必要なハン
  このため、DBに対する登録処理とキューに対する操作を1つのトランザクションとして扱う必要がある(2相コミット制御)。
  具体的には、 :ref:`transaction_management_handler` の設定を変更し、2相コミットに対応した実装に差し替える必要がある。
 
- Nablarchでは、WebSphere MQ を使用した2相コミット用のアダプタを予め提供している。
+ Nablarchでは、IBM MQ を使用した2相コミット用のアダプタを予め提供している。
  詳細は、 :ref:`webspheremq_adaptor` を参照。
 
 .. list-table:: 応答不要メッセージングの最小ハンドラ構成

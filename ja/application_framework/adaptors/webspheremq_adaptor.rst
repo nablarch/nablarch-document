@@ -1,15 +1,15 @@
 .. _webspheremq_adaptor:
 
-IBM WebSphere MQアダプタ
+IBM MQアダプタ
 ==================================================
 
 .. contents:: 目次
   :depth: 3
   :local:
 
-:ref:`NablarchのMOMメッセージング機能 <mom_messaging>` で `IBM WebSphere MQ(外部サイト、英語) <https://www.ibm.com/support/knowledgecenter/SSFKSJ_7.5.0/com.ibm.mq.pro.doc/q001010_.htm>`_ を使用するためのアダプタを提供する。
+:ref:`NablarchのMOMメッセージング機能 <mom_messaging>` で `IBM MQ(外部サイト、英語) <https://www.ibm.com/docs/en/ibm-mq/9.3?topic=mq-about>`_ を使用するためのアダプタを提供する。
 
-WebSphere MQの仕様及び構築手順などは、IBM社のオフィシャルサイト及びマニュアルを参照すること。
+IBM MQの仕様及び構築手順などは、IBM社のオフィシャルサイト及びマニュアルを参照すること。
 
 モジュール一覧
 --------------------------------------------------
@@ -22,8 +22,7 @@ WebSphere MQの仕様及び構築手順などは、IBM社のオフィシャル�
 
 .. important::
 
-  WebSphere MQのjarに関しては、製品マニュアルを参照し必要なものをクラスパスに追加すること。
-  なおテストでは、WebSphere MQ v7.5に付属のライブラリを使用している。
+  テストでは、IBM MQ 9.3のライブラリを使用している。
   バージョンを変更する際には、プロジェクト側でテストを行い問題ないことを確認すること。
 
 本アダプタを使用するための設定
@@ -38,7 +37,7 @@ WebSphere MQの仕様及び構築手順などは、IBM社のオフィシャル�
 
 .. code-block:: xml
 
-  <!-- IBM WebSphere MQアダプタ用のプロバイダ実装 -->
+  <!-- IBM MQアダプタ用のプロバイダ実装 -->
   <component name="wmqMessagingProvider"
       class="nablarch.integration.messaging.wmq.provider.WmqMessagingProvider">
     <!-- 設定値はJavadocを参照 -->
@@ -55,7 +54,7 @@ WebSphere MQの仕様及び構築手順などは、IBM社のオフィシャル�
 
 分散トランザクションを使用する
 --------------------------------------------------
-本アダプタには、IBM WebSphere MQをトランザクションマネージャとして、分散トランザクションを実現する機能が含まれている。
+本アダプタには、IBM MQをトランザクションマネージャとして、分散トランザクションを実現する機能が含まれている。
 
 この機能は、外部システムとメッセージの送受信を行う際に、取り込み漏れや2重取り込みを防止する目的で使用する。
 
@@ -121,7 +120,7 @@ WebSphere MQの仕様及び構築手順などは、IBM社のオフィシャル�
 
 .. important::
 
-  分散トランザクションを使用するためには、WebSphere MQに対するXA リソース・マネージャーの設定や、データベースに対する権限付与が必要となる。
+  分散トランザクションを使用するためには、IBM MQに対するXA リソース・マネージャーの設定や、データベースに対する権限付与が必要となる。
   詳細な設定方法や必要な権限などは、使用する製品のマニュアルを参照すること。
 
 .. |br| raw:: html
