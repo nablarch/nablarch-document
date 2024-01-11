@@ -1,15 +1,15 @@
 .. _webspheremq_adaptor:
 
-IBM WebSphere MQ Adapter
+IBM MQ Adapter
 ==================================================
 
 .. contents:: Table of contents
   :depth: 3
   :local:
 
-Provides an adapter to use `IBM WebSphere MQ (external site) <https://www.ibm.com/support/knowledgecenter/SSFKSJ_7.5.0/com.ibm.mq.pro.doc/q001010_.htm>`_ with :ref:`the MOM messaging function of Nablarch <mom_messaging>` .
+Provides an adapter to use `IBM MQ (external site) <https://www.ibm.com/docs/en/ibm-mq/9.3?topic=mq-about>`_ with :ref:`the MOM messaging function of Nablarch <mom_messaging>` .
 
-Refer to the official Website and manuals of IBM Corporation for the specifications and construction procedures of WebSphere MQ.
+Refer to the official Website and manuals of IBM Corporation for the specifications and construction procedures of IBM MQ.
 
 Module list
 --------------------------------------------------
@@ -22,8 +22,7 @@ Module list
 
 .. important::
 
-  For WebSphere MQ jars, refer to the product manual and add those that are required to the class path.
-  The library included with WebSphere MQ v7.5 is used for testing.
+  The library included with IBM MQ v9.3 is used for testing.
   When changing the version, test in the project to confirm that there are no problems.
 
 Configuration for using this adapter
@@ -37,7 +36,7 @@ A configuration example is shown below.
 
 .. code-block:: xml
 
-  <!-- Provider implementation for IBM WebSphere MQ Adapter- -->
+  <!-- Provider implementation for IBM MQ Adapter- -->
   <component name="wmqMessagingProvider"
       class="nablarch.integration.messaging.wmq.provider.WmqMessagingProvider">
     <!-- See Javadoc for configuration value-->
@@ -54,7 +53,7 @@ A configuration example is shown below.
 
 Use distributed transaction
 --------------------------------------------------
-This adapter includes a function to realize distributed transactions using IBM WebSphere MQ as the transaction manager.
+This adapter includes a function to realize distributed transactions using IBM MQ as the transaction manager.
 
 This function is used to prevent omission and duplicate capture when sending and receiving messages to and from external systems.
 
@@ -120,7 +119,7 @@ A configuration example is shown below.
 
 .. important::
 
-  For using distributed transactions, an XA resource manager has to be configured for WebSphere MQ and authority to the database has to be granted. 
+  For using distributed transactions, an XA resource manager has to be configured for IBM MQ and authority to the database has to be granted. 
   Refer to the manual of the product to be used for the detailed configuration method and necessary authority.
 
 .. |br| raw:: html

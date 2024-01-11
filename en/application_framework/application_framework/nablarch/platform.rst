@@ -61,7 +61,7 @@ Java EE
  * JBeret 1.3.4.Final
 
 MOM (Message oriented middleware)
- * WebSphere MQ 7
+ * IBM MQ 9.3
 
 Browser
  PC
@@ -99,7 +99,7 @@ Application server
  * Apache Tomcat 6/7/8
 
 MOM (Message oriented middleware)
- * WebSphere MQ 7
+ * IBM MQ 9.3
 
 .. [#java11] When used with Java11, the configurations are required to be changed separately. For information on how to configure, see :doc:`../blank_project/setup_blankProject/setup_Java11`.
 .. [#java17] When used with Java17, the configurations are required to be changed separately. For information on how to configure, see :doc:`../blank_project/setup_blankProject/setup_Java17`.

@@ -58,7 +58,7 @@ MOM messaging is compatible with JMS
 and offers :java:extdoc:`JmsMessagingProvider<nablarch.fw.messaging.provider.JmsMessagingProvider>`.
 For details, refer to the linked Javadoc.
 
-It also supports WebSphere MQ,
+It also supports IBM MQ,
 which is widely used as a MOM. For details, see :ref:`webspheremq_adaptor`.
 
 Module list
