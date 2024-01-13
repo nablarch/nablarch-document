@@ -1,4 +1,4 @@
-FROM python:3.6.8
+FROM python:3.6.15
 RUN apt-get update
 
 # Sphinxのセットアップ

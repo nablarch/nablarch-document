@@ -208,7 +208,9 @@ DefaultMeterBinderListProviderを廃棄処理対象にする
   * - `StatsdMeterRegistry(外部サイト、英語)`_
     - :java:extdoc:`StatsdMeterRegistryFactory <nablarch.integration.micrometer.statsd.StatsdMeterRegistryFactory>`
     - ``1.0.0`` 以上
-
+  * - `OtlpMeterRegistry(外部サイト、英語)`_
+    - :java:extdoc:`OtlpMeterRegistryFactory <nablarch.integration.micrometer.otlp.OtlpMeterRegistry>`
+    - ``1.9.0`` 以上
 
 
 .. _micrometer_configuration:
@@ -240,6 +242,7 @@ DefaultMeterBinderListProviderを廃棄処理対象にする
 ``CloudWatchMeterRegistryFactory``  ``cloudwatch``
 ``DatadogMeterRegistryFactory``     ``datadog``
 ``StatsdMeterRegistryFactory``      ``statsd``
+``OtlpMeterRegistryFactory``        ``otlp``
 =================================== ================
 
 また、 ``<key>`` には Micrometer がレジストリごとに提供している `設定クラス(外部サイト、英語) <https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/config/MeterRegistryConfig.html>`_ で定義されたメソッドと同じ名前を指定する。
@@ -748,6 +751,56 @@ Datadog は `DogStatsD(外部サイト) <https://docs.datadoghq.com/ja/developer
     nablarch.micrometer.statsd.enabled=false
 
   ``micrometer.properties`` で ``nablarch.micrometer.statsd.enabled`` に ``false`` を設定することで、メトリクスの連携を無効にできる。
+  この設定は環境変数で上書きできるので、本番環境のみ環境変数で ``true`` に上書きして連携を有効にできる。
+
+OpenTelemetry Protocol (OTLP) で連携する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+OpenTelemetry はメトリクス仕様の業界標準であり、 OTLP は OpenTelemetry のデータ通信プロトコルである。
+現在、大半の商用APMサービスは何らかの形で OTLP を利用可能にしている。
+したがって、 ``micrometer-registry-otlp`` モジュールを用いることで、さまざまなAPMサービスと連携することができる。
+
+メトリクスの連携は、エージェントまたはサービスへ直接 OTLP で送信するか、 `OpenTelemetry Collector Contrib(外部サイト) <https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main#opentelemetry-collector-contrib>`_ を介して送信することで連携できる。
+
+  * `(エージェントまたはサービスへの送信)Datadog Agent による OTLP の取り込み(外部サイト) <https://docs.datadoghq.com/ja/opentelemetry/otlp_ingest_in_the_agent/>`_
+  * `(OpenTelemetry Collector Contribに送信)OpenTelemetry Collector Datadog エクスポーター(外部サイト) <https://docs.datadoghq.com/ja/opentelemetry/otel_collector_datadog_exporter/>`_
+
+  .. important::
+    どちらの連携方法が適しているか(または利用可能か)は、対象のサービスによって異なる。
+    また、 OpenTelemetry Collector Contrib を利用した場合、商用APMのサポート範囲は各サービスによって異なるため、サービス提供元に確認すること。
+
+ここでは、無料で利用できるOSSである Prometheus に OTLP で連携する場合を例にして説明する。
+
+
+依存関係を追加する
+  .. code-block:: xml
+
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-otlp</artifactId>
+      <version>1.9.17</version>
+    </dependency>
+
+レジストリファクトリを宣言する
+  .. code-block:: xml
+  
+    <component name="meterRegistry" class="nablarch.integration.micrometer.otlp.OtlpMeterRegistryFactory">
+      <property name="meterBinderListProvider" ref="meterBinderListProvider" />
+      <property name="applicationDisposer" ref="disposer" />
+    </component>
+
+設定ファイルを記述する
+  .. code-block:: text
+
+    # 送信先を変更
+    nablarch.micrometer.otlp.url=http://localhost:9090/api/v1/otlp/v1/metrics
+
+連携を無効にする
+  .. code-block:: text
+
+    nablarch.micrometer.otlp.enabled=false
+
+  ``micrometer.properties`` で ``nablarch.micrometer.otlp.enabled`` に ``false`` を設定することで、メトリクスの連携を無効にできる。
   この設定は環境変数で上書きできるので、本番環境のみ環境変数で ``true`` に上書きして連携を有効にできる。
 
 アプリケーションの形式ごとに収集するメトリクスの例
@@ -1749,9 +1802,11 @@ Micrometerが監視サービスにメトリクスを連携する方法には、�
 .. _DatadogConfig(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogConfig.html
 .. _CloudWatchConfig(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-cloudwatch2/1.5.4/io/micrometer/cloudwatch2/CloudWatchConfig.html
 .. _StatsdConfig(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-statsd/1.5.4/io/micrometer/statsd/StatsdConfig.html
+.. _OtlpConfig(外部サイト、英語): https://javadoc.io/static/io.micrometer/micrometer-registry-otlp/1.9.17/io/micrometer/registry/otlp/OtlpConfig.html
 .. _MeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/MeterRegistry.html
 .. _DatadogMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogMeterRegistry.html
 .. _StatsdMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-statsd/1.5.4/io/micrometer/statsd/StatsdMeterRegistry.html
+.. _OtlpMeterRegistry(外部サイト、英語): https://javadoc.io/static/io.micrometer/micrometer-registry-otlp/1.9.17/io/micrometer/registry/otlp/OtlpMeterRegistry.html
 .. _DatadogMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogMeterRegistry.html
 .. _CloudWatchMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-cloudwatch2/1.5.4/io/micrometer/cloudwatch2/CloudWatchMeterRegistry.html
 .. _LoggingMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/logging/LoggingMeterRegistry.html
