@@ -12,6 +12,8 @@
    setup_blankProject/setup_NablarchBatch_Dbless
    setup_blankProject/setup_Java11
    setup_blankProject/setup_Java17
+   setup_blankProject/setup_Java21
+
 
 .. toctree::
    :maxdepth: 1
