@@ -23,8 +23,15 @@ Module list
 
 .. tip::
 
-  Tested with SLF4J 1.7.25.
+  Tested with SLF4J 2.0.11.
   If you change the version, the project should be tested on the project side to make sure it is working.
+  Note that the search method for logging implementation has changed since version 2.0.0 of SLF4J. For example, if an incompatible version 1.7 series is used, the following logs will be output, and no further log output will be performed.
+
+  .. code-block:: none
+
+    SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+    SLF4J: Defaulting to no-operation (NOP) logger implementation
+    SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.  
 
 Using SLF4J Adapter
 --------------------------------------------------
