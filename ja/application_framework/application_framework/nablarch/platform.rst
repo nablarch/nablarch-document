@@ -104,3 +104,4 @@ MOM（メッセージ指向ミドルウェア）
 
 .. [#java11] Java11で使用する場合、別途設定変更が必要となる。設定方法は :doc:`../blank_project/setup_blankProject/setup_Java11` を参照。
 .. [#java17] Java17で使用する場合、別途設定変更が必要となる。設定方法は :doc:`../blank_project/setup_blankProject/setup_Java17` を参照。
+.. [#java21] Java21で使用する場合、別途設定変更が必要となる。設定方法は :doc:`../blank_project/setup_blankProject/setup_Java21` を参照。
