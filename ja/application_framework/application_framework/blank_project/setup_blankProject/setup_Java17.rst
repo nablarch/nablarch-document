@@ -12,6 +12,8 @@ Java17で使用する場合のセットアップ方法
 * --add-opensオプションの追加（JSR352に準拠したバッチプロジェクトの場合のみ）
 * Javaバージョンの変更
 
+.. _setup_blank_project_for_Java17_add_dependencies:
+
 依存モジュールの追加
 -------------------------------------------------------------
 
@@ -56,6 +58,7 @@ Java 11で、JAXBなど一部のモジュールが標準ライブラリから削
     </dependency>
   </dependencies>
 
+.. _setup_blank_project_for_Java17_gsp_dba_maven_plugin:
 
 gsp-dba-maven-pluginがJava17で動くように設定する
 ----------------------------------------------------------
@@ -91,6 +94,7 @@ gsp-dba-maven-pluginがJava17で動くように設定する
   <!-- HttpServerFactoryJetty6の箇所を以下のように変更する -->
   <component name="httpServerFactory" class="nablarch.fw.web.httpserver.HttpServerFactoryJetty9"/>
 
+.. _setup_blank_project_for_Java17_add_JVMoption:
 
 --add-opensオプションの追加（JSR352に準拠したバッチプロジェクトの場合のみ）
 ------------------------------------------------------------------------------------------------------------------
