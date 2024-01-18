@@ -17,24 +17,24 @@ Java21で使用する場合のセットアップ方法
 依存モジュールの追加
 -------------------------------------------------------------
 
-上記の手順はJava17を使用する場合と同じなので、:ref:`setup_blank_project_for_Java17 <setup_blank_project_for_Java17_add_dependencies>` を参照する。
+上記の手順はJava17を使用する場合と同じなので、:ref:`Java17で使用する場合のセットアップ方法 <setup_blank_project_for_Java17_add_dependencies>` を参照する。
 
 gsp-dba-maven-pluginがJava21で動くように設定する
 ----------------------------------------------------------
 
-上記の手順はJava17を使用する場合と同じなので、:ref:`setup_blank_project_for_Java17 <setup_blank_project_for_Java17_gsp_dba_maven_plugin>` を参照する。
+上記の手順はJava17を使用する場合と同じなので、:ref:`Java17で使用する場合のセットアップ方法 <setup_blank_project_for_Java17_gsp_dba_maven_plugin>` を参照する。
 
 
 自動テストで使用するJettyのモジュール変更(ウェブプロジェクト または RESTfulウェブサービスプロジェクトの場合のみ)
 ------------------------------------------------------------------------------------------------------------------
 
-上記の手順はJava17を使用する場合と同じなので、:ref:`setup_blank_project_for_Java17 <setup_java17_jetty9>` を参照する。
+上記の手順はJava17を使用する場合と同じなので、:ref:`Java17で使用する場合のセットアップ方法 <setup_java17_jetty9>` を参照する。
 
 
 --add-opensオプションの追加（JSR352に準拠したバッチプロジェクトの場合のみ）
 ------------------------------------------------------------------------------------------------------------------
 
-上記の手順はJava17を使用する場合と同じなので、:ref:`setup_blank_project_for_Java17 <setup_blank_project_for_Java17_add_JVMoption>` を参照する。
+上記の手順はJava17を使用する場合と同じなので、:ref:`Java17で使用する場合のセットアップ方法 <setup_blank_project_for_Java17_add_JVMoption>` を参照する。
 
 
 カバレッジ取得で使用するJaCoCoのバージョンアップ
