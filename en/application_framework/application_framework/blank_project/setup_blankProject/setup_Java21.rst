@@ -53,10 +53,10 @@ The JaCoCo version set by default for blank projects does not support Java21.
   </properties>
 
 
-Change the standard encoding（if you want the standard encoding to be the same execution environment as Java 17 or earlier）
------------------------------------------------------------------------------------------------------------------------------------------------------
+Change the standard encoding（If you want to make the standard encoding dependent on the execution environment as before Java 17）
+----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Since Java 18, the standard encoding is UTF-8, making it environment independent. The standard encoding for Windows is Windows-31j (MS932), so if you want the standard encoding to be the same execution environment as Java 17 or earlier, specify the system property as a runtime option for the Java command as shown below.
+Since Java 18, the standard encoding is UTF-8, making it environment independent. If you want to make the standard encoding dependent on the execution environment as before Java 17, specify the system property as a runtime option for the Java command as shown below.
 
 * ``-Dfile.encoding=COMPAT``
 
