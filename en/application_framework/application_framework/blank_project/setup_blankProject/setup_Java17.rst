@@ -49,6 +49,7 @@ There are two differences from the :ref:`Add dependent module in Java 11 <setup_
     <dependency>
       <groupId>com.sun.xml.bind</groupId>
       <artifactId>jaxb-impl</artifactId>
+      <version>2.3.5</version>
     </dependency>
     <dependency>
       <groupId>javax.annotation</groupId>
