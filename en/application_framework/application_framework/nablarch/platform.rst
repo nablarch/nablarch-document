@@ -42,7 +42,7 @@ Test environment of Nablarch framework
 The Nablarch framework has been tested and verified to operate properly in the following environments.
 
 Java
- * Java SE 6/7/8/11 [#java11]_/17 [#java17]_
+ * Java SE 6/7/8/11 [#java11]_/17 [#java17]_/21 [#java21]_
 
 Database
  * Oracle Database 12c/19c/21c/23c
@@ -103,3 +103,4 @@ MOM (Message oriented middleware)
 
 .. [#java11] When used with Java11, the configurations are required to be changed separately. For information on how to configure, see :doc:`../blank_project/setup_blankProject/setup_Java11`.
 .. [#java17] When used with Java17, the configurations are required to be changed separately. For information on how to configure, see :doc:`../blank_project/setup_blankProject/setup_Java17`.
+.. [#java21] When used with Java21, the configurations are required to be changed separately. For information on how to configure, see :doc:`../blank_project/setup_blankProject/setup_Java21`.
