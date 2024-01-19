@@ -91,3 +91,4 @@ For more information, see the description of the blank project below.
 
 * :ref:`setup_blank_project_for_Java11`
 * :ref:`setup_blank_project_for_Java17`
+* :ref:`setup_blank_project_for_Java21`
