@@ -42,7 +42,7 @@ Test environment of Nablarch framework
 The Nablarch framework has been tested and verified to operate properly in the following environments.
 
 Java
- * Java SE 17
+ * Java SE 17/21 [#java21]_
 
 Database
  * Oracle Database 19c/21c/23c
@@ -67,3 +67,5 @@ Browser
   * Mozilla Firefox
   * Google Chrome
   * Safari
+
+.. [#java21] When used with Java21, the configurations are required to be changed separately. For information on how to configure, see :doc:`../blank_project/setup_blankProject/setup_Java21`.
