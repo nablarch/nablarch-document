@@ -43,7 +43,7 @@ Nablarchフレームワークのテスト環境
 Nablarchフレームワークは、以下の環境においてテストを実施し、正常に動作することを確認している。
 
 Java
- * Java SE 17
+ * Java SE 17/21 [#java21]_
 
 データベース
  * Oracle Database 19c/21c/23c
@@ -68,3 +68,5 @@ MOM（メッセージ指向ミドルウェア）
   * Mozilla Firefox
   * Google Chrome
   * Safari
+
+.. [#java21] Java21で使用する場合、別途設定変更が必要となる。設定方法は :doc:`../blank_project/setup_blankProject/setup_Java21` を参照。
