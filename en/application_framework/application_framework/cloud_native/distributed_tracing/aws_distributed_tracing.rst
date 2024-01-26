@@ -180,7 +180,6 @@ In the following, we replace the ``HttpClientBuilder`` with the AWS SDK ``com.am
   import jakarta.ws.rs.client.Client;
   import jakarta.ws.rs.client.ClientBuilder;
   import jakarta.ws.rs.core.Configuration;
-  import java.util.function.UnaryOperator;
 
   public class JerseyHttpClientWithAWSXRayFactory implements ComponentFactory<Client> {
       @Override

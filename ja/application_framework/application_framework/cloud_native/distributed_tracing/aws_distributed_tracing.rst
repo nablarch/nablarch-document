@@ -180,7 +180,6 @@ Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConf
   import jakarta.ws.rs.client.Client;
   import jakarta.ws.rs.client.ClientBuilder;
   import jakarta.ws.rs.core.Configuration;
-  import java.util.function.UnaryOperator;
 
   public class JerseyHttpClientWithAWSXRayFactory implements ComponentFactory<Client> {
       @Override
