@@ -38,7 +38,7 @@ slf4j
 
 .. tip::
   
-  Tests are conducted using slf4j version 1.7.22. 
+  Tests are conducted using slf4j version 2.0.11. 
   When changing the version, test in the project to confirm that there are no problems.
 
 
