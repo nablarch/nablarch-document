@@ -43,7 +43,7 @@ AWS X-Ray SDKのサブモジュールから必要なものを依存関係に追�
       <dependency>
         <groupId>com.amazonaws</groupId>
         <artifactId>aws-xray-recorder-sdk-bom</artifactId>
-        <version>2.4.0</version>
+        <version>2.15.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -86,7 +86,7 @@ AWS X-Ray SDKのサブモジュールから必要なものを依存関係に追�
 
   <filter>
     <filter-name>AWSXRayServletFilter</filter-name>
-    <filter-class>com.amazonaws.xray.javax.servlet.AWSXRayServletFilter</filter-class>
+    <filter-class>com.amazonaws.xray.jakarta.servlet.AWSXRayServletFilter</filter-class>
     <init-param>
       <param-name>fixedName</param-name>
       <!-- サービスマップでアプリケーションを識別する名前を指定する -->
@@ -135,7 +135,7 @@ Apache HttpComponentsを使用するための ``org.glassfish.jersey.client.spi.
       <dependency>
         <groupId>org.glassfish.jersey</groupId>
         <artifactId>jersey-bom</artifactId>
-        <version>2.32</version>
+        <version>3.1.1</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -180,7 +180,6 @@ Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConf
   import jakarta.ws.rs.client.Client;
   import jakarta.ws.rs.client.ClientBuilder;
   import jakarta.ws.rs.core.Configuration;
-  import java.util.function.UnaryOperator;
 
   public class JerseyHttpClientWithAWSXRayFactory implements ComponentFactory<Client> {
       @Override

@@ -44,7 +44,7 @@ Add the SDK as a dependency in your ``pom.xml`` file.
       <dependency>
         <groupId>com.amazonaws</groupId>
         <artifactId>aws-xray-recorder-sdk-bom</artifactId>
-        <version>2.4.0</version>
+        <version>2.15.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -87,7 +87,7 @@ Add the following to ``src/main/webapp/WEB-INF/web.xml``.
 
   <filter>
     <filter-name>AWSXRayServletFilter</filter-name>
-    <filter-class>com.amazonaws.xray.javax.servlet.AWSXRayServletFilter</filter-class>
+    <filter-class>com.amazonaws.xray.jakarta.servlet.AWSXRayServletFilter</filter-class>
     <init-param>
       <param-name>fixedName</param-name>
       <!-- Specify a name to identify the application in the service map -->
@@ -136,7 +136,7 @@ First, add Jersey to the dependency.
       <dependency>
         <groupId>org.glassfish.jersey</groupId>
         <artifactId>jersey-bom</artifactId>
-        <version>2.32</version>
+        <version>3.1.1</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -180,7 +180,6 @@ In the following, we replace the ``HttpClientBuilder`` with the AWS SDK ``com.am
   import jakarta.ws.rs.client.Client;
   import jakarta.ws.rs.client.ClientBuilder;
   import jakarta.ws.rs.core.Configuration;
-  import java.util.function.UnaryOperator;
 
   public class JerseyHttpClientWithAWSXRayFactory implements ComponentFactory<Client> {
       @Override
