@@ -38,13 +38,26 @@
             }
 
     * - :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>`
-      - :ref:`パスパラメータ <rest_feature_details-path_param>` や :ref:`クエリパラメータ <rest_feature_details-query_param>`
-        を使う場合やHTTPヘッダの値などを取得したい場合には、引数として :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` を定義する。
+      - HTTPヘッダの値などを取得したい場合には、引数として :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` を定義する。
+        
+        :ref:`パスパラメータ <rest_feature_details-path_param>` や :ref:`クエリパラメータ <rest_feature_details-query_param>`
+        を使う場合は :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` を利用する。
 
         例
           .. code-block:: java
 
             public HttpResponse sample(HttpRequest request) {
+              // 省略
+            }
+
+    * - :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>`
+      - :ref:`パスパラメータ <rest_feature_details-path_param>` や :ref:`クエリパラメータ <rest_feature_details-query_param>`
+        を使う場合やHTTPヘッダの値などを取得したい場合には、引数として :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` を定義する。
+
+        例
+          .. code-block:: java
+
+            public HttpResponse sample(JaxRsHttpRequest request) {
               // 省略
             }
 
@@ -116,8 +129,8 @@ URLの例
     </routes>
 
 リソースクラスのメソッドの実装
-  パスパラメータは、 :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` から取得する。
-  このため、リソースのメソッドには、仮引数として :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` を定義する。
+  パスパラメータは、 :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` から取得する。
+  このため、リソースのメソッドには、仮引数として :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` を定義する。
 
   :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` に指定するパラメータ名には、
   ルーティングの設定で指定したパスパラメータの名前を使用する。
@@ -125,9 +138,9 @@ URLの例
   .. code-block:: java
 
     @Produces(MediaType.APPLICATION_JSON)
-    public User delete(HttpRequest req) {
+    public User delete(JaxRsHttpRequest req) {
       // HttpRequestからパスパラメータの値を取得する
-      Long id = Long.valueOf(req.getParam("id")[0]);
+      Long id = Long.valueOf(req.getPathParam("id"));
       return UniversalDao.findById(User.class, id);
     }
 
@@ -154,14 +167,14 @@ URLの例
     </routes>
 
 リソースクラスのメソッドの実装
-  クエリーパラメータは、 :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` から取得する。
-  このため、リソースのメソッドには、仮引数として :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` を定義する。
+  クエリーパラメータは、 :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` から取得する。
+  このため、リソースのメソッドには、仮引数として :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` を定義する。
 
-  :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` から取得したパラメータを :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使ってFormクラスにマッピングする。
+  :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` から取得したパラメータを :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使ってFormクラスにマッピングする。
 
   .. code-block:: java
 
-    public HttpResponse search(HttpRequest req) {
+    public HttpResponse search(JaxRsHttpRequest req) {
 
       // リクエストパラメータをBeanに変換
       UserSearchForm form = BeanUtil.createAndCopy(UserSearchForm.class, req.getParamMap());

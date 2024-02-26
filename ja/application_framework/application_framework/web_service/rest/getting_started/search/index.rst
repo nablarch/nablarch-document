@@ -107,7 +107,7 @@ Exampleアプリケーションを元に、検索機能を解説する。
     .. code-block:: java
 
       @Produces(MediaType.APPLICATION_JSON)
-      public List<Project> find(HttpRequest req) {
+      public List<Project> find(JaxRsHttpRequest req) {
 
           // リクエストパラメータをBeanに変換
           ProjectSearchForm form =
@@ -123,7 +123,7 @@ Exampleアプリケーションを元に、検索機能を解説する。
   この実装のポイント
    * 検索結果をJSON形式でクライアントに返却するため、 :java:extdoc:`Produces<javax.ws.rs.Produces>` アノテーションに
      ``MediaType.APPLICATION_JSON`` を指定する。
-   * クエリパラメータは :java:extdoc:`HttpRequest<nablarch.fw.web.HttpRequest>` から取得する。
+   * クエリパラメータは :java:extdoc:`JaxRsHttpRequest<nablarch.fw.jaxrs.JaxRsHttpRequest>` から取得する。
    * :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用してリクエストパラメータからフォームを作成する。
    * :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object)>`
      を使用してフォームのバリデーションを行う。
@@ -145,12 +145,9 @@ URLとのマッピングを定義
         @Produces(MediaType.APPLICATION_JSON)
         public List<Project> find(HttpRequest req) {
 
-            // リクエストパラメータをBeanに変換
+            // リクエストパラメータをBeanに変換し、BeanValidationを実行
             ProjectSearchForm form =
-                    BeanUtil.createAndCopy(ProjectSearchForm.class, req.getParamMap());
-
-            // BeanValidation実行
-            ValidatorUtil.validate(form);
+                    JaxRsRequestUtil.getValidatedBean(ProjectSearchForm.class, req);
 
             ProjectSearchDto searchCondition = BeanUtil.createAndCopy(ProjectSearchDto.class, form);
             return UniversalDao.findAllBySqlFile(Project.class, "FIND_PROJECT", searchCondition);
