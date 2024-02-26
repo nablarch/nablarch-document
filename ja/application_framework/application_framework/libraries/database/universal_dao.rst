@@ -709,7 +709,7 @@ Beanに使用できるデータタイプ
  プリミティブ型の場合は、リードメソッド名がisで開始されていても良い。
 
 *java.util.Date*
- Jakarta Persistenceの :ref:`@Temporal <universal_dao_jpa_temporal>`
+ Jakarta Persistenceの :ref:`@Temporal <_jsr310_adaptor>`
  でデータベース上のデータ型を指定する必要がある。
 
 
@@ -718,6 +718,14 @@ Beanに使用できるデータタイプ
 
 *java.sql.Timestamp*
  \
+
+*java.time.LocalDate*
+ 利用するには、 :doc:`../../../adaptors/jsr310_adaptor`
+ を使用する必要がある。
+
+*java.time.LocalDateTime*
+ 利用するには、 :doc:`../../../adaptors/jsr310_adaptor`
+ を使用する必要がある。
 
 *byte[]*
   BLOBなどのように非常に大きいサイズのデータ型の値は、
