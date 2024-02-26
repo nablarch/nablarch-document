@@ -145,9 +145,11 @@ URLとのマッピングを定義
         @Produces(MediaType.APPLICATION_JSON)
         public List<Project> find(HttpRequest req) {
 
-            // リクエストパラメータをBeanに変換し、BeanValidationを実行
+            // リクエストパラメータをBeanに変換
             ProjectSearchForm form =
-                    JaxRsRequestUtil.getValidatedBean(ProjectSearchForm.class, req);
+                    BeanUtil.createAndCopy(ProjectSearchForm.class, req.getParamMap());
+            // BeanValidation実行
+            ValidatorUtil.validate(form);
 
             ProjectSearchDto searchCondition = BeanUtil.createAndCopy(ProjectSearchDto.class, form);
             return UniversalDao.findAllBySqlFile(Project.class, "FIND_PROJECT", searchCondition);
