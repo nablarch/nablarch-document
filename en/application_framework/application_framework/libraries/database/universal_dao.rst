@@ -720,6 +720,12 @@ Data types that can be used in Bean, which maps search results, are as follows.
 *java.sql.Timestamp*
  \
 
+*java.time.LocalDate*
+ To use the data type, you need to use :ref:`jsr310_adaptor`.
+
+*java.time.LocalDateTime*
+ To use the data type, you need to use :ref:`jsr310_adaptor`.
+
 *byte[]*
   Be careful not to expand the data in the heap by using this function
   for the value of data type of very large size such as BLOB.
