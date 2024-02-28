@@ -719,6 +719,14 @@ Beanに使用できるデータタイプ
 *java.sql.Timestamp*
  \
 
+*java.time.LocalDate*
+ 利用するには、 :ref:`jsr310_adaptor`
+ を使用する必要がある。
+
+*java.time.LocalDateTime*
+ 利用するには、 :ref:`jsr310_adaptor`
+ を使用する必要がある。
+
 *byte[]*
   BLOBなどのように非常に大きいサイズのデータ型の値は、
   本機能を用いてデータをヒープ上に展開しないように注意すること。
