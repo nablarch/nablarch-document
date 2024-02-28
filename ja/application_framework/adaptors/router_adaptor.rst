@@ -273,8 +273,8 @@ XMLのマッピング定義を使用する場合は、ディスパッチハン�
 ================ ============== ============================
 パス              HTTPメソッド    ディスパッチされるメソッド
 ================ ============== ============================
-``/sample/foo``   ``GET``       ``SampleAction#findAll()``
-``/sample/bar``   ``GET``       ``SampleAction#register(HttpRequest)``
+``/sample/foo``   ``GET``       ``TestAction#foo()``
+``/sample/bar``   ``GET``       ``TestAction#bar()``
 ================ ============== ============================
 
 パスパラメータの定義
@@ -317,10 +317,10 @@ HTTPリクエストのディスパッチの例は次のようになる。
 ===================== ============== ============================
 パス                   HTTPメソッド    ディスパッチされるメソッド
 ===================== ============== ============================
-``/sample/foo/hello`` ``GET``        ``SampleAction#foo(HttpRequest)``
-``/sample/foo/world`` ``GET``        ``SampleAction#foo(HttpRequest)``
-``/sample/bar/123``   ``GET``        ``SampleAction#bar(HttpRequest)``
-``/sample/bar/987``   ``GET``        ``SampleAction#bar(HttpRequest)``
+``/sample/foo/hello`` ``GET``        ``TestAction#foo(JaxRsHttpRequest)``
+``/sample/foo/world`` ``GET``        ``TestAction#foo(JaxRsHttpRequest)``
+``/sample/bar/123``   ``GET``        ``TestAction#bar(JaxRsHttpRequest)``
+``/sample/bar/987``   ``GET``        ``TestAction#bar(JaxRsHttpRequest)``
 ===================== ============== ============================
 
 ルーティング定義を一覧で確認する
