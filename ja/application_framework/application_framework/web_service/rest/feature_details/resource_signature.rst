@@ -37,19 +37,6 @@
               // 省略
             }
 
-    * - :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>`
-      - HTTPヘッダの値などを取得したい場合には、引数として :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` を定義する。
-        
-        :ref:`パスパラメータ <rest_feature_details-path_param>` や :ref:`クエリパラメータ <rest_feature_details-query_param>`
-        を使う場合は :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` を利用する。
-
-        例
-          .. code-block:: java
-
-            public HttpResponse sample(HttpRequest request) {
-              // 省略
-            }
-
     * - :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>`
       - :ref:`パスパラメータ <rest_feature_details-path_param>` や :ref:`クエリパラメータ <rest_feature_details-query_param>`
         を使う場合やHTTPヘッダの値などを取得したい場合には、引数として :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` を定義する。
@@ -79,7 +66,7 @@
 
         .. code-block:: java
 
-          public HttpResponse sample(SampleForm form, HttpRequest request) {
+          public HttpResponse sample(SampleForm form, JaxRsHttpRequest request) {
             // 省略
           }
 
@@ -132,14 +119,14 @@ URLの例
   パスパラメータは、 :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` から取得する。
   このため、リソースのメソッドには、仮引数として :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` を定義する。
 
-  :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` に指定するパラメータ名には、
+  :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` に指定するパラメータ名には、
   ルーティングの設定で指定したパスパラメータの名前を使用する。
 
   .. code-block:: java
 
     @Produces(MediaType.APPLICATION_JSON)
     public User delete(JaxRsHttpRequest req) {
-      // HttpRequestからパスパラメータの値を取得する
+      // JaxRsHttpRequestからパスパラメータの値を取得する
       Long id = Long.valueOf(req.getPathParam("id"));
       return UniversalDao.findById(User.class, id);
     }
@@ -209,7 +196,7 @@ HttpResponseにレスポンスヘッダを指定すればよい。
 
   .. code-block:: java
 
-    public HttpResponse something(HttpRequest request) {
+    public HttpResponse something(JaxRsHttpRequest request) {
 
         // 処理は省略
 
@@ -224,7 +211,7 @@ Producesアノテーションを使用し、リソースクラスのメソッド
   .. code-block:: java
 
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Client> something(HttpRequest request, ExecutionContext context) {
+    public List<Client> something(JaxRsHttpRequest request, ExecutionContext context) {
 
         // 処理は省略
         List<Client> clients = service.findClients(condition);
@@ -239,7 +226,7 @@ Producesアノテーションを使用し、リソースクラスのメソッド
   .. code-block:: java
 
     @Produces(MediaType.APPLICATION_JSON)
-    public EntityResponse something(HttpRequest request, ExecutionContext context) {
+    public EntityResponse something(JaxRsHttpRequest request, ExecutionContext context) {
 
         // 処理は省略
         List<Client> clients = service.findClients(condition);

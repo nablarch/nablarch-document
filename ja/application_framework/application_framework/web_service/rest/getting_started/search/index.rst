@@ -143,7 +143,7 @@ URLとのマッピングを定義
       public class ProjectAction {
         @GET
         @Produces(MediaType.APPLICATION_JSON)
-        public List<Project> find(HttpRequest req) {
+        public List<Project> find(JaxRsHttpRequest req) {
 
             // リクエストパラメータをBeanに変換
             ProjectSearchForm form =

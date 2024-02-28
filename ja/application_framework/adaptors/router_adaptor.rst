@@ -217,7 +217,7 @@ XMLのマッピング定義を使用する場合は、ディスパッチハン�
 
         @POST
         @Produces(MediaType.APPLICATION_JSON)
-        public int register(HttpRequest request) {
+        public int register(JaxRsHttpRequest request) {
             // 省略
         }
     }
@@ -232,7 +232,7 @@ XMLのマッピング定義を使用する場合は、ディスパッチハン�
 パス          HTTPメソッド    ディスパッチされるメソッド
 ============ ============== ============================
 ``/sample``   ``GET``        ``SampleAction#findAll()``
-``/sample``   ``POST``       ``SampleAction#register(HttpRequest)``
+``/sample``   ``POST``       ``SampleAction#register(JaxRsHttpRequest)``
 ============ ============== ============================
 
 .. tip::
