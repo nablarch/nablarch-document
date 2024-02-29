@@ -37,7 +37,7 @@
               // 省略
             }
 
-    * - :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>`
+    * - :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>`\ [#]_\
       - :ref:`パスパラメータ <rest_feature_details-path_param>` や :ref:`クエリパラメータ <rest_feature_details-query_param>`
         を使う場合やHTTPヘッダの値などを取得したい場合には、引数として :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` を定義する。
 
@@ -69,6 +69,9 @@
           public HttpResponse sample(SampleForm form, JaxRsHttpRequest request) {
             // 省略
           }
+
+.. [#] 
+  後方互換性維持のためHttpRequestも使用できるが、原則JaxRsHttpRequestを使用する。  
 
 メソッド戻り値
   .. list-table::
