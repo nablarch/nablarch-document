@@ -217,7 +217,7 @@ XMLのマッピング定義を使用する場合は、ディスパッチハン�
 
         @POST
         @Produces(MediaType.APPLICATION_JSON)
-        public int register(HttpRequest request) {
+        public int register(JaxRsHttpRequest request) {
             // 省略
         }
     }
@@ -232,7 +232,7 @@ XMLのマッピング定義を使用する場合は、ディスパッチハン�
 パス          HTTPメソッド    ディスパッチされるメソッド
 ============ ============== ============================
 ``/sample``   ``GET``        ``SampleAction#findAll()``
-``/sample``   ``POST``       ``SampleAction#register(HttpRequest)``
+``/sample``   ``POST``       ``SampleAction#register(JaxRsHttpRequest)``
 ============ ============== ============================
 
 .. tip::
@@ -273,8 +273,8 @@ XMLのマッピング定義を使用する場合は、ディスパッチハン�
 ================ ============== ============================
 パス              HTTPメソッド    ディスパッチされるメソッド
 ================ ============== ============================
-``/sample/foo``   ``GET``       ``SampleAction#findAll()``
-``/sample/bar``   ``GET``       ``SampleAction#register(HttpRequest)``
+``/sample/foo``   ``GET``       ``TestAction#foo()``
+``/sample/bar``   ``GET``       ``TestAction#bar()``
 ================ ============== ============================
 
 パスパラメータの定義
@@ -289,16 +289,16 @@ XMLのマッピング定義を使用する場合は、ディスパッチハン�
         @GET
         @Path("/foo/{param}")
         @Produces(MediaType.APPLICATION_JSON)
-        public Person foo(HttpRequest request) {
-            String param = request.getParam("param")[0];
+        public Person foo(JaxRsHttpRequest request) {
+            String param = request.getPathParam("param");
             // 省略
         }
 
         @GET
         @Path("/bar/{id : \\d+}")
         @Produces(MediaType.APPLICATION_JSON)
-        public Person bar(HttpRequest request) {
-            int id = Integer.parseInt(request.getParam("id")[0]);
+        public Person bar(JaxRsHttpRequest request) {
+            int id = Integer.parseInt(request.getPathParam("id");
             // 省略
         }
     }
@@ -307,7 +307,7 @@ XMLのマッピング定義を使用する場合は、ディスパッチハン�
 | これは、本機能（``Path`` アノテーションによるルーティング定義）がJAX-RSの仕様に準拠しているためである。
 
 | パスの一部を ``{パラメータ名}`` と記述することで、その部分をパラメータとして定義できる。
-| ここで定義したパラメータ名を :java:extdoc:`HttpRequest#getParam(String) <nablarch.fw.web.HttpRequest.getParam(java.lang.String)>` に渡すことで、パスパラメータの値を取得できる。
+| ここで定義したパラメータ名を :java:extdoc:`JaxRsHttpRequest#getPathParam(String) <nablarch.fw.jaxrs.JaxRsHttpRequest.getPathParam(java.lang.String)>` に渡すことで、パスパラメータの値を取得できる。
 
 | さらに、 ``{パラメータ名 : 正規表現}`` と記述することで、そのパスパラメータの書式を正規表現で定義できる。
 | 上記実装例では ``\\d+`` と正規表現を指定しているので、パスの値が数値のときのみメソッドがディスパッチされるようになる。
@@ -317,10 +317,10 @@ HTTPリクエストのディスパッチの例は次のようになる。
 ===================== ============== ============================
 パス                   HTTPメソッド    ディスパッチされるメソッド
 ===================== ============== ============================
-``/sample/foo/hello`` ``GET``        ``SampleAction#foo(HttpRequest)``
-``/sample/foo/world`` ``GET``        ``SampleAction#foo(HttpRequest)``
-``/sample/bar/123``   ``GET``        ``SampleAction#bar(HttpRequest)``
-``/sample/bar/987``   ``GET``        ``SampleAction#bar(HttpRequest)``
+``/sample/foo/hello`` ``GET``        ``TestAction#foo(JaxRsHttpRequest)``
+``/sample/foo/world`` ``GET``        ``TestAction#foo(JaxRsHttpRequest)``
+``/sample/bar/123``   ``GET``        ``TestAction#bar(JaxRsHttpRequest)``
+``/sample/bar/987``   ``GET``        ``TestAction#bar(JaxRsHttpRequest)``
 ===================== ============== ============================
 
 ルーティング定義を一覧で確認する

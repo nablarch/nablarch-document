@@ -37,14 +37,14 @@
               // 省略
             }
 
-    * - :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>`
+    * - :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>`\ [#]_\
       - :ref:`パスパラメータ <rest_feature_details-path_param>` や :ref:`クエリパラメータ <rest_feature_details-query_param>`
-        を使う場合やHTTPヘッダの値などを取得したい場合には、引数として :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` を定義する。
+        を使う場合やHTTPヘッダの値などを取得したい場合には、引数として :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` を定義する。
 
         例
           .. code-block:: java
 
-            public HttpResponse sample(HttpRequest request) {
+            public HttpResponse sample(JaxRsHttpRequest request) {
               // 省略
             }
 
@@ -66,9 +66,12 @@
 
         .. code-block:: java
 
-          public HttpResponse sample(SampleForm form, HttpRequest request) {
+          public HttpResponse sample(SampleForm form, JaxRsHttpRequest request) {
             // 省略
           }
+
+.. [#] 
+  後方互換性維持のためHttpRequestも使用できるが、原則JaxRsHttpRequestを使用する。  
 
 メソッド戻り値
   .. list-table::
@@ -116,18 +119,18 @@ URLの例
     </routes>
 
 リソースクラスのメソッドの実装
-  パスパラメータは、 :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` から取得する。
-  このため、リソースのメソッドには、仮引数として :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` を定義する。
+  パスパラメータは、 :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` から取得する。
+  このため、リソースのメソッドには、仮引数として :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` を定義する。
 
-  :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` に指定するパラメータ名には、
+  :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` に指定するパラメータ名には、
   ルーティングの設定で指定したパスパラメータの名前を使用する。
 
   .. code-block:: java
 
     @Produces(MediaType.APPLICATION_JSON)
-    public User delete(HttpRequest req) {
-      // HttpRequestからパスパラメータの値を取得する
-      Long id = Long.valueOf(req.getParam("id")[0]);
+    public User delete(JaxRsHttpRequest req) {
+      // JaxRsHttpRequestからパスパラメータの値を取得する
+      Long id = Long.valueOf(req.getPathParam("id"));
       return UniversalDao.findById(User.class, id);
     }
 
@@ -154,14 +157,14 @@ URLの例
     </routes>
 
 リソースクラスのメソッドの実装
-  クエリーパラメータは、 :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` から取得する。
-  このため、リソースのメソッドには、仮引数として :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` を定義する。
+  クエリーパラメータは、 :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` から取得する。
+  このため、リソースのメソッドには、仮引数として :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` を定義する。
 
-  :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` から取得したパラメータを :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使ってFormクラスにマッピングする。
+  :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` から取得したパラメータを :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使ってFormクラスにマッピングする。
 
   .. code-block:: java
 
-    public HttpResponse search(HttpRequest req) {
+    public HttpResponse search(JaxRsHttpRequest req) {
 
       // リクエストパラメータをBeanに変換
       UserSearchForm form = BeanUtil.createAndCopy(UserSearchForm.class, req.getParamMap());
@@ -196,7 +199,7 @@ HttpResponseにレスポンスヘッダを指定すればよい。
 
   .. code-block:: java
 
-    public HttpResponse something(HttpRequest request) {
+    public HttpResponse something(JaxRsHttpRequest request) {
 
         // 処理は省略
 
@@ -211,7 +214,7 @@ Producesアノテーションを使用し、リソースクラスのメソッド
   .. code-block:: java
 
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Client> something(HttpRequest request, ExecutionContext context) {
+    public List<Client> something(JaxRsHttpRequest request, ExecutionContext context) {
 
         // 処理は省略
         List<Client> clients = service.findClients(condition);
@@ -226,7 +229,7 @@ Producesアノテーションを使用し、リソースクラスのメソッド
   .. code-block:: java
 
     @Produces(MediaType.APPLICATION_JSON)
-    public EntityResponse something(HttpRequest request, ExecutionContext context) {
+    public EntityResponse something(JaxRsHttpRequest request, ExecutionContext context) {
 
         // 処理は省略
         List<Client> clients = service.findClients(condition);
