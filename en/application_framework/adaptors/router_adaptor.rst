@@ -265,8 +265,8 @@ In this case, the dispatch of the HTTP request would be as follows.
 ================ ============== =============================
 Path             HTTP method    Method of dispatching target
 ================ ============== =============================
-``/sample/foo``   ``GET``       ``SampleAction#foo()``
-``/sample/bar``   ``GET``       ``SampleAction#bar()``
+``/sample/foo``   ``GET``       ``TestAction#foo()``
+``/sample/bar``   ``GET``       ``TestAction#bar()``
 ================ ============== =============================
 
 Definition of path parameters
