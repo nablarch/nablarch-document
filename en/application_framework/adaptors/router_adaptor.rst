@@ -209,7 +209,7 @@ The following is an example implementation that defines the mapping using the ``
 
         @POST
         @Produces(MediaType.APPLICATION_JSON)
-        public int register(HttpRequest request) {
+        public int register(JaxRsHttpRequest request) {
             // Omitted
         }
     }
@@ -224,7 +224,7 @@ In the above example implementation, the HTTP request will be dispatched as foll
 Path         HTTP method    Method of dispatching target
 ============ ============== =============================
 ``/sample``   ``GET``        ``SampleAction#findAll()``
-``/sample``   ``POST``       ``SampleAction#register(HttpRequest)``
+``/sample``   ``POST``       ``SampleAction#register(JaxRsHttpRequest)``
 ============ ============== =============================
 
 .. tip::
@@ -265,8 +265,8 @@ In this case, the dispatch of the HTTP request would be as follows.
 ================ ============== =============================
 Path             HTTP method    Method of dispatching target
 ================ ============== =============================
-``/sample/foo``   ``GET``       ``SampleAction#findAll()``
-``/sample/bar``   ``GET``       ``SampleAction#register(HttpRequest)``
+``/sample/foo``   ``GET``       ``TestAction#foo()``
+``/sample/bar``   ``GET``       ``TestAction#bar()``
 ================ ============== =============================
 
 Definition of path parameters
@@ -281,16 +281,16 @@ Can also include parameters in the path, as follows
         @GET
         @Path("/foo/{param}")
         @Produces(MediaType.APPLICATION_JSON)
-        public Person foo(HttpRequest request) {
-            String param = request.getParam("param")[0];
+        public Person foo(JaxRsHttpRequest request) {
+            String param = request.getPathParam("param");
             // Omitted
         }
 
         @GET
         @Path("/bar/{id : \\d+}")
         @Produces(MediaType.APPLICATION_JSON)
-        public Person bar(HttpRequest request) {
-            int id = Integer.parseInt(request.getParam("id")[0]);
+        public Person bar(JaxRsHttpRequest request) {
+            int id = Integer.parseInt(request.getPathParam("id");
             // Omitted
         }
     }
@@ -299,7 +299,7 @@ Can also include parameters in the path, as follows
 | This is because this feature (routing definition with ``Path`` annotations) follows the JAX-RS specification.
 
 | By describing a part of the path as ``{parameter name}``, can define that part of the path as a parameter.
-| Can get the value of the path parameter by passing the parameter name defined here to :java:extdoc:`HttpRequest#getParam(String) <nablarch.fw.web.HttpRequest.getParam(java.lang.String)>` .
+| Can get the value of the path parameter by passing the parameter name defined here to :java:extdoc:`JaxRsHttpRequest#getPathParam(String) <nablarch.fw.jaxrs.JaxRsHttpRequest.getPathParam(java.lang.String)>` .
 
 | In addition, can define the format of the path parameter in a regular expression by describing it as ``{parameter name: regular expression}``.
 | In the example implementation above, set the regular expression to ``\\d+``, so the method will be dispatched only if the path value is a number.
@@ -309,10 +309,10 @@ An example of HTTP request dispatch would be as follows.
 ===================== ============== =============================
 Path                  HTTP method    Method of dispatching target
 ===================== ============== =============================
-``/sample/foo/hello`` ``GET``        ``SampleAction#foo(HttpRequest)``
-``/sample/foo/world`` ``GET``        ``SampleAction#foo(HttpRequest)``
-``/sample/bar/123``   ``GET``        ``SampleAction#bar(HttpRequest)``
-``/sample/bar/987``   ``GET``        ``SampleAction#bar(HttpRequest)``
+``/sample/foo/hello`` ``GET``        ``TestAction#foo(JaxRsHttpRequest)``
+``/sample/foo/world`` ``GET``        ``TestAction#foo(JaxRsHttpRequest)``
+``/sample/bar/123``   ``GET``        ``TestAction#bar(JaxRsHttpRequest)``
+``/sample/bar/987``   ``GET``        ``TestAction#bar(JaxRsHttpRequest)``
 ===================== ============== =============================
 
 See the list of routing definitions
