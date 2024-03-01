@@ -290,7 +290,7 @@ Can also include parameters in the path, as follows
         @Path("/bar/{id : \\d+}")
         @Produces(MediaType.APPLICATION_JSON)
         public Person bar(JaxRsHttpRequest request) {
-            int id = Integer.parseInt(request.getPathParam("id");;
+            int id = Integer.parseInt(request.getPathParam("id");
             // Omitted
         }
     }
