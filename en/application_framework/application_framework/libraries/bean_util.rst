@@ -337,7 +337,7 @@ BeanUtil can handle records standardised from Java16 in the same way as Java Bea
 Note that record is an immutable class.
 Therefore, if a record is passed as an object to be modified as the argument to methods such as
 :java:extdoc:`BeanUtil.setProperty <nablarch.core.beans.BeanUtil.setProperty(java.lang.Object-java.lang.String-java.lang.Object)>`  or :java:extdoc:`BeanUtil.copy <nablarch.core.beans.BeanUtil.copy(SRC-DEST)>` ,
-a run-time exception is raised.
+a run-time exception occurs.
 
 How to use
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -357,8 +357,9 @@ Same as :ref:`operation on Java Beans <bean_util-use_java_beans>` .
 
 
     // If the type parameter of List type is not set to a concrete type.
-    // A runtime exception occurs by calling BeanUtil.createAndCopy(BadSampleRecord.class, map)
-    // because the type parameter of List type is not supported.
+    // Calling BeanUtil.createAndCopy(BadSampleRecord.class, map)
+    // throws a runtime exception because it does not support
+    // type parameters of List type.
     public class BadSampleRecord<T>(List<T> items) {}
 
     // If the type parameter of the List type is set to a concrete type.
