@@ -6,7 +6,8 @@ Bean Util
   :depth: 3
   :local:
 
-Java Beansに関する以下機能を提供する。
+Java Beansに関する以下機能を提供する。また、Java16より標準化されたレコードをJava Beansと同様に取り扱うことができる。
+詳細は :ref:`bean_util-use-record` を参照。
 
 * プロパティに対する値の設定と取得
 * 他のJava Beansへの値の移送
@@ -20,6 +21,8 @@ Java Beansに関する以下機能を提供する。
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-core-beans</artifactId>
   </dependency>
+
+.. _bean_util-use-java-beans:
 
 使用方法
 --------------------------------------------------
@@ -337,3 +340,40 @@ OSSなどを用いてBeanを自動生成している場合に :ref:`プロパテ
 
     // CopyOptionsを指定してBeanUtilを呼び出す。
     final DestBean copy = BeanUtil.createAndCopy(DestBean.class, bean, copyOptions);
+
+
+.. _bean_util-use-record:
+
+BeanUtilでレコードを使用する
+--------------------------------------------------
+
+BeanUtilでは、Java16より標準化されたレコードをJava Beansと同様に取り扱うことができる。
+
+注意点として、一度生成したレコードは後から変更することができない。
+そのため、 :java:extdoc:`BeanUtil.setProperty <nablarch.core.beans.BeanUtil.setProperty(java.lang.Object-java.lang.String-java.lang.Object)>` や
+:java:extdoc:`BeanUtil.copy <nablarch.core.beans.BeanUtil.copy(SRC-DEST)>` といったメソッドの引数に、変更対象のオブジェクトとしてレコードを渡した場合は実行時例外が発生する。
+
+使用方法
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:ref:`Java Beansに対する操作 <bean_util-use-java-beans>` に準ずる。
+
+.. important::
+
+  BeanUtilはList型の型パラメータを含むレコードに対応していない。レコードは継承することができないため、
+  List型の型パラメータは最初から具象型を設定して、レコードを定義すること。
+
+  .. code-block:: java
+
+    public class Item implements Serializable {
+        // プロパティは省略
+    }
+
+    // List型の型パラメータに具象型を設定していない場合。
+    // BeanUtil.createAndCopy(BadSampleRecord.class, map)を呼び出すと、
+    // List型の型パラメータに対応していないため実行時例外が発生する。
+    public class BadSampleRecord<T>(List<T> items) {}
+
+    // List型の型パラメータに具象型を設定した場合。
+    // BeanUtil.createAndCopy(GoodSampleRecord.class, map)が正常に動作する。
+    public record GoodSampleRecord(List<Item> items) {}
