@@ -37,14 +37,14 @@ Method argument
               // Omitted
             }
 
-    * - :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>`
+    * - :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>`\ [#]_\
       - When :ref:`path parameter <rest_feature_details-path_param>` and :ref:`query parameter <rest_feature_details-query_param>` are used or when the value of HTTP header is acquired,
-        :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` is defined as an argument.
+        :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` is defined as an argument.
 
         Example:
           .. code-block:: java
 
-            public HttpResponse sample(HttpRequest request) {
+            public HttpResponse sample(JaxRsHttpRequest request) {
               // Omitted
             }
 
@@ -66,9 +66,12 @@ Method argument
 
         .. code-block:: java
 
-          public HttpResponse sample(SampleForm form, HttpRequest request) {
+          public HttpResponse sample(SampleForm form, JaxRsHttpRequest request) {
             // Omitted
           }
+
+.. [#] 
+  HttpRequest can also be used to maintain backward compatibility, but in principle JaxRsHttpRequest should be used.
 
 Method return value
   .. list-table::
@@ -115,18 +118,18 @@ Routing Configuration
     </routes>
 
 Implementation of resource class methods
-  Acquires the path parameter from  :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` . 
-  For this reason,  :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` is defined as a temporary argument for the method of the resource.
+  Acquires the path parameter from  :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` . 
+  For this reason,  :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` is defined as a temporary argument for the method of the resource.
 
-  For the parameter name specified in :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` , 
+  For the parameter name specified in :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` , 
   use the path parameter name specified in the routing configuration.
 
   .. code-block:: java
 
     @Produces(MediaType.APPLICATION_JSON)
-    public User delete(HttpRequest req) {
-      // Acquire the path parameter value from HttpRequest
-      Long id = Long.valueOf(req.getParam("id")[0]);
+    public User delete(JaxRsHttpRequest req) {
+      // Acquire the path parameter value from JaxRsHttpRequest
+      Long id = Long.valueOf(req.getPathParam("id"));
       return UniversalDao.findById(User.class, id);
     }
 
@@ -153,14 +156,14 @@ Routing Configuration
     </routes>
 
 Implementation of resource class methods
-  Acquires the query parameter from  :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` . 
-  For this reason,  :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>` is defined as a temporary argument for the method of the resource.
+  Acquires the query parameter from  :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` . 
+  For this reason,  :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` is defined as a temporary argument for the method of the resource.
 
-  Parameters acquired from :java:extdoc:`HttpRequest <nablarch.fw.web.HttpRequest>`  is mapped to form class using :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>`.
+  Parameters acquired from :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>`  is mapped to form class using :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>`.
 
   .. code-block:: java
 
-    public HttpResponse search(HttpRequest req) {
+    public HttpResponse search(JaxRsHttpRequest req) {
 
       // Convert request parameters to Bean
       UserSearchForm form = BeanUtil.createAndCopy(UserSearchForm.class, req.getParamMap());
@@ -194,7 +197,7 @@ To create an :java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>` with a m
 
   .. code-block:: java
 
-    public HttpResponse something(HttpRequest request) {
+    public HttpResponse something(JaxRsHttpRequest request) {
 
         // Processing omitted.
 
@@ -209,7 +212,7 @@ the response header cannot be specified.
   .. code-block:: java
 
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Client> something(HttpRequest request, ExecutionContext context) {
+    public List<Client> something(JaxRsHttpRequest request, ExecutionContext context) {
 
         // Processing omitted.
         List<Client> clients = service.findClients(condition);
@@ -224,7 +227,7 @@ It should be implemented to return an EntityResponse instead of an entity.
   .. code-block:: java
 
     @Produces(MediaType.APPLICATION_JSON)
-    public EntityResponse something(HttpRequest request, ExecutionContext context) {
+    public EntityResponse something(JaxRsHttpRequest request, ExecutionContext context) {
 
         // Processing omitted.
         List<Client> clients = service.findClients(condition);

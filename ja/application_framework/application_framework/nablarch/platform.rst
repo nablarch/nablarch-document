@@ -60,7 +60,7 @@ Jakarta EE
  * JBeret 2.1.1.Final
 
 MOM（メッセージ指向ミドルウェア）
- * WebSphere MQ 7
+ * IBM MQ 9.3
 
 ブラウザ
  PC

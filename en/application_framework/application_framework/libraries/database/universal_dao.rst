@@ -240,6 +240,10 @@ Information such as the number of search results required for displaying the pag
 .. tip::
   Search process for paging is performed using :ref:`range specified search function of database access (JDBC wrapper) <database-paging>`.
 
+.. tip::
+  In paging, the number acquisition SQL is issued before the actual acquisition process of the range specified records.
+  If performance degradation occurs due to the number acquisition SQL, change the number acquisition SQL as necessary by referring to :ref:`universal_dao-customize_sql_for_counting`.
+
 .. _universal_dao-generate_surrogate_key:
 
 Numbering the surrogate keys
@@ -516,6 +520,78 @@ Configuration is required to use the created class.
  Configure the component name as "databaseMetaDataExtractor".
  -->
  <component name="databaseMetaDataExtractor" class="sample.dao.CustomDatabaseMetaDataExtractor" />
+
+.. _universal_dao-customize_sql_for_counting:
+
+Change the number acquisition SQL for the paging process
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In :ref:`paging <universal_dao-paging>`, the number acquisition SQL is issued before the actual acquisition process of the range specified records.
+By default, the number acquisition SQL is the original SQL wrapped in a ``SELECT COUNT(*) FROM`` .
+If the original SQL has a heavy processing load, such as containing a ``ORDER BY`` clause, and you want to remove the ``ORDER BY`` clause to reduce the load, you can customise the dialect you are using and change the number acquisition SQL.
+
+.. important::
+   The number acquisition SQL must have the same search conditions as the original SQL.
+   When preparing the number acquisition SQL, make sure that there is no difference in the search conditions between the two.
+
+If you want to change the number acquisition SQL, inherit the dialect used in your project and then change :java:extdoc:`Dialect#convertCountSql(String, Object, StatementFactory) <nablarch.core.db. Dialect.convertCountSql(java.lang.String-java.lang.Object-nablarch.core.db.statement.StatementFactory)>` implementation.
+
+Implementation examples
+   Below is an example of customising :java:extdoc:`nablarch.core.db.dialect.H2Dialect`.
+   In this example, the mapping between the original SQL and the number acquisition SQL is set in the component
+   and the number acquisition SQL is changed.
+
+   .. tip::
+      Appropriate mapping rules should be considered for each project.
+
+   .. code-block:: java
+
+      public class CustomH2Dialect extends H2Dialect {
+
+          /**
+           * The mapping of the number acquisition SQL
+           */
+          private Map<String, String> sqlMap;
+
+          /**
+           * {@inheritDoc}
+           *
+           * If the SQLID corresponding to {@code sqlId} exists in the mapping of the number acquisition SQL,
+           * it is returned as the number acquisition SQL.
+           */
+          @Override
+          public String convertCountSql(String sqlId, Object params, StatementFactory statementFactory) {
+
+              if (sqlMap.containsKey(sqlId)) {
+                  return statementFactory.getVariableConditionSqlBySqlId(sqlMap.get(sqlId), params);
+              }
+
+              return convertCountSql(statementFactory.getVariableConditionSqlBySqlId(sqlId, params));
+          }
+
+          /**
+           * Set the mapping of the number acquisition SQL.
+           *
+           * @param sqlMap The mapping of the number acquisition SQL
+           */
+          public void setSqlMap(Map<String, String> sqlMap){
+              this.sqlMap = sqlMap;
+          }
+      }
+
+   The customised dialect must be set in the component configuration file.
+   Below is an example of how a customised dialect can be configured in a component configuration file.
+   In this example, the mapping of the number acquisition SQL is set with the ``<property>`` element.
+
+   .. code-block:: xml
+
+      <component name="dialect" class="com.nablarch.example.app.db.dialect.CustomH2Dialect">
+        <property name="sqlMap">
+          <map>
+            <entry key="com.nablarch.example.app.entity.Project#SEARCH_PROJECT"
+                   value="com.nablarch.example.app.entity.Project#SEARCH_PROJECT_FORCOUNT"/>
+          </map>
+        </property>
+      </component>
 
 .. _`universal_dao_jpa_annotations`:
 

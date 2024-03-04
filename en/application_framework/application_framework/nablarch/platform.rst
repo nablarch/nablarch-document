@@ -59,7 +59,7 @@ Jakarta EE
  * JBeret 2.1.1.Final
 
 MOM (Message oriented middleware)
- * WebSphere MQ 7
+ * IBM MQ 9.3
 
 Browser
  PC

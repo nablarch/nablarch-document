@@ -240,7 +240,7 @@ The minimum handler configuration for asynchronous response messaging is the sam
  For this reason, the registration process for the DB and queue operation must be handled as one transaction (two-phase commit control). 
  Specifically, change the configuration of :ref:`transaction_management_handler` and replace with implementation that supports two-phase commit.
 
- Nablarch provides an adapter for two-phase commit using WebSphere MQ. 
+ Nablarch provides an adapter for two-phase commit using IBM MQ. 
  For details, see :ref:`webspheremq_adaptor` .
 
 .. list-table:: Minimum handler configuration for asynchronous response messaging
