@@ -12,6 +12,8 @@ Java Beansに関する以下機能を提供する。
 * 他のJava Beansへの値の移送
 * Java Beansとjava.util.Mapとの間での値の移送
 
+Bean UtilではJava16より標準化されたレコードも取り扱うことができる。詳細は :ref:`bean_util-use-record` を参照。
+
 モジュール一覧
 ---------------------------------------------------------------------
 .. code-block:: xml
@@ -338,6 +340,8 @@ OSSなどを用いてBeanを自動生成している場合に :ref:`プロパテ
     // CopyOptionsを指定してBeanUtilを呼び出す。
     final DestBean copy = BeanUtil.createAndCopy(DestBean.class, bean, copyOptions);
 
+
+.. _bean_util-use-record:
 
 BeanUtilでレコードを使用する
 --------------------------------------------------
