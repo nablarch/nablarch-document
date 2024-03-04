@@ -337,7 +337,7 @@ BeanUtil can handle records standardised from Java16 in the same way as Java Bea
 Note that record is an immutable class.
 Therefore, if a record is passed as an object to be modified as the argument to methods such as
 :java:extdoc:`BeanUtil.setProperty <nablarch.core.beans.BeanUtil.setProperty(java.lang.Object-java.lang.String-java.lang.Object)>`  or :java:extdoc:`BeanUtil.copy <nablarch.core.beans.BeanUtil.copy(SRC-DEST)>` ,
-a run-time exception occurs.
+a run-time exception is thrown.
 
 How to use
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
