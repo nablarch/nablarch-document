@@ -335,7 +335,7 @@ Use records in BeanUtil
 BeanUtil can handle records standardised from Java16 in the same way as Java Beans.
 
 Note that once a record has been generated, it cannot be changed later.
-Therefore, if a record is passed as an object to be modified as an argument to methods such as
+Therefore, if a record is passed as an object to be modified as the argument to methods such as
 :java:extdoc:`BeanUtil.setProperty <nablarch.core.beans.BeanUtil.setProperty(java.lang.Object-java.lang.String-java.lang.Object)>`  or :java:extdoc:`BeanUtil.copy <nablarch.core.beans.BeanUtil.copy(SRC-DEST)>` ,
 a run-time exception is raised.
 
@@ -346,8 +346,8 @@ Same as :ref:`operation on Java Beans <bean_util-use_java_beans>` .
 
 .. important::
 
-BeanUtil does not support records containing type parameters of type List.
-Since records cannot inherit, type parameters of type List should be set to a concrete type from the outset and records should be defined.
+   BeanUtil does not support records containing type parameters of List type.
+   Since records cannot inherit, type parameters of List type should be set to a concrete type from the outset and records should be defined.
 
   .. code-block:: java
 
