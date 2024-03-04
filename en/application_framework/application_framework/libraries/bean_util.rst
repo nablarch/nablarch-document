@@ -7,7 +7,7 @@ Bean Util
   :local:
 
 Bean Util provides the following functions related to Java Beans. It can also handle records standardised from Java 16 in the same way as Java Beans.
-See :ref:`bean_util-use-record` for more information.
+See :ref:`bean_util-use_record` for more information.
 
 * Configuring and acquiring values for properties
 * Transferring values to other Java Beans
@@ -22,7 +22,7 @@ Module list
     <artifactId>nablarch-core-beans</artifactId>
   </dependency>
 
-.. _bean_util-use-java-beans:
+.. _bean_util-use_java_beans:
 
 How to use
 --------------------------------------------------
@@ -327,7 +327,7 @@ Implementation examples
     // Call BeanUtil by specifying the CopyOptions.
     final DestBean copy = BeanUtil.createAndCopy(DestBean.class, bean, copyOptions);
 
-.. _bean_util-use-record:
+.. _bean_util-use_record:
 
 Use records in BeanUtil
 --------------------------------------------------
@@ -342,7 +342,7 @@ a run-time exception is raised.
 How to use
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Same as :ref:`operation on Java Beans <bean_util-use-java-beans>` .
+Same as :ref:`operation on Java Beans <bean_util-use_java_beans>` .
 
 .. important::
 

@@ -7,7 +7,7 @@ Bean Util
   :local:
 
 Java Beansに関する以下機能を提供する。また、Java16より標準化されたレコードをJava Beansと同様に取り扱うことができる。
-詳細は :ref:`bean_util-use-record` を参照。
+詳細は :ref:`bean_util-use_record` を参照。
 
 * プロパティに対する値の設定と取得
 * 他のJava Beansへの値の移送
@@ -22,7 +22,7 @@ Java Beansに関する以下機能を提供する。また、Java16より標準�
     <artifactId>nablarch-core-beans</artifactId>
   </dependency>
 
-.. _bean_util-use-java-beans:
+.. _bean_util-use_java_beans:
 
 使用方法
 --------------------------------------------------
@@ -342,7 +342,7 @@ OSSなどを用いてBeanを自動生成している場合に :ref:`プロパテ
     final DestBean copy = BeanUtil.createAndCopy(DestBean.class, bean, copyOptions);
 
 
-.. _bean_util-use-record:
+.. _bean_util-use_record:
 
 BeanUtilでレコードを使用する
 --------------------------------------------------
@@ -356,7 +356,7 @@ BeanUtilでは、Java16より標準化されたレコードをJava Beansと同�
 使用方法
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:ref:`Java Beansに対する操作 <bean_util-use-java-beans>` に準ずる。
+:ref:`Java Beansに対する操作 <bean_util-use_java_beans>` に準ずる。
 
 .. important::
 
