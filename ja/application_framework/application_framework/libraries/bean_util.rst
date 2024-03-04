@@ -337,3 +337,111 @@ OSSなどを用いてBeanを自動生成している場合に :ref:`プロパテ
 
     // CopyOptionsを指定してBeanUtilを呼び出す。
     final DestBean copy = BeanUtil.createAndCopy(DestBean.class, bean, copyOptions);
+
+
+BeanUtilでレコードを使用する
+--------------------------------------------------
+
+BeanUtilでは、Java16より標準化されたレコードを取り扱うための以下の機能を提供する。
+
+* レコードのフィールドに対する値の取得
+* レコードから他のJava Beansやjava.util.Mapへの値の移送
+* java.util.Map、Java Beans、もしくはレコードからのレコードの生成
+
+注意点として、一度生成したレコードは後から変更することはできない。
+そのため、 :java:extdoc:`BeanUtil.setProperty <nablarch.core.beans.BeanUtil.setProperty(java.lang.Object-java.lang.String-java.lang.Object)>` や
+:java:extdoc:`BeanUtil.copy <nablarch.core.beans.BeanUtil.copy(SRC-DEST)>` といったメソッドの引数に、変更対象のオブジェクトとしてレコードを渡した場合は実行時例外が発生する。
+
+使用方法
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+BeanUtilでレコードを取り扱う際の使用例を以下に示す。
+
+Bean及びレコードの定義
+  .. code-block:: java
+
+    public class User {
+        private Long id;
+        private String name;
+        private Date birthDay;
+        private Address address;
+        // getter & setterは省略
+    }
+
+    public class Address {
+        private String postNo;
+        // getter & setterは省略
+    }
+
+    public class UserRecord(
+        Long id,
+        @CopyOption(datePattern = "yyyy_MM_dd") // レコードのフィールドに対してフォーマットを指定する。
+        String birthDay,
+        Address address
+    ) {}
+
+BeanUtilの使用例
+  幾つかのAPIの使用例を以下に示す。
+  詳細は、BeanUtilの :java:extdoc:`Javadoc <nablarch.core.beans.BeanUtil>` を参照。
+
+  .. code-block:: java
+
+    final User user = new User();
+    user.setId(1L);
+    user.setName("名前");
+    user.setBirthDay(new Date());
+
+    final Address address = new Address();
+    address.setPostNo("1234");
+    user.setAddress(address);
+    
+    // 移送元のオブジェクトの値を設定したレコードを作成する。
+    // Userのプロパティ名と一致するUserRecordのプロパティに対して値が移送される。
+    // 移送元からgetterもしくはaccessorで値を取得し、レコードの標準コンストラクタに取得した値を設定する。
+    // 移送先に存在しないプロパティは無視される。
+    // 移送元に存在しないプロパティは、レコード生成時にnull（参照型の場合）もしくはデフォルト値（プリミティブ型の場合）が設定される。
+    // 移送先のプロパティの型が異なる場合は、ConversionUtilにより型変換が行われる。
+    UserRecord userRecord = BeanUtil.createAndCopy(UserRecord.class, user);
+
+    // フィールド名を指定して値を取得する(実行日が2024年3月1日であれば、"2024_03_01"が取得できる)。
+    // 値はaccessor経由で取得される。
+    final String id = (String) BeanUtil.getProperty(userRecord, "birthDay");
+
+    // レコードのフィールドの値をMapに移送する。
+    // Mapのキーはフィールド名で、値はaccessorで取得した値となる。
+    // ネストしたBeanもしくはレコードの値はキー名が「.」で区切られて移送される(Map -> Mapとネストはしない)
+    // 例えば、address.postNoとなる。
+    final Map<String, Object> map = BeanUtil.createMapAndCopy(userRecord);
+    final String postNo = (String) map.get("address.postNo");     // 1234が取得できる。
+
+    // Mapの値をレコードに移送する。
+    // Mapのキーと一致するフィールドについて、標準コンストラクタに値を設定してレコードを生成する。
+    // ネストしたBeanもしくはレコードに値を設定する場合は、Mapのキー名が「.」で区切られている必要がある。(Map -> Mapとネストしたものは扱えない)
+    // 例えば、address.postNoとキー名を定義することで、User.addressのpostNoプロパティに値が設定される。
+    final Map<String, Object> userMap = Map.of(
+        "id", 1L,
+        "address.postNo", 54321
+    );
+    UserRecord userRecord2 = BeanUtil.createAndCopy(UserRecord.class, userMap);
+    final String postNo2 = userRecord2.getAddress()
+                          .getPostNo();             // 54321が取得できる。
+
+.. important::
+
+  BeanUtilはList型の型パラメータを含むレコードに対応していない。レコードは継承することができないため、
+  List型の型パラメータは最初から具象型を設定して、レコードを定義すること。
+
+  .. code-block:: java
+
+    public class Item implements Serializable {
+        // プロパティは省略
+    }
+
+    // List型の型パラメータに具象型を設定していない場合。
+    // BeanUtil.createAndCopy(BadSampleRecord.class, map)を呼び出すと、
+    // List型の型パラメータに対応していないため実行時例外が発生する。
+    public class BadSampleRecord<T>(List<T> items) {}
+
+    // List型の型パラメータに具象型を設定した場合。
+    // BeanUtil.createAndCopy(GoodSampleRecord.class, map)が正常に動作する。
+    public record GoodSampleRecord(List<Item> items) {}
