@@ -1,6 +1,6 @@
 .. _bean_util:
 
-Bean Util
+BeanUtil
 ==================================================
 .. contents:: 目次
   :depth: 3
