@@ -1,12 +1,12 @@
 .. _bean_util:
 
-Bean Util
+BeanUtil
 ==================================================
 .. contents:: Table of contents
   :depth: 3
   :local:
 
-Bean Util provides the following functions related to Java Beans. It can also handle records standardised from Java 16 in the same way as Java Beans.
+BeanUtil provides the following functions related to Java Beans. It can also handle records standardised from Java 16 in the same way as Java Beans.
 See :ref:`bean_util-use_record` for more information.
 
 * Configuring and acquiring values for properties
