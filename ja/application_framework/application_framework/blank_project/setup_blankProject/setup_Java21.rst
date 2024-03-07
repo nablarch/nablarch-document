@@ -46,6 +46,7 @@ Java18から標準エンコーディングがUTF-8に統一され、環境依存
 
 .. tip::
   Mavenから実行する場合は、環境変数 `MAVEN_OPTS (外部サイト) <https://maven.apache.org/configure.html#maven_opts-environment-variable>`_ を使うことでJVMオプションを設定できる。ただしログに ``Picked up MAVEN_OPTS: -Dfile.encoding=COMPAT`` が表示される。
+  なお、MavenプラグインによってはJVMオプションの設定方法が異なる場合があるため注意すること。（例えばテストを実行するmaven-surefire-pluginでは、pom.xmlのプラグイン設定にある ``argLine`` で指定する必要がある）
 
 .. important::
    Java17までは ``-Dfile.encoding=COMPAT`` というオプションは有効ではないので、従来の実行環境にこのJVMオプションが適用されないように注意すること。
