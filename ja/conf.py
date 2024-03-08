@@ -305,13 +305,13 @@ todo_include_todos=False
 
 javadoc_url_map = {
   'nablarch' : ("https://nablarch.github.io/docs/" + version + "/javadoc/", 'javadoc8'),
-  'javax.persistence' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8'),
-  'javax.validation' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8'),
-  'javax.servlet' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8'),
-  'javax.batch' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8'),
-  'javax.inject' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8'),
-  'javax.enterprise' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8'),
-  'javax.ws' : ('http://docs.oracle.com/javaee/7/api/', 'javadoc8')
+  'javax.persistence' : ('https://docs.oracle.com/javaee/7/api/', 'javadoc8'),
+  'javax.validation' : ('https://docs.oracle.com/javaee/7/api/', 'javadoc8'),
+  'javax.servlet' : ('https://docs.oracle.com/javaee/7/api/', 'javadoc8'),
+  'javax.batch' : ('https://docs.oracle.com/javaee/7/api/', 'javadoc8'),
+  'javax.inject' : ('https://docs.oracle.com/javaee/7/api/', 'javadoc8'),
+  'javax.enterprise' : ('https://docs.oracle.com/javaee/7/api/', 'javadoc8'),
+  'javax.ws' : ('https://docs.oracle.com/javaee/7/api/', 'javadoc8')
 }
 
 # add custom javascript
