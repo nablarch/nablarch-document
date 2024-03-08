@@ -459,7 +459,7 @@ Use DTD with XML
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. important::
 
-  When XML is input with this function, DTD cannot be used by default. Exceptions occur when trying to read XML that has used DTD. This is a measure to prevent `XML external entity reference (XXE) <https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Processing>`_ .
+  When XML is input with this function, DTD cannot be used by default. Exceptions occur when trying to read XML that has used DTD. This is a measure to prevent `XML external entity reference (XXE) <https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing>`_ .
 
 If the target XML to be read is reliable, use of DTD can be allowed using the ``allowDTD`` property of :java:extdoc:`XmlDataParser<nablarch.core.dataformat.XmlDataParser>` . How to use is given below.
 
