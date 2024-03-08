@@ -12,7 +12,7 @@ Nablarchの提供する :ref:`ログ出力機能 <log>` のログ出力処理を
 
 .. important::
 
-  Nablarch5u15まで提供されていたlog4jアダプタは、EOLを迎えた `log4j1.2(外部サイト、英語) <http://logging.apache.org/log4j/1.2/>`_ を使用しており
+  Nablarch5u15まで提供されていたlog4jアダプタは、EOLを迎えた `log4j1.2(外部サイト、英語) <https://logging.apache.org/log4j/1.x/>`_ を使用しており
   `脆弱性 <https://jvndb.jvn.jp/ja/contents/2019/JVNDB-2019-013606.html>`_ への修正が公開されないため廃止します。
   slf4jまたはJBoss Loggingを使用してください。
 

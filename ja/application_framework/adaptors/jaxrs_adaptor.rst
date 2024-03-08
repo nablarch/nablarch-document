@@ -10,8 +10,8 @@ JAX-RSアダプタ
 :ref:`RESTfulウェブサービス <restful_web_service>` で使用するための以下のアダプタを提供する。
 
 * JSONを `Jackson(外部サイト、英語) <https://github.com/FasterXML/jackson>`_ を使って変換するアダプタ
-* `Jersey(外部サイト、英語) <https://jersey.java.net/>`_  で :ref:`RESTfulウェブサービス <restful_web_service>` を使用するためのアダプタ
-* `RESTEasy(外部サイト、英語) <http://resteasy.jboss.org/>`_ で :ref:`RESTfulウェブサービス <restful_web_service>` を使用するためのアダプタ
+* `Jersey(外部サイト、英語) <https://eclipse-ee4j.github.io/jersey/>`_  で :ref:`RESTfulウェブサービス <restful_web_service>` を使用するためのアダプタ
+* `RESTEasy(外部サイト、英語) <https://resteasy.dev/>`_ で :ref:`RESTfulウェブサービス <restful_web_service>` を使用するためのアダプタ
 
 モジュール一覧
 --------------------------------------------------
@@ -55,7 +55,7 @@ JAX-RSアダプタ
 Jersey環境下でRESTfulウェブサービスを使用する
 --------------------------------------------------
 ウェブアプリケーションサーバにバンドルされている `JAX-RS(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=339>`_ の実装が、
-`Jersey(外部サイト、英語) <https://jersey.java.net/>`_ の場合には、Jersey用のアダプタを使用する。
+`Jersey(外部サイト、英語) <https://eclipse-ee4j.github.io/jersey/>`_ の場合には、Jersey用のアダプタを使用する。
 
 以下にJersey用アダプタの適用方法を示す。
 
@@ -93,7 +93,7 @@ Jersey環境下でRESTfulウェブサービスを使用する
 RESTEasy環境下でRESTfulウェブサービスを使用する
 --------------------------------------------------
 ウェブアプリケーションサーバにバンドルされている `JAX-RS(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=339>`_ の実装が、
-`RESTEasy(外部サイト、英語) <http://resteasy.jboss.org/>`_ の場合には、RESTEasy用のアダプタを使用する。
+`RESTEasy(外部サイト、英語) <https://resteasy.dev/>`_ の場合には、RESTEasy用のアダプタを使用する。
 
 以下にRESTEasy用アダプタの適用方法を示す。
 

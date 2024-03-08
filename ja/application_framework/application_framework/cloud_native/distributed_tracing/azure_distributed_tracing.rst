@@ -12,11 +12,11 @@ Azureで分散トレーシングを行う方法
 
   Azureでは、 ``Azure Application Insights`` を使用して分散トレーシングを行う。
 
-  * `Azure Application Insights における分散トレース(外部サイト) <https://docs.microsoft.com/ja-jp/azure/azure-monitor/app/distributed-tracing>`_
+  * `Azure Application Insights における分散トレース(外部サイト) <https://learn.microsoft.com/ja-jp/azure/azure-monitor/app/app-insights-overview?tabs=java>`_
 
   Javaアプリケーションから分散トレーシングを有効化するための仕組みとして、Javaエージェントを用いた方法(**Java 3.0 エージェント**)が提供されている。
 
-  * `Azure Monitor Application Insights を監視する Java のコード不要のアプリケーション(外部サイト) <https://docs.microsoft.com/ja-jp/azure/azure-monitor/app/java-in-process-agent>`_
+  * `Azure Monitor Application Insights を監視する Java のコード不要のアプリケーション(外部サイト) <https://learn.microsoft.com/ja-jp/azure/azure-monitor/app/opentelemetry-enable?tabs=java>`_
 
   .. important::
     Java 3.0 エージェントは、初期化処理中に大量のjarファイルをロードする。
@@ -34,7 +34,7 @@ Azureで分散トレーシングを行う方法
 
   次に、先程エージェントを格納したディレクトリに ``applicationinsights.json`` を配置する。
   ``connectionString`` にはAzure Application Insightsのリソースを作成したあとに発行されるインストルメンテーションキーを含む接続文字列を指定する。
-  そのほかの構成オプションについては `ガイド <https://docs.microsoft.com/ja-jp/azure/azure-monitor/app/java-standalone-config>`_ を参照のこと。
+  そのほかの構成オプションについては `ガイド <https://learn.microsoft.com/ja-jp/azure/azure-monitor/app/java-standalone-config>`_ を参照のこと。
 
   * applicationinsights.json
 
