@@ -79,7 +79,7 @@ The JDBC driver can be downloaded from the following site on the Internet.
 
   * - IBM DB2 JDBC Driver Versions |br|
       and Downloads - Japan
-    - http://www-01.ibm.com/support/docview.wss?uid=swg21363866 (External site)
+    - https://www.ibm.com/support/pages/db2-jdbc-driver-versions-and-downloads (External site)
 
 An example of the command to register the downloaded JDBC driver to the local Maven repository is shown below.
 

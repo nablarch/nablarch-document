@@ -743,8 +743,8 @@ Process to perform validation
     ValidatorUtil.validateWithGroup(form, SampleForm.Test1.class);
 
 
-See :java:extdoc:`ValidatorUtil#validateWithGroup <nablarch.core.validation.ee.ValidatorUtil#validateWithGroup(java.lang.Object, java.lang.Class...)>`
-and :java:extdoc:`ValidatorUtil#validateProperty <nablarch.core.validation.ee.ValidatorUtil#validateProperty(java.lang.Object, java.lang.String, java.lang.Class...)>` for details on the APIs.
+See :java:extdoc:`ValidatorUtil#validateWithGroup <nablarch.core.validation.ee.ValidatorUtil.validateWithGroup(java.lang.Object-java.lang.Class...)>`
+and :java:extdoc:`ValidatorUtil#validateProperty <nablarch.core.validation.ee.ValidatorUtil.validateProperty(java.lang.Object-java.lang.String-java.lang.Class...)>` for details on the APIs.
 
 .. tip::
    By using the group function to switch validation rules, a single form class can be shared by multiple screens and APIs.
