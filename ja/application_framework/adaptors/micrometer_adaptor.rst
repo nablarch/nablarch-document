@@ -652,7 +652,7 @@ MicrometerでメトリクスをAzureに連携する方法
 
   このJava 3.0 エージェントは、Micrometerの `グローバルレジストリ(外部サイト、英語) <https://micrometer.io/docs/concepts#_global_registry>`_ に出力したメトリクスを自動的に収集し、Azureに連携する仕組みを提供している。
 
-  * `アプリケーションからカスタム テレメトリを送信する(外部サイト) <https://docs.microsoft.com/ja-jp/azure/azure-monitor/app/java-in-process-agent#send-custom-telemetry-from-your-application>`_
+  * `アプリケーションからカスタム テレメトリを送信する(外部サイト) <https://learn.microsoft.com/ja-jp/azure/azure-monitor/app/opentelemetry-enable?tabs=java>`_
 
   .. important::
     Java 3.0 エージェントは、初期化処理中に大量のjarファイルをロードする。
@@ -672,7 +672,7 @@ MicrometerアダプタでメトリクスをAzureに連携するための設定
   * アプリケーションの起動オプションに、Java 3.0 エージェントを追加する
   * ``MeterRegistry`` にグローバルレジストリを使うようにコンポーネントを定義する
 
-  1つ目の起動オプションの設定方法については、 `Azureのドキュメント <https://docs.microsoft.com/ja-jp/azure/azure-monitor/app/java-in-process-agent#quickstart>`_ を参照のこと。
+  1つ目の起動オプションの設定方法については、 `Azureのドキュメント <https://learn.microsoft.com/ja-jp/azure/azure-monitor/app/opentelemetry-enable?tabs=java#modify-your-application>`_ を参照のこと。
 
   2つ目のグローバルレジストリを使う方法について、本アダプタではグローバルレジストリのファクトリクラスとして :java:extdoc:`GlobalMeterRegistryFactory <nablarch.integration.micrometer.GlobalMeterRegistryFactory>` を用意している。
   以下に、このファクトリクラスのコンポーネント定義の例を示す。

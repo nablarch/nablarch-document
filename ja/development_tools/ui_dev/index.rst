@@ -7,7 +7,7 @@
   UI開発基盤を使用する際には、以下の知識が必要となる。
   これらの有識者がいない場合、UI開発基盤の使用は困難である。
 
-  * `Node.js <https://nodejs.org/ja/>`_
+  * `Node.js <https://nodejs.org/en/>`_
   * `RequireJS <http://requirejs.org/>`_
   * `jQuery <https://jquery.com/>`_
   * `Sugar <https://sugarjs.com/>`_

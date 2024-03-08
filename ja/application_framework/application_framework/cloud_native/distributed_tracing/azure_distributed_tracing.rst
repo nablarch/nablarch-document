@@ -29,7 +29,7 @@ Azureで分散トレーシングを行う方法
 
   以下に、コンテナ用のアーキタイプを使用した場合の例を示す。
 
-  まず、 `Azureの公式サイト <https://docs.microsoft.com/ja-jp/azure/azure-monitor/app/java-in-process-agent#quickstart>`_  よりエージェントをダウンロードする。
+  まず、 `Azureの公式サイト <https://learn.microsoft.com/ja-jp/azure/azure-monitor/app/opentelemetry-enable?tabs=java#install-the-client-library>`_  よりエージェントをダウンロードする。
   その後、``src/main/jib`` 以下に任意のディレクトリを作成し、エージェントを格納する。
 
   次に、先程エージェントを格納したディレクトリに ``applicationinsights.json`` を配置する。
@@ -73,4 +73,4 @@ Azureで分散トレーシングを行う方法
 
 これでJibを使用してビルドすることにより、 ``Azure Application Insights`` を使用して分散トレーシングを行うことができる。
 
-詳細な設定方法については、 `Azureのドキュメント <https://docs.microsoft.com/ja-jp/azure/azure-monitor/app/java-in-process-agent#quickstart>`_ を参照のこと。
+詳細な設定方法については、 `Azureのドキュメント <https://learn.microsoft.com/ja-jp/azure/azure-monitor/app/opentelemetry-enable?tabs=java>`_ を参照のこと。
