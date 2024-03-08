@@ -1363,7 +1363,7 @@ LogPublisherの使い方
 
 log4jとの機能比較
 --------------------------------------------------
-ここでは、本機能と `log4j(外部サイト、英語) <http://logging.apache.org/log4j/1.2/>`_ との機能比較を示す。
+ここでは、本機能と `log4j(外部サイト、英語) <https://logging.apache.org/log4j/1.x/>`_ との機能比較を示す。
 
 .. list-table:: 機能比較（○：提供あり　△：一部提供あり　×：提供なし　－:対象外）
   :header-rows: 1
