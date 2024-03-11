@@ -34,7 +34,7 @@ OIDC is supported by a variety of services, but this sample deals with ID token 
 
 * Microsoft Azure（hereafter referred to as "Azure"）
 
-  * `Azure Active Directory B2C <https://learn.microsoft.com/ja-jp/azure/active-directory-b2c/>`_ （hereafter referred to as "ADB2C"）
+  * `Azure Active Directory B2C <https://learn.microsoft.com/en-us/azure/active-directory-b2c/>`_ （hereafter referred to as "ADB2C"）
 
 Within the offering packages, the packages are further divided by targeted services.
 
