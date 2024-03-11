@@ -12,7 +12,7 @@ When an adapter is used, all log output processing using :ref:`the log output fu
 
 .. important::
 
-  The log4j adapter that was provided up to Nablarch5u15 uses `log4j1.2 (external site) <http://logging.apache.org/log4j/1.2/>`_. log4j 1.2 is EOL.
+  The log4j adapter that was provided up to Nablarch5u15 uses `log4j1.2 (external site) <https://logging.apache.org/log4j/1.x/>`_. log4j 1.2 is EOL.
   Therefore, the log4j adapter has been deprecated as no fix for the `vulnerability <https://jvndb.jvn.jp/ja/contents/2019/JVNDB-2019-013606.html>`_ has been published. Use slf4j or JBoss Logging.
 
 .. tip::
