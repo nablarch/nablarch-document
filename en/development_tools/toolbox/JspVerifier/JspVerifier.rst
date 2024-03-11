@@ -36,9 +36,9 @@ Initial Environment Construction
 Node.js installation
 =========================================
 
-Since this tool depends on `Node.js <http://nodejs.org/>`_ , the installer from the below site based on the environment being used is to be downloaded and installed.
+Since this tool depends on `Node.js <https://nodejs.org/en>`_ , the installer from the below site based on the environment being used is to be downloaded and installed.
 
-  http://nodejs.org/
+  https://nodejs.org/en
 
 
 Check environment variables

@@ -12,11 +12,11 @@ How to perform distributed tracing on Azure
 
   In Azure, distributed tracing is done using ``Azure Application Insights``.
 
-  * `Distributed tracing in Azure Application Insights (external site) <https://docs.microsoft.com/en-us/azure/azure-monitor/app/distributed-tracing>`_
+  * `Distributed tracing in Azure Application Insights (external site) <https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview?tabs=java>`_
 
   A mechanism for enabling distributed tracing from Java applications is provided by using a Java agent (**Java 3.0 agent**).
 
-  * `Azure Monitor Application Insights monitoring Java code-free applications (external site) <https://docs.microsoft.com/en-us/azure/azure-monitor/app/java-in- process-agent>`_
+  * `Azure Monitor Application Insights monitoring Java code-free applications (external site) <https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=java>`_
 
   .. important::
     The Java 3.0 agent loads a large number of jar files during the initialization process.
@@ -29,12 +29,12 @@ How to perform distributed tracing on Azure
 
   The following is an example of using the archetype for containers.
 
-  First, download the agent from the official website of `Azure <https://docs.microsoft.com/en-us/azure/azure-monitor/app/java-in-process-agent#quickstart>`_.
+  First, download the agent from the official website of `Azure <https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=java#install-the-client-library>`_.
   Then, create an arbitrary directory under ``src/main/jib`` and store the agent.
 
   Next, place ``applicationinsights.json`` in the directory where you have just stored the agent.
   The ``connectionString`` is a connection string containing the instrumentation key that will be issued after the Azure Application Insights resource is created.
-  For other configuration options, see the `Guide <https://docs.microsoft.com/en-us/azure/azure-monitor/app/java-standalone-config>`_.
+  For other configuration options, see the `Guide <https://learn.microsoft.com/en-us/azure/azure-monitor/app/java-standalone-config>`_.
 
   * applicationinsights.json
 
@@ -72,4 +72,4 @@ How to perform distributed tracing on Azure
 
 Now you can use ``Azure Application Insights`` for distributed tracing by building with Jib.
 
-For detailed configuration instructions, see the `Azure documentation <https://docs.microsoft.com/en-us/azure/azure-monitor/app/java-in-process-agent#quickstart>`_.
+For detailed configuration instructions, see the `Azure documentation <https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=java>`_.
