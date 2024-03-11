@@ -92,3 +92,5 @@
     - 5u6
     - :download:`リリースノート(5u6) <./nablarch5u6-releasenote.xlsx>`
     - `ドキュメント(5u6) <https://nablarch.github.io/docs/5u6/doc/>`_ 
+
+Nablarch 5のリリース情報は `こちら <https://nablarch.github.io/docs/5-LATEST/doc/releases/index.html>`_ からご確認ください。
