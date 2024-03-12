@@ -48,7 +48,7 @@ Database
  * Oracle Database 12c/19c/21c/23c
  * IBM Db2 10.5/11.5
  * SQL Server 2017/2019/2022
- * PostgreSQL 10.0/11.5/12.2/13.2/14.0/15.2
+ * PostgreSQL 10.0/11.5/12.2/13.2/14.0/15.2/16.2
 
 Application server
  * Oracle Weblogic Server 14.1.1
