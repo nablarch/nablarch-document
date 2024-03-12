@@ -191,6 +191,7 @@ pom.xml中の「使用するRDBMSにあわせて、下記JDBCドライバの dep
       <dependency>
         <groupId>com.h2database</groupId>
         <artifactId>h2</artifactId>
+        <version>2.2.220</version>
         <scope>runtime</scope>
       </dependency>
     </dependencies>
@@ -206,8 +207,8 @@ pom.xml中の「使用するRDBMSにあわせて、下記JDBCドライバの dep
       <!-- 使用するRDBMSにあわせて、下記JDBCドライバの dependency を更新してください。 -->
       <dependency>
         <groupId>com.oracle.database.jdbc</groupId>
-        <artifactId>ojdbc6</artifactId>
-        <version>11.2.0.4</version>
+        <artifactId>ojdbc11</artifactId>
+        <version>23.2.0.0</version>
         <scope>runtime</scope>
       </dependency>
     </dependencies>
@@ -224,7 +225,7 @@ pom.xml中の「使用するRDBMSにあわせて、下記JDBCドライバの dep
       <dependency>
         <groupId>org.postgresql</groupId>
         <artifactId>postgresql</artifactId>
-        <version>9.4.1207</version>
+        <version>42.7.2</version>
         <scope>runtime</scope>
       </dependency>
     </dependencies>
@@ -239,9 +240,9 @@ pom.xml中の「使用するRDBMSにあわせて、下記JDBCドライバの dep
 
       <!-- 使用するRDBMSにあわせて、下記JDBCドライバの dependency を更新してください。 -->
       <dependency>
-        <groupId>com.ibm</groupId>
-        <artifactId>db2jcc4</artifactId>
-        <version>10.5.0.7</version>
+        <groupId>com.ibm.db2</groupId>
+        <artifactId>jcc</artifactId>
+        <version>11.5.9.0</version>
         <scope>runtime</scope>
       </dependency>
     </dependencies>
