@@ -4,7 +4,7 @@
 リリース情報
 ============================================================
 
-:download:`全リリースノート一括ダウンロード <./nablarch-OSS-all-releasenote.zip>`
+:download:`全リリースノート一括ダウンロード <./nablarch-6-OSS-all-releasenote.zip>`
 
 .. list-table::
   :header-rows: 1
