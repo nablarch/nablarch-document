@@ -312,7 +312,7 @@ javadoc_url_map = {
   'jakarta.inject' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc'),
   'jakarta.enterprise' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc'),
   'jakarta.ws' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc'),
- ; 'jakarta.mail' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc')
+  'jakarta.mail' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc')
 }
 
 # add custom javascript
