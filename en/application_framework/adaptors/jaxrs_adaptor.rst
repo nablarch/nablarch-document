@@ -12,7 +12,7 @@ Provides the following adapter to use in :ref:`RESTful web service <restful_web_
 
 *	Adapter to convert JSON using `Jackson (external site) <https://github.com/FasterXML/jackson>`_
 *	Adapter for using :ref:`RESTful web service <restful_web_service>` with `Jersey (external site) <https://eclipse-ee4j.github.io/jersey/>`_
-*	Adapter for using :ref:`RESTful web service <restful_web_service>` with `RESTEasy (external site) <<https://resteasy.dev/>`_
+*	Adapter for using :ref:`RESTful web service <restful_web_service>` with `RESTEasy (external site) <https://resteasy.dev/>`_
 
 Module list
 --------------------------------------------------
