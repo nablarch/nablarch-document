@@ -1,12 +1,13 @@
 .. _bean_util:
 
-Bean Util
+BeanUtil
 ==================================================
 .. contents:: Table of contents
   :depth: 3
   :local:
 
-Bean Util provides the following functions related to Java Beans.
+BeanUtil provides the following functions related to Java Beans. It can also handle records standardised from Java 16 in the same way as Java Beans.
+See :ref:`bean_util-use_record` for more information.
 
 * Configuring and acquiring values for properties
 * Transferring values to other Java Beans
@@ -20,6 +21,8 @@ Module list
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-core-beans</artifactId>
   </dependency>
+
+.. _bean_util-use_java_beans:
 
 How to use
 --------------------------------------------------
@@ -323,3 +326,42 @@ Implementation examples
 
     // Call BeanUtil by specifying the CopyOptions.
     final DestBean copy = BeanUtil.createAndCopy(DestBean.class, bean, copyOptions);
+
+.. _bean_util-use_record:
+
+Use records in BeanUtil
+--------------------------------------------------
+
+BeanUtil can handle records standardised from Java16 in the same way as Java Beans.
+
+Note that record is an immutable class.
+Therefore, if a record is passed as an object to be modified as the argument to methods such as
+:java:extdoc:`BeanUtil.setProperty <nablarch.core.beans.BeanUtil.setProperty(java.lang.Object-java.lang.String-java.lang.Object)>`  or :java:extdoc:`BeanUtil.copy <nablarch.core.beans.BeanUtil.copy(SRC-DEST)>` ,
+a run-time exception is thrown.
+
+How to use
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Same as :ref:`operation on Java Beans <bean_util-use_java_beans>` .
+
+.. important::
+
+   BeanUtil does not support records containing type parameters of List type.
+   Since records cannot inherit, type parameters of List type should be set to a concrete type from the outset and records should be defined.
+
+  .. code-block:: java
+
+    public class Item implements Serializable {
+        // Property omitted.
+    }
+
+
+    // If the type parameter of List type is not set to a concrete type.
+    // Calling BeanUtil.createAndCopy(BadSampleRecord.class, map)
+    // throws a runtime exception because it does not support
+    // type parameters of List type.
+    public class BadSampleRecord<T>(List<T> items) {}
+
+    // If the type parameter of the List type is set to a concrete type.
+    // BeanUtil.createAndCopy(GoodSampleRecord.class, map) works correctly.
+    public record GoodSampleRecord(List<Item> items) {}

@@ -44,7 +44,7 @@ Add the SDK as a dependency in your ``pom.xml`` file.
       <dependency>
         <groupId>com.amazonaws</groupId>
         <artifactId>aws-xray-recorder-sdk-bom</artifactId>
-        <version>2.4.0</version>
+        <version>2.15.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -87,7 +87,7 @@ Add the following to ``src/main/webapp/WEB-INF/web.xml``.
 
   <filter>
     <filter-name>AWSXRayServletFilter</filter-name>
-    <filter-class>com.amazonaws.xray.javax.servlet.AWSXRayServletFilter</filter-class>
+    <filter-class>com.amazonaws.xray.jakarta.servlet.AWSXRayServletFilter</filter-class>
     <init-param>
       <param-name>fixedName</param-name>
       <!-- Specify a name to identify the application in the service map -->
@@ -136,7 +136,7 @@ First, add Jersey to the dependency.
       <dependency>
         <groupId>org.glassfish.jersey</groupId>
         <artifactId>jersey-bom</artifactId>
-        <version>2.32</version>
+        <version>3.1.1</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -180,7 +180,6 @@ In the following, we replace the ``HttpClientBuilder`` with the AWS SDK ``com.am
   import jakarta.ws.rs.client.Client;
   import jakarta.ws.rs.client.ClientBuilder;
   import jakarta.ws.rs.core.Configuration;
-  import java.util.function.UnaryOperator;
 
   public class JerseyHttpClientWithAWSXRayFactory implements ComponentFactory<Client> {
       @Override
@@ -327,6 +326,6 @@ By editing it like this, X-Ray SDK for Java JDBC interceptor will be added to th
 .. _Tracing calls to downstream HTTP web services with the X-Ray SDK for Java(external site): https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-java-httpclients.html
 .. _Apache HttpComponents(external site): https://hc.apache.org/
 .. _Jersey(external site): https://eclipse-ee4j.github.io/jersey/
-.. _Client Transport Connectors(external site): https://eclipse-ee4j.github.io/jersey.github.io/documentation/latest/client.html#d0e4974
+.. _Client Transport Connectors(external site): https://eclipse-ee4j.github.io/jersey.github.io/documentation/latest/client.html#d0e5043
 .. _Tracing SQL queries with the X-Ray SDK for Java(external site): https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-java-sqlclients.html
 .. _Intercept JDBC-Based SQL Queries(external site): https://github.com/aws/aws-xray-sdk-java#intercept-jdbc-based-sql-queries

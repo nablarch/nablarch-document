@@ -600,7 +600,7 @@ The following example verifies that the request parameter after execution of the
 
                 HttpRequest request = testCaseInfo.getHttpRequest();   // [Description] HttpRequest after execution of the test
                 // Request parameter should be reset
-                assertEquals("", request.getParam("resetparameter"));
+                assertEquals("", getParam(request, "resetparameter"));
             }
         });
     }

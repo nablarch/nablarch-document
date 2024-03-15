@@ -78,8 +78,8 @@ JDBCドライバをWebから取得する場合は、以下のサイトから入�
     - URL
 
   * - IBM DB2 JDBC Driver Versions |br|
-      and Downloads - Japan
-    - http://www-01.ibm.com/support/docview.wss?uid=swg21363866 (外部サイト、英語)
+      and Downloads
+    - https://www.ibm.com/support/pages/db2-jdbc-driver-versions-and-downloads (外部サイト、英語)
 
 以下に、入手したJDBCドライバをローカルのMavenリポジトリに登録するコマンドの例を示す。
 
@@ -307,7 +307,7 @@ H2の設定例(デフォルト)
         <dependency>
           <groupId>com.h2database</groupId>
           <artifactId>h2</artifactId>
-          <version>2.1.214</version>
+          <version>2.2.220</version>
           <scope>runtime</scope>
         </dependency>
         <!-- 中略 -->
@@ -328,8 +328,8 @@ Oracleの設定例
         <!-- 中略 -->
         <dependency>
           <groupId>com.oracle.database.jdbc</groupId>
-          <artifactId>ojdbc6</artifactId>
-          <version>11.2.0.4</version>
+          <artifactId>ojdbc11</artifactId>
+          <version>23.2.0.0</version>
           <scope>runtime</scope>
         </dependency>
         <!-- 中略 -->
@@ -351,7 +351,7 @@ PostgreSQLの設定例
         <dependency>
           <groupId>org.postgresql</groupId>
           <artifactId>postgresql</artifactId>
-          <version>9.4.1207</version>
+          <version>42.7.2</version>
           <scope>runtime</scope>
         </dependency>
         <!-- 中略 -->
@@ -371,9 +371,9 @@ DB2の設定例
       <dependencies>
         <!-- 中略 -->
         <dependency>
-          <groupId>com.ibm</groupId>
-          <artifactId>db2jcc4</artifactId>
-          <version>10.5.0.7</version>
+          <groupId>com.ibm.db2</groupId>
+          <artifactId>jcc</artifactId>
+          <version>11.5.9.0</version>
           <scope>runtime</scope>
         </dependency>
         <!-- 中略 -->
@@ -395,7 +395,7 @@ SQLServerの設定例
         <dependency>
           <groupId>com.microsoft.sqlserver</groupId>
           <artifactId>mssql-jdbc</artifactId>
-          <version>7.4.1.jre8</version>
+          <version>12.6.1.jre11</version>
           <scope>runtime</scope>
         </dependency>
         <!-- 中略 -->
@@ -422,7 +422,7 @@ dependencies要素内で、JDBCドライバの依存関係が記述されてい�
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
-      <version>2.1.214</version>
+      <version>2.2.220</version>
       <scope>runtime</scope>
     </dependency>
     <!-- 中略 -->

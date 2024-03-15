@@ -156,7 +156,7 @@ Add transaction target resource
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The following steps are required to add transaction target resource.
 
-For example, this applies when performing transaction control using IBM WebSphere MQ as a transaction manager for distributed transactions.
+For example, this applies when performing transaction control using IBM MQ as a transaction manager for distributed transactions.
 
 #. Add transaction implementation
 #. Add a factory implementation to generate a transaction

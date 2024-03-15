@@ -602,7 +602,7 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
 
                 HttpRequest request = testCaseInfo.getHttpRequest();   // 【説明】テスト実行後のHttpRequest
                 // リクエストパラメータがリセットされていること
-                assertEquals("", request.getParam("resetparameter"));
+                assertEquals("", getParam(request, "resetparameter"));
             }
         });
     }

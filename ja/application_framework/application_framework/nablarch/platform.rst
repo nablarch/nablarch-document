@@ -43,16 +43,16 @@ Nablarchフレームワークのテスト環境
 Nablarchフレームワークは、以下の環境においてテストを実施し、正常に動作することを確認している。
 
 Java
- * Java SE 17
+ * Java SE 17/21 [#java21]_
 
 データベース
  * Oracle Database 19c/21c/23c
  * IBM Db2 11.5
  * SQL Server 2017/2019/2022
- * PostgreSQL 12.2/13.2/14.0/15.2
+ * PostgreSQL 12.2/13.2/14.0/15.2/16.2
 
 アプリケーションサーバ
- * WildFly 30.0.1.Final
+ * WildFly 31.0.1.Final
  * Apache Tomcat 10.1.17
 
 Jakarta EE
@@ -60,7 +60,7 @@ Jakarta EE
  * JBeret 2.1.1.Final
 
 MOM（メッセージ指向ミドルウェア）
- * WebSphere MQ 7
+ * IBM MQ 9.3
 
 ブラウザ
  PC
@@ -68,3 +68,5 @@ MOM（メッセージ指向ミドルウェア）
   * Mozilla Firefox
   * Google Chrome
   * Safari
+
+.. [#java21] Java21で使用する場合、別途設定変更が必要となる。設定方法は :doc:`../blank_project/setup_blankProject/setup_Java21` を参照。

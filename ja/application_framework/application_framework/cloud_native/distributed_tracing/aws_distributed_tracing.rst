@@ -43,7 +43,7 @@ AWS X-Ray SDKのサブモジュールから必要なものを依存関係に追�
       <dependency>
         <groupId>com.amazonaws</groupId>
         <artifactId>aws-xray-recorder-sdk-bom</artifactId>
-        <version>2.4.0</version>
+        <version>2.15.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -86,7 +86,7 @@ AWS X-Ray SDKのサブモジュールから必要なものを依存関係に追�
 
   <filter>
     <filter-name>AWSXRayServletFilter</filter-name>
-    <filter-class>com.amazonaws.xray.javax.servlet.AWSXRayServletFilter</filter-class>
+    <filter-class>com.amazonaws.xray.jakarta.servlet.AWSXRayServletFilter</filter-class>
     <init-param>
       <param-name>fixedName</param-name>
       <!-- サービスマップでアプリケーションを識別する名前を指定する -->
@@ -135,7 +135,7 @@ Apache HttpComponentsを使用するための ``org.glassfish.jersey.client.spi.
       <dependency>
         <groupId>org.glassfish.jersey</groupId>
         <artifactId>jersey-bom</artifactId>
-        <version>2.32</version>
+        <version>3.1.1</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -180,7 +180,6 @@ Jerseyには ``org.glassfish.jersey.apache.connector.ApacheHttpClientBuilderConf
   import jakarta.ws.rs.client.Client;
   import jakarta.ws.rs.client.ClientBuilder;
   import jakarta.ws.rs.core.Configuration;
-  import java.util.function.UnaryOperator;
 
   public class JerseyHttpClientWithAWSXRayFactory implements ComponentFactory<Client> {
       @Override
@@ -330,6 +329,6 @@ Nablarchは ``dataSource`` という名前でデータソースコンポーネ�
 .. _X-Ray SDK for Java を使用してダウンストリーム HTTP ウェブサービスの呼び出しをトレースする(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java-httpclients.html
 .. _Apache HttpComponents(外部サイト、英語): https://hc.apache.org/
 .. _Jersey(外部サイト、英語): https://eclipse-ee4j.github.io/jersey/
-.. _Client Transport Connectors(外部サイト、英語): https://eclipse-ee4j.github.io/jersey.github.io/documentation/latest/client.html#d0e4974
+.. _Client Transport Connectors(外部サイト、英語): https://eclipse-ee4j.github.io/jersey.github.io/documentation/latest/client.html#d0e5043
 .. _X-Ray SDK for Java を使用して、SQL クエリをトレースする(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java-sqlclients.html
 .. _Intercept JDBC-Based SQL Queries(外部サイト、英語): https://github.com/aws/aws-xray-sdk-java#intercept-jdbc-based-sql-queries

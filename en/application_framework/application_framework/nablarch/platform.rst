@@ -42,16 +42,16 @@ Test environment of Nablarch framework
 The Nablarch framework has been tested and verified to operate properly in the following environments.
 
 Java
- * Java SE 17
+ * Java SE 17/21 [#java21]_
 
 Database
  * Oracle Database 19c/21c/23c
  * IBM Db2 11.5
  * SQL Server 2017/2019/2022
- * PostgreSQL 12.2/13.2/14.0/15.2
+ * PostgreSQL 12.2/13.2/14.0/15.2/16.2
 
 Application server
- * WildFly 30.0.1.Final
+ * WildFly 31.0.1.Final
  * Apache Tomcat 10.1.17
 
 Jakarta EE
@@ -59,7 +59,7 @@ Jakarta EE
  * JBeret 2.1.1.Final
 
 MOM (Message oriented middleware)
- * WebSphere MQ 7
+ * IBM MQ 9.3
 
 Browser
  PC
@@ -67,3 +67,5 @@ Browser
   * Mozilla Firefox
   * Google Chrome
   * Safari
+
+.. [#java21] When used with Java21, the configurations are required to be changed separately. For information on how to configure, see :doc:`../blank_project/setup_blankProject/setup_Java21`.

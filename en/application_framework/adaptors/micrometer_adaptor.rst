@@ -655,11 +655,11 @@ Working with Azure
 How to send metrics to Azure with Micrometer
   Azure provides the library using the Java agent (**Java 3.0 agent**) for sending metrics from Java applications to Azure.
 
-  * `Java codeless application monitoring Azure Monitor Application Insights(external site) <https://docs.microsoft.com/en-us/azure/azure-monitor/app/java-in-process-agent>`_
+  * `Java codeless application monitoring Azure Monitor Application Insights(external site) <https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=java>`_
 
   The Java 3.0 agent automatically collects metrics output to Micrometer's `Global Registry(external site) <https://micrometer.io/docs/concepts#_global_registry>`_, and sends to Azure.
 
-  * `Send custom telemetry from your application(external site) <https://docs.microsoft.com/en-us/azure/azure-monitor/app/java-in-process-agent#send-custom-telemetry-from-your-application>`_
+  * `Send custom telemetry from your application(external site) <https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=java>`_
 
   .. important::
     The Java 3.0 agent loads a large number of jar files during the initialization process.
@@ -678,7 +678,7 @@ How to configure Micrometer adaptor
   * Add the Java 3.0 agent to your application's JVM args
   * Define a ``MeterRegistry`` component using the Global Registry
 
-  See the `Azure documentation(external site) <https://docs.microsoft.com/en-us/azure/azure-monitor/app/java-in-process-agent#quickstart>`_ for how to set JVM args.
+  See the `Azure documentation(external site) <https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=java#modify-your-application>`_ for how to set JVM args.
 
   This adaptor provides :java:extdoc:`GlobalMeterRegistryFactory <nablarch.integration.micrometer.GlobalMeterRegistryFactory>` for factory of Global Registry component.
   The following is an example of a component definition for this factory class.
@@ -701,7 +701,7 @@ Configuration
   The metrics are sent by the Java 3.0 agent provided by Azure.
   Therefore, you must use configuration options provided by the Java 3.0 agent.
 
-  For more information, see `Configuration Options(external site) <https://docs.microsoft.com/en-us/azure/azure-monitor/app/java-standalone-config>`_.
+  For more information, see `Configuration Options(external site) <https://learn.microsoft.com/en-us/azure/azure-monitor/app/java-standalone-config>`_.
 
   .. important::
     The configuration file for this adapter, ``micrometer.properties``, is not used.
