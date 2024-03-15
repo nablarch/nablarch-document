@@ -28,4 +28,4 @@ However, for responding to a rapidly changing business environment, it is necess
 For achieving this, it is important to reuse proven parts.
 Nablarch is able to meet these needs by providing content that can be reused in a "ready-to-use" state, such as frameworks, adapters for adapting to frequently used middleware [1]_ and environments where inexperienced people can start developing immediately.
 
-.. [1] Apache Log4j, WebSphere MQ, etc.
+.. [1] Apache Log4j, IBM MQ, etc.

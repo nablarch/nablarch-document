@@ -58,7 +58,7 @@ MOMメッセージングはJMSに対応しており、
 :java:extdoc:`JmsMessagingProvider<nablarch.fw.messaging.provider.JmsMessagingProvider>` を提供している。
 詳細は、リンク先のJavadocを参照。
 
-さらに、MOMとして使用実績が多い WebSphere MQ にも対応している。
+さらに、MOMとして使用実績が多い IBM MQ にも対応している。
 詳細は、 :ref:`webspheremq_adaptor` を参照。
 
 モジュール一覧

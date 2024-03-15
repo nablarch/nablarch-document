@@ -78,8 +78,8 @@ JDBCドライバをWebから取得する場合は、以下のサイトから入�
     - URL
 
   * - IBM DB2 JDBC Driver Versions |br|
-      and Downloads - Japan
-    - http://www-01.ibm.com/support/docview.wss?uid=swg21363866 (外部サイト、英語)
+      and Downloads
+    - https://www.ibm.com/support/pages/db2-jdbc-driver-versions-and-downloads (外部サイト、英語)
 
 以下に、入手したJDBCドライバをローカルのMavenリポジトリに登録するコマンドの例を示す。
 

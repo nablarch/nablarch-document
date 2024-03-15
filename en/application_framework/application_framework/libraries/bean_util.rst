@@ -1,12 +1,12 @@
 .. _bean_util:
 
-Bean Util
+BeanUtil
 ==================================================
 .. contents:: Table of contents
   :depth: 3
   :local:
 
-Bean Util provides the following functions related to Java Beans.
+BeanUtil provides the following functions related to Java Beans.
 
 * Configuring and acquiring values for properties
 * Transferring values to other Java Beans

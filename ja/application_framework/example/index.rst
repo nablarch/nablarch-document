@@ -93,3 +93,4 @@ Java 11以上で動かす場合は、依存ライブラリの修正が必要と�
 
 * :ref:`setup_blank_project_for_Java11`
 * :ref:`setup_blank_project_for_Java17`
+* :ref:`setup_blank_project_for_Java21`

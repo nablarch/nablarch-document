@@ -477,7 +477,7 @@ XMLでDTDを使う
 .. important::
 
   本機能でXMLを入力する場合、DTDをデフォルトで使用できない。DTDを使用したXMLを読み込もうとした場合、例外が発生する。
-  これは `XML外部実体参照(XXE) <https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Processing>`_ を防止するための措置である。
+  これは `XML外部実体参照(XXE) <https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing>`_ を防止するための措置である。
 
 読み込み対象となるXMLが信頼できる場合は、 :java:extdoc:`XmlDataParser<nablarch.core.dataformat.XmlDataParser>` の ``allowDTD`` プロパティを使用してDTDの使用を許可できる。
 使用方法は下記の通り。

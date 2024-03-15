@@ -107,7 +107,7 @@ Implementation of a business action method
     .. code-block:: java
 
       @Produces(MediaType.APPLICATION_JSON)
-      public List<Project> find(HttpRequest req) {
+      public List<Project> find(JaxRsHttpRequest req) {
 
           // Convert request parameters to bean
           ProjectSearchForm form =
@@ -122,7 +122,7 @@ Implementation of a business action method
 
   Key points of this implementation
    * Specifies ``MediaType.APPLICATION_JSON``  in  :java:extdoc:`Produces<javax.ws.rs.Produces>` annotation to return the search results in JSON format to the client.
-   * Acquires the query parameter from :java:extdoc:`HttpRequest<nablarch.fw.web.HttpRequest>` .
+   * Acquires the query parameter from :java:extdoc:`JaxRsHttpRequest<nablarch.fw.jaxrs.JaxRsHttpRequest>` .
    * Creates a form from the request parameters using :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` .
    * Validates form using :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object)>`.
    * Copies the form value to the search condition bean using :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` .
@@ -141,7 +141,7 @@ Define the mapping to the URL
       public class ProjectAction {
         @GET
         @Produces(MediaType.APPLICATION_JSON)
-        public List<Project> find(HttpRequest req) {
+        public List<Project> find(JaxRsHttpRequest  req) {
 
             // Convert request parameters to beans
             ProjectSearchForm form =

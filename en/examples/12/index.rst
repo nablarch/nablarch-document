@@ -34,7 +34,7 @@ OIDC is supported by a variety of services, but this sample deals with ID token 
 
 * Microsoft Azure（hereafter referred to as "Azure"）
 
-  * `Azure Active Directory B2C <https://azure.microsoft.com/en-us/services/active-directory/external-identities/b2c/>`_ （hereafter referred to as "ADB2C"）
+  * `Azure Active Directory B2C <https://learn.microsoft.com/en-us/azure/active-directory-b2c/>`_ （hereafter referred to as "ADB2C"）
 
 Within the offering packages, the packages are further divided by targeted services.
 
@@ -129,7 +129,7 @@ Although many libraries for handling JWT are available in OSS, the sample uses "
 
 .. tip::
 
-  Libraries for working with JWT are also introduced in `OpenID Foundation <https://openid.net/developers/jwt/>`_ and `jwt.io <https://jwt.io/libraries>`_ .
+  Libraries for working with JWT are also introduced in `OpenID Foundation <https://openid.net/developers/jwt-jws-jwe-jwk-and-jwa-implementations/>`_ and `jwt.io <https://jwt.io/libraries>`_ .
 
 To make the library available, add the following dependencies to dependency settings
 

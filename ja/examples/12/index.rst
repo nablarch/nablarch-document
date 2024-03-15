@@ -34,7 +34,7 @@ OIDCは様々なサービスで対応しているが、本サンプルでは以�
 
 * Microsoft Azure（以下Azure）
 
-  * `Azure Active Directory B2C <https://azure.microsoft.com/ja-jp/services/active-directory/external-identities/b2c/>`_ （以下ADB2C）
+  * `Azure Active Directory B2C <https://learn.microsoft.com/ja-jp/azure/active-directory-b2c/>`_ （以下ADB2C）
 
 提供パッケージ内では、対象のサービス別にさらにパッケージを分けている。
 
@@ -129,7 +129,7 @@ JWTを扱うためのライブラリはOSSでも多く公開されているが�
 
 .. tip::
 
-  JWTを扱うライブラリは、 `OpenID Foundation <https://openid.net/developers/jwt/>`_ や `jwt.io <https://jwt.io/libraries>`_ でも紹介されている。
+  JWTを扱うライブラリは、 `OpenID Foundation <https://openid.net/developers/jwt-jws-jwe-jwk-and-jwa-implementations/>`_ や `jwt.io <https://jwt.io/libraries>`_ でも紹介されている。
 
 ライブラリを使用可能にするため、プロジェクトの依存関係設定に以下の依存関係を追加する。
 

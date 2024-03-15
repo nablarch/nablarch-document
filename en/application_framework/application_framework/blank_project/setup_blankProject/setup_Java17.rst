@@ -12,6 +12,8 @@ When using blank projects in Java 17, perform the following procedure before com
 * Add --add-opens options (only for JSR352-compliant batch project)
 * Change of Java Version
 
+.. _setup_blank_project_for_Java17_add_dependencies:
+
 Add dependent module
 -------------------------------------------------------------
 
@@ -56,6 +58,7 @@ There are two differences from the :ref:`Add dependent module in Java 11 <setup_
     </dependency>
   </dependencies>
 
+.. _setup_blank_project_for_Java17_gsp_dba_maven_plugin:
 
 Configure gsp-dba-maven-plugin to work with Java 17
 ----------------------------------------------------------
@@ -91,6 +94,7 @@ Therefore, make changes to 2 files as given below.
   <!-- Change the location of HttpServerFactoryJetty6 as follows -->
   <component name="httpServerFactory" class="nablarch.fw.web.httpserver.HttpServerFactoryJetty9"/>
 
+.. _setup_blank_project_for_Java17_add_JVMoption:
 
 Add --add-opens options (only for JSR352-compliant batch project)
 ------------------------------------------------------------------------------------------------------------------

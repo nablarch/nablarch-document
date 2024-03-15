@@ -11,8 +11,8 @@ Provides the following adapter to use in :ref:`RESTful web service <restful_web_
 
 
 *	Adapter to convert JSON using `Jackson (external site) <https://github.com/FasterXML/jackson>`_
-*	Adapter for using :ref:`RESTful web service <restful_web_service>` with `Jersey (external site) <https://jersey.java.net/>`_
-*	Adapter for using :ref:`RESTful web service <restful_web_service>` with `RESTEasy (external site) <http://resteasy.jboss.org/>`_
+*	Adapter for using :ref:`RESTful web service <restful_web_service>` with `Jersey (external site) <https://eclipse-ee4j.github.io/jersey/>`_
+*	Adapter for using :ref:`RESTful web service <restful_web_service>` with `RESTEasy (external site) <https://resteasy.dev/>`_
 
 Module list
 --------------------------------------------------
@@ -53,7 +53,7 @@ Module list
 
 Using RESTful web services under Jersey environment
 -------------------------------------------------------
-If the implementation of `JAX-RS(external site) <https://jcp.org/en/jsr/detail?id=339>`_ bundled with the web application server is `Jersey(external site) <https://jersey.java.net/>`_ , use the adapter for Jersey.
+If the implementation of `JAX-RS(external site) <https://jcp.org/en/jsr/detail?id=339>`_ bundled with the web application server is `Jersey(external site) <https://eclipse-ee4j.github.io/jersey/>`_ , use the adapter for Jersey.
 
 An application of Jersey adapter is shown below.
 
@@ -87,7 +87,7 @@ For :java:extdoc:`JaxRsMethodBinderFactory#setHandlerList <nablarch.fw.jaxrs.Jax
   
 Using RESTful web services under RESTEasy environment
 --------------------------------------------------------
-If the implementation of `JAX-RS (external site) <https://jcp.org/en/jsr/detail?id=339>`_ bundled with the web application server is `RESTEasy (external site) <http://resteasy.jboss.org/>`_ , use the adapter for RESTEasy.
+If the implementation of `JAX-RS (external site) <https://jcp.org/en/jsr/detail?id=339>`_ bundled with the web application server is `RESTEasy (external site) <https://resteasy.dev/>`_ , use the adapter for RESTEasy.
 
 An application of RESTEasy adapter is shown below.
 

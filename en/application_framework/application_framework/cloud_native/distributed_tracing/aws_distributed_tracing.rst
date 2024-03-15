@@ -327,6 +327,6 @@ By editing it like this, X-Ray SDK for Java JDBC interceptor will be added to th
 .. _Tracing calls to downstream HTTP web services with the X-Ray SDK for Java(external site): https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-java-httpclients.html
 .. _Apache HttpComponents(external site): https://hc.apache.org/
 .. _Jersey(external site): https://eclipse-ee4j.github.io/jersey/
-.. _Client Transport Connectors(external site): https://eclipse-ee4j.github.io/jersey.github.io/documentation/latest/client.html#d0e4974
+.. _Client Transport Connectors(external site): https://eclipse-ee4j.github.io/jersey.github.io/documentation/latest/client.html#d0e5043
 .. _Tracing SQL queries with the X-Ray SDK for Java(external site): https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-java-sqlclients.html
 .. _Intercept JDBC-Based SQL Queries(external site): https://github.com/aws/aws-xray-sdk-java#intercept-jdbc-based-sql-queries
