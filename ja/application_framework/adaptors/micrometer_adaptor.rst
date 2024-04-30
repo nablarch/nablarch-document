@@ -1452,7 +1452,7 @@ SQLの処理時間を計測する
   Tomcatなどのアプリケーションサーバの多くは、サーバの状態（スレッドプールの状態など）をMBeanで公開している。
   アプリケーションからこれらのMBeanにアクセスすることで、サーバの状態を取得できるようになっている。
 
-  JMXについての詳細は、 `Java Management Extensions ガイド(外部サイト、英語) <https://docs.oracle.com/javase/jp/17/jmx/java-management-extensions-jmx-user-guide.html>`_ を参照。
+  JMXについての詳細は、 `Java Management Extensions ガイド(外部サイト) <https://docs.oracle.com/javase/jp/17/jmx/java-management-extensions-jmx-user-guide.html>`_ を参照。
 
 ``JmxGaugeMetrics`` は、 `Gauge(外部サイト、英語)`_ を使用して、MBeanから取得した値を計測する。
 
