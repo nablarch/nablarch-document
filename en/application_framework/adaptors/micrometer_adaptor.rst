@@ -1297,7 +1297,7 @@ This will allow you to monitor the frequency of output at specific log levels, m
 
 The ``LogCountMetrics`` collects metrics with `Counter(external site)`_.
 Metrics name is ``log.count``.
-You can change the name with the :java:extdoc:`constructor <nablarch.integration.micrometer.instrument.binder.logging.LogCountMetrics.LogCountMetrics(nablarch.integration.micrometer.instrument.binder.MetricsMetaData)>` that receives the :java:extdoc:`MetricsMetaData <nablarch.integration.micrometer.instrument.binder.MetricsMetaData>`.
+You can change the name with the :java:extdoc:`constructor <nablarch.integration.micrometer.instrument.binder.logging.LogCountMetrics.<init>(nablarch.integration.micrometer.instrument.binder.MetricsMetaData)>` that receives the :java:extdoc:`MetricsMetaData <nablarch.integration.micrometer.instrument.binder.MetricsMetaData>`.
 
 Metrics have the following tags.
 
