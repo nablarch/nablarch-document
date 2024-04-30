@@ -1284,7 +1284,7 @@ Nablarchバッチは、 :ref:`loop_handler` によってトランザクション
 これにより、特定レベルのログ出力頻度をモニタしたり、エラーログの監視などができるようになる。
 
 ``LogCountMetrics`` は `Counter(外部サイト、英語)`_ を使って ``log.count`` という名前でメトリクスを収集する。
-この名前は、 :java:extdoc:`MetricsMetaData <nablarch.integration.micrometer.instrument.binder.MetricsMetaData>` を受け取る :java:extdoc:`コンストラクタ <nablarch.integration.micrometer.instrument.binder.logging.LogCountMetrics.LogCountMetrics(nablarch.integration.micrometer.instrument.binder.MetricsMetaData)>` で変更できる。
+この名前は、 :java:extdoc:`MetricsMetaData <nablarch.integration.micrometer.instrument.binder.MetricsMetaData>` を受け取る :java:extdoc:`コンストラクタ <nablarch.integration.micrometer.instrument.binder.logging.LogCountMetrics.<init>(nablarch.integration.micrometer.instrument.binder.MetricsMetaData)>` で変更できる。
 
 また、メトリクスには以下のタグが付与される。
 

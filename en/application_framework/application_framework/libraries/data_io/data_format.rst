@@ -335,9 +335,9 @@ Loading an upload file using the upload helper
     * Generate :java:extdoc:`UploadHelper <nablarch.fw.web.upload.util.UploadHelper>` based on the upload file acquired.
     * Configure the format definition file using :java:extdoc:`UploadHelper#applyFormat <nablarch.fw.web.upload.util.UploadHelper.applyFormat(java.lang.String)>` .
 
-    * Configure the message ID for validation error using :java:extdoc:`setUpMessageIdOnError <nablarch.fw.web.upload.util.BulkValidator.setUpMessageIdOnError(java.lang.String-java.lang.String-java.lang.String)>` .
-    * Configure the Java Beans class that executes validation and the validation method using :java:extdoc:`validateWith <nablarch.fw.web.upload.util.BulkValidator.ErrorHandlingBulkValidator.validateWith(java.lang.Class-java.lang.String)>` .
-    * Register the validated Javabeans object in DB using :java:extdoc:`importWith <nablarch.fw.web.upload.util.BulkValidationResult.importWith(nablarch.core.db.support.DbAccessSupport-java.lang.String)>` .
+    * Configure the message ID for validation error using :java:extdoc:`setUpMessageIdOnError <nablarch.fw.web.upload.util.BulkValidator.setUpMessageIdOnError(java.lang.String,java.lang.String,java.lang.String)>` .
+    * Configure the Java Beans class that executes validation and the validation method using :java:extdoc:`validateWith <nablarch.fw.web.upload.util.BulkValidator.ErrorHandlingBulkValidator.validateWith(java.lang.Class,java.lang.String)>` .
+    * Register the validated Javabeans object in DB using :java:extdoc:`importWith <nablarch.fw.web.upload.util.BulkValidationResult.importWith(nablarch.core.db.support.DbAccessSupport,java.lang.String)>` .
 
   .. code-block:: java
 

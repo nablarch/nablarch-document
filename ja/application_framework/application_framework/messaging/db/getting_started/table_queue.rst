@@ -211,7 +211,7 @@ Exampleアプリケーションの実行手順
     }
 
 ポイント
-  * :java:extdoc:`handle <nablarch.fw.action.BatchAction.handle(D-nablarch.fw.ExecutionContext)>` メソッドに業務処理を実装する。
+  * :java:extdoc:`handle <nablarch.fw.action.BatchAction.handle(D,nablarch.fw.ExecutionContext)>` メソッドに業務処理を実装する。
     (処理内容の詳細な説明は、Example依存のため省略する。)
 
   * 正常に処理したことを示す :java:extdoc:`Result.Success <nablarch.fw.Result.Success>` を返却する。
@@ -269,10 +269,10 @@ Exampleアプリケーションの実行手順
         received_message_sequence = :id
 
 ポイント
-  * 正常に処理できたレコードの更新処理は、 :java:extdoc:`transactionSuccess <nablarch.fw.action.BatchActionBase.transactionSuccess(D-nablarch.fw.ExecutionContext)>` に実装する。
+  * 正常に処理できたレコードの更新処理は、 :java:extdoc:`transactionSuccess <nablarch.fw.action.BatchActionBase.transactionSuccess(D,nablarch.fw.ExecutionContext)>` に実装する。
     (正常に処理できた場合(例外が送出されなかった場合)、このメソッドがNablarchによりコールバックされる。)
 
-  * 正常に処理できなかったレコードの更新処理は、 :java:extdoc:`transactionFailure <nablarch.fw.action.BatchActionBase.transactionSuccess(D-nablarch.fw.ExecutionContext)>` に実装する。
+  * 正常に処理できなかったレコードの更新処理は、 :java:extdoc:`transactionFailure <nablarch.fw.action.BatchActionBase.transactionSuccess(D,nablarch.fw.ExecutionContext)>` に実装する。
     (処理中に例外やエラーが送出されたレコードの場合、このメソッドがNablarchによりコールバックされる)
 
   * SQLでは、指定のレコードのステータスを更新する。

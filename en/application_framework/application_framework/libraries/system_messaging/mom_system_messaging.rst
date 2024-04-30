@@ -443,7 +443,7 @@ Implementation examples
        Configured by :ref:`repository-environment_configuration`.
        For configuration items,
        see
-       :java:extdoc:`MessageSenderSettings<nablarch.fw.messaging.MessageSenderSettings.MessageSenderSettings(java.lang.String)>`.
+       :java:extdoc:`MessageSenderSettings<nablarch.fw.messaging.MessageSenderSettings.<init>(java.lang.String)>`.
      * If you want to change the conversion process of sent and received messages,
        you can change it by defining a class that inherits :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>`
        in the component definition file and specifying the name of the component in ``messageSender.DEFAULT.messageConvertorName``.
@@ -703,8 +703,8 @@ Implementation examples
    * Inherit :java:extdoc:`MessagingAction<nablarch.fw.messaging.action.MessagingAction>`
      and override the following method.
 
-      * :java:extdoc:`MessagingAction#onReceive<nablarch.fw.messaging.action.MessagingAction.onReceive(nablarch.fw.messaging.RequestMessage-nablarch.fw.ExecutionContext)>`
-      * :java:extdoc:`MessagingAction#onError<nablarch.fw.messaging.action.MessagingAction.onError(java.lang.Throwable-nablarch.fw.messaging.RequestMessage-nablarch.fw.ExecutionContext)>`
+      * :java:extdoc:`MessagingAction#onReceive<nablarch.fw.messaging.action.MessagingAction.onReceive(nablarch.fw.messaging.RequestMessage,nablarch.fw.ExecutionContext)>`
+      * :java:extdoc:`MessagingAction#onError<nablarch.fw.messaging.action.MessagingAction.onError(java.lang.Throwable,nablarch.fw.messaging.RequestMessage,nablarch.fw.ExecutionContext)>`
 
    * Create the response message with :java:extdoc:`RequestMessage#reply<nablarch.fw.messaging.RequestMessage.reply()>`.
    * To retain the contents of request/response message, create a form class corresponding to each.

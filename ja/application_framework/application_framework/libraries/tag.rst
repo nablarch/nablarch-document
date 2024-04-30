@@ -1903,8 +1903,8 @@ HTMLエスケープせずに変数内のHTMLタグを直接出力したい場合
 :ref:`tag-pretty_print_tag`
  ``<b>`` や ``<del>`` のような装飾系のHTMLタグをエスケープせずに出力するカスタムタグ。
  使用可能なHTMLタグ及び属性は、 :ref:`tag-setting` で
- :java:extdoc:`safeTagsプロパティ<nablarch.common.web.tag.CustomTagConfig.setSafeTags(java.lang.String:A)>` /
- :java:extdoc:`safeAttributesプロパティ<nablarch.common.web.tag.CustomTagConfig.setSafeAttributes(java.lang.String:A)>`
+ :java:extdoc:`safeTagsプロパティ<nablarch.common.web.tag.CustomTagConfig.setSafeTags(java.lang.String[])>` /
+ :java:extdoc:`safeAttributesプロパティ<nablarch.common.web.tag.CustomTagConfig.setSafeAttributes(java.lang.String[])>`
  で任意に設定できる。
  デフォルトで使用可能なタグ、属性はリンク先を参照。
 
@@ -1914,8 +1914,8 @@ HTMLエスケープせずに変数内のHTMLタグを直接出力したい場合
   このタグは以下の問題があるため非推奨とする。
 
   * 使用可能なタグだけでなく、そのタグで使用する属性も含めて全て :java:extdoc:`CustomTagConfig <nablarch.common.web.tag.CustomTagConfig>` に設定しなければならない。
-    例えば、``a`` タグを使用可能にしたい場合は :java:extdoc:`CustomTagConfig#safeTags <nablarch.common.web.tag.CustomTagConfig.setSafeTags(java.lang.String:A)>` に ``a`` タグを追加するだけではなく、
-    :java:extdoc:`CustomTagConfig#safeAttributes <nablarch.common.web.tag.CustomTagConfig.setSafeAttributes(java.lang.String:A)>` にも、``href`` などの ``a`` タグで使用する属性を全て定義しなくてはならない。
+    例えば、``a`` タグを使用可能にしたい場合は :java:extdoc:`CustomTagConfig#safeTags <nablarch.common.web.tag.CustomTagConfig.setSafeTags(java.lang.String[])>` に ``a`` タグを追加するだけではなく、
+    :java:extdoc:`CustomTagConfig#safeAttributes <nablarch.common.web.tag.CustomTagConfig.setSafeAttributes(java.lang.String[])>` にも、``href`` などの ``a`` タグで使用する属性を全て定義しなくてはならない。
 
   * 入力された文字列が :java:extdoc:`CustomTagConfig <nablarch.common.web.tag.CustomTagConfig>`
     に設定したタグ、属性のみを使用しているかのチェックしか行っておらず、HTMLとして正しいかどうかをチェックしていない。

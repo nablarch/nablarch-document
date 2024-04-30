@@ -195,7 +195,7 @@ First, how to create the upload part of the batch registration function using up
       * The uploaded file is stored in a temporary area by the :ref:`multipart request handler<multipart_handler>`.
         Since the temporary area is automatically deleted, if you need to permanently (save) an uploaded file, move the file to an arbitrary directory.
         However, file transfers are possible only when the :ref:`file path management<file_path_management>` is used to manage the input and output of files and directories.
-      * Use :java:extdoc:`UploadHelper#moveFileTo<nablarch.fw.web.upload.util.UploadHelper.moveFileTo(java.lang.String-java.lang.String)>` method to transfer files.
+      * Use :java:extdoc:`UploadHelper#moveFileTo<nablarch.fw.web.upload.util.UploadHelper.moveFileTo(java.lang.String,java.lang.String)>` method to transfer files.
         The first argument is the key name of the file storage directory registered in the configuration file.
         In the Example Application, the configuration is described in the following file.
 

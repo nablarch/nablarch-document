@@ -1897,8 +1897,8 @@ and only for specific screens and display areas.
 :ref:`tag-pretty_print_tag`
  Custom tags that output HTML text formatting tags such as ``<b>`` and ``<del>`` without performing escape.
  For usable HTML tags and attributes, arbitrary tags can be configured in
- :java:extdoc:`safeTags property<nablarch.common.web.tag.CustomTagConfig.setSafeTags(java.lang.String:A)>` /
- :java:extdoc:`safeAttributes property<nablarch.common.web.tag.CustomTagConfig.setSafeAttributes(java.lang.String:A)>`
+ :java:extdoc:`safeTags property<nablarch.common.web.tag.CustomTagConfig.setSafeTags(java.lang.String[])>` /
+ :java:extdoc:`safeAttributes property<nablarch.common.web.tag.CustomTagConfig.setSafeAttributes(java.lang.String[])>`
  in :ref:`tag-setting`.
  Refer to the link for tags and attributes that can be used by default.
 
@@ -1908,8 +1908,8 @@ and only for specific screens and display areas.
   This tag is not recommended due to the following problems:
 
   * Not only the usable tags but also the attributes used with those tags must be configured in :java:extdoc:`CustomTagConfig <nablarch.common.web.tag.CustomTagConfig>`.
-    For example, to make ``a`` tag usable, it is not sufficient to add ``a`` tag to :java:extdoc:`CustomTagConfig#safeTags <nablarch.common.web.tag.CustomTagConfig.setSafeTags(java.lang.String:A)>`>,
-    but all the attributes such as ``href`` that are used with ``a`` tag in :java:extdoc:`CustomTagConfig#safeAttributes <nablarch.common.web.tag.CustomTagConfig.setSafeAttributes(java.lang.String:A)>` must be defined.
+    For example, to make ``a`` tag usable, it is not sufficient to add ``a`` tag to :java:extdoc:`CustomTagConfig#safeTags <nablarch.common.web.tag.CustomTagConfig.setSafeTags(java.lang.String[])>`>,
+    but all the attributes such as ``href`` that are used with ``a`` tag in :java:extdoc:`CustomTagConfig#safeAttributes <nablarch.common.web.tag.CustomTagConfig.setSafeAttributes(java.lang.String[])>` must be defined.
 
   * Whether a character string that is input uses only the tags and attributes that are configured in :java:extdoc:`CustomTagConfig <nablarch.common.web.tag.CustomTagConfig>` is checked,
     however whether the correct HTML has been output is not checked.

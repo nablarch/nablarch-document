@@ -442,7 +442,7 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
        送受信先のキュー名やフォーマット定義ファイルの格納ディレクトリなどの設定が必要となる。
        設定は、 :ref:`repository-environment_configuration` により行う。
        設定項目については、
-       :java:extdoc:`MessageSenderSettings<nablarch.fw.messaging.MessageSenderSettings.MessageSenderSettings(java.lang.String)>`
+       :java:extdoc:`MessageSenderSettings<nablarch.fw.messaging.MessageSenderSettings.<init>(java.lang.String)>`
        を参照。
      * 送受信する電文の変換処理を変更する場合は、コンポーネント設定ファイルに :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>`
        を継承したクラスを定義して、コンポーネントの名前を ``messageSender.DEFAULT.messageConvertorName`` に指定することで変更できる。
@@ -702,8 +702,8 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
    * :java:extdoc:`MessagingAction<nablarch.fw.messaging.action.MessagingAction>` を継承し、
      以下のメソッドをオーバーライドする。
 
-      * :java:extdoc:`MessagingAction#onReceive<nablarch.fw.messaging.action.MessagingAction.onReceive(nablarch.fw.messaging.RequestMessage-nablarch.fw.ExecutionContext)>`
-      * :java:extdoc:`MessagingAction#onError<nablarch.fw.messaging.action.MessagingAction.onError(java.lang.Throwable-nablarch.fw.messaging.RequestMessage-nablarch.fw.ExecutionContext)>`
+      * :java:extdoc:`MessagingAction#onReceive<nablarch.fw.messaging.action.MessagingAction.onReceive(nablarch.fw.messaging.RequestMessage,nablarch.fw.ExecutionContext)>`
+      * :java:extdoc:`MessagingAction#onError<nablarch.fw.messaging.action.MessagingAction.onError(java.lang.Throwable,nablarch.fw.messaging.RequestMessage,nablarch.fw.ExecutionContext)>`
 
    * 応答電文は、 :java:extdoc:`RequestMessage#reply<nablarch.fw.messaging.RequestMessage.reply()>` で作成する。
    * 要求電文と応答電文の内容を保持するため、それぞれに対応したフォームクラスを作成する。

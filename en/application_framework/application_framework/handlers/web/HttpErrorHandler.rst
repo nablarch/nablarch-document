@@ -111,7 +111,7 @@ Configuration of the default page
 -----------------------------------
 Apply the default page to the :java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>` created by error handling in subsequent handlers and this handler.
 In this function, if :java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>` is not configured,
-apply the default page configured by :java:extdoc:`defaultPage <nablarch.fw.web.handler.HttpErrorHandler.setDefaultPage(java.lang.String-java.lang.String)>` and
+apply the default page configured by :java:extdoc:`defaultPage <nablarch.fw.web.handler.HttpErrorHandler.setDefaultPage(java.lang.String,java.lang.String)>` and
 :java:extdoc:`defaultPages <nablarch.fw.web.handler.HttpErrorHandler.setDefaultPages(java.util.Map)>`.
 
 A configuration example is shown below.

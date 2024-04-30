@@ -609,8 +609,8 @@ Nablarchが提供しているバリデータ及びコンバータについては
 
 .. tip::
 
-  この例では、 :java:extdoc:`WebUtil.containsPropertyKeyValue <nablarch.common.web.WebUtil.containsPropertyKeyValue(nablarch.core.validation.ValidationContext-java.lang.String-java.lang.String)>` を使って、送信された値までチェックを行っているが、
-  単純にラジオボタンのチェック有無だけを調べたいのであれば :java:extdoc:`WebUtil.containsPropertyKey <nablarch.common.web.WebUtil.containsPropertyKey(nablarch.core.validation.ValidationContext-java.lang.String)>` を使う。
+  この例では、 :java:extdoc:`WebUtil.containsPropertyKeyValue <nablarch.common.web.WebUtil.containsPropertyKeyValue(nablarch.core.validation.ValidationContext,java.lang.String,java.lang.String)>` を使って、送信された値までチェックを行っているが、
+  単純にラジオボタンのチェック有無だけを調べたいのであれば :java:extdoc:`WebUtil.containsPropertyKey <nablarch.common.web.WebUtil.containsPropertyKey(nablarch.core.validation.ValidationContext,java.lang.String)>` を使う。
 
 
 特定の項目に紐づくバリデーションエラーのメッセージを作りたい

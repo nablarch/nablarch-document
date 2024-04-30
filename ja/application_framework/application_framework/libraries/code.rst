@@ -201,7 +201,7 @@ female    女性     女
 コードパターンテーブルにパターンカラムを定義する
   コードパターンテーブルに表示パターンを持つパターン列を定義する。
 
-  パターン列は、 :java:extdoc:`CodePatternSchema.patternColumnNames <nablarch.common.code.schema.CodePatternSchema.setPatternColumnNames(java.lang.String:A)>` に設定することで使用可能となる。
+  パターン列は、 :java:extdoc:`CodePatternSchema.patternColumnNames <nablarch.common.code.schema.CodePatternSchema.setPatternColumnNames(java.lang.String[])>` に設定することで使用可能となる。
   設定ファイルへの設定方法は、 :ref:`code-setup_table` を参照。
 
 
@@ -344,7 +344,7 @@ female    女性     女
 コード名称テーブルにオプション名称カラムを定義する
   コード名称テーブルに、オプションの名称を持つカラムを定義する。
 
-  パターン列は、 :java:extdoc:`CodePatternSchema.patternColumnNames <nablarch.common.code.schema.CodePatternSchema.setPatternColumnNames(java.lang.String:A)>` に設定することで使用可能となる。
+  パターン列は、 :java:extdoc:`CodePatternSchema.patternColumnNames <nablarch.common.code.schema.CodePatternSchema.setPatternColumnNames(java.lang.String[])>` に設定することで使用可能となる。
   設定ファイルへの設定方法は、 :ref:`code-setup_table` を参照。
 
   この例では、オプション名称のカラムとして、 ``FORM_NAME`` と ``KANA_NAME`` の2つを定義している。

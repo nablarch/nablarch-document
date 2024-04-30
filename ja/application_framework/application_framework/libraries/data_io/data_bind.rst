@@ -77,7 +77,7 @@ Mapオブジェクトへの変換時、値は全てString型で格納される�
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 データファイルを先頭から1データずつ読み込み、Java Beansオブジェクトとして取得できる。
 
-データの読み込みは、 :java:extdoc:`ObjectMapperFactory#create <nablarch.common.databind.ObjectMapperFactory.create(java.lang.Class-java.io.InputStream)>`
+データの読み込みは、 :java:extdoc:`ObjectMapperFactory#create <nablarch.common.databind.ObjectMapperFactory.create(java.lang.Class,java.io.InputStream)>`
 で生成した :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` [#thread-unsafe]_ を使用して行い、
 :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` の生成時に指定した、
 Java Beansクラスに定義されたアノテーションをもとにデータを読み込む。
@@ -112,7 +112,7 @@ Java Beansオブジェクトの内容をデータファイルに書き込む
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Java Beansオブジェクトの内容をデータファイルに1データずつ書き込むことができる。
 
-データファイルへの書き込みは、 :java:extdoc:`ObjectMapperFactory#create <nablarch.common.databind.ObjectMapperFactory.create(java.lang.Class-java.io.OutputStream)>`
+データファイルへの書き込みは、 :java:extdoc:`ObjectMapperFactory#create <nablarch.common.databind.ObjectMapperFactory.create(java.lang.Class,java.io.OutputStream)>`
 で生成した :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>`  [#thread-unsafe]_ を使用して行い、
 :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` の生成時に指定した、
 Java Beansクラスに定義されたアノテーションをもとにデータを書き込む。
@@ -144,7 +144,7 @@ Java Beansクラスへのアノテーション定義方法の詳細は以下を�
 データファイルを先頭から1データずつ読み込み、Mapオブジェクトとして取得できる。
 
 データの読み込みは、
-:java:extdoc:`ObjectMapperFactory#create <nablarch.common.databind.ObjectMapperFactory.create(java.lang.Class-java.io.InputStream-nablarch.common.databind.DataBindConfig)>`
+:java:extdoc:`ObjectMapperFactory#create <nablarch.common.databind.ObjectMapperFactory.create(java.lang.Class,java.io.InputStream,nablarch.common.databind.DataBindConfig)>`
 で生成した :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` [#thread-unsafe]_ を使用して行い、
 :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` の生成時に指定した、
 :java:extdoc:`DataBindConfig <nablarch.common.databind.DataBindConfig>` の設定値をもとにデータを読み込む。
@@ -177,7 +177,7 @@ Mapオブジェクトの内容をデータファイルに書き込む
 Mapオブジェクトの内容をデータファイルに1データずつ書き込むことができる。
 
 データファイルへの書き込みは、
-:java:extdoc:`ObjectMapperFactory#create <nablarch.common.databind.ObjectMapperFactory.create(java.lang.Class-java.io.OutputStream-nablarch.common.databind.DataBindConfig)>`
+:java:extdoc:`ObjectMapperFactory#create <nablarch.common.databind.ObjectMapperFactory.create(java.lang.Class,java.io.OutputStream,nablarch.common.databind.DataBindConfig)>`
 で生成した :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` [#thread-unsafe]_ を使用して行い、
 :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` の生成時に指定した、
 :java:extdoc:`DataBindConfig <nablarch.common.databind.DataBindConfig>` の設定値をもとにデータを書き込む。

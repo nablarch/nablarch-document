@@ -205,7 +205,7 @@
   }
 
  .. important::
-  バージョン番号のチェック( :java:extdoc:`HttpExclusiveControlUtil.checkVersions <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil.checkVersions(nablarch.fw.web.HttpRequest-nablarch.fw.ExecutionContext)>` )を行わなければ、
+  バージョン番号のチェック( :java:extdoc:`HttpExclusiveControlUtil.checkVersions <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil.checkVersions(nablarch.fw.web.HttpRequest,nablarch.fw.ExecutionContext)>` )を行わなければ、
   画面間でバージョン番号が引き継がれない。
 
 確認画面の更新ボタン（確認→完了）
@@ -246,7 +246,7 @@
 
 複合主キーでない場合
  ユーザの一括削除を行う画面を例に、複合主キーでない場合の実装例を示す。
- バージョン番号の取得部分は、 :java:extdoc:`HttpExclusiveControlUtil#prepareVersions <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil.prepareVersions(nablarch.fw.ExecutionContext-java.util.List)>` を呼び出すだけなので、
+ バージョン番号の取得部分は、 :java:extdoc:`HttpExclusiveControlUtil#prepareVersions <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil.prepareVersions(nablarch.fw.ExecutionContext,java.util.List)>` を呼び出すだけなので、
  実装例を省略する。
 
  .. code-block:: html
@@ -282,7 +282,7 @@
 
 複合主キーの場合
  ユーザの一括削除を行う画面を例に、複合主キーの場合の実装例を示す。
- バージョン番号の取得部分は、 :java:extdoc:`HttpExclusiveControlUtil#prepareVersions <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil.prepareVersions(nablarch.fw.ExecutionContext-java.util.List)>` を呼び出すだけなので、
+ バージョン番号の取得部分は、 :java:extdoc:`HttpExclusiveControlUtil#prepareVersions <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil.prepareVersions(nablarch.fw.ExecutionContext,java.util.List)>` を呼び出すだけなので、
  実装例を省略する。
 
  .. code-block:: sql

@@ -58,7 +58,7 @@ This section compares the validation capabilities of Nablarch with those of |jsr
     - C
 
 
-.. [#property_validation] By validating all the items of the form, receipt of invalid input values can be prevented. Therefore, using Bean Validation for executing the validation of item specification is not recommended. If validation of only specified items is required, use :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object-java.lang.String...)>` .
+.. [#property_validation] By validating all the items of the form, receipt of invalid input values can be prevented. Therefore, using Bean Validation for executing the validation of item specification is not recommended. If validation of only specified items is required, use :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object,java.lang.String...)>` .
 
 .. [#jsr] The response method conforms to the specifications of |jsr349| .
 .. [#method] Since Nablarch always performs validation at the timing when data is received from the outside, validation for method arguments and return values is not supported.

@@ -463,7 +463,7 @@ To create a validation error message linked to a specific item
 When an error occurs in the validation performed with action handlers such as :ref:`Correlation validation with the database <bean_validation-database_validation>`,
 sometimes it may be required to highlight the target item as an error on the screen.
 
-In this case, as shown in the implementation example below, an error message is built using :java:extdoc:`ValidationUtil#createMessageForProperty <nablarch.core.validation.ValidationUtil.createMessageForProperty(java.lang.String-java.lang.String-java.lang.Object...)>`
+In this case, as shown in the implementation example below, an error message is built using :java:extdoc:`ValidationUtil#createMessageForProperty <nablarch.core.validation.ValidationUtil.createMessageForProperty(java.lang.String,java.lang.String,java.lang.Object...)>`
 and the :java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>` is thrown.
 
 .. code-block:: java
@@ -743,8 +743,8 @@ Process to perform validation
     ValidatorUtil.validateWithGroup(form, SampleForm.Test1.class);
 
 
-See :java:extdoc:`ValidatorUtil#validateWithGroup <nablarch.core.validation.ee.ValidatorUtil.validateWithGroup(java.lang.Object-java.lang.Class...)>`
-and :java:extdoc:`ValidatorUtil#validateProperty <nablarch.core.validation.ee.ValidatorUtil.validateProperty(java.lang.Object-java.lang.String-java.lang.Class...)>` for details on the APIs.
+See :java:extdoc:`ValidatorUtil#validateWithGroup <nablarch.core.validation.ee.ValidatorUtil.validateWithGroup(java.lang.Object,java.lang.Class...)>`
+and :java:extdoc:`ValidatorUtil#validateProperty <nablarch.core.validation.ee.ValidatorUtil.validateProperty(java.lang.Object,java.lang.String,java.lang.Class...)>` for details on the APIs.
 
 .. tip::
    By using the group function to switch validation rules, a single form class can be shared by multiple screens and APIs.

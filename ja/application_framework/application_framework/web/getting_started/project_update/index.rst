@@ -130,7 +130,7 @@ Exampleアプリケーションを元に更新機能を解説する。
 
   この実装のポイント
     * 編集フォームに初期表示する値を取得するために、
-      :java:extdoc:`UniversalDao#findBySqlFile <nablarch.common.dao.UniversalDao.findBySqlFile(java.lang.Class-java.lang.String-java.lang.Object)>`
+      :java:extdoc:`UniversalDao#findBySqlFile <nablarch.common.dao.UniversalDao.findBySqlFile(java.lang.Class,java.lang.String,java.lang.Object)>`
       を使用して一意キー検索を行う。
       :ref:`テーブルをJOINした結果を取得する<universal_dao-join>` ために、検索結果はBeanで受け付ける。
       一意キー検索では、対象データが存在しない場合 :java:extdoc:`NoDataException<nablarch.common.dao.NoDataException>` を送出する。
@@ -192,7 +192,7 @@ Exampleアプリケーションを元に更新機能を解説する。
 
   この実装のポイント
     * データベース検索が必要なバリデーションは業務アクションメソッドに記述する。
-      データの存在確認をする場合、 :java:extdoc:`UniversalDao#exists <nablarch.common.dao.UniversalDao.exists(java.lang.Class-java.lang.String-java.lang.Object)>`
+      データの存在確認をする場合、 :java:extdoc:`UniversalDao#exists <nablarch.common.dao.UniversalDao.exists(java.lang.Class,java.lang.String,java.lang.Object)>`
       を使用する。詳細は、 :ref:`データベース検索が必要なバリデーション<bean_validation-database_validation>` を参照。
     * 責務配置上 :ref:`フォームを直接セッションストアに格納すべきではない<session_store-form>` ため、Beanへ詰め替える。
 
