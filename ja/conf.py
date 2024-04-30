@@ -312,7 +312,11 @@ javadoc_url_map = {
   'jakarta.inject' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc'),
   'jakarta.enterprise' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc'),
   'jakarta.ws' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc'),
-  'jakarta.mail' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc')
+  'jakarta.mail' : ('https://jakarta.ee/specifications/platform/10/apidocs/', 'javadoc'),
+  'java' : ('https://docs.oracle.com/javase/jp/17/docs/api/java.base/', 'javadoc'),
+  'java.sql' : ('https://docs.oracle.com/javase/jp/17/docs/api/java.sql/', 'javadoc'),
+  'javax' : ('https://docs.oracle.com/javase/jp/17/docs/api/java.base/', 'javadoc'),
+  'javax.sql' : ('https://docs.oracle.com/javase/jp/17/docs/api/java.sql/', 'javadoc')
 }
 
 # add custom javascript

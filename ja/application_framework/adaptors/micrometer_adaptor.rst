@@ -429,7 +429,7 @@ DefaultMeterBinderListProviderで収集されるメトリクス
   * - ``system.cpu.count``
     - JVM で使用できるプロセッサーの数
   * - ``system.load.average.1m``
-    - 最後の1分のシステム負荷平均 （参考： `OperatingSystemMXBean(外部サイト) <https://docs.oracle.com/javase/jp/11/docs/api/java.management/java/lang/management/OperatingSystemMXBean.html#getSystemLoadAverage()>`_ ）
+    - 最後の1分のシステム負荷平均 （参考： `OperatingSystemMXBean(外部サイト) <https://docs.oracle.com/javase/jp/17/docs/api/java.management/java/lang/management/OperatingSystemMXBean.html#getSystemLoadAverage()>`_ ）
   * - ``system.cpu.usage``
     - システム全体の直近の CPU 使用率
   * - ``process.cpu.usage``
@@ -1452,7 +1452,7 @@ SQLの処理時間を計測する
   Tomcatなどのアプリケーションサーバの多くは、サーバの状態（スレッドプールの状態など）をMBeanで公開している。
   アプリケーションからこれらのMBeanにアクセスすることで、サーバの状態を取得できるようになっている。
 
-  JMXについての詳細は、 `Java Management Extensions Guide(外部サイト、英語) <https://docs.oracle.com/en/java/javase/11/jmx/java-management-extensions-jmx-user-guide.html>`_ を参照。
+  JMXについての詳細は、 `Java Management Extensions ガイド(外部サイト) <https://docs.oracle.com/javase/jp/17/jmx/java-management-extensions-jmx-user-guide.html>`_ を参照。
 
 ``JmxGaugeMetrics`` は、 `Gauge(外部サイト、英語)`_ を使用して、MBeanから取得した値を計測する。
 
@@ -1516,7 +1516,7 @@ Tomcatのスレッドプールの状態を取得する
   Tomcatが作成するMBeanのオブジェクト名・属性名は、JDKに付属しているJConsoleというツールを使って確認できる。
   JConsoleでTomcatを実行しているJVMに接続し「MBeans」タブを開くと、接続しているJVMで取得可能なMBeanの一覧が表示される。
 
-  JConsoleについての詳細は、 `Monitoring and Management Guide(外部サイト、英語) <https://docs.oracle.com/en/java/javase/15/management/using-jconsole.html#GUID-77416B38-7F15-4E35-B3D1-34BFD88350B5>`_ を参照。
+  JConsoleについての詳細は、 `モニタリングおよび管理ガイド(外部サイト) <https://docs.oracle.com/javase/jp/17/management/using-jconsole.html#GUID-77416B38-7F15-4E35-B3D1-34BFD88350B5>`_ を参照。
 
 以上の設定で ``LoggingMeterRegistry`` を使用した場合、以下のようにメトリクスが出力されることが確認できる。
 
