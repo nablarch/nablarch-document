@@ -431,7 +431,7 @@ This will enable the following metrics to be collected.
   * - ``system.cpu.count``
     - The number of processors available in the JVM
   * - ``system.load.average.1m``
-    - Last minute system load average （Reference: `OperatingSystemMXBean(external site) <https://docs.oracle.com/javase/jp/11/docs/api/java.management/java/lang/management/OperatingSystemMXBean.html#getSystemLoadAverage()>`_ ）
+    - Last minute system load average （Reference: `OperatingSystemMXBean(external site) <https://docs.oracle.com/en/java/javase/17/docs/api/java.management/java/lang/management/OperatingSystemMXBean.html#getSystemLoadAverage()>`_ ）
   * - ``system.cpu.usage``
     - Recent system-wide CPU usage
   * - ``process.cpu.usage``
@@ -1467,7 +1467,7 @@ This will allow you to measure the various status of the application server or l
   Many application servers, such as Tomcat, expose the server status (thread pool status, etc.) in MBean.
   By accessing these MBeans from the application, you can get the status of the server.
 
-  For more information about JMX, see the `Java Management Extensions Guide (external site) <https://docs.oracle.com/en/java/javase/11/jmx/java-management-extensions-jmx-user-guide.html>`_.
+  For more information about JMX, see the `Java Management Extensions Guide (external site) <https://docs.oracle.com/en/java/javase/17/jmx/java-management-extensions-jmx-user-guide.html>`_.
 
 The ``JmxGaugeMetrics`` measure values obtained from MBean with `Gauge(external site)`_.
 
@@ -1531,7 +1531,7 @@ Then, the ``JmxGaugeMetrics`` constructs metrics with the information specified 
   You can check the object and attribute names of the MBean created by Tomcat with JConsole tool that comes with the JDK.
   When you connect to the JVM running Tomcat with JConsole and open the "MBeans" tab, you get the list of MBeans in the connected JVM.
 
-  For more details about JConsole, refer to the `Monitoring and Management Guide (external site) <https://docs.oracle.com/en/java/javase/15/management/using-jconsole.html#GUID-77416B38-7F15-4E35-B3D1-34BFD88350B5>`_.
+  For more details about JConsole, refer to the `Monitoring and Management Guide (external site) <https://docs.oracle.com/en/java/javase/17/management/using-jconsole.html#GUID-A2AE31B2-6C50-47B4-B854-5212C5AE4955>`_.
 
 If you use ``LoggingMeterRegistry``, you will get like the following metrics.
 
