@@ -41,9 +41,9 @@ JDBCを使用してデータベースに対してSQL文を実行する機能を�
 * トランザクションタイムアウト対象の  :java:extdoc:`SQLException <java.sql.SQLException>` か否かを判定するメソッド(:java:extdoc:`isTransactionTimeoutError <nablarch.core.db.dialect.Dialect.isTransactionTimeoutError(java.sql.SQLException)>` )
 * シーケンスオブジェクトから次の値を取得するSQL文生成するメソッド(:java:extdoc:`buildSequenceGeneratorSql <nablarch.core.db.dialect.Dialect.buildSequenceGeneratorSql(java.lang.String)>` )
 * :java:extdoc:`ResultSet <java.sql.ResultSet>` から値を取得する :java:extdoc:`ResultSetConvertor <nablarch.core.db.statement.ResultSetConvertor>` を返すメソッド(:java:extdoc:`getResultSetConvertor <nablarch.core.db.dialect.Dialect.getResultSetConvertor()>` )
-* 検索クエリーを範囲指定（ページング用）SQLに変換するメソッド(:java:extdoc:`convertPaginationSql <nablarch.core.db.dialect.Dialect.convertPaginationSql(java.lang.String-nablarch.core.db.statement.SelectOption)>` )
+* 検索クエリーを範囲指定（ページング用）SQLに変換するメソッド(:java:extdoc:`convertPaginationSql <nablarch.core.db.dialect.Dialect.convertPaginationSql(java.lang.String,nablarch.core.db.statement.SelectOption)>` )
 * 検索クエリーを件数取得SQLに変換するメソッド(:java:extdoc:`convertCountSql(String) <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String)>` )
-* SQLIDを件数取得SQLに変換するメソッド(:java:extdoc:`convertCountSql(String, Object, StatementFactory) <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String-java.lang.Object-nablarch.core.db.statement.StatementFactory)>` )
+* SQLIDを件数取得SQLに変換するメソッド(:java:extdoc:`convertCountSql(String, Object, StatementFactory) <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String,java.lang.Object,nablarch.core.db.statement.StatementFactory)>` )
 * :java:extdoc:`Connection <java.sql.Connection>` がデータベースに接続されているかチェックを行うSQLを返すメソッド(:java:extdoc:`getPingSql <nablarch.core.db.dialect.Dialect.getPingSql()>` )
 
 :java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` の設定方法は、 :ref:`database-use_dialect` を参照。
@@ -881,7 +881,7 @@ blob(データベース製品によりバイナリ型の型は異なる)など�
       }
 
 バイナリ型の値を登録・更新する
-  サイズの小さいバイナリ値を登録・更新する場合は、 :java:extdoc:`SqlPStatement#setByte <nablarch.core.db.statement.SqlPStatement.setBytes(int-byte:A)>` を使用する。
+  サイズの小さいバイナリ値を登録・更新する場合は、 :java:extdoc:`SqlPStatement#setByte <nablarch.core.db.statement.SqlPStatement.setBytes(int,byte[])>` を使用する。
 
   .. code-block:: java
 
@@ -890,7 +890,7 @@ blob(データベース製品によりバイナリ型の型は異なる)など�
     statement.setBytes(1, new byte[] {0x30, 0x31, 0x32});
     int updateCount = statement.executeUpdate();
 
- サイズが大きいバイナリ値を登録更新する場合は、 :java:extdoc:`SqlPStatement#setBinaryStream <nablarch.core.db.statement.SqlPStatement.setBinaryStream(int-java.io.InputStream-int)>`
+ サイズが大きいバイナリ値を登録更新する場合は、 :java:extdoc:`SqlPStatement#setBinaryStream <nablarch.core.db.statement.SqlPStatement.setBinaryStream(int,java.io.InputStream,int)>`
  を使用して、ファイルなどを表す :java:extdoc:`InputStream <java.io.InputStream>` から直接データベースに値を送信する。
 
  .. code-block:: java
@@ -941,7 +941,7 @@ CLOB型の値を取得する
       }
     
 CLOB型に値を登録(更新)する
-  サイズが小さい値を登録更新する場合は、String型の値を :java:extdoc:`SqlPStatement#setString <nablarch.core.db.statement.SqlPStatement.setString(int-java.lang.String)>` を使用して設定する。
+  サイズが小さい値を登録更新する場合は、String型の値を :java:extdoc:`SqlPStatement#setString <nablarch.core.db.statement.SqlPStatement.setString(int,java.lang.String)>` を使用して設定する。
 
   以下に例を示す。
 
@@ -950,7 +950,7 @@ CLOB型に値を登録(更新)する
     statement.setString(1, "値");
     statement.executeUpdate();
 
-  サイズが大きい値を登録、更新する場合は :java:extdoc:`SqlPStatement#setCharacterStream <nablarch.core.db.statement.SqlPStatement.setCharacterStream(int-java.io.Reader-int)>`
+  サイズが大きい値を登録、更新する場合は :java:extdoc:`SqlPStatement#setCharacterStream <nablarch.core.db.statement.SqlPStatement.setCharacterStream(int,java.io.Reader,int)>`
   を使用して、テキストファイルなどを表す :java:extdoc:`Reader <java.io.Reader>` 経由でデータベースに値を送信する。
 
   以下に例を示す。

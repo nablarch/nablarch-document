@@ -211,7 +211,7 @@ Implementation examples
     }
 
 Point
-  * Implement the business process in the method :java:extdoc:`handle <nablarch.fw.action.BatchAction.handle(D-nablarch.fw.ExecutionContext)>`.
+  * Implement the business process in the method :java:extdoc:`handle <nablarch.fw.action.BatchAction.handle(D,nablarch.fw.ExecutionContext)>`.
     (Detailed explanation of the process details is omitted as depends on the example dependent.)
 
   * Returns :java:extdoc:`Result.Success <nablarch.fw.Result.Success>`, which indicates that the processing was normal.
@@ -269,10 +269,10 @@ Implementation examples
         received_message_sequence = :id
 
 Point
-  * Implement the update process of the normally processed record in :java:extdoc:`transactionSuccess <nablarch.fw.action.BatchActionBase.transactionSuccess(D-nablarch.fw.ExecutionContext)>`.
+  * Implement the update process of the normally processed record in :java:extdoc:`transactionSuccess <nablarch.fw.action.BatchActionBase.transactionSuccess(D,nablarch.fw.ExecutionContext)>`.
     (if the processing is normal (exception is not thrown), the method is called back by Nablarch.)
 
-  * The update process of records that were not processed normally is implemented in :java:extdoc:`transactionFailure <nablarch.fw.action.BatchActionBase.transactionSuccess(D-nablarch.fw.ExecutionContext)>`.
+  * The update process of records that were not processed normally is implemented in :java:extdoc:`transactionFailure <nablarch.fw.action.BatchActionBase.transactionSuccess(D,nablarch.fw.ExecutionContext)>`.
     (The method where an exception or error is thrown during processing is called back by Nablarch.)
 
   * The status of the specific record is updated in SQL.

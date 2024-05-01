@@ -111,7 +111,7 @@ nablarch.fw.Result.Errorのログ出力について
 ---------------------------
 後続のハンドラや本ハンドラのエラー処理で作成した :java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>` に対して、デフォルトページを適用する。
 この機能では、 :java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>` が設定されていなかった場合、
-:java:extdoc:`defaultPage <nablarch.fw.web.handler.HttpErrorHandler.setDefaultPage(java.lang.String-java.lang.String)>` や
+:java:extdoc:`defaultPage <nablarch.fw.web.handler.HttpErrorHandler.setDefaultPage(java.lang.String,java.lang.String)>` や
 :java:extdoc:`defaultPages <nablarch.fw.web.handler.HttpErrorHandler.setDefaultPages(java.util.Map)>` で設定されたデフォルトのページを適用する。
 
 以下に設定例を示す。

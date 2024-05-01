@@ -220,7 +220,7 @@ Exampleアプリケーションを元に検索機能を解説する。
           }
 
       この実装のポイント
-        * 前述のSQL文を実行するには、:java:extdoc:`UniversalDao#findAllBySqlFile <nablarch.common.dao.UniversalDao.findAllBySqlFile(java.lang.Class-java.lang.String-java.lang.Object)>` の第二引数として、
+        * 前述のSQL文を実行するには、:java:extdoc:`UniversalDao#findAllBySqlFile <nablarch.common.dao.UniversalDao.findAllBySqlFile(java.lang.Class,java.lang.String,java.lang.Object)>` の第二引数として、
           :ref:`SQLID <database-execute_sqlid>` (前述のSQLの場合は"SEARCH_PROJECT")を指定する。
         * ページング用の検索は、 :java:extdoc:`UniversalDao#per <nablarch.common.dao.UniversalDao.per(long)>` メソッド、
           及び :java:extdoc:`UniversalDao#page <nablarch.common.dao.UniversalDao.page(long)>` を用いて行うことができる。

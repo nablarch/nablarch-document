@@ -209,7 +209,7 @@ Confirmation button on the input screen (Input → Confirm)
   }
 
  .. important::
-  The version numbers will not be inherited between screens, if ( :java:extdoc:`HttpExclusiveControlUtil.checkVersions <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil.checkVersions(nablarch.fw.web.HttpRequest-nablarch.fw.ExecutionContext)>` )
+  The version numbers will not be inherited between screens, if ( :java:extdoc:`HttpExclusiveControlUtil.checkVersions <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil.checkVersions(nablarch.fw.web.HttpRequest,nablarch.fw.ExecutionContext)>` )
   does not perform the version check.
 
 Update button on the confirmation screen (confirmation → complete)
@@ -250,7 +250,7 @@ is **not a composite primary key** or **a composite primary key**.
 
 Is not a composite primary key
  An implementation example when the primary key is not a composite primary key is shown using the screen for batch deletion of users as an example.
- Since the acquire section of the version number just calls :java:extdoc:`HttpExclusiveControlUtil#prepareVersions <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil.prepareVersions(nablarch.fw.ExecutionContext-java.util.List)>`,
+ Since the acquire section of the version number just calls :java:extdoc:`HttpExclusiveControlUtil#prepareVersions <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil.prepareVersions(nablarch.fw.ExecutionContext,java.util.List)>`,
  implementation example is omitted.
 
  .. code-block:: html
@@ -286,7 +286,7 @@ Is not a composite primary key
 
 For composite primary key
  An implementation example when the primary key is a composite primary key is shown using the screen for batch deletion of users as an example.
- Since the acquire section of the version number just calls :java:extdoc:`HttpExclusiveControlUtil#prepareVersions <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil.prepareVersions(nablarch.fw.ExecutionContext-java.util.List)>`,
+ Since the acquire section of the version number just calls :java:extdoc:`HttpExclusiveControlUtil#prepareVersions <nablarch.common.web.exclusivecontrol.HttpExclusiveControlUtil.prepareVersions(nablarch.fw.ExecutionContext,java.util.List)>`,
  implementation example is omitted.
 
  .. code-block:: sql

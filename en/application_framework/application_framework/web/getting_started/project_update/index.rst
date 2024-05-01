@@ -130,7 +130,7 @@ Create a business action method to display the update screen
 
   Key points of this implementation
     * A unique key lookup using
-      :java:extdoc:`UniversalDao#findBySqlFile <nablarch.common.dao.UniversalDao.findBySqlFile(java.lang.Class-java.lang.String-java.lang.Object)>`
+      :java:extdoc:`UniversalDao#findBySqlFile <nablarch.common.dao.UniversalDao.findBySqlFile(java.lang.Class,java.lang.String,java.lang.Object)>`
       to get the initial value to display in the edit form.
       For :ref:`acquire the result of table JOIN<universal_dao-join>`, the search result is accepted as a bean.
       If there is no target data in the unique key search, :java:extdoc:`NoDataException<nablarch.common.dao.NoDataException>` is thrown.
@@ -192,7 +192,7 @@ Create a business action method to check the updated contents
 
   Key points of this implementation
     * Validation that requires a database search is described in the business action method.
-      To confirm the existence of data, use :java:extdoc:`UniversalDao#exists <nablarch.common.dao.UniversalDao.exists(java.lang.Class-java.lang.String-java.lang.Object)>`.
+      To confirm the existence of data, use :java:extdoc:`UniversalDao#exists <nablarch.common.dao.UniversalDao.exists(java.lang.Class,java.lang.String,java.lang.Object)>`.
       For more information, see :ref:`Validation that requires a database lookup<bean_validation-database_validation>`.
     * Since the :ref:`form should not be stored directly in the session store<session_store-form>` due to responsibility assignment, it should be reworded to a bean.
 

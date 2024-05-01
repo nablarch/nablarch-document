@@ -221,7 +221,7 @@ Implementation of a business action
 
       Key points of this implementation
         * To execute the preceding SQL statement, specify :ref:`SQLID <database-execute_sqlid>` (or "SEARCH_PROJECT" in the case of the preceding SQL) as the second argument of
-          :java:extdoc:`UniversalDao#findAllBySqlFile <nablarch.common.dao.UniversalDao.findAllBySqlFile(java.lang.Class-java.lang.String-java.lang.Object)>`.
+          :java:extdoc:`UniversalDao#findAllBySqlFile <nablarch.common.dao.UniversalDao.findAllBySqlFile(java.lang.Class,java.lang.String,java.lang.Object)>`.
         * Search for paging can be performed using the :java:extdoc:`UniversalDao#per <nablarch.common.dao.UniversalDao.per(long)>` method and
           :java:extdoc:`UniversalDao#page <nablarch.common.dao.UniversalDao.page(long)>`.
           For more information, see :ref:`narrow the search for paging<universal_dao-paging>`.
