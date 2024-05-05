@@ -1063,7 +1063,7 @@ SQLの処理時間
     <property name="maximumExpectedValue" value="3000" />
   </component>
 
-``MeterRegistry`` として `PrometheusMeterRegistry(外部サイト、英語)`_ を使用した場合、上記設定により次のようなメトリクスが収集できるようになる。
+ヒストグラムバケットをサポートする ``MeterRegistry`` を使用した場合、上記設定により次のようなメトリクスが収集できるようになる。
 
 .. code-block:: text
 
@@ -1089,11 +1089,11 @@ SQLの処理時間
   http_server_requests_seconds_bucket{class="com.nablarch.example.app.web.action.MetricsAction",exception="None",httpMethod="GET",method="index_nablarch.fw.web.HttpRequest_nablarch.fw.ExecutionContext",outcome="SUCCESS",status="200",le="+Inf",} 32.0
 
 .. tip::
-  
-  ここでは、ヒストグラムバケットの具体例（``http_server_requests_seconds_bucket``）を示すため ``PrometheusMeterRegistry`` を使用している（`Prometheus(外部サイト、英語) <https://prometheus.io/>`_ は、ヒストグラムによるパーセンタイルの計算をサポートしている）。
+  本アダプタで提供している ``MeterRegistry`` では ``OtlpMeterRegistry`` のみがヒストグラムバケットをサポートする。
 
+  例では、ヒストグラムバケットの具体例（``http_server_requests_seconds_bucket``）を示すため `PrometheusMeterRegistry(外部サイト、英語)`_ を使用している（`Prometheus(外部サイト、英語) <https://prometheus.io/>`_ は、ヒストグラムによるパーセンタイルの計算をサポートしている）。
   ただし、 ``PrometheusMeterRegistry`` の ``MeterRegistryFactory`` は、本アダプタでは提供していない。
-  実際にヒストグラムバケットのメトリクスを試したい場合は、以下のようなクラスを自前で用意すること。
+  実際に ``PrometheusMeterRegistry`` を試したい場合は、以下のようなクラスを自前で用意すること。
 
   .. code-block:: java
 
