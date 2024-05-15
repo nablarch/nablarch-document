@@ -12,7 +12,7 @@
 
 JasperReportsのバージョンについて
 
-URL: 　https://community.jaspersoft.com/downloads/community-edition/
+URL: 　https://community.jaspersoft.com/download-jaspersoft/community-edition/
 (2014/12/16時点)
 
 ================ ================== ===================

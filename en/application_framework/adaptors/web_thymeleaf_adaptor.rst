@@ -7,7 +7,7 @@ Web Application Thymeleaf Adapter
   :depth: 3
   :local:
 
-Provides an adapter to use `Thymeleaf (external site) <http://www.thymeleaf.org>`_ for the template engine of web application.
+Provides an adapter to use `Thymeleaf (external site) <https://www.thymeleaf.org>`_ for the template engine of web application.
 
 Module list
 --------------

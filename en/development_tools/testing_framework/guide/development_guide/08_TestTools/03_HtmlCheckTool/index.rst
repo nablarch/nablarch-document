@@ -32,7 +32,7 @@ This tool is available in the Request Unit Test as a standard and is executed wh
 .. [#] There are some exceptions. See the next section, \ `Differences with HTML4.01`_ . 
 
 .. [#]
-  The tags and attributes that are deprecated on the  `W3C official website <http://www.w3.org/TR/html401/>`_  (hereinafter abbreviated as "deprecated tags and attributes") are configured by default. 
+  The tags and attributes that are deprecated on the  `W3C official website <https://www.w3.org/TR/html401/>`_  (hereinafter abbreviated as "deprecated tags and attributes") are configured by default. 
   By customizing the configuration file, the tags and attributes that should not be used can be changed. (For customization instructions, refer to :ref:`01_custom`.) 
 
 .. tip::

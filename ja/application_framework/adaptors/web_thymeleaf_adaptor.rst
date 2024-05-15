@@ -7,7 +7,7 @@
   :depth: 3
   :local:
 
-ウェブアプリケーションで、テンプレートエンジンに `Thymeleaf(外部サイト) <http://www.thymeleaf.org>`_
+ウェブアプリケーションで、テンプレートエンジンに `Thymeleaf(外部サイト) <https://www.thymeleaf.org>`_
 を使用するためのアダプタを提供する。
 
 モジュール一覧

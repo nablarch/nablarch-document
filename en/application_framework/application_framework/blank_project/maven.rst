@@ -252,9 +252,9 @@ The frequently used goals are shown below (all links in the table are links to e
     - Deletes the work directory (target directory) used for the build.
   * - `Install <https://maven.apache.org/plugins/maven-install-plugin/>`_
     - Builds the module and installs it in the local repository.
-  * - `test <http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#Lifecycle_Reference>`_
+  * - `test <https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#Lifecycle_Reference>`_
     - Executes the unit test.
-  * - `package <http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#Lifecycle_Reference>`_
+  * - `package <https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#Lifecycle_Reference>`_
     - Generates war or jar.Which of the two is generated is determined by the configuration file (pom.xml).The goal required for war file generation, such as test, is also executed.
   * - `dependency:tree <https://maven.apache.org/plugins/maven-dependency-plugin/tree-mojo.html>`_
     - Shows the dependent modules as a tree.
@@ -262,7 +262,7 @@ The frequently used goals are shown below (all links in the table are links to e
 
 .. tip::
 
-  For general goals, see `Introduction to the Build Lifecycle(external site) <http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html>`_.
+  For general goals, see `Introduction to the Build Lifecycle(external site) <https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html>`_.
 
 .. _mvnFrequentlyTrouble:
 

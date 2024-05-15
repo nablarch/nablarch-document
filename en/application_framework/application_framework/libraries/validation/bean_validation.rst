@@ -14,7 +14,7 @@ This chapter describes the validation function compliant with Bean Validation (J
 
   Java EE environments (such as WebLogic and WildFly) use the Bean Validation implementation that is bundled in the server.
   For use outside Java EE environments, the Bean Validation implementation must be added to the reference library separately.
-  (It is recommended that the reference implementation `Hibernate Validator(external site) <http://hibernate.org/validator/>`_ be used.)
+  (It is recommended that the reference implementation `Hibernate Validator(external site) <https://hibernate.org/validator/>`_ be used.)
 
 Function overview
 ---------------------
@@ -761,6 +761,6 @@ annotations and validation logic are added on the project side.
 
 For details on the implementation method, see the following links and Nablarch implementation.
 
-* `Hibernate Validator(external site) <http://hibernate.org/validator/>`_
+* `Hibernate Validator(external site) <https://hibernate.org/validator/>`_
 * `JSR349(external site) <https://jcp.org/en/jsr/detail?id=349>`_
 
