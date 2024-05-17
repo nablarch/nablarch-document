@@ -14,7 +14,7 @@ Bean Validation
 
   Java EE環境(WebLogicやWildFlyなど)では、そのサーバ内にバンドルされているBean Validationの実装が使用される。
   Java EE環境外で使用するには、別途Bean Validationの実装を参照ライブラリに追加する必要がある。
-  (参照実装である `Hibernate Validator(外部サイト、英語) <http://hibernate.org/validator/>`_ を使用することを推奨する。)
+  (参照実装である `Hibernate Validator(外部サイト、英語) <https://hibernate.org/validator/>`_ を使用することを推奨する。)
 
 機能概要
 ---------------------
@@ -760,6 +760,6 @@ APIの詳細は、 :java:extdoc:`ValidatorUtil#validateWithGroup <nablarch.core.
 
 実装方法などの詳細については、以下のリンク先及びNablarchの実装を参照。
 
-* `Hibernate Validator(外部サイト、英語) <http://hibernate.org/validator/>`_
+* `Hibernate Validator(外部サイト、英語) <https://hibernate.org/validator/>`_
 * `JSR349(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=349>`_
 

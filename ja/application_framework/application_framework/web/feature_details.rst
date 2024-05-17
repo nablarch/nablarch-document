@@ -140,7 +140,7 @@ URIとアクションクラスのマッピング
 
 ステータスコード
 --------------------------------------------------
-* `ステータスコードの使い分け(外部サイト) <http://qiita.com/kawasima/items/e48180041ace99842779>`_
+* `ステータスコードの使い分け(外部サイト) <https://qiita.com/kawasima/items/e48180041ace99842779>`_
 
 
 エラー時の画面遷移とステータスコード
@@ -157,7 +157,7 @@ URIとアクションクラスのマッピング
 
   * 例外クラスに対応した遷移先を定義する (:ref:`on_error_interceptor` 、 :ref:`on_errors_interceptor`)
   * :ref:`1つの例外に対して複数の遷移先を定義する <forward_error_page-try_catch>`
-* `ステータスコードの使い分け(外部サイト) <http://qiita.com/kawasima/items/e48180041ace99842779>`_
+* `ステータスコードの使い分け(外部サイト) <https://qiita.com/kawasima/items/e48180041ace99842779>`_
 
 MOMメッセージ送信
 ----------------------------------------

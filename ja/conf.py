@@ -305,6 +305,8 @@ todo_include_todos=False
 
 javadoc_url_map = {
   'nablarch' : ("https://nablarch.github.io/docs/" + version + "/javadoc/", 'javadoc8'),
+  'java' : ('https://docs.oracle.com/javase/8/docs/api/', 'javadoc8'),
+  'javax' : ('https://docs.oracle.com/javase/8/docs/api', 'javadoc8'),
   'javax.persistence' : ('https://docs.oracle.com/javaee/7/api/', 'javadoc8'),
   'javax.validation' : ('https://docs.oracle.com/javaee/7/api/', 'javadoc8'),
   'javax.servlet' : ('https://docs.oracle.com/javaee/7/api/', 'javadoc8'),

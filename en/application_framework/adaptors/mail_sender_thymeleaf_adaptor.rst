@@ -7,7 +7,7 @@ E-mail Thymeleaf Adapter
   :depth: 3
   :local:
 
-Provides an adapter for sending an e-mail template using `Thymeleaf (external site) <http://www.thymeleaf.org>`_ .
+Provides an adapter for sending an e-mail template using `Thymeleaf (external site) <https://www.thymeleaf.org>`_ .
 
 Module list
 --------------------------------------------------

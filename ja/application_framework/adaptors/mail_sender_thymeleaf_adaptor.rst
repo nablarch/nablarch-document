@@ -7,7 +7,7 @@ E-mail Thymeleafアダプタ
   :depth: 3
   :local:
 
-`Thymeleaf(外部サイト) <http://www.thymeleaf.org>`_ を使用した定型メール送信処理を行うためのアダプタを提供する。
+`Thymeleaf(外部サイト) <https://www.thymeleaf.org>`_ を使用した定型メール送信処理を行うためのアダプタを提供する。
 
 モジュール一覧
 --------------------------------------------------

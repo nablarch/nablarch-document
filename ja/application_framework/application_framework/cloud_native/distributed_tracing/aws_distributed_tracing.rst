@@ -326,10 +326,10 @@ Nablarchは ``dataSource`` という名前でデータソースコンポーネ�
 .. _AWS Distro for OpenTelemetry(外部サイト、英語): https://aws.amazon.com/jp/otel/?otel-blogs.sort-by=item.additionalFields.createdDate&otel-blogs.sort-order=desc
 .. _Submodules(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java.html#xray-sdk-java-submodules
 .. _aws-xray-sdk-java(外部サイト、英語): https://github.com/aws/aws-xray-sdk-java
-.. _X-Ray SDK for Java を使用して受信リクエストをトレースする(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java-filters.html
-.. _X-Ray SDK for Java を使用してダウンストリーム HTTP ウェブサービスの呼び出しをトレースする(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java-httpclients.html
+.. _X-Ray SDK for Java を使用して受信リクエストをトレースする(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java.html#xray-sdk-java-filters
+.. _X-Ray SDK for Java を使用してダウンストリーム HTTP ウェブサービスの呼び出しをトレースする(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java.html#xray-sdk-java-httpclients
 .. _Apache HttpComponents(外部サイト、英語): https://hc.apache.org/
 .. _Jersey(外部サイト、英語): https://eclipse-ee4j.github.io/jersey/
 .. _Client Transport Connectors(外部サイト、英語): https://eclipse-ee4j.github.io/jersey.github.io/documentation/latest/client.html#d0e5043
-.. _X-Ray SDK for Java を使用して、SQL クエリをトレースする(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java-sqlclients.html
+.. _X-Ray SDK for Java を使用して、SQL クエリをトレースする(外部サイト): https://docs.aws.amazon.com/ja_jp/xray/latest/devguide/xray-sdk-java.html#xray-sdk-java-sqlclients
 .. _Intercept JDBC-Based SQL Queries(外部サイト、英語): https://github.com/aws/aws-xray-sdk-java#intercept-jdbc-based-sql-queries

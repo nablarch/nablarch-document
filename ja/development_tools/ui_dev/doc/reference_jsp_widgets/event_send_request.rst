@@ -57,7 +57,7 @@ XHRリクエスト送信イベントアクション
 
   ajaxイベントの詳細については下記のリンク先を参照すること。
 
-      http://api.jquery.com/Ajax_Events/
+      https://api.jquery.com/Ajax_Events/
 
 仕様
 =============================================
