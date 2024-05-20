@@ -14,7 +14,7 @@ This chapter describes the validation function compliant with Jakarta Bean Valid
 
   Jakarta EE environments (such as WebLogic and WildFly) use the Jakarta Bean Validation implementation that is bundled in the server.
   For use outside Jakarta EE environments, the Jakarta Bean Validation implementation must be added to the reference library separately.
-  (It is recommended that the compatible implementation `Hibernate Validator(external site) <http://hibernate.org/validator/>`_ be used.)
+  (It is recommended that the compatible implementation `Hibernate Validator(external site) <https://hibernate.org/validator/>`_ be used.)
 
 Function overview
 ---------------------
@@ -761,5 +761,5 @@ annotations and validation logic are added on the project side.
 
 For details on the implementation method, see the following links and Nablarch implementation.
 
-* `Hibernate Validator(external site) <http://hibernate.org/validator/>`_
+* `Hibernate Validator(external site) <https://hibernate.org/validator/>`_
 * `Jakarta Bean Validation(external site) <https://jakarta.ee/specifications/bean-validation/>`_

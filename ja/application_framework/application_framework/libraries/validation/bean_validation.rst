@@ -14,7 +14,7 @@ Bean Validation
 
   Jakarta EE環境(WebLogicやWildFlyなど)では、そのサーバ内にバンドルされているJakarta Bean Validationの実装が使用される。
   Jakarta EE環境外で使用するには、別途Jakarta Bean Validationの実装を参照ライブラリに追加する必要がある。
-  (互換実装である `Hibernate Validator(外部サイト、英語) <http://hibernate.org/validator/>`_ を使用することを推奨する。)
+  (互換実装である `Hibernate Validator(外部サイト、英語) <https://hibernate.org/validator/>`_ を使用することを推奨する。)
 
 機能概要
 ---------------------
@@ -760,5 +760,5 @@ APIの詳細は、 :java:extdoc:`ValidatorUtil#validateWithGroup <nablarch.core.
 
 実装方法などの詳細については、以下のリンク先及びNablarchの実装を参照。
 
-* `Hibernate Validator(外部サイト、英語) <http://hibernate.org/validator/>`_
+* `Hibernate Validator(外部サイト、英語) <https://hibernate.org/validator/>`_
 * `Jakarta Bean Validation(外部サイト、英語) <https://jakarta.ee/specifications/bean-validation/>`_

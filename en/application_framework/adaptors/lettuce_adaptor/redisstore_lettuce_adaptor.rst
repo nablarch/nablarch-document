@@ -442,7 +442,7 @@ Expired keys are automatically deleted.
 This adapter uses the Redis expiration mechanism to manage the expiration of a session.
 Therefore, since expired session information is automatically deleted, there is no need to prepare a batch to delete the session information that remains as garbage.
 
-The following shows the expiration period of the session information being checked with the `pttl command (external site) <https://redis.io/commands/pttl>`_ .
+The following shows the expiration period of the session information being checked with the `pttl command (external site) <https://redis.io/docs/latest/commands/pttl/>`_ .
 
 .. code-block:: shell
 

@@ -322,10 +322,10 @@ By editing it like this, X-Ray SDK for Java JDBC interceptor will be added to th
 .. _AWS Distro for OpenTelemetry (external site): https://aws.amazon.com/jp/otel/?otel-blogs.sort-by=item.additionalFields.createdDate&otel-blogs.sort-order=desc
 .. _Submodules(external site): https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-java.html#xray-sdk-java-submodules
 .. _aws-xray-sdk-java(external site): https://github.com/aws/aws-xray-sdk-java
-.. _Tracing incoming requests with the X-Ray SDK for Java(external site): https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-java-filters.html
-.. _Tracing calls to downstream HTTP web services with the X-Ray SDK for Java(external site): https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-java-httpclients.html
+.. _Tracing incoming requests with the X-Ray SDK for Java(external site): https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-java.html#xray-sdk-java-filters
+.. _Tracing calls to downstream HTTP web services with the X-Ray SDK for Java(external site): https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-java.html#xray-sdk-java-httpclients
 .. _Apache HttpComponents(external site): https://hc.apache.org/
 .. _Jersey(external site): https://eclipse-ee4j.github.io/jersey/
-.. _Client Transport Connectors(external site): https://eclipse-ee4j.github.io/jersey.github.io/documentation/latest/client.html#d0e5043
-.. _Tracing SQL queries with the X-Ray SDK for Java(external site): https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-java-sqlclients.html
+.. _Client Transport Connectors(external site): https://eclipse-ee4j.github.io/jersey.github.io/documentation/latest/client.html#d0e5046
+.. _Tracing SQL queries with the X-Ray SDK for Java(external site): https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-java.html#xray-sdk-java-sqlclients
 .. _Intercept JDBC-Based SQL Queries(external site): https://github.com/aws/aws-xray-sdk-java#intercept-jdbc-based-sql-queries
