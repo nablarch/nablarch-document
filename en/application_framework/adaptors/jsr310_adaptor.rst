@@ -12,6 +12,12 @@ By using this adapter, JSR310 (Date and Time API) can be used with  :ref:`bean_u
 
 .. important::
 
+  The functions provided by this adapter have been incorporated into framework body since Nablarch 6u2,
+  so you can use the JSR310 (Date and Time API) with  :ref:`bean_util`  without using this adapter.
+  This adapter is maintained for backward compatibility.
+
+.. important::
+
   The types supported by this adapter are as follows. 
   Add the converter to the project for handling other types.
   
