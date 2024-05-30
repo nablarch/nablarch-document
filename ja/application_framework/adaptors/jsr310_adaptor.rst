@@ -12,7 +12,7 @@ JSR310(Date and Time API)で追加された日時関連を使用可能にする�
 
 .. important::
 
-  本アダプタで提供される機能はNablarch 6u2よりNablarch本体に取り込まれているため、本アダプタを使用せずとも :ref:`bean_util` でJSR310(Date and Time API)を使用できる。
+  本アダプタで提供される機能はNablarch 6u2よりフレームワーク本体に取り込まれているため、本アダプタを使用せずとも :ref:`bean_util` でJSR310(Date and Time API)を使用できる。
   本アダプタは後方互換を維持するために残している。
 
 .. important::
