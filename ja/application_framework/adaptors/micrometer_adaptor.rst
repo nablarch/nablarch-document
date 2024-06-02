@@ -210,7 +210,7 @@ DefaultMeterBinderListProviderを廃棄処理対象にする
     - ``1.0.0`` 以上
   * - `OtlpMeterRegistry(外部サイト、英語)`_
     - :java:extdoc:`OtlpMeterRegistryFactory <nablarch.integration.micrometer.otlp.OtlpMeterRegistry>`
-    - ``1.9.0`` 以上
+    - ``1.3.0`` 以上
 
 
 .. _micrometer_configuration:
@@ -777,7 +777,7 @@ OpenTelemetry はメトリクス仕様の業界標準であり、 OTLP は OpenT
     <dependency>
       <groupId>io.micrometer</groupId>
       <artifactId>micrometer-registry-otlp</artifactId>
-      <version>1.9.17</version>
+      <version>1.13.0</version>
     </dependency>
 
 レジストリファクトリを宣言する
