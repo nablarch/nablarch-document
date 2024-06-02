@@ -757,8 +757,7 @@ OpenTelemetry Protocol (OTLP) で連携する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 OpenTelemetry はメトリクス仕様の業界標準であり、 OTLP は OpenTelemetry のデータ通信プロトコルである。
-現在、大半の商用APMサービスは何らかの形で OTLP を利用可能にしている。
-したがって、 ``micrometer-registry-otlp`` モジュールを用いることで、さまざまなAPMサービスと連携することができる。
+``micrometer-registry-otlp`` モジュールを用いることで、さまざまなAPMサービスと連携することができる。
 
 メトリクスの連携は、エージェントまたはサービスへ直接 OTLP で送信するか、 `OpenTelemetry Collector Contrib(外部サイト) <https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main#opentelemetry-collector-contrib>`_ を介して送信することで連携できる。
 
