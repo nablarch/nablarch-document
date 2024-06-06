@@ -27,12 +27,12 @@ Micrometerアダプタ
   
 .. tip::
 
-  Micrometerのバージョン1.5.4を使用してテストを行っている。
+  Micrometerのバージョン1.13.0を使用してテストを行っている。
   バージョンを変更する場合は、プロジェクト側でテストを行い問題ないことを確認すること。
 
 Micrometerアダプタを使用するための設定を行う
 --------------------------------------------------
-Micrometerでメトリクスを収集するためには、 `レジストリ(外部サイト、英語) <https://micrometer.io/docs/concepts#_registry>`_ と呼ばれるクラスを作成する必要がある。
+Micrometerでメトリクスを収集するためには、 `レジストリ(外部サイト、英語) <https://docs.micrometer.io/micrometer/reference/concepts/registry.html>`_ と呼ばれるクラスを作成する必要がある。
 本アダプタでは、このレジストリを :ref:`repository` に登録するための :java:extdoc:`ComponentFactory<nablarch.core.repository.di.ComponentFactory>` を提供している。
 
 ここでは、 `LoggingMeterRegistry(外部サイト、英語)`_ をコンポーネントとして登録する :java:extdoc:`LoggingMeterRegistryFactory<nablarch.integration.micrometer.logging.LoggingMeterRegistryFactory>` を例にして設定方法について説明する。
@@ -245,10 +245,10 @@ DefaultMeterBinderListProviderを廃棄処理対象にする
 ``OtlpMeterRegistryFactory``        ``otlp``
 =================================== ================
 
-また、 ``<key>`` には Micrometer がレジストリごとに提供している `設定クラス(外部サイト、英語) <https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/config/MeterRegistryConfig.html>`_ で定義されたメソッドと同じ名前を指定する。
+また、 ``<key>`` には Micrometer がレジストリごとに提供している `設定クラス(外部サイト、英語) <https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/config/MeterRegistryConfig.html>`_ で定義されたメソッドと同じ名前を指定する。
 
 例えば、 `DatadogMeterRegistry(外部サイト、英語)`_ に対しては `DatadogConfig(外部サイト、英語)`_ という設定クラスが用意されている。
-そして、この設定クラスには `apyKey(外部サイト、英語) <https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogConfig.html#apiKey()>`_ というメソッドが定義されている。
+そして、この設定クラスには `apyKey(外部サイト、英語) <https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.13.0/io/micrometer/datadog/DatadogConfig.html#apiKey()>`_ というメソッドが定義されている。
 
 
 
@@ -510,7 +510,7 @@ Datadog と連携する
     <dependency>
       <groupId>io.micrometer</groupId>
       <artifactId>micrometer-registry-datadog</artifactId>
-      <version>1.5.4</version>
+      <version>1.13.0</version>
     </dependency>
 
 レジストリファクトリを宣言する
@@ -552,7 +552,7 @@ CloudWatch と連携する
     <dependency>
       <groupId>io.micrometer</groupId>
       <artifactId>micrometer-registry-cloudwatch2</artifactId>
-      <version>1.5.4</version>
+      <version>1.13.0</version>
     </dependency>
 
 レジストリファクトリを宣言する
@@ -653,7 +653,7 @@ MicrometerでメトリクスをAzureに連携する方法
 
   * `Azure Monitor Application Insights を監視する Java のコード不要のアプリケーション(外部サイト) <https://learn.microsoft.com/ja-jp/azure/azure-monitor/app/opentelemetry-enable?tabs=java>`_
 
-  このJava 3.0 エージェントは、Micrometerの `グローバルレジストリ(外部サイト、英語) <https://micrometer.io/docs/concepts#_global_registry>`_ に出力したメトリクスを自動的に収集し、Azureに連携する仕組みを提供している。
+  このJava 3.0 エージェントは、Micrometerの `グローバルレジストリ(外部サイト、英語) <https://docs.micrometer.io/micrometer/reference/concepts/registry.html#_global_registry>`_ に出力したメトリクスを自動的に収集し、Azureに連携する仕組みを提供している。
 
   * `アプリケーションからカスタム テレメトリを送信する(外部サイト) <https://learn.microsoft.com/ja-jp/azure/azure-monitor/app/opentelemetry-enable?tabs=java>`_
 
@@ -722,7 +722,7 @@ Datadog は `DogStatsD(外部サイト) <https://docs.datadoghq.com/ja/developer
     <dependency>
       <groupId>io.micrometer</groupId>
       <artifactId>micrometer-registry-statsd</artifactId>
-      <version>1.5.4</version>
+      <version>1.13.0</version>
     </dependency>
 
 レジストリファクトリを宣言する
@@ -1022,7 +1022,7 @@ SQLの処理時間
       単位はミリ秒。
 
 これらのプロパティは、Micrometerが提供する `Timer(外部サイト、英語)`_ に設定する値として使用される。
-より詳細な説明は、 `Micrometerのドキュメント <https://micrometer.io/docs/concepts#_histograms_and_percentiles>`_ を参照のこと。
+より詳細な説明は、 `Micrometerのドキュメント <https://docs.micrometer.io/micrometer/reference/concepts/histogram-quantiles.html>`_ を参照のこと。
 
 なお、これらのプロパティはデフォルトでは全て未設定のため、パーセンタイルの情報は収集されない。
 パーセンタイルの情報を収集する必要がある場合は、これらのプロパティを明示的に設定すること。
@@ -1098,8 +1098,8 @@ SQLの処理時間
 
     package example.micrometer.prometheus;
 
-    import io.micrometer.prometheus.PrometheusConfig;
-    import io.micrometer.prometheus.PrometheusMeterRegistry;
+    import io.micrometer.prometheusmetrics.PrometheusConfig;
+    import io.micrometer.prometheusmetrics.PrometheusMeterRegistry;
     import nablarch.core.repository.di.DiContainer;
     import nablarch.integration.micrometer.MeterRegistryFactory;
     import nablarch.integration.micrometer.MicrometerConfiguration;
@@ -1795,27 +1795,27 @@ Micrometerが監視サービスにメトリクスを連携する方法には、�
 
 
 
-.. _MeterBinder(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/MeterBinder.html
-.. _Counter(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/Counter.html
-.. _Gauge(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/Gauge.html
-.. _DatadogConfig(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogConfig.html
-.. _CloudWatchConfig(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-cloudwatch2/1.5.4/io/micrometer/cloudwatch2/CloudWatchConfig.html
-.. _StatsdConfig(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-statsd/1.5.4/io/micrometer/statsd/StatsdConfig.html
-.. _OtlpConfig(外部サイト、英語): https://javadoc.io/static/io.micrometer/micrometer-registry-otlp/1.9.17/io/micrometer/registry/otlp/OtlpConfig.html
-.. _MeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/MeterRegistry.html
-.. _DatadogMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogMeterRegistry.html
-.. _StatsdMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-statsd/1.5.4/io/micrometer/statsd/StatsdMeterRegistry.html
-.. _OtlpMeterRegistry(外部サイト、英語): https://javadoc.io/static/io.micrometer/micrometer-registry-otlp/1.9.17/io/micrometer/registry/otlp/OtlpMeterRegistry.html
-.. _DatadogMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogMeterRegistry.html
-.. _CloudWatchMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-cloudwatch2/1.5.4/io/micrometer/cloudwatch2/CloudWatchMeterRegistry.html
-.. _LoggingMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/logging/LoggingMeterRegistry.html
-.. _SimpleMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/simple/SimpleMeterRegistry.html
-.. _JvmMemoryMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/JvmMemoryMetrics.html 
-.. _ProcessorMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/ProcessorMetrics.html
-.. _JvmGcMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/JvmGcMetrics.html
-.. _JvmThreadMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/JvmThreadMetrics.html
-.. _ClassLoaderMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/ClassLoaderMetrics.html
-.. _FileDescriptorMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/FileDescriptorMetrics.html
-.. _UptimeMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/UptimeMetrics.html
-.. _Timer(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/Timer.html
-.. _PrometheusMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-prometheus/1.5.4/io/micrometer/prometheus/PrometheusMeterRegistry.html
+.. _MeterBinder(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/binder/MeterBinder.html
+.. _Counter(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/Counter.html
+.. _Gauge(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/Gauge.html
+.. _DatadogConfig(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.13.0/io/micrometer/datadog/DatadogConfig.html
+.. _CloudWatchConfig(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-cloudwatch2/1.13.0/io/micrometer/cloudwatch2/CloudWatchConfig.html
+.. _StatsdConfig(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-statsd/1.13.0/io/micrometer/statsd/StatsdConfig.html
+.. _OtlpConfig(外部サイト、英語): https://javadoc.io/static/io.micrometer/micrometer-registry-otlp/1.13.0/io/micrometer/registry/otlp/OtlpConfig.html
+.. _MeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/MeterRegistry.html
+.. _DatadogMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.13.0/io/micrometer/datadog/DatadogMeterRegistry.html
+.. _StatsdMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-statsd/1.13.0/io/micrometer/statsd/StatsdMeterRegistry.html
+.. _OtlpMeterRegistry(外部サイト、英語): https://javadoc.io/static/io.micrometer/micrometer-registry-otlp/1.13.0/io/micrometer/registry/otlp/OtlpMeterRegistry.html
+.. _DatadogMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.13.0/io/micrometer/datadog/DatadogMeterRegistry.html
+.. _CloudWatchMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-cloudwatch2/1.13.0/io/micrometer/cloudwatch2/CloudWatchMeterRegistry.html
+.. _LoggingMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/logging/LoggingMeterRegistry.html
+.. _SimpleMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/simple/SimpleMeterRegistry.html
+.. _JvmMemoryMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/binder/jvm/JvmMemoryMetrics.html
+.. _ProcessorMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/binder/system/ProcessorMetrics.html
+.. _JvmGcMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/binder/jvm/JvmGcMetrics.html
+.. _JvmThreadMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/binder/jvm/JvmThreadMetrics.html
+.. _ClassLoaderMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/binder/jvm/ClassLoaderMetrics.html
+.. _FileDescriptorMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/binder/system/FileDescriptorMetrics.html
+.. _UptimeMetrics(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/binder/system/UptimeMetrics.html
+.. _Timer(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/Timer.html
+.. _PrometheusMeterRegistry(外部サイト、英語): https://javadoc.io/doc/io.micrometer/micrometer-registry-prometheus/1.13.0/io/micrometer/prometheusmetrics/PrometheusMeterRegistry.html
