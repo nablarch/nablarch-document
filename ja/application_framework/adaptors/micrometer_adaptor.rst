@@ -792,7 +792,7 @@ OpenTelemetry はメトリクス仕様の業界標準であり、 OTLP は OpenT
   .. code-block:: text
 
     # 送信先を変更
-    nablarch.micrometer.otlp.url=http://localhost:9090/api/v1/otlp/v1/metrics
+    nablarch.micrometer.otlp.url=XXXXXXXXXXXXXXXXXXXX
 
 連携を無効にする
   .. code-block:: text
