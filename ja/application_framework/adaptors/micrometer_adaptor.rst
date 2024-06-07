@@ -248,7 +248,7 @@ DefaultMeterBinderListProviderを廃棄処理対象にする
 また、 ``<key>`` には Micrometer がレジストリごとに提供している `設定クラス(外部サイト、英語) <https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/config/MeterRegistryConfig.html>`_ で定義されたメソッドと同じ名前を指定する。
 
 例えば、 `DatadogMeterRegistry(外部サイト、英語)`_ に対しては `DatadogConfig(外部サイト、英語)`_ という設定クラスが用意されている。
-そして、この設定クラスには `apyKey(外部サイト、英語) <https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.13.0/io/micrometer/datadog/DatadogConfig.html#apiKey()>`_ というメソッドが定義されている。
+そして、この設定クラスには `apiKey(外部サイト、英語) <https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.13.0/io/micrometer/datadog/DatadogConfig.html#apiKey()>`_ というメソッドが定義されている。
 
 
 
@@ -447,6 +447,10 @@ DefaultMeterBinderListProviderで収集されるメトリクス
     - JVM の起動時刻（UNIX 時間）
   * - ``jvm.gc.count``
     - GC の回数
+  * - ``jvm.threads.started``
+    - JVMで起動したスレッド数
+  * - ``process.cpu.time``
+    - Java仮想マシン・プロセスによって使用されるCPU時間
 
 実際に収集されるメトリクスのイメージは :ref:`micrometer_metrics_output_example` を参照。
 
@@ -526,7 +530,7 @@ APIキーを設定する
 
     nablarch.micrometer.datadog.apiKey=XXXXXXXXXXXXXXXX
 
-  API キーは ``nablarch.micrometer.datadog.apyKey`` で設定できる。
+  API キーは ``nablarch.micrometer.datadog.apiKey`` で設定できる。
 
   その他の設定については `DatadogConfig(外部サイト、英語)`_ を参照。
 
