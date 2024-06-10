@@ -498,8 +498,8 @@ DefaultMeterBinderListProviderで収集されるメトリクス
 
 監視サービスと連携するためには、大きく次のとおり設定する必要がある。
 
-#. 監視サービスごとに用意された Micrometer のモジュールを依存関係に追加する
-#. 監視サービス用のレジストリファクトリをコンポーネントとして定義する
+#. 監視サービスや連携方法ごとに用意された Micrometer のモジュールを依存関係に追加する
+#. 利用するレジストリファクトリをコンポーネントとして定義する
 #. その他、監視サービスごとに独自に設定する
 
 ここでは、それぞれの監視サービスと連携する方法について説明する。
@@ -760,20 +760,18 @@ Datadog は `DogStatsD(外部サイト) <https://docs.datadoghq.com/ja/developer
 OpenTelemetry Protocol (OTLP) で連携する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-OpenTelemetry はメトリクス仕様の業界標準であり、 OTLP は OpenTelemetry のデータ通信プロトコルである。
-``micrometer-registry-otlp`` モジュールを用いることで、さまざまなAPMサービスと連携することができる。
-
-メトリクスの連携は、エージェントまたはサービスへ直接 OTLP で送信するか、 `OpenTelemetry Collector Contrib(外部サイト) <https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main#opentelemetry-collector-contrib>`_ を介して送信することで連携できる。
-
-  * `(エージェントまたはサービスへの送信)Datadog Agent による OTLP の取り込み(外部サイト) <https://docs.datadoghq.com/ja/opentelemetry/otlp_ingest_in_the_agent/>`_
-  * `(OpenTelemetry Collector Contribに送信)OpenTelemetry Collector Datadog エクスポーター(外部サイト) <https://docs.datadoghq.com/ja/opentelemetry/otel_collector_datadog_exporter/>`_
+多くの監視サービスでは `OpenTelemetry(外部サイト、英語) <https://opentelemetry.io/>`_ をサポートしており、通信プロトコルに OpenTelemetry Protocol (以下、OTLP) を使用してメトリクスを収集することができる。
+``micrometer-registry-otlp`` モジュールを用いることで、 OTLP で様々な監視サービスと連携することができる。
 
   .. important::
-    どちらの連携方法が適しているか(または利用可能か)は、対象のサービスによって異なる。
-    また、 OpenTelemetry Collector Contrib を利用した場合、商用APMのサポート範囲は各サービスによって異なるため、サービス提供元に確認すること。
+     OpenTelemetry によるメトリクスの収集では、どういった連携方法が適しているか（利用可能か）は監視サービスによって異なるため、使用する監視サービスの情報を確認すること。
+     例として、いくつかの監視サービスの情報を以下に示す。
 
-ここでは、無料で利用できるOSSである Prometheus に OTLP で連携する場合を例にして説明する。
+     * `Datadog の OpenTelemetry(外部サイト) <https://docs.datadoghq.com/ja/opentelemetry/>`_
+     * `New RelicによるOpenTelemetryの紹介(外部サイト) <https://docs.newrelic.com/jp/docs/more-integrations/open-source-telemetry-integrations/opentelemetry/opentelemetry-introduction/>`_
+     * `Prometheus | HTTP API | OTLP Receiver(外部サイト) <https://prometheus.io/docs/prometheus/latest/querying/api/#otlp-receiver>`_
 
+ここでは、 Prometheus に OTLP で連携する場合を例にして説明する。
 
 依存関係を追加する
   .. code-block:: xml
