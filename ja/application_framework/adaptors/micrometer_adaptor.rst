@@ -769,7 +769,7 @@ OpenTelemetry Protocol (OTLP) で連携する
 
      * `Datadog の OpenTelemetry(外部サイト) <https://docs.datadoghq.com/ja/opentelemetry/>`_
      * `New RelicによるOpenTelemetryの紹介(外部サイト) <https://docs.newrelic.com/jp/docs/more-integrations/open-source-telemetry-integrations/opentelemetry/opentelemetry-introduction/>`_
-     * `Prometheus | HTTP API | OTLP Receiver(外部サイト) <https://prometheus.io/docs/prometheus/latest/querying/api/#otlp-receiver>`_
+     * `Prometheus | HTTP API | OTLP Receiver(外部サイト、英語) <https://prometheus.io/docs/prometheus/latest/querying/api/#otlp-receiver>`_
 
 ここでは、 Prometheus に OTLP で連携する場合を例にして説明する。
 
