@@ -771,7 +771,7 @@ OpenTelemetry Protocol (OTLP) で連携する
      * `New RelicによるOpenTelemetryの紹介(外部サイト) <https://docs.newrelic.com/jp/docs/more-integrations/open-source-telemetry-integrations/opentelemetry/opentelemetry-introduction/>`_
      * `Prometheus | HTTP API | OTLP Receiver(外部サイト、英語) <https://prometheus.io/docs/prometheus/latest/querying/api/#otlp-receiver>`_
 
-ここでは、 Prometheus に OTLP で連携する場合を例にして説明する。
+ここでは、localhost の 9090 ポートで起動している Prometheus（無料で利用できるOSS）に OTLP で連携する場合を例にして説明する。
 
 依存関係を追加する
   .. code-block:: xml
@@ -794,7 +794,14 @@ OpenTelemetry Protocol (OTLP) で連携する
   .. code-block:: text
 
     # 送信先を変更
-    nablarch.micrometer.otlp.url=XXXXXXXXXXXXXXXXXXXX
+    nablarch.micrometer.otlp.url=http://localhost:9090/api/v1/otlp/v1/metrics
+
+ヘッダ情報を設定する
+  .. code-block:: text
+
+    nablarch.micrometer.otlp.headers=key1=value1,key2=value2
+
+  認証で使用するAPIキー等のヘッダ情報が必要な場合、 ``nablarch.micrometer.otlp.headers`` で設定できる。
 
 連携を無効にする
   .. code-block:: text
