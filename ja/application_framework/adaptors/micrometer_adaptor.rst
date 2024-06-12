@@ -771,7 +771,7 @@ OpenTelemetry Protocol (OTLP) で連携する
      * `New RelicによるOpenTelemetryの紹介(外部サイト) <https://docs.newrelic.com/jp/docs/more-integrations/open-source-telemetry-integrations/opentelemetry/opentelemetry-introduction/>`_
      * `Prometheus | HTTP API | OTLP Receiver(外部サイト、英語) <https://prometheus.io/docs/prometheus/latest/querying/api/#otlp-receiver>`_
 
-ここでは、localhost の 9090 ポートで起動している Prometheus（無料で利用できるOSS）に OTLP で連携する場合を例にして説明する。
+ここでは、localhost の 9090 ポートで起動している Prometheus に OTLP で連携する場合を例にして説明する。
 
 依存関係を追加する
   .. code-block:: xml
