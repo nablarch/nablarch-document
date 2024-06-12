@@ -501,7 +501,7 @@ Working with monitoring services
 
 In order to work with monitoring services, the following settings need to be made, broadly categorized.
 
-#. Add a Micrometer module for each monitoring service and collaboration method to the dependencies.
+#. Add a Micrometer module prepared for each monitoring service and linking method to the dependencies.
 #. Define a registry factory to be used as a component.
 #. Configuring other proprietary settings for each monitoring service.
 
@@ -766,14 +766,14 @@ Disable the registry
   You can override this configuration by environment variable.
   Therefor, you can enable the registry by setting ``true`` with environment variable only at production.
 
-Working with OpenTelemetry Protocol (OTLP)
+Using OpenTelemetry Protocol (OTLP)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Many monitoring services support `OpenTelemetry (external site, English) <https://opentelemetry.io/>`_ and use the OpenTelemetry Protocol (hereafter OTLP) as the communication protocol to collect metrics. OpenTelemetry Protocol (hereafter OTLP) as the communication protocol to collect metrics.
 The ``micrometer-registry-otlp`` module allows OTLP to work with various monitoring services.
 
   .. important::
-    When collecting metrics with OpenTelemetry, check the information on the monitoring service to be used, as the appropriate (and available) method of coordination depends on the monitoring service.
+    When collecting metrics with OpenTelemetry, check the information on the monitoring service to be used, as the appropriate (and available) linking method depends on the monitoring service.
     As an example, information on some monitoring services is shown below.
 
      * `Datadog's OpenTelemetry (external site) <https://docs.datadoghq.com/opentelemetry/>`_
