@@ -760,7 +760,7 @@ Datadog は `DogStatsD(外部サイト) <https://docs.datadoghq.com/ja/developer
 OpenTelemetry Protocol (OTLP) で連携する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-多くの監視サービスでは `OpenTelemetry(外部サイト、英語) <https://opentelemetry.io/>`_ をサポートしており、通信プロトコルに OpenTelemetry Protocol (以下、OTLP) を使用してメトリクスを収集できる。
+多くの監視サービスでは `OpenTelemetry(外部サイト) <https://opentelemetry.io/ja>`_ をサポートしており、通信プロトコルに OpenTelemetry Protocol (以下、OTLP) を使用してメトリクスを収集できる。
 ``micrometer-registry-otlp`` モジュールを用いることで、 OTLP で様々な監視サービスと連携できる。
 
   .. important::
