@@ -499,7 +499,7 @@ DefaultMeterBinderListProviderで収集されるメトリクス
 監視サービスと連携するためには、大きく次のとおり設定する必要がある。
 
 #. 監視サービスや連携方法ごとに用意された Micrometer のモジュールを依存関係に追加する
-#. 利用するレジストリファクトリをコンポーネントとして定義する
+#. 使用するレジストリファクトリをコンポーネントとして定義する
 #. その他、監視サービスごとに独自に設定する
 
 ここでは、それぞれの監視サービスと連携する方法について説明する。
@@ -760,8 +760,8 @@ Datadog は `DogStatsD(外部サイト) <https://docs.datadoghq.com/ja/developer
 OpenTelemetry Protocol (OTLP) で連携する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-多くの監視サービスでは `OpenTelemetry(外部サイト、英語) <https://opentelemetry.io/>`_ をサポートしており、通信プロトコルに OpenTelemetry Protocol (以下、OTLP) を使用してメトリクスを収集することができる。
-``micrometer-registry-otlp`` モジュールを用いることで、 OTLP で様々な監視サービスと連携することができる。
+多くの監視サービスでは `OpenTelemetry(外部サイト、英語) <https://opentelemetry.io/>`_ をサポートしており、通信プロトコルに OpenTelemetry Protocol (以下、OTLP) を使用してメトリクスを収集できる。
+``micrometer-registry-otlp`` モジュールを用いることで、 OTLP で様々な監視サービスと連携できる。
 
   .. important::
      OpenTelemetry によるメトリクスの収集では、どういった連携方法が適しているか（利用可能か）は監視サービスによって異なるため、使用する監視サービスの情報を確認すること。
