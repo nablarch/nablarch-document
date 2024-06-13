@@ -769,7 +769,7 @@ Disable the registry
 Using OpenTelemetry Protocol (OTLP)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Many monitoring services support `OpenTelemetry (external site, English) <https://opentelemetry.io/>`_ and use the OpenTelemetry Protocol (hereafter OTLP) as the communication protocol to collect metrics. OpenTelemetry Protocol (hereafter OTLP) as the communication protocol to collect metrics.
+Many monitoring services support `OpenTelemetry (external site) <https://opentelemetry.io/>`_ and can collect metrics using the OpenTelemetry Protocol (hereafter OTLP) as the communication protocol.
 The ``micrometer-registry-otlp`` module allows OTLP to work with various monitoring services.
 
   .. important::
