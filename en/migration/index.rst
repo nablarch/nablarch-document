@@ -455,9 +455,6 @@ Since gsp-dba-maven-plugin is compatible with Jakarta EE in 5.0.0, change ``<ver
 Furthermore, in order to use the ``generate-entity`` of the gsp-dba-maven-plugin that supports Jakarta EE, it is necessary to add ``dependency`` and JVM arguments.
 See the `gsp-dba-maven-plugin guide (external site) <https://github.com/coastland/gsp-dba-maven-plugin/tree/v5-master#generate-entity>`_ for details.
 
-.. tip::
-  gsp-dba-maven-plugin guide specifies ``<version>`` when adding Jakarta EE dependencies to ``dependency``, but as mentioned above, Jakarta EE provides Since the BOM is being read, there is no need to specify ``<version>``.
-
 As described above, an entity for which Jakarta EE annotations are set will be generated.
 
 .. _waitt-to-jetty:
