@@ -38,7 +38,7 @@ Java EEで使われていた仕様の省略名について、Nablarch6では基�
      - `Jakarta Persistence (外部サイト、英語) <https://jakarta.ee/specifications/persistence/>`_
    * - JTA
      - `Jakarta Transactions (外部サイト、英語) <https://jakarta.ee/specifications/transactions/>`_
-   * - JBatch
+   * - jBatch
      - `Jakarta Batch (外部サイト、英語) <https://jakarta.ee/specifications/batch/>`_
    * - JCA
      - `Jakarta Connectors (外部サイト、英語) <https://jakarta.ee/specifications/connectors/>`_

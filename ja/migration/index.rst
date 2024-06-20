@@ -903,7 +903,7 @@ Java EEとJakarta EEの仕様の対応表
       - ``javax.transaction``
       - `Jakarta Transactions (外部サイト、英語) <https://jakarta.ee/specifications/transactions/>`_
     * - Batch Application for the Java Platform
-      - JBatch
+      - jBatch
       - ``javax.batch``
       - `Jakarta Batch (外部サイト、英語) <https://jakarta.ee/specifications/batch/>`_
     * - JavaMail

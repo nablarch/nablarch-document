@@ -906,7 +906,7 @@ Correspondence table between Java EE and Jakarta EE specifications
       - ``javax.transaction``
       - `Jakarta Transactions (external site) <https://jakarta.ee/specifications/transactions/>`_
     * - Batch Application for the Java Platform
-      - JBatch
+      - jBatch
       - ``javax.batch``
       - `Jakarta Batch (external site) <https://jakarta.ee/specifications/batch/>`_
     * - JavaMail
