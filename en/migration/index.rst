@@ -732,6 +732,18 @@ When a JSR352-compliant Batch Application is generated from an archetype, ``depe
       <version>...</version>
     </dependency>
 
+    <!-- Dependencies when outputting logs with Logback -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>...</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>...</version>
+    </dependency>
+
 When migrate to Nablarch 6, modify this as follows.
 
 **After modification**
@@ -806,6 +818,18 @@ When migrate to Nablarch 6, modify this as follows.
       <version>5.0.0.SP1</version>
     </dependency>
 
+    <!-- Dependencies when outputting logs with Logback -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>2.0.11</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.5.6</version>
+    </dependency>
+
 --------------------------------------------------------------------
 What to do if an error occurs during execution
 --------------------------------------------------------------------
@@ -833,7 +857,7 @@ When running with Maven, you can change the classpath order by placing ``slf4j-n
   <dependency>
     <groupId>ch.qos.logback</groupId>
     <artifactId>logback-classic</artifactId>
-    <version>1.2.4</version>
+    <version>...</version>
   </dependency>
 
   <!-- Place slf4j-nablarch-adaptor below Logback -->

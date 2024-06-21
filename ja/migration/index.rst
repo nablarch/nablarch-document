@@ -110,7 +110,7 @@ Java EEのAPIの依存関係(``dependency``)を、Jakarta EEのものに変更�
 例えば代表的なものとしては、Java Servletなどが挙げられる。
 
 ただ、Java EEのAPIの ``dependency`` は、jarの提供元やバージョンによってバラバラになっており統一されていない。
-このため、 ``groupId`` などから機械的に判断することはできない。
+このため、 ``groupId`` などから機械的に判断はできない。
 どの ``dependency`` がJava EEのAPIなのかは、 ``groupId`` や ``artifactId`` 、jarの中に含まれるクラスなどから判断しなければならない。
 
 参考までに、Nablarchが提供しているアーキタイプやExampleでの変更内容を以下に記載する。
@@ -730,6 +730,18 @@ JSR352に準拠したバッチアプリケーションをアーキタイプか�
       <version>...</version>
     </dependency>
 
+    <!-- Logbackでログを出力している場合の依存関係 -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>...</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>...</version>
+    </dependency>
+
 Nablarch 6へ移行するためには、これらを以下のように修正する。
 
 **修正後**
@@ -804,6 +816,18 @@ Nablarch 6へ移行するためには、これらを以下のように修正す�
       <version>5.0.0.SP1</version>
     </dependency>
 
+    <!-- Logbackでログを出力している場合の依存関係 -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>2.0.11</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.5.6</version>
+    </dependency>
+
 --------------------------------------------------------------------
 実行時にエラーになる場合の対処方法
 --------------------------------------------------------------------
@@ -830,7 +854,7 @@ Mavenで実行する場合は、 ``pom.xml`` 上の ``slf4j-nablarch-adaptor`` �
   <dependency>
     <groupId>ch.qos.logback</groupId>
     <artifactId>logback-classic</artifactId>
-    <version>1.2.4</version>
+    <version>...</version>
   </dependency>
 
   <!-- Logbackより下にslf4j-nablarch-adaptorを配置する -->
