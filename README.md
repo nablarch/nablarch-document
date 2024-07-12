@@ -8,21 +8,16 @@ OSS版Nablarchドキュメントです。
 WindowsまたはDockerを想定しています。
 ### Windows
 #### ドキュメントビルド環境
-Python 3.6.x 及び以下のプラグインをインストールします。
-* Sphinx(1.6.3)
-* javasphinx(0.9.15)
-* sphinx-rtd-theme(0.2.4)
+Python 3.8.xおよび依存ライブラリをインストールします。
+```sh
+pip install -r requirements.txt
+```
 #### textlint実行環境
 上記に加えて、以下をインストールします。
 * Node.js（v16.16.0で動作確認済み）
 * npmで依存ライブラリをインストールします。
   ```sh
   npm install
-  ```
-* [textlint-plugin-rst](https://github.com/jimo1001/textlint-plugin-rst)の依存ライブラリである
-  docutils-ast-writerをインストールします。
-  ```sh
-  pip install docutils-ast-writer
   ```
 #### linkcheck実行環境
 * ドキュメントビルド環境と同一
