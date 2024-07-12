@@ -53,6 +53,7 @@ Java
 
 アプリケーションサーバ
  * WildFly 31.0.1.Final
+ * Red Hat JBoss Enterprise Application Platform 8.0.0
  * Apache Tomcat 10.1.17
 
 Jakarta EE
