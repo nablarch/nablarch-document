@@ -777,7 +777,7 @@ The ``micrometer-registry-otlp`` module allows OTLP to work with various monitor
     As an example, information on some monitoring services is shown below.
 
      * `Datadog's OpenTelemetry (external site) <https://docs.datadoghq.com/opentelemetry/>`_
-     * `Introduction to OpenTelemetry by New Relic (external site) <https://docs.newrelic.com/docs/more-integrations/open-source-telemetry-integrations/opentelemetry/opentelemetry-introduction/>`_
+     * `Introduction to OpenTelemetry by New Relic (external site) <https://docs.newrelic.com/docs/opentelemetry/opentelemetry-introduction/>`_
      * `Prometheus | HTTP API | OTLP Receiver(external site) <https://prometheus.io/docs/prometheus/latest/querying/api/#otlp-receiver>`_
 
 In this section, we will use the case of OTLP linking to Prometheus running on port 9090 of localhost as an example.
