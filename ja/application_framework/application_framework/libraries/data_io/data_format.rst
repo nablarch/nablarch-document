@@ -651,6 +651,22 @@ Mapデータ
       </property>
     </component>
 
+初期化コンポーネントの設定
+  上記で設定した :java:extdoc:`CharacterReplacementManager <nablarch.core.dataformat.CharacterReplacementManager>` を初期化対象のリストに設定する。
+
+    .. code-block:: xml
+
+      <component name="initializer"
+          class="nablarch.core.repository.initialization.BasicApplicationInitializer">
+
+        <property name="initializeList">
+          <list>
+            <!-- 省略 -->
+            <component-ref name="characterReplacementManager" />
+          </list>
+        </property>
+      </component>
+
 フォーマット定義ファイルにどの置き換えルールを使用するかを定義する
   入出力時に文字の置き換えを行う場合は、 :ref:`replacement <data_format-replacement_convertor>` を使用する。
 

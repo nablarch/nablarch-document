@@ -227,13 +227,13 @@ if the response status code does not match the expected status code.
 Response body
 ----------------
 
-The framework does not provide a mechanism for response body validation. Use libraries such as `JSONAssert(external site) <http://jsonassert.skyscreamer.org/>`_,
+The framework does not provide a mechanism for response body validation. Use libraries such as `JSONAssert(external site) <https://jsonassert.skyscreamer.org/>`_,
 `json-path-assert(external site) <https://github.com/json-path/JsonPath/tree/master/json-path-assert>`_,
 or `XMLUnit(external site) <https://github.com/xmlunit/user-guide/wiki>`_ according to the requirements of each project.
 
 .. tip::
   If you have created a \ :doc:`RESTful web service blank project <../../../../../application_framework/application_framework/blank_project/setup_blankProject/setup_WebService>`\,
-  the above `JSONAssert (external site) <http://jsonassert.skyscreamer.org/>`_,
+  the above `JSONAssert (external site) <https://jsonassert.skyscreamer.org/>`_,
   `json-path-assert(external site) <https://github.com/json-path/JsonPath/tree/master/json-path-assert>`_
   and `XMLUnit(external site) <https://github.com/xmlunit/user-guide/wiki>`_ are listed in pom.xml.
   Delete or replace libraries as necessary.
