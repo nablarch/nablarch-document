@@ -626,6 +626,22 @@ Add the replacement rule configuration to the component configuration file
       </property>
     </component>
 
+Configuration of initialization component
+  Configure :java:extdoc:`CharacterReplacementManager <nablarch.core.dataformat.CharacterReplacementManager>` that have been configured above to the initialization list.
+
+    .. code-block:: xml
+
+      <component name="initializer"
+          class="nablarch.core.repository.initialization.BasicApplicationInitializer">
+
+        <property name="initializeList">
+          <list>
+            <!-- Omitted -->
+            <component-ref name="characterReplacementManager" />
+          </list>
+        </property>
+      </component>
+
 Define which replacement rule to use in the format definition file
   To replace characters during input/output, use :ref:`replacement <data_format-replacement_convertor>` .
 
