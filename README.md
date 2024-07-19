@@ -14,7 +14,7 @@ pip install -r requirements.txt
 ```
 #### textlint実行環境
 上記に加えて、以下をインストールします。
-* Node.js（v16.16.0で動作確認済み）
+* Node.js（v20.15.1で動作確認済み）
 * npmで依存ライブラリをインストールします。
   ```sh
   npm install
@@ -28,9 +28,6 @@ pip install -r requirements.txt
   ```
   docker build -t nablarch-document-build .
   ```
-##### (補足)動作確認済みDockerホスト
-- WSL2 + Docker Desktop for Windows
-- プロキシは無し
 
 ## ドキュメントのビルド方法
 ### Windows
