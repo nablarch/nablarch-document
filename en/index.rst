@@ -18,6 +18,7 @@ Nablarch
   about_nablarch/index
   application_framework/index
   development_tools/index
+  examples/index
   nablarch_api/index
   about_nablarch/versionup_policy
   migration/index
@@ -81,6 +82,13 @@ Useful tools for developing applications
 ==========================================
 
   | :doc:`Manual <development_tools/toolbox/index>` 
+
+
+-----------------------------------------------
+Nablarch implementation examples
+-----------------------------------------------
+
+  | :doc:`Manual <examples/index>`
 
 
 -----------------------------------------------
