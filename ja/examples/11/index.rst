@@ -6,7 +6,7 @@
   :depth: 3
   :local:
 
-`ソースコード <https://github.com/nablarch/nablarch-messaging-simulator>`_
+`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-messaging-simulator>`_
 
 本サンプルは、Nablarchアプリケーションフレームワークの :ref:`mom_system_messaging` 、 :ref:`http_system_messaging` を使用する
 アプリケーションのテストにて、対向先システムをシミュレートするサンプル実装を提供する。
@@ -27,7 +27,7 @@
 .. important::
 
   本サンプルではMOMとしてIBM MQ 9.3 を使用している。
-  IBM MQ 9.3 はJavaのバージョン 8 以上がサポート対象であるため、本サンプルでは Java 8を使用する。
+  IBM MQ 9.3 はJavaのバージョン 8 以上がサポート対象であるため、本サンプルでは Java 17を使用する。
 
 用途
 ----------
@@ -112,13 +112,14 @@ Nablarchアプリケーションフレームワークのマルチスレッド実
 
   .. code-block:: bash
 
-    git clone https://github.com/nablarch/nablarch-messaging-simulator.git
+    git clone https://github.com/nablarch/nablarch-biz-sample-all.git
 
 実行モジュールの作成
-  以下のコマンドを実行し、 ``target/build`` 配下に実行モジュールを作成する。
+  以下のコマンドを実行し、 ``nablarch-messaging-simulator/target/build`` 配下に実行モジュールを作成する。
 
   .. code-block:: bat
 
+    cd nablarch-messaging-simulator/
     mvn clean dependency:copy-dependencies -DoutputDirectory=target/build/lib package
 
   作成した実行モジュールは、シミュレータを実行する環境に配置する。

@@ -6,7 +6,7 @@ Messaging Platform Test Simulator Sample
   :depth: 3
   :local:
 
-`Source code <https://github.com/nablarch/nablarch-messaging-simulator>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-messaging-simulator>`_
 
 This sample provides a sample implementation to simulate a destination system for testing applications using the Nablarch application framework  :ref:`mom_system_messaging` and :ref:`http_system_messaging`.
 
@@ -25,7 +25,7 @@ When the simulator sends a message
 .. important::
 
   This sample uses IBM MQ 9.3 as the MOM.
-  IBM MQ 9.3 supports Java version 8 or higher, so this sample uses Java 8.
+  IBM MQ 9.3 supports Java version 8 or higher, so this sample uses Java 17.
 
 Uses
 ----------
@@ -109,13 +109,14 @@ Getting a simulator
 
   .. code-block:: bash
 
-    git clone https://github.com/nablarch/nablarch-messaging-simulator.git
+    git clone https://github.com/nablarch/nablarch-biz-sample-all.git
 
 Creating an execution module
-  Execute the following command to create an execution module under ``target/build``.
+  Execute the following command to create an execution module under ``nablarch-messaging-simulator/target/build``.
 
   .. code-block:: bat
 
+     cd nablarch-messaging-simulator/
      mvn clean dependency:copy-dependencies -DoutputDirectory=target/build/lib package
 
   The created execution module is placed in the environment where the simulator is to be executed.
