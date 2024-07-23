@@ -18,6 +18,7 @@ Nablarch
   about_nablarch/index
   application_framework/index
   development_tools/index
+  examples/index
   nablarch_api/index
   releases/index
   about_nablarch/versionup_policy
@@ -83,6 +84,13 @@ Nablarch開発ツール
 ==========================================
 
   | :doc:`解説書 <development_tools/toolbox/index>` 
+
+
+-----------------------------------------------
+Nablarch実装例集
+-----------------------------------------------
+
+  | :doc:`解説書 <examples/index>`
 
 
 -----------------------------------------------
