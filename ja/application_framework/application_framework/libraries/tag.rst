@@ -825,9 +825,11 @@ HTML
 カスタムタグは、onclick属性が指定された場合、サブミット用のJavaScript関数を呼び出さない。
 この場合、アプリケーションで作成したJavaScriptで、カスタムタグが設定する :ref:`JavaScript関数 <tag-submit_function>` を呼び出す必要がある。
 
- .. tip::
-  Content Security Policy(CSP)に対応する場合は、onclick属性に直接JavaScriptを記述してしまうと違反になってしまう。
-  この場合は、 :ref:`tag-content_security_policy` の手順に従い外部スクリプトまたはnonce属性を指定したscript要素に追加の処理を実装する。
+ .. important::
+  Content Security Policy(CSP)に対応する場合は、onclick属性に直接JavaScriptを記述してしまうとCSPに対応しようとしているにも
+  関わらず ``unsafe-inline`` を使いセキュリティレベルを低下させてしまう、  もしくは ``unsafe-hashes`` を利用することになってしまう。
+  このためは、 :ref:`tag-content_security_policy` の手順に従い外部スクリプトまたはnonce属性を指定したscript要素に追加の処理を実装を
+  行うことを推奨する。
  
 
 実装例
