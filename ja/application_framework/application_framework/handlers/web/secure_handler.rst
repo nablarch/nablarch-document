@@ -6,9 +6,9 @@
   :depth: 3
   :local:
 
-本ハンドラでは、セキュリティ関連のヘッダを、レスポンスオブジェクト(:java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>`)に対して設定する。
+本ハンドラでは、Webアプリケーションのセキュリティに関する処理やヘッダ設定を行う。
 
-デフォルトでは、以下のレスポンスヘッダを設定する。
+デフォルトでは、レスポンスオブジェクト(:java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>`)に対して以下のレスポンスヘッダを設定する。
 
 * X-Frame-Options: SAMEORIGIN
 * X-XSS-Protection: 1; mode=block
@@ -19,6 +19,7 @@
 
 本ハンドラでは、以下の処理を行う。
 
+* Content-Security-Policyのnonceの生成
 * セキュリティ関連のレスポンスヘッダの設定処理
 
 処理の流れは以下のとおり。
@@ -120,14 +121,32 @@
         </list>
       </property>
     </component>
-    
-Content-Security-Policyレスポンスヘッダを設定する
--------------------------------------------------------
-Content-Security-Policyレスポンスヘッダを設定する手順を以下に示す。
 
-1. 本ハンドラ(:java:extdoc:`SecureHandler <nablarch.fw.web.handler.SecureHandler>`)に、``ContentSecurityPolicyHeader`` を設定する。
+.. _content_security_policy:
+
+Content Security Policy(CSP)に対応する
+-------------------------------------------------------
+本ハンドラの設定と ``ContentSecurityPolicyHeader`` 、そして :ref:`JSPカスタムタグのCSP対応 <tag-content_security_policy>` を組み合わせることでCSPに関する機能を有効にできる。
+
+  .. tip::
+    Content Security Policy(CSP)は、クロスサイトスクリプティングなどのコンテンツへのインジェクションに関する攻撃を検知し影響を
+    軽減するために追加できる仕組みのことである。CSPそのものについては、 `Content Security Policy Level 3(外部サイト、英語) <https://www.w3.org/TR/CSP3/>`_ や
+    `Content Security Policy Level 2(外部サイト、英語) <https://www.w3.org/TR/CSP2/>`_ を参照すること。
+
+:ref:`tag` を使用している場合は一部のカスタムタグでJavaScriptを出力するため、本ハンドラの機能でnonceを生成しレスポンスヘッダやscript要素などに埋め込むことで対応する。
+
+Content-Security-Policyヘッダの出力には、 ``ContentSecurityPolicyHeader`` を使用することで本ハンドラで生成したnonceを
+埋め込むことができる。
+
+固定のContent-Security-Policyヘッダを設定する
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+固定のContent-Security-Policyヘッダを設定する手順を以下に示す。
+
+1. 本ハンドラ(:java:extdoc:`SecureHandler <nablarch.fw.web.handler.SecureHandler>`)に、 ``ContentSecurityPolicyHeader`` を設定する。
 
 2. ``ContentSecurityPolicyHeader`` に ``policy`` を設定する。
+
 
 以下に例を示す。
 
@@ -151,7 +170,61 @@ Content-Security-Policyレスポンスヘッダを設定する手順を以下に
     </property>
   </component>
 
-この場合、 ``Content-Security-Policy: default-src 'src'`` といったレスポンスヘッダが書き出される。
+この場合、 ``Content-Security-Policy: default-src 'self'`` といったレスポンスヘッダが書き出される。
+   
+nonceを生成してContent-Security-Policyヘッダに設定する
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+nonceを生成してContent-Security-Policyヘッダに設定する手順を以下に示す。
+
+1. 本ハンドラ(:java:extdoc:`SecureHandler <nablarch.fw.web.handler.SecureHandler>`)の ``generateCspNonce`` プロパティを ``true`` に設定する。
+
+2. 本ハンドラに、``ContentSecurityPolicyHeader`` を設定する。
+
+3. ``ContentSecurityPolicyHeader`` に ``policy`` を設定し、プレースホルダー ``$cspNonceSource$`` を含める。
+
+以下に例を示す。
+
+.. code-block:: xml
+
+  <component class="nablarch.fw.web.handler.SecureHandler">
+    <!-- nonceを生成するように設定する -->
+    <property name="generateCspNonce" value="true" />
+    <property name="secureResponseHeaderList">
+      <list>
+        <component class="nablarch.fw.web.handler.secure.FrameOptionsHeader" />
+        <component class="nablarch.fw.web.handler.secure.XssProtectionHeader" />
+        <component class="nablarch.fw.web.handler.secure.ContentTypeOptionsHeader" />
+        <component class="nablarch.fw.web.handler.secure.ReferrerPolicyHeader" />
+        <component class="nablarch.fw.web.handler.secure.CacheControlHeader" />
+
+        <!-- Content-Security-Policyを付与するコンポーネント -->
+        <component class="nablarch.fw.web.handler.secure.ContentSecurityPolicyHeader">
+          <!-- nonceを含んだポリシーを設定する -->
+          <property name="policy" value="default-src 'self' '$cspNonceSource$'" />
+        </component>
+      </list>
+    </property>
+  </component>
+
+この場合プレースホルダー ``$cspNonceSource$`` は ``nonce-[本ハンドラで生成されたnonce]`` に置換され、たとえば ``Content-Security-Policy: default-src 'self' 'nonce-DhcnhD3khTMePgXwdayK9BsMqXjhguVV'`` のようなレスポンスヘッダとして書き出される。
+
+本ハンドラではnonceをリクエストの都度生成する。
+生成したnonceはリクエストスコープに格納され、 :ref:`tag` の動作を以下のように変更する。
+
+* script要素を生成するカスタムタグの場合、生成したnonceを自動でnonce属性に設定する。
+* onclick属性にサブミット用の関数呼び出しを設定するカスタムタグは、その内容をscript要素に出力するように変更する。
+
+また任意の要素にnonceを設定したい場合に使えるカスタムタグも有効になる。
+
+詳しくは :ref:`JSPカスタムタグのCSP対応 <tag-content_security_policy>` を参照すること。
+
+.. important::
+  Internet Explorer 11はCSPに対応していないため、開発するアプリケーションの動作対象環境にInternet Explorer 11が含まれているかどうかを確認したうえで
+  NablarchのCSPに関する機能を利用すること。
+
+report-only モードで動作させる
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 report-only モードで動作させる場合は ``reportOnly`` を ``true`` に設定する。
 
