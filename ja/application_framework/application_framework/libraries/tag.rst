@@ -2650,7 +2650,7 @@ HTMLを出力するタグについては動的属性を使用可能としてい�
 論理属性として扱う動的属性は変更できる。
 変更する場合は論理属性のリストを ``CustomTagConfig`` の :java:extdoc:`dynamicBooleanAttributesプロパティ<nablarch.common.web.tag.CustomTagConfig.setDynamicBooleanAttributes(java.util.List)>` に設定する。
 
-.. _`tag-content_security_policy`:
+.. _tag-content_security_policy:
 
 Content-Security-Policy(CSP)に対応する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2664,10 +2664,10 @@ Content-Security-Policy(CSP)に対応する
 
 * :ref:`tag-csp_nonce_tag` がセキュアハンドラが生成したnonceを出力する
 
-これらの機能をContent-Security-Policy(CSP)への対応に利用できる。
+これらの機能をCSPへの対応に利用できる。
 
 .. important::
-  NablarchでのContent-Security-Policyへの対応はnonceを利用することで実現する。
+  NablarchでのCSPへの対応はnonceを利用することで実現する。
   nonceはHTML内に埋め込まれることも多いため、JSPから生成されるHTMLがリクエストの都度変化することを意味する。
 
 meta要素にContent-Security-Policyを設定する
@@ -2704,7 +2704,7 @@ Content-Security-Policyはmeta要素でも指定できる。
 
 セキュアハンドラが生成したnonceを任意の要素に埋め込む
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Content-Security-Policyに対応する場合、インラインスクリプトではなく外部ファイルとしてJavaScriptを作成することが推奨される。
+CSPに対応する場合、インラインスクリプトではなく外部ファイルとしてJavaScriptを作成することが推奨される。
 ただし、既存のコンテンツなどでインラインスクリプトが利用されており外部ファイルへすぐに移行することが困難な場合には
 script要素にnonce属性を設定することで対応できる。
 
@@ -2735,9 +2735,9 @@ script要素にnonce属性を設定することで対応できる。
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 :ref:`tag-onclick_override` で示すに、カスタムタグが生成する要素に対して処理を追加したい場合がある。
 
-このような場合にonclick属性などを使ってインラインスクリプトを生成される要素に直接指定してしまうと、Content-Security-Policyに対応することが困難になってしまう。
+このような場合にonclick属性などを使ってインラインスクリプトを生成される要素に直接指定してしまうと、CSPに対応することが困難になってしまう。
 
-Content-Security-Policyに対応しつつ、イベント処理を追加するには以下の手順に沿って実装する。
+CSPに対応しつつ、イベント処理を追加するには以下の手順に沿って実装する。
 
  * id属性やname属性を使用し、カスタムタグが生成する要素を特定できるように設定する
 

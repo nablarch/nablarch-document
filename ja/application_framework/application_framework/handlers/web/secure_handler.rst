@@ -124,9 +124,9 @@
 
 .. _content_security_policy:
 
-Content-Security-Policyレスポンスヘッダを設定する
+Content-Security-Policy(CSP)に対応する
 -------------------------------------------------------
-本ハンドラの設定と ``ContentSecurityPolicyHeader`` 、そして :ref:`JSPカスタムタグのCSP対応 <tag-content_security_policy>` を組み合わせることでContent-Security-Policy(CSP)に関する機能を有効にできる。
+本ハンドラの設定と ``ContentSecurityPolicyHeader`` 、そして :ref:`JSPカスタムタグのCSP対応 <tag-content_security_policy>` を組み合わせることでCSPに関する機能を有効にできる。
 
 * `Content Security Policy Level 3(外部サイト、英語) <https://www.w3.org/TR/CSP3/>`_
 * `Content Security Policy Level 2(外部サイト、英語) <https://www.w3.org/TR/CSP2/>`_
@@ -235,7 +235,7 @@ nonceを生成してContent-Security-Policyレスポンスヘッダに設定す�
 
 .. important::
   ``generateCspNonce`` プロパティを ``true`` にした場合に :ref:`tag` が生成するJavaScriptは、Internet Explorer 11では動作しないものになる。
-  このため開発するアプリケーションの動作対象環境にInternet Explorer 11が含まれており、かつNablarchの :ref:`tag` を使用する場合はContent-Security-Policyに関する機能は利用できない。
+  このため開発するアプリケーションの動作対象環境にInternet Explorer 11が含まれており、かつNablarchの :ref:`tag` を使用する場合はCSPに関する機能は利用できない。
 
 report-only モードで動作させる
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
