@@ -164,7 +164,7 @@ Content-Security-Policyヘッダの出力には、 ``ContentSecurityPolicyHeader
         <component class="nablarch.fw.web.handler.secure.ContentTypeOptionsHeader" />
         <component class="nablarch.fw.web.handler.secure.ReferrerPolicyHeader" />
         <component class="nablarch.fw.web.handler.secure.CacheControlHeader" />
-   
+
         <!-- Content-Security-Policyを付与するコンポーネント -->
         <component class="nablarch.fw.web.handler.secure.ContentSecurityPolicyHeader">
           <!-- ポリシーを設定する -->
