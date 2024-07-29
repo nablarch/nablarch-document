@@ -2706,31 +2706,35 @@ Content-Security-Policyはmeta要素でも指定できる。
 
 セキュアハンドラが生成したnonceを任意の要素に埋め込む
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-CSPに対応する場合、インラインスクリプトではなく外部ファイルとしてJavaScriptを作成することが推奨される。
-ただし、既存のコンテンツなどでインラインスクリプトが利用されており外部ファイルへすぐに移行することが困難な場合には
-script要素にnonce属性を設定することで対応できる。
+CSPに対応する場合、スクリプトやスタイルをインラインで記述するではなく外部ファイルとして作成することが推奨される。
+ただし、既存のコンテンツなどにインラインで記述されているものがあり、外部ファイルへすぐに移行することが困難な場合には
+:ref:`tag-csp_nonce_tag` を使用して対象の要素にnonce属性を設定することで対応できる。
+
+以下にstyle要素で :ref:`tag-csp_nonce_tag` を使用する例を示す。
 
   JSP
    .. code-block:: jsp
 
     <%-- cspNonceタグ使用してnonce属性を設定する --%>
-    <script nonce="<n:cspNonce />">
-      // インラインスクリプト
+    <style nonce="<n:cspNonce />">
+      // インラインでのスタイル定義
       ...
-    </script>
+    </style>
 
   出力されるHTML
    .. code-block:: html
 
     <!-- セキュアハンドラが生成したnonceが出力される -->
-    <script nonce="DhcnhD3khTMePgXwdayK9BsMqXjhguVV">
-      // インラインスクリプト
+    <style nonce="DhcnhD3khTMePgXwdayK9BsMqXjhguVV">
+      // インラインでのスタイル定義
       ...
-    </script>
+    </style>
 
   .. tip::
     :ref:`tag-script_tag` で作成したscript要素については、 :ref:`セキュアハンドラ<content_security_policy>` で
-    nonceの生成を有効にしている場合はnonce属性が自動で設定される。
+    nonceの生成を有効にしている場合はnonce属性が自動で付与される。
+    このためscript要素にnonce属性を付与したい場合は :ref:`tag-csp_nonce_tag` を使用するのではなく、 :ref:`tag-script_tag` を
+    使用することを推奨する。
 
 
 カスタムタグが生成する要素に対してイベント処理を実装する
