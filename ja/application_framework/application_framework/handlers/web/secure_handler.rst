@@ -128,8 +128,10 @@ Content Security Policy(CSP)に対応する
 -------------------------------------------------------
 本ハンドラの設定と ``ContentSecurityPolicyHeader`` 、そして :ref:`JSPカスタムタグのCSP対応 <tag-content_security_policy>` を組み合わせることでCSPに関する機能を有効にできる。
 
-* `Content Security Policy Level 3(外部サイト、英語) <https://www.w3.org/TR/CSP3/>`_
-* `Content Security Policy Level 2(外部サイト、英語) <https://www.w3.org/TR/CSP2/>`_
+  .. tip::
+    Content Security Policy(CSP)は、クロスサイトスクリプティングなどのコンテンツへのインジェクションに関する攻撃を検知し影響を
+    軽減するために追加できる仕組みのことである。CSPそのものについては、 `Content Security Policy Level 3(外部サイト、英語) <https://www.w3.org/TR/CSP3/>`_ や
+    `Content Security Policy Level 2(外部サイト、英語) <https://www.w3.org/TR/CSP2/>`_ を参照すること。
 
 :ref:`tag` を使用している場合は一部のカスタムタグでJavaScriptを出力するため、本ハンドラの機能でnonceを生成しレスポンスヘッダやscript要素などに埋め込むことで対応する。
 
