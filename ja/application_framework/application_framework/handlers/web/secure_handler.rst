@@ -135,10 +135,6 @@ Content Security Policy(CSP)に対応する
 
 :ref:`tag` を使用している場合は一部のカスタムタグでJavaScriptを出力するため、本ハンドラの機能でnonceを生成しレスポンスヘッダやscript要素などに埋め込むことで対応する。
 
-  .. tip::
-    Content-Security-Policyをmeta要素で設定する場合は本ハンドラではnonceの生成のみを行い、 ``ContentSecurityPolicyHeader`` は利用しない。
-    meta要素でのnonceの利用にはカスタムタグの :ref:`tag-csp_nonce_tag` を利用する。
-
 Content-Security-Policyヘッダの出力には、 ``ContentSecurityPolicyHeader`` を使用することで本ハンドラで生成したnonceを
 埋め込むことができる。
 
@@ -219,7 +215,7 @@ nonceを生成してContent-Security-Policyレスポンスヘッダに設定す�
 * script要素を生成するカスタムタグの場合、生成したnonceを自動でnonce属性に設定する。
 * onclick属性にサブミット用の関数呼び出しを設定するカスタムタグは、その内容をscript要素に出力するように変更する。
 
-またContent-Security-Policyをmeta要素で設定したい場合や、独自のscript要素にnonceを設定したい場合に使えるカスタムタグも有効になる。
+また任意の要素にnonceを設定したい場合に使えるカスタムタグも有効になる。
 
 詳しくは :ref:`JSPカスタムタグのCSP対応 <tag-content_security_policy>` を参照すること。
 

@@ -2674,7 +2674,7 @@ Content Security Policy(CSP)に対応する
 
 セキュアハンドラが生成したnonceを任意の要素に埋め込む
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-CSPに対応する場合、スクリプトやスタイルをインラインで記述するではなく外部ファイルとして作成することが推奨される。
+CSPに対応する場合、スクリプトやスタイルをインラインで記述するのではなく外部ファイルとして作成することが推奨される。
 ただし、既存のコンテンツなどにインラインで記述されているものがあり、外部ファイルへすぐに移行することが困難な場合には
 :ref:`tag-csp_nonce_tag` を使用して対象の要素にnonce属性を設定することで対応できる。
 
@@ -2687,7 +2687,7 @@ CSPに対応する場合、スクリプトやスタイルをインラインで�
 
     <%-- cspNonceタグ使用してnonce属性を設定する --%>
     <style nonce="<n:cspNonce />">
-      // インラインでのスタイル定義
+      <!-- インラインでのスタイル定義 -->
       ...
     </style>
 
@@ -2696,7 +2696,7 @@ CSPに対応する場合、スクリプトやスタイルをインラインで�
 
     <!-- セキュアハンドラが生成したnonceが出力される -->
     <style nonce="DhcnhD3khTMePgXwdayK9BsMqXjhguVV">
-      // インラインでのスタイル定義
+      <!-- インラインでのスタイル定義 -->
       ...
     </style>
 
@@ -2706,34 +2706,10 @@ CSPに対応する場合、スクリプトやスタイルをインラインで�
     このためscript要素にnonce属性を付与したい場合は :ref:`tag-csp_nonce_tag` を使用するのではなく、 :ref:`tag-script_tag` を
     使用することを推奨する。
 
-また、Content-Security-Policyはmeta要素でも指定できる。
-
   .. tip::
-    レスポンスヘッダでContent-Security-Policyを指定する場合は :ref:`セキュアハンドラ<content_security_policy>` を使用する。
-
-実装例を以下に示す。
-
-   .. code-block:: html
-
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
-
-nonceを埋め込む場合は :ref:`tag-csp_nonce_tag` を使用する。
-
-実装例を以下に示す。
-
-  JSP
-   .. code-block:: jsp
-
-    <%-- metaタグ内にcspNonceタグをsourceFormatをtrueにして指定する --%>
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' '<n:cspNonce sourceFormat="true"/>'">
-
-  出力されるHTML
-   .. code-block:: html
-
-    <!-- セキュアハンドラで生成したnonceが出力される -->
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'nonce-DhcnhD3khTMePgXwdayK9BsMqXjhguVV'">
-
-:ref:`tag-csp_nonce_tag` の ``sourceFormat`` 属性を ``true`` に指定することで、 ``nonce-[セキュアハンドラが生成したnonce]`` フォーマットで出力される。
+    なんらかの事情でContent-Security-Policyをレスポンスヘッダで設定できない場合は、meta要素で設定する。
+    この場合、 :ref:`tag-csp_nonce_tag` の ``sourceFormat`` 属性を ``true`` に設定することで
+    nonceが ``nonce-[セキュアハンドラが生成したnonce]`` フォーマットで出力されるのでこれをmeta要素に埋め込む。
 
 カスタムタグが生成する要素に対してJavaScriptで処理を追加する
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
