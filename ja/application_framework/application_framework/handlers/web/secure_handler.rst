@@ -124,7 +124,7 @@
 
 .. _content_security_policy:
 
-Content-Security-Policy(CSP)に対応する
+Content Security Policy(CSP)に対応する
 -------------------------------------------------------
 本ハンドラの設定と ``ContentSecurityPolicyHeader`` 、そして :ref:`JSPカスタムタグのCSP対応 <tag-content_security_policy>` を組み合わせることでCSPに関する機能を有効にできる。
 

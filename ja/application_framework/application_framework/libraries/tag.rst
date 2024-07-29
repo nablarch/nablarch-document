@@ -826,7 +826,7 @@ HTML
 この場合、アプリケーションで作成したJavaScriptで、カスタムタグが設定する :ref:`JavaScript関数 <tag-submit_function>` を呼び出す必要がある。
 
  .. tip::
-  Content-Security-Policy(CSP)に対応する場合は、onclick属性に直接JavaScriptを記述してしまうと違反になってしまう。
+  Content Security Policy(CSP)に対応する場合は、onclick属性に直接JavaScriptを記述してしまうと違反になってしまう。
   この場合は、 :ref:`tag-content_security_policy` の手順に従い外部スクリプトまたはnonce属性を指定したscript要素に追加の処理を実装する。
  
 
@@ -863,7 +863,7 @@ JavaScriptの詳細については、 :ref:`tag-onclick_override` を参照。
 そのため、プルダウン変更などの画面操作でサブミットを行いたい場合は、サブミットさせたいボタンのクリックイベントを発生させる。
 
 .. tip::
- Content-Security-Policy(CSP)に対応する場合は、onclick属性に直接JavaScriptを記述してしまうと違反になってしまう。
+ Content Security Policy(CSP)に対応する場合は、onclick属性に直接JavaScriptを記述してしまうと違反になってしまう。
  この場合は、 :ref:`tag-content_security_policy` の手順に従い外部スクリプトまたはnonce属性を指定したscript要素に追加の処理を実装する。
 
 プルダウン変更でサブミットを行う場合の実装例を示す。
@@ -2652,7 +2652,7 @@ HTMLを出力するタグについては動的属性を使用可能としてい�
 
 .. _tag-content_security_policy:
 
-Content-Security-Policy(CSP)に対応する
+Content Security Policy(CSP)に対応する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :ref:`セキュアハンドラでnonceを生成する設定<content_security_policy>` を行うと、カスタムタグの動作が次のように変化する。
 

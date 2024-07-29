@@ -177,6 +177,6 @@ CSRF対策
 -----------------------------------------------------
 * :ref:`委譲するWebフロントコントローラの名前を変更する <change_web_front_controller_name>`
 
-Content-Security-Policy(CSP)対応
+Content Security Policy(CSP)対応
 ----------------------------------------
-* :ref:`Content-Security-Policy(CSP)対応<content_security_policy>`
+* :ref:`Content Security Policy(CSP)対応<content_security_policy>`
