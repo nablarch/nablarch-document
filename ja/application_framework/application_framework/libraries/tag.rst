@@ -826,7 +826,7 @@ HTML
 この場合、アプリケーションで作成したJavaScriptで、カスタムタグが設定する :ref:`JavaScript関数 <tag-submit_function>` を呼び出す必要がある。
 
  .. important::
-  Content Security Policy(CSP)に対応する場合は、onclick属性に直接JavaScriptを記述してしまうとCSPに対応しようとしているにも
+  Content Security Policy(CSP)に対応する場合は、onclick属性にインラインでJavaScriptを記述してしまうとCSPに対応しようとしているにも
   関わらず ``unsafe-inline`` を使いセキュリティレベルを低下させてしまう、  もしくは ``unsafe-hashes`` を利用することになってしまう。
   このためは、 :ref:`tag-content_security_policy` の手順に従い外部スクリプトまたはnonce属性を指定したscript要素に追加の処理を実装を
   行うことを推奨する。
@@ -2664,7 +2664,7 @@ Content Security Policy(CSP)に対応する
 
 * :ref:`tag-script_tag` が生成するscript要素のnonce属性にセキュアハンドラが生成したnonceを設定する
 
-* :ref:`tag-csp_nonce_tag` がセキュアハンドラが生成したnonceを出力する
+* セキュアハンドラが生成したnonceを :ref:`tag-csp_nonce_tag` で出力できるようになる
 
 これらの機能をCSPへの対応に利用できる。
 
