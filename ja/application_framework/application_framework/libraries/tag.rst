@@ -2735,17 +2735,18 @@ nonceを埋め込む場合は :ref:`tag-csp_nonce_tag` を使用する。
 
 :ref:`tag-csp_nonce_tag` の ``sourceFormat`` 属性を ``true`` に指定することで、 ``nonce-[セキュアハンドラが生成したnonce]`` フォーマットで出力される。
 
-カスタムタグが生成する要素に対してイベント処理を実装する
+カスタムタグが生成する要素に対してJavaScriptで処理を追加する
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-:ref:`tag-onclick_override` で示すに、カスタムタグが生成する要素に対して処理を追加したい場合がある。
+:ref:`tag-onclick_override` で示すように、カスタムタグが生成する要素に対してJavaScriptで処理を追加したい場合がある。
 
-このような場合にonclick属性などを使ってインラインスクリプトを生成される要素に直接指定してしまうと、CSPに対応することが困難になってしまう。
+このような場合にonclick属性などを使ってインラインスクリプトを生成される要素に直接指定してしまうと、Content-Security-Policyに指定するポリシーを緩め
+セキュリティレベルを落とすことになってしまう。
 
-CSPに対応しつつ、イベント処理を追加するには以下の手順に沿って実装する。
+Content-Security-Policyに指定するポリシーをセキュアにしつつ、JavaScriptで処理を追加するには以下の手順に沿って実装する。
 
  * id属性やname属性を使用し、カスタムタグが生成する要素を特定できるように設定する
 
- * 生成された要素をセレクタで特定し、イベント処理を指定するスクリプトを外部ファイルまたはnonce付きのscript要素として作成する
+ * 生成された要素をセレクタで特定し、追加の処理を実装するスクリプトを外部ファイルまたはnonce付きのscript要素として作成する
 
  * カスタムタグが :ref:`JavaScriptを生成する<tag-onclick_override>` ものの場合は、 ``suppressDefaultSubmit`` 属性を ``true`` に設定しカスタムタグによるJavaScriptの生成を抑制する
 
@@ -2756,7 +2757,7 @@ CSPに対応しつつ、イベント処理を追加するには以下の手順�
     <n:form>
       <%-- 省略 --%>
 
-      <%-- suppressDefaultSubmitをtrueに設定してカスタムタグによるデフォルトのイベント処理出力を抑制する --%>
+      <%-- suppressDefaultSubmitをtrueに設定してカスタムタグによるデフォルトのJavaScriptの生成を抑制する --%>
       <n:submit id="register_button" type="submit" uri="register" suppressDefaultSubmit="true" value="登録" />
     </n:form>
 
@@ -2774,7 +2775,7 @@ CSPに対応しつつ、イベント処理を追加するには以下の手順�
       }
     }
 
-    // idを指定してイベント処理を登録する
+    // idを指定して処理を登録する
     document.querySelector("#register_button").addEventListener("click", popUpConfirmation);
 
 
