@@ -139,20 +139,8 @@ Content Security Policy(CSP)に対応する
     Content-Security-Policyをmeta要素で設定する場合は本ハンドラではnonceの生成のみを行い、 ``ContentSecurityPolicyHeader`` は利用しない。
     meta要素でのnonceの利用にはカスタムタグの :ref:`tag-csp_nonce_tag` を利用する。
 
-Content-Security-Policyヘッダの出力には ``ContentSecurityPolicyHeader`` を使用し、本ハンドラで生成したnonceを
+Content-Security-Policyヘッダの出力には、 ``ContentSecurityPolicyHeader`` を使用することで本ハンドラで生成したnonceを
 埋め込むことができる。
-
-* 固定のContent-Security-Policyレスポンスヘッダを設定したい場合
-
-  1. ``ContentSecurityPolicyHeader`` を登録し、 ``policy`` を設定する
-
-
-* Content-Security-Policyレスポンスヘッダにnonceを埋め込む場合
-
-  1. 本ハンドラの ``generateCspNonce`` プロパティを ``true`` に設定し、nonceを生成する
-
-  2. ``ContentSecurityPolicyHeader`` を登録し、 ``policy`` にnonceのプレースホルダー ``$cspNonceSource$`` を含める
-
 
 固定のContent-Security-Policyレスポンスヘッダを設定する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
