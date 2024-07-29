@@ -2744,10 +2744,11 @@ Content-Security-Policyに指定するポリシーをセキュアにしつつ、
       if (window.confirm("登録します。よろしいですか？")) {
         // カスタムタグが出力するJavaScript関数を明示的に呼び出す。
         // 第2引数のelementはnablarch_submit関数内でeventから導出する
-        return nablarch_submit(event);
+        nablarch_submit(event);
       } else {
-        // キャンセル
-        return false;
+        // submitをキャンセルする
+        event.preventDefault();
+        event.stopPropagation();
       }
     }
 
