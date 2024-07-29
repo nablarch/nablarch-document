@@ -224,8 +224,8 @@ nonceを生成してContent-Security-Policyレスポンスヘッダに設定す�
 詳しくは :ref:`JSPカスタムタグのCSP対応 <tag-content_security_policy>` を参照すること。
 
 .. important::
-  ``generateCspNonce`` プロパティを ``true`` にした場合に :ref:`tag` が生成するJavaScriptは、Internet Explorer 11では動作しないものになる。
-  このため開発するアプリケーションの動作対象環境にInternet Explorer 11が含まれており、かつNablarchの :ref:`tag` を使用する場合はCSPに関する機能は利用できない。
+  Internet Explorer 11はCSPに対応していないため、開発するアプリケーションの動作対象環境にInternet Explorer 11が含まれているかどうかを確認したうえで
+  NablarchのCSPに関する機能を利用すること。
 
 report-only モードで動作させる
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
