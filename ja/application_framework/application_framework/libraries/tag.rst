@@ -2672,45 +2672,15 @@ Content Security Policy(CSP)に対応する
   NablarchでのCSPへの対応はnonceを利用することで実現する。
   nonceはHTML内に埋め込まれることも多いため、JSPから生成されるHTMLがリクエストの都度変化することを意味する。
 
-meta要素にContent-Security-Policyを設定する
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Content-Security-Policyはmeta要素でも指定できる。
-
-  .. tip::
-    レスポンスヘッダでContent-Security-Policyを指定する場合は :ref:`セキュアハンドラ<content_security_policy>` を使用する。
-
-実装例を以下に示す。
-
-   .. code-block:: html
-
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
-
-:ref:`セキュアハンドラ<content_security_policy>` でnonceの生成を有効にしている場合は、 :ref:`tag-csp_nonce_tag` を使用することでnonceを埋め込むことができる。
-
-
-実装例を以下に示す。
-
-  JSP
-   .. code-block:: jsp
-
-    <%-- metaタグ内にcspNonceタグをsourceFormatをtrueにして指定する --%>
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' '<n:cspNonce sourceFormat="true"/>'">
-
-  出力されるHTML
-   .. code-block:: html
-
-    <!-- セキュアハンドラで生成したnonceが出力される -->
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'nonce-DhcnhD3khTMePgXwdayK9BsMqXjhguVV'">
-
-:ref:`tag-csp_nonce_tag` の ``sourceFormat`` 属性を ``true`` に指定することで、 ``nonce-[セキュアハンドラが生成したnonce]`` フォーマットで出力される。
-
 セキュアハンドラが生成したnonceを任意の要素に埋め込む
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 CSPに対応する場合、スクリプトやスタイルをインラインで記述するではなく外部ファイルとして作成することが推奨される。
 ただし、既存のコンテンツなどにインラインで記述されているものがあり、外部ファイルへすぐに移行することが困難な場合には
 :ref:`tag-csp_nonce_tag` を使用して対象の要素にnonce属性を設定することで対応できる。
 
-以下にstyle要素で :ref:`tag-csp_nonce_tag` を使用する例を示す。
+:ref:`tag-csp_nonce_tag` は :ref:`セキュアハンドラ<content_security_policy>` で生成したnonceを出力するカスタムタグである。
+
+以下にstyle要素で使用する例を示す。
 
   JSP
    .. code-block:: jsp
@@ -2736,6 +2706,34 @@ CSPに対応する場合、スクリプトやスタイルをインラインで�
     このためscript要素にnonce属性を付与したい場合は :ref:`tag-csp_nonce_tag` を使用するのではなく、 :ref:`tag-script_tag` を
     使用することを推奨する。
 
+また、Content-Security-Policyはmeta要素でも指定できる。
+
+  .. tip::
+    レスポンスヘッダでContent-Security-Policyを指定する場合は :ref:`セキュアハンドラ<content_security_policy>` を使用する。
+
+実装例を以下に示す。
+
+   .. code-block:: html
+
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
+
+nonceを埋め込む場合は :ref:`tag-csp_nonce_tag` を使用する。
+
+実装例を以下に示す。
+
+  JSP
+   .. code-block:: jsp
+
+    <%-- metaタグ内にcspNonceタグをsourceFormatをtrueにして指定する --%>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' '<n:cspNonce sourceFormat="true"/>'">
+
+  出力されるHTML
+   .. code-block:: html
+
+    <!-- セキュアハンドラで生成したnonceが出力される -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'nonce-DhcnhD3khTMePgXwdayK9BsMqXjhguVV'">
+
+:ref:`tag-csp_nonce_tag` の ``sourceFormat`` 属性を ``true`` に指定することで、 ``nonce-[セキュアハンドラが生成したnonce]`` フォーマットで出力される。
 
 カスタムタグが生成する要素に対してイベント処理を実装する
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
