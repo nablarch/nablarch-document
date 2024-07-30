@@ -2741,7 +2741,7 @@ Content-Security-Policyに指定するポリシーをセキュアにしつつ、
    .. code-block:: javascript
 
     function popUpConfirmation(event) {
-      if (window.confirm("登録します。よろしいですか？")) {
+      if (window.confirm('登録します。よろしいですか？')) {
         // カスタムタグが出力するJavaScript関数を明示的に呼び出す。
         // 第2引数のelementはnablarch_submit関数内でeventから導出する
         nablarch_submit(event);
@@ -2753,7 +2753,7 @@ Content-Security-Policyに指定するポリシーをセキュアにしつつ、
     }
 
     // idを指定して処理を登録する
-    document.querySelector("#register_button").addEventListener("click", popUpConfirmation);
+    document.querySelector('#register_button').addEventListener('click', popUpConfirmation);
 
 
 拡張例
