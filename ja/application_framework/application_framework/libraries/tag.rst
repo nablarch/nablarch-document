@@ -2743,14 +2743,13 @@ Content-Security-Policyに指定するポリシーをセキュアにしつつ、
    .. code-block:: javascript
 
     function popUpConfirmation(event) {
+      // フォーム本来のサブミット処理をキャンセルする
+      event.preventDefault();
+
       if (window.confirm('登録します。よろしいですか？')) {
         // カスタムタグが出力するJavaScript関数を明示的に呼び出す。
         // 第2引数のelementはnablarch_submit関数内でeventから導出する
         nablarch_submit(event);
-      } else {
-        // submitをキャンセルする
-        event.preventDefault();
-        event.stopPropagation();
       }
     }
 
