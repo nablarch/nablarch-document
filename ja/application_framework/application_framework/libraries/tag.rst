@@ -828,7 +828,7 @@ HTML
  .. important::
   Content Security Policy(CSP)に対応する場合は、onclick属性にインラインでJavaScriptを記述してしまうとCSPに対応しようとしているにも
   関わらず ``unsafe-inline`` を使いセキュリティレベルを低下させてしまう、  もしくは ``unsafe-hashes`` を利用することになってしまう。
-  このためは、 :ref:`tag-content_security_policy` の手順に従い外部スクリプトまたはnonce属性を指定したscript要素に追加の処理を実装を
+  このため、 :ref:`tag-content_security_policy` の手順に従い外部スクリプトまたはnonce属性を指定したscript要素に追加の処理を実装を
   行うことを推奨する。
  
 
@@ -864,9 +864,11 @@ JavaScriptの詳細については、 :ref:`tag-onclick_override` を参照。
 
 そのため、プルダウン変更などの画面操作でサブミットを行いたい場合は、サブミットさせたいボタンのクリックイベントを発生させる。
 
-.. tip::
- Content Security Policy(CSP)に対応する場合は、onclick属性に直接JavaScriptを記述してしまうと違反になってしまう。
- この場合は、 :ref:`tag-content_security_policy` の手順に従い外部スクリプトまたはnonce属性を指定したscript要素に追加の処理を実装する。
+ .. important::
+  Content Security Policy(CSP)に対応する場合は、onclick属性にインラインでJavaScriptを記述してしまうとCSPに対応しようとしているにも
+  関わらず ``unsafe-inline`` を使いセキュリティレベルを低下させてしまう、  もしくは ``unsafe-hashes`` を利用することになってしまう。
+  このためは、 :ref:`tag-content_security_policy` の手順に従い外部スクリプトまたはnonce属性を指定したscript要素に追加の処理を実装を
+  行うことを推奨する。
 
 プルダウン変更でサブミットを行う場合の実装例を示す。
 
@@ -2741,18 +2743,18 @@ Content-Security-Policyに指定するポリシーをセキュアにしつつ、
    .. code-block:: javascript
 
     function popUpConfirmation(event) {
-      if (window.confirm("登録します。よろしいですか？")) {
+      // フォーム本来のサブミット処理をキャンセルする
+      event.preventDefault();
+
+      if (window.confirm('登録します。よろしいですか？')) {
         // カスタムタグが出力するJavaScript関数を明示的に呼び出す。
         // 第2引数のelementはnablarch_submit関数内でeventから導出する
-        return nablarch_submit(event);
-      } else {
-        // キャンセル
-        return false;
+        nablarch_submit(event);
       }
     }
 
     // idを指定して処理を登録する
-    document.querySelector("#register_button").addEventListener("click", popUpConfirmation);
+    document.querySelector('#register_button').addEventListener('click', popUpConfirmation);
 
 
 拡張例
