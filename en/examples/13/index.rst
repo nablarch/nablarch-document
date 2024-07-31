@@ -45,6 +45,13 @@ Logbook has several modules available for the environment in which the system is
     <dependencies>
       ...
       <dependency>
+        <groupId>org.zalando</groupId>
+        <artifactId>logbook-bom</artifactId>
+        <version>3.9.0</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
         <groupId>org.glassfish.jersey</groupId>
         <artifactId>jersey-bom</artifactId>
         <version>3.1.1</version>
@@ -65,17 +72,14 @@ Logbook has several modules available for the environment in which the system is
     <dependency>
       <groupId>org.zalando</groupId>
       <artifactId>logbook-core</artifactId>
-      <version>3.9.0</version>
     </dependency>
     <dependency>
       <groupId>org.zalando</groupId>
       <artifactId>logbook-jaxrs</artifactId>
-      <version>3.9.0</version>
     </dependency>
     <dependency>
       <groupId>org.zalando</groupId>
       <artifactId>logbook-json</artifactId>
-      <version>3.9.0</version>
     </dependency>
 
     <!-- Jersey -->
