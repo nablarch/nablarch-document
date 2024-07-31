@@ -2724,10 +2724,10 @@ To secure the policy specified in Content-Security-Policy while adding processin
    .. code-block:: jsp
 
     <n:form>
-      <%-- 省略 --%>
+      <%-- Omitted --%>
 
       <%-- SuppressDefaultSubmit set to true to suppress the generation of default JavaScript by custom tags --%>
-      <n:submit id="register_button" type="submit" uri="register" suppressDefaultSubmit="true" value="登録" />
+      <n:submit id="register_button" type="submit" uri="register" suppressDefaultSubmit="true" value="Register" />
     </n:form>
 
   JavaScript
