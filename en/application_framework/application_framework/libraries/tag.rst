@@ -2717,7 +2717,9 @@ etc., an unsafe policy is specified in Content-Security-Policy, and the security
 To secure the policy specified in Content-Security-Policy while adding processing in JavaScript, follow the steps below.
 
  * Use id and name attributes to set up the custom tag to specify the element to be generated
+
  * Specify the generated element with a selector and create a script that implements the additional processing, either as an external file or as a script element with nonce.
+
  * If the custom tag :ref:`generates JavaScript<tag-onclick_override>` , set the ``suppressDefaultSubmit`` attribute to ``true`` to suppress the generation of JavaScript by the custom tag
 
   JSP
