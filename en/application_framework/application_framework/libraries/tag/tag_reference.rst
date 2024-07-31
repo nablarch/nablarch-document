@@ -74,7 +74,7 @@ Output
   | :ref:`tag-pretty_print_tag` (object value. Do not perform escape only for qualified HTML (such as b tag))
   | :ref:`tag-raw_write_tag` (object value. Do not perform HTML escape)
   | :ref:`tag-code_tag` (code value)
-  | :ref:`tag-csp_nonce_tag` (Content-Security-Policy nonce value)
+  | :ref:`tag-csp_nonce_tag` (Content Security Policy nonce value)
  Message
   | :ref:`tag-message_tag` (message)
  Error

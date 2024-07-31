@@ -130,7 +130,7 @@ and :ref:`CSP support for JSP custom tags <tag-content_security_policy>`.
 .. tip::
     Content Security Policy (CSP) is a mechanism that can be added to detect and mitigate the impact of
     content injection attacks such as cross-site scripting.
-    For more information on CSP, see `Content Security Policy Level 3 (external site) <https://www.w3.org/TR/CSP3/>_` and
+    For more information on CSP, see `Content Security Policy Level 3 (external site) <https://www.w3.org/TR/CSP3/>`_ and
     `Content Security Policy Level 2 (external site) <https://www.w3.org/TR/CSP2/>`_.
 
 When using :ref:`tag`, some custom tags output JavaScript, so use the function of this handler to

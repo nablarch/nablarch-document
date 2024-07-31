@@ -74,7 +74,7 @@
   | :ref:`tag-pretty_print_tag` (オブジェクトの値。修飾系のHTML(bタグなど)のみエスケープしない)
   | :ref:`tag-raw_write_tag` (オブジェクトの値。HTMLエスケープしない)
   | :ref:`tag-code_tag` (コード値)
-  | :ref:`tag-csp_nonce_tag` (Content-Security-Policyのnonceの値)
+  | :ref:`tag-csp_nonce_tag` (Content Security Policyのnonceの値)
  メッセージ
   | :ref:`tag-message_tag` (メッセージ)
  エラー
