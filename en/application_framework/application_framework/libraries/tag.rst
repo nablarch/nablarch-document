@@ -2721,7 +2721,7 @@ To secure the policy specified in Content-Security-Policy while adding processin
     <n:form>
       <%-- Omitted --%>
 
-      <%-- SuppressDefaultSubmit set to true to suppress the generation of default JavaScript by custom tags --%>
+      <%-- suppressDefaultSubmit set to true to suppress the generation of default JavaScript by custom tags --%>
       <n:submit id="register_button" type="submit" uri="register" suppressDefaultSubmit="true" value="Register" />
     </n:form>
 
