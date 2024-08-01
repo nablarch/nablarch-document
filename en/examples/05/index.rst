@@ -11,7 +11,7 @@ Summary
 
 Provides an implementation sample of the function to centrally manage the files used in business applications with DB.
 
-`Source code <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-db-file-management>`_
 
 The sample is intended for the following applications:
 
@@ -50,16 +50,6 @@ This sample gets the Stream from the DB.
 
 .. image:: ./_images/DbFileManagement_outline02.png
    :width: 100%
-
-
-----------------------
-Delivery package
-----------------------
-
-The sample is provided in the following package.
-
-  *please.change.me.* **common.file.management**
-
 
 
 ------------
@@ -143,6 +133,9 @@ The file management ID is stored along with the file in the file management tabl
                                                                        1: Deleted
   ==================== ================== ============ =============== ==========================================================================
 
+.. tip::
+ A sequence is required for numbering.
+ A sequence with the same name as the fileIdKey specified in the component configuration file must be created in advance.
 
 ---------------------------
 How to Use
@@ -181,7 +174,7 @@ The configuration example shown below.
       <property name="maxFileSize" value="10000000"/>
 
       <!-- Key to identify if the numbering function is used for numbering bFileManagement -->
-      <property name="fileIdKey" value="1103" />
+      <property name="fileIdKey" value="FILE_CONTROL_SEQ" />
 
       <!-- Numbering function -->
       <property name="idGenerator" ref="sequenceIdGenerator" />

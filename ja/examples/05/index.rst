@@ -10,7 +10,7 @@
 
 業務アプリケーションにて使用するファイルを、DBで一元管理するための機能の実装サンプルを提供する。
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-db-file-management>`_
 
 本サンプルは以下の用途を想定している。
 
@@ -49,16 +49,6 @@
 
 .. image:: ./_images/DbFileManagement_outline02.png
    :scale: 100
-
-
---------------
-提供パッケージ
---------------
-
-本サンプルは、以下のパッケージで提供される。
-
-  *please.change.me.* **common.file.management**
-
 
 
 ------------
@@ -142,6 +132,9 @@
                                                              1:削除済
   ================ ================== ============ ========= ========================================================
 
+.. tip::
+ 採番にはシーケンスが必要になる。
+ コンポーネント設定ファイルで指定するfileIdKeyと同名のシーケンスを事前に作成しておくこと。
 
 ---------------------------
 使用方法
@@ -180,7 +173,7 @@ FileManagementUtil使用時に必要となる各コンポーネントのプロ�
       <property name="maxFileSize" value="10000000"/>
 
       <!-- 採番機能で、DbFileManagement用の採番である旨を識別するためのKey -->
-      <property name="fileIdKey" value="1103" />
+      <property name="fileIdKey" value="FILE_CONTROL_SEQ" />
 
       <!-- 採番機能 -->
       <property name="idGenerator" ref="sequenceIdGenerator" />
