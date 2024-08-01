@@ -126,7 +126,7 @@
 
 Content Security Policy(CSP)に対応する
 -------------------------------------------------------
-本ハンドラの設定と ``ContentSecurityPolicyHeader`` 、そして :ref:`JSPカスタムタグのCSP対応 <tag-content_security_policy>` を組み合わせることでCSPに関する機能を有効にできる。
+本ハンドラの設定と ``ContentSecurityPolicyHeader`` 、そして :ref:`Jakarta Server PagesカスタムタグのCSP対応 <tag-content_security_policy>` を組み合わせることでCSPに関する機能を有効にできる。
 
   .. tip::
     Content Security Policy(CSP)は、クロスサイトスクリプティングなどのコンテンツへのインジェクションに関する攻撃を検知し影響を
@@ -217,7 +217,7 @@ nonceを生成してContent-Security-Policyヘッダに設定する手順を以�
 
 また任意の要素にnonceを設定したい場合に使えるカスタムタグも有効になる。
 
-詳しくは :ref:`JSPカスタムタグのCSP対応 <tag-content_security_policy>` を参照すること。
+詳しくは :ref:`Jakarta Server PagesカスタムタグのCSP対応 <tag-content_security_policy>` を参照すること。
 
 report-only モードで動作させる
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

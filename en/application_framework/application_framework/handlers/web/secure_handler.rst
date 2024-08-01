@@ -124,7 +124,7 @@ The procedure for configuring the security-related response headers other than t
 
 Support Content Security Policy (CSP)
 -------------------------------------------------------
-You can enable CSP-related features by combining this handler setting with ``ContentSecurityPolicyHeader`` and :ref:`CSP support for JSP custom tags <tag-content_security_policy>`.
+You can enable CSP-related features by combining this handler setting with ``ContentSecurityPolicyHeader`` and :ref:`CSP support for Jakarta Server Pages Custom Tags <tag-content_security_policy>`.
 
 .. tip::
     Content Security Policy (CSP) is a mechanism that can be added to detect and mitigate the impact of content injection attacks such as cross-site scripting.
@@ -210,7 +210,7 @@ The generated a nonce is stored in the request scope, and the :ref:`tag` is chan
 
 Also, custom tags that can be used to set nonce on any elements will be enabled.
 
-See :ref:`CSP support for JSP custom tags <tag-content_security_policy>` for details.
+See :ref:`CSP support for Jakarta Server Pages Custom tags <tag-content_security_policy>` for details.
 
 Operate in report-only mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
