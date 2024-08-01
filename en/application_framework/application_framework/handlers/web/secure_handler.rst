@@ -210,7 +210,7 @@ The generated a nonce is stored in the request scope, and the :ref:`tag` is chan
 
 Also, custom tags that can be used to set nonce on any elements will be enabled.
 
-See :ref:`CSP support for Jakarta Server Pages Custom tags <tag-content_security_policy>` for details.
+See :ref:`CSP support for Jakarta Server Pages Custom Tags <tag-content_security_policy>` for details.
 
 Operate in report-only mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
