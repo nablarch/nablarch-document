@@ -8,7 +8,7 @@ Secure Handler
 
 This handler handles processing and header settings related to web application security.
 
-By default, the following response headers are set for the response object(:java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>`).
+By default, the following response headers are configured for the response object(:java:extdoc:`HttpResponse <nablarch.fw.web.HttpResponse>`).
 
 * X-Frame-Options: SAMEORIGIN
 * X-XSS-Protection: 1; mode=block
