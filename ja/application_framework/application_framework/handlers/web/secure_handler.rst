@@ -138,10 +138,10 @@ Content Security Policy(CSP)に対応する
 Content-Security-Policyヘッダの出力には、 ``ContentSecurityPolicyHeader`` を使用することで本ハンドラで生成したnonceを
 埋め込むことができる。
 
-固定のContent-Security-Policyレスポンスヘッダを設定する
+固定のContent-Security-Policyヘッダを設定する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-固定のContent-Security-Policyレスポンスヘッダを設定する手順を以下に示す。
+固定のContent-Security-Policyヘッダを設定する手順を以下に示す。
 
 1. 本ハンドラ(:java:extdoc:`SecureHandler <nablarch.fw.web.handler.SecureHandler>`)に、 ``ContentSecurityPolicyHeader`` を設定する。
 
@@ -172,10 +172,10 @@ Content-Security-Policyヘッダの出力には、 ``ContentSecurityPolicyHeader
 
 この場合、 ``Content-Security-Policy: default-src 'self'`` といったレスポンスヘッダが書き出される。
    
-nonceを生成してContent-Security-Policyレスポンスヘッダに設定する
+nonceを生成してContent-Security-Policyヘッダに設定する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-nonceを生成してContent-Security-Policyレスポンスヘッダに設定する手順を以下に示す。
+nonceを生成してContent-Security-Policyヘッダに設定する手順を以下に示す。
 
 1. 本ハンドラ(:java:extdoc:`SecureHandler <nablarch.fw.web.handler.SecureHandler>`)の ``generateCspNonce`` プロパティを ``true`` に設定する。
 
