@@ -790,7 +790,7 @@ uri属性の指定方法については、 :ref:`tag-specify_uri` を参照。
 
   /**
    * @param event イベントオブジェクト
-   * @param element イベント元の要素(ボタン又はリンク)。未指定の場合は第1引数のevent.currentTargetを使用する
+   * @param element イベント元の要素(ボタン又はリンク)。未指定の場合は第1引数のeventからcurrentTarget、targetプロパティの優先順位でイベント元の要素を取得する。
    * @return イベントを伝搬させないため常にfalse
    */
   function nablarch_submit(event, element)
@@ -2689,8 +2689,7 @@ CSPに対応する場合、スクリプトやスタイルをインラインで�
 
     <%-- cspNonceタグ使用してnonce属性を設定する --%>
     <style nonce="<n:cspNonce />">
-      <!-- インラインでのスタイル定義 -->
-      ...
+      <!-- 省略 -->
     </style>
 
   出力されるHTML
@@ -2698,8 +2697,7 @@ CSPに対応する場合、スクリプトやスタイルをインラインで�
 
     <!-- セキュアハンドラが生成したnonceが出力される -->
     <style nonce="DhcnhD3khTMePgXwdayK9BsMqXjhguVV">
-      <!-- インラインでのスタイル定義 -->
-      ...
+      <!-- 省略 -->
     </style>
 
   .. tip::
@@ -2722,7 +2720,7 @@ CSPに対応する場合、スクリプトやスタイルをインラインで�
 
 Content-Security-Policyに指定するポリシーをセキュアにしつつ、JavaScriptで処理を追加するには以下の手順に沿って実装する。
 
- * id属性やname属性を使用し、カスタムタグが生成する要素を特定できるように設定する
+ * id属性やname属性などを使用し、カスタムタグが生成する要素を特定できるように設定する
 
  * 生成された要素をセレクタで特定し、追加の処理を実装するスクリプトを外部ファイルまたはnonce付きのscript要素として作成する
 
