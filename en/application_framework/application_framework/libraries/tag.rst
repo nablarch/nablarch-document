@@ -790,7 +790,7 @@ Signature of the JavaScript function output by the custom tag
 
   /**
    * @param event Event object
-   * @param element Event source element (button or link). If not specified, event.currentTarget of the first argument is used
+   * @param element Event source element (button or link). If not specified, the element of the event source is obtained from the first argument, event, in the order of precedence of the currentTarget and target properties.
    * @return Always false as the event is not propagated
    */
   function nablarch_submit(event, element)

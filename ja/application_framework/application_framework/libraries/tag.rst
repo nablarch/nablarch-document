@@ -790,7 +790,7 @@ uri属性の指定方法については、 :ref:`tag-specify_uri` を参照。
 
   /**
    * @param event イベントオブジェクト
-   * @param element イベント元の要素(ボタン又はリンク)。未指定の場合は第1引数のevent.currentTargetを使用する
+   * @param element イベント元の要素(ボタン又はリンク)。未指定の場合は第1引数のeventからcurrentTarget、targetプロパティの優先順位でイベント元の要素を取得する。
    * @return イベントを伝搬させないため常にfalse
    */
   function nablarch_submit(event, element)
