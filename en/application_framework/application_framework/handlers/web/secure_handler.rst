@@ -155,6 +155,7 @@ An example is shown below.
         <component class="nablarch.fw.web.handler.secure.ContentTypeOptionsHeader" />
         <component class="nablarch.fw.web.handler.secure.ReferrerPolicyHeader" />
         <component class="nablarch.fw.web.handler.secure.CacheControlHeader" />
+
         <!-- Component that assigns Content-Security-Policy -->
         <component class="nablarch.fw.web.handler.secure.ContentSecurityPolicyHeader">
           <!-- Configure the policy -->
@@ -191,6 +192,7 @@ An example is shown below.
         <component class="nablarch.fw.web.handler.secure.ContentTypeOptionsHeader" />
         <component class="nablarch.fw.web.handler.secure.ReferrerPolicyHeader" />
         <component class="nablarch.fw.web.handler.secure.CacheControlHeader" />
+
         <!-- Component that assigns Content-Security-Policy -->
         <component class="nablarch.fw.web.handler.secure.ContentSecurityPolicyHeader">
           <!-- Configure the policy to include nonce -->
