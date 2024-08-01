@@ -219,10 +219,6 @@ nonceを生成してContent-Security-Policyヘッダに設定する手順を以�
 
 詳しくは :ref:`JSPカスタムタグのCSP対応 <tag-content_security_policy>` を参照すること。
 
-.. important::
-  Internet Explorer 11はCSPに対応していないため、開発するアプリケーションの動作対象環境にInternet Explorer 11が含まれているかどうかを確認したうえで
-  NablarchのCSPに関する機能を利用すること。
-
 report-only モードで動作させる
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

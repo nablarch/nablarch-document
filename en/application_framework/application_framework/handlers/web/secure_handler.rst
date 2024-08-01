@@ -212,9 +212,6 @@ Also, custom tags that can be used to set nonce on any elements will be enabled.
 
 See :ref:`CSP support for JSP custom tags <tag-content_security_policy>` for details.
 
-.. important::
-  Internet Explorer 11 does not support CSP, so please check if Internet Explorer 11 is included in the target environment of the application you are developing, and then Nablarch's CSP-related functions should be used.
-
 Operate in report-only mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 To operate in report-only mode, configure ``reportOnly`` to ``true``.
