@@ -33,6 +33,7 @@
 .. tip::
 
   Nablarch導入プロジェクトでは、要件を満たすよう本サンプル実装を修正し使用すること。
+  本機能を実際のアプリケーションに組み込む例としては、`JSPとカスタムタグを使用したサンプル <https://github.com/nablarch/nablarch-example-web>`_ を参照すること。
 
 .. [#auth_action]
 

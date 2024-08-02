@@ -33,6 +33,7 @@ This sample is intended to be used in a business process [#auth_action]_  that e
 .. tip::
 
   The Nablarch implementation project should modify and use this sample implementation to meet the requirements.
+  See `Sample using JSP and custom tags <https://github.com/nablarch/nablarch-example-web>`_ for the example of incorporating this functionality into real applications.
 
 .. [#auth_action]
 
