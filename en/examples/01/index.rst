@@ -158,7 +158,7 @@ The system account table stores the account information.
 
   Login ID                     LOGIN_ID                  java.lang.String
 
-  Password                     PASSWORD                  java.lang.String
+  Password                     USER_PASSWORD             java.lang.String
 
   User ID lock                 USER_ID_LOCKED            boolean              true when locked
 
