@@ -1,0 +1,59 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+skinparam class {
+    BackgroundColor<<not sample>> Gray
+}
+
+interface PasswordEncryptor {
+    {abstract} encrypt(saltSeed: String, password: String): String
+}
+
+class PBKDF2PasswordEncryptor implements PasswordEncryptor
+
+class SystemAccount {
+    + getUserId(): Integer
+    + getLoginId(): Integer
+    + getUserPassword(): String
+    + isUserIdLocked(): boolean
+    + getPasswordExpirationDate(): Date
+    + getFailedCount(): Short
+    + getEffectiveDateFrom(): Date
+    + getEffectiveDateTo(): Date
+    + getLastLoginDateTime(): Date
+    + getVersion(): Long
+}
+
+class RuntimeException <<not sample>>
+
+class AuthenticationException extends RuntimeException
+class UserIdLockedException extends AuthenticationException
+class PasswordExpiredException extends AuthenticationException
+class AuthenticationFailedException extends AuthenticationException
+
+interface PasswordAuthenticator {
+    {abstract} authenticate(userId: String, password: String): void
+}
+
+class SystemAccountAuthenticator implements PasswordAuthenticator
+
+class AuthenticationUtil {
+    {static} + encryptPassword(userId: String, password: String): String
+    {static} + authenticate(userId: String, password: String): void
+}
+
+class UniversalDao <<not sample>>
+class SystemTimeUtil <<not sample>>
+
+AuthenticationUtil ..> PasswordEncryptor : <<use>>
+AuthenticationUtil ..> PasswordAuthenticator : <<use>>
+
+SystemAccountAuthenticator ..> SystemAccount : <<use>>
+SystemAccountAuthenticator ..> PasswordEncryptor: <<use>>
+SystemAccountAuthenticator ..> UniversalDao : <<use>>
+SystemAccountAuthenticator ..> SystemTimeUtil : <<use>>
+
+UniversalDao ..> SystemAccount: <<find>>
+
+@enduml
