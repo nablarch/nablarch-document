@@ -110,7 +110,7 @@ PasswordEncryptor     パスワードを暗号化するインタフェース。
 .. tip::
 
   Nablarch導入プロジェクトでは、エンティティクラスは :ref:`gsp-dba-maven-plugin(DBA作業支援ツール) <gsp-maven-plugin>` を使用して自動生成する。
-  本サンプルには動作確認のため、 :ref:`system-account-table-definition` に記載の定義に合わせて自動生成したエンティティクラスが *please.change.me.entity* パッケージに配置されている。
+  本サンプルには動作確認のため :ref:`system-account-table-definition` に記載の定義に合わせて自動生成したエンティティクラスを同梱している。
   プロジェクトにて実装する際は本サンプルのエンティティクラスを使用するのではなく、各プロジェクトで自動生成したエンティティクラスを使用するよう修正すること。
 
 \e) 例外クラス
