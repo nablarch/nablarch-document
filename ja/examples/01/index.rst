@@ -11,7 +11,7 @@
 
   0101_PBKDF2PasswordEncryptor
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-password-authentication>`_
 
 
 --------------
@@ -156,7 +156,7 @@ PasswordEncryptor     パスワードを暗号化するインタフェース。
 
   ログインID                LOGIN_ID                  java.lang.String
 
-  パスワード                PASSWORD                  java.lang.String
+  パスワード                USER_PASSWORD             java.lang.String
 
   ユーザIDロック            USER_ID_LOCKED            boolean                ロックしている場合はtrue
 

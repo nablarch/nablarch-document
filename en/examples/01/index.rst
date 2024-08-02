@@ -11,7 +11,7 @@ This is an implementation sample that performs authentication process using acco
 
   0101_PBKDF2PasswordEncryptor
 
-`Source code <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-password-authentication>`_
 
 
 -------------------
@@ -158,7 +158,7 @@ The system account table stores the account information.
 
   Login ID                     LOGIN_ID                  java.lang.String
 
-  Password                     PASSWORD                  java.lang.String
+  Password                     USER_PASSWORD             java.lang.String
 
   User ID lock                 USER_ID_LOCKED            boolean              true when locked
 
