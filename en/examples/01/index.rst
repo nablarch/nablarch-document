@@ -112,7 +112,7 @@ Class definition
 .. tip::
 
   In the Nablarch implementation project, entity classes are automatically generated using :ref:`gsp-dba-maven-plugin <gsp-maven-plugin>`.
-  This sample includes an entity class automatically generated according to the definition described in :ref:`system-account-table-definition` for operation confirmation.
+  This sample includes an entity class (in *please.change.me.entity* package) automatically generated according to the definition described in :ref:`system-account-table-definition` for operation confirmation.
   When implementing in a project, instead of using the entity class of this sample, modify to use the entity class automatically generated in each project.
 
 \e) Exception class
