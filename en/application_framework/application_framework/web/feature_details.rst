@@ -174,3 +174,7 @@ CSRF measures
 Use web applications and RESTful web services together
 ----------------------------------------------------------------
 * :ref:`Change the name of the delegating web front controller <change_web_front_controller_name>`
+
+Content Security Policy(CSP) support
+---------------------------------------
+* :ref:`Content Security Policy(CSP) support<content_security_policy>`
