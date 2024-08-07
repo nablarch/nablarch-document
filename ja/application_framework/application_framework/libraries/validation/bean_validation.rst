@@ -700,6 +700,42 @@ Bean Validation(JSR349)の仕様では、項目名をメッセージに含める
   メッセージへの項目名の追加方法を変更したい場合には、 :java:extdoc:`ItemNamedConstraintViolationConverterFactory <nablarch.core.validation.ee.ItemNamedConstraintViolationConverterFactory>` 
   を参考にし、プロジェクト側で実装を追加し対応すること。
 
+.. _bean_validation-execute:
+
+バリデーションエラー時に任意の処理を行いたい
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+通常、Webアプリケーションでは :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` アノテーション、RESTfulウェブサービスでは :java:extdoc:`Valid <javax.validation.Valid>` アノテーションを設定することで、リソース(アクション)のメソッドで受け取るForm(Bean)に対して、バリデーションが自動で行われる。
+
+しかし、バリデーションエラー時にも任意の処理を行う必要がある場合、 これらでは処理を記述する箇所がない。（バリデーションエラー時は、アクションまで処理が来ないため。）
+
+バリデーションエラー時に任意の処理を行いたい場合には、明示的にバリデーションを実行することで自由に例外ハンドリングを行うことができる。
+明示的にバリデーションを実行するには :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object-java.lang.Class...)>` を使用すること。
+
+以下に実装例を示す。
+
+実装例
+  .. code-block:: java
+
+    @OnError(type = ApplicationException.class, path = "/WEB-INF/view/project/create.jsp")
+        public HttpResponse create(HttpRequest request, ExecutionContext context) {
+
+            // リクエストパラメータをBeanに変換
+            SampleForm form = BeanUtil.createAndCopy(SampleForm.class, request.getParamMap());
+
+            try {
+                // BeanValidation実行
+                ValidatorUtil.validate(form);
+            } catch (ApplicationException e) {
+                // バリデーションエラー時に必要な処理
+                // ...
+
+                // 例外ApplicationExceptionを送出し、@OnErrorアノテーションで指定された遷移先に遷移
+                throw new ApplicationException(e.getMessages());
+            }
+
+            // 以下省略
+        }
+
 
 .. _bean_validation-use_groups:
 
@@ -749,7 +785,6 @@ APIの詳細は、 :java:extdoc:`ValidatorUtil#validateWithGroup <nablarch.core.
    グループ機能を使用してバリデーションのルールを切り替えることで、一つのフォームクラスを複数の画面やAPIで共通化できるようになる。
    ただし、Nablarchではそのような使用方法を推奨していない（ :ref:`フォームクラスは、htmlのform単位に作成する <application_design-form_html>` 及び :ref:`フォームクラスはAPI単位に作成する <rest-application_design-form_html>` を参照 ）。
    フォームクラスを共通化する目的でグループ機能を使用する場合は、プロジェクト側で十分検討の上で使用すること。
-
 
 拡張例
 ---------------
