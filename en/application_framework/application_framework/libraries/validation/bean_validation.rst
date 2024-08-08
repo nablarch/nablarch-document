@@ -724,13 +724,13 @@ Implementation examples
         SampleForm form = BeanUtil.createAndCopy(SampleForm.class, request.getParamMap());
 
         try {
-            // Perform Explicit Execution of Validation
+            // Perform explicit execution of validation
             ValidatorUtil.validate(form);
         } catch (ApplicationException e) {
             // Perform optional processing when there is a validation error
             // ...
 
-            // Sends an ApplicationException and transitions to the destination specified by the @OnError annotation.
+            // Throws an ApplicationException and transitions to the destination specified by the @OnError annotation.
             throw new ApplicationException(e.getMessages());
         }
 
