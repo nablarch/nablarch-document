@@ -702,6 +702,42 @@ Generated Message
   and add the implementation on the project side.
 
 
+.. _bean_validation-execute:
+
+Perform optional processing when there is a validation error
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Normally, validation is using the methods described in `Checking User Input Values for Web Applications`_ or `Checking User Input Values for RESTful Web Services`_ .
+
+However, if validation is performed in this manner, it is not possible to perform optional processing when there is a validation error.
+
+If you want to perform optional processing when there is a validation error, you can explicitly validate to handle the exception that occurs when there is a validation error.
+To explicitly perform validation, use :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object-java.lang.Class...)>` .
+
+An example implementation are shown below.
+
+Implementation examples
+  .. code-block:: java
+
+    @OnError(type = ApplicationException.class, path = "/WEB-INF/view/project/create.jsp")
+    public HttpResponse create(HttpRequest request, ExecutionContext context) {
+
+        SampleForm form = BeanUtil.createAndCopy(SampleForm.class, request.getParamMap());
+
+        try {
+            // Perform Explicit Execution of Validation
+            ValidatorUtil.validate(form);
+        } catch (ApplicationException e) {
+            // Perform optional processing when there is a validation error
+            // ...
+
+            // Sends an ApplicationException and transitions to the destination specified by the @OnError annotation.
+            throw new ApplicationException(e.getMessages());
+        }
+
+        // Omitted
+    }
+
+
 .. _bean_validation-use_groups:
 
 Use groups of Bean Validation
