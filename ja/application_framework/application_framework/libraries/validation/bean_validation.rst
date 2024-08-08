@@ -704,12 +704,12 @@ Bean Validation(JSR349)の仕様では、項目名をメッセージに含める
 
 バリデーションエラー時に任意の処理を行いたい
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-通常、Webアプリケーションでは :java:extdoc:`InjectForm <nablarch.common.web.interceptor.InjectForm>` アノテーション、RESTfulウェブサービスでは :java:extdoc:`Valid <javax.validation.Valid>` アノテーションを設定することで、リソース(アクション)のメソッドで受け取るForm(Bean)に対して、バリデーションが自動で行われる。
+通常、バリデーションは `ウェブアプリケーションのユーザ入力値のチェックを行う`_ や `RESTfulウェブサービスのユーザ入力値のチェックを行う`_ で案内している方法で行う。
 
-しかし、バリデーションエラー時にも任意の処理を行う必要がある場合、 これらでは処理を記述する箇所がない。（バリデーションエラー時は、アクションまで処理が来ないため。）
+しかし、この方法でバリデーションを行った場合、バリデーションエラー時に任意の処理を行うことができない。
 
-バリデーションエラー時に任意の処理を行いたい場合には、明示的にバリデーションを実行することで自由に例外ハンドリングを行うことができる。
-明示的にバリデーションを実行するには :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object-java.lang.Class...)>` を使用すること。
+バリデーションエラー時に任意の処理を行いたい場合には、明示的にバリデーションを実行することでバリデーションエラー時に発生する例外をハンドリングできるため、任意の処理を行うことができる。
+明示的にバリデーションを実行するには :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object-java.lang.Class...)>` を使用する。
 
 以下に実装例を示す。
 
