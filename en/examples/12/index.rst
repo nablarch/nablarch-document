@@ -51,7 +51,7 @@ When using the adb2c package, replace it with the corresponding component as app
 
 .. tip::
 
-  This sample is implemented according to the specifications of User pool and ADB2C as of March 2023.
+  This sample is implemented according to the specifications of User pool and ADB2C as of September 2024.
   Be sure to check the latest specifications of the services you use and customize accordingly.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~
