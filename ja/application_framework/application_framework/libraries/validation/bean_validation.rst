@@ -700,6 +700,41 @@ Jakarta Bean Validationの仕様では、項目名をメッセージに含める
   メッセージへの項目名の追加方法を変更したい場合には、 :java:extdoc:`ItemNamedConstraintViolationConverterFactory <nablarch.core.validation.ee.ItemNamedConstraintViolationConverterFactory>` 
   を参考にし、プロジェクト側で実装を追加し対応すること。
 
+.. _bean_validation-execute:
+
+バリデーションエラー時に任意の処理を行いたい
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+通常、バリデーションは `ウェブアプリケーションのユーザ入力値のチェックを行う`_ や `RESTfulウェブサービスのユーザ入力値のチェックを行う`_ で案内している方法で行う。
+
+しかし、この方法でバリデーションを行った場合、バリデーションエラー時に任意の処理を行うことができない。
+
+バリデーションエラー時に任意の処理を行いたい場合には、明示的にバリデーションを実行することでバリデーションエラー時に発生する例外をハンドリングできるため、任意の処理を行うことができる。
+明示的にバリデーションを実行するには :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object-java.lang.Class...)>` を使用する。
+
+以下に実装例を示す。
+
+実装例
+  .. code-block:: java
+
+    @OnError(type = ApplicationException.class, path = "/WEB-INF/view/project/create.jsp")
+    public HttpResponse create(HttpRequest request, ExecutionContext context) {
+
+        SampleForm form = BeanUtil.createAndCopy(SampleForm.class, request.getParamMap());
+
+        try {
+            // バリデーションを明示的に実行する
+            ValidatorUtil.validate(form);
+        } catch (ApplicationException e) {
+            // バリデーションエラー時に任意の処理を行う
+            // ...
+
+            // ApplicationExceptionを送出し、@OnErrorアノテーションで指定された遷移先に遷移する
+            throw new ApplicationException(e.getMessages());
+        }
+
+        // 以下省略
+    }
+
 
 .. _bean_validation-use_groups:
 
