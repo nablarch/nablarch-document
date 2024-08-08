@@ -717,24 +717,24 @@ Bean Validation(JSR349)の仕様では、項目名をメッセージに含める
   .. code-block:: java
 
     @OnError(type = ApplicationException.class, path = "/WEB-INF/view/project/create.jsp")
-        public HttpResponse create(HttpRequest request, ExecutionContext context) {
+    public HttpResponse create(HttpRequest request, ExecutionContext context) {
 
-            // リクエストパラメータをBeanに変換
-            SampleForm form = BeanUtil.createAndCopy(SampleForm.class, request.getParamMap());
+        // リクエストパラメータをBeanに変換する
+        SampleForm form = BeanUtil.createAndCopy(SampleForm.class, request.getParamMap());
 
-            try {
-                // BeanValidation実行
-                ValidatorUtil.validate(form);
-            } catch (ApplicationException e) {
-                // バリデーションエラー時に必要な処理
-                // ...
+        try {
+            // バリデーションを明示的に実行する
+            ValidatorUtil.validate(form);
+        } catch (ApplicationException e) {
+            // バリデーションエラー時に任意の処理を行う
+            // ...
 
-                // 例外ApplicationExceptionを送出し、@OnErrorアノテーションで指定された遷移先に遷移
-                throw new ApplicationException(e.getMessages());
-            }
-
-            // 以下省略
+            // ApplicationExceptionを送出し、@OnErrorアノテーションで指定された遷移先に遷移する
+            throw new ApplicationException(e.getMessages());
         }
+
+        // 以下省略
+    }
 
 
 .. _bean_validation-use_groups:
