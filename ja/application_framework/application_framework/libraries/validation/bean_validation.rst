@@ -719,7 +719,6 @@ Bean Validation(JSR349)の仕様では、項目名をメッセージに含める
     @OnError(type = ApplicationException.class, path = "/WEB-INF/view/project/create.jsp")
     public HttpResponse create(HttpRequest request, ExecutionContext context) {
 
-        // リクエストパラメータをBeanに変換する
         SampleForm form = BeanUtil.createAndCopy(SampleForm.class, request.getParamMap());
 
         try {
