@@ -786,6 +786,7 @@ APIの詳細は、 :java:extdoc:`ValidatorUtil#validateWithGroup <nablarch.core.
    ただし、Nablarchではそのような使用方法を推奨していない（ :ref:`フォームクラスは、htmlのform単位に作成する <application_design-form_html>` 及び :ref:`フォームクラスはAPI単位に作成する <rest-application_design-form_html>` を参照 ）。
    フォームクラスを共通化する目的でグループ機能を使用する場合は、プロジェクト側で十分検討の上で使用すること。
 
+
 拡張例
 ---------------
 プロジェクト固有のアノテーションとバリデーションロジックを追加したい
