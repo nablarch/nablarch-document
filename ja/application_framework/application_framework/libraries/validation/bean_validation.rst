@@ -704,26 +704,38 @@ Bean Validation(JSR349)の仕様では、項目名をメッセージに含める
 
 バリデーションの明示的な実行
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-通常、バリデーションは `ウェブアプリケーションのユーザ入力値のチェックを行う`_ や `RESTfulウェブサービスのユーザ入力値のチェックを行う`_ で案内している方法で行うが、ここではアノテーションを設定するのではなく直接バリデーションを実行する方法を説明する。
+通常、バリデーションは `ウェブアプリケーションのユーザ入力値のチェックを行う`_ や `RESTfulウェブサービスのユーザ入力値のチェックを行う`_ で案内している方法で行うが、バリデーションエラーをハンドリングしたい場合など、これらの方法が使用できない場合がある。
 
-個別にバリデーションを実行する必要がある場合には、 :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object-java.lang.Class...)>` を使用してバリデーションを行うこと。
+そのような場合には、 :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object-java.lang.Class...)>` を使用して明示的にバリデーションを実行することができる。
 
   .. code-block:: java
 
     // バリデーションを明示的に実行する
     ValidatorUtil.validate(form);
 
-バリデーションエラーが発生した場合は、 :java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>` を送出する。
+バリデーションエラーが発生した場合は、 :java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>` が送出される。
 
 Webアプリケーションの場合
-    ウェブアプリケーションで個別にバリデーションを実行する場合、リクエストパラメータをBeanに変換する必要がある。
+    ウェブアプリケーションで明示的にバリデーションを実行する場合、リクエストパラメータに含まれる入力値をBeanに変換する必要がある。
 
-    しかし、リクエストパラメータを取得する :java:extdoc:`HttpRequest#getParamMap <nablarch.fw.web.HttpRequest.getParamMap()>` はアーキテクト向けの公開APIのため、以下の実装例を参考に、HTTPリクエストからBeanを生成し、Bean Validationを行うようなメソッドを持つユーティリティクラスをプロジェクト側で実装を追加し対応すること。
+    Beanに変換するためには、バリデーション前のリクエストパラメータを :java:extdoc:`HttpRequest#getParamMap <nablarch.fw.web.HttpRequest.getParamMap()>`  から取得する必要がある。
+    しかし、バリデーション前の入力値をアプリケーションプログラマが自由に扱えてしまうとバリデーションされないまま業務ロジックを実行し、場合によっては障害につながる危険がある。
 
-ユーティリティクラスの実装例
+    そのため、リクエストパラメータを取得する :java:extdoc:`HttpRequest#getParamMap <nablarch.fw.web.HttpRequest.getParamMap()>` はアーキテクト向けの公開APIとし、Actionクラスで使うことは禁止している。
+
+    ウェブアプリケーションで明示的にバリデーションを実行する必要がある場合には、共通基盤部品として以下のようなユーティリティクラスの作成を推奨する。
+
   .. code-block:: java
 
     public final class ProjectValidatorUtil {
+        // その他の処理は省略
+
+        /**
+         * HTTPリクエストからBeanを生成し、Bean Validationを行う。
+         *
+         * @param beanClass 生成したいBeanクラス
+         * @param request HTTPリクエスト
+         */
         public void validate(Class<T> beanClass, HttpRequest request) {
             T bean = BeanUtil.createAndCopy(beanClass, request.getParamMap());
             ValidatorUtil.validate(bean);
@@ -738,9 +750,8 @@ Webアプリケーションの場合
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 バリデーションエラー時に任意の処理を行いたい場合には、明示的にバリデーションを実行することでバリデーションエラー時に発生する例外をハンドリングできるため、任意の処理を行うことができる。
 
-以下に実装例を示す。( `バリデーションの明示的な実行`_ の実装例で作成したユーティリティクラスを使用している。)
+以下に `バリデーションの明示的な実行`_ の実装例にあるユーティリティクラスを使用した実装例を示す。
 
-実装例
   .. code-block:: java
 
     @OnError(type = ApplicationException.class, path = "/WEB-INF/view/project/create.jsp")
