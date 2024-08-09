@@ -738,7 +738,7 @@ For web applications
              * @param request HTTP request
              * @return  Bean object with registered values for properties
              */
-            public static <T> T getValidatedBean(Class<T> beanClass, HttpRequest request) {
+            public static <T> T validate(Class<T> beanClass, HttpRequest request) {
                 T bean = BeanUtil.createAndCopy(beanClass, request.getParamMap());
                 ValidatorUtil.validate(bean);
                 return bean;
@@ -760,11 +760,11 @@ Implementation examples
     @OnError(type = ApplicationException.class, path = "/WEB-INF/view/project/create.jsp")
     public HttpResponse create(HttpRequest request, ExecutionContext context) {
 
-        final ProjectForm form;
+        ProjectForm form;
 
         try {
             // Explicitly perform validation and retrieve validated form
-            form = ProjectValidatorUtil.getValidatedBean(ProjectForm.class, request);
+            form = ProjectValidatorUtil.validate(ProjectForm.class, request);
         } catch (ApplicationException e) {
             // Perform optional processing when there is a validation error
             // ...
