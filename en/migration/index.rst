@@ -778,7 +778,7 @@ When migrate to Nablarch 6, modify this as follows.
     <dependency>
       <groupId>org.jberet</groupId>
       <artifactId>jberet-core</artifactId>
-      <version>2.1.1.Final</version>
+      <version>2.1.4.Final</version>
     </dependency>
     <dependency>
       <groupId>org.jboss.marshalling</groupId>
@@ -803,14 +803,14 @@ When migrate to Nablarch 6, modify this as follows.
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>31.1-jre</version>
+      <version>32.1.1-jre</version>
     </dependency>
 
     <!-- Dependencies for JBeret to work with Java SE -->
     <dependency>
       <groupId>org.jberet</groupId>
       <artifactId>jberet-se</artifactId>
-      <version>2.1.1.Final</version>
+      <version>2.1.4.Final</version>
     </dependency>
     <dependency>
       <groupId>org.jboss.weld.se</groupId>

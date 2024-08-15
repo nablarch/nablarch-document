@@ -776,7 +776,7 @@ Nablarch 6へ移行するためには、これらを以下のように修正す�
     <dependency>
       <groupId>org.jberet</groupId>
       <artifactId>jberet-core</artifactId>
-      <version>2.1.1.Final</version>
+      <version>2.1.4.Final</version>
     </dependency>
     <dependency>
       <groupId>org.jboss.marshalling</groupId>
@@ -801,14 +801,14 @@ Nablarch 6へ移行するためには、これらを以下のように修正す�
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>31.1-jre</version>
+      <version>32.1.1-jre</version>
     </dependency>
 
     <!-- JBeretをJavaSEで動作させるための依存関係 -->
     <dependency>
       <groupId>org.jberet</groupId>
       <artifactId>jberet-se</artifactId>
-      <version>2.1.1.Final</version>
+      <version>2.1.4.Final</version>
     </dependency>
     <dependency>
       <groupId>org.jboss.weld.se</groupId>
