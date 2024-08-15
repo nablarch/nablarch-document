@@ -781,22 +781,22 @@ Nablarch 6へ移行するためには、これらを以下のように修正す�
     <dependency>
       <groupId>org.jboss.marshalling</groupId>
       <artifactId>jboss-marshalling</artifactId>
-      <version>2.0.12.Final</version>
+      <version>2.1.3.Final</version>
     </dependency>
     <dependency>
       <groupId>org.jboss.logging</groupId>
       <artifactId>jboss-logging</artifactId>
-      <version>3.4.3.Final</version>
+      <version>3.5.3.Final</version>
     </dependency>
     <dependency>
       <groupId>org.jboss.weld</groupId>
       <artifactId>weld-core-impl</artifactId>
-      <version>5.0.0.SP1</version>
+      <version>5.0.1.Final</version>
     </dependency>
     <dependency>
       <groupId>org.wildfly.security</groupId>
       <artifactId>wildfly-elytron-security-manager</artifactId>
-      <version>1.19.0.Final</version>
+      <version>2.2.2.Final</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -813,7 +813,7 @@ Nablarch 6へ移行するためには、これらを以下のように修正す�
     <dependency>
       <groupId>org.jboss.weld.se</groupId>
       <artifactId>weld-se-core</artifactId>
-      <version>5.0.0.SP1</version>
+      <version>5.0.1.Final</version>
     </dependency>
 
     <!-- Logbackでログを出力している場合の依存関係 -->
