@@ -288,10 +288,7 @@ Create a search result display part
 
     * The :ref:`tag-write_tag` is used to output the value.
       To output the value in a format such as "date" or "amount", specify the format with the `valueFormat` attribute. For more information, see :ref:`tag-format_value`.
-
-    .. important::
-
-      Information on how to use `<app:listSearchResult>` is under preparation, so please refer to the previous version of the document from `Release Notes(Japanese Page) <https://nablarch.github.io/docs/LATEST/doc/releases/index.html>`_ .
+    * For information on how to use `<app:listSearchResult>`, see :ref:`list_search_result`.
 
 This completes the description of the search function.
 
