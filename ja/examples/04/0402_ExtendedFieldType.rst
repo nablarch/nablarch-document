@@ -74,7 +74,7 @@ JDKで使用されるCP930はダブルバイト文字に対して必ずシフト
 
   .. code-block:: java
 
-    public class CustomFixedLengthConvertorFactory extends FixedLengthConvertorFactory {
+    public class EbcdicFixedLengthConvertorFactory extends FixedLengthConvertorFactory {
         @Override
         protected Map<String, Class<?>> getDefaultConvertorTable() {
             final Map<String, Class<?>> defaultConvertorTable = new CaseInsensitiveMap<Class<?>>(
