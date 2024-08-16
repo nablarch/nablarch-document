@@ -2,13 +2,6 @@
 Extended Formatter Functions
 =====================================
 
-.. important::
-
-  This sample uses a Nablarch 1.4 compliant API.
-
-  When combining with versions later than Nablarch 1.4 series, customize as necessary.
-
-
 .. toctree::
   :maxdepth: 1
 

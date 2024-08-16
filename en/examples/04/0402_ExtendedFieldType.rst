@@ -4,7 +4,7 @@ Field Type Expansion in the Data Formatter Function
 
 The specifications of the formatter functions provided in this sample are described.
 
-For an overview of the formatter functions and more information on basic general data formatting functions, see the description for general data formatting functions in the Nablarch Application Framework manual.
+For an overview of the formatter functions and more information on basic general data formatting functions, see :ref:`data_format`.
 
 ----------------------------
 Summary
@@ -66,39 +66,23 @@ The following is a list of classes used in this function.
 
 How to use the field type
 --------------------------------------------------------------------
-  When using the data type classes that have been added, it must be configured as follows. 
-  The data types "ESN" and "EN" have been added to the default configuration in the sample below.
+  For details on how to use the added field types, see :ref:`data_format-field_type_add`.
+  An implementation example of a fixed-length format factory class is shown below.
 
-  .. code-block:: xml
-  
-    <component name="fixedLengthConvertorSetting"
-        class="nablarch.core.dataformat.convertor.FixedLengthConvertorSetting">
-      <property name="convertorTable">
-        <map>
-          <!-- Add data types ESN and EN for EBCDIC (CP930) -->
-          <entry key="ESN" value="please.change.me.core.dataformat.convertor.datatype.EbcdicDoubleByteCharacterString"/>
-          <entry key="EN" value="please.change.me.core.dataformat.convertor.datatype.EbcdicNoShiftCodeDoubleByteCharacterString"/>
-          
-          <!-- The default configuration is given below -->
-          <entry key="X" value="nablarch.core.dataformat.convertor.datatype.SingleByteCharacterString"/>
-          <entry key="N" value="nablarch.core.dataformat.convertor.datatype.DoubleByteCharacterString"/>
-          <entry key="XN" value="nablarch.core.dataformat.convertor.datatype.ByteStreamDataString"/>
-          <entry key="Z" value="nablarch.core.dataformat.convertor.datatype.ZonedDecimal"/>
-          <entry key="SZ" value="nablarch.core.dataformat.convertor.datatype.SignedZonedDecimal"/>
-          <entry key="P" value="nablarch.core.dataformat.convertor.datatype.PackedDecimal"/>
-          <entry key="SP" value="nablarch.core.dataformat.convertor.datatype.SignedPackedDecimal"/>
-          <entry key="B" value="nablarch.core.dataformat.convertor.datatype.Bytes"/>
-          <entry key="X9" value="nablarch.core.dataformat.convertor.datatype.NumberStringDecimal"/>
-          <entry key="SX9" value="nablarch.core.dataformat.convertor.datatype.SignedNumberStringDecimal"/>
-          <entry key="pad" value="nablarch.core.dataformat.convertor.value.Padding"/>
-          <entry key="encoding" value="nablarch.core.dataformat.convertor.value.UseEncoding"/>
-          <entry key="_LITERAL_" value="nablarch.core.dataformat.convertor.value.DefaultValue"/>
-          <entry key="number" value="nablarch.core.dataformat.convertor.value.NumberString"/>
-          <entry key="signed_number" value="nablarch.core.dataformat.convertor.value.SignedNumberString"/>
-          <entry key="replacement" value="nablarch.core.dataformat.convertor.value.CharacterReplacer"/>
-        </map>
-      </property>
-    </component>
+  .. code-block:: java
+
+    public class EbcdicFixedLengthConvertorFactory extends FixedLengthConvertorFactory {
+        @Override
+        protected Map<String, Class<?>> getDefaultConvertorTable() {
+            final Map<String, Class<?>> defaultConvertorTable = new CaseInsensitiveMap<Class<?>>(
+                    new ConcurrentHashMap<String, Class<?>>(super.getDefaultConvertorTable()));
+            // Add data types ESN and EN for EBCDIC (CP930)
+            // Add data types ESN and EN for EBCDIC (CP930)
+            defaultConvertorTable.put("ESN", EbcdicDoubleByteCharacterString.class);
+            defaultConvertorTable.put("EN", EbcdicNoShiftCodeDoubleByteCharacterString.class);
+            return Collections.unmodifiableMap(defaultConvertorTable);
+        }
+    }
 
 
 

@@ -4,7 +4,7 @@ Data Formatter Expansion
 
 The specifications of the formatter functions provided in this sample are described.
 
-For an overview of the formatter functions and more information on basic general data formatting functions, see the description for general data formatting functions in the Nablarch Application Framework manual.
+For an overview of the formatter functions and more information on basic general data formatting functions, see :ref:`data_format`.
 
 ----------------------------
 Summary
