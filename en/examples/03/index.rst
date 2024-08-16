@@ -6,7 +6,7 @@ Display a List of Search Results
 
 This sample is an implementation sample of the tag file that displays a list of search results.
 
-`Source code <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-list-search-result>`_
 
 -----------------
 Delivery package
@@ -261,7 +261,7 @@ An example of specifying a project name as a search condition is shown below.
 
 .. code-block:: jsp
 
- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="c" uri="jakarta.tags.core" %>
  <%@ taglib prefix="app" tagdir="/WEB-INF/tags/listSearchResult" %>
 
  <%-- Register the URI that has the search condition used to display the current search result as a parameter in the page scope as a variable.

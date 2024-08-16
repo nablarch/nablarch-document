@@ -6,7 +6,7 @@
 
 本サンプルは、検索結果の一覧表示を行うタグファイルの実装サンプルである。
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-list-search-result>`_
 
 --------------
 提供パッケージ
@@ -254,7 +254,7 @@ resultCountFragment属性の指定例を下記に示す。
 
 .. code-block:: jsp
 
- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="c" uri="jakarta.tags.core" %>
  <%@ taglib prefix="app" tagdir="/WEB-INF/tags/listSearchResult" %>
 
  <%-- 現在の検索結果の表示に使用した検索条件をパラメータとして持つURIを、変数としてpageスコープに登録する。
