@@ -13,7 +13,6 @@ Useful Tools When Developing Applications
 .. _nablarchToolBoxPage:
 
 This document introduces tools that are useful for developing applications. |br|
-`Source code <https://github.com/nablarch/nablarch-toolbox>`_
 
 
 .. list-table::

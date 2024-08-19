@@ -13,7 +13,6 @@
 .. _nablarchToolBoxPage:
 
 本書では、アプリケーション開発時に使える便利なツールを紹介する。|br|
-`ソースコード <https://github.com/nablarch/nablarch-toolbox>`_
 
 
 .. list-table::
