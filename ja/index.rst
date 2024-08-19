@@ -19,6 +19,7 @@ Nablarch
   application_framework/index
   development_tools/index
   examples/index
+  external_contents/index
   nablarch_api/index
   releases/index
   about_nablarch/versionup_policy
