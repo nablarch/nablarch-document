@@ -37,20 +37,14 @@ Domaアダプタを使用するための設定を行う
 --------------------------------------------------
 本アダプタを使用するための手順を以下に示す。
 
-依存関係の修正
+依存関係の設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Domaのバージョン2.30.0以上を使用する場合は、以下を参考にプロジェクトの依存関係を修正する必要がある。
+以下を参考にプロジェクトの依存関係を設定する必要がある。
 
 詳細は `Doma(外部サイト、英語) <https://github.com/domaframework/doma#maven>`_ を参照。
 
 .. code-block:: xml
 
-    <dependency>
-        <groupId>org.seasar.doma</groupId>
-        <artifactId>doma-core</artifactId>
-        <version>2.62.0</version>
-    </dependency>
-    ...
     <build>
         <plugins>
             <plugin>
@@ -66,7 +60,7 @@ Domaのバージョン2.30.0以上を使用する場合は、以下を参考に�
                     </annotationProcessorPaths>
                     <compilerArgs>
                         <!-- Eclipseを使用する場合は、以下の引数を追加すること -->
-                        <arg>-Adoma.resources.dir=${project.basedir}/src/main/resources</arg>
+                        <!-- <arg>-Adoma.resources.dir=${project.basedir}/src/main/resources</arg> -->
                     </compilerArgs>
                 </configuration>
             </plugin>
