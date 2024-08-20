@@ -18,6 +18,7 @@ Nablarch
   about_nablarch/index
   application_framework/index
   development_tools/index
+  example/index
   examples/index
   nablarch_api/index
   releases/index
@@ -61,7 +62,7 @@ Nablarchアプリケーションフレームワーク
   | :doc:`モジュール一覧 <about_nablarch/mvn_module>`
   | :doc:`解説書 <application_framework/application_framework/index>`
   | :doc:`アダプタ <application_framework/adaptors/index>`
-  | :doc:`Example <application_framework/example/index>`
+  | :doc:`Example <example/index>`
   | :doc:`クラウドネイティブ対応 <application_framework/application_framework/cloud_native/index>`
 
 -----------------------------------------------
