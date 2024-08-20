@@ -58,10 +58,11 @@ Domaアダプタを使用するための設定を行う
                             <version>2.62.0</version>
                         </path>
                     </annotationProcessorPaths>
+                    <!-- Eclipseを使用する場合は、 以下の引数を設定すること
                     <compilerArgs>
-                        <!-- Eclipseを使用する場合は、以下の引数を追加すること -->
-                        <!-- <arg>-Adoma.resources.dir=${project.basedir}/src/main/resources</arg> -->
+                        <arg>-Adoma.resources.dir=${project.basedir}/src/main/resources</arg>
                     </compilerArgs>
+                    -->
                 </configuration>
             </plugin>
         </plugins>
