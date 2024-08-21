@@ -24,23 +24,25 @@ Exampleアプリケーションは、Apache Mavenを使用してアプリケー�
 ==================================================
 
 Exampleアプリケーションの実行手順は、各ExampleアプリケーションのgithubのREADMEを参照すること。
+開発イメージを掴むためには、処理方式毎のGetting Startedを参照すると良い。
 
   ウェブアプリケーション
    \
 
-    JSPとカスタムタグを使用したサンプル
+    JSPとカスタムタグを使用したサンプル（ :ref:`Getting Started <getting_started>` ）
      https://github.com/nablarch/nablarch-example-web
     Thymeleafを使用したサンプル
+     ※本サンプルについては、対応するGetting Startedを用意していない
      https://github.com/nablarch/nablarch-example-thymeleaf-web
 
 
   ウェブサービス
    \
 
-   RESTfulウェブサービス
+   RESTfulウェブサービス（ :ref:`Getting Started <rest_getting_started>` ）
     https://github.com/nablarch/nablarch-example-rest
 
-   HTTPメッセージング
+   HTTPメッセージング（ :ref:`Getting Started <http-messaging_getting_started>` ）
     送信
      https://github.com/nablarch/nablarch-example-http-messaging-send
     受信
@@ -49,16 +51,16 @@ Exampleアプリケーションの実行手順は、各Exampleアプリケーシ
   バッチアプリケーション
    \
 
-   Jakarta Batchに準拠したバッチアプリケーション
+   Jakarta Batchに準拠したバッチアプリケーション（ :ref:`Getting Started <jBatch_getting_started>` ）
     https://github.com/nablarch/nablarch-example-batch-ee
 
-   Nablarchバッチアプリケーション
+   Nablarchバッチアプリケーション（ :ref:`Getting Started <nablarch_Batch_getting_started>` ）
     https://github.com/nablarch/nablarch-example-batch
 
   メッセージング
    \
 
-   MOMによるメッセージング
+   MOMによるメッセージング（ :ref:`Getting Started <mom_messaging_getting_started>` ）
     \
 
     .. _`example_application-mom_system_messaging-async_message_send`:
@@ -81,8 +83,8 @@ Exampleアプリケーションの実行手順は、各Exampleアプリケーシ
     同期応答メッセージ受信
      https://github.com/nablarch/nablarch-example-mom-sync-receive
 
-    テーブルをキューとして使ったメッセージング
-     https://github.com/nablarch/nablarch-example-db-queue
+   テーブルをキューとして使ったメッセージング（ :ref:`Getting Started <db_messaging_getting_started>` ）
+    https://github.com/nablarch/nablarch-example-db-queue
 
 
 Java 21 で動かす場合について
