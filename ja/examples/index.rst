@@ -29,62 +29,90 @@ Exampleアプリケーションの実行手順は、各Exampleアプリケーシ
   ウェブアプリケーション
    \
 
-    JSPとカスタムタグを使用したサンプル（ :ref:`Getting Started <getting_started>` ）
+    JSPとカスタムタグを使用したサンプル
      https://github.com/nablarch/nablarch-example-web
+
+     :ref:`このExampleを使用したGetting Startedはこちら <getting_started>`
+
     Thymeleafを使用したサンプル
-     ※本サンプルについては、対応するGetting Startedを用意していない
      https://github.com/nablarch/nablarch-example-thymeleaf-web
 
+     ※本サンプルについては、対応するGetting Startedを用意していない
 
   ウェブサービス
    \
 
-   RESTfulウェブサービス（ :ref:`Getting Started <rest_getting_started>` ）
+   RESTfulウェブサービス
     https://github.com/nablarch/nablarch-example-rest
 
-   HTTPメッセージング（ :ref:`Getting Started <http-messaging_getting_started>` ）
+    :ref:`このExampleを使用したGetting Startedはこちら <rest_getting_started>`
+
+   HTTPメッセージング
+
     送信
      https://github.com/nablarch/nablarch-example-http-messaging-send
+
+     ※本サンプルについては、対応するGetting Startedを用意していない
+
     受信
      https://github.com/nablarch/nablarch-example-http-messaging
+
+     :ref:`このExampleを使用したGetting Startedはこちら <http-messaging_getting_started>`
 
   バッチアプリケーション
    \
 
-   Jakarta Batchに準拠したバッチアプリケーション（ :ref:`Getting Started <jBatch_getting_started>` ）
+   Jakarta Batchに準拠したバッチアプリケーション
     https://github.com/nablarch/nablarch-example-batch-ee
 
-   Nablarchバッチアプリケーション（ :ref:`Getting Started <nablarch_Batch_getting_started>` ）
+    :ref:`このExampleを使用したGetting Startedはこちら <jBatch_getting_started>`
+
+   Nablarchバッチアプリケーション
     https://github.com/nablarch/nablarch-example-batch
+
+    :ref:`このExampleを使用したGetting Startedはこちら <nablarch_Batch_getting_started>`
 
   メッセージング
    \
 
-   MOMによるメッセージング（ :ref:`Getting Started <mom_messaging_getting_started>` ）
+   MOMによるメッセージング
     \
 
+    ※MOMによるメッセージングでは、個別のGetting Startedを用意していない。
+    :ref:`mom_system_messaging` ライブラリの機能説明でExampleアプリケーションを使用しているため、そちらを参照すると良い。
+   
     .. _`example_application-mom_system_messaging-async_message_send`:
 
     応答不要メッセージ送信
      https://github.com/nablarch/nablarch-example-mom-delayed-send
+
+     :ref:`このExampleで実装されている機能の説明はこちら <mom_system_messaging-async_message_send>`
 
     .. _`example_application-mom_system_messaging-sync_message_send`:
 
     同期応答メッセージ送信
      https://github.com/nablarch/nablarch-example-mom-sync-send-batch
 
+     :ref:`このExampleで実装されている機能の説明はこちら <mom_system_messaging-sync_message_send>`
+
     .. _`example_application-mom_system_messaging-async_message_receive`:
 
     応答不要メッセージ受信
      https://github.com/nablarch/nablarch-example-mom-delayed-receive
+
+     :ref:`このExampleで実装されている機能の説明はこちら <mom_system_messaging-async_message_receive>`
 
     .. _`example_application-mom_system_messaging-sync_message_receive`:
 
     同期応答メッセージ受信
      https://github.com/nablarch/nablarch-example-mom-sync-receive
 
-   テーブルをキューとして使ったメッセージング（ :ref:`Getting Started <db_messaging_getting_started>` ）
+     :ref:`このExampleで実装されている機能の説明はこちら <mom_system_messaging-sync_message_receive>`
+
+   テーブルをキューとして使ったメッセージング
     https://github.com/nablarch/nablarch-example-db-queue
+
+    :ref:`このExampleを使用したGetting Startedはこちら <db_messaging_getting_started>`
 
 
 Java 21 で動かす場合について
