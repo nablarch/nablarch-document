@@ -19,7 +19,7 @@ Nablarch
   application_framework/index
   development_tools/index
   examples/index
-  practical_samples/index
+  samples_by_purpose/index
   nablarch_api/index
   releases/index
   about_nablarch/versionup_policy
@@ -91,7 +91,7 @@ Nablarch開発ツール
 Nablarch実装例集
 -----------------------------------------------
 
-  | :doc:`解説書 <practical_samples/index>`
+  | :doc:`解説書 <samples_by_purpose/index>`
 
 
 -----------------------------------------------
