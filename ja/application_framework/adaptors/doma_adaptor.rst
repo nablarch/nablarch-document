@@ -523,7 +523,7 @@ Jakarta Batchに準拠したバッチアプリケーションで遅延ロード�
 
         @Override
         public void open(Serializable checkpoint) throws Exception {
-            /* DomaDaoRepository#getの第2引数にDomaTransactionNotSupportedConfig.classを第2引数に指定 */
+            /* DomaDaoRepository#getの第2引数にDomaTransactionNotSupportedConfig.classを指定 */
             final ProjectDao dao = DomaDaoRepository.get(ProjectDao.class, DomaTransactionNotSupportedConfig.class);
             stream = dao.search();
             iterator = stream.iterator();
