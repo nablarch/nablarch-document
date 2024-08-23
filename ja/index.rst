@@ -20,6 +20,7 @@ Nablarch
   development_tools/index
   examples/index
   biz_samples/index
+  external_contents/index
   nablarch_api/index
   releases/index
   about_nablarch/versionup_policy
