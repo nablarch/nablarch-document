@@ -420,7 +420,7 @@ Doma 2.44.0までの実装方法から移行する
 
 なお、Doma 2.44.0以前に案内していた実装方法でも引き続き同じ動作を行う。
 
-DomaConfigを使った基本的な実装の移行を行う
+DomaConfigを使った基本的な実装をしている場合
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Daoアノテーションのconfig属性に :java:extdoc:`DomaConfig<nablarch.integration.doma.DomaConfig>` を使用した実装例を以下に示す。
@@ -465,8 +465,8 @@ Daoアノテーションのconfig属性に :java:extdoc:`DomaConfig<nablarch.int
 
 Daoアノテーションのconfig属性を指定しないDaoを使用して :java:extdoc:`DomaDaoRepository#get<nablarch.integration.doma.DomaDaoRepository.get(java.lang.Class)>` を使ってDaoの実装クラスを取得した場合、 :java:extdoc:`DomaConfig<nablarch.integration.doma.DomaConfig>` を使用してDaoの実装クラスが構築される。
 
-Jakarta Batchに準拠したバッチアプリケーションで遅延ロードに対応する実装をしていた場合の実装移行を行う
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+DomaTransactionNotSupportedConfigを使用して遅延ロードに対応している場合
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Jakarta Batchに準拠したバッチアプリケーションで遅延ロードに対応するため、 :java:extdoc:`DomaTransactionNotSupportedConfig<nablarch.integration.doma.DomaTransactionNotSupportedConfig>` を使用した実装例を以下に示す。
 
@@ -534,10 +534,10 @@ Jakarta Batchに準拠したバッチアプリケーションで遅延ロード�
 
 Daoアノテーションにconfig属性を指定しないDaoを使用して :java:extdoc:`DomaDaoRepository#get(java.lang.Class,java.lang.Class)<nablarch.integration.doma.DomaDaoRepository.get(java.lang.Class,java.lang.Class)>` を呼び出した場合、第2引数に指定したConfigを使用してDaoの実装クラスが構築される。
 
-独自にConfigクラスを作成していた場合の実装移行を行う
+独自にConfigクラスを作成している場合
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-複数のデータベースにアクセスする等の理由で、Configクラスを作成して実装する例を以下に示す。
+複数のデータベースにアクセスする等の理由で、独自にConfigクラスを作成して実装する例を以下に示す。
 
 .. code-block:: java
 
