@@ -8,4 +8,4 @@
 
 開発標準として提供されているコンテンツの一覧は、以下のリンクから確認できる。
 
- | `開発標準 <https://fintan.jp/page/1868/#development-standards>`__
+ | `開発標準(外部サイト) <https://fintan.jp/page/1868/#development-standards>`__

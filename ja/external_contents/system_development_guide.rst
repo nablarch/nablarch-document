@@ -8,5 +8,5 @@ Nablarchを使ったシステム開発に必要と考えているアクティビ
 
 詳細は、以下のリンクを参照。
 
- | `Nablarchシステム開発ガイド <https://fintan.jp/page/252/>`__
+ | `Nablarchシステム開発ガイド(外部サイト) <https://fintan.jp/page/252/>`__
 
