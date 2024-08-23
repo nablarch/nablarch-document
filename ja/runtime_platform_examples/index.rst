@@ -24,7 +24,7 @@ Exampleアプリケーションは、Apache Mavenを使用してアプリケー�
 ==================================================
 
 Exampleアプリケーションの実行手順は、各ExampleアプリケーションのgithubのREADMEを参照すること。
-開発イメージを掴むためには、処理方式毎のGetting Startedを参照すると良い。
+開発イメージを掴むためには、処理方式毎のGetting Startedを参照。
 
   ウェブアプリケーション
    \
@@ -78,36 +78,36 @@ Exampleアプリケーションの実行手順は、各Exampleアプリケーシ
    MOMによるメッセージング
     \
 
-    ※MOMによるメッセージングでは、個別のGetting Startedを用意していない。
-    :ref:`mom_system_messaging` ライブラリの機能説明でExampleアプリケーションを使用しているため、そちらを参照すると良い。
+    ※MOMによるメッセージングに対してはExampleアプリケーションのみの提供になり、Getting Startedは提供していない。
+    Exampleアプリケーションを使用した実装例の説明は :ref:`mom_system_messaging` に含めているので、そちらを参照。
    
     .. _`example_application-mom_system_messaging-async_message_send`:
 
     応答不要メッセージ送信
      https://github.com/nablarch/nablarch-example-mom-delayed-send
 
-     このExampleで実装されている機能の説明は :ref:`こちら <mom_system_messaging-async_message_send>`
+     このExampleアプリケーションを使用した実装例の説明は :ref:`こちら <mom_system_messaging-async_message_send>`
 
     .. _`example_application-mom_system_messaging-sync_message_send`:
 
     同期応答メッセージ送信
      https://github.com/nablarch/nablarch-example-mom-sync-send-batch
 
-     このExampleで実装されている機能の説明は :ref:`こちら <mom_system_messaging-sync_message_send>`
+     このExampleアプリケーションを使用した実装例の説明は :ref:`こちら <mom_system_messaging-sync_message_send>`
 
     .. _`example_application-mom_system_messaging-async_message_receive`:
 
     応答不要メッセージ受信
      https://github.com/nablarch/nablarch-example-mom-delayed-receive
 
-     このExampleで実装されている機能の説明は :ref:`こちら <mom_system_messaging-async_message_receive>`
+     このExampleアプリケーションを使用した実装例の説明は :ref:`こちら <mom_system_messaging-async_message_receive>`
 
     .. _`example_application-mom_system_messaging-sync_message_receive`:
 
     同期応答メッセージ受信
      https://github.com/nablarch/nablarch-example-mom-sync-receive
 
-     このExampleで実装されている機能の説明は :ref:`こちら <mom_system_messaging-sync_message_receive>`
+     このExampleアプリケーションを使用した実装例の説明は :ref:`こちら <mom_system_messaging-sync_message_receive>`
 
    テーブルをキューとして使ったメッセージング
     https://github.com/nablarch/nablarch-example-db-queue
