@@ -101,13 +101,6 @@ Daoインタフェースを作成する
       // 省略
   }
 
-
-.. tip::
-
-    6u1以前はDaoアノテーションのconfig属性には :java:extdoc:`DomaConfig<nablarch.integration.doma.DomaConfig>` を指定すること案内していたが、Doma 2.44.0より非推奨となったことによりconfig属性の利用を取りやめている。
-    Daoアノテーションのconfig属性を指定しない場合に :java:extdoc:`DomaDaoRepository#get(java.lang.Class)<nablarch.integration.doma.DomaDaoRepository.get(java.lang.Class)>` を使用してDaoの実装クラスをルックアップすると、 :java:extdoc:`DomaConfig<nablarch.integration.doma.DomaConfig>` を使用してDaoの実装クラスを生成する。
-    また6u1以前のようにDaoアノテーションのconfig属性に :java:extdoc:`DomaConfig<nablarch.integration.doma.DomaConfig>` をしたままでも6u1以前と同じ動作を行う。
-
 データベースアクセス処理を実装する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 業務アクションのメソッドにデータベースアクセス処理を実装する。
@@ -132,6 +125,11 @@ Daoインタフェースを作成する
 
         return new HttpResponse("redirect://complete");
     }
+
+.. tip::
+
+    Doma 2.44.0よりDaoアノテーションのconfig属性が非推奨になったため、Nablarch 5以前から案内する実装方法を変更している。  
+    詳しくは、 :ref:`migration_doma2.44.0` を参照すること。
 
 別トランザクションで実行する
 --------------------------------------------------
@@ -257,9 +255,8 @@ ItemReaderクラス
 
   .. tip::
 
-    6u1以前はDaoアノテーションのconfig属性には :java:extdoc:`DomaTransactionNotSupportedConfig<nablarch.integration.doma.DomaTransactionNotSupportedConfig>` を指定すること案内していたが、Doma 2.44.0より非推奨となったことにより利用を取りやめている。
-    Daoアノテーションのconfig属性ではなく、 :java:extdoc:`DomaDaoRepository#get<nablarch.integration.doma.DomaDaoRepository.get(java.lang.Class,java.lang.Class)>` の第2引数に :java:extdoc:`DomaTransactionNotSupportedConfig<nablarch.integration.doma.DomaTransactionNotSupportedConfig>` を指定して呼び出すことを推奨する。
-    ただし、config属性に :java:extdoc:`DomaTransactionNotSupportedConfig<nablarch.integration.doma.DomaTransactionNotSupportedConfig>` を指定し、 :java:extdoc:`DomaDaoRepository#get(java.lang.Class)<nablarch.integration.doma.DomaDaoRepository.get(java.lang.Class)>` を使用してDaoの実装クラスをルックアップしても引き続き6u1以前と同等の動作を行う。
+    Doma 2.44.0よりDaoアノテーションのconfig属性が非推奨になったため、Nablarch 5以前から案内する実装方法を変更している。  
+    詳しくは、 :ref:`migration_doma2.44.0` を参照すること。
 
 複数のデータベースにアクセスする
 --------------------------------------------------
@@ -324,8 +321,8 @@ Daoインタフェース
 
   .. tip::
 
-    6u1以前は作成するConfigにはSingletonConfigアノテーションの付与およびDaoアノテーションのconfig属性に作成したConfigを指定することを案内していたが、Doma 2.44.0よりいずれも非推奨となったことにより利用を取りやめている。
-    ただし、ConfigにSingletonConfigアノテーションを付与しDaoアノテーションのconfig属性に作成したConfigを指定したまま :java:extdoc:`DomaDaoRepository#get(java.lang.Class)<nablarch.integration.doma.DomaDaoRepository.get(java.lang.Class)>` を使用し、Daoの実装クラスをルックアップしても引き続き6u1以前と同等の動作を行う。
+    Doma 2.44.0より作成するConfigへのSingletonConfigアノテーションの付与およびDaoアノテーションのconfig属性が非推奨になったため、Nablarch 5以前から案内する実装方法を変更している。  
+    詳しくは、 :ref:`migration_doma2.44.0` を参照すること。
 
 DomaとNablarchのデータベースアクセスを併用する
 --------------------------------------------------
@@ -409,3 +406,186 @@ java.sql.Statementに関する設定を行う
     <!-- バッチサイズを400に設定する -->
     <property name="batchSize" value="400" />
   </component>
+
+.. _`migration_doma2.44.0`:
+
+Doma 2.44.0までの実装方法から移行する
+--------------------------------------------------
+
+Doma 2.44.0よりDaoアノテーションのconfig属性およびSingletonConfigアノテーションが非推奨となったことにより、Nablarch 5で案内していた内容から実装方法を変更している。
+
+引き続きDaoアノテーションのconfig属性およびSingletonConfigアノテーションを使用した実装も動作するが、Domaの変更に合わせて実装方法を移行することを推奨する。
+
+ここではNablarch 5での実装方法との対比を説明する。
+
+Nablarch 5で :java:extdoc:`DomaConfig<nablarch.integration.doma.DomaConfig>` を使用した実装例を以下に示す。
+
+.. code-block:: java
+
+  // Daoの定義
+  @Dao(config = DomaConfig.class)  /* config属性を指定 */
+  public interface ProjectDao {
+      // 省略
+  }
+
+  // Daoを使用する実装例
+  @Transactional
+  public HttpResponse create(final HttpRequest request, final ExecutionContext context) {
+      final Project project = SessionUtil.delete(context, "project");
+
+      DomaDaoRepository.get(ProjectDao.class).insert(project);
+
+      return new HttpResponse("redirect://complete");
+  }
+
+これは以下の実装で等価となる。
+
+.. code-block:: java
+
+  // Daoの定義
+  @Dao  /* config属性の指定を削除 */
+  public interface ProjectDao {
+      // 省略
+  }
+
+  // Daoを使用する実装例
+  @Transactional
+  public HttpResponse create(final HttpRequest request, final ExecutionContext context) {
+      final Project project = SessionUtil.delete(context, "project");
+
+      DomaDaoRepository.get(ProjectDao.class).insert(project);  /* 変更なし */
+
+      return new HttpResponse("redirect://complete");
+  }
+
+Nablarch 5で :java:extdoc:`DomaTransactionNotSupportedConfig<nablarch.integration.doma.DomaTransactionNotSupportedConfig>` を使用した実装例を以下に示す。
+
+.. code-block:: java
+
+    // Daoの定義
+    @Dao(config = DomaTransactionNotSupportedConfig.class)  /* config属性を指定 */
+    public interface ProjectDao {
+
+        @Select(strategy = SelectType.RETURN)
+        Stream<Project> search();
+    }
+
+    // Daoを使用する実装例
+    @Dependent
+    @Named
+    public class ProjectReader extends AbstractItemReader {
+
+        private Iterator<Project> iterator;
+
+        private Stream<Project> stream;
+
+        @Override
+        public void open(Serializable checkpoint) throws Exception {
+            /* DomaDaoRepository#getにはDaoのインターフェースのみを指定 */
+            final ProjectDao dao = DomaDaoRepository.get(ProjectDao.class);
+            stream = dao.search();
+            iterator = stream.iterator();
+        }
+
+        // 省略
+    }
+
+これは以下の実装で等価となる。
+
+.. code-block:: java
+
+    // Daoの定義
+    @Dao  /* config属性の指定を削除 */
+    public interface ProjectDao {
+
+        @Select(strategy = SelectType.RETURN)
+        Stream<Project> search();
+    }
+
+    // Daoを使用する実装例
+    @Dependent
+    @Named
+    public class ProjectReader extends AbstractItemReader {
+
+        private Iterator<Project> iterator;
+
+        private Stream<Project> stream;
+
+        @Override
+        public void open(Serializable checkpoint) throws Exception {
+            /* DomaDaoRepository#getの第2引数にDomaTransactionNotSupportedConfig.classを第2引数に指定 */
+            final ProjectDao dao = DomaDaoRepository.get(ProjectDao.class, DomaTransactionNotSupportedConfig.class);
+            stream = dao.search();
+            iterator = stream.iterator();
+        }
+
+        // 省略
+    }
+
+Nablarch 5でConfigクラスを作成して実装する例を以下に示す。
+
+.. code-block:: java
+
+    // Configクラスの定義
+    @SingletonConfig  /* SingletonConfigアノテーションを付与 */
+    public final class CustomConfig implements Config {
+
+        private CustomConfig() {  /* コンストラクタはprivate */
+            // 省略
+        }
+
+        // 省略
+    }
+
+    // Daoの定義
+    @Dao(config = CustomConfig.class)  /* config属性に作成したConfigクラスを指定 */
+    public interface ProjectDao {
+        // 省略
+    }
+
+    // Daoを使用する実装例
+    public HttpResponse create(final HttpRequest request, final ExecutionContext context) {
+        final Project project = SessionUtil.delete(context, "project");
+
+        CustomConfig.singleton()
+                .getTransactionManager()
+                .requiresNew(() ->
+                        /* DomaDaoRepository#getにはDaoのインターフェースのみを指定 */
+                        DomaDaoRepository.get(ProjectDao.class);
+
+        return new HttpResponse("redirect://complete");
+    }
+
+これは以下の実装で等価となる。
+
+.. code-block:: java
+
+    // Configクラスの定義
+    /* SingletonConfigアノテーションを削除 */
+    public final class CustomConfig implements Config {
+
+        public CustomConfig() {  /* publicな引数なしのコンストラクタに変更 */
+            // 省略
+        }
+
+        // 省略
+    }
+
+    // Daoの定義
+    @Dao  /* config属性の指定を削除 */
+    public interface ProjectDao {
+        // 省略
+    }
+
+    // Daoを使用する実装例
+    public HttpResponse create(final HttpRequest request, final ExecutionContext context) {
+        final Project project = SessionUtil.delete(context, "project");
+
+        CustomConfig.singleton()
+                .getTransactionManager()
+                .requiresNew(() ->
+                        /* DomaDaoRepository#getの第2引数に作成したConfigのClassクラスを指定 */
+                        DomaDaoRepository.get(ProjectDao.class, CustomConfig.class);
+
+        return new HttpResponse("redirect://complete");
+    }
