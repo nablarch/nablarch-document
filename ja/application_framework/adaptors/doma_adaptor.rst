@@ -128,7 +128,7 @@ Daoインタフェースを作成する
 
 .. tip::
 
-    Doma 2.44.0よりDaoアノテーションのconfig属性が非推奨になったため、Nablarch 5以前から案内する実装方法を変更している。  
+    Doma 2.44.0よりDaoアノテーションのconfig属性が非推奨になったため、Doma 2.44.0以前に案内していた内容から実装方法を変更している。  
     詳しくは、 :ref:`migration_doma2.44.0` を参照すること。
 
 別トランザクションで実行する
@@ -255,7 +255,7 @@ ItemReaderクラス
 
   .. tip::
 
-    Doma 2.44.0よりDaoアノテーションのconfig属性が非推奨になったため、Nablarch 5以前から案内する実装方法を変更している。  
+    Doma 2.44.0よりDaoアノテーションのconfig属性が非推奨になったため、Doma 2.44.0以前に案内していた内容から実装方法を変更している。  
     詳しくは、 :ref:`migration_doma2.44.0` を参照すること。
 
 複数のデータベースにアクセスする
@@ -321,7 +321,7 @@ Daoインタフェース
 
   .. tip::
 
-    Doma 2.44.0より作成するConfigへのSingletonConfigアノテーションの付与およびDaoアノテーションのconfig属性が非推奨になったため、Nablarch 5以前から案内する実装方法を変更している。  
+    Doma 2.44.0より作成するConfigへのSingletonConfigアノテーションの付与およびDaoアノテーションのconfig属性が非推奨になったため、Doma 2.44.0以前に案内していた内容から実装方法を変更している。  
     詳しくは、 :ref:`migration_doma2.44.0` を参照すること。
 
 DomaとNablarchのデータベースアクセスを併用する
@@ -412,13 +412,18 @@ java.sql.Statementに関する設定を行う
 Doma 2.44.0までの実装方法から移行する
 --------------------------------------------------
 
-Doma 2.44.0よりDaoアノテーションのconfig属性およびSingletonConfigアノテーションが非推奨となったことにより、Nablarch 5で案内していた内容から実装方法を変更している。
+`Doma 2.44.0より(外部サイト、英語) <https://github.com/domaframework/doma/releases/tag/2.44.0>`_ Daoアノテーションのconfig属性およびSingletonConfigアノテーションが非推奨となったことにより、NablarchでもAPIを追加し、案内していた内容から実装方法を変更している。
 
 引き続きDaoアノテーションのconfig属性およびSingletonConfigアノテーションを使用した実装も動作するが、Domaの変更に合わせて実装方法を移行することを推奨する。
 
-ここではNablarch 5での実装方法との対比を説明する。
+ここではDoma 2.44.0以前にNablarchで案内していた実装方法との対比を説明する。
 
-Nablarch 5で :java:extdoc:`DomaConfig<nablarch.integration.doma.DomaConfig>` を使用した実装例を以下に示す。
+なお、Doma 2.44.0以前に案内していた実装方法でも引き続き同じ動作を行う。
+
+DomaConfigを使った基本的な実装の移行を行う
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Daoアノテーションのconfig属性に :java:extdoc:`DomaConfig<nablarch.integration.doma.DomaConfig>` を使用した実装例を以下に示す。
 
 .. code-block:: java
 
@@ -438,7 +443,7 @@ Nablarch 5で :java:extdoc:`DomaConfig<nablarch.integration.doma.DomaConfig>` �
       return new HttpResponse("redirect://complete");
   }
 
-これは以下の実装で等価となる。
+これは以下の実装と等価となる。
 
 .. code-block:: java
 
@@ -458,7 +463,12 @@ Nablarch 5で :java:extdoc:`DomaConfig<nablarch.integration.doma.DomaConfig>` �
       return new HttpResponse("redirect://complete");
   }
 
-Nablarch 5で :java:extdoc:`DomaTransactionNotSupportedConfig<nablarch.integration.doma.DomaTransactionNotSupportedConfig>` を使用した実装例を以下に示す。
+Daoアノテーションのconfig属性を指定しないDaoを使用して :java:extdoc:`DomaDaoRepository#get<nablarch.integration.doma.DomaDaoRepository.get(java.lang.Class)>` を使ってDaoの実装クラスを取得した場合、 :java:extdoc:`DomaConfig<nablarch.integration.doma.DomaConfig>` を使用してDaoの実装クラスが構築される。
+
+Jakarta Batchに準拠したバッチアプリケーションで遅延ロードに対応する実装をしていた場合の実装移行を行う
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Jakarta Batchに準拠したバッチアプリケーションで遅延ロードに対応するため、 :java:extdoc:`DomaTransactionNotSupportedConfig<nablarch.integration.doma.DomaTransactionNotSupportedConfig>` を使用した実装例を以下に示す。
 
 .. code-block:: java
 
@@ -490,7 +500,7 @@ Nablarch 5で :java:extdoc:`DomaTransactionNotSupportedConfig<nablarch.integrati
         // 省略
     }
 
-これは以下の実装で等価となる。
+これは以下の実装と等価となる。
 
 .. code-block:: java
 
@@ -522,7 +532,12 @@ Nablarch 5で :java:extdoc:`DomaTransactionNotSupportedConfig<nablarch.integrati
         // 省略
     }
 
-Nablarch 5でConfigクラスを作成して実装する例を以下に示す。
+Daoアノテーションにconfig属性を指定しないDaoを使用して :java:extdoc:`DomaDaoRepository#get(java.lang.Class,java.lang.Class)<nablarch.integration.doma.DomaDaoRepository.get(java.lang.Class,java.lang.Class)>` を呼び出した場合、第2引数に指定したConfigを使用してDaoの実装クラスが構築される。
+
+独自にConfigクラスを作成していた場合の実装移行を行う
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+複数のデータベースにアクセスする等の理由で、Configクラスを作成して実装する例を以下に示す。
 
 .. code-block:: java
 
@@ -556,7 +571,7 @@ Nablarch 5でConfigクラスを作成して実装する例を以下に示す。
         return new HttpResponse("redirect://complete");
     }
 
-これは以下の実装で等価となる。
+これは以下の実装と等価となる。
 
 .. code-block:: java
 
@@ -589,3 +604,5 @@ Nablarch 5でConfigクラスを作成して実装する例を以下に示す。
 
         return new HttpResponse("redirect://complete");
     }
+
+Daoアノテーションにconfig属性を指定しないDaoを使用して :java:extdoc:`DomaDaoRepository#get(java.lang.Class,java.lang.Class)<nablarch.integration.doma.DomaDaoRepository.get(java.lang.Class,java.lang.Class)>` を呼び出した場合、第2引数に指定したConfigを使用してDaoの実装クラスが構築される。
