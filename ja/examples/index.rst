@@ -45,8 +45,8 @@ Exampleの一覧
 
 :ref:`ウェブアプリケーション編の解説 <web_application>` 、 :ref:`Thymeleafアダプタの解説 <web_thymeleaf_adaptor>` も合わせて確認すること。
 
-- `JSPとカスタムタグを使用したサンプル(外部サイト) <https://github.com/nablarch/nablarch-example-web>`_
-- `Thymeleafを使用したサンプル(外部サイト) <https://github.com/nablarch/nablarch-example-thymeleaf-web>`_
+- `JSPとカスタムタグを使用したサンプル <https://github.com/nablarch/nablarch-example-web>`_
+- `Thymeleafを使用したサンプル <https://github.com/nablarch/nablarch-example-thymeleaf-web>`_
 
 
 ウェブサービス
@@ -57,15 +57,15 @@ RESTfulウェブサービス
 
 :ref:`RESTfulウェブサービス編の解説 <restful_web_service>` も合わせて確認すること。
 
-- `RESTfulウェブサービスのサンプル(外部サイト) <https://github.com/nablarch/nablarch-example-rest>`_
+- `RESTfulウェブサービスのサンプル <https://github.com/nablarch/nablarch-example-rest>`_
 
 HTTPメッセージング
 ~~~~~~~~~~~~~~~~~~
 
 :ref:`HTTPメッセージング編の解説 <http_messaging>` も合わせて確認すること。
 
-- `HTTPメッセージングの送信側のサンプル(外部サイト) <https://github.com/nablarch/nablarch-example-http-messaging-send>`_
-- `HTTPメッセージングの受信側のサンプル(外部サイト) <https://github.com/nablarch/nablarch-example-http-messaging>`_
+- `HTTPメッセージングの送信側のサンプル <https://github.com/nablarch/nablarch-example-http-messaging-send>`_
+- `HTTPメッセージングの受信側のサンプル <https://github.com/nablarch/nablarch-example-http-messaging>`_
 
 
 バッチアプリケーション
@@ -76,14 +76,14 @@ Jakarta Batchに準拠したバッチアプリケーション
 
 :ref:`Jakarta Batchに準拠したバッチアプリケーションの解説 <jsr352_batch>` も合わせて確認すること。
 
-- `Jakarta Batchに準拠したバッチアプリケーションのサンプル(外部サイト) <https://github.com/nablarch/nablarch-example-batch-ee>`_
+- `Jakarta Batchに準拠したバッチアプリケーションのサンプル <https://github.com/nablarch/nablarch-example-batch-ee>`_
 
 Nablarchバッチアプリケーション
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :ref:`Nablarchバッチアプリケーションの解説 <nablarch_batch>` も合わせて確認すること。
 
-- `Nablarchバッチアプリケーションのサンプル(外部サイト) <https://github.com/nablarch/nablarch-example-batch>`_
+- `Nablarchバッチアプリケーションのサンプル <https://github.com/nablarch/nablarch-example-batch>`_
 
 
 メッセージング
@@ -96,23 +96,23 @@ MOMによるメッセージング
 
 .. _`example_application-mom_system_messaging-async_message_send`:
 
-- `応答不要メッセージ送信のサンプル(外部サイト) <https://github.com/nablarch/nablarch-example-mom-delayed-send>`_
+- `応答不要メッセージ送信のサンプル <https://github.com/nablarch/nablarch-example-mom-delayed-send>`_
 
 .. _`example_application-mom_system_messaging-sync_message_send`:
 
-- `同期応答メッセージ送信のサンプル(外部サイト) <https://github.com/nablarch/nablarch-example-mom-sync-send-batch>`_
+- `同期応答メッセージ送信のサンプル <https://github.com/nablarch/nablarch-example-mom-sync-send-batch>`_
 
 .. _`example_application-mom_system_messaging-async_message_receive`:
 
-- `応答不要メッセージ受信のサンプル(外部サイト) <https://github.com/nablarch/nablarch-example-mom-delayed-receive>`_
+- `応答不要メッセージ受信のサンプル <https://github.com/nablarch/nablarch-example-mom-delayed-receive>`_
 
 .. _`example_application-mom_system_messaging-sync_message_receive`:
 
-- `同期応答メッセージ受信のサンプル(外部サイト) <https://github.com/nablarch/nablarch-example-mom-sync-receive>`_
+- `同期応答メッセージ受信のサンプル <https://github.com/nablarch/nablarch-example-mom-sync-receive>`_
 
 テーブルをキューとして使ったメッセージング
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :ref:`テーブルをキューとして使ったメッセージング <db_messaging>` も合わせて確認すること。
 
-- `テーブルをキューとして使ったメッセージングのサンプル(外部サイト) <https://github.com/nablarch/nablarch-example-db-queue>`_
+- `テーブルをキューとして使ったメッセージングのサンプル <https://github.com/nablarch/nablarch-example-db-queue>`_
