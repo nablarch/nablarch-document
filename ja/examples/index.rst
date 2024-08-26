@@ -45,8 +45,8 @@ Exampleの一覧
 
 :ref:`ウェブアプリケーション編の解説 <web_application>` 、 :ref:`Thymeleafアダプタの解説 <web_thymeleaf_adaptor>` も適宜参照すること。
 
-- `ウェブアプリケーションのサンプル(JSP) <https://github.com/nablarch/nablarch-example-web>`_
-- `ウェブアプリケーションのサンプル(Thymeleaf) <https://github.com/nablarch/nablarch-example-thymeleaf-web>`_
+- `JSPとカスタムタグを使用したサンプル <https://github.com/nablarch/nablarch-example-web>`_
+- `Thymeleafを使用したサンプル <https://github.com/nablarch/nablarch-example-thymeleaf-web>`_
 
 
 ウェブサービス
