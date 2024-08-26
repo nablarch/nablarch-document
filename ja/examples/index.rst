@@ -94,19 +94,19 @@ MOMによるメッセージング
 
 :ref:`MOMによるメッセージングの解説 <mom_messaging>` も合わせて確認すること。
 
-.. _`example_application-mom_system_messaging-async_message_send`:
+  .. _`example_application-mom_system_messaging-async_message_send`:
 
 - `応答不要メッセージ送信のサンプル <https://github.com/nablarch/nablarch-example-mom-delayed-send>`_
 
-.. _`example_application-mom_system_messaging-sync_message_send`:
+  .. _`example_application-mom_system_messaging-sync_message_send`:
 
 - `同期応答メッセージ送信のサンプル <https://github.com/nablarch/nablarch-example-mom-sync-send-batch>`_
 
-.. _`example_application-mom_system_messaging-async_message_receive`:
+  .. _`example_application-mom_system_messaging-async_message_receive`:
 
 - `応答不要メッセージ受信のサンプル <https://github.com/nablarch/nablarch-example-mom-delayed-receive>`_
 
-.. _`example_application-mom_system_messaging-sync_message_receive`:
+  .. _`example_application-mom_system_messaging-sync_message_receive`:
 
 - `同期応答メッセージ受信のサンプル <https://github.com/nablarch/nablarch-example-mom-sync-receive>`_
 
