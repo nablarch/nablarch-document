@@ -10,6 +10,8 @@
 Nablarch
 =======================
 
+Nablarch is a Java application development and execution platform that integrates the knowledge gained from extensive experience of TIS in building mission-critical systems.
+
 .. toctree::
   :maxdepth: 1
   :hidden:
@@ -19,6 +21,8 @@ Nablarch
   application_framework/index
   development_tools/index
   examples/index
+  biz_samples/index
+  external_contents/index
   nablarch_api/index
   about_nablarch/versionup_policy
   migration/index
@@ -30,66 +34,57 @@ Nablarch
 What is the Nablarch?
 -----------------------------------------------
 
-Nablarch is a Java application development and execution platform that integrates the knowledge gained from extensive experience of TIS in building mission-critical systems.
-
  | :doc:`Concept <about_nablarch/concept>`
+ | :doc:`Module list <about_nablarch/mvn_module>`
  | :doc:`License <about_nablarch/license>`
-
------------------------------------------------
-Nablarch System Development Guide
------------------------------------------------
-
-Indicates as to what should be done before and during development, by engineers engaged in system development using Nablarch.
-
- | `System Development Guide <https://fintan.jp/en/page/1667/>`__
-
------------------------------------------------
-Nablarch Development Standard
------------------------------------------------
-
-A guideline that developers should follow when creating design documents and program code.
-
- | `Development Standard <https://fintan.jp/en/page/1658/>`__
 
 -----------------------------------------------
 Nablarch Application Framework
 -----------------------------------------------
 
-  | :doc:`Module list <about_nablarch/mvn_module>`
   | :doc:`Manual <application_framework/application_framework/index>`
   | :doc:`Adapter <application_framework/adaptors/index>`
-  | :doc:`Example <application_framework/example/index>`
-  | :doc:`Cloud native support <application_framework/application_framework/cloud_native/index>`
 
 
 -----------------------------------------------
 Nablarch development tool
 -----------------------------------------------
 
-Efficient java static checks
-==============================
-
-  | :doc:`Manual <development_tools/java_static_analysis/index>` 
-
-
-Testing framework
-============================================================
-
-  | :doc:`Manual <development_tools/testing_framework/index>` | :doc:`Module list <about_nablarch/mvn_module>`
-
-
-Useful tools for developing applications
-==========================================
-
-  | :doc:`Manual <development_tools/toolbox/index>` 
-
+  | :doc:`Efficient java static checks <development_tools/java_static_analysis/index>` 
+  | :doc:`Testing framework <development_tools/testing_framework/index>`
+  | :doc:`Useful tools for developing applications <development_tools/toolbox/index>` 
 
 -----------------------------------------------
-Nablarch implementation examples
+Example
 -----------------------------------------------
 
-  | :doc:`Manual <examples/index>`
+ | :doc:`Manual <examples/index>`
 
+-----------------------------------------------
+Implementation Examples Per Use Cases
+-----------------------------------------------
+
+ | :doc:`Manual <biz_samples/index>`
+
+-----------------------------------------------
+Useful content for development in Nablarch
+-----------------------------------------------
+
+ | :doc:`Introduction of Contents <external_contents/index>`
+ | :doc:`Nablarch System Development Guide <external_contents/system_development_guide>`
+ | :doc:`Development Standard <external_contents/development_standards>`
+
+-----------------------------------------------
+Nablarch API
+-----------------------------------------------
+
+  | :doc:`API list <nablarch_api/index>`
+
+-----------------------------------------------
+Nablarch upgrade policy
+-----------------------------------------------
+
+  | :doc:`Nablarch upgrade policy <about_nablarch/versionup_policy>`
 
 -----------------------------------------------
 Nablarch 5 to 6 Migration Guide
@@ -102,3 +97,9 @@ Regarding the specification name of Jakarta EE
 -----------------------------------------------
 
   | :doc:`Regarding the specification name of Jakarta EE <migration/index>`
+
+----------------------------------------------
+Terms of Use
+----------------------------------------------
+
+  | :doc:`Terms of Use <terms_of_use/index>`
