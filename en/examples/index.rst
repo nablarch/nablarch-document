@@ -4,121 +4,111 @@
 Example
 =======
 
-The Example application is an implementation example that demonstrates how to use the features of the Nablarch Application Framework, and is created for each :ref:`runtime platform <runtime platform>`.
-This chapter describes the procedures for building the environment and executing the application, which are necessary for an Example application.
+The Example is an implementation example that demonstrates how to use the features of the Nablarch Application Framework, and is created for each :ref:`runtime platform <runtime_platform>`.
+This chapter describes the procedures for building the environment and executing the application, which are necessary for an Example.
 
 
   .. tip::
-    Example and is not intended to be used to create a full-fledged application by modifying Example.
+    Examples are not intended to be used to create a full-fledged application by modifying Examples.
     If you want to create a full-fledged application, create it from :ref:`blank_project`.
  
  
+How to Run Example
+==================
+
 Procedure to build the environment
-==========================================
-The example application uses Apache Maven to build and run the application. Refer to the following page to install Apache Maven on the PC and configure the necessary settings.
+----------------------------------
+The Example uses Apache Maven to build and run the application. Refer to the following page to install Apache Maven on the PC and configure the necessary settings.
 
 :ref:`maven`
 
 
-Application execution procedure
-==================================================
+Procedure to execute
+--------------------
 
-For instructions on how to run the Example application, refer to the README on the github of each Example application.
-To get the basic knowledge of the development, refer to Getting Started for each processing architecture.
-
-  Web applications
-   \
-
-    Sample using JSP and custom tags
-     https://github.com/nablarch/nablarch-example-web
-
-     :ref:`Click here <getting_started>` for Getting Started with this Example.
-
-    Sample using Thymeleaf
-     https://github.com/nablarch/nablarch-example-thymeleaf-web
-
-     *For this example, the corresponding Getting Started is not available.
-
-
-  Web service
-   \
-
-   RESTfulWeb service
-    https://github.com/nablarch/nablarch-example-rest
-
-    :ref:`Click here <rest_getting_started>` for Getting Started with this Example.
-
-   HTTP messaging
-    Send
-     https://github.com/nablarch/nablarch-example-http-messaging-send
-
-     *For this example, the corresponding Getting Started is not available.
-
-    Receiving
-     https://github.com/nablarch/nablarch-example-http-messaging
-
-     :ref:`Click here <http-messaging_getting_started>` for Getting Started with this Example.
-
-  Batch application
-   \
-
-   Jakarta Batch-compliant batch applications
-    https://github.com/nablarch/nablarch-example-batch-ee
-
-    :ref:`Click here <jBatch_getting_started>` for Getting Started with this Example.
-
-   Nablarch Batch Application
-    https://github.com/nablarch/nablarch-example-batch
-
-    :ref:`Click here <nablarch_Batch_getting_started>` for Getting Started with this Example.
-
-  Messaging
-   \
-
-   Messaging with MOM
-    \
-
-    *Only Example applications are provided for Messaging with MOM, and no Getting Started is provided.
-    Example implementations using Example applications can be found in :ref:`mom_system_messaging`.
-
-    .. _`example_application-mom_system_messaging-async_message_send`:
-
-    Sending asynchronous message
-     https://github.com/nablarch/nablarch-example-mom-delayed-send
-
-     :ref:`Click here <mom_system_messaging-async_message_send>` for the example implementation using this Example application.
-
-    .. _`example_application-mom_system_messaging-sync_message_send`:
-
-    Sending synchronous message
-     https://github.com/nablarch/nablarch-example-mom-sync-send-batch
-
-     :ref:`Click here <mom_system_messaging-sync_message_send>` for the example implementation using this Example application.
-
-    .. _`example_application-mom_system_messaging-async_message_receive`:
-
-    Receiving asynchronous message
-     https://github.com/nablarch/nablarch-example-mom-delayed-receive
-
-     :ref:`Click here <mom_system_messaging-async_message_receive>` for the example implementation using this Example application.
-
-    .. _`example_application-mom_system_messaging-sync_message_receive`:
-
-    Receiving synchronous message
-     https://github.com/nablarch/nablarch-example-mom-sync-receive
-
-     :ref:`Click here <mom_system_messaging-sync_message_receive>` for the example implementation using this Example application.
-
-
-   Messaging Using Tables as Queues
-    https://github.com/nablarch/nablarch-example-db-queue
-
-    :ref:`Click here <db_messaging_getting_started>` for Getting Started with this Example.
+For instructions on how to run the Examples, refer to the README at the top of the GitHub repository for each Example.
 
 Running on Java 21
-==================================================
-Example is assumed to run in Java 17.
+------------------
+Examples are assumed to run in Java 17.
 If you want to run it on Java 21 , you will need to modify the dependent libraries.
 For more information, see the description of the blank project below.
 
-* :ref:`setup_blank_project_for_Java21`
+:ref:`setup_blank_project_for_Java21`
+
+List of Examples
+================
+
+Web application
+---------------
+
+See also :ref:`Web Application <web_application>` and :ref:`Thymeleaf Adapter <web_thymeleaf_adaptor>` as appropriate.
+
+- `Example of Web Application (JSP) <https://github.com/nablarch/nablarch-example-web>`_
+- `Example of Web Application (Thymeleaf) <https://github.com/nablarch/nablarch-example-thymeleaf-web>`_
+
+Web Service
+-----------
+
+RESTful Web Service
+~~~~~~~~~~~~~~~~~~~
+
+See also :ref:`RESTful Web Service <restful_web_service>` as appropriate.
+
+- `Example of RESTful Web Service <https://github.com/nablarch/nablarch-example-rest>`_
+
+HTTP Messaging
+~~~~~~~~~~~~~~
+
+See also :ref:`HTTP Messaging <http_messaging>` as appropriate.
+
+- `Example of HTTP Messaging (sending) <https://github.com/nablarch/nablarch-example-http-messaging-send>`_
+- `Example of HTTP Messaging (receiving) <https://github.com/nablarch/nablarch-example-http-messaging>`_
+
+Batch Application
+-----------------
+
+Jakarta Batch-compliant Batch Application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+See also :ref:`Jakarta Batch-compliant Batch Application <jsr352_batch>` as appropriate.
+
+- `Example of Jakarta Batch-compliant Batch Application <https://github.com/nablarch/nablarch-example-batch-ee>`_
+
+Nablarch Batch Application
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+See also :ref:`Nablarch Batch Application <nablarch_batch>` as appropriate.
+
+- `Example of Nablarch Batch Application <https://github.com/nablarch/nablarch-example-batch>`_
+
+Messaging
+---------
+
+Messaging with MOM
+~~~~~~~~~~~~~~~~~~
+
+See also :ref:`Messaging with MOM <mom_messaging>` as appropriate.
+
+  .. _`example_application-mom_system_messaging-async_message_send`:
+
+- `Example of Messaging with MOM (sending asynchronous messages) <https://github.com/nablarch/nablarch-example-mom-delayed-send>`_
+
+  .. _`example_application-mom_system_messaging-sync_message_send`:
+
+- `Example of Messaging with MOM (sending synchronous messages) <https://github.com/nablarch/nablarch-example-mom-sync-send-batch>`_
+
+  .. _`example_application-mom_system_messaging-async_message_receive`:
+
+- `Example of Messaging with MOM (receiving asynchronous messages) <https://github.com/nablarch/nablarch-example-mom-delayed-receive>`_
+
+    .. _`example_application-mom_system_messaging-sync_message_receive`:
+
+- `Example of Messaging with MOM (receiving synchronous messages) <https://github.com/nablarch/nablarch-example-mom-sync-receive>`_
+
+Messaging Using Tables as Queues
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+See also :ref:`Messaging Using Tables as Queues <db_messaging>` as appropriate.
+
+- `Example of Messaging Using Tables as Queues <https://github.com/nablarch/nablarch-example-db-queue>`_
