@@ -46,7 +46,7 @@ Module list
   
 .. tip::
 
-  Tests are conducted using jackson version 2.12.7.1.
+  Tests are conducted using jackson version 2.17.1.
   When changing the version, test in the project to confirm that there are no problems.
   
 .. tip::
