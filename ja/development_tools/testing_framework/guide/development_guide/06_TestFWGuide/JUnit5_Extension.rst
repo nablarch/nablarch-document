@@ -29,7 +29,7 @@ JUnit 5を使用するには、以下の条件を満たしている必要があ�
 * maven-surefire-plugin の 2.22.0 以上
 
 また本ページは、JUnit 5の導入方法やテストケースの作成方法などの基本的な知識を有していることを前提としているため、それらの手順については記載していない。
-JUnit 5 自体についての情報は、 `公式のユーザガイド（外部サイト、英語） <https://junit.org/junit5/docs/5.8.2/user-guide/>`_ を参照のこと。
+JUnit 5 自体についての情報は、 `公式のユーザガイド（外部サイト、英語） <https://junit.org/junit5/docs/5.11.0/user-guide/>`_ を参照のこと。
 
 ---------------
 モジュール一覧
@@ -53,14 +53,14 @@ JUnit 5 自体についての情報は、 `公式のユーザガイド（外部�
 従来のJUnit 4では、これらの自動テストフレームワークが提供するクラスをテストクラスが継承することで、提供するクラスが持つ機能をテストクラスから使用できるようにしていた。
 
 本拡張機能は、自動テストフレームワークが提供するクラスのインスタンスを拡張機能側で生成し、テストクラスにインジェクションする仕組みを提供する。
-この仕組みには、JUnit 5の `Extension (外部サイト、英語) <https://junit.org/junit5/docs/5.8.2/user-guide/#extensions>`_ を利用している。
+この仕組みには、JUnit 5の `Extension (外部サイト、英語) <https://junit.org/junit5/docs/5.11.0/user-guide/#extensions>`_ を利用している。
 
 本拡張機能では、自動テストフレームワークが提供するクラスごとに **Extension クラス** と **合成アノテーション** を用意している。
 例えば、 :java:extdoc:`TestSupport <nablarch.test.TestSupport>` には :java:extdoc:`TestSupportExtension <nablarch.test.junit5.extension.TestSupportExtension>` と :java:extdoc:`NablarchTest <nablarch.test.junit5.extension.NablarchTest>` が用意されている。
 
 .. tip::
   合成アノテーションはJUnit 5が提供する機能で、複数のアノテーションの設定を別の１つのアノテーションにまとめることができる。
-  詳しくは `公式ガイドの「2.1.1. Meta-Annotations and Composed Annotations」(外部サイト、英語) <https://junit.org/junit5/docs/5.8.2/user-guide/#writing-tests-meta-annotations>`_ を参照のこと。
+  詳しくは `公式ガイドの「2.1.1. Meta-Annotations and Composed Annotations」(外部サイト、英語) <https://junit.org/junit5/docs/5.11.0/user-guide/#writing-tests-meta-annotations>`_ を参照のこと。
 
 
 これらのクラスを使って以下のように実装することで、 :java:extdoc:`TestSupport <nablarch.test.TestSupport>` をテストで使用できるようになる。
@@ -428,7 +428,7 @@ RegisterExtensionで使用する
 JUnit 5では、Extensionのインスタンスを手続き的に生成してテストクラスに適用するためにRegisterExtensionという仕組みが用意されている。
 
 .. tip::
-  RegisterExtensionの説明については、 `公式ガイドの「5.2.2. Programmatic Extension Registration」(外部サイト、英語) <https://junit.org/junit5/docs/5.8.2/user-guide/#extensions-registration-programmatic>`_ を参照のこと。
+  RegisterExtensionの説明については、 `公式ガイドの「5.2.2. Programmatic Extension Registration」(外部サイト、英語) <https://junit.org/junit5/docs/5.11.0/user-guide/#extensions-registration-programmatic>`_ を参照のこと。
 
 本拡張機能が提供するExtensionは、RegisterExtensionを使っても利用できる。
 ただし、その場合は必ずstaticフィールドで使用すること。

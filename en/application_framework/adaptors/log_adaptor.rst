@@ -54,7 +54,7 @@ JBoss Logging
   
 .. tip::
   
-  Tests are conducted using JBoss Logging version 3.3.0 Final. 
+  Tests are conducted using JBoss Logging version 3.6.0 Final.
   When changing the version, test in the project to confirm that there are no problems.
   
 Configuration settings for using the logging framework
