@@ -45,8 +45,8 @@ Exampleの一覧
 
 :ref:`ウェブアプリケーション編の解説 <web_application>` 、 :ref:`Thymeleafアダプタの解説 <web_thymeleaf_adaptor>` も適宜参照すること。
 
-- `JSPとカスタムタグを使用したサンプル <https://github.com/nablarch/nablarch-example-web>`_
-- `Thymeleafを使用したサンプル <https://github.com/nablarch/nablarch-example-thymeleaf-web>`_
+- `ウェブアプリケーションのサンプル(JSP) <https://github.com/nablarch/nablarch-example-web>`_
+- `ウェブアプリケーションのサンプル(Thymeleaf) <https://github.com/nablarch/nablarch-example-thymeleaf-web>`_
 
 
 ウェブサービス
@@ -65,8 +65,8 @@ HTTPメッセージング
 
 :ref:`HTTPメッセージング編の解説 <http_messaging>` も適宜参照すること。
 
-- `HTTPメッセージングの送信側のサンプル <https://github.com/nablarch/nablarch-example-http-messaging-send>`_
-- `HTTPメッセージングの受信側のサンプル <https://github.com/nablarch/nablarch-example-http-messaging>`_
+- `HTTPメッセージングのサンプル(送信) <https://github.com/nablarch/nablarch-example-http-messaging-send>`_
+- `HTTPメッセージングのサンプル(受信) <https://github.com/nablarch/nablarch-example-http-messaging>`_
 
 
 バッチアプリケーション
@@ -97,19 +97,19 @@ MOMによるメッセージング
 
   .. _`example_application-mom_system_messaging-async_message_send`:
 
-- `応答不要メッセージ送信のサンプル <https://github.com/nablarch/nablarch-example-mom-delayed-send>`_
+- `MOMによるメッセージングのサンプル(応答不要メッセージ送信) <https://github.com/nablarch/nablarch-example-mom-delayed-send>`_
 
   .. _`example_application-mom_system_messaging-sync_message_send`:
 
-- `同期応答メッセージ送信のサンプル <https://github.com/nablarch/nablarch-example-mom-sync-send-batch>`_
+- `MOMによるメッセージングのサンプル(同期応答メッセージ送信) <https://github.com/nablarch/nablarch-example-mom-sync-send-batch>`_
 
   .. _`example_application-mom_system_messaging-async_message_receive`:
 
-- `応答不要メッセージ受信のサンプル <https://github.com/nablarch/nablarch-example-mom-delayed-receive>`_
+- `MOMによるメッセージングのサンプル(応答不要メッセージ受信) <https://github.com/nablarch/nablarch-example-mom-delayed-receive>`_
 
   .. _`example_application-mom_system_messaging-sync_message_receive`:
 
-- `同期応答メッセージ受信のサンプル <https://github.com/nablarch/nablarch-example-mom-sync-receive>`_
+- `MOMによるメッセージングのサンプル(同期応答メッセージ受信) <https://github.com/nablarch/nablarch-example-mom-sync-receive>`_
 
 テーブルをキューとして使ったメッセージング
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
