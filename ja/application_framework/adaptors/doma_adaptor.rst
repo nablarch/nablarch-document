@@ -41,7 +41,7 @@ Domaアダプタを使用するための設定を行う
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 以下を参考にプロジェクトの依存関係を設定する必要がある。
 
-詳細は `Doma(外部サイト) <https://doma.readthedocs.io/ja/latest/build/#build-with-maven>`_ を参照。
+詳細は `Doma2(外部サイト) <https://doma.readthedocs.io/ja/latest/build/#build-with-maven>`_ を参照。
 
 .. code-block:: xml
 
