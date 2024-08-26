@@ -43,7 +43,7 @@ Exampleの一覧
 ウェブアプリケーション
 ----------------------
 
-:ref:`ウェブアプリケーション編の解説 <web_application>` 、 :ref:`Thymeleafアダプタの解説 <web_thymeleaf_adaptor>` も合わせて確認すること。
+:ref:`ウェブアプリケーション編の解説 <web_application>` 、 :ref:`Thymeleafアダプタの解説 <web_thymeleaf_adaptor>` も適宜参照。
 
 - `JSPとカスタムタグを使用したサンプル <https://github.com/nablarch/nablarch-example-web>`_
 - `Thymeleafを使用したサンプル <https://github.com/nablarch/nablarch-example-thymeleaf-web>`_
@@ -55,14 +55,15 @@ Exampleの一覧
 RESTfulウェブサービス
 ~~~~~~~~~~~~~~~~~~~~~
 
-:ref:`RESTfulウェブサービス編の解説 <restful_web_service>` も合わせて確認すること。
+:ref:`RESTfulウェブサービス編の解説 <restful_web_service>` も適宜参照.
+     
 
 - `RESTfulウェブサービスのサンプル <https://github.com/nablarch/nablarch-example-rest>`_
 
 HTTPメッセージング
 ~~~~~~~~~~~~~~~~~~
 
-:ref:`HTTPメッセージング編の解説 <http_messaging>` も合わせて確認すること。
+:ref:`HTTPメッセージング編の解説 <http_messaging>` も適宜参照。
 
 - `HTTPメッセージングの送信側のサンプル <https://github.com/nablarch/nablarch-example-http-messaging-send>`_
 - `HTTPメッセージングの受信側のサンプル <https://github.com/nablarch/nablarch-example-http-messaging>`_
@@ -74,14 +75,14 @@ HTTPメッセージング
 Jakarta Batchに準拠したバッチアプリケーション
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:ref:`Jakarta Batchに準拠したバッチアプリケーションの解説 <jsr352_batch>` も合わせて確認すること。
+:ref:`Jakarta Batchに準拠したバッチアプリケーションの解説 <jsr352_batch>` も適宜参照。
 
 - `Jakarta Batchに準拠したバッチアプリケーションのサンプル <https://github.com/nablarch/nablarch-example-batch-ee>`_
 
 Nablarchバッチアプリケーション
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:ref:`Nablarchバッチアプリケーションの解説 <nablarch_batch>` も合わせて確認すること。
+:ref:`Nablarchバッチアプリケーションの解説 <nablarch_batch>` も適宜参照。
 
 - `Nablarchバッチアプリケーションのサンプル <https://github.com/nablarch/nablarch-example-batch>`_
 
@@ -92,7 +93,7 @@ Nablarchバッチアプリケーション
 MOMによるメッセージング
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-:ref:`MOMによるメッセージングの解説 <mom_messaging>` も合わせて確認すること。
+:ref:`MOMによるメッセージングの解説 <mom_messaging>` も適宜参照。
 
   .. _`example_application-mom_system_messaging-async_message_send`:
 
@@ -113,6 +114,6 @@ MOMによるメッセージング
 テーブルをキューとして使ったメッセージング
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:ref:`テーブルをキューとして使ったメッセージング <db_messaging>` も合わせて確認すること。
+:ref:`テーブルをキューとして使ったメッセージング <db_messaging>` も適宜参照。
 
 - `テーブルをキューとして使ったメッセージングのサンプル <https://github.com/nablarch/nablarch-example-db-queue>`_
