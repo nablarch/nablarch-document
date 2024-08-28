@@ -10,6 +10,8 @@
 Nablarch
 =======================
 
+Nablarch(ナブラーク)は、TISの豊富な基幹システム構築経験から得られたナレッジを集約したJavaアプリケーション開発/実行基盤です。
+
 .. toctree::
   :maxdepth: 1
   :hidden:
@@ -33,67 +35,50 @@ Nablarch
 Nablarchについて
 -----------------------------------------------
 
-Nablarch(ナブラーク)は、TISの豊富な基幹システム構築経験から得られたナレッジを集約したJavaアプリケーション開発/実行基盤です。
-
  | :doc:`コンセプト <about_nablarch/concept>`
+ | :doc:`モジュール一覧 <about_nablarch/mvn_module>`
  | :doc:`ライセンス <about_nablarch/license>`
-
-
------------------------------------------------
-Nablarchシステム開発ガイド
------------------------------------------------
-
-Nablarchを使ってシステムを開発するエンジニアに対して、開発開始前・開発中になにをすべきかを示すガイドラインです。
-
- | `システム開発ガイド <https://fintan.jp/page/252/>`__
-
------------------------------------------------
-Nablarch開発標準
------------------------------------------------
-
-設計書やプログラムコードを作成する際に従うべきガイドラインです。
-
- | `開発標準 <https://fintan.jp/page/1868/#development-standards>`__
-
 
 -----------------------------------------------
 Nablarchアプリケーションフレームワーク
 -----------------------------------------------
 
-  | :doc:`モジュール一覧 <about_nablarch/mvn_module>`
   | :doc:`解説書 <application_framework/application_framework/index>`
   | :doc:`アダプタ <application_framework/adaptors/index>`
-  | :doc:`Example <examples/index>`
-  | :doc:`クラウドネイティブ対応 <application_framework/application_framework/cloud_native/index>`
 
 -----------------------------------------------
 Nablarch開発ツール
 -----------------------------------------------
 
-効率的なJava静的チェック
-===========================
-
-  | :doc:`解説書 <development_tools/java_static_analysis/index>` 
-
-
-テスティングフレームワーク
-==============================================
-
-  | :doc:`解説書 <development_tools/testing_framework/index>` | :doc:`モジュール一覧 <about_nablarch/mvn_module>`
-
-
-アプリケーション開発時に使える便利なツール
-==========================================
-
-  | :doc:`解説書 <development_tools/toolbox/index>` 
-
+  | :doc:`効率的なJava静的チェック <development_tools/java_static_analysis/index>` 
+  | :doc:`テスティングフレームワーク <development_tools/testing_framework/index>`
+  | :doc:`アプリケーション開発時に使える便利なツール <development_tools/toolbox/index>` 
 
 -----------------------------------------------
-Nablarch実装例集
+Example
+-----------------------------------------------
+
+  | :doc:`解説書 <examples/index>`
+
+-----------------------------------------------
+目的別の実装サンプル集
 -----------------------------------------------
 
   | :doc:`解説書 <biz_samples/index>`
 
+-----------------------------------------------
+Nablarchでの開発に役立つコンテンツ
+-----------------------------------------------
+
+ | :doc:`コンテンツ紹介 <external_contents/index>`
+ | :doc:`Nablarchシステム開発ガイド <external_contents/system_development_guide>`
+ | :doc:`開発標準 <external_contents/development_standards>`
+
+-----------------------------------------------
+Nablarch API
+-----------------------------------------------
+
+  | :doc:`API一覧 <releases/index>`
 
 -----------------------------------------------
 リリース情報
@@ -101,6 +86,11 @@ Nablarch実装例集
 
   | :doc:`リリースノート <releases/index>`
 
+-----------------------------------------------
+Nablarchのバージョンアップ方針
+-----------------------------------------------
+
+  | :doc:`Nablarchのバージョンアップ方針 <about_nablarch/versionup_policy>`
 
 -----------------------------------------------
 機能追加要望・改善要望
@@ -119,3 +109,10 @@ Jakarta EEの仕様名に関して
 -----------------------------------------------
 
   | :doc:`Jakarta EEの仕様名に関して <migration/index>`
+
+
+-----------------------------------------------
+ご利用にあたって
+-----------------------------------------------
+
+  | :doc:`ご利用にあたって <terms_of_use/index>`
