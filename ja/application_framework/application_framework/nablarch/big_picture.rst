@@ -17,6 +17,8 @@ Nablarchアプリケーションフレームワークは、以下の特長があ
  実行制御基盤および :ref:`ライブラリ<library>` を組み合わせることにより、
  様々な処理方式に対応できる。
 
+ .. _runtime_platform:
+ 
  実行制御基盤
   * :ref:`web_application`
   * :ref:`web_service`

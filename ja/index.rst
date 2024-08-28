@@ -20,6 +20,8 @@ Nablarch
   extension_components/index
   development_tools/index
   examples/index
+  biz_samples/index
+  external_contents/index
   nablarch_api/index
   releases/index
   about_nablarch/versionup_policy
@@ -60,7 +62,7 @@ Nablarchアプリケーションフレームワーク
   | :doc:`モジュール一覧 <about_nablarch/mvn_module>`
   | :doc:`解説書 <application_framework/application_framework/index>`
   | :doc:`アダプタ <application_framework/adaptors/index>`
-  | :doc:`Example <application_framework/example/index>`
+  | :doc:`Example <examples/index>`
   | :doc:`クラウドネイティブ対応 <application_framework/application_framework/cloud_native/index>`
 
 -----------------------------------------------
@@ -113,10 +115,10 @@ Nablarch開発ツール
 
 
 -----------------------------------------------
-Nablarch実装例集
+目的別の実装サンプル集
 -----------------------------------------------
 
-  | :doc:`解説書 <examples/index>`
+  | :doc:`解説書 <biz_samples/index>`
 
 
 -----------------------------------------------
