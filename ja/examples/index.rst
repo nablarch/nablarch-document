@@ -45,7 +45,7 @@ Exampleの一覧
 ウェブアプリケーション
 ----------------------
 
-- `ウェブアプリケーション (JSP) <https://github.com/nablarch/nablarch-example-web>`_ (:ref:`解説 <getting_started>`)
+- `ウェブアプリケーション (Jakarta Server Pages) <https://github.com/nablarch/nablarch-example-web>`_ (:ref:`解説 <getting_started>`)
 - `ウェブアプリケーション (Thymeleaf) <https://github.com/nablarch/nablarch-example-thymeleaf-web>`_ (:ref:`解説 <web_thymeleaf_adaptor>`)
 
 
