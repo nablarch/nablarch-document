@@ -178,7 +178,7 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
  これにより、一時テーブルのテーブルレイアウトをプロジェクト共通で定義することにより、
  単一のフォームクラスを全ての応答不要メッセージ送信処理で使用することが出来るようになる。
 
-:ref:`Exampleアプリケーション<example_application-mom_system_messaging-async_message_send>` をベースに、
+:ref:`Exampleアプリケーション<example_application-mom_system_messaging>` をベースに、
 プロジェクト情報を送信する場合の実装例を以下に示す。
 
 実装例
@@ -366,7 +366,7 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
 * 送受信に使用するフォーマット定義ファイル
 * :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>` を使った送受信処理
 
-:ref:`Exampleアプリケーション<example_application-mom_system_messaging-sync_message_send>` をベースに、
+:ref:`Exampleアプリケーション<example_application-mom_system_messaging>` をベースに、
 テーブルに格納された送信データから、
 バッチアクションでプロジェクト情報を送信する場合の実装例を以下に示す。
 テーブルからのデータ読み込み部分は、メッセージ送信に関係しないので実装例を省略する。
@@ -499,7 +499,7 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
 * 電文を登録するためのINSERT文(SQLファイル)
 * 電文を登録する際に使用するフォームクラス
 
-:ref:`Exampleアプリケーション<example_application-mom_system_messaging-async_message_receive>` をベースに、
+:ref:`Exampleアプリケーション<example_application-mom_system_messaging>` をベースに、
 プロジェクト情報を受信する場合の実装例を以下に示す。
 
 実装例
@@ -662,7 +662,7 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
 * 電文のレイアウトを表すフォーマット定義ファイル
 * 電文受信時とエラー発生時の処理(アクションクラス)
 
-:ref:`Exampleアプリケーション<example_application-mom_system_messaging-sync_message_receive>` をベースに、
+:ref:`Exampleアプリケーション<example_application-mom_system_messaging>` をベースに、
 プロジェクト情報を受信する場合の実装例を以下に示す。
 
 実装例

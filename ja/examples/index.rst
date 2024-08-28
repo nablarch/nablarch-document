@@ -67,21 +67,13 @@ Exampleの一覧
 メッセージング
 --------------
 
-- MOMによるメッセージング
-    .. _`example_application-mom_system_messaging-async_message_send`:
-  
-  - `応答不要メッセージ送信 <https://github.com/nablarch/nablarch-example-mom-delayed-send>`_ (:ref:`解説 <mom_messaging_getting_started>`)
-  
-    .. _`example_application-mom_system_messaging-sync_message_send`:
-  
-  - `同期応答メッセージ送信 <https://github.com/nablarch/nablarch-example-mom-sync-send-batch>`_ (:ref:`解説 <mom_messaging_getting_started>`)
-  
-    .. _`example_application-mom_system_messaging-async_message_receive`:
-  
-  - `応答不要メッセージ受信 <https://github.com/nablarch/nablarch-example-mom-delayed-receive>`_ (:ref:`解説 <mom_messaging_getting_started>`)
-  
-    .. _`example_application-mom_system_messaging-sync_message_receive`:
-  
-  - `同期応答メッセージ受信 <https://github.com/nablarch/nablarch-example-mom-sync-receive>`_ (:ref:`解説 <mom_messaging_getting_started>`)
+.. _`example_application-mom_system_messaging`:
+
+- MOMによるメッセージング (:ref:`解説 <mom_messaging_getting_started>`)
+
+  - `応答不要メッセージ送信 <https://github.com/nablarch/nablarch-example-mom-delayed-send>`_
+  - `同期応答メッセージ送信 <https://github.com/nablarch/nablarch-example-mom-sync-send-batch>`_
+  - `応答不要メッセージ受信 <https://github.com/nablarch/nablarch-example-mom-delayed-receive>`_
+  - `同期応答メッセージ受信 <https://github.com/nablarch/nablarch-example-mom-sync-receive>`_
 
 - `テーブルをキューとして使ったメッセージング <https://github.com/nablarch/nablarch-example-db-queue>`_ (:ref:`解説 <db_messaging_getting_started>`)
