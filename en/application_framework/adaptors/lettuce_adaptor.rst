@@ -12,7 +12,7 @@ Provides adapters to use `Redis(external site) <https://redis.io/>`_ for the fol
 - :ref:`session_store`
 - :ref:`health_check_endpoint_handler`
 
-This adapter uses `Lettuce (external site) <https://lettuce.io/>`_ as a client library for Redis.
+This adapter uses `Lettuce (external site) <https://redis.github.io/lettuce/>`_ as a client library for Redis.
 
 .. _lettuce_adaptor_module_list:
 

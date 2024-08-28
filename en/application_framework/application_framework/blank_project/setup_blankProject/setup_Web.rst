@@ -176,7 +176,7 @@ Execute the following command to start the application for communication confirm
 
   "jetty:run" of Maven used in the above command example is a specification to use the run goal of the Jetty Maven Plugin.
 
-  For information on the Jetty Maven Plugin, see `Jetty Maven Plugin (external site) <https://eclipse.dev/jetty/documentation/jetty-12/programming-guide/index.html#jetty-maven-plugin>`_.
+  For information on the Jetty Maven Plugin, see `Jetty Maven Plugin (external site) <https://jetty.org/docs/jetty/12/programming-guide/maven-jetty/jetty-maven-plugin.html>`_.
 
 If the launch is successful, the log given below will be output to the console.
 

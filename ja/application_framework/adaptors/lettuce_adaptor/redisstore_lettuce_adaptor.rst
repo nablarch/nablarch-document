@@ -218,7 +218,7 @@ Cluster         ``nablarch.lettuce.cluster.uriList``   ``redis://localhost:6379,
 =============== ====================================== =============
 
 Clusterの設定値は、各ノードに接続するためのURIを半角カンマで列挙した値を設定する。
-個々のURIのフォーマットの詳細については、 `Lettuceのドキュメント(外部サイト、英語) <https://lettuce.io/core/5.3.0.RELEASE/reference/index.html#redisuri.uri-syntax>`_ を参照。
+個々のURIのフォーマットの詳細については、 `Lettuceのドキュメント(外部サイト、英語) <https://redis.github.io/lettuce/user-guide/connecting-redis/#uri-syntax>`_ を参照。
 
 .. _redisstore_redis_client_config_advanced:
 
@@ -233,12 +233,12 @@ Clusterの設定値は、各ノードに接続するためのURIを半角カン�
 =================================== ======================================== =============
 クライアントクラス                    メソッド                                  戻り値の型
 =================================== ======================================== =============
-``LettuceSimpleRedisClient``        ``createClient()``                       `RedisClient(外部サイト、英語) <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/RedisClient.html>`_
-\                                   ``createConnection(RedisClient)``        `StatefulRedisConnection<byte[], byte[]>(外部サイト、英語) <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/api/StatefulRedisConnection.html>`_
-``LettuceMasterReplicaRedisClient`` ``createClient()``                       `RedisClient(外部サイト、英語) <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/RedisClient.html>`_
-\                                   ``createConnection(RedisClient)``        `StatefulRedisMasterReplicaConnection<byte[], byte[]>(外部サイト、英語) <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/masterreplica/StatefulRedisMasterReplicaConnection.html>`_
-``LettuceClusterRedisClient``       ``createClient()``                       `RedisClusterClient(外部サイト、英語) <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/cluster/RedisClusterClient.html>`_
-\                                   ``createConnection(RedisClusterClient)`` `StatefulRedisClusterConnection<byte[], byte[]>(外部サイト、英語) <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/cluster/api/StatefulRedisClusterConnection.html>`_
+``LettuceSimpleRedisClient``        ``createClient()``                       `RedisClient(外部サイト、英語) <https://www.javadoc.io/static/io.lettuce/lettuce-core/5.3.0.RELEASE/io/lettuce/core/RedisClient.html>`_
+\                                   ``createConnection(RedisClient)``        `StatefulRedisConnection<byte[], byte[]>(外部サイト、英語) <https://www.javadoc.io/static/io.lettuce/lettuce-core/5.3.0.RELEASE/io/lettuce/core/api/StatefulRedisConnection.html>`_
+``LettuceMasterReplicaRedisClient`` ``createClient()``                       `RedisClient(外部サイト、英語) <https://www.javadoc.io/static/io.lettuce/lettuce-core/5.3.0.RELEASE/io/lettuce/core/RedisClient.html>`_
+\                                   ``createConnection(RedisClient)``        `StatefulRedisMasterReplicaConnection<byte[], byte[]>(外部サイト、英語) <https://www.javadoc.io/static/io.lettuce/lettuce-core/5.3.0.RELEASE/io/lettuce/core/masterreplica/StatefulRedisMasterReplicaConnection.html>`_
+``LettuceClusterRedisClient``       ``createClient()``                       `RedisClusterClient(外部サイト、英語) <https://www.javadoc.io/static/io.lettuce/lettuce-core/5.3.0.RELEASE/io/lettuce/core/cluster/RedisClusterClient.html>`_
+\                                   ``createConnection(RedisClusterClient)`` `StatefulRedisClusterConnection<byte[], byte[]>(外部サイト、英語) <https://www.javadoc.io/static/io.lettuce/lettuce-core/5.3.0.RELEASE/io/lettuce/core/cluster/api/StatefulRedisClusterConnection.html>`_
 =================================== ======================================== =============
 
 これらのメソッドをカスタムクライアントクラスでオーバーライドし、独自に設定したLettuceのインスタンスを返すように実装することで、任意で設定できるようになる。
@@ -299,13 +299,13 @@ Clusterのトポロジ更新の監視を有効にする設定を例に、カス�
       }
   }
 
-LettuceでClusterのトポロジ更新を監視できるようにするには、必要な情報を設定した `ClusterTopologyRefreshOptions（外部サイト、英語） <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/cluster/ClusterTopologyRefreshOptions.html>`_ を `RedisClusterClient（外部サイト、英語） <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/cluster/RedisClusterClient.html>`_ に設定する必要がある。
+LettuceでClusterのトポロジ更新を監視できるようにするには、必要な情報を設定した `ClusterTopologyRefreshOptions（外部サイト、英語） <https://www.javadoc.io/static/io.lettuce/lettuce-core/5.3.0.RELEASE/io/lettuce/core/cluster/ClusterTopologyRefreshOptions.html>`_ を `RedisClusterClient（外部サイト、英語） <https://www.javadoc.io/static/io.lettuce/lettuce-core/5.3.0.RELEASE/io/lettuce/core/cluster/RedisClusterClient.html>`_ に設定する必要がある。
 
 したがって、 ``CustomClusterRedisClient`` では ``RedisClusterClient`` を生成する ``createClient()`` をオーバーライドして、必要な情報を設定した ``RedisClusterClient`` のインスタンスを返すように実装する。
 
 .. tip::
 
-  Lettuceの設定の詳細については、 `Lettuceのドキュメント（外部サイト、英語） <https://lettuce.io/core/5.3.0.RELEASE/reference/index.html#clientoptions.cluster-specific-options>`_ を参照。
+  Lettuceの設定の詳細については、 `Lettuceのドキュメント（外部サイト、英語） <https://redis.github.io/lettuce/advanced-usage/#cluster-specific-options>`_ を参照。
 
 次に、このカスタムクライアントクラスをコンポーネント定義する。
 
