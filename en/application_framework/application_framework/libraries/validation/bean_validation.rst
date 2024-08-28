@@ -707,7 +707,7 @@ Performing Explicit Execution of Validation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Normally, validation is using the methods described in `Checking User Input Values for Web Applications`_ or `Checking User Input Values for RESTful Web Services`_ ,  but there are cases where these methods cannot be used, such as when you want to handle validation errors.
 
-In such cases, :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object-java.lang.Class...)>` can be used to explicitly perform validation.
+In such cases, :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object)>` can be used to explicitly perform validation.
 
   .. code-block:: java
 
