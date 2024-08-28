@@ -706,7 +706,7 @@ Bean Validation(JSR349)の仕様では、項目名をメッセージに含める
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 通常、バリデーションは `ウェブアプリケーションのユーザ入力値のチェックを行う`_ や `RESTfulウェブサービスのユーザ入力値のチェックを行う`_ で案内している方法で行うが、バリデーションエラーをハンドリングしたい場合など、これらの方法が使用できない場合がある。
 
-そのような場合には、 :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object-java.lang.Class...)>` を使用して明示的にバリデーションを実行することができる。
+そのような場合には、 :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object)>` を使用して明示的にバリデーションを実行することができる。
 
   .. code-block:: java
 
