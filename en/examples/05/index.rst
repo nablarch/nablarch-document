@@ -136,6 +136,7 @@ The file management ID is stored along with the file in the file management tabl
 .. important::
  A sequence is required for numbering.
  A sequence with the same name as the fileIdKey specified in the component configuration file described below must be created in advance.
+
 ---------------------------
 How to Use
 ---------------------------
