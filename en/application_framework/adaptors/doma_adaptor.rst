@@ -40,7 +40,7 @@ Configure dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You need to set the project dependencies by referring to the following.
 
-For details, see `Doma(external site) <https://doma.readthedocs.io/en/latest/build/#build-with-maven>`_ .
+For details, see `Maven build configuration in Doma2(external site) <https://doma.readthedocs.io/en/latest/build/#build-with-maven>`_ .
 
 .. code-block:: xml
 
