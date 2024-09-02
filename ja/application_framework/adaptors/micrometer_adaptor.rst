@@ -537,7 +537,7 @@ URIを設定する
 
     nablarch.micrometer.datadog.uri=https://<利用リージョン>.datadoghq.com
 
-  URI は ``nablarch.micrometer.datadog.apiKey`` で設定できる。
+  URI は ``nablarch.micrometer.datadog.uri`` で設定できる。
 
   その他の設定については `DatadogConfig(外部サイト、英語)`_ を参照。
 
