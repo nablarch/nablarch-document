@@ -538,7 +538,7 @@ Configuring the API key
 Configuring the URI
   .. code-block:: text
 
-    nablarch.micrometer.datadog.uri=https://<Region to use>.datadoghq.com
+    nablarch.micrometer.datadog.uri=<SITE_URL>
 
   The URI can be set in ``nablarch.micrometer.datadog.uri`` .
 

@@ -535,7 +535,7 @@ APIキーを設定する
 URIを設定する
   .. code-block:: text
 
-    nablarch.micrometer.datadog.uri=https://<利用リージョン>.datadoghq.com
+    nablarch.micrometer.datadog.uri=<サイトのURL>
 
   URI は ``nablarch.micrometer.datadog.uri`` で設定できる。
 
