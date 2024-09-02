@@ -535,6 +535,13 @@ Configuring the API key
 
   The API key can be set in ``nablarch.micrometer.datadog.apiKey`` .
 
+Configuring the URI
+  .. code-block:: text
+
+    nablarch.micrometer.datadog.uri=https://<Region to use>.datadoghq.com
+
+  The URI can be set in ``nablarch.micrometer.datadog.uri`` .
+
   See `DatadogConfig (external site)`_ for other configuration.
 
 Disable the registry
