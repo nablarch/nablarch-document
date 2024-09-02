@@ -532,6 +532,13 @@ APIキーを設定する
 
   API キーは ``nablarch.micrometer.datadog.apiKey`` で設定できる。
 
+URIを設定する
+  .. code-block:: text
+
+    nablarch.micrometer.datadog.uri=<サイトのURL>
+
+  URI は ``nablarch.micrometer.datadog.uri`` で設定できる。
+
   その他の設定については `DatadogConfig(外部サイト、英語)`_ を参照。
 
 連携を無効にする
