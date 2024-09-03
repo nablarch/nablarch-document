@@ -142,7 +142,7 @@ As you can see, the blank project is configured to create the following two imag
 `Tomcat image <https://hub.docker.com/_/tomcat>`_ (External sites) is used as base image by default.
 
 The base image can be changed with the ``jib.from.image`` property.
-For example, if you want to use ``tomcat:10.1.5-jre17-temurin-jammy`` for your base image, you would write it in ``pom.xml`` .
+For example, if you want to use ``tomcat:10.1.28-jre17-temurin-jammy`` for your base image, you would write it in ``pom.xml`` .
 
 .. code-block:: xml
 
@@ -150,7 +150,7 @@ For example, if you want to use ``tomcat:10.1.5-jre17-temurin-jammy`` for your b
     <! -- Omitted ...-->
     <properties>
       <! -- Omitted ...-->
-      <jib.from.image>tomcat:10.1.5-jre17-temurin-jammy</jib.from.image>
+      <jib.from.image>tomcat:10.1.28-jre17-temurin-jammy</jib.from.image>
       <! -- Omitted ...-->
     </properties>
     <! -- Omitted ...-->

@@ -142,7 +142,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 また、初期設定ではベースイメージとして `Tomcat のイメージ <https://hub.docker.com/_/tomcat>`_ (外部サイト、英語)が使用される。
 
 ベースイメージは ``jib.from.image`` プロパティで変更できる。
-例えば、ベースイメージに ``tomcat:10.1.5-jre17-temurin-jammy`` を使用したい場合は、次のように ``pom.xml`` に記述する。
+例えば、ベースイメージに ``tomcat:10.1.28-jre17-temurin-jammy`` を使用したい場合は、次のように ``pom.xml`` に記述する。
 
 .. code-block:: xml
 
@@ -150,7 +150,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
     <!--省略...-->
     <properties>
       <!--省略...-->
-      <jib.from.image>tomcat:10.1.5-jre17-temurin-jammy</jib.from.image>
+      <jib.from.image>tomcat:10.1.28-jre17-temurin-jammy</jib.from.image>
       <!--省略...-->
     </properties>
     <!--省略...-->
