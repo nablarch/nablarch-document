@@ -182,14 +182,7 @@ If the current directory is not yet moved to the generated project, move the dir
 
   cd myapp-jaxrs
 
-Execute the following command to build the RESTful web service.
-
-.. code-block:: text
-
-  mvn compile
-
-
-Execute the following command to start the application for communication confirmation of RESTful web service.
+Execute the following command to build the application for communication confirmation and then start it.
 
 .. code-block:: text
 
@@ -198,6 +191,7 @@ Execute the following command to start the application for communication confirm
 .. tip::
 
   "jetty:run" of Maven used in the above command example is a specification to use the run goal of the Jetty Maven Plugin.
+  The compile goal, which builds the application, is executed in conjunction with “jetty:run” and does not need to be explicitly executed.
 
   For information on the Jetty Maven Plugin, see `Jetty Maven Plugin (external site) <https://jetty.org/docs/jetty/12/programming-guide/maven-jetty/jetty-maven-plugin.html>`_.
 
