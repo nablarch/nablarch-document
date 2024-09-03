@@ -50,7 +50,7 @@ Prerequisites for initial setup
 The following software are assumed to be installed in the execution environment.
 
 All projects
-  * Maven 3.6.3 or higher
+  * Maven 3.9.9 or higher
 
 Web, RESTful web service, Jakarta Batch-compliant batch, Nablarch batch
   * JDK17 or higher
