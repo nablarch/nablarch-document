@@ -6,7 +6,7 @@ Nablarch provides not only an application framework, but also development standa
 Many of these contents are available on `Fintan (external site) <https://fintan.jp/en/>`_ and are recommended to be used in combination with Nablarch.
 Here are some of the most useful contents.
 
-For contents that cannot be introduced here, please refer to Fintan's `Nablarch <https://fintan.jp/en/page/1954/>`_ page.
+For contents that cannot be introduced here, please refer to Fintan's `Nablarch (external site) <https://fintan.jp/en/page/1954/>`_ page.
 You can find the list of contents on the page (this manual is also included in the list of contents).
 
 
