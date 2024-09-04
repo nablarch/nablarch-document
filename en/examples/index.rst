@@ -4,12 +4,12 @@
 Example
 =======
 
-Examples are implementation examples that demonstrate how to use the features of the Nablarch Application Framework, and are created for each :ref:`runtime platform <runtime_platform>`.
-This chapter describes the procedures for building the environment and executing the application, which are necessary for Examples.
+Example is an implementation example that demonstrates how to use the features of the Nablarch Application Framework, and is created for each :ref:`runtime platform <runtime_platform>`.
+This chapter describes the procedures for building the environment and executing the application, which are necessary for each Example.
 
 
   .. tip::
-    Examples are not intended to be used to create a full-fledged application by modifying Examples.
+    Examples are not intended to be used to create a full-fledged applications by modifying each Example.
     If you want to create a full-fledged application, create it from :ref:`blank_project`.
  
  
@@ -26,7 +26,7 @@ Examples use Apache Maven to build and run the application. Refer to the followi
 Procedure to execute
 --------------------
 
-For instructions on how to run the Examples, refer to the README at the top of the GitHub repository for each Example.
+For instructions on how to run Examples, refer to the README at the top of the GitHub repository for each Example.
 
 Running on Java 21
 ------------------
