@@ -316,11 +316,30 @@ javadoc_url_map = {
   'javax.ws' : ('https://docs.oracle.com/javaee/7/api/', 'javadoc8')
 }
 
-# add custom javascript
-def setup(app):
-  app.add_javascript('custom.js')
-  
 rst_prolog= u".. |nablarch_version| replace:: " + version + """
 """
 
 extlinks = {'javadoc_url' : ('https://nablarch.github.io/docs/' + version + '/publishedApi/%s', 'path')}
+
+# Configure the Sphinx extension
+def setup(app):
+   # add custom javascript
+   app.add_javascript('custom.js')
+
+   # add custom config for Nablarch version replacements
+   app.add_config_value('replacements_dict', {}, True)
+   # add an event handler to replace the Nablarch version
+   app.connect('source-read', replaceNablarchVersion)
+
+# Options for Nablarch version replacements
+# Code blocks cannot be replaced in the |nablarch_version| format, so they are explicitly replaced before documentation is generated.
+
+def replaceNablarchVersion(app, docname, source):
+    result = source[0]
+    for key in app.config.replacements_dict:
+        result = result.replace(key, app.config.replacements_dict[key])
+    source[0] = result
+
+replacements_dict = {
+    "{nablarch_version}" : version
+}
