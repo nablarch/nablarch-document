@@ -10,6 +10,8 @@
 Nablarch
 =======================
 
+Nablarch(ナブラーク)は、TISの豊富な基幹システム構築経験から得られたナレッジを集約したJavaアプリケーション開発/実行基盤です。
+
 .. toctree::
   :maxdepth: 1
   :hidden:
@@ -32,104 +34,30 @@ Nablarch
 Nablarchについて
 -----------------------------------------------
 
-Nablarch(ナブラーク)は、TISの豊富な基幹システム構築経験から得られたナレッジを集約したJavaアプリケーション開発/実行基盤です。
-
  | :doc:`コンセプト <about_nablarch/concept>`
+ | :doc:`モジュール一覧 <about_nablarch/mvn_module>`
  | :doc:`ライセンス <about_nablarch/license>`
-
-
------------------------------------------------
-Nablarchシステム開発ガイド
------------------------------------------------
-
-Nablarchを使ってシステムを開発するエンジニアに対して、開発開始前・開発中になにをすべきかを示すガイドラインです。
-
- | `システム開発ガイド <https://fintan.jp/page/252/>`__
-
------------------------------------------------
-Nablarch開発標準
------------------------------------------------
-
-設計書やプログラムコードを作成する際に従うべきガイドラインです。
-
- | `開発標準 <https://fintan.jp/page/1868/#development-standards>`__
-
 
 -----------------------------------------------
 Nablarchアプリケーションフレームワーク
 -----------------------------------------------
 
-  | :doc:`モジュール一覧 <about_nablarch/mvn_module>`
   | :doc:`解説書 <application_framework/application_framework/index>`
   | :doc:`アダプタ <application_framework/adaptors/index>`
-  | :doc:`Example <examples/index>`
-  | :doc:`クラウドネイティブ対応 <application_framework/application_framework/cloud_native/index>`
-
------------------------------------------------
-Nablarch拡張コンポーネント
------------------------------------------------
-
-帳票ライブラリ
-===========================
-
-  | :doc:`解説書 <extension_components/report/index>` | `サンプルアプリケーション <https://github.com/nablarch/nablarch-report-sample>`__
-  
-ワークフローライブラリ
-===========================
-
-  | :doc:`解説書 <extension_components/workflow/doc/index>`
-  | :doc:`ワークフロー定義データ自動生成ツール <extension_components/workflow/tool/index>` |
-
-ETL基盤
-===========================
-
-  | :doc:`解説書 <extension_components/etl/index>`
-  | :doc:`ETL Mavenプラグイン <extension_components/etl/etl_maven_plugin>`
-
 
 -----------------------------------------------
 Nablarch開発ツール
 -----------------------------------------------
 
-効率的なJava静的チェック
-===========================
-
-  | :doc:`解説書 <development_tools/java_static_analysis/index>` 
-
-フロントエンド上級者向けのUI開発基盤
-====================================
-
-  | :doc:`解説書 <development_tools/ui_dev/index>` | :doc:`JSP/HTML作成ガイド <development_tools/ui_dev/guide/index>` 
-
-
-テスティングフレームワーク
-==============================================
-
-  | :doc:`解説書 <development_tools/testing_framework/index>` | :doc:`モジュール一覧 <about_nablarch/mvn_module>`
-
-
-アプリケーション開発時に使える便利なツール
-==========================================
-
-  | :doc:`解説書 <development_tools/toolbox/index>` 
-
+  | :doc:`効率的なJava静的チェック <development_tools/java_static_analysis/index>` 
+  | :doc:`テスティングフレームワーク <development_tools/testing_framework/index>`
+  | :doc:`アプリケーション開発時に使える便利なツール <development_tools/toolbox/index>` 
 
 -----------------------------------------------
-目的別の実装サンプル集
+Nablarchでの開発に役立つコンテンツ
 -----------------------------------------------
 
-  | :doc:`解説書 <biz_samples/index>`
+`Fintan(外部サイト) <https://fintan.jp/page/1868/>`_ で公開している、Nablarchでの開発に役立つ :doc:`コンテンツを紹介 <external_contents/index>` しています。
 
-
------------------------------------------------
-リリース情報
------------------------------------------------
-
-  | :doc:`リリースノート <releases/index>`
-
-
------------------------------------------------
-機能追加要望・改善要望
------------------------------------------------
-
-  | :doc:`機能追加要望・改善要望 <inquiry/index>`
+ | :ref:`system_development_guide`
+ | :ref:`development_standards`
