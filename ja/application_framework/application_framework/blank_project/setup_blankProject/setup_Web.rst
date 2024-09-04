@@ -59,18 +59,17 @@ mvnコマンドの実行
 
   mvn archetype:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-web-archetype -DarchetypeVersion=\ |nablarch_version|\
 
-.. important::
-    上記コマンドで使用されているnablarchのバージョンは6u2となっている。バージョンを変更したい場合は、以下のパラメータを変更すること。
+上記コマンドで使用されているnablarchのバージョンは |nablarch_version| となっている。バージョンを変更したい場合は、以下のパラメータを変更すること。
 
-    .. list-table::
-      :header-rows: 1
-      :class: white-space-normal
-      :widths: 6,20
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+  :widths: 6,20
 
-      * - 設定値
-        - 説明
-      * - archetypeVersion
-        - 使用したいアーキタイプのバージョンを指定する（Nablarch 6u2以降のバージョン）
+  * - 設定値
+    - 説明
+  * - archetypeVersion
+    - 使用したいアーキタイプのバージョンを指定する（Nablarch 6u2以降のバージョン）
 
 
 プロジェクト情報の入力
