@@ -55,9 +55,9 @@ mvnコマンドの実行
 
 その後、以下のコマンドを実行する。
 
-.. code-block:: text
+.. parsed-literal::
 
-  mvn archetype:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-web-archetype -DarchetypeVersion=6u2
+  mvn archetype:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-web-archetype -DarchetypeVersion=\ |nablarch_version|\
 
 .. important::
     上記コマンドで使用されているnablarchのバージョンは6u2となっている。バージョンを変更したい場合は、以下のパラメータを変更すること。
