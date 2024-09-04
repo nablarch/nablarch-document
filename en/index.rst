@@ -29,7 +29,6 @@ Nablarch is a Java application development and execution platform that integrate
   jakarta_ee/index
   terms_of_use/index
 
-
 -----------------------------------------------
 What is the Nablarch?
 -----------------------------------------------
@@ -45,7 +44,6 @@ Nablarch Application Framework
   | :doc:`Manual <application_framework/application_framework/index>`
   | :doc:`Adapter <application_framework/adaptors/index>`
 
-
 -----------------------------------------------
 Nablarch development tool
 -----------------------------------------------
@@ -55,51 +53,10 @@ Nablarch development tool
   | :doc:`Useful tools for developing applications <development_tools/toolbox/index>` 
 
 -----------------------------------------------
-Example
------------------------------------------------
-
- | :doc:`Manual <examples/index>`
-
------------------------------------------------
-Implementation Examples Per Use Cases
------------------------------------------------
-
- | :doc:`Manual <biz_samples/index>`
-
------------------------------------------------
 Useful content for development in Nablarch
 -----------------------------------------------
 
- | :doc:`Introduction of Contents <external_contents/index>`
- | :doc:`Nablarch System Development Guide <external_contents/system_development_guide>`
- | :doc:`Development Standard <external_contents/development_standards>`
+:doc:`Useful contents for development in Nablarch are introduced <external_contents/index>`, which are available on `Fintan (external site)  <https://fintan.jp/en/page/1954/>`_.
 
------------------------------------------------
-Nablarch API
------------------------------------------------
-
-  | :doc:`API list <nablarch_api/index>`
-
------------------------------------------------
-Nablarch upgrade policy
------------------------------------------------
-
-  | :doc:`Nablarch upgrade policy <about_nablarch/versionup_policy>`
-
------------------------------------------------
-Nablarch 5 to 6 Migration Guide
------------------------------------------------
-
-  | :doc:`Nablarch 5 to 6 Migration Guide <migration/index>`
-
------------------------------------------------
-Regarding the specification name of Jakarta EE
------------------------------------------------
-
-  | :doc:`Regarding the specification name of Jakarta EE <migration/index>`
-
-----------------------------------------------
-Terms of Use
-----------------------------------------------
-
-  | :doc:`Terms of Use <terms_of_use/index>`
+ | :ref:`system_development_guide`
+ | :ref:`development_standards`
