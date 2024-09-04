@@ -66,7 +66,7 @@ Batch Application
 Messaging
 ---------
 
-.. _`example_application-mom_system_messaging-async_message_send`:
+.. _`example_application-mom_system_messaging`:
 
 - Messaging with MOM (:ref:`Explanation <mom_messaging_getting_started>`)
   
