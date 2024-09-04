@@ -51,16 +51,38 @@ mvnコマンドの実行
 
 `Maven Archetype Plugin(外部サイト、英語) <https://maven.apache.org/archetype/maven-archetype-plugin/usage.html>`_ を使用して、ブランクプロジェクトを生成する。
 
-カレントディレクトリを、ブランクプロジェクトを作成したいディレクトリ(任意のディレクトリで可)に変更し、以下のファイルを配置する。
+カレントディレクトリを、ブランクプロジェクトを作成したいディレクトリ(任意のディレクトリで可)に変更する。
 
-:download:`バッチファイル <bat/generateWebProject.bat>`
+その後、以下のコマンドを実行する。
 
-配置後、引数に必要なパラメータを指定しbatファイルを実行する。
+.. code-block:: text
 
-generateWebProject.bat |nablarch_version| <<groupId>> <<artifactId>> <<version>> <<package(任意)>>
+  mvn archetype:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-web-archetype -DarchetypeVersion=
 
-上記コマンドに設定するパラメータは以下の通り。
-なお、nablarchのバージョンを変更したい場合には |nablarch_version| を変更すること。
+上記コマンドで使用されているnablarchのバージョンは |nablarch_version| となっている。バージョンを変更したい場合は、以下のパラメータを変更すること。
+
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+  :widths: 6,20
+
+  * - 設定値
+    - 説明
+  * - archetypeVersion
+    - 使用したいアーキタイプのバージョンを指定する（Nablarch 5u25以降のバージョン）
+
+.. tip::
+  Nablarch 5u24以前のバージョンを使用したい場合は、上記コマンドは使用できない。以下のコマンドを実行すること。
+
+  .. code-block:: text
+
+    mvn org.apache.maven.plugins:maven-archetype-plugin:2.4:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-web-archetype -DarchetypeVersion=5u24
+
+
+プロジェクト情報の入力
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+上記コマンドを実行すると、以下の項目について入力を求められるので、 生成されるブランクプロジェクトに関する情報を入力する。
 
 =========== ========================================= =======================
 入力項目    説明                                      設定例
@@ -74,6 +96,11 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 .. important::
    項目groupIdおよびpackageは、Javaのパッケージ名にマッピングされる。
    よって、これらの入力値には、英小文字、数字、ドットを使用し、ハイフンは使用しないこと。
+
+プロジェクト情報の入力が終わると、Y: :と表示される。
+
+ * 入力した内容をもとに、ひな形を生成する場合には「Y」を入力してください。
+ * プロジェクト情報の入力をやり直したい場合には「N」を入力してください。
 
 コマンドが正常終了した場合、ブランクプロジェクトがカレントディレクトリ配下に作成される。
 
