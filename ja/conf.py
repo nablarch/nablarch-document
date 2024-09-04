@@ -324,25 +324,27 @@ rst_prolog= u".. |nablarch_version| replace:: " + version + """
 
 extlinks = {'javadoc_url' : ('https://nablarch.github.io/docs/' + version + '/publishedApi/%s', 'path')}
 
-# Configure the Sphinx extension
+# Sphinx の拡張機能を設定するための関数
 def setup(app):
-   # add custom javascript
+   # カスタムのjavascriptファイルを追加する。
    app.add_javascript('custom.js')
 
-   # add custom config for Nablarch version replacements
-   app.add_config_value('replacements_dict', {}, True)
-   # add an event handler to replace the Nablarch version
-   app.connect('source-read', replaceNablarchVersion)
+   # Sphinxの設定に辞書replacements_for_source_readを追加する。
+   app.add_config_value('replacements_for_source_read', {}, True)
+   # Sphinxがドキュメントのソースコードを読み込んだ際にイベントハンドラを呼び出すように設定する。
+   app.connect('source-read', replace_in_document_sources)
 
-# Options for Nablarch version replacements
-# Code blocks cannot be replaced in the |nablarch_version| format, so they are explicitly replaced before documentation is generated.
-
-def replaceNablarchVersion(app, docname, source):
+# code-blockではrst_prologで定義した変数展開が行えないため、ドキュメントのソースコードをSphinxが読み取る際に文字列置換することでcode-block内で疑似的に変数展開を行うために導入する関数
+# source-readイベントで呼び出されるように登録し、辞書replacements_for_source_readに登録されているキーと値に文字列置換を行う。
+# ドキュメント内の文字列を辞書replacements_for_source_readで登録した内容で単純に文字列置換するため、辞書のキーに登録した文字列をそのまま表示できなくなることに注意すること。
+def replace_in_document_sources(app, docname, source):
     result = source[0]
-    for key in app.config.replacements_dict:
-        result = result.replace(key, app.config.replacements_dict[key])
+    for key in app.config.replacements_for_source_read:
+        result = result.replace(key, app.config.replacements_for_source_read[key])
     source[0] = result
 
-replacements_dict = {
+# 登録されたキーと値がソースコードを読み込む際に文字列置換される辞書
+# 辞書のキーに登録した文字列をそのまま表示できなくなるリスクがあるので、現状使用箇所がなく、|nablarch_version|に表記が近い{nabalrch_version}を定義している。
+replacements_for_source_read = {
     "{nablarch_version}" : version
 }
