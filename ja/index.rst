@@ -60,6 +60,7 @@ Nablarch開発ツール
 -----------------------------------------------
 
   | :doc:`効率的なJava静的チェック <development_tools/java_static_analysis/index>` 
+  | :doc:`フロントエンド上級者向けのUI開発基盤 <development_tools/ui_dev/index>`
   | :doc:`テスティングフレームワーク <development_tools/testing_framework/index>`
   | :doc:`アプリケーション開発時に使える便利なツール <development_tools/toolbox/index>` 
 
