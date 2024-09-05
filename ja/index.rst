@@ -46,6 +46,16 @@ Nablarchアプリケーションフレームワーク
   | :doc:`アダプタ <application_framework/adaptors/index>`
 
 -----------------------------------------------
+Nablarch拡張コンポーネント
+-----------------------------------------------
+
+  | :doc:`帳票ライブラリ <extension_components/report/index>` 
+  | :doc:`ワークフローライブラリ <extension_components/workflow/doc/index>` 
+  | :doc:`ワークフロー定義データ生成ツール <extension_components/workflow/tool/index>` 
+  | :doc:`ETL <extension_components/etl/index>` 
+  | :doc:`ETL Maveプラグイン <extension_components/etl/etl_maven_plugin>` 
+
+-----------------------------------------------
 Nablarch開発ツール
 -----------------------------------------------
 
