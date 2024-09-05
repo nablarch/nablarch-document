@@ -53,16 +53,30 @@ Execute the mvn command
 
 Use `Maven Archetype Plugin(external site) <https://maven.apache.org/archetype/maven-archetype-plugin/usage.html>`_ to generate a blank project.
 
-Change the current directory to the directory where the blank project (can be any directory) is to be created, and place the following file.
+Change the current directory to the directory where the blank project (can be any directory) is to be created.
 
-:download:`Batch file <bat/generateContainerWebProject.bat>`
+Execute the following command.
 
-After placing the file, specify the necessary parameters in the arguments and execute the bat file.
+.. code-block:: bat
 
-generateContainerWebProject.bat |nablarch_version| <<groupId>> <<artifactId>> <<version>> <<package(optional)>>
+  mvn archetype:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-container-web-archetype -DarchetypeVersion={nablarch_version}
 
-The parameters to be set in the above command are as follows.
-If you want to change the version of nablarch, change |nablarch_version| .
+The version of nablarch used in the above command is |nablarch_version|. If you want to change the version, change the following parameters.
+
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+  :widths: 6,20
+
+  * - Set value
+    - Description
+  * - archetypeVersion
+    - Specify the version of the archetype you wish to use. (Nablarch 6u2 or later must be specified)
+
+Enter project information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When the above command is executed, you will be asked to enter the following information about the blank project to be generated.
 
 =========== ================================================= =======================
 Input item  Description                                       Configuration example
@@ -76,6 +90,11 @@ package      Package (normally the same as group ID)          ``com.example``
 .. important::
    Item groupId and package are mapped to the Java package name.
    Use lowercase letters, numbers, and dots for these input values, and do not use hyphens.
+
+When you have finished entering project information, Y: : will appear.
+
+ * Enter 「Y」 if you want to generate a template based on the information you have entered.
+ * Enter 「N」 if you wish to redo the project information entry.
 
 If the command ends normally, a blank project is created under the current directory.
 
