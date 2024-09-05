@@ -37,4 +37,4 @@ Since it contains many documents that are useful for quality improvement and uni
 
 The list of contents provided as development standards can be found at the following link.
 
- | `Development Standards (external site) <https://fintan.jp/en/page/1658/>`__
+ | `Development Standards (external site) <https://fintan.jp/en/page/1954/#development-standards>`__
