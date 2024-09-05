@@ -55,7 +55,7 @@ mvnコマンドの実行
 
 その後、以下のコマンドを実行する。
 
-.. code-block:: text
+.. code-block:: bat
 
   mvn archetype:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-web-archetype -DarchetypeVersion={nablarch_version}
 
