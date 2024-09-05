@@ -22,7 +22,7 @@ Before starting a full-scale project, it is recommended to read through Nablarch
 
 For more information, see the following links.
 
- | `Nablarch System Development Guide (external site) <https://fintan.jp/page/252/>`__
+ | `Nablarch System Development Guide (external site) <https://fintan.jp/en/page/1667/>`__
 
 
 .. _development_standards:
