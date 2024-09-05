@@ -1,3 +1,5 @@
+.. _`db_messaging_getting_started`:
+
 Getting Started
 ========================================
 By reading this chapter, you can get the basic knowledge of the development of the messaging architecture using Nablarch tables as queues.

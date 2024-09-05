@@ -5,7 +5,6 @@ Nablarch extension component
 
 .. toctree::
    :maxdepth: 1
-   :numbered:
 
    report/index
    workflow/doc/index

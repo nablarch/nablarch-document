@@ -3,7 +3,6 @@ Application Framework
 
 .. toctree::
   :maxdepth: 2
-  :numbered:
 
   nablarch/index
   web/index
