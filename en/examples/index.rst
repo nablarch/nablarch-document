@@ -9,7 +9,7 @@ This chapter describes the procedures for building the environment and executing
 
 
   .. tip::
-    Examples are not intended to be used to create a full-fledged applications by modifying each Example.
+    Example is not intended to be used to create a full-fledged applications by modifying each Example.
     If you want to create a full-fledged application, create it from :ref:`blank_project`.
  
  
@@ -18,7 +18,7 @@ How to Run Example
 
 Procedure to build the environment
 ----------------------------------
-Examples use Apache Maven to build and run the application. Refer to the following page to install Apache Maven on the PC and configure the necessary settings.
+Example uses Apache Maven to build and run the application. Refer to the following page to install Apache Maven on the PC and configure the necessary settings.
 
 :ref:`maven`
 
@@ -26,20 +26,20 @@ Examples use Apache Maven to build and run the application. Refer to the followi
 Procedure to execute
 --------------------
 
-For instructions on how to run Examples, refer to the README at the top of the GitHub repository for each Example.
+For instructions on how to run Example, refer to the README at the top of the GitHub repository for each Example.
 
 Running on Java 21
 ------------------
-Examples are assumed to run in Java 17.
+Example is assumed to run in Java 17.
 If you want to run it on Java 21 , you will need to modify the dependent libraries.
 For more information, see the description of the blank project below.
 
 :ref:`setup_blank_project_for_Java21`
 
-List of Examples
-================
+List of Example
+===============
 
-Examples for each runtime platform are shown below. Explanations of the implementations are also provided, so refer to the “Explanation” links in the following list as necessary.
+Example for each runtime platform is shown below. Explanations of the implementations are also provided, so refer to the “Explanation” links in the following list as necessary.
 
 Web application
 ---------------
