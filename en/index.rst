@@ -66,7 +66,7 @@ Nablarch development tool
 Useful content for development in Nablarch
 -----------------------------------------------
 
-:doc:`Useful contents for development in Nablarch are introduced <external_contents/index>`, which are available on `Fintan (external site)  <https://fintan.jp/en/page/1954/>`_.
+:doc:`Useful contents for development in Nablarch are introduced <external_contents/index>`, which are available on `Fintan (external site)  <https://fintan.jp/en/>`_.
 
  | :ref:`system_development_guide`
  | :ref:`development_standards`

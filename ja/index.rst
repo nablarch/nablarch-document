@@ -68,7 +68,7 @@ Nablarch開発ツール
 Nablarchでの開発に役立つコンテンツ
 -----------------------------------------------
 
-`Fintan(外部サイト) <https://fintan.jp/page/1868/>`_ で公開している、Nablarchでの開発に役立つ :doc:`コンテンツを紹介 <external_contents/index>` しています。
+`Fintan(外部サイト) <https://fintan.jp/>`_ で公開している、Nablarchでの開発に役立つ :doc:`コンテンツを紹介 <external_contents/index>` しています。
 
  | :ref:`system_development_guide`
  | :ref:`development_standards`
