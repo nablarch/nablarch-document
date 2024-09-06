@@ -38,6 +38,8 @@ Nablarch offers the following archetypes: All the archetype group IDs are ``com.
     - Docker container edition of the ``nablarch-jaxrs-archetype`` archetype
   * - nablarch-container-batch-archetype
     - Docker container edition of the ``nablarch-batch-archetype`` archetype
+  * - nablarch-container-batch-dbless-archetype
+    - Docker container edition of the ``nablarch-batch-dbless-archetype`` archetype
 
 When ``pj-web``, ``pj-batch`` are specified respectively in ``artifactId``,
 which is input during the project creation using nablarch-web-archetype and nablarch-batch-archetype archetypes, the configuration is as follows.
@@ -92,6 +94,8 @@ As in the case of pj-web and pj-batch above, the details of each component will 
     - nablarch-container-jaxrs-archetype
   * - pj-container-batch
     - nablarch-container-batch-archetype
+  * - pj-container-batch-dbless
+    - nablarch-container-batch-dbless-archetype
 
 .. _about_maven_parent_module:
 
@@ -485,6 +489,8 @@ pj-container-batch project
 
 Project to build a Docker image of a Linux Server where the Nablarch batch applications is deployed.
 
+.. _firstStepContainerBatchProjectStructure:
+
 Project structure
 ------------------
 
@@ -530,7 +536,17 @@ Project structure
     |           \---data
     |
     \---work
-                
+
+pj-container-batch-dbless project
+========================================
+
+Project to build a Docker image of a Linux Server where the Nablarch dbless batch applications is deployed.
+
+Project structure
+------------------
+
+Omitted because the DB-related directory and files are excluded from :ref:`pj-container-batch project structure <firstStepContainerBatchProjectStructure>` .
+
 .. _about_maven_web_batch_module:
 
 Common configurations for each project
