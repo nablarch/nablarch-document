@@ -74,12 +74,11 @@ mvnコマンドの実行
 .. tip::
   Nablarch 5u24以前のバージョンでブランクプロジェクトを生成したい場合は、上記コマンドの ``archetype:generate`` を ``org.apache.maven.plugins:maven-archetype-plugin:2.4:generate`` に変更して以下のコマンド例のように実行すること。
 
-  バージョン指定も同様にパラメータarchetypeVersionで行う。
-
   .. code-block:: bat
 
-    mvn org.apache.maven.plugins:maven-archetype-plugin:2.4:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-web-archetype ^
-        -DarchetypeVersion=<<version>>
+    mvn org.apache.maven.plugins:maven-archetype-plugin:2.4:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-web-archetype -DarchetypeVersion=5u24
+
+  コマンド例で使用されているnablarchのバージョンは 5u24 となっている。バージョン変更したい場合は、同様にパラメータarchetypeVersionを変更すること。
 
 プロジェクト情報の入力
 ~~~~~~~~~~~~~~~~~~~~~~~~
