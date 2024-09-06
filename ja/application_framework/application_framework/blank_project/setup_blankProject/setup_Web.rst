@@ -72,7 +72,9 @@ mvnコマンドの実行
     - 使用したいアーキタイプのバージョンを指定する。（Nablarch 5u25以降を指定すること）
 
 .. tip::
-  Nablarch 5u24以前のバージョンを使用したい場合は、上記コマンドは使用できない。以下のコマンドの <<version>> を使用したいバージョンに変更し、実行すること。
+  Nablarch 5u24以前のバージョンでブランクプロジェクトを生成したい場合は、上記コマンドの ``archetype:generate`` を ``org.apache.maven.plugins:maven-archetype-plugin:2.4:generate`` に変更して以下のコマンド例のように実行すること。
+
+  バージョン指定も同様にパラメータarchetypeVersionで行う。
 
   .. code-block:: bat
 
