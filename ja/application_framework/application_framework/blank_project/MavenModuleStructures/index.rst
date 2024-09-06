@@ -38,6 +38,8 @@ Nablarchでは、以下のアーキタイプを提供している。なお、ア
     - ``nablarch-jaxrs-archetype`` のDockerコンテナ版アーキタイプ
   * - nablarch-container-batch-archetype
     - ``nablarch-batch-archetype`` のDockerコンテナ版アーキタイプ
+  * - nablarch-container-batch-dbless-archetype
+    - ``nablarch-batch-dbless-archetype`` のDockerコンテナ版アーキタイプ
 
 
 
@@ -95,6 +97,8 @@ nablarch-web-archetypeとnablarch-batch-archetypeのアーキタイプを使用�
     - nablarch-container-jaxrs-archetype
   * - pj-container-batch
     - nablarch-container-batch-archetype
+  * - pj-container-batch-dbless
+    - nablarch-container-batch-dbless-archetype
 
 
 .. _about_maven_parent_module:
@@ -491,6 +495,8 @@ pj-container-batchプロジェクト
 
 NablarchバッチアプリケーションがデプロイされたLinuxサーバのDockerイメージをビルドするプロジェクト。
 
+.. _firstStepContainerBatchProjectStructure:
+
 プロジェクトの構成
 ------------------
 
@@ -536,6 +542,16 @@ NablarchバッチアプリケーションがデプロイされたLinuxサーバ�
     |           \---data
     |
     \---work
+
+pj-container-batch-dblessプロジェクト
+========================================
+
+DBに接続しないNablarchバッチアプリケーションがデプロイされたLinuxサーバのDockerイメージをビルドするプロジェクト。
+
+プロジェクトの構成
+------------------
+
+:ref:`pj-container-batchプロジェクトの構成 <firstStepContainerBatchProjectStructure>` からDB関連のディレクトリ及びファイルを除いただけであるため省略。
 
 .. _about_maven_web_batch_module:
 
