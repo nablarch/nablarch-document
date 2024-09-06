@@ -83,7 +83,7 @@ The version of Nablarch used in the above command is |nablarch_version|. If you 
 
   .. code-block:: bat
 
-    mvn org.apache.maven.plugins:maven-archetype-plugin:2.4:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-web-archetype -DarchetypeVersion=5u24
+    mvn org.apache.maven.plugins:maven-archetype-plugin:2.4:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-container-batch-archetype -DarchetypeVersion=5u24
 
   The version of Nablarch used in this example is 5u24. If you want to change the version, change the parameter archetypeVersion in the same way.
 
