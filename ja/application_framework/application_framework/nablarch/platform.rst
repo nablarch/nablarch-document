@@ -52,7 +52,7 @@ Java
  * PostgreSQL 12.2/13.2/14.0/15.2/16.2
 
 アプリケーションサーバ
- * WebSphere Liberty 24.0.0.8
+ * WebSphere Application Server Liberty 24.0.0.8
  * Open Liberty 24.0.0.8
  * WildFly 31.0.1.Final
  * Red Hat JBoss Enterprise Application Platform 8.0.0
