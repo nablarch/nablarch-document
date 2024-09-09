@@ -46,14 +46,16 @@ Java
  * Java SE 17/21 [#java21]_
 
 データベース
- * Oracle Database 19c/21c/23c
+ * Oracle Database 19c/21c/23ai
  * IBM Db2 11.5
  * SQL Server 2017/2019/2022
  * PostgreSQL 12.2/13.2/14.0/15.2/16.2
 
 アプリケーションサーバ
- * WildFly 31.0.1.Final
+ * WebSphere Application Server Liberty 24.0.0.8
+ * Open Liberty 24.0.0.8
  * Red Hat JBoss Enterprise Application Platform 8.0.0
+ * WildFly 31.0.1.Final
  * Apache Tomcat 10.1.17
 
 Jakarta EE
