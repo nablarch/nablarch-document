@@ -45,12 +45,14 @@ Java
  * Java SE 17/21 [#java21]_
 
 Database
- * Oracle Database 19c/21c/23c
+ * Oracle Database 19c/21c/23ai
  * IBM Db2 11.5
  * SQL Server 2017/2019/2022
  * PostgreSQL 12.2/13.2/14.0/15.2/16.2
 
 Application server
+ * WebSphere Liberty 24.0.0.8
+ * Open Liberty 24.0.0.8
  * WildFly 31.0.1.Final
  * Red Hat JBoss Enterprise Application Platform 8.0.0
  * Apache Tomcat 10.1.17
