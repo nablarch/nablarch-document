@@ -55,7 +55,7 @@ Java
  * WebSphere Application Server Liberty 24.0.0.8
  * Open Liberty 24.0.0.8
  * Red Hat JBoss Enterprise Application Platform 8.0.0
- * WildFly 31.0.1.Final
+ * WildFly 33.0.0.Final
  * Apache Tomcat 10.1.17
 
 Jakarta EE
