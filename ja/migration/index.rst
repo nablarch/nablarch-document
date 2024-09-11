@@ -47,7 +47,7 @@ Nablarch 5の最新版へのバージョンアップに必要となる修正内�
 
 .. tip::
   Nablarch 5の最新版へのバージョンアップの他に、Java 17以上で使用するための対応も必要となる。
-  対応に必要となる修正内容については、Nablarch 5の解説書を参照のこと。
+  対応に必要となる修正内容については、 `Nablarch 5のセットアップ手順 <https://nablarch.github.io/docs/5-LATEST/doc/application_framework/application_framework/blank_project/FirstStep.html>`_ を参照のこと。
 
 
 移行手順の概要

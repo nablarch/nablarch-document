@@ -48,7 +48,7 @@ Additionally, in order to operate, an application server that supports Java 17 o
 
 .. tip::
   In addition to upgrade to the latest version of Nablarch 5, it will also need to be supported for use with Java 17 or higher.
-  See Nablarch 5 manual for instructions on how to respond.
+  See `Nablarch 5 setup procedure <https://nablarch.github.io/docs/5-LATEST/doc/en/application_framework/application_framework/blank_project/FirstStep.html>`_ for instructions on how to respond.
 
 
 Overview of migration steps
