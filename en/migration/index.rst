@@ -436,7 +436,7 @@ JMS → Jakarta Messaging
 Update gsp-dba-maven-plugin
 -----------------------------------------------------------------
 
-`gsp-dba-maven-plugin (external site) <https://github.com/coastland/gsp-dba-maven-plugin/tree/master>`_ is preinstalled in nablarch-example-web and other projects built from archetypes.
+`gsp-dba-maven-plugin (external site) <https://github.com/coastland/gsp-dba-maven-plugin>`_ is preinstalled in nablarch-example-web and other projects built from archetypes.
 This plugin provides a function (``generate-entity``) to generate Java entity classes from database table metadata.
 Since Java EE annotations such as JPA are set in this entity class, it cannot be used as is in the Jakarta EE environment.
 
@@ -452,7 +452,7 @@ Since gsp-dba-maven-plugin is compatible with Jakarta EE in 5.0.0, change ``<ver
       ...
 
 Furthermore, in order to use the ``generate-entity`` of the gsp-dba-maven-plugin that supports Jakarta EE, it is necessary to add ``dependency`` and JVM arguments.
-See the `gsp-dba-maven-plugin guide (external site) <https://github.com/coastland/gsp-dba-maven-plugin/tree/v5-master#generate-entity>`_ for details.
+See the `gsp-dba-maven-plugin guide (external site) <https://github.com/coastland/gsp-dba-maven-plugin?tab=readme-ov-file#generate-entity>`_ for details.
 
 As described above, an entity for which Jakarta EE annotations are set will be generated.
 

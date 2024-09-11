@@ -435,7 +435,7 @@ JMS → Jakarta Messaging
 gsp-dba-maven-pluginを更新する
 -----------------------------------------------------------------
 
-nablarch-example-webをはじめ、アーキタイプから作ったプロジェクトには `gsp-dba-maven-plugin (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/master>`_ があらかじめ組み込まれている。
+nablarch-example-webをはじめ、アーキタイプから作ったプロジェクトには `gsp-dba-maven-plugin (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ があらかじめ組み込まれている。
 このプラグインは、データベーステーブルのメタデータからJavaのエンティティクラスを生成する機能(``generate-entity``)を提供している。
 このエンティティクラスにはJPAなどのJava EEのアノテーションが設定されるため、そのままではJakarta EE環境で使用できない。
 
@@ -451,7 +451,7 @@ gsp-dba-maven-pluginは5.0.0でJakarta EE対応が入ったので、 ``pom.xml``
       ...
 
 さらに、Jakarta EE対応されたgsp-dba-maven-pluginの ``generate-entity`` を使うためには、 ``dependency`` やJVM引数の追加が必要となる。
-詳細については `gsp-dba-maven-pluginのガイド (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/v5-master#generate-entity>`_ を参照のこと。
+詳細については `gsp-dba-maven-pluginのガイド (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin?tab=readme-ov-file#generate-entity>`_ を参照のこと。
 
 以上で、Jakarta EEのアノテーションが設定されたエンティティが生成されるようになる。
 
