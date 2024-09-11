@@ -379,7 +379,7 @@ JAX-RS → Jakarta RESTful Web Services
       <dependency>
         <groupId>org.glassfish.jersey</groupId>
         <artifactId>jersey-bom</artifactId>
-        <version>3.1.1</version>
+        <version>3.1.8</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -421,17 +421,17 @@ JMS → Jakarta Messaging
   <dependency>
     <groupId>org.apache.activemq</groupId>
     <artifactId>artemis-server</artifactId>
-    <version>2.28.0</version>
+    <version>2.37.0</version>
   </dependency>
   <dependency>
     <groupId>org.apache.activemq</groupId>
     <artifactId>artemis-jakarta-server</artifactId>
-    <version>2.28.0</version>
+    <version>2.37.0</version>
   </dependency>
   <dependency>
     <groupId>org.apache.activemq</groupId>
     <artifactId>artemis-jakarta-client</artifactId>
-    <version>2.28.0</version>
+    <version>2.37.0</version>
   </dependency>
 
 
@@ -497,7 +497,7 @@ nablarch-example-webをはじめ、アーキタイプから作ったウェブア
   <plugin>
     <groupId>org.eclipse.jetty.ee10</groupId>
     <artifactId>jetty-ee10-maven-plugin</artifactId>
-    <version>12.0.3</version>
+    <version>12.0.12</version>
   </plugin>
 
 これで、アプリケーションのコードをJettyにデプロイして実行できるようになる。
