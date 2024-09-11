@@ -9,8 +9,9 @@ Nablarch 5から6への移行ガイド
 ここでは、Nablarch 5で作られたプロジェクトをNablarch 6へ移行するための方法について説明する。
 
 .. important::
-  アップデート番号があるバージョン（6u1等）へのバージョンアップについては、ここで説明する手順以外にも
-  追加の手順が必要となる場合があるため、リリースノートのバージョンアップ手順を必ず確認すること。
+  Nablarch 6のバージョン 6/6u1 は先行リリースバージョンであり、6u2が正式リリース後の最初のバージョンとなる。
+  そのため、ここで説明する手順は、Nablarch 5の最新バージョンからNablarch 6u2へのバージョンアップを前提としている。
+  6u3以降へバージョンアップする場合は、ここで説明する手順以外にも追加の手順が必要となる場合があるため、6u3以降のリリースノートを順に参照してバージョンアップ手順を必ず確認すること。
 
 Nablarch 5と6で大きく異なる点
 =========================================================================
@@ -40,13 +41,13 @@ Nablarch 6のモジュールはJava 17でコンパイルされているため、
 ここで説明する手順は、Nablarch 5の最新版へのバージョンアップが済んでいることを前提としている。
 
 古いバージョンで作られたプロジェクトは、まずはNablarch 5の最新版へのバージョンアップを済ませてからNablarch 6への移行を行うこと。
-Nablarch 5の最新版へのバージョンアップに必要となる修正内容については、 :doc:`../releases/index` を参照のこと。
+Nablarch 5の最新版へのバージョンアップに必要となる修正内容については、 `Nablarch 5のリリースノート <https://nablarch.github.io/docs/5-LATEST/doc/releases/index.html>`_ を参照のこと。
 
 また、前述のとおり動作させるにはJava 17以上およびJakarta EE 10に対応しているアプリケーションサーバが必要であるため、これらに対応した環境にて動作させるものとする。
 
 .. tip::
   Nablarch 5の最新版へのバージョンアップの他に、Java 17以上で使用するための対応も必要となる。
-  対応に必要となる修正内容については、Nablarch 5の解説書を参照のこと。
+  対応に必要となる修正内容については、 `Nablarch 5のセットアップ手順 <https://nablarch.github.io/docs/5-LATEST/doc/application_framework/application_framework/blank_project/FirstStep.html>`_ を参照のこと。
 
 
 移行手順の概要
@@ -72,10 +73,6 @@ Nablarch 5のプロジェクトをNablarch 6へ移行するためには、大ま
 
 プロジェクトによっては不要な手順が含まれる可能性があるが、その場合は適宜取捨選択して読み進めること（例えば、 :ref:`waitt-to-jetty` や :ref:`update-ntf-jetty` はウェブプロジェクト固有の手順なので、バッチプロジェクトでは読み飛ばして問題ない）。
 
-.. tip::
-    Nablarch 6系のコードは、 ``v6-master`` ブランチに切り替えることで取得できる。
-    （現時点では5系のコードを ``master`` ブランチ、6系のコードを ``v6-master`` ブランチで公開している）
-
 --------------------------------------------------------------------
 Nablarchのバージョンアップ
 --------------------------------------------------------------------
@@ -90,7 +87,7 @@ Nablarchを構成する各モジュールのバージョンはBOMで管理して
       <dependency>
         <groupId>com.nablarch.profile</groupId>
         <artifactId>nablarch-bom</artifactId>
-        <version>6</version>
+        <version>6u2</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -379,7 +376,7 @@ JAX-RS → Jakarta RESTful Web Services
       <dependency>
         <groupId>org.glassfish.jersey</groupId>
         <artifactId>jersey-bom</artifactId>
-        <version>3.1.1</version>
+        <version>3.1.8</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -421,24 +418,24 @@ JMS → Jakarta Messaging
   <dependency>
     <groupId>org.apache.activemq</groupId>
     <artifactId>artemis-server</artifactId>
-    <version>2.28.0</version>
+    <version>2.37.0</version>
   </dependency>
   <dependency>
     <groupId>org.apache.activemq</groupId>
     <artifactId>artemis-jakarta-server</artifactId>
-    <version>2.28.0</version>
+    <version>2.37.0</version>
   </dependency>
   <dependency>
     <groupId>org.apache.activemq</groupId>
     <artifactId>artemis-jakarta-client</artifactId>
-    <version>2.28.0</version>
+    <version>2.37.0</version>
   </dependency>
 
 
 gsp-dba-maven-pluginを更新する
 -----------------------------------------------------------------
 
-nablarch-example-webをはじめ、アーキタイプから作ったプロジェクトには `gsp-dba-maven-plugin (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/v5-master>`_ があらかじめ組み込まれている。
+nablarch-example-webをはじめ、アーキタイプから作ったプロジェクトには `gsp-dba-maven-plugin (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ があらかじめ組み込まれている。
 このプラグインは、データベーステーブルのメタデータからJavaのエンティティクラスを生成する機能(``generate-entity``)を提供している。
 このエンティティクラスにはJPAなどのJava EEのアノテーションが設定されるため、そのままではJakarta EE環境で使用できない。
 
@@ -449,12 +446,12 @@ gsp-dba-maven-pluginは5.0.0でJakarta EE対応が入ったので、 ``pom.xml``
     <plugin>
       <groupId>jp.co.tis.gsp</groupId>
       <artifactId>gsp-dba-maven-plugin</artifactId>
-      <version>5.0.0</version>
+      <version>5.1.0</version>
       <configuration>
       ...
 
 さらに、Jakarta EE対応されたgsp-dba-maven-pluginの ``generate-entity`` を使うためには、 ``dependency`` やJVM引数の追加が必要となる。
-詳細については `gsp-dba-maven-pluginのガイド (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/v5-master#generate-entity>`_ を参照のこと。
+詳細については `gsp-dba-maven-pluginのガイド (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin?tab=readme-ov-file#generate-entity>`_ を参照のこと。
 
 以上で、Jakarta EEのアノテーションが設定されたエンティティが生成されるようになる。
 
@@ -497,7 +494,7 @@ nablarch-example-webをはじめ、アーキタイプから作ったウェブア
   <plugin>
     <groupId>org.eclipse.jetty.ee10</groupId>
     <artifactId>jetty-ee10-maven-plugin</artifactId>
-    <version>12.0.3</version>
+    <version>12.0.12</version>
   </plugin>
 
 これで、アプリケーションのコードをJettyにデプロイして実行できるようになる。
@@ -843,7 +840,7 @@ NoClassDefFoundErrorになる場合
   Caused by: java.lang.NoClassDefFoundError
       at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0 (Native Method)
       ...
-  Caused by: java.lang.NoClassDefFoundError: Could not initialize class org.jboss.weld.logging.BeanLogger
+  Caused by: java.lang.NoClassDefFoundError:Could not initialize class org.jboss.weld.logging.BeanLogger
       at org.jboss.weld.util.Beans.getBeanConstructor (Beans.java:279)
 
 実行時に上記のようなスタックトレースが出力されてエラーになる場合、クラスパスの順序において ``slf4j-nablarch-adaptor`` をLogbackより後にすることでエラーを解消できる。

@@ -9,7 +9,10 @@ Nablarch 5 to 6 Migration Guide
 This document will explain how to migration a project created with Nablarch 5 to Nablarch 6.
 
 .. important::
-  When upgrade to a version with an update number (such as 6u1), additional steps may be required in addition to those described here, so be sure to check the upgrade instructions in release notes.
+  Nablarch 6 version 6/6u1 is a pre-release version, and 6u2 will be the first version after the official release.
+  Therefore, the procedures described here assume that you are upgrading from the latest version of Nablarch 5 to Nablarch 6u2.
+  When upgrading to 6u3 or later, additional steps may be required in addition to those explained here.
+  Be sure to check the upgrade procedure by referring to the release notes for 6u3 or later in order.
 
 Major differences between Nablarch 5 and 6
 =========================================================================
@@ -39,13 +42,13 @@ Prerequisites
 The instructions here assume that you have already upgraded to the latest version of Nablarch 5.
 
 For projects created with an older version, first upgrade to the latest version of Nablarch 5, then migrate to Nablarch 6.
-See `the release notes <https://nablarch.github.io/docs/LATEST/doc/releases/index.html>`_ for details on the modifications required to upgrade to the latest version of Nablarch 5.
+See `Nablarch 5 release notes <https://nablarch.github.io/docs/5-LATEST/doc/releases/index.html>`_ for details on the modifications required to upgrade to the latest version of Nablarch 5.
 
 Additionally, in order to operate, an application server that supports Java 17 or higher and Jakarta EE 10 is required, so it must be operated in an environment that supports these.
 
 .. tip::
   In addition to upgrade to the latest version of Nablarch 5, it will also need to be supported for use with Java 17 or higher.
-  See Nablarch 5 manual for instructions on how to respond.
+  See `Nablarch 5 setup procedure <https://nablarch.github.io/docs/5-LATEST/doc/en/application_framework/application_framework/blank_project/FirstStep.html>`_ for instructions on how to respond.
 
 
 Overview of migration steps
@@ -71,10 +74,6 @@ In this section will explain in detail each of the migration steps required when
 
 Depending on the project, unnecessary steps may be included, but in that case, select and read as appropriate (for example, :ref:`waitt-to-jetty` and :ref:`update-ntf-jetty` are steps specific to web projects, so there is no problem in skipping them in batch projects).
 
-.. tip::
-    You can get the Nablarch 6 code by switching to ``v6-master`` branch.
-    (Currently, the 5 series code is published in ``master`` branch, and the 6 series code is released in ``v6-master`` branch.)
-
 --------------------------------------------------------------------
 Nablarch version upgrade
 --------------------------------------------------------------------
@@ -89,7 +88,7 @@ Change ``<version>`` in ``pom.xml`` where Nablarch's BOM is loaded, as shown bel
       <dependency>
         <groupId>com.nablarch.profile</groupId>
         <artifactId>nablarch-bom</artifactId>
-        <version>6</version>
+        <version>6u2</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -378,7 +377,7 @@ JAX-RS → Jakarta RESTful Web Services
       <dependency>
         <groupId>org.glassfish.jersey</groupId>
         <artifactId>jersey-bom</artifactId>
-        <version>3.1.1</version>
+        <version>3.1.8</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -420,24 +419,24 @@ JMS → Jakarta Messaging
   <dependency>
     <groupId>org.apache.activemq</groupId>
     <artifactId>artemis-server</artifactId>
-    <version>2.28.0</version>
+    <version>2.37.0</version>
   </dependency>
   <dependency>
     <groupId>org.apache.activemq</groupId>
     <artifactId>artemis-jakarta-server</artifactId>
-    <version>2.28.0</version>
+    <version>2.37.0</version>
   </dependency>
   <dependency>
     <groupId>org.apache.activemq</groupId>
     <artifactId>artemis-jakarta-client</artifactId>
-    <version>2.28.0</version>
+    <version>2.37.0</version>
   </dependency>
 
 
 Update gsp-dba-maven-plugin
 -----------------------------------------------------------------
 
-`gsp-dba-maven-plugin (external site) <https://github.com/coastland/gsp-dba-maven-plugin/tree/v5-master>`_ is preinstalled in nablarch-example-web and other projects built from archetypes.
+`gsp-dba-maven-plugin (external site) <https://github.com/coastland/gsp-dba-maven-plugin>`_ is preinstalled in nablarch-example-web and other projects built from archetypes.
 This plugin provides a function (``generate-entity``) to generate Java entity classes from database table metadata.
 Since Java EE annotations such as JPA are set in this entity class, it cannot be used as is in the Jakarta EE environment.
 
@@ -448,12 +447,12 @@ Since gsp-dba-maven-plugin is compatible with Jakarta EE in 5.0.0, change ``<ver
     <plugin>
       <groupId>jp.co.tis.gsp</groupId>
       <artifactId>gsp-dba-maven-plugin</artifactId>
-      <version>5.0.0</version>
+      <version>5.1.0</version>
       <configuration>
       ...
 
 Furthermore, in order to use the ``generate-entity`` of the gsp-dba-maven-plugin that supports Jakarta EE, it is necessary to add ``dependency`` and JVM arguments.
-See the `gsp-dba-maven-plugin guide (external site) <https://github.com/coastland/gsp-dba-maven-plugin/tree/v5-master#generate-entity>`_ for details.
+See the `gsp-dba-maven-plugin guide (external site) <https://github.com/coastland/gsp-dba-maven-plugin?tab=readme-ov-file#generate-entity>`_ for details.
 
 As described above, an entity for which Jakarta EE annotations are set will be generated.
 
@@ -496,7 +495,7 @@ Change this to jetty-ee10-maven-plugin as follows.
   <plugin>
     <groupId>org.eclipse.jetty.ee10</groupId>
     <artifactId>jetty-ee10-maven-plugin</artifactId>
-    <version>12.0.3</version>
+    <version>12.0.12</version>
   </plugin>
 
 Now you can deploy and run your application code on Jetty.
@@ -845,7 +844,7 @@ When NoClassDefFoundError occurs
   Caused by: java.lang.NoClassDefFoundError
       at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0 (Native Method)
       ...
-  Caused by: java.lang.NoClassDefFoundError: Could not initialize class org.jboss.weld.logging.BeanLogger
+  Caused by: java.lang.NoClassDefFoundError:Could not initialize class org.jboss.weld.logging.BeanLogger
       at org.jboss.weld.util.Beans.getBeanConstructor (Beans.java:279)
 
 
