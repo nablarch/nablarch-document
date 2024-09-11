@@ -9,7 +9,10 @@ Nablarch 5 to 6 Migration Guide
 This document will explain how to migration a project created with Nablarch 5 to Nablarch 6.
 
 .. important::
-  When upgrade to a version with an update number (such as 6u1), additional steps may be required in addition to those described here, so be sure to check the upgrade instructions in release notes.
+  Nablarch 6 version 6/6u1 is a pre-release version, and 6u2 will be the first version after the official release.
+  Therefore, the procedures described here assume that you are upgrading from the latest version of Nablarch 5 to Nablarch 6u2.
+  When upgrading to 6u3 or later, additional steps may be required in addition to those explained here.
+  Be sure to check the upgrade procedure by referring to the release notes for 6u3 or later in order.
 
 Major differences between Nablarch 5 and 6
 =========================================================================
@@ -71,10 +74,6 @@ In this section will explain in detail each of the migration steps required when
 
 Depending on the project, unnecessary steps may be included, but in that case, select and read as appropriate (for example, :ref:`waitt-to-jetty` and :ref:`update-ntf-jetty` are steps specific to web projects, so there is no problem in skipping them in batch projects).
 
-.. tip::
-    You can get the Nablarch 6 code by switching to ``v6-master`` branch.
-    (Currently, the 5 series code is published in ``master`` branch, and the 6 series code is released in ``v6-master`` branch.)
-
 --------------------------------------------------------------------
 Nablarch version upgrade
 --------------------------------------------------------------------
@@ -89,7 +88,7 @@ Change ``<version>`` in ``pom.xml`` where Nablarch's BOM is loaded, as shown bel
       <dependency>
         <groupId>com.nablarch.profile</groupId>
         <artifactId>nablarch-bom</artifactId>
-        <version>6</version>
+        <version>6u2</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
