@@ -41,7 +41,7 @@ Nablarch 6のモジュールはJava 17でコンパイルされているため、
 ここで説明する手順は、Nablarch 5の最新版へのバージョンアップが済んでいることを前提としている。
 
 古いバージョンで作られたプロジェクトは、まずはNablarch 5の最新版へのバージョンアップを済ませてからNablarch 6への移行を行うこと。
-Nablarch 5の最新版へのバージョンアップに必要となる修正内容については、 :doc:`../releases/index` を参照のこと。
+Nablarch 5の最新版へのバージョンアップに必要となる修正内容については、 `Nablarch 5のリリースノート <https://nablarch.github.io/docs/5-LATEST/doc/releases/index.html>`_ を参照のこと。
 
 また、前述のとおり動作させるにはJava 17以上およびJakarta EE 10に対応しているアプリケーションサーバが必要であるため、これらに対応した環境にて動作させるものとする。
 

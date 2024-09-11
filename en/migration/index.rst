@@ -42,7 +42,7 @@ Prerequisites
 The instructions here assume that you have already upgraded to the latest version of Nablarch 5.
 
 For projects created with an older version, first upgrade to the latest version of Nablarch 5, then migrate to Nablarch 6.
-See `the release notes <https://nablarch.github.io/docs/LATEST/doc/releases/index.html>`_ for details on the modifications required to upgrade to the latest version of Nablarch 5.
+See `Nablarch 5 release notes <https://nablarch.github.io/docs/5-LATEST/doc/releases/index.html>`_ for details on the modifications required to upgrade to the latest version of Nablarch 5.
 
 Additionally, in order to operate, an application server that supports Java 17 or higher and Jakarta EE 10 is required, so it must be operated in an environment that supports these.
 
