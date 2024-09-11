@@ -845,7 +845,7 @@ When NoClassDefFoundError occurs
   Caused by: java.lang.NoClassDefFoundError
       at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0 (Native Method)
       ...
-  Caused by: java.lang.NoClassDefFoundError: Could not initialize class org.jboss.weld.logging.BeanLogger
+  Caused by: java.lang.NoClassDefFoundError:Could not initialize class org.jboss.weld.logging.BeanLogger
       at org.jboss.weld.util.Beans.getBeanConstructor (Beans.java:279)
 
 
