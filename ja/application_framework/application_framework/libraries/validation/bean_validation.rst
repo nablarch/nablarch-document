@@ -769,7 +769,7 @@ Webアプリケーションの場合
             // ...
 
             // ApplicationExceptionを送出し、@OnErrorアノテーションで指定された遷移先に遷移する
-            throw new ApplicationException(e.getMessages());
+            throw e;
         }
 
         // 以下省略

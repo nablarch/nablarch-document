@@ -770,7 +770,7 @@ Implementation examples
             // ...
 
             // Throws an ApplicationException and transitions to the destination specified by the @OnError annotation.
-            throw new ApplicationException(e.getMessages());
+            throw e;
         }
 
         // Omitted
