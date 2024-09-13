@@ -272,7 +272,7 @@ Create a search result display part
   Key points of this implementation
     * To include a parameter in the URL of the GET request, such as a link to the detail screen, create using `<c:url>` tag of JSTL or EL expression.
     * Since the routing is configured as follows in the Example application, a URL with a project ID at the end is associated with "`ProjectAction#show`".
-      For more information, see  `library README documentation (external site) <https://github.com/kawasima/sastruts-advanced-routes/blob/master/README.ja.md>`_ .
+      For more information, see `library README documentation (external site) <https://github.com/kawasima/http-request-router/blob/master/README.ja.md>`_ .
 
       routes.xml
         .. code-block:: xml
