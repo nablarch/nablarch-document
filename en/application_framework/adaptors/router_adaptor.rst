@@ -65,8 +65,6 @@ Point
     </property>
   </component>
 
-.. _router_adaptor-definition-file:
-
 Create a route definition file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Creates `routes.xml` directly under the class path and configures the configurations to map the specified URL and business action.
