@@ -69,6 +69,8 @@
     </property>
   </component>
 
+.. _router_adaptor-definition-file:
+
 ルート定義ファイルを作成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 クラスパス直下に `routes.xml` を作成し、
