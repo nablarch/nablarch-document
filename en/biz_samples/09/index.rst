@@ -6,7 +6,7 @@ How to Use a Sample to Send a Digitally Signed Email Using Bouncycastle
 This chapter describes how to use the digitally signed send mail feature using bouncycastle. [#bouncy]_
 Since this function is a sample implementation, the source code (both production and test code) must be imported into the project when using it in an implementation project.
 
-`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-smime-integration>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/main/nablarch-smime-integration>`_
 
 .. [#bouncy]
   Bouncycastle is an open source library that provides security-related functions such as encryption.

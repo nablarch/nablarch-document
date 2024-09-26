@@ -8,4 +8,4 @@
   0401_ExtendedDataFormatter
   0402_ExtendedFieldType
   
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-formatter-extension>`_
+`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/main/nablarch-formatter-extension>`_

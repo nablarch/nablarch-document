@@ -3,7 +3,7 @@
 Logbookを用いたリクエスト/レスポンスログ出力サンプル
 =====================================================
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-logbook>`_
+`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/main/nablarch-logbook>`_
 
 --------------
 概要

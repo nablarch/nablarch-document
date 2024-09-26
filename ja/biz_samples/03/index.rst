@@ -6,7 +6,7 @@
 
 本サンプルは、検索結果の一覧表示を行うタグファイルの実装サンプルである。
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-list-search-result>`_
+`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/main/nablarch-list-search-result>`_
 
 --------------
 提供パッケージ
