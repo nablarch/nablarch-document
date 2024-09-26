@@ -6,7 +6,7 @@
   :depth: 3
   :local:
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-messaging-simulator>`_
+`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/main/nablarch-messaging-simulator>`_
 
 本サンプルは、Nablarchアプリケーションフレームワークの :ref:`mom_system_messaging` 、 :ref:`http_system_messaging` を使用する
 アプリケーションのテストにて、対向先システムをシミュレートするサンプル実装を提供する。

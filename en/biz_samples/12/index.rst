@@ -7,7 +7,7 @@ Authentication sample using OIDC ID token
 Delivery package
 -----------------
 
-`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-oidc>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/main/nablarch-oidc>`_
 
 The sample is provided in the following package.
 

@@ -6,7 +6,7 @@ bouncycastleを使用した電子署名つきメールの送信サンプルの�
 本章では、bouncycastle\  [#bouncy]_\ を使用した電子署名付きメール送信機能の使用方法を解説する。
 なお、本機能はサンプル実装のため、導入プロジェクトで使用する際には、ソースコード(プロダクション、テストコード共に）をプロジェクトに取込使用すること。
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-smime-integration>`_
+`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/main/nablarch-smime-integration>`_
 
 .. [#bouncy]
   bouncycastleとは、暗号化等のセキュリティ関連の機能を提供するオープンソースライブラリである。

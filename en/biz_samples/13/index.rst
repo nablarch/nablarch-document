@@ -3,7 +3,7 @@
 Sample Request/Response Log Output Using Logbook
 =====================================================
 
-`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-logbook>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/main/nablarch-logbook>`_
 
 --------------
 Summary

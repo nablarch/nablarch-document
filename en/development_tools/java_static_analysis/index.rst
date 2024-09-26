@@ -45,7 +45,7 @@ We provide two tools for this check: the IntelliJ IDEA plugin and the SpotBugs p
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Use nablarch-intellij-plugin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-`nablarch-intellij-plugin <https://github.com/nablarch/nablarch-intellij-plugin/tree/master/en>`_  is a plugin to use IntelliJ IDEA for supporting Nablarch development and has the following functions.
+`nablarch-intellij-plugin <https://github.com/nablarch/nablarch-intellij-plugin/tree/main/en>`_  is a plugin to use IntelliJ IDEA for supporting Nablarch development and has the following functions.
 
 * Throws a warning if Nablarch private API is used.
 * Throws warning if Java API registered in the black list is used.

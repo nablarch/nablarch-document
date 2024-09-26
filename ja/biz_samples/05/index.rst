@@ -10,7 +10,7 @@
 
 業務アプリケーションにて使用するファイルを、DBで一元管理するための機能の実装サンプルを提供する。
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-db-file-management>`_
+`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/main/nablarch-db-file-management>`_
 
 本サンプルは以下の用途を想定している。
 

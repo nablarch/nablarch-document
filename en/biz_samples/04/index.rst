@@ -8,4 +8,4 @@ Extended Formatter Functions
   0401_ExtendedDataFormatter
   0402_ExtendedFieldType
   
-`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-formatter-extension>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/main/nablarch-formatter-extension>`_

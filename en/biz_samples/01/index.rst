@@ -11,7 +11,7 @@ This is an implementation sample that performs authentication process using acco
 
   0101_PBKDF2PasswordEncryptor
 
-`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-password-authentication>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/main/nablarch-password-authentication>`_
 
 
 -------------------
