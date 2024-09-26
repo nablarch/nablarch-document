@@ -7,7 +7,7 @@ OIDCのIDトークンを用いた認証サンプル
 提供パッケージ
 --------------
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-oidc>`_
+`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/main/nablarch-oidc>`_
 
 本サンプルは、以下のパッケージで提供される。
 

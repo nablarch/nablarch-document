@@ -6,7 +6,7 @@ Messaging Platform Test Simulator Sample
   :depth: 3
   :local:
 
-`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-messaging-simulator>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/main/nablarch-messaging-simulator>`_
 
 This sample provides a sample implementation to simulate a destination system for testing applications using the Nablarch application framework  :ref:`mom_system_messaging` and :ref:`http_system_messaging`.
 

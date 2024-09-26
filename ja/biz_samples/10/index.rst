@@ -17,6 +17,6 @@
 
   contents/OnlineAccessLogStatistics
   
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-statistics-report>`_
+`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/main/nablarch-statistics-report>`_
 
 

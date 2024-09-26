@@ -18,6 +18,6 @@ List of samples provided
 
   contents/OnlineAccessLogStatistics
   
-`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-statistics-report>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/main/nablarch-statistics-report>`_
 
 

@@ -11,7 +11,7 @@
 
   0101_PBKDF2PasswordEncryptor
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/master/nablarch-password-authentication>`_
+`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/main/nablarch-password-authentication>`_
 
 
 --------------
