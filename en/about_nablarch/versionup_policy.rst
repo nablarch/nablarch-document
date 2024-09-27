@@ -137,7 +137,7 @@ except in cases where :ref:`versionup_policy-backward_compatibility_is_not_maint
 Note that adapters are components provided for using external libraries and are not included in the framework referred to here.
 However, the Published annotation is added to adapter APIs that are intended for user use.
 Because adapters depend on APIs from external libraries, it may not be possible to maintain backward compatibility when upgrading due to breaking changes in the external libraries.
-We strive to maintain backward compatibility, but for this reason they are not covered by the backward compatibility policy.
+While we strive to maintain backward compatibility, adapters are not covered by the backward compatibility policy for this reason.
 Adapter APIs that do not have the Published annotation should not be used, just as unauthorized APIs.
 
  Nablarch provides a tool to detect the use of unauthorized APIs.
