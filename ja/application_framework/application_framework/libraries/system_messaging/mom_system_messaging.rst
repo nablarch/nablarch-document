@@ -178,7 +178,7 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
  これにより、一時テーブルのテーブルレイアウトをプロジェクト共通で定義することにより、
  単一のフォームクラスを全ての応答不要メッセージ送信処理で使用することが出来るようになる。
 
-:ref:`Exampleアプリケーション<example_application-mom_system_messaging-async_message_send>` をベースに、
+:ref:`Exampleアプリケーション<example_application-mom_system_messaging>` をベースに、
 プロジェクト情報を送信する場合の実装例を以下に示す。
 
 実装例
@@ -366,7 +366,7 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
 * 送受信に使用するフォーマット定義ファイル
 * :java:extdoc:`MessageSender<nablarch.fw.messaging.MessageSender>` を使った送受信処理
 
-:ref:`Exampleアプリケーション<example_application-mom_system_messaging-sync_message_send>` をベースに、
+:ref:`Exampleアプリケーション<example_application-mom_system_messaging>` をベースに、
 テーブルに格納された送信データから、
 バッチアクションでプロジェクト情報を送信する場合の実装例を以下に示す。
 テーブルからのデータ読み込み部分は、メッセージ送信に関係しないので実装例を省略する。
@@ -442,7 +442,7 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
        送受信先のキュー名やフォーマット定義ファイルの格納ディレクトリなどの設定が必要となる。
        設定は、 :ref:`repository-environment_configuration` により行う。
        設定項目については、
-       :java:extdoc:`MessageSenderSettings<nablarch.fw.messaging.MessageSenderSettings.MessageSenderSettings(java.lang.String)>`
+       :java:extdoc:`MessageSenderSettings<nablarch.fw.messaging.MessageSenderSettings.<init>(java.lang.String)>`
        を参照。
      * 送受信する電文の変換処理を変更する場合は、コンポーネント設定ファイルに :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>`
        を継承したクラスを定義して、コンポーネントの名前を ``messageSender.DEFAULT.messageConvertorName`` に指定することで変更できる。
@@ -499,7 +499,7 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
 * 電文を登録するためのINSERT文(SQLファイル)
 * 電文を登録する際に使用するフォームクラス
 
-:ref:`Exampleアプリケーション<example_application-mom_system_messaging-async_message_receive>` をベースに、
+:ref:`Exampleアプリケーション<example_application-mom_system_messaging>` をベースに、
 プロジェクト情報を受信する場合の実装例を以下に示す。
 
 実装例
@@ -662,7 +662,7 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
 * 電文のレイアウトを表すフォーマット定義ファイル
 * 電文受信時とエラー発生時の処理(アクションクラス)
 
-:ref:`Exampleアプリケーション<example_application-mom_system_messaging-sync_message_receive>` をベースに、
+:ref:`Exampleアプリケーション<example_application-mom_system_messaging>` をベースに、
 プロジェクト情報を受信する場合の実装例を以下に示す。
 
 実装例
@@ -702,8 +702,8 @@ MOMメッセージングでは、以下のクラスをコンポーネント定�
    * :java:extdoc:`MessagingAction<nablarch.fw.messaging.action.MessagingAction>` を継承し、
      以下のメソッドをオーバーライドする。
 
-      * :java:extdoc:`MessagingAction#onReceive<nablarch.fw.messaging.action.MessagingAction.onReceive(nablarch.fw.messaging.RequestMessage-nablarch.fw.ExecutionContext)>`
-      * :java:extdoc:`MessagingAction#onError<nablarch.fw.messaging.action.MessagingAction.onError(java.lang.Throwable-nablarch.fw.messaging.RequestMessage-nablarch.fw.ExecutionContext)>`
+      * :java:extdoc:`MessagingAction#onReceive<nablarch.fw.messaging.action.MessagingAction.onReceive(nablarch.fw.messaging.RequestMessage,nablarch.fw.ExecutionContext)>`
+      * :java:extdoc:`MessagingAction#onError<nablarch.fw.messaging.action.MessagingAction.onError(java.lang.Throwable,nablarch.fw.messaging.RequestMessage,nablarch.fw.ExecutionContext)>`
 
    * 応答電文は、 :java:extdoc:`RequestMessage#reply<nablarch.fw.messaging.RequestMessage.reply()>` で作成する。
    * 要求電文と応答電文の内容を保持するため、それぞれに対応したフォームクラスを作成する。

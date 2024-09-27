@@ -220,7 +220,7 @@ Exampleアプリケーションを元に検索機能を解説する。
           }
 
       この実装のポイント
-        * 前述のSQL文を実行するには、:java:extdoc:`UniversalDao#findAllBySqlFile <nablarch.common.dao.UniversalDao.findAllBySqlFile(java.lang.Class-java.lang.String-java.lang.Object)>` の第二引数として、
+        * 前述のSQL文を実行するには、:java:extdoc:`UniversalDao#findAllBySqlFile <nablarch.common.dao.UniversalDao.findAllBySqlFile(java.lang.Class,java.lang.String,java.lang.Object)>` の第二引数として、
           :ref:`SQLID <database-execute_sqlid>` (前述のSQLの場合は"SEARCH_PROJECT")を指定する。
         * ページング用の検索は、 :java:extdoc:`UniversalDao#per <nablarch.common.dao.UniversalDao.per(long)>` メソッド、
           及び :java:extdoc:`UniversalDao#page <nablarch.common.dao.UniversalDao.page(long)>` を用いて行うことができる。
@@ -272,7 +272,7 @@ Exampleアプリケーションを元に検索機能を解説する。
   この実装のポイント
     * 詳細画面へ遷移するリンクなど、GETリクエストのURLにパラメータを含めたい場合は、JSTLの `<c:url>` タグやEL式を使って作成する。
     * Exampleアプリケーションでは、ルーティングを以下のように設定しているため、末尾にプロジェクトIDを付与したURLが「 `ProjectAction#show` 」に紐づけられる。
-      詳細は `ライブラリのREADMEドキュメント(外部サイト) <https://github.com/kawasima/sastruts-advanced-routes/blob/master/README.ja.md>`_ を参照。
+      詳細は `ライブラリのREADMEドキュメント(外部サイト) <https://github.com/kawasima/http-request-router/blob/master/README.ja.md>`_ を参照。
 
       routes.xml
         .. code-block:: xml
@@ -288,10 +288,7 @@ Exampleアプリケーションを元に検索機能を解説する。
 
     * 値を出力するために、 :ref:`tag-write_tag` を用いる。
       値を「日付」や「金額」等の形式でフォーマットして出力したい場合は、 `valueFormat` 属性で形式を指定する。詳細は :ref:`tag-format_value` を参照。
-
-    .. important::
-
-      `<app:listSearchResult>` の使用方法については準備中のため、:ref:`リリースノート<release-notes>` より過去バージョンのドキュメントを参考とすること。
+    * `<app:listSearchResult>` の使用方法については :ref:`list_search_result` を参照。
 
 
 検索機能の解説は以上。

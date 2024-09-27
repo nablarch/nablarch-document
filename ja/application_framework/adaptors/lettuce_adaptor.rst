@@ -12,7 +12,7 @@ Nablarchが提供する下記の機能で `Redis(外部サイト、英語) <http
 - :ref:`session_store`
 - :ref:`health_check_endpoint_handler`
 
-本アダプタでは、Redisのクライアントライブラリとして `Lettuce(外部サイト、英語) <https://lettuce.io/>`_ を使用している。
+本アダプタでは、Redisのクライアントライブラリとして `Lettuce(外部サイト、英語) <https://redis.github.io/lettuce/>`_ を使用している。
 
 .. _lettuce_adaptor_module_list:
 

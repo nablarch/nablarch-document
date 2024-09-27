@@ -91,5 +91,5 @@ RESTfulウェブサービス実行基盤向けテスティングフレームワ�
 
 ``defaultProcessor`` という名前で設定された ``RequestResponseProcessor`` は、内蔵サーバへのリクエスト送信前に
 :java:extdoc:`RequestResponseProcessor#processRequest<nablarch.test.core.http.RequestResponseProcessor.processRequest(nablarch.fw.web.HttpRequest)>` が、
-レスポンス受信後に :java:extdoc:`RequestResponseProcessor#processResponse<nablarch.test.core.http.RequestResponseProcessor.processResponse(nablarch.fw.web.HttpRequest-nablarch.fw.web.HttpResponse)>` が
+レスポンス受信後に :java:extdoc:`RequestResponseProcessor#processResponse<nablarch.test.core.http.RequestResponseProcessor.processResponse(nablarch.fw.web.HttpRequest,nablarch.fw.web.HttpResponse)>` が
 それぞれ実行される。 

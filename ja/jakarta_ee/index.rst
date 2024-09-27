@@ -38,7 +38,7 @@ Java EEで使われていた仕様の省略名について、Nablarch6では基�
      - `Jakarta Persistence (外部サイト、英語) <https://jakarta.ee/specifications/persistence/>`_
    * - JTA
      - `Jakarta Transactions (外部サイト、英語) <https://jakarta.ee/specifications/transactions/>`_
-   * - JBatch
+   * - jBatch
      - `Jakarta Batch (外部サイト、英語) <https://jakarta.ee/specifications/batch/>`_
    * - JCA
      - `Jakarta Connectors (外部サイト、英語) <https://jakarta.ee/specifications/connectors/>`_
@@ -99,4 +99,4 @@ Java EEがEclipse Foundationに移管され各仕様の名称が変更された�
   「BeanValidation」はNablarchが提供するバリデーション機能である :doc:`../application_framework/application_framework/libraries/validation/bean_validation` を指しているため、Jakarta Bean Validationには変更していない。
 
 なお、変更されたのは名称のみで機能的な変更はない。
-また、後方互換を維持するためにクラスやパケージの名前などは変更されていない。
+また、後方互換を維持するためにクラスやパッケージの名前などは変更されていない。

@@ -350,8 +350,8 @@ BeanUtilでレコードを使用する
 BeanUtilでは、Java16より標準化されたレコードをJava Beansと同様に取り扱うことができる。
 
 注意点として、一度生成したレコードは後から変更することができない。
-そのため、 :java:extdoc:`BeanUtil.setProperty <nablarch.core.beans.BeanUtil.setProperty(java.lang.Object-java.lang.String-java.lang.Object)>` や
-:java:extdoc:`BeanUtil.copy <nablarch.core.beans.BeanUtil.copy(SRC-DEST)>` といったメソッドの引数に、変更対象のオブジェクトとしてレコードを渡した場合は実行時例外が発生する。
+そのため、 :java:extdoc:`BeanUtil.setProperty <nablarch.core.beans.BeanUtil.setProperty(java.lang.Object,java.lang.String,java.lang.Object)>` や
+:java:extdoc:`BeanUtil.copy <nablarch.core.beans.BeanUtil.copy(SRC,DEST)>` といったメソッドの引数に、変更対象のオブジェクトとしてレコードを渡した場合は実行時例外が発生する。
 
 使用方法
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

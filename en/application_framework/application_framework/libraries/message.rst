@@ -355,7 +355,7 @@ Example of switching the style according to the message level using the errors t
       }
 
   action class
-    Messages output with `errors` tags are stored in the request scope using :java:extdoc:`WebUtil.notifyMessages <nablarch.common.web.WebUtil.notifyMessages(nablarch.fw.ExecutionContext-nablarch.core.message.Message...)>`.
+    Messages output with `errors` tags are stored in the request scope using :java:extdoc:`WebUtil.notifyMessages <nablarch.common.web.WebUtil.notifyMessages(nablarch.fw.ExecutionContext,nablarch.core.message.Message...)>`.
 
     .. code-block:: java
 

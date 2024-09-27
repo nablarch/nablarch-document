@@ -51,16 +51,31 @@ mvnコマンドの実行
 
 `Maven Archetype Plugin(外部サイト、英語) <https://maven.apache.org/archetype/maven-archetype-plugin/usage.html>`_ を使用して、ブランクプロジェクトを生成する。
 
-カレントディレクトリを、ブランクプロジェクトを作成したいディレクトリ(任意のディレクトリで可)に変更し、以下のファイルを配置する。
+カレントディレクトリを、ブランクプロジェクトを作成したいディレクトリ(任意のディレクトリで可)に変更する。
 
-:download:`バッチファイル <bat/generateWebProject.bat>`
+その後、以下のコマンドを実行する。
 
-配置後、引数に必要なパラメータを指定しbatファイルを実行する。
+.. code-block:: bat
 
-generateWebProject.bat |nablarch_version| <<groupId>> <<artifactId>> <<version>> <<package(任意)>>
+  mvn archetype:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-web-archetype -DarchetypeVersion={nablarch_version}
 
-上記コマンドに設定するパラメータは以下の通り。
-なお、nablarchのバージョンを変更したい場合には |nablarch_version| を変更すること。
+上記コマンドで使用されているNablarchのバージョンは |nablarch_version| となっている。バージョンを変更したい場合は、以下のパラメータを変更すること。
+
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+  :widths: 6,20
+
+  * - 設定値
+    - 説明
+  * - archetypeVersion
+    - 使用したいアーキタイプのバージョンを指定する。（Nablarch 6u2以降を指定すること）
+
+
+プロジェクト情報の入力
+~~~~~~~~~~~~~~~~~~~~~~~
+
+上記コマンドを実行すると、以下の項目について入力を求められるので、 生成されるブランクプロジェクトに関する情報を入力する。
 
 =========== ========================================= =======================
 入力項目    説明                                      設定例
@@ -74,6 +89,11 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 .. important::
    項目groupIdおよびpackageは、Javaのパッケージ名にマッピングされる。
    よって、これらの入力値には、英小文字、数字、ドットを使用し、ハイフンは使用しないこと。
+
+プロジェクト情報の入力が終わると、Y: :と表示される。
+
+ * 入力した内容をもとに、ひな形を生成する場合には「Y」を入力してください。
+ * プロジェクト情報の入力をやり直したい場合には「N」を入力してください。
 
 コマンドが正常終了した場合、ブランクプロジェクトがカレントディレクトリ配下に作成される。
 
@@ -159,14 +179,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 
   cd myapp-web
 
-次に、以下のコマンドを実行し、ウェブアプリケーションをビルドする。
-
-.. code-block:: text
-
-  mvn compile
-
-
-その後、以下のコマンドを実行することで、モジュールwebで疎通確認用のアプリケーションを起動する。
+その後、以下のコマンドを実行することで、疎通確認用のアプリケーションをビルドしてから起動する。
 
 .. code-block:: text
 
@@ -175,8 +188,9 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 .. tip::
 
   上記のコマンド例で使用しているMavenの「jetty:run」は、 Jetty Maven Pluginのrunゴールを使用するという指定である。
+  アプリケーションのビルドを行うcompileゴールは「jetty:run」で合わせて実行されるため、明示的に実行する必要はない。
   
-  Jetty Maven Pluginについては `Jetty Maven Plugin(外部サイト、英語) <https://www.eclipse.org/jetty/documentation/jetty-12/programming-guide/index.html#jetty-maven-plugin>`_  を参照。
+  Jetty Maven Pluginについては `Jetty Maven Plugin(外部サイト、英語) <https://jetty.org/docs/jetty/12/programming-guide/maven-jetty/jetty-maven-plugin.html>`_  を参照。
 
 起動に成功するとコンソールに以下のようなログが出力される。
 

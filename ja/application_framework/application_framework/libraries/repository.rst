@@ -532,8 +532,8 @@ DIコンテナで管理するオブジェクトに対して環境依存値を設
       <property name="url" value="${database.url}" />
     </component>
 
-  環境設定ファイルにはconfigファイルとpropertiesファイルの二種類があり、configファイルはnablarchの独自仕様によりパースされ、
-  propertiesファイルはjava.util.Propertiesによりパースされる。configファイルはnablarchの独自仕様であることから
+  環境設定ファイルにはconfigファイルとpropertiesファイルの二種類があり、configファイルはNablarchの独自仕様によりパースされ、
+  propertiesファイルはjava.util.Propertiesによりパースされる。configファイルはNablarchの独自仕様であることから
   環境設定ファイルにはpropertiesファイルを推奨する。
 
   環境設定ファイルの仕様は、 :ref:`repository-environment_configuration_file_rule` を参照。

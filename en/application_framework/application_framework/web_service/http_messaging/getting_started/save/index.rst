@@ -187,7 +187,7 @@ Create a business action
 
   Key points of this implementation
     * Inherits :java:extdoc:`MessagingAction <nablarch.fw.messaging.action.MessagingAction>` and creates a business method.
-    * The process to be executed when a request is received is implemented in :java:extdoc:`MessagingAction#onReceive <nablarch.fw.messaging.action.MessagingAction.onReceive(nablarch.fw.messaging.RequestMessage-nablarch.fw.ExecutionContext)>`.   
+    * The process to be executed when a request is received is implemented in :java:extdoc:`MessagingAction#onReceive <nablarch.fw.messaging.action.MessagingAction.onReceive(nablarch.fw.messaging.RequestMessage,nablarch.fw.ExecutionContext)>`.   
     * The value of the request body is held by object :java:extdoc:`RequestMessage <nablarch.fw.messaging.RequestMessage>` in the state parsed using the :ref:`data_format`. 
       Acquire the value of the request body using the `getParamMap`  method.
     * :ref:`bean_validation`  is used to validate the request value.

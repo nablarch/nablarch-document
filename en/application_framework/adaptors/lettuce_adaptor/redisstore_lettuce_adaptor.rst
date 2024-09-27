@@ -220,7 +220,7 @@ Cluster         ``nablarch.lettuce.cluster.uriList``   ``redis://localhost:6379,
 =============== ====================================== ========================================================================================================
 
 The Cluster configuration value is a comma-separated list of URIs to connect to each node.
-For more information on the format of individual URIs, see `Lettuce documentation(URI syntax) (external site) <https://lettuce.io/core/5.3.0.RELEASE/reference/index.html#redisuri.uri-syntax>`_ .
+For more information on the format of individual URIs, see `Lettuce documentation(URI syntax) (external site) <https://redis.github.io/lettuce/user-guide/connecting-redis/#uri-syntax>`_ .
 
 .. _redisstore_redis_client_config_advanced:
 
@@ -235,12 +235,12 @@ The ``protected`` methods provided in each client class are listed in the follow
 =================================== ======================================== ================================================================================================================================================================================================================
 Client class                        Method                                   Return value type
 =================================== ======================================== ================================================================================================================================================================================================================
-``LettuceSimpleRedisClient``        ``createClient()``                       `RedisClient(external site) <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/RedisClient.html>`_
-\                                   ``createConnection(RedisClient)``        `StatefulRedisConnection<byte[], byte[]>(external site) <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/api/StatefulRedisConnection.html>`_
-``LettuceMasterReplicaRedisClient`` ``createClient()``                       `RedisClient(external site) <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/RedisClient.html>`_
-\                                   ``createConnection(RedisClient)``        `StatefulRedisMasterReplicaConnection<byte[], byte[]>(external site) <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/masterreplica/StatefulRedisMasterReplicaConnection.html>`_
-``LettuceClusterRedisClient``       ``createClient()``                       `RedisClusterClient(external site) <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/cluster/RedisClusterClient.html>`_
-\                                   ``createConnection(RedisClusterClient)`` `StatefulRedisClusterConnection<byte[], byte[]>(external site) <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/cluster/api/StatefulRedisClusterConnection.html>`_
+``LettuceSimpleRedisClient``        ``createClient()``                       `RedisClient(external site) <https://www.javadoc.io/static/io.lettuce/lettuce-core/5.3.0.RELEASE/io/lettuce/core/RedisClient.html>`_
+\                                   ``createConnection(RedisClient)``        `StatefulRedisConnection<byte[], byte[]>(external site) <https://www.javadoc.io/static/io.lettuce/lettuce-core/5.3.0.RELEASE/io/lettuce/core/api/StatefulRedisConnection.html>`_
+``LettuceMasterReplicaRedisClient`` ``createClient()``                       `RedisClient(external site) <https://www.javadoc.io/static/io.lettuce/lettuce-core/5.3.0.RELEASE/io/lettuce/core/RedisClient.html>`_
+\                                   ``createConnection(RedisClient)``        `StatefulRedisMasterReplicaConnection<byte[], byte[]>(external site) <https://www.javadoc.io/static/io.lettuce/lettuce-core/5.3.0.RELEASE/io/lettuce/core/masterreplica/StatefulRedisMasterReplicaConnection.html>`_
+``LettuceClusterRedisClient``       ``createClient()``                       `RedisClusterClient(external site) <https://www.javadoc.io/static/io.lettuce/lettuce-core/5.3.0.RELEASE/io/lettuce/core/cluster/RedisClusterClient.html>`_
+\                                   ``createConnection(RedisClusterClient)`` `StatefulRedisClusterConnection<byte[], byte[]>(external site) <https://www.javadoc.io/static/io.lettuce/lettuce-core/5.3.0.RELEASE/io/lettuce/core/cluster/api/StatefulRedisClusterConnection.html>`_
 =================================== ======================================== ================================================================================================================================================================================================================
 
 By overriding these methods in a custom client class and implementing them to return an instance of Lettuce with your own settings, you can make any settings you want.
@@ -302,13 +302,13 @@ First, create a custom client class (``CustomClusterRedisClient``) that inherits
   }
 
 
-To enable Lettuce to monitor cluster topology updates, you need to set `ClusterTopologyRefreshOptions (external site) <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/cluster/ClusterTopologyRefreshOptions.html>`_  to `RedisClusterClient (external site) <https://lettuce.io/core/5.3.0.RELEASE/api/io/lettuce/core/cluster/RedisClusterClient.html>`_ with the necessary settings.
+To enable Lettuce to monitor cluster topology updates, you need to set `ClusterTopologyRefreshOptions (external site) <https://www.javadoc.io/static/io.lettuce/lettuce-core/5.3.0.RELEASE/io/lettuce/core/cluster/ClusterTopologyRefreshOptions.html>`_  to `RedisClusterClient (external site) <https://www.javadoc.io/static/io.lettuce/lettuce-core/5.3.0.RELEASE/io/lettuce/core/cluster/RedisClusterClient.html>`_ with the necessary settings.
 
 Therefore, implement the ``CustomClusterRedisClient`` by overriding ``createClient()`` , which creates a ``RedisClusterClient`` , to return an instance of the ``RedisClusterClient`` with the necessary settings.
 
 .. tip::
 
-  For more information on settings of Lettuce, see `Lettuce documentation(Cluster-specific options) (external site) <https://lettuce.io/core/5.3.0.RELEASE/reference/index.html#clientoptions.cluster-specific-options>`_ .
+  For more information on settings of Lettuce, see `Lettuce documentation(Cluster-specific options) (external site) <https://redis.github.io/lettuce/advanced-usage/#cluster-specific-options>`_ .
 
 
 Next, define this custom client class as the component.
@@ -442,7 +442,7 @@ Expired keys are automatically deleted.
 This adapter uses the Redis expiration mechanism to manage the expiration of a session.
 Therefore, since expired session information is automatically deleted, there is no need to prepare a batch to delete the session information that remains as garbage.
 
-The following shows the expiration period of the session information being checked with the `pttl command (external site) <https://redis.io/commands/pttl>`_ .
+The following shows the expiration period of the session information being checked with the `pttl command (external site) <https://redis.io/docs/latest/commands/pttl/>`_ .
 
 .. code-block:: shell
 

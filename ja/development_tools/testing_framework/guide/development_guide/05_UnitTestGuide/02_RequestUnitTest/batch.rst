@@ -228,7 +228,7 @@ SETUP_FIXED[グループID]=ファイルパス
 
                            データ型は「半角英字」のように日本語名称で記述する。
 
-                           フォーマット定義ファイル上のデータ型と日本語名称のデータ型のマッピングは、 `BasicDataTypeMapping <https://github.com/nablarch/nablarch-testing/blob/master/src/main/java/nablarch/test/core/file/BasicDataTypeMapping.java>`_ のメンバ変数DEFAULT_TABLEを参照。
+                           フォーマット定義ファイル上のデータ型と日本語名称のデータ型のマッピングは、 `BasicDataTypeMapping <https://github.com/nablarch/nablarch-testing/blob/main/src/main/java/nablarch/test/core/file/BasicDataTypeMapping.java>`_ のメンバ変数DEFAULT_TABLEを参照。
 フィールド長               そのフィールドのフィールド長を記載する。フィールドの数だけ記載する。
 データ                     そのフィールドに格納されるデータを記載する。複数レコード存在する場合は次の行に続けてデータを記載する。
 ========================== ===============================================================================================================================================================================================================================================================

@@ -17,7 +17,7 @@ See the Javadoc given within the parentheses for the processing details.
 * Parsing of command line argument( :java:extdoc:`CommandLine<nablarch.fw.launcher.CommandLine>` )
 * Outputs the launch log( :java:extdoc:`LauncherLogFormatter#getStartLogFormat<nablarch.fw.launcher.logging.LauncherLogFormatter.getStartLogFormat()>` )
 * Initializes the system repository
-* Initializes the execution context( :java:extdoc:`Main#setupExecutionContext <nablarch.fw.launcher.Main.setupExecutionContext(nablarch.fw.launcher.CommandLine-nablarch.fw.ExecutionContext)>` )
+* Initializes the execution context( :java:extdoc:`Main#setupExecutionContext <nablarch.fw.launcher.Main.setupExecutionContext(nablarch.fw.launcher.CommandLine,nablarch.fw.ExecutionContext)>` )
 * Outputs the application configuration log( :java:extdoc:`ApplicationSettingLogFormatter<nablarch.core.log.app.ApplicationSettingLogFormatter>` )
 * Executes the handler queue
 * Outputs the log in response to exceptions and errors

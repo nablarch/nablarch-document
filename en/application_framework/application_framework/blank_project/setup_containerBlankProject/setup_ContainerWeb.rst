@@ -53,16 +53,30 @@ Execute the mvn command
 
 Use `Maven Archetype Plugin(external site) <https://maven.apache.org/archetype/maven-archetype-plugin/usage.html>`_ to generate a blank project.
 
-Change the current directory to the directory where the blank project (can be any directory) is to be created, and place the following file.
+Change the current directory to the directory where the blank project (can be any directory) is to be created.
 
-:download:`Batch file <bat/generateContainerWebProject.bat>`
+Execute the following command.
 
-After placing the file, specify the necessary parameters in the arguments and execute the bat file.
+.. code-block:: bat
 
-generateContainerWebProject.bat |nablarch_version| <<groupId>> <<artifactId>> <<version>> <<package(optional)>>
+  mvn archetype:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-container-web-archetype -DarchetypeVersion={nablarch_version}
 
-The parameters to be set in the above command are as follows.
-If you want to change the version of nablarch, change |nablarch_version| .
+The version of Nablarch used in the above command is |nablarch_version|. If you want to change the version, change the following parameters.
+
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+  :widths: 6,20
+
+  * - Set value
+    - Description
+  * - archetypeVersion
+    - Specify the version of the archetype you wish to use. (Nablarch 6u2 or later must be specified)
+
+Enter project information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When the above command is executed, you will be asked to enter the following information about the blank project to be generated.
 
 =========== ================================================= =======================
 Input item  Description                                       Configuration example
@@ -76,6 +90,11 @@ package      Package (normally the same as group ID)          ``com.example``
 .. important::
    Item groupId and package are mapped to the Java package name.
    Use lowercase letters, numbers, and dots for these input values, and do not use hyphens.
+
+When you have finished entering project information, Y: : will appear.
+
+ * Enter 「Y」 if you want to generate a template based on the information you have entered.
+ * Enter 「N」 if you wish to redo the project information entry.
 
 If the command ends normally, a blank project is created under the current directory.
 
@@ -142,7 +161,7 @@ As you can see, the blank project is configured to create the following two imag
 `Tomcat image <https://hub.docker.com/_/tomcat>`_ (External sites) is used as base image by default.
 
 The base image can be changed with the ``jib.from.image`` property.
-For example, if you want to use ``tomcat:10.1.5-jre17-temurin-jammy`` for your base image, you would write it in ``pom.xml`` .
+For example, if you want to use ``tomcat:10.1.28-jre17-temurin-jammy`` for your base image, you would write it in ``pom.xml`` .
 
 .. code-block:: xml
 
@@ -150,7 +169,7 @@ For example, if you want to use ``tomcat:10.1.5-jre17-temurin-jammy`` for your b
     <! -- Omitted ...-->
     <properties>
       <! -- Omitted ...-->
-      <jib.from.image>tomcat:10.1.5-jre17-temurin-jammy</jib.from.image>
+      <jib.from.image>tomcat:10.1.28-jre17-temurin-jammy</jib.from.image>
       <! -- Omitted ...-->
     </properties>
     <! -- Omitted ...-->

@@ -187,7 +187,7 @@
 
   この実装のポイント
     * :java:extdoc:`MessagingAction <nablarch.fw.messaging.action.MessagingAction>` を継承し、業務メソッドを作成する。
-    * :java:extdoc:`MessagingAction#onReceive <nablarch.fw.messaging.action.MessagingAction.onReceive(nablarch.fw.messaging.RequestMessage-nablarch.fw.ExecutionContext)>`
+    * :java:extdoc:`MessagingAction#onReceive <nablarch.fw.messaging.action.MessagingAction.onReceive(nablarch.fw.messaging.RequestMessage,nablarch.fw.ExecutionContext)>`
       に、リクエスト受信時に実行する処理を実装する。
     * リクエストボディの値は、 :ref:`data_format` を使用して解析された状態で引数の :java:extdoc:`RequestMessage <nablarch.fw.messaging.RequestMessage>` オブジェクト
       が保持している。 `getParamMap` メソッドを使用してリクエストボディの値を取得する。
