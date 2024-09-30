@@ -44,7 +44,7 @@
 運用担当者向けのログを出力するための実装例を以下に示す。
 
 ポイント
-  * :java:extdoc:`OperationLogger#write <nablarch.core.log.operation.OperationLogger.write(nablarch.core.log.basic.LogLevel-java.lang.String-java.lang.Throwable)>`
+  * :java:extdoc:`OperationLogger#write <nablarch.core.log.operation.OperationLogger.write(nablarch.core.log.basic.LogLevel,java.lang.String,java.lang.Throwable)>`
     を使用してログを出力する。
   * 運用担当者向けのログ出力とともにバッチ処理を異常終了させたい場合には、例外を送出すること。
 

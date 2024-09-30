@@ -678,7 +678,7 @@ JUnit 5には、JUnit Vintageというプロジェクトがある。
   したがって、この機能を使ったからといって、JUnit 4のテストの中でJUnit 5の機能が使えるわけではない。
 
   この機能は、JUnit 4からJUnit 5への移行を段階的進めるための補助として利用できる。
-  JUnit 4からJUnit 5に移行するときの手順については、 `公式のガイド(外部サイト、英語) <https://junit.org/junit5/docs/5.8.2/user-guide/#migrating-from-junit4>`_ を参照。
+  JUnit 4からJUnit 5に移行するときの手順については、 `公式のガイド(外部サイト、英語) <https://junit.org/junit5/docs/5.11.0/user-guide/#migrating-from-junit4>`_ を参照。
 
 .. tip::
   JUnit 5のテストで自動テストフレームワークを使用する方法については、 :ref:`ntf_junit5_extension` を参照。

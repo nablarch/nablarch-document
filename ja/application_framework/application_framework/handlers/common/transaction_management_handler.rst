@@ -130,8 +130,8 @@
 コールバック処理を行うハンドラの作成
   以下実装例のように、  :java:extdoc:`TransactionEventCallback <nablarch.fw.TransactionEventCallback>` を実装したハンドラを作成する。
 
-  :java:extdoc:`transactionNormalEnd <nablarch.fw.TransactionEventCallback.transactionNormalEnd(TData-nablarch.fw.ExecutionContext)>` にトランザクションコミット時のコールバック処理を実装し、
-  :java:extdoc:`transactionAbnormalEnd <nablarch.fw.TransactionEventCallback.transactionAbnormalEnd(java.lang.Throwable-TData-nablarch.fw.ExecutionContext)>` にトランザクションロールバック時のコールバック処理を実装する。
+  :java:extdoc:`transactionNormalEnd <nablarch.fw.TransactionEventCallback.transactionNormalEnd(TData,nablarch.fw.ExecutionContext)>` にトランザクションコミット時のコールバック処理を実装し、
+  :java:extdoc:`transactionAbnormalEnd <nablarch.fw.TransactionEventCallback.transactionAbnormalEnd(java.lang.Throwable,TData,nablarch.fw.ExecutionContext)>` にトランザクションロールバック時のコールバック処理を実装する。
 
   .. code-block:: java
 

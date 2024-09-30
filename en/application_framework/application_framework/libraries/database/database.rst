@@ -38,9 +38,9 @@ By configuring :java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` corresp
 * A method to determine whether :java:extdoc:`SQLException <java.sql.SQLException>` of transaction timeout target has occurred (:java:extdoc:`isTransactionTimeoutError <nablarch.core.db.dialect.Dialect.isTransactionTimeoutError(java.sql.SQLException)>` )
 * A method for generating SQL statement to acquire the next value from the sequence object (:java:extdoc:`buildSequenceGeneratorSql <nablarch.core.db.dialect.Dialect.buildSequenceGeneratorSql(java.lang.String)>` )
 * A method that returns :java:extdoc:`ResultSetConvertor <nablarch.core.db.statement.ResultSetConvertor>` , which acquires value from :java:extdoc:`ResultSet <java.sql.ResultSet>` (:java:extdoc:`getResultSetConvertor <nablarch.core.db.dialect.Dialect.getResultSetConvertor()>` )
-* A method to convert search query to range specification (for paging) SQL (:java:extdoc:`convertPaginationSql <nablarch.core.db.dialect.Dialect.convertPaginationSql(java.lang.String-nablarch.core.db.statement.SelectOption)>` )
+* A method to convert search query to range specification (for paging) SQL (:java:extdoc:`convertPaginationSql <nablarch.core.db.dialect.Dialect.convertPaginationSql(java.lang.String,nablarch.core.db.statement.SelectOption)>` )
 * A method for converting search query to the number acquisition SQL (:java:extdoc:`convertCountSql(String) <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String)>` )
-* A method for converting SQL ID to the number acquisition SQL (:java:extdoc:`convertCountSql(String, Object, StatementFactory) <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String-java.lang.Object-nablarch.core.db.statement.StatementFactory)>` )
+* A method for converting SQL ID to the number acquisition SQL (:java:extdoc:`convertCountSql(String, Object, StatementFactory) <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String,java.lang.Object,nablarch.core.db.statement.StatementFactory)>` )
 * A method that returns SQL to check if :java:extdoc:`Connection <java.sql.Connection>` is connected to the database (:java:extdoc:`getPingSql <nablarch.core.db.dialect.Dialect.getPingSql()>` )
 
 See :ref:`database-use_dialect` for how to configure :java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` .
@@ -822,7 +822,7 @@ Obtain the value of binary type
       }
 
 Register/update binary value
-  To register/update a small binary value, use :java:extdoc:`SqlPStatement#setByte <nablarch.core.db.statement.SqlPStatement.setBytes(int-byte:A)>` .
+  To register/update a small binary value, use :java:extdoc:`SqlPStatement#setByte <nablarch.core.db.statement.SqlPStatement.setBytes(int,byte[])>` .
 
   .. code-block:: java
 
@@ -831,7 +831,7 @@ Register/update binary value
     statement.setBytes(1, new byte[] {0x30, 0x31, 0x32});
     int updateCount = statement.executeUpdate();
 
- When registering and updating a large binary value, use :java:extdoc:`SqlPStatement#setBinaryStream <nablarch.core.db.statement.SqlPStatement.setBinaryStream(int-java.io.InputStream-int)>` , and send values directly to the database from  :java:extdoc:`InputStream <java.io.InputStream>` which represents a file, etc.
+ When registering and updating a large binary value, use :java:extdoc:`SqlPStatement#setBinaryStream <nablarch.core.db.statement.SqlPStatement.setBinaryStream(int,java.io.InputStream,int)>` , and send values directly to the database from  :java:extdoc:`InputStream <java.io.InputStream>` which represents a file, etc.
 
  .. code-block:: java
 
@@ -879,7 +879,7 @@ Acquire the value of CLOB type
       }
     
 Register (update) the value in CLOB type
-  When registering and updating a value with a small size, configure a string type value using :java:extdoc:`SqlPStatement#setString <nablarch.core.db.statement.SqlPStatement.setString(int-java.lang.String)>` .
+  When registering and updating a value with a small size, configure a string type value using :java:extdoc:`SqlPStatement#setString <nablarch.core.db.statement.SqlPStatement.setString(int,java.lang.String)>` .
 
   An example is shown below.
 
@@ -888,7 +888,7 @@ Register (update) the value in CLOB type
     statement.setString(1, "Value");
     statement.executeUpdate();
 
-  When registering or updating a large value, use :java:extdoc:`SqlPStatement#setCharacterStream <nablarch.core.db.statement.SqlPStatement.setCharacterStream(int-java.io.Reader-int)>` , and send values to the database through :java:extdoc:`Reader <java.io.Reader>` that represents a text file, etc.
+  When registering or updating a large value, use :java:extdoc:`SqlPStatement#setCharacterStream <nablarch.core.db.statement.SqlPStatement.setCharacterStream(int,java.io.Reader,int)>` , and send values to the database through :java:extdoc:`Reader <java.io.Reader>` that represents a text file, etc.
 
   An example is shown below.
 

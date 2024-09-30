@@ -89,5 +89,5 @@ And if want to set up multiple ``RequestResponseProcessor``, can do so by using 
   </component>
 
 ``RequestResponseProcessor``, named ``defaultProcessor``, will execute :java:extdoc:`RequestResponseProcessor#processRequest<nablarch.test.core.http.RequestResponseProcessor.processRequest(nablarch.fw.web.HttpRequest)>`
-before sending the request to the built-in server and :java:extdoc:`RequestResponseProcessor#processResponse<nablarch.test.core.http.RequestResponseProcessor.processResponse(nablarch.fw.web.HttpRequest-nablarch.fw.web.HttpResponse)>`
+before sending the request to the built-in server and :java:extdoc:`RequestResponseProcessor#processResponse<nablarch.test.core.http.RequestResponseProcessor.processResponse(nablarch.fw.web.HttpRequest,nablarch.fw.web.HttpResponse)>`
 after receiving the response.

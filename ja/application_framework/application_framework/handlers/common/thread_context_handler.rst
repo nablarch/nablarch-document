@@ -155,7 +155,7 @@
   SessionUtil.put(context, "user.id", userId);
 
 また、セッションストアに直接ユーザIDを格納するのではなく、ログイン情報をまとめて格納したいといった要件が考えられる。
-その場合は以下のように :java:extdoc:`UserIdAttribute#getUserIdSession <nablarch.common.handler.threadcontext.UserIdAttribute.getUserIdSession(nablarch.fw.ExecutionContext-java.lang.String)>` 
+その場合は以下のように :java:extdoc:`UserIdAttribute#getUserIdSession <nablarch.common.handler.threadcontext.UserIdAttribute.getUserIdSession(nablarch.fw.ExecutionContext,java.lang.String)>` 
 をオーバーライドすることで任意の取得元からユーザIDを取得することが可能となる。
 "userContext"というキーでセッションストアに設定したオブジェクトからユーザIDを取得する場合の実装例を以下に示す。
 下記の場合も、アプリケーションでセッションストアへオブジェクトを設定する必要がある。

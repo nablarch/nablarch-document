@@ -179,7 +179,7 @@ and the message send process can be implemented very easily.
  a single form class can be used in all sending asynchronous message.
 
 Below is an implementation example based on
-:ref:`Example application<example_application-mom_system_messaging-async_message_send>` to send project information.
+:ref:`Example application<example_application-mom_system_messaging>` to send project information.
 
 Implementation examples
  \
@@ -368,7 +368,7 @@ and the send synchronous response message can be created very easily.
 
 The following is an implementation example of sending project information
 by batch action from the data stored in the table based on
-:ref:`Example application<example_application-mom_system_messaging-sync_message_send>`.
+:ref:`Example application<example_application-mom_system_messaging>`.
 Since the section to read data from the table is not related to sending of messages, the implementation example is omitted.
 
 Implementation examples
@@ -443,7 +443,7 @@ Implementation examples
        Configured by :ref:`repository-environment_configuration`.
        For configuration items,
        see
-       :java:extdoc:`MessageSenderSettings<nablarch.fw.messaging.MessageSenderSettings.MessageSenderSettings(java.lang.String)>`.
+       :java:extdoc:`MessageSenderSettings<nablarch.fw.messaging.MessageSenderSettings.<init>(java.lang.String)>`.
      * If you want to change the conversion process of sent and received messages,
        you can change it by defining a class that inherits :java:extdoc:`SyncMessageConvertor<nablarch.fw.messaging.SyncMessageConvertor>`
        in the component definition file and specifying the name of the component in ``messageSender.DEFAULT.messageConvertorName``.
@@ -501,7 +501,7 @@ and the messages can be saved in the table very easily.
 * Form class used to register a message
 
 Below is an implementation example based on
-:ref:`Example application<example_application-mom_system_messaging-async_message_receive>` to receive project information.
+:ref:`Example application<example_application-mom_system_messaging>` to receive project information.
 
 Implementation examples
  \
@@ -663,7 +663,7 @@ Only the following deliverables are required to be created by using
 * Format definition file that represents the message layout
 * Process when a message is received and when an error occurs (action class)
 
-Below is an implementation example based on :ref:`Example application<example_application-mom_system_messaging-sync_message_receive>`
+Below is an implementation example based on :ref:`Example application<example_application-mom_system_messaging>`
 to receive project information.
 
 Implementation examples
@@ -703,8 +703,8 @@ Implementation examples
    * Inherit :java:extdoc:`MessagingAction<nablarch.fw.messaging.action.MessagingAction>`
      and override the following method.
 
-      * :java:extdoc:`MessagingAction#onReceive<nablarch.fw.messaging.action.MessagingAction.onReceive(nablarch.fw.messaging.RequestMessage-nablarch.fw.ExecutionContext)>`
-      * :java:extdoc:`MessagingAction#onError<nablarch.fw.messaging.action.MessagingAction.onError(java.lang.Throwable-nablarch.fw.messaging.RequestMessage-nablarch.fw.ExecutionContext)>`
+      * :java:extdoc:`MessagingAction#onReceive<nablarch.fw.messaging.action.MessagingAction.onReceive(nablarch.fw.messaging.RequestMessage,nablarch.fw.ExecutionContext)>`
+      * :java:extdoc:`MessagingAction#onError<nablarch.fw.messaging.action.MessagingAction.onError(java.lang.Throwable,nablarch.fw.messaging.RequestMessage,nablarch.fw.ExecutionContext)>`
 
    * Create the response message with :java:extdoc:`RequestMessage#reply<nablarch.fw.messaging.RequestMessage.reply()>`.
    * To retain the contents of request/response message, create a form class corresponding to each.

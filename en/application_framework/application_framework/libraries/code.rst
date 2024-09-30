@@ -203,7 +203,7 @@ An example is shown below.
 Define pattern column in the code pattern table
   Define a pattern column that has a display pattern in the code pattern table.
 
-  Pattern column can be used by configuring  :java:extdoc:`CodePatternSchema.patternColumnNames <nablarch.common.code.schema.CodePatternSchema.setPatternColumnNames(java.lang.String:A)>` . 
+  Pattern column can be used by configuring  :java:extdoc:`CodePatternSchema.patternColumnNames <nablarch.common.code.schema.CodePatternSchema.setPatternColumnNames(java.lang.String[])>` . 
   For configuring the configuration file, see  :ref:`code-setup_table` .
 
   In this example, two patterns ``PATTERN1`` and ``PATTERN2`` are defined, 
@@ -345,7 +345,7 @@ An example is shown below.
 Define option name column in the code name table
   Define a column with an optional name in the code name table.
 
-  Pattern column can be used by configuring :java:extdoc:`CodePatternSchema.patternColumnNames <nablarch.common.code.schema.CodePatternSchema.setPatternColumnNames(java.lang.String:A)>` . 
+  Pattern column can be used by configuring :java:extdoc:`CodePatternSchema.patternColumnNames <nablarch.common.code.schema.CodePatternSchema.setPatternColumnNames(java.lang.String[])>` . 
   For configuring the configuration file, see  :ref:`code-setup_table` .
 
   In this example, two columns are defined as option name columns, ``FORM_NAME`` and ``KANA_NAME`` .

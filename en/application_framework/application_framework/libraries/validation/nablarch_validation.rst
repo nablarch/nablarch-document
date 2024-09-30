@@ -608,8 +608,8 @@ For values other than **ptn1**, `item1` and `item2` are validated.
 
 .. tip::
 
-  In this example, :java:extdoc:`WebUtil.containsPropertyKeyValue <nablarch.common.web.WebUtil.containsPropertyKeyValue(nablarch.core.validation.ValidationContext-java.lang.String-java.lang.String)>` is used to check even the sent value,
-  but to just examine whether the radio button is checked, use :java:extdoc:`WebUtil.containsPropertyKey <nablarch.common.web.WebUtil.containsPropertyKey(nablarch.core.validation.ValidationContext-java.lang.String)>`.
+  In this example, :java:extdoc:`WebUtil.containsPropertyKeyValue <nablarch.common.web.WebUtil.containsPropertyKeyValue(nablarch.core.validation.ValidationContext,java.lang.String,java.lang.String)>` is used to check even the sent value,
+  but to just examine whether the radio button is checked, use :java:extdoc:`WebUtil.containsPropertyKey <nablarch.common.web.WebUtil.containsPropertyKey(nablarch.core.validation.ValidationContext,java.lang.String)>`.
 
 To create a validation error message linked to a specific item
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

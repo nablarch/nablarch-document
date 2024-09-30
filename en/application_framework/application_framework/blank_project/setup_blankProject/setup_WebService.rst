@@ -63,16 +63,30 @@ Execute the mvn command
 
 Use `Maven Archetype Plugin(external site) <https://maven.apache.org/archetype/maven-archetype-plugin/usage.html>`_ to generate a blank project.
 
-Change the current directory to the directory where the blank project (can be any directory) is to be created, and place the following file.
+Change the current directory to the directory where the blank project (can be any directory) is to be created.
 
-:download:`Batch file <bat/generateWebServiceProject.bat>`
+Execute the following command.
 
-After placing the file, specify the necessary parameters in the arguments and execute the bat file.
+.. code-block:: bat
 
-generateWebServiceProject.bat |nablarch_version| <<groupId>> <<artifactId>> <<version>> <<package(optional)>>
+  mvn archetype:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-jaxrs-archetype -DarchetypeVersion={nablarch_version}
 
-The parameters configured in the above command are as follows.
-If you want to change the version of Nablarch, change |nablarch_version|.
+The version of Nablarch used in the above command is |nablarch_version|. If you want to change the version, change the following parameters.
+
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+  :widths: 6,20
+
+  * - Set value
+    - Description
+  * - archetypeVersion
+    - Specify the version of the archetype you wish to use. (Nablarch 6u2 or later must be specified)
+
+Enter project information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When the above command is executed, you will be asked to enter the following information about the blank project to be generated.
 
 =========== ================================================= =======================
 Input item  Description                                       Configuration example
@@ -87,6 +101,10 @@ package      Package (normally the same as group ID)          ``com.example``
    Item groupId and package are mapped to the Java package name.
    Use lowercase letters, numbers, and dots for these input values, and do not use hyphens.
 
+When you have finished entering project information, Y: : will appear.
+
+ * Enter 「Y」 if you want to generate a template based on the information you have entered.
+ * Enter 「N」 if you wish to redo the project information entry.
 
 If the command ends normally, a blank project is created under the current directory.
 
@@ -182,14 +200,7 @@ If the current directory is not yet moved to the generated project, move the dir
 
   cd myapp-jaxrs
 
-Execute the following command to build the RESTful web service.
-
-.. code-block:: text
-
-  mvn compile
-
-
-Execute the following command to start the application for communication confirmation of RESTful web service.
+Execute the following command to build the application for communication confirmation and then start it.
 
 .. code-block:: text
 
@@ -198,8 +209,9 @@ Execute the following command to start the application for communication confirm
 .. tip::
 
   "jetty:run" of Maven used in the above command example is a specification to use the run goal of the Jetty Maven Plugin.
+  The compile goal, which builds the application, is executed in conjunction with “jetty:run” and does not need to be explicitly executed.
 
-  For information on the Jetty Maven Plugin, see `Jetty Maven Plugin (external site) <https://www.eclipse.org/jetty/documentation/jetty-12/programming-guide/index.html#jetty-maven-plugin>`_.
+  For information on the Jetty Maven Plugin, see `Jetty Maven Plugin (external site) <https://jetty.org/docs/jetty/12/programming-guide/maven-jetty/jetty-maven-plugin.html>`_.
 
 
 If the launch is successful, the log given below will be output to the console.

@@ -221,7 +221,7 @@ Implementation of a business action
 
       Key points of this implementation
         * To execute the preceding SQL statement, specify :ref:`SQLID <database-execute_sqlid>` (or "SEARCH_PROJECT" in the case of the preceding SQL) as the second argument of
-          :java:extdoc:`UniversalDao#findAllBySqlFile <nablarch.common.dao.UniversalDao.findAllBySqlFile(java.lang.Class-java.lang.String-java.lang.Object)>`.
+          :java:extdoc:`UniversalDao#findAllBySqlFile <nablarch.common.dao.UniversalDao.findAllBySqlFile(java.lang.Class,java.lang.String,java.lang.Object)>`.
         * Search for paging can be performed using the :java:extdoc:`UniversalDao#per <nablarch.common.dao.UniversalDao.per(long)>` method and
           :java:extdoc:`UniversalDao#page <nablarch.common.dao.UniversalDao.page(long)>`.
           For more information, see :ref:`narrow the search for paging<universal_dao-paging>`.
@@ -272,7 +272,7 @@ Create a search result display part
   Key points of this implementation
     * To include a parameter in the URL of the GET request, such as a link to the detail screen, create using `<c:url>` tag of JSTL or EL expression.
     * Since the routing is configured as follows in the Example application, a URL with a project ID at the end is associated with "`ProjectAction#show`".
-      For more information, see  `library README documentation (external site) <https://github.com/kawasima/sastruts-advanced-routes/blob/master/README.ja.md>`_ .
+      For more information, see `library README documentation (external site) <https://github.com/kawasima/http-request-router/blob/master/README.ja.md>`_ .
 
       routes.xml
         .. code-block:: xml
@@ -288,10 +288,7 @@ Create a search result display part
 
     * The :ref:`tag-write_tag` is used to output the value.
       To output the value in a format such as "date" or "amount", specify the format with the `valueFormat` attribute. For more information, see :ref:`tag-format_value`.
-
-    .. important::
-
-      Information on how to use `<app:listSearchResult>` is under preparation, so please refer to the previous version of the document from `Release Notes(Japanese Page) <https://nablarch.github.io/docs/LATEST/doc/releases/index.html>`_ .
+    * For information on how to use `<app:listSearchResult>`, see :ref:`list_search_result`.
 
 This completes the description of the search function.
 

@@ -7,7 +7,7 @@ Error Handling for Messaging Which Uses Database as Queue
 
 Exclude error data and continue processing
 --------------------------------------------------
-The exclusion of error data is done by the callback method (:java:extdoc:`transactionFailure <nablarch.fw.action.BatchActionBase.transactionFailure(D-nablarch.fw.ExecutionContext)>`) when an exception occurs.
+The exclusion of error data is done by the callback method (:java:extdoc:`transactionFailure <nablarch.fw.action.BatchActionBase.transactionFailure(D,nablarch.fw.ExecutionContext)>`) when an exception occurs.
 
 .. important::
   If the error data is not excluded, the data containing errors gets extracted again and exceptions reoccur.

@@ -218,7 +218,7 @@ Field name                 Describes the field name. Describes only the number o
 Data type                  Describes the data type of the field. Describes only the number of fields.
 
                            The data type is described with a Japanese name such as "half-width alphabets (半角英字)".\
-                           Refer to the member variable DEFAULT_TABLE of `BasicDataTypeMapping <https://github.com/nablarch/nablarch-testing/blob/master/src/main/java/nablarch/test/core/file/BasicDataTypeMapping.java>`_  for the mapping between data types in the format definition file and data types with Japanese names.
+                           Refer to the member variable DEFAULT_TABLE of `BasicDataTypeMapping <https://github.com/nablarch/nablarch-testing/blob/main/src/main/java/nablarch/test/core/file/BasicDataTypeMapping.java>`_  for the mapping between data types in the format definition file and data types with Japanese names.
 Field length               Describes the field type of the field. Describes only the number of fields.
 Data                       Describe the data stored in that field. If multiple records exist, the entry of data should be continued in the next line.
 ========================== ============================================================================================================================================================================================================================================================================================================

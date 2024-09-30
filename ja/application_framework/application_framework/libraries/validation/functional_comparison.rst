@@ -60,7 +60,7 @@ Bean ValidationとNablarch Validationの機能比較
 .. [#property_validation] Formの全ての項目に対してバリデーションを行うことで、不正な入力値の受付を防ぐことが出来る。 |br|
     このため、Bean Validationでは、項目指定のバリデーション実行は推奨していない。 |br|
     どうしても指定の項目に対してのみバリデーションを行いたい場合には、
-    :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object-java.lang.String...)>` を使用すること。
+    :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object,java.lang.String...)>` を使用すること。
     
 .. [#jsr] 対応方法は、 |jsr349| の仕様に準拠する。
 .. [#method] Nablarchでは外部からデータを受け付けたタイミングで必ずバリデーションを行うため、

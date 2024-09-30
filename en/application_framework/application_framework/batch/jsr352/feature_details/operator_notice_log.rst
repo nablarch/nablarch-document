@@ -44,7 +44,7 @@ Log output to the operator
 An implementation example for output of the logs for operator is shown below.
 
 Point
-  * Output the log using  :java:extdoc:`OperationLogger#write <nablarch.core.log.operation.OperationLogger.write(nablarch.core.log.basic.LogLevel-java.lang.String-java.lang.Throwable)>`.
+  * Output the log using  :java:extdoc:`OperationLogger#write <nablarch.core.log.operation.OperationLogger.write(nablarch.core.log.basic.LogLevel,java.lang.String,java.lang.Throwable)>`.
   * An exception must throw to abnormally end the batch process as well as the log output to the operator.
 
 Implementation examples

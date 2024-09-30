@@ -7,7 +7,7 @@ E-mail Velocity Adapter
   :depth: 3
   :local:
 
-Provides an adapter for sending an e-mail template using `Velocity(external site) <http://velocity.apache.org/>`_ .
+Provides an adapter for sending an e-mail template using `Velocity(external site) <https://velocity.apache.org/>`_ .
 
 Module list
 --------------------------------------------------

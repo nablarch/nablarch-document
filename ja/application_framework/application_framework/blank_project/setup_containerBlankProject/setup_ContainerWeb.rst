@@ -53,16 +53,31 @@ mvnコマンドの実行
 
 `Maven Archetype Plugin(外部サイト、英語) <https://maven.apache.org/archetype/maven-archetype-plugin/usage.html>`_ を使用して、ブランクプロジェクトを生成する。
 
-カレントディレクトリを、ブランクプロジェクトを作成したいディレクトリ(任意のディレクトリで可)に変更し、以下のファイルを配置する。
+カレントディレクトリを、ブランクプロジェクトを作成したいディレクトリ(任意のディレクトリで可)に変更する。
 
-:download:`バッチファイル <bat/generateContainerWebProject.bat>`
+その後、以下のコマンドを実行する。
 
-配置後、引数に必要なパラメータを指定しbatファイルを実行する。
+.. code-block:: bat
 
-generateContainerWebProject.bat |nablarch_version| <<groupId>> <<artifactId>> <<version>> <<package(任意)>>
+  mvn archetype:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-container-web-archetype -DarchetypeVersion={nablarch_version}
 
-上記コマンドに設定するパラメータは以下の通り。
-なお、nablarchのバージョンを変更したい場合には |nablarch_version| を変更すること。
+上記コマンドで使用されているNablarchのバージョンは |nablarch_version| となっている。バージョンを変更したい場合は、以下のパラメータを変更すること。
+
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+  :widths: 6,20
+
+  * - 設定値
+    - 説明
+  * - archetypeVersion
+    - 使用したいアーキタイプのバージョンを指定する。（Nablarch 6u2以降を指定すること）
+
+
+プロジェクト情報の入力
+~~~~~~~~~~~~~~~~~~~~~~~
+
+上記コマンドを実行すると、以下の項目について入力を求められるので、 生成されるブランクプロジェクトに関する情報を入力する。
 
 =========== ========================================= =======================
 入力項目    説明                                      設定例
@@ -76,6 +91,11 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 .. important::
    項目groupIdおよびpackageは、Javaのパッケージ名にマッピングされる。
    よって、これらの入力値には、英小文字、数字、ドットを使用し、ハイフンは使用しないこと。
+
+プロジェクト情報の入力が終わると、Y: :と表示される。
+
+ * 入力した内容をもとに、ひな形を生成する場合には「Y」を入力してください。
+ * プロジェクト情報の入力をやり直したい場合には「N」を入力してください。
 
 コマンドが正常終了した場合、ブランクプロジェクトがカレントディレクトリ配下に作成される。
 
@@ -142,7 +162,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 また、初期設定ではベースイメージとして `Tomcat のイメージ <https://hub.docker.com/_/tomcat>`_ (外部サイト、英語)が使用される。
 
 ベースイメージは ``jib.from.image`` プロパティで変更できる。
-例えば、ベースイメージに ``tomcat:10.1.5-jre17-temurin-jammy`` を使用したい場合は、次のように ``pom.xml`` に記述する。
+例えば、ベースイメージに ``tomcat:10.1.28-jre17-temurin-jammy`` を使用したい場合は、次のように ``pom.xml`` に記述する。
 
 .. code-block:: xml
 
@@ -150,7 +170,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
     <!--省略...-->
     <properties>
       <!--省略...-->
-      <jib.from.image>tomcat:10.1.5-jre17-temurin-jammy</jib.from.image>
+      <jib.from.image>tomcat:10.1.28-jre17-temurin-jammy</jib.from.image>
       <!--省略...-->
     </properties>
     <!--省略...-->

@@ -76,8 +76,8 @@ How to use
 Output performance log
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Performance log is output using  :java:extdoc:`PerformanceLogUtil <nablarch.core.log.app.PerformanceLogUtil>` . 
-:java:extdoc:`PerformanceLogUtil <nablarch.core.log.app.PerformanceLogUtil>`  provides :java:extdoc:`PerformanceLogUtil#start <nablarch.core.log.app.PerformanceLogUtil.start(java.lang.String)>` which is called at the start of the process and  :java:extdoc:`PerformanceLogUtil#end <nablarch.core.log.app.PerformanceLogUtil.end(java.lang.String-java.lang.String-java.lang.Object...)>` which is called at the end of the process. 
-:java:extdoc:`PerformanceLogUtil <nablarch.core.log.app.PerformanceLogUtil>`  will output the log together with the date and time and memory usage acquired by  :java:extdoc:`PerformanceLogUtil#start <nablarch.core.log.app.PerformanceLogUtil.start(java.lang.String)>` when :java:extdoc:`PerformanceLogUtil#end <nablarch.core.log.app.PerformanceLogUtil.end(java.lang.String-java.lang.String-java.lang.Object...)>` is called.
+:java:extdoc:`PerformanceLogUtil <nablarch.core.log.app.PerformanceLogUtil>`  provides :java:extdoc:`PerformanceLogUtil#start <nablarch.core.log.app.PerformanceLogUtil.start(java.lang.String)>` which is called at the start of the process and  :java:extdoc:`PerformanceLogUtil#end <nablarch.core.log.app.PerformanceLogUtil.end(java.lang.String,java.lang.String,java.lang.Object...)>` which is called at the end of the process. 
+:java:extdoc:`PerformanceLogUtil <nablarch.core.log.app.PerformanceLogUtil>`  will output the log together with the date and time and memory usage acquired by  :java:extdoc:`PerformanceLogUtil#start <nablarch.core.log.app.PerformanceLogUtil.start(java.lang.String)>` when :java:extdoc:`PerformanceLogUtil#end <nablarch.core.log.app.PerformanceLogUtil.end(java.lang.String,java.lang.String,java.lang.Object...)>` is called.
 
 Usage example of :java:extdoc:`PerformanceLogUtil <nablarch.core.log.app.PerformanceLogUtil>`  is shown below.
 

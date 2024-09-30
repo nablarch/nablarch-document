@@ -38,7 +38,7 @@ Unless otherwise specified, the acronyms used in this document refer to the Jaka
      - `Jakarta Persistence (external site) <https://jakarta.ee/specifications/persistence/>`_
    * - JTA
      - `Jakarta Transactions (external site) <https://jakarta.ee/specifications/transactions/>`_
-   * - JBatch
+   * - jBatch
      - `Jakarta Batch (external site) <https://jakarta.ee/specifications/batch/>`_
    * - JCA
      - `Jakarta Connectors (external site) <https://jakarta.ee/specifications/connectors/>`_

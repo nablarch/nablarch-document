@@ -43,7 +43,7 @@ The information we collect and its specific uses are as follows:
      - Used to measure which pages have been viewed.
 
    * - HTTP Referer
-     - https://twitter.com/
+     - https://x.com/
      - Referring page
      - Used to measure from which page a visitor arrived at this Website.
 

@@ -29,7 +29,7 @@ In order to use JUnit 5, the following conditions must be met.
 * maven-surefire-plugin must be 2.22.0 or higher
 
 This page assumes that you have basic knowledge of how to introduce JUnit 5 and how to create test cases, so it does not describe these procedures.
-For more information about JUnit 5 itself, see `the official user guide (external site) <https://junit.org/junit5/docs/5.8.2/user-guide/>`_.
+For more information about JUnit 5 itself, see `the official user guide (external site) <https://junit.org/junit5/docs/5.11.0/user-guide/>`_.
 
 ---------------
 Module list
@@ -53,14 +53,14 @@ The automated testing framework provides classes that implement the functionalit
 In JUnit 4, in order to use the functionality of the classes provided by the automated testing framework in your test classes, your test classes had to inherit from these classes.
 
 This extension provides a mechanism to generate instances of the classes provided by the automated testing framework on the extension side and inject them into the test classes.
-This mechanism makes use of the JUnit 5 `Extension (external site) <https://junit.org/junit5/docs/5.8.2/user-guide/#extensions>`_.
+This mechanism makes use of the JUnit 5 `Extension (external site) <https://junit.org/junit5/docs/5.11.0/user-guide/#extensions>`_.
 
 In this extension, **Extension classes** and **Composed annotations** are provided for each class provided by the automated testing framework.
 For example, :java:extdoc:`TestSupportExtension <nablarch.test.junit5.extension.TestSupportExtension>` and :java:extdoc:`NablarchTest <nablarch.test.junit5.extension.NablarchTest>` are provided for :java:extdoc:`TestSupport <nablarch.test.TestSupport>`.
 
 .. tip::
   Composed annotation is a feature provided by JUnit 5 that allows you to combine the settings of multiple annotations into one annotation.
-  For more information, see `"2.1.1. Meta-Annotations and Composed Annotations" in the official guide (external site) <https://junit.org/junit5/docs/5.8.2/user-guide/#writing-tests-meta-annotations>`_.
+  For more information, see `"2.1.1. Meta-Annotations and Composed Annotations" in the official guide (external site) <https://junit.org/junit5/docs/5.11.0/user-guide/#writing-tests-meta-annotations>`_.
 
 
 By using these classes and implementing them as follows, :java:extdoc:`TestSupport <nablarch.test.TestSupport>` can be used in tests.
@@ -428,7 +428,7 @@ Using with RegisterExtension
 JUnit 5 provides a mechanism called RegisterExtension to programmatically create an instance of Extension and apply it to a test class.
 
 .. tip::
-  For an explanation of RegisterExtension, see `"5.2.2. Programmatic Extension Registration" in the Official Guide (external site) <https://junit.org/junit5/docs/5.8.2/user-guide/#extensions-registration-programmatic>`_.
+  For an explanation of RegisterExtension, see `"5.2.2. Programmatic Extension Registration" in the Official Guide (external site) <https://junit.org/junit5/docs/5.11.0/user-guide/#extensions-registration-programmatic>`_.
 
 The Extensions provided by this extension can also be used with RegisterExtension.
 However, in such a case, it must be used in a static field.

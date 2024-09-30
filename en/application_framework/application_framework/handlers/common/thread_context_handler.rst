@@ -155,7 +155,7 @@ The following is an example implementation of setting the user ID in the session
 
 Also, instead of storing the user ID directly in the session store, you may want to store the login information together.
 In that case, the user ID can be obtained from an arbitrary source by overriding
-:java:extdoc:`UserIdAttribute#getUserIdSession <nablarch.common.handler.threadcontext.UserIdAttribute.getUserIdSession(nablarch.fw.ExecutionContext-java.lang.String)>` as shown below.
+:java:extdoc:`UserIdAttribute#getUserIdSession <nablarch.common.handler.threadcontext.UserIdAttribute.getUserIdSession(nablarch.fw.ExecutionContext,java.lang.String)>` as shown below.
 The following is an example of how to get the user ID from an object set in the session store using the "userContext" key.
 In the following case, you still need to set up the object in the session store in your application.
 
