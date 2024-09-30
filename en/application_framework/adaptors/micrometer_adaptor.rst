@@ -212,7 +212,7 @@ This adapter provides the following registry factory classes.
     - :java:extdoc:`StatsdMeterRegistryFactory <nablarch.integration.micrometer.statsd.StatsdMeterRegistryFactory>`
     - ``1.0.0`` or higher
   * - `OtlpMeterRegistry(external site)`_
-    - :java:extdoc:`OtlpMeterRegistryFactory <nablarch.integration.micrometer.otlp.OtlpMeterRegistry>`
+    - :java:extdoc:`OtlpMeterRegistryFactory <nablarch.integration.micrometer.otlp.OtlpMeterRegistryFactory>`
     - ``1.3.0`` or higher
 
 

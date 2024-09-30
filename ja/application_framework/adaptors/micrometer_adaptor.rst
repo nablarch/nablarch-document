@@ -209,7 +209,7 @@ DefaultMeterBinderListProviderを廃棄処理対象にする
     - :java:extdoc:`StatsdMeterRegistryFactory <nablarch.integration.micrometer.statsd.StatsdMeterRegistryFactory>`
     - ``1.0.0`` 以上
   * - `OtlpMeterRegistry(外部サイト、英語)`_
-    - :java:extdoc:`OtlpMeterRegistryFactory <nablarch.integration.micrometer.otlp.OtlpMeterRegistry>`
+    - :java:extdoc:`OtlpMeterRegistryFactory <nablarch.integration.micrometer.otlp.OtlpMeterRegistryFactory>`
     - ``1.3.0`` 以上
 
 
