@@ -36,7 +36,7 @@ JSR310(Date and Time API)で追加された日時関連を使用可能にする�
 使用方法
 ---------------------------------------------------------------------
 
-変換可能な型や変換ルールなどの詳細は、 :java:extdoc:`converter一覧 <nablarch.integration.jsr310.beans.converter>` を参照。
+変換可能な型や変換ルールなどの詳細は、 :java:extdoc:`converter一覧 <nablarch.core.beans.converter>` を参照。
 
 設定
   :ref:`repository` のコンポーネント設定ファイルに以下を追加することで、本機能が有効になる。
