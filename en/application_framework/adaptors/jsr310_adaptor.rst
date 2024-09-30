@@ -37,7 +37,7 @@ Module list
 How to use
 ---------------------------------------------------------------------
 
-For details such as conversion possible types and conversion rules, see :java:extdoc:`converter list <nablarch.integration.jsr310.beans.converter>`.
+For details such as conversion possible types and conversion rules, see :java:extdoc:`converter list <nablarch.core.beans.converter>`.
 
 Configuration
   This function is enabled by adding the following to the component configuration file of :ref:`repository` .
