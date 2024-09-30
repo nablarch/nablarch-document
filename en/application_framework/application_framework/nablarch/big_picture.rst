@@ -14,6 +14,8 @@ The Nablarch application framework has the following features.
 Supports various processing architectures
  The Nablarch application framework can support various processing architectures by combining the runtime platform and :ref:`library <library>` .
 
+ .. _runtime_platform:
+
  Runtime platform
   * :ref:`web_application`
   * :ref:`web_service`

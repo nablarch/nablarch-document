@@ -14,7 +14,7 @@ This chapter describes the validation function compliant with Bean Validation (J
 
   Java EE environments (such as WebLogic and WildFly) use the Bean Validation implementation that is bundled in the server.
   For use outside Java EE environments, the Bean Validation implementation must be added to the reference library separately.
-  (It is recommended that the reference implementation `Hibernate Validator(external site) <http://hibernate.org/validator/>`_ be used.)
+  (It is recommended that the reference implementation `Hibernate Validator(external site) <https://hibernate.org/validator/>`_ be used.)
 
 Function overview
 ---------------------
@@ -701,6 +701,81 @@ Generated Message
   To change the method of adding the item name to the message, see :java:extdoc:`ItemNamedConstraintViolationConverterFactory <nablarch.core.validation.ee.ItemNamedConstraintViolationConverterFactory>`
   and add the implementation on the project side.
 
+.. _bean_validation-execute_explicitly:
+
+Performing Explicit Execution of Validation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Normally, validation is using the methods described in `Checking User Input Values for Web Applications`_ or `Checking User Input Values for RESTful Web Services`_ ,  but there are cases where these methods cannot be used, such as when you want to handle validation errors.
+
+In such cases, :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object)>` can be used to explicitly perform validation.
+
+  .. code-block:: java
+
+    // Perform explicit execution of validation
+    ValidatorUtil.validate(form);
+
+If a validation error occurs, :java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>` is thrown.
+
+For web applications
+    When explicitly performing validation in a web application, the input values contained in the request parameters must be converted to beans.
+
+    In order to convert to bean, it is necessary to obtain the request parameters from :java:extdoc:`HttpRequest#getParamMap <nablarch.fw.web.HttpRequest.getParamMap()>`  before validation.
+    However, if the application programmer can freely handle the input values before validation, the business logic will be executed without validation, and in some cases there is a risk of failure.
+
+    For this reason, :java:extdoc:`HttpRequest#getParamMap <nablarch.fw.web.HttpRequest.getParamMap()>` to obtain request parameters is a public API for architects, and its use in the Action class is prohibited.
+
+    If a web application needs to explicitly perform validation, it is recommended to create the following utility classes as common parts.
+
+    .. code-block:: java
+
+        public final class ProjectValidatorUtil {
+            // Other processes are omitted
+
+            /**
+             * Generate beans from HTTP request and perform bean validation.
+             *
+             * @param beanClass Bean class you want to generate
+             * @param request HTTP request
+             * @return  Bean object with registered values for properties
+             */
+            public static <T> T validate(Class<T> beanClass, HttpRequest request) {
+                T bean = BeanUtil.createAndCopy(beanClass, request.getParamMap());
+                ValidatorUtil.validate(bean);
+                return bean;
+            }
+        }
+
+
+.. _bean_validation-execute:
+
+Perform optional processing when there is a validation error
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+If you want to perform optional processing when there is a validation error, you can explicitly validate to handle the exception that occurs when there is a validation error.
+
+The following is an example implementation using the utility class in the `Performing Explicit Execution of Validation`_ implementation example.
+
+Implementation examples
+  .. code-block:: java
+
+    @OnError(type = ApplicationException.class, path = "/WEB-INF/view/project/create.jsp")
+    public HttpResponse create(HttpRequest request, ExecutionContext context) {
+
+        ProjectForm form;
+
+        try {
+            // Explicitly perform validation and retrieve validated form
+            form = ProjectValidatorUtil.validate(ProjectForm.class, request);
+        } catch (ApplicationException e) {
+            // Perform optional processing when there is a validation error
+            // ...
+
+            // Throws an ApplicationException and transitions to the destination specified by the @OnError annotation.
+            throw e;
+        }
+
+        // Omitted
+    }
+
 
 .. _bean_validation-use_groups:
 
@@ -761,6 +836,6 @@ annotations and validation logic are added on the project side.
 
 For details on the implementation method, see the following links and Nablarch implementation.
 
-* `Hibernate Validator(external site) <http://hibernate.org/validator/>`_
+* `Hibernate Validator(external site) <https://hibernate.org/validator/>`_
 * `JSR349(external site) <https://jcp.org/en/jsr/detail?id=349>`_
 

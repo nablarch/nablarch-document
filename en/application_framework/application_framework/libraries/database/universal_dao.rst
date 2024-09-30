@@ -533,7 +533,7 @@ If the original SQL has a heavy processing load, such as containing a ``ORDER BY
    The number acquisition SQL must have the same search conditions as the original SQL.
    When preparing the number acquisition SQL, make sure that there is no difference in the search conditions between the two.
 
-If you want to change the number acquisition SQL, inherit the dialect used in your project and then change :java:extdoc:`Dialect#convertCountSql(String, Object, StatementFactory) <nablarch.core.db. Dialect.convertCountSql(java.lang.String-java.lang.Object-nablarch.core.db.statement.StatementFactory)>` implementation.
+If you want to change the number acquisition SQL, inherit the dialect used in your project and then change :java:extdoc:`Dialect#convertCountSql(String, Object, StatementFactory) <nablarch.core.db.dialect.Dialect.convertCountSql(java.lang.String-java.lang.Object-nablarch.core.db.statement.StatementFactory)>` implementation.
 
 Implementation examples
    Below is an example of customising :java:extdoc:`nablarch.core.db.dialect.H2Dialect`.

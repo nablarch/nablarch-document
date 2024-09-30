@@ -46,17 +46,41 @@ Generate a blank project using the archetypes provided by Nablarch.
 Execute the mvn command
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Change the current directory to the directory where the blank project (can be any directory) is to be created, and place the following file.
+Use `Maven Archetype Plugin(external site) <https://maven.apache.org/archetype/maven-archetype-plugin/usage.html>`_ to generate a blank project.
 
-:download:`Batch file <bat/generateNablarchBatchDblessProject.bat>`
-
-After placing the file, specify the necessary parameters in the arguments and execute the bat file.
-
-generateNablarchBatchDblessProject.bat |nablarch_version| <<groupId>> <<artifactId>> <<version>> <<package(optional)>>
-
-The parameters configured in the above command are as follows.
-If you want to change the version of Nablarch, change |nablarch_version|.
 Change the current directory to the directory where the blank project (can be any directory) is to be created.
+
+Execute the following command.
+
+.. code-block:: bat
+
+  mvn archetype:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-batch-dbless-archetype -DarchetypeVersion={nablarch_version}
+
+The version of Nablarch used in the above command is |nablarch_version|. If you want to change the version, change the following parameters.
+
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+  :widths: 6,20
+
+  * - Set value
+    - Description
+  * - archetypeVersion
+    - Specify the version of the archetype you wish to use. (Nablarch 5u25 or later must be specified)
+
+.. tip::
+  If you want to generate blank projects with Nablarch 5u24 or earlier, change ``archetype:generate`` to ``org.apache.maven.plugins:maven-archetype-plugin:2.4:generate`` in the above command and execute as in the following example.
+
+  .. code-block:: bat
+
+    mvn org.apache.maven.plugins:maven-archetype-plugin:2.4:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-batch-dbless-archetype -DarchetypeVersion=5u24
+
+  The version of Nablarch used in this example is 5u24. If you want to change the version, change the parameter archetypeVersion in the same way.
+
+Enter project information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When the above command is executed, you will be asked to enter the following information about the blank project to be generated.
 
 =========== ================================================= =======================
 Input item  Description                                       Configuration example
@@ -70,6 +94,11 @@ package      Package (normally the same as group ID)          ``com.example``
 .. important::
    Item groupId and package are mapped to the Java package name.
    Use lowercase letters, numbers, and dots for these input values, and do not use hyphens.
+
+When you have finished entering project information, Y: : will appear.
+
+ * Enter 「Y」 if you want to generate a template based on the information you have entered.
+ * Enter 「N」 if you wish to redo the project information entry.
 
 If the command ends normally, a blank project is created under the current directory.
 

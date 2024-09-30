@@ -39,7 +39,7 @@ This sample is intended to be used in a business process [#auth_action]_  that e
   This function does not provide the business process that executes the login process. 
   Create a login process according to the requirements in the Nablarch implementation project. 
 
-Since this function uses `PBKDF2 <http://www.ietf.org/rfc/rfc2898.txt>`_  by default to encrypt passwords, 
+Since this function uses `PBKDF2 <https://www.ietf.org/rfc/rfc2898.txt>`_  by default to encrypt passwords, 
 it is necessary to set the number of stretches and salts for password encryption in each project.
 
 For more information on configuration, see :doc:`0101_PBKDF2PasswordEncryptor` .
@@ -158,7 +158,7 @@ The system account table stores the account information.
 
   Login ID                     LOGIN_ID                  java.lang.String
 
-  Password                     PASSWORD                  java.lang.String
+  Password                     USER_PASSWORD             java.lang.String
 
   User ID lock                 USER_ID_LOCKED            boolean              true when locked
 

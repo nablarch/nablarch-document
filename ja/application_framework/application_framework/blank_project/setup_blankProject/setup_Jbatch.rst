@@ -32,11 +32,11 @@ JSR352に準拠したバッチプロジェクトの初期セットアップで�
       * JSR352に準拠したバッチアプリケーション用の基本的な設定
       * batchlet方式による疎通確認用バッチアプリケーション
       * chunk方式による疎通確認用バッチアプリケーション
-      * ETL機能を使用した疎通確認用アプリケーション \ [#etl]_\
+      * ETL機能を使用した疎通確認用アプリケーション \ [#etl-app]_\
       * Mavenと連動して動作するツールの初期設定( :ref:`about_maven_parent_module` を参照することによって取り込んでいる)。
 
 
-.. [#etl] ETLを実行するクラスはNablarch内に存在するため、プロジェクトには設定ファイル、及びETLが使用するDTOクラス、entityクラスのみ存在する。
+.. [#etl-app] ETLを実行するクラスはNablarch内に存在するため、プロジェクトには設定ファイル、及びETLが使用するDTOクラス、entityクラスのみ存在する。
 
 
 他のプロジェクトとの関係、及びディレクトリ構成は、 :doc:`../MavenModuleStructures/index` を参照。
@@ -53,16 +53,41 @@ Nablarchが提供するアーキタイプを使用してブランクプロジェ
 mvnコマンドの実行
 -------------------------------------------------------
 
-カレントディレクトリを、ブランクプロジェクトを作成したいディレクトリ(任意のディレクトリで可)に変更し、以下のファイルを配置する。
+`Maven Archetype Plugin(外部サイト、英語) <https://maven.apache.org/archetype/maven-archetype-plugin/usage.html>`_ を使用して、ブランクプロジェクトを生成する。
 
-:download:`バッチファイル <bat/generateJbatchProject.bat>`
+カレントディレクトリを、ブランクプロジェクトを作成したいディレクトリ(任意のディレクトリで可)に変更する。
 
-配置後、引数に必要なパラメータを指定しbatファイルを実行する。
+その後、以下のコマンドを実行する。
 
-generateJbatchProject.bat |nablarch_version| <<groupId>> <<artifactId>> <<version>> <<package(任意)>>
+.. code-block:: bat
 
-上記コマンドに設定するパラメータは以下の通り。
-なお、nablarchのバージョンを変更したい場合には |nablarch_version| を変更すること。
+  mvn archetype:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-batch-ee-archetype -DarchetypeVersion={nablarch_version}
+
+上記コマンドで使用されているNablarchのバージョンは |nablarch_version| となっている。バージョンを変更したい場合は、以下のパラメータを変更すること。
+
+.. list-table::
+  :header-rows: 1
+  :class: white-space-normal
+  :widths: 6,20
+
+  * - 設定値
+    - 説明
+  * - archetypeVersion
+    - 使用したいアーキタイプのバージョンを指定する。（Nablarch 5u25以降を指定すること）
+
+.. tip::
+  Nablarch 5u24以前のバージョンでブランクプロジェクトを生成したい場合は、上記コマンドの ``archetype:generate`` を ``org.apache.maven.plugins:maven-archetype-plugin:2.4:generate`` に変更して以下の例のように実行すること。
+
+  .. code-block:: bat
+
+    mvn org.apache.maven.plugins:maven-archetype-plugin:2.4:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-batch-ee-archetype -DarchetypeVersion=5u24
+
+  この例で使用されているNablarchのバージョンは 5u24 となっている。バージョン変更したい場合は、同様にパラメータarchetypeVersionを変更すること。
+
+プロジェクト情報の入力
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+上記コマンドを実行すると、以下の項目について入力を求められるので、 生成されるブランクプロジェクトに関する情報を入力する。
 
 =========== ========================================= =======================
 入力項目    説明                                      設定例
@@ -76,6 +101,11 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 .. important::
    項目groupIdおよびpackageは、Javaのパッケージ名にマッピングされる。
    よって、これらの入力値には、英小文字、数字、ドットを使用し、ハイフンは使用しないこと。
+
+プロジェクト情報の入力が終わると、Y: :と表示される。
+
+ * 入力した内容をもとに、ひな形を生成する場合には「Y」を入力してください。
+ * プロジェクト情報の入力をやり直したい場合には「N」を入力してください。
 
 コマンドが正常終了した場合、ブランクプロジェクトがカレントディレクトリ配下に作成される。
 

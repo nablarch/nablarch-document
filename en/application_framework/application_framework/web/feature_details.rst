@@ -140,7 +140,7 @@ Permission check
 
 Status code
 --------------------------------------------------
-* `Using the status code (external site) <http://qiita.com/kawasima/items/e48180041ace99842779>`_
+* `Using the status code (external site) <https://qiita.com/kawasima/items/e48180041ace99842779>`_
 
 
 Screen transitions and status codes in the case of errors
@@ -157,7 +157,7 @@ Screen transitions and status codes in the case of errors
 
   * Define a transition destination corresponding to an exception class (:ref:`on_error_interceptor` , :ref:`on_errors_interceptor`)
   * :ref:`Defining multiple transition destinations for a single exception <forward_error_page-try_catch>`
-* `Using the status code (external site) <http://qiita.com/kawasima/items/e48180041ace99842779>`_
+* `Using the status code (external site) <https://qiita.com/kawasima/items/e48180041ace99842779>`_
 
 Send MOM message
 ----------------------------------------
@@ -176,3 +176,7 @@ CSRF measures
 Use web applications and RESTful web services together
 ----------------------------------------------------------------
 * :ref:`Change the name of the delegating web front controller <change_web_front_controller_name>`
+
+Content Security Policy(CSP) support
+---------------------------------------
+* :ref:`Content Security Policy(CSP) support<content_security_policy>`

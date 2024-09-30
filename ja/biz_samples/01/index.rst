@@ -39,7 +39,7 @@
   本機能では、ログイン処理を実行する業務処理は提供しない。
   Nablarch導入プロジェクトにて、要件に応じてログイン処理を作成すること。
 
-本機能では、デフォルトでは `PBKDF2 <http://www.ietf.org/rfc/rfc2898.txt>`_ を使用してパスワードを暗号化するため、
+本機能では、デフォルトでは `PBKDF2 <https://www.ietf.org/rfc/rfc2898.txt>`_ を使用してパスワードを暗号化するため、
 各プロジェクトで、パスワード暗号化のストレッチング回数やソルトなどを設定する必要がある。
 
 設定内容の詳細については :doc:`0101_PBKDF2PasswordEncryptor` を参照。
@@ -156,7 +156,7 @@ PasswordEncryptor     パスワードを暗号化するインタフェース。
 
   ログインID                LOGIN_ID                  java.lang.String
 
-  パスワード                PASSWORD                  java.lang.String
+  パスワード                USER_PASSWORD             java.lang.String
 
   ユーザIDロック            USER_ID_LOCKED            boolean                ロックしている場合はtrue
 

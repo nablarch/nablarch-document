@@ -1,13 +1,17 @@
-FROM python:3.6.8
-RUN apt-get update
+FROM python:3.8.18-slim
+
+WORKDIR /root
+
+COPY requirements.txt /root/
+COPY package*.json /root/
 
 # Sphinxのセットアップ
-RUN pip install --upgrade pip && pip install Sphinx==1.6.3 && pip install javasphinx==0.9.15 && pip install sphinx-rtd-theme==0.2.4
+RUN pip install --no-cache-dir -r requirements.txt
 
 # textlintのセットアップ
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt-get install -y nodejs
-COPY package*.json /root/
-WORKDIR /root
+RUN apt-get update \
+    && curl -sL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs npm --no-install-recommends \
+    && apt-get clean
+
 RUN npm install && npm audit fix
-RUN pip install docutils-ast-writer

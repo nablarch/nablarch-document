@@ -29,7 +29,7 @@ For example, it is necessary to keep the application stateless in order to have 
 The Twelve-Factor App
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The `The Twelve-Factor App`_ (external site) is a system development methodology proposed by `Heroku <https://heroku.com/>`_ (external site) engineers that summarizes the twelve factors to be considered when developing a system suitable for the cloud environment.
+The `The Twelve-Factor App`_ (external site) is a system development methodology proposed by `Heroku <https://www.heroku.com/>`_ (external site) engineers that summarizes the twelve factors to be considered when developing a system suitable for the cloud environment.
 
 The modifications of the Nablarch application needed for containerization described in this chapter are based on the method described in this `The Twelve-Factor App`_ (external site).
 

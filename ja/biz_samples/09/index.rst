@@ -11,7 +11,7 @@ bouncycastleを使用した電子署名つきメールの送信サンプルの�
 .. [#bouncy]
   bouncycastleとは、暗号化等のセキュリティ関連の機能を提供するオープンソースライブラリである。
 
-  詳細は、bouncycastleのサイト(\ `http://www.bouncycastle.org/ <http://www.bouncycastle.org/>`_\ )を参照
+  詳細は、bouncycastleのサイト(\ `https://www.bouncycastle.org/ <https://www.bouncycastle.org/>`_\ )を参照
 
 
 環境準備

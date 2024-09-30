@@ -5,7 +5,6 @@ Nablarch拡張コンポーネント
 
 .. toctree::
    :maxdepth: 1
-   :numbered:
 
    report/index
    workflow/doc/index

@@ -4,7 +4,7 @@
 Sample Password Encryption Function Using PBKDF2
 ====================================================
 
-This is an implementation sample that encrypts the password using `PBKDF2 <http://www.ietf.org/rfc/rfc2898.txt>`_.
+This is an implementation sample that encrypts the password using `PBKDF2 <https://www.ietf.org/rfc/rfc2898.txt>`_.
 
 
 -----------------
@@ -48,7 +48,7 @@ Not yet considered
 Details of the password encryption function
 -------------------------------------------------------
 
-This function uses one of the key derivation functions `PBKDF2 <http://www.ietf.org/rfc/rfc2898.txt>`_ to encrypt the password.
+This function uses one of the key derivation functions `PBKDF2 <https://www.ietf.org/rfc/rfc2898.txt>`_ to encrypt the password.
 The encrypted password is returned as a Base64-encoded character string.
 
 This function uses a byte sequence that concatenates "system common fixed value" and "user ID" as a salt,

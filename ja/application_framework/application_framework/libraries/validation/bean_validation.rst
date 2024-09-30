@@ -14,7 +14,7 @@ Bean Validation
 
   Java EE環境(WebLogicやWildFlyなど)では、そのサーバ内にバンドルされているBean Validationの実装が使用される。
   Java EE環境外で使用するには、別途Bean Validationの実装を参照ライブラリに追加する必要がある。
-  (参照実装である `Hibernate Validator(外部サイト、英語) <http://hibernate.org/validator/>`_ を使用することを推奨する。)
+  (参照実装である `Hibernate Validator(外部サイト、英語) <https://hibernate.org/validator/>`_ を使用することを推奨する。)
 
 機能概要
 ---------------------
@@ -700,6 +700,81 @@ Bean Validation(JSR349)の仕様では、項目名をメッセージに含める
   メッセージへの項目名の追加方法を変更したい場合には、 :java:extdoc:`ItemNamedConstraintViolationConverterFactory <nablarch.core.validation.ee.ItemNamedConstraintViolationConverterFactory>` 
   を参考にし、プロジェクト側で実装を追加し対応すること。
 
+.. _bean_validation-execute_explicitly:
+
+バリデーションの明示的な実行
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+通常、バリデーションは `ウェブアプリケーションのユーザ入力値のチェックを行う`_ や `RESTfulウェブサービスのユーザ入力値のチェックを行う`_ で案内している方法で行うが、バリデーションエラーをハンドリングしたい場合など、これらの方法が使用できない場合がある。
+
+そのような場合には、 :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object)>` を使用して明示的にバリデーションを実行することができる。
+
+  .. code-block:: java
+
+    // バリデーションを明示的に実行する
+    ValidatorUtil.validate(form);
+
+バリデーションエラーが発生した場合は、 :java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>` が送出される。
+
+Webアプリケーションの場合
+    ウェブアプリケーションで明示的にバリデーションを実行する場合、リクエストパラメータに含まれる入力値をBeanに変換する必要がある。
+
+    Beanに変換するためには、バリデーション前のリクエストパラメータを :java:extdoc:`HttpRequest#getParamMap <nablarch.fw.web.HttpRequest.getParamMap()>`  から取得する必要がある。
+    しかし、バリデーション前の入力値をアプリケーションプログラマが自由に扱えてしまうとバリデーションされないまま業務ロジックを実行し、場合によっては障害につながる危険がある。
+
+    そのため、リクエストパラメータを取得する :java:extdoc:`HttpRequest#getParamMap <nablarch.fw.web.HttpRequest.getParamMap()>` はアーキテクト向けの公開APIとし、Actionクラスで使うことは禁止している。
+
+    ウェブアプリケーションで明示的にバリデーションを実行する必要がある場合には、共通基盤部品として以下のようなユーティリティクラスの作成を推奨する。
+
+  .. code-block:: java
+
+    public final class ProjectValidatorUtil {
+        // その他の処理は省略
+
+        /**
+         * HTTPリクエストからBeanを生成し、Bean Validationを行う。
+         *
+         * @param beanClass 生成したいBeanクラス
+         * @param request HTTPリクエスト
+         * @return  プロパティに値が登録されたBeanオブジェクト
+         */
+        public static <T> T validate(Class<T> beanClass, HttpRequest request) {
+            T bean = BeanUtil.createAndCopy(beanClass, request.getParamMap());
+            ValidatorUtil.validate(bean);
+            return bean;
+        }
+    }
+
+
+
+.. _bean_validation-execute:
+
+バリデーションエラー時に任意の処理を行いたい
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+バリデーションエラー時に任意の処理を行いたい場合には、明示的にバリデーションを実行することでバリデーションエラー時に発生する例外をハンドリングできるため、任意の処理を行うことができる。
+
+以下に `バリデーションの明示的な実行`_ の実装例にあるユーティリティクラスを使用した実装例を示す。
+
+  .. code-block:: java
+
+    @OnError(type = ApplicationException.class, path = "/WEB-INF/view/project/create.jsp")
+    public HttpResponse create(HttpRequest request, ExecutionContext context) {
+
+        ProjectForm form;
+
+        try {
+            // バリデーションを明示的に実行し、バリデーション済みのフォームを取得する
+            form = ProjectValidatorUtil.validate(ProjectForm.class, request);
+        } catch (ApplicationException e) {
+            // バリデーションエラー時に任意の処理を行う
+            // ...
+
+            // ApplicationExceptionを送出し、@OnErrorアノテーションで指定された遷移先に遷移する
+            throw e;
+        }
+
+        // 以下省略
+    }
+
 
 .. _bean_validation-use_groups:
 
@@ -760,6 +835,6 @@ APIの詳細は、 :java:extdoc:`ValidatorUtil#validateWithGroup <nablarch.core.
 
 実装方法などの詳細については、以下のリンク先及びNablarchの実装を参照。
 
-* `Hibernate Validator(外部サイト、英語) <http://hibernate.org/validator/>`_
+* `Hibernate Validator(外部サイト、英語) <https://hibernate.org/validator/>`_
 * `JSR349(外部サイト、英語) <https://jcp.org/en/jsr/detail?id=349>`_
 

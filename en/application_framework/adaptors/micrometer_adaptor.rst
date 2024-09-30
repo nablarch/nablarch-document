@@ -27,12 +27,12 @@ Module list
   
 .. tip::
 
-  Tests are conducted using Micrometer version 1.5.4.
+  Tests are conducted using Micrometer version 1.13.0.
   If you change the version, the project  should be tested to make sure it is working.
 
 Setting up to use the Micrometer adapter
 --------------------------------------------------
-In order to collect metrics in Micrometer, need to create a class called `Registry (external site) <https://micrometer.io/docs/concepts#_registry>`_ .
+In order to collect metrics in Micrometer, need to create a class called `Registry (external site) <https://docs.micrometer.io/micrometer/reference/concepts/registry.html>`_ .
 This adapter provides a :java:extdoc:`ComponentFactory<nablarch.core.repository.di.ComponentFactory>` to register this registry in the System Repository.
 
 In this section,  describe how to set up :java:extdoc:`LoggingMeterRegistryFactory<nablarch.integration.micrometer.logging.LoggingMeterRegistryFactory>` as an example, registering `LoggingMeterRegistry (external site)`_ as a component.
@@ -211,7 +211,9 @@ This adapter provides the following registry factory classes.
   * - `StatsdMeterRegistry (external site)`_
     - :java:extdoc:`StatsdMeterRegistryFactory <nablarch.integration.micrometer.statsd.StatsdMeterRegistryFactory>`
     - ``1.0.0`` or higher
-
+  * - `OtlpMeterRegistry(external site)`_
+    - :java:extdoc:`OtlpMeterRegistryFactory <nablarch.integration.micrometer.otlp.OtlpMeterRegistry>`
+    - ``1.3.0`` or higher
 
 
 .. _micrometer_configuration:
@@ -243,12 +245,13 @@ Registry factory                    subPrefix
 ``CloudWatchMeterRegistryFactory``  ``cloudwatch``
 ``DatadogMeterRegistryFactory``     ``datadog``
 ``StatsdMeterRegistryFactory``      ``statsd``
+``OtlpMeterRegistryFactory``        ``otlp``
 =================================== ================
 
-``<key>`` should be the same name as the method defined in `configuration class (external site) <https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/config/MeterRegistryConfig.html>`_  that Micrometer provides per registry.
+``<key>`` should be the same name as the method defined in `configuration class (external site) <https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/config/MeterRegistryConfig.html>`_  that Micrometer provides per registry.
 
 For example, there is a configuration class named `DatadogConfig (external site)`_ for `DatadogMeterRegistry (external site)`_ .
-And in this configuration class, a method named `apyKey (external site) <https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogConfig.html#apiKey()>`_ is defined.
+And in this configuration class, a method named `apiKey (external site) <https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.13.0/io/micrometer/datadog/DatadogConfig.html#apiKey()>`_ is defined.
 
 Therefore, can configure your ``apiKey`` by writing in your ``micrometer.properties`` like this.
 
@@ -446,6 +449,10 @@ This will enable the following metrics to be collected.
     - JVM startup time (UNIX time)
   * - ``jvm.gc.count``
     - Number of GC
+  * - ``jvm.threads.started``
+    - The total number of application threads started in the JVM
+  * - ``process.cpu.time``
+    - The "cpu time" used by the Java Virtual Machine process
 
 See :ref:`micrometer_metrics_output_example` for an example of the actual metrics to be collected.
 
@@ -494,8 +501,8 @@ Working with monitoring services
 
 In order to work with monitoring services, the following settings need to be made, broadly categorized.
 
-#. Add a Micrometer module for each monitoring service to the dependencies.
-#. Define a registry factory for the monitoring service as a component.
+#. Add a Micrometer module prepared for each monitoring service and linking method to the dependencies.
+#. Define a registry factory to be used as a component.
 #. Configuring other proprietary settings for each monitoring service.
 
 This section describes how to work with each of the monitoring services.
@@ -510,7 +517,7 @@ Adding Dependencies
     <dependency>
       <groupId>io.micrometer</groupId>
       <artifactId>micrometer-registry-datadog</artifactId>
-      <version>1.5.4</version>
+      <version>1.13.0</version>
     </dependency>
 
 Declare the Registry Factory
@@ -526,7 +533,14 @@ Configuring the API key
 
     nablarch.micrometer.datadog.apiKey=XXXXXXXXXXXXXXXX
 
-  The API key can be set in ``nablarch.micrometer.datadog.apyKey`` .
+  The API key can be set in ``nablarch.micrometer.datadog.apiKey`` .
+
+Configuring the site URL
+  .. code-block:: text
+
+    nablarch.micrometer.datadog.uri=<SITE_URL>
+
+  The site URL can be set in ``nablarch.micrometer.datadog.uri`` .
 
   See `DatadogConfig (external site)`_ for other configuration.
 
@@ -553,7 +567,7 @@ Adding Dependencies
     <dependency>
       <groupId>io.micrometer</groupId>
       <artifactId>micrometer-registry-cloudwatch2</artifactId>
-      <version>1.5.4</version>
+      <version>1.13.0</version>
     </dependency>
 
 Declare the Registry Factory
@@ -657,7 +671,7 @@ How to send metrics to Azure with Micrometer
 
   * `Java codeless application monitoring Azure Monitor Application Insights(external site) <https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=java>`_
 
-  The Java 3.0 agent automatically collects metrics output to Micrometer's `Global Registry(external site) <https://micrometer.io/docs/concepts#_global_registry>`_, and sends to Azure.
+  The Java 3.0 agent automatically collects metrics output to Micrometer's `Global Registry(external site) <https://docs.micrometer.io/micrometer/reference/concepts/registry.html#_global_registry>`_, and sends to Azure.
 
   * `Send custom telemetry from your application(external site) <https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=java>`_
 
@@ -727,7 +741,7 @@ Adding Dependencies
     <dependency>
       <groupId>io.micrometer</groupId>
       <artifactId>micrometer-registry-statsd</artifactId>
-      <version>1.5.4</version>
+      <version>1.13.0</version>
     </dependency>
 
 Declare the Registry Factory
@@ -756,6 +770,61 @@ Disable the registry
     nablarch.micrometer.statsd.enabled=false
 
   You can disable the registry by setting ``nablarch.micrometer.statsd.enabled`` to ``false`` in ``micrometer.properties``.
+  You can override this configuration by environment variable.
+  Therefor, you can enable the registry by setting ``true`` with environment variable only at production.
+
+Using OpenTelemetry Protocol (OTLP)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Many monitoring services support `OpenTelemetry (external site) <https://opentelemetry.io/>`_ and can collect metrics using the OpenTelemetry Protocol (hereafter OTLP) as the communication protocol.
+The ``micrometer-registry-otlp`` module allows OTLP to work with various monitoring services.
+
+  .. important::
+    When collecting metrics with OpenTelemetry, check the information on the monitoring service to be used, as the appropriate (and available) linking method depends on the monitoring service.
+    As an example, information on some monitoring services is shown below.
+
+     * `Datadog's OpenTelemetry (external site) <https://docs.datadoghq.com/opentelemetry/>`_
+     * `Introduction to OpenTelemetry by New Relic (external site) <https://docs.newrelic.com/docs/opentelemetry/opentelemetry-introduction/>`_
+     * `Prometheus | HTTP API | OTLP Receiver(external site) <https://prometheus.io/docs/prometheus/latest/querying/api/#otlp-receiver>`_
+
+In this section, we will use the case of OTLP linking to Prometheus running on port 9090 of localhost as an example.
+
+Adding Dependencies
+  .. code-block:: xml
+
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-otlp</artifactId>
+      <version>1.13.0</version>
+    </dependency>
+
+Declare the Registry Factory
+  .. code-block:: xml
+
+    <component name="meterRegistry" class="nablarch.integration.micrometer.otlp.OtlpMeterRegistryFactory">
+      <property name="meterBinderListProvider" ref="meterBinderListProvider" />
+      <property name="applicationDisposer" ref="disposer" />
+    </component>
+
+Write a configuration file
+  .. code-block:: text
+
+    # Change Destination
+    nablarch.micrometer.otlp.url=http://localhost:9090/api/v1/otlp/v1/metrics
+
+Configuring headers
+  .. code-block:: text
+
+    nablarch.micrometer.otlp.headers=key1=value1,key2=value2
+
+  If you need header information such as API keys for authentication, you can set it with ``nablarch.micrometer.otlp.headers``.
+
+Disable the registry
+  .. code-block:: text
+
+    nablarch.micrometer.otlp.enabled=false
+
+  You can disable the registry by setting ``nablarch.micrometer.otlp.enabled`` to ``false`` in ``micrometer.properties``.
   You can override this configuration by environment variable.
   Therefor, you can enable the registry by setting ``true`` with environment variable only at production.
 
@@ -977,7 +1046,7 @@ Collect the percentiles
       The unit is milliseconds.
 
 These properties are used as values to be set in `Timer(external site)`_ provided by Micrometer.
-For more details, see the `Micrometer documentation (external site) <https://micrometer.io/docs/concepts#_histograms_and_percentiles>`_.
+For more details, see the `Micrometer documentation (external site) <https://docs.micrometer.io/micrometer/reference/concepts/histogram-quantiles.html>`_.
 
 These properties are unset by default. Therefore, no percentile information is collected.
 You must configure these properties explicitly if you want collect percentiles.
@@ -1017,7 +1086,7 @@ The following is an example for configuration.
     <property name="maximumExpectedValue" value="3000" />
   </component>
 
-If you use `PrometheusMeterRegistry(external site)`_ as ``MeterRegistry``, the above configuration will allow you to collect the following metrics.
+If you use the ``MeterRegistry`` that supports histogram buckets, the above configuration will allow you to collect the following metrics.
 
 .. code-block:: text
 
@@ -1044,18 +1113,18 @@ If you use `PrometheusMeterRegistry(external site)`_ as ``MeterRegistry``, the a
 
 .. tip::
   
-  In above example, we use ``PrometheusMeterRegistry`` to show a concrete example of a histogram bucket(``http_server_requests_seconds_bucket``).
-  `Prometheus(external site) <https://prometheus.io/>`_ supports calculating percentiles by histogram.
+  In the ``MeterRegistry`` provided by this adapter, only the ``OtlpMeterRegistry`` supports histogram buckets.
 
+  The example uses `PrometheusMeterRegistry(external site)`_ to show a concrete example of a histogram bucket (``http_server_requests_seconds_bucket``) (`Prometheus(external site) <https://prometheus.io/>`_ supports computing percentiles by histogram).
   However, this adaptor does not provide ``MeterRegistryFactory`` of ``PrometheusMeterRegistry``.
-  If you want to try the metrics of the histogram bucket, you should create the following class.
+  If you want to try the ``PrometheusMeterRegistry``, you should create the following class.
 
   .. code-block:: java
 
     package example.micrometer.prometheus;
 
-    import io.micrometer.prometheus.PrometheusConfig;
-    import io.micrometer.prometheus.PrometheusMeterRegistry;
+    import io.micrometer.prometheusmetrics.PrometheusConfig;
+    import io.micrometer.prometheusmetrics.PrometheusMeterRegistry;
     import nablarch.core.repository.di.DiContainer;
     import nablarch.integration.micrometer.MeterRegistryFactory;
     import nablarch.integration.micrometer.MicrometerConfiguration;
@@ -1757,25 +1826,27 @@ This will cause no warning log to be output.
 
 Note, however, that if the interval for sending metrics is set to a very short time, the metrics may be sent before the system repository is initialized and a warning log may be output.
 
-.. _MeterBinder (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/MeterBinder.html
-.. _Counter(external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/Counter.html
-.. _Gauge(external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/Gauge.html
-.. _DatadogConfig (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogConfig.html
-.. _CloudWatchConfig (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-cloudwatch2/1.5.4/io/micrometer/cloudwatch2/CloudWatchConfig.html
-.. _StatsdConfig (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-statsd/1.5.4/io/micrometer/statsd/StatsdConfig.html
-.. _MeterRegistry (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/MeterRegistry.html
-.. _DatadogMeterRegistry (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogMeterRegistry.html
-.. _StatsdMeterRegistry (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-statsd/1.5.4/io/micrometer/statsd/StatsdMeterRegistry.html
-.. _DatadogMeterRegistry (external site: https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.5.4/io/micrometer/datadog/DatadogMeterRegistry.html
-.. _CloudWatchMeterRegistry (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-cloudwatch2/1.5.4/io/micrometer/cloudwatch2/CloudWatchMeterRegistry.html
-.. _LoggingMeterRegistry (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/logging/LoggingMeterRegistry.html
-.. _SimpleMeterRegistry (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/simple/SimpleMeterRegistry.html
-.. _JvmMemoryMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/JvmMemoryMetrics.html
-.. _ProcessorMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/ProcessorMetrics.html
-.. _JvmGcMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/JvmGcMetrics.html
-.. _JvmThreadMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/JvmThreadMetrics.html
-.. _ClassLoaderMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/jvm/ClassLoaderMetrics.html
-.. _FileDescriptorMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/FileDescriptorMetrics.html
-.. _UptimeMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/binder/system/UptimeMetrics.html
-.. _Timer(external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.5.4/io/micrometer/core/instrument/Timer.html
-.. _PrometheusMeterRegistry(external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-prometheus/1.5.4/io/micrometer/prometheus/PrometheusMeterRegistry.html
+.. _MeterBinder (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/binder/MeterBinder.html
+.. _Counter(external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/Counter.html
+.. _Gauge(external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/Gauge.html
+.. _DatadogConfig (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.13.0/io/micrometer/datadog/DatadogConfig.html
+.. _CloudWatchConfig (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-cloudwatch2/1.13.0/io/micrometer/cloudwatch2/CloudWatchConfig.html
+.. _StatsdConfig (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-statsd/1.13.0/io/micrometer/statsd/StatsdConfig.html
+.. _OtlpConfig(external site): https://javadoc.io/static/io.micrometer/micrometer-registry-otlp/1.9.17/io/micrometer/registry/otlp/OtlpConfig.html
+.. _MeterRegistry (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/MeterRegistry.html
+.. _DatadogMeterRegistry (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.13.0/io/micrometer/datadog/DatadogMeterRegistry.html
+.. _StatsdMeterRegistry (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-statsd/1.13.0/io/micrometer/statsd/StatsdMeterRegistry.html
+.. _OtlpMeterRegistry(external site): https://javadoc.io/static/io.micrometer/micrometer-registry-otlp/1.9.17/io/micrometer/registry/otlp/OtlpMeterRegistry.html
+.. _DatadogMeterRegistry (external site: https://javadoc.io/doc/io.micrometer/micrometer-registry-datadog/1.13.0/io/micrometer/datadog/DatadogMeterRegistry.html
+.. _CloudWatchMeterRegistry (external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-cloudwatch2/1.13.0/io/micrometer/cloudwatch2/CloudWatchMeterRegistry.html
+.. _LoggingMeterRegistry (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/logging/LoggingMeterRegistry.html
+.. _SimpleMeterRegistry (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/simple/SimpleMeterRegistry.html
+.. _JvmMemoryMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/binder/jvm/JvmMemoryMetrics.html
+.. _ProcessorMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/binder/system/ProcessorMetrics.html
+.. _JvmGcMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/binder/jvm/JvmGcMetrics.html
+.. _JvmThreadMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/binder/jvm/JvmThreadMetrics.html
+.. _ClassLoaderMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/binder/jvm/ClassLoaderMetrics.html
+.. _FileDescriptorMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/binder/system/FileDescriptorMetrics.html
+.. _UptimeMetrics (external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/binder/system/UptimeMetrics.html
+.. _Timer(external site): https://javadoc.io/doc/io.micrometer/micrometer-core/1.13.0/io/micrometer/core/instrument/Timer.html
+.. _PrometheusMeterRegistry(external site): https://javadoc.io/doc/io.micrometer/micrometer-registry-prometheus/1.13.0/io/micrometer/prometheusmetrics/PrometheusMeterRegistry.html

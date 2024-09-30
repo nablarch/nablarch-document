@@ -252,9 +252,9 @@ Mavenを実行する際は、ゴールを指定する。コマンド例は以下
     - ビルドに使用するワークディレクトリ(targetディレクトリ)を削除する。
   * - `Install <https://maven.apache.org/plugins/maven-install-plugin/>`_
     - モジュールをビルドし、ローカルリポジトリにインストールする。
-  * - `test <http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#Lifecycle_Reference>`_
+  * - `test <https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#Lifecycle_Reference>`_
     - ユニットテストを実行する。
-  * - `package <http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#Lifecycle_Reference>`_
+  * - `package <https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#Lifecycle_Reference>`_
     - warまたはjarを生成する。どちらが生成されるかは、設定ファイル(pom.xml)で決定される。なお、test等、warファイル生成に必要なゴールもあわせて実行される。
   * - `dependency:tree <https://maven.apache.org/plugins/maven-dependency-plugin/tree-mojo.html>`_ 
     - 依存するモジュールをツリー表示する。
@@ -262,7 +262,7 @@ Mavenを実行する際は、ゴールを指定する。コマンド例は以下
 
 .. tip::
 
-  ゴール全般については、`Introduction to the Build Lifecycle(外部サイト、英語) <http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html>`_ を参照。
+  ゴール全般については、`Introduction to the Build Lifecycle(外部サイト、英語) <https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html>`_ を参照。
 
 
 .. _mvnFrequentlyTrouble:

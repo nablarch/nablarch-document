@@ -272,7 +272,7 @@ Exampleアプリケーションを元に検索機能を解説する。
   この実装のポイント
     * 詳細画面へ遷移するリンクなど、GETリクエストのURLにパラメータを含めたい場合は、JSTLの `<c:url>` タグやEL式を使って作成する。
     * Exampleアプリケーションでは、ルーティングを以下のように設定しているため、末尾にプロジェクトIDを付与したURLが「 `ProjectAction#show` 」に紐づけられる。
-      詳細は `ライブラリのREADMEドキュメント(外部サイト) <https://github.com/kawasima/sastruts-advanced-routes/blob/master/README.ja.md>`_ を参照。
+      詳細は `ライブラリのREADMEドキュメント(外部サイト) <https://github.com/kawasima/http-request-router/blob/master/README.ja.md>`_ を参照。
 
       routes.xml
         .. code-block:: xml

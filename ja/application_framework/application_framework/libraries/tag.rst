@@ -790,7 +790,7 @@ uri属性の指定方法については、 :ref:`tag-specify_uri` を参照。
 
   /**
    * @param event イベントオブジェクト
-   * @param element イベント元の要素(ボタン又はリンク)
+   * @param element イベント元の要素(ボタン又はリンク)。未指定の場合は第1引数のeventからcurrentTarget、targetプロパティの優先順位でイベント元の要素を取得する。
    * @return イベントを伝搬させないため常にfalse
    */
   function nablarch_submit(event, element)
@@ -825,6 +825,13 @@ HTML
 カスタムタグは、onclick属性が指定された場合、サブミット用のJavaScript関数を呼び出さない。
 この場合、アプリケーションで作成したJavaScriptで、カスタムタグが設定する :ref:`JavaScript関数 <tag-submit_function>` を呼び出す必要がある。
 
+ .. important::
+  Content Security Policy(CSP)に対応する場合は、onclick属性にインラインでJavaScriptを記述してしまうとCSPに対応しようとしているにも
+  関わらず ``unsafe-inline`` を使いセキュリティレベルを低下させてしまう、  もしくは ``unsafe-hashes`` を利用することになってしまう。
+  このため、 :ref:`tag-content_security_policy` の手順に従い外部スクリプトまたはnonce属性を指定したscript要素に追加の処理を実装を
+  行うことを推奨する。
+ 
+
 実装例
  サブミット前に確認ダイアログを表示する。
 
@@ -857,6 +864,12 @@ JavaScriptの詳細については、 :ref:`tag-onclick_override` を参照。
 
 そのため、プルダウン変更などの画面操作でサブミットを行いたい場合は、サブミットさせたいボタンのクリックイベントを発生させる。
 
+ .. important::
+  Content Security Policy(CSP)に対応する場合は、onclick属性にインラインでJavaScriptを記述してしまうとCSPに対応しようとしているにも
+  関わらず ``unsafe-inline`` を使いセキュリティレベルを低下させてしまう、  もしくは ``unsafe-hashes`` を利用することになってしまう。
+  このためは、 :ref:`tag-content_security_policy` の手順に従い外部スクリプトまたはnonce属性を指定したscript要素に追加の処理を実装を
+  行うことを推奨する。
+
 プルダウン変更でサブミットを行う場合の実装例を示す。
 
 実装例
@@ -874,6 +887,7 @@ JavaScriptの詳細については、 :ref:`tag-onclick_override` を参照。
  .. important::
   上記の実装例では、説明がしやすいので、onchangeイベントハンドラに直接JavaScriptを記載しているが、
   実際のプロジェクトでは、オープンソースのJavaScriptライブラリを使うなどして、処理を動的にバインドすることを推奨する。
+
 
 .. _`tag-submit_change_parameter`:
 
@@ -2639,6 +2653,107 @@ HTMLを出力するタグについては動的属性を使用可能としてい�
 
 論理属性として扱う動的属性は変更できる。
 変更する場合は論理属性のリストを ``CustomTagConfig`` の :java:extdoc:`dynamicBooleanAttributesプロパティ<nablarch.common.web.tag.CustomTagConfig.setDynamicBooleanAttributes(java.util.List)>` に設定する。
+
+.. _tag-content_security_policy:
+
+Content Security Policy(CSP)に対応する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:ref:`セキュアハンドラでnonceを生成する設定<content_security_policy>` を行うと、カスタムタグの動作が次のように変化する。
+
+* :ref:`tag-form_tag` が生成するJavaScriptをscript要素にまとめ、nonce属性にセキュアハンドラが生成したnonceを設定する
+
+    * 自動でonclick属性に指定する関数呼び出しを含む
+
+* :ref:`tag-script_tag` が生成するscript要素のnonce属性にセキュアハンドラが生成したnonceを設定する
+
+* セキュアハンドラが生成したnonceを :ref:`tag-csp_nonce_tag` で出力できるようになる
+
+これらの機能をCSPへの対応に利用できる。
+
+.. important::
+  NablarchでのCSPへの対応はnonceを利用することで実現する。
+  nonceはHTML内に埋め込まれることも多いため、JSPから生成されるHTMLがリクエストの都度変化することを意味する。
+
+セキュアハンドラが生成したnonceを任意の要素に埋め込む
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+CSPに対応する場合、スクリプトやスタイルをインラインで記述するのではなく外部ファイルとして作成することが推奨される。
+ただし、既存のコンテンツなどにインラインで記述されているものがあり、外部ファイルへすぐに移行することが困難な場合には
+:ref:`tag-csp_nonce_tag` を使用して対象の要素にnonce属性を設定することで対応できる。
+
+:ref:`tag-csp_nonce_tag` は :ref:`セキュアハンドラ<content_security_policy>` で生成したnonceを出力するカスタムタグである。
+
+以下にstyle要素で使用する例を示す。
+
+  JSP
+   .. code-block:: jsp
+
+    <%-- cspNonceタグ使用してnonce属性を設定する --%>
+    <style nonce="<n:cspNonce />">
+      <!-- 省略 -->
+    </style>
+
+  出力されるHTML
+   .. code-block:: html
+
+    <!-- セキュアハンドラが生成したnonceが出力される -->
+    <style nonce="DhcnhD3khTMePgXwdayK9BsMqXjhguVV">
+      <!-- 省略 -->
+    </style>
+
+  .. tip::
+    :ref:`tag-script_tag` で作成したscript要素については、 :ref:`セキュアハンドラ<content_security_policy>` で
+    nonceの生成を有効にしている場合はnonce属性が自動で付与される。
+    このためscript要素にnonce属性を付与したい場合は :ref:`tag-csp_nonce_tag` を使用するのではなく、 :ref:`tag-script_tag` を
+    使用することを推奨する。
+
+  .. tip::
+    なんらかの事情でContent-Security-Policyをレスポンスヘッダで設定できない場合は、meta要素で設定する。
+    この場合、 :ref:`tag-csp_nonce_tag` の ``sourceFormat`` 属性を ``true`` に設定することで
+    nonceが ``nonce-[セキュアハンドラが生成したnonce]`` フォーマットで出力されるのでこれをmeta要素に埋め込む。
+
+カスタムタグが生成する要素に対してJavaScriptで処理を追加する
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+:ref:`tag-onclick_override` で示すように、カスタムタグが生成する要素に対してJavaScriptで処理を追加したい場合がある。
+
+このような場合にonclick属性などを使ってインラインスクリプトを生成される要素に直接指定してしまうと、Content-Security-Policyに指定するポリシーを緩め
+セキュリティレベルを落とすことになってしまう。
+
+Content-Security-Policyに指定するポリシーをセキュアにしつつ、JavaScriptで処理を追加するには以下の手順に沿って実装する。
+
+ * id属性やname属性などを使用し、カスタムタグが生成する要素を特定できるように設定する
+
+ * 生成された要素をセレクタで特定し、追加の処理を実装するスクリプトを外部ファイルまたはnonce付きのscript要素として作成する
+
+ * カスタムタグが :ref:`JavaScriptを生成する<tag-onclick_override>` ものの場合は、 ``suppressDefaultSubmit`` 属性を ``true`` に設定しカスタムタグによるJavaScriptの生成を抑制する
+
+
+  JSP
+   .. code-block:: jsp
+
+    <n:form>
+      <%-- 省略 --%>
+
+      <%-- suppressDefaultSubmitをtrueに設定してカスタムタグによるデフォルトのJavaScriptの生成を抑制する --%>
+      <n:submit id="register_button" type="submit" uri="register" suppressDefaultSubmit="true" value="登録" />
+    </n:form>
+
+  JavaScript
+   .. code-block:: javascript
+
+    function popUpConfirmation(event) {
+      // フォーム本来のサブミット処理をキャンセルする
+      event.preventDefault();
+
+      if (window.confirm('登録します。よろしいですか？')) {
+        // カスタムタグが出力するJavaScript関数を明示的に呼び出す。
+        // 第2引数のelementはnablarch_submit関数内でeventから導出する
+        nablarch_submit(event);
+      }
+    }
+
+    // idを指定して処理を登録する
+    document.querySelector('#register_button').addEventListener('click', popUpConfirmation);
+
 
 拡張例
 ---------------------------------------------------------------------

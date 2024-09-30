@@ -11,7 +11,7 @@ Since this function is a sample implementation, the source code (both production
 .. [#bouncy]
   Bouncycastle is an open source library that provides security-related functions such as encryption.
 
-  For more information, see site of bouncycastle (\ `http://www.bouncycastle.org/ <http://www.bouncycastle.org/>`_\ ).
+  For more information, see site of bouncycastle (\ `https://www.bouncycastle.org/ <https://www.bouncycastle.org/>`_\ ).
 
 
 Environment preparation
