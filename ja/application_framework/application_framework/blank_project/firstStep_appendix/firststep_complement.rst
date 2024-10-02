@@ -76,7 +76,7 @@ Password      ``SAMPLE``
     - test
     - jacoco.execが生成されるところまで設定済み。|br|
       jacoco.execは、SonarQube及びJenkinsのプラグインで使用出来る。
-  * - `gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_
+  * - `gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main>`_
     - －
     - 起動は、「mvn -P gsp gsp-dba:<ゴール名>」で行う。|br|
       例えば、「mvn -P gsp gsp-dba:generate-ddl」でgenerate-ddlを実行できる。
