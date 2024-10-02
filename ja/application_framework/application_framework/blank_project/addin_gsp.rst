@@ -28,7 +28,7 @@ gsp-dba-maven-pluginは、使用開始前にRDBMSにあわせて設定する必�
 generate-entityゴールがJava17以降で動くように設定する
 ======================================================
 
-generate-entityゴールを実行するとEntityクラスを自動生成できるが、Java 17以降でgenerate-entityゴールを実行するためにはJVMオプションを設定する必要がある。
+generate-entityゴールを実行することによりEntityクラスを自動生成できるが、Java 17以降で利用するにはJVMオプションを設定する必要がある。
 
 以下を参照して設定する。
 
