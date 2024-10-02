@@ -25,10 +25,19 @@ gsp-dba-maven-pluginは、使用開始前にRDBMSにあわせて設定する必�
   ER図からツールによって生成されたDDLをそのまま本番環境に配置して実行するというような使い方も想定していない。
   ツールによって生成されたDDLを流用して本番環境向けのDDLを作成する場合はDBAの責任でDDLに問題ないかを確認すること。
 
-前提
-====================================================
+generate-entityゴールがJava17以降で動くように設定する
+======================================================
 
-以下のプロジェクトを対象とする。
+generate-entityゴールを実行することによりEntityクラスを自動生成できるが、Java 17以降で利用するにはJVMオプションを設定する必要がある。
+
+以下を参照して設定する。
+
+`generate-entity(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/blob/main/README.md#generate-entity>`_
+
+ファイル修正
+===========================
+
+この手順は、以下のプロジェクトを対象とする。
 
 * アーキタイプから生成後、:doc:`CustomizeDB` の手順を実施した各種プロジェクト。
 
@@ -36,11 +45,7 @@ gsp-dba-maven-pluginは、使用開始前にRDBMSにあわせて設定する必�
 
   gsp-dba-maven-pluginはデフォルトでH2 Database Engine(以下H2)を使うように設定されている。
 
-  H2を使用する場合は、以降の手順は不要である。 :ref:`confirm_gsp` だけ行うこと。
-
-
-ファイル修正
-===========================
+  H2を使用する場合は、ここで記載しているファイル修正の手順は不要である。
 
 
 pom.xmlファイルの修正
@@ -176,6 +181,7 @@ src/main/resources/entity以下にRDBMS毎にedmファイルが存在するの�
 
   * generate-ddl
   * execute-ddl
+  * generate-entity
   * load-data
   * export-schema
 
@@ -289,7 +295,7 @@ SI Object Browser ER 以外のモデリングツールを使用する場合は�
     </plugins>
   </build>
 
-修正後に以下のコマンドを実行することでEntity クラスの生成、テストデータの登録、ダンプファイルの作成が行われる。
+修正後に以下のコマンドを実行することでEntityクラスの生成、テストデータの登録、ダンプファイルの作成が行われる。
 なお、コマンド実行前に任意の方法でデータベースを構築する必要がある。
 
 .. code-block:: bash

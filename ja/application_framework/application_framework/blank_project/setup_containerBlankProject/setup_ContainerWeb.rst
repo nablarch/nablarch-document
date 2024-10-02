@@ -231,6 +231,14 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
   docker rm myapp-container-web
 
 
+データベースに関する設定を行う
+------------------------------------
+
+ブランクプロジェクトは、初期状態ではH2 Database Engineを使用するように設定されている。使用するRDBMSを変更する場合は、:ref:`customize-db` を参照して設定すること。
+
+またER図からのDDL生成や実行、Entityクラスの自動生成を行うにはgsp-dba-maven-pluginの初期設定および実行を行う。詳細は :ref:`gsp-maven-plugin` を参照。
+
+
 補足
 --------------------
 
