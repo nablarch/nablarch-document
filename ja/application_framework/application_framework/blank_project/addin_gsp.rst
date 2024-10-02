@@ -32,7 +32,7 @@ gsp-dba-maven-pluginがJava17で動くように設定する
 
 以下を参照して設定する。
 
-`generate-entity <https://github.com/coastland/gsp-dba-maven-plugin/blob/main/README.md#generate-entity>`_ (外部サイト)
+`generate-entity(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/blob/main/README.md#generate-entity>`_
 
 ファイル修正
 ===========================
