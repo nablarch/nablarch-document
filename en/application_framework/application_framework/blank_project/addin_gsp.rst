@@ -11,7 +11,7 @@ Initial Configuration Method of gsp-dba-maven-plugin (DBA Work Support Tool)
 Summary
 ====================================================
 
-`gsp-dba-maven-plugin(external site) <https://github.com/coastland/gsp-dba-maven-plugin>`_ is an open source tool provided under the Apache License Version 2.0 license.
+`gsp-dba-maven-plugin(external site) <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main/en>`_ is an open source tool provided under the Apache License Version 2.0 license.
 
 gsp-dba-maven-plugin needs to be configured according to the RDBMS before starting the use.
 
@@ -19,7 +19,7 @@ This procedure shows the configuration method to use the gsp-dba-maven-plugin in
 
 .. important::
 
-  As described in `the README of the tool(external site) <https://github.com/coastland/gsp-dba-maven-plugin>`_ ,
+  As described in `the README of the tool(external site) <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main/en>`_ ,
   gsp-dba-maven-plugin is intended for use in the development phase. The main target of this plugin is the local DB of developers.
   Using the plugin in a production environment is not recommended.
 
@@ -205,7 +205,7 @@ Also, a jar file containing the dump file is generated in the ``gsp-target/outpu
 
   If the execution fails, check if any restrictions specific to the RDBMS are violated.
 
-  For restrictions specific to the RDBMS, refer to "Common Goal Parameters" at https://github.com/coastland/gsp-dba-maven-plugin (external site).
+  For restrictions specific to the RDBMS, refer to "Common Goal Parameters" at `gsp-dba-maven-plugin(external site) <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main/en>`_ .
 
 
 **2. Install the dump file to the local repository by executing the following command.**

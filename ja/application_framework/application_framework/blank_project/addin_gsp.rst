@@ -11,7 +11,7 @@ gsp-dba-maven-plugin(DBA作業支援ツール)の初期設定方法
 概要
 ====================================================
 
-`gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ は、Apache License Version 2.0 ライセンスで提供されるオープンソースのツールである。
+`gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main>`_ は、Apache License Version 2.0 ライセンスで提供されるオープンソースのツールである。
 
 gsp-dba-maven-pluginは、使用開始前にRDBMSにあわせて設定する必要がある。
 
@@ -19,7 +19,7 @@ gsp-dba-maven-pluginは、使用開始前にRDBMSにあわせて設定する必�
 
 .. important::
 
-  `ツールのREADME(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ にもある通り、gsp-dba-maven-pluginは開発フェーズで用いることを想定している。
+  `ツールのREADME(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main>`_ にもある通り、gsp-dba-maven-pluginは開発フェーズで用いることを想定している。
   開発者のローカルDBを主ターゲットとしたツールであり、本番環境での使用は推奨しない。
 
   ER図からツールによって生成されたDDLをそのまま本番環境に配置して実行するというような使い方も想定していない。
@@ -204,7 +204,7 @@ src/main/resources/entity以下にRDBMS毎にedmファイルが存在するの�
 
   実行に失敗する場合は、RDBMS固有の制限事項に抵触していないか確認する。
   
-  RDBMS固有の制限事項については、https://github.com/coastland/gsp-dba-maven-plugin (外部サイト)の「ゴール共通のパラメータ」を参照。
+  RDBMS固有の制限事項については、`gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main>`_ の「ゴール共通のパラメータ」を参照。
 
 
 **2.以下のコマンドを実行して、ダンプファイルをローカルリポジトリへインストールする。**
