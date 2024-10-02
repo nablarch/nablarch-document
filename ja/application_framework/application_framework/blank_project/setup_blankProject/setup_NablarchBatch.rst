@@ -296,9 +296,7 @@ SampleAction             バッチアプリケーション実装する際に一�
 
 ブランクプロジェクトは、初期状態ではH2 Database Engineを使用するように設定されている。使用するRDBMSを変更する場合は、:ref:`customize-db` を参照して設定すること。
 
-またER図からのDDL生成や実行、Entityクラスの自動生成を行うにはgsp-dba-maven-pluginの初期設定および実行を行う。
-
-詳細は :ref:`gsp-maven-plugin` を参照。
+またER図からのDDL生成や実行、Entityクラスの自動生成を行うにはgsp-dba-maven-pluginの初期設定および実行を行う。詳細は :ref:`gsp-maven-plugin` を参照。
 
 
 補足
