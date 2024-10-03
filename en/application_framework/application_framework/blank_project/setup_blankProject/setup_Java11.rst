@@ -62,7 +62,7 @@ Add dependent module used by gsp-dba-maven-plugin
 
 Configure by referring to the following.
 
-`Configuration in Java11 <https://github.com/coastland/gsp-dba-maven-plugin#java11%E3%81%A7%E3%81%AE%E8%A8%AD%E5%AE%9A>`_ (external site)
+`Configuration in Java11 <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main/en#java11-configuration>`_ (external site)
 
 .. _setup_java11_jetty9:
 

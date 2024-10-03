@@ -62,7 +62,7 @@ gsp-dba-maven-pluginが使用する依存モジュールの追加
 
 以下を参照して設定する。
 
-`Java 11 での設定 <https://github.com/coastland/gsp-dba-maven-plugin#java11%E3%81%A7%E3%81%AE%E8%A8%AD%E5%AE%9A>`_ (外部サイト)
+`Java 11 での設定 <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main?tab=readme-ov-file#java11%E3%81%A7%E3%81%AE%E8%A8%AD%E5%AE%9A>`_ (外部サイト)
 
 .. _setup_java11_jetty9:
 

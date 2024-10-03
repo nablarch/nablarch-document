@@ -67,7 +67,7 @@ which is input during the project creation using nablarch-web-archetype and nabl
 
 .. tip::
 
-  Automatically generated entity is generated when `gsp-dba-maven-plugin(external site) <https://github.com/coastland/gsp-dba-maven-plugin>`_ is used.
+  Automatically generated entity is generated when `gsp-dba-maven-plugin(external site) <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main/en>`_ is used.
   The configuration description in :doc:`../addin_gsp` is required to use the plugin.
 
 ----------------------------------
@@ -563,7 +563,7 @@ The following is configured respectively in each Maven project.
   *	JDBC driver
 * Configuration of the tools described in :ref:`firstStepBuiltInTools`. The following configurations are present.
 
-  * Database connection configuration used in `gsp-dba-maven-plugin(external site) <https://github.com/coastland/gsp-dba-maven-plugin>`_  (JDBC connection URL and database schema, etc.)
+  * Database connection configuration used in `gsp-dba-maven-plugin(external site) <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main/en>`_  (JDBC connection URL and database schema, etc.)
   * Coverage configuration
 
 
@@ -740,7 +740,7 @@ The following are the policy of the recommended project configuration.
 
   Be careful not to duplicate resources when you split up a project.
 
-  For example, if you mix the edm files used by `gsp-dba-maven-plugin(external site) <https://github.com/coastland/gsp-dba-maven-plugin>`_ in multiple Maven projects,
+  For example, if you mix the edm files used by `gsp-dba-maven-plugin(external site) <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main/en>`_ in multiple Maven projects,
   you will end up with duplicate entity classes in multiple Maven projects.
 
 .. _mavenModuleStructuresProblemsOfExcessivelyDivided:

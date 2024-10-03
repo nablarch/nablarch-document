@@ -65,7 +65,7 @@ Configure gsp-dba-maven-plugin to work with Java 17
 
 Configure by referring to the following.
 
-`Configuration in Java17 <https://github.com/coastland/gsp-dba-maven-plugin#java17%E3%81%A7%E3%81%AE%E8%A8%AD%E5%AE%9A>`_ (external site)
+`Configuration in Java17 <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main/en#java17-configuration>`_ (external site)
 
 .. _setup_java17_jetty9:
 

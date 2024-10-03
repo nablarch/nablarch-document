@@ -75,7 +75,7 @@ The following tools are included in projects generated from archetypes.
     - test
     - Configuration has been completed to the point where jacoco.exec is generated.
       jacoco.exec can be used with SonarQube and Jenkins plugins.
-  * - `Gsp-dba-maven-plugin (external site) <https://github.com/coastland/gsp-dba-maven-plugin>`_
+  * - `Gsp-dba-maven-plugin (external site) <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main/en>`_
     - －
     - Launch with "mvn -P gsp gsp-dba:<Goal name>". For example, generate-ddl can be executed
       with "mvn-P gsp gsp-dba: generate-ddl".

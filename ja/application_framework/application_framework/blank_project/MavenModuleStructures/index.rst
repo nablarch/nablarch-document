@@ -69,7 +69,7 @@ nablarch-web-archetypeとnablarch-batch-archetypeのアーキタイプを使用�
 
 .. tip::
 
-  自動生成エンティティは `gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ を使用した場合に生成される。
+  自動生成エンティティは `gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main>`_ を使用した場合に生成される。
   使用する場合は、:doc:`../addin_gsp` に記載されている設定を行う必要がある。
 
 
@@ -569,7 +569,7 @@ DBに接続しないNablarchバッチアプリケーションがデプロイさ�
   * JDBCドライバ
 * :ref:`firstStepBuiltInTools` に記載されているツールの設定。以下のような設定が存在する。
   
-  * `gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ で使用するデータベース接続設定（JDBC接続URLやデータベーススキーマなど）
+  * `gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main>`_ で使用するデータベース接続設定（JDBC接続URLやデータベーススキーマなど）
   * カバレッジ設定 
 
 
@@ -747,7 +747,7 @@ Nablarchのライブラリの場合、pom.xmlにバージョン番号は通常�
 
   プロジェクトを分割する際には、リソースの重複が無い様に注意すること。
 
-  例えば、`gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin>`_ で使用するedmファイルを複数のMavenプロジェクトに混在させると、重複したEntityクラスが複数のMavenプロジェクトに存在することになる。
+  例えば、`gsp-dba-maven-plugin(外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main>`_ で使用するedmファイルを複数のMavenプロジェクトに混在させると、重複したEntityクラスが複数のMavenプロジェクトに存在することになる。
 
 
 .. _mavenModuleStructuresProblemsOfExcessivelyDivided:
