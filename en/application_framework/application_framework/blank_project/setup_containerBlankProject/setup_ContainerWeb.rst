@@ -231,6 +231,14 @@ To delete a container, execute the following command.
   docker rm myapp-container-web
 
 
+Configure the database
+----------------------------------------
+
+The blank project is initially configured to use the H2 Database Engine. To change the RDBMS to be used, refer to :ref:`customize-db` for the configuration.
+
+In addition, to generate and execute DDL from ER diagrams and automatically generate entity classes, you need to initialize and run gsp-dba-maven-plugin. For details, see :ref:`gsp-maven-plugin`.
+
+
 Supplementary notes
 --------------------
 
