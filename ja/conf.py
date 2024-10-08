@@ -210,6 +210,7 @@ htmlhelp_basename = 'Nablarchdoc'
 
 # -- Options for linkcheck ----------------------------------------------
 linkcheck_ignore = [
+   'https://github.com/coastland/gsp-dba-maven-plugin#',
    'http://localhost',
    'http://127.0.0.1',
    'http://tis.co.jp/nablarch'
