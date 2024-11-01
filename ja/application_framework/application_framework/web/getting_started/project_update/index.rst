@@ -234,7 +234,7 @@ Exampleアプリケーションを元に更新機能を解説する。
                   <n:forConfirmationPage>
                       <!-- 確認画面向けボタン部分 -->
                       <n:submit value = "確定" uri="/action/project/update" id="bottomSubmitButton"
-                              cssClass="btn btn-raised btn-success"
+                              cssClass="btn btn-lg btn-success"
                               allowDoubleSubmission="false" type="button" />
                   </n:forConfirmationPage>
               </div>
