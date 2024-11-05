@@ -112,7 +112,7 @@ First, how to create the upload part of the batch registration function using up
                 <n:errors errorCss="message-error"/>
             </div>
             <!-- Omitted -->
-            <h4 class="font-group">Project information file selection</h4>
+            <h2 class="font-group mb-3">Project information file selection</h2>
             <table class="table">
                 <!--  Description of screen design is omitted -->
                 <tbody>
@@ -122,11 +122,9 @@ First, how to create the upload part of the batch registration function using up
                     <tr>
                         <th class="width-250 required">Project information file</th>
                         <td >
-                            <div class="form-group is-fileinput">
-                                <div class="input-group">
-                                    <n:file name="uploadFile" id="uploadFile"/>
-                                    <!--  Description of screen design is omitted -->
-                                </div>
+                            <div class="input-group">
+                                <n:file name="uploadFile" id="uploadFile"/>
+                                <!--  Description of screen design is omitted -->
                             </div>
                         </td>
                     </tr>
@@ -136,7 +134,7 @@ First, how to create the upload part of the batch registration function using up
                 <div class="button-nav">
                     <n:button uri="/action/projectUpload/upload"
                               allowDoubleSubmission="false"
-                              cssClass="btn btn-raised btn-default">Registration</n:button>
+                              cssClass="btn btn-lg btn-light">Registration</n:button>
                 </div>
             </div>
         </n:form>

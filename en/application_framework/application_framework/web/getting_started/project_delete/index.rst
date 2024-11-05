@@ -18,7 +18,7 @@ Description of the function to be created
   3. Click the delete (削除) button on the update screen.
 
     .. image:: ../images/project_delete/project_delete_update.png
-      :scale: 60
+      :scale: 80
 
   4. The completion screen is displayed.
 

@@ -234,7 +234,7 @@ Create a JSP for the update confirmation screen
                   <n:forConfirmationPage>
                       <!-- Button for confirmation screen -->
                       <n:submit value = "Confirm" uri="/action/project/update" id="bottomSubmitButton"
-                              cssClass="btn btn-raised btn-success"
+                              cssClass="btn btn-lg btn-success"
                               allowDoubleSubmission="false" type="button" />
                   </n:forConfirmationPage>
               </div>

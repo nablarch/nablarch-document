@@ -42,9 +42,6 @@ Create a download button
               <c:if test="${not empty searchResult}">
                   <n:write name="searchResult.pagination.resultCount" />
               </c:if>
-              <c:if test="${empty searchResult}">
-                  0
-              </c:if>
           </span>
           <!-- Configure the current search condition as a parameter -->
           <c:url value="/action/project/download" var="download_uri">

@@ -58,11 +58,11 @@ Prevent duplicate form submission
       <!-- Return to input, confirm button is only shown on the confirmation screen -->
         <n:forConfirmationPage>
             <n:button uri="/action/client/back"
-                      cssClass="btn btn-raised btn-default">Return to input</n:button>
+                      cssClass="btn btn-lg btn-light">Return to input</n:button>
             <!-- Specify false for allowDoubleSubmission attribute -->
             <n:button uri="/action/client/create"
                       allowDoubleSubmission="false"
-                      cssClass="btn btn-raised btn-success">Confirm</n:button>
+                      cssClass="btn btn-lg btn-success">Confirm</n:button>
         </n:forConfirmationPage>
 
   Key points of this implementation
