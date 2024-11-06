@@ -323,6 +323,116 @@ HTTPリクエストのディスパッチの例は次のようになる。
 ``/sample/bar/987``   ``GET``        ``TestAction#bar(JaxRsHttpRequest)``
 ===================== ============== ============================
 
+インターフェースや親クラスのアノテーションを引き継ぐ
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+アクションクラスは、実装しているインターフェースや継承している親クラスに注釈されている ``Path`` アノテーションやメソッドに注釈されているアノテーションの内容を引き継ぐことができる。
+
+以下に実装例を示す。
+
+.. code-block:: java
+
+    @Path("/sample")
+    public interface TestApi {
+
+        @GET
+        @Path("/foo/{param}")
+        @Produces(MediaType.APPLICATION_JSON)
+        Person foo(JaxRsHttpRequest request);
+
+        @GET
+        @Path("/bar/{id : \\d+}")
+        @Produces(MediaType.APPLICATION_JSON)
+        Person bar(JaxRsHttpRequest request);
+    }
+
+    public class TestAction implements TestApi {
+
+        @Override
+        public Person foo(JaxRsHttpRequest request) {
+            String param = request.getPathParam("param");
+            // 省略
+        }
+
+        @Override
+        public Person bar(JaxRsHttpRequest request) {
+            int id = Integer.parseInt(request.getPathParam("id");
+            // 省略
+        }
+    }
+
+上記実装例では、 ``TestApi`` インターフェースにパスパラメータやHTTPメソッドを定義し、メソッドの実装は ``TestAction`` クラスで行っている。 ``TestAction`` クラスのメソッドには ``Path`` アノテーションやHTTPメソッドに関するアノテーションは注釈されていないが、実行時には ``TestApi`` インターフェースのメソッドに注釈されたアノテーションが定義として使用される。
+
+この仕組みでは、型定義に ``Path`` アノテーションが注釈されているクラスまたはインターフェースが重要となる。
+
+アクションクラスが他のクラスを継承していたりインターフェースを実装している場合はその階層をたどり、最初に見つかった ``Path`` アノテーションが型定義に注釈されているクラスまたはインターフェースに宣言されているメソッドをリクエストを受け付けるメソッドとする。
+
+以下の実装例を使って説明する。
+
+.. code-block:: java
+
+    @Path("/sample")  // Pathアノテーションが型定義に注釈されている
+    public interface TestApi {
+        // TestApiインターフェースにはPathアノテーションが型定義に注釈されているため、fooメソッドはリクエストを受け付けるメソッドとして認識される
+        @GET
+        @Path("/foo/{param}")
+        @Produces(MediaType.APPLICATION_JSON)
+        Person foo(JaxRsHttpRequest request);
+    }
+
+    public class TestAction implements TestApi {
+
+        @Override
+        public Person foo(JaxRsHttpRequest request) {
+            // 省略
+        }
+
+        // TestActionクラスにはPathアノテーションが注釈されていないため、barメソッドはリクエストを受け付けるメソッドとしては認識されない
+        @GET
+        @Path("/bar/{id : \\d+}")
+        @Produces(MediaType.APPLICATION_JSON)
+        public Person bar(JaxRsHttpRequest request) {
+            // 省略
+        }
+    }
+
+この例では ``TestAction`` クラスが実装している ``TestApi`` インターフェースに ``Path`` アノテーションが型定義に注釈されており、HTTPメソッドなどに関するアノテーションが注釈されたメソッドが定義されている。
+
+この場合 ``foo`` メソッドがリクエストを受け付けるメソッドとして認識され、 ``bar`` メソッドには ``@GET`` アノテーションなどが注釈されているがこれはリクエストを受け付けるメソッドとしては無視される。
+
+また、以下のように ``TestAction`` クラスに ``Path`` アノテーションを注釈した場合は、 ``TestApi`` インターフェースに定義されている ``foo`` メソッドは無視される。
+
+.. code-block:: java
+
+    @Path("/sample")
+    public interface TestApi {
+
+        // TestActionクラスにPathアノテーションが注釈されているため、fooメソッドはHTTPメソッドとしては認識されない
+        @GET
+        @Path("/foo/{param}")
+        @Produces(MediaType.APPLICATION_JSON)
+        Person foo(JaxRsHttpRequest request);
+    }
+
+    @Path("/test")
+    public class TestAction implements TestApi {
+
+        @Override
+        public Person foo(JaxRsHttpRequest request) {
+            // 省略
+        }
+
+        @GET
+        @Path("/bar/{id : \\d+}")
+        @Produces(MediaType.APPLICATION_JSON)
+        public Person bar(JaxRsHttpRequest request) {
+            // 省略
+        }
+    }
+
+このようなクラスの継承関係にまたがったメソッドの定義を統合することはない。
+
+どの型定義に ``Path`` アノテーションが注釈されているか、そしてそのクラスにアノテーションで注釈されたメソッドが定義されているかによって、リクエストを受け付けるメソッドが決定されることに注意すること。
+
 ルーティング定義を一覧で確認する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :java:extdoc:`PathOptionsProviderRoutesMapping <nablarch.integration.router.PathOptionsProviderRoutesMapping>` によって読み込まれたルーティング定義は、初期化時にデバッグレベルでログに出力される。
