@@ -54,7 +54,7 @@
                 <!-- 顧客名のテキストボックス -->
                 <div class="col-md-10 form-group">
                     <n:text name="form.clientName"
-                            cssClass="form-control form-control-lg" errorCss="form-control form-control-lg input-error" />
+                            cssClass="form-control form-control-lg" errorCss="input-error" />
                             <!-- 顧客名の入力エラー時のエラーメッセージ -->
                             <n:error errorCss="message-error mt-2" name="form.clientName" />
                 </div>
@@ -70,7 +70,7 @@
                             name="form.industryCode"
                             withNoneOption="true"
                             cssClass="form-select form-select-lg"
-                            errorCss="form-select form-select-lg input-error" />
+                            errorCss="input-error" />
                     <!-- 業種の入力エラー時のエラーメッセージ -->
                     <n:error errorCss="message-error mt-2" name="form.industryCode" />
                 </div>

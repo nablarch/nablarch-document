@@ -205,7 +205,7 @@ Exampleアプリケーションを元に一括更新機能を解説する。
                           <div class="form-group">
                               <n:text name="bulkForm.projectList[${status.index}].projectName"
                                       maxlength="64" cssClass="form-control form-control-lg"
-                                      errorCss="input-error form-control form-control-lg"/>
+                                      errorCss="input-error"/>
                               <n:error errorCss="message-error"
                                       name="bulkForm.projectList[${status.index}].projectName" />
                           </div>

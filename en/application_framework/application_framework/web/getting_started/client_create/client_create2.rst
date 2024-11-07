@@ -54,7 +54,7 @@ Add input item to the registration screen
                 <!-- Client name text box -->
                 <div class="col-md-10 form-group">
                     <n:text name="form.clientName"
-                            cssClass="form-control form-control-lg" errorCss="form-control form-control-lg input-error" />
+                            cssClass="form-control form-control-lg" errorCss="input-error" />
                     <!-- Error message at the time of client name input error -->
                     <n:error errorCss="message-error mt-2" name="form.clientName" />
                 </div>
@@ -70,7 +70,7 @@ Add input item to the registration screen
                             name="form.industryCode"
                             withNoneOption="true"
                             cssClass="form-select form-select-lg"
-                            errorCss="form-select form-select-lg input-error" />
+                            errorCss="input-error" />
                     <!-- Error message when the input of the industry type is not correct -->
                     <n:error errorCss="message-error mt-2" name="form.industryCode" />
                 </div>

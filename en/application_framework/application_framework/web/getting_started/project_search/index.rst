@@ -80,7 +80,7 @@ Create a JSP for the search condition input
                       size="25"
                       maxlength="64"
                       cssClass="form-control form-control-lg"
-                      errorCss="input-error form-control form-control-lg"
+                      errorCss="input-error"
                       placeholder="Project name"/>
               <n:error errorCss="message-error" name="searchForm.projectName" />
           </div>
