@@ -42,9 +42,6 @@ CSVファイルをダウンロードする機能の実装方法を解説する�
               <c:if test="${not empty searchResult}">
                   <n:write name="searchResult.pagination.resultCount" />
               </c:if>
-              <c:if test="${empty searchResult}">
-                  0
-              </c:if>
           </span>
           <!-- 現在の検索条件をパラメータとして設定 -->
           <c:url value="/action/project/download" var="download_uri">

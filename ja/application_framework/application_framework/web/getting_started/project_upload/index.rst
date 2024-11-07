@@ -112,7 +112,7 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
                 <n:errors errorCss="message-error"/>
             </div>
             <!-- 省略 -->
-            <h4 class="font-group">プロジェクト情報ファイル選択</h4>
+            <h2 class="font-group mb-3">プロジェクト情報ファイル選択</h2>
             <table class="table">
                 <!-- 画面デザインに関する記述は省略 -->
                 <tbody>
@@ -122,11 +122,9 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
                     <tr>
                         <th class="width-250 required">プロジェクト情報ファイル</th>
                         <td >
-                            <div class="form-group is-fileinput">
-                                <div class="input-group">
-                                    <n:file name="uploadFile" id="uploadFile"/>
-                                    <!-- 画面デザインに関する記述は省略 -->
-                                </div>
+                            <div class="input-group">
+                                <n:file name="uploadFile" id="uploadFile"/>
+                                <!-- 画面デザインに関する記述は省略 -->
                             </div>
                         </td>
                     </tr>
@@ -136,7 +134,7 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
                 <div class="button-nav">
                     <n:button uri="/action/projectUpload/upload"
                               allowDoubleSubmission="false"
-                              cssClass="btn btn-raised btn-default">登録</n:button>
+                              cssClass="btn btn-lg btn-light">登録</n:button>
                 </div>
             </div>
         </n:form>

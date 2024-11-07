@@ -72,21 +72,21 @@ Exampleアプリケーションを元に検索機能を解説する。
 
       <n:form method="GET" action="list">
           <!-- 省略 -->
-          <label for="projectName" class="control-label">プロジェクト名</label>
+          <label for="projectName" class="control-label mb-3">プロジェクト名</label>
           <div>
               <n:text
                       id="projectName"
                       name="searchForm.projectName"
                       size="25"
                       maxlength="64"
-                      cssClass="form-control"
-                      errorCss="input-error form-control"
+                      cssClass="form-control form-control-lg"
+                      errorCss="input-error"
                       placeholder="プロジェクト名"/>
               <n:error errorCss="message-error" name="searchForm.projectName" />
           </div>
           <!-- 省略 -->
           <div align="center">
-              <input type="submit" id="search" class="btn btn-primary" value="検索" />
+              <input type="submit" id="search" class="btn btn-lg btn-primary" value="検索" />
           </div>
       </n:form>
 

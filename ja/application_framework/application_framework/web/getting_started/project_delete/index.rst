@@ -18,7 +18,7 @@ Exampleアプリケーションを元に削除機能を解説する。
   3. 更新画面上の削除ボタンを押下する。
 
     .. image:: ../images/project_delete/project_delete_update.png
-      :scale: 60
+      :scale: 80
 
   4. 完了画面が表示される。
 

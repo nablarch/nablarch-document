@@ -46,36 +46,40 @@
 
     /src/main/webapp/WEB-INF/view/client/create.jsp
       .. code-block:: jsp
-        :emphasize-lines: 5,6,8,17,20,22,27
+        :emphasize-lines: 6,7,9,20,23,25,31
 
         <n:form>
-            <div class="form-group label-static is-empty">
-                <label class="control-label">顧客名</label>
+            <div class="row m-3">
+                <label class="col-md-2 col-form-label fs-5">顧客名</label>
                 <!-- 顧客名のテキストボックス -->
-                <n:text name="form.clientName"
-                        cssClass="form-control input-text" errorCss="form-control input-error" />
-                <!-- 顧客名の入力エラー時のエラーメッセージ -->
-                <n:error errorCss="message-error" name="form.clientName" />
+                <div class="col-md-10 form-group">
+                    <n:text name="form.clientName"
+                            cssClass="form-control form-control-lg" errorCss="input-error" />
+                            <!-- 顧客名の入力エラー時のエラーメッセージ -->
+                            <n:error errorCss="message-error mt-2" name="form.clientName" />
+                </div>
             </div>
-            <div class="form-group label-static is-empty">
-                <label class="control-label">業種</label>
+            <div class="row m-3">
+                <label class="col-md-2 col-form-label fs-5">業種</label>
                 <!-- 業種のプルダウン -->
-                <n:select
-                        listName="industries"
-                        elementValueProperty="industryCode"
-                        elementLabelProperty="industryName"
-                        name="form.industryCode"
-                        withNoneOption="true"
-                        cssClass="btn dropdown-toggle"
-                        errorCss="btn dropdown-toggle input-error" />
-                <!-- 業種の入力エラー時のエラーメッセージ -->
-                <n:error errorCss="message-error" name="form.industryCode" />
+                <div class="col-md-10 form-group">
+                    <n:select
+                            listName="industries"
+                            elementValueProperty="industryCode"
+                            elementLabelProperty="industryName"
+                            name="form.industryCode"
+                            withNoneOption="true"
+                            cssClass="form-select form-select-lg"
+                            errorCss="input-error" />
+                    <!-- 業種の入力エラー時のエラーメッセージ -->
+                    <n:error errorCss="message-error mt-2" name="form.industryCode" />
+                </div>
             </div>
             <div class="button-nav">
                 <!-- 登録ボタン -->
                 <n:button
                         uri="/action/client/confirm"
-                        cssClass="btn btn-raised btn-success">登録</n:button>
+                        cssClass="btn btn-lg btn-success">登録</n:button>
             </div>
         </n:form>
 
@@ -187,14 +191,14 @@ confirmメソッドを作成し、バリデーションが行われるように�
           <!-- 登録ボタンは登録画面でのみ表示 -->
           <n:forInputPage>
               <n:button uri="/action/client/confirm"
-                        cssClass="btn btn-raised btn-success">登録</n:button>
+                        cssClass="btn btn-lg btn-success">登録</n:button>
           </n:forInputPage>
           <!-- 入力へ戻る、確定ボタンは確認画面でのみ表示 -->
           <n:forConfirmationPage>
               <n:button uri="/action/client/back"
-                        cssClass="btn btn-raised btn-default">入力へ戻る</n:button>
+                        cssClass="btn btn-lg btn-light">入力へ戻る</n:button>
               <n:button uri="/action/client/create"
-                        cssClass="btn btn-raised btn-success">確定</n:button>
+                        cssClass="btn btn-lg btn-success">確定</n:button>
           </n:forConfirmationPage>
       </div>
 

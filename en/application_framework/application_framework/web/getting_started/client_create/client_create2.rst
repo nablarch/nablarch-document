@@ -46,36 +46,40 @@ Add input item to the registration screen
 
     /src/main/webapp/WEB-INF/view/client/create.jsp
       .. code-block:: jsp
-        :emphasize-lines: 5,6,8,17,20,22,27
+        :emphasize-lines: 6,7,9,20,23,25,31
 
         <n:form>
-            <div class="form-group label-static is-empty">
-                <label class="control-label">Client name</label>
+            <div class="row m-3">
+                <label class="col-md-2 col-form-label fs-5">Client name</label>
                 <!-- Client name text box -->
-                <n:text name="form.clientName"
-                        cssClass="form-control input-text" errorCss="form-control input-error" />
-                <!-- Error message at the time of client name input error -->
-                <n:error errorCss="message-error" name="form.clientName" />
+                <div class="col-md-10 form-group">
+                    <n:text name="form.clientName"
+                            cssClass="form-control form-control-lg" errorCss="input-error" />
+                    <!-- Error message at the time of client name input error -->
+                    <n:error errorCss="message-error mt-2" name="form.clientName" />
+                </div>
             </div>
-            <div class="form-group label-static is-empty">
-                <label class="control-label">Industry type</label>
+            <div class="row m-3">
+                <label class="col-md-2 col-form-label fs-5">Industry type</label>
                 <!-- Pull down of industry type -->
-                <n:select
-                        listName="industries"
-                        elementValueProperty="industryCode"
-                        elementLabelProperty="industryName"
-                        name="form.industryCode"
-                        withNoneOption="true"
-                        cssClass="btn dropdown-toggle"
-                        errorCss="btn dropdown-toggle input-error" />
-                <!-- Error message when the input of the industry type is not correct -->
-                <n:error errorCss="message-error" name="form.industryCode" />
+                <div class="col-md-10 form-group">
+                    <n:select
+                            listName="industries"
+                            elementValueProperty="industryCode"
+                            elementLabelProperty="industryName"
+                            name="form.industryCode"
+                            withNoneOption="true"
+                            cssClass="form-select form-select-lg"
+                            errorCss="input-error" />
+                    <!-- Error message when the input of the industry type is not correct -->
+                    <n:error errorCss="message-error mt-2" name="form.industryCode" />
+                </div>
             </div>
             <div class="button-nav">
                 <!-- Registration button -->
                 <n:button
                         uri="/action/client/confirm"
-                        cssClass="btn btn-raised btn-success">Registration </n:button>
+                        cssClass="btn btn-lg btn-success">Registration </n:button>
             </div>
         </n:form>
 
@@ -187,14 +191,14 @@ Modify the registration screen
           <!--  Registration button appears only on the registration screen -->
           <n:forInputPage>
               <n:button uri="/action/client/confirm"
-                        cssClass="btn btn-raised btn-success">Registration </n:button>
+                        cssClass="btn btn-lg btn-success">Registration </n:button>
           </n:forInputPage>
           <!-- Return to input, confirm button is only shown on the confirmation screen -->
           <n:forConfirmationPage>
               <n:button uri="/action/client/back"
-                        cssClass="btn btn-raised btn-default">Return to input</n:button>
+                        cssClass="btn btn-lg btn-light">Return to input</n:button>
               <n:button uri="/action/client/create"
-                        cssClass="btn btn-raised btn-success">Confirm</n:button>
+                        cssClass="btn btn-lg btn-success">Confirm</n:button>
           </n:forConfirmationPage>
       </div>
 

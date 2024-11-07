@@ -16,30 +16,34 @@
     .. code-block:: jsp
 
       <n:form>
-          <div class="form-group label-static is-empty">
-              <label class="control-label">顧客名</label>
+          <div class="row m-3">
+              <label class="col-md-2 col-form-label fs-5">顧客名</label>
               <!-- 顧客名のテキストボックス -->
               <!-- フォーム作成前なので、name属性には仮の値を指定する -->
-              <n:text name="tmp" cssClass="form-control input-text"/>
+              <div class="col-md-10 form-group">
+                  <n:text name="tmp" cssClass="form-control form-control-lg"/>
+              </div>
           </div>
-          <div class="form-group label-static is-empty">
-              <label class="control-label">業種</label>
+          <div class="row m-3">
+              <label class="col-md-2 col-form-label fs-5">業種</label>
               <!-- 業種のプルダウン -->
               <!-- フォーム作成前なので、name属性には仮の値を指定する -->
-              <n:select
-                      listName="industries"
-                      elementValueProperty="industryCode"
-                      elementLabelProperty="industryName"
-                      name="tmp"
-                      withNoneOption="true"
-                      cssClass="btn dropdown-toggle"/>
+              <div class="col-md-10 form-group">
+                  <n:select
+                          listName="industries"
+                          elementValueProperty="industryCode"
+                          elementLabelProperty="industryName"
+                          name="tmp"
+                          withNoneOption="true"
+                          cssClass="form-select form-select-lg"/>
+              </div>
           </div>
           <div class="button-nav">
               <!-- 登録ボタン -->
               <!-- 登録内容確認画面は作成前なので、uri属性には仮の値を指定する -->
               <n:button
                       uri="tmp"
-                      cssClass="btn btn-raised btn-success">登録</n:button>
+                      cssClass="btn btn-lg btn-success">登録</n:button>
           </div>
       </n:form>
 
@@ -103,10 +107,10 @@ URLと業務アクションのマッピングを行う
   /src/main/webapp/WEB-INF/view/common/menu.jsp
     .. code-block:: jsp
 
-      <ul class="nav navbar-nav">
+      <ul class="navbar-nav me-auto">
         <!-- その他のリンクは省略 -->
-        <li>
-          <n:a href="/action/client">顧客登録</n:a>
+        <li class="nav-item px-2">
+          <n:a href="/action/client" cssClass="nav-link">顧客登録</n:a>
         </li>
       </ul>
 
