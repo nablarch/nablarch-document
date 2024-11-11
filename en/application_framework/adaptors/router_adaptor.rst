@@ -395,8 +395,8 @@ In this example, the ``TestApi`` interface has the ``Path`` annotation, so the `
 =============================== ======================== ======================================
 class or interface              declared method          can the method accept the request?
 =============================== ======================== ======================================
-``TestApi``                     ``foo``                  OK
-``TestAction``                  ``bar``                  NG
+``TestApi``                     ``foo``                  ○
+``TestAction``                  ``bar``                  ×
 =============================== ======================== ======================================
 
 Note that the method that accepts the request is determined by which type definition is annotated with the ``Path`` annotation and which class contains the annotated method.
