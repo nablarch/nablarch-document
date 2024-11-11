@@ -353,7 +353,7 @@ Implementation example is shown below.
         }
     }
 
-In the above implementation example, path parameters and HTTP methods are defined in the ``TestApi`` interface, and the methods are implemented in the ``TestAction`` class. The methods of ``TestAction`` class are not annotated with ``Path`` annotation or annotations related to HTTP methods, but the annotations annotated to the methods of ``TestApi`` interface are used as definitions.
+In the above implementation example, path parameters and HTTP methods are defined in the ``TestApi`` interface, and the methods are implemented in the ``TestAction`` class. The methods of the ``TestAction`` class are not annotated with the ``Path`` annotation or any HTTP method annotations. However, the annotations annotated to the methods of the ``TestApi`` interface are used as definitions.
 
 .. tip::
   
