@@ -315,6 +315,92 @@ Path                  HTTP method    Method of dispatching target
 ``/sample/bar/987``   ``GET``        ``TestAction#bar(JaxRsHttpRequest)``
 ===================== ============== =============================
 
+
+Inherit annotations from interface and super class
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Action class can inherit the definitions of ``Path`` annotations annotated on interface and super class, and annotations annotated on methods.
+
+Implementation example is shown below.
+
+.. code-block:: java
+
+    @Path("/sample")
+    public interface TestApi {
+
+        @GET
+        @Path("/foo/{param}")
+        @Produces(MediaType.APPLICATION_JSON)
+        Person foo(JaxRsHttpRequest request);
+
+        @GET
+        @Path("/bar/{id : \\d+}")
+        @Produces(MediaType.APPLICATION_JSON)
+        Person bar(JaxRsHttpRequest request);
+    }
+
+    public class TestAction implements TestApi {
+
+        @Override
+        public Person foo(JaxRsHttpRequest request) {
+            String param = request.getPathParam("param");
+            // Omitted
+        }
+
+        @Override
+        public Person bar(JaxRsHttpRequest request) {
+            int id = Integer.parseInt(request.getPathParam("id");
+            // Omitted
+        }
+    }
+
+In the above implementation example, path parameters and HTTP methods are defined in the ``TestApi`` interface, and the methods are implemented in the ``TestAction`` class. The methods of the ``TestAction`` class are not annotated with the ``Path`` annotation or any HTTP method annotations. However, the annotations annotated to the methods of the ``TestApi`` interface are used as definitions.
+
+.. tip::
+  
+  In this mechanism, the class or interface that is annotated with the ``Path`` annotation is important.
+
+  If an action class inherits from a class or implements an interface, the hierarchy is traversed to find the first class or interface annotated with the ``Path`` annotation, and the method declared in that class or interface is recognized as the method that will accept the request.
+
+The contents explained in the supplementary section are explained in the following implementation example.
+
+.. code-block:: java
+
+    @Path("/sample")  // The Path annotation is added to the type definition.
+    public interface TestApi {
+        // The TestApi interface has the Path annotation in its type definition, so the foo method is recognized as a method that accepts requests.
+        @GET
+        @Path("/foo/{param}")
+        @Produces(MediaType.APPLICATION_JSON)
+        Person foo(JaxRsHttpRequest request);
+    }
+
+    public class TestAction implements TestApi {
+
+        @Override
+        public Person foo(JaxRsHttpRequest request) {
+            // Omitted
+        }
+
+        // The TestAction class does not have the Path annotation, so the bar method is not recognized as a method that accepts requests.
+        @GET
+        @Path("/bar/{id : \\d+}")
+        @Produces(MediaType.APPLICATION_JSON)
+        public Person bar(JaxRsHttpRequest request) {
+            // Omitted
+        }
+    }
+
+In this example, the ``TestApi`` interface has the ``Path`` annotation, so the ``foo`` method is recognized as a method that accepts requests. The ``bar`` method declared in the ``TestAction`` class has the ``@GET`` annotation and other annotations, but these are ignored as a method that accepts requests.
+
+=============================== ======================== ======================================
+class or interface              declared method          can the method accept the request?
+=============================== ======================== ======================================
+``TestApi``                     ``foo``                  ○
+``TestAction``                  ``bar``                  ×
+=============================== ======================== ======================================
+
+Note that the method that accepts the request is determined by which type definition is annotated with the ``Path`` annotation and which class contains the annotated method.
+
 See the list of routing definitions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Routing definitions loaded by :java:extdoc:`PathOptionsProviderRoutesMapping <nablarch.integration.router.PathOptionsProviderRoutesMapping>` are logged at the debug level during initialization.
