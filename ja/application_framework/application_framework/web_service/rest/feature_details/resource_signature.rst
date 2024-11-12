@@ -229,12 +229,12 @@ Producesアノテーションを使用し、リソースクラスのメソッド
   .. code-block:: java
 
     @Produces(MediaType.APPLICATION_JSON)
-    public EntityResponse something(JaxRsHttpRequest request, ExecutionContext context) {
+    public EntityResponse<List<Client>> something(JaxRsHttpRequest request, ExecutionContext context) {
 
         // 処理は省略
         List<Client> clients = service.findClients(condition);
 
-        EntityResponse response = new EntityResponse();
+        EntityResponse<List<Client>> response = new EntityResponse<>();
         response.setEntity(clients); // エンティティを指定
         response.setStatusCode(HttpResponse.Status.OK.getStatusCode()); // ステータスコードを指定
         response.setHeader("Cache-Control", "no-store"); // レスポンスヘッダを指定
