@@ -227,12 +227,12 @@ It should be implemented to return an EntityResponse instead of an entity.
   .. code-block:: java
 
     @Produces(MediaType.APPLICATION_JSON)
-    public EntityResponse something(JaxRsHttpRequest request, ExecutionContext context) {
+    public EntityResponse<List<Client>> something(JaxRsHttpRequest request, ExecutionContext context) {
 
         // Processing omitted.
         List<Client> clients = service.findClients(condition);
 
-        EntityResponse response = new EntityResponse();
+        EntityResponse<List<Client>> response = new EntityResponse<>();
         response.setEntity(clients); // Specify an entity
         response.setStatusCode(HttpResponse.Status.OK.getStatusCode()); // Specify the status code
         response.setHeader("Cache-Control", "no-store"); // Specify the response header
