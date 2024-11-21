@@ -73,9 +73,13 @@ Jersey環境下でRESTfulウェブサービスを使用する
 
 * :ref:`body_convert_handler` の設定(以下のコンバータが設定される)
 
-  * JSONのコンバータには :java:extdoc:`Jackson2BodyConverter <nablarch.integration.jaxrs.jackson.Jackson2BodyConverter>` が設定される。
+  * JSONのコンバータには :java:extdoc:`Jackson2BodyConverter <nablarch.integration.jaxrs.jackson.Jackson2BodyConverter>` にDate and Time APIを使用できるように拡張したクラスが設定される。
   * XMLのコンバータには :java:extdoc:`JaxbBodyConverter <nablarch.fw.jaxrs.JaxbBodyConverter>` が設定される。
   * application/x-www-form-urlencodedのコンバータには :java:extdoc:`FormUrlEncodedConverter <nablarch.fw.jaxrs.FormUrlEncodedConverter>` が設定される。
+
+.. tip::
+
+  JSONのコンバータでDate and Time APIを使用するために、 `jackson-modules-java8(外部サイト、英語) <https://github.com/FasterXML/jackson-modules-java8>`_ に含まれるJava 8 Date/timeモジュールを追加している。
 
 * :ref:`jaxrs_bean_validation_handler`
 
@@ -111,9 +115,13 @@ RESTEasy環境下でRESTfulウェブサービスを使用する
 
 * :ref:`body_convert_handler` の設定(以下のコンバータが設定される)
 
-  * JSONのコンバータには :java:extdoc:`Jackson2BodyConverter <nablarch.integration.jaxrs.jackson.Jackson2BodyConverter>` が設定される。
+  * JSONのコンバータには :java:extdoc:`Jackson2BodyConverter <nablarch.integration.jaxrs.jackson.Jackson2BodyConverter>` にDate and Time APIを使用できるように拡張したクラスが設定される。
   * XMLのコンバータには :java:extdoc:`JaxbBodyConverter <nablarch.fw.jaxrs.JaxbBodyConverter>` が設定される。
   * application/x-www-form-urlencodedのコンバータには :java:extdoc:`FormUrlEncodedConverter <nablarch.fw.jaxrs.FormUrlEncodedConverter>` が設定される。
+
+.. tip::
+
+  JSONのコンバータでDate and Time APIを使用するために、 `jackson-modules-java8(外部サイト、英語) <https://github.com/FasterXML/jackson-modules-java8>`_ に含まれるJava 8 Date/timeモジュールを追加している。
 
 * :ref:`jaxrs_bean_validation_handler`
 
