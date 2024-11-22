@@ -73,6 +73,10 @@ For :java:extdoc:`JaxRsMethodBinderFactory#setHandlerList <nablarch.fw.jaxrs.Jax
   * :java:extdoc:`JaxbBodyConverter <nablarch.fw.jaxrs.JaxbBodyConverter>` is configured for the XML converter.
   * :java:extdoc:`FormUrlEncodedConverter <nablarch.fw.jaxrs.FormUrlEncodedConverter>` is configured for the converter of application/x-www-form-urlencoded.
 
+.. tip::
+
+  In order to use the Date and Time API, the Java 8 Date/time module included in `jackson-modules-java8(external site) <https://github.com/FasterXML/jackson-modules-java8>`_ is added and configured to the JSON converter.
+
 * :ref:`jaxrs_bean_validation_handler`
 
 .. code-block:: xml
@@ -107,6 +111,10 @@ As a result, the following handler configurations for RESTEasy are automatically
   * :java:extdoc:`Jackson2BodyConverter <nablarch.integration.jaxrs.jackson.Jackson2BodyConverter>` is configured for the JSON converter.
   * :java:extdoc:`JaxbBodyConverter <nablarch.fw.jaxrs.JaxbBodyConverter>` is configured for the XML converter.
   * :java:extdoc:`FormUrlEncodedConverter <nablarch.fw.jaxrs.FormUrlEncodedConverter>` is configured for the converter of application/x-www-form-urlencoded.
+
+.. tip::
+
+  In order to use the Date and Time API, the Java 8 Date/time module included in `jackson-modules-java8(external site) <https://github.com/FasterXML/jackson-modules-java8>`_ is added and configured to the JSON converter.
 
 * :ref:`jaxrs_bean_validation_handler`
 
