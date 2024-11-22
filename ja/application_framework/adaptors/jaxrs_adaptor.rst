@@ -115,8 +115,7 @@ RESTEasy環境下でRESTfulウェブサービスを使用する
 
 * :ref:`body_convert_handler` の設定(以下のコンバータが設定される)
 
-  * JSONのコンバータには :java:extdoc:`Jackson2BodyConverter <nablarch.integration.jaxrs.jackson.Jackson2BodyConverter>` が設定される.
-
+  * JSONのコンバータには :java:extdoc:`Jackson2BodyConverter <nablarch.integration.jaxrs.jackson.Jackson2BodyConverter>` が設定される。
   * XMLのコンバータには :java:extdoc:`JaxbBodyConverter <nablarch.fw.jaxrs.JaxbBodyConverter>` が設定される。
   * application/x-www-form-urlencodedのコンバータには :java:extdoc:`FormUrlEncodedConverter <nablarch.fw.jaxrs.FormUrlEncodedConverter>` が設定される。
 
