@@ -76,6 +76,7 @@ Jersey環境下でRESTfulウェブサービスを使用する
   * JSONのコンバータには :java:extdoc:`Jackson2BodyConverter <nablarch.integration.jaxrs.jackson.Jackson2BodyConverter>` が設定される。
   * XMLのコンバータには :java:extdoc:`JaxbBodyConverter <nablarch.fw.jaxrs.JaxbBodyConverter>` が設定される。
   * application/x-www-form-urlencodedのコンバータには :java:extdoc:`FormUrlEncodedConverter <nablarch.fw.jaxrs.FormUrlEncodedConverter>` が設定される。
+  * multipart/form-dataのコンバータには :java:extdoc:`MultipartFormDataBodyConverter <nablarch.fw.jaxrs.MultipartFormDataBodyConverter>` が設定される。
 
 .. tip::
 
@@ -118,6 +119,7 @@ RESTEasy環境下でRESTfulウェブサービスを使用する
   * JSONのコンバータには :java:extdoc:`Jackson2BodyConverter <nablarch.integration.jaxrs.jackson.Jackson2BodyConverter>` が設定される。
   * XMLのコンバータには :java:extdoc:`JaxbBodyConverter <nablarch.fw.jaxrs.JaxbBodyConverter>` が設定される。
   * application/x-www-form-urlencodedのコンバータには :java:extdoc:`FormUrlEncodedConverter <nablarch.fw.jaxrs.FormUrlEncodedConverter>` が設定される。
+  * multipart/form-dataのコンバータには :java:extdoc:`MultipartFormDataBodyConverter <nablarch.fw.jaxrs.MultipartFormDataBodyConverter>` が設定される。
 
 .. tip::
 
