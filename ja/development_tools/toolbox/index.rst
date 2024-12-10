@@ -9,6 +9,7 @@
 
    JspStaticAnalysis/index.rst
    SqlExecutor/SqlExecutor
+   NablarchJaxrsOpenApiGenerator/NablarchJaxrsOpenApiGenerator
 
 .. _nablarchToolBoxPage:
 
@@ -26,6 +27,8 @@
     - JSPで使用を許可する構文とタグを規定し、許可する構文とタグのみを使用していることをチェックするツール。
   * - :doc:`SqlExecutor/SqlExecutor`
     - SQL文を対話的に実行するツール。
+  * - :doc:`NablarchJaxrsOpenApiGenerator/NablarchJaxrsOpenApiGenerator`
+    - OpenAPIドキュメントからRESTfulウェブサービスのソースコードを生成するツール。
 
 .. |br| raw:: html
 
