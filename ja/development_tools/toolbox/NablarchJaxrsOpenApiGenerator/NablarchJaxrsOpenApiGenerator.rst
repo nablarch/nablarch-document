@@ -98,7 +98,7 @@ Mavenプラグインの設定
 
 OpenAPI GeneratorのMavenプラグインを使用するにあたり、最低限必要な設定はソースコードの生成対象となるOpenAPIドキュメントを指定する ``inputSpec`` と、どのGeneratorを使用するかを指定する ``generatorName`` の2つである。
 
-``generatorName`` には ``nablarch-jaxrs`` を指定することで、本ツールを使用することができる。
+``generatorName`` には ``nablarch-jaxrs`` を指定することで、本ツールを利用できる。
 
 その他の設定項目については :ref:`NablarchJaxrsOpenApiGeneratorConfiguration` を参照すること。
 
