@@ -8,8 +8,8 @@ Nablarch RESTfulウェブサービス OpenAPI Generator
   :depth: 2
   :local:
 
-概要
--------
+ツールの概要
+-------------
 
 Nablarch RESTfulウェブサービス OpenAPI Generatorは、 `OpenAPI(外部サイト、英語) <https://www.openapis.org/>`_ ドキュメントからソースコードを生成する  `OpenAPI Generator(外部サイト、英語) <https://openapi-generator.tech/>`_ のGenerator実装である。
 
@@ -17,14 +17,12 @@ Nablarch RESTfulウェブサービス OpenAPI Generatorは、 `OpenAPI(外部サ
 
 生成されたソースコードを使用することで、OpenAPIドキュメントで定めたウェブサービスの実装が容易となる。
 
----------
 前提条件
 ---------
 
 * Nablarch RESTfulウェブサービスのソースコード生成元となるOpenAPIドキュメントが作成されていること
 * OpenAPIドキュメントは `OpenAPI 3.0.3(外部サイト、英語) <https://spec.openapis.org/oas/v3.0.3.html>`_ 仕様で記述されていること
 
---------
 動作概要
 --------
 
@@ -35,7 +33,6 @@ Nablarch RESTfulウェブサービス OpenAPI Generatorは、 `OpenAPI(外部サ
 
 また、OpenAPI Generatorのサポートファイル ``.openapi-generator-ignore`` 、 ``.openapi-generator/FILES`` 、 ``.openapi-generator/VERSION`` も生成されるが、これらは使用しない。
 
---------
 運用方法
 --------
 
@@ -50,7 +47,6 @@ Nablarch RESTfulウェブサービス OpenAPI Generatorは、 `OpenAPI(外部サ
 
   本ツールはOpenAPIドキュメントの修正に合わせて繰り返し実行されることを想定している。Nablarch RESTfulウェブサービスのアクションクラスは生成されたリソース(アクション)インターフェースを実装して作成するため、本ツールによる自動生成を再度行ってもアクションクラスに実装した内容が失われることはない。
 
----------
 使用方法
 ---------
 
@@ -178,7 +174,6 @@ OpenAPI GeneratorのMavenプラグインの主要な設定項目を以下に示�
                                      とするメディアタイプを ``,`` 区切りで指定する。
 ==================================== ==================================================================== =====================================================================
 
-------------------------
 ソースコード生成仕様
 ------------------------
 
@@ -383,7 +378,7 @@ Nablarchではバリデーション定義は自動生成したモデルと同じ
 本ツールがデフォルトでJakarta Bean Validationのアノテーションを出力しないのはこのためである。
 
 OpenAPIドキュメントと生成されるソースコードの例
-==================================================
+------------------------------------------------
 
 以下に、OpenAPIドキュメントと生成されるソースコードの例を記載する。
 
