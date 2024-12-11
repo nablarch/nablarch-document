@@ -54,7 +54,7 @@
   サーブレットフォワード時、フォワード先でセッションストアの値にアクセスできるようにするため、
   本ハンドラは :ref:`http_response_handler` より後ろに配置する必要がある。
 
-:ref:`multipart_handler` より後ろに配置すること
+HIDDENストア使用時は :ref:`multipart_handler` より後ろに配置すること
   HIDDENストア使用時にリクエストパラメータにアクセスできるようにするため、
   本ハンドラは :ref:`multipart_handler` より後ろに配置する必要がある。
 

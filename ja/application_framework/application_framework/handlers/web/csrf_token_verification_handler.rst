@@ -56,6 +56,11 @@ CSRFトークンが画面に自動で出力される。
   CSRFトークンをセッションストアに格納するため、
   本ハンドラは :ref:`session_store_handler` より後ろに配置する必要がある。
 
+.. tip::
+
+  :ref:`multipart_handler` を使ったファイルアップロード時に、
+  ファイルの保存前にCSRFトークンの検証を行いたい場合は :ref:`multipart_handler` の前に本ハンドラおよび :ref:`session_store_handler` を配置すること。
+
 :ref:`tag` を使用する場合は :ref:`nablarch_tag_handler` より後ろに配置すること
   :ref:`tag` を使用する場合は :ref:`tag-hidden_encryption` を使用して画面にCSRFトークンを出力しているため、
   本ハンドラは :ref:`nablarch_tag_handler` より後ろに配置する必要がある。
