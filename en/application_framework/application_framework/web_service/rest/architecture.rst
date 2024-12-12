@@ -83,7 +83,7 @@ Other handlers
   * :ref:`Handler to link request URI and action <router_adaptor>`
   * :ref:`health_check_endpoint_handler`
 
-Standard handler configuration
+Minimum handler configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 When building RESTful web service application in Nablarch, the minimum required handler queue is as below:
 With this as the base, add standard handlers of Nablarch or custom handlers created in the project according to the project requirements.

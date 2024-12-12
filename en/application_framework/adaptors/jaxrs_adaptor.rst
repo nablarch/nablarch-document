@@ -72,6 +72,7 @@ For :java:extdoc:`JaxRsMethodBinderFactory#setHandlerList <nablarch.fw.jaxrs.Jax
   * :java:extdoc:`Jackson2BodyConverter <nablarch.integration.jaxrs.jackson.Jackson2BodyConverter>` is configured for the JSON converter.
   * :java:extdoc:`JaxbBodyConverter <nablarch.fw.jaxrs.JaxbBodyConverter>` is configured for the XML converter.
   * :java:extdoc:`FormUrlEncodedConverter <nablarch.fw.jaxrs.FormUrlEncodedConverter>` is configured for the converter of application/x-www-form-urlencoded.
+  * :java:extdoc:`MultipartFormDataBodyConverter <nablarch.fw.jaxrs.MultipartFormDataBodyConverter>` is configured for the converter of multipart/form-data converter.
 
 .. tip::
 
@@ -111,6 +112,7 @@ As a result, the following handler configurations for RESTEasy are automatically
   * :java:extdoc:`Jackson2BodyConverter <nablarch.integration.jaxrs.jackson.Jackson2BodyConverter>` is configured for the JSON converter.
   * :java:extdoc:`JaxbBodyConverter <nablarch.fw.jaxrs.JaxbBodyConverter>` is configured for the XML converter.
   * :java:extdoc:`FormUrlEncodedConverter <nablarch.fw.jaxrs.FormUrlEncodedConverter>` is configured for the converter of application/x-www-form-urlencoded.
+  * :java:extdoc:`MultipartFormDataBodyConverter <nablarch.fw.jaxrs.MultipartFormDataBodyConverter>` is configured for the converter of multipart/form-data converter.
 
 .. tip::
 
