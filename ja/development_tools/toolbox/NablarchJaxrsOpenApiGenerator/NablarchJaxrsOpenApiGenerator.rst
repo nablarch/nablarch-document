@@ -57,44 +57,44 @@ Mavenプラグインの設定
 
 .. code-block:: xml
 
-            <plugin>
-                <groupId>org.openapitools</groupId>
-                <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>7.10.0</version>
-                <dependencies>
-                    <!-- 本ツールのモジュールを依存関係に追加 -->
-                    <dependency>
-                        <groupId>com.nablarch.tool</groupId>
-                        <artifactId>nablarch-jaxrs-openapi-generator</artifactId>
-                        <version>1.0.0</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <!-- OpenAPIドキュメントのファイルパスを指定する -->
-                            <inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
-                            <generatorName>nablarch-jaxrs</generatorName>
-                            <configOptions>
-                                <!-- 本ツールのオプションを指定する -->
-                            </configOptions>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+      <plugin>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <version>7.10.0</version>
+        <dependencies>
+        <!-- 本ツールのモジュールを依存関係に追加 -->
+          <dependency>
+            <groupId>com.nablarch.tool</groupId>
+            <artifactId>nablarch-jaxrs-openapi-generator</artifactId>
+            <version>1.0.0</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <!-- OpenAPIドキュメントのファイルパスを指定する -->
+              <inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
+              <generatorName>nablarch-jaxrs</generatorName>
+              <configOptions>
+                <!-- 本ツールのオプションを指定する -->
+              </configOptions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
 本ツールは以下の依存関係により提供される。
 
 .. code-block:: xml
 
-                    <dependency>
-                        <groupId>com.nablarch.tool</groupId>
-                        <artifactId>nablarch-jaxrs-openapi-generator</artifactId>
-                        <version>1.0.0</version>
-                    </dependency>
+          <dependency>
+            <groupId>com.nablarch.tool</groupId>
+            <artifactId>nablarch-jaxrs-openapi-generator</artifactId>
+            <version>1.0.0</version>
+          </dependency>
 
 OpenAPI GeneratorのMavenプラグインを使用するにあたり、最低限必要な設定はソースコードの生成対象となるOpenAPIドキュメントを指定する ``inputSpec`` と、どのGeneratorを使用するかを指定する ``generatorName`` の2つである。
 
