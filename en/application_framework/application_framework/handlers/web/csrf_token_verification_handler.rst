@@ -55,6 +55,11 @@ Place this handler after :ref:`session_store_handler`
   In order to store the CSRF token in the session store,
   this handler needs to be placed after :ref:`session_store_handler`.
 
+.. tip::
+
+  When uploading a file using :ref:`multipart_handler`,
+  if you want to verify the CSRF token before saving the file, place this handler and :ref:`session_store_handler` before :ref:`multipart_handler`.
+
 When using :ref:`tag`, this handler should be placed after :ref:`nablarch_tag_handler`.
   When using :ref:`tag`, :ref:`tag-hidden_encryption` is used to output the CSRF token to the screen,
   so this handler needs to be placed after :ref:`nablarch_tag_handler`.
