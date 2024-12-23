@@ -417,13 +417,63 @@ OpenAPIでのデータ型( ``type`` )     OpenAPIでのフォーマット( ``for
   * Javaのデータ型が ``java.math.BigDecimal`` 、 ``java.util.List`` 、 ``java.util.Set`` またはモデルの場合は ``Valid`` アノテーションを注釈する。
   * :java:extdoc:`Pattern<jakarta.validation.constraints.Pattern>` のみJakarta Beab Validation標準のアノテーションを注釈し、それ以外はNablarchの提供する :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` のアノテーションを注釈する。
 
-OpenAPI仕様で規定されている範囲では、必須定義と長さチェック、正規表現によるチェックしか行えないため業務アプリケーションのバリデーションとしては不足することが想定される。
+.. important::
 
-このため、OpenAPI仕様の範囲ではバリデーションの要件を満たすことができず別途実装が必要となり、結果として自動生成したモデルと手動で実装したフォーム等でバリデーション定義が分散されやすい状況になる。
+  OpenAPI仕様で規定されている範囲では、必須定義と長さチェック、正規表現によるチェックしか行えないため業務アプリケーションのバリデーションとしては不足することが想定される。
+
+  このため、OpenAPI仕様の範囲ではバリデーションの要件を満たすことができず別途実装が必要となり、結果として自動生成したモデルと手動で実装したフォーム等でバリデーション定義が分散されやすい状況になることに注意すること。
 
 Nablarchではバリデーション定義は自動生成したモデルと同じ定義のフォーム等を作成し、 :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用してプロパティ値をコピー後、バリデーションを実施することを想定している。
 
 本ツールがデフォルトでJakarta Bean Validationのアノテーションを出力しないのはこのためである。
+
+考え方としては :ref:`bean_validation-execute_explicitly` と同様で、実装イメージを以下に記載する。
+
+.. code-block:: java
+
+  public class ProjectAction implements ProjectsApi {  // ProjectsApiは本ツールで生成したインターフェース
+
+      // インターフェースに定義されたメソッドを実装
+      @Override
+      public EntityResponse<ProjectResponse> createProject(ProjectCreateRequest projectCreateRequest, JaxRsHttpRequest jaxRsHttpRequest, ExecutionContext context) {
+          // モデルと同じプロパティ定義に、単項目バリデーションや相関バリデーションを加えたフォーム
+          ProjectForm form;
+
+          try {
+              // ユーティリティクラス内でモデルからフォームに値をコピーした後、バリデーションを明示的に実行する
+              form = ProjectValidatorUtil.validate(ProjectForm.class, projectCreateRequest);
+          } catch (ApplicationException e) {
+              // バリデーションエラー時に任意の処理を行う
+              // ...
+
+              throw e;
+          }
+
+          // 省略
+
+          return response;
+      }
+  }
+
+  // ユーティリティクラスのイメージ
+  public final class ProjectValidatorUtil {
+      // その他の処理は省略
+
+      /**
+       * HTTPリクエストからBeanを生成し、Bean Validationを行う。
+       *
+       * @param beanClass 生成したいBeanクラス
+       * @param src プロパティのコピー元オブジェクト
+       * @return  プロパティに値が登録されたBeanオブジェクト
+       */
+      public static <T> T validate(Class<T> beanClass, Object src) {
+          T bean = BeanUtil.createAndCopy(beanClass, src));
+          ValidatorUtil.validate(bean);
+          return bean;
+      }
+  }
+
+
 
 OpenAPIドキュメントと生成されるソースコードの例
 ------------------------------------------------
