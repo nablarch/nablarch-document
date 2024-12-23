@@ -39,13 +39,17 @@ Nablarch RESTfulウェブサービス OpenAPI Generatorは、 `OpenAPI(外部サ
 本ツールは以下の運用方法を想定している。
 
 #. ウェブサービスの設計情報を元にOpenAPIドキュメントを作成する
-#. Nablarch RESTfulウェブサービスのプロジェクトを作成し、OpenAPI Generatorおよび本ツールの設定を行う
+#. Nablarch RESTfulウェブサービスのプロジェクトを作成し、MavenプラグインとしてOpenAPI Generatorおよび本ツールの設定を行う
 #. プロジェクトをビルドし、リソース(アクション)インターフェースとモデルを生成する
 #. 生成したリソース(アクション)インターフェースとモデルを使用して、Nablarch RESTfulウェブサービスの実装を行う
 
 .. tip::
 
   本ツールはOpenAPIドキュメントの修正に合わせて繰り返し実行されることを想定している。Nablarch RESTfulウェブサービスのアクションクラスは生成されたリソース(アクション)インターフェースを実装して作成するため、本ツールによる自動生成を再度行ってもアクションクラスに実装した内容が失われることはない。
+
+.. tip::
+
+  OpenAPI Generatorおよび本ツールはMavenプラグインとしての実行形態を想定しているが、CLIでも使用可能である。
 
 使用方法
 ---------
@@ -173,6 +177,36 @@ OpenAPI GeneratorのMavenプラグインの主要な設定項目を以下に示�
 ``supportProducesMediaTypes``        生成するリソース(アクション)インターフェースがレスポンス |br|        ``application/json``
                                      とするメディアタイプを ``,`` 区切りで指定する。
 ==================================== ==================================================================== =====================================================================
+
+.. _NablarchJaxrsOpenApiGeneratorAsCli:
+
+CLIとして実行する
+===========================
+
+本ツールは主にMavenプラグインとして使用することを想定しているが、CLIとしても使用可能である。ここでは補足としてCLIでの実行方法を紹介する。
+
+CLIとして実行するには、 `OpenAPI Generator 7.10.0のJARファイル(外部サイト) <https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.10.0/openapi-generator-cli-7.10.0.jar>`_ および `本ツールのJARファイル(外部サイト) <https://repo1.maven.org/maven2/com/nablarch/tool/nablarch-jaxrs-openapi-generator/1.0.0/nablarch-jaxrs-openapi-generator-1.0.0.jar>`_ をダウンロードしてjavaコマンドで実行する。実行例を以下に示す。
+
+.. code-block:: text
+
+  java -cp openapi-generator-cli-7.10.0.jar:nablarch-jaxrs-openapi-generator-1.0.0.jar org.openapitools.codegen.OpenAPIGenerator generate --generator-name nablarch-jaxrs --input-spec openapi.yaml --output out --additional-properties=apiPackage=com.example.api,modelPackage=com.example.model,useBeanValidation=true,hideGenerationTimestamp=true
+
+``--generator-name`` には ``nablarch-jaxrs`` を指定する。 :ref:`NablarchJaxrsOpenApiGeneratorConfiguration` のうちOpenAPI Generatorの設定項目はOpenAPI GeneratorのCLIでも指定できる。詳しくは以下のコマンドの結果を参照。
+
+.. code-block:: text
+
+  java -jar openapi-generator-cli-7.10.0.jar help generate
+
+.. tip::
+
+  OpenAPI Generatorの設定項目は、 ``--generator-name`` のようにハイフン区切りの形式になる。
+
+:ref:`NablarchJaxrsOpenApiGeneratorConfiguration` のうち本ツール固有の設定項目については、 ``--additional-properties`` に ``key=value`` の形式で指定する。複数指定する場合は ``,`` 区切りでの指定となる。
+
+.. tip::
+
+  本ツール固有の設定項目は、 ``--additional-properties=hideGenerationTimestamp=true`` のように ``--additional-properties=`` に続けて項目名をそのまま指定する。
+
 
 ソースコード生成仕様
 ------------------------
