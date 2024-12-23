@@ -120,12 +120,16 @@ OpenAPI GeneratorのMavenプラグインを使用するにあたり、最低限�
 
   mvn compile
 
+なお :ref:`NablarchJaxrsOpenApiGeneratorConfiguration` の ``sourceFolder`` を明示的に設定した場合、 ``mvn compile`` 時に生成されたソースコードをMavenプラグインを設定したプロジェクトのコンパイル対象に含めるようになる。
+
+この動作はOpenAPI GeneratorのMavenプラグインによって行われる。
+
 出力先
 ========
 
 OpenAPI GeneratorのMavenプラグインのデフォルト設定では、生成されたソースコードは ``target/generated-sources/openapi/src/gen/java`` に出力される。  
 
-出力先を変更したい場合は :ref:`NablarchJaxrsOpenApiGeneratorConfiguration` の ``output`` と ``sourceFolder``  を参照すること。
+出力先を変更したい場合は :ref:`NablarchJaxrsOpenApiGeneratorConfiguration` の ``output`` と ``sourceFolder`` を参照すること。
 
 .. _NablarchJaxrsOpenApiGeneratorConfiguration:
 
@@ -156,7 +160,9 @@ OpenAPI GeneratorのMavenプラグインの主要な設定項目を以下に示�
                                      出力される。
 ``sourceFolder``                     ソースコードの生成先ディレクトリを指定する。  |br|                   ``src/gen/java``
                                      OpenAPI GeneratorのMavenプラグイン設定の ``output`` からの |br|
-                                     相対パスとして解釈される。
+                                     相対パスとして解釈される。 |br|
+                                     この項目を指定すると、本ツールにより生成したソースコードが |br|
+                                     ``mvn compile`` 時のコンパイル対象に含まれるようになる。
 ``useTags``                          生成するリソース(アクション)インターフェースの単位を |br|            ``false``
                                      パスではなくエンドポイントに付与されているタグの単位とする。 |br|
                                      なお、エンドポイントに複数のタグが付与されている場合は最初の |br|
