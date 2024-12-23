@@ -15,7 +15,7 @@ Nablarch RESTfulウェブサービス OpenAPI Generatorは、 `OpenAPI(外部サ
 
 本ツールは `OpenAPI GeneratorのMavenプラグイン(外部サイト、英語) <https://openapi-generator.tech/docs/plugins>`_ に組み込み、OpenAPIドキュメントからNablarch RESTfulウェブサービス用のソースコードを生成する。
 
-生成されたソースコードを使用することで、OpenAPIドキュメントで定めたウェブサービスの実装が容易となる。
+生成されたソースコードを使用することで、OpenAPIドキュメントで定義したREST APIのインターフェースに従ったアクションクラスの実装が容易となる。
 
 前提条件
 ---------
