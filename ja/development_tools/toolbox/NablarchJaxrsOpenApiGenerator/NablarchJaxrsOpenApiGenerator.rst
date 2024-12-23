@@ -297,6 +297,7 @@ Nablarch RESTfulウェブサービスはJakarta RESTful Web Servicesが提供す
 * プロパティに対するgetterおよびsetterを生成し、 ``JsonProperty`` アノテーションを注釈する。
 * プロパティの値を設定してモデル自身の型を返す、メソッドチェインが可能なメソッドを生成する。
 * ``useBeanValidation`` が ``true`` かつOpenAPIドキュメントにバリデーション定義がある場合、Jakarta Bean Validationのアノテーションを注釈する。
+* 注釈するJakarta Bean Validationのアノテーションは、Nablarchの提供する :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` およびJakarta EE標準の :java:extdoc:`jakarta.validation.constraints` パッケージのものを使用する。
 
 OpenAPIドキュメントでのデータ型やフォーマットとJavaのデータ型との対応仕様は :ref:`openapi_datatypes_format_to_java_datatypes` 、バリデーション定義とJakarta Bean Validationのアノテーションの対応仕様は :ref:`openapi_property_to_jaka_bean_validation` に記載する。
 
@@ -398,7 +399,7 @@ OpenAPIでのデータ型( ``type`` )     OpenAPIでのフォーマット( ``for
 ``string``                                                                   ``minLength`` および ``maxLength``         :java:extdoc:`Length(min = {minLength}, max = {maxLength}) <nablarch.core.validation.ee.Length>`
 ``string``                                                                   ``pattern``                                :java:extdoc:`Pattern(regexp = "{pattern}")<jakarta.validation.constraints.Pattern>`
 ``array``                                                                    ``required``                               :java:extdoc:`Required <nablarch.core.validation.ee.Required>`
-``array``                                                                    ``minItems`` および ``maxItems``             :java:extdoc:`Size(min = {minItems}, max = {maxItems}) <nablarch.core.validation.ee.Size>`
+``array``                                                                    ``minItems`` および ``maxItems``           :java:extdoc:`Size(min = {minItems}, max = {maxItems}) <nablarch.core.validation.ee.Size>`
 =================================== ======================================== ========================================== ============================================================================================================
 
 .. tip::
@@ -406,6 +407,7 @@ OpenAPIでのデータ型( ``type`` )     OpenAPIでのフォーマット( ``for
   * ``multipleOf`` 、 ``exclusiveMinimum`` 、 ``exclusiveMaximum`` 、 ``minProperties`` 、 ``maxProperties`` には対応していない。
   * ``minimum`` および ``maximum`` 、 ``minLength`` および ``maxLength`` 、 ``minItems`` および ``maxItems`` はどちらか片方だけでも指定可能。
   * Javaのデータ型が ``java.math.BigDecimal`` 、 ``java.util.List`` 、 ``java.util.Set`` またはモデルの場合は ``Valid`` アノテーションを注釈する。
+  * :java:extdoc:`Pattern<jakarta.validation.constraints.Pattern>` のみJakarta Beab Validation標準のアノテーションを注釈し、それ以外はNablarchの提供する :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` のアノテーションを注釈する。
 
 OpenAPI仕様で規定されている範囲では、必須定義と長さチェック、正規表現によるチェックしか行えないため業務アプリケーションのバリデーションとしては不足することが想定される。
 
