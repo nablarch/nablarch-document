@@ -214,7 +214,11 @@ CLIとして実行するには、 `OpenAPI Generator 7.10.0のJARファイル(�
 
 以降では、本ツールがOpenAPIドキュメントを元にソースコードを生成する仕様について記載する。
 
-Nablarch RESTfulウェブサービスはJakarta RESTful Web Servicesが提供するすべてのアノテーションをサポートしているわけではないため、ここで記載する内容以外のOpenAPIドキュメントの記載内容は生成されるソースコードに反映されないことに注意すること。
+.. important::
+
+  Nablarch RESTfulウェブサービスはJakarta RESTful Web Servicesが提供するすべてのアノテーションをサポートしているわけではないため、ここで記載する内容以外のOpenAPIドキュメントの内容は生成されるソースコードに反映されないことに注意すること。
+
+  Nablarch RESTfulウェブサービスがサポートしているアノテーションについては :ref:`restful_web_service_architecture` および、ルーティングアダプタの :ref:`router_adaptor_path_annotation` を参照すること。
 
 リソース(アクション)インターフェース生成仕様
 ===============================================
