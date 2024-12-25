@@ -49,7 +49,7 @@ Nablarch RESTfulウェブサービス OpenAPI Generatorは、 `OpenAPI(外部サ
 
 .. tip::
 
-  OpenAPI Generatorおよび本ツールはMavenプラグインとしての実行形態を想定しているが、CLIでも使用可能である。
+  OpenAPI Generatorおよび本ツールはMavenプラグインとしての実行形態を想定しているが、CLIでも使用可能である。詳しくは :ref:`NablarchJaxrsOpenApiGeneratorAsCli` を参照すること。
 
 使用方法
 ---------
