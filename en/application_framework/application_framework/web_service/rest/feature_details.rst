@@ -93,3 +93,7 @@ CSRF measures
 CORS
 ----------------------------------------
 * :ref:`CORS <cors_preflight_request_handler>`
+
+Generate source code from OpenAPI document
+---------------------------------------------
+* :ref:`nablarch_openapi_generator`
