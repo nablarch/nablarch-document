@@ -172,7 +172,7 @@ OpenAPI GeneratorのMavenプラグインの主要な設定項目を以下に示�
 ``generateBuilders``                 モデルに対するビルダークラスを生成する。                             ``false``
 ``useBeanValidation``                OpenAPIドキュメントのバリデーション定義から、生成する |br|           ``false``
                                      ソースコードにJakarta Bean Validationのアノテーションを |br|
-                                     付与する。
+                                     注釈する。
 ``additionalModelTypeAnnotations``   生成するモデルのクラス宣言に追加のアノテーションを注釈する。 |br|    なし
                                      複数のアノテーションを追加する場合は ``;`` 区切りで指定する。
 ``additionalEnumTypeAnnotations``    生成するenum型に追加のアノテーションを注釈する。 |br|
