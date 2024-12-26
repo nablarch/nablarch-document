@@ -123,7 +123,7 @@ An example is shown below.
 
     <!-- Setter injection of literal value -->
     <property name="limit" value="100" />
-  <component/>
+  </component>
 
 
 .. important::
