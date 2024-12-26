@@ -149,41 +149,41 @@ OpenAPI GeneratorのMavenプラグインの主要な設定項目を以下に示�
 
 本ツールの設定項目を以下に示す。すべて任意項目であり、これらは ``configOptions`` タグ内に指定する。
 
-==================================== ==================================================================== =====================================================================
-項目名                               設定内容                                                             デフォルト値
-==================================== ==================================================================== =====================================================================
-``apiPackage``                       生成するリソース(アクション)インターフェースのパッケージを |br|      ``org.openapitools.api``
+==================================== ======================================================================================================= =====================================================================
+項目名                               設定内容                                                                                                デフォルト値
+==================================== ======================================================================================================= =====================================================================
+``apiPackage``                       生成するリソース(アクション)インターフェースのパッケージを |br|                                         ``org.openapitools.api``
                                      指定する。                 
-``modelPackage``                     生成するモデルのパッケージを指定する。                               ``org/openapitools/model``
-``hideGenerationTimestamp``          ``Generated`` アノテーションを注釈する時に ``date`` 属性を |br|      ``false``
+``modelPackage``                     生成するモデルのパッケージを指定する。                                                                  ``org/openapitools/model``
+``hideGenerationTimestamp``          ``Generated`` アノテーションを注釈する時に ``date`` 属性を |br|                                         ``false``
                                      付与するか否か。デフォルトではソースコードを生成した日時が |br|
                                      出力される。
-``sourceFolder``                     ソースコードの生成先ディレクトリを指定する。  |br|                   ``src/gen/java``
+``sourceFolder``                     ソースコードの生成先ディレクトリを指定する。  |br|                                                      ``src/gen/java``
                                      OpenAPI GeneratorのMavenプラグイン設定の ``output`` からの |br|
                                      相対パスとして解釈される。 |br|
                                      この項目を指定すると、本ツールにより生成したソースコードが |br|
                                      ``mvn compile`` 時のコンパイル対象に含まれるようになる。
-``useTags``                          生成するリソース(アクション)インターフェースの単位を |br|            ``false``
+``useTags``                          生成するリソース(アクション)インターフェースの単位を |br|                                               ``false``
                                      パスではなくエンドポイントに付与されているタグの単位とする。 |br|
                                      なお、エンドポイントに複数のタグが付与されている場合は最初の |br|
                                      タグが有効となる。
-``serializableModel``                生成するモデルに ``java.io.Serializable`` |br|                       ``false``
+``serializableModel``                生成するモデルに ``java.io.Serializable`` |br|                                                          ``false``
                                      インターフェースを実装する。
-``generateBuilders``                 モデルに対するビルダークラスを生成する。                             ``false``
-``useBeanValidation``                OpenAPIドキュメントのバリデーション定義から、生成する |br|           ``false``
-                                     ソースコードにJakarta Bean Validationのアノテーションを |br|
-                                     注釈する。
-``additionalModelTypeAnnotations``   生成するモデルのクラス宣言に追加のアノテーションを注釈する。 |br|    なし
+``generateBuilders``                 モデルに対するビルダークラスを生成する。                                                                ``false``
+``useBeanValidation``                OpenAPIドキュメントのバリデーション定義から、|br|                                                       ``false``
+                                     :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` を使った |br|
+                                     バリデーションを行うようにソースコードを生成する。
+``additionalModelTypeAnnotations``   生成するモデルのクラス宣言に追加のアノテーションを注釈する。 |br|                                       なし
                                      複数のアノテーションを追加する場合は ``;`` 区切りで指定する。
 ``additionalEnumTypeAnnotations``    生成するenum型に追加のアノテーションを注釈する。 |br|
-                                     複数のアノテーションを追加する場合は ``;`` 区切りで指定する。        なし
-``primitivePropertiesAsString``      モデルのプリミティブなデータ型のプロパティをすべて |br|              ``false``
+                                     複数のアノテーションを追加する場合は ``;`` 区切りで指定する。                                           なし
+``primitivePropertiesAsString``      モデルのプリミティブなデータ型のプロパティをすべて |br|                                                 ``false``
                                      ``String`` として出力する。
-``supportConsumesMediaTypes``        生成するリソース(アクション)インターフェースがリクエストを |br|      ``application/json,multipart/form-data``
+``supportConsumesMediaTypes``        生成するリソース(アクション)インターフェースがリクエストを |br|                                         ``application/json,multipart/form-data``
                                      受け付けるメディアタイプを ``,`` 区切りで指定する。
-``supportProducesMediaTypes``        生成するリソース(アクション)インターフェースがレスポンス |br|        ``application/json``
+``supportProducesMediaTypes``        生成するリソース(アクション)インターフェースがレスポンス |br|                                           ``application/json``
                                      とするメディアタイプを ``,`` 区切りで指定する。
-==================================== ==================================================================== =====================================================================
+==================================== ======================================================================================================= =====================================================================
 
 .. _NablarchJaxrsOpenApiGeneratorAsCli:
 
@@ -310,10 +310,10 @@ CLIとして実行するには、 `OpenAPI Generator 7.10.0のJARファイル(�
 * OpenAPIドキュメントのスキーマに定義されたフィールドに対応するプロパティを生成する。
 * プロパティに対するgetterおよびsetterを生成し、 ``JsonProperty`` アノテーションを注釈する。
 * プロパティの値を設定してモデル自身の型を返す、メソッドチェインが可能なメソッドを生成する。
-* ``useBeanValidation`` が ``true`` かつOpenAPIドキュメントにバリデーション定義がある場合、Jakarta Bean Validationのアノテーションを注釈する。
-* 注釈するJakarta Bean Validationのアノテーションは、Nablarchの提供する :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` およびJakarta EE標準の :java:extdoc:`jakarta.validation.constraints` パッケージのものを使用する。
+* ``useBeanValidation`` が ``true`` かつOpenAPIドキュメントにバリデーション定義がある場合、 :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` を使ったバリデーションを有効にする。
+* バリデーションで使用するアノテーションは、Nablarchの提供する :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` およびJakarta EE標準の :java:extdoc:`jakarta.validation.constraints` パッケージのものを使用する。
 
-OpenAPIドキュメントでのデータ型やフォーマットとJavaのデータ型との対応仕様は :ref:`openapi_datatypes_format_to_java_datatypes` 、バリデーション定義とJakarta Bean Validationのアノテーションの対応仕様は :ref:`openapi_property_to_jaka_bean_validation` に記載する。
+OpenAPIドキュメントでのデータ型やフォーマットとJavaのデータ型との対応仕様は :ref:`openapi_datatypes_format_to_java_datatypes` 、バリデーション定義とバリデーションで使用するアノテーションの対応仕様は :ref:`openapi_property_to_bean_validation` に記載する。
 
 モデルのその他の生成仕様を以下に示す。
 
@@ -386,15 +386,15 @@ OpenAPIでのデータ型( ``type`` )     OpenAPIでのフォーマット( ``for
   * ``type: string`` かつ ``format: binary`` はリクエストのコンテンツタイプが ``multipart/form-data`` の場合のみ利用可能で、それ以外コンテンツタイプやレスポンスのモデル定義内で使用した場合はモデルの生成を中止する。
   * ``type: string`` の場合は上記表以外にも多数のフォーマットがあるが、すべて ``java.lang.String`` として生成する。
 
-.. _openapi_property_to_jaka_bean_validation:
+.. _openapi_property_to_bean_validation:
 
 OpenAPIドキュメントのバリデーションとJakarta EEのJakarta Bean Validationに準拠したバリデーション機能の対応仕様
 ==============================================================================================================
 
-本ツールでは ``useBeanValidation`` のデフォルト値が ``false`` のため、OpenAPIドキュメントの定義に関わらずデフォルトではJakarta Bean Validationのアノテーションは生成しないが、 ``true`` とした場合は以下の対応表に沿ってプロパティにJakarta Bean Validationのアノテーションを注釈する。
+本ツールでは ``useBeanValidation`` のデフォルト値が ``false`` のためOpenAPIドキュメントの定義に関わらずデフォルトでは :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` で使用するアノテーションは注釈しないが、 ``true`` とした場合は以下の対応表に沿ってプロパティにアノテーションを注釈する。
 
 =================================== ======================================== ========================================== ============================================================================================================
-OpenAPIでのデータ型( ``type`` )     OpenAPIでのフォーマット( ``format`` )    OpenAPIで使用しているプロパティ            注釈するJakarta Bean Validationのアノテーション
+OpenAPIでのデータ型( ``type`` )     OpenAPIでのフォーマット( ``format`` )    OpenAPIで使用しているプロパティ            注釈するバリデーション用のアノテーション
 =================================== ======================================== ========================================== ============================================================================================================
 ``integer``                         (フォーマットは問わない)                 ``required``                               :java:extdoc:`Required <nablarch.core.validation.ee.Required>`
 ``integer``                                                                  ``minimum`` および ``maximum``             :java:extdoc:`NumberRange(min = {minimum}, max = {maximum}) <nablarch.core.validation.ee.NumberRange>`
@@ -431,7 +431,7 @@ OpenAPIでのデータ型( ``type`` )     OpenAPIでのフォーマット( ``for
 
 Nablarchではバリデーション定義は自動生成したモデルと同じ定義のフォーム等を作成し、 :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用してプロパティ値をコピー後、バリデーションを実施することを想定している。
 
-本ツールがデフォルトでJakarta Bean Validationのアノテーションを出力しないのはこのためである。
+本ツールがデフォルトでバリデーション用のアノテーションを注釈しないのはこのためである。
 
 考え方としては :ref:`bean_validation-execute_explicitly` と同様で、実装イメージを以下に記載する。
 
@@ -466,7 +466,7 @@ Nablarchではバリデーション定義は自動生成したモデルと同じ
       // その他の処理は省略
 
       /**
-       * HTTPリクエストからBeanを生成し、Bean Validationを行う。
+       * HTTPリクエストからBeanを生成し、バリデーションを行う。
        *
        * @param beanClass 生成したいBeanクラス
        * @param src プロパティのコピー元オブジェクト
