@@ -283,8 +283,8 @@ CLIとして実行するには、 `OpenAPI Generator 7.10.0のJARファイル(�
 
 .. tip::
 
-  * RESTfulウェブサービスはJakarta RESTful Web Servicesで規定されている ``PathParam`` や ``QueryParam`` 等には対応していないため、 ``parameters`` の定義はメソッド引数には反映されない。これらの情報は :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` より取得する。
-  * リクエストのコンテンツタイプが ``multipart/form-data`` の場合は、リクエストモデルの型の引数は生成されない。アップロードされたファイルは :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` より取得する。
+  * RESTfulウェブサービスはJakarta RESTful Web Servicesで規定されている ``PathParam`` や ``QueryParam`` 等には対応していないため、 ``parameters`` の定義はメソッド引数には反映されない。これらの情報は :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` より取得すること。
+  * リクエストのコンテンツタイプが ``multipart/form-data`` の場合は、リクエストモデルの型の引数は生成されない。アップロードされたファイルは :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` より取得すること。
 
 **メソッド戻り値の生成仕様**
 
