@@ -33,7 +33,7 @@ Nablarch RESTfulウェブサービス OpenAPI Generatorは、 `OpenAPI(外部サ
 
 .. tip::
 
-  OpenAPI Generatorの仕様上 ``.openapi-generator-ignore`` 、 ``.openapi-generator/FILES`` 、 ``.openapi-generator/VERSION`` も :ref:`NablarchJaxrsOpenApiGeneratorConfiguration` の ``output`` で指定したディレクトリ配下に生成されるが、これらは使用しない。
+  OpenAPI Generatorの仕様上 ``.openapi-generator-ignore`` 、 ``.openapi-generator/FILES`` 、 ``.openapi-generator/VERSION`` が :ref:`NablarchJaxrsOpenApiGeneratorConfiguration` の ``output`` で指定したディレクトリ配下に生成されるが、これらは使用しない。
 
 運用方法
 --------
