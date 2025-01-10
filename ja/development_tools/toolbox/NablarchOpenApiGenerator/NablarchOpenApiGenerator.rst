@@ -1,7 +1,7 @@
-.. _nablarch_jaxrs_openapi_generator:
+.. _nablarch_openapi_generator:
 
 ====================================================
-Nablarch RESTfulウェブサービス OpenAPI Generator
+Nablarch OpenAPI Generator
 ====================================================
 
 .. contents:: 目次
@@ -11,9 +11,9 @@ Nablarch RESTfulウェブサービス OpenAPI Generator
 ツールの概要
 -------------
 
-Nablarch RESTfulウェブサービス OpenAPI Generatorは、 `OpenAPI(外部サイト、英語) <https://www.openapis.org/>`_ ドキュメントからソースコードを生成する  `OpenAPI Generator(外部サイト、英語) <https://openapi-generator.tech/>`_ のGenerator実装である。
+Nablarch OpenAPI Generatorは、 `OpenAPI(外部サイト、英語) <https://www.openapis.org/>`_ ドキュメントからソースコードを生成する  `OpenAPI Generator(外部サイト、英語) <https://openapi-generator.tech/>`_ のGenerator実装である。
 
-本ツールは `OpenAPI GeneratorのMavenプラグイン(外部サイト、英語) <https://openapi-generator.tech/docs/plugins>`_ に組み込み、OpenAPIドキュメントからNablarch RESTfulウェブサービス用のソースコードを生成する。
+本ツールはNablarch RESTfulウェブサービス用のGeneratorを提供しており、 `OpenAPI GeneratorのMavenプラグイン(外部サイト、英語) <https://openapi-generator.tech/docs/plugins>`_ に組み込み実行することでソースコードを生成する。
 
 生成されたソースコードを使用することで、OpenAPIドキュメントで定義したREST APIのインターフェースに従ったアクションクラスの実装が容易となる。
 
@@ -33,7 +33,7 @@ Nablarch RESTfulウェブサービス OpenAPI Generatorは、 `OpenAPI(外部サ
 
 .. tip::
 
-  OpenAPI Generatorの仕様上 ``.openapi-generator-ignore`` 、 ``.openapi-generator/FILES`` 、 ``.openapi-generator/VERSION`` が :ref:`NablarchJaxrsOpenApiGeneratorConfiguration` の ``output`` で指定したディレクトリ配下に生成されるが、これらは使用しない。
+  OpenAPI Generatorの仕様上 ``.openapi-generator-ignore`` 、 ``.openapi-generator/FILES`` 、 ``.openapi-generator/VERSION`` が :ref:`NablarchOpenApiGeneratorConfiguration` の ``output`` で指定したディレクトリ配下に生成されるが、これらは使用しない。
 
 運用方法
 --------
@@ -51,7 +51,7 @@ Nablarch RESTfulウェブサービス OpenAPI Generatorは、 `OpenAPI(外部サ
 
 .. tip::
 
-  OpenAPI Generatorおよび本ツールはMavenプラグインとしての実行形態を想定しているが、CLIでも使用可能である。詳しくは :ref:`NablarchJaxrsOpenApiGeneratorAsCli` を参照すること。
+  OpenAPI Generatorおよび本ツールはMavenプラグインとしての実行形態を想定しているが、CLIでも使用可能である。詳しくは :ref:`NablarchOpenApiGeneratorAsCli` を参照すること。
 
 使用方法
 ---------
@@ -68,10 +68,10 @@ Mavenプラグインの設定
         <artifactId>openapi-generator-maven-plugin</artifactId>
         <version>7.10.0</version>
         <dependencies>
-        <!-- 本ツールのモジュールを依存関係に追加 -->
+          <!-- 本ツールのモジュールを依存関係に追加 -->
           <dependency>
             <groupId>com.nablarch.tool</groupId>
-            <artifactId>nablarch-jaxrs-openapi-generator</artifactId>
+            <artifactId>nablarch-openapi-generator</artifactId>
             <version>1.0.0</version>
           </dependency>
         </dependencies>
@@ -85,7 +85,11 @@ Mavenプラグインの設定
               <inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
               <generatorName>nablarch-jaxrs</generatorName>
               <configOptions>
-                <!-- 本ツールのオプションを指定する -->
+                <sourceFolder>src/gen/java</sourceFolder>
+                <apiPackage>com.example.api</apiPackage>
+                <modelPackage>com.example.model</modelPackage>
+
+                <!-- その他、本ツールのオプションを指定する -->
               </configOptions>
             </configuration>
           </execution>
@@ -98,7 +102,7 @@ Mavenプラグインの設定
 
           <dependency>
             <groupId>com.nablarch.tool</groupId>
-            <artifactId>nablarch-jaxrs-openapi-generator</artifactId>
+            <artifactId>nablarch-openapi-generator</artifactId>
             <version>1.0.0</version>
           </dependency>
 
@@ -106,7 +110,7 @@ OpenAPI GeneratorのMavenプラグインを使用するにあたり、最低限�
 
 ``generatorName`` には ``nablarch-jaxrs`` を指定することで、本ツールを利用できる。
 
-その他の設定項目については :ref:`NablarchJaxrsOpenApiGeneratorConfiguration` を参照すること。
+その他の設定項目については :ref:`NablarchOpenApiGeneratorConfiguration` を参照すること。
 
 .. tip::
 
@@ -122,7 +126,7 @@ OpenAPI GeneratorのMavenプラグインを使用するにあたり、最低限�
 
   mvn compile
 
-なお :ref:`NablarchJaxrsOpenApiGeneratorConfiguration` の ``sourceFolder`` を明示的に設定した場合、 ``mvn compile`` 時に生成されたソースコードをMavenプラグインを設定したプロジェクトのコンパイル対象に含めるようになる。
+なお :ref:`NablarchOpenApiGeneratorConfiguration` の ``sourceFolder`` を明示的に設定した場合、 ``mvn compile`` 時に生成されたソースコードをMavenプラグインを設定したプロジェクトのコンパイル対象に含めるようになる。
 
 この動作はOpenAPI GeneratorのMavenプラグインによって行われる。
 
@@ -131,9 +135,9 @@ OpenAPI GeneratorのMavenプラグインを使用するにあたり、最低限�
 
 OpenAPI GeneratorのMavenプラグインのデフォルト設定では、生成されたソースコードは ``target/generated-sources/openapi/src/gen/java`` に出力される。  
 
-出力先を変更したい場合は :ref:`NablarchJaxrsOpenApiGeneratorConfiguration` の ``output`` と ``sourceFolder`` を参照すること。
+出力先を変更したい場合は :ref:`NablarchOpenApiGeneratorConfiguration` の ``output`` と ``sourceFolder`` を参照すること。
 
-.. _NablarchJaxrsOpenApiGeneratorConfiguration:
+.. _NablarchOpenApiGeneratorConfiguration:
 
 Generatorの設定項目
 ===========================
@@ -156,7 +160,7 @@ OpenAPI GeneratorのMavenプラグインの主要な設定項目を以下に示�
 ==================================== ======================================================================================================= =====================================================================
 ``apiPackage``                       生成するリソース(アクション)インターフェースのパッケージを |br|                                         ``org.openapitools.api``
                                      指定する。                 
-``modelPackage``                     生成するモデルのパッケージを指定する。                                                                  ``org/openapitools/model``
+``modelPackage``                     生成するモデルのパッケージを指定する。                                                                  ``org.openapitools.model``
 ``hideGenerationTimestamp``          ``Generated`` アノテーションを注釈する時に ``date`` 属性を |br|                                         ``false``
                                      付与するか否か。デフォルトではソースコードを生成した日時が |br|
                                      出力される。
@@ -187,20 +191,47 @@ OpenAPI GeneratorのMavenプラグインの主要な設定項目を以下に示�
                                      とするメディアタイプを ``,`` 区切りで指定する。
 ==================================== ======================================================================================================= =====================================================================
 
-.. _NablarchJaxrsOpenApiGeneratorAsCli:
+Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能を使用するソースコードを生成する
+============================================================================================================
+
+:ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` を使用するようにソースコードを生成する場合は、 ``useBeanValidation`` の値を ``true`` に設定する。
+
+以下に設定例を示す。
+
+.. code-block:: xml
+
+            <configuration>
+              <!-- OpenAPIドキュメントのファイルパスを指定する -->
+              <inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
+              <generatorName>nablarch-jaxrs</generatorName>
+              <configOptions>
+                <sourceFolder>src/gen/java</sourceFolder>
+                <apiPackage>com.example.api</apiPackage>
+                <modelPackage>com.example.model</modelPackage>
+
+                <!-- Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能を使ったソースコードを生成する -->
+                <useBeanValidation>true</useBeanValidation>
+              </configOptions>
+            </configuration>
+
+``useBeanValidation`` のデフォルト値は ``false`` のため、デフォルトでは :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` の機能を使用するアノテーションは注釈されない。
+
+``true`` を指定した場合のソースコード生成仕様や運用上の注意点は :ref:`openapi_property_to_bean_validation` を参照すること。
+
+.. _NablarchOpenApiGeneratorAsCli:
 
 CLIとして実行する
 ===========================
 
 本ツールは主にMavenプラグインとして使用することを想定しているが、CLIとしても使用可能である。ここでは補足としてCLIでの実行方法を紹介する。
 
-CLIとして実行するには、 `OpenAPI Generator 7.10.0のJARファイル(外部サイト) <https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.10.0/openapi-generator-cli-7.10.0.jar>`_ および `本ツールのJARファイル(外部サイト) <https://repo1.maven.org/maven2/com/nablarch/tool/nablarch-jaxrs-openapi-generator/1.0.0/nablarch-jaxrs-openapi-generator-1.0.0.jar>`_ をダウンロードしてjavaコマンドで実行する。実行例を以下に示す。
+CLIとして実行するには、 `OpenAPI Generator 7.10.0のJARファイル(外部サイト) <https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.10.0/openapi-generator-cli-7.10.0.jar>`_ および `本ツールのJARファイル(外部サイト) <https://repo1.maven.org/maven2/com/nablarch/tool/nablarch-openapi-generator/1.0.0/nablarch-openapi-generator-1.0.0.jar>`_ をダウンロードしてjavaコマンドで実行する。実行例を以下に示す。
 
 .. code-block:: text
 
-  java -cp openapi-generator-cli-7.10.0.jar:nablarch-jaxrs-openapi-generator-1.0.0.jar org.openapitools.codegen.OpenAPIGenerator generate --generator-name nablarch-jaxrs --input-spec openapi.yaml --output out --additional-properties=apiPackage=com.example.api,modelPackage=com.example.model,useBeanValidation=true,hideGenerationTimestamp=true
+  java -cp openapi-generator-cli-7.10.0.jar:nablarch-openapi-generator-1.0.0.jar org.openapitools.codegen.OpenAPIGenerator generate --generator-name nablarch-jaxrs --input-spec openapi.yaml --output out --additional-properties=apiPackage=com.example.api,modelPackage=com.example.model,useBeanValidation=true,hideGenerationTimestamp=true
 
-``--generator-name`` には ``nablarch-jaxrs`` を指定する。 :ref:`NablarchJaxrsOpenApiGeneratorConfiguration` のうちOpenAPI Generatorの設定項目はOpenAPI GeneratorのCLIでも指定できる。詳しくは以下のコマンドの結果を参照。
+``--generator-name`` には ``nablarch-jaxrs`` を指定する。 :ref:`NablarchOpenApiGeneratorConfiguration` のうちOpenAPI Generatorの設定項目はOpenAPI GeneratorのCLIでも指定できる。詳しくは以下のコマンドの結果を参照。
 
 .. code-block:: text
 
@@ -210,7 +241,7 @@ CLIとして実行するには、 `OpenAPI Generator 7.10.0のJARファイル(�
 
   OpenAPI Generatorの設定項目は、 ``--generator-name`` のようにハイフン区切りの形式になる。
 
-:ref:`NablarchJaxrsOpenApiGeneratorConfiguration` のうち本ツール固有の設定項目については、 ``--additional-properties`` に ``key=value`` の形式で指定する。複数指定する場合は ``,`` 区切りでの指定となる。
+:ref:`NablarchOpenApiGeneratorConfiguration` のうち本ツール固有の設定項目については、 ``--additional-properties`` に ``key=value`` の形式で指定する。複数指定する場合は ``,`` 区切りでの指定となる。
 
 .. tip::
 
@@ -712,6 +743,182 @@ OpenAPIドキュメント例
           return endDate;
       }
    
+      @JsonProperty("endDate")
+      public void setEndDate(LocalDate endDate) {
+          this.endDate = endDate;
+      }
+
+      // hashCode、equals、toString等は省略
+  }
+
+**Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能を使用するソースコードの生成例**
+
+OpenAPIドキュメント例
+
+.. code-block:: yaml
+
+  ## パスおよびオペレーション
+  /projects:
+    post:
+      tags:
+      - project
+      summary: プロジェクトを作成する
+      description: プロジェクトを作成する
+      operationId: createProject
+      requestBody:
+        description: プロジェクト登録情報
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectCreateRequest'
+      responses:
+        "200":
+          description: project created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+
+    ## スキーマ
+    ProjectCreateRequest:
+      description: プロジェクト作成リクエスト
+      required:
+      - projectName
+      - projectType
+      - startDate
+      type: object
+      properties:
+        projectName:
+          description: プロジェクト名
+          maxLength: 100
+          minLength: 1
+          type: string
+        projectType:
+          description: プロジェクト種別
+          maxLength: 100
+          minLength: 1
+          type: string
+        startDate:
+          format: date
+          description: 開始日
+          type: string
+        endDate:
+          format: date
+          description: 終了日
+          type: string
+
+本ツールにより生成されるリソース(アクション)インターフェース例
+
+.. code-block:: java
+
+  @Path("/projects")
+  @jakarta.annotation.Generated(value = "nablarch.tool.openapi.codegen.JavaNablarchJaxrsServerCodegen", date = "2024-12-10T13:54:26.470544738+09:00[Asia/Tokyo]", comments = "Generator version: 7.10.0")
+  public interface ProjectsApi {
+      /**
+       * POST  : プロジェクトを作成する
+       *
+       * プロジェクトを作成する
+       *
+       * @param projectCreateRequest プロジェクト登録情報
+       * @param jaxRsHttpRequest HTTPリクエスト
+       * @param context ハンドラ実行コンテキスト
+       * @return project created
+       */
+      @POST
+      @Consumes({ "application/json" })
+      @Produces({ "application/json" })
+      @Valid
+      EntityResponse<ProjectResponse> createProject(ProjectCreateRequest projectCreateRequest, JaxRsHttpRequest jaxRsHttpRequest, ExecutionContext context);
+
+  }
+
+本ツールにより生成されるモデル例
+
+.. code-block:: java
+
+  @JsonTypeName("ProjectCreateRequest")
+  @jakarta.annotation.Generated(value = "nablarch.tool.openapi.codegen.JavaNablarchJaxrsServerCodegen", date = "2024-12-10T13:54:26.470544738+09:00[Asia/Tokyo]", comments = "Generator version: 7.10.0")
+  public class ProjectCreateRequest   {
+    private String projectName;
+    private String projectType;
+    private LocalDate startDate;
+    private LocalDate endDate;
+  
+      /**
+       * プロジェクト名
+       */
+      public ProjectCreateRequest projectName(String projectName) {
+          this.projectName = projectName;
+          return this;
+      }
+  
+  
+      @JsonProperty("projectName")
+      @Required @Length(min = 1, max = 100)
+      public String getProjectName() {
+          return projectName;
+      }
+  
+      @JsonProperty("projectName")
+      public void setProjectName(String projectName) {
+          this.projectName = projectName;
+      }
+  
+      /**
+       * プロジェクト種別
+       */
+      public ProjectCreateRequest projectType(String projectType) {
+          this.projectType = projectType;
+          return this;
+      }
+  
+  
+      @JsonProperty("projectType")
+      @Required @Length(min = 1, max = 100)
+      public String getProjectType() {
+          return projectType;
+      }
+  
+      @JsonProperty("projectType")
+      public void setProjectType(String projectType) {
+          this.projectType = projectType;
+      }
+  
+      /**
+       * 開始日
+       */
+      public ProjectCreateRequest startDate(LocalDate startDate) {
+          this.startDate = startDate;
+          return this;
+      }
+  
+  
+      @JsonProperty("startDate")
+      @Required
+      public LocalDate getStartDate() {
+          return startDate;
+      }
+  
+      @JsonProperty("startDate")
+      public void setStartDate(LocalDate startDate) {
+          this.startDate = startDate;
+      }
+  
+      /**
+       * 終了日
+       */
+      public ProjectCreateRequest endDate(LocalDate endDate) {
+          this.endDate = endDate;
+          return this;
+      }
+  
+  
+      @JsonProperty("endDate")
+  
+      public LocalDate getEndDate() {
+          return endDate;
+      }
+  
       @JsonProperty("endDate")
       public void setEndDate(LocalDate endDate) {
           this.endDate = endDate;

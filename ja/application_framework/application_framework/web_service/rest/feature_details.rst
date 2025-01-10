@@ -96,4 +96,4 @@ CORS
 
 OpenAPIドキュメントからのソースコード生成
 ---------------------------------------------
-* :ref:`nablarch_jaxrs_openapi_generator`
+* :ref:`nablarch_openapi_generator`
