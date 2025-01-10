@@ -725,7 +725,7 @@ How to use
   writer.appLog.formatter.className=nablarch.core.log.basic.JsonLogFormatter
  
   # Specifies the output items.
-  writer.appLog.formatter.targets=date,logLevel,message,information,stackTrace
+  writer.appLog.formatter.targets=date,logLevel,message,stackTrace
  
   # Specifies the pattern used to format the date and time.
   # If not specified, it will be "yyyy-MM-dd HH:mm:ss.SSS".
