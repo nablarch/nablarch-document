@@ -766,7 +766,7 @@ LogWriterで使用するフォーマッタを :java:extdoc:`JsonLogFormatter <na
   writer.appLog.formatter.className=nablarch.core.log.basic.JsonLogFormatter
  
   # 出力項目を指定する。
-  writer.appLog.formatter.targets=date,logLevel,message,information,stackTrace
+  writer.appLog.formatter.targets=date,logLevel,message,stackTrace
  
   # 日時のフォーマットに使用するパターンを指定する。
   # 指定しなければ"yyyy-MM-dd HH:mm:ss.SSS"となる。
