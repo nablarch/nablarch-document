@@ -381,7 +381,7 @@ OpenAPIドキュメントでのデータ型やフォーマットとJavaのデー
       <version>2.17.1</version>
     </dependency>
 
-RESTfulウェブサービスのブランクプロジェクトに、 ``jakarta.annotation-api`` および ``jackson-annotations`` を追加すればよい。
+RESTfulウェブサービスのブランクプロジェクトに設定されている依存関係にはこれらはすべて含まれている。
 
 .. _openapi_datatypes_format_to_java_datatypes:
 
