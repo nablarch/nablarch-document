@@ -161,7 +161,7 @@ As you can see, the blank project is configured to create the following two imag
 `Tomcat image <https://hub.docker.com/_/tomcat>`_ (External sites) is used as base image by default.
 
 The base image can be changed with the ``jib.from.image`` property.
-For example, if you want to use ``tomcat:10.1.28-jre17-temurin-jammy`` for your base image, you would write it in ``pom.xml`` .
+For example, if you want to use ``tomcat:10.1.34-jre17-temurin-jammy`` for your base image, you would write it in ``pom.xml`` .
 
 .. code-block:: xml
 
@@ -169,7 +169,7 @@ For example, if you want to use ``tomcat:10.1.28-jre17-temurin-jammy`` for your 
     <! -- Omitted ...-->
     <properties>
       <! -- Omitted ...-->
-      <jib.from.image>tomcat:10.1.28-jre17-temurin-jammy</jib.from.image>
+      <jib.from.image>tomcat:10.1.34-jre17-temurin-jammy</jib.from.image>
       <! -- Omitted ...-->
     </properties>
     <! -- Omitted ...-->
@@ -177,9 +177,9 @@ For example, if you want to use ``tomcat:10.1.28-jre17-temurin-jammy`` for your 
 
 .. tip::
 
-  In the blank project, the base image is specified with a Docker image tag. In this case, the latest version of the specified image will be selected.
-  If a different version is selected than at the time of verification, it may affect the operation of the application.
-  Therefore, it is recommended to specify the base image as a digest in order to specify exactly which version, after the test is completed.
+  In a blank project, the base image is specified by a Docker image tag, but if the image pointed to by the tag is changed, a different version of the image
+  from that at the time of verification may be selected, which may affect the operation of the application.
+  Therefore, it is recommended to specify the base image as a digest to fix the version once testing in the project is complete.
 
 
   An example of setting by digest is shown below.
