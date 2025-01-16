@@ -515,11 +515,25 @@ Nablarchではバリデーション定義は自動生成したモデルと同じ
 
 
 OpenAPIドキュメントと生成されるソースコードの例
-------------------------------------------------
+---------------------------------------------------
 
 以下に、OpenAPIドキュメントと生成されるソースコードの例を記載する。
 
-なお、記載しているOpenAPIドキュメントと生成されるソースコードの例は、イメージを掴むことを目的とするため抜粋しての記載としている。
+ソースコード生成時の本ツールの設定例は以下とする。この設定と異なる設定項目が必要になる例では、本ツールの設定例も併記する。
+
+.. code-block:: xml
+
+            <configuration>
+              <inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
+              <generatorName>nablarch-jaxrs</generatorName>
+              <configOptions>
+                <sourceFolder>src/gen/java</sourceFolder>
+                <apiPackage>com.example.api</apiPackage>
+                <modelPackage>com.example.model</modelPackage>
+              </configOptions>
+            </configuration>
+
+なお、記載している各種例はイメージを掴むことを目的とするため抜粋での記載としている。
 
 **OpenAPIドキュメントのパスおよびオペレーションの定義とソースコードの生成例**
 
@@ -807,6 +821,22 @@ OpenAPIドキュメント例
           description: 終了日
           type: string
 
+本ツールの設定例
+
+.. code-block:: xml
+
+            <configuration>
+              <inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
+              <generatorName>nablarch-jaxrs</generatorName>
+              <configOptions>
+                <sourceFolder>src/gen/java</sourceFolder>
+                <apiPackage>com.example.api</apiPackage>
+                <modelPackage>com.example.model</modelPackage>
+                <!-- Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能を使用する場合はuseBeanValidationにtrueを指定する -->
+                <useBeanValidation>true</useBeanValidation>
+              </configOptions>
+            </configuration>
+
 本ツールにより生成されるリソース(アクション)インターフェース例
 
 .. code-block:: java
@@ -827,6 +857,7 @@ OpenAPIドキュメント例
       @POST
       @Consumes({ "application/json" })
       @Produces({ "application/json" })
+      // HTTPボディでリクエストを受け取る場合に@Validアノテーションが付与される
       @Valid
       EntityResponse<ProjectResponse> createProject(ProjectCreateRequest projectCreateRequest, JaxRsHttpRequest jaxRsHttpRequest, ExecutionContext context);
 
