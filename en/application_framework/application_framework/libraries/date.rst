@@ -69,6 +69,8 @@ To use the business date management function,
 add :java:extdoc:`BasicBusinessDateProvider <nablarch.core.date.BasicBusinessDateProvider>` configuration to the component definition. 
 Specify the component name as  **businessDateProvider**.
 
+Also, since initialization is required, set it in the list to be initialized.
+
 .. code-block:: xml
 
  <component name="businessDateProvider" class="nablarch.core.date.BasicBusinessDateProvider">
@@ -82,6 +84,16 @@ Specify the component name as  **businessDateProvider**.
    <property name="defaultSegment" value="00"/>
    <!-- Transaction manager used for database access -->
    <property name="transactionManager" ref="transactionManager" />
+ </component>
+
+ <component name="initializer"
+     class="nablarch.core.repository.initialization.BasicApplicationInitializer">
+   <property name="initializeList">
+     <list>
+       <!-- Other components are omitted -->
+       <component-ref name="businessDateProvider" />
+     </list>
+   </property>
  </component>
 
 Acquire business date

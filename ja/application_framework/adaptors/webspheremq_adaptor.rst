@@ -58,7 +58,7 @@ IBM MQの仕様及び構築手順などは、IBM社のオフィシャルサイ�
     <property name="initializeList">
       <list>
         <!-- WmqMessagingProviderは初期化が必要 -->
-        <component-ref name="tableIdGenerator" />
+        <component-ref name="wmqMessagingProvider" />
       </list>
     </property>
   </component>

@@ -69,6 +69,8 @@ To use the service availability check,
 add the definition of :java:extdoc:`BasicServiceAvailability <nablarch.common.availability.BasicServiceAvailability>` to the component configuration file.
 Specify the component name as **serviceAvailability**.
 
+Also, since initialization is required, set it in the list to be initialized.
+
 .. code-block:: xml
 
  <component name="serviceAvailability" class="nablarch.common.availability.BasicServiceAvailability">
@@ -82,6 +84,16 @@ Specify the component name as **serviceAvailability**.
    <property name="requestTableServiceAvailableOkStatus" value="1"/>
    <!-- Transaction manager used for database access -->
    <property name="dbManager" ref="serviceAvailabilityDbManager"/>
+ </component>
+
+ <component name="initializer"
+     class="nablarch.core.repository.initialization.BasicApplicationInitializer">
+   <property name="initializeList">
+     <list>
+       <!-- Other components are omitted -->
+       <component-ref name="serviceAvailability" />
+     </list>
+   </property>
  </component>
 
 .. _`service_availability-check`:
