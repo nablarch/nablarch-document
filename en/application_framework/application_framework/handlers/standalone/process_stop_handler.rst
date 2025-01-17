@@ -66,6 +66,7 @@ A configuration example is shown below.
 Point
   * When used in the On-demand batch, configure this handler on the subthread.
   * Configure this handler on the main thread when used in the resident batch.
+  * Configure this handler in the list of initialization targets as it needs to be initialized.
 
 .. code-block:: xml
 
@@ -83,4 +84,14 @@ Point
 
     <!-- Exit code when the process is stopped (optional) -->
     <property name="exitCode" value="50" />
+  </component>
+
+  <component name="initializer"
+      class="nablarch.core.repository.initialization.BasicApplicationInitializer">
+    <property name="initializeList">
+      <list>
+        <!-- Other components are omitted -->
+        <component-ref name="processStopHandler" />
+      </list>
+    </property>
   </component>

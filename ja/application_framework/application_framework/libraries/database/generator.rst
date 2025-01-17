@@ -92,6 +92,13 @@
 
 .. code-block:: xml
 
+  <!-- テーブル採番モジュールの設定 -->
+  <component name="tableIdGenerator" class="nablarch.common.idgenerator.TableIdGenerator">
+    <property name="tableName" value="GENERATOR" />
+    <property name="idColumnName" value="ID" />
+    <property name="noColumnName" value="NO" />
+  </component>
+
   <component name="daoContextFactory" class="nablarch.common.dao.BasicDaoContextFactory">
     <!-- シーケンス採番の設定 -->
     <property name="sequenceIdGenerator">
@@ -99,15 +106,19 @@
     </property>
 
     <!-- テーブル採番の設定 -->
-    <property name="tableIdGenerator">
-      <component class="nablarch.common.idgenerator.TableIdGenerator">
-          <property name="tableName" value="GENERATOR" />
-          <property name="idColumnName" value="ID" />
-          <property name="noColumnName" value="NO" />
-      </component>
-    </property>
+    <property name="tableIdGenerator" ref="tableIdGenerator" />
 
     <!-- 採番に関係のない設定は省略 -->
+  </component>
+
+  <component name="initializer"
+      class="nablarch.core.repository.initialization.BasicApplicationInitializer">
+    <property name="initializeList">
+      <list>
+        <!-- TableIdGeneratorは初期化が必要 -->
+        <component-ref name="tableIdGenerator" />
+      </list>
+    </property>
   </component>
 
 拡張例

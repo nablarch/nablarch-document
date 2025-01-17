@@ -31,6 +31,7 @@ IBM MQの仕様及び構築手順などは、IBM社のオフィシャルサイ�
 
 1.  ``nablarch.integration.messaging.wmq.provider.WmqMessagingProvider`` をコンポーネント設定ファイルに定義を追加する。
 2. ``1`` で設定した、 ``WmqMessagingProvider`` を :ref:`messaging_context_handler` に設定する。
+3. ``1`` で設定した、 ``WmqMessagingProvider`` は初期化が必要なので初期化対象のリストに設定する。
 
 
 以下に設定例を示す。
@@ -50,6 +51,16 @@ IBM MQの仕様及び構築手順などは、IBM社のオフィシャルサイ�
   -->
   <component class="nablarch.fw.messaging.handler.MessagingContextHandler">
     <property name="messagingProvider" ref="wmqMessagingProvider" />
+  </component>
+
+  <component name="initializer"
+      class="nablarch.core.repository.initialization.BasicApplicationInitializer">
+    <property name="initializeList">
+      <list>
+        <!-- WmqMessagingProviderは初期化が必要 -->
+        <component-ref name="wmqMessagingProvider" />
+      </list>
+    </property>
   </component>
 
 分散トランザクションを使用する

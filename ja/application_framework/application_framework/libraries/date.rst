@@ -70,6 +70,8 @@
 :java:extdoc:`BasicBusinessDateProvider <nablarch.core.date.BasicBusinessDateProvider>` の設定をコンポーネント定義に追加する。
 コンポーネント名には **businessDateProvider** と指定する。
 
+また初期化が必要なので、初期化対象のリストに設定すること。
+
 .. code-block:: xml
 
  <component name="businessDateProvider" class="nablarch.core.date.BasicBusinessDateProvider">
@@ -83,6 +85,16 @@
    <property name="defaultSegment" value="00"/>
    <!-- データベースアクセスに使用するトランザクションマネージャ -->
    <property name="transactionManager" ref="transactionManager" />
+ </component>
+
+ <component name="initializer"
+     class="nablarch.core.repository.initialization.BasicApplicationInitializer">
+   <property name="initializeList">
+     <list>
+       <!-- 他のコンポーネントは省略 -->
+       <component-ref name="businessDateProvider" />
+     </list>
+   </property>
  </component>
 
 業務日付を取得する

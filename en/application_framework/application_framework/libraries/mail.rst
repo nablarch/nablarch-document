@@ -667,3 +667,13 @@ A configuration example for this case is shown below.
       <!-- Specify the transaction name specified in the transaction manager  -->
       <property name="dbTransactionName" value="mail-transaction" />
   </component>
+
+  <component name="initializer"
+      class="nablarch.core.repository.initialization.BasicApplicationInitializer">
+    <property name="initializeList">
+      <list>
+        <!-- TableIdGenerator requires initialization -->
+        <component-ref name="mailRequestIdGenerator" />
+      </list>
+    </property>
+  </component>

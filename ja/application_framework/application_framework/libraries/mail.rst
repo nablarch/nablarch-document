@@ -665,3 +665,13 @@
       <!-- トランザクションマネージャで指定したトランザクション名を指定 -->
       <property name="dbTransactionName" value="mail-transaction" />
   </component>
+
+  <component name="initializer"
+      class="nablarch.core.repository.initialization.BasicApplicationInitializer">
+    <property name="initializeList">
+      <list>
+        <!-- TableIdGeneratorは初期化が必要 -->
+        <component-ref name="mailRequestIdGenerator" />
+      </list>
+    </property>
+  </component>
