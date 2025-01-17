@@ -66,6 +66,7 @@
 ポイント
   * 都度起動バッチで使用する場合、本ハンドラはサブスレッド側に設定する。
   * 常駐バッチで使用する場合、本ハンドラはメインスレッド側に設定する。
+  * 初期化が必要なので初期化対象のリストに設定する。
 
 .. code-block:: xml
 
@@ -83,4 +84,14 @@
 
     <!-- プロセス停止時の終了コード(任意) -->
     <property name="exitCode" value="50" />
+  </component>
+
+  <component name="initializer"
+      class="nablarch.core.repository.initialization.BasicApplicationInitializer">
+    <property name="initializeList">
+      <list>
+        <!-- 他のコンポーネントは省略 -->
+        <component-ref name="processStopHandler" />
+      </list>
+    </property>
   </component>

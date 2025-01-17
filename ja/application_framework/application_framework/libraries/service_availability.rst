@@ -69,6 +69,8 @@
 :java:extdoc:`BasicServiceAvailability <nablarch.common.availability.BasicServiceAvailability>` の定義をコンポーネント設定ファイルに追加する。
 コンポーネント名には **serviceAvailability** と指定する。
 
+また初期化が必要なので、初期化対象のリストに設定する。
+
 .. code-block:: xml
 
  <component name="serviceAvailability" class="nablarch.common.availability.BasicServiceAvailability">
@@ -82,6 +84,16 @@
    <property name="requestTableServiceAvailableOkStatus" value="1"/>
    <!-- データベースアクセスに使用するトランザクションマネージャ -->
    <property name="dbManager" ref="serviceAvailabilityDbManager"/>
+ </component>
+
+ <component name="initializer"
+     class="nablarch.core.repository.initialization.BasicApplicationInitializer">
+   <property name="initializeList">
+     <list>
+       <!-- 他のコンポーネントは省略 -->
+       <component-ref name="serviceAvailability" />
+     </list>
+   </property>
  </component>
 
 .. _`service_availability-check`:
