@@ -224,7 +224,7 @@ Use as CLI
 
 This tool is assumed to be used as a Maven plugin. However, it can also be used as a CLI. Here we will introduce how to use it as a CLI as a supplement.
 
-To run it as a CLI, download the `OpenAPI Generator 7.10.0 JAR file (external site) <https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.10.0/openapi-generator-cli-7.10.0.jar>`_ and `this tool's JAR file (external site) <https://repo1.maven.org/maven2/com/nablarch/tool/nablarch-openapi-generator/1.0.0/nablarch-openapi-generator-1.0.0.jar>`_  , and run it with the java command. An example of execution is shown below.
+To run it as a CLI, download the `OpenAPI Generator 7.10.0 JAR file(external site) <https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.10.0/openapi-generator-cli-7.10.0.jar>`_ and `this tool's JAR file(external site) <https://repo1.maven.org/maven2/com/nablarch/tool/nablarch-openapi-generator/1.0.0/nablarch-openapi-generator-1.0.0.jar>`_  , and run it with the java command. An example of execution is shown below.
 
 .. code-block:: text
 
@@ -420,10 +420,18 @@ OpenAPI data types( ``type`` )      OpenAPI format( ``format`` )             Mod
 
 .. _openapi_property_to_bean_validation:
 
-Specifications for OpenAPI document validation and validation function compliant with Jakarta Bean Validation of Jakarta EE
-=============================================================================================================================
+Validation definition of OpenAPI document and validation function compliant with Jakarta Bean Validation of Jakarta EE specifications
+=======================================================================================================================================
 
-In this tool, the default value of ``useBeanValidation`` is ``false``, so regardless of the definition in the OpenAPI document, annotations used in :ref:`validation function compliant with Jakarta Bean Validation of Jakarta EE<bean_validation>` will not be added by default. However, if you set it to ``true``, annotations will be added to properties according to the following correspondence table.
+In this tool, the default value of ``useBeanValidation`` is ``false``, so by default, annotations used in :ref:`validation function compliant with Jakarta Bean Validation of Jakarta EE<bean_validation>` will not be added regardless of the definition in the OpenAPI document. However, if you set it to ``true``, annotations will be added to properties according to the following two policies depending on the contents of the OpenAPI document.
+
+* Validation corresponding to properties defined in the OpenAPI specification
+* Validation corresponding to the extended properties specified by this tool
+
+Validation corresponding to properties defined in the OpenAPI specification
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When validation is defined using `properties defined in the OpenAPI specification(external site) <https://spec.openapis.org/oas/v3.0.3.html#properties>`_ , annotations should be added according to the following table.
 
 =================================== ======================================== ========================================== ============================================================================================================
 OpenAPI data types( ``type`` )      OpenAPI format( ``format`` )             Properties used in OpenAPI                 Annotations for validation
@@ -455,13 +463,43 @@ OpenAPI data types( ``type`` )      OpenAPI format( ``format`` )             Pro
   * If the Java data type is ``java.math.BigDecimal`` , ``java.util.List`` , ``java.util.Set`` , or a model, annotate with ``Valid`` annotation.
   * Only :java:extdoc:`Pattern<jakarta.validation.constraints.Pattern>` is annotated with Jakarta Bean Validation standard annotations, and the rest are annotated with annotations of :ref:`validation function compliant with Jakarta Bean Validation of Jakarta EE<bean_validation>` provided by Nablarch.
 
+Validation corresponding to the extended properties specified by this tool
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This tool uses `extension of the OpenAPI specification(external site) <https://spec.openapis.org/oas/v3.0.3.html#specification-extensions>`_ to support validation that cannot be expressed by the OpenAPI specification.
+
+For extension specification, use ``x-nablarch-validations`` and annotate the annotation according to the correspondence table below.
+
+============================================================ ==================== ==============================  ================================================================================
+Properties to be specified under ``x-nablarch-validations``  Configurable items   Available OpenAPI data types    Annotations for validation
+============================================================ ==================== ==============================  ================================================================================
+``domain``                                                   Domain name          any                             :java:extdoc:`Domain("{Domain name}") <nablarch.core.validation.ee.Domain>`
+============================================================ ==================== ==============================  ================================================================================
+
+.. important::
+
+  By specifying ``domain``, you can :ref:`bean_validation-domain_validation` . Here are some notes on using it.
+  
+  Since domain validation can contain various validation rules, if validation definitions that may conflict are detected, source code generation is stopped. This is because if the same validation rule as that included in the domain is specified, duplicate validation will be performed.
+
+  Specifically, if any of ``minimum`` , ``maximum`` , ``minLength`` , ``maxLength`` , ``minItems`` , ``maxItems`` , or ``pattern`` is specified for a property that has ``x-nablarch-validations.domain`` specified, source code generation will be stopped.
+
+  ``required`` indicates a required item and is not enforced by the domain, so it can be used in combination.
+
+  Also, when using domain validation, please note that the validation rules are hidden on the domain side, so the validation specifications may not be visible from the OpenAPI document.
+
+Operational precautions regarding validation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This section describes precautions to take when using this tool to generate source code that includes validation definitions.
+
 .. important::
 
   Within the scope of the OpenAPI specification, only required definitions, length checks, and regular expression checks are possible.
 
-  This is expected to be insufficient for validating business applications.
+  Furthermore, since it is not desirable to directly modify the generated source code, correlation validation cannot be implemented in the generated model even if domain validation is used.
 
-  For this reason, it is necessary to note that validation requirements cannot be met within the scope of the OpenAPI specification and a separate implementation is required, which results in a situation where validation definitions are likely to be scattered between automatically generated Models and manually implemented Forms, etc.
+  For this reason, the validation requirements cannot be satisfied within the scope of the OpenAPI specification and this tool, and a separate implementation is required. As a result, it should be noted that the validation definitions are likely to be distributed between the generated model and manually implemented forms, etc.
 
 In Nablarch, validation definitions are assumed to be created by creating Forms etc. with the same definition as the automatically generated Model, copying property values using :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` , and then performing validation.
 
@@ -477,11 +515,11 @@ The concept is similar to :ref:`bean_validation-execute_explicitly` and the impl
       @Override
       public EntityResponse<ProjectResponse> createProject(ProjectCreateRequest projectCreateRequest, JaxRsHttpRequest jaxRsHttpRequest, ExecutionContext context) {
           // A form with the same property definition as the Model, with single-item validation and correlation validation added
-          ProjectForm form;
+          ProjectCreateForm form;
 
           try {
               // Explicitly run validation after copying values f​From the Model to the Form in a utility class
-              form = ProjectValidatorUtil.validate(ProjectForm.class, projectCreateRequest);
+              form = ProjectValidatorUtil.validate(ProjectCreateForm.class, projectCreateRequest);
           } catch (ApplicationException e) {
               // Perform any processing when a validation error occurs
               // ...
@@ -953,6 +991,97 @@ Example of a model generated by this tool
       @JsonProperty("endDate")
       public void setEndDate(LocalDate endDate) {
           this.endDate = endDate;
+      }
+
+      // hashCode, equals, toString, etc. are omitted.
+  }
+
+**Example of source code generation for validation using the extension specifications defined by this tool**
+
+Example OpenAPI document
+
+.. code-block:: yaml
+
+  ## Paths and Operations
+  /projects:
+    post:
+      tags:
+      - project
+      summary: Create a project
+      description: Create a project
+      operationId: createProject
+      requestBody:
+        description: Project Creation Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectCreateRequest'
+      responses:
+        "200":
+          description: Information about the created project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+
+    ## Scheme
+    ProjectCreateRequest:
+      description: Project Create Request
+      required:
+      - projectName
+      - projectType
+      - startDate
+      type: object
+      properties:
+        projectName:
+          description: Project name
+          type: string
+          x-nablarch-validations:
+            domain: "projectName"
+
+Example of settings for this tool
+
+.. code-block:: xml
+
+            <configuration>
+              <inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
+              <generatorName>nablarch-jaxrs</generatorName>
+              <configOptions>
+                <sourceFolder>src/gen/java</sourceFolder>
+                <apiPackage>com.example.api</apiPackage>
+                <modelPackage>com.example.model</modelPackage>
+                <!-- If you want to use validation function complies with Jakarta Bean Validation of Jakarta EE, specify true for useBeanValidation. -->
+                <useBeanValidation>true</useBeanValidation>
+              </configOptions>
+            </configuration>
+
+Example of a model generated by this tool
+
+.. code-block:: java
+
+  @JsonTypeName("ProjectCreateRequest")
+  @jakarta.annotation.Generated(value = "nablarch.tool.openapi.codegen.JavaNablarchJaxrsServerCodegen", date = "2024-12-10T13:54:26.470544738+09:00[Asia/Tokyo]", comments = "Generator version: 7.10.0")
+  public class ProjectCreateRequest   {
+    private String projectName;
+  
+      /**
+       * Project name
+       */
+      public ProjectCreateRequest projectName(String projectName) {
+          this.projectName = projectName;
+          return this;
+      }
+  
+      
+      @JsonProperty("projectName")
+      @Required @Domain("projectName")
+      public String getProjectName() {
+          return projectName;
+      }
+  
+      @JsonProperty("projectName")
+      public void setProjectName(String projectName) {
+          this.projectName = projectName;
       }
 
       // hashCode, equals, toString, etc. are omitted.
