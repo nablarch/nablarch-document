@@ -40,7 +40,7 @@ The general-purpose utility classes provided by this framework that can be used 
 
   * - :java:extdoc:`Base64Util <nablarch.core.util.Base64Util>`
     - nablarch-core
-    - Provides the functions for Base 64 encoding
+    - Provides the functions for Base 64 encoding. :java:extdoc:`Standard APIs for Base64 encoding <java.util.Base64>` have been provided since Java 8, and this utility exists for backward compatibility.
 
   * - :java:extdoc:`BinaryUtil <nablarch.core.util.BinaryUtil>`
     - nablarch-fw-web-extension
