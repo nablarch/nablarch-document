@@ -17,7 +17,7 @@ Since Java 18, the standard encoding is UTF-8, making it environment independent
 * ``-Dfile.encoding=COMPAT``
 
 .. tip::
-  When running from Maven, the environment variable `MAVEN_OPTS (external site) <https://maven.apache.org/configure.html#maven_opts-environment-variable>`_ can be used to set the JVM options. However, ``Picked up MAVEN_OPTS: -Dfile.encoding=COMPAT`` is displayed in the log.
+  When running from Maven, the environment variable `MAVEN_OPTS (external site) <https://maven.apache.org/configure.html#MAVEN_OPTS_environment_variable.3A>`_ can be used to set the JVM options. However, ``Picked up MAVEN_OPTS: -Dfile.encoding=COMPAT`` is displayed in the log.
   Please note that the settings for JVM options may differ depending on Maven plugin.(For example, in maven-surefire-plugin that runs the test, it needs to be specified in ``argLine`` in plugin settings in pom.xml)
 
 .. important::
