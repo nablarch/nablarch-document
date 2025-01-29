@@ -1034,6 +1034,7 @@ OpenAPIドキュメント例
         projectName:
           description: プロジェクト名
           type: string
+          ## ドメインバリデーションの使用
           x-nablarch-domain: "projectName"
 
 本ツールの設定例
