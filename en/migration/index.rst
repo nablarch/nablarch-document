@@ -11,6 +11,7 @@ This document will explain how to migration a project created with Nablarch 5 to
 .. important::
   Nablarch 6 version 6/6u1 is a pre-release version, and 6u2 will be the first version after the official release.
   Therefore, the procedures described here assume that you are upgrading from the latest version of Nablarch 5 to Nablarch 6u2.
+  In addition, the gsp-dba-maven-plugin that is preinstalled in projects created from archetypes assumes the use of 5.1.0, which was released together with 6u2.
   When upgrading to 6u3 or later, additional steps may be required in addition to those explained here.
   Be sure to check the upgrade procedure by referring to the release notes for 6u3 or later in order.
 
@@ -440,7 +441,7 @@ Update gsp-dba-maven-plugin
 This plugin provides a function (``generate-entity``) to generate Java entity classes from database table metadata.
 Since Java EE annotations such as JPA are set in this entity class, it cannot be used as is in the Jakarta EE environment.
 
-Since gsp-dba-maven-plugin is compatible with Jakarta EE in 5.0.0, change ``<version>`` of gsp-dba-maven-plugin in ``pom.xml``.
+Since gsp-dba-maven-plugin is compatible with Jakarta EE and Nablarch 6u2 in 5.1.0, change ``<version>`` of gsp-dba-maven-plugin in ``pom.xml``.
 
 .. code-block:: xml
 
