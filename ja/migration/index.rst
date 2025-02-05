@@ -11,6 +11,7 @@ Nablarch 5から6への移行ガイド
 .. important::
   Nablarch 6のバージョン 6/6u1 は先行リリースバージョンであり、6u2が正式リリース後の最初のバージョンとなる。
   そのため、ここで説明する手順は、Nablarch 5の最新バージョンからNablarch 6u2へのバージョンアップを前提としている。
+  またアーキタイプから作ったプロジェクトなどに組み込まれているgsp-dba-maven-pluginは、6u2と合わせてリリースされた5.1.0の使用を前提としている。
   6u3以降へバージョンアップする場合は、ここで説明する手順以外にも追加の手順が必要となる場合があるため、6u3以降のリリースノートを順に参照してバージョンアップ手順を必ず確認すること。
 
 Nablarch 5と6で大きく異なる点
@@ -439,7 +440,7 @@ nablarch-example-webをはじめ、アーキタイプから作ったプロジェ
 このプラグインは、データベーステーブルのメタデータからJavaのエンティティクラスを生成する機能(``generate-entity``)を提供している。
 このエンティティクラスにはJPAなどのJava EEのアノテーションが設定されるため、そのままではJakarta EE環境で使用できない。
 
-gsp-dba-maven-pluginは5.0.0でJakarta EE対応が入ったので、 ``pom.xml`` でgsp-dba-maven-pluginの ``<version>`` を変更する。
+gsp-dba-maven-pluginは5.1.0でJakarta EEおよびNablarch 6u2へ対応したので、 ``pom.xml`` でgsp-dba-maven-pluginの ``<version>`` を変更する。
 
 .. code-block:: xml
 
