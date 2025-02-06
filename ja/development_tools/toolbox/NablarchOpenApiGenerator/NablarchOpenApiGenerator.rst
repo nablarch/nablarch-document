@@ -177,7 +177,7 @@ OpenAPI GeneratorのMavenプラグインの主要な設定項目を以下に示�
                                      インターフェースを実装する。
 ``generateBuilders``                 モデルに対するビルダークラスを生成する。                                                                ``false``
 ``useBeanValidation``                OpenAPIドキュメントのバリデーション定義から、|br|                                                       ``false``
-                                     :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` を使った |br|
+                                     :ref:`bean_validation` の機能を使った |br|
                                      バリデーションを行うようにソースコードを生成する。
 ``additionalModelTypeAnnotations``   生成するモデルのクラス宣言に追加のアノテーションを注釈する。 |br|                                       なし
                                      複数のアノテーションを追加する場合は ``;`` 区切りで指定する。
@@ -191,10 +191,10 @@ OpenAPI GeneratorのMavenプラグインの主要な設定項目を以下に示�
                                      とするメディアタイプを ``,`` 区切りで指定する。
 ==================================== ======================================================================================================= =====================================================================
 
-Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能を使用するソースコードを生成する
-============================================================================================================
+Bean Validationを使用するソースコードを生成する
+==================================================
 
-:ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` を使用するようにソースコードを生成する場合は、 ``useBeanValidation`` の値を ``true`` に設定する。
+:ref:`bean_validation` を使用するようにソースコードを生成する場合は、 ``useBeanValidation`` の値を ``true`` に設定する。
 
 以下に設定例を示す。
 
@@ -209,12 +209,12 @@ Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能�
                 <apiPackage>com.example.api</apiPackage>
                 <modelPackage>com.example.model</modelPackage>
 
-                <!-- Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能を使ったソースコードを生成する -->
+                <!-- Bean Validationを使用するソースコードを生成する -->
                 <useBeanValidation>true</useBeanValidation>
               </configOptions>
             </configuration>
 
-``useBeanValidation`` のデフォルト値は ``false`` のため、デフォルトでは :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` の機能を使用するアノテーションは注釈されない。
+``useBeanValidation`` のデフォルト値は ``false`` のため、デフォルトでは :ref:`bean_validation` の機能を使用するアノテーションは注釈されない。
 
 これは、OpenAPI仕様にて規定されてるバリデーション定義では業務要件を満たせないことが多く、また相関バリデーションの定義も行えないためである。
 
@@ -345,8 +345,8 @@ CLIとして実行するには、 `OpenAPI Generator 7.10.0のJARファイル(�
 * OpenAPIドキュメントのスキーマに定義されたフィールドに対応するプロパティを生成する。
 * プロパティに対するgetterおよびsetterを生成し、 ``JsonProperty`` アノテーションを注釈する。
 * プロパティの値を設定してモデル自身の型を返す、メソッドチェインが可能なメソッドを生成する。
-* ``useBeanValidation`` が ``true`` かつOpenAPIドキュメントにバリデーション定義がある場合、 :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` を使ったバリデーションを有効にする。
-* バリデーションで使用するアノテーションは、Nablarchの提供する :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` およびJakarta EE標準の :java:extdoc:`jakarta.validation.constraints` パッケージのものを使用する。
+* ``useBeanValidation`` が ``true`` かつOpenAPIドキュメントにバリデーション定義がある場合、 :ref:`bean_validation` を使用したバリデーションを有効にする。
+* バリデーションで使用するアノテーションは、Nablarchの提供する :ref:`bean_validation` 固有のものとJakarta EE標準の :java:extdoc:`jakarta.validation.constraints` パッケージのものを使用する。
 
 OpenAPIドキュメントでのデータ型やフォーマットとJavaのデータ型との対応仕様は :ref:`openapi_datatypes_format_to_java_datatypes` 、バリデーション定義とバリデーションで使用するアノテーションの対応仕様は :ref:`openapi_property_to_bean_validation` に記載する。
 
@@ -423,10 +423,10 @@ OpenAPIでのデータ型( ``type`` )     OpenAPIでのフォーマット( ``for
 
 .. _openapi_property_to_bean_validation:
 
-OpenAPIドキュメントのバリデーション定義とJakarta EEのJakarta Bean Validationに準拠したバリデーション機能の対応仕様
-===================================================================================================================
+OpenAPIドキュメントのバリデーション定義とBean Validationの対応仕様
+=======================================================================
 
-本ツールでは ``useBeanValidation`` のデフォルト値が ``false`` のためOpenAPIドキュメントの定義に関わらずデフォルトでは :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` で使用するアノテーションは注釈しないが、 ``true`` とした場合はOpenAPIドキュメントの記述内容によって以下の2つの方針でプロパティにアノテーションを注釈する。
+本ツールでは ``useBeanValidation`` のデフォルト値が ``false`` のためOpenAPIドキュメントの定義に関わらずデフォルトでは :ref:`bean_validation` で使用するアノテーションは注釈しないが、 ``true`` とした場合はOpenAPIドキュメントの記述内容によって以下の2つの方針でプロパティにアノテーションを注釈する。
 
 * OpenAPI仕様にて規定されているプロパティに対応するバリデーション
 * ドメインバリデーション
@@ -464,7 +464,7 @@ OpenAPIでのデータ型( ``type`` )     OpenAPIでのフォーマット( ``for
   * ``multipleOf`` 、 ``exclusiveMinimum`` 、 ``exclusiveMaximum`` 、 ``minProperties`` 、 ``maxProperties`` には対応していない。
   * ``minimum`` および ``maximum`` 、 ``minLength`` および ``maxLength`` 、 ``minItems`` および ``maxItems`` はどちらか片方だけでも指定可能。
   * Javaのデータ型が ``java.math.BigDecimal`` 、 ``java.util.List`` 、 ``java.util.Set`` またはモデルの場合は ``Valid`` アノテーションを注釈する。
-  * :java:extdoc:`Pattern<jakarta.validation.constraints.Pattern>` のみJakarta Bean Validation標準のアノテーションを注釈し、それ以外はNablarchの提供する :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` のアノテーションを注釈する。
+  * :java:extdoc:`Pattern<jakarta.validation.constraints.Pattern>` のみJakarta Bean Validation標準のアノテーションを注釈し、それ以外はNablarchの提供する :ref:`bean_validation` 固有のアノテーションを注釈する。
 
 ドメインバリデーション
 +++++++++++++++++++++++++
@@ -813,7 +813,7 @@ OpenAPIドキュメント例
       // hashCode、equals、toString等は省略
   }
 
-Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能を使用するソースコードの生成例
+Bean Validationを使用するソースコードの生成例
 ====================================================================================================
 
 OpenAPIドキュメント例
@@ -881,7 +881,7 @@ OpenAPIドキュメント例
                 <sourceFolder>src/gen/java</sourceFolder>
                 <apiPackage>com.example.api</apiPackage>
                 <modelPackage>com.example.model</modelPackage>
-                <!-- Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能を使用する場合はuseBeanValidationにtrueを指定する -->
+                <!-- Bean Validationを使用する場合はuseBeanValidationにtrueを指定する -->
                 <useBeanValidation>true</useBeanValidation>
               </configOptions>
             </configuration>
@@ -1060,7 +1060,7 @@ OpenAPIドキュメント例
                 <sourceFolder>src/gen/java</sourceFolder>
                 <apiPackage>com.example.api</apiPackage>
                 <modelPackage>com.example.model</modelPackage>
-                <!-- Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能を使用する場合はuseBeanValidationにtrueを指定する -->
+                <!-- Bean Validationを使用する場合はuseBeanValidationにtrueを指定する -->
                 <useBeanValidation>true</useBeanValidation>
               </configOptions>
             </configuration>
