@@ -5,7 +5,7 @@ Nablarch OpenAPI Generator
 ====================================================
 
 .. contents:: 目次
-  :depth: 2
+  :depth: 3
   :local:
 
 ツールの概要
@@ -177,7 +177,7 @@ OpenAPI GeneratorのMavenプラグインの主要な設定項目を以下に示�
                                      インターフェースを実装する。
 ``generateBuilders``                 モデルに対するビルダークラスを生成する。                                                                ``false``
 ``useBeanValidation``                OpenAPIドキュメントのバリデーション定義から、|br|                                                       ``false``
-                                     :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` を使った |br|
+                                     :ref:`bean_validation` の機能を使った |br|
                                      バリデーションを行うようにソースコードを生成する。
 ``additionalModelTypeAnnotations``   生成するモデルのクラス宣言に追加のアノテーションを注釈する。 |br|                                       なし
                                      複数のアノテーションを追加する場合は ``;`` 区切りで指定する。
@@ -191,10 +191,10 @@ OpenAPI GeneratorのMavenプラグインの主要な設定項目を以下に示�
                                      とするメディアタイプを ``,`` 区切りで指定する。
 ==================================== ======================================================================================================= =====================================================================
 
-Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能を使用するソースコードを生成する
-============================================================================================================
+Bean Validationを使用するソースコードを生成する
+==================================================
 
-:ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` を使用するようにソースコードを生成する場合は、 ``useBeanValidation`` の値を ``true`` に設定する。
+:ref:`bean_validation` を使用するようにソースコードを生成する場合は、 ``useBeanValidation`` の値を ``true`` に設定する。
 
 以下に設定例を示す。
 
@@ -209,14 +209,16 @@ Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能�
                 <apiPackage>com.example.api</apiPackage>
                 <modelPackage>com.example.model</modelPackage>
 
-                <!-- Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能を使ったソースコードを生成する -->
+                <!-- Bean Validationを使用するソースコードを生成する -->
                 <useBeanValidation>true</useBeanValidation>
               </configOptions>
             </configuration>
 
-``useBeanValidation`` のデフォルト値は ``false`` のため、デフォルトでは :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` の機能を使用するアノテーションは注釈されない。
+``useBeanValidation`` のデフォルト値は ``false`` のため、デフォルトでは :ref:`bean_validation` の機能を使用するアノテーションは注釈されない。
 
-``true`` を指定した場合のソースコード生成仕様や運用上の注意点は :ref:`openapi_property_to_bean_validation` を参照すること。
+これは、OpenAPI仕様にて規定されてるバリデーション定義では業務要件を満たせないことが多く、また相関バリデーションの定義も行えないためである。
+
+このような観点も含め、バリデーション機能を使用するようにソースコード生成する場合の仕様や運用上の注意点は :ref:`openapi_property_to_bean_validation` に詳細に記載しているので参照すること。
 
 .. _NablarchOpenApiGeneratorAsCli:
 
@@ -343,8 +345,8 @@ CLIとして実行するには、 `OpenAPI Generator 7.10.0のJARファイル(�
 * OpenAPIドキュメントのスキーマに定義されたフィールドに対応するプロパティを生成する。
 * プロパティに対するgetterおよびsetterを生成し、 ``JsonProperty`` アノテーションを注釈する。
 * プロパティの値を設定してモデル自身の型を返す、メソッドチェインが可能なメソッドを生成する。
-* ``useBeanValidation`` が ``true`` かつOpenAPIドキュメントにバリデーション定義がある場合、 :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` を使ったバリデーションを有効にする。
-* バリデーションで使用するアノテーションは、Nablarchの提供する :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` およびJakarta EE標準の :java:extdoc:`jakarta.validation.constraints` パッケージのものを使用する。
+* ``useBeanValidation`` が ``true`` かつOpenAPIドキュメントにバリデーション定義がある場合、 :ref:`bean_validation` を使用したバリデーションを有効にする。
+* バリデーションで使用するアノテーションは、Nablarchの提供する :ref:`bean_validation` 固有のものとJakarta EE標準の :java:extdoc:`jakarta.validation.constraints` パッケージのものを使用する。
 
 OpenAPIドキュメントでのデータ型やフォーマットとJavaのデータ型との対応仕様は :ref:`openapi_datatypes_format_to_java_datatypes` 、バリデーション定義とバリデーションで使用するアノテーションの対応仕様は :ref:`openapi_property_to_bean_validation` に記載する。
 
@@ -421,10 +423,18 @@ OpenAPIでのデータ型( ``type`` )     OpenAPIでのフォーマット( ``for
 
 .. _openapi_property_to_bean_validation:
 
-OpenAPIドキュメントのバリデーションとJakarta EEのJakarta Bean Validationに準拠したバリデーション機能の対応仕様
-==============================================================================================================
+OpenAPIドキュメントのバリデーション定義とBean Validationの対応仕様
+=======================================================================
 
-本ツールでは ``useBeanValidation`` のデフォルト値が ``false`` のためOpenAPIドキュメントの定義に関わらずデフォルトでは :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` で使用するアノテーションは注釈しないが、 ``true`` とした場合は以下の対応表に沿ってプロパティにアノテーションを注釈する。
+本ツールでは ``useBeanValidation`` のデフォルト値が ``false`` のためOpenAPIドキュメントの定義に関わらずデフォルトでは :ref:`bean_validation` で使用するアノテーションは注釈しないが、 ``true`` とした場合はOpenAPIドキュメントの記述内容によって以下の2つの方針でプロパティにアノテーションを注釈する。
+
+* OpenAPI仕様にて規定されているプロパティに対応するバリデーション
+* ドメインバリデーション
+
+OpenAPI仕様にて規定されているプロパティに対応するバリデーション
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+`OpenAPI仕様にて規定されているプロパティ(外部サイト、英語) <https://spec.openapis.org/oas/v3.0.3.html#properties>`_ を使用してバリデーション定義を行った場合、以下の対応表に沿ってアノテーションを注釈する。
 
 =================================== ======================================== ========================================== ============================================================================================================
 OpenAPIでのデータ型( ``type`` )     OpenAPIでのフォーマット( ``format`` )    OpenAPIで使用しているプロパティ            注釈するバリデーション用のアノテーション
@@ -454,17 +464,48 @@ OpenAPIでのデータ型( ``type`` )     OpenAPIでのフォーマット( ``for
   * ``multipleOf`` 、 ``exclusiveMinimum`` 、 ``exclusiveMaximum`` 、 ``minProperties`` 、 ``maxProperties`` には対応していない。
   * ``minimum`` および ``maximum`` 、 ``minLength`` および ``maxLength`` 、 ``minItems`` および ``maxItems`` はどちらか片方だけでも指定可能。
   * Javaのデータ型が ``java.math.BigDecimal`` 、 ``java.util.List`` 、 ``java.util.Set`` またはモデルの場合は ``Valid`` アノテーションを注釈する。
-  * :java:extdoc:`Pattern<jakarta.validation.constraints.Pattern>` のみJakarta Beab Validation標準のアノテーションを注釈し、それ以外はNablarchの提供する :ref:`Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能<bean_validation>` のアノテーションを注釈する。
+  * :java:extdoc:`Pattern<jakarta.validation.constraints.Pattern>` のみJakarta Bean Validation標準のアノテーションを注釈し、それ以外はNablarchの提供する :ref:`bean_validation` 固有のアノテーションを注釈する。
 
-.. important::
+ドメインバリデーション
++++++++++++++++++++++++++
 
-  OpenAPI仕様で規定されている範囲では、必須定義と長さチェック、正規表現によるチェックしか行えないため業務アプリケーションのバリデーションとしては不足することが想定される。
+本ツールでは、 `OpenAPI仕様の拡張プロパティ(外部サイト、英語) <https://spec.openapis.org/oas/v3.0.3.html#specification-extensions>`_ を使用してOpenAPI仕様では表現できない :ref:`bean_validation-domain_validation` ことをサポートする。
 
-  このため、OpenAPI仕様の範囲ではバリデーションの要件を満たすことができず別途実装が必要となり、結果として自動生成したモデルと手動で実装したフォーム等でバリデーション定義が分散されやすい状況になることに注意すること。
+拡張プロパティには ``x-nablarch-domain`` を使用し、値にはドメイン名を指定する。
 
-Nablarchではバリデーション定義は自動生成したモデルと同じ定義のフォーム等を作成し、 :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用してプロパティ値をコピー後、バリデーションを実施することを想定している。
+.. code-block:: yaml
 
-本ツールがデフォルトでバリデーション用のアノテーションを注釈しないのはこのためである。
+        propertyName:
+          type: string
+          x-nablarch-domain: "domainName"
+
+``useBeanValidation`` を ``true`` に指定してソースコードを生成すると、対象のプロパティに :java:extdoc:`Domain("{domainName}") <nablarch.core.validation.ee.Domain>` が注釈される。
+
+なお、ドメインバリデーションには様々なバリデーション定義を含めることができるため、 競合する可能性があるバリデーション定義を検出した場合はソースコードの生成を中止する。これは、ドメインに含まれているバリデーションルールと同じものが指定された場合、重複してバリデーションが行われることになるためである。
+  
+具体的には、 ``x-nablarch-domain`` を指定したプロパティに対して、 ``minimum`` 、 ``maximum`` 、 ``minLength`` 、 ``maxLength`` 、 ``minItems`` 、 ``maxItems`` 、 ``pattern`` のいずれかが指定されている場合はソースコードの生成を中止する。
+
+``required`` は必須項目を表しドメイン側で強制するものではないため、併用を可能とする。
+
+バリデーションに関する運用上の注意点
+========================================
+
+本ツールを使用して、バリデーション定義を含めたソースコードを生成する場合の運用上の注意点を記載する。
+
+OpenAPI仕様の規定範囲では項目単位や相関バリデーションの要求を満たせない場合の注意点
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+OpenAPI仕様で規定されているバリデーションは必須定義と長さチェック、正規表現によるチェックのみのため、業務アプリケーションが求めるものとしては不足することも想定される。
+
+また自動生成されたソースコードを直接修正することは望ましくないため、ドメインバリデーションを使用しても生成されたモデルに相関バリデーションを実装できない。
+
+このため、OpenAPI仕様や本ツールのカバー範囲ではバリデーションの要件を満たすことができず別途実装が必要となり、結果として自動生成したモデルと手動で実装したフォーム等でバリデーション定義が分散されやすい状況になることに注意すること。
+
+**自動生成したモデルにはバリデーション定義を含めない場合の実装方法**
+
+ここでは、バリデーション定義として自動生成したモデルと同じ定義のフォーム等を作成し、 :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` を使用してプロパティ値をコピー後、バリデーションを実施する方法を紹介する。
+
+本ツールがデフォルトでバリデーション用のアノテーションを注釈しないのは、前述のとおりバリデーション定義が分散される状況が生まれやすいことを想定しており、それは望ましくないと考えているからである。
 
 考え方としては :ref:`bean_validation-execute_explicitly` と同様で、実装イメージを以下に記載する。
 
@@ -476,11 +517,11 @@ Nablarchではバリデーション定義は自動生成したモデルと同じ
       @Override
       public EntityResponse<ProjectResponse> createProject(ProjectCreateRequest projectCreateRequest, JaxRsHttpRequest jaxRsHttpRequest, ExecutionContext context) {
           // モデルと同じプロパティ定義に、単項目バリデーションや相関バリデーションを加えたフォーム
-          ProjectForm form;
+          ProjectCreateForm form;
 
           try {
               // ユーティリティクラス内でモデルからフォームに値をコピーした後、バリデーションを明示的に実行する
-              form = ProjectValidatorUtil.validate(ProjectForm.class, projectCreateRequest);
+              form = ProjectValidatorUtil.validate(ProjectCreateForm.class, projectCreateRequest);
           } catch (ApplicationException e) {
               // バリデーションエラー時に任意の処理を行う
               // ...
@@ -512,7 +553,12 @@ Nablarchではバリデーション定義は自動生成したモデルと同じ
       }
   }
 
+ドメインバリデーションを使用する場合の注意点
+++++++++++++++++++++++++++++++++++++++++++++++++++
 
+ドメインバリデーションを使用すると、モデルのプロパティに対するドメインを定義することでバリデーション定義をまとめたりOpenAPI仕様でサポートしていないバリデーションを使用できる。
+
+ただしOpenAPI仕様でサポートしているバリデーション範囲も含めてバリデーション仕様がドメイン側に隠蔽されやすくなり、OpenAPIドキュメントからバリデーション仕様が見えなくなる可能性がある点に注意すること。
 
 OpenAPIドキュメントと生成されるソースコードの例
 ---------------------------------------------------
@@ -535,7 +581,8 @@ OpenAPIドキュメントと生成されるソースコードの例
 
 なお、記載している各種例はイメージを掴むことを目的とするため抜粋での記載としている。
 
-**OpenAPIドキュメントのパスおよびオペレーションの定義とソースコードの生成例**
+OpenAPIドキュメントのパスおよびオペレーションの定義とソースコードの生成例
+===========================================================================
 
 OpenAPIドキュメント例
 
@@ -624,7 +671,8 @@ OpenAPIドキュメント例
 
   }
 
-**OpenAPIドキュメントのスキーマの定義とソースコードの生成例**
+OpenAPIドキュメントのスキーマの定義とソースコードの生成例
+============================================================
 
 OpenAPIドキュメント例
 
@@ -765,7 +813,8 @@ OpenAPIドキュメント例
       // hashCode、equals、toString等は省略
   }
 
-**Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能を使用するソースコードの生成例**
+Bean Validationを使用するソースコードの生成例
+====================================================================================================
 
 OpenAPIドキュメント例
 
@@ -832,7 +881,7 @@ OpenAPIドキュメント例
                 <sourceFolder>src/gen/java</sourceFolder>
                 <apiPackage>com.example.api</apiPackage>
                 <modelPackage>com.example.model</modelPackage>
-                <!-- Jakarta EEのJakarta Bean Validationに準拠したバリデーション機能を使用する場合はuseBeanValidationにtrueを指定する -->
+                <!-- Bean Validationを使用する場合はuseBeanValidationにtrueを指定する -->
                 <useBeanValidation>true</useBeanValidation>
               </configOptions>
             </configuration>
@@ -958,7 +1007,98 @@ OpenAPIドキュメント例
       // hashCode、equals、toString等は省略
   }
 
-**ファイルアップロードの定義例**
+ドメインバリデーションを使用するソースコードの生成例
+=======================================================
+
+OpenAPIドキュメント例
+
+.. code-block:: yaml
+
+  ## パスおよびオペレーション
+  /projects:
+    post:
+      tags:
+      - project
+      summary: プロジェクトを作成する
+      description: プロジェクトを作成する
+      operationId: createProject
+      requestBody:
+        description: プロジェクト登録情報
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectCreateRequest'
+      responses:
+        "200":
+          description: project created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+
+    ## スキーマ
+    ProjectCreateRequest:
+      description: プロジェクト作成リクエスト
+      required:
+      - projectName
+      type: object
+      properties:
+        projectName:
+          description: プロジェクト名
+          type: string
+          ## ドメインバリデーションの使用
+          x-nablarch-domain: "projectName"
+
+本ツールの設定例
+
+.. code-block:: xml
+
+            <configuration>
+              <inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
+              <generatorName>nablarch-jaxrs</generatorName>
+              <configOptions>
+                <sourceFolder>src/gen/java</sourceFolder>
+                <apiPackage>com.example.api</apiPackage>
+                <modelPackage>com.example.model</modelPackage>
+                <!-- Bean Validationを使用する場合はuseBeanValidationにtrueを指定する -->
+                <useBeanValidation>true</useBeanValidation>
+              </configOptions>
+            </configuration>
+
+本ツールにより生成されるモデル例
+
+.. code-block:: java
+
+  @JsonTypeName("ProjectCreateRequest")
+  @jakarta.annotation.Generated(value = "nablarch.tool.openapi.codegen.JavaNablarchJaxrsServerCodegen", date = "2024-12-10T13:54:26.470544738+09:00[Asia/Tokyo]", comments = "Generator version: 7.10.0")
+  public class ProjectCreateRequest   {
+    private String projectName;
+  
+      /**
+       * プロジェクト名
+       */
+      public ProjectCreateRequest projectName(String projectName) {
+          this.projectName = projectName;
+          return this;
+      }
+  
+      
+      @JsonProperty("projectName")
+      @Required @Domain("projectName")
+      public String getProjectName() {
+          return projectName;
+      }
+  
+      @JsonProperty("projectName")
+      public void setProjectName(String projectName) {
+          this.projectName = projectName;
+      }
+
+      // hashCode、equals、toString等は省略
+  }
+
+ファイルアップロードの定義例
+==============================
 
 OpenAPIドキュメント例
 
@@ -1030,7 +1170,8 @@ OpenAPIドキュメント例
 
   ファイルアップロードの場合、リクエストのコンテンツタイプには ``multipart/form-data`` を指定する。またアップロードファイルには ``type: string`` かつ ``format: binary`` を指定する。この時、スキーマに対応するモデルのソースコードは生成されない。アップロードされたファイルは :java:extdoc:`JaxRsHttpRequest <nablarch.fw.jaxrs.JaxRsHttpRequest>` より取得する。
 
-**ファイルダウンロードの定義例**
+ファイルダウンロードの定義例
+==============================
 
 OpenAPIドキュメント例
 
