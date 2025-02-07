@@ -502,7 +502,7 @@ For this reason, the validation requirements cannot be satisfied within the scop
 
 **How to implement when validation definitions are not included in the automatically generated Model**
 
-This section introduces a method to create a form etc. with the same definition as the model automatically generated as the validation definition, copy the property values ​​using :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` , and then perform validation.
+This section introduces a method to create a form etc. with the same definition as the model automatically generated as the validation definition, copy the property values using :java:extdoc:`BeanUtil <nablarch.core.beans.BeanUtil>` , and then perform validation.
 
 The reason why this tool does not add validation annotations by default is that, as mentioned above, it is anticipated that validation definitions may end up being distributed, which is considered undesirable.
 
