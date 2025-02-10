@@ -465,7 +465,7 @@ OpenAPI data types( ``type`` )      OpenAPI format( ``format`` )             Pro
   * If the Java data type is ``java.math.BigDecimal`` , ``java.util.List`` , ``java.util.Set`` , or a model, annotate with ``Valid`` annotation.
   * Only :java:extdoc:`Pattern<jakarta.validation.constraints.Pattern>` is annotated with Jakarta Bean Validation standard annotations, and the rest are annotated with annotations of :ref:`bean_validation` provided by Nablarch.
 
-domain validation
+Domain validation
 ^^^^^^^^^^^^^^^^^^^^
 
 This tool uses `extension of the OpenAPI specification(external site) <https://spec.openapis.org/oas/v3.0.3.html#specification-extensions>`_ to support :ref:`domain validation<bean_validation-domain_validation>` that cannot be expressed by the OpenAPI specification.
