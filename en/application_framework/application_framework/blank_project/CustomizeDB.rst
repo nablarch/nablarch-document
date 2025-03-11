@@ -1,3 +1,4 @@
+.. _customize-db:
 
 =======================================================
 Procedure for Changing the RDBMS used

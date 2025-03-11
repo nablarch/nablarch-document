@@ -261,6 +261,13 @@ If the communication confirmation fails for some unknown reason, the correct pro
 If the reason is not known, try again from :ref:`firstStepGenerateBatchEEBlankProject`.
 
 
+Configure the database
+----------------------------------------
+
+The blank project is initially configured to use the H2 Database Engine. To change the RDBMS to be used, refer to :ref:`customize-db` for the configuration.
+
+In addition, to generate and execute DDL from ER diagrams and automatically generate entity classes, you need to initialize and run gsp-dba-maven-plugin. For details, see :ref:`gsp-maven-plugin`.
+
 
 Supplementary notes
 --------------------
