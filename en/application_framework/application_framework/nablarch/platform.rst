@@ -46,15 +46,15 @@ Java
 
 Database
  * Oracle Database 19c/21c/23ai
- * IBM Db2 11.5
+ * IBM Db2 11.5/12.1
  * SQL Server 2017/2019/2022
- * PostgreSQL 12.2/13.2/14.0/15.2/16.2
+ * PostgreSQL 12.2/13.2/14.0/15.2/16.2/17.4
 
 Application server
- * WebSphere Application Server Liberty 24.0.0.8
- * Open Liberty 24.0.0.8
+ * WebSphere Application Server Liberty 25.0.0.2
+ * Open Liberty 25.0.0.2
  * Red Hat JBoss Enterprise Application Platform 8.0.0
- * WildFly 33.0.0.Final
+ * WildFly 35.0.1.Final
  * Apache Tomcat 10.1.17
 
 Jakarta EE
