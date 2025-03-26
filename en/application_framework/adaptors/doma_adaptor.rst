@@ -36,6 +36,8 @@ Configuration for using the Doma adapter
 --------------------------------------------------
 The steps for using this adapter are shown below.
 
+.. _`doma_dependency`:
+
 Configure dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You need to set the project dependencies by referring to the following.

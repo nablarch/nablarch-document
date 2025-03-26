@@ -496,6 +496,8 @@ In the case of the above setup, the metrics to be collected are as follows.
 
 Can see that all metrics are set with the tags ``foo=FOO``, ``bar=BAR`` .
 
+.. _micrometer_collaboration:
+
 Working with monitoring services
 --------------------------------------------------
 
