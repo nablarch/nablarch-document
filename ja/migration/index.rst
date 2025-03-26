@@ -471,7 +471,7 @@ gsp-dba-maven-pluginは5.1.0でJakarta EEおよびNablarch 6u2へ対応したの
       <configuration>
       ...
 
-また、 変更前バージョンではJava 17で使用するために `Java 17での設定ガイド (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main?tab=readme-ov-file#java17%E3%81%A7%E3%81%AE%E8%A8%AD%E5%AE%9A>`_ に沿って依存関係を追加しているが、バージョンアップ後にはこの設定が不要となるため、追加した依存関係を削除する。
+また、 変更前バージョンではJava 17で使用するために `Java 17での設定ガイド (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main?tab=readme-ov-file#java17%E3%81%A7%E3%81%AE%E8%A8%AD%E5%AE%9A>`_ に沿って依存関係を追加しているが、バージョンアップ後にはこの設定が組み込まれており不要となるため、追加した依存関係を削除する。
 
 さらに、Jakarta EE対応されたgsp-dba-maven-pluginの ``generate-entity`` を使うためには、 ``dependency`` やJVM引数の追加が必要となる。
 詳細については `gsp-dba-maven-pluginのガイド (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin?tab=readme-ov-file#generate-entity>`_ を参照のこと。
