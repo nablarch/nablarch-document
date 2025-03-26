@@ -286,6 +286,12 @@ Java EE仕様の実装ライブラリをアプリケーションに組み込ん�
 また、Jakarta EEの各仕様のページでも互換実装が紹介されているので、そちらも参考にすること。
 (例えば、 `Jakarta RESTful Web Services 3.1 の仕様のページ (外部サイト、英語) <https://jakarta.ee/specifications/restful-ws/3.1/#compatible-implementations>`_ では、互換実装として Eclipse Jersey 3.1.0 が紹介されている)
 
+.. tip::
+  Nablarch 6はJava 17以上を前提としているため、Java 17以上で必要となるモジュールを新たに組み込んでいる。
+  そのため `Nablarch 5のセットアップ手順 <https://nablarch.github.io/docs/5-LATEST/doc/application_framework/application_framework/blank_project/FirstStep.html>`_ にてJava 17以上で動作させるため依存関係に追加したモジュールは、アプリケーションによって追加不要になっている場合がある。
+  `dependency:tree <https://maven.apache.org/plugins/maven-dependency-plugin/tree-mojo.html>`_ 等により依存関係を確認し、更新もしくは削除を判断すること。
+
+
 Bean Validation → Jakarta Bean Validation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -432,6 +438,20 @@ JMS → Jakarta Messaging
     <version>2.37.0</version>
   </dependency>
 
+Domaアダプタを更新する
+-----------------------------------------------------------------
+
+Domaアダプタをアプリケーションに組み込んでいる場合は、依存関係の設定が必要となる。
+詳細については :ref:`doma_dependency` を参照のこと。
+
+また、新しいバージョンで推奨する実装方法についても案内しているため、必要に応じて対応する。
+詳細については :ref:`migration_doma2.44.0` を参照のこと。
+
+Micrometerアダプタを更新する
+-----------------------------------------------------------------
+
+Micrometerアダプタをアプリケーションに組み込んで監視サービスと連携している場合は、依存関係に追加しているMicrometerモジュールのバージョン更新が必要となる。
+詳細については :ref:`micrometer_collaboration` を参照のこと。
 
 gsp-dba-maven-pluginを更新する
 -----------------------------------------------------------------
@@ -450,6 +470,8 @@ gsp-dba-maven-pluginは5.1.0でJakarta EEおよびNablarch 6u2へ対応したの
       <version>5.1.0</version>
       <configuration>
       ...
+
+また、 変更前バージョンではJava 17で使用するために `Java 17での設定ガイド (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main?tab=readme-ov-file#java17%E3%81%A7%E3%81%AE%E8%A8%AD%E5%AE%9A>`_ に沿って依存関係を追加しているが、バージョンアップ後にはこの設定が組み込まれており不要となるため、追加した依存関係を削除する。
 
 さらに、Jakarta EE対応されたgsp-dba-maven-pluginの ``generate-entity`` を使うためには、 ``dependency`` やJVM引数の追加が必要となる。
 詳細については `gsp-dba-maven-pluginのガイド (外部サイト) <https://github.com/coastland/gsp-dba-maven-plugin?tab=readme-ov-file#generate-entity>`_ を参照のこと。

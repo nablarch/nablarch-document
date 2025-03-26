@@ -287,6 +287,12 @@ For your reference, archetypes and examples provided by Nablarch changes listed 
 Compatible implementations are also introduced on each Jakarta EE specification page, so please refer to those as well.
 (For example, the `Jakarta RESTful Web Services 3.1 specification page (external site) <https://jakarta.ee/specifications/restful-ws/3.1/#compatible-implementations>`_ lists Eclipse Jersey as a compatible implementation. 3.1.0 is introduced)
 
+.. tip::
+  Nablarch 6 requires Java 17 or higher, so it incorporates new modules required for Java 17 or higher.
+  Therefore, modules that were added as dependencies in `Nablarch 5 setup procedure <https://nablarch.github.io/docs/5-LATEST/doc/en/application_framework/application_framework/blank_project/FirstStep.html>`_ to use Java 17 or higher,  may no longer be necessary depending on the application.
+  Check dependencies using `dependency:tree (external site) <https://maven.apache.org/plugins/maven-dependency-plugin/tree-mojo.html>`_ etc. and determine whether to update or delete.
+
+
 Bean Validation → Jakarta Bean Validation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -433,6 +439,21 @@ JMS → Jakarta Messaging
     <version>2.37.0</version>
   </dependency>
 
+Update Doma Adaptor
+-----------------------------------------------------------------
+
+If your application incorporates Doma adapter, you will need to set up dependencies.
+See the :ref:`doma_dependency` for details.
+
+
+We also provide information on the recommended implementation for new version, so please take action as necessary.
+See the :ref:`migration_doma2.44.0` for details.
+
+Update Micrometer Adaptor
+-----------------------------------------------------------------
+
+If Micrometer adapter is embedded in an application and linked to a monitoring service, it is necessary to update the version of Micrometer modules that has been added to the dependency.
+See the :ref:`micrometer_collaboration` for details.
 
 Update gsp-dba-maven-plugin
 -----------------------------------------------------------------
@@ -451,6 +472,8 @@ Since gsp-dba-maven-plugin is compatible with Jakarta EE and Nablarch 6u2 in 5.1
       <version>5.1.0</version>
       <configuration>
       ...
+
+In addition, in the version before the change, dependencies were added in accordance with `Java 17 Configuration Guide (external site) <https://github.com/coastland/gsp-dba-maven-plugin/tree/4.x.x-main?tab=readme-ov-file#java17%E3%81%A7%E3%81%AE%E8%A8%AD%E5%AE%9A>`_ for use with Java 17, but after the upgrade, these settings will be built in and will no longer be necessary, so remove the dependency you added.
 
 Furthermore, in order to use the ``generate-entity`` of the gsp-dba-maven-plugin that supports Jakarta EE, it is necessary to add ``dependency`` and JVM arguments.
 See the `gsp-dba-maven-plugin guide (external site) <https://github.com/coastland/gsp-dba-maven-plugin?tab=readme-ov-file#generate-entity>`_ for details.
