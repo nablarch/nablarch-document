@@ -122,7 +122,7 @@ Java Beansオブジェクトは、component要素を用いて定義する。
 
     <!-- リテラル値をsetterインジェクションする -->
     <property name="limit" value="100" />
-  <component/>
+  </component>
 
 
 .. important::

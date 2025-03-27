@@ -145,7 +145,7 @@ Configuration file example
   Point
     * Set the component name of  :java:extdoc:`BasicCodeManager <nablarch.common.code.BasicCodeManager>`  to  **codeManager** .    
     * Refer to  :ref:`static_data_cache-cache_timing`  for configuration value of :java:extdoc:`loadOnStartup <nablarch.core.cache.BasicStaticDataCache.setLoadOnStartup(boolean)>` of  :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>` .
-    * Configure :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>`  in the list of initialization targets as it needs to be initialized.
+    * Configure :java:extdoc:`BasicCodeLoader <nablarch.common.code.BasicCodeLoader>` and :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>`  in the initialization list as they require initialization.
 
   .. code-block:: xml
 
@@ -178,12 +178,12 @@ Configuration file example
       <property name="codeDefinitionCache" ref="codeCache"/>
     </component>
 
-    <!-- Configure BasicStaticDataCache in the initialization list as it requires
-    to be initialized -->
+    <!-- Configure BasicCodeLoader and BasicStaticDataCache in the initialization list as they require initialization -->
     <component name="initializer"
         class="nablarch.core.repository.initialization.BasicApplicationInitializer">
       <property name="initializeList">
         <list>
+          <component-ref name="codeLoader"/>
           <component-ref name="codeCache"/>
         </list>
       </property>

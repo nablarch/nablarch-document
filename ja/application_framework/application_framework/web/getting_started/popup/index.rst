@@ -35,7 +35,7 @@ Exampleアプリケーションを元にポップアップ画面の作成方法�
 ポップアップ(ダイアログ)画面を表示する
 ------------------------------------------------
 ポップアップ(ダイアログ)の表示はOSS(Bootstrap)を使用して実現している。
-詳細は、 `Bootstrapのドキュメント(外部サイト、英語) <https://fezvrasta.github.io/bootstrap-material-design/>`_ を参照。
+詳細は、 `Bootstrapのドキュメント(外部サイト) <https://getbootstrap.jp/docs/5.3/getting-started/introduction/>`_ を参照。
 
 .. _`popup-action`:
 

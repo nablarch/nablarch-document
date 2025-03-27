@@ -35,7 +35,7 @@ Description of the function to be created
 Display a pop-up (dialog) screen
 ------------------------------------------------
 The pop-up (dialog) display is realized using OSS (Bootstrap).
-For more information, see  `Bootstrap documentation (external site) <https://fezvrasta.github.io/bootstrap-material-design/>`_ .
+For more information, see  `Bootstrap documentation (external site) <https://getbootstrap.com/docs/5.3/getting-started/introduction//>`_ .
 
 .. _`popup-action`:
 

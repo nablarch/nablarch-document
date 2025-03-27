@@ -204,8 +204,8 @@ Create a batch update screen JSP
                       <td>
                           <div class="form-group">
                               <n:text name="bulkForm.projectList[${status.index}].projectName"
-                                      maxlength="64" cssClass="form-control"
-                                      errorCss="input-error input-text"/>
+                                      maxlength="64" cssClass="form-control form-control-lg"
+                                      errorCss="input-error"/>
                               <n:error errorCss="message-error"
                                       name="bulkForm.projectList[${status.index}].projectName" />
                           </div>
@@ -218,10 +218,10 @@ Create a batch update screen JSP
           <div class="title-nav page-footer">
               <div class="button-nav">
                   <n:button id="bottomUpdateButton" uri="/action/projectBulk/confirmOfUpdate"
-                      disabled="${isUpdatable}" cssClass="btn btn-raised btn-success">
+                      disabled="${isUpdatable}" cssClass="btn btn-lg btn-success">
                           Update</n:button>
                   <n:a id="bottomCreateButton" type="button" uri="/action/project"
-                      cssClass="btn btn-raised btn-default" value="New registration"></n:a>
+                      cssClass="btn btn-lg btn-light" value="New registration"></n:a>
               </div>
           </div>
       </n:form>
@@ -282,7 +282,7 @@ Create a confirmation screen JSP
                       </n:form>
                   </div>
               </div>
-              <h4 class="font-group">Project update list</h4>
+              <h2 class="font-group my-3">Project update list</h2>
               <div>
                   <table class="table table-striped table-hover">
                       <tr>

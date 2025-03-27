@@ -40,7 +40,7 @@
 
   * - :java:extdoc:`Base64Util <nablarch.core.util.Base64Util>`
     - nablarch-core
-    - Base64エンコーディングに関する機能を提供する
+    - Base64エンコーディングに関する機能を提供する。Java8以降は :java:extdoc:`Base64エンコーディングの標準API <java.util.Base64>` が提供されており、本ユーティリティは後方互換のために存在している。
 
   * - :java:extdoc:`BinaryUtil <nablarch.core.util.BinaryUtil>`
     - nablarch-fw-web-extension

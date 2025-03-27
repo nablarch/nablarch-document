@@ -16,30 +16,34 @@ Implement the part that is initially displayed on the screen.
     .. code-block:: jsp
 
       <n:form>
-          <div class="form-group label-static is-empty">
-              <label class="control-label"> Client name</label>
+          <div class="row m-3">
+              <label class="col-md-2 col-form-label fs-5"> Client name</label>
               <!-- Client name text box -->
               <!-- Since the form has not been created, specify a temporary value for the name attribute -->
-              <n:text name="tmp" cssClass="form-control input-text"/>
+              <div class="col-md-10 form-group">
+                  <n:text name="tmp" cssClass="form-control form-control-lg"/>
+              </div>
           </div>
-          <div class="form-group label-static is-empty">
-              <label class="control-label">Industry type</label>
+          <div class="row m-3">
+              <label class="col-md-2 col-form-label fs-5"Industry type</label>
               <!-- Pull down of industry type -->
               <!-- Since the form has not been created, specify a temporary value for the name attribute -->
-              <n:select
+              <div class="col-md-10 form-group">
+                  <n:select
                       listName="industries"
                       elementValueProperty="industryCode"
                       elementLabelProperty="industryName"
                       name="tmp"
                       withNoneOption="true"
-                      cssClass="btn dropdown-toggle"/>
+                      cssClass="form-select form-select-lg"/>
+              </div>
           </div>
           <div class="button-nav">
               <!-- Registration button -->
               <!-- Since the registration confirmation screen is not yet created, specify a temporary value for the uri attribute -->
               <n:button
                       uri="tmp"
-                      cssClass="btn btn-raised btn-success">Registration</n:button>
+                      cssClass="btn btn-lg btn-success">Registration</n:button>
           </div>
       </n:form>
 
@@ -103,10 +107,10 @@ Create a link to the registration screen
   /src/main/webapp/WEB-INF/view/common/menu.jsp
     .. code-block:: jsp
 
-      <ul class="nav navbar-nav">
+      <ul class="navbar-nav me-auto">
         <!-- Other links are omitted -->
-        <li>
-          <n:a href="/action/client"> Client registration</n:a>
+        <li class="nav-item px-2">
+          <n:a href="/action/client" cssClass="nav-link"> Client registration</n:a>
         </li>
       </ul>
 

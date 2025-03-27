@@ -145,7 +145,7 @@ female    女性     女
   ポイント
     * :java:extdoc:`BasicCodeManager <nablarch.common.code.BasicCodeManager>` のコンポーネント名は、 **codeManager** とすること。
     * :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>` の :java:extdoc:`loadOnStartup <nablarch.core.cache.BasicStaticDataCache.setLoadOnStartup(boolean)>` に対する設定値は、 :ref:`static_data_cache-cache_timing` を参照すること。
-    * :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>` は、初期化が必要なので初期化対象のリストに設定すること。
+    * :java:extdoc:`BasicCodeLoader <nablarch.common.code.BasicCodeLoader>` および :java:extdoc:`BasicStaticDataCache <nablarch.core.cache.BasicStaticDataCache>` は、初期化が必要なので初期化対象のリストに設定すること。
 
   .. code-block:: xml
 
@@ -177,11 +177,12 @@ female    女性     女
       <property name="codeDefinitionCache" ref="codeCache"/>
     </component>
 
-    <!-- BasicStaticDataCacheは初期化が必要なため初期化リストに設定する -->
+    <!-- BasicCodeLoaderとBasicStaticDataCacheは初期化が必要なため初期化リストに設定する -->
     <component name="initializer"
         class="nablarch.core.repository.initialization.BasicApplicationInitializer">
       <property name="initializeList">
         <list>
+          <component-ref name="codeLoader"/>
           <component-ref name="codeCache"/>
         </list>
       </property>

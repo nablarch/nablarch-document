@@ -31,6 +31,7 @@ The adapter is enabled by defining components with the following procedure.
 
 1. Add the definition of ``nablarch.integration.messaging.wmq.provider.WmqMessagingProvider`` to the component configuration file.
 2. Configure ``WmqMessagingProvider`` configured in ``1`` to :ref:`messaging_context_handler` .
+3. Configure ``WmqMessagingProvider`` configured in ``1`` in the list of initialization targets as it needs to be initialized.
 
 A configuration example is shown below.
 
@@ -49,6 +50,16 @@ A configuration example is shown below.
   -->
   <component class="nablarch.fw.messaging.handler.MessagingContextHandler">
     <property name="messagingProvider" ref="wmqMessagingProvider" />
+  </component>
+
+  <component name="initializer"
+      class="nablarch.core.repository.initialization.BasicApplicationInitializer">
+    <property name="initializeList">
+      <list>
+        <!-- Initialize WmqMessagingProvider -->
+        <component-ref name="wmqMessagingProvider" />
+      </list>
+    </property>
   </component>
 
 Use distributed transaction

@@ -488,7 +488,7 @@ Java実装例
   public class SampleBulkForm {
 
     // ネストしたBeanに対してもバリデーションを実行することを
-    // しめすValidアノテーションを設定する。
+    // 示すValidアノテーションを設定する。
     @Valid
     private List<SampleForm> sampleForm;
 

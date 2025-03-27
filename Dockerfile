@@ -4,6 +4,7 @@ WORKDIR /root
 
 COPY requirements.txt /root/
 COPY package*.json /root/
+COPY patches /root/patches/
 
 # Sphinxのセットアップ
 RUN pip install --no-cache-dir -r requirements.txt

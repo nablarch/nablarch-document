@@ -493,6 +493,8 @@ DefaultMeterBinderListProviderで収集されるメトリクス
 
 全てのメトリクスに、 ``foo=FOO``, ``bar=BAR`` のタグが設定されていることが確認できる。
 
+.. _micrometer_collaboration:
+
 監視サービスと連携する
 --------------------------------------------------
 

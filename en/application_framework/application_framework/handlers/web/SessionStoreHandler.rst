@@ -50,7 +50,7 @@ Constraints
 Place this handler after the :ref:`http_response_handler`
   During servlet forward, this handler must be placed after the :ref:`http_response_handler` so that the value of the session store can be accessed at the forward destination.
 
-Place this handler after the :ref:`multipart_handler`
+When using the HIDDEN store, place this handler after the :ref:`multipart_handler`
   This handler must be placed after the :ref:`multipart_handler` so that the request parameters can be accessed when using the HIDDEN store.
 
 Place this handler before the :ref:`forwarding_handler`

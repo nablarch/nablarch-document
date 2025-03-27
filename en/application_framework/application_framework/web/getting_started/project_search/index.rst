@@ -72,21 +72,21 @@ Create a JSP for the search condition input
 
       <n:form method="GET" action="list">
           <!-- Omitted -->
-          <label for="projectName" class="control-label">Project name</label>
+          <label for="projectName" class="control">Project name</label>
           <div>
               <n:text
                       id="projectName"
                       name="searchForm.projectName"
                       size="25"
                       maxlength="64"
-                      cssClass="form-control"
-                      errorCss="input-error form-control"
+                      cssClass="form-control form-control-lg"
+                      errorCss="input-error"
                       placeholder="Project name"/>
               <n:error errorCss="message-error" name="searchForm.projectName" />
           </div>
           <!-- Omitted -->
           <div align="center">
-              <input type="submit" id="search" class="btn btn-primary" value="Search" />
+              <input type="submit" id="search" class="btn btn-lg btn-primary" value="Search" />
           </div>
       </n:form>
 

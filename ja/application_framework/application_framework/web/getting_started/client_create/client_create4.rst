@@ -58,11 +58,11 @@
       <!-- 入力へ戻る、確定ボタンは確認画面でのみ表示 -->
         <n:forConfirmationPage>
             <n:button uri="/action/client/back"
-                      cssClass="btn btn-raised btn-default">入力へ戻る</n:button>
+                      cssClass="btn btn-lg btn-light">入力へ戻る</n:button>
             <!-- allowDoubleSubmission属性にfalseを指定する -->
             <n:button uri="/action/client/create"
                       allowDoubleSubmission="false"
-                      cssClass="btn btn-raised btn-success">確定</n:button>
+                      cssClass="btn btn-lg btn-success">確定</n:button>
         </n:forConfirmationPage>
 
   この実装のポイント

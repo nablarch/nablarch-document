@@ -93,3 +93,7 @@ CSRF対策
 CORS
 ----------------------------------------
 * :ref:`CORS <cors_preflight_request_handler>`
+
+OpenAPIドキュメントからのソースコード生成
+---------------------------------------------
+* :ref:`nablarch_openapi_generator`

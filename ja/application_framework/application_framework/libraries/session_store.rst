@@ -319,8 +319,7 @@ HIDDENストアの暗号化設定をカスタマイズする
   * :java:extdoc:`KeyGenerator <javax.crypto.KeyGenerator>` を使用して鍵を生成する。
   * :java:extdoc:`SecureRandom <java.security.SecureRandom>` を使用してIVを生成する。
   
-  なお、base64エンコードは :java:extdoc:`Base64Util <nablarch.core.util.Base64Util>` や、
-  ``java.util.Base64.Encoder`` を使用して行うと良い。
+  なお、base64エンコードは :java:extdoc:`java.util.Base64.getEncoder()` より取得できる :java:extdoc:`java.util.Base64.Encoder` を使用して行うと良い。
 
 セッション変数に値が存在しない場合の遷移先画面を指定する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
