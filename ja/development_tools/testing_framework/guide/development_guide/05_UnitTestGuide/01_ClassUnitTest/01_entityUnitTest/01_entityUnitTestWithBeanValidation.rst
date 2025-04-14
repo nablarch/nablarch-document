@@ -758,7 +758,7 @@ Excelへの定義
     <property name="maxAndMinMessageId"  value="{nablarch.core.validation.ee.Length.min.max.message}"/>
     <property name="fixLengthMessageId"  value="{nablarch.core.validation.ee.Length.fixed.message}"/>
     <property name="underLimitMessageId" value="{nablarch.core.validation.ee.Length.min.max.message}"/>
-    <property name="maxMessageId"        value="{nablarch.core.validation.ee.Length.min.message}"/>
+    <property name="minMessageId"        value="{nablarch.core.validation.ee.Length.min.message}"/>
     <property name="emptyInputMessageId" value="{nablarch.core.validation.ee.Required.message}"/>
     <property name="characterGenerator">
       <component name="characterGenerator"
