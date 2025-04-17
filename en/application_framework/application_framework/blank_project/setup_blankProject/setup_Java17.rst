@@ -122,7 +122,7 @@ The following is an example of a command with the options specified.
          sample-batchlet
 
 .. tip::
-  When running from Maven, the environment variable `MAVEN_OPTS (external site) <https://maven.apache.org/configure.html#maven_opts-environment-variable>`_ can be used to set the JVM options.
+  When running from Maven, the environment variable `MAVEN_OPTS (external site) <https://maven.apache.org/configure.html#MAVEN_OPTS_environment_variable.3A>`_ can be used to set the JVM options.
 
 Change of Java Version
 ------------------------------

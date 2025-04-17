@@ -122,7 +122,7 @@ Java 17でカプセル化が強化され、デフォルトでは標準APIなど�
          sample-batchlet
 
 .. tip::
-  Mavenから実行する場合は、環境変数 `MAVEN_OPTS (外部サイト) <https://maven.apache.org/configure.html#maven_opts-environment-variable>`_ を使うことでJVMオプションを設定できる。
+  Mavenから実行する場合は、環境変数 `MAVEN_OPTS (外部サイト) <https://maven.apache.org/configure.html#MAVEN_OPTS_environment_variable.3A>`_ を使うことでJVMオプションを設定できる。
 
 Javaバージョンの変更
 -----------------------------
