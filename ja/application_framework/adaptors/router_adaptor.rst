@@ -76,6 +76,19 @@
 
 ルート定義ファイルへの設定方法は、`ライブラリのREADMEドキュメント(外部サイト) <https://github.com/kawasima/http-request-router/blob/master/README.ja.md>`_ を参照。
 
+ルート定義ファイルは以下のタイミングで読み込まれる。
+
+* :java:extdoc:`RoutesMapping <nablarch.integration.router.RoutesMapping>` の初期化時
+* ルート定義ファイル再読み込みの設定が有効であり、以下のすべての条件を満たしている時
+
+  * 最後にルート定義ファイルを読み込んでから指定された秒数が経過している
+  * URLと業務アクションのマッピング処理が行われている
+  * ルート定義ファイルが変更されている
+
+ルート定義ファイルの再読み込みを有効にするには、 :java:extdoc:`RoutesMapping#setCheckInterval(long) <nablarch.integration.router.RoutesMapping.setCheckInterval(long)>` に0以上の値を指定する。
+
+:java:extdoc:`RoutesMapping#setCheckInterval(long) <nablarch.integration.router.RoutesMapping.setCheckInterval(long)>` の指定単位は秒数となる。パフォーマンスを重視する環境では-1を指定し、ルート定義ファイルの変更確認を行わないよう設定することを推奨する。
+
 業務アクションとURLを自動的にマッピングする
 --------------------------------------------------------
 ルート定義ファイルにて、 `match` タグのpath属性に ``:controller`` や ``:action``
