@@ -78,7 +78,7 @@ The route definition file is loaded at the following timing.
 
   * The specified number of seconds has passed since the route definition file was last loaded
   * Mapping of URLs and business actions is performed
-  * The route definition file has been changed.
+  * The route definition file has been changed
 
 To enable reloading of route definition files, specify a value greater than or equal to 0 in :java:extdoc:`RoutesMapping#setCheckInterval(long) <nablarch.integration.router.RoutesMapping.setCheckInterval(long)>` .
 
