@@ -71,6 +71,19 @@ Creates `routes.xml` directly under the class path and configures the configurat
 
 For the configuration method to the route definition file, see `Library README document (external site) <https://github.com/kawasima/http-request-router/blob/master/README.ja.md>`_ .
 
+The route definition file is loaded at the following timing.
+
+* When initializing :java:extdoc:`RoutesMapping <nablarch.integration.router.RoutesMapping>`
+* When the route definition file reload setting is enabled and all of the following conditions are met:
+
+  * The specified number of seconds has passed since the route definition file was last loaded
+  * Mapping of URLs and business actions is performed
+  * The route definition file has been changed
+
+To enable reloading of route definition files, specify a value greater than or equal to 0 in :java:extdoc:`RoutesMapping#setCheckInterval(long) <nablarch.integration.router.RoutesMapping.setCheckInterval(long)>` .
+
+The unit of specification for :java:extdoc:`RoutesMapping#setCheckInterval(long) <nablarch.integration.router.RoutesMapping.setCheckInterval(long)>` is seconds. In environments where performance is important, we recommend specifying -1 to disable checking for changes in the route definition file.
+
 Automatically map business actions and URLs
 --------------------------------------------------------
 Business action and URL can be automatically mapped by using parameters such as ``:controller`` and ``:action`` in the path attribute of `match` tag in the route definition file.
