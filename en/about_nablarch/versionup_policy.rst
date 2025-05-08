@@ -190,5 +190,5 @@ If any of the following applies, we may upgrade the version so that backward com
 * When a framework bug is detected and cannot be fixed while maintaining backward compatibility.
 * When a problem occurs due to a version upgrade of JDK, which is the environment in which the framework operates, and it cannot be fixed while maintaining backward compatibility.
 
-If we make changes that don't maintain backward compatibility, we'll explain what they're doing and how to deal with them in the "Impact on the system and how to deal with it(システムへの影響の可能性の内容と対処)" section of the `Release Notes(Japanese Page) <https://nablarch.github.io/docs/LATEST/doc/releases/index.html>`_.
+If we make changes that don't maintain backward compatibility, we'll explain what they're doing and how to deal with them in the "Impact on the system and how to deal with it(システムへの影響の可能性の内容と対処)" section of the `Release Notes(Japanese Page) <https://nablarch.github.io/docs/5-LATEST/doc/releases/index.html>`_.
 

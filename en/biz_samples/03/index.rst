@@ -6,7 +6,7 @@ Display a List of Search Results
 
 This sample is an implementation sample of the tag file that displays a list of search results.
 
-`Source code <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/v5-main>`_
 
 -----------------
 Delivery package
