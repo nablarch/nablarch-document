@@ -38,7 +38,7 @@ The information we collect and its specific uses are as follows:
      - Usage
 
    * - Page URL
-     - `https://nablarch.github.io/docs/LATEST​/doc/en/index.html <https://nablarch.github.io/docs/LATEST/doc/en/index.html>`_
+     - `https://nablarch.github.io/docs/5-LATEST​/doc/en/index.html <https://nablarch.github.io/docs/5-LATEST/doc/en/index.html>`_
      - URL of This Website
      - Used to measure which pages have been viewed.
 
