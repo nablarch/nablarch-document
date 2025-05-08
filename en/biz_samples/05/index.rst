@@ -11,7 +11,7 @@ Summary
 
 Provides an implementation sample of the function to centrally manage the files used in business applications with DB.
 
-`Source code <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/v5-main>`_
 
 The sample is intended for the following applications:
 

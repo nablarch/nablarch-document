@@ -15,4 +15,4 @@ Extended Formatter Functions
   0401_ExtendedDataFormatter
   0402_ExtendedFieldType
   
-`Source code <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/v5-main>`_

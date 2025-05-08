@@ -7,7 +7,7 @@ Sample Request/Response Log Output Using Logbook
 Delivery package
 ------------------
 
-`Source code <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`Source code <https://github.com/nablarch/nablarch-biz-sample-all/tree/v5-main>`_
 
 The sample is provided in the following package.
 

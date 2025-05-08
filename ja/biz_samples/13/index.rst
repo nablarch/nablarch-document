@@ -7,7 +7,7 @@ Logbookを用いたリクエスト/レスポンスログ出力サンプル
 提供パッケージ
 --------------
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/v5-main>`_
 
 本サンプルは、以下のパッケージで提供される。
 
