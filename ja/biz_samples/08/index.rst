@@ -7,7 +7,7 @@ HTMLメール送信機能サンプル
 
 HTMLメールを送信する機能の実装サンプルを提供する。
 
-`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all>`_
+`ソースコード <https://github.com/nablarch/nablarch-biz-sample-all/tree/v5-main>`_
 
 本機能は、:ref:`メール送信機能<mail>` を使用してHTMLメールを送信するサンプルである。
 なお、本機能はサンプル実装のため、導入プロジェクトで使用する際には、ソースコード(プロダクション、テストコード共に）をプロジェクトに取り込み、使用すること。
