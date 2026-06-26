@@ -117,8 +117,25 @@ NTF（Nablarchテストフレームワーク）解説書（`ja/development_tools
 
 # State
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-06-26
-- **Last completed**: #1 RSTビルド確認
-- **Next**: #2 全体構成の認識合わせ
-- **Notes**: ビルド環境は `/tmp/sphinx_env`（Sphinx 1.8.6）。`make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build` で実行。後続タスクも同 venv を再利用すること。
+- **Last completed**: #2 全体構成の認識合わせ（QA PASS）
+- **Next**: #3 影響範囲確認とタスク更新
+- **Notes**: |
+    ユーザーと新構成について議論し、proposed-structure.md（`.rn/ntf-yaml-support/proposed-structure.md`）として
+    ゼロベース設計案を作成・合意済み。ステアリングのタスク #3〜#5 は proposed-structure.md の内容をもとに
+    組み直す必要がある。
+
+    【合意済みの設計内容】
+    - トップ2ページ: 「Nablarchテスティングフレームワークとは」「テストの実装方法」
+    - テストデータは2ページ構成: B-1「テストデータの記述方法」（仕様1ページ）、B-2「テストデータの記述例」（例1ページ）
+    - Excel/YAML 並列表示はタブ切り替えなし（sphinx-tabs 未導入）、「Excelの場合」「YAMLの場合」小見出し分け
+    - ディレクトリ構造は既存パスを維持し toctree だけ組み替え
+    - input/ のうち ntf-testdata-loading.md と testdata-converter-design.md は使わない
+
+    【次のアクション】
+    ステアリングの #3（影響範囲確認とタスク更新）を実行する前に、タスク #3〜#5 の内容を
+    proposed-structure.md の合意内容に合わせて書き直すこと。
+    具体的には「全体構成見直し」「YAML対応」という2軸を分解したタスクを追加する。
+
+    ビルド環境: `/tmp/sphinx_env`（Sphinx 1.8.6）、`make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`
