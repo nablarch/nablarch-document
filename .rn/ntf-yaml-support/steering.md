@@ -41,11 +41,11 @@ NTF（Nablarchテストフレームワーク）解説書（`ja/development_tools
 
 **Steps**:
 
-- [ ] `make html` を実行してビルドが通ることを確認する
-- [ ] ビルドエラーや警告があれば原因を調査する（修正は任意 — このタスクの目的はベースライン確認）
-- [ ] 結果を `checks/task1.md` に記録する
-- [ ] self-check (OK/NG per completion criterion, record in checks/task1.md)
-- [ ] user review
+- [x] `make html` を実行してビルドが通ることを確認する
+- [x] ビルドエラーや警告があれば原因を調査する（修正は任意 — このタスクの目的はベースライン確認）
+- [x] 結果を `checks/task1.md` に記録する
+- [x] self-check (OK/NG per completion criterion, record in checks/task1.md)
+- [x] user review
 
 **Completion criteria**:
 
@@ -119,6 +119,6 @@ NTF（Nablarchテストフレームワーク）解説書（`ja/development_tools
 
 - **Status**: not suspended
 - **Date**: 2026-06-26
-- **Last completed**: none
-- **Next**: #1 RSTビルド確認
-- **Notes**: 入力資料10ファイルを `.rn/ntf-yaml-support/input/` に保存済み
+- **Last completed**: #1 RSTビルド確認
+- **Next**: #2 全体構成の認識合わせ
+- **Notes**: ビルド環境は `/tmp/sphinx_env`（Sphinx 1.8.6）。`make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build` で実行。後続タスクも同 venv を再利用すること。
