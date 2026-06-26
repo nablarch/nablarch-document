@@ -59,10 +59,10 @@ NTF（Nablarchテストフレームワーク）解説書（`ja/development_tools
 
 **Steps**:
 
-- [ ] `06_TestFWGuide/` 配下の全RSTを読み、各ファイルの役割・構成を一覧にまとめる
-- [ ] `05_UnitTestGuide/` 配下の影響ありそうなRSTを確認する
-- [ ] 入力資料（`input/ntf-testdata-doc.md`・`ntf-doc-terms.md`）をもとに YAML 対応で更新が必要な箇所を洗い出す
-- [ ] 全体構成サマリーを `checks/task2.md` に記録しユーザーに提示する
+- [x] `06_TestFWGuide/` 配下の全RSTを読み、各ファイルの役割・構成を一覧にまとめる
+- [x] `05_UnitTestGuide/` 配下の影響ありそうなRSTを確認する
+- [x] 入力資料（`input/ntf-testdata-doc.md`・`ntf-doc-terms.md`）をもとに YAML 対応で更新が必要な箇所を洗い出す
+- [x] 全体構成サマリーを `checks/task2.md` に記録しユーザーに提示する
 - [ ] user review（構成認識の合意）
 
 **Completion criteria**:
