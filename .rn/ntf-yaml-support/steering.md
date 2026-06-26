@@ -219,4 +219,26 @@ YAML 追記時、以下の対応で表記する（input/ の仕様資料を正�
 
 # State
 
-（未記入 — 作業中に記録）
+- **Status**: paused
+- **Date**: 2026-06-26
+- **Last completed**: #3 文書表現・トンマナ確認とCLAUDE.md作業ルール記載（QA PASS、ユーザーレビュー待ち）
+- **Next**: #3 のユーザー承認 → チェックオフ → #4 toctree 構成変更
+- **Notes**: |
+    Task #3 は実装・QA ともに完了し、ユーザーレビュー段階で中断した。
+    CLAUDE.md をユーザー指摘により刷新済み（汎用ルール集に絞り、タスク固有ルールはステアリングの Rules に移動）。
+
+    【CLAUDE.md の現在の内容】
+    - 文体: だ・である調（既存ページ実測）
+    - 用語: 「既存ページに合わせる、推測しない」を原則
+    - RST 記法: 見出しレベル・コードブロック（4スペース）・テーブル・ラベル等
+    - ビルドコマンド: make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build
+
+    【Task #3 完了基準】
+    - CLAUDE.md にNTF解説書修正の作業ルール（文書表現・用語・トンマナ）が記載されている → OK
+
+    【次のアクション】
+    1. ユーザーに Task #3 の承認を求める
+    2. 承認後 steering.md の #3 をチェックオフしてコミット
+    3. Task #4（toctree 構成変更 — A章・B章の骨格作成）に着手
+
+    ビルド環境: `/tmp/sphinx_env`（Sphinx 1.8.6）、`make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`
