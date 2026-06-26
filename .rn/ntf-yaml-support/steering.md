@@ -63,43 +63,25 @@ NTF（Nablarchテストフレームワーク）解説書（`ja/development_tools
 - [x] `05_UnitTestGuide/` 配下の影響ありそうなRSTを確認する
 - [x] 入力資料（`input/ntf-testdata-doc.md`・`ntf-doc-terms.md`）をもとに YAML 対応で更新が必要な箇所を洗い出す
 - [x] 全体構成サマリーを `checks/task2.md` に記録しユーザーに提示する
-- [ ] user review（構成認識の合意）
+- [x] user review（構成認識の合意）
 
 **Completion criteria**:
 
 - `06_TestFWGuide/` 配下の全ファイルの役割と、YAML対応で修正が必要な箇所の一覧が `checks/task2.md` に記録されている
 - ユーザーが全体構成を確認・承認している（Decisions に記録）
 
-### #3: 影響範囲確認とタスク更新
-
-**Purpose**: 全体構成の合意をもとに、修正が必要なファイルと修正内容を具体化し、タスク一覧を更新する。
-
-**Prerequisites**: #2
-
-**Steps**:
-
-- [ ] 修正対象ファイルをリストアップし、各ファイルで必要な変更内容を `checks/task3.md` に記録する
-- [ ] 解説書修正の各タスク（#5以降）をステアリングに追記する
-- [ ] self-check (OK/NG per completion criterion, record in checks/task3.md)
-- [ ] user review
-
-**Completion criteria**:
-
-- 修正対象ファイルと変更内容の一覧が `checks/task3.md` に記録されている
-- ステアリングに解説書修正タスクが追記されている
-
-### #4: 文書表現・トンマナ確認とCLAUDE.md作業ルール記載
+### #3: 文書表現・トンマナ確認とCLAUDE.md作業ルール記載
 
 **Purpose**: 既存解説書の文書表現・トンマナ（用語の統一・文体・表記ルール）を確認し、解説書修正作業のルールをCLAUDE.mdに記載する。
 
-**Prerequisites**: #3
+**Prerequisites**: #2
 
 **Steps**:
 
 - [ ] 既存解説書（`06_TestFWGuide/01_Abstract.rst` 等）と入力資料（`ntf-doc-terms.md`）から用語・表記ルールを抽出する
 - [ ] 文体（です・ます調 vs だ・である調）・用語統一ルールをまとめる
 - [ ] `CLAUDE.md` に作業ルールを記載する
-- [ ] self-check (OK/NG per completion criterion, record in checks/task4.md)
+- [ ] self-check (OK/NG per completion criterion, record in checks/task3.md)
 - [ ] QA expert review (subagent)
 - [ ] user review
 
@@ -107,35 +89,86 @@ NTF（Nablarchテストフレームワーク）解説書（`ja/development_tools
 
 - `CLAUDE.md` にNTF解説書修正の作業ルール（文書表現・用語・トンマナ）が記載されている
 
-### #5以降: 解説書修正（タスク#3完了後に追記）
+### #4: toctree 構成変更（A章・B章の骨格作成）
 
-（#3完了後、影響範囲確認の結果をもとに具体的な修正タスクをここに追記する）
+**Purpose**: proposed-structure.md の新構成ツリーに合わせて、既存の toctree を組み替え、A章・B章の骨格（index.rst）を作成する。ファイル移動は行わず toctree の付け替えと新規 index.rst の追加のみで完結させる。
+
+**Prerequisites**: #3
+
+**Steps**:
+
+- [ ] 新構成ツリーに合わせた index.rst の変更・新規ファイルを確認・作成する
+  - `06_TestFWGuide/index.rst`（または親ページ）の toctree を A章・B章構成に組み替える
+  - `06_TestFWGuide/testdata/index.rst` を新規作成（B-1 の入口）
+- [ ] `make html` でビルドエラーがないことを確認する
+- [ ] self-check (OK/NG per completion criterion, record in checks/task4.md)
+- [ ] QA expert review (subagent)
+- [ ] user review
+
+**Completion criteria**:
+
+- A章（`Nablarchテスティングフレームワークとは`）・B章（`テストの実装方法`）が toctree に現れている
+- `make html` がエラーなく完了する
+- 既存ファイルへの toctree 参照が壊れていない
+
+### #5: B-1「テストデータの記述方法」新規作成
+
+**Purpose**: `ntf-testdata-doc.md` を主素材に、テストデータ仕様リファレンス（B-1-1〜B-1-7）を RST ファイルとして新規作成する。Excel/YAML 並列記述は「Excelの場合」「YAMLの場合」見出し分けで行う。
+
+**Prerequisites**: #4
+
+**Steps**:
+
+- [ ] `06_TestFWGuide/testdata/` 配下に以下の7ファイルを作成する:
+  `overview.rst` / `data-blocks.rst` / `testshots.rst` / `table-data.rst` / `file-data.rst` / `messaging.rst` / `values.rst`
+- [ ] 各ファイルに `ntf-testdata-doc.md` の対応章（§1〜10）と examples ファイルの内容を RST 化して記述する
+- [ ] `testdata/index.rst` の toctree にすべて追加する
+- [ ] `make html` でビルドエラーがないことを確認する
+- [ ] self-check (OK/NG per completion criterion, record in checks/task5.md)
+- [ ] QA expert review (subagent)
+- [ ] user review
+
+**Completion criteria**:
+
+- `testdata/` 配下に B-1-1〜B-1-7 の RST ファイルが存在し、toctree に追加されている
+- `ntf-testdata-doc.md` の全章（§1〜10）が B-1 のいずれかの節に対応している
+- Excel/YAML の記述例が各節に両方掲載されている
+- `make html` がエラーなく完了する
+
+### #6: 既存ページのテストデータ参照をB-1へ差し替え
+
+**Purpose**: `05_UnitTestGuide/` 配下の各ページで「テストデータの書き方」を解説している箇所を B-1 への参照リンクに置き換え、重複記述を解消する。
+
+**Prerequisites**: #5
+
+**Steps**:
+
+- [ ] proposed-structure.md の新旧マッピング表を参照し、対象ページ（B-3〜B-5 相当）を特定する
+- [ ] 各ページの「テストデータの書き方」節を `:ref:` 参照リンクに置き換える
+- [ ] `02_DbAccessTest.rst` の冒頭にテストデータ参照誘導を追加する
+- [ ] `make html` でビルドエラー・壊れた参照がないことを確認する
+- [ ] self-check (OK/NG per completion criterion, record in checks/task6.md)
+- [ ] QA expert review (subagent)
+- [ ] user review
+
+**Completion criteria**:
+
+- 対象ページの「テストデータの書き方」節が B-1 への参照に変わっている
+- `make html` がエラーなく完了する
+- 既存の `:ref:` ラベルが壊れていない
 
 # Decisions
 
-（未記入 — 作業中に記録）
+### D-1: 新構成案への合意（2026-06-26）
+
+ユーザーと議論の上、proposed-structure.md（`.rn/ntf-yaml-support/proposed-structure.md`）に記載の新構成案で合意した。主な合意内容:
+
+- トップ2ページ: 「Nablarchテスティングフレームワークとは」（A章）「テストの実装方法」（B章）
+- テストデータは B-1「テストデータの記述方法」（仕様）+ B-2「テストデータの記述例」の2ページ構成（※B-2はタスク追加時に検討）
+- Excel/YAML 並列表示は「Excelの場合」「YAMLの場合」見出し分けを採用（sphinx-tabs は使わない）
+- ディレクトリ構造は既存パスを維持し toctree のみ組み替える
+- input/ のうち `ntf-testdata-loading.md` と `testdata-converter-design.md` は使わない
 
 # State
 
-- **Status**: paused
-- **Date**: 2026-06-26
-- **Last completed**: #2 全体構成の認識合わせ（QA PASS）
-- **Next**: #3 影響範囲確認とタスク更新
-- **Notes**: |
-    ユーザーと新構成について議論し、proposed-structure.md（`.rn/ntf-yaml-support/proposed-structure.md`）として
-    ゼロベース設計案を作成・合意済み。ステアリングのタスク #3〜#5 は proposed-structure.md の内容をもとに
-    組み直す必要がある。
-
-    【合意済みの設計内容】
-    - トップ2ページ: 「Nablarchテスティングフレームワークとは」「テストの実装方法」
-    - テストデータは2ページ構成: B-1「テストデータの記述方法」（仕様1ページ）、B-2「テストデータの記述例」（例1ページ）
-    - Excel/YAML 並列表示はタブ切り替えなし（sphinx-tabs 未導入）、「Excelの場合」「YAMLの場合」小見出し分け
-    - ディレクトリ構造は既存パスを維持し toctree だけ組み替え
-    - input/ のうち ntf-testdata-loading.md と testdata-converter-design.md は使わない
-
-    【次のアクション】
-    ステアリングの #3（影響範囲確認とタスク更新）を実行する前に、タスク #3〜#5 の内容を
-    proposed-structure.md の合意内容に合わせて書き直すこと。
-    具体的には「全体構成見直し」「YAML対応」という2軸を分解したタスクを追加する。
-
-    ビルド環境: `/tmp/sphinx_env`（Sphinx 1.8.6）、`make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`
+（未記入 — 作業中に記録）
