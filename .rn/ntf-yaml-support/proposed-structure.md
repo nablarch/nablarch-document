@@ -34,7 +34,7 @@
 │   │  ※アーキテクト向け。FW の仕組み・設定・導入
 │   │  ※アプリケーションFW側の architecture + application_design に相当
 │   │
-│   ├── A-1. 自動テストフレームワーク
+│   ├── A-1. テスティングフレームワーク概要
 │   │       FW の特徴・制約・クラス構成・処理フロー
 │   │       ※現: 01_Abstract.rst の前半（特徴・FW構成表）
 │   │
@@ -100,6 +100,7 @@
 | タイトル | 根拠 |
 |---|---|
 | `Nablarchテスティングフレームワークとは` | 「Nablarchバッチアプリケーション」「ウェブアプリケーション編」と同じく **「何のFWか」を先頭に置く** パターン。「〜とは」でFW概要ページであることを明示 |
+| `テスティングフレームワーク概要` | FW側の配下ページは「アーキテクチャ概要」のように **FW名を繰り返さない**。「自動」は「テスティングフレームワーク」から自明なため不要 |
 | `テストの実装方法` | 内容が「テストコードを書く・テストデータを作る」という**実装行為**。「実施」はテストを走らせるQAプロセスのニュアンスで内容とズレがある。現行の「単体テスト実施方法」を正す機会 |
 
 ---
@@ -214,20 +215,18 @@
 
 ## input/ 資料と新構成の対応
 
-入力資料は B-1 の主素材として使う。各ファイルと対応節を示す。
-
-| input/ ファイル | 内容 | 主に使う節 |
-|---|---|---|
-| `ntf-testdata-doc.md` | テストデータ仕様リファレンス全体（Excel/YAML 両対応） | B-1 全体の主素材 |
-| `ntf-testdata-doc-examples-overview.md` | 全体像の記述例（テストケース・セットアップ・検証が共存するファイルの例） | B-1-1 に掲載 |
-| `ntf-testdata-doc-examples-testshots.md` | 処理方式別 testShots カラム仕様と Excel/YAML 記述例 | B-1-3 に掲載 |
-| `ntf-testdata-doc-examples-table.md` | テーブルデータ（SETUP_TABLE/EXPECTED_TABLE 等）の Excel/YAML 記述例 | B-1-4 に掲載 |
-| `ntf-testdata-doc-examples-file.md` | ファイルデータ（固定長・可変長）の Excel/YAML 記述例 | B-1-5 に掲載 |
-| `ntf-testdata-doc-examples-messaging.md` | メッセージングデータの Excel/YAML 記述例 | B-1-6 に掲載 |
-| `ntf-testdata-doc-examples-special.md` | 特殊値・ディレクティブ・ヘッダ/コメント の Excel/YAML 記述例 | B-1-7 に掲載 |
-| `ntf-testdata-loading.md` | FW の内部読み込み機構（4段階変換・クラス設計） | A-1 の補足（内部仕組みの詳細）|
-| `ntf-doc-terms.md` | 用語リファレンス（既存解説書からの用語引き表） | 各ページの用語統一に使用 |
-| `testdata-converter-design.md` | Excel/YAML 変換ツール設計書 | A-3 の参考資料 |
+| input/ ファイル | 内容 | 使う/使わない | 用途 |
+|---|---|---|---|
+| `ntf-testdata-doc.md` | テストデータ仕様リファレンス全体（Excel/YAML 両対応） | **使う** | B-1 全体の主素材 |
+| `ntf-testdata-doc-examples-overview.md` | 全体像・groupId の記述例 | **使う** | B-1-1 に掲載 |
+| `ntf-testdata-doc-examples-testshots.md` | 処理方式別 testShots カラム仕様と記述例 | **使う** | B-1-3 に掲載 |
+| `ntf-testdata-doc-examples-table.md` | テーブルデータの Excel/YAML 記述例 | **使う** | B-1-4 に掲載 |
+| `ntf-testdata-doc-examples-file.md` | ファイルデータの Excel/YAML 記述例 | **使う** | B-1-5 に掲載 |
+| `ntf-testdata-doc-examples-messaging.md` | メッセージングデータの Excel/YAML 記述例 | **使う** | B-1-6 に掲載 |
+| `ntf-testdata-doc-examples-special.md` | 特殊値・ディレクティブ・ヘッダ/コメント の Excel/YAML 記述例 | **使う** | B-1-7 に掲載 |
+| `ntf-doc-terms.md` | 用語リファレンス（既存解説書からの用語引き表） | **使う（間接）** | ページには掲載しない。執筆時の用語統一チェックに使用 |
+| `ntf-testdata-loading.md` | FW 内部の読み込み機構（4段階変換・クラス設計） | **使わない** | 利用者向けコンテンツの素材にならない内部設計書 |
+| `testdata-converter-design.md` | Excel/YAML 変換ツール設計書 | **使わない** | 利用者向けコンテンツの素材にならない内部設計書 |
 
 ---
 
