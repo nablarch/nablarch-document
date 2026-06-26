@@ -61,22 +61,27 @@
     │  ※アプリケーションFW側の feature_details に相当
     │  ※現行「単体テスト実施方法」から「テストの実装方法」に変更
     │
-    ├── B-1. テストデータの記述方法             ★最大の変更点★
-    │   ├── B-1-1. テストデータの構造（Excel / YAML）
-    │   ├── B-1-2. データブロックの種別（14種）
-    │   ├── B-1-3. テストケース定義（testShots）
-    │   ├── B-1-4. テーブルデータの記述方法
-    │   ├── B-1-5. ファイルデータの記述方法
-    │   ├── B-1-6. メッセージングデータの記述方法
-    │   └── B-1-7. 値の記述方法
-    │       ※現在10本以上に散在 → ここに集約
-    │       ※主素材: input/ntf-testdata-doc.md + example ファイル群
+    ├── B-1. テストデータの記述方法             ★最大の変更点・1ページ★
+    │       テストデータの構造・データブロック種別・testShots・
+    │       テーブルデータ・ファイルデータ・メッセージング・値の記述方法
+    │       ※現在10本以上に散在 → 1ページに集約。長くてもスクロールで通読できる
+    │       ※主素材: input/ntf-testdata-doc.md 全章（§1〜10）
     │
-    ├── B-2. クラス単体テストの実装方法
+    ├── B-2. テストデータの記述例               ★新規・1ページ★
+    │       Excel / YAML 対比例を一覧。仕様を調べるなら B-1、写して使うなら B-2
+    │       ※主素材: input/ntf-testdata-doc-examples-*.md 6本をまとめる
+    │       　- 全体像・groupId の例
+    │       　- testShots（処理方式別カラム仕様）の例
+    │       　- テーブルデータの例
+    │       　- ファイルデータの例
+    │       　- メッセージングデータの例
+    │       　- 特殊値・ディレクティブ・ヘッダ/コメント の例
+    │
+    ├── B-3. クラス単体テストの実装方法
     │       ※現: 05_UnitTestGuide/01_ClassUnitTest/ ほぼそのまま
     │       ※「テストデータの書き方」節 → B-1 参照に置換
     │
-    ├── B-3. リクエスト単体テストの実装方法
+    ├── B-4. リクエスト単体テストの実装方法
     │   ├── ウェブアプリケーション
     │   ├── RESTful ウェブサービス
     │   ├── バッチ処理
@@ -86,11 +91,11 @@
     │       ※現: 05_UnitTestGuide/02_RequestUnitTest/
     │       ※各ページの「テストデータの書き方」節 → B-1 参照に置換
     │
-    ├── B-4. 取引単体テストの実装方法
+    ├── B-5. 取引単体テストの実装方法
     │       ※現: 05_UnitTestGuide/03_DealUnitTest/ ほぼそのまま
     │       ※「テストデータの書き方」節 → B-1 参照に置換
     │
-    └── B-5. 目的別API使用方法
+    └── B-6. 目的別API使用方法
             ※現: 06_TestFWGuide/03_Tips.rst → 開発者向けに移動
             ※Excel 固有表現をテストデータファイル表現に修正
 ```
@@ -170,7 +175,7 @@
 | # | 既存ファイル | 内容カテゴリ | 新構成の移動先 | 処理方針 |
 |---|---|---|---|---|
 | 1 | `06_TestFWGuide/01_Abstract.rst` § 特徴・構成表 | FW の仕組み | **A-1** | 抜粋・移動 |
-| 2 | `06_TestFWGuide/01_Abstract.rst` § 命名規約・データタイプ一覧・特殊記法・注意事項 | テストデータ仕様 | **B-1**（Excel+YAML対応に拡充） | 集約・拡充 |
+| 2 | `06_TestFWGuide/01_Abstract.rst` § 命名規約・データタイプ一覧・特殊記法・注意事項 | テストデータ仕様 | **B-1**（Excel+YAML対応に拡充）、記述例は **B-2** | 集約・拡充 |
 | 3 | `06_TestFWGuide/02_DbAccessTest.rst` § クラス構成・仕組み説明 | テストクラス基盤 | **A-2-1** | 抜粋・移動 |
 | 4 | `06_TestFWGuide/02_DbAccessTest.rst` § API 使い方・記述例 | テスト実装方法 | **B-2** に残置 or 参照化 | 検討 |
 | 5 | `06_TestFWGuide/02_RequestUnitTest.rst` | リクエスト単体テスト基盤 | **A-2-2** | 移動 |
@@ -182,34 +187,35 @@
 | 11 | `06_TestFWGuide/03_Tips.rst` | 目的別 API / Tips | **B-5** | 開発者向けに移動、Excel→テストデータファイル表現に修正 |
 | 12 | `06_TestFWGuide/04_MasterDataRestore.rst` | マスタデータ復旧 | **A-5** | そのまま移動 |
 | 13 | `06_TestFWGuide/JUnit5_Extension.rst` | JUnit 5 拡張 | **A-4** | そのまま移動 |
-| 14 | `05_UnitTestGuide/01_ClassUnitTest/index.rst` | クラス単体テスト概要 | **B-2** | そのまま |
-| 15 | `05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_*.rst` | エンティティ単体テスト（Bean Validation） | **B-2** | テストデータの書き方 → B-1 参照に |
-| 16 | `05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/02_*.rst` | エンティティ単体テスト（Nablarch Validation） | **B-2** | テストデータの書き方 → B-1 参照に |
-| 17 | `05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst` | コンポーネント単体テスト | **B-2** | テストデータの書き方 → B-1 参照に、命名規約 → B-1-1 参照に |
-| 18 | `05_UnitTestGuide/02_RequestUnitTest/index.rst` | リクエスト単体テスト概要 | **B-3** | そのまま |
-| 19 | `05_UnitTestGuide/02_RequestUnitTest/batch.rst` | バッチリクエスト単体テスト実装手順 | **B-3** | 「テストデータの書き方」節 → B-1-3〜5 参照に |
-| 20 | `05_UnitTestGuide/02_RequestUnitTest/rest.rst` | REST リクエスト単体テスト実装手順 | **B-3** | 「テストデータの書き方」節 → B-1 参照に |
-| 21 | `05_UnitTestGuide/02_RequestUnitTest/real.rst` | 同期応答受信 実装手順 | **B-3** | 「テストデータの書き方」節 → B-1-6 参照に |
-| 22 | `05_UnitTestGuide/02_RequestUnitTest/http_real.rst` | HTTP 同期応答受信 実装手順 | **B-3** | 「テストデータの書き方」節 → B-1-6 参照に |
-| 23 | `05_UnitTestGuide/02_RequestUnitTest/send_sync.rst` | 同期応答送信 実装手順 | **B-3** | 「テストデータの書き方」節 → B-1-6 参照に |
-| 24 | `05_UnitTestGuide/02_RequestUnitTest/delayed_send.rst` | 応答不要送信 実装手順 | **B-3** | 参照先へ委譲のため軽微 |
-| 25 | `05_UnitTestGuide/02_RequestUnitTest/delayed_receive.rst` | 応答不要受信 実装手順 | **B-3** | 参照先へ委譲のため軽微 |
-| 26 | `05_UnitTestGuide/02_RequestUnitTest/http_send_sync.rst` | HTTP 同期応答送信 実装手順 | **B-3** | 「テストデータの書き方」節 → B-1 参照に |
-| 27 | `05_UnitTestGuide/02_RequestUnitTest/mail.rst` | メール送信テスト 実装手順 | **B-3** | 軽微修正 |
-| 28 | `05_UnitTestGuide/02_RequestUnitTest/fileupload.rst` | ファイルアップロードテスト 実装手順 | **B-3** | 軽微修正 |
-| 29 | `05_UnitTestGuide/02_RequestUnitTest/double_transmission.rst` | 2重送信防止テスト 実装手順 | **B-3** | 変更なし |
-| 30 | `05_UnitTestGuide/03_DealUnitTest/batch.rst` | バッチ業務単体テスト 実装手順 | **B-4** | 「テストデータの書き方」節 → B-1 参照に |
-| 31 | `05_UnitTestGuide/03_DealUnitTest/send_sync.rst` | 同期応答送信 業務単体テスト | **B-4** | 「テストデータの書き方」節 → B-1 参照に |
-| 32 | `05_UnitTestGuide/03_DealUnitTest/http_send_sync.rst` | HTTP 同期応答送信 業務単体テスト | **B-4** | 「テストデータの書き方」節 → B-1 参照に |
-| 33 | `05_UnitTestGuide/03_DealUnitTest/real.rst` | 同期応答受信 業務単体テスト | **B-4** | そのまま |
-| 34 | `05_UnitTestGuide/03_DealUnitTest/rest.rst` | REST 業務単体テスト | **B-4** | そのまま |
-| 35 | `05_UnitTestGuide/03_DealUnitTest/delayed_send.rst` | 応答不要送信 業務単体テスト | **B-4** | そのまま（参照のみ） |
-| 36 | `05_UnitTestGuide/03_DealUnitTest/delayed_receive.rst` | 応答不要受信 業務単体テスト | **B-4** | そのまま（参照のみ） |
+| 14 | `05_UnitTestGuide/01_ClassUnitTest/index.rst` | クラス単体テスト概要 | **B-3** | そのまま |
+| 15 | `05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_*.rst` | エンティティ単体テスト（Bean Validation） | **B-3** | テストデータの書き方 → B-1 参照に |
+| 16 | `05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/02_*.rst` | エンティティ単体テスト（Nablarch Validation） | **B-3** | テストデータの書き方 → B-1 参照に |
+| 17 | `05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst` | コンポーネント単体テスト | **B-3** | テストデータの書き方 → B-1 参照に、命名規約 → B-1 参照に |
+| 18 | `05_UnitTestGuide/02_RequestUnitTest/index.rst` | リクエスト単体テスト概要 | **B-4** | そのまま |
+| 19 | `05_UnitTestGuide/02_RequestUnitTest/batch.rst` | バッチリクエスト単体テスト実装手順 | **B-4** | 「テストデータの書き方」節 → B-1 参照に |
+| 20 | `05_UnitTestGuide/02_RequestUnitTest/rest.rst` | REST リクエスト単体テスト実装手順 | **B-4** | 「テストデータの書き方」節 → B-1 参照に |
+| 21 | `05_UnitTestGuide/02_RequestUnitTest/real.rst` | 同期応答受信 実装手順 | **B-4** | 「テストデータの書き方」節 → B-1 参照に |
+| 22 | `05_UnitTestGuide/02_RequestUnitTest/http_real.rst` | HTTP 同期応答受信 実装手順 | **B-4** | 「テストデータの書き方」節 → B-1 参照に |
+| 23 | `05_UnitTestGuide/02_RequestUnitTest/send_sync.rst` | 同期応答送信 実装手順 | **B-4** | 「テストデータの書き方」節 → B-1 参照に |
+| 24 | `05_UnitTestGuide/02_RequestUnitTest/delayed_send.rst` | 応答不要送信 実装手順 | **B-4** | 参照先へ委譲のため軽微 |
+| 25 | `05_UnitTestGuide/02_RequestUnitTest/delayed_receive.rst` | 応答不要受信 実装手順 | **B-4** | 参照先へ委譲のため軽微 |
+| 26 | `05_UnitTestGuide/02_RequestUnitTest/http_send_sync.rst` | HTTP 同期応答送信 実装手順 | **B-4** | 「テストデータの書き方」節 → B-1 参照に |
+| 27 | `05_UnitTestGuide/02_RequestUnitTest/mail.rst` | メール送信テスト 実装手順 | **B-4** | 軽微修正 |
+| 28 | `05_UnitTestGuide/02_RequestUnitTest/fileupload.rst` | ファイルアップロードテスト 実装手順 | **B-4** | 軽微修正 |
+| 29 | `05_UnitTestGuide/02_RequestUnitTest/double_transmission.rst` | 2重送信防止テスト 実装手順 | **B-4** | 変更なし |
+| 30 | `05_UnitTestGuide/03_DealUnitTest/batch.rst` | バッチ業務単体テスト 実装手順 | **B-5** | 「テストデータの書き方」節 → B-1 参照に |
+| 31 | `05_UnitTestGuide/03_DealUnitTest/send_sync.rst` | 同期応答送信 業務単体テスト | **B-5** | 「テストデータの書き方」節 → B-1 参照に |
+| 32 | `05_UnitTestGuide/03_DealUnitTest/http_send_sync.rst` | HTTP 同期応答送信 業務単体テスト | **B-5** | 「テストデータの書き方」節 → B-1 参照に |
+| 33 | `05_UnitTestGuide/03_DealUnitTest/real.rst` | 同期応答受信 業務単体テスト | **B-5** | そのまま |
+| 34 | `05_UnitTestGuide/03_DealUnitTest/rest.rst` | REST 業務単体テスト | **B-5** | そのまま |
+| 35 | `05_UnitTestGuide/03_DealUnitTest/delayed_send.rst` | 応答不要送信 業務単体テスト | **B-5** | そのまま（参照のみ） |
+| 36 | `05_UnitTestGuide/03_DealUnitTest/delayed_receive.rst` | 応答不要受信 業務単体テスト | **B-5** | そのまま（参照のみ） |
 | 37 | `08_TestTools/01_HttpDumpTool/` | HTTP dump ツール | **A-6** | そのまま |
 | 38 | `08_TestTools/02_MasterDataSetup/` | マスタデータセットアップツール | **A-6** | そのまま |
 | 39 | `08_TestTools/03_HtmlCheckTool/` | HTML チェックツール | **A-6** | そのまま |
-| ★ | *(新規)* | テストデータ形式の選択 | **A-3** | 新規作成 |
-| ★ | *(新規、ntf-testdata-doc.md 主素材)* | テストデータの書き方リファレンス | **B-1** | ntf-testdata-doc.md + example 群を RST 化 |
+| ★ | *(新規)* | テストデータの形式（Excel / YAML） | **A-3** | 新規作成 |
+| ★ | *(新規、ntf-testdata-doc.md 主素材)* | テストデータの記述方法（仕様リファレンス） | **B-1** | ntf-testdata-doc.md を RST 化、1ページ |
+| ★ | *(新規、examples 6本 主素材)* | テストデータの記述例（Excel/YAML 対比） | **B-2** | examples 6本をまとめて RST 化、1ページ |
 
 ---
 
