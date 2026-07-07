@@ -93,3 +93,38 @@ make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build
 ```
 
 新規 RST ファイルを追加した場合は、親ディレクトリの `index.rst` の toctree にも追加すること。
+
+---
+
+## NTF 解説書 YAML 対応 固有ルール（feature/ntf-yaml-support ブランチ）
+
+### Excel/YAML 並列記述の方針
+
+- 「Excelの場合」「YAMLの場合」の見出し分けで並列掲載する（sphinx-tabs は使用しない）。
+- 共通説明は見出し分けせず冒頭にまとめる。冒頭に「テストデータは Excel または YAML ファイルで記述できる。」を入れる。
+- 見出し分けの例（`小見出し` レベルの `-` アンダーライン）:
+
+  ```rst
+  Excelの場合
+  -----------
+
+  （Excel 向けの説明・例）
+
+  YAMLの場合
+  ----------
+
+  （YAML 向けの説明・例）
+  ```
+
+### 用語対応表（Excel ↔ YAML）
+
+YAML 追記時、以下の対応で表記する（`input/ntf-testdata-doc.md` を正典とする）:
+
+| Excel 用語 | YAML 対応用語 |
+|---|---|
+| シート | ファイル（YAMLファイル） |
+| データタイプ行（1行目） | `dataType` キー |
+| グループID | `id` キー |
+
+- `testShots`・`LIST_MAP` 等の識別子名は既存ページでの表記をそのまま使う。
+- YAML 固有のキー名・構造は `.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md` を参照する。
