@@ -18,3 +18,4 @@
    file-data
    messaging
    values
+   examples
