@@ -106,14 +106,14 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 **Steps**:
 
-- [ ] 新構成ツリーに合わせた index.rst の変更・新規ファイルを確認・作成する
+- [x] 新構成ツリーに合わせた index.rst の変更・新規ファイルを確認・作成する
   - `06_TestFWGuide/index.rst`（または親ページ）の toctree を A章・B章構成に組み替える
   - `06_TestFWGuide/testdata/index.rst` を新規作成（B-1 の入口）
-- [ ] `make html` でビルドエラーがないことを確認する
-- [ ] self-check (OK/NG per completion criterion, record in checks/task4.md)
-- [ ] QA expert review (subagent)
-- [ ] Craft expert review (subagent, writing)
-- [ ] Design expert review (subagent)
+- [x] `make html` でビルドエラーがないことを確認する
+- [x] self-check (OK/NG per completion criterion, record in checks/task4.md)
+- [x] QA expert review (subagent)
+- [x] Craft expert review (subagent, writing)
+- [x] Design expert review (subagent)
 
 **Completion criteria**:
 
@@ -187,6 +187,6 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 - **Status**: paused
 - **Date**: 2026-07-07
-- **Last completed**: proposed-structure.md を design.md に統合、CLAUDE.md にブランチ固有ルールを移動
-- **Next**: #3 のユーザー承認 → チェックオフ → #4 toctree 構成変更
-- **Notes**: ビルド環境: `/tmp/sphinx_env`（Sphinx 1.8.6）、`make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`。
+- **Last completed**: #4 toctree 構成変更（A章・B章骨格作成）
+- **Next**: #5 B-1「テストデータの記述方法」新規作成
+- **Notes**: ビルド環境: `/tmp/sphinx_env`（Sphinx 1.8.6）、セッション再開時に venv 再構築が必要な場合あり（`pip install "setuptools<70" "Jinja2<3.1" "alabaster<0.7.12" sphinx==1.8.6 javasphinx "sphinx_rtd_theme==0.4.3" "docutils<0.18"`）。コマンド: `LC_ALL=C.UTF-8 LANG=C.UTF-8 make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`。
