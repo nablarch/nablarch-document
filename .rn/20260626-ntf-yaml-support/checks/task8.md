@@ -34,13 +34,13 @@
 
 | Aspect | Verdict | Evidence / Improvement |
 |---|---|---|
-| 文体（だ・である調） | OK | 全説明文でだ・である調を使用。「〜決まる。」「〜記述する。」「〜省略する。」等。コードブロック内の「正しく更新されます」はテストデータの値であり対象外。 |
+| 文体（だ・である調） | OK | 全説明文でだ・である調を使用。 |
 | 冒頭文 | OK | ファイル冒頭7行目に「テストデータは Excel または YAML ファイルで記述できる。」が記載。 |
-| Excelの場合/YAMLの場合 並列見出し | OK | 全カテゴリ（テスト全体像・グループID・testShots 4方式・テーブル3種・ファイル4パターン・メッセージング2種・特殊値4種）で並列見出し分けを実施。sphinx-tabs は未使用。 |
-| RST 見出しレベル | OK | CLAUDE.md の規約通り（= 上下=ページ題、- 上下=大見出し、= 下のみ=中見出し、- 下のみ=小見出し）。アンダーライン長も日本語全角2幅計算で全件 OK。 |
-| コードブロック記法 | OK | `.. code-block:: text` / `.. code-block:: yaml` を使用。インデント 4 スペース。 |
-| 用語（CLAUDE.md 用語対応表） | OK | `testShots` / `LIST_MAP` 等の識別子は既存ページ表記に準拠。`group_id` キー（テーブル・ファイルセクション用）と `id` キー（list_maps エントリ用）の使い分けは ntf-testdata-doc.md 正典に準拠し正確。 |
-| Consistency with existing style | OK | overview.rst との文体・構造・用語が一致。見出し区切り、コードブロック前の説明文パターン（「以下に〜を示す。」「〜で決まる。」）も既存ページに準拠。 |
+| 大見出し冒頭句 | NG→Fixed | テーブル・ファイル・メッセージング・特殊値の4大見出しに冒頭句なし。コミット a6fcd50 で追加済み |
+| testShots 内 intro 文 | NG→Fixed | ウェブ・バッチ・メッセージング・エンティティの4処理方式 Excelの場合/YAMLの場合 節に intro 文なし。コミット a6fcd50 で追加済み |
+| RST 見出しレベル | OK | CLAUDE.md 規約通り。アンダーライン長も全件 OK。 |
+| コードブロック記法 | OK | `.. code-block:: text` / `.. code-block:: yaml`。インデント 4 スペース。 |
+| Consistency with existing style | OK | overview.rst との文体・構造・用語が一致。 |
 
 ### Verification Expert (fact-check)
 
@@ -51,7 +51,8 @@
 ## Overall Verdict
 
 - Self-check: OK
-- QA: NG→Fix済み（7セクション欠落を修正後 OK）
-- Craft expert: OK
-- Verification expert: OK
+- QA: OK (修正後: 7節欠落・SCHEDULE row4 追加済み)
+- Design expert: N/A
+- Craft expert: OK (修正後: 大見出し冒頭句・testShots intro 文追加済み)
+- Verification expert: OK (修正後: 欠落7節＋SCHEDULE row4 追加済み)
 - Ready to check off: Yes
