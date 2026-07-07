@@ -277,8 +277,8 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 # State
 
-- **Status**: active
+- **Status**: paused
 - **Date**: 2026-07-07
 - **Last completed**: #6 既存ページのテストデータ参照をB-1へ差し替え
 - **Next**: #7 A-3「テストデータの形式」新規作成
-- **Notes**: ビルド環境: `/tmp/sphinx_env`（Sphinx 1.8.6）、セッション再開時に venv 再構築が必要な場合あり（`pip install "setuptools<70" "Jinja2<3.1" "alabaster<0.7.12" sphinx==1.8.6 javasphinx "sphinx_rtd_theme==0.4.3" "docutils<0.18"`）。コマンド: `LC_ALL=C.UTF-8 LANG=C.UTF-8 make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`。ビルドはリポジトリルート（nablarch-document/）で実行すること（`ja/` 配下では `Makefile` が存在しないため失敗する）。タスク #7〜#10 追加：design.md の新構成ツリー（A-3・B-2・B-6・A章再編）が未実装だったため AC 未達と判明、残作業を追加した。
+- **Notes**: ビルド環境: `/tmp/sphinx_env`（Sphinx 1.8.6）、セッション再開時に venv 再構築が必要な場合あり（`pip install "setuptools<70" "Jinja2<3.1" "alabaster<0.7.12" sphinx==1.8.6 javasphinx "sphinx_rtd_theme==0.4.3" "docutils<0.18"`）。コマンド: `LC_ALL=C.UTF-8 LANG=C.UTF-8 make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`。ビルドはリポジトリルート（nablarch-document/）で実行すること（`ja/` 配下では `Makefile` が存在しないため失敗する）。
