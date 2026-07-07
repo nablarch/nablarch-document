@@ -231,6 +231,6 @@ YAML 追記時、以下の対応で表記する（input/ の仕様資料を正�
 
 - **Status**: paused
 - **Date**: 2026-07-07
-- **Last completed**: #3 文書表現・トンマナ確認とCLAUDE.md作業ルール記載（QA PASS、ユーザーレビュー待ち）
+- **Last completed**: .rn を rn 0.7.0 形式に更新（ディレクトリ名変更・design.md 新規作成・steering.md/checks 更新）
 - **Next**: #3 のユーザー承認 → チェックオフ → #4 toctree 構成変更
-- **Notes**: Task #3 はユーザーレビュー段階で中断。ビルド環境: `/tmp/sphinx_env`（Sphinx 1.8.6）、`make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`。
+- **Notes**: ビルド環境: `/tmp/sphinx_env`（Sphinx 1.8.6）、`make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`。
