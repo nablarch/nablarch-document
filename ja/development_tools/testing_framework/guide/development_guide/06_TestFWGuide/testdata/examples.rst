@@ -210,6 +210,8 @@ testShots の記述例
 Excelの場合
 -----------
 
+処理方式固有のカラム構成を以下に示す。
+
 .. code-block:: text
 
     LIST_MAP=testShots
@@ -223,6 +225,8 @@ Excelの場合
 
 YAMLの場合
 ----------
+
+処理方式固有のカラム構成を以下に示す。
 
 .. code-block:: yaml
 
@@ -255,6 +259,8 @@ YAMLの場合
 Excelの場合
 -----------
 
+処理方式固有のカラム構成を以下に示す。
+
 .. code-block:: text
 
     LIST_MAP=testShots
@@ -264,6 +270,8 @@ Excelの場合
 
 YAMLの場合
 ----------
+
+処理方式固有のカラム構成を以下に示す。
 
 .. code-block:: yaml
 
@@ -293,6 +301,8 @@ YAMLの場合
 Excelの場合
 -----------
 
+処理方式固有のカラム構成を以下に示す。
+
 .. code-block:: text
 
     LIST_MAP=testShots
@@ -301,6 +311,8 @@ Excelの場合
 
 YAMLの場合
 ----------
+
+処理方式固有のカラム構成を以下に示す。
 
 .. code-block:: yaml
 
@@ -324,6 +336,8 @@ YAMLの場合
 Excelの場合
 -----------
 
+処理方式固有のカラム構成を以下に示す。
+
 .. code-block:: text
 
     LIST_MAP=testShots
@@ -332,6 +346,8 @@ Excelの場合
 
 YAMLの場合
 ----------
+
+処理方式固有のカラム構成を以下に示す。
 
 .. code-block:: yaml
 
