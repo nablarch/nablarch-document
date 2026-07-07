@@ -197,13 +197,13 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 **Steps**:
 
-- [ ] `06_TestFWGuide/testdata/examples.rst` を新規作成する（6本の examples ファイルを統合、Excel/YAML 対比）
-- [ ] `06_TestFWGuide/testdata/index.rst` の toctree に `examples` を追加する
-- [ ] `make html` でビルドエラーがないことを確認する
-- [ ] self-check (OK/NG per completion criterion, record in checks/task8.md)
-- [ ] QA expert review (subagent)
-- [ ] Craft expert review (subagent, writing)
-- [ ] Verification expert review (subagent, fact-check)
+- [x] `06_TestFWGuide/testdata/examples.rst` を新規作成する（6本の examples ファイルを統合、Excel/YAML 対比）
+- [x] `06_TestFWGuide/testdata/index.rst` の toctree に `examples` を追加する
+- [x] `make html` でビルドエラーがないことを確認する
+- [x] self-check (OK/NG per completion criterion, record in checks/task8.md)
+- [x] QA expert review (subagent)
+- [x] Craft expert review (subagent, writing)
+- [x] Verification expert review (subagent, fact-check)
 
 **Completion criteria**:
 
@@ -279,6 +279,6 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 - **Status**: paused
 - **Date**: 2026-07-07
-- **Last completed**: #7 A-3「テストデータの形式」新規作成
-- **Next**: #8 B-2「テストデータの記述例」新規作成
+- **Last completed**: #8 B-2「テストデータの記述例」新規作成
+- **Next**: #9 B-6（03_Tips.rst の開発者向け移動・Excel 表現修正）
 - **Notes**: ビルド環境: `/tmp/sphinx_env`（Sphinx 1.8.6）、セッション再開時に venv 再構築が必要な場合あり（`pip install "setuptools<70" "Jinja2<3.1" "alabaster<0.7.12" sphinx==1.8.6 javasphinx "sphinx_rtd_theme==0.4.3" "docutils<0.18"`）。コマンド: `LC_ALL=C.UTF-8 LANG=C.UTF-8 make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`。ビルドはリポジトリルート（nablarch-document/）で実行すること（`ja/` 配下では `Makefile` が存在しないため失敗する）。
