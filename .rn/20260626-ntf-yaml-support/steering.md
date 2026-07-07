@@ -154,7 +154,7 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 **Steps**:
 
-- [ ] proposed-structure.md の新旧マッピング表を参照し、対象ページ（B-3〜B-5 相当）を特定する
+- [ ] design.md の新旧マッピング表を参照し、対象ページ（B-3〜B-5 相当）を特定する
 - [ ] 各ページの「テストデータの書き方」節を `:ref:` 参照リンクに置き換える
 - [ ] `02_DbAccessTest.rst` の冒頭にテストデータ参照誘導を追加する
 - [ ] `make html` でビルドエラー・壊れた参照がないことを確認する
@@ -187,6 +187,6 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 - **Status**: paused
 - **Date**: 2026-07-07
-- **Last completed**: .rn を rn 0.7.0 形式に更新（ディレクトリ名変更・design.md 新規作成・steering.md/checks 更新）
+- **Last completed**: proposed-structure.md を design.md に統合、CLAUDE.md にブランチ固有ルールを移動
 - **Next**: #3 のユーザー承認 → チェックオフ → #4 toctree 構成変更
 - **Notes**: ビルド環境: `/tmp/sphinx_env`（Sphinx 1.8.6）、`make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`。
