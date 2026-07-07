@@ -902,6 +902,7 @@ Excelの場合
     | 1  | 会議         | 2024-01-15       | 2024-01-01 09:00:00.0 |
     | 2  | NULLテスト   | NULL             | NULL                  |
     | 3  | システム時刻 | ${systemTime}    | ${systemTime}         |
+    | 4  | 更新時刻     | ${updateTime}    | ${setUpTime}          |
 
 YAMLの場合
 ----------
@@ -923,6 +924,10 @@ YAMLの場合
             EVENT_NAME: "システム時刻"
             START_DATE: "${systemTime}"
             CREATED_AT: "${systemTime}"
+          - ID: "4"
+            EVENT_NAME: "更新時刻"
+            START_DATE: "${updateTime}"
+            CREATED_AT: "${setUpTime}"
 
 - NULL 値は Excel では ``NULL``（大文字小文字不問）、YAML ではアンクォートの ``null`` で記述する。
 - ``java.sql.Timestamp`` 型カラムの期待値は末尾 ``.0`` が必須（例: ``"2024-01-01 09:00:00.0"``）。
