@@ -7,12 +7,12 @@
    :maxdepth: 1
    :titlesonly:
 
-   guide/development_guide/05_UnitTestGuide/index
    guide/development_guide/06_TestFWGuide/index
+   guide/development_guide/05_UnitTestGuide/index
    guide/development_guide/08_TestTools/index
 
-テスティングフレームワークを使用して機能のテストを実装するテストの実装者は :ref:`unitTestGuide` を、
-テスティングフレームワークの導入をするアーキテクトは :ref:`testFWGuide` を参照してください。
+テスティングフレームワークの仕組み・設定・導入を行うアーキテクトは :ref:`testFWGuide` を、
+テストの実装方法・テストデータの記述方法を確認する開発者は :ref:`unitTestGuide` を参照。
 
 .. important::
 

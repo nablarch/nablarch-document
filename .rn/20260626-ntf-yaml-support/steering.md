@@ -91,7 +91,7 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 - [x] self-check (OK/NG per completion criterion, record in checks/task3.md)
 - [x] QA expert review (subagent)
 - [x] Craft expert review (subagent, writing)
-- [ ] user review
+- [x] user review
 
 **Completion criteria**:
 
