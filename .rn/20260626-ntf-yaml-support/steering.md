@@ -176,12 +176,12 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 **Steps**:
 
-- [ ] `06_TestFWGuide/testdata_format.rst` を新規作成する（Excel/YAML の違い・選択指針・プロジェクト統一方針）
-- [ ] `06_TestFWGuide/index.rst` の toctree に `testdata_format` を追加する
-- [ ] `make html` でビルドエラーがないことを確認する
-- [ ] self-check (OK/NG per completion criterion, record in checks/task7.md)
-- [ ] QA expert review (subagent)
-- [ ] Craft expert review (subagent, writing)
+- [x] `06_TestFWGuide/testdata_format.rst` を新規作成する（Excel/YAML の違い・選択指針・プロジェクト統一方針）
+- [x] `06_TestFWGuide/index.rst` の toctree に `testdata_format` を追加する
+- [x] `make html` でビルドエラーがないことを確認する
+- [x] self-check (OK/NG per completion criterion, record in checks/task7.md)
+- [x] QA expert review (subagent)
+- [x] Craft expert review (subagent, writing)
 
 **Completion criteria**:
 
@@ -279,6 +279,6 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 - **Status**: paused
 - **Date**: 2026-07-07
-- **Last completed**: #6 既存ページのテストデータ参照をB-1へ差し替え
-- **Next**: #7 A-3「テストデータの形式」新規作成
+- **Last completed**: #7 A-3「テストデータの形式」新規作成
+- **Next**: #8 B-2「テストデータの記述例」新規作成
 - **Notes**: ビルド環境: `/tmp/sphinx_env`（Sphinx 1.8.6）、セッション再開時に venv 再構築が必要な場合あり（`pip install "setuptools<70" "Jinja2<3.1" "alabaster<0.7.12" sphinx==1.8.6 javasphinx "sphinx_rtd_theme==0.4.3" "docutils<0.18"`）。コマンド: `LC_ALL=C.UTF-8 LANG=C.UTF-8 make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`。ビルドはリポジトリルート（nablarch-document/）で実行すること（`ja/` 配下では `Makefile` が存在しないため失敗する）。
