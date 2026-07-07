@@ -10,6 +10,8 @@
 テストデータの書き方
 --------------------
 
+テストデータは Excel または YAML ファイルで記述できる。各データブロックの書き方は :ref:`ntf_testdata_testshots` および :ref:`ntf_testdata_messaging` を参照。
+
 テストショット一覧
 ==================
 
