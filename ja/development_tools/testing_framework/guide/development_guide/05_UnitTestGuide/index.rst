@@ -112,3 +112,11 @@
  
     02_RequestUnitTest/mail
 
+
+
+*目的別API使用方法*
+
+.. toctree::
+   :maxdepth: 1
+
+   ../06_TestFWGuide/03_Tips
