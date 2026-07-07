@@ -74,7 +74,7 @@
 
 
 テストデータファイル記述例
-===================
+==========================
 
 LIST_MAP=parameters
 
@@ -143,7 +143,7 @@ empNo        expected
 
 
 テストデータファイル記述例
-===================
+==========================
 
 
 // ループさせるデータ
@@ -387,7 +387,7 @@ FixedSystemTimeProviderを指定し、そのプロパティに任意の日時を
  .. tip :: テーブル採番用の設定値の詳細は、\ :java:extdoc:`IdGenerator <nablarch.common.idgenerator.IdGenerator>`\ を参照すること。
 
 テストデータファイル記述例
-===================
+==========================
 
 採番対象ID:1101を採番する処理をテストする場合を例に説明する。
 
@@ -660,7 +660,7 @@ JUnit4で用意されたアノテーション(@Before, @After, @BeforeClass, @Af
         }
         
 テストデータファイル記述例
-========================
+==========================
 
 LIST_MAP=expectedUsers
 
@@ -816,7 +816,7 @@ TestDataConverter_<データ種別> 上記インタフェースを実装した�
              class="please.change.me.test.core.file.FormUrlEncodedTestDataConverter"/>
 
 テストデータファイル記述例
-====================
+==========================
 
 .. image:: ./_images/data_convert_example.png
 
