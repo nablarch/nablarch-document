@@ -168,11 +168,103 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 - 対象ページの「テストデータの書き方」節が B-1 への `:ref:` 参照に変わっており、参照先ラベルが `checks/task6.md` の Evidence に列挙されている
 - `make html` がエラーなく完了し、既存の `:ref:` ラベルが壊れていないことが確認できる
 
-### #7: 評価サインオフ
+### #7: A-3「テストデータの形式」新規作成
+
+**Purpose**: Excel と YAML の違い・どちらを使うか・プロジェクト統一方針を説明するページを新規作成し、`06_TestFWGuide/index.rst` の toctree に追加する。
+
+**Prerequisites**: #6
+
+**Steps**:
+
+- [ ] `06_TestFWGuide/testdata_format.rst` を新規作成する（Excel/YAML の違い・選択指針・プロジェクト統一方針）
+- [ ] `06_TestFWGuide/index.rst` の toctree に `testdata_format` を追加する
+- [ ] `make html` でビルドエラーがないことを確認する
+- [ ] self-check (OK/NG per completion criterion, record in checks/task7.md)
+- [ ] QA expert review (subagent)
+- [ ] Craft expert review (subagent, writing)
+
+**Completion criteria**:
+
+- `06_TestFWGuide/testdata_format.rst` が存在し、Excel/YAML 両形式の概要・違い・選択指針が記述されている
+- `06_TestFWGuide/index.rst` の toctree に `testdata_format` が含まれており、HTML 出力でページが確認できる
+- `make html` がエラーなく完了し、エラー行数が0である
+
+### #8: B-2「テストデータの記述例」新規作成
+
+**Purpose**: `input/ntf-testdata-doc-examples-*.md` 6本を素材に、Excel/YAML 対比例を一覧するページを新規作成し、`05_UnitTestGuide/index.rst` の toctree に追加する。
+
+**Prerequisites**: #7
+
+**Steps**:
+
+- [ ] `06_TestFWGuide/testdata/examples.rst` を新規作成する（6本の examples ファイルを統合、Excel/YAML 対比）
+- [ ] `06_TestFWGuide/testdata/index.rst` の toctree に `examples` を追加する
+- [ ] `make html` でビルドエラーがないことを確認する
+- [ ] self-check (OK/NG per completion criterion, record in checks/task8.md)
+- [ ] QA expert review (subagent)
+- [ ] Craft expert review (subagent, writing)
+- [ ] Verification expert review (subagent, fact-check)
+
+**Completion criteria**:
+
+- `06_TestFWGuide/testdata/examples.rst` が存在し、`input/ntf-testdata-doc-examples-*.md` 6本（overview・testshots・table・file・messaging・special）の内容がすべて掲載されている
+- 各例について Excel 記述例と YAML 記述例が両方掲載されている
+- `make html` がエラーなく完了し、エラー行数が0である
+
+### #9: B-6（`03_Tips.rst` の開発者向け移動・Excel 表現修正）
+
+**Purpose**: `06_TestFWGuide/03_Tips.rst` を「テストの実装方法」（`05_UnitTestGuide/index.rst`）の toctree に追加し、「Excelファイル」等の Excel 固有表現を「テストデータファイル」等に修正する。
+
+**Prerequisites**: #8
+
+**Steps**:
+
+- [ ] `05_UnitTestGuide/index.rst` の toctree に `../06_TestFWGuide/03_Tips` を追加する
+- [ ] `03_Tips.rst` 内の「Excelファイル」「Excelシート」等の Excel 固有表現を汎用表現（「テストデータファイル」等）に修正する
+- [ ] `make html` でビルドエラーがないことを確認する
+- [ ] self-check (OK/NG per completion criterion, record in checks/task9.md)
+- [ ] QA expert review (subagent)
+- [ ] Craft expert review (subagent, writing)
+
+**Completion criteria**:
+
+- `05_UnitTestGuide/index.rst` の toctree に `03_Tips` が含まれており、HTML 出力で「テストの実装方法」配下にページが確認できる
+- `03_Tips.rst` に「Excelファイル」「Excelシート」等の Excel 固有表現が単独で使われている箇所が残っていない（YAML も対象にした汎用表現に置き換えられている）
+- `make html` がエラーなく完了し、エラー行数が0である
+
+### #10: A章内部再編（A-1〜A-6 への細分化）
+
+**Purpose**: `06_TestFWGuide/index.rst` の toctree を design.md の新構成ツリー（A-1〜A-6）に合わせて整理し、各 index.rst を作成・更新する。
+
+**Prerequisites**: #9
+
+**Steps**:
+
+- [ ] `06_TestFWGuide/index.rst` を A-1〜A-6 構成に組み替える:
+  - A-1: `01_Abstract`（FW 概要・構成表）
+  - A-2: リクエスト単体テスト用クラス（`02_DbAccessTest`・`02_RequestUnitTest`・`RequestUnitTest_*`）
+  - A-3: `testdata_format`（#7 で作成済み）
+  - A-4: `JUnit5_Extension`
+  - A-5: `04_MasterDataRestore`
+  - A-6: `../08_TestTools/index`（テストツール）
+- [ ] A-2 をまとめる `testclass/index.rst` を新規作成する（または見出し分けで対応）
+- [ ] `make html` でビルドエラーがないことを確認する
+- [ ] self-check (OK/NG per completion criterion, record in checks/task10.md)
+- [ ] QA expert review (subagent)
+- [ ] Craft expert review (subagent, writing)
+- [ ] Design expert review (subagent)
+
+**Completion criteria**:
+
+- `06_TestFWGuide/index.rst` の toctree が A-1〜A-6 の論理構成を反映しており、HTML 出力で A 章配下に A-1〜A-6 が確認できる
+- 既存ファイルへの toctree 参照が壊れていない（変更前後で参照先ファイルが存在する）
+- `make html` がエラーなく完了し、エラー行数が0である
+
+### #11: 評価サインオフ
 
 **Purpose**: セッション全体の成果物が Acceptance criteria を満たすことをユーザーに確認してもらう。
 
-**Prerequisites**: #6
+**Prerequisites**: #10
 
 **Steps**:
 
@@ -188,5 +280,5 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 - **Status**: active
 - **Date**: 2026-07-07
 - **Last completed**: #6 既存ページのテストデータ参照をB-1へ差し替え
-- **Next**: #7 評価サインオフ
-- **Notes**: ビルド環境: `/tmp/sphinx_env`（Sphinx 1.8.6）、セッション再開時に venv 再構築が必要な場合あり（`pip install "setuptools<70" "Jinja2<3.1" "alabaster<0.7.12" sphinx==1.8.6 javasphinx "sphinx_rtd_theme==0.4.3" "docutils<0.18"`）。コマンド: `LC_ALL=C.UTF-8 LANG=C.UTF-8 make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`。ビルドはリポジトリルート（nablarch-document/）で実行すること（`ja/` 配下では `Makefile` が存在しないため失敗する）。
+- **Next**: #7 A-3「テストデータの形式」新規作成
+- **Notes**: ビルド環境: `/tmp/sphinx_env`（Sphinx 1.8.6）、セッション再開時に venv 再構築が必要な場合あり（`pip install "setuptools<70" "Jinja2<3.1" "alabaster<0.7.12" sphinx==1.8.6 javasphinx "sphinx_rtd_theme==0.4.3" "docutils<0.18"`）。コマンド: `LC_ALL=C.UTF-8 LANG=C.UTF-8 make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`。ビルドはリポジトリルート（nablarch-document/）で実行すること（`ja/` 配下では `Makefile` が存在しないため失敗する）。タスク #7〜#10 追加：design.md の新構成ツリー（A-3・B-2・B-6・A章再編）が未実装だったため AC 未達と判明、残作業を追加した。
