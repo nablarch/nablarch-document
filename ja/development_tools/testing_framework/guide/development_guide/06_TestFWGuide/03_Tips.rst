@@ -26,11 +26,11 @@
 .. _how_to_get_data_from_excel:
 
 -----------------------------------------------------------------------
-Excelファイルから、入力パラメータや戻り値に対する期待値などを取得したい
+テストデータファイルから、入力パラメータや戻り値に対する期待値などを取得したい
 -----------------------------------------------------------------------
 
 
-テスト対象クラスのメソッドを呼び出す際の引数や、メソッドの戻り値をExcelファイルに記載しておくことができる。
+テスト対象クラスのメソッドを呼び出す際の引数や、メソッドの戻り値をテストデータファイルに記載しておくことができる。
 記載したデータは、List-Map形式（List<Map<String, String>>の形式）で取得できる。
 
 この形式でデータを取得する場合は、データタイプLIST_MAPを使用する。
@@ -39,7 +39,7 @@ Excelファイルから、入力パラメータや戻り値に対する期待値
 データの2行目はMapのKeyと解釈される。
 データの3行目以降はMapのValueと解釈される。
 
-以下のメソッドにより、Map形式またはList-Map形式で、Excelファイルよりデータを取得できる。
+以下のメソッドにより、Map形式またはList-Map形式で、テストデータファイルよりデータを取得できる。
 第1引数にはシート名、第2引数にはIDを指定する。
 
  * ``TestSupport#getListMap(String sheetName, String id)``
@@ -73,7 +73,7 @@ Excelファイルから、入力パラメータや戻り値に対する期待値
         }
 
 
-Excelファイル記述例
+テストデータファイル記述例
 ===================
 
 LIST_MAP=parameters
@@ -142,7 +142,7 @@ empNo        expected
         }
 
 
-Excelファイル記述例
+テストデータファイル記述例
 ===================
 
 
@@ -240,7 +240,7 @@ NO            NAME
     assertTableEquals("データベース更新結果確認", "testUpdate", "case_001");
 
 
-Excelファイル記述例
+テストデータファイル記述例
 ============================
 
 // ケース001:従業員の所属を変更する。
@@ -386,7 +386,7 @@ FixedSystemTimeProviderを指定し、そのプロパティに任意の日時を
 
  .. tip :: テーブル採番用の設定値の詳細は、\ :java:extdoc:`IdGenerator <nablarch.common.idgenerator.IdGenerator>`\ を参照すること。
 
-Excelファイル記述例
+テストデータファイル記述例
 ===================
 
 採番対象ID:1101を採番する処理をテストする場合を例に説明する。
@@ -438,7 +438,7 @@ ThreadContextにユーザID、リクエストIDなどを設定したい
 Nablarch Application Frameworkでは、通常ThreadContextにてユーザIDやリクエストIDがあらかじめ設定されている。データベースアクセスクラスの自動テストを行う場合、フレームワークを経由せず、テストクラスからテスト対象クラスを直接起動するため、ThreadContextには値が設定されていない。
 
 
-Excelファイルに設定する値を記述して下記メソッドを呼び出すことで、ThreadContextに値を設定できる。
+テストデータファイルに設定する値を記述して下記メソッドを呼び出すことで、ThreadContextに値を設定できる。
 
   * ``TestSupport#setThreadContextValues(String sheetName, String id)``
   * ``DbAccessTestSupport#setThreadContextValues(String sheetName, String id)``
@@ -486,9 +486,9 @@ U00001       RS000001     ja_JP
 .. _using_TestDataParser:
 
 --------------------------------------------------------------------
-任意のディレクトリのExcelファイルを読み込みたい
+任意のディレクトリのテストデータファイルを読み込みたい
 --------------------------------------------------------------------
-テストソースコードと同じディレクトリに存在するExcelファイルであれば、
+テストソースコードと同じディレクトリに存在するテストデータファイルであれば、
 シート名を指定するだけで読み込み可能であるが、別のディレクトリに存在するファイルを
 読み込みたい場合は、TestDataParser実装クラスを直接使用することで取得できる。
 
@@ -625,7 +625,7 @@ JUnit4で用意されたアノテーション(@Before, @After, @BeforeClass, @Af
 
 データの意味は、2行目が プロパティ名、3行目以降が検証時に使用するプロパティの値となる。
 
-以下のメソッドにより、プロパティの持つ値がExcelファイルに記載したデータとなっていることを検証できる。
+以下のメソッドにより、プロパティの持つ値がテストデータファイルに記載したデータとなっていることを検証できる。
 第1引数にはエラー時に表示するメッセージ、第2引数にはシート名、第3引数にはID、第4引数に検証対象のクラス、クラスの配列、クラスのリストのいずれかを指定する。
 
  * ``HttpRequestTestSupport#assertObjectPropertyEquals(String message, String sheetName, String id, Object actual)``
@@ -659,7 +659,7 @@ JUnit4で用意されたアノテーション(@Before, @After, @BeforeClass, @Af
             }
         }
         
-Excelファイル記述例
+テストデータファイル記述例
 ========================
 
 LIST_MAP=expectedUsers
@@ -815,7 +815,7 @@ TestDataConverter_<データ種別> 上記インタフェースを実装した�
   <component name="TestDataConverter_FormUrlEncoded" 
              class="please.change.me.test.core.file.FormUrlEncodedTestDataConverter"/>
 
-Excelファイル記述例
+テストデータファイル記述例
 ====================
 
 .. image:: ./_images/data_convert_example.png
