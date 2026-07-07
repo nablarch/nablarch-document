@@ -530,6 +530,46 @@ YAMLの場合
               - ["10001", "11", "HELLO"]
               - ["10002", "21", "GOOD BYE."]
 
+エンコーディング指定付き固定長ファイル
+=======================================
+
+Excelの場合
+-----------
+
+.. code-block:: text
+
+    SETUP_FIXED=input/data.dat
+    | text-encoding | MS932 |         |         |
+    | DATA | USER_ID | USER_NAME | AMOUNT |
+    |      | X       | N         | Z      |
+    |      | 10      | 20        | 10     |
+    |      | 001     | 山田太郎  | 5000   |
+    |      | 002     | 鈴木花子  | 3000   |
+
+- ディレクティブ行はレコード定義より前に記述する（「キー | 値」の2セル構成）。
+
+YAMLの場合
+----------
+
+.. code-block:: yaml
+
+    setup_files:
+      - path: input/data.dat
+        type: fixed
+        directives:
+          text-encoding: MS932
+        records:
+          - record_type: DATA
+            fields:
+              - {name: USER_ID,   type: 半角, length: 10}
+              - {name: USER_NAME, type: 全角, length: 20}
+              - {name: AMOUNT,    type: 数値, length: 10}
+            rows:
+              - ["001", "山田太郎", "5000"]
+              - ["002", "鈴木花子", "3000"]
+
+- ディレクティブは ``directives:`` オブジェクトの ``key: value`` 形式で記述する。
+
 可変長ファイル（SETUP_VARIABLE）
 =================================
 
@@ -656,6 +696,33 @@ YAMLの場合
             rows:
               - ["001", "5000", "備考"]
 
+空ファイル
+==========
+
+Excelの場合
+-----------
+
+.. code-block:: text
+
+    SETUP_FIXED=input/empty.dat
+    | text-encoding | MS932 |
+
+- ディレクティブ行のみ記述してレコード定義以降を省略する。
+
+YAMLの場合
+----------
+
+.. code-block:: yaml
+
+    setup_files:
+      - path: input/empty.dat
+        type: fixed
+        directives:
+          text-encoding: MS932
+        records: []
+
+- レコードは ``records: []`` と空配列で記述する。
+
 ---------------------------------
 メッセージングデータの記述例
 ---------------------------------
@@ -754,6 +821,70 @@ YAMLの場合
 
 - YAML では ``group_id:`` が ``testShots`` の ``expectedMessage`` カラムに対応する。
 
+sendSyncTestData の配置規則
+============================
+
+Excelの場合
+-----------
+
+.. code-block:: text
+
+    MESSAGE=sendSyncTestData/REQ001/message
+    | no | errorMode | field1 | field2 |
+    | 1  |           | value1 | value2 |
+    | 2  |           | value3 | value4 |
+
+YAMLの場合
+----------
+
+.. code-block:: yaml
+
+    messages:
+      - id: sendSyncTestData/REQ001/message
+        records:
+          - record_type: DATA
+            fields:
+              - {name: no,        type: 半角, length: 2}
+              - {name: errorMode, type: 半角, length: 10}
+              - {name: field1,    type: 半角, length: 10}
+              - {name: field2,    type: 半角, length: 10}
+            rows:
+              - ["1", "", "value1", "value2"]
+              - ["2", "", "value3", "value4"]
+
+- ``MESSAGE=sendSyncTestData/{requestId}/message`` というパスで配置する。
+- ``errorMode`` に ``errorMode:timeout`` を指定するとタイムアウトエラー、``errorMode:msgException`` を指定すると例外エラーのシミュレーションになる。
+
+ステータスコードのデフォルト値
+================================
+
+Excelの場合
+-----------
+
+.. code-block:: text
+
+    RESPONSE_BODY_MESSAGES=REQ001
+    | no | body      |
+    |    | 半角      |
+    |    | 10        |
+    | 1  | RESULT_OK |
+
+YAMLの場合
+----------
+
+.. code-block:: yaml
+
+    response_body_messages:
+      - id: REQ001
+        records:
+          - record_type: DATA
+            fields:
+              - {name: body, type: 半角, length: 10}
+            rows:
+              - ["RESULT_OK"]
+
+- ステータスコード列がない場合、実行時にデフォルト値 ``"200"`` が使用される。
+
 ---------------------------------------
 特殊値・ディレクティブ・ヘッダの記述例
 ---------------------------------------
@@ -824,6 +955,33 @@ YAMLの場合
 
 - ``0x`` プレフィクス付き16進数でバイナリ値を記述する。``${binaryFile:パス}`` でファイル内容をバイナリ読み込みして HexString に変換する。
 
+QuotationTrimmer によるスペース値明示記法
+==========================================
+
+Excelの場合
+-----------
+
+.. code-block:: text
+
+    EXPECTED_TABLE=ITEM
+    | ID | NAME | MEMO |
+    | 1  | " "  | """  |
+
+YAMLの場合
+----------
+
+.. code-block:: yaml
+
+    expected_tables:
+      - table: ITEM
+        rows:
+          - ID: "1"
+            NAME: " "
+            MEMO: "\""
+
+- Excel: ``" "`` → 半角スペース1文字、``"""`` → ダブルクォート1文字。半角または全角ダブルクォートで前後が囲まれた場合のみ外側1層を除去する。
+- YAML: ``" "`` でスペース1文字。ダブルクォート文字は ``"\""`` または ``'"'`` で記述する。
+
 コメントとマーカーカラム
 ========================
 
@@ -861,6 +1019,39 @@ YAMLの場合
 
 - Excel では ``//`` で始まる行がスキップされる。YAML では標準の ``#`` 構文を使う。
 - ``[no]`` ・ ``[desc]`` のように角括弧で囲んだカラムはマーカーカラムで、DB 操作から除外される。YAML ではダブルクォートで囲む（``"[no]"``）。
+
+空エントリのスキップ
+====================
+
+全要素が null または空文字のエントリは読み飛ばされる。
+
+Excelの場合
+-----------
+
+.. code-block:: text
+
+    SETUP_TABLE=USER
+    | USER_ID | NAME     |
+    | 001     | 山田太郎 |
+    |         |          |
+    | 002     | 鈴木花子 |
+
+YAMLの場合
+----------
+
+.. code-block:: yaml
+
+    setup_tables:
+      - table: USER
+        rows:
+          - USER_ID: "001"
+            NAME: "山田太郎"
+          # 空行はここには書かない（YAML にはそもそも空エントリの概念がない）
+          - USER_ID: "002"
+            NAME: "鈴木花子"
+
+- Excel: 全セルが空の行は自動的にスキップされる。
+- YAML: キーを省略するだけのため空エントリを記述する機会はほとんどない。空行を挿入しても無視される。
 
 ディレクティブ（固定長・可変長ファイル）
 =========================================
@@ -917,3 +1108,52 @@ YAMLの場合
               - ["value1", "value2"]
 
 - タブ文字の記法が形式で異なる。Excel セルには ``\t``（バックスラッシュ + t の2文字）を入力する。YAML では ``"\\t"`` と記述する（YAML の ``\t`` は実際のタブ文字になるためバックスラッシュをエスケープする）。
+
+-------------------------------------------
+DB アサートの記述例
+-------------------------------------------
+
+テーブルアサート（順序不問・主キー突合）
+==========================================
+
+``EXPECTED_TABLE`` は記述順と DB の格納順が違っても、主キーで突合して比較する。
+
+Excelの場合
+-----------
+
+.. code-block:: text
+
+    EXPECTED_TABLE=USER
+    | USER_ID | NAME     |
+    | 001     | 山田太郎 |
+    | 002     | 鈴木花子 |
+
+YAMLの場合
+----------
+
+.. code-block:: yaml
+
+    expected_tables:
+      - table: USER
+        rows:
+          - USER_ID: "001"
+            NAME: "山田太郎"
+          - USER_ID: "002"
+            NAME: "鈴木花子"
+
+EXPECTED_COMPLETE_TABLE（省略カラムにデフォルト値補完）
+========================================================
+
+省略したカラムにデフォルト値を補完してから比較する。
+
+YAMLの場合
+----------
+
+.. code-block:: yaml
+
+    expected_complete_tables:
+      - table: USER
+        rows:
+          - USER_ID: "001"
+            NAME: "山田太郎"
+            # AGE など省略したカラムはデフォルト値（数値型なら "0"）で補完される
