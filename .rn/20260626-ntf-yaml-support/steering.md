@@ -260,11 +260,87 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 - 既存ファイルへの toctree 参照が壊れていない（変更前後で参照先ファイルが存在する）
 - `make html` がエラーなく完了し、エラー行数が0である
 
-### #11: 評価サインオフ
+### #11: B-1 テストデータ記述方法を1ページに統合
+
+**Purpose**: design.md では B-1「テストデータの記述方法」は「★最大の変更点・1ページ★ … 10本以上に散在 → 1ページに集約」と規定されているが、task #5 で7ページ分割になった。これを1ページに統合して設計書に一致させる。
+
+**Prerequisites**: #10
+
+**Steps**:
+
+- [ ] `testdata/` 配下の7ファイル（overview/data-blocks/testshots/table-data/file-data/messaging/values）の内容を `testdata/index.rst` 1ページに統合する
+- [ ] 統合後の `testdata/index.rst` を B-1 として toctree に登録する（7ファイルは toctree から外す）
+- [ ] `make html` でビルドエラーがないことを確認する
+- [ ] HTML で B-1 が1ページとして表示されていることを確認する
+- [ ] self-check (OK/NG per completion criterion, record in checks/task11.md)
+- [ ] QA expert review (subagent)
+
+**Completion criteria**:
+
+- `05_UnitTestGuide/index.rst` の toctree に B-1 として1つのページエントリが現れ、HTML 出力で「テストデータの記述方法」が1ページに収まっている
+- `make html` がエラーなく完了し、エラー行数が0である
+
+### #12: B-1 各節から B-2（テストデータの記述例）へのリンク追加
+
+**Purpose**: design.md に「仕様を調べるなら B-1、写して使うなら B-2」という誘導を明記しているが、B-1 の各節から `examples.rst`（B-2）への参照リンクがない。
+
+**Prerequisites**: #11
+
+**Steps**:
+
+- [ ] B-1（統合後の `testdata/index.rst`）の各節末尾に `examples.rst` の対応セクションへの `:ref:` リンクを追加する
+- [ ] `make html` でビルドエラーがないことを確認する
+- [ ] HTML でリンクが正しく機能していることを確認する
+- [ ] self-check (OK/NG per completion criterion, record in checks/task12.md)
+- [ ] QA expert review (subagent)
+
+**Completion criteria**:
+
+- B-1 の各節（testshots/テーブルデータ/ファイルデータ/メッセージング/特殊値 等）に B-2 の対応セクションへの `:ref:` リンクが存在する
+- `make html` がエラーなく完了し、エラー行数が0である
+
+### #13: A-1 ページタイトルを「テスティングフレームワーク概要」に変更
+
+**Purpose**: design.md でタイトルを「テスティングフレームワーク概要」と確定しているが、`01_Abstract.rst` のページタイトルが「自動テストフレームワーク」のまま。
+
+**Prerequisites**: #12
+
+**Steps**:
+
+- [ ] `06_TestFWGuide/01_Abstract.rst` のページタイトルを「自動テストフレームワーク」→「テスティングフレームワーク概要」に変更する
+- [ ] ラベル `.. _auto-test-framework:` も `.. _ntf_abstract:` に変更し、既存の `:ref:` 参照を更新する
+- [ ] `make html` でビルドエラーがないことを確認する
+- [ ] HTML で A-1 が「テスティングフレームワーク概要」と表示されていることを確認する
+- [ ] self-check (OK/NG per completion criterion, record in checks/task13.md)
+- [ ] QA expert review (subagent)
+
+**Completion criteria**:
+
+- HTML 出力で A-1 のページタイトルが「テスティングフレームワーク概要」と表示されている
+- 既存の `:ref:` 参照が壊れていない
+- `make html` がエラーなく完了し、エラー行数が0である
+
+### #14: HTML 出力が設計書に完全一致しているか確認
+
+**Purpose**: design.md の新構成ツリー全体と HTML 出力を突き合わせて、差異がゼロであることを確認する。
+
+**Prerequisites**: #13
+
+**Steps**:
+
+- [ ] HTML 出力の各章・ページ構成を design.md の新構成ツリーと1項目ずつ照合する
+- [ ] 差異があれば追加修正する
+- [ ] self-check (OK/NG per completion criterion, record in checks/task14.md)
+
+**Completion criteria**:
+
+- HTML 出力の構成が design.md の新構成ツリーに完全一致している
+
+### #15: 評価サインオフ
 
 **Purpose**: セッション全体の成果物が Acceptance criteria を満たすことをユーザーに確認してもらう。
 
-**Prerequisites**: #10
+**Prerequisites**: #14
 
 **Steps**:
 
@@ -280,5 +356,5 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 - **Status**: paused
 - **Date**: 2026-07-07
 - **Last completed**: #10 A章内部再編（A-1〜A-6 への細分化）
-- **Next**: #11 評価サインオフ
+- **Next**: #11 B-1 テストデータ記述方法を1ページに統合
 - **Notes**: ビルド環境: `/tmp/sphinx_env`（Sphinx 1.8.6）、セッション再開時に venv 再構築が必要な場合あり（`pip install "setuptools<70" "Jinja2<3.1" "alabaster<0.7.12" sphinx==1.8.6 javasphinx "sphinx_rtd_theme==0.4.3" "docutils<0.18"`）。コマンド: `LC_ALL=C.UTF-8 LANG=C.UTF-8 make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`。ビルドはリポジトリルート（nablarch-document/）で実行すること（`ja/` 配下では `Makefile` が存在しないため失敗する）。
