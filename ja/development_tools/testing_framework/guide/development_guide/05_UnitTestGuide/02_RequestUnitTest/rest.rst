@@ -83,8 +83,6 @@ JUnit4のアノテーションを使用する
 
 :ref:`how_to_write_excel` に記載された方法で、テストデータを記述できる。
 
-YAML 形式でのテストデータの書き方は :ref:`ntf_testdata` を参照。
-
 ただし、RESTfulウェブサービス実行基盤向けのテストで自動的に読み込まれるデータは以下のみとなる。
 
 * テストクラスで共通のデータベース初期値
@@ -106,6 +104,8 @@ YAML 形式でのテストデータの書き方は :ref:`ntf_testdata` を参照
         List<Map<String, String>> getListMap(String sheetName, String id)
         List<Map<String, String[]>> getListParamMap(String sheetName, String id)
         Map<String, String[]> getParamMap(String sheetName, String id)
+
+YAML 形式でのテストデータの書き方は :ref:`ntf_testdata` を参照。
 
 テストクラスで共通のデータベース初期値
 ========================================
