@@ -1,3 +1,5 @@
+Design: .rn/20260626-ntf-yaml-support/design.md
+
 # Goal
 
 NTF（Nablarchテストフレームワーク）解説書（`ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/` 配下）の全体構成を見直し、テストデータ記述形式として YAML を Excel と並列でサポートする記述を追加する。
@@ -8,7 +10,7 @@ NTF（Nablarchテストフレームワーク）解説書（`ja/development_tools
 
 - `feature/ntf-yaml-support` ブランチで作業し、PR は `develop` ブランチへ向けて作成されている
 - 変更前後で `make html`（RST → HTML ビルド）がエラーなく完了する
-- 解説書の全体構成について、ユーザーと認識を合わせた内容がステアリングの Decisions に記録されている
+- 解説書の全体構成について、ユーザーと認識を合わせた内容が `design.md` の Approach に記録されている
 - CLAUDE.md に解説書修正の作業ルール（文書表現・トンマナ）が記載されている
 - Excel のみ言及していた箇所が YAML にも対応した記述（ExcelまたはYAML形式で記述できると明示）に更新されている
 - 新規追加・変更した RST が Sphinx でビルドエラーなく通る
@@ -17,7 +19,7 @@ NTF（Nablarchテストフレームワーク）解説書（`ja/development_tools
 # Assumptions
 
 - YAML 対応は `nablarch-testing` 本体（PR #75 / `convert-testdata-excel-to-text` ブランチ）で実装済みであり、解説書はそれに合わせたドキュメント変更である
-- 入力資料（`.rn/ntf-yaml-support/input/` 配下10ファイル）が YAML 形式の仕様・記述例の正典となる
+- 入力資料（`.rn/20260626-ntf-yaml-support/input/` 配下10ファイル）が YAML 形式の仕様・記述例の正典となる
 - Sphinx ビルド環境は `make html` で実行できる（`requirements.txt` の依存が解決済み）
 - 解説書の構成見直しの範囲は `06_TestFWGuide/` 配下が主であり、`05_UnitTestGuide/` 配下への影響は最小限とする（要確認）
 - 既存の Excel 記述は削除せず、YAML を「並列サポート」として追記する方向で進める
@@ -35,7 +37,7 @@ NTF（Nablarchテストフレームワーク）解説書（`ja/development_tools
 
 ### Excel/YAML 並列記述の方針
 
-- 「Excelの場合」「YAMLの場合」の見出し分けで並列掲載する（sphinx-tabs は使用しない — D-1 合意）
+- 「Excelの場合」「YAMLの場合」の見出し分けで並列掲載する（sphinx-tabs は使用しない）
 - 共通説明は見出し分けせず冒頭にまとめる。冒頭に「テストデータは Excel または YAML ファイルで記述できる。」を入れる
 - 見出し分けの例（`小見出し` レベルの `-` アンダーライン）:
 
@@ -62,7 +64,7 @@ YAML 追記時、以下の対応で表記する（input/ の仕様資料を正�
 | グループID | `id` キー |
 
 - `testShots`・`LIST_MAP` 等の識別子名は既存ページでの表記をそのまま使う
-- YAML 固有のキー名・構造は `.rn/ntf-yaml-support/input/ntf-testdata-doc.md` を参照する
+- YAML 固有のキー名・構造は `.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md` を参照する
 
 ### ファイル構造（このブランチで追加するファイル）
 
@@ -97,7 +99,8 @@ YAML 追記時、以下の対応で表記する（input/ の仕様資料を正�
 
 **Completion criteria**:
 
-- `make html` がエラーなく完了した事実が `checks/task1.md` に記録されている（警告は許容、エラーは不可）
+- `make html` がエラーなく完了した事実が `checks/task1.md` に記録されており、エラー行数が0であることが Evidence に記載されている
+- 警告のみが含まれることが明示されている（警告は許容、エラーは不可）
 
 ### #2: 全体構成の認識合わせ
 
@@ -116,7 +119,7 @@ YAML 追記時、以下の対応で表記する（input/ の仕様資料を正�
 **Completion criteria**:
 
 - `06_TestFWGuide/` 配下の全ファイルの役割と、YAML対応で修正が必要な箇所の一覧が `checks/task2.md` に記録されている
-- ユーザーが全体構成を確認・承認している（Decisions に記録）
+- ユーザーが全体構成を確認・承認しており、その内容が `design.md` の Approach に記録されている
 
 ### #3: 文書表現・トンマナ確認とCLAUDE.md作業ルール記載
 
@@ -126,16 +129,18 @@ YAML 追記時、以下の対応で表記する（input/ の仕様資料を正�
 
 **Steps**:
 
-- [ ] 既存解説書（`06_TestFWGuide/01_Abstract.rst` 等）と入力資料（`ntf-doc-terms.md`）から用語・表記ルールを抽出する
-- [ ] 文体（です・ます調 vs だ・である調）・用語統一ルールをまとめる
-- [ ] `CLAUDE.md` に作業ルールを記載する
-- [ ] self-check (OK/NG per completion criterion, record in checks/task3.md)
-- [ ] QA expert review (subagent)
+- [x] 既存解説書（`06_TestFWGuide/01_Abstract.rst` 等）と入力資料（`ntf-doc-terms.md`）から用語・表記ルールを抽出する
+- [x] 文体（です・ます調 vs だ・である調）・用語統一ルールをまとめる
+- [x] `CLAUDE.md` に作業ルールを記載する
+- [x] self-check (OK/NG per completion criterion, record in checks/task3.md)
+- [x] QA expert review (subagent)
+- [x] Craft expert review (subagent, writing)
 - [ ] user review
 
 **Completion criteria**:
 
-- `CLAUDE.md` にNTF解説書修正の作業ルール（文書表現・用語・トンマナ）が記載されている
+- `CLAUDE.md` にNTF解説書修正の作業ルール（文書表現・用語・トンマナ）が記載されており、第三者が実際の解説書修正に適用できる具体性を持っている
+- 既存解説書と矛盾する記述が `CLAUDE.md` に含まれていない
 
 ### #4: toctree 構成変更（A章・B章の骨格作成）
 
@@ -151,13 +156,14 @@ YAML 追記時、以下の対応で表記する（input/ の仕様資料を正�
 - [ ] `make html` でビルドエラーがないことを確認する
 - [ ] self-check (OK/NG per completion criterion, record in checks/task4.md)
 - [ ] QA expert review (subagent)
-- [ ] user review
+- [ ] Craft expert review (subagent, writing)
+- [ ] Design expert review (subagent)
 
 **Completion criteria**:
 
-- A章（`Nablarchテスティングフレームワークとは`）・B章（`テストの実装方法`）が toctree に現れている
-- `make html` がエラーなく完了する
-- 既存ファイルへの toctree 参照が壊れていない
+- A章（`Nablarchテスティングフレームワークとは`）・B章（`テストの実装方法`）が toctree に現れており、`make html` の HTML 出力で両章が確認できる
+- `make html` がエラーなく完了し、エラー行数が0であることが Evidence に記載されている
+- 既存ファイルへの toctree 参照が壊れていない（変更前後で参照先ファイルが存在する）
 
 ### #5: B-1「テストデータの記述方法」新規作成
 
@@ -174,14 +180,15 @@ YAML 追記時、以下の対応で表記する（input/ の仕様資料を正�
 - [ ] `make html` でビルドエラーがないことを確認する
 - [ ] self-check (OK/NG per completion criterion, record in checks/task5.md)
 - [ ] QA expert review (subagent)
-- [ ] user review
+- [ ] Craft expert review (subagent, writing)
+- [ ] Verification expert review (subagent, fact-check)
 
 **Completion criteria**:
 
 - `testdata/` 配下に B-1-1〜B-1-7 の RST ファイルが存在し、toctree に追加されている
-- `ntf-testdata-doc.md` の全章（§1〜10）が B-1 のいずれかの節に対応している
-- Excel/YAML の記述例が各節に両方掲載されている
-- `make html` がエラーなく完了する
+- `ntf-testdata-doc.md` の全章（§1〜10）が B-1 のいずれかの節に対応しており、対応表が `checks/task5.md` の Evidence に記載されている
+- Excel/YAML の記述例が各節に両方掲載されており、各節の Excel 例と YAML 例が対応している
+- `make html` がエラーなく完了し、エラー行数が0であることが Evidence に記載されている
 
 ### #6: 既存ページのテストデータ参照をB-1へ差し替え
 
@@ -197,48 +204,33 @@ YAML 追記時、以下の対応で表記する（input/ の仕様資料を正�
 - [ ] `make html` でビルドエラー・壊れた参照がないことを確認する
 - [ ] self-check (OK/NG per completion criterion, record in checks/task6.md)
 - [ ] QA expert review (subagent)
-- [ ] user review
+- [ ] Craft expert review (subagent, writing)
+- [ ] Verification expert review (subagent, fact-check)
 
 **Completion criteria**:
 
-- 対象ページの「テストデータの書き方」節が B-1 への参照に変わっている
-- `make html` がエラーなく完了する
-- 既存の `:ref:` ラベルが壊れていない
+- 対象ページの「テストデータの書き方」節が B-1 への `:ref:` 参照に変わっており、参照先ラベルが `checks/task6.md` の Evidence に列挙されている
+- `make html` がエラーなく完了し、既存の `:ref:` ラベルが壊れていないことが確認できる
 
-# Decisions
+### #7: 評価サインオフ
 
-### D-1: 新構成案への合意（2026-06-26）
+**Purpose**: セッション全体の成果物が Acceptance criteria を満たすことをユーザーに確認してもらう。
 
-ユーザーと議論の上、proposed-structure.md（`.rn/ntf-yaml-support/proposed-structure.md`）に記載の新構成案で合意した。主な合意内容:
+**Prerequisites**: #6
 
-- トップ2ページ: 「Nablarchテスティングフレームワークとは」（A章）「テストの実装方法」（B章）
-- テストデータは B-1「テストデータの記述方法」（仕様）+ B-2「テストデータの記述例」の2ページ構成（※B-2はタスク追加時に検討）
-- Excel/YAML 並列表示は「Excelの場合」「YAMLの場合」見出し分けを採用（sphinx-tabs は使わない）
-- ディレクトリ構造は既存パスを維持し toctree のみ組み替える
-- input/ のうち `ntf-testdata-loading.md` と `testdata-converter-design.md` は使わない
+**Steps**:
+
+- [ ] Acceptance criteria の各項目を実際の成果物に照らして確認する
+- [ ] セッション全体の結果をユーザーに提示し、`/rn:ty` または `/rn:gm` の verdict を受け取る
+
+**Completion criteria**:
+
+- ユーザーが `/rn:ty` で承認している
 
 # State
 
 - **Status**: paused
-- **Date**: 2026-06-26
+- **Date**: 2026-07-07
 - **Last completed**: #3 文書表現・トンマナ確認とCLAUDE.md作業ルール記載（QA PASS、ユーザーレビュー待ち）
 - **Next**: #3 のユーザー承認 → チェックオフ → #4 toctree 構成変更
-- **Notes**: |
-    Task #3 は実装・QA ともに完了し、ユーザーレビュー段階で中断した。
-    CLAUDE.md をユーザー指摘により刷新済み（汎用ルール集に絞り、タスク固有ルールはステアリングの Rules に移動）。
-
-    【CLAUDE.md の現在の内容】
-    - 文体: だ・である調（既存ページ実測）
-    - 用語: 「既存ページに合わせる、推測しない」を原則
-    - RST 記法: 見出しレベル・コードブロック（4スペース）・テーブル・ラベル等
-    - ビルドコマンド: make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build
-
-    【Task #3 完了基準】
-    - CLAUDE.md にNTF解説書修正の作業ルール（文書表現・用語・トンマナ）が記載されている → OK
-
-    【次のアクション】
-    1. ユーザーに Task #3 の承認を求める
-    2. 承認後 steering.md の #3 をチェックオフしてコミット
-    3. Task #4（toctree 構成変更 — A章・B章の骨格作成）に着手
-
-    ビルド環境: `/tmp/sphinx_env`（Sphinx 1.8.6）、`make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`
+- **Notes**: Task #3 はユーザーレビュー段階で中断。ビルド環境: `/tmp/sphinx_env`（Sphinx 1.8.6）、`make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`。
