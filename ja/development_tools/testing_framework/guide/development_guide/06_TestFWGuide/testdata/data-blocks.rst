@@ -56,13 +56,51 @@ YAML のトップレベルキーとデータブロック種別の対応を以下
    * - ``RESPONSE_BODY_MESSAGES``
      - ``response_body_messages``
 
-YAML での記述例を以下に示す。
+記述例を以下に示す。
+
+Excelの場合
+-----------
+
+データブロック先頭セルに ``種別=識別子`` の形式で記述する。
+
+.. code-block:: text
+
+    SETUP_TABLE=USER_MASTER
+    | USER_ID | USER_NAME |
+    | 001     | 山田太郎  |
+
+    EXPECTED_TABLE=USER_MASTER
+    | USER_ID | USER_NAME |
+    | 001     | 山田太郎  |
+
+    LIST_MAP=testShots
+    | no | description  |
+    | 1  | 正常ケース   |
+
+YAMLの場合
+----------
+
+種別ごとの専用トップレベルキーを使用する。
 
 .. code-block:: yaml
 
     setup_tables:
       - table: USER_MASTER
-        rows: ...
+        rows:
+          - USER_ID: "001"
+            USER_NAME: "山田太郎"
+
+    expected_tables:
+      - table: USER_MASTER
+        rows:
+          - USER_ID: "001"
+            USER_NAME: "山田太郎"
+
+    list_maps:
+      - id: testShots
+        rows:
+          - no: "1"
+            description: "正常ケース"
 
 同種データブロックの記述ルール
 ==============================
