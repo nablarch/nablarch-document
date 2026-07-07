@@ -8,7 +8,13 @@ Nablarchテスティングフレームワークとは
    :maxdepth: 1
 
    01_Abstract
-   testdata_format
+
+テストクラスの設定
+==================
+
+.. toctree::
+   :maxdepth: 1
+
    02_DbAccessTest
    02_RequestUnitTest
    RequestUnitTest_rest
@@ -16,8 +22,36 @@ Nablarchテスティングフレームワークとは
    RequestUnitTest_real
    RequestUnitTest_send_sync
    RequestUnitTest_http_send_sync
-   03_Tips
-   04_MasterDataRestore
-   JUnit5_Extension
-.. 04_env_guide
 
+テストデータの形式
+==================
+
+.. toctree::
+   :maxdepth: 1
+
+   testdata_format
+
+JUnit 5用拡張機能
+=================
+
+.. toctree::
+   :maxdepth: 1
+
+   JUnit5_Extension
+
+マスタデータ復旧機能
+====================
+
+.. toctree::
+   :maxdepth: 1
+
+   04_MasterDataRestore
+
+テストツール
+============
+
+.. toctree::
+   :maxdepth: 1
+
+   ../08_TestTools/index
+.. 04_env_guide
