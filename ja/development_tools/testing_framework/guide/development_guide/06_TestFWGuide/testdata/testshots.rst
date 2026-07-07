@@ -38,6 +38,8 @@ testShots
    * - エンティティバリデーション
      - ``EntityTestSupport``
 
+.. _ntf_testshots_common:
+
 共通カラム
 ==========
 
@@ -503,8 +505,6 @@ groupId は各エントリの ``group_id:`` フィールドで指定する。
             PRODUCT_CODE: "P-004"
             QUANTITY: "200"
             UNIT_PRICE: "300"
-
-.. _ntf_testshots_common:
 
 .. note::
 

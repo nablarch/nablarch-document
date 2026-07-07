@@ -101,7 +101,7 @@ YAMLの場合
             PHOTO: "${binaryFile:member_photo.jpg}"
 
 - 値は文字列で記述する（ ``"0000000101"`` のようにクォート）。
-- NULL 値はアンクォートの ``null`` で記述する。 ``"null"`` とクォートすると文字列として格納される。
+- NULL 値はアンクォートの ``null`` で記述する（ ``"null"`` とクォートしても同じく Java null になる）。
 - ``${binaryFile:パス}`` はファイル内容をバイナリ読み込みして HexString に変換する。
 
 EXPECTED_TABLE

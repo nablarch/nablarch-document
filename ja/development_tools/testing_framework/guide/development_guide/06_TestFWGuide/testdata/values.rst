@@ -121,7 +121,7 @@ YAMLの場合
             START_DATE: "${updateTime}"
             CREATED_AT: "${setUpTime}"
 
-- ``NULL`` 文字列は ``NullInterpreter`` が Java null に変換する。大文字小文字不問（ ``null`` ・ ``Null`` も同様）。YAML ではアンクォートの ``null`` で記述し、 ``"null"`` とクォートすると文字列として格納される。
+- ``NULL`` 文字列は ``NullInterpreter`` が Java null に変換する。大文字小文字不問（ ``null`` ・ ``Null`` も同様）。YAML ではアンクォートの ``null`` で記述する（ ``"null"`` とクォートしても同じく Java null になる）。
 - ``${systemTime}`` は完全一致のみ変換される。文字列中に埋め込むには ``CompositeInterpreter`` との組み合わせが必要。
 - ``java.sql.Timestamp`` 型カラムの期待値は末尾 ``.0`` が必須（ ``"2024-01-01 09:00:00.0"`` ）。末尾 ``.0`` がないとアサートが失敗する。
 
@@ -384,8 +384,8 @@ YAMLの場合
         records:
           - record_type: DATA
             fields:
-              - {name: USER_ID, type: X, length: 10}
-              - {name: AMOUNT,  type: Z, length: 10}
+              - {name: USER_ID, type: 半角, length: 10}
+              - {name: AMOUNT,  type: 数値, length: 10}
             rows:
               - ["001", "5000"]
 
@@ -452,8 +452,8 @@ YAMLの場合
         records:
           - record_type: DATA
             fields:
-              - {name: FIELD1, type: X}
-              - {name: FIELD2, type: X}
+              - {name: FIELD1, type: 半角}
+              - {name: FIELD2, type: 半角}
             rows:
               - ["value1", "value2"]
 
