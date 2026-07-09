@@ -1,0 +1,85 @@
+name: textlint (差分lint)
+
+# プルリクエストで変更された ja 配下の rst ファイルのみを textlint で検査する。
+# 既存の全ファイルを対象にすると既存の指摘が大量に出て運用できないため、
+# 「変更されたファイルだけを対象にする差分lint方式」を採用している。
+# これにより、新規・変更箇所からの誤字・表記ゆれの混入を継続的に防止する。
+
+on:
+  pull_request:
+    paths:
+      - 'ja/**/*.rst'
+      - '.textlint/**'
+      - '.textlintrc'
+      - '.github/workflows/textlint.yml'
+
+# 同一PRで新しいpushがあった場合は古い実行をキャンセルする
+concurrency:
+  group: textlint-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  textlint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリのチェックアウト
+        uses: actions/checkout@v4
+        with:
+          # 差分算出のためベースブランチとの共通履歴が必要
+          fetch-depth: 0
+
+      - name: 変更された rst ファイルの抽出
+        id: changed
+        run: |
+          set -euo pipefail
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          # ベースコミットからHEADまでの差分のうち、追加・変更・改名された ja 配下の rst を対象とする
+          # (削除ファイルは --diff-filter=ACMR で除外)
+          FILES=$(git diff --name-only --diff-filter=ACMR "${BASE_SHA}" HEAD -- ja | grep -E '\.rst$' || true)
+          if [ -z "${FILES}" ]; then
+            echo "対象となる rst ファイルの変更はありません。"
+            echo "has_changes=false" >> "${GITHUB_OUTPUT}"
+          else
+            echo "以下のファイルを textlint で検査します:"
+            echo "${FILES}"
+            echo "has_changes=true" >> "${GITHUB_OUTPUT}"
+            # 後続ステップへ改行区切りで受け渡す
+            {
+              echo "files<<__EOF__"
+              echo "${FILES}"
+              echo "__EOF__"
+            } >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Node.js のセットアップ
+        if: steps.changed.outputs.has_changes == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Python のセットアップ
+        if: steps.changed.outputs.has_changes == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
+
+      - name: textlint 依存ライブラリのインストール
+        if: steps.changed.outputs.has_changes == 'true'
+        run: |
+          set -euo pipefail
+          # textlint-plugin-rst は docutils(-ast-writer) に依存する (README / .textlint/install.md 準拠)
+          pip install "docutils-ast-writer==0.1.2"
+          # textlint 本体・プラグイン・prh 辞書ルール等 (postinstall で patch-package が適用される)
+          npm install
+
+      - name: textlint 実行 (差分ファイルのみ)
+        if: steps.changed.outputs.has_changes == 'true'
+        # ファイル一覧は ${{ }} で直接スクリプトへ展開せず、環境変数経由で受け取る
+        # (悪意あるファイル名によるスクリプトインジェクションを防ぐ)
+        env:
+          CHANGED_FILES: ${{ steps.changed.outputs.files }}
+        run: |
+          set -euo pipefail
+          # 改行区切りのファイル一覧を安全に引数へ展開する
+          mapfile -t TARGETS <<< "${CHANGED_FILES}"
+          ./node_modules/.bin/textlint "${TARGETS[@]}"
