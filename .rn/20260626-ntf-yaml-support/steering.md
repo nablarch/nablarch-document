@@ -307,12 +307,12 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 **Steps**:
 
-- [ ] `06_TestFWGuide/01_Abstract.rst` のページタイトルを「自動テストフレームワーク」→「テスティングフレームワーク概要」に変更する
-- [ ] ラベル `.. _auto-test-framework:` も `.. _ntf_abstract:` に変更し、既存の `:ref:` 参照を更新する
-- [ ] `make html` でビルドエラーがないことを確認する
-- [ ] HTML で A-1 が「テスティングフレームワーク概要」と表示されていることを確認する
-- [ ] self-check (OK/NG per completion criterion, record in checks/task13.md)
-- [ ] QA expert review (subagent)
+- [x] `06_TestFWGuide/01_Abstract.rst` のページタイトルを「自動テストフレームワーク」→「テスティングフレームワーク概要」に変更する
+- [x] ラベル `.. _auto-test-framework:` も `.. _ntf_abstract:` に変更し、既存の `:ref:` 参照を更新する
+- [x] `make html` でビルドエラーがないことを確認する
+- [x] HTML で A-1 が「テスティングフレームワーク概要」と表示されていることを確認する
+- [x] self-check (OK/NG per completion criterion, record in checks/task13.md)
+- [x] QA expert review (subagent)
 
 **Completion criteria**:
 
