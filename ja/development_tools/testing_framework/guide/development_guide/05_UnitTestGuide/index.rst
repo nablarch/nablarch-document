@@ -11,6 +11,7 @@
    :maxdepth: 1
 
    ../06_TestFWGuide/testdata/index
+   ../06_TestFWGuide/testdata/examples
 
 
 *共通*

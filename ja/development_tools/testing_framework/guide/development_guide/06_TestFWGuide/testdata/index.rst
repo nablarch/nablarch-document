@@ -2374,8 +2374,3 @@ YAMLの場合
             NAME: "鈴木花子"
 
 記述例は :ref:`ntf_examples_values` を参照。
-
-.. toctree::
-   :maxdepth: 1
-
-   examples
