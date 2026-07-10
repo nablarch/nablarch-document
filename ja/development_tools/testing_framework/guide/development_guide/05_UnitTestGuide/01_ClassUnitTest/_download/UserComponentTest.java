@@ -1,56 +1,59 @@
 package nablarch.sample.management.user;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import nablarch.core.db.statement.SqlResultSet;
 import nablarch.core.message.ApplicationException;
 import nablarch.test.core.db.DbAccessTestSupport;
+import nablarch.test.junit5.extension.db.DbAccessTest;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * {@link UserComponentTest}のテストクラス。
- * 
+ *
  * @author Tsuyoshi Kawasaki
  * @since 1.0
  */
-public class UserComponentTest extends DbAccessTestSupport {
+@DbAccessTest
+class UserComponentTest {
+
+    /** テストサポートクラス（インスタンスは拡張機能がインジェクションする）。 */
+    DbAccessTestSupport support;
 
     /** テスト対象クラス */
     private UserComponent target = new UserComponent();
-    
+
 
     /**
      * {@link UserComponent#registerUser()}のテスト1。<br>
      * 正常系。
      */
     @Test
-    public void testRegisterUser1() {
+    void testRegisterUser1() {
         String sheetName = "registerUser";
-                
-        setThreadContextValues(sheetName, "threadContext");
-        
-        List<Map<String, String>> sysAcctDatas = getListMap(sheetName, "sysAcctEntity");
-        List<Map<String, String>> usersDatas = getListMap(sheetName, "usersEntity");
-        List<Map<String, String>> grpSysAcctDatas = getListMap(sheetName, "grpSysAcctEntity");
+
+        support.setThreadContextValues(sheetName, "threadContext");
+
+        List<Map<String, String>> sysAcctDatas = support.getListMap(sheetName, "sysAcctEntity");
+        List<Map<String, String>> usersDatas = support.getListMap(sheetName, "usersEntity");
+        List<Map<String, String>> grpSysAcctDatas = support.getListMap(sheetName, "grpSysAcctEntity");
         // エクセルのデータを一時的に受けるMap、List
         Map<String, Object> work = new HashMap<String, Object>();
         List<Map<String, String>> useCaseData = null;
-        
+
         SystemAccountEntity sysAcct = null;
         UsersEntity users = null;
         UgroupSystemAccountEntity grpSysAcct = null;
         for (int i = 0; i < sysAcctDatas.size(); i++) {
 
             // データベース準備
-            setUpDb(sheetName);
+            support.setUpDb(sheetName);
 
             // システムアカウント
             work.clear();
@@ -59,14 +62,14 @@ public class UserComponentTest extends DbAccessTestSupport {
             }
             // ユースケースIDの引数作成
             String id = sysAcctDatas.get(i).get("useCaseId");
-            useCaseData = getListMap(sheetName, id);
+            useCaseData = support.getListMap(sheetName, id);
             String[] useCaseId = new String[useCaseData.size()];
             for (int j = 0; j < useCaseData.size(); j++) {
                 useCaseId[j] = useCaseData.get(j).get("useCaseId");
             }
             work.put("useCase", useCaseId);
             sysAcct = new SystemAccountEntity(work);
-            
+
             // ユーザ
             work.clear();
             for (Entry<String, String> e : usersDatas.get(i).entrySet()) {
@@ -83,40 +86,40 @@ public class UserComponentTest extends DbAccessTestSupport {
 
             // 実行
             target.registerUser(sysAcct, users, grpSysAcct);
-            commitTransactions();
+            support.commitTransactions();
 
             // 検証
-            String expectedGroupId = getListMap(sheetName, "expected").get(i).get("caseNo");
-            assertTableEquals(expectedGroupId, sheetName, expectedGroupId);
-            
+            String expectedGroupId = support.getListMap(sheetName, "expected").get(i).get("caseNo");
+            support.assertTableEquals(expectedGroupId, sheetName, expectedGroupId);
+
         }
     }
-    
+
     /**
      * {@link UserComponent#registerUser()}のテスト2。<br>
      * 異常系。
      */
     @Test
-    public void testRegisterUser2() {
+    void testRegisterUser2() {
         String sheetName = "registerUser";
-                
-        setThreadContextValues(sheetName, "threadContext");
-        
-        List<Map<String, String>> sysAcctDatas = getListMap(sheetName, "sysAcctEntityErr");
-        List<Map<String, String>> usersDatas = getListMap(sheetName, "usersEntityErr");
-        List<Map<String, String>> grpSysAcctDatas = getListMap(sheetName, "grpSysAcctEntityErr");
-        List<Map<String, String>> expected = getListMap(sheetName, "expectedErr");
+
+        support.setThreadContextValues(sheetName, "threadContext");
+
+        List<Map<String, String>> sysAcctDatas = support.getListMap(sheetName, "sysAcctEntityErr");
+        List<Map<String, String>> usersDatas = support.getListMap(sheetName, "usersEntityErr");
+        List<Map<String, String>> grpSysAcctDatas = support.getListMap(sheetName, "grpSysAcctEntityErr");
+        List<Map<String, String>> expected = support.getListMap(sheetName, "expectedErr");
         // エクセルのデータを一時的に受けるMap、List
         Map<String, Object> work = new HashMap<String, Object>();
         List<Map<String, String>> useCaseData = null;
-        
+
         SystemAccountEntity sysAcct = null;
         UsersEntity users = null;
         UgroupSystemAccountEntity grpSysAcct = null;
         for (int i = 0; i < sysAcctDatas.size(); i++) {
 
             // データベース準備
-            setUpDb(sheetName);
+            support.setUpDb(sheetName);
 
             // システムアカウント
             work.clear();
@@ -125,14 +128,14 @@ public class UserComponentTest extends DbAccessTestSupport {
             }
             // ユースケースIDの引数作成
             String id = sysAcctDatas.get(i).get("useCaseId");
-            useCaseData = getListMap(sheetName, id);
+            useCaseData = support.getListMap(sheetName, id);
             String[] useCaseId = new String[useCaseData.size()];
             for (int j = 0; j < useCaseData.size(); j++) {
                 useCaseId[j] = useCaseData.get(j).get("useCaseId");
             }
             work.put("useCase", useCaseId);
             sysAcct = new SystemAccountEntity(work);
-            
+
             // ユーザ
             work.clear();
             for (Entry<String, String> e : usersDatas.get(i).entrySet()) {
@@ -156,5 +159,5 @@ public class UserComponentTest extends DbAccessTestSupport {
             }
         }
     }
-    
+
 }

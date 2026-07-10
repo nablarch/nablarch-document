@@ -1,4 +1,4 @@
-package nablarch.sample.ss11.entity;
+package nablarch.sample.management.user;
 
 import java.sql.Timestamp;
 import java.util.Map;
