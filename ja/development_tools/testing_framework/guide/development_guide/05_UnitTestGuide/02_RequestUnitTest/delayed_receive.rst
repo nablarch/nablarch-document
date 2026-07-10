@@ -24,17 +24,24 @@
 
 * テストクラスのパッケージは、テスト対象機能のパッケージとする。
 * <電文のリクエストID>RequestTestというクラス名でテストクラスを作成する。
-* \ ``nablarch.test.core.messaging.MessagingReceiveTestSupport``\ を継承する。
+* 合成アノテーション :java:extdoc:`MessagingReceiveTest <nablarch.test.junit5.extension.messaging.MessagingReceiveTest>` をテストクラスに付与する。
+* \ ``nablarch.test.core.messaging.MessagingReceiveTestSupport``\ 型のフィールドを宣言する（インスタンスは拡張機能が自動的にインジェクションする）。
 
 例えば、テスト対象機能のパッケージがnablarch.sample.ss21AA、電文のリクエストIDがRM21AA100だとすると、テストクラスは以下のようになる。
 
 .. code-block:: java
 
   package nablarch.sample.ss21AA;
-  
+
+  import nablarch.test.core.messaging.MessagingReceiveTestSupport;
+  import nablarch.test.junit5.extension.messaging.MessagingReceiveTest;
+
   // ～中略～
 
-  public class RM21AA100RequestTest extends MessagingReceiveTestSupport {
+  @MessagingReceiveTest
+  class RM21AA100RequestTest {
+
+      MessagingReceiveTestSupport support;
 
 --------------------
 テストデータの書き方

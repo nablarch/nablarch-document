@@ -10,7 +10,7 @@
 リクエスト毎のテストを連続実行することにより取引単体テストが実施可能である。
 
 取引単体テストの実施方法は基本的にバッチと同様である。
-ただし、テストクラスが継承するスーパークラスが異なる（\ ``MessagingRequestTestSupport``\ を使用する）。
+ただし、使用するテストサポートクラスが異なる（\ ``MessagingRequestTestSupport``\ を使用する）。
 また、テストクラスは以下の条件を満たすように作成する。
 
 * テストクラスのパッケージはテスト対象取引のパッケージとする。
@@ -23,10 +23,14 @@
  package nablarch.sample.ss21AA03
 
  import nablarch.test.core.messaging.MessagingRequestTestSupport;
+ import nablarch.test.junit5.extension.messaging.MessagingRequestTest;
 
  // 中略
- 
- public class M21AA03Test extends MessagingRequestTestSupport {
+
+ @MessagingRequestTest
+ class M21AA03Test {
+
+     MessagingRequestTestSupport support;
 
 
 実施方法については、バッチの実施方法を参照。

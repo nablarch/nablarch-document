@@ -8,14 +8,18 @@
 特徴
 ----
 
-JUnit4ベース
-============
-自動テストフレームワークは、JUnit4をベースとしている。
-各種アノテーション、assertメソッドやMatcherクラスなど、JUnit4で提供されている機能を使用する。
+JUnit 5で利用可能（推奨）
+=========================
+自動テストフレームワークは、JUnit 5で書かれたテストの中で使用できる。
+:ref:`ntf_junit5_extension` が提供する合成アノテーションをテストクラスに付与することで、
+JUnit 5のアノテーションやアサーションと組み合わせて自動テストフレームワークの機能を使用できる。
+新規にテストを作成する場合は、この方法を推奨する。
+
+また、JUnit 4をベースとした既存のテスト資産とも互換性がある。
 
 .. tip::
 
-  JUnit 5の上で自動テストフレームワークを動かしたい場合は、 :ref:`run_ntf_on_junit5_with_vintage_engine` を参照のこと。
+  JUnit 4で書かれた既存のテストを修正せずにJUnit 5の上で動かしたい場合は、 :ref:`run_ntf_on_junit5_with_vintage_engine` を参照のこと。
 
 
 テストデータの外部化
@@ -168,23 +172,23 @@ Nablarchに特化したテスト補助機能を提供
 テストメソッド記述方法
 ----------------------
 
-JUnit4のアノテーションを使用する。
-テストメソッドに @Test アノテーションを付与する。
+JUnit 5のアノテーションを使用する。
+テストメソッドに @Test アノテーション（ ``org.junit.jupiter.api.Test`` ）を付与する。
 
 
- .. code-block:: java 
+ .. code-block:: java
 
-    public class SampleTest {
+    class SampleTest {
 
         @Test
-        public void testSomething() {
+        void testSomething() {
             // テスト処理
         }
     }
 
 
 .. tip::
-  @Beforeや@Afterなどのアノテーションも使用できる。これらのアノテーションを用いて、
+  @BeforeEachや@AfterEachなどのアノテーションも使用できる。これらのアノテーションを用いて、
   テストメソッド前後にリソースの取得解放などの共通処理を行いたい場合は、
   次の項を参照（ :ref:`using_junit_annotation` ）。
 

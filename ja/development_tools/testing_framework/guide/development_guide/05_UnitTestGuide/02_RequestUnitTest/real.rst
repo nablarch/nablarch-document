@@ -12,7 +12,8 @@
 
 * テストクラスのパッケージは、テスト対象のActionクラスと同じとする。
 * <Actionクラス名>RequestTestというクラス名でテストクラスを作成する。
-* \ ``nablarch.test.core.http.MessagingRequestTestSupport``\ を継承する。
+* 合成アノテーション :java:extdoc:`MessagingRequestTest <nablarch.test.junit5.extension.messaging.MessagingRequestTest>` をテストクラスに付与する。
+* \ ``nablarch.test.core.messaging.MessagingRequestTestSupport``\ 型のフィールドを宣言する（インスタンスは拡張機能が自動的にインジェクションする）。
 
 例えば、テスト対象のActionクラスが、\ ``nablarch.sample.ss21AA.RM21AA001Action``\ だとすると、\
 テストクラスは以下のようになる。
@@ -20,10 +21,16 @@
 .. code-block:: java
 
   package nablarch.sample.ss21AA;
-  
+
+  import nablarch.test.core.messaging.MessagingRequestTestSupport;
+  import nablarch.test.junit5.extension.messaging.MessagingRequestTest;
+
   // ～中略～
 
-  public class RM21AA001ActionRequestTest extends MessagingRequestTestSupport {
+  @MessagingRequestTest
+  class RM21AA001ActionRequestTest {
+
+      MessagingRequestTestSupport support;
 
 
 
@@ -255,10 +262,10 @@ userId             常駐プロセス実行ユーザIDを記載する。        
 テストメソッドの書き方
 ----------------------
 
-スーパクラスについて
-====================
+テストサポートクラスについて
+============================
 
-``MessagingRequestTestSupport``\ クラスを継承する。
+テストサポートクラスには\ ``MessagingRequestTestSupport``\ クラスを使用する。
 このクラスでは、準備したテストデータを元に以下の手順でリクエスト単体テストを実行する。
 
 
@@ -269,16 +276,16 @@ userId             常駐プロセス実行ユーザIDを記載する。        
 
 
 .. code-block:: java
-    
+
     @Test
-    public void testRegisterUser() {
+    void testRegisterUser() {
     }
 
 
-スーパクラスのメソッド呼び出し
-==============================
+テストサポートクラスのメソッド呼び出し
+======================================
 
-テストメソッド内で、スーパクラスの以下のいずれかのメソッドを呼び出す。
+テストメソッド内で、インジェクションされたMessagingRequestTestSupportの以下のいずれかのメソッドを呼び出す。
 
 * void execute()
 * void execute(String sheetName)
@@ -291,10 +298,10 @@ userId             常駐プロセス実行ユーザIDを記載する。        
 引数なしのexecuteメソッドを使用するとよい。
 
 .. code-block:: java
-    
+
     @Test
-    public void testRegisterUser() {
-        execute();   // 【説明】execute("testRegisterUser") と等価
+    void testRegisterUser() {
+        support.execute();   // 【説明】support.execute("testRegisterUser") と等価
     }
 
 
