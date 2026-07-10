@@ -332,16 +332,16 @@ YAMLの場合
      - 最初の1件のみ有効（2件目以降は無視）
    * - ``EXPECTED_REQUEST_HEADER_MESSAGES``
      - 要求電文ヘッダの期待値
-     - groupId 指定時は全件収集、ID 直接指定時は最初の1件
+     - グループID 指定時は全件収集、ID 直接指定時は最初の1件
    * - ``EXPECTED_REQUEST_BODY_MESSAGES``
      - 要求電文ボディの期待値
-     - groupId 指定時は全件収集、ID 直接指定時は最初の1件
+     - グループID 指定時は全件収集、ID 直接指定時は最初の1件
    * - ``RESPONSE_HEADER_MESSAGES``
      - 応答電文ヘッダデータ
-     - groupId 指定時は全件収集、ID 直接指定時は最初の1件
+     - グループID 指定時は全件収集、ID 直接指定時は最初の1件
    * - ``RESPONSE_BODY_MESSAGES``
      - 応答電文ボディデータ
-     - groupId 指定時は全件収集、ID 直接指定時は最初の1件
+     - グループID 指定時は全件収集、ID 直接指定時は最初の1件
    * - ``DEFAULT``
      - フレームワーク内部用（通常使用しない）
      - —
@@ -351,7 +351,7 @@ YAMLの場合
 同一ファイル（シート）内に複数のデータブロックを書く場合の注意
 --------------------------------------------------------------
 
-- **複数テーブルの INSERT**: ``setup_tables`` などの全件収集タイプは同一 groupId のものをすべて収集する。複数テーブルデータを並べて記述できる。
+- **複数テーブルの INSERT**: ``setup_tables`` などの全件収集タイプは同一 グループID のものをすべて収集する。複数テーブルデータを並べて記述できる。
 - **データタイプの混在順序（YAML）**: YAML はトップレベルのセクションキー（ ``expected_tables`` / ``expected_complete_tables`` 等）ごとに独立して取得する。記述順序や異なるセクションの交互記述に関わらず正しく読み込まれる。
 - **``LIST_MAP`` / ``MESSAGE`` の重複 ID**: 同一 ID が複数ある場合は最初の1件のみ有効。2件目以降は無視される。
 
@@ -359,7 +359,7 @@ YAMLの場合
 
   **Excel との違い**: Excel（旧形式）は行を順に読む方式のため、同一シート内で別のデータタイプを挟むと後半が読み込まれない制約があった。YAML はセクションキーで構造化されるためこの制約はなく、移行時にデータタイプごとにまとめ直す必要はない。
 
-グループの指定方法（groupId）は :ref:`ntf_testdata_testshots` を参照。
+グループの指定方法（グループID）は :ref:`ntf_testdata_testshots` を参照。
 
 .. _ntf_testdata_testshots:
 
@@ -378,7 +378,7 @@ testShots
 - **Excel**: ``LIST_MAP=testShots`` データブロックに記述する。
 - **YAML**: ``list_maps:`` 下の ``id: testShots`` エントリに記述する。
 
-``testShots`` の1行が1テストケースとなる。カラムには値を直接書くものと、別データブロック（ ``LIST_MAP`` や各種テーブル／ファイル／電文ブロック）の groupId・名前を指す参照型がある。処理方式ごとに必須カラムとオプションカラムが定まる。
+``testShots`` の1行が1テストケースとなる。カラムには値を直接書くものと、別データブロック（ ``LIST_MAP`` や各種テーブル／ファイル／電文ブロック）の グループID・名前を指す参照型がある。処理方式ごとに必須カラムとオプションカラムが定まる。
 
 各処理方式と対応クラスを以下に示す。
 
@@ -452,13 +452,13 @@ testShots
      - この値と同じ名前の ``LIST_MAP`` を持つシートの全 ``SETUP_TABLE`` を、テストメソッド開始前に1回だけ INSERT
      - スキップ
    * - ``setUpTable``
-     - この値と同じ groupId を持つ ``SETUP_TABLE`` セクションを収集して INSERT
+     - この値と同じ グループID を持つ ``SETUP_TABLE`` セクションを収集して INSERT
      - スキップ
    * - ``expectedTable``
-     - この値と同じ groupId を持つ ``EXPECTED_TABLE`` / ``EXPECTED_COMPLETE_TABLE`` セクションで DB を検証
+     - この値と同じ グループID を持つ ``EXPECTED_TABLE`` / ``EXPECTED_COMPLETE_TABLE`` セクションで DB を検証
      - スキップ
    * - ``expectedSearch``
-     - 検索結果期待値の groupId（対応する ``LIST_MAP`` セクションを収集）
+     - 検索結果期待値の グループID（対応する ``LIST_MAP`` セクションを収集）
      - スキップ
    * - ``expectedMessageId``
      - 期待するメッセージ ID（カンマ区切りで複数指定可）
@@ -488,10 +488,10 @@ testShots
      - 期待する Content-Disposition ファイル名
      - スキップ
    * - ``expectedMessage``
-     - この値と同じ groupId を持つ要求電文セクション（ ``EXPECTED_REQUEST_HEADER/BODY_MESSAGES`` ）で検証
+     - この値と同じ グループID を持つ要求電文セクション（ ``EXPECTED_REQUEST_HEADER/BODY_MESSAGES`` ）で検証
      - スキップ
    * - ``responseMessage``
-     - この値と同じ groupId を持つ応答電文セクション（ ``RESPONSE_HEADER/BODY_MESSAGES`` ）をレスポンスとして返す
+     - この値と同じ グループID を持つ応答電文セクション（ ``RESPONSE_HEADER/BODY_MESSAGES`` ）をレスポンスとして返す
      - スキップ
    * - ``expectedMessageByClient``
      - HTTP 同期応答メッセージ送信の要求電文グループ ID
@@ -578,16 +578,16 @@ YAMLの場合
      - この値と同じ名前の ``LIST_MAP`` を持つシートの全 ``SETUP_TABLE`` を、テストメソッド開始前に1回だけ INSERT
      - スキップ
    * - ``setUpTable``
-     - この値と同じ groupId を持つ ``SETUP_TABLE`` セクションを収集して INSERT
+     - この値と同じ グループID を持つ ``SETUP_TABLE`` セクションを収集して INSERT
      - スキップ
    * - ``expectedTable``
-     - この値と同じ groupId を持つ ``EXPECTED_TABLE`` / ``EXPECTED_COMPLETE_TABLE`` セクションで DB を検証
+     - この値と同じ グループID を持つ ``EXPECTED_TABLE`` / ``EXPECTED_COMPLETE_TABLE`` セクションで DB を検証
      - スキップ
    * - ``setUpFile``
-     - この値と同じ groupId を持つ ``SETUP_FIXED`` / ``SETUP_VARIABLE`` セクションを入力ファイルとして配置
+     - この値と同じ グループID を持つ ``SETUP_FIXED`` / ``SETUP_VARIABLE`` セクションを入力ファイルとして配置
      - スキップ
    * - ``expectedFile``
-     - この値と同じ groupId を持つ ``EXPECTED_FIXED`` / ``EXPECTED_VARIABLE`` セクションで出力ファイルを検証
+     - この値と同じ グループID を持つ ``EXPECTED_FIXED`` / ``EXPECTED_VARIABLE`` セクションで出力ファイルを検証
      - スキップ
    * - ``expectedLog``
      - 期待ログの ``LIST_MAP`` 名。指定した LIST_MAP が空の場合はエラー
@@ -670,16 +670,16 @@ YAMLの場合
      - この値と同じ名前の ``LIST_MAP`` を持つシートの全 ``SETUP_TABLE`` を、テストメソッド開始前に1回だけ INSERT
      - スキップ
    * - ``setUpTable``
-     - この値と同じ groupId を持つ ``SETUP_TABLE`` セクションを収集して INSERT
+     - この値と同じ グループID を持つ ``SETUP_TABLE`` セクションを収集して INSERT
      - スキップ
    * - ``expectedTable``
-     - この値と同じ groupId を持つ ``EXPECTED_TABLE`` / ``EXPECTED_COMPLETE_TABLE`` セクションで DB を検証
+     - この値と同じ グループID を持つ ``EXPECTED_TABLE`` / ``EXPECTED_COMPLETE_TABLE`` セクションで DB を検証
      - スキップ
    * - ``expectedMessage``
-     - この値と同じ groupId を持つ要求電文セクション（ ``EXPECTED_REQUEST_HEADER/BODY_MESSAGES`` ）で検証
+     - この値と同じ グループID を持つ要求電文セクション（ ``EXPECTED_REQUEST_HEADER/BODY_MESSAGES`` ）で検証
      - スキップ
    * - ``responseMessage``
-     - この値と同じ groupId を持つ応答電文セクション（ ``RESPONSE_HEADER/BODY_MESSAGES`` ）をレスポンスとして返す
+     - この値と同じ グループID を持つ応答電文セクション（ ``RESPONSE_HEADER/BODY_MESSAGES`` ）をレスポンスとして返す
      - スキップ
    * - ``expectedLog``
      - 期待ログの ``LIST_MAP`` 名。指定した LIST_MAP が空の場合はエラー
@@ -776,7 +776,7 @@ YAMLの場合
 データブロックのグループ化
 --------------------------
 
-複数のテストケースで異なるセットアップデータや期待値を使い分けたい場合、データブロックに **groupId** を付加してグループ化する。 ``testShots`` の各カラム（ ``setUpTable`` / ``expectedTable`` / ``setUpFile`` / ``expectedFile`` 等）に groupId の値を指定すると、そのテストケースでは対応する groupId を持つデータブロックだけが収集される。
+複数のテストケースで異なるセットアップデータや期待値を使い分けたい場合、データブロックに **グループID** を付加してグループ化する。 ``testShots`` の各カラム（ ``setUpTable`` / ``expectedTable`` / ``setUpFile`` / ``expectedFile`` 等）に グループID の値を指定すると、そのテストケースでは対応する グループID を持つデータブロックだけが収集される。
 
 .. list-table::
    :header-rows: 1
@@ -792,8 +792,8 @@ YAMLの場合
 制約
 ~~~~
 
-- ``testShots`` の各カラムで groupId を省略すると、groupId なしのデータブロック（デフォルトグループ）が収集される。
-- バッチ固有の動作として groupId に ``"default"`` を指定すると groupId なし扱いと同等になる（HTTP テスト・メッセージングテストでは適用されない）。
+- ``testShots`` の各カラムで グループID を省略すると、グループID なしのデータブロック（デフォルトグループ）が収集される。
+- バッチ固有の動作として グループID に ``"default"`` を指定すると グループID なし扱いと同等になる（HTTP テスト・メッセージングテストでは適用されない）。
 
 記述例
 ~~~~~~
@@ -801,7 +801,7 @@ YAMLの場合
 Excelの場合
 ^^^^^^^^^^^
 
-groupId はデータブロック種別ラベルの ``[...]`` で指定する。
+グループID はデータブロック種別ラベルの ``[...]`` で指定する。
 
 .. code-block:: text
 
@@ -822,7 +822,7 @@ groupId はデータブロック種別ラベルの ``[...]`` で指定する。
 YAMLの場合
 ^^^^^^^^^^
 
-groupId は各エントリの ``group_id:`` フィールドで指定する。
+グループID は各エントリの ``group_id:`` フィールドで指定する。
 
 .. code-block:: yaml
 
@@ -1364,7 +1364,7 @@ YAMLの場合
 - フィールド名称・データ型の2リストが同サイズで必須である。フィールド長は不要。
 - 空エントリの動作: ファイルデータの空エントリ（先頭フィールドが空の行）はデータ行として扱われる。可変長は全フィールドが ``""`` のレコードとして保持され、固定長はスペースパディングされた定長レコードとして書き出される（テーブルデータの空行スキップとは異なる）。
 
-groupId 付きファイル
+グループID 付きファイル
 --------------------
 
 テストケースごとに異なる入力ファイルを使い分けるケースを以下に示す。
@@ -1372,7 +1372,7 @@ groupId 付きファイル
 Excelの場合
 ~~~~~~~~~~~
 
-groupId はデータブロック種別ラベルの ``[...]`` で指定する。
+グループID はデータブロック種別ラベルの ``[...]`` で指定する。
 
 .. code-block:: text
 
@@ -1391,7 +1391,7 @@ groupId はデータブロック種別ラベルの ``[...]`` で指定する。
 YAMLの場合
 ~~~~~~~~~~
 
-groupId は ``group_id:`` フィールドで指定する。省略するとグループ ID なし（デフォルトグループ）扱いである。
+グループID は ``group_id:`` フィールドで指定する。省略するとグループ ID なし（デフォルトグループ）扱いである。
 
 .. code-block:: yaml
 
@@ -1718,7 +1718,7 @@ YAMLの場合
             rows:
               - ["RM21AA0104_01"]
 
-- ``expectedMessage`` カラムには要求電文の groupId、 ``responseMessage`` カラムには応答電文の groupId を指定する。
+- ``expectedMessage`` カラムには要求電文の グループID、 ``responseMessage`` カラムには応答電文の グループID を指定する。
 - YAML では ``expected_request_header_messages:`` の ``group_id:`` が ``testShots`` の ``expectedMessage`` カラムに対応する。
 - ``id:`` はリクエスト ID（フォーマット定義ファイルの解決に使われる）。
 
