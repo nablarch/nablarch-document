@@ -9,7 +9,6 @@
 
    guide/development_guide/06_TestFWGuide/index
    guide/development_guide/05_UnitTestGuide/index
-   guide/development_guide/08_TestTools/index
 
 テスティングフレームワークの仕組み・設定・導入を行うアーキテクトは :ref:`testFWGuide` を、
 テストの実装方法・テストデータの記述方法を確認する開発者は :ref:`unitTestGuide` を参照。
