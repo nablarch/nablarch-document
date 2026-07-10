@@ -344,7 +344,7 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 **Steps**:
 
-- [ ] Acceptance criteria の各項目を実際の成果物に照らして確認する
+- [x] Acceptance criteria の各項目を実際の成果物に照らして確認する
 - [ ] セッション全体の結果をユーザーに提示し、`/rn:ty` または `/rn:gm` の verdict を受け取る
 
 **Completion criteria**:
@@ -353,4 +353,8 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 # State
 
-<!-- template placeholder -->
+- **Status**: paused
+- **Date**: 2026-07-10
+- **Last completed**: #14 HTML 出力が設計書に完全一致しているか確認
+- **Next**: #15 評価サインオフ（Acceptance criteria 提示済み、ユーザーの /rn:ty 待ち）
+- **Notes**: ビルド環境: `/tmp/sphinx_env`。コマンド: `LC_ALL=C.UTF-8 LANG=C.UTF-8 make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`（リポジトリルートで実行）。再開後の指示: HTML 出力が設計書通りか詳細チェックして結果を提示すること（ユーザー要望）。
