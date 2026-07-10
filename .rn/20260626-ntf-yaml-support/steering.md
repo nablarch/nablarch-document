@@ -328,9 +328,9 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 **Steps**:
 
-- [ ] HTML 出力の各章・ページ構成を design.md の新構成ツリーと1項目ずつ照合する
-- [ ] 差異があれば追加修正する
-- [ ] self-check (OK/NG per completion criterion, record in checks/task14.md)
+- [x] HTML 出力の各章・ページ構成を design.md の新構成ツリーと1項目ずつ照合する
+- [x] 差異があれば追加修正する
+- [x] self-check (OK/NG per completion criterion, record in checks/task14.md)
 
 **Completion criteria**:
 
