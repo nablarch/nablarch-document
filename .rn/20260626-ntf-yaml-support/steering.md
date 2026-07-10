@@ -268,12 +268,12 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 **Steps**:
 
-- [ ] `testdata/` 配下の7ファイル（overview/data-blocks/testshots/table-data/file-data/messaging/values）の内容を `testdata/index.rst` 1ページに統合する
-- [ ] 統合後の `testdata/index.rst` を B-1 として toctree に登録する（7ファイルは toctree から外す）
-- [ ] `make html` でビルドエラーがないことを確認する
-- [ ] HTML で B-1 が1ページとして表示されていることを確認する
-- [ ] self-check (OK/NG per completion criterion, record in checks/task11.md)
-- [ ] QA expert review (subagent)
+- [x] `testdata/` 配下の7ファイル（overview/data-blocks/testshots/table-data/file-data/messaging/values）の内容を `testdata/index.rst` 1ページに統合する
+- [x] 統合後の `testdata/index.rst` を B-1 として toctree に登録する（7ファイルは toctree から外す）
+- [x] `make html` でビルドエラーがないことを確認する
+- [x] HTML で B-1 が1ページとして表示されていることを確認する
+- [x] self-check (OK/NG per completion criterion, record in checks/task11.md)
+- [x] QA expert review (subagent)
 
 **Completion criteria**:
 
