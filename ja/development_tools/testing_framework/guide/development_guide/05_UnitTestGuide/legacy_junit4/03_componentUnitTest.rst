@@ -1,23 +1,26 @@
-.. _componentUnitTest:
+.. _legacy_junit4_componentUnitTest:
 
-======================================
-Action/Componentのクラス単体テスト
-======================================
+===============================================
+Action/Componentのクラス単体テスト（JUnit 4）
+===============================================
+
+.. important::
+
+  本ページはJUnit 4で作成された既存のテスト資産を保守するプロジェクト向けである。
+  新規にテストを作成する場合は、JUnit 5版の :ref:`componentUnitTest` を参照すること。
+
 本項では、Action/Componentのクラス単体テストのうちComponentのクラス単体テスト(以下Component単体テスト)にて説明する。
 なお、Actionのクラス単体テスト(以下Action単体テスト)の場合の違いとしてはテストクラス名の部分である。
-
-本項のコード例はJUnit 5（ :ref:`ntf_junit5_extension` ）を前提としている。
-JUnit 4で作成された既存のテスト資産を保守する場合は、 :ref:`legacy_junit4_componentUnitTest` を参照すること。
 
 --------------------------------------
 Action/Component単体テストの書き方
 --------------------------------------
 本項で例として使用したテストクラスとテストデータは以下のとおり(右クリック->保存でダウンロード)。
 
-* :download:`テストケース一覧(ユーザ登録_ UserComponent_クラス単体テストケース.xlsx)<./_download/ユーザ登録_UserComponent_クラス単体テストケース.xlsx>`
-* :download:`テストクラス(UserComponentTest.java)<./_download/UserComponentTest.java>`
-* :download:`テストデータ(UserComponentTest.xlsx)<./_download/UserComponentTest.xlsx>`
-* :download:`テスト対象クラス(UserComponent.java)<./_download/UserComponent.java>`
+* :download:`テストケース一覧(ユーザ登録_ UserComponent_クラス単体テストケース.xlsx)<_download/ユーザ登録_UserComponent_クラス単体テストケース.xlsx>`
+* :download:`テストクラス(UserComponentTest.java)<_download/UserComponentTest.java>`
+* :download:`テストデータ(UserComponentTest.xlsx)<_download/UserComponentTest.xlsx>`
+* :download:`テスト対象クラス(UserComponent.java)<_download/UserComponent.java>`
 
 
 本項では、ユーザ登録用メソッド(UserComponent#registerUser)を例に説明する。
@@ -42,12 +45,12 @@ Action/Component単体テストの書き方
 
 テストデータとテストクラスの作成
 ================================
-\ :ref:`componentUnitTest_Setup`\ 、\ :ref:`componentUnitTest_DB`\ 、\ :ref:`componentUnitTest_messageID`\ のそれぞれについて、テストデータとテストクラスの作成方法を説明する。\
+\ :ref:`legacy_junit4_componentUnitTest_Setup`\ 、\ :ref:`legacy_junit4_componentUnitTest_DB`\ 、\ :ref:`legacy_junit4_componentUnitTest_messageID`\ のそれぞれについて、テストデータとテストクラスの作成方法を説明する。\
 まず最初に、テストデータ(Excelファイル)そのもののと、テストクラスの作成方法(継承すべきクラスなど)を説明する。次に、各パターンごとのデータとテストメソッド作成方法を説明する。
 
 テストデータの作成
 ------------------
-テストデータを記載したExcelファイルは、\ :ref:`entityUnitTest`\ と同様にテストソースコードと同じディレクトリに同じ名前で格納する(拡張子のみ異なる)。\
+テストデータを記載したExcelファイルは、\ :ref:`legacy_junit4_entityUnitTest`\ と同様にテストソースコードと同じディレクトリに同じ名前で格納する(拡張子のみ異なる)。\
 なお、全てのテストデータは同じExcelのシートに記載する前提である。
 
 テストデータの記述方法詳細については、\ :doc:`../../06_TestFWGuide/01_Abstract`\ 、\ :doc:`../../06_TestFWGuide/02_DbAccessTest`\ を参照。
@@ -61,16 +64,15 @@ Component単体テストのテストクラスは以下の条件を満たすよ�
 
 * テストクラスのパッケージは、テスト対象のAction/Componentと同じとする。
 * <Action/Componentクラス名>Testというクラス名でテストクラスを作成する。
-* 合成アノテーション :java:extdoc:`DbAccessTest <nablarch.test.junit5.extension.db.DbAccessTest>` をテストクラスに付与する。
-* nablarch.test.core.db.DbAccessTestSupport型のフィールドを宣言する（インスタンスは拡張機能が自動的にインジェクションする）。
+* nablarch.test.core.db.DbAccessTestSupportを継承する。
 
 .. code-block:: java
 
    package nablarch.sample.management.user; // 【説明】パッケージはUserComponentと同じ
 
-   import static org.junit.jupiter.api.Assertions.assertEquals;
-   import static org.junit.jupiter.api.Assertions.assertTrue;
-   import static org.junit.jupiter.api.Assertions.fail;
+   import static org.junit.Assert.assertEquals;
+   import static org.junit.Assert.assertTrue;
+   import static org.junit.Assert.fail;
 
    import java.util.HashMap;
    import java.util.List;
@@ -80,26 +82,22 @@ Component単体テストのテストクラスは以下の条件を満たすよ�
    import nablarch.core.db.statement.SqlResultSet;
    import nablarch.core.message.ApplicationException;
    import nablarch.test.core.db.DbAccessTestSupport;
-   import nablarch.test.junit5.extension.db.DbAccessTest;
 
-   import org.junit.jupiter.api.Test;
+   import org.junit.Test;
 
    /**
     * {@link UserComponentTest}のテストクラス。
-    *
+    * 
     * @author Tsuyoshi Kawasaki
     * @since 1.0
     */
-   @DbAccessTest  // 【説明】合成アノテーションを付与する
-   class UserComponentTest {
-
-       DbAccessTestSupport support;
-       // 【説明】DbAccessTestSupport型のフィールドを宣言すると、インスタンスがインジェクションされる
-
+   public class UserComponentTest extends DbAccessTestSupport {
+   // 【説明】クラス名はUserComponentTestで、DbAccessTestSupportを継承する
+   
    // ～後略～
 
 
-.. _componentUnitTest_Setup:
+.. _legacy_junit4_componentUnitTest_Setup:
 
 事前準備データの作成処理
 ------------------------
@@ -121,7 +119,7 @@ Component単体テストのテストクラスは以下の条件を満たすよ�
 
   * ID_GENERATE:採番テーブル。登録時に採番処理を行うため。採番テーブルを初期化しておかないと、テスト実行時の採番結果がわからなくなり、挿入結果の検証ができなくなる。
 
-.. image:: ./_image/componentUnitTest_Setup.png
+.. image:: ../01_ClassUnitTest/_image/componentUnitTest_Setup.png
  :width: 800px
  :scale: 100
 
@@ -140,31 +138,31 @@ Component単体テストのテストクラスは以下の条件を満たすよ�
     * 正常系。
     */
    @Test
-   void testRegisterUser1() {
+   public void testRegisterUser1() {
        String sheetName = "registerUser";
 
-       support.setThreadContextValues(sheetName, "threadContext"); // 【説明】スレッドコンテキストの設定
+       setThreadContextValues(sheetName, "threadContext"); // 【説明】スレッドコンテキストの設定
 
 
    // ～中略～
 
-        for (int i = 0; i < sysAcctDatas.size(); i++) {
+        for (int i = 0; i < sysAcctDatas.size(); i++) { 
 
    // ～中略～
 
            // データベース準備
-           support.setUpDb(sheetName); // 【説明】事前データの投入。
-                                       // 【説明】各ケースごとに初期化するためループ中で実行する。
+           setUpDb(sheetName); // 【説明】事前データの投入。
+                               // 【説明】各ケースごとに初期化するためループ中で実行する。
 
    // ～後略～
 
 
-.. _componentUnitTest_DB:
+.. _legacy_junit4_componentUnitTest_DB:
 
 処理終了後のデータベースの状況を確認しなければならないもの
 ----------------------------------------------------------
 
-.. _componentUnitTest_inputData_normal:
+.. _legacy_junit4_componentUnitTest_inputData_normal:
 
 テストデータ(入力値)の作成
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -178,7 +176,7 @@ usersEntityの1行目と、grpSysAcctEntityの1行目で1ケース分のテス�
 sysAcctEntityのuseCaseIdはuseCaseIdプロパティに設定される値そのものではなく(SystemAccountEntityのuseCaseIdプロパティは配列)、図中矢印で示している別の\
 表のデータを指している。テストコードでは、取得した値をキーとして更にデータを取得、配列を作成し、useCaseIdプロパティに設定している。
 
-.. image:: ./_image/componentUnitTest_inputData.png
+.. image:: ../01_ClassUnitTest/_image/componentUnitTest_inputData.png
  :width: 800px
  :scale: 100
 
@@ -186,14 +184,14 @@ sysAcctEntityのuseCaseIdはuseCaseIdプロパティに設定される値その�
 
    // ～前略～
 
-   void testRegisterUser1() {
+   public void testRegisterUser1() {
        String sheetName = "registerUser";
-
-       support.setThreadContextValues(sheetName, "threadContext");
-
-       List<Map<String, String>> sysAcctDatas = support.getListMap(sheetName, "sysAcctEntity");
-       List<Map<String, String>> usersDatas = support.getListMap(sheetName, "usersEntity");
-       List<Map<String, String>> grpSysAcctDatas = support.getListMap(sheetName, "grpSysAcctEntity");
+               
+       setThreadContextValues(sheetName, "threadContext");
+       
+       List<Map<String, String>> sysAcctDatas = getListMap(sheetName, "sysAcctEntity");
+       List<Map<String, String>> usersDatas = getListMap(sheetName, "usersEntity");
+       List<Map<String, String>> grpSysAcctDatas = getListMap(sheetName, "grpSysAcctEntity");
        // エクセルのデータを一時的に受けるMap、List
        Map<String, Object> work = new HashMap<String, Object>();
        List<Map<String, String>> useCaseData = null;
@@ -213,7 +211,7 @@ sysAcctEntityのuseCaseIdはuseCaseIdプロパティに設定される値その�
            }
            // ユースケースIDの引数作成
            String id = sysAcctDatas.get(i).get("useCaseId"); // 【説明】図中矢印の根元にある表のIDを取得
-           useCaseData = support.getListMap(sheetName, id); // 【説明】取得したIDを使用して図中矢印の先にある配列のデータを取得
+           useCaseData = getListMap(sheetName, id); // 【説明】取得したIDを使用して図中矢印の先にある配列のデータを取得
            String[] useCaseId = new String[useCaseData.size()]; // 【説明】配列の作成
            for (int j = 0; j < useCaseData.size(); j++) {
                useCaseId[j] = useCaseData.get(j).get("useCaseId");
@@ -237,11 +235,11 @@ sysAcctEntityのuseCaseIdはuseCaseIdプロパティに設定される値その�
 
            // 実行
            target.registerUser(sysAcct, users, grpSysAcct);
-           support.commitTransactions();   // 【説明】全てのトランザクションをコミット
+           commitTransactions();   // 【説明】全てのトランザクションをコミット
 
            // 検証
-           String expectedGroupId = support.getListMap(sheetName, "expected").get(i).get("caseNo");
-           support.assertTableEquals(expectedGroupId, sheetName, expectedGroupId);
+           String expectedGroupId = getListMap(sheetName, "expected").get(i).get("caseNo");
+           assertTableEquals(expectedGroupId, sheetName, expectedGroupId);
 
    // ～後略～
 
@@ -256,7 +254,7 @@ sysAcctEntityのuseCaseIdはuseCaseIdプロパティに設定される値その�
 フレームワークによるトランザクション制御は行われない。\
 処理終了後のデータベースの状況を確認しなければならない場合は、テストクラスにてトランザクションをコミットする必要がある。\
   
-DbAccessTestSupportの ``commitTransactions()`` メソッドを起動しコミットする。
+スーパクラスの ``commitTransactions()`` メソッドを起動しコミットする。
 トランザクションをコミットしない場合、テスト結果の確認が正常に行われない。\
 (参照系のテストの場合はコミットを行う必要はない)
 
@@ -267,7 +265,7 @@ DbAccessTestSupportの ``commitTransactions()`` メソッドを起動しコミ�
 サンプルアプリケーションでは、グループID(\ :ref:`tips_groupId`\ 参照)を定義したデータ(expected)を用意し、これをassertTableEqualsの\
 引数に渡すことで、複数の想定結果に対応している。
 
-.. image:: ./_image/componentUnitTest_expectedDataNormal.png
+.. image:: ../01_ClassUnitTest/_image/componentUnitTest_expectedDataNormal.png
  :width: 800px
  :scale: 100
 
@@ -280,7 +278,7 @@ DbAccessTestSupportの ``commitTransactions()`` メソッドを起動しコミ�
     * 正常系。
     */
    @Test
-   void testRegisterUser1() {
+   public void testRegisterUser1() {
        String sheetName = "registerUser";
 
    // ～中略～
@@ -292,9 +290,9 @@ DbAccessTestSupportの ``commitTransactions()`` メソッドを起動しコミ�
 
             // 検証
             // 【説明】グループIDの取得
-            String expectedGroupId = support.getListMap(sheetName, "expected").get(i).get("caseNo");
+            String expectedGroupId = getListMap(sheetName, "expected").get(i).get("caseNo"); 
             // 【説明】取得したグループIDを引数にassertTableEqualsの実行
-            support.assertTableEquals(expectedGroupId, sheetName, expectedGroupId);
+            assertTableEquals(expectedGroupId, sheetName, expectedGroupId); 
 
    // ～後略～
 
@@ -304,13 +302,13 @@ case1を例にとると、想定結果は次のようになる。
 ======================== ===============================================================================================
 テーブル名               想定
 ======================== ===============================================================================================
-SYSTEM_ACCOUNT           \ :ref:`componentUnitTest_Setup`\ で示したレコード+1レコード追加。計4レコード。
-USERS                    1レコード追加。(\ :ref:`componentUnitTest_Setup`\ で0件に初期化し、テスト対象処理で1レコード追加)
-UGROUP_SYSTEM_ACCOUNT    1レコード追加。(\ :ref:`componentUnitTest_Setup`\ で0件に初期化し、テスト対象処理で1レコード追加)
+SYSTEM_ACCOUNT           \ :ref:`legacy_junit4_componentUnitTest_Setup`\ で示したレコード+1レコード追加。計4レコード。
+USERS                    1レコード追加。(\ :ref:`legacy_junit4_componentUnitTest_Setup`\ で0件に初期化し、テスト対象処理で1レコード追加)
+UGROUP_SYSTEM_ACCOUNT    1レコード追加。(\ :ref:`legacy_junit4_componentUnitTest_Setup`\ で0件に初期化し、テスト対象処理で1レコード追加)
 SYSTEM_ACCOUNT_AUTHORITY 変化なし(新規追加なし)。
 ======================== ===============================================================================================
 
-.. _componentUnitTest_messageID:
+.. _legacy_junit4_componentUnitTest_messageID:
 
 メッセージIDを確認しなければならないもの
 ----------------------------------------
@@ -318,8 +316,8 @@ SYSTEM_ACCOUNT_AUTHORITY 変化なし(新規追加なし)。
 テストデータ(入力値と想定値)の作成
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-\ :ref:`前項のテストデータ(入力値)の作成<componentUnitTest_inputData_normal>`\ と同様にテストデータ(入力値)を作成する。こちらでは、\
-\ :ref:`前項<componentUnitTest_inputData_normal>`\ で指定したIDの末尾に"Err"を付加することで、同じExcelシート内に正常系と異常系のデータを混載している。また、\
+\ :ref:`前項のテストデータ(入力値)の作成<legacy_junit4_componentUnitTest_inputData_normal>`\ と同様にテストデータ(入力値)を作成する。こちらでは、\
+\ :ref:`前項<legacy_junit4_componentUnitTest_inputData_normal>`\ で指定したIDの末尾に"Err"を付加することで、同じExcelシート内に正常系と異常系のデータを混載している。また、\
 想定値はメッセージIDである。
 
 ここで確認すべき内容は、ユニークキー制約違反による例外の発生である。テストコードでは、目的の例外をキャッチし、メッセージIDを比較することで検証する。
@@ -329,7 +327,7 @@ SYSTEM_ACCOUNT_AUTHORITY 変化なし(新規追加なし)。
   キャッチする例外は発生を想定する例外とし、RuntimeExceptionなどの上位例外クラスは用いないこと。メッセージIDはあっているが、例外そのものを間違えているバグを\
   検出できなくなってしまう。
 
-.. image:: ./_image/componentUnitTest_expectedDataAbnormal.png
+.. image:: ../01_ClassUnitTest/_image/componentUnitTest_expectedDataAbnormal.png
  :width: 800px
  :scale: 100
 
@@ -342,7 +340,7 @@ SYSTEM_ACCOUNT_AUTHORITY 変化なし(新規追加なし)。
     * 異常系。
     */
    @Test
-   void testRegisterUser2() {
+   public void testRegisterUser2() {
        String sheetName = "registerUser";
 
    // ～中略～

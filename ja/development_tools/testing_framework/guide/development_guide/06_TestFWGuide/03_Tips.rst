@@ -50,12 +50,15 @@ Excelファイルから、入力パラメータや戻り値に対する期待値
 
  .. code-block:: java
 
-    public class EmployeeComponentTest extends DbAccessTestSupport {
-        
+    @DbAccessTest
+    class EmployeeComponentTest {
+
+        DbAccessTestSupport support;
+
         @Test
-        public void testGetName() {
+        void testGetName() {
            // Excelファイルからデータ取得
-           List<Map<String, String>> parameters = getListMap("testGetName", "parameters");
+           List<Map<String, String>> parameters = support.getListMap("testGetName", "parameters");
            Map<String, String>> param = parameters.get(0);
 
            // 引数および期待値を取得
@@ -117,15 +120,18 @@ empNo        expected
 
  .. code-block:: java
 
-    public class EmployeeComponentTest extends DbAccessTestSupport {
-        
+    @DbAccessTest
+    class EmployeeComponentTest {
+
+        DbAccessTestSupport support;
+
         @Test
-        public void testSelectByPk() {
+        void testSelectByPk() {
            // 準備データ投入
-           setUpDb("testSelectByPk");
+           support.setUpDb("testSelectByPk");
 
            // Excelファイルからデータ取得
-           List<Map<String, String>> parameters = getListMap("testGetName", "parameters");
+           List<Map<String, String>> parameters = support.getListMap("testGetName", "parameters");
 
            for (Map<String, String> param : parameters) {
                // 引数および期待値を取得
@@ -137,7 +143,7 @@ empNo        expected
                SqlResultSet actual = target.selectByPk(empNo);           
            
                // 結果確認
-               assertSqlResultSetEquals("testSelectByPk", expectedDataId, actual);
+               support.assertSqlResultSetEquals("testSelectByPk", expectedDataId, actual);
             }
         }
 
@@ -455,12 +461,16 @@ Excelファイルに設定する値を記述して下記メソッドを呼び出
 
  .. code-block:: java
 
-    public class DbAccessTestSample extends DbAccessTestSupport {
+    @DbAccessTest
+    class DbAccessTestSample {
+
+        DbAccessTestSupport support;
+
         // ＜中略＞
         @Test
-        public void testInsert() {
+        void testInsert() {
             // ThreadContextに値を設定する（シート名、IDを指定）
-            setThreadContextValues("testSelect", "threadContext");            
+            support.setThreadContextValues("testSelect", "threadContext");
 
            // ＜後略＞
 
@@ -509,44 +519,77 @@ U00001       RS000001     ja_JP
 テスト実行前後に共通処理を行いたい。
 ------------------------------------
 
-JUnit4で用意されたアノテーション(@Before, @After, @BeforeClass, @AfterClass)を使用することで、
+JUnit 5で用意されたアノテーション(@BeforeEach, @AfterEach, @BeforeAll, @AfterAll)を使用することで、
 テスト実行前後に共通処理を実行させることができる。
+
+.. code-block:: java
+
+    @DbAccessTest
+    class SampleTest {
+
+        DbAccessTestSupport support;
+
+        @BeforeAll
+        static void setUpBeforeAll() {
+            // テストクラス全体で1回だけ実行される前処理
+        }
+
+        @BeforeEach
+        void setUp() {
+            // テストメソッドごとに実行される前処理
+        }
+
+        @AfterEach
+        void tearDown() {
+            // テストメソッドごとに実行される後処理
+        }
+
+        @Test
+        void test() {
+            // テスト処理
+        }
+    }
 
 注意事項
 ========
 
 上記のアノテーションを使用する際は、以下の点に注意すること。
 
-@BeforeClass, @AfterClass使用時の注意点
----------------------------------------
+@BeforeAll, @AfterAll使用時の注意点
+-----------------------------------
 
- * サブクラスにて、スーパークラスと同名の名前、同じアノテーションを付与のメソッドを作成しないこと。
+ * @BeforeAll, @AfterAllを付与するメソッドはstaticメソッドとして定義すること。
+ * サブクラスにて、スーパークラスと同名の名前、同じアノテーションを付与したメソッドを作成しないこと。
    同名のメソッドに同種のアノテーションを付与した場合、スーパークラスのメソッドは起動されなくなる。
 
  .. code-block:: java
 
-    public class TestSuper {
-        @BeforeClass
-        public static void setUpBeforeClass() {
+    class TestSuper {
+        @BeforeAll
+        static void setUpBeforeAll() {
             System.out.println("super");   // 表示されない。
         }
     }
 
-    public class TestSub extends TestSuper {   
-                           
-        @BeforeClass               
-        public static void setUpBeforeClass() {
+    class TestSub extends TestSuper {
+
+        @BeforeAll
+        static void setUpBeforeAll() {
             // スーパークラスのメソッドを上書き
-        }                      
-                               
-        @Test                  
-        public void test() {           
-            System.out.println("test");    
-        }                      
-    }                                          
+        }
+
+        @Test
+        void test() {
+            System.out.println("test");
+        }
+    }
 
 
 上記のTestSubを実行した場合、「test」と表示される。
+
+.. tip::
+  JUnit 4で作成された既存のテスト資産における共通処理（@Before, @After, @BeforeClass, @AfterClass）については、
+  :ref:`legacy_junit4_tips` を参照すること。
 
 
 .. _using_transactions:
@@ -563,7 +606,7 @@ JUnit4で用意されたアノテーション(@Before, @After, @BeforeClass, @Af
 
 
 この機能を利用する手順は以下の通り。
- * テストクラスにてDbAccessTestSupportを継承する（これにより、スーパークラスの@Before、@Afterメソッドが自動的に呼び出される）。
+ * テストクラスに合成アノテーション :java:extdoc:`DbAccessTest <nablarch.test.junit5.extension.db.DbAccessTest>` を付与し、DbAccessTestSupport型のフィールドを宣言する（これにより、拡張機能がテストメソッドの前後でトランザクションの開始・終了処理を自動的に呼び出す）。
 
 
 .. _using_ohter_class:
@@ -572,39 +615,57 @@ JUnit4で用意されたアノテーション(@Before, @After, @BeforeClass, @Af
 本フレームワークのクラスを継承せずに使用したい
 --------------------------------------------------------
 
-通常、テストクラス作成時は本フレームワークで用意されているスーパークラスを継承すればよいが、
-別のクラスを継承しなければならない等の理由で、本フレームワークのスーパークラスを継承できない場合がある。この場合、本フレームワークのスーパークラスをインスタンス化し、処理を委譲することで代替可能である。
+JUnit 5用拡張機能（ :ref:`ntf_junit5_extension` ）を使用する場合、本フレームワークのクラスを継承する必要はなく、
+合成アノテーションとフィールド宣言だけで使用できるため、別のクラスを継承しているテストクラスでもそのまま使用できる。
 
+.. code-block:: java
+
+    @DbAccessTest
+    class SampleTest extends AnotherSuperClass {
+
+        DbAccessTestSupport support;
+
+        @Test
+        void test() {
+            // データベースに準備データ投入
+            support.setUpDb("test");
+
+            // ＜中略＞
+            support.assertSqlResultSetEquals("test", "id", actual);
+        }
+    }
+
+なお、合成アノテーションを使用せずに本フレームワークのクラスをインスタンス化し、処理を委譲することも可能である。
 委譲を使用する場合、コンストラクタにテストクラス自身のClassインスタンスを渡す必要がある。
-また、前処理(@Before)メソッド、後処理(@After)メソッドについては、明示的に呼び出す必要がある。
+また、前処理メソッド、後処理メソッドについては、明示的に呼び出す必要がある。
 
 テストソースコード実装例
 ========================
 
  .. code-block:: java
 
-    public class SampleTest extends AnotherSuperClass {
+    class SampleTest extends AnotherSuperClass {
 
         /** DbAccessテストサポート */
         private DbAccessTestSupport dbSupport
-              = new DbAccessTestSupport(getClass());
-    
+              = new DbAccessTestSupport(SampleTest.class);
+
         /** 前処理 */
-        @Before
-        public void setUp() {
+        @BeforeEach
+        void setUp() {
             // DbSupportの前処理を起動
             dbSupport.beginTransactions();
         }
-    
+
         /** 後処理 */
-        @After
-        public void tearDown() {
+        @AfterEach
+        void tearDown() {
             // DbSupportの後処理を起動
             dbSupport.endTransactions();
         }
 
         @Test
-        public void test() {
+        void test() {
             // データベースに準備データ投入
             dbSupport.setUpDb("test");
 
@@ -639,22 +700,25 @@ JUnit4で用意されたアノテーション(@Before, @After, @BeforeClass, @Af
 
  .. code-block:: java
 
-    public class UserUpdateActionRequestTest extends HttpRequestTestSupport {
-        
+    @BasicHttpRequestTest(baseUri = "/action/user/UserUpdateAction/")
+    class UserUpdateActionRequestTest {
+
+        BasicHttpRequestTestTemplate support;
+
         @Test
-        public void testRW11AC0301Normal() {
-            execute("testRW11AC0301Normal", new BasicAdvice() {
+        void testRW11AC0301Normal() {
+            support.execute("testRW11AC0301Normal", new BasicAdvice() {
                 @Override
-                public void afterExecute(TestCaseInfo testCaseInfo, 
+                public void afterExecute(TestCaseInfo testCaseInfo,
                         ExecutionContext context) {
                     String message = testCaseInfo.getTestCaseName();
                     String sheetName = testCaseInfo.getSheetName();
-    
+
                     UserForm form = (UserForm) context.getRequestScopedVar("user_form");
                     UsersEntity users = form.getUsers();
-                    
+
                     // users のプロパティ kanjiName,kanaName,mailAddress を検証。
-                    assertObjectPropertyEquals(message, sheetName, "expectedUsers", users);
+                    support.assertObjectPropertyEquals(message, sheetName, "expectedUsers", users);
                 }
             }
         }

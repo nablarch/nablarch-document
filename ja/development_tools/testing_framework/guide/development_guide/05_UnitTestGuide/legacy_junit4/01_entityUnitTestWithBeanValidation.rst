@@ -1,13 +1,16 @@
-.. _entityUnitTestWithBeanValidation:
+.. _legacy_junit4_entityUnitTestWithBeanValidation:
 
-==========================================================
-Bean Validationに対応したForm/Entityのクラス単体テスト
-==========================================================
+===================================================================
+Bean Validationに対応したForm/Entityのクラス単体テスト（JUnit 4）
+===================================================================
+
+.. important::
+
+  本ページはJUnit 4で作成された既存のテスト資産を保守するプロジェクト向けである。
+  新規にテストを作成する場合は、JUnit 5版の :ref:`entityUnitTestWithBeanValidation` を参照すること。
+
 本項では、入力値チェックを :ref:`bean_validation` で実施しているFormおよびEntityクラス単体テスト(以下Form単体テストまたはEntity単体テスト)について説明する。
 両者はほぼ同じように単体テストを行えるため、共通する内容についてはForm単体テストをベースに説明し、特有の処理については個別に説明する。
-
-本項のコード例はJUnit 5（ :ref:`ntf_junit5_extension` ）を前提としている。
-JUnit 4で作成された既存のテスト資産を保守する場合は、 :ref:`legacy_junit4_entityUnitTestWithBeanValidation` を参照すること。
 
 .. tip::
    Form、Entityの責務については、各処理方式の責務配置を参照すること。
@@ -18,19 +21,19 @@ Form/Entity単体テストの書き方
 -----------------------------
 本項で例として使用したテストクラスとテストデータは以下のとおり(右クリック->保存でダウンロード)。
 
-* :download:`テストクラス(UserRegistrationFormTest.java)<../_download/UserRegistrationFormTest.java>`
-* :download:`テストデータ(UserRegistrationFormTest.xlsx)<../_download/UserRegistrationFormTest.xlsx>`
-* :download:`テスト対象クラス(UserRegistrationForm.java)<../_download/UserRegistrationForm.java>`  
+* :download:`テストクラス(UserRegistrationFormTest.java)<_download/UserRegistrationFormTest.java>`
+* :download:`テストデータ(UserRegistrationFormTest.xlsx)<_download/UserRegistrationFormTest.xlsx>`
+* :download:`テスト対象クラス(UserRegistrationForm.java)<_download/UserRegistrationForm.java>`  
 
 テストデータの作成
 ==================
 テストデータを記載したExcelファイルそのものの作成方法を説明する。テストデータを記載したExcelファイルは、テストソースコードと同じディレクトリに同じ名前で格納する(拡張子のみ異なる)。
 なお、後述する \
-\ :ref:`精査のテストケース<entityUnitTest_ValidationCase_BeanValidation>` \ 、\
-\ :ref:`setter、getterに対するテストケース<entityUnitTest_SetterGetterCase_BeanValidation>`\
+\ :ref:`精査のテストケース<legacy_junit4_entityUnitTest_ValidationCase_BeanValidation>` \ 、\
+\ :ref:`setter、getterに対するテストケース<legacy_junit4_entityUnitTest_SetterGetterCase_BeanValidation>`\
 のそれぞれが、1シートずつ使用する前提である。
 
-テストデータの記述方法詳細については、 :doc:`../../../06_TestFWGuide/01_Abstract` 、 :doc:`../../../06_TestFWGuide/02_DbAccessTest` を参照。
+テストデータの記述方法詳細については、 :doc:`../../06_TestFWGuide/01_Abstract` 、 :doc:`../../06_TestFWGuide/02_DbAccessTest` を参照。
 
 なお、メッセージデータやコードマスタなどの、データベースに格納する静的マスタデータは、プロジェクトで管理されたデータがあらかじめ投入されている
 (これらのデータを個別のテストデータとして作成しない)前提である。
@@ -41,17 +44,15 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 
 * テストクラスのパッケージは、テスト対象のForm/Entityと同じとする。
 * <Form/Entityクラス名>Testというクラス名でテストクラスを作成する。
-* 合成アノテーション :java:extdoc:`EntityTest <nablarch.test.junit5.extension.db.EntityTest>` をテストクラスに付与する。
-* nablarch.test.core.db.EntityTestSupport型のフィールドを宣言する（インスタンスは拡張機能が自動的にインジェクションする）。
+* nablarch.test.core.db.EntityTestSupportを継承する。
 
 .. code-block:: java
 
    package com.nablarch.example.app.web.form; // 【説明】パッケージはUserRegistrationFormと同じ
-
+   
    import nablarch.test.core.db.EntityTestSupport;
-   import nablarch.test.junit5.extension.db.EntityTest;
-   import org.junit.jupiter.api.Test;
-
+   import org.junit.Test;
+   
    /**
     * {@link UserRegistrationForm}に対するテストを実行するクラス。
     * テスト内容はExcelシート参照のこと。
@@ -59,17 +60,14 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
     * @author Takayuki Uchida
     * @since 1.0
     */
-   @EntityTest  // 【説明】合成アノテーションを付与する
-   class UserRegistrationFormTest {
+   public class UserRegistrationFormTest extends EntityTestSupport {
+   // 【説明】クラス名はUserRegistrationFormTestで、EntityTestSupportを継承する
 
-       EntityTestSupport support;
-       // 【説明】EntityTestSupport型のフィールドを宣言すると、インスタンスがインジェクションされる
-
-   // 【説明】〜後略〜
+   // 【説明】〜後略〜                
 
 テストメソッドの記述方法は本項以降に記載されているコード例を参照。
 
-.. _entityUnitTest_ValidationCase_BeanValidation:
+.. _legacy_junit4_entityUnitTest_ValidationCase_BeanValidation:
 
 文字種と文字列長の単項目精査テストケース
 ========================================
@@ -113,7 +111,7 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
    
       <親Form>.<子Form>.<子フォームのプロパティ名>
 
-.. _entityUnitTest_CharsetAndLengthInputData_BeanValidation:
+.. _legacy_junit4_entityUnitTest_CharsetAndLengthInputData_BeanValidation:
 
 テストケース表の作成方法
 ------------------------
@@ -176,12 +174,12 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 
 \
 
-.. [#] messageIdWhenEmptyInputを省略した場合は、 :ref:`entityUnitTest_EntityTestConfiguration_BeanValidation` で設定したemptyInputMessageId
+.. [#] messageIdWhenEmptyInputを省略した場合は、 :ref:`legacy_junit4_entityUnitTest_EntityTestConfiguration_BeanValidation` で設定したemptyInputMessageId
        の値が使用される。
 
 \
 
-.. [#] messageIdWhenInvalidLengthを省略した場合は、 :ref:`entityUnitTest_EntityTestConfiguration_BeanValidation` で
+.. [#] messageIdWhenInvalidLengthを省略した場合は、 :ref:`legacy_junit4_entityUnitTest_EntityTestConfiguration_BeanValidation` で
        設定したデフォルト値が使用される。省略時にどのデフォルト値が使用されるかは、max欄及びmin欄の記載によって決まり、以下の通り。
 
 +--------------+--------------+----------------+---------------------------------------------------------------+
@@ -231,7 +229,7 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
  
 具体例を以下に示す。
 
-.. image:: ../_image/entityUnitTest_CharsetAndLengthExample_BeanValidation.png
+.. image:: ../01_ClassUnitTest/_image/entityUnitTest_CharsetAndLengthExample_BeanValidation.png
     :scale: 100
 
 
@@ -239,46 +237,43 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 ------------------------
 
  
-インジェクションされたEntityTestSupportの以下のメソッドを起動する。
+スーパクラスの以下のメソッドを起動する。
 
 .. code-block:: java
 
    void testValidateCharsetAndLength(Class entityClass, String sheetName, String id)
 
 
-\
+\ 
 
 .. code-block:: java
 
 
-   // 【説明】〜前略〜
-   @EntityTest
-   class UserRegistrationFormTest {
-
+   // 【説明】〜前略〜                
+   public class UserRegistrationFormTest extends EntityTestSupport {
+   
        /**
         * テスト対象Formクラス。
         */
        private static final Class<?> TARGET_CLASS = UserRegistrationForm.class;
-
-       EntityTestSupport support;
-
+   
        /**
         * 文字種および文字列長の単項目精査テストケース
         */
        @Test
-       void testCharsetAndLength() {
-
+       public void testCharsetAndLength() {
+   
            // 【説明】テストデータを記載したシート名
            String sheetName = "testCharsetAndLength";
-
+   
            // 【説明】テストデータのID
            String id = "charsetAndLength";
-
+   
            // 【説明】テスト実行
-           support.testValidateCharsetAndLength(TARGET_CLASS, sheetName, id);
+           testValidateCharsetAndLength(TARGET_CLASS, sheetName, id);
        }
-
-   // 【説明】〜後略〜
+   
+   // 【説明】〜後略〜                
 
 
 
@@ -372,7 +367,7 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 |interpolateValue\_\ *n*        | | 埋め込み文字の値（\ *n*\ は1からの連番、省略可）  |
 +-------------------------------+-----------------------------------------------------+
 
-.. [#]  グループの指定方法は、 :ref:`文字種と文字列長の単項目精査テストケースの作成方法<entityUnitTest_CharsetAndLengthInputData_BeanValidation>` に記載の方法と同じである。
+.. [#]  グループの指定方法は、 :ref:`文字種と文字列長の単項目精査テストケースの作成方法<legacy_junit4_entityUnitTest_CharsetAndLengthInputData_BeanValidation>` に記載の方法と同じである。
 
 \
 
@@ -384,13 +379,13 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 
 \
 
-.. [#]  メッセージの指定方法は、 :ref:`文字種と文字列長の単項目精査テストケースの作成方法<entityUnitTest_CharsetAndLengthInputData_BeanValidation>` に記載の方法と同じである。
+.. [#]  メッセージの指定方法は、 :ref:`文字種と文字列長の単項目精査テストケースの作成方法<legacy_junit4_entityUnitTest_CharsetAndLengthInputData_BeanValidation>` に記載の方法と同じである。
 
        
 
 具体例を以下に示す。
 
-.. image:: ../_image/entityUnitTest_singleValidationDataExample_BeanValidation.png
+.. image:: ../01_ClassUnitTest/_image/entityUnitTest_singleValidationDataExample_BeanValidation.png
       :scale: 70           
 
 
@@ -398,7 +393,7 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 ------------------------
 
  
-インジェクションされたEntityTestSupportの以下のメソッドを起動する。
+スーパクラスの以下のメソッドを起動する。
 
 .. code-block:: java
 
@@ -410,34 +405,31 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 .. code-block:: java
 
    // 【説明】〜前略〜
-   @EntityTest
-   class UserRegistrationFormTest {
-
+   public class UserRegistrationFormTest extends EntityTestSupport {
+   
        /**
         * テスト対象Formクラス。
         */
        private static final Class<?> TARGET_CLASS = UserRegistrationForm.class;
-
-       EntityTestSupport support;
-
+   
        // 【説明】〜中略〜
 
        /**
         * 単項目精査のテストケース（上記以外）
         */
        @Test
-       void testSingleValidation() {
-
+       public void testSingleValidation() {
+   
            // 【説明】テストデータを記載したシート名
            String sheetName = "testSingleValidation";
-
+   
            // 【説明】テストデータのID
            String id = "singleValidation";
-
+   
            // 【説明】テスト実行
-           support.testSingleValidation(TARGET_CLASS, sheetName, id);
+           testSingleValidation(TARGET_CLASS, sheetName, id);
        }
-
+   
        // 【説明】〜後略〜
 
 
@@ -473,10 +465,10 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
  |                                   | | の *n* に対応、\ *k*\ は1からの連番。省略可）   |
  +-----------------------------------+---------------------------------------------------+
 
-.. [#]  グループの指定方法は、 :ref:`文字種と文字列長の単項目精査テストケースの作成方法<entityUnitTest_CharsetAndLengthInputData_BeanValidation>`
+.. [#]  グループの指定方法は、 :ref:`文字種と文字列長の単項目精査テストケースの作成方法<legacy_junit4_entityUnitTest_CharsetAndLengthInputData_BeanValidation>`
         に記載の方法と同じである。
 
-.. [#]  メッセージの指定方法は、 :ref:`文字種と文字列長の単項目精査テストケースの作成方法<entityUnitTest_CharsetAndLengthInputData_BeanValidation>`
+.. [#]  メッセージの指定方法は、 :ref:`文字種と文字列長の単項目精査テストケースの作成方法<legacy_junit4_entityUnitTest_CharsetAndLengthInputData_BeanValidation>`
         に記載の方法と同じである。複数のメッセージを期待する場合、expectedMessageId2, propertyName2というように数値を増やして右側に追加していく。
 
 .. [#]  複数のメッセージに対応する埋め込み文字が存在する場合は、同様にinterpolateKey2_1, interpolateValue2_1,
@@ -503,7 +495,7 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
     具体例を以下に示す。
     下図では、"newPasswordとconfirmPasswordが等しいか否か"を検証するプロパティ（validPassword）に対するケースを作成している。
 
-    .. image:: ../_image/entityUnitTest_validationTestData_BeanValidation.png
+    .. image:: ../01_ClassUnitTest/_image/entityUnitTest_validationTestData_BeanValidation.png
           :scale: 70
 
 .. tip::
@@ -545,7 +537,7 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 テストメソッドの作成方法
 ------------------------
 
-インジェクションされたEntityTestSupportの以下のメソッドを起動する。
+スーパクラスの以下のメソッドを起動する。
 
 .. code-block:: java
 
@@ -554,35 +546,32 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 
 .. code-block:: java
 
-   // 【説明】〜前略〜
-   @EntityTest
-   class UserRegistrationFormTest {
+   // 【説明】〜前略〜   
+   public class UserRegistrationFormTest extends EntityTestSupport {
 
        /**
         * テスト対象Formクラス。
         */
        private static final Class<?> TARGET_CLASS = UserRegistrationForm.class;
-
-       EntityTestSupport support;
-
-       // 【説明】〜中略〜
+   
+       // 【説明】〜中略〜   
 
        /**
         * 項目間精査のテストケース
         */
        @Test
-       void testWholeFormValidation() {
+       public void testWholeFormValidation() {
            // 【説明】テストデータを記載したシート名
            String sheetName = "testWholeFormValidation";
-
+   
            // 【説明】テスト実行
-           support.testBeanValidation(TARGET_CLASS, sheetName);
+           testBeanValidation(TARGET_CLASS, sheetName);
        }
 
-     // 【説明】〜後略〜
+     // 【説明】〜後略〜   
 
 
-.. _entityUnitTest_SetterGetterCase_BeanValidation:
+.. _legacy_junit4_entityUnitTest_SetterGetterCase_BeanValidation:
 
 setter、getterに対するテストケース
 ==================================
@@ -595,7 +584,7 @@ setter、getterに対するテストでは、setterで設定した値とgetter�
 等しいことを確認している。
 
 実際のテストコードでは、setterへの値の設定及び値の確認(期待値との比較)は、
-自動テストフレームワークで提供されるメソッド内で行われる。 詳細は、:ref:`テストコード<test-setterGetter-java-label>`  を参照すること。
+自動テストフレームワークで提供されるメソッド内で行われる。 詳細は、:ref:`テストコード<legacy-junit4-test-setterGetter-java-label>`  を参照すること。
 
 
 .. tip::
@@ -610,10 +599,10 @@ setter、getterに対するテストでは、setterで設定した値とgetter�
 
 Excelへの定義
 -------------
-.. image:: ../_image/entityUnitTest_SetterAndGetter.png
+.. image:: ../01_ClassUnitTest/_image/entityUnitTest_SetterAndGetter.png
     :scale: 90
 
-.. _test-setterGetter-java-label:
+.. _legacy-junit4-test-setterGetter-java-label:
 
 このデータを使用するテストメソッドを以下に示す。
 
@@ -621,32 +610,29 @@ Excelへの定義
 
    // 【説明】～前略～
 
-   @EntityTest
-   class UserRegistrationFormTest {
+   public class UserRegistrationFormTest extends EntityTestSupport {
        /**
         * テスト対象Formクラス。
         */
        private static final Class<?> TARGET_CLASS = UserRegistrationForm.class;
-
-       EntityTestSupport support;
-
-       // 【説明】〜中略〜
+   
+       // 【説明】〜中略〜   
 
        /**
         * setter、getterのテストケース
         */
        @Test
-       void testSetterAndGetter() {
-
+       public void testSetterAndGetter() {
+   
            String sheetName = "testSetterAndGetter";
-
+   
            String id = "setterAndGetter";
-
-           support.testSetterAndGetter(TARGET_CLASS, sheetName, id);
+   
+           testSetterAndGetter(TARGET_CLASS, sheetName, id);
        }
    }
 
-.. _testSetterAndGetter-note-label:
+.. _legacy-junit4-testSetterAndGetter-note-label:
 
 .. tip::
 
@@ -664,7 +650,7 @@ Excelへの定義
 
     * Excelへのデータ記述例
 
-      .. image:: ../_image/entityUnitTest_SetterAndGetterOther.png
+      .. image:: ../01_ClassUnitTest/_image/entityUnitTest_SetterAndGetterOther.png
         :scale: 80
 
 
@@ -674,13 +660,13 @@ Excelへの定義
 
        /** setter/getterのテスト */
        @Test
-       void testSetterAndGetter() {
+       public void testSetterAndGetter() {
            // 【説明】
            // 共通にテストが実施出来る項目は、testSetterAndGetterを使用してテストを実施する。
            Class<?> entityClass = UserRegistrationForm.class;
            String sheetName = "testSetterAndGetter";
            String id = "setterAndGetter";
-           support.testSetterAndGetter(entityClass, sheetName, id);
+           testSetterAndGetter(entityClass, sheetName, id);
 
            // 【説明】
            // 共通にテストが実施出来ない項目は、個別にテストを実施する。
@@ -688,7 +674,7 @@ Excelへの定義
            // 【説明】
            // getParamMapを呼び出し、個別にテストを行うプロパティのテストデータを取得する。
            // (テスト対象のプロパティが複数ある場合は、getListParamMapを使用する。)
-           Map<String, String[]> data = support.getParamMap(sheetName, "setterAndGetterOther");
+           Map<String, String[]> data = getParamMap(sheetName, "setterAndGetterOther");
 
            // 【説明】String[]から、Formのsetterの引数であるList<String>へ変換する
            List<String> users = Arrays.asList(data.get("set"));
@@ -698,8 +684,7 @@ Excelへの定義
            form.setUsers(users);
 
            // 【説明】getterを呼び出し、期待値通りの値が返却されることを確認する。
-           // （org.junit.jupiter.api.Assertions.assertEquals を static import して使用する）
-           assertEquals(Arrays.asList(data.get("get")), form.getUsers());
+           assertEquals(form.getUsers(), Arrays.asList(data.get("get")));
 
        }
 
@@ -715,15 +700,15 @@ Excelへの定義
       郵便番号上3桁:001
       郵便番号下4桁:0001
 
-  .. image:: ../_image/entityUnitTest_SetterAndGetter_PostNo.png
+  .. image:: ../01_ClassUnitTest/_image/entityUnitTest_SetterAndGetter_PostNo.png
     :scale: 80
 
-.. _entityUnitTest_EntityTestConfiguration_BeanValidation:
+.. _legacy_junit4_entityUnitTest_EntityTestConfiguration_BeanValidation:
 
 自動テストフレームワーク設定値
 ==============================
 
-:ref:`精査のテストケース<entityUnitTest_ValidationCase_BeanValidation>`\ を実施する際に必要な初期値設定について説明する。
+:ref:`精査のテストケース<legacy_junit4_entityUnitTest_ValidationCase_BeanValidation>`\ を実施する際に必要な初期値設定について説明する。
 
 
 設定項目一覧
@@ -755,7 +740,7 @@ Excelへの定義
 \
 
 .. [#]
- :ref:`entityUnitTest_ValidationCase_BeanValidation` で、maxを省略したテストケースを作成する場合は指定必須。
+ :ref:`legacy_junit4_entityUnitTest_ValidationCase_BeanValidation` で、maxを省略したテストケースを作成する場合は指定必須。
    
 .. [#]
  ``nablarch.test.core.util.generator.CharacterGenerator``\ の実装クラスを指定する。

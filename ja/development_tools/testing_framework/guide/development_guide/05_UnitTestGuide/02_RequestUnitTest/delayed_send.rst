@@ -28,17 +28,24 @@
 
 * テストクラスのパッケージは、テスト対象機能のパッケージとする。
 * <電文のリクエストID>RequestTestというクラス名でテストクラスを作成する。
-* \ ``nablarch.test.core.batch.BatchRequestTestSupport``\ を継承する。
+* 合成アノテーション :java:extdoc:`BatchRequestTest <nablarch.test.junit5.extension.batch.BatchRequestTest>` をテストクラスに付与する。
+* \ ``nablarch.test.core.batch.BatchRequestTestSupport``\ 型のフィールドを宣言する（インスタンスは拡張機能が自動的にインジェクションする）。
 
 例えば、テスト対象機能のパッケージがnablarch.sample.ss21AA、電文のリクエストIDがRM11AC0301だとすると、テストクラスは以下のようになる。
 
 .. code-block:: java
 
   package nablarch.sample.ss21AA;
-  
+
+  import nablarch.test.core.batch.BatchRequestTestSupport;
+  import nablarch.test.junit5.extension.batch.BatchRequestTest;
+
   // ～中略～
 
-  public class RM11AC0301RequestTest extends BatchRequestTestSupport {
+  @BatchRequestTest
+  class RM11AC0301RequestTest {
+
+      BatchRequestTestSupport support;
 
 
 ------------------------------
