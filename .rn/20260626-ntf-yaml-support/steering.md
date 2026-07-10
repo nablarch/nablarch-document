@@ -353,8 +353,8 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 # State
 
-- **Status**: paused
-- **Date**: 2026-07-10
-- **Last completed**: #14 HTML 出力が設計書に完全一致しているか確認
-- **Next**: #15 評価サインオフ（Acceptance criteria 提示済み、ユーザーの /rn:ty 待ち）
-- **Notes**: ビルド環境: `/tmp/sphinx_env`。コマンド: `LC_ALL=C.UTF-8 LANG=C.UTF-8 make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`（リポジトリルートで実行）。再開後の指示: HTML 出力が設計書通りか詳細チェックして結果を提示すること（ユーザー要望）。
+<!--
+  Managed by rn — do not edit this block manually.
+  Status: active | paused | complete
+-->
+
