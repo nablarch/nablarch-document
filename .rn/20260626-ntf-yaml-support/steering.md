@@ -288,11 +288,11 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 **Steps**:
 
-- [ ] B-1（統合後の `testdata/index.rst`）の各節末尾に `examples.rst` の対応セクションへの `:ref:` リンクを追加する
-- [ ] `make html` でビルドエラーがないことを確認する
-- [ ] HTML でリンクが正しく機能していることを確認する
-- [ ] self-check (OK/NG per completion criterion, record in checks/task12.md)
-- [ ] QA expert review (subagent)
+- [x] B-1（統合後の `testdata/index.rst`）の各節末尾に `examples.rst` の対応セクションへの `:ref:` リンクを追加する
+- [x] `make html` でビルドエラーがないことを確認する
+- [x] HTML でリンクが正しく機能していることを確認する
+- [x] self-check (OK/NG per completion criterion, record in checks/task12.md)
+- [x] QA expert review (subagent)
 
 **Completion criteria**:
 
