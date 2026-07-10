@@ -21,7 +21,7 @@ Form/Entity単体テストの書き方
 
 テストデータの作成
 ==================
-テストデータを記載したExcelファイルそのものの作成方法を説明する。テストデータを記載したExcelファイルは、テストソースコードと同じディレクトリに同じ名前で格納する(拡張子のみ異なる)。
+テストデータを記載したテストデータファイルそのものの作成方法を説明する。テストデータを記載したテストデータファイルは、テストソースコードと同じディレクトリに同じ名前で格納する(拡張子のみ異なる)。
 なお、後述する \
 \ :ref:`精査のテストケース<entityUnitTest_ValidationCase_BeanValidation>` \ 、\
 \ :ref:`setter、getterに対するテストケース<entityUnitTest_SetterGetterCase_BeanValidation>`\
@@ -51,7 +51,7 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
    
    /**
     * {@link UserRegistrationForm}に対するテストを実行するクラス。
-    * テスト内容はExcelシート参照のこと。
+    * テスト内容はテストデータシート参照のこと。
     *
     * @author Takayuki Uchida
     * @since 1.0
