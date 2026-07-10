@@ -73,3 +73,4 @@ JUnit 4版のコード例が提供されているページについては、 :re
    :maxdepth: 1
 
    01_tips_junit4
+   02_migration_junit4_to_junit5
