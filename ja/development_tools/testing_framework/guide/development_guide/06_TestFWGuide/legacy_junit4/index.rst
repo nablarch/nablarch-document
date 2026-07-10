@@ -71,3 +71,5 @@ JUnit 4版のコード例が提供されているページについては、 :re
 
 .. toctree::
    :maxdepth: 1
+
+   01_tips_junit4
