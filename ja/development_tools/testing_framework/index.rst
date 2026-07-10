@@ -19,7 +19,7 @@
 * 新規プロジェクトでテストを作成する場合は、JUnit 5を前提とした構成を推奨します。
   テスティングフレームワークをJUnit 5から使用する方法は :ref:`ntf_junit5_extension` を参照してください。
 * JUnit 4ベースの既存のテスト資産を保守する場合は、従来どおりJUnit 4の構成を継続して使用できます。
-  JUnit 4のテストをJUnit 5の上で動かす方法は :ref:`run_ntf_on_junit5_with_vintage_engine` を参照してください。
+  JUnit 4版のガイドは :ref:`legacy_junit4_unittest_guide` および :ref:`legacy_junit4_testfw_guide` を参照してください。
 
 .. important::
 

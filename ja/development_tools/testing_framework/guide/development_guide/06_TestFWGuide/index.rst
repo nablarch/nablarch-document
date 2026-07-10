@@ -18,5 +18,6 @@
    RequestUnitTest_http_send_sync
    03_Tips
    04_MasterDataRestore
+   legacy_junit4/index
 .. 04_env_guide
 
