@@ -17,10 +17,14 @@
  package nablarch.sample.ss21AC01
 
  import nablarch.test.core.batch.BatchRequestTestSupport;
+ import nablarch.test.junit5.extension.batch.BatchRequestTest;
 
  // 中略
- 
- public class B21AC01Test extends BatchRequestTestSupport {
+
+ @BatchRequestTest
+ class B21AC01Test {
+
+     BatchRequestTestSupport support;
  
 
 テストケース分割方針
@@ -59,8 +63,8 @@
 
  /** 正常終了するケース */
  @Test
- public void testSuccess() {
-     execute();
+ void testSuccess() {
+     support.execute();
  }
 
 
@@ -88,24 +92,28 @@ no  description   expectedStatusCode  setUpTable setUpFile expectedTable  expect
 
  package nablarch.sample.ss21AA01
 
- import org.junit.Test;
- import nablarch.test.core.messaging.BatchRequestTestSupport;
+ import org.junit.jupiter.api.Test;
+ import nablarch.test.core.batch.BatchRequestTestSupport;
+ import nablarch.test.junit5.extension.batch.BatchRequestTest;
 
  // 中略
 
- public class B21AA01Test extends BatchRequestTestSupport {
+ @BatchRequestTest
+ class B21AA01Test {
+
+     BatchRequestTestSupport support;
 
      @Test
-     public void testSuccess() {
-      
+     void testSuccess() {
+
          // 入力ファイルをテンポラリテーブルに登録
-         execute("testSuccess_fileInput");
-      
+         support.execute("testSuccess_fileInput");
+
          // テンポラリテーブルの情報をユーザ関連テーブルを削除
-         execute("testSuccess_userDelete");
-      
+         support.execute("testSuccess_userDelete");
+
          // 結果をファイル出力
-         execute("testSuccess_fileOutput");
+         support.execute("testSuccess_fileOutput");
      }
 
 \
@@ -156,8 +164,8 @@ LIST_MAP=testShots
 
  /** 正常終了するケース */
  @Test
- public void testSuccess() {
-     execute();
+ void testSuccess() {
+     support.execute();
  }
 
 

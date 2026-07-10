@@ -12,7 +12,8 @@
 
 * テストクラスのパッケージは、テスト対象のActionクラスと同じとする。
 * <Actionクラス名>RequestTestというクラス名でテストクラスを作成する。
-* \ ``nablarch.test.core.batch.BatchRequestTestSupport``\ を継承する。
+* 合成アノテーション :java:extdoc:`BatchRequestTest <nablarch.test.junit5.extension.batch.BatchRequestTest>` をテストクラスに付与する。
+* \ ``nablarch.test.core.batch.BatchRequestTestSupport``\ 型のフィールドを宣言する（インスタンスは拡張機能が自動的にインジェクションする）。
 
 例えば、テスト対象のActionクラスが、\ ``nablarch.sample.ss21AA.RM21AA001Action``\ だとすると、\
 テストクラスは以下のようになる。
@@ -20,10 +21,16 @@
 .. code-block:: java
 
   package nablarch.sample.ss21AA;
-  
+
+  import nablarch.test.core.batch.BatchRequestTestSupport;
+  import nablarch.test.junit5.extension.batch.BatchRequestTest;
+
   // ～中略～
 
-  public class RM21AA001ActionRequestTest extends BatchRequestTestSupport {
+  @BatchRequestTest
+  class RM21AA001ActionRequestTest {
+
+      BatchRequestTestSupport support;
 
 
 
@@ -484,10 +491,10 @@ SETUP_FIXED[グループID]=ファイルパス
 テストメソッドの書き方
 ----------------------
 
-スーパクラスについて
-====================
+テストサポートクラスについて
+============================
 
-``BatchRequestTestSupport``\ クラスを継承する。
+テストサポートクラスには\ ``BatchRequestTestSupport``\ クラスを使用する。
 このクラスでは、準備したテストデータを元に以下の手順でリクエスト単体テストを実行する。
 
 
@@ -498,16 +505,16 @@ SETUP_FIXED[グループID]=ファイルパス
 
 
 .. code-block:: java
-    
+
     @Test
-    public void testRegisterUser() {
+    void testRegisterUser() {
     }
 
 
-スーパクラスのメソッド呼び出し
-==============================
+テストサポートクラスのメソッド呼び出し
+======================================
 
-テストメソッド内で、スーパクラスの以下のいずれかのメソッドを呼び出す。
+テストメソッド内で、インジェクションされたBatchRequestTestSupportの以下のいずれかのメソッドを呼び出す。
 
 * void execute()
 * void execute(String sheetName)
@@ -519,10 +526,10 @@ SETUP_FIXED[グループID]=ファイルパス
 テストメソッド名を指定したのと同じ動作となる。
 
 .. code-block:: java
-    
+
     @Test
-    public void testResigster() {
-        execute();   // 【説明】execute("testRegisterUser") と等価
+    void testResigster() {
+        support.execute();   // 【説明】support.execute("testRegisterUser") と等価
     }
 
 

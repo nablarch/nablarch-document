@@ -23,3 +23,4 @@ JUnit 4での自動テストフレームワークの利用方法（テストク�
    01_entityUnitTestWithBeanValidation
    02_entityUnitTestWithNablarchValidation
    03_componentUnitTest
+   04_requestUnitTest
