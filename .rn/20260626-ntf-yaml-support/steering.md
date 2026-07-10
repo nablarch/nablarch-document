@@ -353,8 +353,4 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 # State
 
-- **Status**: paused
-- **Date**: 2026-07-07
-- **Last completed**: #10 A章内部再編（A-1〜A-6 への細分化）
-- **Next**: #11 B-1 テストデータ記述方法を1ページに統合
-- **Notes**: ビルド環境: `/tmp/sphinx_env`（Sphinx 1.8.6）、セッション再開時に venv 再構築が必要な場合あり（`pip install "setuptools<70" "Jinja2<3.1" "alabaster<0.7.12" sphinx==1.8.6 javasphinx "sphinx_rtd_theme==0.4.3" "docutils<0.18"`）。コマンド: `LC_ALL=C.UTF-8 LANG=C.UTF-8 make html SPHINXBUILD=/tmp/sphinx_env/bin/sphinx-build`。ビルドはリポジトリルート（nablarch-document/）で実行すること（`ja/` 配下では `Makefile` が存在しないため失敗する）。
+<!-- template placeholder -->
