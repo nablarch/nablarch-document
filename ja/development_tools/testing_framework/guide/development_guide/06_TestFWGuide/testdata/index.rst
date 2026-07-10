@@ -864,6 +864,8 @@ groupId は各エントリの ``group_id:`` フィールドで指定する。
 
   ウェブ・バッチ・メッセージングの共通必須カラムは ``no`` / ``description`` / ``expectedStatusCode`` の3つである。
 
+記述例は :ref:`ntf_examples_testshots` を参照。
+
 .. _ntf_testdata_table_data:
 
 テーブルデータ
@@ -1163,6 +1165,8 @@ YAMLの場合
 
 - 角括弧で囲んだカラム（ ``[no]`` ・ ``[desc]`` ）はマーカーカラムである。DB 操作から除外される（Excel 上の見やすさのために使うことが多い）。
 - YAML ではダブルクォートで囲む（ ``"[no]"`` ）。YAML の角括弧構文との衝突を避けるためである。
+
+記述例は :ref:`ntf_examples_table_data` を参照。
 
 .. _ntf_testdata_file_data:
 
@@ -1514,6 +1518,8 @@ YAMLの場合
 - ファイルの読み込みに失敗した（IO エラー）
 - 日付型カラムの値が日付として解析できない
 
+記述例は :ref:`ntf_examples_file_data` を参照。
+
 .. _ntf_testdata_messaging:
 
 メッセージングテストデータ
@@ -1781,6 +1787,8 @@ N 回送信する場合は、ヘッダ件数とボディ件数をともに N 件
 ~~~~~~~~~~~~~~~~~~~~~~
 
 ``SystemRepository`` の ``messaging.assertAsMapFileType`` キーの設定値に応じてアサート方式が切り替わる。未設定時のデフォルトは ``"Fixed"`` 形式（項目単位アサート）。
+
+記述例は :ref:`ntf_examples_messaging` を参照。
 
 .. _ntf_testdata_values:
 
@@ -2364,6 +2372,8 @@ YAMLの場合
           # 空行はここには書かない（YAML にはそもそも空エントリの概念がない）
           - USER_ID: "002"
             NAME: "鈴木花子"
+
+記述例は :ref:`ntf_examples_values` を参照。
 
 .. toctree::
    :maxdepth: 1
