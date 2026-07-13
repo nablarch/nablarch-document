@@ -246,4 +246,4 @@ report-only モードで動作させる場合は ``reportOnly`` を ``true`` に
     </property>
   </component>
 
-この場合、 ``Content-Security-Policy-Report-Only: default-src 'src'; report-uri http://example.com/report`` といったレスポンスヘッダが書き出される。
+この場合、 ``Content-Security-Policy-Report-Only: default-src 'self'; report-uri http://example.com/report`` といったレスポンスヘッダが書き出される。

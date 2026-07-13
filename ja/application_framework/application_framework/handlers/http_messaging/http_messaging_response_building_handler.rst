@@ -51,8 +51,8 @@ HTTPメッセージングレスポンス変換ハンドラ
 :Content-Type:
   応答電文オブジェクトの持つフォーマッタ(:java:extdoc:`InterSystemMessage.getFormatter() <nablarch.fw.messaging.InterSystemMessage.getFormatter()>`)から以下の値を取得し設定する。
 
-  * MIME(:java:extdoc:`DataRecordFormatterSupport#getMimeType() <nablarch.core.dataformat.DataRecordFormatterSupport.getMimeType()>`
-  * cherset(:java:extdoc:`DataRecordFormatterSupport#getDefaultEncoding() <nablarch.core.dataformat.DataRecordFormatterSupport.getDefaultEncoding()>`
+  * MIME(:java:extdoc:`DataRecordFormatterSupport#getMimeType() <nablarch.core.dataformat.DataRecordFormatterSupport.getMimeType()>`)
+  * charset(:java:extdoc:`DataRecordFormatterSupport#getDefaultEncoding() <nablarch.core.dataformat.DataRecordFormatterSupport.getDefaultEncoding()>`)
 
   MIMEが ``application/json`` でcharsetが ``utf-8`` の場合、Content-Typeは以下の値となる。
 

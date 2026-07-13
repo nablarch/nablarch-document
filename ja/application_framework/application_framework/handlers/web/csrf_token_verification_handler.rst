@@ -108,7 +108,7 @@ CSRFトークンの生成と検証
 HTTPリクエストが検証対象か否かを判定する
   * 検証対象か否かの判定は :java:extdoc:`VerificationTargetMatcher<nablarch.fw.web.handler.csrf.VerificationTargetMatcher>` が行う。
     デフォルトではHTTPメソッドからHTTPリクエストが検証対象か否かを判定する :java:extdoc:`HttpMethodVerificationTargetMatcher<nablarch.fw.web.handler.csrf.HttpMethodVerificationTargetMatcher>` を使用する。
-  *  :java:extdoc:`HttpMethodVerificationTargetMatcher<nablarch.fw.web.handler.csrf.HttpMethodVerificationTargetMatcher>` は、HTTPメソッドの ``GET`` ``HEAD`` ``TRACE`` ``OPTIONS`` をCSRFトークンの検証対象 **外** と判定する（つまりPOSTやPUT等は検査対象となる）。
+  *  :java:extdoc:`HttpMethodVerificationTargetMatcher<nablarch.fw.web.handler.csrf.HttpMethodVerificationTargetMatcher>` は、HTTPメソッドの ``GET`` ``HEAD`` ``TRACE`` ``OPTIONS`` をCSRFトークンの検証対象 **外** と判定する（つまりPOSTやPUT等は検証対象となる）。
 
 検証対象の場合はHTTPリクエストからCSRFトークンを取得して検証する
   * CSRFトークンをHTTPリクエストに格納する際に使用する名前は以下となる。
@@ -134,7 +134,7 @@ HTTPリクエストが検証対象か否かを判定する
         <component class="com.sample.CustomVerificationTargetMatcher" />
       </property>
       <!-- CSRFトークンの検証失敗時の処理を行うインタフェース -->
-      <property name="verificationFailureHandler" />
+      <property name="verificationFailureHandler">
         <component class="com.sample.CustomVerificationFailureHandler" />
       </property>
     </component>
@@ -144,7 +144,7 @@ HTTPリクエストが検証対象か否かを判定する
       <property name="csrfTokenHeaderName" value="X-CUSTOM-CSRF-TOKEN" />
       <!-- CSRFトークンをHTTPリクエストパラメータから取得する際に使用する名前 -->
       <property name="csrfTokenParameterName" value="custom-csrf-token" />
-      <!-- CSRFトークンをセッションスストアに格納する際に使用する名前 -->
+      <!-- CSRFトークンをセッションストアに格納する際に使用する名前 -->
       <property name="csrfTokenSessionStoredVarName" value="custom-csrf-token" />
       <!-- CSRFトークンを保存するセッションストアの名前 -->
       <property name="csrfTokenSavedStoreName" value="customStore" />

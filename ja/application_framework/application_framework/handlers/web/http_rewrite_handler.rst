@@ -144,7 +144,7 @@ HTTPリライトハンドラでは、パスの書き換え以外に リクエス
 
 変数を設定するには、:java:extdoc:`HttpRequestRewriteRule <nablarch.fw.web.handler.HttpRequestRewriteRule>`
 または :java:extdoc:`ContentPathRewriteRule <nablarch.fw.web.handler.ContentPathRewriteRule>` の
-export プロパティを設定する。
+exports プロパティを設定する。
 
 以下に設定例を示す。
 
