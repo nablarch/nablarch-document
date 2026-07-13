@@ -36,7 +36,7 @@
   * - プロジェクト構成
     - 単一プロジェクト構成
   * - 使用DB
-    - H2 Databaes Engine(アプリケーションに組み込み)
+    - H2 Database Engine(アプリケーションに組み込み)
   * - 組み込まれているアダプタ
     - * Jersey用アダプタ(詳細は、 :ref:`jaxrs_adaptor` を参照)
       * ルーティングアダプタ(詳細は、 :ref:`router_adaptor` を参照)
