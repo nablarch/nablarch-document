@@ -469,7 +469,7 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
             public void afterExecute(TestCaseInfo testCaseInfo,
                     ExecutionContext context) {
                 
-                String messgae = testCaseInfo.getTestCaseName();   // 【説明】比較失敗時のメッセージ
+                String message = testCaseInfo.getTestCaseName();   // 【説明】比較失敗時のメッセージ
                 String sheetName = testCaseInfo.getSheetName();    // 【説明】シート名
                 String no = testCaseInfo.getTestCaseNo();          // 【説明】テストケース番号
                 

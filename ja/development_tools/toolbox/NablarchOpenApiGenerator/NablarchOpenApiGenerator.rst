@@ -149,7 +149,7 @@ OpenAPI GeneratorのMavenプラグインの主要な設定項目を以下に示�
 ==================  =========================================================  ==========  ===============================
 ``inputSpec``       入力となるOpenAPIドキュメントのファイルパスを指定する。    必須        なし
 ``generatorName``   ソースコードを生成するGeneratorの名前を指定する。 |br|     必須        なし
-                    本ツールでは ``nablarch-jarxrs`` と指定すること。
+                    本ツールでは ``nablarch-jaxrs`` と指定すること。
 ``output``          ソースコードの生成先ディレクトリを指定する。               任意        ``generated-sources/openapi``
 ==================  =========================================================  ==========  ===============================
 
@@ -547,7 +547,7 @@ OpenAPI仕様で規定されているバリデーションは必須定義と長�
        * @return  プロパティに値が登録されたBeanオブジェクト
        */
       public static <T> T validate(Class<T> beanClass, Object src) {
-          T bean = BeanUtil.createAndCopy(beanClass, src));
+          T bean = BeanUtil.createAndCopy(beanClass, src);
           ValidatorUtil.validate(bean);
           return bean;
       }
