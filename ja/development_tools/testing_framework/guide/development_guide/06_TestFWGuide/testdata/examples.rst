@@ -575,7 +575,7 @@ Excelの場合
     SETUP_FIXED=input/data.dat
     | text-encoding | MS932 |         |         |
     | DATA | USER_ID | USER_NAME | AMOUNT |
-    |      | X       | N         | Z      |
+    |      | 半角    | 全角      | 数値   |
     |      | 10      | 20        | 10     |
     |      | 001     | 山田太郎  | 5000   |
     |      | 002     | 鈴木花子  | 3000   |
@@ -615,7 +615,7 @@ Excelの場合
     SETUP_VARIABLE=input/data.csv
     | field-separator | , |   |
     | DATA | USER_ID | USER_NAME | AMOUNT |
-    |      | X       | N         | X      |
+    |      | 半角    | 全角      | 半角   |
     |      | 001     | 山田太郎  | 5000   |
     |      | 002     | 鈴木花子  | 3000   |
 
@@ -632,9 +632,9 @@ YAMLの場合
         records:
           - record_type: DATA
             fields:
-              - {name: USER_ID,   type: X}
-              - {name: USER_NAME, type: N}
-              - {name: AMOUNT,    type: X}
+              - {name: USER_ID,   type: 半角}
+              - {name: USER_NAME, type: 全角}
+              - {name: AMOUNT,    type: 半角}
             rows:
               - ["001", "山田太郎", "5000"]
               - ["002", "鈴木花子", "3000"]
