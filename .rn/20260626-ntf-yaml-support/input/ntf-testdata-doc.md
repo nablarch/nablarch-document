@@ -67,6 +67,18 @@ src/test/java/com/example/            src/test/java/com/example/
 
 YAML ファイルは **YAML 1.2** に準拠する。YAML 1.1 との主な違いとして、`yes` / `no` / `on` / `off` は真偽値ではなく文字列として扱われる。
 
+YAML テストデータには JSON Schema が定義されており、`nablarch-testing-yaml` の jar に `nablarch/test/ntf-testdata-yaml-schema.json` として同梱されている。
+
+パース時に `YamlLoader` がスキーマ検証を行い、違反があると `YamlSchemaValidationException` をスローする。検出される違反の例は以下の通り。
+
+- 型不正（文字列フィールドへの数値記述など）
+
+- 必須フィールドの漏れ
+
+- 未定義キーの記述
+
+- enum 違反
+
 ### ファイルの読み込みルール
 
 | 項目 | Excel | YAML |
