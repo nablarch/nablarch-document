@@ -27,13 +27,13 @@ Nablarchの設定は、デフォルトコンフィグレーション内の設定
   * - モジュール
     - 説明
 
-  * - デフォルトコンフィギュレーション(jar)
+  * - デフォルトコンフィグレーション(jar)
     - nablarch-main-default-configuration-XXXX.jarやnablarch-testing-default-configuration-XXXX.jarなどjar形式でパッケージされ、Mavenのアーティファクトとして配布される。|br|
       プレースホルダーに対する設定値が設定されている項目と、プレースホルダーのみが定義されている項目が存在する。|br|
       また、変更頻度の極めて低い項目については、プレースホルダー化されておらず直接値が設定されている。
 
   * - PJ成果物
-    - Nablarchが提供するアーキタイプを使用した場合、デフォルトコンフィギュレーション(jar)への依存関係があらかじめ設定される。|br|
+    - Nablarchが提供するアーキタイプを使用した場合、デフォルトコンフィグレーション(jar)への依存関係があらかじめ設定される。|br|
       PJ成果物のコンポーネント設定ファイルには、アーキタイプから生成した直後の状態で、初期値が設定された状態で提供されている。
 
 
@@ -46,8 +46,8 @@ Nablarchの設定は、デフォルトコンフィグレーション内の設定
 PJ成果物の設定ファイルのカスタマイズ方法には、以下のパターンが存在する。
 
 * :ref:`how_to_customize_config_files`
-* :ref:`how_to_customize_overwite_config_files`
-* :ref:`how_to_customize_overwite_componet_file`
+* :ref:`how_to_customize_overwrite_config_files`
+* :ref:`how_to_customize_overwrite_component_file`
 * :ref:`how_to_customize_handler_queue`
 
 詳細は以降に記載する。
@@ -85,7 +85,7 @@ DBの接続設定等、プロジェクト毎にほぼ確実に修正する箇所
 \ :download:`デフォルト設定一覧 <../../configuration/デフォルト設定一覧.xlsx>`\ を確認の上、デフォルト値でPJ要件を満たせない箇所については、環境設定ファイル(configファイル)を修正する。
 
 
-.. _how_to_customize_overwite_config_files:
+.. _how_to_customize_overwrite_config_files:
 
 環境設定値の上書き
 ----------------------------------
@@ -95,7 +95,7 @@ DBの接続設定等、プロジェクト毎にほぼ確実に修正する箇所
 \ :download:`デフォルト設定一覧 <../../configuration/デフォルト設定一覧.xlsx>`\ でデフォルトコンフィグレーションで設定されている内容が確認できる。
 
 
-.. _how_to_customize_overwite_componet_file:
+.. _how_to_customize_overwrite_component_file:
 
 コンポーネント定義の上書き
 --------------------------------------

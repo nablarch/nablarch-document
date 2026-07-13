@@ -88,7 +88,7 @@
             }
         });
 
-        return new DatabaseTableQueueReader(reader, 1000, "RECEIVED_MESSAGE_SEQUENCE");;
+        return new DatabaseTableQueueReader(reader, 1000, "RECEIVED_MESSAGE_SEQUENCE");
     }
 
 .. [#multi_process]

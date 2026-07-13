@@ -11,7 +11,7 @@ Nablarch のバージョンアップ方針
   :depth: 3
   :local:
 
-Nablarchが提供する コンテンツに対するバージョンアップ方針について説明します。
+Nablarchが提供するコンテンツに対するバージョンアップ方針について説明します。
 
 .. _`versionup_policy-release_type`:
 
@@ -187,7 +187,7 @@ Nablarchは、Nablarch自身のバージョンアップの際に発生する作�
 * 既存の自動テストコードの修正。
 * 既存の自動テストデータの修正。
 
-この後方互換性維持の方針により フレームワークは、基本的に、 :ref:`使用するNablarchのバージョン <beforefirstStepSpecityNablarchVer>` の差し替えと設定ファイルの変更のみでバージョンアップできます。
+この後方互換性維持の方針によりフレームワークは、基本的に、 :ref:`使用するNablarchのバージョン <beforefirstStepSpecityNablarchVer>` の差し替えと設定ファイルの変更のみでバージョンアップできます。
 
 .. _`versionup_policy-backward_compatibility_is_not_maintained`:
 
