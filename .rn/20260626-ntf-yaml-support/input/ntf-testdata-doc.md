@@ -158,6 +158,8 @@ setup_tables:
 - **Excel**: `LIST_MAP=testShots` データブロックに記述
 - **YAML**: `list_maps:` 下の `id: testShots` エントリに記述
 
+→ [Excel / YAML Example](ntf-testdata-doc-examples-testshots.md#overview)
+
 ### 4.2 testShots のカラム仕様
 
 カラムは処理方式によって異なる。各処理方式の詳細は以下を参照。
@@ -166,6 +168,8 @@ setup_tables:
 - [バッチ処理（BatchRequestTestSupport）](ntf-testdata-doc-examples-testshots.md#batch)
 - [メッセージング（MessagingRequestTestSupport）](ntf-testdata-doc-examples-testshots.md#messaging)
 - [エンティティバリデーション（EntityTestSupport）](ntf-testdata-doc-examples-testshots.md#entity)
+
+→ [Excel / YAML Example](ntf-testdata-doc-examples-testshots.md#common)
 
 ### 4.3 データブロックのグループ化（groupId）
 
@@ -264,6 +268,8 @@ DB への INSERT 用データ。
 **Excel 混在禁止**: Excel では `EXPECTED_TABLE` と `EXPECTED_COMPLETE_TABLE` を同一シート内で混在させると後半のデータが読み込まれない。同じ種別をまとめて記述する。YAML では `expected_tables` と `expected_complete_tables` は別キーのため混在可能。
 
 → [Excel / YAML Example](ntf-testdata-doc-examples-table.md#expected-complete-table)
+
+→ [DB アサート Example](ntf-testdata-doc-examples-special.md#db-assert)
 
 ### 5.5 LIST_MAP
 
@@ -537,6 +543,13 @@ N 回送信する場合は、ヘッダ件数とボディ件数をともに N 件
 | `BinaryFileInterpreter` | `${binaryFile:パス}` でファイル内容をバイナリ読み込みし HexString に変換。パスはデータファイル（Excel / YAML）のディレクトリからの相対パス |
 | `BasicJapaneseCharacterInterpreter` | `${文字種,文字数}` 形式で文字列生成 |
 | `CompositeInterpreter` | 文字列中の `${...}` 要素を個別解釈して置換 |
+
+ダブルクォート文字やスペースそのものを値として記述する場合、外側1層が除去されることを踏まえた記法が必要です。
+
+- Excel: `"""` → ダブルクォート1文字 ／ `" "` → 半角スペース1文字
+- YAML: `"\""` または `'"'` → ダブルクォート1文字 ／ `" "` → 半角スペース1文字
+
+→ [Excel / YAML Example](ntf-testdata-doc-examples-special.md#quotation)
 
 ### 8.4 DateTimeInterpreter の完全一致制約
 

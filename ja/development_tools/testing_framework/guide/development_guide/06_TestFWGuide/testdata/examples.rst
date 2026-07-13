@@ -197,12 +197,15 @@ YAMLの場合
             UNIT_PRICE: "300"
 
 .. _ntf_examples_testshots:
+.. _ntf_examples_testshots_overview:
 
 ------------------------------
 testShots の記述例
 ------------------------------
 
 処理方式別の ``testShots`` 記述例を以下に示す。
+
+.. _ntf_examples_testshots_common:
 
 ウェブアプリケーション（HttpRequestTestSupport）
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -641,6 +644,52 @@ YAMLの場合
 
 - 可変長ファイルは ``type: variable`` とし、``fields:`` から ``length`` を省略する。
 
+クォート付きフィールド（カンマを含む値）
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+フィールドの値にカンマが含まれる場合、 ``quoting-delimiter`` ディレクティブを指定することでダブルクォートによる囲みが有効になり、クォート内のカンマは区切り文字として扱われなくなる。
+
+``quoting-delimiter`` を指定しない場合、クォートで囲まれたフィールド内のカンマも区切り文字として解釈されるため、フィールド数が定義と一致せずエラーになる。
+
+.. code-block:: text
+
+    number of input fields was invalid. number of fields must be [N], but number of input fields was [M].
+
+Excelの場合
+"""""""""""
+
+.. code-block:: text
+
+    EXPECTED_VARIABLE=output/data.csv
+    | field-separator   | ,  |        |        |
+    | quoting-delimiter | "  |        |        |
+    | DATA              | USER_ID | NOTE          | AMOUNT |
+    |                   | 半角    | 半角          | 半角   |
+    |                   | 001     | "hello, world"| 5000   |
+
+YAMLの場合
+""""""""""
+
+.. code-block:: yaml
+
+    expected_files:
+      - path: output/data.csv
+        type: variable
+        directives:
+          field-separator: ","
+          quoting-delimiter: "\""
+        records:
+          - record_type: DATA
+            fields:
+              - {name: USER_ID, type: 半角}
+              - {name: NOTE,    type: 半角}
+              - {name: AMOUNT,  type: 半角}
+            rows:
+              - ["001", "\"hello, world\"", "5000"]
+
+- ``quoting-delimiter`` に指定できるのは1文字のみである。ダブルクォートを使う場合は ``"`` を指定する。
+- クォートで囲まれたフィールド内のダブルクォート文字は ``""`` と二重に書いてエスケープする（RFC 4180 準拠）。
+
 グループID付きファイル
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1002,6 +1051,8 @@ YAMLの場合
 
 - ``0x`` プレフィクス付き16進数でバイナリ値を記述する。``${binaryFile:パス}`` でファイル内容をバイナリ読み込みして HexString に変換する。
 
+.. _ntf_examples_quotation:
+
 QuotationTrimmer によるスペース値明示記法
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1155,6 +1206,8 @@ YAMLの場合
               - ["value1", "value2"]
 
 - タブ文字の記法が形式で異なる。Excel セルには ``\t``（バックスラッシュ + t の2文字）を入力する。YAML では ``"\\t"`` と記述する（YAML の ``\t`` は実際のタブ文字になるためバックスラッシュをエスケープする）。
+
+.. _ntf_examples_db_assert:
 
 -------------------------------------------
 DB アサートの記述例

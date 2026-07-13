@@ -378,6 +378,8 @@ testShots
 - **Excel**: ``LIST_MAP=testShots`` データブロックに記述する。
 - **YAML**: ``list_maps:`` 下の ``id: testShots`` エントリに記述する。
 
+記述例は :ref:`ntf_examples_testshots_overview` を参照。
+
 ``testShots`` の1行が1テストケースとなる。カラムには値を直接書くものと、別データブロック（ ``LIST_MAP`` や各種テーブル／ファイル／電文ブロック）の グループID・名前を指す参照型がある。処理方式ごとに必須カラムとオプションカラムが定まる。
 
 各処理方式と対応クラスを以下に示す。
@@ -403,6 +405,8 @@ testShots
 ~~~~~~~~~~
 
 ウェブ・バッチ・メッセージングで共通の必須カラムを以下に示す。エンティティバリデーションは別体系である（後述の :ref:`ntf_testshots_entity` を参照）。
+
+記述例は :ref:`ntf_examples_testshots_common` を参照。
 
 .. list-table::
    :header-rows: 1
@@ -1166,7 +1170,7 @@ YAMLの場合
 - 角括弧で囲んだカラム（ ``[no]`` ・ ``[desc]`` ）はマーカーカラムである。DB 操作から除外される（Excel 上の見やすさのために使うことが多い）。
 - YAML ではダブルクォートで囲む（ ``"[no]"`` ）。YAML の角括弧構文との衝突を避けるためである。
 
-記述例は :ref:`ntf_examples_table_data` を参照。
+記述例は :ref:`ntf_examples_table_data` を参照。DB アサート固有の挙動（順序不問・主キー突合・デフォルト値補完）の記述例は :ref:`ntf_examples_db_assert` を参照。
 
 .. _ntf_testdata_file_data:
 
@@ -2001,6 +2005,13 @@ YAMLの場合
      - ``${文字種,文字数}`` 形式で文字列生成
    * - ``CompositeInterpreter``
      - 文字列中の ``${...}`` 要素を個別解釈して置換
+
+ダブルクォート文字やスペースそのものを値として記述する場合、外側1層が除去されることを踏まえた記法が必要である。
+
+- Excel: ``"""`` → ダブルクォート1文字 ／ ``" "`` → 半角スペース1文字
+- YAML: ``"\""`` または ``'"'`` → ダブルクォート1文字 ／ ``" "`` → 半角スペース1文字
+
+記述例は :ref:`ntf_examples_quotation` を参照。
 
 DateTimeInterpreter の完全一致制約
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

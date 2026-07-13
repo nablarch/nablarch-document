@@ -326,7 +326,10 @@ extlinks = {'javadoc_url' : ('https://nablarch.github.io/docs/' + version + '/pu
 # Sphinx の拡張機能を設定するための関数
 def setup(app):
    # カスタムのjavascriptファイルを追加する。
-   app.add_javascript('custom.js')
+   if hasattr(app, 'add_js_file'):
+       app.add_js_file('custom.js')
+   else:
+       app.add_javascript('custom.js')
 
    # Sphinxの設定に辞書replacements_for_source_readを追加する。
    app.add_config_value('replacements_for_source_read', {}, True)

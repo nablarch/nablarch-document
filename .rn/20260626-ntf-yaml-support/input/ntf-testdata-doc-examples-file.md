@@ -231,6 +231,52 @@ setup_files:
 
 - 固定長との差異は `type: fixed` / `type: variable` と `length` の有無だけです。可変長では `fields:` の各要素から `length` を省略します。
 
+#### クォート付きフィールド（カンマを含む値）の扱い
+
+フィールドの値にカンマが含まれる場合、`quoting-delimiter` ディレクティブを指定することでダブルクォートによる囲みが有効になり、クォート内のカンマは区切り文字として扱われなくなります。
+
+**`quoting-delimiter` を指定しない場合（デフォルト）**、クォートで囲まれたフィールド内のカンマも区切り文字として解釈されるため、フィールド数が定義と一致せずエラーになります。
+
+```
+number of input fields was invalid. number of fields must be [N], but number of input fields was [M].
+```
+
+**対応方法**: `quoting-delimiter: "\""`（ダブルクォート1文字）をディレクティブに追加します。
+
+### Excel
+
+| EXPECTED_VARIABLE=output/data.csv | | | |
+|---|---|---|---|
+| field-separator | , | | |
+| quoting-delimiter | " | | |
+| DATA | USER_ID | NOTE | AMOUNT |
+| | 半角 | 半角 | 半角 |
+| | 001 | "hello, world" | 5000 |
+
+### YAML
+
+```yaml
+expected_files:
+  - path: output/data.csv
+    type: variable
+    directives:
+      field-separator: ","
+      quoting-delimiter: "\""
+    records:
+      - record_type: DATA
+        fields:
+          - {name: USER_ID, type: 半角}
+          - {name: NOTE,    type: 半角}
+          - {name: AMOUNT,  type: 半角}
+        rows:
+          - ["001", "\"hello, world\"", "5000"]
+```
+
+- `quoting-delimiter` に指定できるのは1文字のみです。ダブルクォートを使う場合は `"` を指定します。
+- クォートで囲まれたフィールド内のダブルクォート文字は `""` と二重に書いてエスケープします（RFC 4180 準拠）。
+
+> **根拠**: `VariableLengthDataRecordFormatter` が `quoting-delimiter` ディレクティブを持ち、`VariableLengthDirective.VALUES` にも含まれているため、NTF テストデータ側でもこのディレクティブが有効です（`VariableLengthFileParser.isDirective()` で `VALUES.containsKey(key)` により認識されます）。
+
 ---
 
 <a name="multi-record"></a>

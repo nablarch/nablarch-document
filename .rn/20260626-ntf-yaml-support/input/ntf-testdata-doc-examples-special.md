@@ -54,6 +54,8 @@ expected_tables:
 
 ---
 
+<a name="quotation"></a>
+
 ### 8.2 QuotationTrimmer によるスペース値明示記法
 
 空白値やダブルクォート文字を明示して記述するケース。
