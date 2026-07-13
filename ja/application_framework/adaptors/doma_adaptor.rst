@@ -335,7 +335,7 @@ DomaとNablarchのデータベースアクセスを併用する
 
 利用手順
   コンポーネント設定ファイルに以下の定義を追加する。
-  これにより、Nablarchのデータベースアクセスが、自動的にDomaのトランザクション配下で実行されるようにある。
+  これにより、Nablarchのデータベースアクセスが、自動的にDomaのトランザクション配下で実行されるようになる。
   
   * コンポーネント設定ファイルに :java:extdoc:`ConnectionFactoryFromDomaConnection <nablarch.integration.doma.ConnectionFactoryFromDomaConnection>` を定義する。
     コンポーネント名は、 ``connectionFactoryFromDoma`` とする。

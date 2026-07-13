@@ -63,7 +63,7 @@ E-mail Velocityアダプタを使用するための設定を行う
       }
   }
 
-この ``ConfigurationFactory`` を使用するコンポーネント設定ファイルの設定例を以下に示す。
+この ``VelocityEngineFactory`` を使用するコンポーネント設定ファイルの設定例を以下に示す。
 
 .. code-block:: xml
 
