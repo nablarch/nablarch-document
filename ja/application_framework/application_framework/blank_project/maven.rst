@@ -17,7 +17,7 @@ Nablarchはモジュール管理に `Apache Maven(外部サイト、英語) <htt
 Mavenとは
 ===========
 
-Mavenとは、Apache Software Foundationで開発しているビルドツールである。Mavenは、ビルドや単体テストの実行を、簡単な設定ファイル(pom.xmlと呼ばれる)で実現することが出来る。
+Mavenとは、Apache Software Foudationで開発しているビルドツールである。Mavenは、ビルドや単体テストの実行を、簡単な設定ファイル(pom.xmlと呼ばれる)で実現することが出来る。
 
 
 以下の特徴を持っている。
