@@ -422,7 +422,7 @@ errorsタグを使用したメッセージレベルに応じたスタイル切�
 
 メッセージのフォーマット方法を変更する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-メッセージのフォーマット方法は、 :java:extdoc:`MessageFormatter <nablarch.core.message.MessageFormatter>` の実装クラスを作成しコンポーネント定義するこどで変更できる。
+メッセージのフォーマット方法は、 :java:extdoc:`MessageFormatter <nablarch.core.message.MessageFormatter>` の実装クラスを作成しコンポーネント定義することで変更できる。
 
 以下に例を示す。
 

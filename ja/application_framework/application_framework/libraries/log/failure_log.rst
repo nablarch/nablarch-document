@@ -160,7 +160,7 @@ app-log.propertiesの設定例
 
  failureLogFormatter.defaultFailureCode ``必須``
   デフォルトの障害コード。
-  例外ハンドラで例外がエラーを捕捉した場合など、障害コードの指定がない場合に使用する。
+  例外ハンドラで例外やエラーを捕捉した場合など、障害コードの指定がない場合に使用する。
 
  .. _failure_log-prop_default_message:
 
@@ -598,7 +598,7 @@ JSON形式の構造化ログとして出力する
  
  failureLogFormatter.defaultFailureCode ``必須``
   デフォルトの障害コード。
-  例外ハンドラで例外がエラーを捕捉した場合など、障害コードの指定がない場合に使用する。
+  例外ハンドラで例外やエラーを捕捉した場合など、障害コードの指定がない場合に使用する。
  
  failureLogFormatter.defaultMessage ``必須``
   デフォルトのメッセージ。

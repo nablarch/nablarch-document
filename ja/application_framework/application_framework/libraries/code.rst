@@ -113,7 +113,7 @@ female    女性     女
 
   :LANG:          言語
 
-                  多言語化対応する場合に、サポートする言語の *Local#getLanguage()* を格納する。
+                  多言語化対応する場合に、サポートする言語の *Locale#getLanguage()* を格納する。
 
                   日本語のみをサポートする場合は、 ``ja`` を設定する。
 
@@ -236,11 +236,11 @@ female    女性     女
   .. code-block:: java
 
 
-    // PATTER1のリストを取得する。
+    // PATTERN1のリストを取得する。
     // [MALE, FEMALE, OTHER]が取得できる。
     List<String> pattern1 = CodeUtil.getValues("GENDER", "PATTERN1");
 
-    // PATTER2のリストを取得する。
+    // PATTERN2のリストを取得する。
     // [MALE, FEMALE]が取得できる。
     List<String> pattern2 = CodeUtil.getValues("GENDER", "PATTERN2");
 
@@ -306,7 +306,7 @@ female    女性     女
 
 画面などで表示する名称のソート順を定義する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-画面のリストボックやチェックボックスにコード情報を表示する際のソート順を定義出来る。
+画面のリストボックスやチェックボックスにコード情報を表示する際のソート順を定義出来る。
 ソート順は、国ごとに異なる可能性があるため、言語ごとに設定することが出来る。
 
 

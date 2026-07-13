@@ -372,7 +372,7 @@ BeanUtilでは、Java16より標準化されたレコードをJava Beansと同�
     // List型の型パラメータに具象型を設定していない場合。
     // BeanUtil.createAndCopy(BadSampleRecord.class, map)を呼び出すと、
     // List型の型パラメータに対応していないため実行時例外が発生する。
-    public class BadSampleRecord<T>(List<T> items) {}
+    public record BadSampleRecord<T>(List<T> items) {}
 
     // List型の型パラメータに具象型を設定した場合。
     // BeanUtil.createAndCopy(GoodSampleRecord.class, map)が正常に動作する。

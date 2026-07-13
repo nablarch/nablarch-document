@@ -40,7 +40,7 @@
  | :ref:`tag-code_select_tag` (コード値のプルダウン)
  | :ref:`tag-code_checkbox_tag` (コード値のチェックボックス)
  | :ref:`tag-code_radio_buttons_tag` (コード値の複数のラジオボタン)
- | :ref:`tag-code_checkboxes_tag` (コード値の複数のチェックボッス)
+ | :ref:`tag-code_checkboxes_tag` (コード値の複数のチェックボックス)
  | :ref:`tag-hidden_tag` (hidden暗号化)
  | :ref:`tag-hidden_store_tag` (HIDDENストア)
 
