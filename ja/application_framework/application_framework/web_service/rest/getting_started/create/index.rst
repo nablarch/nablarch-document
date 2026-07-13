@@ -113,6 +113,7 @@ URLとのマッピングを定義
         public HttpResponse save(ProjectForm project) {
           UniversalDao.insert(BeanUtil.createAndCopy(Project.class, project));
           return new HttpResponse(HttpResponse.Status.CREATED.getStatusCode());
+        }
       }
 
   この実装のポイント
