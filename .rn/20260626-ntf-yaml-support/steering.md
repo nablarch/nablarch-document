@@ -360,7 +360,7 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 Status: paused
 Date: 2026-07-13
-Last completed: ad-hoc fix — 4件の修正（QuotationTrimmer アンカー追加・リンク追加3件・可変長ファイル quoting-delimiter 制約追記）
+Last completed: ad-hoc fix — 4件の修正（QuotationTrimmer アンカー追加・リンク追加3件・可変長ファイル quoting-delimiter 制約追記）、プッシュ済み
 Next: #15（セッション全体の成果物を Acceptance criteria に照らしてユーザーに提示）
 Notes: #14 までのタスクはすべてチェック済み。残るは #15 のユーザーサインオフのみ。
 
