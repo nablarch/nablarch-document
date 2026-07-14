@@ -116,7 +116,7 @@ interceptorsOrderに追加する
   <list name="interceptorsOrder">
     <!-- CheckRole を追加する -->
     <value>nablarch.common.authorization.role.CheckRole</value>
-    <!-- 他のインターセプターの記述は省略 -->
+    <!-- 他のインターセプタの記述は省略 -->
   </list>
 
 
@@ -315,7 +315,7 @@ JSPで判定する
 
 そこでここでは、本認可チェックを採用したうえでJSPの表示・非表示をロールの有無で制御する方法について説明する。
 
-ロールによる表示の制御は、サーバー側で判定した結果をセッションストアなどに保存することで実現する。
+ロールによる表示の制御は、サーバ側で判定した結果をセッションストアなどに保存することで実現する。
 実装例を以下に示す。
 
 .. code-block:: java

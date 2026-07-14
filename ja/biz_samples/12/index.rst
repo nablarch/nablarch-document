@@ -26,7 +26,7 @@ IDトークンの取得方法や実装場所などはアプリケーション構
 * 認証成功時にログインセッションを確立し、認証後はステートフルなセッション管理を行う
 * 認証処理は業務アクションで実装する
 
-OIDCは様々なサービスで対応しているが、本サンプルでは以下のユーザー管理サービスで発行されるIDトークンを取り扱う。
+OIDCは様々なサービスで対応しているが、本サンプルでは以下のユーザ管理サービスで発行されるIDトークンを取り扱う。
 
 * Amazon Web Services（以下AWS）
 
@@ -386,7 +386,7 @@ JAX-RSのPathアノテーションによるマッピングについては  :ref:
       SessionUtil.changeId(context);
       CsrfTokenUtil.regenerateCsrfToken(context);
 
-      // IDトークンで連携された情報からユーザー情報を特定して、認証状態をセッションに保持する
+      // IDトークンで連携された情報からユーザ情報を特定して、認証状態をセッションに保持する
       String userId = decodedJWT.getSubject();
       SessionUtil.put(context, "user.id", userId);
   }

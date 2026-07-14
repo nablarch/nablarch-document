@@ -366,7 +366,7 @@ DomaとNablarchのデータベースアクセスを併用する
 ロガーを切り替える
 --------------------------------------------------
 本アダプタではDomaが使うロガーの実装として、Nablarchのロガーを使用する :java:extdoc:`NablarchJdbcLogger<nablarch.integration.doma.NablarchJdbcLogger>` を提供している。
-デフォルトでは :java:extdoc:`NablarchJdbcLogger<nablarch.integration.doma.NablarchJdbcLogger>` が使用されるが、他のものに差し替える場合はコンポーネント定義ファイルに設定する必要がある。
+デフォルトでは :java:extdoc:`NablarchJdbcLogger<nablarch.integration.doma.NablarchJdbcLogger>` が使用されるが、他のものに差し替える場合はコンポーネント設定ファイルに設定する必要がある。
 
 ``org.seasar.doma.jdbc.UtilLoggingJdbcLogger`` を使用する場合の設定例を以下に示す。
 

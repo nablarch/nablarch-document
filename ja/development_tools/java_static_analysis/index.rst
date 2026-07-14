@@ -32,7 +32,7 @@ Inspectionはデフォルトで、一般的に注意すべき点について警�
 フォーマットを統一する
 ----------------------
 
-IntelliJ IDEAのコードフォーマッター機能を使用することで、プロジェクトでコードスタイルを統一することができる。
+IntelliJ IDEAのコードフォーマッタ機能を使用することで、プロジェクトでコードスタイルを統一することができる。
 使用方法については `JavaスタイルガイドのJavaコードフォーマッター解説 <https://github.com/Fintan-contents/coding-standards/blob/main/java/code-formatter.md>`_ を参照。
 
 .. _api-analysis:
