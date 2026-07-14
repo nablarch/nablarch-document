@@ -34,7 +34,7 @@ RESTfulウェブサービスプロジェクトの初期セットアップでは�
   * - プロジェクト構成
     - 単一プロジェクト構成
   * - 使用DB
-    - H2 Databaes Engine(アプリケーションに組み込み)
+    - H2 Database Engine(アプリケーションに組み込み)
   * - 組み込まれているアダプタ
     - * Jersey用アダプタ(詳細は、 :ref:`jaxrs_adaptor` を参照)
       * ルーティングアダプタ(詳細は、 :ref:`router_adaptor` を参照)
@@ -225,7 +225,7 @@ package      パッケージ(通常はグループIDと同じ)       ``com.examp
 応答にJSONを使用するサービスを呼び出す
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-FireFoxまたはChromeを起動し、以下のURLをアドレスバーに入力する。
+FirefoxまたはChromeを起動し、以下のURLをアドレスバーに入力する。
 
 
 .. code-block:: text
@@ -242,13 +242,13 @@ FireFoxまたはChromeを起動し、以下のURLをアドレスバーに入力�
 
 .. tip::
 
-  FireFoxまたはChromeの代わりにInternet Explorer 11を使用すると、ダウンロードするか否かの確認メッセージが表示される。
+  FirefoxまたはChromeの代わりにInternet Explorer 11を使用すると、ダウンロードするか否かの確認メッセージが表示される。
 
 
 応答にXMLを使用するサービスを呼び出す
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-FireFoxまたはChromeを起動し、以下のURLをアドレスバーに入力する。
+FirefoxまたはChromeを起動し、以下のURLをアドレスバーに入力する。
 
 
 .. code-block:: text

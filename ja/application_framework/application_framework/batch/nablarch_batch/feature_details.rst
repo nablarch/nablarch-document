@@ -31,7 +31,7 @@
 * 標準提供のデータリーダ
 
   * :java:extdoc:`FileDataReader (ファイル読み込み)<nablarch.fw.reader.FileDataReader>`
-  * :java:extdoc:`ValidatableFileDataReader (バリデージョン機能付きファイル読み込み)<nablarch.fw.reader.ValidatableFileDataReader>`
+  * :java:extdoc:`ValidatableFileDataReader (バリデーション機能付きファイル読み込み)<nablarch.fw.reader.ValidatableFileDataReader>`
   * :java:extdoc:`ResumeDataReader (レジューム機能付き読み込み)<nablarch.fw.reader.ResumeDataReader>`
 
 排他制御

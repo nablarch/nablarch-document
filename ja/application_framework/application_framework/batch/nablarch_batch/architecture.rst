@@ -213,7 +213,7 @@ DBに接続する場合は以下の構成となる。
      -
      - 読み込んだレコードをログ出力した後、元例外を再送出する。
 
-DBに接続しない場は、DB接続関連ハンドラが不要であるのと、ループ制御ハンドラでトランザクション制御が不要であるため、以下の構成となる。
+DBに接続しない場合は、DB接続関連ハンドラが不要であるのと、ループ制御ハンドラでトランザクション制御が不要であるため、以下の構成となる。
 
 .. list-table:: 都度起動バッチ（DB接続無し）の最小ハンドラ構成
    :header-rows: 1
@@ -410,7 +410,7 @@ Nablarchでは、バッチアプリケーションを構築するために必要
 
 * :java:extdoc:`DatabaseRecordReader (データベース読み込み) <nablarch.fw.reader.DatabaseRecordReader>`
 * :java:extdoc:`FileDataReader (ファイル読み込み)<nablarch.fw.reader.FileDataReader>`
-* :java:extdoc:`ValidatableFileDataReader (バリデージョン機能付きファイル読み込み)<nablarch.fw.reader.ValidatableFileDataReader>`
+* :java:extdoc:`ValidatableFileDataReader (バリデーション機能付きファイル読み込み)<nablarch.fw.reader.ValidatableFileDataReader>`
 * :java:extdoc:`ResumeDataReader (レジューム機能付き読み込み)<nablarch.fw.reader.ResumeDataReader>`
 
 .. tip::
@@ -419,7 +419,7 @@ Nablarchでは、バッチアプリケーションを構築するために必要
  プロジェクトで作成して対応する。
 
 .. important::
- 標準で提供している :java:extdoc:`FileDataReader (ファイル読み込み)<nablarch.fw.reader.FileDataReader>` 、 :java:extdoc:`ValidatableFileDataReader (バリデージョン機能付きファイル読み込み)<nablarch.fw.reader.ValidatableFileDataReader>` では、データへのアクセスに :ref:`data_format` を使用している。データへのアクセスに :ref:`data_bind` を使用する場合は、これらのデータリーダを使用しないこと。
+ 標準で提供している :java:extdoc:`FileDataReader (ファイル読み込み)<nablarch.fw.reader.FileDataReader>` 、 :java:extdoc:`ValidatableFileDataReader (バリデーション機能付きファイル読み込み)<nablarch.fw.reader.ValidatableFileDataReader>` では、データへのアクセスに :ref:`data_format` を使用している。データへのアクセスに :ref:`data_bind` を使用する場合は、これらのデータリーダを使用しないこと。
 
 .. _nablarch_batch-action:
 

@@ -57,7 +57,7 @@ Jakarta Batchに準拠したバッチアプリケーションとNablarchバッ�
     - ◎
     - × |br| [#branch_batch]_
 
-  * - 入力データソースを一定間隔で監視し |br| バッチを実行出来る
+  * - 入力データソースを一定間隔で監視し |br| バッチを実行できる
     - × [#resident_batch]_
     - ○ |br| :ref:`解説書へ <nablarch_batch-resident_batch>`
 

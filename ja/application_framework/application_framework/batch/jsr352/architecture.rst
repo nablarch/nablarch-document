@@ -98,7 +98,7 @@ Chunkタイプのバッチアプリケーションの処理の流れを以下に
 4. Jakarta BatchのBatch RuntimeからChunkステップの `ItemProcessor` が実行される。 |br|
 
 5. `ItemProcessor` は、 `Form` や `Entity` を使って業務ロジックを実行する。 |br|
-   ※データーベースに対するデータの書き込みや更新はここでは実施しない。
+   ※データベースに対するデータの書き込みや更新はここでは実施しない。
 
 6. Jakarta BatchのBatch Runtimeから `ItemWriter` 実行前のコールバック処理として :java:extdoc:`NablarchItemWriteListenerExecutor <nablarch.fw.batch.ee.listener.chunk.NablarchItemWriteListenerExecutor>` が呼び出される。
 
@@ -155,7 +155,7 @@ Jakarta Batchの実装で補足された例外の情報は、Jakarta Batchの実
 --------------------------------------------------
 |jsr352| に準拠したバッチアプリケーションでは、 |jsr352| の仕様で定められているリスナーを使用してNablarchのハンドラ相当のことを実現する。
 
-標準では、以下のリスナーを提供してる。
+標準では、以下のリスナーを提供している。
 
 ジョブレベルリスナー
   ジョブの起動及び終了直前にコールバックされるリスナー

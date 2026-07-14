@@ -26,7 +26,7 @@ Exampleアプリケーションを元に、既存データから計算を行い�
       $mvn exec:java -Dexec.mainClass=nablarch.fw.batch.ee.Main ^
           -Dexec.args=bonus-calculate
 
-  5. バッチ実行後の状態の確認
+  3. バッチ実行後の状態の確認
 
     H2のコンソールから下記SQLを実行し、賞与情報が登録されたことを確認する。
 
