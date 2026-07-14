@@ -359,8 +359,8 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 -->
 
 Status: paused
-Date: 2026-07-13
-Last completed: ad-hoc fix — YAML スキーマ記述追加（ntf-testdata-doc.md §2 に JSON Schema 存在・jar 同梱・パース時検証の事実を追記）、プッシュ済み（b984e4c）
+Date: 2026-07-15
+Last completed: ad-hoc fix — EXPECTED_TABLE 行照合仕様追記（主キー突合・全件列挙・自動採番注記）、index.rst / examples.rst / input 2ファイルを更新・プッシュ済み（0cc11b6）
 Next: #15（セッション全体の成果物を Acceptance criteria に照らしてユーザーに提示）
 Notes: #14 までのタスクはすべてチェック済み。残るは #15 のユーザーサインオフのみ。
 
