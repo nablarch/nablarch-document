@@ -105,7 +105,7 @@
 
 .. code-block:: java
 
-  GET
+  @GET
   @Produces(MediaType.APPLICATION_JSON)
   public List<Person> findJson() {
       return UniversalDao.findAll(Person.class);

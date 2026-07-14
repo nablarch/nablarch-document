@@ -1,6 +1,6 @@
 .. _jaxrs_bean_validation_handler:
 
-Jakarta RESTful Web Servcies Bean Validationハンドラ
+Jakarta RESTful Web Services Bean Validationハンドラ
 ======================================================
 .. contents:: 目次
   :depth: 3
@@ -8,7 +8,7 @@ Jakarta RESTful Web Servcies Bean Validationハンドラ
 
 .. tip::
   本機能は、Nablarch5までは「JAX-RS BeanValidationハンドラ」という名称だった。
-  しかし、Java EEがEclipse Foundationに移管され仕様名が変わったことに伴い「Jakarta RESTful Web Servcies Bean Validationハンドラ」という名称に変更された。
+  しかし、Java EEがEclipse Foundationに移管され仕様名が変わったことに伴い「Jakarta RESTful Web Services Bean Validationハンドラ」という名称に変更された。
 
   変更されたのは名称のみで、機能的な差は無い。
 

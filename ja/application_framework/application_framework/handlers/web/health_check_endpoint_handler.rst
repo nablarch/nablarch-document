@@ -181,7 +181,7 @@ DB等のリソースのヘルスチェックは :java:extdoc:`HealthChecker <nab
             <!-- 省略 -->
           </component>
           <!-- HealthCheckerを継承して作成したクラスを指定 -->
-          <component class="com.example.CustomHealthChecker">
+          <component class="com.example.CustomHealthChecker" />
         </list>
       </property>
     </component>
@@ -245,7 +245,7 @@ DB等のリソースのヘルスチェックは :java:extdoc:`HealthChecker <nab
           <property name="unhealthyStatusCode" value="500" />
           <!-- ヘルスチェック失敗時のラベル -->
           <property name="unhealthyStatus" value="NG" />
-          <!-- リクエストボディを出力するか否か。出力しない場合にfalseを指定 -->
+          <!-- レスポンスボディを出力するか否か。出力しない場合にfalseを指定 -->
           <property name="writeBody" value="false" />
         </component>
       </property>
@@ -267,7 +267,7 @@ DB等のリソースのヘルスチェックは :java:extdoc:`HealthChecker <nab
         @Override
         protected String buildResponseBody(
                 HttpRequest request, ExecutionContext context, HealthCheckResult result) {
-            // リクエストボディを返す。
+            // レスポンスボディを返す。
             // ヘルスチェック結果が入っているHealthCheckResultを使ってレスポンスボディを作成する。
             StringBuilder builder = new StringBuilder();
             builder.append("All=" + getStatus(result.isHealthy()));

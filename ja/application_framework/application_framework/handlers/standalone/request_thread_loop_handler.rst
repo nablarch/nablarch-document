@@ -99,7 +99,7 @@
   プロセスの異常終了を示す例外のため、捕捉した例外を再送出する。
 
 処理を継続することができなかったことを示すサービスエラー(:java:extdoc:`ServiceError <nablarch.fw.results.ServiceError>`)
-  補足した例外クラスにログ出力処理を委譲し、 :java:extdoc:`リトライ可能例外(Retryable) <nablarch.fw.handler.retry.Retryable>` を送出する。
+  捕捉した例外クラスにログ出力処理を委譲し、 :java:extdoc:`リトライ可能例外(Retryable) <nablarch.fw.handler.retry.Retryable>` を送出する。
 
 ハンドラの処理が異常終了したことを示す例外(:java:extdoc:`Result.Error <nablarch.fw.Result.Error>`)
   ``FATAL`` レベルのログを出力し、 :java:extdoc:`リトライ可能例外(Retryable) <nablarch.fw.handler.retry.Retryable>` を送出する。
@@ -108,7 +108,7 @@
   ``FATAL`` レベルのログを出力し、 :java:extdoc:`リトライ可能例外(Retryable) <nablarch.fw.handler.retry.Retryable>` を送出する。
  
 スレッドの停止を示す例外(:java:extdoc:`ThreadDeath <java.lang.ThreadDeath>`)
-  ``INFO`` レベルのログを出力し、補足した例外(ThreadDeath)を再送出する。
+  ``INFO`` レベルのログを出力し、捕捉した例外(ThreadDeath)を再送出する。
 
 スタックオーバーフローエラー(:java:extdoc:`StackOverflowError <java.lang.StackOverflowError>`)
   ``FATAL`` レベルのログを出力し、 :java:extdoc:`リトライ可能例外(Retryable) <nablarch.fw.handler.retry.Retryable>` を送出する。
@@ -117,7 +117,7 @@
   標準エラー出力にヒープ不足が発生したことを示すメッセージを出力し、 ``FATAL`` レベルのログ出力を行う。
   (ログ出力時に再度ヒープ不足が発生する可能性があるため、標準エラー出力にメッセージ出力後にログを出力する。)
 
-  ヒープ不足の原因不足となったオブジェクトへの参照が切れ、処理継続可能な場合があるため :java:extdoc:`リトライ可能例外(Retryable) <nablarch.fw.handler.retry.Retryable>` を送出する。
+  ヒープ不足の原因となったオブジェクトへの参照が切れ、処理継続可能な場合があるため :java:extdoc:`リトライ可能例外(Retryable) <nablarch.fw.handler.retry.Retryable>` を送出する。
   
 JVMの異常を示すエラー(:java:extdoc:`VirtualMachineError <java.lang.VirtualMachineError>`)
   発生した例外を再送出する
