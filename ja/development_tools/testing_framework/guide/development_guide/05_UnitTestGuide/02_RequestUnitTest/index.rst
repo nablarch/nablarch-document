@@ -4,6 +4,8 @@
 リクエスト単体テストの実施方法
 ==============================
 
+本項のコード例はJUnit 5（ :ref:`ntf_junit5_extension` ）を前提としている。
+JUnit 4で作成された既存のテスト資産を保守する場合は、 :ref:`legacy_junit4_request_deal_test` を参照すること。
 
 --------------------
 テストクラスの書き方
@@ -13,8 +15,9 @@
 
 * テストクラスのパッケージは、テスト対象のActionクラスと同じとする。
 * <Actionクラス名>RequestTestというクラス名でテストクラスを作成する。
-* nablarch.test.core.http.BasicHttpRequestTestTemplateを継承する。
-  (プロジェクト側で拡張したTemplate実装がある場合は、この限りではない)
+* 合成アノテーション :java:extdoc:`BasicHttpRequestTest <nablarch.test.junit5.extension.http.BasicHttpRequestTest>` をテストクラスに付与し、 ``baseUri`` にURIの共通部分を指定する。
+* nablarch.test.core.http.BasicHttpRequestTestTemplate型のフィールドを宣言する（インスタンスは拡張機能が自動的にインジェクションする）。
+  (プロジェクト側で拡張したTemplate実装がある場合は、この限りではない。 :ref:`ntf_junit5_extension` の「独自の拡張を加える」を参照)
 
 例えば、テスト対象のActionクラスが、nablarch.sample.management.user.UserSearchActionだとすると、
 テストクラスは以下のようになる。
@@ -22,15 +25,21 @@
 .. code-block:: java
 
   package nablarch.sample.management.user;
-  
+
+  import nablarch.test.core.http.BasicHttpRequestTestTemplate;
+  import nablarch.test.junit5.extension.http.BasicHttpRequestTest;
+
   // ～中略～
 
-  public class UserSearchActionRequestTest extends BasicHttpRequestTestTemplate {
+  @BasicHttpRequestTest(baseUri = "/action/management/user/UserSearchAction/")
+  class UserSearchActionRequestTest {
+
+      BasicHttpRequestTestTemplate support;
 
 
 
 .. tip::
- スーパクラスBasicHttpRequestTestTemplateは、リクエスト単体テストに必要な各種メソッドを用意している。\
+ BasicHttpRequestTestTemplateは、リクエスト単体テストに必要な各種メソッドを用意している。\
  DbAccessTestSupportの機能も兼ね備えているので、データベースの設定などもクラス単体テストと\
  同じように実行できる。\
 
@@ -335,10 +344,11 @@ HTTPリクエストパラメータは、ひとつのキーに対して複数の�
 テストメソッドの書き方
 ----------------------
 
-スーパクラスについて
-====================
+テストサポートクラスについて
+============================
 
-BasicHttpRequestTestTemplateクラスを継承する。
+テストサポートクラスにはBasicHttpRequestTestTemplateクラスを使用する。
+合成アノテーション :java:extdoc:`BasicHttpRequestTest <nablarch.test.junit5.extension.http.BasicHttpRequestTest>` をテストクラスに付与し、BasicHttpRequestTestTemplate型のフィールドを宣言すると、インスタンスがインジェクションされる。
 このクラスでは、準備したテストデータを元に以下の手順でリクエスト単体テストを実行する。
 
 * データシートからテストケースリスト(testShots LIST_MAP）を取得
@@ -361,21 +371,17 @@ BasicHttpRequestTestTemplateクラスを継承する。
 
 
 
-以下のメソッドが、スーパクラスで抽象メソッドとして定義されているのでオーバーライドする。
+URIの共通部分は、合成アノテーションの ``baseUri`` に指定する。
+この値は、BasicHttpRequestTestTemplateの ``getBaseUri()`` メソッドが返却する値に対応する。
 
 
 .. code-block:: java
 
- public class UserSearchActionRequestTest extends BasicHttpRequestTestTemplate {
-    
-    /**
-     * {@inheritDoc}
-     * 【説明】 URIの共通部分を返却する。
-     */
-    @Override
-    protected String getBaseUri() {
-        return "/action/management/user/UserSearchAction/";
-    }
+ // 【説明】 baseUri にURIの共通部分を指定する。
+ @BasicHttpRequestTest(baseUri = "/action/management/user/UserSearchAction/")
+ class UserSearchActionRequestTest {
+
+     BasicHttpRequestTestTemplate support;
 
 
 
@@ -386,18 +392,18 @@ BasicHttpRequestTestTemplateクラスを継承する。
 
 
 .. code-block:: java
-    
+
     @Test
-    public void testMenus00101() {
+    void testMenus00101() {
     }
 
 
 
-スーパクラスのメソッド呼び出し
-==============================
+テストサポートクラスのメソッド呼び出し
+======================================
 
 
-テストメソッド内で、スーパクラスの以下のいずれかのメソッドを呼び出す。
+テストメソッド内で、インジェクションされたBasicHttpRequestTestTemplateの以下のいずれかのメソッドを呼び出す。
 
 * void execute()
 * void execute(Advice advice)
@@ -405,17 +411,17 @@ BasicHttpRequestTestTemplateクラスを継承する。
 通常の場合、execute()を使用する。
 
 .. code-block:: java
-    
+
     @Test
-    public void testUsers00101Normal() {
-        execute();
+    void testUsers00101Normal() {
+        support.execute();
     }
 
 
 固有の処理を追加する場合
 ------------------------
 
-スーパクラスでは、どんなテストケースでも必要となる処理を定型化しているが、
+テストサポートクラスでは、どんなテストケースでも必要となる処理を定型化しているが、
 テストケースによっては固有の処理が必要な場合がある。
 (例えば、リクエストスコープにエンティティが格納されており、その内容を確認したい場合等)。
 
@@ -433,10 +439,10 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
   テストメソッド間で共通する処理がある場合は、プライベートメソッドに切り出すこと。
 
 .. code-block:: java
-    
+
     @Test
-    public void testMenus00102Normal() {
-        execute(new BasicAdvice() {
+    void testMenus00102Normal() {
+        support.execute(new BasicAdvice() {
             // 【説明】本メソッドはリクエスト送信前に呼び出される。
             @Override
             public void beforeExecute(TestCaseInfo testCaseInfo,
@@ -461,10 +467,10 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
 それぞれの検索結果が期待通りであることを検証している。
 
 .. code-block:: java
-    
+
     @Test
-    public void testMenus00103() {
-        execute(new BasicAdvice() {
+    void testMenus00103() {
+        support.execute(new BasicAdvice() {
             @Override
             public void afterExecute(TestCaseInfo testCaseInfo,
                     ExecutionContext context) {
@@ -475,11 +481,11 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
                 
                 // グループ検索結果の検証
                 SqlResultSet actualGroup =(SqlResultSet) context.getRequestScopedVar("allGroup");
-                assertSqlResultSetEquals(message, sheetName, "expectedUgroup" + no, actualGroup);
-                        
+                support.assertSqlResultSetEquals(message, sheetName, "expectedUgroup" + no, actualGroup);
+
                 // ユースケース検索結果の検証
                 SqlResultSet actualUseCase =(SqlResultSet) context.getRequestScopedVar("allUseCase");
-                assertSqlResultSetEquals(message, sheetName, "expectedUseCase" + no, actualUseCase);
+                support.assertSqlResultSetEquals(message, sheetName, "expectedUseCase" + no, actualUseCase);
             }
         });
     }
@@ -494,10 +500,10 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
 
 
 .. code-block:: java
-        
+
     @Test
-    public void testUsers00302Normal() {
-        execute(new BasicAdvice() {
+    void testUsers00302Normal() {
+        support.execute(new BasicAdvice() {
             @Override
             public void afterExecute(TestCaseInfo testCaseInfo,
                     ExecutionContext context) {
@@ -508,12 +514,12 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
                 // 【説明】実際の値をリクエストスコープから取り出す
                 Object actualSystemAccount = context.getRequestScopedVar("systemAccount");
                 // 【説明】エンティティを比較するメソッドを呼び出す。
-                assertEntity(sheetName, expectedSystemAccountId, actualSystemAccount);
+                support.assertEntity(sheetName, expectedSystemAccountId, actualSystemAccount);
 
                 // ユーザを比較
                 String expectedUsersId = "users" + testCaseInfo.getTestCaseNo();
                 Object actualUsers = context.getRequestScopedVar("users");
-                assertEntity(sheetName, expectedUsersId, actualUsers);
+                support.assertEntity(sheetName, expectedUsersId, actualUsers);
             }
         });
     }
@@ -534,8 +540,8 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
    .. code-block:: java
    
        @Test
-       public void testSampleNormal() {
-           execute(new BasicAdvice() {
+       void testSampleNormal() {
+           support.execute(new BasicAdvice() {
                @Override
                public void afterExecute(TestCaseInfo testCaseInfo,
                        ExecutionContext context) {
@@ -548,7 +554,7 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
                    // 【説明】Formのプロパティである別のFormを取得
                    Object actualSystemAccount = actualForm.getSystemAccount();
                    // 【説明】エンティティを比較するメソッドを呼び出す。
-                   assertEntity(sheetName, expectedSystemAccountId, actualSystemAccount);
+                   support.assertEntity(sheetName, expectedSystemAccountId, actualSystemAccount);
                }
            });
        }
@@ -562,20 +568,20 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
 その検索結果が期待通りであることを検証している。
 
 .. code-block:: java
-        
+
     @Test
-    public void testUsers00302Normal() {
-        execute(new BasicAdvice() {
+    void testUsers00302Normal() {
+        support.execute(new BasicAdvice() {
             @Override
             public void afterExecute(TestCaseInfo testCaseInfo, ExecutionContext context) {
                 String message = testCaseInfo.getTestCaseName();   // 【説明】比較失敗時のメッセージ
                 String sheetName = testCaseInfo.getSheetName();    // 【説明】シート名
                 String no = testCaseInfo.getTestCaseNo();          // 【説明】テストケース番号
-                
+
                 // グループ検索結果の検証
                 SqlRow actual =(SqlRow) context.getRequestScopedVar("user");
                 // 【説明】SqlRowを比較するメソッドを呼び出す。
-                assertSqlRowEquals(message, sheetName, "expectedUser" + no, actual);
+                support.assertSqlRowEquals(message, sheetName, "expectedUser" + no, actual);
             }
         });
     }
@@ -593,16 +599,17 @@ BasicAdviceクラスには以下のメソッドが用意されており、それ
 
 
 .. code-block:: java
-        
+
     @Test
-    public void testUsers00302Normal() {
-        execute(new BasicAdvice() {
+    void testUsers00302Normal() {
+        support.execute(new BasicAdvice() {
             @Override
             public void afterExecute(TestCaseInfo testCaseInfo, ExecutionContext context) {
 
                 HttpRequest request = testCaseInfo.getHttpRequest();   // 【説明】テスト実行後のHttpRequest
                 // リクエストパラメータがリセットされていること
-                assertEquals("", getParam(request, "resetparameter"));
+                // （org.junit.jupiter.api.Assertions.assertEquals を static import して使用する）
+                assertEquals("", support.getParam(request, "resetparameter"));
             }
         });
     }
@@ -623,18 +630,18 @@ Excelに記載した期待値と直接比較するメソッドが用意されて
 * 自動テストフレームワークまたはJUnitのAPIを用いて結果を検証する。
 
 .. code-block:: java
-        
+
     @Test
-    public void testUsers00303Normal() {
-        execute(new BasicAdvice() {
+    void testUsers00303Normal() {
+        support.execute(new BasicAdvice() {
             @Override
             public void afterExecute(TestCaseInfo testCaseInfo, ExecutionContext context) {
                 // 【説明】期待値をExcelファイルから取得
-                List<Map<String, String>> expected = getListMap("doRW25AA0303NormalEnd", "result_1");
+                List<Map<String, String>> expected = support.getListMap("doRW25AA0303NormalEnd", "result_1");
                 // 【説明】テスト実行後のリクエストスコープから実際の値を取得
                 List<Map<String, String>> actual = context.getRequestScopedVar("pageData");
                 // 【説明】結果検証
-                assertListMapEquals(expected, actual);
+                support.assertListMapEquals(expected, actual);
             }
         });
     }
@@ -679,10 +686,10 @@ Excelに記載した期待値と直接比較するメソッドが用意されて
  .. code-block:: java
 
     private FileSupport fileSupport = new FileSupport(getClass());
-    
+
     @Test
-    public void testRW11AC0104Download() {
-        execute(new BasicAdvice() {
+    void testRW11AC0104Download() {
+        support.execute(new BasicAdvice() {
             @Override
             public void afterExecute(TestCaseInfo testCaseInfo, ExecutionContext context) {
                 String msgOnFail = "ダウンロードしたユーザ一覧照会結果のCSVファイルのアサートに失敗しました。";

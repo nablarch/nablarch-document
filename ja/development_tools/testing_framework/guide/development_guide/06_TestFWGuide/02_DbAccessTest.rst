@@ -27,8 +27,9 @@
 +---------------------------+-----------------------------------------------+--------------------------------+
 |名称                       |役割                                           | 作成単位                       |
 +===========================+===============================================+================================+
-|テストクラス               |テストロジックを実装する。\                    |テスト対象クラスにつき１つ作成  |
-|                           |DbAccessTestSupportを継承すること。            |                                |
+|テストクラス               |テストロジックを実装する。合成アノテーション\  |テスト対象クラスにつき１つ作成  |
+|                           |@DbAccessTestを付与し、DbAccessTestSupport型の\|                                |
+|                           |フィールドを宣言すること。                     |                                |
 +---------------------------+-----------------------------------------------+--------------------------------+
 |テストデータ（Excelファイル|テーブルに格納する準備データや期待する結果\    |テストクラスにつき１つ作成      |
 |）                         |など、テストデータを記載する。                 |                                |
@@ -70,30 +71,33 @@
 テストソースコード実装例
 ------------------------
 
- .. code-block:: java 
+ .. code-block:: java
 
-    public class DbAccessTestSample extends DbAccessTestSupport {
+    @DbAccessTest
+    class DbAccessTestSample {
+
+        DbAccessTestSupport support;
 
         /**
          * 全件検索のテスト。<br/>
          * 従業員テーブルに登録されたレコードを
          * 全件取得できることを確認する。
-         */ 
+         */
         @Test
-        public void testSelectAll() {
+        void testSelectAll() {
 
             // データベースに準備データを登録する。
             //引数にはシート名を記載する。
-            setUpDb("testSelectAll");
-                        
+            support.setUpDb("testSelectAll");
+
             // テスト対象メソッドを起動する。
-            EmployeeDbAcess target = new EmployeeDbAccess(); 
+            EmployeeDbAcess target = new EmployeeDbAccess();
             SqlResultSet actual = target.selectAll();
-            
+
             // 結果確認
             // Excelに記載した期待値と実際の値が等しいことを確認する
             // 引数には期待値を格納したシート名, 期待値のID, 実際の値を指定
-            assertSqlResultSetEquals("testSelectAll", "expected", actual);
+            support.assertSqlResultSetEquals("testSelectAll", "expected", actual);
         }
     }
 
@@ -196,25 +200,29 @@ ID          EMP_NAME     DEPT_NAME
 
  .. code-block:: java
 
-    public class DbAccessTestSample extends DbAccsessTestSupport {
+    @DbAccessTest
+    class DbAccessTestSample {
+
+        DbAccessTestSupport support;
+
         @Test
-        public void testDeleteExpired() {
+        void testDeleteExpired() {
 
             // データベースに準備データを登録する。
             // 引数にはシート名を記載する。
-            setUpDb("testDeleteExpired");
-                        
+            support.setUpDb("testDeleteExpired");
+
             // テスト対象メソッドを起動する。
-            EmployeeDbAcess target = new EmployeeDbAccess(); 
+            EmployeeDbAcess target = new EmployeeDbAccess();
             SqlResultSet actual = target.deleteExpired();  // 期限切れデータを削除
-            
+
             // トランザクションをコミット
-            commitTransactions();
+            support.commitTransactions();
 
             // 結果確認
             // Excelに記載した期待値と実際の値が等しいことを確認する
             // 引数には期待値を格納したシート名, 実際の値を指定
-            assertTableEquals("testDeleteExpired", actual);
+            support.assertTableEquals("testDeleteExpired", actual);
         }
 
 
