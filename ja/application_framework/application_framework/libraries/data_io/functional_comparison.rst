@@ -28,7 +28,7 @@
       :ref:`解説書へ <data_format-multi_layout_data>`
 
   * - CSVの定義を設定できる |br|
-      (カンマやクォート文字を変更することできる)
+      (カンマやクォート文字を変更することができる)
     - ○ |br|
       :ref:`解説書へ <data_bind-csv_format>`
     - ○ |br|
