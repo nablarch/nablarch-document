@@ -243,8 +243,8 @@
 
     // 業務処理
 
-    // ダウンロードデータを格納したMapの作成する。
-    Map<String, Object> user = new hashMap<>()
+    // ダウンロードデータを格納したMapを作成する。
+    Map<String, Object> user = new HashMap<>();
     user.put("name", "なまえ");
     user.put("age", 30);
 
@@ -464,7 +464,7 @@ XMLおよびJSONの構造
             "age": 30
           },
           {
-            "name": "ななえ2",
+            "name": "なまえ2",
             "address": "住所2",
             "age": 31
           }

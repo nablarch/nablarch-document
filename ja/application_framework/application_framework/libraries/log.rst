@@ -547,7 +547,7 @@ Nablarchの提供するアーキタイプから生成したブランクプロジ
 
 ログファイルのローテーションを行う
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-本機能で提供するFileLogWiterは、設定したポリシーに従ってログファイルのローテーションを行う。
+本機能で提供するFileLogWriterは、設定したポリシーに従ってログファイルのローテーションを行う。
 
 ローテーションポリシーはデフォルトではファイルサイズによるローテーションを行う :java:extdoc:`FileSizeRotatePolicy <nablarch.core.log.basic.FileSizeRotatePolicy>`
 が使用される。 :java:extdoc:`RotatePolicy <nablarch.core.log.basic.RotatePolicy>` の実装クラスを作成することで、ローテーションポリシーを変更することができる。
@@ -898,7 +898,7 @@ LogWriterで使用するフォーマッタを :java:extdoc:`JsonLogFormatter <na
  記述例
   .. code-block:: java
  
-   Map<String, Object> structuredArgs = new HashTable<String, Object>();
+   Map<String, Object> structuredArgs = new HashMap<String, Object>();
    structuredArgs.put("key1", "value1");
    structuredArgs.put("key2", 123);
    structuredArgs.put("key3", true);

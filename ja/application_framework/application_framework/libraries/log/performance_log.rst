@@ -149,8 +149,8 @@ app-log.propertiesの設定例
 
  performanceLogFormatter.datePattern
   開始日時と終了日時に使用する日時パターン。
-  パターンには、 :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>` が規程している構文を指定する。
-  デフォルトは”yyyy-MM-dd HH:mm:ss.SSS”。
+  パターンには、 :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>` が規定している構文を指定する。
+  デフォルトは ``yyyy-MM-dd HH:mm:ss.SSS`` 。
 
  performanceLogFormatter.targetPoints
   出力対象とするポイント名。
@@ -203,8 +203,8 @@ JSON形式の構造化ログとして出力する
 
  performanceLogFormatter.datePattern
   開始日時と終了日時に使用する日時パターン。
-  パターンには、 :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>` が規程している構文を指定する。
-  デフォルトは”yyyy-MM-dd HH:mm:ss.SSS”。
+  パターンには、 :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>` が規定している構文を指定する。
+  デフォルトは ``yyyy-MM-dd HH:mm:ss.SSS`` 。
 
  performanceLogFormatter.targetPoints
   出力対象とするポイント名。

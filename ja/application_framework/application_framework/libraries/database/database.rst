@@ -34,7 +34,7 @@ JDBCを使用してデータベースに対してSQL文を実行する機能を�
 :java:extdoc:`Dialect <nablarch.core.db.dialect.Dialect>` は、以下の機能を提供する。
 
 * identityカラムを使えるか否かを返すメソッド(:java:extdoc:`supportsIdentity <nablarch.core.db.dialect.Dialect.supportsIdentity()>` )
-* identity(自動採番)カラムを持つテーブル対してbatch insertが行えるか否かを返すメソッド(:java:extdoc:`supportsIdentityWithBatchInsert <nablarch.core.db.dialect.Dialect.supportsIdentityWithBatchInsert()>`)
+* identity(自動採番)カラムを持つテーブルに対してbatch insertが行えるか否かを返すメソッド(:java:extdoc:`supportsIdentityWithBatchInsert <nablarch.core.db.dialect.Dialect.supportsIdentityWithBatchInsert()>`)
 * シーケンスオブジェクトを使えるか否かを返すメソッド(:java:extdoc:`supportsSequence <nablarch.core.db.dialect.Dialect.supportsSequence()>` )
 * 検索クエリーの範囲指定でoffset（またはoffsetと同等の機能）を使えるか否かを返すメソッド(:java:extdoc:`supportsOffset <nablarch.core.db.dialect.Dialect.supportsOffset()>` )
 * 一意制約違反を表す :java:extdoc:`SQLException <java.sql.SQLException>` か否かを判定するメソッド(:java:extdoc:`isDuplicateException <nablarch.core.db.dialect.Dialect.isDuplicateException(java.sql.SQLException)>` )
@@ -615,7 +615,7 @@ SQL
 like検索時のエスケープ文字及びエスケープ対象文字を定義する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 エスケープ文字及びエスケープ対象文字の定義は、コンポーネント設定ファイルに行う。
-なお、エスケープ文字は自動的対象にエスケープとなるため、明示的にエスケープ対象文字に設定する必要はない。
+なお、エスケープ文字は自動的にエスケープ対象となるため、明示的にエスケープ対象文字に設定する必要はない。
 
 設定を省略した場合は、以下の値を使用する。
 
@@ -623,7 +623,7 @@ like検索時のエスケープ文字及びエスケープ対象文字を定義�
 :エスケープ対象文字: ``%`` 、 ``_``
 
 コンポーネント設定例
-  この例ではエスケープ文字に ``\`` を設定し、エスケープ文字には ``%`` 、 ``％`` 、 ``_`` 、 ``＿`` の4文字を設定している。
+  この例ではエスケープ文字に ``\`` を設定し、エスケープ対象文字には ``%`` 、 ``％`` 、 ``_`` 、 ``＿`` の4文字を設定している。
 
   ここで定義した :java:extdoc:`BasicStatementFactory <nablarch.core.db.statement.BasicStatementFactory>` コンポーネントは、 :ref:`database-connect`
   で定義したデータベース接続を取得するコンポーネントに設定すること。
@@ -872,7 +872,7 @@ blob(データベース製品によりバイナリ型の型は異なる)など�
 
       SqlResultSet rows = select.retrieve();
 
-      // Blogとしてデータを取得する
+      // Blobとしてデータを取得する
       Blob pdf = (Blob) rows.get(0).get("PDF");
 
       try (InputStream input = pdf.getBinaryStream()) {
@@ -890,10 +890,10 @@ blob(データベース製品によりバイナリ型の型は異なる)など�
     statement.setBytes(1, new byte[] {0x30, 0x31, 0x32});
     int updateCount = statement.executeUpdate();
 
- サイズが大きいバイナリ値を登録更新する場合は、 :java:extdoc:`SqlPStatement#setBinaryStream <nablarch.core.db.statement.SqlPStatement.setBinaryStream(int,java.io.InputStream,int)>`
- を使用して、ファイルなどを表す :java:extdoc:`InputStream <java.io.InputStream>` から直接データベースに値を送信する。
+  サイズが大きいバイナリ値を登録更新する場合は、 :java:extdoc:`SqlPStatement#setBinaryStream <nablarch.core.db.statement.SqlPStatement.setBinaryStream(int,java.io.InputStream,int)>`
+  を使用して、ファイルなどを表す :java:extdoc:`InputStream <java.io.InputStream>` から直接データベースに値を送信する。
 
- .. code-block:: java
+  .. code-block:: java
 
     final Path pdf = Paths.get("input.pdf");
     try (InputStream input = Files.newInputStream(pdf)) {
@@ -932,7 +932,7 @@ CLOB型の値を取得する
 
       SqlResultSet rows = select.retrieve();
 
-      // Clogとしてデータを取得する
+      // Clobとしてデータを取得する
       Clob mailBody = (Clob) rows.get(0).get("mailBody");
 
       try (Reader reader = mailBody.getCharacterStream()) {
@@ -968,7 +968,7 @@ CLOB型に値を登録(更新)する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 データベースアクセス時の例外は、大きく分けて以下の4種類が送出される。
 
-これらの例外は全て非チェック例外のため、 :java:extdoc:`SQLException <java.sql.SQLException>` のように ``try-catch`` で補足する必要はない。
+これらの例外は全て非チェック例外のため、 :java:extdoc:`SQLException <java.sql.SQLException>` のように ``try-catch`` で捕捉する必要はない。
 
 データベースアクセスエラー時の例外
   データベースアクセス時に発生する例外で、 :java:extdoc:`DbAccessException <nablarch.core.db.DbAccessException>` が送出される。
@@ -998,7 +998,7 @@ SQL実行時の例外が一意制約違反の場合の例外
 
 一意制約違反をハンドリングして処理を行う
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-一意制約違反時に何か処理を行う必要がある場合には、 :java:extdoc:`DuplicateStatementException <nablarch.core.db.statement.exception.DuplicateStatementException>` を ``try-catch`` で補足し処理をする。
+一意制約違反時に何か処理を行う必要がある場合には、 :java:extdoc:`DuplicateStatementException <nablarch.core.db.statement.exception.DuplicateStatementException>` を ``try-catch`` で捕捉し処理をする。
 
 なお、一意制約違反の判定には、 :ref:`ダイアレクト <database-dialect>` が使用される。
 

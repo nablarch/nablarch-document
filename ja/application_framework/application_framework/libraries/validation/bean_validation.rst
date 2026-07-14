@@ -92,7 +92,7 @@ MessageInterpolatorの設定
   .. code-block:: xml
 
     <!-- コンポーネント名にmessageInterpolatorを指定し、MessageInterpolatorの実装クラスを設定する -->
-    <compnent name="messageInterpolator"
+    <component name="messageInterpolator"
         class="org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator"/>
 
 ドメインバリデーション用の設定
@@ -313,7 +313,7 @@ Java実装例
 
     <!-- 半角数字 -->
     <component name="半角数字" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
-      <property name="allowedCharacters" value="01234567890" />
+      <property name="allowedCharacters" value="0123456789" />
       <property name="messageId" value="numberString.message" />
     </component>
 
@@ -373,7 +373,7 @@ Java実装例
     <component name="半角数字" class="nablarch.core.validation.validator.unicode.CachingCharsetDef">
       <property name="charsetDef">
         <component class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
-          <property name="allowedCharacters" value="01234567890" />
+          <property name="allowedCharacters" value="0123456789" />
         </component>
       </property>
       <property name="messageId" value="numberString.message" />

@@ -875,7 +875,7 @@ JavaScriptの詳細については、 :ref:`tag-onclick_override` を参照。
  .. important::
   Content Security Policy(CSP)に対応する場合は、onclick属性にインラインでJavaScriptを記述してしまうとCSPに対応しようとしているにも
   関わらず ``unsafe-inline`` を使いセキュリティレベルを低下させてしまう、  もしくは ``unsafe-hashes`` を利用することになってしまう。
-  このためは、 :ref:`tag-content_security_policy` の手順に従い外部スクリプトまたはnonce属性を指定したscript要素に追加の処理を実装を
+  このためには、 :ref:`tag-content_security_policy` の手順に従い外部スクリプトまたはnonce属性を指定したscript要素に追加の処理を実装を
   行うことを推奨する。
 
 プルダウン変更でサブミットを行う場合の実装例を示す。

@@ -677,7 +677,7 @@ Entityに使用できるJakarta Persistenceアノテーションは以下のと�
 *jakarta.persistence.Id*
  主キーに設定するアノテーション。
 
- 複合主キーの場合には、複数のgettterもしくはフィールドに本アノテーションを設定する。
+ 複合主キーの場合には、複数のgetterもしくはフィールドに本アノテーションを設定する。
 
 .. _`universal_dao_jpa_version`:
 

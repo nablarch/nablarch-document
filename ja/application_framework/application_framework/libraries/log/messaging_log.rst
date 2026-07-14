@@ -119,7 +119,7 @@ app-log.propertiesの設定例
   指定した正規表現は大文字小文字を区別しない。
 
  messagingLogFormatter.maskingChar
-  マスクに使用する文字。デフォルトは’*’。
+  マスクに使用する文字。デフォルトは ``*`` 。
 
  messagingLogFormatter.sentMessageFormat
   MOM送信メッセージのログ出力に使用するフォーマット。
@@ -272,7 +272,7 @@ JSON形式の構造化ログとして出力する
   指定した正規表現は大文字小文字を区別しない。
 
  messagingLogFormatter.maskingChar
-  マスクに使用する文字。デフォルトは’*’。
+  マスクに使用する文字。デフォルトは ``*`` 。
 
  messagingLogFormatter.sentMessageTargets
   MOM送信メッセージログの出力項目。カンマ区切りで指定する。

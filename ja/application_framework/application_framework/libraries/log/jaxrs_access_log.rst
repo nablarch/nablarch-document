@@ -176,7 +176,7 @@ HTTPアクセスログの設定は、 :ref:`log-app_log_setting` で説明した
 
  jaxRsAccessLogFormatter.datePattern
   開始日時と終了日時に使用する日時パターン。
-  パターンには、 :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>` が規程している構文を指定する。
+  パターンには、 :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>` が規定している構文を指定する。
   デフォルトは ``yyyy-MM-dd HH:mm:ss.SSS`` 。
 
  jaxRsAccessLogFormatter.maskingPatterns
@@ -310,7 +310,7 @@ HTTPアクセスログの各項目もJSONの値として出力するには、
 
  jaxRsAccessLogFormatter.datePattern
   開始日時と終了日時に使用する日時パターン。
-  パターンには、 :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>` が規程している構文を指定する。
+  パターンには、 :java:extdoc:`SimpleDateFormat <java.text.SimpleDateFormat>` が規定している構文を指定する。
   デフォルトは ``yyyy-MM-dd HH:mm:ss.SSS`` 。
 
  jaxRsAccessLogFormatter.maskingPatterns
