@@ -10,7 +10,7 @@
 Nablarch
 =======================
 
-Nablarch is a Java application development and execution platform that integrates the knowledge gained from extensive experience of TIS in building mission-critical systems.
+Nablarch is a Java application development and execution platform that integrates the knowledge gained from extensive experience of TISI in building mission-critical systems.
 
 .. toctree::
   :maxdepth: 1
