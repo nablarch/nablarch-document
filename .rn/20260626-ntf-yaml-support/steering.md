@@ -360,7 +360,7 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 Status: paused
 Date: 2026-07-15
-Last completed: ad-hoc fix — EXPECTED_TABLE 行照合仕様追記（主キー突合・全件列挙・自動採番注記）、index.rst / examples.rst / input 2ファイルを更新・プッシュ済み（0cc11b6）
+Last completed: ad-hoc fix — SETUP_TABLE FK制約落とし穴2点を追記（INSERT前DELETE・子テーブル列挙・省略="0"のFK違反）、input / index.rst を更新・プッシュ済み（7cec5f0）
 Next: #15（セッション全体の成果物を Acceptance criteria に照らしてユーザーに提示）
 Notes: #14 までのタスクはすべてチェック済み。残るは #15 のユーザーサインオフのみ。
 
