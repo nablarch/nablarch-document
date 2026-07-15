@@ -23,7 +23,7 @@ CSVファイルをダウンロードする機能の実装方法を解説する�
 
   #. :ref:`ダウンロードボタンの作成<project_download-download_button>`
   #. :ref:`ファイルをバインドするBeanの作成<project_download-create_bean>`
-  #. :ref:`業務アクションメソッドの作成<project_upload-file_download_action>`
+  #. :ref:`業務アクションメソッドの作成<project_download-file_download_action>`
 
 .. _`project_download-download_button`:
 
@@ -97,7 +97,7 @@ CSVファイルをダウンロードする機能の実装方法を解説する�
       （ :ref:`デフォルトのフォーマットの指定<data_bind-csv_format_set>` を使用する場合は、 :java:extdoc:`@CsvFormat<nablarch.common.databind.csv.CsvFormat>` は不要）
       アノテーションの設定方法の詳細は、 :ref:`CSVファイルをJava Beansクラスにバインドする場合のフォーマット指定方法 <data_bind-csv_format-beans>` を参照。
 
-.. _`project_upload-file_download_action`:
+.. _`project_download-file_download_action`:
 
 業務アクションメソッドの作成
   検索結果をCSVファイルに書きこむ業務アクションメソッドを作成する。

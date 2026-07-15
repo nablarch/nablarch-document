@@ -165,7 +165,7 @@ Exampleアプリケーションを元に一括更新機能を解説する。
 一括更新画面JSPの作成
   検索結果の表示と複数のプロジェクトの情報を編集する、一括更新画面のJSPを作成する。
 
-  /src/main/webapp/WEB-INF/projectBulk/update.jsp
+  /src/main/webapp/WEB-INF/view/projectBulk/update.jsp
     .. code-block:: jsp
 
       <!-- 顧客検索結果の表示部分 -->
@@ -270,7 +270,7 @@ Exampleアプリケーションを元に一括更新機能を解説する。
 確認画面JSPの作成
   変更後のプロジェクト情報を表示する画面のJSPを作成する。
 
-  /src/main/webapp/WEB-INF/projectBulk/confirmOfUpdate.jsp
+  /src/main/webapp/WEB-INF/view/projectBulk/confirmOfUpdate.jsp
     .. code-block:: jsp
 
           <section>

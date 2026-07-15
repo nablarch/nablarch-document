@@ -19,21 +19,21 @@ Exampleアプリケーションを元に、CSVファイルをアップロード�
     .. image:: ../images/project_upload/project_upload-invalid_upload.png
       :scale: 80
 
-  3. バリデーションエラーが発生する。
+  4. バリデーションエラーが発生する。
 
     .. image:: ../images/project_upload/project_upload-validate.png
       :scale: 80
 
-  4. バリデーションエラーが発生しない一括登録サンプルファイルを、下記からダウンロードする。
+  5. バリデーションエラーが発生しない一括登録サンプルファイルを、下記からダウンロードする。
 
     :download:`プロジェクト一括登録.csv<../downloads/project_upload/プロジェクト一括登録.csv>`
 
-  5. サンプルファイルをアップロードし、登録ボタンを押下する。
+  6. サンプルファイルをアップロードし、登録ボタンを押下する。
 
     .. image:: ../images/project_upload/project_upload-valid_upload.png
       :scale: 80
 
-  6. ファイルの内容がデータベースに登録され、完了メッセージが表示される。
+  7. ファイルの内容がデータベースに登録され、完了メッセージが表示される。
 
     .. image:: ../images/project_upload/project_upload-complete.png
       :scale: 80

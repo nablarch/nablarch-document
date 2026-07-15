@@ -170,13 +170,13 @@ URLの例
       UserSearchForm form = BeanUtil.createAndCopy(UserSearchForm.class, req.getParamMap());
 
       // バリデーションの実行
-      ValidatorUtil.validate(form)
+      ValidatorUtil.validate(form);
 
       // 業務ロジックを実行する(省略)
     }
 
     // クエリーパラメータをマッピングするForm
-    public UserSearchForm {
+    public class UserSearchForm {
       private String name;
       // 省略
     }
