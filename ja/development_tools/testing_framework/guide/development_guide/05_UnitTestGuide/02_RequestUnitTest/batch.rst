@@ -521,7 +521,7 @@ SETUP_FIXED[グループID]=ファイルパス
 .. code-block:: java
     
     @Test
-    public void testResigster() {
+    public void testRegister() {
         execute();   // 【説明】execute("testRegisterUser") と等価
     }
 
@@ -586,7 +586,7 @@ IDの記述方法だけが異なる。
 
 .. [#]
  \ **N**\ は1以上の整数を指定することで複数の値（連続する値であること）
- (例) messsage1, message2...
+ (例) message1, message2...
 
 .. tip::
  これらの条件は全て\ **AND**\ 条件である。

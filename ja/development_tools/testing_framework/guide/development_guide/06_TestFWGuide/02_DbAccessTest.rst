@@ -87,7 +87,7 @@
             setUpDb("testSelectAll");
                         
             // テスト対象メソッドを起動する。
-            EmployeeDbAcess target = new EmployeeDbAccess(); 
+            EmployeeDbAccess target = new EmployeeDbAccess(); 
             SqlResultSet actual = target.selectAll();
             
             // 結果確認
@@ -196,7 +196,7 @@ ID          EMP_NAME     DEPT_NAME
 
  .. code-block:: java
 
-    public class DbAccessTestSample extends DbAccsessTestSupport {
+    public class DbAccessTestSample extends DbAccessTestSupport {
         @Test
         public void testDeleteExpired() {
 
@@ -205,7 +205,7 @@ ID          EMP_NAME     DEPT_NAME
             setUpDb("testDeleteExpired");
                         
             // テスト対象メソッドを起動する。
-            EmployeeDbAcess target = new EmployeeDbAccess(); 
+            EmployeeDbAccess target = new EmployeeDbAccess(); 
             SqlResultSet actual = target.deleteExpired();  // 期限切れデータを削除
             
             // トランザクションをコミット
