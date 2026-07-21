@@ -359,8 +359,8 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 -->
 
 Status: paused
-Date: 2026-07-15
-Last completed: ad-hoc fix — SETUP_TABLE FK制約落とし穴2点を追記（INSERT前DELETE・子テーブル列挙・省略="0"のFK違反）、input / index.rst を更新・プッシュ済み（7cec5f0）
+Date: 2026-07-21
+Last completed: ad-hoc fix — isValidToken の説明（Boolean.parseBoolean 実装に合わせた正しい仕様）と例の値（"0"→"true"/"false"）を input・index.rst 両方で修正・プッシュ済み（18c4a10）
 Next: #15（セッション全体の成果物を Acceptance criteria に照らしてユーザーに提示）
 Notes: #14 までのタスクはすべてチェック済み。残るは #15 のユーザーサインオフのみ。
 
