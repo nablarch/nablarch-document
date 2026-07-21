@@ -436,7 +436,7 @@ testShots
    * - カラム名
      - 説明
    * - ``isValidToken``
-     - CSRF トークン制御フラグ（ ``1``: あり、 ``0``: なし）
+     - CSRF トークン制御フラグ。 ``true`` を指定したときのみトークンを設定する。それ以外（ ``false`` ・空欄・ ``1`` など）はトークンなし（ ``Boolean.parseBoolean`` で評価）
    * - ``forwardUri``
      - 期待するフォワード先 URI
    * - ``context``
@@ -514,8 +514,8 @@ Excelの場合
 
     LIST_MAP=testShots
     | no | description | isValidToken | expectedStatusCode | forwardUri | context    |
-    | 1  | 正常ケース  | 0            | 200                | /success   | context001 |
-    | 2  | 認証エラー  | 0            | 400                | /error     | context002 |
+    | 1  | 正常ケース  | true         | 200                | /success   | context001 |
+    | 2  | 認証エラー  | false        | 400                | /error     | context002 |
 
     LIST_MAP=context001
     | REQUEST_ID | USER_ID | HTTP_METHOD |
@@ -531,13 +531,13 @@ YAMLの場合
         rows:
           - no: "1"
             description: "正常ケース"
-            isValidToken: "0"
+            isValidToken: "true"
             expectedStatusCode: "200"
             forwardUri: "/success"
             context: "context001"
           - no: "2"
             description: "認証エラー"
-            isValidToken: "0"
+            isValidToken: "false"
             expectedStatusCode: "400"
             forwardUri: "/error"
             context: "context002"
