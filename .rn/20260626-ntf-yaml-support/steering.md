@@ -358,9 +358,9 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
   Status: active | paused | complete
 -->
 
-Status: paused
-Date: 2026-07-21
-Last completed: ad-hoc fix — isValidToken の説明（Boolean.parseBoolean 実装に合わせた正しい仕様）と例の値（"0"→"true"/"false"）を input・index.rst 両方で修正・プッシュ済み（18c4a10）
-Next: #15（セッション全体の成果物を Acceptance criteria に照らしてユーザーに提示）
-Notes: #14 までのタスクはすべてチェック済み。残るは #15 のユーザーサインオフのみ。
+Status: active
+Date: 2026-07-23
+Last completed: #14 — HTML出力と設計書の構成一致確認済み
+Next: #15（Acceptance criteria 照合・ユーザーサインオフ）
+Notes: #1–#14 完了済み。
 
