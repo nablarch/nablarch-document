@@ -377,7 +377,7 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 - [ ] 既知の逸脱5件（G1-01〜G1-05）がすべて検出されているか照合する
 - [ ] self-check（Completion criteria ごとに OK/NG を `checks/review-t2.md` に記録）
 - [ ] commit & push
-- [ ] **user review** — ゲート①の合否判定を受ける。合格承認を受けるまで #17 に進まない
+- [x] **user review** — ゲート①の合否判定を受ける。合格承認を受けるまで #17 に進まない
 
 **既知の逸脱（全件検出必須）**:
 - G1-01: `01_Abstract.rst` L195-579 — テストデータ記法385行が A-1 に残存し B-1 と二重掲載
