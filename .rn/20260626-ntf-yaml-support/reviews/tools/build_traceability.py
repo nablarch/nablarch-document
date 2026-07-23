@@ -23,6 +23,66 @@ import re
 import subprocess
 from collections import Counter
 
+# ─── 照合パターン最小長 ──────────────────────────────────────────────────────────
+MIN_PATTERN_LEN = 4  # 4文字未満のパターンは照合キーとして使わない
+
+
+def is_valid_pattern(text: str) -> bool:
+    """照合キーとして使用可能かチェック"""
+    t = text.strip()
+    return len(t) >= MIN_PATTERN_LEN
+
+
+# ─── RST 見出し照合ヘルパー ───────────────────────────────────────────────────────
+
+RST_UNDERLINE_CHARS = set('=-~^"\' `+#<>*')
+
+
+def is_heading_line(lines: list, idx: int) -> bool:
+    """lines[idx] が見出し行かどうか（次行がアンダーライン文字のみ）
+    lines は 0-indexed のリストを前提とする。
+    """
+    if idx + 1 >= len(lines):
+        return False
+    next_line = lines[idx + 1].rstrip()
+    if not next_line:
+        return False
+    return (len(set(next_line) - RST_UNDERLINE_CHARS) == 0 and len(next_line) >= 2)
+
+
+def search_heading_in_rst(title: str, file_lines: list) -> int | None:
+    """
+    RST ファイル内で title と完全一致する見出し行を探す。
+    見出し行の条件: 行テキストが title と完全一致し、次行がアンダーライン文字のみ。
+    file_lines は 1-indexed ([0] が空、[1] が1行目）を前提とする。
+    Returns: 1-indexed 行番号（見つからなければ None）
+    """
+    title = title.strip()
+    if not is_valid_pattern(title):
+        return None
+    # file_lines は 1-indexed なので index 1 から走査
+    for i in range(1, len(file_lines)):
+        if file_lines[i].strip() == title and is_heading_line(file_lines, i):
+            return i  # 1-indexed
+    return None
+
+
+def search_md_heading(title: str, file_lines: list) -> int | None:
+    """
+    Markdown ファイル内で title と完全一致する見出し行を探す。
+    file_lines は 1-indexed ([0] が空）を前提とする。
+    Returns: 1-indexed 行番号（見つからなければ None）
+    """
+    title = title.strip()
+    if not is_valid_pattern(title):
+        return None
+    for i in range(1, len(file_lines)):
+        line = file_lines[i]
+        stripped = line.lstrip('#').strip()
+        if stripped == title and line.startswith('#'):
+            return i
+    return None
+
 # ─── パス定義 ───────────────────────────────────────────────────────────────
 SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
 REVIEWS_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))
@@ -235,29 +295,44 @@ def make_search_pattern(row: dict) -> tuple[str | None, str]:
     """
     Returns: (pattern_str | None, method_note)
     pattern_str は str.find() で使う固定文字列
+
+    heading の場合は None を返し、呼び出し側で専用の見出し照合関数を使う。
     """
     kind = row["kind"]
     title = row.get("title", "").strip()
     detail = row.get("detail", "").strip()
 
     if kind == "heading":
-        if title:
-            return title, f"heading タイトル全文: {title[:60]}"
-        return None, "heading title が空"
+        if not title:
+            return None, "heading title が空"
+        if not is_valid_pattern(title):
+            return None, f"heading title が短すぎる（{len(title)}文字）: {title}"
+        # heading は専用照合（RST見出し行全体一致）を使うため None を返す
+        return None, f"heading 専用照合: {title[:60]}"
 
     elif kind in ("para", "admonition"):
         text = (detail or title).strip()
         if not text:
             return None, "para/admonition content が空"
         snip = _trim_to_single_line(text, max_len=40)
+        if not is_valid_pattern(snip):
+            return None, f"para/admonition content が短すぎる（{len(snip)}文字）"
         return snip, f"para/admonition 冒頭（句点区切り）: {snip[:40]}"
 
     elif kind == "code":
-        for line in detail.splitlines():
-            s = line.strip()
-            if s and len(s) > 3:
-                return s[:50], f"code 冒頭行: {s[:50]}"
-        return None, "code content が空"
+        # detail の形式: "{lang}\n{body_line1}\n{body_line2}\n..."
+        # 言語指定行（1行目）を除いた本体で照合する
+        parts = detail.split('\n')
+        # 言語指定を除いた本体行を取得
+        body_lines = [p for p in parts[1:] if p.strip()]
+        if not body_lines:
+            return None, "code 本体が空（言語指定のみ）"
+        # 最初の有効な行を照合キーとして使う
+        for bl in body_lines:
+            s = bl.strip()
+            if is_valid_pattern(s):
+                return s[:50], f"code 本体冒頭行: {s[:50]}"
+        return None, "code 本体の有効な行が短すぎる"
 
     elif kind == "table":
         text = (title or detail).strip()
@@ -280,6 +355,19 @@ def make_search_pattern(row: dict) -> tuple[str | None, str]:
         return None, "toctree は照合対象外"
 
     return None, f"kind={kind} 照合パターン未定義"
+
+
+def make_heading_title(row: dict) -> str | None:
+    """
+    heading 行から title を取り出す。
+    is_valid_pattern を満たさない場合は None。
+    """
+    if row.get("kind") != "heading":
+        return None
+    title = row.get("title", "").strip()
+    if not title or not is_valid_pattern(title):
+        return None
+    return title
 
 
 def search_in_text(pattern: str, text_lines: list[str], use_fallback: bool = False) -> tuple[bool, int]:
@@ -332,6 +420,38 @@ def search_in_dir(pattern: str, dir_repo_rel: str) -> tuple[bool, str, int]:
     except Exception:
         pass
     return False, "", 0
+
+
+def search_heading_in_file_or_dir(title: str, dest_repo_rel: str) -> tuple[bool, str, int]:
+    """
+    heading 専用照合: RST見出し（行全体一致 + 次行アンダーライン）で検索する。
+    dest_repo_rel がディレクトリの場合は全 RST ファイルを走査。
+    Returns: (found, actual_file_repo_rel, actual_line_no)
+    """
+    if not title or not is_valid_pattern(title):
+        return False, "", 0
+
+    if dest_repo_rel.endswith("/"):
+        full_dir = os.path.join(REPO_ROOT, dest_repo_rel)
+        if not os.path.isdir(full_dir):
+            return False, "", 0
+        for dirpath, _dirs, files in os.walk(full_dir):
+            for fname in sorted(files):
+                if not fname.endswith(".rst"):
+                    continue
+                abs_path = os.path.join(dirpath, fname)
+                rel = os.path.relpath(abs_path, REPO_ROOT)
+                lines = get_after_lines(rel)
+                lineno = search_heading_in_rst(title, lines)
+                if lineno is not None:
+                    return True, rel, lineno
+        return False, "", 0
+    else:
+        lines = get_after_lines(dest_repo_rel)
+        lineno = search_heading_in_rst(title, lines)
+        if lineno is not None:
+            return True, dest_repo_rel, lineno
+        return False, "", 0
 
 
 def search_in_file_or_dir(pattern: str, dest_repo_rel: str) -> tuple[bool, str, int]:
@@ -405,7 +525,14 @@ def process_before_row(i: int, row: dict) -> dict:
         pattern, method = make_search_pattern(row)
         src_still_exists = False
         src_after_lineno = 0
-        if pattern and src_after_lines:
+        if kind == "heading":
+            heading_title = make_heading_title(row)
+            if heading_title and src_after_lines:
+                found_lineno = search_heading_in_rst(heading_title, src_after_lines)
+                if found_lineno is not None:
+                    src_still_exists = True
+                    src_after_lineno = found_lineno
+        elif pattern and src_after_lines:
             src_still_exists, src_after_lineno = search_in_text(pattern, src_after_lines)
 
         if not src_still_exists:
@@ -429,8 +556,14 @@ def process_before_row(i: int, row: dict) -> dict:
             # src テキストが after にも残存、かつ B-1 が新規作成済み → DUPLICATED
             actual_file_val = dest_path
             actual_line_val = ""
-            # B-1 に同テキストが存在するか追加確認（フォールバック有効）
-            if pattern:
+            # B-1 に同テキストが存在するか追加確認
+            if kind == "heading":
+                heading_title = make_heading_title(row)
+                if heading_title:
+                    b1_found, _, b1_lineno = search_heading_in_file_or_dir(heading_title, dest_path)
+                    if b1_found:
+                        actual_line_val = str(b1_lineno)
+            elif pattern:
                 b1_found, b1_lineno = search_in_text(pattern, get_after_lines(dest_path), use_fallback=True)
                 if b1_found:
                     actual_line_val = str(b1_lineno)
@@ -466,16 +599,28 @@ def process_before_row(i: int, row: dict) -> dict:
     src_still_exists = False
     src_after_lineno = 0
 
-    if pattern and src_after_lines:
-        src_still_exists, src_after_lineno = search_in_text(pattern, src_after_lines)
+    if kind == "heading":
+        # heading は RST 見出し専用照合を使う（src ファイル内で見出し行として検索）
+        heading_title = make_heading_title(row)
+        if heading_title and src_after_lines:
+            found_lineno = search_heading_in_rst(heading_title, src_after_lines)
+            if found_lineno is not None:
+                src_still_exists = True
+                src_after_lineno = found_lineno
+        # heading は近似照合なし
+        src_approx_exists = src_still_exists
+        src_approx_lineno = src_after_lineno
+    else:
+        if pattern and src_after_lines:
+            src_still_exists, src_after_lineno = search_in_text(pattern, src_after_lines)
 
-    # Step 1b: 近似照合（10文字短縮）で再確認 — テキストが行移動しただけの場合を救う
-    # ※ pattern が None の場合や短い場合は近似照合しない（誤検知防止）
-    src_approx_exists = src_still_exists
-    src_approx_lineno = src_after_lineno
-    if not src_still_exists and pattern and len(pattern) >= 10:
-        short_pat = pattern[:10]
-        src_approx_exists, src_approx_lineno = search_in_text(short_pat, src_after_lines)
+        # Step 1b: 近似照合（10文字短縮）で再確認 — テキストが行移動しただけの場合を救う
+        # ※ pattern が None の場合や短い場合は近似照合しない（誤検知防止）
+        src_approx_exists = src_still_exists
+        src_approx_lineno = src_after_lineno
+        if not src_still_exists and pattern and len(pattern) >= 10:
+            short_pat = pattern[:10]
+            src_approx_exists, src_approx_lineno = search_in_text(short_pat, src_after_lines)
 
     # Step 2: src の同行番号を調べてテキスト変更があるか確認
     # MODIFIED とするのは: 厳密照合も近似照合も失敗 かつ 同行番号の内容が変化
@@ -522,7 +667,13 @@ def process_before_row(i: int, row: dict) -> dict:
         dest_found = False
         dest_actual_file = ""
         dest_actual_line = 0
-        if pattern and dest_path:
+        if kind == "heading":
+            heading_title = make_heading_title(row)
+            if heading_title and dest_path:
+                dest_found, dest_actual_file, dest_actual_line = search_heading_in_file_or_dir(
+                    heading_title, dest_path
+                )
+        elif pattern and dest_path:
             dest_found, dest_actual_file, dest_actual_line = search_in_file_or_dir(
                 pattern, dest_path
             )
@@ -590,6 +741,40 @@ def process_input_row(i: int, row: dict) -> dict:
     # grep パターン生成
     pattern, method = make_search_pattern(row)
     note_parts = [f"照合方法: {method}"]
+
+    # heading の場合は RST 見出し専用照合を使う
+    if kind == "heading":
+        heading_title = make_heading_title(row)
+        if not heading_title:
+            return {
+                "item_id": f"I-{i+1:04d}",
+                "src_file": src_file, "src_line": str(src_line),
+                "kind": kind, "heading_path": path, "content": content,
+                "design_dest": dest_key, "actual_file": "", "actual_line": "",
+                "verdict": "MISSING",
+                "note": "; ".join(note_parts) + "; heading title が空または短すぎる",
+            }
+        dest_found, dest_actual_file, dest_actual_line = search_heading_in_file_or_dir(
+            heading_title, dest_path
+        )
+        if dest_found:
+            verdict = "MOVED"
+            actual_file = dest_actual_file
+            actual_line = str(dest_actual_line)
+            note_parts.append(f"dest {dest_actual_file} L{dest_actual_line} にヒット（RST見出し照合）")
+        else:
+            verdict = "MISSING"
+            actual_file = ""
+            actual_line = ""
+            note_parts.append(f"照合失敗（RST見出し): title={heading_title!r}")
+        return {
+            "item_id": f"I-{i+1:04d}",
+            "src_file": src_file, "src_line": str(src_line),
+            "kind": kind, "heading_path": path, "content": content,
+            "design_dest": dest_key, "actual_file": actual_file,
+            "actual_line": actual_line, "verdict": verdict,
+            "note": "; ".join(note_parts),
+        }
 
     if not pattern:
         return {
