@@ -4,39 +4,62 @@
 
 | 判定 | 件数 |
 |---|---|
-| MOVED | 0 |
-| MISSING | 234 |
+| MOVED | 109 |
+| MISSING | 238 |
 | DUPLICATED | 80 |
-| KEPT | 2591 |
+| KEPT | 2470 |
+| MODIFIED | 8 |
 | 合計 | 2905 |
-
-### 判定根拠の補足
-
-- **MOVED=0**: before 側の全47ファイルは after にも残存している（ファイル削除なし）。before 項目は out典ファイルに維持されているため KEPT または DUPLICATED となる。
-- **KEPT=2591**: before 全2574件のうち2494件は出典ファイルそのままに存在。input 側の97件（ntf-doc-terms.md・ntf-testdata-loading.md・testdata-converter-design.md）は解説書への移送対象外。
-- **DUPLICATED=80**: `01_Abstract.rst` L197-567 のテストデータ記述内容（Excelによるテストデータ記述・命名規約・シート内の構造等）が A-1 に残存しつつ、B-1（`testdata/index.rst`）が同一主題で新規作成済みのため二重掲載（G1-01）。
-- **MISSING=234**: input ファイル7本（ntf-testdata-doc.md 73件、ntf-testdata-doc-examples-*.md 計161件）が対応する after ファイル（B-1/B-2）に exact grep で見つからない。B-1/B-2 作成時に見出しを RST スタイルに改題しているため exact match が成立しない（概念的移送は完了と推定されるが機械的に照合不能）。
 
 ---
 
 ## DUPLICATED 一覧
 
-### DUP-001: `01_Abstract.rst` L197-567 — テストデータ記述内容がA-1とB-1に二重掲載（G1-01）
+### DUP-001: `01_Abstract.rst` L195-579 — テストデータ記述内容が A-1 と B-1 に二重掲載（G1-01）
 
-- **src**: `ja/.../06_TestFWGuide/01_Abstract.rst` L197-567（80件）
-- **also_in**: `ja/.../06_TestFWGuide/testdata/index.rst`（B-1、新規作成済み）
-- **重複する節**:
-  - `Excelによるテストデータ記述` (L197)
-  - `命名規約` (L204)
-  - `パス、ファイル名に関する規約` (L210)
-  - `Excelシート名に関する規約` (L232)
-  - `シート内の構造` (L257)
-  - `コメント` (L327)
-  - `マーカーカラム` (L349)
-  - `セルの書式` (L392)
-  - `日付の記述方法` (L404)
-  - `セルへの特殊な記述方法` (L447)
-- **対処案**: design.md マッピング#2 の方針に従い、`01_Abstract.rst` の L197-567 セクション全体（`.. _how_to_write_excel:` ラベルから「セルへの特殊な記述方法」末尾まで）を削除し、`:ref:\`ntf_testdata\`` への誘導文に置き換える。ラベル `how_to_write_excel` は B-1 の対応節（`ntf_testdata_basic_structure` 等）へのエイリアスとして残す。
+- **src**: `ja/.../06_TestFWGuide/01_Abstract.rst` L195-579（80件）
+- **照合方法**: after の `01_Abstract.rst` にテキスト残存確認 + B-1（`testdata/index.rst`）ファイル存在確認
+- **照合結果**: after の `01_Abstract.rst` に L197-567 のテキストが残存している。かつ `testdata/index.rst`（B-1）が新規作成済みである（`os.path.exists` 実測）。
+- **重複する節（代表）**:
+  - L197 — `Excelによるテストデータ記述`
+  - L204 — `命名規約`
+  - L210 — `パス、ファイル名に関する規約`
+  - L232 — `Excelシート名に関する規約`
+  - L257 — `シート内の構造`
+  - L327 — `コメント`
+  - L349 — `マーカーカラム`
+  - L392 — `セルの書式`
+  - L404 — `日付の記述方法`
+  - L447 — `セルへの特殊な記述方法`
+- **対処案**: `01_Abstract.rst` の L197-567 セクション全体（`.. _how_to_write_excel:` ラベルから「セルへの特殊な記述方法」節末尾まで）を削除し、B-1（`testdata/index.rst`）への誘導文（`:ref:\`ntf_testdata\`` 参照）に置き換える。ラベル `how_to_write_excel` は B-1 の対応節へのエイリアスとして残す。
+
+---
+
+## MODIFIED 一覧
+
+### MOD-001: `02_RequestUnitTest/index.rst` L621 — 用語変更
+
+- **src**: `ja/.../05_UnitTestGuide/02_RequestUnitTest/index.rst` L621
+- **照合方法**: after の同行番号テキスト比較
+- **照合結果**: before=`* テストデータをExcelファイルから取得` → after=`* テストデータをテストデータファイルから取得`
+- **対処案**: YAML 対応に伴う用語統一変更。内容は正しく更新されているため対処不要。
+
+### MOD-002〜008: `03_Tips.rst` L77/146/390/441/663/788/819 — 用語変更・アンダーライン調整
+
+- **src**: `ja/.../06_TestFWGuide/03_Tips.rst`（7件）
+- **照合方法**: after の同行番号テキスト比較
+
+| item_id | 行番号 | kind | 変更内容（抜粋） |
+|---|---|---|---|
+| B-1808 | L77 | heading | アンダーライン長変更（`=` 19→26文字） |
+| B-1819 | L146 | heading | アンダーライン長変更（`=` 19→26文字） |
+| B-1878 | L390 | heading | アンダーライン長変更（`=` 19→26文字） |
+| B-1892 | L441 | para | `Excelファイルに設定する値` → `テストデータファイルに設定する値` |
+| B-1932 | L663 | heading | アンダーライン長変更（`=` 24→26文字） |
+| B-1966 | L788 | para | `テストデータ用のExcelに記述されたデータ` → `テストデータファイルに記述されたデータ` |
+| B-1975 | L819 | heading | アンダーライン長変更（`=` 20→26文字） |
+
+- **対処案**: YAML 対応に伴う用語統一変更およびアンダーライン修正。内容は正しく更新されているため対処不要。
 
 ---
 
@@ -44,39 +67,47 @@
 
 ### MISSING 概要
 
-234件すべてが input ファイル由来。before ファイル由来の MISSING は0件。
+238件。before 由来 113件、input 由来 125件。
 
-| input ファイル | 件数 | dest | 照合結果 |
+#### before 由来（113件）
+
+| ファイル | 件数 | kind 内訳 | 主な原因 |
 |---|---|---|---|
-| `ntf-testdata-doc.md` | 73 | B-1 | 見出し改題のため grep 不可 |
-| `ntf-testdata-doc-examples-special.md` | 47 | B-2 | 同上 |
-| `ntf-testdata-doc-examples-file.md` | 32 | B-2 | 同上 |
-| `ntf-testdata-doc-examples-testshots.md` | 32 | B-2 | 同上 |
-| `ntf-testdata-doc-examples-messaging.md` | 21 | B-2 | 同上 |
-| `ntf-testdata-doc-examples-table.md` | 20 | B-2 | 同上 |
-| `ntf-testdata-doc-examples-overview.md` | 9 | B-2 | 同上 |
+| `JUnit5_Extension.rst` | 25 | code=20, para=5 | コードブロック内容が空（パターン生成不可）、`:depth:` ディレクティブは dest に存在せず |
+| `index.rst`（RequestUnitTest） | 11 | toctree=5, para=6 | toctree は照合対象外、一部 para は dest ディレクトリ内に存在せず |
+| `01_entityUnitTestWithBeanValidation.rst` | 9 | code=9 | コードブロック内容が空（パターン生成不可） |
+| `batch.rst` | 8 | code=8 | コードブロック内容が空（パターン生成不可） |
+| `03_Tips.rst` | 8 | code=7, para=1 | コードブロック内容が空（パターン生成不可）、用語変更済みの para |
+| `02_entityUnitTestWithNablarchValidation.rst` | 7 | code=7 | コードブロック内容が空（パターン生成不可） |
+| `02_RequestUnitTest.rst` | 6 | code=5, para=1 | コードブロック内容が空（パターン生成不可） |
+| `04_MasterDataRestore.rst` | 6 | code=6 | コードブロック内容が空（パターン生成不可） |
+| `02_componentUnitTest.rst` | 5 | code=5 | コードブロック内容が空（パターン生成不可） |
+| `RequestUnitTest_rest.rst` | 5 | code=5 | コードブロック内容が空（パターン生成不可） |
+| その他 | 19 | code=17, para=1, heading=1 | 同上または dest に存在せず |
 
-### MIS-001: `ntf-testdata-doc.md` → B-1 の照合失敗（73件）
+**照合失敗の主因**: `code` kind のほとんどはインベントリの `detail` 列が空（コードブロック先頭行が取得できていない）ため、パターン生成不可で MISSING と判定されている。コード内容は after ファイルに存在すると見られるが機械照合ではヒットしない。
 
-- **src**: `.rn/.../input/ntf-testdata-doc.md` L1-728（heading 50件・code 23件）
-- **design_dest**: B-1（`testdata/index.rst`）
-- **照合方法**: heading 全文 fixed-string grep、code 冒頭行 fixed-string grep
-- **照合失敗の原因**:
-  - input の見出しは `1. 全体像`・`3.1 識別の構成要素` 等の番号付き形式
-  - B-1 の見出しは `テストデータの全体像`・`識別の構成要素` 等に改題
-  - code ブロック（mermaid 図等）の内容は B-1 では RST の code-block に変換済み
-- **対処案**: ntf-testdata-doc.md は B-1 の主素材として使用済みであることを設計上確認済み（design.md 参照）。機械照合の失敗は移送完了の否定ではなく見出し改題による照合手法の限界。B-1 の各節が ntf-testdata-doc.md の対応章を網羅しているかは人手レビュー（目次対照）で確認すること。
+**対処案**: code kind で `detail` が空の項目（90件）については、インベントリ生成スクリプトの改修でコードブロック先頭行を取得できれば照合可能となる。現時点の MISSING 判定は「照合手法の限界」であり「コード内容が消失している」ことを示さない。残りの 23件（para/heading/toctree）は内容または移送先を人手確認すること。
 
-### MIS-002: `ntf-testdata-doc-examples-*.md` → B-2 の照合失敗（161件）
+#### input 由来（125件）
 
-- **src**: `.rn/.../input/ntf-testdata-doc-examples-{file,messaging,overview,special,table,testshots}.md`（合計161件）
-- **design_dest**: B-2（`testdata/examples.rst`）
-- **照合方法**: heading 全文 fixed-string grep、code 冒頭行 fixed-string grep
-- **照合失敗の原因**:
-  - input の見出しは `6.1 固定長ファイル`・`Excel`・`YAML` 等のフラット形式
-  - B-2 の見出しは `固定長ファイル（SETUP_FIXED / EXPECTED_FIXED）` 等に改題・統合
-  - code ブロックのキーワード（`yaml`・`mermaid`）は一般的すぎて対応付け不可
-- **対処案**: MIS-001 と同様に設計上使用済み。B-2 の各節と examples ファイルの対応を目次対照で確認すること。
+| ファイル | 件数 | design_dest | 照合結果 |
+|---|---|---|---|
+| `ntf-testdata-doc.md` | 65 | B-1 | 照合失敗 |
+| `ntf-testdata-doc-examples-special.md` | 21 | B-2 | 照合失敗 |
+| `ntf-testdata-doc-examples-testshots.md` | 11 | B-2 | 照合失敗 |
+| `ntf-testdata-doc-examples-messaging.md` | 9 | B-2 | 照合失敗 |
+| `ntf-testdata-doc-examples-file.md` | 8 | B-2 | 照合失敗 |
+| `ntf-testdata-doc-examples-table.md` | 8 | B-2 | 照合失敗 |
+| `ntf-testdata-doc-examples-overview.md` | 3 | B-2 | 照合失敗 |
+
+**照合失敗の原因**:
+
+- input の見出しは `1. 全体像`・`3.1 識別の構成要素` 等の番号付きフラット形式
+- B-1/B-2 の見出しは `テストデータの全体像`・`識別の構成要素` 等に改題されている
+- コードブロックのキーワード（`yaml`、`mermaid` など）は汎用的で対応付け不可
+
+**対処案**: input ファイル由来の MISSING は、B-1/B-2 の各節と input 資料の対応を目次対照（人手確認）で検証すること。
 
 ---
 
@@ -86,9 +117,8 @@ G1-01（`01_Abstract.rst` L195-579）は **DUPLICATED として80件検出**さ�
 
 - item_id: B-1423〜B-1502（`01_Abstract.rst` の L197-567 に対応する80項目）
 - 検出根拠:
-  1. after inventory において `01_Abstract.rst` に L197-567 が存在することを確認（ファイル削除なし）
+  1. after の `01_Abstract.rst` に L197-567 のテキストが残存していることを確認
   2. after ツリーに B-1（`testdata/index.rst`）が新規作成済みであることを確認（`os.path.exists` 実測）
-  3. design.md マッピング#2 に「テストデータ仕様は B-1 に集約」と宣言されているにもかかわらず A-1 に未削除のまま残存
 
 G1-01 が DUPLICATED として台帳に記録されたことを確認した。
 
@@ -96,13 +126,10 @@ G1-01 が DUPLICATED として台帳に記録されたことを確認した。
 
 ## 台帳精度に関する注記
 
-### grep 照合の限界
+### code kind の照合限界
 
-本台帳は exact fixed-string grep による機械照合に基づく。以下のケースは照合精度が低下する:
+インベントリの `code` kind 項目のうち `detail` 列が空の項目（90件）は、パターン生成不可のため MISSING と判定した。これはコードブロックの内容消失を意味しない。インベントリ生成スクリプトを改修してコードブロック先頭行を取得できれば、大半は KEPT に転じると見られる。
 
-1. **見出しの改題**: input ファイルの見出しが B-1/B-2 作成時に RST スタイルに改題されたため、input 由来の全234件が MISSING となった。これは「移送未実施」を意味しない。
-2. **概念的な重複**: 01_Abstract.rst L197-567 と B-1 の重複は見出しテキストが異なるが、同一主題を扱っている（テストデータ記述仕様）。この重複は exact match では検出できないため、設計情報（design.md の宣言）を根拠に DUPLICATED と判定した。
+### toctree の照合除外
 
-### before 側の照合精度
-
-before 全2574件のうちの DUPLICATED 80件以外（2494件）は KEPT と判定した。これは「すべての before ファイルが after にも存在する」という事実に基づく。after での行番号変化やテキスト修正（Excel→テストデータファイル等の用語修正）は KEPT として扱った。
+`toctree` kind（5件）は照合対象外とし MISSING とした。toctree エントリは after ファイルに存在する可能性があるが、本台帳の照合スコープ外とした。
