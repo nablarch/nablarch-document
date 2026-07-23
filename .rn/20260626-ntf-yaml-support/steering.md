@@ -336,15 +336,141 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 - HTML 出力の構成が design.md の新構成ツリーに完全一致している
 
-### #15: 評価サインオフ
+### #15: T1 — 抽出ツールの作成
 
-**Purpose**: セッション全体の成果物が Acceptance criteria を満たすことをユーザーに確認してもらう。
+**Purpose**: 全量インベントリを機械的に生成し、第三者が同じ結果を再現できるようにする。
 
 **Prerequisites**: #14
 
 **Steps**:
 
-- [x] Acceptance criteria の各項目を実際の成果物に照らして確認する
+- [ ] `reviews/tools/extract_rst.py` を作成する（引数: 入力ディレクトリ・出力CSVパス。出力列: `file,line,kind,depth,path,title,detail`）
+- [ ] `reviews/tools/extract_md.py` を作成する（input/ 配下の md 用。見出しとコードフェンスを抽出）
+- [ ] `reviews/tools/build_inventory.sh` を作成する（変更前・PR後・input の3系統を抽出。base は `git merge-base origin/develop HEAD`）
+- [ ] self-check（Completion criteria ごとに OK/NG を `checks/review-t1.md` に記録）
+- [ ] commit & push
+- [ ] **user review** — 承認を受けるまで #16 に進まない
+
+**Completion criteria**:
+
+- `bash reviews/tools/build_inventory.sh` を2回実行して同一のCSVが生成される（冪等）
+- 3本のCSVの行数が `checks/review-t1.md` の Evidence に記録されている
+- 抽出対象ファイル数が、対象ディレクトリの rst / md 実ファイル数と一致することが Evidence に記載されている
+
+**抽出対象範囲**:
+- `ja/development_tools/testing_framework/` 配下の全 .rst
+- `.rn/20260626-ntf-yaml-support/input/` 配下の全 .md
+
+---
+
+### #16: T2 — ゲート① 章構成レビュー
+
+**Purpose**: design.md の章構成が PR の目的に適合しているかを判定する。
+
+**Prerequisites**: #15
+
+**Steps**:
+
+- [ ] `.rn/20260626-ntf-yaml-support/reviews/gate1-structure.md` を作成する
+- [ ] A-1〜A-6・B-1〜B-6 の各章について、章ID / 章タイトル / 実ファイルパス / 想定読者 / 判定 / 根拠（file:line）の表を作成する
+- [ ] 逸脱項目の問題と対処案を記述する
+- [ ] 既知の逸脱5件（G1-01〜G1-05）がすべて検出されているか照合する
+- [ ] self-check（Completion criteria ごとに OK/NG を `checks/review-t2.md` に記録）
+- [ ] commit & push
+- [ ] **user review** — ゲート①の合否判定を受ける。合格承認を受けるまで #17 に進まない
+
+**既知の逸脱（全件検出必須）**:
+- G1-01: `01_Abstract.rst` L195-579 — テストデータ記法385行が A-1 に残存し B-1 と二重掲載
+- G1-02: `01_Abstract.rst` L613 — 「テストデータは全てExcelシートに記述する」が YAML 対応後と矛盾
+- G1-03: `02_DbAccessTest.rst` 等 — 使い方（B章相当）が A 章に残存
+- G1-04: `01_Abstract.rst` L665-704 — 「JUnit 5で自動テストフレームワークを動かす」が A-4 と重複
+- G1-05: A-3 と B-1 の導線なし
+
+**Completion criteria**:
+
+- `reviews/gate1-structure.md` に全章の読者判定表が存在し、各判定に file:line の根拠がある
+- 既知の逸脱5件がすべて表に含まれている
+- 総合判定（合格 / 条件付き合格 / 不合格）とその論拠が明記されている
+
+---
+
+### #17: T3 — ゲート② 突合台帳の作成
+
+**Purpose**: 変更前と input の全項目が新構成のどこに移送されたかを1項目ずつ追跡し、欠落と重複を検出する。
+
+**Prerequisites**: #16
+
+**Steps**:
+
+- [ ] `.rn/20260626-ntf-yaml-support/reviews/gate2-traceability.csv` を作成する（列: `item_id,src_file,src_line,kind,heading_path,content,design_dest,actual_file,actual_line,verdict,note`）
+- [ ] `verdict` は `MOVED` / `MISSING` / `DUPLICATED` / `KEPT` の4値のみ。空欄不可
+- [ ] `actual_file` / `actual_line` は grep による実測で求める。推測で埋めない
+- [ ] `.rn/20260626-ntf-yaml-support/reviews/gate2-findings.md` を作成し、`MISSING` と `DUPLICATED` を一覧化して対処案を付す
+- [ ] self-check（Completion criteria ごとに OK/NG を `checks/review-t3.md` に記録）
+- [ ] commit & push
+- [ ] **user review** — `MISSING` / `DUPLICATED` の内容と対処案のレビューを受ける。承認を受けるまで #18 に進まない
+
+**Completion criteria**:
+
+- `gate2-traceability.csv` の行数が `inventory-before.csv` と `inventory-input.csv` の合計行数と一致する
+- `verdict` が空欄の行が0件
+- `MISSING` / `DUPLICATED` の全件が `gate2-findings.md` に列挙され、それぞれに対処案がある
+- 既知の逸脱 G1-01（`01_Abstract.rst` の385行）が `DUPLICATED` として検出されている
+
+---
+
+### #18: T4 — ゲート③ 記述規約の抽出と逸脱検出
+
+**Purpose**: 新規追加ページ（B-1/B-2/A-3）が既存ページと同じ書きっぷりかを判定する。
+
+**Prerequisites**: #17
+
+**Steps**:
+
+- [ ] `.rn/20260626-ntf-yaml-support/reviews/gate3-conventions.md` を作成する（規約ID `C-01` 形式・根拠 file:line 2件以上）
+- [ ] `.rn/20260626-ntf-yaml-support/reviews/gate3-findings.csv` を作成する（列: `finding_id,file,line,rule_id,detected,expected,severity,fix_proposal`）
+- [ ] 検査対象6ファイル: `testdata/index.rst`・`testdata/examples.rst`・`testdata_format.rst`・`06_TestFWGuide/index.rst`・`05_UnitTestGuide/index.rst`・`03_Tips.rst`
+- [ ] self-check（Completion criteria ごとに OK/NG を `checks/review-t4.md` に記録）
+- [ ] commit & push
+- [ ] **user review** — 抽出した規約の妥当性と逸脱判定のレビューを受ける。承認を受けるまで #19 に進まない
+
+**Completion criteria**:
+
+- `gate3-conventions.md` の全規約に、既存ページからの根拠 file:line が2件以上ある
+- `gate3-findings.csv` の全行に `rule_id` が紐づいており、`gate3-conventions.md` に存在する規約IDである
+- 検査対象6ファイルすべてについて検査実施済みであることが Evidence に記載されている
+
+---
+
+### #19: T5 — README.md の作成
+
+**Purpose**: 第三者が同じ手順でレビューを再現・追検証できるようにする。
+
+**Prerequisites**: #18
+
+**Steps**:
+
+- [ ] `.rn/20260626-ntf-yaml-support/reviews/README.md` を作成する（3ゲートの定義・各成果物の意味・インベントリ再生成コマンド・verdict 4値の定義・判定サマリ・未対処事項一覧）
+- [ ] self-check（Completion criteria ごとに OK/NG を `checks/review-t5.md` に記録）
+- [ ] commit & push
+- [ ] **user review** — 最終確認
+
+**Completion criteria**:
+
+- README.md だけを読んだ第三者が、成果物の意味を理解し、インベントリを再生成できる
+- 判定サマリの件数が各成果物の実際の行数と一致している
+
+---
+
+### #20: 評価サインオフ
+
+**Purpose**: セッション全体の成果物（#1〜#14 の解説書変更 + #15〜#19 のレビュー基盤）が Acceptance criteria を満たすことをユーザーに確認してもらう。
+
+**Prerequisites**: #19
+
+**Steps**:
+
+- [ ] Acceptance criteria の各項目を実際の成果物に照らして確認する
 - [ ] セッション全体の結果をユーザーに提示し、`/rn:ty` または `/rn:gm` の verdict を受け取る
 
 **Completion criteria**:
