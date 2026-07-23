@@ -484,8 +484,8 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
   Status: active | paused | complete
 -->
 
-Status: paused
-Date: 2026-07-23
-Last completed: #17 (T3) — user review OK。gate2-traceability.csv (MOVED=29/MISSING=486/DUPLICATED=80/KEPT=2307/MODIFIED=3, 計2905行) 承認済み。
-Next: #18 (T4) — ゲート③ 記述規約の抽出と逸脱検出。gate3-conventions.md と gate3-findings.csv を作成する。
-Notes: （なし）
+Status: active
+<!--
+  Last completed: #17
+  Next: #18
+-->
