@@ -18,8 +18,8 @@
 ### DUP-001: `01_Abstract.rst` L195-579 — テストデータ記述内容が A-1 と B-1 に二重掲載（G1-01）
 
 - **src**: `ja/.../06_TestFWGuide/01_Abstract.rst` L195-579（80件）
-- **照合方法**: after の `01_Abstract.rst` にテキスト残存確認 + B-1（`testdata/index.rst`）ファイル存在確認
-- **照合結果**: after の `01_Abstract.rst` に L197-567 のテキストが残存している。かつ `testdata/index.rst`（B-1）が新規作成済みである（`os.path.exists` 実測）。
+- **照合方法**: after の `01_Abstract.rst` に before L197-567 のテキストが残存するか grep 実測
+- **照合結果**: after の `01_Abstract.rst` に L197-567 のテキストが残存している（grep 実測）。なお、B-1（`testdata/index.rst`）は新規執筆で文言が異なるため grep では行番号を特定できず（actual_line 空欄、note に照合パターン記録）。DUPLICATED の判定根拠は「src 側（A-1）に残存」かつ「design.md が B-1 集約を宣言しているにもかかわらず A-1 から未削除」である。
 - **重複する節（代表）**:
   - L197 — `Excelによるテストデータ記述`
   - L204 — `命名規約`
@@ -117,8 +117,9 @@ G1-01（`01_Abstract.rst` L195-579）は **DUPLICATED として80件検出**さ�
 
 - item_id: B-1423〜B-1502（`01_Abstract.rst` の L197-567 に対応する80項目）
 - 検出根拠:
-  1. after の `01_Abstract.rst` に L197-567 のテキストが残存していることを確認
-  2. after ツリーに B-1（`testdata/index.rst`）が新規作成済みであることを確認（`os.path.exists` 実測）
+  1. after の `01_Abstract.rst` に L197-567 のテキストが残存していることを grep で確認（src 残存あり）
+  2. design.md マッピング#2 が「テストデータ仕様は B-1 に集約」と宣言しているにもかかわらず、A-1 から未削除のため DUPLICATED と判定
+  3. B-1（`testdata/index.rst`）内での actual_line は grep 不一致（新規執筆で文言変更）のため空欄、note に照合パターンを記録
 
 G1-01 が DUPLICATED として台帳に記録されたことを確認した。
 
