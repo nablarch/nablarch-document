@@ -59,4 +59,3 @@ node_modules/
 
 # textlint
 .textlintcache
-package-lock.json
