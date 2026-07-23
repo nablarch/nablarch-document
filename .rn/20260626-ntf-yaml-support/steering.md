@@ -360,7 +360,7 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 Status: active
 Date: 2026-07-23
-Last completed: #14 — HTML出力と設計書の構成一致確認済み
+Last completed: ad-hoc fix — examples.rst の NULL クォート誤記（「文字列として格納される」）を NullInterpreter 実装に合わせて修正・プッシュ済み（aaf9236）
 Next: #15（Acceptance criteria 照合・ユーザーサインオフ）
 Notes: #1–#14 完了済み。
 
