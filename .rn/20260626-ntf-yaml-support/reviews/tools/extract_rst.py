@@ -305,12 +305,42 @@ def parse_rst_file(filepath: str, repo_root: str):
                 while j < n and not lines[j].strip():
                     j += 1
                 body_lines = []
+                body_start = j
                 while j < n and (lines[j].startswith("   ") or lines[j].startswith("\t")):
-                    body_lines.append(lines[j].strip())
+                    body_lines.append(lines[j])
                     j += 1
-                body = " ".join(body_lines)
+                body = " ".join(bl.strip() for bl in body_lines)
                 detail = body[:80]
                 add_record(i + 1, "admonition", 0, path_str, directive_name, detail)
+                # アドモニション本文内のネストされた code-block を抽出する
+                k = 0
+                body_n = len(body_lines)
+                while k < body_n:
+                    bl = body_lines[k]
+                    nested_match = re.match(r'^(\s*)\.\.\s+(\S+)::(.*)', bl)
+                    if nested_match:
+                        nested_name = nested_match.group(2).lower().rstrip(":")
+                        nested_arg = nested_match.group(3).strip()
+                        if nested_name in ("code-block", "code", "sourcecode"):
+                            lang = nested_arg
+                            # オプション行をスキップ
+                            m = k + 1
+                            while m < body_n and re.match(r'^\s+:\w[\w-]*:', body_lines[m]):
+                                m += 1
+                            # 空行スキップ
+                            while m < body_n and not body_lines[m].strip():
+                                m += 1
+                            code_lines = []
+                            while m < body_n and (not body_lines[m].strip() or body_lines[m].startswith("    ") or body_lines[m].startswith("\t")):
+                                if body_lines[m].strip():
+                                    code_lines.append(body_lines[m].strip())
+                                m += 1
+                            nested_detail = "\n".join(code_lines[:3])
+                            # 実際の行番号 = body_start + k (0-indexed) → 1-indexed
+                            add_record(body_start + k + 1, "code", 0, path_str, lang, nested_detail)
+                            k = m
+                            continue
+                    k += 1
                 skip_until = j - 1
                 i = j
                 continue

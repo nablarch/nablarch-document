@@ -75,10 +75,12 @@ python3 "${TOOLS_DIR}/extract_md.py" \
 # ---------------------------------------------------------------------------
 count_rows() {
     local csv_file="$1"
-    # ヘッダー行を除く
-    local rows
-    rows="$(tail -n +2 "${csv_file}" | wc -l | tr -d ' ')"
-    echo "${rows}"
+    # Python の csv モジュールでレコード数をカウントする（改行を含むセルを正しく扱う）
+    python3 -c "
+import csv, sys
+with open(sys.argv[1], encoding='utf-8') as f:
+    print(sum(1 for _ in csv.reader(f)) - 1)  # ヘッダー行を除く
+" "${csv_file}"
 }
 
 BEFORE_ROWS="$(count_rows "${REVIEWS_DIR}/inventory-before.csv")"
