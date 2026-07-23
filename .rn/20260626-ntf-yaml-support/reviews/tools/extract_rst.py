@@ -345,6 +345,32 @@ def parse_rst_file(filepath: str, repo_root: str):
                 i = j
                 continue
 
+            # list-table / csv-table / table directive
+            if directive_name in ("list-table", "csv-table", "table"):
+                title = directive_arg  # ディレクティブ行末尾のタイトル文字列（なければ空文字）
+                directive_indent = len(indent)
+                # オプション行を収集
+                j = i + 1
+                option_parts = []
+                while j < n and re.match(r'^\s+:\w[\w-]*:', lines[j]):
+                    option_parts.append(lines[j].strip())
+                    j += 1
+                detail = ";".join(option_parts)
+                add_record(i + 1, "table", 0, path_str, title, detail)
+                # ディレクティブ本体（インデントされたブロック）をスキップ
+                while j < n:
+                    jline = lines[j]
+                    if not jline.strip():
+                        j += 1
+                        continue
+                    jind = len(jline) - len(jline.lstrip())
+                    if jind <= directive_indent:
+                        break
+                    j += 1
+                skip_until = j - 1
+                i = j
+                continue
+
             i += 1
             continue
 
