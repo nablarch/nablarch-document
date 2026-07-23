@@ -2753,28 +2753,28 @@ I-0055,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,73,
 I-0056,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,75,code,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.1 固定長ファイル > YAML,"yaml
 setup_files:
   - path: work/input.txt
-    type: fixed",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,544,MOVED,照合方法: code 本体冒頭行: setup_files:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L544 にヒット
+    type: fixed",B-2,,,MISSING,照合方法: code 本体冒頭行: setup_files:; 同一パターン('setup_files:')が移送先に7箇所存在するため一意特定不可
 I-0057,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,105,heading,NTF テストデータ解説書 — 記述例（ファイルデータ）,,B-2,,,MISSING,照合方法: heading 専用照合: 6.2 エンコーディング指定付き固定長ファイル; 照合失敗（RST見出し): title='6.2 エンコーディング指定付き固定長ファイル'
 I-0058,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,109,heading,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.2 エンコーディング指定付き固定長ファイル,,B-2,,,MISSING,照合方法: heading 専用照合: Excel; 照合失敗（RST見出し): title='Excel'
 I-0059,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,122,heading,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.2 エンコーディング指定付き固定長ファイル,,B-2,,,MISSING,照合方法: heading 専用照合: YAML; 照合失敗（RST見出し): title='YAML'
 I-0060,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,124,code,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.2 エンコーディング指定付き固定長ファイル > YAML,"yaml
 setup_files:
   - path: input/data.dat
-    type: fixed",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,544,MOVED,照合方法: code 本体冒頭行: setup_files:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L544 にヒット
+    type: fixed",B-2,,,MISSING,照合方法: code 本体冒頭行: setup_files:; 同一パターン('setup_files:')が移送先に7箇所存在するため一意特定不可
 I-0061,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,145,heading,NTF テストデータ解説書 — 記述例（ファイルデータ）,,B-2,,,MISSING,照合方法: heading 専用照合: 6.3 groupId 付き固定長ファイル; 照合失敗（RST見出し): title='6.3 groupId 付き固定長ファイル'
 I-0062,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,149,heading,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.3 groupId 付き固定長ファイル,,B-2,,,MISSING,照合方法: heading 専用照合: Excel; 照合失敗（RST見出し): title='Excel'
 I-0063,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,167,heading,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.3 groupId 付き固定長ファイル,,B-2,,,MISSING,照合方法: heading 専用照合: YAML; 照合失敗（RST見出し): title='YAML'
 I-0064,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,169,code,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.3 groupId 付き固定長ファイル > YAML,"yaml
 setup_files:
   - path: work/input.txt
-    type: fixed",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,544,MOVED,照合方法: code 本体冒頭行: setup_files:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L544 にヒット
+    type: fixed",B-2,,,MISSING,照合方法: code 本体冒頭行: setup_files:; 同一パターン('setup_files:')が移送先に7箇所存在するため一意特定不可
 I-0065,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,199,heading,NTF テストデータ解説書 — 記述例（ファイルデータ）,,B-2,,,MISSING,照合方法: heading 専用照合: 6.4 可変長ファイル; 照合失敗（RST見出し): title='6.4 可変長ファイル'
 I-0066,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,203,heading,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル,,B-2,,,MISSING,照合方法: heading 専用照合: Excel; 照合失敗（RST見出し): title='Excel'
 I-0067,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,213,heading,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル,,B-2,,,MISSING,照合方法: heading 専用照合: YAML; 照合失敗（RST見出し): title='YAML'
 I-0068,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,215,code,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル > YAML,"yaml
 setup_files:
   - path: input/data.csv
-    type: variable",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,544,MOVED,照合方法: code 本体冒頭行: setup_files:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L544 にヒット
+    type: variable",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,630,MOVED,照合方法: code 本体冒頭行: setup_files:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L630 にヒット（一意照合）
 I-0069,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,234,heading,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル > YAML,,B-2,,,MISSING,照合方法: heading 専用照合: クォート付きフィールド（カンマを含む値）の扱い; 照合失敗（RST見出し): title='クォート付きフィールド（カンマを含む値）の扱い'
 I-0070,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,240,code,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル > YAML > クォート付きフィールド（カンマを含む値）の扱い,"number of input fields was invalid. number of fields must be [N], but number of input fields was [M].",B-2,,,MISSING,照合方法: code 本体が空（言語指定のみ）; 照合パターンなし
 I-0071,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,246,heading,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル,,B-2,,,MISSING,照合方法: heading 専用照合: Excel; 照合失敗（RST見出し): title='Excel'
@@ -2782,21 +2782,21 @@ I-0072,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,256
 I-0073,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,258,code,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル > YAML,"yaml
 expected_files:
   - path: output/data.csv
-    type: variable",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,557,MOVED,照合方法: code 本体冒頭行: expected_files:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L557 にヒット
+    type: variable",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,675,MOVED,照合方法: code 本体冒頭行: expected_files:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L675 にヒット（一意照合）
 I-0074,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,284,heading,NTF テストデータ解説書 — 記述例（ファイルデータ）,,B-2,,,MISSING,照合方法: heading 専用照合: 6.5 複数レコードレイアウト; 照合失敗（RST見出し): title='6.5 複数レコードレイアウト'
 I-0075,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,288,heading,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.5 複数レコードレイアウト,,B-2,,,MISSING,照合方法: heading 専用照合: Excel; 照合失敗（RST見出し): title='Excel'
 I-0076,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,303,heading,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.5 複数レコードレイアウト,,B-2,,,MISSING,照合方法: heading 専用照合: YAML; 照合失敗（RST見出し): title='YAML'
 I-0077,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,305,code,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.5 複数レコードレイアウト > YAML,"yaml
 setup_files:
   - path: input/multi.dat
-    type: fixed",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,544,MOVED,照合方法: code 本体冒頭行: setup_files:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L544 にヒット
+    type: fixed",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,764,MOVED,照合方法: code 本体冒頭行: setup_files:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L764 にヒット（一意照合）
 I-0078,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,331,heading,NTF テストデータ解説書 — 記述例（ファイルデータ）,,B-2,,,MISSING,照合方法: heading 専用照合: 6.6 空ファイル; 照合失敗（RST見出し): title='6.6 空ファイル'
 I-0079,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,335,heading,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.6 空ファイル,,B-2,,,MISSING,照合方法: heading 専用照合: Excel; 照合失敗（RST見出し): title='Excel'
 I-0080,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,343,heading,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.6 空ファイル,,B-2,,,MISSING,照合方法: heading 専用照合: YAML; 照合失敗（RST見出し): title='YAML'
 I-0081,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,345,code,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.6 空ファイル > YAML,"yaml
 setup_files:
   - path: input/empty.dat
-    type: fixed",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,544,MOVED,照合方法: code 本体冒頭行: setup_files:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L544 にヒット
+    type: fixed",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,800,MOVED,照合方法: code 本体冒頭行: setup_files:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L800 にヒット（一意照合）
 I-0082,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,1,heading,,,B-2,,,MISSING,照合方法: heading 専用照合: NTF テストデータ解説書 — 記述例（メッセージングテストデータ）; 照合失敗（RST見出し): title='NTF テストデータ解説書 — 記述例（メッセージングテストデータ）'
 I-0083,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,7,heading,NTF テストデータ解説書 — 記述例（メッセージングテストデータ）,,B-2,,,MISSING,照合方法: heading 専用照合: 7.1 MESSAGE セクション（メッセージ送受信）; 照合失敗（RST見出し): title='7.1 MESSAGE セクション（メッセージ送受信）'
 I-0084,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,11,heading,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.1 MESSAGE セクション（メッセージ送受信）,,B-2,,,MISSING,照合方法: heading 専用照合: Excel; 照合失敗（RST見出し): title='Excel'
@@ -2804,7 +2804,7 @@ I-0085,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.m
 I-0086,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,34,code,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.1 MESSAGE セクション（メッセージ送受信） > YAML,"yaml
 messages:
   - id: requestMessages
-    directives:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,847,MOVED,照合方法: code 本体冒頭行: messages:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L847 にヒット
+    directives:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,847,MOVED,照合方法: code 本体冒頭行: messages:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L847 にヒット（一意照合）
 I-0087,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,63,heading,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.1 MESSAGE セクション（メッセージ送受信）,,B-2,,,MISSING,照合方法: heading 専用照合: 制約・補足; 照合失敗（RST見出し): title='制約・補足'
 I-0088,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,72,heading,NTF テストデータ解説書 — 記述例（メッセージングテストデータ）,,B-2,,,MISSING,照合方法: heading 専用照合: 7.2 要求電文・応答電文の期待値（SendSync メッセージング）; 照合失敗（RST見出し): title='7.2 要求電文・応答電文の期待値（SendSync メッセージング）'
 I-0089,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,76,heading,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.2 要求電文・応答電文の期待値（SendSync メッセージング）,,B-2,,,MISSING,照合方法: heading 専用照合: Excel; 照合失敗（RST見出し): title='Excel'
@@ -2812,7 +2812,7 @@ I-0090,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.m
 I-0091,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,93,code,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.2 要求電文・応答電文の期待値（SendSync メッセージング） > YAML,"yaml
 list_maps:
   - id: testShots
-    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,56,MOVED,照合方法: code 本体冒頭行: list_maps:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L56 にヒット
+    rows:",B-2,,,MISSING,照合方法: code 本体冒頭行: list_maps:; 同一パターン('list_maps:')が移送先に9箇所存在するため一意特定不可
 I-0092,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,122,heading,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.2 要求電文・応答電文の期待値（SendSync メッセージング）,,B-2,,,MISSING,照合方法: heading 専用照合: 制約・補足; 照合失敗（RST見出し): title='制約・補足'
 I-0093,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,131,heading,NTF テストデータ解説書 — 記述例（メッセージングテストデータ）,,B-2,,,MISSING,照合方法: heading 専用照合: 7.3 sendSyncTestData の配置規則; 照合失敗（RST見出し): title='7.3 sendSyncTestData の配置規則'
 I-0094,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,135,heading,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.3 sendSyncTestData の配置規則,,B-2,,,MISSING,照合方法: heading 専用照合: Excel; 照合失敗（RST見出し): title='Excel'
@@ -2820,7 +2820,7 @@ I-0095,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.m
 I-0096,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,145,code,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.3 sendSyncTestData の配置規則 > YAML,"yaml
 messages:
   - id: sendSyncTestData/REQ001/message
-    records:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,847,MOVED,照合方法: code 本体冒頭行: messages:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L847 にヒット
+    records:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,929,MOVED,照合方法: code 本体冒頭行: messages:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L929 にヒット（一意照合）
 I-0097,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,160,heading,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.3 sendSyncTestData の配置規則,,B-2,,,MISSING,照合方法: heading 専用照合: 制約・補足; 照合失敗（RST見出し): title='制約・補足'
 I-0098,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,169,heading,NTF テストデータ解説書 — 記述例（メッセージングテストデータ）,,B-2,,,MISSING,照合方法: heading 専用照合: 7.4 ステータスコードのデフォルト値; 照合失敗（RST見出し): title='7.4 ステータスコードのデフォルト値'
 I-0099,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,173,heading,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.4 ステータスコードのデフォルト値,,B-2,,,MISSING,照合方法: heading 専用照合: Excel; 照合失敗（RST見出し): title='Excel'
@@ -2828,7 +2828,7 @@ I-0100,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.m
 I-0101,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,184,code,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.4 ステータスコードのデフォルト値 > YAML,"yaml
 response_body_messages:
   - id: REQ001
-    records:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,964,MOVED,照合方法: code 本体冒頭行: response_body_messages:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L964 にヒット
+    records:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,964,MOVED,照合方法: code 本体冒頭行: response_body_messages:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L964 にヒット（一意照合）
 I-0102,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,195,heading,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.4 ステータスコードのデフォルト値,,B-2,,,MISSING,照合方法: heading 専用照合: 制約・補足; 照合失敗（RST見出し): title='制約・補足'
 I-0103,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md,1,heading,,,B-2,,,MISSING,照合方法: heading 専用照合: NTF テストデータ解説書 — 記述例（概要・groupId）; 照合失敗（RST見出し): title='NTF テストデータ解説書 — 記述例（概要・groupId）'
 I-0104,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md,5,heading,NTF テストデータ解説書 — 記述例（概要・groupId）,,B-2,,,MISSING,照合方法: heading 専用照合: 1. NTF テストデータ; 照合失敗（RST見出し): title='1. NTF テストデータ'
@@ -2837,14 +2837,14 @@ I-0106,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md
 I-0107,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md,38,code,NTF テストデータ解説書 — 記述例（概要・groupId） > 1. NTF テストデータ > YAML,"yaml
 list_maps:
   - id: testShots
-    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,56,MOVED,照合方法: code 本体冒頭行: list_maps:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L56 にヒット
+    rows:",B-2,,,MISSING,照合方法: code 本体冒頭行: list_maps:; 同一パターン('list_maps:')が移送先に9箇所存在するため一意特定不可
 I-0108,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md,93,heading,NTF テストデータ解説書 — 記述例（概要・groupId）,,B-2,,,MISSING,照合方法: heading 専用照合: 4.3 セクションのグループ化（groupId）; 照合失敗（RST見出し): title='4.3 セクションのグループ化（groupId）'
 I-0109,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md,104,heading,NTF テストデータ解説書 — 記述例（概要・groupId） > 4.3 セクションのグループ化（groupId）,,B-2,,,MISSING,照合方法: heading 専用照合: Excel; 照合失敗（RST見出し): title='Excel'
 I-0110,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md,136,heading,NTF テストデータ解説書 — 記述例（概要・groupId） > 4.3 セクションのグループ化（groupId）,,B-2,,,MISSING,照合方法: heading 専用照合: YAML; 照合失敗（RST見出し): title='YAML'
 I-0111,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md,140,code,NTF テストデータ解説書 — 記述例（概要・groupId） > 4.3 セクションのグループ化（groupId） > YAML,"yaml
 list_maps:
   - id: testShots
-    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,56,MOVED,照合方法: code 本体冒頭行: list_maps:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L56 にヒット
+    rows:",B-2,,,MISSING,照合方法: code 本体冒頭行: list_maps:; 同一パターン('list_maps:')が移送先に9箇所存在するため一意特定不可
 I-0112,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,1,heading,,,B-2,,,MISSING,照合方法: heading 専用照合: NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ）; 照合失敗（RST見出し): title='NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ）'
 I-0113,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,7,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ）,,B-2,,,MISSING,照合方法: heading 専用照合: 8. 特殊値・インタープリタ; 照合失敗（RST見出し): title='8. 特殊値・インタープリタ'
 I-0114,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,9,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ,,B-2,,,MISSING,照合方法: heading 専用照合: 8.1 日付型・Timestamp・特殊値; 照合失敗（RST見出し): title='8.1 日付型・Timestamp・特殊値'
@@ -2853,7 +2853,7 @@ I-0116,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,
 I-0117,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,25,code,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.1 日付型・Timestamp・特殊値 > YAML,"yaml
 expected_tables:
   - table: SCHEDULE
-    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,87,MOVED,照合方法: code 本体冒頭行: expected_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L87 にヒット
+    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,1003,MOVED,照合方法: code 本体冒頭行: expected_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L1003 にヒット（一意照合）
 I-0118,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,47,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.1 日付型・Timestamp・特殊値,,B-2,,,MISSING,照合方法: heading title が短すぎる（2文字）: 制約; heading title が空または短すぎる
 I-0119,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,59,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ,,B-2,,,MISSING,照合方法: heading 専用照合: 8.2 QuotationTrimmer によるスペース値明示記法; 照合失敗（RST見出し): title='8.2 QuotationTrimmer によるスペース値明示記法'
 I-0120,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,63,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.2 QuotationTrimmer によるスペース値明示記法,,B-2,,,MISSING,照合方法: heading 専用照合: Excel; 照合失敗（RST見出し): title='Excel'
@@ -2861,7 +2861,7 @@ I-0121,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,
 I-0122,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,72,code,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.2 QuotationTrimmer によるスペース値明示記法 > YAML,"yaml
 expected_tables:
   - table: ITEM
-    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,87,MOVED,照合方法: code 本体冒頭行: expected_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L87 にヒット
+    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,1073,MOVED,照合方法: code 本体冒頭行: expected_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L1073 にヒット（一意照合）
 I-0123,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,81,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.2 QuotationTrimmer によるスペース値明示記法,,B-2,,,MISSING,照合方法: heading title が短すぎる（2文字）: 制約; heading title が空または短すぎる
 I-0124,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,88,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ,,B-2,,,MISSING,照合方法: heading 専用照合: 8.3 バイナリデータ; 照合失敗（RST見出し): title='8.3 バイナリデータ'
 I-0125,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,92,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.3 バイナリデータ,,B-2,,,MISSING,照合方法: heading 専用照合: Excel; 照合失敗（RST見出し): title='Excel'
@@ -2869,7 +2869,7 @@ I-0126,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,
 I-0127,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,102,code,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.3 バイナリデータ > YAML,"yaml
 setup_tables:
   - table: FILE_TABLE
-    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,77,MOVED,照合方法: code 本体冒頭行: setup_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L77 にヒット
+    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,1044,MOVED,照合方法: code 本体冒頭行: setup_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L1044 にヒット（一意照合）
 I-0128,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,112,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.3 バイナリデータ,,B-2,,,MISSING,照合方法: heading title が短すぎる（2文字）: 制約; heading title が空または短すぎる
 I-0129,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,121,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ）,,B-2,,,MISSING,照合方法: heading 専用照合: 9. ディレクティブ; 照合失敗（RST見出し): title='9. ディレクティブ'
 I-0130,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,123,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ,,B-2,,,MISSING,照合方法: heading 専用照合: 9.1 固定長ファイルのディレクティブ; 照合失敗（RST見出し): title='9.1 固定長ファイルのディレクティブ'
@@ -2878,7 +2878,7 @@ I-0132,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,
 I-0133,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,140,code,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ > 9.1 固定長ファイルのディレクティブ > YAML,"yaml
 setup_files:
   - path: input/data.dat
-    type: fixed",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,544,MOVED,照合方法: code 本体冒頭行: setup_files:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L544 にヒット
+    type: fixed",B-2,,,MISSING,照合方法: code 本体冒頭行: setup_files:; 同一パターン('setup_files:')が移送先に7箇所存在するため一意特定不可
 I-0134,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,156,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ > 9.1 固定長ファイルのディレクティブ,,B-2,,,MISSING,照合方法: heading title が短すぎる（2文字）: 制約; heading title が空または短すぎる
 I-0135,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,164,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ,,B-2,,,MISSING,照合方法: heading 専用照合: 9.2 可変長ファイルのディレクティブ; 照合失敗（RST見出し): title='9.2 可変長ファイルのディレクティブ'
 I-0136,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,168,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ > 9.2 可変長ファイルのディレクティブ,,B-2,,,MISSING,照合方法: heading 専用照合: Excel; 照合失敗（RST見出し): title='Excel'
@@ -2886,7 +2886,7 @@ I-0137,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,
 I-0138,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,180,code,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ > 9.2 可変長ファイルのディレクティブ > YAML,"yaml
 setup_files:
   - path: input/data.tsv
-    type: variable",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,544,MOVED,照合方法: code 本体冒頭行: setup_files:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L544 にヒット
+    type: variable",B-2,,,MISSING,照合方法: code 本体冒頭行: setup_files:; 照合失敗: pattern='setup_files:'
 I-0139,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,196,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ > 9.2 可変長ファイルのディレクティブ,,B-2,,,MISSING,照合方法: heading title が短すぎる（2文字）: 制約; heading title が空または短すぎる
 I-0140,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,206,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ）,,B-2,,,MISSING,照合方法: heading 専用照合: 10. ヘッダ・コメント・空エントリ; 照合失敗（RST見出し): title='10. ヘッダ・コメント・空エントリ'
 I-0141,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,208,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ,,B-2,,,MISSING,照合方法: heading 専用照合: 10.1 コメントとマーカーカラム; 照合失敗（RST見出し): title='10.1 コメントとマーカーカラム'
@@ -2895,7 +2895,7 @@ I-0143,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,
 I-0144,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,222,code,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ > 10.1 コメントとマーカーカラム > YAML,"yaml
 setup_tables:
   - table: TEST_TABLE
-    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,77,MOVED,照合方法: code 本体冒頭行: setup_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L77 にヒット
+    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,1103,MOVED,照合方法: code 本体冒頭行: setup_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L1103 にヒット（一意照合）
 I-0145,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,239,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ > 10.1 コメントとマーカーカラム,,B-2,,,MISSING,照合方法: heading title が短すぎる（2文字）: 制約; heading title が空または短すぎる
 I-0146,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,247,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ,,B-2,,,MISSING,照合方法: heading 専用照合: 10.2 空エントリのスキップ; 照合失敗（RST見出し): title='10.2 空エントリのスキップ'
 I-0147,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,251,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ > 10.2 空エントリのスキップ,,B-2,,,MISSING,照合方法: heading 専用照合: Excel; 照合失敗（RST見出し): title='Excel'
@@ -2903,7 +2903,7 @@ I-0148,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,
 I-0149,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,262,code,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ > 10.2 空エントリのスキップ > YAML,"yaml
 setup_tables:
   - table: USER
-    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,77,MOVED,照合方法: code 本体冒頭行: setup_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L77 にヒット
+    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,1142,MOVED,照合方法: code 本体冒頭行: setup_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L1142 にヒット（一意照合）
 I-0150,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,273,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ > 10.2 空エントリのスキップ,,B-2,,,MISSING,照合方法: heading title が短すぎる（2文字）: 制約; heading title が空または短すぎる
 I-0151,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,282,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ）,,B-2,,,MISSING,照合方法: heading 専用照合: 11. DB アサート; 照合失敗（RST見出し): title='11. DB アサート'
 I-0152,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,286,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 11. DB アサート,,B-2,,,MISSING,照合方法: heading 専用照合: 11.1 テーブルアサート（順序不問・主キー突合・全件列挙）; 照合失敗（RST見出し): title='11.1 テーブルアサート（順序不問・主キー突合・全件列挙）'
@@ -2912,13 +2912,13 @@ I-0154,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,
 I-0155,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,307,code,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 11. DB アサート > 11.1 テーブルアサート（順序不問・主キー突合・全件列挙） > YAML,"yaml
 expected_tables:
   - table: USER
-    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,87,MOVED,照合方法: code 本体冒頭行: expected_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L87 にヒット
+    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,1241,MOVED,照合方法: code 本体冒頭行: expected_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L1241 にヒット（一意照合）
 I-0156,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,317,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 11. DB アサート,,B-2,,,MISSING,照合方法: heading 専用照合: 11.2 EXPECTED_COMPLETE_TABLE（省略カラムにデフォルト値補完）; 照合失敗（RST見出し): title='11.2 EXPECTED_COMPLETE_TABLE（省略カラムにデフォルト値補完）'
 I-0157,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,321,heading,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 11. DB アサート > 11.2 EXPECTED_COMPLETE_TABLE（省略カラムにデフォルト値補完）,,B-2,,,MISSING,照合方法: heading 専用照合: YAML; 照合失敗（RST見出し): title='YAML'
 I-0158,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,323,code,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 11. DB アサート > 11.2 EXPECTED_COMPLETE_TABLE（省略カラムにデフォルト値補完） > YAML,"yaml
 expected_complete_tables:
   - table: USER
-    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,449,MOVED,照合方法: code 本体冒頭行: expected_complete_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L449 にヒット
+    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,1263,MOVED,照合方法: code 本体冒頭行: expected_complete_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L1263 にヒット（一意照合）
 I-0159,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,1,heading,,,B-2,,,MISSING,照合方法: heading 専用照合: NTF テストデータ解説書 — 記述例（テーブルデータ）; 照合失敗（RST見出し): title='NTF テストデータ解説書 — 記述例（テーブルデータ）'
 I-0160,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,7,heading,NTF テストデータ解説書 — 記述例（テーブルデータ）,,B-2,,,MISSING,照合方法: heading 専用照合: 5.1 テーブルデータの基本形式; 照合失敗（RST見出し): title='5.1 テーブルデータの基本形式'
 I-0161,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,11,heading,NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式,,B-2,,,MISSING,照合方法: heading 専用照合: SETUP_TABLE; 照合失敗（RST見出し): title='SETUP_TABLE'
@@ -2927,7 +2927,7 @@ I-0163,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,26
 I-0164,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,28,code,NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > SETUP_TABLE > YAML,"yaml
 setup_tables:
   - table: MEMBER
-    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,77,MOVED,照合方法: code 本体冒頭行: setup_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L77 にヒット
+    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,392,MOVED,照合方法: code 本体冒頭行: setup_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L392 にヒット（一意照合）
 I-0165,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,52,heading,NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > SETUP_TABLE,,B-2,,,MISSING,照合方法: heading title が短すぎる（2文字）: 制約; heading title が空または短すぎる
 I-0166,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,62,heading,NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式,,B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,412,MOVED,照合方法: heading 専用照合: EXPECTED_TABLE と EXPECTED_COMPLETE_TABLE; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L412 にヒット（RST見出し照合）
 I-0167,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,66,heading,NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > EXPECTED_TABLE と EXPECTED_COMPLETE_TABLE,,B-2,,,MISSING,照合方法: heading 専用照合: Excel; 照合失敗（RST見出し): title='Excel'
@@ -2935,7 +2935,7 @@ I-0168,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,80
 I-0169,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,82,code,NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > EXPECTED_TABLE と EXPECTED_COMPLETE_TABLE > YAML,"yaml
 expected_tables:
   - table: MEMBER
-    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,87,MOVED,照合方法: code 本体冒頭行: expected_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L87 にヒット
+    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,435,MOVED,照合方法: code 本体冒頭行: expected_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L435 にヒット（一意照合）
 I-0170,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,110,heading,NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > EXPECTED_TABLE と EXPECTED_COMPLETE_TABLE,,B-2,,,MISSING,照合方法: heading 専用照合: 省略カラムの扱い; 照合失敗（RST見出し): title='省略カラムの扱い'
 I-0171,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,117,heading,NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > EXPECTED_TABLE と EXPECTED_COMPLETE_TABLE,,B-2,,,MISSING,照合方法: heading title が短すぎる（2文字）: 制約; heading title が空または短すぎる
 I-0172,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,126,heading,NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式,,B-2,,,MISSING,照合方法: heading 専用照合: LIST_MAP; 照合失敗（RST見出し): title='LIST_MAP'
@@ -2945,7 +2945,7 @@ I-0175,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,14
 I-0176,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,150,code,NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > LIST_MAP > YAML,"yaml
 list_maps:
   - id: searchParams
-    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,56,MOVED,照合方法: code 本体冒頭行: list_maps:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L56 にヒット
+    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,485,MOVED,照合方法: code 本体冒頭行: list_maps:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L485 にヒット（一意照合）
 I-0177,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,174,heading,NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > LIST_MAP,,B-2,,,MISSING,照合方法: heading 専用照合: マーカーカラム; 照合失敗（RST見出し): title='マーカーカラム'
 I-0178,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,179,heading,NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > LIST_MAP,,B-2,,,MISSING,照合方法: heading title が短すぎる（2文字）: 制約; heading title が空または短すぎる
 I-0179,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,1,heading,,,B-2,,,MISSING,照合方法: heading 専用照合: NTF テストデータ解説書 — testShots カラム一覧; 照合失敗（RST見出し): title='NTF テストデータ解説書 — testShots カラム一覧'
@@ -2964,7 +2964,7 @@ I-0188,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.m
 I-0189,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,111,code,NTF テストデータ解説書 — testShots カラム一覧 > ウェブアプリケーション（HttpRequestTestSupport） > 記述例 > YAML,"yaml
 list_maps:
   - id: testShots
-    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,56,MOVED,照合方法: code 本体冒頭行: list_maps:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L56 にヒット
+    rows:",B-2,,,MISSING,照合方法: code 本体冒頭行: list_maps:; 同一パターン('list_maps:')が移送先に9箇所存在するため一意特定不可
 I-0190,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,138,heading,NTF テストデータ解説書 — testShots カラム一覧,,B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,259,MOVED,照合方法: heading 専用照合: バッチ処理（BatchRequestTestSupport）; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L259 にヒット（RST見出し照合）
 I-0191,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,140,heading,NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequestTestSupport）,,B-2,,,MISSING,照合方法: heading 専用照合: 必須カラム; 照合失敗（RST見出し): title='必須カラム'
 I-0192,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,150,heading,NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequestTestSupport）,,B-2,,,MISSING,照合方法: heading 専用照合: オプションカラム; 照合失敗（RST見出し): title='オプションカラム'
@@ -2974,7 +2974,7 @@ I-0195,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.m
 I-0196,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,175,code,NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequestTestSupport） > 記述例 > YAML,"yaml
 list_maps:
   - id: testShots
-    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,56,MOVED,照合方法: code 本体冒頭行: list_maps:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L56 にヒット
+    rows:",B-2,,,MISSING,照合方法: code 本体冒頭行: list_maps:; 同一パターン('list_maps:')が移送先に9箇所存在するため一意特定不可
 I-0197,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,199,heading,NTF テストデータ解説書 — testShots カラム一覧,,B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,301,MOVED,照合方法: heading 専用照合: メッセージング（MessagingRequestTestSupport）; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L301 にヒット（RST見出し照合）
 I-0198,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,201,heading,NTF テストデータ解説書 — testShots カラム一覧 > メッセージング（MessagingRequestTestSupport）,,B-2,,,MISSING,照合方法: heading 専用照合: 必須カラム; 照合失敗（RST見出し): title='必須カラム'
 I-0199,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,211,heading,NTF テストデータ解説書 — testShots カラム一覧 > メッセージング（MessagingRequestTestSupport）,,B-2,,,MISSING,照合方法: heading 専用照合: オプションカラム; 照合失敗（RST見出し): title='オプションカラム'
@@ -2984,7 +2984,7 @@ I-0202,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.m
 I-0203,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,233,code,NTF テストデータ解説書 — testShots カラム一覧 > メッセージング（MessagingRequestTestSupport） > 記述例 > YAML,"yaml
 list_maps:
   - id: testShots
-    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,56,MOVED,照合方法: code 本体冒頭行: list_maps:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L56 にヒット
+    rows:",B-2,,,MISSING,照合方法: code 本体冒頭行: list_maps:; 同一パターン('list_maps:')が移送先に9箇所存在するため一意特定不可
 I-0204,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,251,heading,NTF テストデータ解説書 — testShots カラム一覧,,B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,336,MOVED,照合方法: heading 専用照合: エンティティバリデーション（EntityTestSupport）; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L336 にヒット（RST見出し照合）
 I-0205,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,255,heading,NTF テストデータ解説書 — testShots カラム一覧 > エンティティバリデーション（EntityTestSupport）,,B-2,,,MISSING,照合方法: heading 専用照合: 必須カラム; 照合失敗（RST見出し): title='必須カラム'
 I-0206,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,263,heading,NTF テストデータ解説書 — testShots カラム一覧 > エンティティバリデーション（EntityTestSupport）,,B-2,,,MISSING,照合方法: heading 専用照合: 関連予約 ID; 照合失敗（RST見出し): title='関連予約 ID'
@@ -2994,7 +2994,7 @@ I-0209,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.m
 I-0210,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,280,code,NTF テストデータ解説書 — testShots カラム一覧 > エンティティバリデーション（EntityTestSupport） > 記述例 > YAML,"yaml
 list_maps:
   - id: testShots
-    rows:",B-2,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst,56,MOVED,照合方法: code 本体冒頭行: list_maps:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/examples.rst L56 にヒット
+    rows:",B-2,,,MISSING,照合方法: code 本体冒頭行: list_maps:; 同一パターン('list_maps:')が移送先に9箇所存在するため一意特定不可
 I-0211,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,1,heading,,,B-1,,,MISSING,照合方法: heading 専用照合: NTF テストデータ リファレンス; 照合失敗（RST見出し): title='NTF テストデータ リファレンス'
 I-0212,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,7,heading,NTF テストデータ リファレンス,,B-1,,,MISSING,照合方法: heading title が短すぎる（2文字）: 目次; heading title が空または短すぎる
 I-0213,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,22,heading,NTF テストデータ リファレンス,,B-1,,,MISSING,照合方法: heading 専用照合: 1. 全体像; 照合失敗（RST見出し): title='1. 全体像'
@@ -3005,14 +3005,14 @@ flowchart TD
 I-0215,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,49,heading,NTF テストデータ リファレンス,,B-1,,,MISSING,照合方法: heading 専用照合: 2. テストデータの基本構造; 照合失敗（RST見出し): title='2. テストデータの基本構造'
 I-0216,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,58,code,NTF テストデータ リファレンス > 2. テストデータの基本構造,"【Excel】                              【YAML】
 src/test/java/com/example/            src/test/java/com/example/
-  FooTest.xls                           FooTest/",B-1,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst,159,MOVED,照合方法: code 本体冒頭行: src/test/java/com/example/            src/test/jav; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst L159 にヒット
+  FooTest.xls                           FooTest/",B-1,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst,159,MOVED,照合方法: code 本体冒頭行: src/test/java/com/example/            src/test/jav; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst L159 にヒット（一意照合）
 I-0217,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,82,heading,NTF テストデータ リファレンス > 2. テストデータの基本構造,,B-1,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst,168,MOVED,照合方法: heading 専用照合: ファイルの読み込みルール; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst L168 にヒット（RST見出し照合）
 I-0218,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,92,heading,NTF テストデータ リファレンス,,B-1,,,MISSING,照合方法: heading 専用照合: 3. データブロック識別; 照合失敗（RST見出し): title='3. データブロック識別'
 I-0219,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,94,heading,NTF テストデータ リファレンス > 3. データブロック識別,,B-1,,,MISSING,照合方法: heading 専用照合: 3.1 識別の構成要素; 照合失敗（RST見出し): title='3.1 識別の構成要素'
 I-0220,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,119,code,NTF テストデータ リファレンス > 3. データブロック識別 > 3.1 識別の構成要素,"yaml
 setup_tables:
   - table: USER_MASTER
-    rows: ...",B-1,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst,109,MOVED,照合方法: code 本体冒頭行: setup_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst L109 にヒット
+    rows: ...",B-1,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst,270,MOVED,照合方法: code 本体冒頭行: setup_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst L270 にヒット（一意照合）
 I-0221,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,130,heading,NTF テストデータ リファレンス > 3. データブロック識別,,B-1,,,MISSING,照合方法: heading 専用照合: 3.2 データブロック種別の一覧; 照合失敗（RST見出し): title='3.2 データブロック種別の一覧'
 I-0222,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,151,heading,NTF テストデータ リファレンス > 3. データブロック識別,,B-1,,,MISSING,照合方法: heading 専用照合: 3.3 同一ファイル（シート）内に複数のデータブロックを書く場合の注意; 照合失敗（RST見出し): title='3.3 同一ファイル（シート）内に複数のデータブロックを書く場合の注意'
 I-0223,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,163,heading,NTF テストデータ リファレンス,,B-1,,,MISSING,照合方法: heading 専用照合: 4. テストケース定義; 照合失敗（RST見出し): title='4. テストケース定義'
@@ -3022,27 +3022,27 @@ I-0226,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,186,heading,NTF �
 I-0227,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,195,code,NTF テストデータ リファレンス > 4. テストケース定義 > 4.3 データブロックのグループ化（groupId）,"yaml
 setup_tables:
   - group_id: case01
-    table: USER_MASTER",B-1,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst,109,MOVED,照合方法: code 本体冒頭行: setup_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst L109 にヒット
+    table: USER_MASTER",B-1,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst,847,MOVED,照合方法: code 本体冒頭行: setup_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst L847 にヒット（一意照合）
 I-0228,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,211,heading,NTF テストデータ リファレンス,,B-1,,,MISSING,照合方法: heading 専用照合: 5. テーブルデータ; 照合失敗（RST見出し): title='5. テーブルデータ'
 I-0229,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,213,heading,NTF テストデータ リファレンス > 5. テーブルデータ,,B-1,,,MISSING,照合方法: heading 専用照合: 5.1 データの形式; 照合失敗（RST見出し): title='5.1 データの形式'
 I-0230,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,219,code,NTF テストデータ リファレンス > 5. テーブルデータ > 5.1 データの形式,"| SETUP_TABLE=テーブル名 | | |
 | カラム1 | カラム2 | カラム3 |
-| 値1     | 値2     | 値3     |",B-1,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst,891,MOVED,照合方法: code 本体冒頭行: | カラム1 | カラム2 | カラム3 |; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst L891 にヒット
+| 値1     | 値2     | 値3     |",B-1,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst,891,MOVED,照合方法: code 本体冒頭行: | カラム1 | カラム2 | カラム3 |; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst L891 にヒット（一意照合）
 I-0231,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,227,code,NTF テストデータ リファレンス > 5. テーブルデータ > 5.1 データの形式,"yaml
 setup_tables:
   - table: テーブル名
-    rows:",B-1,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst,109,MOVED,照合方法: code 本体冒頭行: setup_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst L109 にヒット
+    rows:",B-1,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst,901,MOVED,照合方法: code 本体冒頭行: setup_tables:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst L901 にヒット（一意照合）
 I-0232,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,240,heading,NTF テストデータ リファレンス > 5. テーブルデータ,,B-1,,,MISSING,照合方法: heading 専用照合: 5.2 SETUP_TABLE; 照合失敗（RST見出し): title='5.2 SETUP_TABLE'
 I-0233,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,264,heading,NTF テストデータ リファレンス > 5. テーブルデータ,,B-1,,,MISSING,照合方法: heading 専用照合: 5.3 EXPECTED_TABLE; 照合失敗（RST見出し): title='5.3 EXPECTED_TABLE'
 I-0234,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,276,heading,NTF テストデータ リファレンス > 5. テーブルデータ,,B-1,,,MISSING,照合方法: heading 専用照合: 5.4 EXPECTED_COMPLETE_TABLE; 照合失敗（RST見出し): title='5.4 EXPECTED_COMPLETE_TABLE'
 I-0235,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,297,heading,NTF テストデータ リファレンス > 5. テーブルデータ,,B-1,,,MISSING,照合方法: heading 専用照合: 5.5 LIST_MAP; 照合失敗（RST見出し): title='5.5 LIST_MAP'
 I-0236,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,303,code,NTF テストデータ リファレンス > 5. テーブルデータ > 5.5 LIST_MAP,"| LIST_MAP=testShots | | |
 | no | description | status |
-| 1  | 正常系       | active |",B-1,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst,516,MOVED,照合方法: code 本体冒頭行: | no | description | status |; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst L516 にヒット
+| 1  | 正常系       | active |",B-1,,,MISSING,照合方法: code 本体冒頭行: | no | description | status |; 照合失敗: pattern='| no | description | status |'
 I-0237,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,312,code,NTF テストデータ リファレンス > 5. テーブルデータ > 5.5 LIST_MAP,"yaml
 list_maps:
   - id: testShots
-    rows:",B-1,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst,90,MOVED,照合方法: code 本体冒頭行: list_maps:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst L90 にヒット
+    rows:",B-1,,,MISSING,照合方法: code 本体冒頭行: list_maps:; 同一パターン('list_maps:')が移送先に13箇所存在するため一意特定不可
 I-0238,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,334,heading,NTF テストデータ リファレンス,,B-1,,,MISSING,照合方法: heading 専用照合: 6. ファイルデータ; 照合失敗（RST見出し): title='6. ファイルデータ'
 I-0239,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,336,heading,NTF テストデータ リファレンス > 6. ファイルデータ,,B-1,,,MISSING,照合方法: heading 専用照合: 6.1 固定長・可変長の統合; 照合失敗（RST見出し): title='6.1 固定長・可変長の統合'
 I-0240,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,342,heading,NTF テストデータ リファレンス > 6. ファイルデータ,,B-1,,,MISSING,照合方法: heading 専用照合: 6.2 ファイルデータブロックの構造; 照合失敗（RST見出し): title='6.2 ファイルデータブロックの構造'
@@ -3056,7 +3056,7 @@ I-0242,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,358,code,NTF テ�
 I-0243,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,369,code,NTF テストデータ リファレンス > 6. ファイルデータ > 6.2 ファイルデータブロックの構造,"yaml
 setup_files:
   - path: work/input.txt
-    type: fixed",B-1,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst,1269,MOVED,照合方法: code 本体冒頭行: setup_files:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst L1269 にヒット
+    type: fixed",B-1,,,MISSING,照合方法: code 本体冒頭行: setup_files:; 同一パターン('setup_files:')が移送先に8箇所存在するため一意特定不可
 I-0244,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,392,heading,NTF テストデータ リファレンス > 6. ファイルデータ,,B-1,,,MISSING,照合方法: heading 専用照合: 6.3 固定長ファイル固有の仕様; 照合失敗（RST見出し): title='6.3 固定長ファイル固有の仕様'
 I-0245,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,398,heading,NTF テストデータ リファレンス > 6. ファイルデータ,,B-1,,,MISSING,照合方法: heading 専用照合: 6.4 可変長ファイル固有の仕様; 照合失敗（RST見出し): title='6.4 可変長ファイル固有の仕様'
 I-0246,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,403,heading,NTF テストデータ リファレンス > 6. ファイルデータ,,B-1,,,MISSING,照合方法: heading 専用照合: 6.5 複数レコードレイアウト; 照合失敗（RST見出し): title='6.5 複数レコードレイアウト'
@@ -3069,7 +3069,7 @@ I-0252,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,441,heading,NTF �
 I-0253,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,454,code,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.2 FW 制御ヘッダフィールド,"yaml
 messages:
   - id: requestMessages
-    directives:",B-1,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst,1556,MOVED,照合方法: code 本体冒頭行: messages:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst L1556 にヒット
+    directives:",B-1,ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst,1653,MOVED,照合方法: code 本体冒頭行: messages:; dest ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/testdata/index.rst L1653 にヒット（一意照合）
 I-0254,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,476,heading,NTF テストデータ リファレンス > 7. メッセージングテストデータ,,B-1,,,MISSING,照合方法: heading 専用照合: 7.3 HEADER / BODY MESSAGES の構造と件数制約; 照合失敗（RST見出し): title='7.3 HEADER / BODY MESSAGES の構造と件数制約'
 I-0255,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,481,heading,NTF テストデータ リファレンス > 7. メッセージングテストデータ,,B-1,,,MISSING,照合方法: heading 専用照合: 7.4 no 行（フィールド名称行）と errorMode; 照合失敗（RST見出し): title='7.4 no 行（フィールド名称行）と errorMode'
 I-0256,.rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md,494,heading,NTF テストデータ リファレンス > 7. メッセージングテストデータ,,B-1,,,MISSING,照合方法: heading 専用照合: 7.5 複数回送信; 照合失敗（RST見出し): title='7.5 複数回送信'
