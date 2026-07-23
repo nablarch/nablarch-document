@@ -1,0 +1,11 @@
+# textlint実行(lint)環境専用の依存。
+# textlint-plugin-rst が rst の構文解析に rst2ast コマンド
+# (docutils-ast-writer) を使用するために必要となる。
+#
+# docutils-ast-writer 0.1.2 は use_2to3 を使う旧世代パッケージのため、
+# Python 3.10 + setuptools==57.5.0 + --no-build-isolation でのみ
+# インストール可能(Dockerfile の lint ステージ参照)。
+# HTML生成(Sphinx)環境の依存は requirements.txt / requirements.in を参照。
+docutils==0.15.2
+docutils-ast-writer==0.1.2
+six==1.17.0
