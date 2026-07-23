@@ -336,7 +336,7 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 - HTML 出力の構成が design.md の新構成ツリーに完全一致している
 
-### #15: T1 — 抽出ツールの作成
+### #15: T1 — 抽出ツールの作成 ✅
 
 **Purpose**: 全量インベントリを機械的に生成し、第三者が同じ結果を再現できるようにする。
 
@@ -344,11 +344,11 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 **Steps**:
 
-- [ ] `reviews/tools/extract_rst.py` を作成する（引数: 入力ディレクトリ・出力CSVパス。出力列: `file,line,kind,depth,path,title,detail`）
-- [ ] `reviews/tools/extract_md.py` を作成する（input/ 配下の md 用。見出しとコードフェンスを抽出）
-- [ ] `reviews/tools/build_inventory.sh` を作成する（変更前・PR後・input の3系統を抽出。base は `git merge-base origin/develop HEAD`）
-- [ ] self-check（Completion criteria ごとに OK/NG を `checks/review-t1.md` に記録）
-- [ ] commit & push
+- [x] `reviews/tools/extract_rst.py` を作成する（引数: 入力ディレクトリ・出力CSVパス。出力列: `file,line,kind,depth,path,title,detail`）
+- [x] `reviews/tools/extract_md.py` を作成する（input/ 配下の md 用。見出しとコードフェンスを抽出）
+- [x] `reviews/tools/build_inventory.sh` を作成する（変更前・PR後・input の3系統を抽出。base は `git merge-base origin/develop HEAD`）
+- [x] self-check（Completion criteria ごとに OK/NG を `checks/review-t1.md` に記録）
+- [x] commit & push
 - [ ] **user review** — 承認を受けるまで #16 に進まない
 
 **Completion criteria**:
