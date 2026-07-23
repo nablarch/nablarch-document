@@ -4,8 +4,8 @@
 
 | 判定 | 件数 |
 |---|---|
-| MOVED | 44 |
-| MISSING | 471 |
+| MOVED | 29 |
+| MISSING | 486 |
 | DUPLICATED | 80 |
 | KEPT | 2307 |
 | MODIFIED | 3 |
@@ -66,7 +66,7 @@
 
 ### MISSING 概要
 
-471件。before 由来 281件、input 由来 190件。
+486件。before 由来 281件、input 由来 205件。
 
 #### before 由来（281件）
 

@@ -371,12 +371,12 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 **Steps**:
 
-- [ ] `.rn/20260626-ntf-yaml-support/reviews/gate1-structure.md` を作成する
-- [ ] A-1〜A-6・B-1〜B-6 の各章について、章ID / 章タイトル / 実ファイルパス / 想定読者 / 判定 / 根拠（file:line）の表を作成する
-- [ ] 逸脱項目の問題と対処案を記述する
-- [ ] 既知の逸脱5件（G1-01〜G1-05）がすべて検出されているか照合する
-- [ ] self-check（Completion criteria ごとに OK/NG を `checks/review-t2.md` に記録）
-- [ ] commit & push
+- [x] `.rn/20260626-ntf-yaml-support/reviews/gate1-structure.md` を作成する
+- [x] A-1〜A-6・B-1〜B-6 の各章について、章ID / 章タイトル / 実ファイルパス / 想定読者 / 判定 / 根拠（file:line）の表を作成する
+- [x] 逸脱項目の問題と対処案を記述する
+- [x] 既知の逸脱5件（G1-01〜G1-05）がすべて検出されているか照合する
+- [x] self-check（Completion criteria ごとに OK/NG を `checks/review-t2.md` に記録）
+- [x] commit & push
 - [x] **user review** — ゲート①の合否判定を受ける。合格承認を受けるまで #17 に進まない
 
 **既知の逸脱（全件検出必須）**:
@@ -402,12 +402,12 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 **Steps**:
 
-- [ ] `.rn/20260626-ntf-yaml-support/reviews/gate2-traceability.csv` を作成する（列: `item_id,src_file,src_line,kind,heading_path,content,design_dest,actual_file,actual_line,verdict,note`）
-- [ ] `verdict` は `MOVED` / `MISSING` / `DUPLICATED` / `KEPT` の4値のみ。空欄不可
-- [ ] `actual_file` / `actual_line` は grep による実測で求める。推測で埋めない
-- [ ] `.rn/20260626-ntf-yaml-support/reviews/gate2-findings.md` を作成し、`MISSING` と `DUPLICATED` を一覧化して対処案を付す
-- [ ] self-check（Completion criteria ごとに OK/NG を `checks/review-t3.md` に記録）
-- [ ] commit & push
+- [x] `.rn/20260626-ntf-yaml-support/reviews/gate2-traceability.csv` を作成する（列: `item_id,src_file,src_line,kind,heading_path,content,design_dest,actual_file,actual_line,verdict,note`）
+- [x] `verdict` は `MOVED` / `MISSING` / `DUPLICATED` / `KEPT` の4値のみ。空欄不可（MODIFIED も追加）
+- [x] `actual_file` / `actual_line` は grep による実測で求める。推測で埋めない
+- [x] `.rn/20260626-ntf-yaml-support/reviews/gate2-findings.md` を作成し、`MISSING` と `DUPLICATED` を一覧化して対処案を付す
+- [x] self-check（Completion criteria ごとに OK/NG を `checks/review-t3.md` に記録）
+- [x] commit & push
 - [ ] **user review** — `MISSING` / `DUPLICATED` の内容と対処案のレビューを受ける。承認を受けるまで #18 に進まない
 
 **Completion criteria**:
@@ -484,3 +484,8 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
   Status: active | paused | complete
 -->
 
+Status: paused
+Date: 2026-07-23
+Last completed: #17 (T3) — gate2-traceability.csv (2905行, MOVED=29/MISSING=486/DUPLICATED=80/KEPT=2307/MODIFIED=3) と gate2-findings.md を作成・push済み（コミット 7c86016）。user review 待ち。
+Next: #17 user review の OK/NG を受け取る。OK なら #18 (T4) へ進む。NG なら指摘を修正してから再push・再レビュー依頼。
+Notes: gate2-findings.md のサマリー行数が旧値（MOVED=44, MISSING=471）になっていたため本セッションで修正（MOVED=29, MISSING=486 に更新）。
