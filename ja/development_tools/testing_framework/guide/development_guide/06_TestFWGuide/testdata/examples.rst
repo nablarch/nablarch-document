@@ -407,7 +407,7 @@ YAMLの場合
             PROFILE: "シルバー会員"
             PHOTO: "${binaryFile:member_photo.jpg}"
 
-- NULL 値は Excel では ``Null``（大文字小文字不問）、YAML ではアンクォートの ``null`` で記述する。YAML で ``"null"`` とクォートすると文字列として格納される。
+- NULL 値は Excel では ``Null``（大文字小文字不問）、YAML ではアンクォートの ``null`` で記述する（ ``"null"`` とクォートしても同じく Java null になる）。
 
 EXPECTED_TABLE と EXPECTED_COMPLETE_TABLE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1020,7 +1020,7 @@ YAMLの場合
             START_DATE: "${updateTime}"
             CREATED_AT: "${setUpTime}"
 
-- NULL 値は Excel では ``NULL``（大文字小文字不問）、YAML ではアンクォートの ``null`` で記述する。
+- NULL 値は Excel では ``NULL``（大文字小文字不問）、YAML ではアンクォートの ``null`` で記述する（ ``"null"`` とクォートしても同じく Java null になる）。
 - ``java.sql.Timestamp`` 型カラムの期待値は末尾 ``.0`` が必須（例: ``"2024-01-01 09:00:00.0"``）。
 
 バイナリデータ
