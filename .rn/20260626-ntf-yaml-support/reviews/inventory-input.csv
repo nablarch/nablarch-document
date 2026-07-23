@@ -1,0 +1,493 @@
+"file","line","kind","depth","path","title","detail"
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","1","heading","1","","NTF 解説書（v6）用語リファレンス",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","12","heading","2","NTF 解説書（v6）用語リファレンス","用語ドメインの全体像",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","14","code","0","NTF 解説書（v6）用語リファレンス > 用語ドメインの全体像","mermaid","mermaid
+flowchart TB
+  DT[データタイプ<br/>Excel 1行目のキーワード]
+  SHEET[シート・行・列・セル<br/>テストデータの物理構造]"
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","36","heading","2","NTF 解説書（v6）用語リファレンス","データタイプ（Data Types）",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","61","heading","2","NTF 解説書（v6）用語リファレンス","シート・行・列・セル",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","80","heading","2","NTF 解説書（v6）用語リファレンス","セル値の解釈規則（特殊記法・マーカーカラム・コメント）",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","84","heading","3","NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント）","特殊記法",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","98","heading","3","NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント）","マーカーカラム",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","102","heading","3","NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント）","コメント",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","106","heading","3","NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント）","日付記述フォーマット",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","110","heading","3","NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント）","設計原則（用語として登場する概念）",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","118","heading","2","NTF 解説書（v6）用語リファレンス","グループ ID",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","129","heading","2","NTF 解説書（v6）用語リファレンス","データタイプ別の行構造",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","131","heading","3","NTF 解説書（v6）用語リファレンス > データタイプ別の行構造","DB 系（SETUP_TABLE / EXPECTED_TABLE / EXPECTED_COMPLETE_TABLE / LIST_MAP）",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","144","heading","4","NTF 解説書（v6）用語リファレンス > データタイプ別の行構造 > DB 系（SETUP_TABLE / EXPECTED_TABLE / EXPECTED_COMPLETE_TABLE / LIST_MAP）","デフォルト値",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","154","heading","4","NTF 解説書（v6）用語リファレンス > データタイプ別の行構造 > DB 系（SETUP_TABLE / EXPECTED_TABLE / EXPECTED_COMPLETE_TABLE / LIST_MAP）","カラム省略の制約",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","159","heading","4","NTF 解説書（v6）用語リファレンス > データタイプ別の行構造 > DB 系（SETUP_TABLE / EXPECTED_TABLE / EXPECTED_COMPLETE_TABLE / LIST_MAP）","タイムスタンプ形式",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","163","heading","4","NTF 解説書（v6）用語リファレンス > データタイプ別の行構造 > DB 系（SETUP_TABLE / EXPECTED_TABLE / EXPECTED_COMPLETE_TABLE / LIST_MAP）","マスタデータ復旧機能",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","167","heading","3","NTF 解説書（v6）用語リファレンス > データタイプ別の行構造","固定長ファイル（SETUP_FIXED / EXPECTED_FIXED）",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","171","code","0","NTF 解説書（v6）用語リファレンス > データタイプ別の行構造 > 固定長ファイル（SETUP_FIXED / EXPECTED_FIXED）","","SETUP_FIXED[グループID]=ファイルパス
+[ディレクティブ行]   ← text-encoding, record-separator 等
+[レコード種別行]"
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","185","heading","3","NTF 解説書（v6）用語リファレンス > データタイプ別の行構造","可変長ファイル（SETUP_VARIABLE / EXPECTED_VARIABLE）",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","189","code","0","NTF 解説書（v6）用語リファレンス > データタイプ別の行構造 > 可変長ファイル（SETUP_VARIABLE / EXPECTED_VARIABLE）","","SETUP_VARIABLE[グループID]=ファイルパス
+[ディレクティブ行]
+[レコード種別行]"
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","202","heading","3","NTF 解説書（v6）用語リファレンス > データタイプ別の行構造","ファイルデータのフィールド定義用語",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","213","heading","3","NTF 解説書（v6）用語リファレンス > データタイプ別の行構造","ディレクティブ",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","234","heading","2","NTF 解説書（v6）用語リファレンス","testShots / requestParams（テストケース一覧）",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","245","heading","3","NTF 解説書（v6）用語リファレンス > testShots / requestParams（テストケース一覧）","testShots カラム一覧（ウェブアプリケーション）",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","271","heading","4","NTF 解説書（v6）用語リファレンス > testShots / requestParams（テストケース一覧） > testShots カラム一覧（ウェブアプリケーション）","requestParams の仕様",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","277","heading","3","NTF 解説書（v6）用語リファレンス > testShots / requestParams（テストケース一覧）","testShots カラム一覧（バッチ処理）",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","296","heading","3","NTF 解説書（v6）用語リファレンス > testShots / requestParams（テストケース一覧）","testShots カラム一覧（メッセージング受信）",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","312","heading","3","NTF 解説書（v6）用語リファレンス > testShots / requestParams（テストケース一覧）","ログ検証（expectedLog）",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","325","heading","2","NTF 解説書（v6）用語リファレンス","メッセージング",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","327","heading","3","NTF 解説書（v6）用語リファレンス > メッセージング","基本用語",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","341","heading","3","NTF 解説書（v6）用語リファレンス > メッセージング","メッセージデータ構造（受信: setUpMessages / expectedMessages）",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","359","heading","4","NTF 解説書（v6）用語リファレンス > メッセージング > メッセージデータ構造（受信: setUpMessages / expectedMessages）","`FwHeaderDefinition` / `fwHeaderDefinition`",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","364","heading","3","NTF 解説書（v6）用語リファレンス > メッセージング","メッセージデータタイプ（同期応答メッセージ送信）",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","383","heading","3","NTF 解説書（v6）用語リファレンス > メッセージング","障害系テスト用特殊値",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","392","heading","3","NTF 解説書（v6）用語リファレンス > メッセージング","制約事項（同期応答メッセージ送信）",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","398","heading","3","NTF 解説書（v6）用語リファレンス > メッセージング","HTTP 同期応答メッセージ送信の用語読み替え",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","412","heading","2","NTF 解説書（v6）用語リファレンス","テスト種別と主要クラス",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","414","heading","3","NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス","テスト種別の正式名称",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","427","heading","3","NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス","DB アクセステスト",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","443","heading","3","NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス","リクエスト単体テスト（ウェブアプリケーション）の主要クラス",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","457","heading","4","NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > リクエスト単体テスト（ウェブアプリケーション）の主要クラス","HTML ダンプ出力",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","463","heading","4","NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > リクエスト単体テスト（ウェブアプリケーション）の主要クラス","コンポーネント設定の主要項目",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","473","heading","3","NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス","リクエスト単体テスト（RESTful ウェブサービス）",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","487","heading","3","NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス","リクエスト単体テスト（バッチ処理）",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","500","heading","3","NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス","リクエスト単体テスト（メッセージ受信処理）",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","511","heading","3","NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス","リクエスト単体テスト（同期応答メッセージ送信処理）",""
+".rn/20260626-ntf-yaml-support/input/ntf-doc-terms.md","526","heading","2","NTF 解説書（v6）用語リファレンス","その他のフレームワーク固有用語",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","1","heading","1","","NTF テストデータ解説書 — 記述例（ファイルデータ）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","5","heading","2","NTF テストデータ解説書 — 記述例（ファイルデータ）","全体像",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","9","code","0","NTF テストデータ解説書 — 記述例（ファイルデータ） > 全体像","mermaid","mermaid
+flowchart LR
+  subgraph Excel
+    E1[SETUP_FIXED=パス / 区切り行]"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","51","heading","2","NTF テストデータ解説書 — 記述例（ファイルデータ）","6.1 固定長ファイル",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","55","heading","3","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.1 固定長ファイル","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","73","heading","3","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.1 固定長ファイル","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","75","code","0","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.1 固定長ファイル > YAML","yaml","yaml
+setup_files:
+  - path: work/input.txt
+    type: fixed"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","105","heading","2","NTF テストデータ解説書 — 記述例（ファイルデータ）","6.2 エンコーディング指定付き固定長ファイル",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","109","heading","3","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.2 エンコーディング指定付き固定長ファイル","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","122","heading","3","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.2 エンコーディング指定付き固定長ファイル","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","124","code","0","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.2 エンコーディング指定付き固定長ファイル > YAML","yaml","yaml
+setup_files:
+  - path: input/data.dat
+    type: fixed"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","145","heading","2","NTF テストデータ解説書 — 記述例（ファイルデータ）","6.3 groupId 付き固定長ファイル",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","149","heading","3","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.3 groupId 付き固定長ファイル","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","167","heading","3","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.3 groupId 付き固定長ファイル","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","169","code","0","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.3 groupId 付き固定長ファイル > YAML","yaml","yaml
+setup_files:
+  - path: work/input.txt
+    type: fixed"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","199","heading","2","NTF テストデータ解説書 — 記述例（ファイルデータ）","6.4 可変長ファイル",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","203","heading","3","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","213","heading","3","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","215","code","0","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル > YAML","yaml","yaml
+setup_files:
+  - path: input/data.csv
+    type: variable"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","234","heading","4","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル > YAML","クォート付きフィールド（カンマを含む値）の扱い",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","240","code","0","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル > YAML > クォート付きフィールド（カンマを含む値）の扱い","","number of input fields was invalid. number of fields must be [N], but number of input fields was [M]."
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","246","heading","3","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","256","heading","3","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","258","code","0","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル > YAML","yaml","yaml
+expected_files:
+  - path: output/data.csv
+    type: variable"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","284","heading","2","NTF テストデータ解説書 — 記述例（ファイルデータ）","6.5 複数レコードレイアウト",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","288","heading","3","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.5 複数レコードレイアウト","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","303","heading","3","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.5 複数レコードレイアウト","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","305","code","0","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.5 複数レコードレイアウト > YAML","yaml","yaml
+setup_files:
+  - path: input/multi.dat
+    type: fixed"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","331","heading","2","NTF テストデータ解説書 — 記述例（ファイルデータ）","6.6 空ファイル",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","335","heading","3","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.6 空ファイル","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","343","heading","3","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.6 空ファイル","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md","345","code","0","NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.6 空ファイル > YAML","yaml","yaml
+setup_files:
+  - path: input/empty.dat
+    type: fixed"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","1","heading","1","","NTF テストデータ解説書 — 記述例（メッセージングテストデータ）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","7","heading","2","NTF テストデータ解説書 — 記述例（メッセージングテストデータ）","7.1 MESSAGE セクション（メッセージ送受信）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","11","heading","3","NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.1 MESSAGE セクション（メッセージ送受信）","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","32","heading","3","NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.1 MESSAGE セクション（メッセージ送受信）","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","34","code","0","NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.1 MESSAGE セクション（メッセージ送受信） > YAML","yaml","yaml
+messages:
+  - id: requestMessages
+    directives:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","63","heading","3","NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.1 MESSAGE セクション（メッセージ送受信）","制約・補足",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","72","heading","2","NTF テストデータ解説書 — 記述例（メッセージングテストデータ）","7.2 要求電文・応答電文の期待値（SendSync メッセージング）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","76","heading","3","NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.2 要求電文・応答電文の期待値（SendSync メッセージング）","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","91","heading","3","NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.2 要求電文・応答電文の期待値（SendSync メッセージング）","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","93","code","0","NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.2 要求電文・応答電文の期待値（SendSync メッセージング） > YAML","yaml","yaml
+list_maps:
+  - id: testShots
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","122","heading","3","NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.2 要求電文・応答電文の期待値（SendSync メッセージング）","制約・補足",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","131","heading","2","NTF テストデータ解説書 — 記述例（メッセージングテストデータ）","7.3 sendSyncTestData の配置規則",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","135","heading","3","NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.3 sendSyncTestData の配置規則","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","143","heading","3","NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.3 sendSyncTestData の配置規則","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","145","code","0","NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.3 sendSyncTestData の配置規則 > YAML","yaml","yaml
+messages:
+  - id: sendSyncTestData/REQ001/message
+    records:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","160","heading","3","NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.3 sendSyncTestData の配置規則","制約・補足",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","169","heading","2","NTF テストデータ解説書 — 記述例（メッセージングテストデータ）","7.4 ステータスコードのデフォルト値",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","173","heading","3","NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.4 ステータスコードのデフォルト値","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","182","heading","3","NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.4 ステータスコードのデフォルト値","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","184","code","0","NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.4 ステータスコードのデフォルト値 > YAML","yaml","yaml
+response_body_messages:
+  - id: REQ001
+    records:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md","195","heading","3","NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.4 ステータスコードのデフォルト値","制約・補足",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md","1","heading","1","","NTF テストデータ解説書 — 記述例（概要・groupId）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md","5","heading","2","NTF テストデータ解説書 — 記述例（概要・groupId）","1. NTF テストデータ",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md","9","heading","3","NTF テストデータ解説書 — 記述例（概要・groupId） > 1. NTF テストデータ","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md","36","heading","3","NTF テストデータ解説書 — 記述例（概要・groupId） > 1. NTF テストデータ","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md","38","code","0","NTF テストデータ解説書 — 記述例（概要・groupId） > 1. NTF テストデータ > YAML","yaml","yaml
+list_maps:
+  - id: testShots
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md","93","heading","2","NTF テストデータ解説書 — 記述例（概要・groupId）","4.3 セクションのグループ化（groupId）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md","104","heading","3","NTF テストデータ解説書 — 記述例（概要・groupId） > 4.3 セクションのグループ化（groupId）","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md","136","heading","3","NTF テストデータ解説書 — 記述例（概要・groupId） > 4.3 セクションのグループ化（groupId）","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md","140","code","0","NTF テストデータ解説書 — 記述例（概要・groupId） > 4.3 セクションのグループ化（groupId） > YAML","yaml","yaml
+list_maps:
+  - id: testShots
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","1","heading","1","","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","7","heading","2","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ）","8. 特殊値・インタープリタ",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","9","heading","3","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ","8.1 日付型・Timestamp・特殊値",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","13","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.1 日付型・Timestamp・特殊値","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","23","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.1 日付型・Timestamp・特殊値","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","25","code","0","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.1 日付型・Timestamp・特殊値 > YAML","yaml","yaml
+expected_tables:
+  - table: SCHEDULE
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","47","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.1 日付型・Timestamp・特殊値","制約",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","59","heading","3","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ","8.2 QuotationTrimmer によるスペース値明示記法",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","63","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.2 QuotationTrimmer によるスペース値明示記法","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","70","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.2 QuotationTrimmer によるスペース値明示記法","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","72","code","0","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.2 QuotationTrimmer によるスペース値明示記法 > YAML","yaml","yaml
+expected_tables:
+  - table: ITEM
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","81","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.2 QuotationTrimmer によるスペース値明示記法","制約",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","88","heading","3","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ","8.3 バイナリデータ",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","92","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.3 バイナリデータ","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","100","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.3 バイナリデータ","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","102","code","0","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.3 バイナリデータ > YAML","yaml","yaml
+setup_tables:
+  - table: FILE_TABLE
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","112","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.3 バイナリデータ","制約",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","121","heading","2","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ）","9. ディレクティブ",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","123","heading","3","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ","9.1 固定長ファイルのディレクティブ",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","127","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ > 9.1 固定長ファイルのディレクティブ","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","138","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ > 9.1 固定長ファイルのディレクティブ","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","140","code","0","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ > 9.1 固定長ファイルのディレクティブ > YAML","yaml","yaml
+setup_files:
+  - path: input/data.dat
+    type: fixed"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","156","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ > 9.1 固定長ファイルのディレクティブ","制約",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","164","heading","3","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ","9.2 可変長ファイルのディレクティブ",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","168","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ > 9.2 可変長ファイルのディレクティブ","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","178","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ > 9.2 可変長ファイルのディレクティブ","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","180","code","0","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ > 9.2 可変長ファイルのディレクティブ > YAML","yaml","yaml
+setup_files:
+  - path: input/data.tsv
+    type: variable"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","196","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ > 9.2 可変長ファイルのディレクティブ","制約",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","206","heading","2","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ）","10. ヘッダ・コメント・空エントリ",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","208","heading","3","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ","10.1 コメントとマーカーカラム",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","210","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ > 10.1 コメントとマーカーカラム","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","220","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ > 10.1 コメントとマーカーカラム","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","222","code","0","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ > 10.1 コメントとマーカーカラム > YAML","yaml","yaml
+setup_tables:
+  - table: TEST_TABLE
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","239","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ > 10.1 コメントとマーカーカラム","制約",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","247","heading","3","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ","10.2 空エントリのスキップ",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","251","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ > 10.2 空エントリのスキップ","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","260","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ > 10.2 空エントリのスキップ","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","262","code","0","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ > 10.2 空エントリのスキップ > YAML","yaml","yaml
+setup_tables:
+  - table: USER
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","273","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ > 10.2 空エントリのスキップ","制約",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","282","heading","2","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ）","11. DB アサート",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","286","heading","3","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 11. DB アサート","11.1 テーブルアサート（順序不問・主キー突合・全件列挙）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","297","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 11. DB アサート > 11.1 テーブルアサート（順序不問・主キー突合・全件列挙）","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","305","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 11. DB アサート > 11.1 テーブルアサート（順序不問・主キー突合・全件列挙）","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","307","code","0","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 11. DB アサート > 11.1 テーブルアサート（順序不問・主キー突合・全件列挙） > YAML","yaml","yaml
+expected_tables:
+  - table: USER
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","317","heading","3","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 11. DB アサート","11.2 EXPECTED_COMPLETE_TABLE（省略カラムにデフォルト値補完）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","321","heading","4","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 11. DB アサート > 11.2 EXPECTED_COMPLETE_TABLE（省略カラムにデフォルト値補完）","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md","323","code","0","NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 11. DB アサート > 11.2 EXPECTED_COMPLETE_TABLE（省略カラムにデフォルト値補完） > YAML","yaml","yaml
+expected_complete_tables:
+  - table: USER
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","1","heading","1","","NTF テストデータ解説書 — 記述例（テーブルデータ）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","7","heading","2","NTF テストデータ解説書 — 記述例（テーブルデータ）","5.1 テーブルデータの基本形式",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","11","heading","3","NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式","SETUP_TABLE",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","15","heading","4","NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > SETUP_TABLE","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","26","heading","4","NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > SETUP_TABLE","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","28","code","0","NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > SETUP_TABLE > YAML","yaml","yaml
+setup_tables:
+  - table: MEMBER
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","52","heading","4","NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > SETUP_TABLE","制約",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","62","heading","3","NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式","EXPECTED_TABLE と EXPECTED_COMPLETE_TABLE",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","66","heading","4","NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > EXPECTED_TABLE と EXPECTED_COMPLETE_TABLE","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","80","heading","4","NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > EXPECTED_TABLE と EXPECTED_COMPLETE_TABLE","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","82","code","0","NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > EXPECTED_TABLE と EXPECTED_COMPLETE_TABLE > YAML","yaml","yaml
+expected_tables:
+  - table: MEMBER
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","110","heading","4","NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > EXPECTED_TABLE と EXPECTED_COMPLETE_TABLE","省略カラムの扱い",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","117","heading","4","NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > EXPECTED_TABLE と EXPECTED_COMPLETE_TABLE","制約",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","126","heading","3","NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式","LIST_MAP",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","130","heading","4","NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > LIST_MAP","Excel — リクエストパラメータ（マーカーカラム付き）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","140","heading","4","NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > LIST_MAP","Excel — 期待ログ",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","148","heading","4","NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > LIST_MAP","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","150","code","0","NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > LIST_MAP > YAML","yaml","yaml
+list_maps:
+  - id: searchParams
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","174","heading","4","NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > LIST_MAP","マーカーカラム",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md","179","heading","4","NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > LIST_MAP","制約",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","1","heading","1","","NTF テストデータ解説書 — testShots カラム一覧",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","16","heading","2","NTF テストデータ解説書 — testShots カラム一覧","全体像",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","20","code","0","NTF テストデータ解説書 — testShots カラム一覧 > 全体像","mermaid","mermaid
+flowchart LR
+  TS[""testShots（LIST_MAP）<br/>1行=1テストケース""]
+  REQ[必須カラム]"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","44","heading","2","NTF テストデータ解説書 — testShots カラム一覧","共通カラム",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","60","heading","2","NTF テストデータ解説書 — testShots カラム一覧","ウェブアプリケーション（HttpRequestTestSupport）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","62","heading","3","NTF テストデータ解説書 — testShots カラム一覧 > ウェブアプリケーション（HttpRequestTestSupport）","必須カラム",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","72","heading","3","NTF テストデータ解説書 — testShots カラム一覧 > ウェブアプリケーション（HttpRequestTestSupport）","オプションカラム",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","94","heading","3","NTF テストデータ解説書 — testShots カラム一覧 > ウェブアプリケーション（HttpRequestTestSupport）","記述例",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","96","heading","4","NTF テストデータ解説書 — testShots カラム一覧 > ウェブアプリケーション（HttpRequestTestSupport） > 記述例","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","109","heading","4","NTF テストデータ解説書 — testShots カラム一覧 > ウェブアプリケーション（HttpRequestTestSupport） > 記述例","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","111","code","0","NTF テストデータ解説書 — testShots カラム一覧 > ウェブアプリケーション（HttpRequestTestSupport） > 記述例 > YAML","yaml","yaml
+list_maps:
+  - id: testShots
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","138","heading","2","NTF テストデータ解説書 — testShots カラム一覧","バッチ処理（BatchRequestTestSupport）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","140","heading","3","NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequestTestSupport）","必須カラム",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","150","heading","3","NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequestTestSupport）","オプションカラム",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","163","heading","3","NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequestTestSupport）","記述例",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","165","heading","4","NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequestTestSupport） > 記述例","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","173","heading","4","NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequestTestSupport） > 記述例","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","175","code","0","NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequestTestSupport） > 記述例 > YAML","yaml","yaml
+list_maps:
+  - id: testShots
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","199","heading","2","NTF テストデータ解説書 — testShots カラム一覧","メッセージング（MessagingRequestTestSupport）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","201","heading","3","NTF テストデータ解説書 — testShots カラム一覧 > メッセージング（MessagingRequestTestSupport）","必須カラム",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","211","heading","3","NTF テストデータ解説書 — testShots カラム一覧 > メッセージング（MessagingRequestTestSupport）","オプションカラム",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","222","heading","3","NTF テストデータ解説書 — testShots カラム一覧 > メッセージング（MessagingRequestTestSupport）","記述例",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","224","heading","4","NTF テストデータ解説書 — testShots カラム一覧 > メッセージング（MessagingRequestTestSupport） > 記述例","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","231","heading","4","NTF テストデータ解説書 — testShots カラム一覧 > メッセージング（MessagingRequestTestSupport） > 記述例","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","233","code","0","NTF テストデータ解説書 — testShots カラム一覧 > メッセージング（MessagingRequestTestSupport） > 記述例 > YAML","yaml","yaml
+list_maps:
+  - id: testShots
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","251","heading","2","NTF テストデータ解説書 — testShots カラム一覧","エンティティバリデーション（EntityTestSupport）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","255","heading","3","NTF テストデータ解説書 — testShots カラム一覧 > エンティティバリデーション（EntityTestSupport）","必須カラム",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","263","heading","3","NTF テストデータ解説書 — testShots カラム一覧 > エンティティバリデーション（EntityTestSupport）","関連予約 ID",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","269","heading","3","NTF テストデータ解説書 — testShots カラム一覧 > エンティティバリデーション（EntityTestSupport）","記述例",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","271","heading","4","NTF テストデータ解説書 — testShots カラム一覧 > エンティティバリデーション（EntityTestSupport） > 記述例","Excel",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","278","heading","4","NTF テストデータ解説書 — testShots カラム一覧 > エンティティバリデーション（EntityTestSupport） > 記述例","YAML",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md","280","code","0","NTF テストデータ解説書 — testShots カラム一覧 > エンティティバリデーション（EntityTestSupport） > 記述例 > YAML","yaml","yaml
+list_maps:
+  - id: testShots
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","1","heading","1","","NTF テストデータ リファレンス",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","7","heading","2","NTF テストデータ リファレンス","目次",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","22","heading","2","NTF テストデータ リファレンス","1. 全体像",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","34","code","0","NTF テストデータ リファレンス > 1. 全体像","mermaid","mermaid
+flowchart TD
+  TC[テストクラス<br/>Excel: 1ブック / YAML: 1ディレクトリ] --> U1[読み込み単位<br/>Excel: 1シート / YAML: 1ファイル]
+  TC --> U2[読み込み単位]"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","49","heading","2","NTF テストデータ リファレンス","2. テストデータの基本構造",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","58","code","0","NTF テストデータ リファレンス > 2. テストデータの基本構造","","【Excel】                              【YAML】
+src/test/java/com/example/            src/test/java/com/example/
+  FooTest.xls                           FooTest/"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","82","heading","3","NTF テストデータ リファレンス > 2. テストデータの基本構造","ファイルの読み込みルール",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","92","heading","2","NTF テストデータ リファレンス","3. データブロック識別",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","94","heading","3","NTF テストデータ リファレンス > 3. データブロック識別","3.1 識別の構成要素",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","119","code","0","NTF テストデータ リファレンス > 3. データブロック識別 > 3.1 識別の構成要素","yaml","yaml
+setup_tables:
+  - table: USER_MASTER
+    rows: ..."
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","130","heading","3","NTF テストデータ リファレンス > 3. データブロック識別","3.2 データブロック種別の一覧",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","151","heading","3","NTF テストデータ リファレンス > 3. データブロック識別","3.3 同一ファイル（シート）内に複数のデータブロックを書く場合の注意",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","163","heading","2","NTF テストデータ リファレンス","4. テストケース定義",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","165","heading","3","NTF テストデータ リファレンス > 4. テストケース定義","4.1 testShots",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","175","heading","3","NTF テストデータ リファレンス > 4. テストケース定義","4.2 testShots のカラム仕様",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","186","heading","3","NTF テストデータ リファレンス > 4. テストケース定義","4.3 データブロックのグループ化（groupId）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","195","code","0","NTF テストデータ リファレンス > 4. テストケース定義 > 4.3 データブロックのグループ化（groupId）","yaml","yaml
+setup_tables:
+  - group_id: case01
+    table: USER_MASTER"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","211","heading","2","NTF テストデータ リファレンス","5. テーブルデータ",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","213","heading","3","NTF テストデータ リファレンス > 5. テーブルデータ","5.1 データの形式",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","219","code","0","NTF テストデータ リファレンス > 5. テーブルデータ > 5.1 データの形式","","| SETUP_TABLE=テーブル名 | | |
+| カラム1 | カラム2 | カラム3 |
+| 値1     | 値2     | 値3     |"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","227","code","0","NTF テストデータ リファレンス > 5. テーブルデータ > 5.1 データの形式","yaml","yaml
+setup_tables:
+  - table: テーブル名
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","240","heading","3","NTF テストデータ リファレンス > 5. テーブルデータ","5.2 SETUP_TABLE",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","264","heading","3","NTF テストデータ リファレンス > 5. テーブルデータ","5.3 EXPECTED_TABLE",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","276","heading","3","NTF テストデータ リファレンス > 5. テーブルデータ","5.4 EXPECTED_COMPLETE_TABLE",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","297","heading","3","NTF テストデータ リファレンス > 5. テーブルデータ","5.5 LIST_MAP",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","303","code","0","NTF テストデータ リファレンス > 5. テーブルデータ > 5.5 LIST_MAP","","| LIST_MAP=testShots | | |
+| no | description | status |
+| 1  | 正常系       | active |"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","312","code","0","NTF テストデータ リファレンス > 5. テーブルデータ > 5.5 LIST_MAP","yaml","yaml
+list_maps:
+  - id: testShots
+    rows:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","334","heading","2","NTF テストデータ リファレンス","6. ファイルデータ",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","336","heading","3","NTF テストデータ リファレンス > 6. ファイルデータ","6.1 固定長・可変長の統合",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","342","heading","3","NTF テストデータ リファレンス > 6. ファイルデータ","6.2 ファイルデータブロックの構造",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","346","code","0","NTF テストデータ リファレンス > 6. ファイルデータ > 6.2 ファイルデータブロックの構造","mermaid","mermaid
+flowchart TD
+  D[""ディレクティブ（0件以上）<br/>エンコーディング等のファイル属性""] --> N[""レコード種別 + フィールド名称<br/>先頭要素=レコード種別、以降=フィールド名称""]
+  N --> T[""データ型（各フィールドの型記号）""]"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","358","code","0","NTF テストデータ リファレンス > 6. ファイルデータ > 6.2 ファイルデータブロックの構造","","行1: SETUP_FIXED=work/input.txt  [空]     [空]
+行2: text-encoding               MS932   [空]
+行3: DATA                        USER_ID  AMOUNT"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","369","code","0","NTF テストデータ リファレンス > 6. ファイルデータ > 6.2 ファイルデータブロックの構造","yaml","yaml
+setup_files:
+  - path: work/input.txt
+    type: fixed"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","392","heading","3","NTF テストデータ リファレンス > 6. ファイルデータ","6.3 固定長ファイル固有の仕様",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","398","heading","3","NTF テストデータ リファレンス > 6. ファイルデータ","6.4 可変長ファイル固有の仕様",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","403","heading","3","NTF テストデータ リファレンス > 6. ファイルデータ","6.5 複数レコードレイアウト",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","409","heading","3","NTF テストデータ リファレンス > 6. ファイルデータ","6.6 空ファイル",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","415","heading","3","NTF テストデータ リファレンス > 6. ファイルデータ","6.7 `""-""` 長フィールド",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","419","heading","3","NTF テストデータ リファレンス > 6. ファイルデータ","6.8 エラーになるケース",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","432","heading","2","NTF テストデータ リファレンス","7. メッセージングテストデータ",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","434","heading","3","NTF テストデータ リファレンス > 7. メッセージングテストデータ","7.1 sendSyncTestData の配置規則",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","441","heading","3","NTF テストデータ リファレンス > 7. メッセージングテストデータ","7.2 FW 制御ヘッダフィールド",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","454","code","0","NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.2 FW 制御ヘッダフィールド","yaml","yaml
+messages:
+  - id: requestMessages
+    directives:"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","476","heading","3","NTF テストデータ リファレンス > 7. メッセージングテストデータ","7.3 HEADER / BODY MESSAGES の構造と件数制約",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","481","heading","3","NTF テストデータ リファレンス > 7. メッセージングテストデータ","7.4 no 行（フィールド名称行）と errorMode",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","494","heading","3","NTF テストデータ リファレンス > 7. メッセージングテストデータ","7.5 複数回送信",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","498","heading","3","NTF テストデータ リファレンス > 7. メッセージングテストデータ","7.6 メッセージの groupId 収集",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","502","heading","3","NTF テストデータ リファレンス > 7. メッセージングテストデータ","7.7 ステータスコード",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","506","heading","3","NTF テストデータ リファレンス > 7. メッセージングテストデータ","7.8 フォーマット定義ファイルの命名規則",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","511","heading","3","NTF テストデータ リファレンス > 7. メッセージングテストデータ","7.9 アサート方式の切り替え",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","515","heading","3","NTF テストデータ リファレンス > 7. メッセージングテストデータ","7.10 record_type の扱い",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","528","heading","2","NTF テストデータ リファレンス","8. 値の書き方",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","530","heading","3","NTF テストデータ リファレンス > 8. 値の書き方","8.1 値の種類と Excel / YAML 対比",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","554","heading","3","NTF テストデータ リファレンス > 8. 値の書き方","8.2 インタープリタチェーンの仕組み",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","558","heading","3","NTF テストデータ リファレンス > 8. 値の書き方","8.3 インタープリタ一覧",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","577","heading","3","NTF テストデータ リファレンス > 8. 値の書き方","8.4 DateTimeInterpreter の完全一致制約",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","581","heading","3","NTF テストデータ リファレンス > 8. 値の書き方","8.5 文字種生成の有効文字種",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","587","heading","3","NTF テストデータ リファレンス > 8. 値の書き方","8.6 BinaryFileInterpreter のパス基準",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","596","heading","3","NTF テストデータ リファレンス > 8. 値の書き方","8.7 日付型カラムの記述形式と境界値",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","608","heading","3","NTF テストデータ リファレンス > 8. 値の書き方","8.8 バイナリデータの記述",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","612","heading","3","NTF テストデータ リファレンス > 8. 値の書き方","8.9 X9/SX9 型フィールドの記述",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","616","heading","3","NTF テストデータ リファレンス > 8. 値の書き方","8.10 データ型マッピング",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","637","heading","2","NTF テストデータ リファレンス","9. ディレクティブ",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","639","heading","3","NTF テストデータ リファレンス > 9. ディレクティブ","9.1 ディレクティブの構成",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","646","heading","3","NTF テストデータ リファレンス > 9. ディレクティブ","9.2 固定長ファイルのディレクティブ",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","666","heading","3","NTF テストデータ リファレンス > 9. ディレクティブ","9.3 可変長ファイルのディレクティブ",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","684","heading","3","NTF テストデータ リファレンス > 9. ディレクティブ","9.4 デフォルトディレクティブの DI 設定",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","698","heading","2","NTF テストデータ リファレンス","10. ヘッダ・コメント・空エントリ",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","700","heading","3","NTF テストデータ リファレンス > 10. ヘッダ・コメント・空エントリ","10.1 ヘッダの構造",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","707","heading","3","NTF テストデータ リファレンス > 10. ヘッダ・コメント・空エントリ","10.2 マーカーカラム",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","716","heading","3","NTF テストデータ リファレンス > 10. ヘッダ・コメント・空エントリ","10.3 エントリ単位のコメント",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","723","heading","3","NTF テストデータ リファレンス > 10. ヘッダ・コメント・空エントリ","10.4 要素途中からのコメント（Excel 固有）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-doc.md","728","heading","3","NTF テストデータ リファレンス > 10. ヘッダ・コメント・空エントリ","10.5 空エントリのスキップ",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","1","heading","1","","NTF テストデータ読み込み機構",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","11","heading","2","NTF テストデータ読み込み機構","1. 読み込みの4段階",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","15","code","0","NTF テストデータ読み込み機構 > 1. 読み込みの4段階","mermaid","mermaid
+flowchart LR
+    A[""① 読む<br/>PoiXlsReader<br/><br/>シートを<br/>文字列の表に""] --> B[""② 掃除する<br/>TestDataParsingTemplate<br/><br/>コメント・<br/>空行を除去""] --> C[""③ 変換する<br/>各 Interpreter<br/><br/>特殊記法を<br/>実値へ""] --> D[""④ 組み立てる<br/>各データタイプのパーサ<br/><br/>構造化<br/>オブジェクトへ""]
+    style A fill:#e8f0fe"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","26","code","0","NTF テストデータ読み込み機構 > 1. 読み込みの4段階","mermaid","mermaid
+classDiagram
+    class TestDataParser {
+        <<interface>>"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","67","heading","2","NTF テストデータ読み込み機構","2. データタイプと組み立て方の対応",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","74","code","0","NTF テストデータ読み込み機構 > 2. データタイプと組み立て方の対応","mermaid","mermaid
+classDiagram
+    class TestDataParsingTemplate
+    class SingleDataParsingTemplate"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","117","heading","2","NTF テストデータ読み込み機構","3. 値の変換と整形",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","122","heading","3","NTF テストデータ読み込み機構 > 3. 値の変換と整形","③ 共通変換：特殊記法を実値へ（全データタイプ共通）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","137","heading","3","NTF テストデータ読み込み機構 > 3. 値の変換と整形","④ 個別整形：組み立て時にデータタイプごとに（値の整形・補完）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","148","heading","3","NTF テストデータ読み込み機構 > 3. 値の変換と整形","③は不可逆、④は非破壊",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","159","heading","2","NTF テストデータ読み込み機構","4. 状態機械による組み立て（ファイル・メッセージ）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","163","code","0","NTF テストデータ読み込み機構 > 4. 状態機械による組み立て（ファイル・メッセージ）","mermaid","mermaid
+flowchart TD
+    DIR[""ディレクティブ行""] --> NAME[""フィールド名称行""]
+    NAME --> TYPE[""データ型行""]"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","180","heading","3","NTF テストデータ読み込み機構 > 4. 状態機械による組み立て（ファイル・メッセージ）","組み立て先のデータモデル（ファイル・メッセージ）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","185","code","0","NTF テストデータ読み込み機構 > 4. 状態機械による組み立て（ファイル・メッセージ） > 組み立て先のデータモデル（ファイル・メッセージ）","mermaid","mermaid
+flowchart TD
+    DF[""ファイルデータ<br/>DataFile""] -->|複数保持| FR[""レコードレイアウト<br/>DataFileFragment""]
+    DF -.->|ファイル全体に適用| DIR[""ディレクティブ""]"
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","208","heading","2","NTF テストデータ読み込み機構","5. ヘッダ行＋データ行による組み立て（テーブル・LIST_MAP）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","214","heading","3","NTF テストデータ読み込み機構 > 5. ヘッダ行＋データ行による組み立て（テーブル・LIST_MAP）","組み立て先のデータモデル（テーブル・LIST_MAP）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","226","heading","2","NTF テストデータ読み込み機構","6. 入口 API がまとめる単位",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","236","heading","2","NTF テストデータ読み込み機構","7. データブロックの選び方（Single / Group）",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","250","heading","2","NTF テストデータ読み込み機構","8. 再解析を避けるキャッシュ",""
+".rn/20260626-ntf-yaml-support/input/ntf-testdata-loading.md","257","heading","2","NTF テストデータ読み込み機構","さいごに",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","1","heading","1","","NTF テストデータ変換ツール 設計書",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","10","heading","2","NTF テストデータ変換ツール 設計書","1. 何を作るか（背景と決定）",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","12","heading","3","NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定）","解くべき課題",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","16","heading","3","NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定）","基準は「形式」ではなく「NTF 仕様上の意味」",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","20","code","0","NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定） > 基準は「形式」ではなく「NTF 仕様上の意味」","mermaid","mermaid
+flowchart LR
+  XLS[Excel] <--> MID[中間モデル<br/>NTF仕様上の意味] <--> YAML[YAML]"
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","34","heading","3","NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定）","保持するか捨てるかの判断基準",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","54","heading","3","NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定）","制約",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","62","heading","2","NTF テストデータ変換ツール 設計書","2. どう作るか（設計判断）",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","70","heading","3","NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断）","判断 A：Excel 経路 — アダプタで再利用",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","93","heading","3","NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断）","判断 B：YAML 経路 — 本体の構造解釈を再利用（本体器を空インタープリタで取得）",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","105","heading","3","NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断）","特殊記法の扱い：形式に依存するか否かで分ける",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","116","heading","3","NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断）","共通：器の中身を読む手段",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","129","heading","3","NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断）","共通：器が正規化する値の原文復元",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","142","heading","3","NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断）","重複実装を避ける：ロジックの共通化",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","154","heading","3","NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断）","書き出し（OUT）の整形方針",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","172","heading","2","NTF テストデータ変換ツール 設計書","3. 構造",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","176","heading","3","NTF テストデータ変換ツール 設計書 > 3. 構造","中間モデル",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","178","code","0","NTF テストデータ変換ツール 設計書 > 3. 構造 > 中間モデル","mermaid","mermaid
+classDiagram
+direction TB
+class TestDataContainer"
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","214","heading","3","NTF テストデータ変換ツール 設計書 > 3. 構造","IN（形式 → 中間モデル）",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","218","code","0","NTF テストデータ変換ツール 設計書 > 3. 構造 > IN（形式 → 中間モデル）","mermaid","mermaid
+classDiagram
+direction LR
+class TestDataFormatReader {"
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","272","heading","3","NTF テストデータ変換ツール 設計書 > 3. 構造","OUT（中間モデル → 形式）",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","274","code","0","NTF テストデータ変換ツール 設計書 > 3. 構造 > OUT（中間モデル → 形式）","mermaid","mermaid
+classDiagram
+direction LR
+class TestDataFormatWriter {"
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","299","heading","3","NTF テストデータ変換ツール 設計書 > 3. 構造","利用の入口",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","303","code","0","NTF テストデータ変換ツール 設計書 > 3. 構造 > 利用の入口","mermaid","mermaid
+classDiagram
+direction LR
+class TestDataConverter { +convert(from,to,input,output) }"
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","327","heading","2","NTF テストデータ変換ツール 設計書","4. 品質担保",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","338","heading","2","NTF テストデータ変換ツール 設計書","5. 開発とバージョン展開",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","340","heading","3","NTF テストデータ変換ツール 設計書 > 5. 開発とバージョン展開","開発とリポジトリ分割の手順",""
+".rn/20260626-ntf-yaml-support/input/testdata-converter-design.md","350","heading","3","NTF テストデータ変換ツール 設計書 > 5. 開発とバージョン展開","過去バージョンへの展開",""
