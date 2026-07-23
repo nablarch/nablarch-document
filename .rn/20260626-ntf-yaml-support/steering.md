@@ -408,7 +408,7 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 - [x] `.rn/20260626-ntf-yaml-support/reviews/gate2-findings.md` を作成し、`MISSING` と `DUPLICATED` を一覧化して対処案を付す
 - [x] self-check（Completion criteria ごとに OK/NG を `checks/review-t3.md` に記録）
 - [x] commit & push
-- [ ] **user review** — `MISSING` / `DUPLICATED` の内容と対処案のレビューを受ける。承認を受けるまで #18 に進まない
+- [x] **user review** — `MISSING` / `DUPLICATED` の内容と対処案のレビューを受ける。承認を受けるまで #18 に進まない
 
 **Completion criteria**:
 
@@ -486,6 +486,6 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 Status: paused
 Date: 2026-07-23
-Last completed: #17 (T3) — gate2-traceability.csv (2905行, MOVED=29/MISSING=486/DUPLICATED=80/KEPT=2307/MODIFIED=3) と gate2-findings.md を作成・push済み（コミット 7c86016）。user review 待ち。
-Next: #17 user review の OK/NG を受け取る。OK なら #18 (T4) へ進む。NG なら指摘を修正してから再push・再レビュー依頼。
-Notes: gate2-findings.md のサマリー行数が旧値（MOVED=44, MISSING=471）になっていたため本セッションで修正（MOVED=29, MISSING=486 に更新）。
+Last completed: #17 (T3) — user review OK。gate2-traceability.csv (MOVED=29/MISSING=486/DUPLICATED=80/KEPT=2307/MODIFIED=3, 計2905行) 承認済み。
+Next: #18 (T4) — ゲート③ 記述規約の抽出と逸脱検出。gate3-conventions.md と gate3-findings.csv を作成する。
+Notes: （なし）
