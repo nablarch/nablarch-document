@@ -473,6 +473,125 @@ def search_in_file_or_dir(pattern: str, dest_repo_rel: str) -> tuple[bool, str, 
         return False, "", 0
 
 
+# ─── コードブロック一意照合ヘルパー ──────────────────────────────────────────────
+
+def _get_all_hits_in_text(pattern: str, text_lines: list[str]) -> list[int]:
+    """
+    text_lines 内で pattern が含まれる全行の 1-indexed 行番号リストを返す。
+    text_lines は 1-indexed（[0] は空）を前提とする。
+    """
+    result = []
+    for i in range(1, len(text_lines)):
+        if pattern in text_lines[i]:
+            result.append(i)
+    return result
+
+
+def search_code_unique_in_text(
+    detail: str, text_lines: list[str]
+) -> tuple[bool, int, str]:
+    """
+    コードブロック detail の本体2〜3行を使って一意照合する。
+
+    detail の形式: "lang\nbody_line1\nbody_line2\n..."
+    text_lines は 1-indexed（[0] は空）を前提とする。
+
+    Returns: (found: bool, line_no: int, note: str)
+      - found=True  : 一意にヒット → line_no に 1-indexed 行番号
+      - found=False, note="" : ゼロヒット（通常の MISSING）
+      - found=False, note!=": 複数ヒットで一意特定不可 → note に理由
+    """
+    parts = detail.strip().split('\n')
+    # 言語指定行（1行目）を除いた本体行
+    body_lines = [p.strip() for p in parts[1:] if p.strip()]
+    if not body_lines:
+        return False, 0, ""
+
+    # 照合キーとして使う行を収集（最大3行、MIN_PATTERN_LEN 以上のもの）
+    key_lines = [ln for ln in body_lines if len(ln) >= MIN_PATTERN_LEN][:3]
+    if not key_lines:
+        return False, 0, ""
+
+    # 1行目でヒット候補を全件収集
+    candidates = _get_all_hits_in_text(key_lines[0], text_lines)
+
+    if len(candidates) == 0:
+        # フォールバック: 20文字短縮版で再試行
+        short = key_lines[0][:20]
+        if len(short) < len(key_lines[0]):
+            candidates = _get_all_hits_in_text(short, text_lines)
+        if len(candidates) == 0:
+            return False, 0, ""
+
+    if len(candidates) == 1:
+        return True, candidates[0], ""
+
+    # 複数ヒット → 2行目・3行目で絞り込む
+    total_hits = len(candidates)
+    for key in key_lines[1:]:
+        filtered = []
+        for cidx in candidates:
+            # 前後5行以内（0-indexed で cidx-1±5）に key が存在するか確認
+            # cidx は 1-indexed なので、0-indexed では cidx-1
+            window_start = max(1, cidx - 2)
+            window_end   = min(len(text_lines) - 1, cidx + 5)
+            window = text_lines[window_start: window_end + 1]
+            if any(key in ln for ln in window):
+                filtered.append(cidx)
+        candidates = filtered
+        if len(candidates) == 1:
+            return True, candidates[0], ""
+        if len(candidates) == 0:
+            return False, 0, ""
+
+    # 3行使っても複数ヒット → 一意特定不可
+    note = (
+        f"同一パターン({key_lines[0][:40]!r})が移送先に{total_hits}箇所存在するため一意特定不可"
+    )
+    return False, 0, note
+
+
+def search_code_unique_in_file_or_dir(
+    detail: str, dest_repo_rel: str
+) -> tuple[bool, str, int, str]:
+    """
+    コードブロックの一意照合をファイル/ディレクトリに対して行う。
+
+    Returns: (found: bool, actual_file: str, actual_line: int, note: str)
+      - found=True  : 一意にヒット
+      - found=False, note="" : ゼロヒット
+      - found=False, note!=": 複数ヒットで一意特定不可（note に理由）
+    """
+    if not detail or not dest_repo_rel:
+        return False, "", 0, ""
+
+    if dest_repo_rel.endswith("/"):
+        # ディレクトリ内全 RST を走査
+        full_dir = os.path.join(REPO_ROOT, dest_repo_rel)
+        if not os.path.isdir(full_dir):
+            return False, "", 0, ""
+        for dirpath, _dirs, files in os.walk(full_dir):
+            for fname in sorted(files):
+                if not fname.endswith(".rst"):
+                    continue
+                abs_path = os.path.join(dirpath, fname)
+                rel = os.path.relpath(abs_path, REPO_ROOT)
+                lines = get_after_lines(rel)
+                found, lineno, note = search_code_unique_in_text(detail, lines)
+                if found:
+                    return True, rel, lineno, note
+                if note:
+                    # 複数ヒットで一意特定不可
+                    return False, rel, 0, note
+        return False, "", 0, ""
+    else:
+        lines = get_after_lines(dest_repo_rel)
+        found, lineno, note = search_code_unique_in_text(detail, lines)
+        if found:
+            return True, dest_repo_rel, lineno, note
+        return False, dest_repo_rel if note else "", 0, note
+
+
 # ─── dest ファイルが src ファイルと同一か判定 ──────────────────────────────────
 
 def dest_is_same_as_src(src_file: str, design_dest: str) -> bool:
@@ -673,6 +792,12 @@ def process_before_row(i: int, row: dict) -> dict:
                 dest_found, dest_actual_file, dest_actual_line = search_heading_in_file_or_dir(
                     heading_title, dest_path
                 )
+        elif kind == "code" and dest_path:
+            detail_raw = row.get("detail", "").strip()
+            dest_found, dest_actual_file, dest_actual_line, code_note = \
+                search_code_unique_in_file_or_dir(detail_raw, dest_path)
+            if code_note:
+                note_parts.append(code_note)
         elif pattern and dest_path:
             dest_found, dest_actual_file, dest_actual_line = search_in_file_or_dir(
                 pattern, dest_path
@@ -786,19 +911,34 @@ def process_input_row(i: int, row: dict) -> dict:
             "note": "; ".join(note_parts) + "; 照合パターンなし",
         }
 
-    # dest ファイルを検索
-    dest_found, dest_actual_file, dest_actual_line = search_in_file_or_dir(pattern, dest_path)
+    # dest ファイルを検索（code は一意照合、それ以外は通常照合）
+    if kind == "code":
+        detail_raw = row.get("detail", "").strip()
+        dest_found_b, dest_actual_file, dest_actual_line, code_note = \
+            search_code_unique_in_file_or_dir(detail_raw, dest_path)
+        dest_found = dest_found_b
+        if dest_found:
+            note_parts.append(f"dest {dest_actual_file} L{dest_actual_line} にヒット（一意照合）")
+        elif code_note:
+            # 複数ヒットで一意特定不可 → MISSING
+            note_parts.append(code_note)
+        else:
+            note_parts.append(f"照合失敗: pattern={pattern[:40]!r}")
+    else:
+        dest_found, dest_actual_file, dest_actual_line = search_in_file_or_dir(pattern, dest_path)
+        if dest_found:
+            note_parts.append(f"dest {dest_actual_file} L{dest_actual_line} にヒット")
+        else:
+            note_parts.append(f"照合失敗: pattern={pattern[:40]!r}")
 
     if dest_found:
         verdict = "MOVED"
         actual_file = dest_actual_file
         actual_line = str(dest_actual_line)
-        note_parts.append(f"dest {dest_actual_file} L{dest_actual_line} にヒット")
     else:
         verdict = "MISSING"
         actual_file = ""
         actual_line = ""
-        note_parts.append(f"照合失敗: pattern={pattern[:40]!r}")
 
     return {
         "item_id": f"I-{i+1:04d}",
