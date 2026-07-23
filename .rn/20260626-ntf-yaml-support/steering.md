@@ -349,7 +349,7 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 - [x] `reviews/tools/build_inventory.sh` を作成する（変更前・PR後・input の3系統を抽出。base は `git merge-base origin/develop HEAD`）
 - [x] self-check（Completion criteria ごとに OK/NG を `checks/review-t1.md` に記録）
 - [x] commit & push
-- [ ] **user review** — 承認を受けるまで #16 に進まない
+- [x] **user review** — 承認を受けるまで #16 に進まない
 
 **Completion criteria**:
 
