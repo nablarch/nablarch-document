@@ -56,8 +56,8 @@ NTF（Nablarch Testing Framework）のドキュメントを刷新する。具体
 
 # State
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-07-24
 - **Last completed**: (none)
 - **Next**: #1 作業指示の受領とタスク詳細化
-- **Notes**: 作業指示待ち。指示受領後に Acceptance criteria と Tasks を更新する。
+- **Notes**: 作業指示待ちでサスペンド。指示受領後に Acceptance criteria と Tasks を更新する。PR: #728 (ntf-yaml-support)
