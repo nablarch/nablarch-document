@@ -484,8 +484,8 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
   Status: active | paused | complete
 -->
 
-Status: active
-<!--
-  Last completed: #17
-  Next: #18
--->
+Status: paused
+Date: 2026-07-24
+Last completed: #19 (T5) — README.md 作成・user review 待ち。
+Next: #19 user review → 承認後 #20（評価サインオフ）へ。
+Notes: （なし）
