@@ -432,7 +432,7 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 - [x] 検査対象6ファイル: `testdata/index.rst`・`testdata/examples.rst`・`testdata_format.rst`・`06_TestFWGuide/index.rst`・`05_UnitTestGuide/index.rst`・`03_Tips.rst`
 - [x] self-check（Completion criteria ごとに OK/NG を `checks/review-t4.md` に記録）
 - [x] commit & push
-- [ ] **user review** — 抽出した規約の妥当性と逸脱判定のレビューを受ける。承認を受けるまで #19 に進まない
+- [ ] **user review** — 抽出した規約の妥当性と逸脱判定のレビューを受ける。承認を受けるまで #19 に進まない (修正済: C-04定義修正・F-001/F-004取り下げ・F-005追加)
 
 **Completion criteria**:
 
