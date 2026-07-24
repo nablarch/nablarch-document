@@ -255,7 +255,8 @@ class TestRSTBasic(unittest.TestCase):
         self.assertEqual(len(sections), 1, "Only one L3 section expected")
         # L4 heading text should appear in section body (not as separate section)
         # lines should include the L4 heading and its body
-        self.assertGreater(sections[0]["lines"], 2)
+        # body: blank + "L3 body\n" + blank + "L4 heading\n" + "----------\n" + blank + "L4 body...\n" = 7 lines
+        self.assertEqual(sections[0]["lines"], 7)
 
     def test_code_blocks_counted(self):
         sections = run_extract(RST_CODE_TABLE_FIGURE, "stuff.rst", "current")
@@ -294,9 +295,8 @@ class TestRSTBasic(unittest.TestCase):
         # ^ is L4 (4th seen char) → folded into enclosing L3
         self.assertEqual(len(sections), 1)
         self.assertIn("H3 tilde", sections[0]["heading_path"])
-        # body includes ^ heading and its body
-        body_text = "".join(sections[0].get("src_file", ""))  # just check count
-        self.assertGreater(sections[0]["lines"], 0)
+        # body includes "body tilde\n" + blank + "H3 caret\n" + "^^^^^^^^\n" + blank + "body caret\n" + trailing = 7 lines
+        self.assertEqual(sections[0]["lines"], 7)
 
     def test_rst_empty_section_lines_zero(self):
         """A section with no body lines should report lines == 0."""
@@ -313,16 +313,15 @@ class TestRSTBasic(unittest.TestCase):
 
     def test_overline_boundary_no_bleed(self):
         """Overline line must not appear in the body of the preceding section."""
+        # Given: RST_WITH_OVERLINE - Title/L2a/L3a/L3b すべて同じ char (=) + overline → level 1 のみ
+        # When: セクションを抽出する
         sections = run_extract(RST_WITH_OVERLINE, "overline.rst", "current")
-        # RST_WITH_OVERLINE: Title (overline =), L2a (overline =) same char/overline → level 1
-        # same char + overline → level 1; so L3a/L3b won't be level 3 in this fixture
-        # All headings use the same char (=) with overline → all level 1
-        # No L3 sections → 0 sections
-        # Verify no crash and overline lines not in body of any section
-        self.assertIsInstance(sections, list)
+        # Then: L3 セクションは 0 件（全見出しが level 1 に解釈される）
+        self.assertEqual(len(sections), 0)
 
     def test_overline_with_underline_only_different_levels(self):
         """Same char with overline vs without overline = different levels."""
+        # Given: = + overline → L1, = underline-only → L2, - underline-only → L3
         rst = """\
 ====
 Title
@@ -336,15 +335,15 @@ L3 sub
 
 body here
 """
+        # When: セクションを抽出する
         sections = run_extract(rst, "levels.rst", "current")
-        # = with overline → L1; = without overline → L2; - without overline → L3
+        # Then: L3 sub のみが L3 セクションとして抽出される
         self.assertEqual(len(sections), 1)
         self.assertIn("L3 sub", sections[0]["heading_path"])
 
     def test_overline_section_boundary_accurate(self):
         """Overline of L3b must not bleed into L3a's body lines."""
-        # Both L3a and L3b use overline form with the same char (=).
-        # = underline only → L1, - underline only → L2, = overline → L3.
+        # Given: = underline-only → L1, - underline-only → L2, = overline → L3
         # The overline line (===) of L3b must NOT be counted in L3a's body.
         rst = """\
 Title
@@ -367,12 +366,16 @@ L3b with overline
 body_b
 """
         from extract_sections import extract_rst_sections
+        # When: セクションを抽出する
         sections = extract_rst_sections(rst, "ob.rst")
+        # Then: セクション数と各セクションの lines が期待値と一致する
         self.assertEqual(len(sections), 2)
         # L3a body: blank + line1 + line2 + blank = 4 lines (NOT 5 which would include ===)
         self.assertEqual(sections[0]["lines"], 4)
+        self.assertEqual(sections[0]["src_line"], 8)
         # L3b body: blank + body_b = 2 lines
         self.assertEqual(sections[1]["lines"], 2)
+        self.assertEqual(sections[1]["src_line"], 15)
 
 
 # ===========================================================================
@@ -500,7 +503,8 @@ class TestMarkdownBasic(unittest.TestCase):
     def test_h4_included_in_h3(self):
         sections = run_extract(MD_H4_UNDER_H3, "h4.md", "input")
         self.assertEqual(len(sections), 1)
-        self.assertGreater(sections[0]["lines"], 2)
+        # body: blank + "H3 body\n" + blank + "#### H4\n" + blank + "H4 body...\n" = 6 lines
+        self.assertEqual(sections[0]["lines"], 6)
 
     def test_h2_not_standalone_section(self):
         sections = run_extract(MD_H2_NOT_STANDALONE, "h2.md", "input")
@@ -621,17 +625,6 @@ class TestWriteCSVRoundtrip(unittest.TestCase):
 
 class TestCLIMain(unittest.TestCase):
 
-    def _run_cli(self, args, extra_files=None):
-        """Helper: run extract_sections.py via subprocess and return (returncode, stderr, csv_path)."""
-        script = os.path.join(os.path.dirname(__file__), "extract_sections.py")
-        with tempfile.NamedTemporaryFile(suffix=".csv", delete=False) as tf:
-            out_csv = tf.name
-        cmd = [sys.executable, script] + args + [out_csv]
-        if extra_files:
-            cmd += extra_files
-        result = subprocess.run(cmd, capture_output=True, text=True)
-        return result.returncode, result.stderr, out_csv
-
     def test_actual_logical_spec(self):
         """actual:logical file spec uses logical path in CSV output."""
         with tempfile.NamedTemporaryFile(
@@ -716,6 +709,94 @@ class TestCLIMain(unittest.TestCase):
             for p in (path_a, path_b, csv1, csv2):
                 if os.path.exists(p):
                     os.unlink(p)
+
+
+# ===========================================================================
+# ADDITIONAL TESTS (Round 1)
+# ===========================================================================
+
+RST_MULTI_SIMPLE_TABLE = """\
+========
+Title
+========
+
+------
+L2
+------
+
+L3 two tables
+=============
+
+=== ===
+A   B
+=== ===
+
+Some text.
+
+=== === ===
+X   Y   Z
+=== === ===
+
+"""
+
+
+class TestRSTMultipleSimpleTables(unittest.TestCase):
+
+    def test_two_simple_tables_counted(self):
+        """2個の simple table が含まれるセクションで tables == 2 となること。"""
+        # Given: 2つの simple table を含む RST テキスト
+        # When: セクションを抽出する
+        sections = run_extract(RST_MULTI_SIMPLE_TABLE, "multi_t.rst", "current")
+        # Then: tables カウントが 2 になること
+        self.assertEqual(len(sections), 1)
+        self.assertEqual(sections[0]["tables"], 2)
+
+
+class TestMDCodeFenceExtended(unittest.TestCase):
+
+    def test_four_backtick_fence_ignored_as_heading(self):
+        """4個以上のバッククォートfenceの中にある ### はheadingとして抽出されないこと。"""
+        # Given: 4個バッククォートfenceの中に ### を含む Markdown
+        md = """\
+# Title
+
+## H2
+
+### Real H3
+
+Content before fence.
+
+````markdown
+### Fake H3 inside 4-backtick fence
+````
+
+More content.
+"""
+        # When: セクションを抽出する
+        sections = run_extract(md, "fence4.md", "input")
+        # Then: Real H3 のみが抽出され、fenceの中の ### は無視されること
+        self.assertEqual(len(sections), 1)
+        self.assertIn("Real H3", sections[0]["heading_path"])
+
+    def test_four_backtick_fence_code_counted(self):
+        """4個バッククォートfenceはコードブロックとして1件カウントされること。"""
+        # Given: 4個バッククォートfenceを含む Markdown
+        md = """\
+# Title
+
+## H2
+
+### H3
+
+````python
+x = 1
+````
+"""
+        # When: セクションを抽出する
+        sections = run_extract(md, "fence4cb.md", "input")
+        # Then: code_blocks == 1
+        self.assertEqual(len(sections), 1)
+        self.assertEqual(sections[0]["code_blocks"], 1)
 
 
 if __name__ == "__main__":

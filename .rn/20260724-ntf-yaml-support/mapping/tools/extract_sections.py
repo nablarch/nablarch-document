@@ -254,7 +254,7 @@ def extract_rst_sections(text: str, src_file: str) -> List[Dict[str, Any]]:
 # ---------------------------------------------------------------------------
 
 _MD_HEADING_RE = re.compile(r'^(#{1,6})\s+(.*?)\s*$')
-_MD_CODE_FENCE_RE = re.compile(r'^```')
+_MD_CODE_FENCE_RE = re.compile(r'^`{3,}')
 _MD_TABLE_ROW_RE = re.compile(r'^\|')
 _MD_FIGURE_RE = re.compile(r'!\[.*?\]\(.*?\)')
 
@@ -455,7 +455,11 @@ def main(argv: List[str]) -> None:
             section_counter += 1
             all_sections.append(sec)
 
-    write_csv(all_sections, out_csv)
+    try:
+        write_csv(all_sections, out_csv)
+    except OSError as e:
+        print(f"ERROR: {out_csv}: {e}", file=sys.stderr)
+        sys.exit(1)
     print(f"Wrote {len(all_sections)} sections to {out_csv}", file=sys.stderr)
 
 
