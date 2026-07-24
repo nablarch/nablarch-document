@@ -427,11 +427,11 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 **Steps**:
 
-- [ ] `.rn/20260626-ntf-yaml-support/reviews/gate3-conventions.md` を作成する（規約ID `C-01` 形式・根拠 file:line 2件以上）
-- [ ] `.rn/20260626-ntf-yaml-support/reviews/gate3-findings.csv` を作成する（列: `finding_id,file,line,rule_id,detected,expected,severity,fix_proposal`）
-- [ ] 検査対象6ファイル: `testdata/index.rst`・`testdata/examples.rst`・`testdata_format.rst`・`06_TestFWGuide/index.rst`・`05_UnitTestGuide/index.rst`・`03_Tips.rst`
-- [ ] self-check（Completion criteria ごとに OK/NG を `checks/review-t4.md` に記録）
-- [ ] commit & push
+- [x] `.rn/20260626-ntf-yaml-support/reviews/gate3-conventions.md` を作成する（規約ID `C-01` 形式・根拠 file:line 2件以上）
+- [x] `.rn/20260626-ntf-yaml-support/reviews/gate3-findings.csv` を作成する（列: `finding_id,file,line,rule_id,detected,expected,severity,fix_proposal`）
+- [x] 検査対象6ファイル: `testdata/index.rst`・`testdata/examples.rst`・`testdata_format.rst`・`06_TestFWGuide/index.rst`・`05_UnitTestGuide/index.rst`・`03_Tips.rst`
+- [x] self-check（Completion criteria ごとに OK/NG を `checks/review-t4.md` に記録）
+- [x] commit & push
 - [ ] **user review** — 抽出した規約の妥当性と逸脱判定のレビューを受ける。承認を受けるまで #19 に進まない
 
 **Completion criteria**:
