@@ -450,9 +450,9 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 **Steps**:
 
-- [ ] `.rn/20260626-ntf-yaml-support/reviews/README.md` を作成する（3ゲートの定義・各成果物の意味・インベントリ再生成コマンド・verdict 4値の定義・判定サマリ・未対処事項一覧）
-- [ ] self-check（Completion criteria ごとに OK/NG を `checks/review-t5.md` に記録）
-- [ ] commit & push
+- [x] `.rn/20260626-ntf-yaml-support/reviews/README.md` を作成する（3ゲートの定義・各成果物の意味・インベントリ再生成コマンド・verdict 4値の定義・判定サマリ・未対処事項一覧）
+- [x] self-check（Completion criteria ごとに OK/NG を `checks/review-t5.md` に記録）
+- [x] commit & push
 - [ ] **user review** — 最終確認
 
 **Completion criteria**:
