@@ -5,6 +5,14 @@
 このディレクトリは PR `feature/ntf-yaml-support`（NTF解説書 YAML対応）のレビュー成果物を格納している。
 PRの正確性を検証するために、以下の3段階のゲートレビューを実施した。
 
+本レビューでは以下の3つのソースを突き合わせている:
+
+- **変更前**: PR マージ前のリポジトリ状態（`git merge-base origin/develop HEAD` 時点の RST）
+- **変更後**: 本 PR の RST（現 `feature/ntf-yaml-support` ブランチ）
+- **input**: `.rn/20260626-ntf-yaml-support/input/` 配下の仕様書 Markdown（YAML 対応の正典）
+
+章構成の基準となる設計書は `.rn/20260626-ntf-yaml-support/design.md`。
+
 ---
 
 ## ゲート一覧
@@ -14,14 +22,14 @@ PRの正確性を検証するために、以下の3段階のゲートレビュ�
 - **成果物**: `gate1-structure.md`
 - **目的**: `design.md` の章構成が PR の目的に適合しているかを判定する
 - **総合判定**: 条件付き合格
-- **検出逸脱**: 既知 5件（G1-01〜G1-05）全件検出済み
+- **検出 finding**: 既知 5件（G1-01〜G1-05）全件検出済み
 - **根拠**: A-1〜A-6・B-1〜B-6 各章の読者判定表（file:line 根拠付き）
 
 ---
 
 ### ゲート② 突合台帳
 
-- **成果物**: `gate2-traceability.csv`（ヘッダー除く 2905行）、`gate2-findings.md`
+- **成果物**: `gate2-traceability.csv`（2905レコード、ヘッダー除く。フィールド内改行を含むため物理行数は 3177）、`gate2-findings.md`
 - **目的**: 変更前と input の全項目が新構成のどこに移送されたかを1項目ずつ追跡する
 
 #### verdict の定義と件数
@@ -58,7 +66,7 @@ MISSING・DUPLICATED の対処案は `gate2-findings.md` に記載している�
 ```bash
 # リポジトリルートから実行
 bash .rn/20260626-ntf-yaml-support/reviews/tools/build_inventory.sh
-# 出力: inventory-before.csv (2686行), inventory-after.csv (3602行), inventory-input.csv (492行)
+# 出力: inventory-before.csv (2687行), inventory-after.csv (3603行), inventory-input.csv (493行)
 # ※行数はヘッダー含む
 ```
 
@@ -84,8 +92,8 @@ C-04 標準体系（FL1=`=`upper+lower、FL2=`-`upper+lower、FL3=`=`under-only�
 
 | ゲート | 成果物 | 件数 |
 |---|---|---|
-| ゲート① | gate1-structure.md 逸脱 | 5件（G1-01〜G1-05） |
-| ゲート② | gate2-traceability.csv | 2905行（ヘッダー除く） |
+| ゲート① | gate1-structure.md finding | 5件（G1-01〜G1-05） |
+| ゲート② | gate2-traceability.csv | 2905レコード（ヘッダー除く、物理行数 3177） |
 | ゲート② | gate2-findings.md: MISSING | 486件 |
 | ゲート② | gate2-findings.md: DUPLICATED | 80件 |
 | ゲート③ | gate3-findings.csv | 10件（F-001〜F-008, F-101, F-102） |
