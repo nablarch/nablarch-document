@@ -58,9 +58,11 @@ def _is_rst_adornment(line: str) -> Optional[str]:
     return None
 
 
-def _parse_rst_headings(lines: List[str]) -> List[Tuple[int, int, str]]:
+def _parse_rst_headings(lines: List[str]) -> List[Tuple[int, int, str, Optional[int]]]:
     """
-    Parse RST headings.  Returns list of (line_index_0based, level, heading_text).
+    Parse RST headings.  Returns list of
+    (text_line_index_0based, level, heading_text, overline_line_index_or_None).
+
     Level 1 = first seen adornment style, 2 = second, 3 = third, etc.
 
     RST heading forms:
@@ -68,9 +70,11 @@ def _parse_rst_headings(lines: List[str]) -> List[Tuple[int, int, str]]:
       Text + underline                                        → key: (char, False)
 
     Same character with overline vs without overline are DIFFERENT levels.
+    The 4th tuple element is the overline line index for overline-form headings,
+    or None for underline-only headings.
     """
     level_map: Dict[Tuple[str, bool], int] = {}
-    result: List[Tuple[int, int, str]] = []
+    result: List[Tuple[int, int, str, Optional[int]]] = []
 
     n = len(lines)
     i = 0
@@ -86,7 +90,7 @@ def _parse_rst_headings(lines: List[str]) -> List[Tuple[int, int, str]]:
                     key = (ch, True)
                     if key not in level_map:
                         level_map[key] = len(level_map) + 1
-                    result.append((i + 1, level_map[key], text_line))
+                    result.append((i + 1, level_map[key], text_line, i))
                     i += 3
                     continue
             # Not overline; skip (pure adornment line handled as underline below)
@@ -102,7 +106,7 @@ def _parse_rst_headings(lines: List[str]) -> List[Tuple[int, int, str]]:
                     key = (ch2, False)
                     if key not in level_map:
                         level_map[key] = len(level_map) + 1
-                    result.append((i, level_map[key], stripped))
+                    result.append((i, level_map[key], stripped, None))
                     i += 2
                     continue
             i += 1
@@ -119,11 +123,13 @@ def _count_rst_code_blocks(body_lines: List[str]) -> int:
 
 
 def _is_simple_table_adornment(stripped: str) -> bool:
-    """Return True if the line is a simple RST table adornment line (=== === ...)."""
+    """Return True if the line is a simple RST table adornment line (=== === ...).
+    Requires at least 2 blocks to avoid false-positive on heading underlines.
+    """
     if not stripped or '+' in stripped:
         return False
     parts = stripped.split()
-    return len(parts) >= 1 and all(re.match(r'^=+$', p) for p in parts)
+    return len(parts) >= 2 and all(re.match(r'^=+$', p) for p in parts)
 
 
 def _count_rst_tables(body_lines: List[str]) -> int:
@@ -184,7 +190,7 @@ def _count_rst_figures(body_lines: List[str]) -> int:
     return count
 
 
-def extract_rst_sections(text: str, src_file: str, prefix: str) -> List[Dict[str, Any]]:
+def extract_rst_sections(text: str, src_file: str) -> List[Dict[str, Any]]:
     """Extract L3 sections from RST text."""
     lines = text.splitlines(keepends=True)
     headings = _parse_rst_headings(lines)
@@ -196,29 +202,27 @@ def extract_rst_sections(text: str, src_file: str, prefix: str) -> List[Dict[str
     l2_text = ""
 
     # Group headings by level
-    for idx, (line_idx, level, heading_text) in enumerate(headings):
+    for idx, (line_idx, level, heading_text, overline_idx) in enumerate(headings):
         if level == 1:
             l1_text = heading_text
             l2_text = ""
         elif level == 2:
             l2_text = heading_text
         elif level == 3:
-            # Determine end of this section: next heading of level <= 3
+            # Determine end of this section: next heading of level <= 3.
+            # For overline-form headings, the boundary is the overline line (not
+            # the text line) so the overline does not bleed into the previous
+            # section's body.
             next_boundary = len(lines)
             for jdx in range(idx + 1, len(headings)):
                 if headings[jdx][1] <= 3:
-                    next_boundary = headings[jdx][0]
+                    ov = headings[jdx][3]
+                    next_boundary = ov if ov is not None else headings[jdx][0]
                     break
 
-            # Body lines: from line after heading (and its adornment) to next_boundary
-            # The heading is at line_idx; the underline is at line_idx+1
-            body_start = line_idx + 2  # skip heading line + underline
-            # If overline was used, heading is at line_idx+1, overline at line_idx, underline at line_idx+2
-            # But _parse_rst_headings already stores the text line index
-            # We need to find where content actually starts
-            # In "text + underline" form: heading at line_idx, underline at line_idx+1
-            # In "overline + text + underline" form: overline at line_idx-1, text at line_idx, underline at line_idx+1
-            # Our parser stores the TEXT line index in both cases
+            # Body lines: from line after heading (and its underline) to next_boundary.
+            # _parse_rst_headings stores the TEXT line index in both overline and
+            # underline-only forms.  The underline is always at text_line + 1.
             body_start = line_idx + 2  # skip heading text line + underline line
             body_lines = lines[body_start:next_boundary]
 
@@ -308,7 +312,7 @@ def _count_md_figures(body_lines: List[str]) -> int:
     return count
 
 
-def extract_md_sections(text: str, src_file: str, prefix: str) -> List[Dict[str, Any]]:
+def extract_md_sections(text: str, src_file: str) -> List[Dict[str, Any]]:
     """Extract H3 sections from Markdown text."""
     lines = text.splitlines(keepends=True)
     headings = _parse_md_headings(lines)
@@ -358,16 +362,16 @@ def extract_md_sections(text: str, src_file: str, prefix: str) -> List[Dict[str,
 # Unified entry point
 # ---------------------------------------------------------------------------
 
-def extract_sections(text: str, src_file: str, prefix: str) -> List[Dict[str, Any]]:
+def extract_sections(text: str, src_file: str) -> List[Dict[str, Any]]:
     """
     Extract L3-equivalent sections from text.
     Dispatches to RST or Markdown extractor based on src_file extension.
     Returns list of dicts (section_id not yet assigned; caller assigns it).
     """
     if src_file.endswith(".rst"):
-        return extract_rst_sections(text, src_file, prefix)
+        return extract_rst_sections(text, src_file)
     elif src_file.endswith(".md"):
-        return extract_md_sections(text, src_file, prefix)
+        return extract_md_sections(text, src_file)
     else:
         raise ValueError(f"Unsupported file type: {src_file}")
 
@@ -412,37 +416,43 @@ def main(argv: List[str]) -> None:
 
     prefix = argv[0]
     out_csv = argv[1]
-    raw_specs = argv[2:]
+    raw_file_specs = argv[2:]
 
     # Parse file specs and sort by logical_path for reproducibility
     file_specs: List[Tuple[str, str]] = []
-    for spec in raw_specs:
+    for spec in raw_file_specs:
         if ":" in spec:
             # Split on first colon only (Windows paths would break, but we're on Linux)
-            idx = spec.index(":")
-            actual = spec[:idx]
-            logical = spec[idx + 1:]
+            actual, logical = spec.split(":", 1)
         else:
             actual = spec
             logical = spec
         file_specs.append((actual, logical))
 
     # Sort by logical path for reproducibility
-    file_specs.sort(key=lambda x: x[1])
+    file_specs = sorted(file_specs, key=lambda x: x[1])
 
     all_sections: List[Dict[str, Any]] = []
-    counter = 1
+    section_counter = 1
     for actual_path, logical_path in file_specs:
         if not os.path.isfile(actual_path):
             print(f"ERROR: file not found: {actual_path}", file=sys.stderr)
             sys.exit(1)
-        with open(actual_path, encoding="utf-8") as f:
-            text = f.read()
+        try:
+            with open(actual_path, encoding="utf-8") as f:
+                text = f.read()
+        except UnicodeDecodeError as e:
+            print(f"ERROR: {actual_path}: encoding error: {e}", file=sys.stderr)
+            sys.exit(1)
         # Use logical_path (with correct extension) for dispatch
-        secs = extract_sections(text, logical_path, prefix)
-        for sec in secs:
-            sec["section_id"] = f"{prefix}-{counter:04d}"
-            counter += 1
+        try:
+            sections = extract_sections(text, logical_path)
+        except ValueError as e:
+            print(f"ERROR: {e}", file=sys.stderr)
+            sys.exit(1)
+        for sec in sections:
+            sec["section_id"] = f"{prefix}-{section_counter:04d}"
+            section_counter += 1
             all_sections.append(sec)
 
     write_csv(all_sections, out_csv)
