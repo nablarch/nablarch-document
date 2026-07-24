@@ -486,6 +486,6 @@ CLAUDE.md の「NTF 解説書 YAML 対応 固有ルール」セクションを�
 
 Status: paused
 Date: 2026-07-24
-Last completed: #19 (T5) — README.md 作成・user review 待ち。
-Next: #19 user review → 承認後 #20（評価サインオフ）へ。
-Notes: （なし）
+Last completed: #19 (T5) — README.md NG 指摘修正済み・user review 再待ち。
+Next: #19 user review 合格 → #20（評価サインオフ）へ。
+Notes: NG 指摘3件を修正してコミット済み（f51fcb1）。再レビュー待ち。
