@@ -60,12 +60,14 @@ echo "[build_mapping] Written: $OUT_CURRENT" >&2
 # -----------------------------------------------------------------------
 # 3. Collect input Markdown files (exclude design.md)
 # -----------------------------------------------------------------------
-MD_FILE_LIST=()
+MD_FILE_SPECS=()
 while IFS= read -r md_path; do
-    MD_FILE_LIST+=("$md_path")
+    # md_path is absolute; logical is relative from REPO_ROOT
+    logical="${md_path#${REPO_ROOT}/}"
+    MD_FILE_SPECS+=("${md_path}:${logical}")
 done < <(find "$INPUT_DIR" -name "*.md" ! -name "design.md" | sort)
 
-MD_COUNT="${#MD_FILE_LIST[@]}"
+MD_COUNT="${#MD_FILE_SPECS[@]}"
 echo "[build_mapping] MD files found: $MD_COUNT" >&2
 
 if [ "$MD_COUNT" -eq 0 ]; then
@@ -76,7 +78,7 @@ fi
 # -----------------------------------------------------------------------
 # 4. Extract input sections → sections-input.csv
 # -----------------------------------------------------------------------
-python3 "$EXTRACT_PY" input "$OUT_INPUT" "${MD_FILE_LIST[@]}"
+python3 "$EXTRACT_PY" input "$OUT_INPUT" "${MD_FILE_SPECS[@]}"
 echo "[build_mapping] Written: $OUT_INPUT" >&2
 
 echo "[build_mapping] Done." >&2

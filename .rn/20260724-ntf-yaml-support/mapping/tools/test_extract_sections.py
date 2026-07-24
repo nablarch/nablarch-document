@@ -243,8 +243,8 @@ class TestRSTBasic(unittest.TestCase):
 
     def test_body_lines_counted_without_heading(self):
         sections = run_extract(RST_SIMPLE, "simple.rst", "current")
-        # L3見出し1 body: blank + "本文行1\n" + "本文行2\n" + blank = 4 lines
-        self.assertEqual(sections[0]["lines"], 4)
+        # L3見出し1 body: blank + "本文行1\n" + "本文行2\n" (trailing blank stripped) = 3 lines
+        self.assertEqual(sections[0]["lines"], 3)
 
     def test_no_l3_returns_empty(self):
         sections = run_extract(RST_NO_L3, "no_l3.rst", "current")
@@ -370,10 +370,10 @@ body_b
         sections = extract_rst_sections(rst, "ob.rst")
         # Then: セクション数と各セクションの lines が期待値と一致する
         self.assertEqual(len(sections), 2)
-        # L3a body: blank + line1 + line2 + blank = 4 lines (NOT 5 which would include ===)
-        self.assertEqual(sections[0]["lines"], 4)
+        # L3a body: blank + line1 + line2 (trailing blank stripped) = 3 lines
+        self.assertEqual(sections[0]["lines"], 3)
         self.assertEqual(sections[0]["src_line"], 8)
-        # L3b body: blank + body_b = 2 lines
+        # L3b body: blank + body_b (trailing blank stripped) = 2 lines
         self.assertEqual(sections[1]["lines"], 2)
         self.assertEqual(sections[1]["src_line"], 15)
 

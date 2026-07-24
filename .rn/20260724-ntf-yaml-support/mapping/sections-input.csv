@@ -1,153 +1,153 @@
 section_id,src_file,src_line,heading_path,lines,code_blocks,tables,figures
-input-0001,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,84,NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > 特殊記法,13,0,1,0
-input-0002,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,98,NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > マーカーカラム,3,0,0,0
-input-0003,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,102,NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > コメント,3,0,0,0
-input-0004,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,106,NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > 日付記述フォーマット,3,0,0,0
-input-0005,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,110,NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > 設計原則（用語として登場する概念）,7,0,0,0
-input-0006,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,131,NTF 解説書（v6）用語リファレンス > データタイプ別の行構造 > DB 系（SETUP_TABLE / EXPECTED_TABLE / EXPECTED_COMPLETE_TABLE / LIST_MAP）,35,0,2,0
-input-0007,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,167,NTF 解説書（v6）用語リファレンス > データタイプ別の行構造 > 固定長ファイル（SETUP_FIXED / EXPECTED_FIXED）,17,1,0,0
-input-0008,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,185,NTF 解説書（v6）用語リファレンス > データタイプ別の行構造 > 可変長ファイル（SETUP_VARIABLE / EXPECTED_VARIABLE）,16,1,0,0
-input-0009,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,202,NTF 解説書（v6）用語リファレンス > データタイプ別の行構造 > ファイルデータのフィールド定義用語,10,0,1,0
-input-0010,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,213,NTF 解説書（v6）用語リファレンス > データタイプ別の行構造 > ディレクティブ,20,0,1,0
-input-0011,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,245,NTF 解説書（v6）用語リファレンス > testShots / requestParams（テストケース一覧） > testShots カラム一覧（ウェブアプリケーション）,31,0,1,0
-input-0012,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,277,NTF 解説書（v6）用語リファレンス > testShots / requestParams（テストケース一覧） > testShots カラム一覧（バッチ処理）,18,0,1,0
-input-0013,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,296,NTF 解説書（v6）用語リファレンス > testShots / requestParams（テストケース一覧） > testShots カラム一覧（メッセージング受信）,15,0,1,0
-input-0014,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,312,NTF 解説書（v6）用語リファレンス > testShots / requestParams（テストケース一覧） > ログ検証（expectedLog）,12,0,1,0
-input-0015,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,327,NTF 解説書（v6）用語リファレンス > メッセージング > 基本用語,13,0,1,0
-input-0016,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,341,NTF 解説書（v6）用語リファレンス > メッセージング > メッセージデータ構造（受信: setUpMessages / expectedMessages）,22,0,0,0
-input-0017,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,364,NTF 解説書（v6）用語リファレンス > メッセージング > メッセージデータタイプ（同期応答メッセージ送信）,18,0,1,0
-input-0018,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,383,NTF 解説書（v6）用語リファレンス > メッセージング > 障害系テスト用特殊値,8,0,1,0
-input-0019,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,392,NTF 解説書（v6）用語リファレンス > メッセージング > 制約事項（同期応答メッセージ送信）,5,0,0,0
-input-0020,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,398,NTF 解説書（v6）用語リファレンス > メッセージング > HTTP 同期応答メッセージ送信の用語読み替え,13,0,1,0
-input-0021,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,414,NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > テスト種別の正式名称,12,0,1,0
-input-0022,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,427,NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > DB アクセステスト,15,0,2,0
-input-0023,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,443,NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > リクエスト単体テスト（ウェブアプリケーション）の主要クラス,29,0,2,0
-input-0024,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,473,NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > リクエスト単体テスト（RESTful ウェブサービス）,13,0,1,0
-input-0025,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,487,NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > リクエスト単体テスト（バッチ処理）,12,0,1,0
-input-0026,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,500,NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > リクエスト単体テスト（メッセージ受信処理）,10,0,1,0
-input-0027,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,511,NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > リクエスト単体テスト（同期応答メッセージ送信処理）,14,0,1,0
-input-0028,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,55,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.1 固定長ファイル > Excel,17,0,2,0
-input-0029,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,73,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.1 固定長ファイル > YAML,31,1,0,0
-input-0030,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,109,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.2 エンコーディング指定付き固定長ファイル > Excel,12,0,1,0
-input-0031,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,122,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.2 エンコーディング指定付き固定長ファイル > YAML,22,1,0,0
-input-0032,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,149,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.3 groupId 付き固定長ファイル > Excel,17,0,2,0
-input-0033,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,167,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.3 groupId 付き固定長ファイル > YAML,31,1,0,0
-input-0034,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,203,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル > Excel,9,0,1,0
-input-0035,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,213,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル > YAML,32,2,0,0
-input-0036,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,246,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル > Excel,9,0,1,0
-input-0037,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,256,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル > YAML,27,1,0,0
-input-0038,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,288,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.5 複数レコードレイアウト > Excel,14,0,1,0
-input-0039,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,303,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.5 複数レコードレイアウト > YAML,27,1,0,0
-input-0040,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,335,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.6 空ファイル > Excel,7,0,1,0
-input-0041,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,343,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.6 空ファイル > YAML,11,1,0,0
-input-0042,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,11,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.1 MESSAGE セクション（メッセージ送受信） > Excel,20,0,2,0
-input-0043,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,32,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.1 MESSAGE セクション（メッセージ送受信） > YAML,30,1,0,0
-input-0044,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,63,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.1 MESSAGE セクション（メッセージ送受信） > 制約・補足,8,0,0,0
-input-0045,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,76,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.2 要求電文・応答電文の期待値（SendSync メッセージング） > Excel,14,0,2,0
-input-0046,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,91,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.2 要求電文・応答電文の期待値（SendSync メッセージング） > YAML,30,1,0,0
-input-0047,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,122,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.2 要求電文・応答電文の期待値（SendSync メッセージング） > 制約・補足,8,0,0,0
-input-0048,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,135,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.3 sendSyncTestData の配置規則 > Excel,7,0,1,0
-input-0049,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,143,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.3 sendSyncTestData の配置規則 > YAML,16,1,0,0
-input-0050,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,160,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.3 sendSyncTestData の配置規則 > 制約・補足,8,0,0,0
-input-0051,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,173,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.4 ステータスコードのデフォルト値 > Excel,8,0,1,0
-input-0052,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,182,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.4 ステータスコードのデフォルト値 > YAML,12,1,0,0
-input-0053,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,195,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.4 ステータスコードのデフォルト値 > 制約・補足,2,0,0,0
-input-0054,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md,9,NTF テストデータ解説書 — 記述例（概要・groupId） > 1. NTF テストデータ > Excel,26,0,4,0
-input-0055,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md,36,NTF テストデータ解説書 — 記述例（概要・groupId） > 1. NTF テストデータ > YAML,56,1,0,0
-input-0056,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md,104,NTF テストデータ解説書 — 記述例（概要・groupId） > 4.3 セクションのグループ化（groupId） > Excel,31,0,5,0
-input-0057,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md,136,NTF テストデータ解説書 — 記述例（概要・groupId） > 4.3 セクションのグループ化（groupId） > YAML,58,1,0,0
-input-0058,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,9,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.1 日付型・Timestamp・特殊値,49,1,1,0
-input-0059,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,59,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.2 QuotationTrimmer によるスペース値明示記法,28,1,1,0
-input-0060,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,88,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.3 バイナリデータ,32,1,1,0
-input-0061,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,123,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ > 9.1 固定長ファイルのディレクティブ,40,1,1,0
-input-0062,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,164,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ > 9.2 可変長ファイルのディレクティブ,41,1,1,0
-input-0063,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,208,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ > 10.1 コメントとマーカーカラム,38,1,1,0
-input-0064,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,247,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ > 10.2 空エントリのスキップ,34,1,1,0
-input-0065,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,286,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 11. DB アサート > 11.1 テーブルアサート（順序不問・主キー突合・全件列挙）,30,1,1,0
-input-0066,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,317,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 11. DB アサート > 11.2 EXPECTED_COMPLETE_TABLE（省略カラムにデフォルト値補完）,13,1,0,0
-input-0067,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,11,NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > SETUP_TABLE,50,1,1,0
-input-0068,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,62,NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > EXPECTED_TABLE と EXPECTED_COMPLETE_TABLE,63,1,3,0
-input-0069,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,126,NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > LIST_MAP,56,1,2,0
-input-0070,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,62,NTF テストデータ解説書 — testShots カラム一覧 > ウェブアプリケーション（HttpRequestTestSupport） > 必須カラム,9,0,1,0
-input-0071,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,72,NTF テストデータ解説書 — testShots カラム一覧 > ウェブアプリケーション（HttpRequestTestSupport） > オプションカラム,21,0,1,0
-input-0072,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,94,NTF テストデータ解説書 — testShots カラム一覧 > ウェブアプリケーション（HttpRequestTestSupport） > 記述例,43,1,2,0
-input-0073,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,140,NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequestTestSupport） > 必須カラム,9,0,1,0
-input-0074,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,150,NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequestTestSupport） > オプションカラム,12,0,1,0
-input-0075,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,163,NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequestTestSupport） > 記述例,35,1,1,0
-input-0076,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,201,NTF テストデータ解説書 — testShots カラム一覧 > メッセージング（MessagingRequestTestSupport） > 必須カラム,9,0,1,0
-input-0077,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,211,NTF テストデータ解説書 — testShots カラム一覧 > メッセージング（MessagingRequestTestSupport） > オプションカラム,10,0,1,0
-input-0078,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,222,NTF テストデータ解説書 — testShots カラム一覧 > メッセージング（MessagingRequestTestSupport） > 記述例,28,1,1,0
-input-0079,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,255,NTF テストデータ解説書 — testShots カラム一覧 > エンティティバリデーション（EntityTestSupport） > 必須カラム,7,0,1,0
-input-0080,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,263,NTF テストデータ解説書 — testShots カラム一覧 > エンティティバリデーション（EntityTestSupport） > 関連予約 ID,5,0,1,0
-input-0081,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,269,NTF テストデータ解説書 — testShots カラム一覧 > エンティティバリデーション（EntityTestSupport） > 記述例,18,1,1,0
-input-0082,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,82,NTF テストデータ リファレンス > 2. テストデータの基本構造 > ファイルの読み込みルール,9,0,1,0
-input-0083,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,94,NTF テストデータ リファレンス > 3. データブロック識別 > 3.1 識別の構成要素,35,1,2,0
-input-0084,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,130,NTF テストデータ リファレンス > 3. データブロック識別 > 3.2 データブロック種別の一覧,20,0,1,0
-input-0085,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,151,NTF テストデータ リファレンス > 3. データブロック識別 > 3.3 同一ファイル（シート）内に複数のデータブロックを書く場合の注意,11,0,0,0
-input-0086,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,165,NTF テストデータ リファレンス > 4. テストケース定義 > 4.1 testShots,9,0,0,0
-input-0087,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,175,NTF テストデータ リファレンス > 4. テストケース定義 > 4.2 testShots のカラム仕様,10,0,0,0
-input-0088,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,186,NTF テストデータ リファレンス > 4. テストケース定義 > 4.3 データブロックのグループ化（groupId）,24,1,1,0
-input-0089,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,213,NTF テストデータ リファレンス > 5. テーブルデータ > 5.1 データの形式,26,2,1,0
-input-0090,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,240,NTF テストデータ リファレンス > 5. テーブルデータ > 5.2 SETUP_TABLE,23,0,1,0
-input-0091,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,264,NTF テストデータ リファレンス > 5. テーブルデータ > 5.3 EXPECTED_TABLE,11,0,0,0
-input-0092,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,276,NTF テストデータ リファレンス > 5. テーブルデータ > 5.4 EXPECTED_COMPLETE_TABLE,20,0,1,0
-input-0093,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,297,NTF テストデータ リファレンス > 5. テーブルデータ > 5.5 LIST_MAP,36,2,1,0
-input-0094,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,336,NTF テストデータ リファレンス > 6. ファイルデータ > 6.1 固定長・可変長の統合,5,0,0,0
-input-0095,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,342,NTF テストデータ リファレンス > 6. ファイルデータ > 6.2 ファイルデータブロックの構造,49,3,0,0
-input-0096,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,392,NTF テストデータ リファレンス > 6. ファイルデータ > 6.3 固定長ファイル固有の仕様,5,0,0,0
-input-0097,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,398,NTF テストデータ リファレンス > 6. ファイルデータ > 6.4 可変長ファイル固有の仕様,4,0,0,0
-input-0098,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,403,NTF テストデータ リファレンス > 6. ファイルデータ > 6.5 複数レコードレイアウト,5,0,0,0
-input-0099,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,409,NTF テストデータ リファレンス > 6. ファイルデータ > 6.6 空ファイル,5,0,0,0
-input-0100,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,415,"NTF テストデータ リファレンス > 6. ファイルデータ > 6.7 `""-""` 長フィールド",3,0,0,0
-input-0101,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,419,NTF テストデータ リファレンス > 6. ファイルデータ > 6.8 エラーになるケース,12,0,0,0
-input-0102,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,434,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.1 sendSyncTestData の配置規則,6,0,0,0
-input-0103,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,441,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.2 FW 制御ヘッダフィールド,34,1,1,0
-input-0104,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,476,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.3 HEADER / BODY MESSAGES の構造と件数制約,4,0,0,0
-input-0105,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,481,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.4 no 行（フィールド名称行）と errorMode,12,0,0,0
-input-0106,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,494,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.5 複数回送信,3,0,0,0
-input-0107,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,498,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.6 メッセージの groupId 収集,3,0,0,0
-input-0108,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,502,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.7 ステータスコード,3,0,0,0
-input-0109,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,506,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.8 フォーマット定義ファイルの命名規則,4,0,0,0
-input-0110,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,511,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.9 アサート方式の切り替え,3,0,0,0
-input-0111,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,515,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.10 record_type の扱い,12,0,0,0
-input-0112,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,530,NTF テストデータ リファレンス > 8. 値の書き方 > 8.1 値の種類と Excel / YAML 対比,23,0,1,0
-input-0113,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,554,NTF テストデータ リファレンス > 8. 値の書き方 > 8.2 インタープリタチェーンの仕組み,3,0,0,0
-input-0114,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,558,NTF テストデータ リファレンス > 8. 値の書き方 > 8.3 インタープリタ一覧,18,0,1,0
-input-0115,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,577,NTF テストデータ リファレンス > 8. 値の書き方 > 8.4 DateTimeInterpreter の完全一致制約,3,0,0,0
-input-0116,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,581,NTF テストデータ リファレンス > 8. 値の書き方 > 8.5 文字種生成の有効文字種,5,0,0,0
-input-0117,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,587,NTF テストデータ リファレンス > 8. 値の書き方 > 8.6 BinaryFileInterpreter のパス基準,8,0,1,0
-input-0118,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,596,NTF テストデータ リファレンス > 8. 値の書き方 > 8.7 日付型カラムの記述形式と境界値,11,0,0,0
-input-0119,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,608,NTF テストデータ リファレンス > 8. 値の書き方 > 8.8 バイナリデータの記述,3,0,0,0
-input-0120,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,612,NTF テストデータ リファレンス > 8. 値の書き方 > 8.9 X9/SX9 型フィールドの記述,3,0,0,0
-input-0121,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,616,NTF テストデータ リファレンス > 8. 値の書き方 > 8.10 データ型マッピング,20,0,1,0
-input-0122,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,639,NTF テストデータ リファレンス > 9. ディレクティブ > 9.1 ディレクティブの構成,6,0,0,0
-input-0123,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,646,NTF テストデータ リファレンス > 9. ディレクティブ > 9.2 固定長ファイルのディレクティブ,19,0,1,0
-input-0124,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,666,NTF テストデータ リファレンス > 9. ディレクティブ > 9.3 可変長ファイルのディレクティブ,17,0,1,0
-input-0125,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,684,NTF テストデータ リファレンス > 9. ディレクティブ > 9.4 デフォルトディレクティブの DI 設定,13,0,1,0
-input-0126,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,700,NTF テストデータ リファレンス > 10. ヘッダ・コメント・空エントリ > 10.1 ヘッダの構造,6,0,0,0
-input-0127,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,707,NTF テストデータ リファレンス > 10. ヘッダ・コメント・空エントリ > 10.2 マーカーカラム,8,0,1,0
-input-0128,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,716,NTF テストデータ リファレンス > 10. ヘッダ・コメント・空エントリ > 10.3 エントリ単位のコメント,6,0,0,0
-input-0129,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,723,NTF テストデータ リファレンス > 10. ヘッダ・コメント・空エントリ > 10.4 要素途中からのコメント（Excel 固有）,4,0,0,0
-input-0130,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,728,NTF テストデータ リファレンス > 10. ヘッダ・コメント・空エントリ > 10.5 空エントリのスキップ,7,0,0,0
-input-0131,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-loading.md,122,NTF テストデータ読み込み機構 > 3. 値の変換と整形 > ③ 共通変換：特殊記法を実値へ（全データタイプ共通）,14,0,1,0
-input-0132,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-loading.md,137,NTF テストデータ読み込み機構 > 3. 値の変換と整形 > ④ 個別整形：組み立て時にデータタイプごとに（値の整形・補完）,10,0,1,0
-input-0133,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-loading.md,148,NTF テストデータ読み込み機構 > 3. 値の変換と整形 > ③は不可逆、④は非破壊,10,0,0,0
-input-0134,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-loading.md,180,NTF テストデータ読み込み機構 > 4. 状態機械による組み立て（ファイル・メッセージ） > 組み立て先のデータモデル（ファイル・メッセージ）,27,1,1,0
-input-0135,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/ntf-testdata-loading.md,214,NTF テストデータ読み込み機構 > 5. ヘッダ行＋データ行による組み立て（テーブル・LIST_MAP） > 組み立て先のデータモデル（テーブル・LIST_MAP）,11,0,1,0
-input-0136,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,12,NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定） > 解くべき課題,3,0,0,0
-input-0137,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,16,NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定） > 基準は「形式」ではなく「NTF 仕様上の意味」,17,1,0,0
-input-0138,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,34,NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定） > 保持するか捨てるかの判断基準,19,0,1,0
-input-0139,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,54,NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定） > 制約,7,0,0,0
-input-0140,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,70,NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 判断 A：Excel 経路 — アダプタで再利用,22,0,1,0
-input-0141,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,93,NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 判断 B：YAML 経路 — 本体の構造解釈を再利用（本体器を空インタープリタで取得）,11,0,0,0
-input-0142,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,105,NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 特殊記法の扱い：形式に依存するか否かで分ける,10,0,0,0
-input-0143,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,116,NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 共通：器の中身を読む手段,12,0,1,0
-input-0144,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,129,NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 共通：器が正規化する値の原文復元,12,0,1,0
-input-0145,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,142,NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 重複実装を避ける：ロジックの共通化,11,0,1,0
-input-0146,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,154,NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 書き出し（OUT）の整形方針,17,0,1,0
-input-0147,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,176,NTF テストデータ変換ツール 設計書 > 3. 構造 > 中間モデル,37,1,0,0
-input-0148,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,214,NTF テストデータ変換ツール 設計書 > 3. 構造 > IN（形式 → 中間モデル）,57,1,0,0
-input-0149,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,272,NTF テストデータ変換ツール 設計書 > 3. 構造 > OUT（中間モデル → 形式）,26,1,0,0
-input-0150,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,299,NTF テストデータ変換ツール 設計書 > 3. 構造 > 利用の入口,27,1,1,0
-input-0151,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,340,NTF テストデータ変換ツール 設計書 > 5. 開発とバージョン展開 > 開発とリポジトリ分割の手順,9,0,0,0
-input-0152,/home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,350,NTF テストデータ変換ツール 設計書 > 5. 開発とバージョン展開 > 過去バージョンへの展開,13,0,1,0
+input-0001,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,84,NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > 特殊記法,12,0,1,0
+input-0002,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,98,NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > マーカーカラム,2,0,0,0
+input-0003,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,102,NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > コメント,2,0,0,0
+input-0004,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,106,NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > 日付記述フォーマット,2,0,0,0
+input-0005,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,110,NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > 設計原則（用語として登場する概念）,6,0,0,0
+input-0006,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,131,NTF 解説書（v6）用語リファレンス > データタイプ別の行構造 > DB 系（SETUP_TABLE / EXPECTED_TABLE / EXPECTED_COMPLETE_TABLE / LIST_MAP）,34,0,2,0
+input-0007,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,167,NTF 解説書（v6）用語リファレンス > データタイプ別の行構造 > 固定長ファイル（SETUP_FIXED / EXPECTED_FIXED）,16,1,0,0
+input-0008,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,185,NTF 解説書（v6）用語リファレンス > データタイプ別の行構造 > 可変長ファイル（SETUP_VARIABLE / EXPECTED_VARIABLE）,15,1,0,0
+input-0009,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,202,NTF 解説書（v6）用語リファレンス > データタイプ別の行構造 > ファイルデータのフィールド定義用語,9,0,1,0
+input-0010,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,213,NTF 解説書（v6）用語リファレンス > データタイプ別の行構造 > ディレクティブ,19,0,1,0
+input-0011,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,245,NTF 解説書（v6）用語リファレンス > testShots / requestParams（テストケース一覧） > testShots カラム一覧（ウェブアプリケーション）,30,0,1,0
+input-0012,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,277,NTF 解説書（v6）用語リファレンス > testShots / requestParams（テストケース一覧） > testShots カラム一覧（バッチ処理）,17,0,1,0
+input-0013,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,296,NTF 解説書（v6）用語リファレンス > testShots / requestParams（テストケース一覧） > testShots カラム一覧（メッセージング受信）,14,0,1,0
+input-0014,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,312,NTF 解説書（v6）用語リファレンス > testShots / requestParams（テストケース一覧） > ログ検証（expectedLog）,11,0,1,0
+input-0015,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,327,NTF 解説書（v6）用語リファレンス > メッセージング > 基本用語,12,0,1,0
+input-0016,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,341,NTF 解説書（v6）用語リファレンス > メッセージング > メッセージデータ構造（受信: setUpMessages / expectedMessages）,21,0,0,0
+input-0017,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,364,NTF 解説書（v6）用語リファレンス > メッセージング > メッセージデータタイプ（同期応答メッセージ送信）,17,0,1,0
+input-0018,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,383,NTF 解説書（v6）用語リファレンス > メッセージング > 障害系テスト用特殊値,7,0,1,0
+input-0019,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,392,NTF 解説書（v6）用語リファレンス > メッセージング > 制約事項（同期応答メッセージ送信）,4,0,0,0
+input-0020,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,398,NTF 解説書（v6）用語リファレンス > メッセージング > HTTP 同期応答メッセージ送信の用語読み替え,12,0,1,0
+input-0021,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,414,NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > テスト種別の正式名称,11,0,1,0
+input-0022,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,427,NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > DB アクセステスト,14,0,2,0
+input-0023,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,443,NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > リクエスト単体テスト（ウェブアプリケーション）の主要クラス,28,0,2,0
+input-0024,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,473,NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > リクエスト単体テスト（RESTful ウェブサービス）,12,0,1,0
+input-0025,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,487,NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > リクエスト単体テスト（バッチ処理）,11,0,1,0
+input-0026,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,500,NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > リクエスト単体テスト（メッセージ受信処理）,9,0,1,0
+input-0027,.rn/20260724-ntf-yaml-support/input/ntf-doc-terms.md,511,NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > リクエスト単体テスト（同期応答メッセージ送信処理）,13,0,1,0
+input-0028,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,55,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.1 固定長ファイル > Excel,16,0,2,0
+input-0029,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,73,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.1 固定長ファイル > YAML,30,1,0,0
+input-0030,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,109,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.2 エンコーディング指定付き固定長ファイル > Excel,11,0,1,0
+input-0031,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,122,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.2 エンコーディング指定付き固定長ファイル > YAML,21,1,0,0
+input-0032,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,149,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.3 groupId 付き固定長ファイル > Excel,16,0,2,0
+input-0033,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,167,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.3 groupId 付き固定長ファイル > YAML,30,1,0,0
+input-0034,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,203,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル > Excel,8,0,1,0
+input-0035,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,213,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル > YAML,31,2,0,0
+input-0036,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,246,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル > Excel,8,0,1,0
+input-0037,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,256,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.4 可変長ファイル > YAML,26,1,0,0
+input-0038,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,288,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.5 複数レコードレイアウト > Excel,13,0,1,0
+input-0039,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,303,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.5 複数レコードレイアウト > YAML,26,1,0,0
+input-0040,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,335,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.6 空ファイル > Excel,6,0,1,0
+input-0041,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-file.md,343,NTF テストデータ解説書 — 記述例（ファイルデータ） > 6.6 空ファイル > YAML,11,1,0,0
+input-0042,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,11,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.1 MESSAGE セクション（メッセージ送受信） > Excel,19,0,2,0
+input-0043,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,32,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.1 MESSAGE セクション（メッセージ送受信） > YAML,29,1,0,0
+input-0044,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,63,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.1 MESSAGE セクション（メッセージ送受信） > 制約・補足,7,0,0,0
+input-0045,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,76,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.2 要求電文・応答電文の期待値（SendSync メッセージング） > Excel,13,0,2,0
+input-0046,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,91,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.2 要求電文・応答電文の期待値（SendSync メッセージング） > YAML,29,1,0,0
+input-0047,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,122,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.2 要求電文・応答電文の期待値（SendSync メッセージング） > 制約・補足,7,0,0,0
+input-0048,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,135,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.3 sendSyncTestData の配置規則 > Excel,6,0,1,0
+input-0049,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,143,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.3 sendSyncTestData の配置規則 > YAML,15,1,0,0
+input-0050,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,160,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.3 sendSyncTestData の配置規則 > 制約・補足,7,0,0,0
+input-0051,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,173,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.4 ステータスコードのデフォルト値 > Excel,7,0,1,0
+input-0052,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,182,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.4 ステータスコードのデフォルト値 > YAML,11,1,0,0
+input-0053,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-messaging.md,195,NTF テストデータ解説書 — 記述例（メッセージングテストデータ） > 7.4 ステータスコードのデフォルト値 > 制約・補足,2,0,0,0
+input-0054,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md,9,NTF テストデータ解説書 — 記述例（概要・groupId） > 1. NTF テストデータ > Excel,25,0,4,0
+input-0055,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md,36,NTF テストデータ解説書 — 記述例（概要・groupId） > 1. NTF テストデータ > YAML,55,1,0,0
+input-0056,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md,104,NTF テストデータ解説書 — 記述例（概要・groupId） > 4.3 セクションのグループ化（groupId） > Excel,30,0,5,0
+input-0057,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-overview.md,136,NTF テストデータ解説書 — 記述例（概要・groupId） > 4.3 セクションのグループ化（groupId） > YAML,58,1,0,0
+input-0058,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,9,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.1 日付型・Timestamp・特殊値,48,1,1,0
+input-0059,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,59,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.2 QuotationTrimmer によるスペース値明示記法,27,1,1,0
+input-0060,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,88,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 8. 特殊値・インタープリタ > 8.3 バイナリデータ,31,1,1,0
+input-0061,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,123,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ > 9.1 固定長ファイルのディレクティブ,39,1,1,0
+input-0062,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,164,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 9. ディレクティブ > 9.2 可変長ファイルのディレクティブ,40,1,1,0
+input-0063,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,208,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ > 10.1 コメントとマーカーカラム,37,1,1,0
+input-0064,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,247,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 10. ヘッダ・コメント・空エントリ > 10.2 空エントリのスキップ,33,1,1,0
+input-0065,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,286,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 11. DB アサート > 11.1 テーブルアサート（順序不問・主キー突合・全件列挙）,29,1,1,0
+input-0066,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-special.md,317,NTF テストデータ解説書 — 記述例（特殊値・ディレクティブ・ヘッダ） > 11. DB アサート > 11.2 EXPECTED_COMPLETE_TABLE（省略カラムにデフォルト値補完）,13,1,0,0
+input-0067,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,11,NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > SETUP_TABLE,49,1,1,0
+input-0068,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,62,NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > EXPECTED_TABLE と EXPECTED_COMPLETE_TABLE,62,1,3,0
+input-0069,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-table.md,126,NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > LIST_MAP,56,1,2,0
+input-0070,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,62,NTF テストデータ解説書 — testShots カラム一覧 > ウェブアプリケーション（HttpRequestTestSupport） > 必須カラム,8,0,1,0
+input-0071,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,72,NTF テストデータ解説書 — testShots カラム一覧 > ウェブアプリケーション（HttpRequestTestSupport） > オプションカラム,20,0,1,0
+input-0072,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,94,NTF テストデータ解説書 — testShots カラム一覧 > ウェブアプリケーション（HttpRequestTestSupport） > 記述例,42,1,2,0
+input-0073,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,140,NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequestTestSupport） > 必須カラム,8,0,1,0
+input-0074,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,150,NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequestTestSupport） > オプションカラム,11,0,1,0
+input-0075,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,163,NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequestTestSupport） > 記述例,34,1,1,0
+input-0076,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,201,NTF テストデータ解説書 — testShots カラム一覧 > メッセージング（MessagingRequestTestSupport） > 必須カラム,8,0,1,0
+input-0077,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,211,NTF テストデータ解説書 — testShots カラム一覧 > メッセージング（MessagingRequestTestSupport） > オプションカラム,9,0,1,0
+input-0078,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,222,NTF テストデータ解説書 — testShots カラム一覧 > メッセージング（MessagingRequestTestSupport） > 記述例,27,1,1,0
+input-0079,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,255,NTF テストデータ解説書 — testShots カラム一覧 > エンティティバリデーション（EntityTestSupport） > 必須カラム,6,0,1,0
+input-0080,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,263,NTF テストデータ解説書 — testShots カラム一覧 > エンティティバリデーション（EntityTestSupport） > 関連予約 ID,4,0,1,0
+input-0081,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md,269,NTF テストデータ解説書 — testShots カラム一覧 > エンティティバリデーション（EntityTestSupport） > 記述例,18,1,1,0
+input-0082,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,82,NTF テストデータ リファレンス > 2. テストデータの基本構造 > ファイルの読み込みルール,8,0,1,0
+input-0083,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,94,NTF テストデータ リファレンス > 3. データブロック識別 > 3.1 識別の構成要素,34,1,2,0
+input-0084,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,130,NTF テストデータ リファレンス > 3. データブロック識別 > 3.2 データブロック種別の一覧,19,0,1,0
+input-0085,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,151,NTF テストデータ リファレンス > 3. データブロック識別 > 3.3 同一ファイル（シート）内に複数のデータブロックを書く場合の注意,10,0,0,0
+input-0086,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,165,NTF テストデータ リファレンス > 4. テストケース定義 > 4.1 testShots,8,0,0,0
+input-0087,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,175,NTF テストデータ リファレンス > 4. テストケース定義 > 4.2 testShots のカラム仕様,9,0,0,0
+input-0088,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,186,NTF テストデータ リファレンス > 4. テストケース定義 > 4.3 データブロックのグループ化（groupId）,23,1,1,0
+input-0089,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,213,NTF テストデータ リファレンス > 5. テーブルデータ > 5.1 データの形式,25,2,1,0
+input-0090,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,240,NTF テストデータ リファレンス > 5. テーブルデータ > 5.2 SETUP_TABLE,22,0,1,0
+input-0091,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,264,NTF テストデータ リファレンス > 5. テーブルデータ > 5.3 EXPECTED_TABLE,10,0,0,0
+input-0092,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,276,NTF テストデータ リファレンス > 5. テーブルデータ > 5.4 EXPECTED_COMPLETE_TABLE,19,0,1,0
+input-0093,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,297,NTF テストデータ リファレンス > 5. テーブルデータ > 5.5 LIST_MAP,35,2,1,0
+input-0094,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,336,NTF テストデータ リファレンス > 6. ファイルデータ > 6.1 固定長・可変長の統合,4,0,0,0
+input-0095,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,342,NTF テストデータ リファレンス > 6. ファイルデータ > 6.2 ファイルデータブロックの構造,48,3,0,0
+input-0096,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,392,NTF テストデータ リファレンス > 6. ファイルデータ > 6.3 固定長ファイル固有の仕様,4,0,0,0
+input-0097,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,398,NTF テストデータ リファレンス > 6. ファイルデータ > 6.4 可変長ファイル固有の仕様,3,0,0,0
+input-0098,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,403,NTF テストデータ リファレンス > 6. ファイルデータ > 6.5 複数レコードレイアウト,4,0,0,0
+input-0099,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,409,NTF テストデータ リファレンス > 6. ファイルデータ > 6.6 空ファイル,4,0,0,0
+input-0100,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,415,"NTF テストデータ リファレンス > 6. ファイルデータ > 6.7 `""-""` 長フィールド",2,0,0,0
+input-0101,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,419,NTF テストデータ リファレンス > 6. ファイルデータ > 6.8 エラーになるケース,11,0,0,0
+input-0102,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,434,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.1 sendSyncTestData の配置規則,5,0,0,0
+input-0103,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,441,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.2 FW 制御ヘッダフィールド,33,1,1,0
+input-0104,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,476,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.3 HEADER / BODY MESSAGES の構造と件数制約,3,0,0,0
+input-0105,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,481,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.4 no 行（フィールド名称行）と errorMode,11,0,0,0
+input-0106,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,494,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.5 複数回送信,2,0,0,0
+input-0107,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,498,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.6 メッセージの groupId 収集,2,0,0,0
+input-0108,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,502,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.7 ステータスコード,2,0,0,0
+input-0109,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,506,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.8 フォーマット定義ファイルの命名規則,3,0,0,0
+input-0110,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,511,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.9 アサート方式の切り替え,2,0,0,0
+input-0111,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,515,NTF テストデータ リファレンス > 7. メッセージングテストデータ > 7.10 record_type の扱い,11,0,0,0
+input-0112,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,530,NTF テストデータ リファレンス > 8. 値の書き方 > 8.1 値の種類と Excel / YAML 対比,22,0,1,0
+input-0113,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,554,NTF テストデータ リファレンス > 8. 値の書き方 > 8.2 インタープリタチェーンの仕組み,2,0,0,0
+input-0114,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,558,NTF テストデータ リファレンス > 8. 値の書き方 > 8.3 インタープリタ一覧,17,0,1,0
+input-0115,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,577,NTF テストデータ リファレンス > 8. 値の書き方 > 8.4 DateTimeInterpreter の完全一致制約,2,0,0,0
+input-0116,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,581,NTF テストデータ リファレンス > 8. 値の書き方 > 8.5 文字種生成の有効文字種,4,0,0,0
+input-0117,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,587,NTF テストデータ リファレンス > 8. 値の書き方 > 8.6 BinaryFileInterpreter のパス基準,7,0,1,0
+input-0118,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,596,NTF テストデータ リファレンス > 8. 値の書き方 > 8.7 日付型カラムの記述形式と境界値,10,0,0,0
+input-0119,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,608,NTF テストデータ リファレンス > 8. 値の書き方 > 8.8 バイナリデータの記述,2,0,0,0
+input-0120,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,612,NTF テストデータ リファレンス > 8. 値の書き方 > 8.9 X9/SX9 型フィールドの記述,2,0,0,0
+input-0121,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,616,NTF テストデータ リファレンス > 8. 値の書き方 > 8.10 データ型マッピング,19,0,1,0
+input-0122,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,639,NTF テストデータ リファレンス > 9. ディレクティブ > 9.1 ディレクティブの構成,5,0,0,0
+input-0123,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,646,NTF テストデータ リファレンス > 9. ディレクティブ > 9.2 固定長ファイルのディレクティブ,18,0,1,0
+input-0124,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,666,NTF テストデータ リファレンス > 9. ディレクティブ > 9.3 可変長ファイルのディレクティブ,16,0,1,0
+input-0125,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,684,NTF テストデータ リファレンス > 9. ディレクティブ > 9.4 デフォルトディレクティブの DI 設定,12,0,1,0
+input-0126,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,700,NTF テストデータ リファレンス > 10. ヘッダ・コメント・空エントリ > 10.1 ヘッダの構造,5,0,0,0
+input-0127,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,707,NTF テストデータ リファレンス > 10. ヘッダ・コメント・空エントリ > 10.2 マーカーカラム,7,0,1,0
+input-0128,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,716,NTF テストデータ リファレンス > 10. ヘッダ・コメント・空エントリ > 10.3 エントリ単位のコメント,5,0,0,0
+input-0129,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,723,NTF テストデータ リファレンス > 10. ヘッダ・コメント・空エントリ > 10.4 要素途中からのコメント（Excel 固有）,3,0,0,0
+input-0130,.rn/20260724-ntf-yaml-support/input/ntf-testdata-doc.md,728,NTF テストデータ リファレンス > 10. ヘッダ・コメント・空エントリ > 10.5 空エントリのスキップ,7,0,0,0
+input-0131,.rn/20260724-ntf-yaml-support/input/ntf-testdata-loading.md,122,NTF テストデータ読み込み機構 > 3. 値の変換と整形 > ③ 共通変換：特殊記法を実値へ（全データタイプ共通）,13,0,1,0
+input-0132,.rn/20260724-ntf-yaml-support/input/ntf-testdata-loading.md,137,NTF テストデータ読み込み機構 > 3. 値の変換と整形 > ④ 個別整形：組み立て時にデータタイプごとに（値の整形・補完）,9,0,1,0
+input-0133,.rn/20260724-ntf-yaml-support/input/ntf-testdata-loading.md,148,NTF テストデータ読み込み機構 > 3. 値の変換と整形 > ③は不可逆、④は非破壊,9,0,0,0
+input-0134,.rn/20260724-ntf-yaml-support/input/ntf-testdata-loading.md,180,NTF テストデータ読み込み機構 > 4. 状態機械による組み立て（ファイル・メッセージ） > 組み立て先のデータモデル（ファイル・メッセージ）,26,1,1,0
+input-0135,.rn/20260724-ntf-yaml-support/input/ntf-testdata-loading.md,214,NTF テストデータ読み込み機構 > 5. ヘッダ行＋データ行による組み立て（テーブル・LIST_MAP） > 組み立て先のデータモデル（テーブル・LIST_MAP）,10,0,1,0
+input-0136,.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,12,NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定） > 解くべき課題,2,0,0,0
+input-0137,.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,16,NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定） > 基準は「形式」ではなく「NTF 仕様上の意味」,16,1,0,0
+input-0138,.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,34,NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定） > 保持するか捨てるかの判断基準,18,0,1,0
+input-0139,.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,54,NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定） > 制約,6,0,0,0
+input-0140,.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,70,NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 判断 A：Excel 経路 — アダプタで再利用,21,0,1,0
+input-0141,.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,93,NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 判断 B：YAML 経路 — 本体の構造解釈を再利用（本体器を空インタープリタで取得）,10,0,0,0
+input-0142,.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,105,NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 特殊記法の扱い：形式に依存するか否かで分ける,9,0,0,0
+input-0143,.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,116,NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 共通：器の中身を読む手段,11,0,1,0
+input-0144,.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,129,NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 共通：器が正規化する値の原文復元,11,0,1,0
+input-0145,.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,142,NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 重複実装を避ける：ロジックの共通化,10,0,1,0
+input-0146,.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,154,NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 書き出し（OUT）の整形方針,16,0,1,0
+input-0147,.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,176,NTF テストデータ変換ツール 設計書 > 3. 構造 > 中間モデル,36,1,0,0
+input-0148,.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,214,NTF テストデータ変換ツール 設計書 > 3. 構造 > IN（形式 → 中間モデル）,56,1,0,0
+input-0149,.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,272,NTF テストデータ変換ツール 設計書 > 3. 構造 > OUT（中間モデル → 形式）,25,1,0,0
+input-0150,.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,299,NTF テストデータ変換ツール 設計書 > 3. 構造 > 利用の入口,26,1,1,0
+input-0151,.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,340,NTF テストデータ変換ツール 設計書 > 5. 開発とバージョン展開 > 開発とリポジトリ分割の手順,8,0,0,0
+input-0152,.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md,350,NTF テストデータ変換ツール 設計書 > 5. 開発とバージョン展開 > 過去バージョンへの展開,13,0,1,0

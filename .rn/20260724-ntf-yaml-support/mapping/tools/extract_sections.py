@@ -234,7 +234,11 @@ def extract_rst_sections(text: str, src_file: str) -> List[Dict[str, Any]]:
             code_blocks = _count_rst_code_blocks(body_lines)
             tables = _count_rst_tables(body_lines)
             figures = _count_rst_figures(body_lines)
-            line_count = len(body_lines)
+            # Strip trailing blank lines before counting
+            stripped_body = body_lines
+            while stripped_body and not stripped_body[-1].rstrip('\n').rstrip():
+                stripped_body = stripped_body[:-1]
+            line_count = len(stripped_body)
 
             sections.append({
                 "src_file": src_file,
@@ -343,7 +347,11 @@ def extract_md_sections(text: str, src_file: str) -> List[Dict[str, Any]]:
             code_blocks = _count_md_code_blocks(body_lines)
             tables = _count_md_tables(body_lines)
             figures = _count_md_figures(body_lines)
-            line_count = len(body_lines)
+            # Strip trailing blank lines before counting
+            stripped_body = body_lines
+            while stripped_body and not stripped_body[-1].rstrip('\n').rstrip():
+                stripped_body = stripped_body[:-1]
+            line_count = len(stripped_body)
 
             sections.append({
                 "src_file": src_file,
@@ -389,7 +397,7 @@ CSV_COLUMNS = [
 def write_csv(sections_with_ids: List[Dict[str, Any]], out_path: str) -> None:
     """Write sections list (with section_id already set) to CSV."""
     with open(out_path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=CSV_COLUMNS)
+        writer = csv.DictWriter(f, fieldnames=CSV_COLUMNS, lineterminator="\n")
         writer.writeheader()
         for row in sections_with_ids:
             writer.writerow(row)
