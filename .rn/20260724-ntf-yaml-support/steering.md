@@ -240,4 +240,8 @@ Rn version: 0.8.0
 
 # State
 
-<!-- placeholder -->
+- **Status**: paused
+- **Date**: 2026-07-24
+- **Last completed**: #2 セクション抽出ツールの作成（ユーザーレビュー待ち。/rn:ty で承認後 #3 に進む）
+- **Next**: #3 用語集の作成
+- **Notes**: PR #728 (ntf-yaml-support)。mapping.csv に src_section_id カラム追加をユーザーが指示済み（選択肢1）— タスク #5 で対応。#2 user review はサスペンド時点で未取得。
