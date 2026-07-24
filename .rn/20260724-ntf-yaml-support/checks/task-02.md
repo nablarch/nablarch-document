@@ -4,9 +4,9 @@
 
 | Criterion | Self-check | Evidence | QA | QA Evidence |
 |---|---|---|---|---|
-| build_mapping.sh を2回実行して同一CSV（md5一致） | OK | Run 1: current=`756dd044f705c73c9ffe50e65364890e`, input=`15424d91d680f47be9abafd1c23191c9` / Run 2: 同値 — 完全一致。src_file 列にgit相対パスを使用し一時ディレクトリ依存を排除。 | OK | 37→40テスト全パス。オーバーライン境界・simple table回帰含む。 |
+| build_mapping.sh を2回実行して同一CSV（md5一致） | OK | Run 1: current=`640857f15111937b88052826c02755be`, input=`d9d652a7bcb73de5a442a13a1a48ecca` / Run 2: 同値 — 完全一致（trailing blank lines 除去・相対パス・LF 修正後）。 | OK | 40テスト全パス。オーバーライン境界・simple table回帰含む。 |
 | 抽出対象ファイル数が実ファイル数と一致 | OK | RST: `git ls-tree` → **47ファイル**、ログ `RST files found: 47` と一致。MD: `find input/` → **10ファイル**、ログ `MD files found: 10` と一致。 | OK | ファイルリスト取得ロジックを確認。RST は git ls-tree でソート済み、MD は find+sort。 |
-| CSVのレコード数を csv.DictReader でカウント | OK | sections-current.csv = **212レコード**、sections-input.csv = **152レコード** | OK | `csv.DictReader` ラウンドトリップテスト（TestWriteCSVRoundtrip）でヘッダ含むRW確認済み。 |
+| CSVのレコード数を csv.DictReader でカウント | OK | sections-current.csv = **212レコード**、sections-input.csv = **152レコード**（修正後）。 | OK | `csv.DictReader` ラウンドトリップテスト（TestWriteCSVRoundtrip）でヘッダ含むRW確認済み。 |
 | セクション数が独立カウントの見出し数と一致 | OK | 独立カウントスクリプト実行: RST L3=**212**、MD H3=**152**。CSVレコード数と完全一致。 | OK | build_mapping.sh と extract_sections.py の独立実行で同結果を確認。 |
 
 ## QA Expert Review
