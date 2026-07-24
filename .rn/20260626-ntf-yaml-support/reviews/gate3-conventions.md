@@ -15,7 +15,7 @@
 
 **根拠**:
 - `01_Abstract.rst` L14: `各種アノテーション、assertメソッドやMatcherクラスなど、JUnit4で提供されている機能を使用する。`
-- `01_Abstract.rst` L24: `テストデータをExcelファイルに記述できる。`
+- `01_Abstract.rst` L23: `テストデータをExcelファイルに記述できる。`
 - `03_Tips.rst` L6: `目的別のAPIの使用方法について説明する。`
 - `04_MasterDataRestore.rst` L14: `通常の場合、テスト行う際にマスタデータを書き換えることはない。`
 - `02_DbAccessTest.rst` L9: `データベースアクセスクラスなど、データベースを使用するクラスをテストする方法を記載する。`
@@ -129,7 +129,7 @@
 **根拠**:
 - `01_Abstract.rst` L177-183: `code-block:: java` の中身が4スペースインデント
 - `02_DbAccessTest.rst` L73-75: `code-block:: java` の中身が4スペースインデント
-- `03_Tips.rst` L51-73: `code-block:: java` の中身が4スペースインデント（ただし一部2スペース混在あり）
+- `03_Tips.rst` L51-73: `code-block:: java` の中身が4スペースインデント
 
 ---
 
