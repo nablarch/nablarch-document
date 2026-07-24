@@ -56,18 +56,18 @@ Rn version: 0.8.0
 
 **Steps**:
 
-- [ ] `mapping/tools/extract_sections.py` を作成する
+- [x] `mapping/tools/extract_sections.py` を作成する
   - RST と Markdown の両方を扱う
   - 抽出単位は **L3相当のセクション**。RSTは見出しレベル3（ページタイトルをL1とする）、MarkdownはH3
   - L3配下にL4以下がある場合、それらはL3セクションに含める（別項目にしない）
   - 出力列: `section_id, src_file, src_line, heading_path, lines, code_blocks, tables, figures`
   - **人の判断・要約を入れない。** 原文から機械的に取れる情報のみ
-- [ ] `mapping/tools/build_mapping.sh` を作成する
+- [x] `mapping/tools/build_mapping.sh` を作成する
   - 現行解説書は `git show <base>:<path>` で取得する（base は `git merge-base origin/develop HEAD`）
   - input資料は作業ツリーから取得する
   - 出力: `mapping/sections-current.csv`、`mapping/sections-input.csv`
-- [ ] self-check（`checks/task-02.md`）
-- [ ] commit & push
+- [x] self-check（`checks/task-02.md`）
+- [x] commit & push
 - [ ] **user review** — 承認を受けるまで #3 に進まない
 
 **Completion criteria**:
