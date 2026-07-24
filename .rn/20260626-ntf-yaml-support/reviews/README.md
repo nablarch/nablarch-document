@@ -29,7 +29,7 @@ PRの正確性を検証するために、以下の3段階のゲートレビュ�
 
 ### ゲート② 突合台帳
 
-- **成果物**: `gate2-traceability.csv`（2905レコード、ヘッダー除く。フィールド内改行を含むため物理行数は 3177）、`gate2-findings.md`
+- **成果物**: `gate2-traceability.csv`（2905レコード、ヘッダー除く。フィールド内改行を含むため物理行数は 3178）、`gate2-findings.md`
 - **目的**: 変更前と input の全項目が新構成のどこに移送されたかを1項目ずつ追跡する
 
 #### verdict の定義と件数
@@ -66,8 +66,7 @@ MISSING・DUPLICATED の対処案は `gate2-findings.md` に記載している�
 ```bash
 # リポジトリルートから実行
 bash .rn/20260626-ntf-yaml-support/reviews/tools/build_inventory.sh
-# 出力: inventory-before.csv (2687行), inventory-after.csv (3603行), inventory-input.csv (493行)
-# ※行数はヘッダー含む
+# 出力: inventory-before.csv (2574レコード / 物理行数 2687), inventory-after.csv (3252レコード / 物理行数 3603), inventory-input.csv (331レコード / 物理行数 493)
 ```
 
 ---
@@ -93,7 +92,7 @@ C-04 標準体系（FL1=`=`upper+lower、FL2=`-`upper+lower、FL3=`=`under-only�
 | ゲート | 成果物 | 件数 |
 |---|---|---|
 | ゲート① | gate1-structure.md finding | 5件（G1-01〜G1-05） |
-| ゲート② | gate2-traceability.csv | 2905レコード（ヘッダー除く、物理行数 3177） |
+| ゲート② | gate2-traceability.csv | 2905レコード（ヘッダー除く、物理行数 3178） |
 | ゲート② | gate2-findings.md: MISSING | 486件 |
 | ゲート② | gate2-findings.md: DUPLICATED | 80件 |
 | ゲート③ | gate3-findings.csv | 10件（F-001〜F-008, F-101, F-102） |
