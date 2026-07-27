@@ -348,8 +348,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 
 # State
 
-- **Status**: paused
-- **Date**: 2026-07-27
-- **Last completed**: #2a セクション抽出の取りこぼし解消（ユーザーレビュー承認済み）
-- **Next**: #3 用語集の作成 — 実装と修正ラウンド1は完了（`277e23a`）。**再開後の最初の具体的作業は、`277e23a` に対する4観点（QA / 設計 / クラフト / 検証）の再レビュー（ラウンド2）**。トリアージ上限3ラウンドのうち2ラウンド目。指摘と対応の対照は `checks/task-03.md`「レビューの経過」および「レビュー指摘への対応一覧」（A-1〜E）にある
-- **Notes**: push 先はローカル `work` → `origin/work`（origin = fork `lovaizu/nablarch-document`）。親 `nablarch/nablarch-document` へは push しない。親の draft PR #728 は凍結中で触らない。完成後に fork → 親 の PR を出す。／利用枠の都合で Opus から Sonnet 5 への切替を挟んでいる。／#6 で解決する事項が #3 で判明: `design.md` に受け皿のないページ（HTMLチェックツール、メール送信、ファイルアップロード、二重サブミット防止機能、データベースを使用するクラスのテスト）。`glossary.md` §10 に記録済み。／#3 の再レビュー用プロンプトは会話に残らないため、`checks/task-03.md` の各観点の Evidence 列を起点に再構成すること
+- **Status**: not suspended
+- **Date**: YYYY-MM-DD
+- **Last completed**: #N description
+- **Next**: #N description
+- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
