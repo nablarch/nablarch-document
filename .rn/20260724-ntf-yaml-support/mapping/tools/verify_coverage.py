@@ -2,29 +2,31 @@
 verify_coverage.py
 Prove mechanically that extract_sections.py loses no body line.
 
-For every input file each line is classified into exactly one bucket:
+Method: SET ARITHMETIC over line numbers — not bucket counting.
 
-  counted        – a body line inside a section, included in the CSV `lines` column
-  trailing_blank – a blank line at the tail of a section, excluded from `lines`
-  heading        – the heading line itself (RST: overline/text/underline, MD: "### x")
-  gap_blank      – a blank-only stretch that belongs to no section
-  UNEXPLAINED    – anything else.  Must be 0; a non-zero value means body text
-                   was dropped by the extractor.
+  covered   = union of every section's [body_start_line, body_end_line] range
+  headings  = every line occupied by a heading (RST overline/text/underline,
+              Markdown "### x") that is NOT inside a section range
+              (an L4 heading folded into an L3 section IS body text)
+  uncovered = all lines - covered
 
-The identity that must hold for every corpus:
+  Requirement: uncovered - headings must be empty.  Any line that survives is
+  reported individually with its content so the reason can be judged.
 
-  total_lines == counted + trailing_blank + heading + gap_blank
+  Overlap check: the section ranges must be pairwise disjoint, so
+  sum(lines) == len(covered).  A double-claimed line would otherwise mask a
+  missing one.
 
 Usage (same file-spec syntax as extract_sections.py):
   python3 verify_coverage.py <label> <file_spec> [...]
 
-Exit code is 1 when any line is UNEXPLAINED, when section ranges overlap, or
-when the identity does not hold.
+Exit code is 1 when any non-heading line is uncovered, when ranges overlap, or
+when sum(lines) != len(covered).
 """
 
 import os
 import sys
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Set
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -35,83 +37,54 @@ from extract_sections import (  # noqa: E402
 )
 
 
-class FileReport(Dict[str, Any]):
-    pass
-
-
 def verify_file(text: str, logical_path: str) -> Dict[str, Any]:
-    """Classify every line of one file.  Returns a per-file report."""
+    """Build the covered line-number set for one file and diff it against all lines."""
     lines = text.splitlines(keepends=True)
     total = len(lines)
+    all_lines: Set[int] = set(range(1, total + 1))  # 1-indexed
 
     sections = extract_sections(text, logical_path)
     headings = parse_headings(text, logical_path)
 
-    # bucket[i] holds the classification of line i
-    bucket: List[str] = ["gap"] * total
-
-    # 1. Section ranges win.  A heading nested inside a leaf section (L4 and
-    #    deeper) is part of that section's body and must stay counted.
+    covered: Set[int] = set()
     overlaps: List[str] = []
-    counted = 0
-    trailing_blank = 0
+    sum_lines_column = 0
 
     for sec in sections:
-        start = sec["_range_start"]
-        end = sec["_range_end"]
-        body = lines[start:end]
-        # Recompute the trailing-blank boundary the same way the extractor does.
-        last = len(body)
-        while last > 0 and not body[last - 1].strip():
-            last -= 1
-        counted_end = start + last
+        start = sec["body_start_line"]
+        end = sec["body_end_line"]
+        rng = set(range(start, end + 1))
+        sum_lines_column += sec["lines"]
 
-        for i in range(start, end):
-            if bucket[i] != "gap":
+        clash = covered & rng
+        if clash:
+            for i in sorted(clash)[:10]:
                 overlaps.append(
-                    f"{logical_path}:{i + 1} claimed twice "
+                    f"{logical_path}:{i} claimed twice "
                     f"(second claim: '{sec['heading_path']}')"
                 )
-                continue
-            if i < counted_end:
-                bucket[i] = "counted"
-                counted += 1
-            else:
-                bucket[i] = "trailing_blank"
-                trailing_blank += 1
+        covered |= rng
 
-    # 2. Whatever is left must be a structural heading line or a blank gap.
-    structural_heading_lines = set()
+    # Heading lines that are NOT inside any section range are the only lines
+    # allowed to be uncovered.
+    heading_lines: Set[int] = set()
     for h in headings:
-        for i in range(h.start, min(h.body_start, total)):
-            structural_heading_lines.add(i)
+        for i in range(h.start + 1, min(h.body_start, total) + 1):
+            heading_lines.add(i)
 
-    heading_count = 0
-    gap_blank = 0
-    unexplained: List[str] = []
-    for i, b in enumerate(bucket):
-        if b != "gap":
-            continue
-        if i in structural_heading_lines:
-            bucket[i] = "heading"
-            heading_count += 1
-        elif lines[i].strip():
-            unexplained.append(f"{logical_path}:{i + 1}: {lines[i].rstrip()[:80]}")
-        else:
-            gap_blank += 1
-
-    sum_lines_column = sum(s["lines"] for s in sections)
+    uncovered = all_lines - covered
+    structural_headings = uncovered & heading_lines
+    leftover = sorted(uncovered - heading_lines)
 
     return {
         "src_file": logical_path,
         "total": total,
-        "counted": counted,
-        "trailing_blank": trailing_blank,
-        "heading": heading_count,
-        "gap_blank": gap_blank,
         "sections": len(sections),
+        "covered": len(covered),
         "sum_lines_column": sum_lines_column,
-        "unexplained": unexplained,
+        "uncovered": len(uncovered),
+        "heading_lines": len(structural_headings),
+        "leftover": [(i, lines[i - 1].rstrip("\n")) for i in leftover],
         "overlaps": overlaps,
     }
 
@@ -134,46 +107,52 @@ def main(argv: List[str]) -> int:
         reports.append(verify_file(text, logical_path))
 
     total = sum(r["total"] for r in reports)
-    counted = sum(r["counted"] for r in reports)
-    trailing_blank = sum(r["trailing_blank"] for r in reports)
-    heading = sum(r["heading"] for r in reports)
-    gap_blank = sum(r["gap_blank"] for r in reports)
-    n_sections = sum(r["sections"] for r in reports)
+    covered = sum(r["covered"] for r in reports)
     sum_lines_column = sum(r["sum_lines_column"] for r in reports)
+    heading_lines = sum(r["heading_lines"] for r in reports)
+    n_sections = sum(r["sections"] for r in reports)
 
-    unexplained = [m for r in reports for m in r["unexplained"]]
+    leftover = [(r["src_file"], i, s) for r in reports for i, s in r["leftover"]]
     overlaps = [m for r in reports for m in r["overlaps"]]
 
+    blank_leftover = [x for x in leftover if not x[2].strip()]
+    nonblank_leftover = [x for x in leftover if x[2].strip()]
+
     print(f"=== coverage report: {label} ===")
-    print(f"files                : {len(reports)}")
-    print(f"sections             : {n_sections}")
-    print(f"total lines          : {total}")
-    print(f"  counted (CSV lines): {counted}")
-    print(f"  trailing blank     : {trailing_blank}")
-    print(f"  heading lines      : {heading}")
-    print(f"  blank-only gaps    : {gap_blank}")
-    print(f"  UNEXPLAINED        : {len(unexplained)}")
-    identity = counted + trailing_blank + heading + gap_blank
-    print(f"sum of buckets       : {identity}  (== total: {identity == total})")
-    print(f"sum of CSV `lines`   : {sum_lines_column}  (== counted: {sum_lines_column == counted})")
+    print(f"files                    : {len(reports)}")
+    print(f"sections                 : {n_sections}")
+    print(f"total lines              : {total}")
+    print(f"covered by sections      : {covered}")
+    print(f"uncovered: heading lines : {heading_lines}")
+    print(f"uncovered: blank         : {len(blank_leftover)}")
+    print(f"uncovered: NON-BLANK     : {len(nonblank_leftover)}")
+    print(f"covered + uncovered      : {covered + heading_lines + len(leftover)}"
+          f"  (== total: {covered + heading_lines + len(leftover) == total})")
+    print(f"sum of `lines` column    : {sum_lines_column}"
+          f"  (== covered: {sum_lines_column == covered})")
 
     ok = True
-    if unexplained:
+    if nonblank_leftover:
         ok = False
-        print(f"\n!! {len(unexplained)} UNEXPLAINED non-blank line(s):")
-        for m in unexplained[:50]:
-            print(f"   {m}")
+        print(f"\n!! {len(nonblank_leftover)} uncovered NON-BLANK line(s):")
+        for f, i, s in nonblank_leftover[:50]:
+            print(f"   {f}:{i}: {s[:90]}")
+    if blank_leftover:
+        # Allowed, but must be enumerated so the reason is on the record.
+        print(f"\n-- {len(blank_leftover)} uncovered blank line(s) — a blank-only stretch "
+              f"either between a heading and its first child heading, or before the "
+              f"file's first heading.  No section is emitted for these, so they belong "
+              f"to none:")
+        for f, i, _ in blank_leftover[:200]:
+            print(f"   {f}:{i}")
     if overlaps:
         ok = False
         print(f"\n!! {len(overlaps)} overlapping section range(s):")
         for m in overlaps[:50]:
             print(f"   {m}")
-    if identity != total:
+    if sum_lines_column != covered:
         ok = False
-        print(f"\n!! bucket identity broken: {identity} != {total}")
-    if sum_lines_column != counted:
-        ok = False
-        print(f"\n!! CSV `lines` sum {sum_lines_column} != counted {counted}")
+        print(f"\n!! `lines` sum {sum_lines_column} != covered {covered} (ranges overlap or gap)")
 
     print(f"\nRESULT: {'OK' if ok else 'FAILED'}")
     return 0 if ok else 1

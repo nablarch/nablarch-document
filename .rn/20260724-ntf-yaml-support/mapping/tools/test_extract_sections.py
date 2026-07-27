@@ -243,8 +243,8 @@ class TestRSTBasic(unittest.TestCase):
 
     def test_body_lines_counted_without_heading(self):
         sections = run_extract(RST_SIMPLE, "simple.rst", "current")
-        # L3見出し1 body: blank + "本文行1\n" + "本文行2\n" (trailing blank stripped) = 3 lines
-        self.assertEqual(sections[0]["lines"], 3)
+        # L3見出し1 body: L11(空) + L12 + L13 + L14(空) = 4 lines（次見出し L15 の直前まで）
+        self.assertEqual(sections[0]["lines"], 4)
 
     def test_no_l3_extracts_the_l2_itself(self):
         """L3を持たないL2は、そのL2自体がセクションとして抽出されること。"""
@@ -329,8 +329,8 @@ class TestRSTBasic(unittest.TestCase):
             [s["heading_path"] for s in sections],
             ["Title", "L2a", "L3a", "L3b"],
         )
-        # L3a の body は "body" 1行のみ。次見出しの overline は含まれない
-        self.assertEqual(sections[2]["lines"], 2)
+        # L3a の body は L12(空)+L13(body)+L14(空) = 3行。次見出しの overline(L15) は含まれない
+        self.assertEqual(sections[2]["lines"], 3)
 
     def test_overline_with_underline_only_different_levels(self):
         """Same char with overline vs without overline = different levels."""
@@ -383,10 +383,10 @@ body_b
         sections = extract_rst_sections(rst, "ob.rst")
         # Then: セクション数と各セクションの lines が期待値と一致する
         self.assertEqual(len(sections), 2)
-        # L3a body: blank + line1 + line2 (trailing blank stripped) = 3 lines
-        self.assertEqual(sections[0]["lines"], 3)
+        # L3a body: L10(空)+line1+line2+L13(空) = 4 lines（L3b の overline L14 の直前まで）
+        self.assertEqual(sections[0]["lines"], 4)
         self.assertEqual(sections[0]["src_line"], 8)
-        # L3b body: blank + body_b (trailing blank stripped) = 2 lines
+        # L3b body: L17(空)+body_b = 2 lines
         self.assertEqual(sections[1]["lines"], 2)
         self.assertEqual(sections[1]["src_line"], 15)
 
@@ -532,8 +532,8 @@ class TestMarkdownBasic(unittest.TestCase):
         # Then: (L2直下) と H3 の2セクションになる
         self.assertEqual(len(sections), 2)
         self.assertEqual(sections[0]["heading_path"], "Title > H2 section > (L2直下)")
-        # body: blank + "Some text under H2.\n" = 2 lines（末尾空行は除外）
-        self.assertEqual(sections[0]["lines"], 2)
+        # body: L4(空)+L5(本文)+L6(空) = 3 lines（H3 見出し L7 の直前まで）
+        self.assertEqual(sections[0]["lines"], 3)
         self.assertEqual(sections[1]["heading_path"], "Title > H2 section > H3 section")
 
     def test_code_blocks_counted(self):
@@ -887,7 +887,8 @@ class TestDirectBodySections(unittest.TestCase):
         # Then: (L1直下) と L2 の2セクションになる
         self.assertEqual(len(sections), 2)
         self.assertEqual(sections[0]["heading_path"], "Title > (L1直下)")
-        self.assertEqual(sections[0]["lines"], 2)
+        # L3(空)+L4(本文)+L5(空) = 3 lines（H2 見出し L6 の直前まで）
+        self.assertEqual(sections[0]["lines"], 3)
         self.assertEqual(sections[1]["heading_path"], "Title > H2")
 
     def test_rst_l1_direct_body_src_line_points_at_body(self):
@@ -927,7 +928,8 @@ class TestPreambleSections(unittest.TestCase):
         self.assertEqual(len(sections), 2)
         self.assertEqual(sections[0]["heading_path"], "(冒頭)")
         self.assertEqual(sections[0]["src_line"], 1)
-        self.assertEqual(sections[0]["lines"], 1)
+        # L1(ラベル)+L2(空) = 2 lines（Title 見出し L3 の直前まで）
+        self.assertEqual(sections[0]["lines"], 2)
 
     def test_md_preamble_extracted(self):
         # Given: H1 より前に本文がある Markdown
@@ -975,30 +977,65 @@ class TestNoBodyLineLost(unittest.TestCase):
         ("MD_NO_HEADING_AT_ALL", MD_NO_HEADING_AT_ALL, "i.md"),
     ]
 
-    def test_every_sample_has_zero_unexplained_lines(self):
-        """どのサンプルでも、セクションにも見出しにも属さない非空行が0であること。"""
+    def test_no_uncovered_non_blank_line(self):
+        """どのセクションにも属さない非空行が0であること（行番号の集合演算で確認）。"""
         from verify_coverage import verify_file
         for name, text, path in self.SAMPLES:
             with self.subTest(sample=name):
                 # Given: サンプルテキスト
-                # When: 行の帰属を検証する
+                # When: カバー範囲を行番号の集合として構築し、全行と差分を取る
                 r = verify_file(text, path)
-                # Then: 未説明行・重複割当がなく、バケットの合計が総行数に一致する
-                self.assertEqual(r["unexplained"], [], f"{name}: 本文行の取りこぼし")
-                self.assertEqual(r["overlaps"], [], f"{name}: セクション範囲の重複")
-                self.assertEqual(
-                    r["counted"] + r["trailing_blank"] + r["heading"] + r["gap_blank"],
-                    r["total"],
-                    f"{name}: バケット合計が総行数に一致しない",
-                )
+                # Then: 残った行に非空行がない
+                nonblank = [(i, s) for i, s in r["leftover"] if s.strip()]
+                self.assertEqual(nonblank, [], f"{name}: 本文行の取りこぼし")
 
-    def test_sum_of_lines_column_equals_counted(self):
-        """CSV の lines 列の合計が、実際に数えた本文行数と一致すること。"""
+    def test_section_ranges_are_disjoint(self):
+        """セクション範囲が重複しないこと（重複は取りこぼしを隠す）。"""
         from verify_coverage import verify_file
         for name, text, path in self.SAMPLES:
             with self.subTest(sample=name):
                 r = verify_file(text, path)
-                self.assertEqual(r["sum_lines_column"], r["counted"], name)
+                self.assertEqual(r["overlaps"], [], f"{name}: セクション範囲の重複")
+
+    def test_covered_plus_uncovered_equals_total(self):
+        """カバー行数＋未カバー行数が総行数に一致すること。"""
+        from verify_coverage import verify_file
+        for name, text, path in self.SAMPLES:
+            with self.subTest(sample=name):
+                r = verify_file(text, path)
+                self.assertEqual(
+                    r["covered"] + r["uncovered"], r["total"],
+                    f"{name}: カバー＋未カバーが総行数に一致しない",
+                )
+
+    def test_sum_of_lines_column_equals_covered(self):
+        """CSV の lines 列の合計が、カバーした行数と一致すること。"""
+        from verify_coverage import verify_file
+        for name, text, path in self.SAMPLES:
+            with self.subTest(sample=name):
+                r = verify_file(text, path)
+                self.assertEqual(r["sum_lines_column"], r["covered"], name)
+
+
+class TestBodyRangeColumns(unittest.TestCase):
+    """body_start_line / body_end_line が lines と整合すること。"""
+
+    def test_range_width_equals_lines(self):
+        from extract_sections import extract_sections
+        for text, path in [(RST_SIMPLE, "a.rst"), (MD_H2_NOT_STANDALONE, "b.md"),
+                           (RST_EMPTY_SECTION, "c.rst"), (RST_PREAMBLE, "d.rst")]:
+            for s in extract_sections(text, path):
+                with self.subTest(path=path, heading=s["heading_path"]):
+                    self.assertEqual(
+                        s["body_end_line"] - s["body_start_line"] + 1, s["lines"],
+                    )
+
+    def test_next_section_starts_after_previous_range(self):
+        """後続セクションの開始行が、直前セクションの終了行より後であること。"""
+        from extract_sections import extract_sections
+        sections = extract_sections(RST_SIMPLE, "a.rst")
+        for prev, nxt in zip(sections, sections[1:]):
+            self.assertGreater(nxt["body_start_line"], prev["body_end_line"])
 
 
 class TestWriteCSVDropsPrivateKeys(unittest.TestCase):

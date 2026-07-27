@@ -27,8 +27,15 @@ Output columns per section (returned as list of dicts):
   src_line      – 1-indexed line number where the section starts
                   (the heading line, or the first body line for "直下"/"冒頭")
   heading_path  – "PageTitle > H2 > H3" style path
-  lines         – number of body lines, excluding the heading line itself and
-                  excluding trailing blank lines
+  lines         – size of the section's covered range: every line from the
+                  section's first body line up to the line before the next
+                  section starts.  Blank lines inside and at the tail of the
+                  range are included.  The heading line and its underline are
+                  NOT part of the range, so the covered range of a section
+                  starting at heading line L is [L + h, L + h + lines) where h
+                  is the heading height (RST 2, RST-with-overline 3 counted
+                  from the overline, Markdown 1).  For "(冒頭)" and "(直下)"
+                  sections src_line already IS the first covered line.
   code_blocks   – count of code blocks in the section
   tables        – count of tables in the section
   figures       – count of figures/images in the section
@@ -383,15 +390,19 @@ def _build_sections(
 
     def emit(range_start: int, range_end: int, path: List[str], src_line: int) -> None:
         body = lines[range_start:range_end]
-        # Trailing blank lines do not count towards volume.
-        stripped_body = body
-        while stripped_body and not stripped_body[-1].strip():
-            stripped_body = stripped_body[:-1]
         sections.append({
             "src_file": src_file,
             "src_line": src_line,
+            "body_start_line": range_start + 1,
+            # Last covered line, 1-indexed inclusive.  An empty section reports
+            # body_end_line == body_start_line - 1 and lines == 0.
+            "body_end_line": range_end,
             "heading_path": HEADING_SEP.join(path),
-            "lines": len(stripped_body),
+            # Every line from the section's first body line up to (but not
+            # including) the next section's first line.  No trailing-blank
+            # stripping — `lines` IS the covered range, so coverage can be
+            # proven by set arithmetic over line numbers.
+            "lines": range_end - range_start,
             "code_blocks": count_code(body),
             "tables": count_tables(body),
             "figures": count_figures(body),
@@ -496,8 +507,8 @@ def parse_headings(text: str, src_file: str) -> List[Heading]:
 # ---------------------------------------------------------------------------
 
 CSV_COLUMNS = [
-    "section_id", "src_file", "src_line", "heading_path",
-    "lines", "code_blocks", "tables", "figures",
+    "section_id", "src_file", "src_line", "body_start_line", "body_end_line",
+    "heading_path", "lines", "code_blocks", "tables", "figures",
 ]
 
 
