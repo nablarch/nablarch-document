@@ -14,6 +14,14 @@
 | （#3差し戻し）処理方式の名称が `design.md` の正式名称と一致していることが機械検証されている | OK | `verify_glossary.py` の新設 `scheme_names` 検査が `design.md`「5. 処理方式の名称」表の名称列7件（`extract_design_schemes` で抽出）すべてが §5.2 の「正表記」列に文字列一致することを検証（`検証 7 件 / 不一致 0 件`）。従来の `terms` 検査（tsvとの一致）に加え、`design.md` を直接の正とする検証を独立に追加した |  |  |
 | （#3差し戻し）母集合の全件判定が `verify_glossary.py` によって機械検証されている | OK | 既存5検査（refs/counts/sections/terms/applies）に加えて `population`/`design_sections`/`scheme_names`/`reasons` の4検査を追加し計9検査に拡張。`reasons` は §5.15 の不採用テーブル全行（143件）に空でない理由が書かれていることを検証。9検査すべて `python3 mapping/tools/verify_glossary.py` で `不一致 0 件`・`RESULT: OK`（終了コード0） |  |  |
 | （#3差し戻し）G-4〜G-8個別誤りの修正 | OK | 詳細は下記「#3差し戻し 対応一覧」を参照。G-7（150字超セル41個）は全件実測・特定し150字以内に短縮（現在0件）。G-6（件数の誤り）・G-4（採用根拠の引用不一致）は `detect_term_variants.py scan` 再実行と全採用根拠（124件）の再読み合わせにより再検証し、既存記述に不一致は無かった（G-7の短縮作業中に自己混入させた不一致2件は同作業内で復元済み）。G-8（分類の誤り）は §9 の判定語（採用/表記変更/範囲限定/一部不採用/不採用の5分類）を全15行で定義と照合し、L398行の「一部不採用」（不採用要素が実際には無い）を「表記変更」に訂正 |  |  |
+| （用語集の役割の最小化）用語集の役割は「ページ作成時に表記を揃えるための参照物」であり、網羅性の証明は求めない | OK | `mapping/glossary.md` §3（掲載基準）を書き換え、冒頭に「本用語集の役割は『ページ作成時に表記を揃えるための参照物』である。掲載する用語の網羅性の証明は求めない」と明記した。網羅性の証明は #8 以降のページ作成時、観点C（用語）のレビューに委ねる旨も明記（`steering.md` #3差し戻し・ユーザー判断に対応） |  |  |
+| （用語集の役割の最小化）掲載する用語は次の2種類に限定する（表記揺れが実在し正表記を確定した用語／`design.md` が章・セクション名として使う用語） | OK | §3 の掲載基準を2種類に書き換えた。既存 §5.1〜§5.14 の採用済み用語（102語）は、この2種類のいずれかに該当するものであり削除・縮小は不要（発注元の指示どおり）のため変更していない。処理方式7件（§5.2）・テスト種別3件（§5.5）・ページアウトラインの枠名称（§5.13）は変更なしで既に条件2に該当済み |  |  |
+| （用語集の役割の最小化）上記に該当しない候補は `term-candidates.csv` に残したまま一括で「今回は判定しない」と記録している（候補ごとの理由は不要） | OK | §5.15 を「5.15.1 採用（36件、変更なし）」＋「5.15.2 一括：今回は判定しない（295件、新設）」の2区分に縮小した。旧 5.15.2〜5.15.5（design.mdの章・セクション見出し20件／input見出し39件／現行解説書見出し〈複数ファイル〉39件／〈1ファイルのみ〉197件、合計295件）の個別理由列をすべて削除し、候補の表記のみを一括表として残した（`term-candidates.csv` の `term` 列と文字列一致で機械参照できる）。`term-candidates.csv`・`extract_terms.py` は無変更（`git diff --stat` で確認、後述） |  |  |
+| （用語集の役割の最小化）掲載した用語の揺れ表記に file:line の根拠がある（指摘3対応） | OK | 母集合ラウンド1レビューの検証担当が特定した「揺れ表記に代表file:line根拠が皆無の行」を自前で機械的に再パースし直した結果、該当は **10行・27箇所**（発注元記載の「11行・27箇所」のうち箇所数27は完全一致。行数は自前パースで10行と特定。件数レビュー時の数え方の違いによる差と考えられるが、箇所数が一致しているため対象の取りこぼしは無いと判断した）。全27箇所に代表file:lineを1件ずつ補充した。一覧（補充前後）は下記「file:line 補充一覧」を参照。全件 `git show c24190607fef5d76c607aa08b36d2ab2f813efe5:<path>` で実在する行と一致することを確認済み。`verify_glossary.py` の `refs` 検査（255件・不一致0件）で機械検証 |  |  |
+| （用語集の役割の最小化）「意味」欄に、用語集自身が定める旧表記（`バッチ処理`・`ブック` 等）が無変換で残っていない（指摘4対応） | OK | `エンティティバリデーション`（§5.8）の意味欄「ウェブアプリケーション・バッチ処理・メッセージングとは別体系」の`バッチ処理`を、§8対応表が定める処理方式時の正表記`Nablarchバッチアプリケーション`に修正。`Excel形式`（§5.8）の意味欄「Excelブックにテストデータを記述する形式」の`ブック`を、§8対応表が定める正表記`Excelファイル`に修正（「Excelファイルにテストデータを記述する形式」）。`grep -n "バッチ処理\|ブック" mapping/glossary.md` の§5内の残存箇所を確認し、他に旧表記の無変換残存が無いことを確認した |  |  |
+| （用語集の役割の最小化）処理方式の名称が `design.md` の正式名称と一致している | OK | 変更不要（発注元の指示どおり）。§5.2 の7名称は既存のまま `design.md` の正式名称と一致済み。`verify_glossary.py` の `scheme_names` 検査（7件・不一致0件）で機械検証（変更なし） |  |  |
+| （用語集の役割の最小化）FW解説書と異なる表記を採用した場合、理由が採用根拠に記載されている | OK | 変更不要（発注元の指示どおり）。§2 に明記済みの該当3件（`スーパクラス`／`前提事項`／`単項目バリデーション`）は変更していない |  |  |
+| （用語集の役割の最小化）`verify_glossary.py` の母集合突合系の検査を新しい掲載基準（3値）に合わせて更新している | OK | `check_population` に第3の区分 `bulk_terms`（「候補」列のみ・「理由」列を持たない表から候補を抽出）を追加し、全候補が「採用（§5）」「不採用〈理由付き〉（§5.15の候補+理由の表）」「一括：今回は判定しない（§5.15の候補のみの表）」のいずれかに対応することを検証するよう変更した。`check_reasons` は「候補+理由」の表のみを対象とする既存ロジックのまま変更不要（一括判定の表は「理由」列を持たないため自動的に対象外になる）。テストは先に書いた（`test_verify_glossary.py` に `TestBulkTerms` クラス・`test_bulk_declared_candidate_passes`・`test_rejected_terms_does_not_include_bulk_only_table` を追加してから実装） |  |  |
 
 ### Method（writing）の適用記録
 
@@ -158,6 +166,53 @@
 | 150字超セル | 監査で41件を実測特定 → 修正後0件 |
 | glossary.md の分量 | 530行 → 749行（§5.15の新設、および41+2件のセル短縮による純増減） |
 
+#### 用語集の役割の最小化（母集合ラウンド1レビュー指摘3・4対応）の検証結果
+
+ユーザー判断（`steering.md` #3差し戻し「母集合ラウンド1レビューを受けた対応」）により、指摘1（代理指標の誤り）・指摘2（紋切り型の不採用理由）は対応不要となり、指摘3（揺れ表記のfile:line根拠皆無）・指摘4（意味欄の旧表記残存）のみを対応した。あわせて用語集の役割を「ページ作成時に表記を揃えるための参照物」に縮小し、§3・§5.15・`verify_glossary.py` を書き換えた。4観点レビューは実施しない（`steering.md` の指示どおり）。
+
+| 項目 | 値 |
+|---|---|
+| `verify_glossary.py` | `refs 255 / counts 119 / sections 81 / terms 190 / applies 91 / population 331 / design_sections 21 / scheme_names 7 / reasons 0`、**不一致 0 件**、`RESULT: OK`（終了コード0） |
+| `python3 -m pytest mapping/tools/ -q` | **179 passed, 96 subtests passed**（新規: `TestBulkTerms` 2件、`TestPopulationCheck.test_bulk_declared_candidate_passes` 1件、`TestListedAndRejectedTerms.test_rejected_terms_does_not_include_bulk_only_table` 1件。既存テストへの回帰なし） |
+| §5.15 の判定内訳（変更後） | 採用36件（§5.15.1、変更なし）／一括：今回は判定しない295件（§5.15.2、新設。内訳: design-heading20・ntf-doc-terms-heading39・current-heading〈複数ファイル〉39・current-heading〈1ファイルのみ〉197）／不採用〈理由付き〉0件（該当なし） |
+| `term-candidates.csv` / `extract_terms.py` | 無変更（`git diff --stat -- mapping/term-candidates.csv mapping/tools/extract_terms.py` が空であることを確認） |
+| `refs` 検証件数の変化 | 326件 → 255件。§5.15.2〜§5.15.5（旧）の個別file:line参照列（design.md所在98件相当・現行代表file:line）を削除し候補の表記のみを残したことによる減（削除した参照は候補の理由列の一部であり、§5本体の掲載用語の根拠ではないため減少は問題ない）。新規追加は+27件（指摘3対応） |
+| `counts` 検証件数 | 119件で変化なし（意味欄・file:line補充は件数主張を伴わないため） |
+
+**file:line 補充一覧（指摘3対応、10行・27箇所。発注元記載の「11行・27箇所」との差異は「検証結果」セクション該当行を参照）**
+
+| # | 節 | 正表記の行 | 揺れ表記 | 補充前 | 補充後 |
+|---|---|---|---|---|---|
+| 1 | §5.1 | `テスティングフレームワーク` | `テストフレームワーク`（現行1件） | 根拠なし | `NTF:06_TestFWGuide/03_Tips.rst:825` |
+| 2 | §5.1 | `テスティングフレームワーク` | `本フレームワーク`（現行14件） | 根拠なし | `NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:617` |
+| 3 | §5.1 | `テスティングフレームワーク` | `NTF`（input42件。現行2件） | 根拠なし | `NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:153` |
+| 4 | §5.4 | `同期応答メッセージ送信` | `同期応答メッセージ送信処理`（現行32件・input4件） | 根拠なし | `NTF:05_UnitTestGuide/02_RequestUnitTest/send_sync.rst:4` |
+| 5 | §5.4 | `同期応答メッセージ送信` | `メッセージ同期送信処理`（語順違い・現行8件） | 根拠なし | `NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:107` |
+| 6 | §5.4 | `同期応答メッセージ送信` | `メッセージ同期送信`（語順違い・現行2件・input2件） | 根拠なし | `NTF:05_UnitTestGuide/03_DealUnitTest/send_sync.rst:181` |
+| 7 | §5.4 | `HTTPメッセージ送信` | `HTTP同期応答メッセージ送信処理`（現行8件） | 根拠なし | `NTF:05_UnitTestGuide/02_RequestUnitTest/http_send_sync.rst:4` |
+| 8 | §5.4 | `HTTPメッセージ送信` | `HTTP同期応答メッセージ送信`（現行1件） | 根拠なし | `NTF:06_TestFWGuide/RequestUnitTest_http_send_sync.rst:12` |
+| 9 | §5.4 | `HTTPメッセージ送信` | `HTTP 同期応答メッセージ送信`（input計5件） | 根拠なし | `S:input/ntf-doc-terms.md:406` |
+| 10 | §5.4 | `HTTPメッセージ送信` | `HTTP 同期応答メッセージ送信処理`（input計5件の一部） | 根拠なし | `S:input/ntf-doc-terms.md:424` |
+| 11 | §5.4 | `HTTPメッセージ送信` | `HTTPメッセージ同期送信処理`（現行4件） | 根拠なし | `NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:111` |
+| 12 | §5.4 | `HTTPメッセージ送信` | `HTTP メッセージ同期送信`（input2件） | 根拠なし | `S:input/ntf-doc-terms.md:268` |
+| 13 | §5.4 | `HTTPメッセージ受信` | `HTTP同期応答メッセージ受信処理`（現行3件） | 根拠なし | `NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:2` |
+| 14 | §5.5 | `エンティティ単体テスト` | `Form単体テスト`（現行5件） | 根拠なし | `NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:6` |
+| 15 | §5.5 | `エンティティ単体テスト` | `Entity単体テスト`（現行5件） | 根拠なし | `:6`（同ファイルの略記参照） |
+| 16 | §5.5 | `エンティティ単体テスト` | `Form/Entity単体テスト`（現行4件） | 根拠なし | `:14`（同ファイルの略記参照） |
+| 17 | §5.5 | `エンティティ単体テスト` | `Form/Entityの単体テスト`（現行1件） | 根拠なし | `NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/index.rst:4` |
+| 18 | §5.5 | `コンポーネント単体テスト` | `Action/Componentのクラス単体テスト`（現行2件） | 根拠なし | `NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:4` |
+| 19 | §5.5 | `コンポーネント単体テスト` | `Component単体テスト`（現行2件） | 根拠なし | `:6`（同ファイルの略記参照） |
+| 20 | §5.5 | `コンポーネント単体テスト` | `Action単体テスト`（現行1件） | 根拠なし | `:7`（同ファイルの略記参照） |
+| 21 | §5.5 | `コンポーネント単体テスト` | `Action/Component単体テスト`（現行1件） | 根拠なし | `:10`（同ファイルの略記参照） |
+| 22 | §5.8 | `テストケース一覧` | `テストケース表`（現行9件） | 根拠なし | `NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:110` |
+| 23 | §5.8 | `テストケース一覧` | `テストショット表`（現行2件） | 根拠なし | `NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:16` |
+| 24 | §5.8 | `準備データ` | `セットアップデータ`（input1件） | 根拠なし | `S:input/ntf-testdata-doc.md:188` |
+| 25 | §5.8 | `期待値` | `想定値`（現行2件） | 根拠なし | `NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:310` |
+| 26 | §5.9 | `シート` | `テストデータシート`（現行6件） | 根拠なし | `NTF:05_UnitTestGuide/02_RequestUnitTest/fileupload.rst:66` |
+| 27 | §5.9 | `シート` | `準備データシート`（現行1件） | 根拠なし | `NTF:06_TestFWGuide/01_Abstract.rst:102`（RSTのコメント行） |
+
+全27件、`git show c24190607fef5d76c607aa08b36d2ab2f813efe5:<path>` で取得した該当行に表記が実在することを個別に確認した（#14〜#21の短縮参照 `:N` は `verify_glossary.py` の `check_refs` が直前の完全参照と同じファイルとして解決し、内容も検証する）。
+
 ## レビューの経過
 
 | ラウンド | 対象コミット | QA | 設計 | クラフト | 検証 | 備考 |
@@ -225,7 +280,7 @@
 
 ## Overall Verdict
 
-- Self-check: OK（#3差し戻し・母集合再構成分を含む。上記「#3差し戻し（母集合の再構成）対応一覧」「#3差し戻し後の検証結果」を参照。`verify_glossary.py` 9検査すべて不一致0件）
+- Self-check: OK（#3差し戻し・母集合再構成分に加え、母集合ラウンド1レビューを受けた「用語集の役割の最小化」対応（指摘3・4）を含む。上記「#3差し戻し（母集合の再構成）対応一覧」「#3差し戻し後の検証結果」「用語集の役割の最小化（母集合ラウンド1レビュー指摘3・4対応）の検証結果」を参照。`verify_glossary.py` 9検査すべて不一致0件、`python3 -m pytest mapping/tools/ -q` は179 passed, 96 subtests passed）
 - QA: NG（ラウンド1）／ラウンド2 未実施／母集合ラウンド1 NG
 - Design expert: NG（ラウンド1）／ラウンド2 未実施／母集合ラウンド1 NG
 - Craft expert: NG（ラウンド1）／ラウンド2 未実施／母集合ラウンド1 NG
