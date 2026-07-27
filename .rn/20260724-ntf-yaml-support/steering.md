@@ -431,8 +431,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-07-28
-- **Last completed**: batch-02〜15の差し戻し対応（`/rn:up`再開時のユーザー指摘2点＋完了条件追加1点）。(1) CSV機械的破損8件を修正（note等の無エスケープカンマ・引用符でDictReaderが誤読していた）、(2) current-0057（二重サブミット防止機能の橋渡し導入文）のDROPを撤回しMERGEへ変更、他8件の(L1直下)/(L2直下) DROPを実ファイルで再点検し対応不要と確認、(3) 重複理由DROP16件全件にnote上の重複先current-XXXX/input-XXXXを明記（うち2件は「重複」という語の誤用を是正、input-0123は4処理方式分の重複先を追加、input-0006/0105は実ファイル突合で重複の正当性を検証）、(4) `mapping/tools/verify_mapping.py`を新規作成し重複先記載チェックを含めて実行・エラー0件を確認。詳細は`checks/task-05.md`「batch-02〜15 差し戻し対応」参照。53件のDROP一覧を同ファイルにuser review用として提示済み。
-- **Next**: ユーザーの承認後、batch-16〜30を同じ手順でディスパッチ（`checks/task-05.md`「バッチ分割案」の表に従う）。全30バッチ完了後、`mapping/_batch/`配下を`mapping/mapping.csv`へ統合し`verify_mapping.py`に取りこぼし検証・vocabulary突合を追加、3観点レビュー（割当先/disposition/audience）を経てuser reviewへ
-- **Notes**: base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`（`git merge-base origin/develop HEAD`）。ディスパッチ時の3判断基準（(L2直下)は配下と同じdest_section／テストデータ記法はテストデータの書き方ページへ／RSTアンカーのみはDROP）に加え、batch-02〜15の過程で判明した新パターン（input側とcurrent側の重複検出・DROP、Tips.rstの特別ルール、SPLIT行の`-a`/`-b`サフィックス表記）を`checks/task-05.md`「バッチ実行ログ」に記録済み。「要確認」マーク付きの境界判断（分割候補・弱い根拠の配置等、計8件程度）はbatch-15時点でユーザーに一括提示済みで、まだ回答を得ていない（今回の差し戻し対応では未回答のまま）。
+- **Status**: not suspended
+- **Date**: YYYY-MM-DD
+- **Last completed**: #N description
+- **Next**: #N description
+- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
