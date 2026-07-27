@@ -115,13 +115,15 @@ Rn version: 0.8.0
 
 **Steps**:
 
-- [ ] `mapping/glossary.md` を作成する
-- [ ] 現行解説書・input資料（特に `input/ntf-doc-terms.md`）・FW解説書から用語を抽出する
-- [ ] 各用語について「正表記 / 意味 / 揺れ表記（file:line付き） / 採用根拠」を記載する
-- [ ] 採用優先順位: FW解説書 > 現行解説書・input資料（意味が明確で一貫しているもの） > 新規定義
-- [ ] 表記揺れを機械的に検出する（読点・接続の揺れ、処理方式名称、テスト種別名称）
-- [ ] self-check（`checks/task-03.md`）
-- [ ] commit & push
+- [x] `mapping/glossary.md` を作成する
+- [x] 現行解説書・input資料（特に `input/ntf-doc-terms.md`）・FW解説書から用語を抽出する
+- [x] 各用語について「正表記 / 意味 / 揺れ表記（file:line付き） / 採用根拠」を記載する
+- [x] 採用優先順位: FW解説書 > 現行解説書・input資料（意味が明確で一貫しているもの） > 新規定義
+- [x] 表記揺れを機械的に検出する（読点・接続の揺れ、処理方式名称、テスト種別名称）
+- [x] `mapping/tools/verify_glossary.py` を作成し、file:line・件数・§5と§8の整合を機械検証する
+- [x] self-check（`checks/task-03.md`）
+- [x] commit & push
+- [ ] 4観点の再レビュー（ラウンド2、対象 `277e23a`）— ラウンド1は4観点とも NG で修正済み
 - [ ] **user review** — 承認を受けるまで #4 に進まない
 
 **Completion criteria**:
@@ -143,6 +145,7 @@ Rn version: 0.8.0
 - [ ] 抽出元は `ja/application_framework/application_framework/libraries/` 配下の `.rst`（複数ページから抽出）
 - [ ] 各規約に規約ID（`S-01` 形式）、規約内容、根拠（file:line、**2件以上**）を付す
 - [ ] 観点: 文体 / セクション構成 / セクションタイトル形式 / 見出しアンダーライン記法 / コードブロック / アドモニション / 表の記法 / `:ref:` ラベル命名規則 / 文の長さ・改行位置 / 図の配置
+- [ ] `glossary.md` §6・§11.2 の申し送りを取り込む（括弧の全角半角、英数字と日本語の間の空白、送り仮名・漢字/かなの揺れ。いずれも #3 で実測データを保存済み。規範の決定は #4 の管掌）
 - [ ] **現行解説書のRSTを基準にしない**
 - [ ] self-check（`checks/task-04.md`）
 - [ ] commit & push
@@ -333,8 +336,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 
 # State
 
-- **Status**: not suspended
-- **Date**: YYYY-MM-DD
-- **Last completed**: #N description
-- **Next**: #N description
-- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
+- **Status**: paused
+- **Date**: 2026-07-27
+- **Last completed**: #2a セクション抽出の取りこぼし解消（ユーザーレビュー承認済み）
+- **Next**: #3 用語集の作成 — 実装と修正ラウンド1は完了（`277e23a`）。**再開後の最初の具体的作業は、`277e23a` に対する4観点（QA / 設計 / クラフト / 検証）の再レビュー（ラウンド2）**。トリアージ上限3ラウンドのうち2ラウンド目。指摘と対応の対照は `checks/task-03.md`「レビューの経過」および「レビュー指摘への対応一覧」（A-1〜E）にある
+- **Notes**: push 先はローカル `work` → `origin/work`（origin = fork `lovaizu/nablarch-document`）。親 `nablarch/nablarch-document` へは push しない。親の draft PR #728 は凍結中で触らない。完成後に fork → 親 の PR を出す。／利用枠の都合で Opus から Sonnet 5 への切替を挟んでいる。／#6 で解決する事項が #3 で判明: `design.md` に受け皿のないページ（HTMLチェックツール、メール送信、ファイルアップロード、二重サブミット防止機能、データベースを使用するクラスのテスト）。`glossary.md` §10 に記録済み。／#3 の再レビュー用プロンプトは会話に残らないため、`checks/task-03.md` の各観点の Evidence 列を起点に再構成すること
