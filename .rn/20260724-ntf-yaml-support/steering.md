@@ -425,8 +425,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**:
-- **Last completed**:
-- **Next**:
-- **Notes**:
+- **Status**: paused
+- **Date**: 2026-07-27
+- **Last completed**: #4a — split-plan.mdのuser review承認
+- **Next**: #5 マッピングリストの作成 — `checks/task-05.md` のバッチ分割案（30バッチ）の承認待ち
+- **Notes**: ユーザーからディスパッチ前レビューの指示（`mapping/_batch/`の扱い・バッチ分割案の可視化・split-plan.mdの受け渡し・verify_mapping.pyでの機械検証）を受け、その回答を `checks/task-05.md` に記載済み。次回はこの案の承認可否をユーザーに確認するところから再開する。承認後は「次にやること」節の4ステップに従う。
