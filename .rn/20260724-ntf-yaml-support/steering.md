@@ -427,8 +427,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-07-27
-- **Last completed**: #5 batch-01 承認 — 差し戻し対応（指摘①: vocabulary.md第3部のリクエスト単体テスト系dest_pageに処理方式プレフィックス付与／指摘②: current-0094のdest_sectionを使用方法に統一）を反映した`mapping/_batch/batch-01.csv`をユーザーが承認。残り29バッチのディスパッチ方式についてユーザーから3点の指示を受けたが、ディスパッチ前（section_idの範囲再現のための分析のみ）で中断
-- **Next**: #5 マッピングリストの作成 — batch-02〜15をディスパッチし、`_batch/batch-NN.csv`を**生成のたびに個別コミット**する。batch-15完了時点で一度停止しuser reviewに上げる（承認後batch-16〜30を継続、統合はしない）。全30バッチ完了後に初めて`mapping.csv`へ統合し`verify_mapping.py`で機械検証、結果とともにuser reviewに上げる
-- **Notes**: ディスパッチ時にユーザーから指示された3点を全バッチのプロンプトに含めること。(1) 判断基準3点を明記: `(L2直下)`のセクションは配下と同じdest_sectionにする／テストデータの記法は処理方式ページでなく「テストデータの書き方」ページへMOVE（手順・挙動説明はページに残す）／RST内部アンカーラベルのみのセクションはDROP。(2) batch-15で一度止めてuser review。(3) `_batch/`の各CSVは生成のたびに個別コミット（まとめてコミットしない）。バッチ→ファイル→section_id範囲の対応は`checks/task-05.md`「バッチ分割案」の表（ファイル単位、一部ファイルはsection_id境界で#1/#2/#3に分割）と`mapping/sections-current.csv`/`sections-input.csv`（`src_file`でフィルタし`section_id`昇順で境界を再現）から機械的に導出できる（分割ファイルは表内の分割順=section_id昇順で前から順に切る）。split=yes対象（current-0037, 0066, 0106, 0156, 0184, 0185）を含むバッチ（09・15・16・20・25）には`split-plan.md`の該当行を渡す。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`（`git merge-base origin/develop HEAD`）。
+- **Status**: not suspended
+- **Date**:
+- **Last completed**:
+- **Next**:
+- **Notes**:
