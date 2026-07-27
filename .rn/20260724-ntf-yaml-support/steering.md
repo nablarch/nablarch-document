@@ -68,7 +68,7 @@ Rn version: 0.8.0
   - 出力: `mapping/sections-current.csv`、`mapping/sections-input.csv`
 - [x] self-check（`checks/task-02.md`）
 - [x] commit & push
-- [ ] **user review** — 承認を受けるまで #3 に進まない
+- [x] **user review** — 承認を受けるまで #3 に進まない
 
 **Completion criteria**:
 
@@ -240,7 +240,8 @@ Rn version: 0.8.0
 
 # State
 
-<!--
-  Do not edit this section manually.
-  It is managed by the /rn workflow.
--->
+- **Status**: paused
+- **Date**: 2026-07-27
+- **Last completed**: #2 セクション抽出ツールの作成（ユーザーレビュー承認済み）
+- **Next**: #3 用語集の作成
+- **Notes**: PR #728 (ntf-yaml-support)。mapping.csv に src_section_id カラム追加をユーザーが指示済み（選択肢1）— タスク #5 で対応。
