@@ -425,8 +425,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-07-27
-- **Last completed**: #4a — split-plan.mdのuser review承認
-- **Next**: #5 マッピングリストの作成
-- **Notes**: 方式は方式1（Agent tool・直接オーケストレーション）に決定済み（ユーザーの4つの確認質問に回答し、判断品質・指摘追従性を理由に選定。理由: (1)方式2のWorkflow再実行はキャッシュ範囲が並列分岐に対して確実に局所化される保証がない、(2)方式2は各サブエージェントの判断根拠がjournalに残るのみで会話コンテキストに自動で出ないため`checks/task-05.md`の根拠記述が薄くなりうる、(3)rnのtriage/escalationはコーディネーターが会話内で都度判断する設計でありWorkflowの1ラウンド完走モデルと相性が悪い）。表記揺れ対策としてdesign.mdから`dest_part`/`dest_page`/`dest_section`の正式名称一覧を先に機械抽出しバッチ共通プロンプトに埋め込む方針、中断耐性としてバッチ担当エージェントに`mapping/_batch/`へ部分CSVを直接書かせる方針も決定済み。#5はまだ未着手（`mapping.csv`等のファイルは存在しない）。次回は steering.md #5 の Steps に従い、ファイル単位のバッチ分割案の作成から着手する。
+- **Status**: not suspended
+- **Date**:
+- **Last completed**:
+- **Next**:
+- **Notes**:
