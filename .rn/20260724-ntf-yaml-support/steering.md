@@ -412,8 +412,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-07-27
-- **Last completed**: #3(用語集の作成)はユーザー指示で役割を「ページ作成時の参照物」に最小化する方針転換を経て完了・承認済み(コミット`878a5a5`〜`a5eecc6`)。#4(トンマナ規約)は`mapping/style.md`(8観点、各2件以上のfile:line根拠)を作成し、コーディネーターの独立検証でS-02のdesign.md不整合(モジュール一覧の扱い)を発見・修正済み(コミット`01933e6`→`c3f8afa`)。self-check・steering.md反映済み(コミット`d471a3c`)
-- **Next**: #4の「user review」— ユーザーの `/rn:ty`(承認)または `/rn:gm`(修正)待ち。承認されれば #4a(大きいセクションの分割判断)に進む
-- **Notes**: 用語集(#3)の網羅性は今回のユーザー判断で切り捨てられている(`term-candidates.csv`の295候補は個別理由なしの一括「今回は判定しない」)。今後 #3 の方針を見直す場合はこの前提を思い出すこと。`glossary.md` §6・§11.2 由来の3項目(括弧の全角半角・英数字と日本語間の空白・送り仮名/漢字かなの揺れ)は `style.md` に規約化せず、#8以降のページ作成時に都度FW解説書ライブラリの多数派表記に合わせる方針(`steering.md` #4「未決事項」参照)
+- **Status**: not suspended
+- **Date**: YYYY-MM-DD
+- **Last completed**: #N description
+- **Next**: #N description
+- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
