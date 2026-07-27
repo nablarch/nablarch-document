@@ -298,8 +298,12 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
   - `#5` の作業中に同様のケース（design.md に適切な割当先がないセクション）が他に見つかった場合も同じ扱いとする
   - 暫定扱いとしたセクションを `checks/task-05.md` に一覧化する
 - [ ] `heading_path` が `(L2直下)`（親L2見出し直下の導入文で子L3を持たない）で終わる行は、同じ親を持つ配下セクションと同じ `dest_section` に置く（親子でセクションが分かれページ内で内容が分断されるのを防ぐ。2026-07-27 batch-01差し戻し指摘②。`checks/task-05.md`「batch-01 差し戻し」参照）
-- [ ] `mapping/tools/verify_mapping.py` を作成し、取りこぼし検証を行範囲の集合演算で行う
-  - `lines` 合計（全行）と `lines` 合計（`DROP` を除く）を**両方出力する**
+- [x] `mapping/tools/verify_mapping.py` を作成する（batch-02〜15差し戻し対応の一環、2026-07-28）
+  - 現状は `mapping.csv` 未作成のため `mapping/_batch/batch-*.csv` 全件を対象に検証（`mapping.csv` 作成後は自動でそちらを対象にする）
+  - `lines` 合計（全行）と `lines` 合計（`DROP` を除く）を出力する
+  - disposition=DROPかつnoteに「重複」を含む行は、noteにcurrent-XXXX/input-XXXX形式の重複先が記載されていることを検証する（2026-07-28 user差し戻し指摘②により追加）
+  - disposition/audience空欄0件、DROP行のnote必須も検証する
+  - **未実装**: 取りこぼし検証（行範囲の集合演算）、`dest_page`等のvocabulary.md突合は`mapping.csv`統合後（#5の残りStepsで実施）
 - [ ] `mapping/volume.md` を作成する（`dest_page` ごとに `lines` を集計）
   - `DROP` を除いた `lines` 合計を記載する（新構成に移る実質的な分量）
   - `DROP` の合計行数と、その内訳（`note` の理由別）も記載する
@@ -429,6 +433,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-07-28
-- **Last completed**: #5 batch-02〜15をディスパッチし、各バッチをコーディネーターが差分レビュー・独立検証（自己報告に頼らずpython3で機械検証）した上で個別コミット。結果をuser reviewとして提示済み（`/rn:ty`または`/rn:gm`待ち）
-- **Next**: ユーザーの承認後、batch-16〜30を同じ手順でディスパッチ（`checks/task-05.md`「バッチ分割案」の表に従う）。全30バッチ完了後、`mapping/_batch/`配下を`mapping/mapping.csv`へ統合し`mapping/tools/verify_mapping.py`を作成して機械検証、3観点レビュー（割当先/disposition/audience）を経てuser reviewへ
-- **Notes**: base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`（`git merge-base origin/develop HEAD`）。ディスパッチ時の3判断基準（(L2直下)は配下と同じdest_section／テストデータ記法はテストデータの書き方ページへ／RSTアンカーのみはDROP）に加え、batch-02〜15の過程で判明した新パターン（input側とcurrent側の重複検出・DROP、Tips.rstの特別ルール、SPLIT行の`-a`/`-b`サフィックス表記）を`checks/task-05.md`「バッチ実行ログ」に記録済み。「要確認」マーク付きの境界判断（分割候補・弱い根拠の配置等、計8件程度）はbatch-15時点でユーザーに一括提示済みで、まだ回答を得ていない。
+- **Last completed**: batch-02〜15の差し戻し対応（`/rn:up`再開時のユーザー指摘2点＋完了条件追加1点）。(1) CSV機械的破損8件を修正（note等の無エスケープカンマ・引用符でDictReaderが誤読していた）、(2) current-0057（二重サブミット防止機能の橋渡し導入文）のDROPを撤回しMERGEへ変更、他8件の(L1直下)/(L2直下) DROPを実ファイルで再点検し対応不要と確認、(3) 重複理由DROP16件全件にnote上の重複先current-XXXX/input-XXXXを明記（うち2件は「重複」という語の誤用を是正、input-0123は4処理方式分の重複先を追加、input-0006/0105は実ファイル突合で重複の正当性を検証）、(4) `mapping/tools/verify_mapping.py`を新規作成し重複先記載チェックを含めて実行・エラー0件を確認。詳細は`checks/task-05.md`「batch-02〜15 差し戻し対応」参照。53件のDROP一覧を同ファイルにuser review用として提示済み。
+- **Next**: ユーザーの承認後、batch-16〜30を同じ手順でディスパッチ（`checks/task-05.md`「バッチ分割案」の表に従う）。全30バッチ完了後、`mapping/_batch/`配下を`mapping/mapping.csv`へ統合し`verify_mapping.py`に取りこぼし検証・vocabulary突合を追加、3観点レビュー（割当先/disposition/audience）を経てuser reviewへ
+- **Notes**: base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`（`git merge-base origin/develop HEAD`）。ディスパッチ時の3判断基準（(L2直下)は配下と同じdest_section／テストデータ記法はテストデータの書き方ページへ／RSTアンカーのみはDROP）に加え、batch-02〜15の過程で判明した新パターン（input側とcurrent側の重複検出・DROP、Tips.rstの特別ルール、SPLIT行の`-a`/`-b`サフィックス表記）を`checks/task-05.md`「バッチ実行ログ」に記録済み。「要確認」マーク付きの境界判断（分割候補・弱い根拠の配置等、計8件程度）はbatch-15時点でユーザーに一括提示済みで、まだ回答を得ていない（今回の差し戻し対応では未回答のまま）。

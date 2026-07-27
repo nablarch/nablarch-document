@@ -146,3 +146,104 @@ current-0080〜0086（setUpDbシート・テストケース一覧・各種パラ
 - **batch-13**（`02_RequestUnitTest.rst` 16件 + `double_transmission.rst` 4件、commit `9892ea9`）: MOVE 15 / MERGE 2 / DROP 3。全行user。**batch-10申し送り事項を解決**: batch-10のinput-0030との重複は全て部分重複と判明（current側がより詳細）、ルール5によりcurrent側を維持しMOVE/MERGE（丸ごとDROPなし）。current-0211（設定項目一覧19件）がinput-0030の5件抜粋の正本と確認。current-0198/0056はアンカーのみでDROP。current-0057（二重サブミット防止の橋渡し文、L1直下）は子2件（current-0058/0059）で異なる宛先ページに分かれるため単一宛先を持たずDROP（要確認）。独立検証済み。
 - **batch-14**（`JUnit5_Extension.rst` 16件 + `fileupload.rst` 4件、commit `3ba158a`）: MOVE 17 / MERGE 1 / DROP 2。全行user。batch-03のcurrent-0178/0179/0180との重複を確認: current-0266（前提条件）はcurrent-0179と一部重複するがMERGE（新規情報あり）、current-0267（モジュール一覧）はcurrent-0180と別アーティファクトのため重複なし。current-0263/0264はアンカー・TOCのみでDROP。独立検証済み（vocabulary全値照合含む）。
 - **batch-15**（`ntf-testdata-doc-examples-testshots.md` 16件 + `http_real.rst` 4件[split: current-0066 3分割]、commit `520526e`）: MERGE 15 / SPLIT 3（1セクション3分割） / DROP 3 / REFERENCE 1。audience: user21/developer1。current-0066はsplit-plan.mdの3分割（44-119/120-129[developer, 第2部]/130-159）どおりに分割、独立検証で範囲の隙間・重複ゼロを確認。DROP3件はbatch-10のinput-0019/0020と重複。current-0064はREFERENCE（batch-04のcurrent-0135型）。**バッチ02〜15ディスパッチはここで一区切り。次はuser reviewへ。**
+
+## batch-02〜15 差し戻し対応（2026-07-28）
+
+user reviewでbatch-02〜15が差し戻された。指摘2点＋完了条件追加1点に対応。
+
+### 対応①: CSVの機械的破損を修正（指摘の前提として発見）
+
+`csv.DictReader`で読むと、note/heading_pathフィールド内の無エスケープのカンマ・二重引用符によって8行（batch-03のcurrent-0174、batch-04のcurrent-0215/0217、batch-05のcurrent-0237、batch-06のinput-0006、batch-09のcurrent-0182、batch-12のinput-0152、batch-13のcurrent-0201）が誤ってフィールドずれを起こしていた（`csv.writer`で正しい引用符に再シリアライズして修正）。これは指摘②の「重複先を検証できない」問題を機械的に悪化させていた実例（input-0006の重複先current-0174はnote内に記載されていたが、CSV破損によりDictReaderでは読み取れなかった）。
+
+### 対応②: 指摘① current-0057のDROPを再検討
+
+current-0057（二重サブミット防止機能の橋渡し導入文、L1直下）は、「サーバサイド/クライアントサイド双方で機能するためテスト方法が異なる」という両ページの関係説明の唯一の記述であり、子節current-0058・current-0059のいずれにも再掲されていないことを実ファイル（`double_transmission.rst`）で確認した。DROPを撤回し、先に実施されるcurrent-0058側（リクエスト単体テスト（ウェブアプリケーション）/使用方法）へMERGE。current-0059側のnoteに「ページ作成時はこの説明への:ref:参照を使用方法冒頭に置き、再掲しない」という申し送りを追加（重複を作らない）。
+
+あわせて、他の(L1直下)/(L2直下)のDROP行（8件: input-0182・input-0187・input-0195(batch-02), current-0214(batch-04), input-0001・input-0005・input-0017(batch-06), current-0264(batch-14)）を実ファイルで再点検した。いずれもcurrent-0057と異なり、(a) 変換ツール設計書自身の内部設計方針（developer向け、input-0182/0187/0195/0001）、(b) 生成TOC・アンカーラベルのみで地の文を持たない（current-0214/0264）、(c) 実体のない出典表記1行のみ（input-0005）、(d) 既存箇所への重複で新規情報が識別子的言及に留まる（input-0017、重複先は既にnoteに記載）のいずれかであり、「2ページに分岐する関係を説明する唯一の記述」には該当しないことを確認した。対応不要。
+
+### 対応③: 指摘② 重複を理由とするDROPに重複先を明記
+
+note内に「重複」（または同義の「再掲であり新規情報を含まない」等）を含むDROP行は batch-02〜15で16件。全件についてnoteに重複先の`current-XXXX`/`input-XXXX`を明記した（CSV破損修正で1件（input-0006→current-0174）が復元、他15件は元から記載済みだが2件は`重複`という語の誤用を是正）。
+
+- **input-0193**（batch-02）・**input-0005**（batch-06）: noteに「重複」という語を含んでいたが、実際の理由は重複ではなかった（input-0193はコード実装の一元化に関する内部設計方針、input-0005は出典表記1行のみで実体がない）。誤解を避けるため文言を是正し、input-0005は子5節の`section_id`（input-0006〜0010）を明記した。
+
+ユーザーが名指しした3件を実ファイル突合で個別検証:
+- **input-0006**（特殊記法、13行）: current-0174（`01_Abstract.rst` 448-580、133行）と比較し、null/"null"/""/${systemTime}/${setUpTime}/${文字種,文字数}/${binaryFile:パス}/\r/\nの9規則すべてがcurrent-0174によりexample・注記付きでカバー済みであることを確認。重複DROPは妥当（重複先: current-0174）。
+- **input-0105**（バッチ処理のオプションカラム、12行）: setUpDbはcurrent-0080、残り（setUpTable/expectedTable/setUpFile/expectedFile/expectedLog/args[n]）はinput-0019（batch-10、既MOVE済み）に全項目が含まれることをinput-0019の実note突合で確認。重複DROPは妥当（重複先: current-0080, input-0019）。
+- **input-0123**（testShotsのカラム仕様、10行）: 実体は「カラムは処理方式によって異なる」の1文+4処理方式への:refリンク一覧のみで、独自の記法情報を持たないナビゲーションと判明。リンク先（ntf-testdata-doc-examples-testshots.md、batch-15）の実体的なカラム仕様（web: input-0100〜0103、バッチ: input-0104〜0106、メッセージング: input-0107〜0109、エンティティ: input-0110〜0113）はすべて個別にマッピング済みであることを確認し、noteを4処理方式分の重複先を明記する形に修正（旧noteはウェブアプリケーション分のcurrent-0081のみ言及で不完全だった）。「テストデータの書き方」への再配置は不要（実体がリンク一覧のみのため）。
+
+### 対応④: 完了条件に追加 — verify_mapping.pyの新規作成
+
+`mapping/tools/verify_mapping.py`を新規作成。`mapping.csv`が存在しない現段階では`mapping/_batch/batch-*.csv`全件を対象に以下を検証する（`mapping.csv`統合後は自動的にそちらを対象にする）。
+
+- disposition=DROPかつnoteに「重複」を含む行は、noteに`current-XXXX`/`input-XXXX`形式の重複先が記載されていること（**今回の追加項目**）
+- disposition/audienceが空欄の行が0件であること
+- DROP行にnoteが必ず記載されていること
+- `lines`合計（全行・DROP除く）の参考出力
+
+実行結果: `python3 mapping/tools/verify_mapping.py` → 305行（batch-01〜15）を読み込み、エラー0件。
+
+### batch-02〜15 DROP一覧（53件、対応後）
+
+current-0057がMERGEに変わったため54→53件。
+
+
+| src_section_id | lines | batch | 理由分類 | 重複先 | heading_path |
+|---|---|---|---|---|---|
+| input-0182 | 8 | batch-02 | 開発者向け内部情報 | input-0183 | NTF テストデータ変換ツール 設計書 > (L1直下) |
+| input-0185 | 19 | batch-02 | 開発者向け内部情報 | input-0184 | NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定） > 保持するか捨てるかの判断基準 |
+| input-0186 | 7 | batch-02 | 開発者向け内部情報 | — | NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定） > 制約 |
+| input-0187 | 7 | batch-02 | 開発者向け内部情報 | — | NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > (L2直下) |
+| input-0188 | 22 | batch-02 | 開発者向け内部情報 | — | NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 判断 A：Excel 経路... |
+| input-0189 | 11 | batch-02 | 開発者向け内部情報 | — | NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 判断 B：YAML 経路 ... |
+| input-0191 | 12 | batch-02 | 開発者向け内部情報 | — | NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 共通：器の中身を読む手段 |
+| input-0192 | 12 | batch-02 | 開発者向け内部情報 | — | NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 共通：器が正規化する値の原文復元 |
+| input-0193 | 11 | batch-02 | 開発者向け内部情報 | — | NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 重複実装を避ける：ロジック... |
+| input-0195 | 3 | batch-02 | 開発者向け内部情報 | — | NTF テストデータ変換ツール 設計書 > 3. 構造 > (L2直下) |
+| input-0196 | 37 | batch-02 | 開発者向け内部情報 | — | NTF テストデータ変換ツール 設計書 > 3. 構造 > 中間モデル |
+| input-0197 | 57 | batch-02 | 開発者向け内部情報 | — | NTF テストデータ変換ツール 設計書 > 3. 構造 > IN（形式 → 中間モデル） |
+| input-0198 | 26 | batch-02 | 開発者向け内部情報 | input-0194 | NTF テストデータ変換ツール 設計書 > 3. 構造 > OUT（中間モデル → 形式） |
+| input-0200 | 10 | batch-02 | 開発者向け内部情報 | — | NTF テストデータ変換ツール 設計書 > 4. 品質担保 |
+| input-0201 | 9 | batch-02 | 開発者向け内部情報 | — | NTF テストデータ変換ツール 設計書 > 5. 開発とバージョン展開 > 開発とリポジトリ分割の手順 |
+| input-0202 | 13 | batch-02 | 開発者向け内部情報 | — | NTF テストデータ変換ツール 設計書 > 5. 開発とバージョン展開 > 過去バージョンへの展開 |
+| current-0161 | 2 | batch-03 | 空/TOC/アンカーのみ | — | (冒頭) |
+| current-0214 | 23 | batch-04 | 空/TOC/アンカーのみ | — | 目的別API使用方法 > (L1直下) |
+| input-0001 | 10 | batch-06 | 開発者向け内部情報 | — | NTF 解説書（v6）用語リファレンス > (L1直下) |
+| input-0003 | 24 | batch-06 | 重複 | current-0169 | NTF 解説書（v6）用語リファレンス > データタイプ（Data Types） |
+| input-0004 | 18 | batch-06 | 重複 | current-0080, current-0168, current-0169 | NTF 解説書（v6）用語リファレンス > シート・行・列・セル |
+| input-0005 | 3 | batch-06 | 空/TOC/アンカーのみ | input-0006, input-0007, input-0008, input-0009, input-0010 | NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > ... |
+| input-0006 | 13 | batch-06 | 重複 | current-0174 | NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > ... |
+| input-0007 | 3 | batch-06 | 重複 | current-0171 | NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > ... |
+| input-0008 | 3 | batch-06 | 重複 | current-0170 | NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > ... |
+| input-0009 | 3 | batch-06 | 重複 | current-0173 | NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > ... |
+| input-0010 | 7 | batch-06 | 重複 | current-0175, current-0177 | NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > ... |
+| input-0017 | 10 | batch-06 | 重複 | current-0081, current-0085, input-0018 | NTF 解説書（v6）用語リファレンス > testShots / requestParams（テストケ... |
+| input-0018 | 31 | batch-06 | 重複 | current-0081, current-0085 | NTF 解説書（v6）用語リファレンス > testShots / requestParams（テストケ... |
+| current-0022 | 2 | batch-06 | 空/TOC/アンカーのみ | — | (冒頭) |
+| current-0023 | 7 | batch-06 | 空/TOC/アンカーのみ | — | Form/Entityの単体テスト |
+| current-0029 | 2 | batch-07 | 空/TOC/アンカーのみ | current-0022, current-0161 | (冒頭) |
+| current-0030 | 8 | batch-07 | 空/TOC/アンカーのみ | current-0023 | クラス単体テストの実施方法 |
+| input-0115 | 14 | batch-07 | 空/TOC/アンカーのみ | input-0116 | NTF テストデータ リファレンス > 目次 |
+| input-0123 | 10 | batch-07 | 空/TOC/アンカーのみ | input-0100, input-0104, input-0107, input-0110 | NTF テストデータ リファレンス > 4. テストケース定義 > 4.2 testShots のカラム仕様 |
+| current-0159 | 2 | batch-08 | 空/TOC/アンカーのみ | current-0022, current-0029 | (冒頭) |
+| current-0160 | 101 | batch-08 | 空/TOC/アンカーのみ | — | 単体テスト実施方法 |
+| current-0097 | 2 | batch-09 | 空/TOC/アンカーのみ | — | (冒頭) |
+| input-0025 | 8 | batch-10 | 重複 | input-0141 | NTF 解説書（v6）用語リファレンス > メッセージング > 障害系テスト用特殊値 |
+| input-0029 | 15 | batch-10 | 重複 | current-0182, current-0192, current-0193, current-0194 | NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > DB アクセステスト |
+| current-0331 | 2 | batch-10 | 空/TOC/アンカーのみ | current-0022 | (冒頭) |
+| current-0332 | 17 | batch-10 | 空/TOC/アンカーのみ | current-0023 | 自動テストフレームワークの使用方法 |
+| current-0293 | 20 | batch-11 | 重複 | input-0027 | リクエスト単体テスト（HTTP同期応答メッセージ送信処理） |
+| current-0351 | 7 | batch-11 | 空/TOC/アンカーのみ | current-0160 | リクエスト単体データ作成ツール |
+| input-0155 | 3 | batch-12 | 重複 | input-0013 | NTF テストデータ リファレンス > 8. 値の書き方 > 8.8 バイナリデータの記述 |
+| current-0376 | 8 | batch-12 | 空/TOC/アンカーのみ | current-0160, current-0351 | プログラミング工程で使用するツール |
+| current-0198 | 2 | batch-13 | 空/TOC/アンカーのみ | — | (冒頭) |
+| current-0056 | 2 | batch-13 | 空/TOC/アンカーのみ | — | (冒頭) |
+| current-0263 | 2 | batch-14 | 空/TOC/アンカーのみ | — | (冒頭) |
+| current-0264 | 5 | batch-14 | 空/TOC/アンカーのみ | — | JUnit 5用拡張機能 > (L1直下) |
+| input-0104 | 9 | batch-15 | 重複 | input-0019 | NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequest... |
+| input-0105 | 12 | batch-15 | 重複 | current-0080, input-0019 | NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequest... |
+| input-0107 | 9 | batch-15 | 重複 | input-0020 | NTF テストデータ解説書 — testShots カラム一覧 > メッセージング（MessagingR... |
+
+内訳: 開発者向け内部情報 17件（すべてbatch-02のtestdata-converter-design.md 16件 + batch-06のinput-0001） / 空・TOC・アンカーのみ 20件 / 重複（重複先を上表に明記） 16件。
+
+**この対応内容をuser reviewに上げる。承認後にbatch-16〜30へ進む。**
