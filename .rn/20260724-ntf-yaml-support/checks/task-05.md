@@ -59,12 +59,26 @@ split=yes の6セクション（`current-0037`, `current-0066`, `current-0106`, 
 
 目視確認はしない。以下を機械検証する。
 - `mapping/_batch/` 配下の全CSVを `csv.DictReader` で読み、レコード数の合計が `mapping.csv` のレコード数と一致すること
-- `dest_part` / `dest_page` / `dest_section` が design.md から機械抽出した closed vocabulary のいずれかと完全一致すること（不一致が1件でもあれば失敗）
+- `dest_part` / `dest_page` / `dest_section` が `mapping/vocabulary.md` の語彙（確定・暫定を合わせたもの）のいずれかと完全一致すること（不一致が1件でもあれば失敗）
 - 既定の完了条件: 行範囲の集合演算（隙間・重複ゼロ）、`disposition` / `audience` 空欄0件、`lines` 合計12,986
+
+## user review（2026-07-27 承認）
+
+30バッチ案・上記4点の対応方針を承認。あわせて以下を指示された。
+
+- 「表中★印の4バッチ」という記述誤りの指摘 — 本ファイル §2/§3 は元々「5バッチ」（09・15・16・20・25）と正しく記載しており、修正対象の誤記述はチャット上の口頭サマリのみだった（ファイルには存在しない）。念のためここに記録する。
+- ディスパッチ前に `mapping/vocabulary.md`（closed vocabulary）を先にコミットし、design.mdとの一致を検証できる状態にすること → 対応済み（`mapping/tools/extract_vocabulary.py` で機械抽出、`mapping/vocabulary.md` に確定/暫定を区別して記載）。抽出中に第3部「取引単体テスト」の暫定語彙の扱いで判断が必要になり、ユーザーに確認した（次項）。
+- batch-01の出力のみで一度停止し、user reviewに上げること → 対応する。残り29バッチは承認後に続行する。
+
+### 追加判断: 第3部「取引単体テスト」の暫定dest_page
+
+design.md未確定事項#2（構成はマッピング作成後に確定）配下のセクション（`03_DealUnitTest/`等、40件超見込み）について、暫定dest_pageの形式をユーザーに確認した。
+
+処理方式付きの仮ページ名（`取引単体テスト（MOMによるメッセージング）`等、`split-plan.md` current-0156の既存precedentと同形式）を採用。理由: 由来をdest_pageの値自体に保持させないと、#6での再分離に全行の読み直しが必要になり非現実的なため。あわせてcurrent-0158の暫定値も「第2部 導入と設定 > 取引単体テストの設定（MOMによるメッセージング）」に修正（旧「リクエスト単体テストの設定」は由来を失うため撤回）。`steering.md` #5 Steps・#6 Completion criteriaに反映済み。詳細は `mapping/vocabulary.md` を参照。
 
 ## 次にやること（承認後）
 
-1. design.md から `dest_part` / `dest_page` / `dest_section` の closed vocabulary を機械抽出する
-2. 上記30バッチを実装エージェントにディスパッチする（split-plan.md該当行は5バッチのみに同梱）
+1. ~~design.md から `dest_part` / `dest_page` / `dest_section` の closed vocabulary を機械抽出する~~ → 完了（`mapping/vocabulary.md`）
+2. 上記30バッチのうち **batch-01のみ** を実装エージェントにディスパッチし、出力をuser reviewに上げる（承認後に残り29バッチを継続）
 3. `mapping/tools/verify_mapping.py` を作成し、上記4項目を機械検証する
 4. 以降は steering.md #5 の残り Steps（disposition/audience付与、暫定dest_pageルール、volume.md作成、3観点レビュー等）に従う
