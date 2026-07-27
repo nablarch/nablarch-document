@@ -297,6 +297,7 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
   - `current-0158` は「第2部 導入と設定 > 取引単体テストの設定（MOMによるメッセージング）」を暫定値とする（旧: 「リクエスト単体テストの設定」は由来を失うため撤回）。`note` は「暫定。」で始める。`current-0158` の `note` は次の文言とする: 「暫定。取引単体テスト向けの設定だが、design.md 第2部に「取引単体テストの設定」ページが未定義のため。#6 で第2部のページ分割が確定した時点で見直す。」
   - `#5` の作業中に同様のケース（design.md に適切な割当先がないセクション）が他に見つかった場合も同じ扱いとする
   - 暫定扱いとしたセクションを `checks/task-05.md` に一覧化する
+- [ ] `heading_path` が `(L2直下)`（親L2見出し直下の導入文で子L3を持たない）で終わる行は、同じ親を持つ配下セクションと同じ `dest_section` に置く（親子でセクションが分かれページ内で内容が分断されるのを防ぐ。2026-07-27 batch-01差し戻し指摘②。`checks/task-05.md`「batch-01 差し戻し」参照）
 - [ ] `mapping/tools/verify_mapping.py` を作成し、取りこぼし検証を行範囲の集合演算で行う
   - `lines` 合計（全行）と `lines` 合計（`DROP` を除く）を**両方出力する**
 - [ ] `mapping/volume.md` を作成する（`dest_page` ごとに `lines` を集計）
@@ -428,6 +429,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-07-27
-- **Last completed**: #5 着手 — `mapping/vocabulary.md`（closed vocabulary）作成・コミット、batch-01（21件）を実装エージェントにディスパッチし `mapping/_batch/batch-01.csv` を出力
-- **Next**: #5 マッピングリストの作成 — batch-01の出力（`mapping/_batch/batch-01.csv`、`checks/task-05.md`「batch-01 結果」）のuser review待ち
-- **Notes**: 承認なら残り29バッチ（batch-02〜30）を同じ方式（`checks/task-05.md`のバッチ表・`mapping/vocabulary.md`の語彙）でディスパッチし、統合後 `mapping/tools/verify_mapping.py` を作成して steering.md #5 の残りStepsに進む。指摘があれば方式（disposition/audienceの判断粒度、dest_pageの選び方等）を修正してから再開する。`checks/task-05.md`「batch-01 結果」に確認してほしい判断例（current-0080〜0086を共通の「テストデータの書き方」ページへMOVEした判断）を記載済み。
+- **Last completed**: #5 batch-01 差し戻し対応 — 指摘①（`vocabulary.md` 第3部のリクエスト単体テスト系dest_page「ウェブアプリケーション」等6件に処理方式プレフィックスを付与し「リクエスト単体テスト（ウェブアプリケーション）」等の暫定語彙に変更、`batch-01.csv` 13行を追従修正）・指摘②（current-0094の`dest_section`を「機能概要」→「使用方法」に修正しcurrent-0095/096と統一）を反映。`mapping/vocabulary.md`・`mapping/_batch/batch-01.csv`・`checks/task-05.md`・`steering.md` #5 Steps（`(L2直下)`のdest_section一致確認を追加）を更新
+- **Next**: #5 マッピングリストの作成 — 修正後のbatch-01（`mapping/_batch/batch-01.csv`、`checks/task-05.md`「batch-01 差し戻し」）のuser review待ち
+- **Notes**: 承認なら残り29バッチ（batch-02〜30）を同じ方式（`checks/task-05.md`のバッチ表・`mapping/vocabulary.md`の語彙）でディスパッチする。ディスパッチ・レビュー時は steering.md #5 Stepsに追加した「`heading_path`が`(L2直下)`で終わる行は配下と同じ`dest_section`にする」観点も確認する。統合後 `mapping/tools/verify_mapping.py` を作成して steering.md #5 の残りStepsに進む。指摘があれば同様に修正し再度該当バッチをuser reviewに上げる。
