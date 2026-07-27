@@ -261,7 +261,7 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
   - 分割位置の妥当性: 分割する場合、その位置で内容が切れるか。分割しない場合、本当に一体として意味を持つか
   - ラウンド1でNG3件ずつ（current-0037の境界／current-0156・0184・0185の宛先）を検出、修正（`ac533b5`）後の再レビューで4行ともOK
 - [x] commit & push
-- [ ] **user review** — 承認を受けるまで #5 に進まない
+- [x] **user review** — 承認済み
 
 **Completion criteria**:
 
@@ -292,6 +292,11 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - [ ] 全行に `audience`（`user` / `developer`）を付与。`developer` は `disposition=DROP` とし `note` に理由を記す
   - `input/ntf-testdata-loading.md` は原則 `developer` だがセクション単位で判定する
 - [ ] 現行の `03_Tips.rst` の各項目は該当ページの「使用方法」に `MERGE` する。独立ページにしない
+- [ ] **design.md に確定した割当先ページが存在しないセクションは、`dest_page` を空欄にせず暫定値を置く。**（#4a `current-0158` — `split-plan.md` で「割当先ページは未確定」とされた行が該当。design.md 第2部に「取引単体テストの設定」ページが未定義で、#6 の未確定事項#1（第2部のページ分割）に依存するため）
+  - 暫定の `dest_page` は最も近い既存ページとする。`current-0158` は「第2部 導入と設定 > リクエスト単体テストの設定」を暫定値とする
+  - `note` は「暫定。」で始める。`current-0158` の `note` は次の文言とする: 「暫定。取引単体テスト向けの設定だが、design.md 第2部に「取引単体テストの設定」ページが未定義のため。#6 で第2部のページ分割が確定した時点で見直す。」
+  - `#5` の作業中に同様のケース（design.md に適切な割当先がないセクション）が他に見つかった場合も同じ扱いとする
+  - 暫定扱いとしたセクションを `checks/task-05.md` に一覧化する
 - [ ] `mapping/tools/verify_mapping.py` を作成し、取りこぼし検証を行範囲の集合演算で行う
   - `lines` 合計（全行）と `lines` 合計（`DROP` を除く）を**両方出力する**
 - [ ] `mapping/volume.md` を作成する（`dest_page` ごとに `lines` を集計）
@@ -331,6 +336,7 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - [ ] `volume.md` の集計をもとに、design.md「10. 未確定事項」の3件を確定する
 - [ ] design.md を更新する（「未確定事項」節を削除し、確定した構成を本文に反映）
 - [ ] 確定に伴い `mapping.csv` の `dest_page` を更新する
+- [ ] `mapping.csv` の `note` が「暫定。」で始まる行をすべて洗い出し、確定した構成に基づいて正式な `dest_page` に更新し、`note` の「暫定。」表記を解消する
 - [ ] self-check（`checks/task-06.md`）
 - [ ] commit & push
 - [ ] **user review** — 承認を受けるまで #7 に進まない（**サブエージェントによるレビューは実施しない**。self-check のみで user review に上げる）
@@ -340,6 +346,7 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - design.md に未確定事項が残っていない
 - design.md の章構成と `mapping.csv` の `dest_page` の集合が一致する
 - ファイル名に連番（`01_`, `02_` 等）が使われていない
+- `mapping.csv` の `note` が「暫定。」で始まる行がすべて解消されている（design.md 確定後に正式な `dest_page` へ更新済み）
 
 ### #7: 現行NTF解説書の削除
 
