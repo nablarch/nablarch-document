@@ -428,6 +428,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-07-27
-- **Last completed**: #4a — split-plan.mdのuser review承認
-- **Next**: #5 マッピングリストの作成 — `checks/task-05.md` のバッチ分割案（30バッチ）の承認待ち
-- **Notes**: ユーザーからディスパッチ前レビューの指示（`mapping/_batch/`の扱い・バッチ分割案の可視化・split-plan.mdの受け渡し・verify_mapping.pyでの機械検証）を受け、その回答を `checks/task-05.md` に記載済み。次回はこの案の承認可否をユーザーに確認するところから再開する。承認後は「次にやること」節の4ステップに従う。
+- **Last completed**: #5 着手 — `mapping/vocabulary.md`（closed vocabulary）作成・コミット、batch-01（21件）を実装エージェントにディスパッチし `mapping/_batch/batch-01.csv` を出力
+- **Next**: #5 マッピングリストの作成 — batch-01の出力（`mapping/_batch/batch-01.csv`、`checks/task-05.md`「batch-01 結果」）のuser review待ち
+- **Notes**: 承認なら残り29バッチ（batch-02〜30）を同じ方式（`checks/task-05.md`のバッチ表・`mapping/vocabulary.md`の語彙）でディスパッチし、統合後 `mapping/tools/verify_mapping.py` を作成して steering.md #5 の残りStepsに進む。指摘があれば方式（disposition/audienceの判断粒度、dest_pageの選び方等）を修正してから再開する。`checks/task-05.md`「batch-01 結果」に確認してほしい判断例（current-0080〜0086を共通の「テストデータの書き方」ページへMOVEした判断）を記載済み。
