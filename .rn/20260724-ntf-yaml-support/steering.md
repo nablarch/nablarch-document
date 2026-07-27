@@ -333,8 +333,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 
 # State
 
-- **Status**: paused
-- **Date**: 2026-07-27
-- **Last completed**: #2a セクション抽出の取りこぼし解消（ユーザーレビュー承認済み）
-- **Next**: #3 用語集の作成 — 再開後そのまま着手してよい（ユーザー承認済み）
-- **Notes**: push 先はローカル `work` → `origin/work`（origin = fork `lovaizu/nablarch-document`）。親 `nablarch/nablarch-document` へは push しない。親の draft PR #728 は凍結中で触らない。完成後に fork → 親 の PR を出す。`#4a`（大きいセクションの分割判断）と改訂版 `#5` は作業指示書と本ファイルの両方に反映済み。
+- **Status**: not suspended
+- **Date**: YYYY-MM-DD
+- **Last completed**: #N description
+- **Next**: #N description
+- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
