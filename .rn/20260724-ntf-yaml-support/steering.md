@@ -376,8 +376,6 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 
 # State
 
-- **Status**: paused
-- **Date**: 2026-07-27
-- **Last completed**: #3 差し戻し対応（母集合定義による再構成）の実装7ステップ。`extract_terms.py`/`term-candidates.csv`/`glossary.md`§5.15/`verify_glossary.py`（9検査）/G-4・G-6・G-7・G-8修正をコミット済み・push済み（`1cdbf1a`, `4bf9f7a`）。コーディネーターが独立検証済み: pytest 175件パス、`scan-terms.tsv`再生成でbyte一致、`verify_glossary.py`全9検査OK、150字超セル0件（独自スクリプトで再計測）、`term-candidates.csv`集計（339行/331種）を`csv.DictReader`で再計測し一致
-- **Next**: #3 の残りステップ「4観点のレビュー（ラウンド1、母集合突合基準）」→「user review」。QAサブエージェント1件をディスパッチ済みだが、中断のため結果は未着（再開時は待たず、QA含め4観点を再ディスパッチすること。ディスパッチ済みQAの部分結果は破棄してよい）。設計/クラフト/検証の3観点は未着手
-- **Notes**: `checks/task-03.md` はセルフチェック部分のみ実装エージェントが更新済み・未コミットのままリポジトリに残っている（レビュー観点の列はコーディネーターが4観点レビュー完了後にまとめて記入・コミットする方針、`task-verify-workflow.md`のCheck file format節参照）。／`input/ntf-doc-terms.md`の見出し数について、作業指示は「35件」としていたが、実装エージェントは「H1除く全レベル（H2+H3+H4）」というルールを採用し実測45件になった。35に一致する妥当な部分集合がなかったため強引に合わせず正直に報告している。この扱いが妥当か（35という数字の根拠を洗い直すか、45を正とするか）は4観点レビューで論点にすること
+(written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
+session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
+so only a genuinely suspended session reads `paused`.)
