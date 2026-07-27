@@ -79,6 +79,21 @@ design.md未確定事項#2（構成はマッピング作成後に確定）配下
 ## 次にやること（承認後）
 
 1. ~~design.md から `dest_part` / `dest_page` / `dest_section` の closed vocabulary を機械抽出する~~ → 完了（`mapping/vocabulary.md`）
-2. 上記30バッチのうち **batch-01のみ** を実装エージェントにディスパッチし、出力をuser reviewに上げる（承認後に残り29バッチを継続）
+2. ~~上記30バッチのうち **batch-01のみ** を実装エージェントにディスパッチし、出力をuser reviewに上げる~~ → 完了（`mapping/_batch/batch-01.csv`、下記「batch-01 結果」参照）。**user review待ちでここまでで停止中。** 承認後に残り29バッチを継続する
 3. `mapping/tools/verify_mapping.py` を作成し、上記4項目を機械検証する
 4. 以降は steering.md #5 の残り Steps（disposition/audience付与、暫定dest_pageルール、volume.md作成、3観点レビュー等）に従う
+
+## batch-01 結果（user review待ち、2026-07-27）
+
+対象: `05_UnitTestGuide/02_RequestUnitTest/index.rst`（21セクション、split=yes対象なし）。
+
+- 出力: `mapping/_batch/batch-01.csv`（21行、全セクション網羅を確認済み）
+- disposition内訳: MOVE 20 / DROP 1（current-0076 = `.. _requestUnitTest:` という空のRSTアンカーのみで実体記述なし）
+- audience: 全21行 `user`（本ファイルはNablarch開発者向け内部実装の説明を含まない）
+- dest_page内訳: `ウェブアプリケーション` 13件 / `テストデータの書き方` 7件（すべて確定語彙。暫定語彙の使用なし）
+- 機械検証: 全行の `dest_part`/`dest_page`/`dest_section` が `mapping/vocabulary.md` に存在すること、`lines` = `src_body_end - src_body_start + 1` の整合を確認済み
+- current-0089（255行、#4a対象の大セクション）は `split-plan.md` の既承認判定（split=no、第3部 > ウェブアプリケーション > 使用方法）をそのまま採用し、再判断していない
+
+**ユーザーに確認してほしい判断粒度の例**: current-0080〜0086（テストデータ記法：setUpDbシート、LIST_MAPのテストケース一覧、ユーザ情報/Cookie情報/クエリパラメータ情報/リクエストパラメータ/各種期待値の各列定義）を、ウェブアプリケーションページではなく共通の「テストデータの書き方」ページへMOVEする判断。#4a の current-0184/0185/0126 と同型の判断（記法はテストデータの書き方ページへ集約、手順・挙動説明は元ページに残す）。
+
+**この方式で29バッチを続行してよいか、承認をお願いします。**
