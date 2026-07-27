@@ -246,9 +246,16 @@ class TestRSTBasic(unittest.TestCase):
         # L3見出し1 body: blank + "本文行1\n" + "本文行2\n" (trailing blank stripped) = 3 lines
         self.assertEqual(sections[0]["lines"], 3)
 
-    def test_no_l3_returns_empty(self):
+    def test_no_l3_extracts_the_l2_itself(self):
+        """L3を持たないL2は、そのL2自体がセクションとして抽出されること。"""
+        # Given: L1 と L2 のみで L3 を持たない RST
+        # When: セクションを抽出する
         sections = run_extract(RST_NO_L3, "no_l3.rst", "current")
-        self.assertEqual(len(sections), 0)
+        # Then: L2 が1セクションとして抽出される
+        self.assertEqual(len(sections), 1)
+        self.assertEqual(sections[0]["heading_path"], "Title > Only L2")
+        # body: blank + "No L3 here.\n" = 2 lines
+        self.assertEqual(sections[0]["lines"], 2)
 
     def test_l4_included_in_l3(self):
         sections = run_extract(RST_L4_UNDER_L3, "l4.rst", "current")
@@ -316,8 +323,14 @@ class TestRSTBasic(unittest.TestCase):
         # Given: RST_WITH_OVERLINE - Title/L2a/L3a/L3b すべて同じ char (=) + overline → level 1 のみ
         # When: セクションを抽出する
         sections = run_extract(RST_WITH_OVERLINE, "overline.rst", "current")
-        # Then: L3 セクションは 0 件（全見出しが level 1 に解釈される）
-        self.assertEqual(len(sections), 0)
+        # Then: 4見出しがすべて同レベル＝子を持たないため、各々がセクションになる
+        self.assertEqual(len(sections), 4)
+        self.assertEqual(
+            [s["heading_path"] for s in sections],
+            ["Title", "L2a", "L3a", "L3b"],
+        )
+        # L3a の body は "body" 1行のみ。次見出しの overline は含まれない
+        self.assertEqual(sections[2]["lines"], 2)
 
     def test_overline_with_underline_only_different_levels(self):
         """Same char with overline vs without overline = different levels."""
@@ -496,9 +509,14 @@ class TestMarkdownBasic(unittest.TestCase):
         self.assertIn("H2見出し", sections[0]["heading_path"])
         self.assertIn("H3見出し1", sections[0]["heading_path"])
 
-    def test_no_h3_returns_empty(self):
+    def test_no_h3_extracts_the_h2_itself(self):
+        """H3を持たないH2は、そのH2自体がセクションとして抽出されること。"""
+        # Given: H1 と H2 のみで H3 を持たない Markdown
+        # When: セクションを抽出する
         sections = run_extract(MD_NO_H3, "no_h3.md", "input")
-        self.assertEqual(len(sections), 0)
+        # Then: H2 が1セクションとして抽出される
+        self.assertEqual(len(sections), 1)
+        self.assertEqual(sections[0]["heading_path"], "Title > H2 only")
 
     def test_h4_included_in_h3(self):
         sections = run_extract(MD_H4_UNDER_H3, "h4.md", "input")
@@ -506,11 +524,17 @@ class TestMarkdownBasic(unittest.TestCase):
         # body: blank + "H3 body\n" + blank + "#### H4\n" + blank + "H4 body...\n" = 6 lines
         self.assertEqual(sections[0]["lines"], 6)
 
-    def test_h2_not_standalone_section(self):
+    def test_h2_direct_body_becomes_its_own_section(self):
+        """H3を持つH2の直下本文は、(L2直下) セクションとして抽出されること。"""
+        # Given: H2 直下に本文があり、その後に H3 が続く Markdown
+        # When: セクションを抽出する
         sections = run_extract(MD_H2_NOT_STANDALONE, "h2.md", "input")
-        # H2-only content should not be a standalone section
-        # Only H3 is a standalone section
-        self.assertEqual(len(sections), 1)
+        # Then: (L2直下) と H3 の2セクションになる
+        self.assertEqual(len(sections), 2)
+        self.assertEqual(sections[0]["heading_path"], "Title > H2 section > (L2直下)")
+        # body: blank + "Some text under H2.\n" = 2 lines（末尾空行は除外）
+        self.assertEqual(sections[0]["lines"], 2)
+        self.assertEqual(sections[1]["heading_path"], "Title > H2 section > H3 section")
 
     def test_code_blocks_counted(self):
         sections = run_extract(MD_CODE_TABLE_FIGURE, "stuff.md", "input")
@@ -797,6 +821,204 @@ x = 1
         # Then: code_blocks == 1
         self.assertEqual(len(sections), 1)
         self.assertEqual(sections[0]["code_blocks"], 1)
+
+
+# ===========================================================================
+# NO-LOSS EXTRACTION TESTS (task-02a)
+# ===========================================================================
+
+RST_L1_DIRECT_BODY = """\
+Title
+=====
+
+L1 direct body.
+
+H2
+---
+
+H2 body.
+"""
+
+RST_L2_DIRECT_BODY = """\
+Title
+=====
+
+H2
+---
+
+H2 direct body.
+
+H3
+~~~
+
+H3 body.
+"""
+
+RST_PREAMBLE = """\
+.. _some_label:
+
+Title
+=====
+
+body
+"""
+
+MD_PREAMBLE = """\
+Intro sentence before any heading.
+
+# Title
+
+body
+"""
+
+MD_NO_HEADING_AT_ALL = """\
+just text
+more text
+"""
+
+
+class TestDirectBodySections(unittest.TestCase):
+    """L2/L1 直下の本文が独立セクションとして抽出されること。"""
+
+    def test_rst_l1_direct_body_marked(self):
+        # Given: L1 直下に本文があり、その後に L2 が続く RST
+        # When: セクションを抽出する
+        sections = run_extract(RST_L1_DIRECT_BODY, "l1d.rst", "current")
+        # Then: (L1直下) と L2 の2セクションになる
+        self.assertEqual(len(sections), 2)
+        self.assertEqual(sections[0]["heading_path"], "Title > (L1直下)")
+        self.assertEqual(sections[0]["lines"], 2)
+        self.assertEqual(sections[1]["heading_path"], "Title > H2")
+
+    def test_rst_l1_direct_body_src_line_points_at_body(self):
+        """(L1直下) の src_line は見出し行ではなく本文開始行を指すこと。"""
+        # Given/When
+        sections = run_extract(RST_L1_DIRECT_BODY, "l1d.rst", "current")
+        # Then: L1 見出しは1行目、その本文は3行目から始まる
+        self.assertEqual(sections[0]["src_line"], 3)
+
+    def test_rst_l2_direct_body_marked(self):
+        # Given: L2 直下に本文があり、その後に L3 が続く RST
+        # When: セクションを抽出する
+        sections = run_extract(RST_L2_DIRECT_BODY, "l2d.rst", "current")
+        # Then: (L2直下) と L3 の2セクションになる
+        self.assertEqual(len(sections), 2)
+        self.assertEqual(sections[0]["heading_path"], "Title > H2 > (L2直下)")
+        self.assertEqual(sections[1]["heading_path"], "Title > H2 > H3")
+
+    def test_blank_only_direct_body_not_emitted(self):
+        """直下が空行のみの場合、(L直下) セクションは作られないこと。"""
+        # Given: RST_SIMPLE は L1/L2 直下が空行のみ
+        # When: セクションを抽出する
+        sections = run_extract(RST_SIMPLE, "simple.rst", "current")
+        # Then: L3 の2セクションのみ。直下マーカーは現れない
+        self.assertEqual(len(sections), 2)
+        self.assertFalse(any("直下" in s["heading_path"] for s in sections))
+
+
+class TestPreambleSections(unittest.TestCase):
+    """最初の見出しより前の本文が (冒頭) セクションになること。"""
+
+    def test_rst_preamble_extracted(self):
+        # Given: 先頭に参照ラベルがあり、その後にタイトルが続く RST
+        # When: セクションを抽出する
+        sections = run_extract(RST_PREAMBLE, "pre.rst", "current")
+        # Then: (冒頭) と Title の2セクションになる
+        self.assertEqual(len(sections), 2)
+        self.assertEqual(sections[0]["heading_path"], "(冒頭)")
+        self.assertEqual(sections[0]["src_line"], 1)
+        self.assertEqual(sections[0]["lines"], 1)
+
+    def test_md_preamble_extracted(self):
+        # Given: H1 より前に本文がある Markdown
+        # When: セクションを抽出する
+        sections = run_extract(MD_PREAMBLE, "pre.md", "input")
+        # Then: (冒頭) と Title の2セクションになる
+        self.assertEqual(len(sections), 2)
+        self.assertEqual(sections[0]["heading_path"], "(冒頭)")
+
+    def test_file_without_any_heading_becomes_one_section(self):
+        # Given: 見出しが1つもない Markdown
+        # When: セクションを抽出する
+        sections = run_extract(MD_NO_HEADING_AT_ALL, "flat.md", "input")
+        # Then: ファイル全体が (冒頭) 1セクションになる
+        self.assertEqual(len(sections), 1)
+        self.assertEqual(sections[0]["heading_path"], "(冒頭)")
+        self.assertEqual(sections[0]["lines"], 2)
+
+
+class TestNoBodyLineLost(unittest.TestCase):
+    """全サンプルについて、本文行の取りこぼしが0であることを機械的に確認する。"""
+
+    SAMPLES = [
+        ("RST_SIMPLE", RST_SIMPLE, "a.rst"),
+        ("RST_WITH_OVERLINE", RST_WITH_OVERLINE, "b.rst"),
+        ("RST_L4_UNDER_L3", RST_L4_UNDER_L3, "c.rst"),
+        ("RST_CODE_TABLE_FIGURE", RST_CODE_TABLE_FIGURE, "d.rst"),
+        ("RST_NO_L3", RST_NO_L3, "e.rst"),
+        ("RST_GRID_TABLE", RST_GRID_TABLE, "f.rst"),
+        ("RST_SIMPLE_TABLE", RST_SIMPLE_TABLE, "g.rst"),
+        ("RST_MULTI_CHAR_LEVELS", RST_MULTI_CHAR_LEVELS, "h.rst"),
+        ("RST_EMPTY_SECTION", RST_EMPTY_SECTION, "i.rst"),
+        ("RST_MULTI_SIMPLE_TABLE", RST_MULTI_SIMPLE_TABLE, "j.rst"),
+        ("RST_L1_DIRECT_BODY", RST_L1_DIRECT_BODY, "k.rst"),
+        ("RST_L2_DIRECT_BODY", RST_L2_DIRECT_BODY, "l.rst"),
+        ("RST_PREAMBLE", RST_PREAMBLE, "m.rst"),
+        ("MD_SIMPLE", MD_SIMPLE, "a.md"),
+        ("MD_H4_UNDER_H3", MD_H4_UNDER_H3, "b.md"),
+        ("MD_CODE_TABLE_FIGURE", MD_CODE_TABLE_FIGURE, "c.md"),
+        ("MD_NO_H3", MD_NO_H3, "d.md"),
+        ("MD_H2_NOT_STANDALONE", MD_H2_NOT_STANDALONE, "e.md"),
+        ("MD_CODE_FENCE_HEADING", MD_CODE_FENCE_HEADING, "f.md"),
+        ("MD_EMPTY_H3", MD_EMPTY_H3, "g.md"),
+        ("MD_PREAMBLE", MD_PREAMBLE, "h.md"),
+        ("MD_NO_HEADING_AT_ALL", MD_NO_HEADING_AT_ALL, "i.md"),
+    ]
+
+    def test_every_sample_has_zero_unexplained_lines(self):
+        """どのサンプルでも、セクションにも見出しにも属さない非空行が0であること。"""
+        from verify_coverage import verify_file
+        for name, text, path in self.SAMPLES:
+            with self.subTest(sample=name):
+                # Given: サンプルテキスト
+                # When: 行の帰属を検証する
+                r = verify_file(text, path)
+                # Then: 未説明行・重複割当がなく、バケットの合計が総行数に一致する
+                self.assertEqual(r["unexplained"], [], f"{name}: 本文行の取りこぼし")
+                self.assertEqual(r["overlaps"], [], f"{name}: セクション範囲の重複")
+                self.assertEqual(
+                    r["counted"] + r["trailing_blank"] + r["heading"] + r["gap_blank"],
+                    r["total"],
+                    f"{name}: バケット合計が総行数に一致しない",
+                )
+
+    def test_sum_of_lines_column_equals_counted(self):
+        """CSV の lines 列の合計が、実際に数えた本文行数と一致すること。"""
+        from verify_coverage import verify_file
+        for name, text, path in self.SAMPLES:
+            with self.subTest(sample=name):
+                r = verify_file(text, path)
+                self.assertEqual(r["sum_lines_column"], r["counted"], name)
+
+
+class TestWriteCSVDropsPrivateKeys(unittest.TestCase):
+
+    def test_private_range_keys_not_written(self):
+        """_range_start/_range_end は CSV に出力されないこと。"""
+        from extract_sections import extract_sections, write_csv, CSV_COLUMNS
+        sections = extract_sections(RST_SIMPLE, "x.rst")
+        self.assertIn("_range_start", sections[0])
+        for i, s in enumerate(sections, start=1):
+            s["section_id"] = f"pfx-{i:04d}"
+        with tempfile.NamedTemporaryFile(suffix=".csv", delete=False) as tf:
+            out = tf.name
+        try:
+            write_csv(sections, out)
+            with open(out, newline="", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                self.assertEqual(reader.fieldnames, CSV_COLUMNS)
+        finally:
+            os.unlink(out)
 
 
 if __name__ == "__main__":

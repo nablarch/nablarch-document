@@ -77,6 +77,33 @@ Rn version: 0.8.0
 - CSVのレコード数を **`csv.DictReader` でカウントした値** で Evidence に記載
 - 抽出したセクション数が、実ファイルから独立に数えた見出し数と一致することを Evidence に記載
 
+### #2a: セクション抽出の取りこぼし解消
+
+**Purpose**: 見出し階層のどこにも属さない本文が発生しないよう抽出ルールを修正し、行の取りこぼしゼロを機械的に証明する。
+
+**Prerequisites**: #2
+
+**Steps**:
+
+- [x] `mapping/tools/extract_sections.py` の抽出ルールを修正する
+  - L3セクションを持つL2は、各L3をセクションとして抽出する
+  - 同じL2の直下にありL3配下に属さない本文は、独立したセクションとして抽出する。`heading_path` は当該L2までとし、L3相当の位置に `(L2直下)` の印を付ける
+  - L3セクションを持たないL2は、そのL2をセクションとして抽出する
+  - L1直下にありL2配下に属さない本文も、同様に `(L1直下)` として独立セクションにする
+  - 最初の見出しより前の本文は `(冒頭)` として独立セクションにする
+- [x] `mapping/tools/verify_coverage.py` を作成し、全行の帰属を機械的に検証する
+- [x] `build_mapping.sh` から検証を実行する
+- [x] テストを新仕様に更新し、取りこぼしゼロの性質テストを追加する
+- [x] self-check（`checks/task-02a.md`）
+- [x] commit & push
+- [ ] **user review** — 承認を受けるまで #3 に進まない
+
+**Completion criteria**:
+
+- セクションの `lines` 合計と対象ファイルの総行数の差分が、全行「見出し行」「空行」に分類され、未説明の非空行が0件である
+- 抽出対象ファイル数が RST 47・MD 10 であり、セクション0件のファイルが存在しない
+- `bash mapping/tools/build_mapping.sh` を2回実行して同一のCSVが生成される（md5一致）
+
 ### #3: 用語集の作成
 
 **Purpose**: 全ページで統一する用語を確定する。
@@ -131,7 +158,8 @@ Rn version: 0.8.0
 
 **Steps**:
 
-- [ ] `mapping/mapping.csv` を作成する（列: `mapping_id, src_type, src_file, src_line, heading_path, lines, audience, dest_part, dest_page, dest_section, disposition, note`）
+- [ ] `mapping/mapping.csv` を作成する（列: `mapping_id, src_section_id, src_type, src_file, src_line, heading_path, lines, audience, dest_part, dest_page, dest_section, disposition, note`）
+  - `src_section_id` は `sections-current.csv` / `sections-input.csv` の `section_id` を指す（取りこぼし検証を機械的に行うため）
 - [ ] `disposition` は5値（`MOVE` / `MERGE` / `SPLIT` / `REFERENCE` / `DROP`）
 - [ ] 全行に `audience`（`user` / `developer`）を付与。`developer` は `disposition=DROP`
 - [ ] `sections-current.csv` / `sections-input.csv` の全 `section_id` が `mapping.csv` に最低1回現れること
@@ -240,8 +268,12 @@ Rn version: 0.8.0
 
 # State
 
-- **Status**: paused
-- **Date**: 2026-07-27
-- **Last completed**: #2 セクション抽出ツールの作成（ユーザーレビュー承認済み）
-- **Next**: #3 用語集の作成
-- **Notes**: PR #728 (ntf-yaml-support)。mapping.csv に src_section_id カラム追加をユーザーが指示済み（選択肢1）— タスク #5 で対応。
+(written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
+session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
+so only a genuinely suspended session reads `paused`.)
+
+- **Status**: not suspended
+- **Date**: YYYY-MM-DD
+- **Last completed**: #N description
+- **Next**: #N description
+- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
