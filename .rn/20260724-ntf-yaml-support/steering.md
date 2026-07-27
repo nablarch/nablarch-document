@@ -219,16 +219,22 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
   - `input/ntf-testdata-loading.md` は原則 `developer` だがセクション単位で判定する
 - [ ] 現行の `03_Tips.rst` の各項目は該当ページの「使用方法」に `MERGE` する。独立ページにしない
 - [ ] `mapping/tools/verify_mapping.py` を作成し、取りこぼし検証を行範囲の集合演算で行う
+  - `lines` 合計（全行）と `lines` 合計（`DROP` を除く）を**両方出力する**
 - [ ] `mapping/volume.md` を作成する（`dest_page` ごとに `lines` を集計）
+  - `DROP` を除いた `lines` 合計を記載する（新構成に移る実質的な分量）
+  - `DROP` の合計行数と、その内訳（`note` の理由別）も記載する
 - [ ] self-check（`checks/task-05.md`）
 - [ ] commit & push
 - [ ] **user review** — 承認を受けるまで #6 に進まない
 
 **Completion criteria**:
 
+- `mapping.csv` に `DROP` 行も含めて全セクションが残っている（追跡可能性のため削除しない）
 - `sections-current.csv` / `sections-input.csv` の全 `section_id` が `mapping.csv` の `src_section_id` に最低1回現れる
 - 各 `src_section_id` について、紐づく全マッピング行の `[src_body_start, src_body_end]` の和集合が、元のセクションの `[body_start_line, body_end_line]` と一致する（隙間・重複ゼロ）
-- `mapping.csv` の `lines` 合計が 12,986（9,783 + 3,203）と一致する
+- `mapping.csv` の `lines` 合計が 12,986（9,783 + 3,203）と一致する（取りこぼしゼロの確認）
+- `DROP` を除いた `lines` 合計が `volume.md` に記載されている（新構成に移る実質的な分量）
+- `verify_mapping.py` が上記2つの数値を両方出力する
 - `disposition` / `audience` が空欄の行が0件
 - `DROP` の全行に `note` が記入されている
 - `dest_page` / `dest_section` に design.md に存在しないものが含まれていない

@@ -322,6 +322,8 @@ input側は最大63行のため、1セクションが複数の割当先に分か
 - [ ] `mapping/volume.md` を作成する
   - `dest_page` ごとに `lines` を集計し、ページ別の想定文量を表にする
   - 第2部の各ページ、および取引単体テストのページについて、分割の要否を判断できる形にする
+  - **`DROP` を除いた `lines` 合計を記載する。** これが新構成に移る実質的な分量になる
+  - `DROP` の合計行数と、その内訳（`note` の理由別）も記載する
 - [ ] self-check（`checks/task-05.md`）
 - [ ] commit & push
 - [ ] **user review** — 承認を受けるまで #6 に進まない
@@ -344,9 +346,12 @@ input側は最大63行のため、1セクションが複数の割当先に分か
 
 **取りこぼしゼロの検証を、行範囲の集合演算で行う。**
 
+- **`mapping.csv` には `DROP` 行も含めて全セクションを残す。** 削除せずに残すことで、何をなぜ落としたかが追跡できる
 - `sections-current.csv` / `sections-input.csv` の全 `section_id` が `mapping.csv` の `src_section_id` に最低1回現れる
 - 各 `src_section_id` について、紐づく全マッピング行の行範囲 `[src_body_start, src_body_end]` の和集合が、元のセクションの `[body_start_line, body_end_line]` と一致する（隙間・重複ゼロ）
-- `mapping.csv` の `lines` 合計が、`sections-current.csv` と `sections-input.csv` の `lines` 合計（9,783 + 3,203 = 12,986）と一致する
+- `mapping.csv` の `lines` 合計が、`sections-current.csv` と `sections-input.csv` の `lines` 合計（9,783 + 3,203 = 12,986）と一致する（**取りこぼしゼロの確認**）
+- **`DROP` を除いた `lines` 合計が `volume.md` に記載されている**（**新構成に移る実質的な分量**）
+- **`verify_mapping.py` が上記2つの数値を両方出力する**
 - `disposition` が空欄の行が0件
 - `audience` が空欄の行が0件
 - `DROP` の全行に `note` が記入されている
@@ -355,6 +360,13 @@ input側は最大63行のため、1セクションが複数の割当先に分か
 - `volume.md` にページ別文量の集計表がある
 
 **検証はスクリプトで行い、`mapping/tools/verify_mapping.py` としてコミットする。** 手作業で確認しない。
+
+`lines` 合計 12,986 の一致は、`DROP` 行を残す限り必ず成立する。これは**取りこぼしがないこと**の確認であって、**全量が新構成に移ったこと**の証明ではない。両者を混同しないよう、`verify_mapping.py` は必ず次の2つを並べて出力する。
+
+- `lines` 合計（全行）— 12,986 と一致すること
+- `lines` 合計（`DROP` を除く）— 新構成に移る実質的な分量
+
+`DROP` 分の行数が可視化されていれば、想定外に多い場合に気づける。
 
 ---
 
