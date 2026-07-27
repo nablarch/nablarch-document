@@ -133,3 +133,4 @@ current-0080〜0086（setUpDbシート・テストケース一覧・各種パラ
 コーディネーターが各バッチのコミット差分を確認済み。詳細な判断根拠は各 `note` 列を参照。
 
 - **batch-02**（`testdata-converter-design.md` 21件、commit `eb547fd`）: MOVE 5 / DROP 16（developer）。変換ツールの内部アーキテクチャ設計書のため大半developer判定。MOVEは目的・入出力の可逆性仕様・出力整形設定・呼び出し方法の4トピック。**要確認**: input-0198（OUT構造図）はYamlTestDataValidatorによる自動スキーマ検証という利用者向け事実を含むが、クラス図中心のためDROPとした（境界判断、batch-15チェックポイントで報告）。
+- **batch-03**（`06_TestFWGuide/01_Abstract.rst` 20件、commit `70b9e48`）: MOVE 19 / DROP 1（RSTアンカーのみ）。全行user。current-0164/0174はsplit-plan.mdの既承認判定（no split）をそのまま採用。current-0167〜0174（Excel記法の(L2直下)+子7件）はルール2によりテストデータの書き方へMOVE。**要確認**: current-0166（JUnitアノテーションの基本的な書き方）は処理方式非依存の総論のため第1部/全体像に配置したが、対応する確定vocabulary項目がなく境界判断（batch-15チェックポイントで報告）。
