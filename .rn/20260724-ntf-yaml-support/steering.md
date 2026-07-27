@@ -427,8 +427,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**:
-- **Last completed**:
-- **Next**:
-- **Notes**:
+- **Status**: paused
+- **Date**: 2026-07-28
+- **Last completed**: #5 batch-02〜15をディスパッチし、各バッチをコーディネーターが差分レビュー・独立検証（自己報告に頼らずpython3で機械検証）した上で個別コミット。結果をuser reviewとして提示済み（`/rn:ty`または`/rn:gm`待ち）
+- **Next**: ユーザーの承認後、batch-16〜30を同じ手順でディスパッチ（`checks/task-05.md`「バッチ分割案」の表に従う）。全30バッチ完了後、`mapping/_batch/`配下を`mapping/mapping.csv`へ統合し`mapping/tools/verify_mapping.py`を作成して機械検証、3観点レビュー（割当先/disposition/audience）を経てuser reviewへ
+- **Notes**: base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`（`git merge-base origin/develop HEAD`）。ディスパッチ時の3判断基準（(L2直下)は配下と同じdest_section／テストデータ記法はテストデータの書き方ページへ／RSTアンカーのみはDROP）に加え、batch-02〜15の過程で判明した新パターン（input側とcurrent側の重複検出・DROP、Tips.rstの特別ルール、SPLIT行の`-a`/`-b`サフィックス表記）を`checks/task-05.md`「バッチ実行ログ」に記録済み。「要確認」マーク付きの境界判断（分割候補・弱い根拠の配置等、計8件程度）はbatch-15時点でユーザーに一括提示済みで、まだ回答を得ていない。
