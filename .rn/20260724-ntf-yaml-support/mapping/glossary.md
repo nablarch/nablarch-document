@@ -94,6 +94,7 @@ python3 mapping/tools/detect_term_variants.py scan --max-locations 0 -o mapping/
 - `spacing` はこの限界を埋めるために本タスクで追加した。散文・表セルにしか現れない `グループ ID`・`リクエスト ID`・`HTML ダンプ`・`Excel ファイル`・`RESTful ウェブサービス`・`FW 制御ヘッダ` は `punct` では1件も検出できていなかった（`punct` の抽出単位が見出しと「」内の語に限られるため）。`spacing` が60グループを報告し、うち用語として裁定したものを §5 に載せた。
 - `paren` は、同じ型の見出しが1つしかない場合を原理的に検出できない。現行解説書で半角括弧を使う見出しは13件あるが、`paren` が報告するのは7件で、残り6件（`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:161`、`:255`、`:310`、`NTF:05_UnitTestGuide/02_RequestUnitTest/delayed_send.rst:82`、`NTF:05_UnitTestGuide/02_RequestUnitTest/send_sync.rst:8`、`NTF:05_UnitTestGuide/02_RequestUnitTest/index.rst:489`）は対になる全角括弧の見出しがないため報告されない。
 - 送り仮名・漢字/かなの揺れ（`出来る`／`できる` など）は、3ルールのどれでも同一キーに畳まれないため検出できない。これは §6 のとおり #4 の管轄とし、実測値を申し送る。
+- `scan` は部分文字列の衝突を検出できない。`セル` は `エクセル` の部分文字列であるため、`エクセル`（またはその表記ゆれ）を含む行が `セル` の出現としても数えられる。この種の衝突は「データ」対「データベース」、「サーバ」対「サーバー」でも起こりうる。回避するには衝突元の語（`エクセル`・`データベース` など）を `term_candidates.tsv` に登録して最長一致で吸収させる必要があるが、本タスクでは `セル` の代表引用を実際に単独で使われている箇所に差し替えるにとどめ、件数の再検証は行っていない。
 
 ---
 
@@ -113,7 +114,7 @@ python3 mapping/tools/detect_term_variants.py scan --max-locations 0 -o mapping/
 
 | 正表記 | 意味 | 揺れ表記（使わない） | 別義・旧名称（文脈により使う） | 採用根拠 |
 |---|---|---|---|---|
-| `テスティングフレームワーク` | Nablarchアプリケーションのテストを補助する機能を提供するフレームワーク。本解説書が説明する対象 | `自動テストフレームワーク`（現行70件、`NTF:06_TestFWGuide/index.rst:4`）／`テストフレームワーク`（現行1件、`NTF:06_TestFWGuide/03_Tips.rst:825`）／`本フレームワーク`（現行14件、`NTF:05_UnitTestGuide/02_RequestUnitTest/mail.rst:10`）／`NTF`（input42件、`S:input/ntf-doc-terms.md:1`。現行2件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:153`） | `本フレームワーク` はFW解説書ではNablarch自体を指す（FW10件、`FW:libraries/database/database.rst:442`） | FW解説書が `テスティングフレームワーク` を使う（FW8件、`FW:blank_project/CustomizeDB.rst:141`）。現行解説書の最上位ページ題も同じ（`NTF-root:index.rst:2`）。「機能の総称」ではなく「機能を提供するもの」と定義した。第1部の記載内容は「Nablarchに特化したテスト補助機能を提供すること」（`S:design.md:29`）であり、総称として定義すると「テスティングフレームワークを提供する」と書けなくなるため |
+| `テスティングフレームワーク` | Nablarchアプリケーションのテストを補助する機能を提供するフレームワーク。本解説書が説明する対象 | `自動テストフレームワーク`（現行70件、`NTF:06_TestFWGuide/index.rst:4`）／`テストフレームワーク`（現行1件、`NTF:06_TestFWGuide/03_Tips.rst:825`）／`本フレームワーク`（現行14件、`NTF:05_UnitTestGuide/02_RequestUnitTest/mail.rst:10`）／`NTF`（input42件、`S:input/ntf-doc-terms.md:1`。現行2件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:153`） | `本フレームワーク` はFW解説書ではNablarch自体を指す（FW10件、`FW:libraries/database/database.rst:442`） | FW解説書が `テスティングフレームワーク` を使う（FW8件、`FW:blank_project/CustomizeDB.rst:141`）。現行解説書の最上位ページ題も同じ（`NTF-root:index.rst:2`）。「総称」ではなく「機能を提供するもの」と定義したのは、第1部の記載「Nablarchに特化したテスト補助機能を提供すること」（`S:design.md:29`）を総称の意味で使うと「テスティングフレームワークを提供する」と書けなくなるため |
 | `ハンドラキュー` | リクエストの処理を担うハンドラを直列に並べた構造 | 揺れなし（`ハンドラーキュー` は未出現） | なし | `ハンドラキュー` はFW解説書の基本用語（FW84件、`FW:batch/nablarch_batch/architecture.rst:48`）。`S:design.md:30` が第1部で使うと決めている（design2件）。現行解説書は `ハンドラキュー` を現行1件（`NTF:06_TestFWGuide/RequestUnitTest_rest.rst:320`）しか使っていないが、リクエスト単体テストの説明に不可欠なため掲載基準1で掲載する |
 | `リクエストID` | 業務処理を一意に識別する文字列 | `リクエスト ID`（input13件、`S:input/ntf-doc-terms.md:52`） | なし | FW解説書120件（`FW:batch/nablarch_batch/architecture.rst:52`）、現行解説書47件（`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:103`）がいずれも空白なし。`グループ ID` と同型の半角空白の揺れであり、`discover --rule spacing` が同一グループとして検出した |
 
@@ -148,12 +149,13 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 
 | 正表記 | 意味 | 揺れ表記（使わない） | 別義・旧名称（文脈により使う） | 採用根拠 |
 |---|---|---|---|---|
-| `応答不要メッセージ送信` | 応答を待たずにメッセージを送信する方式 | `応答不要メッセージ送信処理`（現行8件、`NTF:05_UnitTestGuide/02_RequestUnitTest/delayed_send.rst:2`） | なし | 見出し「応答不要でメッセージを送信する(応答不要メッセージ送信)」（`FW:libraries/system_messaging/mom_system_messaging.rst:135`。原文は半角括弧）。`応答不要メッセージ送信` はFW7件。FW解説書にも `応答不要メッセージ送信処理` が1件ある（`FW:libraries/system_messaging/mom_system_messaging.rst:179`）ので「FW解説書は付けない」は例外なしではないが、見出しはすべて「処理」なし |
+| `応答不要メッセージ送信` | 応答を待たずにメッセージを送信する方式 | `応答不要メッセージ送信処理`（現行8件、`NTF:05_UnitTestGuide/02_RequestUnitTest/delayed_send.rst:2`） | なし | 見出し「応答不要でメッセージを送信する(応答不要メッセージ送信)」（`FW:libraries/system_messaging/mom_system_messaging.rst:135`。原文は半角括弧）。`応答不要メッセージ送信` はFW7件。本文には `応答不要メッセージ送信処理` もFW1件ある（`:179`）が、見出しはすべて「処理」なし |
 | `応答不要メッセージ受信` | 応答を返さずにメッセージを受信する方式 | `応答不要メッセージ受信処理`（現行5件、`NTF:05_UnitTestGuide/02_RequestUnitTest/delayed_receive.rst:2`） | なし | 見出し「応答不要でメッセージを受信する(応答不要メッセージ受信)」（`FW:libraries/system_messaging/mom_system_messaging.rst:470`。原文は半角括弧）。`応答不要メッセージ受信` はFW6件 |
-| `同期応答メッセージ送信` | メッセージを送信し、応答を待つ方式 | `同期応答メッセージ送信処理`（現行32件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_send_sync.rst:117`。input4件） | なし | 見出し「同期応答でメッセージを送信する(同期応答メッセージ送信)」（`FW:libraries/system_messaging/mom_system_messaging.rst:330`。原文は半角括弧）。`同期応答メッセージ送信` はFW9件 |
+| `同期応答メッセージ送信` | メッセージを送信し、応答を待つ方式 | `同期応答メッセージ送信処理`（現行32件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_send_sync.rst:117`。input4件）／`メッセージ同期送信処理`（語順違い。現行8件、`NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:107`）／`メッセージ同期送信`（語順違い・処理なし。現行2件、`NTF:05_UnitTestGuide/03_DealUnitTest/send_sync.rst:181`。input2件） | なし | 見出し「同期応答でメッセージを送信する(同期応答メッセージ送信)」（`FW:libraries/system_messaging/mom_system_messaging.rst:330`。原文は半角括弧）。`同期応答メッセージ送信` はFW9件 |
 | `同期応答メッセージ受信` | メッセージを受信し、応答を返す方式 | `同期応答メッセージ受信処理`（現行7件、`NTF:05_UnitTestGuide/02_RequestUnitTest/real.rst:4`）／`メッセージ受信処理`（現行2件、`NTF:06_TestFWGuide/RequestUnitTest_real.rst:2`） | なし | 見出し「同期応答でメッセージを受信する(同期応答メッセージ受信)」（`FW:libraries/system_messaging/mom_system_messaging.rst:638`。原文は半角括弧）。`同期応答メッセージ受信` はFW5件。「メッセージ受信処理」は応答不要受信と区別できないため使わない |
-| `HTTPメッセージ送信` | HTTPで外部システムにメッセージを送信し、その応答を受信する方式 | `HTTP同期応答メッセージ送信処理`（現行8件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_send_sync.rst:4`）／`HTTP同期応答メッセージ送信`（現行1件、`NTF:06_TestFWGuide/RequestUnitTest_http_send_sync.rst:12`）／`HTTP 同期応答メッセージ送信`（input4件、`S:input/ntf-doc-terms.md:398`）／`HTTP 同期応答メッセージ送信処理`（input1件、`:424`） | なし | 見出し「メッセージを送信する(HTTPメッセージ送信)」（`FW:libraries/system_messaging/http_system_messaging.rst:132`。原文は半角括弧）。直後の本文「外部システムに対してメッセージを送信し、その応答を受信する」（`:134`）は、現行解説書の「HTTP同期応答メッセージ送信」と同じ動作を指す。`HTTPメッセージ送信` はFW5件。うち `FW:libraries/system_messaging/http_system_messaging.rst:40` は同ファイル冒頭の一覧表にある `:ref:` ラベルである。MOM側（上4行）と同じ見出しパターンであり、採用優先順位1をそのまま適用する |
+| `HTTPメッセージ送信` | HTTPで外部システムにメッセージを送信し、その応答を受信する方式 | `HTTP同期応答メッセージ送信処理`（現行8件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_send_sync.rst:4`）／`HTTP同期応答メッセージ送信`（現行1件、`NTF:06_TestFWGuide/RequestUnitTest_http_send_sync.rst:12`）／`HTTP 同期応答メッセージ送信`（input4件、`S:input/ntf-doc-terms.md:398`）／`HTTP 同期応答メッセージ送信処理`（input1件、`:424`）／`HTTPメッセージ同期送信処理`（語順違い。現行4件、`NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:111`）／`HTTP メッセージ同期送信`（語順違い・処理なし。input2件、`S:input/ntf-doc-terms.md:268`） | なし | 見出し「メッセージを送信する(HTTPメッセージ送信)」（`FW:libraries/system_messaging/http_system_messaging.rst:132`。原文は半角括弧）。直後の本文「外部システムに対してメッセージを送信し、その応答を受信する」（`:134`）は現行解説書の「HTTP同期応答メッセージ送信」と同じ動作を指す。`HTTPメッセージ送信` はFW5件。MOM側（上4行）と同じ見出しパターンのため、採用優先順位1を適用する |
 | `HTTPメッセージ受信` | HTTPで外部システムからメッセージを受信し、その応答を送信する方式 | `HTTP同期応答メッセージ受信`（現行1件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:23`）／`HTTP同期応答メッセージ受信処理`（現行3件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:2`） | なし | 見出し「メッセージを受信する(HTTPメッセージ受信)」（`FW:libraries/system_messaging/http_system_messaging.rst:94`。原文は半角括弧）。`HTTPメッセージ受信` はFW4件。同上 |
+| `モックアップクラス` | 同期応答メッセージ送信・HTTPメッセージ送信を伴う取引単体テストで、外部システムの代わりに応答電文を返すクラス | 揺れなし | なし | 現行解説書21件、4ファイル（`NTF:05_UnitTestGuide/03_DealUnitTest/send_sync.rst:7`）。うち3件は見出し「モックアップクラスの設定」（`:286`ほか）。取引単体テストの実施に不可欠な骨格語のため掲載基準1で掲載する |
 
 ### 5.5 テストの種類
 
@@ -166,7 +168,13 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | `コンポーネント単体テスト` | クラス単体テストのうち、ActionクラスとComponentクラスを対象とするもの | `Action/Componentのクラス単体テスト`（現行2件、`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:4`）／`Component単体テスト`（現行2件、`:6`）／`Action単体テスト`（現行1件、`:7`）／`Action/Component単体テスト`（現行1件、`:10`） | ここでいう「コンポーネント」はJavaのActionクラス・Componentクラスを指す。システムリポジトリに登録するコンポーネント（§5.12 `コンポーネント設定ファイル`）とは別義 | `S:design.md:116`。同上 |
 | `データベースを使用するクラスのテスト` | クラス単体テストのうち、データベースアクセスを伴うクラスを対象とするもの | `DB アクセステスト`（input1件、`S:input/ntf-doc-terms.md:427`。`DBアクセステスト` は未出現） | なし | 現行解説書のページ題である（`データベースを使用するクラスのテスト` 現行1件、`NTF:06_TestFWGuide/02_DbAccessTest.rst:2`）。`DB アクセステスト` は `ntf-doc-terms.md` の造語で、完全一致の `DBアクセステスト` は全コーパスに0件。テストの種類の分類軸ではなくクラス単体テストの一形態のため、§5.5 の下位に置く |
 
-**`単体テスト` 単独について。** 現行解説書に `単体テスト` は生で201件あるが、そのほとんどは `リクエスト単体テスト`・`取引単体テスト`・`クラス単体テスト`・`Form単体テスト` などの後半部分である。`term_candidates.tsv` に `単体テスト` を含むより長い表記を13種登録したうえで数えると、単独の `単体テスト` は現行8件まで減る。その8件も「両者はほぼ同じように単体テストを行える」（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:7`）のように**3種を束ねた総称**として使われており、クラス単体テストの別表記ではない。「単体テスト実施方法」（`NTF:05_UnitTestGuide/index.rst:4`）も3種を束ねる親indexのページ題である。したがって `単体テスト` を「クラス単体テスト」の揺れ表記とはしない。§8 には条件付きの行を置く。
+**`単体テスト` 単独について。** 現行解説書に `単体テスト` は生で201件あるが、そのほとんどは `リクエスト単体テスト`・`取引単体テスト`・`クラス単体テスト`・`Form単体テスト` などの後半部分である。`term_candidates.tsv` に `単体テスト` を含むより長い表記を13種登録したうえで数えると、単独の `単体テスト` は現行8件まで減る。この8件の性格は一様ではない。
+
+明確に**総称**（クラス単体テストの別表記ではない）と言えるのは2件のみである。「両者はほぼ同じように単体テストを行える」（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:7`、および同型の `NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/02_entityUnitTestWithNablarchValidation.rst:7`）は、直前で述べたFormクラスとEntityクラスの両方を指しており、クラス単体テストの意味に限定されない。
+
+残り6件は個別の文脈依存の用法であり、一様に総称とは言えない。特に「データベースアクセスクラスの単体テストを行う場合」（`NTF:06_TestFWGuide/03_Tips.rst:558`）は文脈から明確に**クラス単体テスト**（`データベースを使用するクラスのテスト`）を指しており、§8の「クラス単体テストを指すことが文脈から確定できる場合に限る」というルールに該当する用例である。他の5件は、`リクエスト単体テスト` を指す省略表現（「他の単体テストの実施方法と同様に」`NTF:05_UnitTestGuide/02_RequestUnitTest/mail.rst:28`、「RESTfulウェブサービスの単体テストにおいては」`NTF:06_TestFWGuide/RequestUnitTest_rest.rst:139`）、一般名詞としての見出し（「単体テストライブラリ」`NTF:05_UnitTestGuide/03_DealUnitTest/send_sync.rst:364`）、クラス単体テスト・リクエスト単体テスト・取引単体テストの3ガイドを束ねるページ題（「単体テスト実施方法」`NTF:05_UnitTestGuide/index.rst:4`）、および表セル1件（「クエスト単体テストのテストソース」`NTF:06_TestFWGuide/02_RequestUnitTest.rst:50`。RSTの行折り返しで「リクエスト単体テスト」の「リ」が前の行に分かれ、この行だけを見ると `単体テスト` が単独に見える）である。
+
+したがって `単体テスト` を「クラス単体テスト」の揺れ表記とはしない。§8 には条件付きの行を置く。
 
 ### 5.6 バリデーション
 
@@ -196,12 +204,13 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | `テストデータ` | テストクラスとは別のファイルに記述する、準備データと期待値とテストケース一覧の総称 | 揺れなし | なし | `テストデータ` は現行解説書223件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:16`）、input資料32件で一貫している。テストケース一覧は準備データでも期待値でもないため、総称には3者を含める |
 | `テストデータファイル` | テストデータを記述したファイル。Excel形式とYAML形式がある | 揺れなし | なし | input資料4件（`S:input/ntf-testdata-doc-examples-messaging.md:133`）。YAML形式の追加により「Excelファイル」では総称にならないため採用する |
 | `Excel形式` | Excelブックにテストデータを記述する形式 | 揺れなし | なし | 現行解説書1件（`NTF:08_TestTools/01_HttpDumpTool/01_HttpDumpTool.rst:27`）。YAML形式との対比に必要な語であり、採用優先順位3で定義する |
-| `YAML形式` | YAMLファイルにテストデータを記述する形式 | 揺れなし | なし | `S:design.md:52`。現行解説書・input資料に完全一致の用例はないが、`design.md` が第2部の章名（`S:design.md:65`）に使うと決めている |
+| `YAML形式` | YAMLファイルにテストデータを記述する形式 | 揺れなし | なし | `S:design.md:52` の本文で `nablarch-testing-yaml` の説明に使われている（design.md全体でここ1箇所のみ）。現行解説書・input資料に完全一致の用例はない。design.md 第2部の章名は `S:design.md:65`「テストデータの形式」であり、`YAML形式` という文字列そのものはこの章名には現れない。Excel形式との対比に必要な語として採用優先順位3で定義する |
 | `読み込み単位` | 1つのテストクラスのテストデータを分割して読み込む単位。Excel形式では1シート、YAML形式では1ファイル | 揺れなし | なし | input資料6件（`S:input/ntf-testdata-doc.md:32`）。Excel形式とYAML形式で対応物が異なる階層に名前を与えるために必要 |
 | `データブロック` | 読み込み単位の中に置く、1用途分のデータのまとまり。テストデータファイルの記述単位 | `セクション`（input30件、`S:input/ntf-doc-terms.md:347`） | `セクション` は文書のセクションの意でも使われる（design10件、`S:design.md:27`）。マッピングの section_id・heading_path 列もこの別義 | input資料34件（`S:input/ntf-testdata-doc-examples-messaging.md:5`）、`S:design.md:32`（第1部「テストデータ」に「データブロックの考え方」を置くと決めている）。他の用語に依存しない形で定義するため、「何によって識別されるか」ではなく「どこに置く何のまとまりか」で定義した。データタイプ・グループIDはデータブロックの属性である（下の注記を参照） |
 | `データタイプ` | データブロックの用途を表す予約語。`SETUP_TABLE`、`EXPECTED_TABLE` など14種 | `データブロック種別`（input7件、`S:input/ntf-testdata-doc.md:96`） | ファイルデータの `データ型行`（§5.10）が示す「データ型」は、フィールドの型であって別概念 | 現行解説書43件（`NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:74`）、input資料57件。Excel形式ではデータブロック先頭セルに書く文字列そのものであり、選択余地がない |
-| `グループID` | 同じ読み込み単位に同じデータタイプのデータブロックを複数置くとき、それらを区別する標識 | `グループ ID`（input21件、`S:input/ntf-doc-terms.md:32`） | `groupId`（現行46件、`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:259`。FW333件）はMavenのgroupId要素・参照ラベル tips_groupId・YAMLの group_id キー。FW解説書の `グループID` 22件のうち19件もMavenのグループID、3件は認可機能のグループID（`FW:libraries/authorization/permission_check.rst:92`、`:109`、`:131`）で、いずれも本用語とは別義 | 現行解説書73件（`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:259`）が空白なし。書式は `データタイプ[グループID]=識別子の値` |
+| `グループID` | 同じ読み込み単位に同じデータタイプのデータブロックを複数置くとき、それらを区別する標識 | `グループ ID`（input21件、`S:input/ntf-doc-terms.md:32`） | `groupId`（現行46件、FW333件、`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:259`）はMavenのgroupId要素・参照ラベル tips_groupId・YAMLのgroup_idキー。FW `グループID` 22件のうち19件がMaven、3件は認可機能のグループID（`FW:libraries/authorization/permission_check.rst:92`）で、いずれも別義 | 現行解説書73件（`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:259`）が空白なし。書式は `データタイプ[グループID]=識別子の値` |
 | `テストケース一覧` | 1テストクラスで実行するテストケースを列挙したデータブロック（`LIST_MAP=testShots`） | `テストショット一覧`（現行5件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:13`）／`テストケース表`（現行9件、`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:110`）／`テストショット表`（現行2件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:16`） | なし | `テストケース一覧` は現行解説書24件（`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:14`）、input資料5件 |
+| `エンティティバリデーション` | testShots表の入力カラム体系の一つ。`EntityTestSupport` が扱う、ウェブアプリケーション・バッチ処理・メッセージングとは別体系のカラム構成 | 揺れなし | `エンティティ単体テスト`（§5.5）はFormクラス・Entityクラスのバリデーションを対象とする**テストの種類**を指す語であり、`エンティティバリデーション` は**testShots表のカラム体系**を指す別の軸の語である | input資料2ファイル・5件、見出し「エンティティバリデーション（EntityTestSupport）」（`S:input/ntf-testdata-doc-examples-testshots.md:251`）。testShots表では `エンティティバリデーション`（`:38`）がウェブアプリケーション・バッチ処理・メッセージングと並ぶカテゴリとして扱われる。現行解説書に該当語はない |
 | `準備データ` | テスト実行前にデータベース・ファイルへ投入するデータ | `事前準備データ`（現行1件、`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:96`。input2件、`S:input/ntf-doc-terms.md:48`・`:50`）／`セットアップデータ`（input1件、`S:input/ntf-testdata-doc.md:188`） | なし | `準備データ` は現行解説書48件（`NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:168`）、input資料4件。`セットアップデータ` は第1部の記載内容の説明中でdesign1件（`S:design.md:32`）使われているが、用語を定める節ではないため出現数の多い側を採る |
 | `期待値` | テスト実行後に期待する状態を表すデータ | `想定結果`（現行6件、`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:255`）／`想定値`（現行2件、`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:310`） | なし | `期待値` は現行解説書88件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:576`）、input資料33件 |
 | `特殊記法` | セル値・エントリ値を実値に変換する記法（`null`、`${systemTime}` など） | `セルへの特殊な記述方法`（現行1件、`NTF:06_TestFWGuide/01_Abstract.rst:446`） | なし | input資料20件（`S:input/ntf-doc-terms.md:22`）。現行解説書の見出しはExcelのセルを前提としており、YAML形式に使えない |
@@ -213,6 +222,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | `ファイルデータ` | 固定長ファイル・可変長ファイルに対応するテストデータ | 揺れなし | なし | input資料28件（`S:input/ntf-doc-terms.md:20`）。§5.10 の行の名称が係る対象を指すため定義する |
 | `固定長ファイル` | レコード長・フィールド長が固定のファイル | 揺れなし | なし | FW解説書15件、現行解説書21件（`NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:183`）、input資料24件 |
 | `可変長ファイル` | 区切り文字でフィールドを区切るファイル | 揺れなし | なし | FW解説書2件（`FW:libraries/data_io/data_format/format_definition.rst:324`）、現行解説書12件、input資料14件 |
+| `複数レコードレイアウト` | 1つの読み込み単位内にレコード種別が異なる複数のレコードを混在させるファイルデータの構造 | 揺れなし | なし | input資料2ファイル・5件、見出し「複数レコードレイアウト」（`S:input/ntf-testdata-doc-examples-file.md:284`。TOC `:35`。`S:input/ntf-testdata-doc.md:403`）。現行解説書に該当語はない。旧版が使っていた「マルチレイアウト」は全コーパスに出典のない造語だったため、input資料に実在する本表記に置き換えた |
 
 **データブロックとその属性。** `データブロック` を「`データタイプ[グループID]=値` によって識別されるもの」と定義し、`データタイプ` を「データブロックの種別」、`グループID` を「データブロックを識別する標識」と定義すると循環する。本書は `データブロック` を置き場所（読み込み単位の中）と役割（1用途分のデータのまとまり）だけで定義し、`データタイプ`（用途を表す予約語）と `グループID`（同種を区別する標識）をその属性として定義した。
 
@@ -233,7 +243,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 |---|---|---|---|---|
 | `Excelファイル` | Excel形式のテストデータファイル。1テストクラス分のテストデータ全体を保持するもの | `Excel ファイル`（現行1件、`NTF:06_TestFWGuide/01_Abstract.rst:229`。input1件）／`ブック`（input3件、`S:input/ntf-testdata-doc.md:36`） | なし | `Excelファイル` は現行解説書86件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:24`）。「ブック」はinput資料だけの表記で、現行解説書に0件 |
 | `シート` | Excelファイル内の1シート。読み込み単位に相当するもの | `データシート`（現行7件、`NTF:05_UnitTestGuide/02_RequestUnitTest/index.rst:344`）／`テストデータシート`（現行6件、`NTF:05_UnitTestGuide/02_RequestUnitTest/fileupload.rst:66`）／`準備データシート`（現行1件、`NTF:06_TestFWGuide/01_Abstract.rst:102`） | なし | `シート` は現行解説書101件（`NTF:06_TestFWGuide/03_Tips.rst:37`）、input資料38件。生の `データシート` 14件の内訳は、単独7件・`テストデータシート` の一部6件・`準備データシート` の一部1件。単独7件のうち2件はRSTのコメント行（`..` 始まり）であり、生きた本文ではない（`データシート`、`NTF:06_TestFWGuide/01_Abstract.rst:70`、`:77`） |
-| `セル` | Excelのシート内の1つの枠。値1個を保持するもの | 揺れなし | なし | 現行解説書42件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/02_entityUnitTestWithNablarchValidation.rst:60`）、input資料54件 |
+| `セル` | Excelのシート内の1つの枠。値1個を保持するもの | 揺れなし | なし | 現行解説書42件（`NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:224`「ディレクティブ名のセルの右のセルに設定値を記載する」）、input資料54件 |
 | `YAMLファイル` | YAML形式のテストデータファイル。読み込み単位に相当するもの | `YAML ファイル`（input2件、`S:input/ntf-testdata-doc.md:68`） | なし | `YAMLファイル` 自体は未出現（半角空白入りのみ2件）。`Excelファイル` と同じ形に揃え、§6 の申し送りにある「英数字と日本語の間に空白を入れない」現行の実態（現行解説書は `Excelファイル` 86件対 `Excel ファイル` 1件）に合わせる |
 | `トップレベルキー` | YAMLファイルの最上位に置く、データタイプに対応するキー | 揺れなし | なし | input資料5件（`S:input/ntf-testdata-doc-examples-overview.md:83`）。YAML形式のデータブロック識別の説明に必要 |
 | `エントリ` | トップレベルキーの下のリストの1要素。1つのデータブロックに対応するもの | 揺れなし | なし | input資料44件（`S:input/ntf-testdata-doc-examples-file.md:195`）。`セル` の対応物ではなく `データブロック` の対応物である点に注意 |
@@ -245,7 +255,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 
 | 正表記 | 意味 | 揺れ表記（使わない） | 別義・旧名称（文脈により使う） | 採用根拠 |
 |---|---|---|---|---|
-| `レコード種別行` | レコード種別を示す行 | 揺れなし | なし | input資料3件、1ファイルのみ（`S:input/ntf-doc-terms.md:175`）。**根拠が弱い。** `:175` は図中のラベル `[レコード種別行]` であり、用語を定義した箇所ではない。マルチレイアウトのファイルデータを扱うページの執筆時に、実データの記述で置き換えられるか再確認する（§10 未解決事項3） |
+| `レコード種別行` | レコード種別を示す行 | 揺れなし | なし | input資料3件、1ファイルのみ（`S:input/ntf-doc-terms.md:175`）。**根拠が弱い。** `:175` は図中のラベル `[レコード種別行]` であり、用語を定義した箇所ではない。`複数レコードレイアウト` のファイルデータを扱うページの執筆時に、実データの記述で置き換えられるか再確認する（§10 未解決事項3） |
 | `フィールド名称行` | 各フィールドの名称を並べた行 | 揺れなし | なし | input資料15件、5ファイル（`S:input/ntf-doc-terms.md:176`） |
 | `データ型行` | 各フィールドのデータ型を示す行 | 揺れなし | なし | input資料9件、4ファイル（`S:input/ntf-doc-terms.md:177`） |
 | `フィールド長行` | 各フィールドのバイト長を示す行。固定長ファイルのみで使うもの | 揺れなし | なし | input資料11件、4ファイル（`S:input/ntf-doc-terms.md:178`） |
@@ -285,7 +295,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | 正表記 | 意味 | 揺れ表記（使わない） | 別義・旧名称（文脈により使う） | 採用根拠 |
 |---|---|---|---|---|
 | `機能概要` | ページの最上位セクション。何ができるかを示す枠 | `概要`（現行15件、`NTF:05_UnitTestGuide/02_RequestUnitTest/delayed_receive.rst:6`） | なし | FW解説書のライブラリで見出しとして26件（`FW:libraries/authorization/permission_check.rst:27`）。`概要` はFW解説書に42件あるが、独立見出しとしての「概要」は7件でライブラリ配下には0件。`S:design.md:78` |
-| `使用方法` | ページの最上位セクション。使い方の手順を示す枠 | `実施方法`（現行44件、`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:642`） | なし | `使用方法` はFW63件だが、**独立見出しとしては36件**（うち35件が libraries 配下）。残り27件は本文中の平文（「使用方法は下記の通り。」`FW:libraries/data_io/data_format.rst:483`。「Nablarchの機能の使用方法を示した実装例」`FW:web/getting_started/index.rst:12`）とライブラリ外の見出し（`使用方法`、`FW:handlers/web/SessionStoreHandler.rst:187`）。design4件（`S:design.md:82`） |
+| `使用方法` | ページの最上位セクション。使い方の手順を示す枠 | `実施方法`（現行44件、`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:642`） | なし | `使用方法` はFW63件だが、独立見出しとしては36件（うち35件が libraries 配下）。残り27件は本文中の平文（例:「使用方法は下記の通り。」`FW:libraries/data_io/data_format.rst:483`）とライブラリ外の見出し1件（`使用方法`、`FW:handlers/web/SessionStoreHandler.rst:187`）。design4件（`S:design.md:82`） |
 | `拡張例` | ページの最上位セクション。差し替え・独自実装の手順を示す枠 | 揺れなし（現行解説書に未出現） | なし | FW解説書20件（`FW:handlers/rest/jaxrs_response_handler.rst:101`）。`S:design.md:86` |
 | `モジュール一覧` | 依存モジュールを列挙する枠 | 揺れなし | なし | FW解説書85件、現行解説書3件（`NTF:06_TestFWGuide/JUnit5_Extension.rst:35`）。`S:design.md:34` |
 | `全体像` | 機能概要の下位セクション。図で構造を示す枠 | 揺れなし | なし | 現行解説書7件（`NTF:06_TestFWGuide/02_DbAccessTest.rst:16`）、input資料7件、FW解説書3件（`FW:nablarch/big_picture.rst:3`）。`S:design.md:29` |
@@ -367,7 +377,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 |---|---|---|
 | `自動テストフレームワーク` | `テスティングフレームワーク` | 無条件 |
 | `テストフレームワーク` | `テスティングフレームワーク` | 単独で現れる場合に限る。`自動テストフレームワーク` の一部は上の行で処理済み |
-| `本フレームワーク` | `テスティングフレームワーク` | 現行NTF解説書に由来する記述に限る。FW解説書を引用・参照する箇所の `本フレームワーク` はNablarchを指す（FW10件）ので置き換えない |
+| `本フレームワーク` | `テスティングフレームワーク` | 現行解説書に由来する記述に限る。FW解説書を引用・参照する箇所の `本フレームワーク` はNablarchを指す（FW10件）ので置き換えない |
 | `NTF` | `テスティングフレームワーク` | 解説書のページ本文に限る。本用語集・`design.md` などの作業文書は対象外（§1） |
 | `ハンドラーキュー` | `ハンドラキュー` | 無条件（全コーパスに未出現） |
 | `リクエスト ID` | `リクエストID` | 無条件 |
@@ -380,16 +390,20 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | `バッチアプリケーション` | `Nablarchバッチアプリケーション` | Nablarch独自方式を指す場合に限る。Jakarta Batchを含む総称として使っている箇所は残す |
 | `JSR352に準拠したバッチアプリケーション` | `Jakarta Batchに準拠したバッチアプリケーション` | 旧名称であることを説明する箇所を除く |
 | `MOMメッセージング` | `MOMによるメッセージング` | 処理方式を指す場合に限る。FW解説書のライブラリ章題を指す箇所は残す |
-| `メッセージング処理` | `MOMによるメッセージング` | MOMを指すことが文脈から確定できる場合に限る。`NTF:06_TestFWGuide/03_Tips.rst:19` の「メッセージング処理でテストデータに対し定型的な変換処理を追加したい」は `TestDataConverter` の話でMOM限定ではないので置き換えない |
+| `メッセージング処理` | `MOMによるメッセージング` | MOMを指すことが文脈から確定できる場合に限る。`NTF:06_TestFWGuide/03_Tips.rst:786` の「メッセージング処理でテストデータに対し定型的な変換処理を追加したい」は `TestDataConverter` の話でMOM限定ではないので置き換えない |
 | `応答不要メッセージ送信処理` | `応答不要メッセージ送信` | 無条件 |
 | `応答不要メッセージ受信処理` | `応答不要メッセージ受信` | 無条件 |
 | `同期応答メッセージ送信処理` | `同期応答メッセージ送信` | `HTTP同期応答メッセージ送信処理` の一部でない場合に限る |
+| `メッセージ同期送信処理` | `同期応答メッセージ送信` | 無条件（語順違いの表記揺れ。`HTTPメッセージ同期送信処理` の一部でない場合に限る） |
+| `メッセージ同期送信` | `同期応答メッセージ送信` | 無条件（語順違いの表記揺れ。`HTTP メッセージ同期送信` の一部でない場合に限る） |
 | `同期応答メッセージ受信処理` | `同期応答メッセージ受信` | `HTTP同期応答メッセージ受信処理` の一部でない場合に限る |
 | `メッセージ受信処理` | `同期応答メッセージ受信` | 単独で現れ、かつ同期応答受信を指すことが文脈から確定できる場合に限る |
 | `HTTP同期応答メッセージ送信` | `HTTPメッセージ送信` | 無条件 |
 | `HTTP同期応答メッセージ送信処理` | `HTTPメッセージ送信` | 無条件 |
 | `HTTP 同期応答メッセージ送信` | `HTTPメッセージ送信` | 無条件 |
 | `HTTP 同期応答メッセージ送信処理` | `HTTPメッセージ送信` | 無条件 |
+| `HTTPメッセージ同期送信処理` | `HTTPメッセージ送信` | 無条件（語順違いの表記揺れ） |
+| `HTTP メッセージ同期送信` | `HTTPメッセージ送信` | 無条件（語順違いの表記揺れ） |
 | `HTTP同期応答メッセージ受信` | `HTTPメッセージ受信` | 無条件 |
 | `HTTP同期応答メッセージ受信処理` | `HTTPメッセージ受信` | 無条件 |
 | `HTTP 同期応答メッセージ受信` | `HTTPメッセージ受信` | 無条件（現行・inputに未出現） |
@@ -494,7 +508,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 |---|---|---|
 | 1 | `シート` を残す範囲 | YAML形式にはシートがない。Excel形式の説明でのみ `シート` を使う方針としたが、どのセクションをExcel形式限定の記述にするかはマッピング（タスク #5）で確定する |
 | 2 | `テーブルデータ`・`ファイルデータ` の位置づけ | テストデータを「テーブル／ファイル／メッセージ」で分類する軸と、「準備データ／期待値／テストケース一覧」で分類する軸が交差する。第3部の「テストデータの書き方」（`S:design.md:151`）を1ページに集約すると `design.md` が決めているため、どちらを章立ての軸にするかはマッピング後に決める |
-| 3 | `レコード種別行` の根拠の弱さ | input資料1ファイル・3件しかなく、うち代表出典（`S:input/ntf-doc-terms.md:175`）は図中のラベルで定義箇所ではない。マルチレイアウトのファイルデータを扱うページの執筆時に、実データの記述で置き換えられるか再確認する |
+| 3 | `レコード種別行` の根拠の弱さ | input資料1ファイル・3件しかなく、うち代表出典（`S:input/ntf-doc-terms.md:175`）は図中のラベルで定義箇所ではない。`複数レコードレイアウト`（§5.8）のファイルデータを扱うページの執筆時に、実データの記述で置き換えられるか再確認する |
 
 ## 11. 申し送り事項
 
