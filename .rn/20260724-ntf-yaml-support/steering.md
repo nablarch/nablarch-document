@@ -133,26 +133,26 @@ Rn version: 0.8.0
 
 ラウンド1〜3のレビュー指摘（G-1, G-2, G-5, G-9, G-10）はいずれも「用語集に対象とする用語の母集合が定義されていない」ことが原因。母集合がないためレビューのたびに探し方が変わり、指摘が収束しなかった。母集合を機械抽出し、レビューを「母集合に対する未判定ゼロ」の機械検証に置き換える。
 
-- [ ] `mapping/tools/extract_terms.py` を作成する。以下から用語候補を機械的に列挙する
+- [x] `mapping/tools/extract_terms.py` を作成する。以下から用語候補を機械的に列挙する
   - 現行解説書の全見出し（`sections-current.csv` の `heading_path` を分解）
   - `input/ntf-doc-terms.md` の全見出し（35件）
   - `design.md` に登場する章・セクション名および処理方式名
-- [ ] `mapping/term-candidates.csv` を出力する（列: `term, source, occurrences, file_line`）
-- [ ] `glossary.md` の各項目を `term-candidates.csv` のどの候補に対応するか記録する
-- [ ] 不採用の理由を記録する欄を `glossary.md` に設ける（「一般語のため」「1箇所のみの出現で用語ではないため」等、候補ごとに具体的な理由を記す）
-- [ ] `verify_glossary.py` を母集合との突合に変更する。以下を機械判定すること
+- [x] `mapping/term-candidates.csv` を出力する（列: `term, source, occurrences, file_line`）
+- [x] `glossary.md` の各項目を `term-candidates.csv` のどの候補に対応するか記録する
+- [x] 不採用の理由を記録する欄を `glossary.md` に設ける（「一般語のため」「1箇所のみの出現で用語ではないため」等、候補ごとに具体的な理由を記す）
+- [x] `verify_glossary.py` を母集合との突合に変更する。以下を機械判定すること
   - `term-candidates.csv` の全候補が `glossary.md` に「採用」または「不採用（理由付き）」のいずれかで現れる
   - 未判定の候補が0件であること
   - `design.md` の章・セクション名がすべて `glossary.md` に存在すること
   - 処理方式名が `design.md` の正式名称と一致すること
-- [ ] 個別の誤りを修正する（母集合とは別の、根拠を実測せずに書いたことによる記述ミス）
+- [x] 個別の誤りを修正する（母集合とは別の、根拠を実測せずに書いたことによる記述ミス）
   - G-4: 採用根拠の引用行が主張を裏付けていない
   - G-6: 件数の誤り
   - G-7: 150字超の表セル41個
   - G-8: 分類の誤り
   - 全項目の根拠 file:line を機械的に再検証する
-- [ ] self-check（`checks/task-03.md`）を更新する
-- [ ] commit & push
+- [x] self-check（`checks/task-03.md`）を更新する
+- [x] commit & push
 - [ ] 4観点のレビュー（**ラウンドを1から数え直す** — 母集合突合を基準とした新しい検証のため、ラウンド1〜3の指摘履歴はこの再構成で解消される）— **プロンプトは Rules「レビューを依頼するサブエージェント…」の3点を必ず含める**
 - [ ] **user review** — 承認を受けるまで #4 に進まない
 
@@ -376,12 +376,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 
 # State
 
-(written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
-session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
-so only a genuinely suspended session reads `paused`.)
-
-- **Status**: not suspended
-- **Date**: YYYY-MM-DD
-- **Last completed**: #N description
-- **Next**: #N description
-- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
+- **Status**: paused
+- **Date**: 2026-07-27
+- **Last completed**: #3 差し戻し対応（母集合定義による再構成）の実装7ステップ。`extract_terms.py`/`term-candidates.csv`/`glossary.md`§5.15/`verify_glossary.py`（9検査）/G-4・G-6・G-7・G-8修正をコミット済み・push済み（`1cdbf1a`, `4bf9f7a`）。コーディネーターが独立検証済み: pytest 175件パス、`scan-terms.tsv`再生成でbyte一致、`verify_glossary.py`全9検査OK、150字超セル0件（独自スクリプトで再計測）、`term-candidates.csv`集計（339行/331種）を`csv.DictReader`で再計測し一致
+- **Next**: #3 の残りステップ「4観点のレビュー（ラウンド1、母集合突合基準）」→「user review」。QAサブエージェント1件をディスパッチ済みだが、中断のため結果は未着（再開時は待たず、QA含め4観点を再ディスパッチすること。ディスパッチ済みQAの部分結果は破棄してよい）。設計/クラフト/検証の3観点は未着手
+- **Notes**: `checks/task-03.md` はセルフチェック部分のみ実装エージェントが更新済み・未コミットのままリポジトリに残っている（レビュー観点の列はコーディネーターが4観点レビュー完了後にまとめて記入・コミットする方針、`task-verify-workflow.md`のCheck file format節参照）。／`input/ntf-doc-terms.md`の見出し数について、作業指示は「35件」としていたが、実装エージェントは「H1除く全レベル（H2+H3+H4）」というルールを採用し実測45件になった。35に一致する妥当な部分集合がなかったため強引に合わせず正直に報告している。この扱いが妥当か（35という数字の根拠を洗い直すか、45を正とするか）は4観点レビューで論点にすること
