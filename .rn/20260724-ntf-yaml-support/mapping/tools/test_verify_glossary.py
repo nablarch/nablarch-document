@@ -278,6 +278,13 @@ POPULATION_MD = TABLE_MD + """
 | 候補 | 理由 |
 |---|---|
 | `該当ページ固有の見出し` | ページ固有の題であり骨格用語ではない |
+
+#### 5.15.6 一括：今回は判定しない
+
+| 候補 |
+|---|
+| `一括で今回は判定しない候補` |
+| `束ねた候補1`、`束ねた候補2` |
 """
 
 
@@ -326,6 +333,33 @@ class TestListedAndRejectedTerms(unittest.TestCase):
         # Then: セル内のコードスパンごとに理由が割り当たる
         self.assertIn("該当ページ固有の見出し", rejected)
 
+    def test_rejected_terms_does_not_include_bulk_only_table(self):
+        # Given: 「候補」列のみ（「理由」列を持たない）の一括判定テーブル
+        tables = vg.read_tables(write_md(self, POPULATION_MD))
+        rejected = vg.rejected_terms(tables)
+        # Then: 一括判定テーブルの候補は rejected_terms には含まれない
+        self.assertNotIn("一括で今回は判定しない候補", rejected)
+
+
+class TestBulkTerms(unittest.TestCase):
+
+    def test_bulk_terms_reads_candidate_only_table(self):
+        # Given: 「候補」列のみを持つ§5.15の一括判定テーブル
+        tables = vg.read_tables(write_md(self, POPULATION_MD))
+        bulk = vg.bulk_terms(tables)
+        # Then: 単独行・束ねた行の両方の候補が入る
+        self.assertIn("一括で今回は判定しない候補", bulk)
+        self.assertIn("束ねた候補1", bulk)
+        self.assertIn("束ねた候補2", bulk)
+
+    def test_bulk_terms_ignores_tables_with_a_reason_column(self):
+        # Given: 「候補」列と「理由」列の両方を持つ表（不採用〈理由付き〉）
+        tables = vg.read_tables(write_md(self, POPULATION_MD))
+        bulk = vg.bulk_terms(tables)
+        # Then: 個別理由付きの候補は一括判定の集合に入らない
+        self.assertNotIn("1. 読者と構成", bulk)
+        self.assertNotIn("該当ページ固有の見出し", bulk)
+
 
 class TestPopulationCheck(unittest.TestCase):
 
@@ -347,6 +381,14 @@ class TestPopulationCheck(unittest.TestCase):
     def test_rejected_with_reason_candidate_passes(self):
         tables = vg.read_tables(write_md(self, POPULATION_MD))
         candidates = [make_candidate("1. 読者と構成", source="design-heading")]
+        self.assertEqual(vg.check_population(tables, candidates)[1], [])
+
+    def test_bulk_declared_candidate_passes(self):
+        # Given: §3の掲載基準2種類のいずれにも該当せず、個別理由を書かずに
+        # 一括で「今回は判定しない」と記録された候補
+        tables = vg.read_tables(write_md(self, POPULATION_MD))
+        candidates = [make_candidate("束ねた候補1", source="current-heading")]
+        # When/Then: 一括判定でも未判定にはならない
         self.assertEqual(vg.check_population(tables, candidates)[1], [])
 
     def test_duplicate_terms_across_sources_are_judged_once(self):

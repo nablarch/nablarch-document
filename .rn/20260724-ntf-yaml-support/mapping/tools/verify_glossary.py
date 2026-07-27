@@ -31,9 +31,16 @@ verify_glossary.py
 指摘し続けた原因は、用語集が「カバーすべき用語の母集団」を定義していな
 かったことにあるため、母集団と用語集の対応を機械的に閉じる。
 
+用語集の役割を「ページ作成時に表記を揃えるための参照物」に縮小した
+（`steering.md` #3差し戻し）ため、判定は「採用」「不採用（理由付き）」
+「一括：今回は判定しない」の3値のいずれかに全候補が対応していることを
+機械検証する。理由の非空チェック（reasons）は「不採用（理由付き）」に
+のみ適用し、「一括：今回は判定しない」には個別理由を要求しない。
+
   population        `mapping/term-candidates.csv` の全候補（表記の集合）が、
-                     §5（採用）または §5.15 の不採用テーブル（理由付き）の
-                     どちらかに対応していること。未判定を1件でも許さない。
+                     §5（採用）／§5.15 の不採用テーブル（理由付き）／
+                     §5.15 の一括判定テーブルのいずれかに対応していること。
+                     未判定を1件でも許さない。
 
   design_sections   term-candidates.csv の design-heading 候補（`design.md`
                      の章・セクション見出し）が、すべて glossary.md 中の
@@ -43,8 +50,9 @@ verify_glossary.py
                      「5. 処理方式の名称」表の名称列）が、すべて §5.2 の
                      「正表記」列に文字列一致すること。
 
-  reasons            §5.15 の不採用テーブルの全行に、空でない理由が
-                     書かれていること。
+  reasons            §5.15 の不採用（理由付き）テーブルの全行に、空でない
+                     理由が書かれていること。「一括：今回は判定しない」の
+                     表（「候補」列のみ）は対象外（個別理由を要求しない）。
 
 使い方:
 
@@ -471,11 +479,13 @@ def listed_terms(tables) -> "set[str]":
 
 
 def rejected_terms(tables) -> Dict[str, str]:
-    """「候補」列と「理由」列を持つ表（§5.15 の不採用テーブル）から
+    """「候補」列と「理由」列を持つ表（§5.15 の不採用〈理由付き〉テーブル）から
 
     {候補の表記: 理由} を作る。「候補」セル1つに複数のコードスパンが
     束ねてある行（表を圧縮した行）は、含まれる表記すべてに同じ理由を
     割り当てる。理由が空の行は採らない（reasons 検査が別途報告する）。
+    候補ごとの理由を書かず一括判定する表（`bulk_terms` が読む、ヘッダーが
+    「候補」の1列のみの表）はここでは扱わない。
     """
     result: Dict[str, str] = {}
     for _section, header, body in tables:
@@ -494,21 +504,49 @@ def rejected_terms(tables) -> Dict[str, str]:
     return result
 
 
-def check_population(tables, candidates: Sequence[CandidateRow]) -> Tuple[int, List[Problem]]:
-    """term-candidates.csv の全候補（表記の集合）が §5（採用）または
+def bulk_terms(tables) -> "set[str]":
+    """§5.15 の「一括：今回は判定しない」表から候補の集合を返す。
 
-    §5.15 の不採用テーブル（理由付き）のどちらかに対応していること。
+    掲載基準（§3）の2種類（表記揺れが実在し正表記を確定した用語／
+    `design.md` が章・セクション名として使う用語）のいずれにも該当しない
+    候補は、候補ごとの個別理由を書かず一括で記録する（`steering.md` #3
+    差し戻し）。この一括判定の表は「候補」列だけを持ち「理由」列を
+    持たない（ヘッダーが `["候補"]` の1列のみ）ことで見分ける。1セルに
+    複数のコードスパンを束ねた行（表を圧縮した行）は展開する。
+    """
+    result: "set[str]" = set()
+    for _section, header, body in tables:
+        if header != [CANDIDATE_HEADER]:
+            continue
+        idx_cand = header.index(CANDIDATE_HEADER)
+        for row in body:
+            if idx_cand >= len(row):
+                continue
+            for m in CODE_SPAN_RE.finditer(row[idx_cand]):
+                result.add(m.group(1))
+    return result
+
+
+def check_population(tables, candidates: Sequence[CandidateRow]) -> Tuple[int, List[Problem]]:
+    """term-candidates.csv の全候補（表記の集合）が、次の3値のいずれかに
+
+    対応していること。未判定を1件でも許さない。
+
+    - 採用（§5 のいずれかのコードスパンと文字列一致）
+    - 不採用（理由付き）（§5.15 の候補＋理由の表に対応する理由がある）
+    - 一括：今回は判定しない（§5.15 の候補のみの表に載っている）
     """
     listed = listed_terms(tables)
     rejected = rejected_terms(tables)
+    bulk = bulk_terms(tables)
     unique_terms = sorted({c.term for c in candidates})
     problems: List[Problem] = []
     for term in unique_terms:
-        if term in listed or term in rejected:
+        if term in listed or term in rejected or term in bulk:
             continue
         problems.append(Problem(
             "population", "term-candidates.csv",
-            f"候補 {term!r} が未判定（§5に採用も§5.15に不採用の理由も無い）"))
+            f"候補 {term!r} が未判定（§5に採用も§5.15に不採用の理由も一括判定も無い）"))
     return len(unique_terms), problems
 
 
@@ -548,7 +586,11 @@ def check_scheme_names(tables, candidates: Sequence[CandidateRow]) -> Tuple[int,
 
 
 def check_reasons(tables) -> Tuple[int, List[Problem]]:
-    """§5.15 の不採用テーブルの全行に、空でない理由が書かれていること。"""
+    """§5.15 の不採用（理由付き）テーブルの全行に、空でない理由が書かれていること。
+
+    対象は「候補」列と「理由」列を両方持つ表だけである。「一括：今回は
+    判定しない」の表（「候補」列のみ）は個別理由を要求しないため対象外。
+    """
     problems: List[Problem] = []
     rows = 0
     for section, header, body in tables:
