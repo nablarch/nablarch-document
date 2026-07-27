@@ -128,7 +128,32 @@ Rn version: 0.8.0
 - [x] `mapping/tools/verify_glossary.py` を作成し、file:line・件数・§5と§8の整合を機械検証する
 - [x] self-check（`checks/task-03.md`）
 - [x] commit & push
-- [ ] 4観点の再レビュー（ラウンド2、対象 `277e23a`）— ラウンド1は4観点とも NG で修正済み。**プロンプトは Rules「レビューを依頼するサブエージェント…」の3点を必ず含める**
+
+**#3 差し戻し（ラウンド1〜3のレビューで収束しなかったため、母集合を定義して再構成する）**:
+
+ラウンド1〜3のレビュー指摘（G-1, G-2, G-5, G-9, G-10）はいずれも「用語集に対象とする用語の母集合が定義されていない」ことが原因。母集合がないためレビューのたびに探し方が変わり、指摘が収束しなかった。母集合を機械抽出し、レビューを「母集合に対する未判定ゼロ」の機械検証に置き換える。
+
+- [ ] `mapping/tools/extract_terms.py` を作成する。以下から用語候補を機械的に列挙する
+  - 現行解説書の全見出し（`sections-current.csv` の `heading_path` を分解）
+  - `input/ntf-doc-terms.md` の全見出し（35件）
+  - `design.md` に登場する章・セクション名および処理方式名
+- [ ] `mapping/term-candidates.csv` を出力する（列: `term, source, occurrences, file_line`）
+- [ ] `glossary.md` の各項目を `term-candidates.csv` のどの候補に対応するか記録する
+- [ ] 不採用の理由を記録する欄を `glossary.md` に設ける（「一般語のため」「1箇所のみの出現で用語ではないため」等、候補ごとに具体的な理由を記す）
+- [ ] `verify_glossary.py` を母集合との突合に変更する。以下を機械判定すること
+  - `term-candidates.csv` の全候補が `glossary.md` に「採用」または「不採用（理由付き）」のいずれかで現れる
+  - 未判定の候補が0件であること
+  - `design.md` の章・セクション名がすべて `glossary.md` に存在すること
+  - 処理方式名が `design.md` の正式名称と一致すること
+- [ ] 個別の誤りを修正する（母集合とは別の、根拠を実測せずに書いたことによる記述ミス）
+  - G-4: 採用根拠の引用行が主張を裏付けていない
+  - G-6: 件数の誤り
+  - G-7: 150字超の表セル41個
+  - G-8: 分類の誤り
+  - 全項目の根拠 file:line を機械的に再検証する
+- [ ] self-check（`checks/task-03.md`）を更新する
+- [ ] commit & push
+- [ ] 4観点のレビュー（**ラウンドを1から数え直す** — 母集合突合を基準とした新しい検証のため、ラウンド1〜3の指摘履歴はこの再構成で解消される）— **プロンプトは Rules「レビューを依頼するサブエージェント…」の3点を必ず含める**
 - [ ] **user review** — 承認を受けるまで #4 に進まない
 
 **Completion criteria**:
@@ -137,6 +162,9 @@ Rn version: 0.8.0
 - 各用語の「揺れ表記」に file:line の根拠がある
 - 処理方式の名称が design.md の正式名称と一致している
 - FW解説書と異なる表記を採用した場合、理由が採用根拠に記載されている
+- `term-candidates.csv` の全候補が `glossary.md` に採用/不採用（理由付き）のいずれかで対応しており、未判定が0件である
+- `design.md` の章・セクション名がすべて `glossary.md` に存在する
+- 上記2点が `verify_glossary.py` によって機械検証されている
 
 ### #4: トンマナ規約の作成
 
@@ -348,8 +376,12 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 
 # State
 
-- **Status**: paused
-- **Date**: 2026-07-27
-- **Last completed**: #2a セクション抽出の取りこぼし解消（ユーザーレビュー承認済み）
-- **Next**: #3 用語集の作成 — ラウンド2（対象 `277e23a`）NG→修正（`4f5719c`、F-1〜F-10反映済み）→ラウンド3（対象 `4f5719c`）も4観点ともNG。**トリアージ上限3ラウンドを使い切った。** ラウンド3の指摘10件（G-1〜G-10）は未着手。次にどう進めるか（G-1〜G-10を修正して上限超過でラウンド4を回すか／修正のみで再レビューをスキップしuser reviewに進むか／未解決事項として§10・§11に明記した上でuser reviewに進めるか／他の方針）はユーザーに判断を仰いだが、この会話内では結論が出ていない。再開時はまずこの判断を確認すること
-- **Notes**: push 先はローカル `work` → `origin/work`（origin = fork `lovaizu/nablarch-document`）。親 `nablarch/nablarch-document` へは push しない。親の draft PR #728 は凍結中で触らない。完成後に fork → 親 の PR を出す。／G-1〜G-10の詳細（実測根拠つき）はこのセッションの会話にのみ残っており `checks/task-03.md` には未記録。再開時に会話ログが失われている場合は、ラウンド3の4エージェント（QA/Design/Craft/Verification）の出力を再現できないため、再度4観点レビューをやり直す必要がある。／コスト警告（Bedrock月次コスト表示）はこのユーザーには無関係（サブスク運用）。今後のセッションでコストを判断材料にしない
+(written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
+session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
+so only a genuinely suspended session reads `paused`.)
+
+- **Status**: not suspended
+- **Date**: YYYY-MM-DD
+- **Last completed**: #N description
+- **Next**: #N description
+- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
