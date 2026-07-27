@@ -348,8 +348,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 
 # State
 
-- **Status**: not suspended
-- **Date**: YYYY-MM-DD
-- **Last completed**: #N description
-- **Next**: #N description
-- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
+- **Status**: paused
+- **Date**: 2026-07-27
+- **Last completed**: #2a セクション抽出の取りこぼし解消（ユーザーレビュー承認済み）
+- **Next**: #3 用語集の作成 — ラウンド2（対象 `277e23a`）NG→修正（`4f5719c`、F-1〜F-10反映済み）→ラウンド3（対象 `4f5719c`）も4観点ともNG。**トリアージ上限3ラウンドを使い切った。** ラウンド3の指摘10件（G-1〜G-10）は未着手。次にどう進めるか（G-1〜G-10を修正して上限超過でラウンド4を回すか／修正のみで再レビューをスキップしuser reviewに進むか／未解決事項として§10・§11に明記した上でuser reviewに進めるか／他の方針）はユーザーに判断を仰いだが、この会話内では結論が出ていない。再開時はまずこの判断を確認すること
+- **Notes**: push 先はローカル `work` → `origin/work`（origin = fork `lovaizu/nablarch-document`）。親 `nablarch/nablarch-document` へは push しない。親の draft PR #728 は凍結中で触らない。完成後に fork → 親 の PR を出す。／G-1〜G-10の詳細（実測根拠つき）はこのセッションの会話にのみ残っており `checks/task-03.md` には未記録。再開時に会話ログが失われている場合は、ラウンド3の4エージェント（QA/Design/Craft/Verification）の出力を再現できないため、再度4観点レビューをやり直す必要がある。／コスト警告（Bedrock月次コスト表示）はこのユーザーには無関係（サブスク運用）。今後のセッションでコストを判断材料にしない
