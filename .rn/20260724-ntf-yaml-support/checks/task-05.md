@@ -185,7 +185,7 @@ note内に「重複」（または同義の「再掲であり新規情報を含�
 
 ### batch-02〜15 DROP一覧（53件、対応後）
 
-current-0057がMERGEに変わったため54→53件。
+batch-01〜15全体のDROPは、current-0057のMERGE化により55件→54件に減った。うちbatch-01のDROP1件を除いたbatch-02〜15のDROPが、同じ変更で54件→53件になった（`python3`で`disposition == 'DROP'`をカウントして実測: 全体54件、batch-01のみ1件、差分のbatch-02〜15が53件）。
 
 
 | src_section_id | lines | batch | 理由分類 | 重複先 | heading_path |
