@@ -253,6 +253,170 @@ class TestChecksDetectProblems(unittest.TestCase):
 
 
 # ===========================================================================
+# #3 母集団の全件判定（population / design_sections / scheme_names / reasons）
+# ===========================================================================
+
+# TABLE_MD（§5・§8）に加えて §5.15 相当の不採用テーブルを持つサンプル。
+POPULATION_MD = TABLE_MD + """
+
+### 5.2 処理方式
+
+| 正表記 | 意味 | 揺れ表記（使わない） | 別義・旧名称（文脈により使う） | 採用根拠 |
+|---|---|---|---|---|
+| `ウェブアプリケーション` | 画面を持つHTTPアプリケーション | 揺れなし | なし | design.md |
+
+### 5.15 term-candidates.csv との対応
+
+#### 5.15.2 不採用 — design.md の章・セクション見出し
+
+| 候補 | design.md所在 | 理由 |
+|---|---|---|
+| `1. 読者と構成` | `S:design.md:3` | design.mdの章・セクション見出しであり用語ではない |
+
+#### 5.15.5 不採用 — 現行解説書の見出し
+
+| 候補 | 理由 |
+|---|---|
+| `該当ページ固有の見出し` | ページ固有の題であり骨格用語ではない |
+"""
+
+
+def make_candidate(term, source="current-heading", occurrences=1, file_line="a.rst:1"):
+    return vg.CandidateRow(term, source, occurrences, file_line)
+
+
+class TestLoadCandidates(unittest.TestCase):
+
+    def test_reads_the_documented_four_columns(self):
+        # Given: term,source,occurrences,file_line のCSV
+        f = tempfile.NamedTemporaryFile(
+            "w", suffix=".csv", delete=False, encoding="utf-8", newline="\n")
+        f.write("term,source,occurrences,file_line\n")
+        f.write("テストデータ,current-heading,3,a.rst:1\n")
+        f.close()
+        self.addCleanup(os.unlink, f.name)
+        # When: 読み込む
+        rows = vg.load_candidates(f.name)
+        # Then: 型つきで1件返る（occurrencesはint）
+        self.assertEqual(rows, [vg.CandidateRow("テストデータ", "current-heading", 3, "a.rst:1")])
+
+
+class TestListedAndRejectedTerms(unittest.TestCase):
+
+    def test_listed_terms_is_the_union_of_the_three_5_columns(self):
+        tables = vg.read_tables(write_md(self, POPULATION_MD))
+        listed = vg.listed_terms(tables)
+        # Then: §5の正表記・揺れ表記・別義がすべて入る
+        self.assertIn("テストデータ", listed)
+        self.assertIn("想定結果", listed)
+        self.assertIn("セクション", listed)
+        self.assertIn("ウェブアプリケーション", listed)
+
+    def test_rejected_terms_maps_candidate_to_its_reason(self):
+        tables = vg.read_tables(write_md(self, POPULATION_MD))
+        rejected = vg.rejected_terms(tables)
+        self.assertEqual(
+            rejected["1. 読者と構成"],
+            "design.mdの章・セクション見出しであり用語ではない")
+
+    def test_rejected_terms_splits_a_bundled_candidate_cell(self):
+        # Given: §5.15.5型の「1セルに複数候補」の行
+        tables = vg.read_tables(write_md(self, POPULATION_MD))
+        rejected = vg.rejected_terms(tables)
+        # Then: セル内のコードスパンごとに理由が割り当たる
+        self.assertIn("該当ページ固有の見出し", rejected)
+
+
+class TestPopulationCheck(unittest.TestCase):
+
+    def test_unjudged_candidate_is_reported(self):
+        # Given: §5にも§5.15の不採用テーブルにも無い候補
+        tables = vg.read_tables(write_md(self, POPULATION_MD))
+        candidates = [make_candidate("誰も判定していない候補")]
+        # When: population検査
+        checked, problems = vg.check_population(tables, candidates)
+        # Then: 未判定として報告される
+        self.assertEqual(checked, 1)
+        self.assertIn("未判定", problems[0].detail)
+
+    def test_adopted_candidate_passes(self):
+        tables = vg.read_tables(write_md(self, POPULATION_MD))
+        candidates = [make_candidate("テストデータ")]
+        self.assertEqual(vg.check_population(tables, candidates)[1], [])
+
+    def test_rejected_with_reason_candidate_passes(self):
+        tables = vg.read_tables(write_md(self, POPULATION_MD))
+        candidates = [make_candidate("1. 読者と構成", source="design-heading")]
+        self.assertEqual(vg.check_population(tables, candidates)[1], [])
+
+    def test_duplicate_terms_across_sources_are_judged_once(self):
+        # Given: 同じ表記が current-heading と design-heading の両方の行として
+        # term-candidates.csv にある（出典が違うだけ）
+        tables = vg.read_tables(write_md(self, POPULATION_MD))
+        candidates = [
+            make_candidate("テストデータ", source="current-heading"),
+            make_candidate("テストデータ", source="design-heading"),
+        ]
+        # When/Then: 表記としては1種類なので、判定は1件で済み不一致は出ない
+        checked, problems = vg.check_population(tables, candidates)
+        self.assertEqual((checked, problems), (1, []))
+
+
+class TestDesignSectionsCheck(unittest.TestCase):
+
+    def test_missing_design_heading_is_reported(self):
+        cells = vg.read_cells(write_md(self, POPULATION_MD))
+        candidates = [make_candidate("glossary.mdに存在しない章名", source="design-heading")]
+        checked, problems = vg.check_design_sections(cells, candidates)
+        self.assertEqual(checked, 1)
+        self.assertIn("glossary.md に無い", problems[0].detail)
+
+    def test_present_design_heading_passes(self):
+        cells = vg.read_cells(write_md(self, POPULATION_MD))
+        candidates = [make_candidate("1. 読者と構成", source="design-heading")]
+        self.assertEqual(vg.check_design_sections(cells, candidates)[1], [])
+
+    def test_non_design_heading_sources_are_ignored(self):
+        # Given: design-heading以外の出典しか無い
+        cells = vg.read_cells(write_md(self, POPULATION_MD))
+        candidates = [make_candidate("どこにも無い語", source="current-heading")]
+        # When/Then: design_sections検査の対象外なので検証0件
+        self.assertEqual(vg.check_design_sections(cells, candidates), (0, []))
+
+
+class TestSchemeNamesCheck(unittest.TestCase):
+
+    def test_scheme_name_matching_5_2_canonical_passes(self):
+        tables = vg.read_tables(write_md(self, POPULATION_MD))
+        candidates = [make_candidate("ウェブアプリケーション", source="design-scheme")]
+        self.assertEqual(vg.check_scheme_names(tables, candidates)[1], [])
+
+    def test_scheme_name_not_in_5_2_is_reported(self):
+        tables = vg.read_tables(write_md(self, POPULATION_MD))
+        candidates = [make_candidate("存在しない処理方式", source="design-scheme")]
+        checked, problems = vg.check_scheme_names(tables, candidates)
+        self.assertEqual(checked, 1)
+        self.assertIn("design.mdの正式名称と不一致", problems[0].detail)
+
+
+class TestReasonsCheck(unittest.TestCase):
+
+    def test_empty_reason_is_reported(self):
+        broken = POPULATION_MD.replace(
+            "| `1. 読者と構成` | `S:design.md:3` | design.mdの章・セクション見出しであり用語ではない |",
+            "| `1. 読者と構成` | `S:design.md:3` |  |")
+        tables = vg.read_tables(write_md(self, broken))
+        _, problems = vg.check_reasons(tables)
+        self.assertIn("理由が空", problems[0].detail)
+
+    def test_filled_reasons_pass(self):
+        tables = vg.read_tables(write_md(self, POPULATION_MD))
+        checked, problems = vg.check_reasons(tables)
+        self.assertEqual(problems, [])
+        self.assertEqual(checked, 2)  # 5.15.2 の1行 + 5.15.5 の1行
+
+
+# ===========================================================================
 # 実物
 # ===========================================================================
 

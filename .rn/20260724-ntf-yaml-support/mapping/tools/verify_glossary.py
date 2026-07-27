@@ -4,7 +4,7 @@ verify_glossary.py
 
 用語集の価値はほぼ全部が「file:line」と「N件」である。tsv や出典が変われば
 これらは黙って古くなるため、#2/#2a の verify_coverage.py と同じ水準で
-機械的に検査する。検査は5つ。
+機械的に検査する。検査は9つ。
 
   refs      glossary.md 中の `PREFIX:path:line` 参照が実在するか。
             ファイルが存在し、行番号が範囲内で、その行に「直前で名指しした
@@ -25,6 +25,26 @@ verify_glossary.py
 
   applies   §8 対応表の全行に「適用条件」が書かれていること。無条件置換は
             「機能概要」→「機能機能概要」のような壊れ方をするため。
+
+以下は #3 の母集団の再構成（term-candidates.csv による用語候補の網羅的な
+機械抽出）に対応する4検査。3ラウンドのレビューがいずれも新しい抜けを
+指摘し続けた原因は、用語集が「カバーすべき用語の母集団」を定義していな
+かったことにあるため、母集団と用語集の対応を機械的に閉じる。
+
+  population        `mapping/term-candidates.csv` の全候補（表記の集合）が、
+                     §5（採用）または §5.15 の不採用テーブル（理由付き）の
+                     どちらかに対応していること。未判定を1件でも許さない。
+
+  design_sections   term-candidates.csv の design-heading 候補（`design.md`
+                     の章・セクション見出し）が、すべて glossary.md 中の
+                     どこかのコードスパンとして存在すること。
+
+  scheme_names      term-candidates.csv の design-scheme 候補（`design.md`
+                     「5. 処理方式の名称」表の名称列）が、すべて §5.2 の
+                     「正表記」列に文字列一致すること。
+
+  reasons            §5.15 の不採用テーブルの全行に、空でない理由が
+                     書かれていること。
 
 使い方:
 
@@ -52,6 +72,7 @@ MAPPING_DIR = os.path.join(SESSION_DIR, "mapping")
 
 DEFAULT_GLOSSARY = os.path.join(MAPPING_DIR, "glossary.md")
 DEFAULT_SCAN = os.path.join(MAPPING_DIR, "scan-terms.tsv")
+DEFAULT_CANDIDATES = os.path.join(MAPPING_DIR, "term-candidates.csv")
 
 #: 用語集の接頭辞 -> (リポジトリルートからの相対ディレクトリ, 基準コミットで読むか)
 PREFIXES: Dict[str, Tuple[str, bool]] = {
@@ -417,6 +438,132 @@ def check_applies(tables) -> Tuple[int, List[Problem]]:
 
 
 # ---------------------------------------------------------------------------
+# 検査6〜9: term-candidates.csv による母集団の全件判定（#3 の再構成）
+# ---------------------------------------------------------------------------
+
+CANDIDATE_HEADER = "候補"
+REASON_HEADER = "理由"
+
+
+class CandidateRow(NamedTuple):
+    term: str
+    source: str
+    occurrences: int
+    file_line: str
+
+
+def load_candidates(path: str) -> List[CandidateRow]:
+    """`mapping/term-candidates.csv` を読む。csv.DictReader を使う（wc -l は使わない）。"""
+    with open(path, encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    return [
+        CandidateRow(r["term"], r["source"], int(r["occurrences"]), r["file_line"])
+        for r in rows
+    ]
+
+
+def listed_terms(tables) -> "set[str]":
+    """§5（用語）に採用済みとして載っている表記の集合。"""
+    canonicals = column_terms(tables, CANONICAL_HEADER, "5.")
+    variants = column_terms(tables, VARIANT_HEADER, "5.")
+    others = column_terms(tables, OTHER_HEADER, "5.")
+    return set(canonicals) | set(variants) | set(others)
+
+
+def rejected_terms(tables) -> Dict[str, str]:
+    """「候補」列と「理由」列を持つ表（§5.15 の不採用テーブル）から
+
+    {候補の表記: 理由} を作る。「候補」セル1つに複数のコードスパンが
+    束ねてある行（表を圧縮した行）は、含まれる表記すべてに同じ理由を
+    割り当てる。理由が空の行は採らない（reasons 検査が別途報告する）。
+    """
+    result: Dict[str, str] = {}
+    for _section, header, body in tables:
+        if CANDIDATE_HEADER not in header or REASON_HEADER not in header:
+            continue
+        idx_cand = header.index(CANDIDATE_HEADER)
+        idx_reason = header.index(REASON_HEADER)
+        for row in body:
+            if idx_cand >= len(row) or idx_reason >= len(row):
+                continue
+            reason = row[idx_reason].strip()
+            if not reason:
+                continue
+            for m in CODE_SPAN_RE.finditer(row[idx_cand]):
+                result.setdefault(m.group(1), reason)
+    return result
+
+
+def check_population(tables, candidates: Sequence[CandidateRow]) -> Tuple[int, List[Problem]]:
+    """term-candidates.csv の全候補（表記の集合）が §5（採用）または
+
+    §5.15 の不採用テーブル（理由付き）のどちらかに対応していること。
+    """
+    listed = listed_terms(tables)
+    rejected = rejected_terms(tables)
+    unique_terms = sorted({c.term for c in candidates})
+    problems: List[Problem] = []
+    for term in unique_terms:
+        if term in listed or term in rejected:
+            continue
+        problems.append(Problem(
+            "population", "term-candidates.csv",
+            f"候補 {term!r} が未判定（§5に採用も§5.15に不採用の理由も無い）"))
+    return len(unique_terms), problems
+
+
+def check_design_sections(cells: Sequence[Cell], candidates: Sequence[CandidateRow]) -> Tuple[int, List[Problem]]:
+    """design-heading 候補（design.md の章・セクション見出し）が
+
+    すべて glossary.md 中のどこかのコードスパンとして存在すること。
+    `cells` は `read_cells` の結果（1セル=1行のテキスト）を使う。生の
+    ファイル全文に対して正規表現をかけると、コードブロックの ``` など
+    バッククォートの数が奇数になる行をまたいでマッチが暴走するため。
+    """
+    spans: "set[str]" = set()
+    for cell in cells:
+        spans.update(CODE_SPAN_RE.findall(cell.text))
+    terms = sorted({c.term for c in candidates if c.source == "design-heading"})
+    problems = [
+        Problem("design_sections", "design.md",
+                f"章・セクション名 {t!r} が glossary.md に無い")
+        for t in terms if t not in spans
+    ]
+    return len(terms), problems
+
+
+def check_scheme_names(tables, candidates: Sequence[CandidateRow]) -> Tuple[int, List[Problem]]:
+    """design-scheme 候補（design.md「5. 処理方式の名称」の名称列）が
+
+    すべて §5.2 の「正表記」列に文字列一致すること。
+    """
+    canonicals_52 = column_terms(tables, CANONICAL_HEADER, "5.2")
+    terms = sorted({c.term for c in candidates if c.source == "design-scheme"})
+    problems = [
+        Problem("scheme_names", "design.md",
+                f"処理方式名 {t!r} が §5.2 の正表記に無い（design.mdの正式名称と不一致）")
+        for t in terms if t not in canonicals_52
+    ]
+    return len(terms), problems
+
+
+def check_reasons(tables) -> Tuple[int, List[Problem]]:
+    """§5.15 の不採用テーブルの全行に、空でない理由が書かれていること。"""
+    problems: List[Problem] = []
+    rows = 0
+    for section, header, body in tables:
+        if CANDIDATE_HEADER not in header or REASON_HEADER not in header:
+            continue
+        idx_reason = header.index(REASON_HEADER)
+        for row in body:
+            rows += 1
+            if idx_reason >= len(row) or not row[idx_reason].strip():
+                problems.append(Problem(
+                    "reasons", f"§{section}", f"理由が空: {row[0][:40]}"))
+    return rows, problems
+
+
+# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 
@@ -426,12 +573,14 @@ def main(argv: Sequence[str]) -> int:
     parser.add_argument("--glossary", default=DEFAULT_GLOSSARY)
     parser.add_argument("--scan", default=DEFAULT_SCAN)
     parser.add_argument("--terms", default=dtv.DEFAULT_TERMS_FILE)
+    parser.add_argument("--candidates", default=DEFAULT_CANDIDATES)
     args = parser.parse_args(argv)
 
     cells = read_cells(args.glossary)
     tables = read_tables(args.glossary)
     entries = dtv.load_terms(args.terms)
     scan_counts = load_scan_counts(args.scan)
+    candidates = load_candidates(args.candidates)
 
     results = [
         ("refs", *check_refs(cells, {e.surface for e in entries})),
@@ -439,6 +588,10 @@ def main(argv: Sequence[str]) -> int:
         ("sections", *check_sections(tables)),
         ("terms", *check_terms(tables, entries, scan_counts)),
         ("applies", *check_applies(tables)),
+        ("population", *check_population(tables, candidates)),
+        ("design_sections", *check_design_sections(cells, candidates)),
+        ("scheme_names", *check_scheme_names(tables, candidates)),
+        ("reasons", *check_reasons(tables)),
     ]
 
     problems: List[Problem] = []

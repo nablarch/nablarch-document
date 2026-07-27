@@ -114,9 +114,9 @@ python3 mapping/tools/detect_term_variants.py scan --max-locations 0 -o mapping/
 
 | 正表記 | 意味 | 揺れ表記（使わない） | 別義・旧名称（文脈により使う） | 採用根拠 |
 |---|---|---|---|---|
-| `テスティングフレームワーク` | Nablarchアプリケーションのテストを補助する機能を提供するフレームワーク。本解説書が説明する対象 | `自動テストフレームワーク`（現行70件、`NTF:06_TestFWGuide/index.rst:4`）／`テストフレームワーク`（現行1件、`NTF:06_TestFWGuide/03_Tips.rst:825`）／`本フレームワーク`（現行14件、`NTF:05_UnitTestGuide/02_RequestUnitTest/mail.rst:10`）／`NTF`（input42件、`S:input/ntf-doc-terms.md:1`。現行2件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:153`） | `本フレームワーク` はFW解説書ではNablarch自体を指す（FW10件、`FW:libraries/database/database.rst:442`） | FW解説書が `テスティングフレームワーク` を使う（FW8件、`FW:blank_project/CustomizeDB.rst:141`）。現行解説書の最上位ページ題も同じ（`NTF-root:index.rst:2`）。「総称」ではなく「機能を提供するもの」と定義したのは、第1部の記載「Nablarchに特化したテスト補助機能を提供すること」（`S:design.md:29`）を総称の意味で使うと「テスティングフレームワークを提供する」と書けなくなるため |
-| `ハンドラキュー` | リクエストの処理を担うハンドラを直列に並べた構造 | 揺れなし（`ハンドラーキュー` は未出現） | なし | `ハンドラキュー` はFW解説書の基本用語（FW84件、`FW:batch/nablarch_batch/architecture.rst:48`）。`S:design.md:30` が第1部で使うと決めている（design2件）。現行解説書は `ハンドラキュー` を現行1件（`NTF:06_TestFWGuide/RequestUnitTest_rest.rst:320`）しか使っていないが、リクエスト単体テストの説明に不可欠なため掲載基準1で掲載する |
-| `リクエストID` | 業務処理を一意に識別する文字列 | `リクエスト ID`（input13件、`S:input/ntf-doc-terms.md:52`） | なし | FW解説書120件（`FW:batch/nablarch_batch/architecture.rst:52`）、現行解説書47件（`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:103`）がいずれも空白なし。`グループ ID` と同型の半角空白の揺れであり、`discover --rule spacing` が同一グループとして検出した |
+| `テスティングフレームワーク` | Nablarchアプリケーションのテストを補助する機能を提供するフレームワーク。本解説書が説明する対象 | `自動テストフレームワーク`（現行70件、`NTF:06_TestFWGuide/index.rst:4`）／`テストフレームワーク`（現行1件）／`本フレームワーク`（現行14件）／`NTF`（input42件。現行2件） | `本フレームワーク` はFW解説書ではNablarch自体を指す（FW10件、`FW:libraries/database/database.rst:442`） | FW解説書が `テスティングフレームワーク` を使う（FW8件、`FW:blank_project/CustomizeDB.rst:141`）。現行の最上位ページ題も同じ。「特化したテスト補助機能を提供すること」（`S:design.md:29`）を総称の意味で使うと書けないため機能提供と定義した |
+| `ハンドラキュー` | リクエストの処理を担うハンドラを直列に並べた構造 | 揺れなし（`ハンドラーキュー` は未出現） | なし | `ハンドラキュー` はFW解説書の基本用語（FW84件、`FW:batch/nablarch_batch/architecture.rst:48`）。`S:design.md:30` が第1部で使うと決めている。現行は現行1件のみだが、リクエスト単体テストの説明に不可欠なため掲載基準1で掲載する |
+| `リクエストID` | 業務処理を一意に識別する文字列 | `リクエスト ID`（input13件、`S:input/ntf-doc-terms.md:52`） | なし | FW解説書120件（`FW:batch/nablarch_batch/architecture.rst:52`）、現行解説書47件がいずれも空白なし。`グループ ID` と同型の半角空白の揺れで、`discover --rule spacing` が同一グループとして検出した |
 
 ### 5.2 処理方式
 
@@ -128,7 +128,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 |---|---|---|---|---|
 | `ウェブアプリケーション` | 画面を持つHTTPアプリケーション | 揺れなし（`WEBアプリケーション` は未出現） | `Webアプリケーション` はFW解説書自身が使う正用法（FW10件、`FW:batch/jsr352/architecture.rst:127`）。現行解説書・input資料には0件 | `FW:web/index.rst:3`。FW解説書では `ウェブアプリケーション` がFW83件に対し `Webアプリケーション` はFW10件で、前者が優勢 |
 | `RESTfulウェブサービス` | REST APIを提供するウェブサービス | `RESTful ウェブサービス`（input2件、`S:input/ntf-doc-terms.md:420`） | なし | `FW:web_service/rest/index.rst:3`。FW解説書72件、現行解説書13件（`NTF:05_UnitTestGuide/02_RequestUnitTest/rest.rst:8`） |
-| `HTTPメッセージング` | HTTPを使ったシステム間メッセージング | 揺れなし（`HTTP メッセージング` は未出現） | なし | `FW:web_service/http_messaging/index.rst:3`。FW解説書37件（`FW:handlers/http_messaging/http_messaging_error_handler.rst:3`）。現行解説書・input資料には0件だが、`S:design.md:120` が第3部の章に使うと決めている |
+| `HTTPメッセージング` | HTTPを使ったシステム間メッセージング | 揺れなし（`HTTP メッセージング` は未出現） | なし | `FW:web_service/http_messaging/index.rst:3`。FW解説書37件。現行解説書・input資料には0件だが、`S:design.md:120` が第3部の章に使うと決めている |
 | `Nablarchバッチアプリケーション` | Nablarch独自のバッチアプリケーション | `バッチ処理`（現行14件、`NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:40`） | `バッチアプリケーション`（FW81件、`FW:batch/functional_comparison.rst:23`）は、Nablarch製かJakarta Batch製かを問わないバッチ全般の意でFW解説書が使う | `FW:batch/nablarch_batch/index.rst:3`。「バッチ処理」はJakarta Batchを含みうるため、処理方式名としては使わない |
 | `MOMによるメッセージング` | MOM（メッセージ指向ミドルウェア）を使ったメッセージング | `メッセージング処理`（現行12件、`NTF:05_UnitTestGuide/index.rst:49`） | `MOMメッセージング` はFW解説書のライブラリ章題として使われる正用法（FW35件、`FW:handlers/mom_messaging/index.rst:1`） | `FW:messaging/mom/index.rst:3`。処理方式の章題は「MOMによるメッセージング」、ライブラリの章題は「MOMメッセージング」であり、処理方式を指す場合は前者を使う |
 | `テーブルをキューとして使ったメッセージング` | データベースのテーブルをキューとして使うメッセージング | 揺れなし | なし | `FW:messaging/db/index.rst:3`。FW解説書19件。現行解説書・input資料には0件 |
@@ -149,12 +149,12 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 
 | 正表記 | 意味 | 揺れ表記（使わない） | 別義・旧名称（文脈により使う） | 採用根拠 |
 |---|---|---|---|---|
-| `応答不要メッセージ送信` | 応答を待たずにメッセージを送信する方式 | `応答不要メッセージ送信処理`（現行8件、`NTF:05_UnitTestGuide/02_RequestUnitTest/delayed_send.rst:2`） | なし | 見出し「応答不要でメッセージを送信する(応答不要メッセージ送信)」（`FW:libraries/system_messaging/mom_system_messaging.rst:135`。原文は半角括弧）。`応答不要メッセージ送信` はFW7件。本文には `応答不要メッセージ送信処理` もFW1件ある（`:179`）が、見出しはすべて「処理」なし |
+| `応答不要メッセージ送信` | 応答を待たずにメッセージを送信する方式 | `応答不要メッセージ送信処理`（現行8件、`NTF:05_UnitTestGuide/02_RequestUnitTest/delayed_send.rst:2`） | なし | 見出し「応答不要でメッセージを送信する(応答不要メッセージ送信)」（`FW:libraries/system_messaging/mom_system_messaging.rst:135`）。`応答不要メッセージ送信`FW7件。本文に`応答不要メッセージ送信処理`もFW1件あるが見出しは「処理」なし |
 | `応答不要メッセージ受信` | 応答を返さずにメッセージを受信する方式 | `応答不要メッセージ受信処理`（現行5件、`NTF:05_UnitTestGuide/02_RequestUnitTest/delayed_receive.rst:2`） | なし | 見出し「応答不要でメッセージを受信する(応答不要メッセージ受信)」（`FW:libraries/system_messaging/mom_system_messaging.rst:470`。原文は半角括弧）。`応答不要メッセージ受信` はFW6件 |
-| `同期応答メッセージ送信` | メッセージを送信し、応答を待つ方式 | `同期応答メッセージ送信処理`（現行32件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_send_sync.rst:117`。input4件）／`メッセージ同期送信処理`（語順違い。現行8件、`NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:107`）／`メッセージ同期送信`（語順違い・処理なし。現行2件、`NTF:05_UnitTestGuide/03_DealUnitTest/send_sync.rst:181`。input2件） | なし | 見出し「同期応答でメッセージを送信する(同期応答メッセージ送信)」（`FW:libraries/system_messaging/mom_system_messaging.rst:330`。原文は半角括弧）。`同期応答メッセージ送信` はFW9件 |
-| `同期応答メッセージ受信` | メッセージを受信し、応答を返す方式 | `同期応答メッセージ受信処理`（現行7件、`NTF:05_UnitTestGuide/02_RequestUnitTest/real.rst:4`）／`メッセージ受信処理`（現行2件、`NTF:06_TestFWGuide/RequestUnitTest_real.rst:2`） | なし | 見出し「同期応答でメッセージを受信する(同期応答メッセージ受信)」（`FW:libraries/system_messaging/mom_system_messaging.rst:638`。原文は半角括弧）。`同期応答メッセージ受信` はFW5件。「メッセージ受信処理」は応答不要受信と区別できないため使わない |
-| `HTTPメッセージ送信` | HTTPで外部システムにメッセージを送信し、その応答を受信する方式 | `HTTP同期応答メッセージ送信処理`（現行8件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_send_sync.rst:4`）／`HTTP同期応答メッセージ送信`（現行1件、`NTF:06_TestFWGuide/RequestUnitTest_http_send_sync.rst:12`）／`HTTP 同期応答メッセージ送信`（input4件、`S:input/ntf-doc-terms.md:398`）／`HTTP 同期応答メッセージ送信処理`（input1件、`:424`）／`HTTPメッセージ同期送信処理`（語順違い。現行4件、`NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:111`）／`HTTP メッセージ同期送信`（語順違い・処理なし。input2件、`S:input/ntf-doc-terms.md:268`） | なし | 見出し「メッセージを送信する(HTTPメッセージ送信)」（`FW:libraries/system_messaging/http_system_messaging.rst:132`。原文は半角括弧）。直後の本文「外部システムに対してメッセージを送信し、その応答を受信する」（`:134`）は現行解説書の「HTTP同期応答メッセージ送信」と同じ動作を指す。`HTTPメッセージ送信` はFW5件。MOM側（上4行）と同じ見出しパターンのため、採用優先順位1を適用する |
-| `HTTPメッセージ受信` | HTTPで外部システムからメッセージを受信し、その応答を送信する方式 | `HTTP同期応答メッセージ受信`（現行1件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:23`）／`HTTP同期応答メッセージ受信処理`（現行3件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:2`） | なし | 見出し「メッセージを受信する(HTTPメッセージ受信)」（`FW:libraries/system_messaging/http_system_messaging.rst:94`。原文は半角括弧）。`HTTPメッセージ受信` はFW4件。同上 |
+| `同期応答メッセージ送信` | メッセージを送信し、応答を待つ方式 | `同期応答メッセージ送信処理`（現行32件・input4件）／`メッセージ同期送信処理`（語順違い・現行8件）／`メッセージ同期送信`（語順違い・現行2件・input2件） | なし | 見出し「同期応答でメッセージを送信する(同期応答メッセージ送信)」（`FW:libraries/system_messaging/mom_system_messaging.rst:330`。原文は半角括弧）。`同期応答メッセージ送信` はFW9件 |
+| `同期応答メッセージ受信` | メッセージを受信し、応答を返す方式 | `同期応答メッセージ受信処理`（現行7件、`NTF:05_UnitTestGuide/02_RequestUnitTest/real.rst:4`）／`メッセージ受信処理`（現行2件、`NTF:06_TestFWGuide/RequestUnitTest_real.rst:2`） | なし | 見出し「同期応答でメッセージを受信する(同期応答メッセージ受信)」（`FW:libraries/system_messaging/mom_system_messaging.rst:638`）。`同期応答メッセージ受信`FW5件。「メッセージ受信処理」は応答不要受信と区別できないため使わない |
+| `HTTPメッセージ送信` | HTTPで外部システムにメッセージを送信し、その応答を受信する方式 | `HTTP同期応答メッセージ送信処理`（現行8件）／`HTTP同期応答メッセージ送信`（現行1件）／`HTTP 同期応答メッセージ送信`・`HTTP 同期応答メッセージ送信処理`（input計5件）／`HTTPメッセージ同期送信処理`（現行4件）／`HTTP メッセージ同期送信`（input2件） | なし | 見出し「メッセージを送信する(HTTPメッセージ送信)」（`FW:libraries/system_messaging/http_system_messaging.rst:132`）。直後の本文は現行と同動作。`HTTPメッセージ送信`FW5件。MOM側と同型のため優先順位1を適用 |
+| `HTTPメッセージ受信` | HTTPで外部システムからメッセージを受信し、その応答を送信する方式 | `HTTP同期応答メッセージ受信`（現行1件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:23`）／`HTTP同期応答メッセージ受信処理`（現行3件） | なし | 見出し「メッセージを受信する(HTTPメッセージ受信)」（`FW:libraries/system_messaging/http_system_messaging.rst:94`。原文は半角括弧）。`HTTPメッセージ受信` はFW4件。同上 |
 | `モックアップクラス` | 同期応答メッセージ送信・HTTPメッセージ送信を伴う取引単体テストで、外部システムの代わりに応答電文を返すクラス | 揺れなし | なし | 現行解説書21件、4ファイル（`NTF:05_UnitTestGuide/03_DealUnitTest/send_sync.rst:7`）。うち3件は見出し「モックアップクラスの設定」（`:286`ほか）。取引単体テストの実施に不可欠な骨格語のため掲載基準1で掲載する |
 
 ### 5.5 テストの種類
@@ -162,11 +162,11 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | 正表記 | 意味 | 揺れ表記（使わない） | 別義・旧名称（文脈により使う） | 採用根拠 |
 |---|---|---|---|---|
 | `クラス単体テスト` | クラス単体を対象とし、JUnitで自動実行するテスト | 揺れなし（下の注記を参照） | `単体テスト`（現行8件、`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:7`）は3種を束ねた総称であり、クラス単体テストの別表記ではない | `クラス単体テスト` は現行解説書26件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:4`）、`S:design.md:31` |
-| `リクエスト単体テスト` | 1リクエストを対象とし、ハンドラキューを通してJUnitで自動実行するテスト | 揺れなし | なし | 現行解説書106件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:587`）。FW解説書も `リクエスト単体テスト` を使う（FW6件、`FW:blank_project/MavenModuleStructures/index.rst:186`）。`S:design.md:30` |
+| `リクエスト単体テスト` | 1リクエストを対象とし、ハンドラキューを通してJUnitで自動実行するテスト | 揺れなし | なし | 現行解説書106件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:587`）。`リクエスト単体テスト`はFW6件も使う。`S:design.md:30` |
 | `取引単体テスト` | 複数リクエストにまたがる業務の流れを手動操作で確認するテスト | 揺れなし | なし | 現行解説書40件（`NTF:05_UnitTestGuide/02_RequestUnitTest/double_transmission.rst:9`）、`S:design.md:31` |
-| `エンティティ単体テスト` | クラス単体テストのうち、FormクラスとEntityクラスのバリデーションを対象とするもの | `Form単体テスト`（現行5件、`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:6`）／`Entity単体テスト`（現行5件、`:6`）／`Form/Entity単体テスト`（現行4件、`:14`）／`Form/Entityの単体テスト`（現行1件、`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/index.rst:4`） | なし | `S:design.md:115`。読者がクラス名の組み合わせではなくテスト対象の種類で引けるようにするため、`design.md` の決定に従う。Formクラスを書く読者が「エンティティ」から辿り着けるよう、意味欄に対象クラスを明示し、§8 に略称4種の行を置く |
-| `コンポーネント単体テスト` | クラス単体テストのうち、ActionクラスとComponentクラスを対象とするもの | `Action/Componentのクラス単体テスト`（現行2件、`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:4`）／`Component単体テスト`（現行2件、`:6`）／`Action単体テスト`（現行1件、`:7`）／`Action/Component単体テスト`（現行1件、`:10`） | ここでいう「コンポーネント」はJavaのActionクラス・Componentクラスを指す。システムリポジトリに登録するコンポーネント（§5.12 `コンポーネント設定ファイル`）とは別義 | `S:design.md:116`。同上 |
-| `データベースを使用するクラスのテスト` | クラス単体テストのうち、データベースアクセスを伴うクラスを対象とするもの | `DB アクセステスト`（input1件、`S:input/ntf-doc-terms.md:427`。`DBアクセステスト` は未出現） | なし | 現行解説書のページ題である（`データベースを使用するクラスのテスト` 現行1件、`NTF:06_TestFWGuide/02_DbAccessTest.rst:2`）。`DB アクセステスト` は `ntf-doc-terms.md` の造語で、完全一致の `DBアクセステスト` は全コーパスに0件。テストの種類の分類軸ではなくクラス単体テストの一形態のため、§5.5 の下位に置く |
+| `エンティティ単体テスト` | クラス単体テストのうち、FormクラスとEntityクラスのバリデーションを対象とするもの | `Form単体テスト`（現行5件）／`Entity単体テスト`（現行5件）／`Form/Entity単体テスト`（現行4件）／`Form/Entityの単体テスト`（現行1件） | なし | `S:design.md:115`。読者がクラス名の組み合わせではなくテスト対象の種類で引けるようにするため、`design.md` の決定に従う。Formクラスを書く読者が「エンティティ」から辿り着けるよう、意味欄に対象クラスを明示し、§8 に略称4種の行を置く |
+| `コンポーネント単体テスト` | クラス単体テストのうち、ActionクラスとComponentクラスを対象とするもの | `Action/Componentのクラス単体テスト`（現行2件）／`Component単体テスト`（現行2件）／`Action単体テスト`（現行1件）／`Action/Component単体テスト`（現行1件） | ここでいう「コンポーネント」はJavaのActionクラス・Componentクラスを指す。システムリポジトリに登録するコンポーネント（§5.12 `コンポーネント設定ファイル`）とは別義 | `S:design.md:116`。同上 |
+| `データベースを使用するクラスのテスト` | クラス単体テストのうち、データベースアクセスを伴うクラスを対象とするもの | `DB アクセステスト`（input1件、`S:input/ntf-doc-terms.md:427`。`DBアクセステスト` は未出現） | なし | 現行解説書のページ題（`データベースを使用するクラスのテスト`現行1件、`NTF:06_TestFWGuide/02_DbAccessTest.rst:2`）。`DB アクセステスト`は造語で、完全一致の`DBアクセステスト`は全コーパスに0件。分類軸ではなく一形態のため§5.5の下位に置く |
 
 **`単体テスト` 単独について。** 現行解説書に `単体テスト` は生で201件あるが、そのほとんどは `リクエスト単体テスト`・`取引単体テスト`・`クラス単体テスト`・`Form単体テスト` などの後半部分である。`term_candidates.tsv` に `単体テスト` を含むより長い表記を13種登録したうえで数えると、単独の `単体テスト` は現行8件まで減る。この8件の性格は一様ではない。
 
@@ -182,9 +182,9 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 
 | 正表記 | 意味 | 揺れ表記（使わない） | 別義・旧名称（文脈により使う） | 採用根拠 |
 |---|---|---|---|---|
-| `バリデーション` | 入力値が業務上の規則を満たすかを検証する処理 | `精査`（現行47件、`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:26`。FW4件） | なし | FW解説書316件（`FW:batch/jsr352/feature_details/run_batch_application.rst:44`）に対し `精査` はFW4件（`FW:libraries/validation/nablarch_validation.rst:303` ほか）。現行解説書も `バリデーション` を6件使っている |
+| `バリデーション` | 入力値が業務上の規則を満たすかを検証する処理 | `精査`（現行47件、`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:26`。FW4件） | なし | FW解説書316件（`FW:batch/jsr352/feature_details/run_batch_application.rst:44`）に対し `精査` はFW4件。現行解説書も `バリデーション` を6件使っている |
 | `相関バリデーション` | 複数の項目の値の関係を検証するバリデーション | `項目間精査`（現行7件、`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:430`） | なし | FW解説書34件（`FW:batch/nablarch_batch/application_design.rst:28`）。`FW:libraries/validation/bean_validation.rst:400` に「相関バリデーションを行う」というセクションタイトルがある |
-| `単項目バリデーション` | 1つの項目の値だけを見て行うバリデーション | `単項目精査`（現行38件、`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:66`） | なし | **FW解説書に確立した表記がない。** FW解説書での用例は `単項目バリデーション` がコード中のコメント1件（`FW:web/getting_started/project_upload/index.rst:336`）、散文の「項目単体のバリデーション」が2件のみ。現行解説書は `単項目精査` をセクションタイトルに使っており、名詞句の形を保つ必要がある。`相関バリデーション`（FW34件）と対になる複合語の形を採り、採用優先順位3（新たに定義する）で確定した |
+| `単項目バリデーション` | 1つの項目の値だけを見て行うバリデーション | `単項目精査`（現行38件、`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:66`） | なし | **FW解説書に確立表記がない。** 用例はコード中のコメント1件・散文2件のみ（`FW:web/getting_started/project_upload/index.rst:336`）。現行は `単項目精査` を見出しに使い名詞句が要る。`相関バリデーション`と対になる形を優先順位3で確定 |
 | `ドメインバリデーション` | ドメイン定義に基づいて行うバリデーション | 揺れなし | なし | FW解説書28件（`FW:libraries/code.rst:433`）。エンティティ単体テストの説明で参照するため掲載する |
 
 ### 5.7 テストの骨格
@@ -195,24 +195,24 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 |---|---|---|---|---|
 | `テストクラス` | テストを記述するJavaクラス。1つのテストデータファイル群と対応するもの | 揺れなし | なし | 現行解説書138件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:16`）、input資料9件、`S:design.md:30` |
 | `テストメソッド` | テストクラス内の1つのテストを表すメソッド | 揺れなし | なし | 現行解説書70件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:62`）、input資料6件、`S:design.md:137` |
-| `テストケース` | 1組の入力と期待値からなる、テストの1件分 | `テストショット`（現行10件、`NTF:05_UnitTestGuide/02_RequestUnitTest/double_transmission.rst:20`） | なし | 現行解説書155件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:26`）、input資料38件。「テストショット」はクラス名 `TestShot` の直訳であり、読者が意味を推測できない |
+| `テストケース` | 1組の入力と期待値からなる、テストの1件分 | `テストショット`（現行10件、`NTF:05_UnitTestGuide/02_RequestUnitTest/double_transmission.rst:20`） | なし | 現行解説書155件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:26`）、input資料38件。クラス名`TestShot`の直訳で意味を推測できない |
 
 ### 5.8 テストデータ
 
 | 正表記 | 意味 | 揺れ表記（使わない） | 別義・旧名称（文脈により使う） | 採用根拠 |
 |---|---|---|---|---|
-| `テストデータ` | テストクラスとは別のファイルに記述する、準備データと期待値とテストケース一覧の総称 | 揺れなし | なし | `テストデータ` は現行解説書223件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:16`）、input資料32件で一貫している。テストケース一覧は準備データでも期待値でもないため、総称には3者を含める |
+| `テストデータ` | テストクラスとは別のファイルに記述する、準備データと期待値とテストケース一覧の総称 | 揺れなし | なし | `テストデータ` は現行223件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:16`）、input32件で一貫。準備データでも期待値でもなく3者含める |
 | `テストデータファイル` | テストデータを記述したファイル。Excel形式とYAML形式がある | 揺れなし | なし | input資料4件（`S:input/ntf-testdata-doc-examples-messaging.md:133`）。YAML形式の追加により「Excelファイル」では総称にならないため採用する |
 | `Excel形式` | Excelブックにテストデータを記述する形式 | 揺れなし | なし | 現行解説書1件（`NTF:08_TestTools/01_HttpDumpTool/01_HttpDumpTool.rst:27`）。YAML形式との対比に必要な語であり、採用優先順位3で定義する |
-| `YAML形式` | YAMLファイルにテストデータを記述する形式 | 揺れなし | なし | `S:design.md:52` の本文で `nablarch-testing-yaml` の説明に使われている（design.md全体でここ1箇所のみ）。現行解説書・input資料に完全一致の用例はない。design.md 第2部の章名は `S:design.md:65`「テストデータの形式」であり、`YAML形式` という文字列そのものはこの章名には現れない。Excel形式との対比に必要な語として採用優先順位3で定義する |
+| `YAML形式` | YAMLファイルにテストデータを記述する形式 | 揺れなし | なし | `S:design.md:52` の本文で `nablarch-testing-yaml` の説明に使う（design.md中ここ1箇所）。現行・inputに完全一致なし。`S:design.md:65` の章名に文字列自体は現れない。優先順位3で定義 |
 | `読み込み単位` | 1つのテストクラスのテストデータを分割して読み込む単位。Excel形式では1シート、YAML形式では1ファイル | 揺れなし | なし | input資料6件（`S:input/ntf-testdata-doc.md:32`）。Excel形式とYAML形式で対応物が異なる階層に名前を与えるために必要 |
-| `データブロック` | 読み込み単位の中に置く、1用途分のデータのまとまり。テストデータファイルの記述単位 | `セクション`（input30件、`S:input/ntf-doc-terms.md:347`） | `セクション` は文書のセクションの意でも使われる（design10件、`S:design.md:27`）。マッピングの section_id・heading_path 列もこの別義 | input資料34件（`S:input/ntf-testdata-doc-examples-messaging.md:5`）、`S:design.md:32`（第1部「テストデータ」に「データブロックの考え方」を置くと決めている）。他の用語に依存しない形で定義するため、「何によって識別されるか」ではなく「どこに置く何のまとまりか」で定義した。データタイプ・グループIDはデータブロックの属性である（下の注記を参照） |
+| `データブロック` | 読み込み単位の中に置く、1用途分のデータのまとまり。テストデータファイルの記述単位 | `セクション`（input30件、`S:input/ntf-doc-terms.md:347`） | `セクション` は文書のセクションの意でも使われる（design10件、`S:design.md:27`）。マッピングの section_id・heading_path 列もこの別義 | input資料34件（`S:input/ntf-testdata-doc-examples-messaging.md:5`）、`S:design.md:32`（第1部にデータブロックの考え方を置くと決めている）。他語に依存しないよう「どこに置く何のまとまりか」で定義した（下の注記も参照） |
 | `データタイプ` | データブロックの用途を表す予約語。`SETUP_TABLE`、`EXPECTED_TABLE` など14種 | `データブロック種別`（input7件、`S:input/ntf-testdata-doc.md:96`） | ファイルデータの `データ型行`（§5.10）が示す「データ型」は、フィールドの型であって別概念 | 現行解説書43件（`NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:74`）、input資料57件。Excel形式ではデータブロック先頭セルに書く文字列そのものであり、選択余地がない |
-| `グループID` | 同じ読み込み単位に同じデータタイプのデータブロックを複数置くとき、それらを区別する標識 | `グループ ID`（input21件、`S:input/ntf-doc-terms.md:32`） | `groupId`（現行46件、FW333件、`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:259`）はMavenのgroupId要素・参照ラベル tips_groupId・YAMLのgroup_idキー。FW `グループID` 22件のうち19件がMaven、3件は認可機能のグループID（`FW:libraries/authorization/permission_check.rst:92`）で、いずれも別義 | 現行解説書73件（`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:259`）が空白なし。書式は `データタイプ[グループID]=識別子の値` |
-| `テストケース一覧` | 1テストクラスで実行するテストケースを列挙したデータブロック（`LIST_MAP=testShots`） | `テストショット一覧`（現行5件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:13`）／`テストケース表`（現行9件、`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:110`）／`テストショット表`（現行2件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:16`） | なし | `テストケース一覧` は現行解説書24件（`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:14`）、input資料5件 |
-| `エンティティバリデーション` | testShots表の入力カラム体系の一つ。`EntityTestSupport` が扱う、ウェブアプリケーション・バッチ処理・メッセージングとは別体系のカラム構成 | 揺れなし | `エンティティ単体テスト`（§5.5）はFormクラス・Entityクラスのバリデーションを対象とする**テストの種類**を指す語であり、`エンティティバリデーション` は**testShots表のカラム体系**を指す別の軸の語である | input資料2ファイル・5件、見出し「エンティティバリデーション（EntityTestSupport）」（`S:input/ntf-testdata-doc-examples-testshots.md:251`）。testShots表では `エンティティバリデーション`（`:38`）がウェブアプリケーション・バッチ処理・メッセージングと並ぶカテゴリとして扱われる。現行解説書に該当語はない |
-| `準備データ` | テスト実行前にデータベース・ファイルへ投入するデータ | `事前準備データ`（現行1件、`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:96`。input2件、`S:input/ntf-doc-terms.md:48`・`:50`）／`セットアップデータ`（input1件、`S:input/ntf-testdata-doc.md:188`） | なし | `準備データ` は現行解説書48件（`NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:168`）、input資料4件。`セットアップデータ` は第1部の記載内容の説明中でdesign1件（`S:design.md:32`）使われているが、用語を定める節ではないため出現数の多い側を採る |
-| `期待値` | テスト実行後に期待する状態を表すデータ | `想定結果`（現行6件、`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:255`）／`想定値`（現行2件、`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:310`） | なし | `期待値` は現行解説書88件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:576`）、input資料33件 |
+| `グループID` | 同じ読み込み単位に同じデータタイプのデータブロックを複数置くとき、それらを区別する標識 | `グループ ID`（input21件、`S:input/ntf-doc-terms.md:32`） | `groupId`（現行46件、FW333件）はMavenのgroupId要素等の識別子。FW`グループID`22件中19件Maven、3件は認可機能（`FW:libraries/authorization/permission_check.rst:92`）で別義 | 現行解説書73件（`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:259`）が空白なし。書式は `データタイプ[グループID]=識別子の値` |
+| `テストケース一覧` | 1テストクラスで実行するテストケースを列挙したデータブロック（`LIST_MAP=testShots`） | `テストショット一覧`（現行5件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:13`）／`テストケース表`（現行9件）／`テストショット表`（現行2件） | なし | `テストケース一覧` は現行解説書24件（`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:14`）、input資料5件 |
+| `エンティティバリデーション` | testShots表の入力カラム体系の一つ。`EntityTestSupport` が扱う、ウェブアプリケーション・バッチ処理・メッセージングとは別体系のカラム構成 | 揺れなし | `エンティティ単体テスト`（§5.5）はFormクラス・Entityクラスのバリデーションを対象とする**テストの種類**を指す語であり、`エンティティバリデーション` は**testShots表のカラム体系**を指す別の軸の語である | input2ファイル・5件、見出し「エンティティバリデーション」（`S:input/ntf-testdata-doc-examples-testshots.md:251`）。testShots表でウェブ等と並ぶカテゴリとして扱う。現行に該当語なし |
+| `準備データ` | テスト実行前にデータベース・ファイルへ投入するデータ | `事前準備データ`（現行1件、`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:96`。input2件）／`セットアップデータ`（input1件） | なし | `準備データ` は現行解説書48件（`NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:168`）、input4件。`セットアップデータ` はdesign1件使われるが用語を定める節ではないため出現数の多い側を採る |
+| `期待値` | テスト実行後に期待する状態を表すデータ | `想定結果`（現行6件、`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:255`）／`想定値`（現行2件） | なし | `期待値` は現行解説書88件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:576`）、input資料33件 |
 | `特殊記法` | セル値・エントリ値を実値に変換する記法（`null`、`${systemTime}` など） | `セルへの特殊な記述方法`（現行1件、`NTF:06_TestFWGuide/01_Abstract.rst:446`） | なし | input資料20件（`S:input/ntf-doc-terms.md:22`）。現行解説書の見出しはExcelのセルを前提としており、YAML形式に使えない |
 | `マーカーカラム` | 読み込み対象外とするカラム。カラム名を半角角括弧で囲むもの | 揺れなし | なし | 現行解説書4件（`NTF:06_TestFWGuide/01_Abstract.rst:348`）、input資料17件 |
 | `必須カラム` | データブロックに必ず記述しなければならないカラム | 揺れなし | なし | input資料7件（`S:input/ntf-testdata-doc-examples-testshots.md:18`）。input資料が「テストデータの記載例」の反復見出しに使っており、第3部でそのまま引き継ぐ |
@@ -222,7 +222,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | `ファイルデータ` | 固定長ファイル・可変長ファイルに対応するテストデータ | 揺れなし | なし | input資料28件（`S:input/ntf-doc-terms.md:20`）。§5.10 の行の名称が係る対象を指すため定義する |
 | `固定長ファイル` | レコード長・フィールド長が固定のファイル | 揺れなし | なし | FW解説書15件、現行解説書21件（`NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:183`）、input資料24件 |
 | `可変長ファイル` | 区切り文字でフィールドを区切るファイル | 揺れなし | なし | FW解説書2件（`FW:libraries/data_io/data_format/format_definition.rst:324`）、現行解説書12件、input資料14件 |
-| `複数レコードレイアウト` | 1つの読み込み単位内にレコード種別が異なる複数のレコードを混在させるファイルデータの構造 | 揺れなし | なし | input資料2ファイル・5件、見出し「複数レコードレイアウト」（`S:input/ntf-testdata-doc-examples-file.md:284`。TOC `:35`。`S:input/ntf-testdata-doc.md:403`）。現行解説書に該当語はない。旧版が使っていた「マルチレイアウト」は全コーパスに出典のない造語だったため、input資料に実在する本表記に置き換えた |
+| `複数レコードレイアウト` | 1つの読み込み単位内にレコード種別が異なる複数のレコードを混在させるファイルデータの構造 | 揺れなし | なし | input2ファイル・5件、見出し「複数レコードレイアウト」（`S:input/ntf-testdata-doc-examples-file.md:284`）。現行に該当語なし。旧版の「マルチレイアウト」は出典のない造語のため、input資料に実在する表記に置換 |
 
 **データブロックとその属性。** `データブロック` を「`データタイプ[グループID]=値` によって識別されるもの」と定義し、`データタイプ` を「データブロックの種別」、`グループID` を「データブロックを識別する標識」と定義すると循環する。本書は `データブロック` を置き場所（読み込み単位の中）と役割（1用途分のデータのまとまり）だけで定義し、`データタイプ`（用途を表す予約語）と `グループID`（同種を区別する標識）をその属性として定義した。
 
@@ -241,8 +241,8 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 
 | 正表記 | 意味 | 揺れ表記（使わない） | 別義・旧名称（文脈により使う） | 採用根拠 |
 |---|---|---|---|---|
-| `Excelファイル` | Excel形式のテストデータファイル。1テストクラス分のテストデータ全体を保持するもの | `Excel ファイル`（現行1件、`NTF:06_TestFWGuide/01_Abstract.rst:229`。input1件）／`ブック`（input3件、`S:input/ntf-testdata-doc.md:36`） | なし | `Excelファイル` は現行解説書86件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:24`）。「ブック」はinput資料だけの表記で、現行解説書に0件 |
-| `シート` | Excelファイル内の1シート。読み込み単位に相当するもの | `データシート`（現行7件、`NTF:05_UnitTestGuide/02_RequestUnitTest/index.rst:344`）／`テストデータシート`（現行6件、`NTF:05_UnitTestGuide/02_RequestUnitTest/fileupload.rst:66`）／`準備データシート`（現行1件、`NTF:06_TestFWGuide/01_Abstract.rst:102`） | なし | `シート` は現行解説書101件（`NTF:06_TestFWGuide/03_Tips.rst:37`）、input資料38件。生の `データシート` 14件の内訳は、単独7件・`テストデータシート` の一部6件・`準備データシート` の一部1件。単独7件のうち2件はRSTのコメント行（`..` 始まり）であり、生きた本文ではない（`データシート`、`NTF:06_TestFWGuide/01_Abstract.rst:70`、`:77`） |
+| `Excelファイル` | Excel形式のテストデータファイル。1テストクラス分のテストデータ全体を保持するもの | `Excel ファイル`（現行1件、`NTF:06_TestFWGuide/01_Abstract.rst:229`。input1件）／`ブック`（input3件、`S:input/ntf-testdata-doc.md:36`） | なし | `Excelファイル` は現行解説書86件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:24`）。「ブック」はinput限定の表記で現行に0件 |
+| `シート` | Excelファイル内の1シート。読み込み単位に相当するもの | `データシート`（現行7件、`NTF:05_UnitTestGuide/02_RequestUnitTest/index.rst:344`）／`テストデータシート`（現行6件）／`準備データシート`（現行1件） | なし | `シート` は現行101件（`NTF:06_TestFWGuide/03_Tips.rst:37`）、input38件。生の`データシート`14件は単独7件・`テストデータシート`の一部6件・`準備データシート`の一部1件。単独7件中2件はRSTコメント行で生きた本文ではない |
 | `セル` | Excelのシート内の1つの枠。値1個を保持するもの | 揺れなし | なし | 現行解説書42件（`NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:224`「ディレクティブ名のセルの右のセルに設定値を記載する」）、input資料54件 |
 | `YAMLファイル` | YAML形式のテストデータファイル。読み込み単位に相当するもの | `YAML ファイル`（input2件、`S:input/ntf-testdata-doc.md:68`） | なし | `YAMLファイル` 自体は未出現（半角空白入りのみ2件）。`Excelファイル` と同じ形に揃え、§6 の申し送りにある「英数字と日本語の間に空白を入れない」現行の実態（現行解説書は `Excelファイル` 86件対 `Excel ファイル` 1件）に合わせる |
 | `トップレベルキー` | YAMLファイルの最上位に置く、データタイプに対応するキー | 揺れなし | なし | input資料5件（`S:input/ntf-testdata-doc-examples-overview.md:83`）。YAML形式のデータブロック識別の説明に必要 |
@@ -255,7 +255,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 
 | 正表記 | 意味 | 揺れ表記（使わない） | 別義・旧名称（文脈により使う） | 採用根拠 |
 |---|---|---|---|---|
-| `レコード種別行` | レコード種別を示す行 | 揺れなし | なし | input資料3件、1ファイルのみ（`S:input/ntf-doc-terms.md:175`）。**根拠が弱い。** `:175` は図中のラベル `[レコード種別行]` であり、用語を定義した箇所ではない。`複数レコードレイアウト` のファイルデータを扱うページの執筆時に、実データの記述で置き換えられるか再確認する（§10 未解決事項3） |
+| `レコード種別行` | レコード種別を示す行 | 揺れなし | なし | input資料3件、1ファイルのみ（`S:input/ntf-doc-terms.md:175`）。**根拠が弱い。** `:175` は図中のラベルで定義箇所ではない。`複数レコードレイアウト` のページ執筆時に実データの記述で置き換えられるか再確認（§10未解決事項3） |
 | `フィールド名称行` | 各フィールドの名称を並べた行 | 揺れなし | なし | input資料15件、5ファイル（`S:input/ntf-doc-terms.md:176`） |
 | `データ型行` | 各フィールドのデータ型を示す行 | 揺れなし | なし | input資料9件、4ファイル（`S:input/ntf-doc-terms.md:177`） |
 | `フィールド長行` | 各フィールドのバイト長を示す行。固定長ファイルのみで使うもの | 揺れなし | なし | input資料11件、4ファイル（`S:input/ntf-doc-terms.md:178`） |
@@ -277,7 +277,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 |---|---|---|---|---|
 | `コンポーネント設定ファイル` | システムリポジトリに登録するコンポーネントを定義するXMLファイル | 揺れなし（`DI設定ファイル` は未出現） | なし | FW解説書105件、現行解説書47件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:712`）、input資料5件 |
 | `システムリポジトリ` | コンポーネントを保持し、名前で取得できるようにする仕組み | 揺れなし | なし | FW解説書58件、現行解説書10件（`NTF:06_TestFWGuide/02_RequestUnitTest.rst:232`） |
-| `内蔵サーバ` | リクエスト単体テスト（ウェブアプリケーション・RESTfulウェブサービス）で使用するサーブレットコンテナ | `内蔵サーブレットコンテナ`（input1件、`S:input/ntf-doc-terms.md:450`） | なし | 現行解説書18件（`NTF:05_UnitTestGuide/03_DealUnitTest/rest.rst:92`）。FW解説書に該当語なし。`NTF:06_TestFWGuide/02_RequestUnitTest.rst:11` は「リクエスト単体テスト(ウェブアプリケーション)では」と限定しており、バッチ・メッセージングでは使わないため、意味欄で対象を限定した |
+| `内蔵サーバ` | リクエスト単体テスト（ウェブアプリケーション・RESTfulウェブサービス）で使用するサーブレットコンテナ | `内蔵サーブレットコンテナ`（input1件、`S:input/ntf-doc-terms.md:450`） | なし | 現行解説書18件（`NTF:05_UnitTestGuide/03_DealUnitTest/rest.rst:92`）。FWに該当語なし。`NTF:06_TestFWGuide/02_RequestUnitTest.rst:11`がウェブアプリ限定と明記するため意味欄で対象を限定 |
 | `HTMLダンプ` | リクエスト単体テスト（ウェブアプリケーション）で出力する、レスポンスHTMLのファイル | `HTML ダンプ`（input3件、`S:input/ntf-doc-terms.md:252`） | なし | 現行解説書19件（`NTF:05_UnitTestGuide/02_RequestUnitTest/index.rst:115`）。内蔵サーバと同じくウェブアプリケーション向けの機能であるため、意味欄で対象を限定した |
 | `リクエスト単体データ作成ツール` | ブラウザ操作からリクエスト単体テストのテストデータを作成するツール | 揺れなし（`HTTPダンプツール` は未出現） | なし | 現行解説書3件（`NTF:08_TestTools/01_HttpDumpTool/01_HttpDumpTool.rst:4`）、`S:design.md:113` |
 | `マスタデータ投入ツール` | マスタデータをデータベースへ投入するツール | 揺れなし | なし | 現行解説書3件（`NTF:08_TestTools/02_MasterDataSetup/01_MasterDataSetupTool.rst:4`）、`S:design.md:69` |
@@ -295,13 +295,13 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | 正表記 | 意味 | 揺れ表記（使わない） | 別義・旧名称（文脈により使う） | 採用根拠 |
 |---|---|---|---|---|
 | `機能概要` | ページの最上位セクション。何ができるかを示す枠 | `概要`（現行15件、`NTF:05_UnitTestGuide/02_RequestUnitTest/delayed_receive.rst:6`） | なし | FW解説書のライブラリで見出しとして26件（`FW:libraries/authorization/permission_check.rst:27`）。`概要` はFW解説書に42件あるが、独立見出しとしての「概要」は7件でライブラリ配下には0件。`S:design.md:78` |
-| `使用方法` | ページの最上位セクション。使い方の手順を示す枠 | `実施方法`（現行44件、`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:642`） | なし | `使用方法` はFW63件だが、独立見出しとしては36件（うち35件が libraries 配下）。残り27件は本文中の平文（例:「使用方法は下記の通り。」`FW:libraries/data_io/data_format.rst:483`）とライブラリ外の見出し1件（`使用方法`、`FW:handlers/web/SessionStoreHandler.rst:187`）。design4件（`S:design.md:82`） |
+| `使用方法` | ページの最上位セクション。使い方の手順を示す枠 | `実施方法`（現行44件、`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:642`） | なし | `使用方法` はFW63件だが独立見出しは36件（うち35件がlibraries配下）。残り27件は本文中の平文とライブラリ外の見出し1件（`FW:handlers/web/SessionStoreHandler.rst:187`）。design4件 |
 | `拡張例` | ページの最上位セクション。差し替え・独自実装の手順を示す枠 | 揺れなし（現行解説書に未出現） | なし | FW解説書20件（`FW:handlers/rest/jaxrs_response_handler.rst:101`）。`S:design.md:86` |
 | `モジュール一覧` | 依存モジュールを列挙する枠 | 揺れなし | なし | FW解説書85件、現行解説書3件（`NTF:06_TestFWGuide/JUnit5_Extension.rst:35`）。`S:design.md:34` |
 | `全体像` | 機能概要の下位セクション。図で構造を示す枠 | 揺れなし | なし | 現行解説書7件（`NTF:06_TestFWGuide/02_DbAccessTest.rst:16`）、input資料7件、FW解説書3件（`FW:nablarch/big_picture.rst:3`）。`S:design.md:29` |
 | `主なクラスとリソース` | 機能概要の下位セクション。クラス・リソースの名称・役割・作成単位を表で示す枠 | `主なクラス, リソース`（現行6件、`NTF:06_TestFWGuide/02_DbAccessTest.rst:23`。`主なクラス、リソース` は未出現） | なし | `S:design.md:80`。半角カンマ＋空白は日本語の読点として不適切であり、`discover --rule punct` が両表記を同一グループとして検出した |
-| `前提事項` | 機能概要の下位セクション。適用できないケースを示す枠 | `前提条件`（現行6件、`NTF:05_UnitTestGuide/02_RequestUnitTest/rest.rst:5`） | なし | **FW解説書と異なる表記を採用する。** FW解説書は本文で `前提条件` をFW8件使うが、`前提事項`・`前提条件` のいずれもセクションタイトルとしては0件で、先例がない。`前提事項` はdesign1件（`S:design.md:81`）の決定と現行4件（`NTF:06_TestFWGuide/02_RequestUnitTest.rst:63`）に従う |
-| `稼動環境` | 第1部の下位セクション。動作要件を示す枠 | 揺れなし（`稼働環境` は未出現） | なし | `稼動環境` はFW解説書のページ題（FW3件、`FW:nablarch/platform.rst:3`）、design2件（`S:design.md:34`）。FW解説書には「稼働」も生で5件あるが、いずれも動詞（「並行稼働させる」）や別の複合語（「稼働サーバ」）であり、複合語 `稼動環境` とは競合しない |
+| `前提事項` | 機能概要の下位セクション。適用できないケースを示す枠 | `前提条件`（現行6件、`NTF:05_UnitTestGuide/02_RequestUnitTest/rest.rst:5`） | なし | **FW解説書と異なる表記を採用する。** FWは本文で `前提条件` をFW8件使うが、セクションタイトルとしては両表記とも0件で先例がない。`前提事項` はdesign1件（`S:design.md:81`）と現行4件に従う |
+| `稼動環境` | 第1部の下位セクション。動作要件を示す枠 | 揺れなし（`稼働環境` は未出現） | なし | `稼動環境` はFW解説書のページ題（FW3件、`FW:nablarch/platform.rst:3`）、design2件。FWには「稼働」も生5件あるが動詞や別複合語（「稼働サーバ」）で、`稼動環境` とは競合しない |
 | `記述例` | 設定・テストデータの実例を示す枠 | 揺れなし | なし | FW解説書28件、現行解説書32件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:645`）、input資料12件、`S:design.md:99` |
 | `制約` | 使用上の制限を示す枠 | `制約・補足`（input5件、`S:input/ntf-testdata-doc-examples-messaging.md:5`） | なし | FW解説書は見出しとして `制約` 51件・`補足` 8件を**別々に**使う。input資料の反復見出し `制約・補足` は2つの枠に分ける。FW解説書81件、input資料26件 |
 | `補足` | 本筋から外れる注意事項を示す枠 | 揺れなし | なし | FW解説書20件、現行解説書2件（`NTF:06_TestFWGuide/JUnit5_Extension.rst:145`）、input資料4件 |
@@ -312,15 +312,234 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 
 | 正表記 | 意味 | 揺れ表記（使わない） | 別義・旧名称（文脈により使う） | 採用根拠 |
 |---|---|---|---|---|
-| `スーパクラス` | 継承元のクラス | `スーパークラス`（現行22件、`NTF:05_UnitTestGuide/02_RequestUnitTest/rest.rst:15`。FW1件、`FW:handlers/web/http_rewrite_handler.rst:105`） | なし | **FW解説書と異なる表記を採用する。** FW解説書の用例は1件のみで、同じFW解説書内の他のカタカナ語は長音を省いている（`インタフェース` FW75件、`ユーザ` FW175件、`サーバ` FW122件）。1件の例外に合わせるより、長音を省く側に揃えるほうが文書全体の一貫性が高い。現行解説書は20件対22件で拮抗しており決め手にならない |
+| `スーパクラス` | 継承元のクラス | `スーパークラス`（現行22件、`NTF:05_UnitTestGuide/02_RequestUnitTest/rest.rst:15`。FW1件、`FW:handlers/web/http_rewrite_handler.rst:105`） | なし | **FW解説書と異なる表記を採用する。** FW用例は1件のみで、他のカタカナ語は長音を省く（`インタフェース`FW75件等）。例外に合わせるより省く側に揃える方が一貫性が高い。現行は20対22で拮抗し決め手にならない |
 | `インタフェース` | 実装を持たない型 | `インターフェース`（現行3件、`NTF:05_UnitTestGuide/02_RequestUnitTest/real.rst:181`。input2件、FW5件） | なし | FW解説書75件（`FW:batch/jsr352/application_design.rst:33`）、現行解説書16件 |
 | `オーバーライド` | スーパクラスのメソッドを再定義すること | `オーバライド`（現行1件、`NTF:06_TestFWGuide/RequestUnitTest_real.rst:124`。FW5件） | なし | FW解説書11件（`FW:batch/jsr352/getting_started/batchlet/index.rst:70`）、現行解説書11件。いずれのコーパスでも長音付きが多数 |
 | `ユーザ` | システムの利用者 | 揺れなし（`ユーザー` は未出現） | なし | FW解説書175件、現行解説書47件 |
 | `サーバ` | サービスを提供する計算機・プロセス | 揺れなし（`サーバー` は未出現） | なし | FW解説書122件、現行解説書13件 |
 | `データ` | 処理の対象となる値の集まり | `データー`（現行1件、`NTF:06_TestFWGuide/01_Abstract.rst:112`。RSTのコメント行） | なし | FW解説書1282件、現行解説書483件 |
 | `バイナリデータ` | 文字列として解釈しないデータ | `バイナリーデータ`（現行1件、`NTF:06_TestFWGuide/01_Abstract.rst:86`。RSTのコメント行） | なし | FW解説書7件（`FW:handlers/web/multipart_handler.rst:213`）、現行解説書4件、input資料5件 |
-| `パーサ` | テストデータを構造化オブジェクトへ組み立てる処理 | `パーサー`（input1件、`S:input/ntf-testdata-doc-examples-table.md:120`） | なし | input資料8件のうち7件は `ntf-testdata-loading.md`（`S:design.md:230` が解説書対象外と宣言した資料）にある。解説書の対象になる資料に現れるのは `パーサー` 1件だけである。それでも掲載するのは、`パーサ` が「1機能内に閉じた固有名詞」（掲載基準の不掲載3項目め）ではなく**カタカナ語の長音の揺れ**であり、本節の他の項（`インタフェース`・`オーバーライド`・`バイナリデータ`）と同じ規則の対象だからである |
+| `パーサ` | テストデータを構造化オブジェクトへ組み立てる処理 | `パーサー`（input1件、`S:input/ntf-testdata-doc-examples-table.md:120`） | なし | input資料8件中7件は `ntf-testdata-loading.md`（`S:design.md:230` が対象外と宣言）にあり、対象資料の用例は `パーサー` 1件のみ。それでも掲載するのは**カタカナ語の長音の揺れ**であり、本節の他項と同じ規則の対象だからである |
 
+### 5.15 `term-candidates.csv` との対応（母集団の全件判定）
+
+`mapping/tools/extract_terms.py` が現行解説書の見出し・`input/ntf-doc-terms.md` の見出し・`design.md` の見出しと処理方式名から機械的に抽出した母集団 `mapping/term-candidates.csv`（339行・331種類の表記）の全候補を、採用または不採用のいずれかに判定する。`verify_glossary.py` の `population` 検査が、`term-candidates.csv` の全行がこの節に過不足なく対応すること（未判定0件）を機械検査する。
+
+採用の行は、§5の当該用語が `term-candidates.csv` のどの候補に由来するかの相互参照を兼ねる（§2で求める「既存の用語→候補」と本節の「候補→既存の用語」は同じ対応関係の両方向であり、表は1つにまとめている）。
+
+#### 5.15.1 採用（36件）
+
+`term-candidates.csv` の表記が、そのまま §5（用語）のいずれかのコードスパンと文字列一致する候補である。
+
+| 候補 | 出典 | §5での扱い |
+|---|---|---|
+| `Action/Componentのクラス単体テスト` | current-heading | §5.5 テストの種類 の揺れ表記 |
+| `DB アクセステスト` | ntf-doc-terms-heading | §5.5 テストの種類 の揺れ表記 |
+| `Form/Entityの単体テスト` | current-heading | §5.5 テストの種類 の揺れ表記 |
+| `HTMLチェックツール` | current-heading | §5.12 設定・ツール の正表記 |
+| `HTTPメッセージング` | design-scheme | §5.2 処理方式 の正表記 |
+| `JUnit 5用拡張機能` | current-heading | §5.12 設定・ツール の正表記 |
+| `Jakarta Batchに準拠したバッチアプリケーション` | design-scheme | §5.2 処理方式 の正表記 |
+| `MOMによるメッセージング` | design-scheme | §5.2 処理方式 の正表記 |
+| `Nablarchバッチアプリケーション` | design-scheme | §5.2 処理方式 の正表記 |
+| `RESTfulウェブサービス` | design-scheme | §5.2 処理方式 の正表記 |
+| `ウェブアプリケーション` | design-scheme | §5.2 処理方式 の正表記 |
+| `グループ ID` | ntf-doc-terms-heading | §5.8 テストデータ の揺れ表記 |
+| `セルへの特殊な記述方法` | current-heading | §5.8 テストデータ の揺れ表記 |
+| `テスティングフレームワーク` | current-heading | §5.1 全体・Nablarchの基本概念 の正表記 |
+| `テストケース一覧` | current-heading | §5.8 テストデータ の正表記 |
+| `テストショット一覧` | current-heading | §5.8 テストデータ の揺れ表記 |
+| `テストデータ` | current-heading | §5.8 テストデータ の正表記 |
+| `テーブルをキューとして使ったメッセージング` | design-heading・design-scheme | §5.2 処理方式 の正表記 |
+| `ディレクティブ` | ntf-doc-terms-heading | §5.8 テストデータ の正表記 |
+| `データベースを使用するクラスのテスト` | current-heading | §5.5 テストの種類 の正表記 |
+| `マスタデータ復旧機能` | current-heading・ntf-doc-terms-heading | §5.12 設定・ツール の正表記 |
+| `マスタデータ投入ツール` | current-heading | §5.12 設定・ツール の正表記 |
+| `マーカーカラム` | current-heading・ntf-doc-terms-heading | §5.8 テストデータ の正表記 |
+| `モジュール一覧` | current-heading | §5.13 セクションタイトル の正表記 |
+| `リクエスト単体データ作成ツール` | current-heading | §5.12 設定・ツール の正表記 |
+| `主なクラス, リソース` | current-heading | §5.13 セクションタイトル の揺れ表記 |
+| `使用方法` | current-heading | §5.13 セクションタイトル の正表記 |
+| `全体像` | current-heading | §5.13 セクションタイトル の正表記 |
+| `前提事項` | current-heading | §5.13 セクションタイトル の正表記 |
+| `前提条件` | current-heading | §5.13 セクションタイトル の揺れ表記 |
+| `可変長ファイル` | current-heading | §5.8 テストデータ の正表記 |
+| `同期応答メッセージ送信処理` | current-heading | §5.4 メッセージング方式 の揺れ表記 |
+| `固定長ファイル` | current-heading | §5.8 テストデータ の正表記 |
+| `概要` | current-heading | §5.13 セクションタイトル の揺れ表記 |
+| `特殊記法` | ntf-doc-terms-heading | §5.8 テストデータ の正表記 |
+| `自動テストフレームワーク` | current-heading | §5.1 全体・Nablarchの基本概念 の揺れ表記 |
+
+#### 5.15.2 不採用 — `design.md` の章・セクション見出し（20件）
+
+`design.md` 自身の章・セクション見出しであり、解説書のページで使う用語ではない（文書構成を示すメタ見出し）。次の全行を掲載することにより、完了基準「`design.md` の章・セクション名がすべて `glossary.md` に存在する」を満たす。
+
+| 候補 | `design.md` 所在 | 理由 |
+|---|---|---|
+| `1. 読者と構成` | `S:design.md:3` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `10. 未確定事項` | `S:design.md:254` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `1ページごとにレビューする` | `S:design.md:248` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `2. 第1部 テスティングフレームワークとは` | `S:design.md:23` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `3. 第2部 導入と設定` | `S:design.md:56` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `4. 第3部 テストの実装方法` | `S:design.md:107` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `5. 処理方式の名称` | `S:design.md:160` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `6. 用語` | `S:design.md:184` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `7. トンマナ` | `S:design.md:205` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `8. 対象外とするもの` | `S:design.md:224` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `9. 作業方針` | `S:design.md:236` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `「〜したい」形式の見出しを廃止する` | `S:design.md:197` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `「テストの種類」に置く対比` | `S:design.md:36` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `テストデータの2ページ` | `S:design.md:147` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `ページのアウトライン` | `S:design.md:72` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `マッピングを唯一の基準とする` | `S:design.md:238` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `モジュール一覧の集約` | `S:design.md:48` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `用語集を作成する` | `S:design.md:186` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `白紙から作成する` | `S:design.md:244` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+| `記載範囲` | `S:design.md:94` | design.mdの章・セクション見出しであり解説書の用語ではない。本行の掲載で網羅性の要件を満たす |
+
+#### 5.15.3 不採用 — `input/ntf-doc-terms.md` の節見出し（39件）
+
+複数語をまとめる節見出し、識別子を含む見出し、一般語彙、および §9 で既に判定済みの節を不採用とする。中核語が既に §5 に採用済みの見出しは、その対応を明記する。
+
+| 候補 | `input/ntf-doc-terms.md` 所在 | 理由 |
+|---|---|---|
+| `DB 系（SETUP_TABLE / EXPECTED_TABLE / EXPECTED_COMPLETE_TABLE / LIST_MAP）` | `S:input/ntf-doc-terms.md:131` | 複数語をまとめる節見出しであり、単一の用語ではないため |
+| `FwHeaderDefinition / fwHeaderDefinition` | `S:input/ntf-doc-terms.md:359` | 識別子（クラス名・メソッド名・データ型名）を含む節見出しであり、掲載基準（§3）の対象外 |
+| `HTML ダンプ出力` | `S:input/ntf-doc-terms.md:457` | 見出しに含む中核語`HTMLダンプ`は§5.12で採用済み。見出し自体は節題のため採用しない |
+| `HTTP 同期応答メッセージ送信の用語読み替え` | `S:input/ntf-doc-terms.md:398` | 複数語をまとめる節見出しであり、単一の用語ではないため |
+| `requestParams の仕様` | `S:input/ntf-doc-terms.md:271` | 識別子（クラス名・メソッド名・データ型名）を含む節見出しであり、掲載基準（§3）の対象外 |
+| `testShots / requestParams（テストケース一覧）` | `S:input/ntf-doc-terms.md:234` | 見出しに含む中核語`テストケース一覧`は§5.8で採用済み。見出し自体は節題のため採用しない |
+| `testShots カラム一覧（ウェブアプリケーション）` | `S:input/ntf-doc-terms.md:245` | 識別子（クラス名・メソッド名・データ型名）を含む節見出しであり、掲載基準（§3）の対象外 |
+| `testShots カラム一覧（バッチ処理）` | `S:input/ntf-doc-terms.md:277` | 識別子（クラス名・メソッド名・データ型名）を含む節見出しであり、掲載基準（§3）の対象外 |
+| `testShots カラム一覧（メッセージング受信）` | `S:input/ntf-doc-terms.md:296` | 識別子（クラス名・メソッド名・データ型名）を含む節見出しであり、掲載基準（§3）の対象外 |
+| `その他のフレームワーク固有用語` | `S:input/ntf-doc-terms.md:526` | 複数語をまとめる節見出しであり、単一の用語ではないため |
+| `カラム省略の制約` | `S:input/ntf-doc-terms.md:154` | 複数語をまとめる節見出しであり、単一の用語ではないため |
+| `コメント` | `S:input/ntf-doc-terms.md:102` | 一般的な語で単独では用語として掲載基準（§3）に該当しない |
+| `コンポーネント設定の主要項目` | `S:input/ntf-doc-terms.md:463` | 複数語をまとめる節見出しであり、単一の用語ではないため |
+| `シート・行・列・セル` | `S:input/ntf-doc-terms.md:61` | 見出しに含む中核語`シート`は§5.9で採用済み。見出し自体は節題のため採用しない |
+| `セル値の解釈規則（特殊記法・マーカーカラム・コメント）` | `S:input/ntf-doc-terms.md:80` | 見出しに含む中核語`特殊記法`は§5.8で採用済み。見出し自体は節題のため採用しない |
+| `タイムスタンプ形式` | `S:input/ntf-doc-terms.md:159` | 複数語をまとめる節見出しであり、単一の用語ではないため |
+| `テスト種別と主要クラス` | `S:input/ntf-doc-terms.md:412` | 複数語をまとめる節見出しであり、単一の用語ではないため |
+| `テスト種別の正式名称` | `S:input/ntf-doc-terms.md:414` | 内容は§9「テスト種別の正式名称（L414）」で突き合わせ済み。見出し自体は節題であり用語ではない |
+| `デフォルト値` | `S:input/ntf-doc-terms.md:144` | 一般的な語で単独では用語として掲載基準（§3）に該当しない |
+| `データタイプ別の行構造` | `S:input/ntf-doc-terms.md:129` | 複数語をまとめる節見出しであり、単一の用語ではないため |
+| `データタイプ（Data Types）` | `S:input/ntf-doc-terms.md:36` | 見出しに含む中核語`データタイプ`は§5.8で採用済み。見出し自体は節題のため採用しない |
+| `ファイルデータのフィールド定義用語` | `S:input/ntf-doc-terms.md:202` | 見出しに含む中核語`ファイルデータ`は§5.8で採用済み。見出し自体は節題のため採用しない |
+| `メッセージデータタイプ（同期応答メッセージ送信）` | `S:input/ntf-doc-terms.md:364` | 見出しに含む中核語`同期応答メッセージ送信`は§5.4で採用済み。見出し自体は節題のため採用しない |
+| `メッセージデータ構造（受信: setUpMessages / expectedMessages）` | `S:input/ntf-doc-terms.md:341` | 識別子（クラス名・メソッド名・データ型名）を含む節見出しであり、掲載基準（§3）の対象外 |
+| `メッセージング` | `S:input/ntf-doc-terms.md:325` | 一般的な語で単独では用語として掲載基準（§3）に該当しない |
+| `リクエスト単体テスト（RESTful ウェブサービス）` | `S:input/ntf-doc-terms.md:473` | 見出しに含む中核語`RESTfulウェブサービス`は§5.2で採用済み。見出し自体は節題のため採用しない |
+| `リクエスト単体テスト（ウェブアプリケーション）の主要クラス` | `S:input/ntf-doc-terms.md:443` | 見出しに含む中核語`ウェブアプリケーション`は§5.2で採用済み。見出し自体は節題のため採用しない |
+| `リクエスト単体テスト（バッチ処理）` | `S:input/ntf-doc-terms.md:487` | 見出しに含む中核語`Nablarchバッチアプリケーション`は§5.2で採用済み。見出し自体は節題のため採用しない |
+| `リクエスト単体テスト（メッセージ受信処理）` | `S:input/ntf-doc-terms.md:500` | 見出しに含む中核語`MOMによるメッセージング`は§5.2で採用済み。見出し自体は節題のため採用しない |
+| `リクエスト単体テスト（同期応答メッセージ送信処理）` | `S:input/ntf-doc-terms.md:511` | 見出しに含む中核語`同期応答メッセージ送信`は§5.4で採用済み。見出し自体は節題のため採用しない |
+| `ログ検証（expectedLog）` | `S:input/ntf-doc-terms.md:312` | 識別子（クラス名・メソッド名・データ型名）を含む節見出しであり、掲載基準（§3）の対象外 |
+| `制約事項（同期応答メッセージ送信）` | `S:input/ntf-doc-terms.md:392` | 見出しに含む中核語`同期応答メッセージ送信`は§5.4で採用済み。見出し自体は節題のため採用しない |
+| `可変長ファイル（SETUP_VARIABLE / EXPECTED_VARIABLE）` | `S:input/ntf-doc-terms.md:185` | 見出しに含む中核語`可変長ファイル`は§5.8で採用済み。見出し自体は節題のため採用しない |
+| `固定長ファイル（SETUP_FIXED / EXPECTED_FIXED）` | `S:input/ntf-doc-terms.md:167` | 見出しに含む中核語`固定長ファイル`は§5.8で採用済み。見出し自体は節題のため採用しない |
+| `基本用語` | `S:input/ntf-doc-terms.md:327` | 一般的な語で単独では用語として掲載基準（§3）に該当しない |
+| `日付記述フォーマット` | `S:input/ntf-doc-terms.md:106` | 複数語をまとめる節見出しであり、単一の用語ではないため |
+| `用語ドメインの全体像` | `S:input/ntf-doc-terms.md:12` | 複数語をまとめる節見出しであり、単一の用語ではないため |
+| `設計原則（用語として登場する概念）` | `S:input/ntf-doc-terms.md:110` | 内容は§9「設計原則（L110）」で突き合わせ済み。見出し自体は節題であり用語ではない |
+| `障害系テスト用特殊値` | `S:input/ntf-doc-terms.md:383` | 複数語をまとめる節見出しであり、単一の用語ではないため |
+
+#### 5.15.4 不採用 — 現行解説書の見出し（複数ファイルに再出現するもの、39件）
+
+複数ファイルの `heading_path` に現れる（`mapping/sections-current.csv` 上の出現ファイル数が2以上の）現行解説書見出しである。手順を示す見出し・現行独自の節枠・識別子・ページ固有の説明的な題のいずれかに分類し、不採用の理由を個別に記す。
+
+| 候補 | 現行解説書での代表file:line | 理由 |
+|---|---|---|
+| `AbstractHttpRequestTestTemplate` | `NTF:06_TestFWGuide/02_RequestUnitTest.rst:91` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `Excelファイルの書き方` | `NTF:05_UnitTestGuide/03_DealUnitTest/http_send_sync.rst:22` | 現行解説書独自の手順見出し。design.mdの新アウトライン（§4「〜する」形式）に置き換わるため正表記としない |
+| `Form/Entity単体テストの書き方` | `NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:14` | 該当ページ固有の内容を表す説明的な題であり、複数ページで共通の意味を持つ骨格用語ではないため |
+| `MainForRequestTesting` | `NTF:06_TestFWGuide/RequestUnitTest_batch.rst:111` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `StandaloneTestSupportTemplate` | `NTF:06_TestFWGuide/RequestUnitTest_batch.rst:59` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `TestDataConvertor` | `NTF:06_TestFWGuide/RequestUnitTest_real.rst:166` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `TestShot` | `NTF:06_TestFWGuide/RequestUnitTest_batch.rst:64` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `setter、getterに対するテストケース` | `NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:570` | 該当ページ固有の内容を表す説明的な題であり、複数ページで共通の意味を持つ骨格用語ではないため |
+| `その他の単項目精査のテストケース` | `NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:316` | 該当ページ固有の内容を表す説明的な題であり、複数ページで共通の意味を持つ骨格用語ではないため |
+| `コンポーネント設定ファイル設定項目一覧` | `NTF:06_TestFWGuide/02_RequestUnitTest.rst:310` | 現行解説書独自の節見出し。design.mdが定める新アウトラインの枠（§5.13）に置き換わるため正表記としない |
+| `スーパクラスについて` | `NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:487` | 該当ページ固有の内容を表す説明的な題であり、複数ページで共通の意味を持つ骨格用語ではないため |
+| `スーパクラスのメソッド呼び出し` | `NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:507` | 該当ページ固有の内容を表す説明的な題であり、複数ページで共通の意味を持つ骨格用語ではないため |
+| `テストの実施方法` | `NTF:05_UnitTestGuide/02_RequestUnitTest/mail.rst:21` | 該当ページ固有の内容を表す説明的な題であり、複数ページで共通の意味を持つ骨格用語ではないため |
+| `テストクラスで共通のデータベース初期値` | `NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:63` | 現行解説書独自の節見出し。design.mdが定める新アウトラインの枠（§5.13）に置き換わるため正表記としない |
+| `テストクラスの作成` | `NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:35` | 現行解説書独自の手順見出し。design.mdの新アウトライン（§4「〜する」形式）に置き換わるため正表記としない |
+| `テストクラスの書き方` | `NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:8` | 現行解説書独自の手順見出し。design.mdの新アウトライン（§4「〜する」形式）に置き換わるため正表記としない |
+| `テストデータの作成` | `NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:22` | 現行解説書独自の手順見出し。design.mdの新アウトライン（§4「〜する」形式）に置き換わるため正表記としない |
+| `テストデータの書き方` | `NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:54` | 現行解説書独自の手順見出し。design.mdの新アウトライン（§4「〜する」形式）に置き換わるため正表記としない |
+| `テストメソッドの書き方` | `NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:484` | 現行解説書独自の手順見出し。design.mdの新アウトライン（§4「〜する」形式）に置き換わるため正表記としない |
+| `テストメソッド作成` | `NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:494` | 現行解説書独自の手順見出し。design.mdの新アウトライン（§4「〜する」形式）に置き換わるため正表記としない |
+| `テストメソッド分割` | `NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:31` | 現行解説書独自の手順見出し。design.mdの新アウトライン（§4「〜する」形式）に置き換わるため正表記としない |
+| `テスト対象の成果物` | `NTF:05_UnitTestGuide/02_RequestUnitTest/delayed_receive.rst:13` | 該当ページ固有の内容を表す説明的な題であり、複数ページで共通の意味を持つ骨格用語ではないため |
+| `テスト結果検証` | `NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:537` | 現行解説書独自の手順見出し。design.mdの新アウトライン（§4「〜する」形式）に置き換わるため正表記としない |
+| `テスト起動方法` | `NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:530` | 現行解説書独自の手順見出し。design.mdの新アウトライン（§4「〜する」形式）に置き換わるため正表記としない |
+| `フレームワークで使用するクラスの設定` | `NTF:05_UnitTestGuide/02_RequestUnitTest/http_send_sync.rst:141` | 現行解説書独自の節見出し。design.mdが定める新アウトラインの枠（§5.13）に置き換わるため正表記としない |
+| `モックアップクラスを使用した取引単体テストの実施方法` | `NTF:05_UnitTestGuide/03_DealUnitTest/http_send_sync.rst:17` | 該当ページ固有の内容を表す説明的な題であり、複数ページで共通の意味を持つ骨格用語ではないため |
+| `リクエスト単体テストの実施方法` | `NTF:05_UnitTestGuide/02_RequestUnitTest/index.rst:4` | 該当ページ固有の内容を表す説明的な題であり、複数ページで共通の意味を持つ骨格用語ではないため |
+| `取引単体テストの実施方法` | `NTF:05_UnitTestGuide/03_DealUnitTest/index.rst:4` | 該当ページ固有の内容を表す説明的な題であり、複数ページで共通の意味を持つ骨格用語ではないため |
+| `各種期待値` | `NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:447` | 現行解説書独自の節見出し。design.mdが定める新アウトラインの枠（§5.13）に置き換わるため正表記としない |
+| `各種準備データ` | `NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:168` | 現行解説書独自の節見出し。design.mdが定める新アウトラインの枠（§5.13）に置き換わるため正表記としない |
+| `各種設定値` | `NTF:06_TestFWGuide/02_RequestUnitTest.rst:304` | 現行解説書独自の節見出し。design.mdが定める新アウトラインの枠（§5.13）に置き換わるため正表記としない |
+| `実行` | `NTF:06_TestFWGuide/02_RequestUnitTest.rst:208` | 現行解説書独自の手順見出し。design.mdの新アウトライン（§4「〜する」形式）に置き換わるため正表記としない |
+| `提供方法` | `NTF:08_TestTools/01_HttpDumpTool/02_SetUpHttpDumpTool.rst:23` | 現行解説書独自の手順見出し。design.mdの新アウトライン（§4「〜する」形式）に置き換わるため正表記としない |
+| `文字種と文字列長の単項目精査テストケース` | `NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:66` | 該当ページ固有の内容を表す説明的な題であり、複数ページで共通の意味を持つ骨格用語ではないため |
+| `構造` | `NTF:06_TestFWGuide/02_RequestUnitTest.rst:79` | 現行解説書独自の節見出し。design.mdが定める新アウトラインの枠（§5.13）に置き換わるため正表記としない |
+| `注意事項` | `NTF:06_TestFWGuide/01_Abstract.rst:582` | 現行解説書独自の節見出し。design.mdが定める新アウトラインの枠（§5.13）に置き換わるため正表記としない |
+| `特徴` | `NTF:06_TestFWGuide/01_Abstract.rst:8` | 現行解説書独自の節見出し。design.mdが定める新アウトラインの枠（§5.13）に置き換わるため正表記としない |
+| `結果確認` | `NTF:06_TestFWGuide/02_RequestUnitTest.rst:248` | 現行解説書独自の手順見出し。design.mdの新アウトライン（§4「〜する」形式）に置き換わるため正表記としない |
+| `自動テストフレームワーク設定値` | `NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:702` | 現行解説書独自の節見出し。design.mdが定める新アウトラインの枠（§5.13）に置き換わるため正表記としない |
+
+#### 5.15.5 不採用 — 現行解説書の見出し（1ファイルにのみ現れるもの、197件）
+
+`mapping/sections-current.csv` 上で1ファイルにしか現れない見出しである（識別子14件、それ以外183件）。個々の file:line・出現数は `mapping/term-candidates.csv` を参照。識別子はJavaのクラス名であり掲載基準（§3）の対象外、それ以外はページまたはページ内1箇所の見出し全文であり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3）不採用とする。後者は表を圧縮するため1行に複数候補をまとめる。
+
+| 候補 | 理由 |
+|---|---|
+| `BasicHttpRequestTestTemplate` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `BatchRequestTestSupport` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `FileSupport` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `HttpRequestTestSupport` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `MQSupport` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `MessageSender` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `MessagingReceiveTestSupport` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `MessagingRequestTestSupport` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `RequestTestingMessagingProvider` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `RestTestSupport` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `SimpleRestTestSupport` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `TestCaseInfo` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `RequestResponseProcessor の実装クラスを作成する` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `コンポーネント設定ファイルに defaultProcessor という名前で実装クラスを設定する` | 識別子（クラス名）であり掲載基準（§3）の対象外 |
+| `1シートに複数ケースを含める場合`、`1テストケースを複数シートに分割する場合`、`Action/Component単体テストの書き方`、`Antビュー起動`、`BasicHttpRequestTest の使い方の補足` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `BasicHttpRequestTestTemplateを拡張する場合はアノテーションも作成する`、`Bean Validationに対応したForm/Entityのクラス単体テスト`、`Cookieなど前のレスポンスの情報を引き継ぐ方法` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `Cookie情報`、`DBに準備データのカラムを省略する場合`、`DB期待値のカラムを省略する場合`、`Eclipseとの連携`、`Eclipseとの連携設定`、`Excelによるテストデータ記述`、`Excelダウンロード` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `Excelファイルから、入力パラメータや戻り値に対する期待値などを取得したい`、`Excelファイルに記述できるカラムのデータ型に関する注意点`、`Excelファイル記述例`、`ExtendWithでテストクラスに適用する` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `Extension クラスと合成アノテーションの一覧`、`HTML4.01との相違点`、`HTMLダンプ出力`、`HTMLダンプ出力結果`、`HTMLチェック内容の変更`、`HTMLチェック実行要否の設定方法`、`HTMLファイルからの起動方法` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `HTTP同期応答メッセージ送信処理を伴う取引単体テストの実施方法`、`JUnit 4のTestRuleを再現する`、`JUnit 5で自動テストフレームワークを動かす`、`JUnit Vintage`、`JUnit4のアノテーションを使用する` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `JUnit4ベース`、`Nablarch Validationに対応したForm/Entityのクラス単体テスト`、`Nablarchに特化したテスト補助機能を提供`、`RegisterExtensionで使用する` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `ThreadContextにユーザID、リクエストIDなどを設定したい`、`ThreadContextへの値設定は不要`、`assertSqlResultSetEqualsメソッドに関する注意点`、`assertTableEqualsメソッドに関する注意点` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `setUpDbメソッドに関する注意点`、`その他の設定`、`アップロードファイルの記述方法`、`クエリパラメータ情報`、`クラスのプロパティを検証したい`、`クラス単体テストにおける登録・更新系テストの注意点`、`クラス単体テストの実施方法` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `コンストラクタに対するテストケース`、`コンポーネント設定ファイルに監視対象テーブルを記載`、`コンポーネント設定ファイルの記述例`、`システムリポジトリ登録例`、`システムリポジトリ登録内容`、`システム日時を任意の値に固定したい` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `シーケンスオブジェクトを使った採番のテストをしたい`、`シート内の構造`、`セルの書式`、`ダウンロードファイルのテスト`、`ツール起動`、`テストクラスでのトランザクション制御は不要`、`テストケース分割方針`、`テストケース実行のパターン分け` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `テストソースコード実装例`、`テストデータとテストクラスの作成`、`テストデータに空白、空文字、改行やnullを記述したい`、`テストデータに空行を記述したい`、`テストデータの外部化`、`テストデータは全てExcelシートに記述する` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `テストデータ記述例`、`テストデータ読み込みディレクトリを変更したい`、`テストメソッドの実行順序に依存しないテストを作成する`、`テストメソッド毎のデータベース初期値`、`テストメソッド記述方法`、`テスト実施`、`テスト実行前後に共通処理を行いたい。` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `テスト実行時指摘確認方法`、`テスト準備`、`テスト結果エビデンスの収集`、`テスト結果確認（目視）`、`ディレクティブのデフォルト値`、`デフォルト以外のトランザクションを使用したい`、`デフォルト値の変更方法`、`データベースの結果検証` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `データベーステストデータの省略記述方法`、`データベース関連機能`、`データ作成方法`、`データ入力`、`データ編集`、`バイナリファイルの場合`、`バックアップ用スキーマの作成、データ投入`、`バリデーションメソッドのテストケース`、`ビルドファイル登録` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `ファイルの結果検証`、`フレームワークで用意されたテストクラスのスーパークラスを継承する`、`プログラミング工程で使用するツール`、`プロパティファイルの書き換え`、`マスタデータを変更してテストを行いたい`、`マスタデータ投入ツール インストールガイド` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `メッセージ`、`メッセージング処理でテストデータに対し定型的な変換処理を追加したい`、`メール送信処理の構造とテスト範囲`、`モックアップを使用するための記述`、`モックアップクラスの設定`、`ユーザ情報`、`リクエストを送信する`、`リクエストパラメータ` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `リクエスト単体テストでの二重サブミット防止機能のテスト実施方法`、`リクエスト単体テストの実施方法(HTTP同期応答メッセージ送信処理)`、`リクエスト単体テストの実施方法(バッチ)`、`リクエスト単体テストの実施方法(ファイルアップロード)` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `リクエスト単体テストの実施方法(メール送信)`、`リクエスト単体テストの実施方法(同期応答メッセージ受信処理)`、`リクエスト単体テストの実施方法(同期応答メッセージ送信処理)`、`リクエスト単体テストの実施方法（HTTP同期応答メッセージ受信処理）` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `リクエスト単体テストの実施方法（応答不要メッセージ受信処理）`、`リクエスト単体テストの実施方法（応答不要メッセージ送信処理）`、`リクエスト単体テストクラス作成時の注意点`、`リクエスト単体テスト（HTTP同期応答メッセージ送信処理）` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `リクエスト単体テスト（RESTfulウェブサービス）`、`リクエスト単体テスト（ウェブアプリケーション）`、`リクエスト単体データ作成ツール インストールガイド`、`ログの結果検証`、`ログ出力設定`、`一つのシートに複数テストケースのデータを記載したい` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `事前処理・事後処理を実装する`、`事前準備補助機能`、`事前準備補助機能を使ってリクエストを生成する`、`二重サブミット防止機能のテスト実施方法`、`仕様`、`任意のディレクトリのExcelファイルを読み込みたい`、`使用禁止タグ・属性のカスタマイズ方法` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `依存関係の追加`、`入力となるHTML生成`、`具体例`、`出力ライブラリ(同期応答メッセージ送信処理)の構造とテスト範囲`、`動作イメージ`、`単体テスト実施方法`、`参照系のテスト`、`取引単体テストでの二重サブミット防止機能のテスト実施方法` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `取引単体テストのテストクラス例`、`取引単体テストの実施方法（バッチ）`、`取引単体テストの実施方法（同期応答メッセージ受信処理)`、`取引単体テストの実施方法（応答不要メッセージ受信処理）`、`取引単体テストの実施方法（応答不要メッセージ送信処理）` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `同じテストメソッドをテストデータを変えて実行したい`、`同期応答メッセージ送信処理を伴う取引単体テストの実施方法`、`命名規約`、`固定長ファイル、CSVファイルの場合`、`基本的なテスト方法`、`基本的な使い方`、`基本的な記述方法` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `外部キーが設定されたテーブルにデータをセットアップしたい`、`外部キーが設定されたテーブルを使用する場合について`、`外部プログラム選択`、`実行方法`、`実装するインタフェース`、`常駐バッチのテスト用ハンドラ構成`、`必要となるスキーマ` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `日付の記述方法`、`更新系のテスト`、`本フレームワークのクラスを継承せずに使用したい`、`注意点`、`独自の拡張を加える`、`独自拡張クラスを作成する`、`独自拡張用のExtensionを作成する`、`環境構築`、`目的`、`目的別API使用方法` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `結果を確認する`、`自動テストフレームワークの使用方法`、`自動テストフレームワークの構成`、`複数のデータタイプ使用時はデータタイプごとにまとめてデータを記述する`、`複雑なテストケースの場合`、`要求電文のアサート`、`要求電文のログ出力` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `要求電文の期待値および、返却する応答電文（レスポンスメッセージ）の準備`、`設定`、`設定ファイルの例`、`設定ファイル例`、`設定画面起動`、`起動用バッチファイル（シェルスクリプト）選択` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `電文を1回送信する場合の要求電文の期待値および、返却する応答電文（レスポンスメッセージ）の例`、`電文を2回以上送信する場合の要求電文の期待値および、返却する応答電文（レスポンスメッセージ）の例`、`非常に簡単なテストケースの場合` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
+| `項目間精査のテストケース` | 現行解説書1ファイル内の見出しであり、複数ページを横断する骨格用語でも表記揺れの対象でもないため（§3） |
 ---
 
 ## 6. 記述様式は #4（`style.md`）の管轄
@@ -488,15 +707,15 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | 特殊記法（L84） | 採用 | §5.8 に掲載。現行解説書の見出し「セルへの特殊な記述方法」を置き換える |
 | マーカーカラム（L98） | 採用 | 現行解説書4件・input資料17件で一致 |
 | コメント（L102） | 採用 | 表記揺れなし |
-| 設計原則（L110）— テスト独立性・データ集約・データタイプまとめ記述 | 不採用 | 3語とも `ntf-doc-terms.md` の造語で、現行解説書・FW解説書に0件。現行解説書は「テストメソッドの実行順序に依存しないテストを作成する」（`NTF:06_TestFWGuide/01_Abstract.rst:585`）のように文で書いている。`design.md` のセクションタイトル「〜する」形式に合うため、文のまま引き継ぐ |
+| 設計原則（L110）— テスト独立性・データ集約・データタイプまとめ記述 | 不採用 | 3語とも造語で、現行・FW解説書に0件。現行は「テストメソッドの実行順序に依存しないテストを作成する」（`NTF:06_TestFWGuide/01_Abstract.rst:585`）のように文で書く。design.mdの「〜する」形式に合うため文のまま引き継ぐ |
 | グループ ID（L118） | 表記変更 | 空白を除いた `グループID` を正表記とする。現行解説書73件が空白なし |
 | データタイプ別の行構造（L129） | 採用 | レコード種別行・フィールド名称行・データ型行・フィールド長行を §5.10 に掲載。現行解説書に該当語がないため、input資料の表記をそのまま採る |
 | ディレクティブ（L213） | 採用 | FW解説書24件と一致 |
 | testShots / requestParams（L234） | 採用 | `testShots` `requestParams` はデータブロックのIDであり識別子。日本語の総称は `テストケース一覧` を使う |
 | メッセージング 基本用語（L327） | 一部不採用 | `電文`・`要求電文`・`応答電文`・`フレームワーク制御ヘッダ`・`メッセージボディ` はFW解説書と一致するため採用。「電文種別」はFW解説書・現行解説書に0件のため不採用とし、`要求電文`・`応答電文` で書き分ける |
-| HTTP 同期応答メッセージ送信の用語読み替え（L398） | 一部不採用 | クラス名の対応表は識別子としてそのまま採用する。節題の「HTTP 同期応答メッセージ送信」はFW解説書の `HTTPメッセージ送信` に置き換える（§5.4） |
+| HTTP 同期応答メッセージ送信の用語読み替え（L398） | 表記変更 | クラス名の対応表は識別子としてそのまま採用する（掲載基準の対象外）。節題「HTTP 同期応答メッセージ送信」はFW解説書の `HTTPメッセージ送信` に置き換える（§5.4）。不採用の要素はないため「表記変更」とする |
 | テスト種別の正式名称（L414） | 表記変更 | 「リクエスト単体テスト（バッチ処理）」「（メッセージ受信処理）」「（RESTful ウェブサービス）」は処理方式名が `design.md` の正式名称と異なる。§5.2・§5.4 の正表記に置き換える |
-| DB アクセステスト（L427） | 表記変更 | 完全一致の `DBアクセステスト` は全コーパスに0件で、`DB アクセステスト` は `ntf-doc-terms.md` の造語。現行解説書のページ題「データベースを使用するクラスのテスト」（`NTF:06_TestFWGuide/02_DbAccessTest.rst:2`）に置き換える。テストの種類の分類軸ではなくクラス単体テストの一形態のため、§5.5 の下位に置く |
+| DB アクセステスト（L427） | 表記変更 | 完全一致の `DBアクセステスト` は全コーパスに0件で、`DB アクセステスト` は造語。現行解説書のページ題「データベースを使用するクラスのテスト」（`NTF:06_TestFWGuide/02_DbAccessTest.rst:2`）に置換。分類軸ではなく一形態のため§5.5の下位に置く |
 | 主要クラス各節（L443 以降） | 採用 | クラス名は識別子。日本語の役割説明は `主なクラスとリソース` の表に集約する |
 | その他のフレームワーク固有用語（L526） | 一部不採用 | `内蔵サーバ` は採用（現行解説書18件）。併記の `内蔵サーブレットコンテナ`（L450）は使わない。`nablarch.test.resource-root` などの設定キーは識別子であり掲載対象外 |
 
@@ -507,7 +726,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | # | 事項 | 内容 |
 |---|---|---|
 | 1 | `シート` を残す範囲 | YAML形式にはシートがない。Excel形式の説明でのみ `シート` を使う方針としたが、どのセクションをExcel形式限定の記述にするかはマッピング（タスク #5）で確定する |
-| 2 | `テーブルデータ`・`ファイルデータ` の位置づけ | テストデータを「テーブル／ファイル／メッセージ」で分類する軸と、「準備データ／期待値／テストケース一覧」で分類する軸が交差する。第3部の「テストデータの書き方」（`S:design.md:151`）を1ページに集約すると `design.md` が決めているため、どちらを章立ての軸にするかはマッピング後に決める |
+| 2 | `テーブルデータ`・`ファイルデータ` の位置づけ | 「テーブル／ファイル／メッセージ」で分類する軸と「準備データ／期待値／テストケース一覧」で分類する軸が交差する。第3部「テストデータの書き方」（`S:design.md:151`）を1ページに集約すると決めているため、章立ての軸はマッピング後に決める |
 | 3 | `レコード種別行` の根拠の弱さ | input資料1ファイル・3件しかなく、うち代表出典（`S:input/ntf-doc-terms.md:175`）は図中のラベルで定義箇所ではない。`複数レコードレイアウト`（§5.8）のファイルデータを扱うページの執筆時に、実データの記述で置き換えられるか再確認する |
 
 ## 11. 申し送り事項
