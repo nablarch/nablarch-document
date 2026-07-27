@@ -60,7 +60,6 @@ Rn version: 0.8.0
   - RST と Markdown の両方を扱う
   - 抽出単位は **L3相当のセクション**。RSTは見出しレベル3（ページタイトルをL1とする）、MarkdownはH3
   - L3配下にL4以下がある場合、それらはL3セクションに含める（別項目にしない）
-  - 出力列: `section_id, src_file, src_line, heading_path, lines, code_blocks, tables, figures`
   - **人の判断・要約を入れない。** 原文から機械的に取れる情報のみ
 - [x] `mapping/tools/build_mapping.sh` を作成する
   - 現行解説書は `git show <base>:<path>` で取得する（base は `git merge-base origin/develop HEAD`）
@@ -68,7 +67,7 @@ Rn version: 0.8.0
   - 出力: `mapping/sections-current.csv`、`mapping/sections-input.csv`
 - [x] self-check（`checks/task-02.md`）
 - [x] commit & push
-- [x] **user review** — 承認を受けるまで #3 に進まない
+- [x] **user review** — 承認済み
 
 **Completion criteria**:
 
@@ -98,7 +97,7 @@ Rn version: 0.8.0
 - [x] テストを新仕様に更新し、取りこぼしゼロの性質テストを追加する
 - [x] self-check（`checks/task-02a.md`）
 - [x] commit & push
-- [ ] **user review** — 承認を受けるまで #3 に進まない
+- [x] **user review** — 承認済み
 
 **Completion criteria**:
 
@@ -112,7 +111,7 @@ Rn version: 0.8.0
 
 **Purpose**: 全ページで統一する用語を確定する。
 
-**Prerequisites**: #2
+**Prerequisites**: #2a
 
 **Steps**:
 
@@ -147,26 +146,79 @@ Rn version: 0.8.0
 - [ ] **現行解説書のRSTを基準にしない**
 - [ ] self-check（`checks/task-04.md`）
 - [ ] commit & push
-- [ ] **user review** — 承認を受けるまで #5 に進まない
+- [ ] **user review** — 承認を受けるまで #4a に進まない
 
 **Completion criteria**:
 
 - 全規約に FW解説書ライブラリからの根拠 file:line が2件以上ある
 - design.md の第2部・第3部のページアウトラインと矛盾がない
 
+### #4a: 大きいセクションの分割判断
+
+**Purpose**: マッピング作成の前に、複数の割当先に分かれるセクションを特定し、分割位置を確定する。マッピング作成を機械的な作業にするため。
+
+**Prerequisites**: #4
+
+抽出の実態（#2a 完了時点の実測値）:
+
+| 項目 | current | input |
+|---|---|---|
+| セクション数 | 377 | 202 |
+| 行数（body） | 9,783 | 3,203 |
+| 中央値 | 12行 | 12行 |
+| 100行超 | 23件（全体の36%の行） | 0件 |
+| 200行超 | 6件（15%） | 0件 |
+| 最大 | 314行 | 63行 |
+
+input側は最大63行のため分割は不要。current側の大きいセクションのみが対象。抽出粒度は変更しない（L4まで細分化すると全セクション数が倍増し、23セクションのために全体の判断コストが上がるため）。
+
+**対象**: `sections-current.csv` のうち `lines >= 100` のセクション（23件）
+
+**Steps**:
+
+- [ ] `mapping/split-plan.md` を作成する
+- [ ] 対象23セクションについて、内容を実際に読み、design.md のどの割当先に属するかを検討する
+- [ ] 単一の割当先に収まるか、複数に分かれるかを判定する
+- [ ] 複数に分かれる場合、分割位置を行番号で特定する
+- [ ] 表形式で記録する（列: `section_id, heading_path, lines, split, parts, rationale`）
+  - `split` は `no` / `yes`
+  - `parts` は `開始行-終了行 → 割当先` を1行1件で列挙
+- [ ] **分割しない判断も `rationale` を記す。** 内容に基づく理由を書く。行数が少ないから、では不可
+- [ ] 分割する場合、分割後の行範囲が元のセクション範囲を過不足なく覆うこと
+- [ ] self-check（`checks/task-04a.md`）
+- [ ] commit & push
+- [ ] **user review** — 承認を受けるまで #5 に進まない
+
+**Completion criteria**:
+
+- 対象23セクションすべてに `split` の判定と `rationale` がある
+- `split=yes` の全件について、`parts` の行範囲の和集合が元のセクションの `body_start_line`〜`body_end_line` と一致する（隙間・重複ゼロ）
+- `parts` の割当先が design.md の章構成に存在するページ・セクションである
+
+**注記**: `lines < 100` のセクションでも分割が必要と判明した場合は #5 の中で対応してよい。その場合は `split-plan.md` に追記し `rationale` を残す。
+
 ### #5: マッピングリストの作成
 
 **Purpose**: 現行解説書とinput資料の全セクションを design.md の章構成に割り当てる。本作業の全工程で唯一の基準となる。
 
-**Prerequisites**: #4
+**Prerequisites**: #4a
 
 **Steps**:
 
-- [ ] `mapping/mapping.csv` を作成する（列: `mapping_id, src_section_id, src_type, src_file, src_line, heading_path, lines, audience, dest_part, dest_page, dest_section, disposition, note`）
-  - `src_section_id` は `sections-current.csv` / `sections-input.csv` の `section_id` を指す（取りこぼし検証を機械的に行うため）
+- [ ] `mapping/mapping.csv` を作成する（列: `mapping_id, src_section_id, src_type, src_file, src_body_start, src_body_end, heading_path, lines, audience, dest_part, dest_page, dest_section, disposition, note`）
+  - `src_section_id` は `sections-current.csv` / `sections-input.csv` の `section_id` を指す
+  - `lines` は `src_body_end - src_body_start + 1`
+  - `disposition` が `SPLIT` 以外 — セクションの `body_start_line` / `body_end_line` をそのまま入れる
+  - `disposition` が `SPLIT` — `split-plan.md` の `parts` に従い分割後の行範囲を入れる。行を複製し、各行に異なる範囲と割当先を記す
+- [ ] 出典ファイル単位でサブエージェントに分担させる（579セクションを1コンテキストで処理すると後半で判断がぶれるため）
+  - 1エージェントあたり10〜20セクション程度
+  - 入力: 担当ファイルのセクション一覧 / 担当ファイルの実内容 / `design.md` / `glossary.md` / `split-plan.md`（100行超セクションを含む場合）
+  - 出力を統合し、`mapping_id` の重複と割当先の表記揺れを機械的に検査する
 - [ ] `disposition` は5値（`MOVE` / `MERGE` / `SPLIT` / `REFERENCE` / `DROP`）
-- [ ] 全行に `audience`（`user` / `developer`）を付与。`developer` は `disposition=DROP`
-- [ ] `sections-current.csv` / `sections-input.csv` の全 `section_id` が `mapping.csv` に最低1回現れること
+- [ ] 全行に `audience`（`user` / `developer`）を付与。`developer` は `disposition=DROP` とし `note` に理由を記す
+  - `input/ntf-testdata-loading.md` は原則 `developer` だがセクション単位で判定する
+- [ ] 現行の `03_Tips.rst` の各項目は該当ページの「使用方法」に `MERGE` する。独立ページにしない
+- [ ] `mapping/tools/verify_mapping.py` を作成し、取りこぼし検証を行範囲の集合演算で行う
 - [ ] `mapping/volume.md` を作成する（`dest_page` ごとに `lines` を集計）
 - [ ] self-check（`checks/task-05.md`）
 - [ ] commit & push
@@ -174,11 +226,14 @@ Rn version: 0.8.0
 
 **Completion criteria**:
 
-- `sections-current.csv` / `sections-input.csv` の全 `section_id` が取りこぼしゼロで `mapping.csv` に存在する
+- `sections-current.csv` / `sections-input.csv` の全 `section_id` が `mapping.csv` の `src_section_id` に最低1回現れる
+- 各 `src_section_id` について、紐づく全マッピング行の `[src_body_start, src_body_end]` の和集合が、元のセクションの `[body_start_line, body_end_line]` と一致する（隙間・重複ゼロ）
+- `mapping.csv` の `lines` 合計が 12,986（9,783 + 3,203）と一致する
 - `disposition` / `audience` が空欄の行が0件
 - `DROP` の全行に `note` が記入されている
 - `dest_page` / `dest_section` に design.md に存在しないものが含まれていない
 - `volume.md` にページ別文量の集計表がある
+- 検証は `mapping/tools/verify_mapping.py` で行い、コミットされている（手作業で確認しない）
 
 ### #6: 未確定事項の確定と design.md 更新
 
@@ -235,7 +290,7 @@ Rn version: 0.8.0
 **Steps（各ページ共通）**:
 
 - [ ] `mapping.csv` から当該 `dest_page` の行を抽出する
-- [ ] 抽出した行の出典（`src_file:src_line`）を実際に読み、ページを作成する
+- [ ] 抽出した行の出典（`src_file` の `src_body_start`〜`src_body_end`）を実際に読み、ページを作成する
 - [ ] マッピングにない内容を追加しない。マッピングにある内容を落とさない
 - [ ] 出典の文面をそのまま流用しない。`style.md` に従って書き直す
 - [ ] 用語は `glossary.md` の正表記を使う
