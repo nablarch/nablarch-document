@@ -247,3 +247,9 @@ batch-01〜15全体のDROPは、current-0057のMERGE化により55件→54件に
 内訳: 開発者向け内部情報 17件（すべてbatch-02のtestdata-converter-design.md 16件 + batch-06のinput-0001） / 空・TOC・アンカーのみ 20件 / 重複（重複先を上表に明記） 16件。
 
 **この対応内容をuser reviewに上げる。承認後にbatch-16〜30へ進む。**
+
+指摘①②の対応（current-0057のMERGE化、重複DROP14件全件への重複先明記）はuser reviewで承認された（2026-07-28）。「54→53件」の根拠記載の誤り（全バッチ合計の54件とbatch-02〜15単体の54件が同じ数値で混同されていた）も指摘を受けて修正済み（正: 全体55→54、batch-02〜15単体54→53、`python3`での実測値: 全体54・batch-01のみ1・差分53）。以降、batch-16〜30は個別のuser reviewを経ず、全30バッチ統合後にまとめてuser reviewへ提示する（ユーザー指示、2026-07-28）。
+
+## batch-16〜30 バッチ実行ログ
+
+- **batch-16**（`02_RequestUnitTest/batch.rst` 15件[split: current-0037 3分割] + `01_ClassUnitTest/02_componentUnitTest.rst` 5件、commit `ff7d10a`）: MOVE 16 / SPLIT 3（1セクション3分割） / DROP 2 / REFERENCE 1。全行user。current-0037はsplit-plan.mdの3分割（170-262/263-316/317-446）どおりに採用、独立検証で範囲の隙間・重複ゼロを確認。current-0037-a/cとbatch-09のinput-0013/0014（固定長・可変長ファイル記法の抽象要約）が部分重複するが、current-0037側がディレクティブ表・制約・具体例付きでより詳細なため判断ルール5によりcurrent側を維持（重複先をnoteに明記）。current-0028（314行、テストデータとテストクラスの作成）はsplit-plan.mdの既承認判定（no split）どおり採用、DbAccessTestSupport等の用語がbatch-09と重なるが実践チュートリアルとして区別し採用。**要確認**: current-0043（データベースの結果検証）の本文に「ファイル出力結果を確認できる」という直後の節との文言混同とみられる記述があるが、原文どおり転記した（意味の修正はしていない）。verify_mapping.py: batch-01〜16全327行でエラー0件。
