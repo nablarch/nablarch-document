@@ -135,7 +135,7 @@ Rn version: 0.8.0
 
 - [x] `mapping/tools/extract_terms.py` を作成する。以下から用語候補を機械的に列挙する
   - 現行解説書の全見出し（`sections-current.csv` の `heading_path` を分解）
-  - `input/ntf-doc-terms.md` の全見出し（35件）
+  - `input/ntf-doc-terms.md` の全見出し（H1を除く全見出し。H2/H3/H4）
   - `design.md` に登場する章・セクション名および処理方式名
 - [x] `mapping/term-candidates.csv` を出力する（列: `term, source, occurrences, file_line`）
 - [x] `glossary.md` の各項目を `term-candidates.csv` のどの候補に対応するか記録する
