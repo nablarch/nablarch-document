@@ -375,9 +375,23 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - [x] `mapping.csv` の `disposition=DROP` 全96行を抽出し、`checks/task-05.md` の既存レビュー記録とレビュー済み/未レビューを機械的に分類する
 - [x] 未レビュー分を実ファイル通読で判定する（理由の妥当性／重複DROPの実ファイル確認／開発者向けDROPの該当性／空・TOC・アンカーの実態）
 - [x] 全96行の判定結果を `checks/task-05c.md` に1つの表としてまとめる
-- [x] 判定が覆った行があれば `_batch/*.csv` を修正し `mapping.csv` を再生成する（0件のため修正なし）
+- [x] 判定が覆った行があれば `_batch/*.csv` を修正し `mapping.csv` を再生成する（初回レビュー時点は0件のため修正なし。差し戻し対応で2件発生、下記参照）
 - [x] commit & push
 - [ ] **user review** — 承認を受けるまで #5d に進まない（**サブエージェントによるレビューは実施しない**）
+
+**`#5c` 差し戻し対応（`ntf-doc-05c-rework.md`、2026-07-28、コミット `109b736`）**:
+
+初回レビューの分類基準（`checks/task-05.md` に文字列出現するか）は記録が「判定確定」か
+「判定保留」かを区別せず、保留のまま閉じられていた `input-0178`・`input-0198` の2行が
+根拠なく「レビュー済み・DROP維持」に分類されていた。
+
+- [x] 分類基準に「記録が当該行自身の判定を確定しているか」を追加し96行を再分類（真の保留は2件と確認）
+- [x] `input-0178`: 実装確認（`nablarch/nablarch-testing` commit `e21bf67`、`TestDataParser.java:21` の `@Published(tag="architect")`）と現行解説書の先例（`current-0233`/`current-0234`）により `DROP→MERGE`・`audience developer→user`
+- [x] `input-0198`: `input-0194` を実測し元noteの誤りを確認、`YamlTestDataValidator` の1文のみ3分割で抽出し `DROP→MERGE`、残り2区間はDROP維持。`split-plan.md` に追記
+- [x] `_batch/batch-02.csv`・`_batch/batch-18.csv` を修正し `mapping.csv` を全30バッチ連結で再生成（591→593行、`lines`合計12,986は不変）
+- [x] `verify_mapping.py` 再実行（`stale allowlist` 含めエラー0件・`EXIT: 0`）、`volume.md` を実測値に更新
+- [x] `checks/task-05c.md` に実測根拠を追記、commit & push（`109b736`）
+- [ ] **user review** — 独立検証待ち（承認まで #5d に進まない）
 
 **Completion criteria**:
 
@@ -389,6 +403,14 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - `DROP` 判定を覆した行がある場合、`stale allowlist` の ERROR が0件になるまで
   許可リスト（`EXPECTED_ZERO_*` / `PENDING_ZERO`）・`mapping/volume.md`・
   `checks/task-05b.md` を更新済みであること
+
+**`#5c`（差し戻し対応後）の追加 Completion criteria**:
+
+- 分類基準が「記録に当該行自身の保留表現が含まれる場合はレビュー済みとしない」を含む
+- `input-0178`・`input-0198` を含む全96行に、保留ではない確定した判定がある
+- `input-0198` の `note` から、実測で否定された理由（「input-0194で既にカバー」）が除かれている
+- `DROP` 解除があった場合、`volume.md`・許可リスト・`checks/task-05b.md` が更新され
+  `stale allowlist` の ERROR が0件
 
 ### #5d: 記録の整合とセクション境界の是正
 
@@ -537,6 +559,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-07-28
-- **Last completed**: `#5c` 本体完了・push済み（`169c1f8`, `32f3b55`）。`DROP`全96行を「レビュー済み（既存記録、63行）」「今回レビュー（実ファイル通読、33行）」に分類し`checks/task-05c.md`に1つの表としてまとめた。33行は3グループ（空/TOC/アンカー実測18件、`ntf-testdata-loading.md`開発者向け実測9件、`rest.rst`重複実測6件）に分けて独立サブエージェントで実ファイル検証、判定を覆した行は0件。`_batch/*.csv`の修正なし、`mapping.csv`再生成なし。`verify_mapping.py`再実行でlines合計12,986（DROP除く11,973）/591行/エラー0件（`stale allowlist`含む）を確認、`design.md`は無変更。
-- **Next**: 別セッションのClaudeによる`#5c`独立検証（push済みブランチをcloneし`_batch/*.csv`・`mapping.csv`・実ファイルを突合、CCの検証スクリプトやself-checkの結論は使わない）。承認（`/rn:ty`）後、`#5d`（記録の整合とセクション境界の是正、STEP1〜8）に着手。差し戻し（`/rn:gm`）の場合は指摘に対応し`#5c`を再度commit&pushして再度user reviewへ。
-- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md`、`#5c`追補: `.rn/20260724-ntf-yaml-support/ntf-doc-05c-addendum.md`、`#5d`追補: `.rn/20260724-ntf-yaml-support/ntf-doc-05d-addendum.md`。push権限は解決済み（`kiyobot`=`GH_TOKEN`がwrite権限を保有）。#5b由来の未解決論点（詳細`checks/task-05b.md`）は#6待ちのまま変わらず: (1)第3部テストデータの書き方/記載例の機能概要0件、(2)第2部設定系9ページの機能概要/拡張例16件、(3)第1部稼動環境0件、(4)第3部取引単体テスト（Nablarchバッチアプリケーション）機能概要。open blocker無し。
+- **Last completed**: `#5c` 差し戻し対応完了・push済み（`109b736`）。`ntf-doc-05c-rework.md`の指摘（分類基準が記録の「判定確定」/「判定保留」を区別せず、保留のまま閉じられた`input-0178`・`input-0198`が根拠なくDROP維持にされていた）に対応。分類基準に「記録が当該行自身の判定を確定しているか」を追加して96行を再分類、真の保留は2件と確認。`input-0178`は実装確認（`nablarch/nablarch-testing` commit `e21bf67`、`TestDataParser.java:21`の`@Published(tag="architect")`）と現行解説書の先例（`current-0233`/`current-0234`）によりDROP→MERGE・audience developer→user。`input-0198`は`input-0194`実測で元noteの誤りを確認し`YamlTestDataValidator`の1文のみ3分割でDROP→MERGE、残り2区間はDROP維持（`split-plan.md`にも追記）。`_batch/batch-02.csv`・`_batch/batch-18.csv`を修正し`mapping.csv`を全30バッチ連結で再生成（591→593行）。`verify_mapping.py`再実行でlines合計12,986（DROP除く11,973→11,983）・593行・エラー0件（`stale allowlist`含む）を確認、`volume.md`を実測値に更新、`design.md`は無変更。
+- **Next**: 別セッションのClaudeによる`#5c`（差し戻し対応後）の独立検証（push済みブランチをcloneし`_batch/*.csv`・`mapping.csv`・実ファイル・`input-0178`/`input-0198`の実装確認根拠を突合、CCの検証スクリプトやself-checkの結論は使わない）。承認（`/rn:ty`）後、`#5d`（記録の整合とセクション境界の是正、STEP1〜8）に着手。再度差し戻し（`/rn:gm`）の場合は指摘に対応し`#5c`を再度commit&pushして再度user reviewへ。
+- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md`、`#5c`追補: `.rn/20260724-ntf-yaml-support/ntf-doc-05c-addendum.md`、`#5c`差し戻し指示: `.rn/20260724-ntf-yaml-support/ntf-doc-05c-rework.md`、`#5d`追補: `.rn/20260724-ntf-yaml-support/ntf-doc-05d-addendum.md`。push権限は解決済み（`kiyobot`=`GH_TOKEN`がwrite権限を保有）。#5b由来の未解決論点（詳細`checks/task-05b.md`）は#6待ちのまま変わらず: (1)第3部テストデータの書き方/記載例の機能概要0件、(2)第2部設定系9ページの機能概要/拡張例16件、(3)第1部稼動環境0件、(4)第3部取引単体テスト（Nablarchバッチアプリケーション）機能概要。open blocker無し。
