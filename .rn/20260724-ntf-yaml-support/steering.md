@@ -557,8 +557,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-07-28
-- **Last completed**: `#5c` 差し戻し対応完了・push済み（`109b736`）。`ntf-doc-05c-rework.md`の指摘（分類基準が記録の「判定確定」/「判定保留」を区別せず、保留のまま閉じられた`input-0178`・`input-0198`が根拠なくDROP維持にされていた）に対応。分類基準に「記録が当該行自身の判定を確定しているか」を追加して96行を再分類、真の保留は2件と確認。`input-0178`は実装確認（`nablarch/nablarch-testing` commit `e21bf67`、`TestDataParser.java:21`の`@Published(tag="architect")`）と現行解説書の先例（`current-0233`/`current-0234`）によりDROP→MERGE・audience developer→user。`input-0198`は`input-0194`実測で元noteの誤りを確認し`YamlTestDataValidator`の1文のみ3分割でDROP→MERGE、残り2区間はDROP維持（`split-plan.md`にも追記）。`_batch/batch-02.csv`・`_batch/batch-18.csv`を修正し`mapping.csv`を全30バッチ連結で再生成（591→593行）。`verify_mapping.py`再実行でlines合計12,986（DROP除く11,973→11,983）・593行・エラー0件（`stale allowlist`含む）を確認、`volume.md`を実測値に更新、`design.md`は無変更。
-- **Next**: 別セッションのClaudeによる`#5c`（差し戻し対応後）の独立検証（push済みブランチをcloneし`_batch/*.csv`・`mapping.csv`・実ファイル・`input-0178`/`input-0198`の実装確認根拠を突合、CCの検証スクリプトやself-checkの結論は使わない）。承認（`/rn:ty`）後、`#5d`（記録の整合とセクション境界の是正、STEP1〜8）に着手。再度差し戻し（`/rn:gm`）の場合は指摘に対応し`#5c`を再度commit&pushして再度user reviewへ。
-- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md`、`#5c`追補: `.rn/20260724-ntf-yaml-support/ntf-doc-05c-addendum.md`、`#5c`差し戻し指示: `.rn/20260724-ntf-yaml-support/ntf-doc-05c-rework.md`、`#5d`追補: `.rn/20260724-ntf-yaml-support/ntf-doc-05d-addendum.md`。push権限は解決済み（`kiyobot`=`GH_TOKEN`がwrite権限を保有）。#5b由来の未解決論点（詳細`checks/task-05b.md`）は#6待ちのまま変わらず: (1)第3部テストデータの書き方/記載例の機能概要0件、(2)第2部設定系9ページの機能概要/拡張例16件、(3)第1部稼動環境0件、(4)第3部取引単体テスト（Nablarchバッチアプリケーション）機能概要。open blocker無し。
+- **Status**: not suspended
+- **Date**:
+- **Last completed**:
+- **Next**:
+- **Notes**:
