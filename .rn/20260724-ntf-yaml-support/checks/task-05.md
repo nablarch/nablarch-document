@@ -411,3 +411,35 @@ python3 mapping/tools/extract_vocabulary.py  # assert全通過
 ```
 
 lines合計は12,986のまま変化なし（`dest_part`のみの変更のため取りこぼし・重複は生じない）。ユーザーより両指示とも承認済み。
+
+## 第4部対応への再差し戻し（2026-07-28、独立検証で発見された指摘）
+
+ユーザーが上記の第4部対応を独立に再検証し、以下1件を指摘した。
+
+**指摘**: `current-0374`（HTMLチェックツール、64行、`HtmlChecker`インタフェースの独自実装差し替え例）の`dest_section`が`拡張例`だが、`vocabulary.md`の第4部は「機能概要／導入／使用方法」の3つのみで`拡張例`を含まない。`verify_mapping.py`のvocabulary突合はこの不一致を検出できていなかった。
+
+**原因**: `check_vocabulary`が`dest_section`を`dest_part`を無視した単独集合で照合していたため。第2部の`拡張例`（18件中17件がここに存在）がフラットな集合に含まれ、第4部の行にも誤って一致していた。
+
+ユーザー指示により以下の順序で対応した（検査を先に直し、検出できることを確認してからデータを直す）。
+
+1. **`verify_mapping.py`を修正**（`ed2207d`）: `_load_vocabulary()`を`vocabulary.md`の`## dest_page`/`## dest_section`見出し配下かで文脈判定するよう変更し、`(dest_part, dest_page)`・`(dest_part, dest_section)`のペア集合を返すようにした。`check_vocabulary`もペアで照合するよう変更。
+2. **修正後の検査でcurrent-0374が検出されることを確認**（Evidence）:
+   ```
+   $ python3 mapping/tools/verify_mapping.py
+   ...
+   1 error(s):
+    - current-0374: dest_section '拡張例' not in vocabulary.md for dest_part '第4部 ツール'
+   ```
+   他590行に新規誤検出なし（1件のみ）。
+3. **設計判断**: 第4部44行中、拡張相当の内容は`current-0374`のみで他3ツール（リクエスト単体データ作成ツール／テストデータ変換ツール／マスタデータ投入ツール）に類例なし。第4部の「使用方法」は`<操作手順>する`の緩いテンプレート（第2部のような固定3小見出しの制約なし）であり、「チェック内容を独自実装に差し替える」も操作手順の1つとして自然に収まる。1件のために第4部専用の新セクションをdesign.md/vocabulary.mdへ追加する必要性は薄いと判断し、`dest_section`を`使用方法`へ変更する案を提案、ユーザー承認を得た（design.md/vocabulary.mdの変更は不要）。
+4. **`current-0374`の`dest_section`を`使用方法`に変更**（`a904e35`）。`_batch/batch-29.csv`を修正し`mapping.csv`へ再統合。
+5. **再検査でエラー0件を確認**（Evidence）:
+   ```
+   $ python3 mapping/tools/verify_mapping.py
+   Loaded 591 rows from mapping.csv
+   lines total (all rows): 12986
+   lines total (excluding DROP): 11973
+   OK: no errors
+   ```
+
+lines合計・disposition・audienceに変化なし（`dest_section`1件のみの変更）。
