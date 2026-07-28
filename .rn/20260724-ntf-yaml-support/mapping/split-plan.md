@@ -44,9 +44,12 @@
 ## `#5c`差し戻し対応での追加分割（2026-07-28）
 
 上記23件は`lines >= 100`の`current`側セクションのみを対象とした初回（#4a）集計であり、
-以下は対象外（`input`側・26行）だが、`#5c`差し戻しレビューの指示により同じ分割手順を
-適用したため参考として記録する。`#5d` STEP1（未反映の分割候補の洗い出し）と重複してよい。
+以下の3件（`input`側、計75行）は対象外だが、3観点レビュー対応および`#5c`差し戻しレビューの指示により
+同じ分割手順を適用したため参考として記録する。`input-0016`/`input-0030`は`mapping.csv`に
+分割済みで反映されていたが本表への記載が漏れていたため、`#5d` STEP1で追記した（2026-07-28）。
 
 | section_id | heading_path | lines | split | parts | rationale |
 |---|---|---|---|---|---|
+| input-0016 | NTF 解説書（v6）用語リファレンス > データタイプ別の行構造 > ディレクティブ | 20 | yes | 214-226 → 第3部 テストの実装方法 > テストデータの書き方 > 使用方法（MERGE。ファイル・電文フォーマット定義の設定行 text-encoding/record-separator/quoting-delimiter/file-type/record-length の一覧表）<br>227-233 → DROP（デフォルト値設定のコンポーネントプロパティ3項目 defaultDirectives/fixedLengthDirectives/variableLengthDirectives） | ディレクティブキー表（記法説明、214-226）とデフォルト値設定のコンポーネントプロパティ（第2部相当、227-233）が同一セクション内に混在。227-233行はcurrent-0292（`RequestUnitTest_batch.rst`225-262行、同じ3キーをXML設定例付きで説明、第2部リクエスト単体テストの設定（Nablarchバッチアプリケーション）使用方法へMOVE済み）と重複するため判断ルール5によりDROP。214-226行は記法説明として第3部テストデータの書き方へMERGE。3観点レビュー対応で確定（`mapping.csv` input-0016-a/-b）。 |
+| input-0030 | NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > リクエスト単体テスト（ウェブアプリケーション）の主要クラス | 29 | yes | 444-462 → 第3部 テストの実装方法 > リクエスト単体テスト（ウェブアプリケーション） > 使用方法（MERGE。主要クラス表・シート構成・HTMLダンプ出力先）<br>463-472 → DROP（コンポーネント設定の主要項目表5項目 htmlDumpDir/webBaseDir/userIdSessionKey/dumpVariableItem/checkHtml） | 主要クラス表・シート構成・HTMLダンプ出力先（444-462）は出典`06_TestFWGuide/02_RequestUnitTest.rst`が未処理のため新規情報としてMERGE。コンポーネント設定の主要項目表（463-472）はcurrent-0211（`02_RequestUnitTest.rst`312-415行、第2部リクエスト単体テストの設定（ウェブアプリケーション）使用方法へMOVE済み）と完全重複（デフォルト値も一致）するため判断ルール5によりDROP。3観点レビュー対応で確定（`mapping.csv` input-0030-a/-b）。 |
 | input-0198 | NTF テストデータ変換ツール 設計書 > 3. 構造 > OUT（中間モデル → 形式） | 26 | yes | 273-294 → DROP（`TestDataFormatWriter`/`YamlFormatWriter`/`XlsFormatWriter`/`ExcelFormatConfig`/`YamlTestDataValidator`の実装関係を示すmermaidクラス図。内部アーキテクチャの説明）<br>295 → 第4部 ツール > テストデータ変換ツール > 機能概要（`YamlTestDataValidator`がYAML OUT後に自動でスキーマ検証を行い、不正なYAMLの場合は`ValidationError`リストを返すという1文）<br>296-298 → DROP（`YamlFormatWriter`/`XlsFormatWriter`の整形実装がinput-0194の設定を参照するという記述。整形方針自体はinput-0194（第4部ツール使用方法へMOVE済み）で利用者向けにカバー済みのため、実装クラス名の再掲にとどまり新規情報を持たない） | 元noteは「書き出し整形方針の要点はinput-0194で既にカバー」を理由に全26行をDROPしていたが、実測するとinput-0194（155-171）はExcel/YAML整形方針（全値クォート・列幅/罫線/空行の設定表）のみでスキーマ検証には触れておらず、295行の`YamlTestDataValidator`自動スキーマ検証は別トピックだった。295行のみクラス図の前後から挟まれる「サンドイッチ型」の分割（current-0156と同型）で切り出し、design.md §9ただし書き（利用者向け仕様は解説書へ移す）に従いテストデータ変換ツールの機能概要へMERGE。`mapping_id`はinput-0198-a/-b/-cとし、`disposition`はinput-0016/input-0030の先例に倣いSPLITではなくMERGE/DROPを直接使用（`src_section_id`はinput-0198のまま維持）。詳細は`checks/task-05c.md`参照。 |

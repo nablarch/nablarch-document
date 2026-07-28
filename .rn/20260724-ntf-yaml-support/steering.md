@@ -391,7 +391,7 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - [x] `_batch/batch-02.csv`・`_batch/batch-18.csv` を修正し `mapping.csv` を全30バッチ連結で再生成（591→593行、`lines`合計12,986は不変）
 - [x] `verify_mapping.py` 再実行（`stale allowlist` 含めエラー0件・`EXIT: 0`）、`volume.md` を実測値に更新
 - [x] `checks/task-05c.md` に実測根拠を追記、commit & push（`109b736`）
-- [ ] **user review** — 独立検証待ち（承認まで #5d に進まない）
+- [x] **user review** — 承認済み（独立検証APPROVE相当、`/rn:ty` で承認）
 
 **Completion criteria**:
 
@@ -422,10 +422,10 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 
 **Steps**:
 
-- [ ] `split-plan.md` に `input-0016`/`input-0030` を表形式で追記し、冒頭の対象定義に2件追加した旨を記す
-- [ ] `checks/task-05.md` に「暫定扱い一覧」節を新設し、`note` が「暫定」で始まる27行全件を表にする
-- [ ] `HTMLチェックツール` 8行（`current-0367`〜`current-0375`）について、第4部新設で受け皿問題が解消済みであり `#6` では文言更新のみで済む旨を暫定一覧に明記する
-- [ ] `design.md` §12 未確定事項#3（ファイル名・ディレクトリ構成）の確定時期のズレを `checks/task-05d.md` に申し送りとして記録する（`design.md` は変更しない）
+- [x] `split-plan.md` に `input-0016`/`input-0030` を表形式で追記し、冒頭の対象定義に2件追加した旨を記す
+- [x] `checks/task-05.md` に「暫定扱い一覧」節を新設し、`note` が「暫定」で始まる27行全件を表にする
+- [x] `HTMLチェックツール` 8行（`current-0367`〜`current-0375`）について、第4部新設で受け皿問題が解消済みであり `#6` では文言更新のみで済む旨を暫定一覧に明記する
+- [x] `design.md` §12 未確定事項#3（ファイル名・ディレクトリ構成）の確定時期のズレを `checks/task-05d.md` に申し送りとして記録する（`design.md` は変更しない）
 - [ ] commit & push（STEP 1〜5、以下 STEP 6〜8 とは別コミット）
 - [ ] STEP 6: `mapping/tools/verify_mapping.py` に `check_reference_only_sections` を追加する。`CONTENT_BEARING = {"MOVE", "MERGE", "SPLIT"}` を定義し、`mapping.csv` が使う全 `(dest_part, dest_page, dest_section)` のうち `CONTENT_BEARING` の行が1件も無いものを列挙する。advisory 出力とし `exit 1` しない
 - [ ] STEP 6: `#6` の Steps に「`reference-only sections` の全件について本文なしで確定するか本文行を割り当てるかを判断し `checks/task-06.md` に記録する」を追加し、Completion criteria に「`reference-only sections` の全件に判断が記録されている（0件にする必要はない）」を追加する
