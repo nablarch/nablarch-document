@@ -316,6 +316,10 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - [x] commit & push
 - [ ] **user review** — 承認を受けるまで #6 に進まない
 
+**2026-07-28 ユーザー差し戻し対応（2回）**: (1) DROP見直し13件の実測再検証（12件維持・current-0293は取消指示自体を覆しDROP維持で確定）と、design.md第4部「ツール」新設に伴うdest_part付け替え44行・vocabulary.md更新・extract_vocabulary.py追随・design.md章番号参照の修正（詳細: `checks/task-05.md`「ユーザー差し戻し対応」節）。(2) 独立検証で見つかった`verify_mapping.py`のvocabulary突合バグ（`dest_part`を無視した`dest_section`単独照合。第2部/第3部の`拡張例`が第4部の行にも誤って一致）を修正し、`current-0374`の不一致を検出→`使用方法`へ変更（詳細: `checks/task-05.md`「第4部対応への再差し戻し」節）。
+
+**未解決の申し送り事項（次回セッションへ）**: `batch-22`（`SetUpHttpDumpTool.rst`由来8行）・`batch-23`（`ConfigMasterDataSetupTool.rst`由来7行、計15行・約200行分）が、design.md第4部の「導入」セクションに収める想定の旧インストールガイド由来であるにもかかわらず、`dest_section`が`機能概要`/`使用方法`のままで、第4部44行中`導入`を使っている行が0件。第4部確定前（batch-22/23実施時点）のマッピングのため整合が取れていない可能性がある。ユーザーに報告済み、対応要否は未回答。
+
 **Completion criteria**:
 
 - `mapping.csv` に `DROP` 行も含めて全セクションが残っている（追跡可能性のため削除しない）
@@ -431,4 +435,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-(not suspended)
+- **Status**: paused
+- **Date**: 2026-07-28
+- **Last completed**: #5への2回のユーザー差し戻し対応を完了。(1) DROP見直し13件の実測再検証（12件維持、current-0293はユーザーの取消指示自体を実測で覆しDROP維持を提案・承認された）と、design.md第4部「ツール」新設に伴うdest_part付け替え44行（batch-02/11/22/23/26/28/29）・vocabulary.md更新・extract_vocabulary.pyの章構成追随・design.md章番号参照修正（split-plan.md等）。(2) ユーザーの独立検証で発見された`verify_mapping.py`のvocabulary突合バグ（`dest_part`を無視した`dest_section`単独照合により第2部/第3部限定の`拡張例`が第4部の行にも誤って一致）を、指示された順序（検査修正→検出確認→データ修正→再検査）で修正し、`current-0374`のdest_sectionを`拡張例`から`使用方法`へ変更。全対応をコミット・push済み（`60031a6`〜`16b5475`、計7コミット）。`verify_mapping.py`は591行・エラー0件（coverage/vocabulary突合含む）。
+- **Next**: #5は全Stepsが完了し「user review」のみ未承認。ユーザーが今回の対応を確認して`/rn:ty`（承認）または`/rn:gm`（再修正）を判断するのを待っている。承認されれば#6（未確定事項の確定とdesign.md更新）へ進む。
+- **Notes**: 未解決の申し送り事項（steering.md #5に記載済み）: `batch-22`/`batch-23`の旧インストールガイド由来15行（約200行分）が第4部「導入」セクションを1件も使っておらず、`機能概要`/`使用方法`のままになっている。第4部確定前のマッピングのため整合していない可能性がある。ユーザーに報告済みだが対応要否は未回答。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`（`git merge-base origin/develop HEAD`）。
