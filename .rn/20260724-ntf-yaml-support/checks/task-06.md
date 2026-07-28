@@ -1,10 +1,11 @@
 # #6 設計判断案（訂正版、2026-07-28再提示）
 
-`checks/task-06-proposal.md`（初版）への `/rn:gm` 差し戻し指摘を受けた訂正版。
-①③の結論は独立検証で裏付けが取れているため変更していない。②は数値と表現を実測に
-訂正し、③は未処理2件（`PENDING_ZERO` 26件の仕分けを含む）を追加提示し、④はツリー
-全体と1対1対応表を再提示する。**本書はユーザー判断のための材料であり、design.md /
-mapping.csv はまだ変更していない。**
+`#6` 初回提示（`888daf2`時点、削除済みの旧`checks/task-06-proposal.md`）への
+`/rn:gm` 差し戻し指摘を受けた訂正版。①③の結論は独立検証で裏付けが取れているため
+変更していない。②は数値と表現を実測に訂正し、③は未処理2件（`PENDING_ZERO` 26件の
+仕分けを含む）を追加提示し、④はツリー全体と1対1対応表を再提示する。この時点では
+design.md / mapping.csv はまだ変更していなかった。**以下「実施結果」節に、ユーザー
+判断確定後の`#6` STEP 1〜7の実施記録を追記する。**
 
 ---
 
@@ -42,8 +43,8 @@ input/testdata-converter-design.md:355: ...（YAML対応の過去バージョン
 
 ### 訂正1: YAML言及行の集計
 
-初版（`checks/task-06-proposal.md`）の「194行のうち140行は第3部、11行は第4部」は
-再現しない。実測は以下のとおり。**2種類の抽出方法を独立に試し、一方に方法論上の欠陥を
+`#6`初回提示（削除済みの旧`checks/task-06-proposal.md`）の「194行のうち140行は第3部、
+11行は第4部」は再現しない。実測は以下のとおり。**2種類の抽出方法を独立に試し、一方に方法論上の欠陥を
 発見したため、両方を併記する。**
 
 #### 方法A: `heading_path` / `src_file` / `note` のいずれかに `yaml`（大小無視）を含む行
@@ -341,8 +342,9 @@ a案は個別ページごとの例外として記録し続けるコストが10+8
 
 ### 未処理2: 第3部 取引単体テストの小規模ページ
 
-`#6`未確定事項#2は「文量集計で確定する」としているが、`checks/task-06-proposal.md`
-の提示は第2部だけを扱っていた。第3部 取引単体テストの文量（`volume.md`より）:
+`#6`未確定事項#2は「文量集計で確定する」としているが、`#6`初回提示（削除済みの旧
+`checks/task-06-proposal.md`）の提示は第2部だけを扱っていた。第3部 取引単体テストの
+文量（`volume.md`より）:
 
 | ページ | 行数 |
 |---|---:|
@@ -481,9 +483,9 @@ design.md §5は`HTMLチェックツール`のみ「導入」省略を明記し�
 
 ## ④ ファイル名・ディレクトリ構成 — ツリー全体と1対1対応表を再提示
 
-前回提示（`checks/task-06-proposal.md`）は`{a,b,c}.rst`のような省略記法を含み、
-ユーザーが受領した表示では一部が欠落・未読了だった。今回は省略記法を使わず、
-`vocabulary.md`の全38ページ（確定9＋暫定29）を1行ずつファイルパスに対応付ける。
+`#6`初回提示（削除済みの旧`checks/task-06-proposal.md`）は`{a,b,c}.rst`のような
+省略記法を含み、ユーザーが受領した表示では一部が欠落・未読了だった。今回は省略記法を
+使わず、`vocabulary.md`の全38ページ（確定9＋暫定29）を1行ずつファイルパスに対応付ける。
 
 ### ツリー全体
 
@@ -624,3 +626,282 @@ libraries/`）が英語snake_case・連番なしであることを確認済み�
 
 **この段階では`design.md`と`mapping.csv`を変更していない。** 判断が下りてから
 着手する。
+
+---
+
+# `#6` 実施結果（`ntf-doc-06-instruction.md`、2026-07-28）
+
+ユーザーから上記①〜④・追加規約（セクションタイトルの要件）を含む判断が
+`ntf-doc-06-instruction.md`として提示され、そのとおり実施した。判断の記録ではなく
+**実施の記録**として、STEP 1〜7の実行内容と実行結果をそのまま記す。
+
+## STEP 1: design.md 更新
+
+§2（「Java・Jakarta EEの要件」削除）／§3（テストデータの形式廃止、取引単体テストの
+設定を3処理方式化、機能概要・拡張例を任意化）／§4（取引単体テスト6ページ維持を明記、
+テストデータの2ページに機能概要適用を明記）／§5（テストデータ変換ツールの「導入」
+省略を明記）／§6（テーブルをキューとして使ったメッセージングの扱いをページ単位で
+書き分け）／§8・§11（セクションタイトル規約への参照を追記）／§12（未確定事項3件を
+確定済みに更新）／§13新設（ファイル構成のツリーと1対1対応表）を反映した。
+
+`mapping/style.md` S-03に、セクションタイトルの追加規約（ページタイトルとの組で
+一意・内容が分かること）を追記した。
+
+commit: `65bf49f`（"rn:up #6 STEP1: design.mdに未確定事項3件の確定を反映"）
+
+## STEP 2: mapping.csv 更新
+
+### 2-1. ①の移動
+
+`_batch/batch-03.csv`（current-0180）・`_batch/batch-14.csv`（current-0267）を編集し、
+`dest_part`を`第2部 導入と設定`→`第1部 テスティングフレームワークとは`、`dest_page`を
+`JUnit 5用拡張機能`→`テスティングフレームワークとは`、`dest_section`を`使用方法`→
+`稼動環境`に変更した。`note`に判断根拠（design.md §2「モジュール一覧の集約」、`#6`確定）
+を追記した。
+
+### 2-2. 分類6の割当（実ファイル通読の結果）
+
+候補8件を実ファイルで通読した。判定結果:
+
+| mapping_id | 出典 | 判定 | 根拠 |
+|---|---|---|---|
+| input-0114 | `input/ntf-testdata-doc.md:2-6` | **機能概要へ移動** | `ntf-testdata-doc.md`（H1「NTF テストデータ リファレンス」）全体の導入文。「テストデータの記述仕様。Excel・YAMLのどちらで書く場合にも共通して適用される」「各節末尾のリンクからExcel表とYAMLコードブロックの対比例を参照できる」と、候補中唯一ページ全体（テストデータの書き方ページの主要出典）を対象にした記述であり、design.md §4「機能概要=このページで何ができるようになるか」に直接該当する |
+| input-0098 | `input/ntf-testdata-doc-examples-testshots.md:2-15` | 使用方法のまま | 「testShots カラム一覧」という個別トピックの導入文＋TOC。ページ全体ではなくtestShots小見出しの範囲にとどまるため、使用方法内のtestShotsサブセクション導入として据え置く |
+| input-0099 | 同上:17-43（「全体像」節） | 使用方法のまま | testShots固有の概念図・対応表。個別トピックの全体像であり、テストデータの書き方ページ全体を代表する記述ではない |
+| input-0036 | `input/ntf-testdata-doc-examples-file.md:2-4` | 使用方法のまま | 「ファイルデータの記述例集です」という当該カテゴリ（ファイルデータ）限定の導入文。5カテゴリ（ファイル/メッセージング/特殊値/テーブル/testShots）を横断する記述ではない |
+| input-0037 | 同上:6-50（「全体像」節） | 使用方法のまま | ファイルデータの記法比較図・シナリオ一覧。ファイルデータカテゴリに閉じた内容で、記載例ページ全体の概要ではない |
+| input-0058 | `input/ntf-testdata-doc-examples-messaging.md:2-6` | 使用方法のまま | 「メッセージング系データブロックの記法をケースごとに引く」というメッセージングカテゴリ限定の導入文 |
+| input-0082 | `input/ntf-testdata-doc-examples-special.md:2-6` | 使用方法のまま | 「特殊値・ディレクティブ・ヘッダの記法を項目ごとに引く」という特殊値カテゴリ限定の導入文 |
+| input-0093 | `input/ntf-testdata-doc-examples-table.md:2-6` | 使用方法のまま | 「テーブル系データブロックの記法を種別ごとに引く」というテーブルカテゴリ限定の導入文 |
+
+「テストデータの記載例」ページの候補5件（input-0036/0037/0058/0082/0093）はいずれも
+個別カテゴリの導入文であり、ページ全体（5カテゴリ横断）を対象にした出典が存在しない。
+機械的な全件移動をせず、このページは機能概要を持たない例外ページとして確定した
+（design.md §4改訂、`verify_mapping.py`の`EXPECTED_ZERO_SECTIONS`に登録）。
+
+`input-0114`の`note`にあった`[セクション境界]`は、後続本体行`input-0116`
+（第1部テスティングフレームワークとはページの`テストデータ`セクションへ別途MOVE済み）
+についての記述であり、`input-0114`自身の`dest_section`変更（使用方法→機能概要）とは
+矛盾しないため、参照先ページ名を明記のうえ維持した。
+
+### 2-3. 分類7のSPLIT（current-0128）
+
+`git show c24190607fef5d76c607aa08b36d2ab2f813efe5:.../03_DealUnitTest/batch.rst`を
+`cat -n`で実測すると、4〜25行目の構成は次のとおり:
+
+```
+     4	
+     5	バッチ処理の取引単体テストは、自動テストフレームワークを使用してテストを行う。
+     6	リクエスト単体テストを連続実行することにより、取引単位でのテストを行う。
+     7	
+     8	テストクラスは以下の条件を満たすように作成する。
+     9	...(条件・コード例、25行目まで)
+```
+
+5-6行目の2文のみが概要的記述（バッチ取引単体テストの定義）で、8行目「テストクラスは
+以下の条件を満たすように作成する。」から命名規則・パッケージ規則・継承条件・コード例
+という具体的な作成手順に切り替わる。文の切れ目（8行目）で分割し、4-7行（空行込み、
+4行）を`current-0128-a`（機能概要）、8-25行（18行）を`current-0128-b`（使用方法）
+とした。4+18=22行で元セクション行数と一致し、行範囲の和集合は4-25行と過不足なく一致
+する。`mapping/split-plan.md`に「`#6`分の追加分割」節を新設し記録した。
+
+### 2-4. 暫定27行の解消
+
+`note`が「暫定」で始まる27行（グループ1〜6、`checks/task-05.md`暫定扱い一覧参照）を
+すべて確定理由に書き換えた。グループ1〜5（19行）は`dest_page`の値を変更せず（`#6`で
+プレフィックス付き表記を正式名称として確定したため）「暫定。」を除去し確定理由を付与。
+グループ6（HTMLチェックツール8行）は受け皿問題が既に解消済みのため文言更新のみ。
+
+```
+$ python3 -c "
+import csv, glob
+n=0
+for path in sorted(glob.glob('mapping/_batch/*.csv')):
+    with open(path, newline='') as f:
+        rows = list(csv.DictReader(f))
+    for r in rows:
+        if (r.get('note') or '').startswith('暫定'):
+            n+=1
+print('remaining tentative rows:', n)
+"
+remaining tentative rows: 0
+```
+
+`mapping/vocabulary.md`を全面改訂し、旧「確定9件／暫定29件」区分を廃止して全34件
+（②③で廃止した4ページを除く）を確定として記載した。「`#6`でプレフィックスなしの
+正式名称に一括置換する」としていた旧記述は撤回し、プレフィックス付き表記
+（例: `リクエスト単体テスト（ウェブアプリケーション）`）を正式名称として確定する旨に
+訂正した（design.md §13と整合）。
+
+### 2-5. 廃止ページの語彙からの削除
+
+②③で廃止する4ページ（テストデータの形式／取引単体テストの設定のウェブアプリケーション・
+Nablarchバッチアプリケーション・テーブルをキューとして使ったメッセージング）について、
+`_batch/*.csv`全件を機械検索した。
+
+```
+$ python3 -c "
+import csv, glob
+targets = {
+ ('第2部 導入と設定','テストデータの形式'),
+ ('第2部 導入と設定','取引単体テストの設定（ウェブアプリケーション）'),
+ ('第2部 導入と設定','取引単体テストの設定（Nablarchバッチアプリケーション）'),
+ ('第2部 導入と設定','取引単体テストの設定（テーブルをキューとして使ったメッセージング）'),
+}
+found = []
+for path in sorted(glob.glob('mapping/_batch/*.csv')):
+    with open(path, newline='') as f:
+        rows = list(csv.DictReader(f))
+    for r in rows:
+        if (r.get('dest_part'), r.get('dest_page')) in targets:
+            found.append((path, r['mapping_id'], r['disposition']))
+print('total rows referencing disposed pages:', len(found))
+"
+total rows referencing disposed pages: 0
+```
+
+非DROP行どころか行自体が1件も存在しなかったため、`_batch/*.csv`の行の付け替えは
+発生しなかった（想定どおり）。`vocabulary.md`からはこの4ページを削除した。
+
+### mapping.csv再生成
+
+`_batch/batch-01.csv`〜`batch-30.csv`を`mapping_id`順ではなくバッチ番号順に単純連結し、
+`mapping.csv`を再生成した。
+
+```
+$ python3 -c "
+import csv, glob
+files = sorted(glob.glob('mapping/_batch/batch-*.csv'), key=lambda p: int(p.split('batch-')[1].split('.csv')[0]))
+concat_rows = []
+fieldnames = None
+for path in files:
+    with open(path, newline='', encoding='utf-8') as f:
+        r = csv.DictReader(f)
+        if fieldnames is None: fieldnames = r.fieldnames
+        concat_rows.extend(list(r))
+with open('mapping/mapping.csv', newline='', encoding='utf-8') as f:
+    map_rows = list(csv.DictReader(f))
+print('batch concat rows:', len(concat_rows))
+print('mapping.csv rows:', len(map_rows))
+print('identical:', concat_rows == map_rows)
+"
+batch concat rows: 594
+mapping.csv rows: 594
+identical: True
+```
+
+## STEP 3: verify_mapping.py 更新
+
+1. `SECTION_TEMPLATE["第2部 導入と設定"]`を`["機能概要","使用方法","拡張例"]`から
+   `["使用方法"]`に変更した
+2. 新規`check_part2_optional_sections()`を追加し、第2部の機能概要・拡張例0件を
+   `reference-only sections`と同じadvisory出力として一覧し続けるようにした（`exit 1`しない）
+3. `EXPECTED_ZERO_SECTIONS`に`("第4部 ツール","テストデータ変換ツール","導入")`と
+   `("第3部 テストの実装方法","テストデータの記載例","機能概要")`を追加した
+4. `EXPECTED_ZERO_PAGES`から`("第2部 導入と設定","取引単体テストの設定（テーブルを
+   キューとして使ったメッセージング）")`を削除した（ページ自体が語彙から消えたため）
+5. `PENDING_ZERO`を空の辞書`{}`にした（26件全件が①②③・分類6〜8で解消）
+
+## STEP 4: 検査結果
+
+```
+$ python3 mapping/tools/verify_mapping.py; echo "EXIT: $?"
+Loaded 594 rows from mapping.csv
+
+pending zero assignments: 0 (awaiting #6 decision)
+lines total (all rows): 12986
+lines total (excluding DROP): 11983
+
+candidate duplicate destinations: 44 (advisory only, not auto-fixed)
+（内容は#5時点から不変。新規の重複なし）
+
+reference-only sections: 2 (advisory only, not auto-fixed)
+ - [第3部 テストの実装方法 > リクエスト単体テスト（HTTPメッセージング） > 機能概要]: 2 row(s), all non content-bearing
+ - [第3部 テストの実装方法 > 取引単体テスト（HTTPメッセージング） > 機能概要]: 1 row(s), all non content-bearing
+
+intro section split advisories: 5 (not auto-fixed)
+ - input-0114 ((L1直下)): dest_section='機能概要' not among sibling dest_section values ['テストデータ']
+ - current-0060 ((L1直下)): dest_section='機能概要' not among sibling dest_section values ['使用方法']
+ - current-0128-a ((L1直下)): dest_section='機能概要' not among sibling dest_section values ['使用方法']
+ - current-0142 ((L1直下)): dest_section='機能概要' not among sibling dest_section values ['使用方法']
+ - current-0148 ((L1直下)): dest_section='機能概要' not among sibling dest_section values ['使用方法']
+
+part2 optional sections (機能概要/拡張例) zero count: 18 (advisory only, not an error)
+（第2部18セクション。`#6`で機能概要・拡張例が任意になったことに伴うadvisory一覧。
+内訳は`_batch`編集後のmapping.csvそのまま。EXITコードには影響しない）
+
+OK: no errors
+EXIT: 0
+```
+
+`stale allowlist`のERRORは出力されておらず0件。`check_intro_section_split`のERRORも
+0件（advisory 5件のみ、うち新規1件`current-0128-a`はSPLITで新設した行がsibling
+（"使用方法"）と異なる`dest_section`（"機能概要"）を持つことによる想定内の advisory）。
+
+`lines`合計12,986・DROP除く11,983は不変（`disposition=DROP`の行を`#6`で1件も
+変更していないため）。594行 = 593行（`#5d`完了時点）+ 1行（`current-0128`の
+SPLITによる純増1）。
+
+`mapping/volume.md`を再生成し、`dest_page`別合計（11,983）・`dest_section`別合計
+（11,983）がいずれも`verify_mapping.py`出力の`lines total (excluding DROP)`と一致
+することを確認した。廃止した4ページは表から削除した。
+
+## STEP 5: task-06-proposal.md 削除
+
+```
+$ git rm .rn/20260724-ntf-yaml-support/checks/task-06-proposal.md
+rm '.rn/20260724-ntf-yaml-support/checks/task-06-proposal.md'
+```
+
+本ファイル冒頭・訂正1・未処理2・④の4箇所にあった参照を、「`#6`初回提示（削除済みの旧
+`checks/task-06-proposal.md`）」を指す記述に書き換えた。
+
+## STEP 6: ファイル名2点の確定
+
+STEP 1のdesign.md §13改訂に含めて反映済み。
+
+- `implementation/testdata_format.rst`を`implementation/testdata_notation.rst`に改名
+  （design.md §13に反映、1対1対応表も更新済み）
+- `setup/deal_unit_test/`に`db_queue.rst`を作らない一方`setup/request_unit_test/
+  db_queue.rst`と`implementation/*/db_queue.rst`は作るという非対称を、design.md §6
+  改訂で明文化した
+
+## STEP 7: self-check
+
+- `design.md`に「未確定事項」が残っていない: §12を「12. 未確定事項の確定」に改め、
+  3件とも「確定済み」と明記した（`git grep -n "未確定" design.md`で§12見出し以外に
+  ヒットしないことを確認済み）
+- `design.md`の章構成と`mapping.csv`の`dest_page`集合が一致: `vocabulary.md`の
+  確定34件と`mapping.csv`の`dest_page`集合が完全一致することを`verify_mapping.py`の
+  `check_vocabulary`／`check_unused_vocabulary`のエラー0件で確認済み
+- ファイル名に連番が使われていない: design.md §13のツリーを目視確認済み（`01_`等の
+  接頭辞なし）
+- `mapping.csv`の`note`が「暫定。」で始まる行が0件: 上記STEP 2-4のコマンド出力で確認済み
+- `mapping.csv`の`dest_page`に暫定語彙が1件も残っていない: `vocabulary.md`から
+  暫定区分自体を削除し、`check_vocabulary`が全非DROP行を確定34ページに対して
+  検証しエラー0件であることで確認済み
+- `verify_mapping.py`の`PENDING_ZERO`が0件: 上記STEP 4の出力で確認済み
+  （`pending zero assignments: 0`）
+- `reference-only sections`の全件に判断が記録されている: 2件
+  （リクエスト単体テスト（HTTPメッセージング）／取引単体テスト（HTTPメッセージング）
+  の各機能概要）は`#5d`時点で既に advisory 登録済みであり、`#6`の未処理2判断
+  （5ページとも独立ページとして残し統合しない）によりこれらのページ自体の構成は
+  変更しないことを確定した。本文なしの機能概要のまま残すことを確定とする
+  （出典が存在しないため新たな本文行を割り当てない。他ページと同様、`#8〜`の
+  ページ作成時に見出し自体を置かないことで対応する）
+
+## Completion criteria 充足状況
+
+| 項目 | 結果 |
+|---|---|
+| design.md §2/3/4/5/6/8/11/12が確定内容どおり更新されている | ✅ STEP1 |
+| design.mdに④のファイル構成が節として取り込まれている | ✅ §13新設 |
+| mapping/style.mdにセクションタイトルの規約が追記されている | ✅ S-03に追記 |
+| vocabulary.mdに暫定表記が残っていない。廃止4ページが削除され全ページが確定 | ✅ |
+| mapping.csvにnoteが「暫定」で始まる行が0件 | ✅ |
+| verify_mapping.pyのPENDING_ZEROが0件、EXIT:0、stale allowlist 0件 | ✅ |
+| 594行 / lines全行12,986 / DROP除く11,983 | ✅ |
+| mapping.csvが_batch/*.csvの単純連結と一致 | ✅ |
+| split-plan.mdにcurrent-0128の分割が記録されている | ✅ |
+| task-06-proposal.mdが削除され、参照も残っていない | ✅ |
+| 分類6で移した行・移さなかった行の両方が根拠file:line付きで記録されている | ✅ 上記表 |

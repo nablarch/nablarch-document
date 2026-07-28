@@ -459,13 +459,13 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 
 **Steps**:
 
-- [ ] `volume.md` の集計をもとに、design.md「10. 未確定事項」の3件を確定する
-- [ ] design.md を更新する（「未確定事項」節を削除し、確定した構成を本文に反映）
-- [ ] 確定に伴い `mapping.csv` の `dest_page` を更新する
-- [ ] `mapping.csv` の `note` が「暫定。」で始まる行をすべて洗い出し、確定した構成に基づいて正式な `dest_page` に更新し、`note` の「暫定。」表記を解消する
-- [ ] `verify_mapping.py` の `reference-only sections` の全件について、「本文なしで成立するページ構成として確定する」か「本文を持つ行を割り当てる」かを判断し、結果を `checks/task-06.md` に記録する
-- [ ] self-check（`checks/task-06.md`）
-- [ ] commit & push
+- [x] `volume.md` の集計をもとに、design.md「10. 未確定事項」の3件を確定する
+- [x] design.md を更新する（「未確定事項」節を削除し、確定した構成を本文に反映）
+- [x] 確定に伴い `mapping.csv` の `dest_page` を更新する
+- [x] `mapping.csv` の `note` が「暫定。」で始まる行をすべて洗い出し、確定した構成に基づいて正式な `dest_page` に更新し、`note` の「暫定。」表記を解消する
+- [x] `verify_mapping.py` の `reference-only sections` の全件について、「本文なしで成立するページ構成として確定する」か「本文を持つ行を割り当てる」かを判断し、結果を `checks/task-06.md` に記録する
+- [x] self-check（`checks/task-06.md`）
+- [x] commit & push
 - [ ] **user review** — 承認を受けるまで #7 に進まない（**サブエージェントによるレビューは実施しない**。self-check のみで user review に上げる）
 
 **Completion criteria**:
