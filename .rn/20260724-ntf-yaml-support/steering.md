@@ -430,10 +430,10 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - [x] STEP 6: `mapping/tools/verify_mapping.py` に `check_reference_only_sections` を追加する。`CONTENT_BEARING = {"MOVE", "MERGE", "SPLIT"}` を定義し、`mapping.csv` が使う全 `(dest_part, dest_page, dest_section)` のうち `CONTENT_BEARING` の行が1件も無いものを列挙する。advisory 出力とし `exit 1` しない
 - [x] STEP 6: `#6` の Steps に「`reference-only sections` の全件について本文なしで確定するか本文行を割り当てるかを判断し `checks/task-06.md` に記録する」を追加し、Completion criteria に「`reference-only sections` の全件に判断が記録されている（0件にする必要はない）」を追加する（既存のsteering.md #6に記載済みであることを確認）
 - [x] STEP 6: commit
-- [ ] STEP 7: `verify_mapping.py` に `check_intro_section_split` を追加する。`heading_path` が `(L1直下)`/`(L2直下)`/`(冒頭)` で終わる非DROP行（導入文行）の `(dest_page, dest_section)` が、同じ `src_file` かつ同じ親 `heading_path` を持つ他の非DROP行（同階層行）のどれとも一致しない場合に検出する。`(L2直下)` は ERROR（`exit 1`）、`(L1直下)`/`(冒頭)` は advisory
-- [ ] STEP 7: ERROR 2件（`current-0150`/`current-0269`）を `git show c241906:<src_file>` で実ファイル通読のうえ是正する。`#5` Steps のルール「`(L2直下)` 行は同じ親を持つ配下セクションと同じ `dest_section` に置く」を適用し、同階層行の `dest_section` が複数ある場合は導入文が実際にどちらを導くかを実ファイルで確認して決める（行数の多寡で決めない）。`_batch/*.csv` を編集し `mapping.csv` を再生成する。`dest_page`/`disposition`/`audience` は変更しない。`note` に旧→新と根拠 file:line を追記する
-- [ ] STEP 7: advisory 4件（`input-0114`/`current-0060`/`current-0142`/`current-0148`）はマッピングを変更せず、`note` 末尾に `[セクション境界]` 形式の申し送りを追記する（既存 note は削除しない）
-- [ ] STEP 7: commit
+- [x] STEP 7: `verify_mapping.py` に `check_intro_section_split` を追加する。`heading_path` が `(L1直下)`/`(L2直下)`/`(冒頭)` で終わる非DROP行（導入文行）の `dest_section` が、同じ `src_file` かつ同じ親 `heading_path` を持つ他の非DROP行（同階層行）のどれとも一致しない場合に検出する。`(L2直下)` は ERROR（`exit 1`）、`(L1直下)`/`(冒頭)` は advisory（比較対象は `dest_section` 単独とした。理由・実測は `checks/task-05d.md` STEP7参照）
+- [x] STEP 7: ERROR 2件（`current-0150`/`current-0269`）を `git show c241906:<src_file>` で実ファイル通読のうえ是正する。`#5` Steps のルール「`(L2直下)` 行は同じ親を持つ配下セクションと同じ `dest_section` に置く」を適用し、同階層行の `dest_section` が複数ある場合は導入文が実際にどちらを導くかを実ファイルで確認して決める（行数の多寡で決めない）。`_batch/*.csv` を編集し `mapping.csv` を再生成する。`dest_page`/`disposition`/`audience` は変更しない。`note` に旧→新と根拠 file:line を追記する
+- [x] STEP 7: advisory 4件（`input-0114`/`current-0060`/`current-0142`/`current-0148`）はマッピングを変更せず、`note` 末尾に `[セクション境界]` 形式の申し送りを追記する（既存 note は削除しない）
+- [x] STEP 7: commit
 - [ ] STEP 8: `#8〜: ページの作成` の Steps に「`note` に `[セクション境界]` がある場合は導入文と本体の接続をページ内で再構成する」「`reference-only sections`（advisory）に該当する場合は `#6` で確定した方針に従う」の2行を追加する
 - [ ] STEP 8: `checks/task-05d.md` に、STEP7で是正した2行の旧→新と根拠 file:line、advisory 4件の判断理由を記録する
 - [ ] STEP 8: commit & push

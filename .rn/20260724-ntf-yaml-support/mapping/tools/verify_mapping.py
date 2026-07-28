@@ -186,6 +186,63 @@ def check_reference_only_sections(rows):
     return ref_only
 
 
+INTRO_TAILS = {"(L1直下)", "(L2直下)", "(冒頭)"}
+_INTRO_ERROR_TAIL = "(L2直下)"
+
+
+def _heading_parent_and_tail(heading_path):
+    parts = [p.strip() for p in (heading_path or "").split(">")]
+    if not parts:
+        return "", ""
+    tail = parts[-1]
+    parent = ">".join(parts[:-1]).strip()
+    return parent, tail
+
+
+def check_intro_section_split(rows):
+    """導入文行（heading_pathが(L1直下)/(L2直下)/(冒頭)で終わる非DROP行）の
+    dest_sectionが、同じsrc_file・同じ親heading_pathを持つ他の非DROP行（同階層行）
+    のどのdest_sectionとも一致しない場合を検出する。dest_pageは比較しない
+    — steering.md #5 Stepsの既存ルールが「同じ親を持つ配下セクションと同じ
+    dest_sectionに置く」と定めるのはdest_section単位であり、design.md §4の
+    記法統合方針により導入文と本体が意図的に別dest_page（同名dest_section）へ
+    分かれる正当なケース（例: テストデータの書き方ページへの記法統合）を
+    誤検出しないため。(L2直下)は既存ルールの明文違反のためERROR（exit 1）。
+    (L1直下)/(冒頭)は明文ルールが無くページ作成時の書き直しで吸収できる場合が
+    あるためadvisory。"""
+    by_file_parent = defaultdict(list)
+    for r in rows:
+        if r.get("disposition") == "DROP":
+            continue
+        parent, tail = _heading_parent_and_tail(r.get("heading_path"))
+        by_file_parent[(r.get("src_file", ""), parent)].append((r, tail))
+
+    errors = []
+    advisories = []
+    for (src_file, parent), members in sorted(by_file_parent.items()):
+        intro_members = [(r, tail) for r, tail in members if tail in INTRO_TAILS]
+        if not intro_members:
+            continue
+        sibling_sections = {
+            r.get("dest_section") for r, tail in members if tail not in INTRO_TAILS
+        }
+        if not sibling_sections:
+            continue
+        for r, tail in intro_members:
+            dest_section = r.get("dest_section")
+            if dest_section in sibling_sections:
+                continue
+            msg = (
+                f"{r.get('mapping_id')} ({tail}): dest_section={dest_section!r} "
+                f"not among sibling dest_section values {sorted(sibling_sections)}"
+            )
+            if tail == _INTRO_ERROR_TAIL:
+                errors.append(msg)
+            else:
+                advisories.append(msg)
+    return errors, advisories
+
+
 def _load_sections(name):
     path = os.path.join(MAPPING_DIR, name)
     with open(path, newline="", encoding="utf-8") as f:
@@ -419,6 +476,13 @@ PENDING_ZERO = {
     ("第2部 導入と設定", "取引単体テストの設定（MOMによるメッセージング）", "拡張例"):
         "出典なし（同上）。#6未確定事項#2の確定と合わせて判断。",
 
+    # --- #5d STEP7是正: current-0150をcheck_intro_section_splitのERROR是正で
+    # 機能概要→使用方法へ変更したため、本セクションが0件になった ---
+    ("第2部 導入と設定", "取引単体テストの設定（RESTfulウェブサービス）", "機能概要"):
+        "#5d STEP7でcurrent-0150（(L2直下)導入文）をcheck_intro_section_splitのERROR是正により"
+        "機能概要→使用方法へ変更した結果、本セクションが0件になった（checks/task-05d.md参照）。"
+        "他のHTTP/MOM設定ページと同型で#6未確定事項#2の確定と合わせて判断。",
+
     # --- STEP 2 再判定: マスタデータ復旧機能の拡張例 ---
     ("第2部 導入と設定", "マスタデータ復旧機能", "拡張例"):
         "出典なし。04_MasterDataRestore.rst全215行は機能概要4行・使用方法6行のみで構成され、"
@@ -588,6 +652,12 @@ def main():
     print(f"\nreference-only sections: {len(ref_only)} (advisory only, not auto-fixed)")
     for part, page, section, n in ref_only:
         print(f" - [{part} > {page} > {section}]: {n} row(s), all non content-bearing")
+
+    intro_errors, intro_advisories = check_intro_section_split(rows)
+    errors += intro_errors
+    print(f"\nintro section split advisories: {len(intro_advisories)} (not auto-fixed)")
+    for a in intro_advisories:
+        print(" -", a)
 
     if errors:
         print(f"\n{len(errors)} error(s):")
