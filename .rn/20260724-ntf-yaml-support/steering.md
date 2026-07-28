@@ -314,7 +314,7 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
   - dispositionの妥当性: `MOVE` / `MERGE` / `SPLIT` / `REFERENCE` / `DROP` の判定が内容に合っているか。特に `DROP` と `REFERENCE` を精査する
   - audienceの妥当性: `user` / `developer` の判定が正しいか。`developer` と判定して落としたものに利用者向けの内容が含まれていないか
 - [x] commit & push
-- [ ] **user review** — 承認を受けるまで #6 に進まない
+- [x] **user review** — 承認済み（`/rn:dn` 呼び出しにあわせユーザーが「#5はOK」と明示）
 
 **2026-07-28 ユーザー差し戻し対応（2回）**: (1) DROP見直し13件の実測再検証（12件維持・current-0293は取消指示自体を覆しDROP維持で確定）と、design.md第4部「ツール」新設に伴うdest_part付け替え44行・vocabulary.md更新・extract_vocabulary.py追随・design.md章番号参照の修正（詳細: `checks/task-05.md`「ユーザー差し戻し対応」節）。(2) 独立検証で見つかった`verify_mapping.py`のvocabulary突合バグ（`dest_part`を無視した`dest_section`単独照合。第2部/第3部の`拡張例`が第4部の行にも誤って一致）を修正し、`current-0374`の不一致を検出→`使用方法`へ変更（詳細: `checks/task-05.md`「第4部対応への再差し戻し」節）。
 
@@ -437,6 +437,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-07-28
-- **Last completed**: #5への3回目のユーザー差し戻し対応を完了。ユーザーが実測で報告した「`dest_section=導入`が第4部44行中0件」の不整合（design.md §5「現行インストールガイドを『導入』セクションとして収める」との不一致）に対応。対象は`batch-22`（`SetUpHttpDumpTool.rst`由来8行）・`batch-23`（`ConfigMasterDataSetupTool.rst`由来7行、計15行・201行分、ユーザー報告値と完全一致）。実ファイル通読で1件ずつ内容判定し、14行を`機能概要`/`使用方法`から`導入`へ変更、1行（current-0350）は使用方法「ツール起動」(current-0339)からの`:ref:`参照先であることを実ファイル突合で確認し使用方法のまま維持（機械的な一括変更はしていない）。`_batch/batch-22.csv`・`batch-23.csv`を修正し`mapping.csv`を再統合、`verify_mapping.py`で591行・エラー0件（lines合計12,986不変、重複候補44組不変）を確認。判断根拠は`checks/task-05.md`「『導入』0件の指摘対応」節に記録。この対応は`0fee222`としてコミット・`origin/work`へpush済み（2026-07-28 01:47 UTC、PR #730のhead SHAと一致を確認済み）。
-- **Next**: #5は全Stepsが完了し「user review」のみ未承認。今回の「導入」0件対応をユーザーが確認して`/rn:ty`（承認）または`/rn:gm`（再修正）を判断するのを待っている。承認されれば#6（未確定事項の確定とdesign.md更新）へ進む。
-- **Notes**: 「導入」0件の申し送り（旧Notesに記載）はこのセッションで解決済み（上記Last completed参照）。2026-07-28 `/rn:gm`でユーザーから「PR #730に反映されていない」との指摘を受けたが、再検証の結果`0fee222`はpush済みでPR #730のheadと一致、`mapping.csv`も`第4部`の`dest_section`内訳が`機能概要13/使用方法17/導入14`と修正後の値になっていることを確認した。ユーザーが提示した実測値（機能概要16/使用方法28/導入0）は`901ab1f`時点（fixが入る前のコミット）のものと一致する分布であり、ユーザー側のfetchが`0fee222`のpush前後で古いままだった可能性が高い。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`（`git merge-base origin/develop HEAD`）。
+- **Last completed**: `/rn:gm`でユーザーから「「導入」0件対応がPR #730に反映されていない」との指摘を受け再検証。`git`/GitHub API調査の結果、指摘対象の`0fee222`は既に`origin/work`へpush済みでPR #730のheadと一致、`mapping.csv`の`第4部``dest_section`内訳も修正後の値（機能概要13/使用方法17/導入14）であることを確認した。ユーザーの実測値（機能概要16/使用方法28/導入0）はpush前`901ab1f`時点の分布と一致しており、fetchが古かったための齟齬と判断。差し戻された欠陥は無し（redoなし）。steering.mdの古い記述（「まだコミットしていない」）を訂正。続けてユーザーが`/rn:dn #5はOK`で#5のuser reviewを承認した。
+- **Next**: #6（未確定事項の確定とdesign.md更新）に着手する。
+- **Notes**: branch/PR: `lovaizu/nablarch-document` の `work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`（`git merge-base origin/develop HEAD`）。open blocker無し。
