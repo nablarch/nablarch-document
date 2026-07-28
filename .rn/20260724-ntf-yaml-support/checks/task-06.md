@@ -903,5 +903,5 @@ STEP 1のdesign.md §13改訂に含めて反映済み。
 | 594行 / lines全行12,986 / DROP除く11,983 | ✅ |
 | mapping.csvが_batch/*.csvの単純連結と一致 | ✅ |
 | split-plan.mdにcurrent-0128の分割が記録されている | ✅ |
-| task-06-proposal.mdが削除され、参照も残っていない | ✅ |
+| task-06-proposal.mdが削除され、残る言及はすべて「削除済みの旧ファイル」と注記されている（`checks/task-06.md`内9件、`steering.md`1件） | ✅ |
 | 分類6で移した行・移さなかった行の両方が根拠file:line付きで記録されている | ✅ 上記表 |

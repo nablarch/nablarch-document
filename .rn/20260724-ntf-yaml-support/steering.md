@@ -468,6 +468,20 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - [x] commit & push
 - [ ] **user review** — 承認を受けるまで #7 に進まない（**サブエージェントによるレビューは実施しない**。self-check のみで user review に上げる）
 
+**`#6` レビュー指摘対応（`ntf-doc-06-followup.md`、2026-07-28）**:
+
+判定: `#6` は承認。差し戻しではなく、レビューで見つかった小さな漏れ2件（`[セクション境界]` note未反映1件・
+self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` の判断内容は変更しない。詳細は
+`checks/task-06-followup.md` を参照。
+
+- [x] 対応1-2: `verify_mapping.py` に `check_intro_note_present` を追加し、RED（`current-0128-a` を ERROR で検出、`exit 1`）を確認する
+- [x] 対応1-1: `current-0128-a` の `note` に `[セクション境界]` を追記し、`mapping.csv` を `_batch/*.csv` の単純連結で再生成する
+- [x] 対応1-3: GREEN（`exit 0`、advisory 5件全件に `[セクション境界]` note）を確認する
+- [x] 対応1-4: `#8〜` の Steps に件数固定の記述がないか確認する（なし、修正不要と確認）
+- [x] 対応2: `checks/task-06.md:906` の self-check 記述を実態に合わせて書き換える
+- [x] commit & push
+- [ ] **user review** — 承認を受けるまで #7 に進まない
+
 **Completion criteria**:
 
 - design.md に未確定事項が残っていない
@@ -559,6 +573,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-07-28
-- **Last completed**: `/rn:up`で`ntf-doc-06-instruction.md`（ユーザー判断①〜④・追加規約を含む）を受領し、`#6`のSTEP1〜7を完了。design.md §2/3/4/5/6/8/11/12/13を更新（未確定事項3件を確定済みに）、`mapping/style.md`にセクションタイトル規約を追記、`mapping.csv`を593→594行に更新（current-0180/0267を第1部稼動環境へ移動、分類6は実ファイル通読で候補8件中input-0114のみ機能概要へ変更・残り7件は使用方法据え置き、current-0128をSPLIT、暫定27行の表記解消）、`vocabulary.md`を全34ページ確定に更新、`verify_mapping.py`を更新（第2部機能概要/拡張例を任意化しadvisory出力へ、PENDING_ZERO 26件→0件）。検査結果はEXIT:0・PENDING_ZERO 0件・stale allowlist 0件・594行/lines全行12,986/DROP除く11,983。`volume.md`再生成、`checks/task-06-proposal.md`削除。commit: `65bf49f`（STEP1）・`0dfa312`（STEP2-7）。詳細な実施記録は`checks/task-06.md`「#6 実施結果」節を参照。
-- **Next**: user reviewの結果を待つ。`/rn:ty`で承認されたら`#7`（現行NTF解説書の削除）に着手する。`/rn:gm`で差し戻された場合は指摘に対応し再提示する。
-- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-06-instruction.md`。push権限は解決済み（`kiyobot`=`GH_TOKEN`がwrite権限を保有）。open blocker: `#6`のuser review待ち（別セッションのClaudeによる独立検証。CCはcommit SHA `65bf49f`・`0dfa312`と`verify_mapping.py`実行結果を報告済み）。承認後は`#7`（現行解説書の`.rst`削除）へ進む。
+- **Last completed**: `/rn:up`で`ntf-doc-06-followup.md`（`#6`レビュー指摘2件の対応指示、判定は承認・差し戻しではない）を受領し完了。対応1: `verify_mapping.py`に`check_intro_note_present`を追加し、`current-0128-a`をERRORで検出するRED（`exit 1`）を確認後、`current-0128-a`の`note`に`[セクション境界]`を追記し`mapping.csv`を`_batch/*.csv`の単純連結で再生成、GREEN（`exit 0`）を確認。advisory 5件全件が`[セクション境界]`noteを持つことを機械検証済み。`steering.md #8〜`のSteps確認は修正不要。対応2: `checks/task-06.md:906`のself-check文言を実態（`task-06-proposal.md`への参照9件が「削除済みの旧ファイル」注記付きで残存）に合わせて修正。検査結果: EXIT:0・PENDING_ZERO 0件・stale allowlist 0件・594行/lines全行12,986/DROP除く11,983（不変）。design.mdは無変更（`git diff`で確認）。詳細な実施記録は`checks/task-06-followup.md`を参照。commit: `e2275c4`（対応1-2・RED確認）・本コミット（対応1-1/1-3/1-4・対応2）。
+- **Next**: `#6`フォローアップのuser reviewの結果を待つ。別セッションのClaudeが独立検証する。承認されたら`#7`（現行NTF解説書の削除）に着手する。差し戻された場合は指摘に対応し再提示する。
+- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-06-followup.md`。push権限は解決済み（`kiyobot`=`GH_TOKEN`がwrite権限を保有）。open blocker: `#6`フォローアップのuser review待ち（別セッションのClaudeによる独立検証。CCはcommit SHAと`verify_mapping.py`実行結果（RED→GREEN）を報告予定）。承認後は`#7`（現行解説書の`.rst`削除）へ進む。`#6`本体のuser review行は元指示の判定（承認）を反映済みだが、`steering.md`上のチェックボックスは`#5c`と同様の慣例によりフォローアップ側のuser review行のみで管理する。
