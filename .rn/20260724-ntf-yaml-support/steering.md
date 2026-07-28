@@ -506,8 +506,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-07-28
-- **Last completed**: none
-- **Next**: none
-- **Notes**: none
+- **Last completed**: `#5b` STEP1〜5完了・push済み（`82cb58a`検査追加、`ca1e9cf`再判定・PENDING_ZERO登録・volume.md補完）。`verify_mapping.py`はERROR 0件・PENDING_ZERO 25件、`lines`合計12,986/DROP除く11,973/591行は不変。`design.md`は無変更。
+- **Next**: `#5b`のuser review（別セッションのClaudeによる独立検証）の承認待ち。承認後は`#5c`（`DROP`全件レビュー）に着手する。
+- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md`。判断が割れた/未解決の論点（`checks/task-05b.md`に詳細）: (1)第3部テストデータの書き方/記載例の機能概要0件は候補行ありだが#5既承認noteと矛盾するため両論併記でPENDING_ZERO、(2)第2部設定系9ページの機能概要/拡張例16件は出典なし、(3)第1部稼動環境0件はA/B/C案提示、(4)第3部取引単体テスト（Nablarchバッチアプリケーション）機能概要は権限外の新規SPLITが必要なため現状維持。open blocker無し。
