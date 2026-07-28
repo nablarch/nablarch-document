@@ -294,6 +294,95 @@ def check_vocabulary(rows):
     return errors
 
 
+SECTION_TEMPLATE = {
+    "第1部 テスティングフレームワークとは": ["全体像", "アーキテクチャ", "テストの種類", "テストデータ", "対象範囲", "稼動環境"],
+    "第2部 導入と設定": ["機能概要", "使用方法", "拡張例"],
+    "第3部 テストの実装方法": ["機能概要", "使用方法"],
+    "第4部 ツール": ["機能概要", "導入", "使用方法"],
+}
+
+# (dest_part, dest_page) — ページ単位。design.mdがこのページ自体を0件になる
+# 設計として定めている場合のみここに載せる。理由には必ずdesign.mdの該当箇所を引用する。
+EXPECTED_ZERO_PAGES = {
+    ("第2部 導入と設定", "リクエスト単体テストの設定（テーブルをキューとして使ったメッセージング）"):
+        "design.md §6「中身は導線のみとする」。独自の設定内容を持たない",
+    ("第2部 導入と設定", "取引単体テストの設定（テーブルをキューとして使ったメッセージング）"): "同上",
+    ("第3部 テストの実装方法", "リクエスト単体テスト（テーブルをキューとして使ったメッセージング）"): "同上",
+    ("第3部 テストの実装方法", "取引単体テスト（テーブルをキューとして使ったメッセージング）"): "同上",
+}
+
+# (dest_part, dest_page, dest_section) — セクション単位。design.mdがこのセクション
+# 自体を0件になる設計として定めている場合のみここに載せる。
+EXPECTED_ZERO_SECTIONS = {
+    ("第4部 ツール", "HTMLチェックツール", "導入"):
+        "design.md §5「インストール手順を持たないため『導入』セクションは設けず」",
+}
+
+# #6のユーザー判断を待っている0件（ページ単位2-tuple／セクション単位3-tuple）。
+# STEP 2・STEP 4で判明したものをここに追記する。理由には必ず#6のどの未確定事項に
+# 対応するかを書く。
+PENDING_ZERO = {}
+
+
+def check_unused_vocabulary(rows):
+    """vocabulary.mdが定義している(dest_part, dest_page)・(dest_part, dest_page,
+    dest_section)のうち、mapping.csvで1件も使われていない組み合わせを検出する。
+    check_vocabularyは逆方向（使われている値が語彙にあるか）しか見ておらず、
+    「語彙にあるのに使われていない」を見落とすため別関数として追加する
+    （2026-07-28 横断点検「dest_section=導入」0件と同型の欠陥への対応）。"""
+    errors = []
+    pending = []
+
+    dest_parts, dest_page_pairs, dest_section_pairs = _load_vocabulary()
+
+    used_pages = defaultdict(int)
+    used_page_sections = defaultdict(int)
+    for r in rows:
+        if r.get("disposition") == "DROP":
+            continue
+        dp = r.get("dest_part", "")
+        pg = r.get("dest_page", "")
+        sec = r.get("dest_section", "")
+        if dp and pg:
+            used_pages[(dp, pg)] += 1
+        if dp and pg and sec:
+            used_page_sections[(dp, pg, sec)] += 1
+
+    for dp, pg in sorted(dest_page_pairs):
+        if used_pages.get((dp, pg), 0) > 0:
+            continue
+        key = (dp, pg)
+        if key in EXPECTED_ZERO_PAGES:
+            continue
+        if key in PENDING_ZERO:
+            pending.append(f"page [{dp} > {pg}]: {PENDING_ZERO[key]}")
+            continue
+        errors.append(
+            f"page [{dp} > {pg}]: 0 non-DROP rows assigned "
+            "(not registered in EXPECTED_ZERO_PAGES / PENDING_ZERO)"
+        )
+
+    for dp, pg in sorted(used_pages):
+        template = SECTION_TEMPLATE.get(dp)
+        if not template:
+            continue
+        for sec in template:
+            if used_page_sections.get((dp, pg, sec), 0) > 0:
+                continue
+            key = (dp, pg, sec)
+            if key in EXPECTED_ZERO_SECTIONS:
+                continue
+            if key in PENDING_ZERO:
+                pending.append(f"section [{dp} > {pg} > {sec}]: {PENDING_ZERO[key]}")
+                continue
+            errors.append(
+                f"section [{dp} > {pg} > {sec}]: 0 non-DROP rows assigned "
+                "(not registered in EXPECTED_ZERO_SECTIONS / PENDING_ZERO)"
+            )
+
+    return errors, pending
+
+
 def line_totals(rows):
     total = 0
     total_excl_drop = 0
@@ -321,6 +410,11 @@ def main():
         # （バッチ単位では対象セクションの一部しか含まれないため）。
         errors += check_coverage(rows)
         errors += check_vocabulary(rows)
+        unused_errors, unused_pending = check_unused_vocabulary(rows)
+        errors += unused_errors
+        print(f"\npending zero assignments: {len(unused_pending)} (awaiting #6 decision)")
+        for p in unused_pending:
+            print(" -", p)
 
     total, total_excl_drop = line_totals(rows)
     print(f"lines total (all rows): {total}")
