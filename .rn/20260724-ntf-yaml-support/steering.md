@@ -318,7 +318,7 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 
 **2026-07-28 ユーザー差し戻し対応（2回）**: (1) DROP見直し13件の実測再検証（12件維持・current-0293は取消指示自体を覆しDROP維持で確定）と、design.md第4部「ツール」新設に伴うdest_part付け替え44行・vocabulary.md更新・extract_vocabulary.py追随・design.md章番号参照の修正（詳細: `checks/task-05.md`「ユーザー差し戻し対応」節）。(2) 独立検証で見つかった`verify_mapping.py`のvocabulary突合バグ（`dest_part`を無視した`dest_section`単独照合。第2部/第3部の`拡張例`が第4部の行にも誤って一致）を修正し、`current-0374`の不一致を検出→`使用方法`へ変更（詳細: `checks/task-05.md`「第4部対応への再差し戻し」節）。
 
-**未解決の申し送り事項（次回セッションへ）**: `batch-22`（`SetUpHttpDumpTool.rst`由来8行）・`batch-23`（`ConfigMasterDataSetupTool.rst`由来7行、計15行・約200行分）が、design.md第4部の「導入」セクションに収める想定の旧インストールガイド由来であるにもかかわらず、`dest_section`が`機能概要`/`使用方法`のままで、第4部44行中`導入`を使っている行が0件。第4部確定前（batch-22/23実施時点）のマッピングのため整合が取れていない可能性がある。ユーザーに報告済み、対応要否は未回答。
+**「導入」0件の指摘対応（2026-07-28、解決済み）**: `batch-22`（`SetUpHttpDumpTool.rst`由来8行）・`batch-23`（`ConfigMasterDataSetupTool.rst`由来7行、計15行・201行分）を実ファイル通読で1件ずつ再判定し、14行を`機能概要`/`使用方法`から`導入`へ変更（1行は使用方法からの`:ref:`参照先であることを実ファイル突合で確認し使用方法のまま維持）。`_batch/batch-22.csv`・`batch-23.csv`を修正して`mapping.csv`を再統合し、`verify_mapping.py`で591行・エラー0件を確認済み。詳細・判断根拠は `checks/task-05.md`「『導入』0件の指摘対応」節を参照。
 
 **Completion criteria**:
 
@@ -437,6 +437,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-07-28
-- **Last completed**: #5への2回のユーザー差し戻し対応を完了。(1) DROP見直し13件の実測再検証（12件維持、current-0293はユーザーの取消指示自体を実測で覆しDROP維持を提案・承認された）と、design.md第4部「ツール」新設に伴うdest_part付け替え44行（batch-02/11/22/23/26/28/29）・vocabulary.md更新・extract_vocabulary.pyの章構成追随・design.md章番号参照修正（split-plan.md等）。(2) ユーザーの独立検証で発見された`verify_mapping.py`のvocabulary突合バグ（`dest_part`を無視した`dest_section`単独照合により第2部/第3部限定の`拡張例`が第4部の行にも誤って一致）を、指示された順序（検査修正→検出確認→データ修正→再検査）で修正し、`current-0374`のdest_sectionを`拡張例`から`使用方法`へ変更。全対応をコミット・push済み（`60031a6`〜`16b5475`、計7コミット）。`verify_mapping.py`は591行・エラー0件（coverage/vocabulary突合含む）。
-- **Next**: #5は全Stepsが完了し「user review」のみ未承認。ユーザーが今回の対応を確認して`/rn:ty`（承認）または`/rn:gm`（再修正）を判断するのを待っている。承認されれば#6（未確定事項の確定とdesign.md更新）へ進む。
-- **Notes**: 未解決の申し送り事項（steering.md #5に記載済み）: `batch-22`/`batch-23`の旧インストールガイド由来15行（約200行分）が第4部「導入」セクションを1件も使っておらず、`機能概要`/`使用方法`のままになっている。第4部確定前のマッピングのため整合していない可能性がある。ユーザーに報告済みだが対応要否は未回答。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`（`git merge-base origin/develop HEAD`）。
+- **Last completed**: #5への3回目のユーザー差し戻し対応を完了。ユーザーが実測で報告した「`dest_section=導入`が第4部44行中0件」の不整合（design.md §5「現行インストールガイドを『導入』セクションとして収める」との不一致）に対応。対象は`batch-22`（`SetUpHttpDumpTool.rst`由来8行）・`batch-23`（`ConfigMasterDataSetupTool.rst`由来7行、計15行・201行分、ユーザー報告値と完全一致）。実ファイル通読で1件ずつ内容判定し、14行を`機能概要`/`使用方法`から`導入`へ変更、1行（current-0350）は使用方法「ツール起動」(current-0339)からの`:ref:`参照先であることを実ファイル突合で確認し使用方法のまま維持（機械的な一括変更はしていない）。`_batch/batch-22.csv`・`batch-23.csv`を修正し`mapping.csv`を再統合、`verify_mapping.py`で591行・エラー0件（lines合計12,986不変、重複候補44組不変）を確認。判断根拠は`checks/task-05.md`「『導入』0件の指摘対応」節に記録。**この対応はまだコミットしていない**（作業ツリーに未コミットの変更あり、次のcommitステップで取り込む）。
+- **Next**: #5は全Stepsが完了し「user review」のみ未承認。今回の「導入」0件対応をユーザーが確認して`/rn:ty`（承認）または`/rn:gm`（再修正）を判断するのを待っている。承認されれば#6（未確定事項の確定とdesign.md更新）へ進む。
+- **Notes**: 「導入」0件の申し送り（旧Notesに記載）はこのセッションで解決済み（上記Last completed参照）。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`（`git merge-base origin/develop HEAD`）。

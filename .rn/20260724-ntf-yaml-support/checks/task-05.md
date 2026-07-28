@@ -443,3 +443,61 @@ lines合計は12,986のまま変化なし（`dest_part`のみの変更のため�
    ```
 
 lines合計・disposition・audienceに変化なし（`dest_section`1件のみの変更）。
+
+## 「導入」0件の指摘対応（2026-07-28、ユーザー実測報告）
+
+ユーザーが独自に実測し、`vocabulary.md`が定義し`design.md` §5「現行解説書の...インストールガイド...を1ページに統合し、『導入』セクションとして収める」と明記している`dest_section=導入`が`mapping.csv`に1件も存在しない不整合を報告した。`verify_mapping.py`の`check_vocabulary`は値が許容集合に含まれるかしか見ておらず、「使われるべき値が0件」は検出対象外（設計どおりの限界）。
+
+### 対象の特定
+
+`08_TestTools/`配下のインストールガイド2ファイル（`01_HttpDumpTool/02_SetUpHttpDumpTool.rst`＝batch-22、`02_MasterDataSetup/02_ConfigMasterDataSetupTool.rst`＝batch-23）由来の行を機械抽出したところ、ちょうど15行・201行分（batch-22: 8行/94行、batch-23: 7行/107行）で、ユーザー報告の行数と完全一致した。以後この15行のみが対象（他の第4部ツール2件は該当なし：テストデータ変換ツールは独立ページなし、HTMLチェックツールは`vocabulary.md`既定の「導入を持たない」例外）。
+
+### 判断基準
+
+`design.md` §5「ページのアウトライン」の定義を基準にした。
+
+| dest_section | 定義（design.md §5） |
+|---|---|
+| 機能概要 | 何ができるか。どの場面で使うか |
+| 導入 | インストール手順、依存関係、設定 |
+| 使用方法 | `<操作手順>する` |
+
+実ファイル（`02_SetUpHttpDumpTool.rst`・`02_ConfigMasterDataSetupTool.rst`）を全文通読し、各行の内容が上記のどれに該当するかを個別判定した。機械的な一括変更はしていない。
+
+### 変更した14行
+
+| mapping_id | 内容 | 旧→新 | 根拠 |
+|---|---|---|---|
+| current-0343 | (L1直下)「インストール方法について説明する」 | 機能概要→導入 | 「何ができるか」を述べておらず、ページの対象（インストール手順）を示す1文。design.md §5の対象そのもの |
+| current-0344 / current-0359 | 前提事項（Java/Maven/Eclipse等のインストール済み要件） | 機能概要→導入 | 「依存関係」に直接該当 |
+| current-0345 / current-0360 | 提供方法（jar構成、pom.xml記述、mvnコマンドでの取得、配置） | 使用方法→導入 | 「インストール手順」に直接該当 |
+| current-0346 / current-0362 | Eclipseとの連携(設定)の(L2直下)導入文 | 使用方法→導入 | 判断ルール2（子節と揃える）。配下の設定手順（下記）と同じdest_sectionへ |
+| current-0347・0348・0349 | 設定画面起動／外部プログラム選択／起動用バッチファイル選択 | 使用方法→導入 | Eclipse連携の一回限りの設定手順。「設定」に該当 |
+| current-0361 | プロパティファイルの書き換え（バックアップスキーマ名の設定） | 使用方法→導入 | 「設定」に直接該当 |
+| current-0358 | (L1直下)「インストール方法について説明する」 | 使用方法→導入 | current-0343と同型・同文言。旧マッピングでは0343が機能概要、0358が使用方法と非対称に割り当てられていた（不整合の一部）。現行が使用方法だった経緯裏付けは取れず、内容から導入と判定し統一 |
+| current-0363・0364 | Antビュー起動／ビルドファイル登録 | 使用方法→導入 | Eclipse連携設定の一回限りの手順。実ファイル突合で、`index.rst`側の使用方法「実行方法」(current-0357)のtipが`:ref:`how_to_setup_ant_view_in_eclipse``としてこの節を外部の設定参照先に指定していることを確認（実行方法自体は「Antビューでターゲットをダブルクリック」のみで自己完結し、設定手順を含まない）。よって本節は使用方法本体ではなく導入 |
+
+### 変更しなかった1行（機能概要ではなく使用方法のまま）
+
+| mapping_id | 内容 | 判定 | 根拠 |
+|---|---|---|---|
+| current-0350 | 「HTMLファイルからの起動方法」（Eclipseから右クリックで起動） | 使用方法のまま維持 | 実ファイル突合で、本節直前に`.. _howToExecuteFromEclipse:`ラベルがあり、`index.rst`の使用方法「ツール起動」(current-0339)が「Eclipse上からHTMLファイルを右クリックし、ツールを起動する。（:ref:`howToExecuteFromEclipse`を参照）」としてこの節自体を参照先に指定していることを確認した。本節は使用方法「ツール起動」の詳細記述そのものであり、design.mdの導入定義（インストール手順・依存関係・設定）ではなく操作手順に該当する。同じ「Eclipseとの連携」節内の他4行（機械的な一括変更なら導入に揃えたくなる箇所）と唯一異なる判定になった行 |
+
+current-0362・0363・0364（マスタデータ投入ツール側のEclipse連携設定）にはcurrent-0350のような「使用方法からの参照先」の実体がなく（実行方法(current-0357)は自己完結し、連携設定を外部設定参照として扱っている）、上記の対称的な例外には該当しないことを実ファイル突合で確認済み。
+
+### 対応手順
+
+1. `mapping/_batch/batch-22.csv`・`batch-23.csv`の該当14行の`dest_section`を「導入」に修正し、`note`を新しい判断根拠に更新（current-0350の`note`にも再検証結果を追記）。
+2. `mapping/mapping.csv`を全30バッチの単純連結で再生成（従来と同じ統合方式）。
+3. `verify_mapping.py`を再実行、591行・エラー0件を確認（Evidence）:
+   ```
+   $ python3 mapping/tools/verify_mapping.py
+   Loaded 591 rows from mapping.csv
+   lines total (all rows): 12986
+   lines total (excluding DROP): 11973
+   candidate duplicate destinations: 44 (advisory only, not auto-fixed)
+   OK: no errors
+   ```
+   lines合計・disposition・audience・重複候補件数（44組）に変化なし（`dest_section`14件のみの変更のため）。新規に検出された重複候補ペア（current-0346↔current-0362、「以下の設定をすることでEclipseから本ツールを起動できる。」の定型文一致）は、両ツールが同型のEclipse連携設定手順を独立に持つという既存の重複候補の傾向（design.md第3部テンプレートの繰り返し構造）と同種であり、内容の誤重複ではない。
+
+`mapping/volume.md`は`dest_page`単位の文量集計のみを扱い`dest_section`単位の集計は持たないため、更新不要（`dest_page`・行数は今回無変更）。
