@@ -16,6 +16,7 @@ Rn version: 0.8.0
 
 - 作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-rebuild-instruction.md`
 - `#5b`/`#5c`/`#5d` 作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md`
+- `#5d` 追補（STEP 6〜8）: `.rn/20260724-ntf-yaml-support/ntf-doc-05d-addendum.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
@@ -348,7 +349,7 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - [x] STEP 3: `volume.md` に0行ページと `dest_section` 単位の集計表を追加する
 - [x] STEP 4: 未解決の0件（第1部「稼動環境」／第2部「テストデータの形式」／第2部 取引単体テストの設定2ページ）を調査報告として `checks/task-05b.md` にまとめ、`PENDING_ZERO` に登録する（`design.md` は変更しない）
 - [x] STEP 5: self-check（`checks/task-05b.md`）、`steering.md` 更新（本タスク追記・#6 Prerequisites 更新）、commit & push
-- [ ] **user review** — 承認を受けるまで #5c に進まない（**サブエージェントによるレビューは実施しない**）
+- [x] **user review** — 承認済み（`ca1e9cf` に対する独立検証。指摘2点は `#5b` を再オープンせず `#5d` の追加STEPとして反映。詳細: `.rn/20260724-ntf-yaml-support/ntf-doc-05d-addendum.md`）
 
 **Completion criteria**:
 
@@ -383,9 +384,11 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - 判定が覆った行は `_batch/*.csv` を修正し、`verify_mapping.py` がエラー0件
 - `lines` 合計 12,986 が不変
 
-### #5d: 記録の整合
+### #5d: 記録の整合とセクション境界の是正
 
-**Purpose**: `#5` までの成果物に残った記録上の不整合を解消する。データの判断は変更しない。詳細は `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md` を参照。
+**Purpose**: `#5` までの成果物に残った記録上の不整合を解消し、あわせて `#5b` のレビューで
+検出したセクション境界の欠陥を、機械検査の追加と既存ルールに基づく是正で解消する。
+既存の割当判断（dest_page / disposition / audience）は変更しない。詳細は `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md` および `.rn/20260724-ntf-yaml-support/ntf-doc-05d-addendum.md` を参照。
 
 **Prerequisites**: #5c
 
@@ -395,7 +398,17 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - [ ] `checks/task-05.md` に「暫定扱い一覧」節を新設し、`note` が「暫定」で始まる27行全件を表にする
 - [ ] `HTMLチェックツール` 8行（`current-0367`〜`current-0375`）について、第4部新設で受け皿問題が解消済みであり `#6` では文言更新のみで済む旨を暫定一覧に明記する
 - [ ] `design.md` §12 未確定事項#3（ファイル名・ディレクトリ構成）の確定時期のズレを `checks/task-05d.md` に申し送りとして記録する（`design.md` は変更しない）
-- [ ] commit & push
+- [ ] commit & push（STEP 1〜5、以下 STEP 6〜8 とは別コミット）
+- [ ] STEP 6: `mapping/tools/verify_mapping.py` に `check_reference_only_sections` を追加する。`CONTENT_BEARING = {"MOVE", "MERGE", "SPLIT"}` を定義し、`mapping.csv` が使う全 `(dest_part, dest_page, dest_section)` のうち `CONTENT_BEARING` の行が1件も無いものを列挙する。advisory 出力とし `exit 1` しない
+- [ ] STEP 6: `#6` の Steps に「`reference-only sections` の全件について本文なしで確定するか本文行を割り当てるかを判断し `checks/task-06.md` に記録する」を追加し、Completion criteria に「`reference-only sections` の全件に判断が記録されている（0件にする必要はない）」を追加する
+- [ ] STEP 6: commit
+- [ ] STEP 7: `verify_mapping.py` に `check_intro_section_split` を追加する。`heading_path` が `(L1直下)`/`(L2直下)`/`(冒頭)` で終わる非DROP行（導入文行）の `(dest_page, dest_section)` が、同じ `src_file` かつ同じ親 `heading_path` を持つ他の非DROP行（同階層行）のどれとも一致しない場合に検出する。`(L2直下)` は ERROR（`exit 1`）、`(L1直下)`/`(冒頭)` は advisory
+- [ ] STEP 7: ERROR 2件（`current-0150`/`current-0269`）を `git show c241906:<src_file>` で実ファイル通読のうえ是正する。`#5` Steps のルール「`(L2直下)` 行は同じ親を持つ配下セクションと同じ `dest_section` に置く」を適用し、同階層行の `dest_section` が複数ある場合は導入文が実際にどちらを導くかを実ファイルで確認して決める（行数の多寡で決めない）。`_batch/*.csv` を編集し `mapping.csv` を再生成する。`dest_page`/`disposition`/`audience` は変更しない。`note` に旧→新と根拠 file:line を追記する
+- [ ] STEP 7: advisory 4件（`input-0114`/`current-0060`/`current-0142`/`current-0148`）はマッピングを変更せず、`note` 末尾に `[セクション境界]` 形式の申し送りを追記する（既存 note は削除しない）
+- [ ] STEP 7: commit
+- [ ] STEP 8: `#8〜: ページの作成` の Steps に「`note` に `[セクション境界]` がある場合は導入文と本体の接続をページ内で再構成する」「`reference-only sections`（advisory）に該当する場合は `#6` で確定した方針に従う」の2行を追加する
+- [ ] STEP 8: `checks/task-05d.md` に、STEP7で是正した2行の旧→新と根拠 file:line、advisory 4件の判断理由を記録する
+- [ ] STEP 8: commit & push
 - [ ] **user review** — 承認を受けるまで #6 に進まない（**サブエージェントによるレビューは実施しない**）
 
 **Completion criteria**:
@@ -403,6 +416,12 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - `split-plan.md` に `input-0016`/`input-0030` の行があり、`parts` の行範囲が `mapping.csv` と一致する（機械検証）
 - `checks/task-05.md` の暫定一覧に27行全件が現れる（機械検証: `note` が「暫定」で始まる行の `mapping_id` 全件が一覧表に存在する）
 - `design.md`/`mapping.csv`/`_batch/*.csv` に差分がない（`git diff` で確認）
+- `check_reference_only_sections` / `check_intro_section_split` が `verify_mapping.py` に実装され、コミットされている
+- `check_intro_section_split` の ERROR が0件
+- `reference-only sections` の advisory 件数が2件で、`#6` の Steps・Completion criteria に引き継ぎが追記されている
+- `[セクション境界]` の `note` 追記が4件あり、対象 `mapping_id` がレビュー時の実測と一致する
+- 591行 / 12,986 / 11,973 が不変
+- `checks/task-05d.md` に、是正した2行の旧→新と根拠 file:line、advisory 4件の判断理由が記録されている
 
 ### #6: 未確定事項の確定と design.md 更新
 
@@ -416,6 +435,7 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - [ ] design.md を更新する（「未確定事項」節を削除し、確定した構成を本文に反映）
 - [ ] 確定に伴い `mapping.csv` の `dest_page` を更新する
 - [ ] `mapping.csv` の `note` が「暫定。」で始まる行をすべて洗い出し、確定した構成に基づいて正式な `dest_page` に更新し、`note` の「暫定。」表記を解消する
+- [ ] `verify_mapping.py` の `reference-only sections` の全件について、「本文なしで成立するページ構成として確定する」か「本文を持つ行を割り当てる」かを判断し、結果を `checks/task-06.md` に記録する
 - [ ] self-check（`checks/task-06.md`）
 - [ ] commit & push
 - [ ] **user review** — 承認を受けるまで #7 に進まない（**サブエージェントによるレビューは実施しない**。self-check のみで user review に上げる）
@@ -428,6 +448,7 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - `mapping.csv` の `note` が「暫定。」で始まる行がすべて解消されている（design.md 確定後に正式な `dest_page` へ更新済み）
 - `mapping.csv` の `dest_page` に `mapping/vocabulary.md` の暫定語彙（第2部の暫定8ページ、処理方式付きの仮ページ名）が1件も残っていない（機械検証。置換漏れの検出手段）
 - `verify_mapping.py` の `PENDING_ZERO` が0件であること（#6 で全件が確定または EXPECTED_ZERO へ移動）
+- `reference-only sections` の全件に判断が記録されている（0件にする必要はない）
 
 ### #7: 現行NTF解説書の削除
 
@@ -467,6 +488,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - [ ] マッピングにない内容を追加しない。マッピングにある内容を落とさない
 - [ ] 出典の文面をそのまま流用しない。`style.md` に従って書き直す
 - [ ] 用語は `glossary.md` の正表記を使う
+- [ ] 当該 `dest_page` の行に `note` の `[セクション境界]` が含まれる場合、導入文と本体の接続をページ内で再構成する（出典の分断をそのまま持ち込まない）
+- [ ] 当該 `dest_page` に `reference-only sections`（`verify_mapping.py` の advisory）が該当する場合、`#6` で確定した方針に従う
 - [ ] 4観点のレビューを、それぞれ**別のサブエージェント**で実施する（A:網羅性 / B:トンマナ / C:用語 / D:整合性）
   - **プロンプトは Rules「レビューを依頼するサブエージェント…」の3点を必ず含める**
   - この4観点はページ内容の観点であり、Rules の4観点（QA / 設計 / クラフト / 検証）とは別軸である。ページ作成タスクでは**本欄のA〜Dを用いる**（A:網羅性がQAを、B:トンマナがクラフトを、C:用語とD:整合性が検証を兼ねる）
@@ -506,8 +529,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
+- **Status**: not suspended
 - **Date**: 2026-07-28
-- **Last completed**: `#5b` STEP1〜5完了・push済み（`82cb58a`検査追加、`ca1e9cf`再判定・PENDING_ZERO登録・volume.md補完）。`verify_mapping.py`はERROR 0件・PENDING_ZERO 25件、`lines`合計12,986/DROP除く11,973/591行は不変。`design.md`は無変更。
-- **Next**: `#5b`のuser review（別セッションのClaudeによる独立検証）の承認待ち。承認後は`#5c`（`DROP`全件レビュー）に着手する。
-- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md`。判断が割れた/未解決の論点（`checks/task-05b.md`に詳細）: (1)第3部テストデータの書き方/記載例の機能概要0件は候補行ありだが#5既承認noteと矛盾するため両論併記でPENDING_ZERO、(2)第2部設定系9ページの機能概要/拡張例16件は出典なし、(3)第1部稼動環境0件はA/B/C案提示、(4)第3部取引単体テスト（Nablarchバッチアプリケーション）機能概要は権限外の新規SPLITが必要なため現状維持。open blocker無し。
+- **Last completed**: `#5b` STEP1〜5完了・push済み（`82cb58a`検査追加、`ca1e9cf`再判定・PENDING_ZERO登録・volume.md補完）。`verify_mapping.py`はERROR 0件・PENDING_ZERO 25件、`lines`合計12,986/DROP除く11,973/591行は不変。`design.md`は無変更。`#5b`のuser review承認済み（`ca1e9cf`に対する独立検証）。同レビューが検出した2件の欠陥（`REFERENCE`のみで充足するセクション／導入文と本体の`dest_section`分断）は`#5b`を再オープンせず`#5d`の追加STEP 6〜8として`steering.md`に反映済み（`.rn/20260724-ntf-yaml-support/ntf-doc-05d-addendum.md`）。STEP 6〜8自体はまだ未着手（`#5d`のPrerequisiteである`#5c`が未着手のため、既存の実行順序どおり`#5c`完了後に着手する。両者にデータ上の依存はないが、タスクの直列実行という本セッションの一貫したルールに従った）。
+- **Next**: `#5c`（`DROP`全件レビュー）に着手する。完了・user review承認後、`#5d`（STEP1〜5に加えSTEP6〜8を含む拡張版）に進む。
+- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md`、`#5d`追補: `.rn/20260724-ntf-yaml-support/ntf-doc-05d-addendum.md`。判断が割れた/未解決の論点（`checks/task-05b.md`に詳細）: (1)第3部テストデータの書き方/記載例の機能概要0件は候補行ありだが#5既承認noteと矛盾するため両論併記でPENDING_ZERO、(2)第2部設定系9ページの機能概要/拡張例16件は出典なし、(3)第1部稼動環境0件はA/B/C案提示、(4)第3部取引単体テスト（Nablarchバッチアプリケーション）機能概要は権限外の新規SPLITが必要なため現状維持。open blocker無し。
