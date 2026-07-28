@@ -535,8 +535,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-07-28
-- **Last completed**: `#5c` STEP0完了・push済み（`05ffa37`）。`check_unused_vocabulary`に許可リストの陳腐化検出（`stale allowlist` ERROR）を追加し、ERROR 0件・`EXIT: 0`を確認（`checks/task-05c.md`）。追補指示は`.rn/20260724-ntf-yaml-support/ntf-doc-05c-addendum.md`。`steering.md`の`#5c` Completion criteriaに2項目追加済み。`lines`合計12,986/DROP除く11,973/591行は不変、`design.md`は無変更。
-- **Next**: 再開後、`#5c`本体（`DROP`全96行のレビュー: 既存レビュー記録との分類→未レビュー分の実ファイル通読判定→`checks/task-05c.md`に表としてまとめる→判定が覆った行があれば`_batch/*.csv`修正・`mapping.csv`再生成→commit&push→user review）に進む（ユーザー指示: 「再開後に#5c本体（DROP 96行）に進んで」）。完了・user review承認後、`#5d`（STEP1〜5に加えSTEP6〜8を含む拡張版）に進む。
-- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md`、`#5c`追補: `.rn/20260724-ntf-yaml-support/ntf-doc-05c-addendum.md`、`#5d`追補: `.rn/20260724-ntf-yaml-support/ntf-doc-05d-addendum.md`。push権限は2026-07-27時点で403だったが2026-07-28に解決済みを確認（`kiyobot`=`GH_TOKEN`がwrite権限を保有、push成功）。#5b由来の未解決論点（詳細`checks/task-05b.md`）は#6待ちのまま変わらず: (1)第3部テストデータの書き方/記載例の機能概要0件、(2)第2部設定系9ページの機能概要/拡張例16件、(3)第1部稼動環境0件、(4)第3部取引単体テスト（Nablarchバッチアプリケーション）機能概要。open blocker無し。
+- **Status**: not suspended
+- **Date**:
+- **Last completed**:
+- **Next**:
+- **Notes**:
