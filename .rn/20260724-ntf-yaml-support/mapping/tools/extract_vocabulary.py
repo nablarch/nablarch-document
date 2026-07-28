@@ -7,7 +7,7 @@ design.md から dest_part / dest_page / dest_section の閉じた語彙を機�
 表・ツリー図から機械的に行い、目視転記に頼らない。
 
 design.md の章構成には「まだページ分割が確定していない」部分がある
-（§3冒頭・§10 未確定事項#1・#2）。このスクリプトは design.md が確定として
+（§3冒頭・§12 未確定事項#1・#2）。このスクリプトは design.md が確定として
 書いている語彙のみを「確定」として抽出する。未確定分（第2部の8ページ・
 処理方式ごとのページ分割）は、このスクリプトでは抽出せず、
 `mapping/vocabulary.md` 側で「暫定」区分として別途手作業ドキュメント化する
@@ -28,10 +28,10 @@ def read_design():
 def extract_dest_parts(lines):
     parts = []
     for line in lines:
-        m = re.match(r"^## \d+\. (第[123]部.+)$", line)
+        m = re.match(r"^## \d+\. (第[1234]部.+)$", line)
         if m:
             parts.append(m.group(1))
-    assert len(parts) == 3, f"expected 3 dest_part, got {parts}"
+    assert len(parts) == 4, f"expected 4 dest_part, got {parts}"
     return parts
 
 
@@ -136,15 +136,29 @@ def extract_part3_tree(lines):
 
 
 def extract_part3_sections(lines):
-    # second "### ページのアウトライン" (first is Part2's)
+    # second "### ページのアウトライン" (1st is Part2's, 3rd is Part4's)
     matches = [i for i, l in enumerate(lines) if l.strip() == "### ページのアウトライン"]
-    assert len(matches) == 2, matches
+    assert len(matches) == 3, matches
     fence = extract_code_fence(lines, matches[1])
     return tree_top_level_items(fence)
 
 
+def extract_part4_tree(lines):
+    idx = find_line(lines, r"^## 5\. 第4部")
+    fence = extract_code_fence(lines, idx)
+    return tree_top_level_items(fence)
+
+
+def extract_part4_sections(lines):
+    # third "### ページのアウトライン" (1st is Part2's, 2nd is Part3's)
+    matches = [i for i, l in enumerate(lines) if l.strip() == "### ページのアウトライン"]
+    assert len(matches) == 3, matches
+    fence = extract_code_fence(lines, matches[2])
+    return tree_top_level_items(fence)
+
+
 def extract_processing_methods(lines):
-    idx = find_line(lines, r"^## 5\. 処理方式の名称")
+    idx = find_line(lines, r"^## 6\. 処理方式の名称")
     header_idx = find_line(lines[idx:], r"^\| 名称 \|") + idx
     names = extract_table(lines, header_idx, "名称")
     ntf = extract_table(lines, header_idx, "NTF対象")
@@ -160,23 +174,28 @@ def main():
     part2_sections = extract_part2_sections(lines)
     part3_top, part3_children = extract_part3_tree(lines)
     part3_sections = extract_part3_sections(lines)
+    part4_top = extract_part4_tree(lines)
+    part4_sections = extract_part4_sections(lines)
     methods = extract_processing_methods(lines)
 
     # mapping/vocabulary.md はこの実行結果をそのまま転記したもの。件数が
     # 変わったら design.md 側が更新されたということなので、ここで止める。
     assert part1_page == "テスティングフレームワークとは", part1_page
     assert part1_sections == ["全体像", "アーキテクチャ", "テストの種類", "テストデータ", "対象範囲", "稼動環境"], part1_sections
-    assert len(part2_tentative_pages) == 8, part2_tentative_pages
+    assert len(part2_tentative_pages) == 7, part2_tentative_pages
     assert part2_sections == ["機能概要", "使用方法", "拡張例"], part2_sections
-    assert part3_top == ["テストデータの書き方", "テストデータの記載例", "リクエスト単体データ作成ツール",
+    assert part3_top == ["テストデータの書き方", "テストデータの記載例",
                           "クラス単体テスト", "リクエスト単体テスト", "取引単体テスト"], part3_top
     assert part3_children["クラス単体テスト"] == ["エンティティ単体テスト", "コンポーネント単体テスト"]
     assert part3_children["リクエスト単体テスト"] == methods, (part3_children["リクエスト単体テスト"], methods)
     assert part3_children["取引単体テスト"] == [], part3_children["取引単体テスト"]  # 未確定事項#2、design.mdに子は列挙されていない
     assert part3_sections == ["機能概要", "使用方法"], part3_sections
+    assert part4_top == ["リクエスト単体データ作成ツール", "テストデータ変換ツール",
+                          "マスタデータ投入ツール", "HTMLチェックツール"], part4_top
+    assert part4_sections == ["機能概要", "導入", "使用方法"], part4_sections
     assert len(methods) == 6, methods
 
-    print("dest_part (確定, 3件):")
+    print("dest_part (確定, 4件):")
     for p in dest_parts:
         print(f"  - {p}")
 
@@ -192,7 +211,10 @@ def main():
             print(f"  {label} の子: {kids}")
     print(f"第3部 ページ共通セクション (確定, {len(part3_sections)}件): {part3_sections}")
 
-    print(f"\n処理方式名称 (design.md §5, NTF対象=○, {len(methods)}件): {methods}")
+    print(f"\n第4部 トップレベル項目 (確定, {len(part4_top)}件): {part4_top}")
+    print(f"第4部 ページ共通セクション (確定, {len(part4_sections)}件): {part4_sections}")
+
+    print(f"\n処理方式名称 (design.md §6, NTF対象=○, {len(methods)}件): {methods}")
 
 
 if __name__ == "__main__":
