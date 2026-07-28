@@ -220,46 +220,64 @@ _VOCAB_TABLE_RE = re.compile(r"^\|\s*(.+?)\s*\|")
 
 
 def _load_vocabulary():
-    """vocabulary.mdの全マークダウン表からdest_part/dest_page/dest_sectionの
-    許容値集合を機械抽出する（確定・暫定の両方を含む）。"""
+    """vocabulary.mdの全マークダウン表からdest_part単体の許容値集合と、
+    dest_part×dest_page／dest_part×dest_sectionの許容組み合わせ集合を機械抽出する
+    （確定・暫定の両方を含む）。
+
+    どの`##`見出し配下の表かで dest_page 表か dest_section 表かを判定する。
+    単純に「2列表の2列目を両方の集合に入れる」実装では、同じ語（例:
+    `拡張例`）が第2部・第3部のdest_section表にだけ存在しても、部を無視した
+    フラットな集合では第4部の行にも誤って一致してしまう（2026-07-28 ユーザー
+    指摘）。dest_part とペアで照合することでこれを防ぐ。
+    """
     path = os.path.join(MAPPING_DIR, "vocabulary.md")
     with open(path, encoding="utf-8") as f:
         lines = f.readlines()
 
     dest_parts = set()
-    dest_pages = set()
-    dest_sections = set()
+    dest_page_pairs = set()
+    dest_section_pairs = set()
 
+    mode = None  # None | "page" | "section"
     for line in lines:
         line = line.rstrip("\n")
+        if line.startswith("## dest_page"):
+            mode = "page"
+            continue
+        if line.startswith("## dest_section"):
+            mode = "section"
+            continue
+        if line.startswith("## "):
+            mode = None
+            continue
         if not line.startswith("|"):
             continue
         cols = [c.strip() for c in line.strip("|").split("|")]
         if not cols or cols[0] in ("dest_part", "dest_page", "dest_section") or set(cols[0]) <= {"-", ":"}:
             continue
-        # dest_part単独表（1列）
+        # dest_part単独表（1列）。dest_part専用の"## dest_part"見出し配下に限らず
+        # どこにあっても1列表は常にdest_part一覧として扱う。
         if len(cols) == 1 and cols[0].startswith("第"):
             dest_parts.add(cols[0])
             continue
-        # dest_part/dest_page（2列以上、備考列があってもよい）表
+        # dest_part + 値（2列以上、備考列があってもよい）表
         if len(cols) >= 2 and cols[0].startswith("第"):
             dest_parts.add(cols[0])
             if cols[1] and cols[1] != "備考":
-                # dest_page表かdest_section表かはヘッダ文脈依存のため両方に登録候補として保持
-                dest_pages.add(cols[1])
-                dest_sections.add(cols[1])
+                if mode == "page":
+                    dest_page_pairs.add((cols[0], cols[1]))
+                elif mode == "section":
+                    dest_section_pairs.add((cols[0], cols[1]))
 
-    # dest_section確定表は見出し語（機能概要/使用方法/拡張例/全体像等）のみで
-    # dest_pageと重ならないため、上の緩い抽出で両方に入れても実害はない
-    # （dest_page側に紛れ込む「機能概要」等はdest_page値としては使われないため）。
-    return dest_parts, dest_pages, dest_sections
+    return dest_parts, dest_page_pairs, dest_section_pairs
 
 
 def check_vocabulary(rows):
-    """dest_part/dest_page/dest_sectionがvocabulary.mdに存在する値のみである
-    ことを検証する（disposition=MOVE/MERGE/SPLITの行が対象）。"""
+    """dest_part/dest_page/dest_sectionがvocabulary.mdに存在する値・組み合わせで
+    あることを検証する（disposition=MOVE/MERGE/SPLITの行が対象）。dest_page/
+    dest_sectionはdest_partとの組み合わせで照合する（部をまたいだ誤一致を防ぐ）。"""
     errors = []
-    dest_parts, dest_pages, dest_sections = _load_vocabulary()
+    dest_parts, dest_page_pairs, dest_section_pairs = _load_vocabulary()
     for r in rows:
         if r.get("disposition") not in ("MOVE", "MERGE", "SPLIT"):
             continue
@@ -269,10 +287,10 @@ def check_vocabulary(rows):
         sec = r.get("dest_section", "")
         if dp and dp not in dest_parts:
             errors.append(f"{sid}: dest_part {dp!r} not in vocabulary.md")
-        if pg and pg not in dest_pages:
-            errors.append(f"{sid}: dest_page {pg!r} not in vocabulary.md")
-        if sec and sec not in dest_sections:
-            errors.append(f"{sid}: dest_section {sec!r} not in vocabulary.md")
+        if pg and (dp, pg) not in dest_page_pairs:
+            errors.append(f"{sid}: dest_page {pg!r} not in vocabulary.md for dest_part {dp!r}")
+        if sec and (dp, sec) not in dest_section_pairs:
+            errors.append(f"{sid}: dest_section {sec!r} not in vocabulary.md for dest_part {dp!r}")
     return errors
 
 
