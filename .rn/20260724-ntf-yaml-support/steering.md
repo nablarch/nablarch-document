@@ -557,8 +557,9 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-07-28
-- **Last completed**: `/rn:ty`（ARGUMENTS「#5dはOK、次に進んで」）により`#5d`のuser reviewを承認として記録（steering.md #5dのuser reviewチェックボックスを更新）。`#5d`はSTEP1〜8完了済み（`fa30fef`/`5dcaad1`/`9510a18`/`7198252`/`518b484`）。`verify_mapping.py`は593行・lines合計12,986・DROP除く11,983・エラー0件のまま不変。
-- **Next**: `#6`（未確定事項の確定とdesign.md更新）に着手する。Steps: (1) `volume.md`集計をもとにdesign.md「10. 未確定事項」3件を確定、(2) design.md更新（未確定事項節削除・確定構成を本文反映）、(3) `mapping.csv`の`dest_page`を確定構成に更新、(4) `note`が「暫定。」で始まる全行を正式`dest_page`に更新し「暫定。」表記を解消、(5) `reference-only sections`全件（advisory 2件）の判断を`checks/task-06.md`に記録、(6) self-check、(7) commit & push、(8) user review（サブエージェントレビューなし）。#6未解決論点は下記Notes参照。
+- **Last completed**: `#6`着手にあたり実データ調査を行い、設計判断案を`checks/task-06-proposal.md`にまとめてユーザーに地の文で提示（`steering.md`/`mapping.csv`/`design.md`はまだ無変更、`#6`のStepsは未着手）。提案内容: (1) 稼動環境0件は案A採用（`current-0180`/`current-0267`を第1部へ移動）、(2) テストデータの形式ページは廃止し内容を第3部書き方冒頭へ統合、(3) 第2部リクエスト単体テストの設定は6処理方式分割・取引単体テストの設定は実データがある3処理方式（MOM/RESTful/HTTPメッセージング）のみページ化、(4) ファイル名はFW解説書慣例の英語snake_case・連番なし。詳細な実測根拠は`checks/task-06-proposal.md`参照（会話ログには依存しない）。
+- **Next**: ユーザーが`checks/task-06-proposal.md`の提案を承認または修正指示したら、同ファイル末尾の「承認後に着手する`#6`のSteps」（design.md更新→mapping.csv更新→暫定表記解消→reference-only sections判断→self-check→commit&push→user review）に着手する。
+- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md`。push権限は解決済み（`kiyobot`=`GH_TOKEN`がwrite権限を保有）。open blocker: `checks/task-06-proposal.md`の設計判断案へのユーザー承認待ち（`/rn:ty`/`/rn:gm`ではなく通常のユーザー返信で応答される想定。修正指示が来た場合は同ファイルを更新してから再提示する）。#5b由来の未解決論点（詳細`checks/task-05b.md`）はいずれも`checks/task-06-proposal.md`で回答案を提示済み。
 - **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md`、`#5d`追補: `ntf-doc-05d-addendum.md`。push権限は解決済み（`kiyobot`=`GH_TOKEN`がwrite権限を保有）。#5b由来の未解決論点（詳細`checks/task-05b.md`）は#6待ちのまま変わらず: (1)第3部テストデータの書き方/記載例の機能概要0件、(2)第2部設定系9ページの機能概要/拡張例16件、(3)第1部稼動環境0件、(4)第3部取引単体テスト（Nablarchバッチアプリケーション）機能概要。#5dで新たにPENDING_ZERO登録した(5)第2部取引単体テストの設定（RESTfulウェブサービス）機能概要も#6待ちに追加。open blocker無し。
