@@ -532,6 +532,11 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
 - [ ] 用語は `glossary.md` の正表記を使う
 - [ ] 当該 `dest_page` の行に `note` の `[セクション境界]` が含まれる場合、導入文と本体の接続をページ内で再構成する（出典の分断をそのまま持ち込まない）
 - [ ] 当該 `dest_page` に `reference-only sections`（`verify_mapping.py` の advisory）が該当する場合、`#6` で確定した方針に従う
+- [ ] 当該ページが、削除された現行解説書の外部被参照ラベルを引き継ぐ場合、
+      同名の `:ref:` ラベルを新ページに定義する（対象は `checks/task-07.md`
+      「リンク切れになる参照」の表を参照。現時点で1件、
+      `implementation/request_unit_test/web.rst` の
+      `how_to_set_token_in_request_unit_test`）
 - [ ] 4観点のレビューを、それぞれ**別のサブエージェント**で実施する（A:網羅性 / B:トンマナ / C:用語 / D:整合性）
   - **プロンプトは Rules「レビューを依頼するサブエージェント…」の3点を必ず含める**
   - この4観点はページ内容の観点であり、Rules の4観点（QA / 設計 / クラフト / 検証）とは別軸である。ページ作成タスクでは**本欄のA〜Dを用いる**（A:網羅性がQAを、B:トンマナがクラフトを、C:用語とD:整合性が検証を兼ねる）
@@ -563,6 +568,8 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
 **Completion criteria**:
 
 - すべての Acceptance criteria が達成されていることが確認できる
+- `checks/task-07.md`「リンク切れになる参照」の3件すべてが解消されている
+  （toctree・`:doc:` の更新、外部被参照ラベルの再定義）
 - ユーザーが `/rn:ty` で承認している
 
 # State
@@ -573,6 +580,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-07-28
-- **Last completed**: `/rn:ty`で`#6`フォローアップのuser reviewを承認として記録し、`#7`（現行NTF解説書の削除）を実施。削除前に`ja/development_tools/testing_framework/`配下の`.rst`全47件（パス・行数）と`ja/development_tools/index.rst`のtoctree参照（`testing_framework/index`）・`ja/index.rst:54`の`:doc:`参照の現状を`checks/task-07.md`に記録（いずれもリンク切れになるが本タスクでは更新しない旨を明記）。`git rm`で`.rst`47件を削除し、画像・ダウンロード素材125件（`_image/`/`_images/`/`download/`/`_download/`配下）は無変更であることを`find`で確認。`steering.md`の`#7` Steps5件を`[x]`化。
-- **Next**: `#7`のcommit & pushを行い、`user review`（承認を受けるまで`#8〜`に進まない）を提示する。承認後は`#8〜`（ページ作成、作成順: 第1部 → 第3部のテストデータ2ページ → 第2部 → 第3部の残り）に着手する。
-- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。push権限は解決済み（`kiyobot`=`GH_TOKEN`がwrite権限を保有）。`#6`本体・フォローアップとも承認済み。open blocker: `#7`のuser review待ち。承認後`#8〜`のタスク番号・ページIDは`mapping.csv`の`dest_page`一覧から確定する必要あり（steering.mdに未記載）。
+- **Last completed**: `#7`は承認済み（`ntf-doc-07-followup.md`の判定）。フォローアップとして外部被参照ラベルの記録漏れ1件を補完。削除した47ファイルが定義していたラベルを全数調査（定義ラベル76件、`git show 2e501ad:<file> | grep '^\.\. _...:'`）し、`ja/`の削除ツリー外`.rst`の`:ref:`参照2708件との交差を機械的に取った結果、`ja`外部参照は`db_double_submit.rst:106`の`how_to_set_token_in_request_unit_test`1件のみと確認（`ntf-doc-07-followup.md`の事前提示値76件/1件と一致）。`checks/task-07.md`の「リンク切れになる参照」を3件（toctree・`:doc:`・当該`:ref:`）に更新し、`en/`側が無関係な理由（Sphinxプロジェクトが`ja`/`en`で分離・`en/development_tools/testing_framework/`は未削除）とCIなし・`keep_warnings=True`のため`make html`では検出不能な旨を記録。`steering.md`の`#8〜`にラベル再定義Stepを、`#last`のCompletion criteriaに3件解消の確認項目を追加。
+- **Next**: 本フォローアップのcommit & pushを行い（`checks/task-07.md`・`steering.md`のみの差分）、`verify_mapping.py`が`exit 0`・594行/12,986/11,983不変であることを確認したうえで`user review`を提示する。承認後は`#8〜`（ページ作成、作成順: 第1部 → 第3部のテストデータ2ページ → 第2部 → 第3部の残り）に着手する。`implementation/request_unit_test/web.rst`作成時に`how_to_set_token_in_request_unit_test`ラベルの再定義を忘れないこと。
+- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。push権限は解決済み（`kiyobot`=`GH_TOKEN`がwrite権限を保有）。`#6`本体・フォローアップ、`#7`とも承認済み。open blocker: `#7`フォローアップのuser review待ち。承認後`#8〜`のタスク番号・ページIDは`mapping.csv`の`dest_page`一覧から確定する必要あり（steering.mdに未記載）。

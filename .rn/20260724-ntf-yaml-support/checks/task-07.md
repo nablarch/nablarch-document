@@ -57,7 +57,7 @@ ja/development_tools/testing_framework/index.rst: 27
 
 （取得コマンド: `find ja/development_tools/testing_framework -type f -name "*.rst" | sort` に対し各ファイルへ `wc -l` を実行）
 
-## `ja/development_tools/index.rst` の NTF への toctree 参照の現状
+## リンク切れになる参照（3件、`#7`フォローアップで確定。`ntf-doc-07-followup.md` 参照）
 
 削除前の `ja/development_tools/index.rst`:
 
@@ -74,15 +74,73 @@ Nablarch開発ツール
    toolbox/index
 ```
 
-`testing_framework/index` の toctree エントリが存在する。`.rst` 削除に伴いこのエントリは
-リンク切れになるが、本タスク（#7）では白紙化のみを行い、`index.rst` の更新はスコープ外
-（`#8〜` のページ作成でNTFの新構成が確定してから toctree を張り直す）。
+`.rst` 削除に伴い、以下の3件がリンク切れになる。
 
-参考: 同様に `ja/index.rst:54` にも `:doc:` 参照
-（`` :doc:`テスティングフレームワーク <development_tools/testing_framework/index>` ``）があり、
-これも `.rst` 削除後はリンク切れになる。`ja/development_tools/index.rst` 以外の参照だが、
-影響範囲の記録として合わせて残す。この2箇所以外に `testing_framework` を参照する `.rst` は
-存在しない（`grep -rn "testing_framework" --include="*.rst" ja/` で確認）。
+| # | 参照元 | 参照の形 | 対応 |
+|---|---|---|---|
+| 1 | `ja/development_tools/index.rst:10` | toctree `testing_framework/index` | `#8〜` の新構成確定後に更新 |
+| 2 | `ja/index.rst:54` | `:doc:` `` `テスティングフレームワーク <development_tools/testing_framework/index>` `` | `#8〜` の新構成確定後に更新 |
+| 3 | `ja/application_framework/application_framework/libraries/db_double_submit.rst:106` | `:ref:` `` `テスティングフレームワークのトークン発行<how_to_set_token_in_request_unit_test>` `` | **`#8〜` で `implementation/request_unit_test/web.rst` に同名ラベル（`how_to_set_token_in_request_unit_test`）を定義する** |
+
+3件目（FW解説書からNTF解説書への被参照）の詳細:
+
+- 文脈: `db_double_submit.rst` の `.. important::` ブロック内。「テスティングフレームワークのトークン発行はトークンのDB保存に対応していない」という注意喚起の導線
+- ラベル定義元（削除済み）: `06_TestFWGuide/02_RequestUnitTest.rst:169`（`.. _how_to_set_token_in_request_unit_test:` / 見出し「トークン発行」）
+- 内容を引き継ぐマッピング行: `current-0206`（`02_RequestUnitTest.rst` 106-207、`MOVE`）
+- 新しい行き先: 第3部 リクエスト単体テスト（ウェブアプリケーション）> 使用方法 → `implementation/request_unit_test/web.rst`
+- NTF解説書の再構築スコープ外（FW解説書側）から入ってくるリンクであり、新ページで同名ラベルを定義しない限り FW解説書の `.. important::` が黙って壊れる
+
+1・2件目は `ja/development_tools/index.rst` 以外の箇所（`ja/index.rst:54`）も含めて当初の `#7` self-check で記録済み。3件目は `:ref:` によるラベル参照でパス文字列（`testing_framework`）を含まないため、`grep -rn "testing_framework"` では検出できず、`#7`フォローアップ（`ntf-doc-07-followup.md`）で追加した独立調査（下記「ラベルの全数調査」）で発見した。
+
+### `en/` 側は影響なし（確認済み）
+
+`en/index.rst:52` と `en/development_tools/index.rst:10` も `testing_framework` を参照しているが、これらは影響しない。
+
+- `ja/conf.py` と `en/conf.py` が別に存在し、Sphinx プロジェクトが分かれている
+- `en/development_tools/testing_framework/` が独立したツリーとして存在し、削除されていない
+- `en/` から（`ja/` 削除ツリーと同名の）ラベルへの `:ref:` 参照は123件あるが、すべて `en/` 内のラベルを解決する
+
+`#7` が `ja/` 側のみを記録したのは正しい判断である。
+
+### 未解決参照がビルド失敗にならない理由
+
+リポジトリに CI 設定（workflow）は存在しない。また `ja/conf.py:103` は `keep_warnings = True` のため、
+`make html` を実行しても未解決の `:ref:`/`:doc:` 参照はビルド失敗にならず、出力に警告として
+埋め込まれるだけである。したがって上記3件は `make html` のエラー0件では検出できず、
+本ドキュメントでの手動記録が唯一の追跡手段になる。
+
+### ラベルの全数調査（`#7`フォローアップ、独立検証）
+
+削除した47ファイルが定義していた `:ref:` ラベルを全件洗い出し、`ja/` の削除ツリー外から
+参照されているものを特定した。
+
+実行コマンド（削除前コミット `2e501ad` から取得。削除コミットは `6bf8cfb`）:
+
+```bash
+for f in $(git diff --name-only --diff-filter=D 2e501ad 6bf8cfb); do
+  git show 2e501ad:"$f" | grep -oE '^\.\. _[A-Za-z0-9_-]+:'
+done | sed 's/^\.\. _//;s/:$//' | sort -u > /tmp/labels.txt
+wc -l < /tmp/labels.txt
+```
+
+→ **定義ラベル76件**
+
+次に `ja/` 配下（削除ツリーを除く）の全 `.rst` から `:ref:` 参照を機械的に抽出（``:ref:`表示文字<label>` `` と ``:ref:`label` `` の両形式に対応）し、定義ラベル集合との交差を取った:
+
+```bash
+grep -rnoE ':ref:`[^`]+`' --include="*.rst" ja/ \
+  | grep -v '^ja/development_tools/testing_framework/' \
+  > ja_ref_refs_raw.txt
+wc -l < ja_ref_refs_raw.txt   # 2708件（ja/ 全体の :ref: 総数、削除ツリー除く）
+
+# `<label>` 形式は < 以降を、それ以外は本体をラベルとして抽出し、
+# 定義ラベル集合(labels.txt)との交差を取る
+awk -F'\t' 'NR==FNR{labels[$1]=1; next} { if ($2 in labels) print }' labels.txt ja_ref_labels.txt
+```
+
+→ **`ja` 外部参照1件**: `ja/application_framework/application_framework/libraries/db_double_submit.rst:106: how_to_set_token_in_request_unit_test`
+
+定義ラベル76件・`ja` 外部参照1件は、`ntf-doc-07-followup.md` が事前に提示した独立検証の実測値（76件／1件）と一致する。
 
 ## 画像・ダウンロード素材の保持
 
