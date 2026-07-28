@@ -480,7 +480,7 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
 - [x] 対応1-4: `#8〜` の Steps に件数固定の記述がないか確認する（なし、修正不要と確認）
 - [x] 対応2: `checks/task-06.md:906` の self-check 記述を実態に合わせて書き換える
 - [x] commit & push
-- [ ] **user review** — 承認を受けるまで #7 に進まない
+- [x] **user review** — 承認済み（`/rn:ty` で承認）
 
 **Completion criteria**:
 
@@ -500,11 +500,11 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
 
 **Steps**:
 
-- [ ] `ja/development_tools/testing_framework/` 配下の `.rst` を削除する
-- [ ] `ja/development_tools/index.rst` の NTF への toctree 参照の現状を `checks/task-07.md` に記録する
-- [ ] 削除前の全ファイル一覧（パスと行数）を `checks/task-07.md` に記録する
-- [ ] 画像ファイル（`_image/`、`_images/`）およびダウンロード素材は削除しない
-- [ ] commit & push
+- [x] `ja/development_tools/testing_framework/` 配下の `.rst` を削除する
+- [x] `ja/development_tools/index.rst` の NTF への toctree 参照の現状を `checks/task-07.md` に記録する
+- [x] 削除前の全ファイル一覧（パスと行数）を `checks/task-07.md` に記録する
+- [x] 画像ファイル（`_image/`、`_images/`）およびダウンロード素材は削除しない
+- [x] commit & push
 - [ ] **user review** — 承認を受けるまで #8 に進まない（**サブエージェントによるレビューは実施しない**。self-check のみで user review に上げる）
 
 **Completion criteria**:
@@ -573,6 +573,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-07-28
-- **Last completed**: `/rn:up`で`ntf-doc-06-followup.md`（`#6`レビュー指摘2件の対応指示、判定は承認・差し戻しではない）を受領し完了。対応1: `verify_mapping.py`に`check_intro_note_present`を追加し、`current-0128-a`をERRORで検出するRED（`exit 1`）を確認後、`current-0128-a`の`note`に`[セクション境界]`を追記し`mapping.csv`を`_batch/*.csv`の単純連結で再生成、GREEN（`exit 0`）を確認。advisory 5件全件が`[セクション境界]`noteを持つことを機械検証済み。`steering.md #8〜`のSteps確認は修正不要。対応2: `checks/task-06.md:906`のself-check文言を実態（`task-06-proposal.md`への参照9件が「削除済みの旧ファイル」注記付きで残存）に合わせて修正。検査結果: EXIT:0・PENDING_ZERO 0件・stale allowlist 0件・594行/lines全行12,986/DROP除く11,983（不変）。design.mdは無変更（`git diff`で確認）。詳細な実施記録は`checks/task-06-followup.md`を参照。commit: `e2275c4`（対応1-2・RED確認）・本コミット（対応1-1/1-3/1-4・対応2）。
-- **Next**: `#6`フォローアップのuser reviewの結果を待つ。別セッションのClaudeが独立検証する。承認されたら`#7`（現行NTF解説書の削除）に着手する。差し戻された場合は指摘に対応し再提示する。
-- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-06-followup.md`。push権限は解決済み（`kiyobot`=`GH_TOKEN`がwrite権限を保有）。open blocker: `#6`フォローアップのuser review待ち（別セッションのClaudeによる独立検証。CCはcommit SHAと`verify_mapping.py`実行結果（RED→GREEN）を報告予定）。承認後は`#7`（現行解説書の`.rst`削除）へ進む。`#6`本体のuser review行は元指示の判定（承認）を反映済みだが、`steering.md`上のチェックボックスは`#5c`と同様の慣例によりフォローアップ側のuser review行のみで管理する。
+- **Last completed**: `/rn:ty`で`#6`フォローアップのuser reviewを承認として記録し、`#7`（現行NTF解説書の削除）を実施。削除前に`ja/development_tools/testing_framework/`配下の`.rst`全47件（パス・行数）と`ja/development_tools/index.rst`のtoctree参照（`testing_framework/index`）・`ja/index.rst:54`の`:doc:`参照の現状を`checks/task-07.md`に記録（いずれもリンク切れになるが本タスクでは更新しない旨を明記）。`git rm`で`.rst`47件を削除し、画像・ダウンロード素材125件（`_image/`/`_images/`/`download/`/`_download/`配下）は無変更であることを`find`で確認。`steering.md`の`#7` Steps5件を`[x]`化。
+- **Next**: `#7`のcommit & pushを行い、`user review`（承認を受けるまで`#8〜`に進まない）を提示する。承認後は`#8〜`（ページ作成、作成順: 第1部 → 第3部のテストデータ2ページ → 第2部 → 第3部の残り）に着手する。
+- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。push権限は解決済み（`kiyobot`=`GH_TOKEN`がwrite権限を保有）。`#6`本体・フォローアップとも承認済み。open blocker: `#7`のuser review待ち。承認後`#8〜`のタスク番号・ページIDは`mapping.csv`の`dest_page`一覧から確定する必要あり（steering.mdに未記載）。
