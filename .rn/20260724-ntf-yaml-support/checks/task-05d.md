@@ -120,9 +120,10 @@ EXIT: 0
 `(dest_page, dest_section)`のタプルではなく**`dest_section`単独**とした。理由: `steering.md` #5
 Stepsの既存ルール文言は「同じ親を持つ配下セクションと同じ**dest_section**に置く」であり、
 dest_pageの一致までは求めていない。実際にタプル一致で実装すると、design.md §4の記法統合方針に
-基づき意図的にdest_pageを分離している正当なケース（例: current-0049・current-0079 — 導入文は
+基づき意図的にdest_pageを分離している正当なケース（current-0049・current-0079 — 導入文は
 ページ固有の`使用方法`に残し、記法本体は`テストデータの書き方`ページへ送る設計）を誤ってERROR
-検出してしまうことを実測で確認した（4件誤検出）。dest_section単独比較に変更したところ、
+検出してしまうことを実測で確認した（是正前にタプル比較を適用した場合の(L2直下) ERRORは4件
+＝current-0150・current-0269・current-0049・current-0079。うち誤検出は後者2件）。dest_section単独比較に変更したところ、
 `ntf-doc-05d-addendum.md`記載の「現状（レビュー時の実測。6件）」の表（ERROR 2件・advisory 4件、
 対象mapping_id・dest_section値とも完全一致）を過不足なく再現した。
 
