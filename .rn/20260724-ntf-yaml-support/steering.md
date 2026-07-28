@@ -15,6 +15,7 @@ Rn version: 0.8.0
 # Assumptions
 
 - 作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-rebuild-instruction.md`
+- `#5b`/`#5c`/`#5d` 作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
@@ -334,11 +335,80 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - `volume.md` にページ別文量の集計表がある
 - 検証は `mapping/tools/verify_mapping.py` で行い、コミットされている（手作業で確認しない）
 
+### #5b: 割当先0件問題の解消
+
+**Purpose**: 「語彙が定義しているのに割当が0件」を機械検出できる状態にし、再判定で解消できるものを解消し、`#6` のユーザー判断が必要なものを調査報告として残す。詳細な仕様は `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md` を参照。
+
+**Prerequisites**: #5
+
+**Steps**:
+
+- [ ] STEP 1: `mapping/tools/verify_mapping.py` に `check_unused_vocabulary`（`EXPECTED_ZERO`/`PENDING_ZERO`/ERROR の3分類）を追加し、RED（ERROR で `exit 1`）を確認して commit する
+- [ ] STEP 2: `機能概要`/`導入`/`拡張例` 0件の16ページを実ファイル通読で再判定し、`_batch/*.csv` を修正、`mapping.csv` を全30バッチ連結で再生成する
+- [ ] STEP 3: `volume.md` に0行ページと `dest_section` 単位の集計表を追加する
+- [ ] STEP 4: 未解決の0件（第1部「稼動環境」／第2部「テストデータの形式」／第2部 取引単体テストの設定2ページ）を調査報告として `checks/task-05b.md` にまとめ、`PENDING_ZERO` に登録する（`design.md` は変更しない）
+- [ ] STEP 5: self-check（`checks/task-05b.md`）、`steering.md` 更新（本タスク追記・#6 Prerequisites 更新）、commit & push
+- [ ] **user review** — 承認を受けるまで #5c に進まない（**サブエージェントによるレビューは実施しない**）
+
+**Completion criteria**:
+
+- `verify_mapping.py` に `check_unused_vocabulary` が実装され、コミットされている
+- `EXPECTED_ZERO` の全エントリに `design.md` の該当箇所の引用が理由として付いている
+- `PENDING_ZERO` の全エントリに `#6` のどの未確定事項に対応するかが書かれている
+- `check_unused_vocabulary` の ERROR が0件（残りは `EXPECTED_ZERO` か `PENDING_ZERO` に分類済み）
+- `lines` 合計 12,986 / DROP除く 11,973 / 591行 が不変
+- `checks/task-05b.md` に、`dest_section` を変更した行と変更しなかった行の両方が根拠付きで列挙されている
+- `volume.md` に0行ページと `dest_section` 単位の集計が載っている
+- `design.md` が変更されていない（`git diff` で確認）
+
+### #5c: `DROP` 全件レビュー
+
+**Purpose**: `design.md` §11.8「`DROP` は件数の多寡にかかわらず全件を対象とする」の未達分を解消する。詳細は `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md` を参照。
+
+**Prerequisites**: #5b
+
+**Steps**:
+
+- [ ] `mapping.csv` の `disposition=DROP` 全96行を抽出し、`checks/task-05.md` の既存レビュー記録とレビュー済み/未レビューを機械的に分類する
+- [ ] 未レビュー分を実ファイル通読で判定する（理由の妥当性／重複DROPの実ファイル確認／開発者向けDROPの該当性／空・TOC・アンカーの実態）
+- [ ] 全96行の判定結果を `checks/task-05c.md` に1つの表としてまとめる
+- [ ] 判定が覆った行があれば `_batch/*.csv` を修正し `mapping.csv` を再生成する
+- [ ] commit & push
+- [ ] **user review** — 承認を受けるまで #5d に進まない（**サブエージェントによるレビューは実施しない**）
+
+**Completion criteria**:
+
+- `DROP` 96行すべてが `checks/task-05c.md` の表に現れる
+- 各行に「レビュー済み（記録の所在）」または「今回レビュー（判定と根拠 file:line）」のいずれかがある
+- 判定が覆った行は `_batch/*.csv` を修正し、`verify_mapping.py` がエラー0件
+- `lines` 合計 12,986 が不変
+
+### #5d: 記録の整合
+
+**Purpose**: `#5` までの成果物に残った記録上の不整合を解消する。データの判断は変更しない。詳細は `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md` を参照。
+
+**Prerequisites**: #5c
+
+**Steps**:
+
+- [ ] `split-plan.md` に `input-0016`/`input-0030` を表形式で追記し、冒頭の対象定義に2件追加した旨を記す
+- [ ] `checks/task-05.md` に「暫定扱い一覧」節を新設し、`note` が「暫定」で始まる27行全件を表にする
+- [ ] `HTMLチェックツール` 8行（`current-0367`〜`current-0375`）について、第4部新設で受け皿問題が解消済みであり `#6` では文言更新のみで済む旨を暫定一覧に明記する
+- [ ] `design.md` §12 未確定事項#3（ファイル名・ディレクトリ構成）の確定時期のズレを `checks/task-05d.md` に申し送りとして記録する（`design.md` は変更しない）
+- [ ] commit & push
+- [ ] **user review** — 承認を受けるまで #6 に進まない（**サブエージェントによるレビューは実施しない**）
+
+**Completion criteria**:
+
+- `split-plan.md` に `input-0016`/`input-0030` の行があり、`parts` の行範囲が `mapping.csv` と一致する（機械検証）
+- `checks/task-05.md` の暫定一覧に27行全件が現れる（機械検証: `note` が「暫定」で始まる行の `mapping_id` 全件が一覧表に存在する）
+- `design.md`/`mapping.csv`/`_batch/*.csv` に差分がない（`git diff` で確認）
+
 ### #6: 未確定事項の確定と design.md 更新
 
 **Purpose**: 文量集計に基づいて未確定事項を確定させる。
 
-**Prerequisites**: #5
+**Prerequisites**: #5d
 
 **Steps**:
 
@@ -357,6 +427,7 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - ファイル名に連番（`01_`, `02_` 等）が使われていない
 - `mapping.csv` の `note` が「暫定。」で始まる行がすべて解消されている（design.md 確定後に正式な `dest_page` へ更新済み）
 - `mapping.csv` の `dest_page` に `mapping/vocabulary.md` の暫定語彙（第2部の暫定8ページ、処理方式付きの仮ページ名）が1件も残っていない（機械検証。置換漏れの検出手段）
+- `verify_mapping.py` の `PENDING_ZERO` が0件であること（#6 で全件が確定または EXPECTED_ZERO へ移動）
 
 ### #7: 現行NTF解説書の削除
 
@@ -435,8 +506,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
+- **Status**: not suspended
 - **Date**: 2026-07-28
-- **Last completed**: `/rn:gm`でユーザーから「「導入」0件対応がPR #730に反映されていない」との指摘を受け再検証。`git`/GitHub API調査の結果、指摘対象の`0fee222`は既に`origin/work`へpush済みでPR #730のheadと一致、`mapping.csv`の`第4部``dest_section`内訳も修正後の値（機能概要13/使用方法17/導入14）であることを確認した。ユーザーの実測値（機能概要16/使用方法28/導入0）はpush前`901ab1f`時点の分布と一致しており、fetchが古かったための齟齬と判断。差し戻された欠陥は無し（redoなし）。steering.mdの古い記述（「まだコミットしていない」）を訂正。続けてユーザーが`/rn:dn #5はOK`で#5のuser reviewを承認した。
-- **Next**: #6（未確定事項の確定とdesign.md更新）に着手する。
-- **Notes**: branch/PR: `lovaizu/nablarch-document` の `work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`（`git merge-base origin/develop HEAD`）。open blocker無し。
+- **Last completed**: none
+- **Next**: none
+- **Notes**: none
