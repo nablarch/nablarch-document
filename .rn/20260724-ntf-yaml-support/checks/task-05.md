@@ -278,3 +278,49 @@ batch-01〜15全体のDROPは、current-0057のMERGE化により55件→54件に
 **2026-07-28、ユーザー指示によりbatch-16〜30の実行方針を変更**: バッチ間の重複チェック（batch-06〜12で試みていた「先行バッチとの重複確認」）は並行実行では機能せず、順次実行でも防げていなかった（batch-17のinput-0031のように差し戻しで事後修正）。以後は各バッチのディスパッチ時に他バッチとの重複チェックを求めず、`verify_mapping.py`に追加した`check_duplicate_destinations`（heading_path末尾一致・本文先頭40文字一致で同一内容が複数dest_pageにMOVE/MERGEされていないかを検出、自動DROPはせず一覧出力のみ）で統合後に一括検出する方針に変更した。batch-16〜30は担当ファイルが重ならず出力先も別ファイルのため、以後は並行実行する。
 
 - **batch-18**（`ntf-testdata-loading.md` 15件 + `02_RequestUnitTest/delayed_send.rst` 5件、commit `05bf6a4`）: DROP 11 / MOVE 4 / MERGE 5。audience: developer10/user10。design.md §8のuser/developer判定を個別に適用: 内部実装（4段階パイプライン・状態機械・キャッシュ機構等）10件をdeveloper・DROP、入出力仕様（特殊記法変換表・デフォルト補完表・マーカーカラム記法・Single/Group選択方式の注意）4件をuser・MOVE/MERGEに分類（機械的な一括DROPを避けた）。delayed_send.rst（current-0051〜0055）は全件user、リクエスト単体テスト（Nablarchバッチアプリケーション）へMOVE/MERGE。verify_mapping.py: batch-01〜18全367行でエラー0件（重複候補28組はadvisoryのみ）。
+
+## 全30バッチ統合（mapping.csv作成、2026-07-28）
+
+`mapping/_batch/batch-01.csv`〜`batch-30.csv`（589行）を`mapping_id`の重複なしを確認のうえ`mapping/mapping.csv`へ統合した。
+
+### verify_mapping.pyへの機能追加
+
+`mapping.csv`統合を受けて、steering.md #5の未実装項目だった2点を`verify_mapping.py`に追加した。
+
+- `check_coverage`: `sections-current.csv`/`sections-input.csv`の全`section_id`が`mapping.csv`に最低1回現れ、紐づく全マッピング行の`[src_body_start, src_body_end]`の和集合が元セクションの`[body_start_line, body_end_line]`と過不足なく一致することを検証（SPLIT行は`mapping_id`が`-a`/`-b`/`-c`サフィックス付きでも`src_section_id`は元のIDのまま、という既存の書式を前提に集約）
+- `check_vocabulary`: `vocabulary.md`の全マークダウン表から`dest_part`/`dest_page`/`dest_section`の許容値集合を機械抽出し、disposition=MOVE/MERGE/SPLITの行の値がすべて許容値に含まれることを検証
+
+`mapping.csv`が存在する場合のみこの2検証を実行する（バッチ単体では対象セクションの一部しか含まれないため）。
+
+### 統合直後に検出・修正した不具合
+
+1. **batch-22の`src_body_start`列の混同（実測バグ）**: `check_coverage`が14件の`coverage mismatch (extra=...)`を検出。原因は`entityUnitTestWithNablarchValidation.rst`・`SetUpHttpDumpTool.rst`の一部セクションで、`sections-current.csv`の`src_line`列（見出し行番号）を`body_start_line`列（本文開始行番号）と取り違えていたため（両者が一致するセクションでは症状が出ず、見出し+アンダーラインの2行分ずれがあるセクションでのみ顕在化）。`sections-current.csv`を正として`batch-22.csv`の該当14行の`src_body_start`/`lines`を修正し、`mapping.csv`を再統合して解消を確認した。
+2. **`HTMLチェックツール`のvocabulary未掲載**: batch-29が新設した暫定dest_page（design.mdに受け皿がないため）が`vocabulary.md`に未転記だった。`vocabulary.md`の第2部暫定8ページの表に追記し、由来と`#6`での判断要求を明記した。
+
+### 修正後の検証結果
+
+```
+python3 mapping/tools/verify_mapping.py
+Loaded 589 rows from mapping.csv
+lines total (all rows): 12986
+lines total (excluding DROP): 12000
+OK: no errors
+```
+
+- lines合計12,986は`sections-current.csv`（9,783）+`sections-input.csv`（3,203）と一致（取りこぼしゼロ、steering.md #5 Completion criteria該当項目を満たす）
+- disposition内訳: MOVE 239 / MERGE 227 / DROP 94 / SPLIT 16 / REFERENCE 13
+- audience内訳: user 558 / developer 31
+- 重複先候補（advisory）: 44組検出。いずれも複数処理方式ページでの同名見出し・類似定型文の並行構造であり、内容の誤重複ではないことを目視確認済み（詳細は次のセクション参照）
+
+`mapping/volume.md`にdest_page別文量集計とDROP理由別集計を記載した（DROP除く合計12,000行、DROP合計986行）。
+
+### 重複先候補（advisory 44組）の目視確認
+
+`check_duplicate_destinations`が検出した44組全件を確認した。まず「dest_pageのベース名（末尾の（処理方式名）を除いた部分）が全メンバーで一致する」組を機械分類し、26組を「複数の処理方式ページが同名の見出し（全体像・主なクラス,リソース等）を独立に持つ」設計上想定内のパターンとして除外した。残り18組は個別にnoteと実内容を確認し、以下のいずれかに分類されることを確認した。内容の誤った重複配置は0件だった。
+
+- 別ページ・別ツールの同名見出し（前提条件・前提事項・概要・特徴・モジュール一覧・注意事項）で、実体は別内容（JUnit5用拡張機能／リクエスト単体データ作成ツール／マスタデータ投入ツール／HTMLチェックツールなど、ツールごとに固有の前提条件・依存モジュール）
+- 現行解説書の「目的別API使用方法」由来の「テストソースコード実装例」7件（batch-04/05でMERGE済み）はいずれも直前の技法セクションに対応する別々の具体的コード例
+- 複数の処理方式ページに同一の定型文（「Excelファイルはテストソースコードと同じディレクトリ・同じ名前で格納する」「これらの設定は通常アーキテクトが行う」「以下の設定をすることでEclipseから起動できる」等）が独立に存在するが、いずれも原文が処理方式・ツールごとに同じ文言を繰り返す構成になっており、design.md第3部テンプレートの「テストデータを作成する（`テストデータの書き方`への:ref:）」のような各ページ固有の導線として意図された繰り返しである
+- input側の「出典: ...」で始まる本文（ntf-doc-terms.mdの各セクションが機械的に付与する出典引用行）が本文先頭40文字一致で拾われた誤検出。実際の内容（groupIdのデフォルト挙動・主要クラス表など）はnoteで個別に新規性を確認済み
+
+**唯一、内容面で軽い要observationとして残るのはcurrent-0204/current-0325（いずれも`AbstractHttpRequestTestTemplate`の説明）**: ウェブアプリケーション版は拡張ポイントとして第2部拡張例へ、MOMメッセージング版はスーパクラス選定の説明として第3部使用方法へ、と同じクラス名を異なる文脈で説明している。誤重複ではないが、ページ作成時（#8〜）に相互参照（`:ref:`）を検討する価値がある旨をここに記録する。
