@@ -324,3 +324,46 @@ OK: no errors
 - input側の「出典: ...」で始まる本文（ntf-doc-terms.mdの各セクションが機械的に付与する出典引用行）が本文先頭40文字一致で拾われた誤検出。実際の内容（groupIdのデフォルト挙動・主要クラス表など）はnoteで個別に新規性を確認済み
 
 **唯一、内容面で軽い要observationとして残るのはcurrent-0204/current-0325（いずれも`AbstractHttpRequestTestTemplate`の説明）**: ウェブアプリケーション版は拡張ポイントとして第2部拡張例へ、MOMメッセージング版はスーパクラス選定の説明として第3部使用方法へ、と同じクラス名を異なる文脈で説明している。誤重複ではないが、ページ作成時（#8〜）に相互参照（`:ref:`）を検討する価値がある旨をここに記録する。
+
+## 3観点レビュー（2026-07-28）
+
+`mapping.csv`（589行、統合直後）に対し、割当先の妥当性・dispositionの妥当性・audienceの妥当性の3観点を、それぞれ別のサブエージェントで実施した。Rules「レビューを依頼するサブエージェント…」の3点（実測で裏付け・検証スクリプトを信頼せず独立に組む・敵対的にレビュー）を全プロンプトに含めた。
+
+### 検査規模
+
+- 割当先: 第2部使用方法/拡張例の全69行、拡張例18行全件、Part3の設定関連キーワード該当20行、要確認自己申告21行全件、処理方式サンプル25行（延べ約130行）
+- disposition: DROP94件中「空/TOC/アンカーのみ」37件・「開発者向け内部情報」27件全件、「重複」10件、REFERENCE13件全件、SPLIT16件全件、MOVE/MERGEサンプル20件
+- audience: `audience=developer`31行全件、`audience=user`かつMOVE/MERGEの25件、2ファイルの全audience境界
+
+### 指摘と対応
+
+コーディネーターが全指摘を実測で再検証し、以下のとおり対応した。
+
+| # | 指摘 | 検証 | 対応 |
+|---|---|---|---|
+| 1 | audience: current-0066-b/current-0106-b/current-0140が`developer`のままだが、disposition=SPLIT/MOVEで解説書に残る内容（第2部の設定情報）。developer=Nablarch開発者向け内部情報の定義に該当しない | 実測（`git show`）で3件ともアーキテクト向け設定情報と確認。current-0140のnote自身が「current-0074/0075と同型」と認めながら、user判定のそれらと矛盾していた | audienceを`user`へ修正（3行） |
+| 2 | disposition: current-0121が`DROP`だが、同一パターンの1文参照節（current-0035/current-0104）は`REFERENCE`として参照導線を残している | 実測（`git show`）で3件が同一の`:ref:`request_test_setup_db``参照文と確認 | `REFERENCE`へ変更、リクエスト単体テスト（RESTfulウェブサービス）使用方法へ |
+| 3 | 割当先: input-0161（DIキー3種の一覧）が第3部テストデータの書き方へMERGEされているが、design.mdは「コンポーネント設定ファイルの設定項目一覧」を第2部に記載するとしている | 実測でcurrent-0292（`RequestUnitTest_batch.rst`225-262、同じ3キーをXML設定例付きでより詳細に説明、第2部MOVE済み）と完全重複と確認 | 判断ルール5によりDROP（重複先: current-0292） |
+| 4 | 割当先: input-0016（214-233）の末尾がinput-0161と同型のDIキー列挙で第2部相当 | 実測で227-233行のみがcurrent-0292と重複と確認、214-226行（ディレクティブキー表）は記法仕様で第3部相当のまま | input-0016-a（214-226、MERGE維持）/input-0016-b（227-233、DROP・重複先current-0292）に分割 |
+| 5 | 割当先: current-0229（Excelファイル記述例）が第2部共通設定にMERGEされているが、design.md§3記載範囲表は「テストデータの記述例」を第2部に記載しないとしている | 実測（`git show`）でSETUP_TABLE=TEST_SBN_TBL等の具体的Excel値を伴う記述例そのものと確認 | dest_partを第3部テストデータの記載例へ変更（採番機能の設定説明は第2部共通設定に残置） |
+| 6 | disposition: input-0030（444-472）の末尾「コンポーネント設定の主要項目」表（5項目）がcurrent-0211（14項目、第2部MOVE済み）と重複 | 実測でhtmlDumpDir等5項目・デフォルト値が完全一致と確認 | input-0030-a（444-462、MERGE維持）/input-0030-b（463-472、DROP・重複先current-0211）に分割 |
+| 7 | 割当先: current-0037-b（263-316のtip後半）にテストデータの記述例（数値表現対応表）が混在し第2部に配置されている | `split-plan.md`のcurrent-0037分割理由を確認したところ、「263-316行は`.. tip::`ディレクティブ1つ分であり、途中で割ると2つの新tipに再構成する暗黙の作業を要する無効な境界」と明記され、#4aの時点で既にこのより細かい分割案が検討・却下されていたことが判明 | **対応不要（既存の承認済み判断を再確認）**。入力側input-0156との軽微な内容重複はRSTディレクティブの構造上の制約として許容する、という既存方針を維持 |
+| 8 | disposition: current-0214（Tips.rst冒頭TOC文）のDROPが自己申告の「要確認」のまま未解消 | レビュー自身が「実害は小さい」と評価 | 対応不要。既存のDROP判断を維持（`checks/task-05.md`の対応③参照） |
+| 9 | audience: input-0178（TestDataParserのgetSetupFile/getExpectedTableData挙動）が`developer`だが、既存解説書に`TestDataParser`を直接使う例（`getListMap`、current-0233/0234相当）がある | 実測すると引用された実例は`getListMap`であり、input-0178が扱う`getSetupFile`/`getExpectedTableData`とは別メソッド。同一クラスの別メソッドが利用者向け公開APIかどうかは実装（Javaソース）を見ないと確定できず、証拠不十分 | **対応不要（証拠不十分のため見送り）**。#8以降のページ作成時、該当箇所執筆前に実装を確認のうえ再判断することを申し送る |
+| 10 | audience: input-0198（YamlTestDataValidatorのスキーマ検証挙動）のDROP根拠「input-0194で既にカバー」が不正確 | 実測するとinput-0194はExcel/YAML整形方針のみでスキーマ検証には触れていないと確認 | 軽微のため一括修正の対象外とし、`mapping/vocabulary.md`の暫定語彙同様に申し送り事項として記録。変換ツール解説自体が入力資料側の参考情報でありDROPの実害は小さい |
+
+指摘10件中6件を修正、4件は実測の結果「対応不要」と判断した（うち1件は既存の承認済み判断の再確認、1件は証拠不十分、2件は実害僅少）。
+
+### 修正後の検証結果
+
+```
+python3 mapping/tools/verify_mapping.py
+Loaded 591 rows from mapping.csv
+lines total (all rows): 12986
+lines total (excluding DROP): 11973
+OK: no errors
+```
+
+- 行数は589→591（input-0016・input-0030をそれぞれ2行に分割したため+2）
+- lines合計は12,986のまま変わらず（取りこぼしゼロを維持）
+- `mapping/volume.md`を再集計して更新（DROP除く合計12,000→11,973、DROP合計986→1,013、REFERENCE 13→14、audience developer 31→28）

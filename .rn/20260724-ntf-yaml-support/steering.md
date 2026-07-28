@@ -279,41 +279,41 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 
 **Steps**:
 
-- [ ] `mapping/mapping.csv` を作成する（列: `mapping_id, src_section_id, src_type, src_file, src_body_start, src_body_end, heading_path, lines, audience, dest_part, dest_page, dest_section, disposition, note`）
+- [x] `mapping/mapping.csv` を作成する（列: `mapping_id, src_section_id, src_type, src_file, src_body_start, src_body_end, heading_path, lines, audience, dest_part, dest_page, dest_section, disposition, note`）
   - `src_section_id` は `sections-current.csv` / `sections-input.csv` の `section_id` を指す
   - `lines` は `src_body_end - src_body_start + 1`
   - `disposition` が `SPLIT` 以外 — セクションの `body_start_line` / `body_end_line` をそのまま入れる
   - `disposition` が `SPLIT` — `split-plan.md` の `parts` に従い分割後の行範囲を入れる。行を複製し、各行に異なる範囲と割当先を記す
-- [ ] 出典ファイル単位でサブエージェントに分担させる（579セクションを1コンテキストで処理すると後半で判断がぶれるため）
+- [x] 出典ファイル単位でサブエージェントに分担させる（579セクションを1コンテキストで処理すると後半で判断がぶれるため）
   - 1エージェントあたり10〜20セクション程度
   - 入力: 担当ファイルのセクション一覧 / 担当ファイルの実内容 / `design.md` / `glossary.md` / `split-plan.md`（100行超セクションを含む場合）
   - 出力を統合し、`mapping_id` の重複と割当先の表記揺れを機械的に検査する
-- [ ] `disposition` は5値（`MOVE` / `MERGE` / `SPLIT` / `REFERENCE` / `DROP`）
-- [ ] 全行に `audience`（`user` / `developer`）を付与。`developer` は `disposition=DROP` とし `note` に理由を記す
+- [x] `disposition` は5値（`MOVE` / `MERGE` / `SPLIT` / `REFERENCE` / `DROP`）
+- [x] 全行に `audience`（`user` / `developer`）を付与。`developer` は `disposition=DROP` とし `note` に理由を記す
   - `input/ntf-testdata-loading.md` は原則 `developer` だがセクション単位で判定する
-- [ ] 現行の `03_Tips.rst` の各項目は該当ページの「使用方法」に `MERGE` する。独立ページにしない
-- [ ] **design.md に確定した割当先ページが存在しないセクションは、`dest_page` を空欄にせず暫定値を置く。**（#4a `current-0158` — `split-plan.md` で「割当先ページは未確定」とされた行が該当。design.md 第2部に「取引単体テストの設定」ページが未定義で、#6 の未確定事項#1（第2部のページ分割）に依存するため）
+- [x] 現行の `03_Tips.rst` の各項目は該当ページの「使用方法」に `MERGE` する。独立ページにしない
+- [x] **design.md に確定した割当先ページが存在しないセクションは、`dest_page` を空欄にせず暫定値を置く。**（#4a `current-0158` — `split-plan.md` で「割当先ページは未確定」とされた行が該当。design.md 第2部に「取引単体テストの設定」ページが未定義で、#6 の未確定事項#1（第2部のページ分割）に依存するため）
   - 暫定の `dest_page` は `mapping/vocabulary.md` の暫定語彙（処理方式付きの仮ページ名）を用いる。由来（どの処理方式・どのカテゴリの内容か）を `dest_page` の値自体に保持させ、`note` だけに頼らない（2026-07-27 ユーザー判断: 該当見込みが40件超あり、`note` の文言だけでは #6 での再分離に全行の読み直しが必要になり非現実的なため）
   - `current-0158` は「第2部 導入と設定 > 取引単体テストの設定（MOMによるメッセージング）」を暫定値とする（旧: 「リクエスト単体テストの設定」は由来を失うため撤回）。`note` は「暫定。」で始める。`current-0158` の `note` は次の文言とする: 「暫定。取引単体テスト向けの設定だが、design.md 第2部に「取引単体テストの設定」ページが未定義のため。#6 で第2部のページ分割が確定した時点で見直す。」
   - `#5` の作業中に同様のケース（design.md に適切な割当先がないセクション）が他に見つかった場合も同じ扱いとする
   - 暫定扱いとしたセクションを `checks/task-05.md` に一覧化する
-- [ ] `heading_path` が `(L2直下)`（親L2見出し直下の導入文で子L3を持たない）で終わる行は、同じ親を持つ配下セクションと同じ `dest_section` に置く（親子でセクションが分かれページ内で内容が分断されるのを防ぐ。2026-07-27 batch-01差し戻し指摘②。`checks/task-05.md`「batch-01 差し戻し」参照）
+- [x] `heading_path` が `(L2直下)`（親L2見出し直下の導入文で子L3を持たない）で終わる行は、同じ親を持つ配下セクションと同じ `dest_section` に置く（親子でセクションが分かれページ内で内容が分断されるのを防ぐ。2026-07-27 batch-01差し戻し指摘②。`checks/task-05.md`「batch-01 差し戻し」参照）
 - [x] `mapping/tools/verify_mapping.py` を作成する（batch-02〜15差し戻し対応の一環、2026-07-28）
   - 現状は `mapping.csv` 未作成のため `mapping/_batch/batch-*.csv` 全件を対象に検証（`mapping.csv` 作成後は自動でそちらを対象にする）
   - `lines` 合計（全行）と `lines` 合計（`DROP` を除く）を出力する
   - disposition=DROPかつnoteに「重複」を含む行は、noteにcurrent-XXXX/input-XXXX形式の重複先が記載されていることを検証する（2026-07-28 user差し戻し指摘②により追加）
   - disposition/audience空欄0件、DROP行のnote必須も検証する
-  - **未実装**: 取りこぼし検証（行範囲の集合演算）、`dest_page`等のvocabulary.md突合は`mapping.csv`統合後（#5の残りStepsで実施）
-- [ ] `mapping/volume.md` を作成する（`dest_page` ごとに `lines` を集計）
+  - `mapping.csv`統合後（2026-07-28）に`check_coverage`（取りこぼし検証、行範囲の集合演算）と`check_vocabulary`（`dest_page`等のvocabulary.md突合）を追加。全591行でエラー0件
+- [x] `mapping/volume.md` を作成する（`dest_page` ごとに `lines` を集計）
   - `DROP` を除いた `lines` 合計を記載する（新構成に移る実質的な分量）
   - `DROP` の合計行数と、その内訳（`note` の理由別）も記載する
-- [ ] self-check（`checks/task-05.md`）
-- [ ] 3観点のレビューを、それぞれ**別のサブエージェント**で実施する。取りこぼしゼロは `verify_mapping.py` の機械検証で担保するため、レビューは判断の妥当性のみに集中させる
+- [x] self-check（`checks/task-05.md`）
+- [x] 3観点のレビューを、それぞれ**別のサブエージェント**で実施する。取りこぼしゼロは `verify_mapping.py` の機械検証で担保するため、レビューは判断の妥当性のみに集中させる
   - **プロンプトは Rules「レビューを依頼するサブエージェント…」の3点を必ず含める**
   - 割当先の妥当性: `dest_page` / `dest_section` が `design.md` に照らして正しいか。第2部と第3部の切り分けが適切か
   - dispositionの妥当性: `MOVE` / `MERGE` / `SPLIT` / `REFERENCE` / `DROP` の判定が内容に合っているか。特に `DROP` と `REFERENCE` を精査する
   - audienceの妥当性: `user` / `developer` の判定が正しいか。`developer` と判定して落としたものに利用者向けの内容が含まれていないか
-- [ ] commit & push
+- [x] commit & push
 - [ ] **user review** — 承認を受けるまで #6 に進まない
 
 **Completion criteria**:
