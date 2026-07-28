@@ -83,11 +83,23 @@ EXIT: 0
 96行全件を「レビュー済み（既存記録への参照）」または「今回レビュー（実ファイル通読による新規判定）」の
 いずれかに分類し、全行を1つの表にまとめた。
 
-### 分類方法（機械的）
+### 分類方法（機械的、`#5c`差し戻し対応で修正）
 
-各DROP行の `mapping_id` および `src_section_id` が `checks/task-05.md` 内に文字列として
-出現するかを `python3` でスキャンした。出現する行は「レビュー済み」とし、該当する行番号と
-その行のテキストを根拠として引用した。出現しない行は「未レビュー」として今回レビューの対象にした。
+**修正の経緯**: 初版の分類基準は「`mapping_id` または `src_section_id` が
+`checks/task-05.md` に文字列として出現するか」のみで、記録の中身が「判定確定」か
+「判定保留」かを区別しなかった。その結果、`input-0178`（`checks/task-05.md:352`、
+結論は「対応不要（証拠不十分のため見送り）」で判定を確定していない）と
+`input-0198`（`checks/task-05.md:135`、DROP根拠が`task-05.md:353`の指摘10で
+不正確と実測済み）の2行が、保留を引用しただけで「レビュー済み・DROP維持」として
+閉じられていた。`design.md` §11.8「`DROP`は内容が失われるかどうかを決める最後の砦」に
+反するとして差し戻された。
+
+修正後の基準は、機械マッチに加えて**その記録が当該行自身について判定を確定しているか**を
+判定条件に加える。該当行を指す記録に、その行自身についての保留表現
+（`証拠不十分`/`見送り`/`申し送り`/`再判断`/`保留`）が含まれる場合、「レビュー済み」に
+分類しない。ただし保留表現が**別の行について**書かれている場合（同じbatchログ行に
+複数`mapping_id`が並ぶケース）は該当しない。この切り分けは機械判定だけでなく記録の
+文面を読んで行った。
 
 ```
 $ python3 -c "... (mapping.csv の DROP行 96件について checks/task-05.md を mapping_id/src_section_id で grep) ..."
@@ -101,6 +113,43 @@ Unreviewed: 33
 `current-0312` という文字列そのものは出現しない（`current-0306/0312` の `/0312` 部分のみ）ため、
 機械分類では「未レビュー」側に分類された。安全側に倒れる誤分類（見落としではなく過検出）であり、
 結果的に今回レビューのグループAで独立に実ファイル検証済み（下表参照）。
+
+**保留表現の機械フラグと文面確認（`#5c`差し戻し対応STEP R1）**: 上記機械分類で
+「レビュー済み」63行のうち、マッチした行のテキストに保留キーワードを含むものを
+再スキャンしたところ8行がヒットした。
+
+```
+$ python3 -c "...（reviewed 63行のマッチテキストに証拠不十分/見送り/申し送り/再判断/保留を含むかをスキャン）..."
+=== Flagged (matched line contains hold keyword) ===
+input-0198 / input-0198 @ line 353   … 「軽微のため一括修正の対象外とし…申し送り事項として記録」
+input-0030-b / input-0030 @ line 146 … 「**batch-10申し送り事項を解決**」
+input-0031 / input-0031 @ line 256   … 「**batch-10申し送り事項を解決**」
+current-0293 / current-0293 @ line 144 … 「**batch-10申し送り事項を解決**」
+current-0351 / current-0351 @ line 144 … 「**batch-10申し送り事項を解決**」
+current-0198 / current-0198 @ line 146 … 「**batch-10申し送り事項を解決**」
+current-0306 / current-0306 @ line 256 … （同一行内の別項目=input-0031に関する言及に付随してマッチ）
+input-0178 / input-0178 @ line 352   … 「証拠不十分のため見送り」
+```
+
+このうち`input-0030-b`・`input-0031`・`current-0293`・`current-0351`・`current-0198`・
+`current-0306`の6行は、`task-05.md:144/146/256`の当該行全文を読むと「batch-10の**申し送り
+事項を解決**」という文脈で、その行自身については確定した結論（例:
+「current-0293をDROP」「current-0198/0056はアンカーのみでDROP」「input-0031をMOVEから
+DROPへ変更」）が明記されている誤検出（機械キーワードでは拾うが文面を読むと保留ではない）。
+残る`input-0178`・`input-0198`の2行のみが、その行自身についての保留が確定せず閉じられた
+真の保留行だった。
+
+再分類の結果:
+
+```
+Total DROP rows: 96
+Reviewed (mentioned in task-05.md, confirmed verdict): 61
+Unreviewed (incl. STEP R1 hold override): 35
+Hold override applied to (moved from reviewed to unreviewed): ['input-0178', 'input-0198']
+```
+
+新たに「未レビュー」に移った行は`input-0178`・`input-0198`の2行で、差し戻し指摘のとおり
+一致した。既に「今回レビュー」で実測済みの33行は再実施していない。
 
 ### 今回レビューの実施
 
@@ -137,7 +186,7 @@ Unreviewed: 33
 | input-0195 | testdata-converter-design.md | 3 | NTF テストデータ変換ツール 設計書 > 3. 構造 > (L2直下) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:162`）: あわせて、他の(L1直下)/(L2直下)のDROP行（8件: input-0182・input-0187・input-0195(batch-02), current-0214(batch-04), input-0001・input-0005・input-0017(batch-06… |
 | input-0196 | testdata-converter-design.md | 37 | NTF テストデータ変換ツール 設計書 > 3. 構造 > 中間モデル | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:203`）: \| input-0196 \| 37 \| batch-02 \| 開発者向け内部情報 \| — \| NTF テストデータ変換ツール 設計書 > 3. 構造 > 中間モデル \| |
 | input-0197 | testdata-converter-design.md | 57 | NTF テストデータ変換ツール 設計書 > 3. 構造 > IN（形式 → 中間モデル） | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:204`）: \| input-0197 \| 57 \| batch-02 \| 開発者向け内部情報 \| — \| NTF テストデータ変換ツール 設計書 > 3. 構造 > IN（形式 → 中間モデル） \| |
-| input-0198 | testdata-converter-design.md | 26 | NTF テストデータ変換ツール 設計書 > 3. 構造 > OUT（中間モデル → 形式） | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:135`）: - **batch-02**（`testdata-converter-design.md` 21件、commit `eb547fd`）: MOVE 5 / DROP 16（developer）。変換ツールの内部アーキテクチャ設計書のため大半developer判定。MOVEは目的・… |
+| input-0198 | testdata-converter-design.md | 26 | NTF テストデータ変換ツール 設計書 > 3. 構造 > OUT（中間モデル → 形式） | 今回レビュー（差し戻し対応） | **判定変更**: 3分割（input-0198-a/-b/-c）。a(273-294,22行)=DROP維持／b(295,1行)=**DROP→MERGE**（第4部ツール>テストデータ変換ツール>機能概要）／c(296-298,3行)=DROP維持 | 元note「input-0194で既にカバー」は誤り。input-0194（155-171、実測: `git show`で全文確認）は書き出しの整形方針（YAML全値クォート・Excel整形設定表）のみでスキーマ検証には無言及。b(295行)の`YamlTestDataValidator`によるYAML OUT後の自動スキーマ検証（不正時は`ValidationError`リストを返す）は別トピックで、design.md§9ただし書き（利用者向け仕様は解説書へ移す）の対象。a/cはmermaidクラス図と実装クラス参照のみで内部構造説明のためDROP維持。詳細根拠は本ファイル末尾「`#5c`差し戻し対応」節参照 |
 | input-0200 | testdata-converter-design.md | 10 | NTF テストデータ変換ツール 設計書 > 4. 品質担保 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:206`）: \| input-0200 \| 10 \| batch-02 \| 開発者向け内部情報 \| — \| NTF テストデータ変換ツール 設計書 > 4. 品質担保 \| |
 | input-0201 | testdata-converter-design.md | 9 | NTF テストデータ変換ツール 設計書 > 5. 開発とバージョン展開 > 開発とリポジトリ分割の手順 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:207`）: \| input-0201 \| 9 \| batch-02 \| 開発者向け内部情報 \| — \| NTF テストデータ変換ツール 設計書 > 5. 開発とバージョン展開 > 開発とリポジトリ分割の手順 \| |
 | input-0202 | testdata-converter-design.md | 13 | NTF テストデータ変換ツール 設計書 > 5. 開発とバージョン展開 > 過去バージョンへの展開 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:208`）: \| input-0202 \| 13 \| batch-02 \| 開発者向け内部情報 \| — \| NTF テストデータ変換ツール 設計書 > 5. 開発とバージョン展開 > 過去バージョンへの展開 \| |
@@ -194,7 +243,7 @@ Unreviewed: 33
 | input-0174 | ntf-testdata-loading.md | 20 | NTF テストデータ読み込み機構 > 4. 状態機械による組み立て（ファイル・メッセージ） > (L2直下) | 今回レビュー・B（ntf-testdata-loading.md 開発者向け実測） | DROP維持 | 状態機械の遷移図・条件。利用者向けの帰結（先頭セル空/値ありでのデータ行・新規レコードレイアウト判定）はntf-testdata-doc.md §6.4/§6.5に既出と確認、抽出漏れなし |
 | input-0175 | ntf-testdata-loading.md | 27 | NTF テストデータ読み込み機構 > 4. 状態機械による組み立て（ファイル・メッセージ） > 組み立て先のデータモデル… | 今回レビュー・B（ntf-testdata-loading.md 開発者向け実測） | DROP維持 | DataFile/DataFileFragment等の内部クラス名と保持構造の説明のみ |
 | input-0177 | ntf-testdata-loading.md | 11 | NTF テストデータ読み込み機構 > 5. ヘッダ行＋データ行による組み立て（テーブル・LIST_MAP） > 組み立て… | 今回レビュー・B（ntf-testdata-loading.md 開発者向け実測） | DROP維持 | TableData/List<Map>という内部クラス名と保持構造の説明のみ |
-| input-0178 | ntf-testdata-loading.md | 9 | NTF テストデータ読み込み機構 > 6. 入口 API がまとめる単位 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:352`）: \| 9 \| audience: input-0178（TestDataParserのgetSetupFile/getExpectedTableData挙動）が`developer`だが、既存解説書に`TestDataParser`を直接使う例（`getListMap`、curre… |
+| input-0178 | ntf-testdata-loading.md | 9 | NTF テストデータ読み込み機構 > 6. 入口 API がまとめる単位 | 今回レビュー（差し戻し対応） | **判定変更**: DROP→MERGE、audience developer→user（第4部ではなく第3部テストの実装方法>テストデータの書き方>使用方法へMERGE） | 実装確認（`nablarch/nablarch-testing` commit `e21bf67`、`src/main/java/nablarch/test/core/reader/TestDataParser.java:21`）: インタフェース宣言に`@Published(tag="architect")`が付与され利用者向け公開APIと確認。`tag="architect"`は内部専用の意味ではない（`nablarch-core` commit `fcb40bb`、`nablarch/core/util/annotation/Published.java:33-39`のJavadoc:「アーキテクト向けに公開したい場合」に付与するタグ）。現行解説書`current-0233`/`current-0234`（`git show c241906:.../03_Tips.rst` 485-507で本文確認）は同インタフェースの兄弟メソッド`getListMap`を`SystemRepository`経由で直接呼び出す具体的コード例をアプリ開発者向けに既に説明しており、`tag="architect"`が本解説書でのuser判定を妨げない先例が存在。SETUP_FIXED/SETUP_VARIABLE・EXPECTED_TABLE/EXPECTED_COMPLETE_TABLEの結合仕様は「どう書けばどう解釈されるか」という記法仕様のためテストデータの書き方の使用方法へMERGE |
 | input-0180 | ntf-testdata-loading.md | 6 | NTF テストデータ読み込み機構 > 8. 再解析を避けるキャッシュ | 今回レビュー・B（ntf-testdata-loading.md 開発者向け実測） | DROP維持 | ファイル名/シート名キーのキャッシュ機構というdesign.md名指しの除外対象そのもの |
 | input-0181 | ntf-testdata-loading.md | 6 | NTF テストデータ読み込み機構 > さいごに | 今回レビュー・B（ntf-testdata-loading.md 開発者向け実測） | DROP維持 | ①〜④の要約とスコープ限定文のみ。新規仕様情報なし |
 | current-0279 | RequestUnitTest_batch.rst | 2 | (冒頭) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | RSTアンカー(.. _request-util-test-batch:)+空行のみ、プローズなし |
@@ -221,12 +270,15 @@ Unreviewed: 33
 | input-0094 | ntf-testdata-doc-examples-table.md | 3 | NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > (L2直下) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | HTMLアンカー(<a name="setup-table"></a>)+空行のみ、プローズなし。直後の実文（SETUP_TABLE記述例）は範囲外 |
 | current-0137 | http_send_sync.rst | 2 | (冒頭) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | RSTアンカー(.. _dealUnitTest_http_send_sync:)+空行のみ、プローズなし |
 
-### 判定サマリ
+### 判定サマリ（`#5c`差し戻し対応前の初回レビュー時点）
 
 - 96行中、**判定が覆った行は0件**（63行=既存記録によるDROP維持の確認、33行=今回の実ファイル通読によるDROP維持の確認）
 - `_batch/*.csv` の編集は発生していない（判定を覆した行がないため）
+- **この判定は`#5c`差し戻しで一部無効化された。** `input-0178`/`input-0198`は「既存記録」
+  に分類されていたが、当該記録は判定を保留したまま閉じられており根拠にならないと指摘された。
+  詳細・修正後の判定は下記「`#5c`差し戻し対応」節を参照。
 
-### 再検証（データ変更なしの確認）
+### 再検証（差し戻し対応前・データ変更なしの確認）
 
 ```
 $ python3 mapping/tools/verify_mapping.py; echo "EXIT: $?"
@@ -240,17 +292,136 @@ EXIT: 0
 ```
 
 - `lines` 合計 12,986（DROP除く 11,973）・591行はSTEP 0時点から不変
-- `stale allowlist` のERRORは0件（`DROP` 判定を覆した行がないため、許可リスト
-  （`EXPECTED_ZERO_*` / `PENDING_ZERO`）・`mapping/volume.md`・`checks/task-05b.md` の
-  更新は不要。`#5c` Completion criteria の該当項目「`DROP` 判定を覆した行がある場合…」は
-  今回は非該当のため対応不要と判断する）
+- `stale allowlist` のERRORは0件
 - `design.md` は無変更（`git diff` で確認済み。差分なし）
 
-### Completion criteria 充足確認
+---
 
-- `DROP` 96行すべてが上表に現れる（機械カウントで96行と一致）
-- 各行に「レビュー済み（記録の所在）」または「今回レビュー（判定と根拠 file:line）」のいずれかがある
-- 判定が覆った行は0件のため `_batch/*.csv` の修正は発生せず、`verify_mapping.py` はエラー0件のまま
-- `lines` 合計 12,986 は不変
-- `check_unused_vocabulary` に許可リストの陳腐化検出（STEP 0）が実装され、コミット済み
-- `DROP` 判定を覆した行が0件のため、許可リスト・`volume.md`・`checks/task-05b.md` の更新は不要
+## `#5c` 差し戻し対応（保留2件の確定）
+
+`.rn/20260724-ntf-yaml-support/ntf-doc-05c-rework.md` の指示に基づく。対象は上記96行レビューの
+うち判定を保留したまま「DROP維持」に分類されていた`input-0178`・`input-0198`の2行。
+
+### STEP R1: 分類基準の修正・再分類
+
+上記「分類方法（機械的、`#5c`差し戻し対応で修正）」節に実施内容・スクリプト出力を記載済み。
+機械分類「レビュー済み」63行のうち保留キーワードを含む8行を文面確認し、`input-0178`・
+`input-0198`の2行のみが真の保留と確認。他6行（`input-0030-b`・`input-0031`・`current-0293`・
+`current-0351`・`current-0198`・`current-0306`）は「申し送り事項を**解決**」という文脈の
+誤検出で、当該行自身は確定判定を持つためレビュー済みのまま維持した。
+
+### STEP R2: `input-0178` の確定
+
+**判定: `audience=developer→user`、`disposition=DROP→MERGE`。**
+割当先: 第3部 テストの実装方法 > テストデータの書き方 > 使用方法。
+
+**実測根拠**:
+
+1. `nablarch/nablarch-testing`（commit `e21bf67`）を clone し、
+   `src/main/java/nablarch/test/core/reader/TestDataParser.java:21` を確認したところ、
+   インタフェース宣言に `@Published(tag = "architect")` が付与されていた（`getSetupFile`/
+   `getExpectedTableData` はメソッド個別のアノテーションを持たないが、インタフェース宣言への
+   付与は全メンバに及ぶ——`nablarch-core`（commit `fcb40bb`）
+   `nablarch/core/util/annotation/Published.java` のJavadoc「クラスの全てのAPIを公開APIと
+   する場合は、本アノテーションをクラス宣言に付与している」）。
+2. `tag = "architect"` の意味を同Javadoc（`Published.java:33-39`）で確認: 「アーキテクト向けに
+   公開したい場合は、`@Published(tag = "architect")` というようにタグを付与する」——Nablarch
+   内部専用という意味ではなく、NTF解説書の読者区分の一方である「アーキテクト」（design.md §1）
+   向け公開APIであることを示す。
+3. 現行解説書 `current-0233`/`current-0234`（`git show c241906:ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/03_Tips.rst`
+   485-507行で本文確認）は、同じ`TestDataParser`インタフェースの兄弟メソッド`getListMap`を
+   `SystemRepository.getObject("testDataParser")`経由で直接呼び出す具体的コード例を、
+   アプリ開発者向けページ（コンポーネント単体テスト > 使用方法）で既に説明している。
+   `tag="architect"`であることが本解説書でのuser判定を妨げない先例が既存解説書に存在する。
+4. `input-0178`本文（`getSetupFile`がSETUP_FIXED/SETUP_VARIABLEを1つのリストにまとめる、
+   `getExpectedTableData`がEXPECTED_TABLE/EXPECTED_COMPLETE_TABLEをマージする、という仕様）は
+   「複数シートがどう1つの結果にまとまるか」という記法の解釈規則そのもので、design.md §9
+   ただし書き（利用者向け仕様は解説書へ移す）に該当。同じ`ntf-testdata-loading.md`由来で
+   同様に判断された`input-0171`/`input-0172`/`input-0176`/`input-0179`（すべて
+   audience=user、テストデータの書き方>使用方法へMERGE/MOVE）と同型の判断とした。
+
+`_batch/batch-18.csv`のinput-0178行を編集（audience/dest_part/dest_page/dest_section/disposition/noteを更新、コミットハッシュ・引用箇所を含む）。
+
+### STEP R3: `input-0198` の確定
+
+**判定: 3分割。**
+
+| 分割後ID | 範囲 | 行数 | 判定 |
+|---|---|---|---|
+| input-0198-a | 273-294 | 22 | DROP維持（mermaidクラス図: `TestDataFormatWriter`/`YamlFormatWriter`/`XlsFormatWriter`/`ExcelFormatConfig`/`YamlTestDataValidator`の実装関係のみ） |
+| input-0198-b | 295 | 1 | **DROP→MERGE**（第4部 ツール > テストデータ変換ツール > 機能概要） |
+| input-0198-c | 296-298 | 3 | DROP維持（`YamlFormatWriter`/`XlsFormatWriter`の整形実装参照のみ） |
+
+**実測根拠**:
+
+1. `input/testdata-converter-design.md`を`nl -ba`で行番号確認のうえ全文読解（270-300行）。
+   295行「`YamlTestDataValidator`（`ValidationError`と対）はYAML OUT後にスキーマ検証を行う
+   リンターで、不正なYAMLが生成された場合は`ValidationError`リストを返す。」が唯一の
+   利用者向け機能情報で、前後（273-294のmermaidクラス図、296-298の`XlsFormatWriter`整形実装
+   参照）は内部構造説明。current-0156と同型の「サンドイッチ型」3分割とした。
+2. 元noteの誤り確認: `input-0194`（`testdata-converter-design.md` 155-171、
+   「書き出し（OUT）の整形方針」節）を実際に読んだところ、内容はYAML OUT（全値クォート）・
+   Excel OUT（背景色/列幅/罫線/データブロック間の空行の設定表）という**整形方針のみ**で、
+   `YamlTestDataValidator`・スキーマ検証・`ValidationError`への言及は一切ない。元note
+   「書き出し整形方針の要点はinput-0194で既にカバー」は295行（スキーマ検証）には当てはまらず、
+   296-298行（`XlsFormatWriter`の整形実装参照）についてのみ正しかった。
+3. `TestDataConverter#convert(from,to,input,output)`という利用の入口（298-320行、
+   「利用の入口」節）を読み、ツール利用者（NTF利用PJ・Nablarch開発チーム）は
+   `TestDataConverter`をプログラムから直接呼び出す構成であることを確認。YAML変換実行時に
+   自動でスキーマ検証が走り不正な場合にエラーが返る、という挙動は「何ができるか」
+   （design.md §5 機能概要の定義）に該当する利用者向け情報と判断した。
+4. `mapping_id`は`input-0198-a`/`-b`/`-c`とし、`src_section_id`は`input-0198`のまま維持
+   （分割手順は`#5`の`input-0016`/`input-0030`に倣う）。ただしdisposition値は
+   `input-0016`/`input-0030`の先例（`SPLIT`ではなくMERGE/DROPを直接使用）を踏襲した。
+   `mapping/split-plan.md`に本分割の経緯を追記済み（`#5d` STEP1と重複してよい）。
+
+`_batch/batch-02.csv`のinput-0198行を3行に分割編集（コミットハッシュ・引用箇所を含む）。
+
+### STEP R4: 再検証
+
+`mapping.csv`を全30バッチの単純連結で再生成（591行→593行、`input-0198`の1行→3行分割で+2）。
+
+```
+$ python3 mapping/tools/verify_mapping.py; echo "EXIT: $?"
+Loaded 593 rows from mapping.csv
+
+pending zero assignments: 25 (awaiting #6 decision)
+...(STEP0時点から変化なし。input-0178/input-0198の割当先はいずれも既に非0だったページ・
+セクションのため、新たに0件が埋まったケースはない)...
+lines total (all rows): 12986
+lines total (excluding DROP): 11983
+
+candidate duplicate destinations: 44 (advisory only, not auto-fixed)
+...(既存出力から変化なし)...
+
+OK: no errors
+EXIT: 0
+```
+
+- `lines` 合計（全行）は **12,986で不変**
+- `DROP除く`合計は 11,973 → **11,983**（input-0178の9行、input-0198-bの1行が非DROPに）
+- `disposition`内訳: MERGE 226→228 / DROP 96（行数不変。input-0178が1行DROP脱退、
+  input-0198が1行→2行DROPに増加で相殺） / MOVE 239・SPLIT 16・REFERENCE 14は不変
+- `audience`内訳: user 563→565 / developer 28（不変。input-0178が1行developer脱退、
+  input-0198が1行→2行developerに増加で相殺）
+- `stale allowlist`のERRORは0件。`input-0178`（テストデータの書き方>使用方法、既存136行）・
+  `input-0198-b`（テストデータ変換ツール>機能概要、既存で非0）とも割当先ページ・セクションは
+  元々0件ではなかったため、`EXPECTED_ZERO_*`/`PENDING_ZERO`・`checks/task-05b.md`の
+  許可リスト更新は不要
+- `mapping/volume.md`を更新（dest_page別: テストデータの書き方3307→3316、テストデータ変換
+  ツール74→75。dest_section別: 第3部使用方法8818→8827、第4部機能概要162→163。DROP除く合計
+  11,973→11,983。DROP理由別: 開発者向け内部情報480→470、DROP合計1,013→1,003。disposition内訳
+  MERGE226→228。audience内訳user563→565。マッピング行数591→593）
+- `design.md`は無変更（`git diff`で確認）
+
+### Completion criteria 充足確認（差し戻し対応後）
+
+- 分類基準が「記録に当該行自身の保留表現が含まれる場合はレビュー済みとしない」を含む
+  （上記「分類方法（機械的、`#5c`差し戻し対応で修正）」節）
+- `input-0178`・`input-0198`を含む全96行（分割後は98行相当）に、保留ではない確定した
+  判定がある
+- `input-0198`の`note`から、実測で否定された理由（「input-0194で既にカバー」）が除かれている
+  （`input-0198-a`/`-b`/`-c`いずれのnoteも新しい実測根拠に差し替え済み）
+- `DROP`解除（`input-0178`・`input-0198-b`）があり、`volume.md`・許可リスト・
+  `checks/task-05b.md`が更新され、`stale allowlist`のERRORが0件
+  （許可リストは元々非0だったため`checks/task-05b.md`自体の変更は不要と確認済み）

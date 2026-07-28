@@ -40,3 +40,13 @@
 - split=no: 17件
 - current-0037/0066/0106は「テストデータの書き方（Part3）の説明中に、プロジェクト共通のコンポーネント設定・propertiesファイル設定（Part2）が埋め込まれている」という同一パターン。
 - current-0156/0184/0185は「機能別ページ（Part3の各処理方式・各テスト種別ページ）の説明中に、テーブル・電文・ファイルのテストデータ記法（本来current-0126・current-0189と同じPart3テストデータの書き方ページに統合すべき内容）が埋め込まれている」という同一パターン。design.md §4の記法統合方針（テーブル・ファイル・メッセージングの記法を同一ページ内で提供する）に基づき、記法部分をテストデータの書き方ページへ切り出し、残りの手順・挙動説明は元の機能別ページに残した。
+
+## `#5c`差し戻し対応での追加分割（2026-07-28）
+
+上記23件は`lines >= 100`の`current`側セクションのみを対象とした初回（#4a）集計であり、
+以下は対象外（`input`側・26行）だが、`#5c`差し戻しレビューの指示により同じ分割手順を
+適用したため参考として記録する。`#5d` STEP1（未反映の分割候補の洗い出し）と重複してよい。
+
+| section_id | heading_path | lines | split | parts | rationale |
+|---|---|---|---|---|---|
+| input-0198 | NTF テストデータ変換ツール 設計書 > 3. 構造 > OUT（中間モデル → 形式） | 26 | yes | 273-294 → DROP（`TestDataFormatWriter`/`YamlFormatWriter`/`XlsFormatWriter`/`ExcelFormatConfig`/`YamlTestDataValidator`の実装関係を示すmermaidクラス図。内部アーキテクチャの説明）<br>295 → 第4部 ツール > テストデータ変換ツール > 機能概要（`YamlTestDataValidator`がYAML OUT後に自動でスキーマ検証を行い、不正なYAMLの場合は`ValidationError`リストを返すという1文）<br>296-298 → DROP（`YamlFormatWriter`/`XlsFormatWriter`の整形実装がinput-0194の設定を参照するという記述。整形方針自体はinput-0194（第4部ツール使用方法へMOVE済み）で利用者向けにカバー済みのため、実装クラス名の再掲にとどまり新規情報を持たない） | 元noteは「書き出し整形方針の要点はinput-0194で既にカバー」を理由に全26行をDROPしていたが、実測するとinput-0194（155-171）はExcel/YAML整形方針（全値クォート・列幅/罫線/空行の設定表）のみでスキーマ検証には触れておらず、295行の`YamlTestDataValidator`自動スキーマ検証は別トピックだった。295行のみクラス図の前後から挟まれる「サンドイッチ型」の分割（current-0156と同型）で切り出し、design.md §9ただし書き（利用者向け仕様は解説書へ移す）に従いテストデータ変換ツールの機能概要へMERGE。`mapping_id`はinput-0198-a/-b/-cとし、`disposition`はinput-0016/input-0030の先例に倣いSPLITではなくMERGE/DROPを直接使用（`src_section_id`はinput-0198のまま維持）。詳細は`checks/task-05c.md`参照。 |
