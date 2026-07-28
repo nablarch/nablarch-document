@@ -529,7 +529,7 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-07-28
 - **Last completed**: `#5b` STEP1〜5完了・push済み（`82cb58a`検査追加、`ca1e9cf`再判定・PENDING_ZERO登録・volume.md補完）。`verify_mapping.py`はERROR 0件・PENDING_ZERO 25件、`lines`合計12,986/DROP除く11,973/591行は不変。`design.md`は無変更。`#5b`のuser review承認済み（`ca1e9cf`に対する独立検証）。同レビューが検出した2件の欠陥（`REFERENCE`のみで充足するセクション／導入文と本体の`dest_section`分断）は`#5b`を再オープンせず`#5d`の追加STEP 6〜8として`steering.md`に反映済み（`.rn/20260724-ntf-yaml-support/ntf-doc-05d-addendum.md`）。STEP 6〜8自体はまだ未着手（`#5d`のPrerequisiteである`#5c`が未着手のため、既存の実行順序どおり`#5c`完了後に着手する。両者にデータ上の依存はないが、タスクの直列実行という本セッションの一貫したルールに従った）。
 - **Next**: `#5c`（`DROP`全件レビュー）に着手する。完了・user review承認後、`#5d`（STEP1〜5に加えSTEP6〜8を含む拡張版）に進む。
