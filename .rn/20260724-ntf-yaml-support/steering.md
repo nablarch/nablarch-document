@@ -557,8 +557,8 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**:
-- **Last completed**:
-- **Next**:
-- **Notes**:
+- **Status**: paused
+- **Date**: 2026-07-28
+- **Last completed**: `#5c` 差し戻し対応後のuser reviewとして独立検証を実施（別セッションのClaude、checks/task-05c.mdの結論は使わず一次情報のみで再検証）。nablarch-testing commit `e21bf67`をcloneしTestDataParser.java:21の`@Published(tag="architect")`、input/ntf-testdata-loading.mdの出典本文、current-0233/0234の先例（`git show c241906:...`）、input-0194の実内容（整形方針のみ）、input-0198の3分割境界、`volume.md`の増減、`verify_mapping.py`（593行・lines合計12,986・stale allowlist含めエラー0件）を独立に確認。結果はAPPROVE相当（全主張が一次情報と一致、矛盾なし）としてユーザーに報告済み。ただし`/rn:ty`/`/rn:gm`のユーザー verdictは本セッションでは未取得。
+- **Next**: ユーザーによる`#5c`（差し戻し対応後）user reviewの verdict待ち。`/rn:ty`（承認）→ `#5c`のuser reviewチェックを埋めて`#5d`（記録の整合とセクション境界の是正、STEP1〜8）に着手。`/rn:gm`（差し戻し）→ 指摘に対応し`#5c`を再度commit\&pushして再度user reviewへ。
+- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md`、`#5c`追補: `ntf-doc-05c-addendum.md`、`#5c`差し戻し指示: `ntf-doc-05c-rework.md`、`#5d`追補: `ntf-doc-05d-addendum.md`。push権限は解決済み（`kiyobot`=`GH_TOKEN`がwrite権限を保有）。#5b由来の未解決論点（詳細`checks/task-05b.md`）は#6待ちのまま変わらず: (1)第3部テストデータの書き方/記載例の機能概要0件、(2)第2部設定系9ページの機能概要/拡張例16件、(3)第1部稼動環境0件、(4)第3部取引単体テスト（Nablarchバッチアプリケーション）機能概要。open blocker無し。
