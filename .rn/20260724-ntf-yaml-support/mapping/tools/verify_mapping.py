@@ -487,6 +487,26 @@ def check_unused_vocabulary(rows):
                 "(not registered in EXPECTED_ZERO_SECTIONS / PENDING_ZERO)"
             )
 
+    # 許可リストの陳腐化検出。0件として登録済みのキーに行が入った場合、
+    # 許可リスト・volume.md・checks/task-05b.md が古くなったまま気づけない
+    # （上のループはいずれも「使用数>0ならcontinue」で始まるため素通りする）。
+    # 2026-07-28 #5c STEP 0 で追加。
+    for key in list(EXPECTED_ZERO_PAGES) + [k for k in PENDING_ZERO if len(k) == 2]:
+        n = used_pages.get(key, 0)
+        if n > 0:
+            errors.append(
+                f"stale allowlist: page [{key[0]} > {key[1]}] has {n} non-DROP row(s) "
+                "but is registered as zero (EXPECTED_ZERO_PAGES / PENDING_ZERO)"
+            )
+    for key in list(EXPECTED_ZERO_SECTIONS) + [k for k in PENDING_ZERO if len(k) == 3]:
+        n = used_page_sections.get(key, 0)
+        if n > 0:
+            errors.append(
+                f"stale allowlist: section [{key[0]} > {key[1]} > {key[2]}] has {n} "
+                "non-DROP row(s) but is registered as zero "
+                "(EXPECTED_ZERO_SECTIONS / PENDING_ZERO)"
+            )
+
     return errors, pending
 
 

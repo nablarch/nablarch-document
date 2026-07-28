@@ -16,6 +16,7 @@ Rn version: 0.8.0
 
 - 作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-rebuild-instruction.md`
 - `#5b`/`#5c`/`#5d` 作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md`
+- `#5c` 追補（STEP 0）: `.rn/20260724-ntf-yaml-support/ntf-doc-05c-addendum.md`
 - `#5d` 追補（STEP 6〜8）: `.rn/20260724-ntf-yaml-support/ntf-doc-05d-addendum.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
@@ -364,12 +365,13 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 
 ### #5c: `DROP` 全件レビュー
 
-**Purpose**: `design.md` §11.8「`DROP` は件数の多寡にかかわらず全件を対象とする」の未達分を解消する。詳細は `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md` を参照。
+**Purpose**: `design.md` §11.8「`DROP` は件数の多寡にかかわらず全件を対象とする」の未達分を解消する。詳細は `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md` を参照。`#5c` の先頭に追加した STEP 0 の詳細は `.rn/20260724-ntf-yaml-support/ntf-doc-05c-addendum.md` を参照。
 
 **Prerequisites**: #5b
 
 **Steps**:
 
+- [x] STEP 0: `verify_mapping.py` の `check_unused_vocabulary` に許可リストの陳腐化検出（`stale allowlist` ERROR）を追加し、ERROR 0件・`EXIT: 0` を確認して commit する（`checks/task-05c.md` 参照）
 - [ ] `mapping.csv` の `disposition=DROP` 全96行を抽出し、`checks/task-05.md` の既存レビュー記録とレビュー済み/未レビューを機械的に分類する
 - [ ] 未レビュー分を実ファイル通読で判定する（理由の妥当性／重複DROPの実ファイル確認／開発者向けDROPの該当性／空・TOC・アンカーの実態）
 - [ ] 全96行の判定結果を `checks/task-05c.md` に1つの表としてまとめる
@@ -383,6 +385,10 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - 各行に「レビュー済み（記録の所在）」または「今回レビュー（判定と根拠 file:line）」のいずれかがある
 - 判定が覆った行は `_batch/*.csv` を修正し、`verify_mapping.py` がエラー0件
 - `lines` 合計 12,986 が不変
+- `check_unused_vocabulary` に許可リストの陳腐化検出が実装され、コミットされている
+- `DROP` 判定を覆した行がある場合、`stale allowlist` の ERROR が0件になるまで
+  許可リスト（`EXPECTED_ZERO_*` / `PENDING_ZERO`）・`mapping/volume.md`・
+  `checks/task-05b.md` を更新済みであること
 
 ### #5d: 記録の整合とセクション境界の是正
 
