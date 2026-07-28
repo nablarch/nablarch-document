@@ -239,8 +239,31 @@ def check_intro_section_split(rows):
             if tail == _INTRO_ERROR_TAIL:
                 errors.append(msg)
             else:
-                advisories.append(msg)
+                advisories.append({"msg": msg, "mapping_id": r.get("mapping_id")})
     return errors, advisories
+
+
+INTRO_NOTE_MARK = "[セクション境界]"
+
+
+def check_intro_note_present(rows, intro_advisories):
+    """check_intro_section_splitがadvisoryとして報告した全行のnoteに
+    [セクション境界]が含まれることを検証する。#5dでは advisory 4件に個別に
+    noteを追記したが、#6でadvisoryが5件に増えた際に追記漏れ（current-0128-a）
+    が発生した。件数固定の運用をやめ、advisory全件を機械的に突合することで
+    将来advisoryが増減しても自動的に検出する（2026-07-28 #6レビュー指摘）。"""
+    by_id = {r.get("mapping_id"): r for r in rows}
+    errors = []
+    for adv in intro_advisories:
+        mapping_id = adv["mapping_id"]
+        row = by_id.get(mapping_id)
+        note = (row.get("note") if row else "") or ""
+        if INTRO_NOTE_MARK not in note:
+            errors.append(
+                f"{mapping_id}: intro section split advisory is missing a "
+                f"{INTRO_NOTE_MARK!r} note"
+            )
+    return errors
 
 
 def _load_sections(name):
@@ -594,7 +617,11 @@ def main():
     errors += intro_errors
     print(f"\nintro section split advisories: {len(intro_advisories)} (not auto-fixed)")
     for a in intro_advisories:
-        print(" -", a)
+        print(" -", a["msg"])
+    # advisory 全件が [セクション境界] note を持つことを担保する。
+    # #5d では4件を個別に追記したが、#6 で advisory が5件に増えた際に追記漏れが発生した。
+    # 件数固定の運用をやめ、機械検査で担保する（2026-07-28 #6 レビュー指摘）。
+    errors += check_intro_note_present(rows, intro_advisories)
 
     part2_optional = check_part2_optional_sections(rows)
     print(f"\npart2 optional sections (機能概要/拡張例) zero count: {len(part2_optional)} (advisory only, not an error)")
