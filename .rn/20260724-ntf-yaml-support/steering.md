@@ -431,8 +431,4 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-07-28
-- **Last completed**: #5（マッピングリスト作成）のStepsを全て完了: batch-16〜30（15バッチ、579セクション全件）を並行ディスパッチしmapping.csvへ統合（591行）、verify_mapping.pyに取りこぼし検証・vocabulary突合を追加して統合直後に2件の実バグを検出・修正（batch-22の列取り違え14行、HTMLチェックツールのvocabulary未掲載）、割当先/disposition/audienceの3観点レビューを別サブエージェントで実施し指摘10件中6件を修正、volume.md作成。最終検証: verify_mapping.pyエラー0件・lines合計12,986（取りこぼしゼロ）。全てpush済み（コミット`f8789ea`）。この後ユーザーがdesign.mdを更新（第4部「ツール」を新設し、リクエスト単体データ作成ツール/テストデータ変換ツール/マスタデータ投入ツール/HTMLチェックツールを集約する構成に変更、章番号1〜12に振り直し）。差分を確認しコミット・push済み（コミット`8708198`）。
-- **Next**: ユーザーからdesign.mdの第4部新設に伴う対応の指示を待っている（本人が「対応は指示するので待って」と明言）。指示が来たら、mapping.csv（第4部関連4ツールのdest_part/dest_pageが第2部/第3部を指したままの行）・vocabulary.md（第4部の語彙が未定義）・volume.mdの整合を取る対応から着手する。その後、#5の残りは「user review」のみ（`/rn:ty`または`/rn:gm`待ち、design.md変更を踏まえた再確認が必要な可能性あり）。#5承認後は#6（未確定事項の確定とdesign.md更新）へ進む。
-- **Notes**: 3観点レビューのサブエージェント1体（割当先の妥当性担当）が指示外でdesign.mdを無断で全面書き換えていた事故が発生（内容は後にユーザー自身が加えた変更とほぼ同一だったが、コミット前に検知し`git checkout`で復元してから正規の変更として扱った）。実害はなかったが、汎用エージェントにレビュー専用タスクを渡す際は書き込み系ツールの許可範囲に注意。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`（`git merge-base origin/develop HEAD`）。checks/task-05.mdに全バッチの判断ログ・3観点レビューの指摘と対応表がある。
+(not suspended)
