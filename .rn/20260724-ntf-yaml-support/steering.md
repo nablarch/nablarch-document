@@ -426,7 +426,7 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - [x] `checks/task-05.md` に「暫定扱い一覧」節を新設し、`note` が「暫定」で始まる27行全件を表にする
 - [x] `HTMLチェックツール` 8行（`current-0367`〜`current-0375`）について、第4部新設で受け皿問題が解消済みであり `#6` では文言更新のみで済む旨を暫定一覧に明記する
 - [x] `design.md` §12 未確定事項#3（ファイル名・ディレクトリ構成）の確定時期のズレを `checks/task-05d.md` に申し送りとして記録する（`design.md` は変更しない）
-- [ ] commit & push（STEP 1〜5、以下 STEP 6〜8 とは別コミット）
+- [x] commit & push（STEP 1〜5、以下 STEP 6〜8 とは別コミット）
 - [x] STEP 6: `mapping/tools/verify_mapping.py` に `check_reference_only_sections` を追加する。`CONTENT_BEARING = {"MOVE", "MERGE", "SPLIT"}` を定義し、`mapping.csv` が使う全 `(dest_part, dest_page, dest_section)` のうち `CONTENT_BEARING` の行が1件も無いものを列挙する。advisory 出力とし `exit 1` しない
 - [x] STEP 6: `#6` の Steps に「`reference-only sections` の全件について本文なしで確定するか本文行を割り当てるかを判断し `checks/task-06.md` に記録する」を追加し、Completion criteria に「`reference-only sections` の全件に判断が記録されている（0件にする必要はない）」を追加する（既存のsteering.md #6に記載済みであることを確認）
 - [x] STEP 6: commit
@@ -434,21 +434,21 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - [x] STEP 7: ERROR 2件（`current-0150`/`current-0269`）を `git show c241906:<src_file>` で実ファイル通読のうえ是正する。`#5` Steps のルール「`(L2直下)` 行は同じ親を持つ配下セクションと同じ `dest_section` に置く」を適用し、同階層行の `dest_section` が複数ある場合は導入文が実際にどちらを導くかを実ファイルで確認して決める（行数の多寡で決めない）。`_batch/*.csv` を編集し `mapping.csv` を再生成する。`dest_page`/`disposition`/`audience` は変更しない。`note` に旧→新と根拠 file:line を追記する
 - [x] STEP 7: advisory 4件（`input-0114`/`current-0060`/`current-0142`/`current-0148`）はマッピングを変更せず、`note` 末尾に `[セクション境界]` 形式の申し送りを追記する（既存 note は削除しない）
 - [x] STEP 7: commit
-- [ ] STEP 8: `#8〜: ページの作成` の Steps に「`note` に `[セクション境界]` がある場合は導入文と本体の接続をページ内で再構成する」「`reference-only sections`（advisory）に該当する場合は `#6` で確定した方針に従う」の2行を追加する
-- [ ] STEP 8: `checks/task-05d.md` に、STEP7で是正した2行の旧→新と根拠 file:line、advisory 4件の判断理由を記録する
-- [ ] STEP 8: commit & push
+- [x] STEP 8: `#8〜: ページの作成` の Steps に「`note` に `[セクション境界]` がある場合は導入文と本体の接続をページ内で再構成する」「`reference-only sections`（advisory）に該当する場合は `#6` で確定した方針に従う」の2行を追加する（既にsteering.md #8〜 Steps に記載済みであることを確認、line 519・520）
+- [x] STEP 8: `checks/task-05d.md` に、STEP7で是正した2行の旧→新と根拠 file:line、advisory 4件の判断理由を記録する
+- [x] STEP 8: commit & push
 - [ ] **user review** — 承認を受けるまで #6 に進まない（**サブエージェントによるレビューは実施しない**）
 
 **Completion criteria**:
 
 - `split-plan.md` に `input-0016`/`input-0030` の行があり、`parts` の行範囲が `mapping.csv` と一致する（機械検証）
 - `checks/task-05.md` の暫定一覧に27行全件が現れる（機械検証: `note` が「暫定」で始まる行の `mapping_id` 全件が一覧表に存在する）
-- `design.md`/`mapping.csv`/`_batch/*.csv` に差分がない（`git diff` で確認）
+- `design.md` に差分がない（`git diff` で確認）。`mapping.csv`/`_batch/*.csv` はSTEP7の是正2件（`current-0150`/`current-0269`の`dest_section`）とSTEP1-5・STEP7のnote追記のみが差分であり、`dest_page`/`disposition`/`audience`に差分がないことを`git diff`で確認済み（当初の「差分がない」は`#5d`をSTEP1-5のみと想定した時点の記述で、`ntf-doc-05d-addendum.md`がSTEP7で`_batch/*.csv`編集を明示的に指示したことにより古くなっていた）
 - `check_reference_only_sections` / `check_intro_section_split` が `verify_mapping.py` に実装され、コミットされている
 - `check_intro_section_split` の ERROR が0件
 - `reference-only sections` の advisory 件数が2件で、`#6` の Steps・Completion criteria に引き継ぎが追記されている
 - `[セクション境界]` の `note` 追記が4件あり、対象 `mapping_id` がレビュー時の実測と一致する
-- 591行 / 12,986 / 11,973 が不変
+- 593行 / 12,986 / 11,983 が不変（`591行 / 12,986 / 11,973`は`#5c`差し戻し対応完了前の旧基準値。`#5c`（`#5d`のPrerequisites）が`109b736`で591→593行・DROP除く11,973→11,983に確定させており、`#5d`はこの値を維持することが正しい不変条件）
 - `checks/task-05d.md` に、是正した2行の旧→新と根拠 file:line、advisory 4件の判断理由が記録されている
 
 ### #6: 未確定事項の確定と design.md 更新

@@ -205,3 +205,41 @@ ERROR 0件、`intro section split`のERROR分は解消。是正の副作用と�
 
 STEP7はSTEP6と同一コミットにせず、STEP7単独でcommitする（`ntf-doc-05d-addendum.md`の
 指示「commit」に従う）。
+
+## STEP 8: `#8〜` への引き継ぎと本ファイルへの記録
+
+`steering.md` `#8〜: ページの作成`のStepsを確認したところ、以下2行が既に記載済みだった
+（`#5d`着手前の時点で反映済みだったと判断される。追加作業は不要）。
+
+- 「当該`dest_page`の行に`note`の`[セクション境界]`が含まれる場合、導入文と本体の接続をページ内で再構成する（出典の分断をそのまま持ち込まない）」
+- 「当該`dest_page`に`reference-only sections`（`verify_mapping.py`のadvisory）が該当する場合、`#6`で確定した方針に従う」
+
+STEP7の是正内容（旧→新・根拠file:line）とadvisory 4件の判断理由は、本ファイルのSTEP7節に
+記録済み。
+
+## self-check（#5d 全体）
+
+Completion criteriaを機械検証した結果を記す。
+
+| criteria | 結果 |
+|---|---|
+| `split-plan.md`のinput-0016/0030の`parts`が`mapping.csv`と一致 | OK（`input-0016-a`214-226/`-b`227-233、`input-0030-a`444-462/`-b`463-472、完全一致） |
+| `checks/task-05.md`暫定一覧に27行全件 | OK（機械照合、missing 0件） |
+| `design.md`に差分なし | OK（`git diff --stat -- design.md`が空） |
+| `mapping.csv`/`_batch/*.csv`は`dest_page`/`disposition`/`audience`に差分なし | OK（機械照合、changed 0件。`dest_section`と`note`のみ差分） |
+| `check_reference_only_sections`/`check_intro_section_split`が実装・コミット済み | OK（`5dcaad1`・`9510a18`） |
+| `check_intro_section_split`のERRORが0件 | OK（`verify_mapping.py` exit 0） |
+| `reference-only sections`のadvisory件数が2件、`#6`への引き継ぎ追記済み | OK（2件。`steering.md` #6 line 466/479に記載済みを確認） |
+| `[セクション境界]`のnote追記が4件、対象がレビュー実測と一致 | OK（`grep -c`で4件、対象4 mapping_idと一致） |
+| 593行 / 12,986 / 11,983 が不変 | OK（`Loaded 593 rows`、`lines total (all rows): 12986`、`lines total (excluding DROP): 11983`） |
+| `checks/task-05d.md`に是正2行の旧→新・根拠、advisory4件の判断理由が記録 | OK（本ファイルSTEP7節） |
+
+全項目OK。`verify_mapping.py`最終実行:
+
+```
+$ python3 mapping/tools/verify_mapping.py
+Loaded 593 rows from mapping.csv
+...
+OK: no errors
+EXIT: 0
+```
