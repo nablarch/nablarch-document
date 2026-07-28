@@ -75,3 +75,182 @@ EXIT: 0
 
 この STEP のみで1コミットにする（`mapping/tools/verify_mapping.py` の変更と本ファイル）。
 `DROP` レビューの変更とは混ぜない。
+
+## `#5c` 本体: `DROP` 全96行レビュー
+
+`mapping.csv` の `disposition=DROP` は96行（`python3` で `disposition == 'DROP'` を実測カウント）。
+`design.md` §11.8「`DROP` は件数の多寡にかかわらず全件を対象とする」の未達分を解消するため、
+96行全件を「レビュー済み（既存記録への参照）」または「今回レビュー（実ファイル通読による新規判定）」の
+いずれかに分類し、全行を1つの表にまとめた。
+
+### 分類方法（機械的）
+
+各DROP行の `mapping_id` および `src_section_id` が `checks/task-05.md` 内に文字列として
+出現するかを `python3` でスキャンした。出現する行は「レビュー済み」とし、該当する行番号と
+その行のテキストを根拠として引用した。出現しない行は「未レビュー」として今回レビューの対象にした。
+
+```
+$ python3 -c "... (mapping.csv の DROP行 96件について checks/task-05.md を mapping_id/src_section_id で grep) ..."
+Total DROP rows: 96
+Reviewed (mentioned in task-05.md): 63
+Unreviewed: 33
+```
+
+**既知の限界（発見・対応済み）**: `current-0312` は `checks/task-05.md:256` に
+「`DROP2件（current-0306/0312）はアンカーのみ`」という短縮表記で言及されているが、
+`current-0312` という文字列そのものは出現しない（`current-0306/0312` の `/0312` 部分のみ）ため、
+機械分類では「未レビュー」側に分類された。安全側に倒れる誤分類（見落としではなく過検出）であり、
+結果的に今回レビューのグループAで独立に実ファイル検証済み（下表参照）。
+
+### 今回レビューの実施
+
+未レビュー33行を3グループに分け、それぞれ独立したサブエージェントに実ファイル通読による検証を
+指示した（本タスクの Rules「レビューを依頼するサブエージェント…」の3点をすべて含めたプロンプトを使用）。
+
+- **グループA**（18行）: 「空/TOC/アンカーのみ」が理由の行。`git show c241906:<file> | sed -n '<range>p'`
+  で実際の本文範囲を読み、RSTアンカー・`.. contents::`・HTMLアンカーコメント・空行以外の地の文が
+  ないことを確認させた。
+- **グループB**（9行）: `input/ntf-testdata-loading.md` 由来で `audience=developer` の行。
+  `design.md` §9「対象外とするもの」の定義（読み込みの4段階・状態機械・キャッシュという内部処理説明）
+  に照らして、利用者向け仕様が混入していないかを確認させた。
+- **グループC**（6行）: 旧ファイル `05_UnitTestGuide/.../rest.rst` 由来で「新ファイルの詳細な記述と
+  重複するため」が理由の行。重複先として `note` に記載された行を実際に開かせ、重複の実在を確認させた
+  （重複先の記述を信じず独立に開く、という本タスクのRulesに従った）。
+
+3グループとも「実測した結果、DROP判定を覆す必要はない」という結論で、全33行についてDROP維持の
+判定と具体的な実測根拠（引用文・比較結果）を得た。**33行中、判定が覆った行は0件。**
+
+### 全96行の判定結果
+
+| mapping_id | 出典ファイル | 行数 | heading_path | 分類 | 判定 | 根拠 |
+|---|---|---|---|---|---|---|
+| current-0076 | index.rst | 2 | (冒頭) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:91`）: - disposition内訳: MOVE 20 / DROP 1（current-0076 = `.. _requestUnitTest:` という空のRSTアンカーのみで実体記述なし） |
+| input-0182 | testdata-converter-design.md | 8 | NTF テストデータ変換ツール 設計書 > (L1直下) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:162`）: あわせて、他の(L1直下)/(L2直下)のDROP行（8件: input-0182・input-0187・input-0195(batch-02), current-0214(batch-04), input-0001・input-0005・input-0017(batch-06… |
+| input-0185 | testdata-converter-design.md | 19 | NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定） > 保持するか捨てるかの判断基準 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:194`）: \| input-0185 \| 19 \| batch-02 \| 開発者向け内部情報 \| input-0184 \| NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定） > 保持するか捨てるかの判断基準 \| |
+| input-0186 | testdata-converter-design.md | 7 | NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定） > 制約 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:195`）: \| input-0186 \| 7 \| batch-02 \| 開発者向け内部情報 \| — \| NTF テストデータ変換ツール 設計書 > 1. 何を作るか（背景と決定） > 制約 \| |
+| input-0187 | testdata-converter-design.md | 7 | NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > (L2直下) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:162`）: あわせて、他の(L1直下)/(L2直下)のDROP行（8件: input-0182・input-0187・input-0195(batch-02), current-0214(batch-04), input-0001・input-0005・input-0017(batch-06… |
+| input-0188 | testdata-converter-design.md | 22 | NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 判断 A：Excel 経路 — アダプタで… | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:197`）: \| input-0188 \| 22 \| batch-02 \| 開発者向け内部情報 \| — \| NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 判断 A：Excel 経路... \| |
+| input-0189 | testdata-converter-design.md | 11 | NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 判断 B：YAML 経路 — 本体の構造解… | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:198`）: \| input-0189 \| 11 \| batch-02 \| 開発者向け内部情報 \| — \| NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 判断 B：YAML 経路 ... \| |
+| input-0191 | testdata-converter-design.md | 12 | NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 共通：器の中身を読む手段 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:199`）: \| input-0191 \| 12 \| batch-02 \| 開発者向け内部情報 \| — \| NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 共通：器の中身を読む手段 \| |
+| input-0192 | testdata-converter-design.md | 12 | NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 共通：器が正規化する値の原文復元 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:200`）: \| input-0192 \| 12 \| batch-02 \| 開発者向け内部情報 \| — \| NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 共通：器が正規化する値の原文復元 \| |
+| input-0193 | testdata-converter-design.md | 11 | NTF テストデータ変換ツール 設計書 > 2. どう作るか（設計判断） > 重複実装を避ける：ロジックの共通化 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:168`）: - **input-0193**（batch-02）・**input-0005**（batch-06）: noteに「重複」という語を含んでいたが、実際の理由は重複ではなかった（input-0193はコード実装の一元化に関する内部設計方針、input-0005は出典表記1行のみで… |
+| input-0195 | testdata-converter-design.md | 3 | NTF テストデータ変換ツール 設計書 > 3. 構造 > (L2直下) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:162`）: あわせて、他の(L1直下)/(L2直下)のDROP行（8件: input-0182・input-0187・input-0195(batch-02), current-0214(batch-04), input-0001・input-0005・input-0017(batch-06… |
+| input-0196 | testdata-converter-design.md | 37 | NTF テストデータ変換ツール 設計書 > 3. 構造 > 中間モデル | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:203`）: \| input-0196 \| 37 \| batch-02 \| 開発者向け内部情報 \| — \| NTF テストデータ変換ツール 設計書 > 3. 構造 > 中間モデル \| |
+| input-0197 | testdata-converter-design.md | 57 | NTF テストデータ変換ツール 設計書 > 3. 構造 > IN（形式 → 中間モデル） | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:204`）: \| input-0197 \| 57 \| batch-02 \| 開発者向け内部情報 \| — \| NTF テストデータ変換ツール 設計書 > 3. 構造 > IN（形式 → 中間モデル） \| |
+| input-0198 | testdata-converter-design.md | 26 | NTF テストデータ変換ツール 設計書 > 3. 構造 > OUT（中間モデル → 形式） | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:135`）: - **batch-02**（`testdata-converter-design.md` 21件、commit `eb547fd`）: MOVE 5 / DROP 16（developer）。変換ツールの内部アーキテクチャ設計書のため大半developer判定。MOVEは目的・… |
+| input-0200 | testdata-converter-design.md | 10 | NTF テストデータ変換ツール 設計書 > 4. 品質担保 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:206`）: \| input-0200 \| 10 \| batch-02 \| 開発者向け内部情報 \| — \| NTF テストデータ変換ツール 設計書 > 4. 品質担保 \| |
+| input-0201 | testdata-converter-design.md | 9 | NTF テストデータ変換ツール 設計書 > 5. 開発とバージョン展開 > 開発とリポジトリ分割の手順 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:207`）: \| input-0201 \| 9 \| batch-02 \| 開発者向け内部情報 \| — \| NTF テストデータ変換ツール 設計書 > 5. 開発とバージョン展開 > 開発とリポジトリ分割の手順 \| |
+| input-0202 | testdata-converter-design.md | 13 | NTF テストデータ変換ツール 設計書 > 5. 開発とバージョン展開 > 過去バージョンへの展開 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:208`）: \| input-0202 \| 13 \| batch-02 \| 開発者向け内部情報 \| — \| NTF テストデータ変換ツール 設計書 > 5. 開発とバージョン展開 > 過去バージョンへの展開 \| |
+| current-0161 | 01_Abstract.rst | 2 | (冒頭) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:209`）: \| current-0161 \| 2 \| batch-03 \| 空/TOC/アンカーのみ \| — \| (冒頭) \| |
+| current-0214 | 03_Tips.rst | 23 | 目的別API使用方法 > (L1直下) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:137`）: - **batch-04**（`03_Tips.rst#1` 19件 + `delayed_receive.rst`(取引) 1件、commit `08217a6`）: MERGE 18 / DROP 1 / REFERENCE 1。全行user。Tips特別ルール（独立ページ化… |
+| input-0001 | ntf-doc-terms.md | 10 | NTF 解説書（v6）用語リファレンス > (L1直下) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:162`）: あわせて、他の(L1直下)/(L2直下)のDROP行（8件: input-0182・input-0187・input-0195(batch-02), current-0214(batch-04), input-0001・input-0005・input-0017(batch-06… |
+| input-0003 | ntf-doc-terms.md | 24 | NTF 解説書（v6）用語リファレンス > データタイプ（Data Types） | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:212`）: \| input-0003 \| 24 \| batch-06 \| 重複 \| current-0169 \| NTF 解説書（v6）用語リファレンス > データタイプ（Data Types） \| |
+| input-0004 | ntf-doc-terms.md | 18 | NTF 解説書（v6）用語リファレンス > シート・行・列・セル | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:213`）: \| input-0004 \| 18 \| batch-06 \| 重複 \| current-0080, current-0168, current-0169 \| NTF 解説書（v6）用語リファレンス > シート・行・列・セル \| |
+| input-0005 | ntf-doc-terms.md | 3 | NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > (L2直下) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:162`）: あわせて、他の(L1直下)/(L2直下)のDROP行（8件: input-0182・input-0187・input-0195(batch-02), current-0214(batch-04), input-0001・input-0005・input-0017(batch-06… |
+| input-0006 | ntf-doc-terms.md | 13 | NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > 特殊記法 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:156`）: `csv.DictReader`で読むと、note/heading_pathフィールド内の無エスケープのカンマ・二重引用符によって8行（batch-03のcurrent-0174、batch-04のcurrent-0215/0217、batch-05のcurrent-0237、b… |
+| input-0007 | ntf-doc-terms.md | 3 | NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > マーカーカラム | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:214`）: \| input-0005 \| 3 \| batch-06 \| 空/TOC/アンカーのみ \| input-0006, input-0007, input-0008, input-0009, input-0010 \| NTF 解説書（v6）用語リファレンス > セル値の解釈規… |
+| input-0008 | ntf-doc-terms.md | 3 | NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > コメント | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:214`）: \| input-0005 \| 3 \| batch-06 \| 空/TOC/アンカーのみ \| input-0006, input-0007, input-0008, input-0009, input-0010 \| NTF 解説書（v6）用語リファレンス > セル値の解釈規… |
+| input-0009 | ntf-doc-terms.md | 3 | NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > 日付記述フォーマ… | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:214`）: \| input-0005 \| 3 \| batch-06 \| 空/TOC/アンカーのみ \| input-0006, input-0007, input-0008, input-0009, input-0010 \| NTF 解説書（v6）用語リファレンス > セル値の解釈規… |
+| input-0010 | ntf-doc-terms.md | 7 | NTF 解説書（v6）用語リファレンス > セル値の解釈規則（特殊記法・マーカーカラム・コメント） > 設計原則（用語と… | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:214`）: \| input-0005 \| 3 \| batch-06 \| 空/TOC/アンカーのみ \| input-0006, input-0007, input-0008, input-0009, input-0010 \| NTF 解説書（v6）用語リファレンス > セル値の解釈規… |
+| input-0016-b | ntf-doc-terms.md | 7 | NTF 解説書（v6）用語リファレンス > データタイプ別の行構造 > ディレクティブ | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:139`）: - **batch-06**（`ntf-doc-terms.md#1` 18件 + `entityUnitTest/index.rst` 2件、commit `beb9bf6`）: MERGE 8 / DROP 12。**新パターン**: ntf-doc-termsはcurren… |
+| input-0017 | ntf-doc-terms.md | 10 | NTF 解説書（v6）用語リファレンス > testShots / requestParams（テストケース一覧） > … | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:162`）: あわせて、他の(L1直下)/(L2直下)のDROP行（8件: input-0182・input-0187・input-0195(batch-02), current-0214(batch-04), input-0001・input-0005・input-0017(batch-06… |
+| input-0018 | ntf-doc-terms.md | 31 | NTF 解説書（v6）用語リファレンス > testShots / requestParams（テストケース一覧） > … | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:220`）: \| input-0017 \| 10 \| batch-06 \| 重複 \| current-0081, current-0085, input-0018 \| NTF 解説書（v6）用語リファレンス > testShots / requestParams（テストケ... \| |
+| current-0022 | index.rst | 2 | (冒頭) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:139`）: - **batch-06**（`ntf-doc-terms.md#1` 18件 + `entityUnitTest/index.rst` 2件、commit `beb9bf6`）: MERGE 8 / DROP 12。**新パターン**: ntf-doc-termsはcurren… |
+| current-0023 | index.rst | 7 | Form/Entityの単体テスト | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:223`）: \| current-0023 \| 7 \| batch-06 \| 空/TOC/アンカーのみ \| — \| Form/Entityの単体テスト \| |
+| current-0029 | index.rst | 2 | (冒頭) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:140`）: - **batch-07**（`ntf-testdata-doc.md#1` 18件 + `ClassUnitTest/index.rst` 2件、commit `4b2a5ee`）: MERGE 16 / DROP 4。全行user。DROP4件はTOC・アンカーのみ（curr… |
+| current-0030 | index.rst | 8 | クラス単体テストの実施方法 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:225`）: \| current-0030 \| 8 \| batch-07 \| 空/TOC/アンカーのみ \| current-0023 \| クラス単体テストの実施方法 \| |
+| input-0115 | ntf-testdata-doc.md | 14 | NTF テストデータ リファレンス > 目次 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:140`）: - **batch-07**（`ntf-testdata-doc.md#1` 18件 + `ClassUnitTest/index.rst` 2件、commit `4b2a5ee`）: MERGE 16 / DROP 4。全行user。DROP4件はTOC・アンカーのみ（curr… |
+| input-0123 | ntf-testdata-doc.md | 10 | NTF テストデータ リファレンス > 4. テストケース定義 > 4.2 testShots のカラム仕様 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:173`）: - **input-0123**（testShotsのカラム仕様、10行）: 実体は「カラムは処理方式によって異なる」の1文+4処理方式への:refリンク一覧のみで、独自の記法情報を持たないナビゲーションと判明。リンク先（ntf-testdata-doc-examples-tes… |
+| current-0159 | index.rst | 2 | (冒頭) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:141`）: - **batch-08**（`ntf-testdata-doc.md#2` 18件 + `05_UnitTestGuide/index.rst` 2件、commit `d3dfdfa`）: MERGE 18 / DROP 2。全行user。current-0159/0160はア… |
+| current-0160 | index.rst | 101 | 単体テスト実施方法 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:141`）: - **batch-08**（`ntf-testdata-doc.md#2` 18件 + `05_UnitTestGuide/index.rst` 2件、commit `d3dfdfa`）: MERGE 18 / DROP 2。全行user。current-0159/0160はア… |
+| current-0097 | mail.rst | 2 | (冒頭) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:230`）: \| current-0097 \| 2 \| batch-09 \| 空/TOC/アンカーのみ \| — \| (冒頭) \| |
+| input-0025 | ntf-doc-terms.md | 8 | NTF 解説書（v6）用語リファレンス > メッセージング > 障害系テスト用特殊値 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:231`）: \| input-0025 \| 8 \| batch-10 \| 重複 \| input-0141 \| NTF 解説書（v6）用語リファレンス > メッセージング > 障害系テスト用特殊値 \| |
+| input-0029 | ntf-doc-terms.md | 15 | NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > DB アクセステスト | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:232`）: \| input-0029 \| 15 \| batch-10 \| 重複 \| current-0182, current-0192, current-0193, current-0194 \| NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > DB アクセステスト … |
+| input-0030-b | ntf-doc-terms.md | 10 | NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > リクエスト単体テスト（ウェブアプリケーション）の… | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:146`）: - **batch-13**（`02_RequestUnitTest.rst` 16件 + `double_transmission.rst` 4件、commit `9892ea9`）: MOVE 15 / MERGE 2 / DROP 3。全行user。**batch-10申し… |
+| input-0031 | ntf-doc-terms.md | 13 | NTF 解説書（v6）用語リファレンス > テスト種別と主要クラス > リクエスト単体テスト（RESTful ウェブサー… | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:256`）: - **batch-17**（`RequestUnitTest_rest.rst` 15件 + `02_RequestUnitTest/delayed_receive.rst` 5件、commit `ba665a9`）: MOVE 17 / DROP 2 / REFERENCE … |
+| current-0331 | index.rst | 2 | (冒頭) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:233`）: \| current-0331 \| 2 \| batch-10 \| 空/TOC/アンカーのみ \| current-0022 \| (冒頭) \| |
+| current-0332 | index.rst | 17 | 自動テストフレームワークの使用方法 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:234`）: \| current-0332 \| 17 \| batch-10 \| 空/TOC/アンカーのみ \| current-0023 \| 自動テストフレームワークの使用方法 \| |
+| current-0293 | RequestUnitTest_http_send_sync.rst | 20 | リクエスト単体テスト（HTTP同期応答メッセージ送信処理） | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:144`）: - **batch-11**（`ntf-testdata-doc-examples-messaging.md` 17件 + `RequestUnitTest_http_send_sync.rst` 1件 + `HttpDumpTool/index.rst` 1件 + `Maste… |
+| current-0351 | index.rst | 7 | リクエスト単体データ作成ツール | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:144`）: - **batch-11**（`ntf-testdata-doc-examples-messaging.md` 17件 + `RequestUnitTest_http_send_sync.rst` 1件 + `HttpDumpTool/index.rst` 1件 + `Maste… |
+| input-0155 | ntf-testdata-doc.md | 3 | NTF テストデータ リファレンス > 8. 値の書き方 > 8.8 バイナリデータの記述 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:145`）: - **batch-12**（`ntf-testdata-doc.md#3` 17件 + `08_TestTools/index.rst` 1件 + `testing_framework/index.rst` 1件、commit `ef330ac`）: MERGE 16 / MO… |
+| input-0161 | ntf-testdata-doc.md | 13 | NTF テストデータ リファレンス > 9. ディレクティブ > 9.4 デフォルトディレクティブの DI 設定 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:346`）: \| 3 \| 割当先: input-0161（DIキー3種の一覧）が第3部テストデータの書き方へMERGEされているが、design.mdは「コンポーネント設定ファイルの設定項目一覧」を第2部に記載するとしている \| 実測でcurrent-0292（`Reque… |
+| current-0376 | index.rst | 8 | プログラミング工程で使用するツール | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:145`）: - **batch-12**（`ntf-testdata-doc.md#3` 17件 + `08_TestTools/index.rst` 1件 + `testing_framework/index.rst` 1件、commit `ef330ac`）: MERGE 16 / MO… |
+| current-0198 | 02_RequestUnitTest.rst | 2 | (冒頭) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:146`）: - **batch-13**（`02_RequestUnitTest.rst` 16件 + `double_transmission.rst` 4件、commit `9892ea9`）: MOVE 15 / MERGE 2 / DROP 3。全行user。**batch-10申し… |
+| current-0056 | double_transmission.rst | 2 | (冒頭) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:240`）: \| current-0056 \| 2 \| batch-13 \| 空/TOC/アンカーのみ \| — \| (冒頭) \| |
+| current-0263 | JUnit5_Extension.rst | 2 | (冒頭) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:147`）: - **batch-14**（`JUnit5_Extension.rst` 16件 + `fileupload.rst` 4件、commit `3ba158a`）: MOVE 17 / MERGE 1 / DROP 2。全行user。batch-03のcurrent-0178/0… |
+| current-0264 | JUnit5_Extension.rst | 5 | JUnit 5用拡張機能 > (L1直下) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:162`）: あわせて、他の(L1直下)/(L2直下)のDROP行（8件: input-0182・input-0187・input-0195(batch-02), current-0214(batch-04), input-0001・input-0005・input-0017(batch-06… |
+| input-0104 | ntf-testdata-doc-examples-testshots.md | 9 | NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequestTestSupp… | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:173`）: - **input-0123**（testShotsのカラム仕様、10行）: 実体は「カラムは処理方式によって異なる」の1文+4処理方式への:refリンク一覧のみで、独自の記法情報を持たないナビゲーションと判明。リンク先（ntf-testdata-doc-examples-tes… |
+| input-0105 | ntf-testdata-doc-examples-testshots.md | 12 | NTF テストデータ解説書 — testShots カラム一覧 > バッチ処理（BatchRequestTestSupp… | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:172`）: - **input-0105**（バッチ処理のオプションカラム、12行）: setUpDbはcurrent-0080、残り（setUpTable/expectedTable/setUpFile/expectedFile/expectedLog/args[n]）はinput-001… |
+| input-0107 | ntf-testdata-doc-examples-testshots.md | 9 | NTF テストデータ解説書 — testShots カラム一覧 > メッセージング（MessagingRequestTe… | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:173`）: - **input-0123**（testShotsのカラム仕様、10行）: 実体は「カラムは処理方式によって異なる」の1文+4処理方式への:refリンク一覧のみで、独自の記法情報を持たないナビゲーションと判明。リンク先（ntf-testdata-doc-examples-tes… |
+| current-0031 | batch.rst | 2 | (冒頭) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | RSTアンカー(.. _`batch_request_test`:)+空行のみ、プローズなし |
+| current-0024 | 02_componentUnitTest.rst | 2 | (冒頭) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | RSTアンカー(.. _componentUnitTest:)+空行のみ、プローズなし |
+| current-0306 | RequestUnitTest_rest.rst | 2 | (冒頭) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:256`）: - **batch-17**（`RequestUnitTest_rest.rst` 15件 + `02_RequestUnitTest/delayed_receive.rst` 5件、commit `ba665a9`）: MOVE 17 / DROP 2 / REFERENCE … |
+| current-0312 | RequestUnitTest_rest.rst | 3 | リクエスト単体テスト（RESTfulウェブサービス） > 構造 > (L2直下) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | 「構造」節直下、RSTアンカー(.. _rest_test_superclasses:)+空行のみ。実文はL100以降で範囲外 |
+| input-0167 | ntf-testdata-loading.md | 9 | NTF テストデータ読み込み機構 > (L1直下) | 今回レビュー・B（ntf-testdata-loading.md 開発者向け実測） | DROP維持 | 本書の位置づけ宣言のみ（利用者向け文書との対比、対象範囲がNTF本体の読み込み経路に限定される旨）。具体的仕様なし |
+| input-0168 | ntf-testdata-loading.md | 55 | NTF テストデータ読み込み機構 > 1. 読み込みの4段階 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:383`）: \| input-0197/0168/0169/0196/0175/0198/0188/0174（開発者向け8件） \| 各20〜57 \| design.md §9冒頭の「開発者向け内部実装は含めない」原則に合致。うちinput-0168/0169/0175/0174はさらに§9本文… |
+| input-0169 | ntf-testdata-loading.md | 49 | NTF テストデータ読み込み機構 > 2. データタイプと組み立て方の対応 | 今回レビュー・B（ntf-testdata-loading.md 開発者向け実測） | DROP維持 | パーサ継承ツリー図＋データタイプ別パーサクラス名対応表。内部クラス名の説明のみ |
+| input-0170 | ntf-testdata-loading.md | 4 | NTF テストデータ読み込み機構 > 3. 値の変換と整形 > (L2直下) | 今回レビュー・B（ntf-testdata-loading.md 開発者向け実測） | DROP維持 | ③④への導入文のみ。具体的な変換ルールを含まない |
+| input-0173 | ntf-testdata-loading.md | 10 | NTF テストデータ読み込み機構 > 3. 値の変換と整形 > ③は不可逆、④は非破壊 | 今回レビュー・B（ntf-testdata-loading.md 開発者向け実測） | DROP維持 | ③不可逆/④非破壊というキャッシュ実装依存の可逆性説明。ntf-testdata-doc.mdをgrepしたが対応概念なし＝利用者向け文書に相当箇所なし＝内部専用と確認 |
+| input-0174 | ntf-testdata-loading.md | 20 | NTF テストデータ読み込み機構 > 4. 状態機械による組み立て（ファイル・メッセージ） > (L2直下) | 今回レビュー・B（ntf-testdata-loading.md 開発者向け実測） | DROP維持 | 状態機械の遷移図・条件。利用者向けの帰結（先頭セル空/値ありでのデータ行・新規レコードレイアウト判定）はntf-testdata-doc.md §6.4/§6.5に既出と確認、抽出漏れなし |
+| input-0175 | ntf-testdata-loading.md | 27 | NTF テストデータ読み込み機構 > 4. 状態機械による組み立て（ファイル・メッセージ） > 組み立て先のデータモデル… | 今回レビュー・B（ntf-testdata-loading.md 開発者向け実測） | DROP維持 | DataFile/DataFileFragment等の内部クラス名と保持構造の説明のみ |
+| input-0177 | ntf-testdata-loading.md | 11 | NTF テストデータ読み込み機構 > 5. ヘッダ行＋データ行による組み立て（テーブル・LIST_MAP） > 組み立て… | 今回レビュー・B（ntf-testdata-loading.md 開発者向け実測） | DROP維持 | TableData/List<Map>という内部クラス名と保持構造の説明のみ |
+| input-0178 | ntf-testdata-loading.md | 9 | NTF テストデータ読み込み機構 > 6. 入口 API がまとめる単位 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:352`）: \| 9 \| audience: input-0178（TestDataParserのgetSetupFile/getExpectedTableData挙動）が`developer`だが、既存解説書に`TestDataParser`を直接使う例（`getListMap`、curre… |
+| input-0180 | ntf-testdata-loading.md | 6 | NTF テストデータ読み込み機構 > 8. 再解析を避けるキャッシュ | 今回レビュー・B（ntf-testdata-loading.md 開発者向け実測） | DROP維持 | ファイル名/シート名キーのキャッシュ機構というdesign.md名指しの除外対象そのもの |
+| input-0181 | ntf-testdata-loading.md | 6 | NTF テストデータ読み込み機構 > さいごに | 今回レビュー・B（ntf-testdata-loading.md 開発者向け実測） | DROP維持 | ①〜④の要約とスコープ限定文のみ。新規仕様情報なし |
+| current-0279 | RequestUnitTest_batch.rst | 2 | (冒頭) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | RSTアンカー(.. _request-util-test-batch:)+空行のみ、プローズなし |
+| current-0141 | index.rst | 2 | (冒頭) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | RSTアンカー(.. _dealUnitTest:)+空行のみ、プローズなし |
+| current-0146 | index.rst | 10 | 取引単体テストの実施方法 > テスト結果エビデンスの収集 | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:260`）: - **batch-19**（`RequestUnitTest_batch.rst` 14件 + `03_DealUnitTest/index.rst` 6件、commit `91cbe78`）: MOVE 16 / DROP 3 / REFERENCE 1。全行user。DRO… |
+| current-0100 | real.rst | 2 | (冒頭) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | RSTアンカー(.. _`real_request_test`:)+空行のみ、プローズなし |
+| current-0068 | http_send_sync.rst | 2 | (冒頭) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | RSTアンカー(.. _`message_httpSendSyncMessage_test`:)+空行のみ、プローズなし |
+| current-0011 | 02_entityUnitTestWithNablarchValidation.rst | 2 | Nablarch Validationに対応したForm/Entityのクラス単体テスト > (冒頭) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | RSTアンカー(.. _entityUnitTest:)+空行のみ、プローズなし |
+| current-0252 | 04_MasterDataRestore.rst | 2 | マスタデータ復旧機能 > (冒頭) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | RSTアンカー(.. _`master_data_backup`:)+空行のみ、プローズなし |
+| current-0253 | 04_MasterDataRestore.rst | 5 | マスタデータ復旧機能 > (L1直下) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | .. contents:: 目次（:depth: 2 :local:）のTOCディレクティブのみ、プローズなし。直後L11以降の実文（概要節）は範囲外で切り取り漏れなし |
+| input-0075 | ntf-testdata-doc-examples-overview.md | 3 | NTF テストデータ解説書 — 記述例（概要・groupId） > (L1直下) | 既存記録 | DROP維持 | レビュー済み（`checks/task-05.md:258`）: **batch-24**（`ntf-testdata-doc-examples-file.md#1` 11件 + `ntf-testdata-doc-examples-overview.md` 7件、commit `5102bd8`）: MERGE 17 / DROP 1。全行u… |
+| current-0153 | send_sync.rst | 2 | (冒頭) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | RSTアンカー(.. _dealUnitTest_send_sync:)+空行のみ、プローズなし |
+| current-0352 | 01_MasterDataSetupTool.rst | 2 | (冒頭) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | RSTアンカー(.. _master_data_setup_tool:)+空行のみ、プローズなし |
+| current-0001 | 01_entityUnitTestWithBeanValidation.rst | 2 | (冒頭) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | RSTアンカー(.. _entityUnitTestWithBeanValidation:)+空行のみ、プローズなし |
+| current-0113 | rest.rst | 5 | リクエスト単体テストの実施方法 > 前提条件 | 今回レビュー・C（rest.rst 重複実測） | DROP維持 | current-0307/0310（依存モジュール追加の具体的説明・pom.xml例）に主張内容が具体例付きで包含済みと確認 |
+| current-0115 | rest.rst | 7 | リクエスト単体テストの実施方法 > テストクラスの書き方 > フレームワークで用意されたテストクラスのスーパークラスを継… | 今回レビュー・C（rest.rst 重複実測） | DROP維持 | current-0313/0314（継承関係・dbInfo/testDataParser要否の詳細）に主張内容が包含済みと確認 |
+| current-0116 | rest.rst | 2 | リクエスト単体テストの実施方法 > テストクラスの書き方 > JUnit4のアノテーションを使用する | 今回レビュー・C（rest.rst 重複実測） | DROP維持 | 01_Abstract.rst「テストメソッド記述方法」節と文言レベルでほぼ完全一致、コード例まで付加され上回ると確認 |
+| current-0117 | rest.rst | 2 | リクエスト単体テストの実施方法 > テストクラスの書き方 > 事前準備補助機能を使ってリクエストを生成する | 今回レビュー・C（rest.rst 重複実測） | DROP維持 | current-0316（get/post/put/patch/delete/newRequestの各メソッドシグネチャ・使用例）に包含済みと確認 |
+| current-0118 | rest.rst | 2 | リクエスト単体テストの実施方法 > テストクラスの書き方 > リクエストを送信する | 今回レビュー・C（rest.rst 重複実測） | DROP維持 | current-0317（sendRequestメソッドシグネチャ）に包含済みと確認 |
+| current-0119 | rest.rst | 5 | リクエスト単体テストの実施方法 > テストクラスの書き方 > 結果を確認する | 今回レビュー・C（rest.rst 重複実測） | DROP維持 | current-0318（assertStatusCode・JSONAssert等ライブラリ名・readTextResource・ファイル配置表）に包含済みと確認 |
+| current-0333 | 01_HttpDumpTool.rst | 2 | (冒頭) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | RSTアンカー(.. _`http_dump_tool`:)+空行のみ、プローズなし |
+| current-0366 | index.rst | 2 | (冒頭) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | RSTアンカー(.. _html_check_tool:)+空行のみ、プローズなし |
+| current-0123 | send_sync.rst | 2 | (冒頭) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | RSTアンカー(.. _`message_sendSyncMessage_test`:)+空行のみ、プローズなし |
+| input-0094 | ntf-testdata-doc-examples-table.md | 3 | NTF テストデータ解説書 — 記述例（テーブルデータ） > 5.1 テーブルデータの基本形式 > (L2直下) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | HTMLアンカー(<a name="setup-table"></a>)+空行のみ、プローズなし。直後の実文（SETUP_TABLE記述例）は範囲外 |
+| current-0137 | http_send_sync.rst | 2 | (冒頭) | 今回レビュー・A（空/TOC/アンカー実測） | DROP維持 | RSTアンカー(.. _dealUnitTest_http_send_sync:)+空行のみ、プローズなし |
+
+### 判定サマリ
+
+- 96行中、**判定が覆った行は0件**（63行=既存記録によるDROP維持の確認、33行=今回の実ファイル通読によるDROP維持の確認）
+- `_batch/*.csv` の編集は発生していない（判定を覆した行がないため）
+
+### 再検証（データ変更なしの確認）
+
+```
+$ python3 mapping/tools/verify_mapping.py; echo "EXIT: $?"
+Loaded 591 rows from mapping.csv
+...
+lines total (all rows): 12986
+lines total (excluding DROP): 11973
+...
+OK: no errors
+EXIT: 0
+```
+
+- `lines` 合計 12,986（DROP除く 11,973）・591行はSTEP 0時点から不変
+- `stale allowlist` のERRORは0件（`DROP` 判定を覆した行がないため、許可リスト
+  （`EXPECTED_ZERO_*` / `PENDING_ZERO`）・`mapping/volume.md`・`checks/task-05b.md` の
+  更新は不要。`#5c` Completion criteria の該当項目「`DROP` 判定を覆した行がある場合…」は
+  今回は非該当のため対応不要と判断する）
+- `design.md` は無変更（`git diff` で確認済み。差分なし）
+
+### Completion criteria 充足確認
+
+- `DROP` 96行すべてが上表に現れる（機械カウントで96行と一致）
+- 各行に「レビュー済み（記録の所在）」または「今回レビュー（判定と根拠 file:line）」のいずれかがある
+- 判定が覆った行は0件のため `_batch/*.csv` の修正は発生せず、`verify_mapping.py` はエラー0件のまま
+- `lines` 合計 12,986 は不変
+- `check_unused_vocabulary` に許可リストの陳腐化検出（STEP 0）が実装され、コミット済み
+- `DROP` 判定を覆した行が0件のため、許可リスト・`volume.md`・`checks/task-05b.md` の更新は不要
