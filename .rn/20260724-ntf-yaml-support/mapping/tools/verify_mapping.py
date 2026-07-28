@@ -155,6 +155,37 @@ def check_duplicate_destinations(rows):
     return findings
 
 
+CONTENT_BEARING = {"MOVE", "MERGE", "SPLIT"}
+
+
+def check_reference_only_sections(rows):
+    """mapping.csvが使う全(dest_part, dest_page, dest_section)のうち、
+    CONTENT_BEARING（本文を持つdisposition）の行が1件も無いものを検出する。
+    REFERENCEのみでセクションが充足されている状態は、design.md §11.6観点A
+    「REFERENCEが本文を持っていないか」に照らして妥当な場合があるため、
+    判定は人が行う（advisory出力。exit 1しない）。"""
+    all_sections = defaultdict(int)
+    content_bearing_sections = set()
+    for r in rows:
+        if r.get("disposition") == "DROP":
+            continue
+        dp = r.get("dest_part", "")
+        pg = r.get("dest_page", "")
+        sec = r.get("dest_section", "")
+        if not (dp and pg and sec):
+            continue
+        key = (dp, pg, sec)
+        all_sections[key] += 1
+        if r.get("disposition") in CONTENT_BEARING:
+            content_bearing_sections.add(key)
+
+    ref_only = []
+    for key in sorted(all_sections):
+        if key not in content_bearing_sections:
+            ref_only.append((key[0], key[1], key[2], all_sections[key]))
+    return ref_only
+
+
 def _load_sections(name):
     path = os.path.join(MAPPING_DIR, name)
     with open(path, newline="", encoding="utf-8") as f:
@@ -552,6 +583,11 @@ def main():
     for f in dup_findings:
         members = ", ".join(f"{sid}->{dest}({src})" for sid, dest, src in f["members"])
         print(f" - [{f['method']}] {f['key']!r}: {members}")
+
+    ref_only = check_reference_only_sections(rows)
+    print(f"\nreference-only sections: {len(ref_only)} (advisory only, not auto-fixed)")
+    for part, page, section, n in ref_only:
+        print(f" - [{part} > {page} > {section}]: {n} row(s), all non content-bearing")
 
     if errors:
         print(f"\n{len(errors)} error(s):")

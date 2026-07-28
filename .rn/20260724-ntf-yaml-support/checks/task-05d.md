@@ -81,3 +81,33 @@ disposition,note` — Evidence: `head -1 mapping/mapping.csv`）。したがっ�
 ### commit
 
 STEP1〜5はSTEP6〜8と別コミットとする（`ntf-doc-05d-addendum.md`の指示どおり）。
+
+## STEP 6: `check_reference_only_sections` の追加
+
+`mapping/tools/verify_mapping.py`に`check_reference_only_sections`を追加した。仕様は
+`ntf-doc-05d-addendum.md`「STEP 6」のとおり: `CONTENT_BEARING = {"MOVE", "MERGE", "SPLIT"}`
+を定義し、`mapping.csv`が使う全`(dest_part, dest_page, dest_section)`のうち`CONTENT_BEARING`の
+行が1件も無いものを列挙する（advisory出力、`exit 1`しない）。`check_duplicate_destinations`と
+同じ位置づけで`main()`から呼び出す。
+
+`#6`のSteps・Completion criteriaへの引き継ぎは、`steering.md` `#6`に既に記載済みであることを
+確認した（line 466「`reference-only sections`の全件について...判断し`checks/task-06.md`に記録する」、
+line 479「`reference-only sections`の全件に判断が記録されている（0件にする必要はない）」）。
+
+Evidence（レビュー時の実測と一致することを確認）:
+
+```
+$ python3 mapping/tools/verify_mapping.py
+...
+reference-only sections: 2 (advisory only, not auto-fixed)
+ - [第3部 テストの実装方法 > リクエスト単体テスト（HTTPメッセージング） > 機能概要]: 2 row(s), all non content-bearing
+ - [第3部 テストの実装方法 > 取引単体テスト（HTTPメッセージング） > 機能概要]: 1 row(s), all non content-bearing
+...
+OK: no errors
+EXIT: 0
+```
+
+`ntf-doc-05d-addendum.md`記載の実測値（current-0064/0069→リクエスト単体テスト（HTTPメッセージング）
+機能概要2行、current-0138→取引単体テスト（HTTPメッセージング）機能概要1行）と件数・宛先が一致。
+この2件は`#5b` STEP 2で`使用方法`→`機能概要`に変更した行であり、**本STEPでは再変更しない**
+（追補の指示どおり）。判断は`#6`で行う。
