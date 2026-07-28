@@ -343,11 +343,11 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 
 **Steps**:
 
-- [ ] STEP 1: `mapping/tools/verify_mapping.py` に `check_unused_vocabulary`（`EXPECTED_ZERO`/`PENDING_ZERO`/ERROR の3分類）を追加し、RED（ERROR で `exit 1`）を確認して commit する
-- [ ] STEP 2: `機能概要`/`導入`/`拡張例` 0件の16ページを実ファイル通読で再判定し、`_batch/*.csv` を修正、`mapping.csv` を全30バッチ連結で再生成する
-- [ ] STEP 3: `volume.md` に0行ページと `dest_section` 単位の集計表を追加する
-- [ ] STEP 4: 未解決の0件（第1部「稼動環境」／第2部「テストデータの形式」／第2部 取引単体テストの設定2ページ）を調査報告として `checks/task-05b.md` にまとめ、`PENDING_ZERO` に登録する（`design.md` は変更しない）
-- [ ] STEP 5: self-check（`checks/task-05b.md`）、`steering.md` 更新（本タスク追記・#6 Prerequisites 更新）、commit & push
+- [x] STEP 1: `mapping/tools/verify_mapping.py` に `check_unused_vocabulary`（`EXPECTED_ZERO`/`PENDING_ZERO`/ERROR の3分類）を追加し、RED（ERROR で `exit 1`）を確認して commit する
+- [x] STEP 2: `機能概要`/`導入`/`拡張例` 0件の16ページを実ファイル通読で再判定し、`_batch/*.csv` を修正、`mapping.csv` を全30バッチ連結で再生成する
+- [x] STEP 3: `volume.md` に0行ページと `dest_section` 単位の集計表を追加する
+- [x] STEP 4: 未解決の0件（第1部「稼動環境」／第2部「テストデータの形式」／第2部 取引単体テストの設定2ページ）を調査報告として `checks/task-05b.md` にまとめ、`PENDING_ZERO` に登録する（`design.md` は変更しない）
+- [x] STEP 5: self-check（`checks/task-05b.md`）、`steering.md` 更新（本タスク追記・#6 Prerequisites 更新）、commit & push
 - [ ] **user review** — 承認を受けるまで #5c に進まない（**サブエージェントによるレビューは実施しない**）
 
 **Completion criteria**:
