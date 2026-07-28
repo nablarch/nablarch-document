@@ -367,3 +367,47 @@ OK: no errors
 - 行数は589→591（input-0016・input-0030をそれぞれ2行に分割したため+2）
 - lines合計は12,986のまま変わらず（取りこぼしゼロを維持）
 - `mapping/volume.md`を再集計して更新（DROP除く合計12,000→11,973、DROP合計986→1,013、REFERENCE 13→14、audience developer 31→28）
+
+## ユーザー差し戻し対応（2026-07-28）
+
+3観点レビュー結果の提示に対し、ユーザーから2件の差し戻し指示を受けた。
+
+### 指示1: DROP見直し（20行以上13件・492行）
+
+13件全件を実測で再検証した。結果、**12件はDROP維持が妥当**、**1件（current-0293）はユーザーの取消指示自体を実測で覆した**。
+
+| mapping_id | 行数 | 判定根拠 |
+|---|---|---|
+| input-0018（testShots全19カラム） | 31 | 重複先current-0081（`05_UnitTestGuide/02_RequestUnitTest/index.rst` 99-193行）を実測、19カラム全件が説明文付きで存在すると確認。DROP維持 |
+| current-0160（単体テスト実施方法の章題+toctree） | 101 | 実測すると本文は処理方式カテゴリの見出しラベルとtoctreeのみで説明文ゼロ。カテゴリ体系自体はdesign.md §4の第3部ツリー図が独自に確定済みで配下ページは個別マッピング済み。DROP維持 |
+| input-0197/0168/0169/0196/0175/0198/0188/0174（開発者向け8件） | 各20〜57 | design.md §9冒頭の「開発者向け内部実装は含めない」原則に合致。うちinput-0168/0169/0175/0174はさらに§9本文が`ntf-testdata-loading.md`の「読み込みの4段階・状態機械」を名指しで対象外と明記。input-0196「グロッサリ5.9で別途定義済み」・input-0198「書き出し整形方針はinput-0194で既にカバー」の重複主張も実測で確認。DROP維持 |
+| input-0003（データタイプ14種一覧表） | 24 | 重複先current-0169（`06_TestFWGuide/01_Abstract.rst` 258-325行）を実測、14種全件がより詳しい説明・脚注付きで存在すると確認。DROP維持 |
+| current-0214（目的別API使用方法の扉部分） | 23 | 実測すると本文は1文の紹介文+16項目への:ref:リンク列挙のみ。配下16項目（current-0215〜0251）は全件個別にMERGE確定済みと確認。note自身の「要確認」を解消。DROP維持 |
+| current-0293（HTTP同期応答メッセージ送信処理） | 20 | ユーザーは「他所にない情報」としてMOVE取消を指示したが、実測するとinput-0027（batch-10、`ntf-doc-terms.md`由来）が既に同一のクラス読み替え表（MockMessagingContext→MockMessagingClient・RequestTestingMessagingProvider→RequestTestingMessagingClient）を第3部「リクエスト単体テスト（HTTPメッセージング）」使用方法へMERGE確定済みと判明。表内容の完全一致を実ファイル突合で確認。MOVEすると重複が生じるためDROP維持を提案し、ユーザー承認を得た |
+
+対応: マッピングデータの変更なし。
+
+### 指示2: 第4部「ツール」新設対応
+
+design.md改訂（第4部新設、章番号1〜12に振り直し）を受け、以下を実施した。
+
+1. `vocabulary.md`に第4部の確定語彙を追加（dest_part 1件・dest_page 4件・dest_section 3件、うちHTMLチェックツールは「導入」を持たない例外を明記）。同時に、旧・第3部確定リストにあった「リクエスト単体データ作成ツール」が第4部へ移動したことと、旧・第2部暫定リストにあった「テストデータ変換ツール」「マスタデータ投入ツール」「HTMLチェックツール」が第4部確定へ格上げされたことを反映（第2部暫定ページは8件→5件）。
+2. `mapping/tools/extract_vocabulary.py`がdesign.md改訂前の章構成（`第[123]部`固定・§5=処理方式の名称等）のままだったため、第4部抽出関数を追加し章番号のずれに追随させた。再実行してassert全通過を確認。
+3. 対象行を機械抽出: `08_TestTools/`配下・`testdata-converter-design.md`を出典とする65行のうちDROP済み21件を除く**44行（628行分）**が対象と判明。バッチ内訳: batch-02（5行・テストデータ変換ツール）／batch-11（1行・マスタデータ投入ツール）／batch-22（8行・リクエスト単体データ作成ツール）／batch-23（7行・マスタデータ投入ツール）／batch-26（5行・マスタデータ投入ツール）／batch-28（9行・リクエスト単体データ作成ツール）／batch-29（9行・HTMLチェックツール）。着手前にユーザーへ提示し承認を得た。
+4. `_batch/`の該当7バッチCSVの`dest_part`のみを第2部/第3部→第4部へ機械的に付け替え（`dest_page`は不変）、`mapping.csv`を全30バッチの単純連結で再生成（従来と同じ統合方式）。差分は意図した44行のみであることを`git diff`で確認。
+5. `verify_mapping.py`を実行し、591行・エラー0件（coverage/vocabulary突合含む）を確認。
+6. `design.md §`参照の章番号ずれ（旧§5処理方式の名称→新§6、旧§10未確定事項→新§12）を`split-plan.md`・`vocabulary.md`・`extract_vocabulary.py`で修正。`glossary.md`等の`§`表記は同ファイル内の独自章番号であり対象外と判断。
+7. `volume.md`のdest_part表記を4ツール分について第4部へ同期し、HTMLチェックツールの受け皿ギャップ解消済みの旨に注記を更新。
+
+対応後の再検証:
+
+```
+python3 mapping/tools/verify_mapping.py
+Loaded 591 rows from mapping.csv
+lines total (all rows): 12986
+lines total (excluding DROP): 11973
+OK: no errors
+python3 mapping/tools/extract_vocabulary.py  # assert全通過
+```
+
+lines合計は12,986のまま変化なし（`dest_part`のみの変更のため取りこぼし・重複は生じない）。ユーザーより両指示とも承認済み。
