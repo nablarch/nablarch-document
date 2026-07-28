@@ -376,7 +376,7 @@ input側は最大63行のため分割は不要。current側の大きいセクシ
 - [x] 未レビュー分を実ファイル通読で判定する（理由の妥当性／重複DROPの実ファイル確認／開発者向けDROPの該当性／空・TOC・アンカーの実態）
 - [x] 全96行の判定結果を `checks/task-05c.md` に1つの表としてまとめる
 - [x] 判定が覆った行があれば `_batch/*.csv` を修正し `mapping.csv` を再生成する（0件のため修正なし）
-- [ ] commit & push
+- [x] commit & push
 - [ ] **user review** — 承認を受けるまで #5d に進まない（**サブエージェントによるレビューは実施しない**）
 
 **Completion criteria**:
