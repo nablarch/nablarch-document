@@ -109,31 +109,19 @@ Nablarchのドキュメント全体から関連セクションを検索し、コ
 
 .. list-table::
    :header-rows: 1
-   :widths: 15, 20, 30, 35
+   :widths: 60, 40
 
-   * - バージョン
-     - コマンド
-     - 対象環境
-     - インストール先
-   * - Nablarch v6
-     - ``/n6``
-     - Jakarta EE 10 / Java 17+
+   * - 対応バージョン
+     - プラグイン
+   * - Nablarch 6u3
      - `nabledge-6(外部サイト) <https://github.com/nablarch/nabledge/blob/main/plugins/nabledge-6/README.md>`_
-   * - Nablarch v5
-     - ``/n5``
-     - Java EE 7/8 / Java 8+
+   * - Nablarch 5u26
      - `nabledge-5(外部サイト) <https://github.com/nablarch/nabledge/blob/main/plugins/nabledge-5/README.md>`_
-   * - Nablarch v1.4
-     - ``/n14``
-     - レガシー環境
+   * - Nablarch 1.4.11
      - `nabledge-1.4(外部サイト) <https://github.com/nablarch/nabledge/blob/main/plugins/nabledge-1.4/README.md>`_
-   * - Nablarch v1.3
-     - ``/n13``
-     - レガシー環境
+   * - Nablarch 1.3.7
      - `nabledge-1.3(外部サイト) <https://github.com/nablarch/nabledge/blob/main/plugins/nabledge-1.3/README.md>`_
-   * - Nablarch v1.2
-     - ``/n12``
-     - レガシー環境
+   * - Nablarch 1.2.8
      - `nabledge-1.2(外部サイト) <https://github.com/nablarch/nabledge/blob/main/plugins/nabledge-1.2/README.md>`_
 
 インストール方法
