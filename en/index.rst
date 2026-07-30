@@ -58,9 +58,18 @@ Nablarch development tool
 -----------------------------------------------
 
   | :doc:`Efficient java static checks <development_tools/java_static_analysis/index>`
-  | :doc:`Front-end UI development platform for advanced users <development_tools/ui_dev/index>`
   | :doc:`Testing framework <development_tools/testing_framework/index>`
-  | :doc:`Useful tools for developing applications <development_tools/toolbox/index>` 
+  | :doc:`Useful tools for developing applications <development_tools/toolbox/index>`
+  | :doc:`AI Coding Assistance <development_tools/ai_tools/index>`
+
+.. tip::
+   **🤖 Accelerate Nablarch Development with AI**
+
+   With the :doc:`Nablarch-specific AI Coding Tool Plugin <development_tools/ai_tools/nabledge/index>`,
+   you can instantly check Nablarch specifications and implementation methods by simply typing ``/n5``
+   in Claude Code / GitHub Copilot.
+
+   For more details, see :doc:`AI Coding Assistance <development_tools/ai_tools/index>`.
 
 -----------------------------------------------
 Useful content for development in Nablarch
