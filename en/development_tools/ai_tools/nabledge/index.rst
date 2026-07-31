@@ -52,7 +52,13 @@ Usage example::
 
 Searches related sections across Nablarch documentation and returns answers including code examples and configuration examples.
 
-Mechanism:
+**Answer Example**
+
+.. image:: _image/Nabledge_知識検索サンプル画像_英語.png
+   :alt: Knowledge search answer example
+   :scale: 80%
+
+How it works:
 
 * Converts official Nablarch documentation to AI-readable JSON format (approximately 340 files, about 300 entries)
 * Ensures accuracy through two-stage process: keyword full-text search + AI-based relevance determination
@@ -72,6 +78,22 @@ Visualizes the following information:
 * Class dependencies
 * Handler queue configuration
 * Processing flow visualized in Mermaid diagrams
+
+**Output Example**
+
+Class dependency diagram and component summary:
+
+.. image:: _image/依存関係図とコンポーネント概要_英語版.png
+   :alt: Class dependency diagram and component summary
+   :scale: 70%
+
+Processing flow diagram (sequence diagram):
+
+.. image:: _image/シーケンス図_英語.png
+   :alt: Processing flow diagram
+   :scale: 70%
+
+Along with the diagrams above, detailed documentation is generated including the role of each component, how to use Nablarch framework features, and implementation points.
 
 Main use case: Quick understanding of the overall picture when new members join the project.
 
