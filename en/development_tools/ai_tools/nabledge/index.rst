@@ -66,7 +66,7 @@ Searches related sections across Nablarch documentation and returns answers incl
 
 How it works:
 
-* Converts official Nablarch documentation to AI-readable JSON format (approximately 340 files, about 300 entries)
+* Converts official Nablarch documentation to AI-readable JSON format
 * Ensures accuracy through two-stage process: keyword full-text search + AI-based relevance determination
 * Fallback mechanism where AI selects files from the table of contents when full-text search finds no hits
 
@@ -108,7 +108,7 @@ Features
 ============================================
 
 **Knowledge File Creation Through Rule-Based Transformation**
-  Approximately 340 files converted through rule-based transformation. Uses only structured official knowledge.
+  Converted through rule-based transformation. Uses only structured official knowledge.
   Prevents mixing of uncertain information by using only official information sources.
 
 **Answers Only from Rule-Based Transformed and Contextualized Information, Not Web Search**
