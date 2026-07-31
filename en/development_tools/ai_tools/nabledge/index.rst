@@ -54,7 +54,7 @@ Answers questions based on Nablarch documentation.
 
 Usage example::
 
-  /n6 How do I implement a pull-down input for code values?
+  /n5 How do I implement a pull-down input for code values?
 
 Searches related sections across Nablarch documentation and returns answers including code examples and configuration examples.
 
@@ -77,7 +77,7 @@ Analyzes application code within the project from a Nablarch perspective and doc
 
 Usage example::
 
-  /n6 code-analysis
+  /n5 code-analysis
 
 Visualizes the following information:
 
