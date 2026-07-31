@@ -20,7 +20,8 @@ This section introduces AI tools that support Nablarch development. |br|
   * - Tool Name
     - Description
   * - :doc:`nabledge/index`
-    - A plugin for Claude Code / GitHub Copilot that provides AI-powered access to Nablarch specifications and best practices. Enables question answering and code analysis for development support.
+    - | A plugin for `Claude Code(External site) <https://claude.ai/code>`_ / `GitHub Copilot(External site) <https://github.com/features/copilot>`_ that provides AI-powered access to Nablarch specifications and best practices.
+      | Enables question answering and code analysis for development support.
 
 .. |br| raw:: html
 
