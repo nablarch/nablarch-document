@@ -151,27 +151,24 @@ Nablarchのドキュメント全体から関連セクションを検索し、コ
 ============================================
 
 本プラグインは GitHub 上で OSS として無償公開している。
-
 ターミナルでコマンド1つ実行することで簡単にインストールできる。
-上記の対応バージョン表の「プラグイン」列のリンクから、ご利用のNablarchバージョンの手順を確認すること。
 
-セットアップ手順
+Nablarch 5 の場合
 --------------------------------------------
-
-**Nablarch v6 の場合**
 
 以下のコマンドをターミナルで実行する::
 
-   curl -fsSL https://raw.githubusercontent.com/nablarch/nabledge/main/setup-cc.sh | bash
+   curl -sSL https://raw.githubusercontent.com/nablarch/nabledge/main/setup-cc.sh | bash -s -- -v 5
 
 または::
 
-   curl -fsSL https://raw.githubusercontent.com/nablarch/nabledge/main/setup-ghc.sh | bash
+   curl -sSL https://raw.githubusercontent.com/nablarch/nabledge/main/setup-ghc.sh | bash -s -- -v 5
 
-これで ``/n6`` コマンドが利用可能になる。
+これで ``/n5`` コマンドが利用可能になる。
 
-**他のバージョンの場合**
+その他のバージョンの場合
+--------------------------------------------
 
-上記の対応バージョン表の「プラグイン」列から、該当するバージョンのリンクをクリックし、セットアップ手順を確認すること。
+対応バージョン表の「プラグイン」列のリンクから、該当するバージョンの手順を確認すること。
 
 
