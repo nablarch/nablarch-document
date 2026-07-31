@@ -8,6 +8,12 @@ Nablarch-specific AI Coding Tool Plugin
   :local:
 
 
+Prerequisites
+==========================================================================
+
+This plugin requires `Claude Code(External site) <https://claude.ai/code>`_ or `GitHub Copilot(External site) <https://github.com/features/copilot>`_.
+
+
 What is the Nablarch-specific AI Coding Tool Plugin
 ==========================================================================
 
@@ -118,11 +124,6 @@ Features
     * Line 2: File path (.md knowledge file)
     * Line 3: Title of each cited section
 
-
-Prerequisites
-============================================
-
-Using this plugin requires Claude Code or GitHub Copilot.
 
 Supported Versions
 ============================================
