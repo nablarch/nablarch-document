@@ -151,26 +151,23 @@ Installation
 ============================================
 
 This plugin is freely available as OSS on GitHub.
-
 It can be easily installed by executing a single command in the terminal.
-Please check the procedure for your Nablarch version from the "Plugin" column in the supported versions table above.
 
-Setup Procedure
+For Nablarch 6
 --------------------------------------------
-
-**For Nablarch v6**
 
 Execute the following command in the terminal::
 
-   curl -fsSL https://raw.githubusercontent.com/nablarch/nabledge/main/setup-cc.sh | bash
+   curl -sSL https://raw.githubusercontent.com/nablarch/nabledge/main/setup-cc.sh | bash -s -- -v 6
 
 or::
 
-   curl -fsSL https://raw.githubusercontent.com/nablarch/nabledge/main/setup-ghc.sh | bash
+   curl -sSL https://raw.githubusercontent.com/nablarch/nabledge/main/setup-ghc.sh | bash -s -- -v 6
 
 This will make the ``/n6`` command available.
 
-**For Other Versions**
+For Other Versions
+--------------------------------------------
 
-Click the link for the corresponding version in the "Plugin" column of the supported versions table above to check the setup procedure.
+Check the setup procedure from the "Plugin" column link in the supported versions table for the corresponding version.
 
