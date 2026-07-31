@@ -23,8 +23,8 @@ It operates as a plugin for Claude Code or GitHub Copilot, providing accurate an
 Background
 --------------------------------------------
 
-In recent years, generative AI has rapidly penetrated development sites, and developers are using AI on a daily basis.
-However, Nablarch information is scattered across multiple sources on the web, requiring cross-sectional understanding.
+In recent years, generative AI has rapidly become part of everyday development, and developers routinely rely on it.
+However, Nablarch information is scattered across multiple sources on the web, requiring a broad understanding across sources.
 Therefore, generative AI cannot accurately answer Nablarch-specific specifications and conventions.
 
 Common Challenges in Development
@@ -37,14 +37,14 @@ Have you experienced these challenges in Nablarch development?
 * "When I ask AI, it suggests non-existent methods, causing more confusion"
 * "Explaining Nablarch to team members takes time away from design work"
 
-Solved by This Plugin
+How This Plugin Helps
 --------------------------------------------
 
-By introducing this plugin, you can simply type ``/n6`` in Claude Code or GitHub Copilot Chat and ask questions to get immediate, evidence-based answers about Nablarch specifications and conventions from AI.
+By introducing this plugin, you can simply type ``/n5`` in Claude Code or GitHub Copilot Chat and ask questions to get immediate, evidence-based answers about Nablarch specifications and conventions from AI.
 
 
 
-Functions Provided
+Features
 ============================================
 
 Knowledge Search
@@ -104,7 +104,7 @@ Along with the diagrams above, detailed documentation is generated including the
 Main use case: Quick understanding of the overall picture when new members join the project.
 
 
-Features
+Reliability
 ============================================
 
 **Answers Based Only on Official Documentation**
