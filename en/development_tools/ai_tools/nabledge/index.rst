@@ -107,14 +107,13 @@ Main use case: Quick understanding of the overall picture when new members join 
 Features
 ============================================
 
-**Knowledge File Creation Through Rule-Based Transformation**
-  Converted through rule-based transformation. Uses only structured official knowledge.
-  Prevents mixing of uncertain information by using only official information sources.
+**Answers Based Only on Official Documentation**
+  Knowledge files are created through rule-based transformation of official Nablarch documentation.
+  AI does not introduce external information through web search or speculation; answer sources are always limited to official information.
 
-**Answers Only from Rule-Based Transformed and Contextualized Information, Not Web Search**
-  Answers are based solely on official Nablarch documentation. AI does not retrieve external information on its own.
-  For questions not included in the knowledge files, explicitly states "Not included in knowledge files" to avoid uncertain speculation.
-
+**Clearly States When Information Is Unavailable**
+  For questions without information in the knowledge files, explicitly states "Not included in knowledge files."
+  Never returns incorrect answers through plausible speculation.
 
 **Always Provides Section-Level References in Answers**
   All answers clearly indicate their sources, allowing immediate verification of AI answer accuracy.
