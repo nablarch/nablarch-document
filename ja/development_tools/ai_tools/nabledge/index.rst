@@ -11,7 +11,7 @@ Nablarch専用AIコーディングツール向けプラグイン
 前提環境
 ==========================================================================
 
-本プラグインの利用には、`Claude Code(外部サイト) <https://claude.ai/code>`_ または `GitHub Copilot(外部サイト) <https://github.com/features/copilot>`_ が必要である。
+本プラグインの利用には、`Claude Code(外部サイト) <https://claude.com/ja/product/claude-code>`_ または `GitHub Copilot(外部サイト) <https://github.com/features/copilot>`_ が必要である。
 
 
 Nablarch専用AIコーディングツール向けプラグインとは
