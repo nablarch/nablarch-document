@@ -11,7 +11,7 @@ Nablarch-specific AI Coding Tool Plugin
 Prerequisites
 ==========================================================================
 
-This plugin requires `Claude Code(External site) <https://claude.ai/code>`_ or `GitHub Copilot(External site) <https://github.com/features/copilot>`_.
+This plugin requires `Claude Code(External site) <https://claude.com/product/claude-code>`_ or `GitHub Copilot(External site) <https://github.com/features/copilot>`_.
 
 
 What is the Nablarch-specific AI Coding Tool Plugin
