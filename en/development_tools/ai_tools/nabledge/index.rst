@@ -60,7 +60,7 @@ Searches related sections across Nablarch documentation and returns answers incl
 
 **Answer Example**
 
-.. image:: _image/Nabledge_知識検索サンプル画像_英語.png
+.. image:: _image/Nabledge_Knowledge_Search_Example.png
    :alt: Knowledge search answer example
    :scale: 80%
 
@@ -89,13 +89,13 @@ Visualizes the following information:
 
 Class dependency diagram and component summary:
 
-.. image:: _image/依存関係図とコンポーネント概要_英語版.png
+.. image:: _image/Class_Dependency_and_Component_Overview.png
    :alt: Class dependency diagram and component summary
    :scale: 70%
 
 Processing flow diagram (sequence diagram):
 
-.. image:: _image/シーケンス図_英語.png
+.. image:: _image/Sequence_Diagram.png
    :alt: Processing flow diagram
    :scale: 70%
 
