@@ -539,8 +539,8 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
 - [x] 抽出した行の出典（`src_file` の `src_body_start`〜`src_body_end`、current側は base commit から `git show` で取得）を実際に読み、ページを作成する
 - [x] セクション構成は design.md §2 の6セクション（全体像 / アーキテクチャ / テストの種類 / テストデータ / 対象範囲 / 稼動環境）に従う
 - [x] マッピングにない内容を追加しない。マッピングにある内容を落とさない（観点Aラウンド3でPASS確認済み）
-- [ ] 出典の文面をそのまま流用しない。`style.md` に従って書き直す（3ラウンド実施も3件が逐語的なまま未解決。`reviews/page-about_index.md` R3-B1/B2/B3参照。user review待ち）
-- [ ] 用語は `glossary.md` の正表記を使う（3ラウンド実施も1件未解決。`reviews/page-about_index.md` R3-C1参照。user review待ち）
+- [x] 出典の文面をそのまま流用しない。`style.md` に従って書き直す（`#8`差し戻し対応で是正後の基準により再レビューし、must指摘はすべて解消。旧R3-B1/B2/B3のうちR3-B2/B3相当の2箇所は、新基準の機械適用でも再度must判定されたが、ユーザーがA-5で既に「対応不要」と判定済みのためユーザー判定を優先し原文を維持。詳細は`reviews/page-about_index.md`参照）
+- [x] 用語は `glossary.md` の正表記を使う（`#8`差し戻し対応A-2で「同期応答電文」→「同期応答メッセージ送信」に修正。`reviews/page-about_index.md` R3-C1解消）
 - [x] 該当する `note` の `[セクション境界]` はない（対象13行を確認済み）。`reference-only sections` も本ページには該当しない
 - [x] 外部被参照ラベルの引継ぎは本ページには該当しない（対象は `implementation/request_unit_test/web.rst` の1件のみ）
 - [x] 4観点のレビューを、それぞれ**別のサブエージェント**で実施する（A:網羅性 / B:トンマナ / C:用語 / D:整合性）
@@ -549,7 +549,7 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
 - [x] レビュー記録を `reviews/page-about_index.md` に作成する
 - [x] self-check（`checks/task-08.md`）
 - [x] commit & push
-- [ ] **user review** — 承認を受けるまで #9 に進まない（現在ここで中断。未解決5件の扱いについてユーザーの `/rn:ty` または `/rn:gm` 待ち）
+- [ ] **user review** — 承認を受けるまで #9 に進まない（現在ここで中断。`#8`差し戻し対応完了。新規decide案件1件「対象範囲」節の処理方式一覧の要否について、ユーザーの `/rn:ty` または `/rn:gm` 待ち。`reviews/page-about_index.md`「新規decide案件」参照）
 
 **Completion criteria**:
 
@@ -632,8 +632,8 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-08-03
-- **Last completed**: `#8`差し戻し対応（`ntf-doc-08-rework.md`、`/rn:gm`）。(1) `design.md`§11のレビュー観点を是正（B-1〜B-4）: 観点B「逐語的流用」の判定基準を具体化、観点Dに見出し・導入文と中身の一致チェックを追加、指摘の重大度をmust/decide/noteの3区分で定義、3ラウンド上限でユーザーに上げてよいのはdecideのみに変更（コミット`5f8c97b`ほか）。(2) `about/index.rst`のA-1（見出し「処理方式ごとの正式名称」→「テスト種別の正式名称」、導入文修正）・A-2（`同期応答電文`→`同期応答メッセージ送信`）を修正。A-3（`テーブルをキューとして使ったメッセージング`行）は`mapping.csv`に出典がないため削除と判断。A-4はA-1に合わせsimple table化。A-5（R3-B1/B2/B3）は指示どおり修正しないまま維持（新基準の機械適用でも同箇所がmust判定されたが、ユーザーの既存判定を優先し原文へ差し戻した）。(3) 是正後の観点でA/B/C/Dを独立サブエージェントで3ラウンド再レビューし、mustはすべて解消。残るのは`decide`区分1件（「対象範囲」節に`design.md`§2が要求する「対応する処理方式の一覧」が`mapping.csv`に出典なく欠落している件。追加を試みたが「出典にない内容を判断を仰がずに追加しない」規則に抵触するため取り消し、ユーザー判断待ちとして記録）。(4) A-6の行数記録を実測値（`ef44dfc`時点235行、本対応後225行）に訂正。全詳細は`reviews/page-about_index.md`・`checks/task-08.md`参照。`python3 mapping/tools/verify_mapping.py`は`exit 0`・594行/12,986/11,983で不変（`mapping.csv`は本ラウンドで無編集）。sphinxをインストールしフルビルドで`about/index.rst`のエラー0を確認済み。
-- **Next**: ユーザーに新規`decide`案件1件（「対象範囲」節の処理方式一覧の要否、`reviews/page-about_index.md`「新規decide案件」参照）を提示し判定を依頼する。それ以外の指摘（must）はすべて解消済み。ユーザーの `/rn:ty`（この状態で承認 → `#8`のuser reviewをチェックオフし`#9`へ）または `/rn:gm`（追加修正の指示）を待つ。
-- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。push権限は解決済み（`kiyobot`=`GH_TOKEN`がwrite権限を保有）。`#1`〜`#7`は承認済み。`#8`は差し戻し対応完了、user review待ち（open blocker）。`#9〜`のページ作成順は「第3部のテストデータ2ページ → 第2部 → 第3部の残り → 第4部」（`#8`の第1部完了後）。`#9〜`は`design.md`§11.6/§11.7の改訂版基準（区分must/decide/note、観点Bの判定基準明確化、観点Dの見出し・導入文チェック）に従うこと。`about/index.rst`のtip内「マスタデータ投入ツール」「マスタデータ復旧機能」への言及は`setup/master_data_restore.rst`・`tools/master_data_tool.rst`作成時に`:ref:`化することを申し送り済み（`reviews/page-about_index.md`末尾）。
+- **Last completed**: `#8`差し戻し対応（`ntf-doc-08-rework.md`、`/rn:gm`）。`design.md`§11のレビュー観点是正（B-1〜B-4）、`about/index.rst`のA-1・A-2・A-4修正、A-3判断（削除）、A-6行数訂正を行い、是正後の基準でA/B/C/Dを3ラウンド再レビューしmustを全解消。コミット`a583f69`でcommit・push済み。詳細は`reviews/page-about_index.md`・`checks/task-08.md`参照。
+- **Next**: ユーザーに新規`decide`案件1件（「対象範囲」節の処理方式一覧の要否、`reviews/page-about_index.md`「新規decide案件」参照）を提示し判定を依頼中。`/rn:up` で再開後、ユーザーの `/rn:ty`（この状態で承認 → `#8`のuser reviewをチェックオフし`#9`へ）または `/rn:gm`（追加修正の指示）を待つ。
+- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。push権限は解決済み（`kiyobot`=`GH_TOKEN`がwrite権限を保有）。`#1`〜`#7`は承認済み。`#8`は差し戻し対応完了、user review待ちで中断（open blocker）。`#9〜`のページ作成順は「第3部のテストデータ2ページ → 第2部 → 第3部の残り → 第4部」（`#8`の第1部完了後）。`#9〜`は`design.md`§11.6/§11.7の改訂版基準（区分must/decide/note、観点Bの判定基準明確化、観点Dの見出し・導入文チェック）に従うこと。`about/index.rst`のtip内「マスタデータ投入ツール」「マスタデータ復旧機能」への言及は`setup/master_data_restore.rst`・`tools/master_data_tool.rst`作成時に`:ref:`化することを申し送り済み（`reviews/page-about_index.md`末尾）。
