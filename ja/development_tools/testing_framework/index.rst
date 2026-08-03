@@ -5,25 +5,13 @@
 
 .. toctree::
    :maxdepth: 1
-   :hidden:
 
    about/index
    setup/index
    implementation/index
    tools/index
 
-.. list-table::
-  :header-rows: 1
-  :class: white-space-normal
-  :widths: 1,2
-
-  * - ページ
-    - 概要
-  * - :doc:`about/index`
-    - 共通概念や用語を説明する。最初に読み、以降の章の前提とする。
-  * - :doc:`setup/index`
-    - テスティングフレームワークの導入・設定を行うアーキテクト向けの内容を扱う。
-  * - :doc:`implementation/index`
-    - アプリケーション開発でテストを実装する開発者向けの内容を扱う。
-  * - :doc:`tools/index`
-    - テスティングフレームワークが提供するツールを、ツールごとに扱う。
+テスティングフレームワークの導入・設定を行うアーキテクトは、「テスティングフレームワークとは」と
+「導入と設定」を参照する。テストを実装するアプリケーション開発者は、「テスティングフレームワークとは」と
+「テストの実装方法」を参照する。テスティングフレームワークが提供するツールを使用する場合は、「ツール」の
+該当ページを参照する。
