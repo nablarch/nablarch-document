@@ -554,8 +554,14 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
       使ったメッセージング）`行を復元（`#8` A-3の判断を覆した）。`design.md`§8/§11.7に確定設計優先の規約を
       追加。新基準で再レビュー（ラウンドリセット）しmust 1件検出・解消、残存0件。コミット`710a1af`・`36deb4b`
       でcommit・push済み。詳細は`reviews/page-about_index.md`・`checks/task-08.md`参照
-- [ ] **user review** — 承認を受けるまで #9 に進まない（現在ここで中断。decide案件回答の独立検証待ち。
-      commit SHA `710a1af`（STEP1）・`36deb4b`（STEP2〜4）を参照）
+- [x] フィードバック対応（トップレベル `index.rst` の4部構成を箇条書きからtoctreeへ）を反映。
+      `design.md`§13に第2部/第3部/第4部それぞれの表題ページ（`setup/index.rst` /
+      `implementation/index.rst` / `tools/index.rst`、導線のみ・1対1対応表には含めない）を追加し、
+      最上位`index.rst`の箇条書きを`toctree`（`about/index` / `setup/index` / `implementation/index` /
+      `tools/index`の4件）に置き換えた（`ja/development_tools/index.rst`の二段toctree構成に倣う）。
+      表題ページは現時点で見出しのみ（配下ページ未作成のため）。`#9〜`のSteps末尾に「作成したページを
+      対応する表題ページのtoctreeに追記する」を追加した
+- [ ] **user review** — 承認を受けるまで #9 に進まない
 
 **Completion criteria**:
 
@@ -563,7 +569,8 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
 - 4観点のレビューがすべて実施・記録されている
 - 未対応の指摘が残っていない、または残す判断とその理由が記録されている
 - `make html` が `about/index.rst` についてエラーを出さない
-- `ja/development_tools/testing_framework/index.rst` から `about/index.rst` への toctree 導線がある
+- `ja/development_tools/testing_framework/index.rst` から `about/index.rst` / `setup/index.rst` /
+  `implementation/index.rst` / `tools/index.rst` への toctree 導線がある
 
 ### #9〜: ページの作成（1ページにつき1タスク）
 
@@ -594,6 +601,8 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
   - この4観点はページ内容の観点であり、Rules の4観点（QA / 設計 / クラフト / 検証）とは別軸である。ページ作成タスクでは**本欄のA〜Dを用いる**（A:網羅性がQAを、B:トンマナがクラフトを、C:用語とD:整合性が検証を兼ねる）
 - [ ] 指摘への対応を行う（最大3ラウンド）
 - [ ] レビュー記録を `reviews/page-<ページID>.md` に作成する
+- [ ] 作成したページを、対応する部の表題ページ（`setup/index.rst` / `implementation/index.rst` /
+      `tools/index.rst`）の `toctree` に追記する
 - [ ] self-check（`checks/task-NN.md`）
 - [ ] commit & push
 - [ ] **user review** — 承認を受けるまで次ページに進まない
