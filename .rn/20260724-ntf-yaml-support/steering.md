@@ -638,8 +638,8 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-03
-- **Last completed**: `#8` decide案件回答（`ntf-doc-08-decide.md`、`/rn:gm`）。STEP1（`design.md`§8「出典と確定設計が食い違う場合」節・§11.7 must定義への追記、コミット`710a1af`）とSTEP2〜4（`design.md`§2の対象範囲・テストの種類の責務限定、`about/index.rst`への`リクエスト単体テスト（テーブルをキューとして使ったメッセージング）`行復元・`:ref:`ラベル新設・対象範囲への導線文追加、`#8` A-3判断の取り消し、コミット`36deb4b`）の2コミットに分けて実施。新基準で独立サブエージェント4観点（A/B/C/D）による再レビュー（ラウンドリセット）を行い、D観点でmust1件（導入文「主な」の非網羅時代の名残）を検出・ラウンド2で解消。`python3 mapping/tools/verify_mapping.py`はexit 0で594行/12,986/11,983行が不変（`mapping.csv`等は無変更）。加えて同一セッション内で、README/Dockerfile記載の正規ビルド環境（Python 3.10・Sphinx 1.3.6・javasphinx・docutils 0.15.2、`requirements.txt`ピン留め版）でユーザー自身が`sphinx-build`を実行し、`build succeeded, 1 warning`（警告は`db_double_submit.rst`の未作成ページ参照のみで本件と無関係、`about/index.rst`由来のエラー・警告0件）を確認した。commit・push済み（`origin/work`）。詳細は`reviews/page-about_index.md`・`checks/task-08.md`参照。
-- **Next**: `#8` decide案件回答の独立検証（別セッションのuser review）待ち。commit SHA `710a1af`（STEP1）・`36deb4b`（STEP2〜4）を確認すること。`/rn:up` で再開後、ユーザーの `/rn:ty`（この状態で承認 → `#8`のuser reviewをチェックオフし`#9`へ）または `/rn:gm`（追加修正の指示）を待つ。
-- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。push権限は解決済み（`kiyobot`=`GH_TOKEN`がwrite権限を保有）。`#1`〜`#7`は承認済み。`#8`は差し戻し対応・decide案件回答とも完了、user review待ちで中断（open blocker）。`#9〜`のページ作成順は「第3部のテストデータ2ページ → 第2部 → 第3部の残り → 第4部」（`#8`の第1部完了後）。`#9〜`は`design.md`§11.6/§11.7の改訂版基準（区分must/decide/note、観点Bの判定基準明確化、観点Dの見出し・導入文チェック、および今回追加した「出典と確定設計が食い違う場合は確定設計を優先する」規約・観点A/D新チェック項目）に従うこと。`about/index.rst`のtip内「マスタデータ投入ツール」「マスタデータ復旧機能」への言及は`setup/master_data_restore.rst`・`tools/master_data_tool.rst`作成時に`:ref:`化することを申し送り済み（`reviews/page-about_index.md`末尾）。ローカルvenv（`/home/tie303177/venv`、Sphinx 9.1.0/Python 3.12）は`requirements.txt`のピン留め版（Sphinx 1.3.6等）と非互換（`docutils-ast-writer`のsetup.pyがPython 3.11以降で`use_2to3`エラー）。正規ビルドにはDockerが必要（README「環境構築」参照）。
+- **Status**: not suspended
+- **Date**: -
+- **Last completed**: -
+- **Next**: -
+- **Notes**: -
