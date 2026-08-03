@@ -36,6 +36,7 @@ Rn version: 0.8.0
   - **敵対的にレビューせよ**（欠陥は存在するという前提で、境界・抜け道・見落としを探す）
 - レビューは4観点を**それぞれ別のサブエージェント**で回す（QA / 設計 / クラフト / 検証）。各観点に成果物・目的・完了条件・チェックリストだけを渡し、self-check ファイルや他観点の判定は渡さない
 - **ビルド確認は自分でDockerを使って行う。**`make html`の確認をユーザーに丸投げしない。ローカルvenv（`/home/tie303177/venv`）が`requirements.txt`のピン留め版と非互換（Python 3.12・`javasphinx`未対応）であることは、Docker実行を省略してよい理由にはならない。README「環境構築」＞「Docker」の手順（`docker build -t nablarch-document-build .`、`docker run --rm -v <repo>:/root/document nablarch-document-build /bin/bash -c "cd /root/document; sphinx-build -d _build/.doctrees/ja -b html ja _build/html"`）に従い、コンテナ内で実行する。2026-08-03、同一の確認を2回ユーザー自身にやらせてしまい指摘を受けた
+- **日本語の地の文（段落）は、途中で改行しない。1段落は1行で書く（文の区切りであっても改行しない）。** RSTの段落はソース上の改行をHTML出力時にも生の`\n`として残し、ブラウザは`white-space: normal`のもとでこれを半角スペース1個として描画するため、ソースを折り返すと本文に不要な隙間が入る（2026-08-03、`testing_framework/index.rst`で実測・`build succeeded`のHTMLソースで`\n`の残存を確認して特定）。`about/index.rst`にも同種の改行が複数箇所残っている（8〜9行目・12〜13行目等、`#8`のuser review未了分として要修正）。ページ作成・レビュー時は、段落内に改行がないか（空行を挟まず日本語の行が連続する箇所がないか）を確認する
 
 # Tasks
 
@@ -562,6 +563,13 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
       `tools/index`の4件）に置き換えた（`ja/development_tools/index.rst`の二段toctree構成に倣う）。
       表題ページは現時点で見出しのみ（配下ページ未作成のため）。`#9〜`のSteps末尾に「作成したページを
       対応する表題ページのtoctreeに追記する」を追加した
+- [x] フィードバック対応（トップレベル `index.rst` の読者振り分け文の順序・文面・改行）を反映。順序を
+      「概要 → toctree → 読者振り分け文」に是正し、文面を指示文（「〜は…を参照する」）から意図と読み方を
+      伝える文に書き直した。加えて、段落内改行がHTML出力時に半角スペースとして残ることを実測で特定し
+      （ビルド後のHTMLソースに生の`\n`が残ることを確認）、段落を1行で書く形に修正。Rules に
+      「日本語の地の文は段落内で改行しない」を追加した。`about/index.rst` に同種の改行が複数箇所
+      （8〜9行目・12〜13行目等）残っていることを確認済みだが、本ページの`user review`で方針を確認してから
+      対応する
 - [ ] **user review** — 承認を受けるまで #9 に進まない
 
 **Completion criteria**:
@@ -590,6 +598,7 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
 - [ ] マッピングにない内容を追加しない。マッピングにある内容を落とさない
 - [ ] 出典の文面をそのまま流用しない。`style.md` に従って書き直す
 - [ ] 用語は `glossary.md` の正表記を使う
+- [ ] 段落内で改行しない（1段落は1行で書く）。改行はHTML出力時に半角スペースとして残るため（Rules参照）
 - [ ] 当該 `dest_page` の行に `note` の `[セクション境界]` が含まれる場合、導入文と本体の接続をページ内で再構成する（出典の分断をそのまま持ち込まない）
 - [ ] 当該 `dest_page` に `reference-only sections`（`verify_mapping.py` の advisory）が該当する場合、`#6` で確定した方針に従う
 - [ ] 当該ページが、削除された現行解説書の外部被参照ラベルを引き継ぐ場合、
