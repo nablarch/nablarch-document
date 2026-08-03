@@ -532,24 +532,24 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
 
 **Steps**:
 
-- [ ] `ja/development_tools/testing_framework/index.rst`（トップレベル、toctree・読者振り分け文。design.md §1）と
+- [x] `ja/development_tools/testing_framework/index.rst`（トップレベル、toctree・読者振り分け文。design.md §1）と
       `ja/development_tools/testing_framework/about/index.rst` の骨格を新規作成する（`#7` で全 `.rst` を削除済みのため）
-- [ ] `ja/development_tools/index.rst` の `testing_framework/index` toctree 参照は変更しない（既存のまま有効にする）
-- [ ] `mapping.csv` から上記 `mapping_id` の行を抽出する
-- [ ] 抽出した行の出典（`src_file` の `src_body_start`〜`src_body_end`、current側は base commit から `git show` で取得）を実際に読み、ページを作成する
-- [ ] セクション構成は design.md §2 の6セクション（全体像 / アーキテクチャ / テストの種類 / テストデータ / 対象範囲 / 稼動環境）に従う
-- [ ] マッピングにない内容を追加しない。マッピングにある内容を落とさない
-- [ ] 出典の文面をそのまま流用しない。`style.md` に従って書き直す
-- [ ] 用語は `glossary.md` の正表記を使う
-- [ ] 該当する `note` の `[セクション境界]` はない（対象13行を確認済み）。`reference-only sections` も本ページには該当しない
-- [ ] 外部被参照ラベルの引継ぎは本ページには該当しない（対象は `implementation/request_unit_test/web.rst` の1件のみ）
-- [ ] 4観点のレビューを、それぞれ**別のサブエージェント**で実施する（A:網羅性 / B:トンマナ / C:用語 / D:整合性）
+- [x] `ja/development_tools/index.rst` の `testing_framework/index` toctree 参照は変更しない（既存のまま有効にする）
+- [x] `mapping.csv` から上記 `mapping_id` の行を抽出する
+- [x] 抽出した行の出典（`src_file` の `src_body_start`〜`src_body_end`、current側は base commit から `git show` で取得）を実際に読み、ページを作成する
+- [x] セクション構成は design.md §2 の6セクション（全体像 / アーキテクチャ / テストの種類 / テストデータ / 対象範囲 / 稼動環境）に従う
+- [x] マッピングにない内容を追加しない。マッピングにある内容を落とさない（観点Aラウンド3でPASS確認済み）
+- [ ] 出典の文面をそのまま流用しない。`style.md` に従って書き直す（3ラウンド実施も3件が逐語的なまま未解決。`reviews/page-about_index.md` R3-B1/B2/B3参照。user review待ち）
+- [ ] 用語は `glossary.md` の正表記を使う（3ラウンド実施も1件未解決。`reviews/page-about_index.md` R3-C1参照。user review待ち）
+- [x] 該当する `note` の `[セクション境界]` はない（対象13行を確認済み）。`reference-only sections` も本ページには該当しない
+- [x] 外部被参照ラベルの引継ぎは本ページには該当しない（対象は `implementation/request_unit_test/web.rst` の1件のみ）
+- [x] 4観点のレビューを、それぞれ**別のサブエージェント**で実施する（A:網羅性 / B:トンマナ / C:用語 / D:整合性）
   - **プロンプトは Rules「レビューを依頼するサブエージェント…」の3点を必ず含める**
-- [ ] 指摘への対応を行う（最大3ラウンド）
-- [ ] レビュー記録を `reviews/page-about_index.md` に作成する
-- [ ] self-check（`checks/task-08.md`）
-- [ ] commit & push
-- [ ] **user review** — 承認を受けるまで #9 に進まない
+- [x] 指摘への対応を行う（最大3ラウンド。3ラウンド実施済み。未解決5件は design.md 11.7 に従い記録の上ユーザーレビューへ）
+- [x] レビュー記録を `reviews/page-about_index.md` に作成する
+- [x] self-check（`checks/task-08.md`）
+- [x] commit & push
+- [ ] **user review** — 承認を受けるまで #9 に進まない（現在ここで中断。未解決5件の扱いについてユーザーの `/rn:ty` または `/rn:gm` 待ち）
 
 **Completion criteria**:
 
@@ -632,8 +632,8 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: YYYY-MM-DD
-- **Last completed**: #N description
-- **Next**: #N description
-- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
+- **Status**: paused
+- **Date**: 2026-08-03
+- **Last completed**: `#8`（第1部「テスティングフレームワークとは」`about/index.rst`）を作成し、A/B/C/Dの4観点レビューを3ラウンド実施（`aa36feb`→`31b1f1d`→`ef44dfc`）。ラウンド1・2で見つかった指摘（構成図欠落、データブロック定義誤り、処理方式名称テーブルの誤り、逐語的表現、`:ref:`欠如、simple table化漏れ等）はいずれも修正済み。ラウンド3（最終ラウンド）でA・Dは全項目PASSだが、B（トンマナ）3件・C（用語）1件が未解決のまま残った。design.md 11.7「3ラウンドで解決しない指摘は、未解決のまま記録してユーザーレビューに上げる」に従い4ラウンド目は実施せず、`reviews/page-about_index.md`に全ラウンドの指摘・対応要否・対応内容を記録し、`checks/task-08.md`を確定してコミット・push済み（`9ec0f3e`）。
+- **Next**: ユーザーに未解決5件（`reviews/page-about_index.md`の「未解決指摘のまとめ」参照: R3-B1/B2/B3=出典に近い言い回しの残存、R3-B4=処理方式ごとの正式名称テーブルのsimple table化未実施、R3-C1=「同期応答電文」という未定義語の残存）を提示し判定を依頼中に `/rn:dn` を受けたため中断。再開後は `/rn:ty`（現状で承認 → `#8`のuser reviewをチェックオフし`#9`へ）または `/rn:gm`（追加修正の指示 → 指摘された箇所のみ修正し再提示）を待つ。5件はいずれも内容・網羅性・整合性には影響しない文体・表記レベルの残課題。
+- **Notes**: branch/PR: `lovaizu/nablarch-document`の`work` = PR #730（`nablarch/nablarch-document`）のhead。base commitは`c24190607fef5d76c607aa08b36d2ab2f813efe5`。push権限は解決済み（`kiyobot`=`GH_TOKEN`がwrite権限を保有）。`#1`〜`#7`は承認済み。`#8`は実装・レビュー完了、user review待ちで中断（open blocker）。`#9〜`のページ作成順は「第3部のテストデータ2ページ → 第2部 → 第3部の残り → 第4部」（`#8`の第1部完了後）。`about/index.rst`のtip内「マスタデータ投入ツール」「マスタデータ復旧機能」への言及は`setup/master_data_restore.rst`・`tools/master_data_tool.rst`作成時に`:ref:`化することを申し送り済み（`reviews/page-about_index.md`末尾）。
