@@ -61,3 +61,37 @@ C:用語とD:整合性が検証を兼ねる。詳細は `reviews/page-about_inde
 - Craft expert (=B トンマナ): **NG（未解決5件中4件）** — R3-B1/B2/B3/B4、`reviews/page-about_index.md`参照
 - Verification expert (=C+D 用語・整合性): **一部NG** — D（整合性）はPASS、C（用語）はR3-C1が未解決
 - Ready to check off: **No** — 3ラウンドのレビューを尽くしたが未解決指摘が5件残っている（いずれも文体・表記レベルで内容・網羅性・整合性には影響しない）。design.md 11.7「3ラウンドで解決しない指摘は、未解決のまま記録してユーザーレビューに上げる」に従い、コーディネーターの判断による4ラウンド目の自己修正は行わず、ユーザーの `/rn:ty`（現状で承認）または `/rn:gm`（追加修正の指示）を仰ぐ
+
+---
+
+## `#8` 差し戻し対応（`ntf-doc-08-rework.md`）後の追記
+
+### A-6: 行数記録の訂正
+
+上記「Overall Verdict」等に至るまでの報告で口頭言及された「6セクション245行」は実測と合わない。
+`about/index.rst` の行数は、`#8` 差し戻し対応前（`ef44dfc`時点）で **235行**、差し戻し対応（A-1〜A-4適用、
+`wc -l` で実測）後は **225行** である（`テスト種別の正式名称` 表を list-table からsimple tableへ変換し、
+`テーブルをキューとして使ったメッセージング` 行を削除したことによる純減）。
+
+### 差し戻し対応で変わった判定
+
+| Criterion | Self-check | Evidence |
+|---|---|---|
+| 未対応の指摘が残っていない、または残す判断とその理由が記録されている | **OK** | `design.md`§11.7改訂（must/decide/note区分）後、`about/index.rst`を独立サブエージェントで3ラウンド再レビュー。must区分の指摘はすべてラウンド3までに解消（`reviews/page-about_index.md`参照）。残るのは`decide`区分1件（「対象範囲」節の処理方式一覧欠落、D-R2-1/D-R2-2）のみで、`design.md`11.7「3ラウンド上限に達してユーザーレビューに上げてよいのはdecideのみ」に合致する状態でユーザーレビューへ上げる |
+| `about/index.rst`に`同期応答電文`が0件 | OK | `grep -c "同期応答電文" ja/development_tools/testing_framework/about/index.rst` → `0` |
+| `処理方式ごとの正式名称`の見出しと導入文が表の中身と一致している | OK | 見出しを`テスト種別の正式名称`に変更、導入文を表の実際の中身（クラス単体・リクエスト単体6→5区分・取引単体）に合わせて修正。観点D再レビューでPASS（D-R1-1修正後の再検証、ラウンド2で確認） |
+| `make html`相当のビルドがエラー0 | OK | scratch conf（javasphinx除外・`add_js_file`・`alabaster`テーマ）でsphinxをインストールし、`ja`全体を`sphinx-build -b html`でフルビルド。`build succeeded`、exit 0。`grep ERROR build.log \| grep testing_framework`は0件。直近の増分ビルド（about/index.rstのみ再パース）でも新規警告・エラー0件（`html_static_path`の既知の無関係警告1件のみ） |
+| `python3 mapping/tools/verify_mapping.py`が`exit 0`、行数・lines合計が不変 | 要最終確認 | `mapping.csv`・`_batch/*.csv`は本ラウンドで一切編集していない（`about/index.rst`と`design.md`のみ変更）ため不変のはず。commit前に実行して確認する |
+
+### 是正後レビューの要約
+
+- 観点A（網羅性）: PASS（must/decide 0件、note 1件）
+- 観点B（トンマナ）: 3ラウンドでmust全件解消。ただしR3-B2/R3-B3相当の2箇所は、新基準の機械適用結果とユーザーの
+  既存判定（A-5、修正しない）が食い違ったため、**ユーザー判定を優先し原文のまま維持**（`design.md`§11.6に
+  「ユーザーの個別判断は本基準より優先する」を追記して再発防止）
+- 観点C（用語）: PASS（must/decide 0件、note 1件＝「期待するテスト結果」/「期待値」の表記不統一、対応不要）
+- 観点D（整合性）: must 2件（D-R1-1, D-R2-1/D-R3-1）は解消。ただし解消の過程で「対象範囲」節に
+  `mapping.csv`に出典のない内容を追加しかけたため取り消し、代わりに`decide`案件として記録（詳細は
+  `reviews/page-about_index.md`「新規decide案件」参照）
+
+詳細な全指摘・全ラウンドの記録は `reviews/page-about_index.md` を参照。
