@@ -38,6 +38,7 @@ Rn version: 0.8.0
 - **ビルド確認は自分でDockerを使って行う。**`make html`の確認をユーザーに丸投げしない。ローカルvenv（`/home/tie303177/venv`）が`requirements.txt`のピン留め版と非互換（Python 3.12・`javasphinx`未対応）であることは、Docker実行を省略してよい理由にはならない。README「環境構築」＞「Docker」の手順（`docker build -t nablarch-document-build .`、`docker run --rm -v <repo>:/root/document nablarch-document-build /bin/bash -c "cd /root/document; sphinx-build -d _build/.doctrees/ja -b html ja _build/html"`）に従い、コンテナ内で実行する。2026-08-03、同一の確認を2回ユーザー自身にやらせてしまい指摘を受けた
 - **日本語の地の文（段落）は、途中で改行しない。1段落は1行で書く（文の区切りであっても改行しない）。** RSTの段落はソース上の改行をHTML出力時にも生の`\n`として残し、ブラウザは`white-space: normal`のもとでこれを半角スペース1個として描画するため、ソースを折り返すと本文に不要な隙間が入る（2026-08-03、`testing_framework/index.rst`で実測・`build succeeded`のHTMLソースで`\n`の残存を確認して特定）。`about/index.rst`にも同種の改行が複数箇所残っている（8〜9行目・12〜13行目等、`#8`のuser review未了分として要修正）。ページ作成・レビュー時は、段落内に改行がないか（空行を挟まず日本語の行が連続する箇所がないか）を確認する
 - **文章表現は、design.md等の内部設計文書の言い回しをそのまま使わない。既存の解説書（FW解説書ライブラリ等）に同種の表現があるか`grep`で確認してから書く。** design.mdは開発チーム内部の設計文書であり、その文体（例:「読者は2種類に分かれる」のように読者を外側から分析する言い回し）を利用者向けページにそのまま持ち込むと、実際の解説書のどこにも使われていない不自然な文になる（2026-08-03、`testing_framework/index.rst`で`grep -rn "対象読者|読者は"`が0件だったことで実際に確認）。design.mdの内容（意図・構造）を参照するのは良いが、文言をそのまま転記しない
+- **`=`のみで罫線を引く簡易tableのセル文字列を編集するときは、列位置を「表示幅」（全角文字は2、半角文字は1）で揃える。文字数（Pythonの`len()`等）で揃えない。** 見出し行の`=`の並びが表示幅基準の列境界を表しており、セル文字列の表示幅がずれると`sphinx-build`が`Malformed table`エラーを出す（2026-08-03、`about/index.rst`の表でセル文字列を短くした際に文字数基準で詰めて実際に発生・`unicodedata.east_asian_width`で是正）。編集後は必ずDockerビルドで確認する
 
 # Tasks
 
@@ -606,6 +607,14 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
       循環文になる2箇所は維持理由を明確化した上で維持。表の1箇所（構成物一覧、隣接行との体裁統一という
       弱い理由のみ）は判断が割れるためユーザー確認待ちのまま維持。Dockerビルドで`build succeeded`・
       警告0件を確認
+- [x] ユーザーからの再指摘（「テストクラス」等は「〜ファイル」にしていない、テストデータは概念、本ページ
+      自体が概念を説明するページ）を受け、残り3箇所も「テストデータ」に統一。表の行は「として」構文
+      （「テストデータとして外部化」「マスタデータを...テストデータとしてまとめて外部化」）で循環を回避し、
+      「テストデータファイル」を本ページから完全に排除（`grep`で0件を確認）。表の列の置換時、日本語の
+      表示幅（全角2・半角1）で列位置を揃える必要があることに気づかず文字数基準で詰めてしまい、
+      `sphinx-build`で`Malformed table`エラー（`ERROR`だが集計上は`1 warning`）を検出→
+      `unicodedata.east_asian_width`で表示幅を再計算し是正、`build succeeded`・警告0件に復帰したことを
+      確認した
 
 **Completion criteria**:
 
