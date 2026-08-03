@@ -513,15 +513,61 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
 - 削除前のファイル一覧が Evidence に記録されている
 - 画像・ダウンロード素材が保持されている
 
-### #8〜: ページの作成（1ページにつき1タスク）
+### #8: 第1部「テスティングフレームワークとは」の作成（`about/index.rst`）
+
+**Purpose**: マッピングに従って第1部（概念、1ページ）を作成する。design.md 11.5「最初の1ページで基準を作る」の対象タスク。
+
+**Prerequisites**: #7
+
+**ページID**: `about_index`（`reviews/page-about_index.md` / `checks/task-08.md` を使う）
+
+対象 `mapping_id`（`dest_page=テスティングフレームワークとは`、13行、`DROP`なし）: `current-0162`,
+`current-0163`, `current-0164`, `current-0166`, `current-0175`, `current-0176`, `current-0180`,
+`current-0267`, `current-0377`, `current-0165`, `input-0002`, `input-0116`, `input-0028`
+
+出典（削除済みのため base commit `c24190607fef5d76c607aa08b36d2ab2f813efe5` から `git show` で取得）:
+`.../06_TestFWGuide/01_Abstract.rst`, `.../06_TestFWGuide/JUnit5_Extension.rst`,
+`ja/development_tools/testing_framework/index.rst`（すべて base commit 時点）、
+`input/ntf-doc-terms.md`, `input/ntf-testdata-doc.md`（作業ツリーから）
+
+**Steps**:
+
+- [ ] `ja/development_tools/testing_framework/index.rst`（トップレベル、toctree・読者振り分け文。design.md §1）と
+      `ja/development_tools/testing_framework/about/index.rst` の骨格を新規作成する（`#7` で全 `.rst` を削除済みのため）
+- [ ] `ja/development_tools/index.rst` の `testing_framework/index` toctree 参照は変更しない（既存のまま有効にする）
+- [ ] `mapping.csv` から上記 `mapping_id` の行を抽出する
+- [ ] 抽出した行の出典（`src_file` の `src_body_start`〜`src_body_end`、current側は base commit から `git show` で取得）を実際に読み、ページを作成する
+- [ ] セクション構成は design.md §2 の6セクション（全体像 / アーキテクチャ / テストの種類 / テストデータ / 対象範囲 / 稼動環境）に従う
+- [ ] マッピングにない内容を追加しない。マッピングにある内容を落とさない
+- [ ] 出典の文面をそのまま流用しない。`style.md` に従って書き直す
+- [ ] 用語は `glossary.md` の正表記を使う
+- [ ] 該当する `note` の `[セクション境界]` はない（対象13行を確認済み）。`reference-only sections` も本ページには該当しない
+- [ ] 外部被参照ラベルの引継ぎは本ページには該当しない（対象は `implementation/request_unit_test/web.rst` の1件のみ）
+- [ ] 4観点のレビューを、それぞれ**別のサブエージェント**で実施する（A:網羅性 / B:トンマナ / C:用語 / D:整合性）
+  - **プロンプトは Rules「レビューを依頼するサブエージェント…」の3点を必ず含める**
+- [ ] 指摘への対応を行う（最大3ラウンド）
+- [ ] レビュー記録を `reviews/page-about_index.md` に作成する
+- [ ] self-check（`checks/task-08.md`）
+- [ ] commit & push
+- [ ] **user review** — 承認を受けるまで #9 に進まない
+
+**Completion criteria**:
+
+- `mapping.csv` の `dest_page=テスティングフレームワークとは` の全13行が反映されている
+- 4観点のレビューがすべて実施・記録されている
+- 未対応の指摘が残っていない、または残す判断とその理由が記録されている
+- `make html` が `about/index.rst` についてエラーを出さない
+- `ja/development_tools/testing_framework/index.rst` から `about/index.rst` への toctree 導線がある
+
+### #9〜: ページの作成（1ページにつき1タスク）
 
 **Purpose**: マッピングに従ってページを1つ作成する。
 
-**Prerequisites**: #7（以降は直前のページタスク）
+**Prerequisites**: #8（以降は直前のページタスク）
 
-作成順: 第1部 → 第3部のテストデータ2ページ → 第2部 → 第3部の残り
+作成順: 第3部のテストデータ2ページ → 第2部 → 第3部の残り → 第4部
 
-タスク番号・ページIDは #5 のマッピング完了後に確定する。
+タスク番号・ページIDは #8 完了後、ページごとに確定する。
 
 **Steps（各ページ共通）**:
 
