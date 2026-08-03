@@ -615,6 +615,7 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
       `sphinx-build`で`Malformed table`エラー（`ERROR`だが集計上は`1 warning`）を検出→
       `unicodedata.east_asian_width`で表示幅を再計算し是正、`build succeeded`・警告0件に復帰したことを
       確認した
+- [ ] **user review** — 承認を受けるまで #9 に進まない
 
 **Completion criteria**:
 
