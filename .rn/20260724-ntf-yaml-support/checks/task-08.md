@@ -95,3 +95,34 @@ C:用語とD:整合性が検証を兼ねる。詳細は `reviews/page-about_inde
   `reviews/page-about_index.md`「新規decide案件」参照）
 
 詳細な全指摘・全ラウンドの記録は `reviews/page-about_index.md` を参照。
+
+---
+
+## `#8` decide案件回答（`ntf-doc-08-decide.md`）後の追記
+
+### 行数記録の更新
+
+`about/index.rst` の行数は、差し戻し対応後（`a583f69`時点、`wc -l`実測）**225行**、decide案件回答による
+`テーブルをキューとして使ったメッセージング`行の復元・`:ref:`ラベル追加・「対象範囲」節への導線文追加を
+適用した後は **230行** である（純増5行）。
+
+### decide案件の解決で変わった判定
+
+| Criterion | Self-check | Evidence |
+|---|---|---|
+| `about/index.rst`に`リクエスト単体テスト（テーブルをキューとして使ったメッセージング）`が1件存在する | OK | `grep -c "リクエスト単体テスト（テーブルをキューとして使ったメッセージング）" ja/development_tools/testing_framework/about/index.rst` → `1` |
+| 正式名称表の行が8行（クラス単体1・リクエスト単体6・取引単体1）になっている | OK | `grep -cE "^クラス単体テスト|^リクエスト単体テスト|^取引単体テスト" ja/development_tools/testing_framework/about/index.rst` → `8` |
+| `.. _testing_framework_about-test_type_names:` が存在し、対象範囲から`:ref:`で参照されている | OK | `grep -n "testing_framework_about-test_type_names"` で新設ラベル（表直前）と参照（対象範囲節冒頭）の2箇所を確認。sphinx-buildの生成HTMLで`href="#testing-framework-about-test-type-names"`が2箇所解決されており、undefined label警告は出ていない |
+| 対象範囲に処理方式の一覧が再掲されていない | OK | `sed`で対象範囲節を抽出し処理方式名（クラス単体テスト/リクエスト単体テスト/取引単体テスト）でgrepした結果0件 |
+| `design.md`§2 の対象範囲・テストの種類の2行が更新されている | OK | 目視確認。「対象範囲」行を「対応しないもの…対応する処理方式の一覧は『テストの種類』が持つため…」に、「テストの種類」行に「本文書で使うテスト種別の正式名称の索引を置く」を追記 |
+| `design.md`§8に「出典と確定設計が食い違う場合」の節がある | OK | `grep -n "出典と確定設計が食い違う場合" design.md` |
+| `design.md`§11.7の`must`定義に`vocabulary.md`/`design.md`との不一致が含まれている | OK | `grep -n "vocabulary.md.*ページ名" design.md`のmustテーブル行で確認 |
+| `python3 mapping/tools/verify_mapping.py`がexit 0、594行/12,986/11,983が不変 | OK | 実行結果 `Loaded 594 rows`、`lines total (all rows): 12986`、`lines total (excluding DROP): 11983`、`OK: no errors`。`mapping.csv`/`_batch/*.csv`は無変更 |
+| Sphinxビルドで`about/index.rst`の未解決参照が0件 | OK | scratch conf（前回と同一手法）で増分ビルド実行。`build succeeded, 1 warning`（`html_static_path`の既知の無関係警告のみ）。`grep -i testing_framework build2.log \| grep -iE "error\|warning\|undefined"` → 0件 |
+
+### decide案件回答後の再レビュー（ラウンドリセット）
+
+`design.md`§8/§11.7改訂後の基準で`about/index.rst`を独立サブエージェント4体（観点A/B/C/D）で再レビュー。
+ラウンド1でD観点から`must`1件（導入文の「主な」が非網羅時代の名残で新状態と矛盾）を検出し、ラウンド2で
+解消を確認。**ラウンド2終了時点で`must`残存0件、新規`decide`案件0件。** 詳細は`reviews/page-about_index.md`
+「`#8` decide案件回答後の再レビュー」参照。
