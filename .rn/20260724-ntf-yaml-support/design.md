@@ -643,7 +643,7 @@ ja/development_tools/testing_framework/
 
 **`setup/deal_unit_test/` に `db_queue.rst` を作らない一方、`setup/request_unit_test/db_queue.rst` と `implementation/*/db_queue.rst` は作る。** この非対称は本節「テーブルをキューとして使ったメッセージング」の区別（取引単体テストの設定はページを設けない）によるものであり、意図した構成である。
 
-**`setup/index.rst` / `implementation/index.rst` / `tools/index.rst` は第2部・第3部・第4部それぞれの表題ページ（導線のみ）である。** マッピングに対応する内容ページではないため、上記「1対1対応表」には含めない。最上位 `index.rst` の `toctree` はこの3ファイルと `about/index` の計4件を指し、各表題ページの `toctree` は配下の個別ページを指す。この二段構成は `ja/development_tools/index.rst`（`java_static_analysis/index` / `testing_framework/index` / `toolbox/index` を束ねる `toctree`）に倣う。最上位 `index.rst` 本文の箇条書き（4部の一覧）は `toctree` に置き換え、重複させない。表題ページは最初は見出しのみで作成し（配下ページが未作成のため `toctree` を持てない）、`#9〜` で各ページを作成するたびに、当該ページを対応する表題ページの `toctree` に追記する。
+**`setup/index.rst` / `implementation/index.rst` / `tools/index.rst` は第2部・第3部・第4部それぞれの表題ページ（導線のみ）である。** マッピングに対応する内容ページではないため、上記「1対1対応表」には含めない。最上位 `index.rst` の `toctree` はこの3ファイルと `about/index` の計4件を指し、各表題ページの `toctree` は配下の個別ページを指す。この二段構成は `ja/development_tools/index.rst`（`java_static_analysis/index` / `testing_framework/index` / `toolbox/index` を束ねる `toctree`）に倣う。最上位 `index.rst` 本文の構成は「概要 → `toctree` → 4部それぞれの一言説明（箇条書き）」の順とする。旧来の名前のみの箇条書き（`toctree` と内容が重複する一覧）は置かず、`toctree` の直後に「どの部が誰向けで何を書いているか」を1部1行で補う（例: 「テスティングフレームワークとは：共通概念や用語の説明。最初に読む、以降の章の前提となる」）。表題ページは最初は見出しのみで作成し（配下ページが未作成のため `toctree` を持てない）、`#9〜` で各ページを作成するたびに、当該ページを対応する表題ページの `toctree` に追記する。
 
 ### 1対1対応表（`dest_part` / `dest_page` / ファイルパス）
 
