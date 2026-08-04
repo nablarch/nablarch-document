@@ -168,5 +168,5 @@ This will make the ``/n5`` command available.
 For Other Versions
 --------------------------------------------
 
-Check the setup procedure from the "Plugin" column link in the supported versions table for the corresponding version.
+Click the link in the **Plugin** column for your Nablarch version to view the setup procedure.
 
