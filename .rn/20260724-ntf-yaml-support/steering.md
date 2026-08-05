@@ -220,102 +220,23 @@ Rn version: 0.8.0
 
 **Closed**: user review 承認済み（本体・フォローアップとも。State欄2026-07-28時点の記録「#6本体・フォローアップ、#7本体・フォローアップとも承認済み」で確認。本タスクのuser reviewチェック行が未チェックのまま残っていたのを今回是正した）。フォローアップで外部被参照ラベル1件（`db_double_submit.rst`からの参照）を検出し、`#8〜`・`#last`にラベル再定義・解消確認のStepを追加済み。詳細は `checks/task-07.md` および git 履歴（`0cc47d3`）を参照。
 
-### #8: 第1部「テスティングフレームワークとは」の作成（`about/index.rst`）
+### #8: 第1部「テスティングフレームワークとは」の作成（`about/index.rst`）— DONE
 
 **Purpose**: マッピングに従って第1部（概念、1ページ）を作成する。design.md 11.5「最初の1ページで基準を作る」の対象タスク。
 
-**Prerequisites**: #7
-
-**ページID**: `about_index`（`reviews/page-about_index.md` / `checks/task-08.md` を使う）
-
-対象 `mapping_id`（`dest_page=テスティングフレームワークとは`、8行、`DROP`なし。2026-08-05に複数回の
-フィードバック対応で再割当が発生: `input-0002`/`input-0116`（記法仕様）を第3部「テストデータの書き方」へ
-（13行→11行）、`current-0175`（テストの独立性）を同ページへ（11行→10行）、`current-0180`/`current-0267`
-（JUnit依存関係）を第2部「JUnit 5用拡張機能」へ（10行→8行）。詳細は本タスクStepsの当該項目・`design.md`§2・
-`mapping.csv`を参照）:
-`current-0162`, `current-0163`, `current-0164`, `current-0166`, `current-0176`,
-`current-0377`, `current-0165`, `input-0028`
-
-出典（削除済みのため base commit `c24190607fef5d76c607aa08b36d2ab2f813efe5` から `git show` で取得）:
-`.../06_TestFWGuide/01_Abstract.rst`, `.../06_TestFWGuide/JUnit5_Extension.rst`,
-`ja/development_tools/testing_framework/index.rst`（すべて base commit 時点）、
-`input/ntf-doc-terms.md`, `input/ntf-testdata-doc.md`（作業ツリーから）
-
-**Steps**:
-
-- [x] `ja/development_tools/testing_framework/index.rst`（トップレベル、toctree・読者振り分け文。design.md §1）と
-      `ja/development_tools/testing_framework/about/index.rst` の骨格を新規作成する（`#7` で全 `.rst` を削除済みのため）
-- [x] `ja/development_tools/index.rst` の `testing_framework/index` toctree 参照は変更しない（既存のまま有効にする）
-- [x] `mapping.csv` から上記 `mapping_id` の行を抽出する
-- [x] 抽出した行の出典（`src_file` の `src_body_start`〜`src_body_end`、current側は base commit から `git show` で取得）を実際に読み、ページを作成する
-- [x] セクション構成は design.md §2 の6セクション（全体像 / アーキテクチャ / テストの種類 / テストデータ / 対象範囲 / 稼動環境）に従う
-- [x] マッピングにない内容を追加しない。マッピングにある内容を落とさない（観点Aラウンド3でPASS確認済み）
-- [x] 出典の文面をそのまま流用しない。`style.md` に従って書き直す（`#8`差し戻し対応で是正後の基準により再レビューし、must指摘はすべて解消。旧R3-B1/B2/B3のうちR3-B2/B3相当の2箇所は、新基準の機械適用でも再度must判定されたが、ユーザーがA-5で既に「対応不要」と判定済みのためユーザー判定を優先し原文を維持。詳細は`reviews/page-about_index.md`参照）
-- [x] 用語は `glossary.md` の正表記を使う（`#8`差し戻し対応A-2で「同期応答電文」→「同期応答メッセージ送信」に修正。`reviews/page-about_index.md` R3-C1解消）
-- [x] 該当する `note` の `[セクション境界]` はない（対象13行を確認済み）。`reference-only sections` も本ページには該当しない
-- [x] 外部被参照ラベルの引継ぎは本ページには該当しない（対象は `implementation/request_unit_test/web.rst` の1件のみ）
-- [x] 4観点のレビューを、それぞれ**別のサブエージェント**で実施する（A:網羅性 / B:トンマナ / C:用語 / D:整合性）
-  - **プロンプトは Rules「レビューを依頼するサブエージェント…」の3点を必ず含める**
-- [x] 指摘への対応を行う（最大3ラウンド。3ラウンド実施済み。未解決5件は design.md 11.7 に従い記録の上ユーザーレビューへ）
-- [x] レビュー記録を `reviews/page-about_index.md` に作成する
-- [x] self-check（`checks/task-08.md`）
-- [x] commit & push
-- [x] decide案件1件（対象範囲節の処理方式一覧の要否）に回答（`ntf-doc-08-decide.md`、`/rn:gm`）。テーブルをキュー行を
-      復元し、design.md §8/§11.7に確定設計優先の規約を追加。commit `a583f69`/`36deb4b`
-- [x] フィードバック対応: トップレベル`index.rst`を箇条書きからtoctree化し、第2〜4部の表題ページ3件を新規作成。
-      commit `3bbccfa`/`23ff3e5`/`c7abe49`
-- [x] フィードバック対応: トップレベル`index.rst`の読者振り分け文の順序・文面を是正、段落内改行を解消（Rules
-      「日本語の地の文は段落内で改行しない」を追加）。commit `b029b46`/`7b54a5b`/`55d3f86`
-- [x] フィードバック対応: 第2〜4部表題ページのタイトルを検索性重視の名前に変更。commit `dd982f9`
-- [x] フィードバック対応: 「読者は2種類に分かれる」をdesign.md内部言い回しの転記と判断し書き直し（Rules
-      「design.md等の言い回しをそのまま転記しない」を追加）。commit `75b111b`
-- [x] フィードバック対応: `about/index.rst`の段落内改行19箇所を解消。commit `f8b9834`
-- [x] フィードバック対応: 用語「テストデータファイル」「テストソースコード」を見直し。commit `55a0c02`
-- [x] ユーザー再指摘: 「テストデータファイル」をさらに3箇所簡略化。commit `35ea7e3`
-- [x] ユーザー再指摘: 「テストデータファイル」を本ページから完全に排除。commit `87046c3`
-- [x] フィードバック対応: トップレベル`index.rst`の読者振り分け文を素直な文章に書き直し、ユーザー確認3点に回答。
-      commit `e56a578`
-- [x] フィードバック対応: セクション並び順見直し・「特徴」節新設（design.md §2改訂）。commit `916eaaa`/`167472b`
-- [x] フィードバック対応(6点、`/rn:gm`): 全体像/特徴/テストの種類/アーキテクチャ/テストデータ/対象範囲を全面見直し。
-      commit `82ca8ce`
-- [x] フィードバック対応(2ラウンド目、`/rn:gm`): 「全体像」と「特徴」を1節に統合し`:ref:`往復を撤廃
-      （FW解説書`big_picture.rst`の実際の構成に基づく抜本改訂）。commit `4e07294`
-- [x] フィードバック対応(3ラウンド目、`/rn:gm`): 「全体像」冒頭に3種類の対象粒度を追加。commit `84b6d5b`
-- [x] フィードバック対応(4ラウンド目、`/rn:gm`、4点): 「テストデータ」節を廃止し、外部化を「特徴」へ統合、独立性を
-      第3部「テストデータの書き方」へ再割当。commit `ef9d245`
-- [x] フィードバック対応(5ラウンド目、ユーザー直接指摘3点): 「アーキテクチャ」導入文と「稼動環境」の依存関係説明
-      （JUnit 5用拡張機能 / JUnit Vintageの選択基準）を改善。commit `c2e5942`
-- [x] フィードバック対応(6ラウンド目、ユーザー直接指摘2件): 「稼動環境」から依存関係の生データ・選択基準の説明を
-      全廃し、「JUnit 4がベース。JUnit 5で使う場合は`:ref:`参照」の1文のみに縮小。`#6`の「依存関係は第1部に集約する」
-      方針そのものを撤回し、`current-0180`/`current-0267`を第2部「JUnit 5用拡張機能」使用方法へ差し戻した
-      （`mapping.csv`/`design.md`§2/`volume.md`/`verify_mapping.py`のEXPECTED_ZERO_SECTIONS更新、エラー0件）。
-      「このページは後続に共通する前提を書く」という第1部の役割に立ち返り、選択肢の説明は使用方法レベルの
-      情報として第2部に譲るべきと判断。Dockerビルドで`build succeeded`（想定内warning2件）を確認。
-- [x] トップレベル`ja/development_tools/testing_framework/index.rst`の`toctree`を`:maxdepth: 1`から`:maxdepth: 2`に
-      変更し、`about/index.rst`のH2見出し（全体像/テストの種類/アーキテクチャ/稼動環境）がtoctreeにネスト表示される
-      ようにした（`nablarch/index.rst`の既存の`:maxdepth: 2`使用例を確認し同様の挙動をビルド済みHTMLで実証してから
-      適用）。Dockerでフルビルド（`-d`キャッシュなし）し`build succeeded, 3 warnings`を確認。3件目
-      （`db_double_submit.rst`の`how_to_set_token_in_request_unit_test`未定義ラベル）は`#7`から追跡済みの
-      既知警告であり、本変更による新規警告ではないことを確認済み（`checks/task-07.md`参照）。
-
-（各ラウンドの指摘内容・判断理由・出典根拠は`design.md`§2、`reviews/page-about_index.md`、上記コミットログを参照。
-2026-08-05、ユーザー指摘「文量が大量なんだけど、こんなに必要なの？」を受けて本Stepsを圧縮した。旧本文は
-上記コミット群と`design.md`/`reviews/page-about_index.md`に残っている）
-- [x] `junit5_extension.rst`・`testdata_converter.rst`を見出しのみで先行作成し、それぞれ`setup/index.rst`・
-      `tools/index.rst`のtoctreeに追記。undefined label警告2件を解消（#9〜「前方参照によるスタブページ」参照）。
-      commit `65968ee`
-- [x] ユーザー編集: 全体像冒頭の3段落を1段落に統合。commit `cb0d8d9`
-- [ ] **user review** — 承認を受けるまで #9 に進まない
-
 **Completion criteria**:
 
-- `mapping.csv` の `dest_page=テスティングフレームワークとは` の全行（8行、`#8`の複数回のフィードバック対応による
-  再割当を経て確定。詳細は本タスク冒頭の対象`mapping_id`一覧を参照）が反映されている
+- `mapping.csv` の `dest_page=テスティングフレームワークとは` の全行（8行、複数回のフィードバック対応による
+  再割当を経て確定）が反映されている
 - 4観点のレビューがすべて実施・記録されている
 - 未対応の指摘が残っていない、または残す判断とその理由が記録されている
 - `make html` が `about/index.rst` についてエラーを出さない
 - `ja/development_tools/testing_framework/index.rst` から `about/index.rst` / `setup/index.rst` /
   `implementation/index.rst` / `tools/index.rst` への toctree 導線がある
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-05）。フィードバック対応は本体レビュー3ラウンド＋ユーザー直接
+指摘6ラウンド超に及んだ。詳細（各ラウンドの指摘・判断理由・出典根拠）は `design.md`§2、`reviews/page-about_index.md`、
+`checks/task-08.md` および git 履歴（最終内容コミット `cb0d8d9`）を参照。
 
 ### #9〜: ページの作成（1ページにつき1タスク）
 
@@ -326,6 +247,12 @@ Rn version: 0.8.0
 作成順: 第3部のテストデータ2ページ → 第2部 → 第3部の残り → 第4部
 
 タスク番号・ページIDは #8 完了後、ページごとに確定する。
+
+**#9 = テストデータの書き方**（`implementation/testdata_notation.rst`）。役割は「記法の仕様。どう書けばどう解釈
+されるか」（design.md §4）。対象 `mapping_id` は `dest_page=テストデータの書き方` の140行（機能概要1・使用方法139。
+主要出典 `input/ntf-testdata-doc.md`49行のほか、現行解説書`06_TestFWGuide/`・`05_UnitTestGuide/`各所、
+`input/ntf-doc-terms.md`・`ntf-testdata-doc-examples-testshots.md`・`ntf-testdata-loading.md`に分散）。
+**#10 = テストデータの記載例**（`implementation/testdata_examples.rst`、機能概要なしの例外ページ）が続く。
 
 **前方参照によるスタブページ**: #8で`setup/junit5_extension.rst`・`tools/testdata_converter.rst`を見出しのみで作成し、`setup/index.rst`・`tools/index.rst`のtoctreeに追記済み（undefined label警告解消のため。2026-08-05）。該当ページのタスクが来たら、新規作成ではなく既存ファイルへの追記として扱う。同様に他ページからの前方参照でundefined label警告が出た場合も、対象ページの見出しのみのスタブを先行作成し対応するtoctreeに追記する運用とする（毎回の警告差分確認の手間を減らすため）。
 
@@ -396,13 +323,12 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
+- **Status**: not suspended
 - **Date**: 2026-08-05
-- **Last completed**: #8の後続ページ前提としての過不足評価(不足・過剰とも無しと判断)。`junit5_extension.rst`・
-  `testdata_converter.rst`を見出しのみで先行作成しtoctree追記、undefined label警告2件を解消(commit `65968ee`)。
-  ユーザーが全体像冒頭の3段落を1段落に統合(commit `cb0d8d9`)。いずれもDockerフルビルドで`build succeeded, 1
-  warning`(既知の`db_double_submit.rst`のみ)を確認済み。
-- **Next**: #8 の user review 承認を待つ。承認後、#9〜(ページ作成、作成順: 第3部のテストデータ2ページ → 第2部 →
-  第3部の残り → 第4部)に進む
+- **Last completed**: #8 user review 承認（`/rn:ty`）。#9のページ・ページIDを確定: テストデータの書き方
+  (`implementation/testdata_notation.rst`)、対象140行(`dest_page=テストデータの書き方`)。steering.mdの#8エントリを
+  圧縮しDONE化。
+- **Next**: #9（テストデータの書き方）に着手。`mapping.csv`から対象行を抽出し出典を実際に読んでページを作成する
+  （Steps は「#9〜: ページの作成（1ページにつき1タスク）」節の共通Stepsに従う）。
 - **Notes**: ブランチ `work`、`origin`(`lovaizu` fork)へ push 済み(PR未作成)。ブロッカーなし。ユーザー未解決の指摘なし。
   `_build/`はユーザーがブラウザで直接レビューするため今後Docker確認後も削除しない。
