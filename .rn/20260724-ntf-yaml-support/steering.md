@@ -392,14 +392,12 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-08-05
-- **Last completed**: #8 フィードバック対応・6ラウンド目（2026-08-05、ユーザー直接指摘2件、`/rn:gm`を介さず）。
-  「稼動環境」から依存関係の生データ・選択基準の説明を全廃し、「JUnit 4がベース。JUnit 5で使う場合は`:ref:`参照」の
-  1文のみに縮小。`#6`の「依存関係は第1部に集約する」方針を撤回し、`current-0180`/`current-0267`を第2部
-  「JUnit 5用拡張機能」使用方法へ差し戻した（`mapping.csv`/`design.md`§2/`volume.md`/`verify_mapping.py`更新、
-  エラー0件）。「第1部は後続に共通する前提を書くページ」という原則に立ち返り、選択肢の説明は使用方法レベルの
-  情報として第2部に譲るべきと判断。Dockerビルド確認済み（`build succeeded`、想定内warning2件:
-  `testdata_converter`・`junit5_extension`）。
-  （5ラウンド目の内容: 「アーキテクチャ」導入文を図が示す関係の説明に書き直し。4ラウンド目: 「テストデータ」節
-  （H2見出し）を廃止し外部化は「特徴」へ統合・独立性は第3部へ再割当。詳細は`reviews/page-about_index.md`参照）
+- **Last completed**: トップレベル`ja/development_tools/testing_framework/index.rst`のtoctreeを`:maxdepth: 2`化し、
+  `about/index.rst`のH2見出しがナビゲーションに表示されるようにした（commit `9198e22`）。続けて「ページの目的を
+  達成しているか」の検討を行い、「稼動環境」セクション（1文のみ）を全体像へ畳み込む案を一度提案したが、
+  「文量ではなく読者にとってどうか」という指摘を受けて撤回。TOCから直接ジャンプできる独立見出しであることの
+  読者価値（JUnit5互換性の可否を本文を読まずに確認できる）を優先し、独立セクションのまま維持と結論（コード変更なし、
+  議論のみ）。#8の6ラウンド分のフィードバック対応（`ef9d245`〜`a6baf64`）はいずれもcommit・push済み。
+  詳細は`reviews/page-about_index.md`参照
 - **Next**: #8 の user review 承認を待つ。承認後、#9〜（ページ作成、作成順: 第3部のテストデータ2ページ → 第2部 → 第3部の残り → 第4部）に進む
 - **Notes**: ブランチ `work`、`origin`（`lovaizu` fork）へ push 済み（PR未作成）。ブロッカーなし。ユーザー未解決の指摘なし。`about/index.rst`に`undefined label`警告2件（`testdata_converter`・`junit5_extension`）が残るが、それぞれ第4部・第2部の該当ページ作成時に解消する前提の想定内の警告（`#last`ゲートで最終確認）
