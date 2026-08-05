@@ -10,3 +10,4 @@ Nablarch development tools
    ui_dev/index
    testing_framework/index
    toolbox/index
+   ai_tools/index
