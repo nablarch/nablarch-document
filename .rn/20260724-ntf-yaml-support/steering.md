@@ -301,6 +301,10 @@ Rn version: 0.8.0
 （各ラウンドの指摘内容・判断理由・出典根拠は`design.md`§2、`reviews/page-about_index.md`、上記コミットログを参照。
 2026-08-05、ユーザー指摘「文量が大量なんだけど、こんなに必要なの？」を受けて本Stepsを圧縮した。旧本文は
 上記コミット群と`design.md`/`reviews/page-about_index.md`に残っている）
+- [x] `junit5_extension.rst`・`testdata_converter.rst`を見出しのみで先行作成し、それぞれ`setup/index.rst`・
+      `tools/index.rst`のtoctreeに追記。undefined label警告2件を解消（#9〜「前方参照によるスタブページ」参照）。
+      commit `65968ee`
+- [x] ユーザー編集: 全体像冒頭の3段落を1段落に統合。commit `cb0d8d9`
 - [ ] **user review** — 承認を受けるまで #9 に進まない
 
 **Completion criteria**:
@@ -392,4 +396,13 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
+- **Date**: 2026-08-05
+- **Last completed**: #8の後続ページ前提としての過不足評価(不足・過剰とも無しと判断)。`junit5_extension.rst`・
+  `testdata_converter.rst`を見出しのみで先行作成しtoctree追記、undefined label警告2件を解消(commit `65968ee`)。
+  ユーザーが全体像冒頭の3段落を1段落に統合(commit `cb0d8d9`)。いずれもDockerフルビルドで`build succeeded, 1
+  warning`(既知の`db_double_submit.rst`のみ)を確認済み。
+- **Next**: #8 の user review 承認を待つ。承認後、#9〜(ページ作成、作成順: 第3部のテストデータ2ページ → 第2部 →
+  第3部の残り → 第4部)に進む
+- **Notes**: ブランチ `work`、`origin`(`lovaizu` fork)へ push 済み(PR未作成)。ブロッカーなし。ユーザー未解決の指摘なし。
+  `_build/`はユーザーがブラウザで直接レビューするため今後Docker確認後も削除しない。
