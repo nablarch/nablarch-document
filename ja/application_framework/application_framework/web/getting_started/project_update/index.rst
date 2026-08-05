@@ -199,7 +199,7 @@ Exampleアプリケーションを元に更新機能を解説する。
   SQLの作成
     顧客の存在確認に使用するために、顧客IDから顧客情報を取得するSQLを作成する。
 
-    client.sql
+    Client.sql
       .. code-block:: sql
 
         FIND_BY_CLIENT_ID =
@@ -248,7 +248,7 @@ Exampleアプリケーションを元に更新機能を解説する。
 
 データベースの更新
 ---------------------
-更新機能の実装方法のうち、更新内容の確認について以下の順に解説する。
+更新機能の実装方法のうち、データベースの更新について以下の順に解説する。
 
   #. :ref:`業務アクションメソッドの作成<project_update-create_decide_action>`
   #. :ref:`更新完了画面の作成<project_update-create_success_jsp>`

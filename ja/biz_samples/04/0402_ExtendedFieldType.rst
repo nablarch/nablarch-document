@@ -106,7 +106,7 @@ JDKで使用されるCP930はダブルバイト文字に対して必ずシフト
        | 本サンプルは、デフォルトでは全角空白による右トリム・パディングを行う。
        | 入力時はシフトアウト・シフトインのコードを付加された状態を想定し特になにもせず文字列化を行い、
        |  出力時はシフトアウト・シフトインのコードを自動で付加する。
-       | サンプル実装クラス: please.change.me.core.dataformat.converter.datatype.EbcdicDoubleByteCharacterString
+       | サンプル実装クラス: please.change.me.core.dataformat.convertor.datatype.EbcdicDoubleByteCharacterString
        | 引数: バイト長(数値、必須指定)
    * - EN
      - String
@@ -114,5 +114,5 @@ JDKで使用されるCP930はダブルバイト文字に対して必ずシフト
        | 本サンプルは、デフォルトでは全角空白による右トリム・パディングを行う。
        | 入力時はシフトアウト・シフトインのコードを内部で補完して文字列化を行い、
        | 出力時はシフトアウト・シフトインのコードを付加しない。
-       | サンプル実装クラス: please.change.me.core.dataformat.converter.datatype.EbcdicNoShiftCodeDoubleByteCharacterString
+       | サンプル実装クラス: please.change.me.core.dataformat.convertor.datatype.EbcdicNoShiftCodeDoubleByteCharacterString
        | 引数: バイト長(数値、必須指定)

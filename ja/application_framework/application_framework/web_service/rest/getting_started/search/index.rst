@@ -76,6 +76,7 @@ Exampleアプリケーションを元に、検索機能を解説する。
           private String projectName;
 
           // ゲッタ及びセッタは省略
+      }
 
   この実装のポイント
    * Beanのプロパティは、:ref:`対応する条件カラムの定義(型)と互換性のある型とする<universal_dao-search_with_condition>` こと。

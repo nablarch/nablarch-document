@@ -8,13 +8,17 @@ OSS版Nablarchドキュメントです。
 WindowsまたはDockerを想定しています。
 ### Windows
 #### ドキュメントビルド環境
-Python 3.8.xおよび依存ライブラリをインストールします。
+Python 3.8.x〜3.10.x（3.11以降は不可）および依存ライブラリをインストールします。
+
+依存ライブラリの一部（docutils-ast-writer）はsetuptools 58以降ではインストールできないため、先にsetuptoolsを固定してからインストールします。
 ```sh
-pip install -r requirements.txt
+pip install setuptools==57.5.0 wheel
+pip install --no-build-isolation -r requirements.txt
 ```
+※ Python 3.10を使用する場合、標準ライブラリparserモジュール削除の影響でコードブロックのハイライト判定が変わります。Dockerイメージには互換シムを組み込み済みです（詳細はDockerfileのコメントを参照）。Windowsでビルド成果物の完全一致が必要な場合はPython 3.8.x/3.9.xを使用するか、同様のシムを導入してください。
 #### textlint実行環境
 上記に加えて、以下をインストールします。
-* Node.js（v20.15.1で動作確認済み）
+* Node.js（v22系LTS。v22.23.1で動作確認済み）
 * npmで依存ライブラリをインストールします。
   ```sh
   npm install

@@ -19,7 +19,7 @@ Exampleの実行方法
 環境構築手順
 ------------
 
-Exampleは、Apache Mavenを使用してアプリケーションをビルド、実行する。以下のページを参考に、ApacheMavenのPCへのインストール及び必要な設定を行うこと。
+Exampleは、Apache Mavenを使用してアプリケーションをビルド、実行する。以下のページを参考に、Apache MavenのPCへのインストール及び必要な設定を行うこと。
 
 :ref:`maven`
 

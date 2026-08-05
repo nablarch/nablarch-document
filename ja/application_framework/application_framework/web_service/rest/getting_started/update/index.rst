@@ -139,6 +139,7 @@ URLとのマッピングを定義
 
             return new HttpResponse(HttpResponse.Status.OK.getStatusCode());
         }
+      }
 
   この実装のポイント
     * ``@Path`` アノテーションと ``@PUT`` アノテーションを使用して、PUTリクエスト時にマッピングする業務アクションメソッドを定義する。

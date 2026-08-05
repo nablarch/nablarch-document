@@ -1576,7 +1576,7 @@ Tomcatのスレッドプールの状態を取得する
 * :java:extdoc:`MetricsMetaData <nablarch.integration.micrometer.instrument.binder.MetricsMetaData>`
     * メトリクスの名前や説明、タグなどのメタ情報を指定する
 * :java:extdoc:`MBeanAttributeCondition <nablarch.integration.micrometer.instrument.binder.jmx.MBeanAttributeCondition>`
-    * 収集するMbeanを特定するための、オブジェクト名と属性名を指定する
+    * 収集するMBeanを特定するための、オブジェクト名と属性名を指定する
 
 ``JmxGaugeMetrics`` は、 ``MBeanAttributeCondition`` で指定された情報に基づいてMBeanの情報を取得する。
 そして、 ``MetricsMetaData`` で指定された情報でメトリクスを構築する。

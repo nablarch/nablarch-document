@@ -15,7 +15,6 @@
 import sys
 import os
 import shlex
-from datetime import date
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -48,8 +47,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'∇Nablarch '
-copyright = u'2010-' + str(date.today().year) + u', TIS Inc'
-author = u'TIS Inc'
+copyright = u'2010, TISI Inc'
+author = u'TISI Inc'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -237,7 +236,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
   (master_doc, 'Nablarch.tex', u'Nablarch解説書 Documentation',
-   u'TIS Inc', 'manual'),
+   u'TISI Inc', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

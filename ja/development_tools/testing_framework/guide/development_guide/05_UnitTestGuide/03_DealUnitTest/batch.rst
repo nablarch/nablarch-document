@@ -77,7 +77,7 @@ no  description   expectedStatusCode  setUpTable setUpFile expectedTable  expect
 === ============= ==================  ========== ========= ============== ============ ===============
 
 
-1テストケースを複数シートを分割する場合
+1テストケースを複数シートに分割する場合
 =======================================
 
                                            
@@ -101,7 +101,7 @@ no  description   expectedStatusCode  setUpTable setUpFile expectedTable  expect
          // 入力ファイルをテンポラリテーブルに登録
          execute("testSuccess_fileInput");
       
-         // テンポラリテーブルの情報をユーザ関連テーブルを削除
+         // テンポラリテーブルの情報をもとにユーザ関連テーブルを削除
          execute("testSuccess_userDelete");
       
          // 結果をファイル出力

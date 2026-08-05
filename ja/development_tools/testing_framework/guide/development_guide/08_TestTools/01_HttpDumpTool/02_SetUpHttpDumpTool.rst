@@ -68,7 +68,7 @@ Eclipseとの連携
 設定画面起動
 ------------
 
-ツールバーから、ウィンドウ(Window)→設定(Prefernce)を選択する。
+ツールバーから、ウィンドウ(Window)→設定(Preference)を選択する。
 左側のペインから一般(General)→エディタ(Editors)→ファイルの関連付け(File Associations)
 を選択、右側のペインから*.htmlを選択し、追加(Add)ボタンを押下する。
 

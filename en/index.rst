@@ -10,7 +10,7 @@
 Nablarch
 =======================
 
-Nablarch is a Java application development and execution platform that integrates the knowledge gained from extensive experience of TIS in building mission-critical systems.
+Nablarch is a Java application development and execution platform that integrates the knowledge gained from extensive experience of TISI in building mission-critical systems.
 
 .. toctree::
   :maxdepth: 1
@@ -48,9 +48,19 @@ Nablarch Application Framework
 Nablarch development tool
 -----------------------------------------------
 
-  | :doc:`Efficient java static checks <development_tools/java_static_analysis/index>` 
+  | :doc:`Efficient java static checks <development_tools/java_static_analysis/index>`
   | :doc:`Testing framework <development_tools/testing_framework/index>`
-  | :doc:`Useful tools for developing applications <development_tools/toolbox/index>` 
+  | :doc:`Useful tools for developing applications <development_tools/toolbox/index>`
+  | :doc:`AI Coding Assistance <development_tools/ai_tools/index>`
+
+.. tip::
+   **🤖 Accelerate Nablarch Development with AI**
+
+   With the :doc:`Nablarch-specific AI Coding Tool Plugin <development_tools/ai_tools/nabledge/index>`,
+   you can instantly check Nablarch specifications and implementation methods by simply typing ``/n6``
+   in Claude Code / GitHub Copilot.
+
+   For more details, see :doc:`AI Coding Assistance <development_tools/ai_tools/index>`.
 
 -----------------------------------------------
 Useful content for development in Nablarch

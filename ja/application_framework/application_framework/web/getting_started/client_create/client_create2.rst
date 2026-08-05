@@ -99,7 +99,7 @@
       @Domain("industryCode")
       private String industryCode;
 
-   messages.properties
+  messages.properties
     .. code-block:: jproperties
 
       #その他のメッセージは省略

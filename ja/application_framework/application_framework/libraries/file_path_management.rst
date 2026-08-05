@@ -60,7 +60,7 @@
     例えば、JbossやWildflyでは、vfsと呼ばれるバーチャルファイルシステムで、
     クラスパス配下のリソースが管理されるため、classpathスキームは使用できない。
 
-    このため、classpthスキームではなくfileスキームを使用することを推奨する。
+    このため、classpathスキームではなくfileスキームを使用することを推奨する。
 
 
 
@@ -102,11 +102,11 @@
 .. code-block:: java
 
   // /var/nablarch/input/users.csv
-  File users = filePathSetting.getFileWithoutCreate("csv-input", "users")
+  File users = filePathSetting.getFileWithoutCreate("csv-input", "users");
 
   //  /var/nablarch/output
   File csvOutputDir = filePathSetting.getBaseDirectory("csv-output");
 
   // /var/nablarch/input/users
-  File users = filePathSetting.getFileWithoutCreate("fixed-file-input", "users")
+  File users = filePathSetting.getFileWithoutCreate("fixed-file-input", "users");
 

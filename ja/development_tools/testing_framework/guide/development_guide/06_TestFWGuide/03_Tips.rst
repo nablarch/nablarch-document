@@ -15,7 +15,7 @@
 * :ref:`using_TestDataParser`
 * :ref:`using_junit_annotation`
 * :ref:`using_transactions`
-* :ref:`using_ohter_class`
+* :ref:`using_other_class`
 * :ref:`how_to_assert_property_from_excel`
 * :ref:`tips_test_data`
 * :ref:`how_to_express_empty_line`
@@ -56,11 +56,11 @@ Excelファイルから、入力パラメータや戻り値に対する期待値
         public void testGetName() {
            // Excelファイルからデータ取得
            List<Map<String, String>> parameters = getListMap("testGetName", "parameters");
-           Map<String, String>> param = parameters.get(0);
+           Map<String, String> param = parameters.get(0);
 
            // 引数および期待値を取得
-           String empNo = parameter.get("empNo");
-           String expected = parameter.get("expected");
+           String empNo = param.get("empNo");
+           String expected = param.get("expected");
 
            // テスト対象メソッド起動
            EmployeeComponent target = new EmployeeComponent();
@@ -96,7 +96,7 @@ empNo        expected
   list.add(first);
   Map<String, String> second = new HashMap<String, String>();
   second.put("empNo","00002");
-  map.put("expected", "鈴木一郎");
+  second.put("expected", "鈴木一郎");
   list.add(second);
 
 
@@ -125,12 +125,12 @@ empNo        expected
            setUpDb("testSelectByPk");
 
            // Excelファイルからデータ取得
-           List<Map<String, String>> parameters = getListMap("testGetName", "parameters");
+           List<Map<String, String>> parameters = getListMap("testSelectByPk", "parameters");
 
            for (Map<String, String> param : parameters) {
                // 引数および期待値を取得
-               String empNo = parameter.get("empNo");
-               String expectedDataId = parameter.get("expectedDataId");
+               String empNo = param.get("empNo");
+               String expectedDataId = param.get("expectedDataId");
 
                // テスト対象メソッド起動
                EmployeeComponent target = new EmployeeComponent();
@@ -318,7 +318,7 @@ FixedSystemTimeProviderを指定し、そのプロパティに任意の日時を
 
   <component name="systemTimeProvider"
       class="nablarch.test.FixedSystemTimeProvider">
-    <property name="fixedDate" value="20100913123456" />
+    <property name="fixedDate" value="20100914123456" />
   </component>
 
     
@@ -492,7 +492,7 @@ U00001       RS000001     ja_JP
 シート名を指定するだけで読み込み可能であるが、別のディレクトリに存在するファイルを
 読み込みたい場合は、TestDataParser実装クラスを直接使用することで取得できる。
 
-"/foo/bar/"に存在する"Buz.xlsx"というファイルからデータを読み込む場合の例を以下に示す。
+"/foo/bar/"に存在する"Baz.xlsx"というファイルからデータを読み込む場合の例を以下に示す。
 
 テストソースコード実装例
 ============================
@@ -520,7 +520,7 @@ JUnit4で用意されたアノテーション(@Before, @After, @BeforeClass, @Af
 @BeforeClass, @AfterClass使用時の注意点
 ---------------------------------------
 
- * サブクラスにて、スーパークラスと同名の名前、同じアノテーションを付与のメソッドを作成しないこと。
+ * サブクラスにて、スーパークラスと同名で同じアノテーションを付与したメソッドを作成しないこと。
    同名のメソッドに同種のアノテーションを付与した場合、スーパークラスのメソッドは起動されなくなる。
 
  .. code-block:: java
@@ -566,7 +566,7 @@ JUnit4で用意されたアノテーション(@Before, @After, @BeforeClass, @Af
  * テストクラスにてDbAccessTestSupportを継承する（これにより、スーパークラスの@Before、@Afterメソッドが自動的に呼び出される）。
 
 
-.. _using_ohter_class:
+.. _using_other_class:
 
 --------------------------------------------------------
 本フレームワークのクラスを継承せずに使用したい
@@ -656,8 +656,9 @@ JUnit4で用意されたアノテーション(@Before, @After, @BeforeClass, @Af
                     // users のプロパティ kanjiName,kanaName,mailAddress を検証。
                     assertObjectPropertyEquals(message, sheetName, "expectedUsers", users);
                 }
-            }
+            });
         }
+    }
         
 Excelファイル記述例
 ========================

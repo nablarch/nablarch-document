@@ -39,7 +39,7 @@ HealthCheckEndpointHandlerのhealthCheckersプロパティにRedisHealthChecker�
     </component>
 
 RedisHealthCheckerは :java:extdoc:`LettuceRedisClient<nablarch.integration.redisstore.lettuce.LettuceRedisClient>` を使って、
-キーの存在確認を行い、例外が発生しなけければヘルスチェックが成功と判断する。キーは存在しなくてよい。
+キーの存在確認を行い、例外が発生しなければヘルスチェックが成功と判断する。キーは存在しなくてよい。
 LettuceRedisClient については :ref:`redisstore_redis_client_config_client_classes` を参照。
 
 キーを変更したい場合はRedisHealthCheckerのkeyプロパティに指定する。

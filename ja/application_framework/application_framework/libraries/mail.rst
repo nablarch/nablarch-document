@@ -439,7 +439,7 @@
  mailRequest.setVariable("address", "住所");
  mailRequest.setVariable("tel", "電話番号");
  // 以下のように値にnullを設定した場合、空文字列で置き換えが行われる。
- mailRequest.setVariable("opeion", null);
+ mailRequest.setVariable("option", null);
 
  // 添付ファイルを設定する。
  AttachedFile attachedFile = new AttachedFile("text/plain", new File("path/to/file"));
@@ -549,7 +549,7 @@
     - 変換に失敗したアドレスをログ出力(ログレベル: ERROR)する。
   * - :ref:`mail-mail_header_injection` での :java:extdoc:`InvalidCharacterException<nablarch.common.mail.InvalidCharacterException>`
     - ヘッダ文字列をログ出力(ログレベル: ERROR)する。
-  * - メール送信失敗時の :java:extdoc:`Jakarta MailのSendFailureException <jakarta.mail.SendFailedException>`
+  * - メール送信失敗時の :java:extdoc:`Jakarta MailのSendFailedException <jakarta.mail.SendFailedException>`
     - 送信されたアドレス、送信されなかったアドレス、不正なアドレスをログ出力(ログレベル: ERROR)する。
   * - 上記以外のメール送信時の :java:extdoc:`Exception <java.lang.Exception>`
     - 例外をラップしてリトライ例外を送出する。
