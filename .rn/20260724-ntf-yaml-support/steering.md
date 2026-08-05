@@ -254,7 +254,9 @@ Rn version: 0.8.0
 `input/ntf-doc-terms.md`・`ntf-testdata-doc-examples-testshots.md`・`ntf-testdata-loading.md`に分散）。
 **#10 = テストデータの記載例**（`implementation/testdata_examples.rst`、機能概要なしの例外ページ）が続く。
 
-**前方参照によるスタブページ**: #8で`setup/junit5_extension.rst`・`tools/testdata_converter.rst`を見出しのみで作成し、`setup/index.rst`・`tools/index.rst`のtoctreeに追記済み（undefined label警告解消のため。2026-08-05）。該当ページのタスクが来たら、新規作成ではなく既存ファイルへの追記として扱う。同様に他ページからの前方参照でundefined label警告が出た場合も、対象ページの見出しのみのスタブを先行作成し対応するtoctreeに追記する運用とする（毎回の警告差分確認の手間を減らすため）。
+**前方参照によるスタブページ**: #8で`setup/junit5_extension.rst`・`tools/testdata_converter.rst`を見出しのみで作成し、`setup/index.rst`・`tools/index.rst`のtoctreeに追記済み（undefined label警告解消のため。2026-08-05）。該当ページのタスクが来たら、新規作成ではなく既存ファイルへの追記として扱う。同様に他ページからの前方参照でundefined label警告が出た場合も、対象ページの見出しのみのスタブを先行作成し対応するtoctreeに追記する運用とする（毎回の警告差分確認の手間を減らすため）。#9の作業で同じ理由により`implementation/testdata_examples.rst`（`#10`用）を見出しのみで先行作成し`implementation/index.rst`のtoctreeに追記済み。
+
+**#9の進捗（2026-08-05）**: 下記共通StepsのうちDocker確認までを完了。4観点レビュー（各観点別サブエージェント）を実施し、`must`区分10件（A-1・A-2・B-F02〜F10・T-01・T-02・D-1）を解消、`note`区分2件（D-3・D-5）は記録のみで対応不要と判断。`decide`区分3件（A-3・B-F01・D-4）はユーザー判断待ちで残っている。詳細は`reviews/page-testdata_notation.md`・`checks/task-09.md`参照。**user review未了**（`decide`3件への回答を含む）。
 
 **Steps（各ページ共通）**:
 
@@ -325,10 +327,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: not suspended
 - **Date**: 2026-08-05
-- **Last completed**: #8 user review 承認（`/rn:ty`）。#9のページ・ページIDを確定: テストデータの書き方
-  (`implementation/testdata_notation.rst`)、対象140行(`dest_page=テストデータの書き方`)。steering.mdの#8エントリを
-  圧縮しDONE化。
-- **Next**: #9（テストデータの書き方）に着手。`mapping.csv`から対象行を抽出し出典を実際に読んでページを作成する
-  （Steps は「#9〜: ページの作成（1ページにつき1タスク）」節の共通Stepsに従う）。
-- **Notes**: ブランチ `work`、`origin`(`lovaizu` fork)へ push 済み(PR未作成)。ブロッカーなし。ユーザー未解決の指摘なし。
-  `_build/`はユーザーがブラウザで直接レビューするため今後Docker確認後も削除しない。
+- **Last completed**: #9（テストデータの書き方、`implementation/testdata_notation.rst`）を作成。`implementation/testdata_examples.rst`（`#10`用スタブ）・`implementation/index.rst`のtoctree更新も実施。4観点レビュー（別サブエージェント）で`must`10件を解消、Dockerフルビルドで`build succeeded, 1 warning`（既知の`db_double_submit.rst`のみ、新規警告0件）を確認。`verify_mapping.py`は594行/12,986/11,983不変・exit0。
+- **Next**: #9の`decide`3件（A-3: testShots必須カラムの出典間対立／B-F01: L4相当の太字疑似見出しパターン／D-4: `about/index.rst`特徴3点目の参照見直し）についてユーザー判断を仰ぎ、`/rn:ty`（承認）または`/rn:gm`（修正）を得る。承認後は`#10`（テストデータの記載例、作成順は#9の次）へ進む。
+- **Notes**: ブランチ `work`、`origin`(`lovaizu` fork)へ push 済み(PR未作成)。ブロッカーなし。`_build/`はユーザーがブラウザで直接レビューするため今後Docker確認後も削除しない。

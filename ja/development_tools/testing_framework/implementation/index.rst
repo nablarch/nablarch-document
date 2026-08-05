@@ -2,3 +2,9 @@
 
 テスティングフレームワークによるテスト実装
 ==================================================
+
+.. toctree::
+   :maxdepth: 1
+
+   testdata_notation
+   testdata_examples
