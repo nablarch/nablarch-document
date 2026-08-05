@@ -9,3 +9,4 @@ Nablarch development tools
    java_static_analysis/index
    testing_framework/index
    toolbox/index
+   ai_tools/index
