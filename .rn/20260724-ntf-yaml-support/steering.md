@@ -323,6 +323,18 @@ Rn version: 0.8.0
       マルチスレッド非対応は別途第4部「ツール」の該当ページ（`current-0365`/`current-0354`）で扱う。
       (3) `#8`のスコープとマッピングは観点A（網羅性）ラウンド3で「13行全件OK、未解決指摘なし」とPASS済み
       （`reviews/page-about_index.md`参照）。Dockerビルドで`build succeeded`・警告0件を確認
+- [x] フィードバック対応（セクションの並び順・ストーリーの見直し、ユーザー提案の「特徴」節新設）を反映。
+      design.md §2を改訂し、並び順を 全体像 → **特徴（新設）** → テストの種類 → アーキテクチャ →
+      テストデータ → 対象範囲 → 稼動環境 に変更（旧: 全体像 → テストの種類 → アーキテクチャ → …から
+      「特徴」を追加）。「特徴」に3点（本番同等の経路／テストコードは定型・少量／Excel・YAML形式を選べる）
+      を要約1〜2文＋詳細セクションへの`:ref:`で追加。マッピング行の`dest_section`は変更していない
+      （要約と実体が1対1対応するため。3点目は`input-0183`が出典で第4部`テストデータ変換ツール`（未作成）
+      に割当済みのまま、`:ref:`先行で導線。`undefined label`警告1件は`#last`ゲートで解消する前提の
+      一時的なものとして許容）。あわせて「テスト種別の正式名称」の独立見出し・「正式名称」という文言を
+      撤回し、テストの種類の対比表に自然文で統合（`:ref:`ラベルは維持、`対象範囲`からの参照文言も更新）。
+      Dockerビルドで`build succeeded`（最終`1 warning`＝上記の想定内`undefined label`）を確認。
+      あわせてsteering.md自体の肥大化対策として`#1`〜`#7`をPurpose/Completion criteriaのみに圧縮し
+      （720行→418行）、タスク完了時に同様の圧縮を行う運用ルールをRulesに追加した
 - [ ] **user review** — 承認を受けるまで #9 に進まない
 
 **Completion criteria**:
@@ -413,6 +425,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-08-05
-- **Last completed**: #8 フィードバック対応（index.rstの読者振り分け文を素直な文章に書き直す、コミット `e56a578`）。Jakarta Batch・マルチスレッド記載箇所とスコープ/マッピング確認状況への回答も完了
+- **Last completed**: #8 フィードバック対応（「特徴」節の新設、テストの種類を前段に、「正式名称」の枠組み撤回。design.md §2改訂・`about/index.rst`反映、コミット `d18c080`/`167472b`/`916eaaa`）。あわせてsteering.md自体を圧縮（`#1`〜`#7`をPurpose/Completion criteriaのみに縮小、コミット `b329c77`）し、タスク完了時の圧縮運用ルールをRulesに追加（コミット `333765e`）
 - **Next**: #8 の user review 承認を待つ。承認後、#9〜（ページ作成、作成順: 第3部のテストデータ2ページ → 第2部 → 第3部の残り → 第4部）に進む
-- **Notes**: ブランチ `work`、リモート `lovaizu` fork へ push 済み（PR未作成）。ブロッカーなし。ユーザー未解決の指摘なし
+- **Notes**: ブランチ `work`、リモート `lovaizu` fork へ push 済み（PR未作成）。ブロッカーなし。ユーザー未解決の指摘なし。`about/index.rst`に`undefined label: testdata_converter`警告1件が残るが、第4部作成時に解消する前提の想定内の警告（`#last`ゲートで最終確認）
