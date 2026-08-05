@@ -59,10 +59,19 @@ Nablarch拡張コンポーネント
 Nablarch開発ツール
 -----------------------------------------------
 
-  | :doc:`効率的なJava静的チェック <development_tools/java_static_analysis/index>` 
-  | :doc:`フロントエンド上級者向けのUI開発基盤 <development_tools/ui_dev/index>`
+  | :doc:`効率的なJava静的チェック <development_tools/java_static_analysis/index>`
   | :doc:`テスティングフレームワーク <development_tools/testing_framework/index>`
-  | :doc:`アプリケーション開発時に使える便利なツール <development_tools/toolbox/index>` 
+  | :doc:`アプリケーション開発時に使える便利なツール <development_tools/toolbox/index>`
+  | :doc:`AIコーディング支援 <development_tools/ai_tools/index>`
+
+.. tip::
+   **🤖 Nablarch開発をAIで加速**
+
+   :doc:`Nablarch専用AIコーディングツール向けプラグイン <development_tools/ai_tools/nabledge/index>` を使えば、
+   Claude Code / GitHub Copilot で ``/n5`` と入力するだけで、
+   Nablarchの仕様・実装方法を即座に確認できます。
+
+   詳しくは :doc:`AIコーディング支援 <development_tools/ai_tools/index>` をご覧ください。
 
 -----------------------------------------------
 Nablarchでの開発に役立つコンテンツ
