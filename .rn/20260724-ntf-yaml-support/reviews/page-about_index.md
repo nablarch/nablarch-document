@@ -275,6 +275,24 @@ R3-B1/B2/B3の3件は着手しない。詳細は下記「観点B再レビュー�
 
 Dockerビルド（`nablarch-document-build-sandboxed`）で`build succeeded`、警告2件（想定内の`undefined label: testdata_converter`・`undefined label: junit5_extension`のみ）を確認。詳細はdesign.md §2「「アーキテクチャ」は図のみとし」節末尾・「モジュール一覧の集約」節末尾を参照。
 
+## ユーザーフィードバック対応（2026-08-05、直接指摘2件・「稼動環境」全廃）
+
+前回ラウンドで追加した「稼動環境」の2見出し（JUnit5用拡張機能/JUnit Vintageそれぞれの依存関係）に対し、
+「詳細はXX参照なので、下記は全体像に不要では？リンク先に書くべきでは？」との指摘。続けて、選択基準の要約文
+（1〜2文＋`:ref:`）に縮小した後も「これも不要では？JUnit5で使いたい場合はXXXを参照、かと。なんでJUnit5の説明を
+全体像に書こうとするの？このページは後続に共通する前提を書くんだよね」との追加指摘を受けた。
+
+第1部は「両読者の共通前提」（design.md §1）を書くページであり、「JUnit4がベースだがJUnit5も使える」という
+対応バージョンの事実はpremiseだが、「2つの方法のどちらを選ぶか」という選択基準・依存関係の生データは
+premiseではなく、JUnit5を使う読者だけが必要とする使用方法レベルの情報と判断。`#6`当時の「依存関係は第1部に
+集約する」という方針自体を撤回し、`current-0180`/`current-0267`を第2部「JUnit 5用拡張機能」使用方法へ
+差し戻した。「稼動環境」は「テスティングフレームワークは、JUnit 4をベースに動作する。JUnit 5で使用する場合は、
+`:ref:`\`JUnit 5用拡張機能 <junit5_extension>`\`を参照。」の1文のみに縮小した。
+
+`mapping.csv`・`design.md`§2・`volume.md`・`verify_mapping.py`（`EXPECTED_ZERO_SECTIONS`に第1部「稼動環境」を
+追加）を更新し、`verify_mapping.py`エラー0件を確認。Dockerビルドで`build succeeded`、警告2件（想定内の
+`undefined label: testdata_converter`・`undefined label: junit5_extension`のみ）を確認。
+
 ## 申し送り事項
 
 - **R1-D2（更新: `/rn:gm`フィードバック対応で`about/index.rst`から移動済み）**: 「マスタデータ投入ツール」

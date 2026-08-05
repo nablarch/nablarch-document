@@ -228,12 +228,13 @@ Rn version: 0.8.0
 
 **ページID**: `about_index`（`reviews/page-about_index.md` / `checks/task-08.md` を使う）
 
-対象 `mapping_id`（`dest_page=テスティングフレームワークとは`、10行、`DROP`なし。2026-08-05 #8フィードバック対応で
-`input-0002`/`input-0116`（データブロックの記法仕様、計49行）を第3部「テストデータの書き方」へ再割当したため
-13行→11行。同日の`/rn:gm`フィードバック対応で「テストデータ」節を廃止し、`current-0175`（テストの独立性、26行）
-も同ページへ再割当したため11行→10行。詳細は本タスクStepsの当該項目・`design.md`§2・`mapping.csv`を参照）:
+対象 `mapping_id`（`dest_page=テスティングフレームワークとは`、8行、`DROP`なし。2026-08-05に複数回の
+フィードバック対応で再割当が発生: `input-0002`/`input-0116`（記法仕様）を第3部「テストデータの書き方」へ
+（13行→11行）、`current-0175`（テストの独立性）を同ページへ（11行→10行）、`current-0180`/`current-0267`
+（JUnit依存関係）を第2部「JUnit 5用拡張機能」へ（10行→8行）。詳細は本タスクStepsの当該項目・`design.md`§2・
+`mapping.csv`を参照）:
 `current-0162`, `current-0163`, `current-0164`, `current-0166`, `current-0176`,
-`current-0180`, `current-0267`, `current-0377`, `current-0165`, `input-0028`
+`current-0377`, `current-0165`, `input-0028`
 
 出典（削除済みのため base commit `c24190607fef5d76c607aa08b36d2ab2f813efe5` から `git show` で取得）:
 `.../06_TestFWGuide/01_Abstract.rst`, `.../06_TestFWGuide/JUnit5_Extension.rst`,
@@ -284,6 +285,12 @@ Rn version: 0.8.0
       第3部「テストデータの書き方」へ再割当。commit `ef9d245`
 - [x] フィードバック対応(5ラウンド目、ユーザー直接指摘3点): 「アーキテクチャ」導入文と「稼動環境」の依存関係説明
       （JUnit 5用拡張機能 / JUnit Vintageの選択基準）を改善。commit `c2e5942`
+- [x] フィードバック対応(6ラウンド目、ユーザー直接指摘2件): 「稼動環境」から依存関係の生データ・選択基準の説明を
+      全廃し、「JUnit 4がベース。JUnit 5で使う場合は`:ref:`参照」の1文のみに縮小。`#6`の「依存関係は第1部に集約する」
+      方針そのものを撤回し、`current-0180`/`current-0267`を第2部「JUnit 5用拡張機能」使用方法へ差し戻した
+      （`mapping.csv`/`design.md`§2/`volume.md`/`verify_mapping.py`のEXPECTED_ZERO_SECTIONS更新、エラー0件）。
+      「このページは後続に共通する前提を書く」という第1部の役割に立ち返り、選択肢の説明は使用方法レベルの
+      情報として第2部に譲るべきと判断。Dockerビルドで`build succeeded`（想定内warning2件）を確認。
 
 （各ラウンドの指摘内容・判断理由・出典根拠は`design.md`§2、`reviews/page-about_index.md`、上記コミットログを参照。
 2026-08-05、ユーザー指摘「文量が大量なんだけど、こんなに必要なの？」を受けて本Stepsを圧縮した。旧本文は
@@ -292,7 +299,7 @@ Rn version: 0.8.0
 
 **Completion criteria**:
 
-- `mapping.csv` の `dest_page=テスティングフレームワークとは` の全行（10行、`#8`の複数回のフィードバック対応による
+- `mapping.csv` の `dest_page=テスティングフレームワークとは` の全行（8行、`#8`の複数回のフィードバック対応による
   再割当を経て確定。詳細は本タスク冒頭の対象`mapping_id`一覧を参照）が反映されている
 - 4観点のレビューがすべて実施・記録されている
 - 未対応の指摘が残っていない、または残す判断とその理由が記録されている
@@ -379,15 +386,14 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-08-05
-- **Last completed**: #8 フィードバック対応・5ラウンド目（2026-08-05、ユーザー直接指摘3点、`/rn:gm`を介さず）。
-  (1) 「アーキテクチャ」導入文を、図が示す関係（本番同等の基盤で動作すること等）を説明する内容に書き直し、
-  (2)(3) 「稼動環境」の「モジュール一覧」を「JUnit 5用拡張機能を使う場合の依存関係」「JUnit Vintageを使う場合の
-  依存関係」の2見出しに分割し、冒頭に選択基準の要約と第2部への`:ref:`導線を追加。Dockerビルド確認済み
-  （`build succeeded`、想定内warning2件: `testdata_converter`・`junit5_extension`）。詳細は`reviews/page-about_index.md`
-  「ユーザーフィードバック対応（2026-08-05、直接指摘3点）」参照。
-  （4ラウンド目`/rn:gm`4点対応の内容: (1) 「全体像」冒頭のユーザー自身による段落分割を維持、(2) 「テストコードは
-  定型かつ少量で済む」に外部化の事実と基幹システムの規模ゆえの必然性を追記、(3) 「アーキテクチャ」は
-  アーキテクト限定にすべきとの指摘を検討のうえ維持と判断、(4) 「テストデータ」節（H2見出し）を廃止し外部化は
-  「特徴」へ統合・独立性は第3部「テストデータの書き方」へ再割当。マスタデータ投入ツールは非推奨ではないことを確認済み）
+- **Last completed**: #8 フィードバック対応・6ラウンド目（2026-08-05、ユーザー直接指摘2件、`/rn:gm`を介さず）。
+  「稼動環境」から依存関係の生データ・選択基準の説明を全廃し、「JUnit 4がベース。JUnit 5で使う場合は`:ref:`参照」の
+  1文のみに縮小。`#6`の「依存関係は第1部に集約する」方針を撤回し、`current-0180`/`current-0267`を第2部
+  「JUnit 5用拡張機能」使用方法へ差し戻した（`mapping.csv`/`design.md`§2/`volume.md`/`verify_mapping.py`更新、
+  エラー0件）。「第1部は後続に共通する前提を書くページ」という原則に立ち返り、選択肢の説明は使用方法レベルの
+  情報として第2部に譲るべきと判断。Dockerビルド確認済み（`build succeeded`、想定内warning2件:
+  `testdata_converter`・`junit5_extension`）。
+  （5ラウンド目の内容: 「アーキテクチャ」導入文を図が示す関係の説明に書き直し。4ラウンド目: 「テストデータ」節
+  （H2見出し）を廃止し外部化は「特徴」へ統合・独立性は第3部へ再割当。詳細は`reviews/page-about_index.md`参照）
 - **Next**: #8 の user review 承認を待つ。承認後、#9〜（ページ作成、作成順: 第3部のテストデータ2ページ → 第2部 → 第3部の残り → 第4部）に進む
 - **Notes**: ブランチ `work`、`origin`（`lovaizu` fork）へ push 済み（PR未作成）。ブロッカーなし。ユーザー未解決の指摘なし。`about/index.rst`に`undefined label`警告2件（`testdata_converter`・`junit5_extension`）が残るが、それぞれ第4部・第2部の該当ページ作成時に解消する前提の想定内の警告（`#last`ゲートで最終確認）
