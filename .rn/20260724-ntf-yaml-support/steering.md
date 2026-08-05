@@ -323,6 +323,8 @@ Rn version: 0.8.0
 
 タスク番号・ページIDは #8 完了後、ページごとに確定する。
 
+**前方参照によるスタブページ**: #8で`setup/junit5_extension.rst`・`tools/testdata_converter.rst`を見出しのみで作成し、`setup/index.rst`・`tools/index.rst`のtoctreeに追記済み（undefined label警告解消のため。2026-08-05）。該当ページのタスクが来たら、新規作成ではなく既存ファイルへの追記として扱う。同様に他ページからの前方参照でundefined label警告が出た場合も、対象ページの見出しのみのスタブを先行作成し対応するtoctreeに追記する運用とする（毎回の警告差分確認の手間を減らすため）。
+
 **Steps（各ページ共通）**:
 
 - [ ] `mapping.csv` から当該 `dest_page` の行を抽出する
