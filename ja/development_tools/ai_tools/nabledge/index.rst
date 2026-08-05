@@ -60,7 +60,7 @@ Nablarchのドキュメント全体から関連セクションを検索し、コ
 
 **回答例**
 
-.. image:: _image/nabledge_knowledge_search_sample.png
+.. image:: _image/nabledge_knowledge_search_example_ja.png
    :alt: 知識検索の回答例
    :scale: 80%
 
@@ -89,13 +89,13 @@ Nablarchのドキュメント全体から関連セクションを検索し、コ
 
 クラス依存関係図とコンポーネント概要:
 
-.. image:: _image/nabledge_class_dependency_diagram.png
+.. image:: _image/nabledge_class_dependency_diagram_ja.png
    :alt: クラス依存関係図とコンポーネント概要
    :scale: 70%
 
 処理フロー図（シーケンス図）:
 
-.. image:: _image/nabledge_sequence_diagram.png
+.. image:: _image/nabledge_sequence_diagram_ja.png
    :alt: 処理フロー図
    :scale: 70%
 
