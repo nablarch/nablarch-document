@@ -407,6 +407,20 @@ Rn version: 0.8.0
       「テストデータ」を削除）を更新し、`verify_mapping.py`エラー0件を確認。対応後にページを通し読みし、
       節削除に伴う浮いた参照が無いことを確認。Dockerビルドで`build succeeded`（想定内の`undefined label`警告1件のみ）
       を確認。詳細は`reviews/page-about_index.md`「`/rn:gm`フィードバック対応（2026-08-05、4点）」参照。
+- [x] ユーザーからの直接フィードバック（`/rn:gm`を介さない指摘3点）を反映。
+      (1) 「アーキテクチャ」導入文が「それで？となる」との指摘を受け、図（`abstract_structure.png`）を実際に確認し、
+      テストクラスがテスト対象クラスを直接呼び出す・テスト対象クラスは本番と同じくNablarch Application Frameworkを
+      介して動作する・テストデータはExcelファイルからテスティングフレームワーク経由で供給される、という関係と
+      「本番同等の基盤上でテストできる」という結論を導入文に明記（削除済みの構成物一覧表の復元ではなく図の意味の説明）。
+      (2)(3) 「稼動環境」の「モジュール一覧」見出しが「JUnit5の話では」、JUnit Vintageの説明が「選択肢があるのか
+      選択基準は」との指摘を受け、「モジュール一覧」を「JUnit 5用拡張機能を使う場合の依存関係」「JUnit Vintageを
+      使う場合の依存関係」の2見出しに分割し、冒頭に選択基準（新規テストをJUnit5で書きたいか、既存のJUnit4テストを
+      そのまま動かしたいだけか。併用可）を要約し`:ref:`\`JUnit 5用拡張機能 <junit5_extension>`\`（第2部、未作成）へ
+      導線。選択基準の出典（`current-0178`/`current-0265`）は第2部`機能概要`に割当済みのままとし、マッピング行は
+      変更せず要約＋`:ref:`にとどめた（「特徴」3点目Excel/YAMLと同型）。`design.md`§2を更新し、`junit5_extension`
+      未定義ラベル警告が新たに1件増える（`#last`ゲートで解消する想定内の警告）ことを記録。Dockerビルドで
+      `build succeeded`（想定内warning2件: `testdata_converter`・`junit5_extension`）を確認。詳細は
+      `reviews/page-about_index.md`「ユーザーフィードバック対応（2026-08-05、直接指摘3点）」参照。
 - [ ] **user review** — 承認を受けるまで #9 に進まない
 
 **Completion criteria**:
@@ -498,12 +512,15 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-08-05
-- **Last completed**: #8 フィードバック対応・4ラウンド目（2026-08-05、`/rn:gm`、4点）。(1) 「全体像」冒頭のユーザー自身
-  による段落分割を維持、(2) 「テストコードは定型かつ少量で済む」に外部化の事実と基幹システムの規模ゆえの
-  必然性を追記、(3) 「アーキテクチャ」はアーキテクト限定にすべきとの指摘を検討のうえ維持と判断、(4) 「テストデータ」
-  節（H2見出し）を廃止し、外部化は「特徴」へ統合・独立性（マスタデータ投入ツール等のtip含む）は第3部
-  「テストデータの書き方」へ再割当（`mapping.csv`/`design.md`/`volume.md`/`vocabulary.md`/`verify_mapping.py`更新、
-  エラー0件）。マスタデータ投入ツールは非推奨ではないことを確認済み。Dockerビルド確認済み（`build succeeded`、
-  想定内warning1件のみ）。詳細は`reviews/page-about_index.md`参照
+- **Last completed**: #8 フィードバック対応・5ラウンド目（2026-08-05、ユーザー直接指摘3点、`/rn:gm`を介さず）。
+  (1) 「アーキテクチャ」導入文を、図が示す関係（本番同等の基盤で動作すること等）を説明する内容に書き直し、
+  (2)(3) 「稼動環境」の「モジュール一覧」を「JUnit 5用拡張機能を使う場合の依存関係」「JUnit Vintageを使う場合の
+  依存関係」の2見出しに分割し、冒頭に選択基準の要約と第2部への`:ref:`導線を追加。Dockerビルド確認済み
+  （`build succeeded`、想定内warning2件: `testdata_converter`・`junit5_extension`）。詳細は`reviews/page-about_index.md`
+  「ユーザーフィードバック対応（2026-08-05、直接指摘3点）」参照。
+  （4ラウンド目`/rn:gm`4点対応の内容: (1) 「全体像」冒頭のユーザー自身による段落分割を維持、(2) 「テストコードは
+  定型かつ少量で済む」に外部化の事実と基幹システムの規模ゆえの必然性を追記、(3) 「アーキテクチャ」は
+  アーキテクト限定にすべきとの指摘を検討のうえ維持と判断、(4) 「テストデータ」節（H2見出し）を廃止し外部化は
+  「特徴」へ統合・独立性は第3部「テストデータの書き方」へ再割当。マスタデータ投入ツールは非推奨ではないことを確認済み）
 - **Next**: #8 の user review 承認を待つ。承認後、#9〜（ページ作成、作成順: 第3部のテストデータ2ページ → 第2部 → 第3部の残り → 第4部）に進む
-- **Notes**: ブランチ `work`、`origin`（`lovaizu` fork）へ push 済み（PR未作成）。ブロッカーなし。ユーザー未解決の指摘なし。`about/index.rst`に`undefined label: testdata_converter`警告1件が残るが、第4部作成時に解消する前提の想定内の警告（`#last`ゲートで最終確認）
+- **Notes**: ブランチ `work`、`origin`（`lovaizu` fork）へ push 済み（PR未作成）。ブロッカーなし。ユーザー未解決の指摘なし。`about/index.rst`に`undefined label`警告2件（`testdata_converter`・`junit5_extension`）が残るが、それぞれ第4部・第2部の該当ページ作成時に解消する前提の想定内の警告（`#last`ゲートで最終確認）
