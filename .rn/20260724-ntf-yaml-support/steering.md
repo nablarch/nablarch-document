@@ -291,6 +291,12 @@ Rn version: 0.8.0
       （`mapping.csv`/`design.md`§2/`volume.md`/`verify_mapping.py`のEXPECTED_ZERO_SECTIONS更新、エラー0件）。
       「このページは後続に共通する前提を書く」という第1部の役割に立ち返り、選択肢の説明は使用方法レベルの
       情報として第2部に譲るべきと判断。Dockerビルドで`build succeeded`（想定内warning2件）を確認。
+- [x] トップレベル`ja/development_tools/testing_framework/index.rst`の`toctree`を`:maxdepth: 1`から`:maxdepth: 2`に
+      変更し、`about/index.rst`のH2見出し（全体像/テストの種類/アーキテクチャ/稼動環境）がtoctreeにネスト表示される
+      ようにした（`nablarch/index.rst`の既存の`:maxdepth: 2`使用例を確認し同様の挙動をビルド済みHTMLで実証してから
+      適用）。Dockerでフルビルド（`-d`キャッシュなし）し`build succeeded, 3 warnings`を確認。3件目
+      （`db_double_submit.rst`の`how_to_set_token_in_request_unit_test`未定義ラベル）は`#7`から追跡済みの
+      既知警告であり、本変更による新規警告ではないことを確認済み（`checks/task-07.md`参照）。
 
 （各ラウンドの指摘内容・判断理由・出典根拠は`design.md`§2、`reviews/page-about_index.md`、上記コミットログを参照。
 2026-08-05、ユーザー指摘「文量が大量なんだけど、こんなに必要なの？」を受けて本Stepsを圧縮した。旧本文は

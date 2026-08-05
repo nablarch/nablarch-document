@@ -3,7 +3,7 @@
 テスティングフレームワークは、JUnitをベースに、Nablarchアプリケーションのテストを補助する機能を提供するフレームワークである。
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    about/index
    setup/index
