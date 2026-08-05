@@ -390,14 +390,4 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-05
-- **Last completed**: トップレベル`ja/development_tools/testing_framework/index.rst`のtoctreeを`:maxdepth: 2`化し、
-  `about/index.rst`のH2見出しがナビゲーションに表示されるようにした（commit `9198e22`）。続けて「ページの目的を
-  達成しているか」の検討を行い、「稼動環境」セクション（1文のみ）を全体像へ畳み込む案を一度提案したが、
-  「文量ではなく読者にとってどうか」という指摘を受けて撤回。TOCから直接ジャンプできる独立見出しであることの
-  読者価値（JUnit5互換性の可否を本文を読まずに確認できる）を優先し、独立セクションのまま維持と結論（コード変更なし、
-  議論のみ）。#8の6ラウンド分のフィードバック対応（`ef9d245`〜`a6baf64`）はいずれもcommit・push済み。
-  詳細は`reviews/page-about_index.md`参照
-- **Next**: #8 の user review 承認を待つ。承認後、#9〜（ページ作成、作成順: 第3部のテストデータ2ページ → 第2部 → 第3部の残り → 第4部）に進む
-- **Notes**: ブランチ `work`、`origin`（`lovaizu` fork）へ push 済み（PR未作成）。ブロッカーなし。ユーザー未解決の指摘なし。`about/index.rst`に`undefined label`警告2件（`testdata_converter`・`junit5_extension`）が残るが、それぞれ第4部・第2部の該当ページ作成時に解消する前提の想定内の警告（`#last`ゲートで最終確認）
+- **Status**: not suspended
