@@ -92,8 +92,9 @@
             
             // 結果確認
             // Excelに記載した期待値と実際の値が等しいことを確認する
-            // 引数には期待値を格納したシート名, 期待値のID, 実際の値を指定
-            assertSqlResultSetEquals("testSelectAll", "expected", actual);
+            // 引数には比較失敗時のメッセージ, 期待値を格納したシート名, 期待値のID, 実際の値を指定
+            assertSqlResultSetEquals("従業員テーブルに登録されたレコードを全件取得できること",
+                                     "testSelectAll", "expected", actual);
         }
     }
 
