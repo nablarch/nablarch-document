@@ -615,6 +615,15 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
       `sphinx-build`で`Malformed table`エラー（`ERROR`だが集計上は`1 warning`）を検出→
       `unicodedata.east_asian_width`で表示幅を再計算し是正、`build succeeded`・警告0件に復帰したことを
       確認した
+- [x] フィードバック対応（トップレベル `index.rst` の読者振り分け文を素直な文章に書き直す）を反映。理由づけの
+      複文（「〜としてまとめているため、まずこのページを読めば、以降は…」）を、役割ごとに1文で書く短文3つに
+      分解し、語尾をFW解説書ライブラリの慣用表現「〜を参照すること。」に合わせた（コミット `e56a578`）。
+      あわせてユーザーから確認のあった3点に回答: (1) Jakarta Batch未対応は `about/index.rst`「対象範囲」節
+      143行目（`current-0377`が出典、design.md§2の対象範囲定義に対応）に記載済み。(2) マルチスレッド機能の
+      テストは同節147行目（同じく`current-0377`が出典）に記載済み。マスタデータ投入ツール自体の
+      マルチスレッド非対応は別途第4部「ツール」の該当ページ（`current-0365`/`current-0354`）で扱う。
+      (3) `#8`のスコープとマッピングは観点A（網羅性）ラウンド3で「13行全件OK、未解決指摘なし」とPASS済み
+      （`reviews/page-about_index.md`参照）。Dockerビルドで`build succeeded`・警告0件を確認
 - [ ] **user review** — 承認を受けるまで #9 に進まない
 
 **Completion criteria**:
@@ -703,8 +712,8 @@ self-check記述の実態不一致1件）の対応。`design.md`/`mapping.csv` �
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: YYYY-MM-DD
-- **Last completed**: #N description
-- **Next**: #N description
-- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
+- **Status**: paused
+- **Date**: 2026-08-05
+- **Last completed**: #8 フィードバック対応（index.rstの読者振り分け文を素直な文章に書き直す、コミット `e56a578`）。Jakarta Batch・マルチスレッド記載箇所とスコープ/マッピング確認状況への回答も完了
+- **Next**: #8 の user review 承認を待つ。承認後、#9〜（ページ作成、作成順: 第3部のテストデータ2ページ → 第2部 → 第3部の残り → 第4部）に進む
+- **Notes**: ブランチ `work`、リモート `lovaizu` fork へ push 済み（PR未作成）。ブロッカーなし。ユーザー未解決の指摘なし
