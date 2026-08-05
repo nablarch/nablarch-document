@@ -224,9 +224,11 @@ Rn version: 0.8.0
 
 **ページID**: `about_index`（`reviews/page-about_index.md` / `checks/task-08.md` を使う）
 
-対象 `mapping_id`（`dest_page=テスティングフレームワークとは`、13行、`DROP`なし）: `current-0162`,
-`current-0163`, `current-0164`, `current-0166`, `current-0175`, `current-0176`, `current-0180`,
-`current-0267`, `current-0377`, `current-0165`, `input-0002`, `input-0116`, `input-0028`
+対象 `mapping_id`（`dest_page=テスティングフレームワークとは`、11行、`DROP`なし。2026-08-05 #8フィードバック対応で
+`input-0002`/`input-0116`（データブロックの記法仕様、計49行）を第3部「テストデータの書き方」へ再割当したため
+13行→11行。詳細は本タスクStepsの当該項目・`design.md`§2「テストデータ」節・`mapping.csv`を参照）:
+`current-0162`, `current-0163`, `current-0164`, `current-0166`, `current-0175`, `current-0176`,
+`current-0180`, `current-0267`, `current-0377`, `current-0165`, `input-0028`
 
 出典（削除済みのため base commit `c24190607fef5d76c607aa08b36d2ab2f813efe5` から `git show` で取得）:
 `.../06_TestFWGuide/01_Abstract.rst`, `.../06_TestFWGuide/JUnit5_Extension.rst`,
@@ -335,6 +337,28 @@ Rn version: 0.8.0
       Dockerビルドで`build succeeded`（最終`1 warning`＝上記の想定内`undefined label`）を確認。
       あわせてsteering.md自体の肥大化対策として`#1`〜`#7`をPurpose/Completion criteriaのみに圧縮し
       （720行→418行）、タスク完了時に同様の圧縮を行う運用ルールをRulesに追加した
+- [x] フィードバック対応（6点）を反映（2026-08-05、`/rn:gm`）。
+      (1) 「全体像」に「3種類のテストを提供する」という核となる事実を追加し、`:ref:`で「テストの種類」へ導線
+      （新規アンカー`testing_framework_about-test_types`）。「JUnitベースであること」は「なぜ使う価値があるか」
+      に答える要素として「特徴」4点目へ格上げ（「使い慣れたJUnitの書き方をそのまま活かせる」、出典は
+      既存の`current-0162`/`0166`のまま、新規マッピング行なし）。
+      (2) 「テスト種別の正式名称」表（内訳表）からクラス単体テスト・取引単体テストの2行を削除し6処理方式のみに
+      整理（「次の6つに分かれる」という導入文との矛盾・上段対比表との重複を解消）。列見出し「テスト種別」は
+      `glossary.md`の用語区分（テスト種別=3分類、処理方式=6区分）に合わせ「処理方式」に変更。
+      (3) 「特徴」2点目（テストコードは定型・少量）の「テストロジック」「テストデータ」の初出に具体語
+      （「テストデータのセットアップや期待値とのアサート」「データベースへの準備データや期待するテスト結果」）
+      を追加。
+      (4) 「アーキテクチャ」の図下にあった構成物一覧表（構成物・説明・作成者）を削除。図と導入文のみに整理
+      （`current-0165`の`dest_section`は変更なし。表という表現形式を採らないだけ）。
+      (5) 「テストデータ」節の「データブロックの考え方」小見出し（`input-0002`/`input-0116`、49行）を、
+      記法仕様そのものであるとして第3部「テストデータの書き方」ページへ`dest_part`/`dest_page`/`dest_section`
+      ごと再割当（`mapping.csv`変更、`verify_mapping.py`エラー0件を確認）。あわせて「テストデータの外部化」
+      小見出しの4項目箇条書き（「特徴」2点目と重複）を削除し、外部化の事実説明のみに短縮。`volume.md`の
+      dest_page別・dest_section別集計とdiff note、傾向コメントを更新。design.md §2・§4に再割当の判断根拠を追記。
+      (6) 「対象範囲」を独立セクションとして廃止し、「テストの種類」節の末尾（内訳表・除外`important`2件の並び）
+      に統合。自節への`:ref:`導線1文は不要になったため削除。`dest_section`は`対象範囲`のまま変更なし。
+      Dockerビルド（`nablarch-document-build-sandboxed`イメージ、README「環境構築」手順）で
+      `build succeeded`（最終`1 warning`＝想定内の`undefined label: testdata_converter`のみ）を確認。
 - [ ] **user review** — 承認を受けるまで #9 に進まない
 
 **Completion criteria**:
