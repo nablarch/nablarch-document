@@ -6,8 +6,9 @@
 
 .. toctree::
    :maxdepth: 1
-   
+
    01_Abstract
+   JUnit5_Extension
    02_DbAccessTest
    02_RequestUnitTest
    RequestUnitTest_rest
@@ -17,6 +18,6 @@
    RequestUnitTest_http_send_sync
    03_Tips
    04_MasterDataRestore
-   JUnit5_Extension
+   legacy_junit4/index
 .. 04_env_guide
 
