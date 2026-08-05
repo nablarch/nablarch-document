@@ -449,6 +449,10 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-08-05
-- **Last completed**: #8 フィードバック対応（「特徴」節の新設、テストの種類を前段に、「正式名称」の枠組み撤回。design.md §2改訂・`about/index.rst`反映、コミット `d18c080`/`167472b`/`916eaaa`）。あわせてsteering.md自体を圧縮（`#1`〜`#7`をPurpose/Completion criteriaのみに縮小、コミット `b329c77`）し、タスク完了時の圧縮運用ルールをRulesに追加（コミット `333765e`）
+- **Last completed**: #8 フィードバック対応(6点)。全体像への「3種類のテスト」追加、特徴4点目（JUnit）追加、
+  テスト種別の正式名称表を6処理方式に整理し列見出しを「処理方式」に変更、特徴2点目に具体語追加、
+  アーキテクチャの構成物一覧表を削除、データブロックの考え方(input-0002/0116)を第3部テストデータの
+  書き方へ再割当、対象範囲をテストの種類節末尾へ統合。design.md §2改訂・`mapping.csv`/`volume.md`更新・
+  `about/index.rst`反映、Dockerビルド確認済み、コミット `82ca8ce`（push済み）
 - **Next**: #8 の user review 承認を待つ。承認後、#9〜（ページ作成、作成順: 第3部のテストデータ2ページ → 第2部 → 第3部の残り → 第4部）に進む
-- **Notes**: ブランチ `work`、リモート `lovaizu` fork へ push 済み（PR未作成）。ブロッカーなし。ユーザー未解決の指摘なし。`about/index.rst`に`undefined label: testdata_converter`警告1件が残るが、第4部作成時に解消する前提の想定内の警告（`#last`ゲートで最終確認）
+- **Notes**: ブランチ `work`、`origin`（`lovaizu` fork）へ push 済み（PR未作成）。ブロッカーなし。ユーザー未解決の指摘なし。`about/index.rst`に`undefined label: testdata_converter`警告1件が残るが、第4部作成時に解消する前提の想定内の警告（`#last`ゲートで最終確認）
