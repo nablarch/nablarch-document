@@ -99,3 +99,83 @@ $ python3 -c "import csv; print(sum(1 for _ in csv.DictReader(open('mapping/mapp
 - `nablarch-testing`実装のfile:line引用（`TestCaseInfo.java`等）は、`ntf-doc-09-fix.md`が「確認した事実」として既に検証済みのものをそのまま引用し、新たな未検証の実装事実は追加していない。参照コミットは`e21bf67`であり、`6u3`との差分は未確認であることを`reviews/page-testdata_notation.md`に明記した
 
 - Self-check: OK
+
+### ラウンド2 fix-round 1（Craft/Design/Verification指摘対応）
+
+ラウンド2の記述訂正（STEP 1〜7）を経てもなお、Craft/Design両エキスパートのレビューで独立に3件の指摘が
+残っていた。本節はその是正結果を記録する。ラウンド1・ラウンド2の記録は書き換えず、本節を追記のみとする。
+
+#### Finding A（Design + Craft）— L19見出しと中身の不一致
+
+- 指摘: L3見出し「ファイル構成を確認する」（L19-20）は、STEP 7で移設された`important`（実行順序非依存）・
+  `tip`（マスタデータ再利用）の2ブロックをタイトルが示していない
+- 対応: (a)見出しタイトルを「ファイル構成を確認する」→「ファイル構成と記述時の注意点を確認する」に拡張、
+  (b)図の直後・`important`直前に橋渡し文「ここまでのファイル構成を踏まえたうえで、テストデータを記述する際は
+  次の点に留意する。」（L126、1行のみ）を追加
+- Self-check: OK
+  - Before: `L19-20: ファイル構成を確認する` / `~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+  - After: `L19-20: ファイル構成と記述時の注意点を確認する` / `~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`（アンダーライン49文字は不変）
+  - 橋渡し文: `$ grep -n "ここまでのファイル構成を踏まえたうえで" ja/development_tools/testing_framework/implementation/testdata_notation.rst` →
+    `126:ここまでのファイル構成を踏まえたうえで、テストデータを記述する際は次の点に留意する。`（`important`ブロックの直前に1行で挿入。本文の追加・変更のみで`important`/`tip`の本文自体は無変更）
+  - `理解する`/`保つ`で終わる見出しは依然0件（新タイトルは「確認する」終わりであり、`role_check.rst:210`に前例のある動詞形を踏襲）。`セル`も含まない
+
+#### Finding B（Craft + Design）— L451の古い道案内文
+
+- 指摘: STEP 6-2の切り出しで新設された「LIST_MAPのデータを記述する」（L449）冒頭文が「ここではまず
+  `LIST_MAP`自体の記法を説明し、続けてテストケース一覧（`testShots`）が持つカラムを処理方式ごとに説明する」
+  と、testShotsカラムの説明が同じ節内にあるかのように述べていたが、実際は分割先の兄弟節
+  「テストケース一覧（testShots）を記述する」（L512）にある
+  - Before: `テストケース一覧は、``LIST_MAP``\ というデータタイプの利用例の1つである。ここではまず\ ``LIST_MAP``\ 自体の記法を説明し、続けてテストケース一覧（``testShots``\ ）が持つカラムを処理方式ごとに説明する。`
+  - After: `テストケース一覧は、``LIST_MAP``\ というデータタイプの利用例の1つである。ここでは\ ``LIST_MAP``\ 自体の記法を説明する。テストケース一覧（``testShots``\ ）が持つカラムの処理方式ごとの説明は、後続の\ :ref:`テストケース一覧（testShots）を記述する <testdata_notation-test_shots>`\ で行う。`
+- Self-check: OK
+  - `$ grep -n "テストケース一覧は、\`\`LIST_MAP\`\`" ja/development_tools/testing_framework/implementation/testdata_notation.rst` →
+    `451:テストケース一覧は、``LIST_MAP``\ というデータタイプの利用例の1つである。ここでは\ ``LIST_MAP``\ 自体の記法を説明する。テストケース一覧（``testShots``\ ）が持つカラムの処理方式ごとの説明は、後続の\ :ref:`テストケース一覧（testShots）を記述する <testdata_notation-test_shots>`\ で行う。`
+  - 参照先ラベル`testdata_notation-test_shots`はL510に既存（新規追加なし）。1物理行のみで構成（改行なし）。内容の追加・削除ではなく、STEP 6-2の分割で生じた「ここでは…続けて…説明する」という局所性の誤りを訂正しただけであり、STEP 6-2の「内容の追加・削除は行わない」制約には抵触しない
+
+#### Finding C（Verification）— `reviews/page-testdata_notation.md`のA-3（確定）行の引用不足
+
+- 指摘: A-3（確定）行が「全処理方式で『必須』とは…のみを検査する」（STEP 1(a)相当）と全処理方式にまたがる
+  主張をしているにもかかわらず、引用が`TestCaseInfo.java:443-448`（ウェブアプリケーションのみ）に限られており、
+  `ntf-doc-09-fix.md`STEP 1(a)が挙げる`TestShot.java:77-78`（バッチ・メッセージング）・
+  `EntityTestSupport.java:269-276`（エンティティバリデーション）が欠けていた
+- 対応: A-3（確定）行の該当文に、処理方式ごとの内訳として3つの引用を明記
+  - Before: `…（``TestCaseInfo.java:443-448``の``containsKey``判定）も確認した`
+  - After: `…（ウェブアプリケーション: ``TestCaseInfo.java:443-448``の``containsKey``判定、バッチ・メッセージング: ``TestShot.java:77-78``の``assertContainsRequiredKeys``、エンティティバリデーション: ``EntityTestSupport.java:269-276``の``containsAll``判定）も確認した`
+- Self-check: OK
+  - `$ grep -n "TestShot.java:77-78" .rn/20260724-ntf-yaml-support/reviews/page-testdata_notation.md` → A-3（確定）行内に1件ヒット
+  - `$ grep -n "EntityTestSupport.java:269-276" .rn/20260724-ntf-yaml-support/reviews/page-testdata_notation.md` → A-3（確定）行内に1件ヒット
+  - ラウンド1・ラウンド2の他の行は無変更（`git diff`でA-3行1行のみの差分であることを確認）
+
+#### ゲート再確認（3件の是正は影響しないことの確認）
+
+```
+$ F=ja/development_tools/testing_framework/implementation/testdata_notation.rst
+$ grep -c '^\*\*' "$F"                              # gate 3
+0
+$ grep -c '^\^\{5,\}$' "$F"                          # gate 4 (^)
+7
+$ grep -c '^~\{5,\}$' "$F"                           # gate 4 (~)
+10
+$ awk '/^~+$/{print prev} {prev=$0}' "$F" | grep -c 'セル'              # gate 4a
+0
+$ awk '/^~+$/{print prev} {prev=$0}' "$F" | grep -cE '理解する$|保つ$'  # gate 4a
+0
+$ grep -c '^\.\. note::' "$F"                        # gate 4c
+0
+```
+
+Dockerフルビルド（`-a`）を再実行し、既知警告1件（`db_double_submit.rst:108`）以外の新規警告が
+無いことを再確認した。
+
+```
+$ docker run --rm -v <repo>:/root/document nablarch-document-build-sandboxed \
+    /bin/bash -c "cd /root/document; sphinx-build -a -d _build/.doctrees/ja -b html ja _build/html"
+(...)
+/root/document/ja/application_framework/application_framework/libraries/db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test (if the link has no caption the label must precede a section header)
+build succeeded, 1 warning.
+```
+
+gate 10（段落内改行なし）: 本ラウンドで変更・追加した3行（L19見出し・L126橋渡し文・L451道案内文）は
+いずれも`grep -n`の結果が1行で完結しており、物理行内改行は無い。
+
+- Self-check: OK（3件とも是正済み、ゲート3/4/4a/4c/9/10は不変で再確認済み）
