@@ -342,8 +342,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-08-07
-- **Last completed**: #8 第1部「テスティングフレームワークとは」の作成。`#9`（テストデータの書き方）は再構成指示 `ntf-doc-09-restructure.md` の STEP A〜G を実施し、成果物・レビュー記録とも push 済み（`d545d95..b7e97b3`）だが、user review 未了のため未チェック。
+- **Last completed**: #8 第1部「テスティングフレームワークとは」の作成。`#9`（テストデータの書き方）は差し戻し是正指示 `ntf-doc-09-recordtype.md` を適用し push 済み（`b7e97b3..73e84dc`）だが、user review 未了のため未チェック。
 - **Next**: `#9` の user review 判定（`/rn:ty` または `/rn:gm`）を受ける。承認後は `#10`「テストデータの記載例」（見出しスキャフォルドへの本文追加）へ進む。
-- **Notes**: ブランチ `work`、`origin`（`lovaizu` fork）と同期済み・PR未作成。ツリーはクリーンで未追跡パスなし。ブロッカーなし。**user review で判断を仰ぐ事項3件**（作業指示 STEP A-4 の明示的禁止を1件上書き／「内容の追加・削除を行わない」の例外2件／`style.md` S-07 の裁定で `#8` と本ページの正反対を追認）は `checks/task-09-restructure.md` 末尾「user review で判断を仰ぐ事項」に記載。**最終修正コミット `fed3705` はレビュー反復上限に達したためレビュー未実施**（コーディネーターの独立検証のみ通過）。`#10` 以降への申し送り13件は `reviews/page-testdata_notation.md` 末尾。`_build/` はユーザーがブラウザで直接レビューするため今後も削除しない。
+- **Notes**: ブランチ `work`、`origin`（`lovaizu` fork）と同期済み・PR未作成。ツリーはクリーンで未追跡パスなし。ブロッカーなし。**user review で判断を仰ぐ事項1件**（作業指示は「本文への追記1件のみ」と定めるが、手順3の横並び確認で検出した形式差1件も追加したため `important` が2件になっている。不要なら `テーブルのデータを記述する` 共通部の `important` を落とせば1件に戻る）は `checks/task-09-recordtype.md` 末尾に記載。`#10` 以降への申し送り15件は `reviews/page-testdata_notation.md` 末尾。`_build/` はユーザーがブラウザで直接レビューするため今後も削除しない。Docker ビルドは `locales/ja/LC_MESSAGES/sphinx.mo` を再生成するため、commit 前に戻すこと。
