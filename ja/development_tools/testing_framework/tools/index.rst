@@ -7,3 +7,4 @@
    :maxdepth: 1
 
    testdata_converter
+   master_data_tool

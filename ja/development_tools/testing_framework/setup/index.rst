@@ -7,3 +7,4 @@
    :maxdepth: 1
 
    junit5_extension
+   master_data_restore
