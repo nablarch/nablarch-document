@@ -335,8 +335,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-08-06
-- **Last completed**: `#9`に対する`/rn:gm`フィードバック7点（記載例への導線・`#10`の実例水準・見出しの動詞選び・配置規約の意図ベース化・セル書式の理由づけ・自明なエラー記述の削除・重複解消）に対応（詳細は本節上部の`#9の進捗`参照）。通し読みで整合性を確認し、Dockerフルビルド（クリーン）で`build succeeded, 1 warning`（既知の`db_double_submit.rst`のみ）を確認済み。
-- **Next**: commit & push → ユーザーに提示し、`#9`へのユーザー判定（`/rn:ty`または`/rn:gm`）待ち。承認後は`#10`（テストデータの記載例）へ進む。
-- **Notes**: ブランチ `work`、`origin`(`lovaizu` fork)へ push 済み(PR未作成、最終コミット`6ce6db5`)。ブロッカーなし。`_build/`はユーザーがブラウザで直接レビューするため今後Docker確認後も削除しない。
+- **Last completed**: `#9`に対する`/rn:gm`フィードバック7点（記載例への導線・`#10`の実例水準・見出しの動詞選び・配置規約の意図ベース化・セル書式の理由づけ・自明なエラー記述の削除・重複解消）に対応（詳細は本節上部の`#9の進捗`参照）。通し読みで整合性を確認し、Dockerフルビルド（クリーン）で`build succeeded, 1 warning`（既知の`db_double_submit.rst`のみ）を確認済み。commit・push済み。
+- **Next**: `#9`をユーザーに提示し、判定（`/rn:ty`または`/rn:gm`）を待つ。承認後は`#10`（テストデータの記載例）へ進む。
+- **Notes**: ブランチ `work`、`origin`(`lovaizu` fork)へ push 済み(PR未作成、最終コミット`8f27470`)。ブロッカーなし。`_build/`はユーザーがブラウザで直接レビューするため今後Docker確認後も削除しない。
