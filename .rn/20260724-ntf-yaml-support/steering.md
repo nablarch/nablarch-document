@@ -339,8 +339,8 @@ L3見出しと完全一致している。本タスクはそこへの本文追加
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-08-07
-- **Last completed**: #9（user review 承認済み）。#10「テストデータの記載例」は本文作成・4観点レビュー・指摘対応に加え、`/rn:gm` 差し戻し1回（セル格子への識別子行追加）に対応済み。**user review 未了**。
-- **Next**: #10 の user review 判定（`/rn:ty` または `/rn:gm`）を受ける。承認後は第2部の作成順に従って次ページへ進む。
-- **Notes**: ブランチ `work`、`origin`（`lovaizu` fork）と同期済み・PR未作成。ブロッカーなし。**user review で判断を仰ぐ事項3件**（`#9` の対象外セル格子3件、`style.md` 規約4 の参照整合、smartquotes によるダブルクォート描画）は `checks/task-10-cellgrid.md` §6 に記載。`#11` 以降への申し送りは `reviews/page-testdata_examples.md` 末尾（計10件）。`_build/` はユーザーがブラウザで直接レビューするため今後も削除しない。Docker ビルドは `locales/ja/LC_MESSAGES/sphinx.mo` を再生成する場合があるため、commit 前に `git status` を確認すること（今回も再生成されたため `git checkout` で戻した）。
+- **Last completed**: #9（user review 承認済み）。#10「テストデータの記載例」は本文作成・4観点レビュー・指摘対応に加え、`/rn:gm` 差し戻し1回（セル格子47件＋`#9` 2件への識別子行追加、`style.md` S-10 規約2 差し替え）に対応し push 済み（`38ad208`）。**user review 未了**。
+- **Next**: #10 の user review 判定（`/rn:ty` または `/rn:gm`）を受ける。承認後は第2部の作成順に従って `#11` へ進む。
+- **Notes**: ブランチ `work`、`origin`（`lovaizu` fork）と同期済み・PR未作成。ツリーはクリーンで未追跡パスなし。ブロッカーなし。**user review で判断を仰ぐ事項3件**（`#9` の対象外セル格子3件 L530・L1453・L1484／`style.md` 規約4 の参照整合／smartquotes によるダブルクォート描画）は `checks/task-10-cellgrid.md` §6 に記載。`#11` 以降への申し送りは `reviews/page-testdata_examples.md` 末尾（計10件）。`_build/` はユーザーがブラウザで直接レビューするため今後も削除しない。Docker ビルドは `locales/ja/LC_MESSAGES/sphinx.mo` を再生成するため、commit 前に `git status` を確認し `git checkout` で戻すこと。「**Steps（各ページ共通）**」のチェックボックスはページ横断のテンプレートであり、個別ページの進捗は各タスクの進捗記述に書く（チェックしない）。
