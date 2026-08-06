@@ -260,6 +260,7 @@ Rn version: 0.8.0
 
 **#9の進捗（2026-08-06）**: 2026-08-05時点でDocker確認まで完了・`must`10件解消・`note`2件記録のみ・`decide`3件（A-3・B-F01・D-4）がuser review待ちだった。2026-08-06、user reviewで**差し戻し**。A-3・B-F01は実物確認で決着、D-4は`#9`に同梱と判断、加えて観点Aの網羅性欠落1件（`requestParams`/`responseResult`/`searchResult`）を検出。是正指示は`ntf-doc-09-fix.md`（STEP 1〜7）。詳細は`reviews/page-testdata_notation.md`・`checks/task-09.md`参照。**user review未了**。
 2026-08-06、STEP1〜7是正提示に対し`/rn:gm`フィードバック（各ページ先頭への目次追加）を受け、`.. contents::` を追記（`style.md` S-09）。
+2026-08-06、続けて`/rn:gm`フィードバック「Excelの例はRSTの表形式にしませんか？」を受領。出典（`input/ntf-testdata-doc.md:356-365`「各セルを`|`で区切って表示」）由来のExcelセル格子を`code-block:: text`で模していた2箇所（`SETUP_TABLE`例・`SETUP_FIXED`例）を`.. list-table::`（`:header-rows: 0`）に置換。ディレクトリ構成・概念階層のASCII図（3箇所）とディレクティブのみの空ファイル例（1箇所）はExcelセル格子ではないため対象外と判断。
 
 **Steps（各ページ共通）**:
 
@@ -331,6 +332,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-08-06
-- **Last completed**: `#9`差し戻し是正提示に対し、ユーザーから`/rn:gm`フィードバック「FW解説書のようにNTF解説書の各ページの先頭に目次を入れることにしませんか？」を受領。FW解説書ライブラリ143件中138件（L2セクションを持つ全ページ）でタイトル直下に`.. contents:: 目次`（`:depth: 3` `:local:`）が統一的に使われていることを実測確認し、`style.md` S-09として規約化・`design.md`§8に追記。既存の実質ページ2件（`about/index.rst`＝`#8`、`testdata_notation.rst`＝`#9`）に反映、`steering.md` Steps（各ページ共通）に恒久チェック項目を追加。トグルーページ（`toctree`のみでL2セクションを持たない`index.rst`系）は対象外と確認。
-- **Next**: Dockerビルド確認 → commit & push → ユーザーに提示し、`#9`（目次追加を含む）へのユーザー判定（`/rn:ty`または`/rn:gm`）待ち。承認後は`#10`（テストデータの記載例）へ進む。
+- **Last completed**: `#9`差し戻し是正提示に対し、ユーザーから`/rn:gm`フィードバックを2件連続で受領。(1)「FW解説書のようにNTF解説書の各ページの先頭に目次を入れることにしませんか？」→ FW解説書ライブラリ143件中138件（L2セクションを持つ全ページ）でタイトル直下に`.. contents:: 目次`（`:depth: 3` `:local:`）が統一的に使われていることを実測確認し、`style.md` S-09として規約化・`design.md`§8に追記、`about/index.rst`（#8）・`testdata_notation.rst`（#9）に反映。(2)「Excelの例はRSTの表形式にしませんか？」→ 出典由来のExcelセル格子を`code-block:: text`で模していた箇所（`SETUP_TABLE`例・`SETUP_FIXED`例の2箇所）を`.. list-table::`に置換。`steering.md` Steps（各ページ共通）に目次の恒久チェック項目を追加。両方ともDockerフルビルドで確認済み（警告1件＝既知の`db_double_submit.rst`のみ）。
+- **Next**: commit & push → ユーザーに提示し、`#9`（目次追加・Excel例の表形式化を含む）へのユーザー判定（`/rn:ty`または`/rn:gm`）待ち。承認後は`#10`（テストデータの記載例）へ進む。
 - **Notes**: ブランチ `work`、`origin`(`lovaizu` fork)へ push 済み(PR未作成、最終コミット`8c7d15f`)。ブロッカーなし。`_build/`はユーザーがブラウザで直接レビューするため今後Docker確認後も削除しない。
