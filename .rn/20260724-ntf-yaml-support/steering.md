@@ -238,6 +238,7 @@ Rn version: 0.8.0
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-05）。フィードバック対応は本体レビュー3ラウンド＋ユーザー直接
 指摘6ラウンド超に及んだ。詳細（各ラウンドの指摘・判断理由・出典根拠）は `design.md`§2、`reviews/page-about_index.md`、
 `checks/task-08.md` および git 履歴（最終内容コミット `cb0d8d9`）を参照。
+2026-08-06、`/rn:gm`フィードバック（各ページ先頭への目次追加）を受け、`.. contents::` を追記（`style.md` S-09）。
 
 ### #9〜: ページの作成（1ページにつき1タスク）
 
@@ -258,6 +259,7 @@ Rn version: 0.8.0
 **前方参照によるスタブページ**: #8で`setup/junit5_extension.rst`・`tools/testdata_converter.rst`を見出しのみで作成し、`setup/index.rst`・`tools/index.rst`のtoctreeに追記済み（undefined label警告解消のため。2026-08-05）。該当ページのタスクが来たら、新規作成ではなく既存ファイルへの追記として扱う。同様に他ページからの前方参照でundefined label警告が出た場合も、対象ページの見出しのみのスタブを先行作成し対応するtoctreeに追記する運用とする（毎回の警告差分確認の手間を減らすため）。#9の作業で同じ理由により`implementation/testdata_examples.rst`（`#10`用）を見出しのみで先行作成し`implementation/index.rst`のtoctreeに追記済み。
 
 **#9の進捗（2026-08-06）**: 2026-08-05時点でDocker確認まで完了・`must`10件解消・`note`2件記録のみ・`decide`3件（A-3・B-F01・D-4）がuser review待ちだった。2026-08-06、user reviewで**差し戻し**。A-3・B-F01は実物確認で決着、D-4は`#9`に同梱と判断、加えて観点Aの網羅性欠落1件（`requestParams`/`responseResult`/`searchResult`）を検出。是正指示は`ntf-doc-09-fix.md`（STEP 1〜7）。詳細は`reviews/page-testdata_notation.md`・`checks/task-09.md`参照。**user review未了**。
+2026-08-06、STEP1〜7是正提示に対し`/rn:gm`フィードバック（各ページ先頭への目次追加）を受け、`.. contents::` を追記（`style.md` S-09）。
 
 **Steps（各ページ共通）**:
 
@@ -267,6 +269,7 @@ Rn version: 0.8.0
 - [ ] 出典の文面をそのまま流用しない。`style.md` に従って書き直す
 - [ ] `design.md` 等の内部設計文書の言い回しをそのまま転記しない。既存の解説書に同種の表現があるか `grep` で確認してから書く（Rules参照）
 - [ ] 用語は `glossary.md` の正表記を使う
+- [ ] L2セクション（`-`の下線）を1つ以上持つページは、タイトル下線の直後に `.. contents:: 目次`（`:depth: 3` `:local:`）を置く。`toctree`のみのインデックスページには置かない（`style.md` S-09）
 - [ ] 段落内で改行しない（1段落は1行で書く）。改行はHTML出力時に半角スペースとして残るため（Rules参照）
 - [ ] 当該 `dest_page` の行に `note` の `[セクション境界]` が含まれる場合、導入文と本体の接続をページ内で再構成する（出典の分断をそのまま持ち込まない）
 - [ ] 当該 `dest_page` に `reference-only sections`（`verify_mapping.py` の advisory）が該当する場合、`#6` で確定した方針に従う
@@ -328,6 +331,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-08-06
-- **Last completed**: `#9`差し戻し是正（`ntf-doc-09-fix.md` STEP 1〜7）を実施。実装コミット`02f398a`→QA/Craft/Verification/Design4専門家レビュー（Design追加はSTEP 6/7が構造改訂のため）→指摘3件の修正コミット`ee96fc2`→再レビューで解消確認→コーディネータ判定を`checks/task-09.md`に記録したコミット`8c7d15f`。10ゲート全件・独立実行のDockerフルビルド2回（`build succeeded, 1 warning`＝既知の`db_double_submit.rst`のみ）で確認済み。ユーザーに提示済み。
-- **Next**: `#9`差し戻し是正へのユーザー判定（`/rn:ty`または`/rn:gm`）待ち。承認後は`#10`（テストデータの記載例）へ進む。
+- **Last completed**: `#9`差し戻し是正提示に対し、ユーザーから`/rn:gm`フィードバック「FW解説書のようにNTF解説書の各ページの先頭に目次を入れることにしませんか？」を受領。FW解説書ライブラリ143件中138件（L2セクションを持つ全ページ）でタイトル直下に`.. contents:: 目次`（`:depth: 3` `:local:`）が統一的に使われていることを実測確認し、`style.md` S-09として規約化・`design.md`§8に追記。既存の実質ページ2件（`about/index.rst`＝`#8`、`testdata_notation.rst`＝`#9`）に反映、`steering.md` Steps（各ページ共通）に恒久チェック項目を追加。トグルーページ（`toctree`のみでL2セクションを持たない`index.rst`系）は対象外と確認。
+- **Next**: Dockerビルド確認 → commit & push → ユーザーに提示し、`#9`（目次追加を含む）へのユーザー判定（`/rn:ty`または`/rn:gm`）待ち。承認後は`#10`（テストデータの記載例）へ進む。
 - **Notes**: ブランチ `work`、`origin`(`lovaizu` fork)へ push 済み(PR未作成、最終コミット`8c7d15f`)。ブロッカーなし。`_build/`はユーザーがブラウザで直接レビューするため今後Docker確認後も削除しない。
