@@ -30,3 +30,26 @@
 - `must`: A-1・A-2・B-F02〜F10（9件）・T-01・T-02・D-1、全て解消。Dockerフルビルド（`-a`）で`build succeeded, 1 warning`（既知の`db_double_submit.rst`のみ）を確認
 - `decide`（3件、著者判断で解消したT-03・D-2を除く）: A-3（必須/任意区分の出典対立）・B-F01（L4相当の太字疑似見出しパターン）・D-4（`about/index.rst`特徴3点目の参照見直し）。ユーザーレビューで判断を仰ぐ
 - `note`（2件）: D-3・D-5。対応不要、記録のみ
+
+## ラウンド2（差し戻し是正）
+
+`#9`はuser reviewで差し戻し。是正指示は `ntf-doc-09-fix.md`。ラウンド1の`decide`3件のうちA-3・B-F01は実物確認で決着し、
+D-4はユーザー判断で`#9`是正に同梱した。加えて観点Aが検出できていなかった網羅性の欠落2件（`requestParams`/`responseResult`、
+`searchResult`）を新規`must`として記録する。以下は参照したコミット `e21bf67`（`nablarch/nablarch-testing`の`main`、
+`nablarch-testing` 2.2.0、`release-6u2`マージ済み）に基づく。**同リポジトリに`6u3`のブランチ・タグは存在せず
+（`git ls-remote origin`で確認済み）、`6u3`との差分は未確認である。**
+
+| 指摘ID | ラウンド | 観点 | 区分 | 指摘内容 | 対応要否 | 不要の理由 | 対応内容 |
+|---|---|---|---|---|---|---|---|
+| A-3（確定） | 2 | A | must | ラウンド1で出典対立のため`decide`に回した`isValidToken`/`forwardUri`の必須区分は、実装確認により決着した。`TestCaseInfo#isValidToken()`（`TestCaseInfo.java:482-484`）は`getValue`経由で読み、呼び出し元`AbstractHttpRequestTestTemplate#executeTestCase:257`は条件分岐の外にあり全テストケースで必ず評価される。`TestCaseInfo#getExpectedForwardUri()`（`TestCaseInfo.java:237-239`）も同じく`getValue`経由で読み、`assertForwardUri`（`AbstractHttpRequestTestTemplate.java:554-557`）は`assertAll:464`から無条件に呼ばれる。全処理方式で「必須」とはカラム自体の存在を指し値は空でよいこと（`TestCaseInfo.java:443-448`の`containsKey`判定）も確認した | 要 | — | `isValidToken`・`forwardUri`の必須列を「必須」に修正し、「必須」の意味を1文で定義（STEP 1(a)(b)） |
+| B-F01（確定） | 2 | B | must | ラウンド1で規約不在のため`decide`に回したL4相当の太字疑似見出し7箇所は、`ja/`配下全体の実測により決着した。`ja/application_framework/adaptors/lettuce_adaptor/redisstore_lettuce_adaptor.rst:4,20,41,48`・`ja/biz_samples/12/index.rst:4,8,59,87`に、本ページと同じ`=`→`-`→`~`→`^`の4階層の前例がある。一方、行頭太字の疑似見出しは`ja/application_framework/application_framework/libraries/`配下に0件だった | 要 | — | 7箇所を`^`のL4見出しに格上げし、`style.md`S-04にL4（`^`）を追加（根拠2件）（STEP 3） |
+| D-4 | 2 | D | decide→対応 | `about/index.rst`（第1部・特徴3点目）の`:ref:`が`テストデータ変換ツール`のみで、`design.md`L74「本ページ作成後に見直すことを検討する」が未着手だった件 | 要 | — | ユーザー判断（2026-08-06）により`#9`是正に同梱。`about/index.rst`に`:ref:`テストデータの書き方\ <testdata_notation>`\`を追加（既存の`テストデータ変換ツール`参照は維持）し、`design.md`L74を実施済みの結論に書き換えた（STEP 4） |
+| A-4 | 2 | A | must | `requestParams`・`responseResult`をtestShotsのカラムとして表に掲載していたが誤りだった。`AbstractHttpRequestTestTemplate.java:74,77`で定数として宣言され、`:336-339`で`getCachedListMap(sheetName, REQUEST_PARAMS_LIST_MAP)`のようにリテラルのままLIST_MAPのIDとして使われており、`getValue(testCaseParams, ...)`を経由するtestShotsカラムではない（対照として`context`は`:334-335`で`getValue`経由であり正真正銘のカラム）。誤りの由来は`TestCaseInfo.java:333-338`のJavadocの記載が実コードと一致していないためとみられる。ラウンド1の観点Aは出典間の突合のみを行い実装を確認していなかったため検出できなかった | 要 | — | `requestParams`・`responseResult`の行をカラム表から削除し、両者が読み込み単位内に置く予約IDを持つ`LIST_MAP`である旨を地の文に明記（STEP 1(c)） |
+| A-5 | 2 | A | must | `expectedSearch`の説明が、検索結果をリクエストスコープから取得する際の既定キー`searchResult`を欠落していた。出典`current-0081`（削除前の`05_UnitTestGuide/02_RequestUnitTest/index.rst:99-193`）に記載があり、実装`TestCaseInfo.java:72`の`DEFAULT_SEARCH_RESULT_KEY = "searchResult"`、`setSearchResultKey`（`TestCaseInfo.java:123-125`）で変更可能なことも確認した | 要 | — | `expectedSearch`行の説明に既定キー`searchResult`である旨（`setSearchResultKey`で変更可能な旨を含む）を追記（STEP 2） |
+
+### ラウンド2終了時点のまとめ
+
+- `must`: A-3（確定）・B-F01（確定）・A-4・A-5、全て解消
+- `decide`: D-4、ユーザー判断（2026-08-06）により`#9`是正に同梱、対応済み
+- 本ラウンドで新規に検出した`note`はない。ラウンド1の`note`（D-3・D-5）は本書の対象外であり蒸し返さない
+- Dockerフルビルド（`-a`）で`build succeeded, 1 warning`（既知の`db_double_submit.rst`のみ、本タスクによる新規警告は0件）を確認

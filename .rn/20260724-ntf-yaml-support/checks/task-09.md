@@ -59,3 +59,43 @@ $ python3 -c "import csv; print(sum(1 for _ in csv.DictReader(open('mapping/mapp
 ```
 
 594行 / 12,986 / 11,983 いずれも不変（`mapping.csv`は本タスクで変更していない）。
+
+## ラウンド2（差し戻し是正）self-check
+
+2026-08-06のuser reviewで差し戻し。是正指示は `ntf-doc-09-fix.md`（STEP 1〜7）。差し戻し経緯・指摘内容は
+`reviews/page-testdata_notation.md`「ラウンド2」参照。本節は同STEP 1〜7の実施結果を記録する。
+
+### Completion Criteria
+
+| Criterion | Self-check | Evidence |
+|---|---|---|
+| `mapping.csv` の当該 `dest_page` の全行が反映されている（`DROP` を除く） | OK | 本ラウンドは既存反映済み140行の記述訂正・並び替えのみで、行の追加・削除は行っていない。`mapping.csv` 自体を変更していないことは後述ゲート1・2で確認済み |
+| 4観点のレビューがすべて実施・記録されている | OK | ラウンド1で4観点実施済み（`reviews/page-testdata_notation.md`）。本ラウンドはユーザー指摘・実物確認による是正であり、4観点の再実施は指示書のスコープ外（指示書冒頭「STEP 1〜7をすべて実施したうえで、再度user reviewに上げる」） |
+| 未対応の指摘が残っていない、または残す判断とその理由が記録されている | OK | ラウンド2の`must`4件（A-3確定・B-F01確定・A-4・A-5）全て解消。`decide`のD-4はユーザー判断により対応済み。未対応指摘なし（`reviews/page-testdata_notation.md`「ラウンド2終了時点のまとめ」） |
+| `make html` が当該ページについてエラーを出さない | OK | 下記ゲート9のDockerフルビルドで確認 |
+
+### ゲート（ntf-doc-09-fix.md）
+
+| # | 内容 | Self-check | Evidence |
+|---|---|---|---|
+| 1 | `verify_mapping.py` exit 0、594行/12,986/11,983 不変 | OK | `$ python3 mapping/tools/verify_mapping.py` → `OK: no errors`、`lines total (all rows): 12986`、`lines total (excluding DROP): 11983`。`$ python3 -c "import csv; print(sum(1 for _ in csv.DictReader(open('mapping/mapping.csv'))))"` → `594` |
+| 2 | `git diff a0d09aa -- mapping.csv _batch/` が空 | OK | `$ git diff a0d09aa -- .rn/20260724-ntf-yaml-support/mapping/mapping.csv .rn/20260724-ntf-yaml-support/mapping/_batch/ \| wc -l` → `0` |
+| 3 | 行頭太字（`^\*\*`）が0件 | OK | `$ grep -c "^\*\*" ja/.../testdata_notation.rst` → `0` |
+| 4 | `^` 見出し7件、`~` 見出し10件 | OK | `$ grep -c '^\^\{10,\}$' ...` → `7`。`$ grep -c '^~\{10,\}$' ...` → `10`（STEP 6-2の切り出しで+1、STEP 7の廃止で-1、差し引き現状と同数） |
+| 4a | `~` 見出しに `セル` 0件、`理解する`/`保つ` で終わる `~` 見出し0件 | OK | `$ awk '/^~+$/{print prev} {prev=$0}' ... \| grep -E "セル\|理解する$\|保つ$" \| wc -l` → `0`。全10件の`~`見出しタイトルを目視確認（`ファイル構成を確認する`、`データブロックの種別を確認する`、`グループIDでデータブロックを分ける`、`テーブルのデータを記述する`、`LIST_MAPのデータを記述する`、`テストケース一覧（testShots）を記述する`、`ファイルのデータを記述する`、`メッセージングのデータを記述する`、`値を特殊記法で記述する`、`コメント・マーカーカラム・空エントリを扱う`） |
+| 4b | `testdata_notation-independence` ラベル0件。`.. _` 直後（空行1行）が見出しでない箇所0件 | OK | `$ grep -rn "testdata_notation-independence" ja/ \| wc -l` → `0`。全ラベルについて「空行→見出しテキスト→アンダーライン」の並びをPythonスクリプトで機械チェックし、違反0件を確認 |
+| 4c | `.. note::` が0件 | OK | `$ grep -c "^\\. \\. note::" ja/.../testdata_notation.rst` → `0` |
+| 5 | `requestParams`・`responseResult` がカラム表の行として存在しない（地の文には存在可） | OK | `$ grep -cE '\* - ``requestParams``\|\* - ``responseResult``' ...` → `0`。地の文（L617付近）に両語とも存在することを確認済み（gate 6と合わせて目視） |
+| 6 | `searchResult` が1箇所以上 | OK | `$ grep -c "searchResult" ja/.../testdata_notation.rst` → `1`（`expectedSearch`行の説明内） |
+| 7 | `about/index.rst` の `:ref:` に `testdata_notation` が1件 | OK | `$ grep -c "testdata_notation" ja/.../about/index.rst` → `1`。同じ文に既存の `testdata_converter` 参照も維持されていることを確認 |
+| 8 | `style.md` S-04 に L4・`^`の記載、根拠2件以上 | OK | `mapping/style.md` S-04に表の行を追加し、`ja/application_framework/adaptors/lettuce_adaptor/redisstore_lettuce_adaptor.rst:4,20,41,48`（`Read`で見出し行・アンダーライン行を実測し47/48行目を確認）・`ja/biz_samples/12/index.rst:4,8,59,87`（同85-87行目を実測）の2件を根拠として記載 |
+| 9 | Dockerフルビルド（`-a`）成功、警告は既知の`db_double_submit.rst` 1件のみ | OK | `docker run --rm -v <repo>:/root/document nablarch-document-build-sandboxed /bin/bash -c "cd /root/document; sphinx-build -a -d _build/.doctrees/ja -b html ja _build/html"` → 末尾 `build succeeded, 1 warning.`。警告行: `/root/document/ja/application_framework/application_framework/libraries/db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test (if the link has no caption the label must precede a section header)`（`#7`から追跡済みの既知警告。本ラウンドによる新規警告は0件） |
+| 10 | 追加・変更した段落に改行がないこと | OK | 本ラウンドで`testdata_notation.rst`に追加・変更した段落（L545の「必須」定義文、L599の`expectedSearch`説明、L617の`requestParams`/`responseResult`地の文、STEP7で`important`/`tip`化した2段落、7件のL4見出し直後の本文、`about/index.rst`L24）はいずれも`Read`で1行のみで構成されていることを確認した |
+
+### Method適用の記録
+
+- `file:line`引用は書く前に実ファイルを`Read`/`grep`で再確認した。具体的には `style.md` S-04の2件（`redisstore_lettuce_adaptor.rst:4,20,41,48,47-48`、`biz_samples/12/index.rst:4,8,59,87,85-87`）、`testdata_notation.rst`内の全編集対象行（L19・L128/126・L400・L447・L508・L553・L628・L665・L677・L722・L1169）、`design.md`L74・§8直後
+- `grep -rn "testdata_notation-independence" ja/` は本ラウンドで実際に実行し、0件（本ページを含めどこからも参照なし）であることを確認したうえでラベルを削除した
+- `nablarch-testing`実装のfile:line引用（`TestCaseInfo.java`等）は、`ntf-doc-09-fix.md`が「確認した事実」として既に検証済みのものをそのまま引用し、新たな未検証の実装事実は追加していない。参照コミットは`e21bf67`であり、`6u3`との差分は未確認であることを`reviews/page-testdata_notation.md`に明記した
+
+- Self-check: OK
