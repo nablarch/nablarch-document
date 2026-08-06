@@ -337,8 +337,8 @@ L3見出しと完全一致している。本タスクはそこへの本文追加
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-08-07
-- **Last completed**: #9（user review 承認済み）。#10「テストデータの記載例」は本文作成・4観点レビュー（ラウンド1）・指摘対応・Docker クリーンビルドまで完了し push 済み。**user review 未了**。
+- **Last completed**: #9（user review 承認済み）。#10「テストデータの記載例」は本文作成・4観点レビュー・指摘対応・Docker クリーンビルドまで完了し push 済み（`7da0b07`）。**user review 未了**。
 - **Next**: #10 の user review 判定（`/rn:ty` または `/rn:gm`）を受ける。承認後は第2部の作成順に従って次ページへ進む。
-- **Notes**: ブランチ `work`、`origin`（`lovaizu` fork）と同期済み・PR未作成。ツリーはクリーン。ブロッカーなし。**user review で判断を仰ぐ事項2件**（コメント行を表内に残した件、承認済み `#9` の `testdata_notation.rst` に実装で裏付けた事実誤り3件の是正を入れた件）は `checks/task-10.md` §7 に記載。`#11` 以降への申し送り5件は `reviews/page-testdata_examples.md` 末尾。`_build/` はユーザーがブラウザで直接レビューするため今後も削除しない。Docker ビルドは `locales/ja/LC_MESSAGES/sphinx.mo` を再生成する場合があるため、commit 前に `git status` を確認すること。
+- **Notes**: ブランチ `work`、`origin`（`lovaizu` fork）と同期済み・PR未作成。ツリーはクリーンで未追跡パスなし。ブロッカーなし。**user review で判断を仰ぐ事項2件**（コメント行を表内に残した件、承認済み `#9` の `testdata_notation.rst` に実装で裏付けた事実誤り3件の是正を入れた件）は `checks/task-10.md` §7 に記載。`#11` 以降への申し送り5件は `reviews/page-testdata_examples.md` 末尾。`_build/` はユーザーがブラウザで直接レビューするため今後も削除しない。Docker ビルドは `locales/ja/LC_MESSAGES/sphinx.mo` を再生成する場合があるため、commit 前に `git status` を確認すること。
