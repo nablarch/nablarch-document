@@ -338,4 +338,4 @@ so only a genuinely suspended session reads `paused`.)
 - **Date**: 2026-08-06
 - **Last completed**: `#9`差し戻し是正提示に対し、ユーザーから`/rn:gm`フィードバックを連続で受領し対応（詳細は本節上部の`#9の進捗`参照）。目次追加（`style.md` S-09）、Excel例のRST表形式化、識別子行の書式修正を経て、最終的にExcel形式/YAML形式の書き分け原則（`style.md` S-10規約1〜4）を確立。「比較して伝える価値がある内容だけ共通、それ以外はExcel専用/YAML専用にL4見出しで分ける」という原則のもと、`testdata_notation.rst`の使用方法セクション全体（8箇所）の比較表・比較文を再構成。`steering.md` Steps（各ページ共通）に目次・Excel/YAML書き分けの恒久チェック項目を追加。すべてDockerフルビルドで確認済み（警告1件＝既知の`db_double_submit.rst`のみ）。
 - **Next**: commit & push → ユーザーに提示し、`#9`（目次追加・Excel例の表形式化・Excel/YAML書き分け再構成を含む）へのユーザー判定（`/rn:ty`または`/rn:gm`）待ち。承認後は`#10`（テストデータの記載例）へ進む。
-- **Notes**: ブランチ `work`、`origin`(`lovaizu` fork)へ push 済み(PR未作成、最終コミット`8c7d15f`)。ブロッカーなし。`_build/`はユーザーがブラウザで直接レビューするため今後Docker確認後も削除しない。
+- **Notes**: ブランチ `work`、`origin`(`lovaizu` fork)へ push 済み(PR未作成、最終コミット`0e0e6e4`)。ブロッカーなし。`_build/`はユーザーがブラウザで直接レビューするため今後Docker確認後も削除しない。
