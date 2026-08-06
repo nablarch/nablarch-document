@@ -178,4 +178,53 @@ build succeeded, 1 warning.
 gate 10（段落内改行なし）: 本ラウンドで変更・追加した3行（L19見出し・L126橋渡し文・L451道案内文）は
 いずれも`grep -n`の結果が1行で完結しており、物理行内改行は無い。
 
+## コーディネータによるレビュー（ラウンド2、`task-verify-workflow.md` Phase: Verify）
+
+差し戻し是正（`ntf-doc-09-fix.md` STEP 1〜7、実装コミット`02f398a`）に対し、QA・Craft（writing）・
+Verification（fact-check）・Design の4専門家を独立したサブエージェントとして実施した（STEP 6/7がページ構造を
+改訂するため、通常の3軸に加えDesignを追加）。各プロンプトには steering.md Rules の3点
+（実測コマンドで裏付けよ／検証スクリプトを正解として使わず独立に組め／敵対的にレビューせよ）を含めた。
+
+### QA Expert Review
+
+| Aspect | Verdict | Evidence / Improvement |
+|---|---|---|
+| 検証アプローチがゲート10件・completion criteria・禁止事項を独立再現して確認しているか | OK | 自前のverify_mapping.py実行・自前のheading/labelパーサ・自前のgrep・自前のDockerビルドで10ゲート全件を再導出し、全てOKと一致確認。「rubber-stamped」な検証は無し |
+
+### Design Expert（本タスクはSTEP 6/7で構造を改訂するため対象）
+
+| Aspect | Verdict | Evidence / Improvement |
+|---|---|---|
+| Approach/structure fits | OK（fix-round後） | ラウンド1でNG（冒頭L3セクションの見出しとSTEP7統合内容の不一致）。fix-round 1で見出しを`ファイル構成と記述時の注意点を確認する`に広げ橋渡し文を追加し、design.md§11.6観点Dの文言上の基準（見出し+ページタイトルの組で中身が分かる）は満たされたことをラウンド2レビューで確認 |
+| System-wide integrity（cross-doc consistency） | OK | STEP 6-2分割（LIST_MAP一般/testShots）の`:ref:`解決、`about/index.rst`からの`:ref:`解決、全14ラベルの非孤立を独立確認 |
+
+ラウンド2Designレビューが残した指摘（「2トピックを1つのL3見出しに広げるのではなく、独立したL3見出しに分割すべき」）は
+**Invalid（対象外）として却下した**。根拠: `ntf-doc-09-fix.md` STEP 7が「独立した見出しを持たせず、冒頭セクションの
+中に注記として統合する。（2026-08-06 ユーザー判断）」と明記しており、指摘の推奨（独立見出しへの分割）はこの確定済み
+ユーザー判断を覆す。レビュー担当自身も「design.md§11.6観点Dの文言上の基準は満たされている」と認めており、これは
+達成済みの completion criteria を超えたスタイル上の代案であって、STEP 7の明示的なスコープ境界の外にある。
+
+### Craft Expert（writing）
+
+| Aspect | Verdict | Evidence / Improvement |
+|---|---|---|
+| Medium-specific best practice | OK（fix-round後） | ラウンド1でNG（L449の道案内文がセクション分割後も「ここで説明する」と誤った局所性を主張）。fix-round 1で`:ref:`による参照に修正し、ラウンド2レビューで解決を確認 |
+| Consistency with existing style | OK（付帯意見あり） | L451の新しい参照表現`後続の:ref:`...`で行う。`が、ページ内の既存慣用句`詳細は :ref:`...` を参照。`と表現が異なる（6箇所の先例あり）。指摘は非ブロッキングの任意改善として記録し、対応は見送る（機能上・ゲート上の問題はなく、3ラウンド上限の中で必須修正を優先） |
+
+### Verification Expert（fact-check）
+
+| Aspect | Verdict | Evidence / Improvement |
+|---|---|---|
+| Artifact actually checked | OK | `style.md` S-04の2件の`file:line`引用を独自に`Read`で実測し、claimed行・階層順序と一致を確認。ラウンド2 `reviews/`の`e21bf67`/`6u3`未確認の開示が保持されていることも確認 |
+| Coverage（引用の網羅性） | OK（fix-round後） | ラウンド1でNG（A-3（確定）行が「全処理方式」を主張しながら引用1件のみ）。fix-round 1で`TestShot.java:77-78`・`EntityTestSupport.java:269-276`を追加し、他行は無変更であることをラウンド2レビューで確認 |
+
+### Overall Verdict
+
+- Self-check: OK
+- QA: OK
+- Design expert: OK（fix-round後。残存指摘1件はInvalidとして却下、理由は上記）
+- Craft expert: OK（fix-round後。非ブロッキングの任意改善1件は見送り）
+- Verification expert: OK（fix-round後）
+- Ready to check off: **No** — 本プロジェクトの`steering.md` Rules「user review の承認を受けるまで次タスクに着手しない」および`#9〜`タスクStepsの最終項目「user review — 承認を受けるまで次ページに進まない」により、上記4専門家レビュー通過後もユーザーによる `/rn:ty`（承認）または `/rn:gm`（修正）を待つ。これは通常タスクのper-taskゲートではなく、本セッション固有のページ単位ユーザーレビューであり、`task-verify-workflow.md`のPhase: Completeで自動チェックオフしない
+
 - Self-check: OK（3件とも是正済み、ゲート3/4/4a/4c/9/10は不変で再確認済み）
