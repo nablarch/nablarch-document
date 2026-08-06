@@ -325,8 +325,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: 2026-08-05
+- **Status**: paused
+- **Date**: 2026-08-06
 - **Last completed**: #9（テストデータの書き方、`implementation/testdata_notation.rst`）を作成。`implementation/testdata_examples.rst`（`#10`用スタブ）・`implementation/index.rst`のtoctree更新も実施。4観点レビュー（別サブエージェント）で`must`10件を解消、Dockerフルビルドで`build succeeded, 1 warning`（既知の`db_double_submit.rst`のみ、新規警告0件）を確認。`verify_mapping.py`は594行/12,986/11,983不変・exit0。
 - **Next**: #9の`decide`3件（A-3: testShots必須カラムの出典間対立／B-F01: L4相当の太字疑似見出しパターン／D-4: `about/index.rst`特徴3点目の参照見直し）についてユーザー判断を仰ぎ、`/rn:ty`（承認）または`/rn:gm`（修正）を得る。承認後は`#10`（テストデータの記載例、作成順は#9の次）へ進む。
 - **Notes**: ブランチ `work`、`origin`(`lovaizu` fork)へ push 済み(PR未作成)。ブロッカーなし。`_build/`はユーザーがブラウザで直接レビューするため今後Docker確認後も削除しない。
