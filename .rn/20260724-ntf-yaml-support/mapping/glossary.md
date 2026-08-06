@@ -196,6 +196,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | 正表記 | 意味 | 揺れ表記（使わない） | 別義・旧名称（文脈により使う） | 採用根拠 |
 |---|---|---|---|---|
 | `テストクラス` | テストを記述するJavaクラス。1つのテストデータファイル群と対応するもの | 揺れなし | なし | 現行解説書138件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:16`）、input資料9件、`S:design.md:30` |
+| `テストコード` | テストクラス・テストメソッドを実装するJavaのソースコード。テストデータファイルとは別に存在するもの | `テストソースコード`（現行解説書26件、`NTF:06_TestFWGuide/01_Abstract.rst:206`） | なし | input資料4件（`S:input/ntf-testdata-doc.md:24`）は全て`テストコード`で`テストソースコード`は0件。現行解説書は`テストコード`14件・`テストソースコード`26件で表記が割れており一貫しない（掲載基準・優先順位2「意味が明確で一貫しているものを採用する」により、割れている現行解説書ではなく一貫したinput資料側を採る）。`S:design.md:65`の`#8`確定文（「テストコードは定型・少量で済む」）も`テストコード`を使用し、`about/index.rst`（`#8`）で採用済み |
 | `テストメソッド` | テストクラス内の1つのテストを表すメソッド | 揺れなし | なし | 現行解説書70件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:62`）、input資料6件、`S:design.md:137` |
 | `テストケース` | 1組の入力と期待値からなる、テストの1件分 | `テストショット`（現行10件、`NTF:05_UnitTestGuide/02_RequestUnitTest/double_transmission.rst:20`） | なし | 現行解説書155件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:26`）、input資料38件。クラス名`TestShot`の直訳で意味を推測できない |
 
