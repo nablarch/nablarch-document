@@ -19,6 +19,7 @@ Rn version: 0.8.0
 - `#5c` 追補（STEP 0）: `.rn/20260724-ntf-yaml-support/ntf-doc-05c-addendum.md`
 - `#5d` 追補（STEP 6〜8）: `.rn/20260724-ntf-yaml-support/ntf-doc-05d-addendum.md`
 - `#9` 差し戻し是正指示: `.rn/20260724-ntf-yaml-support/ntf-doc-09-fix.md`
+- `#9` 再構成指示: `.rn/20260724-ntf-yaml-support/ntf-doc-09-restructure.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
@@ -269,6 +270,7 @@ Rn version: 0.8.0
 2026-08-06、続けて`/rn:gm`フィードバック12点（「テーブルのデータを記述する」節が対象）を受領し対応。着手前に`/home/tie303177/work/nablarch/`配下の実ソース（`nablarch-testing`・`nablarch-testing-yaml`）を`Read`し、記述の正誤を実装で裏付けた。(1)冒頭文が`LIST_MAP`を`SETUP_TABLE`等と同列の「テーブルデータ」と呼んでいた誤りを訂正。`LIST_MAP`はDBテーブルに対応せずメモリ上の`List<Map>`である旨に書き換え、詳細は`LIST_MAPのデータを記述する`への forward link とした。(2)ヘッダ末尾空カラム除去・データ行不足時の空文字補完の具体例が無いとの指摘を受け実装を確認したところ、この挙動は`HeaderLine.java`（`nablarch-testing`側、Excel専用）由来であり、従来YAML形式の下に誤って記載されていたことが判明（実際のYAML実装`YamlTableDataBuilder.java`は列名を先頭行のキーで決定し、後続行の欠落キーは空文字ではなく`null`になる）。Excel側に具体例（list-table）を追加して移設し、YAML側は正しい挙動（欠落キー→`null`、先頭行にないキーは無視）に書き換えた。実装との不一致を機械的にではなく着手前のRead経由で発見した事例。(3)`SETUP_TABLE=EMPLOYEE`/`DEPT`+`LIST_MAP=expected`の中途半端な具体例を、#9既存の precedent（従業員の所属変更/氏名変更の削除）と同じ理由で削除。(4)`setUpDb`の説明を独立したL4見出し「共通の準備データをまとめる」に格上げしYAMLサブセクション直下から分離。(5)主キー自動採番時の対処を具体化: 業務キーの複合主キー化に加え、設計変更不可の場合の代替として`LIST_MAP`（`expectedSearch`）による検索結果比較を明記。(6)「テーブルのデータを記述する」節に新設L4見出し「共通の準備データをまとめる」「準備データ（SETUP_TABLE）を記述する」「期待値（EXPECTED_TABLE等）を記述する」を追加し子見出し構成を整理。(7)DATE既定値のJVMタイムゾーン依存とExcel形式の`EXPECTED_TABLE`/`EXPECTED_COMPLETE_TABLE`混在制約が1つのimportantに混在していた件、混在制約は既存の「グループIDでデータブロックを分ける」節のNG/OK例と全く重複していたため削除（`EXPECTED_TABLE`/`EXPECTED_COMPLETE_TABLE`を使ったNG/OK例そのものが既にそこにある）、importantはDATEタイムゾーン依存のみに整理。(8)`SqlPStatement`型制約はExcel専用と確認し「Excel形式の場合」見出し配下へ移設。(9)グループIDでの紐付け文は「グループIDでデータブロックを分ける」節と完全重複のため削除。(10)RESTfulウェブサービスの記述は`mapping.csv`の`current-0120`行を確認したところ`dest_page`が「リクエスト単体テスト（RESTfulウェブサービス）」であり本ページへのマッピング違反だったため削除（当該ページのタスクで反映される。マッピング自体は変更していない）。(11)「利用者が呼び出す入口のAPI（TestDataParser）」の文にメソッド名`getExpectedTableData`を明記し、ファイルデータ節の対になる`getSetupFile`の文（L984付近、既存）と表現を揃えた。(12)Excel/YAML説明ごとに`テストデータの記載例`該当箇所への個別スクロールリンクを求める指摘は、`#10`（テストデータの記載例）がまだ見出しのみのスタブで個別アンカーが存在しないため、本ラウンドでは対応を見送り、`#10`着手時に個別アンカーへ張り替える宿題として引き継ぐ判断とした（ユーザーへの提示時に説明）。全修正後ページ全体を通し読みし整合性を確認。Dockerフルビルド（クリーン、`rm -rf _build`後再実行）で`build succeeded, 1 warning`（既知の`db_double_submit.rst`のみ、新規警告0件）を確認。
 2026-08-06、上記(12)の見送りに対し、ユーザーから「見出しだけ作成してリンクを通そう」と指示を受け対応。`testdata_examples.rst`に見出し（本文なしのスキャフォルド）を作成し、`testdata_notation.rst`の20箇所の`実際の記述例は...を参照`を、対応する見出しへの個別`:ref:`に張り替えた（テストデータを配置するEcel/YAML2箇所は、ディレクトリ配置の話でデータ内容の実例を持たないためリンクを削除。ページ先頭の1箇所は総論のためページ全体を指す既存リンクのまま維持）。当初は「使用方法」1セクションの下に各カテゴリを「〜の記載例」という見出しで束ねる案（design.md L271の確定済み方針に追記）で作成したが、ユーザーから「記載例のセクションが並ぶだけのページに『使用方法』は合わない」「『〜の記載例』は要らない」「テストデータの書き方ページの使用方法の見出しと合わせられないか」と指摘を受け撤回。見出し文言を`testdata_notation.rst`のL3見出しと完全一致させ（例:「テーブルのデータを記述する」）、「使用方法」ラッパーを外してページ直下のL2として並べる構成に変更した（データ内容の実例を持たない「テストデータを配置する」は見出し自体を設けない）。design.mdの該当節（8. トンマナ→テストデータの2ページ節）をこの経緯に沿って書き換えた。あわせて、ユーザーから「対症療法・局所対応になっていないか、常に横並びチェックをしているか」という確認を受け、`nablarch-testing`/`nablarch-testing-yaml`の実ソースを追加で確認する横並びチェックを行い、2件を発見・修正した。(a)見出し「データブロックを定義する」が本文・他の全L3見出しの「〜を記述する」と語が不統一だったため「データブロックを記述する」に統一（`params`/電文本体を記述する2文の「定義する」も同様に統一。カスタムデータ型・フォーマットの定義を指す2文は意味が異なるため維持）。(b)ファイルデータ節の「可変長ファイルの空エントリ（先頭フィールドが空の行）」の記述が、Excel固有の判定ロジック（`DataFileParser.isDataRow`）由来の表現をYAMLにも通用する共通事実として書いていた不正確さを検出し、共通の空文字補完（`DataFileFragment.addValue`、Excel/YAML共有）とExcel/YAML双方のトリガー方法（Excel: 先頭セル空、YAML: `rows:`に`[]`）を書き分けて訂正。Dockerフルビルド（クリーン）で`build succeeded, 1 warning`（既知のみ、新規警告0件）を確認。
 2026-08-06、`/rn:gm`「ここまでのFBを踏まえてページ全体を見直し、意味のある改善をする」指示を受け、著者自身による通し読みを実施（ラウンド3）。3点発見・対応。詳細は`reviews/page-testdata_notation.md`「ラウンド3」参照。
+2026-08-06、再構成指示`ntf-doc-09-restructure.md`（STEP A〜G）を受領。L2「テストデータの構造」新設・各L3の「共通→形式別」統一・未解消の`must`2件/`note`1件・`style.md`の規約不整合（S-03とS-10の衝突、S-11新設）の解消。詳細は`checks/task-09-restructure.md`・`reviews/page-testdata_notation.md`「ラウンド4」参照。**user review未了**。
 
 **Steps（各ページ共通）**:
 
@@ -339,8 +341,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-06
-- **Last completed**: `/rn:gm`「ここまでのFBを踏まえてページ全体を見直し、意味のある改善をする」指示を受け、`testdata_notation.rst`の著者自身による通し読み（ラウンド3）を実施。個別指摘への対症療法ではなく独立再読で3件発見・対応: (1)「準備データを記述する」「期待値を記述する」「カラムを省略する」の3節に3重反復していた「主キーは省略不可・省略時デフォルト値扱い」の説明を、前2節への参照に整理し反復を解消。(2)「カラムを省略する」節冒頭のimportantが、機械的制約（`LIST_MAP`比較はMap完全一致のため列省略不可、`Assertion#assertMapEquals`で裏付け）とベストプラクティス上の推奨（登録系テストの全カラム確認、`EXPECTED_TABLE`自体は技術的に省略可）を同じ強さの表現で並記し区別できなかった点を是正。(3)ラウンド1のD-3（`note`扱いで未対応だった、ウェブアプリカラム表の`expectedStatusCode`重複掲載）を解消。詳細は`reviews/page-testdata_notation.md`「ラウンド3」参照。Dockerフルビルド（クリーン）で`build succeeded, 1 warning`（既知の`db_double_submit.rst`のみ、新規警告0件）を確認済み。
-- **Next**: 本ラウンドの内容をユーザーに提示し、判定（`/rn:ty`または`/rn:gm`）を待つ。承認後は`#10`（テストデータの記載例、見出しスキャフォルドへの本文追加）へ進む。
-- **Notes**: ブランチ `work`、`origin`(`lovaizu` fork)へ push 済み(PR未作成)。ブロッカーなし。`_build/`はユーザーがブラウザで直接レビューするため今後Docker確認後も削除しない。
+- **Status**: not suspended
+- **Date**: -
+- **Last completed**: -
+- **Next**: -
+- **Notes**: -
