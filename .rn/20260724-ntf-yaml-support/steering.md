@@ -326,8 +326,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-08-06
-- **Last completed**: （placeholder）
-- **Next**: （placeholder）
-- **Notes**: ブランチ `work`、`origin`(`lovaizu` fork)へ push 済み(PR未作成)。ブロッカーなし。`_build/`はユーザーがブラウザで直接レビューするため今後Docker確認後も削除しない。
+- **Last completed**: `#9`差し戻し是正（`ntf-doc-09-fix.md` STEP 1〜7）を実施。実装コミット`02f398a`→QA/Craft/Verification/Design4専門家レビュー（Design追加はSTEP 6/7が構造改訂のため）→指摘3件の修正コミット`ee96fc2`→再レビューで解消確認→コーディネータ判定を`checks/task-09.md`に記録したコミット`8c7d15f`。10ゲート全件・独立実行のDockerフルビルド2回（`build succeeded, 1 warning`＝既知の`db_double_submit.rst`のみ）で確認済み。ユーザーに提示済み。
+- **Next**: `#9`差し戻し是正へのユーザー判定（`/rn:ty`または`/rn:gm`）待ち。承認後は`#10`（テストデータの記載例）へ進む。
+- **Notes**: ブランチ `work`、`origin`(`lovaizu` fork)へ push 済み(PR未作成、最終コミット`8c7d15f`)。ブロッカーなし。`_build/`はユーザーがブラウザで直接レビューするため今後Docker確認後も削除しない。
