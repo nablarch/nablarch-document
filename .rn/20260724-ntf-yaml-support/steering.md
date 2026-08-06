@@ -256,6 +256,8 @@ Rn version: 0.8.0
 L3見出しと完全一致している。本タスクはそこへの本文追加として扱う。実例水準は Toy/サンプルレベルではなく
 実開発で参考にできる具体的かつ十分な分量とする（design.md「テストデータの2ページ」節）。
 
+**#10の進捗（2026-08-07）**: `mapping.csv` の65行を反映してページを作成（L2 9・L3 28・L4 56、1,883行）。全L3を「シナリオのL3＋末尾に形式別L4対」で統一した。4観点レビュー（ラウンド1）で `must` 7件・`should` 14件を検出し対応。実装で裏付けた事実誤り4件（レコード長不一致・`sendSyncTestData` の識別子・`EXPECTED_COMPLETE_TABLE` の補完条件・`quoting-delimiter` のYAML等価性）を是正し、あわせて承認済み `#9` の `testdata_notation.rst` に3件の是正を入れた。`style.md` S-07・S-03例外1 に本ページの構成を追認する追記を実施。Dockerフルビルド（クリーン）で `build succeeded, 1 warning`（既知の `db_double_submit.rst` のみ、新規警告0件）。詳細は `checks/task-10.md`・`reviews/page-testdata_examples.md` 参照。**user review未了**。
+
 **前方参照によるスタブページ**: #8で`setup/junit5_extension.rst`・`tools/testdata_converter.rst`を見出しのみで作成し、`setup/index.rst`・`tools/index.rst`のtoctreeに追記済み（undefined label警告解消のため。2026-08-05）。該当ページのタスクが来たら、新規作成ではなく既存ファイルへの追記として扱う。同様に他ページからの前方参照でundefined label警告が出た場合も、対象ページの見出しのみのスタブを先行作成し対応するtoctreeに追記する運用とする（毎回の警告差分確認の手間を減らすため）。#9の作業で同じ理由により`implementation/testdata_examples.rst`（`#10`用）を見出しのみで先行作成し`implementation/index.rst`のtoctreeに追記済み。
 
 ### #9: テストデータの書き方（`implementation/testdata_notation.rst`）— DONE
@@ -337,6 +339,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: not suspended
 - **Date**: 2026-08-07
-- **Last completed**: #9 テストデータの書き方（`implementation/testdata_notation.rst`）。user review 承認済み（`/rn:ty`、2026-08-07）。`important` 2件を含む現行内容のまま承認された（作業指示の「追記1件のみ」に対する自発検出1件を含む構成が是認された）。
-- **Next**: #10「テストデータの記載例」（`implementation/testdata_examples.rst`）。既存の見出しスキャフォルドへの本文追加として実施する。
-- **Notes**: ブランチ `work`、`origin`（`lovaizu` fork）と同期済み・PR未作成。ツリーはクリーンで未追跡パスなし。ブロッカーなし。`#10` 以降への申し送り15件は `reviews/page-testdata_notation.md` 末尾（うち14・15はレコード種別／行内カラム値の形式差が仕様意図か挙動乖離か未確定という宿題）。`_build/` はユーザーがブラウザで直接レビューするため今後も削除しない。Docker ビルドは `locales/ja/LC_MESSAGES/sphinx.mo` を再生成するため、commit 前に戻すこと。
+- **Last completed**: #9（user review 承認済み）。#10「テストデータの記載例」は本文作成・4観点レビュー（ラウンド1）・指摘対応・Docker クリーンビルドまで完了し push 済み。**user review 未了**。
+- **Next**: #10 の user review 判定（`/rn:ty` または `/rn:gm`）を受ける。承認後は第2部の作成順に従って次ページへ進む。
+- **Notes**: ブランチ `work`、`origin`（`lovaizu` fork）と同期済み・PR未作成。ツリーはクリーン。ブロッカーなし。**user review で判断を仰ぐ事項2件**（コメント行を表内に残した件、承認済み `#9` の `testdata_notation.rst` に実装で裏付けた事実誤り3件の是正を入れた件）は `checks/task-10.md` §7 に記載。`#11` 以降への申し送り5件は `reviews/page-testdata_examples.md` 末尾。`_build/` はユーザーがブラウザで直接レビューするため今後も削除しない。Docker ビルドは `locales/ja/LC_MESSAGES/sphinx.mo` を再生成する場合があるため、commit 前に `git status` を確認すること。
