@@ -171,6 +171,54 @@ RST本文側の`must`はコミット`d8089aa`で、規約文書側の`must`と�
 - `style.md`の観点は11個のまま（S-01〜S-11）。本ラウンドの修正はすべて既存観点（S-02・S-10）への改訂である
 - Dockerフルビルド（`-a`）で`build succeeded, 1 warning`（既知の`db_double_submit.rst`のみ、新規警告0件）を再確認。ゲート5〜13の再実行値は`checks/task-09-restructure.md`に記録
 
+## ラウンド7（最終ラウンド。事実誤りの確定と規約2件の実測整合）
+
+ラウンド6の対応（`d8089aa` / `c94a870`）に対する最終の修正ラウンド。指摘は移動を伴わない局所的な語句修正が中心である。
+本ラウンドでは**事実に関わる修正をすべて実装ソース（`/home/tie303177/work/nablarch/`）または JSON Schema を自分で読んで裏付けた**。
+過去3ラウンドで繰り返した「本文を移動して語彙を直し忘れる」型の回帰を避けるため、不要な移動は行っていない。
+
+| 指摘ID | ラウンド | 観点 | 区分 | 指摘内容 | 対応要否 | 不要の理由 | 対応内容 |
+|---|---|---|---|---|---|---|---|
+| R7-1 (F-1) | 7 | A | must（事実誤り） | レコード種別の記述が over-generalization。3箇所（`Excel形式の場合` L1218「先頭要素に記載した値がレコード種別として使われることはない」・`YAML形式の場合` L1245「Excel・YAML とも装飾的」・整形/補完の表 L1495「常に既定のレコード種別に置き換える」）が、`MESSAGE` 以外のメッセージ系にも当てはまるかのように書かれていた | 要 | — | 実装を自分で読んで確定させた。**`MESSAGE`（`setUpMessages`/`expectedMessages`）だけが破棄され `"default"` に固定される**（`MessageParser.java:58-67` の匿名 `FixedLengthFileParser` が `onReadingNames` を上書きし `temp.remove(0); temp.add(0, "default")`）。**Excelの同期応答メッセージ送信系4データタイプとモックアップ経路は、書いた値がそのままレコード種別になる**（`SendSyncMessageParser.java:110-143` は `createFixedLengthFileParser` を別の匿名クラスで置き換えるが上書きするのは `onReadingValues` と `createNewFile` のみで `onReadingNames` は上書きしない → 既定の `DataFileParser.java:259-263` `createNewFragment` が `currentFragment.setRecordType(fieldNamesLine.get(0))` を実行する）。到達経路も `BasicTestDataParser.java:99-103`（`getMessageWithoutCache` = モックアップ）・`:113-117`（`getSendSyncMessage` → `GroupMessageParser.java:43` → `SendSyncMessageParser`）で確認した。**YAML は全メッセージ系（`messages` と送信同期4キー）が `"default"` 固定**（`YamlFileBuilder.java:182-184` の `skipFwHeader ? DEFAULT_RECORD_TYPE : ...`。`YamlMessageBuilder.java:189,207` がいずれも `skipFwHeader=true` の builder を呼ぶ。JSON Schema `$defs/record_fragment.record_type` の description も同旨）。3箇所すべてを適用範囲を限定する形に書き換え、Excel側には「慣行に従って `no` と記載した場合はレコード種別も `no` になる」という判断材料を1文添えた |
+| R7-2 (F-2) | 7 | A/D | must（自己矛盾・出典誤り） | `errorMode:` の `important`（L1196）が「機能するのは応答電文（RESPONSE系）およびモックアップ経由に限られる」と述べた直後に「`RequestTestingSendSyncSupport`（`GroupMessageParser`）を使う経路では反映されない」と書いており、前段と後段が矛盾していた | 要 | — | 実装で決着。RESPONSE系こそが `RequestTestingSendSyncSupport` 経路である（`RequestTestingMessagingProvider.java:190-206` が `new RequestTestingSendSyncSupport(testClass)` から `RESPONSE_HEADER_MESSAGES`/`RESPONSE_BODY_MESSAGES` を取得 → `RequestTestingSendSyncSupport.java:157` → `BasicTestDataParser.java:113-117` → `GroupMessageParser`）。その経路が呼ぶ `RequestTestingMessagePool.java:78-84` が `ErrorMode.TIMEOUT`/`MSG_EXCEPTION` を判定して `null` 返却／`MessagingException` 送出を行う。モックアップ経路も同様に判定する（`SendSyncSupport.java:288-294`）。**`errorMode:` を反映するコードは RESPONSE系を読む2箇所だけであり、要求電文の期待値（`EXPECTED_REQUEST_*`）の読み出し・照合経路（`RequestTestingMessagePool.java:109` の `getRequestTestingReceivedMessage`）には判定が無い**。この2点が読み取れる文へ書き換えた。**出典（`input/ntf-testdata-doc.md:492`）は実装と食い違っており、誤りである。**実装を優先して出典を訂正した（ラウンド4のR4-3・ラウンド5のR5-1と同じ扱い） |
+| R7-3 (F-3) | 7 | B/D | must（回帰） | `ファイルのデータを記述する` のL3共通部の用語表（`レコード種別行`/`フィールド名称行`/`データ型行`/`フィールド長行`/`データ行`。定義はいずれも「〜を示す**行**」）がExcelの行前提で、YAMLでは成立しない（YAMLは `records:` 配下の `record_type` / `fields:`（各要素が `name`・`type`・`length` を持つマップ）/ `rows:` という構造。`YamlFileBuilder.java` の `buildFragmentsInternal` で確認）。さらに `d8089aa` がメッセージングのL3共通部を脱「行」化した結果、その文が「**前述のファイルデータと同じ構成を持つ**」と参照する当の用語表だけが「〜行」のまま残り、参照元と参照先で用語が食い違っていた | 要 | — | 用語表を形式非依存にした（`レコード種別`/`フィールド名称`/`データ型`/`フィールド長`/`データ`。定義からも「行」を外し役割だけを残した）。あわせてL3導入文の「各**行**の役割」「各**行**の名称と役割」を「各**要素**の」に改めた。Excel固有の行としての書き方は `Excel形式の場合` の名称表（`レコード種別`・`フィールド名称`・`データ型`・`フィールド長`・`データ`と `ディレクティブ行`）に既にあるため移動は不要。code-block（`ディレクティブ → レコード種別 + フィールド名称 → データ型 → フィールド長 → データ`）は元から「行」を含まず両形式の記述順序として成立するため無変更。これによりメッセージング側の「前述のファイルデータと同じ構成」という参照が成立する |
+| R7-4 (F-4) | 7 | A | must（削除の回帰） | `d8089aa` がモックアップ段落を分割した際、旧文の「（`EXPECTED_REQUEST_HEADER_MESSAGES=リクエストID` など、グループIDを持たない点が同期応答メッセージ送信のテストケースと異なる）」から**括弧内の具体例が落ちていた**（`grep -c "EXPECTED_REQUEST_HEADER_MESSAGES=" `: `d545d95` 1件 → `c94a870` 0件）。作業指示の禁止事項「内容の追加・削除を行わない」に対する違反 | 要 | — | 具体例を復活させた。ただし**旧位置（L3共通部）ではなく `Excel形式の場合` に置いた**。`データタイプ=識別子の値` はExcel固有の書式であり、共通部へ戻すと `d8089aa` のR6-4(b)で解消した「共通部にExcel固有の構文が残る」欠陥を再発させるためである。現行文は `Excel形式の場合` のモックアップ段落末尾に「識別子はグループIDを持たず、``EXPECTED_REQUEST_HEADER_MESSAGES=リクエストID`` のように記載する。」として置いた。共通部側の「識別子の書式がグループIDを持たない点が同期応答メッセージ送信のテストケースと異なり」は無変更 |
+| R7-5 (F-5a) | 7 | A | note（事実の精度） | 「0バイトの空ファイルを表現するには `records:` に空配列 `[]` を記載する」の直前が、必須キーを `path` のみとしていた | 要 | — | JSON Schema（`nablarch-testing-yaml/src/main/resources/nablarch/test/ntf-testdata-yaml-schema.json` の `$defs/file_data`）を自分で読み、`required` が `["path","type","records"]` の3キーであることを確認して「`path`・`type`・`records` の3キーが必須」に是正した。`records:` キー自体を省略できない旨は必須キーの記述に含まれたため重複表現を落とした |
+| R7-6 (F-5b) | 7 | A | note（事実の精度） | 収集方法の表の「単一」行が「データタイプとIDが**完全一致**する最初の1ブロック」としていたが、データタイプ側は前方一致である | 要 | — | 実装で確認（`TestDataParsingTemplate.java:321-333` の `getDataType` が `dataTypeCell.startsWith(type.getName())`、`SingleDataParsingTemplate.java:33-40` が `getTargetType() == dataType && typeValue.equals(id)`）。完全一致なのはIDのみ。「データタイプが合致する（Excel形式ではデータタイプ名の前方一致）データブロックのうち、IDが完全一致する最初の1件を取得」に是正した |
+| R7-7 (F-5c) | 7 | D | note（参照のキーずれ） | `データブロックとデータタイプ` の `Excel形式の場合` で、「同じ**データタイプ**のデータブロックを複数記述」した場合の帰結を、データタイプ一覧表の「同一**ID**のデータブロックが複数ある場合」列へ参照させており、問い（キー）がずれていた | 要 | — | 参照の主語を表の列見出しに揃え、「データタイプが同じで識別子の値（ID）も同じデータブロックが複数ある場合にどれが有効になるかは、…のとおりである」に改めた |
+| R7-8 (S-1) | 7 | B | must（規約） | `style.md` S-10 規約3 の太字例外条件(iii) の根拠「そのL3で記述方法の違いに触れるのは1〜2箇所だけであり、L4対を立てるだけの分量がない」が実態と不一致。該当L3（`コメント・マーカーカラム・空エントリを扱う`）で形式差に触れているのは**5箇所**であり、`checks/task-09-restructure.md` の自記録とも矛盾していた | 要 | — | 実測に合う表現へ書き直した。**本ラウンド終了時点の実測は6箇所**である（太字ラベル2件・コメント記号の対比・空エントリの判定・整形/補完の表のセル**2件**）。ラウンド6時点の5箇所から1件増えたのは、R7-1 で整形/補完の表の「メッセージ」行に形式別の適用範囲を書き加えたためである。根拠を「箇所が少ないこと」から「形式差がいずれも1文以内に収まり、かつ規則（コメント／マーカーカラム／空エントリ）ごとに分散していて、形式別L4対に分けると規則単位の説明が分断されること」へ差し替えた。**5〜6箇所を形式別L4対に分割するかどうかは別判断であり、本ラウンドでは分割しない**（申し送り9へ） |
+| R7-9 (S-2) | 7 | B | must（規約） | `style.md` S-07（表の記法）が本ページの実態を裁定しておらず、`#8` と `#9` の運用が正反対だった。実測: `testdata_notation.rst` は `list-table` 34件 / simple table 0件、承認済みの `about/index.rst`（`#8`）は `list-table` 1件 / simple table 3件。`#8` のレビューでは同じ S-07 が3ラウンド連続で `must` として指摘され `list-table` → simple table への変換まで実施されている | 要 | — | S-07 に例外を明文化して本ページの形を追認した。根拠は `steering.md` Rules L43 の実測記録（`=` のみで罫線を引く simple table のセル文字列は列位置を「表示幅」（全角2・半角1）で揃える必要があり、文字数基準で詰めると `sphinx-build` が `Malformed table` エラーを出す。2026-08-03に `about/index.rst` で実際に発生）。コードリテラル（半角）と日本語（全角）が混在するセルが多数を占める表が大半のページでは幅合わせの保守コストが表の数だけ積み上がるため、短い2列表でも `list-table` に揃えてよいこととし、適用はページ単位で判断すると定めた。**34表の変換は行わない。**あわせて `list-table` 34件中 `:ref:` を含むセルが0件であること（規約本体の基準だけでは `list-table` を選ぶ理由にならないこと）も明記した |
+
+### ラウンド1の記録の訂正（ラウンド1の表は書き換えない）
+
+ラウンド1の観点Bの行（`B(他8観点)`）は「S-01〜S-03, S-05〜S-08は違反なし」と記録しているが、**このうち S-07 についての記録は基準の取り違えである。**
+当時の本ページは表がすべて `list-table` であり（本ラウンドの実測でも34件すべてが `list-table`、simple table 0件）、
+S-07 の規約本体（「2〜3列程度の短い説明表は simple table を使う」）に照らせば、短い2列表（処理方式/対応クラス、値の指定/記述方法、用語/定義など）が複数該当していた。
+同じ S-07 は `#8`（`about/index.rst`）のレビューでは3ラウンド連続で `must` として指摘され、`list-table` → simple table への変換まで実施されている。
+`#9` ラウンド1が「違反なし」と判定したのは、規約本体ではなく本ページの既存の形を基準に据えてしまったためである。
+本ラウンドの R7-9 で S-07 側に例外を明文化し、本ページの形を正として追認した。
+
+### 形式差に触れる箇所（R7-8 の根拠。`コメント・マーカーカラム・空エントリを扱う` を全件走査）
+
+| 行 | 種類 | 内容 |
+|---|---|---|
+| L1435 | 太字ラベル | `**Excel\ 形式**\ では、セルの内容を ``//``\ で始めると…` |
+| L1462 | 地の文 | コメント記号の対比（Excelの `//` と YAMLの `#`、行全体スキップと行末コメント） |
+| L1464 | 太字ラベル | マーカーカラムの対象データタイプ（`**Excel\ 形式**` の3データタイプ / `**YAML\ 形式**` の3キー） |
+| L1484 | 地の文 | 空エントリの判定（Excelは行の全セルが空、YAMLは空マッピング `{}` または全値が空文字） |
+| L1495 | 表のセル | 行末の空セルの除去（Excel形式のみ。YAML形式では `rows:` の各要素をそのまま読み込む） |
+| L1497 | 表のセル | レコード種別の `"default"` 置換の適用範囲（**R7-1 で追加。ラウンド6時点では形式差に触れていなかった**） |
+
+### ラウンド7終了時点のまとめ
+
+- `must`（RST側）: R7-1（F-1）・R7-2（F-2）・R7-3（F-3）・R7-4（F-4）、全て解消
+- `must`（規約側）: R7-8（S-1）・R7-9（S-2）、全て解消
+- `note`: R7-5（F-5a）・R7-6（F-5b）・R7-7（F-5c）、いずれも実装／JSON Schema を確認のうえ解消
+- 記録の訂正: ラウンド1の「S-07 違反なし」が基準の取り違えであった旨（上記）
+- **申し送り7（`SendSyncMessageParser` 経路が未検証）は R7-1 で実測により確定したためクローズした**
+- `style.md` の観点は11個のまま（S-01〜S-11）。本ラウンドの修正はすべて既存観点（S-07・S-10）への追記・改訂である
+- Dockerフルビルド（`-a`）で `build succeeded, 1 warning`（既知の `db_double_submit.rst:108` のみ、新規警告0件）。ゲートの再実行値は `checks/task-09-restructure.md` に記録
+
 ## `#10`（テストデータの記載例）への申し送り
 
 1. **`testdata_examples.rst`のL2見出し2件を改題する。** `データブロック（テストケース、準備データ、期待値）を記述する` → `データブロックとデータタイプ`、`グループIDでデータブロックを分ける` → `グループIDによる使い分け`。`design.md` §4の見出し文言一致規約（R5-5で改訂）に合わせるため。あわせて`testdata_notation.rst`側のリンク文言も合わせる（`:ref:`のラベル参照自体は現状で正しく解決しており、変更が要るのはリンクの表示文言のみ）
@@ -195,4 +243,21 @@ RST本文側の`must`はコミット`d8089aa`で、規約文書側の`must`と�
 
    根拠はJSON Schema（`nablarch-testing-yaml` の jar に同梱される `nablarch/test/ntf-testdata-yaml-schema.json`、`file_data.records`。`input/ntf-testdata-doc.md:70` に所在の記載あり）と実装である。**例外とした理由**: これらの記法はもともとExcel固有の書き方（`SETUP_VARIABLE=...` のコードブロック、先頭ラベル列の連番）でしか書かれておらず、それを `Excel形式の場合` へ移すだけでは、YAML形式の読者に該当記法が**一切残らなくなる**。移動だけでは情報の欠落が生じるため、対応するYAML側の記法を1文ずつ補った
 
-7. **未検証の可能性がある箇所（次に触れる際に確認すること）。** 現行RSTの `メッセージングのデータを記述する` の `YAML形式の場合` には「``record_type``\ の値は、フレームワーク内部で常に ``"default"``\ に置き換えられる。\ Excel\ ・\ YAML\ とも任意の値を装飾的に記述できるが、実行時の挙動には影響しない。」とあり、`Excel形式の場合` にも「フィールド名称行の先頭要素に記載した値がレコード種別として使われることはない。」とある。この記述は `MESSAGE` 系（`MessageParser`）については真だが、**Excelの同期応答送信経路（`SendSyncMessageParser`）は `onReadingNames` を上書きしないため、`DataFileParser` によりフィールド名称行の先頭要素がレコード種別として使われる**可能性がある。この経路については実装で確認していない。厳密には「Excel・YAMLとも装飾的」が成り立たない可能性があるため、次にメッセージングの節に触れる際に `SendSyncMessageParser` / `DataFileParser` / `MessageParser` の3者を読んで確定させること
+7. **【ラウンド7でクローズ】未検証の可能性がある箇所（次に触れる際に確認すること）。** 現行RSTの `メッセージングのデータを記述する` の `YAML形式の場合` には「``record_type``\ の値は、フレームワーク内部で常に ``"default"``\ に置き換えられる。\ Excel\ ・\ YAML\ とも任意の値を装飾的に記述できるが、実行時の挙動には影響しない。」とあり、`Excel形式の場合` にも「フィールド名称行の先頭要素に記載した値がレコード種別として使われることはない。」とある。この記述は `MESSAGE` 系（`MessageParser`）については真だが、**Excelの同期応答送信経路（`SendSyncMessageParser`）は `onReadingNames` を上書きしないため、`DataFileParser` によりフィールド名称行の先頭要素がレコード種別として使われる**可能性がある。この経路については実装で確認していない。厳密には「Excel・YAMLとも装飾的」が成り立たない可能性があるため、次にメッセージングの節に触れる際に `SendSyncMessageParser` / `DataFileParser` / `MessageParser` の3者を読んで確定させること
+
+   **【ラウンド7でクローズ】** 3者に加えて `BasicTestDataParser` / `GroupMessageParser` / `YamlFileBuilder` / `YamlMessageBuilder` / JSON Schema を読んで確定させた。結論は次のとおりで、RST本文はR7-1で是正済みである。本項目は以後参照不要。
+   - Excel `MESSAGE`（`setUpMessages`/`expectedMessages`）: 書いた値は破棄され `"default"` 固定（`MessageParser.java:58-67`）
+   - Excel の同期応答メッセージ送信系4データタイプ・取引単体テストのモックアップ経路: 書いた値がそのままレコード種別（`SendSyncMessageParser.java:110-143` は `onReadingNames` を上書きしないため `DataFileParser.java:259-263` が効く）
+   - YAML のメッセージ系（`messages` と送信同期4キー）: すべて `"default"` 固定（`YamlFileBuilder.java:182-184`、`YamlMessageBuilder.java:189,207`）
+
+8. **記載例へのリンクの重複。** 「実際の記述例は…を参照。」が7つのL3で各3回（L3共通部＋`Excel形式の場合`＋`YAML形式の場合`）出現し、21本中14本が同一アンカーへの反復である。誤りではないが、`style.md` に「記載例リンクの置き場所」の規約を1つ立ててから、全ページ横断で整えるのが筋である（本ページだけを先に整えると規約のないまま実態が動く）
+
+9. **`コメント・マーカーカラム・空エントリを扱う` の形式別分割の是非。** 形式差に触れる箇所が6箇所ある（内訳はラウンド7の表）。太字ラベルでの対応が妥当か、形式別L4対を立てるべきかを判断する必要がある。`style.md` S-10 規約3 の例外条件(iii) は現在、分割しない根拠を「形式差がいずれも1文以内に収まり、規則ごとに分散しているため分割すると規則単位の説明が分断される」としている（ラウンド7で「1〜2箇所だけ」という誤った根拠から差し替えた）
+
+10. **同一L3共通部の `important` の重複。** 「フィールド名称に重複した名称は許容されない」が `メッセージングのデータを記述する` のL3共通部だけで2回述べられている（現状 L1113-1115 の `important` と、現状 L1155-1157 の `important` 中の一文）。`ファイルのデータを記述する` の `Excel形式の場合`（現状 L1023）にも同じ趣旨の `important` があり、ページ全体では3箇所になる。**内容の削除を伴うためラウンド7では対応しない**
+
+11. **`値を特殊記法で記述する` の `Excel形式の場合`。** 16個の形式別L4のうち唯一、導入文なしでいきなり表から始まる（対のYAML側には導入文がある）。S-10 規約3 は導入文の有無を定めていないが、対の非対称は読者に段差として見える
+
+12. **`グループIDによる使い分け` の `default` の扱い（現状 L254）。** 「テストケース一覧のカラムでデフォルトグループを明示的に使いたい場合は ``default`` と記載する」と「Nablarchバッチアプリケーションでは、グループIDに文字列として ``"default"`` を指定した場合もグループIDなしと同等に扱われる（ウェブアプリケーション・メッセージングのテストには、この挙動は適用されない）」が互いを打ち消し合って読める。実装を確認したうえで、それぞれの主語（どの処理方式のどのカラムの話か）を限定する必要がある
+
+13. **YAML のメッセージ系における `record_type: FW_HEADER` の扱い（ラウンド7の通し読みで検出）。** 現行RST（現状 L1253 の `important`）は「``record_type`` に特別な予約値はない」と述べており、これは JSON Schema の記述（`$defs/record_fragment.record_type` の description「FW_HEADER のような予約値はない」、`$defs/message_data.records` の「旧形式の record_type: FW_HEADER は廃止」）と一致する。一方、実装は `YamlFileBuilder.java:177`（`if (skipFwHeader && FW_HEADER_RECORD_TYPE.equals(recordType)) continue;`、定数は `YamlSection.java:78` の `"FW_HEADER"`）でメッセージ系に限り `record_type: FW_HEADER` のレコードを**読み飛ばす**。旧形式の残骸を無視するための後方互換処理と読めるが、「予約値はない」という本文とは厳密には食い違う。**ラウンド7では修正していない**（スキーマの記述と本文は一致しており、修正は仕様意図の確認を要するため）
