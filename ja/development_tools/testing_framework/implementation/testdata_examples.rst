@@ -19,12 +19,17 @@
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-テストケース一覧は「LIST_MAP=testShots」の行に続けて記述する。カラム数が多いため、ここでは前半・後半に分けて示す（実際のシートでは1行に続けて記述する）。
+テストケース一覧の例を示す。カラム数が多いため、ここでは複数に分けて示す（実際のシートでは1行に続けて記述する）。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 8,32,20,20,20
 
+  * - LIST_MAP=testShots
+    -
+    -
+    -
+    -
   * - no
     - description
     - expectedStatusCode
@@ -37,9 +42,15 @@ Excel形式の場合
     - default
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 8,17,17,25,17,16
 
+  * - LIST_MAP=testShots
+    -
+    -
+    -
+    -
+    -
   * - no
     - setUpFile
     - expectedFile
@@ -56,20 +67,25 @@ Excel形式の場合
 期待ログを参照するカラム（``expectedLog``\ ）は、後続の「LIST_MAP=expectedLog」のデータブロックを指す。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 8,92
 
+  * - LIST_MAP=testShots
+    -
   * - no
     - expectedLog
   * - 1
     - expectedLog
 
-準備データは「SETUP_TABLE=ORDER_HEADER」の行に続けて記述する。
+準備データの例を示す。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 34,33,33
 
+  * - SETUP_TABLE=ORDER_HEADER
+    -
+    -
   * - ORDER_ID
     - ITEM_COUNT
     - REMARKS
@@ -80,12 +96,16 @@ Excel形式の場合
     - 20
     - まとめ買い
 
-期待値は「EXPECTED_TABLE=ORDER_HEADER」の行に続けて記述する。バッチ処理によって ``ITEM_COUNT``\ が1加算され、``UPDATE_DATE``\ が更新されることを検証している。
+期待値の例を示す。バッチ処理によって ``ITEM_COUNT``\ が1加算され、``UPDATE_DATE``\ が更新されることを検証している。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 20,20,25,35
 
+  * - EXPECTED_TABLE=ORDER_HEADER
+    -
+    -
+    -
   * - ORDER_ID
     - ITEM_COUNT
     - REMARKS
@@ -99,12 +119,14 @@ Excel形式の場合
     - まとめ買い
     - 2010-09-13 12:34:56.0
 
-期待ログは「LIST_MAP=expectedLog」の行に続けて記述する。
+期待ログの例を示す。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 70,30
 
+  * - LIST_MAP=expectedLog
+    -
   * - message
     - logLevel
   * - 注文ID[10001]
@@ -193,12 +215,17 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-グループIDは、識別子行のデータタイプ名の直後に半角角括弧で記述する。テストケース一覧は「LIST_MAP=testShots」の行に続けて記述する。
+グループIDは、識別子行のデータタイプ名の直後に半角角括弧で記述する。テストケース一覧の例を示す。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 10,25,25,20,20
 
+  * - LIST_MAP=testShots
+    -
+    -
+    -
+    -
   * - no
     - description
     - expectedStatusCode
@@ -215,12 +242,16 @@ Excel形式の場合
     - case02
     - case02
 
-ケース1の準備データは「SETUP_TABLE[case01]=ORDER_DETAIL」の行に続けて記述する。
+ケース1の準備データの例を示す。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 25,25,25,25
 
+  * - SETUP_TABLE[case01]=ORDER_DETAIL
+    -
+    -
+    -
   * - ORDER_ID
     - PRODUCT_CODE
     - QUANTITY
@@ -230,12 +261,16 @@ Excel形式の場合
     - 5
     - 1500
 
-ケース1の期待値は「EXPECTED_TABLE[case01]=ORDER_DETAIL」の行に続けて記述する。
+ケース1の期待値の例を示す。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 25,25,25,25
 
+  * - EXPECTED_TABLE[case01]=ORDER_DETAIL
+    -
+    -
+    -
   * - ORDER_ID
     - PRODUCT_CODE
     - QUANTITY
@@ -245,12 +280,16 @@ Excel形式の場合
     - 5
     - 1500
 
-ケース2の準備データは「SETUP_TABLE[case02]=ORDER_DETAIL」の行に続けて記述する。
+ケース2の準備データの例を示す。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 25,25,25,25
 
+  * - SETUP_TABLE[case02]=ORDER_DETAIL
+    -
+    -
+    -
   * - ORDER_ID
     - PRODUCT_CODE
     - QUANTITY
@@ -264,12 +303,16 @@ Excel形式の場合
     - 200
     - 300
 
-ケース2の期待値は「EXPECTED_TABLE[case02]=ORDER_DETAIL」の行に続けて記述する。
+ケース2の期待値の例を示す。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 25,25,25,25
 
+  * - EXPECTED_TABLE[case02]=ORDER_DETAIL
+    -
+    -
+    -
   * - ORDER_ID
     - PRODUCT_CODE
     - QUANTITY
@@ -363,12 +406,16 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-「SETUP_TABLE=MEMBER」の行に続けて、カラム名の行とデータ行を記述する。カラム数が多いため、ここでは前半・後半に分けて示す（実際のシートでは1行に続けて記述する）。
+準備データの例を示す。カラム数が多いため、ここでは前半・後半に分けて示す（実際のシートでは1行に続けて記述する）。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 30,25,20,25
 
+  * - SETUP_TABLE=MEMBER
+    -
+    -
+    -
   * - MEMBER_ID
     - NAME
     - RANK
@@ -383,9 +430,13 @@ Excel形式の場合
     - Null
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 25,15,25,35
 
+  * - SETUP_TABLE=MEMBER
+    -
+    -
+    -
   * - MEMBER_ID
     - RATE
     - PROFILE
@@ -437,12 +488,17 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-省略したカラムを比較対象から外す期待値は、「EXPECTED_TABLE=MEMBER」の行に続けて記述する。
+省略したカラムを比較対象から外す期待値の例を示す。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 22,18,12,18,30
 
+  * - EXPECTED_TABLE=MEMBER
+    -
+    -
+    -
+    -
   * - MEMBER_ID
     - NAME
     - RANK
@@ -459,12 +515,15 @@ Excel形式の場合
     - 42000
     - 2024-04-01 09:00:00.0
 
-省略したカラムにデフォルト値を補完して比較する期待値は、「EXPECTED_COMPLETE_TABLE=ORDER_HEADER」の行に続けて記述する。ここでは ``UPDATE_DATE``\ カラムをカラム名の行に書いていない。テーブルに存在するがカラム名の行に書かなかったカラムが、デフォルト値の補完対象になる。
+省略したカラムにデフォルト値を補完して比較する期待値の例を示す。ここでは ``UPDATE_DATE``\ カラムをカラム名の行に書いていない。テーブルに存在するがカラム名の行に書かなかったカラムが、デフォルト値の補完対象になる。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 34,33,33
 
+  * - EXPECTED_COMPLETE_TABLE=ORDER_HEADER
+    -
+    -
   * - ORDER_ID
     - ITEM_COUNT
     - STATUS
@@ -516,34 +575,41 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-採番用テーブルの準備データは、「SETUP_TABLE=TEST_SBN_TBL」の行に続けて記述する。準備データには、テスト範囲で使用する採番対象のレコードだけを記述する。
+採番用テーブルの準備データの例を示す。準備データには、テスト範囲で使用する採番対象のレコードだけを記述する。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 50,50
 
+  * - SETUP_TABLE=TEST_SBN_TBL
+    -
   * - ID_COL
     - NO_COL
   * - 1101
     - 100
 
-採番用テーブルの期待値は、「EXPECTED_TABLE=TEST_SBN_TBL」の行に続けて記述する。
+採番用テーブルの期待値の例を示す。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 50,50
 
+  * - EXPECTED_TABLE=TEST_SBN_TBL
+    -
   * - ID_COL
     - NO_COL
   * - 1101
     - 101
 
-採番した値が登録される業務テーブルの期待値は、「EXPECTED_TABLE=USER_INFO」の行に続けて記述する。``USER_ID``\ に採番された値が登録される。
+採番した値が登録される業務テーブルの期待値の例を示す。``USER_ID``\ に採番された値が登録される。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 34,33,33
 
+  * - EXPECTED_TABLE=USER_INFO
+    -
+    -
   * - USER_ID
     - KANJI_NAME
     - KANA_NAME
@@ -586,12 +652,18 @@ LIST_MAPのデータを記述する
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-「LIST_MAP=requestParams」の行に続けて記述する。
+リクエストパラメータの例を示す。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 10,20,15,20,20,15
 
+  * - LIST_MAP=requestParams
+    -
+    -
+    -
+    -
+    -
   * - [no]
     - memberId
     - orderStatus
@@ -639,12 +711,14 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-「LIST_MAP=expectedLog」の行に続けて記述する。
+期待ログの例を示す。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 75,25
 
+  * - LIST_MAP=expectedLog
+    -
   * - message
     - logLevel
   * - 会員ID[0000000101]の注文を処理しました
@@ -682,12 +756,18 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-テストケース一覧は「LIST_MAP=testShots」の行に続けて記述する。
+テストケース一覧の例を示す。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 8,20,15,20,17,20
 
+  * - LIST_MAP=testShots
+    -
+    -
+    -
+    -
+    -
   * - no
     - description
     - isValidToken
@@ -707,12 +787,15 @@ Excel形式の場合
     - /error
     - context002
 
-リクエストパラメータは、テストケース数分の行を持つ ``requestParams``\ という\ ID\ の ``LIST_MAP``\ に記述する（\ :ref:`LIST_MAPのデータを記述する <testdata_examples-list_map>`\ 参照）。``context``\ カラムから参照される ``LIST_MAP``\ は、テストケースごとに1つずつ記述する。1件目は「LIST_MAP=context001」の行に続けて記述する。1エントリのみが有効である。
+リクエストパラメータは、テストケース数分の行を持つ ``requestParams``\ という\ ID\ の ``LIST_MAP``\ に記述する（\ :ref:`LIST_MAPのデータを記述する <testdata_examples-list_map>`\ 参照）。``context``\ カラムから参照される ``LIST_MAP``\ は、テストケースごとに1つずつ記述する。1件目の例を示す。1エントリのみが有効である。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 34,33,33
 
+  * - LIST_MAP=context001
+    -
+    -
   * - REQUEST_ID
     - USER_ID
     - HTTP_METHOD
@@ -720,12 +803,15 @@ Excel形式の場合
     - user001
     - POST
 
-2件目は「LIST_MAP=context002」の行に続けて記述する。
+2件目の例を示す。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 34,33,33
 
+  * - LIST_MAP=context002
+    -
+    -
   * - REQUEST_ID
     - USER_ID
     - HTTP_METHOD
@@ -771,12 +857,16 @@ Nablarchバッチアプリケーションのテストケース一覧を記述す
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-テストケース一覧は「LIST_MAP=testShots」の行に続けて記述する。カラム数が多いため、ここでは前半・後半に分けて示す（実際のシートでは1行に続けて記述する）。
+テストケース一覧の例を示す。カラム数が多いため、ここでは前半・後半に分けて示す（実際のシートでは1行に続けて記述する）。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 8,27,20,45
 
+  * - LIST_MAP=testShots
+    -
+    -
+    -
   * - no
     - description
     - expectedStatusCode
@@ -791,9 +881,13 @@ Excel形式の場合
     - nablarch/test/core/batch/BatchSample.xml
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 10,45,20,25
 
+  * - LIST_MAP=testShots
+    -
+    -
+    -
   * - no
     - requestPath
     - userId
@@ -837,12 +931,16 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-テストケース一覧は「LIST_MAP=testShots」の行に続けて記述する。カラム数が多いため、ここでは前半・後半に分けて示す（実際のシートでは1行に続けて記述する）。
+テストケース一覧の例を示す。カラム数が多いため、ここでは前半・後半に分けて示す（実際のシートでは1行に続けて記述する）。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 8,25,20,47
 
+  * - LIST_MAP=testShots
+    -
+    -
+    -
   * - no
     - description
     - expectedStatusCode
@@ -853,9 +951,14 @@ Excel形式の場合
     - batch-test-component-configuration.xml
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 8,25,22,22,23
 
+  * - LIST_MAP=testShots
+    -
+    -
+    -
+    -
   * - no
     - requestPath
     - userId
@@ -891,12 +994,15 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-テストケース一覧は「LIST_MAP=testShots」の行に続けて記述する。
+テストケース一覧の例を示す。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 34,33,33
 
+  * - LIST_MAP=testShots
+    -
+    -
   * - title
     - expectedMessageId1
     - propertyName1
@@ -946,12 +1052,16 @@ Excel\ 形式では、レコード種別行の先頭要素にレコード種別�
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-入力ファイルは「SETUP_FIXED=work/input.txt」の行に続けて、レコード種別行・データ型行・フィールド長行・データ行の順に記述する。データ行の先頭要素は空にする。
+入力ファイルの例を示す。データ行の先頭要素は空にする。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 25,25,25,25
 
+  * - SETUP_FIXED=work/input.txt
+    -
+    -
+    -
   * - データ
     - ID
     - COUNTER
@@ -973,12 +1083,16 @@ Excel形式の場合
     - 20
     - good bye.
 
-出力ファイルの期待値は「EXPECTED_FIXED=work/output.txt」の行に続けて、同じ書式で記述する。
+出力ファイルの期待値は、同じ書式で記述する。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 25,25,25,25
 
+  * - EXPECTED_FIXED=work/output.txt
+    -
+    -
+    -
   * - データ
     - ID
     - COUNTER
@@ -1038,12 +1152,20 @@ CSV\ 形式の顧客データファイルを入力として使う例である。
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-「SETUP_VARIABLE=input/data.csv」の行に続けて、ディレクティブ行「field-separator | ,」を記述し、そのあとにレコード種別行・データ型行・データ行を記述する。フィールド長行は記述しない。
+入力ファイルの例を示す。可変長ファイルではフィールド長行を記述しない。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 25,25,25,25
 
+  * - SETUP_VARIABLE=input/data.csv
+    -
+    -
+    -
+  * - field-separator
+    - ,
+    -
+    -
   * - DATA
     - USER_ID
     - USER_NAME
@@ -1092,12 +1214,16 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-「SETUP_FIXED=input/multi.dat」の行に続けて記述する。データ行の後に新しいレコード種別行を続けて書くと、そこから次のレコードレイアウトとして扱われる。
+入力ファイルの例を示す。データ行の後に新しいレコード種別行を続けて書くと、そこから次のレコードレイアウトとして扱われる。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 25,25,25,25
 
+  * - SETUP_FIXED=input/multi.dat
+    -
+    -
+    -
   * - HEADER
     - SEQ
     - TYPE
@@ -1162,12 +1288,24 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-「SETUP_FIXED=input/data.dat」の行に続けて、ディレクティブ行「text-encoding | MS932」「positive-zone-sign-nibble | C」を記述し、そのあとにレコード定義を記述する。ディレクティブ行はレコード定義より前に置く。
+入力ファイルの例を示す。ディレクティブ行はレコード定義より前に置く。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 25,25,25,25
 
+  * - SETUP_FIXED=input/data.dat
+    -
+    -
+    -
+  * - text-encoding
+    - MS932
+    -
+    -
+  * - positive-zone-sign-nibble
+    - C
+    -
+    -
   * - DATA
     - USER_ID
     - USER_NAME
@@ -1217,12 +1355,21 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-「SETUP_VARIABLE=input/data.tsv」の行に続けて、ディレクティブ行「field-separator | \\t」「record-separator | CRLF」を記述する。タブ文字はセルに ``\t``\ （バックスラッシュと ``t``\ の2文字）と入力する。テスティングフレームワークがタブ文字に変換する。
+入力ファイルの例を示す。タブ文字はセルに ``\t``\ （バックスラッシュと ``t``\ の2文字）と入力する。テスティングフレームワークがタブ文字に変換する。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 34,33,33
 
+  * - SETUP_VARIABLE=input/data.tsv
+    -
+    -
+  * - field-separator
+    - \\t
+    -
+  * - record-separator
+    - CRLF
+    -
   * - DATA
     - FIELD1
     - FIELD2
@@ -1267,12 +1414,24 @@ CSV\ 形式のファイルで、フィールドの値そのものにカンマが
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-「EXPECTED_VARIABLE=output/data.csv」の行に続けて、ディレクティブ行「field-separator | ,」「quoting-delimiter | "」を記述する。``quoting-delimiter``\ に指定できるのは1文字だけである。
+期待値の例を示す。``quoting-delimiter``\ に指定できるのは1文字だけである。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 25,25,25,25
 
+  * - EXPECTED_VARIABLE=output/data.csv
+    -
+    -
+    -
+  * - field-separator
+    - ,
+    -
+    -
+  * - quoting-delimiter
+    - "
+    -
+    -
   * - DATA
     - USER_ID
     - NOTE
@@ -1313,12 +1472,16 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-グループIDなしの入力ファイルは「SETUP_FIXED=work/input.txt」の行に続けて記述する。
+グループIDなしの入力ファイルの例を示す。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 25,25,25,25
 
+  * - SETUP_FIXED=work/input.txt
+    -
+    -
+    -
   * - データ
     - ID
     - COUNTER
@@ -1336,12 +1499,16 @@ Excel形式の場合
     - 10
     - hello
 
-グループID付きの入力ファイルは「SETUP_FIXED[case2]=work/input.txt」の行に続けて記述する。同じファイルパスであっても、グループIDが異なれば別のデータブロックとして扱われる。
+グループID付きの入力ファイルの例を示す。同じファイルパスであっても、グループIDが異なれば別のデータブロックとして扱われる。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 25,25,25,25
 
+  * - SETUP_FIXED[case2]=work/input.txt
+    -
+    -
+    -
   * - データ
     - ID
     - COUNTER
@@ -1426,12 +1593,28 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-要求電文は「MESSAGE=setUpMessages」の行に続けて、ディレクティブ行「text-encoding | Windows-31J」とフレームワーク制御ヘッダ行「requestId | hoge」「userId | moge」を記述し、そのあとにメッセージボディを記述する。メッセージボディの先頭要素はラベル列であり、フィールド名称行には慣行として ``no``\ と記述する。
+要求電文の例を示す。メッセージボディの先頭要素はラベル列であり、フィールド名称行には慣行として ``no``\ と記述する。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 10,30,30,30
 
+  * - MESSAGE=setUpMessages
+    -
+    -
+    -
+  * - text-encoding
+    - Windows-31J
+    -
+    -
+  * - requestId
+    - hoge
+    -
+    -
+  * - userId
+    - moge
+    -
+    -
   * - no
     - ユーザ名
     - 備考
@@ -1453,12 +1636,16 @@ Excel形式の場合
     - ユーザ名が空欄なのでエラーが発生します。
     -
 
-応答電文の期待値は「MESSAGE=expectedMessages」の行に続けて、同じ書式で記述する。
+応答電文の期待値は、同じ書式で記述する。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 10,30,30,30
 
+  * - MESSAGE=expectedMessages
+    -
+    -
+    -
   * - no
     - 処理結果コード
     - 会員ID
@@ -1523,12 +1710,16 @@ Nablarch\ バッチアプリケーションのリクエスト単体テストで�
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-テストケース一覧の記述例は\ :ref:`テストケース一覧（testShots）を記述する <testdata_examples-test_shots>`\ を参照。要求電文ヘッダの期待値は「EXPECTED_REQUEST_HEADER_MESSAGES[case1]=RM21AA0104_01」の行に続けて、ディレクティブ行「text-encoding | ms932」を記述し、そのあとにメッセージボディを記述する。半角角括弧の中がグループID、``=``\ の右がリクエスト\ ID\ である。リクエスト\ ID\ はフォーマット定義ファイルの解決に使われる。
+テストケース一覧の記述例は\ :ref:`テストケース一覧（testShots）を記述する <testdata_examples-test_shots>`\ を参照。要求電文ヘッダの期待値の例を示す。半角角括弧の中がグループID、``=``\ の右がリクエスト\ ID\ である。リクエスト\ ID\ はフォーマット定義ファイルの解決に使われる。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 20,80
 
+  * - EXPECTED_REQUEST_HEADER_MESSAGES[case1]=RM21AA0104_01
+    -
+  * - text-encoding
+    - ms932
   * - no
     - requestId
   * -
@@ -1566,12 +1757,16 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-``sendSyncTestData``\ 配下の ``REQ001.xls``\ の ``message``\ シートに、「RESPONSE_BODY_MESSAGES=REQ001」の行に続けて記述する。``=``\ の右がリクエスト\ ID\ である。先頭要素はラベル列であり、データ行には送信順序と一致する連番を記述する。
+``sendSyncTestData``\ 配下の ``REQ001.xls``\ の ``message``\ シートに記述する。``=``\ の右がリクエスト\ ID\ である。先頭要素はラベル列であり、データ行には送信順序と一致する連番を記述する。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 10,30,30,30
 
+  * - RESPONSE_BODY_MESSAGES=REQ001
+    -
+    -
+    -
   * - no
     - errorMode
     - field1
@@ -1617,12 +1812,14 @@ HTTP\ メッセージ送信のテストで、応答電文にステータスコ�
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-「RESPONSE_BODY_MESSAGES=REQ001」の行に続けて記述する。``=``\ の右はリクエスト\ ID\ である。
+応答電文本文の例を示す。``=``\ の右はリクエスト\ ID\ である。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 20,80
 
+  * - RESPONSE_BODY_MESSAGES=REQ001
+    -
   * - no
     - body
   * -
@@ -1663,12 +1860,16 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-「EXPECTED_TABLE=SCHEDULE」の行に続けて記述する。
+期待値の例を示す。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 10,25,30,35
 
+  * - EXPECTED_TABLE=SCHEDULE
+    -
+    -
+    -
   * - ID
     - EVENT_NAME
     - START_DATE
@@ -1722,12 +1923,15 @@ NULL\ はアンクォートの ``null``\ で記述する。``${systemTime}``\ �
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-「EXPECTED_TABLE=ITEM」の行に続けて記述する。前後をダブルクォートで囲むと、外側の1層だけが除去される。
+期待値の例を示す。前後をダブルクォートで囲むと、外側の1層だけが除去される。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 20,40,40
 
+  * - EXPECTED_TABLE=ITEM
+    -
+    -
   * - ID
     - NAME
     - MEMO
@@ -1756,12 +1960,14 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-「SETUP_TABLE=FILE_TABLE」の行に続けて記述する。
+準備データの例を示す。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 30,70
 
+  * - SETUP_TABLE=FILE_TABLE
+    -
   * - FILE_ID
     - FILE_DATA
   * - 001
@@ -1797,12 +2003,22 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-「SETUP_TABLE=TEST_TABLE」の行に続けて記述する。先頭要素が ``//``\ で始まる行は、行全体が読み飛ばされる。この例では、カラム名の行の前に「// この行はコメントです」だけを記述した行を置き、1件目と2件目のデータ行の間に「// この行もスキップされます」の行を挿入している（表にはカラム名の行以降を示す）。行の先頭以外の要素が ``//``\ で始まる場合は、その要素以降が切り捨てられる。半角角括弧で囲んだ ``[no]``\ ・\ ``[desc]``\ はマーカーカラムであり、データベースへの登録から除外される。
+準備データの例を示す。先頭要素が ``//``\ で始まる行は、行全体が読み飛ばされる。行の先頭以外の要素が ``//``\ で始まる場合は、その要素以降が切り捨てられる。半角角括弧で囲んだ ``[no]``\ ・\ ``[desc]``\ はマーカーカラムであり、データベースへの登録から除外される。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 22,20,15,20,23
 
+  * - SETUP_TABLE=TEST_TABLE
+    -
+    -
+    -
+    -
+  * - // この行はコメントです
+    -
+    -
+    -
+    -
   * - [no]
     - PK_COL1
     - PK_COL2
@@ -1851,12 +2067,14 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-「SETUP_TABLE=USER」の行に続けて記述する。3行目は全セルが空であるため読み飛ばされ、``001``\ と ``002``\ の2件だけが登録される。
+準備データの例を示す。全セルが空の行は読み飛ばされるため、``001``\ と ``002``\ の2件だけが登録される。
 
 .. list-table::
-  :header-rows: 1
+  :header-rows: 0
   :widths: 30,70
 
+  * - SETUP_TABLE=USER
+    -
   * - USER_ID
     - NAME
   * - 001
