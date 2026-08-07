@@ -23,6 +23,7 @@ Rn version: 0.8.0
 - `#10a` 用語統一・並び替え指示: `.rn/20260724-ntf-yaml-support/ntf-doc-terminology.md`
 - `#10a` 追補（`about/index.rst` の扱い）: `.rn/20260724-ntf-yaml-support/ntf-doc-terminology-addendum.md`
 - `#10a` 回答（`design.md:65` の是正・特殊記法セクションの導入文）: `.rn/20260724-ntf-yaml-support/ntf-doc-terminology-answer.md`
+- `#10b` 作業指示（`#10a` 承認後の仕上げ）: `.rn/20260724-ntf-yaml-support/ntf-doc-10a-followup.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
@@ -322,6 +323,33 @@ Rn version: 0.8.0
 - Docker フルビルドが `build succeeded` で、警告が既知の1件のみ（新規0件）
 
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-07）。4観点レビュー3巡＋是正4ラウンドを要した。**ラウンド上限3を超過**したのは、ラウンド3の是正が公開本文に事実誤り（`testShots` に存在しないカラム `リクエストID`）と語釈の消失を持ち込んだためで、上限で打ち切らず是正を優先した。承認時点で、レビュアー間で判断の割れた2件（`testdata_examples.rst:401` の数え方、記載例ページの特殊記法セクションへの参照文追加）はいずれも**現状維持**のまま承認された（両論は `checks/task-terminology.md` §13-4）。詳細は `checks/task-terminology.md`（§10 ラウンド1／§11 ラウンド2／§12 ラウンド3／§13 ラウンド4）・`reviews/page-testdata_notation.md`・`page-testdata_examples.md`・`page-about_index.md` および git 履歴（最終内容コミット `6e63e27`）を参照。`#11` 以降への申し送りは `page-testdata_notation.md` の16〜27、`page-testdata_examples.md` の14〜18。
+
+### #10b: `#10a` 承認後の仕上げ3件
+
+**Purpose**: `#10a` の user review 承認時に現状維持のまま残った2件（`testdata_examples.rst` の数詞、記載例ページ特殊記法セクションの参照文）と、定義セルの括弧書き削除を適用する。作業指示は `ntf-doc-10a-followup.md`。残り32ページに波及するため `#11` の着手前に適用する。
+
+**Steps**:
+
+- [ ] STEP 1 — `testdata_examples.rst` の「2件」をテストショットを数える形に改め、他の導入文の数詞の曖昧さを**全件表**で確認・報告する（是正はしない）
+- [ ] STEP 2 — 記載例ページの特殊記法セクションの導入文に、例が無い値の種類の記法の在処を示す1文を足し、`testdata_notation-special_notation` へリンクする
+- [ ] STEP 3 — 値の種類10件について記載例ページの例の有無を**全件表**で突合し、例が無いものを「出典なし」か「網羅性の欠落（`must`）」に判定する（例の追加はしない）
+- [ ] STEP 4 — `testdata_notation.rst` の定義セルから `（番号・説明・期待するステータスコード）` を削除する（言い換えない）
+- [ ] STEP 5 — `checks/task-10a-followup.md` を新規作成し、`reviews/page-testdata_notation.md`・`page-testdata_examples.md` に追記（既存記録は書き換えない）。残り32ページへの申し送り2件を追加する
+- [ ] ゲート1〜10 をすべて実行結果で確認し、`checks/task-10a-followup.md` に記録する（**全件表を求めるゲート7を実行順の先頭に置く**）
+- [ ] 4観点のレビューを、それぞれ**別のサブエージェント**で実施する（QA / 設計 / クラフト / 検証）
+- [ ] 指摘への対応を行う（最大3ラウンド）
+- [ ] commit & push
+- [ ] **user review** — 承認を受けるまで `#11` に着手しない
+
+**Completion criteria**:
+
+- 作業指示のゲート1〜10 がすべて実行結果で確認され、`checks/task-10a-followup.md` に記録されている
+- STEP 1 の数詞の全件確認表、STEP 3 の値の種類の突合表が、いずれも件数ではなく**全件**の表で記録されている
+- 両ページに `（番号・説明・期待するステータスコード）` が0件である
+- 記載例ページの特殊記法セクションの導入文が `testdata_notation-special_notation` を参照している
+- 作業指示の禁止事項に抵触する変更が無い（`mapping.csv` / `_batch/` / `vocabulary.md` / `style.md` / `glossary.md` / `design.md` / `ja/conf.py` に差分が無く、見出しの文言・並び順が不変）
+- Docker フルビルドが `build succeeded` で、警告が既知の `db_double_submit.rst` 1件のみ（新規0件）
+- 残り32ページへの申し送り2件が `reviews/page-*.md` に追記されている
 
 ### #last: Evaluation sign-off
 
