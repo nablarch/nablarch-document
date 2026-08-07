@@ -20,6 +20,7 @@ Rn version: 0.8.0
 - `#5d` 追補（STEP 6〜8）: `.rn/20260724-ntf-yaml-support/ntf-doc-05d-addendum.md`
 - `#9` 差し戻し是正指示: `.rn/20260724-ntf-yaml-support/ntf-doc-09-fix.md`
 - `#9` 再構成指示: `.rn/20260724-ntf-yaml-support/ntf-doc-09-restructure.md`
+- `#10a` 用語統一・並び替え指示: `.rn/20260724-ntf-yaml-support/ntf-doc-terminology.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
@@ -305,6 +306,33 @@ Rn version: 0.8.0
 - 未対応の指摘が残っていない、または残す判断とその理由が記録されている
 - `make html` が当該ページについてエラーを出さない
 
+### #10a: 用語「テストショット」への統一と使用方法の並び替え
+
+**Purpose**: `glossary.md` が `#5` で定めた「`テストケース` を正表記、`テストショット` を揺れ表記」の判断を覆し、`テストケース` を NTF解説書から無くす。あわせて `使用方法` 配下のセクション順を「全体から個別へ」に改め、内容の分からない見出し1件を改題する。用語と見出しが残り32ページに波及するため、`#11` の着手前に適用する。作業指示は `ntf-doc-terminology.md`。
+
+**Prerequisites**: #10（承認済み）
+
+**Steps**:
+
+- [ ] STEP 1 — `glossary.md` を改訂する（`:201`/`:207`/`:215`/`:359`/`:552`/`:557`〜`:559`/`:622`/`:637` を内容で照合して編集。`:403`〜`:449` の現行解説書見出し一覧は変更しない）
+- [ ] STEP 2 — 作成済みページの `テストケース` を1件ずつ判定して置き換える（`テストショット` / `テストメソッド` / `テスト` の3通り。全件を表で記録）
+- [ ] STEP 3 — `使用方法` 配下の並びを変更し、前方参照を手当てし、崩れた前後関係の参照を全数是正する
+- [ ] STEP 4 — `値を特殊記法で記述する` を `null・空文字・改行など特殊な値を記述する` に改題する
+- [ ] STEP 5 — `checks/task-10-quotes.md` の smartquotes 機構の記述を訂正する（`ja/conf.py:158` を根拠に）
+- [ ] STEP 6 — `checks/task-terminology.md` を新規作成し、`reviews/page-*.md` 2件に追記し、残り32ページへの申し送りを追加する
+- [ ] ゲート1〜13 をすべて実行結果で確認し記録する
+- [ ] 4観点のレビューを、それぞれ**別のサブエージェント**で実施する
+- [ ] commit & push
+- [ ] **user review** — 承認を受けるまで `#11` に進まない
+
+**Completion criteria**:
+
+- 作業指示のゲート1〜13 がすべて実行結果で確認され、`checks/task-terminology.md` に記録されている
+- 作業指示の禁止事項に抵触する変更が無い（`mapping.csv` / `_batch/` / `vocabulary.md` / `style.md` / `ja/conf.py` / `glossary.md` の現行解説書見出し一覧に差分が無い）
+- STEP 2 の置換判定と STEP 3-2 の前後関係確認が、いずれも件数ではなく全件の表で記録されている
+- `ja/development_tools/testing_framework/` 配下の全 `.rst` に `テストケース` が0件
+- Docker フルビルドが `build succeeded` で、警告が既知の1件のみ（新規0件）
+
 ### #last: Evaluation sign-off
 
 **Purpose**: NTF ドキュメント刷新の完了を Acceptance criteria に照らして確認し、ユーザーの承認を得る。
@@ -338,8 +366,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-07
-- **Last completed**: #10「テストデータの記載例」— user review 承認済み（`/rn:ty`）。タスクエントリと `design.md`「テストデータの2ページ」節を Rules に従って圧縮済み。
-- **Next**: **ユーザーから追加の作業指示が来るのを待つ。** 指示を受領してから、その内容に応じて `#11` 以降のタスクを確定する（追加指示が `#10` 以前への手戻りを含む可能性があるため、`#11` を先に着手しない）。
-- **Notes**: ブランチ `work`、`origin`（`lovaizu` fork）と同期済み・PR未作成。ツリーはクリーンで未追跡パスなし。ブロッカーなし。`#11` 以降への申し送りは `reviews/page-testdata_examples.md` 末尾（13件）と `reviews/page-testdata_notation.md` 末尾（15件）。ページ作成順は「第3部のテストデータ2ページ → 第2部 → 第3部の残り → 第4部」（steering `#9〜` 節）。`_build/` はユーザーがブラウザで直接レビューするため今後も削除しない。Docker ビルドは `locales/ja/LC_MESSAGES/sphinx.mo` を再生成するため、commit 前に `git status` を確認し `git checkout` で戻すこと。「**Steps（各ページ共通）**」のチェックボックスはページ横断のテンプレートであり、個別ページの進捗は各タスクの進捗記述に書く（チェックしない）。
+- **Status**: not suspended
+- **Date**: -
+- **Last completed**: -
+- **Next**: -
+- **Notes**: -
