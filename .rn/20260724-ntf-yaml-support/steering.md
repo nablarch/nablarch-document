@@ -384,8 +384,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-07
+- **Last completed**: `#10b` の是正ラウンド3（`f87629f`）と3巡目4観点レビューの判定記録（`c1dd2fc`）
+- **Next**: `#10b` の user review（ユーザーの回答待ち。回答後にタスクを閉じて `#11` へ）
+- **Notes**: ユーザー判断待ちが2件。(1) **是正ラウンド上限3に到達済み**のため、クラフト must-1（STEP 1 の数詞全件表が助数詞ホワイトリスト方式の穴で出現単位の全件でない。記録側のみ・本文の是正不要）を4ラウンド目で直すかの可否 — 直す場合はホワイトリストを捨てた全走査への方式差し替え。(2) `testdata_examples.rst:401` の `認証エラーケース`（作業指示の禁止事項は「表に実在するセルの値」とするが、実在するセル値は `:430`・`:484` の `認証エラー`）。**公開本文は4観点とも `must` 0件**。詳細は `checks/task-10a-followup.md` の Overall Verdict
