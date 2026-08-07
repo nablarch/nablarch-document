@@ -9,31 +9,35 @@
 
 使用方法
 --------------------------------------------------
-ここでは、テストデータの読み込み先の変更、システム日時の固定、シーケンス採番のテーブル採番への置き換えについて説明する。いずれもコンポーネント設定ファイルで設定する。
+ここでは、テストデータの読み込み先の変更、システム日時の固定、シーケンス採番のテーブル採番への置き換えについて説明する。いずれも設定ファイルへの記述で行う。
 
 テストデータの読み込み先を変更する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-テストデータは、デフォルトでは\ ``test/java``\ 配下から読み込まれる。プロジェクトのディレクトリ構成に合わせて読み込み先を変更する場合は、コンポーネント設定ファイルに\ ``nablarch.test.resource-root``\ を設定する。値には、テスト実行時のカレントディレクトリからの相対パスを指定する。
+テストデータは、デフォルトでは\ ``test/java``\ 配下から読み込まれる。プロジェクトのディレクトリ構成に合わせて読み込み先を変更する場合は、環境設定ファイルに\ ``nablarch.test.resource-root``\ を設定する。値には、テスト実行時のカレントディレクトリからの相対パスを指定する。
 
 .. code-block:: properties
 
   nablarch.test.resource-root=path/to/test-data-dir
 
-読み込み先は、セミコロン（\ ``;``\ ）で区切って複数指定できる。複数指定した場合、同名のテストデータファイルが複数のディレクトリに存在すると、最初に見つかったものが読み込まれる。
+読み込み先は、セミコロン（\ ``;``\ ）で区切って複数指定できる。
 
 .. code-block:: properties
 
   nablarch.test.resource-root=test/online;test/batch
 
+.. important::
+
+  同名のテストデータが複数のディレクトリに存在する場合、最初に見つかったものが読み込まれる。
+
 .. tip::
 
-  読み込み先を一時的に変更したい場合は、コンポーネント設定ファイルを変更せずに、テスト実行時のVM引数に\ ``-Dnablarch.test.resource-root=path/to/test-data-dir``\ を指定してもよい。
+  読み込み先を一時的に変更したい場合は、環境設定ファイルを変更せずに、テスト実行時に\ ``-Dnablarch.test.resource-root=path/to/test-data-dir``\ をシステムプロパティとして指定してもよい。詳細は\ :ref:`システムプロパティを使って環境依存値を上書きする <repository-overwrite_environment_configuration>`\ を参照。
 
 システム日時を固定する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 登録日時や更新日時のようにシステム日時を設定する項目は、そのままテストを実行すると実行日によって値が変わるため、設定値が正しいことを自動テストで確認できない。テスティングフレームワークは、システム日時として固定値を返す機能を提供する。この機能を使うと、システム日時を設定する項目についても、期待値と比較して設定値が正しいことを確認できる。
 
-Nablarch Application Frameworkでは、\ :java:extdoc:`SystemTimeProvider <nablarch.core.date.SystemTimeProvider>`\ インタフェースの実装クラスがシステム日時を提供する。テストでは、この実装クラスを、固定値を返す\ :java:extdoc:`FixedSystemTimeProvider <nablarch.test.FixedSystemTimeProvider>`\ に差し替える。コンポーネント設定ファイルで\ ``SystemTimeProvider``\ インタフェースの実装クラスを指定している箇所を次のように書き換え、\ ``fixedDate``\ プロパティに固定したい日時を指定する。システム日時を2010年9月14日12時34分56秒に固定する場合の例を示す。
+Nablarch Application Frameworkでは、\ :java:extdoc:`SystemTimeProvider <nablarch.core.date.SystemTimeProvider>`\ インタフェースの実装クラスがシステム日時を提供する。テストでは、コンポーネント設定ファイルでこの実装クラスを指定している箇所を、固定値を返す\ :java:extdoc:`FixedSystemTimeProvider <nablarch.test.FixedSystemTimeProvider>`\ に差し替え、\ ``fixedDate``\ プロパティに固定したい日時を指定する。システム日時を2010年9月14日12時34分56秒に固定する場合の例を示す。
 
 .. code-block:: xml
 
@@ -53,7 +57,7 @@ Nablarch Application Frameworkでは、\ :java:extdoc:`SystemTimeProvider <nabla
 .. code-block:: xml
 
   <!-- シーケンスオブジェクトを使用した採番設定 -->
-  <component name="idGenerator" class="nablarch.common.idgenerator.OracleSequenceIdGenerator">
+  <component name="idGenerator" class="com.example.common.idgenerator.OracleSequenceIdGenerator">
     <property name="idTable">
       <map>
         <entry key="1101" value="SEQ_1"/> <!-- ID1採番用 -->
