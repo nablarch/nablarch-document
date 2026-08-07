@@ -42,6 +42,8 @@ $ grep -n "正常ケース" ja/.../testdata_examples.rst
 
 ### 1-2. 数詞の全件確認表（**全35件**。是正はこの表の #6 の1件のみ）
 
+> **【締め（`ntf-doc-10b-close.md` STEP 2）で追記。以下の既存の記述・表は1行も書き換えていない】** この表の抽出方式は助数詞ホワイトリスト方式であり、**母集合の網羅性を方式自身では証明できない**（リストに無い助数詞は母集合に入らないため、「漏れが無いこと」を方式の内側から示せない）。この点について、レビュー役がホワイトリストを使わない全走査（地の文および散文ディレクティブ本体を対象に、インラインリテラルを除去したうえで `数字・漢数字・複数` を含む行を全件抽出する方式）を独立に組んで検証し、**この35行の表が取りこぼしている真の数詞は0件である**ことを確認した。3巡目のレビューで3観点が挙げた9出現（`:1287` ゾーン10進数／`:1978` 16進数／`:1569` MS932／`:1756` 両方／`:953`・`:1811`・`:1859` の本文中リテラル値 `1101`・`"200"`・`.0`／`:22`・`:1209` は該当行が既に表にある）は、いずれも**数を数えていない**。すなわち未達なのは「表が全件でないこと」ではなく「同じ表が全件であることを、その抽出方式では証明できないこと」であり、**公開本文への影響は無い**。したがって**表の作り直しは行わない**（行の追加も削除もしない）。方式の是正は `#11` 以降への申し送りとする（`reviews/page-testdata_examples.md`・`page-testdata_notation.md`）。
+
 **是正ラウンド1（F-2）で母集合を再定義し、25行から29行に増えた。** 初回の抽出はディレクティブ本体を一律に除外し、助数詞リストに「バイト」を持たず、助数詞を伴わない「複数」単独を拾わなかったため、`:957`・`:1213`・`:1262`・`:1565` の4行が母集団から漏れていた（**いずれも曖昧ではなく本文の是正は不要**。詳細は表の #15・#17・#18・#23）。
 
 **是正ラウンド2（G-4）でさらに6行を追加し、29行から35行になった。** 助数詞リストに `加算`・`重` が無かったこと、および「数詞＋助数詞」という語順を前提にしていたことで、`:99`・`:1413` と `:245`・`:264`・`:283`・`:306` が母集団から漏れていた（**いずれも曖昧ではなく本文の是正は不要**。詳細は表の #30〜#35）。
@@ -1152,3 +1154,235 @@ $ git diff 699dfd0 -- ja/ | grep -E '^-[^-]'
 - Ready to check off: **No** — **公開本文（`ja/` 配下）は4観点とも `must` 0件**で、ビルド・禁止事項・ゲート1〜6・8〜10 は4名がそれぞれ独立に再現した。残るのは次の2点である。
   - **クラフト must-1（完了条件の未達）**: 「STEP 1 の数詞の全件確認表」が助数詞ホワイトリスト方式の穴により出現単位で全件でない。3巡すべてで同じ方式が同じ性質の漏れを出しており（1巡目3件 → 2巡目6件 → 3巡目は3観点が独立に計9出現）、パッチではなく**ホワイトリストを使わない全走査への抽出方式の差し替え**が必要である。公開本文の是正は不要（漏れた出現はいずれも数える対象を伴わない語）。**`#10b` の Steps が定める是正ラウンド上限3に達しているため、4ラウンド目の実施可否をユーザーに委ねる**
   - **`:401` の `認証エラーケース`**: 作業指示の禁止事項と実測の食い違いをユーザーにエスカレーション済みで、回答待ちである（禁止事項は「表に実在するセルの値だから落とすな」と定めるが、実在するセル値は `:430`・`:484` の `認証エラー` であり `認証エラーケース` は地の文にしか無い）
+
+---
+
+## 8. 締め — `ntf-doc-10b-close.md`（2026-08-07）
+
+作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-10b-close.md`
+基準コミット: `f87629f`（本文の最終コミット。本書のゲート2・10 が指定する比較元）
+**`#10b` の公開本文は user review で承認された。** 本節はユーザー判断待ちであった2件の結着と、締めにあたっての是正1件・申し送り1件の記録である。**4観点のレビューは回していない**（作業指示が明示的に禁止。変更は1語の削除であり、ゲート10 が差分を1行に固定している）。
+
+### 8-1. STEP 1 — `:401` の `認証エラーケース` をセルの実値に揃えた
+
+`#10b` の Overall Verdict でエスカレーションしていた食い違いについて、**ユーザーは「CC の指摘が正しい。セルの実値に揃える」と判断**した。あわせて `ntf-doc-10a-followup.md` の禁止事項「`正常ケース`・`認証エラーケース` という語を落とさない。表に実在するセルの値である」は `認証エラーケース` について事実に反していたとして、**指示側の誤りとして取り消された**。
+
+| 項目 | 内容 |
+|---|---|
+| 位置 | `ja/development_tools/testing_framework/implementation/testdata_examples.rst:401` |
+| 是正前 | `正常ケースと認証エラーケースの2つのテストショットを実行する例である。` |
+| 是正後 | `正常ケースと認証エラーの2つのテストショットを実行する例である。` |
+| 変更していない部分 | `2つのテストショット`（`#10b` STEP 1 の是正で確定した形）、および文の後半（`` ``context``\ カラムには… ``） |
+
+**セルの実値の実測**（是正前に `grep -n` で確認。行番号は是正後も不変）:
+
+```
+$ grep -rn "認証エラー" ja/
+ja/development_tools/testing_framework/implementation/testdata_examples.rst:401:正常ケースと認証エラーの2つのテストショットを実行する例である。…
+ja/development_tools/testing_framework/implementation/testdata_examples.rst:430:    - 認証エラー
+ja/development_tools/testing_framework/implementation/testdata_examples.rst:484:          description: "認証エラー"
+（ほかに testing_framework 外の2件: on_errors.rst:38 / biz_samples/01/index.rst:305）
+
+$ grep -rn "認証エラー" .rn/20260724-ntf-yaml-support/input/ntf-testdata-doc-examples-testshots.md
+102:| 2 | 認証エラー | false | 400 | /error | context002 |
+122:        description: "認証エラー"
+```
+
+`:430` が Excel 表の `description` 列、`:484` が YAML の `description`、出典は `input/ntf-testdata-doc-examples-testshots.md`（マッピング `input-0103`、`src_body_start` 95 / `src_body_end` 137）。**`認証エラーケース` という文字列は `ja/` 配下・`input/` 配下・`mapping/` 配下のいずれにも存在せず**、地の文だけが持つ語であった。是正後は `ja/` 配下に0件（ゲート5）。
+
+### 8-2. STEP 2 — 数詞の全件表は作り直さない
+
+**ユーザー判断: 4ラウンド目は実施しない。** レビュー役がホワイトリストを使わない全走査を独立に組んで検証した結果、**既存の35行の表が取りこぼしている真の数詞は0件**であることが確認されたためである。3巡目に3観点が挙げた9出現は、実物を確認するといずれも数を数えていない。
+
+| 指摘箇所 | 実体 | 数詞か |
+|---|---|---|
+| `:1287` | ゾーン10進数（数値表現形式の名称） | 否 |
+| `:1978` | 16進数（基数の名称） | 否 |
+| `:1569` | MS932（文字エンコーディング名） | 否 |
+| `:1756` | 両方（数詞ではない） | 否 |
+| `:953`・`:1811`・`:1859` | 本文中のリテラル値（`1101`・`"200"`・`.0`） | 否 |
+| `:22`・`:1209` | 行は既に表にある（`複数` の出現が数詞欄に個別記載されていないだけ） | 該当行は収録済み |
+
+すなわちクラフト must-1 の未達は「表が全件でないこと」ではなく「**同じ表が全件であることを、その抽出方式では証明できないこと**」であり、公開本文への影響は無い。**表は作り直さず、行の追加も削除も行っていない。** 方式の限界の開示は §1-2 の冒頭に1段落として追記した（既存の表・記述は1行も書き換えていない）。方式そのものの是正は `#11` 以降への申し送りとした（§8-3）。
+
+### 8-3. STEP 3 — 申し送りの追加
+
+`reviews/page-testdata_examples.md`・`reviews/page-testdata_notation.md` の**双方**に、次の1件を末尾追記した（既存の記録は書き換えていない）。
+
+> 完了条件が「全件表」を求める項目は、母集合をホワイトリストで切り出さない。対象を全走査したうえで、非該当と判定したものも判定理由を添えて表に載せる。
+
+`#10a` の申し送りと合わせて `#11` の作業指示に反映する。
+
+### 8-4. ゲートの実行結果（**全10件**。締めの是正に対して再実行）
+
+| ゲート | 内容 | 結果 |
+|---|---|---|
+| 1 | `verify_mapping.py` exit 0 / 594 / 12,986 / 11,983 が不変 | **PASS** |
+| 2 | `mapping/` ・`ja/conf.py`・`design.md` の差分が空 | **PASS** |
+| 3 | 見出し数・文言・並び順が不変 | **PASS** |
+| 4 | `testing_framework/` 配下の全 `.rst` に `テストケース` 0件 | **PASS** |
+| 5 | `ja/` 配下に `認証エラーケース` 0件。`認証エラー` は `:401`・`:430`・`:484` の3箇所 | **PASS** |
+| 6 | 両ページに `（番号・説明・期待するステータスコード）` 0件 | **PASS** |
+| 7 | 特殊記法セクションの `:ref:` が `testdata_notation-special_notation` を指す | **PASS** |
+| 8 | 未定義 `:ref:` 0件・段落内改行0件 | **PASS** |
+| 9 | Docker フルビルド `build succeeded`、警告は既知の1件のみ | **PASS** |
+| 10 | `f87629f` との差分が `:401` の1行と記録ファイルのみ | **PASS** |
+
+**NG は0件。** 以下は各ゲートの実出力である。
+
+#### ゲート1 — `verify_mapping.py`
+
+```
+$ python3 mapping/tools/verify_mapping.py
+Loaded 594 rows from mapping.csv
+pending zero assignments: 0 (awaiting #6 decision)
+lines total (all rows): 12986
+lines total (excluding DROP): 11983
+...
+OK: no errors
+EXIT=0
+```
+
+594行 / 12,986 / 11,983 はいずれも不変。
+
+#### ゲート2 — 禁止対象の差分が空
+
+```
+$ git diff f87629f HEAD -- .rn/20260724-ntf-yaml-support/mapping/ ja/conf.py .rn/20260724-ntf-yaml-support/design.md
+$ git diff f87629f      -- .rn/20260724-ntf-yaml-support/mapping/ ja/conf.py .rn/20260724-ntf-yaml-support/design.md
+（いずれも出力なし＝空。後者は作業ツリー込み）
+```
+
+#### ゲート3 — 見出し数・文言・並び順が不変
+
+見出し記号ごとの件数を、下線行と直前の非空行の対で機械抽出した。
+
+```
+testdata_notation.rst {'=': 1, '-': 3, '~': 10, '^': 26}
+testdata_examples.rst {'=': 1, '-': 9, '~': 28, '^': 56}
+```
+
+`testdata_notation.rst` は `-` 3 / `~` 10 / `^` 26、`testdata_examples.rst` は L2（`-`）9 / L3（`~`）28 / L4（`^`）56 で、いずれもゲートの指定値と一致する（`=` 1 は各ページのタイトル下線）。ゲート10 の差分が `:401` の**地の文1行のみ**であることから、文言・並び順も不変である。
+
+#### ゲート4 — `テストケース` が0件
+
+```
+$ grep -rn "テストケース" ja/development_tools/testing_framework/ --include=*.rst | wc -l
+0
+```
+
+#### ゲート5 — `認証エラーケース` 0件・`認証エラー` 3箇所
+
+```
+$ grep -rn "認証エラーケース" ja/ | wc -l
+0
+$ grep -n "認証エラー" ja/development_tools/testing_framework/implementation/testdata_examples.rst
+401:正常ケースと認証エラーの2つのテストショットを実行する例である。…
+430:    - 認証エラー
+484:          description: "認証エラー"
+```
+
+#### ゲート6 — 括弧書きが0件
+
+```
+$ grep -rn "（番号・説明・期待するステータスコード）" .../testdata_notation.rst .../testdata_examples.rst | wc -l
+0
+```
+
+#### ゲート7 — 特殊記法セクションの `:ref:`
+
+```
+$ grep -n "特殊記法\|testdata_notation-special_notation" .../testdata_examples.rst
+1851:特殊記法を使う値の記述例を示す。記法の仕様は\ :ref:`null・空文字・改行など特殊な値を記述する <testdata_notation-special_notation>`\ を参照。なお、空文字・改行の記述例は、この節では示していない。
+1859:  ``java.sql.Timestamp``\ 型カラムの期待値には、この例の ``CREATED_AT``\ のように末尾へ ``.0``\ を付ける。理由は\ :ref:`null・空文字・改行など特殊な値を記述する <testdata_notation-special_notation>`\ を参照。
+1896:NULL\ はアンクォートの ``null``\ で記述する。…
+```
+
+節内の `:ref:` は**2件**で、**2件とも `testdata_notation-special_notation`** を指す。是正ラウンド3（`f87629f`）から不変である。
+
+#### ゲート8 — 未定義 `:ref:` 0件・段落内改行0件
+
+判定器は記録を参照せず独立に組み直した（`scratchpad/g8_close.py`。`ja/` 配下の全 `.rst` から `.. _label:` を集めて母集合とし、両ページの `:ref:` の宛先を照合する。段落内改行は、インデント行・箇条書き行・ディレクティブ行・見出し罫線を除いたカラム0の地の文で、空行を挟まず日本語の行が連続する箇所を検出する）。
+
+```
+$ python3 scratchpad/g8_close.py
+=== GATE8: 未定義 :ref: ===
+  両ページの :ref: 総数 = 52
+  未定義 :ref: = 0 []
+=== GATE8: 段落内改行 ===
+  testdata_examples.rst 段落内改行: 0 []
+  testdata_notation.rst 段落内改行: 0 []
+```
+
+`:ref:` の総数52 は是正ラウンド2・3 と同じ（`:401` の是正は `:ref:` を含まない地の文の1語削除である）。
+
+#### ゲート9 — Docker フルビルド
+
+```
+$ docker run --rm -v /home/tie303177/work/lovaizu/nablarch-document:/root/document \
+    nablarch-document-build /bin/bash -c \
+    "cd /root/document; sphinx-build -a -d _build/.doctrees/ja -b html ja _build/html"
+...
+build succeeded, 1 warning.
+EXIT=0
+
+$ grep -n "WARNING\|ERROR" build.log
+313:/root/document/ja/application_framework/application_framework/libraries/db_double_submit.rst:108:
+    WARNING: undefined label: how_to_set_token_in_request_unit_test (if the link has no caption the label must precede a section header)
+$ grep -c "WARNING\|ERROR" build.log
+1
+```
+
+既知の `db_double_submit.rst` 1件のみで**新規0件**。ローカル venv（`/home/tie303177/venv`）は使っていない。イメージは是正ラウンド2 でこの `Dockerfile` から作られた既存の `nablarch-document-build:latest` をそのまま使った（`Dockerfile`・`requirements.txt` は `#10b` を通じて未変更）。ビルドで書き換わる `locales/ja/LC_MESSAGES/sphinx.mo` は復元し、`git status --porcelain` の実出力で消えたことを確認した。`_build/` は削除していない。
+
+```
+$ git status --porcelain            # 復元前
+ M ja/development_tools/testing_framework/implementation/testdata_examples.rst
+ M locales/ja/LC_MESSAGES/sphinx.mo
+?? .rn/20260724-ntf-yaml-support/ntf-doc-10b-close.md
+
+$ git checkout -- locales/ja/LC_MESSAGES/sphinx.mo
+$ git status --porcelain            # 復元後（sphinx.mo が消えている）
+ M ja/development_tools/testing_framework/implementation/testdata_examples.rst
+?? .rn/20260724-ntf-yaml-support/ntf-doc-10b-close.md
+
+$ ls -d _build/html
+_build/html
+```
+
+#### ゲート10 — `f87629f` との差分が `:401` の1行と記録ファイルのみ
+
+```
+$ git diff --numstat f87629f -- ja/
+1	1	ja/development_tools/testing_framework/implementation/testdata_examples.rst
+
+$ git diff f87629f -- ja/ | grep -E '^@@'
+@@ -398,7 +398,7 @@ YAML形式の場合
+
+$ git diff f87629f -- ja/ | grep -E '^-[^-]'
+-正常ケースと認証エラーケースの2つのテストショットを実行する例である。``context``\ カラムには、…
+
+$ git diff f87629f -- ja/ | grep -E '^\+[^+]'
++正常ケースと認証エラーの2つのテストショットを実行する例である。``context``\ カラムには、…
+```
+
+`ja/` 配下の差分は**1行の1対1置換のみ**、ハンクも1つだけである。**独立して削除された段落・表の行・コードブロックは0件**。`ja/` 以外の差分は記録ファイル（`checks/task-10a-followup.md`・`reviews/page-testdata_examples.md`・`reviews/page-testdata_notation.md`・`steering.md`）と、作業指示自身の配置先 `ntf-doc-10b-close.md`（本書が指定する新規ファイル）のみである。
+
+### 8-5. 禁止事項の遵守（締め）
+
+| 禁止事項 | 遵守 | 根拠 |
+|---|---|---|
+| 数詞の全件表を作り直さない。行を追加も削除もしない | OK | §1-2 の表は35行のまま。追記は表の前の1段落のみ（`git diff` の削除行0行） |
+| `:401` 以外の導入文を変更しない（`:198`・`:502` を含む） | OK | ゲート10（`ja/` の差分はハンク1つ・1行のみ） |
+| `:401` の `2つのテストショット` と後半の文を変更しない | OK | ゲート10 の差分行を対照。削除語は `ケース` の3文字のみ |
+| 見出しの文言・並び順を変更しない | OK | ゲート3・ゲート10 |
+| `mapping.csv` / `_batch/` / `vocabulary.md` / `style.md` / `glossary.md` / `design.md` / `ja/conf.py` を変更しない | OK | ゲート2。`git status` にもこれらは現れない |
+| 既存のレビュー記録・チェック記録を書き換えない。追記のみ | OK | `checks/`・`reviews/` の差分はいずれも追加行のみで削除行0行 |
+| 承認済みの `#8`・`#9`・`#10`・`#10a`・`#10b` の成果を指示外の範囲で変更しない | OK | ゲート10（`testdata_notation.rst`・`about/index.rst` はいずれも差分0） |
+| 4観点のレビューを回さない | OK | 本節はサブエージェントを一切起動していない |
+| `#11` に着手しない | OK | 新規ページの作成は行っていない |
+
+### 8-6. 締めの判定
+
+- Self-check: **OK**（STEP 1 の是正1行、STEP 2 は表を作り直さず §1-2 冒頭に方式の限界を1段落追記、STEP 3 の申し送りを両 `reviews/` に追記、ゲート1〜10 を全件実行して PASS・NG 0件。作業指示の禁止事項に抵触する変更は無い）
+- Ready to check off: **Yes** — `#10b` は本節をもって締める。残るクラフト must-1 は「抽出方式が網羅性を自証できない」という方式の問題として `#11` 以降へ申し送った（公開本文への影響0件をレビュー役の独立全走査で確認済み）

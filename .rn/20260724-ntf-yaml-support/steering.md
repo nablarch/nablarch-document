@@ -324,9 +324,9 @@ Rn version: 0.8.0
 
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-07）。4観点レビュー3巡＋是正4ラウンドを要した。**ラウンド上限3を超過**したのは、ラウンド3の是正が公開本文に事実誤り（`testShots` に存在しないカラム `リクエストID`）と語釈の消失を持ち込んだためで、上限で打ち切らず是正を優先した。承認時点で、レビュアー間で判断の割れた2件（`testdata_examples.rst:401` の数え方、記載例ページの特殊記法セクションへの参照文追加）はいずれも**現状維持**のまま承認された（両論は `checks/task-terminology.md` §13-4）。詳細は `checks/task-terminology.md`（§10 ラウンド1／§11 ラウンド2／§12 ラウンド3／§13 ラウンド4）・`reviews/page-testdata_notation.md`・`page-testdata_examples.md`・`page-about_index.md` および git 履歴（最終内容コミット `6e63e27`）を参照。`#11` 以降への申し送りは `page-testdata_notation.md` の16〜27、`page-testdata_examples.md` の14〜18。
 
-### #10b: `#10a` 承認後の仕上げ3件
+### #10b: `#10a` 承認後の仕上げ3件 — DONE
 
-**Purpose**: `#10a` の user review 承認時に現状維持のまま残った2件（`testdata_examples.rst` の数詞、記載例ページ特殊記法セクションの参照文）と、定義セルの括弧書き削除を適用する。作業指示は `ntf-doc-10a-followup.md`。残り32ページに波及するため `#11` の着手前に適用する。
+**Purpose**: `#10a` の user review 承認時に現状維持のまま残った2件（`testdata_examples.rst` の数詞、記載例ページ特殊記法セクションの参照文）と、定義セルの括弧書き削除を適用する。作業指示は `ntf-doc-10a-followup.md`、締めの作業指示は `ntf-doc-10b-close.md`。残り32ページに波及するため `#11` の着手前に適用する。
 
 **Steps**:
 
@@ -339,7 +339,18 @@ Rn version: 0.8.0
 - [x] 4観点のレビューを、それぞれ**別のサブエージェント**で実施する（QA / 設計 / クラフト / 検証）— 3巡実施
 - [x] 指摘への対応を行う（最大3ラウンド）— ラウンド1（`eef48f5`）・2（`4c16caa`）・3（`f87629f`）実施済み。**上限3に到達**。3巡目は QA・設計・検証が pass、クラフトのみ fail で、**公開本文の `must` は4観点とも0件**。未解決はクラフト must-1（数詞の全件表が助数詞ホワイトリスト方式の穴で出現単位の全件になっていない。記録側のみ・本文の是正は不要）で、4ラウンド目の実施可否はユーザー判断
 - [x] commit & push — `b2f616a` → `eef48f5` → `4c16caa` → `f87629f`
-- [ ] **user review** — 承認を受けるまで `#11` に着手しない
+- [x] **user review** — **公開本文は承認**（`/rn:gm`、2026-08-07）。判断待ちの2件に結論が出た（数詞の全件表は4ラウンド目を実施しない／`:401` はセルの実値に揃える）。締めの作業指示は `ntf-doc-10b-close.md`
+
+**Steps（締め — `ntf-doc-10b-close.md`）**:
+
+- [x] STEP 1 — `testdata_examples.rst:401` の `認証エラーケース` を `認証エラー` に改める（セルの実値に揃える。`2つのテストショット` と後半の文は変更しない）
+- [x] STEP 2 — 数詞の全件表は作り直さない。`checks/task-10a-followup.md` §1-2 の冒頭に、方式の限界と独立全走査による検証結果（真の数詞の取りこぼし0件）を1段落だけ追記する
+- [x] STEP 3 — 「全件表を求める完了条件では母集合をホワイトリストで切り出さない」を `reviews/page-testdata_examples.md`（申し送り23）・`page-testdata_notation.md`（申し送り32）の双方に追記する
+- [x] STEP 4 — `checks/task-10a-followup.md` §8 に記録し、`reviews/page-testdata_examples.md` に `:401` の語の変遷と実測根拠を残し、`steering.md` を締める
+- [x] ゲート1〜10 をすべて実行結果で確認し、`checks/task-10a-followup.md` §8-4 に記録する — 全件 PASS・NG 0件
+- [x] 4観点のレビューは**回さない**（作業指示が明示的に禁止。変更は1語の削除で、ゲート10 が差分を1行に固定している）
+- [x] commit & push
+- [ ] **user review**（締め） — 承認を受けるまで `#11` に着手しない
 
 **Completion criteria**:
 
@@ -350,6 +361,8 @@ Rn version: 0.8.0
 - 作業指示の禁止事項に抵触する変更が無い（`mapping.csv` / `_batch/` / `vocabulary.md` / `style.md` / `glossary.md` / `design.md` / `ja/conf.py` に差分が無く、見出しの文言・並び順が不変）
 - Docker フルビルドが `build succeeded` で、警告が既知の `db_double_submit.rst` 1件のみ（新規0件）
 - 残り32ページへの申し送り2件が `reviews/page-*.md` に追記されている
+
+**Closed**: user review で**公開本文を承認**（`/rn:gm`、2026-08-07）。4観点レビュー3巡＋是正3ラウンド（`eef48f5`・`4c16caa`・`f87629f`）で公開本文の `must` は4観点とも0件に到達し、締めの作業指示 `ntf-doc-10b-close.md` で残り2件に結着した。(1) **数詞の全件表は作り直さない** — レビュー役がホワイトリストを使わない全走査を独立に組んで検証し、既存35行の表が取りこぼしている**真の数詞は0件**であることを確認したため（3巡目に3観点が挙げた9出現はいずれも数を数えていない）。未達だったのは「表が全件でないこと」ではなく「同じ表が全件であることを、その抽出方式では証明できないこと」であり、方式の是正は `#11` 以降への申し送りとした。(2) **`:401` の `認証エラーケース` を `認証エラー` に是正** — 実在するセル値は `:430`・`:484` の `認証エラー` であり、`認証エラーケース` は `ja/`・`input/`・`mapping/` のいずれにも存在しない地の文だけの語であった（`ntf-doc-10a-followup.md` の当該禁止事項は指示側の誤りとして取り消された）。締めの変更は**この1行のみ**で、ゲート1〜10 を全件 PASS（Docker フルビルド `build succeeded, 1 warning.`／新規警告0件）。詳細は `checks/task-10a-followup.md`（§1-2 冒頭の追記／§8 締め）・`reviews/page-testdata_examples.md`（`#10b` 締め・申し送り23）・`page-testdata_notation.md`（申し送り32）および git 履歴を参照。`#11` 以降への申し送りは `page-testdata_notation.md` の28〜32、`page-testdata_examples.md` の19〜23。
 
 ### #last: Evaluation sign-off
 
@@ -384,8 +397,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-07
-- **Last completed**: `#10b` の是正ラウンド3（`f87629f`）と3巡目4観点レビューの判定記録（`c1dd2fc`）
-- **Next**: `#10b` の user review（ユーザーの回答待ち。回答後にタスクを閉じて `#11` へ）
-- **Notes**: ユーザー判断待ちが2件。(1) **是正ラウンド上限3に到達済み**のため、クラフト must-1（STEP 1 の数詞全件表が助数詞ホワイトリスト方式の穴で出現単位の全件でない。記録側のみ・本文の是正不要）を4ラウンド目で直すかの可否 — 直す場合はホワイトリストを捨てた全走査への方式差し替え。(2) `testdata_examples.rst:401` の `認証エラーケース`（作業指示の禁止事項は「表に実在するセルの値」とするが、実在するセル値は `:430`・`:484` の `認証エラー`）。**公開本文は4観点とも `must` 0件**。詳細は `checks/task-10a-followup.md` の Overall Verdict
+- **Status**: not suspended
+- **Date**: -
+- **Last completed**: -
+- **Next**: -
+- **Notes**: -
