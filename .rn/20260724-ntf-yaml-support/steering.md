@@ -251,17 +251,6 @@ Rn version: 0.8.0
 
 タスク番号・ページIDは #8 完了後、ページごとに確定する。
 
-**#10 = テストデータの記載例**（`implementation/testdata_examples.rst`、機能概要なしの例外ページ）。
-`#9` の20箇所の `:ref:` が指す見出しスキャフォルドが作成済みで、見出し文言は `testdata_notation.rst` の
-L3見出しと完全一致している。本タスクはそこへの本文追加として扱う。実例水準は Toy/サンプルレベルではなく
-実開発で参考にできる具体的かつ十分な分量とする（design.md「テストデータの2ページ」節）。
-
-**#10の進捗（2026-08-07）**: `mapping.csv` の65行を反映してページを作成（L2 9・L3 28・L4 56、1,883行）。全L3を「シナリオのL3＋末尾に形式別L4対」で統一した。4観点レビュー（ラウンド1）で `must` 7件・`should` 14件を検出し対応。実装で裏付けた事実誤り4件（レコード長不一致・`sendSyncTestData` の識別子・`EXPECTED_COMPLETE_TABLE` の補完条件・`quoting-delimiter` のYAML等価性）を是正し、あわせて承認済み `#9` の `testdata_notation.rst` に3件の是正を入れた。`style.md` S-07・S-03例外1 に本ページの構成を追認する追記を実施。Dockerフルビルド（クリーン）で `build succeeded, 1 warning`（既知の `db_double_submit.rst` のみ、新規警告0件）。詳細は `checks/task-10.md`・`reviews/page-testdata_examples.md` 参照。
-
-**#10の差し戻し対応（2026-08-07、`/rn:gm`）**: user review で `must` 1件（Excelのセル格子を表す表から識別子行が抜けており、表をそのまま写しても動くテストデータにならない）を受け、`style.md` S-10 規約2 を差し替えた（「識別子行は表の外に出す」→「表の中に含める」。識別子を1列目に置き2列目以降を空セルにすればセル結合は不要）。観点は11個で不変。`testdata_examples.rst` のセル格子47件・`testdata_notation.rst` の2件を是正し、識別子行のほかディレクティブ行・フレームワーク制御ヘッダ行・コメント行も表に入れた。判断を仰いだ2件（コメント行、`#9`への3件の是正）は承認済み。全83表の判定・ゲート10件の結果は `checks/task-10-cellgrid.md`、作業指示は `ntf-doc-10-cellgrid.md`。Dockerフルビルド（`-a`）で `build succeeded, 1 warning`（既知の `db_double_submit.rst` のみ、新規0件・`Malformed table` 0件）。要判断3件は次の差し戻しで決着。
-
-**#10の差し戻し対応2回目（2026-08-07、`/rn:gm`）**: 要判断3件に結論を受けた（`#9` の対象外セル格子3件＝現状維持で承認／規約4 の参照整合＝承認／smartquotesによるダブルクォート描画＝**対象外ではなく `must`**）。作業指示は `ntf-doc-10-quotes.md`。STEP 1: `testdata_examples.rst` の素のダブルクォート4セルをリテラル記法で囲み、両ページ全 `list-table` を機械走査して他に該当0件を確認（スクリプトの妥当性は是正前の版で4件検出することで裏付け）。STEP 2: 位置を指す表現30件を全件判定し、是正1件（`testdata_notation.rst` L1451 の「2行目で」→「ヘッダ行の下の行で」）、残り29件は現状維持が正。STEP 3: `style.md` S-10 規約2 にスコープ条件を追記（観点は11個で不変）。smartquotesが実際に有効であることは `tag.rst:81` の素の `"` が `&#8221;` に変換されている実測で裏付け、是正後4セルは `&quot;` 出力・ページ全体の丸クォート0を確認。ゲート12件すべてPASS（Dockerフルビルド `-a` で `build succeeded, 1 warning`＝既知の `db_double_submit.rst` のみ）。**要判断事項なし。** 詳細は `checks/task-10-quotes.md`・`reviews/page-testdata_examples.md`。**user review未了**。
-
 **前方参照によるスタブページ**: #8で`setup/junit5_extension.rst`・`tools/testdata_converter.rst`を見出しのみで作成し、`setup/index.rst`・`tools/index.rst`のtoctreeに追記済み（undefined label警告解消のため。2026-08-05）。該当ページのタスクが来たら、新規作成ではなく既存ファイルへの追記として扱う。同様に他ページからの前方参照でundefined label警告が出た場合も、対象ページの見出しのみのスタブを先行作成し対応するtoctreeに追記する運用とする（毎回の警告差分確認の手間を減らすため）。#9の作業で同じ理由により`implementation/testdata_examples.rst`（`#10`用）を見出しのみで先行作成し`implementation/index.rst`のtoctreeに追記済み。
 
 ### #9: テストデータの書き方（`implementation/testdata_notation.rst`）— DONE
@@ -271,6 +260,14 @@ L3見出しと完全一致している。本タスクはそこへの本文追加
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
 
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-07）。差し戻し3回（`ntf-doc-09-fix.md` STEP1〜7 / `ntf-doc-09-restructure.md` STEP A〜G / `ntf-doc-09-recordtype.md`）とユーザー直接フィードバック多数を経て確定。承認時点で本文に `important` 2件（レコード種別の形式差・テーブルデータの行内カラム値未記載時の形式差）が入っており、作業指示の「追記1件のみ」に対し横並び確認で自発検出した1件を含む構成のまま承認された。詳細は `reviews/page-testdata_notation.md`（ラウンド1〜8）・`checks/task-09.md`・`checks/task-09-restructure.md`・`checks/task-09-recordtype.md` および git 履歴（最終内容コミット `73e84dc`）を参照。`#10` 以降への申し送り15件は `reviews/page-testdata_notation.md` 末尾。
+
+### #10: テストデータの記載例（`implementation/testdata_examples.rst`）— DONE
+
+**Purpose**: マッピングに従って「テストデータの記載例」（用途別の実例。design.md §4）を作成する。対象は `mapping.csv` の `dest_page=テストデータの記載例` の65行。機能概要・使用方法のいずれも持たない例外ページ。
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-07）。本体（4観点レビュー・`must` 7件/`should` 14件対応）＋`/rn:gm` 差し戻し2回で確定。1回目はセル格子への識別子行追加（`style.md` S-10 規約2 の差し替え、47表＋`#9` 2表）、2回目はセル値の描画忠実性（smartquotes 対策の4セル）と規約2 へのスコープ条件追記。詳細は `checks/task-10.md`・`checks/task-10-cellgrid.md`・`checks/task-10-quotes.md`、`reviews/page-testdata_examples.md`、作業指示 `ntf-doc-10-cellgrid.md`・`ntf-doc-10-quotes.md` および git 履歴（最終内容コミット `6ba0d2a`）を参照。`#11` 以降への申し送り13件は `reviews/page-testdata_examples.md` 末尾。
 
 **Steps（各ページ共通）**:
 
@@ -341,8 +338,8 @@ L3見出しと完全一致している。本タスクはそこへの本文追加
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-07
+- **Last completed**: #10「テストデータの記載例」— user review 承認済み（`/rn:ty`）。タスクエントリと `design.md`「テストデータの2ページ」節を Rules に従って圧縮済み。
+- **Next**: **ユーザーから追加の作業指示が来るのを待つ。** 指示を受領してから、その内容に応じて `#11` 以降のタスクを確定する（追加指示が `#10` 以前への手戻りを含む可能性があるため、`#11` を先に着手しない）。
+- **Notes**: ブランチ `work`、`origin`（`lovaizu` fork）と同期済み・PR未作成。ツリーはクリーンで未追跡パスなし。ブロッカーなし。`#11` 以降への申し送りは `reviews/page-testdata_examples.md` 末尾（13件）と `reviews/page-testdata_notation.md` 末尾（15件）。ページ作成順は「第3部のテストデータ2ページ → 第2部 → 第3部の残り → 第4部」（steering `#9〜` 節）。`_build/` はユーザーがブラウザで直接レビューするため今後も削除しない。Docker ビルドは `locales/ja/LC_MESSAGES/sphinx.mo` を再生成するため、commit 前に `git status` を確認し `git checkout` で戻すこと。「**Steps（各ページ共通）**」のチェックボックスはページ横断のテンプレートであり、個別ページの進捗は各タスクの進捗記述に書く（チェックしない）。
