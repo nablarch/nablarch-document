@@ -371,14 +371,14 @@ Rn version: 0.8.0
 
 **Steps**:
 
-- [ ] STEP 1 — ページを新規作成する（先頭ラベル `testing_framework_common` → タイトル → `.. contents::` → `使用方法` L2 の下に L3 3件を「読み込み先 → 日時固定 → 採番」の順で置く）。`機能概要`・`拡張例` の見出しは置かない（出典0行）。トランザクションの節は作らない（割当行なし）
-- [ ] STEP 2 — 実装で確認済みの事実（`FixedSystemTimeProvider` の桁数は **14桁 / 17桁**、`nablarch.test.resource-root` の既定値・区切り・探索順）を反映する。出典の「12桁 / 15桁」は写さない。採番のクラスは未確認のため出典以上のことを書かない
-- [ ] STEP 3 — 記載範囲の線引き（`current-0226` の Java コード例はコードブロックにせず地の文で内容を残す／採番の記述例は `testdata_examples-table_data` へ `:ref:` で導線を張る）
-- [ ] STEP 4 — `setup/index.rst` の toctree の先頭に `common` を追加する（既存2件の順序は変えない）
-- [ ] STEP 5 — 4観点のレビューを、それぞれ**別のサブエージェント**で実施する（A:網羅性 / B:トンマナ / C:用語 / D:整合性）。**是正ラウンド2以降は是正差分に限定した観点のみを回す**（`#10b` 申し送り）。各ラウンドの指摘件数と観点を記録する
-- [ ] STEP 6 — `reviews/page-common.md`・`checks/task-11.md` を新規作成する
-- [ ] ゲート1〜11 をすべて実行結果で確認し、`checks/task-11.md` に記録する（**全件表を求めるゲート1を実行順の先頭に置く**）
-- [ ] commit & push
+- [x] STEP 1 — ページを新規作成する（先頭ラベル `testing_framework_common` → タイトル → `.. contents::` → `使用方法` L2 の下に L3 3件を「読み込み先 → 日時固定 → 採番」の順で置く）。`機能概要`・`拡張例` の見出しは置かない（出典0行）。トランザクションの節は作らない（割当行なし）
+- [x] STEP 2 — 実装で確認済みの事実（`FixedSystemTimeProvider` の桁数は **14桁 / 17桁**、`nablarch.test.resource-root` の既定値・区切り・探索順）を反映する。出典の「12桁 / 15桁」は写さない。採番のクラスは未確認のため出典以上のことを書かない
+- [x] STEP 3 — 記載範囲の線引き（`current-0226` の Java コード例はコードブロックにせず地の文で内容を残す／採番の記述例は `testdata_examples-table_data` へ `:ref:` で導線を張る）
+- [x] STEP 4 — `setup/index.rst` の toctree の先頭に `common` を追加する（既存2件の順序は変えない）
+- [x] STEP 5 — 4観点のレビューを、それぞれ**別のサブエージェント**で実施する（A:網羅性 / B:トンマナ / C:用語 / D:整合性）。**是正ラウンド2以降は是正差分に限定した観点のみを回す**（`#10b` 申し送り）。各ラウンドの指摘件数と観点を記録する — ラウンド1で `must` 2 / `should` 6 / `note` 18、是正ラウンド1（`0a71a75`）で解消、ラウンド2（是正差分限定）で `must` 0 / `should` 0 の pass。内訳は `checks/task-11.md`「レビューラウンドの記録」
+- [x] STEP 6 — `reviews/page-common.md`・`checks/task-11.md` を新規作成する
+- [x] ゲート1〜11 をすべて実行結果で確認し、`checks/task-11.md` に記録する（**全件表を求めるゲート1を実行順の先頭に置く**）— 全件 PASS
+- [x] commit & push — `d233c4b`（ページ作成）→ `0a71a75`（是正ラウンド1）
 - [ ] **user review** — 承認を受けるまで次ページに進まない
 
 **Completion criteria**:
