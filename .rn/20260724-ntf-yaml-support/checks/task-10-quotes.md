@@ -23,6 +23,18 @@ $ grep -n "smartquote\|smart_quotes" ja/conf.py
 したがって、リテラル記法（`` `` ``）の外にある素のダブルクォートは丸クォート（`”`）に
 変換されて描画される。
 
+> **訂正（`#10a`、2026-08-07）。** 本ファイルは当初、この変換を「docutils 側の
+> `smart_quotes` 機構によるもの」と記録していたが**誤りである**。実際に働いているのは
+> Sphinx の `html_use_smartypants`（SmartyPants）である。根拠は次のとおり。
+>
+> - `requirements.txt` は `Sphinx==1.3.6` / `docutils==0.15.2`
+> - `ja/conf.py:158` に `#html_use_smartypants = True` があり、コメントアウトのため
+>   Sphinx の既定値（有効）が働く
+> - docutils 0.15.2 の `smart_quotes` は既定で無効であり、Sphinx 1.3.6 はこれを設定しない
+>
+> 「`smartquotes` という名の設定値は Sphinx 1.6 で追加された」という §1-4 の指摘自体は正しく、
+> **是正の要否という結論は変わらない。** 詳細は §1-4 を参照。
+
 ### 1-2. 是正した4セル
 
 指示の対象4セルを、値を変えずにリテラル記法で囲んだ。
@@ -390,9 +402,31 @@ WARNING: undefined label: how_to_set_token_in_request_unit_test
 `&quot;` 出力によって裏付けられる。
 
 なお本リポジトリの Sphinx は 1.3.6・docutils 0.15.2 であり、`smartquotes` という名前の
-Sphinx 設定値自体は存在しない（Sphinx 1.6.6 で追加されたもの）。変換は docutils 側の
-smart_quotes 機構によって行われている。`ja/conf.py` に設定が無いという事実の確認に加えて
-上記の実測を行ったのはこのためである。**是正の要否の結論は指示のとおりで変わらない。**
+Sphinx 設定値自体は存在しない（Sphinx 1.6 で追加されたもの）。`ja/conf.py` に設定が無いという
+事実の確認に加えて上記の実測を行ったのはこのためである。**是正の要否の結論は指示のとおりで
+変わらない。**
+
+**訂正（`#10a`、2026-08-07）。** 当初ここに「変換は docutils 側の smart_quotes 機構によって
+行われている」と記録していたが、**誤りである。** 実際に働いているのは Sphinx の
+`html_use_smartypants`（SmartyPants）である。
+
+- `ja/conf.py:158` に `#html_use_smartypants = True` があり、**コメントアウトされている**ため
+  Sphinx の既定値（有効）が働く。`ja/conf.py` は変更していない
+
+```
+$ sed -n '155,158p' ja/conf.py
+# If true, SmartyPants will be used to convert quotes and dashes to
+# typographically correct entities.
+#html_use_smartypants = True
+```
+
+- docutils 0.15.2 の `smart_quotes` 設定は**既定で無効**であり、Sphinx 1.3.6 はこれを設定しない。
+  したがって docutils 側の機構は働いていない
+- `smartquotes` という名前の Sphinx 設定値が Sphinx 1.6 で追加されたものであるという指摘自体は
+  正しい
+
+上記の実測（素の `"` が `&#8221;` に変換されている）は、機構の同定が誤っていただけで観測事実
+としては有効であり、**是正の要否という結論は変わらない。**
 
 ### ゲート12 — 情報の欠落が無いこと
 

@@ -198,13 +198,13 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | `テストクラス` | テストを記述するJavaクラス。1つのテストデータファイル群と対応するもの | 揺れなし | なし | 現行解説書138件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:16`）、input資料9件、`S:design.md:30` |
 | `テストコード` | テストクラス・テストメソッドを実装するJavaのソースコード。テストデータファイルとは別に存在するもの | `テストソースコード`（現行解説書26件、`NTF:06_TestFWGuide/01_Abstract.rst:206`） | なし | input資料4件（`S:input/ntf-testdata-doc.md:24`）は全て`テストコード`で`テストソースコード`は0件。現行解説書は`テストコード`14件・`テストソースコード`26件で表記が割れており一貫しない（掲載基準・優先順位2「意味が明確で一貫しているものを採用する」により、割れている現行解説書ではなく一貫したinput資料側を採る）。`S:design.md:65`の`#8`確定文（「テストコードは定型・少量で済む」）も`テストコード`を使用し、`about/index.rst`（`#8`）で採用済み |
 | `テストメソッド` | テストクラス内の1つのテストを表すメソッド | 揺れなし | なし | 現行解説書70件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:62`）、input資料6件、`S:design.md:137` |
-| `テストケース` | 1組の入力と期待値からなる、テストの1件分 | `テストショット`（現行10件、`NTF:05_UnitTestGuide/02_RequestUnitTest/double_transmission.rst:20`） | なし | 現行解説書155件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:26`）、input資料38件。クラス名`TestShot`の直訳で意味を推測できない |
+| `テストショット` | 1回のリクエスト送信またはバッチ起動に対応する、1組の入力と期待値。テストショット一覧（§5.8）の1エントリがこれにあたる。プロジェクトのテスト仕様書上のテストケース1件が複数のテストショットになることがあり、両者は層が異なる | `テストケース`（現行155件、`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:26`。input資料38件） | なし | 現行解説書10件（`NTF:05_UnitTestGuide/02_RequestUnitTest/double_transmission.rst:20`）。予約ID `testShots` が現行のIDであり、`testCases` は下位互換のフォールバックにすぎない（`AbstractHttpRequestTestTemplate.java:222`）。公開クラス名も `TestShot`（`@Published`）である。`テストケース` のままでは、プロジェクトのテスト仕様書上のテストケースと同じ語になり現場で混同が起きるため、#5 の判断（`テストケース` を正表記、`テストショット` を揺れ表記）を覆した（2026-08-07 ユーザー判断）。なお `@Test` を付けたメソッドそのものを名指しする文脈では `テストメソッド` を、何を検証するかを述べる文脈では普通名詞の `テスト` を使う（後者は項を立てない） |
 
 ### 5.8 テストデータ
 
 | 正表記 | 意味 | 揺れ表記（使わない） | 別義・旧名称（文脈により使う） | 採用根拠 |
 |---|---|---|---|---|
-| `テストデータ` | テストクラスとは別のファイルに記述する、準備データと期待値とテストケース一覧の総称 | 揺れなし | なし | `テストデータ` は現行223件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:16`）、input32件で一貫。準備データでも期待値でもなく3者含める |
+| `テストデータ` | テストクラスとは別のファイルに記述する、準備データと期待値とテストショット一覧の総称 | 揺れなし | なし | `テストデータ` は現行223件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:16`）、input32件で一貫。準備データでも期待値でもなく3者含める |
 | `テストデータファイル` | テストデータを記述したファイル。Excel形式とYAML形式がある | 揺れなし | なし | input資料4件（`S:input/ntf-testdata-doc-examples-messaging.md:133`）。YAML形式の追加により「Excelファイル」では総称にならないため採用する |
 | `Excel形式` | Excelファイルにテストデータを記述する形式 | 揺れなし | なし | 現行解説書1件（`NTF:08_TestTools/01_HttpDumpTool/01_HttpDumpTool.rst:27`）。YAML形式との対比に必要な語であり、採用優先順位3で定義する |
 | `YAML形式` | YAMLファイルにテストデータを記述する形式 | 揺れなし | なし | `S:design.md:52` の本文で `nablarch-testing-yaml` の説明に使う（design.md中ここ1箇所）。現行・inputに完全一致なし。`S:design.md:65` の章名に文字列自体は現れない。優先順位3で定義 |
@@ -212,7 +212,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | `データブロック` | 読み込み単位の中に置く、1用途分のデータのまとまり。テストデータファイルの記述単位 | `セクション`（input30件、`S:input/ntf-doc-terms.md:347`） | `セクション` は文書のセクションの意でも使われる（design10件、`S:design.md:27`）。マッピングの section_id・heading_path 列もこの別義 | input資料34件（`S:input/ntf-testdata-doc-examples-messaging.md:5`）、`S:design.md:32`（第1部にデータブロックの考え方を置くと決めている）。他語に依存しないよう「どこに置く何のまとまりか」で定義した（下の注記も参照） |
 | `データタイプ` | データブロックの用途を表す予約語。`SETUP_TABLE`、`EXPECTED_TABLE` など14種 | `データブロック種別`（input7件、`S:input/ntf-testdata-doc.md:96`） | ファイルデータの `データ型行`（§5.10）が示す「データ型」は、フィールドの型であって別概念 | 現行解説書43件（`NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:74`）、input資料57件。Excel形式ではデータブロック先頭セルに書く文字列そのものであり、選択余地がない |
 | `グループID` | 同じ読み込み単位に同じデータタイプのデータブロックを複数置くとき、それらを区別する標識 | `グループ ID`（input21件、`S:input/ntf-doc-terms.md:32`） | `groupId`（現行46件、FW333件）はMavenのgroupId要素等の識別子。FW`グループID`22件中19件Maven、3件は認可機能（`FW:libraries/authorization/permission_check.rst:92`）で別義 | 現行解説書73件（`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:259`）が空白なし。書式は `データタイプ[グループID]=識別子の値` |
-| `テストケース一覧` | 1テストクラスで実行するテストケースを列挙したデータブロック（`LIST_MAP=testShots`） | `テストショット一覧`（現行5件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:13`）／`テストケース表`（現行9件、`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:110`）／`テストショット表`（現行2件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:16`） | なし | `テストケース一覧` は現行解説書24件（`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:14`）、input資料5件 |
+| `テストショット一覧` | 1テストクラスで実行するテストショットを列挙したデータブロック（`LIST_MAP=testShots`） | `テストケース一覧`（現行24件、`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:14`。input資料5件）／`テストケース表`（現行9件、`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:110`）／`テストショット表`（現行2件、`NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:16`） | なし | `テストショット一覧` は現行解説書5件（`NTF:05_UnitTestGuide/02_RequestUnitTest/http_real.rst:13`）。§5.7 で `テストショット` を正表記としたことに合わせ、その一覧を表す語も `テストショット一覧` に揃える |
 | `エンティティバリデーション` | testShots表の入力カラム体系の一つ。`EntityTestSupport` が扱う、ウェブアプリケーション・Nablarchバッチアプリケーション・メッセージングとは別体系のカラム構成 | 揺れなし | `エンティティ単体テスト`（§5.5）はFormクラス・Entityクラスのバリデーションを対象とする**テストの種類**を指す語であり、`エンティティバリデーション` は**testShots表のカラム体系**を指す別の軸の語である | input2ファイル・5件、見出し「エンティティバリデーション」（`S:input/ntf-testdata-doc-examples-testshots.md:251`）。testShots表でウェブ等と並ぶカテゴリとして扱う。現行に該当語なし |
 | `準備データ` | テスト実行前にデータベース・ファイルへ投入するデータ | `事前準備データ`（現行1件、`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:96`。input2件）／`セットアップデータ`（input1件、`S:input/ntf-testdata-doc.md:188`） | なし | `準備データ` は現行解説書48件（`NTF:05_UnitTestGuide/02_RequestUnitTest/batch.rst:168`）、input4件。`セットアップデータ` はdesign1件使われるが用語を定める節ではないため出現数の多い側を採る |
 | `期待値` | テスト実行後に期待する状態を表すデータ | `想定結果`（現行6件、`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:255`）／`想定値`（現行2件、`NTF:05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.rst:310`） | なし | `期待値` は現行解説書88件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:576`）、input資料33件 |
@@ -356,8 +356,8 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | `グループ ID` | ntf-doc-terms-heading | §5.8 テストデータ の揺れ表記 |
 | `セルへの特殊な記述方法` | current-heading | §5.8 テストデータ の揺れ表記 |
 | `テスティングフレームワーク` | current-heading | §5.1 全体・Nablarchの基本概念 の正表記 |
-| `テストケース一覧` | current-heading | §5.8 テストデータ の正表記 |
-| `テストショット一覧` | current-heading | §5.8 テストデータ の揺れ表記 |
+| `テストケース一覧` | current-heading | §5.8 テストデータ の揺れ表記 |
+| `テストショット一覧` | current-heading | §5.8 テストデータ の正表記 |
 | `テストデータ` | current-heading | §5.8 テストデータ の正表記 |
 | `テーブルをキューとして使ったメッセージング` | design-heading・design-scheme | §5.2 処理方式 の正表記 |
 | `ディレクティブ` | ntf-doc-terms-heading | §5.8 テストデータ の正表記 |
@@ -549,14 +549,14 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | `精査` | `バリデーション` | `単項目精査`・`項目間精査` の一部でない場合に限る（下2行で処理する） |
 | `単項目精査` | `単項目バリデーション` | 無条件 |
 | `項目間精査` | `相関バリデーション` | 無条件 |
-| `テストショット` | `テストケース` | `テストショット一覧`・`テストショット表` の一部でない場合に限る |
+| `テストケース` | `テストショット` | `テストケース一覧`・`テストケース表` の一部でない場合に限る（これらは `テストショット一覧` への置換ルールで処理する）。`@Test` メソッドそのものを名指しする場合は `テストメソッド`、何を検証するかを述べる場合は普通名詞の `テスト` に置き換える |
 | `セクション` | `データブロック` | テストデータの単位を指す場合に限る。文書構造の意味（`design.md`・マッピングの `section_id`・§5.13「セクションタイトル」）は置き換えない |
 | `データブロック種別` | `データタイプ` | 無条件 |
 | `グループ ID` | `グループID` | 無条件 |
 | `groupId` | `グループID` | テストデータのグループIDを指す場合に限る。Mavenの `<groupId>` 要素、参照ラベル `tips_groupId`、YAMLの `group_id` キーは識別子なので置き換えない |
-| `テストショット一覧` | `テストケース一覧` | 無条件 |
-| `テストケース表` | `テストケース一覧` | 無条件 |
-| `テストショット表` | `テストケース一覧` | 無条件 |
+| `テストケース一覧` | `テストショット一覧` | 無条件 |
+| `テストケース表` | `テストショット一覧` | 無条件 |
+| `テストショット表` | `テストショット一覧` | 無条件 |
 | `事前準備データ` | `準備データ` | 無条件 |
 | `セットアップデータ` | `準備データ` | 無条件 |
 | `想定結果` | `期待値` | 無条件 |
@@ -619,7 +619,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | グループ ID（L118） | 表記変更 | 空白を除いた `グループID` を正表記とする。現行解説書73件が空白なし |
 | データタイプ別の行構造（L129） | 採用 | レコード種別行・フィールド名称行・データ型行・フィールド長行を §5.10 に掲載。現行解説書に該当語がないため、input資料の表記をそのまま採る |
 | ディレクティブ（L213） | 採用 | FW解説書24件と一致 |
-| testShots / requestParams（L234） | 採用 | `testShots` `requestParams` はデータブロックのIDであり識別子。日本語の総称は `テストケース一覧` を使う |
+| testShots / requestParams（L234） | 採用 | `testShots` `requestParams` はデータブロックのIDであり識別子。日本語の総称は `テストショット一覧` を使う |
 | メッセージング 基本用語（L327） | 一部不採用 | `電文`・`要求電文`・`応答電文`・`フレームワーク制御ヘッダ`・`メッセージボディ` はFW解説書と一致するため採用。「電文種別」はFW解説書・現行解説書に0件のため不採用とし、`要求電文`・`応答電文` で書き分ける |
 | HTTP 同期応答メッセージ送信の用語読み替え（L398） | 表記変更 | クラス名の対応表は識別子としてそのまま採用する（掲載基準の対象外）。節題「HTTP 同期応答メッセージ送信」はFW解説書の `HTTPメッセージ送信` に置き換える（§5.4）。不採用の要素はないため「表記変更」とする |
 | テスト種別の正式名称（L414） | 表記変更 | 「リクエスト単体テスト（バッチ処理）」「（メッセージ受信処理）」「（RESTful ウェブサービス）」は処理方式名が `design.md` の正式名称と異なる。§5.2・§5.4 の正表記に置き換える |
@@ -634,7 +634,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | # | 事項 | 内容 |
 |---|---|---|
 | 1 | `シート` を残す範囲 | YAML形式にはシートがない。Excel形式の説明でのみ `シート` を使う方針としたが、どのセクションをExcel形式限定の記述にするかはマッピング（タスク #5）で確定する |
-| 2 | `テーブルデータ`・`ファイルデータ` の位置づけ | 「テーブル／ファイル／メッセージ」で分類する軸と「準備データ／期待値／テストケース一覧」で分類する軸が交差する。第3部「テストデータの書き方」（`S:design.md:151`）を1ページに集約すると決めているため、章立ての軸はマッピング後に決める |
+| 2 | `テーブルデータ`・`ファイルデータ` の位置づけ | 「テーブル／ファイル／メッセージ」で分類する軸と「準備データ／期待値／テストショット一覧」で分類する軸が交差する。第3部「テストデータの書き方」（`S:design.md:151`）を1ページに集約すると決めているため、章立ての軸はマッピング後に決める |
 | 3 | `レコード種別行` の根拠の弱さ | input資料1ファイル・3件しかなく、うち代表出典（`S:input/ntf-doc-terms.md:175`）は図中のラベルで定義箇所ではない。`複数レコードレイアウト`（§5.8）のファイルデータを扱うページの執筆時に、実データの記述で置き換えられるか再確認する |
 
 ## 11. 申し送り事項

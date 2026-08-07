@@ -11,15 +11,15 @@
 
 データブロックとデータタイプ
 --------------------------------------------------
-1つの読み込み単位（\ Excel\ 形式では1シート、\ YAML\ 形式では1ファイル）に、テストケース・準備データ・期待値を共存させる記述例を示す。データブロックの識別子とデータタイプの仕様は\ :ref:`データブロックとデータタイプ <testdata_notation-data_block_types>`\ を参照。
+1つの読み込み単位（\ Excel\ 形式では1シート、\ YAML\ 形式では1ファイル）に、テストショット・準備データ・期待値を共存させる記述例を示す。データブロックの識別子とデータタイプの仕様は\ :ref:`データブロックとデータタイプ <testdata_notation-data_block_types>`\ を参照。
 
-1つの読み込み単位にテストケース・準備データ・期待値をまとめる
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-注文ヘッダテーブル（\ ``ORDER_HEADER``\ ）の注文明細件数を加算する\ Nablarch\ バッチアプリケーションを、リクエスト単体テストで検証する例である。1つの読み込み単位に、テストケース一覧・準備データ・期待値・期待ログという用途の異なる4つのデータブロックを記述している。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
+1つの読み込み単位にテストショット・準備データ・期待値をまとめる
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+注文ヘッダテーブル（\ ``ORDER_HEADER``\ ）の注文明細件数を加算する\ Nablarch\ バッチアプリケーションを、リクエスト単体テストで検証する例である。1つの読み込み単位に、テストショット一覧・準備データ・期待値・期待ログという用途の異なる4つのデータブロックを記述している。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-テストケース一覧の例を示す。カラム数が多いため、ここでは複数に分けて示す（実際のシートでは1行に続けて記述する）。
+テストショット一覧の例を示す。カラム数が多いため、ここでは複数に分けて示す（実際のシートでは1行に続けて記述する）。
 
 .. list-table::
   :header-rows: 0
@@ -134,7 +134,7 @@ Excel形式の場合
   * - 注文ID[10002]
     - INFO
 
-データブロックの用途は、先頭行の識別子で決まる。この例では「LIST_MAP=testShots」がテストケース一覧、「SETUP_TABLE=ORDER_HEADER」が準備データ、「EXPECTED_TABLE=ORDER_HEADER」が期待値、「LIST_MAP=expectedLog」が期待ログである。
+データブロックの用途は、先頭行の識別子で決まる。この例では「LIST_MAP=testShots」がテストショット一覧、「SETUP_TABLE=ORDER_HEADER」が準備データ、「EXPECTED_TABLE=ORDER_HEADER」が期待値、「LIST_MAP=expectedLog」が期待ログである。
 
 YAML形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -185,23 +185,23 @@ YAML形式の場合
           REMARKS: "まとめ買い"
           UPDATE_DATE: "2010-09-13 12:34:56.0"
 
-データブロックの用途は、トップレベルキーで決まる。この例では ``list_maps:``\ の ``id: testShots``\ がテストケース一覧、``setup_tables:``\ が準備データ、``expected_tables:``\ が期待値である。期待ログのように任意の\ ID\ を持つ ``list_maps:``\ のエントリも、同じファイルに並べて記述できる。
+データブロックの用途は、トップレベルキーで決まる。この例では ``list_maps:``\ の ``id: testShots``\ がテストショット一覧、``setup_tables:``\ が準備データ、``expected_tables:``\ が期待値である。期待ログのように任意の\ ID\ を持つ ``list_maps:``\ のエントリも、同じファイルに並べて記述できる。
 
 .. _testdata_examples-group_id:
 
 グループIDによる使い分け
 --------------------------------------------------
-テストケースごとに異なる準備データ・期待値を使い分ける記述例を示す。グループIDの仕様は\ :ref:`グループIDによる使い分け <testdata_notation-group_id>`\ を参照。
+テストショットごとに異なる準備データ・期待値を使い分ける記述例を示す。グループIDの仕様は\ :ref:`グループIDによる使い分け <testdata_notation-group_id>`\ を参照。
 
-テストケースごとに準備データと期待値を使い分ける
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-注文明細テーブル（\ ``ORDER_DETAIL``\ ）に対して、明細1件の正常注文（ケース1）と明細2件の大量注文（ケース2）という2つのテストケースを実行する例である。テストケース一覧の ``setUpTable``\ ・\ ``expectedTable``\ カラムに記述した値がグループIDになり、そのグループIDを持つデータブロックだけが対象になる。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
+テストショットごとに準備データと期待値を使い分ける
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+注文明細テーブル（\ ``ORDER_DETAIL``\ ）に対して、明細1件の正常注文（ケース1）と明細2件の大量注文（ケース2）という2つのテストショットを実行する例である。テストショット一覧の ``setUpTable``\ ・\ ``expectedTable``\ カラムに記述した値がグループIDになり、そのグループIDを持つデータブロックだけが対象になる。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
 
 .. list-table::
   :header-rows: 1
   :widths: 25,25,50
 
-  * - テストケース
+  * - テストショット
     - ``setUpTable``\ の値
     - 投入されるデータブロック
   * - ケース1（正常注文）
@@ -215,7 +215,7 @@ YAML形式の場合
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-グループIDは、識別子行のデータタイプ名の直後に半角角括弧で記述する。テストケース一覧の例を示す。
+グループIDは、識別子行のデータタイプ名の直後に半角角括弧で記述する。テストショット一覧の例を示す。
 
 .. list-table::
   :header-rows: 0
@@ -389,6 +389,389 @@ YAML形式の場合
           PRODUCT_CODE: "P-004"
           QUANTITY: "200"
           UNIT_PRICE: "300"
+
+.. _testdata_examples-test_shots:
+
+テストショット一覧（testShots）を記述する
+--------------------------------------------------
+テストショット一覧（``testShots``\ ）の記述例を、処理方式ごとに示す。使用できるカラムの仕様は\ :ref:`テストショット一覧（testShots）を記述する <testdata_notation-test_shots>`\ を参照。
+
+ウェブアプリケーションのテストショット一覧を記述する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+正常ケースと認証エラーケースの2件を実行する例である。``context``\ カラムには、リクエスト\ ID\ ・実行ユーザ・\ HTTP\ メソッドを記述した ``LIST_MAP``\ の\ ID\ を指定する。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
+
+Excel形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+テストショット一覧の例を示す。
+
+.. list-table::
+  :header-rows: 0
+  :widths: 8,20,15,20,17,20
+
+  * - LIST_MAP=testShots
+    -
+    -
+    -
+    -
+    -
+  * - no
+    - description
+    - isValidToken
+    - expectedStatusCode
+    - forwardUri
+    - context
+  * - 1
+    - 正常ケース
+    - true
+    - 200
+    - /success
+    - context001
+  * - 2
+    - 認証エラー
+    - false
+    - 400
+    - /error
+    - context002
+
+リクエストパラメータは、テストショット数分の行を持つ ``requestParams``\ という\ ID\ の ``LIST_MAP``\ に記述する（\ :ref:`LIST_MAPのデータを記述する <testdata_examples-list_map>`\ 参照）。``context``\ カラムから参照される ``LIST_MAP``\ は、テストショットごとに1つずつ記述する。1件目の例を示す。1エントリのみが有効である。
+
+.. list-table::
+  :header-rows: 0
+  :widths: 34,33,33
+
+  * - LIST_MAP=context001
+    -
+    -
+  * - REQUEST_ID
+    - USER_ID
+    - HTTP_METHOD
+  * - REQ_001
+    - user001
+    - POST
+
+2件目の例を示す。
+
+.. list-table::
+  :header-rows: 0
+  :widths: 34,33,33
+
+  * - LIST_MAP=context002
+    -
+    -
+  * - REQUEST_ID
+    - USER_ID
+    - HTTP_METHOD
+  * - REQ_002
+    - user002
+    - POST
+
+YAML形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``list_maps:``\ の下に、``testShots``\ と参照先の ``LIST_MAP``\ を並べて記述する。
+
+.. code-block:: yaml
+
+  list_maps:
+    - id: testShots
+      rows:
+        - no: "1"
+          description: "正常ケース"
+          isValidToken: "true"
+          expectedStatusCode: "200"
+          forwardUri: "/success"
+          context: "context001"
+        - no: "2"
+          description: "認証エラー"
+          isValidToken: "false"
+          expectedStatusCode: "400"
+          forwardUri: "/error"
+          context: "context002"
+    - id: context001
+      rows:
+        - REQUEST_ID: "REQ_001"
+          USER_ID: "user001"
+          HTTP_METHOD: "POST"
+    - id: context002
+      rows:
+        - REQUEST_ID: "REQ_002"
+          USER_ID: "user002"
+          HTTP_METHOD: "POST"
+
+Nablarchバッチアプリケーションのテストショット一覧を記述する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+データベースだけを処理するケースと、入力ファイルを使うケースの2件を実行する例である。入力ファイルを使うケースでは、``setUpFile``\ カラムにグループIDを記述し、同じグループIDを持つファイルデータのデータブロックと紐付ける。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
+
+Excel形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+テストショット一覧の例を示す。カラム数が多いため、ここでは前半・後半に分けて示す（実際のシートでは1行に続けて記述する）。
+
+.. list-table::
+  :header-rows: 0
+  :widths: 8,27,20,45
+
+  * - LIST_MAP=testShots
+    -
+    -
+    -
+  * - no
+    - description
+    - expectedStatusCode
+    - diConfig
+  * - 1
+    - 正しく更新されます
+    - 0
+    - nablarch/test/core/batch/BatchSample.xml
+  * - 2
+    - 入力ファイルあり
+    - 0
+    - nablarch/test/core/batch/BatchSample.xml
+
+.. list-table::
+  :header-rows: 0
+  :widths: 10,45,20,25
+
+  * - LIST_MAP=testShots
+    -
+    -
+    -
+  * - no
+    - requestPath
+    - userId
+    - setUpFile
+  * - 1
+    - DBtoDBBatchSample
+    - test
+    -
+  * - 2
+    - FileToFileBatchSample
+    - test
+    - case2
+
+YAML形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``list_maps:``\ の ``id: testShots``\ のエントリに記述する。
+
+.. code-block:: yaml
+
+  list_maps:
+    - id: testShots
+      rows:
+        - no: "1"
+          description: "正しく更新されます"
+          expectedStatusCode: "0"
+          diConfig: "nablarch/test/core/batch/BatchSample.xml"
+          requestPath: "DBtoDBBatchSample"
+          userId: "test"
+          setUpFile: ""
+        - no: "2"
+          description: "入力ファイルあり"
+          expectedStatusCode: "0"
+          diConfig: "nablarch/test/core/batch/BatchSample.xml"
+          requestPath: "FileToFileBatchSample"
+          userId: "test"
+          setUpFile: "case2"
+
+メッセージングのテストショット一覧を記述する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+電文の送受信を検証する例である。``expectedMessage``\ カラムには要求電文のグループIDを、``responseMessage``\ カラムには応答電文のグループIDを記述する。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
+
+Excel形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+テストショット一覧の例を示す。カラム数が多いため、ここでは前半・後半に分けて示す（実際のシートでは1行に続けて記述する）。
+
+.. list-table::
+  :header-rows: 0
+  :widths: 8,25,20,47
+
+  * - LIST_MAP=testShots
+    -
+    -
+    -
+  * - no
+    - description
+    - expectedStatusCode
+    - diConfig
+  * - 1
+    - 電文送受信テスト
+    - 0
+    - batch-test-component-configuration.xml
+
+.. list-table::
+  :header-rows: 0
+  :widths: 8,25,22,22,23
+
+  * - LIST_MAP=testShots
+    -
+    -
+    -
+    -
+  * - no
+    - requestPath
+    - userId
+    - expectedMessage
+    - responseMessage
+  * - 1
+    - BM21AA0106
+    - batch_user
+    - case1
+    - res_case1
+
+YAML形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``list_maps:``\ の ``id: testShots``\ のエントリに記述する。
+
+.. code-block:: yaml
+
+  list_maps:
+    - id: testShots
+      rows:
+        - no: "1"
+          description: "電文送受信テスト"
+          expectedStatusCode: "0"
+          diConfig: "batch-test-component-configuration.xml"
+          requestPath: "BM21AA0106"
+          userId: "batch_user"
+          expectedMessage: "case1"
+          responseMessage: "res_case1"
+
+エンティティバリデーションのテストショット一覧を記述する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+必須入力チェックのバリデーションを検証する例である。エンティティバリデーションは他のカラム体系とは別の体系であり、``title``\ ・\ ``expectedMessageId1``\ ・\ ``propertyName1``\ を使う。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
+
+Excel形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+テストショット一覧の例を示す。
+
+.. list-table::
+  :header-rows: 0
+  :widths: 34,33,33
+
+  * - LIST_MAP=testShots
+    -
+    -
+  * - title
+    - expectedMessageId1
+    - propertyName1
+  * - 必須チェック
+    - errors.required
+    - userName
+
+YAML形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``list_maps:``\ の ``id: testShots``\ のエントリに記述する。
+
+.. code-block:: yaml
+
+  list_maps:
+    - id: testShots
+      rows:
+        - title: "必須チェック"
+          expectedMessageId1: "errors.required"
+          propertyName1: "userName"
+
+.. _testdata_examples-list_map:
+
+LIST_MAPのデータを記述する
+--------------------------------------------------
+キーバリュー形式の汎用データ（``LIST_MAP``\ ）の記述例を、用途ごとに示す。記法の仕様は\ :ref:`LIST_MAPのデータを記述する <testdata_notation-list_map>`\ を参照。
+
+リクエストパラメータを記述する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+注文検索画面に送信する\ HTTP\ リクエストパラメータを記述する例である。``requestParams``\ は予約\ ID\ であり、この\ ID\ を持つ ``LIST_MAP``\ がリクエストパラメータとして読み込まれる。テストショット一覧とは行単位で対応するため、対応が分かるようテストショット番号と説明をマーカーカラム（``[no]``\ ・\ ``[desc]``\ ）として記述している。マーカーカラムは読み込み対象から除外されるため、実際に送信されるパラメータには含まれない。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
+
+Excel形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+リクエストパラメータの例を示す。
+
+.. list-table::
+  :header-rows: 0
+  :widths: 10,20,15,20,20,15
+
+  * - LIST_MAP=requestParams
+    -
+    -
+    -
+    -
+    -
+  * - [no]
+    - memberId
+    - orderStatus
+    - fromDate
+    - toDate
+    - [desc]
+  * - 1
+    - 0000000101
+    - 1
+    - 2024-04-01
+    - 2024-04-30
+    - 4月注文検索
+  * - 2
+    - 0000000102
+    -
+    - 2024-01-01
+    -
+    - 全件検索
+
+YAML形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``list_maps:``\ の ``id: requestParams``\ のエントリに記述する。マーカーカラムのキーは、\ YAML\ の配列構文との衝突を避けるためダブルクォートで囲む。
+
+.. code-block:: yaml
+
+  list_maps:
+    - id: requestParams
+      rows:
+        - "[no]": "1"
+          memberId: "0000000101"
+          orderStatus: "1"
+          fromDate: "2024-04-01"
+          toDate: "2024-04-30"
+          "[desc]": "4月注文検索"
+        - "[no]": "2"
+          memberId: "0000000102"
+          orderStatus: ""
+          fromDate: "2024-01-01"
+          toDate: ""
+          "[desc]": "全件検索"
+
+期待ログを記述する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+バッチ処理が出力するログを検証する例である。テストショット一覧の ``expectedLog``\ カラムに、この ``LIST_MAP``\ の\ ID\ を記述して紐付ける。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
+
+Excel形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+期待ログの例を示す。
+
+.. list-table::
+  :header-rows: 0
+  :widths: 75,25
+
+  * - LIST_MAP=expectedLog
+    -
+  * - message
+    - logLevel
+  * - 会員ID[0000000101]の注文を処理しました
+    - INFO
+  * - 会員ID[0000000102]の注文を処理しました
+    - INFO
+
+YAML形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``list_maps:``\ の ``id: expectedLog``\ のエントリに記述する。同じトップレベルキーの下に、用途の異なる ``LIST_MAP``\ を並べて記述できる。
+
+.. code-block:: yaml
+
+  list_maps:
+    - id: requestParams   # 前掲のリクエストパラメータ（抜粋）
+      rows:
+        - "[no]": "1"
+          memberId: "0000000101"
+    - id: expectedLog
+      rows:
+        - message: "会員ID[0000000101]の注文を処理しました"
+          logLevel: "INFO"
+        - message: "会員ID[0000000102]の注文を処理しました"
+          logLevel: "INFO"
 
 .. _testdata_examples-table_data:
 
@@ -639,389 +1022,6 @@ YAML形式の場合
         - USER_ID: "0000000101"
           KANJI_NAME: "漢字名"
           KANA_NAME: "ｶﾅﾒｲ"
-
-.. _testdata_examples-list_map:
-
-LIST_MAPのデータを記述する
---------------------------------------------------
-キーバリュー形式の汎用データ（``LIST_MAP``\ ）の記述例を、用途ごとに示す。記法の仕様は\ :ref:`LIST_MAPのデータを記述する <testdata_notation-list_map>`\ を参照。
-
-リクエストパラメータを記述する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-注文検索画面に送信する\ HTTP\ リクエストパラメータを記述する例である。``requestParams``\ は予約\ ID\ であり、この\ ID\ を持つ ``LIST_MAP``\ がリクエストパラメータとして読み込まれる。テストケース一覧とは行単位で対応するため、対応が分かるようテストケース番号と説明をマーカーカラム（``[no]``\ ・\ ``[desc]``\ ）として記述している。マーカーカラムは読み込み対象から除外されるため、実際に送信されるパラメータには含まれない。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
-
-Excel形式の場合
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-リクエストパラメータの例を示す。
-
-.. list-table::
-  :header-rows: 0
-  :widths: 10,20,15,20,20,15
-
-  * - LIST_MAP=requestParams
-    -
-    -
-    -
-    -
-    -
-  * - [no]
-    - memberId
-    - orderStatus
-    - fromDate
-    - toDate
-    - [desc]
-  * - 1
-    - 0000000101
-    - 1
-    - 2024-04-01
-    - 2024-04-30
-    - 4月注文検索
-  * - 2
-    - 0000000102
-    -
-    - 2024-01-01
-    -
-    - 全件検索
-
-YAML形式の場合
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-``list_maps:``\ の ``id: requestParams``\ のエントリに記述する。マーカーカラムのキーは、\ YAML\ の配列構文との衝突を避けるためダブルクォートで囲む。
-
-.. code-block:: yaml
-
-  list_maps:
-    - id: requestParams
-      rows:
-        - "[no]": "1"
-          memberId: "0000000101"
-          orderStatus: "1"
-          fromDate: "2024-04-01"
-          toDate: "2024-04-30"
-          "[desc]": "4月注文検索"
-        - "[no]": "2"
-          memberId: "0000000102"
-          orderStatus: ""
-          fromDate: "2024-01-01"
-          toDate: ""
-          "[desc]": "全件検索"
-
-期待ログを記述する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-バッチ処理が出力するログを検証する例である。テストケース一覧の ``expectedLog``\ カラムに、この ``LIST_MAP``\ の\ ID\ を記述して紐付ける。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
-
-Excel形式の場合
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-期待ログの例を示す。
-
-.. list-table::
-  :header-rows: 0
-  :widths: 75,25
-
-  * - LIST_MAP=expectedLog
-    -
-  * - message
-    - logLevel
-  * - 会員ID[0000000101]の注文を処理しました
-    - INFO
-  * - 会員ID[0000000102]の注文を処理しました
-    - INFO
-
-YAML形式の場合
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-``list_maps:``\ の ``id: expectedLog``\ のエントリに記述する。同じトップレベルキーの下に、用途の異なる ``LIST_MAP``\ を並べて記述できる。
-
-.. code-block:: yaml
-
-  list_maps:
-    - id: requestParams   # 前掲のリクエストパラメータ（抜粋）
-      rows:
-        - "[no]": "1"
-          memberId: "0000000101"
-    - id: expectedLog
-      rows:
-        - message: "会員ID[0000000101]の注文を処理しました"
-          logLevel: "INFO"
-        - message: "会員ID[0000000102]の注文を処理しました"
-          logLevel: "INFO"
-
-.. _testdata_examples-test_shots:
-
-テストケース一覧（testShots）を記述する
---------------------------------------------------
-テストケース一覧（``testShots``\ ）の記述例を、処理方式ごとに示す。使用できるカラムの仕様は\ :ref:`テストケース一覧（testShots）を記述する <testdata_notation-test_shots>`\ を参照。
-
-ウェブアプリケーションのテストケース一覧を記述する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-正常ケースと認証エラーケースの2件を実行する例である。``context``\ カラムには、リクエスト\ ID\ ・実行ユーザ・\ HTTP\ メソッドを記述した ``LIST_MAP``\ の\ ID\ を指定する。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
-
-Excel形式の場合
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-テストケース一覧の例を示す。
-
-.. list-table::
-  :header-rows: 0
-  :widths: 8,20,15,20,17,20
-
-  * - LIST_MAP=testShots
-    -
-    -
-    -
-    -
-    -
-  * - no
-    - description
-    - isValidToken
-    - expectedStatusCode
-    - forwardUri
-    - context
-  * - 1
-    - 正常ケース
-    - true
-    - 200
-    - /success
-    - context001
-  * - 2
-    - 認証エラー
-    - false
-    - 400
-    - /error
-    - context002
-
-リクエストパラメータは、テストケース数分の行を持つ ``requestParams``\ という\ ID\ の ``LIST_MAP``\ に記述する（\ :ref:`LIST_MAPのデータを記述する <testdata_examples-list_map>`\ 参照）。``context``\ カラムから参照される ``LIST_MAP``\ は、テストケースごとに1つずつ記述する。1件目の例を示す。1エントリのみが有効である。
-
-.. list-table::
-  :header-rows: 0
-  :widths: 34,33,33
-
-  * - LIST_MAP=context001
-    -
-    -
-  * - REQUEST_ID
-    - USER_ID
-    - HTTP_METHOD
-  * - REQ_001
-    - user001
-    - POST
-
-2件目の例を示す。
-
-.. list-table::
-  :header-rows: 0
-  :widths: 34,33,33
-
-  * - LIST_MAP=context002
-    -
-    -
-  * - REQUEST_ID
-    - USER_ID
-    - HTTP_METHOD
-  * - REQ_002
-    - user002
-    - POST
-
-YAML形式の場合
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-``list_maps:``\ の下に、``testShots``\ と参照先の ``LIST_MAP``\ を並べて記述する。
-
-.. code-block:: yaml
-
-  list_maps:
-    - id: testShots
-      rows:
-        - no: "1"
-          description: "正常ケース"
-          isValidToken: "true"
-          expectedStatusCode: "200"
-          forwardUri: "/success"
-          context: "context001"
-        - no: "2"
-          description: "認証エラー"
-          isValidToken: "false"
-          expectedStatusCode: "400"
-          forwardUri: "/error"
-          context: "context002"
-    - id: context001
-      rows:
-        - REQUEST_ID: "REQ_001"
-          USER_ID: "user001"
-          HTTP_METHOD: "POST"
-    - id: context002
-      rows:
-        - REQUEST_ID: "REQ_002"
-          USER_ID: "user002"
-          HTTP_METHOD: "POST"
-
-Nablarchバッチアプリケーションのテストケース一覧を記述する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データベースだけを処理するケースと、入力ファイルを使うケースの2件を実行する例である。入力ファイルを使うケースでは、``setUpFile``\ カラムにグループIDを記述し、同じグループIDを持つファイルデータのデータブロックと紐付ける。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
-
-Excel形式の場合
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-テストケース一覧の例を示す。カラム数が多いため、ここでは前半・後半に分けて示す（実際のシートでは1行に続けて記述する）。
-
-.. list-table::
-  :header-rows: 0
-  :widths: 8,27,20,45
-
-  * - LIST_MAP=testShots
-    -
-    -
-    -
-  * - no
-    - description
-    - expectedStatusCode
-    - diConfig
-  * - 1
-    - 正しく更新されます
-    - 0
-    - nablarch/test/core/batch/BatchSample.xml
-  * - 2
-    - 入力ファイルあり
-    - 0
-    - nablarch/test/core/batch/BatchSample.xml
-
-.. list-table::
-  :header-rows: 0
-  :widths: 10,45,20,25
-
-  * - LIST_MAP=testShots
-    -
-    -
-    -
-  * - no
-    - requestPath
-    - userId
-    - setUpFile
-  * - 1
-    - DBtoDBBatchSample
-    - test
-    -
-  * - 2
-    - FileToFileBatchSample
-    - test
-    - case2
-
-YAML形式の場合
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-``list_maps:``\ の ``id: testShots``\ のエントリに記述する。
-
-.. code-block:: yaml
-
-  list_maps:
-    - id: testShots
-      rows:
-        - no: "1"
-          description: "正しく更新されます"
-          expectedStatusCode: "0"
-          diConfig: "nablarch/test/core/batch/BatchSample.xml"
-          requestPath: "DBtoDBBatchSample"
-          userId: "test"
-          setUpFile: ""
-        - no: "2"
-          description: "入力ファイルあり"
-          expectedStatusCode: "0"
-          diConfig: "nablarch/test/core/batch/BatchSample.xml"
-          requestPath: "FileToFileBatchSample"
-          userId: "test"
-          setUpFile: "case2"
-
-メッセージングのテストケース一覧を記述する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-電文の送受信を検証する例である。``expectedMessage``\ カラムには要求電文のグループIDを、``responseMessage``\ カラムには応答電文のグループIDを記述する。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
-
-Excel形式の場合
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-テストケース一覧の例を示す。カラム数が多いため、ここでは前半・後半に分けて示す（実際のシートでは1行に続けて記述する）。
-
-.. list-table::
-  :header-rows: 0
-  :widths: 8,25,20,47
-
-  * - LIST_MAP=testShots
-    -
-    -
-    -
-  * - no
-    - description
-    - expectedStatusCode
-    - diConfig
-  * - 1
-    - 電文送受信テスト
-    - 0
-    - batch-test-component-configuration.xml
-
-.. list-table::
-  :header-rows: 0
-  :widths: 8,25,22,22,23
-
-  * - LIST_MAP=testShots
-    -
-    -
-    -
-    -
-  * - no
-    - requestPath
-    - userId
-    - expectedMessage
-    - responseMessage
-  * - 1
-    - BM21AA0106
-    - batch_user
-    - case1
-    - res_case1
-
-YAML形式の場合
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-``list_maps:``\ の ``id: testShots``\ のエントリに記述する。
-
-.. code-block:: yaml
-
-  list_maps:
-    - id: testShots
-      rows:
-        - no: "1"
-          description: "電文送受信テスト"
-          expectedStatusCode: "0"
-          diConfig: "batch-test-component-configuration.xml"
-          requestPath: "BM21AA0106"
-          userId: "batch_user"
-          expectedMessage: "case1"
-          responseMessage: "res_case1"
-
-エンティティバリデーションのテストケース一覧を記述する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-必須入力チェックのバリデーションを検証する例である。エンティティバリデーションは他のカラム体系とは別の体系であり、``title``\ ・\ ``expectedMessageId1``\ ・\ ``propertyName1``\ を使う。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
-
-Excel形式の場合
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-テストケース一覧の例を示す。
-
-.. list-table::
-  :header-rows: 0
-  :widths: 34,33,33
-
-  * - LIST_MAP=testShots
-    -
-    -
-  * - title
-    - expectedMessageId1
-    - propertyName1
-  * - 必須チェック
-    - errors.required
-    - userName
-
-YAML形式の場合
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-``list_maps:``\ の ``id: testShots``\ のエントリに記述する。
-
-.. code-block:: yaml
-
-  list_maps:
-    - id: testShots
-      rows:
-        - title: "必須チェック"
-          expectedMessageId1: "errors.required"
-          propertyName1: "userName"
 
 .. _testdata_examples-file_data:
 
@@ -1468,7 +1468,7 @@ YAML形式の場合
 
 グループIDでファイルを使い分ける
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-テストケースごとに異なる入力ファイルを使い分ける例である。グループIDなしのデータブロックが1件処理のケースに、``case2``\ のデータブロックが複数件処理のケースに対応する。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
+テストショットごとに異なる入力ファイルを使い分ける例である。グループIDなしのデータブロックが1件処理のケースに、``case2``\ のデータブロックが複数件処理のケースに対応する。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1702,7 +1702,7 @@ YAML形式の場合
 
 同期応答メッセージ送信の要求電文の期待値を記述する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Nablarch\ バッチアプリケーションのリクエスト単体テストで、送信される要求電文のヘッダが期待どおりであることを検証する例である。テストケース一覧の ``expectedMessage``\ カラムに記述したグループIDと、要求電文の期待値のデータブロックが紐付く。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
+Nablarch\ バッチアプリケーションのリクエスト単体テストで、送信される要求電文のヘッダが期待どおりであることを検証する例である。テストショット一覧の ``expectedMessage``\ カラムに記述したグループIDと、要求電文の期待値のデータブロックが紐付く。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
 
 .. important::
 
@@ -1710,7 +1710,7 @@ Nablarch\ バッチアプリケーションのリクエスト単体テストで�
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-テストケース一覧の記述例は\ :ref:`テストケース一覧（testShots）を記述する <testdata_examples-test_shots>`\ を参照。要求電文ヘッダの期待値の例を示す。半角角括弧の中がグループID、``=``\ の右がリクエスト\ ID\ である。リクエスト\ ID\ はフォーマット定義ファイルの解決に使われる。
+テストショット一覧の記述例は\ :ref:`テストショット一覧（testShots）を記述する <testdata_examples-test_shots>`\ を参照。要求電文ヘッダの期待値の例を示す。半角角括弧の中がグループID、``=``\ の右がリクエスト\ ID\ である。リクエスト\ ID\ はフォーマット定義ファイルの解決に使われる。
 
 .. list-table::
   :header-rows: 0
@@ -1731,7 +1731,7 @@ Excel形式の場合
 
 YAML形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-``expected_request_header_messages:``\ のエントリに、``group_id:``\ とリクエスト\ ID\ （``id:``\ ）を記述する。``group_id:``\ の値がテストケース一覧の ``expectedMessage``\ カラムに対応する。
+``expected_request_header_messages:``\ のエントリに、``group_id:``\ とリクエスト\ ID\ （``id:``\ ）を記述する。``group_id:``\ の値がテストショット一覧の ``expectedMessage``\ カラムに対応する。
 
 .. code-block:: yaml
 
@@ -1846,9 +1846,9 @@ YAML形式の場合
 
 .. _testdata_examples-special_notation:
 
-値を特殊記法で記述する
+null・空文字・改行など特殊な値を記述する
 --------------------------------------------------
-日付・システム日時・\ NULL\ ・スペース・バイナリといった、特殊記法を使う値の記述例を示す。特殊記法の仕様は\ :ref:`値を特殊記法で記述する <testdata_notation-special_notation>`\ を参照。
+日付・システム日時・\ NULL\ ・スペース・バイナリといった、特殊記法を使う値の記述例を示す。特殊記法の仕様は\ :ref:`null・空文字・改行など特殊な値を記述する <testdata_notation-special_notation>`\ を参照。
 
 日付・システム日時・NULLを記述する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1856,7 +1856,7 @@ YAML形式の場合
 
 .. important::
 
-  ``java.sql.Timestamp``\ 型カラムの期待値には、この例の ``CREATED_AT``\ のように末尾へ ``.0``\ を付ける。理由は\ :ref:`値を特殊記法で記述する <testdata_notation-special_notation>`\ を参照。
+  ``java.sql.Timestamp``\ 型カラムの期待値には、この例の ``CREATED_AT``\ のように末尾へ ``.0``\ を付ける。理由は\ :ref:`null・空文字・改行など特殊な値を記述する <testdata_notation-special_notation>`\ を参照。
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
