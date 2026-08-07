@@ -316,17 +316,19 @@ Rn version: 0.8.0
 
 **Steps**:
 
-- [ ] STEP 1 — `glossary.md` を改訂する（`:201`/`:207`/`:215`/`:359`/`:552`/`:557`〜`:559`/`:622`/`:637` を内容で照合して編集。`:403`〜`:449` の現行解説書見出し一覧は変更しない）
-- [ ] STEP 2 — 作成済みページの `テストケース` を1件ずつ判定して置き換える（`テストショット` / `テストメソッド` / `テスト` の3通り。全件を表で記録）
-- [ ] STEP 3 — `使用方法` 配下の並びを変更し、前方参照を手当てし、崩れた前後関係の参照を全数是正する
-- [ ] STEP 4 — `値を特殊記法で記述する` を `null・空文字・改行など特殊な値を記述する` に改題する
-- [ ] STEP 5 — `checks/task-10-quotes.md` の smartquotes 機構の記述を訂正する（`ja/conf.py:158` を根拠に）
-- [ ] STEP 6 — `checks/task-terminology.md` を新規作成し、`reviews/page-*.md` 2件に追記し、残り32ページへの申し送りを追加する
-- [ ] 追補 — `about/index.rst` の `テストケース` 2箇所（L24）を、第1部の文脈を読んだうえで判定する（推奨は `テスト`。`テストショット` を選ぶ場合は定義なし初出を承知した旨を記録）。`reviews/page-about_index.md` に追記する
-- [ ] 回答 — `design.md:65` の `テストケース` を `about/index.rst:24` と同じ語に揃える（`#8` フィードバックの引用文は改変しない）。`design.md` 全体を全数確認し全件表で記録する。是正の根拠は `design.md` §8 の経路とする
-- [ ] 回答 — `testdata_examples.rst` の特殊記法セクションは**見出しを変えず導入文を見出しに寄せる**（(c) を採用、(b) は不採用）。あわせて値の種類10種の記載例の突合を行い、出典の有無で判定する（**例の追加は行わない。調査と報告のみ**）
+- [x] STEP 1 — `glossary.md` を改訂する（`:201`/`:207`/`:215`/`:359`/`:552`/`:557`〜`:559`/`:622`/`:637` を内容で照合して編集。`:403`〜`:449` の現行解説書見出し一覧は変更しない）
+- [x] STEP 2 — 作成済みページの `テストケース` を1件ずつ判定して置き換える（`テストショット` / `テストメソッド` / `テスト` の3通り。全件を表で記録）
+- [x] STEP 3 — `使用方法` 配下の並びを変更し、前方参照を手当てし、崩れた前後関係の参照を全数是正する
+- [x] STEP 4 — `値を特殊記法で記述する` を `null・空文字・改行など特殊な値を記述する` に改題する
+- [x] STEP 5 — `checks/task-10-quotes.md` の smartquotes 機構の記述を訂正する（`ja/conf.py:158` を根拠に）
+- [x] STEP 6 — `checks/task-terminology.md` を新規作成し、`reviews/page-*.md` 2件に追記し、残り32ページへの申し送りを追加する
+- [x] 追補 — `about/index.rst` の `テストケース` 2箇所（L24）を、第1部の文脈を読んだうえで判定する（推奨は `テスト`。`テストショット` を選ぶ場合は定義なし初出を承知した旨を記録）。`reviews/page-about_index.md` に追記する
+- [x] 回答 — `design.md:65` の `テストケース` を `about/index.rst:24` と同じ語に揃える（`#8` フィードバックの引用文は改変しない）。`design.md` 全体を全数確認し全件表で記録する。是正の根拠は `design.md` §8 の経路とする
+- [x] 回答 — `testdata_examples.rst` の特殊記法セクションは**見出しを変えず導入文を見出しに寄せる**（(c) を採用、(b) は不採用）。あわせて値の種類10種の記載例の突合を行い、出典の有無で判定する（**例の追加は行わない。調査と報告のみ**）
+- [x] 4観点のレビューを、それぞれ**別のサブエージェント**で実施する（本レビュー4＋是正ラウンド1後の再レビュー4）
+- [ ] 是正ラウンド2の残り — ゲート1〜17 の再実行（**Docker フルビルド未実施**）と、`checks/task-terminology.md` への C-1〜C-8 の記録反映
+- [ ] 是正ラウンド2の再レビュー（4観点。ラウンド上限3のうち2を消化済み）
 - [ ] ゲート1〜13、追補のゲート14（`about/index.rst` の差分が L24 の1行のみ）、回答のゲート15〜17（`design.md` の `テストケース` 0件／導入文と見出しの語の一致／10種の突合表）をすべて実行結果で確認し記録する
-- [ ] 4観点のレビューを、それぞれ**別のサブエージェント**で実施する
 - [ ] commit & push
 - [ ] **user review** — 承認を受けるまで `#11` に進まない
 
@@ -372,8 +374,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-07
+- **Last completed**: `#10a` の STEP 1〜6・追補・回答の本文適用と、4観点レビュー2巡（本レビュー＋是正ラウンド1後の再レビュー）。是正ラウンド2の本文編集（A-1〜A-6・B-1〜B-2）も適用済み。
+- **Next**: **是正ラウンド2の残りを完了させる。** (1) `checks/task-terminology.md` に C-1〜C-8 の記録を反映（内容は `reviews/page-*.md` の追記済み分と重複しないこと）。(2) **Docker フルビルド（`-a`）を含むゲート1〜17 を再実行**し実行結果を記録。(3) 是正ラウンド2の4観点再レビュー（ラウンド上限3のうち2消化済み）。(4) `checks/task-terminology.md` を含めて check-off コミット。C-1〜C-8 の内容は `ntf-doc-terminology.md`・`同-addendum.md`・`同-answer.md` と本 State の Notes を参照。
+- **Notes**: ブランチ `work`、`origin`（`lovaizu` fork）と同期済み・PR未作成。`#10a` の作業指示は `ntf-doc-terminology.md`＋追補＋回答の3点。**`checks/task-terminology.md` はコーディネーターが check-off 時にコミットする設計**（実装エキスパートには commit させない）。レビュアー4名全員がこれを「未コミット＝重大」と誤判定するが却下してよい。**是正ラウンド2の未了記録項目 C-1〜C-8**: C-1 置換7行・8出現の件数訂正／C-2 禁止事項の例外として行った本文編集（`notation:725`・`:40`、`examples:397`・`:674-677`・`:204-212`・`:502`・`:1471`）の一覧／C-3 定義を「バリデーション実行」まで広げた指示字句からの逸脱／C-4 出典逸脱の記録（`input/…-examples-table.md:50`・`同-special.md:49` が誤り、`ntf-testdata-doc.md:252/535/549` が正。根拠は `input/testdata-converter-design.md:110-112` の QuotationTrimmer/SnakeYAML の適用順）／C-5 C-4 を残り32ページへの申し送りに追加／C-6 ゲート17 の分類基準明記（厳密に0件は 文字列の`null`・空文字・`${文字種,文字数}`・改行文字の4種）／C-7 `input-0087`・`input-0089` を検討のうえ除外した旨／C-8 アンダーライン流儀の差（notation の L3/L4 は49固定、examples は `max(50,表示幅)`。`6ba0d2a` 以前からで退行ではない）。`_build/` はユーザーがブラウザで直接レビューするため削除しない。Docker ビルドは `ja/locales/ja/LC_MESSAGES/sphinx.mo` を再生成するため commit 前に `git checkout` で戻す。`#11` 以降への申し送りは `reviews/page-testdata_examples.md`・`page-testdata_notation.md` の各末尾。
