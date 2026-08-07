@@ -22,6 +22,7 @@ Rn version: 0.8.0
 - `#9` 再構成指示: `.rn/20260724-ntf-yaml-support/ntf-doc-09-restructure.md`
 - `#10a` 用語統一・並び替え指示: `.rn/20260724-ntf-yaml-support/ntf-doc-terminology.md`
 - `#10a` 追補（`about/index.rst` の扱い）: `.rn/20260724-ntf-yaml-support/ntf-doc-terminology-addendum.md`
+- `#10a` 回答（`design.md:65` の是正・特殊記法セクションの導入文）: `.rn/20260724-ntf-yaml-support/ntf-doc-terminology-answer.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
@@ -322,14 +323,16 @@ Rn version: 0.8.0
 - [ ] STEP 5 — `checks/task-10-quotes.md` の smartquotes 機構の記述を訂正する（`ja/conf.py:158` を根拠に）
 - [ ] STEP 6 — `checks/task-terminology.md` を新規作成し、`reviews/page-*.md` 2件に追記し、残り32ページへの申し送りを追加する
 - [ ] 追補 — `about/index.rst` の `テストケース` 2箇所（L24）を、第1部の文脈を読んだうえで判定する（推奨は `テスト`。`テストショット` を選ぶ場合は定義なし初出を承知した旨を記録）。`reviews/page-about_index.md` に追記する
-- [ ] ゲート1〜13 と、追補のゲート14（`about/index.rst` の差分が L24 の1行のみ）をすべて実行結果で確認し記録する
+- [ ] 回答 — `design.md:65` の `テストケース` を `about/index.rst:24` と同じ語に揃える（`#8` フィードバックの引用文は改変しない）。`design.md` 全体を全数確認し全件表で記録する。是正の根拠は `design.md` §8 の経路とする
+- [ ] 回答 — `testdata_examples.rst` の特殊記法セクションは**見出しを変えず導入文を見出しに寄せる**（(c) を採用、(b) は不採用）。あわせて値の種類10種の記載例の突合を行い、出典の有無で判定する（**例の追加は行わない。調査と報告のみ**）
+- [ ] ゲート1〜13、追補のゲート14（`about/index.rst` の差分が L24 の1行のみ）、回答のゲート15〜17（`design.md` の `テストケース` 0件／導入文と見出しの語の一致／10種の突合表）をすべて実行結果で確認し記録する
 - [ ] 4観点のレビューを、それぞれ**別のサブエージェント**で実施する
 - [ ] commit & push
 - [ ] **user review** — 承認を受けるまで `#11` に進まない
 
 **Completion criteria**:
 
-- 作業指示のゲート1〜13 と追補のゲート14 がすべて実行結果で確認され、`checks/task-terminology.md` に記録されている
+- 作業指示のゲート1〜13、追補のゲート14、回答のゲート15〜17 がすべて実行結果で確認され、`checks/task-terminology.md` に記録されている
 - `about/index.rst` の `テストケース` 2箇所の語選択の理由が、判定表に1行ずつ記録されている
 - 作業指示の禁止事項に抵触する変更が無い（`mapping.csv` / `_batch/` / `vocabulary.md` / `style.md` / `ja/conf.py` / `glossary.md` の現行解説書見出し一覧に差分が無い）
 - STEP 2 の置換判定と STEP 3-2 の前後関係確認が、いずれも件数ではなく全件の表で記録されている
