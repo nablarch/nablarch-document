@@ -6,5 +6,6 @@
 .. toctree::
    :maxdepth: 1
 
+   common
    junit5_extension
    master_data_restore
