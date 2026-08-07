@@ -24,6 +24,7 @@ Rn version: 0.8.0
 - `#10a` 追補（`about/index.rst` の扱い）: `.rn/20260724-ntf-yaml-support/ntf-doc-terminology-addendum.md`
 - `#10a` 回答（`design.md:65` の是正・特殊記法セクションの導入文）: `.rn/20260724-ntf-yaml-support/ntf-doc-terminology-answer.md`
 - `#10b` 作業指示（`#10a` 承認後の仕上げ）: `.rn/20260724-ntf-yaml-support/ntf-doc-10a-followup.md`
+- `#11` 作業指示（共通設定）: `.rn/20260724-ntf-yaml-support/ntf-doc-11-common.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
@@ -364,6 +365,32 @@ Rn version: 0.8.0
 
 **Closed**: 締めの user review 承認済み（`/rn:ty`、2026-08-07）。公開本文は先行して承認（`/rn:gm`、2026-08-07）。4観点レビュー3巡＋是正3ラウンド（`eef48f5`・`4c16caa`・`f87629f`）で公開本文の `must` は4観点とも0件に到達し、締めの作業指示 `ntf-doc-10b-close.md` で残り2件に結着した。(1) **数詞の全件表は作り直さない** — レビュー役がホワイトリストを使わない全走査を独立に組んで検証し、既存35行の表が取りこぼしている**真の数詞は0件**であることを確認したため（3巡目に3観点が挙げた9出現はいずれも数を数えていない）。未達だったのは「表が全件でないこと」ではなく「同じ表が全件であることを、その抽出方式では証明できないこと」であり、方式の是正は `#11` 以降への申し送りとした。(2) **`:401` の `認証エラーケース` を `認証エラー` に是正** — 実在するセル値は `:430`・`:484` の `認証エラー` であり、`認証エラーケース` は `ja/`・`input/`・`mapping/` のいずれにも存在しない地の文だけの語であった（`ntf-doc-10a-followup.md` の当該禁止事項は指示側の誤りとして取り消された）。締めの変更は**この1行のみ**で、ゲート1〜10 を全件 PASS（Docker フルビルド `build succeeded, 1 warning.`／新規警告0件）。詳細は `checks/task-10a-followup.md`（§1-2 冒頭の追記／§8 締め）・`reviews/page-testdata_examples.md`（`#10b` 締め・申し送り23）・`page-testdata_notation.md`（申し送り32）および git 履歴を参照。`#11` 以降への申し送りは `page-testdata_notation.md` の28〜32、`page-testdata_examples.md` の19〜23。
 
+### #11: 共通設定（`setup/common.rst`）
+
+**Purpose**: マッピングに従って第2部の1ページ目「共通設定」を作成する。対象は `mapping.csv` の `dest_page=共通設定` の5行（129 lines、すべて `dest_section=使用方法`）。作業指示は `ntf-doc-11-common.md`。
+
+**Steps**:
+
+- [ ] STEP 1 — ページを新規作成する（先頭ラベル `testing_framework_common` → タイトル → `.. contents::` → `使用方法` L2 の下に L3 3件を「読み込み先 → 日時固定 → 採番」の順で置く）。`機能概要`・`拡張例` の見出しは置かない（出典0行）。トランザクションの節は作らない（割当行なし）
+- [ ] STEP 2 — 実装で確認済みの事実（`FixedSystemTimeProvider` の桁数は **14桁 / 17桁**、`nablarch.test.resource-root` の既定値・区切り・探索順）を反映する。出典の「12桁 / 15桁」は写さない。採番のクラスは未確認のため出典以上のことを書かない
+- [ ] STEP 3 — 記載範囲の線引き（`current-0226` の Java コード例はコードブロックにせず地の文で内容を残す／採番の記述例は `testdata_examples-table_data` へ `:ref:` で導線を張る）
+- [ ] STEP 4 — `setup/index.rst` の toctree の先頭に `common` を追加する（既存2件の順序は変えない）
+- [ ] STEP 5 — 4観点のレビューを、それぞれ**別のサブエージェント**で実施する（A:網羅性 / B:トンマナ / C:用語 / D:整合性）。**是正ラウンド2以降は是正差分に限定した観点のみを回す**（`#10b` 申し送り）。各ラウンドの指摘件数と観点を記録する
+- [ ] STEP 6 — `reviews/page-common.md`・`checks/task-11.md` を新規作成する
+- [ ] ゲート1〜11 をすべて実行結果で確認し、`checks/task-11.md` に記録する（**全件表を求めるゲート1を実行順の先頭に置く**）
+- [ ] commit & push
+- [ ] **user review** — 承認を受けるまで次ページに進まない
+
+**Completion criteria**:
+
+- 作業指示のゲート1〜11 がすべて実行結果で確認され、`checks/task-11.md` に記録されている
+- `dest_page=共通設定` の5行が**全件**、反映先のセクションと行番号の対応表で記録されている（母集合をホワイトリストで切り出さない）
+- 4観点のレビューがすべて実施・記録され、未対応の `must` が残っていない（または残す判断とその理由が記録されている）
+- `setup/common.rst` に `機能概要`・`拡張例` の見出しが0件、`使用方法` が1件、`12桁`・`15桁` が0件、トランザクションの節が0件
+- `setup/common.rst` から `testdata_examples-table_data` への `:ref:` が1件以上あり、すべての `:ref:` が解決する
+- 作業指示の禁止事項に抵触する変更が無い（`mapping.csv` / `_batch/` / `vocabulary.md` / `style.md` / `glossary.md` / `design.md` / `ja/conf.py` に差分が無く、`ja/` 配下の変更が `setup/common.rst` と `setup/index.rst` だけである）
+- Docker フルビルドが `build succeeded` で、警告が既知の `db_double_submit.rst` 1件のみ（新規0件）
+
 ### #last: Evaluation sign-off
 
 **Purpose**: NTF ドキュメント刷新の完了を Acceptance criteria に照らして確認し、ユーザーの承認を得る。
@@ -397,8 +424,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-07
-- **Last completed**: `#10b`（締めの user review 承認済み。`/rn:ty`、`f4e4de8`）。`#10b` は完全に閉じた
-- **Next**: `#11`（次のページ）の作業指示をユーザーから受領する。着手は指示受領後
-- **Notes**: ブランチ `work`（`origin/work` に push 済み）。`#11` の作業指示には `#10a`・`#10b` の申し送りを反映する — `reviews/page-testdata_notation.md` の28〜32、`page-testdata_examples.md` の19〜23。とくに申し送り23／32（**全件表を求める完了条件では母集合をホワイトリストで切り出さない。全走査して非該当も判定理由付きで載せる**）は `#10b` で3巡の指摘を招いた原因であり、次タスクの完了条件の書き方に直結する。未解決の課題は `#11` 以降に持ち越した1件のみ（記載例ページに例が無い値の種類への無条件な前方参照。`testdata_notation.rst:1342`・`:1393`・`:1443`）。作業ツリーは clean、user-deferred な未追跡パスは無し
+- **Status**: not suspended
+- **Date**: —
+- **Last completed**: —
+- **Next**: —
+- **Notes**: —
