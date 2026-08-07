@@ -330,15 +330,15 @@ Rn version: 0.8.0
 
 **Steps**:
 
-- [ ] STEP 1 — `testdata_examples.rst` の「2件」をテストショットを数える形に改め、他の導入文の数詞の曖昧さを**全件表**で確認・報告する（是正はしない）
-- [ ] STEP 2 — 記載例ページの特殊記法セクションの導入文に、例が無い値の種類の記法の在処を示す1文を足し、`testdata_notation-special_notation` へリンクする
-- [ ] STEP 3 — 値の種類10件について記載例ページの例の有無を**全件表**で突合し、例が無いものを「出典なし」か「網羅性の欠落（`must`）」に判定する（例の追加はしない）
-- [ ] STEP 4 — `testdata_notation.rst` の定義セルから `（番号・説明・期待するステータスコード）` を削除する（言い換えない）
-- [ ] STEP 5 — `checks/task-10a-followup.md` を新規作成し、`reviews/page-testdata_notation.md`・`page-testdata_examples.md` に追記（既存記録は書き換えない）。残り32ページへの申し送り2件を追加する
-- [ ] ゲート1〜10 をすべて実行結果で確認し、`checks/task-10a-followup.md` に記録する（**全件表を求めるゲート7を実行順の先頭に置く**）
-- [ ] 4観点のレビューを、それぞれ**別のサブエージェント**で実施する（QA / 設計 / クラフト / 検証）
-- [ ] 指摘への対応を行う（最大3ラウンド）
-- [ ] commit & push
+- [x] STEP 1 — `testdata_examples.rst` の「2件」をテストショットを数える形に改め、他の導入文の数詞の曖昧さを**全件表**で確認・報告する（是正はしない）
+- [x] STEP 2 — 記載例ページの特殊記法セクションの導入文に、例が無い値の種類の記法の在処を示す1文を足し、`testdata_notation-special_notation` へリンクする
+- [x] STEP 3 — 値の種類10件について記載例ページの例の有無を**全件表**で突合し、例が無いものを「出典なし」か「網羅性の欠落（`must`）」に判定する（例の追加はしない）
+- [x] STEP 4 — `testdata_notation.rst` の定義セルから `（番号・説明・期待するステータスコード）` を削除する（言い換えない）
+- [x] STEP 5 — `checks/task-10a-followup.md` を新規作成し、`reviews/page-testdata_notation.md`・`page-testdata_examples.md` に追記（既存記録は書き換えない）。残り32ページへの申し送り2件を追加する
+- [x] ゲート1〜10 をすべて実行結果で確認し、`checks/task-10a-followup.md` に記録する（**全件表を求めるゲート7を実行順の先頭に置く**）
+- [x] 4観点のレビューを、それぞれ**別のサブエージェント**で実施する（QA / 設計 / クラフト / 検証）— 2巡実施
+- [ ] 指摘への対応を行う（最大3ラウンド）— ラウンド1（`eef48f5`）・2（`4c16caa`）実施済み。**クラフト2巡目の `must` 1件が未処理**
+- [x] commit & push — `b2f616a` → `eef48f5` → `4c16caa`（ラウンド3の分は未実施）
 - [ ] **user review** — 承認を受けるまで `#11` に着手しない
 
 **Completion criteria**:
@@ -384,8 +384,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: —
-- **Last completed**: —
-- **Next**: —
-- **Notes**: —
+- **Status**: paused
+- **Date**: 2026-08-07
+- **Last completed**: `#10a`（`25ea528`）。`#10b` は是正ラウンド2 まで完了（`4c16caa`）
+- **Next**: `#10b` の是正ラウンド3（規定の上限内、3回目）
+- **Notes**: クラフト2巡目の未処理 `must` 1件 — `testdata_examples.rst:1851` の `ここに置いていない` の指示範囲が節ともページとも読め、ページ読みでは `:710`-`:712`・`:732`-`:734`・`:2066`・`:2082`-`:2083` に反して偽になる。最小修正案は `` なお、空文字・改行については、この節に記述例を置いていない。 ``。あわせて設計2巡目の `should` 2件（申し送り22 を `page-testdata_notation.md` にも掲載、`ただし、`→`なお、`）。**`:401` の `認証エラーケース` は user 判断待ちのため触らない**（詳細は `checks/task-10a-followup.md` の Overall Verdict）
