@@ -397,8 +397,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-07
+- **Last completed**: `#10b` の締め（`b0437dd`。`ntf-doc-10b-close.md` の STEP 1〜4、ゲート1〜10 全件 PASS）。`#10b` は DONE
+- **Next**: `#10b` 締めの user review。承認後に `#11`（残り28ページの1ページ目）の作業指示へ
+- **Notes**: ブランチ `work`（`origin/work` に push 済み）。`#11` の作業指示には `#10a`・`#10b` の申し送りを反映する — `reviews/page-testdata_notation.md` の28〜32、`page-testdata_examples.md` の19〜23。とくに申し送り23／32（**全件表を求める完了条件では母集合をホワイトリストで切り出さない。全走査して非該当も判定理由付きで載せる**）は `#10b` で3巡の指摘を招いた原因であり、次タスクの完了条件の書き方に直結する。未解決の課題は `#11` 以降に持ち越した1件のみ（記載例ページに例が無い値の種類への無条件な前方参照。`testdata_notation.rst:1342`・`:1393`・`:1443`）。作業ツリーは clean、user-deferred な未追跡パスは無し
