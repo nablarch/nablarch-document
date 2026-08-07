@@ -21,6 +21,7 @@ Rn version: 0.8.0
 - `#9` 差し戻し是正指示: `.rn/20260724-ntf-yaml-support/ntf-doc-09-fix.md`
 - `#9` 再構成指示: `.rn/20260724-ntf-yaml-support/ntf-doc-09-restructure.md`
 - `#10a` 用語統一・並び替え指示: `.rn/20260724-ntf-yaml-support/ntf-doc-terminology.md`
+- `#10a` 追補（`about/index.rst` の扱い）: `.rn/20260724-ntf-yaml-support/ntf-doc-terminology-addendum.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
@@ -308,7 +309,7 @@ Rn version: 0.8.0
 
 ### #10a: 用語「テストショット」への統一と使用方法の並び替え
 
-**Purpose**: `glossary.md` が `#5` で定めた「`テストケース` を正表記、`テストショット` を揺れ表記」の判断を覆し、`テストケース` を NTF解説書から無くす。あわせて `使用方法` 配下のセクション順を「全体から個別へ」に改め、内容の分からない見出し1件を改題する。用語と見出しが残り32ページに波及するため、`#11` の着手前に適用する。作業指示は `ntf-doc-terminology.md`。
+**Purpose**: `glossary.md` が `#5` で定めた「`テストケース` を正表記、`テストショット` を揺れ表記」の判断を覆し、`テストケース` を NTF解説書から無くす。あわせて `使用方法` 配下のセクション順を「全体から個別へ」に改め、内容の分からない見出し1件を改題する。用語と見出しが残り32ページに波及するため、`#11` の着手前に適用する。作業指示は `ntf-doc-terminology.md` と追補 `ntf-doc-terminology-addendum.md`。
 
 **Prerequisites**: #10（承認済み）
 
@@ -320,14 +321,16 @@ Rn version: 0.8.0
 - [ ] STEP 4 — `値を特殊記法で記述する` を `null・空文字・改行など特殊な値を記述する` に改題する
 - [ ] STEP 5 — `checks/task-10-quotes.md` の smartquotes 機構の記述を訂正する（`ja/conf.py:158` を根拠に）
 - [ ] STEP 6 — `checks/task-terminology.md` を新規作成し、`reviews/page-*.md` 2件に追記し、残り32ページへの申し送りを追加する
-- [ ] ゲート1〜13 をすべて実行結果で確認し記録する
+- [ ] 追補 — `about/index.rst` の `テストケース` 2箇所（L24）を、第1部の文脈を読んだうえで判定する（推奨は `テスト`。`テストショット` を選ぶ場合は定義なし初出を承知した旨を記録）。`reviews/page-about_index.md` に追記する
+- [ ] ゲート1〜13 と、追補のゲート14（`about/index.rst` の差分が L24 の1行のみ）をすべて実行結果で確認し記録する
 - [ ] 4観点のレビューを、それぞれ**別のサブエージェント**で実施する
 - [ ] commit & push
 - [ ] **user review** — 承認を受けるまで `#11` に進まない
 
 **Completion criteria**:
 
-- 作業指示のゲート1〜13 がすべて実行結果で確認され、`checks/task-terminology.md` に記録されている
+- 作業指示のゲート1〜13 と追補のゲート14 がすべて実行結果で確認され、`checks/task-terminology.md` に記録されている
+- `about/index.rst` の `テストケース` 2箇所の語選択の理由が、判定表に1行ずつ記録されている
 - 作業指示の禁止事項に抵触する変更が無い（`mapping.csv` / `_batch/` / `vocabulary.md` / `style.md` / `ja/conf.py` / `glossary.md` の現行解説書見出し一覧に差分が無い）
 - STEP 2 の置換判定と STEP 3-2 の前後関係確認が、いずれも件数ではなく全件の表で記録されている
 - `ja/development_tools/testing_framework/` 配下の全 `.rst` に `テストケース` が0件
