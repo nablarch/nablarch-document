@@ -384,8 +384,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-07
-- **Last completed**: `#10a`（`25ea528`）。`#10b` は是正ラウンド2 まで完了（`4c16caa`）
-- **Next**: `#10b` の是正ラウンド3（規定の上限内、3回目）
-- **Notes**: クラフト2巡目の未処理 `must` 1件 — `testdata_examples.rst:1851` の `ここに置いていない` の指示範囲が節ともページとも読め、ページ読みでは `:710`-`:712`・`:732`-`:734`・`:2066`・`:2082`-`:2083` に反して偽になる。最小修正案は `` なお、空文字・改行については、この節に記述例を置いていない。 ``。あわせて設計2巡目の `should` 2件（申し送り22 を `page-testdata_notation.md` にも掲載、`ただし、`→`なお、`）。**`:401` の `認証エラーケース` は user 判断待ちのため触らない**（詳細は `checks/task-10a-followup.md` の Overall Verdict）
+- **Status**: not suspended
+- **Date**: -
+- **Last completed**: -
+- **Next**: -
+- **Notes**: -
