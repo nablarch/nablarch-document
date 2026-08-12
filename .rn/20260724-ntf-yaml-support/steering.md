@@ -416,8 +416,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-12
+- **Last completed**: `#12`（`f028322` で完全に閉じた）。`#11` も同日承認済み（`25de65b`）
+- **Next**: **次タスクの作業指示をユーザーから受領する**。作業指示を受けたら `.rn/20260724-ntf-yaml-support/ntf-doc-13-*.md` として配置し、`steering.md` の Assumptions と Tasks に `#13` を追加してから着手する。作業指示が来るまで着手しない（`#11` 承認時にユーザーが「次に進む前に作業指示ある」と明示）
+- **Notes**: ブランチ `work`（`origin/work` に push 済み）。作業ツリーは clean、user-deferred な未追跡パスは無し。**残りは30ページ**（第2部10・第3部14・第4部2＋既存スタブ4ページへの追記）で、作成順は「第3部のテストデータ2ページ（完了）→ 第2部 → 第3部の残り → 第4部」（`#9〜` 参照）。**`#12` でページ先頭ラベル34件を確定済みであり、以降のページ作成では `style.md` S-08 の一覧から引く（新たに考案しない）。** 未解消の既知警告は `db_double_submit.rst` の `undefined label: how_to_set_token_in_request_unit_test` 1件のみで、`implementation/request_unit_test/web.rst` の作成タスクで解消する。`#12` 以前の申し送りは `reviews/page-common.md`（4件）・`page-testdata_notation.md`（28〜32）・`page-testdata_examples.md`（19〜23）を参照
