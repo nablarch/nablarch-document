@@ -365,31 +365,13 @@ Rn version: 0.8.0
 
 **Closed**: 締めの user review 承認済み（`/rn:ty`、2026-08-07）。公開本文は先行して承認（`/rn:gm`、2026-08-07）。4観点レビュー3巡＋是正3ラウンド（`eef48f5`・`4c16caa`・`f87629f`）で公開本文の `must` は4観点とも0件に到達し、締めの作業指示 `ntf-doc-10b-close.md` で残り2件に結着した。(1) **数詞の全件表は作り直さない** — レビュー役がホワイトリストを使わない全走査を独立に組んで検証し、既存35行の表が取りこぼしている**真の数詞は0件**であることを確認したため（3巡目に3観点が挙げた9出現はいずれも数を数えていない）。未達だったのは「表が全件でないこと」ではなく「同じ表が全件であることを、その抽出方式では証明できないこと」であり、方式の是正は `#11` 以降への申し送りとした。(2) **`:401` の `認証エラーケース` を `認証エラー` に是正** — 実在するセル値は `:430`・`:484` の `認証エラー` であり、`認証エラーケース` は `ja/`・`input/`・`mapping/` のいずれにも存在しない地の文だけの語であった（`ntf-doc-10a-followup.md` の当該禁止事項は指示側の誤りとして取り消された）。締めの変更は**この1行のみ**で、ゲート1〜10 を全件 PASS（Docker フルビルド `build succeeded, 1 warning.`／新規警告0件）。詳細は `checks/task-10a-followup.md`（§1-2 冒頭の追記／§8 締め）・`reviews/page-testdata_examples.md`（`#10b` 締め・申し送り23）・`page-testdata_notation.md`（申し送り32）および git 履歴を参照。`#11` 以降への申し送りは `page-testdata_notation.md` の28〜32、`page-testdata_examples.md` の19〜23。
 
-### #11: 共通設定（`setup/common.rst`）
+### #11: 共通設定（`setup/common.rst`）— DONE
 
 **Purpose**: マッピングに従って第2部の1ページ目「共通設定」を作成する。対象は `mapping.csv` の `dest_page=共通設定` の5行（129 lines、すべて `dest_section=使用方法`）。作業指示は `ntf-doc-11-common.md`。
 
-**Steps**:
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。加えて、作業指示のゲート1〜11 が実行結果で確認され `checks/task-11.md` に記録されていること、`dest_page=共通設定` の5行が**全件**の対応表で記録されていること（母集合をホワイトリストで切り出さない）。
 
-- [x] STEP 1 — ページを新規作成する（先頭ラベル `testing_framework_common` → タイトル → `.. contents::` → `使用方法` L2 の下に L3 3件を「読み込み先 → 日時固定 → 採番」の順で置く）。`機能概要`・`拡張例` の見出しは置かない（出典0行）。トランザクションの節は作らない（割当行なし）
-- [x] STEP 2 — 実装で確認済みの事実（`FixedSystemTimeProvider` の桁数は **14桁 / 17桁**、`nablarch.test.resource-root` の既定値・区切り・探索順）を反映する。出典の「12桁 / 15桁」は写さない。採番のクラスは未確認のため出典以上のことを書かない
-- [x] STEP 3 — 記載範囲の線引き（`current-0226` の Java コード例はコードブロックにせず地の文で内容を残す／採番の記述例は `testdata_examples-table_data` へ `:ref:` で導線を張る）
-- [x] STEP 4 — `setup/index.rst` の toctree の先頭に `common` を追加する（既存2件の順序は変えない）
-- [x] STEP 5 — 4観点のレビューを、それぞれ**別のサブエージェント**で実施する（A:網羅性 / B:トンマナ / C:用語 / D:整合性）。**是正ラウンド2以降は是正差分に限定した観点のみを回す**（`#10b` 申し送り）。各ラウンドの指摘件数と観点を記録する — ラウンド1で `must` 2 / `should` 6 / `note` 18、是正ラウンド1（`0a71a75`）で解消、ラウンド2（是正差分限定）で `must` 0 / `should` 0 の pass。内訳は `checks/task-11.md`「レビューラウンドの記録」
-- [x] STEP 6 — `reviews/page-common.md`・`checks/task-11.md` を新規作成する
-- [x] ゲート1〜11 をすべて実行結果で確認し、`checks/task-11.md` に記録する（**全件表を求めるゲート1を実行順の先頭に置く**）— 全件 PASS
-- [x] commit & push — `d233c4b`（ページ作成）→ `0a71a75`（是正ラウンド1）
-- [ ] **user review** — 承認を受けるまで次ページに進まない
-
-**Completion criteria**:
-
-- 作業指示のゲート1〜11 がすべて実行結果で確認され、`checks/task-11.md` に記録されている
-- `dest_page=共通設定` の5行が**全件**、反映先のセクションと行番号の対応表で記録されている（母集合をホワイトリストで切り出さない）
-- 4観点のレビューがすべて実施・記録され、未対応の `must` が残っていない（または残す判断とその理由が記録されている）
-- `setup/common.rst` に `機能概要`・`拡張例` の見出しが0件、`使用方法` が1件、`12桁`・`15桁` が0件、トランザクションの節が0件
-- `setup/common.rst` から `testdata_examples-table_data` への `:ref:` が1件以上あり、すべての `:ref:` が解決する
-- 作業指示の禁止事項に抵触する変更が無い（`mapping.csv` / `_batch/` / `vocabulary.md` / `style.md` / `glossary.md` / `design.md` / `ja/conf.py` に差分が無く、`ja/` 配下の変更が `setup/common.rst` と `setup/index.rst` だけである）
-- Docker フルビルドが `build succeeded` で、警告が既知の `db_double_submit.rst` 1件のみ（新規0件）
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。4観点レビュー ラウンド1（`must` 2 / `should` 6 / `note` 18）→ 是正ラウンド1（`0a71a75`）で解消 → ラウンド2（`#10b` 申し送りに従い是正差分限定）で `must` 0 / `should` 0 の pass。ゲート1〜11 全件 PASS、Docker フルビルド `build succeeded`（新規警告0件）。**作業指示から外れて是正した2件も承認された** — (1) `nablarch.test.resource-root` の設定先を `コンポーネント設定ファイル` → `環境設定ファイル`、(2) `OracleSequenceIdGenerator` の完全修飾名を `nablarch.common.idgenerator.*` → `com.example.common.idgenerator.*`（いずれも `design.md` §8「出典と実装が食い違う場合は実装を優先する」の適用）。詳細は `checks/task-11.md`・`reviews/page-common.md`（作成時の判断 D-1〜D-6／ラウンド1 R1-1〜R1-12）および git 履歴（最終内容コミット `0a71a75`）を参照。`#12` 以降への申し送り4件は `reviews/page-common.md`（`FastTableIdGenerator` の初期化設定欠落 R1-6／既定値 `test/java` と `testdata_notation.rst` の配置説明の基準ディレクトリ不一致 R1-8／L3 セクションラベル未設置 R1-7／採番の記述例をピンポイント参照するためのラベル追加 D-3）。
 
 ### #last: Evaluation sign-off
 
