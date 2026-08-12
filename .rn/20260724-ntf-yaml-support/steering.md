@@ -481,8 +481,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-12
-- **Last completed**: `#15`（user review 承認、`/rn:ty`。`decide` 3件も本ページの判断が承認）。続けて `#16`（リード文の確定と `design.md` の3点追記）を実施し、ゲート1〜9 全件 PASS・commit & push 済み（`04d8545`）。**user review 待ちで中断**
-- **Next**: `#16` の user review の判定（`/rn:ty` 承認 または `/rn:gm` 修正）を受ける。あわせて作業指示から外れた3件（ゲート5の適用範囲／`style.md` の根拠を実測に合わせた訂正2件／`design.md` §4 への1文追加。`checks/task-16.md` 末尾）の結論が必要。承認なら `#16` エントリを圧縮して締め、`#17`（リクエスト単体テストの設定（RESTfulウェブサービス）、`setup/request_unit_test/rest.rst`）へ
-- **Notes**: ブランチ `work`（`origin/work` に push 済み、作業ツリー clean、未追跡パス無し）。**実装の clone は session 固有のため再開時に再 clone が必要**（`nablarch/nablarch-testing` の `e21bf67`、`nablarch/nablarch-core`。確認済みの `file:line` は `reviews/page-request_unit_test_setting_web.md`・`checks/task-15.md` に記載済みで再調査は不要）。既知警告は `db_double_submit.rst` の `undefined label` 1件のみ。**`#17` 以降のページは `style.md` S-02 に従い、目次の直後にリード文を置く。画像は `design.md` §13「画像の配置」に従い `images/<ページのファイル名>/` に置く。** 申し送りは `reviews/page-request_unit_test_setting_web.md`（11件。特に「出典の『デフォルト値』欄はフィールドの初期値と一致するとは限らない」「是正で `tip` を新設するときは直上の本文の言い換えになっていないか確認する」）・`page-class_unit_test.md`（6件）・`page-common.md`（4件）・`page-testdata_notation.md`（28〜32）・`page-testdata_examples.md`（19〜23）
+- **Status**: not suspended
+- **Date**: YYYY-MM-DD
+- **Last completed**: #N description
+- **Next**: #N description
+- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
