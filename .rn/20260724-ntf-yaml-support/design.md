@@ -176,6 +176,7 @@
 
 ```
 <ページタイトル>
+├── （リード文。見出しなし）    そのページで何ができるようになるか
 ├── 機能概要（任意）
 │     全体像（図）              何がどうテストされるか
 │     主なクラスとリソース      名称・役割・作成単位の表
@@ -187,6 +188,8 @@
 └── 拡張例（任意）
       <拡張手順>する
 ```
+
+**リード文は目次（`.. contents::`）の直後、最初のL2見出しより前に置く。** 見出しを持たない導入の段落であり、「機能概要」の代わりではない。「機能概要」を持つページでも、その前にリード文を置く。位置・書き出しの規約と根拠は `mapping/style.md` S-02 に置く（`#16` 確定、`checks/task-16.md` 参照）。
 
 **「使用方法」のみ必須とし、「機能概要」「拡張例」は出典が無い場合は見出し自体を置かない。** 処理方式別ページのように設定量が薄いページでは、独立した機能概要・拡張例の出典が構造的に存在しないことがあるため（`#6`確定・design.md §3改訂、`checks/task-06.md`未処理1参照）。省略した場合も `verify_mapping.py` は0件を advisory として出力し続け、割当漏れの兆候として監視する。
 
@@ -242,6 +245,7 @@
 
 ```
 <ページタイトル>
+├── （リード文。見出しなし）    何を説明するページか
 ├── 機能概要        このページで何ができるようになるか
 └── 使用方法
       テストクラスを作成する
@@ -250,6 +254,8 @@
       テストを実行する
       テスト結果を確認する
 ```
+
+**リード文は第2部と同じく目次の直後、最初のL2見出しより前に置く。** 規約と根拠は `mapping/style.md` S-02 に置く（`#16` 確定）。ただし既に作成済みの2ページは遡って変更しない。「テストデータの書き方」は `機能概要` のL2（`testdata_notation.rst:12-14`）が、「テストデータの記載例」は最初のL2セクションの導入文（`testdata_examples.rst:12-14`）が同じ役割を担う構成で user review 承認済みであり（後述「テストデータの2ページ」）、第1部「テスティングフレームワークとは」も `全体像` のL2（`about/index.rst:12-14`）が同様である。
 
 **拡張例は第3部に置かない。** 拡張はコンポーネント設定とクラス差し替えであり、アーキテクトの領域のため第2部に置く。
 
@@ -396,11 +402,40 @@ Jakarta Batch は対象外。第1部「対象範囲」で明示する。
 ページ名と一致させる。出典 `input-0028` が6区分時代の資料で当該行を持たないことは、
 行を落とす根拠にならない。
 
+**陳腐化した例示は落としてよい**（`#16` 確定。`#15` の `decide` 2 に対する判断）。
+出典が挙げている具体的な製品名・バージョン・型番のうち、現在では事実が変わっているものは
+落としてよい。§11.3「マッピングにある内容を落とさない」の例外とする。
+
+- 判断の基準は、**その例示を残すと今日の読者にとって意味が反転または誤解を生むかどうか**である。
+- 例示を落としても、判断に必要な内容（その記述が何を言いたいか）は必ず残す。例示ごと記述を
+  落とすことはしない。
+- 落とした場合は、落とした語と理由を `reviews/page-*.md` に記録する。
+
+例（`#15`）: 出典は「Pentium4、Pentium Dual-Core等の処理性能が低いCPUに効果がある。
+これら以降のCPUではそれほど効果的ではない」としていたが、これらは現在では旧世代のCPUであり、
+残すと読者は効果の有無を逆に読む。製品名を落とし「比較的新しいCPUを搭載したPCでは効果が小さい」とした
+（`reviews/page-request_unit_test_setting_web.md`）。
+
 ### 出典と実装が食い違う場合
 
 出典の記述が、検証可能な実装の挙動と食い違う場合は、実装を優先する。根拠として、
 確認した実装のファイル名・行番号・参照したコミットを `reviews/page-*.md` に記録する。
 実装を確認できない場合は `decide` としてユーザーに上げる。
+
+**ここでいう「実装」には、出典が前提にしている外部の挙動を含む**（`#16` 確定。`#15` の `decide` 3 に
+対する判断）。NTF・NAF の実装だけでなく、JVM・JDK・データベース・ビルドツールなどの挙動も対象とする。
+出典が勧める手順が現在は非推奨・廃止・挙動変更になっている場合、その事実を書き足してよい。
+§11.3「マッピングにない内容を追加しない」の例外とする。
+
+- 追記は**出典が述べている手順に対する注記に限る。** 出典が触れていない新しい主題を追加してよい
+  という意味ではない。
+- 追記の根拠は、**実際に動かして確かめた結果**とする。確認した内容・環境・結果を
+  `reviews/page-*.md` に記録する。
+- 出典の手順そのものは残し、注記（`important` 等）を添える形にする。手順を書き換えない。
+
+例（`#15`）: 出典が勧める `-Xverify:none` は JDK 13 で非推奨になっている。オプションの記述は残し、
+非推奨である旨を `important` で追記した（Temurin 21 で警告つきで起動することを実測。
+`reviews/page-request_unit_test_setting_web.md`）。
 
 ---
 
@@ -706,6 +741,8 @@ ja/development_tools/testing_framework/
 │   ├── junit5_extension.rst
 │   ├── master_data_restore.rst
 │   ├── request_unit_test/
+│   │   ├── images/
+│   │   │   └── web/                   `web.rst` の画像4件（後述「画像の配置」）
 │   │   ├── web.rst
 │   │   ├── rest.rst
 │   │   ├── http_messaging.rst
@@ -750,6 +787,20 @@ ja/development_tools/testing_framework/
 **`setup/deal_unit_test/` に `db_queue.rst` を作らない一方、`setup/request_unit_test/db_queue.rst` と `implementation/*/db_queue.rst` は作る。** この非対称は本節「テーブルをキューとして使ったメッセージング」の区別（取引単体テストの設定はページを設けない）によるものであり、意図した構成である。
 
 **`setup/index.rst` / `implementation/index.rst` / `tools/index.rst` は第2部・第3部・第4部それぞれの表題ページ（導線のみ）である。** マッピングに対応する内容ページではないため、上記「1対1対応表」には含めない。最上位 `index.rst` の `toctree` はこの3ファイルと `about/index` の計4件を指し、各表題ページの `toctree` は配下の個別ページを指す。この二段構成は `ja/development_tools/index.rst`（`java_static_analysis/index` / `testing_framework/index` / `toolbox/index` を束ねる `toctree`）に倣う。最上位 `index.rst` 本文の構成は「概要 → `toctree` → 読者振り分けの説明文」の順とする。説明文は箇条書きや表にせず、通常の文章で「どの読者がどの部を参照するか」を書く（`toctree` より前に、まだ提示していない部の名前を説明する構成にしない）。表題ページは最初は見出しのみで作成し（配下ページが未作成のため `toctree` を持てない）、`#9〜` で各ページを作成するたびに、当該ページを対応する表題ページの `toctree` に追記する。表題ページのタイトル（H1）は、単独で見ても何のページか分かるよう「テスティングフレームワーク」を含めた形にする（検索結果・ブラウザ履歴等で親ページの文脈なしに表示されるため）。第2部「テスティングフレームワークの導入と設定」（`setup/index.rst`）、第3部「テスティングフレームワークによるテスト実装」（`implementation/index.rst`）、第4部「テスティングフレームワークの提供ツール」（`tools/index.rst`）。最上位 `index.rst` 本文からこれらのページ名に言及する箇所は、タイトル文字列を直接引用せず `:doc:` 参照を使う（タイトル変更時に本文の追随漏れを防ぐため）。
+
+### 画像の配置
+
+**ページが画像を持つ場合、そのページの `.rst` があるディレクトリの下に `images/<ページのファイル名（拡張子なし）>/` を作り、そこに置く。**（`#16` 確定。`#15` の `decide` 1 に対する判断。）画像を持たないページには `images/` を作らない。上記ツリーに現れる `images/` は、作成済みページの分のみを記載している。
+
+根拠は FW解説書に実在する主流の形である。
+
+- `ja/application_framework/application_framework/libraries/images/` — `code`・`log`・`mail`・`message`・`session_store`・`system_messaging`・`tag` の7つがページ名（`libraries/<名前>.rst`）と一致するサブディレクトリである。
+- `ja/application_framework/application_framework/handlers/images/` — `ForwardingHandler`・`HttpErrorHandler` 等、ハンドラごとのサブディレクトリである。
+- `ja/application_framework/application_framework/web/getting_started/images/` — `client_create`・`popup`・`project_search` 等、ページごとのサブディレクトリである。
+
+1ディレクトリに1ページしか無い場合は画像を平置きした例もあるが（`ja/application_framework/application_framework/web/images/` は `application_design.png` 等を直下に置く）、NTF解説書は `setup/`・`implementation/`・`setup/request_unit_test/` のようにページが複数入るディレクトリが大半のため、**サブディレクトリを切る形に統一する。**
+
+**削除前の現行解説書が持っていた画像は、該当ページのタスクで `git mv` して移す。** 移動元は `ja/development_tools/testing_framework/guide/` 配下である（現行解説書の残骸であり、全ページの移設完了後にディレクトリごと無くなる）。`#15` では `guide/development_guide/06_TestFWGuide/_images/` の4件を `setup/request_unit_test/images/web/` へ移した。
 
 ### 1対1対応表（`dest_part` / `dest_page` / ファイルパス）
 

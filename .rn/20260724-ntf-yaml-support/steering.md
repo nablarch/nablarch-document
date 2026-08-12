@@ -27,6 +27,7 @@ Rn version: 0.8.0
 - `#11` 作業指示（共通設定）: `.rn/20260724-ntf-yaml-support/ntf-doc-11-common.md`
 - `#12` 作業指示（`:ref:` ラベル命名規則の確定）: `.rn/20260724-ntf-yaml-support/ntf-doc-12-ref-labels.md`
 - `#13` 作業指示（ページ作成の共通手順の定着）: `.rn/20260724-ntf-yaml-support/ntf-doc-13-standing-rules.md`
+- `#16` 作業指示（リード文の確定と `design.md` の3点追記）: `.rn/20260724-ntf-yaml-support/ntf-doc-16-lead-and-design.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
@@ -413,35 +414,39 @@ Rn version: 0.8.0
 
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。4観点レビュー ラウンド1（4観点とも fail・`must` 4 / `should` 8 / `note` 12）→ 是正20件（`ca699c5`）→ ラウンド2は是正差分限定の検証で pass（`must` 0）・残る7件を是正（`5a55ada`）→ `/rn:gm` による締めの追記（`1624182`、作業指示 `ntf-doc-14-close.md`）。ゲート全件 PASS・Docker フルビルド `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規警告0件）。**decide 1件と付録の事実誤り2件が判定で解決した** — `validationTestStrategy` は「載せる」（`current-0010` に実在するため落とすと「マッピングにある内容を落とさない」に抵触）、`minMessageId` が `current-0021` に無いのは欠落ではなく正しい（`CharsetTestVariation.java:126-129` により Nablarch Validation では到達不能）。いずれも事前調査の付録（`ntf-doc-13-standing-rules.md:79`）の記述が指示側の誤りとして取り消された。詳細は `checks/task-14.md`・`reviews/page-class_unit_test.md`（実装で確認した `file:line` と参照コミット `e21bf67`）および git 履歴（最終内容コミット `1624182`）を参照。`#15` 以降への申し送り6件は `reviews/page-class_unit_test.md`（特に「`#10a` の用語一括置換は referent を実装で確かめてから適用する」「出典の制約は実装が検査しているかで採否を決めず、挙動を確かめて理由を書き添える」）。
 
-### #15: リクエスト単体テストの設定（ウェブアプリケーション）（`setup/request_unit_test/web.rst`）
+### #15: リクエスト単体テストの設定（ウェブアプリケーション）（`setup/request_unit_test/web.rst`）— DONE
 
-**Purpose**: マッピングに従って第2部の3ページ目「リクエスト単体テストの設定（ウェブアプリケーション）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（ウェブアプリケーション）` の6行（250 lines）。個別の作業指示を出す条件（出典500行超／`design.md`と`mapping.csv`の食い違い／出典0行）に当たらないため、共通 Steps のみで進める。
-
-**Steps**: 「#9〜: ページの作成」の共通 Steps に同じ。進捗は次のとおり。
-
-- [x] `mapping.csv` の6行を抽出（`current-0204` / `0205` / `0210` / `0211` / `0212` / `0213`、250 lines、`DROP` 0件）
-- [x] ページ先頭ラベルを `style.md` S-08 から引く（`request_unit_test_setting_web`）
-- [x] 出典を `origin/develop` から読み、ページを作成（L2「使用方法」＋L3 2件＋L4 2件、L2「拡張例」＋L3 1件。`機能概要` は出典0行のため見出しを置かない）
-- [x] 実装で事実確認（`nablarch/nablarch-testing` の `main`、`e21bf67`。`nablarch-core` も1件）。**出典と実装の食い違いを6件、実装優先で解消した** — `jsTestResourceDir` の向き／`htmlChecker`・`htmlCheckerConfig` の「デフォルト値」／`htmlResourcesExtensionList` の並び／`dumpVariableItem` の意味の反転（`HttpServer.java:427-430`）／`htmlResourcesCharset` の対象範囲
-- [x] 第2部の記載範囲を守る（`code-block` は `xml` 2件・`bash` 3件のみ。`java` 0件）
-- [x] 前方参照のスタブ2件を先行作成し `toctree` に追記（`implementation/request_unit_test/web.rst`・`tools/html_check_tool.rst`）
-- [x] 画像4件を `guide/` 配下から `setup/request_unit_test/images/web/` へ `git mv`（**新構成で最初に画像を使うページ。配置規約は `decide`**）
-- [x] `setup/index.rst` の toctree に追記
-- [x] Docker フルビルド — `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規警告0件）
-- [x] 4観点のレビュー（A:網羅性 / B:トンマナ / C:用語 / D:整合性）を別サブエージェントで実施 — ラウンド1は A pass / B pass / C fail（`must` 3）/ D fail（`must` 1）。`must` は重複を除き3件
-- [x] 指摘への対応（最大3ラウンド。ラウンド2以降は是正差分に限定した観点のみ）— ラウンド1で `must` 3件・`should`/`note` 13件を是正（`f4c9fad`）・対応しない判断7件。ラウンド2は是正差分限定の検証で **pass**（`must` 0）、`should` 3件・`note` 2件を是正（`74e1b10`）
-- [x] `reviews/page-request_unit_test_setting_web.md` を作成（実装で確認した `file:line` と参照コミット `e21bf67` を含む）
-- [x] `checks/task-15.md`（6行**全件**の反映対応表を先頭に置く）
-- [x] commit & push — `ae89097` → `f4c9fad`（ラウンド1）→ `74e1b10`（ラウンド2）
-- [ ] **user review**
+**Purpose**: マッピングに従って第2部の3ページ目「リクエスト単体テストの設定（ウェブアプリケーション）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（ウェブアプリケーション）` の6行（250 lines）。共通 Steps のみで進めた（個別の作業指示なし）。
 
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
 
-**decide（user review で判断を仰ぐ3件）**:
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。4観点レビュー ラウンド1（A pass / B pass / C fail / D fail、`must` 3件）→ 是正（`f4c9fad`）→ ラウンド2は是正差分限定の検証で pass（`must` 0）・`should`/`note` 5件を是正（`74e1b10`）。ゲート全件 PASS・Docker フルビルド `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規警告0件）。**出典と実装の食い違い6件を実装優先で解消した**（`dumpVariableItem` の意味の反転 `HttpServer.java:427-430` 等。参照コミット `e21bf67`）。**新構成で最初に画像を使うページ**であり、`guide/` 配下の4件を `setup/request_unit_test/images/web/` へ `git mv` した。**decide 3件は3件とも本ページの判断が承認され、`#16` で `design.md` の規定にした** — 画像の配置（§13「画像の配置」）／陳腐化した例示は落としてよい（§8）／§8 の「実装」には JVM・JDK 等の外部の挙動を含む（§8）。詳細は `checks/task-15.md`・`reviews/page-request_unit_test_setting_web.md` および git 履歴（最終内容コミット `74e1b10`）を参照。`#17` 以降への申し送り11件は `reviews/page-request_unit_test_setting_web.md`（特に「出典の『デフォルト値』欄はフィールドの初期値と一致するとは限らない」「是正で `tip` を新設するときは直上の本文の言い換えになっていないか確認する」）。
 
-1. **画像の配置規約** — 本ページが新構成で最初に画像を使うページであり、`guide/development_guide/06_TestFWGuide/_images/` の4件を `setup/request_unit_test/images/web/` へ `git mv` した（FW解説書の `images/<ページ名>/` に倣う。`FW:libraries/mail.rst:20`）。`design.md` §13 のツリーに `guide/` は無く、画像ディレクトリの記載も無い。**残り30ページに波及する。**
-2. **CPU製品名の削除** — 出典 `:478-480` の `tip`「Pentium4、Pentium Dual-Core等の処理性能が低いCPU」から製品名2件を落とした。「マッピングにある内容を落とさない」に対する例外の可否。
-3. **`-Xverify:none` の非推奨の追記** — 出典は無条件に推奨しているが、JDK 13 で非推奨（Temurin 21 で警告つきで起動成功することを実測）。オプションは残したうえで `important` を足した。**`nablarch-testing` の実装ではなくJVMの挙動に対する追記であり、「マッピングにない内容を追加しない」に当たるかどうか。**
+### #16: ページのリード文の確定と `design.md` の3点追記 — user review 待ち
+
+**Purpose**: ページを作らないタスク。(1) ページのリード文（目次の直後・最初のL2見出しより前に置く、見出しの無い導入の段落）の位置を `style.md` S-02 と `design.md` §3・§4 で確定し、作成済みの第2部3ページに反映する。(2) `#15` の `decide` 3件を `design.md` §8・§13 に規定として書き残す。いずれも残り29ページに効く。作業指示は `ntf-doc-16-lead-and-design.md`。
+
+**Steps**:
+
+- [x] STEP 1 — `style.md` S-02 にリード文の規約と根拠を追加（規約8行・根拠21行、削除0行）。根拠は FW解説書ライブラリの**全件**調査（`.. contents::` を持つ20ページ中19ページがリード文を持つ。例外は `format.rst` 1件）
+- [x] STEP 2 — `design.md` §3・§4 の擬似ツリーにリード文の行を追加し、位置の規約を1段落ずつ添えた
+- [x] STEP 3 — 第2部の3ページ（`setup/common.rst`・`setup/class_unit_test.rst`・`setup/request_unit_test/web.rst`）の導入文を目次の直後へ移し、文頭の `ここでは、` を落として主語のある言い切りに直した。差分は3ページとも `+2 / -1` 行のみ
+- [x] STEP 4 — `decide` 3件を `design.md` に規定化（§13「画像の配置」を新設／§8 に陳腐化した例示の扱い／§8 に外部の挙動の変化の追記）
+- [x] STEP 5 — `checks/task-16.md`・`reviews/` 3件への追記・本エントリ
+- [x] ゲート1〜9 — 全件 PASS（`checks/task-16.md`）。Docker フルビルド（`-a`）は `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）
+- [x] commit & push
+- [ ] **user review**
+
+**Completion criteria**:
+
+- リード文の位置と書き出しが `style.md` S-02 に規約として書かれ、根拠が FW解説書の実ファイルの `file:line` で裏付けられている
+- 第2部の作成済み3ページのリード文が目次の直後・最初のL2見出しより前にあり、`使用方法` の直下に地の文が残っていない
+- 3ページの `ja/` 差分がリード文の移動と文頭の書き直しに由来するものだけで、見出しの文言・並び順が不変である
+- `#15` の `decide` 3件が `design.md` §8・§13 に規定として書かれ、以降のページが参照できる
+- `design.md` の差分が §3・§4・§8・§13 に、`style.md` の差分が S-02 に収まり、いずれも削除0行である
+- ゲート1〜9 が実行結果で `checks/task-16.md` に記録されている
+
+**注記**: 本タスクを `#16` としたため、**第2部4ページ目「リクエスト単体テストの設定（RESTfulウェブサービス）」（`setup/request_unit_test/rest.rst`）は `#17` になる。** 作業指示の指定により4観点のレビューは回していない（新しい内容を書かないタスクであり、ゲート1〜3 が変更の範囲を機械的に固定している）。作業指示から外れた点3件は `checks/task-16.md` の末尾に記録した（ゲート5の適用範囲／`style.md` の根拠を実測に合わせた訂正2件／`design.md` §4 への1文の追加）。
 
 ### #last: Evaluation sign-off
 
@@ -476,8 +481,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
+- **Status**: not suspended
 - **Date**: 2026-08-12
-- **Last completed**: `#14`（user review 承認、`/rn:ty`）。`#15` は作成（`ae89097`）・4観点レビュー ラウンド1の是正（`f4c9fad`）・ラウンド2の是正差分限定の検証 pass とその是正（`74e1b10`）まで完了し、**user review 待ちで中断**
-- **Next**: `#15` の user review の判定（`/rn:ty` 承認 または `/rn:gm` 修正）を受ける。あわせて `decide` 3件（画像の配置規約／CPU製品名の削除／`-Xverify:none` の非推奨追記。`#15` エントリ末尾に記載）の結論が必要。承認なら `#15` エントリを圧縮して締め、`#16`（リクエスト単体テストの設定（RESTfulウェブサービス）、`setup/request_unit_test/rest.rst`）へ
-- **Notes**: ブランチ `work`（`origin/work` に push 済み、作業ツリー clean、未追跡パス無し）。**実装の clone は session 固有のため再開時に再 clone が必要**（`nablarch/nablarch-testing` の `e21bf67`、`nablarch/nablarch-core`。確認済みの `file:line` は `reviews/page-request_unit_test_setting_web.md`・`checks/task-15.md` に記載済みで再調査は不要）。既知警告は `db_double_submit.rst` の `undefined label` 1件のみ。申し送りは `reviews/page-request_unit_test_setting_web.md`（11件。特に「画像は `images/<ページ名>/` に置く」「出典の『デフォルト値』欄はフィールドの初期値と一致するとは限らない」「是正で `tip` を新設するときは直上の本文の言い換えになっていないか確認する」）・`page-class_unit_test.md`（6件）・`page-common.md`（4件）・`page-testdata_notation.md`（28〜32）・`page-testdata_examples.md`（19〜23）
+- **Last completed**: `#15`（user review 承認、`/rn:ty`。`decide` 3件も本ページの判断が承認）。続けて `#16`（リード文の確定と `design.md` の3点追記）を実施し、ゲート1〜9 全件 PASS
+- **Next**: `#16` の user review の判定（`/rn:ty` 承認 または `/rn:gm` 修正）を受ける。承認なら `#16` エントリを圧縮して締め、`#17`（リクエスト単体テストの設定（RESTfulウェブサービス）、`setup/request_unit_test/rest.rst`）へ
+- **Notes**: ブランチ `work`。**実装の clone は session 固有のため再開時に再 clone が必要**（`nablarch/nablarch-testing` の `e21bf67`、`nablarch/nablarch-core`。確認済みの `file:line` は `reviews/page-request_unit_test_setting_web.md`・`checks/task-15.md` に記載済みで再調査は不要）。既知警告は `db_double_submit.rst` の `undefined label` 1件のみ。**`#17` 以降のページは `style.md` S-02 に従い、目次の直後にリード文を置く。画像は `design.md` §13「画像の配置」に従い `images/<ページのファイル名>/` に置く。** 申し送りは `reviews/page-request_unit_test_setting_web.md`（11件。特に「出典の『デフォルト値』欄はフィールドの初期値と一致するとは限らない」「是正で `tip` を新設するときは直上の本文の言い換えになっていないか確認する」）・`page-class_unit_test.md`（6件）・`page-common.md`（4件）・`page-testdata_notation.md`（28〜32）・`page-testdata_examples.md`（19〜23）
