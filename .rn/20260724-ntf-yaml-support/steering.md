@@ -466,8 +466,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-12
+- **Last completed**: `#13`（`5ae2900`）。`#14` は decide 確定・4観点レビュー ラウンド1（是正20件、`ca699c5`）・ラウンド2の差分限定検証（pass、是正7件 `5a55ada`）・記録（`104a6c4`）まで完了し、**user review 待ちで中断**
+- **Next**: `#14` の user review の判定（`/rn:ty` 承認 または `/rn:gm` 修正）を受ける。承認なら `#14` エントリを圧縮して締め、`design.md` の該当節も圧縮したうえで `#15`（次ページ）へ
+- **Notes**: ブランチ `work`（`origin/work` に push 済み、作業ツリー clean、未追跡パス無し）。**実装の clone は session 固有のため再開時に再 clone が必要**（`nablarch/nablarch-testing` の `e21bf67`。確認済みの `file:line` は `reviews/page-class_unit_test.md` に記載済みで再調査は不要）。既知警告は `db_double_submit.rst` の `undefined label` 1件のみ。申し送りは `reviews/page-class_unit_test.md`（5件。特に「`#10a` の用語一括置換は referent を実装で確かめてから適用する」）・`page-common.md`（4件）・`page-testdata_notation.md`（28〜32）・`page-testdata_examples.md`（19〜23）
