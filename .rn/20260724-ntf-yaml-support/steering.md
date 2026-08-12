@@ -422,20 +422,9 @@ Rn version: 0.8.0
 
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。4観点レビュー ラウンド1（A pass / B pass / C fail / D fail、`must` 3件）→ 是正（`f4c9fad`）→ ラウンド2は是正差分限定の検証で pass（`must` 0）・`should`/`note` 5件を是正（`74e1b10`）。ゲート全件 PASS・Docker フルビルド `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規警告0件）。**出典と実装の食い違い6件を実装優先で解消した**（`dumpVariableItem` の意味の反転 `HttpServer.java:427-430` 等。参照コミット `e21bf67`）。**新構成で最初に画像を使うページ**であり、`guide/` 配下の4件を `setup/request_unit_test/images/web/` へ `git mv` した。**decide 3件は3件とも本ページの判断が承認され、`#16` で `design.md` の規定にした** — 画像の配置（§13「画像の配置」）／陳腐化した例示は落としてよい（§8）／§8 の「実装」には JVM・JDK 等の外部の挙動を含む（§8）。詳細は `checks/task-15.md`・`reviews/page-request_unit_test_setting_web.md` および git 履歴（最終内容コミット `74e1b10`）を参照。`#17` 以降への申し送り11件は `reviews/page-request_unit_test_setting_web.md`（特に「出典の『デフォルト値』欄はフィールドの初期値と一致するとは限らない」「是正で `tip` を新設するときは直上の本文の言い換えになっていないか確認する」）。
 
-### #16: ページのリード文の確定と `design.md` の3点追記 — user review 待ち
+### #16: ページのリード文の確定と `design.md` の3点追記 — DONE
 
-**Purpose**: ページを作らないタスク。(1) ページのリード文（目次の直後・最初のL2見出しより前に置く、見出しの無い導入の段落）の位置を `style.md` S-02 と `design.md` §3・§4 で確定し、作成済みの第2部3ページに反映する。(2) `#15` の `decide` 3件を `design.md` §8・§13 に規定として書き残す。いずれも残り29ページに効く。作業指示は `ntf-doc-16-lead-and-design.md`。
-
-**Steps**:
-
-- [x] STEP 1 — `style.md` S-02 にリード文の規約と根拠を追加（規約8行・根拠21行、削除0行）。根拠は FW解説書ライブラリの**全件**調査（`.. contents::` を持つ20ページ中19ページがリード文を持つ。例外は `format.rst` 1件）
-- [x] STEP 2 — `design.md` §3・§4 の擬似ツリーにリード文の行を追加し、位置の規約を1段落ずつ添えた
-- [x] STEP 3 — 第2部の3ページ（`setup/common.rst`・`setup/class_unit_test.rst`・`setup/request_unit_test/web.rst`）の導入文を目次の直後へ移し、文頭の `ここでは、` を落として主語のある言い切りに直した。差分は3ページとも `+2 / -1` 行のみ
-- [x] STEP 4 — `decide` 3件を `design.md` に規定化（§13「画像の配置」を新設／§8 に陳腐化した例示の扱い／§8 に外部の挙動の変化の追記）
-- [x] STEP 5 — `checks/task-16.md`・`reviews/` 3件への追記・本エントリ
-- [x] ゲート1〜9 — 全件 PASS（`checks/task-16.md`）。Docker フルビルド（`-a`）は `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）
-- [x] commit & push
-- [ ] **user review**
+**Purpose**: ページを作らないタスク。リード文（目次の直後・最初のL2見出しより前に置く、見出しの無い導入の段落）の位置を `style.md` S-02・`design.md` §3・§4 で確定して作成済みの第2部3ページに反映し、`#15` の `decide` 3件を `design.md` §8・§13 に規定化する。
 
 **Completion criteria**:
 
@@ -446,7 +435,17 @@ Rn version: 0.8.0
 - `design.md` の差分が §3・§4・§8・§13 に、`style.md` の差分が S-02 に収まり、いずれも削除0行である
 - ゲート1〜9 が実行結果で `checks/task-16.md` に記録されている
 
-**注記**: 本タスクを `#16` としたため、**第2部4ページ目「リクエスト単体テストの設定（RESTfulウェブサービス）」（`setup/request_unit_test/rest.rst`）は `#17` になる。** 作業指示の指定により4観点のレビューは回していない（新しい内容を書かないタスクであり、ゲート1〜3 が変更の範囲を機械的に固定している）。作業指示から外れた点3件は `checks/task-16.md` の末尾に記録した（ゲート5の適用範囲／`style.md` の根拠を実測に合わせた訂正2件／`design.md` §4 への1文の追加）。
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。ゲート1〜9 全件 PASS・Docker フルビルド（`-a`）は `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）。`ja/` 側の差分は3ページとも `+2 / -1` 行のみ。作業指示の指定により4観点のレビューは回していない（新しい内容を書かないタスクで、ゲート1〜3 が変更範囲を機械的に固定している）。作業指示から外れた点3件（ゲート5の適用範囲／`style.md` の根拠を実測に合わせた訂正2件／`design.md` §4 への1文の追加）は `checks/task-16.md` 末尾に記録。詳細は `checks/task-16.md`・`reviews/page-common.md`・`page-class_unit_test.md`・`page-request_unit_test_setting_web.md` および git 履歴（最終内容コミット `04d8545`）を参照。**以降の全ページはリード文を目次の直後に置く**（共通 Steps の `.. contents::` の項に続く位置づけ）。
+
+### #17: リクエスト単体テストの設定（RESTfulウェブサービス）（`setup/request_unit_test/rest.rst`）
+
+**Purpose**: マッピングに従って第2部の4ページ目「リクエスト単体テストの設定（RESTfulウェブサービス）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（RESTfulウェブサービス）` の行。共通 Steps のみで進める（個別の作業指示を出す条件に当たらない）。
+
+**Prerequisites**: #16
+
+**Steps**: 「#9〜: ページの作成」の共通 Steps に同じ。
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
 
 ### #last: Evaluation sign-off
 
