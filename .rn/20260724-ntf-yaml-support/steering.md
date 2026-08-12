@@ -419,7 +419,7 @@ Rn version: 0.8.0
 - [x] `setup/index.rst` の toctree に追記
 - [x] Docker フルビルド — `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規警告0件）
 - [x] commit & push — `8285125`
-- [ ] **decide の判定を受ける（`validationTestStrategy` の掲載可否）**
+- [x] **decide の判定を受けた（`validationTestStrategy` の掲載可否）** — ユーザー判定 2026-08-12「**載せる**」。初版（`8285125`）が推奨側で書かれているため本文の変更は不要
 - [ ] 4観点のレビュー（A:網羅性 / B:トンマナ / C:用語 / D:整合性）を別サブエージェントで実施
 - [ ] 指摘への対応（最大3ラウンド。ラウンド2以降は是正差分に限定した観点のみ）
 - [ ] `reviews/page-class_unit_test.md` を作成（実装で確認した `file:line` と参照コミットを含む）
@@ -429,7 +429,7 @@ Rn version: 0.8.0
 
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
 
-**未判定の decide（`validationTestStrategy` の掲載可否）**: **推奨は「載せる」。** 事前調査の付録（`ntf-doc-13-standing-rules.md:79`）は「どちらの出典にも無い」とするが**これは誤り**で、`current-0010`（Bean Validation 版、範囲704–770）は設定項目一覧の表（`:731`）・XML記述例（`:767`）・脚注（`:744`）の3箇所に持つ。無いのは `current-0021` だけである。したがって落とすと「マッピングにある内容を落とさない」に抵触する。加えて `CharsetTestVariation.java:126-129` により、この設定が `NablarchValidationTestStrategy` のときテストショットでの最大文字列長の省略が実行時エラーになるため、`minMessageId` が Nablarch Validation の出典に無い理由がこの設定なしでは説明できない。初版（`8285125`）は推奨側で書いてあり、「載せない」なら表1行・XMLプロパティ1件・`important` 後半の削除で済む。
+**decide（`validationTestStrategy` の掲載可否）— 判定済み: 「載せる」**（ユーザー判定、2026-08-12）。あわせて**事前調査の付録の事実誤り2件は指示側の誤りとして取り消された**（下記のとおり、`current-0010` に `validationTestStrategy` が実在すること、`minMessageId` が Nablarch Validation では到達不能で `current-0021` の記載が正しいことを、ユーザー側でも出典と実装で確認済み）。以下は判定根拠の記録。 事前調査の付録（`ntf-doc-13-standing-rules.md:79`）は「どちらの出典にも無い」とするが**これは誤り**で、`current-0010`（Bean Validation 版、範囲704–770）は設定項目一覧の表（`:731`）・XML記述例（`:767`）・脚注（`:744`）の3箇所に持つ。無いのは `current-0021` だけである。したがって落とすと「マッピングにある内容を落とさない」に抵触する。加えて `CharsetTestVariation.java:126-129` により、この設定が `NablarchValidationTestStrategy` のときテストショットでの最大文字列長の省略が実行時エラーになるため、`minMessageId` が Nablarch Validation の出典に無い理由がこの設定なしでは説明できない。初版（`8285125`）は推奨側で書いてあり、「載せない」なら表1行・XMLプロパティ1件・`important` 後半の削除で済む。
 
 **付録の事実誤り2件**（`checks/task-14.md` に記録すること）: (1) `validationTestStrategy` は `current-0010` に**ある**（付録は「どちらにも無し」としている）。(2) `minMessageId` について付録は「出典どうしが食い違っており実装が正」とするが、実装上 Nablarch Validation では `minMessageId` に**到達しない**（`CharsetTestVariation.java:126-129`）ため、`current-0021` に無いのは欠落ではなく正しい。
 
@@ -466,8 +466,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-12
-- **Last completed**: `#13`（`5ae2900` で承認・圧縮して締めた）。`#14` は初版作成・toctree 追記・Docker フルビルドまで完了（`8285125`）、**decide の判定待ちで中断**
-- **Next**: `#14` の decide（`validationTestStrategy` の掲載可否。推奨は「載せる」。根拠は `#14` エントリ末尾）の判定を受ける。判定後は4観点レビュー（A:網羅性 / B:トンマナ / C:用語 / D:整合性）を別サブエージェントで回し、`reviews/page-class_unit_test.md`・`checks/task-14.md` を作成して user review へ
-- **Notes**: ブランチ `work`（`origin/work` に push 済み）。作業ツリーは clean、user-deferred な未追跡パスは無し。**実装の clone は `nablarch-testing` の `e21bf67` をスクラッチパッドに取得済みだが session 固有のため、再開時は再 clone が必要。** 確認済みの `file:line` は `#14` エントリに記載してあり再調査は不要。未解消の既知警告は `db_double_submit.rst` の `undefined label` 1件のみ。申し送りは `reviews/page-common.md`（4件）・`page-testdata_notation.md`（28〜32）・`page-testdata_examples.md`（19〜23）
+- **Status**: not suspended
+- **Date**: -
+- **Last completed**: -
+- **Next**: -
+- **Notes**: -
