@@ -391,19 +391,9 @@ Rn version: 0.8.0
 
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。ゲート1〜8 全件 PASS。`ja/` の299ファイルから **959ラベル**を機械抽出し37件（34ページ＋表題3件）と突合して **NG 0件**、`design.md` §13 との差集合は双方向で空、Docker フルビルド（`-a`）は `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・`duplicate label` 0件）。**語幹の衝突は実在**であることを実測で確認した（`http_messaging` は `ja/application_framework/application_framework/web_service/http_messaging/index.rst:1` が定義済み。`web`/`rest`/`mom`/`batch`/`db_queue` は `ja/` 全体では未定義だが NTF内部で3〜4ページが共有する）。あわせて**改訂前の `ja/` に既存の重複ラベルが0件**（定義箇所959 = ユニーク959）であることも記録しており、以降 `duplicate label` 警告が出た場合は原因を新規追加分に絞れる。4観点のレビューは作業指示の指定により回していない（ゲート1・2 が全件突合を機械的に担保）。詳細は `checks/task-12.md` および git 履歴（最終内容コミット `18c7856`）を参照。**以降のページ作成タスクは、ページ先頭ラベルを `style.md` S-08 の一覧から引く**（共通 Steps に追加済み）。
 
-### #13: ページ作成の共通手順を `steering.md` に定着させる
+### #13: ページ作成の共通手順を `steering.md` に定着させる — DONE
 
 **Purpose**: ページを作らないタスク。`#11` で個別の作業指示として渡した内容のうち以降の全ページに効くものを、「#9〜: ページの作成」の共通 Steps・完了条件に一度だけ入れる。以降の小さいページは個別の作業指示を出さず、`steering.md` だけで進める。作業指示は `ntf-doc-13-standing-rules.md`。
-
-**Steps**:
-
-- [x] STEP 1 — 共通 Steps に4項目を追加する（実装での事実確認／第2部・第3部の記載範囲／ページ先頭ラベル／是正ラウンド2以降の観点限定）— **3件を追加**。ページ先頭ラベルの項目は `#12` の締めで既に追加済み（`:282`）であり、重複行を作らず理由を `checks/task-13.md` 冒頭に記録した
-- [x] STEP 2 — 完了条件に2項目を追加する（`dest_page` 全件の反映対応表／全件表を求める項目をゲート実行順の先頭に置く）
-- [x] STEP 3 — 個別の作業指示を出す条件を「#9〜」冒頭に1段落で追記する
-- [x] ゲート1〜4 をすべて実行結果で確認し、`checks/task-13.md` に記録する — 全件 PASS・NG 0件（追加7行 / 削除0行）
-- [x] 4観点のレビューは**回さない**（作業指示が明示的に禁止）
-- [x] commit & push — `dacd7af`
-- [ ] **user review** — 承認を受けるまで次タスクに進まない
 
 **Completion criteria**:
 
@@ -412,6 +402,8 @@ Rn version: 0.8.0
 - `ja/` 配下の `.rst`・`mapping/`・`design.md` に差分が無い
 - `verify_mapping.py` が exit 0 で、594行 / 12,986 / 11,983 が不変
 - ゲート1〜4 が実行結果で `checks/task-13.md` に記録されている
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。ゲート1〜4 全件 PASS・NG 0件（追加7行 / 削除0行）。STEP 1 の追加は3件 — ページ先頭ラベルの項目は `#12` の締めで既に共通 Steps に入っていたため重複行を作らず、理由を `checks/task-13.md` 冒頭に記録した。4観点のレビューは作業指示の指定により回していない。詳細は `checks/task-13.md` および git 履歴（最終内容コミット `dacd7af`）を参照。**以降のページ作成タスクは、個別の作業指示を出す条件（本節「#9〜」冒頭）に当たらない限り、共通 Steps のみで進める。**
 
 ### #last: Evaluation sign-off
 
@@ -446,8 +438,4 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-12
-- **Last completed**: `#12`（`f028322`）。`#13` は成果物・ゲート記録とも完了し（`dacd7af` / `3175b2d`）、**user review の承認待ちで中断**
-- **Next**: `#13` の user review 判定を受ける（`/rn:ty` 承認 → `steering.md` の `#13` を締めてエントリを圧縮し `complete task #13` でコミット／`/rn:gm` 修正 → 指摘に対応して再提示）。承認後は次ページ `setup/class_unit_test.rst`（`class_unit_test_setting`、マッピング3行 / 193 lines）に**個別の作業指示なし・共通 Steps のみ**で着手する
-- **Notes**: ブランチ `work`（`origin/work` に push 済み）。作業ツリーは clean、user-deferred な未追跡パスは無し。`#13` で STEP 1 の3項目目（ページ先頭ラベル）が `#12` の締めで既に共通 Steps に入っていたため重複行を作らず、追加は STEP 1 の3件・STEP 2 の2件・STEP 3 の1段落（計7行 / 削除0行）とした。理由は `checks/task-13.md` 冒頭。**次ページの事前調査（`EntityTestConfiguration` の8プロパティ・`BasicDefaultValues` の3プロパティ・`validationTestStrategy` の扱い判断）は `ntf-doc-13-standing-rules.md` の付録にあり、再調査は不要。** 未解消の既知警告は `db_double_submit.rst` の `undefined label` 1件のみ。申し送りは `reviews/page-common.md`（4件）・`page-testdata_notation.md`（28〜32）・`page-testdata_examples.md`（19〜23）
+- **Status**: not suspended
