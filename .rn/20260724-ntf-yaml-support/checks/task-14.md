@@ -85,3 +85,39 @@ python3 -c "import csv;[print(r['mapping_id'],r['src_file'],r['src_body_start'],
 - Craft expert: OK（観点B。ラウンド2で pass）
 - Verification expert: OK（観点D＋ラウンド2の差分限定検証。ページの主張を実装と全件突合し、Dockerフルビルドで確認）
 - Ready to check off: **user review 承認待ち**（`steering.md` Rules「user review の承認を受けるまで次タスクに着手しない」）
+
+---
+
+## 締め — デフォルト値の制約に実装の根拠を書き足す（`ntf-doc-14-close.md`）
+
+公開本文は承認済み。本追記は表の説明セル2件と申し送り1件のみで、4観点のレビューは回していない（作業指示の明示指定）。
+
+### STEP 1・2 — 追記した2セル
+
+| 設定項目 | 追記後の説明セル | 実装（`nablarch/nablarch-testing` `main` = `e21bf67`） |
+|---|---|---|
+| `charValue` | 文字列型のデフォルト値。**固定長文字列型（`CHAR`・`NCHAR`）では、指定した値をカラム長の数だけ繰り返した文字列が使われる** | `src/main/java/nablarch/test/core/db/BasicDefaultValues.java:158-159`（`getCharValue` → `StringUtil.repeat(charValue, length)`）。可変長文字列型・`CLOB` はそのまま返す（同 `:147` `getVarcharValue`・`:182` `getClobValue`） |
+| `numberValue` | 数値型のデフォルト値。**カラム長を超える値を指定した場合は、先頭からカラム長の分だけ切り出した値が使われる** | 同 `:171-172`（`getNumberValue` → `NablarchTestUtils.limit(numberValue, length)`）→ `src/main/java/nablarch/test/NablarchTestUtils.java:290-300`（`string.length() > threshold ? string.substring(0, threshold) : string`） |
+
+「指定できる値」列（`1文字のASCII文字`・`0または正の整数`）は変更していない。`dateValue` の行も変更していない（`setDateValue` は `Timestamp.valueOf` に渡すだけで、繰り返しも切り詰めも起きない。`BasicDefaultValues.java:116-118`）。
+
+**出典の制約に検査の裏付けが無いことも確認済み** — `setCharValue` は1文字でなければ `IllegalArgumentException` を投げるが**ASCII かどうかは検査しない**（`BasicDefaultValues.java:102-108`、実測 `:103` が `charValue.length() != 1`）。`setNumberValue` に検査は**無い**（同 `:125-127`、実測 `:126` が代入のみ）。したがって制約は「実装が弾くから守る」ものではなく、**上表の加工挙動によって守らないと壊れる**ものである。この点を説明セルに書き足したのが本追記であり、ラウンド1の `R1-X4`（実装が検査しないから緩めるか／推奨値として維持するか）が実装の挙動を示さないまま処理されていた不足を埋める。申し送りは `reviews/page-class_unit_test.md` の「`#15` 以降への申し送り」6 に追記した。
+
+**実装の確認方法**: `git clone --depth 50 https://github.com/nablarch/nablarch-testing.git`（`git log --oneline -1` → `e21bf67 Merge remote-tracking branch 'origin/release-6u2'`）。作業指示に記載された5件の `file:line` を、コーディネータが**すべて実ファイルで独立に再確認**した（`grep -n` の実測行番号が指示と一致）。
+
+### ゲート
+
+| # | ゲート | 結果 | 実行内容 |
+|---|---|---|---|
+| 1 | `git diff 104a6c4 HEAD -- ja/` の変更が説明セル2行だけ・削除行0行 | OK（注記あり） | `1 file changed, 2 insertions(+), 2 deletions(-)`。変更されたのは `class_unit_test.rst:117` と `:120` の説明セル2行のみ。**既存文言は両行とも先頭にそのまま残しており、削除された記述は0件**（追記は末尾への文の追加）。行単位のdiffでは追記でも `-`/`+` の対で表示されるため、`deletions(-)` が2と出る。他ファイル・他行の変更は0 |
+| 2 | `1文字のASCII文字`・`0または正の整数` が各1件残存 | OK | `grep -c` → それぞれ `1`・`1` |
+| 3 | `verify_mapping.py` が `exit 0`、594行 / 12,986 / 11,983 が不変 | OK | `python3 mapping/tools/verify_mapping.py` → `Loaded 594 rows` / `lines total (all rows): 12986` / `lines total (excluding DROP): 11983` / `OK: no errors`、`exit=0` |
+| 4 | `mapping/`・`ja/conf.py`・`design.md`・`style.md` の差分が空 | OK | `git diff 104a6c4 -- <上記>` → 出力0行 |
+| 5 | 見出しの文言・並び順が不変、`:ref:` 未定義0件、段落内改行0件 | OK | 見出しを `104a6c4` 版と機械比較 → 4件で完全一致（`クラス単体テストの設定`=／`使用方法`-／`エンティティ単体テストの設定項目を登録する`~／`省略したテーブルのカラムのデフォルト値を変更する`~）。未定義ラベル警告は当該ページ0件（ゲート6）。段落内改行の検出スクリプト（空行を挟まず日本語の本文行が連続する箇所）→ 0件 |
+| 6 | Docker フルビルド（`-a`）で `build succeeded`・警告は既知1件のみ | OK | `docker run --rm -v <repo>:/root/document nablarch-document-build /bin/bash -c "cd /root/document; sphinx-build -E -a -d _build/.doctrees/ja -b html ja _build/html"` → `build succeeded, 1 warning.`。警告は `db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` の**既知1件のみで新規0件**（`grep -iE "warning\|error"` で全出力を確認）。生成HTMLで両セルの描画を確認（`固定長文字列型（CHAR・NCHAR）では、指定した値をカラム長の数だけ繰り返した文字列が使われる`／`カラム長を超える値を指定した場合は、先頭からカラム長の分だけ切り出した値が使われる`。`\ ` エスケープによる余分な空白なし）。ビルドが再生成した `locales/ja/LC_MESSAGES/sphinx.mo` は `git checkout -- locales/` で復元 |
+
+### Overall Verdict（締め）
+
+- 追記2件・申し送り1件のみ。禁止事項（「指定できる値」列・`dateValue` 行・表の列構成・見出し・他セクション・`mapping.csv` 他の設定文書・承認済みの他ページ）はいずれも変更していない
+- 既存のレビュー記録・チェック記録は書き換えず、追記のみとした
+- Ready to check off: **user review 承認待ち**（承認まで `#15` に着手しない）
