@@ -9,5 +9,6 @@
    common
    class_unit_test
    request_unit_test/web
+   request_unit_test/rest
    junit5_extension
    master_data_restore
