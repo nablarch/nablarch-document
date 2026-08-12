@@ -476,8 +476,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-08-12
-- **Last completed**: `#14`（user review 承認、`/rn:ty`。最終内容コミット `1624182`）。`#15` は4観点レビュー ラウンド1（`must` 3件是正、`f4c9fad`）・ラウンド2の是正差分限定の検証 pass（`74e1b10`）まで完了し、**user review 待ち**
-- **Next**: `#15` の user review の判定（`/rn:ty` 承認 または `/rn:gm` 修正）を受ける。`decide` 3件（画像の配置規約／CPU製品名の削除／`-Xverify:none` の非推奨追記）の結論もあわせて必要
-- **Notes**: ブランチ `work`（`origin/work` に push 済み、作業ツリー clean）。**実装の clone は session 固有のため再開時に再 clone が必要**（`nablarch/nablarch-testing`。`#14` で確認済みの `file:line` は `reviews/page-class_unit_test.md`・`checks/task-14.md` に記載済みで再調査は不要）。既知警告は `db_double_submit.rst` の `undefined label` 1件のみ。申し送りは `reviews/page-class_unit_test.md`（6件。特に「`#10a` の用語一括置換は referent を実装で確かめてから適用する」「出典の制約は実装が検査しているかで採否を決めず、挙動を確かめて理由を書き添える」）・`page-common.md`（4件）・`page-testdata_notation.md`（28〜32）・`page-testdata_examples.md`（19〜23）
+- **Last completed**: `#14`（user review 承認、`/rn:ty`）。`#15` は作成（`ae89097`）・4観点レビュー ラウンド1の是正（`f4c9fad`）・ラウンド2の是正差分限定の検証 pass とその是正（`74e1b10`）まで完了し、**user review 待ちで中断**
+- **Next**: `#15` の user review の判定（`/rn:ty` 承認 または `/rn:gm` 修正）を受ける。あわせて `decide` 3件（画像の配置規約／CPU製品名の削除／`-Xverify:none` の非推奨追記。`#15` エントリ末尾に記載）の結論が必要。承認なら `#15` エントリを圧縮して締め、`#16`（リクエスト単体テストの設定（RESTfulウェブサービス）、`setup/request_unit_test/rest.rst`）へ
+- **Notes**: ブランチ `work`（`origin/work` に push 済み、作業ツリー clean、未追跡パス無し）。**実装の clone は session 固有のため再開時に再 clone が必要**（`nablarch/nablarch-testing` の `e21bf67`、`nablarch/nablarch-core`。確認済みの `file:line` は `reviews/page-request_unit_test_setting_web.md`・`checks/task-15.md` に記載済みで再調査は不要）。既知警告は `db_double_submit.rst` の `undefined label` 1件のみ。申し送りは `reviews/page-request_unit_test_setting_web.md`（11件。特に「画像は `images/<ページ名>/` に置く」「出典の『デフォルト値』欄はフィールドの初期値と一致するとは限らない」「是正で `tip` を新設するときは直上の本文の言い換えになっていないか確認する」）・`page-class_unit_test.md`（6件）・`page-common.md`（4件）・`page-testdata_notation.md`（28〜32）・`page-testdata_examples.md`（19〜23）
