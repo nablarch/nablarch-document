@@ -420,11 +420,11 @@ Rn version: 0.8.0
 - [x] Docker フルビルド — `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規警告0件）
 - [x] commit & push — `8285125`
 - [x] **decide の判定を受けた（`validationTestStrategy` の掲載可否）** — ユーザー判定 2026-08-12「**載せる**」。初版（`8285125`）が推奨側で書かれているため本文の変更は不要
-- [ ] 4観点のレビュー（A:網羅性 / B:トンマナ / C:用語 / D:整合性）を別サブエージェントで実施
-- [ ] 指摘への対応（最大3ラウンド。ラウンド2以降は是正差分に限定した観点のみ）
-- [ ] `reviews/page-class_unit_test.md` を作成（実装で確認した `file:line` と参照コミットを含む）
-- [ ] `checks/task-14.md`（3行**全件**の反映対応表を先頭に置く）
-- [ ] commit & push
+- [x] 4観点のレビュー（A:網羅性 / B:トンマナ / C:用語 / D:整合性）を別サブエージェントで実施 — ラウンド1は4観点とも fail（`must` 4 / `should` 8 / `note` 12）
+- [x] 指摘への対応（最大3ラウンド。ラウンド2以降は是正差分に限定した観点のみ）— ラウンド1で是正20件（`ca699c5`）・却下6件・保留1件。ラウンド2は是正差分限定の検証で **pass**（`must` 0）、残る7件を是正（`5a55ada`）
+- [x] `reviews/page-class_unit_test.md` を作成（実装で確認した `file:line` と参照コミット `e21bf67` を含む）
+- [x] `checks/task-14.md`（3行**全件**の反映対応表を先頭に置く）
+- [x] commit & push — `f6947b2`（`sphinx.mo` の是正）→ `ca699c5`（ラウンド1）→ `5a55ada`（ラウンド2）
 - [ ] **user review**
 
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
