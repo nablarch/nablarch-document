@@ -260,11 +260,22 @@ simple table 3件・`list-table` 1件であり、表が4件と少ないため本
 
 ### S-08 `:ref:` ラベルの命名規則
 
-**規約**: ページ先頭のラベルはページIDそのもの（英語のスネークケース）を使う
-（例: `exclusive_control`）。ページ内の個別セクションのラベルは
-`<ページID>-<セクションの内容を表す英語スネークケース>` の形式にする。
+**規約**: ページ先頭のラベルは、そのページを `ja/` 全体で一意に識別できる英語のスネークケースとする。
+**ファイル名の語幹をそのまま使わない。** Sphinx のラベルはプロジェクト大域であり、
+ディレクトリで区別されているだけの語幹（`web`・`rest`・`mom` など）はラベルとしては一意にならない。
+NTF解説書では、テスト種別と処理方式を並べた名前を用いる（下記「NTF解説書のページ先頭ラベル一覧」）。
+ページ内の個別セクションのラベルは
+`<ページ先頭ラベル>-<セクションの内容を表す英語スネークケース>` の形式にする。
 バッククォートで囲む書き方（`` `label` ``）と囲まない書き方の両方が見られるが、
 ラベル名の構造自体はどちらも同じである。
+
+**新しいラベルを定義する前に、`ja/` 全体に同名のラベルが無いことを `grep` で確認する。**
+`ja/conf.py` は `keep_warnings = True` であり、重複ラベルはビルドを失敗させないため、
+確認を省くと衝突に気づけないまま進む。
+
+**例外**: 削除された現行解説書から引き継ぐ外部被参照ラベルは、参照元を壊さないため名前を変えない
+（`<ページ先頭ラベル>-<...>` の形式に合わなくてよい）。対象は `checks/task-07.md`
+「リンク切れになる参照」の表を参照。
 
 **根拠**:
 
@@ -278,6 +289,75 @@ simple table 3件・`list-table` 1件であり、表が4件と少ないため本
 - `FW:libraries/session_store.rst:1,61,87,101` ページ先頭ラベルは `` .. _`session_store`: ``
   （バッククォート付き）、セクションラベルは `session_store-serialize`、`session_store-constraint`、
   `session_store-use_config`。
+
+#### NTF解説書のページ先頭ラベル一覧
+
+**ページ作成タスクは、ページ先頭ラベルをこの表から引く。新たに考案しない。** 表に無いページが
+見つかった場合は、勝手に命名せずユーザー判断に回す。`ja/` 配下の全 `.rst` が定義する既存ラベル
+959件との突き合わせで衝突0件であることを実測済み（`checks/task-12.md` ゲート1）。
+
+**作成済み（改名しない）**。改名は承認済みページ内の `:ref:` の書き換えを伴うため行わない。
+
+| ページ | ファイル | ラベル |
+|---|---|---|
+| テスティングフレームワークとは | `about/index.rst` | `testing_framework_about` |
+| 共通設定 | `setup/common.rst` | `testing_framework_common` |
+| JUnit 5用拡張機能（スタブ） | `setup/junit5_extension.rst` | `junit5_extension` |
+| マスタデータ復旧機能（スタブ） | `setup/master_data_restore.rst` | `master_data_restore` |
+| テストデータの書き方 | `implementation/testdata_notation.rst` | `testdata_notation` |
+| テストデータの記載例 | `implementation/testdata_examples.rst` | `testdata_examples` |
+| テストデータ変換ツール（スタブ） | `tools/testdata_converter.rst` | `testdata_converter` |
+| マスタデータ投入ツール（スタブ） | `tools/master_data_tool.rst` | `master_data_tool` |
+| 第2部の表題ページ | `setup/index.rst` | `testing_framework_setup` |
+| 第3部の表題ページ | `implementation/index.rst` | `testing_framework_implementation` |
+| 第4部の表題ページ | `tools/index.rst` | `testing_framework_tools` |
+
+**第2部（未作成10ページ）**
+
+| ページ | ファイル | ラベル |
+|---|---|---|
+| クラス単体テストの設定 | `setup/class_unit_test.rst` | `class_unit_test_setting` |
+| リクエスト単体テストの設定（ウェブアプリケーション） | `setup/request_unit_test/web.rst` | `request_unit_test_setting_web` |
+| リクエスト単体テストの設定（RESTfulウェブサービス） | `setup/request_unit_test/rest.rst` | `request_unit_test_setting_rest` |
+| リクエスト単体テストの設定（HTTPメッセージング） | `setup/request_unit_test/http_messaging.rst` | `request_unit_test_setting_http_messaging` |
+| リクエスト単体テストの設定（Nablarchバッチアプリケーション） | `setup/request_unit_test/batch.rst` | `request_unit_test_setting_batch` |
+| リクエスト単体テストの設定（MOMによるメッセージング） | `setup/request_unit_test/mom.rst` | `request_unit_test_setting_mom` |
+| リクエスト単体テストの設定（テーブルをキューとして使ったメッセージング） | `setup/request_unit_test/db_queue.rst` | `request_unit_test_setting_db_queue` |
+| 取引単体テストの設定（RESTfulウェブサービス） | `setup/deal_unit_test/rest.rst` | `deal_unit_test_setting_rest` |
+| 取引単体テストの設定（HTTPメッセージング） | `setup/deal_unit_test/http_messaging.rst` | `deal_unit_test_setting_http_messaging` |
+| 取引単体テストの設定（MOMによるメッセージング） | `setup/deal_unit_test/mom.rst` | `deal_unit_test_setting_mom` |
+
+**第3部（未作成14ページ）**
+
+| ページ | ファイル | ラベル |
+|---|---|---|
+| エンティティ単体テスト | `implementation/class_unit_test/entity.rst` | `entity_unit_test` |
+| コンポーネント単体テスト | `implementation/class_unit_test/component.rst` | `component_unit_test` |
+| リクエスト単体テスト（ウェブアプリケーション） | `implementation/request_unit_test/web.rst` | `request_unit_test_web` |
+| リクエスト単体テスト（RESTfulウェブサービス） | `implementation/request_unit_test/rest.rst` | `request_unit_test_rest` |
+| リクエスト単体テスト（HTTPメッセージング） | `implementation/request_unit_test/http_messaging.rst` | `request_unit_test_http_messaging` |
+| リクエスト単体テスト（Nablarchバッチアプリケーション） | `implementation/request_unit_test/batch.rst` | `request_unit_test_batch` |
+| リクエスト単体テスト（MOMによるメッセージング） | `implementation/request_unit_test/mom.rst` | `request_unit_test_mom` |
+| リクエスト単体テスト（テーブルをキューとして使ったメッセージング） | `implementation/request_unit_test/db_queue.rst` | `request_unit_test_db_queue` |
+| 取引単体テスト（ウェブアプリケーション） | `implementation/deal_unit_test/web.rst` | `deal_unit_test_web` |
+| 取引単体テスト（RESTfulウェブサービス） | `implementation/deal_unit_test/rest.rst` | `deal_unit_test_rest` |
+| 取引単体テスト（HTTPメッセージング） | `implementation/deal_unit_test/http_messaging.rst` | `deal_unit_test_http_messaging` |
+| 取引単体テスト（Nablarchバッチアプリケーション） | `implementation/deal_unit_test/batch.rst` | `deal_unit_test_batch` |
+| 取引単体テスト（MOMによるメッセージング） | `implementation/deal_unit_test/mom.rst` | `deal_unit_test_mom` |
+| 取引単体テスト（テーブルをキューとして使ったメッセージング） | `implementation/deal_unit_test/db_queue.rst` | `deal_unit_test_db_queue` |
+
+**第4部（未作成2ページ）**
+
+| ページ | ファイル | ラベル |
+|---|---|---|
+| リクエスト単体データ作成ツール | `tools/request_data_tool.rst` | `request_data_tool` |
+| HTMLチェックツール | `tools/html_check_tool.rst` | `html_check_tool` |
+
+**語幹をそのまま使えない理由（実測）**: `http_messaging` は
+`ja/application_framework/application_framework/web_service/http_messaging/index.rst:1` が
+既に定義しており、語幹をそのまま使うと衝突する。NTF解説書の内部でも、`rest`・`http_messaging`・
+`mom` は4ページ（第2部の設定2種＋第3部の実装2種）、`web`・`batch`・`db_queue` は3ページが
+同じ語幹を持つ。
 
 ### S-09 各ページ先頭の目次（`.. contents::` ディレクティブ）
 

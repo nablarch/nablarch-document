@@ -25,6 +25,7 @@ Rn version: 0.8.0
 - `#10a` 回答（`design.md:65` の是正・特殊記法セクションの導入文）: `.rn/20260724-ntf-yaml-support/ntf-doc-terminology-answer.md`
 - `#10b` 作業指示（`#10a` 承認後の仕上げ）: `.rn/20260724-ntf-yaml-support/ntf-doc-10a-followup.md`
 - `#11` 作業指示（共通設定）: `.rn/20260724-ntf-yaml-support/ntf-doc-11-common.md`
+- `#12` 作業指示（`:ref:` ラベル命名規則の確定）: `.rn/20260724-ntf-yaml-support/ntf-doc-12-ref-labels.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
@@ -277,6 +278,7 @@ Rn version: 0.8.0
 **Steps（各ページ共通）**:
 
 - [ ] `mapping.csv` から当該 `dest_page` の行を抽出する
+- [ ] **ページ先頭ラベルは `style.md` S-08「NTF解説書のページ先頭ラベル一覧」から引く。新たに考案しない**（`#12` で34ページ分を確定済み。表に無いページが出た場合は勝手に命名せず `decide` としてユーザー判断に回す）
 - [ ] 抽出した行の出典（`src_file` の `src_body_start`〜`src_body_end`）を実際に読み、ページを作成する
 - [ ] マッピングにない内容を追加しない。マッピングにある内容を落とさない
 - [ ] 出典の文面をそのまま流用しない。`style.md` に従って書き直す
@@ -372,6 +374,30 @@ Rn version: 0.8.0
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。加えて、作業指示のゲート1〜11 が実行結果で確認され `checks/task-11.md` に記録されていること、`dest_page=共通設定` の5行が**全件**の対応表で記録されていること（母集合をホワイトリストで切り出さない）。
 
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。4観点レビュー ラウンド1（`must` 2 / `should` 6 / `note` 18）→ 是正ラウンド1（`0a71a75`）で解消 → ラウンド2（`#10b` 申し送りに従い是正差分限定）で `must` 0 / `should` 0 の pass。ゲート1〜11 全件 PASS、Docker フルビルド `build succeeded`（新規警告0件）。**作業指示から外れて是正した2件も承認された** — (1) `nablarch.test.resource-root` の設定先を `コンポーネント設定ファイル` → `環境設定ファイル`、(2) `OracleSequenceIdGenerator` の完全修飾名を `nablarch.common.idgenerator.*` → `com.example.common.idgenerator.*`（いずれも `design.md` §8「出典と実装が食い違う場合は実装を優先する」の適用）。詳細は `checks/task-11.md`・`reviews/page-common.md`（作成時の判断 D-1〜D-6／ラウンド1 R1-1〜R1-12）および git 履歴（最終内容コミット `0a71a75`）を参照。`#12` 以降への申し送り4件は `reviews/page-common.md`（`FastTableIdGenerator` の初期化設定欠落 R1-6／既定値 `test/java` と `testdata_notation.rst` の配置説明の基準ディレクトリ不一致 R1-8／L3 セクションラベル未設置 R1-7／採番の記述例をピンポイント参照するためのラベル追加 D-3）。
+
+### #12: `:ref:` ラベル命名規則の確定（`style.md` S-08 改訂）
+
+**Purpose**: ページを作らないタスク。`style.md` S-08 を改訂し、残り30ページ分のページ先頭ラベルを先に確定する。Sphinx のラベルはプロジェクト大域であり、ファイル名の語幹をそのまま使うと衝突するため（`http_messaging` は FW解説書側に実在。`ja/conf.py:103` の `keep_warnings = True` により重複ラベルは `#last` まで表面化しない）、21ページ分の判断を先に済ませる。`ja/` 配下の `.rst` は1行も変更しない。作業指示は `ntf-doc-12-ref-labels.md`。
+
+**Steps**:
+
+- [x] STEP 1 — S-08 の規約文を「ページ先頭のラベルは `ja/` 全体で一意に識別できる英語スネークケース。ファイル名の語幹をそのまま使わない」の趣旨に改める。既存の根拠（FW解説書の file:line 4件）は残す。改訂は S-08 のみ
+- [x] STEP 2 — 34ページ＋表題3件の計37ラベルを S-08 に一覧として載せる（作業指示 STEP 2 の表をそのまま使用。新たに考案していない）
+- [x] STEP 3 — 引き継ぐ外部被参照ラベル `how_to_set_token_in_request_unit_test` を例外として S-08 に明記する（改名しない）
+- [x] STEP 4 — `checks/task-12.md` を新規作成、`steering.md` に本エントリとページ作成タスク共通 Steps の1行（「ページ先頭ラベルは S-08 の一覧から引く」）を追加。`reviews/` には記録しない
+- [x] ゲート1〜8 をすべて実行結果で確認し、`checks/task-12.md` に記録する（**全件表を求めるゲート1を実行順の先頭に置く**）— 全件 PASS
+- [x] 4観点のレビューは**回さない**（作業指示が明示的に禁止。ゲート1・2 が全件の突き合わせを機械的に担保している）
+- [x] commit & push
+- [ ] **user review** — 承認を受けるまで次ページに進まない
+
+**Completion criteria**:
+
+- S-08 に載せた37ラベルと、`ja/` 配下の全 `.rst` が定義する既存959ラベルとの突き合わせ表が**全件**記録され、衝突0件である（母集合を `ja/` の実ファイルから機械抽出。`.rn/` 配下を典拠にしない）
+- S-08 の一覧が `design.md` §13「1対1対応表」の34ページと過不足なく対応している（差集合が双方向で空）
+- `python3 mapping/tools/verify_mapping.py` が exit 0、594行 / 12,986 / 11,983 が不変
+- `style.md` の差分が S-08 の節の中だけに収まり、既存の根拠4件が削除されていない
+- 作業指示の禁止事項に抵触する変更が無い（`ja/` 配下・`mapping.csv` / `_batch/` / `vocabulary.md` / `glossary.md` / `design.md` / `ja/conf.py` に差分が無い）
+- Docker フルビルド（`-a`）が `build succeeded` で、警告が既知の `db_double_submit.rst` 1件のみ（新規0件）
 
 ### #last: Evaluation sign-off
 
