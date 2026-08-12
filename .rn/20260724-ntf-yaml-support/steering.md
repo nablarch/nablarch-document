@@ -405,6 +405,34 @@ Rn version: 0.8.0
 
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。ゲート1〜4 全件 PASS・NG 0件（追加7行 / 削除0行）。STEP 1 の追加は3件 — ページ先頭ラベルの項目は `#12` の締めで既に共通 Steps に入っていたため重複行を作らず、理由を `checks/task-13.md` 冒頭に記録した。4観点のレビューは作業指示の指定により回していない。詳細は `checks/task-13.md` および git 履歴（最終内容コミット `dacd7af`）を参照。**以降のページ作成タスクは、個別の作業指示を出す条件（本節「#9〜」冒頭）に当たらない限り、共通 Steps のみで進める。**
 
+### #14: クラス単体テストの設定（`setup/class_unit_test.rst`）
+
+**Purpose**: マッピングに従って第2部の2ページ目「クラス単体テストの設定」を作成する。対象は `mapping.csv` の `dest_page=クラス単体テストの設定` の3行（193 lines、すべて `dest_section=使用方法`）。`#13` で定着させた共通 Steps のみで進める初のページ（個別の作業指示なし）。事前調査は `ntf-doc-13-standing-rules.md` の付録。
+
+**Steps**: 「#9〜: ページの作成」の共通 Steps に同じ。進捗は次のとおり。
+
+- [x] `mapping.csv` の3行を抽出（`current-0010` / `current-0021` / `current-0191`）
+- [x] ページ先頭ラベルを `style.md` S-08 から引く（`class_unit_test_setting`）
+- [x] 出典を `origin/develop` から読み、ページを作成（L2「使用方法」＋L3 2件。`機能概要`・`拡張例` は出典0行のため見出しを置かない）
+- [x] 実装で事実確認（`nablarch/nablarch-testing` の `main`、`e21bf67`）。**出典2件の食い違いを実装で解消した** — メッセージ ID 6件の意味を `EntityTestConfiguration.getOverLimitMessageId` / `getUnderLimitMessageId`（`:76-113`）の分岐で組み直し、これらが「テストショットで明示指定しなかった場合のデフォルト値」であることを `CharsetTestVariation.java:264-289` で確認
+- [x] 第2部の記載範囲を守る（テストデータの記述例は置かず `testdata_notation-column_omission` へ `:ref:`）
+- [x] `setup/index.rst` の toctree に追記
+- [x] Docker フルビルド — `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規警告0件）
+- [x] commit & push — `8285125`
+- [ ] **decide の判定を受ける（`validationTestStrategy` の掲載可否）**
+- [ ] 4観点のレビュー（A:網羅性 / B:トンマナ / C:用語 / D:整合性）を別サブエージェントで実施
+- [ ] 指摘への対応（最大3ラウンド。ラウンド2以降は是正差分に限定した観点のみ）
+- [ ] `reviews/page-class_unit_test.md` を作成（実装で確認した `file:line` と参照コミットを含む）
+- [ ] `checks/task-14.md`（3行**全件**の反映対応表を先頭に置く）
+- [ ] commit & push
+- [ ] **user review**
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
+
+**未判定の decide（`validationTestStrategy` の掲載可否）**: **推奨は「載せる」。** 事前調査の付録（`ntf-doc-13-standing-rules.md:79`）は「どちらの出典にも無い」とするが**これは誤り**で、`current-0010`（Bean Validation 版、範囲704–770）は設定項目一覧の表（`:731`）・XML記述例（`:767`）・脚注（`:744`）の3箇所に持つ。無いのは `current-0021` だけである。したがって落とすと「マッピングにある内容を落とさない」に抵触する。加えて `CharsetTestVariation.java:126-129` により、この設定が `NablarchValidationTestStrategy` のときテストショットでの最大文字列長の省略が実行時エラーになるため、`minMessageId` が Nablarch Validation の出典に無い理由がこの設定なしでは説明できない。初版（`8285125`）は推奨側で書いてあり、「載せない」なら表1行・XMLプロパティ1件・`important` 後半の削除で済む。
+
+**付録の事実誤り2件**（`checks/task-14.md` に記録すること）: (1) `validationTestStrategy` は `current-0010` に**ある**（付録は「どちらにも無し」としている）。(2) `minMessageId` について付録は「出典どうしが食い違っており実装が正」とするが、実装上 Nablarch Validation では `minMessageId` に**到達しない**（`CharsetTestVariation.java:126-129`）ため、`current-0021` に無いのは欠落ではなく正しい。
+
 ### #last: Evaluation sign-off
 
 **Purpose**: NTF ドキュメント刷新の完了を Acceptance criteria に照らして確認し、ユーザーの承認を得る。
@@ -438,4 +466,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
+- **Date**: 2026-08-12
+- **Last completed**: `#13`（`5ae2900` で承認・圧縮して締めた）。`#14` は初版作成・toctree 追記・Docker フルビルドまで完了（`8285125`）、**decide の判定待ちで中断**
+- **Next**: `#14` の decide（`validationTestStrategy` の掲載可否。推奨は「載せる」。根拠は `#14` エントリ末尾）の判定を受ける。判定後は4観点レビュー（A:網羅性 / B:トンマナ / C:用語 / D:整合性）を別サブエージェントで回し、`reviews/page-class_unit_test.md`・`checks/task-14.md` を作成して user review へ
+- **Notes**: ブランチ `work`（`origin/work` に push 済み）。作業ツリーは clean、user-deferred な未追跡パスは無し。**実装の clone は `nablarch-testing` の `e21bf67` をスクラッチパッドに取得済みだが session 固有のため、再開時は再 clone が必要。** 確認済みの `file:line` は `#14` エントリに記載してあり再調査は不要。未解消の既知警告は `db_double_submit.rst` の `undefined label` 1件のみ。申し送りは `reviews/page-common.md`（4件）・`page-testdata_notation.md`（28〜32）・`page-testdata_examples.md`（19〜23）
