@@ -437,15 +437,28 @@ Rn version: 0.8.0
 
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。ゲート1〜9 全件 PASS・Docker フルビルド（`-a`）は `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）。`ja/` 側の差分は3ページとも `+2 / -1` 行のみ。作業指示の指定により4観点のレビューは回していない（新しい内容を書かないタスクで、ゲート1〜3 が変更範囲を機械的に固定している）。作業指示から外れた点3件（ゲート5の適用範囲／`style.md` の根拠を実測に合わせた訂正2件／`design.md` §4 への1文の追加）は `checks/task-16.md` 末尾に記録。詳細は `checks/task-16.md`・`reviews/page-common.md`・`page-class_unit_test.md`・`page-request_unit_test_setting_web.md` および git 履歴（最終内容コミット `04d8545`）を参照。**以降の全ページはリード文を目次の直後に置く**（共通 Steps の `.. contents::` の項に続く位置づけ）。
 
-### #17: リクエスト単体テストの設定（RESTfulウェブサービス）（`setup/request_unit_test/rest.rst`）
+### #17: リクエスト単体テストの設定（RESTfulウェブサービス）（`setup/request_unit_test/rest.rst`）— user review 待ち
 
-**Purpose**: マッピングに従って第2部の4ページ目「リクエスト単体テストの設定（RESTfulウェブサービス）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（RESTfulウェブサービス）` の行。共通 Steps のみで進める（個別の作業指示を出す条件に当たらない）。
+**Purpose**: マッピングに従って第2部の4ページ目「リクエスト単体テストの設定（RESTfulウェブサービス）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（RESTfulウェブサービス）` の4行（125 lines、`DROP` なし、すべて `dest_section=使用方法`）。共通 Steps のみで進めた（個別の作業指示を出す条件に当たらない）。
 
 **Prerequisites**: #16
 
-**Steps**: 「#9〜: ページの作成」の共通 Steps に同じ。
+**Steps**: 「#9〜: ページの作成」の共通 Steps に同じ。実施状況は次のとおり。
+
+- [x] ページ作成・`setup/index.rst` の `toctree` 追記（`design.md` §3 の順序で `web` の直後）— `4f78d11`
+- [x] 4観点レビュー ラウンド1（A fail `must` 2 / B fail 1 / C fail 1 / D fail 2、重複除去5件すべて是正）→ ラウンド2は是正差分限定の検証で pass（`must` 0）
+- [x] Docker フルビルド `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）
+- [x] `checks/task-17.md`・`reviews/page-request_unit_test_setting_rest.md`
+- [x] コーディネータの独立検証（`checks/task-17.md` §7）— 本ページに新規の事実誤りなし。`decide` 2 の射程が報告より広いことを新規検出
+- [x] commit & push
+- [ ] **user review** — `decide` 2件の判断待ち
 
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
+
+**`decide`（user review で判断が必要）**:
+
+1. **`httpServerFactory` の登録を本ページに書いたこと** — 出典にも `mapping.csv` にも0件だが、登録しないと内蔵サーバの生成時に例外になる（`SimpleRestTestSupport.java:298-301`、デフォルト設定 jar に0件をコーディネータが再確認）。「マッピングにない内容を追加しない」の例外として認めるか
+2. **設定項目表の「デフォルト値」の基準** — 本ページはデフォルト設定を読み込んだ実効値、承認済みの `web.rst` はクラスのフィールド初期値。**コーディネータの独立検証により、食い違いは `webBaseDir` 1項目ではなく `web.rst` の7項目に及ぶことが判明**（`checks/task-17.md` §7-2）。残り4ページの基準に直結する
 
 ### #last: Evaluation sign-off
 
