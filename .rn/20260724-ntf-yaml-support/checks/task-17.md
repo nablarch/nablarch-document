@@ -148,6 +148,34 @@ build succeeded, 1 warning.
 | 1 | **`httpServerFactory` の登録を本ページに書いたこと。** 出典（`RequestUnitTest_rest.rst` 全体）にも `mapping.csv` にも1件も現れないが、登録しないと内蔵サーバの生成時に例外になる（`SimpleRestTestSupport.java:298-301`）。「マッピングにない内容を追加しない」に対する例外として妥当かを判断してほしい。書かない場合は、リード文と見出しから「これで実行できるようになる」という含意も落とす必要がある |
 | 2 | **`webBaseDir` のデフォルト値の基準。** 本ページはデフォルト設定ファイルの値（`src/main/webapp`）、姉妹ページ `web.rst` はクラスのフィールド初期値（`../main/web`）を載せている。実効値はどちらのブランクプロジェクトでも `src/main/webapp` である。両ページの基準を揃えるか（`web.rst` の変更が必要）、現状のまま但し書きで区別するかを判断してほしい |
 
+### 6-1. user review の回答（2026-08-13、`/rn:gm`）
+
+上記の表は判断を仰いだ時点の記録であり、書き換えない。以下は user review で示された回答である。根拠として挙げた `file:line` と参照コミットは、ユーザーおよびレビュー役の実測によるもの（本セッションのコーディネータが再実行して確かめたものではない）。
+
+**`decide` 1 — `httpServerFactory` の登録を本文に書いたこと → 残す**
+
+「マッピングにない内容を追加しない」（`design.md` §11.3）の例外として認める。理由は、出典が触れていないのはアーキタイプからのプロジェクト作成を前提にしていたためであり、アーキタイプ以外から作る読者には必須の記述で、落とすとページの内容だけではテストが動かないこと。
+
+| 事実 | 出典 |
+|---|---|
+| 未登録なら `IllegalConfigurationException` が発生する | `nablarch-testing-rest`（`b7729df`）`src/main/java/nablarch/test/core/http/SimpleRestTestSupport.java:45`・`:298-300` |
+| デフォルト設定は登録しない。**5u24・5u26・6u1・6u2・6u3 のすべてで0件** | `com.nablarch.configuration:nablarch-testing-default-configuration` の各版 jar を展開して全ファイル走査（レビュー役が実測） |
+| `nablarch-testing-jetty12` は `src/main/resources` を持たない | `nablarch-testing-jetty12`（`646c3d9`） |
+| アーキタイプは登録済み | `nablarch-web-archetype-6u3` / `nablarch-jaxrs-archetype-6u3` の `archetype-resources/src/test/resources/unit-test.xml` |
+
+これは `design.md` §8 の既存の例外2件（陳腐化した例示／外部の挙動の変化）のどちらでもなく、「出典が欠いている、実装上必須の設定」という**新しい類型**である。類型としての規定は `#18` で `design.md` §8 に追記する。
+
+**`decide` 2 — 設定項目表の「デフォルト値」の基準 → デフォルト設定を読み込んだ実効値に統一する**
+
+`rest.rst` の基準（実効値）が正しい。`web.rst` の基準（クラスのフィールド初期値）を実効値に改める。根拠は**出典自身が実効値を書いていること**である。
+
+- `RequestUnitTest_rest.rst:288`（`2e501ad`）の `webBaseDir` のデフォルト値は `src/main/webapp`。これは実効値であり、フィールド初期値（`HttpTestConfiguration.java:29` の `../main/web`）ではない
+- `02_RequestUnitTest.rst:345`・`:351`（同）の `htmlChecker`・`htmlCheckerConfig` も実効値相当を書いている。`web.rst` はこれを「該当なし」に改めており、**出典と実効値の両方に反している**
+- 「クラスのフィールド初期値」は出典にも実態にも無い基準である。`nablarch-web-archetype-6u3` の webapp は `archetype-resources/src/main/webapp` にあり、`web.rst` の `../main/web` はブランクプロジェクトに存在しないパスである
+- 実効値を基準にしても上書き時に破綻しない。同名・同クラスのコンポーネント定義は**プロパティ単位でマージ**され、後の定義に無いプロパティは先の定義（デフォルト設定）の値が残る（`nablarch-core-repository`（`6a28491`）`src/main/java/nablarch/core/repository/di/config/xml/XmlComponentDefinitionLoader.java:214`・`:238-273`・`:283-328`。既定ポリシーは `:119` の `DuplicateDefinitionPolicy.OVERRIDE`）
+
+**是正の対象は §7-2 の7項目では足りない。** レビュー役の実測で `web.rst` は9項目、`common.rst` にも同型が1件ある。全件と作業手順は `#18` の作業指示（`ntf-doc-18-default-value-basis.md`）に示される。§7-2 の表は当時の検出範囲の記録として残し、書き換えない。
+
 ## Overall Verdict
 
 - Self-check: OK
@@ -157,3 +185,4 @@ build succeeded, 1 warning.
 - Verification expert: OK（ラウンド1の観点A・網羅性／観点C・用語。ラウンド2は是正差分限定で pass）
 - コーディネータの独立検証: OK（§7。本ページに新規の事実誤りは無し。`decide` 2 の射程の広がりを新規検出）
 - Ready to check off: **No** — `decide` 2件の user review 待ち（`steering.md` Rules「user review の承認を受けるまで次タスクに着手しない」）
+- **2026-08-13 追記**（上記は判断を仰いだ時点の記録。書き換えずに追記する）: user review で公開本文が承認され、`decide` 2件に回答が出た（§6-1）。Ready to check off: **Yes**。`decide` 2 の是正（`web.rst` 9項目・`common.rst` 1項目）は本タスクでは行わず、`#18` で扱う
