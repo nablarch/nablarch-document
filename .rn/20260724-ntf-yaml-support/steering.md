@@ -425,6 +425,7 @@ Rn version: 0.8.0
 - [x] `reviews/page-class_unit_test.md` を作成（実装で確認した `file:line` と参照コミット `e21bf67` を含む）
 - [x] `checks/task-14.md`（3行**全件**の反映対応表を先頭に置く）
 - [x] commit & push — `f6947b2`（`sphinx.mo` の是正）→ `ca699c5`（ラウンド1）→ `5a55ada`（ラウンド2）
+- [x] **締めの追記（`/rn:gm`、`ntf-doc-14-close.md`）** — `charValue`・`numberValue` の説明セルに制約の理由となる実装の挙動を追記（繰り返し／切り詰め）。「指定できる値」列・`dateValue` は不変。申し送り1件を `reviews/page-class_unit_test.md` に追加。ゲート6件を `checks/task-14.md` に記録。commit `1624182`
 - [ ] **user review**
 
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
@@ -468,6 +469,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-08-12
-- **Last completed**: `#13`（`5ae2900`）。`#14` は decide 確定・4観点レビュー ラウンド1（是正20件、`ca699c5`）・ラウンド2の差分限定検証（pass、是正7件 `5a55ada`）・記録（`104a6c4`）まで完了し、**user review 待ちで中断**
+- **Last completed**: `#13`（`5ae2900`）。`#14` は decide 確定・4観点レビュー2ラウンド（`ca699c5`・`5a55ada`）・記録（`104a6c4`）に加え、`/rn:gm` による締めの追記（`1624182`、作業指示 `ntf-doc-14-close.md`）まで完了し、**user review 待ちで中断**
 - **Next**: `#14` の user review の判定（`/rn:ty` 承認 または `/rn:gm` 修正）を受ける。承認なら `#14` エントリを圧縮して締め、`design.md` の該当節も圧縮したうえで `#15`（次ページ）へ
-- **Notes**: ブランチ `work`（`origin/work` に push 済み、作業ツリー clean、未追跡パス無し）。**実装の clone は session 固有のため再開時に再 clone が必要**（`nablarch/nablarch-testing` の `e21bf67`。確認済みの `file:line` は `reviews/page-class_unit_test.md` に記載済みで再調査は不要）。既知警告は `db_double_submit.rst` の `undefined label` 1件のみ。申し送りは `reviews/page-class_unit_test.md`（5件。特に「`#10a` の用語一括置換は referent を実装で確かめてから適用する」）・`page-common.md`（4件）・`page-testdata_notation.md`（28〜32）・`page-testdata_examples.md`（19〜23）
+- **Notes**: ブランチ `work`（`origin/work` に push 済み、作業ツリー clean、未追跡パス無し）。締めの追記のゲート6件は `checks/task-14.md` 末尾に記録済みで、**ゲート1「削除行0行」のみ字義未達**（末尾追記のため行diffは `-2/+2`。削除された記述は0件）。**実装の clone は session 固有のため再開時に再 clone が必要**（`nablarch/nablarch-testing` の `e21bf67`。確認済みの `file:line` は `reviews/page-class_unit_test.md`・`checks/task-14.md` に記載済みで再調査は不要）。既知警告は `db_double_submit.rst` の `undefined label` 1件のみ。申し送りは `reviews/page-class_unit_test.md`（6件。特に「`#10a` の用語一括置換は referent を実装で確かめてから適用する」「出典の制約は実装が検査しているかで採否を決めず、挙動を確かめて理由を書き添える」）・`page-common.md`（4件）・`page-testdata_notation.md`（28〜32）・`page-testdata_examples.md`（19〜23）
