@@ -446,4 +446,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
+- **Date**: 2026-08-12
+- **Last completed**: `#12`（`f028322`）。`#13` は成果物・ゲート記録とも完了し（`dacd7af` / `3175b2d`）、**user review の承認待ちで中断**
+- **Next**: `#13` の user review 判定を受ける（`/rn:ty` 承認 → `steering.md` の `#13` を締めてエントリを圧縮し `complete task #13` でコミット／`/rn:gm` 修正 → 指摘に対応して再提示）。承認後は次ページ `setup/class_unit_test.rst`（`class_unit_test_setting`、マッピング3行 / 193 lines）に**個別の作業指示なし・共通 Steps のみ**で着手する
+- **Notes**: ブランチ `work`（`origin/work` に push 済み）。作業ツリーは clean、user-deferred な未追跡パスは無し。`#13` で STEP 1 の3項目目（ページ先頭ラベル）が `#12` の締めで既に共通 Steps に入っていたため重複行を作らず、追加は STEP 1 の3件・STEP 2 の2件・STEP 3 の1段落（計7行 / 削除0行）とした。理由は `checks/task-13.md` 冒頭。**次ページの事前調査（`EntityTestConfiguration` の8プロパティ・`BasicDefaultValues` の3プロパティ・`validationTestStrategy` の扱い判断）は `ntf-doc-13-standing-rules.md` の付録にあり、再調査は不要。** 未解消の既知警告は `db_double_submit.rst` の `undefined label` 1件のみ。申し送りは `reviews/page-common.md`（4件）・`page-testdata_notation.md`（28〜32）・`page-testdata_examples.md`（19〜23）
