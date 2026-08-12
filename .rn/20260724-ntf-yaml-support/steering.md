@@ -405,34 +405,21 @@ Rn version: 0.8.0
 
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。ゲート1〜4 全件 PASS・NG 0件（追加7行 / 削除0行）。STEP 1 の追加は3件 — ページ先頭ラベルの項目は `#12` の締めで既に共通 Steps に入っていたため重複行を作らず、理由を `checks/task-13.md` 冒頭に記録した。4観点のレビューは作業指示の指定により回していない。詳細は `checks/task-13.md` および git 履歴（最終内容コミット `dacd7af`）を参照。**以降のページ作成タスクは、個別の作業指示を出す条件（本節「#9〜」冒頭）に当たらない限り、共通 Steps のみで進める。**
 
-### #14: クラス単体テストの設定（`setup/class_unit_test.rst`）
+### #14: クラス単体テストの設定（`setup/class_unit_test.rst`）— DONE
 
-**Purpose**: マッピングに従って第2部の2ページ目「クラス単体テストの設定」を作成する。対象は `mapping.csv` の `dest_page=クラス単体テストの設定` の3行（193 lines、すべて `dest_section=使用方法`）。`#13` で定着させた共通 Steps のみで進める初のページ（個別の作業指示なし）。事前調査は `ntf-doc-13-standing-rules.md` の付録。
-
-**Steps**: 「#9〜: ページの作成」の共通 Steps に同じ。進捗は次のとおり。
-
-- [x] `mapping.csv` の3行を抽出（`current-0010` / `current-0021` / `current-0191`）
-- [x] ページ先頭ラベルを `style.md` S-08 から引く（`class_unit_test_setting`）
-- [x] 出典を `origin/develop` から読み、ページを作成（L2「使用方法」＋L3 2件。`機能概要`・`拡張例` は出典0行のため見出しを置かない）
-- [x] 実装で事実確認（`nablarch/nablarch-testing` の `main`、`e21bf67`）。**出典2件の食い違いを実装で解消した** — メッセージ ID 6件の意味を `EntityTestConfiguration.getOverLimitMessageId` / `getUnderLimitMessageId`（`:76-113`）の分岐で組み直し、これらが「テストショットで明示指定しなかった場合のデフォルト値」であることを `CharsetTestVariation.java:264-289` で確認
-- [x] 第2部の記載範囲を守る（テストデータの記述例は置かず `testdata_notation-column_omission` へ `:ref:`）
-- [x] `setup/index.rst` の toctree に追記
-- [x] Docker フルビルド — `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規警告0件）
-- [x] commit & push — `8285125`
-- [x] **decide の判定を受けた（`validationTestStrategy` の掲載可否）** — ユーザー判定 2026-08-12「**載せる**」。初版（`8285125`）が推奨側で書かれているため本文の変更は不要
-- [x] 4観点のレビュー（A:網羅性 / B:トンマナ / C:用語 / D:整合性）を別サブエージェントで実施 — ラウンド1は4観点とも fail（`must` 4 / `should` 8 / `note` 12）
-- [x] 指摘への対応（最大3ラウンド。ラウンド2以降は是正差分に限定した観点のみ）— ラウンド1で是正20件（`ca699c5`）・却下6件・保留1件。ラウンド2は是正差分限定の検証で **pass**（`must` 0）、残る7件を是正（`5a55ada`）
-- [x] `reviews/page-class_unit_test.md` を作成（実装で確認した `file:line` と参照コミット `e21bf67` を含む）
-- [x] `checks/task-14.md`（3行**全件**の反映対応表を先頭に置く）
-- [x] commit & push — `f6947b2`（`sphinx.mo` の是正）→ `ca699c5`（ラウンド1）→ `5a55ada`（ラウンド2）
-- [x] **締めの追記（`/rn:gm`、`ntf-doc-14-close.md`）** — `charValue`・`numberValue` の説明セルに制約の理由となる実装の挙動を追記（繰り返し／切り詰め）。「指定できる値」列・`dateValue` は不変。申し送り1件を `reviews/page-class_unit_test.md` に追加。ゲート6件を `checks/task-14.md` に記録。commit `1624182`
-- [ ] **user review**
+**Purpose**: マッピングに従って第2部の2ページ目「クラス単体テストの設定」を作成する。対象は `mapping.csv` の `dest_page=クラス単体テストの設定` の3行（193 lines）。`#13` で定着させた共通 Steps のみで進めた初のページ（個別の作業指示なし）。
 
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
 
-**decide（`validationTestStrategy` の掲載可否）— 判定済み: 「載せる」**（ユーザー判定、2026-08-12）。あわせて**事前調査の付録の事実誤り2件は指示側の誤りとして取り消された**（下記のとおり、`current-0010` に `validationTestStrategy` が実在すること、`minMessageId` が Nablarch Validation では到達不能で `current-0021` の記載が正しいことを、ユーザー側でも出典と実装で確認済み）。以下は判定根拠の記録。 事前調査の付録（`ntf-doc-13-standing-rules.md:79`）は「どちらの出典にも無い」とするが**これは誤り**で、`current-0010`（Bean Validation 版、範囲704–770）は設定項目一覧の表（`:731`）・XML記述例（`:767`）・脚注（`:744`）の3箇所に持つ。無いのは `current-0021` だけである。したがって落とすと「マッピングにある内容を落とさない」に抵触する。加えて `CharsetTestVariation.java:126-129` により、この設定が `NablarchValidationTestStrategy` のときテストショットでの最大文字列長の省略が実行時エラーになるため、`minMessageId` が Nablarch Validation の出典に無い理由がこの設定なしでは説明できない。初版（`8285125`）は推奨側で書いてあり、「載せない」なら表1行・XMLプロパティ1件・`important` 後半の削除で済む。
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。4観点レビュー ラウンド1（4観点とも fail・`must` 4 / `should` 8 / `note` 12）→ 是正20件（`ca699c5`）→ ラウンド2は是正差分限定の検証で pass（`must` 0）・残る7件を是正（`5a55ada`）→ `/rn:gm` による締めの追記（`1624182`、作業指示 `ntf-doc-14-close.md`）。ゲート全件 PASS・Docker フルビルド `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規警告0件）。**decide 1件と付録の事実誤り2件が判定で解決した** — `validationTestStrategy` は「載せる」（`current-0010` に実在するため落とすと「マッピングにある内容を落とさない」に抵触）、`minMessageId` が `current-0021` に無いのは欠落ではなく正しい（`CharsetTestVariation.java:126-129` により Nablarch Validation では到達不能）。いずれも事前調査の付録（`ntf-doc-13-standing-rules.md:79`）の記述が指示側の誤りとして取り消された。詳細は `checks/task-14.md`・`reviews/page-class_unit_test.md`（実装で確認した `file:line` と参照コミット `e21bf67`）および git 履歴（最終内容コミット `1624182`）を参照。`#15` 以降への申し送り6件は `reviews/page-class_unit_test.md`（特に「`#10a` の用語一括置換は referent を実装で確かめてから適用する」「出典の制約は実装が検査しているかで採否を決めず、挙動を確かめて理由を書き添える」）。
 
-**付録の事実誤り2件**（`checks/task-14.md` に記録すること）: (1) `validationTestStrategy` は `current-0010` に**ある**（付録は「どちらにも無し」としている）。(2) `minMessageId` について付録は「出典どうしが食い違っており実装が正」とするが、実装上 Nablarch Validation では `minMessageId` に**到達しない**（`CharsetTestVariation.java:126-129`）ため、`current-0021` に無いのは欠落ではなく正しい。
+### #15: リクエスト単体テストの設定（ウェブアプリケーション）（`setup/request_unit_test/web.rst`）
+
+**Purpose**: マッピングに従って第2部の3ページ目「リクエスト単体テストの設定（ウェブアプリケーション）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（ウェブアプリケーション）` の6行（250 lines）。個別の作業指示を出す条件（出典500行超／`design.md`と`mapping.csv`の食い違い／出典0行）に当たらないため、共通 Steps のみで進める。
+
+**Steps**: 「#9〜: ページの作成」の共通 Steps に同じ。
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
 
 ### #last: Evaluation sign-off
 
@@ -467,8 +454,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
+- **Status**: not suspended
 - **Date**: 2026-08-12
-- **Last completed**: `#13`（`5ae2900`）。`#14` は decide 確定・4観点レビュー2ラウンド（`ca699c5`・`5a55ada`）・記録（`104a6c4`）に加え、`/rn:gm` による締めの追記（`1624182`、作業指示 `ntf-doc-14-close.md`）まで完了し、**user review 待ちで中断**
-- **Next**: `#14` の user review の判定（`/rn:ty` 承認 または `/rn:gm` 修正）を受ける。承認なら `#14` エントリを圧縮して締め、`design.md` の該当節も圧縮したうえで `#15`（次ページ）へ
-- **Notes**: ブランチ `work`（`origin/work` に push 済み、作業ツリー clean、未追跡パス無し）。締めの追記のゲート6件は `checks/task-14.md` 末尾に記録済みで、**ゲート1「削除行0行」のみ字義未達**（末尾追記のため行diffは `-2/+2`。削除された記述は0件）。**実装の clone は session 固有のため再開時に再 clone が必要**（`nablarch/nablarch-testing` の `e21bf67`。確認済みの `file:line` は `reviews/page-class_unit_test.md`・`checks/task-14.md` に記載済みで再調査は不要）。既知警告は `db_double_submit.rst` の `undefined label` 1件のみ。申し送りは `reviews/page-class_unit_test.md`（6件。特に「`#10a` の用語一括置換は referent を実装で確かめてから適用する」「出典の制約は実装が検査しているかで採否を決めず、挙動を確かめて理由を書き添える」）・`page-common.md`（4件）・`page-testdata_notation.md`（28〜32）・`page-testdata_examples.md`（19〜23）
+- **Last completed**: `#14`（user review 承認、`/rn:ty`。最終内容コミット `1624182`）
+- **Next**: `#15`（リクエスト単体テストの設定（ウェブアプリケーション）、`setup/request_unit_test/web.rst`）を共通 Steps で進める
+- **Notes**: ブランチ `work`（`origin/work` に push 済み、作業ツリー clean）。**実装の clone は session 固有のため再開時に再 clone が必要**（`nablarch/nablarch-testing`。`#14` で確認済みの `file:line` は `reviews/page-class_unit_test.md`・`checks/task-14.md` に記載済みで再調査は不要）。既知警告は `db_double_submit.rst` の `undefined label` 1件のみ。申し送りは `reviews/page-class_unit_test.md`（6件。特に「`#10a` の用語一括置換は referent を実装で確かめてから適用する」「出典の制約は実装が検査しているかで採否を決めず、挙動を確かめて理由を書き添える」）・`page-common.md`（4件）・`page-testdata_notation.md`（28〜32）・`page-testdata_examples.md`（19〜23）

@@ -121,3 +121,9 @@ python3 -c "import csv;[print(r['mapping_id'],r['src_file'],r['src_body_start'],
 - 追記2件・申し送り1件のみ。禁止事項（「指定できる値」列・`dateValue` 行・表の列構成・見出し・他セクション・`mapping.csv` 他の設定文書・承認済みの他ページ）はいずれも変更していない
 - 既存のレビュー記録・チェック記録は書き換えず、追記のみとした
 - Ready to check off: **user review 承認待ち**（承認まで `#15` に着手しない）
+
+---
+
+## user review — 承認済み（`/rn:ty`、2026-08-12）
+
+締めの追記（`1624182`）を含めて `#14` は承認された。`steering.md` の `#14` エントリを圧縮して締め、`#15`（リクエスト単体テストの設定（ウェブアプリケーション）、`setup/request_unit_test/web.rst`）に着手する。`design.md` にはページ個別の記録が無いため（`grep` で `#14` 固有の節なし）、圧縮対象は `steering.md` のみ。
