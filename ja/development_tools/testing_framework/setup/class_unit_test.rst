@@ -1,0 +1,139 @@
+.. _class_unit_test_setting:
+
+クラス単体テストの設定
+==================================================
+
+.. contents:: 目次
+  :depth: 3
+  :local:
+
+使用方法
+--------------------------------------------------
+ここでは、エンティティ単体テストで使用する設定値と、データベースを使用するテストでカラムの記述を省略したときのデフォルト値について説明する。いずれもテスト用のコンポーネント設定ファイルに記述する。
+
+エンティティ単体テストの設定値を登録する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+文字種と文字列長の単項目バリデーションのテストでは、テスティングフレームワークが文字列長を満たさない値や未入力の値を自動的に生成してバリデーションを実行し、発生したメッセージのIDを期待値と比較する。この比較に使うメッセージIDと、入力値を生成するクラスは、\ ``nablarch.test.core.entity.EntityTestConfiguration``\ で設定する。テスト用のコンポーネント設定ファイルに、\ ``entityTestConfiguration``\ という名前で登録する。
+
+.. list-table::
+  :header-rows: 1
+  :widths: 30,70
+
+  * - 設定項目名
+    - 説明
+  * - ``maxMessageId``
+    - 最大文字列長だけを指定した項目で、文字列長が超過した場合に期待するメッセージID
+  * - ``maxAndMinMessageId``
+    - 最大文字列長と最小文字列長の両方を指定した項目で、文字列長が超過した場合に期待するメッセージID
+  * - ``minMessageId``
+    - 最小文字列長だけを指定した項目で、文字列長が不足した場合に期待するメッセージID
+  * - ``underLimitMessageId``
+    - 最大文字列長と最小文字列長の両方を指定した項目で、文字列長が不足した場合に期待するメッセージID
+  * - ``fixLengthMessageId``
+    - 最大文字列長と最小文字列長に同じ値を指定した項目（固定長）で、文字列長が一致しない場合に期待するメッセージID。超過・不足のいずれの場合も使われる
+  * - ``emptyInputMessageId``
+    - 未入力の場合に期待するメッセージID
+  * - ``characterGenerator``
+    - テスト用の入力値を生成するクラス。\ :java:extdoc:`CharacterGenerator <nablarch.test.core.util.generator.CharacterGenerator>`\ の実装クラスを指定する。通常は\ ``nablarch.test.core.util.generator.BasicJapaneseCharacterGenerator``\ を指定すればよい
+  * - ``validationTestStrategy``
+    - バリデーションの方式。Bean Validationを使用する場合は\ ``nablarch.test.core.entity.BeanValidationTestStrategy``\ を指定する。指定を省略した場合は、Nablarch Validation用の\ ``nablarch.test.core.entity.NablarchValidationTestStrategy``\ が使われる
+
+メッセージIDは、いずれもデフォルト値として使われる。テストショットで期待するメッセージIDを明示的に指定した場合は、そちらが優先される。文字列長に関する4つのメッセージIDのうちどれが使われるかは、テスト対象の項目に指定された最大文字列長・最小文字列長の組み合わせで決まる。
+
+.. important::
+
+  Nablarch Validationを使用する場合、テストショットには最大文字列長を必ず指定する。省略すると実行時エラーになるため、\ ``minMessageId``\ が使われることはない。Bean Validationを使用する場合は最大文字列長を省略でき、省略したテストショットを作成するときは\ ``minMessageId``\ の指定が必須である。指定していないと実行時エラーになる。
+
+Bean Validationを使用する場合の記述例を示す。メッセージIDには、Bean Validationのアノテーションが持つメッセージのキーを指定する。
+
+.. code-block:: xml
+
+  <!-- エンティティテスト設定 -->
+  <component name="entityTestConfiguration" class="nablarch.test.core.entity.EntityTestConfiguration">
+    <property name="maxMessageId"        value="{nablarch.core.validation.ee.Length.max.message}"/>
+    <property name="maxAndMinMessageId"  value="{nablarch.core.validation.ee.Length.min.max.message}"/>
+    <property name="minMessageId"        value="{nablarch.core.validation.ee.Length.min.message}"/>
+    <property name="underLimitMessageId" value="{nablarch.core.validation.ee.Length.min.max.message}"/>
+    <property name="fixLengthMessageId"  value="{nablarch.core.validation.ee.Length.fixed.message}"/>
+    <property name="emptyInputMessageId" value="{nablarch.core.validation.ee.Required.message}"/>
+    <property name="characterGenerator">
+      <component name="characterGenerator"
+                 class="nablarch.test.core.util.generator.BasicJapaneseCharacterGenerator"/>
+    </property>
+    <property name="validationTestStrategy">
+      <component class="nablarch.test.core.entity.BeanValidationTestStrategy"/>
+    </property>
+  </component>
+
+Nablarch Validationを使用する場合の記述例を示す。
+
+.. code-block:: xml
+
+  <!-- エンティティテスト設定 -->
+  <component name="entityTestConfiguration" class="nablarch.test.core.entity.EntityTestConfiguration">
+    <property name="maxMessageId"        value="MSG00011"/>
+    <property name="maxAndMinMessageId"  value="MSG00011"/>
+    <property name="underLimitMessageId" value="MSG00011"/>
+    <property name="fixLengthMessageId"  value="MSG00023"/>
+    <property name="emptyInputMessageId" value="MSG00010"/>
+    <property name="characterGenerator">
+      <component name="characterGenerator"
+                 class="nablarch.test.core.util.generator.BasicJapaneseCharacterGenerator"/>
+    </property>
+  </component>
+
+Nablarch Validationを使用する場合、ここで指定するメッセージIDは、バリデータ側のコンポーネント設定と一致させる。上の記述例に対応するバリデータ側の設定を示す。
+
+.. code-block:: xml
+
+  <property name="validators">
+    <list>
+      <component class="nablarch.core.validation.validator.RequiredValidator">
+        <property name="messageId" value="MSG00010"/>
+      </component>
+      <component class="nablarch.core.validation.validator.LengthValidator">
+        <property name="maxMessageId" value="MSG00011"/>
+        <property name="maxAndMinMessageId" value="MSG00011"/>
+        <property name="fixLengthMessageId" value="MSG00023"/>
+      </component>
+      <!-- 中略 -->
+    </list>
+  </property>
+
+省略したカラムのデフォルト値を変更する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+テーブルデータでカラムの記述を省略した場合、そのカラムにはカラム型に応じたデフォルト値が設定されているものとして扱われる（\ :ref:`カラムを省略する <testdata_notation-column_omission>`\ を参照）。このデフォルト値は\ :java:extdoc:`BasicDefaultValues <nablarch.test.core.db.BasicDefaultValues>`\ で変更できる。テストデータを解析するコンポーネントの\ ``defaultValues``\ プロパティに指定する。
+
+.. list-table::
+  :header-rows: 1
+  :widths: 25,35,40
+
+  * - 設定項目名
+    - 説明
+    - 設定値
+  * - ``charValue``
+    - 文字列型のデフォルト値
+    - 1文字のASCII文字
+  * - ``numberValue``
+    - 数値型のデフォルト値
+    - 0または正の整数
+  * - ``dateValue``
+    - 日付型のデフォルト値
+    - JDBCタイムスタンプエスケープ形式（\ ``yyyy-mm-dd hh:mm:ss.fffffffff``\ ）
+
+記述例を示す。
+
+.. code-block:: xml
+
+  <!-- TestDataParser -->
+  <component name="testDataParser" class="nablarch.test.core.reader.BasicTestDataParser">
+    <!-- データベースのデフォルト値 -->
+    <property name="defaultValues">
+      <component class="nablarch.test.core.db.BasicDefaultValues">
+        <property name="charValue" value="a"/>
+        <property name="numberValue" value="1"/>
+        <property name="dateValue" value="2000-01-01 12:34:56.123456789"/>
+      </component>
+    </property>
+    <!-- 中略 -->
+  </component>

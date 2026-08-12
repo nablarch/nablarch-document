@@ -7,5 +7,6 @@
    :maxdepth: 1
 
    common
+   class_unit_test
    junit5_extension
    master_data_restore
