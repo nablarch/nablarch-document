@@ -493,8 +493,12 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-12
+- **Last completed**: #16 ページのリード文の確定と `design.md` の3点追記（`/rn:ty` 承認済み）
+- **Next**: #17 リクエスト単体テストの設定（RESTfulウェブサービス）— 成果物は完成・push 済み（`4f78d11`・`c56c31b`）。**user review の判定待ち**
+- **Notes**:
+  - ブランチ `work`（`c7e712b`）。再開時の最初の動作は `#17` の user review の判定を求めること。**`decide` 2件が未回答で、2 は `#18` 着手前に決める必要がある**（詳細は `#17` エントリと `checks/task-17.md` §6・§7）
+    - `decide` 1: `httpServerFactory` の登録を本文に書いた（出典・`mapping.csv` に0件だが、無いと `SimpleRestTestSupport.java:298-301` で例外）。「マッピングにない内容を追加しない」の例外として認めるか
+    - `decide` 2: 設定項目表の「デフォルト値」の基準。**承認済みの `web.rst` の7項目**がクラスのフィールド初期値で、デフォルト設定（`nablarch-testing-default-configuration`）を読み込んだ実効値と食い違う（全件は `checks/task-17.md` §7-2）。実効値に統一するなら `web.rst` の追補を別タスクで起こす必要があり、残り4ページの基準にも直結する
+  - user-deferred paths: なし
