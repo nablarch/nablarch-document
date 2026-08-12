@@ -424,8 +424,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-08
-- **Last completed**: `#10b`（`f4e4de8` で完全に閉じた）。`#11` は STEP 1〜6・ゲート1〜11・4観点レビュー・是正ラウンド1 まで完了し、**user review のみ未了**（`c864f92`）
-- **Next**: `#11` の user review の判定をユーザーから受ける（`/rn:ty` 承認 → `complete task #11` のマーカーを付けて閉じ、第2部の次ページへ／`/rn:gm` 修正 → 差し戻し対応）
-- **Notes**: ブランチ `work`（`origin/work` に push 済み、`c864f92`）。**再開時にまず提示すべき論点は、作業指示から外れて是正した2件である** — (1) `nablarch.test.resource-root` の設定先を `コンポーネント設定ファイル` → `環境設定ファイル` に改めた、(2) `OracleSequenceIdGenerator` の完全修飾名を `nablarch.common.idgenerator.*` → `com.example.common.idgenerator.*` に改めた（javadoc 404・`setting_guide/CustomizingConfigurations/index.rst:141` の前例により、`design.md` §8 を適用）。(2) は作業指示の「設定例のXMLは出典の内容を引き継ぐ」から明確に外れるため、承認可否の判断対象。詳細は `reviews/page-common.md` ラウンド1（R1-1・R1-2）と `checks/task-11.md`。`#12` 以降への申し送り4件も `reviews/page-common.md` に記録済み（`FastTableIdGenerator` の初期化設定欠落／既定値 `test/java` と `testdata_notation.rst` の配置説明の不一致／L3 セクションラベル未設置／作業指示 STEP 3-1 の行番号誤り）。作業ツリーは clean、user-deferred な未追跡パスは無し
+- **Status**: not suspended
+- **Date**: -
+- **Last completed**: -
+- **Next**: -
+- **Notes**: -
