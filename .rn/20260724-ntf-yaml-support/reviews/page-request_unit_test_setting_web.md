@@ -34,7 +34,7 @@
 | I-6 | `checkHtml` が `true` で `htmlChecker`・`htmlCheckerConfig` のどちらも未設定だと例外が発生する | `HttpRequestTestSupport.java:305-311`（`getHtmlChecker()` が `null` なら `RuntimeException`）。呼び出し条件は `:285-289`（`isCheckHtml()` かつ ステータス < 500 かつ Content-Type がHTML） |
 | I-7 | `htmlCheckerConfig` を設定すると `Html4HtmlChecker` が `htmlChecker` に設定される | `HttpTestConfiguration.java:358-361`（`setHtmlCheckerConfig` が `new Html4HtmlChecker(htmlCheckerConfig)` を代入） |
 | I-8 | `-Dnablarch.test.skip-resource-copy=true` でHTMLリソースのコピーを抑止する。ディレクトリが無い場合は指定の有無にかかわらずコピーされる | `HttpRequestTestSupport.java:96`（プロパティ名）・`:224-226`（`Boolean.getBoolean`）・`:197-207`（ディレクトリが存在するときだけ `return` し、存在しないときはコピーを続行） |
-| I-9 | `htmlResourcesCharset` はCSSファイルの読み書きに使う | `HttpRequestTestSupport.java:522`・`:525`（`rewriteResourceFile` 内の `InputStreamReader` / `OutputStreamWriter`）。同メソッドのjavadoc `:483` が「HTMLリソースディレクトリ内のCSSファイルを置換する」 |
+| I-9 | `htmlResourcesCharset` はパスの書き換え対象となるHTMLリソース（`css`・`js`・`template`）の読み書きに使う | `HttpRequestTestSupport.java:665`（`.css` / `.js` / `.template` を `replaceFiles` に収集）、`:521-525`（`rewriteResourceFile` 内の `InputStreamReader` / `OutputStreamWriter` に渡す）。**当初はCSS限定と書いていたが、ラウンド1の R1-1 で是正した** |
 | I-10 | `AbstractHttpRequestTestTemplate` は `TestCaseInfo` を型引数に取る | `AbstractHttpRequestTestTemplate.java:61-62`（`@Published public abstract class AbstractHttpRequestTestTemplate<INF extends TestCaseInfo> extends HttpRequestTestSupport`） |
 | I-11 | `TestCaseInfo` が保持するのはテストショット1件分の情報 | `TestCaseInfo.java:33-39`（`no` / `case` / `description` の各カラム名）。いずれも `testShots` のカラムである |
 
@@ -45,9 +45,9 @@
 | # | 出典 | 実装 | 本文の記述 |
 |---|---|---|---|
 | C-1 | `jsTestResourceDir` は「javascriptの自動テスト実行時に使用するリソースの**コピー先**ディレクトリ名」（`:337`） | `FileUtils.copyDir(new File(config.getJsTestResourceDir()), destDir, filter, true)`（`HttpRequestTestSupport.java:436`）であり、**コピー元**である。コピー先は `destDir`（ダンプディレクトリ配下） | 「JavaScriptの自動テストで使用するリソースを配置したディレクトリ」 |
-| C-2 | `htmlChecker` のデフォルト値は「`Html4HtmlChecker` クラスのインスタンス。クラスには `htmlCheckerConfig` で設定した設定ファイルが適用される」（`:345-348`） | フィールドの初期値は `null`（`HttpTestConfiguration.java:150`）。`Html4HtmlChecker` が入るのは `htmlCheckerConfig` を設定したときだけ（`:358-361`） | デフォルト値は「（なし）」とし、`htmlCheckerConfig` 側の説明に「この項目を設定すると `Html4HtmlChecker` が `htmlChecker` に設定される」と書いた |
-| C-3 | `htmlCheckerConfig` のデフォルト値は `test/resources/httprequesttest/html-check-config.csv`（`:351`） | フィールドの初期値は `null`（`HttpTestConfiguration.java:96`）。この値を既定として与えるコンポーネント定義は `nablarch-testing` の `src/main/` に存在しない（`src/main/resources` 自体が無い） | デフォルト値は「（なし）」とした。当該パスは記述例（`:465-466`）に残っており、記述例としては保持されている |
-| C-4 | `htmlResourcesExtensionList` のデフォルト値は `css、jpg、js`（`:335`） | `Arrays.asList("css", "js", "jpg")`（`HttpTestConfiguration.java:139`） | 実装の並び順に合わせて `css`・`js`・`jpg` とした（内容は同じ） |
+| C-2 | `htmlChecker` のデフォルト値は「`Html4HtmlChecker` クラスのインスタンス。クラスには `htmlCheckerConfig` で設定した設定ファイルが適用される」（`:345-348`） | フィールドの初期値は `null`（`HttpTestConfiguration.java:150`）。`Html4HtmlChecker` が入るのは `htmlCheckerConfig` を設定したときだけ（`:358-361`） | デフォルト値は「該当なし」とし、`htmlCheckerConfig` 側の説明に「この項目を設定すると `Html4HtmlChecker` が `htmlChecker` に設定される」と書いた |
+| C-3 | `htmlCheckerConfig` のデフォルト値は `test/resources/httprequesttest/html-check-config.csv`（`:351`） | フィールドの初期値は `null`（`HttpTestConfiguration.java:96`）。この値を既定として与えるコンポーネント定義は `nablarch-testing` の `src/main/` に存在しない（`src/main/resources` 自体が無い） | デフォルト値は「該当なし」とした。当該パスは記述例（`:465-466`）に残っており、記述例としては保持されている |
+| C-4 | `htmlResourcesExtensionList` のデフォルト値は `css、jpg、js`（`:335`） | `Arrays.asList("css", "js", "jpg")`（`HttpTestConfiguration.java:139`） | 実装の並び順に合わせて `css`・`js`・`jpg` とした（内容は同じ）。ラウンド1の R1-5 で、XML記述例の並びも同じ順に揃えた |
 
 C-2・C-3 の結果として「`checkHtml` は既定で `true` なのに、HTMLチェッカーは既定で存在しない」という状態が本文の表から読み取れるようになる。
 この組み合わせが実行時に何を起こすかは `.. important::` として明記した（I-6）。`#14` の申し送り5（例外を投げる行だけでなく呼び出し元の条件まで辿る）と申し送り6（制約には実装の挙動を理由として書き添える）の適用である。
@@ -77,7 +77,7 @@ C-2・C-3 の結果として「`checkHtml` は既定で `true` なのに、HTML�
 ### D-4 `tip` からCPUの製品名を落とした
 
 出典 `:478-480` の `tip` は「Pentium4、Pentium Dual-Core等の処理性能が低いCPUを搭載したPCに効果がある。逆に、これら以降のCPUを搭載したマシンでは、それほど効果的ではない」である。
-本文では製品名2件を落とし、「処理性能が低いCPUを搭載したPCで効果がある。比較的新しいCPUを搭載したPCでは効果が小さいため、無理に設定する必要はない」とした。
+本文では製品名2件を落とし、「処理性能が低いCPUを搭載したPCで効果がある。比較的新しいCPUを搭載したPCでは効果が小さいため、無理に設定する必要はない」とした。ラウンド1の R1-8 で前半が導入文の言い換えになっていると指摘されたため、最終的に「JVMオプションの指定は、比較的新しいCPUを搭載したPCでは効果が小さいため、無理に設定する必要はない」の1文にした。
 `tip` が伝えている事実（効果はCPUの世代に依存する／新しいCPUでは無理に設定しなくてよい）は保持しているが、**製品名という具体は落としている**。`decide` として user review に上げる。
 
 ### D-5 `-Xverify:none` の非推奨を `important` で書き足した
@@ -116,3 +116,87 @@ C-2・C-3 の結果として「`checkHtml` は既定で `true` なのに、HTML�
 3. **出典がEclipse等のUI操作手順を持つ場合は、添付の画面キャプチャを実際に開いてラベルを確認する**（D-6）。出典の地の文とキャプチャのラベルが食い違っていた実例がある。
 4. **`-Xverify:none` のように、出典が前提としていた実行環境が現在は変わっている記述がある。** JVMオプション・JDKバージョン・OS依存の記述は、書く前に現在の挙動を確認する（D-5）。
 5. **`design.md` §13 のツリーに `guide/` が無い一方、実体は画像・ダウンロード素材を保持したまま残っている。** `#last` で `guide/` を空にできるかどうか（参照が残っていないか）を確認する。
+6. **`design.md` §13 のツリーは「ファイル→サブディレクトリ」というファイルシステムの並びであり、`toctree` の順序の根拠にはならない**（R1-X2）。`toctree` の順序は §3・§4・§5 の各部の構成に従う。**`implementation/index.rst` には `request_unit_test/web` を末尾に追記したが、第3部の順序ではエンティティ単体テスト・コンポーネント単体テストが先に来る。** それらを作るタスクでは末尾に追記せず、`testdata_examples` の直後に挿入すること。
+7. **`httpHeader` のセッターはマップ全体を置換する**（`HttpTestConfiguration.java:376-378`）。記述例のように一部だけ書くと既定の2エントリが失われる。本ページでは出典に無い挙動のため書かなかったが（R1-X6）、同種の `Map` プロパティを扱うページでは注意する。
+8. **`glossary.md` §8 の置換対応表は、左辺を全件走査して残存を確認する。** 観点Cはこの走査で `オーバヘッド`・`基底クラス` のような**表の左辺に載っていない語**（FW解説書の用法・§5.14 の正表記に照らして初めて分かる語）も拾った。置換表の機械適用だけでは足りない。
+9. **`#15` はレビュアー間で判断が2件割れた**（R1-X1 `:java:extdoc:` のリンク可否、R1-X5 `データシート` の置換先）。いずれも実測（javadocのHTTPステータス／`glossary.md` §5.9 の方針）で決着させ、本文は現状維持とした。
+
+## レビュー記録
+
+### ラウンド1（2026-08-12）
+
+4観点（A:網羅性 / B:トンマナ / C:用語 / D:整合性）を、それぞれ**別のサブエージェント**で実施した。各観点には成果物・目的・完了条件・チェックリストのみを渡し、`checks/`・`reviews/` 配下の自己申告記録は渡していない。プロンプトには Rules の3点（実測で裏付ける／付属の検証物を正解にせず独立に組む／敵対的に見る）を入れた。
+
+**判定: A pass / B pass / C fail（`must` 3）/ D fail（`must` 1）。`must` は重複を除いて3件。**
+
+| 観点 | 判定 | must | should | note |
+|---|---|---|---|---|
+| A 網羅性 | pass | 0 | 4 | 6 |
+| B トンマナ | pass | 0 | 5 | 7 |
+| C 用語 | fail | 3 | 6 | 5 |
+| D 整合性 | fail | 1 | 3 | 6 |
+
+#### must（3件・すべて是正）
+
+| # | 観点 | 指摘 | 根拠 | 対応 |
+|---|---|---|---|---|
+| R1-M1 | C・D | `dumpVariableItem` の説明が**実装と逆**。ページは「可変項目を出力するかどうか。毎回同じ内容にしたい場合は `false`」としていたが、実装は `true` のときに JSESSIONID と `nablarch_token` を**除去**する | `HttpServer.java:427-430`（`if (dumpVariableItem) { JSESSIONID_PATTERN.replaceAll(""); NABLARCH_TOKEN_PATTERN.replaceAll(""); }`）。設定値の受け渡しは `HttpRequestTestSupport.java:275` の1経路のみ。コーディネータが実コードで再確認済み | 「HTMLダンプから可変項目を除去するかどうか。…毎回同じ内容にしたい場合は `true` を指定する」に是正し、プロパティ名と挙動が逆である旨を `tip` に出した。**出典（`:379-392`）もフィールドのjavadoc（`HttpTestConfiguration.java:64`）も同じ誤りを持っており、出典を引き写すと必ずこの誤りに落ちる型である** |
+| R1-M2 | C | `オーバヘッド` は FW解説書の用法（`オーバーヘッド`）に反する | `grep -rc "オーバヘッド" ja/` は本ページ1件のみ。`オーバーヘッド` は `azure_distributed_tracing.rst:27`・`micrometer_adaptor.rst:679` に実在。`glossary.md` §5.14 も語中の長音を保つ方針（`オーバーライド` を正表記に採用） | `オーバーヘッド` に是正 |
+| R1-M3 | C | `基底クラス` は同概念の正表記 `スーパクラス`（`glossary.md:318`）を使っていない | `grep -rc "基底クラス" ja/` は本ページと `biz_samples/01/index.rst` の2件のみで FW解説書に0件。出典自身（`:85`）が同じ対象に「スーパクラス」を使っている | `スーパクラス` に是正。あわせて `前者`/`後者` をクラス名に戻した（B-N3） |
+
+#### should / note のうち是正したもの
+
+| # | 観点 | 指摘 | 対応 |
+|---|---|---|---|
+| R1-1 | C・D | `htmlResourcesCharset` の説明「CSSファイル（スタイルシート）の文字コード」が実装より狭い。実装は `.css`・`.js`・`.template` の読み書きに使う（`HttpRequestTestSupport.java:665`・`:521-525`） | 「パスの書き換え対象となるHTMLリソース（`css`・`js`・`template`）の文字コード」に是正。出典（`:341`）の誤りの是正でもある |
+| R1-2 | C | `セッションのキー`／`セッションに格納する値` は FW解説書の `セッションスコープ`（FW21件）に揃えるべき。実装も `ctx.setSessionScopedVar`（`HttpRequestTestSupport.java:1133`）・`context.getSessionScopeMap()`（`HttpRequestTestSupportHandler.java:95`） | 両セルを `セッションスコープ` に是正 |
+| R1-3 | C | `Jetty` を直接名指ししており、`glossary.md` §5.12 の正表記 `内蔵サーバ` を一度も導入していない。実装上も `HttpServer` は `HttpServerFactory` 経由の差し替え式（`HttpServer.java:52`） | `内蔵サーバ（Jetty）` に是正（正表記を主・製品名を従） |
+| R1-4 | B | `（なし）` は `ja/` 全体で本ページにしか無い表記。同じ列で `（なし。Jettyの…）` と括弧の用法が割れている | `該当なし` に統一（`testdata_notation.rst:1413` の `該当なし（…）` と同形）。補足が要る1行だけ `該当なし（内蔵サーバ（Jetty）のデフォルト動作に従う）` |
+| R1-5 | B・D | `htmlResourcesExtensionList` の並びが表（`css`・`js`・`jpg`）と記述例（`css`/`jpg`/`js`）で不一致 | 記述例の並びを実装のデフォルト値（`HttpTestConfiguration.java:139`）に揃えた。表の側が実装どおりで正しいため、例を動かした |
+| R1-6 | D | 導入文が「設定できる項目は次のとおりである」と網羅を主張しているが、実装には表に無い `htmlResourcesRoot`（`HttpTestConfiguration.java:144`、既定値 `htmlResources`）がある | **項目は追加せず**（「マッピングにない内容を追加しない」）、導入文を「主な設定項目は次のとおりである」に緩めた |
+| R1-7 | C | `tip` の「HTMLリソースのディレクトリ」がページ上で特定できない。実装の判定対象は `new File(htmlDumpDir, htmlResourcesRoot)`（`HttpTestConfiguration.java:420-422`） | 「ダンプディレクトリ配下の `htmlResources` ディレクトリ」と referent を明示。あわせて `htmlDumpDir` の説明で `ダンプディレクトリ` の語を導入した（C S-2） |
+| R1-8 | B | 実行速度の `tip` が直前の導入文の言い換えになっている（CPU製品名を落とした結果、残ったのが重複部分だけになった） | 「比較的新しいCPUを搭載したPCでは効果が小さいため、無理に設定する必要はない」の1文に絞った |
+| R1-9 | A・B | Eclipse操作手順が出典と**3文完全一致**し、かつページ内2箇所でほぼ逐語重複していた | 1箇所目は文の組み立てを変えて書き直し、箇条書きの粒度も揃えた。2箇所目は手順を書かず「JVMオプションと同じ実行構成の「VM 引数」欄である」の1文＋画像に縮めた |
+| R1-10 | B | `:ref:`HTMLダンプ <request_unit_test_web>`` のリンク文言が参照先ページのタイトルと一語も重ならない | リンク文言を参照先タイトル `リクエスト単体テスト（ウェブアプリケーション）` に是正し、同じL4内の2度目はリンクにしない形にした |
+| R1-11 | B・C | 見出しの `記法` と直後の本文の `書き方` が同じ対象で揺れていた | 見出しを `テストデータの書き方を拡張する` に是正（第3部のページ題「テストデータの書き方」と揃う） |
+| R1-12 | D | `checkHtml` の `important` が発火条件のステータスコードに触れていない（実装は `res.getStatusCode() < 500` も条件。`HttpRequestTestSupport.java:285-289`） | 「ステータスコードが500未満のHTMLレスポンスに対する」を補った |
+| R1-13 | D | 記述例の導入文「デフォルト値のままでよい項目も含めて記述しており」が、例に含まれる非デフォルト値（`xmlComponentFile`・`tempDirectory`・`htmlCheckerConfig`）と食い違う | 「デフォルト値と同じ値を明示的に記述している項目もある」に改めた |
+
+#### 対応しなかった指摘
+
+| # | 観点 | 指摘 | 判断 |
+|---|---|---|---|
+| R1-X1 | A | `Html4HtmlChecker` の `:java:extdoc:` は `@Published` が無く、`nablarch.test.tool.*` を extdoc で参照した先例も0件なのでリンクを外すべき | **対応しない。** 観点Dが同じクラスの公開javadocを実測して **HTTP 200** を確認しており（コーディネータ側でも `curl -o /dev/null -w "%{http_code}"` で 200 を再実測）、リンクは解決する。`:java:extdoc:` の解決先は `javadoc/` であり `publishedApi/` ではないため `@Published` の有無は関係しない。**観点AとDで判断が割れた1件** |
+| R1-X2 | D | `setup/index.rst` の `toctree` で `request_unit_test/web` を `junit5_extension` より前に入れたのは `design.md` §13 のツリー・1対1対応表の順序と食い違う | **対応しない。** `design.md` §13 のツリーは**ファイルシステムの並び**（ファイル→サブディレクトリの順）であり、読者の閲覧順を定めたものではない。読者向けの順序は §3 の第2部構成（共通設定 → クラス単体テストの設定 → **リクエスト単体テストの設定** → 取引単体テストの設定 → JUnit 5用拡張機能 → マスタデータ復旧機能）であり、`toctree` はこちらに従う。現在の挿入位置は §3 どおりである |
+| R1-X3 | D | `htmlResourcesRoot` を20項目目として表に追加すべき | **対応しない**（R1-6 で導入文を緩めることで解決）。出典に無い設定項目を足すと「マッピングにない内容を追加しない」に反する |
+| R1-X4 | A | `-Xverify:none` のJDK 13非推奨注記はリポジトリ内に根拠が無く `decide` 相当 | **本文は現状維持**。user review に `decide`（D-5）として上げる |
+| R1-X5 | A | `データシートに定義された` → `テストデータに定義された` は `glossary.md:566` の置換規則（`データシート` → `シート`）と食い違う | **対応しない。** 観点Cが同じ箇所を検証し「形式非依存の総称に置いた選択は §5.9 の方針に整合する」と判定している。`シート` はExcel形式のシートを指す語であり、YAML形式では成り立たない。**観点AとCで判断が割れた1件** |
+| R1-X6 | C・D | `httpHeader` のセッターはマップ全体を置換するため、一部だけ書くと既定の2エントリが失われる旨を補足すべき | **対応しない。** 出典に無い挙動の追記であり、`decide` の件数をこれ以上増やさない。`#16` 以降への申し送りとする |
+| R1-X7 | C | `BasicHttpRequestTestTemplate` に触れずに `AbstractHttpRequestTestTemplate` へ説明を寄せている | **対応しない。** `BasicHttpRequestTestTemplate` の説明（`current-0203`）の割当先は第3部「リクエスト単体テスト（ウェブアプリケーション）」であり、本ページのマッピング対象外である |
+
+ラウンド1の是正はコミット `f4c9fad`（`web.rst` のみ）。Docker フルビルドは `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）。
+
+### ラウンド2（2026-08-12） — 是正差分限定の検証
+
+`#10b` の申し送りに従い、ラウンド1の是正差分（`ae89097..f4c9fad`、`web.rst` のみ）を対象に、**「是正が指示範囲に収まっているか」「是正が新しい欠陥を生んでいないか」の2点のみ**を検証した。ページ全体の再レビューはしていない。
+
+**判定: pass（`must` 0件）。指摘は `should` 3件・`note` 6件で、うち5件を是正した（コミットは下記）。**
+
+| # | 区分 | 指摘 | 対応 |
+|---|---|---|---|
+| R2-1 | should | ラウンド1で追加した `dumpVariableItem` の `tip` が直上の表セルの言い換えで、**ラウンド1で削らせた欠陥（`tip` が直前の文の言い換え）を是正が別の場所で再生産していた**。`tip` の新設自体も指示範囲外 | `tip` を削除し、注意を表セルの1文に畳んだ |
+| R2-2 | should | `tip` が `htmlResources` をリテラルで名指しするが、それを決める `htmlResourcesRoot` はページに無い（R1-6 で表への追加を見送ったため）。読者は変更可能である事実を知れない | 表に項目を足さず（マッピング外の追加を避けるため）、`tip` を「HTMLリソースのコピー先ディレクトリ（デフォルトは `htmlResources`）」に書き換えた |
+| R2-3 | should | R1-1 で `htmlResourcesCharset` に `template` を挙げた結果、直上の `htmlResourcesExtensionList`（`css`・`js`・`jpg`）との不整合がページ上で説明されない状態になった。実装では `.css`・`.js`・`.template` は拡張子リストと無関係に書き換え対象になる（`HttpRequestTestSupport.java` の `HtmlResourceExtensionFilter#accept`）| `htmlResourcesCharset` の説明に「`htmlResourcesExtensionList` の指定によらず書き換えの対象になる」を足した |
+| R2-4 | note | 距離のある後方参照は「上記」より「前述」が本解説書の用法（`testdata_notation.rst:586` 等） | 2箇所目を「前述のオプション」に戻した |
+| R2-5 | note | 1文中で「リクエスト単体テスト」が2回（リンク文言を参照先タイトルに合わせた副作用） | 前半を「テストの実行時に」に改めた |
+| R2-6 | note | `sessionInfo` の実体は `null` ではなく空の `Map`（`HttpTestConfiguration.java:133`） | **対応しない。** 他5項目は `null` 初期化で「該当なし」が正しく、読者にとっての意味（初期状態で格納される値は無い）は同じ。1項目だけ表記を変えると列内が不揃いになる |
+| R2-7 | note | 「該当なし」の外部前例は無い（`testdata_notation.rst:1413` のみ。FW解説書に0件） | 記録のみ。ラウンド1の指示どおりの是正である |
+
+**ラウンド2で新たな事実誤りは検出されなかった。** 是正した各箇所（`dumpVariableItem` の反転・`checkHtml` の `important` の発火条件・`htmlResources` ディレクトリの `tip`・セッションスコープ・拡張子の並び・記述例の導入文・スーパクラスと型引数）は、いずれも実コードまで辿って実装と一致することを再確認した。
+
+**この2ラウンドで得られた最大の知見**: 是正そのものがレビュー済みの規範に違反することがある（R2-1）。是正差分限定の検証を回さなければ、ラウンド1で指摘された欠陥と同型のものが残ったまま閉じていた。
+
+## 追加の申し送り（ラウンド2から）
+
+10. **是正で `tip` / `important` を新設するときは、直上の本文・表セルの言い換えになっていないか確認する。** `#15` の R2-1 は、ラウンド1で「`tip` が直前の導入文の言い換え」と指摘された欠陥を、別の箇所で是正自身が作り直した例である。
+11. **実装の挙動に合わせて1つのセルを直すと、隣のセルとの整合が崩れることがある**（R2-3）。表のセルを是正したら、同じ対象に触れている他のセルを読み直す。
