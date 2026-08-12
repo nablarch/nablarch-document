@@ -26,6 +26,7 @@ Rn version: 0.8.0
 - `#10b` 作業指示（`#10a` 承認後の仕上げ）: `.rn/20260724-ntf-yaml-support/ntf-doc-10a-followup.md`
 - `#11` 作業指示（共通設定）: `.rn/20260724-ntf-yaml-support/ntf-doc-11-common.md`
 - `#12` 作業指示（`:ref:` ラベル命名規則の確定）: `.rn/20260724-ntf-yaml-support/ntf-doc-12-ref-labels.md`
+- `#13` 作業指示（ページ作成の共通手順の定着）: `.rn/20260724-ntf-yaml-support/ntf-doc-13-standing-rules.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
@@ -383,6 +384,28 @@ Rn version: 0.8.0
 
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。ゲート1〜8 全件 PASS。`ja/` の299ファイルから **959ラベル**を機械抽出し37件（34ページ＋表題3件）と突合して **NG 0件**、`design.md` §13 との差集合は双方向で空、Docker フルビルド（`-a`）は `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・`duplicate label` 0件）。**語幹の衝突は実在**であることを実測で確認した（`http_messaging` は `ja/application_framework/application_framework/web_service/http_messaging/index.rst:1` が定義済み。`web`/`rest`/`mom`/`batch`/`db_queue` は `ja/` 全体では未定義だが NTF内部で3〜4ページが共有する）。あわせて**改訂前の `ja/` に既存の重複ラベルが0件**（定義箇所959 = ユニーク959）であることも記録しており、以降 `duplicate label` 警告が出た場合は原因を新規追加分に絞れる。4観点のレビューは作業指示の指定により回していない（ゲート1・2 が全件突合を機械的に担保）。詳細は `checks/task-12.md` および git 履歴（最終内容コミット `18c7856`）を参照。**以降のページ作成タスクは、ページ先頭ラベルを `style.md` S-08 の一覧から引く**（共通 Steps に追加済み）。
 
+### #13: ページ作成の共通手順を `steering.md` に定着させる
+
+**Purpose**: ページを作らないタスク。`#11` で個別の作業指示として渡した内容のうち以降の全ページに効くものを、「#9〜: ページの作成」の共通 Steps・完了条件に一度だけ入れる。以降の小さいページは個別の作業指示を出さず、`steering.md` だけで進める。作業指示は `ntf-doc-13-standing-rules.md`。
+
+**Steps**:
+
+- [ ] STEP 1 — 共通 Steps に4項目を追加する（実装での事実確認／第2部・第3部の記載範囲／ページ先頭ラベル／是正ラウンド2以降の観点限定）
+- [ ] STEP 2 — 完了条件に2項目を追加する（`dest_page` 全件の反映対応表／全件表を求める項目をゲート実行順の先頭に置く）
+- [ ] STEP 3 — 個別の作業指示を出す条件を「#9〜」冒頭に1段落で追記する
+- [ ] ゲート1〜4 をすべて実行結果で確認し、`checks/task-13.md` に記録する
+- [ ] 4観点のレビューは**回さない**（作業指示が明示的に禁止）
+- [ ] commit & push
+- [ ] **user review** — 承認を受けるまで次タスクに進まない
+
+**Completion criteria**:
+
+- 追加が STEP 1 の4件・STEP 2 の2件・STEP 3 の1段落のみで、それ以外の追加が無い
+- `steering.md` の差分が「#9〜: ページの作成」の節の中に収まり、既存の Steps・完了条件・Rules に削除・変更が無い（削除行0行）
+- `ja/` 配下の `.rst`・`mapping/`・`design.md` に差分が無い
+- `verify_mapping.py` が exit 0 で、594行 / 12,986 / 11,983 が不変
+- ゲート1〜4 が実行結果で `checks/task-13.md` に記録されている
+
 ### #last: Evaluation sign-off
 
 **Purpose**: NTF ドキュメント刷新の完了を Acceptance criteria に照らして確認し、ユーザーの承認を得る。
@@ -416,8 +439,4 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-12
-- **Last completed**: `#12`（`f028322` で完全に閉じた）。`#11` も同日承認済み（`25de65b`）
-- **Next**: **次タスクの作業指示をユーザーから受領する**。作業指示を受けたら `.rn/20260724-ntf-yaml-support/ntf-doc-13-*.md` として配置し、`steering.md` の Assumptions と Tasks に `#13` を追加してから着手する。作業指示が来るまで着手しない（`#11` 承認時にユーザーが「次に進む前に作業指示ある」と明示）
-- **Notes**: ブランチ `work`（`origin/work` に push 済み）。作業ツリーは clean、user-deferred な未追跡パスは無し。**残りは30ページ**（第2部10・第3部14・第4部2＋既存スタブ4ページへの追記）で、作成順は「第3部のテストデータ2ページ（完了）→ 第2部 → 第3部の残り → 第4部」（`#9〜` 参照）。**`#12` でページ先頭ラベル34件を確定済みであり、以降のページ作成では `style.md` S-08 の一覧から引く（新たに考案しない）。** 未解消の既知警告は `db_double_submit.rst` の `undefined label: how_to_set_token_in_request_unit_test` 1件のみで、`implementation/request_unit_test/web.rst` の作成タスクで解消する。`#12` 以前の申し送りは `reviews/page-common.md`（4件）・`page-testdata_notation.md`（28〜32）・`page-testdata_examples.md`（19〜23）を参照
+- **Status**: not suspended
