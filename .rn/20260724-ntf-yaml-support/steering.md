@@ -493,8 +493,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: (date)
-- **Last completed**: (task)
-- **Next**: (task)
-- **Notes**: (blockers, decisions, context)
+- **Status**: paused
+- **Date**: 2026-08-13
+- **Last completed**: #17（`setup/request_unit_test/rest.rst`。user review 承認済み、`decide` 2件の回答を記録）
+- **Next**: #18（設定項目表の「デフォルト値」の基準の統一と `design.md` §8 の類型追加）
+- **Notes**: `#18` は作業指示 `.rn/20260724-ntf-yaml-support/ntf-doc-18-default-value-basis.md` が**未受領**のためブロック中。是正対象は `web.rst` 9項目・`common.rst` 1項目（レビュー役の実測）で、`checks/task-17.md` §7-2 に記録済みの7項目との差分2件が手元にない。全件表は指示側にあるため、推測で母集合を作らず受領を待つ。ユーザーには「指示を待たずに `web.rst`・`common.rst` を独立に全走査して差分2件を特定してよいか」を確認済みで、回答待ち。`#19` 以降のページ作成は `#18` 承認後。
