@@ -13,7 +13,7 @@
 
 エンティティ単体テストの設定項目を登録する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-文字種と文字列長の単項目バリデーションのテストでは、テスティングフレームワークが文字種と文字列長を変えた入力値を自動的に生成してバリデーションを実行し、発生したメッセージIDを期待値と比較する。この比較に使うメッセージIDのデフォルト値と、入力値の生成やバリデーションの実行に使うクラスは、\ :java:extdoc:`EntityTestConfiguration <nablarch.test.core.entity.EntityTestConfiguration>`\ で設定する。テスト用のコンポーネント設定ファイルに、\ ``entityTestConfiguration``\ という名前で登録する。
+文字種と文字列長の単項目バリデーションのテストでは、テスティングフレームワークが文字種と文字列長を変えた入力値を自動的に生成してバリデーションを実行し、発生したメッセージIDを期待値と比較する。このうち文字列長が不正な場合と未入力の場合に期待するメッセージIDのデフォルト値と、入力値の生成やバリデーションの実行に使うクラスは、\ :java:extdoc:`EntityTestConfiguration <nablarch.test.core.entity.EntityTestConfiguration>`\ で設定する。テスト用のコンポーネント設定ファイルに、\ ``entityTestConfiguration``\ という名前で登録する。なお、文字種が適合しない場合に期待するメッセージIDにデフォルト値は無く、文字種と文字列長のテストデータの必須カラム\ ``messageIdWhenNotApplicable``\ で行ごとに指定する。
 
 .. list-table::
   :header-rows: 1
@@ -38,13 +38,13 @@
   * - ``validationTestStrategy``
     - 使用するバリデーション機能に対応するクラス。Bean Validationを使用する場合は\ :java:extdoc:`BeanValidationTestStrategy <nablarch.test.core.entity.BeanValidationTestStrategy>`\ を指定する。指定を省略した場合は、Nablarch Validation用の\ :java:extdoc:`NablarchValidationTestStrategy <nablarch.test.core.entity.NablarchValidationTestStrategy>`\ が使われる
 
-メッセージIDは、いずれもデフォルト値として使われる。文字種と文字列長のテストデータで期待するメッセージIDを明示的に指定した場合は、そちらが優先される。文字列長に関する5つのメッセージIDのうちどれが使われるかは、テストデータに指定された最大文字列長・最小文字列長の組み合わせで決まる。
+メッセージIDは、いずれもデフォルト値として使われる。文字種と文字列長のテストデータで期待するメッセージIDを明示的に指定した場合は、そちらが優先される。文字列長に関する5つのメッセージIDのうちどれが使われるかは、テストデータに指定された最大文字列長（\ ``max``\ カラム）・最小文字列長（\ ``min``\ カラム）の組み合わせと、文字列長が超過したか不足したかで決まる。
 
 .. important::
 
-  Nablarch Validationを使用する場合、文字種と文字列長のテストデータには最大文字列長を必ず指定する。省略すると例外が発生するため、\ ``minMessageId``\ が使われることはない。Bean Validationを使用する場合は最大文字列長を省略できる。最大文字列長を省略した行で、最小文字列長に2以上を指定し、かつ文字列長が不正な場合に期待するメッセージIDを明示的に指定していないときは、\ ``minMessageId``\ の指定が必須である。指定していないと例外が発生する。
+  Nablarch Validationを使用する場合、文字種と文字列長のテストデータには最大文字列長を必ず指定する。省略すると例外が発生するため、\ ``minMessageId``\ が使われることはない。Bean Validationを使用する場合は最大文字列長を省略できる。最大文字列長を省略した行で、最小文字列長に2以上を指定し、かつテストデータの\ ``messageIdWhenInvalidLength``\ カラムでメッセージIDを明示的に指定していないときは、\ ``minMessageId``\ の指定が必須である。指定していないと例外が発生する。
 
-Bean Validationを使用する場合の記述例を示す。メッセージIDには、Bean Validationのアノテーションが持つメッセージテンプレート（\ ``{}``\ で囲んだ形式）を指定する。
+Bean Validationを使用する場合の記述例を示す。メッセージIDには、アノテーションで指定されているメッセージIDを\ ``{``\ 、\ ``}``\ で囲んだ形式で指定する。テスティングフレームワークが、この値を\ :java:extdoc:`MessageInterpolator <jakarta.validation.MessageInterpolator>`\ で変換して期待するメッセージを組み立てるためである。
 
 .. code-block:: xml
 
@@ -100,7 +100,9 @@ Nablarch Validationを使用する場合、ここで指定するメッセージI
     </list>
   </property>
 
-テストデータのカラムのデフォルト値を変更する
+.. _class_unit_test_setting-column_default_values:
+
+省略したテーブルのカラムのデフォルト値を変更する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 データベースの準備データや\ ``EXPECTED_COMPLETE_TABLE``\ でカラムの記述を省略した場合、そのカラムにはカラム型に応じたデフォルト値が設定されているものとして扱われる（\ :ref:`カラムを省略する <testdata_notation-column_omission>`\ を参照）。このデフォルト値は\ :java:extdoc:`BasicDefaultValues <nablarch.test.core.db.BasicDefaultValues>`\ で変更できる。テストデータを解析するコンポーネントの\ ``defaultValues``\ プロパティに指定する。
 
