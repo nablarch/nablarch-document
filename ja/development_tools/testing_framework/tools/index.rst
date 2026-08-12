@@ -8,3 +8,4 @@
 
    testdata_converter
    master_data_tool
+   html_check_tool
