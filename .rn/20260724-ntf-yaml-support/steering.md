@@ -521,8 +521,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-08-13
-- **Last completed**: #18（設定項目表の「デフォルト値」の基準の統一と `design.md` §8 の類型追加。`/rn:gm` の `must` 1件を是正して承認済み）
+- **Last completed**: #18（設定項目表の「デフォルト値」の基準の統一と `design.md` §8 の類型追加。user review 承認済み）
 - **Next**: #19 の user review の判定を受ける（`/rn:ty` または `/rn:gm`）。あわせて `decide` 3件に回答が必要。承認後に #20（第2部6ページ目「リクエスト単体テストの設定（Nablarchバッチアプリケーション）」）へ
-- **Notes**: `#19` は作業を完了し commit & push 済み（`98542ac`）。4観点レビュー ラウンド1で4観点とも FAIL（`must` 重複除去後7件）→ 是正10件 → ラウンド2は PASS。Docker フルビルド `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）。差分は4ファイルで予定外0件。**user review 待ちのため Steps の最終項目のみ未チェック。** ビルド副産物 `sphinx.mo` の混入を止めるゲート是正は `85b64e2` で先に単独コミット済み（差分範囲ゲートを `commit & push` の直前へ移動、母集合を `git status --porcelain` に変更、ビルド直後の復元を Rules に追記）。`#19` の着手時 HEAD は `85b64e2`。
+- **Notes**: `#19` は作業を完了し commit & push 済み（`98542ac`・`901771c`）。**user review 待ちのため Steps の最終項目のみ未チェック。** 判定に必要な材料は `decide` 3件（`steering.md` の `#19` エントリ末尾に要約、詳細と推奨は `reviews/page-request_unit_test_setting_http_messaging.md` §4）。`#20` 以降への申し送り6件は同ファイル §5。ゲートの実行結果は `checks/task-19.md`。`#19` の着手時 HEAD は `85b64e2`。
