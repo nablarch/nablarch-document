@@ -310,6 +310,7 @@ Rn version: 0.8.0
       `tools/index.rst`）の `toctree` に追記する
 - [ ] self-check（`checks/task-NN.md`）
 - [ ] commit & push
+- [ ] **差分の範囲を確認する（`#19` 以降の共通ゲート）** — `git diff --stat <着手時の HEAD> HEAD` の**全件**を表にし、そのタスクで変更する予定だったファイル以外が0件であることを確認する。**`ja/` や特定ディレクトリに絞らない**（母集合を先に固定してから判定する。`03-検証スクリプト.md` と同じ趣旨）。2026-08-13、`#18` の `/rn:gm` で、ゲートが `ja/` と `mapping/`・`ja/conf.py` しか見ていなかったため Docker フルビルドが再生成した `locales/ja/LC_MESSAGES/sphinx.mo` の混入を素通りさせた（過去2回と同じ副産物。`f6947b2`・`73e84dc` で同様に差し戻し済み）
 - [ ] **user review** — 承認を受けるまで次ページに進まない
 
 **Completion criteria**:
@@ -450,36 +451,25 @@ Rn version: 0.8.0
 
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-13。公開本文を承認し `decide` 2件に回答）。4観点レビュー ラウンド1（A fail `must` 2 / B fail 1 / C fail 1 / D fail 2、重複除去5件すべて是正）→ ラウンド2は是正差分限定の検証で pass（`must` 0）。コーディネータの独立検証で本ページに新規の事実誤りなし、`decide` 2 の射程の広がりを新規検出。Docker フルビルド `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）。詳細は `checks/task-17.md`・`reviews/page-request_unit_test_setting_rest.md` および git 履歴（最終内容コミット `4f78d11`）を参照。
 
-### #18: 設定項目表の「デフォルト値」の基準の統一と `design.md` §8 の類型追加
+### #18: 設定項目表の「デフォルト値」の基準の統一と `design.md` §8 の類型追加 — DONE
 
-**Purpose**: `#17` の `decide` 2件の回答を規定として定着させ、既存ページを是正する。(1) 設定項目表の「デフォルト値」をデフォルト設定を読み込んだ実効値に統一し、`web.rst`・`common.rst` を是正する。(2) 「出典が欠いている、実装上必須の設定」を `design.md` §8 の例外の新しい類型として追記する。あわせて `#17` の user review を `/rn:gm` と記録した3箇所を `/rn:ty` に訂正する。作業指示は `ntf-doc-18-default-value-basis.md`（**受領済み**、2026-08-13）。**ページを作らないタスク。**
+**Purpose**: `#17` の `decide` 2件の回答を規定として定着させ、既存ページを是正する。(1) 設定項目表の「デフォルト値」をデフォルト設定を読み込んだ実効値に統一し、`web.rst`・`common.rst` を是正する。(2) 「出典が欠いている、実装上必須の設定」を `design.md` §8 の例外の新しい類型として追記する。**ページを作らないタスク。**
 
-**Prerequisites**: #17
+**Completion criteria**: 作業指示 `ntf-doc-18-default-value-basis.md` のゲート1〜11 が全件 PASS で `checks/task-18.md` に記録されていること。
 
-**Steps**:
+**Closed**: user review 承認済み（`/rn:gm` 1回 →`must` 1件是正のうえ承認、2026-08-13）。`web.rst` 不一致8件＋表外1件・`common.rst` 1件を是正し、`design.md` §8 に2件を追記（追加39行 / 削除0行）。差し戻しは本文ではなく、Docker フルビルドが再生成した `locales/ja/LC_MESSAGES/sphinx.mo` の混入1件（`2993496` の版に戻して解消。過去2回と同一の副産物で `f6947b2`・`73e84dc` でも同様に差し戻し済み。再発防止として `#9〜` の共通 Steps に差分の範囲を確認するゲートを追加）。ユーザー回答3点は (1) 出典を示せない行番号は `design.md` に書かない対応で正、(2) ゲート9 は「新規0件」の解釈で正、(3) `testdata_notation.rst` の「デフォルト設定」の語の衝突は是正せず申し送りで正（`#19` 以降で `design.md` §8 の語と衝突する記述を書かないこと）。詳細は `checks/task-18.md`・`reviews/page-request_unit_test_setting_web.md`・`page-common.md`・`page-testdata_notation.md` および git 履歴（本文コミット `7424aeb`）を参照。
 
-- [x] STEP 1 — `web.rst` の設定項目表（`list-table` 19行）のデフォルト値欄を、デフォルト設定を読み込んだ実効値に改める — 不一致8件を是正（全19行の照合表は `checks/task-18.md` ゲート1）
-- [x] STEP 2 — 表の直前の地の文に基準を明示する（`rest.rst:61` と同じ語彙・同じ語順の3点）
-- [x] STEP 3 — 表に連動する地の文3箇所（`:86` の `important`・`:102` の `tip`・記述例の `webBaseDir`）と `:216` の `tip` の `htmlResourcesRoot` を整合させる
-- [x] STEP 4 — `common.rst:17` のテストデータ読み込み先を `test/java` → `src/test/java` に改める（当該1文のみ）
-- [x] STEP 5 — `design.md` §8 に2件を規定する（5-1 デフォルト値の基準／5-2 出典が欠いている実装上必須の設定。**追記のみ**。追加39行 / 削除0行）
-- [x] STEP 6 — 記録（`checks/task-18.md` 新規作成、`reviews/page-request_unit_test_setting_web.md`・`page-common.md`・`page-testdata_notation.md` へ追記、`steering.md` 更新、`#17` の `/rn:gm` → `/rn:ty` 訂正3箇所）
-- [x] ゲート1〜11 をすべて実行結果で確認し、`checks/task-18.md` に記録する（**全件表を求めるゲート1・2を実行順の先頭に置く**）— 全件 PASS
-- [x] 4観点のレビューは**回さない**（作業指示が明示的に禁止。新しい内容を書かないタスクで、ゲート1〜5 が変更範囲を機械的に固定している）
-- [x] commit & push
-- [ ] **user review** — 承認を受けるまで `#19` に着手しない
+### #19: リクエスト単体テストの設定（HTTPメッセージング）（`setup/request_unit_test/http_messaging.rst`）
 
-**Completion criteria**:
+**Purpose**: マッピングに従って第2部の5ページ目「リクエスト単体テストの設定（HTTPメッセージング）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（HTTPメッセージング）` の3行（`current-0066-b` 10行 / `current-0074` 4行 / `current-0075` 16行、計30 lines）。ページ先頭ラベルは `style.md` S-08 の `request_unit_test_setting_http_messaging`。
 
-- 作業指示のゲート1〜11 がすべて実行結果で確認され、`checks/task-18.md` に記録されている
-- ゲート1（`web.rst` の設定項目表 全19行）・ゲート2（作成済み7ページの「デフォルト」「既定」の全出現）・ゲート11（`#17` の `/rn:gm` 記録）が、いずれも件数ではなく**全件**の表で記録されている（母集合をホワイトリストで切り出さない）
-- `ja/` の差分が `setup/request_unit_test/web.rst` と `setup/common.rst` の2ファイルのみで、`web.rst` の見出しの文言・並び順と設定項目表の行数・列構成・項目名・並び順が不変である
-- `design.md` の差分が §8 の中だけに収まり、既存の記述の削除が0件である
-- 作業指示の禁止事項に抵触する変更が無い（`mapping.csv` / `_batch/` / `vocabulary.md` / `glossary.md` / `style.md` / `ja/conf.py` に差分が無い）
-- `verify_mapping.py` が exit 0 で、594行 / 12,986 / 11,983 が不変
-- Docker フルビルド（`-a`）が `build succeeded` で、警告が既知の `db_double_submit.rst` 1件のみ（新規0件）
+**Prerequisites**: #18
 
-**Note**: `#19` 以降のページ作成は `#18` の承認後とする。
+**Steps**: 上記「#9〜」の共通 Steps に従う（**個別の作業指示を出す条件に当たるかを着手時に判定する**。出典30行・design.md と mapping.csv の食い違いの有無を確認する）。
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
+
+**申し送り（`#18` から）**: `design.md` §8 の「デフォルト設定」（`nablarch-testing-default-configuration` を読み込んだ状態）と衝突する語義で「デフォルト設定」を使わない。設定項目表の「デフォルト値」は、デフォルト設定を読み込んだ実効値を書く（`design.md` §8）。
 
 ### #last: Evaluation sign-off
 
@@ -514,8 +504,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
+- **Status**: not suspended
 - **Date**: 2026-08-13
-- **Last completed**: #17（`setup/request_unit_test/rest.rst`。user review 承認済み）
-- **Next**: #18 の user review の判定を受ける（`/rn:ty` または `/rn:gm`）。承認後に #19（残り27ページの作成）へ
-- **Notes**: `#18` は作業を完了し commit & push 済み（`7424aeb`）。ゲート1〜11 全件 PASS、Docker フルビルド `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）。**user review 待ちのため Steps の最終項目のみ未チェック。** ユーザーに報告済みの判断待ち3点は (1) `nablarch-core-repository` のみ未確認のため `design.md` §8 の追記では行番号を書かずクラス名と `DuplicateDefinitionPolicy.OVERRIDE` のみ記載、(2) ゲート9 の「未定義参照0件」は既知の `db_double_submit.rst:108` 1件が残るため「新規0件」と解釈、(3) ゲート2 で範囲外の食い違いは0件だが「デフォルト設定」の語の衝突を `reviews/page-testdata_notation.md` に申し送り。詳細は `checks/task-18.md`。`#19` 以降のページ作成は `#18` 承認後。
+- **Last completed**: #18（設定項目表の「デフォルト値」の基準の統一と `design.md` §8 の類型追加。`/rn:gm` の `must` 1件を是正して承認済み）
+- **Next**: #19（`setup/request_unit_test/http_messaging.rst`。第2部5ページ目）に着手する
+- **Notes**: `#18` の `/rn:gm` は `locales/ja/LC_MESSAGES/sphinx.mo` の混入1件のみで、本文は承認された。再発防止として `#9〜` の共通 Steps に「`git diff --stat <着手時の HEAD> HEAD` の全件を表にし、予定外のファイルが0件であることを確認する」ゲートを追加済み。`#19` 以降はこのゲートを必ず通す。

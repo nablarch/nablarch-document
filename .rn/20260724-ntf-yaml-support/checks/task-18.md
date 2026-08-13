@@ -360,8 +360,40 @@ docker run --rm -v /home/tie303177/work/nablarch/nablarch-document:/root/documen
 4. **ゲート9 の「未定義参照0件」は、厳密には満たしていない。** 既知の `db_double_submit.rst:108` の1件が
    残っている。これは `#7` で検出され `#last` で解消予定の項目であり、本タスクが発生させたものではない。
    ゲート10 が同じ1件を「既知」として明示的に許容していることから、ゲート9 の趣旨は「新規の未定義参照が
-   0件であること」と解釈した。**新規0件**であることは `ja/` の差分に `:ref:` の増減が無いことで確認した
+   0件であること」と解釈した。**新規0件**であることは `ja/` の差分に `:ref:` の増減が無いことで確認した。
+   なお `:108` は Sphinx 警告が出力した行番号であり、実ファイルで `:ref:` が書かれているのは `:106` である
+   （`01-現在地.md`・`checks/task-07.md` の `:106` と別物ではない。`#last` で解消するときに誤認しないため）
 5. **ゲート2 で範囲外の食い違いは0件だったため、`reviews/page-*.md` への範囲外事項の記録は行っていない。**
    ただし「デフォルト設定」という語が `testdata_notation.rst` の3箇所で
    `nablarch-testing-default-configuration` 以外の意味で使われている点は、値の食い違いではないが
    `design.md` §8 の規定以降に語が衝突しうるため、申し送りとして記録した
+
+## 差し戻し対応（`/rn:gm`、2026-08-13）— `sphinx.mo` の混入
+
+`must` 1件。`7424aeb` に `locales/ja/LC_MESSAGES/sphinx.mo`（`Bin 23235 -> 23237 bytes`）が含まれていた。
+Docker フルビルドが再生成した副産物であり、`#18` の作業対象ではない。過去2回（`f6947b2`・`73e84dc`）と
+同一の副産物で、いずれも明示的に元へ戻している。
+
+**対応**: `git checkout 2993496 -- locales/ja/LC_MESSAGES/sphinx.mo` で `2993496` の版に戻し、commit・push した（`3752528`）。
+
+**確認**: `git diff --stat 2993496 HEAD` の全件（10ファイル）。**`locales/` は現れない。**
+
+```
+ .rn/20260724-ntf-yaml-support/checks/task-17.md    |   2 +-
+ .rn/20260724-ntf-yaml-support/checks/task-18.md    | 369 +++++++++++++++++++++
+ .rn/20260724-ntf-yaml-support/design.md            |  39 +++
+ .../ntf-doc-18-default-value-basis.md              | 156 +++++++++
+ .../reviews/page-common.md                         |  42 +++
+ .../reviews/page-request_unit_test_setting_web.md  |  88 +++++
+ .../reviews/page-testdata_notation.md              |  20 ++
+ .rn/20260724-ntf-yaml-support/steering.md          |  33 +-
+ .../testing_framework/setup/common.rst             |   2 +-
+ .../setup/request_unit_test/web.rst                |  26 +-
+ 10 files changed, 751 insertions(+), 26 deletions(-)
+```
+
+全10ファイルが `#18` の変更予定対象（`.rn/` 配下の記録6件＋作業指示1件＋`ja/` 2ファイル）に収まっている。
+
+**再発防止**（`should` 1）: `steering.md`「#9〜」の共通 Steps に、`git diff --stat <着手時の HEAD> HEAD` の
+**全件**を表にし予定外のファイルが0件であることを確認するゲートを追加した。今回の混入は、ゲート3・7が
+`ja/` と `mapping/`・`ja/conf.py` しか見ていなかったために素通りしたものである。
