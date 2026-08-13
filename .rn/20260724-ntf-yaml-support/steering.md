@@ -28,6 +28,7 @@ Rn version: 0.8.0
 - `#12` 作業指示（`:ref:` ラベル命名規則の確定）: `.rn/20260724-ntf-yaml-support/ntf-doc-12-ref-labels.md`
 - `#13` 作業指示（ページ作成の共通手順の定着）: `.rn/20260724-ntf-yaml-support/ntf-doc-13-standing-rules.md`
 - `#16` 作業指示（リード文の確定と `design.md` の3点追記）: `.rn/20260724-ntf-yaml-support/ntf-doc-16-lead-and-design.md`
+- `#22` 事前情報（取引単体テストの設定（RESTfulウェブサービス））: `.rn/20260724-ntf-yaml-support/ntf-doc-22-deal-unit-test-rest.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
@@ -513,6 +514,44 @@ Rn version: 0.8.0
 - `real.rst:15` はクラスのパッケージ名を `nablarch.test.core.http` と書いているが実体は `nablarch.test.core.messaging`。**第3部「リクエスト単体テスト（MOMによるメッセージング）」を書くタスク（`current-0295`〜`0301`）で是正する**
 - `nablarch-testing-yaml` のスキーマ説明文（`ntf-testdata-yaml-schema.json`）の見直しは PR #75 側の話であり、本刷新の範囲外
 
+### #22: 取引単体テストの設定（RESTfulウェブサービス）（`setup/deal_unit_test/rest.rst`）
+
+**Purpose**: マッピングに従って第2部の8ページ目「取引単体テストの設定（RESTfulウェブサービス）」を作成する。対象は `mapping.csv` の `dest_page=取引単体テストの設定（RESTfulウェブサービス）` の3行（52 lines、すべて `MERGE`・`audience=user`）。共通 Steps で進める（レビュー役の実測により、個別の作業指示を出す3条件のいずれにも当たらない）。`setup/deal_unit_test/` ディレクトリは本タスクで新設する。事前情報は `ntf-doc-22-deal-unit-test-rest.md`。
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。加えて、事前情報 §4 のゲート1〜9 が実行結果で `checks/task-22.md` に記録されていること。
+
+**着手前に渡された事実**（`ntf-doc-22-deal-unit-test-rest.md` §3。詳細は同ファイル）:
+
+- ページ先頭ラベルは `style.md` S-08 の `deal_unit_test_setting_rest`。`機能概要` は置かず、リード文＋`使用方法`＋`拡張例` の形にする
+- `dest_section` の割り当てが出典の行順と一致しない（使用方法 = `:40-43` + `:68-95`、拡張例 = `:46-65`）。`:46-65` の中でも `:51-56`（FW提供の `RequestResponseCookieManager`・`NablarchSIDManager`）は `使用方法` 側の内容であり、どちらに置くかは CC が判断して `reviews/page-*.md` に根拠を残す。**`mapping.csv` は変更しない**
+- 出典 `:70-72`・`:83-85` のXMLが不正（`/>` で自己閉じしたうえで子要素と閉じタグ）。開始タグの `/` を落として是正し、`design.md` §8 の適用として `reviews/page-*.md` に記録する
+- `インターフェース`（出典 `:47`）は `インタフェース` に直す。`デフォルト` はそのまま（`既定` を新たに書かない）。`デフォルト設定` を一般語として使わない
+- `:ref:session_store`・`:ref:session_store_handler`・`:java:extdoc:` はそのまま持ってくる
+- `setup/index.rst` の `toctree` は `request_unit_test/mom` と `junit5_extension` の間に `deal_unit_test/rest` の1行を追加する。`request_unit_test/db_queue` はまだ入れない
+
+**`verify_glossary.py` の扱い**: 本タスクではゲートに入れない（`#pre-last` で一括是正する。理由は事前情報 §5）。
+
+### #pre-last: `verify_glossary.py` の不一致25件の一括是正
+
+**Purpose**: ページを作らないタスク。`#21` の申し送りで残った `verify_glossary.py` の不一致を、全ページ作成完了後・`#last` の直前に一括で解消する。毎タスク書き換わる `design.md` を行番号で指している限り再発するため、ページ作成が終わってから1回で片付ける（`ntf-doc-22-deal-unit-test-rest.md` §5、レビュー役の実測による判断）。
+
+**Prerequisites**: 第2部・第3部・第4部の全ページ作成タスク完了
+
+**Steps**:
+
+- [ ] 未登録9表記を `mapping/tools/term_candidates.tsv` に登録する
+- [ ] `scan-terms.tsv` を再生成する（`#10a`（`6ce81b5`）以降再生成されておらず、実物と55件ずれている。ずれは全件 `design` コーパス）
+- [ ] `[section]` 1件（§5.7 の揺れ表記 `テストソースコード` が §8 対応表に無い）を是正する
+- [ ] `[ref]` 13件（`glossary.md` が `S:design.md:27`〜`:151` を行番号で指しているもの）の行番号を是正する
+- [ ] **`design.md` を `scan` のコーパスから外すか、`glossary.md` から `S:design.md:NN` の行番号指定を無くすかを決める**（決めないと再発する）
+- [ ] `checks/task-pre-last.md` に実行結果を記録する
+- [ ] commit & push
+
+**Completion criteria**:
+
+- `verify_glossary.py` の不一致が0件で exit 0
+- 再発防止の判断（`design.md` のコーパス除外か行番号指定の廃止か）が記録されている
+- `ja/` 配下の `.rst` に差分が無い
 
 ### #last: Evaluation sign-off
 
@@ -547,8 +586,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-13
-- **Last completed**: #21（リクエスト単体テストの設定（MOMによるメッセージング）。`/rn:ty` 承認済み・`decide` 5件と `should` 3件を反映して DONE。`c0e12fc`・`41909d4`）
-- **Next**: 第2部の残り9ページのうち、**ユーザーが指定するページ**。着手ページが決まった時点で3条件を判定して報告する
-- **Notes**: ブランチ `ntf-yaml-support`（push 済み・作業ツリーはクリーン・未追跡0件）。**再開の最初の一手は「どのページに着手するか」をユーザーに確認すること。** 着手前に判断が要る事項: `setup/request_unit_test/db_queue.rst` は**出典0行のため個別の作業指示が要る**（指示書が無い状態で書き始めない）／`setup/junit5_extension.rst`・`setup/master_data_restore.rst` は4行の前方参照スタブが既にあり**既存ファイルへの追記**として扱う／`setup/deal_unit_test/` は**ディレクトリ自体が未作成**／`setup/index.rst` の `toctree` に `request_unit_test/db_queue` と `deal_unit_test/*` が無く、追記時は `design.md:153-162` の並びに合わせる。**未決の申し送り1件**: `verify_glossary.py` が25件の不一致で失敗する（`#21` で18→25。増分7件は追加3語＋揺れ2語が `term_candidates.tsv` 未登録であること、既存13件は `design.md` の行番号ずれ。`term_candidates.tsv` を更新すると `glossary.md` の既存件数主張の再計算が要るため**別タスク化するかユーザー判断が要る**。内訳は `checks/task-21.md` §7-4）。不変条件: `mapping.csv` 595行 / 12,986 / 11,983、`既定` は `ja/development_tools/testing_framework/` 配下0件。Docker フルビルドの既知警告は `db_double_submit.rst:108` の1件のみ
+- **Status**: not suspended
+- **Date**: —
+- **Last completed**: —
+- **Next**: —
+- **Notes**: —
