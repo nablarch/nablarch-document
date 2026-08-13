@@ -489,47 +489,30 @@ Rn version: 0.8.0
 
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-13。公開本文を承認。レビュー役の独立検証で `must` 残存0件・本文に事実誤りなしを確認）。4観点レビュー ラウンド1（A PASS / B・C・D FAIL、`must` 重複除去後4件）→ 是正13件 → ラウンド2 PASS → ラウンド3で `should` 2・`note` 3 を一括是正。承認時の是正で `testdata_notation.rst:967`・`glossary.md`・`mapping.csv`（`_batch/batch-16.csv` 経由で再生成・バイト一致）・`volume.md` を更新し、`verify_mapping.py` は 595行 / 12,986 / 11,983 で `exit 0`、Docker フルビルドは `build succeeded, 1 warning.`（既知1件のみ・新規0件）。**`volume.md` の `dest_section` 別集計に既存の誤り2件（第3部「使用方法」が実測より453行多い／`テストデータの構造` 479行の行が欠落）を見つけ、あわせて是正した**（合計 11,957→11,983）。詳細は `checks/task-20.md`・`reviews/page-request_unit_test_setting_batch.md` および git 履歴（本文コミット `00cb161`・`2bb3cf6`・`fb3fd0f`、承認時是正コミット `4d9e3f7`）を参照。`#21` 以降への申し送り7件は同レビュー記録 §5。
 
-### #21: リクエスト単体テストの設定（MOMによるメッセージング）（`setup/request_unit_test/mom.rst`）
+### #21: リクエスト単体テストの設定（MOMによるメッセージング）（`setup/request_unit_test/mom.rst`）— DONE
 
-**Purpose**: マッピングに従って第2部の7ページ目「リクエスト単体テストの設定（MOMによるメッセージング）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（MOMによるメッセージング）` の8行（76 lines、`DROP` 0件）。ページ先頭ラベルは `style.md` S-08 の `request_unit_test_setting_mom`。
-
-**Prerequisites**: #20
-
-**Steps**: 上記「#9〜」の共通 Steps に従う。**個別の作業指示は出さない。** 3条件はいずれにも当たらない（76 lines で 500 lines 以下／`design.md:864`・`style.md` S-08 `:353`・`mapping.csv` の3者がページ名・ファイル名・ラベルで一致／出典0行でない）。
-
-- [x] `mapping.csv` の当該8行を抽出し、出典を基準コミット `c241906` で実読
-- [x] ページ作成・`setup/index.rst` の `toctree` 追記（`8b956cd`）
-- [x] Docker フルビルド（`-a`）。直後に `sphinx.mo` を復元 — `build succeeded, 1 warning.`（既知の `db_double_submit.rst:108` のみ・新規0件）。コーディネータ自身が2回実行
-- [x] 4観点レビュー（各観点を別のサブエージェントで実施）— ラウンド1は A・B・C・D の4観点とも FAIL。ラウンド2は是正差分限定で2本（範囲検証 PASS／ファクトチェック不一致1件）
-- [x] レビュー記録・self-check（`checks/task-21.md`・`reviews/page-request_unit_test_setting_mom.md`）
-- [x] **差分の範囲を確認する**（`git status --porcelain` の**全件**。`commit & push` の**直前**）— 3コミットとも予定外0件。`sphinx.mo` の混入も0件
-- [x] commit & push — `8b956cd`（作成）→ `2c9be08`（是正ラウンド1・10件）→ `346171d`（是正ラウンド2・2件）
-- [ ] **user review** — `decide` 5件の回答が必要（下記）
-
-**`decide` 5件（user review 待ち。詳細と根拠は `reviews/page-request_unit_test_setting_mom.md` §4.5・§5.3）**:
-
-1. **`reader.fwHeaderfields` の重複の集約先。** 承認済み `http_messaging.rst:37-42` と本ページに、同じキー・同じコード例が並ぶ。(a) `setup/common.rst` に集約し両ページから `:ref:` ／ (b) `http_messaging.rst` に集約 ／ (c) 現状維持。**観点Dは (a) を推奨**（実装上この設定は処理方式に紐づかない）。作成側は (c)。あわせて「既定を置き換える」旨が本ページにしか無い非対称も解消するか
-2. **承認済み `implementation/testdata_notation.rst:1244` の是正可否。** 「キー名は固定ではなく、`reader.fwHeaderfields` の設定に合わせる」が、実装（YAML 経路はこのキーを読まない）とも同ファイル `:1263` とも矛盾する。本ページが `:ref:` を張った先であり、読者が直接ぶつかる。`#19` の申し送り4・7 の未解決分。差分1行
-3. **出典外の追記2件の扱いと `design.md` §8 への類型追加。** `mom.rst:26` の3文目（同期応答メッセージ送信でも使用されない）と `:58-60` の `tip`（`file-type` がアサート方式にも影響する）は、いずれも実装で裏付けられるが §8 の既存類型のどれにも当たらない。**観点Dは「残す」＋「出典が触れていない副作用の注記」を第3の類型として明文化することを推奨**
-4. **`glossary.md` の3件。** (i) `環境設定ファイル` が用語集に0件（作成済み3ページで5箇所使用・FW解説書に32件）／(ii) `TestDataConvertor`→`TestDataConverter` の置換行が §8 に無い（出典の誤綴りで、残り32ページで再演算になる）／(iii) `デフォルト値`（29件・5ファイル）と `既定値`（10件・2ファイル）の揺れが実在するのに「今回は判定しない」のまま
-5. **未確定の論点を申し送りにするか、いま確定させるか。** `reader.fwHeaderfields` が HTTPメッセージング受信のテストに実際に効くかでレビュアーの判断が割れた（一方は `MessagingRequestTestSupport` 経由で同一経路、他方は `nablarch/test/core/http/` から `getMessage` を呼ぶ経路が無い）。**本タスクでは確定していない。** 承認済み `http_messaging.rst:37` の適用範囲に関わる
+**Purpose**: マッピングに従って第2部の7ページ目「リクエスト単体テストの設定（MOMによるメッセージング）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（MOMによるメッセージング）` の8行（76 lines、`DROP` 0件）。共通 Steps のみで進めた（個別の作業指示を出す3条件に当たらない）。
 
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
 
-**着手時の確認結果**（2026-08-13、出典8行を実読して確認）:
+**`decide` 5件・`should` 3件の回答**（2026-08-13、`/rn:ty`。判断を仰いだ時点の記録は `reviews/page-request_unit_test_setting_mom.md` §4.5・§5.3、回答と反映は同 §6、ゲートの実行結果は `checks/task-21.md` §7）:
 
-- **`design.md` の第2部アウトラインとの整合は取れている。** `design.md:187-195` が「`使用方法` のみ必須、`機能概要`・`拡張例` は出典が無ければ見出しを置かない」と定めており、`使用方法` 11行・`拡張例` 65行の配分はテンプレート違反ではない（`#6` 確定の「設定量が薄いページでは独立した機能概要・拡張例の出典が構造的に存在しないことがある」の範囲内）
-- **`拡張例` の7行は3つの出典に分かれるが、主題は `TestDataConverter` の1つに集約される。** `current-0303`（`RequestUnitTest_real.rst:168-181`）と `current-0328`（`RequestUnitTest_send_sync.rst:127-140`）はほぼ同文、`current-0247`〜`0251`（`03_Tips.rst:788-832`）が同じ主題をより詳しく書く。Rules「重複がない。参照で解決する」に従い1つの拡張例に統合する
-- 第4部「テストデータ変換ツール」は出典が `input/testdata-converter-design.md`（Excel→YAML 変換ツール）で `nablarch.test.core.file.TestDataConverter` とは**別物**。混同しないこと
-- 出典が参照する画像2枚（`06_TestFWGuide/_images/data_convert_example.png`・`data_convert_internal.png`）はリポジトリに現存する。使うか否かは作成時に判断する
-- `使用方法` の唯一の出典 `current-0106-b` は、`reader.fwHeaderfields` をpropertiesファイルに指定する `important` 1件（`real.rst:167-177`）
+1. **`reader.fwHeaderfields` の重複 → (c) 現状維持。集約しない。** この設定を読む経路は `MessageParser` だけで、そこへ至るのは `MQSupport.java:87` の1箇所、`MQSupport` を生成するのは `MessagingRequestTestSupport.java:82` と `MessagingReceiveTestSupport.java:42` の2箇所のみ（`src/main/java` 全走査）。**メッセージング受信のテストに紐づいており、全テスト共通ではない。** `setup/common.rst` へ移すと読者に「共通設定なので自分のテストにも効く」と読ませる。非対称は `should` 1 で解消
+2. **`testdata_notation.rst:1244` → 是正する。** `YAML` 経路は `reader.fwHeaderfields` を読まない（`YamlMessageBuilder.java:223-236`）。同ファイル `:1263` とだけ矛盾していた。差分は1行
+3. **出典外の追記2件 → 2件とも残す。`design.md` §8 に類型を1つ追加した。** 「出典が書いていない適用範囲・副作用のうち、書かなければ読者が誤った設定に至るものは書き足してよい」。「適用範囲の限定」と「副作用の注意喚起」は**読者が誤るかという同じ判定基準**で決まるため1類型にまとめた
+4. **`glossary.md` 3件 → 3件とも反映。** §5.12 に `環境設定ファイル`、§5.14 に `デフォルト`、§8 に置換3行（`propertiesファイル`／`プロパティファイル`→`環境設定ファイル`、`TestDataConvertor`→`TestDataConverter`、`既定`→`デフォルト`）。**`ja/` 4ファイルの `既定` 26箇所を `デフォルト` に置換した**（`batch.rst` 13・`testdata_notation.rst` 6・`mom.rst` 5・`http_messaging.rst` 2。全件表は `checks/task-21.md` §7-1）。判定根拠は語彙の実測で、**現行解説書に `既定` は0件**（`デフォルト` 58件）
+5. **HTTPメッセージング受信への適用 → 効く。いま確定させた。** 決め手は識別子行が `MESSAGE=setUpMessages`／`expectedMessages` 固定であること（`c2419060:.../http_real.rst:56`・`:105`・`:168`）。この2つのIDを読む経路は `MQSupport.java:73-74`・`:63-64` の1つだけで、`BasicTestDataParser.java:82-85` の `new MessageParser(..., DataType.MESSAGE)` に至る。**適用範囲は MOM と同一**で、承認済み `http_messaging.rst:37-42` は正しい
+6. **`should` 1・2 — `http_messaging.rst` に `mom.rst` と同じ2文とコメントを追加し、両ページに「値に空白を入れない」の1文を追加した。** 空白がトリムされない裏付けは `NablarchTestUtils.java:36`・`:45-49`、判定は `MessageParser.java:103`
+7. **`should` 3 — レビュー記録の根拠を是正。** `createDefinition` が返すレイアウト定義は「書き出しにのみ」ではなく**書き出しと読み込みの双方**に使われる（`MessagePool.java:165`）。公開本文（方向を限定しない表現）は変えていない
 
-**着手時の申し送り**（`#20` の `/rn:ty` で受領）:
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-13。レビュー役の独立検証で公開本文の事実誤り0件・`must` 残存0件）。4観点レビュー ラウンド1は4観点とも FAIL（重複除去後 `must` 3件）→ ラウンド2は是正差分限定で範囲検証 PASS／ファクトチェック不一致1件を是正。承認後の反映でゲート1〜10 を全件 PASS（`verify_mapping.py` 595行 / 12,986 / 11,983 で `exit 0`、Docker フルビルド `build succeeded, 1 warning.` 既知1件のみ・新規0件、`sphinx.mo` はビルド直後に復元）。詳細は `checks/task-21.md`・`reviews/page-request_unit_test_setting_mom.md` および git 履歴（本文コミット `8b956cd`・`2c9be08`・`346171d`・`e8854a5`、承認後の反映コミット `c0e12fc`）を参照。
 
-- **8行のうち7行が `dest_section=拡張例` で、`使用方法` は `current-0106-b`（`05_UnitTestGuide/02_RequestUnitTest/real.rst:167-177`、11 lines）の1行だけである。** うち5行は `06_TestFWGuide/03_Tips.rst` の `:788`〜`:832` に集中している。`使用方法` が薄く `拡張例` が厚いページ構成になるため、`design.md` の第2部ページアウトラインとの整合を着手時に確認する。`機能概要` が0行であることは `verify_mapping.py` が `optional since #6` として扱っておりエラーではない
-- `design.md` §8 の「デフォルト設定」と衝突する語義で「デフォルト設定」を使わない。設定項目表の「デフォルト値」はデフォルト設定を読み込んだ実効値を書く
-- FW解説書へ `:ref:` を張る前に参照先の本文を読み、実装・本ページの記述と矛盾しないか確認する（申し送り2）
-- ファイル入出力に触れるときは、`defaultDirectives` / `TEST_X9` 等の設定手順を持つ `request_unit_test_setting_batch` への導線を張るか検討する（申し送り1）
+**`#22` 以降への申し送り**:
+
+- **`verify_glossary.py` は本タスクで不一致が 18→25 に増えた**（`checks/task-21.md` §7-4 に前後比較表）。増分7件はすべて、追加した3語と揺れ表記2語が `mapping/tools/term_candidates.tsv` に未登録であることに起因する。登録すると `glossary.md` の既存の全件数主張を再計算する作業になるため、`[ref]` 13件と合わせて**別タスクで一括して直す**
+- `real.rst:15` はクラスのパッケージ名を `nablarch.test.core.http` と書いているが実体は `nablarch.test.core.messaging`。**第3部「リクエスト単体テスト（MOMによるメッセージング）」を書くタスク（`current-0295`〜`0301`）で是正する**
+- `nablarch-testing-yaml` のスキーマ説明文（`ntf-testdata-yaml-schema.json`）の見直しは PR #75 側の話であり、本刷新の範囲外
+
 
 ### #last: Evaluation sign-off
 
@@ -564,8 +547,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
+- **Status**: not suspended
 - **Date**: 2026-08-13
-- **Last completed**: #20（リクエスト単体テストの設定（Nablarchバッチアプリケーション）。user review 承認済み）
-- **Next**: #21 の user review。公開本文の承認可否と `decide` 5件の回答を受けて、必要なら是正する
-- **Notes**: ブランチ `ntf-yaml-support`（push 済み・作業ツリーはクリーン）。**#21 は user review を除く全 Steps が完了**（`8b956cd` 作成 → `2c9be08` 是正10件 → `346171d` 是正2件 → `e8854a5` 記録）。4観点レビュー ラウンド1は4観点とも FAIL・重複除去後 `must` 3件、ラウンド2は是正差分限定で範囲検証 PASS／ファクトチェック不一致1件を是正し、公開本文の `must` は0件。Docker フルビルドはコーディネータ自身の実行で `build succeeded, 1 warning.`（既知の `db_double_submit.rst:108` のみ・新規0件）。**未決は `#21` エントリ末尾の `decide` 5件**（`reader.fwHeaderfields` の重複の集約先／`testdata_notation.rst:1244` の是正可否／出典外の追記2件と `design.md` §8 への類型追加／`glossary.md` 3件／HTTPメッセージング受信への適用可否が未確定）。詳細と根拠は `reviews/page-request_unit_test_setting_mom.md` §4.5・§5.3。`mapping.csv` の不変条件は 595行 / 12,986 / 11,983。未追跡ファイル無し。**レビュアーの引用が実在しなかった事例が1件**（観点Bの `class_unit_test.rst:91`・`web.rst:113`）— レビュー指摘の `file:line` は採用前に実物で確認する
+- **Last completed**: #21（リクエスト単体テストの設定（MOMによるメッセージング）。`/rn:ty` 承認済み・`decide` 5件と `should` 3件を反映して DONE）
+- **Next**: 第2部の残りページ。**着手するページを決めた時点で、そのページの3条件を判定してユーザーに報告する。** 現時点で確定している事実は `#21` エントリの申し送りと下記 Notes を参照
+- **Notes**: ブランチ `ntf-yaml-support`（push 済み・作業ツリーはクリーン）。`#21` は `c0e12fc` で承認後の反映（`ja/` 4ファイル・`design.md`・`glossary.md`・`reviews`・`checks`）を済ませ、ゲート1〜10 全件 PASS。`mapping.csv` の不変条件は 595行 / 12,986 / 11,983（`verify_mapping.py` `exit 0`）。Docker フルビルドは `build succeeded, 1 warning.`（既知の `db_double_submit.rst:108` のみ・新規0件）。**`既定` は `ja/development_tools/testing_framework/` 配下で0件になった。以降のページも `デフォルト` を使う**（`glossary.md` §8）。**残りページの着手時に判定が要る事項**: `setup/request_unit_test/db_queue.rst` は**出典0行のため個別の作業指示が要る**（着手前にユーザーへ知らせ、指示書が無い状態で書き始めない）／`setup/junit5_extension.rst`（475 lines）・`setup/master_data_restore.rst`（193 lines）は4行の前方参照スタブが既に存在し、**新規作成ではなく既存ファイルへの追記**として扱う／`setup/deal_unit_test/` の3ページ（`mom.rst` 104・`rest.rst` 52・`http_messaging.rst` 20 lines）は**ディレクトリ自体がまだ存在しない**／`setup/index.rst` の `toctree` には `request_unit_test/db_queue` と `deal_unit_test/*` がまだ無く、追記時は `design.md:153-162` の第2部の並びに合わせる（現在の `toctree` は `junit5_extension`・`master_data_restore` が先に並んでいる）。**レビュー指摘の `file:line` は採用前に必ず実物で確認する**（`#21` で観点Bの引用2件が実在しなかった）。**`verify_glossary.py` は 25件の不一致で失敗する**（内訳と原因は `checks/task-21.md` §7-4。別タスクで一括是正）
