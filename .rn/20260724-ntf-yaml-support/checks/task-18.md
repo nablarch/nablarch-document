@@ -376,21 +376,24 @@ Docker フルビルドが再生成した副産物であり、`#18` の作業対�
 
 **対応**: `git checkout 2993496 -- locales/ja/LC_MESSAGES/sphinx.mo` で `2993496` の版に戻し、commit・push した（`3752528`）。
 
-**確認**: `git diff --stat 2993496 HEAD` の全件（10ファイル）。**`locales/` は現れない。**
+**確認**: `git diff --stat 2993496 HEAD`（`HEAD` = `c0381ed`）の全件（10ファイル）。**`locales/` は現れない。**
 
 ```
  .rn/20260724-ntf-yaml-support/checks/task-17.md    |   2 +-
- .rn/20260724-ntf-yaml-support/checks/task-18.md    | 369 +++++++++++++++++++++
- .rn/20260724-ntf-yaml-support/design.md            |  39 +++
- .../ntf-doc-18-default-value-basis.md              | 156 +++++++++
+ .rn/20260724-ntf-yaml-support/checks/task-18.md    | 399 +++++++++++++++++++++
+ .rn/20260724-ntf-yaml-support/design.md            |  39 ++
+ .../ntf-doc-18-default-value-basis.md              | 156 ++++++++
  .../reviews/page-common.md                         |  42 +++
  .../reviews/page-request_unit_test_setting_web.md  |  88 +++++
  .../reviews/page-testdata_notation.md              |  20 ++
  .rn/20260724-ntf-yaml-support/steering.md          |  33 +-
  .../testing_framework/setup/common.rst             |   2 +-
  .../setup/request_unit_test/web.rst                |  26 +-
- 10 files changed, 751 insertions(+), 26 deletions(-)
+ 10 files changed, 781 insertions(+), 26 deletions(-)
 ```
+
+（この表自体を `checks/task-18.md` に書き足した分は表に反映されない。上表は `c0381ed` 時点のもので、
+本追記後の最終値は次のコミットで `checks/task-18.md` の行数のみが増える。`locales/` が現れないことは変わらない。）
 
 全10ファイルが `#18` の変更予定対象（`.rn/` 配下の記録6件＋作業指示1件＋`ja/` 2ファイル）に収まっている。
 
