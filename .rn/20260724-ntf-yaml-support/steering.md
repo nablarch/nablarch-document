@@ -564,8 +564,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: YYYY-MM-DD
-- **Last completed**: #N description
-- **Next**: #N description
-- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
+- **Status**: paused
+- **Date**: 2026-08-13
+- **Last completed**: #20（リクエスト単体テストの設定（Nablarchバッチアプリケーション）。user review 承認済み）
+- **Next**: #21 の user review。公開本文の承認可否と `decide` 5件の回答を受けて、必要なら是正する
+- **Notes**: ブランチ `ntf-yaml-support`（push 済み・作業ツリーはクリーン）。**#21 は user review を除く全 Steps が完了**（`8b956cd` 作成 → `2c9be08` 是正10件 → `346171d` 是正2件 → `e8854a5` 記録）。4観点レビュー ラウンド1は4観点とも FAIL・重複除去後 `must` 3件、ラウンド2は是正差分限定で範囲検証 PASS／ファクトチェック不一致1件を是正し、公開本文の `must` は0件。Docker フルビルドはコーディネータ自身の実行で `build succeeded, 1 warning.`（既知の `db_double_submit.rst:108` のみ・新規0件）。**未決は `#21` エントリ末尾の `decide` 5件**（`reader.fwHeaderfields` の重複の集約先／`testdata_notation.rst:1244` の是正可否／出典外の追記2件と `design.md` §8 への類型追加／`glossary.md` 3件／HTTPメッセージング受信への適用可否が未確定）。詳細と根拠は `reviews/page-request_unit_test_setting_mom.md` §4.5・§5.3。`mapping.csv` の不変条件は 595行 / 12,986 / 11,983。未追跡ファイル無し。**レビュアーの引用が実在しなかった事例が1件**（観点Bの `class_unit_test.rst:91`・`web.rst:113`）— レビュー指摘の `file:line` は採用前に実物で確認する
