@@ -45,7 +45,7 @@ Rn version: 0.8.0
   - **成果物に付属する検証スクリプトを正解として使わず、独立に組め**（`verify_glossary.py` 等を信頼すると同じ穴を素通りする）
   - **敵対的にレビューせよ**（欠陥は存在するという前提で、境界・抜け道・見落としを探す）
 - レビューは4観点を**それぞれ別のサブエージェント**で回す（QA / 設計 / クラフト / 検証）。各観点に成果物・目的・完了条件・チェックリストだけを渡し、self-check ファイルや他観点の判定は渡さない
-- **ビルド確認は自分でDockerを使って行う。**`make html`の確認をユーザーに丸投げしない。ローカルvenv（`/home/tie303177/venv`）が`requirements.txt`のピン留め版と非互換（Python 3.12・`javasphinx`未対応）であることは、Docker実行を省略してよい理由にはならない。README「環境構築」＞「Docker」の手順（`docker build -t nablarch-document-build .`、`docker run --rm -v <repo>:/root/document nablarch-document-build /bin/bash -c "cd /root/document; sphinx-build -d _build/.doctrees/ja -b html ja _build/html"`）に従い、コンテナ内で実行する。2026-08-03、同一の確認を2回ユーザー自身にやらせてしまい指摘を受けた
+- **ビルド確認は自分でDockerを使って行う。**`make html`の確認をユーザーに丸投げしない。ローカルvenv（`/home/tie303177/venv`）が`requirements.txt`のピン留め版と非互換（Python 3.12・`javasphinx`未対応）であることは、Docker実行を省略してよい理由にはならない。README「環境構築」＞「Docker」の手順（`docker build -t nablarch-document-build .`、`docker run --rm -v <repo>:/root/document nablarch-document-build /bin/bash -c "cd /root/document; sphinx-build -d _build/.doctrees/ja -b html ja _build/html"`）に従い、コンテナ内で実行する。2026-08-03、同一の確認を2回ユーザー自身にやらせてしまい指摘を受けた。**ビルドの直後に必ず `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行して戻す。** このファイルはDockerフルビルドのたびに再生成され（`.gitignore` に `locales` の記載は0件）、放置すると作業対象外の副産物がコミットに混入する。2026-08-07・08-12・08-13 の3回混入し、`73e84dc`・`f6947b2`・`c0381ed` でいずれも戻している。混入を後から見つけて戻すのではなく、再生成された時点で戻す（2026-08-13 の作業指示による）。**`locales/` を `.gitignore` に加えてはならない。** リポジトリが追跡している成果物であり、追跡から外すと他の作業者の更新が失われる
 - **日本語の地の文（段落）は、途中で改行しない。1段落は1行で書く（文の区切りであっても改行しない）。** RSTの段落はソース上の改行をHTML出力時にも生の`\n`として残し、ブラウザは`white-space: normal`のもとでこれを半角スペース1個として描画するため、ソースを折り返すと本文に不要な隙間が入る（2026-08-03、`testing_framework/index.rst`で実測・`build succeeded`のHTMLソースで`\n`の残存を確認して特定）。`about/index.rst`にも同種の改行が複数箇所残っている（8〜9行目・12〜13行目等、`#8`のuser review未了分として要修正）。ページ作成・レビュー時は、段落内に改行がないか（空行を挟まず日本語の行が連続する箇所がないか）を確認する
 - **文章表現は、design.md等の内部設計文書の言い回しをそのまま使わない。既存の解説書（FW解説書ライブラリ等）に同種の表現があるか`grep`で確認してから書く。** design.mdは開発チーム内部の設計文書であり、その文体（例:「読者は2種類に分かれる」のように読者を外側から分析する言い回し）を利用者向けページにそのまま持ち込むと、実際の解説書のどこにも使われていない不自然な文になる（2026-08-03、`testing_framework/index.rst`で`grep -rn "対象読者|読者は"`が0件だったことで実際に確認）。design.mdの内容（意図・構造）を参照するのは良いが、文言をそのまま転記しない
 - **`=`のみで罫線を引く簡易tableのセル文字列を編集するときは、列位置を「表示幅」（全角文字は2、半角文字は1）で揃える。文字数（Pythonの`len()`等）で揃えない。** 見出し行の`=`の並びが表示幅基準の列境界を表しており、セル文字列の表示幅がずれると`sphinx-build`が`Malformed table`エラーを出す（2026-08-03、`about/index.rst`の表でセル文字列を短くした際に文字数基準で詰めて実際に発生・`unicodedata.east_asian_width`で是正）。編集後は必ずDockerビルドで確認する
@@ -309,8 +309,8 @@ Rn version: 0.8.0
 - [ ] 作成したページを、対応する部の表題ページ（`setup/index.rst` / `implementation/index.rst` /
       `tools/index.rst`）の `toctree` に追記する
 - [ ] self-check（`checks/task-NN.md`）
+- [ ] **差分の範囲を確認する（`#19` 以降の共通ゲート。`commit & push` の直前に置く）** — `git status --porcelain` の**全件**を表にし、そのタスクで変更する予定だったファイル以外が0件であることを確認する。**`ja/` や特定ディレクトリに絞らない**（母集合を先に固定してから判定する。`03-検証スクリプト.md` と同じ趣旨）。**母集合は `git status --porcelain` とする。`git diff` は未追跡ファイルを出さないため、新規に置かれた予定外のファイルを取りこぼす。** 2026-08-13、`#18` の `/rn:gm` で、ゲートが `ja/` と `mapping/`・`ja/conf.py` しか見ていなかったため Docker フルビルドが再生成した `locales/ja/LC_MESSAGES/sphinx.mo` の混入を素通りさせた（`f6947b2`・`73e84dc`・`c0381ed` で3回とも差し戻し済み）。**このゲートを `commit & push` の後ろに置くと、混入を検出できるのはコミットしてしまった後になる**（`#18` がその経路で公開まで届いた。2026-08-13 の作業指示による是正）
 - [ ] commit & push
-- [ ] **差分の範囲を確認する（`#19` 以降の共通ゲート）** — `git diff --stat <着手時の HEAD> HEAD` の**全件**を表にし、そのタスクで変更する予定だったファイル以外が0件であることを確認する。**`ja/` や特定ディレクトリに絞らない**（母集合を先に固定してから判定する。`03-検証スクリプト.md` と同じ趣旨）。2026-08-13、`#18` の `/rn:gm` で、ゲートが `ja/` と `mapping/`・`ja/conf.py` しか見ていなかったため Docker フルビルドが再生成した `locales/ja/LC_MESSAGES/sphinx.mo` の混入を素通りさせた（過去2回と同じ副産物。`f6947b2`・`73e84dc` で同様に差し戻し済み）
 - [ ] **user review** — 承認を受けるまで次ページに進まない
 
 **Completion criteria**:

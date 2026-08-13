@@ -374,7 +374,8 @@ docker run --rm -v /home/tie303177/work/nablarch/nablarch-document:/root/documen
 Docker フルビルドが再生成した副産物であり、`#18` の作業対象ではない。過去2回（`f6947b2`・`73e84dc`）と
 同一の副産物で、いずれも明示的に元へ戻している。
 
-**対応**: `git checkout 2993496 -- locales/ja/LC_MESSAGES/sphinx.mo` で `2993496` の版に戻し、commit・push した（`3752528`）。
+**対応**: `git checkout 2993496 -- locales/ja/LC_MESSAGES/sphinx.mo` で `2993496` の版に戻し、commit・push した（`c0381ed`）。
+（当初は別のハッシュを記録していたが、それは `ntf-yaml-support` の祖先でもどのブランチにも含まれてもいない到達不能なコミットであり、gc で消えれば出典を示せなくなるため `c0381ed` に訂正した。2026-08-13 の作業指示による。）
 
 **確認**: `git diff --stat 2993496 HEAD`（`HEAD` = `c0381ed`）の全件（10ファイル）。**`locales/` は現れない。**
 
