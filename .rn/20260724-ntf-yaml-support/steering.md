@@ -452,11 +452,32 @@ Rn version: 0.8.0
 
 ### #18: 設定項目表の「デフォルト値」の基準の統一と `design.md` §8 の類型追加
 
-**Purpose**: `#17` の `decide` 2件の回答を規定として定着させ、既存ページを是正する。(1) 設定項目表の「デフォルト値」をデフォルト設定を読み込んだ実効値に統一し、`web.rst` 9項目・`common.rst` 1項目を是正する。(2) 「出典が欠いている、実装上必須の設定」を `design.md` §8 の例外の新しい類型として追記する。作業指示は `ntf-doc-18-default-value-basis.md`（**未受領**。全件の是正対象と作業手順はこの指示に示されるため、受領後に着手する）。
+**Purpose**: `#17` の `decide` 2件の回答を規定として定着させ、既存ページを是正する。(1) 設定項目表の「デフォルト値」をデフォルト設定を読み込んだ実効値に統一し、`web.rst`・`common.rst` を是正する。(2) 「出典が欠いている、実装上必須の設定」を `design.md` §8 の例外の新しい類型として追記する。あわせて `#17` の user review を `/rn:gm` と記録した3箇所を `/rn:ty` に訂正する。作業指示は `ntf-doc-18-default-value-basis.md`（**受領済み**、2026-08-13）。**ページを作らないタスク。**
 
 **Prerequisites**: #17
 
-**Completion criteria**: 作業指示の受領後に確定する。
+**Steps**:
+
+- [ ] STEP 1 — `web.rst` の設定項目表（`list-table` 19行）のデフォルト値欄を、デフォルト設定を読み込んだ実効値に改める
+- [ ] STEP 2 — 表の直前の地の文に基準を明示する（`rest.rst:61` と同じ語彙・同じ語順の3点）
+- [ ] STEP 3 — 表に連動する地の文3箇所（`:86` の `important`・`:102` の `tip`・`:104`〜`:155` の記述例）と `:216` の `tip` の `htmlResourcesRoot` を整合させる
+- [ ] STEP 4 — `common.rst:17` のテストデータ読み込み先を `test/java` → `src/test/java` に改める（当該1文のみ）
+- [ ] STEP 5 — `design.md` §8 に2件を規定する（5-1 デフォルト値の基準／5-2 出典が欠いている実装上必須の設定。**追記のみ**）
+- [ ] STEP 6 — 記録（`checks/task-18.md` 新規作成、`reviews/page-request_unit_test_setting_web.md`・`page-common.md` へ追記、`steering.md` 更新、`#17` の `/rn:gm` → `/rn:ty` 訂正3箇所）
+- [ ] ゲート1〜11 をすべて実行結果で確認し、`checks/task-18.md` に記録する（**全件表を求めるゲート1・2を実行順の先頭に置く**）
+- [ ] 4観点のレビューは**回さない**（作業指示が明示的に禁止。新しい内容を書かないタスクで、ゲート1〜5 が変更範囲を機械的に固定している）
+- [ ] commit & push
+- [ ] **user review** — 承認を受けるまで `#19` に着手しない
+
+**Completion criteria**:
+
+- 作業指示のゲート1〜11 がすべて実行結果で確認され、`checks/task-18.md` に記録されている
+- ゲート1（`web.rst` の設定項目表 全19行）・ゲート2（作成済み7ページの「デフォルト」「既定」の全出現）・ゲート11（`#17` の `/rn:gm` 記録）が、いずれも件数ではなく**全件**の表で記録されている（母集合をホワイトリストで切り出さない）
+- `ja/` の差分が `setup/request_unit_test/web.rst` と `setup/common.rst` の2ファイルのみで、`web.rst` の見出しの文言・並び順と設定項目表の行数・列構成・項目名・並び順が不変である
+- `design.md` の差分が §8 の中だけに収まり、既存の記述の削除が0件である
+- 作業指示の禁止事項に抵触する変更が無い（`mapping.csv` / `_batch/` / `vocabulary.md` / `glossary.md` / `style.md` / `ja/conf.py` に差分が無い）
+- `verify_mapping.py` が exit 0 で、594行 / 12,986 / 11,983 が不変
+- Docker フルビルド（`-a`）が `build succeeded` で、警告が既知の `db_double_submit.rst` 1件のみ（新規0件）
 
 **Note**: `#19` 以降のページ作成は `#18` の承認後とする。
 
@@ -493,8 +514,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-13
-- **Last completed**: #17（`setup/request_unit_test/rest.rst`。user review 承認済み、`decide` 2件の回答を記録）
-- **Next**: #18（設定項目表の「デフォルト値」の基準の統一と `design.md` §8 の類型追加）
-- **Notes**: `#18` は作業指示 `.rn/20260724-ntf-yaml-support/ntf-doc-18-default-value-basis.md` が**未受領**のためブロック中。是正対象は `web.rst` 9項目・`common.rst` 1項目（レビュー役の実測）で、`checks/task-17.md` §7-2 に記録済みの7項目との差分2件が手元にない。全件表は指示側にあるため、推測で母集合を作らず受領を待つ。ユーザーには「指示を待たずに `web.rst`・`common.rst` を独立に全走査して差分2件を特定してよいか」を確認済みで、回答待ち。`#19` 以降のページ作成は `#18` 承認後。
+- **Status**: not suspended
+- **Date**: -
+- **Last completed**: -
+- **Next**: -
+- **Notes**: -
