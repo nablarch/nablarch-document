@@ -465,9 +465,26 @@ Rn version: 0.8.0
 
 **Prerequisites**: #18
 
-**Steps**: 上記「#9〜」の共通 Steps に従う（**個別の作業指示を出す条件に当たるかを着手時に判定する**。出典30行・design.md と mapping.csv の食い違いの有無を確認する）。
+**Steps**: 上記「#9〜」の共通 Steps に従う。個別の作業指示を出す3条件は**いずれにも当たらない**と判定済み（`checks/task-19.md` ゲート0）。
+
+- [x] 個別の作業指示を出す条件の判定（3条件とも該当なし）
+- [x] `mapping.csv` の当該3行を抽出し、出典を `git show origin/develop:<src_file>` で実読
+- [x] ページ先頭ラベルを `style.md` S-08 から引く（`request_unit_test_setting_http_messaging`）
+- [x] ページ作成・`setup/index.rst` の `toctree` 追記
+- [x] Docker フルビルド（`-a`）— `build succeeded, 1 warning.`（既知の1件のみ・新規0件）。ビルド直後に `sphinx.mo` を復元
+- [x] 4観点レビュー ラウンド1（各観点を別のサブエージェントで実施）→ 是正10件 → ラウンド2（是正差分限定）で PASS
+- [x] レビュー記録（`reviews/page-request_unit_test_setting_http_messaging.md`）・self-check（`checks/task-19.md`）
+- [x] 差分の範囲を確認する（`git status --porcelain` の全件・予定外0件）
+- [x] commit & push（`98542ac`）
+- [ ] **user review** — 承認を受けるまで `#20` に着手しない。`decide` 3件の回答も必要
 
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
+
+**`decide` 3件**（詳細と推奨は `reviews/page-request_unit_test_setting_http_messaging.md` §4）:
+
+1. `glossary.md:160` の `モックアップクラス` の意味列が、自らの採用根拠より狭い（取引単体テストに限定しているが、根拠が数えた出典にリクエスト単体テストのファイルが含まれる）
+2. 出典にもマッピングにも無い追記のうち、`design.md` §8 のどの例外にも当たらない1件（モックアップクラスの挙動説明）を残すかどうか
+3. FW解説書 `http_system_messaging.rst:85` の「コンポーネント名は `messageSenderClient` と指定する」が実装より狭い。本タスクでは参照しないことで回避した
 
 **申し送り（`#18` から）**: `design.md` §8 の「デフォルト設定」（`nablarch-testing-default-configuration` を読み込んだ状態）と衝突する語義で「デフォルト設定」を使わない。設定項目表の「デフォルト値」は、デフォルト設定を読み込んだ実効値を書く（`design.md` §8）。
 
@@ -507,5 +524,5 @@ so only a genuinely suspended session reads `paused`.)
 - **Status**: not suspended
 - **Date**: 2026-08-13
 - **Last completed**: #18（設定項目表の「デフォルト値」の基準の統一と `design.md` §8 の類型追加。`/rn:gm` の `must` 1件を是正して承認済み）
-- **Next**: #19（`setup/request_unit_test/http_messaging.rst`。第2部5ページ目）に着手する
-- **Notes**: `#18` の `/rn:gm` は `locales/ja/LC_MESSAGES/sphinx.mo` の混入1件のみで、本文は承認された。再発防止として `#9〜` の共通 Steps に「`git diff --stat <着手時の HEAD> HEAD` の全件を表にし、予定外のファイルが0件であることを確認する」ゲートを追加済み。`#19` 以降はこのゲートを必ず通す。
+- **Next**: #19 の user review の判定を受ける（`/rn:ty` または `/rn:gm`）。あわせて `decide` 3件に回答が必要。承認後に #20（第2部6ページ目「リクエスト単体テストの設定（Nablarchバッチアプリケーション）」）へ
+- **Notes**: `#19` は作業を完了し commit & push 済み（`98542ac`）。4観点レビュー ラウンド1で4観点とも FAIL（`must` 重複除去後7件）→ 是正10件 → ラウンド2は PASS。Docker フルビルド `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）。差分は4ファイルで予定外0件。**user review 待ちのため Steps の最終項目のみ未チェック。** ビルド副産物 `sphinx.mo` の混入を止めるゲート是正は `85b64e2` で先に単独コミット済み（差分範囲ゲートを `commit & push` の直前へ移動、母集合を `git status --porcelain` に変更、ビルド直後の復元を Rules に追記）。`#19` の着手時 HEAD は `85b64e2`。
