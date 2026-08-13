@@ -227,3 +227,91 @@ user review で3件とも本ページの判断が承認され、`#16` で `desig
 | 3. `-Xverify:none` の非推奨の追記 | 承認。§8 の「実装」には出典が前提にしている外部の挙動（JVM・JDK・データベース・ビルドツール）を含む（§11.3「マッピングにない内容を追加しない」の例外） | `design.md` §8「出典と実装が食い違う場合」 |
 
 いずれも実測の記録を `reviews/page-*.md` に残すことが条件として規定に入っている。本ページの該当記録は上記の各節（CPU製品名の削除の理由、Temurin 21 での `-Xverify:none` の起動確認）である。
+
+---
+
+## `#18` デフォルト値の基準の是正（2026-08-13、作業指示 `ntf-doc-18-default-value-basis.md`）
+
+`#17` の `decide` 2 の回答により、設定項目表の「デフォルト値」の基準が**デフォルト設定
+（`nablarch-testing-default-configuration`）を読み込んだ状態で有効になる実効値**に確定した
+（規定は `design.md` §8「設定項目表の「デフォルト値」の基準」）。本ページは `#15` の作成時に
+**クラスのフィールド初期値**を採っていたため、基準に合わせて是正した。既存の記録は書き換えていない。
+
+### `#15` の C-2・C-3 の判断が覆ったことの明記
+
+**`#15` の C-2・C-3（`htmlChecker`・`htmlCheckerConfig` のデフォルト値を「該当なし」とした判断）は、
+`#18` で覆った。** 当時の判断は「フィールドの初期値は `null` であり、この値を既定として与える
+コンポーネント定義は `nablarch-testing` の `src/main/` に存在しない」ことを根拠にしていたが、
+**探索範囲が `nablarch-testing` の `src/main/` に限られていたことが誤りであった。**
+デフォルト設定は別モジュール `com.nablarch.configuration:nablarch-testing-default-configuration` にあり、
+そこに当該の定義が存在する。出典（`02_RequestUnitTest.rst:345`・`:351`）が書いていた値は、
+フィールド初期値ではなく**このデフォルト設定を読み込んだ実効値**であり、**出典が正しかった。**
+
+- C-2 の帰結: `htmlChecker` のデフォルト値は「`htmlCheckerConfig` の設定に伴って設定される
+  `Html4HtmlChecker`」に是正した。**デフォルト設定は `htmlChecker` を直接は設定しない。**
+  `http-request-test.xml:29-30` が `htmlCheckerConfig` を設定し、その副作用として
+  `HttpTestConfiguration.java:358-360`（`e21bf67`）の `setHtmlCheckerConfig` が
+  `this.htmlChecker = new Html4HtmlChecker(htmlCheckerConfig)` を実行する。したがって
+  「デフォルト設定が `htmlChecker` を設定する」とは書いていない
+- C-3 の帰結: `htmlCheckerConfig` のデフォルト値は
+  `src/test/resources/nablarch/test/http-request-test/html-check-config.csv` に是正した
+  （`http-request-test.xml:29-30` → `http-request-test.config:5`）。出典が書いていた
+  `test/resources/httprequesttest/html-check-config.csv` とはパスが異なるが、これは 6u3 の
+  デフォルト設定の実値であり、実効値を採る基準に従った
+- `#15` の申し送り2「出典の『デフォルト値』欄は、フィールドの初期値と一致しているとは限らない」は
+  **方向が逆だった。** 正しくは「**フィールドの初期値が実効値と一致しているとは限らない。
+  デフォルト設定を読み込んだ実効値を確かめる**」である。以降のページはこちらに従う
+
+### 是正した箇所と根拠（`file:line` とコミット／成果物）
+
+デフォルト設定の実効値は、`nablarch-testing-default-configuration` **6u3** の jar 内の次の2ファイルの組で
+決まる。以下 `xml` = `nablarch/test/http-request-test.xml`、`config` =
+`nablarch/test/http-request-test/http-request-test.config`。jar はローカル Maven リポジトリ
+（`~/.m2/repository/com/nablarch/configuration/nablarch-testing-default-configuration/6u3/`）から展開して確認した。
+
+| 箇所 | 設定項目 | 是正前 | 是正後 | 根拠 |
+|---|---|---|---|---|
+| 表 `:29` | `webBaseDir` | `../main/web` | `src/main/webapp` | `xml:15` → `config:1` |
+| 表 `:47` | `sessionInfo` | 該当なし | `commonHeaderLoginUserName`＝`リクエスト単体テストユーザ`、`commonHeaderLoginDate`＝`20100914` | `xml:19-25` → `config:3-4` |
+| 表 `:50` | `htmlResourcesExtensionList` | `css`・`js`・`jpg`（3件） | `css`・`jpg`・`js`・`less`・`png`・`template`・`woff`・`eot`・`svg`・`ttf`（10件） | `xml:36-49`（リテラル） |
+| 表 `:53` | `jsTestResourceDir` | `../test/web` | `src/test/webapp` | `xml:16` → `config:2` |
+| 表 `:65` | `htmlChecker` | 該当なし | `htmlCheckerConfig` の設定に伴って設定される `Html4HtmlChecker` | `HttpTestConfiguration.java:358-360`（`nablarch/nablarch-testing` `e21bf67`） |
+| 表 `:68` | `htmlCheckerConfig` | 該当なし | `src/test/resources/nablarch/test/http-request-test/html-check-config.csv` | `xml:29-30` → `config:5` |
+| 表 `:71` | `ignoreHtmlResourceDirectory` | 該当なし | `.svn` | `xml:59-62`（リテラル） |
+| 表 `:74` | `tempDirectory` | 該当なし（Jetty のデフォルト動作に従う） | `target/tmp` | `xml:65` → `config:11` |
+| `tip` `:216` | `htmlResourcesRoot` | `htmlResources` | `../htmlResources` | `xml:52` → `config:7`。フィールド初期値は `HttpTestConfiguration.java:144` の `htmlResources` |
+
+表の**残り11行は是正不要**であった（全19行の照合表は `checks/task-18.md` ゲート1）。うち4行
+（`backup`・`htmlResourcesCharset`・`checkHtml`・`dumpVariableItem`）はデフォルト設定が設定しているが
+値がフィールド初期値と同じ、7行（`htmlDumpDir`・`xmlComponentFile`・`userIdSessionKey`・
+`exceptionRequestVarKey`・`dumpFileExtension`・`httpHeader`・`uploadTmpDirectory`）はデフォルト設定が
+設定していないためフィールド初期値がそのまま実効値になる。
+
+### 表に連動して是正した地の文
+
+| 箇所 | 是正の内容 | 理由 |
+|---|---|---|
+| `:16` の導入文 | デフォルト設定を読み込むと `HttpTestConfiguration` が `httpTestConfiguration` というコンポーネント名で登録されること、同じ名前で上書きして変更すること、上書きはデフォルト設定の読み込みより後に置くこと、デフォルト値の欄が実効値であることを述べる形に改めた | 実効値を載せる根拠が本文に無かった。`rest.rst:61` と同じ語彙・同じ語順で書き、2ページを並べて読んだときに差が意味を持たないようにした（`design.md` §8「表を持つページは、その基準を表の直前の地の文で明示する」） |
+| `:86` の `important` | 「どちらか一方を必ず設定する」を「どちらか一方が設定されている必要がある」に改め、デフォルト設定を読み込んでいる場合はこの状態が生じないこと、注意が要るのはデフォルト設定を読み込まない場合であることを追記した | デフォルト設定を読み込む前提では `htmlCheckerConfig` が設定済みで「どちらも設定していない」状態が生じない。クラスの挙動としては正しいため削除せず、どういう場合に問題になるかが分かる形にした |
+| `:102` の `tip` | 「`tempDirectory` を省略した場合」を「デフォルト設定を読み込まず、`tempDirectory` も指定しない場合」に改めた | デフォルト設定が `target/tmp` を入れるため、省略しただけでは Jetty のデフォルト動作にならない |
+| 記述例 `:124` | `webBaseDir` の値を `../main/web` から `src/main/webapp` に改めた | 表と矛盾していた。`../main/web` はブランクプロジェクトに存在しないパスである（webapp は `src/main/webapp`）。**設定項目の増減はしていない。** `xmlComponentFile`・`tempDirectory`（`webTemp`）など、デフォルト値と異なる値を意図的に示している項目はそのまま残した |
+
+`:104` の「デフォルト値と同じ値を明示的に記述している項目もある」は、`webBaseDir` の是正後も成立する
+（`htmlDumpDir`・`userIdSessionKey`・`httpHeader`・`backup`・`htmlResourcesCharset`・`sessionInfo`・
+`ignoreHtmlResourceDirectory`・`webBaseDir` がデフォルト値と同値）ため、文は変更していない。
+
+**見出しの文言・並び順、設定項目表の行数・列構成・項目名・並び順はいずれも不変**（`checks/task-18.md`
+ゲート4。見出しは行番号まで含めて同一、項目名の列は `md5sum` 一致）。「テストの実行速度を上げる」
+「拡張例」の各セクションは `:216` の `tip` を除いて変更していない。
+
+### `#19` 以降への申し送り
+
+12. **設定項目表の「デフォルト値」は、デフォルト設定を読み込んだ実効値を書く。** クラスのフィールド
+    初期値ではない（`design.md` §8）。**実装を確かめる範囲を `nablarch-testing` の `src/main/` に
+    限定しない。** デフォルト設定は別モジュール `nablarch-testing-default-configuration` にあり、
+    `nablarch/test/*.xml`（プロパティの割り当て）と `nablarch/test/*/*.config`（値）の**組**で実効値が
+    決まる。`#15` はこの探索漏れにより表の9項目を誤った
+13. **表を持つページは、基準を表の直前の地の文で明示する。** 文言は `rest.rst:61` および本ページ `:16` に
+    揃える（「デフォルト値の欄には、デフォルト設定を読み込んだ状態で有効になる値を示す」）
+14. **表を直したら、表に連動する地の文を必ず洗う。** 本ページでは表の8項目の是正に対し、地の文3箇所と
+    記述例1箇所の是正が連動して必要だった。表だけを直すと `important`・`tip`・記述例が表と矛盾する

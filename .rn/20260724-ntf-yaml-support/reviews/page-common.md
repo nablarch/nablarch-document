@@ -124,3 +124,45 @@
 文頭の `ここでは、` を落とし、`共通設定では、` と主語を立てて文末を `〜ができる。` の言い切りに変えた。リード文はページ全体を指すため「ここ」の指す範囲が曖昧になること、FW解説書のリード文が対象を主語に立てて言い切っていること（`FW:libraries/date.rst:8`・`session_store.rst:10`・`exclusive_control.rst:10`）による。列挙している対象と2文目（`いずれも設定ファイルへの記述で行う。`）は変えていない。
 
 見出しの文言・並び順、L3以下の本文・表・コードブロックは変更していない（`checks/task-16.md` ゲート3）。
+
+---
+
+## `#18` テストデータ読み込み先の是正（2026-08-13、作業指示 `ntf-doc-18-default-value-basis.md`）
+
+`#17` の `decide` 2 の回答により、「デフォルト」として載せる値の基準が**デフォルト設定
+（`nablarch-testing-default-configuration`）を読み込んだ状態で有効になる実効値**に確定した
+（規定は `design.md` §8「設定項目表の「デフォルト値」の基準」）。本ページの1文を基準に合わせて是正した。
+既存の記録は書き換えていない。
+
+### 是正した箇所と根拠
+
+| 箇所 | 是正前 | 是正後 |
+|---|---|---|
+| `:17` | テストデータは、デフォルトでは `test/java` 配下から読み込まれる | テストデータは、デフォルトでは `src/test/java` 配下から読み込まれる |
+
+**是正前の記載は誤りではなかった。** 出典どおりであり（`03_Tips.rst:735`、`2e501ad`）、クラス定数とも
+一致していた（`TestSupport.java:30` の `DEFAULT_RESOURCE_ROOT = "test/java/"`）。**基準が変わったことに
+よる是正である。**
+
+実効値の根拠は次のとおり。いずれも自分で開いて確認した。
+
+- `nablarch-testing-default-configuration` **6u3** の jar 内 `nablarch/test/test-data.config` が
+  `nablarch.test.resource-root=src/test/java` を与える（同ファイル1行のみ）
+- 同 jar 内 `nablarch/test/test-data.xml` が `<config-file file="nablarch/test/test-data.config"/>` で
+  これを読み込む
+- 両アーキタイプの `archetype-resources/src/test/resources/unit-test.xml` がこれを `<import>` する
+  — `nablarch-web-archetype` 6u3 の `:14`、`nablarch-jaxrs-archetype` 6u3 の `:14`（いずれも
+  `<import file="nablarch/test/test-data.xml"/>`）。両 jar は Maven Central から取得して展開した
+
+したがって、ブランクプロジェクトの読者が実際に目にする値は `src/test/java` である。
+
+**変更は当該1文に限る。** `common.rst` の他のセクション・見出し・コードブロックは変更していない
+（`checks/task-18.md` ゲート5。差分は `-1 / +1` 行で、変更は同一文内の1語のみ）。
+
+### `#12` 以降への申し送り R1-8 の帰結
+
+`#11` の申し送り R1-8（「既定値 `test/java` と `testdata_notation.rst` の配置説明の基準ディレクトリが
+一致しない」）は、**本是正で解消の方向に進んだ。** 本ページが `src/test/java` になったことで、
+テストデータの配置をプロジェクトルートからの相対パスで説明する記述と基準が揃う。ただし
+`testdata_notation.rst` 側の記述は本作業指示の変更対象外（`ja/` の変更は本ページと `web.rst` の2ファイルに
+限定）のため、突合そのものは `#19` 以降に持ち越す。

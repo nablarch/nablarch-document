@@ -443,12 +443,12 @@ Rn version: 0.8.0
 
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
 
-**`decide` 2件の回答**（2026-08-13、`/rn:gm`。判断を仰いだ時点の記録は `checks/task-17.md` §6 に残し、回答は同 §6-1 に追記した）:
+**`decide` 2件の回答**（2026-08-13、`/rn:ty`。判断を仰いだ時点の記録は `checks/task-17.md` §6 に残し、回答は同 §6-1 に追記した）:
 
 1. **`httpServerFactory` の登録を本文に書いたこと → 残す。** 出典が触れていないのはアーキタイプからのプロジェクト作成を前提にしていたためで、アーキタイプ以外から作る読者には必須（未登録なら `SimpleRestTestSupport.java:45`・`:298-300` で `IllegalConfigurationException`。デフォルト設定は 5u24・5u26・6u1・6u2・6u3 のすべてで0件）。**`design.md` §8 の既存の例外2件のどちらでもない新しい類型**「出典が欠いている、実装上必須の設定」であり、規定化は `#18` で行う
 2. **設定項目表の「デフォルト値」の基準 → デフォルト設定を読み込んだ実効値に統一する。** `rest.rst` が正しく、`web.rst`（クラスのフィールド初期値）を改める。根拠は出典自身が実効値を書いていること（`RequestUnitTest_rest.rst:288`・`02_RequestUnitTest.rst:345`・`:351`）。**是正対象は `checks/task-17.md` §7-2 の7項目では足りず、`web.rst` 9項目・`common.rst` 1項目**（レビュー役の実測）。全件と手順は `#18` の作業指示
 
-**Closed**: user review 承認済み（`/rn:gm`、2026-08-13。公開本文を承認し `decide` 2件に回答）。4観点レビュー ラウンド1（A fail `must` 2 / B fail 1 / C fail 1 / D fail 2、重複除去5件すべて是正）→ ラウンド2は是正差分限定の検証で pass（`must` 0）。コーディネータの独立検証で本ページに新規の事実誤りなし、`decide` 2 の射程の広がりを新規検出。Docker フルビルド `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）。詳細は `checks/task-17.md`・`reviews/page-request_unit_test_setting_rest.md` および git 履歴（最終内容コミット `4f78d11`）を参照。
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-13。公開本文を承認し `decide` 2件に回答）。4観点レビュー ラウンド1（A fail `must` 2 / B fail 1 / C fail 1 / D fail 2、重複除去5件すべて是正）→ ラウンド2は是正差分限定の検証で pass（`must` 0）。コーディネータの独立検証で本ページに新規の事実誤りなし、`decide` 2 の射程の広がりを新規検出。Docker フルビルド `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）。詳細は `checks/task-17.md`・`reviews/page-request_unit_test_setting_rest.md` および git 履歴（最終内容コミット `4f78d11`）を参照。
 
 ### #18: 設定項目表の「デフォルト値」の基準の統一と `design.md` §8 の類型追加
 
@@ -458,15 +458,15 @@ Rn version: 0.8.0
 
 **Steps**:
 
-- [ ] STEP 1 — `web.rst` の設定項目表（`list-table` 19行）のデフォルト値欄を、デフォルト設定を読み込んだ実効値に改める
-- [ ] STEP 2 — 表の直前の地の文に基準を明示する（`rest.rst:61` と同じ語彙・同じ語順の3点）
-- [ ] STEP 3 — 表に連動する地の文3箇所（`:86` の `important`・`:102` の `tip`・`:104`〜`:155` の記述例）と `:216` の `tip` の `htmlResourcesRoot` を整合させる
-- [ ] STEP 4 — `common.rst:17` のテストデータ読み込み先を `test/java` → `src/test/java` に改める（当該1文のみ）
-- [ ] STEP 5 — `design.md` §8 に2件を規定する（5-1 デフォルト値の基準／5-2 出典が欠いている実装上必須の設定。**追記のみ**）
-- [ ] STEP 6 — 記録（`checks/task-18.md` 新規作成、`reviews/page-request_unit_test_setting_web.md`・`page-common.md` へ追記、`steering.md` 更新、`#17` の `/rn:gm` → `/rn:ty` 訂正3箇所）
-- [ ] ゲート1〜11 をすべて実行結果で確認し、`checks/task-18.md` に記録する（**全件表を求めるゲート1・2を実行順の先頭に置く**）
-- [ ] 4観点のレビューは**回さない**（作業指示が明示的に禁止。新しい内容を書かないタスクで、ゲート1〜5 が変更範囲を機械的に固定している）
-- [ ] commit & push
+- [x] STEP 1 — `web.rst` の設定項目表（`list-table` 19行）のデフォルト値欄を、デフォルト設定を読み込んだ実効値に改める — 不一致8件を是正（全19行の照合表は `checks/task-18.md` ゲート1）
+- [x] STEP 2 — 表の直前の地の文に基準を明示する（`rest.rst:61` と同じ語彙・同じ語順の3点）
+- [x] STEP 3 — 表に連動する地の文3箇所（`:86` の `important`・`:102` の `tip`・記述例の `webBaseDir`）と `:216` の `tip` の `htmlResourcesRoot` を整合させる
+- [x] STEP 4 — `common.rst:17` のテストデータ読み込み先を `test/java` → `src/test/java` に改める（当該1文のみ）
+- [x] STEP 5 — `design.md` §8 に2件を規定する（5-1 デフォルト値の基準／5-2 出典が欠いている実装上必須の設定。**追記のみ**。追加39行 / 削除0行）
+- [x] STEP 6 — 記録（`checks/task-18.md` 新規作成、`reviews/page-request_unit_test_setting_web.md`・`page-common.md`・`page-testdata_notation.md` へ追記、`steering.md` 更新、`#17` の `/rn:gm` → `/rn:ty` 訂正3箇所）
+- [x] ゲート1〜11 をすべて実行結果で確認し、`checks/task-18.md` に記録する（**全件表を求めるゲート1・2を実行順の先頭に置く**）— 全件 PASS
+- [x] 4観点のレビューは**回さない**（作業指示が明示的に禁止。新しい内容を書かないタスクで、ゲート1〜5 が変更範囲を機械的に固定している）
+- [x] commit & push
 - [ ] **user review** — 承認を受けるまで `#19` に着手しない
 
 **Completion criteria**:

@@ -437,6 +437,45 @@ Jakarta Batch は対象外。第1部「対象範囲」で明示する。
 非推奨である旨を `important` で追記した（Temurin 21 で警告つきで起動することを実測。
 `reviews/page-request_unit_test_setting_web.md`）。
 
+### 設定項目表の「デフォルト値」の基準
+
+コンポーネント設定ファイルの設定項目一覧に載せる「デフォルト値」は、テスティングフレームワークの
+デフォルト設定（`nablarch-testing-default-configuration`）を読み込んだ状態で有効になる**実効値**とする
+（`#18` 確定。`#17` の `decide` 2 に対する判断）。クラスのフィールド初期値ではない。
+
+根拠は次の2点である。
+
+- ブランクプロジェクトがデフォルト設定を読み込むこと。ウェブアプリケーションは
+  `nablarch/test/http-request-test.xml` を、RESTfulウェブサービスは `nablarch/test/rest-request-test.xml`
+  を読み込む（`nablarch-web-archetype` / `nablarch-jaxrs-archetype` の
+  `archetype-resources/src/test/resources/unit-test.xml`）。読者が実際に目にするのは実効値である
+- 同名・同クラスのコンポーネント定義が**プロパティ単位でマージ**され、上書きしなかったプロパティに
+  デフォルト設定の値が残ること（`nablarch-core-repository` の
+  `XmlComponentDefinitionLoader.java`。既定ポリシーは `DuplicateDefinitionPolicy.OVERRIDE`）。
+  読者が同名で上書きしても、実効値を基準にした記載と矛盾しない
+
+運用は次のとおり。
+
+- **表を持つページは、その基準を表の直前の地の文で明示する。** 「デフォルト値の欄には、デフォルト設定を
+  読み込んだ状態で有効になる値を示す」に相当する1文を置く
+- フィールド初期値と実効値が食い違う場合、**実効値だけを載せる。** 両方を並べない
+- デフォルト設定が設定していない項目は、フィールド初期値がそのまま実効値になる
+- 確認した `file:line`（デフォルト設定の XML と `.config` の組）を `reviews/page-*.md` に記録する
+
+### 出典が欠いている、実装上必須の設定の追記
+
+出典にもマッピングにも無いが、**それが無いとページに書かれた手順が動かない設定は、書き足してよい**
+（`#18` 確定。`#17` の `decide` 1 に対する判断）。§11.3「マッピングにない内容を追加しない」の例外とする。
+
+- 追記の根拠は、**実装で必須であることを確かめた結果**とする。確認した `file:line` とコミットハッシュを
+  `reviews/page-*.md` に記録する。
+- 追記は**ページに書かれた手順を成立させるために必要なものに限る。** 出典が触れていない新しい主題を
+  追加してよいという意味ではない。
+
+例（`#17`）: `httpServerFactory` の登録。デフォルト設定に含まれず（5u24〜6u3 の全版で0件）、未登録だと
+内蔵サーバの生成時に `IllegalConfigurationException` が発生する（`SimpleRestTestSupport.java:45`・
+`:298-300`。`reviews/page-request_unit_test_setting_rest.md`）。
+
 ---
 
 ## 9. 対象外とするもの

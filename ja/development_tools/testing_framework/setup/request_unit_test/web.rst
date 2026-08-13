@@ -14,7 +14,7 @@
 
 コンポーネント設定ファイルに設定項目を登録する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-実行環境に依存する設定値は、コンポーネント設定ファイルで変更できる。テスト用のコンポーネント設定ファイルに、\ :java:extdoc:`HttpTestConfiguration <nablarch.test.core.http.HttpTestConfiguration>`\ を\ ``httpTestConfiguration``\ という名前で登録する。主な設定項目は次のとおりである。
+デフォルト設定（\ ``nablarch/test/http-request-test.xml``\ ）を読み込むと、\ :java:extdoc:`HttpTestConfiguration <nablarch.test.core.http.HttpTestConfiguration>`\ が\ ``httpTestConfiguration``\ というコンポーネント名で登録される。実行環境に依存する設定値は、このコンポーネントを同じ名前で上書きして変更する。上書きの記述は、デフォルト設定の読み込みより後に置く。主な設定項目は次のとおりである。デフォルト値の欄には、デフォルト設定を読み込んだ状態で有効になる値を示す。
 
 .. list-table::
   :header-rows: 1
@@ -28,7 +28,7 @@
     - ``./tmp/html_dump``
   * - ``webBaseDir``
     - ウェブアプリケーションのルートディレクトリ
-    - ``../main/web``
+    - ``src/main/webapp``
   * - ``xmlComponentFile``
     - リクエスト単体テストの実行時に使用するコンポーネント設定ファイル
     - 該当なし
@@ -46,13 +46,13 @@
     - ``Content-Type``\ が\ ``application/x-www-form-urlencoded``\ 、\ ``Accept-Language``\ が\ ``ja JP``
   * - ``sessionInfo``
     - セッションスコープに格納する値
-    - 該当なし
+    - ``commonHeaderLoginUserName``\ が\ ``リクエスト単体テストユーザ``\ 、\ ``commonHeaderLoginDate``\ が\ ``20100914``
   * - ``htmlResourcesExtensionList``
     - ダンプディレクトリへコピーするHTMLリソースの拡張子
-    - ``css``\ ・\ ``js``\ ・\ ``jpg``
+    - ``css``\ ・\ ``jpg``\ ・\ ``js``\ ・\ ``less``\ ・\ ``png``\ ・\ ``template``\ ・\ ``woff``\ ・\ ``eot``\ ・\ ``svg``\ ・\ ``ttf``
   * - ``jsTestResourceDir``
     - JavaScriptの自動テストで使用するリソースを配置したディレクトリ
-    - ``../test/web``
+    - ``src/test/webapp``
   * - ``backup``
     - ダンプディレクトリをバックアップするかどうか
     - ``true``
@@ -64,16 +64,16 @@
     - ``true``
   * - ``htmlChecker``
     - HTMLチェックを行うオブジェクト。\ :java:extdoc:`HtmlChecker <nablarch.test.tool.htmlcheck.HtmlChecker>`\ を実装したクラスのインスタンスを指定する。詳細は\ :ref:`HTMLチェックツール <html_check_tool>`\ を参照
-    - 該当なし
+    - ``htmlCheckerConfig``\ の設定に伴って設定される\ :java:extdoc:`Html4HtmlChecker <nablarch.test.tool.htmlcheck.Html4HtmlChecker>`
   * - ``htmlCheckerConfig``
     - HTMLチェックツールの設定ファイルのパス。この項目を設定すると、指定した設定ファイルを適用した\ :java:extdoc:`Html4HtmlChecker <nablarch.test.tool.htmlcheck.Html4HtmlChecker>`\ が\ ``htmlChecker``\ に設定される
-    - 該当なし
+    - ``src/test/resources/nablarch/test/http-request-test/html-check-config.csv``
   * - ``ignoreHtmlResourceDirectory``
     - HTMLリソースのうちコピー対象外とするディレクトリ名のリスト
-    - 該当なし
+    - ``.svn``
   * - ``tempDirectory``
     - JSPのコンパイル先ディレクトリ
-    - 該当なし（内蔵サーバ（Jetty）のデフォルト動作に従う）
+    - ``target/tmp``
   * - ``uploadTmpDirectory``
     - アップロードファイルを一時的に格納するディレクトリ。テストで準備したアップロード対象のファイルは、このディレクトリにコピーしてから処理される。アップロード対象のファイルそのものが移動されることを防ぐためである
     - ``./tmp``
@@ -83,7 +83,7 @@
 
 .. important::
 
-  ``checkHtml``\ を\ ``true``\ のままにする場合は、\ ``htmlChecker``\ と\ ``htmlCheckerConfig``\ のどちらか一方を必ず設定する。どちらも設定していないと、ステータスコードが500未満のHTMLレスポンスに対するHTMLチェックの実行時に例外が発生する。
+  ``checkHtml``\ を\ ``true``\ のままにする場合は、\ ``htmlChecker``\ と\ ``htmlCheckerConfig``\ のどちらか一方が設定されている必要がある。どちらも設定されていないと、ステータスコードが500未満のHTMLレスポンスに対するHTMLチェックの実行時に例外が発生する。デフォルト設定では\ ``htmlCheckerConfig``\ が設定されるため、デフォルト設定を読み込んでいる場合にこの状態は生じない。デフォルト設定を読み込まずにコンポーネント設定ファイルを組み立てる場合に注意する。
 
 ``webBaseDir``\ には、カンマ区切りで複数のディレクトリを指定できる。プロジェクト共通のウェブモジュールがある場合など、ルートディレクトリが複数に分かれているときに使用する。指定した順にリソースが探索される。
 
@@ -99,7 +99,7 @@
 
 .. tip::
 
-  ``tempDirectory``\ を省略した場合、内蔵サーバ（Jetty）のデフォルト動作では\ ``./work``\ がコンパイル先ディレクトリになる。\ ``./work``\ が存在しない場合は、OSの一時ディレクトリが出力先になる。
+  デフォルト設定を読み込まず、\ ``tempDirectory``\ も指定しない場合は、内蔵サーバ（Jetty）のデフォルト動作により\ ``./work``\ がコンパイル先ディレクトリになる。\ ``./work``\ が存在しない場合は、OSの一時ディレクトリが出力先になる。
 
 記述例を示す。\ ``sessionInfo``\ には次の値を設定している。デフォルト値と同じ値を明示的に記述している項目もある。
 
@@ -121,7 +121,7 @@
 
   <component name="httpTestConfiguration" class="nablarch.test.core.http.HttpTestConfiguration">
     <property name="htmlDumpDir" value="./tmp/html_dump"/>
-    <property name="webBaseDir" value="../main/web"/>
+    <property name="webBaseDir" value="src/main/webapp"/>
     <property name="xmlComponentFile" value="http-request-test.xml"/>
     <property name="userIdSessionKey" value="user.id"/>
     <property name="httpHeader">
@@ -213,7 +213,7 @@ HTMLリソースのコピーを抑止する
 
 .. tip::
 
-  ダンプディレクトリ配下のHTMLリソースのコピー先ディレクトリ（デフォルトは\ ``htmlResources``\ ）が存在しない場合は、このシステムプロパティの指定の有無にかかわらず、HTMLリソースのコピーが実行される。
+  ダンプディレクトリ配下のHTMLリソースのコピー先ディレクトリ（デフォルトは\ ``../htmlResources``\ ）が存在しない場合は、このシステムプロパティの指定の有無にかかわらず、HTMLリソースのコピーが実行される。
 
 Eclipseで指定する場所は、JVMオプションと同じ実行構成の「VM 引数」欄である。この欄にシステムプロパティを記述する。
 
