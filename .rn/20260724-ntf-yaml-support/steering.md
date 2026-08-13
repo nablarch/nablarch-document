@@ -473,38 +473,47 @@ Rn version: 0.8.0
 
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-13。公開本文を承認。レビュー役の独立検証で `must` 残存0件・本文に事実誤りなしを確認）。4観点レビュー ラウンド1（A fail `must` 3 / B fail 1 / C fail 1 / D fail 3、重複除去後7件すべて是正）→ ラウンド2は是正差分限定の検証で PASS（`must` 0）。Docker フルビルド `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）。`#19` から導入した差分範囲ゲート（母集合は `git status --porcelain` の全件、`commit & push` の直前）が `locales/ja/LC_MESSAGES/sphinx.mo` の混入（通算4回目）を実際に検出し、コミット前に戻した。詳細は `checks/task-19.md`・`reviews/page-request_unit_test_setting_http_messaging.md` および git 履歴（本文コミット `98542ac`）を参照。`#20` 以降への申し送り7件は同レビュー記録 §5。
 
-### #20: リクエスト単体テストの設定（Nablarchバッチアプリケーション）（`setup/request_unit_test/batch.rst`）
+### #20: リクエスト単体テストの設定（Nablarchバッチアプリケーション）（`setup/request_unit_test/batch.rst`）— DONE
 
-**Purpose**: マッピングに従って第2部の6ページ目「リクエスト単体テストの設定（Nablarchバッチアプリケーション）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（Nablarchバッチアプリケーション）` の3行（`current-0037-b` 54行 / `current-0291` 37行 / `current-0292` 38行、計129 lines）。ページ先頭ラベルは `style.md` S-08 の `request_unit_test_setting_batch`。
-
-**Prerequisites**: #19
-
-**Steps**: 上記「#9〜」の共通 Steps に従う。**個別の作業指示は出さない。** 3条件はいずれにも当たらない（出典3行・129 lines で 500 lines 以下／`design.md:863`・`style.md` S-08・`mapping.csv` の3者が一致／出典0行でない）。
-
-- [x] `mapping.csv` の当該3行を抽出し、出典を `git show origin/develop:<src_file>` で実読
-- [x] ページ先頭ラベルを `style.md` S-08 から引く（`request_unit_test_setting_batch`）
-- [x] ページ作成・`setup/index.rst` の `toctree` 追記
-- [x] Docker フルビルド（`-a`）— `build succeeded, 1 warning.`（既知の1件のみ・新規0件）。計4回実行し、いずれもビルド直後に `sphinx.mo` を復元
-- [x] 4観点レビュー ラウンド1（各観点を別のサブエージェントで実施。A PASS / B・C・D FAIL、`must` 5件＝重複除去後4件）→ 是正13件 → ラウンド2（是正差分限定）で PASS → ラウンド3で `should` 2・`note` 3 を一括是正
-- [x] レビュー記録（`reviews/page-request_unit_test_setting_batch.md`）・self-check（`checks/task-20.md`）
-- [x] **差分の範囲を確認する**（`git status --porcelain` の**全件**。`commit & push` の**直前**に置いた。各ラウンドとも予定外0件）
-- [x] commit & push（`00cb161`・`2bb3cf6`・`fb3fd0f`）
-- [ ] **user review** — 承認を受けるまで `#21` に着手しない。`decide` 3件の回答も必要
-
-**`decide` 3件**（詳細と推奨は `reviews/page-request_unit_test_setting_batch.md` §4）:
-
-1. 承認済み `implementation/testdata_notation.rst:967` の「``TEST_{型名称}``」が実装と食い違う（実装は**型記号**に `TEST_` を前置する）。読者が誤った名前を書くとテストが動かない
-2. `must` 対応で第2部から削った具体的な数値記述例（`12345`→`0000012345` 等）の行き先。**現在この内容は新解説書のどこにも存在しない**（`testdata_examples.rst` のヒット0件）
-3. デフォルト設定 `6u3` の同梱ファイル（`process-service_test.xml`・`fixed-length-convertor-setting_test.xml`）に触れるかどうか
+**Purpose**: マッピングに従って第2部の6ページ目「リクエスト単体テストの設定（Nablarchバッチアプリケーション）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（Nablarchバッチアプリケーション）` の3行。共通 Steps のみで進めた（個別の作業指示を出す3条件に当たらない）。
 
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
 
-**申し送り**（`#18`・`#19` から。詳細は `reviews/page-request_unit_test_setting_http_messaging.md` §5 の7件）:
+**`decide` 3件・`should` 3件の回答**（2026-08-13、`/rn:ty`。判断を仰いだ時点の記録は `reviews/page-request_unit_test_setting_batch.md` §4 に残し、回答は同 §4 の各 `decide` 直下に追記した。是正の実行結果は `checks/task-20.md` ゲート16〜24）:
 
-- `design.md` §8 の「デフォルト設定」（`nablarch-testing-default-configuration` を読み込んだ状態）と衝突する語義で「デフォルト設定」を使わない。設定項目表の「デフォルト値」は、デフォルト設定を読み込んだ実効値を書く（`design.md` §8）
-- `RequestTestingMessagingClient` はウェブ・スタンドアロンのリクエスト単体テストからも初期化される（`TestShot.java:188`）。本ページから `request_unit_test_setting_http_messaging` への導線を張るか検討する（申し送り6）
+1. **`testdata_notation.rst:967` の `TEST_{型名称}` → 是正する。** `TEST_{型記号}` に改め、第3文を「元の型に代えてその型が使用される」に直し、末尾に第2部への `:ref:` を追加した。是正する理由は、`#19` の申し送り4 と違って読者が誤った設定を書く経路があり、かつ `#20` のページ `:82` 自身がその経路を作っていること。差分は `:967` の1行のみ
+2. **削った数値記述例 → 第3部「テストデータの書き方」へ移す。** 採る理由は「`decide` 1 と同じ段落だから」ではなく、`design.md:273-274` が「テストデータの書き方＝どう書けばどう解釈されるかの規則」「記載例＝Excel と YAML の対比」と役割を定めており、この記述は規則そのものかつ両形式で同一だからである。形式別 L4 には割らない（`style.md` S-10 規約1）。**`mapping.csv` を追随させた**: `current-0037-b` を `263`〜`274`（`current-0037-b2`・12行・第3部）と `275`〜`316`（42行・第2部）に分割し 594→**595行**（`#6` の `current-0128` と同じ手順）。`volume.md` は 3,391→3,403 / 129→117、合計 11,983 は不変
+3. **デフォルト設定 `6u3` の同梱ファイル → どちらにも触れない（現状維持）。** 記録に1件追加した。`fixed-length-convertor-setting_test.xml` は自身の `:10` で `nablarch/batch/resume-point-manager_test.xml` を `import` しており、当該ファイルだけを直接 `import` してもレジュームポイント管理の設定が抱き合わせで入る。`#last` で `design.md` §8 に残すかを判断する（`#20` では別タスク化しない）
+4. **`should` 1・2 — `glossary.md` を2点是正した。** `ディレクティブ` の意味列を「キー名と値の2要素で指定するもの」に改め（`<map>`／`<entry>` による登録を含む範囲にした）、§5.8 に `型名称`・`型記号` の2行を追加した（採用根拠は実測。input のみ6件・2件、現行解説書とFW解説書は0件）。正表記・揺れ・採用根拠の各列と `:403`〜`:449` の見出し一覧は不変
+5. **`should` 3 — 申し送り3 に裏付けの範囲を書き添えた。** L3 の実測則 `max(49, 表示幅)` のうち**表示幅側**の裏付けは `implementation/testdata_examples.rst` の7箇所（うち下限50を超えて discriminating なのは5箇所）、**下限49の裏付けは `setup/` 配下の5ページ**である。両者を合わせて規則が立つ
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-13。公開本文を承認。レビュー役の独立検証で `must` 残存0件・本文に事実誤りなしを確認）。4観点レビュー ラウンド1（A PASS / B・C・D FAIL、`must` 重複除去後4件）→ 是正13件 → ラウンド2 PASS → ラウンド3で `should` 2・`note` 3 を一括是正。承認時の是正で `testdata_notation.rst:967`・`glossary.md`・`mapping.csv`（`_batch/batch-16.csv` 経由で再生成・バイト一致）・`volume.md` を更新し、`verify_mapping.py` は 595行 / 12,986 / 11,983 で `exit 0`、Docker フルビルドは `build succeeded, 1 warning.`（既知1件のみ・新規0件）。**`volume.md` の `dest_section` 別集計に既存の誤り2件（第3部「使用方法」が実測より453行多い／`テストデータの構造` 479行の行が欠落）を見つけ、あわせて是正した**（合計 11,957→11,983）。詳細は `checks/task-20.md`・`reviews/page-request_unit_test_setting_batch.md` および git 履歴（本文コミット `00cb161`・`2bb3cf6`・`fb3fd0f`、承認時是正コミット `<HASH>`）を参照。`#21` 以降への申し送り7件は同レビュー記録 §5。
+
+### #21: リクエスト単体テストの設定（MOMによるメッセージング）（`setup/request_unit_test/mom.rst`）
+
+**Purpose**: マッピングに従って第2部の7ページ目「リクエスト単体テストの設定（MOMによるメッセージング）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（MOMによるメッセージング）` の8行（76 lines、`DROP` 0件）。ページ先頭ラベルは `style.md` S-08 の `request_unit_test_setting_mom`。
+
+**Prerequisites**: #20
+
+**Steps**: 上記「#9〜」の共通 Steps に従う。**個別の作業指示は出さない。** 3条件はいずれにも当たらない（76 lines で 500 lines 以下／`design.md:864`・`style.md` S-08 `:353`・`mapping.csv` の3者がページ名・ファイル名・ラベルで一致／出典0行でない）。
+
+- [ ] `mapping.csv` の当該8行を抽出し、出典を基準コミットで実読
+- [ ] ページ作成・`setup/index.rst` の `toctree` 追記
+- [ ] Docker フルビルド（`-a`）。直後に `sphinx.mo` を復元
+- [ ] 4観点レビュー（各観点を別のサブエージェントで実施）
+- [ ] レビュー記録・self-check（`checks/task-21.md`）
+- [ ] **差分の範囲を確認する**（`git status --porcelain` の**全件**。`commit & push` の**直前**）
+- [ ] commit & push
+- [ ] **user review**
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
+
+**着手時の申し送り**（`#20` の `/rn:ty` で受領）:
+
+- **8行のうち7行が `dest_section=拡張例` で、`使用方法` は `current-0106-b`（`05_UnitTestGuide/02_RequestUnitTest/real.rst:167-177`、11 lines）の1行だけである。** うち5行は `06_TestFWGuide/03_Tips.rst` の `:788`〜`:832` に集中している。`使用方法` が薄く `拡張例` が厚いページ構成になるため、`design.md` の第2部ページアウトラインとの整合を着手時に確認する。`機能概要` が0行であることは `verify_mapping.py` が `optional since #6` として扱っておりエラーではない
+- `design.md` §8 の「デフォルト設定」と衝突する語義で「デフォルト設定」を使わない。設定項目表の「デフォルト値」はデフォルト設定を読み込んだ実効値を書く
 - FW解説書へ `:ref:` を張る前に参照先の本文を読み、実装・本ページの記述と矛盾しないか確認する（申し送り2）
-- `glossary.md` の意味列は、正表記だけでなく適用範囲まで確認する（申し送り3）
+- ファイル入出力に触れるときは、`defaultDirectives` / `TEST_X9` 等の設定手順を持つ `request_unit_test_setting_batch` への導線を張るか検討する（申し送り1）
 
 ### #last: Evaluation sign-off
 
@@ -539,8 +548,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
+- **Status**: not suspended
 - **Date**: 2026-08-13
-- **Last completed**: #19（リクエスト単体テストの設定（HTTPメッセージング）。user review 承認済み）
-- **Next**: #20 の user review の判定を受ける（`/rn:ty` または `/rn:gm`）。あわせて `decide` 3件に回答が必要。承認後に #21（第2部7ページ目「リクエスト単体テストの設定（MOMによるメッセージング）」`setup/request_unit_test/mom.rst`）へ
-- **Notes**: `#20` は作業を完了し commit & push 済み（`00cb161`・`2bb3cf6`・`fb3fd0f`）。**user review 待ちのため Steps の最終項目のみ未チェック。** 判定に必要な材料は `decide` 3件（`steering.md` の `#20` エントリ末尾に要約、詳細と推奨は `reviews/page-request_unit_test_setting_batch.md` §4）。`#21` 以降への申し送り7件は同ファイル §5。ゲートの実行結果は `checks/task-20.md`。`#20` の着手時 HEAD は `499304a`。
+- **Last completed**: #20（リクエスト単体テストの設定（Nablarchバッチアプリケーション）。user review 承認済み。`decide` 3件・`should` 3件の是正まで完了）
+- **Next**: #21（第2部7ページ目「リクエスト単体テストの設定（MOMによるメッセージング）」`setup/request_unit_test/mom.rst`）に着手する
+- **Notes**: `#21` の出典は8行・76 lines（`DROP` 0件）。**うち7行が `dest_section=拡張例` で、`使用方法` は `current-0106-b`（`05_UnitTestGuide/02_RequestUnitTest/real.rst:167-177`、11 lines）の1行だけ**（実測。`拡張例` 7行のうち5行は `06_TestFWGuide/03_Tips.rst:788-832` に集中）。`使用方法` が薄く `拡張例` が厚い構成になるため、着手時に `design.md` の第2部ページアウトラインとの整合を確認する。個別の作業指示は出さない（3条件のいずれにも当たらない）。`mapping.csv` の不変条件は `#20` で **595行 / 12,986 / 11,983** に変わった。`#21` 以降への申し送り7件は `reviews/page-request_unit_test_setting_batch.md` §5。

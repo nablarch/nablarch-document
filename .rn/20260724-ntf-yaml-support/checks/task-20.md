@@ -420,3 +420,187 @@ docker run --rm -v /home/tie303177/work/nablarch/nablarch-document:/root/documen
 | `??` | `.rn/20260724-ntf-yaml-support/reviews/page-request_unit_test_setting_batch.md` | **本作業の成果物ではない。** コーディネータが作成したレビュー記録であり、`reviews/` は触ってはならない対象のため作成も変更もしていない。**コミットしない**（ステージは明示パスのみのため混入しない） |
 
 予定外**0件**。ビルド副産物（`locales/ja/LC_MESSAGES/sphinx.mo`）は上表に現れていない。
+
+# 承認時の是正（`/rn:ty` の回答対応、2026-08-13）
+
+`#20` の公開本文は承認された（`must` 残存0件・本文に事実誤りなし）。以下は `decide` 3件の
+回答と `should` 3件の指示に対する是正であり、**`setup/request_unit_test/batch.rst` は変更していない**。
+
+## ゲート16 — `ja/` の差分（回答ゲート1）
+
+```
+git diff -U0 -- ja/
+@@ -967 +967 @@ ja/development_tools/testing_framework/implementation/testdata_notation.rst
+```
+
+差分は `implementation/testdata_notation.rst` の **`:967` 1行のみ**（1段落＝1行）。
+前後の表（`:929-965`）・見出し・`:969` の `:ref:` はいずれも不変。`git diff --numstat` は
+`1 1`（1挿入・1削除）。
+
+是正の内容は3点。
+
+1. 第2文を追加し、`decide` 2 の数値記述例を第3部へ移した（`12345`→`0000012345`、
+   `-12.34`→`-000012.34`）。フォーマット定義の3条件は、出典
+   `05_UnitTestGuide/02_RequestUnitTest/batch.rst:267` の「小数点必要、符号位置固定、
+   正の符号不要」を、**同ページ `:893`〜`:898` が定義しているディレクティブキー**
+   （`required-decimal-point`・`fixed-sign-position`・`required-plus-sign`）に置き換えた。
+   読者が同じページ内で意味を引けるようにするため。形式別 L4 には割っていない
+   （`style.md` S-10 規約1「形式に依らない概念の定義・制約」）
+2. 第3文の `TEST_{型名称}` を `TEST_{型記号}` に是正し、「同名の基底型より優先して
+   使用される」を「元の型に代えてその型が使用される」に改めた
+   （`TEST_X9` は `X9` と同名ではないため。実装は `DataFileFragment.java:238-244`）。
+   あわせて「定義すると」を「コンポーネント設定ファイルに…登録すると」に改めた
+3. 第4文として `:ref:` を追加し、第3部から第2部への逆導線を張った（申し送り7の一部を解消）。
+   参照先ラベル `request_unit_test_setting_batch` は
+   `setup/request_unit_test/batch.rst:1` に定義済み
+
+## ゲート17 — `setup/request_unit_test/batch.rst` に差分が出ないこと（回答ゲート2）
+
+`git status --porcelain` に当該ファイルは現れない。**差分0**。
+
+## ゲート18 — `glossary.md` の差分（回答ゲート3）
+
+```
+@@ -223 +223 @@      ← `ディレクティブ` の意味列1セル
+@@ -228,0 +229,2 @@  ← `型名称`・`型記号` の2行を追加
+```
+
+`git diff --numstat` は `3 1`。`:160`（`モックアップクラス`、`#19` で是正済み）に差分なし。
+既存行の正表記・揺れ表記・別義・採用根拠の各列は不変。`:403`〜`:449` 相当の見出し一覧
+（現行解説書に実在した見出し文字列の一覧）にも差分なし。
+
+- **`ディレクティブ`**: 「フォーマット定義を指定する**設定行**」→「ファイル・電文の
+  フォーマットに関する属性を、キー名と値の2要素で指定するもの」。承認済み
+  `testdata_notation.rst:871` の定義と一致させ、`<map>`／`<entry>` による登録
+  （本ページ `:41`・`:61-74`）も含む範囲にした
+- **`型名称`・`型記号`**: §5.8「テストデータ」の表末尾に2行追加。採用根拠は実測
+  （下表）。`型名称` は input 1ファイル・6件、`型記号` は input 1ファイル・2件。
+  **現行解説書・FW解説書はいずれも0件**（実測コマンドは下記）
+
+```
+grep -ro "型名称" .rn/.../input/ | wc -l          → 6
+grep -ro "型記号" .rn/.../input/ | wc -l          → 2
+（現行解説書は基準コミット c241906 の全 .rst を走査して0件、FW解説書 ja/application_framework/ も0件）
+```
+
+掲載基準は §3 の**基準1**（正表記を確定した用語）に当たるものとして掲載した。表記揺れ
+（別表記）は実在しないが、`S:input/ntf-testdata-doc.md:633` が `TEST_{型名称}` という
+**誤った組み合わせ**を持ち、それが承認済みページ `testdata_notation.rst:967` へ波及して
+いた。2語の区別を規定することが再発防止になるため、`#19` の `モックアップクラス`
+（`揺れなし` だが基準1で掲載）と同じ扱いとした。
+
+## ゲート19 — `mapping.csv` の差分（回答ゲート4）
+
+```
+@@ -318 +318,2 @@   ← current-0037-b の1行を current-0037-b2 + current-0037-b の2行に置換
+```
+
+`git diff --numstat` は `2 1`。**他の593行に差分なし**。
+
+| `mapping_id` | 範囲 | `lines` | `dest_part` / `dest_page` / `dest_section` |
+|---|---|---:|---|
+| `current-0037-b2`（新規） | `263`〜`274` | 12 | 第3部 テストの実装方法 / テストデータの書き方 / 使用方法 |
+| `current-0037-b`（範囲変更） | `275`〜`316` | 42 | 第2部 導入と設定 / リクエスト単体テストの設定（Nablarchバッチアプリケーション） / 使用方法 |
+
+`disposition` は両行とも `SPLIT`。`note` には分割の理由と `#20` で決めたことを書いた。
+`current-0037-b` の旧 `note` にあった「263-316行はこのtip全体であり途中で分割不可」は
+この決定により失効した旨を新 `note` に明記した。
+
+**行の並び順**: `current-0037-b2` を `current-0037-b` の**前**に置いた。`_batch/*.csv` は
+30ファイルすべてが同一 `src_file` 内で `src_body_start` の昇順になっていることを機械検査で
+確認したためである（`mapping_id` の英字順ではなく行番号順が既存の不変条件）。
+
+出典の分割点も実物で確認した。基準コミット `c241906` の
+`05_UnitTestGuide/02_RequestUnitTest/batch.rst` で、`:263`〜`:265` が「そのまま記載する」規則、
+`:267`〜`:274` が表（`12345`/`-12.34`）、`:275` が空行、`:276` 以降がテスト用データタイプの
+設定手順である。
+
+## ゲート20 — `_batch/*.csv` の再生成とバイト一致（回答ゲート5）
+
+```
+{ head -1 _batch/batch-01.csv; for f in _batch/batch-*.csv; do tail -n +2 "$f"; done; } > /tmp/regen.csv
+md5sum mapping/mapping.csv /tmp/regen.csv
+d83c65d6a425095b6dcc5f67855ae21b  mapping/mapping.csv
+d83c65d6a425095b6dcc5f67855ae21b  /tmp/regen.csv
+```
+
+一致。素の `cat` を使っていないこと（各 `_batch` ファイルのヘッダ行を除いていること）を
+コマンドで示す。
+
+## ゲート21 — `verify_mapping.py`（回答ゲート6）
+
+```
+python3 mapping/tools/verify_mapping.py
+Loaded 595 rows from mapping.csv
+lines total (all rows): 12986
+lines total (excluding DROP): 11983
+OK: no errors     （exit 0）
+```
+
+**595行 / 12,986 / 11,983** で不変条件どおり。さらに、是正前（HEAD 版 `mapping.csv`）の
+出力と行単位で `diff` を取り、**差分は `Loaded 594 rows` → `Loaded 595 rows` の1行のみ**
+であることを確認した。advisory（candidate duplicate destinations 44 / reference-only 2 /
+intro section split 5 / part2 optional 18）はいずれも増減なし。
+
+### `volume.md` の更新（回答の指示分）と、再集計で見つかった既存の誤り
+
+指示された2件を更新した。「テストデータの書き方」3,391→**3,403**、「リクエスト単体テストの
+設定（Nablarchバッチアプリケーション）」129→**117**。合計 11,983 は不変。降順表のため
+後者の行位置を「リクエスト単体テストの設定（RESTfulウェブサービス）」（125）の下へ移した。
+
+**指示にない是正を2件行った。** `mapping.csv` から集計し直した結果、`volume.md` の
+`dest_section` 別集計に既存の誤りが2つあり、合計が 11,957 と実際より26行少なかった。
+
+| 箇所 | 従前 | 実測 | 内容 |
+|---|---:|---:|---|
+| 第3部 使用方法 | 8,867 | 8,414（→ `#20` 後 8,426） | 実測値と453行ずれていた |
+| 第3部 テストデータの構造 | 行なし | 479 | `mapping.csv` が使う `dest_section` だが表に行が無かった |
+
+2つの誤りが打ち消し合っていたため（453 − 479 = −26）、合計だけを見ても気づけない状態だった。
+是正後は `dest_page` 別・`dest_section` 別のどちらの表も合計が **11,983** に一致する
+（`volume.md:7-8` が定める再現手順どおり）。あわせて「傾向」の 4,666 行（`#8` 以降の編入を
+反映していない古い値）を実測の 4,753 行に是正した。**この3件は `#20` の指示範囲外の是正である。**
+
+## ゲート22 — Docker フルビルド（回答ゲート7）
+
+```
+docker run --rm -v /home/tie303177/work/nablarch/nablarch-document:/root/document \
+  nablarch-document-build /bin/bash -c \
+  "cd /root/document; sphinx-build -a -d _build/.doctrees/ja -b html ja _build/html"
+```
+
+結果: `build succeeded, 1 warning.`（exit 0）。`grep -n "WARNING\|ERROR"` の該当は既知の1件
+（`db_double_submit.rst:108: undefined label: how_to_set_token_in_request_unit_test`）のみで、
+**新規warning 0件**。`undefined label` / `nonexisting` / `unknown document` の増加も0件。
+新設した `:ref:` が解決していることは、警告が出ないことに加え、生成HTML
+（`_build/html/.../testdata_notation.html`）の該当段落にリンクが出ていることで確認した。
+
+## ゲート23 — `sphinx.mo` の復元（回答ゲート8）
+
+ビルド直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行した（通算8回目）。
+実行後の `git status --porcelain` に `locales/` は現れない。
+
+## ゲート24 — 差分の範囲（回答ゲート9。`commit & push` の直前）
+
+母集合は `git status --porcelain` の全件。
+
+| 状態 | ファイル | 予定していた変更か |
+|---|---|---|
+| `M` | `ja/development_tools/testing_framework/implementation/testdata_notation.rst` | 予定どおり（`decide` 1・2） |
+| `M` | `.rn/20260724-ntf-yaml-support/mapping/glossary.md` | 予定どおり（`should` 1・2） |
+| `M` | `.rn/20260724-ntf-yaml-support/mapping/_batch/batch-16.csv` | 予定どおり（`decide` 2 の追随） |
+| `M` | `.rn/20260724-ntf-yaml-support/mapping/mapping.csv` | 予定どおり（再生成） |
+| `M` | `.rn/20260724-ntf-yaml-support/mapping/volume.md` | 予定どおり（集計更新＋既存の誤りの是正） |
+| `M` | `.rn/20260724-ntf-yaml-support/checks/task-20.md` | 予定どおり（本記録） |
+| `M` | `.rn/20260724-ntf-yaml-support/reviews/page-request_unit_test_setting_batch.md` | 予定どおり（回答の追記） |
+| `M` | `.rn/20260724-ntf-yaml-support/steering.md` | 予定どおり（`#20` の回答・`DONE` 化） |
+
+予定外**0件**。ビルド副産物（`locales/ja/LC_MESSAGES/sphinx.mo`）は現れていない。
+
+## `decide` 3 の記録追加（回答の指示分）
+
+`fixed-length-convertor-setting_test.xml` は自身の `:10` で
+`nablarch/batch/resume-point-manager_test.xml` を `import` している。**`override_test.xml` を
+経由せず当該ファイルだけを直接 `import` した場合でも、レジュームポイント管理の設定が
+抱き合わせで入る。** レビュー記録 §2 の表に抜けていた事実であり、「案内しない」という
+結論をさらに補強する。ページ本文は変更していない。
