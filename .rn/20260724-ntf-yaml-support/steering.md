@@ -498,13 +498,21 @@ Rn version: 0.8.0
 **Steps**: 上記「#9〜」の共通 Steps に従う。**個別の作業指示は出さない。** 3条件はいずれにも当たらない（76 lines で 500 lines 以下／`design.md:864`・`style.md` S-08 `:353`・`mapping.csv` の3者がページ名・ファイル名・ラベルで一致／出典0行でない）。
 
 - [x] `mapping.csv` の当該8行を抽出し、出典を基準コミット `c241906` で実読
-- [ ] ページ作成・`setup/index.rst` の `toctree` 追記
-- [ ] Docker フルビルド（`-a`）。直後に `sphinx.mo` を復元
-- [ ] 4観点レビュー（各観点を別のサブエージェントで実施）
-- [ ] レビュー記録・self-check（`checks/task-21.md`）
-- [ ] **差分の範囲を確認する**（`git status --porcelain` の**全件**。`commit & push` の**直前**）
-- [ ] commit & push
-- [ ] **user review**
+- [x] ページ作成・`setup/index.rst` の `toctree` 追記（`8b956cd`）
+- [x] Docker フルビルド（`-a`）。直後に `sphinx.mo` を復元 — `build succeeded, 1 warning.`（既知の `db_double_submit.rst:108` のみ・新規0件）。コーディネータ自身が2回実行
+- [x] 4観点レビュー（各観点を別のサブエージェントで実施）— ラウンド1は A・B・C・D の4観点とも FAIL。ラウンド2は是正差分限定で2本（範囲検証 PASS／ファクトチェック不一致1件）
+- [x] レビュー記録・self-check（`checks/task-21.md`・`reviews/page-request_unit_test_setting_mom.md`）
+- [x] **差分の範囲を確認する**（`git status --porcelain` の**全件**。`commit & push` の**直前**）— 3コミットとも予定外0件。`sphinx.mo` の混入も0件
+- [x] commit & push — `8b956cd`（作成）→ `2c9be08`（是正ラウンド1・10件）→ `346171d`（是正ラウンド2・2件）
+- [ ] **user review** — `decide` 5件の回答が必要（下記）
+
+**`decide` 5件（user review 待ち。詳細と根拠は `reviews/page-request_unit_test_setting_mom.md` §4.5・§5.3）**:
+
+1. **`reader.fwHeaderfields` の重複の集約先。** 承認済み `http_messaging.rst:37-42` と本ページに、同じキー・同じコード例が並ぶ。(a) `setup/common.rst` に集約し両ページから `:ref:` ／ (b) `http_messaging.rst` に集約 ／ (c) 現状維持。**観点Dは (a) を推奨**（実装上この設定は処理方式に紐づかない）。作成側は (c)。あわせて「既定を置き換える」旨が本ページにしか無い非対称も解消するか
+2. **承認済み `implementation/testdata_notation.rst:1244` の是正可否。** 「キー名は固定ではなく、`reader.fwHeaderfields` の設定に合わせる」が、実装（YAML 経路はこのキーを読まない）とも同ファイル `:1263` とも矛盾する。本ページが `:ref:` を張った先であり、読者が直接ぶつかる。`#19` の申し送り4・7 の未解決分。差分1行
+3. **出典外の追記2件の扱いと `design.md` §8 への類型追加。** `mom.rst:26` の3文目（同期応答メッセージ送信でも使用されない）と `:58-60` の `tip`（`file-type` がアサート方式にも影響する）は、いずれも実装で裏付けられるが §8 の既存類型のどれにも当たらない。**観点Dは「残す」＋「出典が触れていない副作用の注記」を第3の類型として明文化することを推奨**
+4. **`glossary.md` の3件。** (i) `環境設定ファイル` が用語集に0件（作成済み3ページで5箇所使用・FW解説書に32件）／(ii) `TestDataConvertor`→`TestDataConverter` の置換行が §8 に無い（出典の誤綴りで、残り32ページで再演算になる）／(iii) `デフォルト値`（29件・5ファイル）と `既定値`（10件・2ファイル）の揺れが実在するのに「今回は判定しない」のまま
+5. **未確定の論点を申し送りにするか、いま確定させるか。** `reader.fwHeaderfields` が HTTPメッセージング受信のテストに実際に効くかでレビュアーの判断が割れた（一方は `MessagingRequestTestSupport` 経由で同一経路、他方は `nablarch/test/core/http/` から `getMessage` を呼ぶ経路が無い）。**本タスクでは確定していない。** 承認済み `http_messaging.rst:37` の適用範囲に関わる
 
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
 
