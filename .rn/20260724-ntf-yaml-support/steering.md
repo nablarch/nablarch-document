@@ -538,6 +538,21 @@ Rn version: 0.8.0
 - 是正ラウンド1（`d90d28f`）で A の `must`（`Set-Cookie`／`Cookie` ヘッダの記述を戻す）と `should` 8件を処理。**A の `must` は「実装が `Set-Cookie` を扱わない」という誤認に基づいており、原因は `grep` に `-a` を付けずバイナリの `.class` を読み飛ばしたこと**（コーディネータが実測して決着。同じ穴が当初のレビュー記録 §3-3 と観点D にもあった）
 - ゲート1〜9 は**コーディネータが独立に再実行して全件 PASS**。`verify_mapping.py` 595行 / 12,986 / 11,983 exit 0、`既定` 0件、`デフォルト設定` 0件、見出し下線6件すべて実測則どおり、XML 2ブロックともパース成功、**Docker フルビルドは是正後の版で `build succeeded, 1 warning.`（既知の `db_double_submit.rst:108` のみ・新規0件）**、`sphinx.mo` はビルド直後に復元済み
 
+**未解決（是正ラウンド2 の指摘。次に着手する分）**:
+
+- `must` — `rest.rst:10` のリード文「自動で引き継げる」に裏付けが無い。出典 `:38-42` に当該の語が無く、`defaultProcessor` 未登録なら `NOP_PROCESSOR` で何も起きない（`SimpleRestTestSupport.java:96-102`・`:61-76`）
+- `should` — `:21` 第2文の主語欠落（旧版の「この実装クラスは、」が落ち、並列の `:33` と書き方が割れている）
+- `should` — `:17` の「直前のレスポンス」が出典 `:40` の「先行するリクエストのレスポンス」より狭い（`RequestResponseCookieManager.java:47-56` は一致するクッキーが無ければ値を保持し続ける）
+
+**ユーザー判断待ち2件**（本ページの是正では解けない。取引単体テスト残り8ページに波及するため先送りのコストが上がる）:
+
+- (a) `about/index.rst:73-79` の「取引単体テストは手動操作」が本ページ（JUnit 前提）と矛盾する。出典自身が割れており（`03_DealUnitTest/index.rst:7-8` は手動、同 `rest.rst:7` は連続実行）、根拠の `design.md:86` 側に誤りがある
+- (b) `style.md:45` の「第2部は機能概要 → 使用方法 → 拡張例の順」が実態と食い違う（`機能概要` は `#6` 以降0行可で、作成済み第2部8ページはどれも持たない）
+
+**保留中の追加指示（帰属未確定・本タスクの範囲外）**: 2026-08-13 に受領した「`#22` 追加指示 — 期待値0件は仕様どおりに書く」は**別タスクの指示である**。差し替え元と称する `指示/task-22.md` はリポジトリの全履歴に存在せず（`git log --all --diff-filter=A` で0件。2026-08-14 に再確認）、差し替え対象の §3-2／§4-1／§4-3／§5／§6／§7 が `ntf-doc-22-deal-unit-test-rest.md` の同番号の節と内容が一致しない。対象ページも `testdata_notation.rst`・`testdata_examples.rst`（第3部・`#9`／`#10` で承認済み）である。**指示書を受領するかタスク番号の指定を受けるまで、期待値0件の本文を書き始めない。**
+
+**環境の事実**: `docker build` は pip install の段で失敗するため既存イメージ `nablarch-document-build` で `docker run` する（失敗原因は未確認。`checks/task-22.md` §4 は TLS 証明書が原因と書くが、コーディネータは未検証）
+
 ### #pre-last: `verify_glossary.py` の不一致25件の一括是正
 
 **Purpose**: ページを作らないタスク。`#21` の申し送りで残った `verify_glossary.py` の不一致を、全ページ作成完了後・`#last` の直前に一括で解消する。毎タスク書き換わる `design.md` を行番号で指している限り再発するため、ページ作成が終わってから1回で片付ける（`ntf-doc-22-deal-unit-test-rest.md` §5、レビュー役の実測による判断）。
@@ -593,8 +608,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-13
-- **Last completed**: #21（`/rn:ty` 承認済み・DONE。`c0e12fc`・`41909d4`）
-- **Next**: **`#22` の帰属をユーザーに確認すること。** 2026-08-13 に「`#22` 追加指示 — 期待値0件は仕様どおりに書く」を受領したが、**これは別タスクの指示である。** 差し替え元と称する `指示/task-22.md` はリポジトリに存在せず（`ls`・`find`・`git log --all --diff-filter=A` のいずれもヒット0）、差し替え対象の §3-2／§4-1／§4-3／§5／§6／§7 が手元の `#22` 指示（`ntf-doc-22-deal-unit-test-rest.md`）の同番号の節と内容が一致しない。対象ページも `testdata_notation.rst`・`testdata_examples.rst`（第3部・`#9`／`#10` で承認済み）で、進行中の `setup/deal_unit_test/rest.rst` とは別物。追加指示 §8「食い違っていると読める箇所があれば本文を書かずに報告する」に従い着手していない。**指示書を受領するかタスク番号の指定を受けるまで、期待値0件の本文を書き始めないこと**
-- **Notes**: ブランチ `ntf-yaml-support`（push 済み・作業ツリーはクリーン・未追跡0件）。`#22`（取引単体テストの設定（RESTfulウェブサービス））は**ページ作成と是正ラウンド1まで完了**し、ゲート1〜9 はコーディネータの独立再実行で全件 PASS（Docker フルビルド含む。詳細は `#22` の「進捗」）。**未解決は `must` 1件・`should` 2件**（是正差分限定の検証ラウンド2の指摘）: `rest.rst:10` のリード文「自動で引き継げる」に裏付けが無い（出典 `:38-42` に当該の語が無く、`defaultProcessor` 未登録なら `NOP_PROCESSOR` で何も起きない。`SimpleRestTestSupport.java:96-102`・`:61-76`）／`:21` 第2文の主語欠落（旧版の「この実装クラスは、」が落ち、並列の `:33` と書き方が割れている）／`:17`「直前のレスポンス」が出典 `:40`「先行するリクエストのレスポンス」より狭い（`RequestResponseCookieManager.java:47-56` は一致するクッキーが無ければ値を保持し続ける）。**ユーザー未回答の判断2件**: (a) `about/index.rst:73-79` の「取引単体テストは手動操作」が本ページ（JUnit 前提）と矛盾する。出典自身が割れており（`03_DealUnitTest/index.rst:7-8` は手動、同 `rest.rst:7` は連続実行）、根拠の `design.md:86` 側に誤りがある。取引単体テストは残り8ページに波及するため先送りのコストが上がる、(b) `style.md:45` の「第2部は機能概要 → 使用方法 → 拡張例の順」が実態と食い違う（`機能概要` は `#6` 以降0行可で、作成済み第2部8ページはどれも持たない）。不変条件: `mapping.csv` 595行 / 12,986 / 11,983、`既定` は `ja/development_tools/testing_framework/` 配下0件、Docker フルビルドの既知警告は `db_double_submit.rst:108` の1件のみ。**環境の事実**: `docker build` は pip install の段で失敗するため既存イメージ `nablarch-document-build` で `docker run` する（失敗原因は未確認。self-check §4 は TLS 証明書が原因と書くが、コーディネータは未検証）
+- **Status**: not suspended
+- **Date**: (未設定)
+- **Last completed**: (未設定)
+- **Next**: (未設定)
+- **Notes**: (未設定)
