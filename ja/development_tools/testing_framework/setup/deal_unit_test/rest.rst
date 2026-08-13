@@ -7,18 +7,18 @@
   :depth: 3
   :local:
 
-RESTfulウェブサービスの取引単体テストでは、サーバが発行したセッションIDやCSRFトークンを、後続のリクエストへ自動で引き継げる。引き継ぐ処理はテスティングフレームワークが提供する実装から選べるほか、独自に作成したクラスに差し替えることもできる。
+RESTfulウェブサービスの取引単体テストでは、実装クラスをコンポーネント設定ファイルに登録することで、サーバが発行したセッションIDやCSRFトークンを後続のリクエストへ引き継げる。引き継ぐ処理はテスティングフレームワークが提供する実装から選べるほか、独自に作成したクラスに差し替えることもできる。
 
 使用方法
 --------------------------------------------------
 
 前のレスポンスの値を次のリクエストに引き継ぐ
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1つの取引を複数のリクエストで構成する場合、直前のレスポンスに現れた値を、次に送るリクエストへ持ち越したいことがある。この持ち越しは、リクエストとレスポンスを操作する\ :java:extdoc:`RequestResponseProcessor <nablarch.test.core.http.RequestResponseProcessor>`\ の実装クラスが担う。
+1つの取引を複数のリクエストで構成する場合、先行するリクエストのレスポンスに現れた値を、次に送るリクエストへ持ち越したいことがある。この持ち越しは、リクエストとレスポンスを操作する\ :java:extdoc:`RequestResponseProcessor <nablarch.test.core.http.RequestResponseProcessor>`\ の実装クラスが担う。
 
 実装クラスは、テスト用のコンポーネント設定ファイルに\ ``defaultProcessor``\ という名前で登録する。登録すると、内蔵サーバへリクエストを送る直前に\ :java:extdoc:`processRequest <nablarch.test.core.http.RequestResponseProcessor.processRequest(nablarch.fw.web.HttpRequest)>`\ が、レスポンスを受け取った直後に\ :java:extdoc:`processResponse <nablarch.test.core.http.RequestResponseProcessor.processResponse(nablarch.fw.web.HttpRequest,nablarch.fw.web.HttpResponse)>`\ が呼び出される。
 
-テスティングフレームワークは、クッキーを引き継ぐ実装として\ :java:extdoc:`RequestResponseCookieManager <nablarch.test.core.http.RequestResponseCookieManager>`\ を用意している。レスポンスの\ ``Set-Cookie``\ ヘッダに現れるクッキーのうち、\ ``cookieName``\ プロパティに指定した名前のものを取り出し、次のリクエストの\ ``Cookie``\ ヘッダに設定する。
+テスティングフレームワークは、クッキーを引き継ぐ実装として\ :java:extdoc:`RequestResponseCookieManager <nablarch.test.core.http.RequestResponseCookieManager>`\ を用意している。この実装クラスは、レスポンスの\ ``Set-Cookie``\ ヘッダに現れるクッキーのうち、\ ``cookieName``\ プロパティに指定した名前のものを取り出し、次のリクエストの\ ``Cookie``\ ヘッダに設定する。
 
 .. important::
 
