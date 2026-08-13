@@ -15,6 +15,7 @@ TOOLS_DIR="$SCRIPT_DIR"
 MAPPING_DIR="$SESSION_DIR/mapping"
 INPUT_DIR="$SESSION_DIR/input"
 EXTRACT_PY="$TOOLS_DIR/extract_sections.py"
+VERIFY_PY="$TOOLS_DIR/verify_coverage.py"
 
 OUT_CURRENT="$MAPPING_DIR/sections-current.csv"
 OUT_INPUT="$MAPPING_DIR/sections-input.csv"
@@ -80,5 +81,11 @@ fi
 # -----------------------------------------------------------------------
 python3 "$EXTRACT_PY" input "$OUT_INPUT" "${MD_FILE_SPECS[@]}"
 echo "[build_mapping] Written: $OUT_INPUT" >&2
+
+# -----------------------------------------------------------------------
+# 5. Coverage verification — no body line may be lost
+# -----------------------------------------------------------------------
+python3 "$VERIFY_PY" current "${RST_FILE_SPECS[@]}"
+python3 "$VERIFY_PY" input "${MD_FILE_SPECS[@]}"
 
 echo "[build_mapping] Done." >&2

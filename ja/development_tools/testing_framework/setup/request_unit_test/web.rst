@@ -1,0 +1,229 @@
+.. _request_unit_test_setting_web:
+
+リクエスト単体テストの設定（ウェブアプリケーション）
+====================================================
+
+.. contents:: 目次
+  :depth: 3
+  :local:
+
+ウェブアプリケーションのリクエスト単体テストでは、テストで使用する設定項目と、テストの実行速度を上げる設定を指定できる。
+
+使用方法
+--------------------------------------------------
+
+コンポーネント設定ファイルに設定項目を登録する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+実行環境に依存する設定値は、コンポーネント設定ファイルで変更できる。テスト用のコンポーネント設定ファイルに、\ :java:extdoc:`HttpTestConfiguration <nablarch.test.core.http.HttpTestConfiguration>`\ を\ ``httpTestConfiguration``\ という名前で登録する。主な設定項目は次のとおりである。
+
+.. list-table::
+  :header-rows: 1
+  :widths: 22,48,30
+
+  * - 設定項目名
+    - 説明
+    - デフォルト値
+  * - ``htmlDumpDir``
+    - HTMLダンプを出力するディレクトリ（以下、ダンプディレクトリ）
+    - ``./tmp/html_dump``
+  * - ``webBaseDir``
+    - ウェブアプリケーションのルートディレクトリ
+    - ``../main/web``
+  * - ``xmlComponentFile``
+    - リクエスト単体テストの実行時に使用するコンポーネント設定ファイル
+    - 該当なし
+  * - ``userIdSessionKey``
+    - ログイン中のユーザIDを格納するセッションスコープのキー
+    - ``user.id``
+  * - ``exceptionRequestVarKey``
+    - \ :java:extdoc:`ApplicationException <nablarch.core.message.ApplicationException>`\ が格納されるリクエストスコープのキー
+    - ``nablarch_application_error``
+  * - ``dumpFileExtension``
+    - HTMLダンプの拡張子
+    - ``html``
+  * - ``httpHeader``
+    - HTTPリクエストヘッダとして送信する値
+    - ``Content-Type``\ が\ ``application/x-www-form-urlencoded``\ 、\ ``Accept-Language``\ が\ ``ja JP``
+  * - ``sessionInfo``
+    - セッションスコープに格納する値
+    - 該当なし
+  * - ``htmlResourcesExtensionList``
+    - ダンプディレクトリへコピーするHTMLリソースの拡張子
+    - ``css``\ ・\ ``js``\ ・\ ``jpg``
+  * - ``jsTestResourceDir``
+    - JavaScriptの自動テストで使用するリソースを配置したディレクトリ
+    - ``../test/web``
+  * - ``backup``
+    - ダンプディレクトリをバックアップするかどうか
+    - ``true``
+  * - ``htmlResourcesCharset``
+    - パスの書き換え対象となるHTMLリソースの文字コード。\ ``css``\ ・\ ``js``\ ・\ ``template``\ は、\ ``htmlResourcesExtensionList``\ の指定によらず書き換えの対象になる
+    - ``UTF-8``
+  * - ``checkHtml``
+    - HTMLチェックを実施するかどうか
+    - ``true``
+  * - ``htmlChecker``
+    - HTMLチェックを行うオブジェクト。\ :java:extdoc:`HtmlChecker <nablarch.test.tool.htmlcheck.HtmlChecker>`\ を実装したクラスのインスタンスを指定する。詳細は\ :ref:`HTMLチェックツール <html_check_tool>`\ を参照
+    - 該当なし
+  * - ``htmlCheckerConfig``
+    - HTMLチェックツールの設定ファイルのパス。この項目を設定すると、指定した設定ファイルを適用した\ :java:extdoc:`Html4HtmlChecker <nablarch.test.tool.htmlcheck.Html4HtmlChecker>`\ が\ ``htmlChecker``\ に設定される
+    - 該当なし
+  * - ``ignoreHtmlResourceDirectory``
+    - HTMLリソースのうちコピー対象外とするディレクトリ名のリスト
+    - 該当なし
+  * - ``tempDirectory``
+    - JSPのコンパイル先ディレクトリ
+    - 該当なし（内蔵サーバ（Jetty）のデフォルト動作に従う）
+  * - ``uploadTmpDirectory``
+    - アップロードファイルを一時的に格納するディレクトリ。テストで準備したアップロード対象のファイルは、このディレクトリにコピーしてから処理される。アップロード対象のファイルそのものが移動されることを防ぐためである
+    - ``./tmp``
+  * - ``dumpVariableItem``
+    - HTMLダンプから可変項目を除去するかどうか。可変項目とは、JSESSIONIDと二重サブミット防止用のトークンを指す。いずれもテストの実行ごとに異なる値になるため、HTMLダンプを毎回同じ内容にしたい場合は\ ``true``\ を指定する。プロパティ名から受ける印象とは逆の意味である点に注意する
+    - ``false``
+
+.. important::
+
+  ``checkHtml``\ を\ ``true``\ のままにする場合は、\ ``htmlChecker``\ と\ ``htmlCheckerConfig``\ のどちらか一方を必ず設定する。どちらも設定していないと、ステータスコードが500未満のHTMLレスポンスに対するHTMLチェックの実行時に例外が発生する。
+
+``webBaseDir``\ には、カンマ区切りで複数のディレクトリを指定できる。プロジェクト共通のウェブモジュールがある場合など、ルートディレクトリが複数に分かれているときに使用する。指定した順にリソースが探索される。
+
+.. code-block:: xml
+
+  <property name="webBaseDir" value="/path/to/web-a/,/path/to/web-common"/>
+
+``xmlComponentFile``\ を設定すると、リクエストの送信直前に、指定したコンポーネント設定ファイルでシステムリポジトリが再初期化される。通常は設定する必要はない。クラス単体テストとリクエスト単体テストとで設定を変える必要がある場合にのみ設定する。
+
+.. tip::
+
+  ``ignoreHtmlResourceDirectory``\ にバージョン管理用のディレクトリ（\ ``.svn``\ や\ ``.git``\ ）を指定すると、HTMLリソースをコピーする際のパフォーマンスが向上する。
+
+.. tip::
+
+  ``tempDirectory``\ を省略した場合、内蔵サーバ（Jetty）のデフォルト動作では\ ``./work``\ がコンパイル先ディレクトリになる。\ ``./work``\ が存在しない場合は、OSの一時ディレクトリが出力先になる。
+
+記述例を示す。\ ``sessionInfo``\ には次の値を設定している。デフォルト値と同じ値を明示的に記述している項目もある。
+
+.. list-table::
+  :header-rows: 1
+  :widths: 30,25,45
+
+  * - キー
+    - 値
+    - 説明
+  * - ``commonHeaderLoginUserName``
+    - ``リクエスト単体テストユーザ``
+    - 共通ヘッダ領域に表示するログインユーザ名
+  * - ``commonHeaderLoginDate``
+    - ``20100914``
+    - 共通ヘッダ領域に表示するログイン日時
+
+.. code-block:: xml
+
+  <component name="httpTestConfiguration" class="nablarch.test.core.http.HttpTestConfiguration">
+    <property name="htmlDumpDir" value="./tmp/html_dump"/>
+    <property name="webBaseDir" value="../main/web"/>
+    <property name="xmlComponentFile" value="http-request-test.xml"/>
+    <property name="userIdSessionKey" value="user.id"/>
+    <property name="httpHeader">
+      <map>
+        <entry key="Content-Type" value="application/x-www-form-urlencoded"/>
+        <entry key="Accept-Language" value="ja JP"/>
+      </map>
+    </property>
+    <property name="sessionInfo">
+      <map>
+        <entry key="commonHeaderLoginUserName" value="リクエスト単体テストユーザ"/>
+        <entry key="commonHeaderLoginDate" value="20100914"/>
+      </map>
+    </property>
+    <property name="htmlResourcesExtensionList">
+      <list>
+        <value>css</value>
+        <value>js</value>
+        <value>jpg</value>
+      </list>
+    </property>
+    <property name="backup" value="true"/>
+    <property name="htmlResourcesCharset" value="UTF-8"/>
+    <property name="ignoreHtmlResourceDirectory">
+      <list>
+        <value>.svn</value>
+      </list>
+    </property>
+    <property name="tempDirectory" value="webTemp"/>
+    <property name="htmlCheckerConfig"
+      value="test/resources/httprequesttest/html-check-config.csv"/>
+  </component>
+
+テストの実行速度を上げる
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+処理性能が高くないPCで開発している場合は、JVMオプションの指定とHTMLリソースのコピーの抑止により、リクエスト単体テストの実行速度の改善が見込まれる。いずれもコンポーネント設定ファイルではなく、テストの実行時に指定する。
+
+.. tip::
+
+  JVMオプションの指定は、比較的新しいCPUを搭載したPCでは効果が小さいため、無理に設定する必要はない。
+
+JVMオプションを指定する
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+最大ヒープサイズと最小ヒープサイズに同じ値を指定すると、ヒープサイズを拡張する際のオーバーヘッドを回避できる。
+
+.. code-block:: bash
+
+  -Xms256m -Xmx256m
+
+また、クラスファイルの検証を省略すると実行速度が向上する。
+
+.. code-block:: bash
+
+  -Xverify:none
+
+.. important::
+
+  ``-Xverify:none``\ はJDK 13で非推奨になっている。指定自体は受け付けられるが、JVMの起動時に非推奨である旨の警告が出力される。
+
+Eclipseを使用する場合は、実行構成ごとに指定する方法と、JREのデフォルトとして指定する方法がある。実行構成ごとに指定する場合の手順は次のとおりである。
+
+* メニューバーの「実行」から「実行構成」を開く。
+* 「引数」タブの「VM 引数」欄に、上記のオプションを記述する。
+
+.. image:: images/web/vmoptions.png
+
+JREのデフォルトとして指定する場合の手順は次のとおりである。実行構成を作るたびに指定する必要がなくなる。
+
+* メニューバーの「ウィンドウ」から「設定」を開く。
+* 「インストール済みのJRE」で、使用するJREを選んで「編集」を押す。
+
+.. image:: images/web/installed_jre.png
+
+* 「デフォルトの VM 引数」欄に、前述のオプションを記述する。
+
+.. image:: images/web/edit_jre.png
+
+HTMLリソースのコピーを抑止する
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+テストの実行時に次のシステムプロパティを指定すると、\ :ref:`リクエスト単体テスト（ウェブアプリケーション） <request_unit_test_web>`\ のHTMLダンプの出力時に、HTMLリソースをコピーしなくなる。CSSや画像ファイルなどの静的なHTMLリソースを頻繁に編集しない場合は、テストを実行するたびにHTMLリソースをコピーする必要はないため、このシステムプロパティを設定してもよい。
+
+.. code-block:: bash
+
+  -Dnablarch.test.skip-resource-copy=true
+
+.. important::
+
+  このシステムプロパティを指定するとHTMLリソースがコピーされなくなるため、CSSなどのHTMLリソースを編集してもHTMLダンプに反映されない。
+
+.. tip::
+
+  ダンプディレクトリ配下のHTMLリソースのコピー先ディレクトリ（デフォルトは\ ``htmlResources``\ ）が存在しない場合は、このシステムプロパティの指定の有無にかかわらず、HTMLリソースのコピーが実行される。
+
+Eclipseで指定する場所は、JVMオプションと同じ実行構成の「VM 引数」欄である。この欄にシステムプロパティを記述する。
+
+.. image:: images/web/skip_resource_copy.png
+
+拡張例
+--------------------------------------------------
+
+テストデータの書き方を拡張する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+テストデータの書き方を変える場合は、\ :java:extdoc:`AbstractHttpRequestTestTemplate <nablarch.test.core.http.AbstractHttpRequestTestTemplate>`\ と\ :java:extdoc:`TestCaseInfo <nablarch.test.core.http.TestCaseInfo>`\ を継承する。
+
+``AbstractHttpRequestTestTemplate``\ は、リクエスト単体テストのテストクラスのスーパクラスである。アプリケーションプログラマが直接使用することはなく、テスティングフレームワークを拡張する際に用いる。\ ``TestCaseInfo``\ はテストデータに定義されたテストショットの情報を格納するクラスで、\ ``AbstractHttpRequestTestTemplate``\ の型引数に指定する。

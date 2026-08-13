@@ -1,27 +1,13 @@
-==============================================
 テスティングフレームワーク
-==============================================
-
+==================================================
+テスティングフレームワークは、JUnitをベースに、Nablarchアプリケーションのテストを補助する機能を提供するフレームワークである。
 
 .. toctree::
-   :maxdepth: 1
-   :titlesonly:
+   :maxdepth: 2
 
-   guide/development_guide/05_UnitTestGuide/index
-   guide/development_guide/06_TestFWGuide/index
-   guide/development_guide/08_TestTools/index
+   about/index
+   setup/index
+   implementation/index
+   tools/index
 
-テスティングフレームワークを使用して機能のテストを実装するテストの実装者は :ref:`unitTestGuide` を、
-テスティングフレームワークの導入をするアーキテクトは :ref:`testFWGuide` を参照してください。
-
-.. important::
-
-  テスティングフレームワークは、以下の基盤やライブラリには対応していない。
-  このため、これらの基盤やライブラリを使用するアプリケーションに対するテストは、 `JUnit(外部サイト、英語) <https://junit.org/junit5/>`_ などのテスティングフレームワークを使用して行うこと。
-
-  * :ref:`Jakarta Batchに準拠したバッチアプリケーション <jsr352_batch>`
-
-.. important::
-
-  テスティングフレームワークは、マルチスレッド機能に対応していない。
-  マルチスレッド機能のテストは、テスティングフレームワークを使用しないテスト(結合テストなど)で行うこと。
+:doc:`about/index` には、導入・設定を行うアーキテクトとテストを実装するアプリケーション開発者に共通する前提をまとめている。まずこのページを読んでから、アーキテクトは :doc:`setup/index`、アプリケーション開発者は :doc:`implementation/index` を参照すること。テスティングフレームワークが提供するツールを使用する場合は、:doc:`tools/index` から該当ページを参照すること。
