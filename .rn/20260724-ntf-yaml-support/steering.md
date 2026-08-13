@@ -539,7 +539,7 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-08-13
 - **Last completed**: #19（リクエスト単体テストの設定（HTTPメッセージング）。user review 承認済み）
 - **Next**: #20 の user review の判定を受ける（`/rn:ty` または `/rn:gm`）。あわせて `decide` 3件に回答が必要。承認後に #21（第2部7ページ目「リクエスト単体テストの設定（MOMによるメッセージング）」`setup/request_unit_test/mom.rst`）へ
