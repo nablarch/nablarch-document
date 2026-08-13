@@ -514,8 +514,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-13
+- **Last completed**: #17（`setup/request_unit_test/rest.rst`。user review 承認済み）
+- **Next**: #18 の user review の判定を受ける（`/rn:ty` または `/rn:gm`）。承認後に #19（残り27ページの作成）へ
+- **Notes**: `#18` は作業を完了し commit & push 済み（`7424aeb`）。ゲート1〜11 全件 PASS、Docker フルビルド `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）。**user review 待ちのため Steps の最終項目のみ未チェック。** ユーザーに報告済みの判断待ち3点は (1) `nablarch-core-repository` のみ未確認のため `design.md` §8 の追記では行番号を書かずクラス名と `DuplicateDefinitionPolicy.OVERRIDE` のみ記載、(2) ゲート9 の「未定義参照0件」は既知の `db_double_submit.rst:108` 1件が残るため「新規0件」と解釈、(3) ゲート2 で範囲外の食い違いは0件だが「デフォルト設定」の語の衝突を `reviews/page-testdata_notation.md` に申し送り。詳細は `checks/task-18.md`。`#19` 以降のページ作成は `#18` 承認後。
