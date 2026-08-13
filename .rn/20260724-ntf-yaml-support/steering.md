@@ -459,34 +459,46 @@ Rn version: 0.8.0
 
 **Closed**: user review 承認済み（`/rn:gm` 1回 →`must` 1件是正のうえ承認、2026-08-13）。`web.rst` 不一致8件＋表外1件・`common.rst` 1件を是正し、`design.md` §8 に2件を追記（追加39行 / 削除0行）。差し戻しは本文ではなく、Docker フルビルドが再生成した `locales/ja/LC_MESSAGES/sphinx.mo` の混入1件（`2993496` の版に戻して解消。過去2回と同一の副産物で `f6947b2`・`73e84dc` でも同様に差し戻し済み。再発防止として `#9〜` の共通 Steps に差分の範囲を確認するゲートを追加）。ユーザー回答3点は (1) 出典を示せない行番号は `design.md` に書かない対応で正、(2) ゲート9 は「新規0件」の解釈で正、(3) `testdata_notation.rst` の「デフォルト設定」の語の衝突は是正せず申し送りで正（`#19` 以降で `design.md` §8 の語と衝突する記述を書かないこと）。詳細は `checks/task-18.md`・`reviews/page-request_unit_test_setting_web.md`・`page-common.md`・`page-testdata_notation.md` および git 履歴（本文コミット `7424aeb`）を参照。
 
-### #19: リクエスト単体テストの設定（HTTPメッセージング）（`setup/request_unit_test/http_messaging.rst`）
+### #19: リクエスト単体テストの設定（HTTPメッセージング）（`setup/request_unit_test/http_messaging.rst`）— DONE
 
-**Purpose**: マッピングに従って第2部の5ページ目「リクエスト単体テストの設定（HTTPメッセージング）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（HTTPメッセージング）` の3行（`current-0066-b` 10行 / `current-0074` 4行 / `current-0075` 16行、計30 lines）。ページ先頭ラベルは `style.md` S-08 の `request_unit_test_setting_http_messaging`。
-
-**Prerequisites**: #18
-
-**Steps**: 上記「#9〜」の共通 Steps に従う。個別の作業指示を出す3条件は**いずれにも当たらない**と判定済み（`checks/task-19.md` ゲート0）。
-
-- [x] 個別の作業指示を出す条件の判定（3条件とも該当なし）
-- [x] `mapping.csv` の当該3行を抽出し、出典を `git show origin/develop:<src_file>` で実読
-- [x] ページ先頭ラベルを `style.md` S-08 から引く（`request_unit_test_setting_http_messaging`）
-- [x] ページ作成・`setup/index.rst` の `toctree` 追記
-- [x] Docker フルビルド（`-a`）— `build succeeded, 1 warning.`（既知の1件のみ・新規0件）。ビルド直後に `sphinx.mo` を復元
-- [x] 4観点レビュー ラウンド1（各観点を別のサブエージェントで実施）→ 是正10件 → ラウンド2（是正差分限定）で PASS
-- [x] レビュー記録（`reviews/page-request_unit_test_setting_http_messaging.md`）・self-check（`checks/task-19.md`）
-- [x] 差分の範囲を確認する（`git status --porcelain` の全件・予定外0件）
-- [x] commit & push（`98542ac`）
-- [ ] **user review** — 承認を受けるまで `#20` に着手しない。`decide` 3件の回答も必要
+**Purpose**: マッピングに従って第2部の5ページ目「リクエスト単体テストの設定（HTTPメッセージング）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（HTTPメッセージング）` の3行（計30 lines）。共通 Steps のみで進めた（個別の作業指示を出す3条件に当たらない）。
 
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
 
-**`decide` 3件**（詳細と推奨は `reviews/page-request_unit_test_setting_http_messaging.md` §4）:
+**`decide` 3件・`should` 1件の回答**（2026-08-13、`/rn:ty`。判断を仰いだ時点の記録は `reviews/page-request_unit_test_setting_http_messaging.md` §4 に残し、回答は同 §4 の各 `decide` 直下に追記した。是正の実行結果は `checks/task-19.md` ゲート6）:
 
-1. `glossary.md:160` の `モックアップクラス` の意味列が、自らの採用根拠より狭い（取引単体テストに限定しているが、根拠が数えた出典にリクエスト単体テストのファイルが含まれる）
-2. 出典にもマッピングにも無い追記のうち、`design.md` §8 のどの例外にも当たらない1件（モックアップクラスの挙動説明）を残すかどうか
-3. FW解説書 `http_system_messaging.rst:85` の「コンポーネント名は `messageSenderClient` と指定する」が実装より狭い。本タスクでは参照しないことで回避した
+1. **`glossary.md:160` の `モックアップクラス` の意味列 → 是正する。** 「同期応答メッセージ送信・HTTPメッセージ送信で、外部システムの代わりに応答電文を返すクラス。リクエスト単体テスト・取引単体テストの双方で使い、実体は別のクラスである」に改めた。意味列は判断の記述であって証拠ではない。書き換えを禁じている対象は削除前の現行解説書に実在した見出し文字列の一覧（`glossary.md` の `:403`〜`:449` 相当）であり、採用根拠の列も実測値の記録として触らない。正表記が不変のため既存ページへの波及なし。ゲート4件（差分が意味列のセル1つ／`mapping.csv`・`_batch/` の差分0／`verify_mapping.py` `exit 0` で 594行・12,986・11,983 不変／`ja/` 差分0）を全件パス
+2. **出典外の追記 → 残す。ただし追記は2件ではなく3件である（`should` 1 の訂正）。** (a) コンポーネント名の解決は `design.md` §8「出典が欠いている、実装上必須の設定」に当たる（`#17` の `httpServerFactory` と同じ類型）。(b) モックアップクラスの挙動説明は §8 のどの例外にも当たらないが残す（何をするクラスかを述べずに「登録する」だけでは、読者は登録の可否を判断できない。典拠は `RequestTestingMessagingClient.java:46`・`:48`）。(c) `http_messaging.rst:21` の「ウェブアプリケーションやNablarchバッチアプリケーション…も同じである」を数え落としており、3件目として加えた。**訂正したのは記録の件数のみで、本文は変更していない**
+3. **FW解説書 `http_system_messaging.rst:85` → 対象外として記録に留める。別タスク化もしない**（`#last` でも扱わない）。実装と食い違うのは結論ではなく理由の部分である。同行は「ルックアップして使用されるため、コンポーネント名は `messageSenderClient` と指定する」と書くが、実際には `MessageSenderSettings#getComponent` が `messageSender.<リクエストID>.messageSenderClient` の**値**をコンポーネント名として `SystemRepository` から引くため任意の名前でよい
 
-**申し送り（`#18` から）**: `design.md` §8 の「デフォルト設定」（`nablarch-testing-default-configuration` を読み込んだ状態）と衝突する語義で「デフォルト設定」を使わない。設定項目表の「デフォルト値」は、デフォルト設定を読み込んだ実効値を書く（`design.md` §8）。
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-13。公開本文を承認。レビュー役の独立検証で `must` 残存0件・本文に事実誤りなしを確認）。4観点レビュー ラウンド1（A fail `must` 3 / B fail 1 / C fail 1 / D fail 3、重複除去後7件すべて是正）→ ラウンド2は是正差分限定の検証で PASS（`must` 0）。Docker フルビルド `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）。`#19` から導入した差分範囲ゲート（母集合は `git status --porcelain` の全件、`commit & push` の直前）が `locales/ja/LC_MESSAGES/sphinx.mo` の混入（通算4回目）を実際に検出し、コミット前に戻した。詳細は `checks/task-19.md`・`reviews/page-request_unit_test_setting_http_messaging.md` および git 履歴（本文コミット `98542ac`）を参照。`#20` 以降への申し送り7件は同レビュー記録 §5。
+
+### #20: リクエスト単体テストの設定（Nablarchバッチアプリケーション）（`setup/request_unit_test/batch.rst`）
+
+**Purpose**: マッピングに従って第2部の6ページ目「リクエスト単体テストの設定（Nablarchバッチアプリケーション）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（Nablarchバッチアプリケーション）` の3行（`current-0037-b` 54行 / `current-0291` 37行 / `current-0292` 38行、計129 lines）。ページ先頭ラベルは `style.md` S-08 の `request_unit_test_setting_batch`。
+
+**Prerequisites**: #19
+
+**Steps**: 上記「#9〜」の共通 Steps に従う。**個別の作業指示は出さない。** 3条件はいずれにも当たらない（出典3行・129 lines で 500 lines 以下／`design.md:863`・`style.md` S-08・`mapping.csv` の3者が一致／出典0行でない）。
+
+- [ ] `mapping.csv` の当該3行を抽出し、出典を `git show origin/develop:<src_file>` で実読
+- [ ] ページ先頭ラベルを `style.md` S-08 から引く（`request_unit_test_setting_batch`）
+- [ ] ページ作成・`setup/index.rst` の `toctree` 追記
+- [ ] Docker フルビルド（`-a`）。**ビルド直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行して副産物を戻す**
+- [ ] 4観点レビュー（A:網羅性 / B:トンマナ / C:用語 / D:整合性。各観点を別のサブエージェントで実施）→ 是正 → ラウンド2以降は是正差分限定
+- [ ] レビュー記録（`reviews/page-request_unit_test_setting_batch.md`）・self-check（`checks/task-20.md`）
+- [ ] **差分の範囲を確認する**（`git status --porcelain` の**全件**。`commit & push` の**直前**に置く）
+- [ ] commit & push
+- [ ] **user review** — 承認を受けるまで `#21` に着手しない
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
+
+**申し送り**（`#18`・`#19` から。詳細は `reviews/page-request_unit_test_setting_http_messaging.md` §5 の7件）:
+
+- `design.md` §8 の「デフォルト設定」（`nablarch-testing-default-configuration` を読み込んだ状態）と衝突する語義で「デフォルト設定」を使わない。設定項目表の「デフォルト値」は、デフォルト設定を読み込んだ実効値を書く（`design.md` §8）
+- `RequestTestingMessagingClient` はウェブ・スタンドアロンのリクエスト単体テストからも初期化される（`TestShot.java:188`）。本ページから `request_unit_test_setting_http_messaging` への導線を張るか検討する（申し送り6）
+- FW解説書へ `:ref:` を張る前に参照先の本文を読み、実装・本ページの記述と矛盾しないか確認する（申し送り2）
+- `glossary.md` の意味列は、正表記だけでなく適用範囲まで確認する（申し送り3）
 
 ### #last: Evaluation sign-off
 
@@ -521,8 +533,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
+- **Status**: not suspended
 - **Date**: 2026-08-13
-- **Last completed**: #18（設定項目表の「デフォルト値」の基準の統一と `design.md` §8 の類型追加。user review 承認済み）
-- **Next**: #19 の user review の判定を受ける（`/rn:ty` または `/rn:gm`）。あわせて `decide` 3件に回答が必要。承認後に #20（第2部6ページ目「リクエスト単体テストの設定（Nablarchバッチアプリケーション）」）へ
-- **Notes**: `#19` は作業を完了し commit & push 済み（`98542ac`・`901771c`）。**user review 待ちのため Steps の最終項目のみ未チェック。** 判定に必要な材料は `decide` 3件（`steering.md` の `#19` エントリ末尾に要約、詳細と推奨は `reviews/page-request_unit_test_setting_http_messaging.md` §4）。`#20` 以降への申し送り6件は同ファイル §5。ゲートの実行結果は `checks/task-19.md`。`#19` の着手時 HEAD は `85b64e2`。
+- **Last completed**: #19（リクエスト単体テストの設定（HTTPメッセージング）。user review 承認済み。`decide` 3件回答・`should` 1件訂正・`glossary.md:160` 是正まで完了）
+- **Next**: #20（第2部6ページ目「リクエスト単体テストの設定（Nablarchバッチアプリケーション）」`setup/request_unit_test/batch.rst`）に着手する
+- **Notes**: `#20` は共通 Steps のみで進める（個別の作業指示は出さない。3条件のいずれにも当たらないことを実測済み）。出典は `mapping.csv` の3行（`current-0037-b` / `current-0291` / `current-0292`、計129 lines）。**`#19` で `commit & push` の直前に移した差分範囲ゲート（母集合は `git status --porcelain` の全件）を `#20` でも必ず通す。** `#20` 以降への申し送り7件は `reviews/page-request_unit_test_setting_http_messaging.md` §5。

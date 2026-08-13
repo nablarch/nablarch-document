@@ -37,6 +37,16 @@
 | キー名は `reader.fwHeaderfields` | `nablarch-testing` `src/main/java/nablarch/test/core/reader/MessageParser.java:33`（`FW_HEADER_KEY = "reader.fwHeaderfields"`） |
 | 未指定時に解釈される項目名は `requestId`・`userId`・`resendFlag`・`resultCode` | 同 `:107-110`（`SystemRepository.getString(FW_HEADER_KEY)` が空なら `asSet("requestId", "userId", "resendFlag", "resultCode")`）。判定は同 `:102-104`・`:86-88` |
 
+### 独立検証で確認した参照点（2026-08-13、`/rn:ty` 時点）
+
+user review のレビュー役が、上表とは独立に実装で裏を取った参照点。
+
+| 対象 | 確認内容 |
+|---|---|
+| `nablarch/nablarch-testing` の参照コミット | `main`（`e21bf67`）。`SendSyncMessageParser.java`・`MessageParser.java`・`GroupMessageParser.java` の3ファイルは、上表が用いたローカルクローンの `fdf55d4` と `e21bf67` とで**差分0** |
+| `RequestTestingMessagingClient.java:46`・`:48`（クラスJavadoc） | `e21bf67` でも同内容であることを確認 |
+| `com.nablarch.framework:nablarch-fw-messaging` | Maven の 2.1.0 sources（`MessageSenderSettings.java` の `getComponent`・`:193`）と、6-NEXT snapshot jar に対する `javap` による同名メソッドの存在確認 |
+
 ### デフォルト値の基準（`design.md` §8）
 
 `nablarch-testing-default-configuration` `6u3` の jar を展開し（XML 19ファイル・`.config` 5ファイル）、
@@ -117,7 +127,26 @@
 変わらないため既存ページの書き換えは発生しない。是正しない場合は、本ページで
 `モックアップクラス` の語を使わない書き方に変える必要がある。
 
-### `decide` 2 — 出典にもマッピングにも無い追記2件を残すかどうか
+#### ユーザー回答（2026-08-13、`/rn:ty`）— **是正する**
+
+推奨どおり是正した。意味列を上記の文言に改めた。意味列は判断の記述であって証拠ではないため書き換えてよい。
+**書き換えを禁じている対象は、削除前の現行解説書に実在した見出し文字列の一覧**（`glossary.md` の
+`:403`〜`:449` 相当）であり、採用根拠の列も実測値の記録として触らない。正表記の列は変更しないため、
+既存ページの書き換えは発生しない。
+
+是正時に通したゲート（4件ともパス。実行結果は `checks/task-19.md` ゲート6）。
+
+| ゲート | 結果 |
+|---|---|
+| `glossary.md` の差分が `:160` の意味列のセル1つに収まる（正表記・揺れ・採用根拠が不変） | パス（差分行は `:160` のみ。5列を突き合わせて列2のみ変更） |
+| `mapping/mapping.csv`・`mapping/_batch/` の差分が空 | パス（`git status --porcelain` で0件） |
+| `python3 mapping/tools/verify_mapping.py` が `exit 0`、594行 / 12,986 / 11,983 が不変 | パス（`exit=0`、出力を是正前後で `diff` して差分0） |
+| `ja/` 配下に差分が出ない | パス（`git status --porcelain -- ja/` で0件） |
+
+### `decide` 2 — 出典にもマッピングにも無い追記3件を残すかどうか
+
+（**訂正**: 2026-08-13、当初「2件」としていたのは数え落としで、正しくは3件である。3件目は本節末尾の
+「追記3件目（数え落としの訂正）」に記す。以下の本文はこの見出しの件数を除き当時のまま。）
 
 `design.md` §8「出典が欠いている、実装上必須の設定の追記」に該当するのは次の1件で、これは残した。
 
@@ -134,6 +163,27 @@
 モックアップクラスが何をするクラスかを述べずに「登録する」だけでは、読者は登録の可否を判断できない。
 落とす場合は当該1文のみを削る。
 
+#### 追記3件目（数え落としの訂正）
+
+`http_messaging.rst:21` の「ウェブアプリケーションやNablarchバッチアプリケーションのリクエスト単体テストで、
+テスト対象がHTTPメッセージ送信を行う場合も同じである。」が、出典3行（`current-0066-b`・`current-0074`・
+`current-0075`）のいずれにも無い。`2e501ad` の該当範囲を読んで確認した。当初の記録はこの1文を数えておらず、
+追記を2件としていた。**訂正するのは記録の件数と、この1文を `decide` 2 の対象に加えることだけで、
+本文は変更しない。**
+
+#### ユーザー回答（2026-08-13、`/rn:ty`）— **3件とも残す**
+
+3件とも残す。
+
+- コンポーネント名の解決（`messageSender.<リクエストID>.messageSenderClient`）— `design.md` §8
+  「出典が欠いている、実装上必須の設定」に当たる。`#17` の `httpServerFactory` と同じ類型である
+- モックアップクラスの挙動（「メッセージの送信は行われず…」）— §8 のどの例外にも当たらないが残す。
+  **何をするクラスかを述べずに「登録する」だけでは、読者は登録の可否を判断できない。** 典拠は
+  `RequestTestingMessagingClient.java:46`・`:48`（`e21bf67`）
+- 3件目（`:21` の「ウェブアプリケーションやNablarchバッチアプリケーション…も同じである」）— 内容は
+  誤りではない（コンポーネントの解決はリクエストID単位で、アプリケーションの種別に依存しない）ため
+  残してよい
+
 ### `decide` 3 — FW解説書 `http_system_messaging.rst:85` の記述が実装より狭い
 
 同行は「ルックアップして使用されるため、コンポーネント名は `messageSenderClient` と指定する。」と書くが、
@@ -143,6 +193,18 @@
 
 **推奨**: FW解説書は本刷新の対象外のため、本タスクでは是正しない。`#last` までに別タスクとして扱うか、
 対象外として記録に留めるかをユーザーが判断する。
+
+#### ユーザー回答（2026-08-13、`/rn:ty`）— **対象外として記録に留める**
+
+本タスクでは是正しない。当該アンカーを参照しない回避で足りる。**別タスク化もしない。** NTF解説書の
+刷新の範囲外であり、`#last` でも扱わない。記録だけを残す。
+
+**実装と食い違うのは結論ではなく理由の部分である。** 同行は「ルックアップして使用されるため、
+コンポーネント名は `messageSenderClient` と指定する」と書くが、実際には
+`MessageSenderSettings#getComponent` が `messageSender.<リクエストID>.messageSenderClient` の**値**を
+コンポーネント名として `SystemRepository` から引くため、任意の名前でよい。ファイルの所在は
+`ja/application_framework/application_framework/libraries/system_messaging/http_system_messaging.rst`
+である。
 
 ## 5. `#20` 以降への申し送り
 
@@ -167,3 +229,15 @@
 6. **`RequestTestingMessagingClient` はHTTPメッセージングのページにしか記載が無いが、ウェブ・スタンドアロンの
    リクエスト単体テストからも初期化される**（`AbstractHttpRequestTestTemplate.java:316`・`TestShot.java:188`）。
    `setup/request_unit_test/web.rst`・`batch.rst` を扱うタスクでは、本ページへの導線を張るか検討すること
+7. **`YAML` 形式だけを使う読者は、`fw_header:` のキー名を何に合わせればよいかを、どちらのページからも
+   読み取れない**（2026-08-13、`/rn:ty` の申し送り。**`#19` では是正しない**）。新ページ `:46` は
+   「`YAML` 形式では…この設定は使用されない」と書き、承認済みの `testdata_notation.rst:1244` は
+   「キー名は固定ではなく、`reader.fwHeaderfields` の設定に合わせる」と書いている。**実装上は新ページが
+   正しい**（`YAML` 経路はこのキーを読まない。`nablarch-testing-yaml`（`a966ab9`）の追跡下 `.java` に0件）。
+   `:1244` の言い回しは `nablarch-testing-yaml` の
+   `src/main/resources/nablarch/test/ntf-testdata-yaml-schema.json:215`・`:430` の説明文に由来する。
+   `YAML` だけを使う読者は `reader.fwHeaderfields` を持たないままキー名を決めることになるが、その場合に
+   何に合わせればよいかをどちらのページも書いていない。`#20` 以降で `reader.fwHeaderfields` に触れる
+   ページを書くとき、または PR #75 側でスキーマの説明文を見直すときに解決する（申し送り4 の続き）。
+   なお、リポジトリ直下の `nablarch/test/core/reader/MessageParser.java` は `fwHeaderfields` にヒットするが、
+   **git の追跡下になくビルド残骸である。** `YAML` 側の参照有無を数えるときに混同しないこと
