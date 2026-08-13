@@ -481,15 +481,21 @@ Rn version: 0.8.0
 
 **Steps**: 上記「#9〜」の共通 Steps に従う。**個別の作業指示は出さない。** 3条件はいずれにも当たらない（出典3行・129 lines で 500 lines 以下／`design.md:863`・`style.md` S-08・`mapping.csv` の3者が一致／出典0行でない）。
 
-- [ ] `mapping.csv` の当該3行を抽出し、出典を `git show origin/develop:<src_file>` で実読
-- [ ] ページ先頭ラベルを `style.md` S-08 から引く（`request_unit_test_setting_batch`）
-- [ ] ページ作成・`setup/index.rst` の `toctree` 追記
-- [ ] Docker フルビルド（`-a`）。**ビルド直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行して副産物を戻す**
-- [ ] 4観点レビュー（A:網羅性 / B:トンマナ / C:用語 / D:整合性。各観点を別のサブエージェントで実施）→ 是正 → ラウンド2以降は是正差分限定
-- [ ] レビュー記録（`reviews/page-request_unit_test_setting_batch.md`）・self-check（`checks/task-20.md`）
-- [ ] **差分の範囲を確認する**（`git status --porcelain` の**全件**。`commit & push` の**直前**に置く）
-- [ ] commit & push
-- [ ] **user review** — 承認を受けるまで `#21` に着手しない
+- [x] `mapping.csv` の当該3行を抽出し、出典を `git show origin/develop:<src_file>` で実読
+- [x] ページ先頭ラベルを `style.md` S-08 から引く（`request_unit_test_setting_batch`）
+- [x] ページ作成・`setup/index.rst` の `toctree` 追記
+- [x] Docker フルビルド（`-a`）— `build succeeded, 1 warning.`（既知の1件のみ・新規0件）。計4回実行し、いずれもビルド直後に `sphinx.mo` を復元
+- [x] 4観点レビュー ラウンド1（各観点を別のサブエージェントで実施。A PASS / B・C・D FAIL、`must` 5件＝重複除去後4件）→ 是正13件 → ラウンド2（是正差分限定）で PASS → ラウンド3で `should` 2・`note` 3 を一括是正
+- [x] レビュー記録（`reviews/page-request_unit_test_setting_batch.md`）・self-check（`checks/task-20.md`）
+- [x] **差分の範囲を確認する**（`git status --porcelain` の**全件**。`commit & push` の**直前**に置いた。各ラウンドとも予定外0件）
+- [x] commit & push（`00cb161`・`2bb3cf6`・`fb3fd0f`）
+- [ ] **user review** — 承認を受けるまで `#21` に着手しない。`decide` 3件の回答も必要
+
+**`decide` 3件**（詳細と推奨は `reviews/page-request_unit_test_setting_batch.md` §4）:
+
+1. 承認済み `implementation/testdata_notation.rst:967` の「``TEST_{型名称}``」が実装と食い違う（実装は**型記号**に `TEST_` を前置する）。読者が誤った名前を書くとテストが動かない
+2. `must` 対応で第2部から削った具体的な数値記述例（`12345`→`0000012345` 等）の行き先。**現在この内容は新解説書のどこにも存在しない**（`testdata_examples.rst` のヒット0件）
+3. デフォルト設定 `6u3` の同梱ファイル（`process-service_test.xml`・`fixed-length-convertor-setting_test.xml`）に触れるかどうか
 
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
 
@@ -535,6 +541,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: not suspended
 - **Date**: 2026-08-13
-- **Last completed**: #19（リクエスト単体テストの設定（HTTPメッセージング）。user review 承認済み。`decide` 3件回答・`should` 1件訂正・`glossary.md:160` 是正まで完了）
-- **Next**: #20（第2部6ページ目「リクエスト単体テストの設定（Nablarchバッチアプリケーション）」`setup/request_unit_test/batch.rst`）に着手する
-- **Notes**: `#20` は共通 Steps のみで進める（個別の作業指示は出さない。3条件のいずれにも当たらないことを実測済み）。出典は `mapping.csv` の3行（`current-0037-b` / `current-0291` / `current-0292`、計129 lines）。**`#19` で `commit & push` の直前に移した差分範囲ゲート（母集合は `git status --porcelain` の全件）を `#20` でも必ず通す。** `#20` 以降への申し送り7件は `reviews/page-request_unit_test_setting_http_messaging.md` §5。
+- **Last completed**: #19（リクエスト単体テストの設定（HTTPメッセージング）。user review 承認済み）
+- **Next**: #20 の user review の判定を受ける（`/rn:ty` または `/rn:gm`）。あわせて `decide` 3件に回答が必要。承認後に #21（第2部7ページ目「リクエスト単体テストの設定（MOMによるメッセージング）」`setup/request_unit_test/mom.rst`）へ
+- **Notes**: `#20` は作業を完了し commit & push 済み（`00cb161`・`2bb3cf6`・`fb3fd0f`）。**user review 待ちのため Steps の最終項目のみ未チェック。** 判定に必要な材料は `decide` 3件（`steering.md` の `#20` エントリ末尾に要約、詳細と推奨は `reviews/page-request_unit_test_setting_batch.md` §4）。`#21` 以降への申し送り7件は同ファイル §5。ゲートの実行結果は `checks/task-20.md`。`#20` の着手時 HEAD は `499304a`。
