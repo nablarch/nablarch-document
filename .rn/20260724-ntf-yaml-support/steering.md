@@ -556,8 +556,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-13
-- **Last completed**: #20（リクエスト単体テストの設定（Nablarchバッチアプリケーション）。user review 承認済み。`decide` 3件・`should` 3件の是正まで完了。承認時是正コミット `4d9e3f7`）
-- **Next**: #21 の Steps 2件目から。`setup/request_unit_test/mom.rst` を作成し、`setup/index.rst` の `toctree` に追記する
-- **Notes**: ブランチ `ntf-yaml-support`（push 済み）。**#21 は出典8行の実読まで完了**（結果は `#21` エントリの「着手時の確認結果」5件。`design.md` の第2部アウトラインとの整合は確認済みで、判断待ちの論点は無い）。次の具体的な作業はページ本文の作成。`拡張例` は `TestDataConverter` の1件に統合する。`mapping.csv` の不変条件は `#20` で **595行 / 12,986 / 11,983** に変わった。`#21` 以降への申し送り7件は `reviews/page-request_unit_test_setting_batch.md` §5。未追跡ファイル・未解決の user 判断はいずれも無し。
+- **Status**: not suspended
+- **Date**: YYYY-MM-DD
+- **Last completed**: #N description
+- **Next**: #N description
+- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
