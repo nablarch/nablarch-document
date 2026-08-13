@@ -497,7 +497,7 @@ Rn version: 0.8.0
 
 **Steps**: 上記「#9〜」の共通 Steps に従う。**個別の作業指示は出さない。** 3条件はいずれにも当たらない（76 lines で 500 lines 以下／`design.md:864`・`style.md` S-08 `:353`・`mapping.csv` の3者がページ名・ファイル名・ラベルで一致／出典0行でない）。
 
-- [ ] `mapping.csv` の当該8行を抽出し、出典を基準コミットで実読
+- [x] `mapping.csv` の当該8行を抽出し、出典を基準コミット `c241906` で実読
 - [ ] ページ作成・`setup/index.rst` の `toctree` 追記
 - [ ] Docker フルビルド（`-a`）。直後に `sphinx.mo` を復元
 - [ ] 4観点レビュー（各観点を別のサブエージェントで実施）
@@ -507,6 +507,14 @@ Rn version: 0.8.0
 - [ ] **user review**
 
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
+
+**着手時の確認結果**（2026-08-13、出典8行を実読して確認）:
+
+- **`design.md` の第2部アウトラインとの整合は取れている。** `design.md:187-195` が「`使用方法` のみ必須、`機能概要`・`拡張例` は出典が無ければ見出しを置かない」と定めており、`使用方法` 11行・`拡張例` 65行の配分はテンプレート違反ではない（`#6` 確定の「設定量が薄いページでは独立した機能概要・拡張例の出典が構造的に存在しないことがある」の範囲内）
+- **`拡張例` の7行は3つの出典に分かれるが、主題は `TestDataConverter` の1つに集約される。** `current-0303`（`RequestUnitTest_real.rst:168-181`）と `current-0328`（`RequestUnitTest_send_sync.rst:127-140`）はほぼ同文、`current-0247`〜`0251`（`03_Tips.rst:788-832`）が同じ主題をより詳しく書く。Rules「重複がない。参照で解決する」に従い1つの拡張例に統合する
+- 第4部「テストデータ変換ツール」は出典が `input/testdata-converter-design.md`（Excel→YAML 変換ツール）で `nablarch.test.core.file.TestDataConverter` とは**別物**。混同しないこと
+- 出典が参照する画像2枚（`06_TestFWGuide/_images/data_convert_example.png`・`data_convert_internal.png`）はリポジトリに現存する。使うか否かは作成時に判断する
+- `使用方法` の唯一の出典 `current-0106-b` は、`reader.fwHeaderfields` をpropertiesファイルに指定する `important` 1件（`real.rst:167-177`）
 
 **着手時の申し送り**（`#20` の `/rn:ty` で受領）:
 
@@ -548,8 +556,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-08-13
-- **Last completed**: #20（リクエスト単体テストの設定（Nablarchバッチアプリケーション）。user review 承認済み。`decide` 3件・`should` 3件の是正まで完了）
-- **Next**: #21（第2部7ページ目「リクエスト単体テストの設定（MOMによるメッセージング）」`setup/request_unit_test/mom.rst`）に着手する
-- **Notes**: `#21` の出典は8行・76 lines（`DROP` 0件）。**うち7行が `dest_section=拡張例` で、`使用方法` は `current-0106-b`（`05_UnitTestGuide/02_RequestUnitTest/real.rst:167-177`、11 lines）の1行だけ**（実測。`拡張例` 7行のうち5行は `06_TestFWGuide/03_Tips.rst:788-832` に集中）。`使用方法` が薄く `拡張例` が厚い構成になるため、着手時に `design.md` の第2部ページアウトラインとの整合を確認する。個別の作業指示は出さない（3条件のいずれにも当たらない）。`mapping.csv` の不変条件は `#20` で **595行 / 12,986 / 11,983** に変わった。`#21` 以降への申し送り7件は `reviews/page-request_unit_test_setting_batch.md` §5。
+- **Last completed**: #20（リクエスト単体テストの設定（Nablarchバッチアプリケーション）。user review 承認済み。`decide` 3件・`should` 3件の是正まで完了。承認時是正コミット `4d9e3f7`）
+- **Next**: #21 の Steps 2件目から。`setup/request_unit_test/mom.rst` を作成し、`setup/index.rst` の `toctree` に追記する
+- **Notes**: ブランチ `ntf-yaml-support`（push 済み）。**#21 は出典8行の実読まで完了**（結果は `#21` エントリの「着手時の確認結果」5件。`design.md` の第2部アウトラインとの整合は確認済みで、判断待ちの論点は無い）。次の具体的な作業はページ本文の作成。`拡張例` は `TestDataConverter` の1件に統合する。`mapping.csv` の不変条件は `#20` で **595行 / 12,986 / 11,983** に変わった。`#21` 以降への申し送り7件は `reviews/page-request_unit_test_setting_batch.md` §5。未追跡ファイル・未解決の user 判断はいずれも無し。
