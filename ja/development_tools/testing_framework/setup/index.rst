@@ -11,5 +11,6 @@
    request_unit_test/web
    request_unit_test/rest
    request_unit_test/http_messaging
+   request_unit_test/batch
    junit5_extension
    master_data_restore
