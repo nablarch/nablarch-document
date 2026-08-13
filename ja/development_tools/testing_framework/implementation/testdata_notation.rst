@@ -426,7 +426,7 @@ testShots本体を記述する
     - 出力されることを期待するメッセージ\ ID\ 。複数の場合はカンマ区切りで列挙する。空欄の場合にメッセージが出力されるとテスト失敗になる
     -
   * - ``expectedSearch``
-    - 検索結果の期待値を記載した ``LIST_MAP``\ 名。空の場合はスキップされる。検索結果をリクエストスコープから取得する際の既定キーは\ ``searchResult``\ であり、``setSearchResultKey``\ で変更できる
+    - 検索結果の期待値を記載した ``LIST_MAP``\ 名。空の場合はスキップされる。検索結果をリクエストスコープから取得する際のデフォルトのキーは\ ``searchResult``\ であり、``setSearchResultKey``\ で変更できる
     -
   * - ``expectedTable``
     - 期待するテーブルのグループID。同じグループIDを持つ ``EXPECTED_TABLE``\ ・\ ``EXPECTED_COMPLETE_TABLE``\ で検証する。空の場合はスキップされる
@@ -868,7 +868,7 @@ null\ 値・空文字は、以下のように記述する。
 
 期待するファイルの内容は、準備データと同じ書式で、データタイプだけを ``EXPECTED_FIXED``\ ・\ ``EXPECTED_VARIABLE``\ に変えて記述する。検索結果・データベースの状態と同様、グループIDでテストショット一覧と紐付ける。常駐バッチ・都度起動バッチのいずれでも、ファイルデータの記述方法は共通である。
 
-ディレクティブは、ファイル・電文のフォーマットに関する属性を、キー名と値の2要素で記述するものである（最低2要素が必要）。既定値は、コンポーネント設定ファイルで\ map\ 形式によりまとめて指定することもできる。\ **Excel\ 形式**\ ではファイルデータブロックの先頭（レコード定義より前）に ``| キー名 | 値 |``\ の形で記載し、\ **YAML\ 形式**\ では ``directives:``\ オブジェクトに ``key: value``\ 形式で記載する。
+ディレクティブは、ファイル・電文のフォーマットに関する属性を、キー名と値の2要素で記述するものである（最低2要素が必要）。デフォルト値は、コンポーネント設定ファイルで\ map\ 形式によりまとめて指定することもできる。\ **Excel\ 形式**\ ではファイルデータブロックの先頭（レコード定義より前）に ``| キー名 | 値 |``\ の形で記載し、\ **YAML\ 形式**\ では ``directives:``\ オブジェクトに ``key: value``\ 形式で記載する。
 
 固定長ファイルで有効なディレクティブキーは、以下の11個に限定される（無効なキーを指定するとエラーになる）。
 
@@ -1128,13 +1128,13 @@ YAML形式の場合
 
 .. important::
 
-  電文のレコード種別の扱いは、\ Excel\ 形式と\ YAML\ 形式で異なる。\ Excel\ 形式では、同期応答メッセージ送信で使う4つのデータタイプ（``EXPECTED_REQUEST_HEADER_MESSAGES``\ ・\ ``EXPECTED_REQUEST_BODY_MESSAGES``\ ・\ ``RESPONSE_HEADER_MESSAGES``\ ・\ ``RESPONSE_BODY_MESSAGES``\ ）と取引単体テストのモックアップクラスの電文について、記載した値がそのままレコード種別になる。\ YAML\ 形式では、``messages``\ と同期応答メッセージ送信で使う4つのキーのいずれにおいても、``record_type``\ は常に既定のレコード種別（\ ``"default"``\ ）に固定される。したがって、レコード種別に意味のある値を記載した\ Excel\ 形式のテストデータを\ YAML\ 形式へ変換すると、レコード種別の扱いが変わる。
+  電文のレコード種別の扱いは、\ Excel\ 形式と\ YAML\ 形式で異なる。\ Excel\ 形式では、同期応答メッセージ送信で使う4つのデータタイプ（``EXPECTED_REQUEST_HEADER_MESSAGES``\ ・\ ``EXPECTED_REQUEST_BODY_MESSAGES``\ ・\ ``RESPONSE_HEADER_MESSAGES``\ ・\ ``RESPONSE_BODY_MESSAGES``\ ）と取引単体テストのモックアップクラスの電文について、記載した値がそのままレコード種別になる。\ YAML\ 形式では、``messages``\ と同期応答メッセージ送信で使う4つのキーのいずれにおいても、``record_type``\ は常にデフォルトのレコード種別（\ ``"default"``\ ）に固定される。したがって、レコード種別に意味のある値を記載した\ Excel\ 形式のテストデータを\ YAML\ 形式へ変換すると、レコード種別の扱いが変わる。
 
 .. tip::
 
   JSON\ ・\ XML\ データ形式を使用する場合は、1つの読み込み単位に1テストショットのみ記述する。メッセージボディについて、各行の文字列長が同一であることを期待するというテスティングフレームワークの制約によるものであり、要求電文の長さがリクエストごとに異なるのが一般的な\ JSON\ ・\ XML\ 形式では、事実上1テストショットしか記述できない。
 
-フレームワーク制御ヘッダのフィールド名はプロジェクトごとに異なる。既定値は ``requestId``\ ・\ ``userId``\ ・\ ``resendFlag``\ ・\ ``resultCode``\ の4種だが固定ではなく、``SystemRepository``\ の ``reader.fwHeaderfields``\ キーでプロジェクトが任意の名前に変更できる（例: ``reader.fwHeaderfields=requestId,addHeader``\ ）。
+フレームワーク制御ヘッダのフィールド名はプロジェクトごとに異なる。デフォルト値は ``requestId``\ ・\ ``userId``\ ・\ ``resendFlag``\ ・\ ``resultCode``\ の4種だが固定ではなく、``SystemRepository``\ の ``reader.fwHeaderfields``\ キーでプロジェクトが任意の名前に変更できる（例: ``reader.fwHeaderfields=requestId,addHeader``\ ）。
 
 同期応答メッセージ送信では、要求電文の期待値と応答電文を、以下の4つのデータタイプで記述する。
 
@@ -1233,7 +1233,7 @@ Excel形式の場合
 
 メッセージボディの各行の先頭要素は、フィールドとしては読み込まれないラベル列である。フィールド名称行の先頭要素には慣行として ``no``\ と記載し、データ行の先頭要素には電文の連番を記載する。``errorMode:``\ による障害系テストの値も、このラベル列の次のセル（``no``\ を除く最初のフィールド）に記載する。
 
-フィールド名称行の先頭要素がレコード種別として扱われるかどうかは、データタイプによって異なる。``MESSAGE``\ （``setUpMessages``\ ・\ ``expectedMessages``\ ）では、記載した値は破棄され既定のレコード種別（\ ``"default"``\ ）に置き換えられる。同期応答メッセージ送信で使う4つのデータタイプ（``EXPECTED_REQUEST_HEADER_MESSAGES``\ ・\ ``EXPECTED_REQUEST_BODY_MESSAGES``\ ・\ ``RESPONSE_HEADER_MESSAGES``\ ・\ ``RESPONSE_BODY_MESSAGES``\ ）と取引単体テストのモックアップクラスの電文では、記載した値がそのままレコード種別になる（慣行に従って ``no``\ と記載した場合は、レコード種別も ``no``\ になる）。
+フィールド名称行の先頭要素がレコード種別として扱われるかどうかは、データタイプによって異なる。``MESSAGE``\ （``setUpMessages``\ ・\ ``expectedMessages``\ ）では、記載した値は破棄されデフォルトのレコード種別（\ ``"default"``\ ）に置き換えられる。同期応答メッセージ送信で使う4つのデータタイプ（``EXPECTED_REQUEST_HEADER_MESSAGES``\ ・\ ``EXPECTED_REQUEST_BODY_MESSAGES``\ ・\ ``RESPONSE_HEADER_MESSAGES``\ ・\ ``RESPONSE_BODY_MESSAGES``\ ）と取引単体テストのモックアップクラスの電文では、記載した値がそのままレコード種別になる（慣行に従って ``no``\ と記載した場合は、レコード種別も ``no``\ になる）。
 
 取引単体テストのモックアップクラスの電文は、シート名 ``message``\ 固定の1つのExcelファイルにまとめて定義する。識別子はグループIDを持たず、``EXPECTED_REQUEST_HEADER_MESSAGES=リクエストID``\ のように記載する。
 
@@ -1241,7 +1241,7 @@ Excel形式の場合
 
 YAML形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-フレームワーク制御ヘッダを ``fw_header:``\ マップ（キー: 値）で記述する。キー名は固定ではなく、``reader.fwHeaderfields``\ の設定に合わせる。``fw_header:``\ マップは ``messages``\ （``MESSAGE``\ ）でのみ使用し、``EXPECTED_REQUEST_HEADER_MESSAGES``\ ・\ ``EXPECTED_REQUEST_BODY_MESSAGES``\ ・\ ``RESPONSE_HEADER_MESSAGES``\ ・\ ``RESPONSE_BODY_MESSAGES``\ の4種では使わず、``requestId``\ などのヘッダフィールドも含めて ``records``\ の ``fields:``\ ・\ ``rows:``\ にフィールド単位で記載する（値の指定とフィールド単位の検証・生成というテスト手法の違いによる）。
+フレームワーク制御ヘッダを ``fw_header:``\ マップ（キー: 値）で記述する。キー名は固定ではなく、プロジェクトが使用するフレームワーク制御ヘッダのフィールド名を記載する。``fw_header:``\ マップは ``messages``\ （``MESSAGE``\ ）でのみ使用し、``EXPECTED_REQUEST_HEADER_MESSAGES``\ ・\ ``EXPECTED_REQUEST_BODY_MESSAGES``\ ・\ ``RESPONSE_HEADER_MESSAGES``\ ・\ ``RESPONSE_BODY_MESSAGES``\ の4種では使わず、``requestId``\ などのヘッダフィールドも含めて ``records``\ の ``fields:``\ ・\ ``rows:``\ にフィールド単位で記載する（値の指定とフィールド単位の検証・生成というテスト手法の違いによる）。
 
 .. code-block:: yaml
 
@@ -1510,7 +1510,7 @@ YAML形式の場合
   * - ファイル・メッセージ
     - 行末の空セルを取り除く（\ Excel\ 形式のみ。\ YAML\ 形式では ``rows:``\ の各要素をそのまま読み込む）
   * - メッセージ
-    - 記述されたレコード種別を破棄し、既定のレコード種別（\ ``"default"``\ ）に置き換える（\ Excel\ 形式では ``MESSAGE``\ のみが対象。\ YAML\ 形式ではメッセージ系の全キーが対象）
+    - 記述されたレコード種別を破棄し、デフォルトのレコード種別（\ ``"default"``\ ）に置き換える（\ Excel\ 形式では ``MESSAGE``\ のみが対象。\ YAML\ 形式ではメッセージ系の全キーが対象）
   * - テーブル
     - マーカーカラムを除外する（前述）
   * - テーブル

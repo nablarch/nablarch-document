@@ -61,7 +61,7 @@
 | 2 | 「Excelに記述されたデータ」「Excelから読み込んだテストデータ」（`03_Tips.rst:789`・`RequestUnitTest_real.rst:169`・`RequestUnitTest_send_sync.rst:128`）。`TestDataConverter.java:12` の Javadoc も「エクセルファイルに記述された」 | 形式を問わない。`YAML` 経路も `FixedLengthFile` を組み立てて `file-type` を含むディレクティブを適用し（`nablarch-testing-yaml` `YamlMessageBuilder.java:186-190` → `YamlFileBuilder.java:245-252`）、その `FixedLengthFile` が `RequestTestingMessagePool` の `source` になる（`YamlMessageBuilder.java:63-64`・`:89`）。`file-type` は `YAML` スキーマにも `directives` のキーとして定義されている（`ntf-testdata-yaml-schema.json` の `"file-type"`） | `Excel`／`YAML` のいずれにも触れず「電文のテストデータ」と書いた（`design.md` §8「出典と実装が食い違う場合は実装を優先する」）。形式差が無いため `style.md` S-10 規約3 の形式別 L4 も作らない |
 | 3 | 「システムリポジトリに登録する」（`03_Tips.rst:793`・`:800`）と「テスト用のコンポーネント設定ファイルに登録する」（`RequestUnitTest_real.rst:179`・`RequestUnitTest_send_sync.rst:138`）で表現が割れる | 実体は `<component>` 定義（上表の実配置例） | 後者を採用。`#11` の同型の是正（`nablarch.test.resource-root` の設定先）と同じ判断基準 |
 
-| 4 | 「編集したデータを**読み込むための**レイアウト定義データを動的に生成する」（`RequestUnitTest_real.rst:175`・`RequestUnitTest_send_sync.rst:134`）。`createDefinition` の用途を「読み込み」に限定している | `createDefinition` が返すレイアウト定義は、変換後のテストデータを電文のバイト列へ**書き出す**ためにのみ使われる。`MessagePool.java:122`（`convertByFileType`）→ `:124`（`createLayoutFromDataRecord`。中身は `:252-254` の `source.createDefinition(defaultLayout, dataRecord)`）→ `:130`（`msg.setFormatter(formatter.setDefinition(ld)).addRecord(currentData)`）。`RequestTestingMessagePool.java:87-96` も同型（応答電文のバイナリ生成）。`MessagePool.java:165`（`responseMessage.setFormatter(...).readRecords()`）は読み込みだが、対象は AP が実際に出力した応答電文であって「変換後のテストデータ」ではない。`:174-177` も期待値側は `SendingMessage` への**書き出し**である。インタフェースの Javadoc（`TestDataConverter.java:20`「現在処理中のテストデータに**対応した**レイアウト定義データを生成します」）も方向を限定していない | 「変換後のデータに対応するレイアウト定義を動的に生成する」に改めた（`mom.rst:46`。**ラウンド2・是正1**）。`design.md` §8「出典と実装が食い違う場合は実装を優先する」の適用 |
+| 4 | 「編集したデータを**読み込むための**レイアウト定義データを動的に生成する」（`RequestUnitTest_real.rst:175`・`RequestUnitTest_send_sync.rst:134`）。`createDefinition` の用途を「読み込み」に限定している | `createDefinition` が返すレイアウト定義は、**書き出しと読み込みの双方に使われる。** 書き出しは `MessagePool.java:122`（`convertByFileType`）→ `:124`（`createLayoutFromDataRecord`。中身は `:252-254` の `source.createDefinition(defaultLayout, dataRecord)`）→ `:130`（`msg.setFormatter(formatter.setDefinition(ld)).addRecord(currentData)`）で、`RequestTestingMessagePool.java:87-96` も同型（応答電文のバイナリ生成）。読み込みは `MessagePool.java:148-152`（同じ手順で `ld` を得る）→ `:165`（`responseMessage.setFormatter(formatter.setDefinition(ld)).readRecords()`）で、APが実際に出力した応答電文を同じ `ld` で読み込む。したがって出典のように方向を「読み込み」に限定するのも、逆に「書き出し」に限定するのも実装と合わない。インタフェースの Javadoc（`TestDataConverter.java:20`「現在処理中のテストデータに**対応した**レイアウト定義データを生成します」）も方向を限定していない | 「変換後のデータに対応するレイアウト定義を動的に生成する」に改めた（`mom.rst:46`。**ラウンド2・是正1**）。方向を限定しない Javadoc の表現に合わせた。`design.md` §8「出典と実装が食い違う場合は実装を優先する」の適用 |
 
 食い違いは以上の4件（うち4はラウンド2で追加）で、他は出典と実装が一致した。
 
@@ -258,7 +258,7 @@
 
 | # | 重み | 対象 | 是正前 | 是正後 | 根拠（`file:line`） |
 |---|---|---|---|---|---|
-| 是正1 | `must` | `mom.rst:46`（`list-table` の `createDefinition` のセル） | 変換後のデータを**読み込むための**レイアウト定義を動的に生成する | 変換後のデータに**対応する**レイアウト定義を動的に生成する | `MessagePool.java:122`（`convertByFileType`）→ `:124`（`createLayoutFromDataRecord`。実体は `:252-254` の `source.createDefinition(...)`）→ `:130`（`msg.setFormatter(formatter.setDefinition(ld)).addRecord(currentData)`）で**書き出しにのみ**使う。`RequestTestingMessagePool.java:87-96` も同型（`SendingMessage` でバイナリ化して `getBodyBytes()`）。`MessagePool.java:165` は `readRecords()` で読み込むが対象は AP が出力した応答電文であり、`:174-177` の期待値側は再び書き出し。`TestDataConverter.java:20` の Javadoc も「対応した」で方向を限定していない |
+| 是正1 | `must` | `mom.rst:46`（`list-table` の `createDefinition` のセル） | 変換後のデータを**読み込むための**レイアウト定義を動的に生成する | 変換後のデータに**対応する**レイアウト定義を動的に生成する | 返されるレイアウト定義は**書き出しと読み込みの双方に使われる**ため、方向を限定しない Javadoc の表現に合わせた。書き出しは `MessagePool.java:122`（`convertByFileType`）→ `:124`（`createLayoutFromDataRecord`。実体は `:252-254` の `source.createDefinition(...)`）→ `:130`（`msg.setFormatter(formatter.setDefinition(ld)).addRecord(currentData)`）で、`RequestTestingMessagePool.java:87-96` も同型（`SendingMessage` でバイナリ化して `getBodyBytes()`）。読み込みは `MessagePool.java:148-152` で得た同じ `ld` を `:165`（`responseMessage.setFormatter(formatter.setDefinition(ld)).readRecords()`）に渡す経路である。`TestDataConverter.java:20` の Javadoc も「対応した」で方向を限定していない。**`/rn:ty`（`#21` 承認、2026-08-13）`should` 3 による根拠の是正。是正の結論（本文の文言）は変わらない** |
 | 是正2 | `should` | `mom.rst:21`（コードブロック内のコメント行） | `# フレームワーク制御ヘッダのフィールド名をカンマ区切りで指定する。` | `# 使用するフレームワーク制御ヘッダのフィールド名を、すべてカンマ区切りで列挙する。` | ラウンド1・F-3 で `:17` に「名前を変更していないフィールドも含めて、使用するフィールド名をすべて列挙する」を加えた結果、直後の例が「すべて列挙」の実例に見えなくなっていた（`requestId,addHeader` は既定の `userId`・`resendFlag`・`resultCode` が消える設定）。実装の裏付けは `MessageParser.java:107-110`（三項演算子で既定と設定値を合成せず置き換える）・`:101-103` |
 
 **値 `reader.fwHeaderfields=requestId,addHeader`（`mom.rst:22`）は変更していない。** 出典（`real.rst:175`）そのものである。是正1 は `design.md` §8「出典と実装が食い違う場合は実装を優先する」の適用であり、§2 の「出典と実装が食い違った点」に**4件目**として追加した。
@@ -275,3 +275,46 @@
    | B（効かない可能性） | `nablarch/test/core/http/` 配下から `getMessage` を呼ぶ経路が見当たらない | `src/main/java/nablarch/test/core/http/` の10ファイル（`AbstractHttpRequestTestTemplate.java`・`BasicHttpRequestTestTemplate.java`・`HttpRequestTestSupport.java` ほか）に `getMessage(` の出現0件。`TestDataParser#getMessage` の呼び出し元は `MQSupport.java:87` のみで、`DbLessTestDataParser.java:55-56` は委譲 |
 
    両者が挙げた `file:line` は**いずれも実物で再確認して存在する**（`e21bf67` と同一の作業ツリーで確認）。争点は「HTTPメッセージング受信のテストが `MessagingRequestTestSupport`／`MQSupport` を経由するか」であり、この一点の確認が済んでいない。**推測で結論を書かない。** 本ページ `mom.rst` は MOM のページであり、この論点の結論に関わらず記述は変わらないが、`decide` 1（`http_messaging.rst` との重複の寄せ先）の判断には影響する。
+
+## 6. user review（`/rn:ty` 承認）後の反映
+
+2026-08-13 の `/rn:ty` で公開本文が承認され、`decide` 5件の回答と `should` 3件が示された。本節はその反映結果を記録する。参照コミットは `nablarch/nablarch-testing` = `e21bf67`（本節が引く4ファイルは作業ツリー `fdf55d4` との `git diff` が空で `e21bf67` と同一）、`nablarch/nablarch-document` の出典 = `c2419060`。
+
+### 6.1 `decide` の回答と反映先
+
+| # | 回答 | 反映先 |
+|---|---|---|
+| 1 | **(c) 現状維持。** `reader.fwHeaderfields` は `http_messaging.rst` と `mom.rst` の両方に置く。集約しない | 本文の変更なし。非対称の解消は `should` 1 で実施 |
+| 2 | **是正する。** `implementation/testdata_notation.rst:1244` の1行 | `:1244` を「キー名は固定ではなく、プロジェクトが使用するフレームワーク制御ヘッダのフィールド名を記載する。」に差し替え |
+| 3 | **(a) 2件とも残す。** `design.md` §8 に類型を1つ追加 | `design.md` §8 に「出典が書いていない適用範囲・副作用の追記」を追加。本文の変更なし |
+| 4 | **(i)(ii)(iii) の3件とも反映** | `glossary.md` §5.12 に1行・§5.14 に1行・§8 に3行。`ja/` 4ファイルの `既定`→`デフォルト` 置換26箇所 |
+| 5 | **いま確定させる。`reader.fwHeaderfields` は HTTPメッセージング受信のテストにも効く** | `http_messaging.rst:37-42` は正しい。§5.3 申し送り3 を閉じる（下記 6.3） |
+
+`decide` 1 の判断根拠は、この設定を読む経路が `MessageParser` だけであり、そこへ至るのが `MQSupport.java:87` の1箇所、`MQSupport` を生成するのが `MessagingRequestTestSupport.java:82` と `MessagingReceiveTestSupport.java:42` の2箇所だけであること（`src/main/java` 全走査）。**メッセージング受信のテストに紐づいており、ウェブ・バッチ・RESTful・クラス単体のテストには効かない。** `setup/common.rst`（全テストに共通する設定を置くページ。`common.rst:10`・`S:design.md:153`）へ移すと、読者に「共通設定なので自分のテストにも効く」と読ませることになる。
+
+### 6.2 `should` の反映
+
+| # | 対象 | 内容 | 根拠（`file:line`） |
+|---|---|---|---|
+| 1 | `http_messaging.rst:37`・`:41` | `mom.rst:17` と同じ2文（「デフォルトのフィールド名に追加されるのではなく、すべて置き換える」「使用するフィールド名をすべて列挙する」）を追加し、コードブロックのコメントを `mom.rst:21` と同文にした | `MessageParser.java:107-110`（三項演算子。未設定ならデフォルト4件の `Set`、設定済みなら設定値だけの `Set` を代入し、合成しない）・`:109`（デフォルトは `requestId`・`userId`・`resendFlag`・`resultCode`） |
+| 2 | `mom.rst:17`・`http_messaging.rst:37` | 「値に空白を含めると、空白も含めてフィールド名として扱われるため、カンマの前後に空白を入れない。」を両ページの同じ位置に追加した | `NablarchTestUtils.java:36`（`COMMA = Pattern.compile(",")`）・`:45-49`（`makeArray` は `COMMA.split(str)` をそのまま返し、トリムしない）。判定は `MessageParser.java:103` の `fwHeaderFields.contains(name)` で、`reader.fwHeaderfields=requestId, addHeader` と書くと `" addHeader"` というフィールド名になり一致しない。いずれも実物で確認済み |
+| 3 | 本記録 §2 食い違い4・§5.2 是正1 | 「書き出しにのみ使われる」を「書き出しと読み込みの双方に使われる」に是正した。**是正の結論（公開本文の文言）は変わらない** | `MessagePool.java:148-152`（読み込み経路でも同じ手順で `ld` を得る）→ `:165`（`responseMessage.setFormatter(formatter.setDefinition(ld)).readRecords()`）。実物で確認済み |
+
+`should` 1・2 の追記は、`design.md` §8 に新設した類型「出典が書いていない適用範囲・副作用の追記」の適用である。
+
+### 6.3 §5.3 申し送り3 の決着 — `reader.fwHeaderfields` は HTTPメッセージング受信のテストにも効く
+
+立場A（効く）が正しい。決め手は、ラウンド2のレビュアーA・Bのいずれも挙げていなかった次の一次情報である。
+
+- HTTPメッセージング受信のテストデータの識別子行は `MESSAGE=setUpMessages`（応答側は `MESSAGE=expectedMessages`）で固定である（`c2419060:ja/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/02_RequestUnitTest/http_real.rst:56`・`:105`・`:168`）
+- この2つのIDを読む経路は `MQSupport.java:73-74`・`:63-64`（`getMessages(sheetName, "setUpMessages")`／`getMessages(sheetName, "expectedMessages")`）の1つだけであり、そこから `BasicTestDataParser.java:82-85` の `new MessageParser(..., DataType.MESSAGE)` に至る。したがって HTTPメッセージング受信のテストデータは必ず `MessageParser` が解析する
+- `http_real.rst:63` は、共通情報の行に `requestId` をキーとして書く例をそのまま載せている。この行がフレームワーク制御ヘッダとして扱われるのは `MessageParser.java:102-103` の `fwHeaderFields.contains("requestId")` が真だからであり、`reader.fwHeaderfields` でこの名前を落とせば同じ行はフィールド名称行として扱われる（`DataFileParser.java:140-143`）
+
+立場Bの「`nablarch/test/core/http/` から `getMessage` を呼ぶ経路が無い」は事実だが結論には効かない。HTTPメッセージング受信のテストは `nablarch.test.core.http` のクラスではなく `MessagingRequestTestSupport` を使う（`http_real.rst:5` が `real_request_test` に委ね、`real.rst:15` がそのクラスを指定する）。**適用範囲は MOM と同一であり、承認済み `http_messaging.rst:37` の記述は正しい。**
+
+**残る申し送り**: `real.rst:15` はこのクラスのパッケージ名を `nablarch.test.core.http` と書いているが、実体は `nablarch.test.core.messaging` である。`design.md` §8「実装優先」に従い、**第3部「リクエスト単体テスト（MOMによるメッセージング）」を書くタスク（`current-0295`〜`0301`）で是正する。** 本タスクでは何もしない。
+
+### 6.4 §5.3 申し送り1・2 の決着
+
+- 申し送り1（空白を入れると無言で失敗する）→ `should` 2 で両ページに1文を追加。**閉じた**
+- 申し送り2（`http_messaging.rst` に「置き換えである」旨が無い非対称）→ `should` 1 で解消。**閉じた**

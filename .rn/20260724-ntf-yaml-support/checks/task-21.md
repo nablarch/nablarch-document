@@ -342,3 +342,69 @@ $ git status --porcelain
 - Craft expert（観点B:トンマナ）: OK（是正後） — ラウンド1は FAIL。`tip` の使い分け・リード文の主語・出典から落ちた語・`データの形式` の新語・L3見出しの形式を指摘。全件是正済み。**ただしBが `must` の根拠として挙げた前例2件（`class_unit_test.rst:91`「バリデーションのテスト方法を差し替える」・`web.rst:113`「テストクラスの共通処理を差し替える」）は実在しない**（コーディネータが実測。`^拡張例$` を持つのは `web.rst:222` と本ページのみ、`差し替える` で終わる見出しは `ja/` 配下0件）。改題は `design.md` §3「拡張例は手順として記載する」と実在する `web.rst:225`「テストデータの書き方を拡張する」を根拠として維持し、Bの引用は取り消す
 - Verification expert（観点A:網羅性 / 観点C:用語 / ラウンド2のファクトチェック）: OK（是正後） — ラウンド1はいずれも FAIL。Aは出典外の追記1件が記録から漏れている点、Cは `メッセージ受信` が `glossary.md:157` の禁止と同じ曖昧さを持つ点を `must` とした。ラウンド2のファクトチェックは18主張中16件一致・1件不一致（`createDefinition` の「読み込むための」）・1件確認不能（「アーキテクトが用意する」＝出典由来の役割記述でコードに現れない情報のため保持）。不一致1件は実装優先で是正済み
 - Ready to check off: **No** — user review 待ち。`steering.md` の「#9〜: ページの作成」共通 Steps はページ作成タスクの最終ステップに user review を課しており（`#17`〜`#20` と同じ）、`/rn:ty` の承認をもって閉じる。あわせて `decide` 5件（`reviews` §4.5・§5.3）の回答が必要
+
+## §7 user review（`/rn:ty` 承認）後の反映とゲート
+
+2026-08-13 の `/rn:ty` で公開本文が承認され、`decide` 5件の回答と `should` 3件が示された。本節はその反映結果とゲート10件の実行結果を記録する。反映内容そのものは `reviews/page-request_unit_test_setting_mom.md` §6 にある。
+
+### §7-1 `既定` → `デフォルト` の全件表（母集合を先に固定）
+
+母集合は `grep -ro "既定" ja/development_tools/testing_framework/` の**出現数**（行数ではない）。ホワイトリストで切り出していない。
+
+| ファイル | 出現数 | 該当行 |
+|---|---|---|
+| `setup/request_unit_test/batch.rst` | 13 | `:10`・`:39`（L3見出し）・`:41`×2・`:60`・`:65`・`:70`・`:76`×3・`:78`・`:88`・`:96` |
+| `implementation/testdata_notation.rst` | 6 | `:429`・`:871`・`:1131`・`:1137`・`:1236`・`:1513` |
+| `setup/request_unit_test/mom.rst` | 5 | `:10`・`:17`×3・`:33` |
+| `setup/request_unit_test/http_messaging.rst` | 2 | `:10`・`:37` |
+| **計** | **26** | — |
+
+**`/rn:ty` の内訳（`batch.rst` 12・`testdata_notation.rst` 7）とは2ファイルで1件ずつ食い違うが、合計26は一致する。** 本表はコーディネータが `grep -o` で数え直した実測値である。
+
+置換の形は `既定`→`デフォルト` の1対1で、例外は `testdata_notation.rst:429` の `既定キー`→`デフォルトのキー` のみ（`デフォルトキー` は `ja/` 全体で0件、`デフォルトのキー` は1件〈`FW:handlers/common/thread_context_handler.rst:151`〉であるため既存の用例に合わせた）。`既定から変更している`→`デフォルトから変更している` も FW解説書に2件の用例がある（`FW:libraries/data_io/data_format.rst:557`・`FW:nablarch/policy.rst:64`）。
+
+### §7-2 語彙の実測（`glossary.md` §5.14 の採用根拠）
+
+| コーパス | `デフォルト` | `既定` |
+|---|---|---|
+| FW解説書（`ja/application_framework/application_framework/`、作業ツリー） | 630 | 4 |
+| `ja/` の NTF 以外 | 755 | 4 |
+| 現行解説書（`c2419060` の `guide/development_guide/**/*.rst`） | 58 | **0** |
+| input資料 | 47 | 5 |
+| NTF新ページ（是正前） | 64 | 26 |
+| NTF新ページ（是正後） | 90 | **0** |
+
+**現行解説書に `既定` は0件である。** この語は出典由来ではなく新ページで生じた揺れであり、`デフォルト` に寄せることに反証はない。いずれも `grep -o` による実測で、`scan-terms.tsv` の出現数ではない（3語とも `term_candidates.tsv` に未登録）。
+
+### §7-3 ゲート1〜10 の実行結果
+
+| # | ゲート | 結果 | 実行結果 |
+|---|---|---|---|
+| 1 | `ja/` の差分は4ファイルに限る | **PASS** | `git status --porcelain` の `ja/` 配下は `implementation/testdata_notation.rst`・`setup/request_unit_test/mom.rst`・`http_messaging.rst`・`batch.rst` の4件のみ。`batch.rst` の差分は語の置換13箇所だけで、他の変更を含まない（`git diff` 全行を目視） |
+| 2 | `既定` の残存0件 | **PASS** | `grep -rn "既定" ja/development_tools/testing_framework/` が0件（`about`・`setup`・`implementation`・`tools` を含むディレクトリ全体。`guide/` は `#7` で削除済みのため存在しない） |
+| 3 | `デフォルト設定` が新たに生じていない | **PASS** | `git diff ja/ \| grep "^+" \| grep -c "デフォルト設定"` = 0。`batch.rst:96` の `既定の対応表` は `デフォルトの対応表` になっている |
+| 4 | `glossary.md` の差分は §5.12 1行・§5.14 1行・§8 3行の追加に限る | **PASS** | `git diff --numstat` = `5 0`（追加5・削除0）。ハンク位置は `@@ -283,0 +284 @@`・`@@ -326,0 +328 @@`・`@@ -578,0 +581,2 @@`・`@@ -597,0 +602 @@` の4つで、**§5.15.2 の一覧（`:403`〜`:449`）は1つのハンクにも含まれない** |
+| 5 | `design.md` の差分は §8 への類型1件の追加に限る | **PASS** | `git diff --numstat` = `26 0`。ハンクは `@@ -478,0 +479,26 @@` の1つのみ（§8 末尾、`## 9. 対象外とするもの` の直前） |
+| 6 | `mapping.csv`・`mapping/_batch/`・`volume.md` に差分が無い | **PASS** | `git status --porcelain` の対象3パスが空 |
+| 7 | `verify_mapping.py` が 595行 / 12,986 / 11,983 で exit 0 | **PASS** | `Loaded 595 rows` / `lines total (all rows): 12986` / `lines total (excluding DROP): 11983` / `OK: no errors` / `exit=0` |
+| 8 | Docker フルビルド（`-a`）で新規警告0件 | **PASS** | `build succeeded, 1 warning.`。警告は `db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` の既知1件のみ。**直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行済み。** 生成HTMLで4ファイルの反映と `既定` 残存0件を確認 |
+| 9 | 見出し下線が実測則を満たす | **PASS** | `unicodedata.east_asian_width` で `ja/development_tools/testing_framework/**/*.rst` の全見出しを実測。`batch.rst:39` は表示幅 32→38 に増えたが下線は49のままで、L3の則 `max(49, 表示幅)` を満たす（**`/rn:ty` は「表示幅が2増える」としているが実測は6増（`既定値`6→`デフォルト値`12）。いずれにせよ49未満で下線の変更は不要**）。他に置換で表示幅が変わる見出しは無い |
+| 10 | 差分の範囲を `git status --porcelain` の**全件**で確認 | **PASS** | 全件7件 = `ja/` 4件（ゲート1）＋ `.rn/` 3件（`design.md`・`mapping/glossary.md`・`reviews/page-request_unit_test_setting_mom.md`）。予定外0件。未追跡ファイル0件。`locales/ja/LC_MESSAGES/sphinx.mo` は**ビルド直後に戻したため差分に現れていない** |
+
+**`checks/task-21.md`（本ファイル）自身の差分は本節の追加のみ**であり、ゲート10の母集合には commit 直前の再確認時に現れる。
+
+### §7-4 反映しなかったもの・限界
+
+- **`verify_glossary.py` は本タスクの前から失敗しており、本タスクでも通していない。ただし本タスクで7件増えた。** 実測は次のとおり（`git stash` で `glossary.md` だけを HEAD に戻して前後を比較した）。
+
+  | | 変更前 | 変更後 | 差 |
+  |---|---|---|---|
+  | `[ref]`（`design.md` の行番号ずれ） | 13 | 13 | 0 |
+  | `[section]`（揺れ表記が §8 に無い） | 1 | 1 | 0 |
+  | `[term]`（`term_candidates.tsv` に無く件数を検証できない） | 4 | 9 | **+5** |
+  | `[count]`（件数主張が `scan` 出力に無い） | 0 | 2 | **+2** |
+  | **合計** | **18** | **25** | **+7** |
+
+  増えた7件はすべて、今回追加した3語（`環境設定ファイル`・`デフォルト`・`既定`）と揺れ表記2語（`propertiesファイル`・`プロパティファイル`）が `mapping/tools/term_candidates.tsv` に未登録であることに起因する。**`term_candidates.tsv` に登録すれば解消するが、§1 が「tsv に載せる表記の集合を変えると出現数も変わる」（最長一致・非重複のため）と明記しており、既存の全件数主張を再計算する作業になる。** `/rn:ty` のゲート一覧に本スクリプトは含まれず、`term_candidates.tsv` の更新も指示されていないため、**本タスクでは触れていない。** `[ref]` 13件と合わせて別タスクで一括して直す必要がある。なお `glossary.md` §5.14 の揺れ表記欄は、当初 `既定値`・`既定では`・`既定の〜` を個別のコードスパンで書いたため `[section]` が3件増えたが、`既定` の1語にまとめて解消済み（意味は変わらない）
+- `nablarch-testing-yaml` のスキーマ説明文（`ntf-testdata-yaml-schema.json`）の見直しは PR #75 側の話であり、本タスクの範囲外（`/rn:ty` §4 の明示）
+- `real.rst:15` のパッケージ名の誤り（`nablarch.test.core.http` → `nablarch.test.core.messaging`）は、第3部「リクエスト単体テスト（MOMによるメッセージング）」を書くタスク（`current-0295`〜`0301`）で是正する。本タスクでは何もしていない

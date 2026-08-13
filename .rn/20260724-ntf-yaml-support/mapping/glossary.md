@@ -281,6 +281,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | 正表記 | 意味 | 揺れ表記（使わない） | 別義・旧名称（文脈により使う） | 採用根拠 |
 |---|---|---|---|---|
 | `コンポーネント設定ファイル` | システムリポジトリに登録するコンポーネントを定義するXMLファイル | 揺れなし（`DI設定ファイル` は未出現） | なし | FW解説書105件、現行解説書47件（`NTF:05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:712`）、input資料5件 |
+| `環境設定ファイル` | システムリポジトリに読み込ませる設定値を、キーと値で記述するファイル | `propertiesファイル`（現行2件、`NTF:05_UnitTestGuide/02_RequestUnitTest/real.rst:170`）、`プロパティファイル`（現行5件、`NTF:06_TestFWGuide/03_Tips.rst:561`） | なし | 現行解説書3件（`NTF:06_TestFWGuide/04_MasterDataRestore.rst:103`）、FW解説書34件（`FW:setting_guide/CustomizingConfigurations/index.rst:64`）、新ページ5件（作業ツリーの `setup/common.rst:17` ほか。`NTF-root:` は基準コミット時点を指すため、新ページには使えない）。**現行解説書は同じものを3通りに呼んでいる**（`プロパティファイル`5・`環境設定ファイル`3・`propertiesファイル`2）。`ja/` のNTF以外でも72・38・29と割れており、FW解説書は `環境設定ファイル(propertiesファイル)` と併記する箇所を持つ（`FW:setting_guide/CustomizingConfigurations/index.rst:79`）。ファイル形式ではなく役割で呼ぶ `環境設定ファイル` を採る。**件数は生の `grep -o` による実測で、`scan-terms.tsv` の出現数ではない**（`term_candidates.tsv` に未登録のため。§1「出現数」の定義の対象外） |
 | `システムリポジトリ` | コンポーネントを保持し、名前で取得できるようにする仕組み | 揺れなし | なし | FW解説書58件、現行解説書10件（`NTF:06_TestFWGuide/02_RequestUnitTest.rst:232`） |
 | `内蔵サーバ` | リクエスト単体テスト（ウェブアプリケーション・RESTfulウェブサービス）で使用するサーブレットコンテナ | `内蔵サーブレットコンテナ`（input1件、`S:input/ntf-doc-terms.md:450`） | なし | 現行解説書18件（`NTF:05_UnitTestGuide/03_DealUnitTest/rest.rst:92`）。FWに該当語なし。`NTF:06_TestFWGuide/02_RequestUnitTest.rst:11`がウェブアプリ限定と明記するため意味欄で対象を限定 |
 | `HTMLダンプ` | リクエスト単体テスト（ウェブアプリケーション）で出力する、レスポンスHTMLのファイル | `HTML ダンプ`（input3件、`S:input/ntf-doc-terms.md:252`） | なし | 現行解説書19件（`NTF:05_UnitTestGuide/02_RequestUnitTest/index.rst:115`）。内蔵サーバと同じくウェブアプリケーション向けの機能であるため、意味欄で対象を限定した |
@@ -324,6 +325,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | `サーバ` | サービスを提供する計算機・プロセス | 揺れなし（`サーバー` は未出現） | なし | FW解説書122件、現行解説書13件 |
 | `データ` | 処理の対象となる値の集まり | `データー`（現行1件、`NTF:06_TestFWGuide/01_Abstract.rst:112`。RSTのコメント行） | なし | FW解説書1282件、現行解説書483件 |
 | `バイナリデータ` | 文字列として解釈しないデータ | `バイナリーデータ`（現行1件、`NTF:06_TestFWGuide/01_Abstract.rst:86`。RSTのコメント行） | なし | FW解説書7件（`FW:handlers/web/multipart_handler.rst:213`）、現行解説書4件、input資料5件 |
+| `デフォルト` | 設定を明示しない場合に適用される値・動作。デフォルト値／デフォルトでは／デフォルトの〜 の形で使う | `既定`（既定値・既定では・既定の〜 を含む。FW解説書4件、`FW:web/architecture.rst:114`。input資料5件、`S:input/ntf-testdata-doc.md:445`。**現行解説書には0件**） | なし | FW解説書630件（`FW:setting_guide/CustomizingConfigurations/index.rst:82`）に対し `既定` は4件、現行解説書は `デフォルト`58件に対し `既定`0件。`既定` はこの解説書の語彙ではない。新ページだけが両者に割れていた（是正前 `既定`26件・`デフォルト`64件）ため `デフォルト` に統一した（`#21`）。**`#18` が `design.md` §8 に定めた「設定項目表の『デフォルト値』」の規定もデフォルト値を前提にしており、本文が既定値だと規定の掛かり先が読み取れない。** なお「デフォルト設定」は `nablarch-testing-default-configuration` が提供する設定を指す固有の語であり（`S:design.md:443`）、本行の一般語として使ってはならない。件数は生の `grep -o` による実測で、`scan-terms.tsv` の出現数ではない（`term_candidates.tsv` に未登録） |
 | `パーサ` | テストデータを構造化オブジェクトへ組み立てる処理 | `パーサー`（input1件、`S:input/ntf-testdata-doc-examples-table.md:120`） | なし | input資料8件中7件は `ntf-testdata-loading.md`（`S:design.md:230` が対象外と宣言）にあり、対象資料の用例は `パーサー` 1件のみ。それでも掲載するのは**カタカナ語の長音の揺れ**であり、本節の他項と同じ規則の対象だからである |
 
 ### 5.15 `term-candidates.csv` との対応（母集団の全件判定）
@@ -576,6 +578,8 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | `FW制御ヘッダ` | `フレームワーク制御ヘッダ` | 無条件 |
 | `FW 制御ヘッダ` | `フレームワーク制御ヘッダ` | 無条件 |
 | `DI設定ファイル` | `コンポーネント設定ファイル` | 無条件（現行・inputに未出現） |
+| `propertiesファイル`／`プロパティファイル` | `環境設定ファイル` | システムリポジトリに読み込ませる設定値の記述先を指す場合に限る。ファイル形式そのものを指す記述は置き換えない |
+| `TestDataConvertor` | `TestDataConverter` | 無条件。実装のインタフェース名は `TestDataConverter`（`nablarch-testing` `e21bf67` の `src/main/java/nablarch/test/core/file/TestDataConverter.java:17`）であり、出典の綴りが誤っている。現行解説書の4件のうち `NTF:06_TestFWGuide/RequestUnitTest_real.rst:57`・`RequestUnitTest_send_sync.rst:62` は未消化のマッピング行（`current-0296`・`current-0323`。いずれも第3部）の範囲内にある |
 | `内蔵サーブレットコンテナ` | `内蔵サーバ` | 無条件 |
 | `HTML ダンプ` | `HTMLダンプ` | 無条件 |
 | `HTTPダンプツール` | `リクエスト単体データ作成ツール` | 無条件（現行・inputに未出現） |
@@ -595,6 +599,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | `データー` | `データ` | 無条件 |
 | `バイナリーデータ` | `バイナリデータ` | 無条件 |
 | `パーサー` | `パーサ` | 無条件 |
+| `既定` | `デフォルト` | 無条件（`既定値`→`デフォルト値`、`既定では`→`デフォルトでは`、`既定の〜`→`デフォルトの〜`）。**ただし置き換えた結果として `デフォルト設定` の語を作らないこと。** `デフォルト設定` は `nablarch-testing-default-configuration` が提供する設定を指す固有の語である（`S:design.md:443`） |
 
 ## 9. ntf-doc-terms.md の候補の突き合わせ結果
 
