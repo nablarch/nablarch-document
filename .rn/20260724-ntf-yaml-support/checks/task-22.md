@@ -205,13 +205,46 @@ $ git status --porcelain
 
 | Criterion | Self-check | Evidence | QA | QA Evidence |
 |---|---|---|---|---|
-| `mapping.csv` の当該 `dest_page` の全行（3行）が反映されている | OK | `csv.DictReader` で全595行から `dest_page` 完全一致で抽出した3行（`DROP` 0件・52 lines）が §1 の表に全件現れ、それぞれ反映先の行番号を持つ。出典の各要素との突合は §1-2（落とした事実0件）、逆方向は §1-3（典拠を持たない記述0件）。**是正ラウンド1で出典 `:52`・`:55` の `Set-Cookie` / `Cookie` というヘッダ名を本文 `rest.rst:21` に戻したため、反映漏れはさらに減っている**（初版はこれを「出典と実装の食い違い」と誤認して落としていた。撤回の記録は `reviews` §3-3） | | |
-| 当該 `dest_page` のマッピング行が全件、ページのどこに反映されたかの対応表が `checks/task-22.md` にある | OK | §1 の表（`mapping_id` ごとに反映先セクションと反映内容・反映先の行）。3行すべて記載。**是正ラウンド1で本文の行番号が動いたため、§1・§1-2・§1-3・§3・§5・§6 に書かれた `rest.rst:NN` は初版時点の値である**（本ファイルは指示により Completion Criteria と Overall Verdict の `Self-check` 以外を書き換えていない）。是正後の行番号は `reviews/page-deal_unit_test_setting_rest.md` §2 の事実表が全件を持つ | | |
-| 全件表を求める項目が、ゲートの実行順の先頭に置かれている（母集合をホワイトリストで切り出していない） | OK | 全件表は本ファイルの冒頭 §1 にあり、他のすべての節より前に置いた。抽出条件は `dest_page` の完全一致のみで `mapping_id` の列挙は使っていない。§5 の差分の全件表も `git status --porcelain` を母集合にしている。是正ラウンド1でも母集合は `git status --porcelain` の全件（3エントリ: `reviews/page-*.md` `M`・`setup/deal_unit_test/rest.rst` `M`・`checks/task-22.md` `??`） | | |
-| 未対応の指摘が残っていない、または残す判断とその理由が記録されている | OK | 判断は**12件**（D-1〜D-12）を `reviews/page-deal_unit_test_setting_rest.md` §4 に理由・根拠つきで記録。是正ラウンド1で D-8（拡張例を手順に書き直し）・D-9（`important` を `cookieName` に置き `reset()` に置かない判断）・D-10（「記述した順に実行される」は `design.md` §8 の適用範囲・副作用の類型）・D-11（`processors` の NPE を本文に書かない判断）・D-12（リード文と本文の書き直しと段落分け）を追加。§5 の未確認1件（リクエストが常に `RestMockHttpRequest` か）は `SimpleRestTestSupport.java:126`・`:136`・`:146`・`:156`・`:166`・`:176` の戻り値型で解消済み。申し送りは3件（`grep -a` の測定の誤り・第3部からの `:ref:deal_unit_test_rest`・`testdata_notation.rst:414` の `Cookie` 表記） | | |
-| `make html`（Docker フルビルド）が当該ページについてエラーを出さない | 未再実行 | 初版時点では §4 のとおり `build succeeded, 1 warning.`（既知の `db_double_submit.rst:108` 1件のみ、新規0件）。**是正ラウンド1の変更後は Docker ビルドを実行していない**（本ラウンドの指示で実行を禁じられており、コーディネータが実施する）。是正後の本文で新たに増えた RST 構文要素は `.. important::` 1件のみで、`:ref:` 3件・`:java:extdoc:` 7件の対象は初版から変わっていない | | |
-| ゲート1〜9 が実行結果で記録されている | OK | §6 の表は初版のゲート結果。**是正ラウンド1のゲート1〜9 は本ラウンドのサマリで報告した。** 内訳: 1 PASS（`git status --porcelain` 3エントリすべて予定どおり）／2 PASS（`ja/` の差分は `setup/deal_unit_test/rest.rst` の1ファイルのみ）／3 PASS（保護対象5パスの差分0件）／4 PASS（`Loaded 595 rows` / `12986` / `11983` / `OK: no errors` / exit 0）／5 PASS（`既定` 0件）／6 PASS（`デフォルト設定`・`テストケース`・`インターフェース` すべて0件）／7 PASS（見出し6件すべて実測則と一致。L1 幅45→50、L2 幅8→50・幅6→50、L3 幅44→49・幅26→49・幅38→49）／8 PASS（`xml.etree.ElementTree.fromstring` でXMLブロック2件をパース成功）／9 PASS（段落内改行0件）。**8 の Docker ビルドは本ラウンドの対象外**（上記のとおり実行禁止） | | |
+| `mapping.csv` の当該 `dest_page` の全行（3行）が反映されている | OK | `csv.DictReader` で全595行から `dest_page` 完全一致で抽出した3行（`DROP` 0件・52 lines）が §1 の表に全件現れ、それぞれ反映先の行番号を持つ。出典の各要素との突合は §1-2（落とした事実0件）、逆方向は §1-3（典拠を持たない記述0件）。**是正ラウンド1で出典 `:52`・`:55` の `Set-Cookie` / `Cookie` というヘッダ名を本文 `rest.rst:21` に戻したため、反映漏れはさらに減っている**（初版はこれを「出典と実装の食い違い」と誤認して落としていた。撤回の記録は `reviews` §3-3） | OK（本ラウンドでは再検証していない） | 是正ラウンド2は3行の書き換えのみで、反映の有無を変える差分ではない。範囲検証役が旧版・新版を独立に取り出して差分行を列挙し、変更行が `10`・`17`・`21` の3行のみ（行数 66→66 で不変）であることを確認した |
+| 当該 `dest_page` のマッピング行が全件、ページのどこに反映されたかの対応表が `checks/task-22.md` にある | OK | §1 の表（`mapping_id` ごとに反映先セクションと反映内容・反映先の行）。3行すべて記載。**是正ラウンド1で本文の行番号が動いたため、§1・§1-2・§1-3・§3・§5・§6 に書かれた `rest.rst:NN` は初版時点の値である**（本ファイルは指示により Completion Criteria と Overall Verdict の `Self-check` 以外を書き換えていない）。是正後の行番号は `reviews/page-deal_unit_test_setting_rest.md` §2 の事実表が全件を持つ | OK（本ラウンドでは再検証していない） | 上と同じ理由。行番号の記載が初版時点の値である旨は Evidence 列に明記されており、是正後の行番号は `reviews` §2 が保持する |
+| 全件表を求める項目が、ゲートの実行順の先頭に置かれている（母集合をホワイトリストで切り出していない） | OK | 全件表は本ファイルの冒頭 §1 にあり、他のすべての節より前に置いた。抽出条件は `dest_page` の完全一致のみで `mapping_id` の列挙は使っていない。§5 の差分の全件表も `git status --porcelain` を母集合にしている。是正ラウンド1でも母集合は `git status --porcelain` の全件（3エントリ: `reviews/page-*.md` `M`・`setup/deal_unit_test/rest.rst` `M`・`checks/task-22.md` `??`） | OK | 範囲検証役が `git status --porcelain` を母集合に全件確認し、作業ツリーは `checks/task-22.md` の `M` 1件のみ（未追跡0件）であることを独立に確認した |
+| 未対応の指摘が残っていない、または残す判断とその理由が記録されている | OK | 判断は**12件**（D-1〜D-12）を `reviews/page-deal_unit_test_setting_rest.md` §4 に理由・根拠つきで記録。是正ラウンド1で D-8（拡張例を手順に書き直し）・D-9（`important` を `cookieName` に置き `reset()` に置かない判断）・D-10（「記述した順に実行される」は `design.md` §8 の適用範囲・副作用の類型）・D-11（`processors` の NPE を本文に書かない判断）・D-12（リード文と本文の書き直しと段落分け）を追加。§5 の未確認1件（リクエストが常に `RestMockHttpRequest` か）は `SimpleRestTestSupport.java:126`・`:136`・`:146`・`:156`・`:166`・`:176` の戻り値型で解消済み。申し送りは3件（`grep -a` の測定の誤り・第3部からの `:ref:deal_unit_test_rest`・`testdata_notation.rst:414` の `Cookie` 表記）。**是正ラウンド2の指摘3件（`must` 1件・`should` 2件）は R2-1〜R2-3 として同 §6 に是正前後の文と裏付けの `file:line` つきで記録し、未対応で残した指摘は0件** | OK | 是正ラウンド2の差分に対する検証（ラウンド3）を2観点で回し、**`must` 0件・`should` 0件**。ファクトチェック役の `note` 3件はいずれも本コミットが生んだものではない（§7 に記録）。ユーザー判断待ちの2件（`about/index.rst` の矛盾・`style.md:45` の食い違い）は本ページの是正では解けないため未解決のまま残しており、理由と根拠を §7-3 に記録している |
+| `make html`（Docker フルビルド）が当該ページについてエラーを出さない | OK | **是正ラウンド2で再実行した。** `docker run --rm -v ...:/root/document nablarch-document-build ... sphinx-build -a -E -d _build/.doctrees/ja -b html ja _build/html` が `build succeeded, 1 warning.`（exit 0）。警告は既知の `db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` の1件のみで、新規0件。指示どおりの増分ビルド（`-a -E` なし）では `build succeeded, 2 warnings.` となるが、増える1件は `WARNING: unsupported build info format in '/root/document/_build/html/.buildinfo', building all` で、`_build` に残っていた旧 Sphinx の `.buildinfo` に対する警告であり本文とは無関係（そのため `-a -E` の全量ビルドの結果を採る）。ビルド直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し、`git status --porcelain` に `sphinx.mo` が出ていないことを確認済み | OK | **コーディネータが独立に再実行した**（実装役のログを根拠にしていない）。同じ `-a -E` のコマンドで `build succeeded, 1 warning.`（exit 0）。警告を `grep -E "WARNING\|ERROR"` で抽出した全件は `db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` の1件のみで、新規0件。実行直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し、`git status --porcelain` に出ていないことを確認した |
+| ゲート1〜9 が実行結果で記録されている | OK | §6 の表は初版のゲート結果。**是正ラウンド1のゲート1〜9 は本ラウンドのサマリで報告した。** 内訳: 1 PASS（`git status --porcelain` 3エントリすべて予定どおり）／2 PASS（`ja/` の差分は `setup/deal_unit_test/rest.rst` の1ファイルのみ）／3 PASS（保護対象5パスの差分0件）／4 PASS（`Loaded 595 rows` / `12986` / `11983` / `OK: no errors` / exit 0）／5 PASS（`既定` 0件）／6 PASS（`デフォルト設定`・`テストケース`・`インターフェース` すべて0件）／7 PASS（見出し6件すべて実測則と一致。L1 幅45→50、L2 幅8→50・幅6→50、L3 幅44→49・幅26→49・幅38→49）／8 PASS（`xml.etree.ElementTree.fromstring` でXMLブロック2件をパース成功）／9 PASS（段落内改行0件）。**是正ラウンド2では Docker フルビルドを実行して PASS**（上の行のとおり `-a -E` で `build succeeded, 1 warning.`、新規0件）。同ラウンドの差分は `rest.rst` の3行のみ（`git diff --stat` が `3 insertions(+), 3 deletions(-)`）で、見出し・XML記述例・`important` に差分なし。文あたりの可視文字数の最大は是正前後とも 94（`git show HEAD:` の内容と作業ツリーを同じ方法で計測） | OK | 範囲検証役が独立にゲート相当を再実行し、変更ファイル2件（`rest.rst`・`reviews/page-*.md`）のみ・`sphinx.mo` 非混入・`:33` 不変（md5 一致）・レビュー記録が末尾への純粋な追記（先頭189行が旧版と完全一致）であることを確認した |
+
+## §7 是正ラウンド2 の差分に対する検証（ラウンド3。コーディネータ記入）
+
+`#10b` の申し送り「是正ラウンド2以降は、是正差分に限定した検証観点のみを回す」に従い、4観点ではなく2観点を**それぞれ別のサブエージェント**で回した。両者には Rules の3点（実測で裏付ける／成果物付属の検証結果を正解にしない／敵対的に見る）を渡し、`checks/task-22.md`・実装役の報告・こちらの見立ては渡していない。
+
+### §7-1 判定
+
+| 観点 | 判定 | 根拠 |
+|---|---|---|
+| 範囲検証（是正が指示範囲に収まっているか） | PASS・指摘0件 | 旧版・新版を独立に取り出して差分行を列挙 → 変更行は `10`・`17`・`21` の3行のみ（行数 66→66）。ロール全出現12件・見出し／ディレクティブ／XML の27行は差分なし。`:33` は md5 一致で不変。`checks/task-22.md` はコミットに含まれず、レビュー記録は末尾への純粋な追記。`sphinx.mo` の混入なし |
+| ファクトチェック（是正が新しい欠陥を生んでいないか） | PASS・`must` 0件 / `should` 0件 | 3文それぞれを実装（`origin/main` の `git show` で読んだ5クラス）と出典（`c241906`）で照合。`:19`・`:25`・`:33`〜`:35`・`:39`〜`:41`・`:62`〜`:66` との整合、段落内改行0件、用語（`インターフェース`・`既定`・`テストケース` すべて0件）も確認 |
+
+### §7-2 `note` 3件のトリアージ（いずれも本コミット由来ではない。是正しない）
+
+| # | 内容 | 判定と理由 |
+|---|---|---|
+| N-1 | `:10` が登録名 `defaultProcessor` を落としている（名前が違えば効かない。キー一致は `SimpleRestTestSupport.java:47`） | 是正しない。リード文はページ全体の導入であり、登録名は直後の `:19` が与える。リード文に設定名まで書くと `style.md` S-02 の「何を説明するページかを述べる」から外れる |
+| N-2 | 「CSRFトークン」を引き継ぐ提供実装は存在しない（`git grep -i -a "csrf"` が `src` で0件。提供実装は `RequestResponseCookieManager`／`NablarchSIDManager`／`ComplexRequestResponseProcessor` の3つのみ）。CSRFは独自クラスが要る（出典 `:87` の `com.example.test.CSRFTokenManager`） | 是正しない。語の並びは出典 `:40` と同一で、`:10` 第2文が「独自に作成したクラスに差し替えることもできる」と続けているため、読者が「提供実装だけでCSRFが賄える」と誤読する経路は塞がっている。**ただし取引単体テストの残りページで CSRF に触れる場合は、提供実装が無い事実を書き添えるか確認すること（申し送り）** |
+| N-3 | 渡し先が `:17`・`:21` とも「次のリクエスト」だが、実装上は `cookieValue` が非 null である限り以降のすべてのリクエストに載る（`RequestResponseCookieManager.java:28-33`） | 是正しない。出典 `:41` と同じ語であり、ページ内で `:17`／`:21` が揃っている。N-3 を採ると「次のリクエスト」を全箇所で書き換えることになり、是正差分限定の範囲を超える |
+
+### §7-3 未解決のまま残した2件（ユーザー判断待ち。本ページの是正では解けない）
+
+いずれもコーディネータが一次情報で再確認した。
+
+| # | 内容 | 実測した事実 |
+|---|---|---|
+| U-1 | `about/index.rst:79` の `.. important::`「取引単体テストは、自動実行ではなく手動操作によって行う」が本ページ（JUnit 前提）と矛盾する | **出典自身が割れている。** `c241906:.../03_DealUnitTest/index.rst:7-8` は「アプリケーションサーバにデプロイし、手動でアプリケーションを操作しテストを行う」。同ディレクトリの `rest.rst:7` は「複数のリクエストにより取引が成立する場合は、リクエスト毎のテストを連続実行することにより取引単体テストが実施可能である」。本ページは後者に立っている。`design.md:86`「取引単体テストが自動テストではないことを明示する。」が処理方式による差を吸収していない |
+| U-2 | `style.md:45`「第2部のページは『機能概要 → 使用方法 → 拡張例』の順に並べる」が実態と食い違う | `setup/` 配下の全11ファイルを走査して `^機能概要$` は**0件**。`#6` 以降 `機能概要` は0行可となっており、作成済みの第2部8ページはどれも持たない |
 
 ## Overall Verdict
 
 - Self-check: OK（是正ラウンド1を適用。是正1〜6 をすべて処理し、判断は D-1〜D-12 として `reviews` §4 に、申し送り3件と解消済み1件を同 §5 に記録した。出典と実装の食い違いは初版の3件から**2件**（XML構文のみ）に減った — `Set-Cookie` の1件は `grep` に `-a` を付けなかった測定の誤りに基づく誤認で、撤回して本文にヘッダ名を戻した。ゲート1〜9 のうち Docker ビルド以外はすべて PASS。**Docker ビルドは本ラウンドの指示により未実行であり、この点は未確認である。**）
+- Self-check: OK（是正ラウンド2を適用。指摘3件を R2-1（`:10` の「自動で」→「実装クラスをコンポーネント設定ファイルに登録することで」）・R2-2（`:17` の「直前のレスポンス」→「先行するリクエストのレスポンス」）・R2-3（`:21` 第2文に主語「この実装クラスは、」を補い `:33` と揃えた）として処理し、裏付けを `reviews/page-deal_unit_test_setting_rest.md` §6 に `file:line` つきで記録した。裏付けは指示を鵜呑みにせず自分で再実行して確認している（`SimpleRestTestSupport.java:47`・`:61-76`・`:96-103`・`:84-86`・`:187`・`:211`、`RequestResponseCookieManager.java:40-57`・`:59-62`、出典 `:40-41`）。差分は `rest.rst` の3行のみで、他の本文・見出し・並び順に差分は無い。Docker フルビルドは `build succeeded, 1 warning.`（既知の `db_double_submit.rst:108` のみ・新規0件）で、直後に `sphinx.mo` を戻して `git status --porcelain` が予定の3ファイルのみであることを確認した。**未対応で残した指摘は0件。**）
+- 検証（範囲・ラウンド3）: OK — PASS・指摘0件（§7-1）
+- 検証（ファクトチェック・ラウンド3）: OK — PASS・`must` 0件 / `should` 0件、`note` 3件はいずれも本コミット由来ではない（§7-1・§7-2）
+- コーディネータの独立確認: OK — 是正コミット `29269d4` の差分を自分で読み、3行に収まることを確認。**Docker フルビルドも自分で再実行**して `build succeeded, 1 warning.`（既知1件のみ・新規0件）、`sphinx.mo` を戻したうえで作業ツリーに残るのが本ファイルのみであることを確認した
+- Ready to check off: **No** — 内容面は解決済み（`must` 0 / `should` 0）だが、この案件の Rules により **user review の承認（`/rn:ty`）が必要**。あわせて §7-3 の2件（`about/index.rst` の矛盾・`style.md:45` の食い違い）にユーザーの判断を仰いでいる
