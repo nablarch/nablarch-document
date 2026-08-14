@@ -585,7 +585,7 @@ Rn version: 0.8.0
 - [x] `#27-02` JUnit 5用拡張機能（`setup/junit5_extension.rst`、2部、475行）
 - [x] `#27-03` テストデータ変換ツール（`tools/testdata_converter.rst`、4部、75行）
 - [x] `#27-04` リクエスト単体データ作成ツール（`tools/request_data_tool.rst`、4部、163行）
-- [ ] `#27-05` マスタデータ投入ツール（`tools/master_data_tool.rst`、4部、177行）
+- [x] `#27-05` マスタデータ投入ツール（`tools/master_data_tool.rst`、4部、177行）
 - [ ] `#27-06` HTMLチェックツール（`tools/html_check_tool.rst`、4部、214行）
 - [ ] `#27-07` 取引単体テスト（RESTfulウェブサービス）（`implementation/deal_unit_test/rest.rst`、3部、32行。**small-3rd**）
 - [ ] `#27-08` 取引単体テスト（Nablarchバッチアプリケーション）（`implementation/deal_unit_test/batch.rst`、3部、168行）

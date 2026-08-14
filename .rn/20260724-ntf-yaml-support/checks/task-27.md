@@ -213,3 +213,40 @@ QA／設計／クラフト／検証の4観点をそれぞれ別のサブエー�
 ### 判断待ち（週明けに判定してほしい項目）
 
 `reviews/page-request_data_tool.md`「判断待ち（`decide`）」に6件。筆頭は **Linux で本ツールを起動できない**こと。出典は `httpDump.sh` を選ぶよう案内しているが、この解説書リポジトリに `.sh` は無く、`nablarch-testing@e21bf67` の `src/main/script/httpDump.sh` は Nablarch 1.x 時代のクラスパス指定のままで、かつ jar にも同梱されない。本文は Windows 前提（`httpDump.bat`）に寄せてある。ほかに、本体側 `src/main/script/httpDump.{bat,sh}` の陳腐化、`rest.rst:53` の記述が実装より狭いこと、`web.rst:31` の `webBaseDir` 既定値の食い違い、第3部から本ページへの導線が無いこと、規約側の手当て4件。
+
+## `#27-05` マスタデータ投入ツール
+
+**成果物**: `ja/development_tools/testing_framework/tools/master_data_tool.rst`（161行。ラベル `master_data_tool`）＋移送アセット5件
+**出典**: `index.rst`・`01_MasterDataSetupTool.rst`・`02_ConfigMasterDataSetupTool.rst`（削除済み。`git show 2e501ad:<path>` で参照）の13行・177行。`REFERENCE` 1件（`current-0355`）を含む
+**参照実装**: `nablarch-testing`（`e21bf67`）、`nablarch-testing-yaml`（`190cc9a`）、配布物 `master-data-setup-tool.zip`（本リポジトリ内。`2e501ad` 時点から md5 不変）
+**レビュー記録**: `reviews/page-master_data_tool.md`
+
+### ゲート結果
+
+| | 結果 | 根拠 |
+|---|---|---|
+| G1 | **PASS** | `git status --porcelain`（ディレクトリで絞らずに実行）は `R` 5件（`02_MasterDataSetup/_image/` の png 4件と `download/master-data-setup-tool.zip` の `git mv`）と ` M ja/.../tools/master_data_tool.rst`。記録3本（`reviews/page-master_data_tool.md`・本ファイル・`steering.md`）を含めても想定内 |
+| G2 | **PASS** | `design.md`・`mapping/style.md`・`mapping/glossary.md`・`mapping/vocabulary.md`・`ja/conf.py`・`mapping/input/` を `git status --porcelain` に明示指定して実行し、出力0行 |
+| G3 | **PASS** | `locales/ja/LC_MESSAGES/sphinx.mo` は `git status --porcelain` に現れない。ビルド直後に `git checkout --` で戻している |
+| G4 | **PASS** | `verify_mapping.py` が exit 0。`mapping.csv` は未変更 |
+| G5 | **PASS** | Docker フルビルド（`sphinx-build -E`）が `build succeeded, 1 warning.`。警告は既知の `db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` 1件のみ。**新規0件**。是正を全件畳んだ後の最終本文で再実行して確認した |
+| G6 | **PASS** | 作業指示 §5 の禁止語（`不具合`・`バグ`・`将来`・`修正され`）が0件。あわせて `本ページ\|下さい\|出来る\|事が\|以下の\|上記の\|利用\|前提条件\|スーパークラス` も0件、`.. note::`／`.. warning::` も0件（`tip` 2件・`important` 3件）。`です・ます` 0件 |
+| G7 | **PASS** | ページ先頭ラベル `master_data_tool` が `mapping/style.md:348` の第4部の表と一致 |
+| G8 | **PASS** | `unicodedata.east_asian_width` で表示幅を測り、全10見出しについて「下線の文字数 ≥ 見出しの表示幅」を検査して NG 0件（下線は全件50、表示幅の最大は38） |
+| G9 | **PASS** | 本文の `:ref:` 12件がすべて解決し、リンク文字列も飛び先の見出しと一致。例外は `:ref:`gsp-dba-maven-plugin <gsp-maven-plugin>`` の意図的な短縮1件（出典・`testdata_notation.rst:40` と同じ書き方）。`:download:` 1件・`:java:extdoc:` 1件・`.. image::` 4件もビルドで解決 |
+| G10 | **PASS** | 13行177行すべてを分類。落としたのは3件（`index.rst` の toctree、`mvn` コマンドの再掲、Antビュー登録後の確認手順＋画像）で、いずれも理由を `reviews/page-master_data_tool.md`「意図して落とした出典」に記載 |
+| G11 | **PASS** | `disposition=REFERENCE` は `current-0355` 1件。使用方法のリード文で `:ref:`導入 <master_data_tool-setup>`` に変換し、節としては起こしていない |
+| G12 | **PASS** | 枝分かれ（`-a`／`-b`）の `mapping_id` が無い。`src_file` 3本はいずれも本ページ専用 |
+| G13 | **PASS** | `.. image::` 4件のファイルが実在し、`git ls-files guide/development_guide/08_TestTools/02_MasterDataSetup/` が0件で移送元ディレクトリは残っていない |
+
+### 4観点レビュー
+
+QA／設計／クラフト／検証の4観点をそれぞれ別のサブエージェントで実施し、1ラウンドで是正した（延べ70件＝QA 17・設計 21・クラフト 20・検証 12。**採用44件を本文への是正33箇所に畳み、不採用9件、残りは記録のみ**）。是正は成果物の `.rst` に畳んであり、別コミットに割っていない。内訳は `reviews/page-master_data_tool.md`。
+
+最も重いのは3件。①**出典が配布物の中身を誤って書いていた**こと（`MASTER_DATA.xlsx`／`tool/db/data/` 配下の5ファイル／小文字 `nablarch_test_master`）。zip の md5 は `2e501ad` 時点から変わっておらず、出典が当時から誤っていた。実物に合わせた。②**バックアップ用スキーマに必要なテーブルの範囲**。本ツールはマスタデータファイルに記述した全テーブルをコピーする（`MasterDataSetUpper.java:109-115` → `MasterDataRestorer.java:283-339`）ため、飛び先の「監視対象テーブルのみでよい」に従うと失敗する。前提事項を書き直した。③**`testDataParser` が YAML 形式用のとき、投入対象が0件になりエラーにもならない**こと（`YamlTestDataParser.java:102-111` → `YamlLoader.java:142-143`）。適用範囲として `important` に書いた。
+
+不採用のうち最も重いのは、設計観点の「L3 見出しの下線を多数派の `~` 49文字に揃えよ」である。`style.md` S-04（`style.md:195`）は「タイトル文字列と同じ長さ以上」しか定めておらず違反ではなく、`request_data_tool.rst` も50文字であるため、片方だけ直すと第4部内でさらに割れる。規約側の判断に回した。
+
+### 判断待ち（週明けに判定してほしい項目）
+
+`reviews/page-master_data_tool.md`「判断待ち」に8件。承認済みページの変更を伴うものが3件ある。**①`master_data_restore.rst:91` のスキーマ名**（小文字 `nablarch_test_master`。配布物は大文字）、**②`master_data_restore.rst:59-61` の tip**（本ツール併用時はマスタデータファイルに記述した全テーブルが必要）、**③`testdata_notation.rst:40` の gsp への言及**（`mapping.csv` では gsp の推奨は本ページにのみ割り当てられており、出典 `01_Abstract.rst:607-609` は gsp に触れていない）。ほかに規約側の手当て3件（見出し下線長の固定、第4部のセクション構成、承認済みページとの事実の重複の扱い）、YAML 形式時の挙動を本体側で扱うかの判断、配布物の整理（`protect.main.resources` の綴り、存在しない `build/classes`）。
