@@ -598,7 +598,7 @@ Rn version: 0.8.0
 - [x] `#27-15` リクエスト単体テスト（HTTPメッセージング）（`implementation/request_unit_test/http_messaging.rst`、3部、28行。**small-3rd**）
 - [x] `#27-16` リクエスト単体テストの設定（テーブルをキューとして使ったメッセージング）（`setup/request_unit_test/db_queue.rst`、2部、0行。**db-queue**）
 - [x] `#27-17` リクエスト単体テスト（テーブルをキューとして使ったメッセージング）（`implementation/request_unit_test/db_queue.rst`、3部、0行。**db-queue**）
-- [ ] `#27-18` 取引単体テスト（テーブルをキューとして使ったメッセージング）（`implementation/deal_unit_test/db_queue.rst`、3部、0行。**db-queue**）
+- [x] `#27-18` 取引単体テスト（テーブルをキューとして使ったメッセージング）（`implementation/deal_unit_test/db_queue.rst`、3部、0行。**db-queue**）
 - [ ] `#27-19` コンポーネント単体テスト（`implementation/class_unit_test/component.rst`、3部、770行。**large-pages**）
 - [ ] `#27-20` リクエスト単体テスト（ウェブアプリケーション）（`implementation/request_unit_test/web.rst`、3部、914行。**large-pages**。**`how_to_set_token_in_request_unit_test` を定義する**）
 - [ ] `#27-21` エンティティ単体テスト（`implementation/class_unit_test/entity.rst`、3部、1,344行。**large-pages**）
@@ -667,6 +667,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: not suspended
 - **Date**: 2026-08-15
-- **Last completed**: `#27-17` リクエスト単体テスト（テーブルをキューとして使ったメッセージング）
-- **Next**: `#27-18` （キュー順）
+- **Last completed**: `#27-18` 取引単体テスト（テーブルをキューとして使ったメッセージング）
+- **Next**: `#27-19` （キュー順）
 - **Notes**: `#27` はサブ項目ごとに user review を挟まず、`#27-21` まで連続で進める（Rules 参照）。判断待ちは `checks/task-27.md` と `reviews/page-*.md` に積んであり、週明けにまとめて判定を受ける。
