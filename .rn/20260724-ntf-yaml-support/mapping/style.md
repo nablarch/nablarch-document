@@ -95,11 +95,13 @@ FW解説書のライブラリ（`ja/application_framework/application_framework/
 
 **根拠**（拡張例の省略）:
 
-- `FW:libraries/exclusive_control.rst:403-405` 「拡張例」の見出しの直後に「なし。」とだけ書かれている。
-- `FW:libraries/service_availability.rst:112-114` 同様に「拡張例」の直後に「なし。」とだけ書かれている。
 - `FW:libraries/code.rst`、`FW:libraries/format.rst`、`FW:libraries/static_data_cache.rst`、
   `FW:libraries/db_double_submit.rst`、`FW:libraries/file_path_management.rst` は「拡張例」の見出し自体が無い
   （`grep -n "^拡張例$"` で該当なし）。
+
+なお FW解説書には、「拡張例」の見出しを置いたうえで本文に「なし。」とだけ書く実例
+（`FW:libraries/exclusive_control.rst:403-405`・`FW:libraries/service_availability.rst:112-114`）も
+あるが、本解説書では採らない（上記の一択に揃える）。
 
 **根拠**（リード文の位置と書き出し。FW解説書のライブラリのページは「ページ先頭ラベル → タイトル →
 目次（`.. contents::`）→ 見出しの無いリード文 → 最初のL2見出し」の順である。`.. contents::` を持つ
@@ -186,7 +188,7 @@ level 2 と level 3 だけで level 4 は現れないため、この重複によ
 | レベル | 記号 | 用途 |
 |---|---|---|
 | L1（ページタイトル） | `=` | ページ全体のタイトル1つのみ |
-| L2（機能概要/モジュール一覧/使用方法/拡張例） | `-` | 4つの大セクション |
+| L2（大セクション） | `-` | ページの大セクション。構成は `S-02` による |
 | L3（個別項目） | `~` | 大セクション配下の個別の見出し |
 | L4（L3のさらに下の細分） | `^` | L3配下をさらに細分する見出し。用例が薄いページでのみ使う |
 
