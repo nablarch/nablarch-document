@@ -538,13 +538,13 @@ Rn version: 0.8.0
 - 是正ラウンド1（`d90d28f`）で A の `must`（`Set-Cookie`／`Cookie` ヘッダの記述を戻す）と `should` 8件を処理。**A の `must` は「実装が `Set-Cookie` を扱わない」という誤認に基づいており、原因は `grep` に `-a` を付けずバイナリの `.class` を読み飛ばしたこと**（コーディネータが実測して決着。同じ穴が当初のレビュー記録 §3-3 と観点D にもあった）
 - ゲート1〜9 は**コーディネータが独立に再実行して全件 PASS**。`verify_mapping.py` 595行 / 12,986 / 11,983 exit 0、`既定` 0件、`デフォルト設定` 0件、見出し下線6件すべて実測則どおり、XML 2ブロックともパース成功、**Docker フルビルドは是正後の版で `build succeeded, 1 warning.`（既知の `db_double_submit.rst:108` のみ・新規0件）**、`sphinx.mo` はビルド直後に復元済み
 
-**未解決（是正ラウンド2 の指摘。次に着手する分）**:
+**是正ラウンド2（`29269d4`）で `must` 1件・`should` 2件を解消**: `:10` のリード文「自動で引き継げる」→「実装クラスをコンポーネント設定ファイルに登録することで…引き継げる」（`defaultProcessor` 未登録なら `NOP_PROCESSOR` で何も起きない。`SimpleRestTestSupport.java:96-103`・`:61-76`）／`:17`「直前のレスポンス」→「先行するリクエストのレスポンス」（出典 `:40` と同語。`RequestResponseCookieManager.java:47-56` は一致するクッキーが無ければ値を保持し続ける）／`:21` 第2文に主語「この実装クラスは、」を補い `:33` と揃えた。差分は本文3行のみ。
 
-- `must` — `rest.rst:10` のリード文「自動で引き継げる」に裏付けが無い。出典 `:38-42` に当該の語が無く、`defaultProcessor` 未登録なら `NOP_PROCESSOR` で何も起きない（`SimpleRestTestSupport.java:96-102`・`:61-76`）
-- `should` — `:21` 第2文の主語欠落（旧版の「この実装クラスは、」が落ち、並列の `:33` と書き方が割れている）
-- `should` — `:17` の「直前のレスポンス」が出典 `:40` の「先行するリクエストのレスポンス」より狭い（`RequestResponseCookieManager.java:47-56` は一致するクッキーが無ければ値を保持し続ける）
+**検証ラウンド3（是正差分限定の2観点）は両観点とも PASS** — `must` 0件・`should` 0件。`note` 3件はいずれも本コミット由来ではなく是正しない（`checks/task-22.md` §7-2 にトリアージを記録。うち N-2「CSRFトークンを引き継ぐ提供実装は存在しない」は**取引単体テスト残りページで CSRF に触れる場合の申し送り**）。Docker フルビルドはコーディネータが独立に再実行して `build succeeded, 1 warning.`（既知の `db_double_submit.rst:108` のみ・新規0件）、`sphinx.mo` は復元済み。self-check は `cf0eb2f`。
 
-**ユーザー判断待ち2件**（本ページの是正では解けない。取引単体テスト残り8ページに波及するため先送りのコストが上がる）:
+**残るのは user review（`/rn:ty` / `/rn:gm`）のみ。** 内容面の未対応指摘は0件。
+
+**ユーザー判断待ち2件**（本ページの是正では解けない。取引単体テスト残り8ページに波及するため先送りのコストが上がる。根拠の実測は `checks/task-22.md` §7-3）:
 
 - (a) `about/index.rst:73-79` の「取引単体テストは手動操作」が本ページ（JUnit 前提）と矛盾する。出典自身が割れており（`03_DealUnitTest/index.rst:7-8` は手動、同 `rest.rst:7` は連続実行）、根拠の `design.md:86` 側に誤りがある
 - (b) `style.md:45` の「第2部は機能概要 → 使用方法 → 拡張例の順」が実態と食い違う（`機能概要` は `#6` 以降0行可で、作成済み第2部8ページはどれも持たない）
@@ -608,8 +608,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: (未設定)
-- **Last completed**: (未設定)
-- **Next**: (未設定)
-- **Notes**: (未設定)
+- **Status**: paused
+- **Date**: 2026-08-14
+- **Last completed**: #21（`/rn:ty` 承認済み・DONE）。#22 は是正ラウンド2（`29269d4`）と検証ラウンド3（2観点とも PASS・`must` 0 / `should` 0）まで完了し、self-check を `cf0eb2f` に記録した
+- **Next**: **#22 の user review の判定を受ける（`/rn:ty` 承認 / `/rn:gm` 修正）。** 内容面の未対応指摘は0件で、残るのは判定のみ。承認されたら #22 を DONE にしてエントリを圧縮し、取引単体テストの残りページへ進む
+- **Notes**: ブランチ `ntf-yaml-support`（push 済み・作業ツリーはクリーン・未追跡0件）。**ユーザー回答待ち3件**（いずれも 2026-08-14 に提示済み・未回答）: (1) `about/index.rst:79` の「取引単体テストは手動操作」が #22 のページと矛盾する。出典自身が割れており（`03_DealUnitTest/index.rst:7-8` は手動、同 `rest.rst:7` は連続実行）、推奨は処理方式で条件づける是正。承認済みの `about/index.rst`・`design.md:86` に触れるため独断で動かない、(2) `style.md:45` の「第2部は機能概要 → 使用方法 → 拡張例の順」が実態と食い違う（`setup/` 全11ファイルで `機能概要` 0件）。推奨は規約を実態に合わせる、(3) 「期待値0件は仕様どおりに書く」の追加指示の帰属。**#22 の指示ではないと判断して着手していない**（差し替え元とされる `指示/task-22.md` は全履歴に0件、対象ページは第3部の `testdata_notation.rst`・`testdata_examples.rst`）。指示書か対象タスク番号を受け取るまで期待値0件の本文を書き始めない。詳細は #22 のエントリと `checks/task-22.md` §7-3。不変条件: `mapping.csv` 595行 / 12,986 / 11,983、`既定` は `ja/development_tools/testing_framework/` 配下0件、Docker フルビルドの既知警告は `db_double_submit.rst:108` の1件のみ。**環境の事実**: `docker build` は pip install の段で失敗するため既存イメージ `nablarch-document-build` で `docker run` する（失敗原因は未確認）
