@@ -7,10 +7,38 @@
   :depth: 3
   :local:
 
-共通設定では、テストデータの読み込み先の変更、システム日時の固定、シーケンス採番のテーブル採番への置き換えができる。いずれも設定ファイルへの記述で行う。
+共通設定では、テスティングフレームワークを使うための依存関係の追加と、テストの種類によらず共通に行う設定を扱う。テストデータの読み込み先の変更、システム日時の固定、シーケンス採番のテーブル採番への置き換えができる。あわせて、同期応答メッセージ送信・HTTPメッセージ送信を伴う取引単体テストだけが必要とする、テストデータの読み込みの設定もここで行う。
 
 使用方法
 --------------------------------------------------
+
+テスティングフレームワークを依存関係に追加する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+テスティングフレームワークは\ ``nablarch-testing``\ として提供される。テストでのみ使用するため、\ ``test``\ スコープで依存関係に追加する。
+
+.. code-block:: xml
+
+  <!-- テスティングフレームワーク -->
+  <dependency>
+    <groupId>com.nablarch.framework</groupId>
+    <artifactId>nablarch-testing</artifactId>
+    <scope>test</scope>
+  </dependency>
+
+テストデータを\ YAML\ 形式で記述する場合は、\ ``nablarch-testing-yaml``\ もあわせて追加する。\ YAML\ 形式のテストデータを解析するクラスは、このモジュールが提供する。
+
+.. code-block:: xml
+
+  <!-- YAML形式のテストデータ -->
+  <dependency>
+    <groupId>com.nablarch.framework</groupId>
+    <artifactId>nablarch-testing-yaml</artifactId>
+    <scope>test</scope>
+  </dependency>
+
+.. tip::
+
+  処理方式によっては、専用のモジュールを使用する。専用のモジュールが\ ``nablarch-testing``\ に依存する場合は、\ ``nablarch-testing``\ を個別に追加しなくてよい。必要なモジュールは、\ :ref:`リクエスト単体テストの設定（RESTfulウェブサービス） <request_unit_test_setting_rest>`\ のように、該当するページに記載している。
 
 テストデータの読み込み先を変更する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -86,3 +114,102 @@ Nablarch Application Frameworkでは、\ :java:extdoc:`SystemTimeProvider <nabla
   テーブル採番用の設定値の詳細は、\ :java:extdoc:`IdGenerator <nablarch.common.idgenerator.IdGenerator>`\ を参照。
 
 採番用テーブルの準備データと期待値の記述例は、\ :ref:`テーブルのデータを記述する <testdata_examples-table_data>`\ を参照。
+
+.. _testing_framework_common-send_sync_test_data:
+
+同期応答メッセージ送信・HTTPメッセージ送信のテストデータの読み込みを設定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+同期応答メッセージ送信・HTTPメッセージ送信を伴う取引単体テスト（\ :ref:`HTTPメッセージング <deal_unit_test_setting_http_messaging>`\ ・\ :ref:`MOMによるメッセージング <deal_unit_test_setting_mom>`\ ）では、モックアップクラスが応答電文をテストデータから読み込む。読み込みには、テストデータのベースディレクトリと、テストデータを解析するコンポーネントの設定が必要である。どちらもテスティングフレームワークのデフォルト設定には含まれないため、テスト用のコンポーネント設定ファイルに記述する。設定していない場合は、テストの実行時に例外が発生する。設定ファイルを環境ごとに切り替える方法は\ :ref:`環境ごとにコンポーネントを切り替える方法(モックに切り替える方法) <how_to_change_componet_define>`\ を参照。
+
+テストデータのベースディレクトリは、\ :ref:`ファイルパス管理 <file_path_management>`\ の\ ``sendSyncTestData``\ というキーに設定する。同じコンポーネントに、電文のフォーマット定義ファイルのベースディレクトリ（\ ``format``\ ）も設定する。テストデータを解析するコンポーネントは、\ ``messagingTestDataParser``\ という名前で登録する。ベースディレクトリの配下でのファイル名の決まりは\ :ref:`メッセージングのデータを記述する <testdata_notation-messaging_data>`\ を参照。
+
+テストデータの記法を解釈するクラスは、\ Excel\ 形式と\ YAML\ 形式で共通である。
+
+.. code-block:: xml
+
+  <!-- テストデータ記法の解釈を行うクラス群 -->
+  <list name="messagingTestInterpreters">
+    <component class="nablarch.test.core.util.interpreter.NullInterpreter"/>
+    <component class="nablarch.test.core.util.interpreter.QuotationTrimmer"/>
+    <component class="nablarch.test.core.util.interpreter.CompositeInterpreter">
+      <property name="interpreters">
+        <list>
+          <component class="nablarch.test.core.util.interpreter.BasicJapaneseCharacterInterpreter"/>
+        </list>
+      </property>
+    </component>
+  </list>
+
+ベースディレクトリの指定と、テストデータを解析するコンポーネントの設定は、テストデータの形式によって異なる。\ Excel\ 形式と\ YAML\ 形式のそれぞれについて後述する。
+
+.. tip::
+
+  ベースディレクトリは、クラスパス（\ ``classpath:``\ ）ではなくファイルシステムのパス（\ ``file:``\ ）で指定することを推奨する。ファイルシステムのパスを指定すると、アプリケーションサーバの起動中にテストデータを編集して、そのままテストを続けられる。
+
+Excel形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. code-block:: xml
+
+  <!-- テストデータとフォーマット定義ファイルのベースディレクトリ -->
+  <component name="filePathSetting"
+             class="nablarch.core.util.FilePathSetting" autowireType="None">
+    <property name="basePathSettings">
+      <map>
+        <entry key="sendSyncTestData" value="file:/path/to/test/message"/>
+        <entry key="format" value="classpath:web/format"/>
+      </map>
+    </property>
+    <property name="fileExtensions">
+      <map>
+        <entry key="sendSyncTestData" value="xlsx"/>
+        <entry key="format" value="fmt"/>
+      </map>
+    </property>
+  </component>
+
+  <!-- テストデータを解析するコンポーネント -->
+  <component name="messagingTestDataParser"
+             class="nablarch.test.core.reader.BasicTestDataParser">
+    <property name="testDataReader">
+      <component class="nablarch.test.core.reader.PoiXlsReader"/>
+    </property>
+    <property name="interpreters" ref="messagingTestInterpreters"/>
+  </component>
+
+``interpreters``\ には、前掲の\ ``messagingTestInterpreters``\ の定義とあわせて記述する。
+
+``fileExtensions``\ の\ ``sendSyncTestData``\ には、実際に配置するテストデータのファイルの拡張子（\ ``xlsx``\ または\ ``xls``\ ）を指定する。指定した拡張子と一致しないファイルは読み込まれない。ベースディレクトリの配下は次の図のとおりで、リクエストIDごとに1つのファイルを置く。
+
+.. image:: images/common/send_sync_test_data_structure.png
+
+YAML形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. code-block:: xml
+
+  <!-- テストデータとフォーマット定義ファイルのベースディレクトリ -->
+  <component name="filePathSetting"
+             class="nablarch.core.util.FilePathSetting" autowireType="None">
+    <property name="basePathSettings">
+      <map>
+        <entry key="sendSyncTestData" value="file:/path/to/test/message"/>
+        <entry key="format" value="classpath:web/format"/>
+      </map>
+    </property>
+    <property name="fileExtensions">
+      <map>
+        <entry key="format" value="fmt"/>
+      </map>
+    </property>
+  </component>
+
+  <!-- テストデータを解析するコンポーネント -->
+  <component name="messagingTestDataParser"
+             class="nablarch.test.core.reader.YamlTestDataParser">
+    <property name="interpreters" ref="messagingTestInterpreters"/>
+  </component>
+
+``interpreters``\ には、前掲の\ ``messagingTestInterpreters``\ の定義とあわせて記述する。\ ``testDataReader``\ は指定しない。\ :java:extdoc:`YamlTestDataParser <nablarch.test.core.reader.YamlTestDataParser>`\ は\ YAML\ ファイルを直接読み込むため、この設定を使用しない。
+
+.. important::
+
+  ``fileExtensions``\ には\ ``sendSyncTestData``\ を設定しない。\ YAML\ 形式ではリクエストIDと同じ名前のディレクトリを参照するため、拡張子を設定するとテストデータが見つからず、テストの実行時に例外が発生する。

@@ -15,5 +15,6 @@
    request_unit_test/mom
    deal_unit_test/rest
    deal_unit_test/http_messaging
+   deal_unit_test/mom
    junit5_extension
    master_data_restore
