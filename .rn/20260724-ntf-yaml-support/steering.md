@@ -534,16 +534,16 @@ Rn version: 0.8.0
 
 **Steps**:
 
-- [ ] ゲート1（`git status --porcelain` の全件表）を実行順の先頭で実行する
-- [ ] ゲート2 — §2 の実装事実19件を `e21bf67`（`nablarch-testing`）・`190cc9a`（`nablarch-testing-yaml`）で開いて全件突合する。**事実18 は「記録のみ・本文に反映しない」と明記する。** 一致しないものがあれば本文を書かずに報告する
-- [ ] `testdata_notation.rst` — L4「0件のデータを記述する」を「カラムを省略する」の直後に足し、`:650` の列挙に0件の扱いを加える（§4-1）
-- [ ] `testdata_notation.rst` — 既存のL4「Excel形式の場合」にセル格子を、L4「YAML形式の場合」に `rows: []` の `code-block` を足す（§4-2）
-- [ ] `testdata_examples.rst` — L3「0件のテーブルデータを記述する」を足す（導入文＋形式別L4対。ラベル `testdata_examples-empty_table`。§4-3）
-- [ ] 4観点のレビューを、それぞれ別のサブエージェントで実施する。**依頼プロンプトに §7 の段落をそのまま入れる**
-- [ ] 指摘への対応を行う（最大3ラウンド）
-- [ ] `checks/task-23.md`（新規）・`reviews/page-testdata_notation.md`・`page-testdata_examples.md` に記録する（§8。申し送り1件と、`design.md` §8 の実装優先を本件に適用しないというユーザー判断を双方に1段落で残す）
-- [ ] ゲート3〜11 を実行し `checks/task-23.md` に記録する
-- [ ] ゲート12（ゲート1 の再実行）を `commit & push` の直前に実行する
+- [x] ゲート1（`git status --porcelain` の全件表）を実行順の先頭で実行する — 着手時クリーン
+- [x] ゲート2 — §2 の実装事実19件を `e21bf67`（`nablarch-testing`）・`190cc9a`（`nablarch-testing-yaml`）で開いて全件突合する。**事実18 は「記録のみ・本文に反映しない」と明記する。** 一致しないものがあれば本文を書かずに報告する
+- [x] `testdata_notation.rst` — L4「0件のデータを記述する」を「カラムを省略する」の直後に足し、`:650` の列挙に0件の扱いを加える（§4-1）
+- [x] `testdata_notation.rst` — 既存のL4「Excel形式の場合」にセル格子を、L4「YAML形式の場合」に `rows: []` の `code-block` を足す（§4-2）
+- [x] `testdata_examples.rst` — L3「0件のテーブルデータを記述する」を足す（導入文＋形式別L4対。ラベル `testdata_examples-empty_table`。§4-3）
+- [x] 4観点のレビューを、それぞれ別のサブエージェントで実施する。**依頼プロンプトに §7 の段落をそのまま入れる** — ラウンド1 実施（A PASS / B PASS / C FAIL / D FAIL→同一エージェントの再走で PASS）
+- [x] 指摘への対応を行う（最大3ラウンド）— ラウンド1 のみ。重複除去後15件を triage し6件を是正・1件を Invalid・8件を対応しない。詳細は `reviews/page-testdata_notation.md` の `## #23`
+- [x] `checks/task-23.md`（新規）・`reviews/page-testdata_notation.md`・`page-testdata_examples.md` に記録する（§8。申し送り1件と、`design.md` §8 の実装優先を本件に適用しないというユーザー判断を双方に1段落で残す）
+- [x] ゲート3〜11 を実行し `checks/task-23.md` に記録する — 是正後に再実行して全件 PASS
+- [x] ゲート12（ゲート1 の再実行）を `commit & push` の直前に実行する — 「変更してよいファイル」以外0件
 - [ ] commit & push
 - [ ] **user review**
 
@@ -621,6 +621,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: not suspended
 - **Date**: 2026-08-14
-- **Last completed**: `#24` を user review 承認（`/rn:ty`）で閉じた。エントリを圧縮済み
-- **Next**: `#23`（テーブルデータの0件の扱い）。指示書 `ntf-doc-23-table-zero-rows.md` を受領済み
-- **Notes**: —
+- **Last completed**: `#23` の本文追記・4観点レビュー ラウンド1・是正6件・ゲート1〜12 の全件 PASS
+- **Next**: `#23` の **user review**（`/rn:ty` / `/rn:gm` 判定）
+- **Notes**: 判定待ちに添えた報告2件 — (1) 指示書 §2 の事実7 の `insertData` の範囲は `:137-217` ではなく `:137-178`（事実の内容は一致）。(2) 記法ページの見出し「0件のデータを記述する」と記載例ページの「0件のテーブルデータを記述する」が非対称。3観点が独立に挙げたが、見出し文言は指示書 §4-1・§4-3 が明示指定しているため変更していない
