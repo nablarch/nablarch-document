@@ -581,7 +581,7 @@ Rn version: 0.8.0
 **キュー（上から順に。順番を変えない。作業指示 §3 の表を写したもの）**:
 
 - [x] `#27-00` 未作成15ページのスタブ一括作成（作業指示 §3-1）
-- [ ] `#27-01` マスタデータ復旧機能（`setup/master_data_restore.rst`、2部、193行）
+- [x] `#27-01` マスタデータ復旧機能（`setup/master_data_restore.rst`、2部、193行）
 - [ ] `#27-02` JUnit 5用拡張機能（`setup/junit5_extension.rst`、2部、475行）
 - [ ] `#27-03` テストデータ変換ツール（`tools/testdata_converter.rst`、4部、75行）
 - [ ] `#27-04` リクエスト単体データ作成ツール（`tools/request_data_tool.rst`、4部、163行）
