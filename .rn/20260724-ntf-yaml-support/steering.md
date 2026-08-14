@@ -614,8 +614,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-08-14
-- **Last completed**: `#23` を user review 承認（`/rn:ty`）で閉じた。エントリを圧縮済み
-- **Next**: `#25`（取引単体テストの設定（HTTPメッセージング）、`setup/deal_unit_test/http_messaging.rst`）。個別の作業指示は不要（共通 Steps で進める条件を満たすことを `mapping.csv` と `design.md` で確認済み）
-- **Notes**: —
+- **Last completed**: `#25` のページ作成・`toctree` 追記・4観点レビュー ラウンド1・是正4件・是正差分の検証ラウンド（是正2件を取り消し1件を修正）・ゲート1〜8 の全件 PASS（`acdcb75`、push 済み）
+- **Next**: `#25` の **user review**（`/rn:ty` / `/rn:gm` 判定）。承認で `#25` は閉じ、次は取引単体テストの設定（MOMによるメッセージング）
+- **Notes**: 判定待ちに添えた判断待ち3件 — (1) `sendSyncTestData`・`messagingTestDataParser` の置き場所（推奨: `setup/common.rst` に置き各ページから `:ref:`。`current-0158` の割当先改訂を伴う）。(2) 同一コンポーネント名 `defaultMessageSenderClient` の衝突（推奨: 横断是正にまとめ、今回は書かない）。(3) リード文に「テスト対象がウェブアプリケーションであり、HTTPメッセージ送信を伴う場合」の前提を明示するか（推奨: 現状維持）。選択肢の詳細は `reviews/page-deal_unit_test_setting_http_messaging.md`「判断待ち」節
