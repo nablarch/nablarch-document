@@ -176,3 +176,40 @@ QA／設計／クラフト／検証の4観点をそれぞれ別のサブエー�
 ### 判断待ち（週明けに判定してほしい項目）
 
 `reviews/page-testdata_converter.md`「判断待ち（`decide`）」に5件。筆頭は**往復の非可逆**で、同梱の `ProjectActionRequestTest.xlsx` を XLS→YAML→XLS で往復させると `confirmOfCreateAbNormal` の `LIST_MAP`／`requestParams` からリクエストパラメータ4件が落ちる実測がある。作業指示 §2 の「本体の不具合が疑われる場合は書かずに `decide` に上げる」に従い、本文は出典に忠実な「意味を変えずに往復できる」のままにしてある。
+
+---
+
+## `#27-04` リクエスト単体データ作成ツール
+
+**成果物**: `ja/development_tools/testing_framework/tools/request_data_tool.rst`（119行。ラベル `request_data_tool`）＋移送アセット7件
+**出典**: `01_HttpDumpTool.rst`・`02_SetUpHttpDumpTool.rst`（削除済み。`git show 2e501ad:<path>` で参照）の17行・163行。全件 `MOVE`
+**参照実装**: `nablarch-testing`（`e21bf67`）、`nablarch-testing-jetty12`（作業指示に固定コミットの指定なし。`/home/tie303177/work/nablarch/` 配下にソースが無いため `~/.m2/repository` の jar を参照。Rule §1-9 からの逸脱として `reviews/page-request_data_tool.md` に記録）
+**レビュー記録**: `reviews/page-request_data_tool.md`
+
+### ゲート結果
+
+| | 結果 | 根拠 |
+|---|---|---|
+| G1 | **PASS** | `git status --porcelain` の全件（ディレクトリで絞らずに実行）が8エントリ。`R` 7件（`guide/development_guide/08_TestTools/01_HttpDumpTool/_image/` の png 5件と `image.xlsx`、`download/httpDump.bat` の `git mv`）と ` M ja/.../tools/request_data_tool.rst` 1件。記録2本（`reviews/page-request_data_tool.md`・本ファイル）を含めても想定内 |
+| G2 | **PASS** | `design.md`・`mapping/style.md`・`mapping/glossary.md`・`mapping/vocabulary.md`・`ja/conf.py`・`mapping/input/` を `git status --porcelain` に明示指定して実行し、出力0行 |
+| G3 | **PASS** | `locales/ja/LC_MESSAGES/sphinx.mo` は `git status --porcelain` に現れない。ビルド直後に `git checkout --` で戻している |
+| G4 | **PASS** | `verify_mapping.py` が exit 0。`mapping.csv` は未変更 |
+| G5 | **PASS** | Docker フルビルド（`sphinx-build -E`）が `build succeeded, 1 warning.`。警告は既知の `db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` 1件のみ。**新規0件**。是正を全件畳んだ後の最終本文で再実行して確認した |
+| G6 | **PASS** | 作業指示 §5 の禁止語（`不具合`・`バグ`・`将来`・`修正され`）が0件。あわせて `本ページ\|下さい\|出来る\|事が\|以下の\|上記の\|利用\|前提条件\|スーパークラス` も0件、`.. note::`／`.. warning::` も0件（`tip` 2件のみ）。`です・ます` 0件 |
+| G7 | **PASS** | ページ先頭ラベル `request_data_tool` が `mapping/style.md:391` の第4部の表と一致 |
+| G8 | **PASS** | `unicodedata.east_asian_width` で表示幅を測り、全12見出しについて「下線の文字数 ≥ 見出しの表示幅」を検査して NG 0件（下線は全件50、表示幅の最大は46） |
+| G9 | **PASS** | 生成HTMLで確認。本文の `:ref:` 4件がすべて解決し、リンク文字列も飛び先の見出しと一致。`:18`・`:96` →「テストショット一覧（testShots）を記述する」、`:88` → 同ページ内「導入」（`request_data_tool-setup`）、`:94` →「リクエスト単体テストの設定（ウェブアプリケーション）」。`href="#"` の空リンクは0件 |
+| G10 | **PASS** | 17行163行すべてを分類。落としたのは3件（「開発環境構築ガイド」の前提条件＝参照先が存在しない、`httpDump.sh` の案内＝配布物が無い、pomスニペットの `<!-- 中略 -->` 行）で、いずれも理由を `reviews/page-request_data_tool.md`「意図して落とした出典」に記載 |
+| G11 | **N/A** | 17行に `disposition=REFERENCE` の行が無い |
+| G12 | **PASS** | 枝分かれ（`-a`／`-b`）の `mapping_id` が無い。`src_file` 2本はいずれも本ページ専用で、他ページと範囲が重ならない |
+| G13 | **PASS** | `.. image::` 5件のファイルが実在し、ビルド後に `_build/html/_images/` へコピーされている。`:download:` の `httpDump.bat` も `_build/html/_downloads/` に出力されている。`git ls-files guide/development_guide/08_TestTools/01_HttpDumpTool/` が0件で、移送元ディレクトリは残っていない |
+
+### 4観点レビュー
+
+QA／設計／クラフト／検証の4観点をそれぞれ別のサブエージェントで実施し、1ラウンドで是正した（延べ42件。**是正26件・不採用9件・記録のみ7件**）。是正は成果物の `.rst` に畳んであり、別コミットに割っていない。内訳は `reviews/page-request_data_tool.md`。
+
+不採用のうち最も重いのは、検証観点の「`nablarch-testing` にダンプツールのクラスは1つも無い（`7c545e5` で削除済み）ので、2モジュール必要という記述は誤り」という NG である。`~/.m2/repository` の jar を実測したところ、クラス群は `nablarch-testing-jetty12` に、`RequestDumpAgent` がクラスパスから読む `template.xls` は `nablarch-testing` にあり、**両方必要**であることを確認したため、記述を維持した。
+
+### 判断待ち（週明けに判定してほしい項目）
+
+`reviews/page-request_data_tool.md`「判断待ち（`decide`）」に6件。筆頭は **Linux で本ツールを起動できない**こと。出典は `httpDump.sh` を選ぶよう案内しているが、この解説書リポジトリに `.sh` は無く、`nablarch-testing@e21bf67` の `src/main/script/httpDump.sh` は Nablarch 1.x 時代のクラスパス指定のままで、かつ jar にも同梱されない。本文は Windows 前提（`httpDump.bat`）に寄せてある。ほかに、本体側 `src/main/script/httpDump.{bat,sh}` の陳腐化、`rest.rst:53` の記述が実装より狭いこと、`web.rst:31` の `webBaseDir` 既定値の食い違い、第3部から本ページへの導線が無いこと、規約側の手当て4件。
