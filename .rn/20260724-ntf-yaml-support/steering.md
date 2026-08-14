@@ -557,6 +557,8 @@ Rn version: 0.8.0
 
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
 
+**進捗**: ページ作成・`toctree` 追記・4観点レビュー ラウンド1（A FAIL / B PASS / C PASS / D FAIL）・是正4件・是正差分の検証ラウンド（FAIL。是正1・2 を取り消し、是正4 を修正）・ゲート1〜8 まで完了。Docker フルビルドは3回とも `build succeeded, 1 warning.`（既知の1件のみ・新規0件）。残るは **user review** のみ。**判断待ち3件**（必須設定 `sendSyncTestData`・`messagingTestDataParser` の置き場所／同一コンポーネント名の衝突／リード文に前提を明示するか）を添える。詳細は `checks/task-25.md`・`reviews/page-deal_unit_test_setting_http_messaging.md`。
+
 ### #pre-last: `verify_glossary.py` の不一致25件の一括是正
 
 **Purpose**: ページを作らないタスク。`#21` の申し送りで残った `verify_glossary.py` の不一致を、全ページ作成完了後・`#last` の直前に一括で解消する。毎タスク書き換わる `design.md` を行番号で指している限り再発するため、ページ作成が終わってから1回で片付ける（`ntf-doc-22-deal-unit-test-rest.md` §5、レビュー役の実測による判断）。
