@@ -957,3 +957,70 @@ QA / 設計 / クラフト / 検証 を別々のサブエージェントで実�
 `reviews/page-request_unit_test_web.md` §8 に6件。**①L4見出しの使用量が `style.md:193`「用例が薄いページでのみ使う」と噛み合っていない。本ページは18本（`rest.rst` 2本、`component.rst` 6本）。`#27-19` の `decide-1` と同一事象だが件数が一桁多く、条文を判定可能な形に改める必要がより明確である**（推奨）。**②「設定の話は第2部」という個別指示 §3-3 の線引きが、設定項目名への言及自体を禁じているのか説明を書くことだけを禁じているのか読み取れない**（推奨）。**③`db_double_submit.rst:106` のリンク文字列「テスティングフレームワークのトークン発行」が飛び先の見出し「二重サブミット防止機能のトークンを設定する」と一致しない。FW解説書は本作業の対象外のため触っていない**（推奨）。**④`implementation/testdata_notation.rst:392` の `description` カラムの説明が、HTMLダンプのファイル名の組み立て（`読み込み単位の名前_Shot番号_説明.html`）を正確に述べていない。承認済みページのため触っていない**（推奨）。**⑤`guide/development_guide/05_UnitTestGuide/02_RequestUnitTest/_image/` に参照されない画像36ファイルが残っている。解説書全体の後片付けとして別途扱う対象と思われる**（参考）。**⑥個別指示 §3-2 の出典件数表（`ntf-doc-27-large-pages.md:94-102`、7出典・31件・861行）が `mapping.csv` の実測（7出典・33件・914行）と合わない。同種のずれが他ページの個別指示にもある可能性がある**（参考）。
 
 **`#27-21` への申し送り**: `#27-19` からの申し送りに1件加えた。**本ページから `entity_unit_test` へ「setter・getterのテストと同じ書式で期待値を記述する。ただしsetterの欄は不要」という前提で送っている**（旧節ラベル `entityUnitTest_SetterGetterCase`）。エンティティ単体テストのページで、この書式（setter欄・getter欄を持つ `LIST_MAP`）の説明が読者に届く形になっていることを確認する。
+
+## `#27-21` エンティティ単体テスト
+
+- **成果物**: `ja/development_tools/testing_framework/implementation/class_unit_test/entity.rst`（第3部、全567行。4行のスタブへの追記）
+- **出典**: 17件・1,344行（`mapping.csv` を `csv.DictReader` で全行走査、実測。MOVE 16／REFERENCE 1、DROP・MERGE 0）。**17件すべてを反映し、意図して落とした出典行は0件**。本解説書で最大の出典を持つページ
+- **参照実装**: `nablarch-testing` `e21bf67`
+- **個別指示**: `.rn/20260724-ntf-yaml-support/ntf-doc-27-large-pages.md` §4
+- **レビュー記録**: `reviews/page-entity_unit_test.md`
+- **画像**: 14枚すべて落とした（BV 8枚・NV 6枚、いずれも Excel のテストデータのスクリーンショット）。落とした情報はカラム定義の `list-table` 3つに書き直した
+- **`:download:`**: 6本すべて落とした。リンク先の10ファイルは削除されておらず `guide/` 旧ツリーに残っている（`git ls-files` で実測）。落とす理由は資産の不在ではなく旧ツリー撤去時に参照が壊れることで、資産の移設要否は `decide-3` に上げた
+
+### 457行の畳み込み
+
+個別指示 §4 が最初に検討するよう求めた `current-0006`＋`current-0016` の457行（出典全体の34%、実測一致）を、**5つの表に畳んで本文171行にした**。カラム定義（BV 13列・NV 10列 → 1表、「使用できる方式」列で区別）、`o`／`x` の記法（1表）、メッセージの記載形式（箇条書き1組＋記載例1表）、`messageIdWhenInvalidLength` 省略時のデフォルト値（BV 4行・NV 3行 → 1表。NV は `max` を省略できないため BV の表に包含される）、実行される観点（方式ごとに2回 → 1表、「テストが実行されない条件」列を追加）。
+
+### ゲート
+
+| ゲート | 結果 | 根拠 |
+| --- | --- | --- |
+| G1 `git status --porcelain` 全件 | PASS | `M entity.rst`・`M reviews/page-component_unit_test.md`・`?? reviews/page-entity_unit_test.md`・`M checks/task-27.md`・`M steering.md` のみ |
+| G2 禁止ファイル差分0 | PASS | `design.md`・`mapping/style.md`・`mapping/glossary.md`・`mapping/vocabulary.md`・`mapping/mapping.csv`・`mapping/input/`・`ja/conf.py` を指定した `git status --porcelain` が0行 |
+| G3 `sphinx.mo` 未コミット | PASS | `git status --porcelain` に出現なし |
+| G4 `verify_mapping.py` | PASS | `OK: no errors`（exit 0） |
+| G5 フルビルド | PASS | `-E` 付きフルビルドで `build succeeded.`、**`WARNING`・`ERROR` を含む行は0件**（全ログを保存して実測） |
+| G6 禁止語 | PASS | `不具合`・`バグ`・`将来`・`修正され` が0件 |
+| G7 ラベル | PASS | `entity_unit_test` が `style.md:372` と文字列一致。`ja/`（`_build/` 除く）で重複定義0件 |
+| G8 下線幅 | PASS | L1 `=` 50／L2 `-` 50 × 2／L3 `~` 49 × 5／L4 `^` 49 × 6。`awk` で実測し `#27-19`・`#27-20` と一致 |
+| G9 `:ref:` 飛び先とリンクテキスト | PASS（例外2件） | 14種・のべ24箇所すべて飛び先が実在。リンク文字列は飛び先の見出しと一致。例外は `application_design`・`nablarch_batch-application_design` の2件で、**両者の見出しがともに「アプリケーションの責務配置」で同一のため1文中で区別できない**。`messaging/db/application_design.rst:4` の先例に合わせた |
+| G10 出典の反映 | PASS | 17件すべてを反映。意図的dropは0件 |
+| G11 REFERENCE行を節にしない | PASS | `current-0020`（NV 側の setter・getter、BV 側への1行参照）を独立した節にしていない |
+| G12 二重掲載なし | PASS | 本ページ17件と他ページ全行の `src_file`＋行範囲の重なりを総当たりで判定し0件 |
+| G13 画像 `git mv` | PASS（該当なし） | `.. image::` 0件 |
+| L1 全 `mapping_id` の反映または意図的drop | PASS | `reviews/page-entity_unit_test.md` §2 に17件全件の反映先を表で記録 |
+| L2 他ページ割当の出典を書いていない | PASS | 第2部へ割当の `current-0010`（BV `:704-770`）・`current-0021`（NV `:688-763`）＝自動テストフレームワーク設定値の内容は書いていない |
+| L3 「〜したい」形式の見出し0件 | PASS | 見出し14件のうち「したい」で終わるものは0件 |
+| L4 `拡張例` の見出しなし | PASS | `拡張例` が0件 |
+| L5 L3見出しがすべて「〜する」形式 | PASS | L3 5件・L4 6件すべて動詞終止形の肯定形 |
+| L6 フルビルドの警告 | PASS | G5 と同じ |
+| L7 `implementation/index.rst` の toctree | PASS | 未変更。`class_unit_test/entity` → `class_unit_test/component` の並びは `design.md:943-944` と一致 |
+| S-01 である調 | PASS | です・ます・ください・下さい が0件（`:201`・`:203` の「です」はメッセージの記載例） |
+| S-02 セクション構成 | PASS | リード文（目次直後・最初のL2より前）→ 機能概要 → 使用方法 |
+| S-03 見出し | PASS | 「使用方法」配下の13見出しがすべて「〜する」。禁止語0件、同一ページ内の重複0件 |
+| S-04 下線記号 | PASS | L1 `=`／L2 `-`／L3 `~`／L4 `^` |
+| S-05 code-block | PASS | 17件すべて言語指定あり（`java` 15／`text` 2）。相対2字下げ |
+| S-06 important / tip | PASS | `note::` 0件。`important` 5件・`tip` 8件で使い分けの逸脱なし |
+| S-07 表 | PASS | `list-table` 11件、すべて `:widths:` 指定あり。grid table・simple table は0件 |
+| S-08 ラベル | PASS | ページ先頭ラベル1件のみ。節ラベルは定義していない |
+| S-09 `.. contents::` | PASS | ラベル→タイトル→`.. contents:: 目次` / `:depth: 3` / `:local:` の順 |
+| S-10 Excel／YAML書き分け | PASS | 形式に依存する記述を置いていない。読み込み単位は `:536` で両形式を併記 |
+| S-11 L4を持つL3の導入文 | PASS | 該当は「テストメソッドを作成する」1件。`:109` に配下6件の内容と並び順の理由を述べた導入文がある |
+| 用語置換 | PASS | `テストケース`・`精査`・`自動テストフレームワーク`・`想定結果`・`想定値`・`スーパークラス`・`テストソースコード`・`既定`・`Form単体テスト`・`Entity単体テスト` が0件 |
+
+### 出典の誤りに対する訂正
+
+旧解説書と実装の食い違い6件を、`e21bf67` の実装に合わせて訂正した（詳細は `reviews/page-entity_unit_test.md` §6）。文字列長不足のテストが実行されない条件（出典は「`min` 欄の省略時」だが実装は `CharsetTestVariation.java:275` `if (min <= 1) { return; }`）、指定できる文字種（出典11種に対し `BasicJapaneseCharacterGenerator.java:41-56` は14種）、必須カラムは空欄でもカラム自体が必要なこと（同 `:107-145`）、文字種のカラム名を誤ると `IllegalArgumentException`（`CharacterGeneratorBase.java:53-59`）、`Map` コンストラクタが無い場合のデフォルトコンストラクタへのフォールバック（`EntityTestSupport.java:535-550`）、setter・getter・コンストラクタのテストデータのカラム（同 `:404-431`・`:487-525`。出典は Excel 画像でのみ提示していたため実装から起こした）。いずれも本体の不具合ではなく旧解説書の記述誤りまたは記述漏れのため `decide` には上げていない。
+
+### 4観点レビュー
+
+QA / 設計 / クラフト / 検証 を別々のサブエージェントで実施。**必須指摘は4件（検証 2・クラフト 1・自己検出 1）で、すべて本文に反映済み**（是正ラウンド1回）。任意指摘のうち6件を採用、5件を根拠を確かめて不採用とした（見出しへの `\ ` エスケープ、L4 配下の小見出し、`o`／`x` 表の散文化、`o` 未設定エラーの `important` 化、`min <= 1` の出典どおりへの差し戻し）。設計観点の必須指摘1件（`reviews/page-entity_unit_test.md` の不在）は、レビュー記録の作成により解消した。
+
+### 判断待ち（週明けに判定してほしい項目）
+
+`reviews/page-entity_unit_test.md` §9 に5件。**①S-10 の書き分けの流儀をバリデーション方式へ流用しないと判断した。判断の分かれ目は `style.md:127-190`（S-03）の例外1 が文字列を2つに限定していることで、規約を改訂するなら流用もありうる**（推奨）。**②L4 見出しの下に小見出しが必要なページが出てきた。「文字種と文字列長をテストする」は171行あるが、`style.md:185-215`（S-04）に L5 の記号定義が無い。`#27-19` の `decide-1`・`#27-20` の①と同じ条文の問題で、S-04 を判定可能な形に改める必要がある**（推奨）。**③`_download/` 配下の10ファイルが `guide/` 旧ツリーに残っている。旧ツリー撤去時に第3部へ移設するか削除するかを決める必要がある**（推奨）。**④個別指示 §4 の「457行（34%）」は `mapping.csv` の実測と一致した。`#27-20` の⑥で報告した出典件数表のずれは本ページには無い**（参考）。**⑤`#27-20` からの申し送りは満たされている。`web.rst:399` の飛び先はページ先頭のため読者は目次から「setterとgetterをテストする」を辿る必要があるが、承認済みページの `:ref:` を書き換えないため見送った**（参考）。
+
+### `#26` からの申し送りの処理
+
+作業指示 §8 の申し送り（`nablarch-testing-yaml` が `1.0.0-SNAPSHOT` であり BOM 収録をリリース時に確認する）は `reviews/page-common.md:170-174` に記録済みである。作業指示は宛先を `reviews/page-testing_framework_common.md` と書いているが、`setup/common.rst` のレビュー記録は `reviews/page-common.md` である。また作業指示はバージョンの出典を `pom.xml:17` としているが実測は16行目で、`page-common.md` の記載が正しい。

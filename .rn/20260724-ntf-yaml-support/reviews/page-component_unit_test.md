@@ -46,7 +46,9 @@
 
 ### 意図して落とした3件
 
-- **`current-0026`（`02_componentUnitTest.rst:12-22`）** — サンプルアプリケーションの成果物4点への `:download:` リンク。リンク先 `_download/` 配下の4ファイルは旧解説書ごと `2e501ad` で削除済みで、復元対象になっていない。
+- **`current-0026`（`02_componentUnitTest.rst:12-22`）** — サンプルアプリケーションの成果物4点への `:download:` リンク（`ユーザ登録_UserComponent_クラス単体テストケース.xlsx`・`UserComponentTest.java`・`UserComponentTest.xlsx`・`UserComponent.java`）。
+  **訂正（`#27-21` 作業時に判明）**：当初ここに「リンク先の4ファイルは `2e501ad` で削除済み」と書いたが、これは誤りだった。`git ls-files ja/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/01_ClassUnitTest/_download/` は10ファイルすべてを返す。`2e501ad` が削除したのは `.rst` だけで、`_download/` 配下の資産は追跡されたまま残っている。
+  落とす判断そのものは維持する。理由は資産の不在ではなく、これらが本再構築で置き換える旧 `guide/` ツリー配下にあることである。第3部の新ページからそこへリンクを張ると、旧ツリーを撤去した時点で参照が壊れる。**資産の移設要否は `decide` としてユーザーへ上げる。**
 - **`current-0220`（`03_Tips.rst:147-201`）** — 「Excelファイル記述例」。`LIST_MAP`・`SETUP_TABLE` の記述例そのものであり、`design.md` の方針により記述例は `implementation/testdata_examples.rst` に集約する。本ページは `:309` から `:ref:`テストデータの記載例 <testdata_examples>`\ ` へ送っている。Excel形式のみの例で、YAML形式の対を持たない点も落とす理由になる。
 - **`current-0028` のうち画像4枚とサンプルアプリ固有の記述** — 下記 §3 のとおり。
 

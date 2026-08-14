@@ -601,7 +601,7 @@ Rn version: 0.8.0
 - [x] `#27-18` 取引単体テスト（テーブルをキューとして使ったメッセージング）（`implementation/deal_unit_test/db_queue.rst`、3部、0行。**db-queue**）
 - [x] `#27-19` コンポーネント単体テスト（`implementation/class_unit_test/component.rst`、3部、770行。**large-pages**）
 - [x] `#27-20` リクエスト単体テスト（ウェブアプリケーション）（`implementation/request_unit_test/web.rst`、3部、914行。**large-pages**。**`how_to_set_token_in_request_unit_test` を定義する**）
-- [ ] `#27-21` エンティティ単体テスト（`implementation/class_unit_test/entity.rst`、3部、1,344行。**large-pages**）
+- [x] `#27-21` エンティティ単体テスト（`implementation/class_unit_test/entity.rst`、3部、1,344行。**large-pages**）
 
 ファイルパスはいずれも `ja/development_tools/testing_framework/` からの相対である。
 
@@ -667,6 +667,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: not suspended
 - **Date**: 2026-08-15
-- **Last completed**: `#27-20` リクエスト単体テスト（ウェブアプリケーション）
-- **Next**: `#27-21` （キュー順・最後）
-- **Notes**: `#27` はサブ項目ごとに user review を挟まず、`#27-21` まで連続で進める（Rules 参照）。判断待ちは `checks/task-27.md` と `reviews/page-*.md` に積んであり、週明けにまとめて判定を受ける。
+- **Last completed**: `#27-21` エンティティ単体テスト（**`#27` のキュー22件すべて完了**）
+- **Next**: `#27` の user review。承認後は `#pre-last`
+- **Notes**: `#27` の終了条件（`#27-00` と21ページすべてがコミット済み）を満たした。**次は週明けのレビュー役による全ページ独立検証と user review であり、`#27` はまだ承認を受けていない。** 判断待ちは `checks/task-27.md` と `reviews/page-*.md` に積んである。`#27-21` の分は `reviews/page-entity_unit_test.md` §9 の5件で、うち②（`style.md` S-04 に L5 の記号定義が無く、L4 配下に小見出しを作れない）は `#27-19`・`#27-20` と同じ条文の問題として3回目の報告である。
