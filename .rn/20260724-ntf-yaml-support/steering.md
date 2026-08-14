@@ -544,7 +544,7 @@ Rn version: 0.8.0
 - [x] `checks/task-23.md`（新規）・`reviews/page-testdata_notation.md`・`page-testdata_examples.md` に記録する（§8。申し送り1件と、`design.md` §8 の実装優先を本件に適用しないというユーザー判断を双方に1段落で残す）
 - [x] ゲート3〜11 を実行し `checks/task-23.md` に記録する — 是正後に再実行して全件 PASS
 - [x] ゲート12（ゲート1 の再実行）を `commit & push` の直前に実行する — 「変更してよいファイル」以外0件
-- [ ] commit & push
+- [x] commit & push — `b75f1d7`。push 済み
 - [ ] **user review**
 
 **守ること**:
@@ -619,8 +619,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-08-14
-- **Last completed**: `#23` の本文追記・4観点レビュー ラウンド1・是正6件・ゲート1〜12 の全件 PASS
-- **Next**: `#23` の **user review**（`/rn:ty` / `/rn:gm` 判定）
+- **Last completed**: `#23` の本文追記・4観点レビュー ラウンド1・是正6件・ゲート1〜12 の全件 PASS（`b75f1d7`、push 済み）
+- **Next**: `#23` の **user review**（`/rn:ty` / `/rn:gm` 判定）。承認で `#23` は閉じる
 - **Notes**: 判定待ちに添えた報告2件 — (1) 指示書 §2 の事実7 の `insertData` の範囲は `:137-217` ではなく `:137-178`（事実の内容は一致）。(2) 記法ページの見出し「0件のデータを記述する」と記載例ページの「0件のテーブルデータを記述する」が非対称。3観点が独立に挙げたが、見出し文言は指示書 §4-1・§4-3 が明示指定しているため変更していない
