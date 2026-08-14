@@ -375,3 +375,41 @@ QA／設計／クラフト／検証の4観点をそれぞれ別のサブエー�
 ### 判断待ち（週明けに判定してほしい項目）
 
 `reviews/page-deal_unit_test_batch.md`「判断待ち」に6件。**①`使用方法` 配下のL3を出典に合わせて3つにし、`テストを実行する`・`テスト結果を確認する` を立てなかったこと**（`ntf-doc-27-small-3rd.md` §1-1 と同じ判断だが、同 `:1` の対象に `#27-08` は入っていない。`#27-07` の `decide-1` と同じ論点）。**②分割例と非分割例で `expectedTable` の有無が違い、検証範囲が異なること**（`TestShot.java:193-213`。出典どおりに写し、本文で触れていない）。**③`setUpTable: default` が全テストショットに付いており、テストショットごとにDBが再投入されること**（`TestShot.java:149-162`。取引を通しで検証するという趣旨と読み合わせると説明が要るが、出典に無い）。**④`expectedStatusCode` が出典では `100`、承認済み `testdata_examples.rst:500-573` では `"0"` で食い違うこと**（どちらが正しいかは未確認）。**⑤`expectedTable: fileInputBatch`（出典 `:76`）に対応するデータブロックが出典にも本ページにも無いこと**。**⑥`:20` の `:ref:` の飛び先 `implementation/request_unit_test/batch.rst` が現時点で4行のスタブであること**（本ページはテストの実行方法を全面委譲している。`#27-07` の `decide-2` と同じ論点）。
+
+## `#27-09` 取引単体テスト（MOMによるメッセージング）
+
+**成果物**: `ja/development_tools/testing_framework/implementation/deal_unit_test/mom.rst`（129行。ラベル `deal_unit_test_mom`。`#27-00` の4行スタブへの追記）＋画像4枚の `git mv`
+**出典**: `05_UnitTestGuide/03_DealUnitTest/` の `real.rst:4-36`・`delayed_receive.rst:4-7`・`delayed_send.rst:4-7`・`send_sync.rst` の `:6-46`・`:50-63`・`:173-198`・`:224-276`（いずれも削除済み。`git show 2e501ad:<path>` で参照）。7行（`MOVE` 4・`SPLIT` 1・`REFERENCE` 2）、`lines` 合計175行
+**参照実装**: `nablarch-testing`（`e21bf67`。作業指示 §4-2 の固定コミット）
+**個別指示**: 無し（`ntf-doc-27-small-3rd.md:1` の対象は `#27-07`・`#27-10`・`#27-11`・`#27-15`）
+**レビュー記録**: `reviews/page-deal_unit_test_mom.md`
+
+### ゲート結果
+
+| | 結果 | 根拠 |
+|---|---|---|
+| G1 | **PASS** | `git status --porcelain`（ディレクトリで絞らずに実行）は ` M ja/.../implementation/deal_unit_test/mom.rst`、画像4枚の `R`（rename）、`?? .rn/.../reviews/page-deal_unit_test_mom.md` のみ。記録3本（レビュー記録・本ファイル・`steering.md`）を含めても想定内。`implementation/index.rst:23` の `toctree` は `#27-00` で登録済みのため差分なし |
+| G2 | **PASS** | `design.md`・`mapping/style.md`・`mapping/glossary.md`・`mapping/vocabulary.md`・`ja/conf.py`・`mapping/input/` に差分なし |
+| G3 | **PASS** | `locales/ja/LC_MESSAGES/sphinx.mo` は `git status --porcelain` に現れない（フルビルド後に確認） |
+| G4 | **PASS** | `verify_mapping.py` が exit 0（`OK: no errors`）。`mapping.csv` は未変更 |
+| G5 | **PASS** | Docker フルビルド（`sphinx-build -E`）が `build succeeded, 1 warning.`。警告は既知の `db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` 1件のみで**新規0件**。画像4枚の移動後の最終本文で実行した |
+| G6 | **PASS** | 作業指示 §5 の禁止語（`不具合`・`バグ`・`将来`・`修正され`）0件。`本ページ`・`下さい`・`出来る`・`事が`・`上記の`・`利用`・`前提条件`・`スーパークラス`・`インターフェース`・`既定`・`デフォルト設定`、用語集が0件を求める `テストケース`（`glossary.md:556`）・`自動テストフレームワーク`（同 `:509`）も0件。です・ます 0件。`.. note::`／`.. warning::` 0件（`.. tip::` 1件・`.. important::` 0件）。**`以下の` が `:89` に1件あるが、これは私の自主チェック語であって規約の禁止語ではない**（承認済み `setup/deal_unit_test/mom.rst:17`・`testdata_notation.rst:44,140,206,364` に用例あり）。あわせて `glossary.md:130-160` の揺れ表記（`同期応答メッセージ送信処理`・`同期応答メッセージ受信処理`・`応答不要メッセージ受信処理`・`応答不要メッセージ送信処理`・`メッセージ受信処理`・`メッセージ同期送信`・`バッチ処理`）を grep して0件 |
+| G7 | **PASS** | ページ先頭ラベル `deal_unit_test_mom` が `mapping/style.md:384` と一致 |
+| G8 | **PASS** | `unicodedata.east_asian_width` で表示幅を測り、L1 50（表示幅41）・L2 50（8）×2・L3 49（16〜22）×4・L4 0件。承認済み `batch.rst`・`rest.rst` の実測則（L1 `max(50,表示幅)`／L2 50固定／L3 `max(49,表示幅)`）からの逸脱0件。L2 下線の直後の空行あり（2箇所）、L3 下線の直後は空行なし（4箇所）で、`batch.rst:13-15`・`rest.rst:13-15` と同型 |
+| G9 | **PASS** | `:ref:` 6件（うち `deal_unit_test_batch` は2回）。飛び先はいずれも実在する（`deal_unit_test_setting_mom` = `setup/deal_unit_test/mom.rst:1`、`deal_unit_test_batch` = `implementation/deal_unit_test/batch.rst:1`、`deal_unit_test_web` = `implementation/deal_unit_test/web.rst:1`、`testdata_notation-messaging_data` = `implementation/testdata_notation.rst:1148`、`testing_framework_common-send_sync_test_data` = `setup/common.rst:118`）。リンク文字列は6件とも飛び先の直後の見出しと一致（各ラベルの次行を読んで照合）。`:java:extdoc:` 1件（`nablarch.test.core.messaging.MessagingRequestTestSupport`。`e21bf67` の `MessagingRequestTestSupport.java:1,48` に実在）。**ただし `deal_unit_test_web` は4行のスタブである**（`decide-4`） |
+| G10 | **PASS** | 出典7区間の非空行を全件分類した。落とした行は4件（`send_sync.rst:44-45` の脚注 `[#f1]`、`send_sync.rst:195` のラベル定義、`delayed_send.rst:4-7` 全体、ログ出力例の接頭辞）で、いずれも `reviews/page-deal_unit_test_mom.md`「出典から変えた点」に D-1〜D-4 として理由つきで記載。反映先の行番号は同「出典行の消化」に `mapping_id` ごとに記載 |
+| G11 | **PASS** | `disposition=REFERENCE` は2件（`current-0135`・`current-0136`）。どちらも節にしていない。`current-0135` は `:15` の末尾の一文に畳み、`current-0136` は `design.md:119` により反映しない |
+| G12 | **PASS** | `send_sync.rst` は6ページで分け合うが、割当区間 `:1-2`・`:6-46`・`:50-63`・`:67-172`・`:173-198`・`:199-220`・`:224-276`・`:280-297`・`:298-360`・`:361-383` に重なりはない（`mapping.csv` を `src_file` で絞って確認）。本ページが受け持つのは `:6-46`・`:50-63`・`:173-198`・`:224-276` の4区間のみ。**`:221-223` はどの `mapping_id` にも割り当てられていない**（旧ページの「要求電文のログ出力」見出し。本ページの `:87-88` が同じ役割を果たす） |
+| G13 | **PASS** | `.. image::` 4件。`guide/development_guide/05_UnitTestGuide/03_DealUnitTest/_images/` から `implementation/deal_unit_test/images/mom/` へ `git mv` した（`design.md:897,907`）。`git status` は4件とも `R` として記録している。移動元を参照していた `en/` 側は `en/.../_images/` の別コピーを参照しており、ja 側の移動で壊れる参照は0件（`grep -rn` で確認）。`:scale:` は出典どおり（70／70／90／70） |
+
+### 4観点レビュー
+
+QA／設計／クラフト／検証の4観点をそれぞれ別のサブエージェントで実施し、1ラウンドで是正した（採った是正14件、採らなかった指摘2件）。是正は成果物の `.rst` に畳んであり、別コミットに割っていない。内訳は `reviews/page-deal_unit_test_mom.md` §6。
+
+最も重いのは3件。①**「モックアップクラスは返す応答電文を `no` の値で選ぶ」が実装と食い違う**（QA）。実装は `SendSyncSupport.java:288` の `getRecords().get(info.no - 1)` であり、選択はレコードの並び順で決まる。`no` は `Excel` 形式のラベル列であって `YAML` 形式には無く、承認済み `testdata_notation.rst:1156` も「対応付けは、連番の値ではなく記述した順序で行われる」と述べている。**「記述した順に応答電文を1件ずつ返す」に書き改めた**（`design.md` §8）。②**用語集の揺れ表記を全面的に使っていた**（クラフト）。初版は「同期応答メッセージ送信処理」「同期応答メッセージ受信処理」「応答不要メッセージ受信処理」「メッセージ受信処理」「バッチ処理」を使っており、`glossary.md:134,155,156,157` がいずれも揺れ表記としている。正表記に置き換え、受信側を指す「メッセージ受信処理」は応答不要受信と区別できないため「メッセージを受信するアプリケーション」と言い換えた。③**読み込み単位の説明が誤っていた**（クラフト・設計）。初版は「読み込み単位の名前をリクエストIDと一致させる」と書いていたが、`glossary.md:241` の定義では読み込み単位は `Excel` 1シート／`YAML` 1ファイルであり、リクエストIDの名前を持つのはファイル／ディレクトリの側で、読み込み単位の名前は固定の `message` である（`testdata_notation.rst:1154,1251`）。`:68` を書き直した。
+
+不採用のうち重いのは、クラフト観点の「L3 `テストを実行する` を `複数回の同期送信に応答電文を対応付ける` に改名せよ」である。中身が実行手順ではなく実行時の動作である以上もっともな指摘だが、`design.md:281-296` が第3部の節名を5つに固定している。**節名は型に従い、代わりに `:77` の冒頭を「その回数分の応答電文をテストデータに記述する」という読者の作業から書き起こして、節名と中身のずれを詰めた。**
+
+### 判断待ち（週明けに判定してほしい項目）
+
+`reviews/page-deal_unit_test_mom.md` §7 に6件。**①`YAML` 形式でテストデータの再読み込みが働かない疑い（未確認）**。実装は `getFileIfExists(sendSyncTestData, requestId)` で得た `File` の `lastModified()` を比較しており（`SendSyncSupport.java:348,361`）、`YAML` 形式ではこれがディレクトリになると読める（`setup/common.rst:216` が `fileExtensions` への `sendSyncTestData` 登録を禁じているため）。ディレクトリの最終更新日時は配下のファイルを上書き編集しても変わらないことをこの環境で実測した。ただし `FilePathSetting` の原本はルール §1-9 の範囲外にあり確認していない。**本体の不具合が疑われるため作業指示 `:69` に従い本文には書いていない。** **②`:77` の図が `Excel` 形式のものしかないこと**（`YAML` の図は作れない。`style.md` S-10 に規定がなく NTF 内に前例0件）。**③L3 `テストを実行する` の節名を型どおりに残したこと**（上記の不採用）。**④`:40`・`:62` が送信側のテストクラスの説明を `deal_unit_test_web` に委ねているが、その飛び先が現時点で4行のスタブであること**（`#27-11` への申し送り。`#27-07` の `decide-2`・`#27-08` の `decide-6` と同じ論点）。**⑤`MockMessagingContext` の未反映の実装事実**（`receiveMessage` は `UnsupportedOperationException`、`close()` は何もしない。出典にも `mapping.csv` の割当にも無い）。**⑥移行元 `03_DealUnitTest/_images/` に残る9枚の後始末**（ja 側からの参照0件。第3部の移行完了時にディレクトリごと削除するか判定する）。
