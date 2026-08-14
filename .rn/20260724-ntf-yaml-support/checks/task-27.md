@@ -513,3 +513,41 @@ QA／設計／クラフト／検証の4観点をそれぞれ別のサブエー�
 ### 判断待ち（週明けに判定してほしい項目）
 
 `reviews/page-deal_unit_test_web.md` §7 に6件。**①tip2「テスト補助ツールについては現在検討中。」を出典どおり残したこと**（`ntf-doc-27-small-3rd.md:139` の指示に従った。いつの時点の「現在」か読者に分からない）。**②`mom.rst:62` が本ページへ委譲している「テストクラスの作り方」を、本ページが受けられないこと**（S3 が0件を求めるため本ページには書けない。`mom.rst:62` の前半を落とす案を提案。承認済みページの改稿になるため自分では直していない。`#27-09` の判断待ち④の続き）。**③`:49` の `:ref:` の飛び先 `request_unit_test_web` が4行のスタブであること**（実体の `current-0057`・`current-0058` は `#27-20`。**`#27-20` への申し送り: `current-0057` を必ず本文化すること**。`#27-07` decide-2・`#27-08` decide-6・`#27-09` decide-4・`#27-10` decide-4 と同型）。**④L3 の見出し名が S-03 の内容条件に反すること**（上記の不採用）。**⑤tip1 を `important` にしなかったこと**（上記の不採用。第3部に前例が無く、ここで基準を作ることになる）。**⑥`glossary.md:201`／`:556` の断定に反例があること**（両行は「業務上のテストケースを指す用法は NTF解説書の本文に現れない」と断定しているが、本ページの出典 `index.rst:12`・`:27` は手動テストの手順であり `testShots` のエントリを指し得ない。規約ファイルは書き換えないため上申のみ）。
+
+## `#27-12` リクエスト単体テスト（RESTfulウェブサービス）
+
+**成果物**: `ja/development_tools/testing_framework/implementation/request_unit_test/rest.rst`（215行。ラベル `request_unit_test_rest`。`#27-00` の4行スタブへの追記）
+**出典**: `06_TestFWGuide/RequestUnitTest_rest.rst` の `:10-14`（`current-0307`）・`:17-19`（`current-0308`）・`:22-46`（`current-0309`）・`:102-111`（`current-0313`）・`:114-118`（`current-0314`）・`:121-145`（`current-0315`）・`:148-195`（`current-0316`）・`:198-207`（`current-0317`）・`:210-274`（`current-0318`）と、`05_UnitTestGuide/02_RequestUnitTest/rest.rst` の `:14-52`（`current-0114`）・`:83-106`（`current-0120`）・`:109-111`（`current-0121`、REFERENCE）。いずれも削除済みで `git show 2e501ad:<path>` で参照。12行・`lines` 合計262行
+**参照実装**: `nablarch-testing-rest` `9ada31e`（`RestTestSupport` / `SimpleRestTestSupport` / `RestMockHttpRequest`）、`nablarch-testing` `e21bf67`（`DbAccessTestSupport`）
+**個別指示**: 無し（`ntf-doc-27-small-3rd.md` の対象は `#27-07`・`#27-10`・`#27-11`・`#27-15` のみ。本ページは作業指示 `ntf-doc-weekend-queue.md` のみに従う）
+**レビュー記録**: `reviews/page-request_unit_test_rest.md`
+
+### ゲート結果
+
+| | 結果 | 根拠 |
+|---|---|---|
+| G1 | **PASS** | `git status --porcelain`（ディレクトリで絞らずに実行）は `R` 2件（画像の `git mv`）、` M ja/.../implementation/request_unit_test/rest.rst`、`?? .rn/.../reviews/page-request_unit_test_rest.md` の4件。記録2本（本ファイル・`steering.md`）を含めても想定内。`implementation/index.rst:14` の `toctree` は `#27-00` で登録済みのため差分なし |
+| G2 | **PASS** | `design.md`・`mapping/style.md`・`mapping/glossary.md`・`mapping/vocabulary.md`・`ja/conf.py`・`mapping/input/` に差分なし（`git status --porcelain` 全件に現れない） |
+| G3 | **PASS** | `locales/ja/LC_MESSAGES/sphinx.mo` は `git status --porcelain` に現れない（フルビルド後に確認） |
+| G4 | **PASS** | `verify_mapping.py` が exit 0（`OK: no errors`）。`mapping.csv` は未変更 |
+| G5 | **PASS** | Docker フルビルド（`sphinx-build -E`）が `build succeeded, 1 warning.`。警告は既知の `db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` 1件のみで**新規0件**。4観点の是正を全件畳んだ後の最終本文で実行し、コンテナ内で `grep -i 'warning\|error\|build succeeded'` を通して警告本文まで確認した |
+| G6 | **PASS** | 作業指示 §5 の禁止語（`不具合`・`バグ`・`将来`・`修正され`）0件。`本ページ`・`下さい`・`出来る`・`事が`・`以下の`・`上記の`・`利用`・`前提条件`・`スーパークラス`・`インターフェース`・`インターフェイス`・`既定`・`デフォルト設定` も0件（`上記の`・`利用者` は初版にあり、`reviews/page-request_unit_test_rest.md` D-15 で解消）。です・ます 0件。`.. note::`／`.. warning::` 0件（`.. tip::` 5件・`.. important::` 0件）。用語集が0件を求める `テストケース`（`glossary.md:556`）・`自動テストフレームワーク`（同 `:509`）0件。`glossary.md` §8 の揺れ表記（`想定結果`・`想定値`・`事前準備データ`・`セットアップデータ`・`オーバライド`・`HTML ダンプ`）0件 |
+| G7 | **PASS** | ページ先頭ラベル `request_unit_test_rest` が `mapping/style.md:375` と一致 |
+| G8 | **PASS** | `unicodedata.east_asian_width` で表示幅を測り、L1 `:4` 50（表示幅45）・L2 `:13` `:48` 50×2・L3 `:53` `:109` `:141` `:160` `:168` 49×5・L4 `:172` `:188` 49×2。実測則（L1 `max(50,表示幅)`／L2 50固定／L3・L4 `max(49,表示幅)`）からの逸脱0件。L2 下線の直後は空行あり、L3・L4 下線の直後は空行なしで、承認済み `web.rst`（第4部）・`mom.rst`・`batch.rst` と同型。行末空白0件 |
+| G9 | **PASS** | `:ref:` 6件・`:doc:` 1件・`:java:extdoc:` 1件。飛び先はいずれも実在し、リンク文字列が飛び先の見出しと一致する（`request_unit_test_web` = `implementation/request_unit_test/web.rst:1`／見出し `:3`、`request_unit_test_setting_rest` = `setup/request_unit_test/rest.rst:1`／`:3`、`component_unit_test` = `implementation/class_unit_test/component.rst:1`／`:3`、`testdata_notation` = `implementation/testdata_notation.rst:1`／`:3`、`testdata_notation-setupdb` = 同 `:668`／`:670`、`testdata_notation-file_structure` = 同 `:22`／`:24`、`testdata_notation-list_map` = 同 `:580`／`:582`）。各ラベルの次行を読んで照合した。`:java:extdoc:` の `nablarch.fw.web.RestMockHttpRequest` は `nablarch-testing-rest@9ada31e` に `@Published` 付きで実在。**ただし `request_unit_test_web` と `component_unit_test` は4行のスタブである**（`decide-3`） |
+| G10 | **PASS** | 出典12区間の非空行を全件分類した。**未消化0行。** 反映先の行番号は `reviews/page-request_unit_test_rest.md` §2-2 の対応表に1行ずつ記載。出典から変えた点は同 §5 に D-1〜D-18 として理由つきで記載 |
+| G11 | **PASS** | `disposition=REFERENCE` は `current-0121`（`05_UnitTestGuide/02_RequestUnitTest/rest.rst:109-111`）の1件。節を起こさず、`rest.rst:144` の箇条書き内の括弧書き `:ref:` に落としてある |
+| G12 | **PASS** | `mapping.csv` を `csv.DictReader` で読み、`RequestUnitTest_rest.rst`（`current-0306`〜`current-0320`）と `02_RequestUnitTest/rest.rst`（`current-0113`〜`current-0122`）の全行の `src_body_start`／`src_body_end` を並べて重なりが無いことを確認した。設定関連の `current-0310`・`0311`・`0319`・`0320` は `リクエスト単体テストの設定（RESTfulウェブサービス）` へ、`current-0122` は `テストデータの書き方` へ振られており、本ページは再掲していない。`rest.rst:153-157` の3メソッドは `RestTestSupport` 固有で、`testdata_notation.rst:590-591` が挙げる `TestSupport#getListMap`／`DbAccessTestSupport#getListMap` とは別物 |
+| G13 | **PASS** | `.. image::` 1件。`git mv` で `guide/development_guide/06_TestFWGuide/_images/rest_request_unit_test_structure.png` を `implementation/request_unit_test/images/rest/` へ移動（`design.md:897`・`:907`）。作図元の `.xlsx` も同時に移した（リポジトリ全体の前例: `ja/application_framework/application_framework/libraries/images/tag/images.xlsx` ほか）。`guide/` 配下に `*rest*` の残骸0件 |
+
+### 4観点レビュー
+
+QA／設計／クラフト／検証の4観点をそれぞれ別のサブエージェントで実施し、1ラウンドで是正した（指摘32件、本文への是正21件、不採用・判断待ち11件）。是正は成果物の `.rst` に畳んであり、別コミットに割っていない。内訳は `reviews/page-request_unit_test_rest.md` §6。
+
+最も重いのは3件。①**出典の「内蔵サーバが起動されリクエストが送信される」が実装と一致しなかった**（検証）。内蔵サーバの起動は `@Before` の `setUp()` が行い（`nablarch-testing-rest@9ada31e` `SimpleRestTestSupport.java:84-89` → `:237-243` → `:266` の `server.startLocal()`）、しかも `static boolean initialized`（同 `:55`）で JVM 内1回に限られる。`sendRequest` は `:186` → `:197` → `:224-230` で `server.handle` を呼ぶだけである。**起動時期を実装に合わせて書き直した**（D-9）。②**ファイル配置表のパスから `src/` が抜けていた**（QA）。`readTextResource` はクラスパスから解決するため（同 `:343-347`）、`<PROJECT_ROOT>/test/resources/...` では見つからない。承認済みの `setup/request_unit_test/rest.rst:44` も `src/test/resources/unit-test.xml` と書いている。**`src/` を補った**（D-10）。ただし承認済みの `testdata_notation.rst:63` は `src/` 無しのままで、同ページ `:48` とも食い違っている（`decide-6`）。③**用語集の正表記違反が3種8箇所あった**（クラフト）。`スーパークラス`（6箇所）・`インターフェイス`（1箇所）・`期待する結果`（1箇所）で、`glossary.md:594`・`:595` はいずれも無条件置換を定めている。出典がそのまま持ち込まれたものである。**全件を正表記に直した**（D-13）。
+
+`important` → `tip` の3箇所（D-5〜D-7）と S-10 に基づく Excel 表現の中立化（D-2）は、設計観点が妥当と判定した。クラフト観点が挙げた「`dbInfo` の tip を `important` にせよ」は、「準備しないと例外が発生する」という前提を一次情報で確認できなかったため採らず、`decide-1` に上げた。QA観点が挙げた `setBody` の追記は、出典（`06_TestFWGuide/RequestUnitTest_rest.rst:148-195`）に無い事実の追加にあたるため見送り、`decide-4` に上げた。
+
+### 判断待ち（週明けに判定してほしい項目）
+
+`reviews/page-request_unit_test_rest.md` §7 に6件。**①`dbInfo` / `testDataParser` の設定手順が解説書のどこにも書かれていないこと**（`rest.rst:61` の tip は出典どおり準備を求めるが、参照先の `setup/request_unit_test/rest.rst` は両者に触れておらず、`ja/development_tools/testing_framework/` 配下の `dbInfo` のヒットは当該1件のみ。第2部への追記要否の判断が要る）。**②構成図が本文と3点食い違うこと**（テストデータのノードが「Excelファイル」のまま／PATCH が無い／`SimpleRestTestSupport` が無い。作図元 `.xlsx` は同ディレクトリに移してあるが画像の作り直しは範囲外とした。前例は `reviews/page-deal_unit_test_http_messaging.md:79-80`）。**③`:ref:` の飛び先 `component_unit_test`・`request_unit_test_web` が4行のスタブであること**（`#27-07` decide-2・`#27-08` decide-6・`#27-09` decide-4・`#27-10` decide-4・`#27-11` decide-3 と同型）。**④`setBody` に触れていないこと**（上記の見送り。承認済み `implementation/deal_unit_test/rest.rst:43` が使用しており、同ページ `:22` は本ページを正典扱いしている）。**⑤JUnit 5 の導線が本ページに無いこと**（第1部 `about/index.rst:115` が全体を受けており、第3部の他ページも個別には張っていない。第3部全体の方針判断）。**⑥承認済み `testdata_notation.rst:63` のパス表記が `src/` 無しで、同ページ `:48` とも食い違っていること**（D-10 との揃えが要る）。
