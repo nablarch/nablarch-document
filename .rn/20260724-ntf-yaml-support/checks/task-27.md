@@ -337,3 +337,41 @@ QA／設計／クラフト／検証の4観点をそれぞれ別のサブエー�
 ### 判断待ち（週明けに判定してほしい項目）
 
 `reviews/page-deal_unit_test_rest.md`「判断待ち」に3件。**①第3部に `style.md` S-02 の「出典が無い場合は見出し自体を置かない」を適用したこと**（`#27-10`・`#27-11`・`#27-15` にも及ぶ。規約本体に第3部の但し書きを足すかは未決）。**②`:22` の `:ref:` の飛び先 `implementation/request_unit_test/rest.rst` が現時点で4行のスタブであること**（`ntf-doc-27-small-3rd.md:44` の「参照先は先に作ってある」という前提が `#27-07`→`#27-12` には成立していない。`steering.md:590,595` で実測）。**③第2部 `setup/deal_unit_test/rest.rst` から本ページへの `:ref:` が無いこと**（承認済みページの変更を伴うため触れていない）。
+
+## `#27-08` 取引単体テスト（Nablarchバッチアプリケーション）
+
+**成果物**: `ja/development_tools/testing_framework/implementation/deal_unit_test/batch.rst`（487行。ラベル `deal_unit_test_batch`。`#27-00` の4行スタブへの追記）
+**出典**: `05_UnitTestGuide/03_DealUnitTest/batch.rst`（削除済み。`git show 2e501ad:<path>` で参照。183行）の `:4-7`・`:8-25`・`:28-32`・`:35-41`・`:44-48`・`:51-79`・`:82-146`・`:149-183`。8行（`SPLIT` 2・`MOVE` 6）、`lines` 合計168行。`DROP`・`REFERENCE` なし
+**参照実装**: `nablarch-testing`（`e21bf67`。作業指示 §4-2 の固定コミット）
+**個別指示**: 無し（`ntf-doc-27-small-3rd.md:1` の対象は `#27-07`・`#27-10`・`#27-11`・`#27-15`）
+**レビュー記録**: `reviews/page-deal_unit_test_batch.md`
+
+### ゲート結果
+
+| | 結果 | 根拠 |
+|---|---|---|
+| G1 | **PASS** | `git status --porcelain`（ディレクトリで絞らずに実行）は ` M ja/.../implementation/deal_unit_test/batch.rst` と `?? .rn/.../reviews/page-deal_unit_test_batch.md` の2件。記録3本（レビュー記録・本ファイル・`steering.md`）を含めても想定内。`implementation/index.rst` の `toctree` は `#27-00` で登録済みのため差分なし |
+| G2 | **PASS** | `design.md`・`mapping/style.md`・`mapping/glossary.md`・`mapping/vocabulary.md`・`ja/conf.py`・`mapping/input/` に差分なし |
+| G3 | **PASS** | `locales/ja/LC_MESSAGES/sphinx.mo` は `git status --porcelain` に現れない（フルビルド後に確認） |
+| G4 | **PASS** | `verify_mapping.py` が exit 0（`OK: no errors`）。`mapping.csv` は未変更 |
+| G5 | **PASS** | Docker フルビルド（`sphinx-build -E`）が `build succeeded, 1 warning.`。警告は既知の `db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` 1件のみで**新規0件**。S-10 の構成を組み替えた後の最終本文で実行した |
+| G6 | **PASS** | 作業指示 §5 の禁止語（`不具合`・`バグ`・`将来`・`修正され`）0件。あわせて `本ページ`・`下さい`・`出来る`・`事が`・`以下の`・`上記の`・`利用`・`前提条件`・`スーパークラス`・`インターフェース`・`既定`・`デフォルト設定`、および用語集が0件を求める `テストケース`（`glossary.md:556`）・`自動テストフレームワーク`（同 `:509`）も0件。です・ます 0件、`.. note::`／`.. warning::` 0件（`tip`・`important` とも0件） |
+| G7 | **PASS** | ページ先頭ラベル `deal_unit_test_batch` が `mapping/style.md:383` と一致 |
+| G8 | **PASS** | `unicodedata.east_asian_width` で表示幅を測り、L1 50（表示幅48）・L2 50（8）×2・L3 49（22〜24）×3・L4 49（14〜15）×2。承認済み `testdata_notation.rst` の実測則（L1 `max(50,表示幅)`／L2 50固定／L3・L4 `max(49,表示幅)`）からの逸脱0件 |
+| G9 | **PASS** | `:ref:` 5件。飛び先はいずれも実在する（`request_unit_test_batch` = `implementation/request_unit_test/batch.rst:1`、`testdata_notation` = `implementation/testdata_notation.rst:1`、`testdata_notation-test_shots` = 同 `:350`、`testdata_notation-group_id` = 同 `:248`、`testdata_examples` = `implementation/testdata_examples.rst:1`）。リンク文字列5件とも飛び先のタイトル／見出しと一致（`testdata_notation.rst:3,352,250`・`testdata_examples.rst:3`・`request_unit_test/batch.rst:3` で照合）。**ただし `request_unit_test_batch` は4行のスタブである**（`decide-6`） |
+| G10 | **PASS** | 出典8区間の非空行を全件分類し、落とした行は0件。対応は `reviews/page-deal_unit_test_batch.md`「出典行の消化」に `mapping_id` ごとの反映先行番号つきで記載 |
+| G11 | **PASS** | `disposition=REFERENCE` の行なし（`SPLIT` 2・`MOVE` 6） |
+| G12 | **PASS** | 出典ファイル `03_DealUnitTest/batch.rst` の全行が本ページの `dest_page` に割り当てられており、他ページと分け合っていない（`mapping.csv` を `src_file` で絞って確認）。`current-0128` の枝 `-a`／`-b` は `:4-7`／`:8-25` で重ならない |
+| G13 | **対象外** | `.. image::` 0件 |
+
+### 4観点レビュー
+
+QA／設計／クラフト／検証の4観点をそれぞれ別のサブエージェントで実施し、1ラウンドで是正した（QA 11件、設計 10件、クラフト 13件、検証は G10 が FAIL＋3件）。是正は成果物の `.rst` に畳んであり、別コミットに割っていない。内訳は `reviews/page-deal_unit_test_batch.md`。
+
+最も重いのは3件。①**`style.md` S-10 規約3 違反**（設計）。初版は「1つの読み込み単位にまとめる／複数の読み込み単位に分割する／1つの読み込み単位に複数のテストを含める」の3つをL4見出しにし、各L4の中で Excel と YAML を太字で切り分けていた。規約3 は形式別のL4対をL3の末尾2つに1組だけ置くと定めており、承認済みの `testdata_examples.rst:500-573` も同じ形をしている。**L3 `テストデータを作成する` を形式別L4対1組に組み替え、3つのパターンは各L4内の太字ラベル（S-10 太字の例外1）に落とした。** 形式に依存しない説明はL3の導入の箇条書きへ上げた（S-11）。②**必須カラム `diConfig`・`userId` の欠落**（検証で G10 FAIL）。`TestShot.java:385-387` の `REQUIRED_COLUMNS` は6カラムを必須とし、出典の表はこの2つを持たない。全7表に追記した（`design.md` §8「出典が欠く実装上必須の設定は追記可」）。③**import のパッケージ誤り**。出典 `:92` は `nablarch.test.core.messaging.BatchRequestTestSupport` だが、`nablarch-testing@e21bf67` に当該クラスは存在せず `nablarch.test.core.batch` にある。承認済みの `setup/junit5_extension.rst:40` とも一致させた。
+
+不採用のうち最も重いのは、クラフト観点の「3つの記述パターンをそれぞれL3に昇格し、各L3に形式別L4対を持たせよ」である。`testdata_examples.rst:500-573` と完全に同形になるが、`design.md:281-296` のアウトラインに無いL3が3つ増え、目次に `Excel形式の場合` が3回並ぶ。S-10 規約3 が「同じL3内でExcel/YAMLの記述方法の説明が複数の話題にわたる場合も、2組目の見出し対を作らず、その1組の下にまとめる」と明記しているため、規約の明文を優先した。
+
+### 判断待ち（週明けに判定してほしい項目）
+
+`reviews/page-deal_unit_test_batch.md`「判断待ち」に6件。**①`使用方法` 配下のL3を出典に合わせて3つにし、`テストを実行する`・`テスト結果を確認する` を立てなかったこと**（`ntf-doc-27-small-3rd.md` §1-1 と同じ判断だが、同 `:1` の対象に `#27-08` は入っていない。`#27-07` の `decide-1` と同じ論点）。**②分割例と非分割例で `expectedTable` の有無が違い、検証範囲が異なること**（`TestShot.java:193-213`。出典どおりに写し、本文で触れていない）。**③`setUpTable: default` が全テストショットに付いており、テストショットごとにDBが再投入されること**（`TestShot.java:149-162`。取引を通しで検証するという趣旨と読み合わせると説明が要るが、出典に無い）。**④`expectedStatusCode` が出典では `100`、承認済み `testdata_examples.rst:500-573` では `"0"` で食い違うこと**（どちらが正しいかは未確認）。**⑤`expectedTable: fileInputBatch`（出典 `:76`）に対応するデータブロックが出典にも本ページにも無いこと**。**⑥`:20` の `:ref:` の飛び先 `implementation/request_unit_test/batch.rst` が現時点で4行のスタブであること**（本ページはテストの実行方法を全面委譲している。`#27-07` の `decide-2` と同じ論点）。

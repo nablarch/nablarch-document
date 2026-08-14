@@ -588,7 +588,7 @@ Rn version: 0.8.0
 - [x] `#27-05` マスタデータ投入ツール（`tools/master_data_tool.rst`、4部、177行）
 - [x] `#27-06` HTMLチェックツール（`tools/html_check_tool.rst`、4部、214行）
 - [x] `#27-07` 取引単体テスト（RESTfulウェブサービス）（`implementation/deal_unit_test/rest.rst`、3部、32行。**small-3rd**）
-- [ ] `#27-08` 取引単体テスト（Nablarchバッチアプリケーション）（`implementation/deal_unit_test/batch.rst`、3部、168行）
+- [x] `#27-08` 取引単体テスト（Nablarchバッチアプリケーション）（`implementation/deal_unit_test/batch.rst`、3部、168行）
 - [ ] `#27-09` 取引単体テスト（MOMによるメッセージング）（`implementation/deal_unit_test/mom.rst`、3部、175行。リード文で前提を明示する）
 - [ ] `#27-10` 取引単体テスト（HTTPメッセージング）（`implementation/deal_unit_test/http_messaging.rst`、3部、33行。**small-3rd**。リード文で前提を明示する）
 - [ ] `#27-11` 取引単体テスト（ウェブアプリケーション）（`implementation/deal_unit_test/web.rst`、3部、48行。**small-3rd**）
@@ -666,7 +666,7 @@ session is suspended — the signal /rn:up and /rn:dn search for — and resets 
 so only a genuinely suspended session reads `paused`.)
 
 - **Status**: not suspended
-- **Date**: —
-- **Last completed**: —
-- **Next**: —
-- **Notes**: —
+- **Date**: 2026-08-15
+- **Last completed**: `#27-08` 取引単体テスト（Nablarchバッチアプリケーション）
+- **Next**: `#27-09` 取引単体テスト（MOMによるメッセージング）
+- **Notes**: `#27` はサブ項目ごとに user review を挟まず、`#27-21` まで連続で進める（Rules 参照）。判断待ちは `checks/task-27.md` と `reviews/page-*.md` に積んであり、週明けにまとめて判定を受ける。
