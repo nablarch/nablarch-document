@@ -895,3 +895,65 @@ QA / 設計 / クラフト / 検証 を別々のサブエージェントで実�
 `reviews/page-component_unit_test.md` §9 に6件。**①`style.md:193` の L4「用例が薄いページでのみ使う」が判定基準として機能していない。承認済みページのL4件数は0〜58件に分布している**（参考）。**②`current-0196` の飛び先が節アンカー `MasterDataRestore-fk_key` からページ先頭ラベル `master_data_restore` に粗くなった。対応記述は `setup/master_data_restore.rst:163` にあるが、その節の見出しは「テーブルの依存関係の解析を抑止する」で外部キーの扱いを表していない**（推奨）。**③`:89-93` の `dbAccessTest.dbTransactionName` は設定手順であり `design.md:725` 観点D「第3部に設定が混入していないか」に抵触しうる。ただし `mapping.csv` の `current-0237` は本ページ・使用方法に割り当てられている**（推奨）。**④`:125` の「同名のメソッドに同種のアノテーションを付けると起動されなくなる」は出典どおりだが、実際の原因は `static` メソッドの隠蔽と考えられる。JUnit4ランナーの挙動は参照リポジトリで確認できず未確認**（参考）。**⑤`setUpDb` が要求する `testTran` という名前の `SimpleDbTransactionManager`（`DbAccessTestSupport.java:42`・`:188` → `TransactionTemplate.java:43-49`）の登録手順が、解説書のどのページにも無い（`grep -rn "testTran" ja/` が新旧とも0件）。ブランクプロジェクトが提供しているかは作業ディレクトリ外のため未確認**（推奨）。**⑥例題のドメインが `UserComponent`／`EmployeeDbAccess`／`EmployeeComponent` の3系統に分かれている。出典が3本にまたがるためで事実誤認ではない**（参考）。
 
 **`#27-20` への申し送り**: 変更なし（`#27-13` の申し送りを維持）。
+
+## `#27-20` リクエスト単体テスト（ウェブアプリケーション）
+
+- **成果物**: `ja/development_tools/testing_framework/implementation/request_unit_test/web.rst`（第3部、全552行。4行のスタブへの追記）
+- **出典**: 33件・914行（`mapping.csv` を `csv.DictReader` で全行走査、実測。MOVE 26／MERGE 7、DROP・REFERENCE 0）。**33件すべてを反映し、意図して落とした出典行は0件**
+- **参照実装**: `nablarch-testing` `e21bf67` / `nablarch-testing-yaml` `190cc9a`
+- **個別指示**: `.rn/20260724-ntf-yaml-support/ntf-doc-27-large-pages.md` §3
+- **レビュー記録**: `reviews/page-request_unit_test_web.md`
+- **画像**: `git mv` で3枚移設（`request_unit_test_structure.png`・`htmlDumpDir.png`・`mail_overview.jpg`、いずれも原名のまま）。残る3枚は落とした（`05_UnitTestGuide/.../htmlDumpDir.png` は移設分と**バイト同一** md5 `c86af2b2e100bb9707ccaf00458612fd`、`assert_entity.png`・`expected_download_csv.png` はExcelスクリーンショット）
+
+### ゲート
+
+| ゲート | 結果 | 根拠 |
+| --- | --- | --- |
+| G1 `git status --porcelain` 全件 | PASS | `M web.rst`・`R` 画像3件・`?? reviews/page-request_unit_test_web.md`・`M checks/task-27.md`・`M steering.md` のみ |
+| G2 禁止ファイル差分0 | PASS | `design.md`・`mapping/style.md`・`mapping/glossary.md`・`mapping/vocabulary.md`・`ja/conf.py`・`mapping/input/` を指定した `git status --porcelain` が0行 |
+| G3 `sphinx.mo` 未コミット | PASS | `git status --porcelain` に出現なし |
+| G4 `verify_mapping.py` | PASS | `OK: no errors`（exit 0） |
+| G5 フルビルド | PASS | `-E` 付きフルビルドで `build succeeded.`、**警告0件**（実測） |
+| G6 禁止語 | PASS | `不具合`・`バグ`・`将来`・`修正され` が0件 |
+| G7 ラベル | PASS | `request_unit_test_web` が `style.md:374` と文字列一致。`ja/`（`_build/` 除く）で重複定義0件 |
+| G8 下線幅 | PASS | L1 `=` 50（タイトル表示幅46）／L2 `-` 50 × 2／L3 `~` 49 × 5／L4 `^` 49 × 18。すべて下線幅 ≧ 表示幅で、`rest.rst` の実測値 50/50/49/49 と一致 |
+| G9 `:ref:` 飛び先とリンクテキスト | PASS | 18種・のべ22箇所すべて飛び先が実在し、リンク文字列が飛び先の見出しと文字列一致 |
+| G10 出典の反映 | PASS | 33件すべてを反映。意図的dropは0件 |
+| G11 REFERENCE行を節にしない | PASS（該当なし） | 本ページ33件に `disposition=REFERENCE` は0件 |
+| G12 二重掲載なし | PASS | 本ページ33件と他ページ全行の `src_file`＋行範囲の重なりを総当たりで判定し0件 |
+| G13 画像 `git mv` | PASS | `.. image::` 3件の参照先が実在。移動元3パスは `guide/` 配下に残っていない |
+| L1 全 `mapping_id` の反映または意図的drop | PASS | G10 と同じ |
+| L2 他ページ割当の出典を書いていない | PASS | `index.rst:85-333`・`02_RequestUnitTest.rst:93-103`／`:306-552`・`fileupload.rst:16-28`・`double_transmission.rst:27-39`・`03_Tips.rst:665-676` の内容は書いていない |
+| L3 「〜したい」形式の見出し0件 | PASS | 見出し23件のうち「したい」で終わるものは0件 |
+| L4 `拡張例` の見出しなし | PASS | `拡張例` が0件 |
+| L5 L3見出しがすべて「〜する」形式 | PASS | L3 5件（テストクラスを作成する／テストメソッドを作成する／テストデータを作成する／テストを実行する／テスト結果を確認する）・L4 18件すべて動詞終止形の肯定形 |
+| L6 `how_to_set_token_in_request_unit_test` | PASS | `web.rst:245` で定義。`ja/`（`_build/` 除く）で1件のみ。これにより従前の唯一の警告 `db_double_submit.rst:108` が解消し、**フルビルドの警告が0件になった** |
+| L7 `implementation/index.rst` の toctree | PASS | 未変更（`git status` に出現しない）。並びは `design.md:837-886` と一致 |
+| S-01 である調 | PASS | です・ます・ください・下さい が0件 |
+| S-02 セクション構成 | PASS | リード文（目次直後・最初のL2より前）→ 機能概要 → 使用方法 |
+| S-03 見出し | PASS | 禁止語（概要・補足・注意事項・その他）0件。同一ページ内の重複0件 |
+| S-04 下線記号 | PASS | L1 `=`／L2 `-`／L3 `~`／L4 `^` |
+| S-05 code-block | PASS | 18件すべて `java` を指定。内容はディレクティブ行から相対2字下げ |
+| S-06 important / tip | PASS | `tip` 10件はいずれも補足情報。`important` は0件（`DbAccessTestSupport` の非委譲メソッドは `rest.rst:95-102` の流儀に合わせ地の文＋箇条書きにした） |
+| S-07 表 | PASS | `list-table` 4件、すべて `:widths:` 指定あり（`30,45,25`／`20,25,55`／`40,60`／`25,75`）。grid/simple table は0件 |
+| S-08 ラベル | PASS | ページ先頭ラベル1件、節ラベル3件。`how_to_set_token_in_request_unit_test` は S-08 例外規定（`style.md:300-315`）により改名せず、残る2件（`request_unit_test_web-upload_file`・`request_unit_test_web-mail`）は `<ページ先頭ラベル>-<英語スネークケース>` 形式 |
+| S-09 `.. contents::` | PASS | ラベル→タイトル→`.. contents:: 目次` / `:depth: 3` / `:local:` の順 |
+| S-10 Excel／YAML書き分け | PASS | 形式に依存する記述を置いていない。`LIST_MAP` の期待値は行番号に踏み込まず「キーにプロパティ名、値に確認に使用するプロパティの値」と書いた |
+| S-11 L4を持つL3の導入文 | PASS | L4を持つL3 4件すべてに、配下のL4の個数と内容を述べた導入文がある（`:70`・`:142`・`:290`・`:341`） |
+| 用語置換 | PASS | `テストケース`・`DI設定ファイル`・`propertiesファイル`・`プロパティファイル`・`テストソースコード`・`事前準備データ`・`想定結果`・`想定値` が0件 |
+
+### 出典の誤りに対する訂正
+
+旧解説書と実装の食い違い8件を、`e21bf67` の実装に合わせて訂正した（詳細は `reviews/page-request_unit_test_web.md` §4）。クラス名の誤記2件（`02_RequestUnitTest.rst:49-50` の `AbstractHttpReqestTestSupport`・`BasicHttpReqestTestSupport`）、システムリポジトリ再初期化が無条件でない件（`:232-245` ↔ `HttpRequestTestSupport.java:268-272`）、コンパイルできない実装例（`03_Tips.rst:642`）、`getParam` の戻り値型（`index.rst:605` ↔ `HttpRequestTestSupport.java:1394`）、`getTestCaseName()` の返す値（`TestCaseInfo.java:406-409`）、HTMLダンプのファイル名（`HttpRequestTestSupport.java:260-261`）、ダウンロードファイルのファイル名（`HttpServer.java:496-499`）、トークン設定の位置（`index.rst:349-350` ↔ `AbstractHttpRequestTestTemplate.java:257-262`）。いずれも本体の不具合ではなく旧解説書の記述誤りのため `decide` には上げていない。
+
+出典に無い実装上必須の事実を3件書き足した（親指示 `ntf-doc-weekend-queue.md:68`）。`execute(boolean)`・`execute(String, boolean)` の2オーバーロード（`AbstractHttpRequestTestTemplate.java:138-151`・`:199-201`）、`createHttpRequest(String, String, Map)` の3引数版と2引数版の `POST` 既定（`HttpRequestTestSupport.java:918`・`:938-940`）、ダンプディレクトリの `_bk` バックアップ名（同 `:838-852`）。
+
+### 4観点レビュー
+
+QA / 設計 / クラフト / 検証 を別々のサブエージェントで実施。**必須指摘は24件（QA 7・設計 4・クラフト 13。うち `LIST_MAP` の行位置は QA と設計で重複）で、すべて本文に反映済み**。任意指摘のうち17件を採用、2件を根拠を確かめて不採用とした（`entity_unit_test` への `:ref:` を期待値書式の直接記述に置き換える案、`${attach:ファイルパス}` の記法名を書かない案）。検証観点の FAIL 2件（G10・L1）はレビュー記録の未作成が原因で、記録の作成により解消した。
+
+### 判断待ち（週明けに判定してほしい項目）
+
+`reviews/page-request_unit_test_web.md` §8 に6件。**①L4見出しの使用量が `style.md:193`「用例が薄いページでのみ使う」と噛み合っていない。本ページは18本（`rest.rst` 2本、`component.rst` 6本）。`#27-19` の `decide-1` と同一事象だが件数が一桁多く、条文を判定可能な形に改める必要がより明確である**（推奨）。**②「設定の話は第2部」という個別指示 §3-3 の線引きが、設定項目名への言及自体を禁じているのか説明を書くことだけを禁じているのか読み取れない**（推奨）。**③`db_double_submit.rst:106` のリンク文字列「テスティングフレームワークのトークン発行」が飛び先の見出し「二重サブミット防止機能のトークンを設定する」と一致しない。FW解説書は本作業の対象外のため触っていない**（推奨）。**④`implementation/testdata_notation.rst:392` の `description` カラムの説明が、HTMLダンプのファイル名の組み立て（`読み込み単位の名前_Shot番号_説明.html`）を正確に述べていない。承認済みページのため触っていない**（推奨）。**⑤`guide/development_guide/05_UnitTestGuide/02_RequestUnitTest/_image/` に参照されない画像36ファイルが残っている。解説書全体の後片付けとして別途扱う対象と思われる**（参考）。**⑥個別指示 §3-2 の出典件数表（`ntf-doc-27-large-pages.md:94-102`、7出典・31件・861行）が `mapping.csv` の実測（7出典・33件・914行）と合わない。同種のずれが他ページの個別指示にもある可能性がある**（参考）。
+
+**`#27-21` への申し送り**: `#27-19` からの申し送りに1件加えた。**本ページから `entity_unit_test` へ「setter・getterのテストと同じ書式で期待値を記述する。ただしsetterの欄は不要」という前提で送っている**（旧節ラベル `entityUnitTest_SetterGetterCase`）。エンティティ単体テストのページで、この書式（setter欄・getter欄を持つ `LIST_MAP`）の説明が読者に届く形になっていることを確認する。
