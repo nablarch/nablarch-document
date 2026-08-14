@@ -413,3 +413,53 @@ QA／設計／クラフト／検証の4観点をそれぞれ別のサブエー�
 ### 判断待ち（週明けに判定してほしい項目）
 
 `reviews/page-deal_unit_test_mom.md` §7 に6件。**①`YAML` 形式でテストデータの再読み込みが働かない疑い（未確認）**。実装は `getFileIfExists(sendSyncTestData, requestId)` で得た `File` の `lastModified()` を比較しており（`SendSyncSupport.java:348,361`）、`YAML` 形式ではこれがディレクトリになると読める（`setup/common.rst:216` が `fileExtensions` への `sendSyncTestData` 登録を禁じているため）。ディレクトリの最終更新日時は配下のファイルを上書き編集しても変わらないことをこの環境で実測した。ただし `FilePathSetting` の原本はルール §1-9 の範囲外にあり確認していない。**本体の不具合が疑われるため作業指示 `:69` に従い本文には書いていない。** **②`:77` の図が `Excel` 形式のものしかないこと**（`YAML` の図は作れない。`style.md` S-10 に規定がなく NTF 内に前例0件）。**③L3 `テストを実行する` の節名を型どおりに残したこと**（上記の不採用）。**④`:40`・`:62` が送信側のテストクラスの説明を `deal_unit_test_web` に委ねているが、その飛び先が現時点で4行のスタブであること**（`#27-11` への申し送り。`#27-07` の `decide-2`・`#27-08` の `decide-6` と同じ論点）。**⑤`MockMessagingContext` の未反映の実装事実**（`receiveMessage` は `UnsupportedOperationException`、`close()` は何もしない。出典にも `mapping.csv` の割当にも無い）。**⑥移行元 `03_DealUnitTest/_images/` に残る9枚の後始末**（ja 側からの参照0件。第3部の移行完了時にディレクトリごと削除するか判定する）。
+
+## `#27-10` 取引単体テスト（HTTPメッセージング）
+
+**成果物**: `ja/development_tools/testing_framework/implementation/deal_unit_test/http_messaging.rst`（30行。ラベル `deal_unit_test_http_messaging`。`#27-00` の4行スタブへの追記）
+**出典**: `05_UnitTestGuide/03_DealUnitTest/http_send_sync.rst`（削除済み。`git show 2e501ad:<path>` で参照。69行）の `:6-15`（`current-0138`・`REFERENCE`）・`:24-46`（`current-0139`・`MERGE`）。`lines` 合計33行
+**参照実装**: `nablarch-testing`（`e21bf67`。作業指示 §4-2 の固定コミット）
+**個別指示**: `ntf-doc-27-small-3rd.md` §1・§3・§6
+**レビュー記録**: `reviews/page-deal_unit_test_http_messaging.md`
+
+### ゲート結果
+
+| | 結果 | 根拠 |
+|---|---|---|
+| G1 | **PASS** | `git status --porcelain`（ディレクトリで絞らずに実行）は ` M ja/.../implementation/deal_unit_test/http_messaging.rst` と `?? .rn/.../reviews/page-deal_unit_test_http_messaging.md` の2件。記録3本（レビュー記録・本ファイル・`steering.md`）を含めても想定内。`implementation/index.rst:21` の `toctree` は `#27-00` で登録済みのため差分なし |
+| G2 | **PASS** | `design.md`・`mapping/style.md`・`mapping/glossary.md`・`mapping/vocabulary.md`・`ja/conf.py`・`mapping/input/` に差分なし（`git diff --stat` が空） |
+| G3 | **PASS** | `locales/ja/LC_MESSAGES/sphinx.mo` は `git status --porcelain` に現れない（フルビルド後に確認） |
+| G4 | **PASS** | `verify_mapping.py` が exit 0（`OK: no errors`）。`mapping.csv` は未変更 |
+| G5 | **PASS** | Docker フルビルド（`sphinx-build -E`）が `build succeeded, 1 warning.`。警告は既知の `db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` 1件のみで**新規0件**。4観点の是正を全件畳んだ後の最終本文で実行し、全ログを `grep -i 'warning\|error'` して確認した |
+| G6 | **PASS** | 作業指示 §5 の禁止語（`不具合`・`バグ`・`将来`・`修正され`）0件。`本ページ`・`下さい`・`出来る`・`事が`・`以下の`・`上記の`・`利用`・`前提条件`・`スーパークラス`・`インターフェース`・`既定`・`デフォルト設定` も0件。です・ます 0件。`.. note::`／`.. warning::`／`.. tip::`／`.. important::` いずれも0件。用語集の揺れ表記（`HTTP同期応答メッセージ送信`・`同期応答メッセージ送信処理`・`メッセージング処理`・`メッセージ同期送信`・`メッセージ受信処理`・`バッチ処理`）と、0件を求める `テストケース`（`glossary.md:556`）・`自動テストフレームワーク`（同 `:509`）も0件 |
+| G7 | **PASS** | ページ先頭ラベル `deal_unit_test_http_messaging` が `mapping/style.md:382` と一致 |
+| G8 | **PASS** | `unicodedata.east_asian_width` で表示幅を測り、L1 `:4` 50（表示幅36）・L2 `:13` `:20` 50（8）×2・L3 `:25` 49（22）×1・L4 0件。実測則（L1 `max(50,表示幅)`／L2 50固定／L3 `max(49,表示幅)`）からの逸脱0件。L2 下線の直後は空行あり、L3 下線の直後は空行なしで、承認済み `mom.rst`・`batch.rst`・`rest.rst` と同型。行末空白0件 |
+| G9 | **PASS** | `:ref:` 5件（`deal_unit_test_mom` は2回）。飛び先はいずれも実在し、リンク文字列が飛び先の見出しと一致する（`deal_unit_test_setting_http_messaging` = `setup/deal_unit_test/http_messaging.rst:1`／見出し `:3`、`deal_unit_test_mom` = `implementation/deal_unit_test/mom.rst:1`／`:3`、`testdata_notation-messaging_data` = `implementation/testdata_notation.rst:1148`／`:1150`、`testing_framework_common-send_sync_test_data` = `setup/common.rst:118`／`:120`、`testdata_examples` = `implementation/testdata_examples.rst:1`／`:3`）。各ラベルの次行を読んで照合した。飛び先5件はいずれも承認済みの本文を持つページであり、スタブは0件 |
+| G10 | **PASS** | 出典の非空行16行を全件分類した。落とした行は7件（`:31`・`:32`・`:34`・`:36`・`:37`・`:40`・`:41`）で、いずれも `reviews/page-deal_unit_test_http_messaging.md` §5 に D-1・D-2 として理由つきで記載。残りはすべて反映済みで未消化0行 |
+| G11 | **PASS** | `disposition=REFERENCE` は `current-0138` の1件。節にしていない。同行の本文は `:10`（リード文）・`:15`（モックアップクラスと第2部への導線）・`:17`（機能は MOM と同じ・語の読み替え）・`:22`（進め方の参照先）に畳んでおり、`使用方法` 配下のL3は `テストデータを作成する` の1本のみ |
+| G12 | **PASS** | 出典ファイル `03_DealUnitTest/http_send_sync.rst` を `dest_page` に持つ行は `current-0137`（`:1-2`・DROP）・`current-0138`（`:6-15`）・`current-0139`（`:24-46`）・`current-0140`（`:50-69`・第2部）の4件のみで、区間に重なりはない（`csv.DictReader` で `src_file` を絞って確認）。`mapping_id` に枝（`-a`／`-b`）は無い |
+| G13 | **対象外** | 本文の `.. image::` 0件。出典が持つ画像1枚は §5 D-1 の理由で採らなかった（`decide-2`）。`git mv` していないため移動元 `guide/development_guide/05_UnitTestGuide/03_DealUnitTest/_images/http_send_sync_test_data.png` はそのまま残っている（`#27-09` の `decide-6` と同じ後始末の対象） |
+
+### 個別指示の追加ゲート（`ntf-doc-27-small-3rd.md` §6）
+
+| | 結果 | 根拠 |
+|---|---|---|
+| S1 | **PASS** | L2は `機能概要`（`:12`）・`使用方法`（`:19`）の2つのみ（下線行の機械抽出） |
+| S2 | **PASS** | L3は `テストデータを作成する`（`:24`）の1つのみで、`ntf-doc-27-small-3rd.md` §3 のセクション構成図と一致 |
+| S3 | **対象外** | `#27-11` 向けのゲート |
+| S4 | **PASS** | `current-0138`（`REFERENCE`）の本文を節として起こしていない（G11 と同じ根拠） |
+| S5 | **PASS** | G9 と同じ（飛び先5件が実在し、リンク文字列が飛び先の見出しと一致） |
+| S6 | **対象外** | `#27-15` 向けのゲート |
+| S7 | **PASS** | `reviews/page-deal_unit_test_http_messaging.md` を作成した。§1-1 のアウトライン適用の `decide` は `#27-07` の記録（`reviews/page-deal_unit_test_rest.md` §5 D-1・§7 decide-1）を指す旨を同記録 §7 decide-1 に書いた |
+
+### 4観点レビュー
+
+QA／設計／クラフト／検証の4観点をそれぞれ別のサブエージェントで実施し、1ラウンドで是正した（指摘計27件、採った是正11件）。是正は成果物の `.rst` に畳んであり、別コミットに割っていない。内訳は `reviews/page-deal_unit_test_http_messaging.md` §6。
+
+最も重いのは3件。①**「テスト結果の確認方法は MOM によるメッセージングと同じである」が誤りだった**（QA・設計・クラフトが独立に指摘）。飛び先の `mom.rst:87-129` は `MESSAGING_MAP`・`MESSAGING_CSV` へ `DEBUG` レベルで出す Map形式・CSV形式のログの説明で構成されているが、これらは HTTPメッセージングでは出力されない。Map形式・CSV形式のログは `SendSyncSupport#parseRequestMessage` 経由でのみ出力され、`MockMessagingClient` は同メソッドを呼ばない（`grep` の結果0件）。`MockMessagingClient` は `MESSAGING` ロガーへ `logInfo` で要求電文・応答電文を出すだけである（`MockMessagingClient.java:37,52,89,149-154`）。`:22` に差分を明記した。②**「応答のステータスコードを指定する場合にかぎり、ヘッダのデータブロックを設ける」が誤りだった**（QA）。`RESPONSE_HEADER_MESSAGES` に記述したカラムはステータスコードに限らず、そのまま応答電文のヘッダとしてアプリケーションへ渡る（`MockMessagingClient.java:70` 読み込み、`:86` `setHeaderRecord`）。③**出典 `:44` の「HTTPはフレームワーク制御ヘッダが無いため」という前提が誤りだった**（クラフト）。`ja/application_framework/application_framework/libraries/system_messaging/http_system_messaging.rst:197-198` が「フレームワーク制御ヘッダを使用するか否かは任意に選択できる」と述べている。前提を落として結論だけを書いた。
+
+不採用のうち最も重いのは、クラフト観点の「『通信先』は用語集に無い造語であり『外部システム』に置き換えよ」である。`glossary.md:158,160` が同じ対象を「外部システム」と呼んでおり、`ja/` 配下で「通信先」を使うのは本ページだけであることも実測した。それでも採らなかったのは、出典 `:11` が「『送信キュー』『受信キュー』は『通信先』と読み替える」と明記し、個別指示 `ntf-doc-27-small-3rd.md` §3 判断1 も「通信先」の語で読み替えを指示しているためである。**`decide-3` として上げる。**
+
+### 判断待ち（週明けに判定してほしい項目）
+
+`reviews/page-deal_unit_test_http_messaging.md` §7 に5件。**①第3部へのアウトライン適用**（`#27-07` の `decide-1` を指す）。**②Excel記載例の画像 `_images/http_send_sync_test_data.png` を落としたこと**。個別指示 `ntf-doc-27-small-3rd.md:102` の既定（判断がつかない場合は `git mv` して残す）とは逆の選択である。理由は、画像内の要求電文ブロック（吹き出し「要求電文はフォーマットのみ定義する。」）が `MockMessagingClient` の読まないデータブロックであること（`MockMessagingClient.java:48-91` に `EXPECTED_REQUEST_*` の参照なし）と、応答電文側の内容は `testdata_examples.rst:1800,1859` が Excel形式・YAML形式の両方で既に持っていることの2点。**③「通信先」の語を使ってよいか**（上記の不採用）。**④`testdata_notation.rst:1251` の申し送り**。同行は取引単体テストのモックアップクラス全般について「要求電文はログ出力用のフォーマットのみを定義する」と書いており、HTTPメッセージングには当てはまらない。承認済みページのため触れていない。**⑤`HttpMessagingClient.SYNCMESSAGE_STATUS_CODE` の定数値が未確認であること**（`nablarch-fw-messaging` はルール §1-9 の作業ディレクトリ外）。本文でカラム名を名指ししていないため本ページの記述には影響しない。
