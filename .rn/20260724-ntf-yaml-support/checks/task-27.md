@@ -677,3 +677,55 @@ QA／設計／クラフト／検証の4観点をそれぞれ別のサブエー�
 `reviews/page-request_unit_test_http_messaging.md` §7 に4件。**①`input-0027` の1行（`MockMessagingContext`）を落としたことを `mapping.csv` に反映するか**（行単位の部分不採用を表す欄が `mapping.csv` に無いため、レビュー記録に留めている）。**②`mapping.csv` の `current-0069` の `dest_section` を `使用方法` に更新するか**（個別指示 `ntf-doc-27-small-3rd.md:179` が使用方法への配置を明示しているが、`mapping.csv` は `機能概要` のまま。D-4）。**③第2部 `setup/request_unit_test/http_messaging.rst` から本ページへの逆方向の導線を張るか**（第2部6ページのうち逆方向リンクを持つのは `setup/request_unit_test/web.rst:204` の1件のみで、本ページ固有の欠落ではない）。**④HTTPメッセージ受信の実行経路が実際にキューを経由するかは未確認**（`nablarch-fw-messaging` が当環境に無く追えない。本ページの記述はこの点に依存しない）。
 
 **`#27-20` への申し送り**: 変更なし（`#27-13` の申し送りを維持）。
+
+---
+
+## `#27-16` リクエスト単体テストの設定（テーブルをキューとして使ったメッセージング）
+
+- **成果物**: `ja/development_tools/testing_framework/setup/request_unit_test/db_queue.rst`（第2部、全6行）
+- **出典**: 0行。`mapping.csv` に該当行なし（`csv.DictReader` で実測）。`checks/task-06.md:569` が `EXPECTED_ZERO（design.md §6「導線のみ」）` と記録。旧解説書（`2e501ad`）にも対応記述なし。
+- **参照実装**: `nablarch-testing` `e21bf67` / `nablarch-testing-yaml` `190cc9a`
+- **個別指示**: `.rn/20260724-ntf-yaml-support/ntf-doc-27-db-queue.md`
+- **レビュー記録**: `reviews/page-request_unit_test_setting_db_queue.md`
+
+### ゲート
+
+| ゲート | 結果 | 根拠 |
+| --- | --- | --- |
+| G1 `git status --porcelain` 全件 | PASS | `M setup/request_unit_test/db_queue.rst` と `?? reviews/page-request_unit_test_setting_db_queue.md` の2件のみ |
+| G2 禁止ファイル差分0 | PASS | `design.md`・`mapping/style.md`・`mapping/glossary.md`・`mapping/vocabulary.md`・`ja/conf.py`・`mapping/input/` の `git status --porcelain` が0行 |
+| G3 `sphinx.mo` 未コミット | PASS | `git status --porcelain` に出現なし |
+| G4 `verify_mapping.py` | PASS | `OK: no errors` |
+| G5 フルビルド | PASS | `build succeeded, 1 warning.`。既知の `db_double_submit.rst:108: undefined label: how_to_set_token_in_request_unit_test`（`#27-20` で解消予定）のみ。新規0 |
+| G6 禁止語 | PASS | です・ます・下さい・「ここでは、」いずれも0件 |
+| G7 ラベル | PASS | `request_unit_test_setting_db_queue` が `style.md:363` と文字列一致 |
+| G8 下線幅 | PASS | L1 表示幅72 / 下線72（`max(50, 表示幅)`）。L2以下は0件 |
+| G9 `:ref:` 飛び先とリンクテキスト | PASS | `request_unit_test_setting_batch` が `setup/request_unit_test/batch.rst:1` の実物と一致。リンクテキストが同 `:3` の見出しと一致 |
+| G10 出典の反映 | PASS | 出典0行。落とした行なし |
+| G11 REFERENCE行を節にしない | N/A | 出典0行 |
+| G12 二重掲載なし | PASS | 本文は導線1文のみ |
+| G13 画像 `git mv` | N/A | 画像なし |
+| DQ1 `code-block` 0件 | PASS | `grep -c` が `0` |
+| DQ2 `機能概要`・`使用方法` の見出しなし | PASS | `grep -c` が `0`。見出しは L1 タイトルのみ |
+| DQ3 飛び先ラベルが実ファイルと文字列一致 | PASS | G9 と同じ |
+| DQ4 `setup/deal_unit_test/db_queue.rst` 未作成 | PASS | `setup/deal_unit_test/` は `rest.rst`・`http_messaging.rst`・`mom.rst` の3件のみ |
+| DQ5 `undefined label` 増加なし | PASS | G5 と同じ。既知1件のまま |
+| S-01 である調 | PASS | 常体 |
+| S-02 リード文 | 適用外 | `design.md:384`「導線のみ」による。→ 判断待ち④ |
+| S-04 下線記号 | PASS | L1 `=` のみ |
+| S-05 code-block インデント | N/A | `code-block` 0件 |
+| S-06 important / tip | N/A | ディレクティブなし |
+| S-07 表 | N/A | 表なし |
+| S-08 ラベル | PASS | G7 と同じ |
+| S-09 `.. contents::` | 適用外 | L2セクション0件（`style.md:400-417`）。加えて `design.md:384`「導線のみ」による |
+| toctree 並び | PASS | `setup/index.rst:13-18` が `web → rest → http_messaging → batch → mom → db_queue` で `design.md:845-853` と一致。`toctree` は変更していない |
+
+### 4観点レビュー
+
+QA / 設計 / クラフト / 検証 を別々のサブエージェントで実施。延べ16件、重複除き10件。反映1件・判断待ちへ5件・不採用4件。反映したのはリード文の主述のねじれ1件で、「〜のリクエスト単体テストは、…と同じ設定を行う。」を「〜のリクエスト単体テストの設定は、…と同じである。」に改めた。承認済みの同型導線文（`implementation/deal_unit_test/batch.rst:20`・`rest.rst:22`、`setup/deal_unit_test/http_messaging.rst:31`）に揃えた形である。
+
+### 判断待ち（週明けに判定してほしい項目）
+
+`reviews/page-request_unit_test_setting_db_queue.md` §7 に5件。**①飛び先 `setup/request_unit_test/batch.rst` の設定3件のうち、DBキューに確実に該当するのは `batch.rst:15-37` の1件のみ。「設定は同じである」が過大でないか**（必須）。**②`batch.rst:17` は当該設定を常駐バッチの設定として説明しているが、FW解説書では Nablarchバッチアプリケーションの常駐バッチ最小ハンドラ構成に `request_thread_loop_handler` が無く（`batch/nablarch_batch/architecture.rst` 全体で0件）、含むのは `messaging/db/architecture.rst:49`・`:155` と `messaging/mom/architecture.rst` だけ。`batch.rst` 当該節の帰属先の判断が要る**（必須）。**③`OneShotLoopHandler`（`e21bf67`）が `DatabaseTableQueueReader` を名指しで分岐している事実に `batch.rst` が触れていない**（参考）。**④`style.md` S-02（`:45-46`）と S-09 の適用外列挙（`:413-415`）に、`design.md:384` の導線のみ3ページの除外規定が無い。`style.md` は G2 の禁止ファイルのためこの週末は変更しない**（推奨）。**⑤参照実装 `e21bf67` にDBキュー専用のリクエスト単体テスト用クラス・設定は存在しない**（参考）。
+
+**`#27-20` への申し送り**: 変更なし（`#27-13` の申し送りを維持）。

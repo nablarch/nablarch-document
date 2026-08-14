@@ -596,7 +596,7 @@ Rn version: 0.8.0
 - [x] `#27-13` リクエスト単体テスト（MOMによるメッセージング）（`implementation/request_unit_test/mom.rst`、3部、461行）
 - [x] `#27-14` リクエスト単体テスト（Nablarchバッチアプリケーション）（`implementation/request_unit_test/batch.rst`、3部、384行）
 - [x] `#27-15` リクエスト単体テスト（HTTPメッセージング）（`implementation/request_unit_test/http_messaging.rst`、3部、28行。**small-3rd**）
-- [ ] `#27-16` リクエスト単体テストの設定（テーブルをキューとして使ったメッセージング）（`setup/request_unit_test/db_queue.rst`、2部、0行。**db-queue**）
+- [x] `#27-16` リクエスト単体テストの設定（テーブルをキューとして使ったメッセージング）（`setup/request_unit_test/db_queue.rst`、2部、0行。**db-queue**）
 - [ ] `#27-17` リクエスト単体テスト（テーブルをキューとして使ったメッセージング）（`implementation/request_unit_test/db_queue.rst`、3部、0行。**db-queue**）
 - [ ] `#27-18` 取引単体テスト（テーブルをキューとして使ったメッセージング）（`implementation/deal_unit_test/db_queue.rst`、3部、0行。**db-queue**）
 - [ ] `#27-19` コンポーネント単体テスト（`implementation/class_unit_test/component.rst`、3部、770行。**large-pages**）
@@ -667,6 +667,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: not suspended
 - **Date**: 2026-08-15
-- **Last completed**: `#27-15` リクエスト単体テスト（HTTPメッセージング）
-- **Next**: `#27-16` （キュー順）
+- **Last completed**: `#27-16` リクエスト単体テストの設定（テーブルをキューとして使ったメッセージング）
+- **Next**: `#27-17` （キュー順）
 - **Notes**: `#27` はサブ項目ごとに user review を挟まず、`#27-21` まで連続で進める（Rules 参照）。判断待ちは `checks/task-27.md` と `reviews/page-*.md` に積んであり、週明けにまとめて判定を受ける。
