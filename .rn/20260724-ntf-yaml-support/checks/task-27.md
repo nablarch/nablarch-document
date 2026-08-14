@@ -631,3 +631,49 @@ QA／設計／クラフト／検証の4観点をそれぞれ別のサブエー�
 `reviews/page-request_unit_test_batch.md` §7 に7件。**①応答不要メッセージ送信のテストデータの記載例が解説書のどこにも無いこと**（`testdata_examples.rst` に「応答不要」0件。`mapping.csv` 上も記載例ページに振られた行が無い。第3部の兄弟5ページが記載例を持たない作りで統一されているため本ページにも置いていない）。**②`batch_request_test_class.png` の3つの食い違い**（`handle` の引数順が `MainForRequestTesting.java:20` と逆／「Excelファイル(テストデータ)」表記／`FileSupport` の操作が「固定長ファイル」限定。作図元が無く作り直せない。`#27-12` decide-2・`#27-13` ⑦ と同型の横断課題）。**③応答不要メッセージ送信のテストに必要な `messagingProvider` の差し替えが第2部にも第3部にも無いこと**（`#27-13` ⑤⑥ と同じ論点。出典にも無いため新規追加になる）。**④JUnit 5 の導線**（`#27-12` decide-5・`#27-13` ⑨ と同一）。**⑤主なクラスとリソースの表を ``literal`` のままにするか `:java:extdoc:` にするか**（`StandaloneTestSupportTemplate`・`TestShot`・`DbAccessTestSupport`・`FileSupport` の4クラスは `@Published`。第3部全ページに関わる）。**⑥`mom.rst` から本ページへの導線が無いこと**（`mom.rst:10` が応答不要メッセージ**送信**に触れていない。`#27-13` はコミット済みのため手を触れていない）。**⑦英数字と日本語の間の `\ ` エスケープに規範が無いこと**（`style.md:13-14` が明記を避けており、承認済みページ間で割れている。レンダリング結果は同一）。
 
 **`#27-20` への申し送り**: 変更なし（`#27-13` の申し送りを維持）。なお `#27-13` から本タスクへ送られた「常駐バッチでは `RequestThreadLoopHandler` を `OneShotLoopHandler` に差し替える」は、`setup/request_unit_test/batch.rst:15-37` に既載であり、`mapping.csv` でも `current-0291` が第2部宛であるため、本ページでは `:ref:` 導線に留めた。
+
+## `#27-15` リクエスト単体テスト（HTTPメッセージング）
+
+**成果物**: `ja/development_tools/testing_framework/implementation/request_unit_test/http_messaging.rst`（42行。ラベル `request_unit_test_http_messaging`。`#27-00` の4行スタブへの追記）
+**出典**: `05_UnitTestGuide/02_RequestUnitTest/http_real.rst` の `:4-8`（`current-0064`、REFERENCE）、同 `http_send_sync.rst` の `:6-15`（`current-0069`、REFERENCE）、`input/ntf-doc-terms.md` の `:399-411`（`input-0027`、MERGE）。`current-*` はいずれも削除済みで `git show 2e501ad:<path>` で参照。3行・`lines` 合計28行
+**参照実装**: `nablarch-testing` `e21bf67`
+**個別指示**: `ntf-doc-27-small-3rd.md` §5（`:150-183`）。追加ゲートは同 §6（`:187-199`）
+**レビュー記録**: `reviews/page-request_unit_test_http_messaging.md`
+
+### ゲート結果
+
+| | 結果 | 根拠 |
+|---|---|---|
+| G1 | **PASS** | `git status --porcelain`（ディレクトリで絞らずに実行）は2件。` M ja/.../implementation/request_unit_test/http_messaging.rst`、`?? .rn/.../reviews/page-request_unit_test_http_messaging.md`。記録2本（本ファイル・`steering.md`）を含めても想定内。`implementation/index.rst:15` の `toctree` は `#27-00` で登録済みのため差分なし |
+| G2 | **PASS** | `design.md`・`mapping/style.md`・`mapping/glossary.md`・`mapping/vocabulary.md`・`ja/conf.py`・`mapping/input/` を明示して `git status --porcelain` を実行し、出力0件 |
+| G3 | **PASS** | `locales/ja/LC_MESSAGES/sphinx.mo` は `git status --porcelain` に現れない（フルビルド後に確認） |
+| G4 | **PASS** | `verify_mapping.py` が exit 0（`OK: no errors`）。`mapping.csv` は未変更 |
+| G5 | **PASS** | Docker フルビルド（`sphinx-build -E`）が `build succeeded, 1 warning.`。警告は既知の `db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` 1件のみで**新規0件**。是正の反映後にもう一度フルビルドし直して同じ結果を確認した |
+| G6 | **PASS** | `glossary.md` §8 の言い換え表（`:507-602`）を全行スクリプトで本文に突き合わせ、完全一致0件。`テストケース`・`同期応答メッセージ送信処理`・`HTTP同期応答メッセージ送信`・`HTTP同期応答メッセージ受信`・`メッセージ同期送信` いずれも0件。です・ます 0件。`.. note::`／`.. warning::`／`.. tip::`／`.. important::` 0件 |
+| G7 | **PASS** | ページ先頭ラベル `request_unit_test_http_messaging` が `mapping/style.md:376` と一致 |
+| G8 | **PASS** | `unicodedata.east_asian_width` で表示幅を測り、L1 `:4` 50（表示幅42）・L2 `:13` `:20` 50×2・L3 `:25` 49（表示幅16）。実測則（L1 `max(50,表示幅)`／L2 50固定／L3 `max(49,表示幅)`）からの逸脱0件。L4 未使用のため S-11 は非該当 |
+| G9 | **PASS** | `:ref:` 5件（`request_unit_test_mom` 3件・`testdata_notation-test_shots`・`testdata_notation-messaging_data`・`request_unit_test_setting_http_messaging`）。飛び先はいずれも実在し、リンク文字列が飛び先の見出しと一致する（`mom.rst:1`／見出し `:3`、`testdata_notation.rst:350`／見出し `:352`、同 `:1150`／見出し `:1152`、`setup/request_unit_test/http_messaging.rst:1`／見出し `:3`）。`:java:extdoc:` 0件。`@Published` の確認が要るクラス参照は無い（``literal`` 表記のみ） |
+| G10 | **PASS** | 出典3区間の非空行を全件分類した。**未消化0行。** 反映先は `reviews/page-request_unit_test_http_messaging.md` §2-1。意図して落としたのは2件（`http_send_sync.rst:14` の次節アンカー行、`input-0027` の `MockMessagingContext` 行）で、いずれも同 §2-2・§5 D-1 に理由を記録した |
+| G11 | **PASS** | `disposition=REFERENCE` は `current-0064`・`current-0069` の2件。どちらも節を起こさず、`:15` の `:ref:` 導線と `:36-37` の読み替え表の1行に落としてある |
+| G12 | **PASS** | `mapping.csv` を `csv.DictReader` で読み、同じ2ファイルを出典とする他ページ行（`current-0065`〜`0067`・`0070`〜`0073` はテストデータの書き方、`current-0066-b`・`0074`・`0075` はリクエスト単体テストの設定（HTTPメッセージング）、`current-0138`〜`0140` は取引単体テスト側）と本ページ3行の `src_body_start`／`src_body_end` を突き合わせ、重なり0件を確認した |
+| G13 | **PASS**（非該当） | `.. image::` 0件。出典に図は含まれない（`http_real.rst:172` の `http_real_test_data.png` と `http_send_sync.rst:26,41,112,122` の各図は、いずれも `current-0065`〜`0073` の範囲でテストデータの書き方ページ宛） |
+| S1 | **PASS** | L2 は `:12` 機能概要・`:19` 使用方法 の2つのみ |
+| S2 | **PASS** | L3 は `:24` 用語を読み替える の1つのみ。個別指示 `ntf-doc-27-small-3rd.md:170-175` のセクション構成と一致。出典に無いL3は無い |
+| S4 | **PASS** | G11 と同じ。`current-0064`・`current-0069` を節として起こしていない |
+| S5 | **PASS** | G9 と同じ |
+| S6 | **PASS** | `.. code-block::` 0件。テストデータ例0件（`list-table` 1件は用語読み替え表であり、テストデータの記載例ではない） |
+| S7 | **PASS** | `reviews/page-request_unit_test_http_messaging.md` を作成した。§1-1 の `decide`（第3部アウトラインの適用）は `#27-07` の記録 `reviews/page-deal_unit_test_rest.md` を指している（同 §5 D-7） |
+
+### 4観点レビュー
+
+QA／設計／クラフト／検証の4観点をそれぞれ別のサブエージェントで実施し、1ラウンドで是正した（指摘は延べ29件、重複を除くと13件。本文への是正8件、不採用5件）。是正は成果物の `.rst` に畳んであり、別コミットに割っていない。内訳は `reviews/page-request_unit_test_http_messaging.md` §6。
+
+最も重いのは4件で、いずれも「参照先ページに読み替えを当てると実装と食い違う」という同じ型の問題だった。①**読み替え表の `MockMessagingContext` 行は機能しない**（4観点すべてが指摘）。`MockMessagingContext.java:14-24` は取引単体テスト向けと明記され、リクエスト単体テストの経路（`TestShot.java:188-190`・`AbstractHttpRequestTestTemplate.java:316-321`）は `RequestTestingMessagingContext`／`RequestTestingMessagingClient` を初期化する。決め手は読み替え先の `mom.rst` に `MockMessagingContext` が0件であること。表から落とした（D-1）。②**「メッセージ受信」が出典より広かった**（QA・クラフト・検証）。`mom.rst:10` の総称は応答不要メッセージ受信を含むが、出典 `real_request_test` は同期応答メッセージ受信処理のみを指す。`:15` を「同期応答メッセージ受信」に限定した。③**読み替えの適用範囲が参照先ページ全体に及んでいた**（QA・設計・検証）。`http_send_sync.rst:9` の読み替え指示は送信側に対するもので、`MessagingRequestTestSupport.java:185-197` のとおり受信側テストは実際にキュー（`TEST.REQUEST`／`TEST.RESPONSE`）を使う。`mom.rst:190` に当てると成り立たないため、`:27` で範囲を同期応答メッセージ送信の説明に限定した。④**`RequestTestingMessagingProvider`→`RequestTestingMessagingClient` の読み替えが `mom.rst:192` で破綻する**（QA・設計）。`RequestTestingMessagingClient.java` はクラス宣言が `:53` の1件のみで内部クラスを持たず、`RequestTestingMessagingProvider.java:60` の `RequestTestingMessagingContext` に相当するものがない。表の後に例外を1文足した。
+
+このほか、`list-table` への `:widths:` の追加（クラフト。`style.md:257-258` の S-07 が指定しており、NTF配下の `list-table` で欠けているのは本件だけだった）、「送信キュー」「受信キュー」の2行の統合（QA・クラフト）、テストデータへの導線をページ先頭から節アンカーへ変更（設計。`testdata_notation` は1300行を超える）、L3 直下への導入文の追加（設計）を採った。L3 見出しを「MOMによるメッセージングの用語を読み替える」に改める案（設計）は、個別指示のセクション構成が「用語を読み替える」で固定されており S2 が一致を求めるため採らなかった（D-5）。
+
+### 判断待ち（週明けに判定してほしい項目）
+
+`reviews/page-request_unit_test_http_messaging.md` §7 に4件。**①`input-0027` の1行（`MockMessagingContext`）を落としたことを `mapping.csv` に反映するか**（行単位の部分不採用を表す欄が `mapping.csv` に無いため、レビュー記録に留めている）。**②`mapping.csv` の `current-0069` の `dest_section` を `使用方法` に更新するか**（個別指示 `ntf-doc-27-small-3rd.md:179` が使用方法への配置を明示しているが、`mapping.csv` は `機能概要` のまま。D-4）。**③第2部 `setup/request_unit_test/http_messaging.rst` から本ページへの逆方向の導線を張るか**（第2部6ページのうち逆方向リンクを持つのは `setup/request_unit_test/web.rst:204` の1件のみで、本ページ固有の欠落ではない）。**④HTTPメッセージ受信の実行経路が実際にキューを経由するかは未確認**（`nablarch-fw-messaging` が当環境に無く追えない。本ページの記述はこの点に依存しない）。
+
+**`#27-20` への申し送り**: 変更なし（`#27-13` の申し送りを維持）。
