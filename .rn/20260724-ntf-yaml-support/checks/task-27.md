@@ -591,3 +591,43 @@ QA／設計／クラフト／検証の4観点をそれぞれ別のサブエー�
 `reviews/page-request_unit_test_mom.md` §7 に9件。**①リクエストIDの tip が `implementation/deal_unit_test/mom.rst:72-73` と逐語で同一であること**（持ち込み元は別々の出典。定義側を1つ決める判断が要る）。**②承認済みの `testdata_notation.rst:1154` が、同期応答メッセージ送信のテストデータを一律 `sendSyncTestData` 配下としていること**（リクエスト単体テストでは誤りで、本ページの飛び先でもある。`testdata_examples.rst:1802` も同様）。**③`:ref:` の飛び先 `request_unit_test_web`・`request_unit_test_batch` が4行のスタブであること**（`#27-07` decide-2・`#27-08` decide-6・`#27-09` decide-4・`#27-10` decide-4・`#27-11` decide-3・`#27-12` decide-3 と同型）。**④本ページに節ラベルが無いこと**（`ntf-doc-weekend-queue.md:110` が `#27-15` を本ページとの差分ページとしている）。**⑤受信テストを動かすためのコンポーネント設定が解説書のどこにも無いこと**（内蔵MQ、固定キュー名 `TEST.REQUEST`／`TEST.RESPONSE`、`messagingProvider` の登録。第2部への追記要否）。**⑥同期応答メッセージ送信で `messagingProvider` を `RequestTestingMessagingProvider` に差し替える手順が解説書のどこにも無いこと**（⑤と同じく第2部の判断）。**⑦図2点が「Excelファイル（テストデータ）」の表記のままであること**（作図元が無く作り直せない。`#27-12` decide-2 と同型の横断課題）。**⑧承認済みの `testdata_notation.rst:528-533` が `requestPath`・`userId` を「必須」としていること**（`MessagingRequestTestSupport.java:89-91` が `putIfAbsent` で補完するため MOM の受信テストでは不要）。**⑨JUnit 5 の導線が本ページに無いこと**（`#27-12` decide-5 と同じ第3部全体の方針判断）。
 
 **`#27-14` への申し送り**: 常駐バッチのテストでは `RequestThreadLoopHandler` を `nablarch.test.OneShotLoopHandler` に差し替える（`nablarch-testing@e21bf67` `src/main/java/nablarch/test/OneShotLoopHandler.java:16`、`input/ntf-doc-terms.md:498`）。出典 `RequestUnitTest_real.rst:153` が `MainForRequestTesting` の責務としていた「常駐化機能を無効化する」の実体はこちらであり、本ページからは落とした（D-3）。
+
+## `#27-14` リクエスト単体テスト（Nablarchバッチアプリケーション）
+
+**成果物**: `ja/development_tools/testing_framework/implementation/request_unit_test/batch.rst`（197行。ラベル `request_unit_test_batch`。`#27-00` の4行スタブへの追記）
+**出典**: `05_UnitTestGuide/02_RequestUnitTest/batch.rst` の `:10-70`・`:489-619`（`current-0032`〜`current-0035`・`current-0039`〜`current-0045`）、同 `delayed_send.rst` の `:8-118`（`current-0051`〜`current-0055`）、`06_TestFWGuide/RequestUnitTest_batch.rst` の `:10-133`（`current-0280`〜`current-0287`）、`input/ntf-doc-terms.md` の `:488-499`（`input-0032`）。`current-*` はいずれも削除済みで `git show 2e501ad:<path>` で参照。25行・`lines` 合計384行
+**参照実装**: `nablarch-testing` `e21bf67`
+**個別指示**: 無し（`ntf-doc-27-small-3rd.md` の対象は `#27-07`・`#27-10`・`#27-11`・`#27-15` のみ。本ページは作業指示 `ntf-doc-weekend-queue.md` のみに従う）
+**レビュー記録**: `reviews/page-request_unit_test_batch.md`
+
+### ゲート結果
+
+| | 結果 | 根拠 |
+|---|---|---|
+| G1 | **PASS** | `git status --porcelain`（ディレクトリで絞らずに実行）は4件。`R` 1件（画像の `git mv`）、` M ja/.../implementation/request_unit_test/batch.rst`、` M ja/.../implementation/testdata_notation.rst`（節ラベル1行の追加。D-3）、`?? .rn/.../reviews/page-request_unit_test_batch.md`。記録2本（本ファイル・`steering.md`）を含めても想定内。`implementation/index.rst:16` の `toctree` は `#27-00` で登録済みのため差分なし |
+| G2 | **PASS** | `design.md`・`mapping/style.md`・`mapping/glossary.md`・`mapping/vocabulary.md`・`ja/conf.py`・`mapping/input/` を明示して `git status --porcelain` を実行し、出力0件 |
+| G3 | **PASS** | `locales/ja/LC_MESSAGES/sphinx.mo` は `git status --porcelain` に現れない（フルビルド後に確認） |
+| G4 | **PASS** | `verify_mapping.py` が exit 0（`OK: no errors`）。`mapping.csv` は未変更 |
+| G5 | **PASS** | Docker フルビルド（`sphinx-build -E`）が `build succeeded, 1 warning.`。警告は既知の `db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` 1件のみで**新規0件**。是正の反映後にもう一度フルビルドし直して同じ結果を確認した |
+| G6 | **PASS** | 作業指示 §5 の禁止語（`不具合`・`バグ`・`将来`・`修正され`）0件。`本ページ`・`下さい`・`出来る`・`事が`・`以下の`・`上記の`・`利用`・`前提条件`・`スーパークラス`・`インターフェース`・`インターフェイス`・`既定`・`デフォルト設定` も0件。です・ます 0件。`.. note::`／`.. warning::` 0件（`.. important::` 1件・`.. tip::` 0件）。用語集が0件を求める `テストケース`（`glossary.md:556`）は初版に5件あり、`テストショット` へ全件置換した。`自動テストフレームワーク`（同 `:509`）・`主なクラス・リソース`（同 `:308`）・`バッチ処理`（同 `:520`）0件 |
+| G7 | **PASS** | ページ先頭ラベル `request_unit_test_batch` が `mapping/style.md:377` と一致 |
+| G8 | **PASS** | `unicodedata.east_asian_width` で表示幅を測り、L1 `:4` 54（表示幅54）・L2 `:13` `:68` 50×2・L3 `:73` `:111` `:138` `:176` `:186` 49×5。実測則（L1 `max(50,表示幅)`／L2 50固定／L3 `max(49,表示幅)`）からの逸脱0件。L4 未使用のため S-11 は非該当 |
+| G9 | **PASS** | `:ref:` 11件・`:java:extdoc:` 2件。飛び先はいずれも実在し、リンク文字列が飛び先の見出しと一致する（全件を `grep -rn '.. _<label>:' ja/` で解決して照合。一覧は `reviews/page-request_unit_test_batch.md` §4）。`:java:extdoc:` の `BatchRequestTestSupport` は `e21bf67` で `@Published` を確認済み。`@Published` の無い `MainForRequestTesting` は ``literal`` 表記にした |
+| G10 | **PASS** | 出典25区間の非空行を全件分類した。**未消化0行。** 反映先は `reviews/page-request_unit_test_batch.md` §2-1。意図して落とした3件（`EXPECTED_FIXED`／`EXPECTED_VARIABLE` の記法・ログ期待値のAND条件・`args[n]` の記法）は、いずれも `testdata_notation.rst` に既載のため `:ref:` に置き換えた（同 §2-2） |
+| G11 | **PASS** | `disposition=REFERENCE` は `current-0035`（`batch.rst:65-70` テストクラスで共通のデータベース初期値）の1件。節を起こさず、`batch.rst:139` の `:ref:`共通の準備データをまとめる <testdata_notation-setupdb>`` 導線に落としてある |
+| G12 | **PASS** | `mapping.csv` を `csv.DictReader` で読み、同じ3ファイルを出典とする他ページ行（`current-0036`・`current-0037-a`／`-b`／`-b2`／`-c`・`current-0038`・`current-0288`〜`current-0292`・`current-0136`）と本ページ25行の `src_body_start`／`src_body_end` を総当たりで突き合わせ、重なり0件を確認した。常駐バッチのハンドラ構成（`current-0291`）とディレクティブのデフォルト値（`current-0292`）は第2部の設定ページ行きのため、`batch.rst:183` から `:ref:` を張るだけにした |
+| G13 | **PASS** | `.. image::` 1件。`git mv` で `06_TestFWGuide/_images/batch_request_test_class.png` を `implementation/request_unit_test/images/batch/` へ移動（`design.md:897`・`:907`）。作図元の `.xlsx` は存在しない。`05_UnitTestGuide/02_RequestUnitTest/_image/delayed_send.png`・同 `delayed_send_error.png` は意図して移していない（D-1） |
+
+### 4観点レビュー
+
+QA／設計／クラフト／検証の4観点をそれぞれ別のサブエージェントで実施し、1ラウンドで是正した（指摘は延べ33件、重複を除くと28件。本文への是正16件、不採用12件）。是正は成果物の `.rst` に畳んであり、別コミットに割っていない。内訳は `reviews/page-request_unit_test_batch.md` §6。
+
+最も重いのは4件。①**「該当カラムが空欄なら確認は行われない」がステータスコードには当てはまらなかった**（QA・検証が独立に指摘）。`BatchRequestTestSupport.java:111-117` の `compareStatus` は無条件に比較し、`expectedStatusCode` は `TestShot.java:385-387` の `REQUIRED_COLUMNS` に含まれる。空欄スキップの一般則から外して書き分けた。②**要求電文の確認がページから抜けていた**（QA・検証）。`TestShot.java:134` → `RequestTestingMessagingProvider.java:230-236` により、`expectedMessage` を書かないと要求電文のアサートが黙ってスキップされ、テストが通ってしまう。`:148` と `:193` に補った。③**`.. tip::` が S-06 の基準に合っていなかった**（QA・クラフト）。異常系用の `Action` 差し替えは、行わなければ `errorCase` が無視される必須手順である（`AsyncMessageSendActionForUt.java:26-32`）。`.. important::` に改め、差し替えないとどうなるかを1文足した。④**用語がFW解説書と食い違っていた**（クラフト・検証）。`glossary.md:43` の採用順位1に従い、`電文送信テーブル`→`一時テーブル`、`送信済み`→`処理済み`、`送信失敗（エラー）`／`エラー`→`送信失敗` に揃えた（D-4）。
+
+このほか、`テストケース` 5件の置換（クラフト）、`期待する結果`→`期待値`（クラフト、`glossary.md:218`）、`expectedStatusCode` の「必須」の説明が `testdata_notation.rst:381` と矛盾して読めた点（クラフト）、`// 中略` の位置（検証）、上書き設定に `<import>` の前提が抜けていた点（検証。旧版の実設定 `old-versions/1.4.11/.../send-messaging-test-component-configuration.xml:8` で確認）、異常系の `expectedStatusCode` の値（検証）を採った。`.. important::` の本体を第2部へ移す案（設計）は、`mapping.csv` の `current-0055` が本ページの「使用方法」宛であり、`design.md:299` が第2部へ送ると定めるのは「拡張例」であるため採らなかった。
+
+### 判断待ち（週明けに判定してほしい項目）
+
+`reviews/page-request_unit_test_batch.md` §7 に7件。**①応答不要メッセージ送信のテストデータの記載例が解説書のどこにも無いこと**（`testdata_examples.rst` に「応答不要」0件。`mapping.csv` 上も記載例ページに振られた行が無い。第3部の兄弟5ページが記載例を持たない作りで統一されているため本ページにも置いていない）。**②`batch_request_test_class.png` の3つの食い違い**（`handle` の引数順が `MainForRequestTesting.java:20` と逆／「Excelファイル(テストデータ)」表記／`FileSupport` の操作が「固定長ファイル」限定。作図元が無く作り直せない。`#27-12` decide-2・`#27-13` ⑦ と同型の横断課題）。**③応答不要メッセージ送信のテストに必要な `messagingProvider` の差し替えが第2部にも第3部にも無いこと**（`#27-13` ⑤⑥ と同じ論点。出典にも無いため新規追加になる）。**④JUnit 5 の導線**（`#27-12` decide-5・`#27-13` ⑨ と同一）。**⑤主なクラスとリソースの表を ``literal`` のままにするか `:java:extdoc:` にするか**（`StandaloneTestSupportTemplate`・`TestShot`・`DbAccessTestSupport`・`FileSupport` の4クラスは `@Published`。第3部全ページに関わる）。**⑥`mom.rst` から本ページへの導線が無いこと**（`mom.rst:10` が応答不要メッセージ**送信**に触れていない。`#27-13` はコミット済みのため手を触れていない）。**⑦英数字と日本語の間の `\ ` エスケープに規範が無いこと**（`style.md:13-14` が明記を避けており、承認済みページ間で割れている。レンダリング結果は同一）。
+
+**`#27-20` への申し送り**: 変更なし（`#27-13` の申し送りを維持）。なお `#27-13` から本タスクへ送られた「常駐バッチでは `RequestThreadLoopHandler` を `OneShotLoopHandler` に差し替える」は、`setup/request_unit_test/batch.rst:15-37` に既載であり、`mapping.csv` でも `current-0291` が第2部宛であるため、本ページでは `:ref:` 導線に留めた。
