@@ -48,7 +48,7 @@ Rn version: 0.8.0
   - **成果物に付属する検証スクリプトを正解として使わず、独立に組め**（`verify_glossary.py` 等を信頼すると同じ穴を素通りする）
   - **敵対的にレビューせよ**（欠陥は存在するという前提で、境界・抜け道・見落としを探す）
 - レビューは4観点を**それぞれ別のサブエージェント**で回す（QA / 設計 / クラフト / 検証）。各観点に成果物・目的・完了条件・チェックリストだけを渡し、self-check ファイルや他観点の判定は渡さない
-- **ビルド確認は自分でDockerを使って行う。**`make html`の確認をユーザーに丸投げしない。ローカルvenv（`/home/tie303177/venv`）が`requirements.txt`のピン留め版と非互換（Python 3.12・`javasphinx`未対応）であることは、Docker実行を省略してよい理由にはならない。README「環境構築」＞「Docker」の手順（`docker build -t nablarch-document-build .`、`docker run --rm -v <repo>:/root/document nablarch-document-build /bin/bash -c "cd /root/document; sphinx-build -d _build/.doctrees/ja -b html ja _build/html"`）に従い、コンテナ内で実行する。2026-08-03、同一の確認を2回ユーザー自身にやらせてしまい指摘を受けた。**ビルドの直後に必ず `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行して戻す。** このファイルはDockerフルビルドのたびに再生成され（`.gitignore` に `locales` の記載は0件）、放置すると作業対象外の副産物がコミットに混入する。2026-08-07・08-12・08-13 の3回混入し、`73e84dc`・`f6947b2`・`c0381ed` でいずれも戻している。混入を後から見つけて戻すのではなく、再生成された時点で戻す（2026-08-13 の作業指示による）。**`locales/` を `.gitignore` に加えてはならない。** リポジトリが追跡している成果物であり、追跡から外すと他の作業者の更新が失われる
+- **ビルド確認は自分でDockerを使って行う。**`make html`の確認をユーザーに丸投げしない。ローカルvenv（`/home/tie303177/venv`）が`requirements.txt`のピン留め版と非互換（Python 3.12・`javasphinx`未対応）であることは、Docker実行を省略してよい理由にはならない。README「環境構築」＞「Docker」の手順（`docker build -t nablarch-document-build .`、`docker run --rm -v <repo>:/root/document nablarch-document-build /bin/bash -c "cd /root/document; sphinx-build -d _build/.doctrees/ja -b html ja _build/html"`）に従い、コンテナ内で実行する。2026-08-03、同一の確認を2回ユーザー自身にやらせてしまい指摘を受けた。**ビルドの直後に必ず `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行して戻す。復元処理をビルドコマンドに連結する場合は、作業ディレクトリに依存しない絶対パスで `git -C <repo> checkout -- locales/ja/LC_MESSAGES/sphinx.mo` と書く（2026-08-14 の `#25` user review による）。** このファイルはDockerフルビルドのたびに再生成され（`.gitignore` に `locales` の記載は0件）、放置すると作業対象外の副産物がコミットに混入する。2026-08-07・08-12・08-13 の3回混入し、`73e84dc`・`f6947b2`・`c0381ed` でいずれも戻している。混入を後から見つけて戻すのではなく、再生成された時点で戻す（2026-08-13 の作業指示による）。**`locales/` を `.gitignore` に加えてはならない。** リポジトリが追跡している成果物であり、追跡から外すと他の作業者の更新が失われる
 - **日本語の地の文（段落）は、途中で改行しない。1段落は1行で書く（文の区切りであっても改行しない）。** RSTの段落はソース上の改行をHTML出力時にも生の`\n`として残し、ブラウザは`white-space: normal`のもとでこれを半角スペース1個として描画するため、ソースを折り返すと本文に不要な隙間が入る（2026-08-03、`testing_framework/index.rst`で実測・`build succeeded`のHTMLソースで`\n`の残存を確認して特定）。`about/index.rst`にも同種の改行が複数箇所残っている（8〜9行目・12〜13行目等、`#8`のuser review未了分として要修正）。ページ作成・レビュー時は、段落内に改行がないか（空行を挟まず日本語の行が連続する箇所がないか）を確認する
 - **文章表現は、design.md等の内部設計文書の言い回しをそのまま使わない。既存の解説書（FW解説書ライブラリ等）に同種の表現があるか`grep`で確認してから書く。** design.mdは開発チーム内部の設計文書であり、その文体（例:「読者は2種類に分かれる」のように読者を外側から分析する言い回し）を利用者向けページにそのまま持ち込むと、実際の解説書のどこにも使われていない不自然な文になる（2026-08-03、`testing_framework/index.rst`で`grep -rn "対象読者|読者は"`が0件だったことで実際に確認）。design.mdの内容（意図・構造）を参照するのは良いが、文言をそのまま転記しない
 - **`=`のみで罫線を引く簡易tableのセル文字列を編集するときは、列位置を「表示幅」（全角文字は2、半角文字は1）で揃える。文字数（Pythonの`len()`等）で揃えない。** 見出し行の`=`の並びが表示幅基準の列境界を表しており、セル文字列の表示幅がずれると`sphinx-build`が`Malformed table`エラーを出す（2026-08-03、`about/index.rst`の表でセル文字列を短くした際に文字数基準で詰めて実際に発生・`unicodedata.east_asian_width`で是正）。編集後は必ずDockerビルドで確認する
@@ -544,22 +544,41 @@ Rn version: 0.8.0
 
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-14）。ラウンド1〜4 で確定。**公開本文で名指しするのは3処理方式のみ**（ウェブアプリケーション＝手動／RESTfulウェブサービス＝自動／Nablarchバッチアプリケーション＝自動）とし、出典が不可能性を述べていない3処理方式（`MOMによるメッセージング`・`HTTPメッセージング`・`テーブルをキューとして使ったメッセージング`）には公開本文で触れない形に落ち着いた。ラウンド4 は3行の是正のみ（`about/index.rst:77` 第2文の目的語補い＋「アプリケーション」3回の解消／`:81` の「このうち」の先行詞固定／`style.md:5` の `design.md`「7. トンマナ」→「8. トンマナ」）で、4観点のレビューは指示書 §7-7 により回していない。**ゲートP のみ指示の文言のままでは満たせず、第2文単位で PASS とし本文は変更していない**（段落単位では変更禁止の第3文の `Nablarchバッチアプリケーション` を含めて3回。`checks/task-24.md`「指示との食い違い1件」）。詳細は `checks/task-24.md`（ラウンド1〜4）・`reviews/page-about_index.md` `## #24` 節および git 履歴（本文コミット `82dbe16`・`443dccc`・`5e87f6e`・`db5a84a`、ラウンド4 `66fe4c9`、記録 `7ddc30f`）を参照。
 
-### #25: 取引単体テストの設定（HTTPメッセージング）（`setup/deal_unit_test/http_messaging.rst`）
+### #25: 取引単体テストの設定（HTTPメッセージング）（`setup/deal_unit_test/http_messaging.rst`）— DONE
 
-**Purpose**: マッピングに従って第2部の9ページ目「取引単体テストの設定（HTTPメッセージング）」を作成する。対象は `mapping.csv` の `dest_page=取引単体テストの設定（HTTPメッセージング）` の1行（`current-0140`、`src_file=…/05_UnitTestGuide/03_DealUnitTest/http_send_sync.rst` の `:50-69`、20 lines、`audience=user`、`dest_section=使用方法`）。**共通 Steps で進める**（出典20 lines で500 lines 未満、`design.md`「3. 第2部 導入と設定」の3処理方式ページ化と `mapping.csv` は一致、出典0行でもないため、個別の作業指示を出す3条件のいずれにも当たらない）。
-
-**Steps**: `#10` の「Steps（各ページ共通）」に従う。加えて次を守る。
-
-- ページ先頭ラベルは `style.md:365` の `deal_unit_test_setting_http_messaging`
-- `#22` の申し送り（`checks/task-22.md` §7-2 の `note` N-2「CSRFトークンを引き継ぐ提供実装は存在しない」）を、CSRF に触れる場合に確認する
-- `#18` の申し送り（`design.md` §8 の語と衝突する「デフォルト設定」を一般語として使わない）
-- `verify_glossary.py` はゲートに入れない（`#pre-last` で一括是正する）
+**Purpose**: マッピングに従って第2部の9ページ目「取引単体テストの設定（HTTPメッセージング）」を作成する。対象は `mapping.csv` の `dest_page=取引単体テストの設定（HTTPメッセージング）` の1行（`current-0140`、出典 `…/03_DealUnitTest/http_send_sync.rst:50-69`、20 lines）。共通 Steps のみで進めた（個別の作業指示を出す3条件に当たらない）。
 
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
 
-**進捗**: ページ作成・`toctree` 追記・4観点レビュー ラウンド1（A FAIL / B PASS / C PASS / D FAIL）・是正4件・是正差分の検証ラウンド（FAIL。是正1・2 を取り消し、是正4 を修正）・ゲート1〜8 まで完了。Docker フルビルドは3回とも `build succeeded, 1 warning.`（既知の1件のみ・新規0件）。残るは **user review** のみ。**判断待ち3件**（必須設定 `sendSyncTestData`・`messagingTestDataParser` の置き場所／同一コンポーネント名の衝突／リード文に前提を明示するか）を添える。詳細は `checks/task-25.md`・`reviews/page-deal_unit_test_setting_http_messaging.md`。
+**判断待ち3件の回答**（2026-08-14、`/rn:ty`。判断を仰いだ時点の記録と回答は `reviews/page-deal_unit_test_setting_http_messaging.md`「判断待ちと、その回答」節。**回答2・3 は本文を変更せず、回答1 の作業は `#26` で行う**）:
 
-### #pre-last: `verify_glossary.py` の不一致25件の一括是正
+1. **`sendSyncTestData`・`messagingTestDataParser` の置き場所 → `setup/common.rst` に置く（案B）。作業は `#26`。** 根拠は `design.md:192` が共通設定の範囲に「テストデータの配置」を挙げていること。案A（MOMページに置いて `:ref:`）は、MOM をやらない読者を MOM のページへ送ることになり、`design.md:125` が問題としている読者のずれを解説書の側で作るため採らない。未作成ページへの前方参照スタブも作らない。節の見出しで適用条件を名乗る。**「3処理方式で共通」は誤りで、必要なのは取引単体テストの `HTTPメッセージング` と `MOMによるメッセージング` の2処理方式のみ** — `SendSyncSupport` を生成するのは `MockMessagingClient.java:54` と `MockMessagingContext.java:52`・`:93` の2クラスだけで、リクエスト単体テスト側は `RequestTestingSendSyncSupport` → `TestSupport.java:403-408` の `testDataParser` を通る別経路である（`e21bf67` を `git grep 'new SendSyncSupport' -- src/main` で実測）
+2. **同一コンポーネント名 `defaultMessageSenderClient` の衝突 → 本文には書かない。`#pre-last` の横断確認項目とする。** 名前がリクエストIDごとに決まることは承認済みの `setup/request_unit_test/http_messaging.rst:31` が書いており、本ページ `:31` が導線を張っている。残るリスクは散文ではなく**例示名**（出典 `http_send_sync.rst:62` の逐語）にあり、2ページを揃えて判断すべき事項である
+3. **リード文への前提の明示 → 明示しない（現状維持）。** `design.md:125` は第3部2ページ宛ての規定で本ページに及ばず、第2部のリード文の型を1ページだけ崩し、実装にウェブ限定の要素も無い（`MockMessagingClient.java:35`）。前提の明示は第3部 `implementation/deal_unit_test/http_messaging.rst` の作成タスクに委ねる
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-14。レビュー役の独立検証で出典 `current-0140` の4要素すべてが本文に対応し、公開本文に事実誤り0件。禁止ファイルの差分0行、`verify_mapping.py` は 595行 / 12,986 / 11,983 で `exit 0`）。4観点レビュー ラウンド1（A FAIL `must` 1 / B PASS / C PASS / D FAIL `must` 1、重複除去後12件）→ 是正4件 → 是正差分限定の検証ラウンドで FAIL（`must` 1）となり**是正1・2 を取り消し、是正4 を修正**。本文に残った是正は2件のみ。**是正1・2 を取り消した判断は正しいことをレビュー役が `mapping.csv` の実測で確認した**（`design.md:125` の宛先は第3部、出典 `http_send_sync.rst:7` は `current-0138`＝第3部割当。役割名は `ja/development_tools/testing_framework/index.rst:13` が定義）。Docker フルビルドは3回とも `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）。詳細は `checks/task-25.md`・`reviews/page-deal_unit_test_setting_http_messaging.md` および git 履歴（本文コミット `acdcb75`）を参照。
+
+### #26: 取引単体テストの設定（MOMによるメッセージング）（`setup/deal_unit_test/mom.rst`）
+
+**Purpose**: マッピングに従って第2部の10ページ目「取引単体テストの設定（MOMによるメッセージング）」を作成する。対象は `mapping.csv` の `dest_page=取引単体テストの設定（MOMによるメッセージング）` の1行（`current-0158`、出典 `…/03_DealUnitTest/send_sync.rst:280-383`、104 lines、`MOVE`・`audience=user`・`dest_section=使用方法`）。**共通 Steps で進める**（個別の作業指示は出さない。`design.md` と `mapping.csv` の食い違いは着手時に判定する）。
+
+**Steps**: `#10` の「Steps（各ページ共通）」に従う。加えて次を守る。
+
+- ページ先頭ラベルは `mapping/style.md:366` の `deal_unit_test_setting_mom`
+- **`#25` の回答1 に従い `current-0158` を SPLIT する。** 実測の内訳は次のとおり。`mapping.csv` の追随は `#20`（`current-0037-b` の分割）と同じ手順で行い、`_batch/*.csv` 経由で再生成する
+  - `:286-297` モックアップクラスの設定（`messagingProvider` = `MockMessagingProvider`）── **MOM 固有**。本ページへ
+  - `:299-334` Excelファイルの配置場所の設定（`sendSyncTestData`）── **HTTPメッセージング・MOM 共通**。`setup/common.rst` へ
+  - `:336-360` テストデータ解析クラスの設定（`messagingTestDataParser`）── **同上**。`setup/common.rst` へ
+  - `:364-383` `pom.xml` への dependency 追加 ── 帰属は着手時に判断する
+  - `:281-284` の導入文 ── 分割先それぞれの文脈に合わせる
+- `setup/common.rst` に加える2節は、**見出しで適用条件を名乗る**（例:「同期応答メッセージ送信のテストデータの配置場所を設定する」）。全処理方式に必要だと読ませない
+- `setup/deal_unit_test/http_messaging.rst` と本ページの双方から、その節へ `:ref:` を張る
+- `#18` の申し送り（`design.md` §8 の語と衝突する「デフォルト設定」を一般語として使わない）
+- `verify_glossary.py` はゲートに入れない（`#pre-last` で一括是正する）
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。加えて、`setup/common.rst` への追記が承認済みページの改訂であることを踏まえ、差分が当該2節の追加に収まっていること（既存節の削除・改変0行）。
+
+### #pre-last: `verify_glossary.py` の不一致25件の一括是正と、横断の是正
 
 **Purpose**: ページを作らないタスク。`#21` の申し送りで残った `verify_glossary.py` の不一致を、全ページ作成完了後・`#last` の直前に一括で解消する。毎タスク書き換わる `design.md` を行番号で指している限り再発するため、ページ作成が終わってから1回で片付ける（`ntf-doc-22-deal-unit-test-rest.md` §5、レビュー役の実測による判断）。
 
@@ -572,6 +591,8 @@ Rn version: 0.8.0
 - [ ] `[section]` 1件（§5.7 の揺れ表記 `テストソースコード` が §8 対応表に無い）を是正する
 - [ ] `[ref]` 13件（`glossary.md` が `S:design.md:27`〜`:151` を行番号で指しているもの）の行番号を是正する
 - [ ] **`design.md` を `scan` のコーパスから外すか、`glossary.md` から `S:design.md:NN` の行番号指定を無くすかを決める**（決めないと再発する）
+- [ ] **横断の是正1 — 例示のコンポーネント名の衝突**（`#25` の回答2）。`setup/request_unit_test/http_messaging.rst:26` と `setup/deal_unit_test/http_messaging.rst:26` が同じ例示名 `defaultMessageSenderClient` を使っており、両方を行うプロジェクトが写経すると衝突する。**2ページを揃えて判断する**（片方だけ変えれば非対称、両方変えれば出典 `http_send_sync.rst:62` の逐語から離れる）。散文で注意書きを足す案は `#25` で不採用
+- [ ] **横断の是正2 — 語の統一3件**（`#25` の申し送り3）。(a) `メッセージの送信` と `電文の送信` の統一、(b) `アプリケーション開発者` の `glossary.md` への登録（`ja/` 配下（`guide/` を除く）で `アプリケーション開発者` 3件に対し `アプリケーションプログラマ` は `setup/request_unit_test/web.rst:229` の1件のみで、**外れ値は承認済みの `web.rst` 側**）、(c) `メッセージングログ` から `ja/application_framework/…/log/messaging_log.rst:1` への `:ref:`
 - [ ] `checks/task-pre-last.md` に実行結果を記録する
 - [ ] commit & push
 
@@ -579,7 +600,8 @@ Rn version: 0.8.0
 
 - `verify_glossary.py` の不一致が0件で exit 0
 - 再発防止の判断（`design.md` のコーパス除外か行番号指定の廃止か）が記録されている
-- `ja/` 配下の `.rst` に差分が無い
+- 横断の是正2件（例示のコンポーネント名・語の統一3件）に判断と実行結果が記録されている
+- `ja/` 配下の `.rst` の差分が、横断の是正2件に由来するものだけである
 
 ### #last: Evaluation sign-off
 
@@ -614,8 +636,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
+- **Status**: not suspended
 - **Date**: 2026-08-14
-- **Last completed**: `#25` のページ作成・`toctree` 追記・4観点レビュー ラウンド1・是正4件・是正差分の検証ラウンド（是正2件を取り消し1件を修正）・ゲート1〜8 の全件 PASS（`acdcb75`、push 済み）
-- **Next**: `#25` の **user review**（`/rn:ty` / `/rn:gm` 判定）。承認で `#25` は閉じ、次は取引単体テストの設定（MOMによるメッセージング）
-- **Notes**: 判定待ちに添えた判断待ち3件 — (1) `sendSyncTestData`・`messagingTestDataParser` の置き場所（推奨: `setup/common.rst` に置き各ページから `:ref:`。`current-0158` の割当先改訂を伴う）。(2) 同一コンポーネント名 `defaultMessageSenderClient` の衝突（推奨: 横断是正にまとめ、今回は書かない）。(3) リード文に「テスト対象がウェブアプリケーションであり、HTTPメッセージ送信を伴う場合」の前提を明示するか（推奨: 現状維持）。選択肢の詳細は `reviews/page-deal_unit_test_setting_http_messaging.md`「判断待ち」節
+- **Last completed**: `#25`（取引単体テストの設定（HTTPメッセージング））が user review 承認で完全に閉じた。判断待ち3件に回答済み（本文の変更は無し）
+- **Next**: `#26` 取引単体テストの設定（MOMによるメッセージング）（`setup/deal_unit_test/mom.rst`）の作成。共通 Steps のみで進める
+- **Notes**: `#26` は `current-0158`（104行）の SPLIT を伴う。`sendSyncTestData`（`send_sync.rst:299-334`）と `messagingTestDataParser`（`:336-360`）は `setup/common.rst` へ、モックアップクラスの設定（`:286-297`）は本ページへ。`pom.xml` の dependency（`:364-383`）の帰属は着手時に判断する。`mapping.csv` の追随は `_batch/*.csv` 経由の再生成で行う（`#20` と同じ手順）
