@@ -578,6 +578,8 @@ Rn version: 0.8.0
 
 **Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。加えて、`setup/common.rst` への追記が承認済みページの改訂であることを踏まえ、差分が当該2節の追加に収まっていること（既存節の削除・改変0行）。
 
+**進捗**: ページ作成・`current-0158` の3分割（`mapping.csv` 追随）・`setup/common.rst` への2セクション追加・`toctree` 追記・4観点レビュー ラウンド1（4観点とも FAIL、重複除去後 `must` 5 / `should` 9 / `info` 8）・是正14件・是正差分限定の検証ラウンド（**PASS**、`must` 0 / `should` 2 は本タスク内で是正）・ゲート1〜11 の全件 PASS まで完了（`2bc3bf0`、push 済み）。Docker フルビルドは3回とも `build succeeded, 1 warning.`（既知の1件のみ・新規0件）。残るは **user review** のみ。**判断待ち2件**（`pom.xml` の依存関係を `共通設定` に置いた帰属の判断／`nablarch-testing-yaml` の追記）を添える。詳細は `checks/task-26.md`・`reviews/page-deal_unit_test_setting_mom.md`。
+
 ### #pre-last: `verify_glossary.py` の不一致25件の一括是正と、横断の是正
 
 **Purpose**: ページを作らないタスク。`#21` の申し送りで残った `verify_glossary.py` の不一致を、全ページ作成完了後・`#last` の直前に一括で解消する。毎タスク書き換わる `design.md` を行番号で指している限り再発するため、ページ作成が終わってから1回で片付ける（`ntf-doc-22-deal-unit-test-rest.md` §5、レビュー役の実測による判断）。
@@ -638,6 +640,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: not suspended
 - **Date**: 2026-08-14
-- **Last completed**: `#25`（取引単体テストの設定（HTTPメッセージング））が user review 承認で完全に閉じた。判断待ち3件に回答済み（本文の変更は無し）
-- **Next**: `#26` 取引単体テストの設定（MOMによるメッセージング）（`setup/deal_unit_test/mom.rst`）の作成。共通 Steps のみで進める
-- **Notes**: `#26` は `current-0158`（104行）の SPLIT を伴う。`sendSyncTestData`（`send_sync.rst:299-334`）と `messagingTestDataParser`（`:336-360`）は `setup/common.rst` へ、モックアップクラスの設定（`:286-297`）は本ページへ。`pom.xml` の dependency（`:364-383`）の帰属は着手時に判断する。`mapping.csv` の追随は `_batch/*.csv` 経由の再生成で行う（`#20` と同じ手順）
+- **Last completed**: `#26` のページ作成・`current-0158` の3分割・`setup/common.rst` への2セクション追加・4観点レビュー ラウンド1・是正14件・是正差分限定の検証ラウンド（PASS）・ゲート1〜11 の全件 PASS（`2bc3bf0`、push 済み）
+- **Next**: `#26` の **user review**（`/rn:ty` / `/rn:gm` 判定）。承認で `#26` は閉じ、次は第2部の残り（`setup/request_unit_test/table_queue.rst` ほか）または `design.md` §3 のツリー順による次ページ
+- **Notes**: 判定待ちに添えた判断待ち2件 — (1) `pom.xml` への `nablarch-testing` 追加（`current-0158-c`）の帰属を `共通設定` にした判断。(2) 出典に無い `nablarch-testing-yaml` の依存関係を書き足した判断（4観点レビューの `must`。`YamlTestDataParser` を登録させながら、そのモジュールを追加する手順がどのページにも無かったため）。いずれも詳細は `reviews/page-deal_unit_test_setting_mom.md`
