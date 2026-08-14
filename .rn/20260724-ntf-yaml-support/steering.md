@@ -660,8 +660,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-08-14
-- **Last completed**: `#26`（取引単体テストの設定（MOMによるメッセージング））が user review 承認で閉じた（`/rn:ty`、2026-08-14）。エントリは圧縮済み
-- **Next**: `#27-01` マスタデータ復旧機能（`setup/master_data_restore.rst`）。以降はキュー順に `#27-18` まで、user review を挟まずに進める
-- **Notes**: 作業指示 `ntf-doc-weekend-queue.md` を受領し `#27` を起こした。`#26` の判断待ち2件は公開本文の承認をもって現状のまま確定（作業指示 §8 が「`#26` は承認する。本文の変更は不要」と明記）。§8 の申し送り（`nablarch-testing-yaml` の BOM 収録をリリース時に確認）は `reviews/page-common.md` に記録済み
+- **Last completed**: `#26` を承認で閉じ（`c1bbdb0`）、作業指示 `ntf-doc-weekend-queue.md` を受けて `#27` のキューを `steering.md` に登録した（`fadec16`）。`#27-01`（マスタデータ復旧機能）は出典と実装の調査のみで、`ja/` 配下は未変更
+- **Next**: **ユーザーの指示を待つ。** 着手前に次の2点を確認すること。(1) `#27` を起こしたのは CC の判断であり、ユーザーは `/rn:ty` に「作業指示があるので待って」と添えていた。エントリを残すか取り消すかの指示を受ける。(2) `steering.md` の `#27` キュー（18件）は、その後に置かれた個別指示2本より前に書いたもので**番号が食い違っている**。`ntf-doc-weekend-queue.md`（更新済み）・`ntf-doc-27-db-queue.md`（`#27-16`〜`#27-18`）・`ntf-doc-27-large-pages.md`（`#27-19`〜`#27-21`）を読み直してキューを作り直す
+- **Notes**: 作業ツリーに未コミットのユーザー資材が3件ある。CC は触っていない。`/rn:dn` で扱いを尋ねたが未回答のため保留した — ` M .rn/20260724-ntf-yaml-support/ntf-doc-weekend-queue.md` / `?? .rn/20260724-ntf-yaml-support/ntf-doc-27-db-queue.md` / `?? .rn/20260724-ntf-yaml-support/ntf-doc-27-large-pages.md`
