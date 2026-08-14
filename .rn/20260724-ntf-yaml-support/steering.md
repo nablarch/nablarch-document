@@ -58,6 +58,7 @@ Rn version: 0.8.0
 - **タスクが完全に閉じたら（全Steps完了・レビュー通過・user review承認済み）、次のタスクに進む前にそのタスクのエントリを圧縮する。** 見出しに`— DONE`を付し、Steps・差し戻し経緯・narrativeを削り、Purpose（1行）とCompletion criteriaのみ残して`checks/task-XX.md`と最終コミットへのポインタを添える。rnプラグイン自身の設計方針（`steering.md`は「lean forward contract」であり、履歴はgit + PRに置きsteering.mdには残さない）に基づく。#8以降34ページのページ作成タスクで積み上がるのを防ぐため、圧縮を都度行い最後にまとめてやらない（2026-08-05、`#1`〜`#7`をこの方針で圧縮・steering.mdを720行→約260行に縮小）
 - **1件のフィードバック対応につき、詳細な理由づけを書く場所を1箇所に決め、他の場所は1〜2行のポインタにとどめる。** 設計判断そのもの（何を・なぜ）は`design.md`の該当節にのみ書く。レビュー監査の記録（指摘→対応の対応表）は`reviews/page-*.md`にのみ書く。`steering.md`のStepsには「Nラウンド目、M点対応。一言の要約。詳細はdesign.md§X・reviews/page-Y.md参照。commit `<hash>`」程度の1〜2行のみ記載し、同じ理由づけを全文で書き直さない。2026-08-05、`#8`のフィードバック対応が5ラウンド積み重なった結果、同じ内容を`design.md`・`reviews/page-about_index.md`・`steering.md`の3箇所にほぼ全文で重複記載してしまい、ユーザーから「文量が大量なんだけど、こんなに必要なの？」と指摘を受けたことによる（Steps 16件・約165行を1〜2行×16件に圧縮）
 - **ページのタスクが`user review`承認で閉じたら、`design.md`の該当節も同様に圧縮する。** 各ラウンドの元の指摘文の引用・差し戻し経緯は削り、最終決定と一言の理由、`reviews/page-*.md`へのポインタのみ残す。34ページ分を通しで行う設計文書のため、圧縮しないとページ数に比例して際限なく肥大化する
+- **`#27` のサブ項目（`#27-00`〜`#27-21`）はタスクではない。`#27` 全体が1タスクである。** サブ項目の境界で user review を待たず、次のサブ項目に着手する。上の「user review の承認を受けるまで次タスクに着手しない」はタスク単位の規則であり、サブ項目の境界には適用しない（`#27` の作業指示 `ntf-doc-weekend-queue.md` §1-1 による）。
 
 # Tasks
 
@@ -571,36 +572,40 @@ Rn version: 0.8.0
 **`#27` 以降への申し送り**: (1) 用語 `同期応答メッセージ送信`（MOM側）と `HTTPメッセージ送信`（HTTP側）は `glossary.md:156`・`:158` の別の正表記であり、両方に掛かる場合は「同期応答メッセージ送信・HTTPメッセージ送信」と併記する（`implementation/testdata_notation.rst:497` に先例）。(2) `style.md` S-10 規約1 の「共通にしてよい2類型」に「両形式で同一の設定」が無い。類型追加の要否は `#pre-last` で判断する。(3) `messagingTestDataParser` は「テストデータを解析するコンポーネント」と呼ぶ（`setup/class_unit_test.rst:108` に合わせた）。
 
 
-### #27: 週末の連続作成キュー（18ページ。user review を挟まない）
+### #27: 週末の連続作成キュー（`#27-00` ＋21ページ。user review を挟まない）
 
-**Purpose**: 残り18ページの「初版と自己レビューまで」を、user review を挟まずにキュー順で片づける。作業指示は `.rn/20260724-ntf-yaml-support/ntf-doc-weekend-queue.md`。**終了条件は18ページすべてがコミット済みであること。** 週明けにレビュー役が全ページを独立検証し、そのあとまとめて user review を受ける。
+**Purpose**: 残り21ページの「初版と自己レビューまで」を、user review を挟まずにキュー順で片づける。作業指示は `.rn/20260724-ntf-yaml-support/ntf-doc-weekend-queue.md`。個別指示は `ntf-doc-27-small-3rd.md`（`#27-07`・`#27-10`・`#27-11`・`#27-15`）・`ntf-doc-27-db-queue.md`（`#27-16`〜`#27-18`）・`ntf-doc-27-large-pages.md`（`#27-19`〜`#27-21`）。**終了条件は `#27-00` と21ページすべてがコミット済みであること。** 週明けにレビュー役が全ページを独立検証し、そのあとまとめて user review を受ける。
 
-**進め方（作業指示 §1 の要点）**: user review を待たない／判断が要る場合は**最も出典に忠実な選択**を採って書き、`reviews/page-*.md` の「判断待ち」節に記録して進む／規約ファイル（`design.md`・`style.md`・`glossary.md`・`vocabulary.md`）を書き換えない／`mapping.csv` は直接編集せず `_batch/*.csv` 経由で再生成する／ゲートが赤いページは `blocked` として記録し次へ進む／是正ラウンドが3回を超えたらその版をコミットして次へ進む。記録は `checks/task-27.md` に1本、`reviews/page-<ラベル>.md` はページごと。
+**進め方（作業指示 §1 の要点）**: user review を待たない／判断が要る場合は**最も出典に忠実な選択**を採って書き、`reviews/page-*.md` の「判断待ち」節に記録して進む／規約ファイル（`design.md`・`style.md`・`glossary.md`・`vocabulary.md`）を書き換えない／`mapping.csv` は直接編集せず `_batch/*.csv` 経由で再生成する／ゲートが赤いページは `blocked` として記録し次へ進む／是正ラウンドが3回を超えたらその版をコミットして次へ進む／各ページの着手時に作業指示と該当する個別指示を**読み直す**。記録は `checks/task-27.md` に1本、`reviews/page-<ラベル>.md` はページごと。
 
-**キュー（上から順に。順番を変えない）**:
+**キュー（上から順に。順番を変えない。作業指示 §3 の表を写したもの）**:
 
-- [ ] `#27-01` マスタデータ復旧機能（`setup/master_data_restore.rst`、193行。スタブへの追記）
-- [ ] `#27-02` JUnit 5用拡張機能（`setup/junit5_extension.rst`、475行。スタブへの追記）
-- [ ] `#27-03` テストデータ変換ツール（`tools/testdata_converter.rst`、75行。スタブへの追記）
-- [ ] `#27-04` リクエスト単体データ作成ツール（`tools/request_data_tool.rst`、163行）
-- [ ] `#27-05` マスタデータ投入ツール（`tools/master_data_tool.rst`、177行。スタブへの追記）
-- [ ] `#27-06` HTMLチェックツール（`tools/html_check_tool.rst`、214行。スタブへの追記）
-- [ ] `#27-07` リクエスト単体テスト（HTTPメッセージング）（`implementation/request_unit_test/http_messaging.rst`、28行）
-- [ ] `#27-08` 取引単体テスト（RESTfulウェブサービス）（`implementation/deal_unit_test/rest.rst`、32行）
-- [ ] `#27-09` 取引単体テスト（HTTPメッセージング）（`implementation/deal_unit_test/http_messaging.rst`、33行。リード文で前提を明示する）
-- [ ] `#27-10` 取引単体テスト（ウェブアプリケーション）（`implementation/deal_unit_test/web.rst`、48行）
-- [ ] `#27-11` 取引単体テスト（Nablarchバッチアプリケーション）（`implementation/deal_unit_test/batch.rst`、168行）
-- [ ] `#27-12` 取引単体テスト（MOMによるメッセージング）（`implementation/deal_unit_test/mom.rst`、175行。リード文で前提を明示する）
-- [ ] `#27-13` リクエスト単体テスト（RESTfulウェブサービス）（`implementation/request_unit_test/rest.rst`、262行）
-- [ ] `#27-14` リクエスト単体テスト（Nablarchバッチアプリケーション）（`implementation/request_unit_test/batch.rst`、384行）
-- [ ] `#27-15` リクエスト単体テスト（MOMによるメッセージング）（`implementation/request_unit_test/mom.rst`、461行。`real.rst:15` のパッケージ名の是正を含む。`#21` の申し送り）
-- [ ] `#27-16` コンポーネント単体テスト（`implementation/class_unit_test/component.rst`、770行）
-- [ ] `#27-17` リクエスト単体テスト（ウェブアプリケーション）（`implementation/request_unit_test/web.rst`、914行。スタブへの追記。**`how_to_set_token_in_request_unit_test` を定義する**）
-- [ ] `#27-18` エンティティ単体テスト（`implementation/class_unit_test/entity.rst`、1,344行）
+- [ ] `#27-00` 未作成15ページのスタブ一括作成（作業指示 §3-1）
+- [ ] `#27-01` マスタデータ復旧機能（`setup/master_data_restore.rst`、2部、193行）
+- [ ] `#27-02` JUnit 5用拡張機能（`setup/junit5_extension.rst`、2部、475行）
+- [ ] `#27-03` テストデータ変換ツール（`tools/testdata_converter.rst`、4部、75行）
+- [ ] `#27-04` リクエスト単体データ作成ツール（`tools/request_data_tool.rst`、4部、163行）
+- [ ] `#27-05` マスタデータ投入ツール（`tools/master_data_tool.rst`、4部、177行）
+- [ ] `#27-06` HTMLチェックツール（`tools/html_check_tool.rst`、4部、214行）
+- [ ] `#27-07` 取引単体テスト（RESTfulウェブサービス）（`implementation/deal_unit_test/rest.rst`、3部、32行。**small-3rd**）
+- [ ] `#27-08` 取引単体テスト（Nablarchバッチアプリケーション）（`implementation/deal_unit_test/batch.rst`、3部、168行）
+- [ ] `#27-09` 取引単体テスト（MOMによるメッセージング）（`implementation/deal_unit_test/mom.rst`、3部、175行。リード文で前提を明示する）
+- [ ] `#27-10` 取引単体テスト（HTTPメッセージング）（`implementation/deal_unit_test/http_messaging.rst`、3部、33行。**small-3rd**。リード文で前提を明示する）
+- [ ] `#27-11` 取引単体テスト（ウェブアプリケーション）（`implementation/deal_unit_test/web.rst`、3部、48行。**small-3rd**）
+- [ ] `#27-12` リクエスト単体テスト（RESTfulウェブサービス）（`implementation/request_unit_test/rest.rst`、3部、262行）
+- [ ] `#27-13` リクエスト単体テスト（MOMによるメッセージング）（`implementation/request_unit_test/mom.rst`、3部、461行）
+- [ ] `#27-14` リクエスト単体テスト（Nablarchバッチアプリケーション）（`implementation/request_unit_test/batch.rst`、3部、384行）
+- [ ] `#27-15` リクエスト単体テスト（HTTPメッセージング）（`implementation/request_unit_test/http_messaging.rst`、3部、28行。**small-3rd**）
+- [ ] `#27-16` リクエスト単体テストの設定（テーブルをキューとして使ったメッセージング）（`setup/request_unit_test/db_queue.rst`、2部、0行。**db-queue**）
+- [ ] `#27-17` リクエスト単体テスト（テーブルをキューとして使ったメッセージング）（`implementation/request_unit_test/db_queue.rst`、3部、0行。**db-queue**）
+- [ ] `#27-18` 取引単体テスト（テーブルをキューとして使ったメッセージング）（`implementation/deal_unit_test/db_queue.rst`、3部、0行。**db-queue**）
+- [ ] `#27-19` コンポーネント単体テスト（`implementation/class_unit_test/component.rst`、3部、770行。**large-pages**）
+- [ ] `#27-20` リクエスト単体テスト（ウェブアプリケーション）（`implementation/request_unit_test/web.rst`、3部、914行。**large-pages**。**`how_to_set_token_in_request_unit_test` を定義する**）
+- [ ] `#27-21` エンティティ単体テスト（`implementation/class_unit_test/entity.rst`、3部、1,344行。**large-pages**）
 
-**キューから外した3ページ**: `setup/request_unit_test/db_queue.rst`・`implementation/request_unit_test/db_queue.rst`・`implementation/deal_unit_test/db_queue.rst`。いずれも出典0行で白紙から設計が要るため、週明けの個別指示を待つ。**このキューでは触らない。**
+ファイルパスはいずれも `ja/development_tools/testing_framework/` からの相対である。
 
-**Completion criteria**: 18ページすべてがコミット済みで、各ページについて作業指示 §5 のゲートG1〜G10 の結果が `checks/task-27.md` に記録されていること。`blocked` としたページがある場合、その理由と赤くなったゲートが記録されていること。
+**Completion criteria**: `#27-00` と21ページすべてがコミット済みで、各ページについて作業指示 §5 のゲートG1〜G13 の結果が `checks/task-27.md` に記録されていること。`blocked` としたページがある場合、その理由と赤くなったゲートが記録されていること。
 
 ### #pre-last: `verify_glossary.py` の不一致25件の一括是正と、横断の是正
 
@@ -660,8 +665,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-14
-- **Last completed**: `#26` を承認で閉じ（`c1bbdb0`）、作業指示 `ntf-doc-weekend-queue.md` を受けて `#27` のキューを `steering.md` に登録した（`fadec16`）。`#27-01`（マスタデータ復旧機能）は出典と実装の調査のみで、`ja/` 配下は未変更
-- **Next**: **ユーザーの指示を待つ。** 着手前に次の2点を確認すること。(1) `#27` を起こしたのは CC の判断であり、ユーザーは `/rn:ty` に「作業指示があるので待って」と添えていた。エントリを残すか取り消すかの指示を受ける。(2) `steering.md` の `#27` キュー（18件）は、その後に置かれた個別指示2本より前に書いたもので**番号が食い違っている**。`ntf-doc-weekend-queue.md`（更新済み）・`ntf-doc-27-db-queue.md`（`#27-16`〜`#27-18`）・`ntf-doc-27-large-pages.md`（`#27-19`〜`#27-21`）を読み直してキューを作り直す
-- **Notes**: 作業ツリーに未コミットのユーザー資材が3件ある。CC は触っていない。`/rn:dn` で扱いを尋ねたが未回答のため保留した — ` M .rn/20260724-ntf-yaml-support/ntf-doc-weekend-queue.md` / `?? .rn/20260724-ntf-yaml-support/ntf-doc-27-db-queue.md` / `?? .rn/20260724-ntf-yaml-support/ntf-doc-27-large-pages.md`
+- **Status**: not suspended
+- **Date**: —
+- **Last completed**: —
+- **Next**: —
+- **Notes**: —
