@@ -123,7 +123,29 @@ ja/development_tools/testing_framework/setup/deal_unit_test/rest.rst:1:.. _deal_
 
 ## §4 Docker フルビルド
 
-`docker build` は前タスク（`#21`）と同じ理由（pypi.org への TLS 接続が中間証明書で遮断される）で失敗するため、既存イメージ `nablarch-document-build:latest` を使用した。イメージの作成日時は `2026-08-07T09:34:28+09:00`（`docker image inspect --format '{{.Created}}'`）で、`Dockerfile`・`requirements.txt` の最終変更コミット `c241906`（2026-07-23）より新しい。
+`docker build` は TLS 証明書の検証に失敗するため、既存イメージ `nablarch-document-build:latest` を使用した。イメージの作成日時は `2026-08-07T09:34:28+09:00`（`docker image inspect --format '{{.Created}}'`）で、`Dockerfile`・`requirements.txt` の最終変更コミット `c241906`（2026-07-23）より新しい。
+
+**失敗原因は確定した**（2026-08-14、`#22` 回答 §5。レビュー役が自分の clone で再現した。本記録の初版は「中間証明書で遮断される」と推定で書いており、それを実測結果に差し替えた）。`pip` が次で落ちる。
+
+```
+SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED]
+certificate verify failed: self-signed certificate in certificate chain'))
+```
+
+社内proxyの自己署名証明書がイメージ内の CA ストアに無いことによる。CA を注入した `Dockerfile` を作れば `docker build` は通り、そのイメージで `sphinx-build -a` が `build succeeded, 1 warning.` になることまで確認されている。
+
+```bash
+cp /usr/local/share/ca-certificates/ca.crt ./ca.crt
+# Dockerfile の FROM 行の直後に次を挿入した Dockerfile.ca を作る
+#   COPY ca.crt /usr/local/share/ca-certificates/ca.crt
+#   RUN cat /usr/local/share/ca-certificates/ca.crt >> /etc/ssl/certs/ca-certificates.crt
+#   ENV PIP_CERT=/usr/local/share/ca-certificates/ca.crt
+#   ENV NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/ca.crt
+#   ENV SSL_CERT_FILE=/usr/local/share/ca-certificates/ca.crt
+docker build -f Dockerfile.ca -t nablarch-document-build .
+```
+
+**`ca.crt` と `Dockerfile.ca` は作業ツリーに残さないこと。** `git status --porcelain` の全件ゲート（`#19` 以降の共通ゲート）に掛かる。
 
 ```
 $ docker run --rm -v /home/tie303177/work/nablarch/nablarch-document:/root/document nablarch-document-build \
