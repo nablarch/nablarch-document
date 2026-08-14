@@ -558,27 +558,18 @@ Rn version: 0.8.0
 
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-14。レビュー役の独立検証で出典 `current-0140` の4要素すべてが本文に対応し、公開本文に事実誤り0件。禁止ファイルの差分0行、`verify_mapping.py` は 595行 / 12,986 / 11,983 で `exit 0`）。4観点レビュー ラウンド1（A FAIL `must` 1 / B PASS / C PASS / D FAIL `must` 1、重複除去後12件）→ 是正4件 → 是正差分限定の検証ラウンドで FAIL（`must` 1）となり**是正1・2 を取り消し、是正4 を修正**。本文に残った是正は2件のみ。**是正1・2 を取り消した判断は正しいことをレビュー役が `mapping.csv` の実測で確認した**（`design.md:125` の宛先は第3部、出典 `http_send_sync.rst:7` は `current-0138`＝第3部割当。役割名は `ja/development_tools/testing_framework/index.rst:13` が定義）。Docker フルビルドは3回とも `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）。詳細は `checks/task-25.md`・`reviews/page-deal_unit_test_setting_http_messaging.md` および git 履歴（本文コミット `acdcb75`）を参照。
 
-### #26: 取引単体テストの設定（MOMによるメッセージング）（`setup/deal_unit_test/mom.rst`）
+### #26: 取引単体テストの設定（MOMによるメッセージング）（`setup/deal_unit_test/mom.rst`）— DONE
 
-**Purpose**: マッピングに従って第2部の10ページ目「取引単体テストの設定（MOMによるメッセージング）」を作成する。対象は `mapping.csv` の `dest_page=取引単体テストの設定（MOMによるメッセージング）` の1行（`current-0158`、出典 `…/03_DealUnitTest/send_sync.rst:280-383`、104 lines、`MOVE`・`audience=user`・`dest_section=使用方法`）。**共通 Steps で進める**（個別の作業指示は出さない。`design.md` と `mapping.csv` の食い違いは着手時に判定する）。
+**Purpose**: マッピングに従って第2部の10ページ目を作成する。対象は `current-0158`（出典 `…/03_DealUnitTest/send_sync.rst:280-383`、104 lines）。`#25` の回答1 に従い出典を3分割したため、成果物は本ページと `setup/common.rst` の追加分にまたがる。
 
-**Steps**: `#10` の「Steps（各ページ共通）」に従う。加えて次を守る。
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
 
-- ページ先頭ラベルは `mapping/style.md:366` の `deal_unit_test_setting_mom`
-- **`#25` の回答1 に従い `current-0158` を SPLIT する。** 実測の内訳は次のとおり。`mapping.csv` の追随は `#20`（`current-0037-b` の分割）と同じ手順で行い、`_batch/*.csv` 経由で再生成する
-  - `:286-297` モックアップクラスの設定（`messagingProvider` = `MockMessagingProvider`）── **MOM 固有**。本ページへ
-  - `:299-334` Excelファイルの配置場所の設定（`sendSyncTestData`）── **HTTPメッセージング・MOM 共通**。`setup/common.rst` へ
-  - `:336-360` テストデータ解析クラスの設定（`messagingTestDataParser`）── **同上**。`setup/common.rst` へ
-  - `:364-383` `pom.xml` への dependency 追加 ── 帰属は着手時に判断する
-  - `:281-284` の導入文 ── 分割先それぞれの文脈に合わせる
-- `setup/common.rst` に加える2節は、**見出しで適用条件を名乗る**（例:「同期応答メッセージ送信のテストデータの配置場所を設定する」）。全処理方式に必要だと読ませない
-- `setup/deal_unit_test/http_messaging.rst` と本ページの双方から、その節へ `:ref:` を張る
-- `#18` の申し送り（`design.md` §8 の語と衝突する「デフォルト設定」を一般語として使わない）
-- `verify_glossary.py` はゲートに入れない（`#pre-last` で一括是正する）
+**`current-0158` の分割（確定）**: `-a`（`:280-297`、18行）はモックアップクラスの設定で本ページへ。`-b`（`:298-360`、63行）はテストデータのベースディレクトリと解析コンポーネントの設定で `共通設定` へ。`-c`（`:361-383`、23行）は `pom.xml` への依存関係追加で `共通設定` へ。`mapping.csv` は 595→**597行**（`_batch/batch-25.csv` 経由で再生成・バイト一致）、12,986 / 11,983 は不変。
 
-**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。加えて、`setup/common.rst` への追記が承認済みページの改訂であることを踏まえ、差分が当該2節の追加に収まっていること（既存節の削除・改変0行）。
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-14。公開本文を承認）。4観点レビュー ラウンド1 は**4観点とも FAIL**（重複除去後 `must` 5 / `should` 9 / `info` 8）→ 是正14件 → 是正差分限定の検証ラウンドは **PASS**（`must` 0、`should` 2 は本タスク内で是正）。ゲート1〜11 全件 PASS、Docker フルビルドは3回とも `build succeeded, 1 warning.`（既知1件のみ・新規0件）。**本タスクで確定した判断2件** — (1) `pom.xml` への `nablarch-testing` 追加の帰属は `共通設定`（処理方式・テスト種別によらず必要で、第2部の表題が「導入と設定」であるため）。(2) 出典に無い `nablarch-testing-yaml` の依存関係を追記（`YamlTestDataParser` を登録させながらモジュールの追加手順がどのページにも無く、書かれたとおりでは動かないため。`design.md` §8「出典が欠いている、実装上必須の設定の追記」・`design.md:176`）。**YAML形式の設定は実際に動かして確認した**（`fileExtensions` に `sendSyncTestData` を設定すると `IllegalStateException`、設定しなければ応答電文を取得できる）。詳細は `checks/task-26.md`・`reviews/page-deal_unit_test_setting_mom.md` および git 履歴（本文コミット `2bc3bf0`）を参照。
 
-**進捗**: ページ作成・`current-0158` の3分割（`mapping.csv` 追随）・`setup/common.rst` への2セクション追加・`toctree` 追記・4観点レビュー ラウンド1（4観点とも FAIL、重複除去後 `must` 5 / `should` 9 / `info` 8）・是正14件・是正差分限定の検証ラウンド（**PASS**、`must` 0 / `should` 2 は本タスク内で是正）・ゲート1〜11 の全件 PASS まで完了（`2bc3bf0`、push 済み）。Docker フルビルドは3回とも `build succeeded, 1 warning.`（既知の1件のみ・新規0件）。残るは **user review** のみ。**判断待ち2件**（`pom.xml` の依存関係を `共通設定` に置いた帰属の判断／`nablarch-testing-yaml` の追記）を添える。詳細は `checks/task-26.md`・`reviews/page-deal_unit_test_setting_mom.md`。
+**`#27` 以降への申し送り**: (1) 用語 `同期応答メッセージ送信`（MOM側）と `HTTPメッセージ送信`（HTTP側）は `glossary.md:156`・`:158` の別の正表記であり、両方に掛かる場合は「同期応答メッセージ送信・HTTPメッセージ送信」と併記する（`implementation/testdata_notation.rst:497` に先例）。(2) `style.md` S-10 規約1 の「共通にしてよい2類型」に「両形式で同一の設定」が無い。類型追加の要否は `#pre-last` で判断する。(3) `messagingTestDataParser` は「テストデータを解析するコンポーネント」と呼ぶ（`setup/class_unit_test.rst:108` に合わせた）。
+
 
 ### #pre-last: `verify_glossary.py` の不一致25件の一括是正と、横断の是正
 
@@ -640,6 +631,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: not suspended
 - **Date**: 2026-08-14
-- **Last completed**: `#26` のページ作成・`current-0158` の3分割・`setup/common.rst` への2セクション追加・4観点レビュー ラウンド1・是正14件・是正差分限定の検証ラウンド（PASS）・ゲート1〜11 の全件 PASS（`2bc3bf0`、push 済み）
-- **Next**: `#26` の **user review**（`/rn:ty` / `/rn:gm` 判定）。承認で `#26` は閉じ、次は第2部の残り（`setup/request_unit_test/table_queue.rst` ほか）または `design.md` §3 のツリー順による次ページ
-- **Notes**: 判定待ちに添えた判断待ち2件 — (1) `pom.xml` への `nablarch-testing` 追加（`current-0158-c`）の帰属を `共通設定` にした判断。(2) 出典に無い `nablarch-testing-yaml` の依存関係を書き足した判断（4観点レビューの `must`。`YamlTestDataParser` を登録させながら、そのモジュールを追加する手順がどのページにも無かったため）。いずれも詳細は `reviews/page-deal_unit_test_setting_mom.md`
+- **Last completed**: `#26`（取引単体テストの設定（MOMによるメッセージング））が user review 承認で閉じた（`/rn:ty`、2026-08-14）。エントリは圧縮済み
+- **Next**: **ユーザーからの作業指示を待つ**（`/rn:ty` に「作業指示があるので待って」と添えられたため、次のページ作成タスクは起こしていない）
+- **Notes**: 判断待ちに挙げた2件（`pom.xml` の依存関係を `共通設定` に置いた帰属／出典に無い `nablarch-testing-yaml` の追記）は、公開本文の承認をもって現状のまま確定した。個別の回答は受けていないため、作業指示で覆る可能性がある。`#27` 以降への申し送り3件は `#26` のエントリ末尾
