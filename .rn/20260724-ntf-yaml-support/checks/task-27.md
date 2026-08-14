@@ -103,3 +103,41 @@ QA／設計／クラフト／検証の4観点をそれぞれ別のサブエー�
 ### コミット
 
 `ja/` の3エントリ（`.rst` 1本＋画像2点の rename）＋記録2本。件名 `docs: マスタデータ復旧機能のページを作成する — #27-01`。
+
+---
+
+## `#27-02` JUnit 5用拡張機能
+
+**成果物**: `ja/development_tools/testing_framework/setup/junit5_extension.rst`（440行。ラベル `junit5_extension`）
+**出典**: `JUnit5_Extension.rst`（14行）＋ `01_Abstract.rst`（3行）の計17行・475行。`MOVE` 16件・`MERGE` 1件（`current-0266`）
+**レビュー記録**: `reviews/page-junit5_extension.md`
+
+### ゲート結果
+
+| | 結果 | 根拠 |
+|---|---|---|
+| G1 | **PASS** | `git status --porcelain` の全件（ディレクトリで絞らずに実行）が1エントリ。` M ja/development_tools/testing_framework/setup/junit5_extension.rst` のみ |
+| G2 | **PASS** | `design.md`・`mapping/style.md`・`mapping/glossary.md`・`mapping/vocabulary.md`・`ja/conf.py`・`mapping/input/` のいずれも `git status --porcelain` に現れない |
+| G3 | **PASS** | `locales/ja/LC_MESSAGES/sphinx.mo` は `git status --porcelain` に現れない。ビルド直後に `git checkout --` で戻している |
+| G4 | **PASS** | `verify_mapping.py` が `OK: no errors` で exit 0。`mapping.csv` は未変更 |
+| G5 | **PASS** | Docker フルビルド（`sphinx-build -E`）が `build succeeded, 1 warning.`。警告は既知の `db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` 1件のみ。**新規0件**。是正の途中で外部リンクの表示名を揃えた際に `junit5_extension.rst:6: WARNING: Duplicate explicit target name: "公式のユーザガイド(外部サイト、英語)"` が出たため、移行ガイド側の表示名を「公式の移行ガイド」に変えて解消した（`reviews/page-junit5_extension.md` R1-17） |
+| G6 | **PASS** | `grep -nE '本ページ\|下さい\|出来る\|事が\|以下の\|上記の\|利用'` が0件。`.. note::`／`.. warning::` の使用も0件（`tip` 5件・`important` 4件のみ） |
+| G7 | **PASS** | ページ先頭ラベル `junit5_extension` が `style.md:343` の第2部の表と一致（同行の「（スタブ）」の除去は `decide` に回した） |
+| G8 | **PASS** | `unicodedata.east_asian_width` で表示幅を測り、全見出しについて「下線の文字数 ≥ 見出しの表示幅」を検査して NG 0件。L1 下線50 / タイトル表示幅18、L2 下線50 / 最長8、L3 下線は13本とも49 / 最長42（「RegisterExtensionでExtensionクラスを適用する」） |
+| G9 | **PASS** | 生成HTMLで確認。本文の `:ref:` 4件がすべて解決している。`#junit5-extension-inject` → 「テストクラスに合成アノテーションを設定する」、`../about/index.html#testing-framework-about` → 「テスティングフレームワーク」、`request_unit_test/rest.html#request-unit-test-setting-rest` → 「リクエスト単体テストの設定（RESTfulウェブサービス）」、`../implementation/testdata_notation.html#testdata-notation-file-structure` → 「テストクラスとテストデータの対応」。`href="#"` の空リンクは0件。`:java:extdoc:` は55件がすべて javadoc の URL に展開されている |
+| G10 | **PASS** | 17行すべてを本文に反映。落とした行は無い。行ごとの反映先は `reviews/page-junit5_extension.md`「出典行の消化」。うち2行（`current-0178`・`current-0269`）は `dest_section` と異なる節に置いた。理由と判定依頼は同記録の「判断待ち」1・2 |
+| G11 | **N/A** | 17行に `disposition=REFERENCE` の行が無い |
+| G12 | **N/A** | 17行とも `-a`／`-b`／`-c` の枝を持たない単独の `mapping_id` |
+| G13 | **N/A** | 画像を持たない |
+
+### 4観点レビュー
+
+QA／設計／クラフト／検証の4観点をそれぞれ別のサブエージェントで実施し、`must` 4件を含む指摘を1ラウンドで是正した。是正は成果物の `.rst` に畳んであり、別コミットに割っていない。内訳は `reviews/page-junit5_extension.md`。
+
+### 判断待ち（週明けに判定してほしい項目）
+
+`reviews/page-junit5_extension.md`「判断待ち（`decide`）」に5件（`dest_section` との不一致2件、`resolveTestRules()` の制約が本体の不具合かどうか1件、`style.md:343` の「（スタブ）」の除去1件、surefire 2.22.0 の一次情報が未確認である旨1件）。
+
+### コミット
+
+`ja/` の1ファイル＋記録2本。件名 `docs: JUnit 5用拡張機能のページを作成する — #27-02`。
