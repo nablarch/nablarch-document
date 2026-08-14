@@ -141,3 +141,38 @@ QA／設計／クラフト／検証の4観点をそれぞれ別のサブエー�
 ### コミット
 
 `ja/` の1ファイル＋記録2本。件名 `docs: JUnit 5用拡張機能のページを作成する — #27-02`。
+
+---
+
+## `#27-03` テストデータ変換ツール
+
+**成果物**: `ja/development_tools/testing_framework/tools/testdata_converter.rst`（321行。ラベル `testdata_converter`）
+**出典**: `input/testdata-converter-design.md` の6行・75行。`MOVE` 5件・`MERGE` 1件（`input-0198-b`）
+**参照実装**: `nablarch-testing-converter`（作業指示に固定コミットの指定なし。作業ツリーは `2f21bce`）、`nablarch-testing`（`e21bf67`）、`nablarch-testing-yaml`（固定 `190cc9a`。作業ツリーは `b91abc1`）
+**レビュー記録**: `reviews/page-testdata_converter.md`
+
+### ゲート結果
+
+| | 結果 | 根拠 |
+|---|---|---|
+| G1 | **PASS** | `git status --porcelain` の全件（ディレクトリで絞らずに実行）が2エントリ。` M ja/development_tools/testing_framework/tools/testdata_converter.rst` と `?? .rn/20260724-ntf-yaml-support/reviews/page-testdata_converter.md` |
+| G2 | **PASS** | `design.md`・`mapping/style.md`・`mapping/glossary.md`・`mapping/vocabulary.md`・`ja/conf.py`・`mapping/input/` のいずれも `git status --porcelain` に現れない |
+| G3 | **PASS** | `locales/ja/LC_MESSAGES/sphinx.mo` は `git status --porcelain` に現れない。ビルド直後に `git checkout --` で戻している |
+| G4 | **PASS** | `verify_mapping.py` が `OK: no errors` で exit 0。`mapping.csv` は未変更 |
+| G5 | **PASS** | Docker フルビルド（`sphinx-build -E`）が `build succeeded, 1 warning.`。警告は既知の `db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` 1件のみ。**新規0件**。是正を全件畳んだ後の最終本文で再実行して確認した |
+| G6 | **PASS** | `grep -nE '本ページ\|下さい\|出来る\|事が\|以下の\|上記の\|利用\|前提条件\|スーパークラス'` が0件。`.. note::`／`.. warning::` の使用も0件（`tip` 3件・`important` 1件のみ） |
+| G7 | **PASS** | ページ先頭ラベル `testdata_converter` が `style.md:347` の第4部の表と一致（同行の「（スタブ）」の除去は `decide` に回した） |
+| G8 | **PASS** | `unicodedata.east_asian_width` で表示幅を測り、全10見出しについて「下線の文字数 ≥ 見出しの表示幅」を検査して NG 0件 |
+| G9 | **PASS** | 生成HTMLで確認。本文の `:ref:` 3件がすべて解決している。`testdata_converter.rst:46`・`:65` → `../implementation/testdata_notation.html#testdata-notation`（飛び先の見出しは `testdata_notation.rst:3`「テストデータの書き方」でリンク文字列と一致）、`:59` → `#testdata-converter-xls-format`（飛び先は同ページ `:229`「Excel形式の出力を整形する」で一致）。`href="#"` の空リンクは0件。`:java:extdoc:` 1件（`nablarch.test.core.file.TestDataConverter`）が javadoc の URL に展開されている |
+| G10 | **PASS** | 6行75行すべてを本文に反映。落とした行は無い。行ごとの反映先は `reviews/page-testdata_converter.md`「出典行の消化」 |
+| G11 | **N/A** | 6行に `disposition=REFERENCE` の行が無い |
+| G12 | **PASS** | 枝を持つのは `input-0198-b`（1行）のみ。相方の `input-0198-a`（22行）・`input-0198-c`（3行）はいずれも `disposition=DROP` で `dest_page` が空のため、二重掲載の相手になるページが存在しない |
+| G13 | **N/A** | 画像を持たない（`.. image::`／`.. figure::` が0件） |
+
+### 4観点レビュー
+
+QA／設計／クラフト／検証の4観点をそれぞれ別のサブエージェントで実施し、1ラウンドで是正した（是正26件、採らなかった指摘5件）。是正は成果物の `.rst` に畳んであり、別コミットに割っていない。内訳は `reviews/page-testdata_converter.md`。
+
+### 判断待ち（週明けに判定してほしい項目）
+
+`reviews/page-testdata_converter.md`「判断待ち（`decide`）」に5件。筆頭は**往復の非可逆**で、同梱の `ProjectActionRequestTest.xlsx` を XLS→YAML→XLS で往復させると `confirmOfCreateAbNormal` の `LIST_MAP`／`requestParams` からリクエストパラメータ4件が落ちる実測がある。作業指示 §2 の「本体の不具合が疑われる場合は書かずに `decide` に上げる」に従い、本文は出典に忠実な「意味を変えずに往復できる」のままにしてある。
