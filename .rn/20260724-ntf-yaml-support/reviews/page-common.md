@@ -166,3 +166,7 @@
 テストデータの配置をプロジェクトルートからの相対パスで説明する記述と基準が揃う。ただし
 `testdata_notation.rst` 側の記述は本作業指示の変更対象外（`ja/` の変更は本ページと `web.rst` の2ファイルに
 限定）のため、突合そのものは `#19` 以降に持ち越す。
+
+## `#27` 冒頭の申し送り（`ntf-doc-weekend-queue.md` §8）
+
+`#26` で追加した `nablarch-testing-yaml` の依存関係は、他ページ（`setup/request_unit_test/rest.rst:24-37` など）と揃えてバージョンを書かない形にしている。書き方としては正しいが、このモジュールは `1.0.0-SNAPSHOT` であり（`/home/tie303177/work/nablarch/nablarch-testing-yaml/pom.xml:16` を実測。`<version>1.0.0-SNAPSHOT</version>`）、BOM に収録されるまでは読者がそのまま貼っても解決できない。**リリース時に BOM 収録を確認する。** 本文はいま変更しない。

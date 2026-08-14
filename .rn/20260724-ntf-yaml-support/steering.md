@@ -571,6 +571,37 @@ Rn version: 0.8.0
 **`#27` 以降への申し送り**: (1) 用語 `同期応答メッセージ送信`（MOM側）と `HTTPメッセージ送信`（HTTP側）は `glossary.md:156`・`:158` の別の正表記であり、両方に掛かる場合は「同期応答メッセージ送信・HTTPメッセージ送信」と併記する（`implementation/testdata_notation.rst:497` に先例）。(2) `style.md` S-10 規約1 の「共通にしてよい2類型」に「両形式で同一の設定」が無い。類型追加の要否は `#pre-last` で判断する。(3) `messagingTestDataParser` は「テストデータを解析するコンポーネント」と呼ぶ（`setup/class_unit_test.rst:108` に合わせた）。
 
 
+### #27: 週末の連続作成キュー（18ページ。user review を挟まない）
+
+**Purpose**: 残り18ページの「初版と自己レビューまで」を、user review を挟まずにキュー順で片づける。作業指示は `.rn/20260724-ntf-yaml-support/ntf-doc-weekend-queue.md`。**終了条件は18ページすべてがコミット済みであること。** 週明けにレビュー役が全ページを独立検証し、そのあとまとめて user review を受ける。
+
+**進め方（作業指示 §1 の要点）**: user review を待たない／判断が要る場合は**最も出典に忠実な選択**を採って書き、`reviews/page-*.md` の「判断待ち」節に記録して進む／規約ファイル（`design.md`・`style.md`・`glossary.md`・`vocabulary.md`）を書き換えない／`mapping.csv` は直接編集せず `_batch/*.csv` 経由で再生成する／ゲートが赤いページは `blocked` として記録し次へ進む／是正ラウンドが3回を超えたらその版をコミットして次へ進む。記録は `checks/task-27.md` に1本、`reviews/page-<ラベル>.md` はページごと。
+
+**キュー（上から順に。順番を変えない）**:
+
+- [ ] `#27-01` マスタデータ復旧機能（`setup/master_data_restore.rst`、193行。スタブへの追記）
+- [ ] `#27-02` JUnit 5用拡張機能（`setup/junit5_extension.rst`、475行。スタブへの追記）
+- [ ] `#27-03` テストデータ変換ツール（`tools/testdata_converter.rst`、75行。スタブへの追記）
+- [ ] `#27-04` リクエスト単体データ作成ツール（`tools/request_data_tool.rst`、163行）
+- [ ] `#27-05` マスタデータ投入ツール（`tools/master_data_tool.rst`、177行。スタブへの追記）
+- [ ] `#27-06` HTMLチェックツール（`tools/html_check_tool.rst`、214行。スタブへの追記）
+- [ ] `#27-07` リクエスト単体テスト（HTTPメッセージング）（`implementation/request_unit_test/http_messaging.rst`、28行）
+- [ ] `#27-08` 取引単体テスト（RESTfulウェブサービス）（`implementation/deal_unit_test/rest.rst`、32行）
+- [ ] `#27-09` 取引単体テスト（HTTPメッセージング）（`implementation/deal_unit_test/http_messaging.rst`、33行。リード文で前提を明示する）
+- [ ] `#27-10` 取引単体テスト（ウェブアプリケーション）（`implementation/deal_unit_test/web.rst`、48行）
+- [ ] `#27-11` 取引単体テスト（Nablarchバッチアプリケーション）（`implementation/deal_unit_test/batch.rst`、168行）
+- [ ] `#27-12` 取引単体テスト（MOMによるメッセージング）（`implementation/deal_unit_test/mom.rst`、175行。リード文で前提を明示する）
+- [ ] `#27-13` リクエスト単体テスト（RESTfulウェブサービス）（`implementation/request_unit_test/rest.rst`、262行）
+- [ ] `#27-14` リクエスト単体テスト（Nablarchバッチアプリケーション）（`implementation/request_unit_test/batch.rst`、384行）
+- [ ] `#27-15` リクエスト単体テスト（MOMによるメッセージング）（`implementation/request_unit_test/mom.rst`、461行。`real.rst:15` のパッケージ名の是正を含む。`#21` の申し送り）
+- [ ] `#27-16` コンポーネント単体テスト（`implementation/class_unit_test/component.rst`、770行）
+- [ ] `#27-17` リクエスト単体テスト（ウェブアプリケーション）（`implementation/request_unit_test/web.rst`、914行。スタブへの追記。**`how_to_set_token_in_request_unit_test` を定義する**）
+- [ ] `#27-18` エンティティ単体テスト（`implementation/class_unit_test/entity.rst`、1,344行）
+
+**キューから外した3ページ**: `setup/request_unit_test/db_queue.rst`・`implementation/request_unit_test/db_queue.rst`・`implementation/deal_unit_test/db_queue.rst`。いずれも出典0行で白紙から設計が要るため、週明けの個別指示を待つ。**このキューでは触らない。**
+
+**Completion criteria**: 18ページすべてがコミット済みで、各ページについて作業指示 §5 のゲートG1〜G10 の結果が `checks/task-27.md` に記録されていること。`blocked` としたページがある場合、その理由と赤くなったゲートが記録されていること。
+
 ### #pre-last: `verify_glossary.py` の不一致25件の一括是正と、横断の是正
 
 **Purpose**: ページを作らないタスク。`#21` の申し送りで残った `verify_glossary.py` の不一致を、全ページ作成完了後・`#last` の直前に一括で解消する。毎タスク書き換わる `design.md` を行番号で指している限り再発するため、ページ作成が終わってから1回で片付ける（`ntf-doc-22-deal-unit-test-rest.md` §5、レビュー役の実測による判断）。
@@ -632,5 +663,5 @@ so only a genuinely suspended session reads `paused`.)
 - **Status**: not suspended
 - **Date**: 2026-08-14
 - **Last completed**: `#26`（取引単体テストの設定（MOMによるメッセージング））が user review 承認で閉じた（`/rn:ty`、2026-08-14）。エントリは圧縮済み
-- **Next**: **ユーザーからの作業指示を待つ**（`/rn:ty` に「作業指示があるので待って」と添えられたため、次のページ作成タスクは起こしていない）
-- **Notes**: 判断待ちに挙げた2件（`pom.xml` の依存関係を `共通設定` に置いた帰属／出典に無い `nablarch-testing-yaml` の追記）は、公開本文の承認をもって現状のまま確定した。個別の回答は受けていないため、作業指示で覆る可能性がある。`#27` 以降への申し送り3件は `#26` のエントリ末尾
+- **Next**: `#27-01` マスタデータ復旧機能（`setup/master_data_restore.rst`）。以降はキュー順に `#27-18` まで、user review を挟まずに進める
+- **Notes**: 作業指示 `ntf-doc-weekend-queue.md` を受領し `#27` を起こした。`#26` の判断待ち2件は公開本文の承認をもって現状のまま確定（作業指示 §8 が「`#26` は承認する。本文の変更は不要」と明記）。§8 の申し送り（`nablarch-testing-yaml` の BOM 収録をリリース時に確認）は `reviews/page-common.md` に記録済み
