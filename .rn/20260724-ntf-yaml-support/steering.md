@@ -528,33 +528,13 @@ Rn version: 0.8.0
 
 **環境の事実（解決済み）**: `docker build` が失敗する原因は**社内proxyの自己署名証明書がイメージ内の CA ストアに無いこと**である（`pip` が `SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] ... self-signed certificate in certificate chain'))` で落ちる）。レビュー役が自分の clone で再現し、CA を注入した `Dockerfile` を作れば `docker build` が通り、そのイメージの `sphinx-build -a` が `build succeeded, 1 warning.` になることまで確認した（手順は `checks/task-22.md` §4）。**`ca.crt` と `Dockerfile.ca` は作業ツリーに残さない**（差分範囲ゲートに掛かる）。既存イメージ `nablarch-document-build` での `docker run` を続けてもよい。
 
-### #23: テーブルデータの0件の扱いを解説書に書く
+### #23: テーブルデータの0件の扱いを解説書に書く — DONE
 
-**Purpose**: ページを作らないタスク。承認済みの2ページ（`implementation/testdata_notation.rst`・`implementation/testdata_examples.rst`）に、テーブルデータを0件で書く方法を追記する。準備データを0件にすると対象テーブルが空になること、期待値を0件にするとレコードが1件も無いことの検証になること、Excel形式ではカラム名の行を省略できないことの3点のみを書く。指示は `ntf-doc-23-table-zero-rows.md`（2026-08-14 受領、単独で完結。2026-08-13 の「`#22` 追加指示」と `指示/task-22.md` は本書に統合されて破棄されたため無視する）。
+**Purpose**: ページを作らないタスク。承認済みの2ページ（`implementation/testdata_notation.rst`・`implementation/testdata_examples.rst`）に、テーブルデータを0件で書く方法を追記した。指示は `ntf-doc-23-table-zero-rows.md`。
 
-**Steps**:
+**Completion criteria**: 作業指示のゲート1〜12（4a・4b を含む）が全件 PASS で `checks/task-23.md` に記録されていること。加えて4観点のレビューがすべて実施・記録されていること、未対応の指摘を残す判断とその理由が記録されていること、`make html` が当該2ページについてエラーを出さないこと。
 
-- [x] ゲート1（`git status --porcelain` の全件表）を実行順の先頭で実行する — 着手時クリーン
-- [x] ゲート2 — §2 の実装事実19件を `e21bf67`（`nablarch-testing`）・`190cc9a`（`nablarch-testing-yaml`）で開いて全件突合する。**事実18 は「記録のみ・本文に反映しない」と明記する。** 一致しないものがあれば本文を書かずに報告する
-- [x] `testdata_notation.rst` — L4「0件のデータを記述する」を「カラムを省略する」の直後に足し、`:650` の列挙に0件の扱いを加える（§4-1）
-- [x] `testdata_notation.rst` — 既存のL4「Excel形式の場合」にセル格子を、L4「YAML形式の場合」に `rows: []` の `code-block` を足す（§4-2）
-- [x] `testdata_examples.rst` — L3「0件のテーブルデータを記述する」を足す（導入文＋形式別L4対。ラベル `testdata_examples-empty_table`。§4-3）
-- [x] 4観点のレビューを、それぞれ別のサブエージェントで実施する。**依頼プロンプトに §7 の段落をそのまま入れる** — ラウンド1 実施（A PASS / B PASS / C FAIL / D FAIL→同一エージェントの再走で PASS）
-- [x] 指摘への対応を行う（最大3ラウンド）— ラウンド1 のみ。重複除去後15件を triage し6件を是正・1件を Invalid・8件を対応しない。詳細は `reviews/page-testdata_notation.md` の `## #23`
-- [x] `checks/task-23.md`（新規）・`reviews/page-testdata_notation.md`・`page-testdata_examples.md` に記録する（§8。申し送り1件と、`design.md` §8 の実装優先を本件に適用しないというユーザー判断を双方に1段落で残す）
-- [x] ゲート3〜11 を実行し `checks/task-23.md` に記録する — 是正後に再実行して全件 PASS
-- [x] ゲート12（ゲート1 の再実行）を `commit & push` の直前に実行する — 「変更してよいファイル」以外0件
-- [x] commit & push — `b75f1d7`。push 済み
-- [ ] **user review**
-
-**守ること**:
-
-- **`design.md`・`mapping.csv`・`style.md`・`glossary.md`・`volume.md`・`vocabulary.md`・`_batch/`・`ja/conf.py`・上記2ページ以外の `ja/` 配下を変更しない**
-- **`design.md` §8 の「出典と実装が食い違う場合は実装を優先する」を本件に適用しない**（2026-08-13 のユーザー判断による例外）。`expected_tables:` に `rows: []` を書いたときの検証は `190cc9a` 時点の `nablarch-testing-yaml` では行われないが、本体が追随する前提で仕様どおりに書く
-- §5 の禁止事項（不具合・バグ・将来の修正／実装の制約／`EXPECTED_COMPLETE_TABLE` 系を0件検証の手段として勧める／カラム名の決まり方を0件の文脈に持ち込む／形式・データタイプで場合分けする／クラス名／マーカーカラムだけのカラム名の行／読み込みが別のデータタイプで止まる挙動／`rows: - {}` の空エントリ）に触れない
-- §2 の事実と実物が食い違った場合、および §4 の位置が `style.md` の規約と両立しない場合は、**本文を書かずに報告する。位置を自分で変えない**
-
-**Completion criteria**: 作業指示のゲート1〜12（4a・4b を含む）が全件 PASS で `checks/task-23.md` に記録されていること。加えて上記ページ作成タスクの Completion criteria のうち、4観点のレビューがすべて実施・記録されていること、未対応の指摘が残っていないか残す判断とその理由が記録されていること、`make html` が当該2ページについてエラーを出さないこと。
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-14）。ラウンド1 のみで確定（4観点レビューの重複除去後15件を triage し6件是正・1件 Invalid・8件は対応せず）。ゲート1〜12 は是正後の再実行で全件 PASS、Docker フルビルド（`-a`）は `build succeeded, 1 warning.` で新規警告0件。**`design.md` §8 の「実装優先」を本件に適用しない**（2026-08-13 のユーザー判断）ため、`expected_tables:` の `rows: []` は `190cc9a` 時点の `nablarch-testing-yaml` で検証されないまま仕様どおりに記述している。判定待ちに添えた報告2件も承認で決着した — (1) 指示書 §2 事実7 の `insertData` の範囲は `:137-217` ではなく `:137-178`（事実の内容は一致）、(2) 記法ページの見出し「0件のデータを記述する」と記載例ページの「0件のテーブルデータを記述する」の非対称は、指示書 §4-1・§4-3 の明示指定に従い**現状のまま確定**。詳細は `checks/task-23.md`・`reviews/page-testdata_notation.md` `## #23` 節・`page-testdata_examples.md` および git 履歴（本文コミット `b75f1d7`）を参照。
 
 ### #24: `about/index.rst` の「取引単体テストは手動操作」の是正と `style.md` S-02 の書き漏れ補い — DONE
 
@@ -563,6 +543,19 @@ Rn version: 0.8.0
 **Completion criteria**: ラウンド1 のゲート1〜12、`ntf-doc-24.md` §5-3 のゲートA〜N、§7-6 のゲートO〜U が全件 PASS で `checks/task-24.md` に記録されていること。
 
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-14）。ラウンド1〜4 で確定。**公開本文で名指しするのは3処理方式のみ**（ウェブアプリケーション＝手動／RESTfulウェブサービス＝自動／Nablarchバッチアプリケーション＝自動）とし、出典が不可能性を述べていない3処理方式（`MOMによるメッセージング`・`HTTPメッセージング`・`テーブルをキューとして使ったメッセージング`）には公開本文で触れない形に落ち着いた。ラウンド4 は3行の是正のみ（`about/index.rst:77` 第2文の目的語補い＋「アプリケーション」3回の解消／`:81` の「このうち」の先行詞固定／`style.md:5` の `design.md`「7. トンマナ」→「8. トンマナ」）で、4観点のレビューは指示書 §7-7 により回していない。**ゲートP のみ指示の文言のままでは満たせず、第2文単位で PASS とし本文は変更していない**（段落単位では変更禁止の第3文の `Nablarchバッチアプリケーション` を含めて3回。`checks/task-24.md`「指示との食い違い1件」）。詳細は `checks/task-24.md`（ラウンド1〜4）・`reviews/page-about_index.md` `## #24` 節および git 履歴（本文コミット `82dbe16`・`443dccc`・`5e87f6e`・`db5a84a`、ラウンド4 `66fe4c9`、記録 `7ddc30f`）を参照。
+
+### #25: 取引単体テストの設定（HTTPメッセージング）（`setup/deal_unit_test/http_messaging.rst`）
+
+**Purpose**: マッピングに従って第2部の9ページ目「取引単体テストの設定（HTTPメッセージング）」を作成する。対象は `mapping.csv` の `dest_page=取引単体テストの設定（HTTPメッセージング）` の1行（`current-0140`、`src_file=…/05_UnitTestGuide/03_DealUnitTest/http_send_sync.rst` の `:50-69`、20 lines、`audience=user`、`dest_section=使用方法`）。**共通 Steps で進める**（出典20 lines で500 lines 未満、`design.md`「3. 第2部 導入と設定」の3処理方式ページ化と `mapping.csv` は一致、出典0行でもないため、個別の作業指示を出す3条件のいずれにも当たらない）。
+
+**Steps**: `#10` の「Steps（各ページ共通）」に従う。加えて次を守る。
+
+- ページ先頭ラベルは `style.md:365` の `deal_unit_test_setting_http_messaging`
+- `#22` の申し送り（`checks/task-22.md` §7-2 の `note` N-2「CSRFトークンを引き継ぐ提供実装は存在しない」）を、CSRF に触れる場合に確認する
+- `#18` の申し送り（`design.md` §8 の語と衝突する「デフォルト設定」を一般語として使わない）
+- `verify_glossary.py` はゲートに入れない（`#pre-last` で一括是正する）
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
 
 ### #pre-last: `verify_glossary.py` の不一致25件の一括是正
 
@@ -619,8 +612,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
+- **Status**: not suspended
 - **Date**: 2026-08-14
-- **Last completed**: `#23` の本文追記・4観点レビュー ラウンド1・是正6件・ゲート1〜12 の全件 PASS（`b75f1d7`、push 済み）
-- **Next**: `#23` の **user review**（`/rn:ty` / `/rn:gm` 判定）。承認で `#23` は閉じる
-- **Notes**: 判定待ちに添えた報告2件 — (1) 指示書 §2 の事実7 の `insertData` の範囲は `:137-217` ではなく `:137-178`（事実の内容は一致）。(2) 記法ページの見出し「0件のデータを記述する」と記載例ページの「0件のテーブルデータを記述する」が非対称。3観点が独立に挙げたが、見出し文言は指示書 §4-1・§4-3 が明示指定しているため変更していない
+- **Last completed**: `#23` を user review 承認（`/rn:ty`）で閉じた。エントリを圧縮済み
+- **Next**: `#25`（取引単体テストの設定（HTTPメッセージング）、`setup/deal_unit_test/http_messaging.rst`）。個別の作業指示は不要（共通 Steps で進める条件を満たすことを `mapping.csv` と `design.md` で確認済み）
+- **Notes**: —
