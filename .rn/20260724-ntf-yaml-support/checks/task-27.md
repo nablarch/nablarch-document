@@ -463,3 +463,53 @@ QA／設計／クラフト／検証の4観点をそれぞれ別のサブエー�
 ### 判断待ち（週明けに判定してほしい項目）
 
 `reviews/page-deal_unit_test_http_messaging.md` §7 に5件。**①第3部へのアウトライン適用**（`#27-07` の `decide-1` を指す）。**②Excel記載例の画像 `_images/http_send_sync_test_data.png` を落としたこと**。個別指示 `ntf-doc-27-small-3rd.md:102` の既定（判断がつかない場合は `git mv` して残す）とは逆の選択である。理由は、画像内の要求電文ブロック（吹き出し「要求電文はフォーマットのみ定義する。」）が `MockMessagingClient` の読まないデータブロックであること（`MockMessagingClient.java:48-91` に `EXPECTED_REQUEST_*` の参照なし）と、応答電文側の内容は `testdata_examples.rst:1800,1859` が Excel形式・YAML形式の両方で既に持っていることの2点。**③「通信先」の語を使ってよいか**（上記の不採用）。**④`testdata_notation.rst:1251` の申し送り**。同行は取引単体テストのモックアップクラス全般について「要求電文はログ出力用のフォーマットのみを定義する」と書いており、HTTPメッセージングには当てはまらない。承認済みページのため触れていない。**⑤`HttpMessagingClient.SYNCMESSAGE_STATUS_CODE` の定数値が未確認であること**（`nablarch-fw-messaging` はルール §1-9 の作業ディレクトリ外）。本文でカラム名を名指ししていないため本ページの記述には影響しない。
+
+## `#27-11` 取引単体テスト（ウェブアプリケーション）
+
+**成果物**: `ja/development_tools/testing_framework/implementation/deal_unit_test/web.rst`（56行。ラベル `deal_unit_test_web`。`#27-00` の4行スタブへの追記）
+**出典**: `05_UnitTestGuide/03_DealUnitTest/index.rst` の `:6-13`（`current-0142`）・`:16-23`（`current-0143`）・`:26-33`（`current-0144`）・`:36-46`（`current-0145`）と、`05_UnitTestGuide/02_RequestUnitTest/double_transmission.rst` の `:27-39`（`current-0059`）。いずれも削除済みで `git show 2e501ad:<path>` で参照。5行すべて `MOVE`、`lines` 合計48行
+**参照実装**: 無し（手動テストのページであり、テスティングフレームワークのクラスを説明していない）
+**個別指示**: `ntf-doc-27-small-3rd.md` §1・§4・§6
+**レビュー記録**: `reviews/page-deal_unit_test_web.md`
+
+### ゲート結果
+
+| | 結果 | 根拠 |
+|---|---|---|
+| G1 | **PASS** | `git status --porcelain`（ディレクトリで絞らずに実行）は ` M ja/.../implementation/deal_unit_test/web.rst` と `?? .rn/.../reviews/page-deal_unit_test_web.md` の2件。記録3本（レビュー記録・本ファイル・`steering.md`）を含めても想定内。`implementation/index.rst:19` の `toctree` は `#27-00` で登録済みのため差分なし |
+| G2 | **PASS** | `design.md`・`mapping/style.md`・`mapping/glossary.md`・`mapping/vocabulary.md`・`ja/conf.py`・`mapping/input/` に差分なし（`git status --porcelain` 全件に現れない） |
+| G3 | **PASS** | `locales/ja/LC_MESSAGES/sphinx.mo` は `git status --porcelain` に現れない（フルビルド後に確認） |
+| G4 | **PASS** | `verify_mapping.py` が exit 0（`OK: no errors`）。`mapping.csv` は未変更 |
+| G5 | **PASS** | Docker フルビルド（`sphinx-build -E`）が `build succeeded, 1 warning.`。警告は既知の `db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` 1件のみで**新規0件**。4観点の是正を全件畳んだ後の最終本文で実行し、コンテナ内で `grep -i 'warning\|error\|build succeeded'` を通して警告本文まで確認した |
+| G6 | **PASS** | 作業指示 §5 の禁止語（`不具合`・`バグ`・`将来`・`修正され`）0件。`本ページ`・`下さい`・`出来る`・`事が`・`以下の`・`上記の`・`利用`・`前提条件`・`スーパークラス`・`インターフェース`・`既定`・`デフォルト設定` も0件。です・ます 0件。`.. note::`／`.. warning::` 0件（`.. tip::` 2件・`.. important::` 0件）。用語集が0件を求める `テストケース`（`glossary.md:556`）・`自動テストフレームワーク`（同 `:509`）0件。揺れ表記（`同期応答メッセージ送信処理`・`メッセージ同期送信`・`メッセージング処理`・`バッチ処理`・`Webアプリケーション`）0件。出典の社内用語 `打鍵` も0件（`reviews/page-deal_unit_test_web.md` D-3） |
+| G7 | **PASS** | ページ先頭ラベル `deal_unit_test_web` が `mapping/style.md:380` と一致 |
+| G8 | **PASS** | `unicodedata.east_asian_width` で表示幅を測り、L1 `:4` 50（表示幅40）・L2 `:13` `:18` 50（8）×2・L3 `:23` `:31` `:38` `:48` 49（16・16・32・32）×4・L4 0件。実測則（L1 `max(50,表示幅)`／L2 50固定／L3 `max(49,表示幅)`）からの逸脱0件。L2 下線の直後は空行あり、L3 下線の直後は空行なしで、承認済み `mom.rst`・`batch.rst`・`rest.rst`・`http_messaging.rst` と同型。行末空白0件 |
+| G9 | **PASS** | `:ref:` 3件。飛び先はいずれも実在し、リンク文字列が飛び先の見出しと一致する（`deal_unit_test_mom` = `implementation/deal_unit_test/mom.rst:1`／見出し `:3`、`deal_unit_test_http_messaging` = 同 `http_messaging.rst:1`／`:3`、`request_unit_test_web` = `implementation/request_unit_test/web.rst:1`／`:3`）。各ラベルの次行を読んで照合した。**ただし `request_unit_test_web` は4行のスタブである**（`decide-3`）。`:java:extdoc:` 0件 |
+| G10 | **PASS** | 出典5区間の非空行16行を全件分類した。**未消化0行。** 反映先の行番号は `reviews/page-deal_unit_test_web.md` §2 の対応表に1行ずつ記載。出典から変えた点は同 §5 に D-1〜D-15 として理由つきで記載 |
+| G11 | **PASS（対象外）** | 本ページに割り当てられた5行はすべて `disposition=MOVE`。`REFERENCE` 行は0件 |
+| G12 | **PASS** | `mapping.csv` を `csv.DictReader` で読み、`03_DealUnitTest/index.rst`（`current-0141`〜`current-0146`）と `02_RequestUnitTest/double_transmission.rst`（`current-0057`〜`current-0059`）の全行の `src_body_start`／`src_body_end` を並べて重なりが無いことを確認した。**`current-0057`（`double_transmission.rst:6-12`。サーバサイドとクライアントサイドで機能するためテスト方法が異なる、という説明）は `リクエスト単体テスト（ウェブアプリケーション）` へ `MERGE` 済みであり、本ページは再掲せず `:49` の `:ref:` で送っている。** `index.rst:47-56` は `:34-43` と1バイト違わない重複節で、`current-0146`（`dest_page` 空・`DROP`）として除外済み。本ページには1回だけ書いている |
+| G13 | **PASS（対象外）** | `.. image::` 0件 |
+
+### 個別指示 §6 のゲート（S1〜S7）
+
+| | 結果 | 根拠 |
+|---|---|---|
+| S1 | **PASS** | L2 は `機能概要`（`:12`）・`使用方法`（`:17`）の2つのみ |
+| S2 | **PASS** | L3 は `テストを準備する`（`:22`）・`テストを実施する`（`:30`）・`テスト結果のエビデンスを取得する`（`:37`）・`二重サブミット防止機能を確認する`（`:47`）の4本。`ntf-doc-27-small-3rd.md:129-132` の構成図と文言・順序まで一致。出典に無いL3は0件 |
+| S3 | **PASS** | **`grep -n "テストクラス\|テストメソッド" web.rst` が0件。** 手動テストのページであり、`ntf-doc-27-small-3rd.md:110`「書けない。書かない」に従っている |
+| S4 | **PASS（対象外）** | `REFERENCE` 行を持たない（G11 と同じ） |
+| S5 | **PASS** | G9 と同じ。3件とも実ファイルを開いてラベルの定義位置と直後の見出しを確かめた |
+| S6 | **対象外** | `#27-15` 専用 |
+| S7 | **PASS** | `reviews/page-deal_unit_test_web.md` を作成した。`ntf-doc-27-small-3rd.md` §1-1（出典に無いL3を第3部に適用する件）の `decide` は `reviews/page-deal_unit_test_rest.md` §5 D-1／§7 decide-1 に1回だけ記録済みで、本記録の冒頭からそこを指している |
+
+### 4観点レビュー
+
+QA／設計／クラフト／検証の4観点をそれぞれ別のサブエージェントで実施し、1ラウンドで是正した（指摘25件、本文への是正8件、不採用3件、`decide` へ回した3件）。是正は成果物の `.rst` に畳んであり、別コミットに割っていない。内訳は `reviews/page-deal_unit_test_web.md` §6。
+
+最も重いのは3件。①**リード文の「テスティングフレームワークを使った自動実行は行わない。」が規約違反だった**（QA）。`design.md:117` が「『JUnitでの自動実行はできず』のような不可能性の記述は書かない」と明文で禁じており、`design.md:96` の走査2 が出典8ファイルに0件であることを実測している。対比材料の `03_DealUnitTest/batch.rst:5` はバッチが自動であることを述べるだけで、ウェブが自動でないことは述べていない。**第2文を削除した。** 設計観点が挙げた「`JUnitによる自動実行は行わない` に直す」案も同じ不可能性の記述であるため採らなかった。②**機能概要がリード文と使用方法の再掲だけになっていた**（設計・クラフトが独立に指摘）。初版の機能概要1文目は、リード文・使用方法の箇条書き・承認済み `about/index.rst:77` と合わせて同じ事実が4か所にあった。**機能概要を削り、デプロイの記述はリード文に統合した**（`design.md:678` の②「重複がない」）。③**エビデンスの表記が承認済みページと不一致で、同一ページ内でも割れていた**（QA・設計・クラフトの3観点が独立に指摘）。初版は本文を「画面のハードコピー」「データベースのダンプ」に書き換えていたが、`glossary.md` §8 の対応表にその置き換えを求める行は無く、承認済み `about/index.rst:75` は「画面ハードコピー・DBダンプ」である。**本文を出典と承認済みページに戻し、あわせて tip の `\ DB\ ` エスケープも外して出典と1バイト違わない形にした。**
+
+不採用のうち重いのは、設計・クラフトの「tip1（テスト実行前のDBダンプ）を `.. important::` にせよ」である。`style.md:232-235` の `important` は「無視すると**不具合・非推奨機能の誤用・データ不整合**につながる」と結果を3つに限っており、エビデンスの取り直しはそのいずれでもない。`design.md:121` も S-06 を同じ狭さで読んで `important` を採らない判断をしている。出典 `index.rst:29` も `tip` である。**`tip` のまま残し、判断を `decide-5` に上げた。** L3「テストを準備する」「テストを実施する」が `style.md:155-156`（S-03 の内容条件「ページタイトルを足しても情報が増えない語は不可」）に反するという指摘も、`ntf-doc-27-small-3rd.md:129-132` の指定を優先して不採用とし、`decide-4` に上げた（`#27-09` の同種の指摘と同じ扱い）。
+
+### 判断待ち（週明けに判定してほしい項目）
+
+`reviews/page-deal_unit_test_web.md` §7 に6件。**①tip2「テスト補助ツールについては現在検討中。」を出典どおり残したこと**（`ntf-doc-27-small-3rd.md:139` の指示に従った。いつの時点の「現在」か読者に分からない）。**②`mom.rst:62` が本ページへ委譲している「テストクラスの作り方」を、本ページが受けられないこと**（S3 が0件を求めるため本ページには書けない。`mom.rst:62` の前半を落とす案を提案。承認済みページの改稿になるため自分では直していない。`#27-09` の判断待ち④の続き）。**③`:49` の `:ref:` の飛び先 `request_unit_test_web` が4行のスタブであること**（実体の `current-0057`・`current-0058` は `#27-20`。**`#27-20` への申し送り: `current-0057` を必ず本文化すること**。`#27-07` decide-2・`#27-08` decide-6・`#27-09` decide-4・`#27-10` decide-4 と同型）。**④L3 の見出し名が S-03 の内容条件に反すること**（上記の不採用）。**⑤tip1 を `important` にしなかったこと**（上記の不採用。第3部に前例が無く、ここで基準を作ることになる）。**⑥`glossary.md:201`／`:556` の断定に反例があること**（両行は「業務上のテストケースを指す用法は NTF解説書の本文に現れない」と断定しているが、本ページの出典 `index.rst:12`・`:27` は手動テストの手順であり `testShots` のエントリを指し得ない。規約ファイルは書き換えないため上申のみ）。
