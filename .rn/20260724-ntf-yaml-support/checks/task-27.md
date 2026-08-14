@@ -551,3 +551,43 @@ QA／設計／クラフト／検証の4観点をそれぞれ別のサブエー�
 ### 判断待ち（週明けに判定してほしい項目）
 
 `reviews/page-request_unit_test_rest.md` §7 に6件。**①`dbInfo` / `testDataParser` の設定手順が解説書のどこにも書かれていないこと**（`rest.rst:61` の tip は出典どおり準備を求めるが、参照先の `setup/request_unit_test/rest.rst` は両者に触れておらず、`ja/development_tools/testing_framework/` 配下の `dbInfo` のヒットは当該1件のみ。第2部への追記要否の判断が要る）。**②構成図が本文と3点食い違うこと**（テストデータのノードが「Excelファイル」のまま／PATCH が無い／`SimpleRestTestSupport` が無い。作図元 `.xlsx` は同ディレクトリに移してあるが画像の作り直しは範囲外とした。前例は `reviews/page-deal_unit_test_http_messaging.md:79-80`）。**③`:ref:` の飛び先 `component_unit_test`・`request_unit_test_web` が4行のスタブであること**（`#27-07` decide-2・`#27-08` decide-6・`#27-09` decide-4・`#27-10` decide-4・`#27-11` decide-3 と同型）。**④`setBody` に触れていないこと**（上記の見送り。承認済み `implementation/deal_unit_test/rest.rst:43` が使用しており、同ページ `:22` は本ページを正典扱いしている）。**⑤JUnit 5 の導線が本ページに無いこと**（第1部 `about/index.rst:115` が全体を受けており、第3部の他ページも個別には張っていない。第3部全体の方針判断）。**⑥承認済み `testdata_notation.rst:63` のパス表記が `src/` 無しで、同ページ `:48` とも食い違っていること**（D-10 との揃えが要る）。
+
+## `#27-13` リクエスト単体テスト（MOMによるメッセージング）
+
+**成果物**: `ja/development_tools/testing_framework/implementation/request_unit_test/mom.rst`（209行。ラベル `request_unit_test_mom`。`#27-00` の4行スタブへの追記）
+**出典**: `06_TestFWGuide/RequestUnitTest_real.rst` の `:8-165`（`current-0294`〜`current-0302`）、`06_TestFWGuide/RequestUnitTest_send_sync.rst` の `:8-156`（`current-0321`〜`current-0327`・`current-0329`・`current-0330`）、`05_UnitTestGuide/02_RequestUnitTest/real.rst` の `:10-53`・`:260-320`（`current-0101`〜`current-0104`・`current-0108`〜`current-0112`）、同 `delayed_receive.rst` の `:8-47`（`current-0046`〜`current-0049`）、同 `send_sync.rst` の `:10-73`・`:292-296`（`current-0124`・`current-0125`・`current-0127`）、`input/ntf-doc-terms.md` の `:501-525`（`input-0033`・`input-0034`）。`current-*` はいずれも削除済みで `git show 2e501ad:<path>` で参照。36行・`lines` 合計461行
+**参照実装**: `nablarch-testing` `e21bf67`
+**個別指示**: 無し（`ntf-doc-27-small-3rd.md` の対象は `#27-07`・`#27-10`・`#27-11`・`#27-15` のみ。本ページは作業指示 `ntf-doc-weekend-queue.md` のみに従う）
+**レビュー記録**: `reviews/page-request_unit_test_mom.md`
+
+### ゲート結果
+
+| | 結果 | 根拠 |
+|---|---|---|
+| G1 | **PASS** | `git status --porcelain`（ディレクトリで絞らずに実行）は `R` 4件（画像の `git mv`）、` M ja/.../implementation/request_unit_test/mom.rst`、`?? .rn/.../reviews/page-request_unit_test_mom.md` の6件。記録2本（本ファイル・`steering.md`）を含めても想定内。`implementation/index.rst:17` の `toctree` は `#27-00` で登録済みのため差分なし |
+| G2 | **PASS** | `design.md`・`mapping/style.md`・`mapping/glossary.md`・`mapping/vocabulary.md`・`ja/conf.py`・`mapping/input/` を明示して `git status --porcelain` を実行し、出力0件 |
+| G3 | **PASS** | `locales/ja/LC_MESSAGES/sphinx.mo` は `git status --porcelain` に現れない（フルビルド後に確認） |
+| G4 | **PASS** | `verify_mapping.py` が exit 0（`OK: no errors`）。`mapping.csv` は未変更 |
+| G5 | **PASS** | Docker フルビルド（`sphinx-build -E`）が `build succeeded, 1 warning.`。警告は既知の `db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` 1件のみで**新規0件**。コンテナ内で `grep -i 'warning\|error\|build succeeded'` を通して警告本文まで確認した |
+| G6 | **PASS** | 作業指示 §5 の禁止語（`不具合`・`バグ`・`将来`・`修正され`）0件。`本ページ`・`下さい`・`出来る`・`事が`・`以下の`・`上記の`・`利用`・`前提条件`・`スーパークラス`・`インターフェース`・`インターフェイス`・`既定`・`デフォルト設定` も0件。です・ます 0件。`.. note::`／`.. warning::` 0件（`.. tip::` 4件・`.. important::` 0件）。用語集が0件を求める `テストケース`（`glossary.md:556`）・`自動テストフレームワーク`（同 `:509`）0件。無条件置換の対象語 `メッセージ同期送信処理`（`:528`）・`主なクラス・リソース`（`:308`）0件、処理方式を指す `バッチ処理`（`:520`）0件 |
+| G7 | **PASS** | ページ先頭ラベル `request_unit_test_mom` が `mapping/style.md:378` と一致 |
+| G8 | **PASS** | `unicodedata.east_asian_width` で表示幅を測り、L1 `:4` 50（表示幅47）・L2 `:13` `:108` 50×2・L3 `:113` `:156` `:176` `:187` `:195` 49×5。実測則（L1 `max(50,表示幅)`／L2 50固定／L3 `max(49,表示幅)`）からの逸脱0件。L4 未使用。L2 下線の直後は空行あり、L3 下線の直後は空行なしで承認済みページと同型 |
+| G9 | **PASS** | `:ref:` 10件・`:java:extdoc:` 5件。飛び先はいずれも実在し、リンク文字列が飛び先の見出しと一致する。各ラベルの次行を読んで照合した一覧は `reviews/page-request_unit_test_mom.md` §4。`:java:extdoc:` の5クラスは `e21bf67` で `@Published` を確認済み。`@Published` の無い `MainForRequestTesting`・`RequestTestingMessagingProvider` は ``literal`` 表記にした。**ただし `request_unit_test_web` と `request_unit_test_batch` は4行のスタブである**（`decide-3`） |
+| G10 | **PASS** | 出典36区間の非空行を全件分類した。**未消化0行。** 反映先は `reviews/page-request_unit_test_mom.md` §2-1 の対応表に記載。意図して落とした3件（D-3・D-6・D-8）は同 §5 に理由つきで記載 |
+| G11 | **PASS** | `disposition=REFERENCE` は `current-0049`（`delayed_receive.rst:42-47`）・`current-0104`（`real.rst:50-53`）・`current-0330`（`RequestUnitTest_send_sync.rst:149-156`）の3件。いずれも節を起こさず、`mom.rst:177`・`:183-184` の `:ref:` 導線に落としてある |
+| G12 | **PASS** | `mapping.csv` を `csv.DictReader` で読み、隣接する `current-0126`（`send_sync.rst:77-288` → テストデータの書き方）・`current-0105`／`current-0107`（`real.rst:56-96`／`:211-253` → 同）・`current-0050`（`delayed_receive.rst:50-56` → 同）・`current-0328`（`RequestUnitTest_send_sync.rst:127-140` → リクエスト単体テストの設定（MOMによるメッセージング））と本ページ36行の `src_body_start`／`src_body_end` を並べ、重なりが無いことを確認した。`fwHeaderDefinition` の tip（`current-0299`）は `testdata_notation.rst:1154` に既載のため導線に置き換えた（D-6） |
+| G13 | **PASS** | `.. image::` 4件。`git mv` で `06_TestFWGuide/_images/real_request_test_class.png`・`06_TestFWGuide/_images/send_sync.png`・`05_UnitTestGuide/02_RequestUnitTest/_image/send_sync_base.png`・同 `_image/hanrei.png` を `implementation/request_unit_test/images/mom/` へ移動（`design.md:897`・`:907`）。4点とも作図元の `.xlsx` は存在しない。`05_UnitTestGuide/02_RequestUnitTest/_image/` に残る同名の `send_sync.png` は別ページの図であり移動していない |
+
+### 4観点レビュー
+
+QA／設計／クラフト／検証の4観点をそれぞれ別のサブエージェントで実施し、1ラウンドで是正した（指摘45件、本文への是正26件、不採用・判断待ち19件）。是正は成果物の `.rst` に畳んであり、別コミットに割っていない。内訳は `reviews/page-request_unit_test_mom.md` §6。
+
+最も重いのは3件。①**同期応答メッセージ送信のテストデータの格納場所が実装と逆だった**（QA）。初版は `sendSyncTestData` 配下と書いていたが、`nablarch-testing@e21bf67` の `RequestTestingSendSyncSupport.java:110-111` はテストクラスの `sheetName` から解決しており（`TestSupport.java:390` の `getBookName() + "/" + sheetName`）、`SEND_SYNC_TEST_DATA_BASE_PATH`（`SendSyncSupport.java:49`）の利用元は取引単体テストのモック3箇所に限られる。出典 `send_sync.rst:78-79` も「テストソースコードと同じディレクトリに同じ名前で格納する」としている。**書き直したうえで誤った導線を外した**（D-9）。②**テストショットと電文をグループIDで対応付ける説明が欠けていた**（QA）。`expectedMessage`・`responseMessage` の役割が本ページからも飛び先からも辿れなかったため、カラム名と対応付けを1文足して `testdata_notation-test_shots` へ導線を張った。③**図中のクラス名が実装に存在しなかった**（検証）。`send_sync.png` の `StandaloneSupportTemplate`・`BatchRequestTestSupportTemplate` は本文の表と食い違うため、tip で対応関係を示した（D-10）。
+
+用語集の無条件置換違反4箇所（クラフト、D-11）、「処理方式」の二義使用（設計・クラフトが独立に指摘。`glossary.md:123-137` が7名称に限定しているため `mom.rst:10` を改めた）、`expectedStatusCode` の照合が結果確認の一覧から辿れないこと（QA・検証。`MessagingRequestTestSupport.java:195-210` を確認して `mom.rst:202` に補った）も採った。L3への節ラベル追加（設計）は承認済みの兄弟ページに前例が無いため見送り、取引単体テスト側 tip の `:ref:` 化（設計）は承認済みページの改稿になるため自分では直していない。
+
+### 判断待ち（週明けに判定してほしい項目）
+
+`reviews/page-request_unit_test_mom.md` §7 に9件。**①リクエストIDの tip が `implementation/deal_unit_test/mom.rst:72-73` と逐語で同一であること**（持ち込み元は別々の出典。定義側を1つ決める判断が要る）。**②承認済みの `testdata_notation.rst:1154` が、同期応答メッセージ送信のテストデータを一律 `sendSyncTestData` 配下としていること**（リクエスト単体テストでは誤りで、本ページの飛び先でもある。`testdata_examples.rst:1802` も同様）。**③`:ref:` の飛び先 `request_unit_test_web`・`request_unit_test_batch` が4行のスタブであること**（`#27-07` decide-2・`#27-08` decide-6・`#27-09` decide-4・`#27-10` decide-4・`#27-11` decide-3・`#27-12` decide-3 と同型）。**④本ページに節ラベルが無いこと**（`ntf-doc-weekend-queue.md:110` が `#27-15` を本ページとの差分ページとしている）。**⑤受信テストを動かすためのコンポーネント設定が解説書のどこにも無いこと**（内蔵MQ、固定キュー名 `TEST.REQUEST`／`TEST.RESPONSE`、`messagingProvider` の登録。第2部への追記要否）。**⑥同期応答メッセージ送信で `messagingProvider` を `RequestTestingMessagingProvider` に差し替える手順が解説書のどこにも無いこと**（⑤と同じく第2部の判断）。**⑦図2点が「Excelファイル（テストデータ）」の表記のままであること**（作図元が無く作り直せない。`#27-12` decide-2 と同型の横断課題）。**⑧承認済みの `testdata_notation.rst:528-533` が `requestPath`・`userId` を「必須」としていること**（`MessagingRequestTestSupport.java:89-91` が `putIfAbsent` で補完するため MOM の受信テストでは不要）。**⑨JUnit 5 の導線が本ページに無いこと**（`#27-12` decide-5 と同じ第3部全体の方針判断）。
+
+**`#27-14` への申し送り**: 常駐バッチのテストでは `RequestThreadLoopHandler` を `nablarch.test.OneShotLoopHandler` に差し替える（`nablarch-testing@e21bf67` `src/main/java/nablarch/test/OneShotLoopHandler.java:16`、`input/ntf-doc-terms.md:498`）。出典 `RequestUnitTest_real.rst:153` が `MainForRequestTesting` の責務としていた「常駐化機能を無効化する」の実体はこちらであり、本ページからは落とした（D-3）。
