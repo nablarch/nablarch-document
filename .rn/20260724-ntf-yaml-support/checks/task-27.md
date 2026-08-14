@@ -287,3 +287,53 @@ QA／設計／クラフト／検証の4観点をそれぞれ別のサブエー�
 ### 判断待ち（週明けに判定してほしい項目）
 
 `reviews/page-html_check_tool.md`「判断待ち」に2件。**①`checkHtml`・`htmlChecker`・`htmlCheckerConfig` の説明を本ページと `web.rst` のどちらに置くか**（`design.md:360` の「ツール利用者が1箇所で完結できることを優先」と `design.md:522` の「承認済みページが同じ事実を持つ場合は `:ref:`」が逆を向く）。**②承認済みの `setup/request_unit_test/web.rst:154-155` のXML例が旧レイアウトのパスのままで、同ページ `:70` のデフォルト値と食い違う**。承認済みページのため本タスクでは触れていない。
+
+## `#27-07` 取引単体テスト（RESTfulウェブサービス）
+
+**成果物**: `ja/development_tools/testing_framework/implementation/deal_unit_test/rest.rst`（60行。ラベル `deal_unit_test_rest`。`#27-00` の4行スタブへの追記）
+**出典**: `05_UnitTestGuide/03_DealUnitTest/rest.rst`（削除済み。`git show 2e501ad:<path>` で参照）の `:4-8`・`:11-37`。2行とも `MERGE`。`DROP`・`REFERENCE` なし
+**参照実装**: `nablarch-testing-rest`（`9ada31e`）、`nablarch-example-web`（`ProjectUpdateForm` の実在確認）
+**個別指示**: `ntf-doc-27-small-3rd.md` §1・§2・§6
+**レビュー記録**: `reviews/page-deal_unit_test_rest.md`
+
+### ゲート結果
+
+| | 結果 | 根拠 |
+|---|---|---|
+| G1 | **PASS** | `git status --porcelain`（ディレクトリで絞らずに実行）は ` M ja/.../implementation/deal_unit_test/rest.rst` の1件。記録3本（`reviews/page-deal_unit_test_rest.md`・本ファイル・`steering.md`）を含めても想定内。`implementation/index.rst` の `toctree` は `#27-00` で登録済みのため差分なし |
+| G2 | **PASS** | `design.md`・`mapping/style.md`・`mapping/glossary.md`・`mapping/vocabulary.md`・`ja/conf.py`・`mapping/input/` に差分なし |
+| G3 | **PASS** | `locales/ja/LC_MESSAGES/sphinx.mo` は `git status --porcelain` に現れない。ビルド直後に `git checkout --` で戻している |
+| G4 | **PASS** | `verify_mapping.py` が exit 0（`Loaded 597 rows` / `12986` / `11983` / `OK: no errors`）。`mapping.csv` は未変更 |
+| G5 | **PASS** | Docker フルビルド（`sphinx-build -E`）が `build succeeded, 1 warning.`。警告は既知の `db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` 1件のみで**新規0件**。是正を全件畳んだ後の最終本文で実行し、全ログを `grep -i 'warning\|error'` して確認した |
+| G6 | **PASS** | 作業指示 §5 の禁止語（`不具合`・`バグ`・`将来`・`修正され`）0件。あわせて `本ページ`・`下さい`・`出来る`・`事が`・`以下の`・`上記の`・`利用`・`前提条件`・`スーパークラス`・`インターフェース`・`既定`・`デフォルト設定`、および用語集が0件を求める `テストケース`（`glossary.md:556`）も0件。です・ます 0件、`.. note::`／`.. warning::` 0件（`tip` 1件・`important` 0件） |
+| G7 | **PASS** | ページ先頭ラベル `deal_unit_test_rest` が `mapping/style.md:381` と一致 |
+| G8 | **PASS** | `unicodedata.east_asian_width` で表示幅を測り、L1 50（表示幅39）・L2 50（8）×2・L3 49（24）。実測則（L1 `max(50,表示幅)`／L2 50固定／L3 `max(49,表示幅)`）からの逸脱0件 |
+| G9 | **PASS** | `:ref:` 3件。飛び先はいずれも実在する（`request_unit_test_rest` = `implementation/request_unit_test/rest.rst:1`、`testdata_notation` = `implementation/testdata_notation.rst:1`、`deal_unit_test_setting_rest` = `setup/deal_unit_test/rest.rst:1`）。リンク文字列3件とも飛び先ページのタイトルと一致。**ただし `request_unit_test_rest` は4行のスタブである**（`decide-2`） |
+| G10 | **PASS** | 出典 `:4-8`・`:11-37` の非空行を全件分類し、落とした行は0件。対応は `reviews/page-deal_unit_test_rest.md`「出典行の消化」に記載 |
+| G11 | **PASS** | `disposition=REFERENCE` の行なし（2行とも `MERGE`） |
+| G12 | **PASS** | 同じ出典ファイルの `:40-95`（`current-0150`〜`0152`）は `dest_page = 取引単体テストの設定（RESTfulウェブサービス）` で第2部の作成済みページが持つ。本ページは本文を持たず tip から `:ref:` で送るだけにした。`mapping_id` に枝（`-a`／`-b`）は無い |
+| G13 | **対象外** | `.. image::` 0件 |
+
+### 個別指示の追加ゲート（`ntf-doc-27-small-3rd.md` §6）
+
+| | 結果 | 根拠 |
+|---|---|---|
+| S1 | **PASS** | L2は `機能概要`・`使用方法` の2つのみ（下線行の機械抽出） |
+| S2 | **PASS** | L3は `テストメソッドを作成する` の1つのみで、`ntf-doc-27-small-3rd.md:60-67` の構成図と一致 |
+| S3 | **対象外** | `#27-11` 向けのゲート |
+| S4 | **対象外** | 本ページに `REFERENCE` 行なし |
+| S5 | **PASS** | G9 と同じ（飛び先3件が実在し、リンク文字列が飛び先の見出しと一致） |
+| S6 | **対象外** | `#27-15` 向けのゲート |
+| S7 | **PASS** | `reviews/page-deal_unit_test_rest.md` を作成し、§1-1 のアウトライン適用の `decide` を `decide-1` として1回だけ記録した。`#27-10`・`#27-11`・`#27-15` はここを指す |
+
+### 4観点レビュー
+
+QA／設計／クラフト／検証の4観点をそれぞれ別のサブエージェントで実施し、1ラウンドで是正した（QA 高2・中5・低3、設計 高2・中4・低6、クラフト 高2・中8・低8、検証は8項目すべて PASS）。是正は成果物の `.rst` に畳んであり、別コミットに割っていない。内訳は `reviews/page-deal_unit_test_rest.md`。
+
+最も重いのは3件。①**出典 `:7` の「リクエスト毎のテストを連続実行する」がテストメソッドを複数並べる読み方を許し、同じページの機能概要・使用方法と食い違っていた**こと。出典自身のコード例が1つのテストメソッドで3リクエストを送っており、`defaultProcessor.reset()` も各テストメソッドの開始時に呼ばれる（`SimpleRestTestSupport.java:96,103`）ため、実装に合わせた。②**コードブロックが出典のまま4字下げで `style.md` S-05 違反だった**こと。NTF解説書の新規ページ123件のコードブロックのうち122件が2字下げで、本ページが唯一の例外だった。③**末尾の tip が承認済みページの手順を書き写し、かつ実装に無い排他性を作っていた**こと。`sendRequest(HttpRequest, RequestResponseProcessor)`（`SimpleRestTestSupport.java:197`）が公開されており「コンポーネント設定ファイルに登録する以外に方法が無い」とは言えない。導線だけに削った。
+
+不採用のうち最も重いのは、クラフト観点の「L3見出しを『1つのテストメソッドで複数のリクエストを送る』に改めよ」である。`ntf-doc-27-small-3rd.md:66` が `テストメソッドを作成する` と確定させ、同 `:194`（S2）が構成図との一致をゲートにしているため、個別指示を優先した。
+
+### 判断待ち（週明けに判定してほしい項目）
+
+`reviews/page-deal_unit_test_rest.md`「判断待ち」に3件。**①第3部に `style.md` S-02 の「出典が無い場合は見出し自体を置かない」を適用したこと**（`#27-10`・`#27-11`・`#27-15` にも及ぶ。規約本体に第3部の但し書きを足すかは未決）。**②`:22` の `:ref:` の飛び先 `implementation/request_unit_test/rest.rst` が現時点で4行のスタブであること**（`ntf-doc-27-small-3rd.md:44` の「参照先は先に作ってある」という前提が `#27-07`→`#27-12` には成立していない。`steering.md:590,595` で実測）。**③第2部 `setup/deal_unit_test/rest.rst` から本ページへの `:ref:` が無いこと**（承認済みページの変更を伴うため触れていない）。
