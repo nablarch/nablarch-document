@@ -833,3 +833,65 @@ QA / 設計 / クラフト / 検証 を別々のサブエージェントで実�
 `reviews/page-deal_unit_test_db_queue.md` §7 に4件。**①飛び先 `implementation/deal_unit_test/batch.rst:10`・`:15` は「1つの取引が複数のバッチ処理に分かれる」を前提に組み立てているが、`messaging/db/` 配下に「取引」の語は0件で、複数リクエストで1取引が成立する構成の記述が無い。姉妹の `deal_unit_test/rest.rst:15`・`mom.rst:15` は「1リクエストが1取引に対応する場合は取引単体テストを実施する必要はない」旨の留保を明示しているのに本ページには無い。成立するか否かはFW解説書に肯定・否定いずれの記述も無く未確認**（必須）。**②DBキューの最小ハンドラ構成に含まれる `request_thread_loop_handler`（`messaging/db/architecture.rst:49`・`:155`）の置き換えが必須なのに、`deal_unit_test/batch.rst` は「常駐」「OneShotLoop」0件で触れておらず、3ホップ先（`:20` → `request_unit_test/batch.rst:183` → `setup/request_unit_test/batch.rst:15-33`）の「常駐バッチの場合」条件節の中にある。`#27-17` の `decide-1` と同一事象だがホップが1つ多い分独立に成立**（必須）。**③飛び先 `deal_unit_test/batch.rst:95-487`（約8割）の記述例6件がすべてファイル入出力で、DBキューの入力は `SqlRow`（`getting_started/table_queue.rst:99-100`）。`setUpFile`・`expectedFile` は `BatchRequestTestSupport.java:130-132` で任意カラムのため誤りではない**（推奨）。**④`about/index.rst:77` が取引単体テストの処理方式としてDBキュー（HTTPメッセージング・MOMも）を挙げていない。ただし `design.md:35` は第1部に求める処理方式内訳をリクエスト単体テストのみと定めており設計違反ではない**（推奨）。
 
 **`#27-20` への申し送り**: 変更なし（`#27-13` の申し送りを維持）。
+
+---
+
+## `#27-19` コンポーネント単体テスト
+
+- **成果物**: `ja/development_tools/testing_framework/implementation/class_unit_test/component.rst`（第3部、全373行。4行のスタブへの追記）
+- **出典**: 26件・770行（`mapping.csv` を `csv.DictReader` で全行走査、実測）。23件を反映、3件を意図して落とした（`current-0026` の `:download:` 4件、`current-0220` のExcelファイル記述例、`current-0028` のうち画像4枚とサンプルアプリ固有の記述）
+- **参照実装**: `nablarch-testing` `e21bf67` / `nablarch-testing-yaml` `190cc9a`
+- **個別指示**: `.rn/20260724-ntf-yaml-support/ntf-doc-27-large-pages.md`
+- **レビュー記録**: `reviews/page-component_unit_test.md`
+- **画像**: `git mv` で3枚移設（`class_structure.png` 728×296・`select_sequence.png` 510×421・`update_sequence.png` 531×453）。残る4枚（`05_UnitTestGuide/01_ClassUnitTest/_image/` のExcelスクリーンショット）は落とした
+
+### ゲート
+
+| ゲート | 結果 | 根拠 |
+| --- | --- | --- |
+| G1 `git status --porcelain` 全件 | PASS | `M component.rst`・`R` 画像3件・`?? reviews/page-component_unit_test.md` の5件のみ |
+| G2 禁止ファイル差分0 | PASS | `design.md`・`mapping/style.md`・`mapping/glossary.md`・`mapping/vocabulary.md`・`ja/conf.py`・`mapping/input/` はいずれも `git status --porcelain` に出現しない |
+| G3 `sphinx.mo` 未コミット | PASS | `git status --porcelain` に出現なし |
+| G4 `verify_mapping.py` | PASS | `OK: no errors`（exit 0） |
+| G5 フルビルド | PASS | `build succeeded, 1 warning.`。既知の `db_double_submit.rst:108` のみ。新規0 |
+| G6 禁止語 | PASS | `不具合`・`バグ`・`将来`・`修正され` が0件（レビューで `:363` の `不具合` を検出し「誤り」に修正済み） |
+| G7 ラベル | PASS | `component_unit_test` が `style.md:373` と文字列一致。`ja/` 配下で重複定義0件 |
+| G8 下線幅 | PASS | L1 50（表示幅24）／L2 50 × 2／L3 49 × 5（最大24）／L4 49 × 6（最大42）。同一ページ内で基準幅を統一 |
+| G9 `:ref:` 飛び先とリンクテキスト | PASS | 11件すべて飛び先が実在し、リンク文字列が飛び先の見出しと一致 |
+| G10 出典の反映 | PASS | 26件を「反映23／意図して落とした3」に分類し、理由を `reviews/page-component_unit_test.md` §2・§3 に記録 |
+| G11 REFERENCE行を節にしない | PASS | `current-0196` は `:313` の1文＋`:ref:` のみで、独立した節を持たない |
+| G12 二重掲載なし | PASS | 相方の `current-0184-b`（`02_DbAccessTest.rst:101-167`）・`current-0185-b` は「テストデータの書き方」の担当。本文は `:100`・`:220` で止めており、同じ行範囲を載せていない |
+| G13 画像 `git mv` | PASS | `.. image::` 3件の参照先が実在。移動元 `guide/development_guide/06_TestFWGuide/_images/` に3枚とも残っていない |
+| L1 全 `mapping_id` の反映または意図的drop | PASS | G10 と同じ |
+| L2 他ページ割当の出典を書いていない | PASS | レビューで `:295` の `current-0221`（テストデータの書き方に割当）混入を検出し、テストコード側の操作2文に切り詰め済み |
+| L3 「〜したい」形式の見出し0件 | PASS | `grep -c "したい"` が0 |
+| L4 `拡張例` の見出しなし | PASS | `grep -c "拡張例"` が0 |
+| L5 L3見出しがすべて「〜する」形式 | PASS | 5件すべて（テストクラスを作成する／テストメソッドを作成する／テストデータを作成する／テストを実行する／テスト結果を確認する）。L4 6件も同形式 |
+| L6 `how_to_set_token_in_request_unit_test` | N/A | `#27-20` の担当 |
+| L7 `implementation/index.rst` の toctree | PASS | 未変更。`:9-24` は `design.md:860-880` と一致 |
+| S-01 である調 | PASS | です・ます・ください・下さい が0件 |
+| S-02 セクション構成 | PASS | 「機能概要」→「使用方法」。リード文は目次直後・最初のL2より前で、「ここでは、」で始まらない。「モジュール一覧」なし |
+| S-03 見出し | PASS | 禁止語（概要・補足・注意事項・その他）0件。同一ページ内の重複0件 |
+| S-04 下線記号 | PASS | L1 `=`／L2 `-`／L3 `~`／L4 `^` |
+| S-05 code-block | PASS | 12件すべてに言語指定（`java` 11・`properties` 1）。内容はディレクティブ行から相対2字下げ |
+| S-06 important / tip | PASS | `important` 5件はいずれも守らないと結果が誤る事項、`tip` 2件は補足情報 |
+| S-07 表 | PASS | `list-table` 3件、すべて `:widths:` 指定あり。grid/simple table は0件 |
+| S-08 ラベル | PASS | G7 と同じ |
+| S-09 `.. contents::` | PASS | ラベル→タイトル→`.. contents:: 目次` / `:depth: 3` / `:local:` の順 |
+| S-10 Excel／YAML書き分け | PASS | `:315` の `TestDataParser` は第2引数の形が両形式で同一のため1文で併記（規約1）。Excel専用の記述はなく、L4「Excel形式の場合」「YAML形式の場合」の対は不要 |
+| S-11 L4を持つL3の導入文 | PASS | レビューで違反を検出し、`:149` に配下6件の予告を追加済み |
+| 用語置換 | PASS | `テストケース`・`テストソースコード`・`プロパティファイル`・`事前準備データ`・`想定結果`・`想定値` が0件。造語「データバリエーション」も `テストショット` に置換済み |
+
+### 出典の誤りに対する訂正
+
+旧解説書のAPI記述の誤り5件を、`e21bf67` の実装に合わせて訂正した（詳細は `reviews/page-component_unit_test.md` §4）。`assertSqlResultSetEquals` の3引数呼び出し3件（`02_DbAccessTest.rst:93`・`03_Tips.rst:140`・`:612`）、`assertTableEquals` に実測値を渡す1件（`02_DbAccessTest.rst:217`）、`TestDataParser#getListMap` の引数の与え方1件（`03_Tips.rst:503`）。いずれも本体の不具合ではなく旧解説書の記述誤りのため `decide` には上げていない。
+
+### 4観点レビュー
+
+QA / 設計 / クラフト / 検証 を別々のサブエージェントで実施。**必須指摘は5件で、すべて本文に反映済み**（G6 禁止語、L2 他ページ割当の混入、S-11 導入文、`dbAccessTest.dbTransactionName` の値の意味、`TestDataParser` 第2引数の説明）。推奨のうち9件を採用、3件を不採用とした。判断待ちへ6件。
+
+### 判断待ち（週明けに判定してほしい項目）
+
+`reviews/page-component_unit_test.md` §9 に6件。**①`style.md:193` の L4「用例が薄いページでのみ使う」が判定基準として機能していない。承認済みページのL4件数は0〜58件に分布している**（参考）。**②`current-0196` の飛び先が節アンカー `MasterDataRestore-fk_key` からページ先頭ラベル `master_data_restore` に粗くなった。対応記述は `setup/master_data_restore.rst:163` にあるが、その節の見出しは「テーブルの依存関係の解析を抑止する」で外部キーの扱いを表していない**（推奨）。**③`:89-93` の `dbAccessTest.dbTransactionName` は設定手順であり `design.md:725` 観点D「第3部に設定が混入していないか」に抵触しうる。ただし `mapping.csv` の `current-0237` は本ページ・使用方法に割り当てられている**（推奨）。**④`:125` の「同名のメソッドに同種のアノテーションを付けると起動されなくなる」は出典どおりだが、実際の原因は `static` メソッドの隠蔽と考えられる。JUnit4ランナーの挙動は参照リポジトリで確認できず未確認**（参考）。**⑤`setUpDb` が要求する `testTran` という名前の `SimpleDbTransactionManager`（`DbAccessTestSupport.java:42`・`:188` → `TransactionTemplate.java:43-49`）の登録手順が、解説書のどのページにも無い（`grep -rn "testTran" ja/` が新旧とも0件）。ブランクプロジェクトが提供しているかは作業ディレクトリ外のため未確認**（推奨）。**⑥例題のドメインが `UserComponent`／`EmployeeDbAccess`／`EmployeeComponent` の3系統に分かれている。出典が3本にまたがるためで事実誤認ではない**（参考）。
+
+**`#27-20` への申し送り**: 変更なし（`#27-13` の申し送りを維持）。
