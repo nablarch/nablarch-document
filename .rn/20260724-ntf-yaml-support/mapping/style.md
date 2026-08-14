@@ -2,7 +2,7 @@
 
 ## 1. 適用範囲と file:line の基準
 
-本書は、`design.md`「7. トンマナ」が定めた8観点について、FW解説書のライブラリ
+本書は、`design.md`「8. トンマナ」が定めた8観点について、FW解説書のライブラリ
 （`ja/application_framework/application_framework/libraries/`、以下 `FW:`）から
 記述の調子を抽出し、ページ作成時にCCが従う基準として定めたものである。
 
