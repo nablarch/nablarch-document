@@ -250,3 +250,40 @@ QA／設計／クラフト／検証の4観点をそれぞれ別のサブエー�
 ### 判断待ち（週明けに判定してほしい項目）
 
 `reviews/page-master_data_tool.md`「判断待ち」に8件。承認済みページの変更を伴うものが3件ある。**①`master_data_restore.rst:91` のスキーマ名**（小文字 `nablarch_test_master`。配布物は大文字）、**②`master_data_restore.rst:59-61` の tip**（本ツール併用時はマスタデータファイルに記述した全テーブルが必要）、**③`testdata_notation.rst:40` の gsp への言及**（`mapping.csv` では gsp の推奨は本ページにのみ割り当てられており、出典 `01_Abstract.rst:607-609` は gsp に触れていない）。ほかに規約側の手当て3件（見出し下線長の固定、第4部のセクション構成、承認済みページとの事実の重複の扱い）、YAML 形式時の挙動を本体側で扱うかの判断、配布物の整理（`protect.main.resources` の綴り、存在しない `build/classes`）。
+
+## `#27-06` HTMLチェックツール
+
+**成果物**: `ja/development_tools/testing_framework/tools/html_check_tool.rst`（230行。ラベル `html_check_tool`）＋移送アセット1件（`how-to-trace-html.png`）
+**出典**: `08_TestTools/03_HtmlCheckTool/index.rst`（削除済み。`git show 2e501ad:<path>` で参照）の9行・214行。`DROP`・`REFERENCE` なし
+**参照実装**: `nablarch-testing`（`e21bf67`）、`nablarch-example-web`（デフォルト設定の設定ファイルと `unit-test.xml`）
+**レビュー記録**: `reviews/page-html_check_tool.md`
+
+### ゲート結果
+
+| | 結果 | 根拠 |
+|---|---|---|
+| G1 | **PASS** | `git status --porcelain`（ディレクトリで絞らずに実行）は ` M ja/.../tools/html_check_tool.rst` と `R ja/.../guide/development_guide/08_TestTools/03_HtmlCheckTool/_image/how-to-trace-html.png -> ja/.../tools/images/html_check_tool/how-to-trace-html.png` の2件。記録3本（`reviews/page-html_check_tool.md`・本ファイル・`steering.md`）を含めても想定内 |
+| G2 | **PASS** | `design.md`・`mapping/style.md`・`mapping/glossary.md`・`mapping/vocabulary.md`・`ja/conf.py`・`mapping/input/` に差分なし |
+| G3 | **PASS** | `locales/ja/LC_MESSAGES/sphinx.mo` は `git status --porcelain` に現れない。ビルド直後に `git checkout --` で戻している |
+| G4 | **PASS** | `verify_mapping.py` が exit 0。`mapping.csv` は未変更 |
+| G5 | **PASS** | Docker フルビルド（`sphinx-build -E`）が `build succeeded, 1 warning.`。警告は既知の `db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` 1件のみで**新規0件**。復活させた `:scale: 70` も警告を出さない。是正を全件畳んだ後の最終本文で実行した |
+| G6 | **PASS** | 作業指示 §5 の禁止語0件。あわせて `本ページ\|下さい\|出来る\|事が\|以下の\|上記の\|利用\|前提条件\|スーパークラス`、および用語集が0件を求める `テストケース`（`glossary.md:556`）も0件。です・ます 0件、`.. note::`／`.. warning::` 0件（`tip` 2件・`important` 7件） |
+| G7 | **PASS** | ページ先頭ラベル `html_check_tool` が `mapping/style.md:392` と一致 |
+| G8 | **PASS** | `unicodedata.east_asian_width` で表示幅を測り、全10見出しで「下線の文字数 ≥ 見出しの表示幅」。NG 0件（L1・L2 は50、L3 は49。表示幅の最大は34） |
+| G9 | **PASS** | `:ref:` 5件（`request_unit_test_setting_web` ×3、`html_check_tool-switch`、`html_check_tool-replace`）がすべて解決。`:java:extdoc:` 3件・`.. image::` 1件もビルドで解決。削除された旧ラベル `01_custom`・`customize_html_check` への参照は `ja/` 配下の `.rst` に0件 |
+| G10 | **PASS** | 9行214行すべてを分類。落としたのは2件（リード文の「目的、仕様、使用方法に関して記述する」、`:61-63` のコメントアウト）で、理由は `reviews/page-html_check_tool.md`「出典行の消化」に記載 |
+| G11 | **PASS** | `disposition=REFERENCE` の行なし（9行すべて `MERGE`） |
+| G12 | **PASS** | `HTMLチェック` を含む `.rst` は本ページと承認済みの `setup/request_unit_test/web.rst` のみ。後者は設定項目一覧としての記載で、本ページから `:ref:` している |
+| G13 | **PASS** | `.. image::` 1件のファイルが実在。`git ls-files guide/development_guide/08_TestTools/` が0件で、空ディレクトリも削除済み |
+
+### 4観点レビュー
+
+QA／設計／クラフト／検証の4観点をそれぞれ別のサブエージェントで実施し、1ラウンドで是正した（QA M2/S4/N5、設計 M4/S6/N5、クラフト M3/S13/N6、検証は突き合わせ24件のうち一致20・不一致3・未確認1）。是正は成果物の `.rst` に畳んであり、別コミットに割っていない。内訳は `reviews/page-html_check_tool.md`。
+
+最も重いのは3件。①**出典 `:24` の「HTML4.01で省略可能と規定されているタグについても、省略を許可しない」が実装と食い違う**こと。`head`・`body`・`tbody` は要素ごと省略できる（`Html4.jj:677, 2329` と実測）。②**構文エラー時の最上位メッセージ `syntax check failed. file = [...]` を表が落としていた**こと。`Parse error ...` は原因例外側にしか出ず（`Html4HtmlChecker.java:91-99`）、構文エラーではファイル名が最上位行にしか出ない。表を2段に分けた。③**画面をHTML5で記述しているプロジェクトでは本ツールを使用できない**こと。Nablarchのサンプルアプリケーション自身が `checkHtml` を `false` にしている（`nablarch-example-web/src/test/resources/unit-test.xml:49-51`）。
+
+不採用のうち最も重いのは、QA観点の「HTMLダンプの文字コードがUTF-8以外だと字句エラーになる」である。`Html4HtmlChecker` を実際に動かして確認したところ、Shift_JISで保存した日本語入りHTMLは通る。UTF-8デコーダが不正バイトをU+FFFDに置換し、置換後の文字がテキスト内容として文法上受理されるためで、主張が成り立たない。
+
+### 判断待ち（週明けに判定してほしい項目）
+
+`reviews/page-html_check_tool.md`「判断待ち」に2件。**①`checkHtml`・`htmlChecker`・`htmlCheckerConfig` の説明を本ページと `web.rst` のどちらに置くか**（`design.md:360` の「ツール利用者が1箇所で完結できることを優先」と `design.md:522` の「承認済みページが同じ事実を持つ場合は `:ref:`」が逆を向く）。**②承認済みの `setup/request_unit_test/web.rst:154-155` のXML例が旧レイアウトのパスのままで、同ページ `:70` のデフォルト値と食い違う**。承認済みページのため本タスクでは触れていない。

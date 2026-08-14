@@ -586,7 +586,7 @@ Rn version: 0.8.0
 - [x] `#27-03` テストデータ変換ツール（`tools/testdata_converter.rst`、4部、75行）
 - [x] `#27-04` リクエスト単体データ作成ツール（`tools/request_data_tool.rst`、4部、163行）
 - [x] `#27-05` マスタデータ投入ツール（`tools/master_data_tool.rst`、4部、177行）
-- [ ] `#27-06` HTMLチェックツール（`tools/html_check_tool.rst`、4部、214行）
+- [x] `#27-06` HTMLチェックツール（`tools/html_check_tool.rst`、4部、214行）
 - [ ] `#27-07` 取引単体テスト（RESTfulウェブサービス）（`implementation/deal_unit_test/rest.rst`、3部、32行。**small-3rd**）
 - [ ] `#27-08` 取引単体テスト（Nablarchバッチアプリケーション）（`implementation/deal_unit_test/batch.rst`、3部、168行）
 - [ ] `#27-09` 取引単体テスト（MOMによるメッセージング）（`implementation/deal_unit_test/mom.rst`、3部、175行。リード文で前提を明示する）
