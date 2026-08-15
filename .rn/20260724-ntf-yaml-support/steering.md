@@ -572,40 +572,13 @@ Rn version: 0.8.0
 **`#27` 以降への申し送り**: (1) 用語 `同期応答メッセージ送信`（MOM側）と `HTTPメッセージ送信`（HTTP側）は `glossary.md:156`・`:158` の別の正表記であり、両方に掛かる場合は「同期応答メッセージ送信・HTTPメッセージ送信」と併記する（`implementation/testdata_notation.rst:497` に先例）。(2) `style.md` S-10 規約1 の「共通にしてよい2類型」に「両形式で同一の設定」が無い。類型追加の要否は `#pre-last` で判断する。(3) `messagingTestDataParser` は「テストデータを解析するコンポーネント」と呼ぶ（`setup/class_unit_test.rst:108` に合わせた）。
 
 
-### #27: 週末の連続作成キュー（`#27-00` ＋21ページ。user review を挟まない）
+### #27: 週末の連続作成キュー（`#27-00` ＋21ページ。user review を挟まない）— DONE
 
-**Purpose**: 残り21ページの「初版と自己レビューまで」を、user review を挟まずにキュー順で片づける。作業指示は `.rn/20260724-ntf-yaml-support/ntf-doc-weekend-queue.md`。個別指示は `ntf-doc-27-small-3rd.md`（`#27-07`・`#27-10`・`#27-11`・`#27-15`）・`ntf-doc-27-db-queue.md`（`#27-16`〜`#27-18`）・`ntf-doc-27-large-pages.md`（`#27-19`〜`#27-21`）。**終了条件は `#27-00` と21ページすべてがコミット済みであること。** 週明けにレビュー役が全ページを独立検証し、そのあとまとめて user review を受ける。
+**Purpose**: 残り21ページの「初版と自己レビューまで」を、user review を挟まずにキュー順で片づける。作業指示は `.rn/20260724-ntf-yaml-support/ntf-doc-weekend-queue.md`。個別指示は `ntf-doc-27-small-3rd.md`（`#27-07`・`#27-10`・`#27-11`・`#27-15`）・`ntf-doc-27-db-queue.md`（`#27-16`〜`#27-18`）・`ntf-doc-27-large-pages.md`（`#27-19`〜`#27-21`）。
 
-**進め方（作業指示 §1 の要点）**: user review を待たない／判断が要る場合は**最も出典に忠実な選択**を採って書き、`reviews/page-*.md` の「判断待ち」節に記録して進む／規約ファイル（`design.md`・`style.md`・`glossary.md`・`vocabulary.md`）を書き換えない／`mapping.csv` は直接編集せず `_batch/*.csv` 経由で再生成する／ゲートが赤いページは `blocked` として記録し次へ進む／是正ラウンドが3回を超えたらその版をコミットして次へ進む／各ページの着手時に作業指示と該当する個別指示を**読み直す**。記録は `checks/task-27.md` に1本、`reviews/page-<ラベル>.md` はページごと。
+**Completion criteria**: `#27-00` と21ページすべてがコミット済みで、各ページについて作業指示 §5 のゲートG1〜G13 の結果が `checks/task-27.md` に記録されていること。
 
-**キュー（上から順に。順番を変えない。作業指示 §3 の表を写したもの）**:
-
-- [x] `#27-00` 未作成15ページのスタブ一括作成（作業指示 §3-1）
-- [x] `#27-01` マスタデータ復旧機能（`setup/master_data_restore.rst`、2部、193行）
-- [x] `#27-02` JUnit 5用拡張機能（`setup/junit5_extension.rst`、2部、475行）
-- [x] `#27-03` テストデータ変換ツール（`tools/testdata_converter.rst`、4部、75行）
-- [x] `#27-04` リクエスト単体データ作成ツール（`tools/request_data_tool.rst`、4部、163行）
-- [x] `#27-05` マスタデータ投入ツール（`tools/master_data_tool.rst`、4部、177行）
-- [x] `#27-06` HTMLチェックツール（`tools/html_check_tool.rst`、4部、214行）
-- [x] `#27-07` 取引単体テスト（RESTfulウェブサービス）（`implementation/deal_unit_test/rest.rst`、3部、32行。**small-3rd**）
-- [x] `#27-08` 取引単体テスト（Nablarchバッチアプリケーション）（`implementation/deal_unit_test/batch.rst`、3部、168行）
-- [x] `#27-09` 取引単体テスト（MOMによるメッセージング）（`implementation/deal_unit_test/mom.rst`、3部、175行。リード文で前提を明示する）
-- [x] `#27-10` 取引単体テスト（HTTPメッセージング）（`implementation/deal_unit_test/http_messaging.rst`、3部、33行。**small-3rd**。リード文で前提を明示する）
-- [x] `#27-11` 取引単体テスト（ウェブアプリケーション）（`implementation/deal_unit_test/web.rst`、3部、48行。**small-3rd**）
-- [x] `#27-12` リクエスト単体テスト（RESTfulウェブサービス）（`implementation/request_unit_test/rest.rst`、3部、262行）
-- [x] `#27-13` リクエスト単体テスト（MOMによるメッセージング）（`implementation/request_unit_test/mom.rst`、3部、461行）
-- [x] `#27-14` リクエスト単体テスト（Nablarchバッチアプリケーション）（`implementation/request_unit_test/batch.rst`、3部、384行）
-- [x] `#27-15` リクエスト単体テスト（HTTPメッセージング）（`implementation/request_unit_test/http_messaging.rst`、3部、28行。**small-3rd**）
-- [x] `#27-16` リクエスト単体テストの設定（テーブルをキューとして使ったメッセージング）（`setup/request_unit_test/db_queue.rst`、2部、0行。**db-queue**）
-- [x] `#27-17` リクエスト単体テスト（テーブルをキューとして使ったメッセージング）（`implementation/request_unit_test/db_queue.rst`、3部、0行。**db-queue**）
-- [x] `#27-18` 取引単体テスト（テーブルをキューとして使ったメッセージング）（`implementation/deal_unit_test/db_queue.rst`、3部、0行。**db-queue**）
-- [x] `#27-19` コンポーネント単体テスト（`implementation/class_unit_test/component.rst`、3部、770行。**large-pages**）
-- [x] `#27-20` リクエスト単体テスト（ウェブアプリケーション）（`implementation/request_unit_test/web.rst`、3部、914行。**large-pages**。**`how_to_set_token_in_request_unit_test` を定義する**）
-- [x] `#27-21` エンティティ単体テスト（`implementation/class_unit_test/entity.rst`、3部、1,344行。**large-pages**）
-
-ファイルパスはいずれも `ja/development_tools/testing_framework/` からの相対である。
-
-**Completion criteria**: `#27-00` と21ページすべてがコミット済みで、各ページについて作業指示 §5 のゲートG1〜G13 の結果が `checks/task-27.md` に記録されていること。`blocked` としたページがある場合、その理由と赤くなったゲートが記録されていること。
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-15）。キュー22件すべてコミット済み（`6fceb6f`〜`7e19f68`）。`blocked` としたページは無い。レビュー役の独立検証（`7e19f68` を独立クローンで全量検証。結果は `ntf-doc-27-review.md`）は**要是正0件**で、申し送りは `guide/` 残骸2件のみ。フルビルド（`sphinx-build -a`）は WARNING・ERROR ともに0件、`verify_mapping.py` は exit 0、`verify_glossary.py` の不一致は既知25件で新規の劣化なし、`guide/` を除く `.rst` 38件が `design.md:830-890` のツリーと完全一致、ページ先頭ラベル37件が `style.md` S-08 一覧と0件不一致。**21ページが上げた判断待ち110件は `#28` で処理する。** 詳細は `checks/task-27.md`・`reviews/page-*.md`・`ntf-doc-27-review.md` および git 履歴を参照。
 
 ### #pre-last: `verify_glossary.py` の不一致25件の一括是正と、横断の是正
 
@@ -631,6 +604,29 @@ Rn version: 0.8.0
 - 再発防止の判断（`design.md` のコーパス除外か行番号指定の廃止か）が記録されている
 - 横断の是正2件（例示のコンポーネント名・語の統一3件）に判断と実行結果が記録されている
 - `ja/` 配下の `.rst` の差分が、横断の是正2件に由来するものだけである
+
+### #28: `#27` の判断待ち110件の処理
+
+**Purpose**: `#27` の21ページが上げた判断待ち110件を、レビュー役の一次情報検証にもとづいて処理する。承認済みページを含め、実装またはFW解説書と食い違う記述を是正する。作業指示は `ntf-doc-28-decide-disposition.md`。
+
+**Prerequisites**: `#pre-last` 完了
+
+**Steps**:
+
+- [ ] §1 判定不要24件を `checks/task-28.md` に1行で記録して閉じる
+- [ ] §2 本文の是正31件（`ja/` 配下の `.rst`）
+- [ ] §3 規約ファイルの是正18件（`style.md`・`glossary.md`・`design.md`）
+- [ ] §4 記録の是正・未確認の解消15件（`ja/` 配下は変更しない）
+- [ ] §5・§6 の22件は user 判断待ち。**着手しない**
+- [ ] `checks/task-28.md` にゲート8件の結果を記録する
+- [ ] commit & push
+
+**Completion criteria**:
+
+- 作業指示 §6 のゲート1〜8 がすべて記録され、赤が無い
+- `glossary.md` の `:331-456`（§5.15）に差分が0行
+- フルビルドで WARNING・ERROR がともに0件
+- §5・§6 の22件に着手していない（`git diff` に該当変更が無い）
 
 ### #last: Evaluation sign-off
 
@@ -665,8 +661,4 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-15
-- **Last completed**: `#27-21` エンティティ単体テスト（`#27` のキュー22件すべてコミット済み）
-- **Next**: `#27` の user review（`/rn:ty`）。承認後は `#pre-last`
-- **Notes**: ブランチ `ntf-yaml-support`（push 済み、PR なし）。`#27` は終了条件を満たしたが**まだ承認を受けていない**ため、`#pre-last` に進む前に user review が要る（`#pre-last` は `design.md` を行番号で指すので、本文是正が先に入ると行がずれる）。判断待ちは `checks/task-27.md` と `reviews/page-*.md` §9 に積んである。うち `style.md` S-04 に L5 の記号定義が無く L4 配下に小見出しを作れない件は、`#27-19`・`#27-20`・`#27-21` で3回上がっている同一条文の問題。未追跡ファイルなし。
+- **Status**: not suspended
