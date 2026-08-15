@@ -55,9 +55,19 @@ class TestResolveRef(unittest.TestCase):
         rel, _, _ = vg.resolve_ref("NTF-root:index.rst:2")
         self.assertEqual(rel, "ja/development_tools/testing_framework/index.rst")
 
+    def test_line_number_is_optional(self):
+        # Given: 行番号を書かない参照（`S:design.md` のように書き換わり続けるファイル）
+        # When/Then: 参照として認め、行番号は None になる
+        rel, from_base, line = vg.resolve_ref("S:design.md")
+        self.assertEqual(rel, ".rn/20260724-ntf-yaml-support/design.md")
+        self.assertFalse(from_base)
+        self.assertIsNone(line)
+
     def test_non_reference_returns_none(self):
+        # Given: 接頭辞を持たないコードスパン
+        # When/Then: 参照として扱わない
         self.assertIsNone(vg.resolve_ref("テストデータ"))
-        self.assertIsNone(vg.resolve_ref("NTF:a/b.rst"))
+        self.assertIsNone(vg.resolve_ref("未定義:a/b.rst:1"))
 
 
 class TestLooksLikeTerm(unittest.TestCase):
@@ -166,6 +176,21 @@ class TestChecksDetectProblems(unittest.TestCase):
         self.assertEqual(checked, 2)
         self.assertTrue(problems)  # :56 には当該表記が無い
 
+    def test_ref_without_a_line_number_matches_anywhere_in_the_file(self):
+        # Given: 行番号を書かない参照と、そのファイルのどこかにある表記
+        cells = self._cells("| `テストデータ`（`S:design.md`） |\n")
+        # When: 参照を検査する
+        checked, problems = vg.check_refs(cells, {"テストデータ"})
+        # Then: 行を特定せずに実在を検査して通る
+        self.assertEqual((checked, problems), (1, []))
+
+    def test_ref_without_a_line_number_still_checks_the_content(self):
+        # Given: 行番号を書かない参照だが、ファイルのどこにも無い表記
+        cells = self._cells("| `存在しない用語XYZ`（`S:design.md`） |\n")
+        _, problems = vg.check_refs(cells, {"存在しない用語XYZ"})
+        # Then: どの行にも無いとして報告される
+        self.assertIn("どの行にも", problems[0].detail)
+
     def test_expectation_does_not_leak_across_columns(self):
         # Given: 表記と参照が別の列にある行
         cells = self._cells(f"| `想定結果` | `{REAL_REF}` |\n")
@@ -198,6 +223,14 @@ class TestChecksDetectProblems(unittest.TestCase):
         cells = self._cells("| `テストデータ`（現行223件） |\n")
         checked, problems = vg.check_counts(cells, {("テストデータ", "current"): 223})
         self.assertEqual((checked, problems), (1, []))
+
+    def test_design_count_is_rejected(self):
+        # Given: design.md の出現数を根拠にした主張
+        cells = self._cells("| `テストデータ`（design4件） |\n")
+        # When: 件数を検査する
+        _, problems = vg.check_counts(cells, {("テストデータ", "design"): 4})
+        # Then: 数が合っていても根拠として認めない（design.md は書き換わり続けるため）
+        self.assertIn("出現数の根拠にしない", problems[0].detail)
 
     def test_variant_missing_from_mapping_table_is_reported(self):
         # Given: §5 にあって §8 に無い揺れ表記

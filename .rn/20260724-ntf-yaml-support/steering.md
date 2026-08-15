@@ -588,15 +588,15 @@ Rn version: 0.8.0
 
 **Steps**:
 
-- [ ] 未登録9表記を `mapping/tools/term_candidates.tsv` に登録する
-- [ ] `scan-terms.tsv` を再生成する（`#10a`（`6ce81b5`）以降再生成されておらず、実物と55件ずれている。ずれは全件 `design` コーパス）
-- [ ] `[section]` 1件（§5.7 の揺れ表記 `テストソースコード` が §8 対応表に無い）を是正する
-- [ ] `[ref]` 13件（`glossary.md` が `S:design.md:27`〜`:151` を行番号で指しているもの）の行番号を是正する
-- [ ] **`design.md` を `scan` のコーパスから外すか、`glossary.md` から `S:design.md:NN` の行番号指定を無くすかを決める**（決めないと再発する）
-- [ ] **横断の是正1 — 例示のコンポーネント名の衝突**（`#25` の回答2）。`setup/request_unit_test/http_messaging.rst:26` と `setup/deal_unit_test/http_messaging.rst:26` が同じ例示名 `defaultMessageSenderClient` を使っており、両方を行うプロジェクトが写経すると衝突する。**2ページを揃えて判断する**（片方だけ変えれば非対称、両方変えれば出典 `http_send_sync.rst:62` の逐語から離れる）。散文で注意書きを足す案は `#25` で不採用
-- [ ] **横断の是正2 — 語の統一3件**（`#25` の申し送り3）。(a) `メッセージの送信` と `電文の送信` の統一、(b) `アプリケーション開発者` の `glossary.md` への登録（`ja/` 配下（`guide/` を除く）で `アプリケーション開発者` 3件に対し `アプリケーションプログラマ` は `setup/request_unit_test/web.rst:229` の1件のみで、**外れ値は承認済みの `web.rst` 側**）、(c) `メッセージングログ` から `ja/application_framework/…/log/messaging_log.rst:1` への `:ref:`
-- [ ] `checks/task-pre-last.md` に実行結果を記録する
-- [ ] commit & push
+- [x] 未登録9表記を `mapping/tools/term_candidates.tsv` に登録する
+- [x] `scan-terms.tsv` を再生成する（`#10a`（`6ce81b5`）以降再生成されておらず、実物と55件ずれている。ずれは全件 `design` コーパス）
+- [x] `[section]` 1件（§5.7 の揺れ表記 `テストソースコード` が §8 対応表に無い）を是正する
+- [x] `[ref]` 13件（`glossary.md` が `S:design.md:27`〜`:151` を行番号で指しているもの）の行番号を是正する
+- [x] **`design.md` を `scan` のコーパスから外すか、`glossary.md` から `S:design.md:NN` の行番号指定を無くすかを決める**（決めないと再発する）
+- [x] **横断の是正1 — 例示のコンポーネント名の衝突**（`#25` の回答2）。`setup/request_unit_test/http_messaging.rst:26` と `setup/deal_unit_test/http_messaging.rst:26` が同じ例示名 `defaultMessageSenderClient` を使っており、両方を行うプロジェクトが写経すると衝突する。**2ページを揃えて判断する**（片方だけ変えれば非対称、両方変えれば出典 `http_send_sync.rst:62` の逐語から離れる）。散文で注意書きを足す案は `#25` で不採用
+- [x] **横断の是正2 — 語の統一3件**（`#25` の申し送り3）。(a) `メッセージの送信` と `電文の送信` の統一、(b) `アプリケーション開発者` の `glossary.md` への登録（`ja/` 配下（`guide/` を除く）で `アプリケーション開発者` 3件に対し `アプリケーションプログラマ` は `setup/request_unit_test/web.rst:229` の1件のみで、**外れ値は承認済みの `web.rst` 側**）、(c) `メッセージングログ` から `ja/application_framework/…/log/messaging_log.rst:1` への `:ref:`
+- [x] `checks/task-pre-last.md` に実行結果を記録する
+- [x] commit & push
 
 **Completion criteria**:
 

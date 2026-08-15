@@ -95,7 +95,12 @@ ALL_CORPORA = ("current", "input", "fw", "design")
 #: FW解説書はNTF以外の話題を大量に含み、正規化グループが実務上の揺れと
 #: 無関係な語で埋まるため。--corpus で明示すれば含められる。
 DISCOVER_DEFAULT_CORPORA = ("current", "input", "design")
-SCAN_DEFAULT_CORPORA = ALL_CORPORA
+#: scan は用語集の「出現数」の根拠を作る。design.md は出典ではなく作業中に
+#: 書き換わり続ける内部設計文書であり、その出現数を根拠にすると、本文を1行
+#: 直すたびに用語集の件数が黙って古くなる（`#pre-last` で design コーパスの
+#: 83行がずれていた）。用語集は design.md を「決定」として `S:design.md`
+#: で参照し、「出現数」の根拠には使わない。--corpus で明示すれば数えられる。
+SCAN_DEFAULT_CORPORA = ("current", "input", "fw")
 
 
 class Doc(NamedTuple):

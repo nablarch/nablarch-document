@@ -11,6 +11,12 @@ verify_glossary.py
             表記・引用文」が実在すること。NTF:/NTF-root: は基準コミットの
             内容、FW:/S: は作業ツリーを読む。
 
+            行番号を持たない `PREFIX:path` の形も認める。この形では
+            「直前で名指しした表記・引用文」がファイルのどこかに実在する
+            ことだけを検査する。行番号が動いても壊れないので、**作業中に
+            書き換わり続けるファイル（`S:design.md`）はこの形で参照する**
+            （`#pre-last` の決定。§1 の「行番号の基準」を参照）。
+
   counts    表の中の「現行N件 / inputN件 / FWN件 / designN件」という主張が
             scan 出力の出現数と一致すること。件数は必ず直前のコードスパン
             （表記）に係る形で書く。係り先が特定できない件数は不一致として
@@ -99,8 +105,8 @@ COUNT_LABEL_TO_CORPUS = {
 }
 #: コードスパン。参照も表記もこの形で書く。
 CODE_SPAN_RE = re.compile(r"`([^`]+)`")
-#: `PREFIX:path:line`
-REF_RE = re.compile(r"^(?P<prefix>[A-Za-z-]+):(?P<path>[^:]+):(?P<line>[0-9]+)$")
+#: `PREFIX:path:line`。行番号の無い `PREFIX:path` も認める。
+REF_RE = re.compile(r"^(?P<prefix>[A-Za-z-]+):(?P<path>[^:]+)(?::(?P<line>[0-9]+))?$")
 #: 直前の参照と同じファイルを指す略記 `:123`
 SHORT_REF_RE = re.compile(r"^:(?P<line>[0-9]+)$")
 #: 日本語の引用。原文の見出し・文をそのまま引くときに使う。
@@ -145,8 +151,11 @@ def _read_source(rel_path: str, from_base: bool) -> Optional[List[str]]:
     return lines
 
 
-def resolve_ref(token: str) -> Optional[Tuple[str, bool, int]]:
-    """`NTF:foo.rst:12` を (リポジトリ相対パス, 基準コミットで読むか, 行番号) に。"""
+def resolve_ref(token: str) -> Optional[Tuple[str, bool, Optional[int]]]:
+    """`NTF:foo.rst:12` を (リポジトリ相対パス, 基準コミットで読むか, 行番号) に。
+
+    行番号を書かない `S:design.md` の形では行番号を None で返す。
+    """
     m = REF_RE.match(token)
     if not m:
         return None
@@ -154,7 +163,8 @@ def resolve_ref(token: str) -> Optional[Tuple[str, bool, int]]:
     for name in PREFIX_ORDER:
         if prefix == name:
             root, from_base = PREFIXES[name]
-            return f"{root}/{m.group('path')}", from_base, int(m.group("line"))
+            line = m.group("line")
+            return f"{root}/{m.group('path')}", from_base, (int(line) if line else None)
     return None
 
 
@@ -231,7 +241,7 @@ def check_refs(cells: Sequence[Cell], known_terms) -> Tuple[int, List[Problem]]:
     checked = 0
     for cell in cells:
         tokens = iter_tokens(cell.text)
-        last_ref: Optional[Tuple[str, bool, int]] = None
+        last_ref: Optional[Tuple[str, bool, Optional[int]]] = None
         # 直前に名指しされた「表記」または「引用」。参照の内容検証に使う。
         expected: Optional[Tuple[str, str]] = None
         for _, kind, body in tokens:
@@ -254,7 +264,7 @@ def check_refs(cells: Sequence[Cell], known_terms) -> Tuple[int, List[Problem]]:
             if lines is None:
                 problems.append(Problem("ref", where, f"ファイルなし: {rel}"))
                 continue
-            if not (1 <= line_no <= len(lines)):
+            if line_no is not None and not (1 <= line_no <= len(lines)):
                 problems.append(Problem(
                     "ref", where,
                     f"行番号が範囲外: {rel}:{line_no}（全{len(lines)}行）"))
@@ -262,9 +272,20 @@ def check_refs(cells: Sequence[Cell], known_terms) -> Tuple[int, List[Problem]]:
             if expected is None:
                 continue
             kind_e, want = expected
-            haystack = normalize_for_match(lines[line_no - 1])
             needle = normalize_for_match(want)
-            if needle and needle not in haystack:
+            if not needle:
+                continue
+            if line_no is None:
+                # 行番号を書かない参照。ファイルのどこかにあればよい。
+                if any(needle in normalize_for_match(l) for l in lines):
+                    continue
+                problems.append(Problem(
+                    "ref", where,
+                    f"{rel} のどの行にも{'引用' if kind_e == 'quote' else '表記'}"
+                    f" {want!r} が無い"))
+                continue
+            haystack = normalize_for_match(lines[line_no - 1])
+            if needle not in haystack:
                 problems.append(Problem(
                     "ref", where,
                     f"{rel}:{line_no} に{'引用' if kind_e == 'quote' else '表記'}"
@@ -301,6 +322,14 @@ def check_counts(
             where = f"glossary.md:{cell.line_no}"
             claim = int(m.group(2).replace(",", ""))
             corpus = COUNT_LABEL_TO_CORPUS[m.group(1)]
+            if corpus == "design":
+                # design.md は出典ではなく、作業中に書き換わり続ける内部設計文書。
+                # その出現数を根拠にすると本文を1行直すたびに用語集が古くなる。
+                problems.append(Problem(
+                    "count", where,
+                    f"{m.group(0)}: design.md は出現数の根拠にしない"
+                    "（`S:design.md` の参照で「何を決めたか」を書く）"))
+                continue
             # 同じセル内で、この件数より前にある最後のコードスパンに係る。
             term = None
             for pos, kind, body in tokens:

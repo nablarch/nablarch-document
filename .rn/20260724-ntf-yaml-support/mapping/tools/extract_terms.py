@@ -224,26 +224,27 @@ def extract_md_headings(
 
 
 # ---------------------------------------------------------------------------
-# 出典4: design-scheme（design.md「5. 処理方式の名称」表の名称列）
+# 出典4: design-scheme（design.md「処理方式の名称」表の名称列）
 # ---------------------------------------------------------------------------
 
-_SECTION5_HEADING_RE = re.compile(r"^##\s+5\.\s*処理方式の名称\s*$")
+#: 章番号は design.md の改訂で動くので、番号には依存させない。
+_SCHEME_HEADING_RE = re.compile(r"^##\s+[0-9]+\.\s*処理方式の名称\s*$")
 _NEXT_H2_RE = re.compile(r"^##\s+")
 _TABLE_ROW_RE = re.compile(r"^\|(.+)\|\s*$")
 
 
 def extract_design_schemes(design_path: str) -> List[Candidate]:
-    """design.md の「5. 処理方式の名称」表から、名称列（1列目）を候補にする。"""
+    """design.md の「処理方式の名称」表から、名称列（1列目）を候補にする。"""
     with open(design_path, encoding="utf-8") as f:
         lines = f.read().splitlines()
 
     start = None
     for i, line in enumerate(lines):
-        if _SECTION5_HEADING_RE.match(line):
+        if _SCHEME_HEADING_RE.match(line):
             start = i
             break
     if start is None:
-        raise ValueError(f"{design_path}: 「## 5. 処理方式の名称」見出しが無い")
+        raise ValueError(f"{design_path}: 「## N. 処理方式の名称」見出しが無い")
 
     end = len(lines)
     for i in range(start + 1, len(lines)):
