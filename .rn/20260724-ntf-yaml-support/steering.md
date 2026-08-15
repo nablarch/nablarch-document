@@ -665,8 +665,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-08-15
-- **Last completed**: `#27-21` エンティティ単体テスト（**`#27` のキュー22件すべて完了**）
-- **Next**: `#27` の user review。承認後は `#pre-last`
-- **Notes**: `#27` の終了条件（`#27-00` と21ページすべてがコミット済み）を満たした。**次は週明けのレビュー役による全ページ独立検証と user review であり、`#27` はまだ承認を受けていない。** 判断待ちは `checks/task-27.md` と `reviews/page-*.md` に積んである。`#27-21` の分は `reviews/page-entity_unit_test.md` §9 の5件で、うち②（`style.md` S-04 に L5 の記号定義が無く、L4 配下に小見出しを作れない）は `#27-19`・`#27-20` と同じ条文の問題として3回目の報告である。
+- **Last completed**: `#27-21` エンティティ単体テスト（`#27` のキュー22件すべてコミット済み）
+- **Next**: `#27` の user review（`/rn:ty`）。承認後は `#pre-last`
+- **Notes**: ブランチ `ntf-yaml-support`（push 済み、PR なし）。`#27` は終了条件を満たしたが**まだ承認を受けていない**ため、`#pre-last` に進む前に user review が要る（`#pre-last` は `design.md` を行番号で指すので、本文是正が先に入ると行がずれる）。判断待ちは `checks/task-27.md` と `reviews/page-*.md` §9 に積んである。うち `style.md` S-04 に L5 の記号定義が無く L4 配下に小見出しを作れない件は、`#27-19`・`#27-20`・`#27-21` で3回上がっている同一条文の問題。未追跡ファイルなし。
