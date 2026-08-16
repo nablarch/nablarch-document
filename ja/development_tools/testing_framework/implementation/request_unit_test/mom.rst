@@ -12,10 +12,14 @@ MOM\ によるメッセージングのリクエスト単体テストは、テス
 機能概要
 --------------------------------------------------
 
-メッセージ受信のリクエスト単体テストでは、要求電文1件を受信したときの動作を擬似的に再現する。全体像を次に示す。
+メッセージ受信のリクエスト単体テストでは、要求電文1件を受信したときの動作を擬似的に再現する。
 
-.. image:: images/mom/real_request_test_class.png
-  :scale: 70
+.. TODO(NTF-FIG-03): 構成図 real_request_test_class.png を削除した。
+   本文と食い違い（テストデータのノードが「Excelファイル」表記。本文は形式中立）、
+   Sphinx に作図系拡張が無く作り直せないため。
+   この図の作図元ファイルは存在しない。作図できる環境で作り直したうえで戻すこと。
+
+テストクラスは、同期応答メッセージ受信では\ ``MessagingRequestTestSupport``\ を、応答不要メッセージ受信では\ ``MessagingReceiveTestSupport``\ を継承して作成する。\ ``MessagingRequestTestSupport``\ は\ ``StandaloneTestSupportTemplate``\ を継承しており、テストデータを読み取ってテストショットを1件ずつ実行する。\ ``MessagingReceiveTestSupport``\ は、さらに\ ``MessagingRequestTestSupport``\ を継承したクラスである。1件のテストショットの情報は\ ``TestShot``\ が保持し、テスト用のメインクラス\ ``MainForRequestTesting``\ を通じて\ Nablarch Application Framework\ が起動され、テスト対象のアプリケーションが実行される。準備データの投入とテスト結果の確認は、データベースについては\ ``DbAccessTestSupport``\ が、キューについては\ ``MQSupport``\ が行う。
 
 応答不要メッセージ受信では、メッセージを受け取る\ Action\ クラスが\ Nablarch\ の一部として提供される（\ :ref:`MOMメッセージングで使用するアクション <mom_messaging-action>`\ ）。このため、リクエスト単体テストではその\ Action\ クラスを使用して、次の3つの成果物を確認する。
 
@@ -26,13 +30,15 @@ MOM\ によるメッセージングのリクエスト単体テストは、テス
 .. tip::
   Action\ クラスは\ Nablarch\ が提供するものであるため、他のテストのように\ Action\ クラスに対する条件網羅や限界値テストを実施する必要はない。
 
-同期応答メッセージ送信のリクエスト単体テストでは、要求電文1件をキューに送信し、結果を同期的に受信する際の動作を擬似的に再現する。テストは、その処理に付与されたリクエスト\ ID\ 単位で行う。以降、\ Action\ がキューへ送信する電文を要求電文、\ Action\ がキューから受信する電文を応答電文と呼ぶ。\ Nablarch\ バッチアプリケーションから同期応答メッセージ送信を行う場合の全体像を次に示す。
+同期応答メッセージ送信のリクエスト単体テストでは、要求電文1件をキューに送信し、結果を同期的に受信する際の動作を擬似的に再現する。テストは、その処理に付与されたリクエスト\ ID\ 単位で行う。以降、\ Action\ がキューへ送信する電文を要求電文、\ Action\ がキューから受信する電文を応答電文と呼ぶ。\ Nablarch\ バッチアプリケーションから同期応答メッセージ送信を行う場合の構成を次に示す。
 
-.. image:: images/mom/send_sync.png
-  :scale: 70
+.. TODO(NTF-FIG-02): 構成図 send_sync.png を削除した。
+   本文と食い違い（テストデータのノードが「Excelファイル」表記。本文は形式中立）、
+   Sphinx に作図系拡張が無く作り直せないため。
+   作図元 images/mom/send_sync.xlsx（§5-3 で退避する）は残してある。
+   作図できる環境で改訂したうえで戻すこと。
 
-.. tip::
-  図中の\ ``StandaloneSupportTemplate``\ は\ ``StandaloneTestSupportTemplate``\ を指す。また、図中の\ ``BatchRequestTestSupportTemplate``\ に相当するクラスはなく、\ Nablarch\ バッチアプリケーションのリクエスト単体テストでは\ ``StandaloneTestSupportTemplate``\ を継承した\ :java:extdoc:`BatchRequestTestSupport <nablarch.test.core.batch.BatchRequestTestSupport>`\ を使用する。
+テストクラスは、\ ``StandaloneTestSupportTemplate``\ を継承した\ :java:extdoc:`BatchRequestTestSupport <nablarch.test.core.batch.BatchRequestTestSupport>`\ を継承して作成する。テストデータを読み取り、テストショット1件分の情報を保持する\ ``TestShot``\ を1件ずつ実行する。テスト用のメインクラス\ ``MainForRequestTesting``\ を通じて\ Nablarch Application Framework\ が起動され、テスト対象のアプリケーションが\ ``MessageSender``\ を使って同期応答メッセージ送信を行う。\ ``MessageSender``\ が生成した要求電文は\ ``RequestTestingMessagingProvider``\ が受け取り、テストデータに記述した要求電文の期待値とアサートしたうえで、テストデータに記述した応答電文を生成して返す。
 
 .. _request_unit_test_mom-request_id:
 
