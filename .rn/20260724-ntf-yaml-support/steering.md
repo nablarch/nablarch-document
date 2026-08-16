@@ -35,6 +35,14 @@ Rn version: 0.8.0
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
 - トンマナ基準: `ja/application_framework/application_framework/libraries/` 配下の `.rst`
+- 参照リポジトリ（実装で事実を確かめる先。すべて `/home/tie303177/work/nablarch/` 配下に clone 済み）。**「参照コミット」の側を根拠に使う。作業ツリーの HEAD は動くので、`git show <参照コミット>:<path>` で読む。** 実測欄は `git -C <repo> log -1 --format='%H %ad %s' --date=short` を 2026-08-16 に実行した値（`#28` §4-7）
+
+| リポジトリ | 参照コミット（本刷新が根拠に使う） | 実測 HEAD（2026-08-16） | 備考 |
+| --- | --- | --- | --- |
+| `nablarch-testing` | `e21bf67`（2024-09-27 `Merge remote-tracking branch 'origin/release-6u2'`） | `fdf55d4`（2026-08-05 `chore: jacoco.exec を .gitignore に追加`、ブランチ `convert-testdata-excel-to-text`） | **HEAD は参照コミットと分岐している**（merge-base `6aa6989`、HEAD 側に14コミット・`e21bf67` 側に16コミット）。作業ツリーを直接 `grep` すると `e21bf67` と違う内容を読む |
+| `nablarch-testing-yaml` | `190cc9a`（2026-08-13 `revert: rows: [] の列名 DbInfo フォールバックを差し戻す`） | `e69b69f`（2026-08-14 `docs(steering): #14 Acceptance criteria 実行結果を記録`、ブランチ `feature/ntf-yaml`） | `190cc9a` は HEAD の祖先（12コミット前進）。`#26` までのページはすべて `190cc9a` で検証済み |
+| `nablarch-testing-converter` | `45194f9`（2026-08-14 `docs(coverage): レビュー指摘を台帳へ反映し、実測と食い違う数値を直す`、ブランチ `ntf-test-data-converter`） | 同左（`45194f9`） | `#27-03` 執筆中に `e80a4dd`→`2f21bce`→`45194f9` と動いた。ここでピンする |
+| `nablarch-testing-rest` | `9ada31e`（2026-06-25 `chore: suspend session — fix-testdataparser-usage`、ブランチ `fix-testdataparser-usage`） | 同左（`9ada31e`） | 動きなし |
 
 # Rules
 
