@@ -661,4 +661,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
+- **Date**: 2026-08-16
+- **Last completed**: #pre-last 実施完了（`8193d21`）。9検査すべて不一致0件、フルビルド WARNING・ERROR 0件。**user review 待ち**
+- **Next**: #pre-last の user review（`/rn:ty` / `/rn:gm`）。承認後に #28 の §1〜§4 を実施し、いったん止まって報告する
+- **Notes**: branch `ntf-yaml-support`（push 済み）。**着手前に確認すること2点** — (1) `ntf-doc-28-decide-disposition.md` が `c60b9c2` で更新され、#28 の範囲が変わった（§5 と §6-2〜6-6 も本タスクで直す／§6-1 の7件はモジュールへ回付／§2 は32件／§3 に規約改定4件 3-19〜3-22 を追加）。**本エントリの Steps と Completion criteria は `/rn:ty` 時点の文面のままで、作業指示と食い違う。作業指示が正。** (2) #pre-last で `アプリケーションプログラマ` を正表記と定めた判断は `#25` の申し送りと逆の結論であり、user が差し戻す可能性がある（`checks/task-pre-last.md` §5(b)）。未追跡のまま残したファイル3件: `?? .rn/20260724-ntf-yaml-support/ntf-mod-01-nablarch-testing-converter.md` / `?? .rn/20260724-ntf-yaml-support/ntf-mod-02-nablarch-testing.md` / `?? .rn/20260724-ntf-yaml-support/ntf-mod-03-nablarch-testing-junit5.md`
