@@ -57,7 +57,11 @@ pom.xmlと同じディレクトリで次のコマンドを実行し、jarファ�
 
   mvn dependency:copy-dependencies -DoutputDirectory=lib
 
-次のファイルを、pom.xmlと同じディレクトリに配置する。
+.. TODO(NTF-MOD-02-1): リクエスト単体データ作成ツールのLinux用起動スクリプトが配布物に無い。判定待ち。
+   依頼書 .rn/20260724-ntf-yaml-support/ntf-mod-02-nablarch-testing.md §2。
+   仕様と判定された場合は本文を書き直す。
+
+次の起動用スクリプトを、pom.xmlと同じディレクトリに配置する。
 
 * :download:`httpDump.bat <downloads/request_data_tool/httpDump.bat>`
 
@@ -79,7 +83,7 @@ HTMLファイルの外部プログラムとして起動用スクリプトを登�
 
 .. image:: images/request_data_tool/02_Eclipse_EditorSelection.png
 
-* 配置した起動用スクリプト(httpDump.bat)を選ぶ。
+* 配置した起動用スクリプトを選ぶ。Windowsの場合はバッチファイル(httpDump.bat)を、Linuxの場合はシェルスクリプト(httpDump.sh)を選ぶ。
 
 .. image:: images/request_data_tool/03_Eclipse_OpenFile.png
 

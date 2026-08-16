@@ -43,7 +43,7 @@ Rule §1-9 は「出典・実装・規約はすべてこのリポジトリと `/
 | current-0346 | `:64-67` | 「Eclipseから起動できるように設定する」のリード | 消化 |
 | current-0347 | `:70-78` | 同節の手順1〜3＋1枚目の画像 | 消化。画像の実物に合わせてラベルを補正（下記） |
 | current-0348 | `:81-87` | 同節の手順4＋2枚目の画像 | 消化 |
-| current-0349 | `:90-99` | 同節の手順5＋3枚目の画像 | 消化。`httpDump.sh` の記述は落とした（下記・`decide` 1） |
+| current-0349 | `:90-99` | 同節の手順5＋3枚目の画像 | 消化。`httpDump.sh` の記述は一度落としたが、`#28` §7 で取り消して戻した（下記・`decide` 1） |
 | current-0350 | `:102-111` | 「HTMLダンプからツールを起動する」＋4枚目の画像 | 消化。旧ラベル `howToExecuteFromEclipse` は不要になったため起こしていない |
 
 ### 意図して落とした出典
@@ -51,7 +51,7 @@ Rule §1-9 は「出典・実装・規約はすべてこのリポジトリと `/
 | 出典 | 落とした理由 |
 |---|---|
 | `01_HttpDumpTool.rst:43`「開発環境構築ガイドに従って開発環境を構築済みであること。」 | `git grep '開発環境構築ガイド' 2e501ad -- ja/` のヒットはこの1件のみで、リンクターゲットも該当ページも存在しない。参照先の無い前提条件になるため落とした |
-| `02_SetUpHttpDumpTool.rst:91-92`「Linuxの場合はシェルスクリプト(httpDump.sh)を選択する。」 | `httpDump.sh` が配布されていない（`decide` 1） |
+| `02_SetUpHttpDumpTool.rst:91-92`「Linuxの場合はシェルスクリプト(httpDump.sh)を選択する。」 | `httpDump.sh` が配布されていない（`decide` 1）。**この判断は `#28` §7 で取り消した。** `ntf-doc-28-decide-disposition.md:703`・`:709` の決定により、Windows・Linuxの双方で使えることを前提に本文を書き、`tools/request_data_tool.rst:86` で `httpDump.bat` / `httpDump.sh` の双方を示す形に戻した。`.sh` が配布物に無いことは同ファイル `:60` の `TODO(NTF-MOD-02-1)` で判定待ちとして記録している（依頼書 `ntf-mod-02-nablarch-testing.md` §2）。`:download:` は `httpDump.bat` の1件のままとした。存在しないファイルを `:download:` で指すとビルドが WARNING を出し、ゲート7（WARNING 0件）に反するためである |
 | `02_SetUpHttpDumpTool.rst:33-48` のpomスニペットの `<dependencies>` と `<!-- 中略 -->` | 抜粋であることを示すだけの行。既存ページ `setup/request_unit_test/rest.rst:20-37` は `<dependency>` 要素のみを示す形なので合わせた |
 
 ## 実装で確認した事実（出典に無い追記）

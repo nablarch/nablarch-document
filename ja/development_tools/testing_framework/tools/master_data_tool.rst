@@ -23,9 +23,9 @@
 
   \ :ref:`blank_project`\ を使用してプロジェクトを構築した場合、データベース関連のツールとして\ :ref:`gsp-dba-maven-plugin <gsp-maven-plugin>`\ が設定される。gsp-dba-maven-pluginでマスタデータを管理する場合、本ツールを導入する必要はない。
 
-.. important::
-
-  マスタデータファイルは\ Excel\ 形式で記述する。コンポーネント設定ファイルの\ ``testDataParser``\ に\ YAML\ 形式用のパーサを設定しているプロジェクトでは、本ツールを使用できない（\ :ref:`共通設定 <testing_framework_common>`\ 参照）。この場合、\ Excel\ 形式のマスタデータファイルを指定しても投入の対象が0件になり、エラーにもならない。
+.. TODO(NTF-MOD-02-4): マスタデータ投入ツールがYAML形式用のパーサ設定下で無言で0件になる。判定待ち。
+   依頼書 .rn/20260724-ntf-yaml-support/ntf-mod-02-nablarch-testing.md §5。
+   仕様と判定された場合は本文を書き直す。
 
 .. _master_data_tool-setup:
 

@@ -92,7 +92,7 @@ zip は `2e501ad` 時点のものと md5 が一致する（`b46396ea54401eed1366
 |---|---|---|
 | QA M-1 | 前提事項が「バックアップ用スキーマにテーブルが作成済み」としか書いておらず、飛び先の tip は「監視対象テーブルのみでよい」。本ツールは全テーブルをコピーするので手順どおりだと失敗する | 前提事項を「マスタデータファイルに記述するすべてのテーブル」に改め、ターゲット表にもコピー範囲を明記 |
 | QA M-2 | 投入対象は `SETUP_TABLE` のみだが、飛び先の節は4つのデータタイプを扱う | 「準備データ（`SETUP_TABLE`）として記述する」「期待値のデータタイプは投入の対象にならない」を明記 |
-| 設計 M-2 | `testDataParser` が YAML 形式用のとき、無言で0件になる | `important` を新設 |
+| 設計 M-2 | `testDataParser` が YAML 形式用のとき、無言で0件になる | `important` を新設。**`#28` §7 でこの `important` は削除した**（`ntf-doc-28-decide-disposition.md:706`・`:751`。判定が返るまで不具合の挙動を本文に書かないため）。跡地に `TODO(NTF-MOD-02-4)` を置いている（`tools/master_data_tool.rst:26`、依頼書 `ntf-mod-02-nablarch-testing.md` §5） |
 | 設計 M-1 / QA S-1 / クラフト M-2 | 前提事項（blank_project 必須）と tip（gsp を推奨）が同一ページ上で矛盾 | 前提事項を「Mavenの標準ディレクトリ構成（blank_project のアーキタイプはこれに該当）」に改め、tip を「gsp でマスタデータを管理する場合は本ツールを導入する必要はない」に限定 |
 | 設計 S-1 / 検証 NG-10 | マルチスレッドの `important` はツール固有の制約ではなく、第1部が持つ NTF 全体の事実 | `important` をやめ、`:ref:`testing_framework_about`` への1文に置き換え |
 | 検証 NG-3 / QA S-7 / クラフト N-7 | 「実行ディレクトリからの相対パス」は誤り。基準は `basedir` | tip を `master_data-build.xml:2` の `basedir="."` を根拠にした説明に書き換え |
