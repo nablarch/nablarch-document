@@ -7,7 +7,7 @@
   :depth: 3
   :local:
 
-クラス単体テストでは、エンティティ単体テストで使用する設定項目と、データベースを使用するクラスのテストで使うトランザクションおよびカラムの記述を省略したときのデフォルト値を設定できる。いずれもテスト用のコンポーネント設定ファイルに記述する。トランザクションの指定だけは、あわせて環境設定ファイルにも記述する。
+クラス単体テストでは、エンティティ単体テストで使用する設定項目と、データベースを使用するクラスのテストで使うトランザクションおよびカラムの記述を省略したときのデフォルト値を設定できる。このうち、テストデータの投入に使用するトランザクションの登録だけは必須である。いずれもテスト用のコンポーネント設定ファイルに記述する。デフォルト以外のトランザクションの指定だけは、あわせて環境設定ファイルにも記述する。
 
 使用方法
 --------------------------------------------------
@@ -100,6 +100,23 @@ Nablarch Validationを使用する場合、ここで指定するメッセージI
       <!-- 中略 -->
     </list>
   </property>
+
+テストデータの投入に使用するトランザクションを登録する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+テスティングフレームワークは、データベースの準備データの投入と、テーブルの内容の取得を、テスト対象の処理とは別のトランザクションで行う。このトランザクションには\ ``testTran``\ という名前のコンポーネントを使用する。テスト用のコンポーネント設定ファイルに、\ :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>`\ をこの名前で登録する。名前は固定であり、変更できない。登録していない場合は、準備データを投入する時点で例外が発生する。
+
+.. code-block:: xml
+
+  <!-- テストデータの投入・取得に使用するトランザクション -->
+  <component name="testTran" class="nablarch.core.db.transaction.SimpleDbTransactionManager">
+    <property name="dbTransactionName" value="test"/>
+    <property name="connectionFactory" ref="connectionFactory"/>
+    <property name="transactionFactory" ref="jdbcTransactionFactory"/>
+  </component>
+
+.. tip::
+
+  この設定はクラス単体テストに限らず、データベースの準備データや期待値を記述したテストデータを使用するすべてのテストで必要である。
 
 .. _class_unit_test_setting-db_transaction:
 

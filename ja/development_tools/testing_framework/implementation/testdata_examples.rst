@@ -1856,6 +1856,120 @@ YAML形式の場合
             - ["", "value1", "value2"]
             - ["", "value3", "value4"]
 
+応答不要メッセージ送信の要求電文の期待値を記述する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+応答不要メッセージ送信のリクエスト単体テストで、送信される要求電文が期待どおりであることを検証する例である。応答電文が存在しないため、テストショット一覧の ``responseMessage``\ と応答電文のデータブロック（``RESPONSE_HEADER_MESSAGES``\ ・\ ``RESPONSE_BODY_MESSAGES``\ ）は記述しない。テストショット一覧には、電文のリクエスト\ ID\ を渡す ``messageRequestId``\ カラムを追加し、``expectedMessage``\ に記述したグループIDで要求電文の期待値と対応付ける。要求電文の期待値は、ヘッダと本文の両方を記述する。記述方法は\ :ref:`リクエスト単体テストの実施（Nablarchバッチアプリケーション） <request_unit_test_batch>`\ を参照。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
+
+.. important::
+
+  要求電文ヘッダと要求電文本文のデータ件数は一致させる。詳細は\ :ref:`メッセージングのデータを記述する <testdata_notation-messaging_data>`\ を参照。
+
+.. tip::
+
+  異常系のテストでは、テストショット一覧に ``errorCase``\ カラムを追加して ``true``\ を記述する。電文が送信されないため、要求電文の期待値は記述しない。
+
+Excel形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+テストショット一覧のうち、応答不要メッセージ送信に固有のカラムを示す。テストショット一覧全体の記述例は\ :ref:`テストショット一覧（testShots）を記述する <testdata_examples-test_shots>`\ を参照。
+
+.. list-table::
+  :header-rows: 0
+  :widths: 10,45,45
+
+  * - LIST_MAP=testShots
+    -
+    -
+  * - no
+    - messageRequestId
+    - expectedMessage
+  * - 1
+    - RM11AC0301
+    - case1
+
+要求電文ヘッダの期待値の例を示す。半角角括弧の中がグループID、``=``\ の右がリクエスト\ ID\ である。
+
+.. list-table::
+  :header-rows: 0
+  :widths: 10,45,45
+
+  * - EXPECTED_REQUEST_HEADER_MESSAGES[case1]=RM11AC0301
+    -
+    -
+  * - text-encoding
+    - ms932
+    -
+  * - no
+    - requestId
+    - userId
+  * -
+    - 半角
+    - 半角
+  * -
+    - 20
+    - 20
+  * - 1
+    - RM11AC0301
+    - batch_user
+
+要求電文本文の期待値は、同じグループID・リクエスト\ ID\ で記述する。
+
+.. list-table::
+  :header-rows: 0
+  :widths: 10,45,45
+
+  * - EXPECTED_REQUEST_BODY_MESSAGES[case1]=RM11AC0301
+    -
+    -
+  * - no
+    - 会員ID
+    - 会員名
+  * -
+    - 半角
+    - 全角
+  * -
+    - 10
+    - 50
+  * - 1
+    - 1234567890
+    - 電文太郎
+
+YAML形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+テストショット一覧は ``list_maps:``\ の ``id: testShots``\ のエントリに、要求電文の期待値は ``expected_request_header_messages:``\ ・\ ``expected_request_body_messages:``\ のエントリに記述する。``group_id:``\ の値がテストショット一覧の ``expectedMessage``\ カラムに対応する。
+
+.. code-block:: yaml
+
+  list_maps:
+    - id: testShots
+      rows:
+        - no: "1"
+          messageRequestId: "RM11AC0301"
+          expectedMessage: "case1"
+
+  expected_request_header_messages:
+    - group_id: case1
+      id: RM11AC0301
+      directives:
+        text-encoding: ms932
+      records:
+        - record_type: default
+          fields:
+            - {name: requestId, type: 半角, length: 20}
+            - {name: userId,    type: 半角, length: 20}
+          rows:
+            - ["RM11AC0301", "batch_user"]
+
+  expected_request_body_messages:
+    - group_id: case1
+      id: RM11AC0301
+      records:
+        - record_type: default
+          fields:
+            - {name: 会員ID, type: 半角, length: 10}
+            - {name: 会員名, type: 全角, length: 50}
+          rows:
+            - ["1234567890", "電文太郎"]
+
 ステータスコードを省略する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 HTTP\ メッセージ送信のテストで、応答電文にステータスコードのカラムを設けない例である。カラムがない場合、実行時にはデフォルト値の ``"200"``\ が使われる。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
