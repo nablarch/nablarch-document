@@ -146,7 +146,8 @@ zip は `2e501ad` 時点のものと md5 が一致する（`b46396ea54401eed1366
 | G3 | **PASS** | `locales/ja/LC_MESSAGES/sphinx.mo` は `git status --porcelain` に現れない。ビルド直後に `git checkout --` で戻している |
 | G4 | **PASS** | `verify_mapping.py` が exit 0。`mapping.csv` は未変更 |
 | G5 | **PASS** | Docker フルビルド（`sphinx-build -E`）が `build succeeded, 1 warning.`。警告は既知の `ja/application_framework/application_framework/libraries/db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` 1件のみで、**新規0件**。是正を全件畳んだ後の最終本文で再実行して確認した |
-| G6 | **PASS** | 禁止語（`不具合`・`バグ`・`将来`・`修正され`）0件。あわせて `本ページ\|下さい\|出来る\|事が\|以下の\|上記の\|利用\|前提条件\|スーパークラス` も0件、`.. note::`／`.. warning::` も0件（`tip` 2件・`important` 3件）。`です。`／`ます。` 0件 |
+| G6 | **PASS** | 禁止語（`不具合`・`バグ`・`将来`・`修正され`）0件。あわせて `本ページ\|下さい\|出来る\|事が\|以下の\|上記の\|利用\|前提条件\|スーパークラス` も0件、`.. note::`／`.. warning::` も0件。`です。`／`ます。` 0件 |
+| G6 の内訳の訂正（`#28`） | — | 上記の「`tip` 2件・`important` 3件」は誤り。ページ作成時点（`4095bab`）の実測は `tip` 3件・`important` 3件である（`git show 4095bab:<path> \| grep -c`）。`#28` §7 で `important` を1件削除したため、現在（`db738c0` 以降）は **`tip` 3件・`important` 2件**（`:22`・`:84`・`:157` が `tip`、`:128`・`:153` が `important`） |
 | G7 | **PASS** | ページ先頭ラベル `master_data_tool` が `mapping/style.md:348` と一致。`master_data_tool` / `master_data_tool-setup` はいずれも `ja/` 全体で一意 |
 | G8 | **PASS** | `unicodedata.east_asian_width` で表示幅を測り、全10見出しについて「下線の文字数 ≥ 見出しの表示幅」を検査して NG 0件（下線は全件50、表示幅の最大は38） |
 | G9 | **PASS** | `:ref:` 12件がすべて解決し、リンク文字列も飛び先の見出しと一致（例外は `gsp-dba-maven-plugin` の意図的な短縮1件。下記「採らなかった指摘」参照）。`:download:` 1件・`:java:extdoc:` 1件・`.. image::` 4件もビルドで解決 |
