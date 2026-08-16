@@ -134,3 +134,16 @@
 文頭の `ここでは、` を落とし、`クラス単体テストでは、` と主語を立てて文末を `〜を設定できる。` の言い切りに変えた。列挙している対象と2文目（`いずれもテスト用のコンポーネント設定ファイルに記述する。`）は変えていない。
 
 見出しの文言・並び順、L3以下の本文・表・コードブロックは変更していない（`checks/task-16.md` ゲート3）。
+
+## `#28` §6-2-5 の追記（実装上必須の設定、2026-08-16）
+
+`design.md` §8「出典が欠いている、実装上必須の設定の追記」の適用。**反映コミット `c2a1ae9`**。追記した節は「テストデータの投入に使用するトランザクションを登録する」。追記前の `grep -rn "testTran" ja/` は0件で、解説書のどこにもこの設定が書かれていなかった。根拠は `nablarch/nablarch-testing` の作業ツリー `fdf55d4` を自分で開いて確認した。
+
+| 本文に書いた事実 | 根拠（`file:line`） |
+|---|---|
+| コンポーネント名は `testTran` 固定 | `DbAccessTestSupport.java:42`（`public static final String DB_TRANSACTION_FOR_TEST = "testTran";`） |
+| 準備データの投入とテーブルの内容取得が、このトランザクションで行われる | `DbAccessTestSupport.java:188`（準備データの削除・投入）・`TableData.java:103`・`:349`・`MasterDataRestorer.java:322`。`DB_TRANSACTION_FOR_TEST` を参照するのは `src/main/java` 全体でこの5箇所のみ |
+| 登録していないと準備データの投入時点で例外が発生する | `db/TransactionTemplate.java:43-50`（`SystemRepository.getObject(managerKey)` が `null` の場合に `IllegalArgumentException`） |
+| 登録するクラスは `SimpleDbTransactionManager` | 同上（`(SimpleDbTransactionManager) SystemRepository.getObject(managerKey)` にキャスト）。記述例のプロパティ構成は `src/test/resources/framework.xml:8-12` に合わせた |
+
+`testFwTran`（`DbAccessTestSupport.java:45`）はマスタデータ復旧ツール側の設定であり、本ページの対象外とした。

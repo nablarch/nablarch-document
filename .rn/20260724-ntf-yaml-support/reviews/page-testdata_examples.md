@@ -397,3 +397,27 @@ user review ではなく、`ntf-doc-10a-followup.md` による指示作業であ
 | R1-6 | `:955` が、直前のL3（`:864-949`）と同じ `ORDER_HEADER` を同じ「バッチ処理」で扱いながら、「2件が登録される」「1件も無い」と相反して読める | **是正。** 導入文を「処理対象のデータが1件もない場合のバッチ処理を実行し」に改め、直前のL3とは入力が異なる別の場面であることを明示した。テーブルは指示書 §4-3 が「既存のL3が使っている `MEMBER` などと揃える」としているため `ORDER_HEADER` のまま変更していない |
 
 あわせて `:955` の「無い」を「ない」に改めた（R1-5。両ページの既存の多数派表記に揃えた）。
+
+## `#28` §6-2-3 の追記（記載例、2026-08-16）
+
+`design.md` §8「出典が欠いている、実装上必須の設定の追記」に `#28` §3 で追加された記載例の条項の適用。**反映コミット `c2a1ae9`**。追記した節は「応答不要メッセージ送信の要求電文の期待値を記述する」（L2「メッセージングのデータを記述する」の配下、「同期応答メッセージ送信の応答電文を配置する」の直後）。
+
+### 条項の3条件の充足（自分で実測した）
+
+| 条件 | 実測 |
+|---|---|
+| (1) 出典に同種の記載例が無い | `grep -rln '応答不要' ja/development_tools/testing_framework/guide/` が **0件** |
+| (2) 読者が書くべき項目名・カラム構成がページのどこにも無い | 追記前の `testdata_examples.rst` に対し `応答不要`=0、`messageRequestId`=0、`errorCase`=0、`EXPECTED_REQUEST_BODY_MESSAGES`=0、`expected_request_body_messages`=0 |
+| (3) 実装またはテストコードで裏が取れる | 下表のとおり |
+
+### 記載例の根拠（`nablarch/nablarch-testing` = `fdf55d4`、`nablarch/nablarch-testing-yaml`）
+
+| 記載例の要素 | 根拠（`file:line`） |
+|---|---|
+| Excel形式の識別子 `EXPECTED_REQUEST_HEADER_MESSAGES` ・ `EXPECTED_REQUEST_BODY_MESSAGES` | `nablarch-testing` `reader/DataType.java:47`・`:50` |
+| YAML形式のキー `expected_request_header_messages:` ・ `expected_request_body_messages:` | `nablarch-testing-yaml` `reader/yaml/YamlSection.java:36-37` |
+| YAML形式で `group_id:` と `id:` を併記する | `nablarch-testing-yaml` `src/test/java/nablarch/test/core/reader/YamlTestDataParserTest/schemaFullCoverage.yaml:213-223` |
+| テストショット一覧の `messageRequestId` ・ `errorCase` がコマンドライン引数として渡る | `nablarch-testing` `src/test/java/nablarch/test/core/messaging/AsyncMessageSendActionForUtTest.java:26-31`（`-messageRequestId` ・ `-errorCase` を `CommandLine` に渡す）・`AsyncMessageSendActionForUt.java:27-28`（起動引数 `errorCase` の読み取り）・`:35-37`（`errorCase` が真のとき `RuntimeException`） |
+| `expectedMessage` のグループIDで要求電文の期待値と対応付く | `nablarch-testing` `TestShot.java:167` → `RequestTestingMessagingProvider.java:230`・`:245-253`（グループIDとリクエストIDで `EXPECTED_REQUEST_*_MESSAGES` を取得） |
+
+`responseMessage` と `RESPONSE_*` を記述しないこと、`messageRequestId` ・ `errorCase` を追加することは、承認済み本文 `implementation/request_unit_test/batch.rst` の「テストデータを作成する」節に既に書かれている。本節はその記載例にあたる。

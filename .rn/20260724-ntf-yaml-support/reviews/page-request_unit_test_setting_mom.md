@@ -318,3 +318,25 @@
 
 - 申し送り1（空白を入れると無言で失敗する）→ `should` 2 で両ページに1文を追加。**閉じた**
 - 申し送り2（`http_messaging.rst` に「置き換えである」旨が無い非対称）→ `should` 1 で解消。**閉じた**
+
+## 7. `#28` §6-2-1・6-2-2 の追記（実装上必須の設定）
+
+`design.md` §8「出典が欠いている、実装上必須の設定の追記」の適用。**反映コミット `b29b68d`**。根拠はすべて `nablarch/nablarch-testing` の作業ツリー `fdf55d4` を自分で開いて確認した。
+
+### 7.1 §6-2-1 メッセージ受信用のメッセージングプロバイダを登録する
+
+| 本文に書いた事実 | 根拠（`file:line`） |
+|---|---|
+| コンポーネント名は `messagingProvider` 固定。別名で登録すると実行時に例外 | `MessagingRequestTestSupport.java:108-109`（`ConfigurationBrowser.require(diConfig, "messagingProvider", false)`）→ `repository/ConfigurationBrowser.java:49-56`（取得できない場合 `IllegalArgumentException`） |
+| 取得元はテストショット一覧の `diConfig` に指定した設定ファイル | `MessagingRequestTestSupport.java:107`（`testShot.getDiConfig()` を `require` の第1引数に渡す） |
+| キュー名は要求電文 `TEST.REQUEST`・応答電文 `TEST.RESPONSE` の固定で変更できない | `MessagingRequestTestSupport.java:185-186`（`setDestination("TEST.REQUEST").setReplyTo("TEST.RESPONSE")`）・`:197`（`receiveSync("TEST.RESPONSE", 10000)`）。いずれもリテラル |
+| 内蔵のメッセージングサーバを使う（外部MOM不要） | `MessagingRequestTestSupport.java:96-97`（`afterExecuteTestShot` が無条件に `EmbeddedMessagingProvider.stopServer()` を呼ぶ）・`EmbeddedMessagingProvider.java:33`（`JmsMessagingProvider` を継承し、`Server` を内蔵） |
+| `queueNames` にリストで指定する | `EmbeddedMessagingProvider.java:86`（`setQueueNames(List<String> names)`） |
+
+### 7.2 §6-2-2 同期応答メッセージ送信用のメッセージングプロバイダに差し替える
+
+| 本文に書いた事実 | 根拠（`file:line`） |
+|---|---|
+| 要求電文のアサートと応答電文の返却は `RequestTestingMessagingProvider` が行う | `RequestTestingMessagingProvider.java:130`（`sendSync`）・`:149`（`SENDING_MESSAGE_CACHE.add(message)`）・`:230`（`assertSendingMessage`） |
+| 差し替えないと期待値との照合が成立しない | `TestShot.java:167` が `RequestTestingMessagingContext.assertSendingMessage(..., get("expectedMessage"))` を無条件に呼ぶ。キャッシュが空だと `RequestTestingMessagingProvider.java:331-338` の件数不一致で `Assertion.fail` |
+| コンポーネント名は `messageSender.<リクエストID>.messagingProviderName`（未指定時は `messageSender.DEFAULT.messagingProviderName`）に合わせる | 既存の承認済み本文 `setup/deal_unit_test/mom.rst:29` と同一の記述に揃えた |

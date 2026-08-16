@@ -179,3 +179,14 @@ SPLIT の相手側（`current-0037-a` の `170`〜`262`、`current-0037-c` の `
    - **`#20` の中で処理済み**（2026-08-13、`/rn:ty` の `should` 2）。§5.8 の表末尾に2行を追加した。採用根拠は実測（`型名称` input 1ファイル・6件／`型記号` input 1ファイル・2件／現行解説書・FW解説書はいずれも0件）。掲載基準は §3 の基準1として掲載した。`checks/task-20.md` ゲート18
 7. **第3部から第2部への逆導線がない。** `testdata_notation.rst:871` は「既定値は、コンポーネント設定ファイルで\ map\ 形式によりまとめて指定することもできる」と触れるだけで、キー名を持つ本ページへリンクしていない
    - **一部を `#20` の中で解消済み**（2026-08-13、`/rn:ty` の `decide` 1）。`testdata_notation.rst:967` の末尾に本ページへの `:ref:` を追加した。`:871`（ディレクティブの既定値）からの導線は**未対応のまま残る**
+
+## 6. `#28` §6-2-4 の追記（実装上必須の設定）
+
+`design.md` §8「出典が欠いている、実装上必須の設定の追記」の適用。**反映コミット `c2a1ae9`**。追記した節は「応答不要メッセージ送信用のメッセージングプロバイダに差し替える」。根拠は `nablarch/nablarch-testing` の作業ツリー `fdf55d4` を自分で開いて確認した。
+
+| 本文に書いた事実 | 根拠（`file:line`） |
+|---|---|
+| テスト用のコンポーネント設定ファイルに `messagingProvider` という名前で `RequestTestingMessagingProvider` を登録する | `src/test/resources/batch-test-component-configuration.xml:61-63`（`<component name="messagingProvider" class="nablarch.test.core.messaging.RequestTestingMessagingProvider" />`。この設定ファイルは `RequestTestingSendSyncBatchTest.xls` ほか2件の `diConfig` から参照されている） |
+| キューへのメッセージ送信は行われず、送信された要求電文はフレームワークが保持する | `RequestTestingMessagingProvider.java:464-474`（`send(SendingMessage)` はログ出力後に `SENDING_MESSAGE_CACHE.add(message)` するだけで `"messageId"` を返す）・`:478-481`（`sendMessage` は `send` に委譲） |
+| 差し替えないと、`expectedMessage` に記述した期待値との照合が送信件数の不一致で失敗する | `TestShot.java:167` が `RequestTestingMessagingContext.assertSendingMessage(testClass, sheetName, get("no"), get("expectedMessage"))` を無条件に呼ぶ → `RequestTestingMessagingProvider.java:257`（`SENDING_MESSAGE_CACHE` を突き合わせ対象に渡す）→ `:331-338`（実件数が期待件数より少ない場合に `Assertion.fail`） |
+| 上書きの記述は本番用のコンポーネント設定ファイルの読み込みより後に置く | 同ページの承認済み記述「リクエストスレッド内ループ制御ハンドラを置き換える」と同じ上書き手順に揃えた（`setup/request_unit_test/batch.rst` の当該節） |
