@@ -264,7 +264,7 @@ level 2 と level 3 だけで level 4 は現れないため、この重複によ
 
 - 実測（同じ38ページ・全384見出し）: 本規約に一致するのは290件である。内訳はL1が38/38・L2が68/68・
   L3が122/158・L4が62/120。不一致94件は**すべて「49とすべき箇所を50にしている」**もので、
-  `implementation/testdata_examples.rst`（L3 24件・L4 58件）・`tools/master_data_tool.rst`（L3 6件）・
+  `implementation/testdata_examples.rst`（L3 22件・L4 58件）・`tools/master_data_tool.rst`（L3 6件）・
   `tools/request_data_tool.rst`（L3 8件）の3ページに集中する。残り28ページのL3・L4は例外なく49である
 - 表示幅まで伸ばす形は実測とも合う。例: `setup/request_unit_test/db_queue.rst:3`（L1、全角36文字＝表示幅72、
   下線72）・`setup/common.rst:120`（L3、表示幅76、下線76）・`implementation/testdata_examples.rst:864`
