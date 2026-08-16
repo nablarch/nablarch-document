@@ -105,7 +105,7 @@
 --------------------------------------------------
 テスティングフレームワークを継承したテストクラスは、テスト対象クラスを直接呼び出してテストする。テスト対象クラスは、本番と同じくNablarch Application Frameworkを介して動作するため、テストクラスから見ても本番相当の基盤の上でテスト対象クラスの動作を検証できる。テストクラスは、Excelファイルなどのテストデータをテスティングフレームワーク経由で読み取って使用する。構成物どうしの関係は、次の図のとおり。
 
-.. image:: ../guide/development_guide/06_TestFWGuide/_images/abstract_structure.png
+.. image:: images/index/abstract_structure.png
   :scale: 80
 
 .. _testing_framework_about-operating_environment:
