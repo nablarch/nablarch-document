@@ -152,7 +152,7 @@
     </property>
     <property name="tempDirectory" value="webTemp"/>
     <property name="htmlCheckerConfig"
-      value="test/resources/httprequesttest/html-check-config.csv"/>
+      value="src/test/resources/nablarch/test/http-request-test/html-check-config.csv"/>
   </component>
 
 テストの実行速度を上げる

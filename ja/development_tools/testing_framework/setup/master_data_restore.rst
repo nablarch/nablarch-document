@@ -58,7 +58,7 @@
 
 .. tip::
 
-  バックアップ用スキーマには、すべてのテーブルを作成する必要はない。監視対象テーブルとして登録するテーブルのみ存在すればよい（それ以外のテーブルがあっても問題ない）。
+  バックアップ用スキーマには、すべてのテーブルを作成する必要はない。監視対象テーブルとして登録するテーブルのみ存在すればよい（それ以外のテーブルがあっても問題ない）。ただし\ :ref:`マスタデータ投入ツール <master_data_tool>`\ でバックアップ用スキーマにも投入する場合は、投入するマスタデータファイルに記述したすべてのテーブルがバックアップ用スキーマに必要である。このツールは、マスタデータファイルに記述されたテーブルをすべてバックアップ用スキーマへコピーするためである。
 
 .. _master_data_restore-watched_tables:
 
@@ -88,7 +88,7 @@
   <component name="masterDataRestorer"
              class="nablarch.test.core.db.MasterDataRestorer">
     <!-- バックアップ用スキーマ -->
-    <property name="backupSchema" value="nablarch_test_master"/>
+    <property name="backupSchema" value="NABLARCH_TEST_MASTER"/>
     <!-- 監視対象テーブル一覧 -->
     <property name="tablesTobeWatched">
       <list>

@@ -86,11 +86,7 @@
 
 ``DbAccessTestSupport``\ を継承すると、テストメソッドの実行前にデータベーストランザクションが開始され、実行後に終了する。テストクラス側でトランザクションを開始・終了する必要はない。
 
-デフォルトのトランザクション以外も使用する場合は、テスト用のコンポーネント設定ファイルに\ :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>`\ を登録し、環境設定ファイルの\ ``dbAccessTest.dbTransactionName``\ にそのコンポーネント名を記述する。複数指定する場合はカンマで区切る。指定した名前のコンポーネントが登録されていない場合は、テストメソッドの実行前に例外が発生する。デフォルトのトランザクションは、この記述の有無にかかわらず開始される。
-
-.. code-block:: properties
-
-  dbAccessTest.dbTransactionName=employeeTransaction,departmentTransaction
+デフォルトのトランザクション以外も使用する場合は、テスト用のコンポーネント設定ファイルと環境設定ファイルへの設定が必要である（\ :ref:`デフォルト以外のトランザクションを使用する <class_unit_test_setting-db_transaction>`\ ）。
 
 別のクラスを継承しなければならないなどの理由で\ ``DbAccessTestSupport``\ を継承できない場合は、これをインスタンス化して処理を委譲する。コンストラクタにはテストクラス自身の\ ``Class``\ オブジェクトを渡す。この場合はトランザクションの開始・終了が自動では行われないため、前処理・後処理から明示的に呼び出す。
 
