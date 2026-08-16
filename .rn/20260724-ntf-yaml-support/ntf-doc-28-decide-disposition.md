@@ -15,13 +15,14 @@
 | 区分 | 件数 | 扱い |
 |---|---|---|
 | §1 判定不要（クローズ） | 24 | 本書で理由を記録して閉じる。作業なし |
-| §2 本文の是正 | 31 | 本タスクで直す |
+| §2 本文の是正 | 32 | 本タスクで直す |
 | §3 規約ファイルの是正 | 18 | 本タスクで直す |
 | §4 記録の是正・未確認の解消 | 15 | 本タスクで直す |
-| §5 残骸の整理 | 4 | user 判断が出てから実施（§6-3） |
-| §6 user 判断に上げた | 18 | **本書では扱わない。** 判断が返るまで着手しない |
+| §5 残骸の整理 | 4 | 本タスクで直す（§5-1〜5-4） |
+| §6-1 NTF本体の事象（モジュールへ回付） | 7 | 解説書側の扱いは §7。**モジュール宛の依頼書は変更しない** |
+| §6-2〜6-6 レビュー役が判断した10件 | 10 | 本タスクで直す（§6-2〜6-6） |
 
-合計 110。
+合計 110。`#27-12 decide-1` は §6 から §2-32 へ移したため、§2 の32件に含めて数えている。
 
 レビュー役が確認に使った環境は次のとおり。本書に「確認済み」と書いた事実は、すべてこの環境でレビュー役自身がコマンドを実行して得たものである。
 
@@ -95,7 +96,7 @@ CC 自身が「設計違反ではない」と結論している。レビュー�
 
 ---
 
-## §2 本文の是正 31件
+## §2 本文の是正 32件
 
 **承認済みページを含む。** 事実が実装またはFW解説書と食い違うものは、承認済みであっても直す。`design.md` §8「出典どうしが食い違う場合、および出典と実装が食い違う場合は実装を優先する」による。
 
@@ -300,6 +301,20 @@ CC 自身が「設計違反ではない」と結論している。レビュー�
 - 是正: 3ページ（`implementation/request_unit_test/rest.rst`・`mom.rst`・`batch.rst`）から `:ref:`JUnit 5用拡張機能 <junit5_extension>`` へ導線を張る。**同じ文型で揃えること**
 - `#27-12 decide-5`・`#27-13 decide-9`・`#27-14 decide-4`
 
+### 2-32. `implementation/request_unit_test/rest.rst:61` の「`dbInfo` または `testDataParser`」を直す
+
+- 現状: `:61` の tip が「``RestTestSupport``\ を使用する場合は、``dbInfo``\ または ``testDataParser``\ のコンポーネントを準備する必要がある」
+- 問題: **`dbInfo` と `testDataParser` は選択関係にない。** `dbInfo` は `testDataParser` のプロパティである
+- 是正: 「``testDataParser``\ のコンポーネントを準備する必要がある（``dbInfo``\ はそのプロパティとして設定する）」の趣旨に改める。あわせて `setup/request_unit_test/rest.rst` から `setup/class_unit_test.rst` の `testDataParser` の記述例へ `:ref:` で導線を張る
+- 根拠（`nablarch-testing@e21bf67`、レビュー役が確認済み）:
+  - `src/main/java/nablarch/test/core/reader/BasicTestDataParser.java:41` — `private DbInfo dbInfo;`
+  - 同 `:221-222` — `public void setDbInfo(DbInfo dbInfo) { this.dbInfo = dbInfo; }`
+  - 同 `:194` — `new TableDataParser(testDataReader, ..., dbInfo, ...)` として使用している
+  - `src/main/java/nablarch/test/TestSupport.java:404` — `TestDataParser parser = SystemRepository.get("testDataParser");`（システムリポジトリから取るのは `testDataParser` の側）
+- 出典（`06_TestFWGuide/RequestUnitTest_rest.rst:107-110`）が「または」と書いているが、実装と食い違うため実装を優先する（`design.md` §8）。**`reviews/page-request_unit_test_rest.md` に「出典から変えた点」として追記すること**
+- なお `setup/class_unit_test.rst:132-142` の `testDataParser` の記述例は `<!-- 中略 -->` で `dbInfo` の `<property>` を省いている。**導線を張る以上、`dbInfo` の `<property>` を記述例に補うこと**
+- `#27-12 decide-1`（`§6` から移した）
+
 ### 2-31. `implementation/deal_unit_test/db_queue.rst` の `OneShotLoopHandler` への導線を短くする
 
 - 現状: `OneShotLoopHandler` の置き換え情報に到達するまで3ホップ要る
@@ -308,7 +323,7 @@ CC 自身が「設計違反ではない」と結論している。レビュー�
 
 ---
 
-## §3 規約ファイルの是正 18件
+## §3 規約ファイルの是正 18件 ＋ 本書の判断に伴う改定4件
 
 `style.md`・`glossary.md`・`design.md` を変更する。**`glossary.md` §5.15（`:331-456`）の証拠一覧は書き換えてはならない。** §5.15 以外は変更してよい（レビュー役が `mapping/glossary.md` の見出し構造を確認した）。
 
@@ -419,6 +434,17 @@ CC 自身が「設計違反ではない」と結論している。レビュー�
 - 是正: 個別指示が規約に優先する条件を `style.md` に1行書く。見出し自体は変えない
 - `#27-11 decide-4`
 
+### 3-19〜3-22. 本書の判断に伴う規約改定 4件
+
+110件の内訳とは別に、§5・§6 の判断を実行するために次の4件を改定する。**改定を先に済ませてから、それに依る本文の是正に着手すること。**
+
+| # | 対象 | 改定内容 | 由来 |
+|---|---|---|---|
+| 3-19 | `design.md:504-517`（§8 出典が欠いている、実装上必須の設定の追記） | 「記載例についても同じ基準（無いと読者が書けない）で追記してよい」の1文を足す | §6-2-3 |
+| 3-20 | `design.md:358-362`（§5 第2部・第3部との切り分け） | `:360` と `:522` が両方該当する場合の優先順位を1文足す。「設定値そのものはツールページに置き、他ページから見た制約だけを `:ref:` で残す」 | §6-4 |
+| 3-21 | `style.md` S-10 | 「Excel形式の図しか無い場合は、図の直前の本文で『Excel形式で示す』と明示する」を1条足す | §6-5（`#27-09 decide-2`） |
+| 3-22 | `design.md:546-556`（§9 対象外とするもの） | 「`en/` は本刷新では変更せず、`ja/` 確定後に別タスクで同じ章構成へ揃える」を理由つきで足す | §5-4 |
+
 ---
 
 ## §4 記録の是正・未確認の解消 15件
@@ -497,7 +523,7 @@ CC 自身が「設計違反ではない」と結論している。レビュー�
 
 ---
 
-## §5 残骸の整理 4件 — **user 判断が返るまで着手しない**
+## §5 残骸の整理 4件 — **本タスクで実施する**
 
 `guide/` 配下の追跡ファイルの削除は不可逆である。レビュー役が実測した件数は次のとおり（`7e19f68`、`git ls-files ja/development_tools/testing_framework/guide`）。
 
@@ -512,22 +538,186 @@ CC 自身が「設計違反ではない」と結論している。レビュー�
 
 **`en/` 配下は本作業で一度も触れていない。** レビュー役が確認した: `en/development_tools/testing_framework/` に旧解説書の `.rst` が47件、追跡ファイルが177件、独立した `en/conf.py` とともに残っている。`design.md`・`steering.md` に `en/` への言及は1件も無い。`ja/guide/` を削除しても `en/` には影響しない（別ディレクトリで、画像も別に持つ）。
 
-判断は §6-3 に上げた。
+### 5-1. `about/index.rst:108` の画像を移す
+
+- `git mv ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/_images/abstract_structure.png ja/development_tools/testing_framework/about/images/index/abstract_structure.png`（`design.md:895-896` の配置規約）
+- `about/index.rst:108` の `.. image::` を `images/index/abstract_structure.png` に書き換える
+- **移設後、`guide/` を参照する `.rst` が0件であることを確認する**（`grep -rn "guide/development_guide" --include=*.rst ja/`）
+
+### 5-2. `guide/` をディレクトリごと削除する
+
+- 5-1 の確認が0件であることを確かめてから `git rm -r ja/development_tools/testing_framework/guide` を実行する
+- **`#last` の直前に、単独のコミットで行う。** 他の是正と同じコミットに混ぜない（取り消しの単位を分けるため）
+- 削除前に、作図元として残す価値のある `.xlsx` を先に退避する（5-3）
+
+### 5-3. 作図元の `.xlsx` を退避してから削除する
+
+レビュー役が `guide/` 配下の全 `.xlsx` 8件のシート名を実測した（`unzip -p <xlsx> xl/workbook.xml` の `<sheet name>` を列挙）。
+
+| ファイル | シート名 |
+|---|---|
+| `05_UnitTestGuide/02_RequestUnitTest/_image/images.xlsx` | `testcase-user` / `testcase_and_request.png` / **`send_sync`** / `Sheet1` / `new_testCases.png` / `expected_download_csv.png` / `dummy_request_param.png` |
+| `02_RequestUnitTest/_image/http_send_sync_ok_pattern.xlsx` | `１回送信` / `複数回送信` |
+| `02_RequestUnitTest/_image/send_sync_ok_pattern.xlsx` | `testNormalEnd` |
+| `02_RequestUnitTest/_image/mail_image.xlsx` | `Sheet1` / `Sheet2` |
+| `01_ClassUnitTest/_download/` 4件 | テストデータの記載例（作図元ではない） |
+
+`images.xlsx` は `implementation/request_unit_test/mom.rst` が使う `send_sync.png` の作図元を含む。**`git mv` で `implementation/request_unit_test/images/mom/send_sync.xlsx` へ退避してから削除する**（`rest_request_unit_test_structure.xlsx` が図と同じディレクトリに置かれているのと同じ形）。残り7件は作図元ではないため退避しない。
+
+### 5-4. `en/` を後続作業として明示記録する
+
+user 判断: **今回は `ja/` だけを対象とする。`en/` は `ja/` が確定してから着手する。**（対象外にするのではなく、順序を後ろに置く）
+
+`en/development_tools/testing_framework/` は独立した `en/conf.py` を持つ別プロジェクトで、`ja/` を参照していない（`grep -rn "/ja/" --include=*.rst en/development_tools/` が0件。レビュー役が実測）。`.rst` 47件・追跡ファイル177件。**`ja/guide/` の削除は `en/` を壊さない**ため、`ja/` を先に確定させてから `en/` に着手できる。
+
+`design.md` §9（`:546-556`）に次の趣旨を足す。
+
+> `en/` 配下は本刷新では変更しない。`ja/` が確定したのちに、別タスクとして同じ章構成へ揃える。`en/` は独立した `en/conf.py` を持ち `ja/` を参照しないため、`ja/` の刷新によって壊れることはない。
+
+**本タスクでは `en/` のファイルに一切触れない。**
 
 ---
 
-## §6 user 判断に上げた18件 — **本書では扱わない**
+## §6 user 判断に上げた17件
 
-次の18件は、レビュー役がチャットで user に判断を求めた。**判断が返るまで着手しないこと。** 判断が返ったら本書に追記する。
+### 6-1. NTF本体の事象7件 — **判断済み。モジュール側へ回付した**
 
-| 群 | 件数 | 判断待ち |
+user 判断: **7件すべてモジュールの修正を検討する。** レビュー役が一次情報で再現を確認し、モジュール別の作業依頼を次の3ファイルに切り出した。user から各モジュールの担当へ直接依頼する。
+
+| ファイル | 宛先 | 件数 |
 |---|---|---|
-| 6-1 NTF本体の不具合疑い | 7 | `#27-03 decide-1`・`decide-3`／`#27-04 decide-1`・`decide-2`／`#27-02 decide-3`／`#27-09 decide-1`／`#27-05` の判断待ち⑦ |
-| 6-2 解説書に手順が存在しない欠落 | 6 | `#27-12 decide-1`／`#27-13 decide-5`・`decide-6`／`#27-14 decide-1`・`decide-3`／`#27-19 decide-5` |
-| 6-3 `guide/` 残骸88件の処分 | 1 | §5 |
-| 6-4 `design.md:360` と `:522` の衝突 | 1 | `#27-06 decide-1`（`#27-05` の判断待ち③と同根） |
-| 6-5 図・画像5件の扱い | 2 | `#27-09 decide-2`／`#27-10 decide-2`／`#27-13 decide-7`／`#27-12 decide-2`／`#27-14 decide-2` を2群にまとめた |
-| 6-6 「現在検討中」の tip | 1 | `#27-11 decide-1` |
+| `ntf-mod-01-nablarch-testing-converter.md` | `nablarch-testing-converter` | 2 |
+| `ntf-mod-02-nablarch-testing.md` | `nablarch-testing` | 4 |
+| `ntf-mod-03-nablarch-testing-junit5.md` | `nablarch-testing-junit5` | 1 |
+
+**CC はこの3ファイルを変更しないこと。** 解説書側の扱いは §7 に定めた。
+
+### 6-2〜6-6. 10件 — **判断済み。本タスクで直す**
+
+user 判断: **スコープは初めからNTF解説書の刷新であり、これらはすべて解説書の中身の話である。先送りにしない。今できる範囲で最後までやる。目的のためにルールを見直してよい。**
+
+`#27-12 decide-1`（`dbInfo` / `testDataParser`）は §2-32 に移した。判断不要である。
+
+#### 6-2. 解説書に手順が存在しない欠落 5件 → **すべて書き足す**
+
+**規約の改定は不要である。** `design.md:504-517`「出典が欠いている、実装上必須の設定の追記」（`#18` 確定）が「出典にもマッピングにも無いが、それが無いとページに書かれた手順が動かない設定は、書き足してよい」と既に定めており、§11.3 の例外として明示されている。下の5件はいずれも**無いとテストが動かない**ため、この条項がそのまま適用される。同条が求めるとおり、**追記の根拠とした `file:line` とコミットハッシュを `reviews/page-*.md` に記録すること。**
+
+| # | 書き足すもの | 書く場所 | 根拠（レビュー役が一次情報で確認済み） | 判断待ち |
+|---|---|---|---|---|
+| 6-2-1 | 受信テストのコンポーネント設定。内蔵MQサーバを使うこと、キュー名が `TEST.REQUEST`／`TEST.RESPONSE` 固定であること、`messagingProvider` の登録が必須であること | `setup/request_unit_test/mom.rst`（現在60行） | `nablarch-testing@e21bf67` `MessagingRequestTestSupport.java:185-186`・`:197`・`:106-110` | `#27-13 decide-5` |
+| 6-2-2 | `RequestTestingMessagingProvider` への差し替え手順 | 同上 | `grep -rn "messagingProvider" --include=*.rst .../setup` は `deal_unit_test/mom.rst:26` の1件のみ。`RequestTestingMessagingProvider` は `implementation/` 側4件のみで `setup/` に0件 | `#27-13 decide-6` |
+| 6-2-3 | 応答不要メッセージ送信のテストデータの記載例 | `implementation/testdata_examples.rst` に節を新設 | `grep -c "応答不要メッセージ送信" implementation/testdata_examples.rst` が **0**。他の処理方式はすべて記載例を持つ。記載例が無いと読者は書けない | `#27-14 decide-1` |
+| 6-2-4 | 応答不要メッセージ送信での `messagingProvider` 差し替え | `setup/request_unit_test/batch.rst`（現在119行） | `nablarch-testing@e21bf67:src/test/resources/batch-test-component-configuration.xml:61-63` が `RequestTestingMessagingProvider` を登録。無いと要求電文のアサートが成立しない（`RequestTestingMessagingProvider.java:94-98`） | `#27-14 decide-3` |
+| 6-2-5 | `testTran`（トランザクション管理）の登録 | `setup/class_unit_test.rst` | `DbAccessTestSupport.java:42`・`:188` → `TransactionTemplate.java:43-49`。未登録なら `IllegalArgumentException`。`grep -rn "testTran" ja/` は新旧いずれの `.rst` でも **0件** | `#27-19 decide-5` |
+
+**6-2-3 だけは「設定」ではなく「記載例」である。**`design.md:504-517` の条項は設定を対象としているため、**`design.md` §8 の同節に「記載例についても同じ基準（無いと読者が書けない）で追記してよい」の1文を足してから書く**こと（§3 の規約是正として扱う）。
+
+**6-2-1 と 6-2-2 は同じページへの追記であり、1コミットにまとめてよい。**
+
+#### 6-3. `guide/` 残骸88件の処分 → **§5-1〜5-4 のとおり実施する**
+
+`about/index.rst:108` の1件を移設し、作図元 `images.xlsx` を退避してから、`guide/` をディレクトリごと削除する。`en/` は対象外として `design.md` §9 に明記する。詳細は §5。
+
+#### 6-4. `htmlCheckerConfig` の説明をどちらのページに置くか → **現状を追認し、切り分け基準を `design.md` に明記する**
+
+`#27-06 decide-1` は「`design.md:360`（ツールへは `:ref:`。ツール利用者が1箇所で完結できることを優先）と `design.md:522`（承認済みページが同じ事実を持つ場合は `:ref:`）が両方該当する」というものである。
+
+- **判断: CC が採った形（ツールページに値と例を載せ、「どちらか一方が必要」という設定全体の制約だけを `web.rst` へ `:ref:`）を追認する。** `design.md:360` の「ツール利用者が1箇所で完結できる」が優先されるべきで、ツールページから設定値を追い出すと目的に反する
+- **再発防止: `design.md:358-362`（第2部・第3部との切り分け）に、両方が該当する場合の優先順位を1文足す。** 「設定値そのものはツールページに置き、他ページから見た制約だけを `:ref:` で残す」
+- あわせて `#27-05` の同根の判断（`master_data_restore.rst:59-61` の tip への但し書き）も、この基準で処理する
+
+#### 6-5. 本文と食い違う図4枚の扱い → **食い違う図は落とし、TODO を残す**
+
+**Sphinx 側に作図系の拡張が無いことを確認した。**`ja/conf.py` の `extensions = ['sphinx.ext.todo', 'javasphinx', 'sphinx.ext.extlinks']` がすべてで、graphviz・mermaid・plantuml はいずれも無い。**図は外部ツールで png を作る以外に方法が無く、CC には作れない。**
+
+したがって「作り直す」は今できない。**本文と正面から食い違う図をそのまま残すことはできない**ため、次のとおりにする。§7 のモジュール判定待ちと同じ TODO 方式を使う。
+
+| # | 図 | 食い違い（レビュー役が確認済み） | 作図元 | 扱い | 判断待ち |
+|---|---|---|---|---|---|
+| 6-5-1 | `implementation/request_unit_test/images/rest/rest_request_unit_test_structure.png` | (a) テストデータのノードが「Excelファイル」（本文 `rest.rst:31` は形式中立）(b) メソッドが GET/POST/PUT/DELETE の4つで PATCH が無い（本文 `:110` は5つ）(c) `SimpleRestTestSupport` が描かれていない（本文 `:54-57`） | **あり**（同ディレクトリの `rest_request_unit_test_structure.xlsx`、シート `Sheet1`） | 図を落とし、TODO を置く | `#27-12 decide-2` |
+| 6-5-2 | `implementation/request_unit_test/images/mom/send_sync.png` | 「Excelファイル（テストデータ）」表記。本文は形式中立 | **あり**（`guide/.../02_RequestUnitTest/_image/images.xlsx` のシート `send_sync`。§5-3 で退避する） | 同上 | `#27-13 decide-7` |
+| 6-5-3 | `implementation/request_unit_test/images/mom/real_request_test_class.png` | 同上 | **なし**（`guide/` 配下の `.xlsx` 8件のシート名を全件実測して該当なし） | 同上 | `#27-13 decide-7` |
+| 6-5-4 | `implementation/request_unit_test/images/batch/batch_request_test_class.png` | (a) `handle` の引数順が実装と逆（`MainForRequestTesting.java:20` は `handle(CommandLine, ExecutionContext)`）(b)「Excelファイル(テストデータ)」表記 (c) `FileSupport` が固定長限定だが実装は可変長も扱う（`DataType.java:37-40`） | **なし**（同上） | 同上 | `#27-14 decide-2` |
+
+**「落とす」の具体:**
+
+1. `.. image::`（および直前の見出し・キャプションが図だけのために立っている場合はその見出しも）を削除する
+2. 図が伝えていた構造のうち本文に無いものは、**本文または `.. list-table::` で書き足す。** 図を消して情報が減る状態にしない
+3. 削除した箇所に TODO を置く（書式は §7-1 に準じる）
+
+```rst
+.. TODO(NTF-FIG-01): 構成図 rest_request_unit_test_structure.png を削除した。
+   本文と3点食い違い（Excelファイル表記・PATCH欠落・SimpleRestTestSupport 未描画）、
+   Sphinx に作図系拡張が無く作り直せないため。
+   作図元 images/rest/rest_request_unit_test_structure.xlsx は残してある。
+   作図できる環境で改訂したうえで戻すこと。
+```
+
+識別子は `NTF-FIG-01`〜`NTF-FIG-04` を 6-5-1〜6-5-4 に割り当てる。**png ファイル自体は削除せず残す**（改訂の起点になるため）。`_build` に未参照の警告は出ない（`.. image::` を消すだけで、ファイルの存在は警告にならない）ことをビルドで確認する。
+
+**あわせて2件を確定する。**
+
+- `#27-09 decide-2`（`deal_unit_test/mom.rst:77` の「応答電文を2件記述した場合の例を Excel 形式で示す」という断り書き）: **この書き方を採用し、`style.md` S-10 に規約として1条足す。** 「Excel形式の図しか無い場合は、図の直前の本文で『Excel形式で示す』と明示する」。NTF 内に前例が0件で割れているため、規約化して揃える
+- `#27-10 decide-2`（`deal_unit_test/http_messaging.rst` で Excel記載例の画像を落とした判断）: **追認する。** 画像内の `EXPECTED_REQUEST_BODY_MESSAGES` は `MockMessagingClient` が読まないデータブロックであり（`MockMessagingClient.java:48-91` に `EXPECTED_REQUEST_*` の参照が無い）、載せると実装が無視する記述を読者に書かせることになる。`design.md` §8 の実装優先による。この判断は 6-5 の TODO の対象外（食い違う図を残していないため）
+
+#### 6-6. 「現在検討中」の tip → **削除する**
+
+`implementation/deal_unit_test/web.rst:44-45` の「画面ハードコピー取得ツール、DBダンプ取得ツール等のテスト補助ツールについては現在検討中。」を削除する。
+
+`git log -S` で、この文字列は `0c7f57d`（2020-09-14）で入って以来一度も変更されていない。**約6年「検討中」のまま**であり、読者が取る行動を何も変えない。`#27-11 decide-1`。
+
+---
+
+## §7 モジュール判定待ちの箇所の書き方
+
+**方針（user 決定）: すべてあるべき姿で本文を書き、判定が返ったときに確認できるようマーカーとして TODO を残す。**
+
+YAML対応と解説書の刷新はいずれも開発中で、まだリリースしない。利用者はいない。したがって**現在の不具合の挙動を本文に書かない。回避策も注意書きも書かない。例外は設けない。**
+
+各箇所について「あるべき姿」を §7-2 の表で明示した。判定が「仕様」で返った場合は、そのとき本文を仕様に合わせて書き直す。TODO はそのための目印である。
+
+### 7-1. TODO の書き方
+
+reST のコメントで書く。**ビルド出力に現れない**（読者には見えない）ため、直る前提の本文と両立する。`ja/conf.py` を変更しないので `sphinx.ext.todo` は使わない。
+
+書式は次で固定する。
+
+```rst
+.. TODO(NTF-MOD-01-1): テストデータ変換ツールの往復非可逆。判定待ち。
+   依頼書 .rn/20260724-ntf-yaml-support/ntf-mod-01-nablarch-testing-converter.md §2。
+   仕様と判定された場合は本文を書き直す。
+```
+
+- 識別子は `NTF-MOD-<依頼書番号>-<事象番号>` とする。依頼書の節番号と1対1に対応させる
+- 1行目に事象、2行目に依頼書のパスと節、3行目に仕様判定時の扱いを書く
+- **本文の直前に置く**（どの記述が判定に依存しているかを、あとから開いた人が特定できるようにする）
+
+### 7-2. TODO を入れる箇所と、前提とする「あるべき姿」（7件）
+
+「あるべき姿」は**依頼書を書いたレビュー役の想定**であって、モジュール側の判定ではない。**判定が返ったら、この表の想定と突き合わせて本文を確定すること。**
+
+| 識別子 | 事象 | 前提とするあるべき姿 | 本文の書き方 | 入れる箇所 |
+|---|---|---|---|---|
+| `NTF-MOD-01-1` | 変換ツールの往復が非可逆 | 往復しても内容が保たれる | 非可逆の注意書きを書かない | `tools/testdata_converter.rst` の往復変換に触れている箇所 |
+| `NTF-MOD-01-2` | 同名 `.xls`/`.xlsx` の併存で片方が無言で失われる | 併存はツールが検出する | 併存を避けよという注意書きを書かない | 同上。変換対象の指定に触れている箇所 |
+| `NTF-MOD-02-1` | Linux 用の起動スクリプトが配布されていない | Windows・Linux の双方で使える | **「Windowsのみ」を書かない。** Linux でも使える前提で書き、起動スクリプト名は `httpDump.bat` / `httpDump.sh` の双方を示す | `tools/request_data_tool.rst` |
+| `NTF-MOD-02-2` | `src/main/script/httpDump.{bat,sh}` の陳腐化 | — | 解説書は `src/main/script/` に言及していない。**TODO は入れない** | — |
+| `NTF-MOD-02-3` | YAML形式で再読み込みが働かない | 形式によらず再読み込みが働く | 形式を限定せずに書く（現在の記述のまま） | `implementation/deal_unit_test/mom.rst` の再読み込みに触れている箇所（`:82` 付近） |
+| `NTF-MOD-02-4` | マスタデータ投入ツールが無言で0件 | YAML形式のプロジェクトでもマスタデータ投入ツールを使える | **`:28` の「本ツールを使用できない」以下の記述を落とす** | `tools/master_data_tool.rst:28` |
+| `NTF-MOD-03-1` | `Timeout` が機能しない | `resolveTestRules()` に登録したルールがテスト本体に効く | 出典どおり `Timeout` の実装例を載せたままにする（現在の記述のまま）。制約を書かない | `setup/junit5_extension.rst` の `resolveTestRules()` の実装例（`:395-440` 付近） |
+
+`NTF-MOD-02-1` は、`tools/request_data_tool.rst:62`・`:82` が `#27` で「起動用スクリプトを `httpDump.bat` のみとする」と書いた箇所を**巻き戻す**ことになる。`reviews/page-request_data_tool.md` の「出典から変えた点」の5件目（出典の「Linuxの場合はシェルスクリプト(httpDump.sh)を選択する」を落とした件）も、あわせて取り消した旨を追記すること。
+
+`NTF-MOD-02-2` は TODO を入れないが、`ntf-mod-02` §3-3 の回答（`nablarch.test.core.http.dump` の実装がどのモジュールにあるか）が返るまで、本書 §2-7（`setup/request_unit_test/rest.rst:53`）は確定できない。**§2-7 にも `TODO(NTF-MOD-02-2)` を置き、この表に加えること。**
+
+### 7-3. 一覧の作成
+
+`checks/task-28.md` に、入れた TODO の一覧（識別子・ファイル・行・対応する依頼書の節）を表で記録する。判定が返ったときに、この表だけを見て回収できる状態にする。
+
+### 7-4. ゲート（§6 のゲートに追加）
+
+9. `grep -rn 'TODO(NTF-MOD-' ja/` の結果が `checks/task-28.md` の一覧と完全に一致すること
+10. フルビルドの出力（`_build/html`）に `TODO(NTF-MOD-` が0件であること（reST コメントとして扱われ、読者に見えないことの確認）
 
 ---
 
@@ -536,20 +726,33 @@ CC 自身が「設計違反ではない」と結論している。レビュー�
 `checks/task-28.md` に記録すること。
 
 1. §1 の24件を閉じたことの記録が1行ある
-2. §2 の31件それぞれについて、**着手前に根拠の `file:line` を自分で開いて確認した**ことと、確認結果（一致・不一致）が記録されている。「未確認」と本書に書かれた項目は、確認できたか／できなかったかが明記されている
+2. §2 の32件それぞれについて、**着手前に根拠の `file:line` を自分で開いて確認した**ことと、確認結果（一致・不一致）が記録されている。「未確認」と本書に書かれた項目は、確認できたか／できなかったかが明記されている
 3. §2-1 の `expectedStatusCode` が `implementation/deal_unit_test/batch.rst` 全体で `"100"` 0件・`"0"` 10件以上であること（`grep -c` の実測値を書く）
 4. §3 の18件が `style.md`・`glossary.md`・`design.md` に反映され、**`glossary.md` の `:331-456`（§5.15）に差分が0行**であること
 5. `python3 mapping/tools/verify_mapping.py` が `exit 0`
 6. `python3 mapping/tools/verify_glossary.py` の不一致件数が `#pre-last` 完了時点から増えていないこと
 7. Docker でフルビルドし、WARNING・ERROR がともに0件であること。**ビルド後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行すること**
-8. §5・§6 の22件に着手していないこと（`git diff` に該当する変更が無いこと）
+8. §6-2 の5件それぞれについて、追記の根拠とした `file:line` とコミットハッシュが `reviews/page-*.md` に記録されていること（`design.md:508-509` の要求）
+9. §5-2（`guide/` の削除）の直前に `grep -rn "guide/development_guide" --include=*.rst ja/` が **0件**であること。実測値を記録する
+10. §6-5 の TODO 4件（`NTF-FIG-01`〜`04`）が `grep -rn 'TODO(NTF-FIG-' ja/` の実測と一致し、ビルド出力 `_build/html` に0件であること
+11. §6-5 で図を落としたページについて、**図が伝えていた構造が本文または表として残っている**ことを、削除前後の内容で対比して記録すること
+
+## 順序の指定
+
+`guide/` の削除（§5-2）は**不可逆**である。次の順で行うこと。
+
+1. §1〜§4、§6-2・6-4・6-5・6-6 を先にすべて終える
+2. §5-1（画像の移設）→ §5-3（作図元の退避）→ ゲート9 の確認 → §5-4（`design.md` §9 への追記）
+3. **最後に §5-2（`guide/` の削除）を単独のコミットで行う**
 
 ## 禁止事項
 
-- **§5・§6 の22件に着手しない。** user 判断が返るまで待つ
+- **`ntf-mod-01`〜`ntf-mod-03` の3ファイルを変更しない。** user が各モジュールの担当へ渡す依頼書である
+- **§7 の該当箇所に、現在の不具合の挙動・回避策・注意書きを書かない。例外は無い**
 - `glossary.md` §5.15（`:331-456`）を1行も変更しない
 - 本書に「未確認」と書かれた事実を、自分で確認しないまま本文に書かない。確認できない場合は本文を変えず、その旨を記録する
-- `ja/conf.py` を変更しない
-- `guide/` 配下のファイルを削除・移動しない
-- `en/` 配下を変更しない
+- `ja/conf.py` を変更しない。**図を作るために作図系の拡張（graphviz・mermaid・plantuml）を足さない**
+- **`guide/` の削除（§5-2）を「順序の指定」の3より前に実行しない**
+- **`en/` 配下を変更しない。** 今回は `ja/` のみが対象である。§5-4 で「`ja/` 確定後の別タスク」と明記するのみ
+- **§6-5 で png ファイル自体を削除しない。** `.. image::` を消すだけにする（改訂の起点として残す）
 - user review の承認を受けるまで次タスクに着手しない
