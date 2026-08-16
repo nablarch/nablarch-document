@@ -133,6 +133,9 @@
 | D-16 | 「テストメソッドを作成する」の冒頭に、節が何を扱うかを述べる1文を足した（`rest.rst:110`） | 見出しに対して中身がリクエスト生成に限られ、節単独で読めなかった |
 | D-17 | 「テストデータの記述方法は」を「テストデータの格納場所と記述方法は」に改めた（`rest.rst:142`） | 参照先に格納場所も書かれている。承認済みの `implementation/deal_unit_test/batch.rst:19` と同じ書き方に揃えた |
 | D-18 | テストデータ不在時の tip を節末（コード例の後）に移した（`rest.rst:155-157`） | 「この2つ以外のテストデータ」（`:147`）が指す箇条書きとの間に tip が割り込んでいたため |
+| D-19 | 出典 `06_TestFWGuide/RequestUnitTest_rest.rst:107-110` の「`dbInfo` または `testDataParser`」を、「`testDataParser` のコンポーネントを準備する（`dbInfo` はそのプロパティとして設定する）」に改めた（`rest.rst:61`）。あわせて `setup/request_unit_test/rest.rst:59` から `class_unit_test_setting-column_default_values` へ導線を張り、`setup/class_unit_test.rst:142-145` の記述例に `<property name="dbInfo" ref="dbInfo"/>` を補った | 出典と実装が食い違うため実装を優先した（`design.md` §8）。`dbInfo` と `testDataParser` は選択関係になく、`dbInfo` は `testDataParser` のプロパティである（`nablarch-testing@e21bf67` `BasicTestDataParser.java:41`・`:221-222`・`:194`、`TestSupport.java:404`）。デフォルト設定 `nablarch/test/test-data.xml`（`nablarch-testing-default-configuration-6u2.jar`）も `testDataParser` に `<property name="dbInfo" ref="dbInfo"/>` を設定している。同 jar の `nablarch/test/rest-request-test.xml` は `test-data.xml` を `import` していないため、`testDataParser` はプロジェクト側で登録する必要がある（§2-32） |
+| D-20 | `setBody` の説明を1文足した（`rest.rst:126`） | 出典に記述が無く、リクエストボディの設定方法に到達できないため。挙動は実装で確認した（`nablarch-testing-rest@9ada31e` `src/main/java/nablarch/fw/web/RestMockHttpRequest.java:61-67`（Content-Type 未設定時にデフォルトを設定）・`:272-283`（変換）、`StringBodyConverter.java:9-16`（String はそのまま）、`JacksonBodyConverter.java:12`・`:29-31`（`application/json` のとき JSON へ変換）、`RestMockHttpRequestBuilder.java:17`（デフォルト Content-Type は `application/json`））（§2-25） |
+| D-21 | 「テストクラスを作成する」の節末に JUnit 5 用拡張機能への導線を tip で足した（`rest.rst:95-97`） | 本ページは継承を前提に書かれており、JUnit 5 での書き方に到達できないため。承認済みの `implementation/request_unit_test/web.rst`・`implementation/class_unit_test/component.rst`・`entity.rst` と同じ文型に揃えた（§2-30） |
 
 ## 6. 4観点レビューの結果
 

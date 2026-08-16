@@ -50,11 +50,13 @@ RESTfulウェブサービスのリクエスト単体テストには、次の3つ
 
 .. important::
 
-  ``nablarch-testing-jetty12``\ は内蔵サーバの実装を提供するだけで、コンポーネントの登録までは行わない。\ ``httpServerFactory``\ を登録していないと、内蔵サーバの生成時に例外が発生する。
+  ``nablarch-testing-jetty12``\ が提供するのは、内蔵サーバと\ :ref:`リクエスト単体データ作成ツール <request_data_tool>`\ のクラスだけである。コンポーネントの登録は行わないため、\ ``httpServerFactory``\ を登録していないと、内蔵サーバの生成時に例外が発生する。
 
 .. tip::
 
   アーキタイプから\ :doc:`RESTfulウェブサービスプロジェクト <../../../../application_framework/application_framework/blank_project/setup_blankProject/setup_WebService>`\ を作成した場合は、上記の依存関係と設定が既に記述されている。\ :doc:`ウェブプロジェクト <../../../../application_framework/application_framework/blank_project/setup_blankProject/setup_Web>`\ や\ :doc:`Nablarchバッチプロジェクト <../../../../application_framework/application_framework/blank_project/setup_blankProject/setup_NablarchBatch>`\ から作成した場合は、不足している記述を追加する。
+
+:java:extdoc:`RestTestSupport <nablarch.test.core.http.RestTestSupport>`\ を継承したテストクラスでデータベースを扱う場合は、テストデータを解析する\ ``testDataParser``\ のコンポーネントも登録する。記述例は\ :ref:`省略したテーブルのカラムのデフォルト値を変更する <class_unit_test_setting-column_default_values>`\ を参照。
 
 コンポーネント設定ファイルで設定値を変更する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

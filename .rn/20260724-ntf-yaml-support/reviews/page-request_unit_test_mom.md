@@ -134,6 +134,10 @@
 - **D-11: 用語集の無条件置換を適用した。** 「メッセージ同期送信処理」→「同期応答メッセージ送信」2箇所（`glossary.md:528`）、「バッチ処理」→「Nablarchバッチアプリケーション」1箇所（`glossary.md:520`、処理方式を指す用法のため）、「主なクラス・リソース」→「主なクラスとリソース」1箇所（`glossary.md:308`）。
 - **D-12: `MessageSender` の役割欄を「同期応答メッセージ送信を行う際に使用するコンポーネント」から具体化した。** 同語反復であったうえ、「コンポーネント」はシステムリポジトリの登録単位と紛れる（`glossary.md:170`）。出典 `RequestUnitTest_send_sync.rst:113-121` と図 `send_sync.png` の記載（`要求電文を生成する()`・`応答電文をパースする()`）を根拠に書き換えた。
 
+- **D-13: 節ラベルを6つ足した（`mom.rst:37`・`:114`・`:163`・`:185`・`:198`・`:208`）。** `style.md` S-08 の命名（`<ページ先頭ラベル>-<英語スネークケース>`）に従い、`request_unit_test_mom-request_id`・`-test_class`・`-test_method`・`-test_data`・`-execute`・`-assertion` とした。`ja/` 配下で衝突が無いことを `grep` で確認した。`-request_id` は `deal_unit_test/mom.rst:74` からの飛び先である（§2-24・§2-23）。
+- **D-14: 冒頭に応答不要メッセージ送信の導線を足した（`mom.rst:10`）。** 本ページは受信2種と同期応答メッセージ送信の3つだけを挙げており、応答不要メッセージ**送信**に到達できない。飛び先は `implementation/request_unit_test/batch.rst:10`（「応答不要メッセージ送信のテストも、Nablarchバッチアプリケーションのテストとしてこのページの方法で行う」）である（§2-29）。**指示書の追加箇所欄は `implementation/deal_unit_test/mom.rst` だが、出典 `reviews/page-request_unit_test_batch.md:193` が指摘しているのは本ページの `:10` であるため、本ページに足した。**
+- **D-15: 「テストクラスを作成する」の節末に JUnit 5 用拡張機能への導線を tip で足した（`mom.rst:159-161`）。** 承認済みの `implementation/request_unit_test/web.rst`・`implementation/class_unit_test/component.rst`・`entity.rst` と同じ文型に揃えた（§2-30）。
+
 ## 6. 4観点レビューの結果
 
 QA／設計／クラフト／検証の4観点をそれぞれ別のサブエージェントで実施し、1ラウンドで是正した（指摘45件、本文への是正26件、不採用・判断待ち19件）。是正は成果物の `.rst` に畳んであり、別コミットに割っていない。

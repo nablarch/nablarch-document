@@ -140,6 +140,8 @@ Nablarch Validationを使用する場合、ここで指定するメッセージI
 
   <!-- TestDataParser -->
   <component name="testDataParser" class="nablarch.test.core.reader.BasicTestDataParser">
+    <!-- データベース情報 -->
+    <property name="dbInfo" ref="dbInfo"/>
     <!-- データベースのデフォルト値 -->
     <property name="defaultValues">
       <component class="nablarch.test.core.db.BasicDefaultValues">

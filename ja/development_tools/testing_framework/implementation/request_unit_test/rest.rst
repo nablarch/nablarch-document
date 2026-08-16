@@ -58,7 +58,7 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
 
 .. tip::
 
-  ``RestTestSupport``\ を使用する場合は、\ ``dbInfo``\ または\ ``testDataParser``\ のコンポーネントを準備する必要がある。データベースへの依存が不要な場合は、\ ``SimpleRestTestSupport``\ を使用することでコンポーネント定義を簡略化できる。
+  ``RestTestSupport``\ を使用する場合は、\ ``testDataParser``\ のコンポーネントを準備する必要がある（\ ``dbInfo``\ はそのプロパティとして設定する）。設定方法は\ :ref:`リクエスト単体テストの設定（RESTfulウェブサービス） <request_unit_test_setting_rest>`\ を参照。データベースへの依存が不要な場合は、\ ``SimpleRestTestSupport``\ を使用することでコンポーネント定義を簡略化できる。
 
 テストクラスの全体像を次に示す。各手順の詳細は以降で説明する。
 
@@ -92,6 +92,10 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
       }
   }
 
+.. tip::
+
+  JUnit 5\ でテストを書く場合は、継承ではなくインジェクションでテスティングフレームワークの機能を使用する（\ :ref:`JUnit 5用拡張機能 <junit5_extension>`\ ）。
+
 データベース関連機能は、\ ``RestTestSupport``\ から\ ``DbAccessTestSupport``\ に処理を委譲することで実現している。\ ``DbAccessTestSupport``\ の詳細は\ :ref:`コンポーネント単体テスト <component_unit_test>`\ を参照。ただし、\ ``DbAccessTestSupport``\ が持つ次のメソッドは、RESTfulウェブサービスのリクエスト単体テストでは不要であり、アプリケーションプログラマに誤解を与えないよう、意図的に委譲していない。
 
 * ``public void beginTransactions()``
@@ -118,6 +122,8 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
   RestMockHttpRequest delete(String uri)
 
 引数には、テスト対象となるリクエストURIを引き渡す。これらのメソッドは、受け取ったリクエストURIを元に\ ``RestMockHttpRequest``\ インスタンスを生成し、メソッド名に応じたHTTPメソッドを設定したうえで返す。リクエストパラメータなどURI以外のデータを設定する場合は、返されたインスタンスに対してデータを設定する。
+
+リクエストボディは\ ``setBody``\ メソッドで設定する。引数には任意のオブジェクトを渡せる。文字列を渡した場合はその文字列がそのままボディになり、それ以外のオブジェクトは\ Content-Type\ が\ ``application/json``\ の場合に\ JSON\ へ変換される。\ Content-Type\ ヘッダを設定していない状態で\ ``setBody``\ を呼び出すと、\ ``application/json``\ が設定される。
 
 これら以外のHTTPメソッドで\ ``RestMockHttpRequest``\ のインスタンスを作成する場合は、次のメソッドを使用する。第1引数にはHTTPメソッドを、第2引数にはテスト対象となるリクエストURIを引き渡す。
 

@@ -107,6 +107,15 @@
 **D-11 読み込み単位の説明を承認済みページに合わせた。**
 出典 `send_sync.rst:54-55` は「Excelファイル」の名前だけを述べる。`glossary.md:241` は読み込み単位を「Excel 形式では1シート、YAML 形式では1ファイル」と定義しており、このケースでは `message` が固定名である（`testdata_notation.rst:1154,1251`）。`:68` はファイル／ディレクトリの名前と読み込み単位の名前を分けて書いた。
 
+**D-12 モックアップクラスの適用範囲を `.. important::` で明示した（`:37-39`）。**
+出典に記述が無い。`nablarch-testing@e21bf67` の `src/main/java/nablarch/test/core/messaging/MockMessagingContext.java` を確認した結果、`receiveMessage(String, String, long)` は `throw new UnsupportedOperationException("this method was unsupported.")`、`close()` は空実装、`send(SendingMessage)` は要求電文をログに出力して固定値 `"messageId"` を返すだけである（`sendMessage` は `send` へ委譲）。`send`・`sendMessage` は `throws UnsupportedOperationException` を宣言しているが**実際には投げない**ため、「投げる」とは書いていない。同クラスは `@Published` を持たないため `:java:extdoc:` では参照せず、メソッド名を ``literal`` で書いた（§2-18）。
+
+**D-13 ウェブアプリケーションのテストクラスの作り方に関する1文を落とした（旧 `:17` 付近）。**
+「同期応答メッセージ送信を伴うウェブアプリケーションを対象とする場合、テストクラスの作り方はウェブアプリケーションの取引単体テストと同じである。」は、`:44` の「同期応答メッセージ送信を伴うウェブアプリケーションを対象とする場合は `取引単体テスト（ウェブアプリケーション）` と同じである」と重複していた（§2-12）。
+
+**D-14 リクエスト ID の tip を `:ref:` に置き換えた（`:74`）。**
+`implementation/request_unit_test/mom.rst:39-40` の tip と逐語同一であったため、記述量の少ない本ページから送る形にした（`design.md:522`「承認済みページが同じ事実を持つ場合は `:ref:`」）。飛び先は今回新設した節ラベル `request_unit_test_mom-request_id` である（§2-23・§2-24）。
+
 ## 6. 4観点レビュー
 
 QA・設計・クラフト・検証の4観点を、それぞれ別のサブエージェントで実施した。
