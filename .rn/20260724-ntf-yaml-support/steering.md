@@ -580,23 +580,9 @@ Rn version: 0.8.0
 
 **Closed**: user review 承認済み（`/rn:ty`、2026-08-15）。キュー22件すべてコミット済み（`6fceb6f`〜`7e19f68`）。`blocked` としたページは無い。レビュー役の独立検証（`7e19f68` を独立クローンで全量検証。結果は `ntf-doc-27-review.md`）は**要是正0件**で、申し送りは `guide/` 残骸2件のみ。フルビルド（`sphinx-build -a`）は WARNING・ERROR ともに0件、`verify_mapping.py` は exit 0、`verify_glossary.py` の不一致は既知25件で新規の劣化なし、`guide/` を除く `.rst` 38件が `design.md:830-890` のツリーと完全一致、ページ先頭ラベル37件が `style.md` S-08 一覧と0件不一致。**21ページが上げた判断待ち110件は `#28` で処理する。** 詳細は `checks/task-27.md`・`reviews/page-*.md`・`ntf-doc-27-review.md` および git 履歴を参照。
 
-### #pre-last: `verify_glossary.py` の不一致25件の一括是正と、横断の是正
+### #pre-last: `verify_glossary.py` の不一致25件の一括是正と、横断の是正 — DONE
 
-**Purpose**: ページを作らないタスク。`#21` の申し送りで残った `verify_glossary.py` の不一致を、全ページ作成完了後・`#last` の直前に一括で解消する。毎タスク書き換わる `design.md` を行番号で指している限り再発するため、ページ作成が終わってから1回で片付ける（`ntf-doc-22-deal-unit-test-rest.md` §5、レビュー役の実測による判断）。
-
-**Prerequisites**: 第2部・第3部・第4部の全ページ作成タスク完了
-
-**Steps**:
-
-- [x] 未登録9表記を `mapping/tools/term_candidates.tsv` に登録する
-- [x] `scan-terms.tsv` を再生成する（`#10a`（`6ce81b5`）以降再生成されておらず、実物と55件ずれている。ずれは全件 `design` コーパス）
-- [x] `[section]` 1件（§5.7 の揺れ表記 `テストソースコード` が §8 対応表に無い）を是正する
-- [x] `[ref]` 13件（`glossary.md` が `S:design.md:27`〜`:151` を行番号で指しているもの）の行番号を是正する
-- [x] **`design.md` を `scan` のコーパスから外すか、`glossary.md` から `S:design.md:NN` の行番号指定を無くすかを決める**（決めないと再発する）
-- [x] **横断の是正1 — 例示のコンポーネント名の衝突**（`#25` の回答2）。`setup/request_unit_test/http_messaging.rst:26` と `setup/deal_unit_test/http_messaging.rst:26` が同じ例示名 `defaultMessageSenderClient` を使っており、両方を行うプロジェクトが写経すると衝突する。**2ページを揃えて判断する**（片方だけ変えれば非対称、両方変えれば出典 `http_send_sync.rst:62` の逐語から離れる）。散文で注意書きを足す案は `#25` で不採用
-- [x] **横断の是正2 — 語の統一3件**（`#25` の申し送り3）。(a) `メッセージの送信` と `電文の送信` の統一、(b) `アプリケーション開発者` の `glossary.md` への登録（`ja/` 配下（`guide/` を除く）で `アプリケーション開発者` 3件に対し `アプリケーションプログラマ` は `setup/request_unit_test/web.rst:229` の1件のみで、**外れ値は承認済みの `web.rst` 側**）、(c) `メッセージングログ` から `ja/application_framework/…/log/messaging_log.rst:1` への `:ref:`
-- [x] `checks/task-pre-last.md` に実行結果を記録する
-- [x] commit & push
+**Purpose**: ページを作らないタスク。`#21` の申し送りで残った `verify_glossary.py` の不一致25件を、全ページ作成完了後・`#last` の直前に一括で解消し、あわせて横断の是正2件（例示のコンポーネント名の衝突・語の統一3件）を行う。
 
 **Completion criteria**:
 
@@ -605,28 +591,36 @@ Rn version: 0.8.0
 - 横断の是正2件（例示のコンポーネント名・語の統一3件）に判断と実行結果が記録されている
 - `ja/` 配下の `.rst` の差分が、横断の是正2件に由来するものだけである
 
+**Closed**: user review 承認済み（`/rn:up`、2026-08-16。**独立検証で要是正0件、判断3件ともそのまま承認**）。9検査すべて不一致0件（`RESULT: OK`）、`verify_mapping.py` は exit 0、`pytest` は `183 passed`、Docker フルビルド（`-a`）は `build succeeded.` で WARNING・ERROR ともに0件、`ja/` の差分は4ファイル・9行。**再発防止は二者択一ではなく両方を実施した** — `S:design.md:NN` の行番号39箇所を撤廃し、かつ `design` を `scan` のコーパスから外した（別々の検査が壊れていたため）。**承認された判断3件** — (1) 取引単体テスト側の例示名を `defaultRealTimeMessagingClient` に変更（NTF 自身のテストリソースが2クラスに別名を与えて共存させている実測による）、(2) `メッセージの送信` → `電文の送信` に統一、(3) `アプリケーション開発者` → `アプリケーションプログラマ`（**`#25` の申し送りとは逆の結論**。`#27` で21ページ増えた後の実測でFW解説書4対1・現行解説書13対0となり申し送りの前提が崩れたため）。詳細は `checks/task-pre-last.md` および git 履歴（`8193d21`）を参照。
+
 ### #28: `#27` の判断待ち110件の処理
 
 **Purpose**: `#27` の21ページが上げた判断待ち110件を、レビュー役の一次情報検証にもとづいて処理する。承認済みページを含め、実装またはFW解説書と食い違う記述を是正する。作業指示は `ntf-doc-28-decide-disposition.md`。
 
 **Prerequisites**: `#pre-last` 完了
 
-**Steps**:
+**Steps**（作業指示「順序の指定」に従う。`guide/` の削除は不可逆のため最後）:
 
+- [ ] §3-19〜3-22 規約改定4件を**先に**済ませる（依存する本文の是正より前）
 - [ ] §1 判定不要24件を `checks/task-28.md` に1行で記録して閉じる
-- [ ] §2 本文の是正31件（`ja/` 配下の `.rst`）
+- [ ] §2 本文の是正32件（`ja/` 配下の `.rst`）。**「未確認」と書かれた項目は自分で一次情報を確認してから書く**
 - [ ] §3 規約ファイルの是正18件（`style.md`・`glossary.md`・`design.md`）
 - [ ] §4 記録の是正・未確認の解消15件（`ja/` 配下は変更しない）
-- [ ] §5・§6 の22件は user 判断待ち。**着手しない**
-- [ ] `checks/task-28.md` にゲート8件の結果を記録する
+- [ ] §6-2 手順の欠落5件の追記／§6-4 `htmlCheckerConfig` の追認／§6-5 図4枚を落として `TODO(NTF-FIG-01〜04)` を残す（**png は削除しない**）／§6-6 「現在検討中」の tip 削除
+- [ ] §7 モジュール判定待ち7件に `TODO(NTF-MOD-*)` を置く（**現在の不具合の挙動・回避策・注意書きを書かない**）
+- [ ] §5-1 画像の移設 → §5-3 作図元 `images.xlsx` の退避 → ゲート9 の確認 → §5-4 `design.md` §9 への追記
+- [ ] **最後に §5-2（`guide/` のディレクトリ削除）を単独コミットで行う**
+- [ ] `checks/task-28.md` にゲート1〜11 の結果を記録する
 - [ ] commit & push
 
 **Completion criteria**:
 
-- 作業指示 §6 のゲート1〜8 がすべて記録され、赤が無い
+- 作業指示のゲート1〜11 がすべて記録され、赤が無い
 - `glossary.md` の `:331-456`（§5.15）に差分が0行
 - フルビルドで WARNING・ERROR がともに0件
-- §5・§6 の22件に着手していない（`git diff` に該当変更が無い）
+- `ntf-mod-01`〜`ntf-mod-03` の3ファイルに差分が0行
+- `en/` 配下と `ja/conf.py` に差分が0行
+- `grep -rn "guide/development_guide" --include=*.rst ja/` が §5-2 の直前で0件
 
 ### #last: Evaluation sign-off
 
@@ -661,8 +655,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-16
-- **Last completed**: #pre-last 実施完了（`8193d21`）。9検査すべて不一致0件、フルビルド WARNING・ERROR 0件。**user review 待ち**
-- **Next**: #pre-last の user review（`/rn:ty` / `/rn:gm`）。承認後に #28 の §1〜§4 を実施し、いったん止まって報告する
-- **Notes**: branch `ntf-yaml-support`（push 済み）。**着手前に確認すること2点** — (1) `ntf-doc-28-decide-disposition.md` が `c60b9c2` で更新され、#28 の範囲が変わった（§5 と §6-2〜6-6 も本タスクで直す／§6-1 の7件はモジュールへ回付／§2 は32件／§3 に規約改定4件 3-19〜3-22 を追加）。**本エントリの Steps と Completion criteria は `/rn:ty` 時点の文面のままで、作業指示と食い違う。作業指示が正。** (2) #pre-last で `アプリケーションプログラマ` を正表記と定めた判断は `#25` の申し送りと逆の結論であり、user が差し戻す可能性がある（`checks/task-pre-last.md` §5(b)）。未追跡のまま残したファイル3件: `?? .rn/20260724-ntf-yaml-support/ntf-mod-01-nablarch-testing-converter.md` / `?? .rn/20260724-ntf-yaml-support/ntf-mod-02-nablarch-testing.md` / `?? .rn/20260724-ntf-yaml-support/ntf-mod-03-nablarch-testing-junit5.md`
+- **Status**: not suspended
+- **Date**: —
+- **Last completed**: —
+- **Next**: —
+- **Notes**: —
