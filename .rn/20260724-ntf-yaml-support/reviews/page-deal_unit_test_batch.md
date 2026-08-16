@@ -105,6 +105,30 @@
 
 `glossary.md:509` により `自動テストフレームワーク` → `テスティングフレームワーク`（無条件）、`:556` により `テストケース` → `テストショット`／`テストメソッド`／`テスト` を文脈で使い分けた。出典が「シート」と呼ぶ単位は、Excel/YAML の両方を指すため `読み込み単位`（Excel形式では1シート、YAML形式では1ファイル）と書いた（`:83` で定義）。
 
+### D-10. 出典の `expectedStatusCode` の `100` を `0` に直した（`#28` §2-1）
+
+出典の3例（`:74-76`・`:120`・`:132`・`:143`・`:171-174`。出典に `100` が現れるのはこの10行だけである）はいずれも `100` である。**実装・FW解説書と食い違うため、`design.md` §8「出典と実装が食い違う場合は実装を優先する」に従って `0` に変えた。** 本ページの `expectedStatusCode` は Excel 形式の表10セル・YAML 形式10箇所のすべてが `0` になっている。
+
+根拠:
+
+- FW解説書 `ja/application_framework/application_framework/handlers/standalone/status_code_convert_handler.rst:40-42` が `important` で「アプリケーションのエラー処理でステータスコードを指定する場合は、100～199を使用する」と定め、同 `:44-57` の変換表は `0～199` を「変換は行わない」としている。**`100` はエラー処理用の値であり、正常終了を表さない。** 本ページの3例はいずれも正常系である
+- 承認済み `implementation/testdata_examples.rst:561`・`:568`（Nablarchバッチの記載例）は `"0"` である
+- `nablarch-example-batch` の実データ `src/test/java/com/nablarch/example/app/batch/action/ImportZipCodeFileActionRequestTest/testNormalEnd.yaml:7`・`testAbNormalEnd.yaml:7` はいずれも `expectedStatusCode: "0"` である
+
+### D-11. 出典 `:76` の `expectedTable: fileInputBatch` を空欄にした（`#28` §2-17）
+
+出典 `:76`（基本例のテストショット3「ファイル出力」）は `expectedTable` に `fileInputBatch` を置くが、**このグループIDのデータブロックは出典のどこにも存在しない**（出典全体で `fileInputBatch` が現れるのは `:74`・`:76`・`:120`・`:171`・`:173` で、`:76` 以外はすべて `requestPath` 列の値である）。無いデータブロックを創作せず、当該セルを空欄にした。
+
+### D-7 の追記（`#28` §2-16・§2-15）
+
+D-7 が「本文でこの差には触れていない」とした点は `#28` §2-16 で解消し、`:97` の段落（`expectedTable`・`expectedFile` を空欄にしたテストショットでは検証を行わないこと、期待値のカラムの有無の違いが意図的であること）を足した。あわせて `#28` §2-15 で `:95` に `setUpTable`・`setUpFile` の投入がテストショットごとに行われることを足した。
+
+根拠（`nablarch-testing@e21bf67`。`fdf55d4` との差分は `pom.xml` のみで Java ソースは無差分）:
+
+- `src/main/java/nablarch/test/core/standalone/TestShot.java:150-162` — `setUpTable()` は値が空なら何もせず、値があれば準備データを投入する。呼び出しは `:81 setUp()` 経由でテストショットごとに毎回通る
+- 同 `:198-213` — `assertTables()` は `expectedTable` が空なら `return` してアサートしない（**D-7 が書いた `:193-213` の `:193-197` は Javadoc であり、実体は `:198` から**）
+- `src/main/java/nablarch/test/core/batch/BatchRequestTestSupport.java:73-82`（`setUpInputData`）・`:88-97`（`assertOutputData`）— `setUpFile`・`expectedFile` も同じく、空欄なら何もしない
+
 ## 6. 4観点レビュー
 
 QA／設計／クラフト／検証の4観点をそれぞれ別のサブエージェントで実施した。指摘は QA 11件、設計 10件、クラフト 13件、検証は G10 が FAIL＋3件。**是正は1ラウンドで畳み、成果物の `.rst` に含めている。**

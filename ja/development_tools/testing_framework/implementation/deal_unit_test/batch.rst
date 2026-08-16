@@ -90,7 +90,11 @@ Nablarchバッチアプリケーションの取引単体テストは、1つの�
 * **複数の読み込み単位に分割する**\ 。1つ目の例外である。同じ構成の取引（取引\ ID\ は\ ``B21AA01``\ ）を、処理ごとに\ ``testSuccess_fileInput``\ ・\ ``testSuccess_userDelete``\ ・\ ``testSuccess_fileOutput``\ の3つの読み込み単位に分ける。テストメソッドからは、それぞれの名前を引数に渡して\ ``execute``\ を呼ぶ
 * **1つの読み込み単位に複数のテストを含める**\ 。2つ目の例外である。通常の入力と入力データが0件の場合という2つのテストを、1つの読み込み単位に記述する。テストショット番号は\ ``1-1``\ ・\ ``1-2``\ ・\ ``2-1``\ ・\ ``2-2``\ のように「テストの番号 - 取引内での順序」の形で付ける
 
-``setUpTable``\ ・\ ``setUpFile``\ ・\ ``expectedTable``\ ・\ ``expectedFile``\ の各カラムに書く値は、同じ読み込み単位にあるデータブロックのグループIDである。``default``\ は、グループIDを持たないデータブロックを指す。グループIDの記述方法は\ :ref:`グループIDによる使い分け <testdata_notation-group_id>`\ を参照。
+``setUpTable``\ ・\ ``setUpFile``\ ・\ ``expectedTable``\ ・\ ``expectedFile``\ の各カラムに書く値は、同じ読み込み単位にあるデータブロックのグループIDである。\ ``default``\ は、グループIDを持たないデータブロックを指す。グループIDの記述方法は\ :ref:`グループIDによる使い分け <testdata_notation-group_id>`\ を参照。
+
+``setUpTable``\ ・\ ``setUpFile``\ に値を書いたテストショットでは、そのテストショットを実行する直前に準備データが投入される。取引を構成する複数の処理を1つの読み込み単位に並べた場合も、投入はテストショットごとに行われる。
+
+``expectedTable``\ ・\ ``expectedFile``\ を空欄にしたテストショットでは、テーブル・ファイルの検証を行わない。以降に示す3つの書き方で期待値のカラムの有無が異なるのは、それぞれの処理で検証する対象だけを記述しているためである。
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -114,17 +118,17 @@ Excel形式の場合
     - requestPath
   * - 1
     - ファイル入力
-    - 100
+    - 0
     - ss21AC01/B21AC01.xml
     - fileInputBatch
   * - 2
     - ユーザ削除
-    - 100
+    - 0
     - ss21AC01/B21AC01.xml
     - userDeleteBatch
   * - 3
     - ファイル出力
-    - 100
+    - 0
     - ss21AC01/B21AC01.xml
     - fileOutputBatch
 
@@ -160,7 +164,7 @@ Excel形式の場合
     - test
     - default
     -
-    - fileInputBatch
+    -
     - default
 
 **複数の読み込み単位に分割する**
@@ -189,7 +193,7 @@ Excel形式の場合
     - setUpFile
   * - 1
     - ファイル入力
-    - 100
+    - 0
     - ss21AA01/B21AA01.xml
     - fileInputBatch
     - test
@@ -218,7 +222,7 @@ Excel形式の場合
     - expectedTable
   * - 1
     - ユーザ削除
-    - 100
+    - 0
     - ss21AA01/B21AA01.xml
     - userDeleteBatch
     - test
@@ -247,7 +251,7 @@ Excel形式の場合
     - expectedFile
   * - 1
     - ファイル出力
-    - 100
+    - 0
     - ss21AA01/B21AA01.xml
     - fileOutputBatch
     - test
@@ -274,22 +278,22 @@ Excel形式の場合
     - requestPath
   * - 1-1
     - ファイル入力
-    - 100
+    - 0
     - ss21AC01/B21AC01.xml
     - fileInputBatch
   * - 1-2
     - ユーザ削除
-    - 100
+    - 0
     - ss21AC01/B21AC01.xml
     - userDeleteBatch
   * - 2-1
     - ファイル入力（0件）
-    - 100
+    - 0
     - ss21AC01/B21AC01.xml
     - fileInputBatch
   * - 2-2
     - ユーザ削除（0件）
-    - 100
+    - 0
     - ss21AC01/B21AC01.xml
     - userDeleteBatch
 
@@ -347,7 +351,7 @@ YAML形式の場合
       rows:
         - no: "1"
           description: "ファイル入力"
-          expectedStatusCode: "100"
+          expectedStatusCode: "0"
           diConfig: "ss21AC01/B21AC01.xml"
           requestPath: "fileInputBatch"
           userId: "test"
@@ -357,7 +361,7 @@ YAML形式の場合
           expectedFile: ""
         - no: "2"
           description: "ユーザ削除"
-          expectedStatusCode: "100"
+          expectedStatusCode: "0"
           diConfig: "ss21AC01/B21AC01.xml"
           requestPath: "userDeleteBatch"
           userId: "test"
@@ -367,13 +371,13 @@ YAML形式の場合
           expectedFile: ""
         - no: "3"
           description: "ファイル出力"
-          expectedStatusCode: "100"
+          expectedStatusCode: "0"
           diConfig: "ss21AC01/B21AC01.xml"
           requestPath: "fileOutputBatch"
           userId: "test"
           setUpTable: "default"
           setUpFile: ""
-          expectedTable: "fileInputBatch"
+          expectedTable: ""
           expectedFile: "default"
 
 **複数の読み込み単位に分割する**
@@ -397,7 +401,7 @@ YAML形式の場合
       rows:
         - no: "1"
           description: "ファイル入力"
-          expectedStatusCode: "100"
+          expectedStatusCode: "0"
           diConfig: "ss21AA01/B21AA01.xml"
           requestPath: "fileInputBatch"
           userId: "test"
@@ -413,7 +417,7 @@ YAML形式の場合
       rows:
         - no: "1"
           description: "ユーザ削除"
-          expectedStatusCode: "100"
+          expectedStatusCode: "0"
           diConfig: "ss21AA01/B21AA01.xml"
           requestPath: "userDeleteBatch"
           userId: "test"
@@ -429,7 +433,7 @@ YAML形式の場合
       rows:
         - no: "1"
           description: "ファイル出力"
-          expectedStatusCode: "100"
+          expectedStatusCode: "0"
           diConfig: "ss21AA01/B21AA01.xml"
           requestPath: "fileOutputBatch"
           userId: "test"
@@ -447,7 +451,7 @@ YAML形式の場合
       rows:
         - no: "1-1"
           description: "ファイル入力"
-          expectedStatusCode: "100"
+          expectedStatusCode: "0"
           diConfig: "ss21AC01/B21AC01.xml"
           requestPath: "fileInputBatch"
           userId: "test"
@@ -457,7 +461,7 @@ YAML形式の場合
           expectedFile: ""
         - no: "1-2"
           description: "ユーザ削除"
-          expectedStatusCode: "100"
+          expectedStatusCode: "0"
           diConfig: "ss21AC01/B21AC01.xml"
           requestPath: "userDeleteBatch"
           userId: "test"
@@ -467,7 +471,7 @@ YAML形式の場合
           expectedFile: ""
         - no: "2-1"
           description: "ファイル入力（0件）"
-          expectedStatusCode: "100"
+          expectedStatusCode: "0"
           diConfig: "ss21AC01/B21AC01.xml"
           requestPath: "fileInputBatch"
           userId: "test"
@@ -477,7 +481,7 @@ YAML形式の場合
           expectedFile: ""
         - no: "2-2"
           description: "ユーザ削除（0件）"
-          expectedStatusCode: "100"
+          expectedStatusCode: "0"
           diConfig: "ss21AC01/B21AC01.xml"
           requestPath: "userDeleteBatch"
           userId: "test"
