@@ -676,8 +676,8 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: —
-- **Last completed**: —
-- **Next**: —
-- **Notes**: —
+- **Status**: paused
+- **Date**: 2026-08-16
+- **Last completed**: `#28`（全 Steps 完了。`6230a93` まで push 済み）
+- **Next**: `#28` の user review 判定（`/rn:ty` 承認／`/rn:gm` 修正）を受ける。承認後に `#last`
+- **Notes**: user 判断が1件未決 — ゲート10 の `_build/html/_sources/*.txt` に `TODO(NTF-*)` が9件残る件（`ja/conf.py` の `html_copy_source` に触れる是正のため禁止事項 `:754` に当たり実施せず。推奨は「今回は変更しない」）。詳細と実測は `checks/task-28.md` の「ゲート10 の『条件付き』の内訳」。`#last` への持ち越し2件は同ファイルと本節 `#28` の Completion criteria 実測表を参照
