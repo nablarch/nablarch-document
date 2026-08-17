@@ -641,7 +641,9 @@ Rn version: 0.8.0
 | `en/` と `ja/conf.py` に差分0行 | `git diff --name-only 084dd28..HEAD -- en/` = 0件、`-- ja/conf.py` = 0件 |
 | §5-2 直前に `guide/development_guide` の参照が0件 | **0件**（削除の直前に再実測） |
 
-**user 判断が要る1件**: 上表のゲート10（`_sources/*.txt` に `TODO(NTF-*)` が残ること）。**`#last` の着手前に扱いを決める。**
+**ゲート10 の user 判断（2026-08-18、`/rn:gm`）**: `_sources/*.txt` に `TODO(NTF-*)` が9件残る件は**変更しないで進める**（`ja/conf.py` は変更しない）。これをもってゲート10 は確定。
+
+**user review 1ラウンド目の是正（2026-08-18、`/rn:gm`）**: `mapping/style.md` S-04 の実測値が `e57a0d3` で古くなっていた件（384/94 → 392/96）を、`e57a0d3` の再計測にもとづき是正した。`.rst` は変更していない。詳細と再計測値は `checks/task-28.md` の「user review（`/rn:gm`、2026-08-18）による S-04 実測値の是正」。
 
 ### #last: Evaluation sign-off
 

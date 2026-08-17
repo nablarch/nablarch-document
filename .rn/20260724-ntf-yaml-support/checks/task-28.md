@@ -927,9 +927,48 @@ PY
 
 **是正の手段は `ja/conf.py` に `html_copy_source = False` を足すことだが、禁止事項 `:754`「`ja/conf.py` を変更しない」に当たるため実施していない。** 扱いの判断を user に仰ぐ（`#last` の申し送り）。
 
+**user 判断（2026-08-18、`/rn:gm`）: 変更しないで進める。`ja/conf.py` は変更しない。** ゲート10 の「条件付き PASS」はこの判断をもって確定とする。
+
 ## 調整役が自分で行った是正
 
 1. **`ja/development_tools/testing_framework/implementation/deal_unit_test/batch.rst:15`** — 「バッチアプリケーションでは、1つの取引が複数のバッチ処理に分かれることが多い。」を削除した（コミット `8ecc713`）。出典（`2e501ad:.../03_DealUnitTest/batch.rst:5-6`）に無い頻度の主張であり、FW解説書の `batch/`・`messaging/db/` にも「取引」は0件で裏付けが取れない。§2 の対象32件にも §4 の対象（`ja/` の `.rst` は変更しない）にも入らず、担当のあいだで落ちる位置にあった
 2. **`.rn/20260724-ntf-yaml-support/steering.md` の `# Assumptions`** — §4-7 が前提とした「参照リポジトリ表」が存在しなかったため、4リポジトリの参照コミットをピンする表を新設した（コミット `8ecc713`）。詳細は本ファイル §4-7
 3. **`reviews/page-master_data_tool.md` の G6 の内訳** — 「`tip` 2件・`important` 3件」が誤りだった。ページ作成時点（`4095bab`）の実測は `tip` 3件・`important` 3件で、`#28` §7 の削除後の現在は `tip` 3件・`important` 2件である。訂正行を足した
 4. **本ファイル §7 の見出し「ゲート9」** — ゲート番号の取り違えだったため、`TODO(NTF-MOD-` の実測（ゲート10 の前半）である旨に改めた
+
+## user review（`/rn:gm`、2026-08-18）による S-04 実測値の是正
+
+`e57a0d3` を対象に見出しを再走査したところ、`mapping/style.md` S-04 の実測値3ブロックが古くなっていた。
+`#28` §3 の実測（本ファイル §3「実測4件」）は `18fb782` 時点の値で当時は正しく、その後 §6-2 が
+`implementation/testdata_examples.rst` に見出しを足したため 384→392 見出しに増えている。**§3 の実測ブロックは
+当時の記録としてそのまま残し、ここに再計測値を記す。**
+
+再計測（2026-08-18、`e57a0d3`、`ja/development_tools/testing_framework/**/*.rst` の38ページ。判定式は
+「下線長 == max(レベル既定値, タイトルの表示幅)」、表示幅は East Asian Width が W/F を2・他を1）:
+
+```
+見出し総数 392（L1 38 / L2 68 / L3 164 / L4 122）
+下線長  一致 296 / 不一致 96
+  L1 38/38   L2 68/68   L3 128/164   L4 62/122
+不一致 96 はすべて「49とすべき箇所を50にしている」型
+  implementation/testdata_examples.rst  L3 22件・L4 60件（計82件）
+  tools/request_data_tool.rst           L3  8件
+  tools/master_data_tool.rst            L3  6件
+L3またはL4を持つページ 31 のうち不一致を含むのは上記3ページのみ（残り28ページは不一致0件）
+下線の直後  空行でない  L3 164/164・L4 121/122（例外は testdata_notation.rst:1379）
+                        L1 空行あり 37/38（例外は index.rst:1）・L2 空行なし30／空行あり38
+L4を持つL3 49件（配下 2本が41件・3本が1件・5本が1件・6本が4件・7本が1件・1本が1件）
+L4の本数が多いページ  testdata_examples.rst 60本・testdata_notation.rst 27本・request_unit_test/web.rst 15本
+```
+
+増えた2件は `implementation/testdata_examples.rst` のL4見出し「Excel形式の場合」（`:20-21`）・
+「YAML形式の場合」（`:139-140`）で、いずれも下線50である。同じ §6-2 で新設したL3見出し2件は `7553b81` で
+49に直してあるが、このL4 2件は残っている。
+
+**`.rst` は変更しない（user 判断）。** `implementation/testdata_examples.rst` はL3・L4が82件とも下線50で
+そろっており、新設2件だけ49にするとファイル内で割れるためである。是正したのは `mapping/style.md` の
+実測値のみ（`:252`・`:257`・`:265-268`・`:276`）。
+
+**`#last` への申し送り**: 本ファイル `:229` の表「S-04（下線長）」の**94件は96件に読み替える**
+（`implementation/testdata_examples.rst` 82件・`tools/request_data_tool.rst` 8件・
+`tools/master_data_tool.rst` 6件）。表そのものは §2 担当へ渡した当時の記録のため書き換えていない。

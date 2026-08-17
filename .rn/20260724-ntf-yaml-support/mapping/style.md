@@ -249,12 +249,12 @@ level 2 と level 3 だけで level 4 は現れないため、この重複によ
 しない。ページを開き、L3の配下の `^` 見出しを数えれば判定できる。ページ単位の条件（用例の厚薄など）では
 判定しない。
 
-- 実測（2026-08-16、`ja/development_tools/testing_framework/` の `guide/` を除く38ページ）: L4を持つL3は48件で、
-  配下のL4の本数は 2本が40件・3本が1件・5本が1件・6本が4件・7本が1件・**1本が1件**である。1本だけの例外は
+- 実測（2026-08-18 に `e57a0d3` で再計測、`ja/development_tools/testing_framework/` の38ページ）: L4を持つL3は49件で、
+  配下のL4の本数は 2本が41件・3本が1件・5本が1件・6本が4件・7本が1件・**1本が1件**である。1本だけの例外は
   `implementation/request_unit_test/web.rst:305`「テストデータを作成する」（配下のL4は `:320`
   「アップロードファイルを用意する」のみ）である
 - 旧条文「用例が薄いページでのみ使う」は撤回する。実測はこれと逆で、L4が多いのは
-  `implementation/testdata_examples.rst`（58本）・`implementation/testdata_notation.rst`（27本）・
+  `implementation/testdata_examples.rst`（60本）・`implementation/testdata_notation.rst`（27本）・
   `implementation/request_unit_test/web.rst`（15本）という用例が厚いページである。また「用例が薄い」は
   ページを開いても数えられず、判定基準にならない
 
@@ -262,9 +262,9 @@ level 2 と level 3 だけで level 4 は現れないため、この重複によ
 大きい方**とする。既定値はL1・L2が50、L3・L4が49とする。タイトルの表示幅が既定値を超えるときだけ、表示幅
 まで伸ばす（下線がタイトルより短いとRST構文エラーになるため）。ページごと・見出しごとに長さを決めない。
 
-- 実測（同じ38ページ・全384見出し）: 本規約に一致するのは290件である。内訳はL1が38/38・L2が68/68・
-  L3が122/158・L4が62/120。不一致94件は**すべて「49とすべき箇所を50にしている」**もので、
-  `implementation/testdata_examples.rst`（L3 22件・L4 58件）・`tools/master_data_tool.rst`（L3 6件）・
+- 実測（同じ38ページ・全392見出し）: 本規約に一致するのは296件である。内訳はL1が38/38・L2が68/68・
+  L3が128/164・L4が62/122。不一致96件は**すべて「49とすべき箇所を50にしている」**もので、
+  `implementation/testdata_examples.rst`（L3 22件・L4 60件）・`tools/master_data_tool.rst`（L3 6件）・
   `tools/request_data_tool.rst`（L3 8件）の3ページに集中する。残り28ページのL3・L4は例外なく49である
 - 表示幅まで伸ばす形は実測とも合う。例: `setup/request_unit_test/db_queue.rst:3`（L1、全角36文字＝表示幅72、
   下線72）・`setup/common.rst:120`（L3、表示幅76、下線76）・`implementation/testdata_examples.rst:864`
@@ -273,7 +273,7 @@ level 2 と level 3 だけで level 4 は現れないため、この重複によ
 **規約（下線の直後）**: L3・L4の見出しは、**下線の直後に空行を置かず**、本文またはディレクティブを続ける。
 L1は下線の直後に空行を置き、`.. contents::`（S-09）を続ける。L2は実測が割れているため本規約では定めない。
 
-- 実測（同じ38ページ・全384見出し）: 直後が空行でないものはL3が158/158・L4が119/120。L4の例外1件は
+- 実測（同じ38ページ・全392見出し）: 直後が空行でないものはL3が164/164・L4が121/122。L4の例外1件は
   `implementation/testdata_notation.rst:1379`「Excel形式の場合」である。L1は37/38が空行あり（例外は
   `index.rst:1`。S-09の適用外ページで `.. contents::` を持たない）、L2は空行なし30件・空行あり38件で割れている
 - 見出しの直後に空行を置かずディレクティブを書いてもRST構文エラーにはならない（`setup/common.rst:149`・
