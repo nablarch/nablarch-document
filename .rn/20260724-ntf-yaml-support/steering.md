@@ -645,6 +645,12 @@ Rn version: 0.8.0
 - [x] **持ち越し(2)** 規約確定にともなう機械的な掃き出し — S-13 エスケープ186件・
       S-04 下線長96件（`testdata_examples.rst` 82・`request_data_tool.rst` 8・`master_data_tool.rst` 6）。
       掃き出すか現状のままとするかを実測にもとづき判断・実行する
+- [x] **`/rn:gm`（2026-08-18）の追加処置8件** — (1) S-13 抽出器に外部リンク記法を加えて38ページを再走査し
+      取りこぼし1件（`about/index.rst:96`）を是正 (2) `style.md` の `file:line` 引用を実物と全件突き合わせ
+      (3) 申し送り a 下線直後の空行削除 (4) 申し送り b L4を1本新設 (5) 申し送り c 2語是正・9語は
+      `TODO(NTF-SRC-02)` (6) 申し送り d `:java:extdoc:`→コードリテラル2件 (7) 申し送り e
+      `testdata_converter.rst`「導入」L2 の新設 (8) surefire 下限値に `TODO(NTF-SRC-01)`。
+      記録は `checks/task-last.md` §4・§5-2・§5-5・§5-6・§5-7
 - [ ] 結果をユーザーに提示して `/rn:ty`（承認）または `/rn:gm`（修正）の判定をもらう
 
 **Completion criteria**:
@@ -655,7 +661,7 @@ Rn version: 0.8.0
 - 持ち越し2件がそれぞれ処理済み（実行または「現状のまま」の判断が記録されている）
 - ユーザーが `/rn:ty` で承認している
 
-**実測**（`checks/task-last.md`。掃き出し後のクリーンビルド）:
+**実測**（`checks/task-last.md`。`/rn:gm` の追加処置後のクリーンビルド）:
 
 - Acceptance criteria 5件のうち4件が達成、1件（トンマナ）は条件付き達成。`mapping.csv` 597件で
   DROP 96件以外の501件はすべて `dest_page` を持つ。`verify_mapping.py` exit 0、
@@ -672,9 +678,19 @@ Rn version: 0.8.0
   違反0件（`style.md` の186件は `084dd28` 時点では正しく、`#28` §6-2 の加筆で192件に増えていた）。
   **掃き出し前後のクリーンビルドを全件比較し、`.html` 486ページ・`searchindex.js`・`objects.inv`・
   `_images` に差分0件、差分は編集した11ファイルの `_sources/*.txt` のみ**であることを確認済み
-- **申し送り5件が未処理のまま残る**（`checks/task-28.md:229` の表7行のうち掃き出したのは2行）—
-  S-04下線の直後1件・S-04 L4条件1件・S-12 UI項目名併記11件・S-07 表内クラス名2件・
-  `design.md` §5 3-16（`tools/testdata_converter.rst` の「導入」節）1ページ。`checks/task-last.md` §5-5
+- **申し送り5件は `/rn:gm` の追加処置で全件クローズ**（`checks/task-28.md:229` の表7行）—
+  a 下線直後の空行削除・b L4新設（`request_unit_test/web.rst:309`「スーパクラスが読み込むデータブロックを
+  記述する」）・c UI項目名2語是正＋9語は保留・d `:java:extdoc:`→コードリテラル2件・
+  e `testdata_converter.rst:73`「導入」L2 の新設。`checks/task-last.md` §5-5
+- **追加処置後のクリーンフルビルド** は `build succeeded.`・exit 0・WARNING 0件。検証器3本も再実行して
+  すべて PASS。`870e809` との全比較で `.html` の差分は5ページのみで、いずれも上記 b・c・d・e に対応する。
+  `objects.inv` は `testdata_converter-setup` の1行追加。`_images` 差分0。作業(1)(3)(8) は出力を変えない
+  （`about/index.html`・`testdata_notation.html`・`junit5_extension.html` は差分一覧に現れない）
+- **未達として残るのは2件だけ**。いずれも一次情報が本作業環境で取得できないことに起因する。
+  (1) S-12 のUI項目名9語 — `TODO(NTF-SRC-02)`（`setup/request_unit_test/web.rst:162`・
+  `tools/request_data_tool.rst:106`）(2) `maven-surefire-plugin`「2.22.0以上」の下限値の出典 —
+  `TODO(NTF-SRC-01)`（`setup/junit5_extension.rst:73`）。**推測で書かないという user 判断による保留**で、
+  本文は変更していない。`checks/task-last.md` §4・§5-5
 
 # State
 

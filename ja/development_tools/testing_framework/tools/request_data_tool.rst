@@ -103,6 +103,10 @@ HTMLダンプからツールを起動する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Eclipseのパッケージエクスプローラなどから、生成されたHTMLダンプを右クリックし、「Open With」→「httpDump」を選ぶとツールが起動する。
 
+.. TODO(NTF-SRC-02): 本節のUI項目名がS-12規約4の「日本語(English)」併記になっていない。
+   Eclipse実機で英語名（および tools/request_data_tool.rst:104 は日本語名）を確認したうえで併記に直す。
+   一次情報が本作業環境で取得できないため保留。詳細は .rn/20260724-ntf-yaml-support/checks/task-last.md §5-5。
+
 .. image:: images/request_data_tool/04_Eclipse_OpenWith.png
 
 .. tip::

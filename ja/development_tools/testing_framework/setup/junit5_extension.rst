@@ -70,6 +70,11 @@ Extensionクラスと合成アノテーションの一覧
 
 前提事項
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. TODO(NTF-SRC-01): 「2.22.0以上」の下限値の一次出典が未確認。
+   JUnit Platform プロバイダを同梱した maven-surefire-plugin の版をJUnit/Maven側の一次情報で確認し、
+   出典を .rn/20260724-ntf-yaml-support/checks/task-last.md §4 に記録する。記述自体は現行解説書
+   （2e501ad:.../01_Abstract.rst:694・JUnit5_Extension.rst:29）から移設したもので、本文は変えない。
+
 JUnit 5を使用するには、\ ``maven-surefire-plugin``\ が2.22.0以上である必要がある。
 
 使用方法

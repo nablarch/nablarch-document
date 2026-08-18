@@ -106,12 +106,15 @@ FW解説書のライブラリ（`ja/application_framework/application_framework/
 
 - `tools/master_data_tool.rst:12,32,118` 「機能概要」→「導入」→「使用方法」。「前提事項」は `:36` で
   「導入」配下の先頭のL3。
-- `tools/request_data_tool.rst:12,22,86` 同順。「前提事項」は `:26` で「導入」配下の先頭のL3。
+- `tools/request_data_tool.rst:12,22,90` 同順。「前提事項」は `:26` で「導入」配下の先頭のL3。
 - `tools/html_check_tool.rst:12,69` 「機能概要」→「使用方法」（「導入」なし）。「前提事項」は `:65` で
   「機能概要」配下の末尾のL3。リクエスト単体テストに組み込まれ、導入作業を持たないためである。
-- `tools/testdata_converter.rst:12,67` 「機能概要」→「使用方法」（「導入」なし）。「前提事項」は `:57` で
-  「機能概要」配下の末尾のL3。ただし本ページはMavenプラグインの追加手順を「使用方法」配下に持つため、
-  `design.md`「5. 第4部 ツール」の判断により「導入」へ移す対象である（`#28` §3-16）。
+- `tools/testdata_converter.rst:12,73,102` 「機能概要」→「導入」→「使用方法」。「前提事項」は `:61` で
+  **「機能概要」配下の末尾のL3**であり、他の2ページと配置が異なる（`design.md`「5. 第4部 ツール」の判断。
+  `mapping/glossary.md` §5.13 のとおり「前提事項」は機能概要・導入のどちらの下位にも立つ）。
+  `#28` §3-16 が確定させた「導入」（L2）の新設と pom.xml 追加手順の移設は `#last` で実施した。
+  移設前（`870e809`）は「機能概要」→「使用方法」の2つで、pom.xmlへの `<plugin>` 追加・`<dependency>` 追加が
+  「使用方法」配下のL3に入っていた。
 - 4ページとも「拡張例」「モジュール一覧」のL2見出しは0件である。
 
 **根拠**（セクションの並び順。FW解説書ライブラリの一般的な型の実例。NTF解説書はこのうち
@@ -249,10 +252,12 @@ level 2 と level 3 だけで level 4 は現れないため、この重複によ
 しない。ページを開き、L3の配下の `^` 見出しを数えれば判定できる。ページ単位の条件（用例の厚薄など）では
 判定しない。
 
-- 実測（2026-08-18 に `e57a0d3` で再計測、`ja/development_tools/testing_framework/` の38ページ）: L4を持つL3は49件で、
-  配下のL4の本数は 2本が41件・3本が1件・5本が1件・6本が4件・7本が1件・**1本が1件**である。1本だけの例外は
-  `implementation/request_unit_test/web.rst:305`「テストデータを作成する」（配下のL4は `:320`
-  「アップロードファイルを用意する」のみ）である
+- 実測（2026-08-18 の `#last` で是正したあとに再計測、`ja/development_tools/testing_framework/` の38ページ）: L4を持つL3は49件で、
+  配下のL4の本数は 2本が42件・3本が1件・5本が1件・6本が4件・7本が1件であり、**1本だけのものは0件**である
+- 是正前（`e57a0d3`）は1本だけの例外が1件あった。`implementation/request_unit_test/web.rst:305`
+  「テストデータを作成する」の配下がL4 1本（「アップロードファイルを用意する」）だった。`#last` で、同L3の
+  本文からL4「スーパクラスが読み込むデータブロックを記述する」（`:309`）を切り出して2本にした（`:326`
+  「アップロードファイルを用意する」は `:61` の `:ref:` の着地先であるため廃さない）
 - 旧条文「用例が薄いページでのみ使う」は撤回する。実測はこれと逆で、L4が多いのは
   `implementation/testdata_examples.rst`（60本）・`implementation/testdata_notation.rst`（27本）・
   `implementation/request_unit_test/web.rst`（15本）という用例が厚いページである。また「用例が薄い」は
@@ -262,9 +267,10 @@ level 2 と level 3 だけで level 4 は現れないため、この重複によ
 大きい方**とする。既定値はL1・L2が50、L3・L4が49とする。タイトルの表示幅が既定値を超えるときだけ、表示幅
 まで伸ばす（下線がタイトルより短いとRST構文エラーになるため）。ページごと・見出しごとに長さを決めない。
 
-- 実測（2026-08-18 の `#last` で掃き出したあと、`ja/development_tools/testing_framework/**/*.rst` の
-  38ページ・全392見出しを再走査）: 本規約に一致するのは**392件（全件）**である。内訳はL1が38/38・
-  L2が68/68・L3が164/164・L4が122/122で、**不一致は0件**である
+- 実測（2026-08-18 の `#last` の全作業後に `ja/development_tools/testing_framework/**/*.rst` の
+  38ページ・全394見出しを再走査）: 本規約に一致するのは**394件（全件）**である。内訳はL1が38/38・
+  L2が69/69・L3が164/164・L4が123/123で、**不一致は0件**である。掃き出し直後の392件から、L2が1件
+  （`tools/testdata_converter.rst:73`「導入」）、L4が1件（`implementation/request_unit_test/web.rst:309`）増えている
 - 掃き出し前（`e57a0d3`）の不一致は96件で、**すべて「49とすべき箇所を50にしている」**ものだった。
   `implementation/testdata_examples.rst`（L3 22件・L4 60件）・`tools/request_data_tool.rst`（L3 8件）・
   `tools/master_data_tool.rst`（L3 6件）の3ページに集中しており、`#last` で96件すべてを49に直した。
@@ -276,12 +282,14 @@ level 2 と level 3 だけで level 4 は現れないため、この重複によ
 **規約（下線の直後）**: L3・L4の見出しは、**下線の直後に空行を置かず**、本文またはディレクティブを続ける。
 L1は下線の直後に空行を置き、`.. contents::`（S-09）を続ける。L2は実測が割れているため本規約では定めない。
 
-- 実測（同じ38ページ・全392見出し）: 直後が空行でないものはL3が164/164・L4が121/122。L4の例外1件は
-  `implementation/testdata_notation.rst:1379`「Excel形式の場合」である。L1は37/38が空行あり（例外は
-  `index.rst:1`。S-09の適用外ページで `.. contents::` を持たない）、L2は空行なし30件・空行あり38件で割れている
+- 実測（同じ38ページ・全394見出し）: 直後が空行でないものはL3が164/164・L4が123/123で、**例外は0件**である。
+  L1は37/38が空行あり（例外は `index.rst:1`。S-09の適用外ページで `.. contents::` を持たない）、
+  L2は空行なし31件・空行あり38件で割れている
+- 是正前（`e57a0d3`）はL4が121/122で、例外1件は `implementation/testdata_notation.rst:1379`
+  「Excel形式の場合」であった。`#last` で下線直後の空行を削除して解消した
 - 見出しの直後に空行を置かずディレクティブを書いてもRST構文エラーにはならない（`setup/common.rst:149`・
   `:185` の「Excel形式の場合」「YAML形式の場合」が直後に空行なしで `.. code-block:: xml` を置いている）。
-  したがってL4の例外1件は構文上の必要によるものではない
+  したがって上記の例外1件は構文上の必要によるものではなかった
 
 **根拠**:
 
@@ -311,10 +319,10 @@ L1は下線の直後に空行を置き、`.. contents::`（S-09）を続ける�
 - 実測（2026-08-16、`guide/` を除く38ページ）: 言語指定は `java` 85件・`yaml` 41件・`xml` 41件・
   `text` 15件・`properties` 10件・`bash` 7件・`html` 2件。`bash` の7件はいずれも `mvn` コマンドか
   JVM起動オプション（`tools/request_data_tool.rst:56`・`tools/master_data_tool.rst:52`・
-  `tools/testdata_converter.rst:105`・`setup/request_unit_test/web.rst:170`・`:176`・`:206`・
+  `tools/testdata_converter.rst:130`・`setup/request_unit_test/web.rst:174`・`:180`・`:210`・
   `implementation/testdata_notation.rst:512`）である。`text` の15件にコマンド例は含まれない
-  （`tools/html_check_tool.rst:79`・`:90` は設定値、`implementation/deal_unit_test/mom.rst:93`・`:101` は
-  ログ出力、`implementation/deal_unit_test/batch.rst:383` はディレクトリツリー）。現時点で違反は0件である
+  （`tools/html_check_tool.rst:79`・`:90` は設定値、`implementation/deal_unit_test/mom.rst:98`・`:106` は
+  ログ出力、`implementation/deal_unit_test/batch.rst:387` はディレクトリツリー）。現時点で違反は0件である
 
 **根拠**:
 
@@ -394,19 +402,23 @@ simple table 3件・`list-table` 1件であり、表が4件と少ないため本
 
 判定方法: 表を開き、クラス名を書いた列にクラスでない行があるかどうかを見る。
 
-実測（`guide/` を除く38ページの表ブロックを機械的に抽出し、クラス名らしき コードリテラル と
-`:java:extdoc:` を数えた）: 第3部（`implementation/`）の表は コードリテラル 47件・`:java:extdoc:` 2件、
-第2部（`setup/`）の表は コードリテラル 0件・`:java:extdoc:` 41件。
+実測（2026-08-18 の `#last` の全作業後に、`guide/` を除く38ページの表ブロックを機械的に抽出し、
+クラス名らしき コードリテラル と `:java:extdoc:` を数えた）:
+第3部（`implementation/`）の表は コードリテラル 49件・**`:java:extdoc:` 0件**、
+第2部（`setup/`）の表は コードリテラル 0件・`:java:extdoc:` 41件で、**本規約に反するものは0件**である。
 `:java:extdoc:` 41件の内訳は、全行がクラス名の対応表（`setup/junit5_extension.rst:30` の33件）と、
 設定項目表の説明文の中（`setup/class_unit_test.rst:19` の4件・`setup/request_unit_test/web.rst:19` の4件）である。
-第3部の コードリテラル 47件は、いずれも「名称／役割／作成単位」の一覧表など、クラスでない行を含む表にある
-（`implementation/request_unit_test/mom.rst:60` の11件、同 `batch.rst:33` の6件、同 `web.rst:21` の6件など）。
-**第3部の `:java:extdoc:` 2件（`implementation/class_unit_test/entity.rst:35`・
-同 `component.rst:35`）は本規約に反する。** どちらも「名称／役割／作成単位」の一覧表であり、
-同じ表の他の行は「テストクラス」「テストデータ」「テスト対象クラス」である。
-なお `DbAccessTestSupport` は `component.rst:35` では `:java:extdoc:`、
-`mom.rst:91` では コードリテラル と、同じクラスが表ごとに違う書き方になっている。
-本規約は コードリテラル 側に統一する（`reviews/page-request_unit_test_batch.md:192` が
+第3部の コードリテラル 49件は、いずれも「名称／役割／作成単位」の一覧表など、クラスでない行を含む表にある
+（`implementation/request_unit_test/mom.rst:68` の11件、同 `batch.rst:38` の6件、同 `web.rst:21` の6件など）。
+
+是正前（`e57a0d3`）は第3部の コードリテラル 47件・`:java:extdoc:` 2件で、この2件
+（`implementation/class_unit_test/entity.rst:35` の `EntityTestSupport`・同 `component.rst:37` の
+`DbAccessTestSupport`）が本規約に反していた。どちらも「名称／役割／作成単位」の一覧表であり、
+同じ表の他の行は「テストクラス」「テストデータ」「テスト対象クラス」である。`#last` でこの2件を
+コードリテラルに直し、第3部の コードリテラル は49件になった。規約が定める代替（個々のクラスのAPIへは
+表の前後の地の文から `:java:extdoc:` で送る）は `entity.rst:15`・`component.rst:15` にすでにあり、
+`DbAccessTestSupport` が `component.rst:37` では `:java:extdoc:`、`mom.rst:99` では コードリテラル という
+表ごとの不一致も解消した（`reviews/page-request_unit_test_batch.md:192` が
 「`#27-13` までは コードリテラル で統一している」と記録しており、多数派でもある）。
 
 **根拠**（simple table）:
@@ -684,7 +696,7 @@ Excel/YAMLの区切りがなく分かりにくい→太字ラベルを試した�
 「表から出した識別子行」を前提にしていたため、実態に合わせて参照を改めた
 （普通の文字で書くという規約の内容自体は変えていない）。
 2026-08-16、`#28`§6-5の判断により**規約5を追加した**。NTF解説書内の前例は
-`implementation/deal_unit_test/mom.rst:77`（「応答電文を2件記述した場合の例を\ Excel\ 形式で示す」）
+`implementation/deal_unit_test/mom.rst:78`（「応答電文を2件記述した場合の例を\ Excel\ 形式で示す」）
 の1件のみで（`grep -rn "形式で示す"`、`guide/`を除く全`.rst`の実測）、書き方が割れる余地があったため
 規約化して揃える。
 適用: `testdata_examples.rst`のセル格子47件・`testdata_notation.rst`の2件。
@@ -728,27 +740,39 @@ UI項目名を挙げるときは、「ウィンドウ(Window)」のように日�
 
 判定方法: `.. image::` を持つページを開き、本文が「」で囲むUI項目名が併記形式かどうかを数える。
 
-**実測**（2026-08-16、`guide/` を除く38ページの `.. image::` 33件を**すべて画像として開いて**確認した）:
+**実測**（キャプチャの確認は2026-08-16に `guide/` を除く38ページの `.. image::` 33件を**すべて画像として
+開いて**行った。file:line は2026-08-18の `#last` の全作業後の値）:
 
 - 画面のキャプチャは13件、残る20件は概念図・クラス図・シーケンス図・凡例・Excelのセル格子図である。
 - 英語ロケールは3件で、すべて `tools/request_data_tool.rst` のEclipseである
-  （`:76` `01_Eclipse_Preference.png` は Preferences / File Associations、
-  `:80` `02_Eclipse_EditorSelection.png` は Editor Selection / External programs / Browse...、
-  `:102` `04_Eclipse_OpenWith.png` は Open With / httpDump）。
-- 日本語ロケールは8件。`setup/request_unit_test/web.rst` の4件（`:189` 実行構成／VM 引数、
-  `:196` インストール済みの JRE、`:200` JRE の編集、`:220` 実行構成／VM 引数）、
+  （`:80` `01_Eclipse_Preference.png` は Preferences / File Associations、
+  `:84` `02_Eclipse_EditorSelection.png` は Editor Selection / External programs / Browse...、
+  `:110` `04_Eclipse_OpenWith.png` は Open With / httpDump）。
+- 日本語ロケールは8件。`setup/request_unit_test/web.rst` の4件（`:193` 実行構成／VM 引数、
+  `:200` インストール済みの JRE、`:204` JRE の編集、`:224` 実行構成／VM 引数）、
   `tools/master_data_tool.rst` の2件（`:106` ウィンドウ→ビューの表示→Ant、
   `:114` 追加するビルドファイルの選択）、`tools/html_check_tool.rst` の1件（`:193` 実行／障害トレース）、
-  `tools/request_data_tool.rst` の1件（`:84` `03_Eclipse_OpenFile.png`。Eclipseではなく
+  `tools/request_data_tool.rst` の1件（`:88` `03_Eclipse_OpenFile.png`。Eclipseではなく
   Windowsのファイル選択ダイアログで「ファイル名(N)」「開く(O)」と日本語）。
 - ロケールを判別できる文字列が写っていないものが2件ある（`tools/master_data_tool.rst:110`・`:136`。
   いずれもAntビューのツールバーとターゲット一覧のみで、UI項目名が写っていない）。
 - したがって規約2に反するページは無い。`tools/request_data_tool.rst` はEclipseの3件がすべて英語であり、
   日本語の1件はOSのダイアログのため対象外である。
-- 本文のUI項目名の書き方は3通りに割れている。併記は `tools/request_data_tool.rst:72`・`:73`・`:74`・`:78`、
-  `tools/master_data_tool.rst:104`・`:108`。日本語のみは `setup/request_unit_test/web.rst:186`・`:187`・
-  `:193`・`:194`・`:198`・`:218`（計10語）。英語のみは `tools/request_data_tool.rst:100`（「Open With」）。
-  規約4に反するのはこの11箇所であり、いずれも本文の書き換えだけで是正でき、キャプチャの撮り直しを伴わない。
+- 本文のUI項目名の併記は `tools/request_data_tool.rst:76`・`:77`・`:78`・`:82`、
+  `tools/master_data_tool.rst:104`・`:108`、`setup/request_unit_test/web.rst:197` にある。
+- **規約4に反するのは9語**である。日本語のみが8語（`setup/request_unit_test/web.rst:190` 実行・実行構成、
+  `:191` 引数・VM 引数、`:198` インストール済みのJRE・編集、`:202` デフォルトの VM 引数、`:222` VM 引数）、
+  英語のみが1語（`tools/request_data_tool.rst:104` の「Open With」）である。
+
+**是正の状況**: 是正前（`e57a0d3`）の違反は11語だった。`#last` で
+`setup/request_unit_test/web.rst:197` の「ウィンドウ」「設定」の2語を、本書内の既存の併記
+（`tools/request_data_tool.rst:76`）を根拠に「ウィンドウ(Window)」「設定(Preferences)」へ是正した。
+残る9語は、英語名（および `tools/request_data_tool.rst:104` は日本語名）の一次情報が本作業環境で
+取得できない。現行解説書
+（`2e501ad:ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/02_RequestUnitTest.rst:499-513`）
+にも日本語名しかなく、`04_Eclipse_OpenWith.png` に対応する日本語名はどこにも無い。推測で書かず、本文は
+そのままにして `TODO(NTF-SRC-02)` マーカーを `setup/request_unit_test/web.rst:162` と
+`tools/request_data_tool.rst:106` に置いた（詳細は `checks/task-last.md` §5-5）。
 
 ### S-13 日本語とインラインマークアップの境界（`\ ` エスケープ）
 
@@ -757,22 +781,32 @@ UI項目名を挙げるときは、「ウィンドウ(Window)」のように日�
 全角の約物（`、` `。` `・` `（` `）` など）も全角の文字に含める。半角の文字（英数字・記号・半角空白）や
 行頭・行末が隣接する場合は置かない（置いても表示は変わらないため、本規約の対象外とする）。
 
-判定方法: `guide/` を除く `.rst` から `` `` `` 囲みと `:role:` 記法を機械抽出し、直前・直後の1文字が
+判定方法: `guide/` を除く `.rst` から次の3種のインラインマークアップを機械抽出し、直前・直後の1文字が
 全角のときに `\ ` があるかを数える。
 
-**実測**（2026-08-18 の `#last` で掃き出したあと、`guide/` を除く38ページ。インラインマークアップ
-2,244件の境界を数えた）:
+1. `` `` `` 囲みのコードリテラル
+2. `:role:`...`` ` `` 記法（`:ref:`・`:java:extdoc:`・`:doc:` など）
+3. 外部リンク記法（`` `テキスト <URL>`_ `` および `` `テキスト <URL>`__ ``）
 
-- 直前が仮名・漢字等の全角文字: 610件すべて `\ ` 付き。付いていないものは0件。
-- 直後が仮名・漢字等の全角文字: 1,327件すべて `\ ` 付き。付いていないものは0件。
-- 直前が全角の約物: 725件すべて `\ ` 付き。付いていないものは0件。
+外部リンク記法は `#28` の実測では対象に含めておらず、`#last` で追加した。38ページに10件あり、
+うち1件（`about/index.rst:96` の `JUnit`。直前が「、」）だけが `\ ` 無しで、これを取りこぼしていた。
+
+**実測**（2026-08-18 の `#last` の全作業後、`guide/` を除く38ページ。上記3種のインラインマークアップ
+2,255件の境界を数えた）:
+
+- 直前が仮名・漢字等の全角文字: 617件すべて `\ ` 付き。付いていないものは0件。
+- 直後が仮名・漢字等の全角文字: 1,337件すべて `\ ` 付き。付いていないものは0件。
+- 直前が全角の約物: 729件すべて `\ ` 付き。付いていないものは0件。
 - 直後が全角の約物: 397件すべて `\ ` 付き。付いていないものは0件。
 - **本規約に反する箇所は0件**である。
 - 半角が隣接する場合: `\ ` の有無が割れているが、表示が変わらないため規約の対象外とし、既存の記述も直さない。
+  外部リンク記法の直後は10件中9件が `\ `、1件（`about/index.rst:96`）が半角空白だが、いずれも
+  半角の隣接であり本規約の対象外のため直していない。
 
 **掃き出しの経緯**: 規約を新設した `#28` 時点（`084dd28`、インラインマークアップ2,159件）の違反は186件
 （直前が全角の約物で `\ ` 無し185件 ＋ `index.rst:13` の直後1件）だった。その後 `#28` §6-2 が本文を足した
-ため `e57a0d3` では192件に増えていた（直前191件＋直後1件）。`#last` で192件すべてに `\ ` を入れた。
+ため `e57a0d3` では192件に増えていた（直前191件＋直後1件）。`#last` で192件すべてに `\ ` を入れ、
+さらに抽出器に外部リンク記法を加えて再走査し、取りこぼしていた `about/index.rst:96` の1件も直した。
 違反箇所はすべて地の文か `list-table` のセル内で、`=` 罫線の簡易tableとグリッドtableには1件も無かった
 ため、S-04 の「表示幅で列位置を揃える」制約には触れない。この掃き出しはHTML出力を1バイトも変えない
 （`#last` でビルド前後のHTML全486ページを比較して確認）。

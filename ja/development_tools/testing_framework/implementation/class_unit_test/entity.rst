@@ -32,7 +32,7 @@
   * - テスト対象クラス
     - テストされる\ Form\ クラスまたは\ Entity\ クラス。
     - －
-  * - :java:extdoc:`EntityTestSupport <nablarch.test.core.db.EntityTestSupport>`
+  * - ``EntityTestSupport``
     - 入力値の生成、バリデーションの実行、結果の確認を行うメソッドを提供する。
     - －
 

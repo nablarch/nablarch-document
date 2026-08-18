@@ -34,7 +34,7 @@
   * - テスト対象クラス
     - テストされるクラス。
     - －
-  * - :java:extdoc:`DbAccessTestSupport <nablarch.test.core.db.DbAccessTestSupport>`
+  * - ``DbAccessTestSupport``
     - 準備データの投入や更新結果の確認など、データベースを使用するテストに必要な機能を提供する。テストメソッドの実行前後にデータベーストランザクションの開始・終了も行う。
     - －
 

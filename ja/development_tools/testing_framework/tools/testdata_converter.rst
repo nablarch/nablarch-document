@@ -68,15 +68,46 @@ YAML形式のテストデータの記述ミスを検出できる
 
 電文のレコード種別も、両形式で扱いが異なる。レコード種別に意味のある値を記載した\ Excel\ 形式のテストデータを\ YAML\ 形式へ変換すると、レコード種別の扱いが変わる。詳細は\ :ref:`テストデータの書き方 <testdata_notation>`\ を参照。
 
+.. _testdata_converter-setup:
+
+導入
+--------------------------------------------------
+本ツールは、Mavenプラグインとして実行する方法と、\ Java\ のコードから呼び出す方法の2通りで使用できる。既存のテストデータをまとめて変換する場合はMavenプラグインを、テストの実行時に変換する場合は\ Java\ のコードを使う。どちらを使うかによって、pom.xmlへの追加内容が異なる。
+
+Mavenプラグインとして実行する場合は、pom.xmlにプラグインを追加する。
+
+.. code-block:: xml
+
+  <build>
+    <plugins>
+      <!-- テストデータ変換ツール -->
+      <plugin>
+        <groupId>com.nablarch.framework</groupId>
+        <artifactId>nablarch-testing-converter</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+Java\ のコードから呼び出す場合は、pom.xmlに\ ``nablarch-testing-converter``\ を依存関係として追加する。
+
+.. code-block:: xml
+
+  <!-- テストデータ変換ツール -->
+  <dependency>
+    <groupId>com.nablarch.framework</groupId>
+    <artifactId>nablarch-testing-converter</artifactId>
+    <scope>test</scope>
+  </dependency>
+
 使用方法
 --------------------------------------------------
-本ツールは、Mavenプラグインとして実行する方法と、\ Java\ のコードから呼び出す方法の2通りで使用できる。既存のテストデータをまとめて変換する場合はMavenプラグインを、テストの実行時に変換する場合は\ Java\ のコードを使う。
+あらかじめ\ :ref:`導入 <testdata_converter-setup>`\ の手順を済ませておく。
 
 .. TODO(NTF-MOD-01-2): 同名で拡張子違いのExcelブックが同居したときの変換対象の扱い。判定待ち。
    依頼書 .rn/20260724-ntf-yaml-support/ntf-mod-01-nablarch-testing-converter.md §3。
    仕様と判定された場合は本文を書き直す。
 
-どちらの方法でも、入力ディレクトリ配下を再帰的に探索し、入力ディレクトリからの相対パスを保ったまま出力ディレクトリへ書き出す。変換元が\ Excel\ 形式の場合は、拡張子が\ ``.xls``\ のファイルと\ ``.xlsx``\ のファイルをどちらも対象とする。\ Excel\ 形式と\ YAML\ 形式では読み込み単位のまとめ方が異なるため、出力の構造は次のように読み替わる。
+Mavenプラグインで一括変換する場合も、\ Java\ のコードから変換を呼び出す場合も、入力ディレクトリ配下を再帰的に探索し、入力ディレクトリからの相対パスを保ったまま出力ディレクトリへ書き出す。変換元が\ Excel\ 形式の場合は、拡張子が\ ``.xls``\ のファイルと\ ``.xlsx``\ のファイルをどちらも対象とする。\ Excel\ 形式と\ YAML\ 形式では読み込み単位のまとめ方が異なるため、出力の構造は次のように読み替わる。
 
 .. list-table::
   :widths: 22,39,39
@@ -94,20 +125,6 @@ YAML形式のテストデータの記述ミスを検出できる
 
 Mavenプラグインで一括変換する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-pom.xmlにプラグインを追加する。
-
-.. code-block:: xml
-
-  <build>
-    <plugins>
-      <!-- テストデータ変換ツール -->
-      <plugin>
-        <groupId>com.nablarch.framework</groupId>
-        <artifactId>nablarch-testing-converter</artifactId>
-      </plugin>
-    </plugins>
-  </build>
-
 ``convert``\ ゴールを実行する。次の例は、\ Excel\ 形式のテストデータと同じディレクトリに\ YAML\ 形式のテストデータを書き出す。
 
 .. code-block:: bash
@@ -179,17 +196,6 @@ pom.xmlにプラグインを追加する。
 
 Javaのコードから変換を呼び出す
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Java\ のコードから呼び出す場合は、pom.xmlに\ ``nablarch-testing-converter``\ を依存関係として追加する。
-
-.. code-block:: xml
-
-  <!-- テストデータ変換ツール -->
-  <dependency>
-    <groupId>com.nablarch.framework</groupId>
-    <artifactId>nablarch-testing-converter</artifactId>
-    <scope>test</scope>
-  </dependency>
-
 変換を呼び出すクラスは\ ``nablarch.test.tool.converter.TestDataConverter``\ である。テストデータの形式変換を拡張する\ :java:extdoc:`nablarch.test.core.file.TestDataConverter <nablarch.test.core.file.TestDataConverter>`\ とは別のクラスである。変換元・変換先の形式と入出力ディレクトリだけを指定する場合は、4引数の\ ``convert``\ メソッドを呼び出す。戻り値は、変換したコンテナ（\ Excel\ 形式ではブック、\ YAML\ 形式ではディレクトリ。テストクラス1つ分のテストデータに相当する）の件数である。
 
 .. code-block:: java
