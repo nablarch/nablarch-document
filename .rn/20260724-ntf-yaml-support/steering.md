@@ -601,25 +601,9 @@ Rn version: 0.8.0
 
 **Closed**: user review 承認済み（`/rn:up`、2026-08-16。**独立検証で要是正0件、判断3件ともそのまま承認**）。9検査すべて不一致0件（`RESULT: OK`）、`verify_mapping.py` は exit 0、`pytest` は `183 passed`、Docker フルビルド（`-a`）は `build succeeded.` で WARNING・ERROR ともに0件、`ja/` の差分は4ファイル・9行。**再発防止は二者択一ではなく両方を実施した** — `S:design.md:NN` の行番号39箇所を撤廃し、かつ `design` を `scan` のコーパスから外した（別々の検査が壊れていたため）。**承認された判断3件** — (1) 取引単体テスト側の例示名を `defaultRealTimeMessagingClient` に変更（NTF 自身のテストリソースが2クラスに別名を与えて共存させている実測による）、(2) `メッセージの送信` → `電文の送信` に統一、(3) `アプリケーション開発者` → `アプリケーションプログラマ`（**`#25` の申し送りとは逆の結論**。`#27` で21ページ増えた後の実測でFW解説書4対1・現行解説書13対0となり申し送りの前提が崩れたため）。詳細は `checks/task-pre-last.md` および git 履歴（`8193d21`）を参照。
 
-### #28: `#27` の判断待ち110件の処理
+### #28: `#27` の判断待ち110件の処理 — DONE
 
-**Purpose**: `#27` の21ページが上げた判断待ち110件を、レビュー役の一次情報検証にもとづいて処理する。承認済みページを含め、実装またはFW解説書と食い違う記述を是正する。作業指示は `ntf-doc-28-decide-disposition.md`。
-
-**Prerequisites**: `#pre-last` 完了
-
-**Steps**（作業指示「順序の指定」に従う。`guide/` の削除は不可逆のため最後）:
-
-- [x] §3-19〜3-22 規約改定4件を**先に**済ませる（依存する本文の是正より前）
-- [x] §1 判定不要24件を `checks/task-28.md` に1行で記録して閉じる
-- [x] §2 本文の是正32件（`ja/` 配下の `.rst`）。**「未確認」と書かれた項目は自分で一次情報を確認してから書く**
-- [x] §3 規約ファイルの是正18件（`style.md`・`glossary.md`・`design.md`）
-- [x] §4 記録の是正・未確認の解消15件（`ja/` 配下は変更しない）
-- [x] §6-2 手順の欠落5件の追記／§6-4 `htmlCheckerConfig` の追認／§6-5 図4枚を落として `TODO(NTF-FIG-01〜04)` を残す（**png は削除しない**）／§6-6 「現在検討中」の tip 削除
-- [x] §7 モジュール判定待ち7件に `TODO(NTF-MOD-*)` を置く（**現在の不具合の挙動・回避策・注意書きを書かない**）
-- [x] §5-1 画像の移設 → §5-3 作図元 `images.xlsx` の退避 → ゲート9 の確認 → §5-4 `design.md` §9 への追記
-- [x] **最後に §5-2（`guide/` のディレクトリ削除）を単独コミットで行う**
-- [x] `checks/task-28.md` にゲート1〜11 の結果を記録する
-- [x] commit & push
+**Purpose**: `#27` の21ページが上げた判断待ち110件を、レビュー役の一次情報検証にもとづいて処理する。作業指示は `ntf-doc-28-decide-disposition.md`。
 
 **Completion criteria**:
 
@@ -630,26 +614,18 @@ Rn version: 0.8.0
 - `en/` 配下と `ja/conf.py` に差分が0行
 - `grep -rn "guide/development_guide" --include=*.rst ja/` が §5-2 の直前で0件
 
-**Completion criteria の実測**（`c1e307e` 時点。詳細は `checks/task-28.md`）:
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-18。ユーザーが `30a8271` を独立検証し、S-04 の3ブロック（`style.md:252-257`・`:265-268`・`:276`）の再計測値が全項目一致、`ja/`・`en/`・`glossary.md` に差分0行、検証器3本 PASS、git status クリーンを確認）。**ゲート10**（`_build/html/_sources/*.txt` に `TODO(NTF-*)` が9件残る件）は**変更しないで進める**で確定（`_sources/` はリポジトリ全325ページの reST 原文を含み、`html_copy_source` を落とすとサイト全体の出力が変わるため、NTF解説書刷新のスコープ外。TODO はモジュール側の判定が返り次第消える暫定マーカー）。`ja/conf.py` は変更しない。他の10ゲートは PASS。詳細は `checks/task-28.md` および git 履歴（`c1e307e`・`30a8271`）を参照。
 
-| 条件 | 実測 |
-|---|---|
-| ゲート1〜11 に赤が無い | ゲート10 のみ**条件付き PASS**。他10件は PASS。ゲート10 は `.html` 0件だが `_build/html/_sources/*.txt` に9件残る（`html_copy_source` の既定が `True` のため）。是正は `ja/conf.py` の変更にあたり禁止事項 `:754` に触れるため実施せず、**user 判断へ回す** |
-| `glossary.md` §5.15 に差分0行 | `084dd28`↔HEAD で126行が完全一致（差分0行） |
-| フルビルドで WARNING・ERROR 0件 | `build succeeded.`（exit 0）。WARNING 0件。`error` の17ヒットは全件ファイル名・ページ名 |
-| `ntf-mod-01`〜`03` に差分0行 | 3ファイルとも `155c36a`（§6-1 で追跡下に置いたコミット）1本のみで、以後の変更0件。ファイルの mtime は 08:37 で `#28` 着手前 |
-| `en/` と `ja/conf.py` に差分0行 | `git diff --name-only 084dd28..HEAD -- en/` = 0件、`-- ja/conf.py` = 0件 |
-| §5-2 直前に `guide/development_guide` の参照が0件 | **0件**（削除の直前に再実測） |
+**`#last` への持ち越し2件**（`#last` の Steps で扱う）:
 
-**ゲート10 の user 判断（2026-08-18、`/rn:gm`）**: `_sources/*.txt` に `TODO(NTF-*)` が9件残る件は**変更しないで進める**（`ja/conf.py` は変更しない）。これをもってゲート10 は確定。
-
-**user review 1ラウンド目の是正（2026-08-18、`/rn:gm`）**: `mapping/style.md` S-04 の実測値が `e57a0d3` で古くなっていた件（384/94 → 392/96）を、`e57a0d3` の再計測にもとづき是正した。`.rst` は変更していない。詳細と再計測値は `checks/task-28.md` の「user review（`/rn:gm`、2026-08-18）による S-04 実測値の是正」。
+1. `setup/junit5_extension.rst:73` の `maven-surefire-plugin` 2.22.0 の一次情報（`checks/task-28.md:833`）
+2. 規約確定にともなう機械的な掃き出し — S-13 エスケープ186件・S-04 下線長**96件**（`implementation/testdata_examples.rst` 82件・`tools/request_data_tool.rst` 8件・`tools/master_data_tool.rst` 6件。`checks/task-28.md:229` の表の94件はこの96件に読み替える）
 
 ### #last: Evaluation sign-off
 
 **Purpose**: NTF ドキュメント刷新の完了を Acceptance criteria に照らして確認し、ユーザーの承認を得る。
 
-**Prerequisites**: すべてのページ作成タスク完了
+**Prerequisites**: すべてのページ作成タスク完了（`#28` まで承認済み）
 
 **Steps**:
 
@@ -663,6 +639,12 @@ Rn version: 0.8.0
       確認したコマンドとログの該当箇所を `checks/task-last.md` に記録する
 - [ ] `checks/task-07.md`「リンク切れになる参照」3件それぞれについて、
       解消後の参照先（新ファイルパス・ラベル名）を実ファイルで確認して記録する
+- [ ] **持ち越し(1)** `setup/junit5_extension.rst:73` の `maven-surefire-plugin` 2.22.0 —
+      一次情報で裏が取れるのは親POM の 2.22.2 のみ。下限「2.22.0以上」の Nablarch 側根拠は無い。
+      本文をどうするかの判断材料をそろえて提示する（`checks/task-28.md:833`）
+- [ ] **持ち越し(2)** 規約確定にともなう機械的な掃き出し — S-13 エスケープ186件・
+      S-04 下線長96件（`testdata_examples.rst` 82・`request_data_tool.rst` 8・`master_data_tool.rst` 6）。
+      掃き出すか現状のままとするかを実測にもとづき判断・実行する
 - [ ] 結果をユーザーに提示して `/rn:ty`（承認）または `/rn:gm`（修正）の判定をもらう
 
 **Completion criteria**:
@@ -670,6 +652,7 @@ Rn version: 0.8.0
 - すべての Acceptance criteria が達成されていることが確認できる
 - `checks/task-07.md`「リンク切れになる参照」の3件すべてが解消されている
   （toctree・`:doc:` の更新、外部被参照ラベルの再定義）
+- 持ち越し2件がそれぞれ処理済み（実行または「現状のまま」の判断が記録されている）
 - ユーザーが `/rn:ty` で承認している
 
 # State
