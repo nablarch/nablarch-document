@@ -712,8 +712,15 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-18
+- **Last completed**: #last の是正 — 申し送り「区切り文字ディレクティブの制御文字」の作業9（A-1〜A-3）と
+  `style.md:263` の L4 実測（15本→16本）。`96596b3` で push 済み
+- **Next**: #last Evaluation sign-off — ゲート再々提示済み、user 判定待ち
+- **Notes**: ブランチ `ntf-yaml-support`（`96596b3` まで push 済み・作業ツリーはクリーン）。次の具体的な動作は、
+  再提示した `#last` ゲートへの user 判定（`/rn:ty` 承認 → `steering.md` の最終ステップをチェックし
+  `complete task #last` でコミット／`/rn:gm` 修正 → 指摘を処置して再提示）。**未決は2件だけ**で、いずれも
+  一次情報が本作業環境で取得できないための保留 — (1) S-12 のUI項目名9語 `TODO(NTF-SRC-02)`
+  （`setup/request_unit_test/web.rst:162`・`tools/request_data_tool.rst:106`）(2) surefire「2.22.0以上」の
+  下限値の出典 `TODO(NTF-SRC-01)`（`setup/junit5_extension.rst:73`）。詳細は `checks/task-last.md` §4・§5-5・§5-8。
+  user 未解決の untracked パスは無し。
