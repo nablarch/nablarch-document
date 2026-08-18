@@ -678,8 +678,10 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-18
+- **Last completed**: `#28`（全 Steps 完了。user review 1ラウンド目の是正まで `30a8271` で push 済み）
+- **Next**: `#28` の user review 再判定（`/rn:ty` 承認／`/rn:gm` 追加是正）を受ける。承認後に `#last`
+- **Notes**: ゲート10 は「変更しない」で確定済み（user 判断、2026-08-18）。`#last` は `checks/task-28.md`
+  末尾の節（S-04 再計測。申し送り表 `:229` の94件は96件に読み替え）と `:596`・`:843` の `mapping.csv`
+  既知誤り5件を先に読むこと
