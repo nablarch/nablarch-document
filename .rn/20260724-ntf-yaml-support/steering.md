@@ -682,9 +682,11 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-08-18
-- **Last completed**: `#28`（`/rn:ty` 承認済み）。`#last` は最終 Step（user 判定）を除き完了
-- **Next**: `#last` の user 判定（`/rn:ty` 承認でセッション終了／`/rn:gm` で是正）を受ける
-- **Notes**: 判断が要るのは2点。(1) surefire「2.22.0以上」の現状維持の可否、(2) 未処理の申し送り5件を
-  本セッションで扱うか別セッションへ送るか。どちらも `checks/task-last.md` の §4・§5-5 に材料がある
+- **Last completed**: `#28`（`/rn:ty` 承認済み）。`#last` は最終 Step（user 判定）を除き完了。
+  掃き出しと検査記録は `870e809` で push 済み
+- **Next**: `#last` の user 判定を受ける（`/rn:ty` 承認でセッション終了／`/rn:gm` で是正）。
+  提示済みの判断材料は `checks/task-last.md`
+- **Notes**: 判断が要るのは2点。(1) surefire「2.22.0以上」の現状維持の可否（`checks/task-last.md` §4）、
+  (2) 未処理の申し送り5件を本セッションで扱うか別セッションへ送るか（同 §5-5。うち a のみ機械的に閉じられる）
