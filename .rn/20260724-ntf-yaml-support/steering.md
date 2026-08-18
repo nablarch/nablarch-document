@@ -738,7 +738,10 @@ so only a genuinely suspended session reads `paused`.)
   同名見出しに親の節番号を添える書き方と、「ゲート9」の自己訂正を段落へ移した処置（`checks/task-28.md:505`）を
   そのまま残すと判定した
 - **Next**: user のマージ指示待ち。指示があるまで `main` へマージせず、`.rn/` の扱い（含める／外す）も保留する（Rules）
-- **Notes**: ブランチ `ntf-yaml-support`（`1db5680` まで push 済み・作業ツリーはクリーン）。未決は
-  `TODO(NTF-SRC-01)`・`TODO(NTF-SRC-02)` の2件のみで、いずれも一次情報が本作業環境で取得できないための保留。
+- **Notes**: ブランチ `ntf-yaml-support`（`e5ccf32` まで push 済み・作業ツリーはクリーン）。未決は
+  `TODO(NTF-SRC-01)`・`TODO(NTF-SRC-02)` の2件で、いずれも一次情報が本作業環境で取得できないための保留。
   `TODO` の現在地は `grep -rn 'TODO(NTF-' ja/` で取る（行番号は台帳に持たせていない）。
+  **未判断が1件** — Rules の節見出し方式を `.rn/` 全体に適用するか。`.md:NNN` 形式の参照は 1,013件残る
+  （`grep -rhoE '[A-Za-z0-9_./-]+\.md:[0-9]+' --include='*.md' . | wc -l`、2026-08-18 実測）。
+  今回の是正対象だった `checks/task-last.md` §8 は0件。内訳（`input/` の資料を指すもの等、対象外の可能性）は未確認。
   user 未解決の untracked パスは無し。
