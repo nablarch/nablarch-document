@@ -13,8 +13,8 @@
 |---|---|---|---|
 | 1 | 全量を失わない | **達成** | `mapping.csv` は `csv.DictReader` でレコード数 597。`disposition` は MOVE 237・MERGE 228・DROP 96・SPLIT 22・REFERENCE 14。**DROP 以外の501件で `dest_page` が空の行は0件**。DROP 96件は `#5c` で全件レビュー済み（`checks/task-05c.md`） |
 | 2 | 重複がない | **達成** | `verify_mapping.py` が exit 0（`OK: no errors`）。同一 `src_section_id` が複数の `dest_page` に割り当てられていないことを検査する |
-| 3 | 用語が統一されている | **達成** | `verify_glossary.py` が exit 0・`RESULT: OK`。9検査すべて不一致0件（refs 290・counts 118・sections 86・terms 201・applies 96・population 331・design_sections 21・scheme_names 7・reasons 0） |
-| 4 | トンマナが揃っている | **条件付き達成（未達2件）** | `style.md` S-04（下線長・下線の直後・L4の条件）・S-07（表内のクラス名）・S-13（`\ ` エスケープ）は**違反0件**。`#28` 申し送り表の残り5件も `/rn:gm` の追加処置ですべて閉じた（下記 §5-5）。**未達として残るのは2件だけ**で、いずれも一次情報が本作業環境で取得できないことに起因する。(1) S-12 のUI項目名9語（`TODO(NTF-SRC-02)`。§5-5 c）(2) `maven-surefire-plugin`「2.22.0以上」の下限値の出典（`TODO(NTF-SRC-01)`。§4） |
+| 3 | 用語が統一されている | **達成** | `verify_glossary.py` が exit 0・`RESULT: OK`。9検査すべて不一致0件（refs 290・counts 118・sections 86・terms 201・applies 96・population 331・design_sections 21・scheme_names 7・reasons 0）。§5-8 の是正後に再実行しても同値 |
+| 4 | トンマナが揃っている | **条件付き達成（未達2件）** | `style.md` S-04（下線長・下線の直後・L4の条件）・S-07（表内のクラス名）・S-13（`\ ` エスケープ）は**違反0件**（§5-8 の是正後に再計測。S-04 は394/394・不一致0件、S-13 はインラインマークアップ2,263件で違反0件）。`#28` 申し送り表の残り5件も `/rn:gm` の追加処置ですべて閉じた（下記 §5-5）。区切り文字ディレクティブの申し送りも §5-8 で閉じた。**未達として残るのは2件だけ**で、いずれも一次情報が本作業環境で取得できないことに起因する。(1) S-12 のUI項目名9語（`TODO(NTF-SRC-02)`。§5-5 c）(2) `maven-surefire-plugin`「2.22.0以上」の下限値の出典（`TODO(NTF-SRC-01)`。§4） |
 | 5 | `make html` がエラー0で完了する | **達成** | 下記 §2 |
 
 `.rst` は38ページ（`find ja/development_tools/testing_framework -name "*.rst" \| wc -l` = 38）。
@@ -144,9 +144,14 @@ Acceptance criteria 1「全量を失わない」に触れるため。
 |---|---|---|---|
 | `870e809`（再走査） | 2,254 | **1**（`about/index.rst:96`） | 0 |
 | `/rn:gm` の追加処置後 | 2,255 | **0** | **0** |
+| 区切り文字ディレクティブの是正後（§5-8） | 2,263 | **0** | **0** |
 
 追加処置後が1件増えているのは、`/rn:gm` 7 で `tools/testdata_converter.rst` に足した本文に
 コードリテラル `` ``nablarch-testing-converter`` `` が1件含まれるためで、取りこぼしではない。
+
+**さらに8件増えているのは §5-8 の是正が本文にコードリテラルを8件足したためで、これも取りこぼしではない。**
+抽出器は `870e809`／`d8d6114` の両時点に当て直しており、`d8d6114` では 2,255件・違反0件と
+`style.md` の記録値に完全に一致する。
 
 **`style.md` が記録していた186件は、記録した時点では正しかった。** 自分の抽出器を `084dd28` に当てると
 インラインマークアップ 2,159件・直前185件・直後1件で、`style.md` の実測値と完全に一致する。
@@ -297,6 +302,72 @@ user が挙げた6箇所を実物で確認して直したうえで、S-04・S-07
 
 いずれも「実測値・引用が後続の加筆で古くなる」型で、`#28` の user review が S-04 で見つけたものと同じ
 性質である。S-04・S-07・S-12・S-13 の実測値そのものも、本タスクの全作業後の値に更新した。
+
+### 5-8. 区切り文字ディレクティブの説明の是正（申し送り）
+
+申し送り原本は `ntf-doc-renewal/指示/申し送り-区切り文字ディレクティブの制御文字.md`
+（出どころは `nablarch-testing-yaml` の `#13` = `3c82eff`）。**タスク番号は新設せず `#last` の是正に含めた。**
+
+根拠となる `nablarch-testing` の実装は本作業ディレクトリの外にあるため自分では開いていない。
+下表はレビュー役が独立に検証した事実で、出典は `nablarch/nablarch-testing` の `origin/main` = `e21bf67` である。
+
+| 事実 | 出典（`nablarch-testing` = `e21bf67`） |
+|---|---|
+| ディレクティブの値は、型変換の前に `trim()` される | `src/main/java/nablarch/test/core/file/DataFile.java:304` |
+| `record-separator` の変換は `LineSeparator.evaluate` を通る | `DataFile.java:325-328` |
+| `LineSeparator` のシンボルは `NONE`（`""`）・`CR`・`LF`・`CRLF` の4つ。`valueOf` が一致しなければ、与えられた文字列自身が区切り文字として返る（例外は投げない） | `LineSeparator.java:11-17`・`:57-64` |
+| 固定長ファイルは `convertDirectiveValue` を上書きしていない。上の挙動は固定長・可変長の**両方**に効く | `FixedLengthFile.java:14`（`convertDirectiveValue` の定義なし） |
+| `field-separator` は、バックスラッシュと `t` の2文字表記 `\t` だけを例外としてタブへ変換する | `VariableLengthFile.java:17`・`:70-71` |
+| `field-separator` は、上の例外を除き長さが1でなければエラー。2文字以上だけでなく**0文字もエラー**である | `VariableLengthFile.java:75-79`（`stringValue.length() != 1`） |
+
+実施した是正は3件で、いずれも申し送りが示す文言をそのまま採った。
+
+| # | 箇所 | 是正 |
+|---|---|---|
+| A-1 | `implementation/testdata_examples.rst:1435` | 「YAML形式の場合」のタブ文字の注意（同じ段落）の末尾に1文を追加。`record-separator` に `"\r\n"` と書くと制御文字に展開されて区切りが無くなり、**しかもエラーにならない**こと、改行コードは `CRLF` のようにシンボルで指定することを述べる。直下の記述例（`:1443-1444`）は変更していない |
+| A-2 | `implementation/testdata_notation.rst:923`（固定長）・`:948`（可変長） | `record-separator` の説明を両方とも「レコード区切り。改行コードは ``NONE`` / ``CR`` / ``LF`` / ``CRLF`` のシンボルで指定する。シンボル以外を記述した場合は、その文字列自身が区切り文字になる」にそろえた。可変長の旧文「または任意のリテラル文字列が有効」は制御文字を書いてよいと読めるため差し替えた。固定長の旧文は「レコード区切り文字」の一言だけだった |
+| A-3 | `implementation/testdata_notation.rst:950` | `field-separator` の説明を「デフォルトは ``","`` 。タブを表す2文字表記の ``\t`` を除き、1文字でない値はエラーになる」に差し替えた。旧文「1文字のみ有効であり、2文字以上はエラーになる」は、2文字表記 `\t` が有効である点と0文字もエラーである点の2点で実装と食い違っていた |
+
+**触っていない範囲**（申し送り §3 のとおり）。`ja/application_framework/` 配下の `record-separator: "\r\n"` の
+記述例はフォーマット定義ファイル（`.fmt`）の記法で NTF のディレクティブとは別物であるため対象外。`en/` 配下も対象外。
+`implementation/testdata_notation.rst:1080` の「区切り文字をタブにしたい場合は ``field-separator=\t`` と指定する」は
+Excel 形式の記法として正しいため変更していない。制御文字を書いた場合の警告は表のセルに入れず A-1 の1文に集約した
+（`testdata_notation.rst` の表は記法の一覧であり、YAML のダブルクォート展開は形式固有の落とし穴であるため）。
+
+#### 5-8-1. 検証
+
+`d8d6114` を `git worktree` で別ディレクトリに取り出し、両側とも `rm -rf _build` からクリーンビルドして全件比較した。
+
+| 検査 | コマンド | 結果 |
+|---|---|---|
+| ビルド成否 | `sphinx-build -a`（`rm -rf _build` 後） | **exit 0**・`build succeeded.` |
+| WARNING | `grep -ci warning <log>` | **0件** |
+| `undefined label` / `toctree contains reference to nonexisting document` / `unknown document` | 同左 | いずれも**0件** |
+| ERROR | `grep -niE '\berror\b' <log>` | ヒット1件のみで `.../images/tag/error.png` という**ファイル名** |
+| HTML ページ数 | `find _build/html -name '*.html' \| wc -l` | 両側とも**486** |
+| 作業ツリー | ビルド後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` → `git status --short` | 変更は編集した3ファイルのみ |
+
+`diff -rq` の結果は**5件だけ**で、いずれも上記の是正に対応する。`objects.inv`・`_images/`・残り484ページの
+`.html` には差分が無い。
+
+| 差分が出たもの | 内容 |
+|---|---|
+| `implementation/testdata_examples.html` | 差分は**1行**（`:2241`）。A-1 の1文が段落の末尾に追いつくだけで、他のノードは動いていない |
+| `implementation/testdata_notation.html` | 差分は**3行**（`:1448`・`:1486`・`:1489`）。順に A-2 の固定長側セル（`レコード区切り文字` → 新文）・A-2 の可変長側セル・A-3 の `field-separator` セル。いずれも `<td>` の中身の置換のみで、行の増減は無い |
+| `_sources/.../testdata_examples.txt`・`testdata_notation.txt` | 編集した2ファイルの原文複写 |
+| `searchindex.js` | 追加した本文に由来 |
+
+検証器3本の再実行結果は §7 と同じで、いずれも PASS である。
+
+`style.md` の実測ブロックのうち影響を受けるのは S-13 だけで、本是正後の値に更新した。
+
+| 規約 | `d8d6114` | 是正後 | 判定 |
+|---|---|---|---|
+| S-04（下線長） | 394見出し・394/394一致・不一致0 | **394見出し・394/394一致・不一致0** | 見出しを増やしていないため変化なし |
+| S-13（`\ ` エスケープ） | インラインマークアップ2,255件・違反0 | **2,263件・違反0** | コードリテラルが8件増えた分（内訳は `style.md` S-13） |
+
+S-04・S-13 とも、判定器を `d8d6114` に当て直して `style.md` の記録値（394/394、2,255件・617/1,337/729/397）を
+再現することを先に確認したうえで、是正後の値を測っている。
 
 ## 6. `#28` ゲート10 の確定（記録のみ）
 

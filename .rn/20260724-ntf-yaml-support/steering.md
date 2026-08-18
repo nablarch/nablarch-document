@@ -651,6 +651,13 @@ Rn version: 0.8.0
       `TODO(NTF-SRC-02)` (6) 申し送り d `:java:extdoc:`→コードリテラル2件 (7) 申し送り e
       `testdata_converter.rst`「導入」L2 の新設 (8) surefire 下限値に `TODO(NTF-SRC-01)`。
       記録は `checks/task-last.md` §4・§5-2・§5-5・§5-6・§5-7
+- [x] **区切り文字ディレクティブの説明の是正（申し送り）** — 申し送り原本は
+      `ntf-doc-renewal/指示/申し送り-区切り文字ディレクティブの制御文字.md`。タスク番号は新設せず `#last` に含めた。
+      (A-1) `testdata_examples.rst:1435` に `record-separator` へ制御文字を書いた場合の1文を追加
+      (A-2) `testdata_notation.rst:923`（固定長）・`:948`（可変長）の `record-separator` の説明をそろえる
+      (A-3) 同 `:950` の `field-separator` の説明を実装（2文字表記 `\t` は有効・0文字もエラー）に合わせる。
+      根拠は `nablarch-testing` `origin/main` = `e21bf67` の `file:line`（`checks/task-last.md` §5-8 の表）。
+      あわせて `style.md:263` の L4 実測（`request_unit_test/web.rst`）を15本→16本に是正
 - [ ] 結果をユーザーに提示して `/rn:ty`（承認）または `/rn:gm`（修正）の判定をもらう
 
 **Completion criteria**:
@@ -691,6 +698,13 @@ Rn version: 0.8.0
   `tools/request_data_tool.rst:106`）(2) `maven-surefire-plugin`「2.22.0以上」の下限値の出典 —
   `TODO(NTF-SRC-01)`（`setup/junit5_extension.rst:73`）。**推測で書かないという user 判断による保留**で、
   本文は変更していない。`checks/task-last.md` §4・§5-5
+- **区切り文字ディレクティブの是正** — 3箇所（`testdata_examples.rst:1435`・`testdata_notation.rst:923`・
+  `:948`・`:950`）を差し替え。`d8d6114` とのクリーンフルビルド全比較で、差分は
+  `testdata_examples.html`（1行）・`testdata_notation.html`（3行）・両ページの `_sources/*.txt`・
+  `searchindex.js` の5件のみ。`objects.inv`・`_images`・残り484ページの `.html` は差分0。
+  ビルドは `build succeeded.`・exit 0・WARNING 0件で、検証器3本も再実行して PASS。
+  再計測は S-04 が394/394・不一致0（変化なし）、S-13 がインラインマークアップ2,263件・違反0
+  （コードリテラルが8件増えた分）。`checks/task-last.md` §5-8
 
 # State
 
