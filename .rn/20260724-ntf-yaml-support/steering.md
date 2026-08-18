@@ -629,20 +629,20 @@ Rn version: 0.8.0
 
 **Steps**:
 
-- [ ] Acceptance criteria の達成状況を確認する
-- [ ] `make html` を実行し、**警告を含めて**未解決参照が0件であることを確認する。
+- [x] Acceptance criteria の達成状況を確認する
+- [x] `make html` を実行し、**警告を含めて**未解決参照が0件であることを確認する。
       `keep_warnings = True` のため未解決参照はビルド失敗にならないので、
       エラー0の確認だけでは不十分。ビルドログに対し次を確認する
       - `undefined label` が0件
       - `toctree contains reference to nonexisting document` が0件
       - `unknown document` が0件
       確認したコマンドとログの該当箇所を `checks/task-last.md` に記録する
-- [ ] `checks/task-07.md`「リンク切れになる参照」3件それぞれについて、
+- [x] `checks/task-07.md`「リンク切れになる参照」3件それぞれについて、
       解消後の参照先（新ファイルパス・ラベル名）を実ファイルで確認して記録する
-- [ ] **持ち越し(1)** `setup/junit5_extension.rst:73` の `maven-surefire-plugin` 2.22.0 —
+- [x] **持ち越し(1)** `setup/junit5_extension.rst:73` の `maven-surefire-plugin` 2.22.0 —
       一次情報で裏が取れるのは親POM の 2.22.2 のみ。下限「2.22.0以上」の Nablarch 側根拠は無い。
       本文をどうするかの判断材料をそろえて提示する（`checks/task-28.md:833`）
-- [ ] **持ち越し(2)** 規約確定にともなう機械的な掃き出し — S-13 エスケープ186件・
+- [x] **持ち越し(2)** 規約確定にともなう機械的な掃き出し — S-13 エスケープ186件・
       S-04 下線長96件（`testdata_examples.rst` 82・`request_data_tool.rst` 8・`master_data_tool.rst` 6）。
       掃き出すか現状のままとするかを実測にもとづき判断・実行する
 - [ ] 結果をユーザーに提示して `/rn:ty`（承認）または `/rn:gm`（修正）の判定をもらう
@@ -655,16 +655,36 @@ Rn version: 0.8.0
 - 持ち越し2件がそれぞれ処理済み（実行または「現状のまま」の判断が記録されている）
 - ユーザーが `/rn:ty` で承認している
 
+**実測**（`checks/task-last.md`。掃き出し後のクリーンビルド）:
+
+- Acceptance criteria 5件のうち4件が達成、1件（トンマナ）は条件付き達成。`mapping.csv` 597件で
+  DROP 96件以外の501件はすべて `dest_page` を持つ。`verify_mapping.py` exit 0、
+  `verify_glossary.py` `RESULT: OK`（9検査すべて不一致0件）、`pytest` `183 passed`
+- フルビルド（`-a`・`rm -rf _build` 後）は `build succeeded.`・exit 0。WARNING 0件・
+  `undefined label` 0件・`toctree contains reference to nonexisting document` 0件・`unknown document` 0件
+- `checks/task-07.md` の3件はすべて解消。ラベル `how_to_set_token_in_request_unit_test` は
+  `implementation/request_unit_test/web.rst:257` に定義、参照は `db_double_submit.rst:106` の1件
+- **持ち越し(1)** surefire — 親POM 6/6u1/6u2/6u3/6-NEXT の各 `:52` はすべて 2.22.2。下限 2.22.0 の
+  Nablarch 側一次情報は無く、オフラインでは JUnit/Maven 側の出典も取得できない（**未確認**）。
+  「2.22.0以上」は現行解説書（`2e501ad:.../01_Abstract.rst:691-695`・`JUnit5_Extension.rst:26-33`）に
+  元からあり `mapping.csv` の `current-0179`・`current-0266` が移設を指示している。**現状維持を推奨**
+- **持ち越し(2)** 掃き出し実施 — S-04 は 96件を是正し 392/392 一致・不一致0件。S-13 は 192件を是正し
+  違反0件（`style.md` の186件は `084dd28` 時点では正しく、`#28` §6-2 の加筆で192件に増えていた）。
+  **掃き出し前後のクリーンビルドを全件比較し、`.html` 486ページ・`searchindex.js`・`objects.inv`・
+  `_images` に差分0件、差分は編集した11ファイルの `_sources/*.txt` のみ**であることを確認済み
+- **申し送り5件が未処理のまま残る**（`checks/task-28.md:229` の表7行のうち掃き出したのは2行）—
+  S-04下線の直後1件・S-04 L4条件1件・S-12 UI項目名併記11件・S-07 表内クラス名2件・
+  `design.md` §5 3-16（`tools/testdata_converter.rst` の「導入」節）1ページ。`checks/task-last.md` §5-5
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
+- **Status**: not suspended
 - **Date**: 2026-08-18
-- **Last completed**: `#28`（全 Steps 完了。user review 1ラウンド目の是正まで `30a8271` で push 済み）
-- **Next**: `#28` の user review 再判定（`/rn:ty` 承認／`/rn:gm` 追加是正）を受ける。承認後に `#last`
-- **Notes**: ゲート10 は「変更しない」で確定済み（user 判断、2026-08-18）。`#last` は `checks/task-28.md`
-  末尾の節（S-04 再計測。申し送り表 `:229` の94件は96件に読み替え）と `:596`・`:843` の `mapping.csv`
-  既知誤り5件を先に読むこと
+- **Last completed**: `#28`（`/rn:ty` 承認済み）。`#last` は最終 Step（user 判定）を除き完了
+- **Next**: `#last` の user 判定（`/rn:ty` 承認でセッション終了／`/rn:gm` で是正）を受ける
+- **Notes**: 判断が要るのは2点。(1) surefire「2.22.0以上」の現状維持の可否、(2) 未処理の申し送り5件を
+  本セッションで扱うか別セッションへ送るか。どちらも `checks/task-last.md` の §4・§5-5 に材料がある
