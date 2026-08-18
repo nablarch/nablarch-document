@@ -67,6 +67,7 @@ Rn version: 0.8.0
 - **1件のフィードバック対応につき、詳細な理由づけを書く場所を1箇所に決め、他の場所は1〜2行のポインタにとどめる。** 設計判断そのもの（何を・なぜ）は`design.md`の該当節にのみ書く。レビュー監査の記録（指摘→対応の対応表）は`reviews/page-*.md`にのみ書く。`steering.md`のStepsには「Nラウンド目、M点対応。一言の要約。詳細はdesign.md§X・reviews/page-Y.md参照。commit `<hash>`」程度の1〜2行のみ記載し、同じ理由づけを全文で書き直さない。2026-08-05、`#8`のフィードバック対応が5ラウンド積み重なった結果、同じ内容を`design.md`・`reviews/page-about_index.md`・`steering.md`の3箇所にほぼ全文で重複記載してしまい、ユーザーから「文量が大量なんだけど、こんなに必要なの？」と指摘を受けたことによる（Steps 16件・約165行を1〜2行×16件に圧縮）
 - **ページのタスクが`user review`承認で閉じたら、`design.md`の該当節も同様に圧縮する。** 各ラウンドの元の指摘文の引用・差し戻し経緯は削り、最終決定と一言の理由、`reviews/page-*.md`へのポインタのみ残す。34ページ分を通しで行う設計文書のため、圧縮しないとページ数に比例して際限なく肥大化する
 - **`#27` のサブ項目（`#27-00`〜`#27-21`）はタスクではない。`#27` 全体が1タスクである。** サブ項目の境界で user review を待たず、次のサブ項目に着手する。上の「user review の承認を受けるまで次タスクに着手しない」はタスク単位の規則であり、サブ項目の境界には適用しない（`#27` の作業指示 `ntf-doc-weekend-queue.md` §1-1 による）。
+- **`main` へのマージは、user の明示指示があるまで行わない。`.rn/` をマージに含めるか外すかの判断も、その指示があるまで保留する。** 2026-08-18、`#last` クローズ後に `.rn/` の扱いを確認したところ、user から「指示するまでマージしない、`.rn/` もそれまでペンディング」との判断を受けた。ブランチ `ntf-yaml-support` は push 済みのまま保持し、マージ・rebase・`.rn/` の削除や `.gitignore` 追加を先回りして行わない。
 
 # Tasks
 
@@ -727,10 +728,12 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-08-18
-- **Last completed**: #last Evaluation sign-off — user 承認（`/rn:ty`）。全タスク完了
-- **Next**: セッション終了。マージ前に `.rn/` の扱い（マージに含めるか外すか）を user へ確認する
-- **Notes**: ブランチ `ntf-yaml-support`。未決は `TODO(NTF-SRC-01)`・`TODO(NTF-SRC-02)` の2件のみで、
+- **Last completed**: #last Evaluation sign-off — user 承認（`/rn:ty`）で全タスク完了。`8ebc7b1` で push 済み
+- **Next**: user のマージ指示待ち。指示があるまで `main` へマージせず、`.rn/` の扱い（含める／外す）も保留する（Rules 末尾）
+- **Notes**: ブランチ `ntf-yaml-support`（push 済み・作業ツリーはクリーン）。未決は
+  `TODO(NTF-SRC-01)`（`setup/junit5_extension.rst:73`）・`TODO(NTF-SRC-02)`
+  （`setup/request_unit_test/web.rst:162`・`tools/request_data_tool.rst:106`）の2件のみで、
   いずれも一次情報が本作業環境で取得できないための保留（`#last` の「残る未達2件」参照）。
   user 未解決の untracked パスは無し。
