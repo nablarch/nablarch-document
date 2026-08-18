@@ -390,3 +390,51 @@ NTF解説書刷新のスコープ外であること。TODO はモジュール側
 | 用語集検証 | `python3 mapping/tools/verify_glossary.py` | exit 0・`RESULT: OK`（9検査すべて不一致0件） |
 | ツールの単体テスト | `python3 -m pytest mapping/tools -q` | `183 passed, 96 subtests passed` |
 | 作業ツリー | `git status --short` | クリーン（`locales/ja/LC_MESSAGES/sphinx.mo` はビルド直後に復元済み） |
+
+## 8. TODO 台帳（統合）
+
+`ja/` 配下に残る `TODO(NTF-*)` の全件を1つの表にまとめる。台帳が3箇所（`checks/task-28.md` §7-3・同 §6-5・本書 §4／§5-5 c）に分かれており、判定や回答が返ったときにどこを見ればよいか分からない状態だったため集約した。**3箇所の記録は残してあり、本表の「依頼書または根拠の節」列からそれぞれの節を指している。**
+
+**行番号は本表では持たない。** 以後の加筆で動くためで、現在地は `grep -rn 'TODO(NTF-' ja/` で取る。
+
+「前提としたあるべき姿」は依頼書を書いたレビュー役の想定であって、モジュール側の判定ではない（`ntf-doc-28-decide-disposition.md:697`）。判定が返ったら、この列と突き合わせて本文を確定すること。
+
+ファイル列は `ja/development_tools/testing_framework/` 配下の相対パス。
+
+| ID | ファイル | 種別 | 依頼書または根拠の節 | 前提としたあるべき姿 | 判定・情報が返ったときにやること |
+|---|---|---|---|---|---|
+| `NTF-MOD-01-1` | `tools/testdata_converter.rst` | MOD | `ntf-mod-01-nablarch-testing-converter.md` §2（事象1: XLS → YAML → XLS → YAML の往復で内容が変わる）。`checks/task-28.md` §7-3 | 往復しても内容が保たれる（`ntf-doc-28-decide-disposition.md:701`） | 仕様と判定された場合は本文を書き直す（TODO 3行目）。あるべき姿の前提で「非可逆の注意書きを書かない」としているため、仕様なら注意書きの追加になる（同 `:701`） |
+| `NTF-MOD-01-2` | `tools/testdata_converter.rst` | MOD | `ntf-mod-01-nablarch-testing-converter.md` §3（事象2: 同名で拡張子違いの Excel ブックが同居すると、片方の変換結果が無言で失われる）。`checks/task-28.md` §7-3 | 併存はツールが検出する（`ntf-doc-28-decide-disposition.md:702`） | 仕様と判定された場合は本文を書き直す（TODO 3行目）。あるべき姿の前提で「併存を避けよという注意書きを書かない」としているため、仕様なら注意書きの追加になる（同 `:702`） |
+| `NTF-MOD-02-1` | `tools/request_data_tool.rst` | MOD | `ntf-mod-02-nablarch-testing.md` §2（事象1: リクエスト単体データ作成ツールに Linux 用の起動スクリプトが配布されていない）。`checks/task-28.md` §7-3 | Windows・Linux の双方で使える（`ntf-doc-28-decide-disposition.md:703`） | **不具合（Linux 用スクリプトを配布物に含める）と判定された場合**は、`tools/downloads/request_data_tool/` に `httpDump.sh` を置き、`tools/request_data_tool.rst` の `:download:` を2件にする（`checks/task-28.md:519`）。仕様と判定された場合は本文を書き直す（TODO 3行目） |
+| `NTF-MOD-02-2` | `setup/request_unit_test/rest.rst` | MOD | `ntf-mod-02-nablarch-testing.md` §3-3（`nablarch.test.core.http.dump` の実装がどのモジュールにあるか）。`checks/task-28.md` §7-3 | 表では「—」（`ntf-doc-28-decide-disposition.md:704`）。仕様かどうかの判定ではなく実装モジュールの照会であるため（`checks/task-28.md` §7「指示書から外れた判断」2） | 回答の内容に応じて本文を書き直す（TODO 3行目）。この回答が返るまで `setup/request_unit_test/rest.rst` の `nablarch-testing-jetty12` の提供範囲を書いた `.. important::` は確定できない（`ntf-doc-28-decide-disposition.md:711`） |
+| `NTF-MOD-02-3` | `implementation/deal_unit_test/mom.rst` | MOD | `ntf-mod-02-nablarch-testing.md` §4（事象3: YAML形式のテストデータで、同期応答メッセージのモックアップの再読み込みが働かない）。`checks/task-28.md` §7-3 | 形式によらず再読み込みが働く（`ntf-doc-28-decide-disposition.md:705`） | 仕様と判定された場合は本文を書き直す（TODO 3行目）。現在は「形式を限定せずに書く」状態のため、仕様なら形式を限定した記述にする（同 `:705`） |
+| `NTF-MOD-02-4` | `tools/master_data_tool.rst` | MOD | `ntf-mod-02-nablarch-testing.md` §5（事象4: マスタデータ投入ツールが、YAML形式のパーサ設定下で無言で0件になる）。`checks/task-28.md` §7-3 | YAML形式のプロジェクトでもマスタデータ投入ツールを使える（`ntf-doc-28-decide-disposition.md:706`） | **仕様と判定された場合**は、削除した `.. important::` の跡地に制約を書き戻す（`checks/task-28.md:519`）。削除した3文の全文は `checks/task-28.md` §7「本文の書き換えを伴った箇所」に記録してある |
+| `NTF-MOD-03-1` | `setup/junit5_extension.rst` | MOD | `ntf-mod-03-nablarch-testing-junit5.md` §2（観測した事実。`resolveTestRules()` に登録した `TestRule` はテスト本体を包めない）。`checks/task-28.md` §7-3 | `resolveTestRules()` に登録したルールがテスト本体に効く（`ntf-doc-28-decide-disposition.md:707`） | 仕様と判定された場合は本文を書き直す（TODO 3行目）。現在は出典どおり `Timeout` の実装例を載せたままで制約を書いていないため、仕様なら制約の追記になる（同 `:707`） |
+| `NTF-FIG-01` | `implementation/request_unit_test/rest.rst` | FIG | `checks/task-28.md` §6-5（`images/rest/rest_request_unit_test_structure.png` を削除） | 作図系拡張のある環境で図を改訂して戻せる。作図元 `images/rest/rest_request_unit_test_structure.xlsx` は残してある | 作図できる環境で、本文との3点の食い違い（Excelファイル表記・PATCH欠落・`SimpleRestTestSupport` 未描画）を直した図に改訂して戻す。図が伝えていた構造は散文で本文に補ってあるので、戻す際は重複を確認する（補った内容は `checks/task-28.md` §6-5 の表） |
+| `NTF-FIG-02` | `implementation/request_unit_test/mom.rst` | FIG | `checks/task-28.md` §6-5（`images/mom/send_sync.png` を削除） | 同上。作図元 `images/mom/send_sync.xlsx`（`checks/task-28.md` §5-3 で退避したあとのパス）は残してある | 作図できる環境で、テストデータのノードの「Excelファイル」表記（本文は形式中立）を直した図に改訂して戻す。あわせて、図と一緒に削除した `.. tip::` を戻すかを判断する（`checks/task-28.md` §6-5） |
+| `NTF-FIG-03` | `implementation/request_unit_test/mom.rst` | FIG | `checks/task-28.md` §6-5（`images/mom/real_request_test_class.png` を削除） | 同上。ただし**作図元ファイルは存在しない** | 作図できる環境で作り直したうえで戻す。テストデータのノードは形式中立にする |
+| `NTF-FIG-04` | `implementation/request_unit_test/batch.rst` | FIG | `checks/task-28.md` §6-5（`images/batch/batch_request_test_class.png` を削除） | 同上。ただし**作図元ファイルは存在しない** | 作図できる環境で、本文との3点の食い違い（`MainForRequestTesting#handle` の引数順が実装と逆・Excelファイル表記・`FileSupport` が固定長ファイル限定の記述）を直した図に作り直して戻す |
+| `NTF-SRC-01` | `setup/junit5_extension.rst` | SRC | 本書 §4（持ち越し(1) `maven-surefire-plugin` 2.22.0 の一次情報） | 「2.22.0以上」は現行解説書に元からある記述の移設であり、下限値そのものの一次出典が JUnit/Maven 側に存在する | JUnit Platform プロバイダを同梱した `maven-surefire-plugin` の版を JUnit/Maven 側の一次情報で確認し、出典を本書 §4 に記録する。**本文は変えない**（user 判断で確定済み。本書 §4「確定」） |
+| `NTF-SRC-02` | `setup/request_unit_test/web.rst` | SRC | 本書 §5-5 c（S-12 規約4 のUI項目名併記。未達9件のうち本ファイルの8件） | 本文のUI項目名を `style.md` S-12 規約4 の「日本語(English)」併記にできる | Eclipse 実機で英語名を確認したうえで併記に直す。対象は「実行」「実行構成」「引数」「VM 引数」「インストール済みのJRE」「編集」「デフォルトの VM 引数」の7語8件（「VM 引数」が2箇所）。全件の内訳は本書 §5-5 c |
+| `NTF-SRC-02` | `tools/request_data_tool.rst` | SRC | 本書 §5-5 c（同上。未達9件のうち本ファイルの1件） | 同上 | Eclipse 実機で「Open With」の**日本語名**を確認したうえで併記に直す。マーカーは対象行の後ろに置いてあり、対象行の行番号を動かさない（本書 §5-5 c） |
+
+**実測**（本節を追加した時点。`ja/` 配下の `.rst` は変更していない）:
+
+```
+$ grep -rho 'TODO(NTF-[A-Z0-9-]*)' ja/ | sort | uniq -c
+      1 TODO(NTF-FIG-01)
+      1 TODO(NTF-FIG-02)
+      1 TODO(NTF-FIG-03)
+      1 TODO(NTF-FIG-04)
+      1 TODO(NTF-MOD-01-1)
+      1 TODO(NTF-MOD-01-2)
+      1 TODO(NTF-MOD-02-1)
+      1 TODO(NTF-MOD-02-2)
+      1 TODO(NTF-MOD-02-3)
+      1 TODO(NTF-MOD-02-4)
+      1 TODO(NTF-MOD-03-1)
+      1 TODO(NTF-SRC-01)
+      2 TODO(NTF-SRC-02)
+```
+
+**出現14件・13ID**。`NTF-SRC-02` だけが2ファイルに置かれており、上表も同じく14行・13ID である（本書 §6 の「11件→14件」と一致する）。

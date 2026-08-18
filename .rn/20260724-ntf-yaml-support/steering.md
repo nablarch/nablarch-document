@@ -728,12 +728,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-18
-- **Last completed**: #last Evaluation sign-off — user 承認（`/rn:ty`）で全タスク完了。`8ebc7b1` で push 済み
-- **Next**: user のマージ指示待ち。指示があるまで `main` へマージせず、`.rn/` の扱い（含める／外す）も保留する（Rules 末尾）
-- **Notes**: ブランチ `ntf-yaml-support`（push 済み・作業ツリーはクリーン）。未決は
-  `TODO(NTF-SRC-01)`（`setup/junit5_extension.rst:73`）・`TODO(NTF-SRC-02)`
-  （`setup/request_unit_test/web.rst:162`・`tools/request_data_tool.rst:106`）の2件のみで、
-  いずれも一次情報が本作業環境で取得できないための保留（`#last` の「残る未達2件」参照）。
-  user 未解決の untracked パスは無し。
+- **Status**: not suspended
+- **Date**: YYYY-MM-DD
+- **Last completed**: #N description
+- **Next**: #N description
+- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)

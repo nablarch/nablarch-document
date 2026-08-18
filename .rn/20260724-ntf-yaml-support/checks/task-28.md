@@ -445,17 +445,19 @@ ja/development_tools/testing_framework/implementation/request_unit_test/rest.rst
 
 コミットは2本。`db738c0`（本文の書き換えを伴う2件＋`reviews/` の追記）、`daa101c`（残り5件の TODO 配置）。
 
-### 7-3. 入れた TODO の一覧（行番号は追記後の実測。2026-08-16、`daa101c` 時点）
+### 7-3. 入れた TODO の一覧
 
-| 識別子 | ファイル（`ja/development_tools/testing_framework/` 配下） | 行 | 依頼書 | 節 |
-|---|---|---|---|---|
-| `NTF-MOD-01-1` | `tools/testdata_converter.rst` | 22 | `ntf-mod-01-nablarch-testing-converter.md` | §2（事象1: XLS → YAML → XLS → YAML の往復で内容が変わる） |
-| `NTF-MOD-01-2` | `tools/testdata_converter.rst` | 75 | `ntf-mod-01-nablarch-testing-converter.md` | §3（事象2: 同名で拡張子違いの Excel ブックが同居すると、片方の変換結果が無言で失われる） |
-| `NTF-MOD-02-1` | `tools/request_data_tool.rst` | 60 | `ntf-mod-02-nablarch-testing.md` | §2（事象1: リクエストデータ作成ツールに Linux 用の起動スクリプトが配布されていない） |
-| `NTF-MOD-02-2` | `setup/request_unit_test/rest.rst` | 51 | `ntf-mod-02-nablarch-testing.md` | §3-3（`nablarch.test.core.http.dump` の実装がどのモジュールにあるか） |
-| `NTF-MOD-02-3` | `implementation/deal_unit_test/mom.rst` | 83 | `ntf-mod-02-nablarch-testing.md` | §4（事象3: YAML形式のテストデータで、同期応答メッセージのモックアップの再読み込みが働かない） |
-| `NTF-MOD-02-4` | `tools/master_data_tool.rst` | 26 | `ntf-mod-02-nablarch-testing.md` | §5（事象4: マスタデータ投入ツールが、YAML形式のパーサ設定下で無言で0件になる） |
-| `NTF-MOD-03-1` | `setup/junit5_extension.rst` | 395 | `ntf-mod-03-nablarch-testing-junit5.md` | §2（観測した事実。`resolveTestRules()` に登録した `TestRule` はテスト本体を包めない） |
+| 識別子 | ファイル（`ja/development_tools/testing_framework/` 配下） | 依頼書 | 節 |
+|---|---|---|---|
+| `NTF-MOD-01-1` | `tools/testdata_converter.rst` | `ntf-mod-01-nablarch-testing-converter.md` | §2（事象1: XLS → YAML → XLS → YAML の往復で内容が変わる） |
+| `NTF-MOD-01-2` | `tools/testdata_converter.rst` | `ntf-mod-01-nablarch-testing-converter.md` | §3（事象2: 同名で拡張子違いの Excel ブックが同居すると、片方の変換結果が無言で失われる） |
+| `NTF-MOD-02-1` | `tools/request_data_tool.rst` | `ntf-mod-02-nablarch-testing.md` | §2（事象1: リクエストデータ作成ツールに Linux 用の起動スクリプトが配布されていない） |
+| `NTF-MOD-02-2` | `setup/request_unit_test/rest.rst` | `ntf-mod-02-nablarch-testing.md` | §3-3（`nablarch.test.core.http.dump` の実装がどのモジュールにあるか） |
+| `NTF-MOD-02-3` | `implementation/deal_unit_test/mom.rst` | `ntf-mod-02-nablarch-testing.md` | §4（事象3: YAML形式のテストデータで、同期応答メッセージのモックアップの再読み込みが働かない） |
+| `NTF-MOD-02-4` | `tools/master_data_tool.rst` | `ntf-mod-02-nablarch-testing.md` | §5（事象4: マスタデータ投入ツールが、YAML形式のパーサ設定下で無言で0件になる） |
+| `NTF-MOD-03-1` | `setup/junit5_extension.rst` | `ntf-mod-03-nablarch-testing-junit5.md` | §2（観測した事実。`resolveTestRules()` に登録した `TestRule` はテスト本体を包めない） |
+
+行番号は本表でも統合表（`checks/task-last.md` §8「TODO 台帳（統合）」）でも持たない。以後の加筆で動くためで、現在地は `grep -rn 'TODO(NTF-' ja/` で取る。
 
 節番号は3つの依頼書を実際に開いて確認した（指示書 `:699-707` の表を写していない）。指示書の表は「事象1」「事象2」といった事象番号で書かれており、依頼書の節番号は事象番号と1対1に対応する（`ntf-mod-01` は事象1=§2・事象2=§3、`ntf-mod-02` は事象1=§2・事象3=§4・事象4=§5）。
 
@@ -515,7 +517,7 @@ ja/development_tools/testing_framework/tools/testdata_converter.rst:75:.. TODO(N
 ### 他の担当への申し送り
 
 - **調整役へ。** `sphinx-build` は実行していない。ゲート10 の確認とあわせて、`tools/master_data_tool.rst` の `important` を1件削除したことによる差分（`reviews/page-master_data_tool.md` の G6 の実測「`tip` 2件・`important` 3件」は現在 `important` 2件）を、必要なら是正すること
-- **調整役へ。** §7 の着手時点で、`implementation/request_unit_test/` の3ページと `implementation/deal_unit_test/mom.rst` などは §2・§6 担当の変更で行番号がずれていた。本節の表の行番号は `daa101c` 時点の実測であり、以後 `ja/` を書き換える担当がいる場合は再実測が必要である
+- **調整役へ。** §7 の着手時点で、`implementation/request_unit_test/` の3ページと `implementation/deal_unit_test/mom.rst` などは §2・§6 担当の変更で行番号がずれていた。行番号は動き続けるため、7-3 の表からも統合表（`checks/task-last.md` §8）からも外した。現在地は `grep -rn 'TODO(NTF-' ja/` で取る
 - **判定が返ったときの担当へ。** `NTF-MOD-02-1` が「不具合（Linux 用スクリプトを配布物に含める）」と判定された場合は、`tools/downloads/request_data_tool/` に `httpDump.sh` を置き、`tools/request_data_tool.rst:66` の `:download:` を2件にすること。`NTF-MOD-02-4` が「仕様」と判定された場合は、`tools/master_data_tool.rst:26` の跡地に制約を書き戻すことになる
 
 ## §4 記録の是正・未確認の解消
