@@ -67,6 +67,7 @@ Rn version: 0.8.0
 - **1件のフィードバック対応につき、詳細な理由づけを書く場所を1箇所に決め、他の場所は1〜2行のポインタにとどめる。** 設計判断そのもの（何を・なぜ）は`design.md`の該当節にのみ書く。レビュー監査の記録（指摘→対応の対応表）は`reviews/page-*.md`にのみ書く。`steering.md`のStepsには「Nラウンド目、M点対応。一言の要約。詳細はdesign.md§X・reviews/page-Y.md参照。commit `<hash>`」程度の1〜2行のみ記載し、同じ理由づけを全文で書き直さない。2026-08-05、`#8`のフィードバック対応が5ラウンド積み重なった結果、同じ内容を`design.md`・`reviews/page-about_index.md`・`steering.md`の3箇所にほぼ全文で重複記載してしまい、ユーザーから「文量が大量なんだけど、こんなに必要なの？」と指摘を受けたことによる（Steps 16件・約165行を1〜2行×16件に圧縮）
 - **ページのタスクが`user review`承認で閉じたら、`design.md`の該当節も同様に圧縮する。** 各ラウンドの元の指摘文の引用・差し戻し経緯は削り、最終決定と一言の理由、`reviews/page-*.md`へのポインタのみ残す。34ページ分を通しで行う設計文書のため、圧縮しないとページ数に比例して際限なく肥大化する
 - **`#27` のサブ項目（`#27-00`〜`#27-21`）はタスクではない。`#27` 全体が1タスクである。** サブ項目の境界で user review を待たず、次のサブ項目に着手する。上の「user review の承認を受けるまで次タスクに着手しない」はタスク単位の規則であり、サブ項目の境界には適用しない（`#27` の作業指示 `ntf-doc-weekend-queue.md` §1-1 による）。
+- **`.rn/` 内の文書どうしの相互参照は、行番号ではなく節見出し（`ファイル名` §番号「見出し」）で指す。`ja/` や他リポジトリの実物を出典として示す `file:line` は対象外で、そのまま使う。** 区別の基準は「指す先が `.rn/` 内の自分たちの文書か、実物か」。`mapping/glossary.md` §5.15 が既に採っている方式にそろえる。2026-08-18、`checks/task-last.md` §8 から `checks/task-28.md:519` を指していたところ、同じコミットで §7-3 の表が2行伸びたため参照先が別の行に変わり、誤った案内になった（user 差し戻し）。節見出しなら加筆で動かない
 - **`main` へのマージは、user の明示指示があるまで行わない。`.rn/` をマージに含めるか外すかの判断も、その指示があるまで保留する。** 2026-08-18、`#last` クローズ後に `.rn/` の扱いを確認したところ、user から「指示するまでマージしない、`.rn/` もそれまでペンディング」との判断を受けた。ブランチ `ntf-yaml-support` は push 済みのまま保持し、マージ・rebase・`.rn/` の削除や `.gitignore` 追加を先回りして行わない。
 
 # Tasks
@@ -728,8 +729,13 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: YYYY-MM-DD
-- **Last completed**: #N description
-- **Next**: #N description
-- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
+- **Status**: paused
+- **Date**: 2026-08-18
+- **Last completed**: 全タスク完了済み（`#last` は `8ebc7b1` で承認クローズ）。本セッションはタスク外の記録整備で、
+  `TODO(NTF-*)` 14件（13ID）の台帳を `checks/task-last.md` §8 に統合した（`6672fc1`）。user 差し戻し1件を受けて
+  `.rn/` 内の相互参照を節見出し方式に統一した（`1db5680`）
+- **Next**: user のマージ指示待ち。指示があるまで `main` へマージせず、`.rn/` の扱い（含める／外す）も保留する（Rules）
+- **Notes**: ブランチ `ntf-yaml-support`（`1db5680` まで push 済み・作業ツリーはクリーン）。未決は
+  `TODO(NTF-SRC-01)`・`TODO(NTF-SRC-02)` の2件のみで、いずれも一次情報が本作業環境で取得できないための保留。
+  `TODO` の現在地は `grep -rn 'TODO(NTF-' ja/` で取る（行番号は台帳に持たせていない）。
+  user 未解決の untracked パスは無し。
