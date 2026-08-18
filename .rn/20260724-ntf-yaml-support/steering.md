@@ -621,7 +621,7 @@ Rn version: 0.8.0
 1. `setup/junit5_extension.rst:73` の `maven-surefire-plugin` 2.22.0 の一次情報（`checks/task-28.md:833`）
 2. 規約確定にともなう機械的な掃き出し — S-13 エスケープ186件・S-04 下線長**96件**（`implementation/testdata_examples.rst` 82件・`tools/request_data_tool.rst` 8件・`tools/master_data_tool.rst` 6件。`checks/task-28.md:229` の表の94件はこの96件に読み替える）
 
-### #last: Evaluation sign-off
+### #last: Evaluation sign-off — DONE
 
 **Purpose**: NTF ドキュメント刷新の完了を Acceptance criteria に照らして確認し、ユーザーの承認を得る。
 
@@ -658,7 +658,7 @@ Rn version: 0.8.0
       (A-3) 同 `:950` の `field-separator` の説明を実装（2文字表記 `\t` は有効・0文字もエラー）に合わせる。
       根拠は `nablarch-testing` `origin/main` = `e21bf67` の `file:line`（`checks/task-last.md` §5-8 の表）。
       あわせて `style.md:263` の L4 実測（`request_unit_test/web.rst`）を15本→16本に是正
-- [ ] 結果をユーザーに提示して `/rn:ty`（承認）または `/rn:gm`（修正）の判定をもらう
+- [x] 結果をユーザーに提示して `/rn:ty`（承認）または `/rn:gm`（修正）の判定をもらう
 
 **Completion criteria**:
 
@@ -698,13 +698,28 @@ Rn version: 0.8.0
   `tools/request_data_tool.rst:106`）(2) `maven-surefire-plugin`「2.22.0以上」の下限値の出典 —
   `TODO(NTF-SRC-01)`（`setup/junit5_extension.rst:73`）。**推測で書かないという user 判断による保留**で、
   本文は変更していない。`checks/task-last.md` §4・§5-5
-- **区切り文字ディレクティブの是正** — 3箇所（`testdata_examples.rst:1435`・`testdata_notation.rst:923`・
-  `:948`・`:950`）を差し替え。`d8d6114` とのクリーンフルビルド全比較で、差分は
+- **区切り文字ディレクティブの是正** — 是正3件・編集4行（`testdata_examples.rst:1435`／
+  `testdata_notation.rst:923`・`:948`／同 `:950`）を差し替え。`d8d6114` とのクリーンフルビルド全比較で、差分は
   `testdata_examples.html`（1行）・`testdata_notation.html`（3行）・両ページの `_sources/*.txt`・
   `searchindex.js` の5件のみ。`objects.inv`・`_images`・残り484ページの `.html` は差分0。
   ビルドは `build succeeded.`・exit 0・WARNING 0件で、検証器3本も再実行して PASS。
   再計測は S-04 が394/394・不一致0（変化なし）、S-13 がインラインマークアップ2,263件・違反0
   （コードリテラルが8件増えた分）。`checks/task-last.md` §5-8
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-18）。ユーザーが `96596b3` を独立に検証し、A・B とも
+指示どおりで新たな指摘なしと判定した。検証内容 — `d8d6114` との両側クリーンビルドによる HTML 全比較で
+差分5件、`.html` は該当2ページの1行・3行のみ、他484ページと `objects.inv`・`_images/` は差分0。
+S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO` 13ID 不変、`style.md:263` の
+60/27/16本がすべて実物と一致。A-3 の根拠（`VariableLengthFile.java:70-71`・`:75-79`）も実装で再確認。
+詳細は `checks/task-last.md` および git 履歴（`870e809`・`d8d6114`・`96596b3`）を参照。
+
+**残る未達2件**（本刷新のスコープ外として保留。いずれも一次情報が本作業環境で取得できないためで、
+推測で書かないという user 判断により本文は変更していない）:
+
+1. S-12 のUI項目名9語 — `TODO(NTF-SRC-02)`（`setup/request_unit_test/web.rst:162`・
+   `tools/request_data_tool.rst:106`）
+2. `maven-surefire-plugin`「2.22.0以上」の下限値の出典 — `TODO(NTF-SRC-01)`
+   （`setup/junit5_extension.rst:73`）
 
 # State
 
@@ -712,15 +727,10 @@ Rn version: 0.8.0
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
+- **Status**: not suspended
 - **Date**: 2026-08-18
-- **Last completed**: #last の是正 — 申し送り「区切り文字ディレクティブの制御文字」の作業9（A-1〜A-3）と
-  `style.md:263` の L4 実測（15本→16本）。`96596b3` で push 済み
-- **Next**: #last Evaluation sign-off — ゲート再々提示済み、user 判定待ち
-- **Notes**: ブランチ `ntf-yaml-support`（`96596b3` まで push 済み・作業ツリーはクリーン）。次の具体的な動作は、
-  再提示した `#last` ゲートへの user 判定（`/rn:ty` 承認 → `steering.md` の最終ステップをチェックし
-  `complete task #last` でコミット／`/rn:gm` 修正 → 指摘を処置して再提示）。**未決は2件だけ**で、いずれも
-  一次情報が本作業環境で取得できないための保留 — (1) S-12 のUI項目名9語 `TODO(NTF-SRC-02)`
-  （`setup/request_unit_test/web.rst:162`・`tools/request_data_tool.rst:106`）(2) surefire「2.22.0以上」の
-  下限値の出典 `TODO(NTF-SRC-01)`（`setup/junit5_extension.rst:73`）。詳細は `checks/task-last.md` §4・§5-5・§5-8。
+- **Last completed**: #last Evaluation sign-off — user 承認（`/rn:ty`）。全タスク完了
+- **Next**: セッション終了。マージ前に `.rn/` の扱い（マージに含めるか外すか）を user へ確認する
+- **Notes**: ブランチ `ntf-yaml-support`。未決は `TODO(NTF-SRC-01)`・`TODO(NTF-SRC-02)` の2件のみで、
+  いずれも一次情報が本作業環境で取得できないための保留（`#last` の「残る未達2件」参照）。
   user 未解決の untracked パスは無し。
