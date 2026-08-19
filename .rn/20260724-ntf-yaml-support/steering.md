@@ -697,7 +697,7 @@ Rn version: 0.8.0
   （`about/index.html`・`testdata_notation.html`・`junit5_extension.html` は差分一覧に現れない）
 - **未達として残るのは2件だけ**。いずれも一次情報が本作業環境で取得できないことに起因する。
   (1) S-12 のUI項目名9語 — `TODO(NTF-SRC-02)`（`setup/request_unit_test/web.rst:162`・
-  `tools/request_data_tool.rst:106`）(2) `maven-surefire-plugin`「2.22.0以上」の下限値の出典 —
+  `tools/request_data_tool.rst:102`）(2) `maven-surefire-plugin`「2.22.0以上」の下限値の出典 —
   `TODO(NTF-SRC-01)`（`setup/junit5_extension.rst:73`）。**推測で書かないという user 判断による保留**で、
   本文は変更していない。`checks/task-last.md` §4・§5-5
 - **区切り文字ディレクティブの是正** — 是正3件・編集4行（`testdata_examples.rst:1435`／
@@ -719,7 +719,7 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 推測で書かないという user 判断により本文は変更していない）:
 
 1. S-12 のUI項目名9語 — `TODO(NTF-SRC-02)`（`setup/request_unit_test/web.rst:162`・
-   `tools/request_data_tool.rst:106`）
+   `tools/request_data_tool.rst:102`）
 2. `maven-surefire-plugin`「2.22.0以上」の下限値の出典 — `TODO(NTF-SRC-01)`
    （`setup/junit5_extension.rst:73`）
 
@@ -727,14 +727,14 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
 **Purpose**: `nablarch-testing`・`nablarch-testing-converter` で確定した判定を解説書に反映し、待つものが無くなった TODO を外して、残る TODO を「何がマージされたら外すか」が分かる状態にする。`#last`（Evaluation sign-off）の承認後に user から届いた追加依頼であり、承認済みの成果に対する差分タスクである。
 
-**根拠（モジュール側の一次情報。本作業ディレクトリからは参照できないため、user が作業指示に引用した文面による）**:
+**根拠（モジュール側の一次情報。両リポジトリとも clone 済みで、Assumptions の参照コミットから `git show <参照コミット>:<path>` で直接読める。以下は 2026-08-19 に実物を開いて確認した）**:
 
-- `nablarch-testing` `8530497:docs/pr75/steering.md` — 4事象の判定（事象1=仕様・解説書側対応／事象2=現状維持／事象3=不具合・#21 で対応／事象4前半=仕様・現状維持／事象4後半の YAML 対応=#22 で対応）。#21・#22 はいずれも未着手
-- `nablarch-testing-converter` `b44268c:.rn/ntf-test-data-converter/steering.md` — 同名で拡張子違いの Excel ブックの同居は `XLS-28` として要対応（新規課題・2026-08-18 user 確定）・未着手
+- `nablarch-testing` `8530497:docs/pr75/steering.md` — 4事象の判定（事象1=仕様・解説書側対応／事象2=現状維持／事象3=不具合・#21 で対応／事象4前半=仕様・現状維持／事象4後半の YAML 対応=#22 で対応）は同ファイル `:117`。#21・#22 はいずれも未着手（`:116`「#21 の再現テスト作成から着手」）。**`#21`・`#22` は同ファイル内の rn タスク番号であって GitHub issue ではない。マージ単位はブランチ `convert-testdata-excel-to-text`／ドラフト PR `lovaizu/nablarch-testing#1`（`:4-5`）**
+- `nablarch-testing-converter` `b44268c:.rn/ntf-test-data-converter/steering.md` — 同名で拡張子違いの Excel ブックの同居は `XLS-28` として要対応（新規課題・2026-08-18 user 確定）。**`XLS-28` も同リポジトリの rn 課題番号。2026-08-19 実測では `5ab13d8`「fix: 拡張子違いの同名 Excel ブックの同居を辺①の入口で止める（XLS-28）」として実装済みで、ブランチ `ntf-test-data-converter` のみに存在し main 未マージ**
 
 **Steps**:
 
-- [ ] A. `tools/request_data_tool.rst` の `TODO(NTF-MOD-02-1)` を3行とも削除する。本文は1文字も変えない（事象1は仕様と判定済み、かつ本文を現行解説書に合わせて据え置くという user 判断による）
+- [x] A. `tools/request_data_tool.rst` の `TODO(NTF-MOD-02-1)` を3行とも削除する。本文は1文字も変えない（事象1は仕様と判定済み、かつ本文を現行解説書に合わせて据え置くという user 判断による）
 - [ ] B. `tools/master_data_tool.rst` の `TODO(NTF-MOD-02-4)` の直後に、確定した事象4前半の制約だけを1件書く。ディレクティブの要否は `mapping/style.md` S-06 に従って判断する。`#28` で削除した3文のうち「Excel 形式で記述する」「YAML 形式用のパーサを設定しているプロジェクトでは本ツールを使用できない」の2文は書き戻さない
 - [ ] C. TODO コメント3件（`NTF-MOD-02-4`・`NTF-MOD-02-3`・`NTF-MOD-01-2`）の1行目・3行目を判定後の文言に更新する。3行の書式は保つ。`.rst` の地の文は B の1件を除いて変えない
 - [ ] D. 記録を更新する。(1) `checks/task-last.md` §8 の台帳（`NTF-MOD-02-1` の行を削除、残る3件の「判定・情報が返ったときにやること」列を書き換え、実測を取り直す） (2) `checks/task-28.md` §7「本文の書き換えを伴った箇所」への追記と §7-3 の表からの `NTF-MOD-02-1` の除去 (3) `reviews/page-request_data_tool.md`・`reviews/page-master_data_tool.md` の該当箇所への追記 (4) 本 `steering.md` の Task list と State
@@ -756,8 +756,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: YYYY-MM-DD
-- **Last completed**: #N description
-- **Next**: #N description
-- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
+- **Status**: paused
+- **Date**: 2026-08-19
+- **Last completed**: #last（Evaluation sign-off。user 承認済み）
+- **Next**: #29 モジュール側の判定反映 — Verify のトリアージまで完了、user 判断待ちで停止
+- **Notes**: ブランチ `ntf-yaml-support`（`main` へのマージは user の明示指示待ち）。`#29` は Step A のみ完了で、B・C・D は未完。**次の一手**: user が Escalation E1・E2 に回答したら、実装役を1回立てて Valid 9件と `checks/task-29.md` 自身の Evidence 3箇所（および E1 の判断結果）をまとめて是正させ、4観点レビューを再実行して check-off する。指摘の全件・根拠・実測は `checks/task-29.md` §「トリアージ結果（調整役・2026-08-19）」に記録済み。**未解決の判断2件**: E1 事象1（`httpDump.sh`）の解説書側対応の要否と書くべき文面、E2 `XLS-27` の制約（0件テーブルを含む YAML は Excel へ変換できない）の申し送り先。いずれも同節に選択肢と推奨を記載。未追跡パスなし
