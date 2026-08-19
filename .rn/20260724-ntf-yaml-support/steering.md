@@ -835,8 +835,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-08-19
-- **Last completed**: `#30` — user review 承認済み（`/rn:ty`、2026-08-19）。あわせてマージ直前の一括処置の台帳へ1件を追加した（`checks/task-30.md` の指摘1 の行が `/rn:gm` の差し戻しを反映していない件）
-- **Next**: Tasks はすべて完了。残るのはマージ直前の一括処置のみ（台帳は `#29` の「Verify の結果と user 判断（2026-08-19）」。現時点の項目は `#29` から1項目（V7・V8・V9 と `checks/task-29.md` の Self-check Evidence 3箇所）と `#30` から3項目）。マージ着手のタイミングは user が決める
-- **Notes**: ブランチ `ntf-yaml-support`。**user 判断待ちは0件**（`/rn:up` の是正4件は `/rn:ty`（2026-08-19）で承認済み。`checks/task-30.md` の `## Method` 節の `.rst:N` 未添付と `git ls-tree … HEAD` の動く参照は、実害なしとして台帳へは足さない判断）。未処置のまま残る `#29` の V3・V4 は判断を user に返したまま（`#29` の「Verify の結果と user 判断（2026-08-19）」の「未処置のまま残る」）
+- **Last completed**: `#30` — user review 承認済み（`/rn:ty`、2026-08-19、`03c9dcb`）。あわせてマージ直前の一括処置の台帳へ1件を追加した（`checks/task-30.md` の Verification expert 指摘1 の行が `/rn:gm` の差し戻しを反映していない件）
+- **Next**: Tasks は `#30` まで全件完了。残るのはマージ直前の一括処置のみ（台帳は `#29` の「Verify の結果と user 判断（2026-08-19）」。現時点の項目は `#29` から1項目（V7・V8・V9 と `checks/task-29.md` の Self-check Evidence 3箇所）と `#30` から3項目）。着手のタイミングは user が決める
+- **Notes**: ブランチ `ntf-yaml-support`（`03c9dcb` まで push 済み。未 push のコミット・未追跡パスとも無し）。**user 判断待ちは0件。** ただしマージ前に裁定が要るものが2件残っている — `#29` の V3（`implementation/deal_unit_test/mom.rst` の `TODO(NTF-MOD-02-3)` 1行目に禁止語「不具合」）と V4（`#21`・`#22`・`XLS-28` が GitHub issue 番号のように読める）。いずれも `#29` の「Verify の結果と user 判断（2026-08-19）」の「未処置のまま残る」
