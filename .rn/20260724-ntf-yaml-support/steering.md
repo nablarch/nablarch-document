@@ -770,11 +770,17 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
     「使用方法」`:102`→`:106`、その導入部の `:ref:` `:104`→`:108`、`bash` の code-block `:130`→`:134`、
     「前提事項」節の範囲 `:61-69`→`:61-73`）。ずれている記録は `mapping/style.md:112`・`:273`・`:322` と
     `design.md:379`・`:381`
+  - `#30` から（`/rn:ty` 2026-08-19 の user 指示で追加） — `checks/task-30.md` §「Verification Expert (fact-check)」の
+    「Artifact actually checked」の行（指摘1）が、処置を「→ `b44268c` と但し書きに戻した」と書いたままで、
+    `/rn:gm`（2026-08-19）で差し戻されて実物は `3ecf3db` が正となったことが同ファイルに無い。打ち消しの注記は
+    本 `steering.md` §「#30: `#29` のレビュー指摘の処置（user 判断 2026-08-19 の反映）」の「`/rn:gm`（2026-08-19）の
+    処置5件」(3) にあるが、`checks/task-30.md` 単体では台帳が今も `b44268c` を引くと読める。マージ直前に同行へ
+    打ち消しの注記を足す
 - **未処置のまま残る** — V3（`implementation/deal_unit_test/mom.rst` の `TODO(NTF-MOD-02-3)` 1行目に禁止語「不具合」）と
   V4（`#21`・`#22`・`XLS-28` が GitHub issue 番号のように読める）。`#30` の作業指示は前者に触れず、
   後者は差し替え文面が現行の書き方を踏襲しているため、いずれも判断を user に返す
 
-### #30: `#29` のレビュー指摘の処置（user 判断 2026-08-19 の反映）
+### #30: `#29` のレビュー指摘の処置（user 判断 2026-08-19 の反映） — DONE
 
 **Purpose**: `#29` の4観点レビューで挙がった指摘のうち user が今回の対象と定めた4件と、Escalation 2件への回答を、解説書へ反映する。
 
@@ -812,14 +818,25 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - **`/rn:gm`（2026-08-19）の処置5件** — user が判断待ち4件をすべて「指摘のとおり」（指示文面の誤り）と裁定し、次を是正した。 (1) `TODO(NTF-MOD-02-4)` 3行目を、同一ファイル内の行番号指し（`:10`・`:128`・`:130`）から条件指しに変え、落ちていた配布物一覧の `MASTER_DATA*.xls` と「シート」も対象に含めた (2) `TODO(NTF-MOD-01-3)` 1行目と台帳から、本リポジトリに出典の無い converter 側の内輪の呼称を落とした (3) 台帳 `NTF-MOD-01-2` の出典を `3ecf3db:.rn/ntf-test-data-converter/steering.md:1203` に統一し、但し書きを「レビュー役が実物で確認して引用（`#30` 差し戻し）」と逐語の引用に改めた（`#30` で `b44268c` へ戻した判断は、そちらから検証できない以上プロセスとしては正しいが事実としては逆で、`b44268c:…:1120` は `- [ ]`、`3ecf3db:…:1203` は `- [x]` ＋ `5ab13d8`。user が両コミットを実物で確認した） (4) Completion criteria の `grep -i httpdump` の条件文を実測（11行。`httpDump.sh` 0件・`httpDump.bat` 2件・残り9件は `en/` の `01_HttpDumpTool`）に合う書き方へ差し替えた（本 Completion criteria と `checks/task-30.md` の2箇所） (5) マージ直前の一括処置の台帳（`#29` の「Verify の結果と user 判断」）に、`reviews/page-master_data_tool.md` の2箇所と `tools/testdata_converter.rst` の行番号ずれを追加した。**この2件は user 指示により今回は直していない**
 - **`/rn:up`（2026-08-19）の処置2件** — `/rn:gm` の報告で残していた user 判断待ち2件を、user がどちらも「いま直す」と裁定し、次を是正した。 (1) `checks/task-30.md` の各表の Evidence 欄が引く `ja/` の `file:line` を `e023648a` 時点の現物に合わせ、案件ルール「事実には `file:line` と参照コミットハッシュを必ず添える」に従って測定時点を各行に明記した（節冒頭に基準を1行置き、該当6行に注記）。`ja/` は `e023648a`〜`4620c43` で無変更であることを md5 で確認したうえで実測した。番号の付け替えだけでは再発するという user 指摘への処置がこの明記である (2) 台帳 `NTF-MOD-01-3` の「2段目」の出典を `b44268c:.rn/ntf-test-data-converter/steering.md` から `3ecf3db:.rn/ntf-test-data-converter/steering.md:867` に差し替え、`NTF-MOD-01-2` と同じ形（逐語の引用＋「レビュー役が実物で確認して引用」）にした。同じ行が既に引く `3ecf3db:…/coverage/issues.md:2562` とコミットが揃う。user が両コミットを実物で確認し、逐語が同一であることを確認した。**(1) で user 指示に無い是正4件を追加した**（`tools/master_data_tool.rst:32` の逐語が是正前のもののまま、`setup/class_unit_test.rst` の節見出しが `:132` ではなく `:133`、`setup/junit5_extension.rst` の先例が `:70-71` ではなく `:71-72`、`checks/task-30.md` の「新設 TODO の前後には空行を各1行置いた」が現物と食い違う（`c650039` で下線直後の空行を削除済み））。いずれも Evidence 欄が引く `ja/` の記述であり、測定時点を `e023648a` と明記する以上そのままでは虚偽になるため直した。なお `:111-113`→`:110-112` は user 指示に含まれており、上の4件には数えない
 
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-19）。user が `97ecf31` を取得し、レビュー役が `ja/` の現物で
+`/rn:up`（2026-08-19）の是正2件を独立に確認して全件一致した（`tools/master_data_tool.rst:32` の逐語、
+`setup/class_unit_test.rst` の `:131` ラベル・`:133` 見出し・`:134` 下線、`setup/junit5_extension.rst` の `:71` 見出し・
+`:72` 下線、`tools/testdata_converter.rst` は `:62` の下線直後から `:63-65` で `:66` が空行）。**user 指示に無い是正4件は
+いずれも「直して正解」と裁定された。** `checks/task-30.md` の検証4件と、書き足した「`e023648a` 時点は直結164 / 空行0」も
+レビュー役の独立走査で再現した。`## Method` 節を対象外とした判断も、同節が引く3件
+（`setup/class_unit_test.rst:131`・`setup/request_unit_test/rest.rst:63`・`tools/request_data_tool.rst:82`）が現物で
+正しいため実害なしと認められた。**あわせて user 指示により、マージ直前の一括処置の台帳（`#29` の
+「Verify の結果と user 判断（2026-08-19）」）へ1件を追加した**（`checks/task-30.md` の指摘1 の行が `/rn:gm` の差し戻しを
+反映していない件）。`ja/` と `.rn/` へのそれ以外の変更は不要と指示された。
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
+- **Status**: not suspended
 - **Date**: 2026-08-19
-- **Last completed**: `#30` の `/rn:up`（2026-08-19）是正2件（`6cad9a7`。`checks/task-30.md` の Evidence 欄の `file:line` を `e023648a` 時点の現物に合わせて測定コミットを明記、台帳 `NTF-MOD-01-3` の「2段目」の出典を `3ecf3db:…/steering.md:867` に統一）と、その内訳の誤りの打ち消し（`97ecf31`）
-- **Next**: `#30` の user review（`/rn:ty` で承認、`/rn:gm` で再差し戻し）。承認後に残るのはマージ直前の一括処置のみ
-- **Notes**: ブランチ `ntf-yaml-support`（`97ecf31` まで push 済み。未 push のコミット・未追跡パスとも無し）。**user 判断待ち1件** — `/rn:up` の是正(1)で、user 指示に無い是正4件を追加した（`tools/master_data_tool.rst:32` の逐語・`setup/class_unit_test.rst` の節見出し `:132`→`:133`・`setup/junit5_extension.rst` の先例 `:70-71`→`:71-72`・`checks/task-30.md` の空行の記述）。承認するか差し戻すかが未決。内訳は `#30` の「`/rn:up`（2026-08-19）の処置2件」。**報告済み・未処置2件**（マージ直前の台帳へ足すかが未決） — `checks/task-30.md` の `## Method` 節の `.rst:N` は測定コミット未添付のまま／同 Criterion 欄の `git ls-tree -r --name-only HEAD` が動く参照のまま。マージ直前の一括処置の台帳は `#29` の「Verify の結果と user 判断」
+- **Last completed**: `#30` — user review 承認済み（`/rn:ty`、2026-08-19）。あわせてマージ直前の一括処置の台帳へ1件を追加した（`checks/task-30.md` の指摘1 の行が `/rn:gm` の差し戻しを反映していない件）
+- **Next**: Tasks はすべて完了。残るのはマージ直前の一括処置のみ（台帳は `#29` の「Verify の結果と user 判断（2026-08-19）」。現時点の項目は `#29` から1項目（V7・V8・V9 と `checks/task-29.md` の Self-check Evidence 3箇所）と `#30` から3項目）。マージ着手のタイミングは user が決める
+- **Notes**: ブランチ `ntf-yaml-support`。**user 判断待ちは0件**（`/rn:up` の是正4件は `/rn:ty`（2026-08-19）で承認済み。`checks/task-30.md` の `## Method` 節の `.rst:N` 未添付と `git ls-tree … HEAD` の動く参照は、実害なしとして台帳へは足さない判断）。未処置のまま残る `#29` の V3・V4 は判断を user に返したまま（`#29` の「Verify の結果と user 判断（2026-08-19）」の「未処置のまま残る」）
