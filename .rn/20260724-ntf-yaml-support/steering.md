@@ -818,8 +818,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: YYYY-MM-DD
-- **Last completed**: #N description
-- **Next**: #N description
-- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
+- **Status**: paused
+- **Date**: 2026-08-19
+- **Last completed**: `#30` の `/rn:up`（2026-08-19）是正2件（`6cad9a7`。`checks/task-30.md` の Evidence 欄の `file:line` を `e023648a` 時点の現物に合わせて測定コミットを明記、台帳 `NTF-MOD-01-3` の「2段目」の出典を `3ecf3db:…/steering.md:867` に統一）と、その内訳の誤りの打ち消し（`97ecf31`）
+- **Next**: `#30` の user review（`/rn:ty` で承認、`/rn:gm` で再差し戻し）。承認後に残るのはマージ直前の一括処置のみ
+- **Notes**: ブランチ `ntf-yaml-support`（`97ecf31` まで push 済み。未 push のコミット・未追跡パスとも無し）。**user 判断待ち1件** — `/rn:up` の是正(1)で、user 指示に無い是正4件を追加した（`tools/master_data_tool.rst:32` の逐語・`setup/class_unit_test.rst` の節見出し `:132`→`:133`・`setup/junit5_extension.rst` の先例 `:70-71`→`:71-72`・`checks/task-30.md` の空行の記述）。承認するか差し戻すかが未決。内訳は `#30` の「`/rn:up`（2026-08-19）の処置2件」。**報告済み・未処置2件**（マージ直前の台帳へ足すかが未決） — `checks/task-30.md` の `## Method` 節の `.rst:N` は測定コミット未添付のまま／同 Criterion 欄の `git ls-tree -r --name-only HEAD` が動く参照のまま。マージ直前の一括処置の台帳は `#29` の「Verify の結果と user 判断」
