@@ -729,8 +729,18 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: YYYY-MM-DD
-- **Last completed**: #N description
-- **Next**: #N description
-- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
+- **Status**: paused
+- **Date**: 2026-08-19
+- **Last completed**: 全タスク完了済み（`#last` は `8ebc7b1` で承認クローズ）。本セッションは `/rn:up` による
+  再開のみで、タスクの実作業は行っていない（State をプレースホルダへ戻した `bbad4ea` のみ）
+- **Next**: user のマージ指示待ち。指示があるまで `main` へマージせず、`.rn/` の扱い（含める／外す）も保留する（Rules）
+- **Notes**: ブランチ `ntf-yaml-support`（`origin` と ahead/behind ともに 0・作業ツリーはクリーン）。
+  **未判断が1件** — Rules の節見出し方式を `.rn/` 全体に適用するか。**推奨は「適用しない（今後書く参照にのみ
+  Rules を効かせる）」で、user に提示済み・回答待ち**。実測（`bbad4ea` 時点、`.rn/20260724-ntf-yaml-support/`
+  配下で `grep -rhoE '[A-Za-z0-9_./-]+\.md:[0-9]+' --include='*.md' . | wc -l`）は 1,011件。分類できた
+  1,010件の内訳は、更新されうる文書を指すもの762件（`design.md` 321・`mapping/style.md` 168・
+  `mapping/glossary.md` 108・`checks/task-05.md` 66 に集中）／`input/`・完了済み指示書など凍結資料を
+  指すもの234件／参照先ファイルが見つからないもの14件。中間案は上位3ファイル計597件のみ直す案。
+  未達は `TODO(NTF-SRC-01)`・`TODO(NTF-SRC-02)` の2件で、いずれも一次情報が本作業環境で取得できないための
+  保留（既決・本文は変更しない）。`ja/` 配下の `TODO(NTF-` は14件、現在地は `grep -rn 'TODO(NTF-' ja/` で取る。
+  台帳は `checks/task-last.md` §8。user 未解決の untracked パスは無し
