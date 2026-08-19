@@ -735,9 +735,9 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 **Steps**:
 
 - [x] A. `tools/request_data_tool.rst` の `TODO(NTF-MOD-02-1)` を3行とも削除する。本文は1文字も変えない（事象1は仕様と判定済み、かつ本文を現行解説書に合わせて据え置くという user 判断による）
-- [ ] B. `tools/master_data_tool.rst` の `TODO(NTF-MOD-02-4)` の直後に、確定した事象4前半の制約だけを1件書く。ディレクティブの要否は `mapping/style.md` S-06 に従って判断する。`#28` で削除した3文のうち「Excel 形式で記述する」「YAML 形式用のパーサを設定しているプロジェクトでは本ツールを使用できない」の2文は書き戻さない
-- [ ] C. TODO コメント3件（`NTF-MOD-02-4`・`NTF-MOD-02-3`・`NTF-MOD-01-2`）の1行目・3行目を判定後の文言に更新する。3行の書式は保つ。`.rst` の地の文は B の1件を除いて変えない
-- [ ] D. 記録を更新する。(1) `checks/task-last.md` §8 の台帳（`NTF-MOD-02-1` の行を削除、残る3件の「判定・情報が返ったときにやること」列を書き換え、実測を取り直す） (2) `checks/task-28.md` §7「本文の書き換えを伴った箇所」への追記と §7-3 の表からの `NTF-MOD-02-1` の除去 (3) `reviews/page-request_data_tool.md`・`reviews/page-master_data_tool.md` の該当箇所への追記 (4) 本 `steering.md` の Task list と State
+- [x] B. `tools/master_data_tool.rst` の `TODO(NTF-MOD-02-4)` の直後に、確定した事象4前半の制約だけを1件書く。ディレクティブの要否は `mapping/style.md` S-06 に従って判断する。`#28` で削除した3文のうち「Excel 形式で記述する」「YAML 形式用のパーサを設定しているプロジェクトでは本ツールを使用できない」の2文は書き戻さない
+- [x] C. TODO コメント3件（`NTF-MOD-02-4`・`NTF-MOD-02-3`・`NTF-MOD-01-2`）の1行目・3行目を判定後の文言に更新する。3行の書式は保つ。`.rst` の地の文は B の1件を除いて変えない
+- [x] D. 記録を更新する。(1) `checks/task-last.md` §8 の台帳（`NTF-MOD-02-1` の行を削除、残る3件の「判定・情報が返ったときにやること」列を書き換え、実測を取り直す） (2) `checks/task-28.md` §7「本文の書き換えを伴った箇所」への追記と §7-3 の表からの `NTF-MOD-02-1` の除去 (3) `reviews/page-request_data_tool.md`・`reviews/page-master_data_tool.md` の該当箇所への追記 (4) 本 `steering.md` の Task list と State
 
 **Completion criteria**:
 
@@ -750,14 +750,57 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - `verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` がすべて PASS
 - 禁止事項（`ja/conf.py`・`mapping/glossary.md` §5.15・`mapping.csv` 直接編集・`en/`・`locales/` の `.gitignore` 追加）に触れていない
 
+**Verify の結果と user 判断（2026-08-19）**: Steps A〜D は `4ea9498`（本体）・`ec412d4`（レビュー指摘6件の是正）で実施済み。
+その後の4観点レビューは4観点とも fail で、指摘は Valid 9件・Escalation 2件（全件・根拠・実測は
+`checks/task-29.md` §「トリアージ結果（調整役・2026-08-19）」）。user がこれを受けて処置先を次のとおり定めた。
+
+- **`#30` で処置する** — Escalation E1・E2 の回答と、Valid の V1・V2（`.. important::` の向きと `:ref:` 先）・
+  V5（`XLS-28` の状態）・V6（`NTF-MOD-02-4` の TODO 3行目）
+- **マージ直前にまとめて処置する** — V7・V8・V9（`.rn/` 内の行番号ずれ・記述の古さ）と
+  `checks/task-29.md` 自身の Self-check Evidence 3箇所。user 指示により今は手を付けない
+- **未処置のまま残る** — V3（`implementation/deal_unit_test/mom.rst` の `TODO(NTF-MOD-02-3)` 1行目に禁止語「不具合」）と
+  V4（`#21`・`#22`・`XLS-28` が GitHub issue 番号のように読める）。`#30` の作業指示は前者に触れず、
+  後者は差し替え文面が現行の書き方を踏襲しているため、いずれも判断を user に返す
+
+### #30: `#29` のレビュー指摘の処置（user 判断 2026-08-19 の反映）
+
+**Purpose**: `#29` の4観点レビューで挙がった指摘のうち user が今回の対象と定めた4件と、Escalation 2件への回答を、解説書へ反映する。
+
+**根拠（user が作業指示に引用した、レビュー役が実物で確認した一次情報）**:
+
+- `nablarch-testing` `65911f5` — `src/main/script/httpDump.sh` は存在するが、`pom.xml` に `src/main/script` を成果物へ取り込む設定が無く配布物に入らない。解説書側の配布物は `httpDump.bat` の1件のみ。読者が `httpDump.sh` を入手する手段は無い
+- 同 `65911f5:docs/pr75/steering.md:107` — 「Excel形式＋YAML用パーサという取り違えケースの挙動（無言0件）は変更されていない」。**確定しているのはこの向きだけで、逆向き（YAML形式のファイル＋Excel用パーサ）は未確認**
+- 同 `:25` — 「新事象（期待値0件テーブルの偽陰性）：…形式共通の2問題を本体で修正する（#23・#24）」。起票済み・未着手
+- `nablarch-testing-converter` `3ecf3db:.rn/ntf-test-data-converter/coverage/issues.md:2562`（宛先に解説書担当が明記された申し送り） — 「0 件テーブル（YAML の `rows: []` を持つテーブル系エントリ。`setup_tables`・`expected_tables` など）を含む YAML は、Excel へ変換できない」「解除条件: 本体（`nablarch-testing`）の `TableDataParser` が…読めるようになり、辺③を『識別子行だけを書く』実装へ切り替えたとき」
+
+**Steps**:
+
+- [ ] 1. `tools/request_data_tool.rst` の起動用スクリプトを選ぶ手順を `* 配置した起動用スクリプト(httpDump.bat)を選ぶ。` に改める（E1 の回答）。**「Windows専用」とは書かない**（断定できる一次情報が無い）。現行解説書（`2e501ad:.../02_SetUpHttpDumpTool.rst:91-92`）にある記述を落とす変更であるため、user 判断として記録に残す
+- [ ] 2. `tools/testdata_converter.rst`「前提事項」節の本文直前に `TODO(NTF-MOD-01-3)` を新設する（E2 の回答）。**本文には制約を書かない**（`ntf-doc-28-decide-disposition.md` §「本文の書き換えを伴った箇所」の決定による）
+- [ ] 3. `tools/master_data_tool.rst` の `.. important::` を、確定している向き（Excel形式のファイル＋YAML形式用のパーサ）に限定する（V1）。`:ref:` 先は現在の `testing_framework_common` が根拠にならないため、実物で確認して差し替える（V2）。逆向きは未確認なので書かない。文言は `mapping/style.md` S-06・S-13 に合わせる
+- [ ] 4. `tools/master_data_tool.rst` の `TODO(NTF-MOD-02-4)` 3行目を、`:10`・`:128`・`:130` の Excel 前提の記述を直す指示に改める（V6）。あわせて 3 の `.. important::` が `#22` マージ後も残るかを判断し、残らないならこの TODO の対象に含め、判断と理由を報告する
+- [ ] 5. `tools/testdata_converter.rst` の `TODO(NTF-MOD-01-2)` 1行目の `XLS-28` の状態を「実装済み（`5ab13d8`、`main` 未マージ）」に改める（V5）。3行目はそのまま
+- [ ] 6. 記録を更新する。(1) `checks/task-last.md` §8 の TODO 台帳に `NTF-MOD-01-3` を追加し、`NTF-MOD-01-2` の状態を更新して実測を取り直す (2) `reviews/page-request_data_tool.md` に 1 の本文変更を user 判断として追記する (3) 本 `steering.md` の Task list と State。**それ以外の記録整備は行わない**（`.rn/` の行番号ずれ・self-check の不整合はマージ直前にまとめて処置する。user 指示）
+
+**Completion criteria**:
+
+- `ja/` 配下の `TODO(NTF-` が **14件・13ID**（`NTF-MOD-01-3` が増え、`NTF-SRC-02` のみ2箇所）である
+- `git ls-tree -r --name-only HEAD | grep -i httpdump` が `httpDump.bat` の1件のみである
+- `tools/request_data_tool.rst` に `httpDump.sh` が0件で、かつ「Windows専用」の趣旨の記述が無い
+- `tools/master_data_tool.rst` の `.. important::` が Excel形式のファイル＋YAML形式用のパーサの向きだけを述べており、`:ref:` 先が実在し、飛び先に `testDataParser` の記述がある
+- TODO 4件が3行の書式（1行目に事象・2行目に出典・3行目に扱い）を保っている
+- Docker フルビルドが WARNING・ERROR ともに0件（ゲート7）
+- `verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` がすべて PASS
+- 禁止事項（`ja/conf.py`・`mapping/glossary.md` §5.15・`mapping.csv` 直接編集・`en/`・`locales/` の `.gitignore` 追加）に触れていない
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-19
-- **Last completed**: #last（Evaluation sign-off。user 承認済み）
-- **Next**: #29 モジュール側の判定反映 — Verify のトリアージまで完了、user 判断待ちで停止
-- **Notes**: ブランチ `ntf-yaml-support`（`main` へのマージは user の明示指示待ち）。`#29` は Step A のみ完了で、B・C・D は未完。**次の一手**: user が Escalation E1・E2 に回答したら、実装役を1回立てて Valid 9件と `checks/task-29.md` 自身の Evidence 3箇所（および E1 の判断結果）をまとめて是正させ、4観点レビューを再実行して check-off する。指摘の全件・根拠・実測は `checks/task-29.md` §「トリアージ結果（調整役・2026-08-19）」に記録済み。**未解決の判断2件**: E1 事象1（`httpDump.sh`）の解説書側対応の要否と書くべき文面、E2 `XLS-27` の制約（0件テーブルを含む YAML は Excel へ変換できない）の申し送り先。いずれも同節に選択肢と推奨を記載。未追跡パスなし
+- **Status**: not suspended
+- **Date**:
+- **Last completed**:
+- **Next**:
+- **Notes**:
