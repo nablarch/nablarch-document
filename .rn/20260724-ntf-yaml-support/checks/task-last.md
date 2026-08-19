@@ -415,7 +415,8 @@ NTF解説書刷新のスコープ外であること。TODO はモジュール側
 | ID | ファイル | 種別 | 依頼書または根拠の節 | 前提としたあるべき姿 | 判定・情報が返ったときにやること |
 |---|---|---|---|---|---|
 | `NTF-MOD-01-1` | `tools/testdata_converter.rst` | MOD | `ntf-mod-01-nablarch-testing-converter.md` §2（事象1: XLS → YAML → XLS → YAML の往復で内容が変わる）。`checks/task-28.md` §7-3 | 往復しても内容が保たれる（`ntf-doc-28-decide-disposition.md` §7-2 の表） | 仕様と判定された場合は本文を書き直す（TODO 3行目）。あるべき姿の前提で「非可逆の注意書きを書かない」としているため、仕様なら注意書きの追加になる（同 §7-2 の表「本文の書き方」列） |
-| `NTF-MOD-01-2` | `tools/testdata_converter.rst` | MOD | `ntf-mod-01-nablarch-testing-converter.md` §3（事象2: 同名で拡張子違いの Excel ブックが同居すると、片方の変換結果が無言で失われる）。`checks/task-28.md` §7-3 | 併存はツールが検出する（`ntf-doc-28-decide-disposition.md` §7-2 の表） | **確定（user 引用による。出典: `nablarch-testing-converter` `b44268c:.rn/ntf-test-data-converter/steering.md`。本作業ディレクトリからは参照できないため、user が作業指示に引用した文面による）**: `nablarch-testing-converter` 側で `XLS-28`（同名で拡張子違いの Excel ブックの同居を検出してエラーで止める）として要対応と確定（2026-08-18、user 確定）・未着手。`XLS-28` の対応がマージされたら TODO を外す。**本文の書き直しは不要**（あるべき姿「併存はツールが検出する」のとおりになるため） |
+| `NTF-MOD-01-2` | `tools/testdata_converter.rst` | MOD | `ntf-mod-01-nablarch-testing-converter.md` §3（事象2: 同名で拡張子違いの Excel ブックが同居すると、片方の変換結果が無言で失われる）。`checks/task-28.md` §7-3 | 併存はツールが検出する（`ntf-doc-28-decide-disposition.md` §7-2 の表） | **確定（出典: `nablarch-testing-converter` `3ecf3db:.rn/ntf-test-data-converter/steering.md`）**: `nablarch-testing-converter` 側で `XLS-28`（同名で拡張子違いの Excel ブックの同居を検出してエラーで止める）として要対応と確定（2026-08-18、user 確定）し、`5ab13d8` で**実装済み**（`main` 未マージ）。`main` へマージされたら TODO を外す。**本文の書き直しは不要**（あるべき姿「併存はツールが検出する」のとおりになるため） |
+| `NTF-MOD-01-3` | `tools/testdata_converter.rst` | MOD | `nablarch-testing-converter` `3ecf3db:.rn/ntf-test-data-converter/coverage/issues.md:2562`（宛先に解説書担当が明記された申し送り）。依頼書には対応する節が無く、本 ID は `#30` で新設した | 変換元と変換先には Excel 形式・YAML 形式のどちらでも指定できる（`tools/testdata_converter.rst`「機能概要」） | **確定（出典: 左の列の申し送り）**: 0件テーブル（YAML の `rows: []` を持つテーブル系エントリ。`setup_tables`・`expected_tables` など）を含む YAML は Excel へ変換できない。`nablarch-testing-converter` の `XLS-27` の当面の対応（番人）による制約であり、本体側は `nablarch-testing` の #23・#24 として起票済み・未着手。解除条件は、`nablarch-testing` の `TableDataParser` が0件テーブルを読めるようになり、辺③を「識別子行だけを書く」実装へ切り替えたとき。#23・#24 がマージされ `XLS-27` の2段目へ切り替わったら TODO を外す。**本文の書き直しは不要**（本文には制約を書かず TODO だけに持たせている。`ntf-doc-28-decide-disposition.md`「本文の書き換えを伴った箇所」の決定による） |
 | `NTF-MOD-02-2` | `setup/request_unit_test/rest.rst` | MOD | `ntf-mod-02-nablarch-testing.md` §3-3（`nablarch.test.core.http.dump` の実装がどのモジュールにあるか）。`checks/task-28.md` §7-3 | 表では「—」（`ntf-doc-28-decide-disposition.md` §7-2 の表）。仕様かどうかの判定ではなく実装モジュールの照会であるため（`checks/task-28.md` §7「指示書から外れた判断」2） | 回答の内容に応じて本文を書き直す（TODO 3行目）。この回答が返るまで `setup/request_unit_test/rest.rst` の `nablarch-testing-jetty12` の提供範囲を書いた `.. important::` は確定できない（`ntf-doc-28-decide-disposition.md` §7-2 末尾の注記） |
 | `NTF-MOD-02-3` | `implementation/deal_unit_test/mom.rst` | MOD | `ntf-mod-02-nablarch-testing.md` §4（事象3: YAML形式のテストデータで、同期応答メッセージのモックアップの再読み込みが働かない）。`checks/task-28.md` §7-3 | 形式によらず再読み込みが働く（`ntf-doc-28-decide-disposition.md` §7-2 の表） | **確定（user 引用による。出典: `nablarch-testing` `8530497:docs/pr75/steering.md`。本作業ディレクトリからは参照できないため、user が作業指示に引用した文面による）**: 事象3は**不具合**と判定済みで、`nablarch-testing` の #21 で対応予定・未着手。#21 がマージされたら TODO を外す。**本文の書き直しは不要**（現在の「形式を限定せずに書く」状態があるべき姿と一致するため） |
 | `NTF-MOD-02-4` | `tools/master_data_tool.rst` | MOD | `ntf-mod-02-nablarch-testing.md` §5（事象4: マスタデータ投入ツールが、YAML形式のパーサ設定下で無言で0件になる）。`checks/task-28.md` §7-3 | YAML形式のプロジェクトでもマスタデータ投入ツールを使える（`ntf-doc-28-decide-disposition.md` §7-2 の表） | **確定（user 引用による。出典: `nablarch-testing` `8530497:docs/pr75/steering.md`。本作業ディレクトリからは参照できないため、user が作業指示に引用した文面による）**: 事象4は前後で扱いが割れる。前半（`testDataParser` に設定したパーサと形式が食い違うマスタデータファイルを指定すると投入対象が0件になり、例外も警告も出ない）は**仕様・現状維持**と確定し、`#29` で `tools/master_data_tool.rst` の TODO 直後に `.. important::` として記載済み。後半（YAML形式のマスタデータファイルへの対応）は `nablarch-testing` の #22 で対応予定・未着手。#22 がマージされたら TODO を外す。**本文の書き直しは不要**。`checks/task-28.md` §7「本文の書き換えを伴った箇所」に全文がある3文のうち「マスタデータファイルは Excel 形式で記述する。」「…本ツールを使用できない（共通設定 参照）。」の2文は、#22 の完了後に誤りになるため**書き戻さない** |
@@ -430,7 +431,7 @@ NTF解説書刷新のスコープ外であること。TODO はモジュール側
 
 `NTF-MOD-02-1` の行は、判定（事象1=仕様・解説書側対応）と「本文は現行解説書に合わせて据え置く」という user 判断を受けて `#29` で TODO を削除したため、本表から外した。経緯と本文を据え置く理由は `checks/task-28.md` §7「本文の書き換えを伴った箇所」にある。
 
-**実測**（`#29` の A〜C を適用したあとに取り直した）:
+**実測**（`#30` の Step 1〜5 を適用したあとに取り直した）:
 
 ```
 $ grep -rho 'TODO(NTF-[A-Z0-9-]*)' ja/ | sort | uniq -c
@@ -440,6 +441,7 @@ $ grep -rho 'TODO(NTF-[A-Z0-9-]*)' ja/ | sort | uniq -c
       1 TODO(NTF-FIG-04)
       1 TODO(NTF-MOD-01-1)
       1 TODO(NTF-MOD-01-2)
+      1 TODO(NTF-MOD-01-3)
       1 TODO(NTF-MOD-02-2)
       1 TODO(NTF-MOD-02-3)
       1 TODO(NTF-MOD-02-4)
@@ -448,4 +450,4 @@ $ grep -rho 'TODO(NTF-[A-Z0-9-]*)' ja/ | sort | uniq -c
       2 TODO(NTF-SRC-02)
 ```
 
-**出現13件・12ID**（10ファイル）。`NTF-SRC-02` だけが2ファイルに置かれており、上表も同じく13行・12ID である。本節を追加した時点（`/rn:gm`）は14件・13ID で、本書 §6 の「11件→14件」はその当時の値である。`#29` で `NTF-MOD-02-1` を削除して1件・1ID 減り、現在値は13件・12ID になった。
+**出現14件・13ID**（10ファイル）。`NTF-SRC-02` だけが2ファイルに置かれており、上表も同じく14行・13ID である。本節を追加した時点（`/rn:gm`）は14件・13ID で、本書 §6 の「11件→14件」はその当時の値である。`#29` で `NTF-MOD-02-1` を削除して1件・1ID 減り13件・12ID になり、`#30` で `NTF-MOD-01-3` を追加して1件・1ID 増えたため、現在値は14件・13ID である。ID の顔ぶれは `/rn:gm` 時点とは異なる（`NTF-MOD-02-1` が抜け `NTF-MOD-01-3` が入った）。

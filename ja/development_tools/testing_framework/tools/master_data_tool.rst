@@ -25,11 +25,11 @@
 
 .. TODO(NTF-MOD-02-4): YAML形式のマスタデータファイルへの対応は nablarch-testing の #22 で対応予定・未着手。パーサと形式が食い違うと無言で0件になる点は仕様と判定済みで、直後のimportantに記載済み。
    依頼書 .rn/20260724-ntf-yaml-support/ntf-mod-02-nablarch-testing.md §5。
-   #22 がマージされたら本 TODO を外す。本文の書き直しは不要。
+   #22 がマージされたら、:10・:128・:130 の Excel 前提の記述を YAML 形式も選べる書き方に直し、本 TODO を外す。
 
 .. important::
 
-  コンポーネント設定ファイルの\ ``testDataParser``\ に設定したパーサと形式が食い違うマスタデータファイルを指定した場合、投入の対象が0件になり、例外も警告も出ない（\ :ref:`共通設定 <testing_framework_common>`\ 参照）。
+  Excel\ 形式のマスタデータファイルを指定しているのに、コンポーネント設定ファイルの\ ``testDataParser``\ に\ YAML\ 形式用のパーサを設定している場合、投入の対象が0件になり、例外も警告も出ない（\ :ref:`省略したテーブルのカラムのデフォルト値を変更する <class_unit_test_setting-column_default_values>`\ 参照）。
 
 .. _master_data_tool-setup:
 

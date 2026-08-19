@@ -79,7 +79,7 @@ HTMLファイルの外部プログラムとして起動用スクリプトを登�
 
 .. image:: images/request_data_tool/02_Eclipse_EditorSelection.png
 
-* 配置した起動用スクリプトを選ぶ。Windowsの場合はバッチファイル(httpDump.bat)を、Linuxの場合はシェルスクリプト(httpDump.sh)を選ぶ。
+* 配置した起動用スクリプト(httpDump.bat)を選ぶ。
 
 .. image:: images/request_data_tool/03_Eclipse_OpenFile.png
 

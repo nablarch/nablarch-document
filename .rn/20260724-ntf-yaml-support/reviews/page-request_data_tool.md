@@ -43,7 +43,7 @@ Rule §1-9 は「出典・実装・規約はすべてこのリポジトリと `/
 | current-0346 | `:64-67` | 「Eclipseから起動できるように設定する」のリード | 消化 |
 | current-0347 | `:70-78` | 同節の手順1〜3＋1枚目の画像 | 消化。画像の実物に合わせてラベルを補正（下記） |
 | current-0348 | `:81-87` | 同節の手順4＋2枚目の画像 | 消化 |
-| current-0349 | `:90-99` | 同節の手順5＋3枚目の画像 | 消化。`httpDump.sh` の記述は一度落としたが、`#28` §7 で取り消して戻した（下記・`decide` 1）。**判定（2026-08-19、`#29`）**: 事象1は仕様（解説書側対応のみ）と判定済みで、本文は据え置き、`TODO(NTF-MOD-02-1)` は削除した。詳細と出典は本書「判断待ち（`decide`）」の 1。 |
+| current-0349 | `:90-99` | 同節の手順5＋3枚目の画像 | 消化。`httpDump.sh` の記述は一度落としたが、`#28` §7 で取り消して戻した（下記・`decide` 1）。**判定（2026-08-19、`#29`）**: 事象1は仕様（解説書側対応のみ）と判定済みで、本文は据え置き、`TODO(NTF-MOD-02-1)` は削除した。詳細と出典は本書「判断待ち（`decide`）」の 1。**user 判断（2026-08-19、`#30`）**: `httpDump.sh` の案内を再度落とし、`httpDump.bat` だけを示す形にした。詳細と根拠は本書「判断待ち（`decide`）」の 1。 |
 | current-0350 | `:102-111` | 「HTMLダンプからツールを起動する」＋4枚目の画像 | 消化。旧ラベル `howToExecuteFromEclipse` は不要になったため起こしていない |
 
 ### 意図して落とした出典
@@ -51,7 +51,7 @@ Rule §1-9 は「出典・実装・規約はすべてこのリポジトリと `/
 | 出典 | 落とした理由 |
 |---|---|
 | `01_HttpDumpTool.rst:43`「開発環境構築ガイドに従って開発環境を構築済みであること。」 | `git grep '開発環境構築ガイド' 2e501ad -- ja/` のヒットはこの1件のみで、リンクターゲットも該当ページも存在しない。参照先の無い前提条件になるため落とした |
-| `02_SetUpHttpDumpTool.rst:91-92`「Linuxの場合はシェルスクリプト(httpDump.sh)を選択する。」 | `httpDump.sh` が配布されていない（`decide` 1）。**この判断は `#28` §7 で取り消した。** `ntf-doc-28-decide-disposition.md:703`・`:709` の決定により、Windows・Linuxの双方で使えることを前提に本文を書き、`tools/request_data_tool.rst:82` で `httpDump.bat` / `httpDump.sh` の双方を示す形に戻した（`#28` 時点は `:86`。`#29` が `TODO(NTF-MOD-02-1)` の3行と直後の空行1行を削除したため4行ずれた。2026-08-19 実測）。`.sh` が配布物に無いことは同ファイルの `TODO(NTF-MOD-02-1)`（`#28` 時点は `:60`）で判定待ちとして記録していたが、**この TODO は判定が返ったため `#29` で削除済みである**（下記の判定を参照）。依頼書は `ntf-mod-02-nablarch-testing.md` §2。`:download:` は `httpDump.bat` の1件のままとした。存在しないファイルを `:download:` で指すとビルドが WARNING を出し、ゲート7（WARNING 0件）に反するためである。**判定（2026-08-19、`#29`）**: 事象1は仕様（解説書側対応のみ）と判定済みで、本文は据え置き、`TODO(NTF-MOD-02-1)` は削除した。詳細と出典は本書「判断待ち（`decide`）」の 1。戻した本文（`tools/request_data_tool.rst:82`）と `:download:` 1件（同 `:62`。いずれも 2026-08-19 実測）は、現行解説書 `2e501ad:ja/.../02_SetUpHttpDumpTool.rst:59`・`:91-92` と同じ形であり、意図した状態である |
+| `02_SetUpHttpDumpTool.rst:91-92`「Linuxの場合はシェルスクリプト(httpDump.sh)を選択する。」 | `httpDump.sh` が配布されていない（`decide` 1）。**この判断は `#28` §7 で取り消した。** `ntf-doc-28-decide-disposition.md:703`・`:709` の決定により、Windows・Linuxの双方で使えることを前提に本文を書き、`tools/request_data_tool.rst:82` で `httpDump.bat` / `httpDump.sh` の双方を示す形に戻した（`#28` 時点は `:86`。`#29` が `TODO(NTF-MOD-02-1)` の3行と直後の空行1行を削除したため4行ずれた。2026-08-19 実測）。`.sh` が配布物に無いことは同ファイルの `TODO(NTF-MOD-02-1)`（`#28` 時点は `:60`）で判定待ちとして記録していたが、**この TODO は判定が返ったため `#29` で削除済みである**（下記の判定を参照）。依頼書は `ntf-mod-02-nablarch-testing.md` §2。`:download:` は `httpDump.bat` の1件のままとした。存在しないファイルを `:download:` で指すとビルドが WARNING を出し、ゲート7（WARNING 0件）に反するためである。**判定（2026-08-19、`#29`）**: 事象1は仕様（解説書側対応のみ）と判定済みで、本文は据え置き、`TODO(NTF-MOD-02-1)` は削除した。詳細と出典は本書「判断待ち（`decide`）」の 1。戻した本文（`tools/request_data_tool.rst:82`）と `:download:` 1件（同 `:62`。いずれも 2026-08-19 実測）は、現行解説書 `2e501ad:ja/.../02_SetUpHttpDumpTool.rst:59`・`:91-92` と同じ形であり、`#29` 時点では意図した状態であった。**その後 user 判断（2026-08-19、`#30`）により、本文からは再び `httpDump.sh` の案内を落とした**（`:download:` は `httpDump.bat` の1件のまま）。詳細と根拠は本書「判断待ち（`decide`）」の 1 |
 | `02_SetUpHttpDumpTool.rst:33-48` のpomスニペットの `<dependencies>` と `<!-- 中略 -->` | 抜粋であることを示すだけの行。既存ページ `setup/request_unit_test/rest.rst:20-37` は `<dependency>` 要素のみを示す形なので合わせた |
 
 ## 実装で確認した事実（出典に無い追記）
@@ -100,7 +100,7 @@ QA・設計・クラフト・検証の4観点を、それぞれ別のサブエ�
 | 9 | 使用方法のリードが機能概要の言い換えになっている | 1文に削った |
 | 10 | `:101` の参照が本文の根拠になっていない（飛び先に「テストクラス名」の記述が無い） | 「`htmlDumpDir` で指定したダンプディレクトリ」までを参照の対象とし、テストクラス名のディレクトリは実装で確認した事実として記載（上表） |
 | 11 | 見出し「テストデータにコピーする」だけでは中身が分からない（`style.md:150`） | 「リクエストパラメータをテストデータにコピーする」にした |
-| 12 | `httpDump.sh` を案内しているが配布していない | Linux／`httpDump.sh` の記述を落とし、「配置した起動用スクリプト(httpDump.bat)を選ぶ。」にした（`decide` 1）。この是正は `#28` §7 で取り消し、双方を示す形に戻してある。**判定（2026-08-19、`#29`）**: 事象1は仕様（解説書側対応のみ）と判定済みで、本文は据え置き、`TODO(NTF-MOD-02-1)` は削除した。詳細と出典は本書「判断待ち（`decide`）」の 1。 |
+| 12 | `httpDump.sh` を案内しているが配布していない | Linux／`httpDump.sh` の記述を落とし、「配置した起動用スクリプト(httpDump.bat)を選ぶ。」にした（`decide` 1）。この是正は `#28` §7 で取り消し、双方を示す形に戻してある。**判定（2026-08-19、`#29`）**: 事象1は仕様（解説書側対応のみ）と判定済みで、本文は据え置き、`TODO(NTF-MOD-02-1)` は削除した。詳細と出典は本書「判断待ち（`decide`）」の 1。**user 判断（2026-08-19、`#30`）で本指摘の是正を再適用した**: 本文は「配置した起動用スクリプト(httpDump.bat)を選ぶ。」に戻り、本指摘は解消済みである。詳細と根拠は本書「判断待ち（`decide`）」の 1。 |
 | 13 | pomのコメント `<!-- 内蔵サーバの実装 -->` が理由を取り違えている | 「リクエスト単体データ作成ツールの実装」にした |
 | 14 | リード文の主語がねじれている（ツールがブラウザを操作することになる） | 「ブラウザで表示するツールである。画面に値を入力してサブミットすると〜」に分割 |
 | 15 | 機能概要1段落目の「これを」の指す先が一意でない | 「キーと値を人手で書き写すと」に書き換え |
@@ -153,6 +153,8 @@ QA・設計・クラフト・検証の4観点を、それぞれ別のサブエ�
 1. **`httpDump.sh` が配布されていない。Linuxでは本ツールを使えない。** 出典 `02_SetUpHttpDumpTool.rst:91-92` は「Linuxの場合はシェルスクリプト(httpDump.sh)を選択する」と書くが、`git ls-files | grep -i httpDump` の結果、この解説書リポジトリに `.sh` は ja/en とも存在しない。`nablarch-testing@e21bf67` の `src/main/script/httpDump.sh` はクラスパスに `http-dump-1.0-jar-with-dependencies.jar` を指定しており、本ページが案内する `-DoutputDirectory=lib`（`./lib/*`）では動かない。加えて同 `pom.xml` の `<build>` は `<testResources>` しか定義しておらず `src/main/script` は jar に入らない（親POM `nablarch-parent` は `/home/tie303177/work/nablarch/` 配下に無いため、親側での追加は未確認）。**本ページはWindows前提の記述に寄せた。** `.sh` を v6 対応版で新規提供するか、Windows専用と明記するかの判断を求める。
 
    **判定が返った（2026-08-19、`#29`）。クローズ。** 事象1は**仕様（解説書側の対応のみ）**と判定済み（`nablarch-testing` `8530497:docs/pr75/steering.md`。user が作業指示に引用した文面による）。`httpDump.sh` は配布物に含まれない。本文は現行解説書に合わせて据え置くという **user 判断**により変更しない。`TODO(NTF-MOD-02-1)` は削除した。本ページはWindows専用とは明記せず、`tools/request_data_tool.rst:82`（2026-08-19 実測）で `httpDump.bat` / `httpDump.sh` の双方を示す現行解説書どおりの形を保つ。経緯は `checks/task-28.md` §7「本文の書き換えを伴った箇所」。
+
+   **user 判断で本文を変更した（2026-08-19、`#30`）。** `tools/request_data_tool.rst:82` を「`* 配置した起動用スクリプト(httpDump.bat)を選ぶ。`」に改め、Windows・Linux の場合分けと `httpDump.sh` の案内を落とした（2026-08-19 実測。この変更後も `httpDump.sh` は `ja/` 配下に0件）。**これは現行解説書（`2e501ad:ja/development_tools/testing_framework/guide/development_guide/08_TestTools/01_HttpDumpTool/02_SetUpHttpDumpTool.rst:91-92`「Windowsの場合はバッチファイル(httpDump.bat)を、」「Linuxの場合はシェルスクリプト(httpDump.sh)を選択する。」）にある記述を落とす変更である。** 判断したのは **user**（日付 2026-08-19、タスク `#30`）であり、`#29` の「現行解説書に合わせて据え置く」という判断を上書きする。根拠は、`nablarch-testing` `65911f5` に `src/main/script/httpDump.sh` は存在するが、`pom.xml` に `src/main/script` を成果物へ取り込む設定が無く配布物に入らないこと、および解説書側の配布物も `httpDump.bat` の1件のみ（`tools/downloads/request_data_tool/httpDump.bat`）で、読者が `httpDump.sh` を入手する手段が無いことである。**「Windows専用」「Windowsでのみ使用できる」の趣旨は書かない**（そう断定できる一次情報が無いという user 判断による）。`:download:` は `httpDump.bat` の1件のまま変更しない（`tools/request_data_tool.rst:62`。2026-08-19 実測）。
 
 2. **`nablarch-testing` 本体の `src/main/script/httpDump.{bat,sh}` が Nablarch 1.x 時代のまま残っている。** `e21bf67` の `httpDump.bat` は `nablarch-tfw.jar`・`poi-3.2-FINAL-20081019.jar`・`jetty.jar` を `../lib` から個別指定し、`set JAVA_EXE=%JAVA_HOME%\bin\java\java.exe`（`bin\java\java.exe` は存在しないパス）になっている。この解説書が配布している `httpDump.bat` とは別物で、そのままでは起動しない。かつ jar にも入らない。削除するか v6 対応版に更新するかは本体側の判断であり、ドキュメントでは扱えない。
 
