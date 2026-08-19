@@ -806,8 +806,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**:
-- **Last completed**:
-- **Next**:
-- **Notes**:
+- **Status**: paused
+- **Date**: 2026-08-19
+- **Last completed**: #30 `#29` のレビュー指摘の処置（user 判断 2026-08-19 の反映）。4観点とも fail → 指摘11件を是正 → 再検証全 PASS。`c650039` を push 済み
+- **Next**: `#30` の user review（`/rn:ty` で承認、`/rn:gm` で差し戻し）。承認後に残るのはマージ直前の一括処置のみ
+- **Notes**: ブランチ `ntf-yaml-support`（`c650039` まで push 済み。未 push のコミット・未追跡パスとも無し）。**user 判断待ち4件** — (1) TODO 3行目が `:10`・`:128`・`:130` と同一ファイル内を行番号で指しており、`#29` で切り替えた「マーカーは行番号で指さない」方針と逆向き (2) その列挙が `:86`・`:163` の「シート」表記を落としており、`シート` は glossary で Excel形式固有と裁定済みのため `#22` 後に書き換え対象になる (3) `TODO(NTF-MOD-01-3)` の「番人」に本作業ディレクトリ内の出典が0件で、同 TODO の2行目は他 MOD マーカー4件と違い本リポジトリ内に開ける先を持たない (4) `#30` の Completion criteria の `git ls-tree … | grep -i httpdump` が11行返るため字面では成立しない（実体は `httpDump.bat` 2件・`httpDump.sh` 0件）。いずれも user が文面・位置・判定基準を指定した箇所のため未処置。**マージ直前の一括処置に2件追加** — `reviews/page-master_data_tool.md` の2箇所が `.. important::` を双方向と説明したまま偽になっている／`testdata_converter.rst` の行番号ずれで `mapping/style.md`・`design.md:379`・`:381` が現物とずれた（`#29` の V9 の13件に `design.md:381` は無い）。詳細と実測は `checks/task-30.md` と `#30` の「Verify の結果（2026-08-19）」
