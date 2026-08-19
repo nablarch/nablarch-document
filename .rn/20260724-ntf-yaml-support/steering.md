@@ -729,19 +729,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-18
-- **Last completed**: 全タスク完了済み（`#last` は `8ebc7b1` で承認クローズ）。タスク外の記録整備として、
-  `TODO(NTF-*)` 14件（13ID）の台帳を `checks/task-last.md` §8 に統合し（`6672fc1`）、user 差し戻し1件を受けて
-  `.rn/` 内の相互参照を節見出し方式に統一した（`1db5680`）。**この差し戻し対応は user 承認済み**
-  （`/rn:ty`、2026-08-18）。user は `ja/` の差分0件・§8 に残る `file:line` 0件・置換15箇所を独立に確認し、
-  同名見出しに親の節番号を添える書き方と、「ゲート9」の自己訂正を段落へ移した処置（`checks/task-28.md:505`）を
-  そのまま残すと判定した
-- **Next**: user のマージ指示待ち。指示があるまで `main` へマージせず、`.rn/` の扱い（含める／外す）も保留する（Rules）
-- **Notes**: ブランチ `ntf-yaml-support`（`e5ccf32` まで push 済み・作業ツリーはクリーン）。未決は
-  `TODO(NTF-SRC-01)`・`TODO(NTF-SRC-02)` の2件で、いずれも一次情報が本作業環境で取得できないための保留。
-  `TODO` の現在地は `grep -rn 'TODO(NTF-' ja/` で取る（行番号は台帳に持たせていない）。
-  **未判断が1件** — Rules の節見出し方式を `.rn/` 全体に適用するか。`.md:NNN` 形式の参照は 1,013件残る
-  （`grep -rhoE '[A-Za-z0-9_./-]+\.md:[0-9]+' --include='*.md' . | wc -l`、2026-08-18 実測）。
-  今回の是正対象だった `checks/task-last.md` §8 は0件。内訳（`input/` の資料を指すもの等、対象外の可能性）は未確認。
-  user 未解決の untracked パスは無し。
+- **Status**: not suspended
+- **Date**: YYYY-MM-DD
+- **Last completed**: #N description
+- **Next**: #N description
+- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
