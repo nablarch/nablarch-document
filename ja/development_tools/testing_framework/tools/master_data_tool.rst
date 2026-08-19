@@ -23,13 +23,13 @@
 
   \ :ref:`blank_project`\ を使用してプロジェクトを構築した場合、データベース関連のツールとして\ :ref:`gsp-dba-maven-plugin <gsp-maven-plugin>`\ が設定される。gsp-dba-maven-pluginでマスタデータを管理する場合、本ツールを導入する必要はない。
 
-.. TODO(NTF-MOD-02-4): YAML形式のマスタデータファイルへの対応は nablarch-testing の #22 で対応予定・未着手。パーサと形式が食い違うと無言で0件になる点は仕様と判定済みで、直後のimportantに記載済み。
+.. TODO(NTF-MOD-02-4): YAML形式のマスタデータファイルへの対応は nablarch-testing の #22 で対応予定・未着手。Excel形式のマスタデータファイルにYAML形式用のパーサを設定すると無言で0件になる点は仕様と判定済みで、直後のimportantに記載済み。逆向き（YAML形式のファイル＋Excel形式用のパーサ）は未確認。
    依頼書 .rn/20260724-ntf-yaml-support/ntf-mod-02-nablarch-testing.md §5。
-   #22 がマージされたら、:10・:128・:130 の Excel 前提の記述を YAML 形式も選べる書き方に直し、本 TODO を外す。
+   #22 がマージされたら、:10・:128・:130 の Excel 前提の記述を YAML 形式も選べる書き方に直し、直後のimportantを逆向きも含める書き方にするかを判断して、本 TODO を外す。
 
 .. important::
 
-  Excel\ 形式のマスタデータファイルを指定しているのに、コンポーネント設定ファイルの\ ``testDataParser``\ に\ YAML\ 形式用のパーサを設定している場合、投入の対象が0件になり、例外も警告も出ない（\ :ref:`省略したテーブルのカラムのデフォルト値を変更する <class_unit_test_setting-column_default_values>`\ 参照）。
+  マスタデータファイルが\ Excel\ 形式の場合、コンポーネント設定ファイルの\ ``testDataParser``\ には\ YAML\ 形式用のパーサを設定しない。設定すると、投入の対象が0件になり、例外も警告も出ない。\ ``testDataParser``\ の記述例は\ :ref:`省略したテーブルのカラムのデフォルト値を変更する <class_unit_test_setting-column_default_values>`\ を参照。
 
 .. _master_data_tool-setup:
 

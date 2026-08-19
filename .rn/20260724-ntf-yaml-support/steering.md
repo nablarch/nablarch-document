@@ -775,12 +775,12 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
 **Steps**:
 
-- [ ] 1. `tools/request_data_tool.rst` の起動用スクリプトを選ぶ手順を `* 配置した起動用スクリプト(httpDump.bat)を選ぶ。` に改める（E1 の回答）。**「Windows専用」とは書かない**（断定できる一次情報が無い）。現行解説書（`2e501ad:.../02_SetUpHttpDumpTool.rst:91-92`）にある記述を落とす変更であるため、user 判断として記録に残す
-- [ ] 2. `tools/testdata_converter.rst`「前提事項」節の本文直前に `TODO(NTF-MOD-01-3)` を新設する（E2 の回答）。**本文には制約を書かない**（`ntf-doc-28-decide-disposition.md` §「本文の書き換えを伴った箇所」の決定による）
-- [ ] 3. `tools/master_data_tool.rst` の `.. important::` を、確定している向き（Excel形式のファイル＋YAML形式用のパーサ）に限定する（V1）。`:ref:` 先は現在の `testing_framework_common` が根拠にならないため、実物で確認して差し替える（V2）。逆向きは未確認なので書かない。文言は `mapping/style.md` S-06・S-13 に合わせる
-- [ ] 4. `tools/master_data_tool.rst` の `TODO(NTF-MOD-02-4)` 3行目を、`:10`・`:128`・`:130` の Excel 前提の記述を直す指示に改める（V6）。あわせて 3 の `.. important::` が `#22` マージ後も残るかを判断し、残らないならこの TODO の対象に含め、判断と理由を報告する
-- [ ] 5. `tools/testdata_converter.rst` の `TODO(NTF-MOD-01-2)` 1行目の `XLS-28` の状態を「実装済み（`5ab13d8`、`main` 未マージ）」に改める（V5）。3行目はそのまま
-- [ ] 6. 記録を更新する。(1) `checks/task-last.md` §8 の TODO 台帳に `NTF-MOD-01-3` を追加し、`NTF-MOD-01-2` の状態を更新して実測を取り直す (2) `reviews/page-request_data_tool.md` に 1 の本文変更を user 判断として追記する (3) 本 `steering.md` の Task list と State。**それ以外の記録整備は行わない**（`.rn/` の行番号ずれ・self-check の不整合はマージ直前にまとめて処置する。user 指示）
+- [x] 1. `tools/request_data_tool.rst` の起動用スクリプトを選ぶ手順を `* 配置した起動用スクリプト(httpDump.bat)を選ぶ。` に改める（E1 の回答）。**「Windows専用」とは書かない**（断定できる一次情報が無い）。現行解説書（`2e501ad:.../02_SetUpHttpDumpTool.rst:91-92`）にある記述を落とす変更であるため、user 判断として記録に残す
+- [x] 2. `tools/testdata_converter.rst`「前提事項」節の本文直前に `TODO(NTF-MOD-01-3)` を新設する（E2 の回答）。**本文には制約を書かない**（`ntf-doc-28-decide-disposition.md` §7「モジュール判定待ちの箇所の書き方」の決定による）
+- [x] 3. `tools/master_data_tool.rst` の `.. important::` を、確定している向き（Excel形式のファイル＋YAML形式用のパーサ）に限定する（V1）。`:ref:` 先は現在の `testing_framework_common` が根拠にならないため、実物で確認して差し替える（V2）。逆向きは未確認なので書かない。文言は `mapping/style.md` S-06・S-13 に合わせる
+- [x] 4. `tools/master_data_tool.rst` の `TODO(NTF-MOD-02-4)` 3行目を、`:10`・`:128`・`:130` の Excel 前提の記述を直す指示に改める（V6）。あわせて 3 の `.. important::` が `#22` マージ後も残るかを判断し、残らないならこの TODO の対象に含め、判断と理由を報告する
+- [x] 5. `tools/testdata_converter.rst` の `TODO(NTF-MOD-01-2)` 1行目の `XLS-28` の状態を「実装済み（`5ab13d8`、`main` 未マージ）」に改める（V5）。3行目はそのまま
+- [x] 6. 記録を更新する。(1) `checks/task-last.md` §8 の TODO 台帳に `NTF-MOD-01-3` を追加し、`NTF-MOD-01-2` の状態を更新して実測を取り直す (2) `reviews/page-request_data_tool.md` に 1 の本文変更を user 判断として追記する (3) 本 `steering.md` の Task list と State。**それ以外の記録整備は行わない**（`.rn/` の行番号ずれ・self-check の不整合はマージ直前にまとめて処置する。user 指示）
 
 **Completion criteria**:
 
@@ -792,6 +792,13 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - Docker フルビルドが WARNING・ERROR ともに0件（ゲート7）
 - `verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` がすべて PASS
 - 禁止事項（`ja/conf.py`・`mapping/glossary.md` §5.15・`mapping.csv` 直接編集・`en/`・`locales/` の `.gitignore` 追加）に触れていない
+
+**Verify の結果（2026-08-19）**: 4観点とも独立サブエージェントで実施し、**4観点とも fail**。重複を除いた指摘を調整役が実物で確認し、11件を是正した（詳細と実測は `checks/task-30.md`）。是正後の再検証はゲート7を含めて全 PASS。
+
+- **是正した主なもの** — (1) 台帳 `NTF-MOD-01-2` の出典が、確認した記録の無い `3ecf3db:…/steering.md` に書き換えられ但し書きも消えていた（4観点中3観点が独立に検出）→ `b44268c` と但し書きに戻した。(2) `TODO(NTF-MOD-02-4)` 1行目と台帳の同行が双方向のまま残り、`.. important::` の限定と矛盾していた → 確定した向きに揃えた。(3) `.. important::` が症状だけを述べ、`:ref:` 先も主張を裏付けていなかった → 規範先行に書き換え、`setup/request_unit_test/rest.rst:63` の先例にならって「`testDataParser` の記述例は… を参照」に限定した。(4) 存在しない節（`ntf-doc-28-decide-disposition.md`「本文の書き換えを伴った箇所」）を出典に挙げていた → §7 に直した（本 `steering.md` の Step 2 にも同じ誤りがあった）。(5) `reviews/page-request_data_tool.md` が旧状態の証拠として引く `:82` を `561c1ab:…:82` にコミット固定した
+- **Step 4 が求めた判断** — `.. important::` は `#22` マージ後も**残る**が、その時点で書き直しが要るため `TODO(NTF-MOD-02-4)` 3行目の対象に**含めた**。理由は `checks/task-30.md` §「Step 4 が求めた判断」
+- **user 判断を待つもの（未処置）** — TODO の3行目が同一ファイル内を行番号で指していること（`#29` でやめたはずの指し方）、`:10`・`:128`・`:130` の列挙が `:86`・`:163` の「シート」表記を落としていること、`TODO(NTF-MOD-01-3)` の「0件テーブル」「番人」に本作業ディレクトリ内の出典が無いこと、同 TODO の置き場所と本リポジトリ内ポインタの欠落、`git ls-tree … | grep -i httpdump` が11行返るため Completion criteria の1件が字面では成立しないこと。いずれも user が文面・位置・判定基準を一字一句指定した箇所のため、報告にとどめた
+- **マージ直前の一括処置へ追加** — `reviews/page-master_data_tool.md` の2箇所が `.. important::` を双方向と説明したまま偽になっている。`testdata_converter.rst` に1行増えたことによる行番号ずれ（`mapping/style.md`・`design.md` の該当箇所）。`#29` の V7・V8・V9 と `checks/task-29.md` の Self-check Evidence 3箇所は既定どおり据え置き
 
 # State
 
