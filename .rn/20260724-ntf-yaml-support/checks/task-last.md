@@ -233,16 +233,27 @@ git diff --numstat  → 追加220行 / 削除220行（行数の増減なし）
 #### c の内訳（2件解消・9件未達）
 
 是正した2語は `setup/request_unit_test/web.rst:197` の「ウィンドウ」→「ウィンドウ(Window)」・
-「設定」→「設定(Preferences)」。根拠は本書内の既存の併記（`tools/request_data_tool.rst:75`）。
+「設定」→「設定(Preferences)」。根拠は本書内の既存の併記（`tools/request_data_tool.rst:72`。
+`#29` の是正時に実測した現在値。本節の初版は `:75` と書いていたが、初版の時点（`d8d6114`）の実測値は
+`:76` であり、当初からずれていた）。
 
-残る9語（`setup/request_unit_test/web.rst:186`「実行」「実行構成」・`:187`「引数」「VM 引数」・
-`:194`「インストール済みのJRE」「編集」・`:198`「デフォルトの VM 引数」・`:218`「VM 引数」、
-`tools/request_data_tool.rst:104`「Open With」）は、**英語名・日本語名の一次情報が本作業環境に無い**。
+残る9語（`setup/request_unit_test/web.rst:190`「実行」「実行構成」・`:191`「引数」「VM 引数」・
+`:198`「インストール済みのJRE」「編集」・`:202`「デフォルトの VM 引数」・`:222`「VM 引数」、
+`tools/request_data_tool.rst:100`「Open With」。いずれも `#29` の是正時に実測した現在値。本節の初版は
+`web.rst` 側を `:186`・`:187`・`:194`・`:198`・`:218` と書いていたが、初版の時点（`d8d6114`）の実測値も
+`:190`・`:191`・`:198`・`:202`・`:222` であり、当初からずれていた。`web.rst` は `#29` では変更していない）
+は、**英語名・日本語名の一次情報が本作業環境に無い**。
 現行解説書（`2e501ad:.../06_TestFWGuide/02_RequestUnitTest.rst:499-513`）にも日本語名しかなく、
 `04_Eclipse_OpenWith.png` に対応する日本語名はどこにも無い。**推測で書かないという user 判断により、
 本文はそのままにし、`TODO(NTF-SRC-02)` マーカーを2箇所に置いた**
-（`setup/request_unit_test/web.rst:162-164`・`tools/request_data_tool.rst:106-108`）。
+（`setup/request_unit_test/web.rst:162-164`・`tools/request_data_tool.rst:102-104`。
+`request_data_tool.rst` 側は初版では `:106-108` にあった）。
 `request_data_tool.rst` 側はマーカー自身が参照する `:104` の行番号が動かないよう、`:104` の後ろに置いた。
+**この配置設計は `#29` で崩れた。** `#29` が同ページの `TODO(NTF-MOD-02-1)` を4行削除した（`4ea9498`）
+ことで「Open With」の行が `:104` から `:100` へ動き、マーカーが指す `:104` はマーカー自身の3行目を
+指す状態になっていた。**そこで `#29` の是正で、両マーカーの2行目から行番号による指し方をやめ、
+「`tools/request_data_tool.rst` の「HTMLダンプからツールを起動する」節の「Open With」」という
+節見出しと語による指し方に変えた。** 行が動いても壊れないため、以後この配置設計に依存しない。
 マーカーはコメントであるためHTML出力を変えない（§5-6）。
 **これが Acceptance criteria 4 に残る未達2件のうちのもう1件である。**
 
@@ -404,10 +415,10 @@ NTF解説書刷新のスコープ外であること。TODO はモジュール側
 | ID | ファイル | 種別 | 依頼書または根拠の節 | 前提としたあるべき姿 | 判定・情報が返ったときにやること |
 |---|---|---|---|---|---|
 | `NTF-MOD-01-1` | `tools/testdata_converter.rst` | MOD | `ntf-mod-01-nablarch-testing-converter.md` §2（事象1: XLS → YAML → XLS → YAML の往復で内容が変わる）。`checks/task-28.md` §7-3 | 往復しても内容が保たれる（`ntf-doc-28-decide-disposition.md` §7-2 の表） | 仕様と判定された場合は本文を書き直す（TODO 3行目）。あるべき姿の前提で「非可逆の注意書きを書かない」としているため、仕様なら注意書きの追加になる（同 §7-2 の表「本文の書き方」列） |
-| `NTF-MOD-01-2` | `tools/testdata_converter.rst` | MOD | `ntf-mod-01-nablarch-testing-converter.md` §3（事象2: 同名で拡張子違いの Excel ブックが同居すると、片方の変換結果が無言で失われる）。`checks/task-28.md` §7-3 | 併存はツールが検出する（`ntf-doc-28-decide-disposition.md` §7-2 の表） | **確定（user 引用による）**: `nablarch-testing-converter` 側で `XLS-28`（同名で拡張子違いの Excel ブックの同居を検出してエラーで止める）として要対応と確定（2026-08-18、user 確定）・未着手。`XLS-28` の対応がマージされたら TODO を外す。**本文の書き直しは不要**（あるべき姿「併存はツールが検出する」のとおりになるため） |
+| `NTF-MOD-01-2` | `tools/testdata_converter.rst` | MOD | `ntf-mod-01-nablarch-testing-converter.md` §3（事象2: 同名で拡張子違いの Excel ブックが同居すると、片方の変換結果が無言で失われる）。`checks/task-28.md` §7-3 | 併存はツールが検出する（`ntf-doc-28-decide-disposition.md` §7-2 の表） | **確定（user 引用による。出典: `nablarch-testing-converter` `b44268c:.rn/ntf-test-data-converter/steering.md`。本作業ディレクトリからは参照できないため、user が作業指示に引用した文面による）**: `nablarch-testing-converter` 側で `XLS-28`（同名で拡張子違いの Excel ブックの同居を検出してエラーで止める）として要対応と確定（2026-08-18、user 確定）・未着手。`XLS-28` の対応がマージされたら TODO を外す。**本文の書き直しは不要**（あるべき姿「併存はツールが検出する」のとおりになるため） |
 | `NTF-MOD-02-2` | `setup/request_unit_test/rest.rst` | MOD | `ntf-mod-02-nablarch-testing.md` §3-3（`nablarch.test.core.http.dump` の実装がどのモジュールにあるか）。`checks/task-28.md` §7-3 | 表では「—」（`ntf-doc-28-decide-disposition.md` §7-2 の表）。仕様かどうかの判定ではなく実装モジュールの照会であるため（`checks/task-28.md` §7「指示書から外れた判断」2） | 回答の内容に応じて本文を書き直す（TODO 3行目）。この回答が返るまで `setup/request_unit_test/rest.rst` の `nablarch-testing-jetty12` の提供範囲を書いた `.. important::` は確定できない（`ntf-doc-28-decide-disposition.md` §7-2 末尾の注記） |
-| `NTF-MOD-02-3` | `implementation/deal_unit_test/mom.rst` | MOD | `ntf-mod-02-nablarch-testing.md` §4（事象3: YAML形式のテストデータで、同期応答メッセージのモックアップの再読み込みが働かない）。`checks/task-28.md` §7-3 | 形式によらず再読み込みが働く（`ntf-doc-28-decide-disposition.md` §7-2 の表） | **確定（user 引用による）**: 事象3は**不具合**と判定済みで、`nablarch-testing` の #21 で対応予定・未着手。#21 がマージされたら TODO を外す。**本文の書き直しは不要**（現在の「形式を限定せずに書く」状態があるべき姿と一致するため） |
-| `NTF-MOD-02-4` | `tools/master_data_tool.rst` | MOD | `ntf-mod-02-nablarch-testing.md` §5（事象4: マスタデータ投入ツールが、YAML形式のパーサ設定下で無言で0件になる）。`checks/task-28.md` §7-3 | YAML形式のプロジェクトでもマスタデータ投入ツールを使える（`ntf-doc-28-decide-disposition.md` §7-2 の表） | **確定（user 引用による）**: 事象4は前後で扱いが割れる。前半（`testDataParser` に設定したパーサと形式が食い違うマスタデータファイルを指定すると投入対象が0件になり、例外も警告も出ない）は**仕様・現状維持**と確定し、`#29` で `tools/master_data_tool.rst` の TODO 直後に `.. important::` として記載済み。後半（YAML形式のマスタデータファイルへの対応）は `nablarch-testing` の #22 で対応予定・未着手。#22 がマージされたら TODO を外す。**本文の書き直しは不要**。`checks/task-28.md` §7「本文の書き換えを伴った箇所」に全文がある3文のうち「マスタデータファイルは Excel 形式で記述する。」「…本ツールを使用できない（共通設定 参照）。」の2文は、#22 の完了後に誤りになるため**書き戻さない** |
+| `NTF-MOD-02-3` | `implementation/deal_unit_test/mom.rst` | MOD | `ntf-mod-02-nablarch-testing.md` §4（事象3: YAML形式のテストデータで、同期応答メッセージのモックアップの再読み込みが働かない）。`checks/task-28.md` §7-3 | 形式によらず再読み込みが働く（`ntf-doc-28-decide-disposition.md` §7-2 の表） | **確定（user 引用による。出典: `nablarch-testing` `8530497:docs/pr75/steering.md`。本作業ディレクトリからは参照できないため、user が作業指示に引用した文面による）**: 事象3は**不具合**と判定済みで、`nablarch-testing` の #21 で対応予定・未着手。#21 がマージされたら TODO を外す。**本文の書き直しは不要**（現在の「形式を限定せずに書く」状態があるべき姿と一致するため） |
+| `NTF-MOD-02-4` | `tools/master_data_tool.rst` | MOD | `ntf-mod-02-nablarch-testing.md` §5（事象4: マスタデータ投入ツールが、YAML形式のパーサ設定下で無言で0件になる）。`checks/task-28.md` §7-3 | YAML形式のプロジェクトでもマスタデータ投入ツールを使える（`ntf-doc-28-decide-disposition.md` §7-2 の表） | **確定（user 引用による。出典: `nablarch-testing` `8530497:docs/pr75/steering.md`。本作業ディレクトリからは参照できないため、user が作業指示に引用した文面による）**: 事象4は前後で扱いが割れる。前半（`testDataParser` に設定したパーサと形式が食い違うマスタデータファイルを指定すると投入対象が0件になり、例外も警告も出ない）は**仕様・現状維持**と確定し、`#29` で `tools/master_data_tool.rst` の TODO 直後に `.. important::` として記載済み。後半（YAML形式のマスタデータファイルへの対応）は `nablarch-testing` の #22 で対応予定・未着手。#22 がマージされたら TODO を外す。**本文の書き直しは不要**。`checks/task-28.md` §7「本文の書き換えを伴った箇所」に全文がある3文のうち「マスタデータファイルは Excel 形式で記述する。」「…本ツールを使用できない（共通設定 参照）。」の2文は、#22 の完了後に誤りになるため**書き戻さない** |
 | `NTF-MOD-03-1` | `setup/junit5_extension.rst` | MOD | `ntf-mod-03-nablarch-testing-junit5.md` §2（観測した事実。`resolveTestRules()` に登録した `TestRule` はテスト本体を包めない）。`checks/task-28.md` §7-3 | `resolveTestRules()` に登録したルールがテスト本体に効く（`ntf-doc-28-decide-disposition.md` §7-2 の表） | 仕様と判定された場合は本文を書き直す（TODO 3行目）。現在は出典どおり `Timeout` の実装例を載せたままで制約を書いていないため、仕様なら制約の追記になる（同 §7-2 の表「本文の書き方」列） |
 | `NTF-FIG-01` | `implementation/request_unit_test/rest.rst` | FIG | `checks/task-28.md` §6-5（`images/rest/rest_request_unit_test_structure.png` を削除） | 作図系拡張のある環境で図を改訂して戻せる。作図元 `images/rest/rest_request_unit_test_structure.xlsx` は残してある | 作図できる環境で、本文との3点の食い違い（Excelファイル表記・PATCH欠落・`SimpleRestTestSupport` 未描画）を直した図に改訂して戻す。図が伝えていた構造は散文で本文に補ってあるので、戻す際は重複を確認する（補った内容は `checks/task-28.md` §6-5 の表） |
 | `NTF-FIG-02` | `implementation/request_unit_test/mom.rst` | FIG | `checks/task-28.md` §6-5（`images/mom/send_sync.png` を削除） | 同上。作図元 `images/mom/send_sync.xlsx`（`checks/task-28.md` §5-3 で退避したあとのパス）は残してある | 作図できる環境で、テストデータのノードの「Excelファイル」表記（本文は形式中立）を直した図に改訂して戻す。あわせて、図と一緒に削除した `.. tip::` を戻すかを判断する（`checks/task-28.md` §6-5） |
@@ -415,7 +426,7 @@ NTF解説書刷新のスコープ外であること。TODO はモジュール側
 | `NTF-FIG-04` | `implementation/request_unit_test/batch.rst` | FIG | `checks/task-28.md` §6-5（`images/batch/batch_request_test_class.png` を削除） | 同上。ただし**作図元ファイルは存在しない** | 作図できる環境で、本文との3点の食い違い（`MainForRequestTesting#handle` の引数順が実装と逆・Excelファイル表記・`FileSupport` が固定長ファイル限定の記述）を直した図に作り直して戻す |
 | `NTF-SRC-01` | `setup/junit5_extension.rst` | SRC | 本書 §4（持ち越し(1) `maven-surefire-plugin` 2.22.0 の一次情報） | 「2.22.0以上」は現行解説書に元からある記述の移設であり、下限値そのものの一次出典が JUnit/Maven 側に存在する | JUnit Platform プロバイダを同梱した `maven-surefire-plugin` の版を JUnit/Maven 側の一次情報で確認し、出典を本書 §4 に記録する。**本文は変えない**（user 判断で確定済み。本書 §4「確定」） |
 | `NTF-SRC-02` | `setup/request_unit_test/web.rst` | SRC | 本書 §5-5 c（S-12 規約4 のUI項目名併記。未達9件のうち本ファイルの8件） | 本文のUI項目名を `style.md` S-12 規約4 の「日本語(English)」併記にできる | Eclipse 実機で英語名を確認したうえで併記に直す。対象は「実行」「実行構成」「引数」「VM 引数」「インストール済みのJRE」「編集」「デフォルトの VM 引数」の7語8件（「VM 引数」が2箇所）。全件の内訳は本書 §5-5 c |
-| `NTF-SRC-02` | `tools/request_data_tool.rst` | SRC | 本書 §5-5 c（同上。未達9件のうち本ファイルの1件） | 同上 | Eclipse 実機で「Open With」の**日本語名**を確認したうえで併記に直す。マーカーは対象行の後ろに置いてあり、対象行の行番号を動かさない（本書 §5-5 c） |
+| `NTF-SRC-02` | `tools/request_data_tool.rst` | SRC | 本書 §5-5 c（同上。未達9件のうち本ファイルの1件） | 同上 | Eclipse 実機で「Open With」の**日本語名**を確認したうえで併記に直す。マーカーは対象行の後ろに置いてあるが、`#29` で行番号による指し方はやめ、「「HTMLダンプからツールを起動する」節の「Open With」」と節見出しと語で指す形にした（本書 §5-5 c） |
 
 `NTF-MOD-02-1` の行は、判定（事象1=仕様・解説書側対応）と「本文は現行解説書に合わせて据え置く」という user 判断を受けて `#29` で TODO を削除したため、本表から外した。経緯と本文を据え置く理由は `checks/task-28.md` §7「本文の書き換えを伴った箇所」にある。
 
