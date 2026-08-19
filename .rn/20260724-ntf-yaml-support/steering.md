@@ -817,8 +817,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**:
-- **Last completed**:
-- **Next**:
-- **Notes**:
+- **Status**: paused
+- **Date**: 2026-08-19
+- **Last completed**: #30 の `/rn:gm`（2026-08-19）差し戻し5点の是正（`e023648`。TODO 3行目の条件指し化・呼称の削除・台帳 `NTF-MOD-01-2` の出典統一・`grep -i httpdump` の条件文差し替え・マージ直前の台帳への2件追加）
+- **Next**: `#30` の user review（`/rn:ty` で承認、`/rn:gm` で再差し戻し）。承認後に残るのはマージ直前の一括処置のみ
+- **Notes**: ブランチ `ntf-yaml-support`（`e023648` まで push 済み。未 push のコミット・未追跡パスとも無し）。**user 判断待ち2件**（`/rn:gm` の報告で提示済み・未処置） — (1) `checks/task-30.md` の Self-check Evidence が引く `testdata_converter.rst:64`・`:64-66` は現況 `:63`・`:63-65`（`c650039` で下線直後の空行を落とした分）。マージ直前の台帳へ足すか今直すか (2) 台帳 `NTF-MOD-01-3` の「2段目」の出典が `b44268c:.rn/ntf-test-data-converter/steering.md` のままで、`NTF-MOD-01-2` で統一した `3ecf3db` に揃えるかどうか。マージ直前の一括処置の台帳は `#29` の「Verify の結果と user 判断」、`/rn:gm` の処置内容は `#30` の「Verify の結果（2026-08-19）」
