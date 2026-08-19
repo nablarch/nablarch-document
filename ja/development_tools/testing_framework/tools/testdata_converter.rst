@@ -60,7 +60,7 @@ YAML形式のテストデータの記述ミスを検出できる
 
 前提事項
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. TODO(NTF-MOD-01-3): 0件テーブル（YAMLの rows: [] を持つテーブル系エントリ）を含むYAML形式のテストデータをExcel形式へ変換できない。nablarch-testing-converter のXLS-27の当面の対応（番人）による制約。本体側は nablarch-testing の #23・#24 として起票済み・未着手。
+.. TODO(NTF-MOD-01-3): 0件テーブル（YAMLの rows: [] を持つテーブル系エントリ）を含むYAML形式のテストデータをExcel形式へ変換できない。nablarch-testing-converter のXLS-27の当面の対応による制約。本体側は nablarch-testing の #23・#24 として起票済み・未着手。
    出典 nablarch-testing-converter 3ecf3db:.rn/ntf-test-data-converter/coverage/issues.md:2562。
    #23・#24 がマージされXLS-27の2段目へ切り替わったら本 TODO を外す。本文の書き直しは不要。
 

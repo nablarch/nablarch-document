@@ -25,7 +25,7 @@
 
 .. TODO(NTF-MOD-02-4): YAML形式のマスタデータファイルへの対応は nablarch-testing の #22 で対応予定・未着手。Excel形式のマスタデータファイルにYAML形式用のパーサを設定すると無言で0件になる点は仕様と判定済みで、直後のimportantに記載済み。逆向き（YAML形式のファイル＋Excel形式用のパーサ）は未確認。
    依頼書 .rn/20260724-ntf-yaml-support/ntf-mod-02-nablarch-testing.md §5。
-   #22 がマージされたら、:10・:128・:130 の Excel 前提の記述を YAML 形式も選べる書き方に直し、直後のimportantを逆向きも含める書き方にするかを判断して、本 TODO を外す。
+   #22 がマージされたら、本ページの Excel 形式を前提とした記述（「Excel\ ファイルに記述する」・ファイル名 MASTER_DATA*.xls・拡張子 .xlsx・「シート」）を YAML 形式も選べる書き方に直し、直後のimportantを逆向きも含める書き方にするかを判断して、本 TODO を外す。
 
 .. important::
 

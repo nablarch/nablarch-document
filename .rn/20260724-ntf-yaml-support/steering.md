@@ -756,8 +756,20 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
 - **`#30` で処置する** — Escalation E1・E2 の回答と、Valid の V1・V2（`.. important::` の向きと `:ref:` 先）・
   V5（`XLS-28` の状態）・V6（`NTF-MOD-02-4` の TODO 3行目）
-- **マージ直前にまとめて処置する** — V7・V8・V9（`.rn/` 内の行番号ずれ・記述の古さ）と
-  `checks/task-29.md` 自身の Self-check Evidence 3箇所。user 指示により今は手を付けない
+- **マージ直前にまとめて処置する（台帳。以後の追加はここへ足す）** — user 指示により今は手を付けない
+  - `#29` から — V7（「本作業ディレクトリからは参照できない」が誤り。記録5箇所）・V8（`checks/task-last.md` §5-5 の
+    「`web.rst` は `#29` では変更していない」が誤り）・V9（`#29` の行数変動でずれた `ja/` への `file:line` 13件。
+    `mapping/style.md` 10行11件・`mapping/glossary.md:314`・`design.md:379`）と `checks/task-29.md` 自身の
+    Self-check Evidence 3箇所（全件は `checks/task-29.md` §「トリアージ結果（調整役・2026-08-19）」）
+  - `#30` から（`/rn:gm` 2026-08-19 の user 指示で追加） — `reviews/page-master_data_tool.md` の2箇所
+    （設計 M-2 の行と「判断待ち」の 7）が `.. important::` を「パーサと形式が食い違う」＝双方向と説明したままで、
+    `#30` で確定した向き（Excel 形式のファイル＋YAML 形式用のパーサ）だけに限定した現物と食い違う
+  - `#30` から（同上） — `tools/testdata_converter.rst` に `TODO(NTF-MOD-01-3)` を新設したため `:62` 以降が
+    一律4行下がり、`.rn/` 内の `file:line` がずれた（実測 2026-08-19: 「機能概要」`:12`・「前提事項」`:61` は不変、
+    「導入」`:73`→`:77`、`<plugin>` 追加 `:77-89`→`:81-93`、`<dependency>` 追加 `:91-100`→`:95-104`、
+    「使用方法」`:102`→`:106`、その導入部の `:ref:` `:104`→`:108`、`bash` の code-block `:130`→`:134`、
+    「前提事項」節の範囲 `:61-69`→`:61-73`）。ずれている記録は `mapping/style.md:112`・`:273`・`:322` と
+    `design.md:379`・`:381`
 - **未処置のまま残る** — V3（`implementation/deal_unit_test/mom.rst` の `TODO(NTF-MOD-02-3)` 1行目に禁止語「不具合」）と
   V4（`#21`・`#22`・`XLS-28` が GitHub issue 番号のように読める）。`#30` の作業指示は前者に触れず、
   後者は差し替え文面が現行の書き方を踏襲しているため、いずれも判断を user に返す
@@ -785,7 +797,7 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 **Completion criteria**:
 
 - `ja/` 配下の `TODO(NTF-` が **14件・13ID**（`NTF-MOD-01-3` が増え、`NTF-SRC-02` のみ2箇所）である
-- `git ls-tree -r --name-only HEAD | grep -i httpdump` が `httpDump.bat` の1件のみである
+- `git ls-tree -r --name-only HEAD | grep -i httpdump` の出力に `httpDump.sh` が0件である（`httpDump.bat` は `ja/` と `en/` に各1件。残りは `en/` に残る旧ガイドのディレクトリ名 `01_HttpDumpTool` へのヒット。条件文は `/rn:gm`（2026-08-19）の user 指示で差し替え）
 - `tools/request_data_tool.rst` に `httpDump.sh` が0件で、かつ「Windows専用」の趣旨の記述が無い
 - `tools/master_data_tool.rst` の `.. important::` が Excel形式のファイル＋YAML形式用のパーサの向きだけを述べており、`:ref:` 先が実在し、飛び先に `testDataParser` の記述がある
 - TODO 4件が3行の書式（1行目に事象・2行目に出典・3行目に扱い）を保っている
@@ -795,10 +807,9 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
 **Verify の結果（2026-08-19）**: 4観点とも独立サブエージェントで実施し、**4観点とも fail**。重複を除いた指摘を調整役が実物で確認し、11件を是正した（詳細と実測は `checks/task-30.md`）。是正後の再検証はゲート7を含めて全 PASS。
 
-- **是正した主なもの** — (1) 台帳 `NTF-MOD-01-2` の出典が、確認した記録の無い `3ecf3db:…/steering.md` に書き換えられ但し書きも消えていた（4観点中3観点が独立に検出）→ `b44268c` と但し書きに戻した。(2) `TODO(NTF-MOD-02-4)` 1行目と台帳の同行が双方向のまま残り、`.. important::` の限定と矛盾していた → 確定した向きに揃えた。(3) `.. important::` が症状だけを述べ、`:ref:` 先も主張を裏付けていなかった → 規範先行に書き換え、`setup/request_unit_test/rest.rst:63` の先例にならって「`testDataParser` の記述例は… を参照」に限定した。(4) 存在しない節（`ntf-doc-28-decide-disposition.md`「本文の書き換えを伴った箇所」）を出典に挙げていた → §7 に直した（本 `steering.md` の Step 2 にも同じ誤りがあった）。(5) `reviews/page-request_data_tool.md` が旧状態の証拠として引く `:82` を `561c1ab:…:82` にコミット固定した
+- **是正した主なもの** — (1) 台帳 `NTF-MOD-01-2` の出典が、確認した記録の無い `3ecf3db:…/steering.md` に書き換えられ但し書きも消えていた（4観点中3観点が独立に検出）→ `b44268c` と但し書きに戻した（**この判断は `/rn:gm`（2026-08-19）で差し戻された。実物は `3ecf3db` が正。下の「`/rn:gm`（2026-08-19）の処置5件」の (3)**）。(2) `TODO(NTF-MOD-02-4)` 1行目と台帳の同行が双方向のまま残り、`.. important::` の限定と矛盾していた → 確定した向きに揃えた。(3) `.. important::` が症状だけを述べ、`:ref:` 先も主張を裏付けていなかった → 規範先行に書き換え、`setup/request_unit_test/rest.rst:63` の先例にならって「`testDataParser` の記述例は… を参照」に限定した。(4) 存在しない節（`ntf-doc-28-decide-disposition.md`「本文の書き換えを伴った箇所」）を出典に挙げていた → §7 に直した（本 `steering.md` の Step 2 にも同じ誤りがあった）。(5) `reviews/page-request_data_tool.md` が旧状態の証拠として引く `:82` を `561c1ab:…:82` にコミット固定した
 - **Step 4 が求めた判断** — `.. important::` は `#22` マージ後も**残る**が、その時点で書き直しが要るため `TODO(NTF-MOD-02-4)` 3行目の対象に**含めた**。理由は `checks/task-30.md` §「Step 4 が求めた判断」
-- **user 判断を待つもの（未処置）** — TODO の3行目が同一ファイル内を行番号で指していること（`#29` でやめたはずの指し方）、`:10`・`:128`・`:130` の列挙が `:86`・`:163` の「シート」表記を落としていること、`TODO(NTF-MOD-01-3)` の「0件テーブル」「番人」に本作業ディレクトリ内の出典が無いこと、同 TODO の置き場所と本リポジトリ内ポインタの欠落、`git ls-tree … | grep -i httpdump` が11行返るため Completion criteria の1件が字面では成立しないこと。いずれも user が文面・位置・判定基準を一字一句指定した箇所のため、報告にとどめた
-- **マージ直前の一括処置へ追加** — `reviews/page-master_data_tool.md` の2箇所が `.. important::` を双方向と説明したまま偽になっている。`testdata_converter.rst` に1行増えたことによる行番号ずれ（`mapping/style.md`・`design.md` の該当箇所）。`#29` の V7・V8・V9 と `checks/task-29.md` の Self-check Evidence 3箇所は既定どおり据え置き
+- **`/rn:gm`（2026-08-19）の処置5件** — user が判断待ち4件をすべて「指摘のとおり」（指示文面の誤り）と裁定し、次を是正した。 (1) `TODO(NTF-MOD-02-4)` 3行目を、同一ファイル内の行番号指し（`:10`・`:128`・`:130`）から条件指しに変え、落ちていた配布物一覧の `MASTER_DATA*.xls` と「シート」も対象に含めた (2) `TODO(NTF-MOD-01-3)` 1行目と台帳から、本リポジトリに出典の無い converter 側の内輪の呼称を落とした (3) 台帳 `NTF-MOD-01-2` の出典を `3ecf3db:.rn/ntf-test-data-converter/steering.md:1203` に統一し、但し書きを「レビュー役が実物で確認して引用（`#30` 差し戻し）」と逐語の引用に改めた（`#30` で `b44268c` へ戻した判断は、そちらから検証できない以上プロセスとしては正しいが事実としては逆で、`b44268c:…:1120` は `- [ ]`、`3ecf3db:…:1203` は `- [x]` ＋ `5ab13d8`。user が両コミットを実物で確認した） (4) Completion criteria の `grep -i httpdump` の条件文を実測（11行。`httpDump.sh` 0件・`httpDump.bat` 2件・残り9件は `en/` の `01_HttpDumpTool`）に合う書き方へ差し替えた（本 Completion criteria と `checks/task-30.md` の2箇所） (5) マージ直前の一括処置の台帳（`#29` の「Verify の結果と user 判断」）に、`reviews/page-master_data_tool.md` の2箇所と `tools/testdata_converter.rst` の行番号ずれを追加した。**この2件は user 指示により今回は直していない**
 
 # State
 
@@ -806,8 +817,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-19
-- **Last completed**: #30 `#29` のレビュー指摘の処置（user 判断 2026-08-19 の反映）。4観点とも fail → 指摘11件を是正 → 再検証全 PASS。`c650039` を push 済み
-- **Next**: `#30` の user review（`/rn:ty` で承認、`/rn:gm` で差し戻し）。承認後に残るのはマージ直前の一括処置のみ
-- **Notes**: ブランチ `ntf-yaml-support`（`c650039` まで push 済み。未 push のコミット・未追跡パスとも無し）。**user 判断待ち4件** — (1) TODO 3行目が `:10`・`:128`・`:130` と同一ファイル内を行番号で指しており、`#29` で切り替えた「マーカーは行番号で指さない」方針と逆向き (2) その列挙が `:86`・`:163` の「シート」表記を落としており、`シート` は glossary で Excel形式固有と裁定済みのため `#22` 後に書き換え対象になる (3) `TODO(NTF-MOD-01-3)` の「番人」に本作業ディレクトリ内の出典が0件で、同 TODO の2行目は他 MOD マーカー4件と違い本リポジトリ内に開ける先を持たない (4) `#30` の Completion criteria の `git ls-tree … | grep -i httpdump` が11行返るため字面では成立しない（実体は `httpDump.bat` 2件・`httpDump.sh` 0件）。いずれも user が文面・位置・判定基準を指定した箇所のため未処置。**マージ直前の一括処置に2件追加** — `reviews/page-master_data_tool.md` の2箇所が `.. important::` を双方向と説明したまま偽になっている／`testdata_converter.rst` の行番号ずれで `mapping/style.md`・`design.md:379`・`:381` が現物とずれた（`#29` の V9 の13件に `design.md:381` は無い）。詳細と実測は `checks/task-30.md` と `#30` の「Verify の結果（2026-08-19）」
+- **Status**: not suspended
+- **Date**:
+- **Last completed**:
+- **Next**:
+- **Notes**:
