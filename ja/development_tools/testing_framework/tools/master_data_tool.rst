@@ -23,9 +23,13 @@
 
   \ :ref:`blank_project`\ を使用してプロジェクトを構築した場合、データベース関連のツールとして\ :ref:`gsp-dba-maven-plugin <gsp-maven-plugin>`\ が設定される。gsp-dba-maven-pluginでマスタデータを管理する場合、本ツールを導入する必要はない。
 
-.. TODO(NTF-MOD-02-4): マスタデータ投入ツールがYAML形式用のパーサ設定下で無言で0件になる。判定待ち。
+.. TODO(NTF-MOD-02-4): YAML形式のマスタデータファイルへの対応は nablarch-testing の #22 で対応予定・未着手。パーサと形式が食い違うと無言で0件になる点は仕様と判定済みで、直後のimportantに記載済み。
    依頼書 .rn/20260724-ntf-yaml-support/ntf-mod-02-nablarch-testing.md §5。
-   仕様と判定された場合は本文を書き直す。
+   #22 がマージされたら本 TODO を外す。本文の書き直しは不要。
+
+.. important::
+
+  コンポーネント設定ファイルの\ ``testDataParser``\ に設定したパーサと形式が食い違うマスタデータファイルを指定した場合、投入対象が0件になり、例外も警告も出ない。
 
 .. _master_data_tool-setup:
 

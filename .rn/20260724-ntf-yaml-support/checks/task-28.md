@@ -451,13 +451,14 @@ ja/development_tools/testing_framework/implementation/request_unit_test/rest.rst
 |---|---|---|---|
 | `NTF-MOD-01-1` | `tools/testdata_converter.rst` | `ntf-mod-01-nablarch-testing-converter.md` | §2（事象1: XLS → YAML → XLS → YAML の往復で内容が変わる） |
 | `NTF-MOD-01-2` | `tools/testdata_converter.rst` | `ntf-mod-01-nablarch-testing-converter.md` | §3（事象2: 同名で拡張子違いの Excel ブックが同居すると、片方の変換結果が無言で失われる） |
-| `NTF-MOD-02-1` | `tools/request_data_tool.rst` | `ntf-mod-02-nablarch-testing.md` | §2（事象1: リクエストデータ作成ツールに Linux 用の起動スクリプトが配布されていない） |
 | `NTF-MOD-02-2` | `setup/request_unit_test/rest.rst` | `ntf-mod-02-nablarch-testing.md` | §3-3（`nablarch.test.core.http.dump` の実装がどのモジュールにあるか） |
 | `NTF-MOD-02-3` | `implementation/deal_unit_test/mom.rst` | `ntf-mod-02-nablarch-testing.md` | §4（事象3: YAML形式のテストデータで、同期応答メッセージのモックアップの再読み込みが働かない） |
 | `NTF-MOD-02-4` | `tools/master_data_tool.rst` | `ntf-mod-02-nablarch-testing.md` | §5（事象4: マスタデータ投入ツールが、YAML形式のパーサ設定下で無言で0件になる） |
 | `NTF-MOD-03-1` | `setup/junit5_extension.rst` | `ntf-mod-03-nablarch-testing-junit5.md` | §2（観測した事実。`resolveTestRules()` に登録した `TestRule` はテスト本体を包めない） |
 
 行番号は本表でも統合表（`checks/task-last.md` §8「TODO 台帳（統合）」）でも持たない。以後の加筆で動くためで、現在地は `grep -rn 'TODO(NTF-' ja/` で取る。
+
+`#28` で入れた TODO は7件だが、本表は現在6行である。`NTF-MOD-02-1` は判定（事象1=仕様・解説書側対応）と user 判断（本文は据え置く）を受けて `#29` で削除したため、本表から外した（下の「本文の書き換えを伴った箇所」の `NTF-MOD-02-1` の項に追記した2026-08-19 の段落を参照）。
 
 節番号は3つの依頼書を実際に開いて確認した（指示書 `:699-707` の表を写していない）。指示書の表は「事象1」「事象2」といった事象番号で書かれており、依頼書の節番号は事象番号と1対1に対応する（`ntf-mod-01` は事象1=§2・事象2=§3、`ntf-mod-02` は事象1=§2・事象3=§4・事象4=§5）。
 
@@ -479,6 +480,8 @@ ja/development_tools/testing_framework/implementation/request_unit_test/rest.rst
 - `:60`（追記前）の「次のファイルを、pom.xmlと同じディレクトリに配置する。」は「次の起動用スクリプトを、」に改めた。`:66` の `:download:` は `httpDump.bat` の1件のままとした。**指示書 `:703`「起動スクリプト名は `httpDump.bat` / `httpDump.sh` の双方を示す」に対する判断**: 存在しないファイルを `:download:` で指すと `sphinx-build` が WARNING を出し、ゲート7（WARNING・ERROR 0件）に反する。`ja/.../tools/downloads/request_data_tool/` にあるのは `httpDump.bat` の1ファイルだけである（`ls` で実測）。`httpDump.sh` を新規に作って配布物に足すことは、依頼書 `ntf-mod-02` §2-2 の2「Linux 用の起動スクリプトを配布物に含めるべきか」がまさに判定を求めている事項であり、解説書側で先に決めない。したがって双方の名前は本文（`:86`）で示し、`:download:` は判定が返るまで増やさない
 - `:104` の「Windows上で本ツールを起動するとコマンドプロンプトが現れる」は出典（`01_HttpDumpTool.rst` の tip）どおりであり、「Windowsのみ」とは書いていないため触っていない
 - `reviews/page-request_data_tool.md` の「意図して落とした出典」表の `02_SetUpHttpDumpTool.rst:91-92` の行に、取り消した旨・戻した先・`:download:` を増やさない理由を追記した。あわせて同ファイルの `current-0349` の行（「`httpDump.sh` の記述は落とした」）も実態に合わせた
+
+**判定（2026-08-19、`#29` で追記）**: 事象1は**仕様（解説書側の対応のみ）**と判定された（`nablarch-testing` `8530497:docs/pr75/steering.md`。本作業ディレクトリからは参照できないため user が作業指示に引用した文面による）。`httpDump.sh` は配布物に含まれない。そのうえで **user 判断により、本文は現行解説書に合わせて据え置く**（「Windowsの場合はバッチファイル(httpDump.bat)を、Linuxの場合はシェルスクリプト(httpDump.sh)を選ぶ。」の1文と `:download:` 1件を変えない。TODO 3行の削除で行番号が動き、2026-08-19 時点ではそれぞれ `:82`・`:62`）。現行解説書 `2e501ad:ja/.../01_HttpDumpTool/02_SetUpHttpDumpTool.rst:59`・`:91-92` と同じ形であり、意図した状態である。待つものが無くなったため `TODO(NTF-MOD-02-1)` の3行を削除した。**上の3項目の記述はそのまま有効で、本文への追加の書き換えは行っていない。**
 
 **`NTF-MOD-02-4` — `tools/master_data_tool.rst`（`.. important::` の削除）**
 
@@ -504,7 +507,7 @@ ja/development_tools/testing_framework/implementation/request_unit_test/rest.rst
 
 「ゲート10 の前半」としているのは、当初「ゲート9」と書いていたのが誤りで、ゲート9 は §5-2 直前の `guide/development_guide` の残存確認であるため。
 
-上の一覧と完全に一致する（7件）。
+当時（`daa101c` 時点）に入れた TODO は7件で、当時の 7-3 の表と完全に一致していた。`#29` で `NTF-MOD-02-1` を削除したため、現在の 7-3 の表（6行）とは `NTF-MOD-02-1` の1件だけずれる。下のブロックは当時の証拠としてそのまま残す。
 
 ```
 ja/development_tools/testing_framework/implementation/deal_unit_test/mom.rst:83:.. TODO(NTF-MOD-02-3): YAML形式で同期応答メッセージのモックアップの再読み込みが働かない。判定待ち。
@@ -523,6 +526,7 @@ ja/development_tools/testing_framework/tools/testdata_converter.rst:75:.. TODO(N
 - **調整役へ。** `sphinx-build` は実行していない。ゲート10 の確認とあわせて、`tools/master_data_tool.rst` の `important` を1件削除したことによる差分（`reviews/page-master_data_tool.md` の G6 の実測「`tip` 2件・`important` 3件」は現在 `important` 2件）を、必要なら是正すること
 - **調整役へ。** §7 の着手時点で、`implementation/request_unit_test/` の3ページと `implementation/deal_unit_test/mom.rst` などは §2・§6 担当の変更で行番号がずれていた。行番号は動き続けるため、7-3 の表からも統合表（`checks/task-last.md` §8）からも外した。現在地は `grep -rn 'TODO(NTF-' ja/` で取る
 - **判定が返ったときの担当へ。** `NTF-MOD-02-1` が「不具合（Linux 用スクリプトを配布物に含める）」と判定された場合は、`tools/downloads/request_data_tool/` に `httpDump.sh` を置き、`tools/request_data_tool.rst:66` の `:download:` を2件にすること。`NTF-MOD-02-4` が「仕様」と判定された場合は、`tools/master_data_tool.rst:26` の跡地に制約を書き戻すことになる
+- **上の申し送りは `#29` で消化済み（2026-08-19 追記）。** `NTF-MOD-02-1` は「仕様」と判定されたため `:download:` は1件のまま据え置き、TODO を削除した（上の「本文の書き換えを伴った箇所」の判定の段落）。`NTF-MOD-02-4` は前半だけが「仕様」と確定したため、跡地には前半の制約1文だけを `.. important::` で書いた。**上に全文を記録した3文のうち「マスタデータファイルは Excel 形式で記述する。」と「…本ツールを使用できない（共通設定 参照）。」の2文は書き戻さない。** 後半（YAML形式のマスタデータファイルへの対応）が `nablarch-testing` の #22 で対応予定であり、#22 の完了後にこの2文は誤りになるためである（`checks/task-last.md` §8「TODO 台帳（統合）」の `NTF-MOD-02-4` の行）
 
 ## §4 記録の是正・未確認の解消
 

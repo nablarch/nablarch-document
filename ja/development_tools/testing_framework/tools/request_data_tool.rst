@@ -57,10 +57,6 @@ pom.xmlと同じディレクトリで次のコマンドを実行し、jarファ�
 
   mvn dependency:copy-dependencies -DoutputDirectory=lib
 
-.. TODO(NTF-MOD-02-1): リクエスト単体データ作成ツールのLinux用起動スクリプトが配布物に無い。判定待ち。
-   依頼書 .rn/20260724-ntf-yaml-support/ntf-mod-02-nablarch-testing.md §2。
-   仕様と判定された場合は本文を書き直す。
-
 次の起動用スクリプトを、pom.xmlと同じディレクトリに配置する。
 
 * :download:`httpDump.bat <downloads/request_data_tool/httpDump.bat>`

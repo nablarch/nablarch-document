@@ -92,7 +92,7 @@ zip は `2e501ad` 時点のものと md5 が一致する（`b46396ea54401eed1366
 |---|---|---|
 | QA M-1 | 前提事項が「バックアップ用スキーマにテーブルが作成済み」としか書いておらず、飛び先の tip は「監視対象テーブルのみでよい」。本ツールは全テーブルをコピーするので手順どおりだと失敗する | 前提事項を「マスタデータファイルに記述するすべてのテーブル」に改め、ターゲット表にもコピー範囲を明記 |
 | QA M-2 | 投入対象は `SETUP_TABLE` のみだが、飛び先の節は4つのデータタイプを扱う | 「準備データ（`SETUP_TABLE`）として記述する」「期待値のデータタイプは投入の対象にならない」を明記 |
-| 設計 M-2 | `testDataParser` が YAML 形式用のとき、無言で0件になる | `important` を新設。**`#28` §7 でこの `important` は削除した**（`ntf-doc-28-decide-disposition.md:706`・`:751`。判定が返るまで不具合の挙動を本文に書かないため）。跡地に `TODO(NTF-MOD-02-4)` を置いている（`tools/master_data_tool.rst:26`、依頼書 `ntf-mod-02-nablarch-testing.md` §5） |
+| 設計 M-2 | `testDataParser` が YAML 形式用のとき、無言で0件になる | `important` を新設。**`#28` §7 でこの `important` は削除した**（`ntf-doc-28-decide-disposition.md:706`・`:751`。判定が返るまで不具合の挙動を本文に書かないため）。跡地に `TODO(NTF-MOD-02-4)` を置いている（`tools/master_data_tool.rst:26`、依頼書 `ntf-mod-02-nablarch-testing.md` §5）。**判定（2026-08-19、`#29`）**: 事象4前半（パーサと形式が食い違うと投入対象が0件になり、例外も警告も出ない）は仕様・現状維持と確定したため、跡地に `.. important::` を1件書き直した。後半（YAML形式のマスタデータファイルへの対応）は `nablarch-testing` の #22 で対応予定・未着手のため、`TODO(NTF-MOD-02-4)` は残している。詳細と出典は本書「判断待ち」の 7 |
 | 設計 M-1 / QA S-1 / クラフト M-2 | 前提事項（blank_project 必須）と tip（gsp を推奨）が同一ページ上で矛盾 | 前提事項を「Mavenの標準ディレクトリ構成（blank_project のアーキタイプはこれに該当）」に改め、tip を「gsp でマスタデータを管理する場合は本ツールを導入する必要はない」に限定 |
 | 設計 S-1 / 検証 NG-10 | マルチスレッドの `important` はツール固有の制約ではなく、第1部が持つ NTF 全体の事実 | `important` をやめ、`:ref:`testing_framework_about`` への1文に置き換え |
 | 検証 NG-3 / QA S-7 / クラフト N-7 | 「実行ディレクトリからの相対パス」は誤り。基準は `basedir` | tip を `master_data-build.xml:2` の `basedir="."` を根拠にした説明に書き換え |
@@ -147,7 +147,7 @@ zip は `2e501ad` 時点のものと md5 が一致する（`b46396ea54401eed1366
 | G4 | **PASS** | `verify_mapping.py` が exit 0。`mapping.csv` は未変更 |
 | G5 | **PASS** | Docker フルビルド（`sphinx-build -E`）が `build succeeded, 1 warning.`。警告は既知の `ja/application_framework/application_framework/libraries/db_double_submit.rst:108: WARNING: undefined label: how_to_set_token_in_request_unit_test` 1件のみで、**新規0件**。是正を全件畳んだ後の最終本文で再実行して確認した |
 | G6 | **PASS** | 禁止語（`不具合`・`バグ`・`将来`・`修正され`）0件。あわせて `本ページ\|下さい\|出来る\|事が\|以下の\|上記の\|利用\|前提条件\|スーパークラス` も0件、`.. note::`／`.. warning::` も0件。`です。`／`ます。` 0件 |
-| G6 の内訳の訂正（`#28`） | — | 上記の「`tip` 2件・`important` 3件」は誤り。ページ作成時点（`4095bab`）の実測は `tip` 3件・`important` 3件である（`git show 4095bab:<path> \| grep -c`）。`#28` §7 で `important` を1件削除したため、現在（`db738c0` 以降）は **`tip` 3件・`important` 2件**（`:22`・`:84`・`:157` が `tip`、`:128`・`:153` が `important`） |
+| G6 の内訳の訂正（`#28`） | — | 上記の「`tip` 2件・`important` 3件」は誤り。ページ作成時点（`4095bab`）の実測は `tip` 3件・`important` 3件である（`git show 4095bab:<path> \| grep -c`）。`#28` §7 で `important` を1件削除して `tip` 3件・`important` 2件になり、`#29` で事象4前半の制約を `important` として書いたため、現在は **`tip` 3件・`important` 3件**（`:22`・`:88`・`:161` が `tip`、`:30`・`:132`・`:157` が `important`。2026-08-19 に `grep -n` で実測） |
 | G7 | **PASS** | ページ先頭ラベル `master_data_tool` が `mapping/style.md:348` と一致。`master_data_tool` / `master_data_tool-setup` はいずれも `ja/` 全体で一意 |
 | G8 | **PASS** | `unicodedata.east_asian_width` で表示幅を測り、全10見出しについて「下線の文字数 ≥ 見出しの表示幅」を検査して NG 0件（下線は全件50、表示幅の最大は38） |
 | G9 | **PASS** | `:ref:` 12件がすべて解決し、リンク文字列も飛び先の見出しと一致（例外は `gsp-dba-maven-plugin` の意図的な短縮1件。下記「採らなかった指摘」参照）。`:download:` 1件・`:java:extdoc:` 1件・`.. image::` 4件もビルドで解決 |
@@ -167,4 +167,6 @@ zip は `2e501ad` 時点のものと md5 が一致する（`b46396ea54401eed1366
 5. **`master_data_restore.rst:59-61` の tip**（QA M-1 後段）。「バックアップ用スキーマには監視対象テーブルのみでよい」は復旧機能単独では正しいが、本ツールを併用する場合はマスタデータファイルに記述した全テーブルが必要。本ページ側の前提事項で手当てしたが、承認済みページ側にも但し書きを足すかどうか。
 6. **`testdata_notation.rst:40` の gsp への言及**（設計 P-3 後段）。`mapping.csv` 上、gsp の推奨（`current-0365`）は本ページにのみ割り当てられている。また出典（`01_Abstract.rst:607-609`）は gsp に触れていない。`testdata_notation.rst` 側を導線に絞るかどうか。承認済みページの変更になるため保留。
 7. **`testDataParser` が YAML 形式用のときの挙動**（設計 M-2）。本ページには「本ツールを使用できない」と適用範囲として書いたが、投入対象が0件になりエラーにもならない挙動そのものを本体側で扱うかどうかは、本作業の範囲外として保留。
+
+   **判定が返った（2026-08-19、`#29`）。クローズ。** 事象4は前後で扱いが割れた（`nablarch-testing` `8530497:docs/pr75/steering.md`。本作業ディレクトリからは参照できないため、user が作業指示に引用した文面による）。前半（コンポーネント設定ファイルの `testDataParser` に設定したパーサと形式が食い違うマスタデータファイルを指定すると、投入対象が0件になり、例外も警告も出ない）は**仕様・現状維持**と確定したので、`tools/master_data_tool.rst` の `TODO(NTF-MOD-02-4)` の直後に `.. important::` として書いた。後半（YAML形式のマスタデータファイルへの対応）は `nablarch-testing` の **#22 で対応予定・未着手**である。`#28` で削除した3文のうち「マスタデータファイルは Excel 形式で記述する。」「…本ツールを使用できない（共通設定 参照）。」の2文は、#22 の完了後に誤りになるため**書き戻さない**（3文の全文は `checks/task-28.md` §7「本文の書き換えを伴った箇所」）。
 8. **配布物の整理**。`master_data-build.properties:7` のキー名 `protect.main.resources`（`project` の誤り。`master_data-build.xml:25` も同じ綴りで参照しているため片方だけ直すと壊れる）、`master_data-build.xml:84-85` の存在しない `build/classes` / `build/test-classes`。いずれもページの記述には影響しない。
