@@ -810,6 +810,7 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - **是正した主なもの** — (1) 台帳 `NTF-MOD-01-2` の出典が、確認した記録の無い `3ecf3db:…/steering.md` に書き換えられ但し書きも消えていた（4観点中3観点が独立に検出）→ `b44268c` と但し書きに戻した（**この判断は `/rn:gm`（2026-08-19）で差し戻された。実物は `3ecf3db` が正。下の「`/rn:gm`（2026-08-19）の処置5件」の (3)**）。(2) `TODO(NTF-MOD-02-4)` 1行目と台帳の同行が双方向のまま残り、`.. important::` の限定と矛盾していた → 確定した向きに揃えた。(3) `.. important::` が症状だけを述べ、`:ref:` 先も主張を裏付けていなかった → 規範先行に書き換え、`setup/request_unit_test/rest.rst:63` の先例にならって「`testDataParser` の記述例は… を参照」に限定した。(4) 存在しない節（`ntf-doc-28-decide-disposition.md`「本文の書き換えを伴った箇所」）を出典に挙げていた → §7 に直した（本 `steering.md` の Step 2 にも同じ誤りがあった）。(5) `reviews/page-request_data_tool.md` が旧状態の証拠として引く `:82` を `561c1ab:…:82` にコミット固定した
 - **Step 4 が求めた判断** — `.. important::` は `#22` マージ後も**残る**が、その時点で書き直しが要るため `TODO(NTF-MOD-02-4)` 3行目の対象に**含めた**。理由は `checks/task-30.md` §「Step 4 が求めた判断」
 - **`/rn:gm`（2026-08-19）の処置5件** — user が判断待ち4件をすべて「指摘のとおり」（指示文面の誤り）と裁定し、次を是正した。 (1) `TODO(NTF-MOD-02-4)` 3行目を、同一ファイル内の行番号指し（`:10`・`:128`・`:130`）から条件指しに変え、落ちていた配布物一覧の `MASTER_DATA*.xls` と「シート」も対象に含めた (2) `TODO(NTF-MOD-01-3)` 1行目と台帳から、本リポジトリに出典の無い converter 側の内輪の呼称を落とした (3) 台帳 `NTF-MOD-01-2` の出典を `3ecf3db:.rn/ntf-test-data-converter/steering.md:1203` に統一し、但し書きを「レビュー役が実物で確認して引用（`#30` 差し戻し）」と逐語の引用に改めた（`#30` で `b44268c` へ戻した判断は、そちらから検証できない以上プロセスとしては正しいが事実としては逆で、`b44268c:…:1120` は `- [ ]`、`3ecf3db:…:1203` は `- [x]` ＋ `5ab13d8`。user が両コミットを実物で確認した） (4) Completion criteria の `grep -i httpdump` の条件文を実測（11行。`httpDump.sh` 0件・`httpDump.bat` 2件・残り9件は `en/` の `01_HttpDumpTool`）に合う書き方へ差し替えた（本 Completion criteria と `checks/task-30.md` の2箇所） (5) マージ直前の一括処置の台帳（`#29` の「Verify の結果と user 判断」）に、`reviews/page-master_data_tool.md` の2箇所と `tools/testdata_converter.rst` の行番号ずれを追加した。**この2件は user 指示により今回は直していない**
+- **`/rn:up`（2026-08-19）の処置2件** — `/rn:gm` の報告で残していた user 判断待ち2件を、user がどちらも「いま直す」と裁定し、次を是正した。 (1) `checks/task-30.md` の各表の Evidence 欄が引く `ja/` の `file:line` を `e023648a` 時点の現物に合わせ、案件ルール「事実には `file:line` と参照コミットハッシュを必ず添える」に従って測定時点を各行に明記した（節冒頭に基準を1行置き、該当6行に注記）。`ja/` は `e023648a`〜`4620c43` で無変更であることを md5 で確認したうえで実測した。番号の付け替えだけでは再発するという user 指摘への処置がこの明記である (2) 台帳 `NTF-MOD-01-3` の「2段目」の出典を `b44268c:.rn/ntf-test-data-converter/steering.md` から `3ecf3db:.rn/ntf-test-data-converter/steering.md:867` に差し替え、`NTF-MOD-01-2` と同じ形（逐語の引用＋「レビュー役が実物で確認して引用」）にした。同じ行が既に引く `3ecf3db:…/coverage/issues.md:2562` とコミットが揃う。user が両コミットを実物で確認し、逐語が同一であることを確認した。**(1) で申告外の是正4件を追加した**（`tools/testdata_converter.rst` の `:111-113`→`:110-112`、`tools/master_data_tool.rst:32` の逐語が是正前のもののまま、`setup/class_unit_test.rst` の節見出しが `:132` ではなく `:133`、`setup/junit5_extension.rst` の先例が `:70-71` ではなく `:71-72`）。いずれも Evidence 欄の `.rst:N` であり、測定時点を明記する以上そのままでは虚偽になるため直した
 
 # State
 
@@ -817,8 +818,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-19
-- **Last completed**: #30 の `/rn:gm`（2026-08-19）差し戻し5点の是正（`e023648`。TODO 3行目の条件指し化・呼称の削除・台帳 `NTF-MOD-01-2` の出典統一・`grep -i httpdump` の条件文差し替え・マージ直前の台帳への2件追加）
-- **Next**: `#30` の user review（`/rn:ty` で承認、`/rn:gm` で再差し戻し）。承認後に残るのはマージ直前の一括処置のみ
-- **Notes**: ブランチ `ntf-yaml-support`（`e023648` まで push 済み。未 push のコミット・未追跡パスとも無し）。**user 判断待ち2件**（`/rn:gm` の報告で提示済み・未処置） — (1) `checks/task-30.md` の Self-check Evidence が引く `testdata_converter.rst:64`・`:64-66` は現況 `:63`・`:63-65`（`c650039` で下線直後の空行を落とした分）。マージ直前の台帳へ足すか今直すか (2) 台帳 `NTF-MOD-01-3` の「2段目」の出典が `b44268c:.rn/ntf-test-data-converter/steering.md` のままで、`NTF-MOD-01-2` で統一した `3ecf3db` に揃えるかどうか。マージ直前の一括処置の台帳は `#29` の「Verify の結果と user 判断」、`/rn:gm` の処置内容は `#30` の「Verify の結果（2026-08-19）」
+- **Status**: not suspended
+- **Date**: YYYY-MM-DD
+- **Last completed**: #N description
+- **Next**: #N description
+- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
