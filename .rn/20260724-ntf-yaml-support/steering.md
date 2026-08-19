@@ -723,24 +723,41 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 2. `maven-surefire-plugin`「2.22.0以上」の下限値の出典 — `TODO(NTF-SRC-01)`
    （`setup/junit5_extension.rst:73`）
 
+### #29: モジュール側の判定反映（4事象の確定と TODO 台帳の更新）
+
+**Purpose**: `nablarch-testing`・`nablarch-testing-converter` で確定した判定を解説書に反映し、待つものが無くなった TODO を外して、残る TODO を「何がマージされたら外すか」が分かる状態にする。`#last`（Evaluation sign-off）の承認後に user から届いた追加依頼であり、承認済みの成果に対する差分タスクである。
+
+**根拠（モジュール側の一次情報。本作業ディレクトリからは参照できないため、user が作業指示に引用した文面による）**:
+
+- `nablarch-testing` `8530497:docs/pr75/steering.md` — 4事象の判定（事象1=仕様・解説書側対応／事象2=現状維持／事象3=不具合・#21 で対応／事象4前半=仕様・現状維持／事象4後半の YAML 対応=#22 で対応）。#21・#22 はいずれも未着手
+- `nablarch-testing-converter` `b44268c:.rn/ntf-test-data-converter/steering.md` — 同名で拡張子違いの Excel ブックの同居は `XLS-28` として要対応（新規課題・2026-08-18 user 確定）・未着手
+
+**Steps**:
+
+- [ ] A. `tools/request_data_tool.rst` の `TODO(NTF-MOD-02-1)` を3行とも削除する。本文は1文字も変えない（事象1は仕様と判定済み、かつ本文を現行解説書に合わせて据え置くという user 判断による）
+- [ ] B. `tools/master_data_tool.rst` の `TODO(NTF-MOD-02-4)` の直後に、確定した事象4前半の制約だけを1件書く。ディレクティブの要否は `mapping/style.md` S-06 に従って判断する。`#28` で削除した3文のうち「Excel 形式で記述する」「YAML 形式用のパーサを設定しているプロジェクトでは本ツールを使用できない」の2文は書き戻さない
+- [ ] C. TODO コメント3件（`NTF-MOD-02-4`・`NTF-MOD-02-3`・`NTF-MOD-01-2`）の1行目・3行目を判定後の文言に更新する。3行の書式は保つ。`.rst` の地の文は B の1件を除いて変えない
+- [ ] D. 記録を更新する。(1) `checks/task-last.md` §8 の台帳（`NTF-MOD-02-1` の行を削除、残る3件の「判定・情報が返ったときにやること」列を書き換え、実測を取り直す） (2) `checks/task-28.md` §7「本文の書き換えを伴った箇所」への追記と §7-3 の表からの `NTF-MOD-02-1` の除去 (3) `reviews/page-request_data_tool.md`・`reviews/page-master_data_tool.md` の該当箇所への追記 (4) 本 `steering.md` の Task list と State
+
+**Completion criteria**:
+
+- `ja/` 配下の `TODO(NTF-` が **13件・12ID**（`NTF-MOD-02-1` が消え、`NTF-SRC-02` のみ2箇所）である
+- `tools/request_data_tool.rst` の差分が TODO 3行（と体裁を合わせた空行）の削除だけであり、`:86` の httpDump.bat/httpDump.sh の1文と `:66` の `:download:` 1件は変わっていない
+- `tools/master_data_tool.rst` に加わった地の文が B の1件だけであり、書き戻し禁止の2文が本文に無い
+- TODO 3件が判定後の文言になっており、3行の書式（1行目に事象・2行目に依頼書のパスと節・3行目に扱い）を保っている
+- D の記録4種がすべて更新され、`.rn/` 内どうしの参照が節見出しで書かれている（Rules）
+- Docker フルビルドが WARNING・ERROR ともに0件（ゲート7）
+- `verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` がすべて PASS
+- 禁止事項（`ja/conf.py`・`mapping/glossary.md` §5.15・`mapping.csv` 直接編集・`en/`・`locales/` の `.gitignore` 追加）に触れていない
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-19
-- **Last completed**: 全タスク完了済み（`#last` は `8ebc7b1` で承認クローズ）。本セッションは `/rn:up` による
-  再開のみで、タスクの実作業は行っていない（State をプレースホルダへ戻した `bbad4ea` のみ）
-- **Next**: user のマージ指示待ち。指示があるまで `main` へマージせず、`.rn/` の扱い（含める／外す）も保留する（Rules）
-- **Notes**: ブランチ `ntf-yaml-support`（`origin` と ahead/behind ともに 0・作業ツリーはクリーン）。
-  **未判断が1件** — Rules の節見出し方式を `.rn/` 全体に適用するか。**推奨は「適用しない（今後書く参照にのみ
-  Rules を効かせる）」で、user に提示済み・回答待ち**。実測（`bbad4ea` 時点、`.rn/20260724-ntf-yaml-support/`
-  配下で `grep -rhoE '[A-Za-z0-9_./-]+\.md:[0-9]+' --include='*.md' . | wc -l`）は 1,011件。分類できた
-  1,010件の内訳は、更新されうる文書を指すもの762件（`design.md` 321・`mapping/style.md` 168・
-  `mapping/glossary.md` 108・`checks/task-05.md` 66 に集中）／`input/`・完了済み指示書など凍結資料を
-  指すもの234件／参照先ファイルが見つからないもの14件。中間案は上位3ファイル計597件のみ直す案。
-  未達は `TODO(NTF-SRC-01)`・`TODO(NTF-SRC-02)` の2件で、いずれも一次情報が本作業環境で取得できないための
-  保留（既決・本文は変更しない）。`ja/` 配下の `TODO(NTF-` は14件、現在地は `grep -rn 'TODO(NTF-' ja/` で取る。
-  台帳は `checks/task-last.md` §8。user 未解決の untracked パスは無し
+- **Status**: not suspended
+- **Date**: YYYY-MM-DD
+- **Last completed**: #N description
+- **Next**: #N description
+- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
