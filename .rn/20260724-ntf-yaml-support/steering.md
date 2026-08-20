@@ -835,8 +835,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-19
-- **Last completed**: `#30` — user review 承認済み（`/rn:ty`、2026-08-19、`03c9dcb`）。あわせてマージ直前の一括処置の台帳へ1件を追加した（`checks/task-30.md` の Verification expert 指摘1 の行が `/rn:gm` の差し戻しを反映していない件）
-- **Next**: Tasks は `#30` まで全件完了。残るのはマージ直前の一括処置のみ（台帳は `#29` の「Verify の結果と user 判断（2026-08-19）」。現時点の項目は `#29` から1項目（V7・V8・V9 と `checks/task-29.md` の Self-check Evidence 3箇所）と `#30` から3項目）。着手のタイミングは user が決める
-- **Notes**: ブランチ `ntf-yaml-support`（`03c9dcb` まで push 済み。未 push のコミット・未追跡パスとも無し）。**user 判断待ちは0件。** ただしマージ前に裁定が要るものが2件残っている — `#29` の V3（`implementation/deal_unit_test/mom.rst` の `TODO(NTF-MOD-02-3)` 1行目に禁止語「不具合」）と V4（`#21`・`#22`・`XLS-28` が GitHub issue 番号のように読める）。いずれも `#29` の「Verify の結果と user 判断（2026-08-19）」の「未処置のまま残る」
+- **Status**: not suspended
+- **Date**: YYYY-MM-DD
+- **Last completed**: #N description
+- **Next**: #N description
+- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
