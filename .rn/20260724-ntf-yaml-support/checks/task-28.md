@@ -449,7 +449,6 @@ ja/development_tools/testing_framework/implementation/request_unit_test/rest.rst
 
 | 識別子 | ファイル（`ja/development_tools/testing_framework/` 配下） | 依頼書 | 節 |
 |---|---|---|---|
-| `NTF-MOD-01-1` | `tools/testdata_converter.rst` | `ntf-mod-01-nablarch-testing-converter.md` | §2（事象1: XLS → YAML → XLS → YAML の往復で内容が変わる） |
 | `NTF-MOD-01-2` | `tools/testdata_converter.rst` | `ntf-mod-01-nablarch-testing-converter.md` | §3（事象2: 同名で拡張子違いの Excel ブックが同居すると、片方の変換結果が無言で失われる） |
 | `NTF-MOD-02-2` | `setup/request_unit_test/rest.rst` | `ntf-mod-02-nablarch-testing.md` | §3-3（`nablarch.test.core.http.dump` の実装がどのモジュールにあるか） |
 | `NTF-MOD-02-3` | `implementation/deal_unit_test/mom.rst` | `ntf-mod-02-nablarch-testing.md` | §4（事象3: YAML形式のテストデータで、同期応答メッセージのモックアップの再読み込みが働かない） |
@@ -458,7 +457,7 @@ ja/development_tools/testing_framework/implementation/request_unit_test/rest.rst
 
 行番号は本表でも統合表（`checks/task-last.md` §8「TODO 台帳（統合）」）でも持たない。以後の加筆で動くためで、現在地は `grep -rn 'TODO(NTF-' ja/` で取る。
 
-`#28` の §7 で入れた `TODO(NTF-MOD-*)` は7件だが、本表は現在6行である（`#28` が入れた TODO は §7 の `NTF-MOD-*` 7件だけではなく、§6-5 の `TODO(NTF-FIG-01..04)` 4件を含めて計11件である）。`NTF-MOD-02-1` は判定（事象1=仕様・解説書側対応）と user 判断（本文は据え置く）を受けて `#29` で削除したため、本表から外した（下の「本文の書き換えを伴った箇所」の `NTF-MOD-02-1` の項に追記した2026-08-19 の段落を参照）。
+`#28` の §7 で入れた `TODO(NTF-MOD-*)` は7件だが、本表は現在5行である（`#28` が入れた TODO は §7 の `NTF-MOD-*` 7件だけではなく、§6-5 の `TODO(NTF-FIG-01..04)` 4件を含めて計11件である）。`NTF-MOD-02-1` は判定（事象1=仕様・解説書側対応）と user 判断（本文は据え置く）を受けて `#29` で削除したため、本表から外した（下の「本文の書き換えを伴った箇所」の `NTF-MOD-02-1` の項に追記した2026-08-19 の段落を参照）。`NTF-MOD-01-1` も、依頼書 §2 の3事象の判定がすべて返って `#31` で削除したため、同じ扱いで本表から外した（`checks/task-last.md` §8「TODO 台帳（統合）」の削除記録の段落と、`checks/task-31.md`「判定の内訳（3事象）」を参照）。
 
 節番号は3つの依頼書を実際に開いて確認した（指示書 `:699-707` の表を写していない）。指示書の表は「事象1」「事象2」といった事象番号で書かれており、依頼書の節番号は事象番号と1対1に対応する（`ntf-mod-01` は事象1=§2・事象2=§3、`ntf-mod-02` は事象1=§2・事象3=§4・事象4=§5）。
 
