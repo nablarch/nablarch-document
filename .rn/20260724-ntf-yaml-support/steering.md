@@ -1007,12 +1007,12 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
 **Steps**:
 
-- [ ] 1. `tools/testdata_converter.rst:71` の段落を、指示書 §1 の「変更後」の逐語に置き換える。書く前に `XlsFormatReader` の5系統（テーブル系・`LIST_MAP`・メッセージ・ファイル系・同期応答電文）すべてで行末の空セルが落ちることを実装から確かめ、確かめた経路を `reviews/page-testdata_converter.md` に記録する。**1系統でも落ちない経路が見つかったら段落を書かずに報告する**（指示書 §1）
-- [ ] 2. `implementation/testdata_notation.rst:1545` の直後に `list-table` の行を1行足す。既存の `:1544`-`:1545` は変えない。出典を `reviews/page-testdata_notation.md` に記録する（指示書 §2）
-- [ ] 3. 台帳5行（`current-0201`・`current-0282`・`current-0296`・`current-0309`・`current-0323`）の `note` 末尾の一文を、列挙を外したポインタ1文に置き換える。`mapping.csv` の直接編集は禁止で、`mapping/_batch/*.csv` を直してから昇順連結で作り直す（指示書 §3）
-- [ ] 4. `design.md` §「利用側ページに内部構造の構成図を置かない」の2か所を直す。`:147` の件数の説明を列挙を外した事実の記述に置き換え、`:143` の括弧書き末尾の一文を削る。**同節の他の記述は変えない**（指示書 §4）
-- [ ] 5. `design.md:147` をリード文＋箇条書きに割る。**文言は1文字も変えない**。改行・行頭記号・連続空白を除いた文字列の完全一致で検算する（指示書 §5）
-- [ ] 6. 検証。`verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` と、既存イメージでの Docker フルビルド。ビルド直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し `_build/` を削除する（指示書 完了条件10〜13）
+- [ ] 1. `tools/testdata_converter.rst:71` の段落を、指示書 §1 の「変更後」の逐語に置き換える。書く前に `XlsFormatReader` の5系統（テーブル系・`LIST_MAP`・メッセージ・ファイル系・同期応答電文）すべてで行末の空セルが落ちることを実装から確かめ、確かめた経路を `reviews/page-testdata_converter.md` に記録する。**1系統でも落ちない経路が見つかったら段落を書かずに報告する**（指示書 §1）—— **反例が出たため段落は書いていない。user 判断待ち**（`17b0254` のコミットメッセージと `reviews/page-testdata_converter.md`）
+- [x] 2. `implementation/testdata_notation.rst:1545` の直後に `list-table` の行を1行足す。既存の `:1544`-`:1545` は変えない。出典を `reviews/page-testdata_notation.md` に記録する（指示書 §2）
+- [x] 3. 台帳5行（`current-0201`・`current-0282`・`current-0296`・`current-0309`・`current-0323`）の `note` 末尾の一文を、列挙を外したポインタ1文に置き換える。`mapping.csv` の直接編集は禁止で、`mapping/_batch/*.csv` を直してから昇順連結で作り直す（指示書 §3）
+- [x] 4. `design.md` §「利用側ページに内部構造の構成図を置かない」の2か所を直す。`:147` の件数の説明を列挙を外した事実の記述に置き換え、`:143` の括弧書き末尾の一文を削る。**同節の他の記述は変えない**（指示書 §4）
+- [x] 5. `design.md:147` をリード文＋箇条書きに割る。**文言は1文字も変えない**。改行・行頭記号・連続空白を除いた文字列の完全一致で検算する（指示書 §5）
+- [ ] 6. 検証。§1 の確定後に再実行する（2026-08-21 の `17b0254` 時点では全件 PASS・ビルド警告0）。`verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` と、既存イメージでの Docker フルビルド。ビルド直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し `_build/` を削除する（指示書 完了条件10〜13）
 - [ ] 7. 無限定の断定文それぞれについて主語を明示したうえで反例を検索し、自分の括弧書きや直後の列挙が反例になっていないかを確かめた記録を `checks/task-35.md` に書く（指示書 完了条件15）
 
 **Completion criteria**（指示書 `ntf-doc-35.md`「完了条件」1〜15 の逐語）:
@@ -1040,8 +1040,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-21
+- **Last completed**: `#32`（`82322fa`）。`#35` は Steps 2〜5 を `17b0254` で完了
+- **Next**: **`#35` の Step 1 について user 判断待ち2件。**(1) `tools/testdata_converter.rst:71` の差し替え文をどう書くか —— 指示書 §1 の停止条件に当たったため段落は書いていない。5系統すべてで「Excel 形式を読み込む時点で取り除く」は成り立つが、名前がある位置のセルは空文字として中間モデルへ埋め戻される（`nablarch-testing@e21bf67` の `HeaderLine.java:81`、`nablarch-testing-converter@e977824` の `XlsFormatReader.java:424`。テストは同 `XlsFormatReaderCellTypeTest.java:182`-`:188`）。往復して消えるのは名前行そのものの行末の空セルと、名前行の幅を超えた位置のセルの2つだけ。調整役の推奨文面はチャットの報告にある。(2) 完了条件2 が指示書の範囲内で満たせない —— `grep -n 'この整形'` は `:71` と `:249` の2件で、`:249` は指示書 §1 自身が既存用例として挙げた書き出し設定の文。「`:71` に無い」と読み替える案を推奨。判断が出たら Step 1 → Step 6 → Step 7 の順で進め、4観点レビューを1ラウンド回す（是正ラウンドの上限3回）
+- **Notes**: ブランチ `ntf-yaml-support`（`17b0254` まで push 済み）。`main` へのマージは user の明示指示待ち（`.rn/` を含めるかも未決）。`#33`・`#34` はいずれも自身のエントリのとおり着手時に user の判定が要る。`#29` は Steps 全件 `[x]` だが見出しに `— DONE` が無く、V3・V4 の2件が user へ返したまま残っている（同節末尾）。`#32` のエントリは圧縮していない（`#33`・`#34`・`#35` が `#32` の記録を参照しているため）。過剰主張は `#32` で7ラウンド連続して混入した。走査手順は `checks/task-32.md` §「完了条件13 の走査（是正3-4。E-1〜E-3）」にあり、次のラウンドでも同じ手順を当てること
