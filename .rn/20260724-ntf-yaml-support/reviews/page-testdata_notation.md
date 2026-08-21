@@ -579,3 +579,76 @@ user review ではなく、`ntf-doc-10a-followup.md` による指示作業であ
 ### 申し送り
 
 38. **追加行の「無い」は、同ページの多数派表記（かな）と逆である。** 2026-08-21 に本ページ全体を実測したところ、追加行を含めて「無い」2件（`:1534` と今回の `:1547`）に対し、「無い」を除く「ない」は104件だった。`#35` の作業指示 §2 が逐語で「カラム名が無い位置のセルは読み込まれない」を指定しているため、指定どおりに書いた。表記を揃えるかは未判断。
+
+## `#35`-是正1（「（`Excel` 形式のみ）」の成否を YAML 側の実装から確認、2026-08-21）
+
+**結論: 「データ行を名前の幅へ揃える」処理は YAML 形式の読み込みにも存在する。したがって「（\ `Excel`\ 形式のみ）」は、この部分については成り立たない。** 作業指示 `ntf-doc-35-fix1.md` §2 の「あるなら『Excel 形式のみ』は誤りなので、直す前に報告すること」に当たるため、`.rst` は1文字も変更していない。
+
+### 参照コミット
+
+| リポジトリ | コミット | 読み方 |
+|---|---|---|
+| `nablarch-testing-converter` | `e977824` | `git show e977824:<path>` |
+| `nablarch-testing` | `e21bf67` | `git show e21bf67:<path>` |
+| `nablarch-testing-yaml` | `190cc9a` | `git show 190cc9a:<path>` |
+
+`nablarch-testing-yaml` は本ラウンドの作業指示が挙げていないが、YAML 読み込みの実体はこのリポジトリにある。`nablarch-testing-converter@e977824` の `src/main/java/nablarch/test/tool/converter/yaml/YamlFormatReader.java` は自前の YAML 解析を持たず、`src/main/java/nablarch/test/core/reader/YamlTestCoreAdapter.java:14`-`:20` が `nablarch.test.core.reader.yaml.YamlTableDataBuilder`／`YamlFileBuilder`／`YamlMessageBuilder` を `import` している。この3クラスは `nablarch-testing@e21bf67` にも `nablarch-testing-converter@e977824` にも存在せず（両リポジトリで `git ls-tree -r --name-only <commit> | grep -i yaml` を実行し、`reader/yaml/` 配下のビルダが出ないことを確認した）、`nablarch-testing-yaml` の `src/main/java/nablarch/test/core/reader/yaml/` にある。本プロジェクトが他ページで固定している `190cc9a` を使った（`reviews/page-testdata_converter.md:12`・`:15`）。
+
+### 経路1: テーブル・`LIST_MAP`（YAML 側にも幅を揃える処理がある）
+
+`nablarch-testing-yaml@190cc9a` の `src/main/java/nablarch/test/core/reader/yaml/YamlTableDataBuilder.java`。
+
+| `file:line` | 逐語 | 何をしているか |
+|---|---|---|
+| `:180` | `     * 各行をカラム名に揃えた未加工値リストへ写す。` | メソッドの Javadoc が「カラム名に揃え」ると明言している |
+| `:198` | `            List<String> rowValues = new ArrayList<String>(columnNames.size());` | 行の長さをカラム名の数で確保する |
+| `:199` | `            for (String col : columnNames) {` | カラム名の数だけループする（行のキー数ではない） |
+| `:200` | `                rowValues.add(objectToString(rowMap.get(col)));` | カラム名に対応するキーが行に無ければ `null` が入る |
+
+カラム名は先頭行のキーから決まる（`src/main/java/nablarch/test/core/reader/yaml/YamlSection.java:156`-`:161` の `resolveColumns`。`:160` `return new ArrayList<String>(castMap(rows.get(0)).keySet());`）。したがって、2行目以降がカラム名に無いキーを持っていても `:199`-`:200` のループはそのキーを読まない。これは「カラム名が無い位置のセルは読み込まれない」と同じ振る舞いである。
+
+呼び出し元はテーブル系が `:89`（`List<List<String>> rawRows = extractRows(rows, columnNames);`）、`LIST_MAP` が `:153`（`return buildListMapRows(columnNames, extractRows(rows, columnNames), interps);`）で、どちらも同じ `extractRows` を経由する。
+
+### 経路2: ファイル・メッセージ（`Excel` と YAML が同一メソッドを共有している）
+
+幅を揃えるのは `nablarch-testing@e21bf67` の `src/main/java/nablarch/test/core/file/DataFileFragment.java` で、`Excel` 経路と YAML 経路の両方がこのメソッドを呼ぶ。
+
+| `file:line` | 逐語 |
+|---|---|
+| `:102` | `    public void addValue(List<String> line) {` |
+| `:105` | `        for (int i = 0; i < names.size(); i++) {` |
+| `:107` | `            String value = i < line.size() ? line.get(i) : "";` |
+| `:169` | `    public void addValueWithId(List<String> line, String no) {` |
+| `:173` | `        for (int i = 0; i < names.size(); i++) {` |
+| `:175` | `            String value = i < line.size() ? line.get(i) : "";` |
+
+`:105`／`:173` はフィールド名称の数（`names.size()`）でループするため、行が短ければ `:107`／`:175` が `""` を埋め、行が長ければ名称の数を超えたセルは `map` に入らない。
+
+YAML 経路からの呼び出しは `nablarch-testing-yaml@190cc9a` の `src/main/java/nablarch/test/core/reader/yaml/YamlFileBuilder.java:233`（`fragment.addValueWithId(rowValues, String.valueOf(rowNo));`）と `:235`（`fragment.addValue(rowValues);`）。この `buildFragmentsInternal` は、ファイル系（`:120`-`:123` `buildFragmentsForFile`）・受信メッセージ（`:135`-`:138` `buildFragmentsForMessage`）・送信同期メッセージ（`:154`-`:157` `buildFragmentsForSendSync`）の3経路すべてから使われる。`YamlFileBuilder` 自身は `:227`-`:230` で `rowList.size()` ぶんしか値を作らず、幅を揃えていない。揃えているのは `DataFileFragment` 側である。
+
+`Excel` 経路からの呼び出しは `nablarch-testing@e21bf67` の `src/main/java/nablarch/test/core/reader/DataFileParser.java:186`・`MessageParser.java:75`・`SendSyncMessageParser.java:129`・`:134`（`git grep -n 'addValue(\|addValueWithId(' e21bf67 -- src/main/java` の結果から `DataFileFragment.java` 自身を除いた4件がこれで全件）。
+
+この `""` 埋めは、`ja/development_tools/testing_framework/implementation/testdata_notation.rst:883` が可変長ファイルについて既に書いている「YAML 形式でも `rows:` の各要素がフィールド数より短ければ `""` で補完される」と同じ処理である。`:883` の既存記述は正しく、YAML 側に幅を揃える処理があることを既に示していた。
+
+### 「（`Excel` 形式のみ）」のうち、成り立つ部分と成り立たない部分
+
+| 記述 | 成否 | 根拠 |
+|---|---|---|
+| 名前の行の行末の空セルを取り除く | `Excel` 形式のみで成り立つ | `nablarch-testing@e21bf67` の `HeaderLine.java:33` `List<String> keys = trimTailCopy(headerLine);   // キャッシュを破壊しないようにコピーして編集`。YAML 側にカラム名／フィールド名称の行末の空セルという概念が無い。テーブル・`LIST_MAP` のカラム名はマッピングのキー（`YamlSection.java:160`）、ファイル・メッセージのフィールド名称は `fields:` の `name`（`YamlFileBuilder.java:193` `names.add(toStr(field.get(FIELD_NAME)));`）で、いずれも位置ではなく名前で書くため空セルが生じない |
+| 名前が無い位置のセルは読み込まれない／データ行を名前の幅へ揃える | **`Excel` 形式のみではない** | 上記の経路1（`YamlTableDataBuilder.java:198`-`:200`）と経路2（`DataFileFragment.java:105`・`:107`） |
+
+### ラウンド`#35`（`17b0254`）の記録の訂正
+
+本ページ `:573` は「（\ `Excel`\ 形式のみ）」の根拠を、`nablarch-testing@e21bf67` の `src/main/` に `TestDataReader` の実装が `PoiXlsReader` の1件しか無いことに置いていた。**この確認は `nablarch-testing` 1本の中では正しいが、YAML 経路の判定には足りない。** YAML 経路は `TestDataParsingTemplate`／`TestDataReader` を通らず、`nablarch-testing-yaml` の `YamlTableDataBuilder`／`YamlFileBuilder` が直接器を組み立てるためである（`YamlTestCoreAdapter.java:27`-`:29` の Javadoc が「本体の YAML 読み込みは `reader.yaml` パッケージのビルダ……が `YamlLoader#load` の返す順序保持 Map を走査して器を組み立てる」と述べているとおり）。`:573` の走査は `nablarch-testing` の `src/main/` に閉じており、`nablarch-testing-yaml` を見ていなかった。
+
+`:1546`-`:1547` に追加済みの「テーブル・\ ``LIST_MAP``」の行の「（\ `Excel`\ 形式のみ）」も、この訂正の対象に含まれる。停止条件により本ラウンドでは `.rst` を変更していないため、この行は `17b0254` のまま残っている。
+
+### 併せて見つかった不整合（`.rst` は変更していない）
+
+`ja/development_tools/testing_framework/implementation/testdata_notation.rst:1545` の括弧書きは現在こうなっている。
+
+```
+    - 行末の空セルを取り除く（\ Excel\ 形式のみ。\ YAML\ 形式では ``rows:``\ の各要素をそのまま読み込む）
+```
+
+**「\ YAML\ 形式では ``rows:``\ の各要素をそのまま読み込む」は実装と食い違う。** `YamlFileBuilder.java:235` が渡した行は `DataFileFragment.java:105`-`:107` でフィールド名称の数へ揃えられ、短ければ `""` が埋まり、長ければ名称の数を超えたセルは捨てられる。同じページの `:883`（「``rows:`` の各要素の長さ（YAML形式）がフィールド数より少ない場合、不足したフィールドは\ ``""``\ として補完される」）とも食い違っている。是正1 §2 はこの行を「テーブル・\ ``LIST_MAP``」の行と同じ粒度へ直すよう指示しているが、直す内容には「（\ `Excel`\ 形式のみ）」の見直しも含まれるため、user の判断を待って着手する。
