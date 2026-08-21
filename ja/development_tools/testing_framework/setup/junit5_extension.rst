@@ -70,10 +70,6 @@ Extensionクラスと合成アノテーションの一覧
 
 前提事項
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. TODO(NTF-SRC-01): 「2.22.0以上」の下限値の一次出典が未確認。
-   JUnit Platform プロバイダを同梱した maven-surefire-plugin の版をJUnit/Maven側の一次情報で確認し、
-   出典を .rn/20260724-ntf-yaml-support/checks/task-last.md §4 に記録する。記述自体は現行解説書
-   （2e501ad:.../01_Abstract.rst:694・JUnit5_Extension.rst:29）から移設したもので、本文は変えない。
 
 JUnit 5を使用するには、\ ``maven-surefire-plugin``\ が2.22.0以上である必要がある。
 
@@ -397,9 +393,10 @@ baseUriを渡す合成アノテーションを作成する
 
   オーバーライドするときは、必ずスーパクラスの同じメソッドを実行する。実行しないと、スーパクラスで定義された事前処理・事後処理が呼ばれなくなる。
 
-.. TODO(NTF-MOD-03-1): resolveTestRules() に登録したTimeoutがテスト本体に効かない。判定待ち。
+.. TODO(NTF-MOD-03-1): resolveTestRules() に登録したTimeoutがテスト本体に効かない。
+   不具合と判定済みで、nablarch-testing-junit5 側で修正予定・未着手。
    依頼書 .rn/20260724-ntf-yaml-support/ntf-mod-03-nablarch-testing-junit5.md §2。
-   仕様と判定された場合は本文を書き直す。
+   修正後に本文へ反映する。
 
 JUnit 4のTestRuleを再現する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

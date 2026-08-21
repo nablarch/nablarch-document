@@ -48,10 +48,6 @@ RESTfulウェブサービスのリクエスト単体テストには、次の3つ
   <import file="nablarch/test/rest-request-test.xml"/>
   <component name="httpServerFactory" class="nablarch.fw.web.httpserver.HttpServerFactoryJetty12"/>
 
-.. TODO(NTF-MOD-02-2): nablarch.test.core.http.dump の実装を持つモジュールが未特定。回答待ち。
-   依頼書 .rn/20260724-ntf-yaml-support/ntf-mod-02-nablarch-testing.md §3-3。
-   回答の内容に応じて本文を書き直す。
-
 .. important::
 
   ``nablarch-testing-jetty12``\ が提供するのは、内蔵サーバと\ :ref:`リクエスト単体データ作成ツール <request_data_tool>`\ のクラスだけである。コンポーネントの登録は行わないため、\ ``httpServerFactory``\ を登録していないと、内蔵サーバの生成時に例外が発生する。
