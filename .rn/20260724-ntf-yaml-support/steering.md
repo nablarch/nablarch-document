@@ -32,6 +32,7 @@ Rn version: 0.8.0
 - `#23` 作業指示（テーブルデータの0件の扱い。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-23-table-zero-rows.md`
 - `#24` 作業指示（唯一の指示書。ラウンド3 まで反映。旧 `ntf-doc-24-round2.md` を改名・上書き）: `.rn/20260724-ntf-yaml-support/ntf-doc-24.md`
 - `#32` 作業指示（`#31` の打ち切り、残TODOの整理、利用側ページの構成物記述の見直し。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-32.md`
+- `#32-是正` 作業指示（4観点レビューの有効な指摘11件の処置。user 判断5件の結論を含む。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-32-fix.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
@@ -878,6 +879,33 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - [x] 8. `setup/junit5_extension.rst:400-402` の `TODO(NTF-MOD-03-1)` の文言を実状に合わせる。TODO 自体は残す（指示書 §8）
 - [x] 9. `checks/task-32.md` に、手順1〜8の後の TODO 台帳を節見出し方式で作り、`grep -rho 'TODO(NTF-[A-Z0-9-]*)' ja/ | sort | uniq -c` の実測を貼る（指示書 §9）
 
+**是正 Steps**（4観点レビューの有効な指摘11件。指示書 `ntf-doc-32-fix.md`。手順1〜5・7 の check-off はここが片づいてから行う）:
+
+- [ ] 10. `tools/testdata_converter.rst` の `:39` から「空エントリ」を削り、`:69` の段落を差し替える。`:278` は触らず `checks/task-32.md` に1行記録する（是正指示 §1）
+- [ ] 11. `about/index.rst:106` の2文目の直後に、NAF が読み取るコンポーネント設定ファイル／環境設定ファイルの入手先を指す1文を挿入する（是正指示 §2）
+- [ ] 12. `design.md` に節「利用側ページに内部構造の構成図を置かない」を新設し、既存節 `:137` の見出しと末尾段落を実態に合わせる（是正指示 §3-1・§3-2）
+- [ ] 13. マッピング台帳7行（`current-0165`・`0182`・`0200`・`0281`・`0295`・`0308`・`0322`）の `note` に `#32` のポインタを追記する。`_batch/*.csv` を直してから `mapping.csv` を作り直す（是正指示 §3-3）
+- [ ] 14. `implementation/request_unit_test/web.rst`・`rest.rst` のリード文を揃え、`AbstractHttpRequestTestTemplate` を落とし、`SimpleRestTestSupport` を足す（是正指示 §4）
+- [ ] 15. 判断なしで直す6件を直す（`mom.rst:28`・`web.rst:48`・`mom.rst:22`・`junit5_extension.rst:73`・`web.rst:186`、および `checks/task-32.md` の jar の記録）（是正指示 §5）
+- [x] 16. `steering.md` に `#33` を新設する。中身の作業はしない（是正指示 §6）— `/rn:up` の再開時に調整役が実施
+
+**是正 Completion criteria**（是正指示「完了条件」の逐語）:
+
+1. `grep -n '空エントリ' ja/development_tools/testing_framework/tools/testdata_converter.rst` が0件
+2. `grep -n 'マーカーカラム' ja/development_tools/testing_framework/tools/testdata_converter.rst` が `:39`・`:69`・`:278` の3件（`:37` に無い）
+3. `grep -n 'testing_framework_setup' ja/development_tools/testing_framework/about/index.rst` が1件
+4. `grep -c 'AbstractHttpRequestTestTemplate' ja/development_tools/testing_framework/implementation/request_unit_test/web.rst` が0
+5. `_batch/*.csv` を昇順に連結（先頭のみヘッダ込み、2つ目以降はヘッダ除く）した結果が `mapping/mapping.csv` とバイト一致する。`csv.DictReader` の行数が編集前と同じ597行
+6. `design.md` に `### 利用側ページに内部構造の構成図を置かない` が存在し、`:137` の見出しが `### 「アーキテクチャ」は本文のみとし、図も構成物一覧の表も置かない` になっている
+7. `steering.md` に `#33` のエントリが存在する
+8. `python3 mapping/tools/verify_glossary.py` が `RESULT: OK`
+9. `python3 mapping/tools/verify_mapping.py` が `OK: no errors`
+10. `python3 -m pytest mapping/tools -q` が `183 passed, 96 subtests passed`
+11. Docker フルビルドで `grep -cE 'WARNING:|ERROR:|SEVERE:' build.log` が 0。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行する
+12. 禁止事項（`ja/conf.py`・`mapping/glossary.md` §5.15・`mapping.csv` 直接編集・`en/`・`locales/` の `.gitignore` 追加）に触れていない
+13. `checks/task-32.md` に §1-3（`:278`）・§3-3（台帳7行）・§5（jar の実測）の記録がある
+14. `#32` が check-off されている
+
 **Completion criteria**（指示書「完了条件」の逐語）:
 
 - `grep -rho 'TODO(NTF-[A-Z0-9-]*)' ja/ | sort | uniq -c` の結果が5件・5ID になる（`NTF-MOD-01-2` / `NTF-MOD-01-3` / `NTF-MOD-02-3` / `NTF-MOD-02-4` / `NTF-MOD-03-1` の各1件）
@@ -890,14 +918,37 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - `checks/task-32.md` に、手順1-3・2-2・3-2・4-3 の記録と、手順9の台帳がある
 - `#31` が check-off されている（手順0）
 
+### #33: 記法の適用順序の明文化と、残置図の禁止語点検
+
+**Purpose**: `#32` の是正で対象外とした2件を片づける。(a) マーカーカラム除外と空エントリ判定の適用順序を `implementation/testdata_notation.rst` に明文化する。(b) `ja/` 配下に残した図から `glossary.md` の禁止語を排する。
+
+**背景と未決点**:
+
+- **(a) XLS-08 の記法明文化（converter からの申し送り）** — converter は解説書側へ明文化を申し送っている。`nablarch-testing-converter` の `src/main/java/nablarch/test/tool/converter/xls/XlsFormatReader.java:557-560` 逐語:
+
+  > 記法は 2 つの規則の前後関係を定めていない。「除外 → 空エントリ判定」を前提とする（ユーザー確定・2026-08-18。解説書側へ明文化を申し送る）。課題は {@code coverage/issues.md} の XLS-08 に記録している。
+
+  **未決点**: NTF 本体は現在**逆順**で動いている。`.rn/ntf-test-data-converter/coverage/issues.md:499` 逐語:
+
+  > **原因は適用順序である。** 現状は**空エントリ判定をマーカーカラム除外の前に**行っている（本体 `PoiXlsReader#readLine` が生の行で判定 → `TableDataParser#onReadLine` が除外）。
+
+  したがって `implementation/testdata_notation.rst` に「除外 → 空エントリ判定」と書くことは、NTF 本体の不具合を宣言することと同じである。他の `TODO(NTF-MOD-*)` と同じ判定を要する。着手時に user の判定を仰ぐ。
+
+- **(b) 残置図の禁止語** — `implementation/request_unit_test/images/mom/send_sync_base.png` に、`glossary.md` が禁止する「自動テストフレームワーク」のノードが2つある（2026-08-21、user が画像を開いて確認）。`ja/` 配下の png は26枚あり、同種の全点検が要る。差し替え図の作成を伴う。
+
+  あわせて線引き（内部クラス構造を示す図は落とす／テスト範囲・作業の流れを示す図は残す）を `design.md` §「利用側ページに内部構造の構成図を置かない」に追記する。
+
+**Steps**: 着手時に詳細化する。
+
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-21
-- **Last completed**: `#31` `TODO(NTF-MOD-01-1)` の解消と「空エントリ」の記述の是正（`1618faf`）
-- **Next**: `#32` — 手順1〜9 は実装・コミット済み（`b3e76fc`・`0806ea5`・`9031fa6`）。Steps 0・6・8・9 を check off 済み。**4観点レビューはすべて fail** で、再開時の最初の動作は user への5件の問い合わせの回答待ちである
-- **Notes**: ブランチ `ntf-yaml-support`。`main` へのマージは user の明示指示待ち（`.rn/` を含めるかも未決）。**回答なしに `ja/` を触らないこと。** 有効な指摘11件の全文と、調整役が実測で裏を取った一覧は `checks/task-32.md` の「Expert Reviews」「調整役が実測で裏を取った事項」「Overall Verdict」にある。**user 判断待ち5件**: (1) `tools/testdata_converter.rst:69` の新段落 — 「テストの実行結果は変わらない」に出典が無く、converter `229201f` の `xls/XlsFormatReader.java:549-560` が本体との規則順序の相違を明文で述べ「解説書側へ明文化を申し送る」と書いている（課題 `XLS-08`）。同ページ `:278` の `markerColumnColor` とも矛盾する。(2) `about/index.rst:106` — 削除図が持っていた「NAF →設定ファイル（読み取る）」が本文に無い。(3) `mapping.csv` の `disposition=MOVE` 6行（`current-0165`・`0182`・`0200`・`0281`・`0295`・`0308`）と `design.md` の「「アーキテクチャ」は図のみとし…」節が、削除した図を前提にしたまま。`mapping.csv` 直接編集は禁止事項のため `design.md` へ記録する作法に倣う想定。(4) 「主なクラスとリソース」の採否基準 — リード文2種の不揃い、`SimpleRestTestSupport` の欠落、`AbstractHttpRequestTestTemplate` の残置（指示書 §7-1 の根拠は誤り）。(5) 残置図 `send_sync_base.png` ほかの禁止語「自動テストフレームワーク」。**判断なしで直す6件**: `mom.rst:28` の宙に浮いた導入文、`web.rst:48` の係り受け、`mom.rst:22` の語順、`junit5_extension.rst:73` の空行、`web.rst:186` の `Run Configurations...`、`checks/task-32.md` の jar の記録（全版に `template.xls` が残り、消えたのは `.class` 7件だけ）。**調整役が独立に実測済み**: 完了条件4・5・6 は PASS、完了条件7 はクリーンなフルビルド（325ファイル全再構築・`build succeeded.`・警告0）、削除9ファイルへの参照0件、`en/` 無傷、`locales/` 混入なし。完了条件2・3 は指示書の grep 文字列自体が誤りで字義判定は不能（実体は満たす）。user-deferred path: `?? .rn/20260724-ntf-yaml-support/checks/task-32.md`（`#31` と同じく、check ファイルは `#32` の check-off コミットで調整役が staging するため未追跡のまま保持する。削除も `.gitignore` 追加もしないこと）
+- **Status**: not suspended
+- **Date**: -
+- **Last completed**: -
+- **Next**: -
+- **Notes**: -
