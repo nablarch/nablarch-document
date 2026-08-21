@@ -31,6 +31,7 @@ Rn version: 0.8.0
 - `#22` 事前情報（取引単体テストの設定（RESTfulウェブサービス））: `.rn/20260724-ntf-yaml-support/ntf-doc-22-deal-unit-test-rest.md`
 - `#23` 作業指示（テーブルデータの0件の扱い。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-23-table-zero-rows.md`
 - `#24` 作業指示（唯一の指示書。ラウンド3 まで反映。旧 `ntf-doc-24-round2.md` を改名・上書き）: `.rn/20260724-ntf-yaml-support/ntf-doc-24.md`
+- `#32` 作業指示（`#31` の打ち切り、残TODOの整理、利用側ページの構成物記述の見直し。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-32.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
@@ -858,14 +859,45 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - `verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` がすべて PASS
 - 禁止事項（`ja/conf.py`・`mapping/glossary.md` §5.15・`mapping.csv` 直接編集・`en/`・`locales/` の `.gitignore` 追加）に触れていない
 
+### #32: `#31` の是正打ち切りと、残TODOの整理、利用側ページの構成物記述の見直し（user 指示 2026-08-21）
+
+**Purpose**: 3つを片づける。(1) `#31` が残した未決点を `tools/testdata_converter.rst` の本文で解消する。(2) 一次情報が揃った残TODO 4件（`NTF-MOD-02-2`・`NTF-SRC-01`・`NTF-SRC-02`・`NTF-FIG-01`〜`04`）を外し、`NTF-MOD-03-1` の文言を実状に合わせる。(3) 利用側ページから、利用者がNTFの内部の作りを知る必要のない記述（UMLクラス図7件・「主なクラスとリソース」表の7行）を落とす。
+
+**指示書**: `.rn/20260724-ntf-yaml-support/ntf-doc-32.md`。手順1〜8の対象行・変更前後の文面・一次情報の逐語はすべて同ファイルにある。**モジュール側リポジトリは作業ディレクトリの外にあるため見に行かない**（必要な一次情報は指示書に逐語で引用されている）。
+
+**Steps**:
+
+- [x] 0. `#31` を閉じる（`checks/task-31.md` の誤記5件を削り、指摘1・2・4 を `#30` Step 6 へ送り、指摘5 を処置不要と記す。`#31` を check-off する）— `1618faf` で完了
+- [ ] 1. `tools/testdata_converter.rst` の `:37`・`:39` を書き換え、`:67` の直後に「前提事項」の段落を1つ足す。根拠の逐語3組を `checks/task-32.md` に記録する（指示書 §1）
+- [ ] 2. `setup/request_unit_test/rest.rst` の `TODO(NTF-MOD-02-2)` を外し、jar の実測を `checks/task-32.md` に記録する（指示書 §2）
+- [ ] 3. `setup/junit5_extension.rst` の `TODO(NTF-SRC-01)` を外し、JUnit 5.3.0 リリースノートと Surefire 2.22.0 告知の逐語を `checks/task-32.md` に記録する（指示書 §3）
+- [ ] 4. `setup/request_unit_test/web.rst` の5行と `tools/request_data_tool.rst` の1行を書き換え、`TODO(NTF-SRC-02)` 2箇所を外す。出典と「Open With」の扱いを `checks/task-32.md` に記録する（指示書 §4）
+- [ ] 5. 利用側ページの構成図を全廃する。`TODO(NTF-FIG-01)`〜`04` の4ブロックと、残る `.. image::` 3件、および図に言及する本文2箇所を削る（指示書 §5）
+- [ ] 6. 参照されなくなった画像・作図元 9ファイルを削除する。`en/` 配下の同名ファイルは削除しない（指示書 §6）
+- [ ] 7. 「主なクラスとリソース」の表から7行を削り、本文4箇所から同じクラス名を落とす（指示書 §7）
+- [ ] 8. `setup/junit5_extension.rst:400-402` の `TODO(NTF-MOD-03-1)` の文言を実状に合わせる。TODO 自体は残す（指示書 §8）
+- [ ] 9. `checks/task-32.md` に、手順1〜8の後の TODO 台帳を節見出し方式で作り、`grep -rho 'TODO(NTF-[A-Z0-9-]*)' ja/ | sort | uniq -c` の実測を貼る（指示書 §9）
+
+**Completion criteria**（指示書「完了条件」の逐語）:
+
+- `grep -rho 'TODO(NTF-[A-Z0-9-]*)' ja/ | sort | uniq -c` の結果が5件・5ID になる（`NTF-MOD-01-2` / `NTF-MOD-01-3` / `NTF-MOD-02-3` / `NTF-MOD-02-4` / `NTF-MOD-03-1` の各1件）
+- `tools/testdata_converter.rst` に「意図のある情報」の行として「無損失で保持する。空欄のレコード種別が該当する」があり、「マーカーカラム」は「意味を持たない情報」の行にだけ現れる。`grep -n 'マーカーカラム' ja/development_tools/testing_framework/tools/testdata_converter.rst` のヒットが「意味を持たない情報」の行と「前提事項」の新段落の2件だけになる
+- 削除した9ファイルへの参照が `ja/` 配下に残っていない。`grep -rn 'batch_request_test_class\|real_request_test_class\|send_sync\|rest_request_unit_test_structure\|request_unit_test_structure\|class_structure\|abstract_structure' ja/` の結果が0件
+- `python3 mapping/tools/verify_glossary.py` が `RESULT: OK`
+- `python3 mapping/tools/verify_mapping.py` が `OK: no errors`
+- `python3 -m pytest mapping/tools -q` が `183 passed, 96 subtests passed`
+- Docker でフルビルドし、`grep -cE 'WARNING:|ERROR:|SEVERE:' build.log` が 0。ビルド直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を必ず実行する
+- `checks/task-32.md` に、手順1-3・2-2・3-2・4-3 の記録と、手順9の台帳がある
+- `#31` が check-off されている（手順0）
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-21
-- **Last completed**: #30 `TODO(NTF-MOD-02-2)` の解消（`c650039`）
-- **Next**: #31 `TODO(NTF-MOD-01-1)` の解消と「空エントリ」の記述の是正 — Steps 1・2 は完了。Step 3 は (1)(2)(3) 済み、(4) の check-off が user 判断待ちで未了
-- **Notes**: ブランチ `ntf-yaml-support`。`main` へのマージは user の明示指示待ち（`.rn/` を含めるかも未決）。**再開時の最初の動作は user への2件の問い合わせの回答待ちであり、回答なしに `ja/` を触らないこと。** (A) 是正ラウンド上限（3回、`fe0c775`）後に残った有効な指摘9件を4ラウンド目で直してよいか。9件の内訳と実測の裏づけは `checks/task-31.md`「未解決の指摘（是正ラウンド上限後）」にある。すべて `.rn/` の記録の記述に関するもので `ja/` への指摘は0件。調整役の推奨は「直す」で、特に指摘5（`#31` が残した未決点が本 `steering.md` にしか無く、マージ後に流れる）は放置すると情報が失われる。(B) `ja/` 本文への追加手当て3件（`checks/task-31.md`「申し送り」1〜3。「外側」の限定が宙に浮いている件・未検証の「マーカーカラム」の追跡・前提事項への1文追加）。いずれも「削除だけ」という user 指示の範囲外のため本文は未変更。user-deferred path: `?? .rn/20260724-ntf-yaml-support/checks/task-31.md`（rn の運用上 check ファイルは `#31` の check-off コミットで調整役が staging するため、check-off まで未追跡のまま保持する。削除も `.gitignore` 追加もしないこと）。設計観点は指示書にスコープ制約を書き落として回したため判定を採用していない（`checks/task-31.md` の Design Expert の行）
+- **Status**: not suspended
+- **Date**: -
+- **Last completed**: -
+- **Next**: -
+- **Notes**: -
