@@ -1004,8 +1004,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-21
+- **Last completed**: `#32`（`82322fa`）。判断A〜E の反映（`4d0a48a`）と4観点レビュー2ラウンドの是正31件（`1ccfc53`・`6946fa1`・`53cd2c4`）
+- **Next**: **user へ上げた5件の回答待ち。**内容は `checks/task-32.md` §「4観点レビューの判定（是正3。調整役が記入。2026-08-21）」の「user へ上げた5件」にある。うち3件（`tools/testdata_converter.rst:71` の適用範囲・「メッセージのテストデータ」・「この整形」）は解説書の公開本文を動かす。回答が無い場合に着手できるのは `#33`（(a)〜(e-3) はいずれも着手時に user の判定が要る）か `#34` だが、**Rules「user review の承認を受けるまで次タスクに着手しない」に従い、着手の指示を待つ**
+- **Notes**: ブランチ `ntf-yaml-support`（push 済み、作業ツリーはクリーン）。`main` へのマージは user の明示指示待ち（`.rn/` を含めるかも未決）。`#29` は Steps 全件 `[x]` だが見出しに `— DONE` が無く、V3・V4 の2件が user へ返したまま残っている（同節末尾）。`#32` のエントリは圧縮していない —— 上の5件と `#33`・`#34` が `#32` の記録を参照しているため、圧縮はそれらが片づいてから行う。過剰主張は `#32` で7ラウンド連続して混入した。直近2件は語ベースの走査をすり抜けた「主語の無い断定文」と「母集団を限定しない件数」であり、走査手順は `checks/task-32.md` §「完了条件13 の走査（是正3-4。E-1〜E-3）」に更新済み。次のラウンドでも同じ手順を当てること
