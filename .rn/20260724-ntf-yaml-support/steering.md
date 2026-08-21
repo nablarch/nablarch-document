@@ -45,6 +45,7 @@ Rn version: 0.8.0
 | `nablarch-testing` | `e21bf67`（2024-09-27 `Merge remote-tracking branch 'origin/release-6u2'`） | `fdf55d4`（2026-08-05 `chore: jacoco.exec を .gitignore に追加`、ブランチ `convert-testdata-excel-to-text`） | **HEAD は参照コミットと分岐している**（merge-base `6aa6989`、HEAD 側に14コミット・`e21bf67` 側に16コミット）。作業ツリーを直接 `grep` すると `e21bf67` と違う内容を読む |
 | `nablarch-testing-yaml` | `190cc9a`（2026-08-13 `revert: rows: [] の列名 DbInfo フォールバックを差し戻す`） | `e69b69f`（2026-08-14 `docs(steering): #14 Acceptance criteria 実行結果を記録`、ブランチ `feature/ntf-yaml`） | `190cc9a` は HEAD の祖先（12コミット前進）。`#26` までのページはすべて `190cc9a` で検証済み |
 | `nablarch-testing-converter` | `45194f9`（2026-08-14 `docs(coverage): レビュー指摘を台帳へ反映し、実測と食い違う数値を直す`、ブランチ `ntf-test-data-converter`） | 同左（`45194f9`） | `#27-03` 執筆中に `e80a4dd`→`2f21bce`→`45194f9` と動いた。ここでピンする |
+| `nablarch-testing-converter`（`#32` のみ） | `e977824`（`#32` の作業指示 `ntf-doc-32-fix2.md` §5-1 が参照コミットとして指定。上のピン `45194f9` の131コミット後。実測: `git rev-list --count 45194f9..e977824` → `131`、2026-08-21） | — | **上のピンを書き換えるものではない。** `#32` が根拠に使う逐語だけがこのコミットで成立する（`#33` (a) の `XlsFormatReader.java:558-560` を含む）。他タスクの根拠は `45194f9` のまま |
 | `nablarch-testing-rest` | `9ada31e`（2026-06-25 `chore: suspend session — fix-testdataparser-usage`、ブランチ `fix-testdataparser-usage`） | 同左（`9ada31e`） | 動きなし |
 
 # Rules
@@ -916,7 +917,7 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - [ ] 21. 判断5。`reviews/page-testdata_converter.md` に出典と実装の食い違い3件を記録する（是正2指示 §5-1）
 - [ ] 22. 判断4(b)。マッピング台帳6行（`current-0201`・`0282`・`0296`・`0309`・`0323`・`input-0184`）の `note` に `#32` のポインタを追記する。`_batch/*.csv` を直してから `mapping.csv` を作り直す（是正2指示 §5-2）
 - [ ] 23. 判断6。`#33` に (c) `markerColumnColor` の説明不足を足し、見出しを改める（是正2指示 §6）
-- [ ] 24. 検証。`verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` と、**`docker build` から作り直した** Docker フルビルド。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo`（是正2指示 完了条件10〜13）
+- [ ] 24. 検証。`verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` と Docker フルビルド。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo`（是正2指示 完了条件10〜13）。**`docker build` からのイメージ再作成は `#34` へ分離した**（`#32` のレビュー是正、2026-08-21）。是正2指示 完了条件13 は「今回も失敗する場合は、失敗ログをそのまま `checks/task-32.md` に記録し、`#33` へ送る」という逃げ道を定めており、`docker build` は実際に `pip install` の TLS 検証で失敗した。その逃げ道に沿って失敗ログを `checks/task-32.md` に記録し、送り先を記述課題の `#33` ではなく環境課題として独立させた `#34` とした。**`#32` は、既存イメージでのフルビルドが警告0・`build succeeded.` であることをもって完了条件13 の代替とする。**
 
 **是正2 Completion criteria**: 是正2指示 `ntf-doc-32-fix2.md`「完了条件」1〜16 の逐語による。**このタスクの最終判定はこの16件で行う**（上の「是正 Completion criteria」2 と「Completion criteria」の「マーカーカラム」2件の条件は、是正2 の §2-2 が段落を1つ足すため、是正2 完了条件1・2 に置き換わる）
 
@@ -938,11 +939,11 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
 **背景と未決点**:
 
-- **(a) XLS-08 の記法明文化（converter からの申し送り）** — converter は解説書側へ明文化を申し送っている。`nablarch-testing-converter` の `src/main/java/nablarch/test/tool/converter/xls/XlsFormatReader.java:557-560` 逐語:
+- **(a) XLS-08 の記法明文化（converter からの申し送り）** — converter は解説書側へ明文化を申し送っている。`nablarch-testing-converter@e977824` の `src/main/java/nablarch/test/tool/converter/xls/XlsFormatReader.java:558-560` 逐語（`:557` は `<p>`。Assumptions のピン `45194f9` では同じ行が `deduplicateColumnNames` の実装であり、この逐語は成立しない。いずれも 2026-08-21 に `git show` で実測）:
 
   > 記法は 2 つの規則の前後関係を定めていない。「除外 → 空エントリ判定」を前提とする（ユーザー確定・2026-08-18。解説書側へ明文化を申し送る）。課題は {@code coverage/issues.md} の XLS-08 に記録している。
 
-  **未決点**: NTF 本体は現在**逆順**で動いている。`.rn/ntf-test-data-converter/coverage/issues.md:499` 逐語:
+  **未決点**: NTF 本体は現在**逆順**で動いている。`nablarch-testing-converter@e977824` の `.rn/ntf-test-data-converter/coverage/issues.md:493-494` 逐語（2026-08-21 に `git show` で実測。1巡目までの `:499` は作業ツリーを行番号で指した誤り）:
 
   > **原因は適用順序である。** 現状は**空エントリ判定をマーカーカラム除外の前に**行っている（本体 `PoiXlsReader#readLine` が生の行で判定 → `TableDataParser#onReadLine` が除外）。
 
@@ -967,6 +968,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - 2026-08-21 に `docker build -t nablarch-document-build .` を実行したが、`Dockerfile:19` の `pip install` が社内 TLS 傍受の自己署名 CA を検証できず exit 1 で失敗する（`ERROR: Could not find a version that satisfies the requirement setuptools==57.5.0 (from versions: none)`。原因は `SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain'))`）。ホストには CA が `/usr/local/share/ca-certificates/ca.crt` として置かれ `SSL_CERT_FILE` も向いているが、`Dockerfile` はこれをイメージへ入れていない。`#32` の是正2 では既存イメージ（`a974e0c8ac60`、7日前）でフルビルドしたため、イメージ自体は2回続けて未検証である。`Dockerfile` は `#32` の作業範囲外のため触っていない。
 
 - **未決点**: `Dockerfile` に社内 CA を取り込む変更を入れてよいか、それとも `docker build` 時に CA をマウントする回避手順を作業手順として残すかを、着手時に user へ諮る。
+
+- **`#32` の完了判定との関係**: 是正2指示 `ntf-doc-32-fix2.md`「完了条件」13 は `docker build` からのイメージ再作成を求めつつ、「今回も失敗する場合は、失敗ログをそのまま `checks/task-32.md` に記録し、`#33` へ送る」という逃げ道を定めている。その逃げ道に沿って失敗ログを記録し、記述課題の `#33` ではなく環境課題として独立させた本タスクへ送った。**`#32` は、既存イメージでのフルビルドが警告0・`build succeeded.` であることをもって完了条件13 の代替とし、イメージ再作成の検証は本タスクで行う。**
 
 **Steps**: 着手時に詳細化する。
 

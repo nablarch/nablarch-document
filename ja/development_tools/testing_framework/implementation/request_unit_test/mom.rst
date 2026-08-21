@@ -27,7 +27,7 @@ MOM\ によるメッセージングのリクエスト単体テストは、テス
 
 同期応答メッセージ送信のリクエスト単体テストでは、要求電文1件をキューに送信し、結果を同期的に受信する際の動作を擬似的に再現する。テストは、その処理に付与されたリクエスト\ ID\ 単位で行う。以降、\ Action\ がキューへ送信する電文を要求電文、\ Action\ がキューから受信する電文を応答電文と呼ぶ。
 
-Nablarch\ バッチアプリケーションから同期応答メッセージ送信を行う場合、テストクラスは、\ :java:extdoc:`BatchRequestTestSupport <nablarch.test.core.batch.BatchRequestTestSupport>`\ を継承して作成する。スーパクラスがテストデータを読み取り、テストショットを1件ずつ実行する。テスト用のメインクラス\ ``MainForRequestTesting``\ を通じて\ Nablarch Application Framework\ が起動され、テスト対象のアプリケーションが\ ``MessageSender``\ を使って同期応答メッセージ送信を行う。\ ``MessageSender``\ が生成した要求電文は\ ``RequestTestingMessagingProvider``\ が受け取り、テストデータに記述した要求電文の期待値とアサートしたうえで、テストデータに記述した応答電文を生成して返す。
+Nablarch\ バッチアプリケーションから同期応答メッセージ送信を行う場合、テストクラスは、\ :java:extdoc:`BatchRequestTestSupport <nablarch.test.core.batch.BatchRequestTestSupport>`\ を継承して作成する。スーパクラスがテストデータを読み取り、テストショットを1件ずつ実行する。テスト用のメインクラス\ ``MainForRequestTesting``\ を通じて\ Nablarch Application Framework\ が起動され、テスト対象のアプリケーションが\ ``MessageSender``\ を使って同期応答メッセージ送信を行う。\ ``MessageSender``\ が生成した要求電文は\ ``RequestTestingMessagingProvider``\ が受け取り、テストデータに記述した要求電文の期待値とアサートしたうえで、テストデータに記述した応答電文を生成して返す。\ ``MessageSender``\ は、受け取った応答電文をパースして\ Action\ へ返す。
 
 .. _request_unit_test_mom-request_id:
 
