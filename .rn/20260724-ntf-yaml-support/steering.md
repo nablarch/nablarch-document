@@ -873,10 +873,10 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - [ ] 3. `setup/junit5_extension.rst` の `TODO(NTF-SRC-01)` を外し、JUnit 5.3.0 リリースノートと Surefire 2.22.0 告知の逐語を `checks/task-32.md` に記録する（指示書 §3）
 - [ ] 4. `setup/request_unit_test/web.rst` の5行と `tools/request_data_tool.rst` の1行を書き換え、`TODO(NTF-SRC-02)` 2箇所を外す。出典と「Open With」の扱いを `checks/task-32.md` に記録する（指示書 §4）
 - [ ] 5. 利用側ページの構成図を全廃する。`TODO(NTF-FIG-01)`〜`04` の4ブロックと、残る `.. image::` 3件、および図に言及する本文2箇所を削る（指示書 §5）
-- [ ] 6. 参照されなくなった画像・作図元 9ファイルを削除する。`en/` 配下の同名ファイルは削除しない（指示書 §6）
+- [x] 6. 参照されなくなった画像・作図元 9ファイルを削除する。`en/` 配下の同名ファイルは削除しない（指示書 §6）
 - [ ] 7. 「主なクラスとリソース」の表から7行を削り、本文4箇所から同じクラス名を落とす（指示書 §7）
-- [ ] 8. `setup/junit5_extension.rst:400-402` の `TODO(NTF-MOD-03-1)` の文言を実状に合わせる。TODO 自体は残す（指示書 §8）
-- [ ] 9. `checks/task-32.md` に、手順1〜8の後の TODO 台帳を節見出し方式で作り、`grep -rho 'TODO(NTF-[A-Z0-9-]*)' ja/ | sort | uniq -c` の実測を貼る（指示書 §9）
+- [x] 8. `setup/junit5_extension.rst:400-402` の `TODO(NTF-MOD-03-1)` の文言を実状に合わせる。TODO 自体は残す（指示書 §8）
+- [x] 9. `checks/task-32.md` に、手順1〜8の後の TODO 台帳を節見出し方式で作り、`grep -rho 'TODO(NTF-[A-Z0-9-]*)' ja/ | sort | uniq -c` の実測を貼る（指示書 §9）
 
 **Completion criteria**（指示書「完了条件」の逐語）:
 
@@ -896,8 +896,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-21
+- **Last completed**: `#31` `TODO(NTF-MOD-01-1)` の解消と「空エントリ」の記述の是正（`1618faf`）
+- **Next**: `#32` — 手順1〜9 は実装・コミット済み（`b3e76fc`・`0806ea5`・`9031fa6`）。Steps 0・6・8・9 を check off 済み。**4観点レビューはすべて fail** で、再開時の最初の動作は user への5件の問い合わせの回答待ちである
+- **Notes**: ブランチ `ntf-yaml-support`。`main` へのマージは user の明示指示待ち（`.rn/` を含めるかも未決）。**回答なしに `ja/` を触らないこと。** 有効な指摘11件の全文と、調整役が実測で裏を取った一覧は `checks/task-32.md` の「Expert Reviews」「調整役が実測で裏を取った事項」「Overall Verdict」にある。**user 判断待ち5件**: (1) `tools/testdata_converter.rst:69` の新段落 — 「テストの実行結果は変わらない」に出典が無く、converter `229201f` の `xls/XlsFormatReader.java:549-560` が本体との規則順序の相違を明文で述べ「解説書側へ明文化を申し送る」と書いている（課題 `XLS-08`）。同ページ `:278` の `markerColumnColor` とも矛盾する。(2) `about/index.rst:106` — 削除図が持っていた「NAF →設定ファイル（読み取る）」が本文に無い。(3) `mapping.csv` の `disposition=MOVE` 6行（`current-0165`・`0182`・`0200`・`0281`・`0295`・`0308`）と `design.md` の「「アーキテクチャ」は図のみとし…」節が、削除した図を前提にしたまま。`mapping.csv` 直接編集は禁止事項のため `design.md` へ記録する作法に倣う想定。(4) 「主なクラスとリソース」の採否基準 — リード文2種の不揃い、`SimpleRestTestSupport` の欠落、`AbstractHttpRequestTestTemplate` の残置（指示書 §7-1 の根拠は誤り）。(5) 残置図 `send_sync_base.png` ほかの禁止語「自動テストフレームワーク」。**判断なしで直す6件**: `mom.rst:28` の宙に浮いた導入文、`web.rst:48` の係り受け、`mom.rst:22` の語順、`junit5_extension.rst:73` の空行、`web.rst:186` の `Run Configurations...`、`checks/task-32.md` の jar の記録（全版に `template.xls` が残り、消えたのは `.class` 7件だけ）。**調整役が独立に実測済み**: 完了条件4・5・6 は PASS、完了条件7 はクリーンなフルビルド（325ファイル全再構築・`build succeeded.`・警告0）、削除9ファイルへの参照0件、`en/` 無傷、`locales/` 混入なし。完了条件2・3 は指示書の grep 文字列自体が誤りで字義判定は不能（実体は満たす）。user-deferred path: `?? .rn/20260724-ntf-yaml-support/checks/task-32.md`（`#31` と同じく、check ファイルは `#32` の check-off コミットで調整役が staging するため未追跡のまま保持する。削除も `.gitignore` 追加もしないこと）
