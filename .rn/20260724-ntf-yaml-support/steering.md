@@ -875,9 +875,9 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - [x] 2. `setup/request_unit_test/rest.rst` の `TODO(NTF-MOD-02-2)` を外し、jar の実測を `checks/task-32.md` に記録する（指示書 §2）
 - [x] 3. `setup/junit5_extension.rst` の `TODO(NTF-SRC-01)` を外し、JUnit 5.3.0 リリースノートと Surefire 2.22.0 告知の逐語を `checks/task-32.md` に記録する（指示書 §3）
 - [x] 4. `setup/request_unit_test/web.rst` の5行と `tools/request_data_tool.rst` の1行を書き換え、`TODO(NTF-SRC-02)` 2箇所を外す。出典と「Open With」の扱いを `checks/task-32.md` に記録する（指示書 §4）
-- [ ] 5. 利用側ページの構成図を全廃する。`TODO(NTF-FIG-01)`〜`04` の4ブロックと、残る `.. image::` 3件、および図に言及する本文2箇所を削る（指示書 §5）
+- [x] 5. 利用側ページの構成図を全廃する。`TODO(NTF-FIG-01)`〜`04` の4ブロックと、残る `.. image::` 3件、および図に言及する本文2箇所を削る（指示書 §5）
 - [x] 6. 参照されなくなった画像・作図元 9ファイルを削除する。`en/` 配下の同名ファイルは削除しない（指示書 §6）
-- [ ] 7. 「主なクラスとリソース」の表から7行を削り、本文4箇所から同じクラス名を落とす（指示書 §7）
+- [x] 7. 「主なクラスとリソース」の表から7行を削り、本文4箇所から同じクラス名を落とす（指示書 §7）
 - [x] 8. `setup/junit5_extension.rst:400-402` の `TODO(NTF-MOD-03-1)` の文言を実状に合わせる。TODO 自体は残す（指示書 §8）
 - [x] 9. `checks/task-32.md` に、手順1〜8の後の TODO 台帳を節見出し方式で作り、`grep -rho 'TODO(NTF-[A-Z0-9-]*)' ja/ | sort | uniq -c` の実測を貼る（指示書 §9）
 
@@ -910,14 +910,14 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
 **是正2 Steps**（`#32-是正` が残した user 判断待ち6件の回答。指示書 `ntf-doc-32-fix2.md`。**手順1・5・7 と是正 Steps の残りの check-off はここが片づいてから行う**）:
 
-- [ ] 17. 判断1（空エントリ）は現状維持。`tools/testdata_converter.rst:39` の空エントリ・「データブロックの外側にある」を触らない。推奨を採らなかった理由を `checks/task-32.md` に記録する（是正2指示 §1）
-- [ ] 18. 判断2（行末の空セル）。`:39` から「行末の空セル」を落とし、`:69` の直後に前提事項の1段落を足す（是正2指示 §2）
-- [ ] 19. 判断3（継承クラス）。`implementation/request_unit_test/mom.rst:142-143` を `BatchRequestTestSupport`・`BasicHttpRequestTestTemplate` へ差し替える。jar 実測の逐語と、`#33` へ送らなかった理由を `checks/task-32.md` に記録する（是正2指示 §3）
-- [ ] 20. 判断4(a)。表の採否基準を `design.md:139` の節に明文化し、6ページへ当てて10行を落とす。`TestDataConverter` ほか「落とさない行」の判定根拠を `checks/task-32.md` に記録する（是正2指示 §4）
-- [ ] 21. 判断5。`reviews/page-testdata_converter.md` に出典と実装の食い違い3件を記録する（是正2指示 §5-1）
-- [ ] 22. 判断4(b)。マッピング台帳6行（`current-0201`・`0282`・`0296`・`0309`・`0323`・`input-0184`）の `note` に `#32` のポインタを追記する。`_batch/*.csv` を直してから `mapping.csv` を作り直す（是正2指示 §5-2）
-- [ ] 23. 判断6。`#33` に (c) `markerColumnColor` の説明不足を足し、見出しを改める（是正2指示 §6）
-- [ ] 24. 検証。`verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` と Docker フルビルド。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo`（是正2指示 完了条件10〜13）。**`docker build` からのイメージ再作成は `#34` へ分離し、既存イメージでのフルビルドを完了条件13 の代替とする**（`#32` のレビュー是正、2026-08-21）。理由と失敗ログの所在は `steering.md` `#34`「`#32` の完了判定との関係」。
+- [x] 17. 判断1（空エントリ）は現状維持。`tools/testdata_converter.rst:39` の空エントリ・「データブロックの外側にある」を触らない。推奨を採らなかった理由を `checks/task-32.md` に記録する（是正2指示 §1）
+- [x] 18. 判断2（行末の空セル）。`:39` から「行末の空セル」を落とし、`:69` の直後に前提事項の1段落を足す（是正2指示 §2）
+- [x] 19. 判断3（継承クラス）。`implementation/request_unit_test/mom.rst:142-143` を `BatchRequestTestSupport`・`BasicHttpRequestTestTemplate` へ差し替える。jar 実測の逐語と、`#33` へ送らなかった理由を `checks/task-32.md` に記録する（是正2指示 §3）
+- [x] 20. 判断4(a)。表の採否基準を `design.md:139` の節に明文化し、6ページへ当てて10行を落とす。`TestDataConverter` ほか「落とさない行」の判定根拠を `checks/task-32.md` に記録する（是正2指示 §4）
+- [x] 21. 判断5。`reviews/page-testdata_converter.md` に出典と実装の食い違い3件を記録する（是正2指示 §5-1）
+- [x] 22. 判断4(b)。マッピング台帳6行（`current-0201`・`0282`・`0296`・`0309`・`0323`・`input-0184`）の `note` に `#32` のポインタを追記する。`_batch/*.csv` を直してから `mapping.csv` を作り直す（是正2指示 §5-2）
+- [x] 23. 判断6。`#33` に (c) `markerColumnColor` の説明不足を足し、見出しを改める（是正2指示 §6）
+- [x] 24. 検証。`verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` と Docker フルビルド。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo`（是正2指示 完了条件10〜13）。**`docker build` からのイメージ再作成は `#34` へ分離し、既存イメージでのフルビルドを完了条件13 の代替とする**（`#32` のレビュー是正、2026-08-21）。理由と失敗ログの所在は `steering.md` `#34`「`#32` の完了判定との関係」。—— Steps 17〜24 は `5c2c26f` で実施し、4観点レビュー3ラウンドの有効指摘27件を `72275f2`・`14053b5`・`456544e` で是正した。判定と triage は `checks/task-32.md` §「4観点レビューの判定（是正2）」。
 
 **是正2 Completion criteria**: 是正2指示 `ntf-doc-32-fix2.md`「完了条件」1〜16 の逐語による。**このタスクの最終判定はこの16件で行う**（上の「是正 Completion criteria」2 と「Completion criteria」の「マーカーカラム」2件の条件は、是正2 の §2-2 が段落を1つ足すため、是正2 完了条件1・2 に置き換わる）
 
@@ -980,8 +980,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-21
+- **Last completed**: `#31`（`1618faf`）。`#32` は是正2 Steps 17〜24 と手順5・7 まで（`5c2c26f`・`72275f2`・`14053b5`・`456544e`）
+- **Next**: `#32` — **再開時の最初の動作は user への判断A〜E の回答待ちであり、回答なしに `ja/`・`mapping/`・`reviews/` を触らないこと。** 5件の内容・根拠・調整役の推奨は `checks/task-32.md` §「4観点レビューの判定（是正2）」の「user 判断待ち」にある。判断A は `tools/testdata_converter.rst:71` を、判断C は6ページの表を動かしうるため、手順1 と手順7 の check-off はその後に行う。回答が揃ったら、同節の「3回の上限に達した時点で残る未解決の指摘」1（`mapping/style.md:401` が `reviews/page-testdata_converter.md:94` を指すが `:94` は空行。当該記述は `:101`）も同じラウンドで直す
+- **Notes**: ブランチ `ntf-yaml-support`。`main` へのマージは user の明示指示待ち（`.rn/` を含めるかも未決）。4観点レビューは3ラウンド回して是正上限に到達し、最終コミット `456544e` の時点で4観点とも OK 相当（QA・検証は2回目に pass、設計・クラフトは4回目を回さず調整役が全件を実測照合した）。有効27件を是正、無効3件を却下、5件を user へ上げた。完了条件は13（Docker イメージの再作成）以外すべて OK で、13 は `#34` へ分離済み。`design.md` の採否基準に実態より広い記述が4回連続で混入したため、次のラウンドでも「〜が無い」「すべて」「〜だけ」を書いたら反例を検索して確かめること。user-deferred path: `?? .rn/20260724-ntf-yaml-support/checks/task-32.md`（`#31`・`#32` と同じく、check ファイルは `#32` の check-off コミットで調整役が staging するため未追跡のまま保持する。削除も `.gitignore` 追加もしないこと）
