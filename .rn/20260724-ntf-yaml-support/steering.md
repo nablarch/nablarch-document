@@ -980,8 +980,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-21
-- **Last completed**: `#31`（`1618faf`）。`#32` は是正2 Steps 17〜24 と手順5・7 まで（`5c2c26f`・`72275f2`・`14053b5`・`456544e`）
-- **Next**: `#32` — **再開時の最初の動作は user への判断A〜E の回答待ちであり、回答なしに `ja/`・`mapping/`・`reviews/` を触らないこと。** 5件の内容・根拠・調整役の推奨は `checks/task-32.md` §「4観点レビューの判定（是正2）」の「user 判断待ち」にある。判断A は `tools/testdata_converter.rst:71` を、判断C は6ページの表を動かしうるため、手順1 と手順7 の check-off はその後に行う。回答が揃ったら、同節の「3回の上限に達した時点で残る未解決の指摘」1（`mapping/style.md:401` が `reviews/page-testdata_converter.md:94` を指すが `:94` は空行。当該記述は `:101`）も同じラウンドで直す
-- **Notes**: ブランチ `ntf-yaml-support`。`main` へのマージは user の明示指示待ち（`.rn/` を含めるかも未決）。4観点レビューは3ラウンド回して是正上限に到達し、最終コミット `456544e` の時点で4観点とも OK 相当（QA・検証は2回目に pass、設計・クラフトは4回目を回さず調整役が全件を実測照合した）。有効27件を是正、無効3件を却下、5件を user へ上げた。完了条件は13（Docker イメージの再作成）以外すべて OK で、13 は `#34` へ分離済み。`design.md` の採否基準に実態より広い記述が4回連続で混入したため、次のラウンドでも「〜が無い」「すべて」「〜だけ」を書いたら反例を検索して確かめること。user-deferred path: `?? .rn/20260724-ntf-yaml-support/checks/task-32.md`（`#31`・`#32` と同じく、check ファイルは `#32` の check-off コミットで調整役が staging するため未追跡のまま保持する。削除も `.gitignore` 追加もしないこと）
+- **Status**: not suspended
+- **Date**: -
+- **Last completed**: -
+- **Next**: -
+- **Notes**: -
