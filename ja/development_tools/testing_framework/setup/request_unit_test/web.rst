@@ -183,7 +183,7 @@ JVMオプションを指定する
 
 Eclipseを使用する場合は、実行構成ごとに指定する方法と、JREのデフォルトとして指定する方法がある。実行構成ごとに指定する場合の手順は次のとおりである。
 
-* メニューバーの「実行(Run)」から「実行構成(Run Configuration)」を開く。
+* メニューバーの「実行(Run)」から「実行構成(Run Configurations...)」を開く。
 * 「引数(Arguments)」タブの「VM 引数(VM Arguments)」欄に、上記のオプションを記述する。
 
 .. image:: images/web/vmoptions.png
