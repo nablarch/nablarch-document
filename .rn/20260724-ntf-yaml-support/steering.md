@@ -870,9 +870,9 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
 - [x] 0. `#31` を閉じる（`checks/task-31.md` の誤記5件を削り、指摘1・2・4 を `#30` Step 6 へ送り、指摘5 を処置不要と記す。`#31` を check-off する）— `1618faf` で完了
 - [ ] 1. `tools/testdata_converter.rst` の `:37`・`:39` を書き換え、`:67` の直後に「前提事項」の段落を1つ足す。根拠の逐語3組を `checks/task-32.md` に記録する（指示書 §1）
-- [ ] 2. `setup/request_unit_test/rest.rst` の `TODO(NTF-MOD-02-2)` を外し、jar の実測を `checks/task-32.md` に記録する（指示書 §2）
-- [ ] 3. `setup/junit5_extension.rst` の `TODO(NTF-SRC-01)` を外し、JUnit 5.3.0 リリースノートと Surefire 2.22.0 告知の逐語を `checks/task-32.md` に記録する（指示書 §3）
-- [ ] 4. `setup/request_unit_test/web.rst` の5行と `tools/request_data_tool.rst` の1行を書き換え、`TODO(NTF-SRC-02)` 2箇所を外す。出典と「Open With」の扱いを `checks/task-32.md` に記録する（指示書 §4）
+- [x] 2. `setup/request_unit_test/rest.rst` の `TODO(NTF-MOD-02-2)` を外し、jar の実測を `checks/task-32.md` に記録する（指示書 §2）
+- [x] 3. `setup/junit5_extension.rst` の `TODO(NTF-SRC-01)` を外し、JUnit 5.3.0 リリースノートと Surefire 2.22.0 告知の逐語を `checks/task-32.md` に記録する（指示書 §3）
+- [x] 4. `setup/request_unit_test/web.rst` の5行と `tools/request_data_tool.rst` の1行を書き換え、`TODO(NTF-SRC-02)` 2箇所を外す。出典と「Open With」の扱いを `checks/task-32.md` に記録する（指示書 §4）
 - [ ] 5. 利用側ページの構成図を全廃する。`TODO(NTF-FIG-01)`〜`04` の4ブロックと、残る `.. image::` 3件、および図に言及する本文2箇所を削る（指示書 §5）
 - [x] 6. 参照されなくなった画像・作図元 9ファイルを削除する。`en/` 配下の同名ファイルは削除しない（指示書 §6）
 - [ ] 7. 「主なクラスとリソース」の表から7行を削り、本文4箇所から同じクラス名を落とす（指示書 §7）
@@ -881,12 +881,12 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
 **是正 Steps**（4観点レビューの有効な指摘11件。指示書 `ntf-doc-32-fix.md`。手順1〜5・7 の check-off はここが片づいてから行う）:
 
-- [ ] 10. `tools/testdata_converter.rst` の `:39` から「空エントリ」を削り、`:69` の段落を差し替える。`:278` は触らず `checks/task-32.md` に1行記録する（是正指示 §1）
-- [ ] 11. `about/index.rst:106` の2文目の直後に、NAF が読み取るコンポーネント設定ファイル／環境設定ファイルの入手先を指す1文を挿入する（是正指示 §2）
-- [ ] 12. `design.md` に節「利用側ページに内部構造の構成図を置かない」を新設し、既存節 `:137` の見出しと末尾段落を実態に合わせる（是正指示 §3-1・§3-2）
-- [ ] 13. マッピング台帳7行（`current-0165`・`0182`・`0200`・`0281`・`0295`・`0308`・`0322`）の `note` に `#32` のポインタを追記する。`_batch/*.csv` を直してから `mapping.csv` を作り直す（是正指示 §3-3）
-- [ ] 14. `implementation/request_unit_test/web.rst`・`rest.rst` のリード文を揃え、`AbstractHttpRequestTestTemplate` を落とし、`SimpleRestTestSupport` を足す（是正指示 §4）
-- [ ] 15. 判断なしで直す6件を直す（`mom.rst:28`・`web.rst:48`・`mom.rst:22`・`junit5_extension.rst:73`・`web.rst:186`、および `checks/task-32.md` の jar の記録）（是正指示 §5）
+- [x] 10. `tools/testdata_converter.rst` の `:39` から「空エントリ」を削り、`:69` の段落を差し替える。`:278` は触らず `checks/task-32.md` に1行記録する（是正指示 §1）— `811d1cb`。**判断待ち1・2 が同じ `:39` を再度動かしうる**
+- [x] 11. `about/index.rst:106` の2文目の直後に、NAF が読み取るコンポーネント設定ファイル／環境設定ファイルの入手先を指す1文を挿入する（是正指示 §2）— `811d1cb`
+- [x] 12. `design.md` に節「利用側ページに内部構造の構成図を置かない」を新設し、既存節 `:137` の見出しと末尾段落を実態に合わせる（是正指示 §3-1・§3-2）— `811d1cb`、過剰主張の是正は `f8f74f2`
+- [x] 13. マッピング台帳7行（`current-0165`・`0182`・`0200`・`0281`・`0295`・`0308`・`0322`）の `note` に `#32` のポインタを追記する。`_batch/*.csv` を直してから `mapping.csv` を作り直す（是正指示 §3-3）— `811d1cb`。**判断待ち4b が6行を追加しうる**
+- [x] 14. `implementation/request_unit_test/web.rst`・`rest.rst` のリード文を揃え、`AbstractHttpRequestTestTemplate` を落とし、`SimpleRestTestSupport` を足す（是正指示 §4）— `811d1cb`
+- [x] 15. 判断なしで直す6件を直す（`mom.rst:28`・`web.rst:48`・`mom.rst:22`・`junit5_extension.rst:73`・`web.rst:186`、および `checks/task-32.md` の jar の記録）（是正指示 §5）— `811d1cb`。`mom.rst:30` の行頭 `\ ` は `f8f74f2` で追加是正
 - [x] 16. `steering.md` に `#33` を新設する。中身の作業はしない（是正指示 §6）— `/rn:up` の再開時に調整役が実施
 
 **是正 Completion criteria**（是正指示「完了条件」の逐語）:
@@ -947,8 +947,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-21
+- **Last completed**: `#31`（`1618faf`）。`#32` は Steps 2・3・4 と是正 Steps 10〜16 まで（`811d1cb`・`f8f74f2`）
+- **Next**: `#32` — **再開時の最初の動作は user への判断6件の回答待ちであり、回答なしに `ja/`・`mapping/`・`reviews/` を触らないこと。** 6件の内容・根拠・調整役の推奨は `checks/task-32.md` §「user 判断待ち6件」にある。是正ラウンドの4観点はすべて fail だが、判定可能な完了条件（1〜10・12）は4観点とも独立に全件 OK で、fail の理由はすべて完了条件の外にある
+- **Notes**: ブランチ `ntf-yaml-support`。`main` へのマージは user の明示指示待ち（`.rn/` を含めるかも未決）。判断待ちの要点は (1) 空エントリの帰属（保持側→`#31`で消失→`#32`で除去側→是正で完全消滅。保持側の根拠 `model/ListMapBlock.java:12` を是正指示は参照していない。**モジュール側の再確認の可否も要指示**）、(2) `:39` の `行末の空セル`（`testdata_notation.rst:1545` が Excel 限定と明記）、(3) `mom.rst:140-143` の継承クラス（`9031fa6` の退行。3観点が独立に指摘）、(4) 表の採否基準の適用漏れ2件（`mom.rst:91` の `TestDataConverter`／台帳6行）、(5) `reviews/page-testdata_converter.md` への記録（`design.md` §「出典と実装が食い違う場合」）、(6) `:278` の追跡先。判断が要らない3件は `f8f74f2` で処置済み。完了条件11 のフルビルドは実測済み（警告0・`build succeeded.`・325ファイル全再構築）だが、当日の `docker build` 自体は `pip install` が失敗し、7日前の既存イメージ `a974e0c8ac60` を使った。user-deferred path: `?? .rn/20260724-ntf-yaml-support/checks/task-32.md`（`#31`・`#32` と同じく、check ファイルは `#32` の check-off コミットで調整役が staging するため未追跡のまま保持する。削除も `.gitignore` 追加もしないこと）
