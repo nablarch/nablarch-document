@@ -917,7 +917,7 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - [ ] 21. 判断5。`reviews/page-testdata_converter.md` に出典と実装の食い違い3件を記録する（是正2指示 §5-1）
 - [ ] 22. 判断4(b)。マッピング台帳6行（`current-0201`・`0282`・`0296`・`0309`・`0323`・`input-0184`）の `note` に `#32` のポインタを追記する。`_batch/*.csv` を直してから `mapping.csv` を作り直す（是正2指示 §5-2）
 - [ ] 23. 判断6。`#33` に (c) `markerColumnColor` の説明不足を足し、見出しを改める（是正2指示 §6）
-- [ ] 24. 検証。`verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` と Docker フルビルド。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo`（是正2指示 完了条件10〜13）。**`docker build` からのイメージ再作成は `#34` へ分離した**（`#32` のレビュー是正、2026-08-21）。是正2指示 完了条件13 は「今回も失敗する場合は、失敗ログをそのまま `checks/task-32.md` に記録し、`#33` へ送る」という逃げ道を定めており、`docker build` は実際に `pip install` の TLS 検証で失敗した。その逃げ道に沿って失敗ログを `checks/task-32.md` に記録し、送り先を記述課題の `#33` ではなく環境課題として独立させた `#34` とした。**`#32` は、既存イメージでのフルビルドが警告0・`build succeeded.` であることをもって完了条件13 の代替とする。**
+- [ ] 24. 検証。`verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` と Docker フルビルド。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo`（是正2指示 完了条件10〜13）。**`docker build` からのイメージ再作成は `#34` へ分離し、既存イメージでのフルビルドを完了条件13 の代替とする**（`#32` のレビュー是正、2026-08-21）。理由と失敗ログの所在は `steering.md` `#34`「`#32` の完了判定との関係」。
 
 **是正2 Completion criteria**: 是正2指示 `ntf-doc-32-fix2.md`「完了条件」1〜16 の逐語による。**このタスクの最終判定はこの16件で行う**（上の「是正 Completion criteria」2 と「Completion criteria」の「マーカーカラム」2件の条件は、是正2 の §2-2 が段落を1つ足すため、是正2 完了条件1・2 に置き換わる）
 

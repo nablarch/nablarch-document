@@ -1,7 +1,7 @@
 # page-testdata_converter — テストデータ変換ツール（`#27-03`）
 
 対象ファイル: `ja/development_tools/testing_framework/tools/testdata_converter.rst`
-ラベル: `testdata_converter`（`mapping/style.md:347`）
+ラベル: `testdata_converter`（`mapping/style.md` S-08「`:ref:` ラベルの命名規則」のページラベル表）
 部: 第4部 ツール
 
 ## 参照リポジトリ
@@ -12,11 +12,11 @@
 | `nablarch-testing-yaml` | `190cc9a` | `b91abc1` | — |
 | `nablarch-testing` | `e21bf67` | — | `e21bf67`（作業指示のピンと同値） |
 
-第3列は執筆・検証の時点で記録した HEAD であり、その後も他セッションのコミットで動く。2026-08-21 に `git -C <repo> log -1` で実測した HEAD は、`nablarch-testing-converter` が `6d12021`（ブランチ `ntf-test-data-converter`）、`nablarch-testing` が `f41cc64`（ブランチ `convert-testdata-excel-to-text`。作業指示のピン `e21bf67` とは分岐している）、`nablarch-testing-yaml` が `0197071`（ブランチ `feature/ntf-yaml`）である。本ページの事実は第2列のピンと第4列の参照コミットで成り立っており、HEAD には依存しない。
+第3列は執筆・検証の時点で記録した HEAD であり、その後も他セッションのコミットで動く。**本ページの事実が依存するのは、表に挙げた特定のコミットだけである。** `nablarch-testing-converter` は `2f21bce`（`#32` の是正2 で追記した3件のみ `e977824`）、`nablarch-testing` は `e21bf67`、`nablarch-testing-yaml` は `190cc9a` である。各リポジトリの現在の HEAD には依存しない。動く値を恒久記録に固定しないため、実測した HEAD はここに書き留めない。
 
 `nablarch-testing-converter` は作業指示の参照リポジトリ表に記載がない第3のリポジトリである。執筆中に他セッションが同リポジトリへコミットしたため HEAD が `e80a4dd` から `2f21bce` へ進んだ。差分は `git diff e80a4dd 2f21bce` で `DirectiveUtil` / `XlsFormatReader`（レコード種別の空文字→null 化、区切り文字正規化の共通化）/ `YamlFormatReader` の3ファイルであり、本ページが記載した事実の対象外であることを確認した。**「出典から変えた点」の末尾3件を除く本ページの事実は、すべて `2f21bce` で再確認済みである。** 末尾3件（マーカーカラム・空エントリ・行末の空セル）は `#32` の是正2 で追記したもので、参照コミットは `2f21bce` の140コミット後の `e977824` である（`git rev-list --count 2f21bce..e977824` → `140`）。うち `TestCoreReaderAdapter.java` の3箇所は `2f21bce` でも同じ行に同じ逐語で成立するが、`src/main/java/nablarch/test/tool/converter/yaml/YamlFormatReader.java:491` は `2f21bce` では `result.add(entry);` であって成立しない（実測: `git show 2f21bce:src/main/java/nablarch/test/tool/converter/yaml/YamlFormatReader.java | sed -n '491p'`）。空エントリの根拠は `nablarch-testing` `e21bf67` で確認した。
 
-`nablarch-testing-yaml` の作業ツリーはピン `190cc9a` より先の `b91abc1` にある。JSON Schema の所在についてはピン `190cc9a` で `git ls-tree` により直接確認した。
+`nablarch-testing-yaml` の作業ツリーは、執筆・検証の時点でピン `190cc9a` より先の `b91abc1` にあった（第3列）。JSON Schema の所在については、その作業ツリーではなくピン `190cc9a` で `git ls-tree` により直接確認した。
 
 ## 出典行の消化
 
@@ -75,15 +75,15 @@
 
 | 箇所 | 出典の記述 | ページの記述 | 変えた理由 |
 |---|---|---|---|
-| 全値ダブルクォート | `input/testdata-converter-design.md:114`「全値をダブルクォートで囲む」 | 「値なしを除いてすべて」 | 実装が `q(null)` で裸の `null` を書き出すため（`YamlFormatWriter.java:372-377`）。姉妹ページ `implementation/testdata_notation.rst:1430`「``null`` のみクォートなしで記述する」とも一致する |
-| リンタの位置づけ | `input/testdata-converter-design.md:295`「`YamlTestDataValidator` は YAML OUT 後にスキーマ検証を行うリンター」、同 `:291` のクラス図も「出力後スキーマ検証」 | 「変換の処理経路には組み込まれていない」 | `grep -rn 'YamlTestDataValidator' src/main/` の参照が自クラスのみで `YamlFormatWriter` から呼ばれていないため。作業指示 §2「出典と実装が食い違う場合は実装を優先する」に従った。**`mapping.csv` の `note` 列は出典どおりのままなので、後続で「出典に戻す」是正をしないこと** |
+| 全値ダブルクォート | `input/testdata-converter-design.md:114`「全値をダブルクォートで囲む」 | 「値なしを除いてすべて」 | 実装が `q(null)` で裸の `null` を書き出すため（`YamlFormatWriter.java:372-377`）。姉妹ページ `implementation/testdata_notation.rst:1431`「``null`` のみクォートなしで記述する」とも一致する |
+| リンタの位置づけ | `input/testdata-converter-design.md:295`「`YamlTestDataValidator` は YAML OUT 後にスキーマ検証を行うリンター」、同 `:292` のクラス図も「出力後スキーマ検証」（`YamlFormatWriter --> YamlTestDataValidator : 出力後スキーマ検証`） | 「変換の処理経路には組み込まれていない」 | `grep -rn 'YamlTestDataValidator' src/main/` の参照が自クラスのみで `YamlFormatWriter` から呼ばれていないため。作業指示 §2「出典と実装が食い違う場合は実装を優先する」に従った。**`mapping.csv` の `note` 列は出典どおりのままなので、後続で「出典に戻す」是正をしないこと** |
 | Excel 出力の色 | `input/testdata-converter-design.md:155-171` の表で既定色が `[要確認] 見やすい配色を調査して決定` | LIME / PALE_BLUE / LIGHT_YELLOW / LAVENDER / LIGHT_ORANGE | 実装 `ExcelFormatConfig.java:124-134` で確定済みのため |
 | Maven プラグイン | 出典全362行に Maven / mvn / プラグイン / CLI の記述が0件 | 「Mavenプラグインで一括変換する」節を新設 | `ConverterMojo.java:22` が実在する。`TestDataConverter.java:26` の Javadoc「CLI・Maven プラグインはリポジトリ分割後に整備」はリポジトリ分割後の現状では古い。作業指示 §2「出典が欠いている、実装上必須の設定は書き足してよい」に従った |
 | Java API の依存関係 | 出典に記述なし | test スコープの `<dependency>` を追加 | `pom.xml:17` が `maven-plugin` パッケージングであり `<plugin>` 宣言だけではテストのクラスパスに乗らない。先例は `setup/common.rst:20-36` |
 | リンタの呼び出し方 | 出典に記述なし | 「YAML形式のテストデータを検査する」節を新設 | 出典 `:295` はリンタの存在を述べるのみで呼び出し方がなく、ページだけではリンタを実行できないため。章構成設計 `.rn/20260724-ntf-yaml-support/design.md` §5「第4部 ツール」の「ページのアウトライン」が 使用方法 の配下を `<操作手順>する` としていることに合わせて 使用方法 配下に置いた |
 | 出力パスの構造 | 出典に記述なし | Excel↔YAML の入出力対応表 | `ConverterPathResolver.java:40-62`。出典の記述では読者が出力物の置かれ方を予測できないため |
 | Excel クォート記法 | `input/testdata-converter-design.md:110-112` は Excel 側のクォート記法に触れているがページに落ちていなかった | 前提事項に1段落追記 | 往復で見える差分であり、変換の可否を判断する読者に必要なため |
-| レコード種別 | 出典に記述なし（`testdata_notation.rst:1164`） | 前提事項に1段落追記 | 同上 |
+| レコード種別 | 出典に記述なし（`implementation/testdata_notation.rst:1166`） | 前提事項に1段落追記 | 同上 |
 | マーカーカラムの保持 | `input/testdata-converter-design.md:31`「意図ある情報は無損失（マーカーカラム、空エントリ、空欄のレコード種別を保持）」 | 「意味を持たない情報」の除去側に置き、往復時の挙動を 前提事項 に書いた | 実装は両形式で除外する。Excel は `src/main/java/nablarch/test/core/reader/TestCoreReaderAdapter.java:129` `return Arrays.asList(header.getEffectiveColumnNames());`、YAML は `src/main/java/nablarch/test/tool/converter/yaml/YamlFormatReader.java:491`「エントリ先頭行のキー（YAML 記述順）からマーカーカラム（`{@code [COL]}`）を除いたカラム名を返す。」。いずれも `nablarch-testing-converter@e977824` を `git show` で開いて照合した（`#32` の是正2、2026-08-21） |
 | 空エントリの保持 | 同上 | どちらの欄にも書けないため表から外した。読み飛ばしそのものは `implementation/testdata_notation.rst:1534` が説明している | 実装は経路で割れる。Excel は NTF 本体が読み飛ばす（`nablarch-testing@e21bf67:src/main/java/nablarch/test/core/reader/PoiXlsReader.java:140-147` の `private boolean isBlankLine(List<String> line)` が全要素空のとき `true` を返し、同 `:93` `if (isBlankLine(list)) {` の直後の `continue;` で行が読み飛ばされる）。YAML は `YamlFormatReader` に処理が無い（`nablarch-testing-converter@e977824` で `grep -rn 'dropEmptyEntries\|isEmptyEntry' src/main/java/` のヒットは `xls/XlsFormatReader.java` のみ）。いずれも `git show` で開いて照合した。無損失が両形式で成り立たない（`#32` の是正2、2026-08-21） |
 | 行末の空セルの除去 | `input/testdata-converter-design.md:32`「無意味な情報は持たない（コメント、完全な空行、行末の空セルを除去）」 | 「意味を持たない情報」の行から外し、前提事項へ1段落として移した | 実装は Excel 経路のみ（`src/main/java/nablarch/test/core/reader/TestCoreReaderAdapter.java:254`「{@link NablarchTestUtils#trimTailCopy(List)} で行末の空セルを除去済みである。」・同 `:410`「{@link NablarchTestUtils#trimTailCopy(List)}で行末の空セルを除去して返す。」。`src/main/java/nablarch/test/tool/converter/yaml/YamlFormatReader.java` には無く、`grep -n 'trimTail'` のヒットが0件。いずれも `nablarch-testing-converter@e977824` を `git show` で開いて照合した）。`implementation/testdata_notation.rst:1545` も「\ Excel\ 形式のみ。\ YAML\ 形式では ``rows:``\ の各要素をそのまま読み込む」と明記している（`#32` の是正2、2026-08-21） |
@@ -98,9 +98,9 @@
 
 ## クラス名の表記
 
-converter のクラス（`TestDataConverter`・`ConversionRequest`・`ExcelFormatConfig`・`YamlTestDataValidator`・`ValidationError`・`DataFormat`）は `:java:extdoc:` を使わずインラインリテラルにした。`ja/conf.py:299-323` の `javadoc_url_map` が向く先は公開済み Javadoc であり、未リリースの `nablarch-testing-converter` のクラスはリンク切れになるため。`nablarch-testing-yaml` のクラスについて既存ページが採っている扱いと同じである。
+converter のクラス（`TestDataConverter`・`ConversionRequest`・`ExcelFormatConfig`・`YamlTestDataValidator`・`ValidationError`・`DataFormat`）は `:java:extdoc:` を使わずインラインリテラルにした。`ja/conf.py:304-318` の `javadoc_url_map` が向く先は公開済み Javadoc であり、未リリースの `nablarch-testing-converter` のクラスはリンク切れになるため。`nablarch-testing-yaml` のクラスについて既存ページが採っている扱いと同じである。
 
-例外は `nablarch.test.core.file.TestDataConverter`（`setup/request_unit_test/mom.rst:35` で既に `:java:extdoc:` 付きで解説されている別クラス）で、単純名が衝突するため `:java:extdoc:` 付きで並記して区別した。
+例外は `nablarch.test.core.file.TestDataConverter`（`setup/request_unit_test/mom.rst:72` で既に `:java:extdoc:` 付きで解説されている別クラス）で、単純名が衝突するため `:java:extdoc:` 付きで並記して区別した。
 
 ## 4観点レビュー
 
@@ -122,18 +122,18 @@ QA / 設計 / クラフト / 検証の4観点を、それぞれ独立したサ�
 | `TestDataConverter` が `nablarch.test.core.file.TestDataConverter` と同名 | クラフト | パッケージ名を明記し、別クラスである旨を `:java:extdoc:` 付きで並記 |
 | 「空エントリ」と「完全な空行」が同一物に見えるのに保持と除去に分かれている | クラフト | 「データブロックの内側にある空エントリ」「データブロックの外側にある空行」に書き分け（`model/ListMapBlock.java:12`「空マッピング由来の空行も空リストとして保持」による） |
 | 「往復」の定義が循環している | クラフト | 「変換元と変換先に同じ形式を指定した場合」と言い換え、Excel→YAML→Excel の往復にも触れた |
-| リンタの操作手順が 機能概要 にある（`design.md:346-348` では 使用方法 が操作手順） | 設計・クラフト | 機能概要 は「何ができるか」だけにし、呼び出し方を 使用方法 へ移した |
-| `important` 2件が「読者が必ず守るべき注意事項」（`style.md:232-234`）にあたらない。片方は重複 | 設計・クラフト | 末尾の `important` を削除（前提事項と重複）、ダブルクォートの `important` を `tip` に降格して 機能概要 冒頭へ移動 |
+| リンタの操作手順が 機能概要 にある（章構成設計 `.rn/20260724-ntf-yaml-support/design.md` §5「第4部 ツール」の「ページのアウトライン」は 使用方法 の配下を `<操作手順>する` としている） | 設計・クラフト | 機能概要 は「何ができるか」だけにし、呼び出し方を 使用方法 へ移した |
+| `important` 2件が「読者が必ず守るべき注意事項」（`mapping/style.md` S-06「アドミニション（tip / note / important）の使い分け」）にあたらない。片方は重複 | 設計・クラフト | 末尾の `important` を削除（前提事項と重複）、ダブルクォートの `important` を `tip` に降格して 機能概要 冒頭へ移動 |
 | 検査内容が225字1文で6項目 | QA・クラフト | 箇条書きに分解。あわせて V-IO を7項目目として追加 |
-| 「レコード断片」は用語集にない造語 | 設計・QA・クラフト | `testdata_notation.rst:124, 879, 881, 904, 1107` が使う「レコード定義」に統一 |
-| 「ブロック」「LIST_MAP=testShots」が正表記でない | 設計・クラフト | 「データブロック」「テストショット一覧」に統一（`glossary.md:212, 215`） |
+| 「レコード断片」は用語集にない造語 | 設計・QA・クラフト | `implementation/testdata_notation.rst:124`・`:881`・`:883`・`:906`・`:1109` が使う「レコード定義」に統一 |
+| 「ブロック」「LIST_MAP=testShots」が正表記でない | 設計・クラフト | 「データブロック」「テストショット一覧」に統一（`mapping/glossary.md` §5.8「テストデータ」） |
 | 地の文の `\ ` エスケープが承認済み9ページ中このページだけ未適用 | クラフト | 地の文の `Excel`・`YAML`・`Java` とインラインリテラルの区切りを `\ ` に統一。実測で `ja/` 全体は `\ Excel\ 形式`/`\ YAML\ 形式` が125件、素の表記が2件（本ページを除く）。見出しは素の表記が慣行のため対象外とした |
 | `<plugin>` が `<build><plugins>` の外に単独で示されている | QA | 最初の例を `<build><plugins>` で包み、以降の例にコメントで補った |
 | Java の Excel 出力例が `overwrite` 未指定で衝突しうる | QA | `.overwrite(true)` を追加 |
 | Java からの `include`/`exclude` による絞り込みが未記載（出典 input-0199 の落とし） | 検証 | `include`/`exclude`/`includes`/`excludes` を本文で説明し、例に `.include(...)` を追加 |
 | `<excludeSheets>` が変換元 Excel 限定である旨が未記載 | 検証 | 表の説明に追記（`YamlFormatHandler.java:36-37`） |
 | Excel のクォート記法が往復で失われる（出典 input-0190 の落とし） | QA | 前提事項に追記 |
-| レコード種別の扱いが両形式で異なる（`testdata_notation.rst:1164`） | 検証 | 前提事項に追記し、書き方ページへ誘導 |
+| レコード種別の扱いが両形式で異なる（`implementation/testdata_notation.rst:1166`） | 検証 | 前提事項に追記し、書き方ページへ誘導 |
 | 「乗る」「本体」「入口」「見た目」など用語集外の口語 | クラフト | 「保持される」「テスティングフレームワーク」「変換を呼び出すクラス」「Excel形式の出力を整形する」に置き換え |
 | 見出し「Excel出力の見た目を整える」とラベル `-xls_output` | 設計・クラフト | 「Excel形式の出力を整形する」／`testdata_converter-xls_format` に変更 |
 
@@ -141,9 +141,9 @@ QA / 設計 / クラフト / 検証の4観点を、それぞれ独立したサ�
 
 | 指摘 | 観点 | 採らなかった理由 |
 |---|---|---|
-| 見出し「前提事項」が `style.md:155-156` の禁止語（注意事項 等）と同型 | 設計 | `style.md:127-182` の「〜する」形式規約と内容条件は**「使用方法」「拡張例」配下の小見出し**を対象としており、機能概要 配下の「前提事項」は対象外。承認済みの `setup/junit5_extension.rst:71` も同じ見出しを使っている。`mapping.csv` の `heading_path` にも「前提事項」で終わる行が3件ある（current-0202 / current-0344 / current-0359） |
-| 表4件は `about/index.rst` と同数なので `style.md:273` の全 `list-table` 例外の対象外 | 設計 | S-07 の本則は「セル内に複数行の説明や長文が入る表は `list-table`」であり、本ページの表はいずれも1セルに長文の説明が入る。例外条項に頼らず本則で `list-table` を選んでいる。クラフト観点の独立検査でも S-07 適合と判定された |
-| 「区分」列（構造/値/意図のある情報/意味を持たない情報）が排他的でない | クラフト | 出典 `design.md:29-33` の4項目をそのまま表にしたもの。分類の組み替えは出典の主張の書き換えにあたるため採らない |
+| 見出し「前提事項」が `mapping/style.md` S-03「セクションタイトルの形式（「〜する」形式）」の禁止語（注意事項 等）と同型 | 設計 | 同 S-03 の「〜する」形式規約と内容条件は**「使用方法」「拡張例」配下の小見出し**を対象としており、機能概要 配下の「前提事項」は対象外。承認済みの `setup/junit5_extension.rst:71` も同じ見出しを使っている。`mapping.csv` の `heading_path` にも「前提事項」で終わる行が3件ある（current-0202 / current-0344 / current-0359） |
+| 表4件は `about/index.rst` と同数なので `mapping/style.md` S-07「表の記法」の全 `list-table` 例外の対象外 | 設計 | S-07 の本則は「セル内に複数行の説明や長文が入る表は `list-table`」であり、本ページの表はいずれも1セルに長文の説明が入る。例外条項に頼らず本則で `list-table` を選んでいる。クラフト観点の独立検査でも S-07 適合と判定された |
+| 「区分」列（構造/値/意図のある情報/意味を持たない情報）が排他的でない | クラフト | 出典 `input/testdata-converter-design.md:29-32` の4項目をそのまま表にしたもの。分類の組み替えは出典の主張の書き換えにあたるため採らない |
 | 使用方法 配下を L4（`^`）で階層化すべき | 設計 | 4つの L3 で並列に読める構成であり、L4 を導入すると 第4部 の他ページと構成が揃わなくなる |
 | 「目盛り線」は Excel 日本語 UI の表記と一致するか未確認 | クラフト | UI の表記を確認できていないため、UI ラベルを主張しない「グリッド線」に変更した |
 
@@ -170,11 +170,11 @@ QA / 設計 / クラフト / 検証の4観点を、それぞれ独立したサ�
 ## 判断待ち（`decide`）
 
 1. **【重大】往復で意味が変わるケースがある。** 検証観点が `nablarch-testing-converter@2f21bce` 同梱のフィクスチャ `src/test/resources/nablarch/test/tool/converter/xls/reference/ProjectActionRequestTest.xlsx` で XLS→XLS 往復を実測したところ、`confirmOfCreateAbNormal` シートの `LIST_MAP`／`requestParams` でリクエストパラメータ4件が消滅した（`rows:` が空配列になる）。26シート中で `- {}`（空エントリ）が 1個→15個に増える箇所、1個→0個に消える箇所が計十数か所ある。Maven 経由・インプロセス直接呼び出しの両方で再現。
-   - ページは「意味を変えずに往復できる」という見出しと、表の「意図のある情報 … 無損失で保持する」で、これを成り立つものとして書いている。出典 `design.md:25-30` の主張どおりの記述である。
+   - ページは「意味を変えずに往復できる」という見出しと、表の「意図のある情報 … 無損失で保持する」で、これを成り立つものとして書いている。出典 `input/testdata-converter-design.md:25`（可逆性の定義）・同 `:31`（意図ある情報は無損失）の主張どおりの記述である。
    - 作業指示 §2「出典と実装が食い違う場合は実装を優先する。ただし**本体の不具合が疑われる場合は書かずに `decide` に上げる**」に従い、**ページには書かず、ここに上げる。** 変換ツールの欠陥と見るのが自然であり、「往復すると空エントリが増減する」と仕様化してしまうと修正を妨げる。
    - 判断が要るのは2点。(a) これは converter の不具合か、意図した挙動か。(b) 不具合なら、修正するまで本ページの「意味を変えずに往復できる」節をどう扱うか（そのまま出す／注記を付ける／節を落とす）。
 
-2. **「導入」を置かない判断の根拠が古くなった。** `design.md:330-360` は「テストデータ変換ツールも『導入』を持たない。出典（`testdata-converter-design.md` 全362行）にインストール手順・依存関係・設定に該当する記述が存在しないため」としている。本ページは実装から Maven プラグインの追加手順と `<dependency>` を書き足したため、実質的な導入手順が 使用方法 配下に入っている。`design.md` §5 の記述を更新するか、この節の位置づけを決める必要がある。`design.md` は規約ファイル（Rule §1-3 で変更禁止）なので、こちらでは直していない。
+2. **【解消済み】「導入」を置かない判断の根拠が古くなった。** 起票時点の指摘は、章構成設計 `.rn/20260724-ntf-yaml-support/design.md` §5「第4部 ツール」がテストデータ変換ツールに「導入」を持たせない判断を書いているのに、本ページは実装から Maven プラグインの追加手順と `<dependency>` を書き足したため実質的な導入手順が 使用方法 配下に入っている、というものだった。その後 `#28` §3-16 で判断が改まり、同 §5 は「テストデータ変換ツールは「導入」を持つ」と述べている。本ページにも `.. _testdata_converter-setup:` と L2 見出し「導入」が入っており、食い違いは残っていない。
 
 3. **同名の `.xls` と `.xlsx` が同一ディレクトリにあると破綻する可能性がある。** `ConverterFileFilter.java:29, 144-159` は両方を列挙するが、`XlsFormatHandler.java:34, 46` は拡張子を落としたブック名で読み直し、`PoiXlsReader.java:62-64` が `.xls` を優先する。結果として2件が同じ内容・同じ出力先になる（コードからの帰結であり、実測はしていない）。converter の不具合が疑われるため、ページには書いていない。
 
