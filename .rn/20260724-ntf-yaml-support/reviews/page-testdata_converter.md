@@ -8,11 +8,11 @@
 
 | リポジトリ | 作業指示のピン | 執筆・検証時の HEAD |
 |---|---|---|
-| `nablarch-testing-converter` | ピンなし（作業指示に記載がない） | 執筆時 `e80a4dd` → レビュー時 `2f21bce` |
+| `nablarch-testing-converter` | ピンなし（作業指示に記載がない） | 執筆時 `e80a4dd` → レビュー時 `2f21bce` → `#32` の是正2 の追記分のみ `e977824` |
 | `nablarch-testing-yaml` | `190cc9a` | `b91abc1` |
-| `nablarch-testing` | `e21bf67` | — |
+| `nablarch-testing` | `e21bf67` | `e21bf67`（`#32` の是正2 の追記分で参照） |
 
-`nablarch-testing-converter` は作業指示の参照リポジトリ表に記載がない第3のリポジトリである。執筆中に他セッションが同リポジトリへコミットしたため HEAD が `e80a4dd` から `2f21bce` へ進んだ。差分は `git diff e80a4dd 2f21bce` で `DirectiveUtil` / `XlsFormatReader`（レコード種別の空文字→null 化、区切り文字正規化の共通化）/ `YamlFormatReader` の3ファイルであり、本ページが記載した事実の対象外であることを確認した。**本ページの事実はすべて `2f21bce` で再確認済みである。**
+`nablarch-testing-converter` は作業指示の参照リポジトリ表に記載がない第3のリポジトリである。執筆中に他セッションが同リポジトリへコミットしたため HEAD が `e80a4dd` から `2f21bce` へ進んだ。差分は `git diff e80a4dd 2f21bce` で `DirectiveUtil` / `XlsFormatReader`（レコード種別の空文字→null 化、区切り文字正規化の共通化）/ `YamlFormatReader` の3ファイルであり、本ページが記載した事実の対象外であることを確認した。**「出典から変えた点」の末尾3件を除く本ページの事実は、すべて `2f21bce` で再確認済みである。** 末尾3件（マーカーカラム・空エントリ・行末の空セル）は `#32` の是正2 で追記したもので、参照コミットは `2f21bce` の140コミット後の `e977824` である（`git rev-list --count 2f21bce..e977824` → `140`）。うち `TestCoreReaderAdapter.java` の3箇所は `2f21bce` でも同じ行に同じ逐語で成立するが、`yaml/YamlFormatReader.java:491` は `2f21bce` では `result.add(entry);` であって成立しない（実測: `git show 2f21bce:src/main/java/nablarch/test/tool/converter/yaml/YamlFormatReader.java | sed -n '491p'`）。空エントリの根拠は `nablarch-testing` `e21bf67` で確認した。
 
 `nablarch-testing-yaml` の作業ツリーはピン `190cc9a` より先の `b91abc1` にある。JSON Schema の所在についてはピン `190cc9a` で `git ls-tree` により直接確認した。
 
@@ -82,11 +82,11 @@
 | 出力パスの構造 | 出典に記述なし | Excel↔YAML の入出力対応表 | `ConverterPathResolver.java:40-62`。出典の記述では読者が出力物の置かれ方を予測できないため |
 | Excel クォート記法 | 出典 `:110-112` は Excel 側のクォート記法に触れているがページに落ちていなかった | 前提事項に1段落追記 | 往復で見える差分であり、変換の可否を判断する読者に必要なため |
 | レコード種別 | 出典に記述なし（`testdata_notation.rst:1164`） | 前提事項に1段落追記 | 同上 |
-| マーカーカラムの保持 | `design.md:31`「意図ある情報は無損失（マーカーカラム、空エントリ、空欄のレコード種別を保持）」 | 「意味を持たない情報」の除去側に置き、往復時の挙動を 前提事項 に書いた | 実装は両形式で除外する。Excel は `TestCoreReaderAdapter.java:129` `return Arrays.asList(header.getEffectiveColumnNames());`、YAML は `YamlFormatReader.java:491`「エントリ先頭行のキー（YAML 記述順）からマーカーカラム（`[COL]`）を除いたカラム名を返す。」（`#32` の是正2、2026-08-21） |
-| 空エントリの保持 | 同上 | どちらの欄にも書けないため表から外した。読み飛ばしそのものは `implementation/testdata_notation.rst:1534` が説明している | 実装は経路で割れる。Excel は本体の `PoiXlsReader#isBlankLine` が読み飛ばし（`nablarch-testing-converter` の `.rn/ntf-test-data-converter/coverage/issues.md:299-300`「読み飛ばしを実行するのも本体 `PoiXlsReader#isBlankLine`（L140-147）であり、converter に判断の余地は無い。」）、YAML は `YamlFormatReader` に処理が無い（`grep -rn 'dropEmptyEntries\|isEmptyEntry' src/main/java/` のヒットは `XlsFormatReader.java` のみ）。無損失が両形式で成り立たない（`#32` の是正2、2026-08-21） |
-| 行末の空セルの除去 | `design.md:32`「無意味な情報は持たない（コメント、完全な空行、行末の空セルを除去）」 | 「意味を持たない情報」の行から外し、前提事項へ1段落として移した | 実装は Excel 経路のみ（`TestCoreReaderAdapter.java:254`「`NablarchTestUtils#trimTailCopy(List)` で行末の空セルを除去済みである。」・同 `:410`。`YamlFormatReader` には無い）。`implementation/testdata_notation.rst:1545` も「\ Excel\ 形式のみ。\ YAML\ 形式では ``rows:``\ の各要素をそのまま読み込む」と明記している（`#32` の是正2、2026-08-21） |
+| マーカーカラムの保持 | `input/testdata-converter-design.md:31`「意図ある情報は無損失（マーカーカラム、空エントリ、空欄のレコード種別を保持）」 | 「意味を持たない情報」の除去側に置き、往復時の挙動を 前提事項 に書いた | 実装は両形式で除外する。Excel は `src/main/java/nablarch/test/core/reader/TestCoreReaderAdapter.java:129` `return Arrays.asList(header.getEffectiveColumnNames());`、YAML は `yaml/YamlFormatReader.java:491`「エントリ先頭行のキー（YAML 記述順）からマーカーカラム（`{@code [COL]}`）を除いたカラム名を返す。」。いずれも `nablarch-testing-converter@e977824` を `git show` で開いて照合した（`#32` の是正2、2026-08-21） |
+| 空エントリの保持 | 同上 | どちらの欄にも書けないため表から外した。読み飛ばしそのものは `implementation/testdata_notation.rst:1534` が説明している | 実装は経路で割れる。Excel は NTF 本体が読み飛ばす（`nablarch-testing@e21bf67:src/main/java/nablarch/test/core/reader/PoiXlsReader.java:140-147` の `private boolean isBlankLine(List<String> line)` が全要素空のとき `true` を返し、同 `:93` `if (isBlankLine(list)) {` の直後の `continue;` で行が読み飛ばされる）。YAML は `YamlFormatReader` に処理が無い（`nablarch-testing-converter@e977824` で `grep -rn 'dropEmptyEntries\|isEmptyEntry' src/main/java/` のヒットは `xls/XlsFormatReader.java` のみ）。いずれも `git show` で開いて照合した。無損失が両形式で成り立たない（`#32` の是正2、2026-08-21） |
+| 行末の空セルの除去 | `input/testdata-converter-design.md:32`「無意味な情報は持たない（コメント、完全な空行、行末の空セルを除去）」 | 「意味を持たない情報」の行から外し、前提事項へ1段落として移した | 実装は Excel 経路のみ（`src/main/java/nablarch/test/core/reader/TestCoreReaderAdapter.java:254`「{@link NablarchTestUtils#trimTailCopy(List)} で行末の空セルを除去済みである。」・同 `:410`「{@link NablarchTestUtils#trimTailCopy(List)}で行末の空セルを除去して返す。」。`yaml/YamlFormatReader.java` には無く、`grep -n 'trimTail'` のヒットが0件。いずれも `nablarch-testing-converter@e977824` を `git show` で開いて照合した）。`implementation/testdata_notation.rst:1545` も「\ Excel\ 形式のみ。\ YAML\ 形式では ``rows:``\ の各要素をそのまま読み込む」と明記している（`#32` の是正2、2026-08-21） |
 
-上表の末尾3件（マーカーカラム・空エントリ・行末の空セル）は `#32` の是正2 で追記した。参照コミットは `nablarch-testing-converter` `e977824`、実装の逐語は作業指示 `ntf-doc-32-fix2.md` §5-1 が引用したものである。`design.md`「出典と実装が食い違う場合」が求める記録にあたる。
+上表の末尾3件（マーカーカラム・空エントリ・行末の空セル）は `#32` の是正2 で追記した。逐語は 2026-08-21 に `nablarch-testing-converter@e977824` の `src/main/java/nablarch/test/core/reader/TestCoreReaderAdapter.java:129`・`:254`・`:410` と `src/main/java/nablarch/test/tool/converter/yaml/YamlFormatReader.java:491`、および `nablarch-testing@e21bf67` の `src/main/java/nablarch/test/core/reader/PoiXlsReader.java:93`・`:140-147` を `git show` で開いて照合し、行番号と文面が一致することを確認した。`design.md`「出典と実装が食い違う場合」が求める、確認した実装のファイル名・行番号・参照したコミットの記録にあたる。
 
 ## Mavenプラグインのバージョン表記
 

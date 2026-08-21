@@ -99,7 +99,7 @@
 
 .. tip::
 
-  データベースを使用するテストに必要な機能は、\ ``HttpRequestTestSupport``\ が\ :java:extdoc:`DbAccessTestSupport <nablarch.test.core.db.DbAccessTestSupport>`\ へ処理を委譲することで実現している。このため、準備データの投入やテーブルの検証は\ :ref:`コンポーネント単体テスト <component_unit_test>`\ と同じように行える。
+  データベースを使用するテストに必要な機能は、内蔵サーバの起動やリクエスト単体テストで必要となるアサートの機能を提供する\ ``HttpRequestTestSupport``\ が\ :java:extdoc:`DbAccessTestSupport <nablarch.test.core.db.DbAccessTestSupport>`\ へ処理を委譲することで実現している。このため、準備データの投入やテーブルの検証は\ :ref:`コンポーネント単体テスト <component_unit_test>`\ と同じように行える。
 
 ベースURIを返すメソッドを実装する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -934,7 +934,7 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
 ### #33: 記法の適用順序の明文化、markerColumnColor の説明不足、残置図の禁止語点検
 
-**Purpose**: `#32` の是正で対象外とした3件を片づける。(a) マーカーカラム除外と空エントリ判定の適用順序を `implementation/testdata_notation.rst` に明文化する。(b) `ja/` 配下に残した図から `glossary.md` の禁止語を排する。(c) `tools/testdata_converter.rst` の `markerColumnColor` の説明が、着色の対象を限定していない点を直す。
+**Purpose**: `#32` の是正で対象外とした記述課題3件を片づける。(a) マーカーカラム除外と空エントリ判定の適用順序を `implementation/testdata_notation.rst` に明文化する。(b) `ja/` 配下に残した図から `glossary.md` の禁止語を排する。(c) `tools/testdata_converter.rst` の `markerColumnColor` の説明が、着色の対象を限定していない点を直す。
 
 **背景と未決点**:
 
@@ -952,11 +952,21 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
   あわせて線引き（内部クラス構造を示す図は落とす／テスト範囲・作業の流れを示す図は残す）を `design.md` §「利用側ページに内部構造の構成図を置かない」に追記する。
 
-- **(c) `markerColumnColor` の説明不足** —— `tools/testdata_converter.rst` の `markerColumnColor`（`#32` の是正2 適用後は `:277`・説明は `:280`「マーカーカラムの背景色」）が着色するのは、`XlsFormatWriter` がカラム名0件のデータブロックに合成するマーカーカラムだけである（`nablarch-testing-converter` の `src/main/java/nablarch/test/tool/converter/xls/XlsFormatWriter.java:543` 逐語: `static final String EMPTY_BLOCK_MARKER_COLUMN = "[EMPTY]";`）。入力に元からあったマーカーカラムは中間モデルに入らないため、着色の対象にならない。現状の説明はこの限定に触れていない。
+- **(c) `markerColumnColor` の説明不足** —— `tools/testdata_converter.rst` の `markerColumnColor`（`#32` の是正2 適用後は `:277`・説明は `:280`「マーカーカラムの背景色」）が着色するのは、`XlsFormatWriter` がカラム名0件のデータブロックに合成するマーカーカラムだけである（`nablarch-testing-converter@e977824` の `src/main/java/nablarch/test/tool/converter/xls/XlsFormatWriter.java:543` 逐語: `static final String EMPTY_BLOCK_MARKER_COLUMN = "[EMPTY]";`。この行は `2f21bce` には存在しないため、参照コミットを明示する）。入力に元からあったマーカーカラムは中間モデルに入らないため、着色の対象にならない。現状の説明はこの限定に触れていない。
 
   `#32` より前から成り立つ事実であり、`#32` が作った矛盾ではない。`#32` 以前の「マーカーカラムは無損失で保持する」が誤りだったため、当時の見かけ上の整合は誤り同士の整合だった。
 
-- **(d) ビルド用 Docker イメージを `docker build` から作り直せない（環境課題。見出しには挙げていない）** —— 2026-08-21 に `docker build -t nablarch-document-build .` を実行したが、`Dockerfile:19` の `pip install` が社内 TLS 傍受の自己署名 CA を検証できず exit 1 で失敗する（`ERROR: Could not find a version that satisfies the requirement setuptools==57.5.0 (from versions: none)`。原因は `SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain'))`）。ホストには CA が `/usr/local/share/ca-certificates/ca.crt` として置かれ `SSL_CERT_FILE` も向いているが、`Dockerfile` はこれをイメージへ入れていない。`#32` の是正2 では既存イメージ（`a974e0c8ac60`、7日前）でフルビルドしたため、イメージ自体は2回続けて未検証である。`Dockerfile` は `#32` の作業範囲外のため触っていない。
+**Steps**: 着手時に詳細化する。
+
+### #34: ビルド用 Docker イメージを `docker build` から作り直せない（環境課題）
+
+**Purpose**: 解説書のフルビルドに使う Docker イメージを `docker build` から作り直せるようにする。`#33` が扱う記述課題ではなく、検証環境そのものの課題であるため独立させた（`#32` のレビュー是正、2026-08-21）。
+
+**背景と未決点**:
+
+- 2026-08-21 に `docker build -t nablarch-document-build .` を実行したが、`Dockerfile:19` の `pip install` が社内 TLS 傍受の自己署名 CA を検証できず exit 1 で失敗する（`ERROR: Could not find a version that satisfies the requirement setuptools==57.5.0 (from versions: none)`。原因は `SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain'))`）。ホストには CA が `/usr/local/share/ca-certificates/ca.crt` として置かれ `SSL_CERT_FILE` も向いているが、`Dockerfile` はこれをイメージへ入れていない。`#32` の是正2 では既存イメージ（`a974e0c8ac60`、7日前）でフルビルドしたため、イメージ自体は2回続けて未検証である。`Dockerfile` は `#32` の作業範囲外のため触っていない。
+
+- **未決点**: `Dockerfile` に社内 CA を取り込む変更を入れてよいか、それとも `docker build` 時に CA をマウントする回避手順を作業手順として残すかを、着手時に user へ諮る。
 
 **Steps**: 着手時に詳細化する。
 
