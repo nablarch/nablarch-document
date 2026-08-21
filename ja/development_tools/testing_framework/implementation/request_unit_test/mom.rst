@@ -73,20 +73,8 @@ Nablarch\ バッチアプリケーションから同期応答メッセージ送�
   * - ``MessagingReceiveTestSupport``
     - 応答不要メッセージ受信のリクエスト単体テストで必要となるテスト準備機能を提供する。
     - －
-  * - ``MainForRequestTesting``
-    - テスト用のメインクラス。テスト用のコンポーネント設定ファイルからシステムリポジトリを初期化し、テスト対象の実行後に元のリポジトリへ戻す。
-    - －
-  * - ``DbAccessTestSupport``
-    - 準備データの投入など、データベースを使用するテストに必要な機能を提供する。
-    - －
-  * - ``MQSupport``
-    - 電文の作成など、メッセージングのテストに必要な機能を提供する。
-    - －
   * - ``RequestTestingMessagingProvider``
     - 同期応答メッセージ送信のリクエスト単体テストで、要求電文のアサート機能および応答電文の生成・返却機能を提供する。
-    - －
-  * - ``MessageSender``
-    - 同期応答メッセージ送信を行うクラス。\ Action\ から受け取ったパラメータを要求電文に変換し、応答電文をパースして返す。
     - －
   * - ``TestDataConverter``
     - テストデータに記述した値を編集するためのインタフェース。実装方法は\ :ref:`リクエスト単体テストの設定（MOMによるメッセージング） <request_unit_test_setting_mom>`\ を参照。
@@ -139,8 +127,8 @@ MOM\ によるメッセージングのリクエスト単体テストは、テス
 
 同期応答メッセージ送信のテストクラスの作り方は、テスト対象の処理方式のテストと同じである。\ :ref:`リクエスト単体テスト（ウェブアプリケーション） <request_unit_test_web>`\ ・\ :ref:`リクエスト単体テスト（Nablarchバッチアプリケーション） <request_unit_test_batch>`\ を参照。テストクラスは、テスト対象の処理方式に合わせて次のどちらかのスーパクラスを継承する。
 
-* :java:extdoc:`StandaloneTestSupportTemplate <nablarch.test.core.standalone.StandaloneTestSupportTemplate>`\ ：バッチやメッセージング処理などコンテナ外で動作する処理のテストで使用する。
-* :java:extdoc:`AbstractHttpRequestTestTemplate <nablarch.test.core.http.AbstractHttpRequestTestTemplate>`\ ：ウェブアプリケーションのテストで使用する。
+* :java:extdoc:`BatchRequestTestSupport <nablarch.test.core.batch.BatchRequestTestSupport>`\ ：\ Nablarch\ バッチアプリケーションのテストで使用する。
+* :java:extdoc:`BasicHttpRequestTestTemplate <nablarch.test.core.http.BasicHttpRequestTestTemplate>`\ ：ウェブアプリケーションのテストで使用する。
 
 .. tip::
 
