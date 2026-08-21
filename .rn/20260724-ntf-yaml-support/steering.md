@@ -829,14 +829,43 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 「Verify の結果と user 判断（2026-08-19）」）へ1件を追加した**（`checks/task-30.md` の指摘1 の行が `/rn:gm` の差し戻しを
 反映していない件）。`ja/` と `.rn/` へのそれ以外の変更は不要と指示された。
 
+### #31: `TODO(NTF-MOD-01-1)` の解消と「空エントリ」の記述の是正（user 判断 2026-08-20 の反映）
+
+**Purpose**: `tools/testdata_converter.rst` の2点を直す。(1) 往復非可逆の判定が返ったため `TODO(NTF-MOD-01-1)` を削除する。(2) 中間モデルが保持しない「空エントリ」を「無損失で保持する」側に挙げている記述を是正する。
+
+**根拠（user が作業指示に示した判定と、本リポジトリで確認できる一次情報）**:
+
+- **(1) の判定（user 確定・2026-08-20）** — 往復で観測された3事象はいずれも判定済みである。(a) 全カラム空文字の行が消える → `nablarch-testing-converter` の課題 `XLS-05`。判定「対応不要（記法が明文で定めている挙動）」。(b) `- {}` が増減する → 同じ明文による。(c) 0件テーブルが直後のブロックを取り込む → 課題 `XLS-27`。判定「要対応」。修正済みで、残る制約は既に `TODO(NTF-MOD-01-3)` が保持している。3事象の観測記録と (a)(b)(c) のラベルは `ntf-mod-01-nablarch-testing-converter.md` §2（`:53`・`:73`・`:77`）にある。`reviews/page-testdata_converter.md` §「判断待ち（`decide`）」1 にあるのは (a) 相当と (b) の2事象だけで、(c) は無い（`#31` のレビュー4観点が独立に検出。調整役が実物で確認）
+- **(2) の根拠（本リポジトリの一次情報）** — `ja/development_tools/testing_framework/implementation/testdata_notation.rst:1534`（`65a1756`）が「全要素が\ null\ または空文字のエントリは読み飛ばされる。Excel\ では行の全セルが空の場合、YAML\ では ``rows:``\ 内の要素が空マッピング（\ ``{}``\ ）またはすべての値が空文字の場合にスキップされる。」と定めている。読み飛ばしを実行するのは本体の `PoiXlsReader#isBlankLine`（L140-147）であり、変換ツール側に判断の余地は無い（`nablarch-testing-converter` の課題 `XLS-05` の判定より。同リポジトリは本作業ディレクトリの外にあるため読みに行かず、user が作業指示に示した内容による）。したがって空エントリは中間モデルに保持されない
+
+**Steps**:
+
+- [x] 1. `tools/testdata_converter.rst:22-25` の4行（`TODO(NTF-MOD-01-1)` 3行＋直後の空行1行）を削除する。削除後、tip 本文と「意味を変えずに往復できる」見出しの間に空行が1行だけ残ること。**本文は1文字も変えない**（判定が「あるべき姿（往復しても内容が保たれる）のとおり」であるため、注意書きの追加も不要）
+- [x] 2. 同ファイルの表「意図のある情報」の行から「データブロックの内側にある空エントリ、」を削除する。**「マーカーカラム」「空欄のレコード種別」は検証していないためそのまま残す**（user 指示）
+- [ ] 3. 記録を更新する。(1) `checks/task-31.md` に2点を根拠付きで記録する (2) `checks/task-last.md` §8 の TODO 台帳から `NTF-MOD-01-1` の行を外し、実測を取り直す (3) `checks/task-28.md` §7-3 の表から `NTF-MOD-01-1` を外す（`#29` が `NTF-MOD-02-1` で確立した運用。同 `:461`） (4) 本 `steering.md` の Task list と State。**それ以外の記録整備は行わない**（`.rn/` の行番号ずれ・過去の記録との食い違いはマージ直前にまとめて処置する。`#30` Step 6 の user 指示を継続適用）
+
+**Completion criteria**:
+
+- `grep -rn 'NTF-MOD-01-1' ja/` が0件である（依頼書 `ntf-doc-28-decide-disposition.md` 側の記述は残してよい）
+- `ja/` 配下の `TODO(NTF-` が **13件・12ID**（`NTF-SRC-02` のみ2箇所）である
+- `tools/testdata_converter.rst` の tip 本文と「意味を変えずに往復できる」見出しの間の空行が1行である
+- 同ファイルの「意図のある情報」の行が「無損失で保持する。マーカーカラム、空欄のレコード種別が該当する」である
+- 上記2点以外に `ja/` の差分が無い。**本文を1文字も変えていない**ことを、`git diff --numstat <開始コミット>..HEAD -- ja/` が `1	5`（追加1・削除5）であることで測る。削除5の内訳は TODO 3行＋直後の空行1行＋「意図のある情報」1行の置換分であり、置換の削除1行は追加1行と対になる
+- `checks/task-last.md` §8 の台帳が13行・12ID で、削除した行が持っていた出典（依頼書 `ntf-mod-01-nablarch-testing-converter.md` §2・`checks/task-28.md` §7-3・`ntf-doc-28-decide-disposition.md` §7-2）が削除記録の段落に引き継がれている
+- `checks/task-28.md` §7-3 の表から `NTF-MOD-01-1` が外れている（`#29` が `NTF-MOD-02-1` で確立した運用。同 `:461`）
+- 台帳と `checks/task-28.md` §7-3 が指す `checks/task-31.md` が、`#31` の check-off コミットでブランチに入る。rn の運用上、check ファイルは実装担当が書き調整役が check-off コミットで staging するため、台帳を直したコミットとは別コミットになる（`task-execute-workflow.md`「Check file format」の "The expert does not commit it. The coordinator … commits the file … on the post-Verify steering check-off commit."）。したがって中間コミット単体ではポインタが解決しない
+- Docker フルビルドが WARNING・ERROR ともに0件（ゲート7）
+- `verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` がすべて PASS
+- 禁止事項（`ja/conf.py`・`mapping/glossary.md` §5.15・`mapping.csv` 直接編集・`en/`・`locales/` の `.gitignore` 追加）に触れていない
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: YYYY-MM-DD
-- **Last completed**: #N description
-- **Next**: #N description
-- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
+- **Status**: paused
+- **Date**: 2026-08-21
+- **Last completed**: #30 `TODO(NTF-MOD-02-2)` の解消（`c650039`）
+- **Next**: #31 `TODO(NTF-MOD-01-1)` の解消と「空エントリ」の記述の是正 — Steps 1・2 は完了。Step 3 は (1)(2)(3) 済み、(4) の check-off が user 判断待ちで未了
+- **Notes**: ブランチ `ntf-yaml-support`。`main` へのマージは user の明示指示待ち（`.rn/` を含めるかも未決）。**再開時の最初の動作は user への2件の問い合わせの回答待ちであり、回答なしに `ja/` を触らないこと。** (A) 是正ラウンド上限（3回、`fe0c775`）後に残った有効な指摘9件を4ラウンド目で直してよいか。9件の内訳と実測の裏づけは `checks/task-31.md`「未解決の指摘（是正ラウンド上限後）」にある。すべて `.rn/` の記録の記述に関するもので `ja/` への指摘は0件。調整役の推奨は「直す」で、特に指摘5（`#31` が残した未決点が本 `steering.md` にしか無く、マージ後に流れる）は放置すると情報が失われる。(B) `ja/` 本文への追加手当て3件（`checks/task-31.md`「申し送り」1〜3。「外側」の限定が宙に浮いている件・未検証の「マーカーカラム」の追跡・前提事項への1文追加）。いずれも「削除だけ」という user 指示の範囲外のため本文は未変更。user-deferred path: `?? .rn/20260724-ntf-yaml-support/checks/task-31.md`（rn の運用上 check ファイルは `#31` の check-off コミットで調整役が staging するため、check-off まで未追跡のまま保持する。削除も `.gitignore` 追加もしないこと）。設計観点は指示書にスコープ制約を書き落として回したため判定を採用していない（`checks/task-31.md` の Design Expert の行）
