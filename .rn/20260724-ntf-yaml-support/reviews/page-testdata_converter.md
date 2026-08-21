@@ -181,3 +181,58 @@ QA / 設計 / クラフト / 検証の4観点を、それぞれ独立したサ�
 4. **`nablarch-testing-converter` の参照コミットがピンされていない。** 作業指示の参照リポジトリ表に本リポジトリの記載がなく、執筆中に HEAD が `e80a4dd` → `2f21bce` へ動いた。後続ページで同リポジトリを参照する場合に、どのコミットを基準にするか決める必要がある。
 
 5. **`mapping.csv` の `note` 列と実装が食い違う行がある。** input-0198-b の `note` は出典どおり「YAML OUT 後にスキーマ検証を行うリンター」と書かれているが、実装ではリンタは変換の処理経路に組み込まれていない。`disposition` は `MERGE` のままで、逸脱がマッピング側から追跡できない。Rule §1-4 で `mapping.csv` の直接編集は禁止のため、こちらでは直していない。
+
+## `#35`（`:71` の段落の書き換え可否を実装から検証、2026-08-21）
+
+参照コミットは `nablarch-testing` = `e21bf67`、`nablarch-testing-converter` = `e977824`。すべて `git show <commit>:<path>` で読んだ。
+
+`#35` §1 は `:71` の段落を「行末の空セルは往復すると消える。テスティングフレームワークが\ Excel\ 形式を読み込む時点で取り除くため、中間モデルに入らない。」へ書き換えるものだが、**書く前の反例検索で反例が見つかったため、書いていない。** 以下は5系統それぞれについて実装から辿った経路である。
+
+### 5系統の入口（`nablarch-testing-converter@e977824`）
+
+`XlsFormatReader.read` (`src/main/java/nablarch/test/tool/converter/xls/XlsFormatReader.java:101`-`:134`) が分岐する5系統と、各系統が `TestCoreReaderAdapter` を呼ぶ位置。
+
+| 系統 | 入口 | アダプタ呼び出し |
+|---|---|---|
+| テーブル系 | `XlsFormatReader.java:145` `readTableBlocks` | 同 `:146` `adapter.readTables` |
+| `LIST_MAP` | 同 `:175` `readListMapBlock` | 同 `:179` `adapter.readListMapColumnNames`・同 `:182` `adapter.readListMap` |
+| ファイル系 | 同 `:205` `readFileBlocks` | 同 `:206` `adapter.readFiles`・同 `:212` `adapter.readBlockBodyLines` |
+| メッセージ | 同 `:228` `readMessageBlock` | 同 `:229` `adapter.readMessage`・同 `:240` `adapter.readBlockBodyLines` |
+| 同期応答電文 | 同 `:267` `readSendSyncBlocks` | 同 `:268` `adapter.readSendSyncMessages`・同 `:274` `adapter.readBlockBodyLines` |
+
+### (a) 「取り除く」が成り立つ経路 —— 5系統とも成り立つ
+
+主語は「\ Excel\ 形式を読み込む時点の処理」、対象は**カラム名の行（テーブル系・`LIST_MAP`）／フィールド名の行を含む各行（ファイル系・メッセージ・同期応答電文）の行末の空セル**である。
+
+| 系統 | 取り除く位置（`nablarch-testing@e21bf67`。converter 側は `@e977824`） | 逐語 |
+|---|---|---|
+| テーブル系 | `src/main/java/nablarch/test/core/reader/TableDataParser.java:93` → `HeaderLine.java:33` | `header = new HeaderLine(readLine());` / `List<String> keys = trimTailCopy(headerLine);   // キャッシュを破壊しないようにコピーして編集` |
+| `LIST_MAP` | `ListMapParser.java:64` → `HeaderLine.java:33`。変換ツール側は `TestCoreReaderAdapter.java:128` でも `HeaderLine` を直接構築 | `header = new HeaderLine(firstLine);` / `HeaderLine header = new HeaderLine(bodyLines.get(0));` |
+| ファイル系 | `DataFileParser.java:68`（`FixedLengthFileParser`・`VariableLengthFileParser` の親） | `List<String> line = NablarchTestUtils.trimTailCopy(original); // キャッシュを破壊しないようにコピーして編集` |
+| メッセージ | `MessageParser.java:115` が `MessageParser.java:44`・`:58` で生成した `FixedLengthFileParser` へ委譲 → `DataFileParser.java:68` | `delegate.onReadLine(line);` |
+| 同期応答電文 | `SendSyncMessageParser.java:16` が `MessageParser` を継承 → 同上。変換ツール側の収集器も `TestCoreReaderAdapter.java:318` で同じ委譲を再現 | `public class SendSyncMessageParser extends MessageParser {` / `delegate.onReadLine(line);` |
+
+加えて、ファイル系・メッセージ・同期応答電文で原文復元に使う生行も `TestCoreReaderAdapter.java:464` で同じ処理を通る（`bodyLines.add(NablarchTestUtils.trimTailCopy(line));`）。`trimTailCopy` の実体は `NablarchTestUtils.java:273`-`:279`。
+
+### (b) 反例 —— 「中間モデルに入らない」は5系統とも成り立たない
+
+**データ行の行末の空セルは、カラム名（フィールド名）のある位置であれば、取り除かれたあとに空文字として中間モデルへ入り直す。** 器が持つカラム数まで空文字で埋め戻す処理があるためである。
+
+| 系統 | 埋め戻す位置 | 逐語 |
+|---|---|---|
+| テーブル系・`LIST_MAP` | `nablarch-testing@e21bf67` の `HeaderLine.java:81` | `String val = (i >= line.size()) ? "" : line.get(i);` |
+| ファイル系・メッセージ・同期応答電文 | `nablarch-testing-converter@e977824` の `XlsFormatReader.java:424`（`readDataRows`。同 `:385` `readFieldDefs` 経由で `:298` `toRecordLayouts` から呼ばれ、`:215`・`:247`・`:278` の3系統が共有する） | `String cellValue = i < valueCells.size() ? valueCells.get(i) : "";` |
+
+この挙動は変換ツール自身のテストが固定している（いずれも `nablarch-testing-converter@e977824`）。
+
+- `src/test/java/nablarch/test/tool/converter/xls/XlsFormatReaderCellTypeTest.java:182`-`:188` `readsAbsentCellAsEmptyString` —— カラム名の行 `KEY`・`V` に対しデータ行の `V` 列のセルが不在の実 `.xlsx` を読み、**中間モデル**の値が `""` になることを固定する（`readValue` の Javadoc 同 `:119`-`:123`「実 {@link XlsFormatReader} で読んだ中間モデルの {@code V} 列の値を返す」、本体は同 `:129` `return table.getRows().get(0).get(1);`）。同 `:187` は `assertThat(row.getLastCellNum(), is((short) 1));` で、リーダに渡る行が `KEY` 列までしかない（＝行末の空セルが行として存在しない）ことを併せて確認している。
+- `src/test/java/nablarch/test/tool/converter/xls/XlsFormatReaderInvalidInputTest.java:765`-`:766` —— テーブル系。`assertThat("足りないセルは空文字で埋められる", shortRow.getRows(), is(Arrays.asList(Arrays.asList("a1", ""))));`
+- 同 `:811`-`:812` —— ファイル系（`SETUP_FIXED`）。`assertThat("足りないセルは空文字で埋められる", shortRow.getRows(), is(Arrays.asList(Arrays.asList("abc", ""))));`
+
+したがって、往復して消えるのは**カラム名の行（フィールド名の行）の行末の空セル**（そのカラム自体が消える）と、**カラム名が無い位置にあるデータ行のセル**（同 `:770`-`:771`「カラム行よりも右のセル e1 は黙って捨てられる」・同 `:816`-`:817`）に限られる。データ行の行末の空セルは、カラム名がある位置なら空文字として中間モデルに入り、往復しても残る。
+
+### 結論
+
+`#35` §1 の変更後の文は、第1文「行末の空セルは往復すると消える。」と第2文「……中間モデルに入らない。」がいずれも上記 (b) の反例に反する。作業指示 §1 の「1系統でも落ちない経路が見つかったら、この段落は書かずに報告すること」に従い、`:71` は変更していない。
+
+**あわせて、現行の `:71` の文も同じ誤りを含む。** 「取り除かれたあとの状態が中間モデルに入るため、\ Excel\ 形式のテストデータを\ YAML\ 形式へ変換すると、行末の空セルは変換後に現れない。」は、ファイル系・メッセージについて (b) の埋め戻し（`XlsFormatReader.java:424`）を拾っていない。是正するなら「行末の空セルが消えるのはカラム名の行（フィールド名の行）の側であり、データ行の側はカラム名の無い位置のセルが読み込まれない」という書き分けが要る。書き分けの可否は `#35` の指示範囲外のため、こちらでは判断していない。

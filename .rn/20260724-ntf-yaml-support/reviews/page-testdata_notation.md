@@ -549,3 +549,33 @@ user review ではなく、`ntf-doc-10a-followup.md` による指示作業であ
     (b) `:772`・`:785`・`:656` の「ヘッダ行」は、`:741` の「カラム名の行」と同じ行を指している
     （既存で notation 4件対1件、examples は「カラム名の行」のみ）。いずれも既存行の書き換えに
     当たるため `#23` では扱っていない。
+
+## `#35`（読み込み時の整形・補完の表に「テーブル・`LIST_MAP`」の行を追加、2026-08-21）
+
+`:1546`-`:1547` に次の1行を追加した（`:1544`-`:1545` の「ファイル・メッセージ」の行は変えていない）。
+
+```
+  * - テーブル・\ ``LIST_MAP``
+    - カラム名の行の行末の空セルを取り除く。カラム名が無い位置のセルは読み込まれない（\ Excel\ 形式のみ）
+```
+
+### 出典（すべて `nablarch-testing@e21bf67`。`git show e21bf67:<path>` で読んだ）
+
+| 記述 | `file:line` | 逐語 |
+|---|---|---|
+| カラム名の行の行末の空セルを取り除く | `src/main/java/nablarch/test/core/reader/HeaderLine.java:33` | `List<String> keys = trimTailCopy(headerLine);   // キャッシュを破壊しないようにコピーして編集` |
+| 同上（テーブル系の呼び出し元） | `src/main/java/nablarch/test/core/reader/TableDataParser.java:93` | `header = new HeaderLine(readLine());` |
+| 同上（`LIST_MAP` の呼び出し元） | `src/main/java/nablarch/test/core/reader/ListMapParser.java:64` | `header = new HeaderLine(firstLine);` |
+| カラム名が無い位置のセルは読み込まれない | `src/main/java/nablarch/test/core/reader/HeaderLine.java:77` | `for (int i = 0; i < keys.size(); i++) {` |
+
+`HeaderLine.java:77` の走査はカラム名の行の長さ（`keys.size()`）でループするため、データ行がそれより右に持つセルは戻り値に入らない。テーブル系のデータ行はこの戻り値を使う（`TableDataParser.java:80` `List<String> row = header.excludeMarkerColumns(line);`）。`LIST_MAP` は `HeaderLine.java:59`-`:67` の `getMapExcludingMarkerColumns` が同じ `excludeMarkerColumns` を経由する。
+
+「（\ Excel\ 形式のみ）」の根拠は、この経路が `TestDataParsingTemplate` の行読み込みの上に載っており、`e21bf67` の `src/main/` に存在する `TestDataReader` の実装が `src/main/java/nablarch/test/core/reader/PoiXlsReader.java:30`（`public class PoiXlsReader implements TestDataReader {`）の1件だけであること。`grep` ではなく、`src/main/` 配下の全 `.java` を `git show` して `implements TestDataReader` を探した結果が同ファイル1件である。
+
+### 追加した行の限定について
+
+`HeaderLine` の走査は**カラム名の行**と**データ行のカラム名が無い位置**にしか効かない。カラム名がある位置のデータ行のセルは、行が短ければ `HeaderLine.java:81`（`String val = (i >= line.size()) ? "" : line.get(i);`）で空文字が埋め戻される。そのため行の主語を「カラム名の行」と「カラム名が無い位置のセル」に限定してある。無限定に「行末の空セルを取り除く」とは書いていない。埋め戻しの実測は `reviews/page-testdata_converter.md` §「`#35`（`:71` の段落の書き換え可否を実装から検証、2026-08-21）」に記録した。
+
+### 申し送り
+
+38. **追加行の「無い」は、同ページの多数派表記（かな）と逆である。** 2026-08-21 に本ページ全体を実測したところ、追加行を含めて「無い」2件（`:1534` と今回の `:1547`）に対し、「無い」を除く「ない」は104件だった。`#35` の作業指示 §2 が逐語で「カラム名が無い位置のセルは読み込まれない」を指定しているため、指定どおりに書いた。表記を揃えるかは未判断。
