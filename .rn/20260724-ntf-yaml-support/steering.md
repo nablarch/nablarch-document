@@ -34,6 +34,7 @@ Rn version: 0.8.0
 - `#32` 作業指示（`#31` の打ち切り、残TODOの整理、利用側ページの構成物記述の見直し。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-32.md`
 - `#32-是正` 作業指示（4観点レビューの有効な指摘11件の処置。user 判断5件の結論を含む。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-32-fix.md`
 - `#32-是正2` 作業指示（`#32-是正` が残した user 判断待ち6件の回答。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-32-fix2.md`
+- `#32-是正3` 作業指示（`#32-是正2` が残した user 判断待ち5件（A〜E）の回答。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-32-fix3.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
@@ -862,7 +863,7 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - `verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` がすべて PASS
 - 禁止事項（`ja/conf.py`・`mapping/glossary.md` §5.15・`mapping.csv` 直接編集・`en/`・`locales/` の `.gitignore` 追加）に触れていない
 
-### #32: `#31` の是正打ち切りと、残TODOの整理、利用側ページの構成物記述の見直し（user 指示 2026-08-21）
+### #32: `#31` の是正打ち切りと、残TODOの整理、利用側ページの構成物記述の見直し（user 指示 2026-08-21）— DONE
 
 **Purpose**: 3つを片づける。(1) `#31` が残した未決点を `tools/testdata_converter.rst` の本文で解消する。(2) 一次情報が揃った残TODO 4件（`NTF-MOD-02-2`・`NTF-SRC-01`・`NTF-SRC-02`・`NTF-FIG-01`〜`04`）を外し、`NTF-MOD-03-1` の文言を実状に合わせる。(3) 利用側ページから、利用者がNTFの内部の作りを知る必要のない記述（UMLクラス図7件・「主なクラスとリソース」表の7行）を落とす。
 
@@ -871,7 +872,7 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 **Steps**:
 
 - [x] 0. `#31` を閉じる（`checks/task-31.md` の誤記5件を削り、指摘1・2・4 を `#30` Step 6 へ送り、指摘5 を処置不要と記す。`#31` を check-off する）— `1618faf` で完了
-- [ ] 1. `tools/testdata_converter.rst` の `:37`・`:39` を書き換え、`:67` の直後に「前提事項」の段落を1つ足す。根拠の逐語3組を `checks/task-32.md` に記録する（指示書 §1）
+- [x] 1. `tools/testdata_converter.rst` の `:37`・`:39` を書き換え、`:67` の直後に「前提事項」の段落を1つ足す。根拠の逐語3組を `checks/task-32.md` に記録する（指示書 §1）—— 該当段落は是正・是正2・是正3 で `b3e76fc`・`811d1cb`・`5c2c26f`・`4d0a48a` と4度動いた。最終形は是正3指示 §1 の逐語による
 - [x] 2. `setup/request_unit_test/rest.rst` の `TODO(NTF-MOD-02-2)` を外し、jar の実測を `checks/task-32.md` に記録する（指示書 §2）
 - [x] 3. `setup/junit5_extension.rst` の `TODO(NTF-SRC-01)` を外し、JUnit 5.3.0 リリースノートと Surefire 2.22.0 告知の逐語を `checks/task-32.md` に記録する（指示書 §3）
 - [x] 4. `setup/request_unit_test/web.rst` の5行と `tools/request_data_tool.rst` の1行を書き換え、`TODO(NTF-SRC-02)` 2箇所を外す。出典と「Open With」の扱いを `checks/task-32.md` に記録する（指示書 §4）
@@ -917,9 +918,18 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - [x] 21. 判断5。`reviews/page-testdata_converter.md` に出典と実装の食い違い3件を記録する（是正2指示 §5-1）
 - [x] 22. 判断4(b)。マッピング台帳6行（`current-0201`・`0282`・`0296`・`0309`・`0323`・`input-0184`）の `note` に `#32` のポインタを追記する。`_batch/*.csv` を直してから `mapping.csv` を作り直す（是正2指示 §5-2）
 - [x] 23. 判断6。`#33` に (c) `markerColumnColor` の説明不足を足し、見出しを改める（是正2指示 §6）
-- [x] 24. 検証。`verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` と Docker フルビルド。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo`（是正2指示 完了条件10〜13）。**`docker build` からのイメージ再作成は `#34` へ分離し、既存イメージでのフルビルドを完了条件13 の代替とする**（`#32` のレビュー是正、2026-08-21）。理由と失敗ログの所在は `steering.md` `#34`「`#32` の完了判定との関係」。—— Steps 17〜24 は `5c2c26f` で実施し、4観点レビュー3ラウンドの有効指摘27件を `72275f2`・`14053b5`・`456544e` で是正した。判定と triage は `checks/task-32.md` §「4観点レビューの判定（是正2）」。
+- [x] 24. 検証。`verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` と Docker フルビルド。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo`（是正2指示 完了条件10〜13）。**`docker build` からのイメージ再作成は `#34` へ分離し、既存イメージでのフルビルドを完了条件13 の代替とする**（`#32` のレビュー是正、2026-08-21）。理由と失敗ログの所在は `steering.md` `#34`「`#32` の完了判定との関係」。—— Steps 17〜24 は `5c2c26f` で実施し、4観点レビュー3ラウンドの有効指摘27件を `72275f2`・`14053b5`・`456544e` で是正した。判定と triage は `checks/task-32.md` §「4観点レビューの判定（是正2。調整役が記入。2026-08-21）」。
 
-**是正2 Completion criteria**: 是正2指示 `ntf-doc-32-fix2.md`「完了条件」1〜16 の逐語による。**このタスクの最終判定はこの16件で行う**（上の「是正 Completion criteria」2 と「Completion criteria」の「マーカーカラム」2件の条件は、是正2 の §2-2 が段落を1つ足すため、是正2 完了条件1・2 に置き換わる）
+**是正2 Completion criteria**: 是正2指示 `ntf-doc-32-fix2.md`「完了条件」1〜16 の逐語による（上の「是正 Completion criteria」2 と「Completion criteria」の「マーカーカラム」2件の条件は、是正2 の §2-2 が段落を1つ足すため、是正2 完了条件1・2 に置き換わる）。最終判定は下の「是正3 Completion criteria」に置き換わる。
+
+**是正3 Steps**（`#32-是正2` が残した user 判断待ち5件（A〜E）の回答。指示書 `ntf-doc-32-fix3.md`。**`#32` 全体の check-off はここが片づいてから行う**）:
+
+- [x] 25. 判断A・B・C・D・E を反映する。`tools/testdata_converter.rst:71` の因果と適用範囲（指示書 §1）、`reviews/page-testdata_converter.md` の残差処理と適用範囲（同 §2）、`#33` (d) の申し送り（同 §3）、`design.md` §「利用側ページに内部構造の構成図を置かない」への `9031fa6` の7行の記録と台帳5行の `note`（同 §4）、`#34` の未決点への方針（同 §5）、`.rn/` 内相互参照の節見出し化（同 §6）— `4d0a48a`
+- [x] 26. 4観点レビュー2ラウンドの有効指摘31件を `1ccfc53`・`6946fa1` で是正する。落とした7行の役割の残り方を 5行/2行 に直し、`#33` (d) に `BasicHttpRequestTestTemplate` を足し、表の行数についての排他の主張と、帰属先についての主語の無い断定を除く。判定と triage は `checks/task-32.md` §「4観点レビューの判定（是正3。調整役が記入。2026-08-21）」
+
+**是正3 では、指示書の記述3件を実測に合わせて変えた**（7行の分類・引用の行番号・呼び出し元の数）。指示どおりに書くと `.rn/` 内の文書に事実でない記述が入るためで、3件の内容・逐語・実測は `checks/task-32.md` §「4観点レビューの判定（是正3。調整役が記入。2026-08-21）」にある。
+
+**是正3 Completion criteria**: 是正3指示 `ntf-doc-32-fix3.md`「完了条件」1〜14 の逐語による。**このタスクの最終判定はこの14件で行う**（本エントリの他の Completion criteria は、是正3 が同じ箇所を再度動かすため、この14件に置き換わる）
 
 **Completion criteria**（指示書「完了条件」の逐語）:
 
@@ -933,9 +943,9 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - `checks/task-32.md` に、手順1-3・2-2・3-2・4-3 の記録と、手順9の台帳がある
 - `#31` が check-off されている（手順0）
 
-### #33: 記法の適用順序の明文化、markerColumnColor の説明不足、残置図の禁止語点検、「主なクラスとリソース」の表の載せる側の不揃い
+### #33: 記法の適用順序の明文化、markerColumnColor の説明不足、残置図の禁止語点検、「主なクラスとリソース」の表の載せる側の不揃い、`.rn/` の相互参照と役割記載の積み残し
 
-**Purpose**: `#32` の是正で対象外とした記述課題4件を片づける。(a) マーカーカラム除外と空エントリ判定の適用順序を `implementation/testdata_notation.rst` に明文化する。(b) `ja/` 配下に残した図から `glossary.md` の禁止語を排する。(c) `tools/testdata_converter.rst` の `markerColumnColor` の説明が、着色の対象を限定していない点を直す。(d) 「主なクラスとリソース」の表の「載せる側」が6ページで揃っていない点を決める。
+**Purpose**: `#32` の是正で対象外とした記述課題5件を片づける。(a) マーカーカラム除外と空エントリ判定の適用順序を `implementation/testdata_notation.rst` に明文化する。(b) `ja/` 配下に残した図から `glossary.md` の禁止語を排する。(c) `tools/testdata_converter.rst` の `markerColumnColor` の説明が、着色の対象を限定していない点を直す。(d) 「主なクラスとリソース」の表の「載せる側」が6ページで揃っていない点を決める。(e) `#32` が範囲外とした2件 —— `.rn/` 内の相互参照の節見出し化の残りと、落とした行の役割を本文に残す規範を明文化前の7行へ遡って当てるかどうか —— を決める。
 
 **背景と未決点**:
 
@@ -953,13 +963,21 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
   あわせて線引き（内部クラス構造を示す図は落とす／テスト範囲・作業の流れを示す図は残す）を `design.md` §「利用側ページに内部構造の構成図を置かない」に追記する。
 
-- **(c) `markerColumnColor` の説明不足** —— `tools/testdata_converter.rst` の `markerColumnColor`（`#32` の是正2 適用後は `:277`・説明は `:280`「マーカーカラムの背景色」）が着色するのは、`XlsFormatWriter` がカラム名0件のデータブロックに合成するマーカーカラムだけである（`nablarch-testing-converter@e977824` の `src/main/java/nablarch/test/tool/converter/xls/XlsFormatWriter.java:543` 逐語: `static final String EMPTY_BLOCK_MARKER_COLUMN = "[EMPTY]";`。この行は `2f21bce` には存在しないため、参照コミットを明示する）。入力に元からあったマーカーカラムは中間モデルに入らないため、着色の対象にならない。現状の説明はこの限定に触れていない。
+- **(c) `markerColumnColor` の説明不足** — `tools/testdata_converter.rst` の `markerColumnColor`（`#32` の是正2 適用後は `:277`・説明は `:280`「マーカーカラムの背景色」）が着色するのは、`XlsFormatWriter` がカラム名0件のデータブロックに合成するマーカーカラムだけである（`nablarch-testing-converter@e977824` の `src/main/java/nablarch/test/tool/converter/xls/XlsFormatWriter.java:543` 逐語: `static final String EMPTY_BLOCK_MARKER_COLUMN = "[EMPTY]";`。この行は `2f21bce` には存在しないため、参照コミットを明示する）。入力に元からあったマーカーカラムは中間モデルに入らないため、着色の対象にならない。現状の説明はこの限定に触れていない。
 
   `#32` より前から成り立つ事実であり、`#32` が作った矛盾ではない。`#32` 以前の「マーカーカラムは無損失で保持する」が誤りだったため、当時の見かけ上の整合は誤り同士の整合だった。
 
-- **(d) 「主なクラスとリソース」の表の「載せる側」が6ページで揃っていない** —— `design.md` §「利用側ページに内部構造の構成図を置かない」の採否基準 (1) は「利用者が作成する成果物（テストクラス・テストデータ・テスト対象クラス）は載せる」だが、`implementation/request_unit_test/batch.rst`・同 `mom.rst` の表はテスト対象クラスの行を持たない（残る4ページは持つ。`implementation/request_unit_test/web.rst:32`・同 `rest.rst:34`・`implementation/class_unit_test/component.rst:32`・同 `entity.rst:32`。2026-08-21 実測）。両ページとも `batch.rst:45`・`mom.rst:66` の作成単位欄で「テスト対象クラス（Action）につき1つ作成する。」と述べており、テスト対象クラスの存在自体は前提にしている。また基準 (2) を満たすスーパクラスが2つ、`mom.rst` の表に無い。同 `:130` の `BatchRequestTestSupport` と同 `:131` の `BasicHttpRequestTestTemplate` で、`mom.rst:128`-`:131` は同期応答メッセージ送信のテストクラスがこのどちらかを継承すると書いている（`BatchRequestTestSupport` は同 `:30` にも継承の記述がある）。`mom.rst` の表にあるスーパクラスは `MessagingRequestTestSupport`（同 `:70`）と `MessagingReceiveTestSupport`（同 `:73`）の2つで、表全体は見出し行を除くと6行ある（同 `:64`・`:67`・`:70`・`:73`・`:76`・`:79`。2026-08-21、`grep -n '^  \* - ' mom.rst` で実測）。`BasicHttpRequestTestTemplate` は `web.rst:35` の表にはあるが、採否の判定はページ単位で行う（`design.md` §「利用側ページに内部構造の構成図を置かない」）ため、`mom.rst` 側は独立に未処理である。`#32` は落とす側だけを当てたため未処理。
+- **(d) 「主なクラスとリソース」の表の「載せる側」が6ページで揃っていない** — `design.md` §「利用側ページに内部構造の構成図を置かない」の採否基準 (1) は「利用者が作成する成果物（テストクラス・テストデータ・テスト対象クラス）は載せる」だが、`implementation/request_unit_test/batch.rst`・同 `mom.rst` の表はテスト対象クラスの行を持たない（残る4ページは持つ。`implementation/request_unit_test/web.rst:32`・同 `rest.rst:34`・`implementation/class_unit_test/component.rst:32`・同 `entity.rst:32`。2026-08-21 実測）。両ページとも `batch.rst:45`・`mom.rst:66` の作成単位欄で「テスト対象クラス（Action）につき1つ作成する。」と述べており、テスト対象クラスの存在自体は前提にしている。また基準 (2) を満たすスーパクラスが2つ、`mom.rst` の表に無い。同 `:130` の `BatchRequestTestSupport` と同 `:131` の `BasicHttpRequestTestTemplate` で、`mom.rst:128`-`:131` は同期応答メッセージ送信のテストクラスがこのどちらかを継承すると書いている（`BatchRequestTestSupport` は同 `:30` にも継承の記述がある）。`mom.rst` の表にあるスーパクラスは `MessagingRequestTestSupport`（同 `:70`）と `MessagingReceiveTestSupport`（同 `:73`）の2つで、表全体は見出し行を除くと6行ある（同 `:64`・`:67`・`:70`・`:73`・`:76`・`:79`。2026-08-21、`grep -n '^  \* - ' mom.rst` で実測）。`BasicHttpRequestTestTemplate` は `web.rst:35` の表にはあるが、採否の判定はページ単位で行う（`design.md` §「利用側ページに内部構造の構成図を置かない」）ため、`mom.rst` 側は独立に未処理である。`#32` は落とす側だけを当てたため未処理。
 
   **未決点**: 行を足すか、(1) をページ単位の任意とするかを着手時に決める。台帳 `current-0282`・`current-0296`・`current-0323` の出典表にも該当行が無いため、行を足す場合は台帳の `note` に足した理由を記録する必要がある。
+
+- **(e) `#32` が範囲外とした2件** — どちらも `#32` の是正3 の4観点レビューで挙がり、`#32` の完了条件が拾わない範囲にあるため送った（2026-08-21）。
+
+  - **(e-1) `.rn/` 内の相互参照の節見出し化が3ファイルで止まっている。** `#32` の是正3 は完了条件6 が名指しした `mapping/style.md`・同 `glossary.md`・同 `vocabulary.md` の4件だけを直した。残りは2つの形で残っている。`design.md`・`steering.md`・`reviews/`・`checks/`・`mapping/` の5つ（作業指示 `ntf-doc-*.md` を除いた、書き換わり続ける文書）を母集団として 2026-08-21 に実測した件数は、ディレクトリ接頭辞付き（`reviews/page-x.md:12` の形）が141件、ベアファイル名（`design.md:12`・`steering.md:12` の形）が271件である（`grep -rEo '(reviews|design|steering|checks)/[A-Za-z0-9_.-]+\.md:[0-9]+' --include='*.md' design.md steering.md reviews checks mapping | wc -l` と `grep -rEo '(^|[^/A-Za-z0-9_.-])(steering|design)\.md:[0-9]+' --include='*.md' design.md steering.md reviews checks mapping | wc -l`。いずれも `.rn/20260724-ntf-yaml-support/` で実行）。後者は完了条件6 の grep が拾わない形であり、`mapping/style.md` にも `ntf-doc-27-small-3rd.md:26`（同 `:58`）・同 `:129-132`（同 `:224`）として残っている。**未決点**: 対象を `.rn/` 全体に広げるか、生きている文書（`design.md`・`steering.md`・`reviews/`・`checks/`）に限るかを着手時に決める。`mapping/glossary.md` §1 は `#32` の是正3 で、受領後に書き換えていない作業指示と `input/` 配下を「実物の側」として `file:line` のまま指すと整理した。この線引きを `.rn/` 全体の規約として追認するかどうかも、あわせて決める。
+
+  - **(e-2) 落とした行の役割を本文に残す規範を、明文化前の7行へ遡って当てるか。** `design.md` §「利用側ページに内部構造の構成図を置かない」の採否基準の段落の末尾は「落としたクラスの役割は、各ページのリード文または本文に残す。」と無条件に書いているが、`9031fa6` が落とした7行のうち2行（`implementation/request_unit_test/mom.rst` の `StandaloneTestSupportTemplate`・`AbstractHttpRequestTestTemplate`）はセルの内容が本文に残っていない。この規範の文は `#32` の是正2 で入ったもので、`9031fa6` はそれより前のコミットである（前後関係の実測は `design.md` §「利用側ページに内部構造の構成図を置かない」にある）。**未決点**: 2行の役割を `mom.rst` の本文へ書き足すか、規範は明文化以降にのみ当たると `design.md` に明記するかを着手時に決める。
+
+  - **(e-3) 落としたクラスの役割の置き場所が4ページで揃っていない。** `implementation/request_unit_test/batch.rst`・同 `mom.rst` は機能概要のリード段落の本文、同 `web.rst` は使用方法配下の `.. tip::`、同 `rest.rst` は使用方法配下の本文にある。`design.md` §「利用側ページに内部構造の構成図を置かない」が「リード文または本文」を許すため規約違反ではないが揃ってはいない。`#32` の是正2 で挙がり、範囲外として持ち越した（`checks/task-32.md` §「3回の上限に達した時点で残る未解決の指摘」2）。**未決点**: 置き場所を1つに定めるか、ページ単位の任意とするかを着手時に決める。
 
 **Steps**: 着手時に詳細化する。
 
