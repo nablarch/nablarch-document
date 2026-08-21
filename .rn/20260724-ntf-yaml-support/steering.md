@@ -933,9 +933,9 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - `checks/task-32.md` に、手順1-3・2-2・3-2・4-3 の記録と、手順9の台帳がある
 - `#31` が check-off されている（手順0）
 
-### #33: 記法の適用順序の明文化、markerColumnColor の説明不足、残置図の禁止語点検
+### #33: 記法の適用順序の明文化、markerColumnColor の説明不足、残置図の禁止語点検、「主なクラスとリソース」の表の載せる側の不揃い
 
-**Purpose**: `#32` の是正で対象外とした記述課題3件を片づける。(a) マーカーカラム除外と空エントリ判定の適用順序を `implementation/testdata_notation.rst` に明文化する。(b) `ja/` 配下に残した図から `glossary.md` の禁止語を排する。(c) `tools/testdata_converter.rst` の `markerColumnColor` の説明が、着色の対象を限定していない点を直す。
+**Purpose**: `#32` の是正で対象外とした記述課題4件を片づける。(a) マーカーカラム除外と空エントリ判定の適用順序を `implementation/testdata_notation.rst` に明文化する。(b) `ja/` 配下に残した図から `glossary.md` の禁止語を排する。(c) `tools/testdata_converter.rst` の `markerColumnColor` の説明が、着色の対象を限定していない点を直す。(d) 「主なクラスとリソース」の表の「載せる側」が6ページで揃っていない点を決める。
 
 **背景と未決点**:
 
@@ -957,6 +957,10 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
   `#32` より前から成り立つ事実であり、`#32` が作った矛盾ではない。`#32` 以前の「マーカーカラムは無損失で保持する」が誤りだったため、当時の見かけ上の整合は誤り同士の整合だった。
 
+- **(d) 「主なクラスとリソース」の表の「載せる側」が6ページで揃っていない** —— `design.md` §「利用側ページに内部構造の構成図を置かない」の採否基準 (1) は「利用者が作成する成果物（テストクラス・テストデータ・テスト対象クラス）は載せる」だが、`implementation/request_unit_test/batch.rst`・同 `mom.rst` の表はテスト対象クラスの行を持たない（残る4ページは持つ。`implementation/request_unit_test/web.rst:32`・同 `rest.rst:34`・`implementation/class_unit_test/component.rst:32`・同 `entity.rst:32`。2026-08-21 実測）。両ページとも `batch.rst:45`・`mom.rst:66` の作成単位欄で「テスト対象クラス（Action）につき1つ作成する。」と述べており、テスト対象クラスの存在自体は前提にしている。また基準 (2) を満たす `BatchRequestTestSupport` が `mom.rst` の表に無い（同 `:30` で同期応答メッセージ送信のスーパクラスとして継承すると書いている。表にあるのは `MessagingRequestTestSupport`（同 `:70`）と `MessagingReceiveTestSupport`（同 `:73`）の2つ）。`#32` は落とす側だけを当てたため未処理。
+
+  **未決点**: 行を足すか、(1) をページ単位の任意とするかを着手時に決める。台帳 `current-0282`・`current-0296`・`current-0323` の出典表にも該当行が無いため、行を足す場合は台帳の `note` に足した理由を記録する必要がある。
+
 **Steps**: 着手時に詳細化する。
 
 ### #34: ビルド用 Docker イメージを `docker build` から作り直せない（環境課題）
@@ -968,6 +972,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - 2026-08-21 に `docker build -t nablarch-document-build .` を実行したが、`Dockerfile:19` の `pip install` が社内 TLS 傍受の自己署名 CA を検証できず exit 1 で失敗する（`ERROR: Could not find a version that satisfies the requirement setuptools==57.5.0 (from versions: none)`。原因は `SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain'))`）。ホストには CA が `/usr/local/share/ca-certificates/ca.crt` として置かれ `SSL_CERT_FILE` も向いているが、`Dockerfile` はこれをイメージへ入れていない。`#32` の是正2 では既存イメージ（`a974e0c8ac60`、7日前）でフルビルドしたため、イメージ自体は2回続けて未検証である。`Dockerfile` は `#32` の作業範囲外のため触っていない。
 
 - **未決点**: `Dockerfile` に社内 CA を取り込む変更を入れてよいか、それとも `docker build` 時に CA をマウントする回避手順を作業手順として残すかを、着手時に user へ諮る。
+
+  **方針（2026-08-21、`#32` の是正3 で user が判断）**: `Dockerfile` は変更しない方向で進める。社内 TLS 傍受の CA は環境固有のものであり、解説書リポジトリの `Dockerfile` に焼き込むと、その CA を持たない環境でビルドが壊れるためである。`docker build` 時に CA を渡す手順（`--build-arg` またはビルドコンテキストへの一時配置とビルド後の削除）を本 `steering.md` の手順として残す方向で検討する。その際も `ca.crt`・`Dockerfile.ca` を作業ツリーに残さないという既存の制約を守る。
 
 - **`#32` の完了判定との関係**: 是正2指示 `ntf-doc-32-fix2.md`「完了条件」13 は `docker build` からのイメージ再作成を求めつつ、「今回も失敗する場合は、失敗ログをそのまま `checks/task-32.md` に記録し、`#33` へ送る」という逃げ道を定めている。その逃げ道に沿って失敗ログを記録し、記述課題の `#33` ではなく環境課題として独立させた本タスクへ送った。**`#32` は、既存イメージでのフルビルドが警告0・`build succeeded.` であることをもって完了条件13 の代替とし、イメージ再作成の検証は本タスクで行う。**
 

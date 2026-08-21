@@ -152,7 +152,7 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 
 現行解説書は末尾に「処理」を付けるが、FW解説書は付けない。FW解説書を採る。
 
-**「通信先」は、出典の読み替え指示を書き写す文脈でのみ使う**（`#28` §3-15 確定）。メッセージの相手方を一般に指すときは、下表の意味欄が使う「外部システム」を用いる。出典は「ただし、「送信キュー」「受信キュー」を「通信先」と読み替えること。」（`NTF:05_UnitTestGuide/02_RequestUnitTest/http_send_sync.rst:9`、および `NTF:05_UnitTestGuide/03_DealUnitTest/http_send_sync.rst:11`）と指示しており、この読み替えを説明する文だけがこの語を使う。読み替えが及ぶのは同期応答メッセージ送信・HTTPメッセージ送信の説明に限る。受信側のテストは実際にキューを使うためである（`S:reviews/page-request_unit_test_http_messaging.md:50`）。本語は用語の揺れではなく出典の読み替え指示に由来する語であるため、§5 の表には行を立てず、§8 の対応表にも載せない。2026-08-16 時点の新ページでの使用は3箇所（`implementation/deal_unit_test/http_messaging.rst:10` と同ファイルの17行目、`implementation/request_unit_test/http_messaging.rst:37`）で、いずれも読み替えを述べる文またはその読み替え表の中にある。
+**「通信先」は、出典の読み替え指示を書き写す文脈でのみ使う**（`#28` §3-15 確定）。メッセージの相手方を一般に指すときは、下表の意味欄が使う「外部システム」を用いる。出典は「ただし、「送信キュー」「受信キュー」を「通信先」と読み替えること。」（`NTF:05_UnitTestGuide/02_RequestUnitTest/http_send_sync.rst:9`、および `NTF:05_UnitTestGuide/03_DealUnitTest/http_send_sync.rst:11`）と指示しており、この読み替えを説明する文だけがこの語を使う。読み替えが及ぶのは同期応答メッセージ送信・HTTPメッセージ送信の説明に限る。受信側のテストは実際にキューを使うためである（`S:reviews/page-request_unit_test_http_messaging.md` §3「出典より実装を優先した点」）。本語は用語の揺れではなく出典の読み替え指示に由来する語であるため、§5 の表には行を立てず、§8 の対応表にも載せない。2026-08-16 時点の新ページでの使用は3箇所（`implementation/deal_unit_test/http_messaging.rst:10` と同ファイルの17行目、`implementation/request_unit_test/http_messaging.rst:37`）で、いずれも読み替えを述べる文またはその読み替え表の中にある。
 
 | 正表記 | 意味 | 揺れ表記（使わない） | 別義・旧名称（文脈により使う） | 採用根拠 |
 |---|---|---|---|---|

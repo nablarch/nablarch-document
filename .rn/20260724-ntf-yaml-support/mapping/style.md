@@ -390,7 +390,7 @@ simple table 3件・`list-table` 1件であり、表が4件と少ないため本
 **規約（表の中のクラス名は コードリテラル と `:java:extdoc:` のどちらで書くか。`#28`確定）**:
 
 - **セルの中の説明文に現れるクラス名は `:java:extdoc:` で書く。** 地の文と同じ扱いである
-  （地の文の規範は `reviews/page-class_unit_test.md:120`「散文中のクラス名は
+  （地の文の規範は `reviews/page-class_unit_test.md` §「`#15` 以降への申し送り」「散文中のクラス名は
   ``:java:extdoc:`単純名 <完全修飾名>`` で書く」）。
 - **1つの列にクラス名とクラスでないもの（「テストクラス」「テストデータ」など）が並ぶ一覧表では、
   クラス名を コードリテラル で書く。** この表は構成要素の全体像を示すものであり、
@@ -398,7 +398,7 @@ simple table 3件・`list-table` 1件であり、表が4件と少ないため本
   個々のクラスのAPIへは、その表の前後の地の文または `使用方法` 配下から `:java:extdoc:` で送る。
 - **全行がクラス名（またはクラス名とアノテーション名）で構成される対応表では `:java:extdoc:` を使う。**
 - **未リリースのモジュールのクラスは、上記のいずれでも コードリテラル にする。**
-  Javadocが公開されておらずリンク切れになるためである（`reviews/page-testdata_converter.md:94`）。
+  Javadocが公開されておらずリンク切れになるためである（`reviews/page-testdata_converter.md` §「クラス名の表記」）。
 
 判定方法: 表を開き、クラス名を書いた列にクラスでない行があるかどうかを見る。
 
@@ -418,7 +418,7 @@ simple table 3件・`list-table` 1件であり、表が4件と少ないため本
 コードリテラルに直し、第3部の コードリテラル は49件になった。規約が定める代替（個々のクラスのAPIへは
 表の前後の地の文から `:java:extdoc:` で送る）は `entity.rst:15`・`component.rst:15` にすでにあり、
 `DbAccessTestSupport` が `component.rst:37` では `:java:extdoc:`、`mom.rst:99` では コードリテラル という
-表ごとの不一致も解消した（`reviews/page-request_unit_test_batch.md:192` が
+表ごとの不一致も解消した（`reviews/page-request_unit_test_batch.md` §7「判断待ち（decide）」 が
 「`#27-13` までは コードリテラル で統一している」と記録しており、多数派でもある）。
 
 **根拠**（simple table）:
