@@ -35,6 +35,7 @@ Rn version: 0.8.0
 - `#32-是正` 作業指示（4観点レビューの有効な指摘11件の処置。user 判断5件の結論を含む。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-32-fix.md`
 - `#32-是正2` 作業指示（`#32-是正` が残した user 判断待ち6件の回答。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-32-fix2.md`
 - `#32-是正3` 作業指示（`#32-是正2` が残した user 判断待ち5件（A〜E）の回答。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-32-fix3.md`
+- `#35` 作業指示（`#32` の是正3 が残した記述の誤り4件の是正。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-35.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
@@ -998,14 +999,49 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 **Steps**: 着手時に詳細化する。
 
 
+### #35: `#32` の是正3 が残した記述の誤り4件を直す（user 指示 2026-08-21）
+
+**Purpose**: `#32` の完了後に user へ上げた5件の回答を受け、`#32` が残した記述の誤りを直す。`#32` は完了条件を満たしており閉じたままにする。**`#33`・`#34` より先に着手する**（両タスクとも自身のエントリのとおり着手時に user の判定を要し、本タスクは判定が出ている）。
+
+**指示書**: `.rn/20260724-ntf-yaml-support/ntf-doc-35.md`。対象行・変更前後の逐語・出典はすべて同ファイルにある。**是正ラウンドの上限は3回**（指示書冒頭）。
+
+**Steps**:
+
+- [ ] 1. `tools/testdata_converter.rst:71` の段落を、指示書 §1 の「変更後」の逐語に置き換える。書く前に `XlsFormatReader` の5系統（テーブル系・`LIST_MAP`・メッセージ・ファイル系・同期応答電文）すべてで行末の空セルが落ちることを実装から確かめ、確かめた経路を `reviews/page-testdata_converter.md` に記録する。**1系統でも落ちない経路が見つかったら段落を書かずに報告する**（指示書 §1）
+- [ ] 2. `implementation/testdata_notation.rst:1545` の直後に `list-table` の行を1行足す。既存の `:1544`-`:1545` は変えない。出典を `reviews/page-testdata_notation.md` に記録する（指示書 §2）
+- [ ] 3. 台帳5行（`current-0201`・`current-0282`・`current-0296`・`current-0309`・`current-0323`）の `note` 末尾の一文を、列挙を外したポインタ1文に置き換える。`mapping.csv` の直接編集は禁止で、`mapping/_batch/*.csv` を直してから昇順連結で作り直す（指示書 §3）
+- [ ] 4. `design.md` §「利用側ページに内部構造の構成図を置かない」の2か所を直す。`:147` の件数の説明を列挙を外した事実の記述に置き換え、`:143` の括弧書き末尾の一文を削る。**同節の他の記述は変えない**（指示書 §4）
+- [ ] 5. `design.md:147` をリード文＋箇条書きに割る。**文言は1文字も変えない**。改行・行頭記号・連続空白を除いた文字列の完全一致で検算する（指示書 §5）
+- [ ] 6. 検証。`verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` と、既存イメージでの Docker フルビルド。ビルド直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し `_build/` を削除する（指示書 完了条件10〜13）
+- [ ] 7. 無限定の断定文それぞれについて主語を明示したうえで反例を検索し、自分の括弧書きや直後の列挙が反例になっていないかを確かめた記録を `checks/task-35.md` に書く（指示書 完了条件15）
+
+**Completion criteria**（指示書 `ntf-doc-35.md`「完了条件」1〜15 の逐語）:
+
+1. `tools/testdata_converter.rst` の該当段落が §1 の変更後の文と一致する。`grep -rn 'メッセージのテストデータ' ja/` が0件
+2. `tools/testdata_converter.rst` に「この整形」が無い（`grep -n 'この整形' ja/development_tools/testing_framework/tools/testdata_converter.rst` が0件）
+3. `reviews/page-testdata_converter.md` に、5系統すべてで行末の空セルが落ちることを実装から確かめた経路が記録されている
+4. `implementation/testdata_notation.rst` の `list-table` に §2 の行があり、既存の `:1544`-`:1545` が変わっていない。`reviews/page-testdata_notation.md` に出典がある
+5. `mapping.csv` の `note` に「なお同じ基準で 9031fa6 が」が0件、「なお 9031fa6 も同じ基準で」が5件
+6. `_batch/*.csv` を昇順連結（先頭のみヘッダ込み）した結果が `mapping/mapping.csv` とバイト一致し、`csv.DictReader` が597行。`82322fa` との差分が指定5行の `note` のみであることを `git diff` で全行確認する
+7. `design.md` の `:147` に「8件」が無く、`:143` から「同じマーカーの配下には」で始まる一文が消えている。`:143` の「計11件」は残っている
+8. `design.md:141`（採否基準の段落）が `82322fa` から1文字も変わっていない（`git show 82322fa:….rn/…/design.md | sed -n '141p' | md5sum` と一致）
+9. §5 の検算（改行・行頭記号・連続空白を除いた文字列の完全一致）が通る
+10. `python3 mapping/tools/verify_glossary.py` が `RESULT: OK`
+11. `python3 mapping/tools/verify_mapping.py` が `OK: no errors`
+12. `python3 -m pytest mapping/tools -q` が `183 passed, 96 subtests passed`
+13. 既存イメージでのフルビルドで `grep -cE 'WARNING:|ERROR:|SEVERE:' build.log` が 0。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し、`_build/` を削除する
+14. 禁止事項（`ja/conf.py`・`mapping/glossary.md` §5.15・`mapping.csv` 直接編集・`en/`・`locales/` の `.gitignore` 追加）に触れていない
+15. 「取り除く」「落ちる」など無限定の断定文それぞれについて、主語を明示したうえで反例を検索し、自分の括弧書きや直後の列挙が反例になっていないかを確かめてから確定したことを `checks/task-35.md` に記録する
+
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-21
-- **Last completed**: `#32`（`82322fa`）。判断A〜E の反映（`4d0a48a`）と4観点レビュー2ラウンドの是正31件（`1ccfc53`・`6946fa1`・`53cd2c4`）
-- **Next**: **user へ上げた5件の回答待ち。**内容は `checks/task-32.md` §「4観点レビューの判定（是正3。調整役が記入。2026-08-21）」の「user へ上げた5件」にある。うち3件（`tools/testdata_converter.rst:71` の適用範囲・「メッセージのテストデータ」・「この整形」）は解説書の公開本文を動かす。回答が無い場合に着手できるのは `#33`（(a)〜(e-3) はいずれも着手時に user の判定が要る）か `#34` だが、**Rules「user review の承認を受けるまで次タスクに着手しない」に従い、着手の指示を待つ**
-- **Notes**: ブランチ `ntf-yaml-support`（push 済み、作業ツリーはクリーン）。`main` へのマージは user の明示指示待ち（`.rn/` を含めるかも未決）。`#29` は Steps 全件 `[x]` だが見出しに `— DONE` が無く、V3・V4 の2件が user へ返したまま残っている（同節末尾）。`#32` のエントリは圧縮していない —— 上の5件と `#33`・`#34` が `#32` の記録を参照しているため、圧縮はそれらが片づいてから行う。過剰主張は `#32` で7ラウンド連続して混入した。直近2件は語ベースの走査をすり抜けた「主語の無い断定文」と「母集団を限定しない件数」であり、走査手順は `checks/task-32.md` §「完了条件13 の走査（是正3-4。E-1〜E-3）」に更新済み。次のラウンドでも同じ手順を当てること
+- **Status**: not suspended
+- **Date**: -
+- **Last completed**: -
+- **Next**: -
+- **Notes**: -
