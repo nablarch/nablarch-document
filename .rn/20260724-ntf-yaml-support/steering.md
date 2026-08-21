@@ -36,6 +36,7 @@ Rn version: 0.8.0
 - `#32-是正2` 作業指示（`#32-是正` が残した user 判断待ち6件の回答。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-32-fix2.md`
 - `#32-是正3` 作業指示（`#32-是正2` が残した user 判断待ち5件（A〜E）の回答。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-32-fix3.md`
 - `#35` 作業指示（`#32` の是正3 が残した記述の誤り4件の是正。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-35.md`
+- `#35-是正1` 作業指示（`#35` の Step 1 が上げた user 判断待ち2件の回答。§1 の差し替え文の逐語・§2 の「ファイル・メッセージ」の行の是正・§3 の完了条件2 の読み替え）: `.rn/20260724-ntf-yaml-support/ntf-doc-35-fix1.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
@@ -1007,7 +1008,10 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
 **Steps**:
 
-- [ ] 1. `tools/testdata_converter.rst:71` の段落を、指示書 §1 の「変更後」の逐語に置き換える。書く前に `XlsFormatReader` の5系統（テーブル系・`LIST_MAP`・メッセージ・ファイル系・同期応答電文）すべてで行末の空セルが落ちることを実装から確かめ、確かめた経路を `reviews/page-testdata_converter.md` に記録する。**1系統でも落ちない経路が見つかったら段落を書かずに報告する**（指示書 §1）—— **反例が出たため段落は書いていない。user 判断待ち**（`17b0254` のコミットメッセージと `reviews/page-testdata_converter.md`）
+- [ ] 1. `tools/testdata_converter.rst:71` の段落を、**是正1 指示書 §1 の差し替え文の逐語**に置き換える（`#35` 本体の §1 の「変更後」ではない。反例が出て停止条件に当たり、user が新しい文面を確定した）。「カラム名の行」で両系統を呼ばないこと、YAML 側の対称性を書かないことが判断の理由（是正1 §1）
+- [ ] 1a. `implementation/testdata_notation.rst` の「ファイル・メッセージ」の行を、「テーブル・``LIST_MAP``」の行と同じ粒度に直す。フィールド名称の行の行末の空セルが取り除かれること、データ行がフィールド名称の行の幅へ揃えられ、フィールド名称が無い位置のセルは読み込まれないこと、の2点がわかる文にする。表のセルに収まる長さにする（是正1 §2）
+- [ ] 1b. 両方の行の「（Excel 形式のみ）」が成り立つかを、`nablarch-testing-converter@e977824` の `src/main/java/nablarch/test/tool/converter/yaml/` 配下を実装から読んで確かめ、経路を `reviews/page-testdata_notation.md` に記録する。**YAML 側にも幅を揃える処理があった場合は、直さずに報告する**（是正1 §2）
+- [ ] 1c. 完了条件2 を「`tools/testdata_converter.rst:71` に『この整形』が無い」と読み替えたことを `checks/task-35.md` に記録する。`:249` は書き出し設定の既存文で `#35` の対象外（是正1 §3）
 - [x] 2. `implementation/testdata_notation.rst:1545` の直後に `list-table` の行を1行足す。既存の `:1544`-`:1545` は変えない。出典を `reviews/page-testdata_notation.md` に記録する（指示書 §2）
 - [x] 3. 台帳5行（`current-0201`・`current-0282`・`current-0296`・`current-0309`・`current-0323`）の `note` 末尾の一文を、列挙を外したポインタ1文に置き換える。`mapping.csv` の直接編集は禁止で、`mapping/_batch/*.csv` を直してから昇順連結で作り直す（指示書 §3）
 - [x] 4. `design.md` §「利用側ページに内部構造の構成図を置かない」の2か所を直す。`:147` の件数の説明を列挙を外した事実の記述に置き換え、`:143` の括弧書き末尾の一文を削る。**同節の他の記述は変えない**（指示書 §4）
@@ -1017,10 +1021,13 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
 **Completion criteria**（指示書 `ntf-doc-35.md`「完了条件」1〜15 の逐語）:
 
-1. `tools/testdata_converter.rst` の該当段落が §1 の変更後の文と一致する。`grep -rn 'メッセージのテストデータ' ja/` が0件
-2. `tools/testdata_converter.rst` に「この整形」が無い（`grep -n 'この整形' ja/development_tools/testing_framework/tools/testdata_converter.rst` が0件）
-3. `reviews/page-testdata_converter.md` に、5系統すべてで行末の空セルが落ちることを実装から確かめた経路が記録されている
+1. `tools/testdata_converter.rst` の該当段落が**是正1 §1 の差し替え文**と一致する。`grep -rn 'メッセージのテストデータ' ja/` が0件
+2. `tools/testdata_converter.rst:71` に「この整形」が無い（`:249` は残ってよい。是正1 §3 の読み替え。読み替えたことを `checks/task-35.md` に記録する）
+3. `reviews/page-testdata_converter.md` の該当行が、`HeaderLine.java:81`・`XlsFormatReader.java:424`・`XlsFormatReaderCellTypeTest.java:182`-`:188` を出典として、名前の行とデータ行で扱いが異なることを記録している（是正1 完了条件5。5系統の走査経路の記録は `17b0254` で済み）
 4. `implementation/testdata_notation.rst` の `list-table` に §2 の行があり、既存の `:1544`-`:1545` が変わっていない。`reviews/page-testdata_notation.md` に出典がある
+4a. `implementation/testdata_notation.rst` の「ファイル・メッセージ」の行が是正1 §2 のとおり直っており、「テーブル・``LIST_MAP``」の行と同じ粒度になっている（是正1 完了条件3）
+4b. 両方の行の「（Excel 形式のみ）」の根拠が `reviews/page-testdata_notation.md` に記録されている。YAML 側にも幅を揃える処理があった場合は、直さずに報告している（是正1 完了条件4）
+4c. `implementation/testdata_notation.rst:883` の既存記述（可変長ファイルの `""` 補完）と、新しく書いた記述が食い違っていないことを確認した記録がある（是正1 完了条件6）
 5. `mapping.csv` の `note` に「なお同じ基準で 9031fa6 が」が0件、「なお 9031fa6 も同じ基準で」が5件
 6. `_batch/*.csv` を昇順連結（先頭のみヘッダ込み）した結果が `mapping/mapping.csv` とバイト一致し、`csv.DictReader` が597行。`82322fa` との差分が指定5行の `note` のみであることを `git diff` で全行確認する
 7. `design.md` の `:147` に「8件」が無く、`:143` から「同じマーカーの配下には」で始まる一文が消えている。`:143` の「計11件」は残っている
@@ -1029,7 +1036,7 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 10. `python3 mapping/tools/verify_glossary.py` が `RESULT: OK`
 11. `python3 mapping/tools/verify_mapping.py` が `OK: no errors`
 12. `python3 -m pytest mapping/tools -q` が `183 passed, 96 subtests passed`
-13. 既存イメージでのフルビルドで `grep -cE 'WARNING:|ERROR:|SEVERE:' build.log` が 0。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し、`_build/` を削除する
+13. 既存イメージでのフルビルドで `grep -cE 'WARNING:|ERROR:|SEVERE:' build.log` が 0。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し、`_build/`・`build.log` を削除する（是正1 完了条件10）
 14. 禁止事項（`ja/conf.py`・`mapping/glossary.md` §5.15・`mapping.csv` 直接編集・`en/`・`locales/` の `.gitignore` 追加）に触れていない
 15. 「取り除く」「落ちる」など無限定の断定文それぞれについて、主語を明示したうえで反例を検索し、自分の括弧書きや直後の列挙が反例になっていないかを確かめてから確定したことを `checks/task-35.md` に記録する
 
@@ -1040,8 +1047,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-21
-- **Last completed**: `#32`（`82322fa`）。`#35` は Steps 2〜5 を `17b0254` で完了
-- **Next**: **`#35` の Step 1 について user 判断待ち2件。**(1) `tools/testdata_converter.rst:71` の差し替え文をどう書くか —— 指示書 §1 の停止条件に当たったため段落は書いていない。5系統すべてで「Excel 形式を読み込む時点で取り除く」は成り立つが、名前がある位置のセルは空文字として中間モデルへ埋め戻される（`nablarch-testing@e21bf67` の `HeaderLine.java:81`、`nablarch-testing-converter@e977824` の `XlsFormatReader.java:424`。テストは同 `XlsFormatReaderCellTypeTest.java:182`-`:188`）。往復して消えるのは名前行そのものの行末の空セルと、名前行の幅を超えた位置のセルの2つだけ。調整役の推奨文面はチャットの報告にある。(2) 完了条件2 が指示書の範囲内で満たせない —— `grep -n 'この整形'` は `:71` と `:249` の2件で、`:249` は指示書 §1 自身が既存用例として挙げた書き出し設定の文。「`:71` に無い」と読み替える案を推奨。判断が出たら Step 1 → Step 6 → Step 7 の順で進め、4観点レビューを1ラウンド回す（是正ラウンドの上限3回）
-- **Notes**: ブランチ `ntf-yaml-support`（`17b0254` まで push 済み）。`main` へのマージは user の明示指示待ち（`.rn/` を含めるかも未決）。`#33`・`#34` はいずれも自身のエントリのとおり着手時に user の判定が要る。`#29` は Steps 全件 `[x]` だが見出しに `— DONE` が無く、V3・V4 の2件が user へ返したまま残っている（同節末尾）。`#32` のエントリは圧縮していない（`#33`・`#34`・`#35` が `#32` の記録を参照しているため）。過剰主張は `#32` で7ラウンド連続して混入した。走査手順は `checks/task-32.md` §「完了条件13 の走査（是正3-4。E-1〜E-3）」にあり、次のラウンドでも同じ手順を当てること
+- **Status**: not suspended
+- **Date**: —
+- **Last completed**: —
+- **Next**: —
+- **Notes**: —
