@@ -774,6 +774,37 @@ UI項目名を挙げるときは、「ウィンドウ(Window)」のように日�
 そのままにして `TODO(NTF-SRC-02)` マーカーを `setup/request_unit_test/web.rst:162` と
 `tools/request_data_tool.rst:106` に置いた（詳細は `checks/task-last.md` §5-5）。
 
+**2026-08-21 の追記（`#32`）**: `#32`（コミット `0806ea5`・`9031fa6`・`811d1cb`）で現物が動いたため、
+上記の実測値と是正の状況は、次のとおり現在の値と異なる。上記2ブロックは当時の判断の記録としてそのまま残し、
+現在の値をここに併記する（`file:line` は 2026-08-21・作業ツリー `811d1cb` 時点の値）。
+
+- **`.. image::` は現在27件である。** `#32`（コミット `9031fa6`）で利用側ページの内部構造の図を全廃し、
+  画像・作図元9件を削除した（`design.md` §「利用側ページに内部構造の構成図を置かない」）ことにより、
+  同コミットの前後で30件→27件になった。母集団のページ数は38のまま変わらない。実測コマンド
+  （`ja/development_tools/testing_framework/` で実行）:
+  `grep -rn '\.\. image::' --include='*.rst' . | grep -v '^./guide/' | wc -l` → `27`、
+  `find . -name '*.rst' -not -path './guide/*' | wc -l` → `38`。コミットごとの件数は
+  `git grep -h '\.\. image::' <commit> -- 'ja/development_tools/testing_framework/*.rst' ':!ja/development_tools/testing_framework/guide/*' | wc -l`
+  で数えた（`0806ea5` = 30、`9031fa6` = 27、`811d1cb` = 27）。
+- **上記実測の「33件」は再現できなかった。** 同じ母集団を上記の `git grep` で数え直すと、実測日
+  2026-08-16 のコミット列では `a380740`（`#28` §6-5、本文と食い違う構成図4枚の削除）の前が34件、
+  後が30件であり、33件になる時点が無い。`#last` 完了時（`d8d6114`）も30件である。`#32` より前の
+  食い違いであり、原因は特定していない。
+- **`TODO(NTF-SRC-02)` マーカーは0件になった。** `#32`（コミット `0806ea5`）で一次情報の揃った
+  UI項目名を併記に直した際に、`setup/request_unit_test/web.rst`・`tools/request_data_tool.rst` の
+  2件とも外した。実測コマンド: `grep -rn 'NTF-SRC-02' ja/` → ヒット無し（exit 1）。
+- **規約4に反する9語は0語になった。** 日本語のみだった8語は、
+  `setup/request_unit_test/web.rst:186` 「実行(Run)」「実行構成(Run Configurations...)」、
+  `:187` 「引数(Arguments)」「VM 引数(VM Arguments)」、`:194` 「インストール済みのJRE(Installed JREs)」
+  「編集(Edit)」、`:198` 「デフォルトの VM 引数(Default VM Arguments)」、`:218` 「VM 引数(VM Arguments)」と、
+  いずれも併記形式になった。英語のみだった「Open With」は `tools/request_data_tool.rst` から消え、
+  該当箇所（`:100`）は「Eclipseのパッケージエクスプローラなどから、生成されたHTMLダンプを右クリックし、
+  ``httpDump`` で開くとツールが起動する。」と、UI項目名を挙げない書き方になっている
+  （キャプチャ `:102` `04_Eclipse_OpenWith.png` は規約1により残置）。実測コマンド
+  （`ja/development_tools/testing_framework/` で実行）: `grep -rn 'Open With' --include='*.rst' .` →
+  ヒット無し（exit 1）、両ファイルの `grep -on '「[^」]*」' <file> | grep -v '([A-Za-z]'` → ヒット無し
+  （「」で囲むUI項目名がすべて併記形式であることの確認）。
+
 ### S-13 日本語とインラインマークアップの境界（`\ ` エスケープ）
 
 **規約**: インラインマークアップ（コードリテラル・`:ref:`・`:java:extdoc:`・`:doc:` など）の直前・直後に
