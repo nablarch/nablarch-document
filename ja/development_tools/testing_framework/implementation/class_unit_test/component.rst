@@ -12,9 +12,7 @@
 機能概要
 --------------------------------------------------
 
-テストクラスは\ :java:extdoc:`DbAccessTestSupport <nablarch.test.core.db.DbAccessTestSupport>`\ を継承して作成する。準備データと期待値はテストデータに記述し、テストクラスにはテストロジックだけを書く。全体像を次に示す。
-
-.. image:: images/component/class_structure.png
+テストクラスは\ :java:extdoc:`DbAccessTestSupport <nablarch.test.core.db.DbAccessTestSupport>`\ を継承して作成する。準備データと期待値はテストデータに記述し、テストクラスにはテストロジックだけを書く。
 
 このページで扱う主なクラスとリソースを次に示す。
 

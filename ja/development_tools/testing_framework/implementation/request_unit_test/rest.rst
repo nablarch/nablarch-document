@@ -14,13 +14,7 @@ RESTfulウェブサービスのリクエスト単体テストは、テスティ�
 
 RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リクエスト単体テスト（ウェブアプリケーション） <request_unit_test_web>`\ と同じく内蔵サーバを使用して実施する。必要なモジュールは他の処理方式より多い。モジュールの追加とコンポーネント設定は、\ :ref:`リクエスト単体テストの設定（RESTfulウェブサービス） <request_unit_test_setting_rest>`\ に従ってあらかじめ済ませておく。
 
-.. TODO(NTF-FIG-01): 構成図 rest_request_unit_test_structure.png を削除した。
-   本文と3点食い違い（Excelファイル表記・PATCH欠落・SimpleRestTestSupport 未描画）、
-   Sphinx に作図系拡張が無く作り直せないため。
-   作図元 images/rest/rest_request_unit_test_structure.xlsx は残してある。
-   作図できる環境で改訂したうえで戻すこと。
-
-テストクラスは\ ``RestTestSupport``\ または\ ``SimpleRestTestSupport``\ を継承して作成する。\ ``SimpleRestTestSupport``\ が内蔵サーバ（\ ``HttpServer``\ ）を保持し、\ ``RestTestSupport``\ はこれを継承したうえでデータベース関連機能（\ ``DbAccessTestSupport``\ ）を保持する。テストメソッドが送信したリクエストは、内蔵サーバ上でウェブアプリケーションとして動作する\ Nablarch Application Framework\ が受け取り、テスト対象の\ Action\ を呼び出す。\ Action\ がテーブルを参照・更新した結果は、テストデータに記述した期待値と照合する。
+テストクラスは\ ``RestTestSupport``\ または\ ``SimpleRestTestSupport``\ を継承して作成する。\ ``SimpleRestTestSupport``\ が内蔵サーバを保持し、\ ``RestTestSupport``\ はこれを継承したうえでデータベース関連機能（\ ``DbAccessTestSupport``\ ）を保持する。テストメソッドが送信したリクエストは、内蔵サーバ上でウェブアプリケーションとして動作する\ Nablarch Application Framework\ が受け取り、テスト対象の\ Action\ を呼び出す。\ Action\ がテーブルを参照・更新した結果は、テストデータに記述した期待値と照合する。
 
 テストを構成する主なクラスとリソースは次のとおりである。
 
@@ -42,9 +36,6 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
     - 取引につき1クラス作成する。
   * - ``DbAccessTestSupport``
     - 準備データの投入など、データベースを使用するテストに必要な機能を提供する。
-    - －
-  * - ``HttpServer``
-    - 内蔵サーバ。サーブレットコンテナとして動作する。
     - －
   * - ``RestTestSupport``
     - 内蔵サーバの起動や、リクエスト単体テストで必要となるステータスコードのアサートなどの機能を提供する。
