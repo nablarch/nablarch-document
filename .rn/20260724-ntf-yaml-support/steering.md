@@ -1009,23 +1009,23 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
 **Steps**:
 
-- [ ] 1. `tools/testdata_converter.rst:71` の段落を、**是正1 指示書 §1 の差し替え文の逐語**に置き換える（`#35` 本体の §1 の「変更後」ではない。反例が出て停止条件に当たり、user が新しい文面を確定した）。「カラム名の行」で両系統を呼ばないこと、YAML 側の対称性を書かないことが判断の理由（是正1 §1）
-- [ ] 1a. `implementation/testdata_notation.rst:1544`-`:1547` の4行を、**是正1 追補 §2 の逐語**に置き換える（「ファイル・メッセージ」「テーブル・``LIST_MAP``」の両方が対象。追補 §1 で承認済み）。機構B の補完側（データ行を名前の幅へ揃える）は書かない（`:658`・`:883` に既出のため）。「位置」とも書かない（YAML の テーブル・``LIST_MAP`` はキー対応）（是正1 §2 ＋ 追補 §1・§2）
+- [x] 1. `tools/testdata_converter.rst:71` の段落を、**是正1 指示書 §1 の差し替え文の逐語**に置き換える（`#35` 本体の §1 の「変更後」ではない。反例が出て停止条件に当たり、user が新しい文面を確定した）。「カラム名の行」で両系統を呼ばないこと、YAML 側の対称性を書かないことが判断の理由（是正1 §1）
+- [x] 1a. `implementation/testdata_notation.rst:1544`-`:1547` の4行を、**是正1 追補 §2 の逐語**に置き換える（「ファイル・メッセージ」「テーブル・``LIST_MAP``」の両方が対象。追補 §1 で承認済み）。機構B の補完側（データ行を名前の幅へ揃える）は書かない（`:658`・`:883` に既出のため）。「位置」とも書かない（YAML の テーブル・``LIST_MAP`` はキー対応）（是正1 §2 ＋ 追補 §1・§2）
 - [x] 1b. 両方の行の「（Excel 形式のみ）」が成り立つかを実装から確かめ、経路を `reviews/page-testdata_notation.md` の `## #35-是正1` 節に記録した（`cf80549`）。**停止条件に該当**——「名前の行の行末の空セルを取り除く」は Excel 形式のみで正しいが、「データ行を名前の幅へ揃える／名前が無い位置のセルを読まない」は YAML 形式にもある。`.rst` は未変更のまま user へ報告済み。YAML の解析実体は指示書が指した `nablarch-testing-converter@e977824` の `yaml/` ではなく `nablarch-testing-yaml@190cc9a` にあった（是正1 §2）
-- [ ] 1c. 完了条件2 を「`tools/testdata_converter.rst:71` に『この整形』が無い」と読み替えたことを `checks/task-35.md` に記録する。`:249` は書き出し設定の既存文で `#35` の対象外（是正1 §3）
+- [x] 1c. 完了条件2 を「`tools/testdata_converter.rst:71` に『この整形』が無い」と読み替えたことを `checks/task-35.md` に記録する。`:249` は書き出し設定の既存文で `#35` の対象外（是正1 §3）
 - [x] 2. `implementation/testdata_notation.rst:1545` の直後に `list-table` の行を1行足す。既存の `:1544`-`:1545` は変えない。出典を `reviews/page-testdata_notation.md` に記録する（指示書 §2）
 - [x] 3. 台帳5行（`current-0201`・`current-0282`・`current-0296`・`current-0309`・`current-0323`）の `note` 末尾の一文を、列挙を外したポインタ1文に置き換える。`mapping.csv` の直接編集は禁止で、`mapping/_batch/*.csv` を直してから昇順連結で作り直す（指示書 §3）
 - [x] 4. `design.md` §「利用側ページに内部構造の構成図を置かない」の2か所を直す。`:147` の件数の説明を列挙を外した事実の記述に置き換え、`:143` の括弧書き末尾の一文を削る。**同節の他の記述は変えない**（指示書 §4）
 - [x] 5. `design.md:147` をリード文＋箇条書きに割る。**文言は1文字も変えない**。改行・行頭記号・連続空白を除いた文字列の完全一致で検算する（指示書 §5）
-- [ ] 6. 検証。§1 の確定後に再実行する（2026-08-21 の `17b0254` 時点では全件 PASS・ビルド警告0）。`verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` と、既存イメージでの Docker フルビルド。ビルド直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し `_build/` を削除する（指示書 完了条件10〜13）
-- [ ] 7. 無限定の断定文それぞれについて主語を明示したうえで反例を検索し、自分の括弧書きや直後の列挙が反例になっていないかを確かめた記録を `checks/task-35.md` に書く（指示書 完了条件15）
+- [x] 6. 検証。§1 の確定後に再実行する（2026-08-21 の `17b0254` 時点では全件 PASS・ビルド警告0）。`verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` と、既存イメージでの Docker フルビルド。ビルド直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し `_build/` を削除する（指示書 完了条件10〜13）
+- [x] 7. 無限定の断定文それぞれについて主語を明示したうえで反例を検索し、自分の括弧書きや直後の列挙が反例になっていないかを確かめた記録を `checks/task-35.md` に書く（指示書 完了条件15）
 
 **Completion criteria**（指示書 `ntf-doc-35.md`「完了条件」1〜15 の逐語）:
 
 1. `tools/testdata_converter.rst` の該当段落が**是正1 §1 の差し替え文**と一致する。`grep -rn 'メッセージのテストデータ' ja/` が0件
 2. `tools/testdata_converter.rst:71` に「この整形」が無い（`:249` は残ってよい。是正1 §3 の読み替え。読み替えたことを `checks/task-35.md` に記録する）
 3. `reviews/page-testdata_converter.md` の該当行が、`HeaderLine.java:81`・`XlsFormatReader.java:424`・`XlsFormatReaderCellTypeTest.java:182`-`:188` を出典として、名前の行とデータ行で扱いが異なることを記録している（是正1 完了条件5。5系統の走査経路の記録は `17b0254` で済み）
-4. `implementation/testdata_notation.rst` の `list-table` に §2 の行があり、既存の `:1544`-`:1545` が変わっていない。`reviews/page-testdata_notation.md` に出典がある
+4. `implementation/testdata_notation.rst` の `list-table` に §2 の行があり、`reviews/page-testdata_notation.md` に出典がある（**「既存の `:1544`-`:1545` が変わっていない」の句は追補 §2 が4行の差し替えを指示したため落とした。4a が差し替え後の判定を担う**）
 4a. `implementation/testdata_notation.rst` の該当4行が是正1 追補 §2 の文面と一致している（是正1 完了条件3。追補で差し替え）
 4b. 同ファイル `:1545`（旧）の「\ YAML\ 形式では ``rows:``\ の各要素をそのまま読み込む」が消えており、`:883` との矛盾が解消していることを `reviews/page-testdata_notation.md` の `## #35-是正1` 節に追記している。あわせて、機構B の補完側を表に書かなかった理由（`:658`・`:883` に既出）も1〜2文で記録している（是正1 完了条件4。追補で差し替え）
 4c. `implementation/testdata_notation.rst:883` の既存記述（可変長ファイルの `""` 補完）と、新しく書いた記述が食い違っていないことを確認した記録がある（是正1 完了条件6）
@@ -1048,8 +1048,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: —
-- **Last completed**: —
-- **Next**: —
-- **Notes**: —
+- **Status**: paused
+- **Date**: 2026-08-24
+- **Last completed**: `#32`（`82322fa`）。`#35` は Steps 全件（1・1a・1b・1c・2〜7）を `17b0254`・`cf80549`・`7796c22` で実施済み。**check off は未了**（4観点レビューが NG のため）
+- **Next**: **`#35` の user 判断待ち——4観点レビュー（QA / 設計 / クラフト / 検証）が、user が逐語指定した文面そのものに指摘を出した。コーディネータの判断では書き換えられないため未着手。**完了条件は15 を除き全件 OK（Docker フルビルドは `build succeeded`・警告0 をコーディネータが独立に再実行して確認）。指摘の実体と出典は `checks/task-35.md` の `## QA Expert Review`・`## Expert Reviews` 節にある。要点は3群。(A) `.rst` 本文の瑕疵＝`tools/testdata_converter.rst:71`「往復しても残る」に反例2件（`nablarch-testing@e21bf67` の `src/main/java/nablarch/test/core/reader/TestDataParsingTemplate.java:176`-`:177` の全空行スキップ／`nablarch-testing-converter@e977824` の `XlsFormatReader.java:566` `dropEmptyEntries`）、同 `:71` 第3・4文が `YAML` 形式で成り立たず `implementation/testdata_notation.rst:658` と食い違う、`:1545` の「フィールド名称の行の」が実装（`DataFileParser.java:68` の全行 trim）より狭い、`:1547` 第1句が同ページ `:774` に既出、用語が `glossary.md:269` の正表記「フィールド名称行」から外れる。(B) 私たちの記録側の欠陥＝`reviews/page-testdata_converter.md:236`・`:238` と `reviews/page-testdata_notation.md:555`・`:585`・`:644`・`:648`・`:654` が HEAD について偽、申し送り38 の前提が消滅、`.rn/` 内相互参照2件が行番号（同 `:595`・`:642`）。**(B) は user 判断を要さないが、(A) の結論で書き直すことになるため、まとめて処置するほうが手戻りが少ない。** (C) user 判断＝表の行の並び、`:ref:` の飛び先、同期応答電文の明示、「（前述）」の有無、「メッセージ」と「電文」、台帳 `input-0172` の `note` へのポインタ追加（`#35` の指示範囲外）
+- **Notes**: ブランチ `ntf-yaml-support`（`7796c22` まで push 済み）。`main` へのマージは user の明示指示待ち（`.rn/` を含めるかも未決）。`#33`・`#34` はいずれも着手時に user の判定が要る。`#29` は Steps 全件 `[x]` だが見出しに `— DONE` が無く、V3・V4 の2件が user へ返したまま残っている（同節末尾）。`#32` のエントリは圧縮していない（`#33`・`#34`・`#35` が参照するため）。**参照コミット**: YAML の解析実体は `nablarch-testing-yaml@190cc9a`、テスティングフレームワーク側の読み込みは `nablarch-testing@e21bf67`、変換ツールは `#35` の逐語根拠として `nablarch-testing-converter@e977824`。**是正1 §2 の根拠だった `XlsFormatReader.java:422`-`:426` は変換ツール側のデータ行の幅揃えであり、`nablarch-testing` 側の trim 範囲とは別機構である**（層の取り違えが `:1545` の narrowing を生んだ）
