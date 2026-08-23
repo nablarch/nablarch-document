@@ -1010,7 +1010,7 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
 - [ ] 1. `tools/testdata_converter.rst:71` の段落を、**是正1 指示書 §1 の差し替え文の逐語**に置き換える（`#35` 本体の §1 の「変更後」ではない。反例が出て停止条件に当たり、user が新しい文面を確定した）。「カラム名の行」で両系統を呼ばないこと、YAML 側の対称性を書かないことが判断の理由（是正1 §1）
 - [ ] 1a. `implementation/testdata_notation.rst` の「ファイル・メッセージ」の行を、「テーブル・``LIST_MAP``」の行と同じ粒度に直す。フィールド名称の行の行末の空セルが取り除かれること、データ行がフィールド名称の行の幅へ揃えられ、フィールド名称が無い位置のセルは読み込まれないこと、の2点がわかる文にする。表のセルに収まる長さにする（是正1 §2）
-- [ ] 1b. 両方の行の「（Excel 形式のみ）」が成り立つかを、`nablarch-testing-converter@e977824` の `src/main/java/nablarch/test/tool/converter/yaml/` 配下を実装から読んで確かめ、経路を `reviews/page-testdata_notation.md` に記録する。**YAML 側にも幅を揃える処理があった場合は、直さずに報告する**（是正1 §2）
+- [x] 1b. 両方の行の「（Excel 形式のみ）」が成り立つかを実装から確かめ、経路を `reviews/page-testdata_notation.md` の `## #35-是正1` 節に記録した（`cf80549`）。**停止条件に該当**——「名前の行の行末の空セルを取り除く」は Excel 形式のみで正しいが、「データ行を名前の幅へ揃える／名前が無い位置のセルを読まない」は YAML 形式にもある。`.rst` は未変更のまま user へ報告済み。YAML の解析実体は指示書が指した `nablarch-testing-converter@e977824` の `yaml/` ではなく `nablarch-testing-yaml@190cc9a` にあった（是正1 §2）
 - [ ] 1c. 完了条件2 を「`tools/testdata_converter.rst:71` に『この整形』が無い」と読み替えたことを `checks/task-35.md` に記録する。`:249` は書き出し設定の既存文で `#35` の対象外（是正1 §3）
 - [x] 2. `implementation/testdata_notation.rst:1545` の直後に `list-table` の行を1行足す。既存の `:1544`-`:1545` は変えない。出典を `reviews/page-testdata_notation.md` に記録する（指示書 §2）
 - [x] 3. 台帳5行（`current-0201`・`current-0282`・`current-0296`・`current-0309`・`current-0323`）の `note` 末尾の一文を、列挙を外したポインタ1文に置き換える。`mapping.csv` の直接編集は禁止で、`mapping/_batch/*.csv` を直してから昇順連結で作り直す（指示書 §3）
@@ -1047,8 +1047,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: —
-- **Last completed**: —
-- **Next**: —
-- **Notes**: —
+- **Status**: paused
+- **Date**: 2026-08-24
+- **Last completed**: `#32`（`82322fa`）。`#35` は Steps 2〜5 を `17b0254`、Step 1b を `cf80549` で完了
+- **Next**: **`#35` の user 判断待ち1件——`implementation/testdata_notation.rst` の `list-table` の2行の「（Excel 形式のみ）」をどう書き換えるか。**是正1 §2 の停止条件に該当したため `.rst` は未変更。機構A（名前の行の行末の空セルを取り除く）は `Excel` 形式のみで正しく、機構B（データ行を名前の幅へ揃える／名前が無い位置のセルを読まない）は YAML 形式にもある。2行が1つの括弧書きで両機構をまとめて限定しているため、どちらの行も誤り。出典は `reviews/page-testdata_notation.md` の `## #35-是正1` 節。推奨案A（「（Excel 形式のみ）」を機構Aの文だけに掛け、機構Bは無限定にする）の逐語はチャットの報告にある。案A・案B どちらでも `#35` §2 で足したばかりの「テーブル・``LIST_MAP``」の行に手を入れることになり、是正1 §2 が名指しした範囲を超えるため、この点の承認も要る。**是正1 §1 の差し替え文（Step 1）は影響を受けない**（差し替え文は `Excel` 形式の読み込み側しか主張していない）。判断が出たら Step 1 → 1a → 1c → 6 → 7 の順に一度に反映し、4観点レビューを1ラウンド回す（是正ラウンドの上限3回）
+- **Notes**: ブランチ `ntf-yaml-support`（`cf80549` まで push 済み）。`main` へのマージは user の明示指示待ち（`.rn/` を含めるかも未決）。`#33`・`#34` はいずれも着手時に user の判定が要る。`#29` は Steps 全件 `[x]` だが見出しに `— DONE` が無く、V3・V4 の2件が user へ返したまま残っている（同節末尾）。`#32` のエントリは圧縮していない（`#33`・`#34`・`#35` が参照するため）。過剰主張は `#32` で7ラウンド連続して混入した。走査手順は `checks/task-32.md` §「完了条件13 の走査（是正3-4。E-1〜E-3）」にある。**参照コミットの追加**: YAML の解析実体は `nablarch-testing-yaml@190cc9a`（Assumptions の表に既出）。`nablarch-testing-converter@e977824` の `yaml/` 配下だけでは YAML の読み込み挙動は判定できない
