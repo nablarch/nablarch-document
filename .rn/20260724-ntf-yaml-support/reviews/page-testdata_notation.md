@@ -552,7 +552,7 @@ user review ではなく、`ntf-doc-10a-followup.md` による指示作業であ
 
 ## `#35`（読み込み時の整形・補完の表に「テーブル・`LIST_MAP`」の行を追加、2026-08-21）
 
-`:1546`-`:1547` に次の1行を追加した（`:1544`-`:1545` の「ファイル・メッセージ」の行は変えていない）。
+`:1546`-`:1547` に次の1行を追加した（`:1544`-`:1545` の「ファイル・メッセージ」の行は変えていない）。**次の逐語は本ラウンド時点のものであり、現在は残っていない。**是正1 の追補と是正2 §2 が表の4行を差し替えた。現在の逐語は本ページ §「`#35`-是正2（表の4行と `:71` の文面を確定、2026-08-24）」にある。
 
 ```
   * - テーブル・\ ``LIST_MAP``
@@ -576,13 +576,9 @@ user review ではなく、`ntf-doc-10a-followup.md` による指示作業であ
 
 `HeaderLine` の走査は**カラム名の行**と**データ行のカラム名が無い位置**にしか効かない。カラム名がある位置のデータ行のセルは、行が短ければ `HeaderLine.java:81`（`String val = (i >= line.size()) ? "" : line.get(i);`）で空文字が埋め戻される。そのため行の主語を「カラム名の行」と「カラム名が無い位置のセル」に限定してある。無限定に「行末の空セルを取り除く」とは書いていない。埋め戻しの実測は `reviews/page-testdata_converter.md` §「`#35`（`:71` の段落の書き換え可否を実装から検証、2026-08-21）」に記録した。
 
-### 申し送り
-
-38. **追加行の「無い」は、同ページの多数派表記（かな）と逆である。** 2026-08-21 に本ページ全体を実測したところ、追加行を含めて「無い」2件（`:1534` と今回の `:1547`）に対し、「無い」を除く「ない」は104件だった。`#35` の作業指示 §2 が逐語で「カラム名が無い位置のセルは読み込まれない」を指定しているため、指定どおりに書いた。表記を揃えるかは未判断。
-
 ## `#35`-是正1（「（`Excel` 形式のみ）」の成否を YAML 側の実装から確認、2026-08-21）
 
-**結論: 「データ行を名前の幅へ揃える」処理は YAML 形式の読み込みにも存在する。したがって「（\ `Excel`\ 形式のみ）」は、この部分については成り立たない。** 作業指示 `ntf-doc-35-fix1.md` §2 の「あるなら『Excel 形式のみ』は誤りなので、直す前に報告すること」に当たるため、`.rst` は1文字も変更していない。
+**結論: 「データ行を名前の幅へ揃える」処理は YAML 形式の読み込みにも存在する。したがって「（\ `Excel`\ 形式のみ）」は、この部分については成り立たない。** 作業指示 `ntf-doc-35-fix1.md` §2 の「あるなら『Excel 形式のみ』は誤りなので、直す前に報告すること」に当たるため、**本ラウンドでは `.rst` を1文字も変更しなかった。** その後、是正1 の追補と是正2 §2 が表の4行を差し替えている（本ページ §「`#35`-是正2（表の4行と `:71` の文面を確定、2026-08-24）」）。
 
 ### 参照コミット
 
@@ -592,7 +588,7 @@ user review ではなく、`ntf-doc-10a-followup.md` による指示作業であ
 | `nablarch-testing` | `e21bf67` | `git show e21bf67:<path>` |
 | `nablarch-testing-yaml` | `190cc9a` | `git show 190cc9a:<path>` |
 
-`nablarch-testing-yaml` は本ラウンドの作業指示が挙げていないが、YAML 読み込みの実体はこのリポジトリにある。`nablarch-testing-converter@e977824` の `src/main/java/nablarch/test/tool/converter/yaml/YamlFormatReader.java` は自前の YAML 解析を持たず、`src/main/java/nablarch/test/core/reader/YamlTestCoreAdapter.java:14`-`:20` が `nablarch.test.core.reader.yaml.YamlTableDataBuilder`／`YamlFileBuilder`／`YamlMessageBuilder` を `import` している。この3クラスは `nablarch-testing@e21bf67` にも `nablarch-testing-converter@e977824` にも存在せず（両リポジトリで `git ls-tree -r --name-only <commit> | grep -i yaml` を実行し、`reader/yaml/` 配下のビルダが出ないことを確認した）、`nablarch-testing-yaml` の `src/main/java/nablarch/test/core/reader/yaml/` にある。本プロジェクトが他ページで固定している `190cc9a` を使った（`reviews/page-testdata_converter.md:12`・`:15`）。
+`nablarch-testing-yaml` は本ラウンドの作業指示が挙げていないが、YAML 読み込みの実体はこのリポジトリにある。`nablarch-testing-converter@e977824` の `src/main/java/nablarch/test/tool/converter/yaml/YamlFormatReader.java` は自前の YAML 解析を持たず、`src/main/java/nablarch/test/core/reader/YamlTestCoreAdapter.java:14`-`:20` が `nablarch.test.core.reader.yaml.YamlTableDataBuilder`／`YamlFileBuilder`／`YamlMessageBuilder` を `import` している。この3クラスは `nablarch-testing@e21bf67` にも `nablarch-testing-converter@e977824` にも存在せず（両リポジトリで `git ls-tree -r --name-only <commit> | grep -i yaml` を実行し、`reader/yaml/` 配下のビルダが出ないことを確認した）、`nablarch-testing-yaml` の `src/main/java/nablarch/test/core/reader/yaml/` にある。本プロジェクトが他ページで固定している `190cc9a` を使った（`reviews/page-testdata_converter.md` §「参照リポジトリ」）。
 
 ### 経路1: テーブル・`LIST_MAP`（YAML 側にも幅を揃える処理がある）
 
@@ -639,23 +635,23 @@ YAML 経路からの呼び出しは `nablarch-testing-yaml@190cc9a` の `src/mai
 
 ### ラウンド`#35`（`17b0254`）の記録の訂正
 
-本ページ `:573` は「（\ `Excel`\ 形式のみ）」の根拠を、`nablarch-testing@e21bf67` の `src/main/` に `TestDataReader` の実装が `PoiXlsReader` の1件しか無いことに置いていた。**この確認は `nablarch-testing` 1本の中では正しいが、YAML 経路の判定には足りない。** YAML 経路は `TestDataParsingTemplate`／`TestDataReader` を通らず、`nablarch-testing-yaml` の `YamlTableDataBuilder`／`YamlFileBuilder` が直接器を組み立てるためである（`YamlTestCoreAdapter.java:27`-`:29` の Javadoc が「本体の YAML 読み込みは `reader.yaml` パッケージのビルダ……が `YamlLoader#load` の返す順序保持 Map を走査して器を組み立てる」と述べているとおり）。`:573` の走査は `nablarch-testing` の `src/main/` に閉じており、`nablarch-testing-yaml` を見ていなかった。
+本ページ §「出典（すべて `nablarch-testing@e21bf67`。`git show e21bf67:<path>` で読んだ）」は「（\ `Excel`\ 形式のみ）」の根拠を、`nablarch-testing@e21bf67` の `src/main/` に `TestDataReader` の実装が `PoiXlsReader` の1件しか無いことに置いていた。**この確認は `nablarch-testing` 1本の中では正しいが、YAML 経路の判定には足りない。** YAML 経路は `TestDataParsingTemplate`／`TestDataReader` を通らず、`nablarch-testing-yaml` の `YamlTableDataBuilder`／`YamlFileBuilder` が直接器を組み立てるためである（`YamlTestCoreAdapter.java:27`-`:29` の Javadoc が「本体の YAML 読み込みは `reader.yaml` パッケージのビルダ……が `YamlLoader#load` の返す順序保持 Map を走査して器を組み立てる」と述べているとおり）。同節の走査は `nablarch-testing` の `src/main/` に閉じており、`nablarch-testing-yaml` を見ていなかった。
 
-`:1546`-`:1547` に追加済みの「テーブル・\ ``LIST_MAP``」の行の「（\ `Excel`\ 形式のみ）」も、この訂正の対象に含まれる。停止条件により本ラウンドでは `.rst` を変更していないため、この行は `17b0254` のまま残っている。
+表の「テーブル・\ ``LIST_MAP``」の行の「（\ `Excel`\ 形式のみ）」も、この訂正の対象に含まれる。停止条件により本ラウンドでは `.rst` を変更しなかったため、本ラウンド終了時点ではこの行は `17b0254` のまま残っていた。差し替え後の逐語と、「（\ `Excel`\ 形式のみ）」をどの句に掛けたかは本ページ §「`#35`-是正2（表の4行と `:71` の文面を確定、2026-08-24）」にある。
 
 ### 併せて見つかった不整合（`.rst` は変更していない）
 
-`ja/development_tools/testing_framework/implementation/testdata_notation.rst:1545` の括弧書きは現在こうなっている。
+本ラウンド時点（`17b0254`）の `ja/development_tools/testing_framework/implementation/testdata_notation.rst:1545` の括弧書きはこうなっていた。
 
 ```
     - 行末の空セルを取り除く（\ Excel\ 形式のみ。\ YAML\ 形式では ``rows:``\ の各要素をそのまま読み込む）
 ```
 
-**「\ YAML\ 形式では ``rows:``\ の各要素をそのまま読み込む」は実装と食い違う。** `YamlFileBuilder.java:235` が渡した行は `DataFileFragment.java:105`-`:107` でフィールド名称の数へ揃えられ、短ければ `""` が埋まり、長ければ名称の数を超えたセルは捨てられる。同じページの `:883`（「``rows:`` の各要素の長さ（YAML形式）がフィールド数より少ない場合、不足したフィールドは\ ``""``\ として補完される」）とも食い違っている。是正1 §2 はこの行を「テーブル・\ ``LIST_MAP``」の行と同じ粒度へ直すよう指示しているが、直す内容には「（\ `Excel`\ 形式のみ）」の見直しも含まれるため、user の判断を待って着手する。
+**「\ YAML\ 形式では ``rows:``\ の各要素をそのまま読み込む」は実装と食い違っていた。** `YamlFileBuilder.java:235` が渡した行は `DataFileFragment.java:105`-`:107` でフィールド名称の数へ揃えられ、短ければ `""` が埋まり、長ければ名称の数を超えたセルは捨てられる。同じページの `:883`（「``rows:`` の各要素の長さ（YAML形式）がフィールド数より少ない場合、不足したフィールドは\ ``""``\ として補完される」）とも食い違っていた。この括弧書きは、是正1 の追補 §2 による差し替えで消えている（本ページ §「追補（`ntf-doc-35-fix1-addendum.md` §2）に従って表の2行を書き換えた記録」）。
 
 ### 追補（`ntf-doc-35-fix1-addendum.md` §2）に従って表の2行を書き換えた記録
 
-`:1544`-`:1547` を追補 §2 の4行へ置き換えた。書き換え後の逐語は次のとおり。
+`:1544`-`:1547` を追補 §2 の4行へ置き換えた。書き換え後の逐語は次のとおり。**この逐語も現在は残っていない。**是正2 §2 が A-3・A-4 への是正として更に差し替えた（本ページ §「`#35`-是正2（表の4行と `:71` の文面を確定、2026-08-24）」）。
 
 ```
   * - ファイル・メッセージ
@@ -669,3 +665,40 @@ YAML 経路からの呼び出しは `nablarch-testing-yaml@190cc9a` の `src/mai
 **機構B（データ行を名前の行の幅へ揃え、足りない分を補完する側）を表に書かなかった理由。** この事実は同じページの `:658`（テーブル・``LIST_MAP`` について「``Excel`` 形式では、データ行のセル数がヘッダ行のカラム数より少ない場合、記述しなかったカラムには空文字が設定されたものとして扱われる。``YAML`` 形式では……``null`` を明示的に指定したのと同じ扱いになる」）と `:883`（可変長ファイルについて上記のとおり）に既にあり、3つ目の言い方を足すと、今回直した `:1545` と `:883` の不整合と同じ状態を作ることになるためである。表には、この2箇所が書いていない「名前が宣言されていない値は読み込まない」だけを残した。
 
 **`:883` の既存記述と新しい2行が食い違っていないことの確認（完了条件4c）。** `:883` を実際に開いて読み、次の2点で両立することを確かめた。(1) `:883` は「行が短いとき」の補完を述べ、新しい2行は「名前が宣言されていない値」＝行が名前の数より長いときに捨てられる側を述べており、対象が重ならない。(2) 新しい2行の「（\ Excel\ 形式のみ）」は「名前の行の行末の空セルを取り除く」の句にだけ掛かっており、両形式に当てはまる「宣言されていない値は読み込まない」には掛けていない。`:883` は補完が両形式で起きることを述べているので、形式の限定でも食い違わない。同様に `:658` とも、`:658` が「記述しなかったカラム」（＝短い行）を述べる点で対象が重ならない。
+
+## `#35`-是正2（表の4行と `:71` の文面を確定、2026-08-24）
+
+作業指示 `ntf-doc-35-fix2.md` §1・§2 の逐語指定に従い、`ja/development_tools/testing_framework/tools/testdata_converter.rst:71` の段落と、本ページ対象ファイルの `list-table`「読み込み時の整形・補完」の4行を差し替えた。4観点レビューが挙げた A-1〜A-5（user が全件成立と確認済み）への是正である。**是正1 とその追補が定めた逐語は、この差し替えで置き換わっている。**
+
+### 差し替え後の逐語（現在の HEAD）
+
+`implementation/testdata_notation.rst:1544`-`:1547`。
+
+```
+  * - ファイル・メッセージ
+    - 行末の空セルを取り除く（\ Excel\ 形式のみ）。フィールド名称が宣言されていない値は読み込まない
+  * - テーブル・\ ``LIST_MAP``
+    - カラム名の行の行末の空セルを取り除く（\ Excel\ 形式のみ。前述）。カラム名が宣言されていない値は読み込まない
+```
+
+`tools/testdata_converter.rst:71`（1段落1行）。
+
+```
+名前の行（テーブルと\ ``LIST_MAP``\ ではカラム名の行、ファイルとメッセージではフィールド名称行）の行末の空セルは、\ Excel\ 形式から読み込む時点で取り除かれるため、往復すると消える。データ行の空セルの扱いは形式によって異なるため、詳細は\ :ref:`テストデータの書き方 <testdata_notation>`\ を参照。
+```
+
+### 変更点と、実物で確認した根拠
+
+| 指摘 | 変更 | 根拠（自分で開いて確認した `file:line` と逐語） |
+|---|---|---|
+| A-1・A-2 | `:71` から旧第1文（「行末の空セルの扱いは、名前の行とデータ行で異なる。」）・第3文・第4文を落とし、データ行の空セルの扱いを本文へ送った | データ行の空セルの扱いは形式で分かれる。`ja/…/implementation/testdata_notation.rst:658`「\ Excel\ 形式では、データ行のセル数がヘッダ行のカラム数より少ない場合、記述しなかったカラムには空文字が設定されたものとして扱われる。\ YAML\ 形式では、……そのカラムは\ ``null``\ を明示的に指定したのと同じ扱いになる。」。加えて同 `:1534`「全要素が\ null\ または空文字のエントリは読み飛ばされる。」があり、1文では正しく書けない（`ntf-doc-35-fix2.md` §1 の user 判断） |
+| A-3 | 「ファイル・メッセージ」の行から「フィールド名称の行の」を落として無限定に戻した | `nablarch-testing@e21bf67` `src/main/java/nablarch/test/core/reader/DataFileParser.java:68` `List<String> line = NablarchTestUtils.trimTailCopy(original); // キャッシュを破壊しないようにコピーして編集` が同 `:69` の `switch (status)` より前にあり、`READING_DIRECTIVES_AND_NAMES`（同 `:70`）・`READING_TYPES`（同 `:73`）・`READING_LENGTHS`（同 `:76`）・`READING_VALUES`（同 `:79`）の4分岐すべてに掛かる。フィールド名称行に限られない |
+| A-3（テーブル側は限定のまま） | 「テーブル・\ ``LIST_MAP``」の行は「カラム名の行の」を残し、2行を非対称にした | `nablarch-testing@e21bf67` `src/main/java/nablarch/test/core/reader/HeaderLine.java:33` `List<String> keys = trimTailCopy(headerLine);   // キャッシュを破壊しないようにコピーして編集`。同 `:32` `HeaderLine(List<String> headerLine)` のコンストラクタ内であり、ヘッダ行にしか掛からない。非対称なのは実装どおりである |
+| A-4 | 「前述」はテーブル側の行にだけ付けた | 機構Aを実例つきで先に説明しているのはテーブル側だけである。`ja/…/implementation/testdata_notation.rst:774`「ヘッダ行（2行目）は、末尾に空セルが続いても、そこで記述を止めたのと同じ結果になる。」と直後の実例表（同 `:776`-`:785`）。同じ表の `:1551`「マーカーカラムを除外する（前述）」・`:1553`「データベース登録時に、値が省略されたカラムへデフォルト値を補完する（前述）」が既に同じ書き方を採っている |
+| A-5 | `:71` の「フィールド名称の行」を「フィールド名称行」に改めた | `mapping/glossary.md:269` の正表記。同行の逐語は「`フィールド名称行`」／「各フィールドの名称を並べた行」／「揺れなし」／「なし」／「input資料15件、5ファイル（`S:input/ntf-doc-terms.md:176`）」 |
+
+`implementation/testdata_notation.rst` 内に「フィールド名称の行」は1件も残っていない（`grep -c 'フィールド名称の行' ja/development_tools/testing_framework/implementation/testdata_notation.rst` が `0`。是正2 完了条件3）。
+
+### データ行の補完（機構B）を表に書かなかった理由
+
+是正1 の追補のときと同じである。本ページ §「追補（`ntf-doc-35-fix1-addendum.md` §2）に従って表の2行を書き換えた記録」に記録したとおり、`ja/…/implementation/testdata_notation.rst:658`・`:787`・`:883` に既出であり、形式差を1セルで正しく書けないため。是正2 §2 も同じ判断を明記している。
