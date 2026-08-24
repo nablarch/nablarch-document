@@ -1132,7 +1132,7 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 49. （B-f）Docker フルビルド成功・警告0、`sphinx.mo` が未変更、`ca.crt`・`Dockerfile.ca` が無い
 50. （B-g）B-1〜B-5 をまとめた1コミットをプッシュ済み。`--amend` と force push は行わない
 
-**Notes（`#35`-是正5 第2ラウンド。フェーズB 完了時点）**:
+**Notes（`#35`-是正5 第2ラウンド。フェーズB 完了時点の記録）**: **以下は フェーズB 完了時点のスナップショットである。`must` M-1 と申し送り44・45 は、その後の是正6（2026-08-24）で処置してクローズした。現在の状態は上の **Closed（2026-08-24）** を読むこと。**
 
 - **Steps 1〜32 は check off 済み。** 是正1〜是正4 と、是正5 の §1 検証・フェーズA・フェーズB がすべて終わっている
 - **`ja/` の差分は2コミットに分かれている。** B-1・B-2（A-1〜A-4 の反映。2ファイル・4 hunk）は `d3017b8`、B-3 ラウンド1 の `must` の是正（`implementation/testdata_notation.rst:883` の2文）は本ラウンドのコミット
@@ -1142,7 +1142,7 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - **申し送り39・40 は処置済み、41 はクローズ。** 42・43（`mapping/glossary.md` §5.10 の2件）は用語集が変更禁止のため未処置のまま残る
 - **観点1 の報告は出典に難がある。** 指示した参照コミット `e21bf67` ではなく作業ツリー HEAD（`2e43786`）を読んでおり、`file:line` が参照コミットに当たらない。結論は同一の2点をディレクターが `e21bf67` で独立に確認済み。対応表は `reviews/page-testdata_notation.md` §「観点1 の出典に関する但し書き（ディレクターによる）」
 - **参照コミット**: `nablarch-testing@e21bf67`・`nablarch-testing-converter@e977824`・`nablarch-testing-yaml@190cc9a`。`nablarch-core` の clone は `/home/tie303177/work/nablarch/` に無く、`StringUtil` の実体は未確認（`#35` の判定はその内部仕様に依存しない）
-- **実測用の `git worktree` の後始末が残っている。** 過去セッションのスクラッチパッド配下に `nablarch-testing@e21bf67` の worktree が2つ、本ラウンドのサブエージェントが作った `nablarch-testing@e21bf67`・`nablarch-testing-yaml@190cc9a` の worktree が各1つある（`git -C <repo> worktree list` で確認できる）
+- **実測用の `git worktree` は後始末済み**（2026-08-24 に確認。`nablarch-testing`・`nablarch-testing-yaml` のいずれにも `e21bf67`／`190cc9a` の worktree は残っていない。`nablarch-testing` に残る `.claude/worktrees/agent-*` 4件は別作業のもので触っていない）
 
 # State
 
