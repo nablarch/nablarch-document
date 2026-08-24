@@ -1152,8 +1152,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-24
-- **Last completed**: `#35`-是正6（Step 33）。`残作業-rst修正.md` の §1〜§3 の6箇所を逐語1文字一致で反映し、記録2ファイルと `steering.md` を更新して `173c0f7` で push した。これで **`#35` は Closed**、`#33` は (a)(c) 処置済み・(d)(e-2)(e-3) クローズになった
-- **Next**: **`#33` の残り (b)（`ja/` 配下の png 26枚の禁止語点検と差し替え。画像作成を伴う）と (e-1)（`.rn/` 内の相互参照の節見出し化）。どちらから着手するか、および (e-1) の対象範囲（`.rn/` 全体か、生きている文書に限るか）は未決で、着手時に user の判定が要る**（`#33` エントリの (e-1) の未決点）。別に `#34`（ビルド用 Docker イメージの再作成。環境課題）が残る
-- **Notes**: ブランチ `ntf-yaml-support`、`origin` と同期済み、作業ツリーはクリーン、未追跡パスなし。**番号付きタスクは 1〜33 すべて check off 済み**（`Tasks` 末尾の `- [ ]` はページ作成の共通手順テンプレートであり、未完タスクではない）。**残る申し送りは42・43（`mapping/glossary.md` §5.10 の2件。用語集が変更禁止のため未処置）と44 の (d)(e)** —— (d) は `implementation/testdata_notation.rst:883` に超過分（フィールド名称の数を超える位置の値）の扱いが無く `:1169` と非対称、(e) は `:885` の「\ ``rows:``\ に空配列 ``[]``\ を記載した行」が `:836`・`:1155` の0件の言い回しと同形で別の意味。内訳は `reviews/page-testdata_notation.md` §「`#35`-是正6 ／ `#33` (a) 空セル記述の書き直し（2026-08-24）」。**`#33` (a) の明文化は NTF 本体が「空エントリ判定 → マーカーカラム除外」の順で動いている実測に従ったため、converter 側の申し送り XLS-08（「除外 → 空エントリ判定」を前提）とは食い違ったままであり、本体の順序を変えるかどうかはモジュール側の課題として残る**。`main` へのマージと `.rn/` の扱いは user の明示指示待ち（`Rules` 末尾）
+- **Status**: not suspended
+- **Date**: YYYY-MM-DD
+- **Last completed**: #N description
+- **Next**: #N description
+- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
