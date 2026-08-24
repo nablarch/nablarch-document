@@ -1020,7 +1020,7 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - [x] 5. `design.md:147` をリード文＋箇条書きに割る。**文言は1文字も変えない**。改行・行頭記号・連続空白を除いた文字列の完全一致で検算する（指示書 §5）
 - [x] 6. 検証。§1 の確定後に再実行する（2026-08-21 の `17b0254` 時点では全件 PASS・ビルド警告0）。`verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` と、既存イメージでの Docker フルビルド。ビルド直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し `_build/` を削除する（指示書 完了条件10〜13）
 - [x] 7. 無限定の断定文それぞれについて主語を明示したうえで反例を検索し、自分の括弧書きや直後の列挙が反例になっていないかを確かめた記録を `checks/task-35.md` に書く（指示書 完了条件15）
-- [ ] 8. `tools/testdata_converter.rst:71` の段落を、**是正2 §1 の1段落の逐語**に置き換える。旧第1・第3・第4文を落とす。データ行の空セルは形式で分かれ全空行は読み飛ばされるため、1文で正しく言えず本文へ送るという判断（是正2 §1）
+- [x] 8. `tools/testdata_converter.rst:71` の段落を、**是正2 §1 の1段落の逐語**に置き換える。旧第1・第3・第4文を落とす。データ行の空セルは形式で分かれ全空行は読み飛ばされるため、1文で正しく言えず本文へ送るという判断（是正2 §1）
 - [ ] 9. `implementation/testdata_notation.rst:1544`-`:1547` の4行を、**是正2 §2 の逐語**に置き換える。「フィールド名称の行の」を落として無限定に戻し（A-3）、テーブル側の行にだけ「前述」を付ける（A-4）。データ行の補完は表に書かない（`:658`・`:787`・`:883` に既出）（是正2 §2）
 - [ ] 10. `reviews/page-testdata_converter.md:236`・`:238`、`reviews/page-testdata_notation.md:555`・`:585`・`:644`・`:648`・`:654` の HEAD についての記述を §1・§2 反映後の状態に書き直し、申し送り38 を削除し、`:595`・`:642` の行番号参照を節見出し参照に直す（是正2 §3）
 - [ ] 11. **4観点は回さない**（`ntf-doc-13-standing-rules.md:20` の常設ルール、是正ラウンド2）。差分限定の2点——是正が §1〜§3 の範囲に収まっているか、新しい欠陥を生んでいないか（特に §1・§2 の逐語指定文そのものへの反例）——だけを回し、指摘件数と観点を `reviews/page-testdata_notation.md` に記録する（是正2 §4）
@@ -1065,8 +1065,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: —
-- **Last completed**: —
-- **Next**: —
-- **Notes**: —
+- **Status**: paused
+- **Date**: 2026-08-24
+- **Last completed**: `#32`（`82322fa`）。`#35` は是正2 の Steps 8〜10 を `9aa06d7` で実施し、Step 8 のみ check off 済み。**Steps 9〜12 は check off 未了**（差分限定レビューの `must` 2件が未処置）
+- **Next**: **`#35` の user 判断待ち2件。** (1) **是正2 §2 の「ファイル・メッセージ」の行の文面**——「行末の空セルを取り除く（\ `Excel`\ 形式のみ）」を無限定に戻すと、データ行について同ページ `:883` と食い違う。A-3 の根拠（`DataFileParser.java:68` の `trimTailCopy` が `:69` の4分岐すべてに掛かる）は事実だが、データ行の分岐（`:79`→`:186`）の直後に `DataFileFragment.java:105`-`:107` が名称の数まで `""` を埋め戻すため、データ行では観測できる効果がゼロ（上流テスト `nablarch-testing-converter@e977824` の `XlsFormatReaderInvalidInputTest.java:811`-`:812`）。トリムに観測できる効果があるのはフィールド名称行・データ型行・フィールド長行の3つのみ（`DataFileFragment.java:203`・`:287` の `assertSameSizeAsNames`）。提示した選択肢は3案（**B推奨**: `フィールド名称・データ型・フィールド長の各行の行末の空セルを取り除く（\ Excel\ 形式のみ）。フィールド名称が宣言されていない値は読み込まない` ／ A: 是正1 追補の文面に戻す ／ C: 据え置く）。(2) **完了条件8（1コミット）をどうするか**——§4 のレビュー記録は §1〜§3 の実装後にしか書けず、`9aa06d7` は push 済み。`--amend` ＋ force push で畳むか、2コミット目で処置して申し送るか（**後者を推奨**。rn の手順が force push を禁じている）。原因はコーディネータの作業指示の組み立て。**判断後の残作業**: (a) §2 の文面差し替え、(b) `reviews/page-testdata_notation.md:667`（`:702`-`:704` が引き継ぐ）の `:883` 非矛盾の検証を現文面で再検証、(c) 同ファイル新節 A-5 行の `mapping/glossary.md:269` を `§5.10「ファイルデータの行の名称」` へ（判断不要）、(d) 指摘件数と観点を同ファイルに記録（完了条件5）、(e) Docker フルビルド再実行、(f) commit・push・check off。指摘の実体と出典は `checks/task-35.md` の `## #35-是正2` 節にある
+- **Notes**: ブランチ `ntf-yaml-support`（`9aa06d7` まで push 済み）。`main` へのマージは user の明示指示待ち（`.rn/` を含めるかも未決）。**未処置の `nice` 1件**——`tools/testdata_converter.rst:71` が「データ行の空セルの扱いは……詳細は参照」と送る先に、メッセージのデータ行の記述が無い（`testdata_notation.rst:1152`-`:1309` に0件。テーブルは `:658`・`:787`、ファイルは `:883`）。**却下1件**——「（\ `Excel`\ 形式のみ。前述）」の括弧の使い方（A-4 で確定済みのため scope 外）。`#33`・`#34` はいずれも着手時に user の判定が要る。`#29` は Steps 全件 `[x]` だが見出しに `— DONE` が無く、V3・V4 の2件が user へ返したまま残っている。`#32` のエントリは圧縮していない（`#33`・`#34`・`#35` が参照するため）。**参照コミット**: `nablarch-testing@e21bf67`・`nablarch-testing-converter@e977824`・`nablarch-testing-yaml@190cc9a`。`nablarch-core` の clone は `/home/tie303177/work/nablarch/` に無く、指示書冒頭の `StringUtil.java:155`-`:165` は未確認（本ラウンドの文面の根拠には使っていない）

@@ -145,3 +145,61 @@
 - **直後の列挙が反例になっていないか** —— 同じセルの前半（カラム名の行が主語）と後半（データ行の値が主語）は主語が重ならない。また表の1つ上の「ファイル・メッセージ」の行と同じ粒度・同じ構文にしてあり、2行が同じことを別の言い方で述べる状態にはなっていない（追補 §2 の趣旨）。
 
 ## QA Expert Review
+
+## #35-是正2
+
+### Completion Criteria
+
+| Criterion | Self-check | Evidence | QA | QA Evidence |
+|---|---|---|---|---|
+| 1. `tools/testdata_converter.rst:71` が §1 の1段落と逐語一致し、旧第1・3・4文が消えている | OK | 指示書 `ntf-doc-35-fix2.md` の20行目を Python で読み出してそのまま `:71` へ流し込み（手打ちしていない）、書き込み後に `c[70] == inst[19]` を評価 → `True`（175文字）。旧文の消滅は `grep -c` で確認 —— 「行末の空セルの扱いは、名前の行とデータ行で異なる」→ `0`、「名前がある位置の空のセルは空文字として中間モデルに入り」→ `0`、「名前より右にあるセルは読み込まれないため消える」→ `0`。段落は1行（途中改行なし） | OK | コーディネータが独立に検算。指示書のコードブロックを機械抽出し `conv[70]==b1[0]` → `True`。旧第1文「行末の空セルの扱いは、名前の行とデータ行で異なる」の残存を `grep` → 0件。差分ハンクは `@@ -71 +71 @@` の1行のみ（範囲統制レビューも同結果）。事実検証レビューが5系統すべてで反例を探し、0件だった（`HeaderLine.java:33`／`TableDataParser.java:93`／`ListMapParser.java:64`／`DataFileParser.java:68`・`:251`／`MessageParser.java:115`、変換ツール側は `TestCoreReaderAdapter.java:128`・`:464`） |
+| 2. `implementation/testdata_notation.rst` の該当4行が §2 の文面と逐語一致している | OK | 指示書の33〜36行目を Python で読み出して `:1544`-`:1547` へ流し込み、`n[1543:1547] == inst[32:36]` を評価 → `True`。インデントは既存 `list-table` と同じ（`  * - ` / `    - `） | NG | 逐語一致そのものは検算済み（`nota[1543:1547]==b2` → `True`、差分ハンクは `@@ -1545 +1545 @@`・`@@ -1547 +1547 @@` の2行のみ）。**ただし逐語指定文そのものに反例が1件。** 「ファイル・メッセージ」の行を無限定に戻すと、データ行について同ページ `:883` と食い違う。`DataFileParser.java:68` の `trimTailCopy` が4分岐すべてに掛かるのは事実だが、データ行の分岐（`:79`→`:186` `currentFragment.addValue(tail(line));`）の直後に `DataFileFragment.java:105`-`:107` `String value = i < line.size() ? line.get(i) : "";` が名称の数まで `""` を埋め戻すため、データ行ではトリムの観測できる効果がゼロ。上流の実 `.xlsx` テスト `nablarch-testing-converter@e977824` の `XlsFormatReaderInvalidInputTest.java:811`-`:812`「足りないセルは空文字で埋められる」が固定（`f1`・`f2` にデータ行 `abc` のみ → `["abc", ""]`）。トリムに観測できる効果があるのはフィールド名称行・データ型行・フィールド長行の3つのみ（型行・長さ行は `DataFileFragment.java:203`・`:287` の `assertSameSizeAsNames` があるため）。**user 判断待ち。** |
+| 3. `implementation/testdata_notation.rst` 内に「フィールド名称の行」が1件も残っていない | OK | `grep -c 'フィールド名称の行' ja/development_tools/testing_framework/implementation/testdata_notation.rst` → `0` | OK | コーディネータが独立に再実行。`ja/` 全体で `grep -rn "フィールド名称の行"` → 0件（`testdata_converter.rst` からも消えている） |
+| 4. §3 の7箇所と申し送り38、行番号参照2箇所が処置済み | OK | 7箇所を書き直した —— `reviews/page-testdata_converter.md:236`（「`:71` は変更していない」→「本ラウンドでは変更しなかった」＋確定文面への案内）・`:238`（「現行の `:71` の文も同じ誤りを含む」→ 現在の `:71` の逐語と、(b) の反例に触れない理由）、`reviews/page-testdata_notation.md:555`・`:585`・`:644`・`:648`・`:654`（いずれも HEAD への断定を、当該ラウンド時点の記録＋現在の逐語への案内に改めた）。申し送り38 は見出し `### 申し送り` ごと削除（`grep -c '38. \*\*追加行の「無い」'` → `0`。同節の項目は38 のみだったため空見出しを残さない判断）。行番号参照2箇所は `:595` の「（`reviews/page-testdata_converter.md:12`・`:15`）」→「（`reviews/page-testdata_converter.md` §「参照リポジトリ」）」、`:642` の「本ページ `:573`」（2箇所）→「本ページ §「出典（すべて `nablarch-testing@e21bf67`。`git show e21bf67:<path>` で読んだ）」」と「同節の走査は」。`grep -cE '本ページ `:573`\|page-testdata_converter\.md:12'` → `0`。あわせて、現在の逐語の置き場として `reviews/page-testdata_notation.md` に `## #35-是正2（表の4行と `:71` の文面を確定、2026-08-24）` 節を新設し、A-1〜A-5 それぞれの変更と実測根拠を表で記録した。**7箇所のほかに `:658`（追補の記録の導入文）へ1文を追加した** —— 同節の逐語も是正2 で置き換わっており、そのままでは現行と読める記述が残るため（§3 が名指しした7箇所を超える追加。コーディネータの判断を仰ぐ） | NG | 7箇所・申し送り38・行番号参照2箇所はいずれも処置済み（範囲統制レビューが `git diff -U0` の旧行番号と `git show 9343a11:<path>` の実物を突き合わせて9件全件を確認）。参照先の節見出しも実在・一意（`page-testdata_converter.md:7`・`page-testdata_notation.md:562`・`:652`・`:669`）。**ただし2件の瑕疵。** (a) `page-testdata_notation.md:667` の「`:883` と食い違っていないことの確認」が旧文面（「名前の行の…の句」）を前提にしており、無限定化した現文面には当てはまらない（`:702`-`:704` が引き継いでいる）。§2 の文面確定後に書き直す。(b) 新節 A-5 行に `mapping/glossary.md:269` と行番号で書いた。`.rn/` 内文書は節見出し参照が規約（`glossary.md` §1・`steering.md` Rules）。`§5.10「ファイルデータの行の名称」` へ直す（実在・一意を確認済み）。**なお `:658` への1文追加（7箇所超）はコーディネータ判定で valid。** §2 が同じ4行を差し替えた結果、直後のコードブロックが HEAD と食い違うため、§3 の「HEAD についての記述を反映後の状態に合わせて書き直す」の必然的帰結である |
+| 5. §4 のレビューを回し、指摘件数と観点を記録済み。`must` を残していない | —（対象外） | 本作業の担当範囲外。作業指示により §4 のレビューはコーディネータが回す。したがって本コミットには §4 の記録を含めていない | NG | §4 のレビューは回した（下記「差分限定レビュー」節）。指摘5件のうち `must` 2件が未処置のため NG。指摘件数と観点の `reviews/page-testdata_notation.md` への記録も未了 |
+| 6. Docker フルビルドが成功し警告0、`git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` 実施済み、`_build` 削除済み | OK | 既存イメージ `nablarch-document-build:latest`（`a974e0c8ac60`）で `docker run --rm -v /home/tie303177/work/nablarch/nablarch-document:/root/document nablarch-document-build /bin/bash -c "cd /root/document; sphinx-build -d _build/.doctrees/ja -b html ja _build/html"` を実行 → `build succeeded.`（パイプ先頭の終了コード `0`）。`grep -cE 'WARNING:\|ERROR:\|SEVERE:' build.log` → `0`。直後に `git -C /home/tie303177/work/nablarch/nablarch-document checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行。`_build/` は root 所有のためホストの `rm` が `Permission denied` になり、`docker run … rm -rf /root/document/_build /root/document/build.log` で削除。`ls -d _build build.log` → いずれも `No such file or directory`。`docker build` は行っていない | OK | **コーディネータが独立に再実行**（`steering.md` Rules による）。同じ既存イメージで `docker run … sphinx-build -d _build/.doctrees/ja -b html ja _build/html` → `build succeeded.`（`exit=0`）。`grep -cE "WARNING:|ERROR:|SEVERE:"` → `0`。直後に `git -C <repo> checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行。`_build/` は root 所有のため `docker run … rm -rf /root/document/_build` で削除し `ls -d _build` → `No such file or directory` |
+| 7. `ca.crt`・`Dockerfile.ca` が作業ツリーに残っていない | OK | `ls ca.crt Dockerfile.ca` → いずれも `No such file or directory`。作業ツリー直下の `Dockerfile` は既存（`7月 24 14:45`）で本作業では触れていない | OK | コーディネータが独立に再確認。`ls ca.crt Dockerfile.ca` → いずれも `No such file or directory` |
+| 8. §1〜§4 を1コミットにまとめてプッシュ済み | NG（§4 のぶんが未収録） | `9aa06d7` `docs: 行末の空セルの記述を是正2 の逐語へ差し替え、記録側を反映後の状態に直す` に §1・§2・§3 の4ファイル（`.rst` 2件・`reviews/` 2件）をまとめてコミットし、`git push origin ntf-yaml-support` 済み（`2779e6b..9aa06d7`。force push は行っていない）。**§4 のレビュー記録はコーディネータ担当のため本コミットに含まれていない。** 1コミットにまとめる要件を満たすには、コーディネータが §4 の記録を `git commit --amend` で同コミットへ追加する必要がある | NG | `9aa06d7` に §1〜§3 が入り push 済み（force push なし）。§4 のレビュー記録は §1〜§3 の実装後にしか書けないため、原理的に同一コミットへ入らない。**原因はコーディネータの作業指示の組み立て**（実装エキスパートへ「§1〜§3 を1コミットで push」と指示した）。`--amend` ＋ force push で畳むことは可能だが、rn の手順が force push を禁じているため2コミット目での処置を推奨。**user 判断待ち。** |
+
+### 差分限定レビュー（是正2。4観点は回さない）
+
+`ntf-doc-13-standing-rules.md:20` の常設ルールにより、本ラウンドは是正ラウンド2に当たるため4観点（QA / 設計 / クラフト / 検証）は回していない。作業指示 `ntf-doc-35-fix2.md` §4 が指定した2観点だけを、それぞれ独立したサブエージェントで回した。各観点には目的・対象差分・完了条件・チェックリストのみを渡し、本ファイル（self-check）と他観点の判定は渡していない。
+
+**指摘5件（`must` 2 / `nice` 3）。うち採用4件、却下1件。**
+
+| 観点 | 判定 | 指摘 | 内訳 |
+|---|---|---|---|
+| 是正が §1〜§3 の範囲に収まっているか（範囲統制） | pass | 1件 | `nice` 1（`mapping/glossary.md:269` の行番号参照。採用） |
+| 是正が新しい欠陥を生んでいないか（事実検証。とくに §1・§2 の逐語指定文そのものへの反例） | fail | 4件 | `must` 2（§2 の無限定化が `:883` と食い違う／`:667` の検証結果が旧文面前提。いずれも採用）、`nice` 2（`:71` の飛び先にメッセージのデータ行の記述が無い＝採用／「（`Excel` 形式のみ。前述）」の括弧の使い方が `:1551`・`:1553` と揃わない＝**却下**） |
+
+**却下1件の理由。** 「（\ `Excel`\ 形式のみ。前述）」の括弧の使い方は、作業指示 §2 の A-4 が `:1551`・`:1553` を根拠に明示的に確定したものであり、完了条件2 が逐語一致を求めている。指摘は scope 外。
+
+**コーディネータの独立検証。** 事実検証観点の `must` 1件は、コーディネータが自分で `git show e21bf67:…` を実行して裏づけた（`DataFileParser.java:182`-`:191`・`DataFileFragment.java:102`-`:115`・`PoiXlsReader.java:118`-`:128`・`DataFileFragment.java:202`-`:203`・`:222`-`:223`、`nablarch-testing-converter@e977824` の `XlsFormatReaderInvalidInputTest.java:788`-`:818`、`ja/…/testdata_notation.rst:787`・`:883`）。`nice`（メッセージの記述欠落）も、`testdata_notation.rst:1152`-`:1309`（「メッセージングのデータを記述する」節）で `grep "空セル|空文字|補完|少ない|省略"` が0件であることを確認した。範囲統制観点の `nice` も `mapping/glossary.md` §5.10「ファイルデータの行の名称」が実在・一意であることを確認した。
+
+### Overall Verdict
+
+- Self-check: OK（完了条件1〜4・6・7。5 は担当範囲外、8 は §4 のぶんが未収録のため NG）
+- 範囲統制レビュー: OK（`nice` 1件。次のコミットで処置）
+- 事実検証レビュー: NG（`must` 2件。うち1件は §2 の逐語指定文そのものへの反例で user 判断待ち）
+- 4観点（QA / 設計 / クラフト / 検証）: N/A（常設ルールにより是正ラウンド2 では回さない）
+- Ready to check off: No（§2 の文面が user 判断待ち。完了条件2・4・5・8 が未達）
+
+### Method を適用した記録（#35-是正2。どの主張をどの出典で確認したか）
+
+逐語の流し込みは、指示書 `ntf-doc-35-fix2.md` の当該行を Python で読み出してそのまま書き込み、書き込み後に Python の `==` で検算した（完了条件1・2 の Evidence）。実装を根拠にする記述は、すべて参照コミット固定で `git show <commit>:<path>` を実行し、自分で現物を開いて確かめた。`ja/` の記述は現物のファイルを開いて確かめた。
+
+| 主張（どこに書いたか） | 当たった出典 | 逐語（自分で開いて確認） |
+|---|---|---|
+| A-3 の根拠。`trimTailCopy` は `switch (status)` より前にあり4分岐すべてに掛かる（`reviews/page-testdata_notation.md` §「`#35`-是正2」の表） | `nablarch-testing@e21bf67` `src/main/java/nablarch/test/core/reader/DataFileParser.java:66`-`:81`（`git show e21bf67:… \| awk` で表示） | `:66` `final void onReadLine(List<String> original) {` / `:68` `List<String> line = NablarchTestUtils.trimTailCopy(original); // キャッシュを破壊しないようにコピーして編集` / `:69` `switch (status) {` / `:70` `case READING_DIRECTIVES_AND_NAMES:` / `:73` `case READING_TYPES:` / `:76` `case READING_LENGTHS:` / `:79` `case READING_VALUES:` |
+| テーブル側の `trimTailCopy` はヘッダ行にしか掛からない（同上） | `nablarch-testing@e21bf67` `src/main/java/nablarch/test/core/reader/HeaderLine.java:32`-`:33` | `:32` `HeaderLine(List<String> headerLine) {` / `:33` `List<String> keys = trimTailCopy(headerLine);   // キャッシュを破壊しないようにコピーして編集` |
+| A-5 の正表記が `フィールド名称行` である（同上） | `.rn/20260724-ntf-yaml-support/mapping/glossary.md:269`（現物を開いた） | `\| `フィールド名称行` \| 各フィールドの名称を並べた行 \| 揺れなし \| なし \| input資料15件、5ファイル（`S:input/ntf-doc-terms.md:176`） \|` |
+| A-4 の根拠。機構Aを実例つきで先に説明しているのはテーブル側だけ（同上） | `ja/development_tools/testing_framework/implementation/testdata_notation.rst:774` と直後の実例表 `:776`-`:785`（現物を開いた） | `:774`「ヘッダ行（2行目）は、末尾に空セルが続いても、そこで記述を止めたのと同じ結果になる。次のヘッダ行は、\ ``ID``\ ・\ ``NAME``\ の2カラムだけを記載した場合と同じ結果になる。」 |
+| A-4 の根拠。同じ表が既に「（前述）」を使っている（同上） | 同 `:1551`・`:1553`（現物を開いた） | `:1551`「    - マーカーカラムを除外する（前述）」／`:1553`「    - データベース登録時に、値が省略されたカラムへデフォルト値を補完する（前述）」 |
+| A-1・A-2 の根拠。データ行の空セルの扱いは形式で分かれる（同上） | 同 `:658`（現物を開いた） | 「\ Excel\ 形式では、データ行のセル数がヘッダ行のカラム数より少ない場合、記述しなかったカラムには空文字が設定されたものとして扱われる。\ YAML\ 形式では、\ ``rows:``\ の先頭行のキーの一部を後続の行が持たない場合、そのカラムは\ ``null``\ を明示的に指定したのと同じ扱いになる。」 |
+| A-1 の根拠。全要素が空のエントリは読み飛ばされる（同上） | 同 `:1534`（現物を開いた） | 「全要素が\ null\ または空文字のエントリは読み飛ばされる。Excel\ では行の全セルが空の場合、YAML\ では ``rows:``\ 内の要素が空マッピング（\ ``{}``\ ）またはすべての値が空文字の場合にスキップされる。」 |
+| 機構B が `:883` に既出である（`reviews/page-testdata_notation.md` §「`#35`-是正2」末尾） | 同 `:883`（現物を開いた） | 「データ行のセル数（Excel形式）または ``rows:`` の各要素の長さ（YAML形式）がフィールド数より少ない場合、不足したフィールドは\ ``""``\ として補完される。」 |
+| 機構B が `:787` に既出である（同上） | 同 `:787`（現物を開いた） | 「同じしくみにより、データ行（3行目以降）のセル数がヘッダ行より少ない場合も、記述しなかった分のカラムには空文字が設定されたものとして扱われる。」 |
+| 旧文「行末の空セルは変換後に現れない」が `:71` から消えている（`reviews/page-testdata_converter.md` §「結論」） | `ja/development_tools/testing_framework/tools/testdata_converter.rst`（`grep`） | `grep -c '変換後に現れない' …/testdata_converter.rst` → `0` |
+| 参照先の節見出しが一意である（`:595`・`:642` の節見出し参照） | `reviews/page-testdata_converter.md`・`reviews/page-testdata_notation.md`（`grep -c`） | `grep -c '^## 参照リポジトリ$' page-testdata_converter.md` → `1`、`grep -c '^### 出典（すべて' page-testdata_notation.md` → `1` |
+
+**未確認のまま残した点。** 指示書冒頭が挙げる `StringUtil.isNullOrEmpty(Collection<String>)`（`nablarch-core` 2.2.0 の `StringUtil.java:155`-`:165`）は、`nablarch-core` の clone が `/home/tie303177/work/nablarch/` に無いため自分では確認していない。この事実は本ラウンドで書いた文面のどこにも根拠として使っていない（A-1 の説明は `implementation/testdata_notation.rst:1534` の現物を出典にした）。
