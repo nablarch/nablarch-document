@@ -203,6 +203,7 @@
 | 参照先の節見出しが一意である（`:595`・`:642` の節見出し参照） | `reviews/page-testdata_converter.md`・`reviews/page-testdata_notation.md`（`grep -c`） | `grep -c '^## 参照リポジトリ$' page-testdata_converter.md` → `1`、`grep -c '^### 出典（すべて' page-testdata_notation.md` → `1` |
 
 **未確認のまま残した点。** 指示書冒頭が挙げる `StringUtil.isNullOrEmpty(Collection<String>)`（`nablarch-core` 2.2.0 の `StringUtil.java:155`-`:165`）は、`nablarch-core` の clone が `/home/tie303177/work/nablarch/` に無いため自分では確認していない。この事実は本ラウンドで書いた文面のどこにも根拠として使っていない（A-1 の説明は `implementation/testdata_notation.rst:1534` の現物を出典にした）。
+
 ## #35-是正3
 
 ### Completion Criteria
@@ -211,7 +212,7 @@
 |---|---|---|---|---|
 | 24. `implementation/testdata_notation.rst:1545` が §1 の1行と逐語一致している | OK | 指示書 `ntf-doc-35-fix3.md` の19行目（0-origin で18）を Python で読み出してそのまま `:1545` へ流し込み（手打ちしていない）、書き込み後に `cur[1544] == inst[18]` を評価 → `True`（80文字）。現物の逐語は `    - フィールド名称行・データ型行・フィールド長行の行末の空セルを取り除く（\ Excel\ 形式のみ）。フィールド名称が宣言されていない値は読み込まない` |  |  |
 | 25. `:1547` が変更されていない | OK | `git show HEAD:<path>` と作業ツリーを Python で1行ずつ比較 → 差分は `:1545` の1行のみ（`total diff lines: 1`、行数も同一）。`:1544`・`:1546`・`:1547` はいずれも `cur[i]==head[i]` → `True`。`git diff -U0` のハンクヘッダも `@@ -1545 +1545 @@ YAML形式の場合` の1つだけ。`git diff --numstat` は `.rst` が `1  1` |  |  |
-| 26. §2 の3件が処置済み | OK | (a) `reviews/page-testdata_notation.md:667` の段落を、確定後の `:1545`・`:1547` に対する突合として書き直した（旧文面前提の「（\ Excel\ 形式のみ）は『名前の行の行末の空セルを取り除く』の句にだけ掛かっており」は消えている）。`:702`-`:704` の §「データ行の補完（機構B）を表に書かなかった理由」との重複を避けるため、機構Bの非記載理由は繰り返さず同節へ送った。(b) 同ファイル A-5 行の `mapping/glossary.md:269` を `mapping/glossary.md` §5.10「ファイルデータの行の名称」へ改めた。節の実在・一意は `grep -n 'ファイルデータの行の名称' .rn/20260724-ntf-yaml-support/mapping/glossary.md` → `262:### 5.10 ファイルデータの行の名称` の1件のみで確認。(c) 「（\ Excel\ 形式のみ。前述）」の括弧の指摘は user 却下のため `:1547` を変更せず、同ファイル §「却下した指摘」に1文を残した |  |  |
+| 26. §2 の3件が処置済み | OK | (a) `reviews/page-testdata_notation.md` §「追補（`ntf-doc-35-fix1-addendum.md` §2）に従って表の2行を書き換えた記録」の末尾の段落を、確定後の `:1545`・`:1547` に対する突合として書き直した（旧文面前提の「（\ Excel\ 形式のみ）は『名前の行の行末の空セルを取り除く』の句にだけ掛かっており」は消えている）。同ファイル §「データ行の補完（機構B）を表に書かなかった理由」との重複を避けるため、機構Bの非記載理由は繰り返さず同節へ送った。(b) 同ファイル A-5 行が `mapping/glossary.md` を行番号で指していたのを、`mapping/glossary.md` §5.10「ファイルデータの行の名称」へ改めた（`steering.md` Rules の「`.rn/` 内の文書どうしの相互参照は、行番号ではなく節見出しで指す」による）。節の実在・一意は `grep -c '^### 5.10 ファイルデータの行の名称$' .rn/20260724-ntf-yaml-support/mapping/glossary.md` → `1` で確認。(c) 「（\ Excel\ 形式のみ。前述）」の括弧の指摘は user 却下のため `:1547` を変更せず、同ファイル §「却下した指摘」に1文を残した |  |  |
 | 27. §3 の申し送りが起こしてある | OK | `reviews/page-testdata_notation.md` 末尾に `### 申し送り（続き2）` を新設し、申し送り39 を既存節の書式（番号＋太字の見出し文＋根拠）で追加した。38 が欠番である理由も1文添えた（`git show 9aa06d7 -- .rn/…/reviews/page-testdata_notation.md` の差分に `-38. **追加行の「無い」は、同ページの多数派表記（かな）と逆である。**` があり、`#35`-是正2 のコミットが削除したことを確認）。根拠の実行結果は `sed -n '1152,1309p' ja/…/testdata_notation.rst \| grep -c <語>` → `空セル` 0・`補完` 0・`空文字` 0・`取り除` 0。既存の申し送り34〜37 の本体は書き換えていない |  |  |
 | 28. §4 のレビューを回し、指摘件数と観点を記録済み。`must` を残していない | —（対象外） | 本作業の担当範囲外。作業指示により §4 のレビューはコーディネータが回す |  |  |
 | 29. Docker フルビルドが成功し警告0、`git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` 実施済み、`_build` 削除済み | OK | 既存イメージで `docker run --rm -v /home/tie303177/work/nablarch/nablarch-document:/root/document nablarch-document-build /bin/bash -c "cd /root/document; sphinx-build -d _build/.doctrees/ja -b html ja _build/html"` を実行 → 末尾 `build succeeded.`、終了コード `EXIT=0`。`grep -cE 'WARNING:\|ERROR:\|SEVERE:' build.log` → `0`。直後に `docker run … rm -rf /root/document/_build /root/document/build.log`（`_build/` が root 所有のため）と `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行。`ls -d _build build.log` → いずれも `No such file or directory`。`docker build` は行っていない。**なお本ラウンドではビルドで `sphinx.mo` が変化しなかった**（ビルド直後の `git status --porcelain` は `.rn/…/reviews/page-testdata_notation.md`・`ja/…/testdata_notation.rst` の2件と未追跡の `build.log` のみ）。`git checkout --` は指示どおり実行しており、結果は no-op である |  |  |
@@ -221,8 +222,8 @@
 ### Overall Verdict
 
 - Self-check: OK（完了条件24〜27・29・30。28・31 は担当範囲外）
-- 差分限定レビュー（範囲統制／事実検証）:
-- Ready to check off:
+- 差分限定レビュー（範囲統制／事実検証）: fail。指摘10件＝`must` 2・`nice` 3（採用）・`nice` 3（未処置）・却下2。内訳と出典は `reviews/page-testdata_notation.md` §「是正2・是正3 の指摘件数と観点（Steps 11・16 の積み残しをここへ移す）」にある
+- Ready to check off: No（`must` 2件が user 判断待ちのため。是正4 §1 が `must-1` を、§2 が `must-2` を処置して閉じた）
 
 ### Method を適用した記録（#35-是正3。どの主張をどの出典で確認したか）
 
@@ -239,7 +240,45 @@
 | データ行の補完を述べているのは `:658`・`:787`・`:883` であり、トリムの記述と対象が重ならない（`:667` の段落 (1)(2)） | `ja/…/implementation/testdata_notation.rst:658`・`:787`・`:883`（現物を開いた） | `:658`「\ Excel\ 形式では、データ行のセル数がヘッダ行のカラム数より少ない場合、記述しなかったカラムには空文字が設定されたものとして扱われる。」／`:787`「同じしくみにより、データ行（3行目以降）のセル数がヘッダ行より少ない場合も、記述しなかった分のカラムには空文字が設定されたものとして扱われる。」／`:883`「データ行のセル数（Excel形式）または ``rows:`` の各要素の長さ（YAML形式）がフィールド数より少ない場合、不足したフィールドは\ ``""``\ として補完される。」 |
 | 申し送り39 の根拠。メッセージング節に空セル・補完の記述が0件（`reviews/page-testdata_notation.md` の申し送り39） | `ja/…/implementation/testdata_notation.rst:1150`-`:1308`（現物を開き、`sed \| grep -c` を実行） | `:1150` `.. _testdata_notation-messaging_data:` / `:1152` `メッセージングのデータを記述する` / `:1306`「実際の記述例は :ref:`メッセージングのデータを記述する <testdata_examples-messaging_data>` を参照。」 / `:1308` `.. _testdata_notation-special_notation:`。`sed -n '1152,1309p' … \| grep -c` は `空セル` 0・`補完` 0・`空文字` 0・`取り除` 0 |
 | 申し送り39 の送り元の逐語（同上） | `ja/development_tools/testing_framework/tools/testdata_converter.rst:71`（現物を開いた） | 「……データ行の空セルの扱いは形式によって異なるため、詳細は\ :ref:`テストデータの書き方 <testdata_notation>`\ を参照。」 |
-| 用語の正表記（`:1545` の3語） | `.rn/20260724-ntf-yaml-support/mapping/glossary.md` §5.10「ファイルデータの行の名称」（`:262`-`:271` を現物で確認） | `:262` `### 5.10 ファイルデータの行の名称`、表に `フィールド名称行`（`:269`）・`データ型行`（`:270`）・`フィールド長行`（`:271`）。行番号は本表（`checks/`）内の位置特定のためであり、記録本文では節見出しで参照している |
+| 用語の正表記（`:1545` の3語） | `.rn/20260724-ntf-yaml-support/mapping/glossary.md` §5.10「ファイルデータの行の名称」（節を現物で開いて確認） | 同節の表に正表記として `フィールド名称行`（「各フィールドの名称を並べた行」）・`データ型行`（「各フィールドのデータ型を示す行」）・`フィールド長行`（「各フィールドのバイト長を示す行。固定長ファイルのみで使うもの」）がある |
 | 申し送り38 が欠番である理由 | `git show 9aa06d7 -- .rn/20260724-ntf-yaml-support/reviews/page-testdata_notation.md`（自分で実行） | 差分に `-### 申し送り` と `-38. **追加行の「無い」は、同ページの多数派表記（かな）と逆である。**` がある |
 
 **未確認のまま残した点。** なし。本ラウンドで書いた記述の根拠は、すべて自分で `git show <commit>:<path>` または現物のファイルを開いて確認した。`nablarch-core` の clone は無いため、そこを根拠にした記述は書いていない。
+
+## #35-是正4（最終）
+
+### Completion Criteria
+
+| Criterion | Self-check | Evidence |
+|---|---|---|
+| 32. `:1545` が §1 の逐語と1文字一致（`sed -n '1545p'` の出力を記録に貼る） | OK | 作業指示 §1 の逐語を Python 文字列として組み、書き込み前に `new.replace('ディレクティブ行・','',1) == old` を評価 → `True`（差し替えが先頭への「ディレクティブ行・」の挿入のみであることの検算）。書き込み後の `sed -n '1545p' ja/development_tools/testing_framework/implementation/testdata_notation.rst` の出力（そのまま貼る）: `    - ディレクティブ行・フィールド名称行・データ型行・フィールド長行の行末の空セルを取り除く（\ Excel\ 形式のみ）。フィールド名称が宣言されていない値は読み込まない`（89文字） |
+| 33. `:1547`・`tools/testdata_converter.rst:71` が未変更（`git diff` で確認） | OK | `git diff -U0 -- ja/` のハンクヘッダは `@@ -1545 +1545 @@ YAML形式の場合` の1つだけ。`git diff --numstat` の `.rst` は `1  1`。`git show HEAD:<path>` と作業ツリーを Python で1行ずつ比較 → 行数一致、差分は `:1545` の1行のみ（`diff idx: [1545]`）、`:1544`・`:1546`・`:1547` はいずれも `cur==head` → `True`。`git diff --stat -- ja/development_tools/testing_framework/tools/testdata_converter.rst` は空（未変更）。`mapping/glossary.md` も `git status --porcelain` に出ていない |
+| 34. 申し送り40 が起票済み | OK | `reviews/page-testdata_notation.md` の `### 申し送り（続き2）` に、申し送り39 と同じ書式（番号＋太字の見出し文＋根拠）で40 を追加した。`tools/testdata_converter.rst` は変更していない（criterion 33）。`#35` 着地後に申し送り39・`:883` の Excel 側括弧書きと合わせて1タスクにする旨を末尾の1文に書いた。根拠の `:71` の逐語と `DataFileParser.java:68`・`:69` は自分で現物を開いて確認した |
+| 35. `nice` 3件が反映済み | OK | (1) `reviews/page-testdata_notation.md` の是正2 節の見出しを `### 差し替え後の逐語（現在の HEAD）` → `### 差し替え後の逐語（是正2 時点）` に改め、直後の段落へ `:555`・`:654` と同型の失効注記（「**次の逐語は本ラウンド時点のものであり、現在は残っていない。**」＋現在の逐語の置き場への案内）を書いた。同型化のついでに、失効していた是正3 節の見出しと、`:555`・`:654` が「現在の逐語」として指していた先（いずれも是正2 節を指したままだった）も是正4 節へ付け替えた。(2) `checks/task-35.md` の `## #35-是正3` 節の新規2行——完了条件26 の行（`reviews/page-testdata_notation.md:667`・`:702`-`:704`・`mapping/glossary.md:269`）と Method 表の用語の行（`mapping/glossary.md` の `:262`-`:271`・`:269`・`:270`・`:271`）——から `.rn/` 内への行番号参照を取り除き、節見出し参照に直した（`steering.md` Rules の「`.rn/` 内の文書どうしの相互参照は、行番号ではなく節見出し（`ファイル名` §番号「見出し」）で指す」）。参照先の実在・一意は、3つの見出し（`reviews/page-testdata_notation.md` の §「追補（ntf-doc-35-fix1-addendum.md §2）に従って表の2行を書き換えた記録」と §「データ行の補完（機構B）を表に書かなかった理由」、`mapping/glossary.md` の §5.10「ファイルデータの行の名称」）を `grep -c` で数えていずれも `1` であることで確認。(3) 新設見出しの直前の空行を入れた——`reviews/page-testdata_notation.md` の是正3 節の見出しと `checks/task-35.md` の `## #35-是正3` は、いずれも直前の段落と密着していた（`cat -A` で確認）。両方に空行を入れた |
+| 36. `reviews/page-testdata_notation.md`・`checks/task-35.md`・`steering.md` が反映後の状態 | OK | `reviews/page-testdata_notation.md` に §「`#35`-是正4（「ディレクティブ行」を加えて `:1545` を確定、2026-08-24）」を新設し、確定逐語・用語の根拠・§5 の転記・本ラウンドはレビュー未実施であること・是正2/是正3 の指摘件数と観点（Steps 11・16 の積み残し）を記録した。`checks/task-35.md` は本節（完了条件32〜39）を追加し、是正3 節の Overall Verdict の空欄（差分限定レビュー／Ready to check off）を埋めた。`steering.md` は Steps 11・13・14・16〜22 を check off し、`#35` の Notes を本ラウンドの結果に更新した |
+| 37. §5 の6点が記録に転記済み | OK | `reviews/page-testdata_notation.md` §「逐語の根拠（作業指示 §5 の転記。参照コミット `nablarch-testing@e21bf67`）」に表として転記した。**作業指示 §5 の箇条書きは5点で、参照コミットの指定（`nablarch-testing@e21bf67`）が別に1点ある。完了条件の「6点」はこの5点＋参照コミットの指定として扱った**（節見出しに参照コミットを含め、5点を表の5行にした）。転記にあたり5点すべてを `git show e21bf67:<path>` で自分で裏を取り、5点とも一致した。あわせて2点を記録に追記した——`throw` 文の実体は `:222`-`:223` でブロックの閉じが `:224` であること、`PoiXlsReader.java` の `e21bf67` での実体パスが `src/main/java/nablarch/test/core/reader/PoiXlsReader.java` であること（`git ls-tree -r --name-only e21bf67 \| grep 'PoiXlsReader.java$'` が1件） |
+| 38. Docker フルビルド成功・警告0、`sphinx.mo` が未変更、`ca.crt`・`Dockerfile.ca` が無い | OK | 既存イメージ `nablarch-document-build:latest`（`a974e0c8ac60`）で `docker run --rm -v /home/tie303177/work/nablarch/nablarch-document:/root/document nablarch-document-build /bin/bash -c "cd /root/document; sphinx-build -d _build/.doctrees/ja -b html ja _build/html"` を1回実行 → `build succeeded.`、`EXIT=0`。`grep -cE 'WARNING:\|ERROR:\|SEVERE:' build.log` → `0`。直後に `git -C <repo> checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し、`docker run … rm -rf /root/document/_build /root/document/build.log` で後始末（`_build/` が root 所有のため）。`ls -d _build build.log ca.crt Dockerfile.ca` → 4件とも `No such file or directory`。ビルド後の `git status --porcelain` は本ラウンドの変更3ファイルのみで、`locales/ja/LC_MESSAGES/sphinx.mo` は出ていない。`.gitignore` は変更していない（`locales/` を加えていない）。`docker build` は行っていない |
+| 39. 1〜7 をまとめた1コミットを `3132688` に続けてプッシュ済み。`--amend` と force push は行わない | OK | 完了条件32〜38 の変更4ファイル（`ja/…/testdata_notation.rst`・`reviews/page-testdata_notation.md`・`checks/task-35.md`・`steering.md`）を1コミットにまとめて push した。**`3132688` の直後には、前セッションの `/rn:dn` が残した `1d88729`（`wip:` コミット。是正3 の変更3ファイルを保全したもの）と、本セッションの `/rn:up` が残した `13bd603`（Steps 18〜22・完了条件32〜39 の起票と `State` のリセット）が入っている。** 本コミットはその続きに置いた。`--amend` と force push は行っていない |
+
+### Overall Verdict
+
+- Self-check: OK（完了条件32〜39）
+- 差分限定レビュー: **N/A。本ラウンドはレビューを回していない**（是正ラウンドの上限3に到達したため。作業指示の冒頭による。§1 の逐語の反例検証はディレクター側が実測で実施済み）
+- 4観点（QA / 設計 / クラフト / 検証）: N/A（`ntf-doc-13-standing-rules.md:20` の常設ルール）
+- Ready to check off: Yes
+
+### Method を適用した記録（#35-是正4。どの主張をどの出典で確認したか）
+
+`:1545` の差し替えは、作業指示 §1 の逐語を Python 文字列として組み、書き込み前に「先頭への『ディレクティブ行・』の挿入だけであること」を `assert` で検算してから書き込んだ（完了条件32 の Evidence）。実装を根拠にする記述は、すべて参照コミット固定で `git show e21bf67:<path>` を実行し、自分で現物を開いて確かめた。`ja/` と `.rn/` の記述は現物のファイルを開いて確かめた。作業指示 §5 の5点も、記録へ書く前に自分で裏を取った（一致。`reviews/page-testdata_notation.md` §「逐語の根拠（作業指示 §5 の転記。参照コミット `nablarch-testing@e21bf67`）」の表に、当たった `file:line` と逐語を全件書いた）。
+
+| 主張（どこに書いたか） | 当たった出典 | 逐語（自分で開いて確認） |
+|---|---|---|
+| 「ディレクティブ行」は同ページが既に使う語である（`reviews/…` §「用語「ディレクティブ行」を採った根拠」） | `ja/development_tools/testing_framework/implementation/testdata_notation.rst`（`grep -n 'ディレクティブ行'` を差し替え前に実行） | `1010:識別子行の後にディレクティブ行を置き、続けて以下のようにレコード種別以降を記載する。` / `1055:  * - ディレクティブ行`。この2件のみ |
+| `mapping/glossary.md` §5.10 はレイアウトを表す行に限った節である（同上） | `.rn/20260724-ntf-yaml-support/mapping/glossary.md` §5.10「ファイルデータの行の名称」（節を現物で開いた） | 導入文「ファイルデータのレイアウトを表す行の名称である。現行解説書に該当語はなく、input資料の表記をそのまま採用する。」。表の正表記は `レコード種別行`・`フィールド名称行`・`データ型行`・`フィールド長行` の4語で、`ディレクティブ行` は無い |
+| ディレクティブは同 §5.8 にある（同上） | 同 `mapping/glossary.md` §5.8「テストデータ」（節を現物で開いた） | 表の行「\| `ディレクティブ` \| ファイル・電文のフォーマットに関する属性を、キー名と値の2要素で指定するもの \| 揺れなし \| なし \| FW解説書24件（`FW:libraries/data_io/data_format/format_definition.rst:79`）、現行解説書40件、input資料47件 \|」 |
+| ディレクティブ行の要素数が2未満のときのエラーが本文に既出である（§5 の3点目の転記） | `ja/…/implementation/testdata_notation.rst:892`（現物を開いた） | 「- ディレクティブまたはレコード種別・フィールド名称定義の要素数が2未満である」 |
+| 申し送り40 の根拠となる `:71` の現状（`reviews/…` の申し送り40） | `ja/development_tools/testing_framework/tools/testdata_converter.rst:71`（現物を開いた） | 「名前の行（テーブルと\ ``LIST_MAP``\ ではカラム名の行、ファイルとメッセージではフィールド名称行）の行末の空セルは、\ Excel\ 形式から読み込む時点で取り除かれるため、往復すると消える。データ行の空セルの扱いは形式によって異なるため、詳細は\ :ref:`テストデータの書き方 <testdata_notation>`\ を参照。」 |
+| 是正2 の指摘件数と観点（`reviews/…` §「是正2・是正3 の指摘件数と観点」） | `.rn/20260724-ntf-yaml-support/checks/task-35.md` §「差分限定レビュー（是正2。4観点は回さない）」の表（同ファイルを開いた） | 「**指摘5件（`must` 2 / `nice` 3）。うち採用4件、却下1件。**」と、観点2行の表 |
+| 是正3 の指摘件数と観点（同上） | `git show 1d88729 -- .rn/20260724-ntf-yaml-support/steering.md`（自分で実行） | 同コミットが書いた `State` の `Next`（`must-1`・`must-2` と「採用 `nice` 3件」）と `Notes`（「**却下2件**」「**未処置の `nice` 3件（事実検証）**」）。**観点別の生出力は保全されていない**ため、`must` 2件と採用 `nice` 3件・却下2件がどちらの観点から出たかは記録に無い |
+
+**未確認のまま残した点。** 是正3 の差分限定レビューの観点別の生出力（どの観点がどの指摘を出したか）。上記のとおり `1d88729` の `State` の要約が唯一の記録であり、原文は保全されていない。是正3 の `nice` 3件（未処置）が挙げた `ja/…/testdata_notation.rst:1076`・`:1269`・`:1057`-`:1063`・`:866`-`:875` と `SendSyncMessageParser.java:134`・`DataFileFragment.java:172` は、本ラウンドの作業指示の範囲外のため自分では当たっていない（`reviews/…` にも `1d88729` の `State` を出典として明記して転記した）。

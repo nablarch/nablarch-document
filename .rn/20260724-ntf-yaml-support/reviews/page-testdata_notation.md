@@ -552,7 +552,7 @@ user review ではなく、`ntf-doc-10a-followup.md` による指示作業であ
 
 ## `#35`（読み込み時の整形・補完の表に「テーブル・`LIST_MAP`」の行を追加、2026-08-21）
 
-`:1546`-`:1547` に次の1行を追加した（`:1544`-`:1545` の「ファイル・メッセージ」の行は変えていない）。**次の逐語は本ラウンド時点のものであり、現在は残っていない。**是正1 の追補と是正2 §2 が表の4行を差し替えた。現在の逐語は本ページ §「`#35`-是正2（表の4行と `:71` の文面を確定、2026-08-24）」にある。
+`:1546`-`:1547` に次の1行を追加した（`:1544`-`:1545` の「ファイル・メッセージ」の行は変えていない）。**次の逐語は本ラウンド時点のものであり、現在は残っていない。**是正1 の追補と是正2 §2 が表の4行を差し替えた。現在の逐語は本ページ §「`#35`-是正4（「ディレクティブ行」を加えて `:1545` を確定、2026-08-24）」にある。
 
 ```
   * - テーブル・\ ``LIST_MAP``
@@ -651,7 +651,7 @@ YAML 経路からの呼び出しは `nablarch-testing-yaml@190cc9a` の `src/mai
 
 ### 追補（`ntf-doc-35-fix1-addendum.md` §2）に従って表の2行を書き換えた記録
 
-`:1544`-`:1547` を追補 §2 の4行へ置き換えた。書き換え後の逐語は次のとおり。**この逐語も現在は残っていない。**是正2 §2 が A-3・A-4 への是正として更に差し替えた（本ページ §「`#35`-是正2（表の4行と `:71` の文面を確定、2026-08-24）」）。
+`:1544`-`:1547` を追補 §2 の4行へ置き換えた。書き換え後の逐語は次のとおり。**この逐語も現在は残っていない。**是正2 §2 が A-3・A-4 への是正として更に差し替え、その後さらに是正3 §1・是正4 §1 が `:1545` を差し替えた。現在の逐語は本ページ §「`#35`-是正4（「ディレクティブ行」を加えて `:1545` を確定、2026-08-24）」にある。
 
 ```
   * - ファイル・メッセージ
@@ -670,9 +670,9 @@ YAML 経路からの呼び出しは `nablarch-testing-yaml@190cc9a` の `src/mai
 
 作業指示 `ntf-doc-35-fix2.md` §1・§2 の逐語指定に従い、`ja/development_tools/testing_framework/tools/testdata_converter.rst:71` の段落と、本ページ対象ファイルの `list-table`「読み込み時の整形・補完」の4行を差し替えた。4観点レビューが挙げた A-1〜A-5（user が全件成立と確認済み）への是正である。**是正1 とその追補が定めた逐語は、この差し替えで置き換わっている。**
 
-### 差し替え後の逐語（現在の HEAD）
+### 差し替え後の逐語（是正2 時点）
 
-`implementation/testdata_notation.rst:1544`-`:1547`。
+`implementation/testdata_notation.rst:1544`-`:1547`。**次の逐語は本ラウンド時点のものであり、現在は残っていない。**是正3 §1 が `:1545` を「フィールド名称行・データ型行・フィールド長行」へ限定し、さらに是正4 §1 が先頭に「ディレクティブ行」を加えて差し替えた。現在の逐語は本ページ §「`#35`-是正4（「ディレクティブ行」を加えて `:1545` を確定、2026-08-24）」にある。`:1544`・`:1546`・`:1547` と `tools/testdata_converter.rst:71` は是正2 の逐語のままである。
 
 ```
   * - ファイル・メッセージ
@@ -702,13 +702,14 @@ YAML 経路からの呼び出しは `nablarch-testing-yaml@190cc9a` の `src/mai
 ### データ行の補完（機構B）を表に書かなかった理由
 
 是正1 の追補のときと同じである。本ページ §「追補（`ntf-doc-35-fix1-addendum.md` §2）に従って表の2行を書き換えた記録」に記録したとおり、`ja/…/implementation/testdata_notation.rst:658`・`:787`・`:883` に既出であり、形式差を1セルで正しく書けないため。是正2 §2 も同じ判断を明記している。
+
 ## `#35`-是正3（「ファイル・メッセージ」の行をトリムの効く3行に限定、2026-08-24）
 
 作業指示 `ntf-doc-35-fix3.md` §1 の逐語指定に従い、`ja/development_tools/testing_framework/implementation/testdata_notation.rst:1545` の1行だけを差し替えた。差分限定レビューが挙げた `must`（是正2 の A-3 でこの行を無限定にしたことが、同ページ `:883` と食い違う）への是正である。`:1544`・`:1546`・`:1547` は変更していない。
 
-### 差し替え後の逐語（現在の作業ツリー）
+### 差し替え後の逐語（是正3 時点）
 
-`implementation/testdata_notation.rst:1544`-`:1547`。是正2 から変わったのは `:1545` だけである。
+`implementation/testdata_notation.rst:1544`-`:1547`。是正2 から変わったのは `:1545` だけである。**次の逐語も現在は残っていない。**是正4 §1 が `:1545` の先頭に「ディレクティブ行・」を加えて差し替えた。現在の逐語は本ページ §「`#35`-是正4（「ディレクティブ行」を加えて `:1545` を確定、2026-08-24）」にある。
 
 ```
   * - ファイル・メッセージ
@@ -739,3 +740,64 @@ YAML 経路からの呼び出しは `nablarch-testing-yaml@190cc9a` の `src/mai
 番号は39から続く。**38 は欠番である**（`#35`-是正2 のコミット `9aa06d7` が申し送り38 とその `### 申し送り` 見出しを削除した。`git show 9aa06d7 -- .rn/20260724-ntf-yaml-support/reviews/page-testdata_notation.md` の差分に `-38. **追加行の「無い」は、同ページの多数派表記（かな）と逆である。**` がある）。
 
 39. **`tools/testdata_converter.rst:71` がデータ行の空セルの扱いを送っている先に、メッセージのデータ行についての記述がない。** `:71` は「データ行の空セルの扱いは形式によって異なるため、詳細は\ :ref:`テストデータの書き方 <testdata_notation>`\ を参照。」で終わるが、`implementation/testdata_notation.rst` の「メッセージングのデータを記述する」節（見出しは `:1152`、節の本文は `:1306`「実際の記述例は :ref:`メッセージングのデータを記述する <testdata_examples-messaging_data>` を参照。」まで。次のラベル `.. _testdata_notation-special_notation:` は `:1308`）には、空セル・補完に触れる記述が1件もない。`sed -n '1152,1309p' ja/development_tools/testing_framework/implementation/testdata_notation.rst | grep -c <語>` を4語で実行し、`空セル` 0・`補完` 0・`空文字` 0・`取り除` 0 を確認した。テーブル側は同ページ `:658`・`:787`、可変長ファイル側は `:883` が受け皿になっているが、メッセージだけが受け皿を持たない。**`#35` は作業指示 §1〜§3 の範囲に限られるため、ここでは直していない。**
+
+40. **`tools/testdata_converter.rst:71` が名前の行として「フィールド名称行」だけを挙げており、`implementation/testdata_notation.rst:1545` の4行と食い違う。** `:71` の逐語は「名前の行（テーブルと\ ``LIST_MAP``\ ではカラム名の行、ファイルとメッセージではフィールド名称行）の行末の空セルは、\ Excel\ 形式から読み込む時点で取り除かれるため、往復すると消える。」（現物を開いて確認）。一方、是正4 §1 で確定した `:1545` は「ディレクティブ行・フィールド名称行・データ型行・フィールド長行」の4行を挙げている。トリムは `nablarch-testing@e21bf67` `src/main/java/nablarch/test/core/reader/DataFileParser.java:68` `List<String> line = NablarchTestUtils.trimTailCopy(original); // キャッシュを破壊しないようにコピーして編集` が同 `:69` `switch (status) {` より前で掛けるため、ディレクティブ行・データ型行・フィールド長行の行末の空セルも往復で消える。`:71` はその3行を落としている。**`#35` は作業指示の §1〜§3 の範囲に限られるため、ここでは直していない**（`tools/testdata_converter.rst` は本ラウンドでも未変更）。**`#35` 着地後に、申し送り39 および `:883` の Excel 側の括弧書き（「全フィールドを省略した行（Excel形式では先頭セルが空の行）」が `PoiXlsReader.java:140`-`:147` の `isBlankLine` で読み飛ばされるため成り立たない疑い）と合わせて、1タスクとして扱う。**
+
+## `#35`-是正4（「ディレクティブ行」を加えて `:1545` を確定、2026-08-24）
+
+作業指示 `#35-是正4`（最終）§1 の逐語指定に従い、`ja/development_tools/testing_framework/implementation/testdata_notation.rst:1545` の1行だけを差し替えた。是正3 の文面がディレクティブ行を落としていた点（差分限定レビューの `must-1`）への是正である。**`:1544`・`:1546`・`:1547` と `tools/testdata_converter.rst:71` は変更していない。** `mapping/glossary.md` も変更していない。
+
+### 確定した逐語（現在の HEAD）
+
+`implementation/testdata_notation.rst:1544`-`:1547`。是正3 から変わったのは `:1545` だけで、変更は先頭への「ディレクティブ行・」の挿入のみである。次のブロックの `:1545` は `sed -n '1545p'` の出力をそのまま貼ったものである。
+
+```
+  * - ファイル・メッセージ
+    - ディレクティブ行・フィールド名称行・データ型行・フィールド長行の行末の空セルを取り除く（\ Excel\ 形式のみ）。フィールド名称が宣言されていない値は読み込まない
+  * - テーブル・\ ``LIST_MAP``
+    - カラム名の行の行末の空セルを取り除く（\ Excel\ 形式のみ。前述）。カラム名が宣言されていない値は読み込まない
+```
+
+### 用語「ディレクティブ行」を採った根拠
+
+`mapping/glossary.md` は変更していない。同 §5.10「ファイルデータの行の名称」は、その導入文「ファイルデータのレイアウトを表す行の名称である。」のとおりレイアウトを表す行に限った節であり、ディレクティブはそこではなく §5.8「テストデータ」に `ディレクティブ`（「ファイル・電文のフォーマットに関する属性を、キー名と値の2要素で指定するもの」）として載っている（いずれも現物を開いて確認）。「ディレクティブ行」は同ページが既に使う語である——`ja/…/implementation/testdata_notation.rst:1010`「識別子行の後にディレクティブ行を置き、続けて以下のようにレコード種別以降を記載する。」、同 `:1055`「  * - ディレクティブ行」（`grep -n 'ディレクティブ行'` の結果は本ラウンド差し替え前でこの2件のみ）。
+
+メッセージ側のフレームワーク制御ヘッダを括弧書きで足すことはしなかった（作業指示 §1、根拠は下記 §5 の5点目）。
+
+### 逐語の根拠（作業指示 §5 の転記。参照コミット `nablarch-testing@e21bf67`）
+
+作業指示 §5 は5つの箇条書きと参照コミットの指定（`nablarch-testing@e21bf67`）から成る（完了条件6 の「6点」はこの5点＋参照コミットの指定を指すものとして扱った）。**逐語の反例検証はディレクター側が実測で行っており、本ラウンドではレビューを回していない**（下記「本ラウンドのレビュー」）。ただし転記にあたり、5点すべてを自分で `git show e21bf67:<path>` を実行して現物で裏を取った。結果は5点とも一致した。
+
+| # | 作業指示 §5 の主張 | 自分で当たった出典と逐語（`git show e21bf67:<path>` を実行） | 判定 |
+|---|---|---|---|
+| 1 | `DataFileParser.java:68` の `NablarchTestUtils.trimTailCopy` が `:69` の `switch` の前に掛かる。`trimTail` の実体は `NablarchTestUtils.java:251`-`:263`（末尾から空要素を削除） | `src/main/java/nablarch/test/core/reader/DataFileParser.java:66` `final void onReadLine(List<String> original) {` / `:68` `List<String> line = NablarchTestUtils.trimTailCopy(original); // キャッシュを破壊しないようにコピーして編集` / `:69` `switch (status) {`。`src/main/java/nablarch/test/NablarchTestUtils.java:246`（Javadoc）「リスト末尾の空要素（nullまたは空文字）を取り除く。（破壊的メソッド）」 / `:251` `public static List<String> trimTail(List<String> list) {` / `:256` `for (int i = list.size() - 1; i >= 0; i--) {` / `:257` `if (StringUtil.hasValue(list.get(i))) {` / `:258` `break;  // 空でない要素があれば終了` / `:260` `list.remove(i); // 空要素を削除` / `:263` `}` | 一致 |
+| 2 | `switch` の4状態のうち `READING_DIRECTIVES_AND_NAMES` は `:140`-`:145` の `onReadingDirectives` が `:141` `processDirectives` を先に呼び、偽のときだけ `:143` `onReadingNames` へ落とす。よって同状態はディレクティブ行とフィールド名称行の2種を捌く | 同 `DataFileParser.java:70` `case READING_DIRECTIVES_AND_NAMES:  //------------- ディレクティブ、フィールド名称` / `:71` `onReadingDirectives(line);` / `:73` `case READING_TYPES:` / `:76` `case READING_LENGTHS:` / `:79` `case READING_VALUES:   //---------------- データ行`。同 `:140` `protected void onReadingDirectives(List<String> line) {` / `:141` `boolean isDirective = processDirectives(line);` / `:142` `if (!isDirective) {` / `:143` `onReadingNames(line);` / `:145` `}` | 一致 |
+| 3 | ディレクティブ行でトリムに観測できる効果がある。値セルが空の行は `PoiXlsReader.java:119`-`:130` で `["キー", ""]` になり（`:140`-`:147` の `isBlankLine` は先頭が非空のため読み飛ばさない）、`:68` のトリムで `["キー"]` に縮み、`:220`-`:224` の `if (line.size() < 2) throw new IllegalStateException` に落ちる。トリムが無ければ `:228` `setDirective("キー", "")` であった。同ページ `:892` がこのエラーを既に挙げている | `src/main/java/nablarch/test/core/reader/PoiXlsReader.java:119` `List<String> line = new ArrayList<String>(64);` / `:121` `for (int i = 0; i < lastCellNum; i++) {` / `:123` `String cellValue = cell == null ? "" : cell.toString();` / `:124` `line.add(cellValue);` / `:130` `return line;`。同 `:140` `private boolean isBlankLine(List<String> line) {` / `:142` `if (!e.isEmpty()) {` / `:143` `return false;`。`DataFileParser.java:219` `protected boolean processDirectives(List<String> line) {` / `:220` `if (line.size() < 2) {` / `:222` `throw new IllegalStateException(` ＋ `:223` `"directive or data names row must have two columns at least. " + line);` / `:228` `currentFile.setDirective(directive, value);` | 一致（`throw` 文の実体は `:222`-`:223`、ブロックの閉じが `:224`）。`ja/…/testdata_notation.rst:892`「- ディレクティブまたはレコード種別・フィールド名称定義の要素数が2未満である」も現物で確認した |
+| 4 | 4行で閉じている。トリムが掛かるのは `TestDataParsingTemplate.java:210` の `onReadLine` だけで、識別子行を捌く `:206` `onTargetTypeFound` には生の `line` が渡る | `src/main/java/nablarch/test/core/reader/TestDataParsingTemplate.java:201` `if (isTargetType(line, id)) {` / `:206` `onTargetTypeFound(line);` / `:209` `if (nowReading) {` / `:210` `onReadLine(line);` | 一致 |
+| 5 | メッセージにもディレクティブ行は実在する。`MessageParser.java:79`-`:88` が `super.processDirectives` を通し、`FixedLengthFileParser.java:36`-`:37` の `isDirective` が固定長ディレクティブを判定する | `src/main/java/nablarch/test/core/reader/MessageParser.java:79` `protected boolean processDirectives(List<String> line) {` / `:80` `if (super.processDirectives(line)) {` / `:81` `return true;` / `:86` `if (isFrameworkHeader(fieldName)) {` / `:87` `fwHeader.put(fieldName, value);` / `:88` `return true;`。`src/main/java/nablarch/test/core/reader/FixedLengthFileParser.java:36` `protected boolean isDirective(String key) {` / `:37` `return FixedLengthDirective.VALUES.containsKey(key);` | 一致 |
+
+**フレームワーク制御ヘッダを括弧書きで足さなかった理由**（作業指示 §1 の指示と、上表5行目の実物による）。`MessageParser` の `processDirectives` は `:80` でまず `super.processDirectives`（＝`DataFileParser` のディレクティブ判定）を通しており、メッセージでもディレクティブ行はディレクティブ行として実在する。フレームワーク制御ヘッダはそれが偽だったときの `:86` 以降の別分岐であり、「ディレクティブ行」の語の中身を括弧で言い換える対象ではない。
+
+**`PoiXlsReader.java` のパス。** 作業指示はファイル名のみを挙げているが、`e21bf67` での実体は `src/main/java/nablarch/test/core/reader/PoiXlsReader.java` である（`git ls-tree -r --name-only e21bf67 | grep 'PoiXlsReader.java$'` の結果は1件）。
+
+### 本ラウンドのレビュー
+
+**回していない。** `ntf-doc-13-standing-rules.md:20` の常設ルールにより是正ラウンドの上限は3回であり、本ラウンドはその上限に到達した4回目に当たる。作業指示の冒頭が「上限3ラウンドに到達したため、本ラウンドではレビューを回さない。§1 の逐語はディレクター側が実測で反例検証済み」と定めている。したがって本ラウンドは、レビューの代わりに上表のとおり §5 の5点を自分で現物に当たって検算した。
+
+### 是正2・是正3 の指摘件数と観点（Steps 11・16 の積み残しをここへ移す）
+
+是正2 と是正3 は、いずれも4観点（QA / 設計 / クラフト / 検証）を回さず、差分限定の2観点だけを別々のサブエージェントで回した（`ntf-doc-13-standing-rules.md:20` の常設ルール）。
+
+| ラウンド | 観点 | 判定 | 指摘 | 内訳 |
+|---|---|---|---|---|
+| 是正2 | 是正が §1〜§3 の範囲に収まっているか（範囲統制） | pass | 1件 | `nice` 1（`mapping/glossary.md:269` の行番号参照。採用） |
+| 是正2 | 是正が新しい欠陥を生んでいないか（事実検証） | fail | 4件 | `must` 2（§2 の無限定化が `:883` と食い違う／`:667` の検証結果が旧文面前提。いずれも採用）、`nice` 2（`:71` の飛び先にメッセージのデータ行の記述が無い＝採用。申し送り39 になった／「（\ `Excel`\ 形式のみ。前述）」の括弧の使い方＝**却下**） |
+| 是正3 | 範囲統制／事実検証の2観点 | fail | 10件 | `must` 2（`:1545` にディレクティブ行が欠けている＝是正4 §1 で処置／`tools/testdata_converter.rst:71` が「フィールド名称行」だけを挙げ `:1545` と食い違う＝申し送り40 として起票）、`nice` 3（採用。是正4 §3 の3件）、`nice` 3（**未処置**。下記）、却下 2（`:667` 段落が `:658`・`:787` にも触れた点＝指示の趣旨の範囲内／「（\ `Excel`\ 形式のみ。前述）」の括弧＝user 判断済み） |
+
+是正2 の内訳の出典は `checks/task-35.md` §「差分限定レビュー（是正2。4観点は回さない）」の表（同ファイルを開いて確認）。**是正3 の内訳の出典は、コミット `1d88729` の `steering.md` の `State`（`git show 1d88729 -- .rn/20260724-ntf-yaml-support/steering.md` で確認）である。同ラウンドの観点別の生出力は保全されておらず、`must` 2件・`nice` 3件（採用）・`nice` 3件（未処置）・却下2件がそれぞれどちらの観点から出たかは、`nice` 3件（未処置）が「事実検証」と明記されている以外は記録に残っていない。**
+
+**是正3 の `nice` 3件（未処置）。** いずれも本ラウンドの作業指示の範囲外のため処置していない。出典は上記 `1d88729` の `State` である。
+
+1. 同期応答メッセージ送信のラベル列（連番）が `SendSyncMessageParser.java:134` ＋ `DataFileFragment.java:172` で読まれ、`:1545` 後半の句「フィールド名称が宣言されていない値は読み込まない」と字面で衝突する（同ページ `:1269` が別途説明している）
+2. ページ内の行の呼称が不統一である（`:1055` のみ「行」付き、`:1057`-`:1063`・`:866`-`:875` は無し。「データ型行」はページ内に定義が無い）
+3. 「フィールド長行」は固定長ファイルにのみ存在する（`:1076`）
