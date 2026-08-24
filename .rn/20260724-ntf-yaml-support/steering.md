@@ -1107,8 +1107,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**:
-- **Last completed**:
-- **Next**:
-- **Notes**:
+- **Status**: paused
+- **Date**: 2026-08-24
+- **Last completed**: `#35`（是正4（最終）。`69ab972`＋追記の `149277f`）。Steps 1〜22 全件 check off、完了条件1〜39 は自己判定で全件充足。**user review 待ち**
+- **Next**: **`#35` の user review。** 承認されたら Rules の圧縮規則に従って `#35` のエントリを圧縮し（見出しに `— DONE`、Steps と narrative を削り Purpose と Completion criteria のみ残して `checks/task-35.md` と最終コミットへのポインタを添える）、`design.md` の該当節も同様に圧縮する。その後は `#33`・`#34`・`#29` が残るが、**3件とも着手時に user の判定が要る**——`#33` は5件の積み残しの取捨、`#34` は Docker イメージを `docker build` から作り直せない環境課題、`#29` は Steps 全件 `[x]` だが見出しに `— DONE` が無く V3・V4 の2件が user へ返したまま。あわせて **`#35` 着地後に1タスクへまとめる3件**（申し送り39・申し送り40・`:883` の Excel 側括弧書き）を起票するかの判断も要る。詳細は `#35` の `**Notes（#35-是正4（最終）反映後）**` にある
+- **Notes**: ブランチ `ntf-yaml-support`（`149277f` まで push 済み）。`main` へのマージは user の明示指示待ち（`.rn/` を含めるかも未決）。作業ツリーはクリーンで、未追跡の残置ファイルは無い。**user へ上げた申し送り事項3件**——(1) 完了条件39 の「1コミット」は、自コミットのハッシュを Evidence に書くため追記コミット `149277f` が要り、実質2コミットになった（`--amend`・force push は禁止のため追記を選択）。(2) 作業指示 §5 の「6点」は箇条書き5点＋参照コミット指定1点として扱った。5点は `git show e21bf67:<path>` で当たり直し全件一致。(3) 是正3 の `nice` 3件が未処置（うち1件「フィールド長行は固定長ファイルのみ」は今回確定した `:1545` に関わる）。**未確認**——是正3 のレビューの観点別の生出力は保全されておらず、どの観点がどの指摘を出したかは記録に無い（`1d88729` の `State` の要約が唯一の記録）。**参照コミット**: `nablarch-testing@e21bf67`・`nablarch-testing-converter@e977824`・`nablarch-testing-yaml@190cc9a`
