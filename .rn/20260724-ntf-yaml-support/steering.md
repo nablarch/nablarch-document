@@ -1139,8 +1139,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: YYYY-MM-DD
-- **Last completed**: #N description
-- **Next**: #N description
-- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
+- **Status**: paused
+- **Date**: 2026-08-24
+- **Last completed**: `#35`-是正5 フェーズB の Step 30（残り）〜Step 32。`implementation/testdata_notation.rst:883` の2文を user 判断の案A ＋ `should`② で是正し、独立に組んだ走査器で是正前 NG 1件・是正後 NG 0件を確認、B-3 ラウンド2 を別サブエージェント2つで回し、記録・ビルド・1コミット（`00b1dfd`、push 済み）まで済ませた
+- **Next**: **B-3 ラウンド2 の `must` 1件（M-1）の処置を user に判断してもらう。** 選択肢は (a) `#35` 内でラウンド上限を延長して直す、(b) 次タスクとして起こす、(c) 申し送り（44・45）のまま置く。(a)(b) を採る場合は `:883`・`:1160`・`:1547`・`tools/testdata_converter.rst:71` の4箇所が対象になり、いずれも user 承認済みの逐語なので承認の取り直しが要る
+- **Notes**: M-1 は「データ行の末尾フィールドに `null`／`""` を書いた場合、`nablarch-testing@e21bf67` `src/main/java/nablarch/test/core/reader/DataFileParser.java:68` の `trimTailCopy` が `:69` の `switch` より前に掛かるため、`:883` の条件文（「先頭要素を除いたセル数…がフィールド数より少ない場合」）が結果を言い当てられない」というもの。**是正が持ち込んだ欠陥ではなく、是正前の文にも同じ不正確さがあった。** 詳細・波及先・却下した指摘の理由は `reviews/page-testdata_notation.md` §「`#35`-是正5 フェーズB B-3 差分限定レビュー ラウンド2（2026-08-24）」（特に §「user へのエスカレーション（M-1。本ラウンドでは処置していない）」と §「処置とその理由」）。ブランチ `ntf-yaml-support`、`origin` と同期済み、作業ツリーはクリーン、未追跡パスなし。**番号付きタスクは 1〜32 すべて check off 済み**（`Tasks` 末尾の `- [ ]` はページ作成の共通手順テンプレートであり、未完タスクではない）。実測用 `git worktree` は6件すべて削除済み。`nablarch-testing` に残る `.claude/worktrees/agent-*` は別作業のもので触っていない
