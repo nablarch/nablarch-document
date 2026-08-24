@@ -1141,8 +1141,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-24
-- **Last completed**: `#35`-是正5 フェーズB の Step 29（B-1・B-2）と、Step 30（B-3）のラウンド1。承認された A-1〜A-4 を `ja/` に反映し、差分限定の2観点を別サブエージェントで回して生出力を記録に貼った
-- **Next**: **B-3 ラウンド1 の `must` 1件の処置を、案A / 案B / 案C から user に選んでもらう。** 選択後は Step 30 の残り（案A・案B なら是正→ラウンド2）→ Step 31（B-4 の記録）→ Step 32（B-5 のビルドと1コミット）と続ける
-- **Notes**: 3案の逐語・`should` 2件と `nice` 3件の判定は `reviews/page-testdata_notation.md` §「B-3 ラウンド1 の処置方針（user 判断待ち。逐語案と `should`・`nice` の判定、2026-08-24）」にある（推奨は案A ＋ `should`② の同時是正）。`must` は `implementation/testdata_notation.rst:883` の「データ行のセル数（Excel形式）…がフィールド数より少ない場合」が1つずれている件で、是正すると user 承認済みの A-4 逐語に触れるため承認の取り直しが要る。B-3 の残りラウンドは1（上限2）。`ja/` の差分は未コミット状態ではなく `d3017b8` に入っている。ブランチ `ntf-yaml-support`、作業ツリーはクリーン、未追跡パスなし
+- **Status**: not suspended
+- **Date**: YYYY-MM-DD
+- **Last completed**: #N description
+- **Next**: #N description
+- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
