@@ -1014,7 +1014,7 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
 ### #35: `#32` の是正3 が残した記述の誤り4件を直す（user 指示 2026-08-21）— Closed（2026-08-24）
 
-**Closed（2026-08-24）**: 是正6（`残作業-rst修正.md` §1）で、ラウンド2 の `must` M-1 と申し送り44・45 を処置して閉じた。`implementation/testdata_notation.rst:883` を3ブロック（段落2つ ＋ `important` 1つ）へ書き直し、`:1160`・`:1547`・`tools/testdata_converter.rst:71` を同じ実測に揃えた。**数え方（「先頭要素を除いたセル数」「ラベル列を除いたセル数」）による説明をやめ、「末尾のフィールドの値を書かなければ ``""`` として扱われる」という結果の説明に置き換える**という方針で決着している。反映内容・根拠・検証は `reviews/page-testdata_notation.md` §「`#35`-是正6 ／ `#33` (a) 空セル記述の書き直し（2026-08-24）」と `reviews/page-testdata_converter.md` §「`#35`-是正6 ／ `#33` (c)（`:71` と `:280` の修正、2026-08-24）」。**是正6 はレビューを回していない**（逐語はディレクターが実測に基づいて確定済みで、作業は逐語の貼り付けとビルドのみ）。
+**Closed（2026-08-24）**: 是正6（`残作業-rst修正.md` §1）で、ラウンド2 の `must` M-1 と申し送り45 を処置して閉じた。**申し送り44 は5点のうち (a)(b)(c) が閉じ、(d)（`:883` に超過分の扱いが無く `:1169` と非対称）と (e)（`:885` の「空配列 ``[]``」が `:836`・`:1155` の0件の言い回しと同形）が残る**（内訳の表は下の記録先にある）。`implementation/testdata_notation.rst:883` を3ブロック（段落2つ ＋ `important` 1つ）へ書き直し、`:1160`・`:1547`・`tools/testdata_converter.rst:71` を同じ実測に揃えた。**数え方（「先頭要素を除いたセル数」「ラベル列を除いたセル数」）による説明をやめ、「末尾のフィールドの値を書かなければ ``""`` として扱われる」という結果の説明に置き換える**という方針で決着している。反映内容・根拠・検証は `reviews/page-testdata_notation.md` §「`#35`-是正6 ／ `#33` (a) 空セル記述の書き直し（2026-08-24）」と `reviews/page-testdata_converter.md` §「`#35`-是正6 ／ `#33` (c)（`:71` と `:280` の修正、2026-08-24）」。**是正6 はレビューを回していない**（逐語はディレクターが実測に基づいて確定済みで、作業は逐語の貼り付けとビルドのみ）。
 
 **Purpose**: `#32` の完了後に user へ上げた5件の回答を受け、`#32` が残した記述の誤りを直す。`#32` は完了条件を満たしており閉じたままにする。**`#33`・`#34` より先に着手する**（両タスクとも自身のエントリのとおり着手時に user の判定を要し、本タスクは判定が出ている）。
 
@@ -1057,6 +1057,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - [x] 30. **フェーズB B-3**。差分限定の2観点（範囲統制／新しい欠陥。後者に**承認された逐語案そのものへの反例検証**を含める）を**それぞれ別のサブエージェント**で回す（同 B-3）。**ラウンド1・ラウンド2 とも実施済み。生出力は要約せず `reviews/page-testdata_notation.md` の是正5 の2節に貼付済み。** ラウンド1 は `must` 1・`should` 2・`nice` 3 で、`must`（`:883` の数え方が1つずれている）を user 判断の案A ＋ `should`② で是正した（Step 30-a〜30-e で走査・実測・反映を実施）。ラウンド2 は観点1 が `must` 0・`should` 0・`nice` 4、観点2 が `must` 1・`should` 2・`nice` 3。**採用した指摘は0件。`must`（M-1。行末の `null`／`""` が `trimTailCopy` で消えるため逐語の条件文が結果を言い当てられない）は、是正が持ち込んだ欠陥ではなく、処置すると user 承認済みの逐語4箇所に波及し、かつラウンド上限2に達しているため、本文を変えず user へエスカレーションした**（同ファイル §「user へのエスカレーション（M-1。本ラウンドでは処置していない）」）
 - [x] 31. **フェーズB B-4**。`reviews/page-testdata_notation.md` の是正5 の節に、フェーズA の実測結果と確定した逐語（A-1〜A-5）・B-3 の生出力とラウンドごとの指摘件数と観点を記録する（同 B-4）。**実施済み。** ラウンド2 の節に、指摘件数・観点・両観点の生出力・処置とその理由（採用0件・却下3件・据え置き6件）・Step 30-a／30-b／30-e の走査の生出力・Step 30-d の逐語の根拠の再確認を書いた。申し送り39・40 を【処置済み】、41 を【クローズ】に更新し、是正2・是正3 の表の「`nice` 3（未処置）」を「処置済み」へ改め、3件それぞれに決着の内訳を付した。是正3 の `nice` 3件目の記録の誤りは申し送り42 が既に記録している。申し送り44・45 を新たに起票した。`checks/task-35.md` の完了条件44〜50 とフェーズB の Method 記録も反映済み。**記録に本ラウンドのコミットハッシュは書いていない**
 - [x] 32. **フェーズB B-5**。Docker フルビルドを1回通し警告0を確認し、直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行する（同 B-5）。**実施済み。** `_build` を消してからフルビルドし `SPHINX_EXIT=0`・`build succeeded.`、`WARNING:`／`ERROR:`／`SEVERE:` は0件（**既知の `db_double_submit.rst:108` の warning も出ていない**）。`sphinx.mo` は復元済みで `git status` に現れない。`_build`・`build.log`・`ca.crt`・`Dockerfile.ca` は作業ツリーに無い。`verify_mapping.py` は exit 0（`OK: no errors`）。**作業指示は「`d3017b8` に続けて」と書いているが、`d3017b8` の後に `/rn:dn` の `0a12ab6` と `/rn:up` の `ab2112e` が既に積まれているため、実際には `ab2112e` に続く1コミットとした**（`d3017b8` の子孫であり指示の意図は満たす）。`--amend` と force push は行っていない
+
+- [x] 33. **是正6**（`残作業-rst修正.md`。`#35` の残りと `#33` (a)(c) を同時に処置）。§1（`:883`・`:1160`・`:1547`・`tools/testdata_converter.rst:71` の4箇所）・§2（`:1536` に2文追加）・§3（`tools/testdata_converter.rst:280`）を逐語1文字一致で反映し、記録2ファイルと `steering.md` を更新して1コミット（`173c0f7`）で push した。**レビューは回していない**（指示書「この指示の性格」）。完了条件7件はすべて充足（差分は `.rst` 2ファイル・6箇所、逐語一致、Docker フルビルド `build succeeded.`・`WARNING:`／`ERROR:`／`SEVERE:` 0件、`verify_mapping.py` exit 0、変更禁止7ファイルの差分0行、`git status --short` 空、`5d854ca` に続くコミットで `--amend`・force push なし）
 
 **Completion criteria**（指示書 `ntf-doc-35.md`「完了条件」1〜15 の逐語）:
 
@@ -1136,9 +1138,9 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 
 - **Steps 1〜32 は check off 済み。** 是正1〜是正4 と、是正5 の §1 検証・フェーズA・フェーズB がすべて終わっている
 - **`ja/` の差分は2コミットに分かれている。** B-1・B-2（A-1〜A-4 の反映。2ファイル・4 hunk）は `d3017b8`、B-3 ラウンド1 の `must` の是正（`implementation/testdata_notation.rst:883` の2文）は本ラウンドのコミット
-- **B-3 ラウンド2 の `must` 1件（M-1）を本文に反映せず user へエスカレーションしている。** `:883` の是正後の1つめの文は、データ行の**末尾**フィールドに `null`／`""` を書いた場合の結果を言い当てられない（`nablarch-testing@e21bf67` `src/main/java/nablarch/test/core/reader/DataFileParser.java:68` の `trimTailCopy` が `:69` の `switch` より前にあり、データ行にも掛かるため）。**是正が持ち込んだ欠陥ではなく、是正前の文にも同じ不正確さがあった。** 処置すると `:1160`（A-3 で承認）・`:1547`（A-1 で確定）・`tools/testdata_converter.rst:71`（A-2 で承認）に波及し、いずれも user 承認済みの逐語である。B-3 のラウンドは上限2に達している。詳細と3つの波及先は `reviews/page-testdata_notation.md` §「user へのエスカレーション（M-1。本ラウンドでは処置していない）」
+- **【解消済み。是正6 で処置】** B-3 ラウンド2 の `must` 1件（M-1）を本文に反映せず user へエスカレーションしていた。 `:883` の是正後の1つめの文は、データ行の**末尾**フィールドに `null`／`""` を書いた場合の結果を言い当てられない（`nablarch-testing@e21bf67` `src/main/java/nablarch/test/core/reader/DataFileParser.java:68` の `trimTailCopy` が `:69` の `switch` より前にあり、データ行にも掛かるため）。**是正が持ち込んだ欠陥ではなく、是正前の文にも同じ不正確さがあった。** 処置すると `:1160`（A-3 で承認）・`:1547`（A-1 で確定）・`tools/testdata_converter.rst:71`（A-2 で承認）に波及し、いずれも user 承認済みの逐語である。B-3 のラウンドは上限2に達している。詳細と3つの波及先は `reviews/page-testdata_notation.md` §「user へのエスカレーション（M-1。本ラウンドでは処置していない）」
 - **ラウンド2 で採用した指摘は0件。** 却下3件（S-1・S-2・N-3 の「フィールド数」の揺れ）と据え置き6件の理由は同ファイル §「処置とその理由」の表にある。**既決事項（`should`①・`nice`①〜③ を直さない判断、「フィールド数」を残す判断、`` ``rows:`` `` 直後の `\ `）に反する指摘は却下した**
-- **新しい申し送りは44・45。** 44 は `:883` の段落で指示範囲外として見送った改善5点、45 は `:1547` と `tools/testdata_converter.rst:71` が行末トリムの対象からデータ行を落としている件。**45 は M-1 と同一タスクとして扱うこと**
+- **申し送り45 は是正6 で処置済み（クローズ）。申し送り44 は (a)(b)(c) が閉じ、(d)(e) が残る。** 44 は `:883` の段落で指示範囲外として見送った改善5点、45 は `:1547` と `tools/testdata_converter.rst:71` が行末トリムの対象からデータ行を落としていた件。内訳の表は `reviews/page-testdata_notation.md` §「`#35`-是正6 ／ `#33` (a) 空セル記述の書き直し（2026-08-24）」にある
 - **申し送り39・40 は処置済み、41 はクローズ。** 42・43（`mapping/glossary.md` §5.10 の2件）は用語集が変更禁止のため未処置のまま残る
 - **観点1 の報告は出典に難がある。** 指示した参照コミット `e21bf67` ではなく作業ツリー HEAD（`2e43786`）を読んでおり、`file:line` が参照コミットに当たらない。結論は同一の2点をディレクターが `e21bf67` で独立に確認済み。対応表は `reviews/page-testdata_notation.md` §「観点1 の出典に関する但し書き（ディレクターによる）」
 - **参照コミット**: `nablarch-testing@e21bf67`・`nablarch-testing-converter@e977824`・`nablarch-testing-yaml@190cc9a`。`nablarch-core` の clone は `/home/tie303177/work/nablarch/` に無く、`StringUtil` の実体は未確認（`#35` の判定はその内部仕様に依存しない）
@@ -1150,8 +1152,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: YYYY-MM-DD
-- **Last completed**: #N description
-- **Next**: #N description
-- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
+- **Status**: paused
+- **Date**: 2026-08-24
+- **Last completed**: `#35`-是正6（Step 33）。`残作業-rst修正.md` の §1〜§3 の6箇所を逐語1文字一致で反映し、記録2ファイルと `steering.md` を更新して `173c0f7` で push した。これで **`#35` は Closed**、`#33` は (a)(c) 処置済み・(d)(e-2)(e-3) クローズになった
+- **Next**: **`#33` の残り (b)（`ja/` 配下の png 26枚の禁止語点検と差し替え。画像作成を伴う）と (e-1)（`.rn/` 内の相互参照の節見出し化）。どちらから着手するか、および (e-1) の対象範囲（`.rn/` 全体か、生きている文書に限るか）は未決で、着手時に user の判定が要る**（`#33` エントリの (e-1) の未決点）。別に `#34`（ビルド用 Docker イメージの再作成。環境課題）が残る
+- **Notes**: ブランチ `ntf-yaml-support`、`origin` と同期済み、作業ツリーはクリーン、未追跡パスなし。**番号付きタスクは 1〜33 すべて check off 済み**（`Tasks` 末尾の `- [ ]` はページ作成の共通手順テンプレートであり、未完タスクではない）。**残る申し送りは42・43（`mapping/glossary.md` §5.10 の2件。用語集が変更禁止のため未処置）と44 の (d)(e)** —— (d) は `implementation/testdata_notation.rst:883` に超過分（フィールド名称の数を超える位置の値）の扱いが無く `:1169` と非対称、(e) は `:885` の「\ ``rows:``\ に空配列 ``[]``\ を記載した行」が `:836`・`:1155` の0件の言い回しと同形で別の意味。内訳は `reviews/page-testdata_notation.md` §「`#35`-是正6 ／ `#33` (a) 空セル記述の書き直し（2026-08-24）」。**`#33` (a) の明文化は NTF 本体が「空エントリ判定 → マーカーカラム除外」の順で動いている実測に従ったため、converter 側の申し送り XLS-08（「除外 → 空エントリ判定」を前提）とは食い違ったままであり、本体の順序を変えるかどうかはモジュール側の課題として残る**。`main` へのマージと `.rn/` の扱いは user の明示指示待ち（`Rules` 末尾）
