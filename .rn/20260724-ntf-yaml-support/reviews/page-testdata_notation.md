@@ -1123,3 +1123,382 @@ user の判断により、`:1545` は**前半の『行』付きを据え置き�
 **是正5 §1 (1) の反例（`:1545` から『行』を落とすとメッセージの節から離れる）は、この結論と整合する。** 『行』を落とすと、行を指す語を要素の語で書くことになる。A-1 が『行』付きを据え置くのは、この意味でも正しい。
 
 **残る1件。** `mapping/glossary.md` §5.10 の `レコード種別行` は、実装上「レコード種別だけの行」は存在せず、フィールド名称行の先頭セルである。同節自身が採用根拠欄で「**根拠が弱い。** `:175` は図中のラベルで定義箇所ではない」と注記しており、`implementation/testdata_examples.rst:1082` は「レコード種別行の先頭要素にレコード種別を、以降の要素にフィールド名称を記述する」と、レコード種別行＝フィールド名称行として使っている。**用語集は変更禁止のため本ラウンドでは触れていない。** 申し送り43 として起票した。
+
+## `#35`-是正5 フェーズB B-3 差分限定レビュー ラウンド1（2026-08-24）
+
+`git diff -- ja/`（A-1〜A-4 の反映後、未コミット）に対して、差分限定の2観点を**それぞれ別のサブエージェント**で回した。各プロンプトには常設の3点（実測で裏付ける／付属の検証スクリプトを正解にせず独立に組む／敵対的に見る）を入れた。**以下は各観点の生出力であり、要約していない。**
+
+### ラウンド1 の指摘件数と観点
+
+| 観点 | `must` | `should` | `nice` | 計 |
+|---|---|---|---|---|
+| 範囲統制 | 0 | 0 | 0 | 0 |
+| 新しい欠陥（承認された逐語そのものへの反例検証を含む） | 1 | 2 | 3 | 6 |
+
+**1観点目（新しい欠陥）は API エラー（529 Overloaded）で1度落ちたため、同一プロンプトで再実行した。** 上の件数は再実行分のもの。
+
+### 観点1: 範囲統制（生出力）
+
+差分限定レビュー（観点: 範囲統制）の結果です。
+
+## 指摘なし
+
+承認範囲 A-1〜A-4 の4件のみが差分に現れ、いずれも確定逐語と1文字一致、禁止対象への変更は0件でした。以下、実測の根拠です。
+
+### 根拠1: 差分は4 hunk・4行のみ、変更ファイルは `ja/` 配下の2件だけ
+
+```
+$ git diff --numstat
+4	2	ja/development_tools/testing_framework/implementation/testdata_notation.rst
+1	1	ja/development_tools/testing_framework/tools/testdata_converter.rst
+
+$ git diff -- ja/ | grep -c '^@@'
+4
+
+$ git diff -- ja/ | grep -E '^[+-][^+-]' | cut -c1-40
+-固定長ファイルと可変長ファ      ← A-4
++固定長ファイルと可変長ファ      ← A-4
++メッセージボディのデータ行      ← A-3（挿入のみ、削除行なし）
+-    - ディレクティブ行・フィ    ← A-1
++    - ディレクティブ行・フィ    ← A-1
+-名前の行（テーブルと\ ``LIST_   ← A-2
++テーブルと\ ``LIST_MAP``\ では  ← A-2
+```
+4 hunk が A-1〜A-4 に1対1で対応し、由来不明の hunk はありません。
+
+### 根拠2: A-1〜A-4 の逐語が指示ブロックと1文字一致（Python で機械照合）
+
+指示文の4ブロックを raw 文字列としてスクリプトに直接埋め込み、実ファイルの該当行と `==` 比較しました（成果物側の `verify_*.py` は不使用）。
+
+```
+A-2 found at line 71
+A-1 MATCH len_exp=89 len_act=89
+A-2 MATCH len_exp=192 len_act=192
+A-3 MATCH len_exp=153 len_act=153
+A-4 MATCH len_exp=556 len_act=556
+```
+対象は `testdata_notation.rst` の 883行（A-4）・1160行（A-3）・1547行（A-1）、`testdata_converter.rst` の 71行（A-2）。A-1 は行頭インデント4空白を含めて一致しています。
+
+**A-3 の禁止文（第3文）の混入なし**: A-3 の実行値は 153文字で確定逐語と完全一致。「なお、\ Excel\ 形式で行の全セルを空にした場合は、その行自体が読み飛ばされる。」は含まれていません。一方 A-4 には user 判断どおり「なお、…レコードにならない。」が入っています（word-diff の `{+なお、\ Excel\ 形式で行の全セルを空にした場合は、その行自体が読み飛ばされるため、レコードにならない。+}`）。
+
+### 根拠3: A-1 の「前半据え置き」制約を満たす（word-diff）
+
+```
+$ git diff --word-diff=plain --word-diff-regex='.' -- ja/
+    - ディレクティブ行・フィールド名称行・データ型行・フィールド長行の行末の空セルを取り除く（\ Excel\ 形式のみ）。フィールド名称[-が宣言されていない-]{+の数を超える位置の+}値は読み込まない
+```
+前半の『行』付き4語と `（\ Excel\ 形式のみ）。` は無変更で、後半の句だけが差し替わっています。
+
+### 根拠4: A-3 の挿入位置（指定段落の直後、前後に空行）
+
+```
+$ sed -n '1155,1166p' .../testdata_notation.rst
+1158| フレームワーク制御ヘッダ以降のメッセージボディは、…記述した順序で行われる。
+1159| （空行）
+1160| メッセージボディのデータ行では、…読み込まない。
+1161| （空行）
+1162| .. important::
+```
+Python でも `blank_before=True blank_after=True` を確認済み。
+
+### 根拠5: 変更禁止対象・`ja/` 以外の変更／未追跡がゼロ
+
+```
+$ git status --porcelain -uall | grep -v '^ M'
+(no untracked/other entries)
+
+$ git status --short
+ M ja/development_tools/testing_framework/implementation/testdata_notation.rst
+ M ja/development_tools/testing_framework/tools/testdata_converter.rst
+
+$ git diff --cached --stat
+（出力なし＝ステージ済み差分なし）
+```
+個別確認:
+- `ja/conf.py`・`.rn/.../mapping/glossary.md`・`mapping.csv`・`en/` 配下: 上記 status に現れず無変更（A-5 の「変更不要」も守られています）
+- `ca.crt`・`Dockerfile.ca`・`build.log`: `ls` で `No such file or directory`（そもそも存在しない）
+- `_build/`・`ja/_build/`: 存在するが `git show HEAD:.gitignore` の2行目に既存の `_build/` があるため元から ignore 対象。今回の作業で追加されたものではない（`git diff -- .gitignore` は空）
+- `.gitignore` への `locales/` 追加: `grep -n locales .gitignore` → ヒットなし、`.gitignore` 自体も無変更
+- `locales/ja/LC_MESSAGES/sphinx.mo`: 追跡済みファイルで `git diff --stat -- locales/` は空＝内容無変更
+- `list-table` の他行（1548-1555行の「テーブル・``LIST_MAP``」「メッセージ」等）: hunk `@@ -1542,7 +1544,7 @@` の変更行は 1547行のみで、他行は文脈行
+
+差分を隠す仕掛けも無いことを確認しました（`git config --get-regexp '^filter\.'` → filter なし、`.gitattributes` は `*.bat text eol=crlf` のみ、`git diff --raw` はモード変更なしの `100644 → 100644`）。
+
+### 根拠6: RST 構造の健全性
+
+docutils 0.22.4 で HEAD 版と作業ツリー版を同条件（sphinx 固有ロール／ディレクティブをスタブ化、`report_level=2`）でパースし、メッセージ集合を比較しました。
+
+```
+=== ja/.../implementation/testdata_notation.rst
+  HEAD msgs: 0  WORK msgs: 0
+  NEW messages in worktree: 0
+=== ja/.../tools/testdata_converter.rst
+  HEAD msgs: 0  WORK msgs: 0
+  NEW messages in worktree: 0
+```
+この照合器が実際に欠陥を捕まえることは、意図的に壊した RST を通して確認済みです（`list-table` の二段目インデント崩れと未閉じ inline literal を 3件検出）。
+
+補助的な構造チェックも一致:
+```
+testdata_notation.rst 883  dblbacktick=12 single_bt_total=24 trailing_ws=False has_CR=False
+testdata_notation.rst 1160 dblbacktick=4  single_bt_total=8  trailing_ws=False has_CR=False
+testdata_notation.rst 1547 dblbacktick=0  single_bt_total=0  trailing_ws=False has_CR=False
+testdata_converter.rst 71  dblbacktick=2  single_bt_total=6  trailing_ws=False has_CR=False
+```
+`` `` `` の出現数はすべて偶数（対応が閉じている）、段落内改行の混入なし（A-2/A-3/A-4 はいずれも1段落＝1行）、末尾空白・CR の混入なし、`list-table` のインデントは `  * - ` / `    - ` で兄弟行と同一です。
+
+### 補足（指摘ではありません）
+
+A-1 の行番号は指示どおり旧 1545 → 新 1547 に移動しています（A-3 の2行挿入分）。hunk ヘッダ `@@ -1542,7 +1544,7 @@` と整合します。
+
+### 観点2: 新しい欠陥（承認された逐語そのものへの反例検証を含む。生出力）
+
+## 結論
+
+差分が新たに持ち込んだ欠陥を **6件** 検出しました（must 1 / should 2 / nice 3）。反例検証を依頼された4件のうち、**#3（`:1160` 新設段落）に実装上の反例が1件**、**#4（`:883`）に文脈上の欠陥が1件**あります。#1・#2 の逐語そのものには反例なしです。
+
+検証は参照コミットのソースを取り出して**自前でビルドし実行**しました（作業ツリーの `HEAD` は `DataFileParser`／`TestDataParsingTemplate` が分岐しているため使用不可）。
+
+```
+$ cd /home/tie303177/work/nablarch/nablarch-testing && git archive e21bf67 src/main/java | tar -x -C $SP/src-ref
+$ javac -cp "$(cat cp.txt)" -d classes-ref @sources.txt   # EXIT=0
+$ java -cp "res:classes-ref:$(cat cp.txt)" nablarch.test.core.reader.Probe $SP/data
+```
+Probe は POI で `.xls` を生成し、`VariableLengthFileParser` / `MessageParser` / `GroupMessageParser`（`SendSyncMessageParser` 経由）で読み込み、`DataFileFragment.values` をリフレクションで出力するものです。成果物の `verify_*.py` は一切使っていません。
+
+---
+
+## 指摘
+
+```
+[must] `:1160`（新設）の「ラベル列を除いたセル数」が、同一実装を説明する `:883`（同じ差分が編集した段落）の「データ行のセル数（Excel形式）」と矛盾する。実装は両者とも `tail()` で先頭セルを落とすため、`:883` の側が1つずれている
+```
+根拠: ファイル・メッセージのどちらも同じ `DataFileFragment.addValue` に入る。先頭セルは `tail()` で落ちる。
+
+```
+$ git -C /home/tie303177/work/nablarch/nablarch-testing show e21bf67:src/main/java/nablarch/test/core/reader/DataFileParser.java | sed -n '182,191p;262,267p'
+    protected void onReadingValues(List<String> line) {
+        if (isDataRow(line)) {
+            // データ行の場合
+            currentFragment.addValue(tail(line));      <- DataFileParser.java:186 @e21bf67
+...
+    protected <TYPE> List<TYPE> tail(List<TYPE> list) {
+        if (list.isEmpty()) { return list; }
+        return list.subList(1, list.size());           <- DataFileParser.java:266 @e21bf67
+```
+
+実測（可変長ファイル、`names=[F1,F2]`）。Excel 行 `| (空) | c |` は**セル数2・フィールド数2**で「セル数がフィールド数より少ない」に当たらないのに、`F2` が `""` で補完されている:
+
+```
+---- SETUP_VARIABLE (varfile)
+    recordType=[] names=[F1, F2]
+      rec[3]={F1=c, F2=}        <- 元の Excel 行は row(s1, 8, "", "c") ＝ 2セル
+      rec[4]={F1=d, F2=e}       <- 元の Excel 行は row(s1, 9, "", "d", "e", "f") ＝ "f" は読まれない
+```
+
+`ja/.../implementation/testdata_notation.rst:883` の当該句「データ行のセル数（Excel形式）…がフィールド数より少ない場合」は、正しくは `:1160` と同じく「ラベル列（＝レコード種別セル）を除いたセル数」。差分はこの段落を編集しており、かつ `:1160` で正しい言い方を新設したため、同一ページ内で**同じ仕組みが2通りに書かれた状態**が新たに生じています。
+
+---
+
+```
+[should] `:1160` の「記述した値の数…より少ない場合に補完される」に実装上の反例あり。Excel の `errorMode:` 行では、ラベル列を除いたセル数がフィールド名称の数と一致していても先頭フィールド以外が捨てられて `""` になる
+```
+根拠: `SendSyncMessageParser` は `errorMode` 行を検出すると、値リストを**先頭1件だけ**にして `addValue` する。
+
+```
+$ git -C /home/tie303177/work/nablarch/nablarch-testing show e21bf67:src/main/java/nablarch/test/core/reader/SendSyncMessageParser.java | sed -n '116,135p'
+            protected void onReadingValues(List<String> line) {
+                if (StringUtil.isNullOrEmpty(line)) { return; }
+                ArrayList<String> temp = new ArrayList<String>(line);
+                if (temp.size() > ERROR_MODE_COLUMN_NUMBER) {
+                    String errorMode = temp.get(ERROR_MODE_COLUMN_NUMBER);
+                    if (ErrorMode.isErrorMode(errorMode)) {
+                        ArrayList<String> list = new ArrayList<String>();
+                        list.add(temp.get(ERROR_MODE_COLUMN_NUMBER));
+                        currentFragment.addValue(list);      <- SendSyncMessageParser.java:129 @e21bf67
+                        return;
+                    }
+                }
+                currentFragment.addValueWithId(temp, temp.remove(NO_COLUMN_NUMBER));
+```
+
+実測（`RESPONSE_BODY_MESSAGES`、`names=[F1,F2,F3]`）。入力行は `row(s3, 6, "3", "errorMode:timeout", "X", "Y")` ＝ ラベル列を除いたセル数 **3 ＝ フィールド名称の数 3**：
+
+```
+---- RESPONSE_BODY_MESSAGES (snd)
+    recordType=[no] names=[F1, F2, F3]
+      rec[2]={F1=errorMode:timeout, F2=, F3=}     <- "X" "Y" が読まれず ""、連番 "3" も消える
+      rec[1]={DataFileFragment:firstFieldKey=2, F1=a, F2=b, F3=c}   <- 通常行は連番を保持
+```
+
+しかも YAML 経路には `errorMode` の特別扱いが無く、`rows:` の値がそのまま `addValue`／`addValueWithId` に渡ります（`nablarch-testing-yaml@190cc9a` `src/main/java/nablarch/test/core/reader/yaml/YamlFileBuilder.java:233,235`）。`:1160` は Excel と YAML を1文で統一的に述べているため、この経路差も落ちています。
+
+```
+$ git -C /home/tie303177/work/nablarch/nablarch-testing-yaml show 190cc9a:src/main/java/nablarch/test/core/reader/yaml/YamlFileBuilder.java | sed -n '231,236p'
+                if (withId) {
+                    fragment.addValueWithId(rowValues, String.valueOf(rowNo));
+                } else {
+                    fragment.addValue(rowValues);
+                }
+```
+
+---
+
+```
+[should] `:883` に足された「なお、Excel 形式で行の全セルを空にした場合は…読み飛ばされる」は事実だが、直前の「この扱いは、テーブルデータの空行のスキップとは異なる仕組みである。」の直後に置いたため、実際には**テーブルの空エントリ読み飛ばしと完全に同一のコード**である事実が逆に読める
+```
+根拠: Excel の全セル空行のスキップは `PoiXlsReader.readLine` と `TestDataParsingTemplate.readTestData` の共通処理で、ファイル・メッセージ・テーブル・`LIST_MAP` を区別しない。
+
+```
+$ git -C /home/tie303177/work/nablarch/nablarch-testing show e21bf67:src/main/java/nablarch/test/core/reader/PoiXlsReader.java | sed -n '83,98p;140,147p'
+    public List<String> readLine() {
+        while (true) {
+            List<String> list = readOneLine();
+            if (list == null) { return null; }
+            if (isBlankLine(list)) { continue; }     <- PoiXlsReader.java:93 @e21bf67
+            return list;
+...
+    private boolean isBlankLine(List<String> line) {
+        for (String e : line) { if (!e.isEmpty()) { return false; } }
+        return true;                                  <- PoiXlsReader.java:146 @e21bf67
+```
+
+そして `TableDataParser` / `ListMapParser` は独自の空行スキップを一切持たない（`grep` で1件もヒットしない）:
+
+```
+$ git -C /home/tie303177/work/nablarch/nablarch-testing show e21bf67:src/main/java/nablarch/test/core/reader/TableDataParser.java | grep -n "isNullOrEmpty\|skip\|isBlank"
+（出力なし）
+```
+
+つまり `:1536`（テーブル・`LIST_MAP` の空エントリ読み飛ばし）と、新設した `:883` の1文は**同じ仕組み**です。`:883` は「異なる仕組みである」と述べた直後に「なお」で同一仕組みの話を接続しており、読み手はこの新しい1文も「テーブルとは別の仕組み」と受け取ります。`:1536` 側にも「この空エントリの省略は、可変長ファイルの空行を ``""`` で表現する記法（前述）とは別の仕組みであり」とあるため、2箇所を突き合わせると「ファイルの全セル空行スキップ」がどちら側の仕組みなのか判別不能になります。
+
+なお、新しい1文の**事実そのものは正しい**（実測: `row(s1, 5, "", "", "")` は5レコード中に現れず読み飛ばされている。上掲 `SETUP_VARIABLE` の出力で `recordCount=5` に対し入力データ行は6行）。
+
+---
+
+```
+[nice] `:883` の「Excel形式ではいずれか1つのフィールドに ``""`` と記述した行」は実装より狭い。レコード種別セル（フィールドではない先頭セル）に ``""`` と書いても同じく全フィールド ``""`` のレコードになる
+```
+根拠: `""` は `QuotationTrimmer` で空文字になるが、`readTestData` の空行判定は **interpret より前**に行われるため行が生き残り、その後 `trimTailCopy` で空リストになって `isDataRow` が真になる。
+
+```
+$ git -C /home/tie303177/work/nablarch/nablarch-testing show e21bf67:src/main/java/nablarch/test/core/reader/TestDataParsingTemplate.java | sed -n '172,182p'
+            if (isCommentRow(line)) { continue; }
+            line = cutComment(line);
+            if (isBlankLine(line)) { continue; }        <- TestDataParsingTemplate.java:176 @e21bf67（interpret より前）
+            List<String> interpret = interpret(line);   <- :179
+```
+
+実測。`row(s1, 6, "", "\"\"", "")`（F1 に `""`）と `row(s1, 7, "\"\"", "", "")`（**レコード種別セル**に `""`）が**どちらも**レコードになっています:
+
+```
+      rec[1]={F1=, F2=}    <- row 6（F1 に ""）
+      rec[2]={F1=, F2=}    <- row 7（レコード種別セルに ""）
+```
+
+旧記述「先頭セルが空の行」が誤りであることは確認済みです（先頭セルが空で他も空なら `:883` の新1文どおり読み飛ばされ、他に値があれば通常のデータ行になるため、「全フィールドを省略した行」にはならない）。修正の方向は正しく、記述範囲だけが狭いという指摘です。
+
+---
+
+```
+[nice] `tools/testdata_converter.rst:71` が「ファイルとメッセージでは…フィールド長行」と一律に列挙しているが、可変長ファイルにフィールド長行は存在しない
+```
+根拠:
+
+```
+$ git -C /home/tie303177/work/nablarch/nablarch-testing show e21bf67:src/main/java/nablarch/test/core/reader/VariableLengthFileParser.java | sed -n '40,46p'
+    protected void onReadingTypes(List<String> line) {
+        super.onReadingTypes(line);
+        // 可変長はフィールド長がないのでREADING_LENGTHS状態はスキップする。
+        status = Status.READING_VALUES;               <- VariableLengthFileParser.java:45 @e21bf67
+    }
+```
+同ページ側 `testdata_notation.rst:883` も「可変長ファイルでは…フィールド長は不要である」と述べており、整合しません。
+
+---
+
+```
+[nice] `:1547` の「フィールド名称の数を超える位置」は、Excel の行が先頭にラベル列／レコード種別セルを持つため 1 つずれて読まれうる。`:1160` は「ラベル列を除いたセル数」と明示したのに `:1547` は明示していない
+```
+根拠: `names=[F1,F2,F3]`（3件）のとき、Excel 行 `row(s2, 6, "2", "a", "b", "c", "d")` で読み込まれるのは **セル位置1〜3**（`a,b,c`）、捨てられるのは**セル位置4**（`d`）。「フィールド名称の数（3）を超える位置」を Excel の列位置で読むとセル位置4以降ではなく「セル位置3以降」と誤読しうる。
+
+```
+      rec[1]={F1=a, F2=b, F3=c}   <- "d" のみ捨てられている
+```
+
+---
+
+## 反例が見つからなかった逐語
+
+**逐語1（`implementation/testdata_notation.rst:1547` 後半「フィールド名称の数を超える位置の値は読み込まない」）— 反例なし。**
+
+`DataFileFragment.addValue` はループ上限が `names.size()` で、`line` がそれより長くても超過分に触れません。
+
+```
+$ git -C /home/tie303177/work/nablarch/nablarch-testing show e21bf67:src/main/java/nablarch/test/core/file/DataFileFragment.java | sed -n '102,115p;169,183p'
+    public void addValue(List<String> line) {
+        Map<String, String> map = new LinkedHashMap<String, String>();
+        for (int i = 0; i < names.size(); i++) {          <- DataFileFragment.java:105 @e21bf67
+            String name = names.get(i);
+            String value = i < line.size() ? line.get(i) : "";   <- :107（補完も "" 固定。null 化・例外化する分岐なし）
+```
+`addValueWithId` も同一ロジック（`:173,175`）。
+
+ご指摘の反例候補「フィールド名称が0件のとき」は**成立しません**。`setNames` が空リストを弾いて例外にするため、0件のフラグメントは作られません:
+
+```
+$ ... | sed -n '190,194p;326,330p'
+    public void setNames(List<String> names) {
+        assertNotNullOrEmpty(names, "names");             <- DataFileFragment.java:191 @e21bf67
+...
+        if (NablarchTestUtils.isNullOrEmpty(list)) {
+            throw new IllegalArgumentException(name + " must not be null or empty.");
+```
+「レコード種別セルの扱い」も、`createNewFragment` が `setRecordType(line.get(0))` / `setNames(tail(line))` と分離しているため（`DataFileParser.java:250-251 @e21bf67`）、フィールド数の数え方には混入しません。
+
+**逐語2（`tools/testdata_converter.rst:71` 前半、4行すべてのトリム）— 反例なし。**
+
+変換ツールは独自の POI パースを持たず、本体の `TestDataParsingTemplate` を再利用します。生行を返す `BodyLineCollector` は**行種別を問わず全行**に `trimTailCopy` を適用しており、ディレクティブ行・フィールド名称行・データ型行・フィールド長行のすべてがトリムされます。
+
+```
+$ git -C /home/tie303177/work/nablarch/nablarch-testing-converter show e977824:src/main/java/nablarch/test/core/reader/TestCoreReaderAdapter.java | sed -n '462,466p'
+                if (collecting) {
+                    bodyLines.add(NablarchTestUtils.trimTailCopy(line));   <- TestCoreReaderAdapter.java:464 @e977824
+                }
+```
+器（`DataFile`）側も同様に全行がトリムされます（`DataFileParser.java:68 @e21bf67` の `NablarchTestUtils.trimTailCopy(original)` が `switch` の前にある）。
+
+「原文をそのまま保持する経路」も**ありません**。`XlsFormatReader` は名前行・型行・長さ行を `readBlockBodyLines`（＝トリム済み）から取り、ディレクティブは器の `Map` から取ります（`XlsFormatReader.java:211-216, 239-247, 273-278 @e977824`）。`trimTailCopy` の実装も末尾の空要素のみ除去で確認済み（`NablarchTestUtils.java:251-263, 273-279 @e21bf67`）。
+
+**逐語3の「補完が `""` である」部分 — 反例なし。**
+`null` になる経路も例外になる経路も見つかりませんでした（上記 `DataFileFragment.java:107` が唯一の補完点。YAML 経路も同じメソッドに合流）。ラベル列の扱いも、`MESSAGE` は `tail(line)`（`MessageParser.java:75 @e21bf67`）、同期応答メッセージ送信4種は `temp.remove(NO_COLUMN_NUMBER)` 後の `temp`（`SendSyncMessageParser.java:134 @e21bf67`）で、いずれも「ラベル列を除いたセル数」が正しいことを実測で確認しました（`rec[0]={...F1=a, F2=b, F3=}` ＝ ラベル込み3セル・ラベル除き2値 → 3フィールド目が `""`）。
+
+**逐語4の「全セル空の行は読み飛ばされる」部分 — 反例なし**（上の [should] 指摘のとおり事実は正しく、問題は前文との接続のみ）。
+
+---
+
+## 補足（今回の実測で分かった、差分が触れていない挙動差）
+
+`:1160` は差分の対象なので参考まで。**Excel のメッセージでは「値が全て空になる行」はレコードにならず読み飛ばされます**（`MessageParser.java:71` / `SendSyncMessageParser.java:117` の `if (StringUtil.isNullOrEmpty(line)) return;`）。ファイルデータ（`:883`）では同じ書き方が全フィールド `""` のレコードになるのと逆の挙動です。実測:
+
+```
+row(s2, 9, "\"\"", "", "", "")   -> レコードにならない（msg の recordCount は 4、データ行は 5 行）
+row(s2, 10, "4", "\"\"", "", "") -> rec[3]={F1=, F2=, F3=} になる
+```
+`:1160` は「不足したフィールドは `""` として補完される」としか書いておらず、値が0個になった場合に行ごと消えることには触れていません。今回の逐語4件の検証範囲外なので指摘には含めていませんが、`:883` と `:1160` を並べて読む読者が引っかかる点です。
+
+### ディレクターによる `must` の裏取り（サブエージェントの報告を鵜呑みにしない）
+
+`must` の成否を自分で `git show e21bf67:<path>` に当たって確認した。**成立する。**
+
+- `DataFileParser.java:182`-`:191` `onReadingValues` は、データ行のとき `currentFragment.addValue(tail(line));`（`:186`）を呼ぶ
+- 同 `:262`-`:267` `tail` は `list.subList(1, list.size())` を返す。**先頭セルは必ず落ちる**
+- 同 `:204`-`:210` `isDataRow` は先頭セルが空であることをデータ行の条件にしている。つまり Excel のデータ行は必ず先頭に1セル余分に持つ
+
+したがって `:883` の「データ行のセル数（Excel形式）…がフィールド数より少ない場合」は1つずれている。**フェーズA の A-4 の実測がすでに反例になっていた**——シート行7 `空 / "" / 空` は行末トリム後のセル数が2、フィールド数（`name`・`memo`）も2で「少ない場合」に当たらないが、結果は `{name=, memo=}` で `memo` が補完されている（本ページ §「`#35`-是正5 フェーズA」の A-4 の実測結果）。
+
+**この句は現行 `:883` からの持ち越しであり、本差分が持ち込んだ文言ではない。** 本差分が新たに作ったのは、同じページで `:1160` が正しい数え方を書き、`:883` が誤った数え方を残すという食い違いである。
+
+`should` 1件目（`errorMode:` 行）も自分で確認した。`SendSyncMessageParser.java:116`-`:135` が `ErrorMode.isErrorMode(errorMode)` のとき値リストを先頭1件だけに差し替えて `addValue` する。ただし本ページ `:1271` は「\ ``errorMode:``\ による障害系テストの値も、このラベル列の次のセル（\ ``no``\ を除く最初のフィールド）に記載する。」と書いており、実運用では値を1つだけ書く。反例が成り立つのは「`errorMode:` の後ろにさらに値を並べた場合」に限られる。
+
+`nice` 2件目（`:71` の「フィールド長行」が可変長ファイルに無い）も確認した。`VariableLengthFileParser.java:42`-`:46` が `READING_LENGTHS` をスキップする。ただしこの4語の列挙は `#35`-是正2〜是正4 で確定した表現であり、`:1547` と同一にそろえることが A-2 の条件だった。
