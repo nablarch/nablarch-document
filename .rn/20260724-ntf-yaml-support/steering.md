@@ -1031,6 +1031,11 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - [x] 15. 申し送りを1件起こす。`tools/testdata_converter.rst:71` が「データ行の空セルの扱いは形式によって異なるため、詳細は参照」と送っている先に、メッセージのデータ行についての記述が無い（`implementation/testdata_notation.rst:1152`-`:1309` に空セル・補完の記述0件）。**`#35` では直さず申し送りに起こす**（是正3 §3）。**申し送り39 として起票済み**（`reviews/page-testdata_notation.md` §「申し送り（続き2）」。38 は `9aa06d7` が削除したため欠番。事実は自分で `sed`＋`grep` を再実行して確認済み）
 - [ ] 16. **4観点は回さない**（`ntf-doc-13-standing-rules.md:20` の常設ルール、是正ラウンド3）。差分限定の2点——是正が §1〜§3 の範囲に収まっているか、**§1 の逐語指定文そのものに反例がないか（実装で裏を取る）**——だけを回し、指摘件数と観点を `reviews/page-testdata_notation.md` に記録する。**Step 11 の記録未了分（是正2 の指摘5件・観点2件）も同ファイルへ移す**（是正3 §4）
 - [ ] 17. 検証。Docker フルビルドが成功し警告0、直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し `_build` を削除する。`ca.crt`・`Dockerfile.ca` を残さない。**Steps 13〜16 を `9aa06d7` に続く1コミットにまとめてプッシュする。`--amend` と force push は行わない**（`#35` が2コミットに分かれることは確定。申し送り不要）（是正3 完了条件6〜8）
+- [ ] 18. `implementation/testdata_notation.rst:1545` を、**是正4 §1 の1行の逐語**に置き換える（先頭に「ディレクティブ行・」を足す1行のみ）。`READING_DIRECTIVES_AND_NAMES` はディレクティブ行とフィールド名称行の2種を捌いており、ディレクティブ行にもトリムに観測できる効果がある（根拠は是正4 §5 の5点。ディレクター側が実測で反例検証済み）。**`:1547` と `tools/testdata_converter.rst:71` は変更しない**。`mapping/glossary.md` も変更しない（§5.10 は「ファイルデータのレイアウトを表す行の名称」に限った節で、ディレクティブは §5.8。「ディレクティブ行」は同ページ `:1055` が既に使う語）。メッセージのフレームワーク制御ヘッダを括弧書きで足さない（是正4 §1・§5）
+- [ ] 19. 差分限定レビューの `must-2`（`tools/testdata_converter.rst:71` が「フィールド名称行」だけを挙げており、§1 の4行と食い違う）を、**申し送り40 として起こす**。`reviews/page-testdata_notation.md` の `### 申し送り（続き2）` に申し送り39 と同じ書式で追加し、`#35` 着地後に申し送り39・`:883` の Excel 側括弧書きと合わせて1タスクにする旨を1文添える。**`tools/testdata_converter.rst` は変更しない**（是正4 §2）
+- [ ] 20. 採用した `nice` 3件を反映する。(1) 是正2 節の見出し「差し替え後の逐語（現在の HEAD）」を `:555`・`:654` が既に採っている失効注記の型に揃え、§1 の差し替えで失効することを書く、(2) `checks/task-35.md` の新規2行が `.rn/` 内を行番号で指している箇所を節見出し参照に直す（`steering.md` Rules の「`.rn/` 内の文書どうしの相互参照」）、(3) 新設見出しの直前に空行を入れる（是正4 §3）
+- [ ] 21. 記録を反映後の状態にする。`reviews/page-testdata_notation.md` に本ラウンドの節を新設し、§1 の確定逐語・§2 の申し送り40・**本ラウンドはレビュー未実施であること**（是正ラウンド上限3に到達。逐語の検証はディレクター側が実施）を記録する。**是正4 §5 の根拠（5点＋参照コミット `nablarch-testing@e21bf67`）を転記する**。あわせて Steps 11・16 が積み残した是正2・是正3 の指摘件数と観点も同ファイルへ移す。`checks/task-35.md` の完了条件表と `steering.md` の `#35` の Notes を反映後の状態にする（是正4 §4・§5）
+- [ ] 22. 検証。Docker フルビルドを1回通し警告0を確認し、直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行して `_build` を削除する。`locales/` を `.gitignore` に加えない。`ca.crt`・`Dockerfile.ca` を残さない。**完了条件32〜38 をまとめた1コミットを push する。`--amend` と force push は行わない**（是正4 §6・完了条件7〜8）
 
 **Completion criteria**（指示書 `ntf-doc-35.md`「完了条件」1〜15 の逐語）:
 
@@ -1075,6 +1080,17 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 30. `ca.crt`・`Dockerfile.ca` が作業ツリーに残っていない
 31. **`9aa06d7` に続く1コミットとしてプッシュ済み。`--amend` と force push は行わない**（`#35` が2コミットに分かれることは、これで確定とする。申し送り不要）
 
+**Completion criteria（`#35-是正4`（最終）指示書「完了条件」1〜8 の逐語）**。**上の 24 は是正4 §1 の文面へ読み替える**（是正3 §1 が定めた `:1545` の逐語は是正4 §1 が差し替えた。`:1544`・`:1546`・`:1547` は是正2 のまま）:
+
+32. `:1545` が §1 の逐語と1文字一致（`sed -n '1545p'` の出力を記録に貼る）
+33. `:1547`・`tools/testdata_converter.rst:71` が未変更（`git diff` で確認）
+34. 申し送り40 が起票済み
+35. `nice` 3件が反映済み
+36. `reviews/page-testdata_notation.md`・`checks/task-35.md`・`steering.md` が反映後の状態
+37. §5 の6点が記録に転記済み
+38. Docker フルビルド成功・警告0、`sphinx.mo` が未変更、`ca.crt`・`Dockerfile.ca` が無い
+39. 1〜7 をまとめた1コミットを `3132688` に続けてプッシュ済み。`--amend` と force push は行わない
+
 
 # State
 
@@ -1082,8 +1098,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-24
-- **Last completed**: `#32`（`82322fa`）。`#35` は是正3 の Steps 13〜15 を実施し **Step 15 のみ check off 済み**。**Steps 13・14・16・17 は check off 未了**（差分限定レビューの `must` 2件が user 判断待ち）。**是正3 の変更3ファイルは未コミット**（完了条件31 の「1コミット」を満たすため、レビュー記録の追記と同時にコミットする設計。`wip:` コミットには含めた）
-- **Next**: **`#35` の user 判断待ち2件。是正ラウンドは上限3回目に到達している。** (1) **`must-1`——`implementation/testdata_notation.rst:1545` の逐語指定文（是正3 §1）にディレクティブ行が欠けている。** `DataFileParser.java:70` の `case READING_DIRECTIVES_AND_NAMES` は `:140`-`:143` の `onReadingDirectives` でディレクティブ行とフィールド名称行の2種を捌いており、ディレクティブ行にも `:68` のトリムが掛かる。`| text-encoding | （空セル） |` は `PoiXlsReader.java:123` で `["text-encoding", ""]` になり（`:140`-`:147` の `isBlankLine` は先頭が非空なので読み飛ばさない）、トリムで `["text-encoding"]` に縮み `:220`-`:223` の `if (line.size() < 2) throw new IllegalStateException` に落ちる。トリムが無ければ `:228` で `setDirective("text-encoding", "")` だった。同ページ `:892` がこのエラーを既に挙げている。メッセージの `:1267` フレームワーク制御ヘッダも `MessageParser.java:79`-`:88` で同じ `processDirectives` を通る。提示した選択肢は3案（**A推奨**: `ディレクティブ行・フィールド名称行・データ型行・フィールド長行の行末の空セルを取り除く（\ Excel\ 形式のみ）。フィールド名称が宣言されていない値は読み込まない` ／ B: 無限定に戻しデータ行の例外を1文足す ／ C: 据え置く）。A は `ディレクティブ行` が `mapping/glossary.md` §5.10 に無くページ内 `:1055` の表の語である点、メッセージ側を `:1267` が「フレームワーク制御ヘッダ」と呼ぶ点の確認が要る。(2) **`must-2`——`tools/testdata_converter.rst:71`（是正2 §1 で確定。今回未変更）がファイル・メッセージについて「フィールド名称行」だけを挙げており `:1545` の3行と食い違う。** データ型行・フィールド長行の行末の空セルも往復で消える。提示した選択肢は2案（**A推奨**: 申し送りに起こし `#35` 着地後の1タスクへ合流 ／ B: 今回まとめて直す）。**判断後の残作業**: (a) `:1545` の再確定と、それに伴う `reviews/page-testdata_notation.md` の是正3 節・`:667` 段落の書き直し、(b) 採用 `nice` 3件の処置（是正2 節の見出し「差し替え後の逐語（現在の HEAD）」に `:555`・`:654` と同型の失効注記を付ける／`checks/task-35.md` の新規2行の `.rn/` 内行番号参照を節見出し参照へ（`steering.md:80`）／新設見出し直前の空行）、(c) 指摘件数と観点を `reviews/page-testdata_notation.md` に記録（完了条件28。Step 11 の是正2 分の記録未了も同時に移す）、(d) Docker フルビルド再実行、(e) `9aa06d7` に続く1コミットで commit・push、(f) check off。指摘の実体と出典は `checks/task-35.md` の `## #35-是正3` 節と本項にある
-- **Notes**: ブランチ `ntf-yaml-support`（`3132688` まで push 済み）。`main` へのマージは user の明示指示待ち（`.rn/` を含めるかも未決）。**却下2件**——`:667` 段落が `:658`・`:787` にも触れた点（指示の趣旨の範囲内）、「（\ `Excel`\ 形式のみ。前述）」の括弧（user 判断済み）。**未処置の `nice` 3件（事実検証）**——同期応答メッセージ送信のラベル列（連番）が `SendSyncMessageParser.java:134`＋`DataFileFragment.java:172` で読まれ `:1545` 後半の句と字面で衝突（`:1269` が別途説明済み）／ページ内の行の呼称が不統一（`:1055` のみ「行」付き、`:1057`-`:1063`・`:866`-`:875` は無し。`データ型行` はページ内に定義が無い）／`フィールド長行` は固定長のみに存在（`:1076`）。**申し送り候補1件**——`:883`「全フィールドを省略した行（Excel形式では先頭セルが空の行）」は `PoiXlsReader.java:140`-`:147` の `isBlankLine` で読み飛ばされるため成り立たない可能性が高い（正しい記法は `:1363`・`:1367`）。user は `#35` 着地後に申し送り39 とまとめて1タスクとして提案する方針を示している。`#33`・`#34` はいずれも着手時に user の判定が要る。`#29` は Steps 全件 `[x]` だが見出しに `— DONE` が無く、V3・V4 の2件が user へ返したまま残っている。**参照コミット**: `nablarch-testing@e21bf67`・`nablarch-testing-converter@e977824`・`nablarch-testing-yaml@190cc9a`。`nablarch-core` の clone は `/home/tie303177/work/nablarch/` に無く、`StringUtil` の実体は未確認（本ラウンドの判定はその内部仕様に依存しない）
+- **Status**: not suspended
+- **Date**:
+- **Last completed**:
+- **Next**:
+- **Notes**:
