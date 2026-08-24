@@ -203,3 +203,43 @@
 | 参照先の節見出しが一意である（`:595`・`:642` の節見出し参照） | `reviews/page-testdata_converter.md`・`reviews/page-testdata_notation.md`（`grep -c`） | `grep -c '^## 参照リポジトリ$' page-testdata_converter.md` → `1`、`grep -c '^### 出典（すべて' page-testdata_notation.md` → `1` |
 
 **未確認のまま残した点。** 指示書冒頭が挙げる `StringUtil.isNullOrEmpty(Collection<String>)`（`nablarch-core` 2.2.0 の `StringUtil.java:155`-`:165`）は、`nablarch-core` の clone が `/home/tie303177/work/nablarch/` に無いため自分では確認していない。この事実は本ラウンドで書いた文面のどこにも根拠として使っていない（A-1 の説明は `implementation/testdata_notation.rst:1534` の現物を出典にした）。
+## #35-是正3
+
+### Completion Criteria
+
+| Criterion | Self-check | Evidence | QA | QA Evidence |
+|---|---|---|---|---|
+| 24. `implementation/testdata_notation.rst:1545` が §1 の1行と逐語一致している | OK | 指示書 `ntf-doc-35-fix3.md` の19行目（0-origin で18）を Python で読み出してそのまま `:1545` へ流し込み（手打ちしていない）、書き込み後に `cur[1544] == inst[18]` を評価 → `True`（80文字）。現物の逐語は `    - フィールド名称行・データ型行・フィールド長行の行末の空セルを取り除く（\ Excel\ 形式のみ）。フィールド名称が宣言されていない値は読み込まない` |  |  |
+| 25. `:1547` が変更されていない | OK | `git show HEAD:<path>` と作業ツリーを Python で1行ずつ比較 → 差分は `:1545` の1行のみ（`total diff lines: 1`、行数も同一）。`:1544`・`:1546`・`:1547` はいずれも `cur[i]==head[i]` → `True`。`git diff -U0` のハンクヘッダも `@@ -1545 +1545 @@ YAML形式の場合` の1つだけ。`git diff --numstat` は `.rst` が `1  1` |  |  |
+| 26. §2 の3件が処置済み | OK | (a) `reviews/page-testdata_notation.md:667` の段落を、確定後の `:1545`・`:1547` に対する突合として書き直した（旧文面前提の「（\ Excel\ 形式のみ）は『名前の行の行末の空セルを取り除く』の句にだけ掛かっており」は消えている）。`:702`-`:704` の §「データ行の補完（機構B）を表に書かなかった理由」との重複を避けるため、機構Bの非記載理由は繰り返さず同節へ送った。(b) 同ファイル A-5 行の `mapping/glossary.md:269` を `mapping/glossary.md` §5.10「ファイルデータの行の名称」へ改めた。節の実在・一意は `grep -n 'ファイルデータの行の名称' .rn/20260724-ntf-yaml-support/mapping/glossary.md` → `262:### 5.10 ファイルデータの行の名称` の1件のみで確認。(c) 「（\ Excel\ 形式のみ。前述）」の括弧の指摘は user 却下のため `:1547` を変更せず、同ファイル §「却下した指摘」に1文を残した |  |  |
+| 27. §3 の申し送りが起こしてある | OK | `reviews/page-testdata_notation.md` 末尾に `### 申し送り（続き2）` を新設し、申し送り39 を既存節の書式（番号＋太字の見出し文＋根拠）で追加した。38 が欠番である理由も1文添えた（`git show 9aa06d7 -- .rn/…/reviews/page-testdata_notation.md` の差分に `-38. **追加行の「無い」は、同ページの多数派表記（かな）と逆である。**` があり、`#35`-是正2 のコミットが削除したことを確認）。根拠の実行結果は `sed -n '1152,1309p' ja/…/testdata_notation.rst \| grep -c <語>` → `空セル` 0・`補完` 0・`空文字` 0・`取り除` 0。既存の申し送り34〜37 の本体は書き換えていない |  |  |
+| 28. §4 のレビューを回し、指摘件数と観点を記録済み。`must` を残していない | —（対象外） | 本作業の担当範囲外。作業指示により §4 のレビューはコーディネータが回す |  |  |
+| 29. Docker フルビルドが成功し警告0、`git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` 実施済み、`_build` 削除済み | OK | 既存イメージで `docker run --rm -v /home/tie303177/work/nablarch/nablarch-document:/root/document nablarch-document-build /bin/bash -c "cd /root/document; sphinx-build -d _build/.doctrees/ja -b html ja _build/html"` を実行 → 末尾 `build succeeded.`、終了コード `EXIT=0`。`grep -cE 'WARNING:\|ERROR:\|SEVERE:' build.log` → `0`。直後に `docker run … rm -rf /root/document/_build /root/document/build.log`（`_build/` が root 所有のため）と `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行。`ls -d _build build.log` → いずれも `No such file or directory`。`docker build` は行っていない。**なお本ラウンドではビルドで `sphinx.mo` が変化しなかった**（ビルド直後の `git status --porcelain` は `.rn/…/reviews/page-testdata_notation.md`・`ja/…/testdata_notation.rst` の2件と未追跡の `build.log` のみ）。`git checkout --` は指示どおり実行しており、結果は no-op である |  |  |
+| 30. `ca.crt`・`Dockerfile.ca` が作業ツリーに残っていない | OK | `ls -d ca.crt Dockerfile.ca` → いずれも `No such file or directory`。どちらも作成していない |  |  |
+| 31. `9aa06d7` に続く1コミットとしてプッシュ済み。`--amend` と force push は行わない | —（対象外） | 作業指示 §6 により、本ラウンドではコミットもプッシュも行っていない。変更3ファイル（`ja/…/testdata_notation.rst`・`reviews/page-testdata_notation.md`・`checks/task-35.md`）を作業ツリーに残したまま返却した。`git add` も行っていない |  |  |
+
+### Overall Verdict
+
+- Self-check: OK（完了条件24〜27・29・30。28・31 は担当範囲外）
+- 差分限定レビュー（範囲統制／事実検証）:
+- Ready to check off:
+
+### Method を適用した記録（#35-是正3。どの主張をどの出典で確認したか）
+
+逐語の流し込みは、指示書 `ntf-doc-35-fix3.md` の19行目を Python で読み出してそのまま書き込み、書き込み後に Python の `==` で検算した（完了条件24 の Evidence）。実装を根拠にする記述は、すべて参照コミット固定で `git show <commit>:<path>` を実行し、自分で現物を開いて確かめた。`ja/` の記述は現物のファイルを開いて確かめた。作業指示 §1 が根拠として挙げた4点も、記録へ書く前に自分で裏を取った。
+
+| 主張（どこに書いたか） | 当たった出典 | 逐語（自分で開いて確認） |
+|---|---|---|
+| `trimTailCopy` は `switch (status)` より前にあり4分岐すべてに掛かる（`reviews/page-testdata_notation.md` §「`#35`-是正3」の表 1行目） | `nablarch-testing@e21bf67` `src/main/java/nablarch/test/core/reader/DataFileParser.java:66`-`:79` | `:66` `final void onReadLine(List<String> original) {` / `:68` `List<String> line = NablarchTestUtils.trimTailCopy(original); // キャッシュを破壊しないようにコピーして編集` / `:69` `switch (status) {` / `:70` `case READING_DIRECTIVES_AND_NAMES:  //------------- ディレクティブ、フィールド名称` / `:73` `case READING_TYPES:` / `:76` `case READING_LENGTHS:` / `:79` `case READING_VALUES:   //---------------- データ行` |
+| データ行ではトリムの効果が観測できない（同表 2行目、および `:667` の段落 (3)） | 同 `DataFileParser.java:182`-`:186` と `nablarch-testing@e21bf67` `src/main/java/nablarch/test/core/file/DataFileFragment.java:102`-`:107` | `DataFileParser.java:182` `protected void onReadingValues(List<String> line) {` / `:186` `currentFragment.addValue(tail(line));`。`DataFileFragment.java:102` `public void addValue(List<String> line) {` / `:105` `for (int i = 0; i < names.size(); i++) {` / `:107` `String value = i < line.size() ? line.get(i) : "";` |
+| データ型行・フィールド長行はトリムされないとエラーになる（同表 3行目） | 同 `DataFileFragment.java:202`-`:203`・`:286`-`:287` | `:202` `public void setTypes(List<String> types) {` / `:203` `assertSameSizeAsNames(types, "types");` / `:286` `public void setLengths(List<String> lengths) {` / `:287` `assertSameSizeAsNames(lengths, "lengths");` |
+| 同じ制約が本文にも書かれている（同表 3行目） | `ja/development_tools/testing_framework/implementation/testdata_notation.rst:883`（現物を開いた） | 「固定長ファイルでは、フィールド名称・データ型・フィールド長の3リストが同サイズで必須であり、1ファイルデータブロック内の全レコード定義は同一レコード長でなければならない（違反時はエラー）。」 |
+| メッセージも `DataFileParser.onReadLine` を通る（同表 4行目） | `nablarch-testing@e21bf67` `src/main/java/nablarch/test/core/reader/MessageParser.java:27`・`:114`-`:115`、`src/main/java/nablarch/test/core/reader/FixedLengthFileParser.java:15` | `MessageParser.java:27` `private final FixedLengthFileParser delegate;` / `:114` `void onReadLine(List<String> line) {` / `:115` `delegate.onReadLine(line);`。`FixedLengthFileParser.java:15` `public class FixedLengthFileParser extends DataFileParser<FixedLengthFile> {` |
+| 「宣言されていない値は読み込まない」は YAML 形式でも成り立つ（`:667` の段落 (3)） | `nablarch-testing-yaml@190cc9a` `src/main/java/nablarch/test/core/reader/yaml/YamlFileBuilder.java:235` | `:235` `fragment.addValue(rowValues);`（同 `:219` `for (Object rowObj : getList(record, FIELD_ROWS)) {` のループ内。渡された行は上記 `DataFileFragment.addValue` を通る） |
+| データ行の補完を述べているのは `:658`・`:787`・`:883` であり、トリムの記述と対象が重ならない（`:667` の段落 (1)(2)） | `ja/…/implementation/testdata_notation.rst:658`・`:787`・`:883`（現物を開いた） | `:658`「\ Excel\ 形式では、データ行のセル数がヘッダ行のカラム数より少ない場合、記述しなかったカラムには空文字が設定されたものとして扱われる。」／`:787`「同じしくみにより、データ行（3行目以降）のセル数がヘッダ行より少ない場合も、記述しなかった分のカラムには空文字が設定されたものとして扱われる。」／`:883`「データ行のセル数（Excel形式）または ``rows:`` の各要素の長さ（YAML形式）がフィールド数より少ない場合、不足したフィールドは\ ``""``\ として補完される。」 |
+| 申し送り39 の根拠。メッセージング節に空セル・補完の記述が0件（`reviews/page-testdata_notation.md` の申し送り39） | `ja/…/implementation/testdata_notation.rst:1150`-`:1308`（現物を開き、`sed \| grep -c` を実行） | `:1150` `.. _testdata_notation-messaging_data:` / `:1152` `メッセージングのデータを記述する` / `:1306`「実際の記述例は :ref:`メッセージングのデータを記述する <testdata_examples-messaging_data>` を参照。」 / `:1308` `.. _testdata_notation-special_notation:`。`sed -n '1152,1309p' … \| grep -c` は `空セル` 0・`補完` 0・`空文字` 0・`取り除` 0 |
+| 申し送り39 の送り元の逐語（同上） | `ja/development_tools/testing_framework/tools/testdata_converter.rst:71`（現物を開いた） | 「……データ行の空セルの扱いは形式によって異なるため、詳細は\ :ref:`テストデータの書き方 <testdata_notation>`\ を参照。」 |
+| 用語の正表記（`:1545` の3語） | `.rn/20260724-ntf-yaml-support/mapping/glossary.md` §5.10「ファイルデータの行の名称」（`:262`-`:271` を現物で確認） | `:262` `### 5.10 ファイルデータの行の名称`、表に `フィールド名称行`（`:269`）・`データ型行`（`:270`）・`フィールド長行`（`:271`）。行番号は本表（`checks/`）内の位置特定のためであり、記録本文では節見出しで参照している |
+| 申し送り38 が欠番である理由 | `git show 9aa06d7 -- .rn/20260724-ntf-yaml-support/reviews/page-testdata_notation.md`（自分で実行） | 差分に `-### 申し送り` と `-38. **追加行の「無い」は、同ページの多数派表記（かな）と逆である。**` がある |
+
+**未確認のまま残した点。** なし。本ラウンドで書いた記述の根拠は、すべて自分で `git show <commit>:<path>` または現物のファイルを開いて確認した。`nablarch-core` の clone は無いため、そこを根拠にした記述は書いていない。

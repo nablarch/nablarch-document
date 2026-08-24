@@ -664,7 +664,7 @@ YAML 経路からの呼び出しは `nablarch-testing-yaml@190cc9a` の `src/mai
 
 **機構B（データ行を名前の行の幅へ揃え、足りない分を補完する側）を表に書かなかった理由。** この事実は同じページの `:658`（テーブル・``LIST_MAP`` について「``Excel`` 形式では、データ行のセル数がヘッダ行のカラム数より少ない場合、記述しなかったカラムには空文字が設定されたものとして扱われる。``YAML`` 形式では……``null`` を明示的に指定したのと同じ扱いになる」）と `:883`（可変長ファイルについて上記のとおり）に既にあり、3つ目の言い方を足すと、今回直した `:1545` と `:883` の不整合と同じ状態を作ることになるためである。表には、この2箇所が書いていない「名前が宣言されていない値は読み込まない」だけを残した。
 
-**`:883` の既存記述と新しい2行が食い違っていないことの確認（完了条件4c）。** `:883` を実際に開いて読み、次の2点で両立することを確かめた。(1) `:883` は「行が短いとき」の補完を述べ、新しい2行は「名前が宣言されていない値」＝行が名前の数より長いときに捨てられる側を述べており、対象が重ならない。(2) 新しい2行の「（\ Excel\ 形式のみ）」は「名前の行の行末の空セルを取り除く」の句にだけ掛かっており、両形式に当てはまる「宣言されていない値は読み込まない」には掛けていない。`:883` は補完が両形式で起きることを述べているので、形式の限定でも食い違わない。同様に `:658` とも、`:658` が「記述しなかったカラム」（＝短い行）を述べる点で対象が重ならない。
+**`:883`・`:658`・`:787` の既存記述と表の2行が食い違っていないことの確認。** 対象は是正3 で確定した現行の `:1545`・`:1547` である（逐語は本ページ §「`#35`-是正3（「ファイル・メッセージ」の行をトリムの効く3行に限定、2026-08-24）」。是正1 の追補で完了条件4c として始めた確認を、確定文面に対して取り直したものである）。実物を開き、次の3点で両立することを確かめた。(1) 2行が述べるトリムの対象は、`:1545` が「フィールド名称行・データ型行・フィールド長行」、`:1547` が「カラム名の行」であり、どちらもデータ行を含まない。一方 `:883`（「データ行のセル数（Excel形式）または ``rows:`` の各要素の長さ（YAML形式）がフィールド数より少ない場合、不足したフィールドは\ ``""``\ として補完される」）・`:658`（「\ Excel\ 形式では、データ行のセル数がヘッダ行のカラム数より少ない場合、記述しなかったカラムには空文字が設定されたものとして扱われる」）・`:787`（「同じしくみにより、データ行（3行目以降）のセル数がヘッダ行より少ない場合も、記述しなかった分のカラムには空文字が設定されたものとして扱われる。」）はいずれもデータ行だけを対象としており、対象が重ならない。(2) 2行の後半（「フィールド名称が宣言されていない値は読み込まない」「カラム名が宣言されていない値は読み込まない」）は、行が名前の数より長いときに捨てられる側を述べており、`:883`・`:658`・`:787` が述べる「行が短いとき」の補完とは対象が重ならない。(3) 「（\ Excel\ 形式のみ）」はトリムの句にだけ掛かり、後半の句には掛けていない。ファイル・メッセージの後半は両形式で起きる（`nablarch-testing@e21bf67` `src/main/java/nablarch/test/core/file/DataFileFragment.java:105` `for (int i = 0; i < names.size(); i++) {` と同 `:107` `String value = i < line.size() ? line.get(i) : "";` はフィールド名称の数だけ回るため、名称の数を超えた値は読まれない。YAML 形式もここを通る＝`nablarch-testing-yaml@190cc9a` `src/main/java/nablarch/test/core/reader/yaml/YamlFileBuilder.java:235` `fragment.addValue(rowValues);`）。`:883` は補完が両形式で起きることを述べているので、形式の限定でも食い違わない。なお、機構B（データ行を名前の行の幅へ揃える側）を表に書かなかった理由は本ページ §「データ行の補完（機構B）を表に書かなかった理由」にあり、ここでは繰り返さない。
 
 ## `#35`-是正2（表の4行と `:71` の文面を確定、2026-08-24）
 
@@ -695,10 +695,47 @@ YAML 経路からの呼び出しは `nablarch-testing-yaml@190cc9a` の `src/mai
 | A-3 | 「ファイル・メッセージ」の行から「フィールド名称の行の」を落として無限定に戻した | `nablarch-testing@e21bf67` `src/main/java/nablarch/test/core/reader/DataFileParser.java:68` `List<String> line = NablarchTestUtils.trimTailCopy(original); // キャッシュを破壊しないようにコピーして編集` が同 `:69` の `switch (status)` より前にあり、`READING_DIRECTIVES_AND_NAMES`（同 `:70`）・`READING_TYPES`（同 `:73`）・`READING_LENGTHS`（同 `:76`）・`READING_VALUES`（同 `:79`）の4分岐すべてに掛かる。フィールド名称行に限られない |
 | A-3（テーブル側は限定のまま） | 「テーブル・\ ``LIST_MAP``」の行は「カラム名の行の」を残し、2行を非対称にした | `nablarch-testing@e21bf67` `src/main/java/nablarch/test/core/reader/HeaderLine.java:33` `List<String> keys = trimTailCopy(headerLine);   // キャッシュを破壊しないようにコピーして編集`。同 `:32` `HeaderLine(List<String> headerLine)` のコンストラクタ内であり、ヘッダ行にしか掛からない。非対称なのは実装どおりである |
 | A-4 | 「前述」はテーブル側の行にだけ付けた | 機構Aを実例つきで先に説明しているのはテーブル側だけである。`ja/…/implementation/testdata_notation.rst:774`「ヘッダ行（2行目）は、末尾に空セルが続いても、そこで記述を止めたのと同じ結果になる。」と直後の実例表（同 `:776`-`:785`）。同じ表の `:1551`「マーカーカラムを除外する（前述）」・`:1553`「データベース登録時に、値が省略されたカラムへデフォルト値を補完する（前述）」が既に同じ書き方を採っている |
-| A-5 | `:71` の「フィールド名称の行」を「フィールド名称行」に改めた | `mapping/glossary.md:269` の正表記。同行の逐語は「`フィールド名称行`」／「各フィールドの名称を並べた行」／「揺れなし」／「なし」／「input資料15件、5ファイル（`S:input/ntf-doc-terms.md:176`）」 |
+| A-5 | `:71` の「フィールド名称の行」を「フィールド名称行」に改めた | `mapping/glossary.md` §5.10「ファイルデータの行の名称」の正表記。同節の表の行の逐語は「`フィールド名称行`」／「各フィールドの名称を並べた行」／「揺れなし」／「なし」／「input資料15件、5ファイル（`S:input/ntf-doc-terms.md:176`）」 |
 
 `implementation/testdata_notation.rst` 内に「フィールド名称の行」は1件も残っていない（`grep -c 'フィールド名称の行' ja/development_tools/testing_framework/implementation/testdata_notation.rst` が `0`。是正2 完了条件3）。
 
 ### データ行の補完（機構B）を表に書かなかった理由
 
 是正1 の追補のときと同じである。本ページ §「追補（`ntf-doc-35-fix1-addendum.md` §2）に従って表の2行を書き換えた記録」に記録したとおり、`ja/…/implementation/testdata_notation.rst:658`・`:787`・`:883` に既出であり、形式差を1セルで正しく書けないため。是正2 §2 も同じ判断を明記している。
+## `#35`-是正3（「ファイル・メッセージ」の行をトリムの効く3行に限定、2026-08-24）
+
+作業指示 `ntf-doc-35-fix3.md` §1 の逐語指定に従い、`ja/development_tools/testing_framework/implementation/testdata_notation.rst:1545` の1行だけを差し替えた。差分限定レビューが挙げた `must`（是正2 の A-3 でこの行を無限定にしたことが、同ページ `:883` と食い違う）への是正である。`:1544`・`:1546`・`:1547` は変更していない。
+
+### 差し替え後の逐語（現在の作業ツリー）
+
+`implementation/testdata_notation.rst:1544`-`:1547`。是正2 から変わったのは `:1545` だけである。
+
+```
+  * - ファイル・メッセージ
+    - フィールド名称行・データ型行・フィールド長行の行末の空セルを取り除く（\ Excel\ 形式のみ）。フィールド名称が宣言されていない値は読み込まない
+  * - テーブル・\ ``LIST_MAP``
+    - カラム名の行の行末の空セルを取り除く（\ Excel\ 形式のみ。前述）。カラム名が宣言されていない値は読み込まない
+```
+
+用語は `mapping/glossary.md` §5.10「ファイルデータの行の名称」の正表記（`フィールド名称行`・`データ型行`・`フィールド長行`）に従った。
+
+### 是正2 の A-3（無限定化）が成り立たない理由
+
+| 主張 | 根拠（`git show <commit>:<path>` で読んだ `file:line` と逐語） |
+|---|---|
+| `trimTailCopy` が4分岐すべてに掛かること自体は正しい（A-3 の根拠は誤っていない） | `nablarch-testing@e21bf67` `src/main/java/nablarch/test/core/reader/DataFileParser.java:68` `List<String> line = NablarchTestUtils.trimTailCopy(original); // キャッシュを破壊しないようにコピーして編集` が同 `:69` の `switch (status)` より前にある |
+| ただしデータ行では、トリムに観測できる効果がない | データ行の分岐は同 `:79` `case READING_VALUES:   //---------------- データ行` → 同 `:182` `protected void onReadingValues(List<String> line) {` → 同 `:186` `currentFragment.addValue(tail(line));`。その `addValue` が `nablarch-testing@e21bf67` `src/main/java/nablarch/test/core/file/DataFileFragment.java:105` `for (int i = 0; i < names.size(); i++) {`・同 `:107` `String value = i < line.size() ? line.get(i) : "";` でフィールド名称の数まで `""` を埋め戻すため、末尾を削っても結果が変わらない |
+| データ型行・フィールド長行では、トリムに効果がある | `nablarch-testing@e21bf67` `DataFileFragment.java:203` `assertSameSizeAsNames(types, "types");`（同 `:202` `public void setTypes(List<String> types) {`）・同 `:287` `assertSameSizeAsNames(lengths, "lengths");`（同 `:286` `public void setLengths(List<String> lengths) {`）。トリムされないとフィールド名称と個数が合わずエラーになる。`implementation/testdata_notation.rst:883` も「固定長ファイルでは、フィールド名称・データ型・フィールド長の3リストが同サイズで必須であり」と述べている |
+| メッセージも同じ経路を通るため、「ファイル・メッセージ」の行に3行分をまとめて書ける | `nablarch-testing@e21bf67` `src/main/java/nablarch/test/core/reader/MessageParser.java:27` `private final FixedLengthFileParser delegate;`・同 `:115` `delegate.onReadLine(line);`。委譲先は同 `src/main/java/nablarch/test/core/reader/FixedLengthFileParser.java:15` `public class FixedLengthFileParser extends DataFileParser<FixedLengthFile> {` であり、`DataFileParser.onReadLine` を通る |
+
+`:883` との食い違いが解消したことの確認は、本ページ §「追補（`ntf-doc-35-fix1-addendum.md` §2）に従って表の2行を書き換えた記録」の末尾の段落（`:883`・`:658`・`:787` との突合）に、確定文面に対して取り直した形で記録した。
+
+### 却下した指摘
+
+「（\ Excel\ 形式のみ。前述）」（`:1547`）の括弧の使い方についての指摘は、**user が却下した**（`ntf-doc-35-fix3.md` §2 の3点目「『（\ Excel\ 形式のみ。前述）』の括弧についての指摘は、**却下でよい**。判断済みである。」）。`:1547` は変更していない。
+
+### 申し送り（続き2）
+
+番号は39から続く。**38 は欠番である**（`#35`-是正2 のコミット `9aa06d7` が申し送り38 とその `### 申し送り` 見出しを削除した。`git show 9aa06d7 -- .rn/20260724-ntf-yaml-support/reviews/page-testdata_notation.md` の差分に `-38. **追加行の「無い」は、同ページの多数派表記（かな）と逆である。**` がある）。
+
+39. **`tools/testdata_converter.rst:71` がデータ行の空セルの扱いを送っている先に、メッセージのデータ行についての記述がない。** `:71` は「データ行の空セルの扱いは形式によって異なるため、詳細は\ :ref:`テストデータの書き方 <testdata_notation>`\ を参照。」で終わるが、`implementation/testdata_notation.rst` の「メッセージングのデータを記述する」節（見出しは `:1152`、節の本文は `:1306`「実際の記述例は :ref:`メッセージングのデータを記述する <testdata_examples-messaging_data>` を参照。」まで。次のラベル `.. _testdata_notation-special_notation:` は `:1308`）には、空セル・補完に触れる記述が1件もない。`sed -n '1152,1309p' ja/development_tools/testing_framework/implementation/testdata_notation.rst | grep -c <語>` を4語で実行し、`空セル` 0・`補完` 0・`空文字` 0・`取り除` 0 を確認した。テーブル側は同ページ `:658`・`:787`、可変長ファイル側は `:883` が受け皿になっているが、メッセージだけが受け皿を持たない。**`#35` は作業指示 §1〜§3 の範囲に限られるため、ここでは直していない。**
