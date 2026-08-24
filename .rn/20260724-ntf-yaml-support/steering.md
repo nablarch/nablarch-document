@@ -1141,8 +1141,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-24
+- **Last completed**: `#35`-是正5 第2ラウンドの Steps 24〜28（フェーズA）。A-2・A-3・A-4 は逐語案、A-5 は「変更不要（別概念）」の判定。完了条件41〜43・48 は充足。`ja/` は1文字も変更していない
+- **Next**: **フェーズA の逐語案について user の承認を待つ。** 承認が出たら Steps 29〜32（B-1〜B-5）を続ける。**あわせて2点の判断が要る**——(1) A-3 の案に「\ Excel\ 形式で行の全セルを空にした場合は、その行自体が読み飛ばされる」を第3文として足すか（作業指示が「1〜2文」と定めているため案には含めていない）、(2) A-4 の案の末尾に足した同趣旨の1文を残すか。逐語案の全文・実測結果・`file:line` は `reviews/page-testdata_notation.md` §「`#35`-是正5 フェーズA（実測と逐語案。`.rst` は1文字も変更していない、2026-08-24）」にある
+- **Notes**: ブランチ `ntf-yaml-support`（`5a5195e` まで push 済み）。作業ツリーはクリーンで、未追跡の残置ファイルは無い。**フェーズB の1コミットは最新コミットに続ける**——作業指示 B-g の「`956c723` に続けて」は、`/rn:dn` の `667f7e0` と `/rn:up` の `5a5195e` が既に push 済みのため成り立たない。`--amend` と force push は行わない。**実測用の `git worktree` を2つ残してある**（`nablarch-testing@e21bf67` と `nablarch-testing-yaml@190cc9a`。実体はセッションのスクラッチパッド配下で、本リポジトリの作業ツリーには何も置いていない。再実測に使わないなら `git worktree remove` で消す）。詳細な申し送りと未確認点は `#35` の Notes 節を参照
