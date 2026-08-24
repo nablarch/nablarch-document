@@ -242,3 +242,33 @@ QA / 設計 / クラフト / 検証の4観点を、それぞれ独立したサ�
 ```
 
 この段落は (b) の反例に触れない。断定しているのは**名前の行**の行末の空セルだけで、これは (a) のとおり5系統とも成り立つ。データ行については「形式によって異なる」とだけ述べ、詳細を `ja/development_tools/testing_framework/implementation/testdata_notation.rst` へ送っている。本ラウンドが (b) の反例に反すると指摘した旧文「取り除かれたあとの状態が中間モデルに入るため、\ Excel\ 形式のテストデータを\ YAML\ 形式へ変換すると、行末の空セルは変換後に現れない。」は `:71` から消えている（`grep -c '変換後に現れない' ja/development_tools/testing_framework/tools/testdata_converter.rst` が `0`）。表の4行の側の記録は `reviews/page-testdata_notation.md` §「`#35`-是正2（表の4行と `:71` の文面を確定、2026-08-24）」にある。
+
+---
+
+## `#35`-是正6 ／ `#33` (c)（`:71` と `:280` の修正、2026-08-24）
+
+作業指示は `/home/tie303177/work/cowork/nablarch/ntf-doc-renewal/指示/残作業-rst修正.md`。逐語はディレクターが実測に基づいて確定し、**レビューは回していない**（4観点・差分限定のいずれも実施していない）。
+
+### 何をどう変えたか（本ページ2箇所）
+
+`:71`（`#35`-是正6 ／ 申し送り45）。行末トリムの対象を「ディレクティブ行・フィールド名称行・データ型行・フィールド長行」に限定していた記述を、**データ行を含むすべての行**に是正した。後続の「データ行の空セルの扱いは形式によって異なるため、詳細は `テストデータの書き方` を参照。」は変更していない。
+
+```
+テーブルと\ ``LIST_MAP``\ ではカラム名の行、ファイルとメッセージではデータ行を含むすべての行について、行末の空セルは\ Excel\ 形式から読み込む時点で取り除かれるため、往復すると消える。
+```
+
+`:280`（`#33` (c)）。`markerColumnColor` の説明「マーカーカラムの背景色」に限定を加えた。
+
+```
+    - カラム名が0件のデータブロックに合成されるマーカーカラム（\ ``[EMPTY]``\ ）の背景色。入力に元からあったマーカーカラムは中間モデルに入らないため、着色の対象にならない
+```
+
+### 根拠
+
+`:71`。`nablarch-testing@e21bf67`。`DataFileParser.java:68` の `trimTailCopy` が `:69` の `switch` より前にあり、データ行にも掛かる。解釈は `TestDataParsingTemplate.java:179` で先に済むため、`null`（`NullInterpreter.java:15`-`:17`）と `""`（`QuotationTrimmer.java:25`-`:28`）も空セルとして削られる。メッセージも `MessageParser.java:114`-`:115` が `delegate.onReadLine` へ委譲するため同じ。テーブル・`LIST_MAP` はヘッダ行のみ（`HeaderLine.java:33`）で、データ行は削られないため、本文の「テーブルと `LIST_MAP` ではカラム名の行」の側は変えていない。詳細は `reviews/page-testdata_notation.md` §「`#35`-是正6 ／ `#33` (a) 空セル記述の書き直し（2026-08-24）」にある。
+
+`:280`。`nablarch-testing-converter@e977824`。`XlsFormatWriter.java:543` が `EMPTY_BLOCK_MARKER_COLUMN = "[EMPTY]"` を定義し、`:251`-`:260` で「カラム名が空のブロックには `[EMPTY]` を合成し、`isMarkerColumn` に一致した列だけをマーカー扱いにする」経路になっている。入力側のマーカーカラムが中間モデルに入らないことは、同ページ `:69` が既に本文として述べている。
+
+### 検証
+
+Docker フルビルド `build succeeded.`（exit 0、`WARNING:` ／ `ERROR:` ／ `SEVERE:` は0件）、`verify_mapping.py` exit 0。`#33` のうち (d)・(e-2)・(e-3) は変更しないと決めた（理由は `reviews/page-testdata_notation.md` の同節）。
