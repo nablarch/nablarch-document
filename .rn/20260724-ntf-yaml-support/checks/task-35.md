@@ -325,7 +325,7 @@
 
 **未確認のまま残した点。** `mapping/glossary.md` §5.10 の `フィールド長行` の意味欄「固定長ファイルのみで使うもの」を採った input 資料側の出典（`S:input/ntf-doc-terms.md:178`）には当たっていない。作業指示 §2 が `mapping/glossary.md` を変更禁止としているため、本ラウンドでは訂正の要否を判断する材料として記録に残すにとどめた。
 
-## #35-是正5 第2ラウンド（フェーズA。`.rst` は1文字も変更していない）
+## #35-是正5 第2ラウンド（フェーズA・フェーズB）
 
 ### Completion Criteria
 
@@ -341,18 +341,18 @@
 
 | Criterion | Self-check | Evidence |
 |---|---|---|
-| 44.（B-a）`:1545` が A-1 の逐語と1文字一致 | **N/A（未着手）** | user の承認待ち |
-| 45.（B-b）`git diff` の `ja/` 側の変更が A-1 と承認された案だけに由来している | **N/A（未着手）** | 同上 |
-| 46.（B-c）B-3 の2観点を別サブエージェントで回し、生出力が要約なしで記録にある | **N/A（未着手）** | 同上 |
-| 47.（B-d）申し送り39・40・41 が処置済みまたはクローズとして記録が更新されている | **一部** | 41 は「クローズしてよい」判定と根拠を `reviews/…` の A-5 に記録した。39・40 はフェーズB の反映後に更新する |
-| 48.（B-e）`mapping/glossary.md` §5.10 の誤りが申し送りとして起票されている | OK | `reviews/page-testdata_notation.md` §「申し送り（続き2）」の 42（`フィールド長行` の意味欄）。あわせて 43（`レコード種別行`）も起票した |
-| 49.（B-f）Docker フルビルド成功・警告0、`sphinx.mo` が未変更、`ca.crt`・`Dockerfile.ca` が無い | **N/A（未着手）** | `ja/` を変更していないためビルドを回していない |
-| 50.（B-g）B-1〜B-5 をまとめた1コミットをプッシュ済み | **N/A（未着手）** | 作業指示は「`956c723` に続けて」と書いているが、`956c723` の後に `/rn:dn` の `667f7e0` が既に push 済みであるため、実際には最新コミットに続けることになる |
+| 44.（B-a）`:1545` が A-1 の逐語と1文字一致 | OK | A-3 の挿入により行は `:1547` へずれた（B-1・B-2 の反映時に確認済み）。`sed -n '1547p'` の出力は `reviews/page-testdata_notation.md` §「`#35`-是正5 フェーズB B-3 差分限定レビュー ラウンド1（2026-08-24）」の観点1 の生出力にある |
+| 45.（B-b）`git diff` の `ja/` 側の変更が A-1 と承認された案だけに由来している | OK | B-1・B-2（`d3017b8`）は `ja/` の2ファイル・4 hunk のみ。B-3 ラウンド2 の是正は `implementation/testdata_notation.rst:883` の1行のみで、HEAD との全行比較で差異行が `[883]` だけであることを観点1 が独立に確認した |
+| 46.（B-c）B-3 の2観点を別サブエージェントで回し、生出力が要約なしで記録にある | OK | ラウンド1 は `reviews/page-testdata_notation.md` §「`#35`-是正5 フェーズB B-3 差分限定レビュー ラウンド1（2026-08-24）」、ラウンド2 は同 §「`#35`-是正5 フェーズB B-3 差分限定レビュー ラウンド2（2026-08-24）」。ラウンドごとの指摘件数と観点も同節の表にある。**ラウンド2 で `must` 1件（M-1）が残った。本文は変えず user へエスカレーションした**（同節 §「user へのエスカレーション（M-1。本ラウンドでは処置していない）」） |
+| 47.（B-d）申し送り39・40・41 が処置済みまたはクローズとして記録が更新されている | OK | `reviews/page-testdata_notation.md` §「申し送り（続き2）」の 39・40 に【処置済み】、41 に【クローズ】を付した。根拠はそれぞれ同ファイルの A-3・A-2／A-4・A-5 の節 |
+| 48.（B-e）`mapping/glossary.md` §5.10 の誤りが申し送りとして起票されている | OK | `reviews/page-testdata_notation.md` §「申し送り（続き2）」の 42（`フィールド長行` の意味欄）・43（`レコード種別行`）。用語集は変更禁止のため未変更 |
+| 49.（B-f）Docker フルビルド成功・警告0、`sphinx.mo` が未変更、`ca.crt`・`Dockerfile.ca` が無い | OK | `_build` を消してからフルビルドを実行し `SPHINX_EXIT=0`・`build succeeded.`。`grep -nE 'WARNING:\|ERROR:\|SEVERE:' build.log` が0件（**既知の `db_double_submit.rst:108` の warning も出ていない**）。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し、`git status --short` に現れないことを確認。`_build`・`build.log` は削除済み。`ca.crt`・`Dockerfile.ca` は不在 |
+| 50.（B-g）B-1〜B-5 をまとめた1コミットをプッシュ済み | OK | **作業指示は「`d3017b8` に続けて」と書いているが、`d3017b8` の後に `/rn:dn` の `0a12ab6` と `/rn:up` の `ab2112e` が既に積まれている。** そのため実際には `ab2112e` に続く1コミットとした（`d3017b8` の子孫であり、指示の意図は満たす）。`--amend` と force push は行っていない |
 
 ### Overall Verdict
 
-- Self-check: **フェーズA は OK（41〜43 充足、48 も充足）。フェーズB は未着手**
-- Ready to check off: **No。フェーズA の逐語案について user の承認待ち**
+- Self-check: **OK（41〜50 すべて充足）**
+- Ready to check off: **No。B-3 ラウンド2 の `must` 1件（M-1）を本文に反映せず user へエスカレーションしており、その判断待ち**
 
 ### Method を適用した記録（#35-是正5 第2ラウンド フェーズA。どの主張をどの出典で確認したか）
 
@@ -369,3 +369,17 @@
 | A-5: `mapping/glossary.md` §5.10 は「行」、`testdata_notation.rst` の用語表は「要素」 | `mapping/glossary.md` §5.10 の見出しと導入文（現物）／`ja/…/testdata_notation.rst:855`・`:860`・`:876`-`:879`（現物）／`ja/…/testdata_examples.rst:1082`（現物）／`git show e21bf67:…/DataFileParser.java:248`-`:252` | **別概念。ページの是正は不要** |
 
 **未確認のまま残した点。** `mapping/glossary.md` §5.10 の `フィールド長行` の意味欄が採った input 資料側の出典（`S:input/ntf-doc-terms.md:178`）には当たっていない（申し送り42 にも明記した）。
+
+### Method を適用した記録（#35-是正5 第2ラウンド フェーズB。どの主張をどの出典で確認したか）
+
+本ラウンドも実装の一次情報に当たって確かめた。参照コミットは `nablarch-testing@e21bf67`。作業ツリーの HEAD（`2e43786`）は参照コミットと分岐しており行番号が違うため、`git show e21bf67:<path>` で読んだ。
+
+| 主張 | 当たった出典と実行したこと | 判定 |
+|---|---|---|
+| 補完の判定に使う数が「先頭要素を除いたセル数」である | `DataFileParser.java:182`（`onReadingValues`）→ `:186`（`addValue(tail(line))`）→ `:262`-`:266`（`tail` が `list.subList(1, list.size())`）→ `DataFileFragment.java:102`・`:105`・`:107`（`names.size()` と tail 済み `line.size()` を突き合わせ、不足を `""` で埋める）。あわせて `DataFileParser.java:204`-`:210`（`isDataRow` が先頭セル空をデータ行の条件にしている） | 一致 |
+| Excel の全セル空行のスキップがテーブルデータと同一の共通処理である | `PoiXlsReader.java:83`-`:98`（`readLine` の `:93` が `isBlankLine` で行を捨てる）・`:140`-`:147`（`isBlankLine` は全要素空のとき真）。**`TableDataParser` が独自のスキップを持たないこと**は、同ファイル全107行に `readLine`・`isBlankLine`・スキップ相当の記述が `:93` の呼び出し1件しかないこと（`grep -n -E 'readLine\|isBlank\|skip\|空行'` の結果）と、基底 `TestDataParsingTemplate.java:261` の `readLine` が `protected final` で上書き不可であることの2点で示した | 一致 |
+| テーブルデータは先頭のラベル列を持たない（走査器のデータ種別分岐の根拠） | `TableDataParser.java:93`（`header = new HeaderLine(readLine());`）・`:79`-`:81`（`onReadLine` が `tail` を通さず `excludeMarkerColumns` のみ）・`HeaderLine.java:81`（`String val = (i >= line.size()) ? "" : line.get(i);` でインデックス0から突き合わせ） | 一致 |
+| ラウンド2 の `must`（M-1）が成立する | `TestDataParsingTemplate.java:168`-`:182`・`:326`-`:335`（読み込み時に `interpret` を掛ける）→ `NullInterpreter.java:14`-`:17`（半角 `null` を Java `null` に置換）→ `DataFileParser.java:66`-`:68`（`trimTailCopy` が `:69` の `switch` より前）→ `NablarchTestUtils.java:251`-`:263`（`trimTail` が末尾の `null`・空文字を削り、値を持つ要素で `break`） | **成立する。ただし是正が持ち込んだ欠陥ではない**（是正前の文にも同じ不正確さがあり、加えて1つずれも抱えていた） |
+| 同じ数え方のズレが他に無い（Step 30-a） | 節見出しからデータ種別を判定する走査器を独立に組み、`ja/development_tools/testing_framework/**/*.rst`（`guide/` を除く）38ファイルを走査した。是正前は該当文4件・NG 1件（`:883`）、是正後は該当文4件・NG 0件。生出力は `reviews/page-testdata_notation.md` §「`#35`-是正5 フェーズB B-3 差分限定レビュー ラウンド2（2026-08-24）」の §「Step 30-a／30-b／30-e の走査」 | **ズレは `:883` の1か所のみ** |
+
+**未確認のまま残した点。** M-1 について、フィールドが Java `null` になるか空文字になるかの差が、最終的に書き出されるファイルや期待値比較にどう現れるかは追っていない。本ラウンドで確かめたのは実装が保持する値までである。
