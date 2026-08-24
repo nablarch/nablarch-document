@@ -283,7 +283,7 @@
 
 **未確認のまま残した点。** 是正3 の差分限定レビューの観点別の生出力（どの観点がどの指摘を出したか）。上記のとおり `1d88729` の `State` の要約が唯一の記録であり、原文は保全されていない。是正3 の `nice` 3件（未処置）が挙げた `ja/…/testdata_notation.rst:1076`・`:1269`・`:1057`-`:1063`・`:866`-`:875` と `SendSyncMessageParser.java:134`・`DataFileFragment.java:172` は、本ラウンドの作業指示の範囲外のため自分では当たっていない（`reviews/…` にも `1d88729` の `State` を出典として明記して転記した）。
 
-## #35-是正5
+## #35-是正5（第1ラウンド。§1 で停止）
 
 ### Completion Criteria
 
@@ -324,3 +324,48 @@
 | 参照コミット `nablarch-testing@e21bf67` | `git -C /home/tie303177/work/nablarch/nablarch-testing log -1 --format='%H %ad %s' --date=short e21bf67` → `e21bf67e26bca1cb3bddcd00cdecfd10943f9333 2024-09-27 Merge remote-tracking branch 'origin/release-6u2'` | `steering.md` の参照コミット表と一致 |
 
 **未確認のまま残した点。** `mapping/glossary.md` §5.10 の `フィールド長行` の意味欄「固定長ファイルのみで使うもの」を採った input 資料側の出典（`S:input/ntf-doc-terms.md:178`）には当たっていない。作業指示 §2 が `mapping/glossary.md` を変更禁止としているため、本ラウンドでは訂正の要否を判断する材料として記録に残すにとどめた。
+
+## #35-是正5 第2ラウンド（フェーズA。`.rst` は1文字も変更していない）
+
+### Completion Criteria
+
+**フェーズA**
+
+| Criterion | Self-check | Evidence |
+|---|---|---|
+| 41.（A-a）A-2〜A-5 それぞれについて、逐語案または「変更不要」の判定が出ている | OK | `reviews/page-testdata_notation.md` §「`#35`-是正5 フェーズA（実測と逐語案。`.rst` は1文字も変更していない、2026-08-24）」。A-2・A-3・A-4 は逐語案、A-5 は「変更不要（別概念）」の判定 |
+| 42.（A-b）各判定に `file:line` と参照コミットハッシュが添えてある。示せないものは「未確認」と書いてある | OK | 同節に `file:line` の表を A-2・A-3・A-4・A-5 それぞれに置いた。参照コミットは同節 §「実測の方法」の表（`nablarch-testing@e21bf67`／`nablarch-testing-yaml@190cc9a`／`nablarch-testing-converter@e977824`）。**未確認として明記したもの**——申し送り42 の `S:input/ntf-doc-terms.md:178`（`mapping/glossary.md` §5.10 の採用根拠）には当たっていない |
+| 43.（A-c）`ja/` が1文字も変更されていない | OK | `git diff --stat -- ja/` が空（実行して確認） |
+
+**フェーズB**
+
+| Criterion | Self-check | Evidence |
+|---|---|---|
+| 44.（B-a）`:1545` が A-1 の逐語と1文字一致 | **N/A（未着手）** | user の承認待ち |
+| 45.（B-b）`git diff` の `ja/` 側の変更が A-1 と承認された案だけに由来している | **N/A（未着手）** | 同上 |
+| 46.（B-c）B-3 の2観点を別サブエージェントで回し、生出力が要約なしで記録にある | **N/A（未着手）** | 同上 |
+| 47.（B-d）申し送り39・40・41 が処置済みまたはクローズとして記録が更新されている | **一部** | 41 は「クローズしてよい」判定と根拠を `reviews/…` の A-5 に記録した。39・40 はフェーズB の反映後に更新する |
+| 48.（B-e）`mapping/glossary.md` §5.10 の誤りが申し送りとして起票されている | OK | `reviews/page-testdata_notation.md` §「申し送り（続き2）」の 42（`フィールド長行` の意味欄）。あわせて 43（`レコード種別行`）も起票した |
+| 49.（B-f）Docker フルビルド成功・警告0、`sphinx.mo` が未変更、`ca.crt`・`Dockerfile.ca` が無い | **N/A（未着手）** | `ja/` を変更していないためビルドを回していない |
+| 50.（B-g）B-1〜B-5 をまとめた1コミットをプッシュ済み | **N/A（未着手）** | 作業指示は「`956c723` に続けて」と書いているが、`956c723` の後に `/rn:dn` の `667f7e0` が既に push 済みであるため、実際には最新コミットに続けることになる |
+
+### Overall Verdict
+
+- Self-check: **フェーズA は OK（41〜43 充足、48 も充足）。フェーズB は未着手**
+- Ready to check off: **No。フェーズA の逐語案について user の承認待ち**
+
+### Method を適用した記録（#35-是正5 第2ラウンド フェーズA。どの主張をどの出典で確認したか）
+
+本ラウンドは、実装の読解ではなく**実行**を根拠にした。参照コミットを `git worktree` で取り出して `mvn -o -DskipTests compile` でビルドし、入力を自分で組み立てて各パーサへ通し、結果をリフレクションで観測した。成果物に付属する検証スクリプトは使っていない。
+
+| 主張 | 当たった出典と実行したこと | 判定 |
+|---|---|---|
+| A-2: トリムが `DataFileParser` の4分岐すべてに掛かる | `git show e21bf67:src/main/java/nablarch/test/core/reader/DataFileParser.java` を行番号付きで出力（`:68` が `:69` の `switch` より前）。加えて、4行すべてに行末の空セルを付けた `.xls` を `FixedLengthFileParser` へ通し、`names=[A, B]`（2件）になることを観測した | 一致 |
+| A-2: 変換ツールも同じ経路を通る | `git show e977824:src/main/java/nablarch/test/core/reader/TestCoreReaderAdapter.java`（`:148`・`:152`・`:179`・`:464`）と `git grep -n 'readBlockBodyLines\|readFiles(\|readMessage(' e977824 -- src/main/java` | 一致 |
+| A-3: メッセージのデータ行の空セルの扱いが Excel と YAML で同じ | Excel は `MessageParser`／`SendSyncMessageParser` に `.xls` を通して観測。YAML は `YamlTestDataParser`（`190cc9a` をビルド）に `.yaml` を通して観測。両者とも「不足は `""` 補完・超過は読み込まない・途中の空はそのまま `""`」 | 一致 |
+| A-3: Excel の全セル空の行だけが両形式で異なる | `PoiXlsReader#readLine()` の出力に全セル空の行が現れないことを観測。`git show e21bf67:…/PoiXlsReader.java`（`:93`・`:141`-`:147`）と `…/TestDataParsingTemplate.java`（`:176`・`:316`-`:317`） | 一致 |
+| A-4: `:883` の「先頭セルが空の行」が `isBlankLine` に掛かる | 全セル空の行を含む可変長ファイルの `.xls` を `VariableLengthFileParser` へ通し、`values.size()=3`（`""` の行は残り、全セル空の行は残らない）を観測。セルを1つも作らない行でも同じ | **掛かる。現行の括弧書きは成り立たない** |
+| A-4: 正しい Excel の記法が `""` である | `ja/…/testdata_notation.rst:1363`・`:1367`（現物）。加えて `git show e21bf67:src/test/java/nablarch/test/core/reader/VariableLengthFileParserTest.xls` を POI で読み出し、シート `testEmptyRowSingleItem`・`testEmptyRowMultiItems` が `""` を使っていることを確認 | 一致 |
+| A-5: `mapping/glossary.md` §5.10 は「行」、`testdata_notation.rst` の用語表は「要素」 | `mapping/glossary.md` §5.10 の見出しと導入文（現物）／`ja/…/testdata_notation.rst:855`・`:860`・`:876`-`:879`（現物）／`ja/…/testdata_examples.rst:1082`（現物）／`git show e21bf67:…/DataFileParser.java:248`-`:252` | **別概念。ページの是正は不要** |
+
+**未確認のまま残した点。** `mapping/glossary.md` §5.10 の `フィールド長行` の意味欄が採った input 資料側の出典（`S:input/ntf-doc-terms.md:178`）には当たっていない（申し送り42 にも明記した）。
