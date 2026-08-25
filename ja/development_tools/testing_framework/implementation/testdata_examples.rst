@@ -785,7 +785,7 @@ YAML形式の場合
 
 .. important::
 
-  主キーカラム（この例では ``MEMBER_ID``\ ）は省略できない。省略した場合の扱いは\ :ref:`テーブルのデータを記述する <testdata_notation-table_data>`\ を参照。
+  主キーカラム（この例では ``MEMBER_ID``\ ）は省略できない。
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -867,7 +867,7 @@ YAML形式の場合
 
 .. important::
 
-  Excel\ 形式では、\ ``EXPECTED_TABLE``\ と ``EXPECTED_COMPLETE_TABLE``\ をデータタイプごとにまとめて記述する。交互に記述した場合の挙動は\ :ref:`グループIDによる使い分け <testdata_notation-group_id>`\ を参照。
+  Excel\ 形式では、\ ``EXPECTED_TABLE``\ と ``EXPECTED_COMPLETE_TABLE``\ をデータタイプごとにまとめて記述する（\ :ref:`グループIDによる使い分け <testdata_notation-group_id>`\ 参照）。
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
