@@ -2305,3 +2305,19 @@ text=[abcdefghi\nabc      \n         \n]
 ### 検証
 
 Docker フルビルド `build succeeded.`（exit 0、`WARNING:` ／ `ERROR:` ／ `SEVERE:` は0件）、`verify_mapping.py` exit 0（`OK: no errors`）。`locales/ja/LC_MESSAGES/sphinx.mo` はビルド直後に復元し、`_build`・`build.log`・`ca.crt`・`Dockerfile.ca` は作業ツリーに残していない。差分は `.rst` 2ファイル（本ページ4箇所 ＋ `tools/testdata_converter.rst` 2箇所）のみで、変更禁止7ファイルの差分は0行。
+
+## 申し送り44 (d)(e)・申し送り42・43 の処置（2026-08-25）
+
+**申し送り44 の残る2点を `:885` に反映して閉じた。**
+
+- (d) 「フィールドの数を超える位置の値は読み込まない。」を1文追加した。`nablarch-testing@e21bf67` の `DataFileFragment.java:105-114`（`addValue`）は `names.size()` の回数だけループし、`line.get(i)` は `i < line.size()` の場合のみ読む。ループが `names.size()` で止まるため、それを超える位置の値は最初から参照されない。`FixedLengthFileFragment`・`VariableLengthFileFragment` はいずれも `addValue` を上書きしておらず、固定長・可変長の両方に効く。`nablarch-testing-yaml@190cc9a` の `YamlFileBuilder.java:233`・`:235` も同じ `fragment.addValue`／`addValueWithId` を呼ぶため、\ Excel\ ・\ YAML\ 両形式で同じ挙動になる
+- (e) 「\ YAML\ 形式では ``rows:``\ に空配列 ``[]``\ を記載した行」→「\ YAML\ 形式では ``rows:``\ の要素を空配列 ``[]``\ とした行」に言い換えた。`:836`・`:1155` の「``rows:``／``records:`` に空配列 ``[]`` を記載する」（リスト全体を `[]` にする＝0件）と、`:885` の「リストの1要素が `[]`」（1件のレコードで全フィールド空）は別の操作であり、旧文言は前者と同形だった。「の要素を」を加えて、`rows:` 自体ではなく1行分の値がだと明確にした
+
+**申し送り42・43 を `mapping/glossary.md` §5.10 に反映して閉じた。** 用語集は本ラウンドまで変更禁止だったが、全34ページ作成完了後の是正であり、以降の執筆で参照される見込みがないため着手した（user 承認、2026-08-25）。
+
+- 申し送り42（`フィールド長行`）— 意味欄「固定長ファイルのみで使うもの」を「可変長ファイルには存在しない（固定長ファイル・メッセージには存在する）」に是正した。`testdata_notation.rst:1167`「メッセージボディは…前述のファイルデータと同じ構成を持つ」が根拠。`DataFileFragment` はメッセージ・固定長・可変長を区別しない共通基底クラスであることも上記(d) の調査で確認済み
+- 申し送り43（`レコード種別行`）— 意味欄を「フィールド名称行の先頭要素にレコード種別を記載した行を指す通称。独立した行ではない」に是正し、採用根拠欄に実装上の裏付けを追記した。`testdata_notation.rst:1282`「フィールド名称行の先頭要素がレコード種別として扱われるかどうかは…」と `testdata_examples.rst:1082`「レコード種別行の先頭要素にレコード種別を、以降の要素にフィールド名称を記述する」が実例。**正表記・揺れ表記・別義列は変更していない**（用語そのものは残す。「独立した行ではない」という補足のみ加えた）
+
+### 検証（本節）
+
+`verify_glossary.py` は `RESULT: OK`（9カテゴリすべて不一致0件）。`verify_mapping.py` は `OK: no errors`（exit 0）。Docker フルビルド（`sphinx-build -a`）は `build succeeded.` で `WARNING:`／`ERROR:`／`SEVERE:` は0件（既知だった `db_double_submit.rst` の警告も0件——`#27-20` 以降に解消済みと見られる。本ラウンドの差分によるものではない）。`locales/ja/LC_MESSAGES/sphinx.mo` はビルド直後に復元し、`_build`・`build.log`・`ca.crt`・`Dockerfile.ca` は作業ツリーに残していない。差分は `ja/development_tools/testing_framework/implementation/testdata_notation.rst`（1箇所）と `.rn/20260724-ntf-yaml-support/mapping/glossary.md`（2箇所）のみ。**レビューは回していない**（差分は実測に基づく訂正で、既存の申し送りの記述内容と1対1に対応するため）。
