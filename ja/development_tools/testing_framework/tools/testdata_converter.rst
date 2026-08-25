@@ -273,7 +273,7 @@ YAML\ 形式へ書き出す場合、本ツールは記法どおりに書くだ�
   * - ``otherHeaderColor``
     - ``LAVENDER``
     - ``withOtherHeaderColor``
-    - ``MESSAGE``\ ・\ ``LIST_MAP``\ （識別子が\ ``testShots``\ 以外）・\ ``DEFAULT``\ のヘッダ行の背景色
+    - ``MESSAGE``\ ・\ ``LIST_MAP``\ （識別子が\ ``testShots``\ 以外）のヘッダ行の背景色
   * - ``markerColumnColor``
     - ``LIGHT_ORANGE``
     - ``withMarkerColumnColor``
