@@ -2004,7 +2004,7 @@ YAML形式の場合
 
 null・空文字・改行など特殊な値を記述する
 --------------------------------------------------
-特殊記法を使う値の記述例を示す。記法の仕様は\ :ref:`null・空文字・改行など特殊な値を記述する <testdata_notation-special_notation>`\ を参照。なお、空文字・改行の記述例は、この節では示していない。
+特殊記法を使う値の記述例を示す。記法の仕様は\ :ref:`null・空文字・改行など特殊な値を記述する <testdata_notation-special_notation>`\ を参照。
 
 日付・システム日時・NULLを記述する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2072,6 +2072,99 @@ NULL\ はアンクォートの ``null``\ で記述する。\ ``${systemTime}``\ 
           EVENT_NAME: "更新時刻"
           START_DATE: "${updateTime}"
           CREATED_AT: "${setUpTime}"
+
+空文字・改行を記述する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+備考テーブル（\ ``NOTE``\ ）の期待値に、空文字と改行を含む値を記述する例である。あわせて、可変長ファイルに空行を記述する例を示す。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
+
+Excel形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+期待値の例を示す。空文字は空セルで記述する。\ CR\ は ``\r``\ （バックスラッシュと ``r``\ の2文字）と入力する。
+
+.. list-table::
+  :header-rows: 0
+  :widths: 15,25,60
+
+  * - EXPECTED_TABLE=NOTE
+    -
+    -
+  * - ID
+    - TITLE
+    - BODY
+  * - 1
+    -
+    - ``1行目\r2行目``
+  * - 2
+    - 補足なし
+    -
+
+LF\ を表したい場合は、セル内で改行する（\ Alt+Enter\ ）。
+
+可変長ファイルの空行は、空セルではなく ``""``\ と記述する。
+
+.. list-table::
+  :header-rows: 0
+  :widths: 25,25,25,25
+
+  * - SETUP_VARIABLE=input/data.csv
+    -
+    -
+    -
+  * - field-separator
+    - ,
+    -
+    -
+  * - DATA
+    - USER_ID
+    - USER_NAME
+    - AMOUNT
+  * -
+    - 半角
+    - 全角
+    - 半角
+  * -
+    - 001
+    - 山田太郎
+    - 5000
+  * -
+    - ``""``
+    -
+    -
+
+YAML形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+空文字は ``""``\ 、\ CR\ は ``"\r"``\ 、\ LF\ は ``"\n"``\ と記述する。\ YAML\ ではパーサがこれらを実際の制御文字に変換するため、\ Excel\ 形式のような2文字表記は使わない。
+
+.. code-block:: yaml
+
+  expected_tables:
+    - table: NOTE
+      rows:
+        - ID: "1"
+          TITLE: ""
+          BODY: "1行目\r2行目"
+        - ID: "2"
+          TITLE: "補足なし"
+          BODY: "1行目\n2行目"
+
+可変長ファイルの空行も ``""``\ で記述する。
+
+.. code-block:: yaml
+
+  setup_files:
+    - path: input/data.csv
+      type: variable
+      directives:
+        field-separator: ","
+      records:
+        - record_type: DATA
+          fields:
+            - {name: USER_ID,   type: 半角}
+            - {name: USER_NAME, type: 全角}
+            - {name: AMOUNT,    type: 半角}
+          rows:
+            - ["001", "山田太郎", "5000"]
+            - ["", "", ""]
 
 スペース・ダブルクォートを記述する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2144,6 +2237,80 @@ YAML形式の場合
           FILE_DATA: "0xCAFEBABE"
         - FILE_ID: "002"
           FILE_DATA: "${binaryFile:testdata.bin}"
+
+文字列を増幅して記述する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+会員テーブル（\ ``MEMBER``\ ）の準備データに、桁数の上限いっぱいの値を ``${文字種,文字数}``\ で生成する例である。値そのものに意味がなく桁数だけを満たしたい場合に、実際の文字を並べずに済む。\ ``${半角数字,2}-${半角数字,4}``\ のように、文字列の一部にも使える。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
+
+Excel形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+準備データの例を示す。
+
+.. list-table::
+  :header-rows: 0
+  :widths: 20,30,25,25
+
+  * - SETUP_TABLE=MEMBER
+    -
+    -
+    -
+  * - MEMBER_ID
+    - NAME
+    - PROFILE
+    - ZIP_CODE
+  * - 0000000101
+    - ``${全角漢字,5}``
+    - ``${半角英字,10}``
+    - ``${半角数字,3}-${半角数字,4}``
+
+YAML形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+他の値と同様にダブルクォートで囲む。
+
+.. code-block:: yaml
+
+  setup_tables:
+    - table: MEMBER
+      rows:
+        - MEMBER_ID: "0000000101"
+          NAME: "${全角漢字,5}"
+          PROFILE: "${半角英字,10}"
+          ZIP_CODE: "${半角数字,3}-${半角数字,4}"
+
+アップロードファイルを指定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ファイルアップロード画面のリクエスト単体テストで、送信するファイルを ``${attach:ファイルパス}``\ で指定する例である。リクエストパラメータ（\ ``requestParams``\ ）の値に記述する。ファイルパスは、テスト実行時のカレントディレクトリ（プロジェクトルートディレクトリ）からの相対パスで記述する。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
+
+Excel形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+リクエストパラメータの例を示す。\ ``uploadFile``\ は、画面の ``input``\ タグの ``name``\ 属性である。
+
+.. list-table::
+  :header-rows: 0
+  :widths: 10,25,65
+
+  * - LIST_MAP=requestParams
+    -
+    -
+  * - [no]
+    - memberId
+    - uploadFile
+  * - 1
+    - 0000000101
+    - ``${attach:src/test/resources/upload/member.csv}``
+
+YAML形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+他の値と同様にダブルクォートで囲む。
+
+.. code-block:: yaml
+
+  list_maps:
+    - id: requestParams
+      rows:
+        - "[no]": "1"
+          memberId: "0000000101"
+          uploadFile: "${attach:src/test/resources/upload/member.csv}"
 
 .. _testdata_examples-comment_and_marker:
 
