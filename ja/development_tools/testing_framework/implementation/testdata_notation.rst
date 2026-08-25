@@ -89,7 +89,7 @@ YAML形式の場合
       ├── case01.yaml  ← ファイル
       └── case02.yaml  ← ファイル
 
-YAMLファイルは\ YAML 1.2\ に準拠する。\ YAML 1.1\ との主な違いとして、\ ``yes``\ ・\ ``no``\ ・\ ``on``\ ・\ ``off``\ は真偽値ではなく文字列として扱われる点に注意する。\ YAML\ テストデータには\ JSON Schema\ が定義されており、\ ``nablarch-testing-yaml``\ の\ jar\ に ``nablarch/test/ntf-testdata-yaml-schema.json`` として同梱されている。パース時にこのスキーマでの検証が行われ、型不正（文字列フィールドへの数値記述など）・必須フィールドの欠落・未定義キーの記述・\ enum\ 違反などがあるとエラーになる。
+YAMLファイルは\ YAML 1.2\ に準拠する。\ YAML 1.1\ との主な違いとして、\ ``yes``\ ・\ ``no``\ ・\ ``on``\ ・\ ``off``\ は真偽値ではなく文字列として扱われる点に注意する。\ YAML\ テストデータには\ JSON Schema\ が定義されており、\ ``nablarch-testing-yaml``\ の\ jar\ に ``nablarch/test/ntf-testdata-yaml-schema.json`` として同梱されている。パース時には、このスキーマでの検証が行われる。
 
 .. _testdata_notation-data_block_types:
 
@@ -137,7 +137,7 @@ YAMLファイルは\ YAML 1.2\ に準拠する。\ YAML 1.1\ との主な違い�
 
 このうちグループIDは\ :ref:`グループIDによる使い分け <testdata_notation-group_id>`\ で扱い、テストショット一覧・ファイルデータ・メッセージングと、値の解釈規則である特殊記法・コメント・マーカーカラムは\ :ref:`使用方法 <testdata_notation-usage>`\ の配下で扱う。
 
-使用できるデータタイプは、以下の14種である。
+使用できるデータタイプは、以下の13種である。
 
 .. list-table::
   :header-rows: 1
@@ -185,9 +185,6 @@ YAMLファイルは\ YAML 1.2\ に準拠する。\ YAML 1.1\ との主な違い�
   * - ``RESPONSE_BODY_MESSAGES``
     - 応答電文（本文）を示す固定長ファイル
     - グループID指定時は全件収集、ID直接指定時は最初の1件
-  * - ``DEFAULT``
-    - フレームワーク内部用（通常は使用しない）
-    - ―
 
 データブロックは、データタイプと識別子の値（テーブル名・ファイルパス・IDなど）の組み合わせで識別する。識別子の書き方は、形式によって異なる。
 
