@@ -1154,8 +1154,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: YYYY-MM-DD
-- **Last completed**: #N description
-- **Next**: #N description
-- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
+- **Status**: paused
+- **Date**: 2026-08-25
+- **Last completed**: 申し送り44 (d)(e) と `glossary.md` §5.10 の申し送り42・43 を処置し、全4件をクローズ（別セッションによる作業、`d9ab230`）。`#35` は完全クローズ、`#33` は (a)(c) 処置済み・(d)(e-2)(e-3) クローズのまま変わらず
+- **Next**: `#33` の残り (b)（`ja/` 配下の png 26枚の禁止語点検と差し替え。画像作成を伴う）と (e-1)（`.rn/` 内の相互参照の節見出し化）。どちらから着手するか、および (e-1) の対象範囲（`.rn/` 全体か、生きている文書に限るか）は未決で、着手時に user の判定が要る（`#33` エントリの (e-1) の未決点）。別に `#34`（ビルド用 Docker イメージの再作成。環境課題）が残る
+- **Notes**: ブランチ `ntf-yaml-support`、`origin` と同期済み、作業ツリーはクリーン、未追跡パスなし。本セッションはタスクを実行せず、`/rn:up` で State をプレースホルダへ戻した直後にユーザーから「指示するから待機して」と保留された。番号付きタスクは 1〜32・35 が Closed/DONE、`#33`・`#34` が未決のまま残る。`main` へのマージと `.rn/` の扱いは user の明示指示待ち（`Rules` 末尾）
