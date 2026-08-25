@@ -25,7 +25,17 @@
     <scope>test</scope>
   </dependency>
 
-テストデータを\ YAML\ 形式で記述する場合は、\ ``nablarch-testing-yaml``\ もあわせて追加する。\ YAML\ 形式のテストデータを解析するクラスは、このモジュールが提供する。
+.. tip::
+
+  処理方式によっては、専用のモジュールを使用する。専用のモジュールが\ ``nablarch-testing``\ に依存する場合は、\ ``nablarch-testing``\ を個別に追加しなくてよい。必要なモジュールは、\ :ref:`リクエスト単体テストの設定（RESTfulウェブサービス） <request_unit_test_setting_rest>`\ のように、該当するページに記載している。
+
+.. _testing_framework_common-yaml_testdata:
+
+テストデータの形式をYAMLに変更する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+テストデータは、デフォルトでは\ Excel\ 形式で読み込まれる。\ Excel\ 形式で記述する場合、設定は不要である。
+
+YAML\ 形式で記述する場合は、\ ``nablarch-testing-yaml``\ を依存関係に追加する。\ YAML\ 形式のテストデータを解析するクラスは、このモジュールが提供する。
 
 .. code-block:: xml
 
@@ -36,9 +46,40 @@
     <scope>test</scope>
   </dependency>
 
-.. tip::
+あわせて、テストデータを解析するコンポーネント\ ``testDataParser``\ を\ YAML\ 形式用のクラスに差し替える。特殊記法を解釈するクラス群も、\ YAML\ 形式用のものを指定する。
 
-  処理方式によっては、専用のモジュールを使用する。専用のモジュールが\ ``nablarch-testing``\ に依存する場合は、\ ``nablarch-testing``\ を個別に追加しなくてよい。必要なモジュールは、\ :ref:`リクエスト単体テストの設定（RESTfulウェブサービス） <request_unit_test_setting_rest>`\ のように、該当するページに記載している。
+.. code-block:: xml
+
+  <!-- YAML形式のテストデータ記法の解釈を行うクラス群 -->
+  <list name="yamlInterpreters">
+    <component class="nablarch.test.core.util.interpreter.DateTimeInterpreter">
+      <property name="systemTimeProvider" ref="systemTimeProvider"/>
+    </component>
+    <component class="nablarch.test.core.util.interpreter.CompositeInterpreter">
+      <property name="interpreters">
+        <list>
+          <component class="nablarch.test.core.util.interpreter.BasicJapaneseCharacterInterpreter"/>
+        </list>
+      </property>
+    </component>
+  </list>
+
+  <!-- テストデータを解析するコンポーネント -->
+  <component name="testDataParser"
+             class="nablarch.test.core.reader.YamlTestDataParser">
+    <property name="dbInfo" ref="dbInfo"/>
+    <property name="interpreters" ref="yamlInterpreters"/>
+  </component>
+
+``yamlInterpreters``\ に指定するのは、この2つだけでよい。\ null\ ・空文字・ダブルクォート・改行文字は\ YAML\ のパーサが構文として解釈するため、\ Excel\ 形式で必要な\ ``NullInterpreter``\ ・\ ``QuotationTrimmer``\ ・\ ``LineSeparatorInterpreter``\ は指定しない。
+
+.. important::
+
+  ``NullInterpreter``\ を指定してはならない。指定すると、文字列として記述した ``"null"``\ も\ Java\ の\ null\ になり、両者を区別できなくなる。
+
+``testDataReader``\ は指定しない。\ :java:extdoc:`YamlTestDataParser <nablarch.test.core.reader.YamlTestDataParser>`\ は\ YAML\ ファイルを直接読み込むため、この設定を使用しない。
+
+テストデータの記法は :ref:`テストデータの書き方 <testdata_notation>` を参照。
 
 テストデータの読み込み先を変更する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

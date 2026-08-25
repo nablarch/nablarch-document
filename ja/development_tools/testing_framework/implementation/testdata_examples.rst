@@ -859,7 +859,7 @@ YAML形式の場合
           PROFILE: "シルバー会員"
           PHOTO: "${binaryFile:member_photo.jpg}"
 
-``SCORE``\ カラムのようにアンクォートの ``null``\ を記述すると\ Java\ の\ null\ になる。\ ``"null"``\ とクォートした場合も同じ結果になる。
+``SCORE``\ カラムのようにアンクォートの ``null``\ を記述すると\ Java\ の\ null\ になる。\ ``"null"``\ とクォートした場合は、文字列の ``null``\ になる。
 
 期待値（EXPECTED_TABLE・EXPECTED_COMPLETE_TABLE）を記述する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
