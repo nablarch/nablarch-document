@@ -1746,6 +1746,121 @@ YAML形式の場合
             - ["00", "1234567890", ""]
             - ["01", "", ""]
 
+JSON・XMLの電文を記述する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+JSON\ ・\ XML\ の電文を、同期応答メッセージ受信のテストで記述する例である。固定長の電文と違い、電文長がテストショットごとに変わるため、メッセージボディのフィールド長には\ ``"-"``\ を指定する。1つのフィールドに記述すると可読性が落ちる場合は、電文を複数のフィールドに分割する（フィールド名は任意でよい）。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
+
+.. important::
+
+  JSON\ ・\ XML\ を使用する場合は、\ ``file-type``\ ディレクティブを指定して電文全体を文字列としてアサートする。理由と、\ ``file-type``\ の値によるアサート方法の違いは\ :ref:`メッセージングのデータを記述する <testdata_notation-messaging_data>`\ を参照。
+
+Excel形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+要求電文の例を示す。フィールド長行にはフィールドの数だけ\ ``-``\ を記述する。
+
+.. list-table::
+  :header-rows: 0
+  :widths: 10,30,30,30
+
+  * - MESSAGE=setUpMessages
+    -
+    -
+    -
+  * - text-encoding
+    - UTF-8
+    -
+    -
+  * - file-type
+    - XML
+    -
+    -
+  * - requestId
+    - RM11AD0102
+    -
+    -
+  * - no
+    - XML1
+    - XML2
+    - XML3
+  * -
+    - 全半角
+    - 全半角
+    - 全半角
+  * -
+    - ``-``
+    - ``-``
+    - ``-``
+  * - 1
+    - ``<?xml version="1.0" encoding="UTF-8"?><request>``
+    - ``<userId>0000000101</userId><userName>電文太郎</userName>``
+    - ``</request>``
+
+応答電文の期待値は、同じ書式で記述する。
+
+.. list-table::
+  :header-rows: 0
+  :widths: 10,30,30,30
+
+  * - MESSAGE=expectedMessages
+    -
+    -
+    -
+  * - no
+    - XML1
+    - XML2
+    - XML3
+  * -
+    - 全半角
+    - 全半角
+    - 全半角
+  * -
+    - ``-``
+    - ``-``
+    - ``-``
+  * - 1
+    - ``<?xml version="1.0" encoding="UTF-8"?><response>``
+    - ``<statusCode>200</statusCode><userId>0000000101</userId>``
+    - ``</response>``
+
+.. tip::
+
+  フィールド長に\ ``"-"``\ を指定したフィールドでは、値に含まれる改行とその前後の空白が取り除かれる。長い電文は、セル内で改行（\ Alt+Enter\ ）して読みやすく折り返して記述できる。上の表はセル内の改行を示せないため、1行に詰めた状態で示している。
+
+YAML形式の場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``length``\ には文字列として ``"-"``\ を記述する。クォートを外すと\ YAML\ の記法上の意味を持つため、必ずダブルクォートで囲む。
+
+.. code-block:: yaml
+
+  messages:
+    - id: setUpMessages
+      directives:
+        text-encoding: UTF-8
+        file-type: XML
+      fw_header:
+        requestId: RM11AD0102
+      records:
+        - record_type: default
+          fields:
+            - {name: XML1, type: 全半角, length: "-"}
+            - {name: XML2, type: 全半角, length: "-"}
+            - {name: XML3, type: 全半角, length: "-"}
+          rows:
+            - ["<?xml version=\"1.0\" encoding=\"UTF-8\"?><request>",
+               "<userId>0000000101</userId><userName>電文太郎</userName>",
+               "</request>"]
+    - id: expectedMessages
+      records:
+        - record_type: default
+          fields:
+            - {name: XML1, type: 全半角, length: "-"}
+            - {name: XML2, type: 全半角, length: "-"}
+            - {name: XML3, type: 全半角, length: "-"}
+          rows:
+            - ["<?xml version=\"1.0\" encoding=\"UTF-8\"?><response>",
+               "<statusCode>200</statusCode><userId>0000000101</userId>",
+               "</response>"]
+
 同期応答メッセージ送信の要求電文の期待値を記述する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Nablarch\ バッチアプリケーションのリクエスト単体テストで、送信される要求電文のヘッダが期待どおりであることを検証する例である。テストショット一覧の ``expectedMessage``\ カラムに記述したグループIDと、要求電文の期待値のデータブロックが紐付く。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
