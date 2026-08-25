@@ -1281,7 +1281,8 @@ Excel／YAML の例を示し、それぞれに「なぜそう書くのか」「�
   | 論点 | 状態 |
   |---|---|
   | 2 `"-"` の副作用 | **決着（`f7a3257`）。** `:1057` に「この場合、値に含まれる改行と、その前後の空白は取り除かれる」を追記した。基準の「利用者が正しく書こうとしても踏む」に当たると判断（セル内で折り返して書いた値がどう格納されるかを知らないと期待値が組めず、`"-"` の1文字からは分からない）。**申し送りの元文言「値は改行コードと前後空白が除去される」（`input/ntf-testdata-doc.md:417`）は不正確なので採らなかった。** 実測（`nablarch-testing@e21bf67` に置いたプローブテストで `.xls` を組み `DataFile#write()` の出力バイト列を確認）: `"  abc  "` は7バイトのまま＝前後空白は残る（フィールド長も7）、`"line1\nline2"`→`"line1line2"`、`"p \n q"`→`"pq"`、`"tail\n"`→`"tail"`。実装は `DataFileFragment.java:76` `REMOVE_LS_SP_PATTERN = "\s*[\r\n]\s*"` を `:108`-`:110`（`addValue`）・`:176`-`:178`（`addValueWithId`）の `"-"` フィールドだけに適用し、除去後の値をそのまま格納する（埋め戻しなし。`:112`→`:114`→`:386` `toDataRecords()`／`:574` `writeWith()`） |
-  | 5 パディング | **不成立（回帰していない）。** 「データ型に応じたパディング」は `:889` に `#9`（`a0d09aa`）から一貫してある。残っていた `:880` の括弧書き「スペースパディング」だけを `:889` と揃えた（`8fe964b`） |
+  | 2 続き: JSON・XML の電文 | **決着（`9cf44af`）。** `:1222` の tip が「電文ごとに電文長が異なるため、テストデータの内容に応じて電文長が自動計算される」と結果だけを書き、前提（メッセージボディのフィールド長に `"-"` を指定する）が抜けていた。実測: 同じセル値（19バイト、セル内改行つき）で `"-"`→record-length 15・改行除去、`"19"`→19・改行が残る、`"40"`→40・改行が残る。**内容に応じて決まるのは `"-"` のときだけ。** NTF 自身のテストデータも `src/test` の .xls 59件中、フィールド長に `"-"` を使う65件がすべて `core/messaging` 配下（`MessagingRequestTestSupportTest.xls` `testUseStructFwHeaderDefJSON`、`RequestTestingMessagingClientTest.xls` `testSendSync` ほか。XML はセル内改行で折り返して書かれている）。旧解説書も `http_real.rst:170` で同じことを言っており、作り直しで落ちていた |
+| 5 パディング | **不成立（回帰していない）。** 「データ型に応じたパディング」は `:889` に `#9`（`a0d09aa`）から一貫してある。残っていた `:880` の括弧書き「スペースパディング」だけを `:889` と揃えた（`8fe964b`） |
   | 9 マーカーカラムの対象 | **決着。** 5箇所を是正（`faebf90`）。掛かるのは `SETUP_TABLE`・`EXPECTED_TABLE`・`EXPECTED_COMPLETE_TABLE`・`LIST_MAP` の4つだけで、ファイルデータ・メッセージングには掛からない。`HeaderLine` を参照するのは `ListMapParser`・`TableDataParser` の2クラスのみ（`nablarch-testing@e21bf67`）。`EXPECTED_COMPLETE_TABLE` の欠落も補った（`BasicTestDataParser.java:171-181`） |
   | 10 0件テーブルの書き方 | **決着済み（対応不要）。** `#23`（`b75f1d7`）で既に書かれている。`:728`-`:736` に専用節、Excel は `:786`、YAML は `:833` |
   | 3・6・7・11 | 未着手。仕様の判断が要る |
@@ -1442,6 +1443,17 @@ Excel／YAML の例を示し、それぞれに「なぜそう書くのか」「�
   および前後空白を除去する」と書いているが、除去されるのは**改行と、その前後の空白**であって、
   改行を含まない値の前後空白は残る（論点2 の実測。解説書側は `f7a3257` で是正済み）。
   スキーマ description も SSoT 範囲なので、解説書の文言に合わせる
+
+**`#36` の範囲外として起こした課題**（`nablarch/CLAUDE.md` 4-1。元からある欠陥で、今回の変更が
+作ったものではない）:
+
+- **`testdata_examples.rst` に JSON・XML の電文の記載例が無い。** 記法ページは `:1165`・`:1222` で
+  JSON・XML の電文について注意（1読み込み単位に1テストショット／`file-type` を設定／フィールド長は
+  `"-"`）を述べているのに、記載例ページのメッセージング節（`testdata_examples.rst:1632`-）の例は
+  すべて数値のフィールド長で、JSON・XML をどう書くかを一度も示していない。NTF 自身のテストデータ
+  （`MessagingRequestTestSupportTest.xls` `testUseStructFwHeaderDefJSON`・`testXmlAsString`、
+  `RequestTestingMessagingClientTest.xls` `testSendSync`）が実例になる。**`#36` の論点2 は記法
+  ページの是正までで、記載例の追加は別タスクとして起こす**
 
 # State
 
