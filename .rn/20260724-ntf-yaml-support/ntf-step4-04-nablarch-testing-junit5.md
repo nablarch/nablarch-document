@@ -4,6 +4,38 @@
 
 ---
 
+## 0. 渡すときの文面
+
+**担当CCには次の3つを伝えれば足りる。以下をそのまま貼る。**
+
+```
+Step 4 の作業を依頼します。指示書に11件が確定済みで載っています。探索は不要です。
+
+作業場:
+  /home/tie303177/work/nablarch/nablarch-testing-junit5/.claude/worktrees/fix-resolveTestRules
+  ブランチ worktree-fix-resolveTestRules（2ebea7e）
+  リポジトリ本体は main（1afcc5e）をチェックアウトしていますが、そちらでは作業しないでください。
+
+指示書:
+  /home/tie303177/work/nablarch/nablarch-document/.rn/20260724-ntf-yaml-support/ntf-step4-04-nablarch-testing-junit5.md
+  nablarch-document の origin/ntf-yaml-support に入っています。
+  作業ツリーが古い場合は
+  git show origin/ntf-yaml-support:.rn/20260724-ntf-yaml-support/ntf-step4-04-nablarch-testing-junit5.md
+  で読んでください。
+
+指示書の「1. やること」「2. 作業一覧」「3. 完了条件」「5. 報告」に従ってください。
+特に次の2つを落とさないでください。
+
+- 足したテストそれぞれについて、期待値をわざと崩すと落ちることを1度確認し、確認したことを報告に書く
+  （「テストが通る」だけでは、そのテストが何かを押さえた証拠になりません）
+- #1（resolveTestRules のリスト順序）は、順序を入れ替えた負のテストを必ず書く
+
+後始末: git status --short が空になること。jacoco.exec を残さないこと
+（.gitignore に入っていません）。一時ファイル・作業用スクリプト・ログを消すこと。
+```
+
+---
+
 ## 1. やること
 
 **解説書 `setup/junit5_extension.rst` が書いている挙動のうち、既存テストが押さえていない11件をテストで押さえる。**
