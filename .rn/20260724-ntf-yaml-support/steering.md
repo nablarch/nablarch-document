@@ -1684,6 +1684,59 @@ sphinx-build -E -a -d _build/.doctrees/ja -b html ja _build/html"` が `build su
 **検証**: Docker（README の手順）で ja をビルドし `build succeeded`。警告1件は `_build/html/.buildinfo` の
 形式に関するもので、本変更とは無関係。
 
+### #40: Step 4 —— `nablarch-testing-yaml` の突合と指示書の作り直し — 指示書は完成、渡すのはこれから
+
+**旧 `ntf-step4-02-nablarch-testing-yaml.md` は取り消して、新しい型で作り直した**（`#37` の型変更）。
+やることは「解説書に書いてあることをテストで押さえる」であり、読み比べて不一致を洗い出す形にしない。
+
+**担当ページの範囲**（ディレクターが実測して確定）。`ja/development_tools/testing_framework/` 配下の
+`.rst` 37本のうち、`yaml`（大小文字問わず）が現れる12本から `tools/testdata_converter.rst`（converter 担当）を
+除いた **11ファイル・6,307行を全量**。0件の25ファイルを担当外とする根拠は、`テキスト形式`／`両形式`／
+`形式によらず`／`どちらの形式` のいずれも0件であること（`c6559eb` 実測。YAML 形式に触れずに YAML 固有の
+挙動を述べているページは無い）。
+
+**突合の規模**（実測）:
+
+| | 件数 |
+|---|---|
+| 担当ページ | 11ファイル・6,307行 |
+| テストで検証できる粒度に分解した項目 | **335件**（`可` 259・`不可(静的)` 19・`不可` 57） |
+| 既存テスト | 7クラス・**226メソッド**（`@Ignore` 0件） |
+| **確定した作業** | **18件**（実装の是正5・テスト追加13） |
+
+分解はサブエージェント3本（`notation.rst`+`common.rst` / `testdata_examples.rst` / 残り8ファイル）に
+全量読ませ、拾わなかった行範囲と理由を1行ずつ書かせて行数の検算を取った（3本とも一致、隙間・重複0）。
+既存テストの目録も別のサブエージェントに作らせた。**突き合わせと未カバーの判定はディレクターが自分で行い、
+指示書の `file:line`・逐語・件数は書いたあとに全部ピンで照合した。** 照合で自分の誤りが1件出た
+（`buildListMapRows_blankValueRow*` を3件と書いたが実測2件）。
+
+**実装の是正5件**（`src/main` を変更してよい側）:
+
+1. 空行判定が Java null を空扱いしている（`YamlSection.java:201`-`:208`）。SSoT は
+   `implementation/testdata_notation.rst:1500`「空マッピング `{}` またはすべての値が空文字」で null に触れていない
+2. `isResourceExisting` の判定単位が Excel と違う（E-1）。呼び出し元3箇所を全走査済み。
+   `nablarch-testing-converter` の `YamlTestCoreAdapter.java:102` に波及し、
+   `YamlTestCoreAdapterTest.java:365`-`:370` が落ちる（converter は直さず報告させる）
+3. 送信同期4キーでレコード種別が潰れる（`YamlFileBuilder.java:187`-`:189`）。`#39` で解説書を先に直した
+4. テスト用 `yamlInterpreters` が `setup/common.rst:77`・`:81` の禁止に反する
+5. スキーマの `description` 3件（`:108`・`:136`・`:410`）
+
+**テスト追加13件**: いずれも解説書に記述があり既存226件が押さえていないもの。実測で0件を確認した。
+
+**レビューは回さない。** 作業が18件に確定していて探索を含まないため。観点D は完了条件
+「期待値をわざと崩すと落ちること」で代替する。
+
+**未確認として残したもの**（サブエージェントが自己申告した「自信の無い箇所」計28件のうち、
+指示書に落とさなかったもの）。いずれも解説書に記述が無いために項目化できなかったものであり、
+**解説書の記述漏れの疑いとして残る**:
+
+- YAML ファイル名とテストメソッド名の対応が YAML 節に無い（Excel は `notation.rst:69`・`:73` で推奨と書く）
+- 可変長ファイルの `fields[].length` の要否が YAML 節に無い（`notation.rst:1135`）
+- スキーマ検証違反時の挙動（例外型・メッセージ）が `notation.rst:92` に無い
+- YAML の言語機能（アンカー・エイリアス・複数ドキュメント・ブロックスカラ）に解説書が一切触れていない
+- `notation.rst:452` のカンマ・バックスラッシュのエスケープを YAML でどう書くかが特殊記法表に無い
+- Excel の `[EMPTY]` マーカーカラムに相当する YAML の書き方が無い
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
