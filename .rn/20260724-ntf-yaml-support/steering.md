@@ -1503,6 +1503,89 @@ Excel／YAML の例を示し、それぞれに「なぜそう書くのか」「�
 | — ツールの並び順 | **決着（2026-08-26。user 判断「素直に一番後ろに置く」）。`tools/index.rst` の `toctree`・`design.md` §5 の図・`mapping/vocabulary.md` の `dest_page` 表の3箇所で、テストデータ変換ツールを末尾へ移した。あわせて `design.md` §5 に規則と理由を明記した。** 経緯: 変換ツールは現行解説書の3ツール（`08_TestTools/01_HttpDumpTool`・`02_MasterDataSetup`・`03_HtmlCheckTool`）の並びの2番目に挿し込まれていたが、**その位置の理由は `design.md`・`steering.md`・`checks/` のどこにも記録が無かった**（`mapping.csv` の行順とも一致しない）。レビュー役は「ライフサイクル順（作る→変換する→投入する→検査する）」という読みを推測として示したが、user が却下した。理由は、ライフサイクルで説明すると「変換ツールは先頭では」という話になり既存3ツールの順序まで組み替える議論になるため。**新設のツールは既存の並びの末尾に足す**という規則にすれば、次にツールが増えても同じ扱いで済む |
 | — `[EMPTY]` の記載場所 | **決着（2026-08-26。user 指示）。`tools/testdata_converter.rst` の「前提事項」に1段落を追加した。** **規則: 変換ツールのページに書くのは、NTF 仕様とは別に変換ツールがやっていることだけである。** それ以外は各形式の「書き方」と「記載例」に書く。この規則により (1) マーカーカラムを置くこと自体は NTF の記法どおりなので `implementation/testdata_notation.rst` と `implementation/testdata_examples.rst` に書き、(2) その名前を `[EMPTY]` とするのは変換ツールの決めなので `tools/testdata_converter.rst` に書く、と分かれる。**レビュー役は最初 (1)(2) をまとめて変換ツールのページに形式間の記述として書き（user 指摘で取り消し）、次に両方を記法・記載例へ移して (2) を変換ツールのページから落とした（user 再指摘で復帰）。** `markerColumnColor` の設定項目の説明欄（`tools/testdata_converter.rst`）にも `[EMPTY]` は出てくるが、設定表の中だけでは変換結果を見た読者が辿り着けない |
 
+### #37: Step 4 —— 各モジュールを SSoT（解説書）に合わせる — 進行中
+
+**Purpose**: 解説書を SSoT と定めたうえで、依存する5モジュールの実装・テスト・スキーマを解説書に合わせる。
+**指示はリポジトリごとに別ファイルへ分けて出す**（user 指示 2026-08-26）。解説書側の作業は `#36` で完了しており
+（図＝png 26枚を除く）、本タスクは解説書を変更しない。
+
+**依存順**（pom 実測 2026-08-26）: `nablarch-testing` → `{nablarch-testing-yaml, nablarch-testing-rest}`
+→ `{nablarch-testing-junit5, nablarch-testing-converter}`。`-junit5` は `-rest` に、`-converter` は `-yaml` に依存する。
+
+**参照点**（PR ブランチの先端。2026-08-26 に `git ls-remote` で実測。すべて remote と一致）:
+`nablarch-document` = `ntf-yaml-support` `40b9c52` ／ `nablarch-testing` = `convert-testdata-excel-to-text` `3c4bd2a` ／
+`nablarch-testing-yaml` = `feature/ntf-yaml` `0db2221` ／ `nablarch-testing-converter` = `ntf-test-data-converter` `60d9a2d` ／
+`nablarch-testing-junit5` = `worktree-fix-resolveTestRules` `2ebea7e` ／ `nablarch-testing-rest` = `fix-testdataparser-usage` `a4ec1ee`
+（ローカルには未 push の `a8aeb52` があるが、参照点は remote の `a4ec1ee`）。
+
+**全リポジトリ共通の範囲**（user 確定 2026-08-26）:
+
+- **既知の是正項目＋解説書の全件突合。** 突合の母集合はページ単位で先に固定し、キーワード走査で切り出さない
+- **カバレッジ C0/C1 は全件開示方式**（数値目標を置かず、未到達を全件列挙してテスト追加か不要根拠を書く）。
+  **対象は今回の変更が持ち込んだ未到達に限り、元から未達のものは対象外**
+- **解説書は直さない。** 解説書側が誤っていると判断した項目は、根拠を添えて報告し止める
+
+**指示書**:
+
+- [x] `ntf-step4-01-nablarch-testing.md` —— 作成済み
+- [ ] `nablarch-testing-yaml` —— 未作成
+- [ ] `nablarch-testing-rest` —— 未作成
+- [ ] `nablarch-testing-junit5` —— 未作成
+- [ ] `nablarch-testing-converter` —— 未作成
+
+**ディレクターが各 PR ブランチのピンで実測済みの事実**（指示書に逐語で載せる根拠。すべて `git show <pin>:<path>`）:
+
+- **nablarch-testing**（論点4）—— `DataFileFragment.java:102`-`:115`（`addValue`）・`:169`-`:183`（`addValueWithId`）が
+  `for (int i = 0; i < names.size(); i++)` でループを止め、超過値を読まない。同ファイルにログ出力0件。
+  呼び出し元は `DataFileParser.java:197`・`MessageParser.java:75`・`SendSyncMessageParser.java:129`・`:134` の4箇所。
+  **解説書側は0件**（`grep -rn "数を超える\|超えた位置\|余り" ja/…/testing_framework` が0件）。
+  **user 判断（2026-08-26）「現行どおりで解説書影響なし、利用者影響なしなら仕様です」** —— 残るのは利用者影響の判定だけ
+- **nablarch-testing-yaml**（論点6）—— `YamlSection.java:201`-`:209` の `isBlankRow` が `toStr`（同 `:127`-`:128`。
+  `value != null ? value.toString() : null`）経由で Java null を空扱いする。Excel 側 `PoiXlsReader.java:140`-`:147`
+  （`3c4bd2a`）の `isBlankLine` は文字列の `isEmpty()` のみを見る。解説書 `implementation/testdata_notation.rst:1500` は
+  「すべての値が**空文字**の場合にスキップされる」と述べ null に触れていないため、YAML 側が食い違う
+- **nablarch-testing-yaml**（テスト用インタープリタ）—— `src/test/resources/unit-test.xml:56`-`:76` の
+  `yamlInterpreters` が `NullInterpreter`（`:58`）と `LineSeparatorInterpreter`（`:65`）を含む。
+  解説書 `setup/common.rst`「テストデータの形式をYAMLに変更する」は `DateTimeInterpreter` と
+  `CompositeInterpreter` の2つだけとし、`NullInterpreter` は `.. important::` で明示的に禁じている
+- **nablarch-testing-yaml**（スキーマ）—— `src/main/resources/nablarch/test/ntf-testdata-yaml-schema.json` の
+  `:410`（`length`。「改行コードおよび前後空白を除去する」）・`:108`・`:136`（いずれも「全ての値が null または空文字の行は
+  取り除かれる」）が解説書と食い違う。`:108` には FK 制約の案内と BOOLEAN 型カラムの記述が両立しない箇所も含む
+- **nablarch-testing-converter**（論点11）—— `YamlFormatReader.java:485`-`:488` の `formatGroup` が
+  `"[" + groupId + "]"` で囲み、`XlsFormatWriter.java:529`-`:531` の `marker` が整形済み前提で連結し、
+  `YamlFormatWriter.java:479`-`:488` の `rawGroup` が外側1組の `[` `]` を推測で剥がす。Excel 側は
+  `TestCoreReaderAdapter.java:282`-`:286` の `markerGroupId` が `[case1]` ごと切り出す。
+  **解説書はグループIDに触れていない**（`tools/testdata_converter.rst` に「グループID」0件）
+- **nablarch-testing-junit5** —— `setTestRules` の呼び出しは `src/test/java` に19件あり、**すべて1件または `RuleChain`**。
+  リストの順序を押さえるテストは0件。`StandardTestRuleIntegrationTest:186` は `RuleChain` 自身の入れ子順。
+  解説書 `setup/junit5_extension.rst:439` の「リストの先頭にあるものほど内側、末尾にあるものが最も外側」は
+  `TestEventDispatcherExtension.java:427`-`:428`（`applyTestRules` が順に包む）と Javadoc `:509`-`:510` に対応する。
+  `TimeoutRuleIntegrationTest:80` のテスト名「解説書の例と同じ実装でTimeoutを追加すると…」は、解説書が実装例を
+  独自 `TestRule` に差し替えたため指す先が無い
+- **nablarch-testing-rest** —— 申し送り `.rn/fix-testdataparser-usage/handoff-to-docs.md` が求めた
+  「シートが存在しない場合は `setUpDb` が呼ばれない」旨の記述は、**解説書に0件**
+  （`grep -rn "setUpDbIfSheetExists\|isExisting\|isResourceExisting" ja/…/testing_framework` が0件）。
+  **解説書側の対応は不要**。PR #38 は task #3 が check-off されず user review 待ち
+
+**解説書のページと担当リポジトリ**（2026-08-26 実測。解説書が名指しするクラス103件を各リポジトリの `src/main/java` と
+突き合わせ、あわせて `YAML` の出現をページ別に数えた）:
+
+| リポジトリ | 担当するページ |
+|---|---|
+| nablarch-testing | 38ファイル全部（本体）。他4リポジトリが担当する記述は「対象外」として理由を記録する |
+| nablarch-testing-yaml | `YAML` が現れる12ページ（`testdata_examples.rst` 81・`testdata_notation.rst` 42・`tools/testdata_converter.rst` 23・`setup/common.rst` 12・`tools/master_data_tool.rst` 4・`implementation/deal_unit_test/batch.rst` 3 ほか。計171件） |
+| nablarch-testing-rest | `setup/request_unit_test/rest.rst`・`setup/deal_unit_test/rest.rst`・`implementation/request_unit_test/rest.rst`・`implementation/deal_unit_test/rest.rst`・`setup/junit5_extension.rst` の rest 記述 |
+| nablarch-testing-junit5 | `setup/junit5_extension.rst`（junit5 のクラス23件が出現） |
+| nablarch-testing-converter | `tools/testdata_converter.rst`（converter のクラス6件が出現） |
+
+**Completion criteria**:
+
+- 5本の指示書がすべて作成され、各リポジトリへ渡っている
+- 各リポジトリが指示書の完了条件を満たし、報告を返している
+- 「解説書側の誤りの疑い」として上がった項目に、ディレクターの判定が付いている
+- 解説書（`ja/`・`mapping/`・`design.md`）に差分が無い
+
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
@@ -1511,6 +1594,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-08-26
-- **Last completed**: `#36` Step 3 **完了**（図＝png 26枚を除く）。最後がリード文の廃止と `機能概要` の必須化（29ページ、`f31870e`）と、`TODO(NTF-MOD-*)` 残2件の実削除（`8ac6e2a`。`f31870e` がメッセージだけ書いて実体を取りこぼしていたものの是正）。**`ja/` の `TODO(NTF-*)` は0件**（`_build/` を除いて実測）
-- **Next**: **Step 4 の作業指示を書く。** これが再開後の最初の仕事である。**指示はリポジトリごとに別ファイルへ分けて出す**（user 指示 2026-08-26）。出力先は `.rn/20260724-ntf-yaml-support/` 配下で、既存の依頼書3本（`ntf-mod-0{1,2,3}-*.md`）と同じ場所。対象リポジトリと入力は下の「Step 4 の入力」にある。**指示を書く前に `design.md` と `steering.md` を全量読む**（案件ルール）。**Step 4 に着手してよいのは図（png 26枚。user 担当）を除く Step 3 の残作業が無くなってからで、その条件は満たしている**（user 指示 2026-08-26「図以外の残終わるまで Step4 に進んだらダメ」）
+- **Last completed**: `#37` Step 4 の指示書1本目 `ntf-step4-01-nablarch-testing.md` を作成し、`#37` を台帳に起こした。`#36` Step 3 は完了済み（図＝png 26枚を除く）
+- **Next**: **Step 4 の指示書を残り4本、依存順に1本ずつ作る。**`nablarch-testing-yaml` → `nablarch-testing-rest` → `nablarch-testing-junit5` → `nablarch-testing-converter`。**1本作るごとに、そのモジュールへ渡してセッションを切り替える**（user 指示 2026-08-26）。各リポジトリの実測済みの根拠は `#37` の「ディレクターが各 PR ブランチのピンで実測済みの事実」にある。指示書の型は `ntf-step4-01-nablarch-testing.md` に揃える
 - **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、未追跡パスなし。**変更したら push する**（user 指示 2026-08-26。`Rules` 参照）。番号付きタスクは 1〜32・35 が Closed/DONE、`#33`・`#34` が未決、`#36` が進行中。`main` へのマージと `.rn/` の扱いは user の明示指示待ち（`Rules` 末尾）。**英語版 `en/` は別PR（`ja/` を翻訳するのみ）**、**モジュールを SSoT に合わせる作業とカバレッジ C0/C1 チェックは Step 4**（いずれも user 確定 2026-08-26）
