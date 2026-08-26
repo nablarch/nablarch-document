@@ -1530,8 +1530,8 @@ Excel／YAML の例を示し、それぞれに「なぜそう書くのか」「�
 
 **指示書**:
 
-- [x] `ntf-step4-01-nablarch-testing.md` —— 作成済み
-- [ ] `nablarch-testing-yaml` —— 未作成
+- [x] `ntf-step4-01-nablarch-testing.md` —— **渡し済み**。`87a21d6` で `src/main` 変更禁止を反映して差し替えた（差し替えの伝言も渡した）
+- [x] `ntf-step4-02-nablarch-testing-yaml.md` —— 作成済み。**本モジュールは `src/main` を変更してよい**（未リリース）。突合の母集合は38ファイル・9,822行を先に固定し、`YAML`/`yaml` が現れる12ファイル・6,640行を担当、残り26ファイル・3,182行は0件を数え直したうえで「対象外」と理由を1行ずつ書かせる（26ファイル分は `nablarch-testing` の母集合が拾うため隙間が出ない）
 - [ ] `nablarch-testing-rest` —— 未作成
 - [ ] `nablarch-testing-junit5` —— 未作成
 - [ ] `nablarch-testing-converter` —— 未作成
