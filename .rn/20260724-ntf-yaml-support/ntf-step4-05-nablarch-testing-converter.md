@@ -4,6 +4,42 @@
 
 ---
 
+## 渡す前にやること（ディレクター向け。CC には渡さない）
+
+**`nablarch-testing-yaml` の Step 4 が完了するまで、本指示書を渡さない**（2026-08-26 user 了承）。
+
+本モジュールは `nablarch-testing-yaml` に依存する（`pom.xml:40`-`:44`。`1.0.0-SNAPSHOT`）。
+yaml 側の是正 2-2（`isResourceExisting` の判定単位を入れ物に揃える）は、**本モジュールのテストを
+意図的に落とす**。この状態で渡すと、CC は落ちたテストが自分の変更のせいか yaml のせいかを
+切り分けられない。
+
+**2026-08-26 20:58 の実測**（`mvn -o clean test -Dtest=YamlTestCoreAdapterTest`）:
+
+```
+Tests run: 18, Failures: 1
+YamlTestCoreAdapterTest.isResourceExisting_reflectsFileExistence:370
+```
+
+同時点で yaml リポジトリは作業中だった。HEAD がピン `0db2221` から `e9bee93` へ進み、
+`src/main` が7ファイル・+187/-65。指示書18件のうち 2-1・2-2・2-3 が済み、2-4・2-5 と
+テスト追加13件が残っていた。`~/.m2` の yaml jar は 20:31 に install された**作業途中の版**である。
+
+**渡す前の手順**
+
+1. yaml CC の完了報告を受け、ディレクターが `0db2221` からの差分を全量読み直して独立に検証する
+2. **yaml のピンを取り直す**。本指示書の参照点の表と 2-2・「5. やらないこと」を更新する
+3. yaml を `mvn install` する
+4. **「5. やらないこと」の `YamlTestCoreAdapterTest.java:365`-`:370` の扱いを書き換える。**
+   yaml が直ったあとは「落ちるのが想定内」ではなく「**期待値を yaml の新しい仕様に合わせて直す**」に変わる。
+   これは第2節の是正に足す（件数も更新する）
+5. `nablarch-testing` は**取り直し不要**。`~/.m2` の `nablarch-testing-6-NEXT-SNAPSHOT.jar`
+   （2026-08-21 18:28 install）は PR ブランチ由来であることを実測で確認した
+   （`javap` で `TestDataParsingTemplate` にブランチだけが持つ `cachedParse`・`tryLoadFromCache`・
+   `storeToCache`・`saveCache` があること）。さらにピン `3c4bd2a` とブランチ先端 `44b9cc9` は
+   `src/main` がバイト同一である
+
+---
+
 ## 0. 渡すときの文面
 
 **担当CCには次をそのまま貼る。**
@@ -45,8 +81,11 @@ tools/testdata_converter.rst が変わっています。必ず git show 5783b35:
 - 解説書は直さないでください。「解説書が誤っている」と判断した項目は、根拠を添えて
   報告して止めてください
 
-後始末: git status --short が空になること。jacoco.exec は .gitignore に無いので消してください。
-一時ファイル・作業用スクリプト・ログを残さないでください。
+ビルドの注意: target/classes が jacoco 計装済みのまま残っていることがあり、その状態の
+mvn test は「Cannot process instrumented class」で失敗します。mvn clean test を使ってください。
+
+後始末: git status --short が空になること。一時ファイル・作業用スクリプト・ログを
+残さないでください（jacoco.exec と target/ は .gitignore に入っているので消さなくてよい）。
 ```
 
 ---
@@ -69,7 +108,7 @@ tools/testdata_converter.rst が変わっています。必ず git show 5783b35:
 | 解説書 `nablarch-document` | **`5783b35`**（ブランチ `ntf-yaml-support`） | `git show 5783b35:<path>` |
 | 本モジュール | **`60d9a2d`**（ブランチ `ntf-test-data-converter`） | 作業ツリーで作業してよい |
 | `nablarch-testing` | `3c4bd2a` | `git show 3c4bd2a:<path>`。**変更しない** |
-| `nablarch-testing-yaml` | `0db2221` | `git show 0db2221:<path>`。**変更しない** |
+| `nablarch-testing-yaml` | **渡す前に取り直す**（`0db2221` は古い。Step 4 で `src/main` が動いている） | `git show <取り直したピン>:<path>`。**変更しない** |
 
 **解説書は必ずピンで読む。** 作業ツリーの HEAD はピンとは別物である。
 
@@ -305,9 +344,10 @@ Excel 形式の書式であって値ではない。**
 6. **既存テストの期待値を変えた箇所が全件挙がっている。** 2-1・2-3 は既存テストの期待値に触れる。
    どれを変えどれを変えなかったかを、件数を数えたうえで報告する
 7. **カバレッジ C0/C1 を計測し、結果を報告する。** `src/main` の是正で下がった箇所があれば挙げる
-8. `mvn test` が緑であること
-9. `git status --short` が空。`jacoco.exec` は `.gitignore` に無いので消すこと。
-   一時ファイル・作業用スクリプト・ログを残さない
+8. **`mvn clean test` が緑であること。** `target/classes` が jacoco 計装済みのまま残っていると
+   `mvn test` は `Cannot process instrumented class` で失敗する（2026-08-26 実測）。`clean` を付ける
+9. `git status --short` が空。一時ファイル・作業用スクリプト・ログを残さない
+   （`jacoco.exec` と `target/` は `.gitignore:1`・`:3` に入っているので消さなくてよい）
 10. 変更を push する
 
 ---
@@ -320,8 +360,11 @@ Excel 形式の書式であって値ではない。**
 - **`nablarch-testing-yaml` を直さない。** 同モジュールには別の指示書が出ている
 - **解説書に無い書き方を追いかけない。** 誤った書き方は無限にあり、追い始めると完了条件が動く
 - **形式間の対応表を作らない。** 合わせる先は各形式と解説書であって、形式どうしではない
-- **`YamlTestCoreAdapterTest.java:365`-`:370` を直さない。** `nablarch-testing-yaml` 側の是正
-  （`isResourceExisting` の判定単位）が入ると落ちる。落ちたら報告するだけにする
+- **`YamlTestCoreAdapterTest.java:365`-`:370` の扱いは、渡す前にディレクターが確定する。**
+  `nablarch-testing-yaml` 側の是正（`isResourceExisting` の判定単位を入れ物に揃える）が入ると
+  このテストは落ちる（2026-08-26 実測。`isResourceExisting_reflectsFileExistence:370`）。
+  **yaml の是正が入った版で渡すので、期待値を新しい仕様に合わせて直すことになる。**
+  渡す時点でこの行が書き換わっていなければ、指示書が更新されていない。着手せず報告すること
 
 ---
 
