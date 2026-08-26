@@ -199,7 +199,7 @@ Javaのコードから変換を呼び出す
           Paths.get("src/test/java/com/example/batch"),
           Paths.get("src/test/java/com/example/batch"));
 
-絞り込みや上書きの可否を指定する場合は、\ ``ConversionRequest``\ を組み立てて渡す。絞り込みの条件は、Mavenプラグインの\ ``<includes>``\ ・\ ``<excludes>``\ ・\ ``<excludeSheets>``\ に対応する\ ``include``\ ・\ ``exclude``\ ・\ ``excludeSheet``\ メソッドで1件ずつ追加する。まとめて渡す場合は\ ``includes``\ ・\ ``excludes``\ メソッドにリストを渡す。
+絞り込みや上書きの可否を指定する場合は、\ ``ConversionRequest``\ を組み立てて渡す。絞り込みの条件は、Mavenプラグインの\ ``<includes>``\ ・\ ``<excludes>``\ ・\ ``<excludeSheets>``\ に対応する\ ``include``\ ・\ ``exclude``\ ・\ ``excludeSheet``\ メソッドで1件ずつ追加する。まとめて渡す場合は\ ``includes``\ ・\ ``excludes``\ ・\ ``excludeSheets``\ メソッドにリストを渡す。
 
 .. code-block:: java
 
