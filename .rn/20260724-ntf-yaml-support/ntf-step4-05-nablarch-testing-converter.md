@@ -6,37 +6,36 @@
 
 ## 渡す前にやること（ディレクター向け。CC には渡さない）
 
-**`nablarch-testing-yaml` の Step 4 が完了するまで、本指示書を渡さない**（2026-08-26 user 了承）。
+**4点とも 2026-08-27 に完了した。本指示書は渡してよい。**
 
-本モジュールは `nablarch-testing-yaml` に依存する（`pom.xml:40`-`:44`。`1.0.0-SNAPSHOT`）。
-yaml 側の是正 2-2（`isResourceExisting` の判定単位を入れ物に揃える）は、**本モジュールのテストを
-意図的に落とす**。この状態で渡すと、CC は落ちたテストが自分の変更のせいか yaml のせいかを
-切り分けられない。
+| # | やること | 結果 |
+|---|---|---|
+| 1 | yaml CC の完了報告をディレクターが独立に検証する | **完了**（Step 4 の18件＋`#35` の2件。`mvn -o clean test` = 268件成功・Skipped 1。門番テストのミューテーション検知も実測） |
+| 2 | yaml のピンを取り直し、参照点の表と 2-2・「5. やらないこと」を更新する | **完了**。`0db2221` → **`0b3015c`**（`src/` は `67bd37b` と同一。差分は `steering.md` のみ） |
+| 3 | yaml を `mvn install` する | **完了**（2026-08-27。`0b3015c` の版が `~/.m2` に入っている）。**`JAVA_HOME` を設定しないと javadoc プラグインで落ちる**（`JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64`。実測） |
+| 4 | `YamlTestCoreAdapterTest.java:369`-`:370` の扱いを確定する | **完了**。第2節の **2-5** に起こした |
+| 5 | `nablarch-testing` は取り直し不要 | **確認済み**（`~/.m2` の `nablarch-testing-6-NEXT-SNAPSHOT.jar` は PR ブランチ由来。ピン `3c4bd2a` と先端 `44b9cc9` は `src/main` がバイト同一） |
 
-**2026-08-26 20:58 の実測**（`mvn -o clean test -Dtest=YamlTestCoreAdapterTest`）:
+**渡す直前に実測した converter の初期状態**（2026-08-27、yaml `0b3015c` を install した状態で `mvn -o clean test`）:
 
 ```
-Tests run: 18, Failures: 1
-YamlTestCoreAdapterTest.isResourceExisting_reflectsFileExistence:370
+Tests run: 605, Failures: 5, Errors: 0, Skipped: 2
+  YamlTestCoreAdapterTest.isResourceExisting_reflectsFileExistence:370          → 2-5 で直す
+  YamlFormatReaderInvalidInputTest.dropsAllRowsWhenFirstRowOfTableIsEmptyObject:601        → 2-7 で直す
+  YamlFormatReaderInvalidInputTest.keepsRowCountButLosesValuesWhenFirstRowOfListMapIsEmptyObject:628 → 2-7 で直す
+  YamlFormatReaderScalarTest.readsEmptyStringAsIs:505                            → 2-6 で直す
+  YamlFormatReaderScalarTest.readsEmptyStringAsIsInListMapPath:584               → 2-6 で直す
 ```
 
-同時点で yaml リポジトリは作業中だった。HEAD がピン `0db2221` から `e9bee93` へ進み、
-`src/main` が7ファイル・+187/-65。指示書18件のうち 2-1・2-2・2-3 が済み、2-4・2-5 と
-テスト追加13件が残っていた。`~/.m2` の yaml jar は 20:31 に install された**作業途中の版**である。
+**この5件はいずれも「converter 側のテストが、解説書に反する旧挙動を期待値に書いている」ものである。**
+`src/main` の欠陥ではない。**5件とも第2節（2-5〜2-7）で直すので、完了条件8「緑」は満たせる。**
 
-**渡す前の手順**
-
-1. yaml CC の完了報告を受け、ディレクターが `0db2221` からの差分を全量読み直して独立に検証する
-2. **yaml のピンを取り直す**。本指示書の参照点の表と 2-2・「5. やらないこと」を更新する
-3. yaml を `mvn install` する
-4. **「5. やらないこと」の `YamlTestCoreAdapterTest.java:365`-`:370` の扱いを書き換える。**
-   yaml が直ったあとは「落ちるのが想定内」ではなく「**期待値を yaml の新しい仕様に合わせて直す**」に変わる。
-   これは第2節の是正に足す（件数も更新する）
-5. `nablarch-testing` は**取り直し不要**。`~/.m2` の `nablarch-testing-6-NEXT-SNAPSHOT.jar`
-   （2026-08-21 18:28 install）は PR ブランチ由来であることを実測で確認した
-   （`javap` で `TestDataParsingTemplate` にブランチだけが持つ `cachedParse`・`tryLoadFromCache`・
-   `storeToCache`・`saveCache` があること）。さらにピン `3c4bd2a` とブランチ先端 `44b9cc9` は
-   `src/main` がバイト同一である
+**ディレクター自身の指示文の誤りを1件見つけて直した（2026-08-27）。** 更新前の完了条件8は
+「`mvn clean test` が緑」だけを求めていたが、**渡す時点で4件が赤**であり、
+指示した作業だけでは満たせない条件だった（`nablarch/CLAUDE.md` 2-3）。原因は、初期状態の4件を
+「Step 4 と無関係に前から落ちている」と記録したまま、**なぜ落ちているかを追わなかったこと**である。
+実際には解説書 `implementation/testdata_notation.rst:1500` の空エントリ規則に直結しており、
+2-6・2-7 として確定できるものだった。
 
 ---
 
@@ -45,8 +44,14 @@ YamlTestCoreAdapterTest.isResourceExisting_reflectsFileExistence:370
 **担当CCには次をそのまま貼る。**
 
 ```
-Step 4 の作業を依頼します。指示書に15件（実装の是正4件・テスト追加11件）が確定済みで
+Step 4 の作業を依頼します。指示書に18件（是正7件・テスト追加11件）が確定済みで
 載っています。探索は不要です。解説書を読み比べて不一致を探す作業ではありません。
+
+着手前に、いまの状態を1度実測してください。mvn -o clean test は
+Tests run: 605, Failures: 5, Errors: 0, Skipped: 2 になります（こちらでも実測済み）。
+この赤5件は「converter 側のテストが、解説書に反する旧挙動を期待値に書いている」もので、
+src/main の欠陥ではありません。5件とも指示書 2-5・2-6・2-7 で直す対象です。
+それ以外の赤が出たら、着手せず報告してください。
 
 作業場:
   /home/tie303177/work/nablarch/nablarch-testing-converter
@@ -63,12 +68,17 @@ Step 4 の作業を依頼します。指示書に15件（実装の是正4件・�
 tools/testdata_converter.rst が変わっています。必ず git show 5783b35:<path> で読み、
 作業ツリーの HEAD を読まないでください。
 
-指示書の「1. やること」「2. 実装の是正」「3. テスト追加」「4. 完了条件」「6. 報告」に
+依存先 nablarch-testing-yaml は 0b3015c を参照点にしてください（Step 4 の是正が入った版で、
+~/.m2 にも install 済みです）。変更しないでください。
+  /home/tie303177/work/nablarch/nablarch-testing-yaml
+  git show 0b3015c:<path>
+
+指示書の「1. やること」「2. 是正」「3. テスト追加」「4. 完了条件」「6. 報告」に
 従ってください。特に次の5つを落とさないでください。
 
 - 2-1 と 2-3 には「着手前に検証すること」があります。実装に入る前に、その結果だけを
   先に報告してください。反例が見つかったら実装せずに止めてください
-- 第2節の4件は直してください。ここは判断済みです。
+- 第2節の7件は直してください。ここは判断済みです。
   第3節のテスト追加11件で落ちたものは、直さず @Ignore にして記録してください。
   理由に機械的に集められる印を付けます。例:
   @Ignore("NTF-DOC: tools/testdata_converter.rst:287 — 期待 X / 実際 Y")
@@ -83,6 +93,8 @@ tools/testdata_converter.rst が変わっています。必ず git show 5783b35:
 
 ビルドの注意: target/classes が jacoco 計装済みのまま残っていることがあり、その状態の
 mvn test は「Cannot process instrumented class」で失敗します。mvn clean test を使ってください。
+mvn install を実行する場合は JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64 を付けてください
+（未設定だと javadoc プラグインが「Unable to find javadoc command」で落ちます。実測）。
 
 後始末: git status --short が空になること。一時ファイル・作業用スクリプト・ログを
 残さないでください（jacoco.exec と target/ は .gitignore に入っているので消さなくてよい）。
@@ -108,7 +120,7 @@ mvn test は「Cannot process instrumented class」で失敗します。mvn clea
 | 解説書 `nablarch-document` | **`5783b35`**（ブランチ `ntf-yaml-support`） | `git show 5783b35:<path>` |
 | 本モジュール | **`60d9a2d`**（ブランチ `ntf-test-data-converter`） | 作業ツリーで作業してよい |
 | `nablarch-testing` | `3c4bd2a` | `git show 3c4bd2a:<path>`。**変更しない** |
-| `nablarch-testing-yaml` | **渡す前に取り直す**（`0db2221` は古い。Step 4 で `src/main` が動いている） | `git show <取り直したピン>:<path>`。**変更しない** |
+| `nablarch-testing-yaml` | **`0b3015c`**（ブランチ `feature/ntf-yaml`。Step 4 の18件と `#35` の2件が入った版。`src/` は `67bd37b` と同一） | `git show 0b3015c:<path>`。**変更しない**。`~/.m2` にはこの版が install 済み |
 
 **解説書は必ずピンで読む。** 作業ツリーの HEAD はピンとは別物である。
 
@@ -137,7 +149,10 @@ mvn test は「Cannot process instrumented class」で失敗します。mvn clea
 
 ---
 
-## 2. 実装の是正（4件）
+## 2. 是正（7件）
+
+**2-1〜2-4 は `src/main` の是正、2-5〜2-7 は依存先 `nablarch-testing-yaml` の Step 4 是正に
+converter 側が追随していないことによる是正である。**
 
 ### 2-1. Excel 形式の読み書きが記法⇄値の対称な写像になっていない
 
@@ -298,6 +313,152 @@ Excel 形式の書式であって値ではない。**
 印つきの理由を付けて残すこと。
 
 
+### 2-5. `isResourceExisting` の意味が変わったことに追随していない
+
+**依存先 `nablarch-testing-yaml` の Step 4 是正 2-2 が入ったことによる。**
+
+`YamlLoader.isResourceExisting`（`nablarch-testing-yaml@0b3015c` の `YamlLoader.java:184`-`:186`）は、
+**入れ物（ディレクトリ）が存在するか**を返すようになった。`new File(buildContainerPath(...)).isDirectory()` で、
+入れ物名は `resourceName` の最後の `/` より前である（同 `:165`-`:178` の Javadoc）。
+**読み込み単位（ファイル）の存在は見ない。** 読み込み単位の判定は同 `:200`-`:202` の
+`isDataExisting`（`<basePath>/<resourceName>.yaml` が通常ファイルか）である。
+Excel 形式の `isResourceExisting`（ファイル単位）／`isDataExisting`（シート単位）と単位を揃えたもの。
+
+**現行**: `YamlTestCoreAdapter.java:101`-`:102`（`60d9a2d`）は `YamlLoader.isResourceExisting` へ
+そのまま委譲している。委譲先の意味が変わったので、**このメソッドは入れ物の存在を返す。**
+Javadoc（同 `:95`「YAML ファイルが存在するかどうかを返す」）は事実でなくなった。
+
+**`YamlTestCoreAdapter#isResourceExisting` に `src/main` の呼び出し元は無い**
+（`git grep isResourceExisting 60d9a2d -- src/main` は自身の定義2行だけ。実測）。
+`YamlFormatReader` は `loadRawMap` と各ビルダしか使わない。**したがって変換の挙動は変わらない。**
+
+**現に落ちているテスト**（実測）:
+
+```
+YamlTestCoreAdapterTest.isResourceExisting_reflectsFileExistence:370
+  Expected: is <false>  but: was <true>
+```
+
+`:369`-`:370` は次の2行である（`60d9a2d`）。
+
+```java
+assertTrue(sut.isResourceExisting(DIR, "YamlTestCoreAdapterTest/tables"));
+assertThat(sut.isResourceExisting(DIR, "YamlTestCoreAdapterTest/noSuchFile"), is(false));
+```
+
+`DIR` は `src/test/java/nablarch/test/core/reader/`（同 `:41`）。新しい仕様では入れ物名が
+どちらも `YamlTestCoreAdapterTest` なので、**2行とも `true` になるのが正しい。**
+
+**やること**
+
+1. **`YamlTestCoreAdapter.java:93`-`:100` の Javadoc を、入れ物（ディレクトリ）の存在を返す旨に直す。**
+   読み込み単位の存在は見ないこと、委譲先が `YamlLoader#isResourceExisting` であることを書く
+2. **`YamlTestCoreAdapterTest.java:364`-`:371` を新しい仕様に合わせて直す。** メソッド名
+   `isResourceExisting_reflectsFileExistence` は「ファイルの存在を映す」という意味なので、
+   **入れ物の存在を映すことが分かる名前へ変える。** 押さえるのは次の3点にする:
+   - 入れ物ディレクトリが在る → `true`（読み込み単位名が実在しない `noSuchFile` でも `true` になること）
+   - 入れ物ディレクトリが無い → `false`（例: `"NoSuchContainer/tables"`）
+   - `/` を含まない `resourceName` は全体を入れ物名として扱う（`YamlLoader.java:171`-`:172`）
+3. **`YamlTestCoreAdapter#isResourceExisting` そのものは消さない。** 呼び出し元が無いことは
+   本指示の範囲を広げる理由にならない（`nablarch/CLAUDE.md` 4-1）
+
+---
+
+### 2-6. 空文字だけの行を観測しようとするプローブが、空エントリ規則に当たっている
+
+**依存先 `nablarch-testing-yaml` の Step 4 是正 2-1（空行判定が Java null を空扱いしていた）が
+入ったことによる。**
+
+**解説書**（`5783b35` の `implementation/testdata_notation.rst:1500`）:
+
+> 全要素が空のエントリは読み飛ばされる。Excel\ では行の全セルが空の場合、YAML\ では ``rows:``\ 内の要素が空マッピング（\ ``{}``\ ）またはすべての値が空文字の場合にスキップされる。
+
+**現行の converter の挙動は、この記述のとおりである。** 直すのはテスト側である。
+
+**現に落ちているテスト**（実測）:
+
+```
+YamlFormatReaderScalarTest.readsEmptyStringAsIs:505 → readValueLine:172
+  Expected: is <[V]>  but: was <[]>        （getColumnNames）
+YamlFormatReaderScalarTest.readsEmptyStringAsIsInListMapPath:584 → readListMapValue:192
+  Expected: is <1>    but: was <0>         （getRows().size()）
+```
+
+どちらも**プローブの作り方の問題**である。`readValueLine`（同 `:159`-`:175`）は
+
+```yaml
+setup_tables:
+  - table: "T"
+    rows:
+      - V: <検証対象>
+```
+
+という**1行1カラムだけ**の YAML を組み立て、`:172` で `getColumnNames()` が `["V"]` であることを
+確かめてから値を取り出す。検証対象が `""` のとき、**この行は「すべての値が空文字」に該当して
+読み飛ばされる**ため、カラムも行も残らない。
+
+`readListMapValue`（同 `:184`-`:194`）も `list_maps` に `- V: <検証対象>` を1行置くだけの同じ形である。
+**こちらは `:191` の `getColumnNames()` が `["V"]` のまま通り、`:192` の `getRows().size()` が
+`1` ではなく `0` になって落ちる**（LIST_MAP 経路はカラム名だけ残る。実測）。**落ちる行が
+テーブル経路と違うので、両方直すこと。**
+
+**押さえたい命題そのもの（空文字 `""` は空文字として入り、Java `null` とは区別される。
+`notation.rst:1417` の表の「空文字」の行）は、いまも正しい。** 観測できない形で書かれているだけである。
+
+**やること**
+
+1. **`readValueLine` / `readListMapValue` が組み立てる行に、空でない値を持つカラムを1つ足す**
+   （例: `K: "x"` を先に置き、検証対象は `V` に置く）。これで行が「すべての値が空文字」に該当しなくなり、
+   `""` を観測できるようになる。**取り出す値は従来どおり `V` 列とする**
+2. **ヘルパーを直すと、同ヘルパーを使う他のテストの期待値も動く。** `readValue`・`readValueLine`・
+   `readListMapValue`・`readBlockScalarValue` の呼び出し元を全走査し、
+   `:172`（`getColumnNames()` が `["V"]`）・`:173`（行数1）・`:191`・`:192` の期待値と、
+   取り出す列の位置（`:174` の `getRows().get(0).get(0)`・`:193`）を漏れなく直す。
+   **何件直したかを報告に書く**（完了条件6）
+3. **「すべての値が空文字の行は読み飛ばされる」こと自体を押さえるテストを1件足す。**
+   `notation.rst:1500` の記述に対応する正のテストであり、ヘルパーを直すと
+   この経路を誰も通らなくなるため。`{}` の行と、値が `""` だけの行の両方を含める
+
+---
+
+### 2-7. 空マッピングの行が後続行を巻き込んで消える欠陥を、期待値として固定している
+
+**2-6 と同じく、依存先 `nablarch-testing-yaml` の Step 4 是正 2-1 が入ったことによる。**
+
+**現に落ちているテスト**（実測）:
+
+```
+YamlFormatReaderInvalidInputTest.dropsAllRowsWhenFirstRowOfTableIsEmptyObject:601
+YamlFormatReaderInvalidInputTest.keepsRowCountButLosesValuesWhenFirstRowOfListMapIsEmptyObject:628
+  「columnNames が空であること」 Expected: is <[]>  but: was <[A]>
+```
+
+どちらも入力は次の形で、**先頭行が `{}`、2行目に `{A: "1"}`** である（`60d9a2d` の `:592`-`:597`・`:619`-`:624`）。
+
+**この2件は、欠陥をそのまま期待値に書いたテストである。** Javadoc に
+「2 行目に書いたデータも消える」「`coverage/issues.md` **YML-04** の根拠テスト（最も損失が大きい形）」
+（`:582`-`:588`）とあるとおり、**データが失われることを固定していた。**
+
+**解説書 `notation.rst:1500` は、空エントリ「が」読み飛ばされるとしか述べていない。**
+後続のエントリまで消えるとは述べていない。yaml 側の是正で `{}` の行だけが読み飛ばされるようになり、
+**2行目の `{A: "1"}` が残るようになった**（`columnNames` が `[A]`）。**これが解説書どおりの姿である。**
+
+**やること**
+
+1. **2件の期待値を、`{}` の行だけが読み飛ばされ、2行目が残る形に直す。**
+   テーブル経路は `columnNames` が `["A"]`・行が1件（`["1"]`）、`LIST_MAP` 経路も同様であることを、
+   **実際に走らせて観測した値で**書く（推測で書かない）
+2. **メソッド名と Javadoc を直す。** `dropsAllRowsWhen...` / `keepsRowCountButLosesValuesWhen...` は
+   どちらも欠陥の名前である。**「先頭行の空マッピングが読み飛ばされ、後続行は残る」ことが分かる名前へ変える。**
+   Javadoc の「最も損失が大きい形」「2 行目に書いたデータも消える」も落とす
+3. **`YML-04` を参照している箇所を全走査し、参照ごと整理する**（`{@link}` での相互参照を含む）。
+   `coverage/issues.md` が本モジュールの `.rn/` 配下にある場合は、
+   **YML-04 が解消済みであることを1行追記するに留める**（記録の書き換えはしない）
+
+**解説書は直さない。** `notation.rst:1500` の記述は現行実装と一致している。
+
+---
+
 ---
 
 ## 3. テスト追加（11件）
@@ -330,7 +491,9 @@ Excel 形式の書式であって値ではない。**
 
 ## 4. 完了条件
 
-1. **第2節の4件（2-1〜2-4）がすべて是正されている。** 是正ごとに、直す前は落ちて直したあとは通るテストがあること
+1. **第2節の7件（2-1〜2-7）がすべて是正されている。** 是正ごとに、直す前は落ちて直したあとは通るテストがあること。
+   **2-5〜2-7 は、渡した時点ですでに赤い5件が対象である**（「渡す前にやること」の実測を参照）。
+   この5件については「直す前に落ちる」ことの確認は不要で、**直したあとに通ること**を示せばよい
 2. **2-1・2-3 の「着手前に検証すること」の結果が、実装に入る前に報告されている**
 3. **完了条件の母集合が往復で保たれることを、テストで押さえている。**
    `notation.rst` の特殊記法の表（Excel 形式13行・YAML 形式13行）と `testdata_examples.rst` の
@@ -344,8 +507,11 @@ Excel 形式の書式であって値ではない。**
 6. **既存テストの期待値を変えた箇所が全件挙がっている。** 2-1・2-3 は既存テストの期待値に触れる。
    どれを変えどれを変えなかったかを、件数を数えたうえで報告する
 7. **カバレッジ C0/C1 を計測し、結果を報告する。** `src/main` の是正で下がった箇所があれば挙げる
-8. **`mvn clean test` が緑であること。** `target/classes` が jacoco 計装済みのまま残っていると
-   `mvn test` は `Cannot process instrumented class` で失敗する（2026-08-26 実測）。`clean` を付ける
+8. **`mvn clean test` が緑であること**（`@Ignore` を除く）。**着手時点では 5件が赤い**
+   （`Tests run: 605, Failures: 5, Errors: 0, Skipped: 2`。2026-08-27 実測）。
+   **この5件は 2-5〜2-7 で解消するので、作業後は赤が残らない。**
+   `target/classes` が jacoco 計装済みのまま残っていると `mvn test` は
+   `Cannot process instrumented class` で失敗する（2026-08-26 実測）。`clean` を付ける
 9. `git status --short` が空。一時ファイル・作業用スクリプト・ログを残さない
    （`jacoco.exec` と `target/` は `.gitignore:1`・`:3` に入っているので消さなくてよい）
 10. 変更を push する
@@ -360,11 +526,9 @@ Excel 形式の書式であって値ではない。**
 - **`nablarch-testing-yaml` を直さない。** 同モジュールには別の指示書が出ている
 - **解説書に無い書き方を追いかけない。** 誤った書き方は無限にあり、追い始めると完了条件が動く
 - **形式間の対応表を作らない。** 合わせる先は各形式と解説書であって、形式どうしではない
-- **`YamlTestCoreAdapterTest.java:365`-`:370` の扱いは、渡す前にディレクターが確定する。**
-  `nablarch-testing-yaml` 側の是正（`isResourceExisting` の判定単位を入れ物に揃える）が入ると
-  このテストは落ちる（2026-08-26 実測。`isResourceExisting_reflectsFileExistence:370`）。
-  **yaml の是正が入った版で渡すので、期待値を新しい仕様に合わせて直すことになる。**
-  渡す時点でこの行が書き換わっていなければ、指示書が更新されていない。着手せず報告すること
+- **依存先の是正に追随する範囲を広げない。** 2-5〜2-7 は、渡した時点で赤い5件を
+  解説書どおりの期待値に直すところまでである。`nablarch-testing-yaml` の是正を評価し直したり、
+  `YamlTestCoreAdapter` の未使用メソッドを整理したりしない
 
 ---
 
@@ -373,7 +537,9 @@ Excel 形式の書式であって値ではない。**
 次の6つを、この順で1つのファイルにまとめる。
 
 1. **2-1・2-3 の「着手前に検証すること」の結果**（実装前に一度報告する）
-2. **第2節4件の是正結果。** 是正ごとに、変更したファイルと `file:line`、直す前に落ちたテストの名前
+2. **第2節7件の是正結果。** 是正ごとに、変更したファイルと `file:line`、直す前に落ちたテストの名前。
+   **2-5〜2-7 は、着手時点の赤5件それぞれについて、直したあとの期待値と、そう決めた根拠
+   （解説書の `file:line` と実測値）を書く**
 3. **完了条件3（母集合の4経路）の結果。** 表の行ごと・記載例ごとに、4経路それぞれの合否
 4. **第3節11件の結果。** 通ったもの・`@Ignore` にしたものの内訳。`@Ignore` は理由の文言をそのまま載せる
 5. **期待値をわざと崩す確認の結果。** 対象テスト名と、崩した内容
@@ -383,7 +549,7 @@ Excel 形式の書式であって値ではない。**
 
 ## 7. レビュー
 
-**4観点レビューは回さない。** 作業が15件に確定していて探索を含まないこと、成果物が確定済みの
+**4観点レビューは回さない。** 作業が18件に確定していて探索を含まないこと、成果物が確定済みの
 作業だけになることによる。ディレクターが担当範囲を全量読み直して独立に検証する。
 
 観点D（検証の妥当性）は、次の2つで代替する。
