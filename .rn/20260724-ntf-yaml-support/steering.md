@@ -1604,6 +1604,48 @@ Excel／YAML の例を示し、それぞれに「なぜそう書くのか」「�
 - 解説書（`ja/`・`mapping/`・`design.md`）に差分が無い
 
 
+### #38: `setup/common.rst` —— YAML 形式の電文用インタープリタが自ページの禁止に反していた件の是正 — 完了
+
+**問題**（`c6559eb` で逐語確認）。同じページの中で矛盾していた。
+
+- `:81`（important）「``NullInterpreter`` を指定してはならない。指定すると、文字列として記述した ``"null"`` も Java の null になり、両者を区別できなくなる」
+- `:77`「``NullInterpreter``・``QuotationTrimmer``・``LineSeparatorInterpreter`` は指定しない」
+- 一方 `:170`「テストデータの記法を解釈するクラスは、Excel 形式と YAML 形式で共通である」とし、`NullInterpreter`・
+  `QuotationTrimmer` を含む `messagingTestInterpreters` を、**YAML 形式の** `messagingTestDataParser`（`:250`-`:252`）に
+  参照させていた
+
+設定した interpreters は電文の値に実際に掛かる（`YamlMessageBuilder.java:85`・`:110`・`:150`、`0db2221` が
+`interpreterResolver.resolve(basePath)` の結果を値加工に使う）ため、`:81` の禁止に実際に抵触する。
+
+**あるべき姿**。YAML の集合は、Excel の集合から YAML 構文が担う分を引いたものになる（`nablarch/CLAUDE.md`・
+`02-進め方.md`「NTF 仕様は1つで、Excel 形式と YAML 形式はその表現が違うだけ」）。Excel の電文用は
+`NullInterpreter`・`QuotationTrimmer`・`BasicJapaneseCharacterInterpreter` の3つ（`:176`-`:184`）で、
+`DateTimeInterpreter` は入っていない（Excel 用パーサ `:220` も同じリストを参照）。`null`／`"null"` の区別は
+YAML では構文が担うため、YAML の電文用に残るのは `BasicJapaneseCharacterInterpreter` だけになる。
+`yamlInterpreters` の流用は採らない。`DateTimeInterpreter` が電文にも効き、Excel ではリテラルのまま残る
+`${systemTime}` が YAML だけ日時に変わって往復変換で意味が変わるため。
+
+**是正**（3箇所）。
+
+1. `:170` の「解釈するクラスは Excel 形式と YAML 形式で共通である」を取り下げ、`:187` に「テストデータの記法を
+   解釈するクラス群」を加えて、形式ごとに後述する形にした
+2. `messagingTestInterpreters` の定義を Excel 形式の節のコードブロックへ移した
+3. YAML 形式の節に `yamlMessagingInterpreters`（`CompositeInterpreter` → `BasicJapaneseCharacterInterpreter` のみ）を
+   置き、`messagingTestDataParser` の参照先を差し替えた
+
+**上書きした過去の決定**: `reviews/page-deal_unit_test_setting_mom.md` の R1-2 と V-1。R1-2 は「両形式で共通の
+`messagingTestInterpreters` の定義が Excel 形式の節の中だけにあり、YAML 形式しか読まない読者が未定義コンポーネントを
+参照してしまう」として定義を共通部へ移し、V-1 はその補強として両 L4 に「前掲の ``messagingTestInterpreters`` の定義と
+あわせて記述する」を足していた。**前提だった「両形式で共通」が誤りだったため、両方を取り下げた。**
+R1-2 が防ごうとした失敗モードは、各形式の節がそれぞれ自分のリスト定義を持つことで解消している。
+
+**検証**: `docker run --rm -v $PWD:/root/document nablarch-document-build /bin/bash -c "cd /root/document;
+sphinx-build -E -a -d _build/.doctrees/ja -b html ja _build/html"` が `build succeeded`、行頭 WARNING/ERROR 0件。
+生成物 `_build/html/development_tools/testing_framework/setup/common.html` に `yamlMessagingInterpreters` が2箇所。
+
+**波及先**（実測）: `ja/` 内で `messagingTestInterpreters` を参照するのは `setup/common.rst` だけ
+（`grep -rn --exclude-dir=_build` が本ページ以外0件）。
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a

@@ -167,24 +167,7 @@ Nablarch Application Frameworkでは、\ :java:extdoc:`SystemTimeProvider <nabla
 
 テストデータのベースディレクトリは、\ :ref:`ファイルパス管理 <file_path_management>`\ の\ ``sendSyncTestData``\ というキーに設定する。同じコンポーネントに、電文のフォーマット定義ファイルのベースディレクトリ（\ ``format``\ ）も設定する。テストデータを解析するコンポーネントは、\ ``messagingTestDataParser``\ という名前で登録する。ベースディレクトリの配下でのファイル名の決まりは\ :ref:`メッセージングのデータを記述する <testdata_notation-messaging_data>`\ を参照。
 
-テストデータの記法を解釈するクラスは、\ Excel\ 形式と\ YAML\ 形式で共通である。
-
-.. code-block:: xml
-
-  <!-- テストデータ記法の解釈を行うクラス群 -->
-  <list name="messagingTestInterpreters">
-    <component class="nablarch.test.core.util.interpreter.NullInterpreter"/>
-    <component class="nablarch.test.core.util.interpreter.QuotationTrimmer"/>
-    <component class="nablarch.test.core.util.interpreter.CompositeInterpreter">
-      <property name="interpreters">
-        <list>
-          <component class="nablarch.test.core.util.interpreter.BasicJapaneseCharacterInterpreter"/>
-        </list>
-      </property>
-    </component>
-  </list>
-
-ベースディレクトリの指定と、テストデータを解析するコンポーネントの設定は、テストデータの形式によって異なる。\ Excel\ 形式と\ YAML\ 形式のそれぞれについて後述する。
+ベースディレクトリの指定と、テストデータを解析するコンポーネント、テストデータの記法を解釈するクラス群の設定は、テストデータの形式によって異なる。\ Excel\ 形式と\ YAML\ 形式のそれぞれについて後述する。
 
 .. tip::
 
@@ -211,6 +194,19 @@ Excel形式の場合
     </property>
   </component>
 
+  <!-- テストデータ記法の解釈を行うクラス群 -->
+  <list name="messagingTestInterpreters">
+    <component class="nablarch.test.core.util.interpreter.NullInterpreter"/>
+    <component class="nablarch.test.core.util.interpreter.QuotationTrimmer"/>
+    <component class="nablarch.test.core.util.interpreter.CompositeInterpreter">
+      <property name="interpreters">
+        <list>
+          <component class="nablarch.test.core.util.interpreter.BasicJapaneseCharacterInterpreter"/>
+        </list>
+      </property>
+    </component>
+  </list>
+
   <!-- テストデータを解析するコンポーネント -->
   <component name="messagingTestDataParser"
              class="nablarch.test.core.reader.BasicTestDataParser">
@@ -219,8 +215,6 @@ Excel形式の場合
     </property>
     <property name="interpreters" ref="messagingTestInterpreters"/>
   </component>
-
-``interpreters``\ には、前掲の\ ``messagingTestInterpreters``\ の定義とあわせて記述する。
 
 ``fileExtensions``\ の\ ``sendSyncTestData``\ には、実際に配置するテストデータのファイルの拡張子（\ ``xlsx``\ または\ ``xls``\ ）を指定する。指定した拡張子と一致しないファイルは読み込まれない。ベースディレクトリの配下は次の図のとおりで、リクエストIDごとに1つのファイルを置く。
 
@@ -246,13 +240,24 @@ YAML形式の場合
     </property>
   </component>
 
+  <!-- YAML形式のテストデータ記法の解釈を行うクラス群 -->
+  <list name="yamlMessagingInterpreters">
+    <component class="nablarch.test.core.util.interpreter.CompositeInterpreter">
+      <property name="interpreters">
+        <list>
+          <component class="nablarch.test.core.util.interpreter.BasicJapaneseCharacterInterpreter"/>
+        </list>
+      </property>
+    </component>
+  </list>
+
   <!-- テストデータを解析するコンポーネント -->
   <component name="messagingTestDataParser"
              class="nablarch.test.core.reader.YamlTestDataParser">
-    <property name="interpreters" ref="messagingTestInterpreters"/>
+    <property name="interpreters" ref="yamlMessagingInterpreters"/>
   </component>
 
-``interpreters``\ には、前掲の\ ``messagingTestInterpreters``\ の定義とあわせて記述する。\ ``testDataReader``\ は指定しない。\ :java:extdoc:`YamlTestDataParser <nablarch.test.core.reader.YamlTestDataParser>`\ は\ YAML\ ファイルを直接読み込むため、この設定を使用しない。
+``interpreters``\ に指定するのは、この1つだけでよい。\ null\ ・空文字・ダブルクォート・改行文字は\ YAML\ のパーサが構文として解釈するため、\ Excel\ 形式で必要な\ ``NullInterpreter``\ ・\ ``QuotationTrimmer``\ は指定しない。\ ``testDataReader``\ は指定しない。\ :java:extdoc:`YamlTestDataParser <nablarch.test.core.reader.YamlTestDataParser>`\ は\ YAML\ ファイルを直接読み込むため、この設定を使用しない。
 
 .. important::
 
