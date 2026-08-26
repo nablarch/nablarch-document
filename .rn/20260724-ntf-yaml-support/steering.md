@@ -1570,6 +1570,20 @@ Excel／YAML の例を示し、それぞれに「なぜそう書くのか」「�
   「シートが存在しない場合は `setUpDb` が呼ばれない」旨の記述は、**解説書に0件**
   （`grep -rn "setUpDbIfSheetExists\|isExisting\|isResourceExisting" ja/…/testing_framework` が0件）。
   **解説書側の対応は不要**。PR #38 は task #3 が check-off されず user review 待ち
+- **nablarch-testing-rest（E-1。2026-08-26 にディレクターが一次情報で独立確認）** —— `setUpDb.yaml` を置いていない
+  テストクラスでは、メソッド固有の YAML が**黙って投入されない**。`RestTestSupport.java:79`-`:81`（`ec718a2`）の
+  `setUpDb()` が `setUpDbIfSheetExists("setUpDb")` → 同 `(<メソッド名>)` の順に2回呼ぶが、`isExisting()`
+  （同 `:216`・`:222`）は `getPathOf()` が null になると `testDataExists` を落とし、以降 parser を呼ばない。
+  Excel は**ファイル単位**判定（`PoiXlsReader.java:232`-`:252`（`3c4bd2a`）が `splitLastResourceName` の
+  `splitted[0]`＝クラス名だけで `listFiles`。シート名を見ない）のためラッチが落ちないが、YAML は
+  **リソース単位**判定（`YamlLoader.java:142`-`:143`・`:81`-`:86`（`0db2221`）が
+  `basePath + "/" + resourceName + ".yaml"` の存在を見る）のため落ちる。**そのブランチの Acceptance criteria
+  「`YamlTestDataParser` を登録した場合 YAML が読み込まれる」に直接抵触する。** ラッチは `c2604a7` より前から
+  あり、同コミットが作ったものではない（差分は `isExisting()` 末尾1行の置換と `getSheet()` の削除だけ）。
+  **リリース済みモジュールの `src/main` を触るため user 判断待ち。** ディレクターの推奨は直す。
+  判断の前に「ラッチを外すと Excel 経路の挙動が変わるか」の実測を rest CC へ依頼済み（ディレクターの読みでは
+  変わらないが**未確認**）。**この判断が出るまで `ntf-step4-03-nablarch-testing-rest.md` を渡さない。
+  直す場合は `src/main` が動くため、渡す前にピンを取り直す**
 
 **解説書のページと担当リポジトリ**（2026-08-26 実測。解説書が名指しするクラス103件を各リポジトリの `src/main/java` と
 突き合わせ、あわせて `YAML` の出現をページ別に数えた）:
