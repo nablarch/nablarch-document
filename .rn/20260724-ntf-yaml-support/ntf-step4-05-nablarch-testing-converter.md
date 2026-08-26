@@ -12,7 +12,7 @@
 |---|---|---|
 | 1 | yaml CC の完了報告をディレクターが独立に検証する | **完了**（Step 4 の18件＋`#35` の2件。`mvn -o clean test` = 268件成功・Skipped 1。門番テストのミューテーション検知も実測） |
 | 2 | yaml のピンを取り直し、参照点の表と 2-2・「5. やらないこと」を更新する | **完了**。`0db2221` → **`0b3015c`**（`src/` は `67bd37b` と同一。差分は `steering.md` のみ） |
-| 3 | yaml を `mvn install` する | **完了**（2026-08-27。`0b3015c` の版が `~/.m2` に入っている）。**`JAVA_HOME` を設定しないと javadoc プラグインで落ちる**（`JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64`。実測） |
+| 3 | yaml を `mvn install` する | **完了**（2026-08-27。`0b3015c` の版が `~/.m2` に入っている）。**`JAVA_HOME` を設定しないと javadoc プラグインで落ちる**。temurin-17／21 のどちらでも生成物は同じ（クラスファイルは major 61 = Java 17。実測） |
 | 4 | `YamlTestCoreAdapterTest.java:369`-`:370` の扱いを確定する | **完了**。第2節の **2-5** に起こした |
 | 5 | `nablarch-testing` は取り直し不要 | **確認済み**（`~/.m2` の `nablarch-testing-6-NEXT-SNAPSHOT.jar` は PR ブランチ由来。ピン `3c4bd2a` と先端 `44b9cc9` は `src/main` がバイト同一） |
 
@@ -93,8 +93,10 @@ tools/testdata_converter.rst が変わっています。必ず git show 5783b35:
 
 ビルドの注意: target/classes が jacoco 計装済みのまま残っていることがあり、その状態の
 mvn test は「Cannot process instrumented class」で失敗します。mvn clean test を使ってください。
-mvn install を実行する場合は JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64 を付けてください
-（未設定だと javadoc プラグインが「Unable to find javadoc command」で落ちます。実測）。
+mvn install を実行する場合は JAVA_HOME を設定してください。未設定だと javadoc プラグインが
+「Unable to find javadoc command」で落ちます（実測）。temurin-17 / temurin-21 のどちらでも
+生成物は同じです（親 POM が release を固定しており、クラスファイルは major 61 = Java 17。実測）。
+  JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64
 
 後始末: git status --short が空になること。一時ファイル・作業用スクリプト・ログを
 残さないでください（jacoco.exec と target/ は .gitignore に入っているので消さなくてよい）。
