@@ -1646,6 +1646,44 @@ sphinx-build -E -a -d _build/.doctrees/ja -b html ja _build/html"` が `build su
 **波及先**（実測）: `ja/` 内で `messagingTestInterpreters` を参照するのは `setup/common.rst` だけ
 （`grep -rn --exclude-dir=_build` が本ページ以外0件）。
 
+### #39: 電文のレコード種別 —— 形式差として書いていた記述を、データタイプ差の記述に改める — 解説書は完了、モジュール是正は `#37` の yaml 指示書へ
+
+**未決だった論点の決着**（`01-現在地.md` §4 converter 節「レコード種別を `nablarch-testing-yaml` 側で直して Excel と
+揃えるか、YAML 形式の制約として解説書に残すか」）。**直す。** 未リリースで後方互換の制約がなく、直さなければ
+「Excel で書けるものが YAML では書けない」状態が残るため。
+
+**Excel 側の実測**（`nablarch-testing@3c4bd2a`。呼び出し元から `setRecordType` まで末端まで追った）:
+
+| 解説書の呼び方 | API | パーサ | レコード種別 |
+|---|---|---|---|
+| `MESSAGE`（`setUpMessages`・`expectedMessages`） | `getMessage` ← `MQSupport.java:87` | `MessageParser.java:60`-`:67` が `onReadingNames` で先頭要素を `"default"` に置換 | **`"default"`** |
+| 同期応答メッセージ送信の4データタイプ | `getMessageWithoutCache` ← `SendSyncSupport.java:478` | `SendSyncMessageParser.java:110` が `createFixedLengthFileParser` を上書きし `onReadingNames` は上書きしない | 記載値 |
+| 取引単体テストのモックアップクラスの電文 | `getSendSyncMessage` ← `RequestTestingSendSyncSupport.java:157` | `GroupMessageParser.java:43` が `SendSyncMessageParser` へ委譲 | 記載値 |
+
+いずれも `DataFileParser.java:163`-`:166` → `:259`-`:262` の `setRecordType(fieldNamesLine.get(0))` に落ちる。
+
+**YAML 側の実測**（`nablarch-testing-yaml@0db2221`）: `YamlFileBuilder.java:187`-`:189` が `messaging` 経路すべてで
+`"default"` に固定する。`buildFragmentsForMessage`（`:139`-`:141`）と `buildFragmentsForSendSync`（`:162`-`:164`）の
+両方が `messaging=true` を渡すため、送信同期4キーでも記載値が捨てられる。
+
+**差は送信同期4キーだけである。** `messages` は Excel も `"default"` にするため、YAML と既に一致している。
+
+**解説書の是正**（3箇所）:
+
+1. `implementation/testdata_notation.rst:1163` —— 「Excel 形式と YAML 形式で異なる」という形式差の記述を、
+   データタイプ差の記述に改めた。変換で扱いが変わる旨も落とした
+2. 同 `:1295` —— 「`record_type` の値は…常に `"default"` に置き換えられる。任意の値を装飾的に記述できるが、
+   実行時の挙動には影響しない」の2文を落とした。**既出箇所は `:1163`**
+3. `tools/testdata_converter.rst:71` —— 前提事項から「電文のレコード種別も、両形式で扱いが異なる」の段落を削除した
+
+**モジュール側の是正は未了である。** `nablarch-testing-yaml` が送信同期4キーで `record_type` を保持するまで、
+解説書が述べる状態に実装が追いついていない。是正は `#37` の yaml 指示書に含める。
+既存テスト（`record_type: HEADER` 7件・`record_type: FW_HEADER` 16件が `"default"` を期待している）の
+更新もそこで扱う。
+
+**検証**: Docker（README の手順）で ja をビルドし `build succeeded`。警告1件は `_build/html/.buildinfo` の
+形式に関するもので、本変更とは無関係。
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a

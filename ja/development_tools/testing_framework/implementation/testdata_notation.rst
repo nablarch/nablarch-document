@@ -1160,7 +1160,7 @@ YAML形式の場合
 
 .. important::
 
-  電文のレコード種別の扱いは、\ Excel\ 形式と\ YAML\ 形式で異なる。\ Excel\ 形式では、同期応答メッセージ送信で使う4つのデータタイプ（\ ``EXPECTED_REQUEST_HEADER_MESSAGES``\ ・\ ``EXPECTED_REQUEST_BODY_MESSAGES``\ ・\ ``RESPONSE_HEADER_MESSAGES``\ ・\ ``RESPONSE_BODY_MESSAGES``\ ）と取引単体テストのモックアップクラスの電文について、記載した値がそのままレコード種別になる。\ YAML\ 形式では、\ ``messages``\ と同期応答メッセージ送信で使う4つのキーのいずれにおいても、\ ``record_type``\ は常にデフォルトのレコード種別（\ ``"default"``\ ）に固定される。したがって、レコード種別に意味のある値を記載した\ Excel\ 形式のテストデータを\ YAML\ 形式へ変換すると、レコード種別の扱いが変わる。
+  電文のレコード種別の扱いは、データタイプによって異なる。\ ``MESSAGE``\ （\ ``setUpMessages``\ ・\ ``expectedMessages``\ ）では、記載した値は使われず、デフォルトのレコード種別（\ ``"default"``\ ）になる。同期応答メッセージ送信で使う4つのデータタイプ（\ ``EXPECTED_REQUEST_HEADER_MESSAGES``\ ・\ ``EXPECTED_REQUEST_BODY_MESSAGES``\ ・\ ``RESPONSE_HEADER_MESSAGES``\ ・\ ``RESPONSE_BODY_MESSAGES``\ ）と取引単体テストのモックアップクラスの電文では、記載した値がそのままレコード種別になる。
 
 .. tip::
 
@@ -1292,7 +1292,7 @@ YAML形式の場合
           rows:
             - ["電文太郎", "特筆なし"]
 
-``directives:``\ （\ ``text-encoding``\ など）と ``fw_header:``\ （\ ``requestId``\ など）は別キーである。Excel\ 形式ではどちらも「名前・値」の行だが、\ YAML\ 形式ではフレームワーク制御ヘッダを独立したキーとして分離する。\ ``fw_header:``\ に記載したキーは全てフレームワーク制御ヘッダとして扱われ、\ ``reader.fwHeaderfields``\ でフィルタして取り捨てられることはない。メッセージボディ側のフィールドは、従来どおり ``records:``\ の ``fields:``\ ・\ ``rows:``\ に記載する。\ ``record_type``\ の値は、\ ``messages``\ と同期応答メッセージ送信で使う4つのキーのいずれにおいても、フレームワーク内部で常に ``"default"``\ に置き換えられる。任意の値を装飾的に記述できるが、実行時の挙動には影響しない。
+``directives:``\ （\ ``text-encoding``\ など）と ``fw_header:``\ （\ ``requestId``\ など）は別キーである。Excel\ 形式ではどちらも「名前・値」の行だが、\ YAML\ 形式ではフレームワーク制御ヘッダを独立したキーとして分離する。\ ``fw_header:``\ に記載したキーは全てフレームワーク制御ヘッダとして扱われ、\ ``reader.fwHeaderfields``\ でフィルタして取り捨てられることはない。メッセージボディ側のフィールドは、従来どおり ``records:``\ の ``fields:``\ ・\ ``rows:``\ に記載する。
 
 ``rows:``\ の各行には、\ Excel\ 形式のような先頭のラベル列を置かず、\ ``fields:``\ と同じ順序・同じ件数の値だけを並べる。同期応答メッセージ送信で使う電文の連番は、\ ``rows:``\ の記述順（1始まり）から自動的に付与されるため、テストデータに記載しない。
 
