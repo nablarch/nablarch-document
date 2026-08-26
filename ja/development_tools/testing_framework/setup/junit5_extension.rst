@@ -392,25 +392,25 @@ baseUriを渡す合成アノテーションを作成する
 
   オーバーライドするときは、必ずスーパクラスの同じメソッドを実行する。実行しないと、スーパクラスで定義された事前処理・事後処理が呼ばれなくなる。
 
-.. TODO(NTF-MOD-03-1): resolveTestRules() に登録したTimeoutがテスト本体に効かない。
-   不具合と判定済みで、nablarch-testing-junit5 側で修正予定・未着手。
-   依頼書 .rn/20260724-ntf-yaml-support/ntf-mod-03-nablarch-testing-junit5.md §2。
-   修正後に本文へ反映する。
-
 JUnit 4のTestRuleを再現する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-独自拡張クラスの中でJUnit 4の\ ``org.junit.rules.TestRule``\ を使用している場合は、本拡張機能でもそれを再現できる。例えば、次のような独自拡張クラスがあるとする。
+独自拡張クラスの中でJUnit 4の\ ``org.junit.rules.TestRule``\ を使用している場合は、本拡張機能でもそれを再現できる。ただしJUnit 5は\ ``TestRule``\ をそのままの形では扱えないため、再現には後述の制約が付く。
+
+.. important::
+
+  JUnit 5に同等の機能がある場合は、\ ``TestRule``\ を移植せずにJUnit 5の機能を使用する。\ ``Timeout``\ には\ ``@Timeout``\ 、\ ``TemporaryFolder``\ には\ ``@TempDir``\ 、\ ``ExpectedException``\ には\ ``assertThrows``\ 、\ ``ExternalResource``\ には\ ``BeforeEachCallback``\ と\ ``AfterEachCallback``\ の組が対応する。後述の制約は\ ``TestRule``\ を再現する仕組みに由来するため、JUnit 5の機能に置き換えれば当てはまらない。
+
+例えば、次のような独自拡張クラスがあるとする。
 
 .. code-block:: java
 
   import org.junit.Rule;
-  import org.junit.rules.Timeout;
-  import java.util.concurrent.TimeUnit;
+  import org.junit.rules.TestRule;
 
   public class CustomTestSupport extends TestSupport {
-      // JUnit 4のTestRuleを使用している
+      // JUnit 4のTestRuleを使用している（CustomRuleはプロジェクトで作成したTestRule実装）
       @Rule
-      public Timeout timeout = new Timeout(1000, TimeUnit.MILLISECONDS);
+      public TestRule customRule = new CustomRule();
 
       public CustomTestSupport(Class<?> testClass) {
           super(testClass);
@@ -431,15 +431,23 @@ JUnit 4のTestRuleを再現する
       // 1. resolveTestRules メソッドをオーバーライドする
       @Override
       protected List<TestRule> resolveTestRules() {
-          // 2. スーパクラスの resolveTestRules() の結果をベースにしてリストを生成する
-          List<TestRule> rules = new ArrayList<>(super.resolveTestRules());
-          // 3. 独自拡張クラスで定義しているTestRuleをリストに追加する
-          rules.add(((CustomTestSupport) support).timeout);
-          // 4. 生成したリストを返す
-          return rules;
+          // 2. 独自拡張クラスで定義しているTestRuleのリストを返す
+          return Collections.singletonList(((CustomTestSupport) support).customRule);
       }
   }
 
-.. important::
+複数の\ ``TestRule``\ を返す場合は、リストの先頭にあるものほど内側、末尾にあるものが最も外側になる（JUnit 4の\ ``RunRules``\ と同じ順序）。テスティングフレームワークが内部で使用する\ ``TestRule``\ は別のメソッドが返すため、スーパクラスの\ ``resolveTestRules()``\ が返すリストをベースにする必要はない。
 
-  ``resolveTestRules()``\ をオーバーライドするときは、必ずスーパクラスの\ ``resolveTestRules()``\ が返すリストをベースにする。ベースにしないと、スーパクラスで登録している\ ``TestRule``\ が再現されなくなる。
+.. warning::
+
+  次の5つは、テストが失敗せず例外も出ないまま、\ ``TestRule``\ が期待どおりに動かない。
+
+  * \ ``TestRule``\ が包むのはテストメソッドの実行だけであり、\ ``@BeforeEach``\ ・\ ``@AfterEach``\ は含まれない。JUnit 4では\ ``@Before``\ ・\ ``@After``\ の外側にあったが、ここでは\ ``TestRule``\ の前処理が\ ``@BeforeEach``\ の後、後処理が\ ``@AfterEach``\ の前に実行される。
+  * \ ``@BeforeEach``\ が失敗すると、\ ``TestRule``\ は前処理も後処理も実行されない。リソースの解放を\ ``TestRule``\ に任せていると、このときだけ解放漏れが起きる。
+  * \ ``Timeout``\ は\ :java:extdoc:`DbAccessTestExtension <nablarch.test.junit5.extension.db.DbAccessTestExtension>`\ と併用できない。\ ``Timeout``\ はテスト本体を別スレッドで実行するが、データベース接続とトランザクションは元のスレッドに束縛されているため、テスト本体からは取得できない。取得時の例外を捕捉していると、この状態でもテストは成功する。同じ理由で、\ ``@BeforeEach``\ などで\ ``ThreadLocal``\ に束縛した値もテスト本体からは見えない。
+  * \ ``@TestFactory``\ が生成した\ ``DynamicTest``\ には\ ``TestRule``\ が適用されない。
+  * \ ``@Nested``\ を使うテストクラスでは、独自拡張クラスから取り出した\ ``TestRule``\ が正しく動作しない。Extensionのインスタンスが外側のクラスと入れ子のクラスとで共有され、\ ``support``\ フィールドが後から生成されたインスタンスで上書きされるためである。本拡張機能を適用するテストクラスでは\ ``@Nested``\ を使用しない。
+
+  なお、\ ``base.evaluate()``\ を呼ばない\ ``TestRule``\ （スキップ系）と、2回以上呼ぶ\ ``TestRule``\ （リトライ系）は使用できない。こちらはテストが例外で失敗するため気づける。
+
+  \ ``TestRule``\ ごとの可否と制約の全体は\ :java:extdoc:`TestEventDispatcherExtension <nablarch.test.junit5.extension.event.TestEventDispatcherExtension>`\ のJavadocにある。
