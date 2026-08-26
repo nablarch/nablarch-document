@@ -1810,9 +1810,32 @@ Excel 形式に必要なインタープリタが3つであることは `setup/co
 
 いずれも `解説書に無い書き方は直さない・テストしない` に反するため、指示書で削除させる。
 
-**指示書**: `ntf-step4-05-nablarch-testing-converter.md`。実装の是正は3件で確定
-（Excel の読み書きの対称化／全フィールド空文字レコードの書き戻し／中間モデルからの `[ ]` の除去）。
-テスト追加は突合の完了待ち。
+**依存の前提（2026-08-26 user 了承）**: **`nablarch-testing-yaml` の Step 4 が完了するまで、
+converter の指示書を渡さない。** converter は yaml に依存し（`pom.xml:40`-`:44`。`1.0.0-SNAPSHOT`）、
+yaml 指示書の 2-2（`isResourceExisting` の判定単位）は converter のテストを意図的に落とす。
+`mvn -o clean test -Dtest=YamlTestCoreAdapterTest` の実測（2026-08-26 20:58）は
+`Tests run: 18, Failures: 1` / `isResourceExisting_reflectsFileExistence:370`。
+同時点で yaml は作業中（ピン `0db2221` → `e9bee93`、`src/main` 7ファイル・+187/-65。
+18件のうち 2-1・2-2・2-3 が済み、2-4・2-5 とテスト追加13件が残る）。
+`~/.m2` の yaml jar は 20:31 install の作業途中の版である。
+**`nablarch-testing` は取り直し不要**（`~/.m2` の jar は PR ブランチ由来と `javap` で確認。
+ピン `3c4bd2a` とブランチ先端 `44b9cc9` は `src/main` がバイト同一）。
+
+**ディレクター自身の指示文の誤りを1件見つけて直した**（`f29a631`）。完了条件9 に
+「`jacoco.exec` は `.gitignore` に無いので消すこと」と書いたが、converter では `.gitignore:3` にある。
+`nablarch-testing-rest` についてのメモを、対象リポジトリで確かめずに持ち込んだものだった。
+あわせて完了条件8 を `mvn clean test` に改めた（`target/classes` が jacoco 計装済みのまま残ると
+`mvn test` は `Cannot process instrumented class` で失敗する。実測）。
+
+**指示書**: `ntf-step4-05-nablarch-testing-converter.md`（`672fb4b` で作成、`f29a631` で更新）。
+**確定した作業は15件（実装の是正4・テスト追加11）。未送付。**
+
+実装の是正4件: Excel の読み書きの対称化／全フィールド空文字レコードの書き戻し／
+中間モデルからの `[ ]` の除去／解説書に記述の無い「あるべき姿」を追う既存 `@Ignore` 2件の削除。
+
+テスト追加11件はいずれも既存605メソッドが0件であることをディレクターが自分の grep で
+裏を取った（`with～` 5種・結合セル・コメント・`excludeSheets` の YAML 側・`validate` の
+サブディレクトリ・`to=yaml` での整形設定の無効化・変換経路からの検証の非呼び出し）。
 
 
 # State
@@ -1823,6 +1846,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-08-26
-- **Last completed**: `#37` Step 4 の指示書1本目 `ntf-step4-01-nablarch-testing.md` を作成し、`#37` を台帳に起こした。`#36` Step 3 は完了済み（図＝png 26枚を除く）
-- **Next**: **Step 4 の指示書を残り4本、依存順に1本ずつ作る。**`nablarch-testing-yaml` → `nablarch-testing-rest` → `nablarch-testing-junit5` → `nablarch-testing-converter`。**1本作るごとに、そのモジュールへ渡してセッションを切り替える**（user 指示 2026-08-26）。各リポジトリの実測済みの根拠は `#37` の「ディレクターが各 PR ブランチのピンで実測済みの事実」にある。指示書の型は `ntf-step4-01-nablarch-testing.md` に揃える
-- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、未追跡パスなし。**変更したら push する**（user 指示 2026-08-26。`Rules` 参照）。番号付きタスクは 1〜32・35 が Closed/DONE、`#33`・`#34` が未決、`#36` が進行中。`main` へのマージと `.rn/` の扱いは user の明示指示待ち（`Rules` 末尾）。**英語版 `en/` は別PR（`ja/` を翻訳するのみ）**、**モジュールを SSoT に合わせる作業とカバレッジ C0/C1 チェックは Step 4**（いずれも user 確定 2026-08-26）
+- **Last completed**: `#41` `nablarch-testing-converter` の突合を完了し、指示書 `ntf-step4-05-nablarch-testing-converter.md` を作成した（`672fb4b`）。あわせて `tools/testdata_converter.rst` を3コミットで是正（`7f194a7`・`45c3852`・`5783b35`）。指示書は `f29a631` で依存関係の前提と自分の誤り1件の訂正を反映した。`#40` yaml の指示書は user が送付済みで CC が作業中
+- **Next**: **新しく作る指示書は無い。3本とも完成済み。** (1) yaml CC の完了報告を待ち、`0db2221` からの差分を全量読み直して独立検証する。(2) そのあと converter の指示書の「渡す前にやること」に従い、yaml のピン取り直し・`mvn install`・`YamlTestCoreAdapterTest.java:365`-`:370` の扱いの書き換えを済ませてから converter CC へ渡す。(3) junit5 CC（`origin/worktree-fix-resolveTestRules` が `6779dcf`）の報告が来たら `2ebea7e..6779dcf` を独立検証する。**どのCCにもこちらから催促しない。** 残る user 判断は `ja/` 配下の png 26枚の禁止語点検だけ（Step 4 の後でよい）
+- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、未追跡パスなし。**変更したら push する**（user 指示 2026-08-26）。`TODO(NTF-*)` は0件。**指示書が使う解説書のピンは、yaml・junit5 が `5b5c91e`、converter が `5783b35`。** `main` へのマージと `.rn/` の扱いは user の明示指示待ち。**英語版 `en/` は別PR。** レビュー役の現在地は `~/work/cowork/nablarch/ntf-doc-renewal/01-現在地.md` にある
