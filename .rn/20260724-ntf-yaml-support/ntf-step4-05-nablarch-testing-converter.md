@@ -250,7 +250,7 @@ Excel 形式で必要なインタープリタが `NullInterpreter`・`QuotationT
 完了条件3は**実ファイルを起点にし、テスティングフレームワークが解釈したあとの値で比べること。**
 
 **着手前に検証すること**: 上の「戻す条件」に反例がないかを、`notation.rst` の Excel 形式の表
-（13行）と YAML 形式の表（13行）の全行で確かめ、結果を報告してから実装に入る。
+（12行）と YAML 形式の表（12行）の全行で確かめ、結果を報告してから実装に入る。
 **反例が見つかったら、実装せずに報告して止める。**
 
 ### 2-2. 全フィールドが空文字のレコードが Excel 形式へ書き戻せない
@@ -287,15 +287,46 @@ Excel 形式の書式であって値ではない。**
 **現状は壊れていない。** 4種のグループIDで往復を実測した（2026-08-26）。壊れていないのは
 両リーダーが同じ形に揃えているためで、モデルの持ち方が正しいからではない。
 
-**やること**: 中間モデルは**生値**で持つ。`[ ]` の付け外しは Excel 形式の中だけで行う。
+**やること**: 中間モデル（`TestDataBlock.groupId`・`BlockHeader.getGroupId()`）は**生値**で持つ。
+`[ ]` を知ってよいのは、次の**2つの層だけ**にする。
 
-- `YamlFormatReader.formatGroup` の `[ ]` 付与をやめる
+| 層 | 何を知るか | どこ |
+|---|---|---|
+| A Excel 版面の読み書き | `[ ]` は Excel 形式の書式である | 付ける＝`XlsFormatWriter.java:529`-`:531`（`marker`）／外す＝`TestCoreReaderAdapter.java:282`-`:286`（`markerGroupId`） |
+| B 上流 API の境界 | 上流が整形済みグループ ID を要求する | `TestCoreReaderAdapter`・`YamlTestCoreAdapter` の各公開メソッドが、**生値で受け取り、上流へ渡す直前に整形する** |
+
+- `YamlFormatReader.formatGroup` の `[ ]` 付与をやめる。**上流呼び出しのためにも組み立てない**
 - `YamlFormatWriter.rawGroup` の推測剥がしをやめる（生値をそのまま書く）
-- `[ ]` を付けるのは `XlsFormatWriter.java:529`-`:531`（`marker`）の中だけにする
-- `[ ]` を外すのは `TestCoreReaderAdapter.java:282`-`:286`（`markerGroupId`）の中だけにする
+- `XlsFormatReader` は `[ ]` を扱わない。`header.getGroupId()`（生値）をそのまま各アダプタへ渡す
+- 整形の式は `groupId == null || groupId.isEmpty() ? "" : "[" + groupId + "]"` の1つにする。
+  生値の空文字は「グループ指定なし」を表す（`markerGroupId` が `TABLE=x` に対して空文字を返す既存の扱いと同じ）
+- **`TestCoreReaderAdapter.readBlockBodyLines` は整形しない。** `markerGroupId` の出力と
+  `equals` で突き合わせる内部比較であり、両側とも生値になるため
+- **`YamlTestCoreAdapter.readSendSyncMessages` は整形しない。** 上流
+  `YamlMessageBuilder.buildSendSyncBodies`（`0b3015c:150`-`:163`）が**生値で**比較するため。
+  同 `:140`-`:141` の Javadoc が「変換ツール専用であり、グループ ID は角括弧なしの生値で照合する」と明記している
+- **層 B を持つメソッドの Javadoc を、生値を受ける旨に書き直す**（`YamlTestCoreAdapter:114`・`:143`、
+  `TestCoreReaderAdapter:212`・`:230`-`:231`・`:259`、`XlsFormatWriter:524`、`TestDataBlock:77`）
 
-**着手前に検証すること**: `groupId` の読み書きに関わる箇所を全走査し、`[ ]` に依存している箇所を
-全件挙げてから実装に入る。既存テストの期待値に `[case1]` 形式が現れる箇所も全件挙げる。
+**「`[ ]` を付けるのは `XlsFormatWriter.marker` の中だけ」ではない**（本指示書の旧版の誤り。
+2026-08-27 にディレクターが実測で訂正した）。変更禁止の依存先2つが、API 境界で整形済みを要求する。
+
+| 依存先 | 実物 | 要求 |
+|---|---|---|
+| `nablarch-testing@3c4bd2a` | `GroupDataParsingTemplate.java:41`-`:42` が `getTargetType().getName() + groupId + '='` を組み立て `first.startsWith(expected)` で前方一致 | マーカーセルが `SETUP_TABLE_DATA[g1]=USERS` なので、渡す `groupId` は `[g1]` でなければ一致しない |
+| `nablarch-testing-yaml@0b3015c` | `YamlSection.java:281`-`:284` の `groupMatches` が `rawGroupId != null ? "[" + rawGroupId + "]" : ""` を作って第2引数と `equals` 比較 | 呼び出し側が渡す値は `[g1]` または `""` |
+
+解説書側の裏付けは `5783b35` の `implementation/testdata_notation.rst:268`
+「Excel 形式では ``データタイプ + グループID + '='`` による前方一致、YAML 形式ではグループIDの完全一致で判定される」。
+
+**`TABLE[]=x`（空のグループ ID）は追わない。** 生値にすると `TABLE[]=x` とグループ ID 省略が
+どちらもモデル上 `""` になり、往復すると `TABLE[]=x` が `TABLE=x` になる。この記法は
+`5783b35` の `testdata_notation.rst:247`-`:269` に無く、`src/test` に `"[]"` を期待する箇所も0件である。
+**この観測できる変化を、報告に1行書くこと。**
+
+**着手前に検証すること**（済）: `groupId` の読み書きに関わる箇所の全走査と、既存テストの期待値に
+`[case1]` 形式が現れる箇所の全件は、**2026-08-27 に報告済みで、ディレクターが上表のとおり判定した。**
+上の「やること」に従って実装に入ってよい。
 
 ### 2-4. 既存の `@Ignore` 2件は、解説書に記述の無い「あるべき姿」を追っている
 
@@ -498,7 +529,7 @@ YamlFormatReaderInvalidInputTest.keepsRowCountButLosesValuesWhenFirstRowOfListMa
    この5件については「直す前に落ちる」ことの確認は不要で、**直したあとに通ること**を示せばよい
 2. **2-1・2-3 の「着手前に検証すること」の結果が、実装に入る前に報告されている**
 3. **完了条件の母集合が往復で保たれることを、テストで押さえている。**
-   `notation.rst` の特殊記法の表（Excel 形式13行・YAML 形式13行）と `testdata_examples.rst` の
+   `notation.rst` の特殊記法の表（Excel 形式12行・YAML 形式12行）と `testdata_examples.rst` の
    「null・空文字・改行など特殊な値を記述する」の各記載例について、
    **XLS→XLS・XLS→YAML→XLS・YAML→YAML・YAML→XLS→YAML の4経路**で、
    テスティングフレームワークが解釈したあとの値が往復前と一致すること。
