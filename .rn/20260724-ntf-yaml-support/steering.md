@@ -1534,8 +1534,10 @@ Excel／YAML の例を示し、それぞれに「なぜそう書くのか」「�
 - [x] `ntf-step4-01-nablarch-testing.md` —— **渡し済み**。`87a21d6` で `src/main` 変更禁止を反映して差し替えた（差し替えの伝言も渡した）
 - [x] `ntf-step4-02-nablarch-testing-yaml.md` —— 作成済み。**本モジュールは `src/main` を変更してよい**（未リリース）。突合の母集合は38ファイル・9,822行を先に固定し、`YAML`/`yaml` が現れる12ファイル・6,640行を担当、残り26ファイル・3,182行は0件を数え直したうえで「対象外」と理由を1行ずつ書かせる（26ファイル分は `nablarch-testing` の母集合が拾うため隙間が出ない）
 - [x] `ntf-step4-03-nablarch-testing-rest.md` —— 作成済み。**`src/main` 変更禁止**（リリース済み）。既知の是正項目は無い（申し送りが求めた記述は解説書に0件）。担当は4ページ440行と `setup/junit5_extension.rst` の3箇所（`:55`-`:60`・`:254`）で、母集合38ファイル・9,822行を先に固定したうえ、残り33ファイルに本モジュールの13クラスが0件であることを数え直させる。`:94`（`optional` 指定）は `nablarch-testing-junit5` の `pom.xml` が決めるため junit5 担当
-- [ ] `nablarch-testing-junit5` —— 未作成
-- [ ] `nablarch-testing-converter` —— 未作成
+- [x] `ntf-step4-04-nablarch-testing-junit5.md` —— 完了・`#7` 承認済み（2026-08-27）
+- [x] `ntf-step4-05-nablarch-testing-converter.md` —— `#33`〜`#39` 完了（`d611bec`）。ディレクター独立検証 合格（2026-08-28。`mvn -o clean test` 656件緑・`@Ignore` 0・ミューテーション9件すべて検知。指示書の誤り2件を `afa4f9e` で訂正）
+- [ ] `ntf-step4-06-nablarch-testing-yaml-2.md` —— **第2回。作成済み・未送付**（`c39f701`）。`#42` の追随7件（末尾 null→`""`／電文 `records:` は1つ／`fw_header:` のキー検査／空エントリは `{}` だけ（第1回 2-1 を上書き）／2文字 `\r` はエラー／`@Ignore` 1件の削除／スキーマ description）。本体を oracle にしたテストを求める
+- [ ] `ntf-step4-07-nablarch-testing-converter-2.md` —— **第2回。作成済み・未送付**。yaml 第2回の完了後に「渡す前にやること」5点を済ませてから渡す。是正5件（本体にインタープリタ列を渡して解釈させる（A）／マーカーカラムだけの行を残す／交互記述の警告／yaml 第2回への追随／4経路テストの oracle を本体にする）
 
 **ディレクターが各 PR ブランチのピンで実測済みの事実**（指示書に逐語で載せる根拠。すべて `git show <pin>:<path>`）:
 
@@ -1879,6 +1881,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-08-28
-- **Last completed**: `#42` 形式間の是正3コミットと A・B 調査の判断反映（`6ba3c83`・台帳 `c8d6fb4`）。それ以前: `#41` `nablarch-testing-converter` の突合を完了し、指示書 `ntf-step4-05-nablarch-testing-converter.md` を作成した（`672fb4b`）。あわせて `tools/testdata_converter.rst` を3コミットで是正（`7f194a7`・`45c3852`・`5783b35`）。指示書は `f29a631` で依存関係の前提と自分の誤り1件の訂正を反映した。`#40` yaml の指示書は user が送付済みで CC が作業中
-- **Next**: **新しく作る指示書は無い。3本とも完成済み。** (1) yaml CC の完了報告を待ち、`0db2221` からの差分を全量読み直して独立検証する。(2) そのあと converter の指示書の「渡す前にやること」に従い、yaml のピン取り直し・`mvn install`・`YamlTestCoreAdapterTest.java:365`-`:370` の扱いの書き換えを済ませてから converter CC へ渡す。(3) junit5 CC（`origin/worktree-fix-resolveTestRules` が `6779dcf`）の報告が来たら `2ebea7e..6779dcf` を独立検証する。**どのCCにもこちらから催促しない。** 残る user 判断は `ja/` 配下の png 26枚の禁止語点検だけ（Step 4 の後でよい）
+- **Last completed**: converter `#33`〜`#39` の独立検証（合格）と、Step 4 第2回の指示書2本の作成（yaml `c39f701`・converter）。それ以前: `#42` 形式間の是正3コミットと A・B 調査の判断反映（`6ba3c83`・台帳 `c8d6fb4`）。それ以前: `#41` `nablarch-testing-converter` の突合を完了し、指示書 `ntf-step4-05-nablarch-testing-converter.md` を作成した（`672fb4b`）。あわせて `tools/testdata_converter.rst` を3コミットで是正（`7f194a7`・`45c3852`・`5783b35`）。指示書は `f29a631` で依存関係の前提と自分の誤り1件の訂正を反映した。`#40` yaml の指示書は user が送付済みで CC が作業中
+- **Next**: (1) user が `ntf-step4-06-nablarch-testing-yaml-2.md` を yaml CC へ渡す（文面は同ファイル §0）。(2) yaml CC の完了報告を待ち、`3ee39c9` からの差分を全量読み直して独立検証する（`mvn -o clean test`・本体 oracle テストの中身・ミューテーション）。(3) `ntf-step4-07-nablarch-testing-converter-2.md` の「渡す前にやること」5点（yaml ピン取り直し・`mvn install`・converter の赤の再実測・文面の差し替え）を済ませて converter CC へ渡す。**どのCCにもこちらから催促しない。** 残る user 判断は `ja/` 配下の png 26枚の禁止語点検だけ（Step 4 の後でよい）
 - **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、未追跡パスなし。**変更したら push する**（user 指示 2026-08-26）。`TODO(NTF-*)` は0件。**指示書が使う解説書のピンは、yaml・junit5 が `5b5c91e`、converter が `5783b35`。** `main` へのマージと `.rn/` の扱いは user の明示指示待ち。**英語版 `en/` は別PR。** レビュー役の現在地は `~/work/cowork/nablarch/ntf-doc-renewal/01-現在地.md` にある
