@@ -1838,38 +1838,38 @@ yaml 指示書の 2-2（`isResourceExisting` の判定単位）は converter の
 サブディレクトリ・`to=yaml` での整形設定の無効化・変換経路からの検証の非呼び出し）。
 
 
-### #42: 形式間の意味集合を揃える是正と、構造上の疑い A・B の調査（user 判断 2026-08-28）— 解説書は完了、モジュール是正は  の指示書へ
+### #42: 形式間の意味集合を揃える是正と、構造上の疑い A・B の調査（user 判断 2026-08-28）— 解説書は完了、モジュール是正は `#37` の指示書へ
 
-**経緯**。 の後、解説書3ページ（・・）を全量読み、
-・（両形式は同じ意味を別の記法で表す）に反して形式ごとに規則が違う5点を見つけた。
+**経緯**。`#41` の後、解説書3ページ（`notation.rst`・`testdata_converter.rst`・`testdata_examples.rst`）を全量読み、
+`testdata_converter.rst:14`・`:22`（両形式は同じ意味を別の記法で表す）に反して形式ごとに規則が違う5点を見つけた。
 判定の軸（user 確定）: **中間モデル＝NTF 仕様＝現行 Excel 実装の意味。「YAML で表せて Excel で表せない意味」は存在しない。
 Excel に定めがあれば同じ規則、無ければエラー。**
 
 **解説書の是正（3コミット）**。
 
--  — 5点を Excel 側へ揃えた。空エントリ（YAML は  だけ）／末尾フィールドの  は形式によらず ／
-  交互記述／FW ヘッダの名前は （YAML の他キーはエラー）／YAML でダブルクォート除去は行わない
--  — 2文字  は YAML ではエラー（ の「CR として解釈」は  と両立しなかった）
--  — 交互記述を「エラー」から「警告して変換」に改めた（** の文言を上書き**。user 判断: 意味は Excel と
-  同じで、既存利用者の大量データの変換を止めない。0件テーブルのカラム名  と同じ扱い）。
-  電文のレコードレイアウトは1つと明記（・）
+- `6bfc058` — 5点を Excel 側へ揃えた。空エントリ（YAML は `{}` だけ）／末尾フィールドの `null` は形式によらず `""`／
+  交互記述／FW ヘッダの名前は `reader.fwHeaderfields`（YAML の他キーはエラー）／YAML でダブルクォート除去は行わない
+- `04b9405` — 2文字 `\r` は YAML ではエラー（`6bfc058` の「CR として解釈」は `setup/common.rst:77` と両立しなかった）
+- `6ba3c83` — 交互記述を「エラー」から「警告して変換」に改めた（**`6bfc058` の文言を上書き**。user 判断: 意味は Excel と
+  同じで、既存利用者の大量データの変換を止めない。0件テーブルのカラム名 `:736` と同じ扱い）。
+  電文のレコードレイアウトは1つと明記（`notation.rst:1153`・`:1299`）
 
-**構造上の疑い A・B の調査（user 指示。プローブ実測。本体 ・yaml ・converter ）**。
-結果の全文は 「A・B の調査結果」、プローブは同 。
+**構造上の疑い A・B の調査（user 指示。プローブ実測。本体 `3c4bd2a`・yaml `3ee39c9`・converter `d611bec`）**。
+結果の全文は `~/work/cowork/nablarch/ntf-doc-renewal/01-現在地.md`「A・B の調査結果」、プローブは同 `probe/`。
 
-- **A** converter の Excel 読みは本体と値処理の順序が逆（ が interpreters 空で本体パーサを回し、
-   で後から解釈）。仕様内の入力で意味が変わるのは末尾の  だけ（本体 、converter null）。
-   の4経路が捕まえなかったのは、母集合にファイル・電文の末尾  が無く、正解値が本体でなく converter 自身の reader だったため。
+- **A** converter の Excel 読みは本体と値処理の順序が逆（`TestCoreReaderAdapter:40` が interpreters 空で本体パーサを回し、
+  `XlsFormatReader.readDataRows:429` で後から解釈）。仕様内の入力で意味が変わるのは末尾の `null` だけ（本体 `""`、converter null）。
+  `#37` の4経路が捕まえなかったのは、母集合にファイル・電文の末尾 `null` が無く、正解値が本体でなく converter 自身の reader だったため。
   **是正方針（user 了解）**: converter が自分で解釈するのをやめ、本体パーサにインタープリタ列を渡して本体に解釈させる。値は器から取る
-- **B** yaml はファイル・電文の値行で本体  を通していない。**通さない（user 判断）**: 構造は YAML が明示するので判定する
-  ものが無い。足りないのは (1) 末尾 null → （ を  直前で呼ぶ）(2) 電文の  2つ以上はエラー
-  （スキーマ ）(3)  のキー検査（ 済み）
+- **B** yaml はファイル・電文の値行で本体 `DataFileParser` を通していない。**通さない（user 判断）**: 構造は YAML が明示するので判定する
+  ものが無い。足りないのは (1) 末尾 null → `""`（`trimTailCopy` を `addValue` 直前で呼ぶ）(2) 電文の `records:` 2つ以上はエラー
+  （スキーマ `maxItems: 1`）(3) `fw_header:` のキー検査（`6bfc058` 済み）
 
-**検証**: Docker フルビルド 、行頭 WARNING/ERROR 0件。 OK（597行）・ OK。
-生成物  に「レコードレイアウトは1つ」2箇所、 に「警告を出す」1箇所。
+**検証**: Docker フルビルド `build succeeded`、行頭 WARNING/ERROR 0件。`verify_mapping` OK（597行）・`verify_glossary` OK。
+生成物 `testdata_notation.html` に「レコードレイアウトは1つ」2箇所、`testdata_converter.html` に「警告を出す」1箇所。
 
-**モジュール側の追随**（ の指示書で扱う）: yaml — 上記 B の (1)(2)、、2文字  のエラー。
-converter — A の是正方針、交互記述の警告、YAML 読みの末尾 null・ 2つ以上・2文字 。
+**モジュール側の追随**（`#37` の指示書で扱う）: yaml — 上記 B の (1)(2)、`isBlankRow`、2文字 `\r` のエラー。
+converter — A の是正方針、交互記述の警告、YAML 読みの末尾 null・`records:` 2つ以上・2文字 `\r`。
 
 # State
 
@@ -1879,6 +1879,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-08-28
-- **Last completed**: `#41` `nablarch-testing-converter` の突合を完了し、指示書 `ntf-step4-05-nablarch-testing-converter.md` を作成した（`672fb4b`）。あわせて `tools/testdata_converter.rst` を3コミットで是正（`7f194a7`・`45c3852`・`5783b35`）。指示書は `f29a631` で依存関係の前提と自分の誤り1件の訂正を反映した。`#40` yaml の指示書は user が送付済みで CC が作業中
+- **Last completed**: `#42` 形式間の是正3コミットと A・B 調査の判断反映（`6ba3c83`・台帳 `c8d6fb4`）。それ以前: `#41` `nablarch-testing-converter` の突合を完了し、指示書 `ntf-step4-05-nablarch-testing-converter.md` を作成した（`672fb4b`）。あわせて `tools/testdata_converter.rst` を3コミットで是正（`7f194a7`・`45c3852`・`5783b35`）。指示書は `f29a631` で依存関係の前提と自分の誤り1件の訂正を反映した。`#40` yaml の指示書は user が送付済みで CC が作業中
 - **Next**: **新しく作る指示書は無い。3本とも完成済み。** (1) yaml CC の完了報告を待ち、`0db2221` からの差分を全量読み直して独立検証する。(2) そのあと converter の指示書の「渡す前にやること」に従い、yaml のピン取り直し・`mvn install`・`YamlTestCoreAdapterTest.java:365`-`:370` の扱いの書き換えを済ませてから converter CC へ渡す。(3) junit5 CC（`origin/worktree-fix-resolveTestRules` が `6779dcf`）の報告が来たら `2ebea7e..6779dcf` を独立検証する。**どのCCにもこちらから催促しない。** 残る user 判断は `ja/` 配下の png 26枚の禁止語点検だけ（Step 4 の後でよい）
 - **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、未追跡パスなし。**変更したら push する**（user 指示 2026-08-26）。`TODO(NTF-*)` は0件。**指示書が使う解説書のピンは、yaml・junit5 が `5b5c91e`、converter が `5783b35`。** `main` へのマージと `.rn/` の扱いは user の明示指示待ち。**英語版 `en/` は別PR。** レビュー役の現在地は `~/work/cowork/nablarch/ntf-doc-renewal/01-現在地.md` にある
