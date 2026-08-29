@@ -1873,6 +1873,37 @@ Excel に定めがあれば同じ規則、無ければエラー。**
 **モジュール側の追随**（`#37` の指示書で扱う）: yaml — 上記 B の (1)(2)、`isBlankRow`、2文字 `\r` のエラー。
 converter — A の是正方針、交互記述の警告、YAML 読みの末尾 null・`records:` 2つ以上・2文字 `\r`。
 
+### #43: yaml 第2回（#36〜#44）の独立検証（合格）と、検証で見つけた解説書の曖昧2点の是正 — 完了
+
+**検証（ディレクター実測。yaml `3ee39c9..aac55ad`。CC の報告書 `.rn/ntf-yaml/report-step4-2.md` は根拠にしていない）**。
+
+- `src/main` の差分5ファイル（+441/−92）を全量読み、指示書 2-1〜2-7 の範囲内であることを確認。2-3 の許可集合は本体
+  `MessageParser.java:107`-`:110`（`3c4bd2a`）と同じキー・既定4つ・`makeArray`
+- scratchpad の clone で `mvn -o clean test` → `Tests run: 318, Failures: 0, Errors: 0, Skipped: 0`・`@Ignore` 0件
+- ミューテーション7件・すべて検知: 2-1 `trimTailCopy` 無効（F1・F4・F6・S2 の4件）／2-3 未知キー素通し（8件）／2-3 設定値無視（5件）／
+  2-4 全値 `""` を落とす旧判定（12件）／2-5 検査無効（15件）／2-5 `fw_header` 経路だけ未検査（2件）／2-5 判定を過剰に（`\n` も拒否。4件）
+- oracle（2-1 `YamlTrailingNullOracleTest` 8件・2-4 `YamlBlankEntryOracleTest` 10件）は本体 `BasicTestDataParser`＋`PoiXlsReader`
+  で POI が組んだ `.xlsx` を読む（`BodyExcelOracle.java:71`-`:72`）
+- converter `d611bec` を yaml `aac55ad` の jar で `mvn -o clean test` → `656 / Failures: 3, Errors: 1`。落ちる4件は報告書 §7.2 と同じ
+  （`fillsMissingRecordFragmentValuesWithEmptyStringInsteadOfNull`・`readsUnquotedNullAsJavaNullInRecordFragmentPath`・
+  `skipsRowWhoseValuesAreAllEmpty`・`keepsFwHeaderNamedRecordInSendSyncFromRealYaml`）。converter 第2回の指示書 2-4 で是正する
+
+**解説書の是正（検証で見つけた曖昧2点。あるべき姿が自明なので判断は仰いでいない）**。
+
+- `implementation/testdata_notation.rst:889` — 「後ろに値のあるフィールドがあれば null のまま保持される」の「値」に `""` を含むかが
+  `:1502`（`""` は値）と読み合わせると曖昧だった。本体 `NablarchTestUtils.trimTail`（`3c4bd2a` の `:251`-`:263`）は末尾から
+  null と `""` を連続して取り除くため `["x", null, ""]` は `x`,`""`,`""`。「空文字でも null でもないフィールドがあれば」に改めた
+- `implementation/testdata_notation.rst:1502` — 「マーカーカラムだけに値があるエントリは…他のカラムがすべて空文字のエントリとして
+  読み込まれる」が、YAML でキーを省略した場合に `:818`（省略は null を明示したのと同じ）と矛盾していた。値は通常どおり
+  （Excel の空セルは `""`、YAML のキー省略は null）に改めた。**yaml 報告書 §8.1 の「本体と恒久的に食い違う仕様差」は、この矛盾を
+  仕様差と読んだもの。入力が非等価（Excel の空セル＝`""`、YAML のキー省略＝null）なだけで、仕様差ではない**
+- `tools/testdata_converter.rst:63` — `:1502` の旧文を引いていたので合わせた（マーカーカラムの値だけを除いたエントリとして残す）
+- converter 第2回の指示書 2-2 の引用を新しい文言に差し替えた
+
+**yaml 報告書 §8 の判断**（user 判断が要るのは §8.5 だけ）: §8.1 上記のとおり仕様差ではない。T5/L5 のテストは正しいが Javadoc の
+「仕様差」の枠組みを `:818` に沿って改める（#45）。§8.2 converter 第2回の指示書 2-4 で是正（既定）。§8.3 上記 `:889` で是正済み。
+§8.4 スキーマ description は SSoT の適用範囲（2026-08-25 user 確定）なので追随する（#45）。§8.5 出典方式は user 判断へ。
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
@@ -1880,7 +1911,7 @@ session is suspended — the signal /rn:up and /rn:dn search for — and resets 
 so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
-- **Date**: 2026-08-28
-- **Last completed**: converter `#33`〜`#39` の独立検証（合格）と、Step 4 第2回の指示書2本の作成（yaml `c39f701`・converter）。それ以前: `#42` 形式間の是正3コミットと A・B 調査の判断反映（`6ba3c83`・台帳 `c8d6fb4`）。それ以前: `#41` `nablarch-testing-converter` の突合を完了し、指示書 `ntf-step4-05-nablarch-testing-converter.md` を作成した（`672fb4b`）。あわせて `tools/testdata_converter.rst` を3コミットで是正（`7f194a7`・`45c3852`・`5783b35`）。指示書は `f29a631` で依存関係の前提と自分の誤り1件の訂正を反映した。`#40` yaml の指示書は user が送付済みで CC が作業中
-- **Next**: (1) user が `ntf-step4-06-nablarch-testing-yaml-2.md` を yaml CC へ渡す（文面は同ファイル §0）。(2) yaml CC の完了報告を待ち、`3ee39c9` からの差分を全量読み直して独立検証する（`mvn -o clean test`・本体 oracle テストの中身・ミューテーション）。(3) `ntf-step4-07-nablarch-testing-converter-2.md` の「渡す前にやること」5点（yaml ピン取り直し・`mvn install`・converter の赤の再実測・文面の差し替え）を済ませて converter CC へ渡す。**どのCCにもこちらから催促しない。** 残る user 判断は `ja/` 配下の png 26枚の禁止語点検だけ（Step 4 の後でよい）
+- **Date**: 2026-08-29
+- **Last completed**: `#43` yaml 第2回（`3ee39c9..aac55ad`）の独立検証（合格）と、解説書の曖昧2点（`notation.rst:889`・`:1502`、`converter.rst:63`）の是正。それ以前: converter `#33`〜`#39` の独立検証（合格）と Step 4 第2回の指示書2本の作成（yaml `c39f701`・converter `ef3a914`）
+- **Next**: (1) user が yaml CC へ承認＋#45（T5/L5 Javadoc の枠組み・2-5 のスキーマ description 追随・解説書ピン取り直し）の文面を渡す。(2) #45 完了後に `ntf-step4-07-nablarch-testing-converter-2.md` の「渡す前にやること」5点（yaml ピン取り直し・`mvn install`・converter の赤の再実測・文面の差し替え）を済ませて converter CC へ渡す。**どのCCにもこちらから催促しない。** 残る user 判断は yaml 報告書 §8.5（出典方式）と `ja/` 配下の png 26枚の禁止語点検
 - **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、未追跡パスなし。**変更したら push する**（user 指示 2026-08-26）。`TODO(NTF-*)` は0件。**指示書が使う解説書のピンは、yaml・junit5 が `5b5c91e`、converter が `5783b35`。** `main` へのマージと `.rn/` の扱いは user の明示指示待ち。**英語版 `en/` は別PR。** レビュー役の現在地は `~/work/cowork/nablarch/ntf-doc-renewal/01-現在地.md` にある
