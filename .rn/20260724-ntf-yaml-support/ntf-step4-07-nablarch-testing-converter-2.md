@@ -16,7 +16,7 @@
 |---|---|---|
 | 1 | yaml 第2回の完了報告をディレクターが独立に検証する（`mvn -o clean test`・本体 oracle テストの中身・ミューテーション） | 済（yaml `#45`＝`3fecc4e` まで合格。yaml 指示書 §9） |
 | 2 | yaml のピンを取り直し、本指示書の参照点の表と 2-4 を更新する（`3ee39c9` → 新しい先端） | 済（`3fecc4e`。解説書も `afa4f9e` → `a6da1f6`） |
-| 3 | yaml を `mvn install` する（`JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64`） | 済（`3fecc4e` を install。`~/.m2/.../nablarch-testing-yaml-1.0.0-SNAPSHOT.jar` 2026-08-29 14:28） |
+| 3 | yaml を `mvn install` する（`JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64`） | 済（`3fecc4e` を install。生成物は親 POM `nablarch-parent:6-NEXT-SNAPSHOT` の `maven.compiler.target=17` で major 61＝Java 17。`~/.m2/.../nablarch-testing-yaml-1.0.0-SNAPSHOT.jar` 2026-08-29 14:28） |
 | 4 | その状態で converter `d611bec` の `mvn -o clean test` を実測し、赤の全件を 2-4 の表に書く（第1回の着手時と同じ形） | 済（`656 / F3 E1`。2-4 に全件） |
 | 5 | 「渡すときの文面」の着手時の実測値を 4 の結果に差し替える | 済。あわせて「ソースから解説書参照を全撤去」を 2-6 として追加（user 判断 2026-08-29） |
 
@@ -70,8 +70,8 @@ Tests run: 656, Failures: 3, Errors: 1, Skipped: 0 になります（こちら�
 
 ビルドの注意: target/classes が jacoco 計装済みのまま残っていることがあり、その状態の
 mvn test は「Cannot process instrumented class」で失敗します。mvn clean test を使ってください。
-mvn install を実行する場合は JAVA_HOME を設定してください。
-  JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
+mvn install を実行する場合は JAVA_HOME を設定してください（Nablarch 6 の基準は Java SE 17）。
+  JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64
 
 後始末: git status --short が空になること。一時ファイル・作業用スクリプト・ログを
 残さないでください（jacoco.exec と target/ は .gitignore に入っているので消さなくてよい）。
