@@ -10,15 +10,15 @@
 
 ## 渡す前にやること（ディレクター向け。CC には渡さない）
 
-**未完了。次の5点を済ませてから渡す。** 本指示書は `nablarch-testing-yaml` の第2回（`ntf-step4-06-nablarch-testing-yaml-2.md`）の完了に依存する。
+**完了（2026-08-29。ディレクター実測）。** 本指示書は `nablarch-testing-yaml` の第2回（`ntf-step4-06-nablarch-testing-yaml-2.md`）の完了に依存する。
 
 | # | やること | 結果 |
 |---|---|---|
-| 1 | yaml 第2回の完了報告をディレクターが独立に検証する（`mvn -o clean test`・本体 oracle テストの中身・ミューテーション） | 未 |
-| 2 | yaml のピンを取り直し、本指示書の参照点の表と 2-4 を更新する（`3ee39c9` → 新しい先端） | 未 |
-| 3 | yaml を `mvn install` する（`JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64`） | 未 |
-| 4 | その状態で converter `d611bec` の `mvn -o clean test` を実測し、赤の全件を 2-4 の表に書く（第1回の着手時と同じ形） | 未 |
-| 5 | 「渡すときの文面」の着手時の実測値を 4 の結果に差し替える | 未 |
+| 1 | yaml 第2回の完了報告をディレクターが独立に検証する（`mvn -o clean test`・本体 oracle テストの中身・ミューテーション） | 済（yaml `#45`＝`3fecc4e` まで合格。yaml 指示書 §9） |
+| 2 | yaml のピンを取り直し、本指示書の参照点の表と 2-4 を更新する（`3ee39c9` → 新しい先端） | 済（`3fecc4e`。解説書も `afa4f9e` → `a6da1f6`） |
+| 3 | yaml を `mvn install` する（`JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64`） | 済（`3fecc4e` を install。`~/.m2/.../nablarch-testing-yaml-1.0.0-SNAPSHOT.jar` 2026-08-29 14:28） |
+| 4 | その状態で converter `d611bec` の `mvn -o clean test` を実測し、赤の全件を 2-4 の表に書く（第1回の着手時と同じ形） | 済（`656 / F3 E1`。2-4 に全件） |
+| 5 | 「渡すときの文面」の着手時の実測値を 4 の結果に差し替える | 済。あわせて「ソースから解説書参照を全撤去」を 2-6 として追加（user 判断 2026-08-29） |
 
 ---
 
@@ -27,13 +27,13 @@
 **担当CCには次をそのまま貼る。**（着手時の実測値は「渡す前にやること」4 の結果で差し替える）
 
 ```
-Step 4 の第2回の作業を依頼します。指示書に是正5件が確定済みで載っています。
+Step 4 の第2回の作業を依頼します。指示書に是正6件が確定済みで載っています。
 探索は不要です。解説書を読み比べて不一致を探す作業ではありません。
 
 着手前に、いまの状態を1度実測してください。mvn -o clean test は
-【渡す前にやること 4 の結果】になります（こちらでも実測済み）。
-この赤は依存先 nablarch-testing-yaml の第2回の是正に converter のテストが追随していないもので、
-指示書 2-4 で直す対象です。それ以外の赤が出たら、着手せず報告してください。
+Tests run: 656, Failures: 3, Errors: 1, Skipped: 0 になります（こちらでも実測済み）。
+この赤4件は依存先 nablarch-testing-yaml の第2回の是正に converter のテストが追随していないもので、
+指示書 2-4 に全件載せてあり、2-4 で直す対象です。それ以外の赤が出たら、着手せず報告してください。
 
 作業場:
   /home/tie303177/work/nablarch/nablarch-testing-converter
@@ -46,24 +46,27 @@ Step 4 の第2回の作業を依頼します。指示書に是正5件が確定�
   git show origin/ntf-yaml-support:.rn/20260724-ntf-yaml-support/ntf-step4-07-nablarch-testing-converter-2.md
   で読んでください。
 
-解説書は afa4f9e を参照点にしてください（ja/ 配下は 05e57a1 と同一です）。
-必ず git show afa4f9e:<path> で読み、作業ツリーの HEAD を読まないでください。
+解説書は a6da1f6 を参照点にしてください。
+必ず git show a6da1f6:<path> で読み、作業ツリーの HEAD を読まないでください。
 
-依存先 nablarch-testing-yaml は【渡す前にやること 2 のピン】を参照点にしてください（第2回の是正が入った版で、
+依存先 nablarch-testing-yaml は 3fecc4e を参照点にしてください（第2回 #36〜#45 の是正が入った版で、
 ~/.m2 にも install 済みです）。変更しないでください。
 
 指示書の「1. やること」「2. 是正」「3. テストの作り方」「4. 完了条件」「6. 報告」に
-従ってください。特に次の5つを落とさないでください。
+従ってください。特に次の6つを落とさないでください。
 
 - 2-1・2-3 には「着手前に特定すること」があります。実装に入る前に、その結果だけを先に報告してください。
   2-1 は波及先が広いので、表が揃うまで実装に入らないでください
-- 第2節の5件は直してください。ここは判断済みです。範囲の判断を持たないでください
+- 第2節の6件は直してください。ここは判断済みです。範囲の判断を持たないでください
 - 2-5 の4経路テストは、正解を本体 nablarch-testing にしてください。converter 自身の reader を正解にした
   第1回のテストは、末尾の null が Excel と YAML で違う値になっていても80経路すべて緑でした
 - 足したテスト・直したテストそれぞれについて、期待値をわざと崩すと落ちることを1度確認し、
   確認したことを報告に書く
 - 解説書は直さないでください。「解説書が誤っている」と判断した項目は、根拠を添えて
   報告して止めてください
+- ソース（src/main・src/test・フィクスチャ）に解説書への参照を書かないでください。.rst のパス・
+  行番号・節見出し・逐語引用・「解説書」「出典」のいずれも不可です。既存のものは 2-6 で全部取り除きます。
+  2-6 は単独のコミットにしてください
 
 ビルドの注意: target/classes が jacoco 計装済みのまま残っていることがあり、その状態の
 mvn test は「Cannot process instrumented class」で失敗します。mvn clean test を使ってください。
@@ -86,10 +89,10 @@ mvn install を実行する場合は JAVA_HOME を設定してください。
 
 | 対象 | ピン | 読み方 |
 |---|---|---|
-| 解説書 `nablarch-document` | **`afa4f9e`**（ブランチ `ntf-yaml-support`。`ja/` は `05e57a1` と同一） | `git show afa4f9e:<path>` |
+| 解説書 `nablarch-document` | **`a6da1f6`**（ブランチ `ntf-yaml-support`） | `git show a6da1f6:<path>` |
 | 本モジュール | **`d611bec`**（ブランチ `ntf-test-data-converter`。`@Test` 656件・`@Ignore` 0件） | 作業ツリーで作業してよい |
 | `nablarch-testing` | `3c4bd2a` | `git show 3c4bd2a:<path>`。**変更しない** |
-| `nablarch-testing-yaml` | **【渡す前にやること 2 で確定】**（ブランチ `feature/ntf-yaml`。第2回の是正が入った版） | `git show <ピン>:<path>`。**変更しない**。`~/.m2` にはこの版が install 済み |
+| `nablarch-testing-yaml` | **`3fecc4e`**（ブランチ `feature/ntf-yaml`。第2回 `#36`〜`#45` の是正が入った版） | `git show 3fecc4e:<path>`。**変更しない**。`~/.m2` にはこの版が install 済み |
 
 **解説書は必ずピンで読む。** 作業ツリーの HEAD はピンとは別物である。
 
@@ -100,16 +103,16 @@ mvn install を実行する場合は JAVA_HOME を設定してください。
 
 ### 落ちたときの扱い
 
-- **第2節の5件は直す。** 解説書が正であり、実装が追いついていない
+- **第2節の6件は直す。** 解説書が正であり、実装が追いついていない
 - **既存テストが落ちたら、期待値を解説書に合わせて直す。** 「変えた／変えなかった」を件数つきで報告する（完了条件5）
 
 ---
 
-## 2. 是正（5件）
+## 2. 是正（6件）
 
 ### 2-1. Excel 読みの値処理が本体と順序が逆で、末尾の `null` が `""` にならない
 
-**解説書**（`afa4f9e`）: `implementation/testdata_notation.rst:889`「末尾のフィールドに ``null``\ と記述した場合は、形式によらず\ ``""``\ になる」、
+**解説書**（`a6da1f6`）: `implementation/testdata_notation.rst:889`「末尾のフィールドに ``null``\ と記述した場合は、形式によらず\ ``""``\ になる」、
 `:1155`（電文も同じ）。`tools/testdata_converter.rst:14`（中間モデルは仕様上の意味だけを持つ）。
 
 **本体の仕組み**（`nablarch-testing@3c4bd2a`。変更しない）: `TestDataParsingTemplate.java:183` で全セルを**先に解釈**（インタープリタ列）し、
@@ -166,7 +169,7 @@ mvn install を実行する場合は JAVA_HOME を設定してください。
 
 ### 2-2. マーカーカラムだけに値があるエントリが消える
 
-**解説書**（`afa4f9e` の `tools/testdata_converter.rst:63`。**`6bfc058` で改訂済み**）:
+**解説書**（`a6da1f6` の `tools/testdata_converter.rst:63`。**`6bfc058`・`a6da1f6` で改訂済み**）:
 
 > マーカーカラムだけに値があるエントリは、テスティングフレームワークが読み飛ばさない（\ :ref:`コメント・マーカーカラム・空エントリを扱う <testdata_notation-comment_and_marker>`\ 参照）ため、本ツールもマーカーカラムの値だけを除いたエントリとして中間モデルに残す。消えるのはマーカーカラムの値だけである。
 
@@ -182,7 +185,7 @@ YAML へ書くときは全値 `""` のエントリになり、yaml 第2回 2-4 �
 
 ### 2-3. 交互記述のシートを変換しても警告が出ない
 
-**解説書**（`afa4f9e` の `tools/testdata_converter.rst:69`。**`6ba3c83` で「警告して変換」に確定**）:
+**解説書**（`a6da1f6` の `tools/testdata_converter.rst:69`。**`6ba3c83` で「警告して変換」に確定**）:
 
 > 収集方式が「グループ」のデータタイプ（テーブル・ファイル・グループID付きの電文）について、同じデータタイプと同じグループIDのデータブロックの間に別のデータブロックを挟んだシートでは、テスティングフレームワークは\ Excel\ 形式では収集を途中で終え、後ろのデータブロックを読まない（\ :ref:`グループIDによる使い分け <testdata_notation-group_id>`\ 参照）。\ YAML\ 形式にはこれに相当する記法が無く、そのまま変換すると読まれなかったデータブロックが有効になって意味が変わる。本ツールはこのシートを検出すると、テスティングフレームワークが読まなかったデータブロックを出力せずに変換を続け、警告を出す。変換後の\ YAML\ 形式でテスティングフレームワークが読む内容は、\ Excel\ 形式で読んでいた内容と同じである。
 
@@ -222,11 +225,17 @@ yaml のビルダ経由なので**実装は自動で追随する**。追随を**
 | 2-4 空エントリは `{}` だけ | `notation.rst:1502` | 全値 `""` のエントリが残る。**`YamlFormatReaderScalarTest#skipsRowWhoseValuesAreAllEmpty`（`d611bec`）は全値 `""` の行が読み飛ばされることを期待しているため落ちる** → 解説書どおりに直す |
 | 2-5 2文字 `\` ＋ `r` はエラー | `notation.rst:1445` | 2文字の `\` ＋ `r` を含む YAML を読むとエラー。第1回 §1-1 で「YAML→XLS→読み戻しで CR に変わる（追わない）」とした観測は、この是正で入力自体が弾かれるため消える |
 
-**着手時に赤いテストの全件**（【渡す前にやること 4 で確定】）:
+**着手時に赤いテストの全件**（ディレクター実測 2026-08-29。yaml `3fecc4e` を install した状態で converter `d611bec` の `mvn -o clean test`）:
 
 ```
-（渡す前にやること 4 の結果をここに貼る）
+Tests run: 656, Failures: 3, Errors: 1, Skipped: 0
+  YamlFormatReaderInvalidInputTest.fillsMissingRecordFragmentValuesWithEmptyStringInsteadOfNull:763 → yaml 2-1（末尾 null → ""）。期待 [a, null, ""] に対し実際 [a, "", ""]
+  YamlFormatReaderScalarTest.readsUnquotedNullAsJavaNullInRecordFragmentPath:650                    → yaml 2-1（末尾 null → ""）。期待 null に対し実際 ""
+  YamlFormatReaderScalarTest.skipsRowWhoseValuesAreAllEmpty:596                                     → yaml 2-4（空エントリは {} だけ）。全値 "" の行が残る
+  YamlFormatReaderRealFileTest.keepsFwHeaderNamedRecordInSendSyncFromRealYaml:640                   → yaml 2-2（電文 records: は1つ）。YamlSchemaValidationException「$.response_body_messages[0].records: アイテムは最大でも 1 個必要ですが、2 が見つかりました」
 ```
+
+4件とも「converter 側のテストが yaml 第2回より前の挙動を期待値に書いている」もので、`src/main` の欠陥ではない。4件とも 2-4 で解説書どおりに直す。
 
 ### 2-5. 4経路テストの正解が converter 自身の reader になっている
 
@@ -250,6 +259,30 @@ converter の2つの reader の間で比べているため、2-1 の末尾 `null
 
 ---
 
+### 2-6. ソースから解説書への参照をすべて取り除く
+
+**user 判断（2026-08-29）: モジュールのソースコメントから解説書への参照をすべて取り除く。** リリース済みの `nablarch-testing`・`nablarch-testing-rest`・`nablarch-testing-junit5` の `src/` には
+解説書への参照が1件も無い（ディレクター実測）。根拠の追跡は `.rn/` の報告書・台帳で行う。yaml は `#45`（`3fecc4e`）で同じ作業を済ませている。
+
+**現行**（`d611bec`。ディレクター実測 `git grep -nE '\.rst|nablarch-document|解説書|出典|根拠:' -- src/`）: **167行・43ファイル**
+（`src/main` 71行・19ファイル、`src/test` 96行・24ファイル）。パターン別（重複あり）は `.rst` 152行・41ファイル／`nablarch-document` 2行／「解説書」20行／「出典」1行／「根拠:」0行。
+`.java` 以外（フィクスチャ・リソース）には無い。
+
+**やること**:
+
+1. **着手前に、取り除く行の全件（`file:line`）を上の式で機械抽出し、件数を報告してから始める**
+2. `src/main`・`src/test` から、`.rst` のパス（行番号の有無を問わない）、`nablarch-document`、「解説書」「出典」として解説書を指す記述、解説書の節見出し・逐語引用をすべて取り除く。
+   Javadoc・テストの説明は、**何を確かめるかを自分の言葉で書く**（既存の Given/When/Then と本体クラス名への言及は残してよい）
+3. 他リポジトリのソースを `path:line` で指す箇所（`git grep -nE '\.\./nablarch-|[A-Za-z]+\.java:[0-9]+' -- src` で **11行**: `GroupIdNotation.java:16`・`YamlTestCoreAdapter.java:101`・
+   `ConverterFileFilter.java:159`・`XlsFormatReader.java:655`-`:656`・`XlsFormatWriter.java:701`・`YamlTestCoreAdapterTest.java:371`・`ConverterFileFilterTest.java:145`・
+   `XlsEmptyEntryTest.java:44`-`:45`・`YamlFormatReaderInvalidInputTest.java:1284`）は、行番号とパスを落としてクラス名だけ残す（例: `PoiXlsReader.java:93` → `PoiXlsReader`）。
+   `nablarch-testing@3c4bd2a` のようなコミット指定も落とす
+4. **テストの動作・期待値は変えない**（変えるのはコメント・Javadoc・assert メッセージの文字列だけ）。**2-6 は単独のコミットにする**
+   （コメントと文字列だけの変更であることを、ディレクターがコメント行を落とした差分で機械的に確かめるため）
+5. 終わったら `git grep -nE '\.rst|nablarch-document|解説書|出典|根拠:' -- src/` と `git grep -nE '[A-Za-z]+\.java:[0-9]+' -- src` がともに **0件**であることを報告に書く
+
+---
+
 ## 3. テストの作り方
 
 **Excel に同じ意味がある項目（2-1・2-2・2-5）は、本体 `nablarch-testing` を正解にする。** converter 自身の reader どうし、
@@ -263,16 +296,17 @@ converter の2つの reader の間で比べているため、2-1 の末尾 `null
 
 ## 4. 完了条件
 
-1. **第2節の5件がすべて是正されている。** 是正ごとに、直す前は落ちて直したあとは通るテストがあること（2-3 は先に書いた落ちるテスト、2-5 は母集合に足した末尾 `null` の1件以上）
+1. **第2節の6件がすべて是正されている。** 是正ごとに、直す前は落ちて直したあとは通るテストがあること（2-3 は先に書いた落ちるテスト、2-5 は母集合に足した末尾 `null` の1件以上）
 2. **2-1・2-3 の「着手前に特定すること」の結果が、実装に入る前に報告されている**
 3. **2-5 の4経路テストが本体を正解にしており、母集合に 2-5 の4種が入っている**
 4. **足したテスト・直したテストそれぞれについて、期待値をわざと崩すと落ちることを1度確認している。** 確認したことを報告に書く
 5. **既存テストの期待値を変えた箇所が全件挙がっている。** どれを変えどれを変えなかったかを、件数を数えたうえで報告する
 6. **`@Ignore` が0件**
 7. **カバレッジ C0/C1 を計測し、結果を報告する。** `src/main` の是正で下がった箇所があれば挙げる
-8. `mvn -o clean test` が緑。着手時点では【渡す前にやること 4 の件数】が赤い（2-4 で解消する）。`clean` を付ける
+8. `mvn -o clean test` が緑。着手時点では4件が赤い（`Tests run: 656, Failures: 3, Errors: 1, Skipped: 0`。2026-08-29 実測。2-4 で解消する）。`clean` を付ける
 9. `git status --short` が空。一時ファイル・作業用スクリプト・ログを残さない
 10. 変更を push する
+11. **`git grep -nE '\.rst|nablarch-document|解説書|出典|根拠:' -- src/` と `git grep -nE '[A-Za-z]+\.java:[0-9]+' -- src` が0件**（2-6）。2-6 が単独のコミットになっている
 
 ---
 
@@ -283,6 +317,7 @@ converter の2つの reader の間で比べているため、2-1 の末尾 `null
 - **解説書に無い書き方を追いかけない。** `TABLE[]=x`・`SETUP_TABLEX=T`（角括弧の無いグループID）・`TABLE[=x`（閉じていない角括弧）・全角ダブルクォートは解説書に無く、対象外
 - **仕様外の入力に対する本体との差（先頭列の `null`・ディレクティブ値の `null`・マーカーを引用符で囲む等）を揃えに行かない。** 2-1 で本体に解釈させれば結果的に揃うものはそれでよいが、揃えるためのコードを足さない
 - **converter が自前で「読まれなかったブロック」を選別しない**（2-3）。本体の挙動に任せ、警告だけを足す
+- **ソース（`src/main`・`src/test`・フィクスチャ）に解説書への参照を書かない。** `.rst` のパス・行番号・節見出し・逐語引用・「解説書」「出典」のいずれも不可。2-1〜2-5 で足すコメントも同じ
 
 ---
 
@@ -296,12 +331,13 @@ converter の2つの reader の間で比べているため、2-1 の末尾 `null
 4. **期待値をわざと崩す確認の結果。** 対象テスト名と、崩した内容
 5. **既存テストの期待値を変えた箇所の全件**
 6. **カバレッジ C0/C1 の計測結果**
+7. **2-6 の件数と抽出方法**（着手前の全件 `file:line`、作業後の grep が0件であること、2-6 のコミットハッシュ）
 
 ---
 
 ## 7. レビュー
 
-**4観点レビューは回さない。** 作業が5件に確定していて探索を含まないため。ディレクターが差分を全量読み直して独立に検証する
+**4観点レビューは回さない。** 作業が6件に確定していて探索を含まないため。ディレクターが差分を全量読み直して独立に検証する
 （第1回と同じく、自分で `mvn -o clean test`・ミューテーション・実ファイル起点のプローブを行う）。
 
 観点D（検証の妥当性）は、次の2つで代替する。
