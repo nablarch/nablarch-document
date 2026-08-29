@@ -351,3 +351,28 @@ YAML 側の実装の結果どうし（例: `YamlFileBuilder` の出力と自分�
 - HEAD が `f2891b7` でなく `ef1fc63` だった件は了解。`ef1fc63` は steering.md のみで push 済みなので、そのままでよい
 
 上の訂正を steering に反映してから #45 に着手する。完了条件・報告の形は送付済みの文面のとおり（終わったら報告して止まる）。
+
+---
+
+## 9. #45 の承認（2026-08-29）
+
+#45 承認（`/rn:ty`）。**yaml の Step 4 第2回はこれで完了。追加タスクは無い。** 承認記録を steering に入れて push し、停止する。
+
+ディレクターの独立検証（scratchpad の clone・`3fecc4e`。CC の報告書は根拠にしていない）:
+
+- `git log ef1fc63..origin/feature/ntf-yaml` は `4688307`・`58c7bc1`・`3fecc4e` の3件、`git status --short` 空
+- steering の訂正3件: `steering.md:69` 解説書ピン `a6da1f6`／`:1512` §8.5 の記録が承認後の文／`:1545` Step A が「クラス名だけ残す」
+- `git grep -nE '\.rst|nablarch-document|解説書|出典|根拠:' -- src/` **0件**。`[A-Za-z]+\.java:[0-9]+` は `YamlMessageBuilderTest.java:1380` の `YamlLoader.java:151` の1件だけ（`ef1fc63` では11件）。着手前 `58c7bc1` の再抽出は 122行・28ファイル、`.rst` 77行・26ファイル、`src/main` 16行で報告 §9.1 と一致
+- `f2891b7..3fecc4e` の `src/` 差分からコメント行（Java の `//`・`/* */`、YAML の `#`）を落として比較した実質差分は、スキーマ description 5箇所・T6/L6（テスト2件＋`blankEntry.yaml` 2エントリ）・assert メッセージ文字列2件（`YamlTestDataParserTest.java:642`・`YamlMessageBuilderTest.java:42`。出典を落としただけ）のみ。**既存テストの動作・期待値の変更は無い**
+- `mvn -o clean test` → `Tests run: 320, Failures: 0, Errors: 0, Skipped: 0`。`@Ignore` アノテーション 0件
+- T6/L6: `YamlBlankEntryOracleTest.java:359`・`:489` が本体 oracle との一致を assert し、`assertTableValues` で本体側の値 `{null,null,null}` も固定している。**実装側のミューテーション**（`YamlTableDataBuilder.java:155`・`:204` で省略カラムを `""` に置換）で T6/L6 が落ちることを確認（`Tests run: 12, Failures: 6`。T3/L3・T5/L5 も落ちる）
+- スキーマ 5箇所（`:108`・`:136`・`:216`・`:380`・`:433`）の追記文は `:293` の既存文と同文
+- `checks/task-31.md` `:8`・`:9`・`:23` に注記あり
+
+§8 に無く前提を書いて進めた3件の判定:
+
+- `fw_header` の2箇所を「キー名・値」とした件: **受け入れる。** 解説書 `testdata_notation.rst:1295`（`a6da1f6`）が `fw_header:` のキーを設定名に限定しているため、この2文字を含むキー名がエラーになることは解説書からも導ける
+- `checks/task-31.md:7` への短い注記: 受け入れる
+- ピン行の「`ja/` 配下は `05e57a1` と同一」を落とした件: 受け入れる（`git diff --stat 05e57a1 a6da1f6 -- ja/` が 2ファイル 3挿入 3削除であることを再現）
+
+前提3件は報告書 §9.2・§9.4 にあり steering には無い。今回は報告書で足りるため差し戻さない。
