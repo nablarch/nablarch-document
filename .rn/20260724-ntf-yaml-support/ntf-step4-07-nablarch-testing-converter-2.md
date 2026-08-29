@@ -395,3 +395,62 @@ converter の2つの reader の間で比べているため、2-1 の末尾 `null
 第3文「マーカーカラムだけで構成したデータブロックは、Excel 形式から読み込むとデータ行も残らない」）。
 §8「#40 で直すこと」の5件を入れて、#40 の残りから #46 まで止まらずに進めてください。報告は #46 完了時にまとめて1回。
 ```
+
+---
+
+## 9. #40〜#46 の判定（2026-08-30）—— 合格。是正1回（#47）を入れて締める
+
+**是正6件・完了条件11項は満たしている。** ただし変異試験で「直しても落ちるテストが無い」変更が1件（2-1 a-3）、2-3 の警告に「壊しても落ちない」経路が2件見つかった。
+**#47 として下の4点を入れ、push して報告する。** #47 の検証は差分限定で行う（`nablarch/CLAUDE.md` 3-3）。
+
+### ディレクターの独立検証（scratchpad の clone・`77e4a22`。報告書は根拠にしていない）
+
+- `d611bec..origin/ntf-test-data-converter` は `c10de5e`〜`77e4a22` の10件＋`721da23`（State）。`git status --short` 空
+- `JAVA_HOME=temurin-17` で `mvn -o clean test` → `Tests run: 678, Failures: 0, Errors: 0, Skipped: 0`。`@Ignore` アノテーション 0件（grep の4件は Javadoc の言及）
+- 完了条件11: `git grep -nE '\.rst|nablarch-document|解説書|出典|根拠:' 77e4a22 -- src/` **0件**、`[A-Za-z]+\.java:[0-9]+` **0件**。`26701b7` はコメント・空行・文字列リテラルを落として `1d572ef` と比較し、**実質差分のあるファイル 0件**
+- `src/main` の実質変更は `TestCoreReaderAdapter`（6パーサへ `INTERPRETERS`、`SendSyncBodyCollector:347` の `super` も）・`XlsFormatReader`（`rowCount:620`・`warnInterleavedBlocks:532`・自前解釈の削除）・`XlsFormatWriter`（`appendKeyValueRows:460`-`:463`）の3ファイル。報告 §2 と一致
+- §8「#40 で直すこと」: 1 `rowCount:620` はカラム名の数だけで判定／2 (e) 3〜5 の期待値は不変（コード抜き差分で確認）／3 `XlsMarkerOnlyEntryTest` は `[no]`,`id`,`name` の3行で組まれ本体 oracle 3件と一致を assert／4 `coverage/issues.md` XLS-08 に「上書きした」の追記あり／5 死んだコードは `tail` 以外削除。**`tail` は `XlsFormatReader.java:341`・`:362`・`:388`・`:392` から呼ばれており生きている。残したのは正しい。§8-5 の根拠 grep は定義だけを探していた（ディレクターの誤り）**
+- 2-5: `FrameworkOracle`（`PoiXlsReader`＋本体パーサ＋`NullInterpreter`→`QuotationTrimmer`→`LineSeparatorInterpreter`）と `YamlFrameworkOracle`（`YamlTestDataParser`）が正解。`assertFourRoutes:458`・`assertExampleFourRoutes:1013` が往復の前に「変換ツールの読みが本体と一致する」を assert。母集合 26件（第1回20＋追加6）に指示書の4種すべてあり
+- 2-4: `YamlFrameworkAlignmentTest` 6件が5項目を押さえ、例外は型（`YamlSchemaValidationException`）またはメッセージ連鎖で assert
+- カバレッジ: 報告 §6 と同じ手順で `26701b7` を再計測し `jacoco.csv` の md5 `0ea76427…` が一致（行 1632/1704・分岐 763/810。`XlsFormatReader` 未到達分岐 15）
+- 既存テストの期待値変更 7件: コード抜き差分で報告 §5 の表と全件一致
+
+### 変異試験（src/main を1箇所ずつ壊して対象テストを実行。実行後は `git checkout -- src/` で復元）
+
+| # | 壊した箇所 | 結果 |
+|---|---|---|
+| M1 | `rowCount:620` を常に本体の行数に | **検知**（`XlsFormatReaderRealFileTest` 2件・`XlsReferenceFixtureTest` 1件） |
+| M2 | `SendSyncBodyCollector:347` の `super` を `EMPTY_INTERPRETERS` に | **検知**（`XlsTrailingNullTest#readsTrailingNullsAsEmptyStringInSendSyncMessage`） |
+| M3 | `warnInterleavedBlocks` の呼び出しを外す | **検知**（`XlsInterleavedBlockTest` 2件） |
+| M4 | `TableDataParser` だけ `EMPTY_INTERPRETERS` に | **検知**（19件） |
+| M5 | `FixedLengthFileParser` だけ `EMPTY_INTERPRETERS` に | **検知**（4件） |
+| M6 | `appendKeyValueRows:463` の `toCellNotation` を外す（2-1 a-3 の取り消し） | **全678件緑。検知されない** |
+| M7 | `isGroupCollected:598` をテーブルだけに | **緑。検知されない** |
+| M8 | `unreadIdentifiersAfter:585` が最初の1件で `break` | **緑。検知されない** |
+
+M6 は `src/main` の変更に「直す前に落ちるテスト」が無いことを意味する（完了条件1・4）。M7・M8 は 2-3 の警告のうち解説書 `tools/testdata_converter.rst:69`（`a6da1f6`）が対象に含める「ファイル・グループID付きの電文」と、読まれないブロックが複数ある場合を、テストが押さえていない。
+
+### #47 でやること（4点。すべて `src/test`・コメント・台帳。`src/main` のコードは変えない）
+
+1. **a-3 のテストを足す（実 `.xlsx` 起点・正解は本体）。** 次の2ケースで、元の `.xlsx` を本体が読んだ値と、converter で XLS→XLS した `.xlsx` を本体が読んだ値が一致することを assert する
+   - `SETUP_VARIABLE` の `quoting-delimiter` セルに `"""""`（引用符5個）。本体は `"""` に読む（報告 §1 (a) の表）。`appendKeyValueRows:463` が `toCellNotation` を通さないと `"""` が素で書かれ、本体は `QuotationTrimmer.java:24`-`:27`（`3c4bd2a`）で `"` に読む
+   - `MESSAGE` の FW ヘッダ `requestId` セルに `"""R1"""`（`"R1"` を引用符で囲む）。本体は `"R1"` に読む。素で書くと本体は `R1` に読む
+   - **M6（`toCellNotation(nullToEmpty(...))` → `nullToEmpty(...)`）で2ケースとも落ちることを確認してから、元に戻して通ることを確認する**
+2. **2-3 のテストを2件足す**（`XlsInterleavedBlockTest`。(i)〜(iii) の形は `:202` と同じ）
+   - ファイル系: `SETUP_FIXED=a.dat`／`SETUP_FIXED[g1]=b.dat`／`SETUP_FIXED=c.dat`。警告1件・`c.dat` が出力に無い・(iii) 本体 oracle 一致。**M7（`isGroupCollected` をテーブルだけに）で落ちることを確認する**
+   - 読まれないブロックが2件: `SETUP_TABLE=A`／`SETUP_TABLE[g1]=B`／`SETUP_TABLE=C`／`SETUP_TABLE=D`。警告1件で `C`・`D` の両方を含む。**M8（`unreadIdentifiersAfter:585` の直後に `break`）で落ちることを確認する**
+3. **`XlsFormatReader.java:481`・`:487`-`:494` のコメントを実態に合わせる。** Javadoc「それ以外のキーは QuotationTrimmer 記法を剥がす」と本文「変換器はインタープリタが空のため、ここで同等処理を行い……ときのみ剥がす」は、a-1 で剥がす処理を外したあとも残っており、いまのコード（`return value;`）と合っていない。「本体が解釈済みの値を返すので、区切り文字以外はそのまま返す」の趣旨で書き直す。コードは変えない
+4. **台帳 `steering.md` #40 の完了条件（`:1917`）から `tail` を外し、「`tail` は生行から原文を復元する経路（`:341`・`:362`・`:388`・`:392`）が呼んでおり残した。§8-5 の一覧が誤り」と1行足す。** Steps の `:1908` はそのまま（[x] のまま。何をしたかは報告 §2 にある）
+
+**完了条件**: 1・2 の各テストについて、指定した変異で落ちること・HEAD で通ることを `checks/task-47.md` に書く／`mvn -o clean test` 緑（`Tests run: 682`）／`git grep` 2式が 0件のまま／`git status --short` 空／push。**報告は `step4-2-report.md` に §8 を足して1回。**
+
+### 渡すときの文面
+
+```
+#40〜#46 の判定です。指示書 §9 を読んでください。
+  git show origin/ntf-yaml-support:.rn/20260724-ntf-yaml-support/ntf-step4-07-nablarch-testing-converter-2.md
+合格です。tail を残した判断も正しい（§8-5 の一覧が誤りでした）。
+変異試験で検知されなかった3件（2-1 a-3 の書き戻し／2-3 のファイル系／読まれないブロック2件）と
+コメント・台帳の是正を #47 として §9「#47 でやること」の4点にまとめました。src/main のコードは変えません。
+#47 を実施して push し、step4-2-report.md に §8 を足して報告してください。
+```
