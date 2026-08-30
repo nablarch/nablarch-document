@@ -490,3 +490,40 @@ stop
 3. `git grep -n '以下のとおりである' HEAD -- ja/development_tools/testing_framework/implementation/testdata_notation.rst` が 0件
 4. `git status --porcelain` 空、push 済み。報告は差分（コミット一覧と `git diff --stat`）だけでよい。停止する
 
+---
+
+## 14. 判定（2026-08-30。`dd929f14` をディレクターが独立検証。是正ラウンド1 の結果と、是正ラウンド2・差分限定）
+
+**(i)(j) は合格。** scratchpad の clone で実測した。`git diff -U0 272a24f5..dd929f14 -- ja/` の hunk は (i) 2件（`@@ -46 +46 @@`・`@@ -78 +78 @@`）と (j) の `.puml` 1件（`@@ -20 +20 @@`）＋`.png` だけ／`ディレクトリ構成の対応は、以下のとおりである。` は 0件／(j) の注記は `about/index.rst:106` の語と一致し、`.png` は 577x538／`checks/task-48.md` §3 の表は27行、§5 に (i) の処置／State `paused`、作業ツリーはクリーン。
+
+指示書の誤り2件（CC の処置はどちらも正しい。直さなくてよい）: §13 条件3 の grep 文字列「以下のとおりである」は無関係の7件（`:186` ほか）に当たる。CC が「ディレクトリ構成の対応は、以下のとおりである。」に絞ったのが正しい／§13 (j) の `.puml:21` は実際には `:20`。
+
+**不合格1件。原因は §5 の生成コマンド（指示書の誤り）。CC の作業に誤りはない。**
+`JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64 $JAVA_HOME/bin/java` は、`$JAVA_HOME` がコマンド行の展開時（代入より前）に解決されるため、シェルに `JAVA_HOME` が無ければ `/bin/java`（この機では `/usr/lib/jvm/temurin-21-jdk-amd64/bin/java`）で動く。実測:
+
+- `272a24f5` の 20枚は `/bin/java`（temurin-21）で再生成すると `cmp` 一致し、temurin-17 では 20枚とも不一致
+- `c62ca68b` の `architecture_components.png` は逆で、temurin-17 で一致、temurin-21 で不一致（CC のシェルに `JAVA_HOME` が入っていたため）
+- 差はいずれもアンチエイリアスの画素だけ。21枚とも寸法は同一、差分画素は1〜1,069／枚、色差の最大は 21/255
+
+README「図の作成方法」（§2）の前提は `Java 17` である。README のとおり Java 17 で作れば `cmp` 一致する状態にする。
+
+### 是正 (k)（この1件だけ。他は触らない。修正意図ごとに1コミット、push）
+
+- §5 の生成コマンドを次の逐語に差し替える（README §2 は変えない）:
+
+  ```bash
+  /usr/lib/jvm/temurin-17-jdk-amd64/bin/java -Djava.awt.headless=true \
+    -jar ~/.local/share/plantuml/plantuml-1.2025.4.jar -tpng -charset UTF-8 <ディレクトリ>/*.puml
+  ```
+
+- 21枚の `.puml` を上のコマンドで再生成し、`.png` をコミットする。`.puml` は1文字も変えない。`architecture_components.png` は既に temurin-17 で作られているので差分が出ない（20枚だけ変わる）
+- `checks/task-48.md` §4 の条件4 に、使った java の実体（`/usr/lib/jvm/temurin-17-jdk-amd64/bin/java -version` の1行目）を書き、`cmp` の実測を取り直す
+
+### 完了条件（是正ラウンド2）
+
+1. `git diff --stat dd929f14..HEAD -- ja/` が `.png` 20枚（バイナリ）だけ。`.rst`・`.puml` の差分は 0件
+2. 21枚とも、上のコマンドで別ディレクトリに再生成して `cmp` 一致（変更前の 20枚が temurin-17 と不一致であることは上で実測済み。CC は取り直さなくてよい）
+3. `file` で 21枚の寸法が `dd929f14` と同一
+4. `git status --porcelain` 空、push 済み。報告は差分（コミット一覧と `git diff --stat`）だけでよい。停止する
+
+ラウンド記録: ラウンド1 指摘2件（充足1・整合1。§13）／ラウンド2 指摘1件（検証手段。指示書 §5 の誤り）。上限3回のうち2回目。
