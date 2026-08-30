@@ -50,7 +50,7 @@
 
 ## 3. `.rst` の差分の全件表（完了条件8）
 
-`git diff -U0 a6da1f6..HEAD -- 'ja/**/*.rst'` の hunk は22件で、すべて §3 の挿入・§4 の削除・§6 の (a)〜(i) に分類される。§3・§4・§6 以外の hunk は0件。
+`git diff -U0 a6da1f6..HEAD -- 'ja/**/*.rst'` の hunk は27件（下表の行数）で、すべて §3 の挿入・§4 の削除・§6 の (a)〜(i) に分類される。§3・§4・§6 以外の hunk は0件。
 
 | ファイル | hunk | 分類 |
 |---|---|---|
@@ -154,7 +154,7 @@ $ grep -cE 'WARNING:|ERROR:|SEVERE:' build.log
 
 ビルド直後に `git -C /home/tie303177/work/nablarch/nablarch-document checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し、`build.log` を削除した。
 
-出力の確認: **Sphinx は画像を `_build/html/_images/` に集約するため、完了条件6 の文言（`_build/html/development_tools/testing_framework/` 配下に21枚）は成立しない。** 実測は次のとおりで、21枚すべてが出力されている。同名の図は Sphinx が連番を付けて区別する。
+出力の確認: **Sphinx は画像を `_build/html/_images/` に集約するため、完了条件6 の文言（`_build/html/development_tools/testing_framework/` 配下に21枚）は指示書の誤りである**（指示書 §13（`c98d887c`）でディレクターが確認）。判定は「21枚が `_images/` に出力され、`<img src>` 34件にリンク切れ0」とする。実測は次のとおりで、21枚すべてが出力されている。同名の図は Sphinx が連番を付けて区別する。
 
 ```
 $ ls _build/html/_images/ | grep -E 'execute_sequence|request_test_components'
