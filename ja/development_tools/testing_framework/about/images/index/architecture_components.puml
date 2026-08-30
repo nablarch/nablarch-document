@@ -4,14 +4,14 @@ skinparam shadowing false
 skinparam defaultFontName "Noto Sans JP"
 title テスティングフレームワークのアーキテクチャ
 file "テストデータ" as TD
-rectangle "テスティングフレームワーク" as NTF
+rectangle "テスティングフレームワーク" as FW
 rectangle "テストクラス" as TC
 rectangle "テスト対象クラス" as TG
 rectangle "Nablarch Application Framework" as NAF
 file "コンポーネント設定ファイル" as CONF
 file "環境設定ファイル" as ENV
-TD --> NTF
-NTF --> TC : テストデータを読み取って使用する
+TD --> FW
+FW --> TC : テストデータを読み取って使用する
 TC --> TG : 直接呼び出してテストする
 TG --> NAF : 介して動作する
 NAF --> CONF : 読み取る
