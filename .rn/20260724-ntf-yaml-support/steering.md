@@ -1934,5 +1934,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-08-30
+- **Last completed**: `#48` の Steps 1〜5（`272a24f5`）。完了条件1〜11 の実測は `checks/task-48.md` §4
 - **Next**: `#48` の user review を待つ。承認後、指示書 §10 の報告に挙げた1件（`implementation/testdata_notation.rst` の現 `:46`・`:78` の「以下のとおりである。」）のディレクターの逐語指示を受けて処置する
 - **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、`origin` に push 済み。`#48` は Steps 1〜5 すべて完了（新規 `.puml` 21・`.png` 21、既存画像13件削除・2件上書き、README「図の作成方法」、`design.md` 2箇所、`#33` (b) を閉じた）。実測は `checks/task-48.md`。**4観点レビューは回していない**（指示書のとおり。検証はディレクターが行う）
