@@ -1,0 +1,45 @@
+@startuml
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+hide members
+hide circle
+left to right direction
+title テストクラスが継承するサポートクラスの系譜
+abstract class TestEventDispatcher
+class TestSupport
+class DbAccessTestSupport
+class EntityTestSupport
+class HttpRequestTestSupport
+abstract class AbstractHttpRequestTestTemplate
+abstract class BasicHttpRequestTestTemplate
+abstract class StandaloneTestSupportTemplate
+class BatchRequestTestSupport
+class MessagingRequestTestSupport
+class MessagingReceiveTestSupport
+class IntegrationTestSupport
+class SimpleRestTestSupport <<nablarch-testing-rest>>
+class RestTestSupport <<nablarch-testing-rest>>
+TestEventDispatcher <|-- TestSupport
+TestEventDispatcher <|-- DbAccessTestSupport
+TestEventDispatcher <|-- EntityTestSupport
+TestEventDispatcher <|-- HttpRequestTestSupport
+TestEventDispatcher <|-- StandaloneTestSupportTemplate
+TestEventDispatcher <|-- IntegrationTestSupport
+TestEventDispatcher <|-- SimpleRestTestSupport
+HttpRequestTestSupport <|-- AbstractHttpRequestTestTemplate
+AbstractHttpRequestTestTemplate <|-- BasicHttpRequestTestTemplate
+StandaloneTestSupportTemplate <|-- BatchRequestTestSupport
+StandaloneTestSupportTemplate <|-- MessagingRequestTestSupport
+MessagingRequestTestSupport <|-- MessagingReceiveTestSupport
+SimpleRestTestSupport <|-- RestTestSupport
+note right of BasicHttpRequestTestTemplate : ウェブアプリケーションの\nリクエスト単体テスト
+note right of RestTestSupport : RESTfulウェブサービスの\nリクエスト単体テスト
+note right of SimpleRestTestSupport : RESTfulウェブサービスの\nリクエスト単体テスト
+note right of BatchRequestTestSupport : Nablarchバッチアプリケーションの\nリクエスト単体テスト
+note right of MessagingRequestTestSupport : 同期応答メッセージ受信の\nリクエスト単体テスト
+note right of MessagingReceiveTestSupport : 応答不要メッセージ受信の\nリクエスト単体テスト
+note right of DbAccessTestSupport : コンポーネント単体テスト
+note right of EntityTestSupport : エンティティ単体テスト
+@enduml

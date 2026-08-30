@@ -1,0 +1,23 @@
+@startuml
+!pragma layout smetana
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+title テスティングフレームワークのアーキテクチャ
+file "テストデータ" as TD
+rectangle "テスティングフレームワーク" as NTF
+rectangle "テストクラス" as TC
+rectangle "テスト対象クラス" as TG
+rectangle "Nablarch Application Framework" as NAF
+file "コンポーネント設定ファイル" as CONF
+file "環境設定ファイル" as ENV
+TD --> NTF
+NTF --> TC : テストデータを読み取って使用する
+TC --> TG : 直接呼び出してテストする
+TG --> NAF : 介して動作する
+NAF --> CONF : 読み取る
+NAF --> ENV : 読み取る
+note right of NAF
+  本番と同じ基盤の上で
+  テスト対象クラスの動作を検証できる
+end note
+@enduml
