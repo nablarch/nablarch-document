@@ -169,6 +169,10 @@ Nablarch Application Frameworkでは、\ :java:extdoc:`SystemTimeProvider <nabla
 
 ベースディレクトリの指定と、テストデータを解析するコンポーネント、テストデータの記法を解釈するクラス群の設定は、テストデータの形式によって異なる。\ Excel\ 形式と\ YAML\ 形式のそれぞれについて後述する。
 
+ベースディレクトリ配下のテストデータの配置と読み込み単位の対応を次に示す。
+
+.. image:: images/common/send_sync_testdata_layout.png
+
 .. tip::
 
   ベースディレクトリは、クラスパス（\ ``classpath:``\ ）ではなくファイルシステムのパス（\ ``file:``\ ）で指定することを推奨する。ファイルシステムのパスを指定すると、アプリケーションサーバの起動中にテストデータを編集して、そのままテストを続けられる。
@@ -216,9 +220,7 @@ Excel形式の場合
     <property name="interpreters" ref="messagingTestInterpreters"/>
   </component>
 
-``fileExtensions``\ の\ ``sendSyncTestData``\ には、実際に配置するテストデータのファイルの拡張子（\ ``xlsx``\ または\ ``xls``\ ）を指定する。指定した拡張子と一致しないファイルは読み込まれない。ベースディレクトリの配下は次の図のとおりで、リクエストIDごとに1つのファイルを置く。
-
-.. image:: images/common/send_sync_test_data_structure.png
+``fileExtensions``\ の\ ``sendSyncTestData``\ には、実際に配置するテストデータのファイルの拡張子（\ ``xlsx``\ または\ ``xls``\ ）を指定する。指定した拡張子と一致しないファイルは読み込まれない。ベースディレクトリの配下には、リクエストIDごとに1つのファイルを置く。
 
 YAML形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
