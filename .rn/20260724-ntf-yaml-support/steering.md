@@ -1929,8 +1929,8 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-30
-- **Last completed**: junit5・yaml・converter の3モジュールとも Step 4 完了。承認記録は yaml `886849c`・converter `a5f006c` に反映済み（`src/` 差分なし、実測）。図の形式を PlantUML に決定（user 2026-08-30）。見本5パターンを作って user が確認済み
-- **Next**: **図の作業の手順4〜7**（手順は `~/work/cowork/nablarch/ntf-doc-renewal/01-現在地.md` §3「図の作業」。手順1〜3 は 2026-08-30 に完了し、「ページ種類 × 置く図」の表を user が承認した。新規21枚・既存 png 13件を描き直し・削除2件・キャプチャ13件は触らない。確定版の表は同フォルダ `指示/図-種類×図の表.md`。`#33` (b) 残置図の禁止語は本作業で閉じる）。指示書を書いて解説書 CC が図の作成・RST 挿入・README「図の作成方法」追記 → ディレクターが独立検証（4観点レビューは回さない）。既存画像27件は全量読みの中で同じ基準で判定し、要る図は PlantUML で描き直す（旧 png は残さない。画面キャプチャは触らない）。ファイル名規則（`<見せるもの>_<class|sequence|layout|components|flow>`、同種ページは同名）は `01-現在地.md` §3 の 4
-- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン。**変更したら push する**。`TODO(NTF-*)` は0件。解説書ピン `a6da1f6`。`main` へのマージと `.rn/` の扱いは user の明示指示待ち。**英語版 `en/` は別PR**
+- **Status**: not suspended
+- **Date**: YYYY-MM-DD
+- **Last completed**: #N description
+- **Next**: #N description
+- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
