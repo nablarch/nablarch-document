@@ -87,7 +87,7 @@ HTMLファイルの外部プログラムとして起動用スクリプトを登�
 --------------------------------------------------
 あらかじめ\ :ref:`導入 <request_data_tool-setup>`\ の手順を済ませておく。全体の流れは次のとおりである。
 
-.. image:: images/request_data_tool/requestDumpToolAbstract.png
+.. image:: images/request_data_tool/tool_components.png
 
 入力となるHTMLダンプを生成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
