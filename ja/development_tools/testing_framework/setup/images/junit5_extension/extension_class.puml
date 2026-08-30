@@ -1,0 +1,22 @@
+@startuml
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+hide members
+hide circle
+title JUnit 5用拡張機能のクラスと、インスタンスの生成・インジェクション
+class TestSupport
+class CustomTestSupport
+class TestEventDispatcherExtension
+class TestSupportExtension
+class CustomTestSupportExtension
+class "テストクラス" as TC
+TestSupport <|-- CustomTestSupport
+TestEventDispatcherExtension <|-- TestSupportExtension
+TestSupportExtension <|-- CustomTestSupportExtension
+CustomTestSupportExtension ..> CustomTestSupport : createSupport() で生成する
+CustomTestSupport --> TC : フィールドへ\nインジェクションされる
+note bottom of CustomTestSupport : 利用者が作る独自拡張クラス
+note bottom of CustomTestSupportExtension : 利用者が作る独自拡張用の\nExtensionクラス
+@enduml

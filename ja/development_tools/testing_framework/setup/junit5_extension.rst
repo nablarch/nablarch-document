@@ -19,6 +19,8 @@ JUnit 5そのものの導入方法やテストの書き方は、このページ�
 
 インジェクションは、テスティングフレームワークが提供するクラスごとに用意したExtensionクラスが行う。テストクラスには、Extensionクラスを適用するための合成アノテーションを設定する。
 
+.. image:: images/junit5_extension/extension_class.png
+
 .. tip::
 
   合成アノテーションはJUnit 5が提供する機能で、複数のアノテーションの設定を別の1つのアノテーションにまとめられる。詳しくは\ `公式のユーザガイドの「2.1.1. Meta-Annotations and Composed Annotations」(外部サイト、英語) <https://junit.org/junit5/docs/5.11.0/user-guide/#writing-tests-meta-annotations>`_\ を参照。
