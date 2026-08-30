@@ -1922,10 +1922,13 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 - [x] 4. `design.md` 2箇所・本エントリの `#33` (b)・`checks/task-48.md`（指示書 §7）
 - [x] 5. 完了条件1〜11 を実測して記録し、§10 の形で報告して停止する
 - [x] 6. ディレクターの独立検証（合格）を受けた是正2件（指示書 §13。`c98d887c`）。(i) `implementation/testdata_notation.rst` の `:46`・`:78` の末尾の一文を削除／(j) 図1の注記を本文の語「本番相当」に改め `.png` を再生成。あわせて記録訂正（hunk 件数27件・条件6 の判定）。`68671907`・`c62ca68b`・`44d4b536`
+- [x] 7. 是正ラウンド2 (k)（指示書 §14。`22cee0ea`）。§5 の生成コマンドが `JAVA_HOME=... $JAVA_HOME/bin/java` で `$JAVA_HOME` が代入前に展開され `/bin/java`（temurin-21）で動いていた誤りを絶対パスに差し替え、README §2 の前提 Java 17 で図21枚を再生成した（`.png` 20枚が変化。`architecture_components.png` は既に temurin-17 の生成物で差分なし）。`checks/task-48.md` §4 条件4 に java の実体と `cmp` の取り直しを記録。`cbe4ee9a`・`4f67e932`・`72b6c139`
 
 **Completion criteria**: 指示書 §8 の1〜11 の逐語による。**実測は `checks/task-48.md` §4。全11条件が成立。** 条件6 の文言（`_build/html/development_tools/testing_framework/` 配下に21枚）は指示書の誤りであることがディレクターの独立検証で確定し（§13）、判定は「21枚が `_build/html/_images/` に出力され、`<img src>` 34件にリンク切れ0」に改めた。条件8 の分類は §6 (a)〜(i)（(i) は §13 で追加）。
 
 **独立検証と是正（2026-08-30）**: ディレクターの独立検証は全項目合格（指示書 §13）。是正2件 (i)(j) を Step 6 で処置し、`checks/task-48.md` の §3・§4（条件6・8）・§5 を更新した。報告していた「指す先を失った一文2件」は (i) で解消済み。**残る未処置は無い。**
+
+**是正ラウンド2（2026-08-30。指示書 §14）**: (i)(j) は合格。不合格1件は指示書 §5 の生成コマンドの誤りが原因で、CC の作業に誤りは無い。是正 (k) を Step 7 で処置し、完了条件4件を実測で充足した（`ja/` の差分は `.png` 20枚のみ・`.rst`／`.puml` 0件／21枚とも別ディレクトリ再生成と `cmp` 一致／寸法は `dd929f14` と同一／作業ツリー空・push 済み）。**user の判定待ち。ラウンド上限3のうち2回目を消化。**
 
 # State
 
@@ -1933,8 +1936,8 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: YYYY-MM-DD
-- **Last completed**: #N description
-- **Next**: #N description
-- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
+- **Status**: paused
+- **Date**: 2026-08-30
+- **Last completed**: `#48` の Step 7 — 指示書 §14（`22cee0ea`）の是正ラウンド2 (k)。`cbe4ee9a`・`4f67e932`・`72b6c139`
+- **Next**: `#48` の是正ラウンド2 に対する user の判定を待つ。合格なら残タスク（`#29`・`#33`・`#34`・`#36`・`#37`・`#40`・`#41`）から次を選ぶ
+- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、`origin` に push 済み。是正ラウンド2 の完了条件4件は実測で充足済み（実測は `checks/task-48.md` §4 条件4）。ラウンド上限3のうち2回目を消化。`#37` の未送付指示書2本（`ntf-step4-06`・`ntf-step4-07`）は据え置き
