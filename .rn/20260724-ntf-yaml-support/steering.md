@@ -1912,6 +1912,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-08-30
-- **Last completed**: converter 第2回 `#47`（`46457d3`）の差分限定検証（合格。M6/M7/M8 を自分の clone で当てて足したテスト4件が検知、682件緑、grep 2式 0件）と、指示書 §10 への承認の追記。§9 の期待値 `"R1"` はディレクターの誤り（正しくは `""R1""`。`QuotationTrimmer.java:24`-`:30`、`nablarch-testing@3c4bd2a`）で、§10 に記録した。**converter の Step 4 は完了。junit5・yaml・converter の3モジュールとも Step 4 完了**
-- **Next**: (1) user が converter 指示書 §10「渡すときの文面」を CC に貼る（貼ったかは未確認。`git log d575bac..origin/ntf-test-data-converter` が空なら未着手）。承認記録のコミットが来たら確認だけ。(2) yaml は `#45` の承認記録が未反映（remote `afba49b`）。確認だけ。**どの CC にもこちらから催促しない。** (3) 残る user 判断は `ja/` 配下の png 26枚の禁止語点検だけ。`main` へのマージと `.rn/` の扱いは user の明示指示待ち
-- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、未追跡パスなし。**変更したら push する**（user 指示 2026-08-26）。`TODO(NTF-*)` は0件。**指示書が使う解説書のピンは、yaml・junit5 が `5b5c91e`、converter が `5783b35`（第2回は `a6da1f6`）。** **英語版 `en/` は別PR。** レビュー役の現在地は `~/work/cowork/nablarch/ntf-doc-renewal/01-現在地.md` にある
+- **Last completed**: junit5・yaml・converter の3モジュールとも Step 4 完了。承認記録は yaml `886849c`・converter `a5f006c` に反映済み（`src/` 差分なし、実測）。図の形式を PlantUML に決定（user 2026-08-30）。見本5パターンを作って user が確認済み
+- **Next**: **図の作業**（詳細は `~/work/cowork/nablarch/ntf-doc-renewal/01-現在地.md` §3「図の作業」）。(1) user に1件聞く: `design.md` §「利用側ページに内部構造の構成図を置かない」（`#32`）とクラス図を置く方針の整合。(2) README に「図の作成方法」を足す。(3) 現行画像27件を仕分け、パターン②〜⑤から図を作って RST に入れる。(4) `#48` を起こし、4観点レビューを回す。レビュー役が直接コミットする
+- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン。**変更したら push する**。`TODO(NTF-*)` は0件。解説書ピン `a6da1f6`。`main` へのマージと `.rn/` の扱いは user の明示指示待ち。**英語版 `en/` は別PR**
