@@ -165,8 +165,7 @@ skinparam defaultFontName "Noto Sans JP"
 生成（`plantuml.jar` は `~/.local/share/plantuml/plantuml-1.2025.4.jar`、フォントは `~/.fonts/NotoSansJP-Regular.ttf` に導入済み。`fc-list :lang=ja family` が `Noto Sans JP` を返すこと）:
 
 ```bash
-JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64 \
-  $JAVA_HOME/bin/java -Djava.awt.headless=true \
+/usr/lib/jvm/temurin-17-jdk-amd64/bin/java -Djava.awt.headless=true \
   -jar ~/.local/share/plantuml/plantuml-1.2025.4.jar -tpng -charset UTF-8 <ディレクトリ>/*.puml
 ```
 
