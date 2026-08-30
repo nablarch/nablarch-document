@@ -1945,6 +1945,14 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 - 検証（ディレクター実測）: Docker フルビルド exit 0・warning 0件（`sphinx.mo` 復元済み）／編集9ファイルの `:ref:` 全解決／`verify_mapping.py` OK: no errors・`verify_glossary.py` RESULT: OK／`_build/html` の実体 grep で反映確認。
 - 検証手段の注意: `:ref:` 走査は `` .. _`ラベル`: ``（バッククォート形式）の定義を母集団に含めること。含めないと `db_messaging`・`tag-double_submission`・`tag-window_scope`（定義実在: `messaging/db/index.rst:1`・`libraries/tag.rst:453`・`:1310`）を誤検知する。
 
+### #50: 最終チェック（観点5 読者導線・観点6 Nabledge 検索性）— 旧タスク見出し4項目の復元 — 完了
+
+- 判定基準（ディレクター実測 2026-08-31）: `nablarch/nabledge` main `c53faa4` を clone し再確認。検索面 `knowledge/index.md` はページ題＋L2/L3 のみで L4 見出しは現れない（`grep '^    - s'` 0件）。知識 JSON はセクションをフラットに切り、親セクションの `content` は配下本文を含まない（`testing-framework-01-Abstract.json` の s1 が0字で子 s2〜s4 が本文を持つことを実測）。`#09` 時点（2026-08-06）の事実と同一。
+- 検証方法: 利用者タスクのシナリオを刷新版から独立に起こし（v6 `06_TestFWGuide/03_Tips.rst` の16項目＋方式別タスク＋ツール4本、計約30件）、刷新版の目次・見出しだけで歩いた。全シナリオで目的の記述自体には到達できる。ただし4件は v6 でタスク見出しだった項目が地の文に埋まり、見出しから辿れなかった（見出しに「障害」「タイムアウト」「継承せず」「共通処理」が0件であることを grep で実測）。
+- 是正（`次コミット参照`）: (G1) `testdata_notation.rst` に L4「障害系のテストを記述する」を新設し `errorMode:` の記述（段落・表・important・tip）を逐語のまま移設。テーブル節の型（話題別 L4 → 形式別 L4 対）に合わせ Excel形式の場合の直前に置いた。(G2〜G4) `implementation/class_unit_test/component.rst` に L4 3本を新設（継承せずに使用／実行前後の共通処理／別ディレクトリの読み込み）。本文は既存の逐語のまま。
+- レビュー: 回さない。新規の公開本文は見出し文言4本のみで、本文は既存記述の移設。ディレクターが差分限定で検証: Docker フルビルド build succeeded・warning 0件（初回は全角幅による Title underline too short 2件を検知し下線延長で解消）／`:ref:` 全解決／HTML 実体に見出し出現を grep で確認。
+- 観点5・6のその他の結果: 読者振り分け（最上位 `index.rst`）・処理方式別ページへの導線・ツール4本の到達性は問題なし。見出しの一意性・「〜する」形式・L3 導入文の単独成立は S-03/S-11 規約で担保済みで逸脱なし。
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
