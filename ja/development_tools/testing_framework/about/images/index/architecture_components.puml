@@ -17,7 +17,7 @@ TG --> NAF : 介して動作する
 NAF --> CONF : 読み取る
 NAF --> ENV : 読み取る
 note right of NAF
-  本番と同じ基盤の上で
+  本番相当の基盤の上で
   テスト対象クラスの動作を検証できる
 end note
 @enduml
