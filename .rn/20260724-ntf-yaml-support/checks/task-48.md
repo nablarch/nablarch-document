@@ -50,7 +50,7 @@
 
 ## 3. `.rst` の差分の全件表（完了条件8）
 
-`git diff -U0 a6da1f6..HEAD -- 'ja/**/*.rst'` の hunk は22件で、すべて §3 の挿入・§4 の削除・§6 の (a)〜(h) に分類される。§3・§4・§6 以外の hunk は0件。
+`git diff -U0 a6da1f6..HEAD -- 'ja/**/*.rst'` の hunk は22件で、すべて §3 の挿入・§4 の削除・§6 の (a)〜(i) に分類される。§3・§4・§6 以外の hunk は0件。
 
 | ファイル | hunk | 分類 |
 |---|---|---|
@@ -71,8 +71,8 @@
 | `implementation/request_unit_test/web.rst` | `@@ -539 +543 @@` | §3 図11 への差し替え ＋ §4（`htmlDumpDir.png`） |
 | `implementation/testdata_examples.rst` | `@@ -1923,0 +1924,2 @@` | §6 (b)（参照ラベルの追加） |
 | `implementation/testdata_notation.rst` | `@@ -29,0 +30,2 @@` | §3 図19 の挿入 |
-| `implementation/testdata_notation.rst` | `@@ -46,7 +47,0 @@` | §6 (e)（`code-block` 削除） |
-| `implementation/testdata_notation.rst` | `@@ -85,7 +79,0 @@` | §6 (e)（`code-block` 削除） |
+| `implementation/testdata_notation.rst` | `@@ -44,8 +46 @@` | §6 (e)（`code-block` 削除） ＋ §6 (i)（`:46` の末尾の一文を削除） |
+| `implementation/testdata_notation.rst` | `@@ -83,8 +78 @@` | §6 (e)（`code-block` 削除） ＋ §6 (i)（`:78` の末尾の一文を削除） |
 | `implementation/testdata_notation.rst` | `@@ -117,8 +105 @@` | §6 (e)（`:117` の差し替えと `code-block` 削除） |
 | `setup/common.rst` | `@@ -171,0 +172,4 @@` | §3 図3 の挿入 ＋ §6 (g) |
 | `setup/common.rst` | `@@ -219,3 +223 @@` | §6 (h) ＋ §4（`send_sync_test_data_structure.png`） |
@@ -184,7 +184,7 @@ $ git diff --numstat a6da1f6..HEAD -- .rn/20260724-ntf-yaml-support/mapping.csv 
 
 `glossary.md` は §5.15 を含めてファイル全体で差分0行である。
 
-**8. 差分の分類** — 上の §3 のとおり。§3・§4・§6 (a)〜(h) 以外の hunk は0件。
+**8. 差分の分類** — 上の §3 のとおり。§3・§4・§6 (a)〜(i) 以外の hunk は0件。
 
 **9. `README.md`。** `## 図の作成方法` を指示書 §2 の逐語で挿入した。位置は `## ドキュメントのビルド方法`（36行目）と `## textlintの実行方法`（79行目）の間（57〜77行目）。コミット `e40f091b`。
 
@@ -194,9 +194,16 @@ $ git diff --numstat a6da1f6..HEAD -- .rn/20260724-ntf-yaml-support/mapping.csv 
 
 ## 5. 指示書の穴として報告した件
 
-**`implementation/testdata_notation.rst` の2文が、§6 (e) の `code-block` 削除で指す先を失う。** §6 は `:117` だけを扱っており、次の2文は扱っていない。§9「本文の追記・言い換え（§6 の (a)〜(h) 以外）」に当たるため処置していない。ディレクターの逐語指示を待つ。
+**`implementation/testdata_notation.rst` の2文が、§6 (e) の `code-block` 削除で指す先を失う。** §6 は `:117` だけを扱っており、次の2文は扱っていない。§9「本文の追記・言い換え（§6 の (a)〜(h) 以外）」に当たるため、報告時点では処置していなかった。
 
 - `:44`（現 `:46`）「同名の1つのExcelファイル（`.xls` または `.xlsx`）がテストクラスに対応し、1シートが読み込み単位に対応する。**ディレクトリ構成の対応は、以下のとおりである。**」— 直後に続いていた `.. code-block:: text`（`:46`-`:51`）を削除したため、「以下」が指す先が無い
 - `:83`（現 `:78`）「同名の1つのディレクトリがテストクラスに対応し、1つのYAMLファイルが読み込み単位に対応する。**ディレクトリ構成の対応は、以下のとおりである。**」— 同じく `:85`-`:90` の削除により「以下」が指す先が無い
 
 いずれも図19（`:30` に置いた `testdata_layout`）が同じ内容を両形式の対比として示しているため、`:117` と同じ形（`:ref:` で図を指す）か、末尾の一文を落とす形のどちらかで詰められる。
+
+**処置**: 指示書 §13（`c98d887c`）で **(i)** として「末尾の一文を落とす」形が指示され、`:46`・`:78` の各末尾の一文「ディレクトリ構成の対応は、以下のとおりである。」を削除した。前の文はそのまま。実測は次のとおりで、当該ページに残る「以下のとおりである」は本件の2文とは無関係な箇所（`:186` ほか）だけである。
+
+```
+$ grep -n 'ディレクトリ構成の対応は、以下のとおりである。' ja/development_tools/testing_framework/implementation/testdata_notation.rst
+（出力なし）
+```
