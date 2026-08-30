@@ -1932,6 +1932,19 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 
 **user 承認（2026-08-30。指示書 §15。`4964b5be`）**: 是正 (k) は合格、`#48` はこれで完了。追加タスクは無い。ディレクターは GitHub から scratchpad に clone した `32a1b7bc` で独立検証し（CC の報告書・`checks/task-48.md` は根拠にしていない）、条件1〜4 をすべて確認した。ラウンド記録はラウンド1 指摘2件（充足1・整合1。§13）／ラウンド2 指摘1件（検証手段。§5）／ラウンド3 指摘0件で、上限3回のうち2回で収束。
 
+### #49: 最終チェック（観点1 目的適合・観点2 記載位置・観点3 同種ページ対称性）の是正4件と却下2件 — 完了
+
+- 経緯: user 指示（2026-08-31）の最終チェック。ディレクターが38本全量読み＋ `design.md` 全量読みで調査（キーワード走査でなく段落ごとの判定。ピン `6e04d02`）。指摘6件のうち4件を是正、2件を却下。
+- 是正A（`0bf4424c`）: `setup/index.rst` の掲載順を `design.md` §3 の第2部構成に是正（JUnit 5用拡張機能・マスタデータ復旧機能を末尾へ）。**既決記録の矛盾を解消**: R1-X2（`reviews/page-request_unit_test_setting_web.md`「toctree は §3 に従う。§13 ツリーは根拠にしない」）に対し、`#27`（`checks/task-27.md` §「toctree の並び」）が §13 のツリー順へ並べ替えて上書きしていた。本タスクで R1-X2 側へ戻し、`#27` の当該判断をここで上書きする。
+- 是正D（`75bc3402`）: tip「以下の設定はアーキテクトが行う。…」3件を削除（`setup/request_unit_test/http_messaging.rst`・`setup/deal_unit_test/http_messaging.rst`・`setup/deal_unit_test/mom.rst`）。第2部全体がアーキテクト向け（`design.md` §1）で、9本の方式別設定ページ中3本だけの注記は不揃い。
+- 是正E（`f27bd2b0`）: `implementation/request_unit_test/web.rst` の「主なクラスとリソース」表の文体を rest/batch/mom の3表（「〜する。」「〜作成する。」「記載する」）に統一。
+- 是正F（`1254e8cc`）: 方式別設定ページ6本（リクエスト単体 web・rest・batch・mom、取引単体 http_messaging・mom）の機能概要に「テストの実装方法は…を参照」の1文を追加。既存2本（`setup/request_unit_test/http_messaging.rst:13`・`setup/deal_unit_test/rest.rst:13`）の型の逐語複製。
+- 却下B: `setup/request_unit_test/batch.rst`（ディレクティブのデフォルト値・TEST_X9/SX9 型）・同 `mom.rst`（TestDataConverter 拡張）の「方式に固有でない設定」は現状維持。本文が適用範囲を自認し、`testdata_notation.rst` 等からの `:ref:` も通る。共通設定へ移すと「テストの種類によらず共通」という共通設定の目的から外れる。
+- 却下C: `setup/common.rst` の「同期応答・HTTPメッセージ送信のテストデータの読み込み設定」（2方式の取引単体テスト専用）は現状維持。取引単体 http_messaging・mom の2ページから共有参照され、どちらかに置くと他方が従属する。機能概要が適用範囲を明示済み。
+- レビュー: 回さない。A は既決への復帰、D は削除、E は文体統一で、いずれも既存の固定物（design.md・既存3表）が振る舞いを押さえる差分限定。F は承認済みページの逐語パターンの複製。ディレクターが差分限定で独立検証した（下記）。
+- 検証（ディレクター実測）: Docker フルビルド exit 0・warning 0件（`sphinx.mo` 復元済み）／編集9ファイルの `:ref:` 全解決／`verify_mapping.py` OK: no errors・`verify_glossary.py` RESULT: OK／`_build/html` の実体 grep で反映確認。
+- 検証手段の注意: `:ref:` 走査は `` .. _`ラベル`: ``（バッククォート形式）の定義を母集団に含めること。含めないと `db_messaging`・`tag-double_submission`・`tag-window_scope`（定義実在: `messaging/db/index.rst:1`・`libraries/tag.rst:453`・`:1310`）を誤検知する。
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
