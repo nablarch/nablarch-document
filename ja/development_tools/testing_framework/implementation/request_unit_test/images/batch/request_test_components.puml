@@ -1,0 +1,23 @@
+@startuml
+!pragma layout smetana
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+title リクエスト単体テスト（Nablarchバッチアプリケーション）の構成
+file "テストデータ" as TD
+rectangle "テストクラス\n（BatchRequestTestSupport を継承）" as TC
+rectangle "テスト用のメインクラス\n（MainForRequestTesting）" as MAIN
+rectangle "Nablarch Application Framework" as NAF
+rectangle "テスト対象のバッチ" as APP
+rectangle "DbAccessTestSupport" as DATS
+rectangle "FileSupport" as FS
+database "テーブル" as DB
+file "ファイル" as FILE
+TD --> TC
+TC --> MAIN : 起動する
+MAIN --> NAF : 起動する
+NAF --> APP : 実行する
+TC --> DATS : 準備データの投入と結果の確認\n（テーブル）
+TC --> FS : 準備データの投入と結果の確認\n（ファイル）
+DATS --> DB
+FS --> FILE
+@enduml

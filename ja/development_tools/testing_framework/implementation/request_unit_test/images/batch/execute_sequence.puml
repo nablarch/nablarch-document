@@ -1,0 +1,29 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+skinparam sequenceMessageAlign left
+title テストショット1件の処理の順
+participant "テストクラス\n（スーパクラス）" as FW
+participant "テストデータ" as TD
+database "テーブル" as DB
+participant "テスト用のメインクラス\n（MainForRequestTesting）" as MAIN
+participant "テスト対象のバッチ" as APP
+group 入力データの準備
+  FW -> TD : 準備データ・入力ファイル・期待値を読み取る
+  FW -> DB : データベースへ準備データを投入する
+  FW -> FW : 入力ファイルを作成する
+  FW -> FW : 期待するログを登録する
+  FW -> FW : 要求電文の期待値を登録する
+end
+group メインクラスの起動
+  FW -> MAIN : 起動する
+  MAIN -> APP : 実行する
+  APP --> MAIN
+  MAIN --> FW : 終了コード
+end
+group 出力結果の確認
+  FW -> FW : ステータスコードを照合する
+  FW -> DB : データベースの更新内容を照合する
+  FW -> FW : 出力ファイル・要求電文・ログを照合する
+end
+@enduml
