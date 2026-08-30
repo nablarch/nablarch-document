@@ -976,7 +976,8 @@ S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO
 - **(d) クローズ（変更しない）。** 読み手の理解を妨げていない。両ページとも「リクエスト単体テストクラス」行の作成単位欄が「テスト対象クラス（Action）につき1つ作成する。」と明示している。加えて、行を足すと作成単位欄に書く事実が無い（`batch.rst`・`mom.rst` とも「取引」の語が0件で、`web.rst:34`・`rest.rst:36` の「取引につき1クラス」を当てられない）。事実として書けないものを埋めるより、書かない方がよい
 - **(e-2) クローズ（変更しない）。** `AbstractHttpRequestTestTemplate` の役割は `setup/request_unit_test/web.rst:229` に残っている。`StandaloneTestSupportTemplate` は `ja/` 配下のどこにも現れないため、読み手がその役割を知る必要がある場面がない
 - **(e-3) クローズ（変更しない）。** `design.md` の当該節が「リード文または本文」を許しており規約違反ではない。揃えるには `design.md` の改訂が要るが、`design.md` は変更禁止ファイルである
-- **残るのは (b) 残置図の禁止語（`ja/` 配下の png 26枚の点検と差し替え。画像作成を伴う）と (e-1) `.rn/` 内の相互参照の節見出し化のみ。** 別に `#34` が残る
+- **(b) 処置済み（`#48`）。** 残置図はすべて PlantUML で描き直し、画面キャプチャ13件だけを残した
+- **残るのは (e-1) `.rn/` 内の相互参照の節見出し化のみ。** 別に `#34` が残る
 
 **背景と未決点**:
 
@@ -1915,13 +1916,15 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 
 **Steps**:
 
-- [ ] 1. `README.md` に「図の作成方法」を追記する（指示書 §2）
-- [ ] 2. 図21枚を作り、`.rst` に入れ、旧画像15件を削除する。1ページ1コミットで push（指示書 §3〜§5・§7）
-- [ ] 3. 本文の逐語差し替え (a)〜(g)（指示書 §6）。図に必要な事実が本文に無いものは作らずに報告する
-- [ ] 4. `design.md` 2箇所・本エントリの `#33` (b)・`checks/task-48.md`（指示書 §7）
-- [ ] 5. 完了条件1〜11 を実測して記録し、§10 の形で報告して停止する
+- [x] 1. `README.md` に「図の作成方法」を追記する（指示書 §2）
+- [x] 2. 図21枚を作り、`.rst` に入れ、旧画像13件を削除する。1ページ1コミットで push（指示書 §3〜§5・§7）
+- [x] 3. 本文の逐語差し替え (a)〜(h)（指示書 §6）。図に必要な事実が本文に無くて作れなかった図は0件
+- [x] 4. `design.md` 2箇所・本エントリの `#33` (b)・`checks/task-48.md`（指示書 §7）
+- [x] 5. 完了条件1〜11 を実測して記録し、§10 の形で報告して停止する
 
-**Completion criteria**: 指示書 §8 の1〜11 の逐語による。
+**Completion criteria**: 指示書 §8 の1〜11 の逐語による。**実測は `checks/task-48.md` §4。1〜5・7〜11 は成立。6 はビルド成功・警告0で成立し、画像の出力先だけが条件の文言（`_build/html/development_tools/testing_framework/` 配下）と異なる（Sphinx は `_build/html/_images/` に集約する。21枚とも出力済み・リンク切れ0）。**
+
+**未処置の報告1件（ディレクターの逐語指示待ち）**: `implementation/testdata_notation.rst` の現 `:46`・`:78` の末尾「ディレクトリ構成の対応は、以下のとおりである。」が、§6 (e) の `code-block` 削除で指す先を失った。§6 が扱っていないため §9 により処置していない。詳細は `checks/task-48.md` §5。
 
 # State
 
@@ -1929,8 +1932,7 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-30
+- **Next**: `#48` の user review を待つ。承認後、指示書 §10 の報告に挙げた1件（`implementation/testdata_notation.rst` の現 `:46`・`:78` の「以下のとおりである。」）のディレクターの逐語指示を受けて処置する
+- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、`origin` に push 済み。`#48` は Steps 1〜5 すべて完了（新規 `.puml` 21・`.png` 21、既存画像13件削除・2件上書き、README「図の作成方法」、`design.md` 2箇所、`#33` (b) を閉じた）。実測は `checks/task-48.md`。**4観点レビューは回していない**（指示書のとおり。検証はディレクターが行う）
