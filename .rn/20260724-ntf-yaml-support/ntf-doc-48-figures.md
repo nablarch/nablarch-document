@@ -526,3 +526,29 @@ README「図の作成方法」（§2）の前提は `Java 17` である。README
 4. `git status --porcelain` 空、push 済み。報告は差分（コミット一覧と `git diff --stat`）だけでよい。停止する
 
 ラウンド記録: ラウンド1 指摘2件（充足1・整合1。§13）／ラウンド2 指摘1件（検証手段。指示書 §5 の誤り）。上限3回のうち2回目。
+
+---
+
+## 15. #48 の承認（2026-08-30）
+
+#48 承認（`/rn:ty`）。**是正 (k) は合格。図の作業 #48 はこれで完了。追加タスクは無い。** 承認記録を steering の State に入れて push し、停止する。
+
+ディレクターの独立検証（GitHub から scratchpad に clone・`32a1b7bc`。CC の報告書・`checks/task-48.md` は根拠にしていない）:
+
+- `git log 22cee0ea..origin/ntf-yaml-support` は `cbe4ee9a`・`4f67e932`・`72b6c139`・`32a1b7bc`（State のみ）の4件。`git status --porcelain` 空
+- 条件1: `git diff --name-only dd929f14..HEAD -- ja/` は `.png` 20件のみ。`.rst`・`.puml` は0件。`ja/` 外は `checks/task-48.md`・本指示書・`steering.md` の3件
+- 条件2: 21本の `.puml` を1本ずつ別ディレクトリに写し、§5 のコマンド（`/usr/lib/jvm/temurin-17-jdk-amd64/bin/java`、`openjdk version "17.0.19" 2026-04-21`）で再生成して `cmp -s` → OK=21・DIFF=0
+- 条件3: `file` の寸法を `git show dd929f14:<path>` と突き合わせ → same=21・diff=0
+- 条件4: `checks/task-48.md` §4 条件4 に java の実体（`-version` 1行目）と、同名 `.puml` を別ディレクトリに切る注意が書かれている
+- §5 のコマンドは §14 の逐語と一致
+
+ラウンド記録: ラウンド1 指摘2件（充足1・整合1。§13）／ラウンド2 指摘1件（検証手段。§5）／ラウンド3 指摘0件。上限3回のうち2回で収束。
+
+### 渡すときの文面
+
+```
+#48 承認です。指示書 §15 を読んでください。
+  git show origin/ntf-yaml-support:.rn/20260724-ntf-yaml-support/ntf-doc-48-figures.md
+図の作業 #48 はこれで完了、追加タスクはありません。
+承認記録を steering の State に入れて push し、停止してください。
+```
