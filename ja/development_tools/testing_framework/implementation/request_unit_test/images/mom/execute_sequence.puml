@@ -1,0 +1,26 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+skinparam sequenceMessageAlign left
+title メッセージ受信のテストショット1件の流れ
+participant "テストクラス\n（スーパクラス）" as FW
+participant "テストデータ" as TD
+queue "受信キュー" as Q
+participant "テスト用のメインクラス\n（MainForRequestTesting）" as MAIN
+participant "テスト対象のアプリケーション" as APP
+group 入力データの準備
+  FW -> TD : 要求電文を読み取る
+  FW -> Q : テストデータから作成した要求電文をPUTする
+end
+group メインクラスの起動
+  FW -> MAIN : 起動する
+  MAIN -> APP : 実行する
+  APP --> MAIN
+  MAIN --> FW
+end
+group 出力結果の確認
+  FW -> FW : 応答電文の内容を確認する
+  FW -> FW : データベースの更新内容を確認する
+  FW -> FW : ログの出力内容を確認する
+end
+@enduml

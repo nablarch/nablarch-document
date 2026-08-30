@@ -1,0 +1,23 @@
+@startuml
+!pragma layout smetana
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+title リクエスト単体テスト（MOMによるメッセージング・メッセージ受信）の構成
+file "テストデータ" as TD
+rectangle "テストクラス\n（MessagingRequestTestSupport、\n応答不要メッセージ受信はサブクラスの\nMessagingReceiveTestSupport を継承）" as TC
+rectangle "テスト用のメインクラス\n（MainForRequestTesting）" as MAIN
+rectangle "Nablarch Application Framework" as NAF
+rectangle "テスト対象のアプリケーション" as APP
+rectangle "DbAccessTestSupport" as DATS
+rectangle "MQSupport" as MQS
+database "データベース" as DB
+queue "キュー" as Q
+TD --> TC
+TC --> MAIN : 起動する
+MAIN --> NAF : 起動する
+NAF --> APP : 実行する
+TC --> DATS : 準備データの投入と結果の確認\n（データベース）
+TC --> MQS : 準備データの投入と結果の確認\n（キュー）
+DATS --> DB
+MQS --> Q
+@enduml
