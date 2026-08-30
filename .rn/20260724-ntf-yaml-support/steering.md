@@ -1933,8 +1933,8 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-30
-- **Last completed**: `#48` の Step 6 — 指示書 §13（`c98d887c`）の是正2件 (i)(j) と記録訂正（`68671907`・`c62ca68b`・`44d4b536`）。`#48` は Steps 1〜6 すべて完了
-- **Next**: `#48` の是正差分に対する user の確認を待つ。承認後は残タスク（`#29`・`#33`・`#34`・`#36`・`#37`・`#40`・`#41`）から次を選ぶ
-- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、`origin` に push 済み。`#48` の未処置は無い（報告していた「指す先を失った一文2件」は (i) で解消）。是正差分の実測は `checks/task-48.md` §3・§4（条件6・8）・§5
+- **Status**: not suspended
+- **Date**: YYYY-MM-DD
+- **Last completed**: #N description
+- **Next**: #N description
+- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
