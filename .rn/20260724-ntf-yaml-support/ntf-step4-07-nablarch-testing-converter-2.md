@@ -454,3 +454,41 @@ M6 は `src/main` の変更に「直す前に落ちるテスト」が無いこ�
 コメント・台帳の是正を #47 として §9「#47 でやること」の4点にまとめました。src/main のコードは変えません。
 #47 を実施して push し、step4-2-report.md に §8 を足して報告してください。
 ```
+
+## 10. #47 の承認（2026-08-30）
+
+#47 承認（`/rn:ty`）。**converter の Step 4 第2回はこれで完了。追加タスクは無い。** 承認記録を steering に入れて push し、停止する。
+
+ディレクターの独立検証（scratchpad の clone・`46457d3`。CC の報告書は根拠にしていない）:
+
+- `git log 721da23..origin/ntf-test-data-converter` は `5015e9a`・`46457d3`・`d575bac`（State のみ）の3件。`git status --short` 空
+- `git diff --stat 77e4a22 46457d3 -- src/` は4ファイル・+324／−10。`src/main` は `XlsFormatReader.java:479`-`:491` の Javadoc と本文コメントだけで、コード行の変更なし（差分を全行目視）
+- `JAVA_HOME=temurin-17` で `mvn -o clean test` → `Tests run: 682, Failures: 0, Errors: 0, Skipped: 0`
+- `git grep` 2式とも **0件**。`@Ignore` アノテーション 0件（grep の4件は Javadoc の言及）
+- 変異試験（自分の clone で `src/main` を1箇所ずつ壊し、対象クラスを実行。実行後 `git checkout -- src/`）:
+
+| # | 壊した箇所 | 結果 |
+|---|---|---|
+| M6 | `XlsFormatWriter.java:463` の `toCellNotation(nullToEmpty(…))` → `nullToEmpty(…)` | **検知**（`XlsKeyValueNotationTest` 2件とも赤。`quoting-delimiter` が `"""`→`"`、`requestId` が `""R1""`→`"R1"`） |
+| M7 | `XlsFormatReader.java:596` を `isTableType(type)` だけに | **検知**（`XlsInterleavedBlockTest` 5件中 `warnsAndDropsFileBlockAfterInterleavedGroupId` 1件赤） |
+| M8 | `XlsFormatReader.java:583` `unread.add(…)` の直後に `break` | **検知**（同 5件中 `warnsAboutEveryUnreadBlockAfterInterleavedGroupId` 1件赤。警告が `[C]` で止まる） |
+| HEAD | 変異なし | 7件緑 |
+
+- 台帳 `steering.md:1917`-`:1918`: `tail` を外し理由1行あり。`tail` の呼び出し4か所（`XlsFormatReader.java:341`・`:362`・`:388`・`:392`）を再確認
+- `coverage/inventory.md` 追補その19（678 → 682、＋4 の内訳）、§4.6 の `XlsInterleavedBlockTest` 3 → 5・`XlsKeyValueNotationTest` 2 を追記
+
+開示3件の判定:
+
+1. **§9 の期待値の誤りは受け入れる。ディレクターの指示文の誤りである。** `QuotationTrimmer.java:24`-`:30`（`nablarch-testing@3c4bd2a`）は先頭と末尾の `"` を1組だけ外すので、`"""R1"""` は `""R1""` になる。入力を指定どおりに残し期待値だけを実測へ合わせた判断は正しい（`nablarch/CLAUDE.md` 3-4 の実例）
+2. M8 の assert を `[C, D]` の一覧照合にした件: 受け入れる。`containsString("D")` が本文の「グループID」に当たることは M8 の失敗メッセージで確認した
+3. `DataFileInspector#directives`（`src/test` のみ）: 受け入れる
+
+### 渡すときの文面
+
+```
+#47 承認です。指示書 §10 を読んでください。
+  git show origin/ntf-yaml-support:.rn/20260724-ntf-yaml-support/ntf-step4-07-nablarch-testing-converter-2.md
+converter の Step 4 第2回はこれで完了、追加タスクはありません。
+§9 の期待値（"""R1""" → "R1"）は私の誤りで、実測 ""R1"" に合わせた判断が正しいです。
+承認記録を steering に入れて push し、停止してください。
+```
