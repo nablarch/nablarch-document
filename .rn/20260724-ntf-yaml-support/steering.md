@@ -1911,7 +1911,7 @@ session is suspended — the signal /rn:up and /rn:dn search for — and resets 
 so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
-- **Date**: 2026-08-29
-- **Last completed**: `#43` yaml 第2回（`3ee39c9..aac55ad`）の独立検証（合格）と、解説書の曖昧2点（`notation.rst:889`・`:1502`、`converter.rst:63`）の是正。それ以前: converter `#33`〜`#39` の独立検証（合格）と Step 4 第2回の指示書2本の作成（yaml `c39f701`・converter `ef3a914`）
-- **Next**: (1) yaml #45（`src/` から解説書参照の全撤去（user 判断 2026-08-29: ソースに解説書の出典を書かない。リリース済み3モジュールは0件）・2-5 のスキーマ description 追随・T5/L6 の枠組みと T6/L6・task-31 注記）は user が送付済み。報告が来たら `f2891b7..先端` を実物で検証し承認文面を出す（検証項目は `~/work/cowork/nablarch/ntf-doc-renewal/01-現在地.md`「#45 の検証項目」）。(2) `ntf-step4-07-nablarch-testing-converter-2.md` に「`src/` から解説書参照の全撤去」（`d611bec`: `.rst` 152行・41ファイル・`src/main` 19ファイル）を足し、「渡す前にやること」5点（yaml ピン取り直し・`mvn install`・converter の赤の再実測・文面の差し替え）を済ませて converter CC へ渡す。**どのCCにもこちらから催促しない。** 残る user 判断は `ja/` 配下の png 26枚の禁止語点検だけ
+- **Date**: 2026-08-30
+- **Last completed**: converter 第2回 `#40`〜`#46`（`d611bec..77e4a22`）の独立検証（合格）と、指示書 §9 への判定・`#47`（是正4点: a-3 の書き戻しテスト／2-3 のファイル系・未読ブロック複数のテスト／`XlsFormatReader.java:481`-`:494` のコメント／台帳 `:1917` の `tail`）の追記（`40349786`）。それ以前: yaml 第2回の独立検証（合格）
+- **Next**: (1) user が converter 指示書 §9「渡すときの文面」を CC に貼る（貼ったかは未確認。`git log 721da23..origin/ntf-test-data-converter` が空なら未着手）。(2) `#47` の報告（`step4-2-report.md` §8）が来たら**差分限定**で検証する（項目は `~/work/cowork/nablarch/ntf-doc-renewal/01-現在地.md`「再開ポイント」の converter 行。変異 M6/M7/M8 を自分の clone で当てて足したテストが落ちることを実測）。合格なら §10 に承認を足して push し1行貼る。(3) yaml は `#45` の承認記録が未反映（remote `afba49b`）。確認だけ。**どの CC にもこちらから催促しない。** 残る user 判断は `ja/` 配下の png 26枚の禁止語点検だけ
 - **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、未追跡パスなし。**変更したら push する**（user 指示 2026-08-26）。`TODO(NTF-*)` は0件。**指示書が使う解説書のピンは、yaml・junit5 が `5b5c91e`、converter が `5783b35`。** `main` へのマージと `.rn/` の扱いは user の明示指示待ち。**英語版 `en/` は別PR。** レビュー役の現在地は `~/work/cowork/nablarch/ntf-doc-renewal/01-現在地.md` にある
