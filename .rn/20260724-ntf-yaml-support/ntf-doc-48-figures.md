@@ -180,7 +180,7 @@ JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64 \
 
 **図は本文の可視化である。本文に無い事実を図に入れない。図に必要な事実が本文に無いと分かったら、本文を足さずに、その図を作らずに止めて報告する**（本文の追記は新しい公開本文になるため、ディレクターが別に扱う）。
 
-`.rst` に加えてよい変更は、`.. image::` の挿入・差し替え・削除と、次の (a)〜(g) の逐語だけである。それ以外の本文は1文字も変えない。
+`.rst` に加えてよい変更は、`.. image::` の挿入・差し替え・削除と、次の (a)〜(h) の逐語だけである。それ以外の本文は1文字も変えない。
 
 - **(a) `implementation/deal_unit_test/mom.rst:19`-`:27`**（導入文2つと画像2枚）を、次の1文と図18の `.. image::` に置き換える:
 
@@ -215,6 +215,12 @@ JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64 \
   ベースディレクトリ配下のテストデータの配置と読み込み単位の対応を次に示す。
   ```
 
+- **(h) `setup/common.rst:219`** の第3文「ベースディレクトリの配下は次の図のとおりで、リクエストIDごとに1つのファイルを置く。」を次に置き換える。第1文・第2文はそのまま。`:221` の `.. image::` は §4 のとおり削除する（`:220`-`:222` の空行を1つにする）:
+
+  ```
+  ベースディレクトリの配下には、リクエストIDごとに1つのファイルを置く。
+  ```
+
 段落は1行で書く（`steering.md` Rules）。`\ ` のエスケープは `mapping/style.md` S-13 に従う。
 
 ---
@@ -237,7 +243,7 @@ JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64 \
 
 - `steering.md` `#33` の「処置状況」に `(b) 処置済み（`#48`）。残置図はすべて PlantUML で描き直し、画面キャプチャ13件だけを残した` を足し、「残るのは (b)…」の行を (e-1) だけに改める
 - `steering.md` `#48` の Steps を check off し、State を更新する
-- `checks/task-48.md` を新規作成し、次を書く: 図ごとに「本文の行」と「実装の `file:line`＋ピン」（§3 の表を実測で埋め直す）／`.rst` の差分の全件表（`git diff --numstat a6da1f6..HEAD -- ja/` の全行と、各 hunk が §3 の挿入・§4 の削除・§6 の (a)〜(g) のどれか）／削除15件と `git rm` の実行結果／§8 の完了条件の実測（コマンドと出力）／`git status --porcelain` の全件（空であること）
+- `checks/task-48.md` を新規作成し、次を書く: 図ごとに「本文の行」と「実装の `file:line`＋ピン」（§3 の表を実測で埋め直す）／`.rst` の差分の全件表（`git diff --numstat a6da1f6..HEAD -- ja/` の全行と、各 hunk が §3 の挿入・§4 の削除・§6 の (a)〜(h) のどれか）／削除15件と `git rm` の実行結果／§8 の完了条件の実測（コマンドと出力）／`git status --porcelain` の全件（空であること）
 
 `mapping.csv`・`_batch/`・`mapping/glossary.md` §5.15・`ja/conf.py`・`en/`・`Dockerfile` は変更しない。`mapping.csv` の `note` に `#48` を足さない（図を落とした7行の `note` は `design.md` の節を指しており、その節に上書きを明記するため）。
 
@@ -252,7 +258,7 @@ JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64 \
 5. `mapping/glossary.md` §8「対応表」の左列の語を機械抽出し、全 `.puml` に0件。`grep -rn 'nablarch-document\|\.rst\|:[0-9][0-9]*\b' --include=*.puml ja/` のうち解説書参照に当たるものが0件
 6. Docker フルビルド（`README.md` の手順。`-a` 付き）が `build succeeded.`、`grep -cE 'WARNING:|ERROR:|SEVERE:' build.log` が 0。`_build/html/development_tools/testing_framework/` 配下に21枚の `.png` が出力されている。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し、`build.log` を消す
 7. `python3 mapping/tools/verify_mapping.py` が `OK: no errors`（597行 / 12,986 / 11,983）、`verify_glossary.py` が `RESULT: OK`。`mapping.csv`・`_batch/`・`ja/conf.py`・`en/`・`Dockerfile`・`glossary.md` §5.15 に差分0行
-8. `git diff a6da1f6..HEAD -- ja/` の hunk がすべて §3 の挿入・§4 の削除・§6 の (a)〜(g) のいずれかに分類され、それ以外が0件
+8. `git diff a6da1f6..HEAD -- ja/` の hunk がすべて §3 の挿入・§4 の削除・§6 の (a)〜(h) のいずれかに分類され、それ以外が0件
 9. `README.md` に `## 図の作成方法` が §2 の逐語で入り、`## ドキュメントのビルド方法` と `## textlintの実行方法` の間にある
 10. `design.md` の2箇所、`steering.md` の `#33` (b)・`#48`・State、`checks/task-48.md` が §7 のとおり
 11. `git status --porcelain` が空。全コミットが `origin/ntf-yaml-support` に push 済み
@@ -262,7 +268,7 @@ JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64 \
 ## 9. やらないこと
 
 - 図の追加・削除・置き先の変更（表にある21枚だけ。増やさない・減らさない）
-- 本文の追記・言い換え（§6 の (a)〜(g) 以外）。「図に必要な事実が本文に無い」ときは止めて報告する
+- 本文の追記・言い換え（§6 の (a)〜(h) 以外）。「図に必要な事実が本文に無い」ときは止めて報告する
 - 画面キャプチャ13件の変更・改名・禁止語の点検（点検は user が行う）
 - `.puml`・`.rst`・`README.md` への解説書参照（`file:line`・節見出し）の記入
 - `en/` の変更、`Dockerfile`・ビルド環境の変更、`mapping.csv` の変更
@@ -441,3 +447,14 @@ endif
 stop
 @enduml
 ```
+
+---
+
+## 11. 回答（2026-08-30。CC の質問: `setup/common.rst:219` の「次の図」が §4 の削除で指す先を失う）
+
+**§6 に (h) を足した。(h) のとおり末尾を詰めて進める。** 完了条件8・§7 の差分分類・§9 は (a)〜(h) に改めた。
+
+- 理由: 図3は `:170` に置くので、`:219` の「次の図」が指す先は無くなる。「上の図」は50行上の親節（Excel の設定ブロックの前）を指すことになり、YAML 側の対応箇所（`:264`-`:266`）に図への参照が無いので非対称になる。落とすだけで前後が成立するので詰める
+- 原因は指示書の穴（§4 で `send_sync_test_data_structure.png` を消すのに、§6 が `:219` を扱っていなかった）。§4 の15件のうち、置き換え位置が元の画像とずれるのはこの1件だけ。他は同じ位置に差し替えるか (a)〜(d) で文ごと処置済み（ディレクターが `a6da1f6` で `git grep '次の図\|上の図\|下図'` と各画像の前後の段落を実測。`testdata_notation.rst:117` は (e) で処置済み）
+- `checks/task-48.md` の差分の全件表では、この hunk を「§6 (h)」に分類する
+
