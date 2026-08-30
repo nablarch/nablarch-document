@@ -1913,5 +1913,5 @@ so only a genuinely suspended session reads `paused`.)
 - **Status**: paused
 - **Date**: 2026-08-30
 - **Last completed**: junit5・yaml・converter の3モジュールとも Step 4 完了。承認記録は yaml `886849c`・converter `a5f006c` に反映済み（`src/` 差分なし、実測）。図の形式を PlantUML に決定（user 2026-08-30）。見本5パターンを作って user が確認済み
-- **Next**: **図の作業**（手順は `~/work/cowork/nablarch/ntf-doc-renewal/01-現在地.md` §3「図の作業」）。起点は刷新した解説書38本の全量読み。図が要る箇所を洗い出し、ページ種類ごとに図の組を統一して「種類 × 図」の表1枚で user 確認 → README「図の作成方法」→ 指示書を書いて解説書 CC が図の作成・RST 挿入・README 追記 → ディレクターが独立検証（4観点レビューは回さない。user 確認 2026-08-30）。**現行 v6 の図・現行画像27件を起点にしない**（user 2026-08-30）。画像27件は最後に要否を判定する
+- **Next**: **図の作業**（手順は `~/work/cowork/nablarch/ntf-doc-renewal/01-現在地.md` §3「図の作業」）。起点は刷新した解説書38本の全量読み。図が要る箇所を洗い出し、ページ種類ごとに図の組を統一して「種類 × 図」の表1枚で user 確認 → README「図の作成方法」→ 指示書を書いて解説書 CC が図の作成・RST 挿入・README 追記 → ディレクターが独立検証（4観点レビューは回さない。user 確認 2026-08-30）。**現行 v6 の図・現行画像27件を起点にしない**（user 2026-08-30）。既存画像27件は全量読みの中で同じ基準で判定し、要る図は PlantUML で描き直す（旧 png は残さない）
 - **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン。**変更したら push する**。`TODO(NTF-*)` は0件。解説書ピン `a6da1f6`。`main` へのマージと `.rn/` の扱いは user の明示指示待ち。**英語版 `en/` は別PR**
