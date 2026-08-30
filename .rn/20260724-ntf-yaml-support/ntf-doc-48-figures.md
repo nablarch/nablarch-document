@@ -127,7 +127,7 @@ java -Djava.awt.headless=true -jar plantuml.jar -tpng -charset UTF-8 <ディレ�
 
 ## 4. 既存画像の処置
 
-**削除する15件**（`git rm`。§3 で同名に置き換わる `select_sequence.png`・`update_sequence.png` は上書きで、この15件に含めない）:
+**削除する13件**（`git rm`。§3 で同名に置き換わる `select_sequence.png`・`update_sequence.png` は上書きで、この13件に含めない。§12 で 15→13 に訂正）:
 
 | ディレクトリ | ファイル | 理由 |
 |---|---|---|
@@ -243,7 +243,7 @@ JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64 \
 
 - `steering.md` `#33` の「処置状況」に `(b) 処置済み（`#48`）。残置図はすべて PlantUML で描き直し、画面キャプチャ13件だけを残した` を足し、「残るのは (b)…」の行を (e-1) だけに改める
 - `steering.md` `#48` の Steps を check off し、State を更新する
-- `checks/task-48.md` を新規作成し、次を書く: 図ごとに「本文の行」と「実装の `file:line`＋ピン」（§3 の表を実測で埋め直す）／`.rst` の差分の全件表（`git diff --numstat a6da1f6..HEAD -- ja/` の全行と、各 hunk が §3 の挿入・§4 の削除・§6 の (a)〜(h) のどれか）／削除15件と `git rm` の実行結果／§8 の完了条件の実測（コマンドと出力）／`git status --porcelain` の全件（空であること）
+- `checks/task-48.md` を新規作成し、次を書く: 図ごとに「本文の行」と「実装の `file:line`＋ピン」（§3 の表を実測で埋め直す）／`.rst` の差分の全件表（`git diff --numstat a6da1f6..HEAD -- ja/` の全行と、各 hunk が §3 の挿入・§4 の削除・§6 の (a)〜(h) のどれか）／削除13件と `git rm` の実行結果／§8 の完了条件の実測（コマンドと出力）／`git status --porcelain` の全件（空であること）
 
 `mapping.csv`・`_batch/`・`mapping/glossary.md` §5.15・`ja/conf.py`・`en/`・`Dockerfile` は変更しない。`mapping.csv` の `note` に `#48` を足さない（図を落とした7行の `note` は `design.md` の節を指しており、その節に上書きを明記するため）。
 
@@ -252,7 +252,7 @@ JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64 \
 ## 8. 完了条件（すべて実測して `checks/task-48.md` に貼る）
 
 1. `find ja/development_tools/testing_framework -path '*/images/*' -type f | sort` が **55件**: `.puml` 21・`.png` 34（キャプチャ13＋新図21）。`.jpg`・`.xlsx` は0件。21組の `.puml`／`.png` のパスが §3 の「ページ」「ファイル名」と一致する
-2. `grep -rn '\.\. image::' ja/development_tools/testing_framework --include=*.rst` が **34件**で、各参照先のファイルが実在する（スクリプトで全件を突き合わせる）。§4 の削除15件への参照が0件
+2. `grep -rn '\.\. image::' ja/development_tools/testing_framework --include=*.rst` が **34件**で、各参照先のファイルが実在する（スクリプトで全件を突き合わせる）。§4 の削除13件への参照が0件
 3. `ls ja/development_tools/testing_framework/implementation/request_unit_test/images/*/request_test_components.png` が `batch`・`mom`・`rest`・`web` の4件、同 `execute_sequence.png` が `batch`・`mom`・`web` の3件
 4. 全21枚について、コミット済みの `.png` を §5 のコマンドで `.puml` から別ディレクトリへ再生成し `cmp` でバイト一致する（一致しないものがあれば PlantUML の版とともに報告）
 5. `mapping/glossary.md` §8「対応表」の左列の語を機械抽出し、全 `.puml` に0件。`grep -rn 'nablarch-document\|\.rst\|:[0-9][0-9]*\b' --include=*.puml ja/` のうち解説書参照に当たるものが0件
@@ -455,6 +455,14 @@ stop
 **§6 に (h) を足した。(h) のとおり末尾を詰めて進める。** 完了条件8・§7 の差分分類・§9 は (a)〜(h) に改めた。
 
 - 理由: 図3は `:170` に置くので、`:219` の「次の図」が指す先は無くなる。「上の図」は50行上の親節（Excel の設定ブロックの前）を指すことになり、YAML 側の対応箇所（`:264`-`:266`）に図への参照が無いので非対称になる。落とすだけで前後が成立するので詰める
-- 原因は指示書の穴（§4 で `send_sync_test_data_structure.png` を消すのに、§6 が `:219` を扱っていなかった）。§4 の15件のうち、置き換え位置が元の画像とずれるのはこの1件だけ。他は同じ位置に差し替えるか (a)〜(d) で文ごと処置済み（ディレクターが `a6da1f6` で `git grep '次の図\|上の図\|下図'` と各画像の前後の段落を実測。`testdata_notation.rst:117` は (e) で処置済み）
+- 原因は指示書の穴（§4 で `send_sync_test_data_structure.png` を消すのに、§6 が `:219` を扱っていなかった）。§4 の13件のうち、置き換え位置が元の画像とずれるのはこの1件だけ。他は同じ位置に差し替えるか (a)〜(d) で文ごと処置済み（ディレクターが `a6da1f6` で `git grep '次の図\|上の図\|下図'` と各画像の前後の段落を実測。`testdata_notation.rst:117` は (e) で処置済み）
 - `checks/task-48.md` の差分の全件表では、この hunk を「§6 (h)」に分類する
+
+---
+
+## 12. 回答（2026-08-30。State `eb428946` の (2)・(3)。どちらも指示書の誤りで、CC の現況把握のとおり）
+
+- **(2) §4 の「15件」は「13件」の誤り。** §4・§7・§8-2・§11 の数字を 13 に訂正した。`a6da1f6` の `images/` 配下は 28件 ＝ 削除13 ＋ キャプチャ13 ＋ 上書き2（`git ls-tree -r --name-only a6da1f6 -- ja/development_tools/testing_framework | grep /images/` で実測）。§8-1 の 55件（`.puml` 21 ＋ `.png` 34）はそのまま
+- **(3) 図8（`web/request_test_components`）に `Nablarch Application Framework` を入れる。CC の方針どおり。** 根拠は、図の規則「本文に無い事実を入れない」の本文が解説書全体を指すこと（`about/index.rst:20`・`:106` に既出）と、同名の4枚（`web`・`rest`・`batch`・`mom`）を揃える規則。`rest.rst:17`・`batch.rst:17`・`mom.rst:17` は本文欄の範囲内に同語がある。`checks/task-48.md` の図8 の「本文の行」に `about/index.rst:106` を足す。`web.rst` の本文は変えない
+- 着手を止める要因は無い。§2〜§10 のとおり Step 1 から通しで進め、完了したら §10 の形で報告して停止する
 
