@@ -125,7 +125,11 @@ $ ls ja/development_tools/testing_framework/implementation/request_unit_test/ima
 
 **4. 21枚とも `.puml` から別ディレクトリへ再生成して `cmp` でバイト一致。**
 
-`.puml` をスクラッチディレクトリへコピーし、§5 のコマンドで再生成して `cmp -s` した。21枚すべて `OK`、`DIFF` は0件。
+`.puml` をスクラッチディレクトリへコピーし、指示書 §5 のコマンド（是正 (k) 後）で再生成して `cmp -s` した。21枚すべて `OK`、`DIFF` は0件。
+
+使った java の実体は `/usr/lib/jvm/temurin-17-jdk-amd64/bin/java -version` の1行目が `openjdk version "17.0.19" 2026-04-21`。README「図の作成方法」の前提 `Java 17` と一致する。
+
+同名の `.puml` が複数ディレクトリにあるため（`execute_sequence` 3件・`request_test_components` 4件）、再生成先は `.puml` 1本ごとに別ディレクトリを切って突き合わせた。
 
 **5. 禁止語0件・解説書参照0件。**
 
