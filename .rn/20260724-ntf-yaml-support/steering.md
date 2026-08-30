@@ -1921,10 +1921,11 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 - [x] 3. 本文の逐語差し替え (a)〜(h)（指示書 §6）。図に必要な事実が本文に無くて作れなかった図は0件
 - [x] 4. `design.md` 2箇所・本エントリの `#33` (b)・`checks/task-48.md`（指示書 §7）
 - [x] 5. 完了条件1〜11 を実測して記録し、§10 の形で報告して停止する
+- [x] 6. ディレクターの独立検証（合格）を受けた是正2件（指示書 §13。`c98d887c`）。(i) `implementation/testdata_notation.rst` の `:46`・`:78` の末尾の一文を削除／(j) 図1の注記を本文の語「本番相当」に改め `.png` を再生成。あわせて記録訂正（hunk 件数27件・条件6 の判定）。`68671907`・`c62ca68b`・`44d4b536`
 
-**Completion criteria**: 指示書 §8 の1〜11 の逐語による。**実測は `checks/task-48.md` §4。1〜5・7〜11 は成立。6 はビルド成功・警告0で成立し、画像の出力先だけが条件の文言（`_build/html/development_tools/testing_framework/` 配下）と異なる（Sphinx は `_build/html/_images/` に集約する。21枚とも出力済み・リンク切れ0）。**
+**Completion criteria**: 指示書 §8 の1〜11 の逐語による。**実測は `checks/task-48.md` §4。全11条件が成立。** 条件6 の文言（`_build/html/development_tools/testing_framework/` 配下に21枚）は指示書の誤りであることがディレクターの独立検証で確定し（§13）、判定は「21枚が `_build/html/_images/` に出力され、`<img src>` 34件にリンク切れ0」に改めた。条件8 の分類は §6 (a)〜(i)（(i) は §13 で追加）。
 
-**未処置の報告1件（ディレクターの逐語指示待ち）**: `implementation/testdata_notation.rst` の現 `:46`・`:78` の末尾「ディレクトリ構成の対応は、以下のとおりである。」が、§6 (e) の `code-block` 削除で指す先を失った。§6 が扱っていないため §9 により処置していない。詳細は `checks/task-48.md` §5。
+**独立検証と是正（2026-08-30）**: ディレクターの独立検証は全項目合格（指示書 §13）。是正2件 (i)(j) を Step 6 で処置し、`checks/task-48.md` の §3・§4（条件6・8）・§5 を更新した。報告していた「指す先を失った一文2件」は (i) で解消済み。**残る未処置は無い。**
 
 # State
 
@@ -1934,6 +1935,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-08-30
-- **Last completed**: `#48` の Steps 1〜5（`272a24f5`）。完了条件1〜11 の実測は `checks/task-48.md` §4
-- **Next**: `#48` の user review を待つ。承認後、指示書 §10 の報告に挙げた1件（`implementation/testdata_notation.rst` の現 `:46`・`:78` の「以下のとおりである。」）のディレクターの逐語指示を受けて処置する
-- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、`origin` に push 済み。`#48` は Steps 1〜5 すべて完了（新規 `.puml` 21・`.png` 21、既存画像13件削除・2件上書き、README「図の作成方法」、`design.md` 2箇所、`#33` (b) を閉じた）。実測は `checks/task-48.md`。**4観点レビューは回していない**（指示書のとおり。検証はディレクターが行う）
+- **Last completed**: `#48` の Step 6 — 指示書 §13（`c98d887c`）の是正2件 (i)(j) と記録訂正（`68671907`・`c62ca68b`・`44d4b536`）。`#48` は Steps 1〜6 すべて完了
+- **Next**: `#48` の是正差分に対する user の確認を待つ。承認後は残タスク（`#29`・`#33`・`#34`・`#36`・`#37`・`#40`・`#41`）から次を選ぶ
+- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、`origin` に push 済み。`#48` の未処置は無い（報告していた「指す先を失った一文2件」は (i) で解消）。是正差分の実測は `checks/task-48.md` §3・§4（条件6・8）・§5
