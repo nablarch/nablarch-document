@@ -466,3 +466,25 @@ stop
 - **(3) 図8（`web/request_test_components`）に `Nablarch Application Framework` を入れる。CC の方針どおり。** 根拠は、図の規則「本文に無い事実を入れない」の本文が解説書全体を指すこと（`about/index.rst:20`・`:106` に既出）と、同名の4枚（`web`・`rest`・`batch`・`mom`）を揃える規則。`rest.rst:17`・`batch.rst:17`・`mom.rst:17` は本文欄の範囲内に同語がある。`checks/task-48.md` の図8 の「本文の行」に `about/index.rst:106` を足す。`web.rst` の本文は変えない
 - 着手を止める要因は無い。§2〜§10 のとおり Step 1 から通しで進め、完了したら §10 の形で報告して停止する
 
+---
+
+## 13. 判定（2026-08-30。`272a24f5` をディレクターが独立検証。是正ラウンド1・差分限定）
+
+**検証結果: (A)〜(E) と記録はすべて合格。** scratchpad の clone で実測した（CC の報告・`checks/task-48.md` は根拠にしていない）。
+(A) `images/` 55件・`.. image::` 34件で参照先全件実在・同名7件・削除13件消滅／(B) 21本の `.puml` を §3「本文」欄の行と実装ピン（13クラスの `extends` 句・`abstract` 4件・`TestSupportExtension.java:14`）に突き合わせて矛盾なし。`.rst` の hunk 27件（`-U0`）がすべて §3・§4・§6 (a)〜(h)／(C) 禁止語ヒットは複合語の一部か既に正表記のみ、解説書参照 0件／(D) 21枚とも再生成して `cmp` 一致／(E) Docker ビルド `build succeeded.`・WARNING 0・`_build/html/_images/` に出力・`<img>` 34件リンク切れ0／README は §2 と逐語一致、`design.md` 2箇所・`#33` (b)・`#48`・`checks/task-48.md` は §7 のとおり。`verify_glossary.py` の `refs 不一致 133` は `e52b2b1b` でも 133 で、本タスクの変更によるものではない。
+
+**§8-6 の文言は指示書の誤り。** Sphinx は画像を `_build/html/_images/` に集約するので、「21枚が `_images/` に出力され、`<img src>` 34件にリンク切れ0」を条件6の判定とする（CC の読み替えどおり）。
+
+### 是正（この2件だけ。他は触らない。修正意図ごとに1コミット、push）
+
+- **(i) `implementation/testdata_notation.rst` の現 `:46`・`:78`**（`a6da1f6` の `:44`・`:83`。§10 の報告 3 の件）: 各行の末尾の一文「ディレクトリ構成の対応は、以下のとおりである。」を落とす。前の文はそのまま。落とすだけで前後が成立するため（図19が `:30` で両形式の対比を示している）。§6 に **(i)** として加え、完了条件8 の分類は (a)〜(i) と読み替える
+- **(j) `about/images/index/architecture_components.puml:21`** の注記「本番と同じ基盤の上で」を「本番相当の基盤の上で」に改め、`.png` を再生成する。本文 `about/index.rst:106` の語は「本番相当の基盤の上でテスト対象クラスの動作を検証できる」であり、図は本文の語で構成する規則（§3）による
+- あわせて `checks/task-48.md` §3 の本文「hunk は22件」を **27件**（表の行数。`git diff -U0` の実測）に直し、§5 に (i) の処置を追記する。§4 の条件6・8 も上記に合わせて更新する
+
+### 完了条件（是正分）
+
+1. `git diff 272a24f5..HEAD -- ja/` の hunk が (i) 2件・(j) の `.puml` 1件＋`.png` 1件だけ
+2. (j) の `.png` を §5 のコマンドで再生成して `cmp` 一致
+3. `git grep -n '以下のとおりである' HEAD -- ja/development_tools/testing_framework/implementation/testdata_notation.rst` が 0件
+4. `git status --porcelain` 空、push 済み。報告は差分（コミット一覧と `git diff --stat`）だけでよい。停止する
+
