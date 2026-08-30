@@ -1929,11 +1929,8 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-30
-- **Last completed**: `#43` まで。`#48` は着手前調査だけ済み（成果物の変更は0件、`ja/` は `a6da1f6` のまま）。実測で確認したのは、PlantUML 一式（`~/.local/share/plantuml/plantuml-1.2025.4.jar`・`~/.fonts/NotoSansJP-Regular.ttf`・`fc-list :lang=ja family` が `Noto Sans JP` を返す・`temurin-17`）、指示書 §1 の4ピンの存在、図2の継承13クラスの `extends` 句、21枚それぞれの「見せるもの」と本文行の突き合わせ
-- **Next**: `#48` Step 1（README「図の作成方法」）から通しで実行する。**着手を止める要因は無い**（下記 (1) はディレクターが `bc50c3ba` の §6 (h) で回答済み）
-- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン。**変更したら push する**。指示書は `ntf-doc-48-figures.md`（§6 は (a)〜(h)）。**4観点レビューは回さない**。着手前調査で見つけた3件の現況:
-  - **(1) 解決済み** — `setup/common.rst:219` の「次の図」が §4 の画像削除で指す先を失う件。指示書 §6 (h)（`bc50c3ba`）で「ベースディレクトリの配下には、リクエストIDごとに1つのファイルを置く。」に詰めると確定。理由は同指示書 §11
-  - **(2) 未処置・判断不要（報告のみ）** — §4 の見出し「削除する15件」は表の実数と合わない。表が挙げるのは13ファイル（`send_sync_test_data_structure.png`／`modification_detected.png`・`copy_from_backup.png`／`send_sync_base.png`・`hanrei.png`／`mail_overview.jpg`・`htmlDumpDir.png`／`send_sync_online_base.png`・`send_sync_online_mock.png`・`send_sync_test_data_no.png`・`send_sync_response_count_change.png`／`requestDumpToolAbstract.png`・`image.xlsx`）。現物も 28件 ＝ 削除13 ＋ キャプチャ13 ＋ 上書き2（`select_sequence.png`・`update_sequence.png`）で整合する。§8 の完了条件1（55件 ＝ `.puml` 21 ＋ `.png` 34）は13件前提で正しく、ずれているのは §4 の見出しの数字と §8 の完了条件2・§7 の `checks/task-48.md` 指示に出てくる「削除15件」の語だけ
-  - **(3) 未処置・記録のみ** — 図8（`web/request_test_components`）の「見せるもの」は `Nablarch Application Framework` を含むが、本文欄の `implementation/request_unit_test/web.rst:13`-`:44` にこの語は無い（同ページ全体でも0件。`grep -n 'Nablarch Application Framework' implementation/request_unit_test/web.rst` が0件）。同じ事実は `about/index.rst:106`（テスト対象クラスは本番と同じく\ NAF\ を介して動作する）と `implementation/request_unit_test/rest.rst:17`（内蔵サーバ上で動作する\ NAF\ が\ Action\ を呼び出す）にあり解説書としては既出であるため、図8 に含めたうえで出典を `checks/task-48.md` に `about/index.rst:106`・`rest.rst:17` として記録する方針。異論があれば着手時に指示すること
+- **Status**: not suspended
+- **Date**: -
+- **Last completed**: -
+- **Next**: -
+- **Notes**: -
