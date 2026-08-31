@@ -411,7 +411,7 @@ simple table 3件・`list-table` 1件であり、表が4件と少ないため本
 クラス名らしき コードリテラル と `:java:extdoc:` を数えた）:
 第3部（`implementation/`）の表は コードリテラル 49件・**`:java:extdoc:` 0件**、
 第2部（`setup/`）の表は コードリテラル 0件・`:java:extdoc:` 41件で、**本規約に反するものは0件**である。
-`:java:extdoc:` 41件の内訳は、全行がクラス名の対応表（`setup/junit5_extension.rst:30` の33件）と、
+`:java:extdoc:` 41件の内訳は、全行がクラス名の対応表（`setup/standard_usage.rst:30` の33件。`#55` の改名後に再実測。件数・行番号とも変わらない）と、
 設定項目表の説明文の中（`setup/class_unit_test.rst:19` の4件・`setup/request_unit_test/web.rst:19` の4件）である。
 第3部の コードリテラル 49件は、いずれも「名称／役割／作成単位」の一覧表など、クラスでない行を含む表にある
 （`implementation/request_unit_test/mom.rst:68` の11件、同 `batch.rst:38` の6件、同 `web.rst:21` の6件など）。
@@ -484,11 +484,14 @@ NTF解説書では、テスト種別と処理方式を並べた名前を用い�
 
 **作成済み（改名しない）**。改名は承認済みページ内の `:ref:` の書き換えを伴うため行わない。
 
+**例外**: `#55`（user 承認 2026-08-31）で `JUnit 5用拡張機能` を `標準の使い方`（`setup/standard_usage.rst`・`standard_usage`）へ改名した。ページの主題そのものが「JUnit 5 用の拡張機能」から「標準の使い方」へ変わり、旧名を残すと本文と食い違うためである。参照元8箇所の `:ref:` は同じコミット群で追随させた。
+
 | ページ | ファイル | ラベル |
 |---|---|---|
 | テスティングフレームワークとは | `about/index.rst` | `testing_framework_about` |
 | 共通設定 | `setup/common.rst` | `testing_framework_common` |
-| JUnit 5用拡張機能 | `setup/junit5_extension.rst` | `junit5_extension` |
+| 標準の使い方 | `setup/standard_usage.rst` | `standard_usage` |
+| JUnit 4で使用する | `setup/junit4.rst` | `junit4_support` |
 | マスタデータ復旧機能 | `setup/master_data_restore.rst` | `master_data_restore` |
 | テストデータの書き方 | `implementation/testdata_notation.rst` | `testdata_notation` |
 | テストデータの記載例 | `implementation/testdata_examples.rst` | `testdata_examples` |

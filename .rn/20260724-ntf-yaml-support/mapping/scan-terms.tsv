@@ -485,9 +485,15 @@ category	canonical	surface	corpus	count	files	locations
 設定・ツール	テストデータ変換ツール	テストデータ変換ツール	current	0	0	
 設定・ツール	テストデータ変換ツール	テストデータ変換ツール	input	1	1	.rn/20260724-ntf-yaml-support/input/testdata-converter-design.md:1
 設定・ツール	テストデータ変換ツール	テストデータ変換ツール	fw	0	0	
-設定・ツール	JUnit 5用拡張機能	JUnit 5用拡張機能	current	1	1	ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/JUnit5_Extension.rst:4
-設定・ツール	JUnit 5用拡張機能	JUnit 5用拡張機能	input	0	0	
-設定・ツール	JUnit 5用拡張機能	JUnit 5用拡張機能	fw	0	0	
+設定・ツール	標準の使い方	標準の使い方	current	0	0	
+設定・ツール	標準の使い方	標準の使い方	input	0	0	
+設定・ツール	標準の使い方	標準の使い方	fw	0	0	
+設定・ツール	標準の使い方	JUnit 5用拡張機能	current	1	1	ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/JUnit5_Extension.rst:4
+設定・ツール	標準の使い方	JUnit 5用拡張機能	input	0	0	
+設定・ツール	標準の使い方	JUnit 5用拡張機能	fw	0	0	
+設定・ツール	JUnit 4で使用する	JUnit 4で使用する	current	0	0	
+設定・ツール	JUnit 4で使用する	JUnit 4で使用する	input	0	0	
+設定・ツール	JUnit 4で使用する	JUnit 4で使用する	fw	0	0	
 設定・ツール	JUnit 5	JUnit 5	current	23	2	ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/01_Abstract.rst:18;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/01_Abstract.rst:666;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/01_Abstract.rst:672;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/01_Abstract.rst:673;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/01_Abstract.rst:674;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/01_Abstract.rst:678;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/01_Abstract.rst:680;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/01_Abstract.rst:681;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/01_Abstract.rst:684;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/01_Abstract.rst:686;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/01_Abstract.rst:692;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/01_Abstract.rst:739;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/JUnit5_Extension.rst:15;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/JUnit5_Extension.rst:16;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/JUnit5_Extension.rst:20;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/JUnit5_Extension.rst:21;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/JUnit5_Extension.rst:27;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/JUnit5_Extension.rst:31;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/JUnit5_Extension.rst:32;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/JUnit5_Extension.rst:56;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/JUnit5_Extension.rst:62;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/JUnit5_Extension.rst:418;ja/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/JUnit5_Extension.rst:428
 設定・ツール	JUnit 5	JUnit 5	input	0	0	
 設定・ツール	JUnit 5	JUnit 5	fw	0	0	

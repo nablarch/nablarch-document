@@ -295,7 +295,8 @@ FW解説書で「編」が付くのは**カテゴリ章とウェブサービス�
 | `マスタデータ復旧機能` | テストで変更されたマスタデータを元に戻す機能 | 揺れなし | なし | 現行解説書2件（`NTF:06_TestFWGuide/04_MasterDataRestore.rst:4`）、input資料1件、`S:design.md` |
 | `HTMLチェックツール` | 出力HTMLの使用禁止タグ・属性を検査するツール | 揺れなし | なし | 現行解説書3件（`NTF:06_TestFWGuide/02_RequestUnitTest.rst:351`）、FW解説書2件。**`design.md` に受け皿のページがない**（§11 申し送り事項1） |
 | `テストデータ変換ツール` | Excel形式とYAML形式のテストデータを相互変換するツール | 揺れなし | なし | input資料1件（`S:input/testdata-converter-design.md:1`）、`S:design.md` |
-| `JUnit 5用拡張機能` | JUnit 5でテスティングフレームワークを使うための拡張機能 | 揺れなし | なし | 現行解説書1件（`NTF:06_TestFWGuide/JUnit5_Extension.rst:4`）、`S:design.md` |
+| `標準の使い方` | JUnit 5で、合成アノテーションとインジェクションによりテスティングフレームワークの機能を使う方法。第2部のページ名 | 揺れなし | `JUnit 5用拡張機能`（#55 で改題する前のページ名。当時の記録では使う） | `#55` で `JUnit 5用拡張機能` から改題（user 承認 2026-08-31）。改題前の出典は現行解説書1件（`NTF:06_TestFWGuide/JUnit5_Extension.rst:4`）、`S:design.md` |
+| `JUnit 4で使用する` | JUnit 4で、サポートクラスの継承によりテスティングフレームワークの機能を使う方法。第2部のページ名 | 揺れなし | なし | `#55` で新設（user 承認 2026-08-31）。`S:design.md` §3・§13 |
 | `JUnit 5` | JUnitのバージョン5 | 揺れなし | `JUnit5`（現行1件、`NTF:06_TestFWGuide/index.rst:20`）はtoctreeのファイル名 JUnit5_Extension の一部であり、表記揺れではない | `JUnit 5` は現行解説書23件（`NTF:06_TestFWGuide/01_Abstract.rst:18`）、`S:design.md`。散文としての `JUnit5` は現行解説書に0件で、識別子は掲載対象外（§3）のため揺れ表記から外した |
 | `JUnit 4` | JUnitのバージョン4 | `JUnit4`（現行8件、`NTF:05_UnitTestGuide/02_RequestUnitTest/rest.rst:16`） | なし | 現行解説書16件（`NTF:06_TestFWGuide/01_Abstract.rst:673`）、`S:design.md`。`JUnit4` 8件はいずれも散文であり、`JUnit5` と扱いが異なる |
 
