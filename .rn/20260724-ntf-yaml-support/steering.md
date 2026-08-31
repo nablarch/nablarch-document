@@ -41,6 +41,7 @@ Rn version: 0.8.0
 - `#35-是正2` 作業指示（4観点レビューの A-1〜A-5 を全件成立と認め、`tools/testdata_converter.rst:71` と `implementation/testdata_notation.rst:1544`-`:1547` の逐語を再確定する。記録側の是正・差分限定レビューも同一コミット）: `.rn/20260724-ntf-yaml-support/ntf-doc-35-fix2.md`
 - `#35-是正3` 作業指示（**是正ラウンドの上限3回目**。差分限定レビューの `must` 2件を受け、`implementation/testdata_notation.rst:1545` を案B の逐語へ確定する。記録側の是正3件・申し送り1件・差分限定レビューも同一コミット）: `.rn/20260724-ntf-yaml-support/ntf-doc-35-fix3.md`
 - `#48` 作業指示（図の作成 PlantUML 21枚・既存画像の処置・README「図の作成方法」。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-48-figures.md`
+- `#55` 作業指示（JUnit 5 ベース化。フェーズ0 着手前検証つき。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-55-junit5-base.md`
 - 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
 - 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
 - input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
@@ -2001,6 +2002,17 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 - `ntf-step4-13-yaml-schema-consistency.md` — スキーマ description 全件と解説書 `ed3de95f` の主張単位突合（`#45` は点検3件のみで網羅未実施。user 指示 2026-08-31「ズレてたら怖いので」）
 
 送付後の流れ: converter 追随 → ディレクター独立検証 → integration 再実行（`#52` の7件が緑になることの確認はディレクターが行う）。
+
+
+### #55: NTF解説書の JUnit 5 ベース化 — 指示書作成済み・フェーズ0（着手前検証）待ち
+
+**Purpose**: 解説書を JUnit 5 ベースへ反転する（user 確定 2026-08-31）。`setup/junit5_extension.rst` を「標準の使い方」（`setup/standard_usage.rst`・ラベル `standard_usage`）へ改題して `common` 直後へ移動し、「JUnit 4で使用する」（`setup/junit4.rst`・ラベル `junit4_support`）を setup 末尾に新設する。implementation 9ページの java ブロック65件を合成アノテーション＋インジェクション方式へ書き換え、`about/index.rst` の特徴4・アーキテクチャ・稼動環境を反転する。ファイル名・ラベルは user 確定（2026-08-31、S-08 の命名判断）。
+
+**指示書**: `.rn/20260724-ntf-yaml-support/ntf-doc-55-junit5-base.md`。ピン・全件表の母集合・波及7件・完了条件12件・レビューの回し方はすべて同ファイル。**フェーズ0（着手前検証。`.rst` 未変更）→ 報告停止 → ディレクター OK → フェーズ1 → 4観点レビュー（ラウンド1）＋差分限定（ラウンド2以降・上限3）**。レビューを回す理由: 公開本文に新しい記述が入る（`nablarch/CLAUDE.md` 3-1）。
+
+**Steps**: 指示書のフェーズ0（0-1〜0-7）→ フェーズ1（§1〜§5）→ 検証（§7 完了条件1〜12）→ レビュー（§8）→ 報告（§9）。
+
+**Completion criteria**: 指示書 §7 の1〜12 の逐語による。
 
 
 # State
