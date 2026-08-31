@@ -229,4 +229,4 @@ Eclipseで指定する場所は、JVMオプションと同じ実行構成の「V
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 テストデータの書き方を変える場合は、\ :java:extdoc:`AbstractHttpRequestTestTemplate <nablarch.test.core.http.AbstractHttpRequestTestTemplate>`\ と\ :java:extdoc:`TestCaseInfo <nablarch.test.core.http.TestCaseInfo>`\ を継承する。
 
-``AbstractHttpRequestTestTemplate``\ は、リクエスト単体テストのテストクラスのスーパクラスである。アプリケーションプログラマが直接使用することはなく、テスティングフレームワークを拡張する際に用いる。\ ``TestCaseInfo``\ はテストデータに定義されたテストショットの情報を格納するクラスで、\ ``AbstractHttpRequestTestTemplate``\ の型引数に指定する。
+``AbstractHttpRequestTestTemplate``\ は、リクエスト単体テストのサポートクラスである\ ``BasicHttpRequestTestTemplate``\ のスーパクラスである。アプリケーションプログラマが直接使用することはなく、テスティングフレームワークを拡張する際に用いる。\ ``TestCaseInfo``\ はテストデータに定義されたテストショットの情報を格納するクラスで、\ ``AbstractHttpRequestTestTemplate``\ の型引数に指定する。

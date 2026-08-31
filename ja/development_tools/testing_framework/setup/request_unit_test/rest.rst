@@ -59,7 +59,7 @@ RESTfulウェブサービスのリクエスト単体テストには、次の3つ
 
   アーキタイプから\ :doc:`RESTfulウェブサービスプロジェクト <../../../../application_framework/application_framework/blank_project/setup_blankProject/setup_WebService>`\ を作成した場合は、上記の依存関係と設定が既に記述されている。\ :doc:`ウェブプロジェクト <../../../../application_framework/application_framework/blank_project/setup_blankProject/setup_Web>`\ や\ :doc:`Nablarchバッチプロジェクト <../../../../application_framework/application_framework/blank_project/setup_blankProject/setup_NablarchBatch>`\ から作成した場合は、不足している記述を追加する。
 
-:java:extdoc:`RestTestSupport <nablarch.test.core.http.RestTestSupport>`\ を継承したテストクラスでデータベースを扱う場合は、テストデータを解析する\ ``testDataParser``\ のコンポーネントも登録する。記述例は\ :ref:`省略したテーブルのカラムのデフォルト値を変更する <class_unit_test_setting-column_default_values>`\ を参照。
+:java:extdoc:`RestTestSupport <nablarch.test.core.http.RestTestSupport>`\ を使用するテストクラスでデータベースを扱う場合は、テストデータを解析する\ ``testDataParser``\ のコンポーネントも登録する。記述例は\ :ref:`省略したテーブルのカラムのデフォルト値を変更する <class_unit_test_setting-column_default_values>`\ を参照。
 
 コンポーネント設定ファイルで設定値を変更する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
