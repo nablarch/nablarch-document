@@ -2004,7 +2004,7 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 送付後の流れ: converter 追随 → ディレクター独立検証 → integration 再実行（`#52` の7件が緑になることの確認はディレクターが行う）。
 
 
-### #55: NTF解説書の JUnit 5 ベース化 — フェーズ1 完了・ディレクター独立検証待ち
+### #55: NTF解説書の JUnit 5 ベース化 — 是正ラウンド1 完了・ディレクター検証待ち
 
 **Purpose**: 解説書を JUnit 5 ベースへ反転する（user 確定 2026-08-31）。`setup/junit5_extension.rst` を「標準の使い方」（`setup/standard_usage.rst`・ラベル `standard_usage`）へ改題して `common` 直後へ移動し、「JUnit 4で使用する」（`setup/junit4.rst`・ラベル `junit4_support`）を setup 末尾に新設する。implementation 9ページの java ブロック65件を合成アノテーション＋インジェクション方式へ書き換え、`about/index.rst` の特徴4・アーキテクチャ・稼動環境を反転する。ファイル名・ラベルは user 確定（2026-08-31、S-08 の命名判断）。
 
@@ -2014,7 +2014,7 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 
 **Completion criteria**: 指示書 §7 の1〜12 の逐語による。
 
-**進捗**: フェーズ0・フェーズ1 とも完了（2026-08-31）。フェーズ0 の承認と反例10件への回答は指示書 §10（§1〜§7 に優先）。フェーズ1 は5コミット（`40fee4b8` §1〜§3／`6383045b` §4／`b7feb866` §5／`348c3200` `readTextResource` の是正／`8ad0dfc9` 見出し罫線の是正）。完了条件1〜12 はすべて OK（`checks/task-55.md`「Completion Criteria」）。**ディレクターの独立検証待ちで停止中。** 判断が要るのは2件で、いずれも `checks/task-55.md`「ディレクター判断が要る項目（フェーズ1）」にある（用語「サポートクラス」の `glossary.md` §5 への登録要否、`_build/html` に残る旧ページの扱い）。
+**進捗**: フェーズ0・フェーズ1・是正ラウンド1 とも完了（2026-08-31）。フェーズ0 の承認と反例10件への回答は指示書 §10、フェーズ1 の独立検証の合格と是正2件・回答2件は指示書 §11（いずれも §1〜§7 に優先）。フェーズ1 は5コミット（`40fee4b8` §1〜§3／`6383045b` §4／`b7feb866` §5／`348c3200` `readTextResource` の是正／`8ad0dfc9` 見出し罫線の是正）、是正ラウンド1 は §11-1・§11-2 の2文で1コミットと §11-3 の `_build` 作り直し。完了条件は §7 の1〜12・§11 の1〜4 ともすべて OK（`checks/task-55.md`）。**是正ラウンド1 に対するディレクターの差分限定2観点の検証待ちで停止中。** フェーズ1 で判断を仰いだ2件は §11-4（用語「サポートクラス」は登録しない。作業不要）・§11-5（旧ページ `junit5_extension.html` は §11-3 で解消。解消済み）で回答済み。
 
 
 # State
@@ -2023,8 +2023,8 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-31
-- **Last completed**: `#55` フェーズ1（実装）。指示書 §10 を §1〜§7 に優先して適用し、§1〜§5 と検証を完了。完了条件1〜12 はすべて OK（`cb2ddd29`）
-- **Next**: `#55` のディレクター独立検証（コンパイル・全件走査・突合の再実行）を待つ。判断が要る2件は `checks/task-55.md` の節「ディレクター判断が要る項目（フェーズ1）」にある（用語「サポートクラス」の `glossary.md` §5 への登録要否、`_build/html` に残る旧ページ `setup/junit5_extension.html` の扱い）。どちらもフェーズ1 の成果物を差し戻す性質のものではない
-- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、`origin` に push 済み（先端 `cb2ddd29`）。`#55` フェーズ1 は5コミット（`40fee4b8` §1〜§3／`6383045b` §4／`b7feb866` §5／`348c3200` `readTextResource` の是正／`8ad0dfc9` 見出し罫線の是正）。実測記録は `checks/task-55.md`。指示書に無く自分で処置した3点（`nablarch-testing-rest` の `readTextResource` が `protected` だった件／地の文の「スーパクラス」49件／`standard_usage-base_uri`・`standard_usage-extension` の下位ラベル追加）も同ファイルの節「フェーズ0 の全件表からの逸脱」にある。残タスクは `#29`・`#33`・`#34`・`#52`・`#53`・`#54`（`#52`〜`#54` は指示書送付待ち）
+- **Status**: not suspended
+- **Date**: -
+- **Last completed**: -
+- **Next**: -
+- **Notes**: -

@@ -334,16 +334,59 @@ L2 稼動環境                                :117  ← :119 の1文
 | 11. 修正意図ごとに1コミットし push 済み | OK | 上記5コミット。`--amend`・force push なし |
 | 12. 記録が本ファイルにあり §9 の報告をして停止 | OK | 本ファイル。報告はチャット本文 |
 
-## ディレクター判断が要る項目（フェーズ1）
+## ディレクター判断が要る項目（フェーズ1） — 回答済み（指示書 §11-4・§11-5）
 
 1. **用語「サポートクラス」を `mapping/glossary.md` §5 に登録するか。** 現状は未登録。
    `standard_usage.rst`・`junit4.rst`・implementation 6ページ・`about/index.rst`・`test_support_class.puml` で使っている。
    登録する場合は §5 のどのカテゴリに置くかの判断が要る（`設定・ツール` は名称の枠、
    `セクションタイトル` はページ構成の枠で、いずれも当てはまらない）。
+   → **回答（§11-4）: 登録しない。** `glossary.md` §3 の掲載基準①②のいずれにも該当しない。作業不要。
 2. **`_build/html` に旧ページ `setup/junit5_extension.html`（2026-08-31 08:38 のビルド成果）が残っている。**
    `_build/` はホスト側から消さない規則（`03-検証スクリプト.md` §5）のため触っていない。
+   → **回答（§11-5）: §11-3 の `_build` 作り直しで解消する。** 下の「是正ラウンド1 実施記録」のとおり解消済み。
+
+## 是正ラウンド1 実施記録（2026-08-31）— 指示書 §11
+
+### 11-1 `setup/request_unit_test/web.rst:232` の第1文
+
+差し替え前: ``` ``AbstractHttpRequestTestTemplate``\ は、リクエスト単体テストのテストクラスのスーパクラスである。 ```
+差し替え後: ``` ``AbstractHttpRequestTestTemplate``\ は、リクエスト単体テストのサポートクラスである\ ``BasicHttpRequestTestTemplate``\ のスーパクラスである。 ```
+
+同段落の第2文以降・`:230` は変更していない（`git diff` は当該1行のみ）。
+根拠は一次情報で追認した。`~/work/nablarch/nablarch-testing`（HEAD `dcaed44`）の
+`src/main/java/nablarch/test/core/http/BasicHttpRequestTestTemplate.java:15` =
+`public abstract class BasicHttpRequestTestTemplate extends AbstractHttpRequestTestTemplate<TestCaseInfo>`。
+
+### 11-2 `setup/request_unit_test/rest.rst:62`
+
+「を継承したテストクラスで」→「を使用するテストクラスで」。同文の他の部分は変更していない。
+是正後、同ファイルに `を継承したテストクラスで` は0件（`grep -c` → 0）。
+
+### 11-3 `_build` の作り直し
+
+1. 削除（docker の中から。ホスト側 `rm` は使っていない）:
+   `docker run --rm -v /home/tie303177/work/nablarch/nablarch-document:/root/document nablarch-document-build /bin/bash -c "cd /root/document; rm -rf _build"`
+   → 実行後 `ls -d _build` が `No such file or directory`
+2. フルビルド（正規の場所 `~/work/nablarch/nablarch-document`。`03-検証スクリプト.md` §9.5 のコマンド）:
+   `docker run --rm -v /home/tie303177/work/nablarch/nablarch-document:/root/document nablarch-document-build /bin/bash -c "cd /root/document; sphinx-build -d _build/.doctrees/ja -b html ja _build/html"`
+   → 終了コード 0・`build succeeded.`。ログは scratchpad の `build55.log` へ出力（作業ツリーに `build.log` を作っていない）
+3. ビルド直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo`、`rm -f build.log ca.crt Dockerfile.ca`
+
+### 完了条件（是正ラウンド1）
+
+| Criterion | Self-check | Evidence |
+|---|---|---|
+| 1. `ja/` の差分が 11-1・11-2 の2文に限られる | OK | `git diff --stat` = `rest.rst 2 +-` / `web.rst 2 +-` の2ファイルのみ、計 2 insertions / 2 deletions |
+| 2. `build succeeded.`・WARNING/ERROR/SEVERE 0件、`_build/html/.../setup/junit5_extension.html` が存在しない | OK | ログ末尾 `build succeeded.`。`grep -c` で `WARNING` 0件・`ERROR` 0件・`SEVERE` 0件（`error` の小文字ヒット26件はすべて `..._error_process` 等のファイル名）。`ls` → `No such file or directory`。`setup/` 直下は `class_unit_test.html`・`common.html`・`deal_unit_test/`・`index.html`・`junit4.html`・`master_data_restore.html`・`request_unit_test/`・`standard_usage.html` の8エントリで、`junit5_extension.html` は無い |
+| 3. `sphinx.mo` を復元し `git status --porcelain` が空 | OK | 復元後の `git status --porcelain` は是正2ファイルのみを表示し、コミット後は空 |
+| 4. 実測を本ファイルに追記し、修正意図ごとに1コミットで push、報告して停止 | OK | 是正2文で1コミット、本記録で1コミット。`--amend`・force push なし |
+
+是正2文の HTML 反映も実体で確認した。
+`_build/html/.../request_unit_test/web.html` に
+`サポートクラスである<code class="docutils literal"><span class="pre">BasicHttpRe...`、
+`.../rest.html` に `RestTestSupport</a>を使用するテストクラスで` が出ている。
 
 ## Overall Verdict
 
-- Self-check: フェーズ1 完了。完了条件1〜12 すべて OK
-- Ready to check off: ディレクターの独立検証待ち
+- Self-check: フェーズ1 完了（完了条件1〜12 すべて OK）。是正ラウンド1（§11-1〜11-3）完了（完了条件1〜4 すべて OK）
+- Ready to check off: 是正ラウンド1 に対するディレクターの差分限定2観点の検証待ち
