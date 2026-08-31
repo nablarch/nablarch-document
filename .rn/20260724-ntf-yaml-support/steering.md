@@ -2023,8 +2023,8 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: YYYY-MM-DD
-- **Last completed**: #N description
-- **Next**: #N description
-- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
+- **Status**: paused
+- **Date**: 2026-08-31
+- **Last completed**: `#55` フェーズ1（実装）。指示書 §10 を §1〜§7 に優先して適用し、§1〜§5 と検証を完了。完了条件1〜12 はすべて OK（`cb2ddd29`）
+- **Next**: `#55` のディレクター独立検証（コンパイル・全件走査・突合の再実行）を待つ。判断が要る2件は `checks/task-55.md` の節「ディレクター判断が要る項目（フェーズ1）」にある（用語「サポートクラス」の `glossary.md` §5 への登録要否、`_build/html` に残る旧ページ `setup/junit5_extension.html` の扱い）。どちらもフェーズ1 の成果物を差し戻す性質のものではない
+- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、`origin` に push 済み（先端 `cb2ddd29`）。`#55` フェーズ1 は5コミット（`40fee4b8` §1〜§3／`6383045b` §4／`b7feb866` §5／`348c3200` `readTextResource` の是正／`8ad0dfc9` 見出し罫線の是正）。実測記録は `checks/task-55.md`。指示書に無く自分で処置した3点（`nablarch-testing-rest` の `readTextResource` が `protected` だった件／地の文の「スーパクラス」49件／`standard_usage-base_uri`・`standard_usage-extension` の下位ラベル追加）も同ファイルの節「フェーズ0 の全件表からの逸脱」にある。残タスクは `#29`・`#33`・`#34`・`#52`・`#53`・`#54`（`#52`〜`#54` は指示書送付待ち）
