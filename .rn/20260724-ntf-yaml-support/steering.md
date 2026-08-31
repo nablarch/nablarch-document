@@ -1989,6 +1989,20 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 **レビューはいずれも回さない**（converter は測定・分類・テスト追加で、変異確認を完了条件に置き、ディレクターが同手順の独立再測定で検証する。yaml・本体はコメント追記が主）。
 
 
+### #54: 解説書の SSoT 内部矛盾の是正（マーカーカラムだけのブロック）と、追随指示書2本の準備 — 解説書は是正済み・指示書は送付待ち
+
+**発端**: `#52`（integration 再検証）の赤7件。converter が `tools/testdata_converter.rst:65` の旧文「マーカーカラムだけで構成したデータブロックは…データ行も残らない」（`#41` `7f194a7` でディレクターが追記）に忠実に従った結果、本体 `TestCaseInfo.java:344-351`（`3c4bd2a`）が行数を位置インデックスに使う用法と衝突した。旧文は記法ページ `:1486`・`:427`・スキーマ description（同旨）と矛盾する **SSoT 内部矛盾**で、`#41` の「YAML では表せない」という判断が誤り（YAML はマーカーカラムを仕様として持ち `- "[no]": "1"` で表せる。スキーマは `additionalProperties` でキー名無制約・実装は `YamlSection.java:227`-`:228` が対応済み）。
+
+**是正（user 判断 2026-08-31「保つ」・SSoT はすぐ直す）**: `ed3de95f` で当該文を「マーカーカラムとその値を保ったまま変換する」例外として書き直した（`#41` の当該決定を上書き）。Docker フルビルド warning 0・HTML 反映確認済み。**同型の否定主張は解説書に4件のみで、他3件（`:61` 装飾情報・`:69` 行末空セル・`:71` 交互記述）は実物検証で整合を確認済み**（本体に結合セル処理0件／`HeaderLine.java:33` `trimTailCopy`／YAML のリスト構造）。再発防止（否定主張は書く前に反例を実物で探す・関連ページとスキーマ description との突き合わせを根拠に含める）は案件フォルダの `02-進め方.md` に追記した。
+
+**指示書2本を作成済み。送付はカバレッジ `#53` の完了後**（user 指示 2026-08-31）:
+
+- `ntf-step4-12-converter-marker-rows.md` — converter 追随（`rowCount`・`emitMapRows` の `{}`・対称の読み。本体/yaml を oracle にしたテストと変異確認、新規コードの未達0）
+- `ntf-step4-13-yaml-schema-consistency.md` — スキーマ description 全件と解説書 `ed3de95f` の主張単位突合（`#45` は点検3件のみで網羅未実施。user 指示 2026-08-31「ズレてたら怖いので」）
+
+送付後の流れ: converter 追随 → ディレクター独立検証 → integration 再実行（`#52` の7件が緑になることの確認はディレクターが行う）。
+
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
