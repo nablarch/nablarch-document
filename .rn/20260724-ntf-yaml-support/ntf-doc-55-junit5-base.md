@@ -132,3 +132,61 @@
 ### §9 報告
 
 フェーズ0 完了時と、フェーズ1＋レビュー完了時の2回、報告して停止する。報告には完了条件の実測結果（コマンドと出力の要点）を添える。解説書側が誤っていると判断した項目は直さず、根拠を添えて報告して止める。
+
+### §10 フェーズ0 の判定と反例10件への回答（ディレクター。2026-08-31）
+
+**フェーズ0 を承認する。フェーズ1 に着手してよい。本節の回答は §1〜§7 の記載に優先する。**
+
+0-1〜0-6 はディレクターが scratchpad の clone とピンで独立に再実測し、全件一致した（`code-block:: java` 母集合85件のページ別内訳・ラベル母集合 raw 1,054件＝ユニーク1,053件（重複は `DatadogMeterRegistry(外部サイト、英語)` の1件で衝突判定に影響なし）・`dest_page=JUnit 5用拡張機能` 17行/475行・`batch-03.csv` 3行＋`batch-14.csv` 14行・アーキタイプ vintage 0件）。反例10件もすべて実物で追認した。
+
+#### 反例1・反例10 — 引数なし `execute()` の3ブロック（request batch `:113`・request mom `:148`・deal batch `:47`）
+
+**読み込み単位名をリテラルで渡す `support.execute("<そのテストメソッド名>")` に書き換える**（CC の推奨案を採用）。
+
+- `execute(String)` は `public final`（`StandaloneTestSupportTemplate.java:56`、`dcaed44`）で確実に呼べる
+- アーキタイプの書き方 `support.execute(support.testName.getMethodName())` は採らない。`testName` の型は `org.junit.rules.TestName`（`TestEventDispatcher.java:94`、`dcaed44`）で、JUnit 5 を標準と名乗るページに JUnit 4 の型を持ち込む（反例10）。解説書の既存例（request batch `:126`・deal batch `:57`）が既にリテラル方式であり、これに揃える。`TestInfo` 方式も採らない（JUnit 5 API の説明負担が増え、例の主題である読み込み単位から焦点がずれる）
+- **web は対象外。** `AbstractHttpRequestTestTemplate` の `execute` 8種は全部 `public`（`:118`-`:191`、`dcaed44`）なので、web.rst のブロック3は `support.execute()` のままでよい（`:182` の地の文も真のまま）。リテラル化するのは standalone 系（batch・mom）の3ブロックだけ
+- 地の文・コメントの追随（ディレクター全件走査 2026-08-31。「引数なし」のヒットはこの5件で全部）: request batch `:120`（説明の主軸を「`execute` には読み込み単位の名前を渡す。名前はテストメソッド名と同じにする」へ）・`:126` の行末コメント・request mom `:143`-`:146`（箇条書きから `void execute()` を落とし `void execute(String sheetName)` のみに。`:146` の「引数なしを使用するとよい」を書き換え）・`:152` の行末コメント・deal batch `:55`（複数単位の記述は保つ）・`:89`（「引数なしの `execute` を1回呼ぶだけ」の部分を追随）
+- アーキタイプとの差異（アーキタイプ側が JUnit 4 の型を露出している件)は申し送り。本タスクでは扱わない
+
+#### 反例2 — `web.rst:294` のシグネチャ
+
+**4引数の `public` 版に差し替える。** 逐語:
+
+```
+HttpResponse execute(Class<?> testClass, String caseName, HttpRequest req, ExecutionContext ctx)
+```
+
+直前の地の文 `:292` を追随させる: 第1引数にはテストクラス（自身のクラスを `getClass()` で渡す。クラス名が HTML ダンプの出力ディレクトリの決定に使われる）、第2引数に指定した名前が HTML ダンプのファイル名になる。根拠: `HttpRequestTestSupport.java:237`-`:250`（`dcaed44`）。3引数版 `:144` は `protected` で、内部で `execute(testClass, …)` へ委譲している。
+
+#### 反例3 — 完了条件 §7-5 の除外範囲
+
+次のとおり差し替える: 「`setup/junit4.rst` 全体と、`setup/standard_usage.rst` の L2『拡張例』節全体の中のもの以外が0件」。（現 `junit5_extension.rst:243` `extends TestSupport`・`:309` `extends BasicHttpRequestTestTemplate` は §1 が内容を保つと指定した独自拡張クラスの作成例で、必ず走査に残るため。）
+
+#### 反例4 — 下位ラベルの新名称
+
+**`standard_usage-inject`（現 `:98`）・`junit4_support-vintage`（現 `:180`）で確定**（衝突0件は 0-3 とディレクター再実測の両方で確認済み）。参照元の `:ref:` も追随させる。
+
+#### 反例5 — `current-0180` の割当
+
+**§5-3 のとおり `JUnit 4で使用する` へ割り当てる（変更なし）。** `current-0180` の実体は JUnit Vintage 有効化の依存関係（vintage-engine を含む）であり、移設先は vintage 節を引き受ける `junit4.rst` が正しい。一方 `standard_usage.rst` の「依存関係を追加する」に書く junit-bom 5.11.0＋junit-jupiter は現行解説書に由来しない**新規記述**（根拠はアーキタイプ `9ef4096` `nablarch-web/pom.xml:245`-`:250`・`:358`-`:369`）。`mapping.csv` は現行→刷新の対応表であり、新規記述に行は要らない。2ページに依存関係の記述が現れるが、内容が異なる（標準セットアップ／vintage 併用）ため矛盾ではない。
+
+#### 反例6 — `style.md:414`
+
+**§5-5 の対象に加える。** `:414` の `setup/junit5_extension.rst:30` への参照を改名後のパスに差し替え、行番号と件数（33件）は書き換え後に再実測して追随させる。
+
+#### 反例7 — `volume.md`
+
+**集計の行は追随させ、経緯の文は書き換えない**（design.md と同じ規則を volume.md にも適用する）。`:26` のページ別集計行は §5-4 のとおり2行に分割する（`標準の使い方` 415行・`JUnit 4で使用する` 60行。0-4 の実測）。既存の備考文（経緯）は「標準の使い方」側の行に残し、両行の備考に `#55` で分割した旨を追記する。`:31`・`:73`・`:75`・`:94`・`:145` と備考欄の文中に現れる旧名「JUnit 5用拡張機能」は当時の記録なので書き換えない。
+
+#### 反例8 — `design.md:211`
+
+**当該節（`:193`「モジュール一覧は第1部に置かない…」）は 2026-08-05 の決定記録なので本文は書き換えない。** 節末に上書きの明記を1段落追加する: この節が定めた「稼動環境」の文面（JUnit 4 ベース＋JUnit 5用拡張機能への `:ref:`）は `#55`（user 承認 2026-08-31）で上書きし、現在の仕様は §2 表 row 4 と `setup/standard_usage.rst`・`setup/junit4.rst` にある、の旨。
+
+#### 反例9 — `nablarch-testing` のピン
+
+**`dcaed44`（PR ブランチ `convert-testdata-excel-to-text` の HEAD。2026-08-31 実測）へ差し替える。** フェーズ1 で `nablarch-testing` を引用するときはすべて `dcaed44` を使う。§2 の依存関係の根拠は `nablarch-testing@dcaed44` `pom.xml:150`-`:155`（`junit:junit` 4.13.1 `compile`。ディレクターが `git show` で `e21bf67` と同一内容であることを確認済み）。
+
+#### 記録
+
+フェーズ0 の指摘10件＝方式不成立2・指示書の穴6・規則との食い違い1・型の露出1。いずれも成果物ではなくディレクターの指示文への指摘（`nablarch/CLAUDE.md` 3-4 の型）。全10件をディレクターが一次情報（`dcaed44`・`9ef4096`・`764fb9fd` の `git show`／自分の grep）で追認したうえで回答した。
