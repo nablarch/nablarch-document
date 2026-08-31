@@ -12,7 +12,7 @@
 
 コンポーネント単体テストは、\ Action\ クラスと\ Component\ クラスを対象とするクラス単体テストである。テスティングフレームワークは、データベースを使用するクラスのテストに必要な準備データの投入・結果の確認・トランザクションの制御を提供する。
 
-テストクラスは\ :java:extdoc:`DbAccessTestSupport <nablarch.test.core.db.DbAccessTestSupport>`\ を継承して作成する。準備データと期待値はテストデータに記述し、テストクラスにはテストロジックだけを書く。
+テストクラスは\ :java:extdoc:`DbAccessTestSupport <nablarch.test.core.db.DbAccessTestSupport>`\ をインジェクションして作成する。準備データと期待値はテストデータに記述し、テストクラスにはテストロジックだけを書く。
 
 このページで扱う主なクラスとリソースを次に示す。
 
@@ -66,7 +66,7 @@
 
 * パッケージは、テスト対象のクラスと同じとする。
 * クラス名は\ ``<テスト対象クラス名>Test``\ とする。
-* :java:extdoc:`DbAccessTestSupport <nablarch.test.core.db.DbAccessTestSupport>`\ を継承する。
+* :java:extdoc:`DbAccessTest <nablarch.test.junit5.extension.db.DbAccessTest>`\ をテストクラスに設定し、\ :java:extdoc:`DbAccessTestSupport <nablarch.test.core.db.DbAccessTestSupport>`\ 型のフィールドを宣言する。
 
 テスト対象が\ ``UserComponent``\ の場合、テストクラスは次のようになる。
 
@@ -75,74 +75,46 @@
   package nablarch.sample.management.user;   // テスト対象クラスと同じパッケージ
 
   import nablarch.test.core.db.DbAccessTestSupport;
+  import nablarch.test.junit5.extension.db.DbAccessTest;
 
-  import org.junit.Test;
+  import org.junit.jupiter.api.Test;
 
-  public class UserComponentTest extends DbAccessTestSupport {
+  @DbAccessTest
+  class UserComponentTest {
+      DbAccessTestSupport support;
+
       // 中略
   }
 
-``DbAccessTestSupport``\ を継承すると、テストメソッドの実行前にデータベーストランザクションが開始され、実行後に終了する。テストクラス側でトランザクションを開始・終了する必要はない。
+``DbAccessTestSupport``\ をインジェクションすると、テストメソッドの実行前にデータベーストランザクションが開始され、実行後に終了する。テストクラス側でトランザクションを開始・終了する必要はない。
 
 デフォルトのトランザクション以外も使用する場合は、テスト用のコンポーネント設定ファイルと環境設定ファイルへの設定が必要である（\ :ref:`デフォルト以外のトランザクションを使用する <class_unit_test_setting-db_transaction>`\ ）。
 
 .. tip::
 
-  JUnit 5\ でテストを書く場合は、継承ではなくインジェクションでテスティングフレームワークの機能を使用する（\ :ref:`JUnit 5用拡張機能 <junit5_extension>`\ ）。
-
-テスティングフレームワークのクラスを継承せずに使用する
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-別のクラスを継承しなければならないなどの理由で\ ``DbAccessTestSupport``\ を継承できない場合は、これをインスタンス化して処理を委譲する。コンストラクタにはテストクラス自身の\ ``Class``\ オブジェクトを渡す。この場合はトランザクションの開始・終了が自動では行われないため、前処理・後処理から明示的に呼び出す。
-
-.. code-block:: java
-
-  public class SampleTest extends AnotherSuperClass {
-
-      private DbAccessTestSupport dbSupport = new DbAccessTestSupport(getClass());
-
-      @Before
-      public void setUp() {
-          dbSupport.beginTransactions();   // トランザクションを開始する
-      }
-
-      @After
-      public void tearDown() {
-          dbSupport.endTransactions();     // トランザクションを終了する
-      }
-
-      @Test
-      public void test() {
-          dbSupport.setUpDb("test");
-          // 中略（テスト対象メソッドを起動し、戻り値をactualに受け取る）
-          dbSupport.assertSqlResultSetEquals("従業員検索", "test", "expected", actual);
-      }
-  }
+  JUnit 4\ でテストを書く場合は、インジェクションではなく継承でテスティングフレームワークの機能を使用する（\ :ref:`JUnit 4で使用する <junit4_support>`\ ）。
 
 テストの実行前後に共通処理を行う
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+テスト実行前後の共通処理は、\ JUnit\ のアノテーション（\ ``@BeforeEach``\ ・\ ``@AfterEach``\ ・\ ``@BeforeAll``\ ・\ ``@AfterAll``\ ）で実装する。
 
-テスト実行前後の共通処理は、\ JUnit\ のアノテーション（\ ``@Before``\ ・\ ``@After``\ ・\ ``@BeforeClass``\ ・\ ``@AfterClass``\ ）で実装する。
+.. code-block:: java
 
-.. important::
+  @DbAccessTest
+  class EmployeeDbAccessTest {
+      DbAccessTestSupport support;
 
-  ``@BeforeClass``\ ・\ ``@AfterClass``\ を使用する場合、サブクラスにスーパクラスと同名で同じアノテーションを付けたメソッドを作成しない。同名のメソッドに同種のアノテーションを付けると、スーパクラスのメソッドが起動されなくなる。次の例で\ ``TestSub``\ を実行すると、\ ``TestSuper#setUpBeforeClass``\ は呼び出されない。
+      @BeforeEach
+      void setUp() {
+          // 各テストメソッドの実行前に行う処理を記述する
+      }
+  }
 
-  .. code-block:: java
+.. tip::
 
-    public class TestSuper {
-        @BeforeClass
-        public static void setUpBeforeClass() {
-            System.out.println("super");   // 呼び出されない
-        }
-    }
+  JUnit 4\ での書き方は\ :ref:`テストの実行前後に共通処理を行う <junit4_support-common_process>`\ を参照。
 
-    public class TestSub extends TestSuper {
-        @BeforeClass
-        public static void setUpBeforeClass() {
-            // スーパクラスのメソッドを上書きしている
-        }
-    }
+  インジェクションでは、テストクラスが他のクラスを継承していてもサポートクラスを使用できる。継承の単一性が制約になるのはJUnit 4\ の場合だけであり、その回避方法は\ :ref:`テスティングフレームワークのクラスを継承せずに使用する <junit4_support-no_inheritance>`\ で説明する。
 
 テストメソッドを作成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -160,20 +132,22 @@
 
 .. code-block:: java
 
-  public class EmployeeDbAccessTest extends DbAccessTestSupport {
+  @DbAccessTest
+  class EmployeeDbAccessTest {
+      DbAccessTestSupport support;
 
       /** 従業員テーブルに登録されたレコードを全件取得できることを確認する。 */
       @Test
-      public void testSelectAll() {
+      void testSelectAll() {
           // データベースに準備データを登録する（引数は読み込み単位の名前）
-          setUpDb("testSelectAll");
+          support.setUpDb("testSelectAll");
 
           // テスト対象メソッドを起動する
           EmployeeDbAccess target = new EmployeeDbAccess();
           SqlResultSet actual = target.selectAll();
 
           // テストデータに記述した期待値と実際の値が等しいことを確認する
-          assertSqlResultSetEquals("全件検索", "testSelectAll", "expected", actual);
+          support.assertSqlResultSetEquals("全件検索", "testSelectAll", "expected", actual);
       }
   }
 
@@ -198,23 +172,25 @@
 
 .. code-block:: java
 
-  public class EmployeeDbAccessTest extends DbAccessTestSupport {
+  @DbAccessTest
+  class EmployeeDbAccessTest {
+      DbAccessTestSupport support;
 
       /** 期限切れの従業員データを削除できることを確認する。 */
       @Test
-      public void testDeleteExpired() {
+      void testDeleteExpired() {
           // データベースに準備データを登録する
-          setUpDb("testDeleteExpired");
+          support.setUpDb("testDeleteExpired");
 
           // テスト対象メソッドを起動する
           EmployeeDbAccess target = new EmployeeDbAccess();
           target.deleteExpired();
 
           // トランザクションをコミットする
-          commitTransactions();
+          support.commitTransactions();
 
           // テストデータに記述した期待値とテーブルの状態が等しいことを確認する
-          assertTableEquals("testDeleteExpired");
+          support.assertTableEquals("testDeleteExpired");
       }
   }
 
@@ -225,9 +201,9 @@ ThreadContextに値を設定する
 .. code-block:: java
 
   @Test
-  public void testInsert() {
+  void testInsert() {
       // ThreadContextに値を設定する（引数は読み込み単位の名前とID）
-      setThreadContextValues("testInsert", "threadContext");
+      support.setThreadContextValues("testInsert", "threadContext");
 
       // 中略
   }
@@ -245,9 +221,9 @@ ThreadContextに値を設定する
 .. code-block:: java
 
   @Test
-  public void testGetName() {
+  void testGetName() {
       // テストデータから値を取得する
-      List<Map<String, String>> parameters = getListMap("testGetName", "parameters");
+      List<Map<String, String>> parameters = support.getListMap("testGetName", "parameters");
       Map<String, String> param = parameters.get(0);
 
       // 引数および期待値を取得する
@@ -269,10 +245,10 @@ ThreadContextに値を設定する
 .. code-block:: java
 
   @Test
-  public void testSelectByPk() {
-      setUpDb("testSelectByPk");
+  void testSelectByPk() {
+      support.setUpDb("testSelectByPk");
 
-      List<Map<String, String>> parameters = getListMap("testSelectByPk", "parameters");
+      List<Map<String, String>> parameters = support.getListMap("testSelectByPk", "parameters");
 
       for (Map<String, String> param : parameters) {
           // 引数および期待値のIDを取得する
@@ -282,7 +258,7 @@ ThreadContextに値を設定する
           EmployeeComponent target = new EmployeeComponent();
           SqlResultSet actual = target.selectByPk(empNo);
 
-          assertSqlResultSetEquals("主キー検索", "testSelectByPk", expectedDataId, actual);
+          support.assertSqlResultSetEquals("主キー検索", "testSelectByPk", expectedDataId, actual);
       }
   }
 
@@ -297,10 +273,10 @@ ThreadContextに値を設定する
 .. code-block:: java
 
   // グループIDが"case_001"の準備データだけを登録する
-  setUpDb("testUpdate", "case_001");
+  support.setUpDb("testUpdate", "case_001");
 
   // グループIDが"case_001"の期待値だけを確認の対象にする
-  assertTableEquals("従業員更新", "testUpdate", "case_001");
+  support.assertTableEquals("従業員更新", "testUpdate", "case_001");
 
 グループ\ ID\ の記述方法は\ :ref:`グループIDによる使い分け <testdata_notation-group_id>`\ を参照。
 
@@ -354,7 +330,7 @@ ThreadContextに値を設定する
 .. code-block:: java
 
   @Test
-  public void testRegisterUserDuplicated() {
+  void testRegisterUserDuplicated() {
       // 中略
 
       try {

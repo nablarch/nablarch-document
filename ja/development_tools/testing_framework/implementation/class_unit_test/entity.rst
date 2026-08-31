@@ -12,7 +12,7 @@
 
 エンティティ単体テストは、\ Form\ クラスと\ Entity\ クラスを対象とするクラス単体テストである。テスティングフレームワークが入力値の生成・バリデーションの実行・結果の確認を行うため、プロパティごとの条件をテストデータに記述するだけで、文字種と文字列長を網羅したテストを実施できる。
 
-テストクラスは\ :java:extdoc:`EntityTestSupport <nablarch.test.core.db.EntityTestSupport>`\ を継承して作成する。入力値・期待するバリデーションメッセージ・期待値はテストデータに記述し、テストクラスにはスーパクラスのメソッドを呼び出すテストコードだけを書く。バリデーションの実行と結果の確認は、呼び出したメソッドの内部で行われる。
+テストクラスは\ :java:extdoc:`EntityTestSupport <nablarch.test.core.db.EntityTestSupport>`\ をインジェクションして作成する。入力値・期待するバリデーションメッセージ・期待値はテストデータに記述し、テストクラスにはサポートクラスのメソッドを呼び出すテストコードだけを書く。バリデーションの実行と結果の確認は、呼び出したメソッドの内部で行われる。
 
 このページで扱う主なクラスとリソースを次に示す。
 
@@ -24,7 +24,7 @@
     - 役割
     - 作成単位
   * - テストクラス
-    - テストデータの読み込み単位を指定して、スーパクラスのメソッドを呼び出す。
+    - テストデータの読み込み単位を指定して、サポートクラスのメソッドを呼び出す。
     - テスト対象クラスにつき1つ作成する。
   * - テストデータ
     - 入力値・期待するバリデーションメッセージ・期待値を記述する。
@@ -83,30 +83,34 @@
 
 * パッケージは、テスト対象のクラスと同じとする。
 * クラス名は\ ``<テスト対象クラス名>Test``\ とする。
-* :java:extdoc:`EntityTestSupport <nablarch.test.core.db.EntityTestSupport>`\ を継承する。
+* :java:extdoc:`EntityTest <nablarch.test.junit5.extension.db.EntityTest>`\ をテストクラスに設定し、\ :java:extdoc:`EntityTestSupport <nablarch.test.core.db.EntityTestSupport>`\ 型のフィールドを宣言する。
 
 .. code-block:: java
 
   package com.example.web.form;   // テスト対象クラスと同じパッケージ
 
   import nablarch.test.core.db.EntityTestSupport;
-  import org.junit.Test;
+  import nablarch.test.junit5.extension.db.EntityTest;
+  import org.junit.jupiter.api.Test;
 
-  public class UserRegistrationFormTest extends EntityTestSupport {
+  @EntityTest
+  class UserRegistrationFormTest {
+
+      EntityTestSupport support;
 
       /** テスト対象クラス。 */
-      private static final Class<?> TARGET_CLASS = UserRegistrationForm.class;
+      static final Class<?> TARGET_CLASS = UserRegistrationForm.class;
 
       // テストメソッドは後述
   }
 
 .. tip::
 
-  JUnit 5\ でテストを書く場合は、継承ではなくインジェクションでテスティングフレームワークの機能を使用する（\ :ref:`JUnit 5用拡張機能 <junit5_extension>`\ ）。
+  JUnit 4\ でテストを書く場合は、インジェクションではなく継承でテスティングフレームワークの機能を使用する（\ :ref:`JUnit 4で使用する <junit4_support>`\ ）。
 
 テストメソッドを作成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-確認する対象ごとに、テストデータに用意するカラムと、呼び出すスーパクラスのメソッドを示す。テストメソッドには、テストデータの読み込み単位の名前とデータブロックの\ ID\ を指定してスーパクラスのメソッドを呼び出すコードだけを書く。両方のバリデーション方式に共通する3つを先に示し、続いて方式ごとに固有の3つを示す。
+確認する対象ごとに、テストデータに用意するカラムと、呼び出すサポートクラスのメソッドを示す。テストメソッドには、テストデータの読み込み単位の名前とデータブロックの\ ID\ を指定してサポートクラスのメソッドを呼び出すコードだけを書く。両方のバリデーション方式に共通する3つを先に示し、続いて方式ごとに固有の3つを示す。
 
 文字種と文字列長をテストする
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -232,7 +236,7 @@ Bean Validation\ での記載例を次に示す。
     - （該当なし）
     - ``minMessageId``\ （\ Bean Validation\ の場合のみ。\ Nablarch Validation\ では\ ``max``\ を省略できない）
 
-スーパクラスの次のメソッドを起動すると、テストデータの1行ごとに、次表の観点でテストが実行される。
+サポートクラスの次のメソッドを起動すると、テストデータの1行ごとに、次表の観点でテストが実行される。
 
 .. code-block:: java
 
@@ -276,10 +280,10 @@ Bean Validation\ での記載例を次に示す。
 
   /** 文字種と文字列長の単項目バリデーション */
   @Test
-  public void testCharsetAndLength() {
+  void testCharsetAndLength() {
       String sheetName = "testCharsetAndLength";
       String id = "charsetAndLength";
-      testValidateCharsetAndLength(TARGET_CLASS, sheetName, id);
+      support.testValidateCharsetAndLength(TARGET_CLASS, sheetName, id);
   }
 
 その他の単項目バリデーションをテストする
@@ -319,7 +323,7 @@ Bean Validation\ での記載例を次に示す。
 
 ``propertyName``\ ・\ ``input1``\ ・\ ``messageId``\ は必須のカラムである。メッセージの記載形式は、文字種と文字列長のテストと同じである。入力値は\ :ref:`null・空文字・改行など特殊な値を記述する <testdata_notation-special_notation>`\ の特殊記法を使うと効率よく作成できる。
 
-スーパクラスの次のメソッドを起動する。
+サポートクラスの次のメソッドを起動する。
 
 .. code-block:: java
 
@@ -329,10 +333,10 @@ Bean Validation\ での記載例を次に示す。
 
   /** その他の単項目バリデーション */
   @Test
-  public void testSingleValidation() {
+  void testSingleValidation() {
       String sheetName = "testSingleValidation";
       String id = "singleValidation";
-      testSingleValidation(TARGET_CLASS, sheetName, id);
+      support.testSingleValidation(TARGET_CLASS, sheetName, id);
   }
 
 setterとgetterをテストする
@@ -354,7 +358,7 @@ setter\ で設定した値が\ getter\ で期待どおりに取得できるこ�
   * - ``get``
     - getter\ から取得される期待値。空欄にした行は確認しない。
 
-スーパクラスの次のメソッドを起動する。テスト対象クラスのインスタンスを生成し、\ ``set``\ の値を\ setter\ で設定したうえで、\ getter\ から取得した値が\ ``get``\ の値と等しいことを確認する。
+サポートクラスの次のメソッドを起動する。テスト対象クラスのインスタンスを生成し、\ ``set``\ の値を\ setter\ で設定したうえで、\ getter\ から取得した値が\ ``get``\ の値と等しいことを確認する。
 
 .. code-block:: java
 
@@ -364,10 +368,10 @@ setter\ で設定した値が\ getter\ で期待どおりに取得できるこ�
 
   /** setterとgetterのテスト */
   @Test
-  public void testSetterAndGetter() {
+  void testSetterAndGetter() {
       String sheetName = "testSetterAndGetter";
       String id = "setterAndGetter";
-      testSetterAndGetter(TARGET_CLASS, sheetName, id);
+      support.testSetterAndGetter(TARGET_CLASS, sheetName, id);
   }
 
 .. important::
@@ -389,14 +393,14 @@ setter\ で設定した値が\ getter\ で期待どおりに取得できるこ�
 
     /** setterとgetterのテスト */
     @Test
-    public void testSetterAndGetter() {
+    void testSetterAndGetter() {
         String sheetName = "testSetterAndGetter";
 
         // 共通にテストできるプロパティ
-        testSetterAndGetter(TARGET_CLASS, sheetName, "setterAndGetter");
+        support.testSetterAndGetter(TARGET_CLASS, sheetName, "setterAndGetter");
 
         // 共通にテストできないプロパティ
-        Map<String, String[]> data = getParamMap(sheetName, "setterAndGetterOther");
+        Map<String, String[]> data = support.getParamMap(sheetName, "setterAndGetterOther");
         UserRegistrationForm form = new UserRegistrationForm();
         form.setUsers(Arrays.asList(data.get("set")));
         assertEquals(Arrays.asList(data.get("get")), form.getUsers());
@@ -454,7 +458,7 @@ setter\ で設定した値が\ getter\ で期待どおりに取得できるこ�
 
     sampleForm.userTelArray[0].telNoArea
 
-スーパクラスの次のメソッドを起動する。テストショット一覧の\ ID\ は\ ``testShots``\ で固定であるため、引数に\ ID\ を指定しない。
+サポートクラスの次のメソッドを起動する。テストショット一覧の\ ID\ は\ ``testShots``\ で固定であるため、引数に\ ID\ を指定しない。
 
 .. code-block:: java
 
@@ -464,9 +468,9 @@ setter\ で設定した値が\ getter\ で期待どおりに取得できるこ�
 
   /** 相関バリデーションのテスト */
   @Test
-  public void testWholeFormValidation() {
+  void testWholeFormValidation() {
       String sheetName = "testWholeFormValidation";
-      testBeanValidation(TARGET_CLASS, sheetName);
+      support.testBeanValidation(TARGET_CLASS, sheetName);
   }
 
 バリデーションメソッドをテストする
@@ -484,7 +488,7 @@ setter\ で設定した値が\ getter\ で期待どおりに取得できるこ�
 
   バリデーション対象プロパティが誤ってバリデーション対象から漏れていた場合、期待したメッセージが出力されないためメッセージ\ ID\ の確認が失敗する。逆にバリデーション対象でないプロパティが誤ってバリデーション対象になっていた場合は、入力値が不正であるため単項目バリデーションが失敗し、期待しないメッセージが出力される。これによりバリデーション対象の誤りを検出できる。
 
-スーパクラスの次のメソッドを起動する。\ ``validateFor``\ には、\ ``@ValidateFor``\ に指定した値を渡す。
+サポートクラスの次のメソッドを起動する。\ ``validateFor``\ には、\ ``@ValidateFor``\ に指定した値を渡す。
 
 .. code-block:: java
 
@@ -493,14 +497,14 @@ setter\ で設定した値が\ getter\ で期待どおりに取得できるこ�
 .. code-block:: java
 
   /** テスト対象エンティティクラス */
-  private static final Class<SystemAccountEntity> ENTITY_CLASS = SystemAccountEntity.class;
+  static final Class<SystemAccountEntity> ENTITY_CLASS = SystemAccountEntity.class;
 
   /** バリデーションメソッドのテスト */
   @Test
-  public void testValidateForRegisterUser() {
+  void testValidateForRegisterUser() {
       String sheetName = "testValidateForRegisterUser";
       String validateFor = "registerUser";
-      testValidateAndConvert(ENTITY_CLASS, sheetName, validateFor);
+      support.testValidateAndConvert(ENTITY_CLASS, sheetName, validateFor);
   }
 
 コンストラクタをテストする
@@ -509,7 +513,7 @@ setter\ で設定した値が\ getter\ で期待どおりに取得できるこ�
 
 テストデータの記述方法は、前述の\ setter\ と\ getter\ のテストと同じである。\ ``name``\ ・\ ``set``\ ・\ ``get``\ のカラムを持つ\ ``LIST_MAP``\ のデータブロックとして記述する。\ ``set``\ に記載した値がコンストラクタの引数となり、\ ``get``\ に記載した値が\ getter\ から取得される期待値となる。テストできるプロパティの型の制限も、\ setter\ と\ getter\ のテストと同じである。
 
-スーパクラスの次のメソッドを起動する。
+サポートクラスの次のメソッドを起動する。
 
 .. code-block:: java
 
@@ -519,10 +523,10 @@ setter\ で設定した値が\ getter\ で期待どおりに取得できるこ�
 
   /** コンストラクタのテスト */
   @Test
-  public void testConstructor() {
+  void testConstructor() {
       String sheetName = "testAccessor";
       String id = "testConstructor";
-      testConstructorAndGetter(ENTITY_CLASS, sheetName, id);
+      support.testConstructorAndGetter(ENTITY_CLASS, sheetName, id);
   }
 
 .. important::
@@ -543,7 +547,7 @@ setter\ で設定した値が\ getter\ で期待どおりに取得できるこ�
 
 テスト結果を確認する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-バリデーションの実行結果と\ getter\ の戻り値の確認は、起動したスーパクラスのメソッドの内部で行われる。テストメソッドに確認のコードを書く必要はない。ただし、\ setter\ と\ getter\ のテストで型の制限に該当しないプロパティを個別にテストする場合は、\ JUnit\ の\ ``assertEquals``\ などで確認する。
+バリデーションの実行結果と\ getter\ の戻り値の確認は、起動したサポートクラスのメソッドの内部で行われる。テストメソッドに確認のコードを書く必要はない。ただし、\ setter\ と\ getter\ のテストで型の制限に該当しないプロパティを個別にテストする場合は、\ JUnit\ の\ ``assertEquals``\ などで確認する。
 
 テストが失敗した場合、どのテストショットが失敗したかを特定できるように、次の情報がメッセージとして出力される。
 

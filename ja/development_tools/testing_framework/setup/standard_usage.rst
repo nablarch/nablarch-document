@@ -150,6 +150,8 @@ Extensionクラスと合成アノテーションは\ ``nablarch-testing-junit5``
 
 テストデータのシート名とIDの対応は、\ :ref:`テストクラスとテストデータの対応 <testdata_notation-file_structure>`\ を参照。
 
+.. _standard_usage-base_uri:
+
 BasicHttpRequestTestTemplateを使用する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :java:extdoc:`BasicHttpRequestTestTemplate <nablarch.test.core.http.BasicHttpRequestTestTemplate>`\ を使用する場合だけは、合成アノテーション\ :java:extdoc:`BasicHttpRequestTest <nablarch.test.junit5.extension.http.BasicHttpRequestTest>`\ に\ ``baseUri``\ を指定する。\ ``baseUri``\ の指定以外の手順は、\ :ref:`テストクラスに合成アノテーションを設定する <standard_usage-inject>`\ と同じである。
@@ -198,6 +200,8 @@ Extensionクラスは、合成アノテーションを使わず、JUnit 5の\ ``
 .. tip::
 
   ``RegisterExtension``\ については、\ `公式のユーザガイドの「5.2.2. Programmatic Extension Registration」(外部サイト、英語) <https://junit.org/junit5/docs/5.11.0/user-guide/#extensions-registration-programmatic>`_\ を参照。
+
+.. _standard_usage-extension:
 
 拡張例
 --------------------------------------------------

@@ -25,7 +25,7 @@ Nablarchバッチアプリケーションの取引単体テストは、1つの�
 
 * パッケージは、テスト対象の取引のパッケージとする。
 * クラス名は\ ``<取引ID>Test``\ とする。
-* :java:extdoc:`BatchRequestTestSupport <nablarch.test.core.batch.BatchRequestTestSupport>`\ を継承する。
+* :java:extdoc:`BatchRequestTest <nablarch.test.junit5.extension.batch.BatchRequestTest>`\ をテストクラスに設定し、\ :java:extdoc:`BatchRequestTestSupport <nablarch.test.core.batch.BatchRequestTestSupport>`\ 型のフィールドを宣言する。
 
 取引\ ID\ が\ ``B21AC01``\ の場合、テストクラスは次のようになる。
 
@@ -34,47 +34,53 @@ Nablarchバッチアプリケーションの取引単体テストは、1つの�
   package nablarch.sample.ss21AC01;
 
   import nablarch.test.core.batch.BatchRequestTestSupport;
+  import nablarch.test.junit5.extension.batch.BatchRequestTest;
 
   // 中略
 
-  public class B21AC01Test extends BatchRequestTestSupport {
+  @BatchRequestTest
+  class B21AC01Test {
+      BatchRequestTestSupport support;
   }
 
 テストメソッドを作成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1つの取引は、1つのテストメソッドの中で実行する。テストメソッドから\ ``execute``\ を呼ぶと、読み込み単位に記述したテストショットが上から順に実行される。
+1つの取引は、1つのテストメソッドの中で実行する。テストメソッドから\ ``execute``\ を呼ぶと、引数に渡した読み込み単位に記述したテストショットが上から順に実行される。読み込み単位の名前は、テストメソッド名と同じにする。
 
 .. code-block:: java
 
   /** 正常終了するテスト */
   @Test
-  public void testSuccess() {
-      execute();
+  void testSuccess() {
+      support.execute("testSuccess");
   }
 
-引数なしの\ ``execute``\ は、テストメソッド名と同じ名前の読み込み単位を読み込む。読み込み単位を複数に分ける場合は、読み込み単位の名前を引数に渡した\ ``execute``\ を、読み込み単位の数だけ呼ぶ。
+読み込み単位を複数に分ける場合は、それぞれの名前を引数に渡した\ ``execute``\ を、読み込み単位の数だけ呼ぶ。
 
 .. code-block:: java
 
   package nablarch.sample.ss21AA01;
 
-  import org.junit.Test;
+  import org.junit.jupiter.api.Test;
   import nablarch.test.core.batch.BatchRequestTestSupport;
+  import nablarch.test.junit5.extension.batch.BatchRequestTest;
 
   // 中略
 
-  public class B21AA01Test extends BatchRequestTestSupport {
+  @BatchRequestTest
+  class B21AA01Test {
+      BatchRequestTestSupport support;
 
       @Test
-      public void testSuccess() {
+      void testSuccess() {
           // 入力ファイルをテンポラリテーブルに登録
-          execute("testSuccess_fileInput");
+          support.execute("testSuccess_fileInput");
 
           // テンポラリテーブルの情報をもとにユーザ関連テーブルを削除
-          execute("testSuccess_userDelete");
+          support.execute("testSuccess_userDelete");
 
           // 結果をファイル出力
-          execute("testSuccess_fileOutput");
+          support.execute("testSuccess_fileOutput");
       }
   }
 
@@ -86,7 +92,7 @@ Nablarchバッチアプリケーションの取引単体テストは、1つの�
 
 以降では、次の3つの書き方を\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
 
-* **1つの読み込み単位にまとめる**\ 。原則どおりの書き方である。ファイル入力・ユーザ削除・ファイル出力の3つの処理で構成される取引（取引\ ID\ は\ ``B21AC01``\ ）を、3件のテストショットとして1つの読み込み単位に記述する。テストメソッドは引数なしの\ ``execute``\ を1回呼ぶだけであり、読み込み単位の名前はテストメソッド名と同じ\ ``testSuccess``\ になる
+* **1つの読み込み単位にまとめる**\ 。原則どおりの書き方である。ファイル入力・ユーザ削除・ファイル出力の3つの処理で構成される取引（取引\ ID\ は\ ``B21AC01``\ ）を、3件のテストショットとして1つの読み込み単位に記述する。テストメソッドは\ ``execute``\ を1回呼ぶだけであり、読み込み単位の名前はテストメソッド名と同じ\ ``testSuccess``\ にする
 * **複数の読み込み単位に分割する**\ 。1つ目の例外である。同じ構成の取引（取引\ ID\ は\ ``B21AA01``\ ）を、処理ごとに\ ``testSuccess_fileInput``\ ・\ ``testSuccess_userDelete``\ ・\ ``testSuccess_fileOutput``\ の3つの読み込み単位に分ける。テストメソッドからは、それぞれの名前を引数に渡して\ ``execute``\ を呼ぶ
 * **1つの読み込み単位に複数のテストを含める**\ 。2つ目の例外である。通常の入力と入力データが0件の場合という2つのテストを、1つの読み込み単位に記述する。テストショット番号は\ ``1-1``\ ・\ ``1-2``\ ・\ ``2-1``\ ・\ ``2-2``\ のように「テストの番号 - 取引内での順序」の形で付ける
 

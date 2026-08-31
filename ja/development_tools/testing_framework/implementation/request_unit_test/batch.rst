@@ -14,7 +14,7 @@ Nablarch\ バッチアプリケーションのリクエスト単体テストで�
 
 テスティングフレームワークは、テスト用のメインクラスからテスト対象のバッチを起動する。テストクラスにはテストを起動するコードだけを書き、実行するテストショット・準備データ・入力ファイル・期待値はテストデータに記述する。
 
-テストクラスは、\ ``BatchRequestTestSupport``\ を継承して作成する。スーパクラスがテストデータを読み取り、テストショットを1件ずつ実行する。テスト用のメインクラス\ ``MainForRequestTesting``\ を通じて\ Nablarch Application Framework\ が起動され、テスト対象のアプリケーションが実行される。準備データの投入とテスト結果の確認は、テーブルについては\ ``DbAccessTestSupport``\ が、ファイルについては\ ``FileSupport``\ が行う。
+テストクラスは、\ ``BatchRequestTestSupport``\ をインジェクションして作成する。このサポートクラスがテストデータを読み取り、テストショットを1件ずつ実行する。テスト用のメインクラス\ ``MainForRequestTesting``\ を通じて\ Nablarch Application Framework\ が起動され、テスト対象のアプリケーションが実行される。準備データの投入とテスト結果の確認は、テーブルについては\ ``DbAccessTestSupport``\ が、ファイルについては\ ``FileSupport``\ が行う。
 
 .. image:: images/batch/request_test_components.png
 
@@ -63,7 +63,7 @@ Nablarch\ バッチアプリケーションのリクエスト単体テストは�
 
 * パッケージは、テスト対象の\ Action\ クラスと同じとする。
 * クラス名は\ ``<Actionクラス名>RequestTest``\ とする。
-* :java:extdoc:`BatchRequestTestSupport <nablarch.test.core.batch.BatchRequestTestSupport>`\ を継承する。
+* :java:extdoc:`BatchRequestTest <nablarch.test.junit5.extension.batch.BatchRequestTest>`\ をテストクラスに設定し、\ :java:extdoc:`BatchRequestTestSupport <nablarch.test.core.batch.BatchRequestTestSupport>`\ 型のフィールドを宣言する。
 
 テスト対象の\ Action\ クラスが\ ``nablarch.sample.ss21AA.RM21AA001Action``\ の場合、テストクラスは次のようになる。
 
@@ -72,8 +72,12 @@ Nablarch\ バッチアプリケーションのリクエスト単体テストは�
   package nablarch.sample.ss21AA;
 
   import nablarch.test.core.batch.BatchRequestTestSupport;
+  import nablarch.test.junit5.extension.batch.BatchRequestTest;
 
-  public class RM21AA001ActionRequestTest extends BatchRequestTestSupport {
+  @BatchRequestTest
+  class RM21AA001ActionRequestTest {
+      BatchRequestTestSupport support;
+
       // 中略
   }
 
@@ -81,7 +85,7 @@ Nablarch\ バッチアプリケーションのリクエスト単体テストは�
 
 * パッケージは、テスト対象機能のパッケージとする。
 * クラス名は\ ``<電文のリクエストID>RequestTest``\ とする。
-* :java:extdoc:`BatchRequestTestSupport <nablarch.test.core.batch.BatchRequestTestSupport>`\ を継承する。
+* :java:extdoc:`BatchRequestTest <nablarch.test.junit5.extension.batch.BatchRequestTest>`\ をテストクラスに設定し、\ :java:extdoc:`BatchRequestTestSupport <nablarch.test.core.batch.BatchRequestTestSupport>`\ 型のフィールドを宣言する。
 
 テスト対象機能のパッケージが\ ``nablarch.sample.ss21AA``\ 、電文のリクエスト\ ID\ が\ ``RM11AC0301``\ の場合、テストクラスは次のようになる。
 
@@ -90,14 +94,18 @@ Nablarch\ バッチアプリケーションのリクエスト単体テストは�
   package nablarch.sample.ss21AA;
 
   import nablarch.test.core.batch.BatchRequestTestSupport;
+  import nablarch.test.junit5.extension.batch.BatchRequestTest;
 
-  public class RM11AC0301RequestTest extends BatchRequestTestSupport {
+  @BatchRequestTest
+  class RM11AC0301RequestTest {
+      BatchRequestTestSupport support;
+
       // 中略
   }
 
 .. tip::
 
-  JUnit 5\ でテストを書く場合は、継承ではなくインジェクションでテスティングフレームワークの機能を使用する（\ :ref:`JUnit 5用拡張機能 <junit5_extension>`\ ）。
+  JUnit 4\ でテストを書く場合は、インジェクションではなく継承でテスティングフレームワークの機能を使用する（\ :ref:`JUnit 4で使用する <junit4_support>`\ ）。
 
 テストメソッドを作成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -108,22 +116,22 @@ Nablarch\ バッチアプリケーションのリクエスト単体テストは�
 * テストショット間の関連が強く、読み込み単位を分けると可読性が下がる場合（例えば、入力ファイルのフォーマットチェックのテストショット）
 * テストデータが少量であり、1つの読み込み単位に記述しても可読性・保守性に影響しない場合
 
-テストメソッドでは、スーパクラスの\ ``execute``\ を呼び出す。
+テストメソッドでは、サポートクラスの\ ``execute``\ を呼び出す。引数には、読み込む読み込み単位の名前を渡す。
 
 .. code-block:: java
 
   @Test
-  public void testRegisterUser() {
-      execute();
+  void testRegisterUser() {
+      support.execute("testRegisterUser");
   }
 
-引数なしの\ ``execute``\ は、テストメソッド名と同じ名前の読み込み単位を読み込む。読み込み単位の名前をテストメソッド名と別にする場合は、読み込み単位の名前を引数に渡した\ ``execute``\ を呼ぶ。
+読み込み単位の名前は、テストメソッド名と同じにする。テストメソッドとテストデータの対応が読み取りやすくなるためである。別の名前を読み込む場合は、その名前を引数に渡す。
 
 .. code-block:: java
 
   @Test
-  public void testRegister() {
-      execute("testRegisterUser");   // 引数なしの execute() は execute("testRegister") を読み込む
+  void testRegister() {
+      support.execute("testRegisterUser");   // 読み込み単位 testRegisterUser を読み込む
   }
 
 テストデータを作成する

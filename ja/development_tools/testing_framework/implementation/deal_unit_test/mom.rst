@@ -43,7 +43,7 @@ MOM\ によるメッセージングの取引単体テストは、テスト対象
 
 * パッケージは、テスト対象の取引のパッケージとする。
 * クラス名は\ ``<取引ID>Test``\ とする。
-* :java:extdoc:`MessagingRequestTestSupport <nablarch.test.core.messaging.MessagingRequestTestSupport>`\ を継承する。
+* :java:extdoc:`MessagingRequestTest <nablarch.test.junit5.extension.messaging.MessagingRequestTest>`\ をテストクラスに設定し、\ :java:extdoc:`MessagingRequestTestSupport <nablarch.test.core.messaging.MessagingRequestTestSupport>`\ 型のフィールドを宣言する。
 
 取引\ ID\ が\ ``M21AA03``\ の場合、テストクラスは次のようになる。
 
@@ -52,8 +52,12 @@ MOM\ によるメッセージングの取引単体テストは、テスト対象
   package nablarch.sample.ss21AA03;
 
   import nablarch.test.core.messaging.MessagingRequestTestSupport;
+  import nablarch.test.junit5.extension.messaging.MessagingRequestTest;
 
-  public class M21AA03Test extends MessagingRequestTestSupport {
+  @MessagingRequestTest
+  class M21AA03Test {
+      MessagingRequestTestSupport support;
+
       // 中略
   }
 

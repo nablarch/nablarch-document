@@ -33,7 +33,7 @@
     - テスト対象のクラス。\ Action\ 以降の業務ロジックを実装する各クラスを含む。
     - 取引につき1クラス作成する。
   * - ``BasicHttpRequestTestTemplate``
-    - テストショットを1件ずつ実行する定型処理を提供する。テストクラスのスーパクラスになる。
+    - テストショットを1件ずつ実行する定型処理を提供する。テストクラスにインジェクションされる。
     - －
   * - ``TestCaseInfo``
     - テストデータに定義されたテストショットの情報を保持する。
@@ -54,19 +54,19 @@
 使用方法
 --------------------------------------------------
 
-リクエスト単体テストは、テスティングフレームワークが用意したスーパクラスを継承してテストクラスを作成し、\ ``@Test``\ を付与したテストメソッドの中でスーパクラスの\ ``execute``\ を呼び出す形で実装する。
+リクエスト単体テストは、テスティングフレームワークが用意したサポートクラスをインジェクションするテストクラスを作成し、\ ``@Test``\ を付与したテストメソッドの中でサポートクラスの\ ``execute``\ を呼び出す形で実装する。
 
 テストクラスを作成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-テストクラスは、スーパクラスを継承し、テスト対象の\ URI\ を返すメソッドを実装して作成する。ここでは、スーパクラスの継承、ベース\ URI\ を返すメソッドの実装、ハンドラが行うためテストクラスに書かなくてよい処理の3つを説明する。
+テストクラスは、合成アノテーションを設定し、テスト対象のベース\ URI\ を指定して作成する。ここでは、サポートクラスのインジェクション、ベース\ URI\ の指定、ハンドラが行うためテストクラスに書かなくてよい処理の3つを説明する。
 
-スーパクラスを継承する
+サポートクラスをインジェクションする
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 テストクラスは、次の条件を満たすように作成する。
 
 * パッケージは、テスト対象の\ Action\ クラスと同じにする。
 * クラス名は\ ``<Actionクラス名>RequestTest``\ とする。
-* \ :java:extdoc:`BasicHttpRequestTestTemplate <nablarch.test.core.http.BasicHttpRequestTestTemplate>`\ を継承する。プロジェクトで拡張したテンプレートの実装がある場合は、そちらを継承する。
+* \ :java:extdoc:`BasicHttpRequestTest <nablarch.test.junit5.extension.http.BasicHttpRequestTest>`\ をテストクラスに設定し、\ :java:extdoc:`BasicHttpRequestTestTemplate <nablarch.test.core.http.BasicHttpRequestTestTemplate>`\ 型のフィールドを宣言する。プロジェクトで拡張したテンプレートの実装がある場合は、その型のフィールドと、対応する合成アノテーションを使用する（\ :ref:`拡張例 <standard_usage-extension>`\ ）。
 
 テスト対象の\ Action\ クラスが\ ``nablarch.sample.management.user.UserSearchAction``\ である場合、テストクラスは次のようになる。
 
@@ -76,7 +76,10 @@
 
   // 中略
 
-  public class UserSearchActionRequestTest extends BasicHttpRequestTestTemplate {
+  @BasicHttpRequestTest(baseUri = "/action/management/user/UserSearchAction/")
+  class UserSearchActionRequestTest {
+
+      BasicHttpRequestTestTemplate support;
 
       // 中略
 
@@ -84,9 +87,9 @@
 
 .. tip::
 
-  JUnit 5\ でテストを書く場合は、継承ではなくインジェクションでテスティングフレームワークの機能を使用する（\ :ref:`JUnit 5用拡張機能 <junit5_extension>`\ ）。
+  JUnit 4\ でテストを書く場合は、インジェクションではなく継承でテスティングフレームワークの機能を使用する（\ :ref:`JUnit 4で使用する <junit4_support>`\ ）。
 
-スーパクラスは、テストデータに記述したテストショットを次の手順で1件ずつ実行する。テストクラス全体で共通する準備データ（\ ``setUpDb``\ ）は、この繰り返しに入る前に1回だけ投入される。
+サポートクラスは、テストデータに記述したテストショットを次の手順で1件ずつ実行する。テストクラス全体で共通する準備データ（\ ``setUpDb``\ ）は、この繰り返しに入る前に1回だけ投入される。
 
 * テストデータからテストショット一覧（\ ``testShots``\ ）を取得する。
 * 取得したテストショットの件数分、次を繰り返す。
@@ -105,26 +108,11 @@
 
   \ ``HttpRequestTestSupport``\ は、内蔵サーバの起動機能と、リクエスト単体テストで必要となるアサートを提供する。データベースを使用するテストに必要な機能は、このクラスが\ :java:extdoc:`DbAccessTestSupport <nablarch.test.core.db.DbAccessTestSupport>`\ へ処理を委譲することで実現している。このため、準備データの投入やテーブルの検証は\ :ref:`コンポーネント単体テスト <component_unit_test>`\ と同じように行える。
 
-ベースURIを返すメソッドを実装する
+ベースURIを指定する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-スーパクラスには抽象メソッド\ ``getBaseUri``\ が定義されているため、テストクラスでオーバーライドする。リクエスト送信先の\ URI\ は、このメソッドが返す値と、テストショットで指定したリクエスト\ ID\ を連結して組み立てられる。リクエスト\ ID\ の指定方法は\ :ref:`テストショット一覧（testShots）を記述する <testdata_notation-test_shots>`\ を参照。
+ベース\ URI\ は、前項の例のように、合成アノテーション\ :java:extdoc:`BasicHttpRequestTest <nablarch.test.junit5.extension.http.BasicHttpRequestTest>`\ の\ ``baseUri``\ 属性へ指定する。リクエスト送信先の\ URI\ は、ここに指定した値と、テストショットで指定したリクエスト\ ID\ を連結して組み立てられる。リクエスト\ ID\ の指定方法は\ :ref:`テストショット一覧（testShots）を記述する <testdata_notation-test_shots>`\ を参照。
 
-.. code-block:: java
-
-  public class UserSearchActionRequestTest extends BasicHttpRequestTestTemplate {
-
-      /**
-       * {@inheritDoc}
-       * URIの共通部分を返す。
-       */
-      @Override
-      protected String getBaseUri() {
-          return "/action/management/user/UserSearchAction/";
-      }
-
-      // 中略
-
-  }
+指定した値の扱いは\ :ref:`BasicHttpRequestTestTemplateを使用する <standard_usage-base_uri>`\ を参照。
 
 ハンドラが行う処理をテストクラスから省く
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -170,13 +158,13 @@
 
 テストを実行するメソッドを呼び出す
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-テストメソッドには\ ``@Test``\ を付与し、その中でスーパクラスの\ ``execute``\ を呼び出す。実行前後に固有の処理が不要な場合は、引数のない\ ``execute``\ を使用する。
+テストメソッドには\ ``@Test``\ を付与し、その中でサポートクラスの\ ``execute``\ を呼び出す。実行前後に固有の処理が不要な場合は、引数のない\ ``execute``\ を使用する。
 
 .. code-block:: java
 
   @Test
-  public void testUsers00101Normal() {
-      execute();
+  void testUsers00101Normal() {
+      support.execute();
   }
 
 引数のない\ ``execute``\ は、テストメソッド名と同じ名前の読み込み単位を読み込む。読み込み単位の名前をテストメソッド名と変えたい場合は、読み込み単位の名前を引数に取るオーバーロードメソッドを呼び出す。
@@ -194,7 +182,7 @@
 
 実行前後に固有の処理を挿し込む
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-スーパクラスは、どのテストショットでも必要になる処理を定型化している。テストショットによっては、これに加えて固有の処理が必要になる。リクエストスコープに格納されたエンティティの内容を確認したい場合などである。
+サポートクラスは、どのテストショットでも必要になる処理を定型化している。テストショットによっては、これに加えて固有の処理が必要になる。リクエストスコープに格納されたエンティティの内容を確認したい場合などである。
 
 固有の準備処理や結果確認処理が必要な場合は、\ :java:extdoc:`Advice <nablarch.test.core.http.Advice>`\ を引数に取るオーバーロードメソッドを呼び出し、リクエストの送信前後に処理を挿し込む。\ :java:extdoc:`BasicAdvice <nablarch.test.core.http.BasicAdvice>`\ には次の2つのメソッドが用意されており、それぞれリクエストの送信前と送信後に呼び出される。
 
@@ -208,8 +196,8 @@
 .. code-block:: java
 
   @Test
-  public void testMenus00102Normal() {
-      execute(new BasicAdvice() {
+  void testMenus00102Normal() {
+      support.execute(new BasicAdvice() {
           // リクエストの送信前に呼び出される
           @Override
           public void beforeExecute(TestCaseInfo testCaseInfo,
@@ -253,9 +241,9 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 二重サブミット防止機能（\ :ref:`二重サブミットを防ぐ <tag-double_submission>`\ ）は、サーバサイドとクライアントサイドの両方で動作する。リクエスト単体テストでは、このうちサーバサイドの動作を確認する。
 
-二重サブミット防止を施した\ URI\ に対するテストでは、リクエストの送信前に有効なトークンを発行し、セッションに設定しておく必要がある。テストショットの\ ``isValidToken``\ カラムに\ ``true``\ を指定すると、スーパクラスがトークンを発行して設定する。\ ``false``\ を指定するとトークンが設定されないため、エラーになることを確認することで、二重サブミット防止機能が動作していることを確認できる。カラムの詳細は\ :ref:`テストショット一覧（testShots）を記述する <testdata_notation-test_shots>`\ を参照。
+二重サブミット防止を施した\ URI\ に対するテストでは、リクエストの送信前に有効なトークンを発行し、セッションに設定しておく必要がある。テストショットの\ ``isValidToken``\ カラムに\ ``true``\ を指定すると、サポートクラスがトークンを発行して設定する。\ ``false``\ を指定するとトークンが設定されないため、エラーになることを確認することで、二重サブミット防止機能が動作していることを確認できる。カラムの詳細は\ :ref:`テストショット一覧（testShots）を記述する <testdata_notation-test_shots>`\ を参照。
 
-スーパクラスが生成するリクエストを使わず、テストコードからトークンを設定する場合は、次のメソッドを呼び出す。トークンの発行とセッションへの格納が行われる。
+サポートクラスが生成するリクエストを使わず、テストコードからトークンを設定する場合は、次のメソッドを呼び出す。トークンの発行とセッションへの格納が行われる。
 
 .. code-block:: java
 
@@ -273,11 +261,11 @@
 
   // テストデータから取得した値（"true" または "false"）が isValidToken に
   // 格納されているものとする。"true"の場合はトークンが設定される
-  setToken(request, context, Boolean.parseBoolean(isValidToken));
+  support.setToken(request, context, Boolean.parseBoolean(isValidToken));
 
 リクエストと実行コンテキストを組み立てる
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-内蔵サーバへのリクエストの送信には、\ ``HttpRequest``\ と\ ``ExecutionContext``\ のインスタンスが必要である。スーパクラスを継承している場合、これらはテストショットの内容から自動的に生成されるため、テストコードで組み立てる必要はない。スーパクラスを継承せずにテストを組み立てる場合は、次のメソッドでインスタンスを生成する。
+内蔵サーバへのリクエストの送信には、\ ``HttpRequest``\ と\ ``ExecutionContext``\ のインスタンスが必要である。\ ``execute``\ を使う場合、これらはテストショットの内容から自動的に生成されるため、テストコードで組み立てる必要はない。テストショットを使わずにテストを組み立てる場合は、次のメソッドでインスタンスを生成する。
 
 .. code-block:: java
 
@@ -289,19 +277,19 @@
 
 \ ``createExecutionContext``\ の引数にはユーザ\ ID\ を指定する。指定したユーザ\ ID\ はセッションに格納され、そのユーザ\ ID\ でログインしている状態になる。
 
-生成したインスタンスは、次のメソッドに引き渡して送信する。内蔵サーバが起動され、リクエストが送信される。第1引数に指定した名前が、\ HTML\ ダンプのファイル名になる。
+生成したインスタンスは、次のメソッドに引き渡して送信する。内蔵サーバが起動され、リクエストが送信される。第1引数にはテストクラス自身の\ ``Class``\ オブジェクト（\ ``getClass()``\ ）を指定する。指定したクラスの名前が、\ HTML\ ダンプの出力先ディレクトリの決定に使われる。第2引数に指定した名前が、\ HTML\ ダンプのファイル名になる。
 
 .. code-block:: java
 
-  HttpResponse execute(String caseName, HttpRequest req, ExecutionContext ctx)
+  HttpResponse execute(Class<?> testClass, String caseName, HttpRequest req, ExecutionContext ctx)
 
 テストデータを作成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-テストデータの格納場所と記述方法は\ :ref:`テストデータの書き方 <testdata_notation>`\ に従う。記述例は\ :ref:`テストデータの記載例 <testdata_examples>`\ を参照。ここでは、スーパクラスが自動的に読み込むデータブロックと、ファイルアップロードのテストで必要になるアップロードファイルの用意を説明する。
+テストデータの格納場所と記述方法は\ :ref:`テストデータの書き方 <testdata_notation>`\ に従う。記述例は\ :ref:`テストデータの記載例 <testdata_examples>`\ を参照。ここでは、サポートクラスが自動的に読み込むデータブロックと、ファイルアップロードのテストで必要になるアップロードファイルの用意を説明する。
 
-スーパクラスが読み込むデータブロックを記述する
+サポートクラスが読み込むデータブロックを記述する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-スーパクラスが自動的に読み込むのは、次のデータブロックである。
+サポートクラスが自動的に読み込むのは、次のデータブロックである。
 
 * テストクラス全体で共通する準備データ（\ :ref:`共通の準備データをまとめる <testdata_notation-setupdb>`\ 参照）
 * テストショット一覧（\ :ref:`テストショット一覧（testShots）を記述する <testdata_notation-test_shots>`\ 参照）
@@ -331,13 +319,13 @@
 
 テストを実行する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-通常の\ JUnit\ テストと同じように実行する。内蔵サーバの起動とリクエストの送信は、スーパクラスが行う。
+通常の\ JUnit\ テストと同じように実行する。内蔵サーバの起動とリクエストの送信は、サポートクラスが行う。
 
 テストショットごとに\ HTML\ ダンプが出力される。出力先のディレクトリ（以下、ダンプディレクトリ）と、\ HTML\ ダンプの内容に関する設定は\ :ref:`リクエスト単体テストの設定（ウェブアプリケーション） <request_unit_test_setting_web>`\ を参照。
 
 テスト結果を確認する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-スーパクラスは、テストショットごとに次の項目を自動的に確認する。確認する内容はテストショット一覧のカラムで指定するため、テストコードに確認処理を書く必要はない。カラムの詳細は\ :ref:`テストショット一覧（testShots）を記述する <testdata_notation-test_shots>`\ を参照。
+サポートクラスは、テストショットごとに次の項目を自動的に確認する。確認する内容はテストショット一覧のカラムで指定するため、テストコードに確認処理を書く必要はない。カラムの詳細は\ :ref:`テストショット一覧（testShots）を記述する <testdata_notation-test_shots>`\ を参照。
 
 * \ HTTP\ ステータスコードの確認（\ ``expectedStatusCode``\ ）
 * アプリケーション例外に格納されたメッセージ\ ID\ の確認（\ ``expectedMessageId``\ ）
@@ -357,8 +345,8 @@
 .. code-block:: java
 
   @Test
-  public void testMenus00103() {
-      execute(new BasicAdvice() {
+  void testMenus00103() {
+      support.execute(new BasicAdvice() {
           @Override
           public void afterExecute(TestCaseInfo testCaseInfo,
                   ExecutionContext context) {
@@ -369,11 +357,11 @@
 
               // グループ検索結果を確認する
               SqlResultSet actualGroup = (SqlResultSet) context.getRequestScopedVar("allGroup");
-              assertSqlResultSetEquals(message, sheetName, "expectedUgroup" + no, actualGroup);
+              support.assertSqlResultSetEquals(message, sheetName, "expectedUgroup" + no, actualGroup);
 
               // ユースケース検索結果を確認する
               SqlResultSet actualUseCase = (SqlResultSet) context.getRequestScopedVar("allUseCase");
-              assertSqlResultSetEquals(message, sheetName, "expectedUseCase" + no, actualUseCase);
+              support.assertSqlResultSetEquals(message, sheetName, "expectedUseCase" + no, actualUseCase);
           }
       });
   }
@@ -400,8 +388,8 @@
 .. code-block:: java
 
   @Test
-  public void testUsers00302Normal() {
-      execute(new BasicAdvice() {
+  void testUsers00302Normal() {
+      support.execute(new BasicAdvice() {
           @Override
           public void afterExecute(TestCaseInfo testCaseInfo,
                   ExecutionContext context) {
@@ -411,7 +399,7 @@
               String expectedSystemAccountId = "systemAccount" + testCaseInfo.getTestCaseNo();
               // 実際の値をリクエストスコープから取り出す
               Object actualSystemAccount = context.getRequestScopedVar("systemAccount");
-              assertEntity(sheetName, expectedSystemAccountId, actualSystemAccount);
+              support.assertEntity(sheetName, expectedSystemAccountId, actualSystemAccount);
           }
       });
   }
@@ -425,13 +413,13 @@
 .. code-block:: java
 
   @Test
-  public void testUsers00303Normal() {
-      execute(new BasicAdvice() {
+  void testUsers00303Normal() {
+      support.execute(new BasicAdvice() {
           @Override
           public void afterExecute(TestCaseInfo testCaseInfo, ExecutionContext context) {
               // 期待値をテストデータから取得する（読み込み単位はテストメソッド名と同じ）
               List<Map<String, String>> expected =
-                      getListMap(testCaseInfo.getSheetName(), "result_1");
+                      support.getListMap(testCaseInfo.getSheetName(), "result_1");
               // テストの実行後のリクエストスコープから実際の値を取得する
               List<Map<String, String>> actual = context.getRequestScopedVar("pageData");
               // nablarch.test.Assertion のstaticメソッド
@@ -445,14 +433,14 @@
 .. code-block:: java
 
   @Test
-  public void testUsers00304Normal() {
-      execute(new BasicAdvice() {
+  void testUsers00304Normal() {
+      support.execute(new BasicAdvice() {
           @Override
           public void afterExecute(TestCaseInfo testCaseInfo, ExecutionContext context) {
               // テストの実行後のHttpRequest
               HttpRequest request = testCaseInfo.getHttpRequest();
               // リクエストパラメータがリセットされていること
-              assertEquals("", getParam(request, "resetparameter")[0]);
+              assertEquals("", support.getParam(request, "resetparameter")[0]);
           }
       });
   }
@@ -474,8 +462,8 @@
 .. code-block:: java
 
   @Test
-  public void testRW11AC0301Normal() {
-      execute(new BasicAdvice() {
+  void testRW11AC0301Normal() {
+      support.execute(new BasicAdvice() {
           @Override
           public void afterExecute(TestCaseInfo testCaseInfo,
                   ExecutionContext context) {
@@ -486,14 +474,14 @@
               UsersEntity users = form.getUsers();
 
               // usersのプロパティ kanjiName・kanaName・mailAddress を確認する
-              assertObjectPropertyEquals(message, sheetName, "expectedUsers", users);
+              support.assertObjectPropertyEquals(message, sheetName, "expectedUsers", users);
           }
       });
   }
 
 アプリケーションのメッセージを確認する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-アプリケーション例外に格納されたメッセージは、テストショット一覧の\ ``expectedMessageId``\ カラムで指定すればスーパクラスが確認する。\ ``afterExecute``\ の中から直接確認する場合は、次のメソッドを呼び出す。
+アプリケーション例外に格納されたメッセージは、テストショット一覧の\ ``expectedMessageId``\ カラムで指定すればサポートクラスが確認する。\ ``afterExecute``\ の中から直接確認する場合は、次のメソッドを呼び出す。
 
 .. code-block:: java
 
@@ -513,11 +501,11 @@
 
 .. code-block:: java
 
-  private FileSupport fileSupport = new FileSupport(getClass());
+  FileSupport fileSupport = new FileSupport(getClass());
 
   @Test
-  public void testRW11AC0104Download() {
-      execute(new BasicAdvice() {
+  void testRW11AC0104Download() {
+      support.execute(new BasicAdvice() {
           @Override
           public void afterExecute(TestCaseInfo testCaseInfo, ExecutionContext context) {
               String msgOnFail = "ダウンロードしたユーザ一覧照会結果のCSVファイルのアサートに失敗しました。";

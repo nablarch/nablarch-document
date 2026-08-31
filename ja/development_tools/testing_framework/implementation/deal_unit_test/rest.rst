@@ -30,24 +30,24 @@ RESTfulウェブサービスでは、取引が1つのリクエストで完結す
 .. code-block:: java
 
   @Test
-  public void プロジェクト更新取引() {
+  void プロジェクト更新取引() {
       String message1 = "変更対象取得";
-      RestMockHttpRequest request001 = get("/projects?projectName=プロジェクト００１");
-      HttpResponse response001 = sendRequest(request001);
-      assertStatusCode(message1, HttpResponse.Status.OK, response001);
+      RestMockHttpRequest request001 = support.get("/projects?projectName=プロジェクト００１");
+      HttpResponse response001 = support.sendRequest(request001);
+      support.assertStatusCode(message1, HttpResponse.Status.OK, response001);
       // 取得した変更対象を使って更新用フォームを作成
       Project project = parseProject(response001).setProjectName("プロジェクト８８８");
       ProjectUpdateForm updateForm = new ProjectUpdateForm(project);
 
       String message2 = "プロジェクト更新";
-      RestMockHttpRequest updateRequest = put("/projects").setBody(updateForm);
-      HttpResponse updateResponse = sendRequest(updateRequest);
-      assertStatusCode(message2, HttpResponse.Status.OK, updateResponse);
+      RestMockHttpRequest updateRequest = support.put("/projects").setBody(updateForm);
+      HttpResponse updateResponse = support.sendRequest(updateRequest);
+      support.assertStatusCode(message2, HttpResponse.Status.OK, updateResponse);
 
       String message3 = "取得したプロジェクトが変更した内容と一致すること";
-      RestMockHttpRequest request888 = get("/projects?projectName=プロジェクト８８８");
-      HttpResponse response888 = sendRequest(request888);
-      assertStatusCode(message3, HttpResponse.Status.OK, response888);
+      RestMockHttpRequest request888 = support.get("/projects?projectName=プロジェクト８８８");
+      HttpResponse response888 = support.sendRequest(request888);
+      support.assertStatusCode(message3, HttpResponse.Status.OK, response888);
       assertProjectEquals(project, parseProject(response888));
   }
 

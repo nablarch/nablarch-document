@@ -10,11 +10,11 @@
 機能概要
 --------------------------------------------------
 
-MOM\ によるメッセージングのリクエスト単体テストは、テスト対象によって3つに分かれる。メッセージを受け取る側の同期応答メッセージ受信・応答不要メッセージ受信と、メッセージを送る側の同期応答メッセージ送信である。以降、同期応答メッセージ受信と応答不要メッセージ受信をあわせてメッセージ受信と呼ぶ。いずれもテスティングフレームワークが提供するスーパクラスとテストデータを使うことで、テストコードをほとんど書かずにテストを実施できる。応答不要メッセージ送信は\ Nablarch\ バッチアプリケーションであるため、そのリクエスト単体テストは\ :ref:`リクエスト単体テスト（Nablarchバッチアプリケーション） <request_unit_test_batch>`\ で行う。
+MOM\ によるメッセージングのリクエスト単体テストは、テスト対象によって3つに分かれる。メッセージを受け取る側の同期応答メッセージ受信・応答不要メッセージ受信と、メッセージを送る側の同期応答メッセージ送信である。以降、同期応答メッセージ受信と応答不要メッセージ受信をあわせてメッセージ受信と呼ぶ。いずれもテスティングフレームワークが提供するサポートクラスとテストデータを使うことで、テストコードをほとんど書かずにテストを実施できる。応答不要メッセージ送信は\ Nablarch\ バッチアプリケーションであるため、そのリクエスト単体テストは\ :ref:`リクエスト単体テスト（Nablarchバッチアプリケーション） <request_unit_test_batch>`\ で行う。
 
 メッセージ受信のリクエスト単体テストでは、要求電文1件を受信したときの動作を擬似的に再現する。
 
-テストクラスは、同期応答メッセージ受信では\ ``MessagingRequestTestSupport``\ を、応答不要メッセージ受信ではそのサブクラスの\ ``MessagingReceiveTestSupport``\ を継承して作成する。スーパクラスがテストデータを読み取り、テストショットを1件ずつ実行する。テスト用のメインクラス\ ``MainForRequestTesting``\ を通じて\ Nablarch Application Framework\ が起動され、テスト対象のアプリケーションが実行される。準備データの投入とテスト結果の確認は、データベースについては\ ``DbAccessTestSupport``\ が、キューについては\ ``MQSupport``\ が行う。
+テストクラスは、同期応答メッセージ受信では\ ``MessagingRequestTestSupport``\ を、応答不要メッセージ受信ではそのサブクラスの\ ``MessagingReceiveTestSupport``\ をインジェクションして作成する。このサポートクラスがテストデータを読み取り、テストショットを1件ずつ実行する。テスト用のメインクラス\ ``MainForRequestTesting``\ を通じて\ Nablarch Application Framework\ が起動され、テスト対象のアプリケーションが実行される。準備データの投入とテスト結果の確認は、データベースについては\ ``DbAccessTestSupport``\ が、キューについては\ ``MQSupport``\ が行う。
 
 .. image:: images/mom/request_test_components.png
 
@@ -29,7 +29,7 @@ MOM\ によるメッセージングのリクエスト単体テストは、テス
 
 同期応答メッセージ送信のリクエスト単体テストでは、要求電文1件をキューに送信し、結果を同期的に受信する際の動作を擬似的に再現する。テストは、その処理に付与されたリクエスト\ ID\ 単位で行う。以降、\ Action\ がキューへ送信する電文を要求電文、\ Action\ がキューから受信する電文を応答電文と呼ぶ。
 
-Nablarch\ バッチアプリケーションから同期応答メッセージ送信を行う場合、テストクラスは、\ :java:extdoc:`BatchRequestTestSupport <nablarch.test.core.batch.BatchRequestTestSupport>`\ を継承して作成する。スーパクラスがテストデータを読み取り、テストショットを1件ずつ実行する。テスト用のメインクラス\ ``MainForRequestTesting``\ を通じて\ Nablarch Application Framework\ が起動され、テスト対象のアプリケーションが\ ``MessageSender``\ を使って同期応答メッセージ送信を行う。\ ``MessageSender``\ が生成した要求電文は\ ``RequestTestingMessagingProvider``\ が受け取り、テストデータに記述した要求電文の期待値とアサートしたうえで、テストデータに記述した応答電文を生成して返す。\ ``MessageSender``\ はこれをパースし、\ Action\ へ引き渡す。
+Nablarch\ バッチアプリケーションから同期応答メッセージ送信を行う場合、テストクラスは、\ :java:extdoc:`BatchRequestTestSupport <nablarch.test.core.batch.BatchRequestTestSupport>`\ をインジェクションして作成する。このサポートクラスがテストデータを読み取り、テストショットを1件ずつ実行する。テスト用のメインクラス\ ``MainForRequestTesting``\ を通じて\ Nablarch Application Framework\ が起動され、テスト対象のアプリケーションが\ ``MessageSender``\ を使って同期応答メッセージ送信を行う。\ ``MessageSender``\ が生成した要求電文は\ ``RequestTestingMessagingProvider``\ が受け取り、テストデータに記述した要求電文の期待値とアサートしたうえで、テストデータに記述した応答電文を生成して返す。\ ``MessageSender``\ はこれをパースし、\ Action\ へ引き渡す。
 
 .. _request_unit_test_mom-request_id:
 
@@ -91,7 +91,7 @@ MOM\ によるメッセージングのリクエスト単体テストは、テス
 
 * パッケージは、テスト対象の\ Action\ クラスと同じとする。
 * クラス名は\ ``<Actionクラス名>RequestTest``\ とする。
-* :java:extdoc:`MessagingRequestTestSupport <nablarch.test.core.messaging.MessagingRequestTestSupport>`\ を継承する。
+* :java:extdoc:`MessagingRequestTest <nablarch.test.junit5.extension.messaging.MessagingRequestTest>`\ をテストクラスに設定し、\ :java:extdoc:`MessagingRequestTestSupport <nablarch.test.core.messaging.MessagingRequestTestSupport>`\ 型のフィールドを宣言する。
 
 テスト対象の\ Action\ クラスが\ ``nablarch.sample.ss21AA.RM21AA001Action``\ である場合、テストクラスは次のようになる。
 
@@ -100,8 +100,12 @@ MOM\ によるメッセージングのリクエスト単体テストは、テス
   package nablarch.sample.ss21AA;
 
   import nablarch.test.core.messaging.MessagingRequestTestSupport;
+  import nablarch.test.junit5.extension.messaging.MessagingRequestTest;
 
-  public class RM21AA001ActionRequestTest extends MessagingRequestTestSupport {
+  @MessagingRequestTest
+  class RM21AA001ActionRequestTest {
+      MessagingRequestTestSupport support;
+
       // 中略
   }
 
@@ -109,7 +113,7 @@ MOM\ によるメッセージングのリクエスト単体テストは、テス
 
 * パッケージは、テスト対象機能のパッケージとする。
 * クラス名は\ ``<電文のリクエストID>RequestTest``\ とする。
-* :java:extdoc:`MessagingReceiveTestSupport <nablarch.test.core.messaging.MessagingReceiveTestSupport>`\ を継承する。
+* :java:extdoc:`MessagingReceiveTest <nablarch.test.junit5.extension.messaging.MessagingReceiveTest>`\ をテストクラスに設定し、\ :java:extdoc:`MessagingReceiveTestSupport <nablarch.test.core.messaging.MessagingReceiveTestSupport>`\ 型のフィールドを宣言する。
 
 テスト対象機能のパッケージが\ ``nablarch.sample.ss21AA``\ 、電文のリクエスト\ ID\ が\ ``RM21AA100``\ である場合、テストクラスは次のようになる。
 
@@ -118,19 +122,23 @@ MOM\ によるメッセージングのリクエスト単体テストは、テス
   package nablarch.sample.ss21AA;
 
   import nablarch.test.core.messaging.MessagingReceiveTestSupport;
+  import nablarch.test.junit5.extension.messaging.MessagingReceiveTest;
 
-  public class RM21AA100RequestTest extends MessagingReceiveTestSupport {
+  @MessagingReceiveTest
+  class RM21AA100RequestTest {
+      MessagingReceiveTestSupport support;
+
       // 中略
   }
 
-同期応答メッセージ送信のテストクラスの作り方は、テスト対象の処理方式のテストと同じである。\ :ref:`リクエスト単体テスト（ウェブアプリケーション） <request_unit_test_web>`\ ・\ :ref:`リクエスト単体テスト（Nablarchバッチアプリケーション） <request_unit_test_batch>`\ を参照。テストクラスは、テスト対象の処理方式に合わせて次のどちらかのスーパクラスを継承する。
+同期応答メッセージ送信のテストクラスの作り方は、テスト対象の処理方式のテストと同じである。\ :ref:`リクエスト単体テスト（ウェブアプリケーション） <request_unit_test_web>`\ ・\ :ref:`リクエスト単体テスト（Nablarchバッチアプリケーション） <request_unit_test_batch>`\ を参照。テストクラスには、テスト対象の処理方式に合わせて次のどちらかのサポートクラスをインジェクションする。
 
 * :java:extdoc:`BatchRequestTestSupport <nablarch.test.core.batch.BatchRequestTestSupport>`\ ：\ Nablarch\ バッチアプリケーションのテストで使用する。
 * :java:extdoc:`BasicHttpRequestTestTemplate <nablarch.test.core.http.BasicHttpRequestTestTemplate>`\ ：ウェブアプリケーションのテストで使用する。
 
 .. tip::
 
-  JUnit 5\ でテストを書く場合は、継承ではなくインジェクションでテスティングフレームワークの機能を使用する（\ :ref:`JUnit 5用拡張機能 <junit5_extension>`\ ）。
+  JUnit 4\ でテストを書く場合は、インジェクションではなく継承でテスティングフレームワークの機能を使用する（\ :ref:`JUnit 4で使用する <junit4_support>`\ ）。
 
 .. _request_unit_test_mom-test_method:
 
@@ -138,18 +146,17 @@ MOM\ によるメッセージングのリクエスト単体テストは、テス
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 メッセージ受信のテストでは、1テストクラスにつき1テストメソッド、1読み込み単位を原則とする。テストの内容が複雑であったりデータ量が多い場合は、メソッドや読み込み単位を分割してもよい。
 
-テストメソッドには\ ``@Test``\ を付与し、その中でスーパクラスの次のどちらかのメソッドを呼び出す。
+テストメソッドには\ ``@Test``\ を付与し、その中でサポートクラスの次のメソッドを呼び出す。
 
-* ``void execute()``
 * ``void execute(String sheetName)``
 
-引数ありの\ ``execute``\ メソッドでは、テストデータの読み込み単位の名前を指定できる。引数なしの\ ``execute``\ メソッドは、テストメソッド名と同じ名前の読み込み単位を読み込む。通常は読み込み単位の名前とテストメソッド名を同じにするため、引数なしの\ ``execute``\ メソッドを使用するとよい。
+引数には、読み込む読み込み単位の名前を渡す。読み込み単位の名前は、テストメソッド名と同じにする。テストメソッドとテストデータの対応が読み取りやすくなるためである。
 
 .. code-block:: java
 
   @Test
-  public void testRegisterUser() {
-      execute();   // execute("testRegisterUser") と等価
+  void testRegisterUser() {
+      support.execute("testRegisterUser");
   }
 
 同期応答メッセージ送信のテストメソッドの書き方は、テスト対象の処理方式のテストと同じである。\ :ref:`リクエスト単体テスト（ウェブアプリケーション） <request_unit_test_web>`\ ・\ :ref:`リクエスト単体テスト（Nablarchバッチアプリケーション） <request_unit_test_batch>`\ を参照。
@@ -173,7 +180,7 @@ MOM\ によるメッセージングのリクエスト単体テストは、テス
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 通常の\ JUnit\ テストと同じように実行する。
 
-メッセージ受信のテストでは、スーパクラスがテストデータを読み取り、記述されたテストショットを順に実行する。1件のテストショットは、入力データの準備・メインクラスの起動・出力結果の確認という流れで進む。入力データの準備では、テストデータから作成した要求電文が受信キューに\ PUT\ される。メインクラスには、テスト用の\ ``MainForRequestTesting``\ を使用する。このクラスは、テスト用のコンポーネント設定ファイルからシステムリポジトリを初期化し、テスト対象の実行後に元のリポジトリへ戻す。
+メッセージ受信のテストでは、サポートクラスがテストデータを読み取り、記述されたテストショットを順に実行する。1件のテストショットは、入力データの準備・メインクラスの起動・出力結果の確認という流れで進む。入力データの準備では、テストデータから作成した要求電文が受信キューに\ PUT\ される。メインクラスには、テスト用の\ ``MainForRequestTesting``\ を使用する。このクラスは、テスト用のコンポーネント設定ファイルからシステムリポジトリを初期化し、テスト対象の実行後に元のリポジトリへ戻す。
 
 .. image:: images/mom/execute_sequence.png
 

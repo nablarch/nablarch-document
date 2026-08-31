@@ -14,7 +14,7 @@ RESTfulウェブサービスのリクエスト単体テストは、テスティ�
 
 RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リクエスト単体テスト（ウェブアプリケーション） <request_unit_test_web>`\ と同じく内蔵サーバを使用して実施する。必要なモジュールは他の処理方式より多い。モジュールの追加とコンポーネント設定は、\ :ref:`リクエスト単体テストの設定（RESTfulウェブサービス） <request_unit_test_setting_rest>`\ に従ってあらかじめ済ませておく。
 
-テストクラスは\ ``RestTestSupport``\ または\ ``SimpleRestTestSupport``\ を継承して作成する。\ ``SimpleRestTestSupport``\ が内蔵サーバを保持し、\ ``RestTestSupport``\ はこれを継承したうえでデータベース関連機能（\ ``DbAccessTestSupport``\ ）を保持する。テストメソッドが送信したリクエストは、内蔵サーバ上でウェブアプリケーションとして動作する\ Nablarch Application Framework\ が受け取り、テスト対象の\ Action\ を呼び出す。\ Action\ がテーブルを参照・更新した結果は、テストデータに記述した期待値と照合する。
+テストクラスは\ ``RestTestSupport``\ または\ ``SimpleRestTestSupport``\ をインジェクションして作成する。\ ``SimpleRestTestSupport``\ が内蔵サーバを保持し、\ ``RestTestSupport``\ はこれを継承したうえでデータベース関連機能（\ ``DbAccessTestSupport``\ ）を保持する。テストメソッドが送信したリクエストは、内蔵サーバ上でウェブアプリケーションとして動作する\ Nablarch Application Framework\ が受け取り、テスト対象の\ Action\ を呼び出す。\ Action\ がテーブルを参照・更新した結果は、テストデータに記述した期待値と照合する。
 
 .. image:: images/rest/request_test_components.png
 
@@ -37,20 +37,20 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
     - テスト対象のクラス。Action以降の業務ロジックを実装する各クラスを含む。
     - 取引につき1クラス作成する。
   * - ``RestTestSupport``\ ・\ ``SimpleRestTestSupport``
-    - 内蔵サーバの起動や、リクエスト単体テストで必要となるステータスコードのアサートなどの機能を提供する。テストクラスのスーパクラスになる。\ ``RestTestSupport``\ は、これにデータベース関連機能を加えたクラスである。
+    - 内蔵サーバの起動や、リクエスト単体テストで必要となるステータスコードのアサートなどの機能を提供する。テストクラスにインジェクションされる。\ ``RestTestSupport``\ は、これにデータベース関連機能を加えたクラスである。
     - －
 
 使用方法
 --------------------------------------------------
 
-リクエスト単体テストは、次の流れで実装する。テスティングフレームワークが用意したスーパクラスを継承してテストクラスを作成し、\ ``@Test``\ を付与したテストメソッドの中で、リクエストを生成し、送信し、結果を確認する。データベースの準備データが必要な場合は、あわせてテストデータを作成する。
+リクエスト単体テストは、次の流れで実装する。テスティングフレームワークが用意したサポートクラスをインジェクションするテストクラスを作成し、\ ``@Test``\ を付与したテストメソッドの中で、リクエストを生成し、送信し、結果を確認する。データベースの準備データが必要な場合は、あわせてテストデータを作成する。
 
 テストクラスを作成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-テストクラスは、テスティングフレームワークが用意した次のいずれかのスーパクラスを継承して作成する。リクエストの生成・送信・結果確認の機能は、どちらのクラスも同じものを持つ。
+テストクラスには、テスティングフレームワークが用意した次のいずれかのサポートクラスをインジェクションする。リクエストの生成・送信・結果確認の機能は、どちらのクラスも同じものを持つ。
 
-* \ ``nablarch.test.core.http.RestTestSupport``\ ：\ ``SimpleRestTestSupport``\ を継承し、データベース関連機能を加えたクラス。
-* \ ``nablarch.test.core.http.SimpleRestTestSupport``\ ：データベース関連機能を持たないクラス。データベース関連機能が不要な場合はこちらを使用する。
+* \ ``nablarch.test.core.http.RestTestSupport``\ ：\ ``SimpleRestTestSupport``\ を継承し、データベース関連機能を加えたクラス。合成アノテーションは\ :java:extdoc:`RestTest <nablarch.test.junit5.extension.http.RestTest>`\ 。
+* \ ``nablarch.test.core.http.SimpleRestTestSupport``\ ：データベース関連機能を持たないクラス。データベース関連機能が不要な場合はこちらを使用する。合成アノテーションは\ :java:extdoc:`SimpleRestTest <nablarch.test.junit5.extension.http.SimpleRestTest>`\ 。
 
 .. tip::
 
@@ -63,34 +63,38 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
   import nablarch.fw.web.HttpResponse;
   import nablarch.fw.web.RestMockHttpRequest;
   import nablarch.test.core.http.RestTestSupport;
+  import nablarch.test.junit5.extension.http.RestTest;
   import org.json.JSONException;
-  import org.junit.Test;
+  import org.junit.jupiter.api.Test;
   import org.skyscreamer.jsonassert.JSONAssert;
   import org.skyscreamer.jsonassert.JSONCompareMode;
 
   import static com.jayway.jsonpath.matchers.JsonPathMatchers.hasJsonPath;
+  import static org.hamcrest.MatcherAssert.assertThat;
   import static org.hamcrest.Matchers.hasSize;
-  import static org.junit.Assert.assertThat;
 
-  public class SampleTest extends RestTestSupport { //RestTestSupportを継承する
+  @RestTest  //合成アノテーションをテストクラスに設定する
+  class SampleTest {
+      RestTestSupport support;  //RestTestSupportがインジェクションされる
+
       @Test  //アノテーションを付与する
-      public void プロジェクト一覧が取得できること() throws JSONException {
+      void プロジェクト一覧が取得できること() throws JSONException {
           String message = "プロジェクト一覧取得";
 
-          RestMockHttpRequest request = get("/projects");               //リクエストを生成する
-          HttpResponse response = sendRequest(request);                 //リクエストを送信する
-          assertStatusCode(message, HttpResponse.Status.OK, response);  //結果を確認する
+          RestMockHttpRequest request = support.get("/projects");               //リクエストを生成する
+          HttpResponse response = support.sendRequest(request);                 //リクエストを送信する
+          support.assertStatusCode(message, HttpResponse.Status.OK, response);  //結果を確認する
 
           assertThat(response.getBodyString(), hasJsonPath("$", hasSize(10)));    //json-path-assertを使ったレスポンスボディの検証
 
-          JSONAssert.assertEquals(message, readTextResource("プロジェクト一覧が取得できること.json")
+          JSONAssert.assertEquals(message, support.readTextResource("プロジェクト一覧が取得できること.json")
                   , response.getBodyString(), JSONCompareMode.LENIENT);                  //JSONAssertを使ったレスポンスボディの検証
       }
   }
 
 .. tip::
 
-  JUnit 5\ でテストを書く場合は、継承ではなくインジェクションでテスティングフレームワークの機能を使用する（\ :ref:`JUnit 5用拡張機能 <junit5_extension>`\ ）。
+  JUnit 4\ でテストを書く場合は、インジェクションではなく継承でテスティングフレームワークの機能を使用する（\ :ref:`JUnit 4で使用する <junit4_support>`\ ）。
 
 データベース関連機能は、\ ``RestTestSupport``\ から\ ``DbAccessTestSupport``\ に処理を委譲することで実現している。\ ``DbAccessTestSupport``\ の詳細は\ :ref:`コンポーネント単体テスト <component_unit_test>`\ を参照。ただし、\ ``DbAccessTestSupport``\ が持つ次のメソッドは、RESTfulウェブサービスのリクエスト単体テストでは不要であり、アプリケーションプログラマに誤解を与えないよう、意図的に委譲していない。
 
@@ -107,7 +111,7 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
 
 テストメソッドを作成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-テストメソッドには\ ``@Test``\ を付与し、その中でテスト対象へ送るリクエストを組み立てる。内蔵サーバへのリクエスト送信には、\ ``HttpRequest``\ のインスタンスが必要となる。スーパクラスは、\ ``HttpRequest``\ をリクエスト単体テスト用に拡張した\ ``RestMockHttpRequest``\ のインスタンスを簡単に作成できるよう、次の5つのメソッドを用意している。
+テストメソッドには\ ``@Test``\ を付与し、その中でテスト対象へ送るリクエストを組み立てる。内蔵サーバへのリクエスト送信には、\ ``HttpRequest``\ のインスタンスが必要となる。サポートクラスは、\ ``HttpRequest``\ をリクエスト単体テスト用に拡張した\ ``RestMockHttpRequest``\ のインスタンスを簡単に作成できるよう、次の5つのメソッドを用意している。
 
 .. code-block:: java
 
@@ -135,9 +139,9 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
 
   .. code-block:: java
 
-    RestMockHttpRequest request = post("/projects")
-                                      .setHeader("Authorization","Bearer token")
-                                      .setCookie(cookie);
+    RestMockHttpRequest request = support.post("/projects")
+                                             .setHeader("Authorization","Bearer token")
+                                             .setCookie(cookie);
 
 テストデータを作成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -160,7 +164,7 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
 
 テストを実行する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-内蔵サーバは、スーパクラスがテストメソッドの実行前に起動する。スーパクラスの次のメソッドを呼び出すことで、起動済みの内蔵サーバにリクエストが送信される。
+内蔵サーバは、サポートクラスがテストメソッドの実行前に起動する。サポートクラスの次のメソッドを呼び出すことで、起動済みの内蔵サーバにリクエストが送信される。
 
 .. code-block:: java
 
@@ -172,7 +176,7 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
 
 ステータスコードを確認する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-スーパクラスの次のメソッドを呼び出すことで、レスポンスのHTTPステータスコードが想定どおりであることを確認する。
+サポートクラスの次のメソッドを呼び出すことで、レスポンスのHTTPステータスコードが想定どおりであることを確認する。
 
 .. code-block:: java
 
@@ -194,7 +198,7 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
 
   アーキタイプから\ :doc:`RESTfulウェブサービスプロジェクト <../../../../application_framework/application_framework/blank_project/setup_blankProject/setup_WebService>`\ を作成した場合は、これら3つのライブラリが\ ``pom.xml``\ に記載されている。必要に応じて、ライブラリの削除や差し替えを行う。
 
-レスポンスボディを検証する際に、期待されるボディをJSONファイルやXMLファイルとして用意したい場合がある。JSONAssertのように、外部ライブラリが期待値の引数に\ ``String``\ しか受け付けない場合に対応するため、スーパクラスにはファイルを読み込み\ ``String``\ に変換する次のメソッドを用意している。
+レスポンスボディを検証する際に、期待されるボディをJSONファイルやXMLファイルとして用意したい場合がある。JSONAssertのように、外部ライブラリが期待値の引数に\ ``String``\ しか受け付けない場合に対応するため、サポートクラスにはファイルを読み込み\ ``String``\ に変換する次のメソッドを用意している。
 
 .. code-block:: java
 
