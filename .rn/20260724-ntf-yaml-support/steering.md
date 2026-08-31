@@ -1978,6 +1978,17 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 **Completion criteria**: 指示書 §3 の1〜6（使った jar の証拠／Surefire summary 逐語／Skipped 全件／落ちた全件の分類と根拠／作業ツリー空／記録の push）。
 
 
+### #53: Step 4 —— カバレッジ基準の適用（未達0／既存以外増加0）— 指示書3本作成・送付待ち
+
+**基準（user 確定 2026-08-31）**: 品質評価で問われるため、`#37` の「全件開示方式（数値目標を置かない）」を上書きする。**yaml・converter は全部新規なので未達0。本体は既存の未達以外に増加0。** 未達は「テスト不足→テスト追加」「不要な実装→削除（呼び出し側の全走査つき）」「到達不能→テストで実現できない理由を付けて user 判断へ。OK 後に未達箇所へ理由コメント」の順で判断する。
+
+**あわせて user 承認（2026-08-31）**: 本体 `TestDataParsingTemplate.java:266`・`:277`（pr75 `#27` で到達不能承認済み）への理由コメント追記を、`src/main` 変更禁止（2026-08-26）の例外として認める。yaml の未達2箇所（`#19` 承認済み）は `YamlLoader` だけコメント無しなので追記する。
+
+**指示書**: `ntf-step4-09-converter-coverage.md`（converter。行 95.77%／分岐 94.20% で基準未達が最大。未達全件の分類からやり直させる —— `coverage-report.md` §3 の旧分類は基準変更前のため採用しない）／`ntf-step4-10-yaml-coverage.md`（yaml。`YamlLoader` へのコメント追記のみ）／`ntf-step4-11-testing-coverage.md`（本体。`origin/develop` との全体比較で増加0を証明＋コメント2箇所）。
+
+**レビューはいずれも回さない**（converter は測定・分類・テスト追加で、変異確認を完了条件に置き、ディレクターが同手順の独立再測定で検証する。yaml・本体はコメント追記が主）。
+
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
