@@ -87,7 +87,7 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
 
           assertThat(response.getBodyString(), hasJsonPath("$", hasSize(10)));    //json-path-assertを使ったレスポンスボディの検証
 
-          JSONAssert.assertEquals(message, support.readTextResource("プロジェクト一覧が取得できること.json")
+          JSONAssert.assertEquals(message, support.readTextResource(getClass(), "プロジェクト一覧が取得できること.json")
                   , response.getBodyString(), JSONCompareMode.LENIENT);                  //JSONAssertを使ったレスポンスボディの検証
       }
   }
@@ -202,9 +202,9 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
 
 .. code-block:: java
 
-  String readTextResource(String fileName)
+  String readTextResource(Class<?> testClass, String fileName)
 
-このメソッドは、テストクラスと同じ名前のディレクトリにあるリソースから、引数で指定した名前のファイルを読み込み、\ ``String``\ に変換する。ファイルの配置は次のとおりである。
+第1引数にはテストクラス自身の\ ``Class``\ オブジェクト（\ ``getClass()``\ ）を指定する。このメソッドは、指定したクラスと同じ名前のディレクトリにあるリソースから、第2引数で指定した名前のファイルを読み込み、\ ``String``\ に変換する。ファイルの配置は次のとおりである。
 
 .. list-table::
   :header-rows: 1
