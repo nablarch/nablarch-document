@@ -1,0 +1,290 @@
+# task-55 Completion Check
+
+`#55` NTF解説書の JUnit 5 ベース化。指示書 `.rn/20260724-ntf-yaml-support/ntf-doc-55-junit5-base.md`。
+
+本ファイルはフェーズ0（着手前検証）の実測記録である。フェーズ0 では `.rst`・`mapping/`・`design.md`
+のいずれも変更していない。
+
+## フェーズ0 実施記録（2026-08-31）
+
+### 参照ピンの実在確認
+
+| リポジトリ | ピン | 実測 |
+|---|---|---|
+| `nablarch-document` | `764fb9fd` | `git diff --stat 764fb9fd..HEAD -- ja/ mapping/` が0件。`ja/`・`mapping/` は HEAD と同一 |
+| `nablarch-testing-junit5` | `c06ebe8` | worktree `~/work/nablarch/nablarch-testing-junit5/.claude/worktrees/fix-resolveTestRules` の HEAD が `c06ebe8`（`docs: セッションクローズ時点の State を記録`） |
+| `nablarch-single-module-archetype` | `9ef4096` | scratchpad へ clone。HEAD が `9ef4096`（`Merge remote-tracking branch 'origin/release-6u3'`） |
+| `nablarch-testing` | `e21bf67` | `git cat-file -t e21bf67` = `commit`。**ただし `main` 上のコミット**（`Merge remote-tracking branch 'origin/release-6u2'`。`git branch -a --contains e21bf67` = `main` のみ） |
+
+### 0-1 指示書の逐語・`file:line`・件数の突合
+
+**一致した主張**
+
+| 指示書の主張 | 実測 |
+|---|---|
+| `junit5_extension.rst:16`「JUnit 4では、これらのクラスをテストクラスが継承することで、その機能をテストクラスから使用していた。」 | 一致（`:16` の第2文） |
+| Extension・合成アノテーション一覧表 `:28`〜 | L3 見出し `:28`「Extensionクラスと合成アノテーションの一覧」。表は `:32`-`:71`、11行 |
+| 前提事項 `:73` surefire 2.22.0 | L3 見出し `:73`、本文 `:75`「`maven-surefire-plugin` が2.22.0以上」 |
+| 「依存関係を追加する」`:80` | L3 見出し `:80` |
+| 合成アノテーション設定 `:98`〜 | ラベル `.. _junit5_extension-inject:` が `:98`、L3 見出し `:100` |
+| `BasicHttpRequestTestTemplate` `:131`〜 | L3 見出し `:131` |
+| `RegisterExtension` `:151`〜 | L3 見出し `:151` |
+| vintage 節 ラベル `junit5_extension-vintage`・`:180`〜`:225` | ラベル `:180`、L3 見出し `:182`、節末 `:225`（次節 `拡張例` が `:227`） |
+| junit-bom の例 `:200-201` の `5.8.2` | `:200` `<artifactId>junit-bom</artifactId>`、`:201` `<version>5.8.2</version>` |
+| 拡張例 `:227`〜 | L2 見出し `:227` |
+| 「JUnit 4のTestRuleを再現する」`:397`〜 | L3 見出し `:397`。節末はファイル末尾 `:455` |
+| `about/index.rst:30`-`:48` 特徴4節 | L3 見出し `:30`、節末 `:48`（tip 本文）。**コードブロック自体は `:36`-`:44`**（`:34` は導入文、`:46` は `.. tip::`） |
+| `about/index.rst:32`「JUnit 4を基盤としており」 | 一致 |
+| `about/index.rst:48` tip `@Before`・`@After` | 一致 |
+| `about/index.rst:106`「テスティングフレームワークを継承したテストクラスは」 | 一致 |
+| `about/index.rst:110`「テストクラスが継承するクラスの系譜を次に示す。」 | 一致 |
+| `about/index.rst:119` 稼動環境 | L2 見出し `:117`、本文 `:119`（ファイル末尾） |
+| §4 の継承7種12箇所（web `:79`・`:114` / rest `:75` / req batch `:76`・`:94` / deal batch `:40`・`:66` / req mom `:104`・`:122` / deal mom `:56` / component `:81`・`:163`・`:201` / entity `:95`） | `grep -rn 'extends ' implementation --include='*.rst'` の全16件と突合。指示書記載の14箇所はすべて一致（残り2件は `component.rst:100` `extends AnotherSuperClass`・`:140` `extends TestSuper` で、いずれも JUnit 4 固有節） |
+| tip 6件（web `:87`・rest `:93`・req batch `:100`・req mom `:133`・component `:91`・entity `:105`） | 6件とも一致。6件は全ページ同一文 |
+| `junit5_extension` の外部参照8箇所 | `grep -rn 'junit5_extension'` の全13ヒットのうち、`junit5_extension.rst` 自身の5件（ラベル定義3・画像パス1・自ページ内 `:ref:` 1）を除く8件。内訳は tip 6・`about/index.rst:119`・`setup/index.rst:20` |
+| `nablarch-testing@e21bf67 pom.xml:151`-`:155` junit 4.13.1 compile | `:150` `<dependency>`／`:151` `<groupId>junit</groupId>`／`:152` `<artifactId>junit</artifactId>`／`:153` `<version>4.13.1</version>`／`:154` `<scope>compile</scope>`／`:155` `</dependency>` |
+| アーキタイプ `nablarch-web/pom.xml:247-248` junit-bom 5.11.0 | `:247` `<artifactId>junit-bom</artifactId>`／`:248` `<version>5.11.0</version>` |
+| 同 `:361` nablarch-testing-junit5 | `:361` `<artifactId>nablarch-testing-junit5</artifactId>`（`:362` `<scope>test</scope>`） |
+| 同 `:367` junit-jupiter | `:367` `<artifactId>junit-jupiter</artifactId>`（`:368` `<scope>test</scope>`） |
+| `c06ebe8` の `src/main` 23クラス | `git ls-tree -r --name-only c06ebe8 \| grep -c '^src/main/java/.*\.java$'` = 23。内訳は Extension 11・合成アノテーション 11・`TestEventDispatcherExtension` 1。ページの一覧表11行と対応 |
+| `mapping.csv` 597行 / 12,986 / 11,983 | `csv.DictReader` で597行。`lines` 合計 12,986。`disposition != DROP` の `lines` 合計 11,983 |
+| design.md §2 表 row 4 稼動環境 | `design.md:37` |
+| design.md §3 構成ブロック | `design.md:238`（`├── JUnit 5用拡張機能`） |
+| design.md §13 ツリー | `design.md:923`（`│   ├── junit5_extension.rst`） |
+| design.md §13 第2部の1対1対応表 13ページ | `design.md:998`「#### 第2部（13ページ）」・`:1003` が該当行 |
+| design.md §13 集計 34ページ | `design.md:1049` |
+| `vocabulary.md` 第2部13件・全体34件 | `vocabulary.md:38`「### 第2部（13件）」・`:30`「## dest_page（確定・34件）」。該当行は `:44` |
+| `style.md` S-08 の該当行 | `style.md:491` |
+| `glossary.md` §5.12 の該当行 `:298`／§5.15 の `:360` | どちらも一致 |
+| `extension_class.puml` の `title` | `title JUnit 5用拡張機能のクラスと、インスタンスの生成・インジェクション` |
+| `test_support_class.puml` の `title` | `title テストクラスが継承するサポートクラスの系譜` |
+| `03-検証スクリプト.md` §5・§9／`02-進め方.md` の禁止事項 | `/home/tie303177/work/cowork/nablarch/ntf-doc-renewal/` に実在。§5「Docker フルビルド」・§9「図の生成（PlantUML → PNG）」。§9 の temurin-17 絶対パス `/usr/lib/jvm/temurin-17-jdk-amd64/bin/java`・`~/.local/share/plantuml/plantuml-1.2025.4.jar`（22,592,450 bytes）・`~/.fonts/NotoSansJP-Regular.ttf` はいずれもホストに実在 |
+
+**反例（是正が要る項目）** — 本文の「フェーズ0 の反例」節を参照。
+
+### 0-2 `code-block:: java` 全件表
+
+母集合の固定: `grep -rn 'code-block:: java' ja/development_tools/testing_framework --include='*.rst'` = **85件**。
+
+| ディレクトリ／ページ | 件数 | 処置 |
+|---|---|---|
+| implementation 9ページ（下表） | 65 | §4 の対象 |
+| `implementation/testdata_notation.rst` | 1 | 対象外（`:590` は `List<Map<String,String>>` の組み立て例。テストクラス例でない） |
+| `setup/junit5_extension.rst` | 13 | §1 の対象（内容は保つ。vintage 節の分は §2 で移設） |
+| `tools/testdata_converter.rst` | 4 | 対象外（`:207`・`:216`・`:238`・`:327` はいずれも `TestDataConverter`／`ConversionRequest`／`YamlTestDataValidator`／`ExcelFormatConfig` の API 呼び出し。テストクラス例でない） |
+| `tools/html_check_tool.rst` | 1 | 対象外（`:148` は `HtmlChecker` の実装例） |
+| `about/index.rst` | 1 | §3 の対象（`:36`-`:44`） |
+| `implementation/testdata_examples.rst` | 0 | — |
+
+`setup` の残り11ページ・`tools/index.rst`・`implementation` の残り6ページ（`deal_unit_test/{web,http_messaging,db_queue}.rst`・`request_unit_test/{http_messaging,db_queue}.rst`・`index.rst`）はいずれも0件。
+
+**implementation 9ページ 65件の内訳**（分類 A=テストクラス例／B=テストメソッド断片／C=メソッドシグネチャの列挙／D=対象外／E=`junit4.rst` へ移設）
+
+| # | ファイル:行 | 種類 | 分類 | 処置 |
+|---|---|---|---|---|
+| 1 | web.rst:73 | `extends BasicHttpRequestTestTemplate` クラス骨格 | A | `@BasicHttpRequestTest(baseUri=…)` ＋ `BasicHttpRequestTestTemplate support;` |
+| 2 | web.rst:112 | 同上＋`getBaseUri()` オーバーライド | A | §4 のとおり `baseUri` 属性の説明へ書き換え。`getBaseUri()` は `protected abstract`（javap 実測）でインジェクション方式では呼べないため、コード例からは落とす |
+| 3 | web.rst:175 | `@Test`＋`execute()` | B | `void`＋`support.execute()`（`AbstractHttpRequestTestTemplate.execute()` は `public`） |
+| 4 | web.rst:184 | `execute` 4シグネチャ | C | そのまま（4つとも `public`） |
+| 5 | web.rst:201 | `Advice` の2シグネチャ | C | そのまま |
+| 6 | web.rst:208 | `@Test`＋`execute(new BasicAdvice(){…})` | B | `support.execute(...)` |
+| 7 | web.rst:260 | `setValidToken` | C | そのまま（`public`） |
+| 8 | web.rst:266 | `setToken` | C | そのまま（`public`） |
+| 9 | web.rst:272 | `setToken(...)` 断片 | B | `support.setToken(...)` |
+| 10 | web.rst:282 | `createHttpRequest`×2・`createExecutionContext` | C | そのまま（`HttpRequestTestSupport` の `public` 版と一致） |
+| 11 | web.rst:294 | `HttpResponse execute(String, HttpRequest, ExecutionContext)` | C | **要是正。この3引数版は `protected`**（下記 反例2） |
+| 12 | web.rst:357 | `@Test`＋`assertSqlResultSetEquals` | B | `support.` 経由 |
+| 13 | web.rst:400 | `@Test`＋`assertEntity` | B | `support.` 経由 |
+| 14 | web.rst:425 | `@Test`＋`getListMap` | B | `support.` 経由 |
+| 15 | web.rst:445 | `@Test`＋`getParam` | B | `support.` 経由 |
+| 16 | web.rst:464 | `assertObjectPropertyEquals` 他2 | C | そのまま（3つとも `public`） |
+| 17 | web.rst:474 | `@Test`＋`assertObjectPropertyEquals` | B | `support.` 経由 |
+| 18 | web.rst:498 | `assertApplicationMessageId` | C | そのまま（`public`） |
+| 19 | web.rst:514 | `FileSupport` フィールド＋`@Test` | B | `support.execute(...)`。`new FileSupport(getClass())` はテストクラス自身の `getClass()` のため変更不要 |
+| 20 | rest.rst:61 | `extends RestTestSupport` 全体像 | A | `@RestTest` ＋ `RestTestSupport support;`。`import org.junit.Test;` → `org.junit.jupiter.api.Test` |
+| 21 | rest.rst:112 | `get`/`post`/`put`/`patch`/`delete` | C | そのまま |
+| 22 | rest.rst:126 | `newRequest` | C | そのまま |
+| 23 | rest.rst:136 | `post(...)` 断片 | B | `support.post(...)` |
+| 24 | rest.rst:151 | `getListMap` 他2 | C | そのまま |
+| 25 | rest.rst:165 | `sendRequest` | C | そのまま |
+| 26 | rest.rst:177 | `assertStatusCode` | C | そのまま |
+| 27 | rest.rst:199 | `readTextResource` | C | そのまま |
+| 28 | request_unit_test/batch.rst:70 | `extends BatchRequestTestSupport` | A | `@BatchRequestTest` ＋ `BatchRequestTestSupport support;` |
+| 29 | request_unit_test/batch.rst:88 | 同上 | A | 同上 |
+| 30 | request_unit_test/batch.rst:113 | `@Test`＋`execute()` | B | **要是正。引数なし `execute()` は `protected final`**（下記 反例1） |
+| 31 | request_unit_test/batch.rst:122 | `@Test`＋`execute("…")` | B | `support.execute("testRegisterUser")`（`public final`） |
+| 32 | request_unit_test/mom.rst:98 | `extends MessagingRequestTestSupport` | A | `@MessagingRequestTest` ＋ フィールド |
+| 33 | request_unit_test/mom.rst:116 | `extends MessagingReceiveTestSupport` | A | `@MessagingReceiveTest` ＋ フィールド |
+| 34 | request_unit_test/mom.rst:148 | `@Test`＋`execute()` | B | **要是正**（反例1） |
+| 35 | deal_unit_test/batch.rst:32 | `extends BatchRequestTestSupport` | A | `@BatchRequestTest` ＋ フィールド |
+| 36 | deal_unit_test/batch.rst:47 | `@Test`＋`execute()` | B | **要是正**（反例1） |
+| 37 | deal_unit_test/batch.rst:57 | クラス例＋`execute("…")`×3 | A | `execute(String)` は `public final` のため `support.execute("…")` でよい |
+| 38 | deal_unit_test/mom.rst:50 | `extends MessagingRequestTestSupport` | A | `@MessagingRequestTest` ＋ フィールド |
+| 39 | deal_unit_test/rest.rst:30 | `@Test`＋`get`/`sendRequest`/`assertStatusCode` | B | `support.` 経由（§4 が例示している箇所） |
+| 40 | class_unit_test/component.rst:73 | `extends DbAccessTestSupport` | A | `@DbAccessTest` ＋ `DbAccessTestSupport support;` |
+| 41 | class_unit_test/component.rst:98 | `extends AnotherSuperClass`＋委譲＋`@Before`/`@After` | E | `setup/junit4.rst`「テスティングフレームワークのクラスを継承せずに使用する」へ移設（§2） |
+| 42 | class_unit_test/component.rst:131 | `@BeforeClass` の上書き例 | E | `setup/junit4.rst`「テストの実行前後に共通処理を行う」へ移設（§2） |
+| 43 | class_unit_test/component.rst:161 | `extends DbAccessTestSupport`＋`setUpDb`/`assertSqlResultSetEquals` | A | クラス反転＋`support.` 経由 |
+| 44 | class_unit_test/component.rst:199 | 同上＋`commitTransactions`/`assertTableEquals` | A | 同上 |
+| 45 | class_unit_test/component.rst:225 | `@Test`＋`setThreadContextValues` | B | `support.` 経由 |
+| 46 | class_unit_test/component.rst:245 | `@Test`＋`getListMap` | B | `support.` 経由 |
+| 47 | class_unit_test/component.rst:269 | `@Test`＋`setUpDb`/`getListMap`/`assertSqlResultSetEquals` | B | `support.` 経由 |
+| 48 | class_unit_test/component.rst:297 | `setUpDb`/`assertTableEquals` 断片 | B | `support.` 経由 |
+| 49 | class_unit_test/component.rst:324 | `TestDataParser` を直接使う例 | D | 対象外（サポートクラス非依存） |
+| 50 | class_unit_test/component.rst:354 | `@Test`＋try/catch | B | `@Test` の `public` を落とし `void` にする。本体はサポートクラス非依存 |
+| 51 | class_unit_test/entity.rst:88 | `extends EntityTestSupport` | A | `@EntityTest` ＋ `EntityTestSupport support;`。`import org.junit.Test;` を差し替え |
+| 52 | class_unit_test/entity.rst:237 | `testValidateCharsetAndLength` | C | そのまま（`public`） |
+| 53 | class_unit_test/entity.rst:275 | `@Test`＋同メソッド呼び出し | B | `support.` 経由 |
+| 54 | class_unit_test/entity.rst:324 | `testSingleValidation` | C | そのまま（`public`） |
+| 55 | class_unit_test/entity.rst:328 | `@Test`＋同メソッド呼び出し | B | `support.` 経由。テストメソッド名と同名だった衝突が `support.` で解消する |
+| 56 | class_unit_test/entity.rst:359 | `testSetterAndGetter` | C | そのまま（`public`） |
+| 57 | class_unit_test/entity.rst:363 | `@Test`＋同メソッド呼び出し | B | `support.` 経由（同上） |
+| 58 | class_unit_test/entity.rst:388 | `@Test`＋`testSetterAndGetter`/`getParamMap` | B | `support.` 経由 |
+| 59 | class_unit_test/entity.rst:436 | `SampleForm` の例 | D | 対象外（Form の宣言例） |
+| 60 | class_unit_test/entity.rst:459 | `testBeanValidation` | C | そのまま（`public`） |
+| 61 | class_unit_test/entity.rst:463 | `@Test`＋同メソッド呼び出し | B | `support.` 経由 |
+| 62 | class_unit_test/entity.rst:489 | `testValidateAndConvert` | C | そのまま（`public`） |
+| 63 | class_unit_test/entity.rst:493 | `@Test`＋同メソッド呼び出し | B | `support.` 経由 |
+| 64 | class_unit_test/entity.rst:514 | `testConstructorAndGetter` | C | そのまま（`public`） |
+| 65 | class_unit_test/entity.rst:518 | `@Test`＋同メソッド呼び出し | B | `support.` 経由 |
+
+集計: A=14 / B=27 / C=20 / D=2 / E=2。合計65。
+
+**メソッド可視性の実測**（`javap -protected`、`~/.m2/.../nablarch-testing-6-NEXT-20250314.140856-24.jar`。ソースは `e21bf67` と PR ブランチ `convert-testdata-excel-to-text`（`dcaed44`）で同一）
+
+`support.` 経由に改める全メソッドのうち、`public` であることを確認したもの: `setValidToken`・`setToken`・`createHttpRequest`(2種)・`createExecutionContext`・`assertSqlResultSetEquals`・`assertEntity`・`getListMap`・`getListParamMap`・`getParamMap`・`getParam`・`assertObjectPropertyEquals`・`assertObjectArrayPropertyEquals`・`assertObjectListPropertyEquals`・`assertApplicationMessageId`・`setUpDb`・`commitTransactions`・`beginTransactions`・`endTransactions`・`assertTableEquals`・`setThreadContextValues`・`testValidateCharsetAndLength`・`testSingleValidation`・`testSetterAndGetter`・`testBeanValidation`・`testValidateAndConvert`・`testConstructorAndGetter`・`AbstractHttpRequestTestTemplate.execute`(8種)・`StandaloneTestSupportTemplate.execute(String)`・`execute(String, boolean)`。
+
+クラス階層（javap 実測）: `BasicHttpRequestTestTemplate` → `AbstractHttpRequestTestTemplate` → `HttpRequestTestSupport` → `TestEventDispatcher`。よって `BasicHttpRequestTestTemplate` 型のフィールド経由で `HttpRequestTestSupport` の `public` メソッドはすべて呼べる。
+
+### 0-3 新ラベルの衝突確認
+
+母集合: `grep -rhoE '^\.\. _`?[^:`]+`?:' ja/ --include='*.rst'` で機械抽出（バッククォート形式を含む）= **1,054件**。
+
+- `standard_usage` — 完全一致0件、部分一致0件
+- `junit4_support` — 完全一致0件、部分一致0件
+- 下位ラベル候補 `standard_usage-inject`・`junit4_support-vintage` — 上記のとおり `standard_usage`／`junit4` を含む既存ラベルが0件のため衝突なし
+
+### 0-4 `mapping.csv` の新割当表
+
+`dest_page = JUnit 5用拡張機能` は **17行**（指示書の記載どおり `current-0178`〜`0180`・`current-0265`〜`0278`）。`lines` 合計 475。
+
+| `src_section_id` | `lines` | `heading_path` の末尾 | 現 `dest_section` | 所在 `_batch` | 新 `dest_page` |
+|---|---|---|---|---|---|
+| current-0178 | 18 | JUnit 5で自動テストフレームワークを動かす > JUnit Vintage | 機能概要 | `batch-03.csv` | **JUnit 4で使用する** |
+| current-0179 | 5 | JUnit 5で自動テストフレームワークを動かす > 前提条件 | 機能概要 | `batch-03.csv` | 標準の使い方 |
+| current-0180 | 42 | JUnit 5で自動テストフレームワークを動かす > 依存関係の追加 | 使用方法 | `batch-03.csv` | **JUnit 4で使用する**（※ 反例5） |
+| current-0265 | 9 | JUnit 5用拡張機能 > 概要 | 機能概要 | `batch-14.csv` | 標準の使い方 |
+| current-0266 | 8 | JUnit 5用拡張機能 > 前提条件 | 機能概要 | `batch-14.csv` | 標準の使い方 |
+| current-0267 | 11 | JUnit 5用拡張機能 > モジュール一覧 | 使用方法 | `batch-14.csv` | 標準の使い方 |
+| current-0268 | 47 | JUnit 5用拡張機能 > 基本的な使い方 | 使用方法 | `batch-14.csv` | 標準の使い方 |
+| current-0269 | 44 | Extension クラスと合成アノテーションの一覧 > (L2直下) | 使用方法 | `batch-14.csv` | 標準の使い方 |
+| current-0270 | 22 | 〜の一覧 > BasicHttpRequestTest の使い方の補足 | 使用方法 | `batch-14.csv` | 標準の使い方 |
+| current-0271 | 12 | 独自の拡張を加える > (L2直下) | 拡張例 | `batch-14.csv` | 標準の使い方 |
+| current-0272 | 22 | 独自の拡張を加える > 独自拡張クラスを作成する | 拡張例 | `batch-14.csv` | 標準の使い方 |
+| current-0273 | 25 | 独自の拡張を加える > 独自拡張用のExtensionを作成する | 拡張例 | `batch-14.csv` | 標準の使い方 |
+| current-0274 | 22 | 独自の拡張を加える > ExtendWithでテストクラスに適用する | 拡張例 | `batch-14.csv` | 標準の使い方 |
+| current-0275 | 82 | 〜BasicHttpRequestTestTemplateを拡張する場合はアノテーションも作成する | 拡張例 | `batch-14.csv` | 標準の使い方 |
+| current-0276 | 25 | 独自の拡張を加える > 事前処理・事後処理を実装する | 拡張例 | `batch-14.csv` | 標準の使い方 |
+| current-0277 | 52 | 独自の拡張を加える > JUnit 4のTestRuleを再現する | 拡張例 | `batch-14.csv` | 標準の使い方 |
+| current-0278 | 29 | JUnit 5用拡張機能 > RegisterExtensionで使用する | 使用方法 | `batch-14.csv` | 標準の使い方 |
+
+編集対象の `_batch` は2ファイル（`batch-03.csv` 3行・`batch-14.csv` 14行）。`JUnit 4で使用する` 側 60行（`current-0178` 18 ＋ `current-0180` 42）、`標準の使い方` 側 415行。合計 475 で不変。
+
+### 0-5 見出しレベルの構成案
+
+**`setup/standard_usage.rst`「標準の使い方」**（ラベル `standard_usage`）
+
+```
+L1 標準の使い方
+   .. contents:: 目次 (:depth: 3 :local:)
+L2 機能概要
+     （冒頭でサポートクラス＋合成アノテーション＋Extension のインジェクションを言い切る）
+     （図 images/standard_usage/extension_class.png）
+     （JUnit 4 の対比は :ref:`JUnit 4で使用する <junit4_support>` への1文の導線に置き換える）
+   L3 Extensionクラスと合成アノテーションの一覧      ← 現 :28。据え置き
+   L3 前提事項                                      ← 現 :73。据え置き
+L2 使用方法
+   L3 依存関係を追加する                             ← 現 :80。標準セットアップとして書き直す
+   L3 テストクラスに合成アノテーションを設定する        ← 現 :100。ラベルは standard_usage-inject へ改名
+   L3 BasicHttpRequestTestTemplateを使用する         ← 現 :131。据え置き
+   L3 RegisterExtensionでExtensionクラスを適用する    ← 現 :151。据え置き
+   （現 :182「JUnit 4で書いたテストをJUnit 5上で実行する」は junit4.rst へ移設して削除）
+L2 拡張例                                            ← 現 :227。据え置き
+   L3 独自拡張クラスを作成する                        ← 現 :237
+   L3 独自拡張用のExtensionクラスを作成する            ← 現 :258
+   L3 ExtendWithでテストクラスに適用する               ← 現 :279
+   L3 baseUriを渡す合成アノテーションを作成する          ← 現 :301
+   L3 事前処理・事後処理を実装する                     ← 現 :378
+   L3 JUnit 4のTestRuleを再現する                     ← 現 :397。据え置き（§1 の明示指定）
+```
+
+**`setup/junit4.rst`「JUnit 4で使用する」**（ラベル `junit4_support`。setup 末尾）
+
+```
+L1 JUnit 4で使用する
+   .. contents:: 目次 (:depth: 3 :local:)
+L2 機能概要
+     （JUnit 4 でも使用できること／サポートクラスを継承して使うこと／
+       既存の JUnit 4 テスト資産を持つプロジェクト向けであること／
+       標準は :ref:`標準の使い方 <standard_usage>` への導線）
+L2 使用方法
+   L3 依存関係                                        ← 追加不要。nablarch-testing が junit:junit 4.13.1 を compile で推移提供
+   L3 テストクラスを作成する                           ← 継承方式の最小例1つ＋読み替え規則1文
+   L3 テストの実行前後に共通処理を行う                   ← component.rst:122-:146 を移設（ブロック42を含む）
+   L3 テスティングフレームワークのクラスを継承せずに使用する  ← component.rst:93〜 を移設（ブロック41）
+   L3 JUnit 4で書いたテストをJUnit 5上で実行する          ← junit5_extension.rst:180-:225 を移設。
+                                                        ラベル junit4_support-vintage。junit-bom を 5.8.2 → 5.11.0
+```
+
+**`about/index.rst`**（見出しは1つも変えない。本文のみ反転）
+
+```
+L3 使い慣れたJUnitの書き方をそのまま活かせる  :30   ← :32 の「JUnit 4を基盤としており」／
+                                                    :34 の導入文／:36-:44 のコード例／:48 の tip
+L2 アーキテクチャ                          :104  ← :106 の継承前提／:110 の導入文／
+                                                    test_support_class.puml の title
+L2 稼動環境                                :117  ← :119 の1文
+```
+
+### 0-6 アーキタイプに `junit-vintage` が無いこと
+
+`grep -rn -i 'vintage' <archetype> --exclude-dir=.git` = **0件**（全ファイル。pom は11本）。標準セットアップに vintage を含めない根拠として成立する。
+
+## フェーズ0 の反例（ディレクター判断が要る項目）
+
+本文の報告に同じ内容を記す。
+
+1. **引数なし `execute()` は `support.` 経由で呼べない**（ブロック30・34・36 と、その周辺の地の文）。`javap`: `nablarch.test.core.standalone.StandaloneTestSupportTemplate` の `protected final void execute();`。`public final` は `execute(String)`・`execute(String, boolean)` のみ。アーキタイプ `9ef4096` の `nablarch-batch/src/test/java/com/nablarch/archetype/SampleBatchActionRequestTest.java:21` は `support.execute(support.testName.getMethodName());` と書いている（`testName` は `TestEventDispatcher` の `public final org.junit.rules.TestName`。`getMethodName()` は `protected final` のため `support.getMethodName()` は不可）。
+2. **`web.rst:294` のシグネチャは `protected`**。`javap`: `HttpRequestTestSupport` の `protected HttpResponse execute(String, HttpRequest, ExecutionContext);` と `public HttpResponse execute(Class<?>, String, HttpRequest, ExecutionContext);`。インジェクション方式では4引数の `public` 版しか呼べない。
+3. **完了条件5 の除外範囲が足りない**。`standard_usage.rst` の拡張例節に残る `extends TestSupport`（現 `junit5_extension.rst:243`）と `extends BasicHttpRequestTestTemplate`（現 `:309`）は §1 が「内容を保つ」と指定した独自拡張クラスの作成例であり、走査に必ず残る。完了条件5 の除外を「`setup/junit4.rst` 全体と `standard_usage.rst` の L2『拡張例』全体」に広げる必要がある。
+4. **下位ラベル2件の新名称が未指定**。`junit5_extension-inject`（現 `:98`）と `junit5_extension-vintage`（現 `:180`）。完了条件2・§5-7 は `junit5_extension` の0件を要求するため必ず改名が要る。案は `standard_usage-inject`・`junit4_support-vintage`（衝突0件を 0-3 で確認済み）。
+5. **`current-0180` の割当が §1 と矛盾する**。`current-0180`（依存関係の追加・42行）の `note` は「JUnit Vintage を有効にするため pom.xml に junit-jupiter/junit-vintage-engine の2アーティファクトを依存関係に追加する手順と、dependencyManagement 込みの pom.xml 記述例」。§5-3 はこれを `JUnit 4で使用する` のみに割り当てるが、§1 は `標準の使い方` の「依存関係を追加する」にも junit-bom 5.11.0 と junit-jupiter を書くよう指示している。この結果 junit-bom／junit-jupiter の記述が2ページに現れるのに、マッピング上の根拠は junit4 側にしかない。
+6. **`style.md:414` が §5-5 の対象から漏れている**。`:414` に `setup/junit5_extension.rst:30` への参照がある（S-08 の表 `:491` とは別）。
+7. **`volume.md` の経緯記述の扱いが未指定**。`JUnit 5用拡張機能` は `:26`（ページ別集計）のほか `:31`・`:73`・`:75`・`:94`・`:145` に出る。§5-1 は design.md についてのみ「過去の経緯を記す節の中の旧名は書き換えない」と定めており、volume.md への適用は書かれていない。
+8. **`design.md:211` の扱いが未指定**。`:211` は `about/index.rst` の稼動環境を「`:ref:`JUnit 5用拡張機能 <junit5_extension>`` を参照。」の1文のみとする現行仕様の記述であり、単なる経緯ではない。§3 が `:119` を書き換えるため追随の要否を決める必要がある。
+9. **`nablarch-testing` のピン `e21bf67` は `main` のコミット**。steering.md Rules は「各モジュールの事実確認は PR ブランチを参照点にする。`main` を参照点にしない」と定める。当該主張（junit 4.13.1 compile）は PR ブランチ `convert-testdata-excel-to-text`（`dcaed44`）でも `pom.xml:151`-`:154` が同一のため結論は変わらないが、ピンは PR ブランチへ差し替えるのが規則に沿う。
+10. **`support.testName` は JUnit 4 の型を露出する**（反例1 の解決策に伴う）。`org.junit.rules.TestName`。アーキタイプが採っている書き方をそのまま持ち込むと、JUnit 5 を標準と名乗るページに JUnit 4 の型名が現れる。
+
+## Completion Criteria
+
+指示書 §7 の1〜12。フェーズ1 完了後に記入する。
+
+| Criterion | Self-check | Evidence | QA | QA Evidence |
+|---|---|---|---|---|
+| 1. フェーズ0 の 0-1〜0-6 が全件表で記録され、ディレクター OK を得ている | 記録は本ファイルに完了。**ディレクター OK は未取得** | 上記 0-1〜0-6 | | |
+| 2. `junit5_extension` が0件 | 未実施 | | | |
+| 3. アノテーション・Extension・サポートクラス名の1件ずつの一致 | 未実施 | | | |
+| 4. 代表例の実コンパイル | 未実施 | | | |
+| 5. JUnit 4 語彙の残存走査 | 未実施（ベースライン30件を計測済み） | | | |
+| 6. `:ref:` の全解決・段落内改行0件 | 未実施 | | | |
+| 7. Docker フルビルド | 未実施 | | | |
+| 8. `verify_mapping.py`・`verify_glossary.py`・`_batch` 連結のバイト一致 | 未実施 | | | |
+| 9. `.png` 2枚の再生成 | 未実施 | | | |
+| 10. 差分範囲ゲート | 未実施 | | | |
+| 11. 修正意図ごとに1コミットし push 済み | 未実施 | | | |
+| 12. 記録が本ファイルにあり §9 の報告をして停止 | フェーズ0 分は完了 | 本ファイル | | |
+
+## Overall Verdict
+
+- Self-check: フェーズ0 のみ完了（`.rst`・`mapping/`・`design.md` は未変更）
+- Ready to check off: No（フェーズ1 未着手。反例10件のディレクター判断待ち）

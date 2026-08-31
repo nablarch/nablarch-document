@@ -2014,6 +2014,8 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 
 **Completion criteria**: 指示書 §7 の1〜12 の逐語による。
 
+**進捗**: フェーズ0（着手前検証）完了（2026-08-31）。`.rst`・`mapping/`・`design.md` はいずれも未変更。実測記録は `checks/task-55.md`。**反例10件のディレクター判断待ちで停止中。** うちフェーズ1 の書き換え方式そのものに関わるのが2件（引数なし `execute()` が `protected final` である件、`web.rst:294` のシグネチャが `protected` である件）。
+
 
 # State
 
