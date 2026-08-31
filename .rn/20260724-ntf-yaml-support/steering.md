@@ -2014,7 +2014,7 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 
 **Completion criteria**: 指示書 §7 の1〜12 の逐語による。
 
-**進捗**: フェーズ0（着手前検証）完了（2026-08-31）。`.rst`・`mapping/`・`design.md` はいずれも未変更。実測記録は `checks/task-55.md`。**反例10件のディレクター判断待ちで停止中。** うちフェーズ1 の書き換え方式そのものに関わるのが2件（引数なし `execute()` が `protected final` である件、`web.rst:294` のシグネチャが `protected` である件）。
+**進捗**: フェーズ0（着手前検証）完了・**ディレクター承認済み**（2026-08-31、指示書 §10）。反例10件への回答も §10 にあり、**§10 は §1〜§7 の記載に優先する**。実測記録は `checks/task-55.md`。フェーズ1 に着手中。
 
 
 # State
@@ -2023,8 +2023,8 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-31
-- **Last completed**: `#55` フェーズ0（着手前検証）。指示書の `file:line`・逐語・件数32項目は全一致。反例10件を検出（`9a28d08f`）。`.rst`・`mapping/`・`design.md` は未変更
-- **Next**: `#55` フェーズ0 の反例10件へのディレクター回答を待って、フェーズ1（指示書 §1〜§5）に着手する。反例の全文は `checks/task-55.md` の節「フェーズ0 の反例（ディレクター判断が要る項目）」。うち反例1（引数なし `execute()` が `protected final`）と反例2（`web.rst:294` が `protected`）は書き換え方式そのものに関わるため、回答なしにフェーズ1 へ進まない
-- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、`origin` に push 済み。`#55` の全件表（java 65件の分類 A14/B27/C20/D2/E2）と 0-3〜0-6 の実測は `checks/task-55.md`。残タスクは `#29`・`#33`・`#34`・`#52`・`#53`・`#54`（`#52`〜`#54` は指示書送付待ち）
+- **Status**: not suspended
+- **Date**: YYYY-MM-DD
+- **Last completed**: #N description
+- **Next**: #N description
+- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
