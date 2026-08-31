@@ -1,13 +1,16 @@
-.. _entityUnitTest:
+.. _legacy_junit4_entityUnitTest:
 
-==========================================================
-Nablarch Validationに対応したForm/Entityのクラス単体テスト
-==========================================================
+=======================================================================
+Nablarch Validationに対応したForm/Entityのクラス単体テスト（JUnit 4）
+=======================================================================
+
+.. important::
+
+  本ページはJUnit 4で作成された既存のテスト資産を保守するプロジェクト向けである。
+  新規にテストを作成する場合は、JUnit 5版の :ref:`entityUnitTest` を参照すること。
+
 本項では、入力値チェックを :ref:`nablarch_validation` で実施しているFormおよびEntityクラス単体テスト(以下Form単体テストまたはEntity単体テスト)について説明する。
 両者はほぼ同じように単体テストを行えるため、共通する内容についてはEntity単体テストをベースに説明し、特有の処理については個別に説明する。
-
-本項のコード例はJUnit 5（ :ref:`ntf_junit5_extension` ）を前提としている。
-JUnit 4で作成された既存のテスト資産を保守する場合は、 :ref:`legacy_junit4_entityUnitTest` を参照すること。
 
 .. tip::
    Form、Entityの責務については、各処理方式の責務配置を参照すること。
@@ -18,20 +21,20 @@ Form/Entity単体テストの書き方
 -----------------------------
 本項で例として使用したテストクラスとテストデータは以下のとおり(右クリック->保存でダウンロード)。
 
-* :download:`テストクラス(SystemAccountEntityTest.java)<../_download/SystemAccountEntityTest.java>`
-* :download:`テストデータ(SystemAccountEntityTest.xlsx)<../_download/SystemAccountEntityTest.xlsx>`
-* :download:`テスト対象クラス(SystemAccountEntity.java)<../_download/SystemAccountEntity.java>`  
+* :download:`テストクラス(SystemAccountEntityTest.java)<_download/SystemAccountEntityTest.java>`
+* :download:`テストデータ(SystemAccountEntityTest.xlsx)<_download/SystemAccountEntityTest.xlsx>`
+* :download:`テスト対象クラス(SystemAccountEntity.java)<_download/SystemAccountEntity.java>`  
 
 テストデータの作成
 ==================
 テストデータを記載したExcelファイルそのものの作成方法を説明する。テストデータを記載したExcelファイルは、テストソースコードと同じディレクトリに同じ名前で格納する(拡張子のみ異なる)。\
 なお、後述する\
-\ :ref:`精査のテストケース<entityUnitTest_ValidationCase>`\ 、\
-\ :ref:`コンストラクタのテストケース<entityUnitTest_ConstructorCase>`\ 、\
-\ :ref:`setter、getterに対するテストケース<entityUnitTest_SetterGetterCase>`\ 
+\ :ref:`精査のテストケース<legacy_junit4_entityUnitTest_ValidationCase>`\ 、\
+\ :ref:`コンストラクタのテストケース<legacy_junit4_entityUnitTest_ConstructorCase>`\ 、\
+\ :ref:`setter、getterに対するテストケース<legacy_junit4_entityUnitTest_SetterGetterCase>`\ 
 のそれぞれが、1シートずつ使用する前提である。
 
-テストデータの記述方法詳細については、\ :doc:`../../../06_TestFWGuide/01_Abstract`\ 、\ :doc:`../../../06_TestFWGuide/02_DbAccessTest`\ を参照。
+テストデータの記述方法詳細については、\ :doc:`../../06_TestFWGuide/01_Abstract`\ 、\ :doc:`../../06_TestFWGuide/02_DbAccessTest`\ を参照。
 
 なお、メッセージデータやコードマスタなどの、データベースに格納する静的マスタデータは、プロジェクトで管理されたデータがあらかじめ投入されている\
 (これらのデータを個別のテストデータとして作成しない)前提である。
@@ -42,8 +45,7 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 
 * テストクラスのパッケージは、テスト対象のForm/Entityと同じとする。
 * <Form/Entityクラス名>Testというクラス名でテストクラスを作成する。
-* 合成アノテーション :java:extdoc:`EntityTest <nablarch.test.junit5.extension.db.EntityTest>` をテストクラスに付与する。
-* nablarch.test.core.db.EntityTestSupport型のフィールドを宣言する（インスタンスは拡張機能が自動的にインジェクションする）。
+* nablarch.test.core.db.EntityTestSupportを継承する。
 
 .. code-block:: java
 
@@ -52,13 +54,12 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
    import java.util.HashMap;
    import java.util.Map;
 
-   import org.junit.jupiter.api.Test;
+   import org.junit.Test;
 
    import nablarch.test.core.db.EntityTestSupport;
-   import nablarch.test.junit5.extension.db.EntityTest;
 
-   import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-   import static org.junit.jupiter.api.Assertions.assertEquals;
+   import static org.junit.Assert.assertArrayEquals;
+   import static org.junit.Assert.assertEquals;
 
    /**
     * SystemAccountEntityクラスに対するテストを実行するクラス。<br/>
@@ -67,17 +68,15 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
     * @author Miki Habu
     * @since 1.0
     */
-   @EntityTest  // 【説明】合成アノテーションを付与する
-   class SystemAccountEntityTest {
-
-       EntityTestSupport support;
-       // 【説明】EntityTestSupport型のフィールドを宣言すると、インスタンスがインジェクションされる
+   public class SystemAccountEntityTest extends EntityTestSupport {
+   // 【説明】クラス名はSystemAccountEntityTestで、EntityTestSupportを継承する
+   
 
    // ～後略～
-
+   
 テストメソッドの記述方法は本項以降に記載されているコード例を参照。
 
-.. _entityUnitTest_ValidationCase:
+.. _legacy_junit4_entityUnitTest_ValidationCase:
 
 文字種と文字列長の単項目精査テストケース
 ========================================
@@ -169,12 +168,12 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 +--------------------------------+--------------------------------------------------------+
 
 
-.. [#] messageIdWhenEmptyInputを省略した場合は、 :ref:`entityUnitTest_EntityTestConfiguration` で設定したemptyInputMessageId
+.. [#] messageIdWhenEmptyInputを省略した場合は、 :ref:`legacy_junit4_entityUnitTest_EntityTestConfiguration` で設定したemptyInputMessageId
        の値が使用される。
 
 \
 
-.. [#] messageIdWhenInvalidLengthを省略した場合は、 :ref:`entityUnitTest_EntityTestConfiguration` で
+.. [#] messageIdWhenInvalidLengthを省略した場合は、 :ref:`legacy_junit4_entityUnitTest_EntityTestConfiguration` で
        設定したデフォルト値が使用される。省略時にどのデフォルト値が使用されるかは、max欄及びmin欄の記載によって決まり、以下の通り。
 
 +--------------+----------------+---------------------------------------------------------------+
@@ -200,7 +199,7 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 
 具体例を以下に示す。
 
-.. image:: ../_image/entityUnitTest_CharsetAndLengthExample.png
+.. image:: ../01_ClassUnitTest/_image/entityUnitTest_CharsetAndLengthExample.png
    :scale: 100
 
 
@@ -209,40 +208,38 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 ------------------------
 
  
-インジェクションされたEntityTestSupportの以下のメソッドを起動する。
+スーパクラスの以下のメソッドを起動する。
 
 .. code-block:: java
 
    void testValidateCharsetAndLength(Class entityClass, String sheetName, String id)
 
 
-\
+\ 
 
 .. code-block:: java
 
    // 【説明】～前略～
 
-  @EntityTest
-  class SystemAccountEntityTest {
-
+  public class SystemAccountEntityTest extends EntityTestSupport {
+    
        /** テスト対象エンティティクラス */
        private static final Class<SystemAccountEntity> ENTITY_CLASS = SystemAccountEntity.class;
 
-       EntityTestSupport support;
 
        /**
         * 文字種および文字列長のテストケース
         */
        @Test
-       void testCharsetAndLength() {
+       public void testCharsetAndLength() {
             // 【説明】テストデータを記載したシート名
-            String sheetName = "testCharsetAndLength";
+            String sheetName = "testCharsetAndLength";        
 
             // 【説明】テストデータのID
             String id = "charsetAndLength";
 
             // 【説明】テスト実行
-            support.testValidateCharsetAndLength(ENTITY_CLASS, sheetName, id);
+            testValidateCharsetAndLength(ENTITY_CLASS, sheetName, id);
        }
 
 
@@ -342,7 +339,7 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 
 具体例を以下に示す。
 
-.. image:: ../_image/entityUnitTest_singleValidationDataExample.png
+.. image:: ../01_ClassUnitTest/_image/entityUnitTest_singleValidationDataExample.png
    :scale: 70           
 
 
@@ -350,7 +347,7 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 ------------------------
 
  
-インジェクションされたEntityTestSupportの以下のメソッドを起動する。
+スーパクラスの以下のメソッドを起動する。
 
 .. code-block:: java
 
@@ -363,28 +360,25 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 
  // 【説明】～前略～
 
- @EntityTest
- class SystemAccountEntityTest {
-
+ public class SystemAccountEntityTest extends EntityTestSupport {
+    
       /** テスト対象エンティティクラス */
       private static final Class<SystemAccountEntity> ENTITY_CLASS = SystemAccountEntity.class;
-
-      EntityTestSupport support;
 
       /**
        * 文字種および文字列長の単項目精査テストケース
        */
       // 【説明】～中略～
 
-      /**
-       * 単項目精査のテストケース（上記以外）
-       */
-      @Test
-      void testSingleValidation() {
-          String sheetName = "testSingleValidation";
-          String id = "singleValidation";
-          support.testSingleValidation(ENTITY_CLASS, sheetName, id);
-      }
+      /**							  
+       * 単項目精査のテストケース（上記以外）		  
+       */							  
+      @Test						  
+      public void testSingleValidation() {		  
+          String sheetName = "testSingleValidation";	  
+          String id = "singleValidation";			  
+          testSingleValidation(ENTITY_CLASS, sheetName, id);
+      }                                                     
 
 
        // 【説明】～後略～
@@ -438,7 +432,7 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 
     具体例を以下に示す。
 
-    .. image:: ../_image/entityUnitTest_validationTestData.png
+    .. image:: ../01_ClassUnitTest/_image/entityUnitTest_validationTestData.png
       :scale: 70
 
 
@@ -447,7 +441,7 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 --------------------------------
 
 
-.. _entityUnitTest_ValidationMethodSpecifyNormal:
+.. _legacy_junit4_entityUnitTest_ValidationMethodSpecifyNormal:
 
 
 精査対象確認
@@ -473,14 +467,14 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 テストケース表には、全精査対象プロパティのプロパティ名と、\
 そのプロパティ単項目精査エラーメッセージIDを記載する。
 
-.. image:: ../_image/entityUnitTest_ValidationPropTestCases.png
+.. image:: ../01_ClassUnitTest/_image/entityUnitTest_ValidationPropTestCases.png
  :scale: 70
 
 
 入力パラメータ表には、全てのプロパティに対してそれぞれ単項目精査エラーとなる値を記載する。
 
 
-.. image:: ../_image/entityUnitTest_ValidationPropParams.png
+.. image:: ../01_ClassUnitTest/_image/entityUnitTest_ValidationPropParams.png
  :scale: 68
 
 
@@ -523,12 +517,12 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
 項目間精査など
 ~~~~~~~~~~~~~~
 
-項目間精査など、バリデーションメソッドの\ :ref:`entityUnitTest_ValidationMethodSpecifyNormal`\ 
+項目間精査など、バリデーションメソッドの\ :ref:`legacy_junit4_entityUnitTest_ValidationMethodSpecifyNormal`\ 
 で行った精査対象指定以外の動作確認を行うケースを作成する。
 
 下図では、"newPasswordとconfirmPasswordが等しいこと"というバリデーションメソッドに対する正常系のケースを作成している。
 
-.. image:: ../_image/entityUnitTest_RelationalValidation.png
+.. image:: ../01_ClassUnitTest/_image/entityUnitTest_RelationalValidation.png
  :scale: 100
 
 
@@ -545,25 +539,23 @@ Form/Entity単体テストのテストクラスは、以下の条件を満たす
     /** テスト対象エンティティクラス */
     private static final Class<SystemAccountEntity> ENTITY_CLASS = SystemAccountEntity.class;
 
-    EntityTestSupport support;
-
     // ～中略～
     /**
      * {@link SystemAccountEntity#validateForRegisterUser(nablarch.core.validation.ValidationContext)} のテスト。
      */
     @Test
-    void testValidateForRegisterUser() {
+    public void testValidateForRegisterUser() {
         // 精査実行
         String sheetName = "testValidateForRegisterUser";
         String validateFor = "registerUser";
-        support.testValidateAndConvert(ENTITY_CLASS, sheetName, validateFor);
+        testValidateAndConvert(ENTITY_CLASS, sheetName, validateFor);
     }
 
    // ～後略～
 
 
 
-.. _entityUnitTest_ConstructorCase:
+.. _legacy_junit4_entityUnitTest_ConstructorCase:
 
 コンストラクタに対するテストケース
 ==================================
@@ -579,7 +571,7 @@ Nablarch Validationで入力値チェックを実施しているEntityには、 
 テストでは、コンストラクタにこれらの値の組み合わせを与えたとき、各プロパティに指定した値が設定されているか(getterを呼び出して、想定通りの値が取得できるか)確認している。
 
 実際のテストコードでは、コンストラクタへの値の設定及び値の確認は、自動テストフレームワークで提供されるメソッド内で行われる。
-詳細は、 :ref:`テストコード<test-constructor-java-label>` を参照すること。
+詳細は、 :ref:`テストコード<legacy-junit4-test-constructor-java-label>` を参照すること。
 
 
 .. tip::
@@ -593,7 +585,7 @@ Nablarch Validationで入力値チェックを実施しているEntityには、 
 
 Excelへの定義
 -------------
-.. image:: ../_image/entityUnitTest_Constructor.png
+.. image:: ../01_ClassUnitTest/_image/entityUnitTest_Constructor.png
     :scale: 80
 
 上記設定値のテスト内容(抜粋)
@@ -606,7 +598,7 @@ loginId         loginid                     loginid
 password        password                    password
 =============== =========================== ================================
 
-.. _test-constructor-java-label:
+.. _legacy-junit4-test-constructor-java-label:
 
 このデータを使用するテストメソッドを以下に示す。
 
@@ -614,24 +606,21 @@ password        password                    password
 
    // 【説明】～前略～
 
-   @EntityTest
-   class SystemAccountEntityTest {
-
-        EntityTestSupport support;
+   public class SystemAccountEntityTest extends EntityTestSupport {
 
         /** コンストラクタのテスト */
         @Test
-        void testConstructor() {
+        public void testConstructor() {
             Class<?> entityClass = SystemAccountEntity.class;
             String sheetName = "testAccessor";
             String id = "testConstructor";
-            support.testConstructorAndGetter(entityClass, sheetName, id);
+            testConstructorAndGetter(entityClass, sheetName, id);
         }
 
    }
 
 
-.. _testConstructorAndGetter-note-label:
+.. _legacy-junit4-testConstructorAndGetter-note-label:
 
 .. tip::
 
@@ -650,7 +639,7 @@ password        password                    password
 
     * Excelへのデータ記述例
 
-      .. image:: ../_image/entityUnitTest_ConstructorOther.png
+      .. image:: ../01_ClassUnitTest/_image/entityUnitTest_ConstructorOther.png
         :scale: 80
 
     
@@ -661,13 +650,13 @@ password        password                    password
 
        /** コンストラクタのテスト */
        @Test
-       void testConstructor() {
+       public void testConstructor() {
            // 【説明】
            // 共通にテストが実施出来る項目は、testConstructorAndGetterを使用してテストを実施する。
            Class<?> entityClass = SystemAccountEntity.class;
            String sheetName = "testAccessor";
            String id = "testConstructor";
-           support.testConstructorAndGetter(entityClass, sheetName, id);
+           testConstructorAndGetter(entityClass, sheetName, id);
 
            // 【説明】
            // 共通にテストが実施出来ない項目は、個別にテストを実施する。
@@ -675,7 +664,7 @@ password        password                    password
            // 【説明】
            // getParamMapを呼び出し、個別にテストを行うプロパティのテストデータを取得する。
            // (テスト対象のプロパティが複数ある場合は、getListParamMapを使用する。)
-           Map<String, String[]> data = support.getParamMap(sheetName, "testConstructorOther");
+           Map<String, String[]> data = getParamMap(sheetName, "testConstructorOther");
 
            // 【説明】Map<String, String[]>から、Entityのコンストラクタの引数であるMap<String, Object>へ変換する
            Map<String, Object> params = new HashMap<String, Object>();
@@ -685,26 +674,25 @@ password        password                    password
            SystemAccountEntity entity = new SystemAccountEntity(params);
 
            // 【説明】getterを呼び出し、期待値通りの値が返却されることを確認する。
-           // （org.junit.jupiter.api.Assertions.assertEquals を static import して使用する）
-           assertEquals(Arrays.asList(data.get("get")), entity.getUsers());
+           assertEquals(entity.getUsers(), Arrays.asList(data.get("get")));
 
        }
 
-.. _entityUnitTest_SetterGetterCase:
+.. _legacy_junit4_entityUnitTest_SetterGetterCase:
 
 setter、getterに対するテストケース
 ==================================
 
-:ref:`entityUnitTest_SetterGetterCase_BeanValidation` を参照。
+:ref:`legacy_junit4_entityUnitTest_SetterGetterCase_BeanValidation` を参照。
 
 \
 
-.. _entityUnitTest_EntityTestConfiguration:
+.. _legacy_junit4_entityUnitTest_EntityTestConfiguration:
 
 自動テストフレームワーク設定値
 ==============================
 
-:ref:`entityUnitTest_ValidationCase`\ を実施する際に必要な初期値設定について説明する。
+:ref:`legacy_junit4_entityUnitTest_ValidationCase`\ を実施する際に必要な初期値設定について説明する。
 
 
 設定項目一覧
