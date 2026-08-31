@@ -2023,8 +2023,8 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-31
+- **Last completed**: `#55` フェーズ0（着手前検証）。指示書の `file:line`・逐語・件数32項目は全一致。反例10件を検出（`9a28d08f`）。`.rst`・`mapping/`・`design.md` は未変更
+- **Next**: `#55` フェーズ0 の反例10件へのディレクター回答を待って、フェーズ1（指示書 §1〜§5）に着手する。反例の全文は `checks/task-55.md` の節「フェーズ0 の反例（ディレクター判断が要る項目）」。うち反例1（引数なし `execute()` が `protected final`）と反例2（`web.rst:294` が `protected`）は書き換え方式そのものに関わるため、回答なしにフェーズ1 へ進まない
+- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、`origin` に push 済み。`#55` の全件表（java 65件の分類 A14/B27/C20/D2/E2）と 0-3〜0-6 の実測は `checks/task-55.md`。残タスクは `#29`・`#33`・`#34`・`#52`・`#53`・`#54`（`#52`〜`#54` は指示書送付待ち）
