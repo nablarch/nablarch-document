@@ -190,3 +190,41 @@ HttpResponse execute(Class<?> testClass, String caseName, HttpRequest req, Execu
 #### 記録
 
 フェーズ0 の指摘10件＝方式不成立2・指示書の穴6・規則との食い違い1・型の露出1。いずれも成果物ではなくディレクターの指示文への指摘（`nablarch/CLAUDE.md` 3-4 の型）。全10件をディレクターが一次情報（`dcaed44`・`9ef4096`・`764fb9fd` の `git show`／自分の grep）で追認したうえで回答した。
+
+
+### §11 フェーズ1 の判定 — ディレクター独立検証の結果と是正2件（ディレクター。2026-08-31）
+
+**完了条件2〜11 をディレクターが独立に再実測し、すべて合格した。** フェーズ1 で CC が追加処置した3点（`readTextResource` の差し替え・「スーパクラス」49件・下位ラベル2件）も一次情報で追認した。ただし、§4 の反転が波及した文が setup 2ページに残っている（11-1・11-2。#55 自身の変更が作った不整合のため本タスクで直す。ラウンド1指摘2件・観点B）。**11-1〜11-3 を行い、報告して停止する。** 11-4・11-5 は CC の判断依頼への回答（11-4 は作業不要、11-5 は 11-3 に含む）。
+
+ディレクターの実測（scratchpad の GitHub clone、先端 `49db8f6`。ピン: junit5 `c06ebe8`・testing `dcaed44`・rest `9ada31e`）: `junit5_extension` 0件／`:java:extdoc:` の junit5 FQCN 23件が `c06ebe8` の `src/main` 23件と集合一致／代表例7種を `.rst` から独立に抽出し junit5 プロジェクトで `mvn -o test-compile` → BUILD SUCCESS（rest 例のため jsonassert 1.5.0・json-path-assert 2.4.0・json 20230618 を test 依存に追加して補完）／JUnit 4 語彙の残存は `junit4.rst` 全件と `standard_usage.rst` 拡張例内5件（`:222`・`:288`・`:391`・`:393`・`:426`、拡張例 L2 は `:207`〜）のみ／ラベル定義ユニーク・NTF の `:ref:` 未解決0件／Docker フルビルド `build succeeded.`・WARNING/ERROR/SEVERE 0件・新2ページと図2枚（`_images/`）を実体確認／`verify_mapping.py` OK（597/12,986/11,983 不変）・`verify_glossary.py` RESULT: OK・`_batch` 連結バイト一致／`.png` 2枚を temurin-17 で再生成し md5 一致／コミット連鎖は線形5件＋記録、作業ツリークリーン。
+
+#### 11-1 是正: `setup/request_unit_test/web.rst:232` の第1文
+
+現行第1文「``AbstractHttpRequestTestTemplate``\ は、リクエスト単体テストのテストクラスのスーパクラスである。」は、標準の使い方（テストクラスは継承しない）と矛盾する。**第1文だけ**を次の逐語に差し替える（同段落の第2文以降・`:230` は変更しない）:
+
+```
+``AbstractHttpRequestTestTemplate``\ は、リクエスト単体テストのサポートクラスである\ ``BasicHttpRequestTestTemplate``\ のスーパクラスである。
+```
+
+根拠: `BasicHttpRequestTestTemplate.java:15`（`nablarch-testing@dcaed44`）`public abstract class BasicHttpRequestTestTemplate extends AbstractHttpRequestTestTemplate<TestCaseInfo>`。
+
+#### 11-2 是正: `setup/request_unit_test/rest.rst:62`
+
+「を継承したテストクラスで」を「を使用するテストクラスで」に差し替える（同文の他の部分は変更しない）。継承は JUnit 4 の使い方に限られるため（`setup/junit4.rst`）。
+
+#### 11-3 後始末: `_build` の作り直し（正規の場所）
+
+旧ページ `junit5_extension.html` が `_build/html` に残っている件は、`_build` を **docker の中から**削除し、正規の場所（`~/work/nablarch/nablarch-document`）でフルビルドして解消する（`03-検証スクリプト.md` §5「作り直すときは docker の中から消す」・§9.5）。ホスト側から `rm` しない。ビルド後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo`。
+
+#### 11-4 回答: 用語「サポートクラス」は `glossary.md` §5 に登録しない
+
+`glossary.md` §3 の掲載基準（①表記揺れが実在する ②`design.md` が章・セクション名として使う）のどちらにも該当しない。揺れ候補（`機能実装クラス`・`支援クラス` 等）はディレクターの走査で `ja/` に0件、`サポートクラス` はセクション名でもない。現状の未登録が正しい。作業不要。
+
+#### 11-5 回答: `junit5_extension.html` の残存は 11-3 で解消する
+
+#### 完了条件（是正ラウンド1）
+
+1. `ja/` の差分が 11-1・11-2 の2文に限られる（`git diff --stat` で当該2ファイルのみ）
+2. 11-3 後、`build succeeded.`・WARNING/ERROR/SEVERE 0件、かつ `_build/html/development_tools/testing_framework/setup/junit5_extension.html` が存在しない
+3. `sphinx.mo` を復元し、`git status --porcelain` が空
+4. 実測を `checks/task-55.md` に追記し、修正意図ごとに1コミットで push、報告して停止する（レビューは回さない。§8。是正の検証はディレクターが差分限定2観点で行う）
