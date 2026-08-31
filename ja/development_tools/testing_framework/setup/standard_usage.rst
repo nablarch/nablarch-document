@@ -1,6 +1,6 @@
-.. _junit5_extension:
+.. _standard_usage:
 
-JUnit 5用拡張機能
+標準の使い方
 ==================================================
 
 .. contents:: 目次
@@ -9,17 +9,15 @@ JUnit 5用拡張機能
 
 機能概要
 --------------------------------------------------
-JUnit 5用拡張機能を使うと、JUnit 5で書いたテストからテスティングフレームワークの機能を使用できる。パラメータ化テストなど、JUnit 5が提供する機能と組み合わせてテストを書けるようになる。
+テスティングフレームワークは、\ :java:extdoc:`TestSupport <nablarch.test.TestSupport>`\ などのテストに必要な機能を実装したクラス（以下、サポートクラス）を提供している。使用するサポートクラスに対応する合成アノテーションをテストクラスに設定すると、Extensionクラスがそのインスタンスを生成し、テストクラスのフィールドにインジェクションする。これが標準の使い方である。
+
+テストクラスはサポートクラスを継承しないため、パラメータ化テストなどJUnit 5が提供する機能と組み合わせてテストを書ける。インジェクションの仕組みには、JUnit 5の\ `Extension(外部サイト、英語) <https://junit.org/junit5/docs/5.11.0/user-guide/#extensions>`_\ を使用している。Extensionクラスと合成アノテーションは、サポートクラスごとに用意されている。
+
+.. image:: images/standard_usage/extension_class.png
+
+JUnit 4でテストを書く場合は、インジェクションではなく継承でサポートクラスの機能を使用する。\ :ref:`JUnit 4で使用する <junit4_support>`\ を参照。
 
 JUnit 5そのものの導入方法やテストの書き方は、このページでは説明しない。\ `公式のユーザガイド(外部サイト、英語) <https://junit.org/junit5/docs/5.11.0/user-guide/>`_\ を参照。
-
-テスティングフレームワークは、\ :java:extdoc:`TestSupport <nablarch.test.TestSupport>`\ などのテストに必要な機能を実装したクラスを提供している。JUnit 4では、これらのクラスをテストクラスが継承することで、その機能をテストクラスから使用していた。
-
-本拡張機能は、これらのクラスのインスタンスを拡張機能側で生成し、テストクラスのフィールドにインジェクションする。この仕組みには、JUnit 5の\ `Extension(外部サイト、英語) <https://junit.org/junit5/docs/5.11.0/user-guide/#extensions>`_\ を使用している。テストクラスは継承の必要がなくなるため、パラメータ化テストなどJUnit 5の機能をそのまま使える。
-
-インジェクションは、テスティングフレームワークが提供するクラスごとに用意したExtensionクラスが行う。テストクラスには、Extensionクラスを適用するための合成アノテーションを設定する。
-
-.. image:: images/junit5_extension/extension_class.png
 
 .. tip::
 
@@ -27,13 +25,13 @@ JUnit 5そのものの導入方法やテストの書き方は、このページ�
 
 Extensionクラスと合成アノテーションの一覧
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-本拡張機能は、次のExtensionクラスと合成アノテーションを提供している。
+サポートクラスと、それぞれに対応するExtensionクラス・合成アノテーションを次に示す。
 
 .. list-table::
   :header-rows: 1
   :widths: 34,33,33
 
-  * - テスティングフレームワークが提供するクラス
+  * - サポートクラス
     - Extensionクラス
     - 合成アノテーション
   * - :java:extdoc:`TestSupport <nablarch.test.TestSupport>`
@@ -79,15 +77,39 @@ JUnit 5を使用するには、\ ``maven-surefire-plugin``\ が2.22.0以上で�
 
 依存関係を追加する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-本拡張機能は\ ``nablarch-testing-junit5``\ が提供する。テストでのみ使用するため、\ ``test``\ スコープで依存関係に追加する。
+Extensionクラスと合成アノテーションは\ ``nablarch-testing-junit5``\ が提供する。これとJUnit 5本体を、\ ``test``\ スコープで依存関係に追加する。JUnit 5のアーティファクトのバージョンを揃えるため、\ ``org.junit:junit-bom``\ を\ ``dependencyManagement``\ に読み込む。
 
 .. code-block:: xml
 
-  <dependency>
-    <groupId>com.nablarch.framework</groupId>
-    <artifactId>nablarch-testing-junit5</artifactId>
-    <scope>test</scope>
-  </dependency>
+  <dependencyManagement>
+    <dependencies>
+      ...
+
+      <!-- バージョンを揃えるため、JUnitが提供しているbomを読み込む -->
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>5.11.0</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    ...
+
+    <dependency>
+      <groupId>com.nablarch.framework</groupId>
+      <artifactId>nablarch-testing-junit5</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
 .. tip::
 
@@ -95,18 +117,18 @@ JUnit 5を使用するには、\ ``maven-surefire-plugin``\ が2.22.0以上で�
 
   ただし、\ :java:extdoc:`RestTestExtension <nablarch.test.junit5.extension.http.RestTestExtension>`\ と\ :java:extdoc:`SimpleRestTestExtension <nablarch.test.junit5.extension.http.SimpleRestTestExtension>`\ が必要とする\ ``nablarch-testing-rest``\ は\ ``optional``\ 指定のため推移的に解決されない。これらを使用する場合は、\ :ref:`リクエスト単体テストの設定（RESTfulウェブサービス） <request_unit_test_setting_rest>`\ を参照して依存関係を別途追加する。
 
-.. _junit5_extension-inject:
+.. _standard_usage-inject:
 
 テストクラスに合成アノテーションを設定する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-使用するクラスに対応する合成アノテーションをテストクラスに設定し、そのクラス型のインスタンスフィールドを宣言する。\ :java:extdoc:`TestSupport <nablarch.test.TestSupport>`\ を使用する場合の実装例を示す。
+使用するサポートクラスに対応する合成アノテーションをテストクラスに設定し、そのクラス型のインスタンスフィールドを宣言する。\ :java:extdoc:`TestSupport <nablarch.test.TestSupport>`\ を使用する場合の実装例を示す。
 
 .. code-block:: java
 
   // 1. 対応する合成アノテーションをテストクラスに設定する
   @NablarchTest
   class YourTest {
-      // 2. 使用するクラスをテストクラスのフィールドとして宣言する
+      // 2. 使用するサポートクラスをテストクラスのフィールドとして宣言する
       TestSupport support;
 
       @Test
@@ -130,7 +152,7 @@ JUnit 5を使用するには、\ ``maven-surefire-plugin``\ が2.22.0以上で�
 
 BasicHttpRequestTestTemplateを使用する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-:java:extdoc:`BasicHttpRequestTestTemplate <nablarch.test.core.http.BasicHttpRequestTestTemplate>`\ を使用する場合だけは、合成アノテーション\ :java:extdoc:`BasicHttpRequestTest <nablarch.test.junit5.extension.http.BasicHttpRequestTest>`\ に\ ``baseUri``\ を指定する。\ ``baseUri``\ の指定以外の手順は、\ :ref:`テストクラスに合成アノテーションを設定する <junit5_extension-inject>`\ と同じである。
+:java:extdoc:`BasicHttpRequestTestTemplate <nablarch.test.core.http.BasicHttpRequestTestTemplate>`\ を使用する場合だけは、合成アノテーション\ :java:extdoc:`BasicHttpRequestTest <nablarch.test.junit5.extension.http.BasicHttpRequestTest>`\ に\ ``baseUri``\ を指定する。\ ``baseUri``\ の指定以外の手順は、\ :ref:`テストクラスに合成アノテーションを設定する <standard_usage-inject>`\ と同じである。
 
 .. code-block:: java
 
@@ -150,7 +172,7 @@ BasicHttpRequestTestTemplateを使用する
 
 RegisterExtensionでExtensionクラスを適用する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-本拡張機能が提供するExtensionクラスは、合成アノテーションを使わず、JUnit 5の\ ``RegisterExtension``\ で適用することもできる。ただし\ :java:extdoc:`BasicHttpRequestTestExtension <nablarch.test.junit5.extension.http.BasicHttpRequestTestExtension>`\ は、\ ``baseUri``\ を合成アノテーション\ :java:extdoc:`BasicHttpRequestTest <nablarch.test.junit5.extension.http.BasicHttpRequestTest>`\ から読み取るため、この方法では適用できない。
+Extensionクラスは、合成アノテーションを使わず、JUnit 5の\ ``RegisterExtension``\ で適用することもできる。ただし\ :java:extdoc:`BasicHttpRequestTestExtension <nablarch.test.junit5.extension.http.BasicHttpRequestTestExtension>`\ は、\ ``baseUri``\ を合成アノテーション\ :java:extdoc:`BasicHttpRequestTest <nablarch.test.junit5.extension.http.BasicHttpRequestTest>`\ から読み取るため、この方法では適用できない。
 
 .. code-block:: java
 
@@ -159,7 +181,7 @@ RegisterExtensionでExtensionクラスを適用する
       @RegisterExtension
       static TestSupportExtension extension = new TestSupportExtension();
 
-      // 2. テスティングフレームワークが提供するクラスのインスタンスフィールドを宣言する
+      // 2. サポートクラスのインスタンスフィールドを宣言する
       TestSupport support;
 
       @Test
@@ -177,58 +199,11 @@ RegisterExtensionでExtensionクラスを適用する
 
   ``RegisterExtension``\ については、\ `公式のユーザガイドの「5.2.2. Programmatic Extension Registration」(外部サイト、英語) <https://junit.org/junit5/docs/5.11.0/user-guide/#extensions-registration-programmatic>`_\ を参照。
 
-.. _junit5_extension-vintage:
-
-JUnit 4で書いたテストをJUnit 5上で実行する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-本拡張機能を導入しても、JUnit 4で書いた既存のテストを修正する必要はない。JUnit 5にはJUnit Vintageというプロジェクトがあり、これを使うとJUnit 4で書いたテストをJUnit 5上で実行できる。既存のテストはJUnit 4のまま残し、新しく書くテストだけをJUnit 5で書ける。
-
-JUnit VintageはJUnit 5が提供するプロジェクトであり、本拡張機能の一部ではない。次の2つのアーティファクトを依存関係に追加すると有効になる。バージョンを揃えるため、\ ``org.junit:junit-bom``\ を\ ``dependencyManagement``\ に読み込む。
-
-* ``org.junit.jupiter:junit-jupiter``
-* ``org.junit.vintage:junit-vintage-engine``
-
-.. code-block:: xml
-
-  <dependencyManagement>
-    <dependencies>
-      ...
-
-      <!-- バージョンを揃えるため、JUnitが提供しているbomを読み込む -->
-      <dependency>
-        <groupId>org.junit</groupId>
-        <artifactId>junit-bom</artifactId>
-        <version>5.8.2</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
-  <dependencies>
-    ...
-
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-
-.. important::
-
-  JUnit Vintageは、JUnit 4のテストをJUnit 4として実行しているにすぎない。JUnit 4で書いたテストの中でJUnit 5の機能が使えるようになるわけではない。JUnit 4からJUnit 5へ段階的に移行するための補助として使う。移行の手順は\ `公式の移行ガイド(外部サイト、英語) <https://junit.org/junit5/docs/5.11.0/user-guide/#migrating-from-junit4>`_\ を参照。
-
 拡張例
 --------------------------------------------------
-テスティングフレームワークが提供するクラスを継承して独自の拡張を加える場合は、次の3つを行う。JUnit 4で書いた既存の独自拡張クラスを本拡張機能で使う場合も同じである。
+サポートクラスを継承して独自の拡張を加える場合は、次の3つを行う。JUnit 4で書いた既存の独自拡張クラスを標準の使い方に移す場合も同じである。
 
-#. テスティングフレームワークが提供するクラスを継承し、独自拡張クラスを作成する
+#. サポートクラスを継承し、独自拡張クラスを作成する
 #. 継承元のクラスに対応するExtensionクラスを継承し、独自拡張クラスのインスタンスを生成するExtensionクラスを作成する
 #. ``ExtendWith``\ アノテーションで、作成したExtensionクラスをテストクラスに適用する
 
@@ -236,7 +211,7 @@ JUnit VintageはJUnit 5が提供するプロジェクトであり、本拡張機
 
 独自拡張クラスを作成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-テスティングフレームワークが提供するクラスを継承する。\ :java:extdoc:`TestSupport <nablarch.test.TestSupport>`\ を拡張する場合の実装例を示す。
+サポートクラスを継承する。\ :java:extdoc:`TestSupport <nablarch.test.TestSupport>`\ を拡張する場合の実装例を示す。
 
 .. code-block:: java
 
@@ -249,7 +224,7 @@ JUnit VintageはJUnit 5が提供するプロジェクトであり、本拡張機
       // 独自の拡張メソッドを実装する
   }
 
-テスティングフレームワークが提供するクラスは、基本的にインスタンスの生成時にテストクラスの\ ``Class``\ オブジェクトを受け取る。したがって、独自拡張クラスにも\ ``Class``\ オブジェクトを受け取るコンストラクタを定義する。
+サポートクラスは、基本的にインスタンスの生成時にテストクラスの\ ``Class``\ オブジェクトを受け取る。したがって、独自拡張クラスにも\ ``Class``\ オブジェクトを受け取るコンストラクタを定義する。
 
 .. tip::
 
@@ -396,7 +371,7 @@ baseUriを渡す合成アノテーションを作成する
 
 JUnit 4のTestRuleを再現する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-独自拡張クラスの中でJUnit 4の\ ``org.junit.rules.TestRule``\ を使用している場合は、本拡張機能でもそれを再現できる。ただしJUnit 5は\ ``TestRule``\ をそのままの形では扱えないため、再現には後述の制約が付く。
+独自拡張クラスの中でJUnit 4の\ ``org.junit.rules.TestRule``\ を使用している場合は、標準の使い方でもそれを再現できる。ただしJUnit 5は\ ``TestRule``\ をそのままの形では扱えないため、再現には後述の制約が付く。
 
 .. important::
 
@@ -448,7 +423,7 @@ JUnit 4のTestRuleを再現する
   * \ ``@BeforeEach``\ が失敗すると、\ ``TestRule``\ は前処理も後処理も実行されない。リソースの解放を\ ``TestRule``\ に任せていると、このときだけ解放漏れが起きる。
   * \ ``Timeout``\ は\ :java:extdoc:`DbAccessTestExtension <nablarch.test.junit5.extension.db.DbAccessTestExtension>`\ と併用できない。\ ``Timeout``\ はテスト本体を別スレッドで実行するが、データベース接続とトランザクションは元のスレッドに束縛されているため、テスト本体からは取得できない。取得時の例外を捕捉していると、この状態でもテストは成功する。同じ理由で、\ ``@BeforeEach``\ などで\ ``ThreadLocal``\ に束縛した値もテスト本体からは見えない。
   * \ ``@TestFactory``\ が生成した\ ``DynamicTest``\ には\ ``TestRule``\ が適用されない。
-  * \ ``@Nested``\ を使うテストクラスでは、独自拡張クラスから取り出した\ ``TestRule``\ が正しく動作しない。Extensionのインスタンスが外側のクラスと入れ子のクラスとで共有され、\ ``support``\ フィールドが後から生成されたインスタンスで上書きされるためである。本拡張機能を適用するテストクラスでは\ ``@Nested``\ を使用しない。
+  * \ ``@Nested``\ を使うテストクラスでは、独自拡張クラスから取り出した\ ``TestRule``\ が正しく動作しない。Extensionのインスタンスが外側のクラスと入れ子のクラスとで共有され、\ ``support``\ フィールドが後から生成されたインスタンスで上書きされるためである。Extensionクラスを適用するテストクラスでは\ ``@Nested``\ を使用しない。
 
   なお、\ ``base.evaluate()``\ を呼ばない\ ``TestRule``\ （スキップ系）と、2回以上呼ぶ\ ``TestRule``\ （リトライ系）は使用できない。こちらはテストが例外で失敗するため気づける。
 

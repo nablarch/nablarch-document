@@ -7,6 +7,7 @@
    :maxdepth: 1
 
    common
+   standard_usage
    class_unit_test
    request_unit_test/web
    request_unit_test/rest
@@ -17,5 +18,5 @@
    deal_unit_test/rest
    deal_unit_test/http_messaging
    deal_unit_test/mom
-   junit5_extension
    master_data_restore
+   junit4

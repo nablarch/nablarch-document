@@ -5,7 +5,7 @@ skinparam shadowing false
 skinparam defaultFontName "Noto Sans JP"
 hide members
 hide circle
-title JUnit 5用拡張機能のクラスと、インスタンスの生成・インジェクション
+title Extensionクラスによるインスタンスの生成・インジェクション
 class TestSupport
 class CustomTestSupport
 class TestEventDispatcherExtension

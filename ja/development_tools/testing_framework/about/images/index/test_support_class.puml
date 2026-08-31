@@ -6,7 +6,7 @@ skinparam defaultFontName "Noto Sans JP"
 hide members
 hide circle
 left to right direction
-title テストクラスが継承するサポートクラスの系譜
+title テスティングフレームワークが提供するサポートクラスの系譜
 abstract class TestEventDispatcher
 class TestSupport
 class DbAccessTestSupport
