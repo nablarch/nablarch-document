@@ -2023,8 +2023,8 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: -
-- **Last completed**: -
-- **Next**: -
-- **Notes**: -
+- **Status**: paused
+- **Date**: 2026-08-31
+- **Last completed**: `#55` 是正ラウンド1（指示書 §11-1〜§11-3）。完了条件1〜4 はすべて OK（`96b59626` 是正2文／`a7fe1add` 記録）
+- **Next**: `#55` の是正ラウンド1 に対するディレクターの差分限定2観点の検証（是正が指示範囲に収まっているか／新しい欠陥を生んでいないか）を待つ。判断待ちの項目は残っていない（§11-4・§11-5 で回答済み）
+- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、`origin` に push 済み（先端 `a7fe1add`）。是正の実測は `checks/task-55.md` 節「是正ラウンド1 実施記録（2026-08-31）」。`_build/html` は §11-3 で作り直し済みで、user が見る場所は `~/work/nablarch/nablarch-document/_build/html/`。残タスクは `#29`・`#33`・`#34`・`#52`・`#53`・`#54`（`#52`〜`#54` は指示書送付待ち）
