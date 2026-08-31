@@ -2,8 +2,8 @@
 
 `#55` NTF解説書の JUnit 5 ベース化。指示書 `.rn/20260724-ntf-yaml-support/ntf-doc-55-junit5-base.md`。
 
-本ファイルはフェーズ0（着手前検証）の実測記録である。フェーズ0 では `.rst`・`mapping/`・`design.md`
-のいずれも変更していない。
+本ファイルはフェーズ0（着手前検証）とフェーズ1（実装）の実測記録である。フェーズ0 では `.rst`・`mapping/`・`design.md`
+のいずれも変更していない。フェーズ1 はディレクターの承認（指示書 §10）を受けて着手した。
 
 ## フェーズ0 実施記録（2026-08-31）
 
@@ -250,9 +250,9 @@ L2 稼動環境                                :117  ← :119 の1文
 
 `grep -rn -i 'vintage' <archetype> --exclude-dir=.git` = **0件**（全ファイル。pom は11本）。標準セットアップに vintage を含めない根拠として成立する。
 
-## フェーズ0 の反例（ディレクター判断が要る項目）
+## フェーズ0 の反例（ディレクター回答済み）
 
-本文の報告に同じ内容を記す。
+**10件とも指示書 §10 で回答を得ており、フェーズ1 はその回答に従って実装した。** 以下は当時の記録である。
 
 1. **引数なし `execute()` は `support.` 経由で呼べない**（ブロック30・34・36 と、その周辺の地の文）。`javap`: `nablarch.test.core.standalone.StandaloneTestSupportTemplate` の `protected final void execute();`。`public final` は `execute(String)`・`execute(String, boolean)` のみ。アーキタイプ `9ef4096` の `nablarch-batch/src/test/java/com/nablarch/archetype/SampleBatchActionRequestTest.java:21` は `support.execute(support.testName.getMethodName());` と書いている（`testName` は `TestEventDispatcher` の `public final org.junit.rules.TestName`。`getMethodName()` は `protected final` のため `support.getMethodName()` は不可）。
 2. **`web.rst:294` のシグネチャは `protected`**。`javap`: `HttpRequestTestSupport` の `protected HttpResponse execute(String, HttpRequest, ExecutionContext);` と `public HttpResponse execute(Class<?>, String, HttpRequest, ExecutionContext);`。インジェクション方式では4引数の `public` 版しか呼べない。
@@ -265,26 +265,85 @@ L2 稼動環境                                :117  ← :119 の1文
 9. **`nablarch-testing` のピン `e21bf67` は `main` のコミット**。steering.md Rules は「各モジュールの事実確認は PR ブランチを参照点にする。`main` を参照点にしない」と定める。当該主張（junit 4.13.1 compile）は PR ブランチ `convert-testdata-excel-to-text`（`dcaed44`）でも `pom.xml:151`-`:154` が同一のため結論は変わらないが、ピンは PR ブランチへ差し替えるのが規則に沿う。
 10. **`support.testName` は JUnit 4 の型を露出する**（反例1 の解決策に伴う）。`org.junit.rules.TestName`。アーキタイプが採っている書き方をそのまま持ち込むと、JUnit 5 を標準と名乗るページに JUnit 4 の型名が現れる。
 
+## フェーズ1 実施記録（2026-08-31）
+
+指示書 §10（フェーズ0 承認・反例10件への回答）を §1〜§7 に優先して適用した。
+
+### 参照ピン（フェーズ1 で実際に使ったもの）
+
+| リポジトリ | ピン | 実測（本セッション） |
+|---|---|---|
+| `nablarch-testing-junit5` | `c06ebe8` | worktree `~/work/nablarch/nablarch-testing-junit5/.claude/worktrees/fix-resolveTestRules` の HEAD が `c06ebe8` |
+| `nablarch-single-module-archetype` | `9ef4096` | scratchpad へ再 clone。HEAD が `9ef4096139bad64acf5fb91427e92fb430d1ee9d` |
+| `nablarch-testing` | `dcaed44`（§10 反例9 で `e21bf67` から差し替え） | `git show dcaed44:pom.xml` の `:150`-`:155` が `junit:junit` 4.13.1 `compile` |
+| `nablarch-testing-rest` | `9ada31e` | `readTextResource` の可視性の根拠に使用 |
+
+### コミット
+
+| commit | 範囲 |
+|---|---|
+| `40fee4b8` | §1〜§3（ページの改名・新設・about の反転・図2枚の再生成） |
+| `6383045b` | §4（implementation 9ページ・java ブロック65件・tip 6件） |
+| `b7feb866` | §5（design.md・mapping 5ファイル・tools 2ファイル） |
+| `348c3200` | §7-4 の実コンパイルで検出した `readTextResource` の是正 |
+| `8ad0dfc9` | §7-7 の Docker ビルドで検出した見出し罫線の是正 |
+
+### フェーズ0 の全件表からの逸脱
+
+フェーズ0 の全件表は 65件を A/B/C/D/E に分類していたが、実作業で次の3点を追加で処置した。
+
+1. **`rest.rst` の `readTextResource`（フェーズ0 分類 C「そのまま」）は `protected` だった。**
+   `nablarch-testing-rest@9ada31e` `SimpleRestTestSupport.java:333` が `protected String readTextResource(String)`、
+   `:343` が `public String readTextResource(Class<?>, String)`。フェーズ0 の可視性実測は
+   `nablarch-testing` の jar だけを対象にしており、`nablarch-testing-rest` のクラスを含めていなかった。
+   §10 反例2（`web.rst:294`）と同型のため、同じ処置（`public` の `Class<?>` 版へ差し替え、
+   シグネチャ列挙と直前の地の文も追随）を適用した。§7-4 の実コンパイルで検出（`348c3200`）。
+2. **地の文の「スーパクラス」49件・「継承」の記述。** 継承が前提でなくなったことで事実に反するため、
+   implementation 6ページで「サポートクラス」等へ改めた。全件表は `code-block` だけを母集合にしており、
+   地の文の追随は §4 の指示にも入っていなかったが、書き換えの直接の帰結であるため同一タスクで処置した
+   （steering.md Rules「見つけた欠陥は、そのタスクの中ですぐ直す」）。
+3. **`standard_usage.rst` に下位ラベルを2件追加。** `standard_usage-base_uri`（`BasicHttpRequestTestTemplateを使用する`）と
+   `standard_usage-extension`（`拡張例`）。§4 が `web.rst` の `getBaseUri` 節から「重複させず `:ref:` で送る」ことを
+   指示しており、送り先に見出しラベルが要るため。S-08 の `<ページ先頭ラベル>-<内容>` に従う。
+   0-3 の実測で `standard_usage` を含む既存ラベルは0件のため衝突なし（本セッションでも全 `ja/` のラベル1,018件が
+   ユニークであることを再実測）。
+
+### 用語「サポートクラス」の導入
+
+指示書 §1・§2・§3 が使う語であり、`standard_usage.rst` の機能概要で `TestSupport` などを指す語として
+導入した（「（以下、サポートクラス）」）。`mapping/glossary.md` §5 への語彙登録は行っていない。
+`glossary.md` §5.12 は「設定・ツール」の名称の枠であり、本語は枠の名称ではなくクラス群の総称であるため。
+**ディレクターの判断が要る項目**（後述）。
+
 ## Completion Criteria
 
-指示書 §7 の1〜12。フェーズ1 完了後に記入する。
+指示書 §7 の1〜12（§10 反例3 により完了条件5 の除外範囲を差し替え）。
 
-| Criterion | Self-check | Evidence | QA | QA Evidence |
-|---|---|---|---|---|
-| 1. フェーズ0 の 0-1〜0-6 が全件表で記録され、ディレクター OK を得ている | 記録は本ファイルに完了。**ディレクター OK は未取得** | 上記 0-1〜0-6 | | |
-| 2. `junit5_extension` が0件 | 未実施 | | | |
-| 3. アノテーション・Extension・サポートクラス名の1件ずつの一致 | 未実施 | | | |
-| 4. 代表例の実コンパイル | 未実施 | | | |
-| 5. JUnit 4 語彙の残存走査 | 未実施（ベースライン30件を計測済み） | | | |
-| 6. `:ref:` の全解決・段落内改行0件 | 未実施 | | | |
-| 7. Docker フルビルド | 未実施 | | | |
-| 8. `verify_mapping.py`・`verify_glossary.py`・`_batch` 連結のバイト一致 | 未実施 | | | |
-| 9. `.png` 2枚の再生成 | 未実施 | | | |
-| 10. 差分範囲ゲート | 未実施 | | | |
-| 11. 修正意図ごとに1コミットし push 済み | 未実施 | | | |
-| 12. 記録が本ファイルにあり §9 の報告をして停止 | フェーズ0 分は完了 | 本ファイル | | |
+| Criterion | Self-check | Evidence |
+|---|---|---|
+| 1. フェーズ0 の 0-1〜0-6 が全件表で記録され、ディレクター OK を得ている | OK | 本ファイル「フェーズ0 実施記録」。承認は指示書 §10 |
+| 2. `junit5_extension` が0件 | OK | `grep -rn 'junit5_extension' ja/ --exclude-dir=_build` → 0件（exit 1） |
+| 3. アノテーション・Extension・サポートクラス名の1件ずつの一致 | OK | `git ls-tree -r c06ebe8 src/main/java` の FQCN 23件と、`ja/` 配下の `:java:extdoc:` が参照する `nablarch.test.junit5.*` の FQCN 23件が完全一致（集合として同一） |
+| 4. 代表例の実コンパイル | OK | `c06ebe8` のソースを scratchpad へ `git archive` して `mvn -o -DskipTests install`（worktree のままでは `git-commit-id-plugin` が HEAD を読めず失敗する）。同プロジェクトの `src/test/java/doc/` に代表例7種を置き `mvn -o clean test-compile -Djacoco.skip=true` → `BUILD SUCCESS`（test 52ソース）。補完箇所は各ファイル冒頭のコメントに記録 |
+| 5. JUnit 4 語彙の残存走査 | OK | §7-5 のコマンドのヒットは `setup/junit4.rst` 全件と `setup/standard_usage.rst` の `:222`・`:288`・`:391`・`:393`・`:426`。後者はすべて `拡張例`（`:206` 以降）の中で、§10 反例3 の除外範囲に収まる |
+| 6. `:ref:` の全解決・段落内改行 0件 | OK | ラベル定義1,018件はすべてユニーク（重複0）。`testing_framework` 配下の `:ref:` に未解決0件。段落内改行の疑い20件はいずれも simple table の行・`- ` 箇条書き・番号付きリストの誤検出で、実体0件 |
+| 7. Docker フルビルド | OK | `build succeeded.`／`WARNING:`・`ERROR:`・`SEVERE:` 0件。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo`。`_build/html` で新2ページ・図2枚・toctree の並びを確認（図2枚は `ja/` 側と md5 一致） |
+| 8. `verify_mapping.py`・`verify_glossary.py`・`_batch` 連結 | OK | `verify_mapping.py` → `OK: no errors`。`verify_glossary.py` → `RESULT: OK`。`_batch/batch-*.csv` の昇順連結（2件目以降はヘッダ1行を落とす）が `mapping.csv` とバイト一致（287,881 bytes）。597行 / 12,986 / 11,983 不変 |
+| 9. `.png` 2枚の再生成 | OK | temurin-17 ＋ `plantuml-1.2025.4.jar` で再生成。`extension_class.png` `6b56372b…`→`2a0e8c14…`、`test_support_class.png` `6b365357…`→`c98514d5…` |
+| 10. 差分範囲ゲート | OK | 各コミット後の `git status --porcelain` が空。`sphinx.mo`・`build.log`・`ca.crt`・`Dockerfile.ca` の混入なし（`build.log` は scratchpad へ出力） |
+| 11. 修正意図ごとに1コミットし push 済み | OK | 上記5コミット。`--amend`・force push なし |
+| 12. 記録が本ファイルにあり §9 の報告をして停止 | OK | 本ファイル。報告はチャット本文 |
+
+## ディレクター判断が要る項目（フェーズ1）
+
+1. **用語「サポートクラス」を `mapping/glossary.md` §5 に登録するか。** 現状は未登録。
+   `standard_usage.rst`・`junit4.rst`・implementation 6ページ・`about/index.rst`・`test_support_class.puml` で使っている。
+   登録する場合は §5 のどのカテゴリに置くかの判断が要る（`設定・ツール` は名称の枠、
+   `セクションタイトル` はページ構成の枠で、いずれも当てはまらない）。
+2. **`_build/html` に旧ページ `setup/junit5_extension.html`（2026-08-31 08:38 のビルド成果）が残っている。**
+   `_build/` はホスト側から消さない規則（`03-検証スクリプト.md` §5）のため触っていない。
 
 ## Overall Verdict
 
-- Self-check: フェーズ0 のみ完了（`.rst`・`mapping/`・`design.md` は未変更）
-- Ready to check off: No（フェーズ1 未着手。反例10件のディレクター判断待ち）
+- Self-check: フェーズ1 完了。完了条件1〜12 すべて OK
+- Ready to check off: ディレクターの独立検証待ち
