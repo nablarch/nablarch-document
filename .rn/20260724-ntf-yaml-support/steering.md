@@ -2021,8 +2021,8 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: paused
-- **Date**: 2026-08-30
-- **Last completed**: `#48` — user 承認（指示書 §15。`4964b5be`）を steering に反映（`0b26ca45`）。図の作業は完了、追加タスク無し
-- **Next**: 残タスク（`#29`・`#33`・`#34`・`#36`・`#37`・`#40`・`#41`）から user が次を選ぶ。着手前にそのタスクの指示書と Steps を読む
-- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、`origin` に push 済み。`#37` の未送付指示書2本（`ntf-step4-06`・`ntf-step4-07`）は据え置き
+- **Status**: not suspended
+- **Date**: -
+- **Last completed**: -
+- **Next**: -
+- **Notes**: -
