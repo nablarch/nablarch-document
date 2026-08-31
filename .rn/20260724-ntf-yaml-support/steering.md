@@ -1967,6 +1967,17 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 - 承認後差分の確認（観点4a）: ブランチ上で `ja/development_tools/testing_framework` に触れた全コミットを走査し、台帳のタスク期間に属さないコミットが無いことを確認（`a6da1f6..HEAD` は #48〜#50 のみ。それ以前もタスク実施期間と一致。v6時代のコミットは対象外）。
 - 再現手順: DROP/REFERENCE の src 本文一括抽出は csv.DictReader＋`git show origin/main:<src_file>` で行った（判定の正は抽出物でなく src 実物）。
 
+### #52: Step 4 —— nablarch-testing-integration の再検証（修正後モジュールでの結合テスト）— 指示書送付待ち
+
+**Purpose**: 結合テストリポジトリ `nablarch-testing-integration`（PR #1、`feature/migrate-integration-test` `8d92f7c`）の最終全緑確認は 2026-06-25（`69125c3`、`Tests run: 546, Failures: 0, Errors: 0, Skipped: 18`）で、yaml `#45`（src 最終 `3fecc4e`、2026-08-29）・converter `#47`（src 最終 `46457d3`。第2回だけで src 61ファイル +2962/−716）より前である。修正後モジュールを install し直して一括実行し、割れる箇所を観測・報告させる。
+
+**指示書**: `ntf-step4-08-nablarch-testing-integration.md`。ピン: integration `8d92f7c`／本体 `44b9cc9`（`~/.m2` の 08-21 jar は javap で `cachedParse` 3件を確認済み・取り直し不要）／yaml `4837713`（src は `3fecc4e` とバイト同一。2026-08-31 実測）／converter `a5f006c`（src は `46457d3` とバイト同一）。**`~/.m2` の converter jar（08-26 22:14）は第2回の是正を含まないため入れ直しを指示に含めた。**
+
+**レビューは回さない**（新しい公開物・コード変更が無く、結果はディレクターが同手順の独立再実行で検証する。`nablarch/CLAUDE.md` 3-1）。モジュールも integration のロジック・期待値も変更させない。落ちたテストは原因分類＋根拠つきで報告して停止させる。
+
+**Completion criteria**: 指示書 §3 の1〜6（使った jar の証拠／Surefire summary 逐語／Skipped 全件／落ちた全件の分類と根拠／作業ツリー空／記録の push）。
+
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
