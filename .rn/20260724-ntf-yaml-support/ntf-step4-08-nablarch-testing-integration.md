@@ -129,3 +129,32 @@ pom の surefire 設定（`reuseForks=false` / `forkCount=1`）はそのまま�
 報告は次の順で書く: ①結論（緑/赤と件数）②使った jar の証拠 ③Surefire summary 逐語 ④落ちた全件の分類表 ⑤Skipped 全件 ⑥判断を仰ぐ事項（あれば1件ずつ）。
 
 レビュー（4観点）は回さない。新しい公開物・コード変更が無く、結果はディレクターが同じ手順を独立に再実行して検証するため。
+
+---
+
+## 5. 再実行（#54 追随後。2026-08-31 追記）
+
+#52 で報告のあった Errors 7件の原因（converter がマーカーカラムだけのブロックの行を落とす）は、
+解説書の仕様変更 #54「マーカーカラムとその値を保って変換する」への converter 追随（remote `9ab6648`）で
+是正された。**「rowCount を戻すか」の判断は決着済みである（行を保つ）。** 修正後の converter で
+結合テストを再実行する。
+
+### 5-1. 手順（§1 と同じ。ピンだけ次に読み替える）
+
+| 対象 | ブランチ | ピン | 備考 |
+|---|---|---|---|
+| nablarch-testing | — | — | §1-2 の確認のみ（取り直し不要の判定基準も同じ） |
+| nablarch-testing-yaml | `feature/ntf-yaml` | `4837713`（変更なし） | remote 先端は `2b35561` へ進んでいるが検証前の作業中コミットのため、clone 後に `git checkout 4837713` してから install する。§1-1 の「進んでいたら停止」はこの読み替えで満たす |
+| nablarch-testing-converter | `ntf-test-data-converter` | `9ab6648` | clone して install し直す |
+
+install は yaml → converter の順（§1-3）。その後 §1-4 の一括実行。
+
+### 5-2. 完了条件（§3 を次で読み替える）
+
+1. jar の証拠: converter clone HEAD が `9ab6648`・yaml checkout が `4837713`・install 後の `~/.m2` の jar タイムスタンプと `Build-Jdk: 17`
+2. Surefire summary が**逐語で**報告にある。期待は 2026-06-25 基準への回帰（`Tests run: 546, Failures: 0, Errors: 0, Skipped: 18`）。赤が残れば §1-5 の分類・根拠付きで全件報告して停止する（緑にする作業はしない）
+3. Skipped 全件の列挙（§3-3 と同じ）
+4. `git status --short` 空
+5. 記録は `.rn/step4-08-retest/report.md` へ「再実行（#54 追随後）」の節として**追記**する（既存本文は時点の証拠なので書き換えない）。steering の State を更新し、コミット・push して停止
+
+レビューは回さない（§4 と同じ理由。ディレクターが同手順を独立に再実行して検証する）。
