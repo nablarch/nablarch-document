@@ -2015,13 +2015,15 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 **申し送り**: アーキタイプ `9ef4096` が JUnit 5 テストに JUnit 4 の型 `org.junit.rules.TestName` を露出している件は #55 では扱わない（記録は指示書 §10）。
 
 
-### #56: 台帳の締め — `#52`〜`#54` の完了記録、`#33` (e-1)・`#34` の打ち切り（user 判断 2026-09-02）
+### #56: 台帳の締め — `#52`〜`#54` の完了記録、`#33` (e-1)・`#34` の打ち切り（user 判断 2026-09-02）— 完了
 
 **Purpose**: モジュール側で完了・承認済みの `#52`〜`#54` を本台帳でも完了として閉じ、`#33` の残り (e-1) と `#34` を user 判断（2026-09-02）で打ち切る。台帳の記録更新のみで `ja/` は変更しない。
 
 **指示書**: `ntf-doc-56-ledger-close.md`。根拠（モジュール側の一次記録）は同 §2 の表。**レビューは回さない**（公開本文に変更なし。ディレクターが差分を実物で確認する）。
 
 **Completion criteria**: 指示書 §4 の1〜5。
+
+**判定（2026-09-02）**: 完了。§0 の着手前検証は6行すべて実物と一致（反例0件。実測は `checks/task-56.md` §0）。§4 の完了条件1〜5 はすべて満たした（実測は `checks/task-56.md` §3）。
 
 
 # State
@@ -2030,8 +2032,8 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
-- **Date**: YYYY-MM-DD
-- **Last completed**: #N description
-- **Next**: #N description
-- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
+- **Status**: paused
+- **Date**: 2026-09-02
+- **Last completed**: `#56` 台帳の締め（`#52`〜`#54` の完了記録、`#33` (e-1)・`#34` の打ち切り。user 判断 2026-09-02）
+- **Next**: user の刷新版38本全量読みレビュー（質問が来たら実物で答える）。`#29` の残り（「マージ直前にまとめて処置する」の台帳）は user のマージ判断まで着手しない
+- **Notes**: ブランチ `ntf-yaml-support`、`origin` に push 済み。`#56` の実測は `checks/task-56.md`（§0 着手前検証・§3 完了条件）。モジュール側の一次記録の所在は台帳 `#52`〜`#54` の各「根拠」にある
