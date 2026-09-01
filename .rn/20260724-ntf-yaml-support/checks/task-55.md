@@ -386,7 +386,29 @@ L2 稼動環境                                :117  ← :119 の1文
 `サポートクラスである<code class="docutils literal"><span class="pre">BasicHttpRe...`、
 `.../rest.html` に `RestTestSupport</a>を使用するテストクラスで` が出ている。
 
+## 是正ラウンド1 のディレクター検証（差分限定2観点。2026-09-01）— 合格
+
+観点A（是正が指示範囲に収まっているか）・観点B（新しい欠陥を生んでいないか）を、記録を根拠にせず一次情報で再実測した。**両観点とも合格。是正2文以外の変更・新しい欠陥は無い。**
+
+| # | 確認事項 | 判定 | 実測（ディレクター） |
+|---|---|---|---|
+| A-1 | 差分が指示の2文に限られる | OK | `git show 96b59626 --stat` = `rest.rst | 2 +-` / `web.rst | 2 +-` の2ファイルのみ（2 files changed, 2 insertions(+), 2 deletions(-)）。他ファイルの変更0件 |
+| A-2 | §11-1 の逐語一致 | OK | 差し替え後の `web.rst:232` 第1文が指示書 §11-1 のコードブロックと1文字一致。第2文以降と `:230` は差分に現れない |
+| A-3 | §11-2 の逐語一致 | OK | `rest.rst:62` は「を継承した」→「を使用する」の1語のみ置換。同文の他部分は差分に現れない |
+| A-4 | コミット・push の作法 | OK | `96b59626`（是正2文）→ `a7fe1add`（記録）の線形2件。`--amend`・force push なし。`origin/ntf-yaml-support` = `bd75933a` で push 済み |
+| B-1 | §11-1 の根拠が一次情報で成立する | OK | `git show dcaed44:src/main/java/nablarch/test/core/http/BasicHttpRequestTestTemplate.java` `:15` = `public abstract class BasicHttpRequestTestTemplate extends AbstractHttpRequestTestTemplate<TestCaseInfo>`。`dcaed44` は PR ブランチ `convert-testdata-excel-to-text` 上（`git branch -a --contains` で確認）。`src/main` で `AbstractHttpRequestTestTemplate` を継承する実クラスは `BasicHttpRequestTestTemplate` の1件のみ（`git grep 'extends AbstractHttpRequestTestTemplate' dcaed44 -- src/main` のヒットは他に Javadoc の例示1件のみ） |
+| B-2 | 用語「サポートクラス」の使い方が解説書内で整合する | OK | `setup/standard_usage.rst:12` が「サポートクラス」を定義し、同 `:49` の一覧表に `BasicHttpRequestTestTemplate` が載っている。是正文の呼称はこの表と一致する |
+| B-3 | 同種の欠陥（継承を前提にした文）の残存 | 0件 | `grep -rn '継承' ja/development_tools/testing_framework --include='*.rst'` の全ヒットを分類。`setup/junit4.rst`（JUnit 4 の説明）・`setup/standard_usage.rst`（拡張例＝サポートクラスを継承して拡張する手順）・`implementation/*` の「JUnit 4では継承」注記6件・クラス階層の事実（`rest.rst:17`・`:52` の `RestTestSupport` が `SimpleRestTestSupport` を継承）・`setup/request_unit_test/web.rst:230`（拡張時の継承）のみ。標準の使い方でテストクラスが継承する前提の文は残っていない |
+| B-4 | RST の記法（段落内改行・エスケープ） | OK | 是正2行はいずれも1段落1行。インラインリテラル前後の `\ ` エスケープが揃っている。下の B-5 のビルドが警告0件 |
+| B-5 | フルビルドが清潔（独立再実行） | OK | ディレクターが `nablarch-document-build` で `sphinx-build -d /out/doctrees -b html ja /out/html`（出力先は scratchpad。`_build` に触れていない）を実行。終了コード0・`build succeeded.`・`WARNING` 0件・`ERROR` 0件・`SEVERE` 0件。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` |
+| B-6 | 旧ページの残存と新ページの生成 | OK | 独立ビルドの出力にも `_build/html` 側にも `junit5_extension` を名前に含むファイルは0件（`find`）。`setup/` 直下に `standard_usage.html`・`junit4.html` が生成されている |
+| B-7 | 是正2文が HTML に反映されている | OK | `_build/html/.../setup/request_unit_test/web.html` に「リクエスト単体テストのサポートクラスである`<code>`BasicHttpRequestTestTemplate…のスーパクラスである。」、`.../rest.html` に「を使用するテストクラスでデータベースを扱う場合」が1件。旧文はいずれも0件。したがって `_build` は是正後に作り直されている |
+| B-8 | 作業ツリーの清潔 | OK | 独立ビルドと `sphinx.mo` 復元の後、`git status --porcelain` が空 |
+
+**非是正の観察（1件・直さない判断）**: `web.rst:232` の第2文「アプリケーションプログラマが直接使用することはなく」は主語を持たず、直前の文の主題（`は` で受けた `AbstractHttpRequestTestTemplate`）を継ぐ。第1文の末尾に `BasicHttpRequestTestTemplate` が入ったため、字面上は後者を指す誤読の余地がある（後者はアプリケーションプログラマが使用する）。ただし主題の `は` が支配し、第3文が再び `AbstractHttpRequestTestTemplate` を明示して戻すため、既定の読みは正しい。是正の範囲を広げる価値はないと判断し、直さない。
+
 ## Overall Verdict
 
 - Self-check: フェーズ1 完了（完了条件1〜12 すべて OK）。是正ラウンド1（§11-1〜11-3）完了（完了条件1〜4 すべて OK）
-- Ready to check off: 是正ラウンド1 に対するディレクターの差分限定2観点の検証待ち
+- ディレクター検証: 是正ラウンド1 の差分限定2観点（A・B）とも合格（2026-09-01）
+- Ready to check off: user レビュー（38本の全量読み。指示書 §8 (c)）の承認待ち
