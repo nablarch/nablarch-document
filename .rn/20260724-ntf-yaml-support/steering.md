@@ -2004,17 +2004,15 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 送付後の流れ: converter 追随 → ディレクター独立検証 → integration 再実行（`#52` の7件が緑になることの確認はディレクターが行う）。
 
 
-### #55: NTF解説書の JUnit 5 ベース化 — 是正ラウンド1 ディレクター検証合格・user レビュー待ち
+### #55: NTF解説書の JUnit 5 ベース化 — 完了（2026-09-01 ディレクター承認）
 
-**Purpose**: 解説書を JUnit 5 ベースへ反転する（user 確定 2026-08-31）。`setup/junit5_extension.rst` を「標準の使い方」（`setup/standard_usage.rst`・ラベル `standard_usage`）へ改題して `common` 直後へ移動し、「JUnit 4で使用する」（`setup/junit4.rst`・ラベル `junit4_support`）を setup 末尾に新設する。implementation 9ページの java ブロック65件を合成アノテーション＋インジェクション方式へ書き換え、`about/index.rst` の特徴4・アーキテクチャ・稼動環境を反転する。ファイル名・ラベルは user 確定（2026-08-31、S-08 の命名判断）。
+**Purpose**: 解説書を JUnit 5 ベースへ反転する（user 確定 2026-08-31）。`setup/junit5_extension.rst` を「標準の使い方」（`setup/standard_usage.rst`・ラベル `standard_usage`）へ改題して `common` 直後へ移動し、「JUnit 4で使用する」（`setup/junit4.rst`・ラベル `junit4_support`）を setup 末尾に新設。implementation 9ページの java ブロック65件を合成アノテーション＋インジェクション方式へ書き換え、`about/index.rst` の特徴4・アーキテクチャ・稼動環境を反転した。
 
-**指示書**: `.rn/20260724-ntf-yaml-support/ntf-doc-55-junit5-base.md`。ピン・全件表の母集合・波及7件・完了条件12件はすべて同ファイル。**フェーズ0（着手前検証。`.rst` 未変更）→ 報告停止 → ディレクター OK → フェーズ1 → 報告停止 → ディレクター独立検証**。**4観点レビューは回さない**（user 判断 2026-08-31。理由は指示書 §8: 指示文の誤りはフェーズ0 の実物突合が拾う／書き換えの正解はピンの実物で機械的に決まりディレクターが独立検証で判定する／最終レビューは user の38本全量読みが担う）。
+**Completion criteria**: 指示書 `ntf-doc-55-junit5-base.md` §7 の1〜12 と、是正ラウンド1 の §11 完了条件1〜4。**全件 OK**（実測は `checks/task-55.md`）。
 
-**Steps**: 指示書のフェーズ0（0-1〜0-7）→ フェーズ1（§1〜§5）→ 検証（§7 完了条件1〜12）→ 報告（§9）。
+**判定**: 指示書 §12（ディレクター承認。2026-09-01）— 是正ラウンド1 合格、#55 完了、追加タスクなし。ラウンド1 指摘2件（§11-1・§11-2）／ラウンド2 指摘0件で収束（上限3回のうち1回）。フェーズ0 の承認と反例10件への回答は §10、フェーズ1 の独立検証と是正2件・回答2件は §11。4観点レビューは回していない（user 判断。§8）。
 
-**Completion criteria**: 指示書 §7 の1〜12 の逐語による。
-
-**進捗**: フェーズ0・フェーズ1・是正ラウンド1 とも完了（2026-08-31）。フェーズ0 の承認と反例10件への回答は指示書 §10、フェーズ1 の独立検証の合格と是正2件・回答2件は指示書 §11（いずれも §1〜§7 に優先）。フェーズ1 は5コミット（`40fee4b8` §1〜§3／`6383045b` §4／`b7feb866` §5／`348c3200` `readTextResource` の是正／`8ad0dfc9` 見出し罫線の是正）、是正ラウンド1 は §11-1・§11-2 の2文で1コミットと §11-3 の `_build` 作り直し。完了条件は §7 の1〜12・§11 の1〜4 ともすべて OK（`checks/task-55.md`）。是正ラウンド1 は**ディレクターの差分限定2観点（A: 指示範囲／B: 新しい欠陥）の検証に合格した**（2026-09-01。一次情報での再実測は `checks/task-55.md` 節「是正ラウンド1 のディレクター検証（差分限定2観点。2026-09-01）」。独立フルビルド `build succeeded.`・WARNING/ERROR/SEVERE 0件、同種の欠陥の残存0件）。**指示書 §8 (c) の user レビュー（38本の全量読み）の承認待ちで停止中。** フェーズ1 で判断を仰いだ2件は §11-4（用語「サポートクラス」は登録しない。作業不要）・§11-5（旧ページ `junit5_extension.html` は §11-3 で解消。解消済み）で回答済み。
+**申し送り**: アーキタイプ `9ef4096` が JUnit 5 テストに JUnit 4 の型 `org.junit.rules.TestName` を露出している件は #55 では扱わない（記録は指示書 §10）。
 
 
 # State
@@ -2024,7 +2022,7 @@ session is suspended — the signal /rn:up and /rn:dn search for — and resets 
 so only a genuinely suspended session reads `paused`.)
 
 - **Status**: not suspended
-- **Date**: YYYY-MM-DD
-- **Last completed**: #N description
-- **Next**: #N description
-- **Notes**: bounded forward pointer — branch/PR, next concrete action, open blockers, user-deferred paths, open questions / pending decisions not yet captured in `design.md`; not a re-narration of the session (that lives in `git log`)
+- **Date**: 2026-09-01
+- **Last completed**: `#55` NTF解説書の JUnit 5 ベース化。是正ラウンド1 をディレクターが差分限定2観点で検証し**承認**（指示書 §12）。追加タスクなし
+- **Next**: 残タスク `#29`・`#33`・`#34`・`#52`・`#53`・`#54` のうち、どれに着手するかは user の指示による（`#52`〜`#54` は指示書送付待ち）
+- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、`origin` に push 済み。`#55` の実測は `checks/task-55.md`（フェーズ0・フェーズ1・是正ラウンド1・ディレクター検証の4節）。`_build/html` は是正後に作り直し済みで、user が見る場所は `~/work/nablarch/nablarch-document/_build/html/`
