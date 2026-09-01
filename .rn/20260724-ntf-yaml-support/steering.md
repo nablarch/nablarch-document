@@ -2015,6 +2015,15 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 **申し送り**: アーキタイプ `9ef4096` が JUnit 5 テストに JUnit 4 の型 `org.junit.rules.TestName` を露出している件は #55 では扱わない（記録は指示書 §10）。
 
 
+### #56: 台帳の締め — `#52`〜`#54` の完了記録、`#33` (e-1)・`#34` の打ち切り（user 判断 2026-09-02）
+
+**Purpose**: モジュール側で完了・承認済みの `#52`〜`#54` を本台帳でも完了として閉じ、`#33` の残り (e-1) と `#34` を user 判断（2026-09-02）で打ち切る。台帳の記録更新のみで `ja/` は変更しない。
+
+**指示書**: `ntf-doc-56-ledger-close.md`。根拠（モジュール側の一次記録）は同 §2 の表。**レビューは回さない**（公開本文に変更なし。ディレクターが差分を実物で確認する）。
+
+**Completion criteria**: 指示書 §4 の1〜5。
+
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
