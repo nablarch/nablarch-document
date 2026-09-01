@@ -228,3 +228,25 @@ HttpResponse execute(Class<?> testClass, String caseName, HttpRequest req, Execu
 2. 11-3 後、`build succeeded.`・WARNING/ERROR/SEVERE 0件、かつ `_build/html/development_tools/testing_framework/setup/junit5_extension.html` が存在しない
 3. `sphinx.mo` を復元し、`git status --porcelain` が空
 4. 実測を `checks/task-55.md` に追記し、修正意図ごとに1コミットで push、報告して停止する（レビューは回さない。§8。是正の検証はディレクターが差分限定2観点で行う）
+
+### §12 是正ラウンド1 の判定 — 承認（ディレクター。2026-09-01）
+
+#55 承認。**是正ラウンド1 は合格。JUnit 5 ベース化 #55 はこれで完了。追加タスクは無い。** 承認記録を steering の `#55`（見出しを「完了」に）と State に入れて push し、停止する。
+
+ディレクターの差分限定2観点の検証（GitHub から scratchpad に clone・先端 `885e5314`。CC の報告・`checks/task-55.md` は根拠にしていない）:
+
+- ① 是正が指示範囲に収まっているか: `git diff --stat d5e2d8d..bd75933a -- ja/` は `setup/request_unit_test/rest.rst`・`web.rst` の各1行（2 insertions / 2 deletions）。差し替え文は §11-1・§11-2 の逐語と一致（`git diff` の全 hunk を読んだ）。`ja/` 外の差分は `checks/task-55.md`・`steering.md` のみ。指示文の根拠 `BasicHttpRequestTestTemplate.java:15`（`nablarch-testing@dcaed44`）`public abstract class BasicHttpRequestTestTemplate extends AbstractHttpRequestTestTemplate<TestCaseInfo>` を `git show` で追認
+- ② 新しい欠陥を生んでいないか: Docker フルビルド（`sphinx-build -a`）`build succeeded.`・`WARNING|ERROR|SEVERE` 0件（大文字小文字を区別しない `grep -ci` では26件出るが、すべて `_error_process` 等のファイル名）。`_build/html/development_tools/testing_framework/setup/` は8エントリで `junit5_extension.html` 無し。`web.html` に `サポートクラスである<code ...>BasicHttpRequestTestTemplate`、`rest.html` に `RestTestSupport</a>を使用するテストクラスで` が出ている。`verify_mapping.py` 597 / 12,986 / 11,983・`verify_glossary.py` RESULT: OK（`--depth 60` の clone では `2e501ad` が無く「ファイルなし」133件になる。unshallow してから測る）。正規の場所 `~/work/nablarch/nablarch-document/_build/html/development_tools/testing_framework/setup/junit5_extension.html` は不存在、同作業ツリーの `git status --porcelain` は空（2026-09-01 実測）
+
+ラウンド記録: ラウンド1 指摘2件（整合2。§11）／ラウンド2 指摘0件。上限3回のうち1回で収束。
+
+§10 の申し送り（アーキタイプ `9ef4096` が JUnit 5 テストに JUnit 4 の型 `org.junit.rules.TestName` を露出している件）は本タスクでは扱わない。記録は §10 にある。
+
+#### 渡すときの文面
+
+```
+#55 承認です。git pull --rebase してから指示書 §12 を読んでください。
+  .rn/20260724-ntf-yaml-support/ntf-doc-55-junit5-base.md
+JUnit 5 ベース化 #55 はこれで完了、追加タスクはありません。
+承認記録を steering の #55 と State に入れて push し、停止してください。
+```
