@@ -2021,8 +2021,8 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
 so only a genuinely suspended session reads `paused`.)
 
-- **Status**: not suspended
+- **Status**: paused
 - **Date**: 2026-09-01
 - **Last completed**: `#55` NTF解説書の JUnit 5 ベース化。是正ラウンド1 をディレクターが差分限定2観点で検証し**承認**（指示書 §12）。追加タスクなし
 - **Next**: 残タスク `#29`・`#33`・`#34`・`#52`・`#53`・`#54` のうち、どれに着手するかは user の指示による（`#52`〜`#54` は指示書送付待ち）
-- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、`origin` に push 済み。`#55` の実測は `checks/task-55.md`（フェーズ0・フェーズ1・是正ラウンド1・ディレクター検証の4節）。`_build/html` は是正後に作り直し済みで、user が見る場所は `~/work/nablarch/nablarch-document/_build/html/`
+- **Notes**: ブランチ `ntf-yaml-support`、作業ツリーはクリーン、`origin` に push 済み。`#55` の実測は `checks/task-55.md`（フェーズ0・フェーズ1・是正ラウンド1・ディレクター検証の4節）。`_build/html` は是正後に作り直し済みで、user が見る場所は `~/work/nablarch/nablarch-document/_build/html/`。`#55` の申し送り1件（アーキタイプ `9ef4096` の `org.junit.rules.TestName` 露出）は指示書 §10 に記録、未処置
