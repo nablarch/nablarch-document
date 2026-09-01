@@ -1968,40 +1968,40 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 - 承認後差分の確認（観点4a）: ブランチ上で `ja/development_tools/testing_framework` に触れた全コミットを走査し、台帳のタスク期間に属さないコミットが無いことを確認（`a6da1f6..HEAD` は #48〜#50 のみ。それ以前もタスク実施期間と一致。v6時代のコミットは対象外）。
 - 再現手順: DROP/REFERENCE の src 本文一括抽出は csv.DictReader＋`git show origin/main:<src_file>` で行った（判定の正は抽出物でなく src 実物）。
 
-### #52: Step 4 —— nablarch-testing-integration の再検証（修正後モジュールでの結合テスト）— 指示書送付待ち
+### #52: Step 4 —— nablarch-testing-integration の再検証（修正後モジュールでの結合テスト）— 完了（2026-09-02 user 判断で閉じる）
 
-**Purpose**: 結合テストリポジトリ `nablarch-testing-integration`（PR #1、`feature/migrate-integration-test` `8d92f7c`）の最終全緑確認は 2026-06-25（`69125c3`、`Tests run: 546, Failures: 0, Errors: 0, Skipped: 18`）で、yaml `#45`（src 最終 `3fecc4e`、2026-08-29）・converter `#47`（src 最終 `46457d3`。第2回だけで src 61ファイル +2962/−716）より前である。修正後モジュールを install し直して一括実行し、割れる箇所を観測・報告させる。
+**Purpose**: 修正後モジュールを install し直して結合テストを一括実行し、2026-06-25 の全緑基準へ回帰することを確認する。
 
-**指示書**: `ntf-step4-08-nablarch-testing-integration.md`。ピン: integration `8d92f7c`／本体 `44b9cc9`（`~/.m2` の 08-21 jar は javap で `cachedParse` 3件を確認済み・取り直し不要）／yaml `4837713`（src は `3fecc4e` とバイト同一。2026-08-31 実測）／converter `a5f006c`（src は `46457d3` とバイト同一）。**`~/.m2` の converter jar（08-26 22:14）は第2回の是正を含まないため入れ直しを指示に含めた。**
+**根拠**: `nablarch-testing-integration` `feature/migrate-integration-test`: `2a0518e`「docs: complete task #25 — #54 追随後 converter での結合テスト再実行の結果を記録」。`.rn/step4-08-retest/report.md` §「R-3. Surefire summary（逐語）」に `Tests run: 546, Failures: 0, Errors: 0, Skipped: 18`。State（`d2353b7`）: Last completed `#25`・Next なし・「2026-06-25 基準（`69125c3`）へ完全に回帰」。再実行で緑になったのは、`#54` の追随（converter `9ab6648`・yaml `4837713`）を install した上での結果である（同 report.md §「R-2. 使った jar の証拠」）。
 
-**レビューは回さない**（新しい公開物・コード変更が無く、結果はディレクターが同手順の独立再実行で検証する。`nablarch/CLAUDE.md` 3-1）。モジュールも integration のロジック・期待値も変更させない。落ちたテストは原因分類＋根拠つきで報告して停止させる。
-
-**Completion criteria**: 指示書 §3 の1〜6（使った jar の証拠／Surefire summary 逐語／Skipped 全件／落ちた全件の分類と根拠／作業ツリー空／記録の push）。
+**指示書**: `ntf-step4-08-nablarch-testing-integration.md` §5「再実行（#54 追随後。2026-08-31 追記）」
 
 
-### #53: Step 4 —— カバレッジ基準の適用（未達0／既存以外増加0）— 指示書3本作成・送付待ち
+### #53: Step 4 —— カバレッジ基準の適用（未達0／既存以外増加0）— 完了（2026-09-02 user 判断で閉じる）
 
-**基準（user 確定 2026-08-31）**: 品質評価で問われるため、`#37` の「全件開示方式（数値目標を置かない）」を上書きする。**yaml・converter は全部新規なので未達0。本体は既存の未達以外に増加0。** 未達は「テスト不足→テスト追加」「不要な実装→削除（呼び出し側の全走査つき）」「到達不能→テストで実現できない理由を付けて user 判断へ。OK 後に未達箇所へ理由コメント」の順で判断する。
+**Purpose**: カバレッジ基準（yaml・converter は全部新規なので未達0。本体は既存の未達以外に増加0。user 確定 2026-08-31）を3モジュールへ適用する。
 
-**あわせて user 承認（2026-08-31）**: 本体 `TestDataParsingTemplate.java:266`・`:277`（pr75 `#27` で到達不能承認済み）への理由コメント追記を、`src/main` 変更禁止（2026-08-26）の例外として認める。yaml の未達2箇所（`#19` 承認済み）は `YamlLoader` だけコメント無しなので追記する。
+**根拠**:
 
-**指示書**: `ntf-step4-09-converter-coverage.md`（converter。行 95.77%／分岐 94.20% で基準未達が最大。未達全件の分類からやり直させる —— `coverage-report.md` §3 の旧分類は基準変更前のため採用しない）／`ntf-step4-10-yaml-coverage.md`（yaml。`YamlLoader` へのコメント追記のみ）／`ntf-step4-11-testing-coverage.md`（本体。`origin/develop` との全体比較で増加0を証明＋コメント2箇所）。
+- converter — `nablarch-testing-converter` `ntf-test-data-converter`: `21da937`「docs: #49 の承認を steering に記録する（(c) 第2ラウンド 完了）」。`.rn/ntf-test-data-converter/steering.md` §「#49 の承認（2026-08-31）」
+- yaml — 承認は本リポジトリ `ntf-step4-10-yaml-coverage.md` §5「承認と回答（2026-08-31 user 承認）」に記録（**#46 を承認する**。モジュール側の追加確認は不要）
+- 本体 — `nablarch-testing` `convert-testdata-excel-to-text`: `f4f59ed`「chore: Step 4-11（#29・#30）の user 承認を記録し State をクローズ状態にする」。`docs/pr75/steering.md` State（`dcaed44`）: 「Step 4-11（カバレッジ基準）は #29・#30 とも user 承認済み」
 
-**レビューはいずれも回さない**（converter は測定・分類・テスト追加で、変異確認を完了条件に置き、ディレクターが同手順の独立再測定で検証する。yaml・本体はコメント追記が主）。
+**指示書**: `ntf-step4-09-converter-coverage.md` §5「判断結果と第2ラウンド（2026-08-31 user 判断）」／`ntf-step4-10-yaml-coverage.md` §5／`ntf-step4-11-testing-coverage.md` §5「承認（2026-08-31 user）」
 
 
-### #54: 解説書の SSoT 内部矛盾の是正（マーカーカラムだけのブロック）と、追随指示書2本の準備 — 解説書は是正済み・指示書は送付待ち
+### #54: 解説書の SSoT 内部矛盾の是正（マーカーカラムだけのブロック）と、追随指示書2本の準備 — 完了（2026-09-02 user 判断で閉じる）
 
 **発端**: `#52`（integration 再検証）の赤7件。converter が `tools/testdata_converter.rst:65` の旧文「マーカーカラムだけで構成したデータブロックは…データ行も残らない」（`#41` `7f194a7` でディレクターが追記）に忠実に従った結果、本体 `TestCaseInfo.java:344-351`（`3c4bd2a`）が行数を位置インデックスに使う用法と衝突した。旧文は記法ページ `:1486`・`:427`・スキーマ description（同旨）と矛盾する **SSoT 内部矛盾**で、`#41` の「YAML では表せない」という判断が誤り（YAML はマーカーカラムを仕様として持ち `- "[no]": "1"` で表せる。スキーマは `additionalProperties` でキー名無制約・実装は `YamlSection.java:227`-`:228` が対応済み）。
 
 **是正（user 判断 2026-08-31「保つ」・SSoT はすぐ直す）**: `ed3de95f` で当該文を「マーカーカラムとその値を保ったまま変換する」例外として書き直した（`#41` の当該決定を上書き）。Docker フルビルド warning 0・HTML 反映確認済み。**同型の否定主張は解説書に4件のみで、他3件（`:61` 装飾情報・`:69` 行末空セル・`:71` 交互記述）は実物検証で整合を確認済み**（本体に結合セル処理0件／`HeaderLine.java:33` `trimTailCopy`／YAML のリスト構造）。再発防止（否定主張は書く前に反例を実物で探す・関連ページとスキーマ description との突き合わせを根拠に含める）は案件フォルダの `02-進め方.md` に追記した。
 
-**指示書2本を作成済み。送付はカバレッジ `#53` の完了後**（user 指示 2026-08-31）:
+**根拠**:
 
-- `ntf-step4-12-converter-marker-rows.md` — converter 追随（`rowCount`・`emitMapRows` の `{}`・対称の読み。本体/yaml を oracle にしたテストと変異確認、新規コードの未達0）
-- `ntf-step4-13-yaml-schema-consistency.md` — スキーマ description 全件と解説書 `ed3de95f` の主張単位突合（`#45` は点検3件のみで網羅未実施。user 指示 2026-08-31「ズレてたら怖いので」）
+- converter 追随 — `nablarch-testing-converter` `ntf-test-data-converter`: `8c0fcad`「docs: complete task #54 — 変異確認・カバレッジ・完了報告を記録する」。`.rn/ntf-test-data-converter/checks/step4-54-report.md` §「⑤ ゲート」に `Tests run: 731, Failures: 0, Errors: 0, Skipped: 0`。State（`9ab6648`）: 「#54（締め）まで完了」「未達 30 行／8 分岐は #49 で承認済みの到達不能箇所と完全一致」
+- スキーマ description 全件突合 — `nablarch-testing-yaml` `feature/ntf-yaml`: `a69084e`「docs: complete task #49 — 指示書 ntf-step4-13 §6 の Q1〜Q6 を実施する」、`b67e106`「docs: #48・#49 のユーザー承認を記録しセッションを締める」。State（`d50ee2b`）: 「#48・#49 とも 2026-08-31 にユーザー承認（`/rn:ty`）済み」「`Tests run: 324, Failures: 0, Errors: 0, Skipped: 0`」「C0 1809/1822・C1 174/176」。報告書 `.rn/ntf-yaml/report-step4-3.md`
 
-送付後の流れ: converter 追随 → ディレクター独立検証 → integration 再実行（`#52` の7件が緑になることの確認はディレクターが行う）。
+**指示書**: `ntf-step4-12-converter-marker-rows.md`／`ntf-step4-13-yaml-schema-consistency.md` §5「第1ラウンド是正指示」・§6「Q1〜Q6 への回答」
 
 
 ### #55: NTF解説書の JUnit 5 ベース化 — 完了（2026-09-01 ディレクター承認）
