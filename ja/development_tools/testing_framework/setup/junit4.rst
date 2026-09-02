@@ -18,7 +18,23 @@ JUnit 4で使用する
 
 依存関係
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-依存関係の追加は不要である。\ ``nablarch-testing``\ が\ ``junit:junit``\ の4.13.1を\ ``compile``\ スコープで依存関係に持つため、テスティングフレームワークを使用していればJUnit 4も推移的に解決される。
+JUnit 4本体の追加は不要である。\ ``nablarch-testing``\ が\ ``junit:junit``\ の4.13.1を\ ``compile``\ スコープで依存関係に持つため、テスティングフレームワークを使用していれば推移的に解決される。
+
+ただし、ブランクプロジェクトのように\ ``org.junit.jupiter:junit-jupiter``\ を依存関係に持つプロジェクトでは、JUnit 4で書いたテストを実行するために\ ``org.junit.vintage:junit-vintage-engine``\ を\ ``test``\ スコープで追加する。バージョンは、\ ``dependencyManagement``\ に読み込んだ\ ``org.junit:junit-bom``\ で解決される。
+
+.. code-block:: xml
+
+  <dependency>
+    <groupId>org.junit.vintage</groupId>
+    <artifactId>junit-vintage-engine</artifactId>
+    <scope>test</scope>
+  </dependency>
+
+.. important::
+
+  ``junit-vintage-engine``\ が無いと、JUnit 4で書いたテストクラスは実行対象にならない。テストが失敗するのではなく、1件も実行されないままビルドが成功する。
+
+JUnit Vintageは、JUnit 4のテストをJUnit 4として実行しているにすぎない。JUnit 4で書いたテストの中でJUnit 5の機能が使えるようになるわけではない。JUnit 5への移行の手順は\ `公式の移行ガイド(外部サイト、英語) <https://junit.org/junit5/docs/5.11.0/user-guide/#migrating-from-junit4>`_\ を参照。
 
 テストクラスを作成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -97,50 +113,3 @@ JUnit 4ではテストクラスが1つのクラスしか継承できない。別
           dbSupport.assertSqlResultSetEquals("従業員検索", "test", "expected", actual);
       }
   }
-
-.. _junit4_support-vintage:
-
-JUnit 4で書いたテストをJUnit 5上で実行する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-JUnit 5へ移行する場合も、JUnit 4で書いた既存のテストを修正する必要はない。JUnit 5にはJUnit Vintageというプロジェクトがあり、これを使うとJUnit 4で書いたテストをJUnit 5上で実行できる。既存のテストはJUnit 4のまま残し、新しく書くテストだけをJUnit 5で書ける。
-
-JUnit VintageはJUnit 5が提供するプロジェクトであり、テスティングフレームワークの一部ではない。次の2つのアーティファクトを依存関係に追加すると有効になる。バージョンを揃えるため、\ ``org.junit:junit-bom``\ を\ ``dependencyManagement``\ に読み込む。
-
-* ``org.junit.jupiter:junit-jupiter``
-* ``org.junit.vintage:junit-vintage-engine``
-
-.. code-block:: xml
-
-  <dependencyManagement>
-    <dependencies>
-      ...
-
-      <!-- バージョンを揃えるため、JUnitが提供しているbomを読み込む -->
-      <dependency>
-        <groupId>org.junit</groupId>
-        <artifactId>junit-bom</artifactId>
-        <version>5.11.0</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
-  <dependencies>
-    ...
-
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-
-.. important::
-
-  JUnit Vintageは、JUnit 4のテストをJUnit 4として実行しているにすぎない。JUnit 4で書いたテストの中でJUnit 5の機能が使えるようになるわけではない。JUnit 4からJUnit 5へ段階的に移行するための補助として使う。移行の手順は\ `公式の移行ガイド(外部サイト、英語) <https://junit.org/junit5/docs/5.11.0/user-guide/#migrating-from-junit4>`_\ を参照。
