@@ -2034,6 +2034,8 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 
 **Completion criteria / 判定（2026-09-02）**: 完了。Docker で正規の場所にビルド → build succeeded・warning 0。`_build/html/development_tools/testing_framework/index.html` で表が `toctree-wrapper` より前に描画、href は about/setup/implementation/tools の `index.html` 4本、toctree 42 行。
 
+**変更（2026-09-02 user 判断）**: 表は読み飛ばされるため、文章に変更（`671959ab`）。ページごとに1段落・役割名を段落の先頭近くに置く「本章の構成」型で toctree の前に置く。参照先4本は不変。実測: ビルド succeeded・warning 0、`index.html` に table 要素なし、`toctree-wrapper` より前に段落6本と href 4本、toctree 42 行。
+
 
 # State
 
@@ -2043,6 +2045,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-09-02
-- **Last completed**: `#57` テスティングフレームワーク index の役割別導線（ディレクター直接コミット `98217fc6`）。その前は `#56` 台帳の締め
+- **Last completed**: `#57` テスティングフレームワーク index の役割別導線（ディレクター直接コミット `98217fc6` 表 → `671959ab` 文章）。その前は `#56` 台帳の締め
 - **Next**: user の刷新版38本全量読みレビュー（質問が来たら実物で答える）。`#29` の残り（「マージ直前にまとめて処置する」の台帳）は user のマージ判断まで着手しない
 - **Notes**: ブランチ `ntf-yaml-support`、`origin` に push 済み。`#56` の実測は `checks/task-56.md`（§0 着手前検証・§3 完了条件）。モジュール側の一次記録の所在は台帳 `#52`〜`#54` の各「根拠」にある
