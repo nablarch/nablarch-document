@@ -104,6 +104,12 @@
 
   マルチスレッド機能を使うアプリケーションも、テスティングフレームワークの対象外である。結合テストなど、テスティングフレームワークとは別の方法でこれらのテストを行う。
 
+.. _testing_framework_about-operating_environment:
+
+稼動環境
+--------------------------------------------------
+テスティングフレームワークは、JUnit 5で使用する（\ :ref:`標準の使い方 <standard_usage>`\ ）。JUnit 4で使用する場合は、\ :ref:`JUnit 4で使用する <junit4_support>`\ を参照。
+
 .. _testing_framework_about-architecture:
 
 アーキテクチャ
@@ -112,13 +118,7 @@
 
 .. image:: images/index/architecture_components.png
 
-テスティングフレームワークが提供するサポートクラスの系譜を次に示す。テストクラスは、標準ではサポートクラスのインスタンスをインジェクションされて使用する（JUnit 4ではサポートクラスを継承して使用する）。
+テスティングフレームワークが提供するサポートクラスの系譜を次に示す。テストクラスは、サポートクラスのインスタンスをインジェクションされて使用する。
 
 .. image:: images/index/test_support_class.png
   :scale: 70
-
-.. _testing_framework_about-operating_environment:
-
-稼動環境
---------------------------------------------------
-テスティングフレームワークは、JUnit 5で使用する（\ :ref:`標準の使い方 <standard_usage>`\ ）。JUnit 4で使用する場合は、\ :ref:`JUnit 4で使用する <junit4_support>`\ を参照。
