@@ -5,8 +5,7 @@ skinparam shadowing false
 skinparam defaultFontName "Noto Sans JP"
 hide members
 hide circle
-left to right direction
-title テスティングフレームワークが提供するサポートクラスの系譜
+title テスティングフレームワークが提供するサポートクラスの継承関係
 abstract class TestEventDispatcher
 class TestSupport
 class DbAccessTestSupport
@@ -34,12 +33,12 @@ StandaloneTestSupportTemplate <|-- BatchRequestTestSupport
 StandaloneTestSupportTemplate <|-- MessagingRequestTestSupport
 MessagingRequestTestSupport <|-- MessagingReceiveTestSupport
 SimpleRestTestSupport <|-- RestTestSupport
-note right of BasicHttpRequestTestTemplate : ウェブアプリケーションの\nリクエスト単体テスト
-note right of RestTestSupport : RESTfulウェブサービスの\nリクエスト単体テスト
-note right of SimpleRestTestSupport : RESTfulウェブサービスの\nリクエスト単体テスト
-note right of BatchRequestTestSupport : Nablarchバッチアプリケーションの\nリクエスト単体テスト
-note right of MessagingRequestTestSupport : 同期応答メッセージ受信の\nリクエスト単体テスト
-note right of MessagingReceiveTestSupport : 応答不要メッセージ受信の\nリクエスト単体テスト
-note right of DbAccessTestSupport : コンポーネント単体テスト
-note right of EntityTestSupport : エンティティ単体テスト
+note bottom of BasicHttpRequestTestTemplate : ウェブアプリケーションの\nリクエスト単体テスト
+note bottom of RestTestSupport : RESTfulウェブサービスの\nリクエスト単体テスト
+note bottom of SimpleRestTestSupport : RESTfulウェブサービスの\nリクエスト単体テスト
+note bottom of BatchRequestTestSupport : Nablarchバッチアプリケーションの\nリクエスト単体テスト
+note bottom of MessagingRequestTestSupport : 同期応答メッセージ受信の\nリクエスト単体テスト
+note bottom of MessagingReceiveTestSupport : 応答不要メッセージ受信の\nリクエスト単体テスト
+note bottom of DbAccessTestSupport : コンポーネント単体テスト
+note bottom of EntityTestSupport : エンティティ単体テスト
 @enduml
