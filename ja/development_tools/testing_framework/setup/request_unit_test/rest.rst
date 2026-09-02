@@ -66,6 +66,7 @@ RESTfulウェブサービスのリクエスト単体テストには、次の3つ
 デフォルト設定を読み込むと、\ :java:extdoc:`RestTestConfiguration <nablarch.test.core.http.RestTestConfiguration>`\ が\ ``restTestConfiguration``\ というコンポーネント名で登録される。実行環境に依存する設定値は、このコンポーネントを同じ名前で上書きして変更する。上書きの記述は、デフォルト設定の読み込みより後に置く。主な設定項目は次のとおりである。デフォルト値の欄には、デフォルト設定を読み込んだ状態で有効になる値を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 25,50,25
 

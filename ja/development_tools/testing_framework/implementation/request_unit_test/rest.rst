@@ -21,6 +21,7 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
 このページで扱う主なクラスとリソースを次に示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,45,25
 
@@ -207,6 +208,7 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
 第1引数にはテストクラス自身の\ ``Class``\ オブジェクト（\ ``getClass()``\ ）を指定する。このメソッドは、指定したクラスと同じ名前のディレクトリにあるリソースから、第2引数で指定した名前のファイルを読み込み、\ ``String``\ に変換する。ファイルの配置は次のとおりである。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,45,25
 

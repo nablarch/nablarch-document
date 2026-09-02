@@ -17,6 +17,7 @@
 このページで扱う主なクラスとリソースを次に示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,45,25
 
@@ -43,6 +44,7 @@
 エンティティ単体テストで確認する対象は、次の6つに分かれる。テスト対象クラスが使用するバリデーション方式によって、実施する対象と使用するメソッドが変わる。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 35,35,30
 
@@ -125,6 +127,7 @@
 テストデータは\ ``LIST_MAP``\ のデータブロックとして記述し、プロパティ1つにつき1行を記述する。使用するカラムを次に示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,45,25
 
@@ -176,6 +179,7 @@
 許容するかどうかを記入するカラム（\ ``allowEmpty``\ と文字種のカラム）には、次の値を設定する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,20,50
 
@@ -197,6 +201,7 @@
 Bean Validation\ での記載例を次に示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 50,50
 
@@ -212,6 +217,7 @@ Bean Validation\ での記載例を次に示す。
 ``messageIdWhenInvalidLength``\ を省略した場合は、\ :ref:`クラス単体テストの設定 <class_unit_test_setting>`\ で設定したデフォルト値が使用される。どのデフォルト値が使用されるかは、\ ``max``\ 欄と\ ``min``\ 欄の記載によって次のように決まる。\ ``messageIdWhenEmptyInput``\ を省略した場合は、同じく設定した\ ``emptyInputMessageId``\ の値が使用される。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 15,15,20,50
 
@@ -243,6 +249,7 @@ Bean Validation\ での記載例を次に示す。
   void testValidateCharsetAndLength(Class entityClass, String sheetName, String id)
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 20,40,40
 
@@ -293,6 +300,7 @@ Bean Validation\ での記載例を次に示す。
 テストデータは\ ``LIST_MAP``\ のデータブロックとして記述し、テストショット1件につき1行を記述する。使用するカラムを次に示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,45,25
 
@@ -346,6 +354,7 @@ setter\ で設定した値が\ getter\ で期待どおりに取得できるこ�
 テストデータは\ ``LIST_MAP``\ のデータブロックとして記述し、プロパティ1つにつき1行を記述する。使用するカラムを次に示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 20,80
 
@@ -417,6 +426,7 @@ setter\ で設定した値が\ getter\ で期待どおりに取得できるこ�
 テストデータには、テストショット一覧（\ ``testShots``\ ）と入力パラメータ（\ ``params``\ ）を記述する。必須カラムと両者の対応は\ :ref:`テストショット一覧（testShots）を記述する <testdata_notation-test_shots>`\ に従う。記述例は\ :ref:`テストショット一覧（testShots）を記述する <testdata_examples-test_shots>`\ のうち、エンティティバリデーションの例を参照。相関バリデーションのテストでは、必須カラムに加えて次のカラムを使用できる。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 35,65
 
@@ -552,6 +562,7 @@ setter\ で設定した値が\ getter\ で期待どおりに取得できるこ�
 テストが失敗した場合、どのテストショットが失敗したかを特定できるように、次の情報がメッセージとして出力される。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 40,60
 

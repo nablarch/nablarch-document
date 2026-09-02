@@ -109,6 +109,7 @@ Excel形式の場合
 シート名は\ ``testSuccess``\ である。カラム数が多いため、前半・後半に分けて示す（実際のシートでは1行に続けて記述する）。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 6,20,20,30,24
 
@@ -139,6 +140,7 @@ Excel形式の場合
     - fileOutputBatch
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 6,12,18,16,26,22
 
@@ -178,6 +180,7 @@ Excel形式の場合
 3つのシートに分けて記述する。各シートが持つ準備データと期待値のカラムは、その処理に必要なものだけになる。必須カラムである\ ``no``\ ・\ ``description``\ ・\ ``expectedStatusCode``\ ・\ ``diConfig``\ ・\ ``requestPath``\ ・\ ``userId``\ は、どのシートにも記述する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 6,14,16,20,17,7,10,10
 
@@ -207,6 +210,7 @@ Excel形式の場合
     - default
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 6,14,16,20,16,7,10,11
 
@@ -236,6 +240,7 @@ Excel形式の場合
     - default
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 6,14,16,20,16,7,10,11
 
@@ -269,6 +274,7 @@ Excel形式の場合
 シート名は\ ``testSuccess``\ である。カラム数が多いため、前半・後半に分けて示す（実際のシートでは1行に続けて記述する）。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 8,24,18,28,22
 
@@ -304,6 +310,7 @@ Excel形式の場合
     - userDeleteBatch
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 8,12,18,16,24,22
 

@@ -28,6 +28,7 @@ Extensionクラスと合成アノテーションの一覧
 サポートクラスと、それぞれに対応するExtensionクラス・合成アノテーションを次に示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 34,33,33
 

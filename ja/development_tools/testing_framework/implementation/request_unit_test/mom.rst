@@ -53,6 +53,7 @@ Nablarch\ バッチアプリケーションから同期応答メッセージ送�
 このページで扱う主なクラスとリソースを次に示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,45,25
 

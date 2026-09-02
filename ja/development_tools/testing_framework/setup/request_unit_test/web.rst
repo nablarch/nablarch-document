@@ -20,6 +20,7 @@
 デフォルト設定（\ ``nablarch/test/http-request-test.xml``\ ）を読み込むと、\ :java:extdoc:`HttpTestConfiguration <nablarch.test.core.http.HttpTestConfiguration>`\ が\ ``httpTestConfiguration``\ というコンポーネント名で登録される。実行環境に依存する設定値は、このコンポーネントを同じ名前で上書きして変更する。上書きの記述は、デフォルト設定の読み込みより後に置く。主な設定項目は次のとおりである。デフォルト値の欄には、デフォルト設定を読み込んだ状態で有効になる値を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 22,48,30
 
@@ -107,6 +108,7 @@
 記述例を示す。\ ``sessionInfo``\ には次の値を設定している。デフォルト値と同じ値を明示的に記述している項目もある。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,25,45
 

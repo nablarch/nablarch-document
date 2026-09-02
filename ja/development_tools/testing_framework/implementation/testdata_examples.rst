@@ -22,6 +22,7 @@ Excel形式の場合
 テストショット一覧の例を示す。カラム数が多いため、ここでは複数に分けて示す（実際のシートでは1行に続けて記述する）。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 8,32,20,20,20
 
@@ -42,6 +43,7 @@ Excel形式の場合
     - default
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 8,17,17,25,17,16
 
@@ -67,6 +69,7 @@ Excel形式の場合
 期待ログを参照するカラム（\ ``expectedLog``\ ）は、後続の「LIST_MAP=expectedLog」のデータブロックを指す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 8,92
 
@@ -80,6 +83,7 @@ Excel形式の場合
 準備データの例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 34,33,33
 
@@ -99,6 +103,7 @@ Excel形式の場合
 期待値の例を示す。バッチ処理によって ``ITEM_COUNT``\ が1加算され、\ ``UPDATE_DATE``\ が更新されることを検証している。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 20,20,25,35
 
@@ -122,6 +127,7 @@ Excel形式の場合
 期待ログの例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 70,30
 
@@ -198,6 +204,7 @@ YAML形式の場合
 注文明細テーブル（\ ``ORDER_DETAIL``\ ）に対して、明細1件の正常注文と明細2件の大量注文という2つのテストショットを実行する例である。テストショット一覧の ``setUpTable``\ ・\ ``expectedTable``\ カラムに記述した値がグループIDになり、そのグループIDを持つデータブロックだけが対象になる。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 25,25,50
 
@@ -218,6 +225,7 @@ Excel形式の場合
 グループIDは、識別子行のデータタイプ名の直後に半角角括弧で記述する。テストショット一覧の例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 10,25,25,20,20
 
@@ -245,6 +253,7 @@ Excel形式の場合
 テストショット1の準備データの例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 25,25,25,25
 
@@ -264,6 +273,7 @@ Excel形式の場合
 テストショット1の期待値の例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 25,25,25,25
 
@@ -283,6 +293,7 @@ Excel形式の場合
 テストショット2の準備データの例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 25,25,25,25
 
@@ -306,6 +317,7 @@ Excel形式の場合
 テストショット2の期待値の例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 25,25,25,25
 
@@ -405,6 +417,7 @@ Excel形式の場合
 テストショット一覧の例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 8,20,15,20,17,20
 
@@ -436,6 +449,7 @@ Excel形式の場合
 リクエストパラメータは、テストショット数分の行を持つ ``requestParams``\ という\ ID\ の ``LIST_MAP``\ に記述する（\ :ref:`LIST_MAPのデータを記述する <testdata_examples-list_map>`\ 参照）。\ ``context``\ カラムから参照される ``LIST_MAP``\ は、テストショットごとに1つずつ記述する。1件目の例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 34,33,33
 
@@ -452,6 +466,7 @@ Excel形式の場合
 2件目の例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 34,33,33
 
@@ -506,6 +521,7 @@ Excel形式の場合
 テストショット一覧の例を示す。カラム数が多いため、ここでは前半・後半に分けて示す（実際のシートでは1行に続けて記述する）。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 8,27,20,45
 
@@ -527,6 +543,7 @@ Excel形式の場合
     - nablarch/test/core/batch/BatchSample.xml
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 10,45,20,25
 
@@ -580,6 +597,7 @@ Excel形式の場合
 テストショット一覧の例を示す。カラム数が多いため、ここでは前半・後半に分けて示す（実際のシートでは1行に続けて記述する）。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 8,25,20,47
 
@@ -597,6 +615,7 @@ Excel形式の場合
     - batch-test-component-configuration.xml
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 8,25,22,22,23
 
@@ -643,6 +662,7 @@ Excel形式の場合
 テストショット一覧の例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 34,33,33
 
@@ -684,6 +704,7 @@ Excel形式の場合
 リクエストパラメータの例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 10,20,15,20,20,15
 
@@ -743,6 +764,7 @@ Excel形式の場合
 期待ログの例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 75,25
 
@@ -792,6 +814,7 @@ Excel形式の場合
 準備データの例を示す。カラム数が多いため、ここでは前半・後半に分けて示す（実際のシートでは1行に続けて記述する）。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 30,25,20,25
 
@@ -813,6 +836,7 @@ Excel形式の場合
     - Null
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 25,15,25,35
 
@@ -874,6 +898,7 @@ Excel形式の場合
 省略したカラムを比較対象から外す期待値の例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 22,18,12,18,30
 
@@ -901,6 +926,7 @@ Excel形式の場合
 省略したカラムにデフォルト値を補完して比較する期待値の例を示す。ここでは ``UPDATE_DATE``\ カラムをカラム名の行に書いていない。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 34,33,33
 
@@ -959,6 +985,7 @@ Excel形式の場合
 準備データの例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 34,33,33
 
@@ -972,6 +999,7 @@ Excel形式の場合
 期待値の例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 34,33,33
 
@@ -987,6 +1015,7 @@ Excel形式の場合
 カラム名を1つも書かない場合は、カラム名の行にマーカーカラムを1つだけ置く。次の例では\ ``[EMPTY]``\ を置いている。半角角括弧で囲んであれば名前は何でもよい。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 34,33,33
 
@@ -1024,6 +1053,7 @@ Excel形式の場合
 採番用テーブルの準備データの例を示す。準備データには、テスト範囲で使用する採番対象のレコードだけを記述する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 50,50
 
@@ -1037,6 +1067,7 @@ Excel形式の場合
 採番用テーブルの期待値の例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 50,50
 
@@ -1050,6 +1081,7 @@ Excel形式の場合
 採番した値が登録される業務テーブルの期待値の例を示す。\ ``USER_ID``\ に採番された値が登録される。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 34,33,33
 
@@ -1095,6 +1127,7 @@ YAML形式の場合
 Excel\ 形式では、レコード種別行の先頭要素にレコード種別を、以降の要素にフィールド名称を記述する。同じ内容を表す\ Excel\ 形式の行と\ YAML\ 形式のキーの対応は、以下のとおりである。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 50,50
 
@@ -1118,6 +1151,7 @@ Excel形式の場合
 入力ファイルの例を示す。データ行の先頭要素は空にする。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 25,25,25,25
 
@@ -1149,6 +1183,7 @@ Excel形式の場合
 出力ファイルの期待値は、同じ書式で記述する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 25,25,25,25
 
@@ -1218,6 +1253,7 @@ Excel形式の場合
 入力ファイルの例を示す。可変長ファイルではフィールド長行を記述しない。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 25,25,25,25
 
@@ -1280,6 +1316,7 @@ Excel形式の場合
 入力ファイルの例を示す。データ行の後に新しいレコード種別行を続けて書くと、そこから次のレコードレイアウトとして扱われる。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 25,25,25,25
 
@@ -1354,6 +1391,7 @@ Excel形式の場合
 入力ファイルの例を示す。ディレクティブ行はレコード定義より前に置く。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 25,25,25,25
 
@@ -1421,6 +1459,7 @@ Excel形式の場合
 入力ファイルの例を示す。タブ文字はセルに ``\t``\ （バックスラッシュと ``t``\ の2文字）と入力する。テスティングフレームワークがタブ文字に変換する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 34,33,33
 
@@ -1476,6 +1515,7 @@ Excel形式の場合
 期待値の例を示す。\ ``quoting-delimiter``\ に指定できるのは1文字だけである。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 25,25,25,25
 
@@ -1534,6 +1574,7 @@ Excel形式の場合
 グループIDなしの入力ファイルの例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 25,25,25,25
 
@@ -1561,6 +1602,7 @@ Excel形式の場合
 グループID付きの入力ファイルの例を示す。同じファイルパスであっても、グループIDが異なれば別のデータブロックとして扱われる。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 25,25,25,25
 
@@ -1655,6 +1697,7 @@ Excel形式の場合
 要求電文の例を示す。メッセージボディの先頭要素はラベル列であり、フィールド名称行には慣行として ``no``\ と記述する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 10,30,30,30
 
@@ -1698,6 +1741,7 @@ Excel形式の場合
 応答電文の期待値は、同じ書式で記述する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 10,30,30,30
 
@@ -1772,6 +1816,7 @@ Excel形式の場合
 要求電文の例を示す。フィールド長行にはフィールドの数だけ\ ``-``\ を記述する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 10,30,30,30
 
@@ -1811,6 +1856,7 @@ Excel形式の場合
 応答電文の期待値は、同じ書式で記述する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 10,30,30,30
 
@@ -1887,6 +1933,7 @@ Excel形式の場合
 テストショット一覧の記述例は\ :ref:`テストショット一覧（testShots）を記述する <testdata_examples-test_shots>`\ を参照。要求電文ヘッダの期待値の例を示す。半角角括弧の中がグループID、\ ``=``\ の右がリクエスト\ ID\ である。リクエスト\ ID\ はフォーマット定義ファイルの解決に使われる。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 20,80
 
@@ -1936,6 +1983,7 @@ Excel形式の場合
 ``sendSyncTestData``\ 配下の ``REQ001.xls``\ の ``message``\ シートに記述する。\ ``=``\ の右がリクエスト\ ID\ である。先頭要素はラベル列であり、データ行には送信順序と一致する連番を記述する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 10,30,30,30
 
@@ -1995,6 +2043,7 @@ Excel形式の場合
 テストショット一覧のうち、応答不要メッセージ送信に固有のカラムを示す。テストショット一覧全体の記述例は\ :ref:`テストショット一覧（testShots）を記述する <testdata_examples-test_shots>`\ を参照。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 10,45,45
 
@@ -2011,6 +2060,7 @@ Excel形式の場合
 要求電文ヘッダの期待値の例を示す。半角角括弧の中がグループID、\ ``=``\ の右がリクエスト\ ID\ である。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 10,45,45
 
@@ -2036,6 +2086,7 @@ Excel形式の場合
 要求電文本文の期待値は、同じグループID・リクエスト\ ID\ で記述する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 10,45,45
 
@@ -2101,6 +2152,7 @@ Excel形式の場合
 応答電文本文の例を示す。\ ``=``\ の右はリクエスト\ ID\ である。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 20,80
 
@@ -2149,6 +2201,7 @@ Excel形式の場合
 期待値の例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 10,25,30,35
 
@@ -2212,6 +2265,7 @@ Excel形式の場合
 期待値の例を示す。空文字は空セルで記述する。\ CR\ は ``\r``\ （バックスラッシュと ``r``\ の2文字）と入力する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 15,25,60
 
@@ -2233,6 +2287,7 @@ LF\ を表したい場合は、セル内で改行する（\ Alt+Enter\ ）。セ
 全フィールドが空文字のレコードは、いずれか1つのフィールドに ``""``\ と記述する。全セルを空にした行は読み飛ばされ、レコードにならないためである。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 25,25,25,25
 
@@ -2320,6 +2375,7 @@ Excel形式の場合
 期待値の例を示す。前後をダブルクォートで囲むと、外側の1層だけが除去される。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 20,40,40
 
@@ -2355,6 +2411,7 @@ Excel形式の場合
 準備データの例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 30,70
 
@@ -2392,6 +2449,7 @@ Excel形式の場合
 準備データの例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 20,30,25,25
 
@@ -2433,6 +2491,7 @@ Excel形式の場合
 リクエストパラメータの例を示す。\ ``uploadFile``\ は、画面の ``input``\ タグの ``name``\ 属性である。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 10,25,65
 
@@ -2474,6 +2533,7 @@ Excel形式の場合
 準備データの例を示す。先頭要素が ``//``\ で始まる行は、行全体が読み飛ばされる。行の先頭以外の要素が ``//``\ で始まる場合は、その要素以降が切り捨てられる。半角角括弧で囲んだ ``[no]``\ ・\ ``[desc]``\ はマーカーカラムであり、データベースへの登録から除外される。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 22,20,15,20,23
 
@@ -2538,6 +2598,7 @@ Excel形式の場合
 準備データの例を示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 30,70
 

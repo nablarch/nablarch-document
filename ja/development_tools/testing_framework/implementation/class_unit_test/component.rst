@@ -17,6 +17,7 @@
 このページで扱う主なクラスとリソースを次に示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,45,25
 
@@ -39,6 +40,7 @@
 コンポーネント単体テストで確認する対象は、次の4つに分かれる。どれに当てはまるかによって、テストメソッドの組み立て方と、結果の確認に使用するメソッドが変わる。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 55,45
 
@@ -311,6 +313,7 @@ ThreadContextに値を設定する
 確認する対象によって、使用するメソッドが異なる。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 40,60
 

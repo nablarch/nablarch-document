@@ -20,6 +20,7 @@
 文字種と文字列長の単項目バリデーションのテストでは、テスティングフレームワークが文字種と文字列長を変えた入力値を自動的に生成してバリデーションを実行し、発生したメッセージIDを期待値と比較する。このうち文字列長が不正な場合と未入力の場合に期待するメッセージIDのデフォルト値と、入力値の生成やバリデーションの実行に使うクラスは、\ :java:extdoc:`EntityTestConfiguration <nablarch.test.core.entity.EntityTestConfiguration>`\ で設定する。テスト用のコンポーネント設定ファイルに、\ ``entityTestConfiguration``\ という名前で登録する。なお、文字種が適合しない場合に期待するメッセージIDにデフォルト値は無く、文字種と文字列長のテストデータの必須カラム\ ``messageIdWhenNotApplicable``\ で行ごとに指定する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,70
 
@@ -138,6 +139,7 @@ Nablarch Validationを使用する場合、ここで指定するメッセージI
 データベースの準備データや\ ``EXPECTED_COMPLETE_TABLE``\ でカラムの記述を省略した場合、そのカラムにはカラム型に応じたデフォルト値が設定されているものとして扱われる（\ :ref:`カラムを省略する <testdata_notation-column_omission>`\ を参照）。このデフォルト値は\ :java:extdoc:`BasicDefaultValues <nablarch.test.core.db.BasicDefaultValues>`\ で変更できる。テストデータを解析するコンポーネントの\ ``defaultValues``\ プロパティに指定する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 25,35,40
 

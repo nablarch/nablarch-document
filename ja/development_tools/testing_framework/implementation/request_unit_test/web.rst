@@ -17,6 +17,7 @@
 このページで扱う主なクラスとリソースを次に示す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,45,25
 
@@ -142,6 +143,7 @@
 正常系・異常系・画面表示の検証用に分割した場合の例を次に示す。読み込み単位の名前は、既定ではテストメソッド名と同じにする（後述）。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 20,25,55
 
@@ -221,6 +223,7 @@
 \ ``TestCaseInfo``\ からは、実行中のテストショットの情報を取得できる。結果確認処理で使用する主なメソッドは次のとおりである。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 40,60
 
@@ -369,6 +372,7 @@
 格納されている値の型ごとに、次のメソッドを使い分ける。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 25,75
 

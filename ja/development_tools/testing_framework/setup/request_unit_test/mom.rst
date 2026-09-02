@@ -77,6 +77,7 @@ MOMによるメッセージングのリクエスト単体テストでは、テ�
 拡張するには\ :java:extdoc:`TestDataConverter <nablarch.test.core.file.TestDataConverter>`\ を実装する。XMLやJSONといったデータ形式ごとに、必要に応じてアーキテクトが用意する。実装するメソッドは次の2つである。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 35,65
 

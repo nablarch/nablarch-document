@@ -61,6 +61,7 @@ pom.xmlと同じディレクトリで次のコマンドを実行し、プロジ�
 zipにディレクトリは含まれないので、次の6ファイルがpom.xmlと同じディレクトリに並ぶ。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 40,60
 
@@ -140,6 +141,7 @@ Antビューに登録したビルドファイルを開き、実行したいタ�
 ターゲットは次の3つである。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,70
 

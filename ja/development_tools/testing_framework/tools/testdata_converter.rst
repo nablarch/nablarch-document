@@ -28,6 +28,7 @@
 ある形式から中間モデルを経て同じ形式へ往復したとき、テスティングフレームワークの仕様上の意味は変わらない。中間モデルは両形式に共通であるため、\ Excel\ 形式から\ YAML\ 形式へ変換して再び\ Excel\ 形式へ戻した場合も、仕様上の意味は変わらない。中間モデルが保持する情報と、保持しない情報は次のとおりである。
 
 .. list-table::
+  :class: white-space-normal
   :widths: 25,75
   :header-rows: 1
 
@@ -116,6 +117,7 @@ Java\ のコードから呼び出す場合は、pom.xmlに\ ``nablarch-testing-c
 Mavenプラグインで一括変換する場合も、\ Java\ のコードから変換を呼び出す場合も、入力ディレクトリ配下を再帰的に探索し、入力ディレクトリからの相対パスを保ったまま出力ディレクトリへ書き出す。変換元が\ Excel\ 形式の場合は、拡張子が\ ``.xls``\ のファイルと\ ``.xlsx``\ のファイルをどちらも対象とする。\ Excel\ 形式と\ YAML\ 形式では読み込み単位のまとめ方が異なるため、出力の構造は次のように読み替わる。
 
 .. list-table::
+  :class: white-space-normal
   :widths: 22,39,39
   :header-rows: 1
 
@@ -144,6 +146,7 @@ Mavenプラグインで一括変換する
 指定できるパラメータは次のとおりである。いずれも、コマンドラインの\ ``-D``\ オプションでも、pom.xmlの\ ``<configuration>``\ でも指定できる。pom.xmlに書く場合の要素名は、パラメータ名から\ ``nablarch-testing-converter.``\ を除いたものである。
 
 .. list-table::
+  :class: white-space-normal
   :widths: 42,10,12,36
   :header-rows: 1
 
@@ -175,6 +178,7 @@ Mavenプラグインで一括変換する
 変換の対象を絞り込む設定は、pom.xmlの\ ``<configuration>``\ に記述する。いずれも複数指定でき、子要素に1件ずつ記述する。
 
 .. list-table::
+  :class: white-space-normal
   :widths: 24,76
   :header-rows: 1
 
@@ -253,6 +257,7 @@ YAML\ 形式へ書き出す場合、本ツールは記法どおりに書くだ�
 設定できる項目とデフォルト値は次のとおりである。背景色は、Mavenプラグインでは\ Apache POI\ の\ ``IndexedColors``\ の列挙定数名で、\ Java\ のコードでは\ ``IndexedColors.AQUA.getIndex()``\ が返すインデックス値で指定する。
 
 .. list-table::
+  :class: white-space-normal
   :widths: 26,18,20,36
   :header-rows: 1
 

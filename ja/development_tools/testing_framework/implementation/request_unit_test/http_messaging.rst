@@ -26,6 +26,7 @@ MOM\ によるメッセージングと記述方法が異なるのは、テスト
 :ref:`リクエスト単体テスト（MOMによるメッセージング） <request_unit_test_mom>`\ が同期応答メッセージ送信の説明で使う用語は、HTTPメッセージングでは次のとおり読み替える。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 50,50
 

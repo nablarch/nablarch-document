@@ -48,6 +48,7 @@ Excel形式の場合
 ファイルは、テストコードと同じディレクトリに、テストコードと同じ名前（拡張子のみ異なる）で配置することを推奨する。テストクラス側でディレクトリ名やファイル名を明示的に指定しなくてもテストデータを読み込めるようにするためである。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,35,35
 
@@ -86,6 +87,7 @@ YAMLファイルは\ YAML 1.2\ に準拠する。\ YAML 1.1\ との主な違い�
 1つの読み込み単位（\ Excel\ の1シート、\ YAML\ の1ファイル）の中には、テストショット・準備データ・期待値という3つの用途のデータが、データブロック単位で共存する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 15,45,40
 
@@ -123,6 +125,7 @@ YAMLファイルは\ YAML 1.2\ に準拠する。\ YAML 1.1\ との主な違い�
 使用できるデータタイプは、以下の13種である。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,35,35
 
@@ -186,6 +189,7 @@ YAML形式の場合
 データタイプごとに専用のトップレベルキーを使う（完全一致のため前方一致は発生しない）。対応は、以下のとおりである。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 50,50
 
@@ -236,6 +240,7 @@ YAML形式の場合
 データブロックの収集方法は、データタイプによってあらかじめ決まっている。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 15,45,40
 
@@ -344,6 +349,7 @@ testShots本体を記述する
 ``testShots``\ の1行が1つのテストショットに対応する。カラムには値を直接記述するものと、他のデータブロック（\ ``LIST_MAP``\ やテーブル・ファイル・電文の各データブロック）のグループID・名前を参照するものがある。処理方式ごとに必須カラム・オプションカラムが定まっており、処理方式に対応するクラスは以下のとおりである。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 50,50
 
@@ -361,6 +367,7 @@ testShots本体を記述する
 エンティティバリデーションを除く各処理方式に共通する必須カラムは、以下のとおりである。ここでの「必須」は、カラム自体を定義しておく必要があるという意味であり、値そのものは空でもよい。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 25,75
 
@@ -378,6 +385,7 @@ testShots本体を記述する
 共通カラムに加えて、以下のカラムを使用できる。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 25,60,15
 
@@ -443,6 +451,7 @@ Nablarchバッチアプリケーションのカラムを記述する
 共通カラムに加えて、以下のカラムを使用できる。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 25,60,15
 
@@ -498,6 +507,7 @@ Nablarchバッチアプリケーションのカラムを記述する
 同期応答メッセージ受信・応答不要メッセージ受信などのメッセージングのテストでは、共通カラムに加えて以下のカラムを使用できる。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 25,55,20
 
@@ -545,6 +555,7 @@ HTTP\ メッセージ受信では、共通カラムに加えて ``diConfig``\ �
 エンティティバリデーションは、共通カラム（\ ``no``\ ・\ ``description``\ ・\ ``expectedStatusCode``\ ）を使わない別体系であり、以下の必須カラムを持つ。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,70
 
@@ -575,6 +586,7 @@ LIST_MAPのデータを記述する
 例えば、以下の表は、
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 50,50
 
@@ -682,6 +694,7 @@ YAML形式の場合
 省略時のデフォルト値は、以下のとおりである（コンポーネント設定ファイルで明示的に指定していない場合の値であり、\ ``BasicDefaultValues``\ クラスでカスタマイズできる。カスタマイズの方法は\ :ref:`省略したテーブルのカラムのデフォルト値を変更する <class_unit_test_setting-column_default_values>`\ を参照）。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 40,60
 
@@ -723,6 +736,7 @@ Excel形式の場合
 識別子行に続けて、カラム名の行とデータ行を記載する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 34,33,33
 
@@ -739,6 +753,7 @@ Excel形式の場合
 null\ 値・空文字は、以下のように記述する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,70
 
@@ -754,6 +769,7 @@ null\ 値・空文字は、以下のように記述する。
 ヘッダ行（2行目）は、末尾に空セルが続いても、そこで記述を止めたのと同じ結果になる。次のヘッダ行は、\ ``ID``\ ・\ ``NAME``\ の2カラムだけを記載した場合と同じ結果になる。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 34,33,33
 
@@ -769,6 +785,7 @@ null\ 値・空文字は、以下のように記述する。
 0件のデータは、以下のように記述する。準備データ・期待値のいずれでも同じである。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 34,33,33
 
@@ -801,6 +818,7 @@ YAML形式の場合
 null\ 値・空文字は、以下のように記述する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,70
 
@@ -840,6 +858,7 @@ null\ 値・空文字は、以下のように記述する。
 各要素の名称と役割は、以下のとおりである。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,70
 
@@ -884,6 +903,7 @@ null\ 値・空文字は、以下のように記述する。
 固定長ファイルで有効なディレクティブキーは、以下の11個に限定される。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 40,60
 
@@ -911,6 +931,7 @@ null\ 値・空文字は、以下のように記述する。
 可変長ファイルで有効なディレクティブキーは、以下の9個に限定される。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 40,60
 
@@ -938,6 +959,7 @@ null\ 値・空文字は、以下のように記述する。
 フィールドのデータ型は、以下の日本語型名称で指定する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 45,15,40
 
@@ -986,6 +1008,7 @@ Excel\ 形式には固有の制約として、データの先頭要素を必ず�
 識別子行の後にディレクティブ行を置き、続けて以下のようにレコード種別以降を記載する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 0
   :widths: 25,25,25,25
 
@@ -1019,6 +1042,7 @@ Excel\ 形式には固有の制約として、データの先頭要素を必ず�
     - ...
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 25,75
 
@@ -1058,6 +1082,7 @@ Excel\ 形式には固有の制約として、データの先頭要素を必ず�
 具体例として、ヘッダレコード1件・データレコード2件・トレーラレコード1件・エンドレコード1件で構成される会員データファイルを考える。文字コードは\ ``Windows-31J``\ 、レコード区切り文字は\ ``CRLF``\ とする。この例のように、1つのファイルデータブロック内に複数のレコードレイアウトを連続して記述すると、データの後ろに新たなレコード種別とフィールド名称を書いた時点で、新しいレコードレイアウトとして扱われる。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 20,25,25,30
 
@@ -1152,6 +1177,7 @@ YAML形式の場合
 同期応答メッセージ送信では、要求電文の期待値と応答電文を、以下の4つのデータタイプで記述する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 40,20,40
 
@@ -1190,6 +1216,7 @@ YAML形式の場合
 応答電文のアサート方式は、ディレクティブの ``file-type``\ の値、または\ ``SystemRepository``\ の ``messaging.assertAsMapFileType``\ キーの設定によって切り替わる。未設定時のデフォルトは ``"Fixed"``\ 形式（項目単位アサート）である。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 40,60
 
@@ -1220,6 +1247,7 @@ YAML形式の場合
 応答電文の先頭フィールドに ``errorMode:``\ から始まる特定の値を設定すると、障害系のテストを行える。値は、応答電文のヘッダ・本文の両方に記載する。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,40,30
 
@@ -1299,6 +1327,7 @@ null・空文字・改行など特殊な値を記述する
 ``${文字種,文字数}``\ で使用できる文字種は、以下の14種類に限定される。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 100
 
@@ -1333,6 +1362,7 @@ HTTP\ リクエストパラメータの値にアップロードファイルを�
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,40,30
 
@@ -1385,6 +1415,7 @@ YAML形式の場合
 ``rows:``\ 内の全てのデータ値を必ずダブルクォートで囲む必要がある（クォートがないと\ SnakeYAML\ が数値・真偽値に型変換してしまう）。\ Java\ の\ null\ にしたい場合のみクォートなしで ``null``\ と記述する（\ ``"null"``\ とクォートした場合は文字列になる）。\ ``type:``\ ・\ ``record_type:``\ ・\ ``path:``\ などのスキーマ構造値にはクォートは不要である。\ Excel\ 形式で行われる前後のダブルクォート1層の除去は、\ YAML\ 形式では行われない。値を囲むダブルクォートは\ YAML\ のパーサが取り除き、それ以外のダブルクォートはそのまま値になる。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,40,30
 
@@ -1439,6 +1470,7 @@ YAML形式の場合
 **Excel\ 形式**\ では、セルの内容を ``//``\ で始めると、そのセルより右側は読み込み時に無視される。テストデータの値としては不要だが、読み手のために補足情報を残しておきたいときに使う機能である。例えば以下のように、ヘッダ行の下の行でテーブルの論理名を、末尾でレコードについての補足をコメントできる。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 20,20,20,20,20
 
@@ -1470,6 +1502,7 @@ YAML形式の場合
 例えば、以下のテストデータでは、半角角括弧で囲まれた ``[no]``\ カラムが無視されるため、テスト実行時には\ ``id``\ ・\ ``name``\ の2カラムだけを持つデータと等価になる。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 20,40,40
 

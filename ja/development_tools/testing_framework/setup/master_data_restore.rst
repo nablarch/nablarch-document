@@ -34,6 +34,7 @@
 マスタデータ復旧機能を使用するにあたり、次の2つのスキーマが必要となる。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,70
 
@@ -65,6 +66,7 @@
 自動テスト用のコンポーネント設定ファイルに、マスタデータ復旧クラス\ :java:extdoc:`MasterDataRestorer <nablarch.test.core.db.MasterDataRestorer>`\ を登録し、監視対象テーブルを列挙する。主な設定項目は次のとおりである。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 25,60,15
 

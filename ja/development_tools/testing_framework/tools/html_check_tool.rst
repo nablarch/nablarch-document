@@ -196,6 +196,7 @@ HTMLチェックの内容そのものを変更する場合は、\ :java:extdoc:`
 最上位の例外メッセージの形式は次のとおりである。メッセージ中の行番号と桁番号は、チェック対象のHTMLダンプにおける位置を指す。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,70
 
@@ -211,6 +212,7 @@ HTMLチェックの内容そのものを変更する場合は、\ :java:extdoc:`
 構文・字句の誤りは、最上位のメッセージに指摘箇所が出力されない。指摘箇所は、原因例外（\ ``Caused by``\ ）のメッセージに次の形式で出力される。
 
 .. list-table::
+  :class: white-space-normal
   :header-rows: 1
   :widths: 30,70
 
