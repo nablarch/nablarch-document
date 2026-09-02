@@ -2046,6 +2046,19 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 **Completion criteria / 判定（2026-09-02）**: 完了。list-table 144 件（21 ファイル）に `:class: white-space-normal`、`about/index.rst` の simple table 1 件に `.. rst-class:: white-space-normal`。ビルド succeeded・warning 0。`_build/html/development_tools/testing_framework` 配下の `<table>` 145 件すべてに `white-space-normal`、未指定 0 件、`:class:` 文字列のセル漏れ 0 件。`<pre>` を含むセル 0 件。
 
 
+### #59: マスタデータ投入ツールを新規利用者に案内せず、gsp-dba-maven-plugin の推奨に戻す — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: user の38本全量読みレビューで「ウェブアプリケーションの取引単体テストに NTF の出番はあるか」との質問があり、ディレクターが `implementation/deal_unit_test/web.rst` の準備手順にマスタデータ投入ツールへの参照を足す案を出した。user がこれを退けた。**現行 v6 の `08_TestTools/02_MasterDataSetup/index.rst:9`（`origin/main`）は「マスタデータの投入は、本ツールではなく gsp-dba-maven-plugin の使用を推奨する」と明記しており、本文で案内できるツールではない。** 併せて刷新版に2箇所の欠陥が見つかった。(1) `tools/master_data_tool.rst:24` の tip がこの推奨文を落として「gsp で管理する場合、本ツールを導入する必要はない」に弱めていた（落とす判断の記録は `design.md`・本台帳に無い。`design.md:187` は「非推奨」の語で確認しており、推奨文を見落とした）。(2) `implementation/testdata_notation.rst:42` の tip が v6 `06_TestFWGuide/01_Abstract.rst:608` を引き継いで「マスタデータ投入ツールを使用する」と断定しており、ツールページの推奨と食い違っていた（v6 の時点で食い違っていた）。
+
+**user 判断（2026-09-02）**: **本文は新規利用者向け。後方互換のために説明を残しているツールを本文で案内しない。** `testdata_notation.rst` は「gsp-dba-maven-plugin の使用を推奨する」とし、「マスタデータ投入ツールも使用できる」は書かない（推奨していないため）。`web.rst` への追記は行わない（ウェブの取引単体テストで NTF が関わるのはモックアップクラスだけで、`web.rst:15` に既にある）。`about/index.rst:80` への追記も行わない（何を使うかは各ページの担当）。
+
+**指示書**: なし。`02-進め方.md`「直接修正するときの型」に基づきディレクターが直接コミット（`2b665792`）。**レビューは回さない**（2文の是正で、v6 の既存文面への復帰と、それに揃える言い換え。参照先の実在はビルドが固定する）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。`tools/master_data_tool.rst:24` に v6 の推奨文を戻し、`implementation/testdata_notation.rst:42` を gsp-dba-maven-plugin の推奨に改めた。正規の場所でビルド succeeded・warning 0。両 HTML で `addin_gsp.html#gsp-maven-plugin` へのリンク解決を grep で確認。`master_data_restore.rst:60`・`:175` は「このツールで投入する場合は」の条件付き言及のため変更しない。
+
+**申し送り**: `design.md:187` の「現行解説書に非推奨の記録が無い」は、v6 の推奨文（`index.rst:9`）を見落とした記述である。design.md 側の是正はマージ判断まで着手しない（`#29` の残りと同じ扱い）。
+
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
@@ -2054,6 +2067,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-09-02
-- **Last completed**: `#58` NTF の表 145 件に `white-space-normal`（ディレクター直接コミット `ae504738`）。その前は `#57` テスティングフレームワーク index の役割別導線（ディレクター直接コミット `98217fc6` 表 → `671959ab` 文章）。その前は `#56` 台帳の締め
+- **Last completed**: `#59` マスタデータ投入ツールを本文で案内せず gsp-dba-maven-plugin の推奨に戻す（ディレクター直接コミット `2b665792`）。その前は `#58` NTF の表 145 件に `white-space-normal`（ディレクター直接コミット `ae504738`）。その前は `#57` テスティングフレームワーク index の役割別導線（ディレクター直接コミット `98217fc6` 表 → `671959ab` 文章）。その前は `#56` 台帳の締め
 - **Next**: user の刷新版38本全量読みレビュー（質問が来たら実物で答える）。`#29` の残り（「マージ直前にまとめて処置する」の台帳）は user のマージ判断まで着手しない
 - **Notes**: ブランチ `ntf-yaml-support`、`origin` に push 済み。`#56` の実測は `checks/task-56.md`（§0 着手前検証・§3 完了条件）。モジュール側の一次記録の所在は台帳 `#52`〜`#54` の各「根拠」にある
