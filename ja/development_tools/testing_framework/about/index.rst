@@ -108,7 +108,7 @@
 
 稼動環境
 --------------------------------------------------
-テスティングフレームワークは、JUnit 5で使用する（\ :ref:`標準の使い方 <standard_usage>`\ ）。JUnit 4で使用する場合は、\ :ref:`JUnit 4で使用する <junit4_support>`\ を参照。
+テスティングフレームワークは、JUnit 5で使用する。導入と設定は\ :ref:`JUnit 5で使用する <standard_usage>`\ を参照。既にJUnit 4で書いたテスト資産がある場合は\ :ref:`JUnit 4で使用する <junit4_support>`\ を参照。
 
 .. _testing_framework_about-architecture:
 
