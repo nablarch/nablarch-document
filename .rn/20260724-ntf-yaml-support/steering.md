@@ -2120,6 +2120,15 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 **Completion criteria / 判定（2026-09-02）**: 完了。10 ページの機能概要を書き換え、`mapping/style.md` の「機能概要」規約に3点の型を追記。正規の場所でビルド succeeded・warning 0。`setup/request_unit_test/db_queue.rst` は導線だけのページで機能概要を持たないため対象外（`style.md` の適用外3ページのとおり）。申し送りは無い。
 
 
+### #65: 表のリテラル折り返し（横スクロールの残り） — 進行中（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: `#58` の後も「記載例のテーブル、たまに横スクロールが付いてる」（user 2026-09-02）。headless Chrome（puppeteer、幅 1400px）で NTF 配下 145 表の `scrollWidth` と親 `clientWidth` を実測し、横スクロール 15 表を特定。原因は2種。(1) rtd テーマが `code` を nowrap にしており、長いリテラル（XML 電文・メソッドシグネチャ・パス・エラーメッセージ）が幅を決める（5表）。(2) Excel シートを再現した表（`LIST_MAP=testShots` 等）で、5〜8 列の識別子（`expectedStatusCode`、`ss21AA01/B21AA01.xml`）が折り返せない（10表: `implementation/deal_unit_test/batch.rst` の5表、`testdata_examples.rst` の4表、`setup/request_unit_test/web.rst` の1表＝24px）。
+
+**処置（2026-09-02、`860b3650`）**: `_static/custom.css` に `table.white-space-normal code { white-space: normal; }` を追加（FW 解説書の同クラスの表 44 ファイルにも効く）。実測で 15 → 10 表。**Sphinx 1.3.6 は更新対象の文書が無いと静的ファイルをコピーしないため、CSS だけ変えたときは `.rst` を1つ touch してからビルドする**（実測: `custom.css` を消して再ビルドしても復元されなかった）。
+
+**未決（user 判断待ち）**: 残り 10 表を (a) `overflow-wrap: anywhere` で語の途中でも折り返す（識別子が途中で切れる）か、(b) Excel シートの再現として横スクロールを許容するか。ディレクターの推奨は (b)。
+
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
