@@ -10,7 +10,7 @@
 機能概要
 --------------------------------------------------
 
-共通設定では、テスティングフレームワークを使うための依存関係の追加と、テストの種類によらず共通に行う設定を扱う。テストデータの読み込み先の変更、システム日時の固定、シーケンス採番のテーブル採番への置き換えができる。あわせて、同期応答メッセージ送信・HTTPメッセージ送信を伴う取引単体テストだけが必要とする、テストデータの読み込みの設定もここで行う。
+共通設定では、テスティングフレームワークを使うための依存関係の追加、テスト用のコンポーネント設定ファイルの用意と、テストの種類によらず共通に行う設定を扱う。テストデータの読み込み先の変更、システム日時の固定、シーケンス採番のテーブル採番への置き換えができる。あわせて、同期応答メッセージ送信・HTTPメッセージ送信を伴う取引単体テストだけが必要とする、テストデータの読み込みの設定もここで行う。
 
 使用方法
 --------------------------------------------------
@@ -31,6 +31,32 @@
 .. tip::
 
   処理方式によっては、専用のモジュールを使用する。専用のモジュールが\ ``nablarch-testing``\ に依存する場合は、\ ``nablarch-testing``\ を個別に追加しなくてよい。必要なモジュールは、\ :ref:`リクエスト単体テストの設定（RESTfulウェブサービス） <request_unit_test_setting_rest>`\ のように、該当するページに記載している。
+
+.. _testing_framework_common-test_component_config:
+
+テスト用のコンポーネント設定ファイルを用意する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+テスティングフレームワークは、テストの実行時にクラスパス直下の\ ``unit-test.xml``\ をコンポーネント設定ファイルとして読み込む。ブランクプロジェクトでは\ ``src/test/resources/unit-test.xml``\ が該当する。このファイルには、本番用のコンポーネント設定ファイルをimportしたうえで、テストに必要な設定を記述する。本番用と異なる設定にするコンポーネントは、importの後に同じ名前で定義して上書きする（\ :ref:`repository-override_bean`\ ）。以降のページで「テスト用のコンポーネント設定ファイル」と書いている設定は、すべてこのファイルに記述する。
+
+環境設定ファイルは、importした本番用のコンポーネント設定ファイルが読み込むものがそのまま使われる。
+
+.. code-block:: xml
+
+  <component-configuration
+          xmlns="http://tis.co.jp/nablarch/component-configuration"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://tis.co.jp/nablarch/component-configuration https://nablarch.github.io/schema/component-configuration.xsd">
+
+    <!-- 本番用のコンポーネント設定ファイル -->
+    <import file="web-component-configuration.xml"/>
+
+    <!-- テスティングフレームワークのデフォルト設定（必要なものを各ページに従って追加する） -->
+    <import file="nablarch/test/test-data.xml"/>
+
+    <!-- 本番用の設定の上書き -->
+    <component name="..." class="..."/>
+
+  </component-configuration>
 
 .. _testing_framework_common-yaml_testdata:
 
