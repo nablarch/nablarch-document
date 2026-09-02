@@ -373,8 +373,8 @@ JUnit 4のTestRuleを再現する
     :header-rows: 1
     :class: white-space-normal
 
-    * - JUnit 4の\ ``TestRule``
-      - 置き換え先のJUnit 5の機能
+    * - JUnit 4
+      - JUnit 5
     * - ``Timeout``
       - ``@Timeout``
     * - ``TemporaryFolder``
