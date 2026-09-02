@@ -2056,7 +2056,7 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 
 **Completion criteria / 判定（2026-09-02）**: 完了。`tools/master_data_tool.rst:24` に v6 の推奨文を戻し、`implementation/testdata_notation.rst:42` を gsp-dba-maven-plugin の推奨に改めた。正規の場所でビルド succeeded・warning 0。両 HTML で `addin_gsp.html#gsp-maven-plugin` へのリンク解決を grep で確認。`master_data_restore.rst:60`・`:175` は「このツールで投入する場合は」の条件付き言及のため変更しない。
 
-**申し送り**: `design.md:187` の「現行解説書に非推奨の記録が無い」は、v6 の推奨文（`index.rst:9`）を見落とした記述である。design.md 側の是正はマージ判断まで着手しない（`#29` の残りと同じ扱い）。
+**design.md の是正（2026-09-02）**: `design.md:187` の「現行解説書に非推奨の記録が無い」は v6 の推奨文（`index.rst:9`）を見落とした記述だったため、同行に訂正を追記した。申し送りは無い。
 
 
 ### #60: about の節順・JUnit 4 の括弧書き・サポートクラスのクラス図の向き — 完了（2026-09-02 ディレクター直接コミット）
@@ -2069,7 +2069,7 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 
 **Completion criteria / 判定（2026-09-02）**: 完了。節順 全体像 → テストの種類 → 稼動環境 → アーキテクチャ（HTML の h2 で確認）。アーキテクチャ節の文は「テストクラスは、サポートクラスのインスタンスをインジェクションされて使用する。」。JUnit 4 では継承で使う旨は `setup/standard_usage.rst:18`・`setup/junit4.rst:12` にあり欠落しない。`test_support_class.png` は 1462x390 に再生成、`architecture_components.png` はバイト一致で不変。`:scale: 70` を外した。正規の場所でビルド succeeded・warning 0。ラベル `testing_framework_about-operating_environment`・`-architecture` は他ページから参照されていない（grep 0件）。
 
-**申し送り**: `design.md:189` の第1部アウトライン（全体像 → テストの種類 → アーキテクチャ → 稼動環境）は本タスクで上書きした。design.md 側の是正はマージ判断まで着手しない（`#29` の残りと同じ扱い）。
+**design.md の是正（2026-09-02）**: 第1部アウトライン表（`design.md:36-37`）の行順と内容、`design.md:189` の節順を本タスクの決定に合わせて更新した。申し送りは無い。
 
 
 ### #61: 「標準の使い方」を「JUnit 5で使用する」に改題する — 完了（2026-09-02 ディレクター直接コミット）
@@ -2082,7 +2082,7 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 
 **Completion criteria / 判定（2026-09-02）**: 完了。題・リンク文言3箇所（`about/index.rst:111`・`setup/junit4.rst:14`・`:43`）・本文3文（`setup/standard_usage.rst:12`「これが標準の使い方である」を落とす、`:209`・`:379` を「JUnit 5」に）・`mapping/glossary.md:298` の見出し語。正規の場所でビルド succeeded・warning 0。`ja/` の `.rst` で「標準の使い方」0件（`grep -rn`）、対象 HTML 4本でも0件。design.md の第2部ツリー（`design.md:248`・`:1018`）と `#55` の記録・`mapping.csv`・`style.md`・`volume.md`・`vocabulary.md`・`scan-terms.tsv` に旧名が残るが、当時の記録として残す（glossary の「使わない表記」欄に「#55〜#60 の記録では使う」と明記）。
 
-**申し送り**: `design.md:248`・`:1018` のページ名は本タスクで上書きした。design.md 側の是正はマージ判断まで着手しない（`#29` の残りと同じ扱い）。
+**design.md の是正（2026-09-02）**: `design.md:37`・`:243`・`:248`・`:1018` のページ名と改題の記録を更新した。申し送りは無い。
 
 
 ### #62: 共通設定に「テスト用のコンポーネント設定ファイルを用意する」を新設し、about から参照する — 完了（2026-09-02 ディレクター直接コミット）
