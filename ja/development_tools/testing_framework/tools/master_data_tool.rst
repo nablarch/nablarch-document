@@ -21,7 +21,7 @@
 
 .. tip::
 
-  \ :ref:`blank_project`\ を使用してプロジェクトを構築した場合、データベース関連のツールとして\ :ref:`gsp-dba-maven-plugin <gsp-maven-plugin>`\ が設定される。gsp-dba-maven-pluginでマスタデータを管理する場合、本ツールを導入する必要はない。
+  \ :ref:`blank_project`\ を使用してプロジェクトを構築した場合、データベース関連のツールとして\ :ref:`gsp-dba-maven-plugin <gsp-maven-plugin>`\ が設定される。このため、データベースへのマスタデータの投入は、本ツールではなく\ :ref:`gsp-dba-maven-plugin <gsp-maven-plugin>`\ の使用を推奨する。
 
 .. important::
 
