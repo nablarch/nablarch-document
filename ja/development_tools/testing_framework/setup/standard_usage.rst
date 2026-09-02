@@ -226,10 +226,6 @@ Extensionクラスは、合成アノテーションを使わず、JUnit 5の\ ``
 
 サポートクラスは、基本的にインスタンスの生成時にテストクラスの\ ``Class``\ オブジェクトを受け取る。したがって、独自拡張クラスにも\ ``Class``\ オブジェクトを受け取るコンストラクタを定義する。
 
-.. tip::
-
-  :java:extdoc:`SimpleRestTestSupport <nablarch.test.core.http.SimpleRestTestSupport>`\ は、テストクラスの\ ``Class``\ オブジェクトをコンストラクタで渡さなくても使用できる。
-
 独自拡張用のExtensionクラスを作成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 継承元のクラスに対応するExtensionクラスを継承する。前項の例では\ :java:extdoc:`TestSupport <nablarch.test.TestSupport>`\ を継承しているので、対応するExtensionクラスは\ :java:extdoc:`TestSupportExtension <nablarch.test.junit5.extension.TestSupportExtension>`\ である。
