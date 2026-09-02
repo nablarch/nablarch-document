@@ -96,7 +96,7 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
 
 .. tip::
 
-  JUnit 4\ でテストを書く場合は、インジェクションではなく継承でテスティングフレームワークの機能を使用する（\ :ref:`JUnit 4で使用する <junit4_support>`\ ）。
+  JUnit 4\ でテストを書く場合は、インジェクションではなく継承でテスティングフレームワークの機能を使用する（\ :ref:`JUnit 4での使用 <junit4_support>`\ ）。
 
 データベース関連機能は、\ ``RestTestSupport``\ から\ ``DbAccessTestSupport``\ に処理を委譲することで実現している。\ ``DbAccessTestSupport``\ の詳細は\ :ref:`コンポーネント単体テスト <component_unit_test>`\ を参照。ただし、\ ``DbAccessTestSupport``\ が持つ次のメソッドは、RESTfulウェブサービスのリクエスト単体テストでは不要であり、アプリケーションプログラマに誤解を与えないよう、意図的に委譲していない。
 

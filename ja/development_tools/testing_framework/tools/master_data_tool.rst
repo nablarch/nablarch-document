@@ -25,7 +25,7 @@
 
 .. important::
 
-  マスタデータファイルが\ Excel\ 形式の場合、コンポーネント設定ファイルの\ ``testDataParser``\ には\ YAML\ 形式用のパーサを設定しない。設定すると、投入の対象が0件になり、例外も警告も出ない。\ ``testDataParser``\ の記述例は\ :ref:`省略したテーブルのカラムのデフォルト値を変更する <class_unit_test_setting-column_default_values>`\ を参照。
+  マスタデータファイルが\ Excel\ 形式の場合、コンポーネント設定ファイルの\ ``testDataParser``\ には\ YAML\ 形式用のパーサを設定しない。設定すると、投入の対象が0件になり、例外も警告も出ない。\ ``testDataParser``\ の記述例は\ :ref:`省略したテーブルのカラムのデフォルト値を変更する <testdata_setting-column_default_values>`\ を参照。
 
 .. _master_data_tool-setup:
 
@@ -38,7 +38,7 @@
 本ツールを使用するには、次の条件を満たす必要がある。
 
 * EclipseとMavenがインストール済みであること
-* \ :ref:`共通設定 <testing_framework_common>`\ のとおり、\ ``nablarch-testing``\ が依存関係に追加済みであること
+* \ :ref:`テスティングフレームワークの導入 <testing_framework_introduction>`\ のとおり、\ ``nablarch-testing``\ が依存関係に追加済みであること
 * Mavenの標準ディレクトリ構成のプロジェクトであること（\ :ref:`blank_project`\ のアーキタイプから生成したプロジェクトはこれに該当する）
 * マスタデータファイルに記述するすべてのテーブルが、自動テスト用スキーマに作成済みであること
 * バックアップ用スキーマにも同じテーブルが作成済みであること（\ :ref:`バックアップ用スキーマを作成する <master_data_restore-backup_schema>`\ 参照）

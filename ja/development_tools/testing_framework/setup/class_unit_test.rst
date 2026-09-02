@@ -9,7 +9,7 @@
 
 機能概要
 --------------------------------------------------
-クラス単体テストの設定では、テストデータの投入と結果の取得にテスティングフレームワークが使うトランザクション\ ``testTran``\ を登録する。この登録は、データベースの準備データや期待値を記述したテストデータを使うすべてのテストで必須であり、登録していないと準備データの投入時に例外が発生する。そのほかに、エンティティ単体テストで期待するメッセージIDのデフォルト値や、テストデータで省略したカラムに補うデフォルト値など、プロジェクトの規約に合わせる設定を必要に応じて行う。
+クラス単体テストの設定は、エンティティ単体テストとコンポーネント単体テストに固有の設定である。エンティティ単体テストでは、文字種・文字列長のテストで期待するメッセージIDのデフォルト値など、プロジェクトの規約に合わせる項目を登録する。コンポーネント単体テストでデフォルト以外のトランザクションも使う場合は、そのトランザクションを環境設定ファイルに指定する。
 
 使用方法
 --------------------------------------------------
@@ -104,23 +104,6 @@ Nablarch Validationを使用する場合、ここで指定するメッセージI
     </list>
   </property>
 
-テストデータの投入に使用するトランザクションを登録する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-テスティングフレームワークは、データベースの準備データの投入と、テーブルの内容の取得を、テスト対象の処理とは別のトランザクションで行う。このトランザクションには\ ``testTran``\ という名前のコンポーネントを使用する。テスト用のコンポーネント設定ファイルに、\ :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>`\ をこの名前で登録する。名前は固定であり、変更できない。登録していない場合は、準備データを投入する時点で例外が発生する。
-
-.. code-block:: xml
-
-  <!-- テストデータの投入・取得に使用するトランザクション -->
-  <component name="testTran" class="nablarch.core.db.transaction.SimpleDbTransactionManager">
-    <property name="dbTransactionName" value="test"/>
-    <property name="connectionFactory" ref="connectionFactory"/>
-    <property name="transactionFactory" ref="jdbcTransactionFactory"/>
-  </component>
-
-.. tip::
-
-  この設定はクラス単体テストに限らず、データベースの準備データや期待値を記述したテストデータを使用するすべてのテストで必要である。
-
 .. _class_unit_test_setting-db_transaction:
 
 デフォルト以外のトランザクションを使用する
@@ -130,46 +113,3 @@ Nablarch Validationを使用する場合、ここで指定するメッセージI
 .. code-block:: properties
 
   dbAccessTest.dbTransactionName=employeeTransaction,departmentTransaction
-
-.. _class_unit_test_setting-column_default_values:
-
-省略したテーブルのカラムのデフォルト値を変更する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-データベースの準備データや\ ``EXPECTED_COMPLETE_TABLE``\ でカラムの記述を省略した場合、そのカラムにはカラム型に応じたデフォルト値が設定されているものとして扱われる（\ :ref:`カラムを省略する <testdata_notation-column_omission>`\ を参照）。このデフォルト値は\ :java:extdoc:`BasicDefaultValues <nablarch.test.core.db.BasicDefaultValues>`\ で変更できる。テストデータを解析するコンポーネントの\ ``defaultValues``\ プロパティに指定する。
-
-.. list-table::
-  :class: white-space-normal
-  :header-rows: 1
-  :widths: 25,35,40
-
-  * - 設定項目名
-    - 説明
-    - 指定できる値
-  * - ``charValue``
-    - 文字列型のデフォルト値。固定長文字列型（\ CHAR\ ・\ NCHAR\ ）では、指定した値をカラム長の数だけ繰り返した文字列が使われる
-    - 1文字のASCII文字
-  * - ``numberValue``
-    - 数値型のデフォルト値。カラム長を超える値を指定した場合は、先頭からカラム長の分だけ切り出した値が使われる
-    - 0または正の整数
-  * - ``dateValue``
-    - 日付型のデフォルト値
-    - JDBCタイムスタンプエスケープ形式（\ ``yyyy-mm-dd hh:mm:ss.fffffffff``\ ）
-
-記述例を示す。
-
-.. code-block:: xml
-
-  <!-- TestDataParser -->
-  <component name="testDataParser" class="nablarch.test.core.reader.BasicTestDataParser">
-    <!-- データベース情報 -->
-    <property name="dbInfo" ref="dbInfo"/>
-    <!-- データベースのデフォルト値 -->
-    <property name="defaultValues">
-      <component class="nablarch.test.core.db.BasicDefaultValues">
-        <property name="charValue" value="a"/>
-        <property name="numberValue" value="1"/>
-        <property name="dateValue" value="2000-01-01 12:34:56.123456789"/>
-      </component>
-    </property>
-    <!-- 中略 -->
-  </component>

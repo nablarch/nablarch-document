@@ -141,7 +141,7 @@ MOM\ によるメッセージングのリクエスト単体テストは、テス
 
 .. tip::
 
-  JUnit 4\ でテストを書く場合は、インジェクションではなく継承でテスティングフレームワークの機能を使用する（\ :ref:`JUnit 4で使用する <junit4_support>`\ ）。
+  JUnit 4\ でテストを書く場合は、インジェクションではなく継承でテスティングフレームワークの機能を使用する（\ :ref:`JUnit 4での使用 <junit4_support>`\ ）。
 
 .. _request_unit_test_mom-test_method:
 
