@@ -2138,6 +2138,19 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 **Completion criteria / 判定（2026-09-02）**: 完了。2ページから当該文を削除。NTF 配下の本文に「ブランクプロジェクト」の記述は残っていない（ビルド後 HTML に残る1件はサイドバーの目次項目）。正規の場所でビルド succeeded。design.md `:566-569` はブランクプロジェクトの実効値を確認した記録であり本文の記述ではないため据え置き。申し送りは無い。
 
 
+### #67: 共通設定の全量読みレビュー6件（Interpreter の対応付け・唐突な参照の削除・応答電文設定の移動・JUnit 4 の並び） — 完了（2026-09-02 ディレクター直接コミット・user 判断）
+
+**Purpose**: user の38本全量読みレビューで `setup/common.rst` に6件。(1)「特殊記法を解釈するクラス群も YAML 形式用のものを指定する」が設定例の Interpreter と対応しない。(2) `NullInterpreter` の important だけ特別扱いで、重要でもない。(3)「テストデータの記法は…を参照」が唐突。(4) 読み込み先の `-D` システムプロパティの tip は環境設定の一般論で不要。(5)「テーブル採番用の設定値の詳細は IdGenerator を参照」が 404。(6)「同期応答メッセージ送信・HTTPメッセージ送信のテストデータの読み込みを設定する」がなぜ共通設定にあるのか。あわせて導入と設定の目次で「JUnit 4で使用する」を「JUnit 5で使用する」の直後へ。
+
+**実測で分かったこと**: 旧設定例の `DateTimeInterpreter` は `setUpDateTime` を持たず、`${setUpTime}` が変換されない（scratchpad の nablarch-example-web で `testDataParser` に YAML の LIST_MAP を読ませた probe: 旧例=`${setUpTime}` のまま、`setUpDateTime` 追加または `component-ref name="dateTimeInterpreter"`=`1970-01-01 09:00:00.0`）。Excel のデフォルト設定 `nablarch/test/test-data-interpreter.xml`（`nablarch-testing-default-configuration:6u3`）は同プロパティを設定している。(5) の 404 は `conf.py:58` `version='6-NEXT-SNAPSHOT'` の javadoc が公開されていないためで公開版では解決するが、`IdGenerator`（インタフェース）の javadoc に設定値の説明は無く、`FastTableIdGenerator` にある（LATEST の javadoc で確認）。
+
+**user 判断（2026-09-02）**: (1)(2) は推奨案＝import 済みの `nablarch/test/test-data.xml` が定義する Interpreter を `component-ref` で2つ指定し、各 Interpreter の記法を本文に列挙、important は削除。(3)(4) 削除。(5) 参照先を `FastTableIdGenerator` に。(6) MOM のページへ移し HTTP メッセージングからはリンク（「頑張るところでなく、確実にたどり着ければよい。あるべきページとセクションタイトルが重要」）。JUnit 4 は JUnit 5 の直後。
+
+**指示書**: なし。`02-進め方.md`「直接修正するときの型」に基づきディレクターが直接コミット（`a4b13d2c` (3)(4)(5)、`5eaba7b0` (1)(2)(6)・目次）。**レビューは回さない**（設定例の動作は probe で実測、移動は文面を変えず参照4箇所を付け替えただけ。user が案を承認）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。正規の場所でビルド succeeded・warning 0。ラベル `deal_unit_test_setting_mom-send_sync_test_data` への参照4箇所が HTML で解決、図 `send_sync_testdata_layout.png` は `images/mom/` へ移して `_images` に生成。`common.html` の小節は6つ、`mom.html` に移した小節と Excel/YAML の下位節がある。目次順は common → standard_usage → junit4 → …。design.md のアウトライン（`#55` の「末尾に新設」を上書き）と移動の判断を記録。申し送りは無い。
+
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
@@ -2146,6 +2159,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-09-02
-- **Last completed**: `#66` テスト用のコンポーネント設定ファイルの説明からブランクプロジェクトへの依存を外す（直接コミット `97e8ca68`）。その前は `#65` 表のリテラル折り返し（直接コミット `860b3650`。残り 10 表の横スクロールは user 判断で許容）。その前は `#64` 第2部 10 ページの機能概要を読者価値の型に改める（ディレクター直接コミット `39efade8`）。その前は `#63` about のアーキテクチャ図の描き直し・図の拡大リンク・「稼動環境」の改題（ディレクター直接コミット `cf82375f`・`2c5559b2`）。その前は `#62` 共通設定に「テスト用のコンポーネント設定ファイルを用意する」を新設（ディレクター直接コミット `f8c0acf0`・`4f8069c7`）。その前は `#61` 「標準の使い方」を「JUnit 5で使用する」に改題（ディレクター直接コミット `32778384`）。その前は `#60` about の節順・JUnit 4 の括弧書き・クラス図の向き（ディレクター直接コミット `a01901ee`・`d3471663`）。その前は `#59` マスタデータ投入ツールを本文で案内せず gsp-dba-maven-plugin の推奨に戻す（ディレクター直接コミット `2b665792`）。その前は `#58` NTF の表 145 件に `white-space-normal`（ディレクター直接コミット `ae504738`）。その前は `#57` テスティングフレームワーク index の役割別導線（ディレクター直接コミット `98217fc6` 表 → `671959ab` 文章）。その前は `#56` 台帳の締め
+- **Last completed**: `#67` 共通設定のレビュー6件（直接コミット `a4b13d2c`・`5eaba7b0`）。その前は `#66` テスト用のコンポーネント設定ファイルの説明からブランクプロジェクトへの依存を外す（直接コミット `97e8ca68`）。その前は `#65` 表のリテラル折り返し（直接コミット `860b3650`。残り 10 表の横スクロールは user 判断で許容）。その前は `#64` 第2部 10 ページの機能概要を読者価値の型に改める（ディレクター直接コミット `39efade8`）。その前は `#63` about のアーキテクチャ図の描き直し・図の拡大リンク・「稼動環境」の改題（ディレクター直接コミット `cf82375f`・`2c5559b2`）。その前は `#62` 共通設定に「テスト用のコンポーネント設定ファイルを用意する」を新設（ディレクター直接コミット `f8c0acf0`・`4f8069c7`）。その前は `#61` 「標準の使い方」を「JUnit 5で使用する」に改題（ディレクター直接コミット `32778384`）。その前は `#60` about の節順・JUnit 4 の括弧書き・クラス図の向き（ディレクター直接コミット `a01901ee`・`d3471663`）。その前は `#59` マスタデータ投入ツールを本文で案内せず gsp-dba-maven-plugin の推奨に戻す（ディレクター直接コミット `2b665792`）。その前は `#58` NTF の表 145 件に `white-space-normal`（ディレクター直接コミット `ae504738`）。その前は `#57` テスティングフレームワーク index の役割別導線（ディレクター直接コミット `98217fc6` 表 → `671959ab` 文章）。その前は `#56` 台帳の締め
 - **Next**: user の刷新版38本全量読みレビュー（質問が来たら実物で答える）。`#29` の残り（「マージ直前にまとめて処置する」の台帳）は user のマージ判断まで着手しない
 - **Notes**: ブランチ `ntf-yaml-support`、`origin` に push 済み。`#56` の実測は `checks/task-56.md`（§0 着手前検証・§3 完了条件）。モジュール側の一次記録の所在は台帳 `#52`〜`#54` の各「根拠」にある
