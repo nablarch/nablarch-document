@@ -426,11 +426,11 @@ JUnit 4のTestRuleを再現する
 
   次の5つは、テストが失敗せず例外も出ないまま、\ ``TestRule``\ が期待どおりに動かない。
 
-  * \ ``TestRule``\ が包むのはテストメソッドの実行だけであり、\ ``@BeforeEach``\ ・\ ``@AfterEach``\ は含まれない。JUnit 4では\ ``@Before``\ ・\ ``@After``\ の外側にあったが、ここでは\ ``TestRule``\ の前処理が\ ``@BeforeEach``\ の後、後処理が\ ``@AfterEach``\ の前に実行される。
-  * \ ``@BeforeEach``\ が失敗すると、\ ``TestRule``\ は前処理も後処理も実行されない。リソースの解放を\ ``TestRule``\ に任せていると、このときだけ解放漏れが起きる。
-  * \ ``Timeout``\ は\ :java:extdoc:`DbAccessTestExtension <nablarch.test.junit5.extension.db.DbAccessTestExtension>`\ と併用できない。\ ``Timeout``\ はテスト本体を別スレッドで実行するが、データベース接続とトランザクションは元のスレッドに束縛されているため、テスト本体からは取得できない。取得時の例外を捕捉していると、この状態でもテストは成功する。同じ理由で、\ ``@BeforeEach``\ などで\ ``ThreadLocal``\ に束縛した値もテスト本体からは見えない。
-  * \ ``@TestFactory``\ が生成した\ ``DynamicTest``\ には\ ``TestRule``\ が適用されない。
-  * \ ``@Nested``\ を使うテストクラスでは、独自拡張クラスから取り出した\ ``TestRule``\ が正しく動作しない。Extensionのインスタンスが外側のクラスと入れ子のクラスとで共有され、\ ``support``\ フィールドが後から生成されたインスタンスで上書きされるためである。Extensionクラスを適用するテストクラスでは\ ``@Nested``\ を使用しない。
+  #. **@BeforeEach・@AfterEach との順序** … \ ``TestRule``\ が包むのはテストメソッドの実行だけであり、\ ``@BeforeEach``\ ・\ ``@AfterEach``\ は含まれない。JUnit 4では\ ``@Before``\ ・\ ``@After``\ の外側にあったが、ここでは\ ``TestRule``\ の前処理が\ ``@BeforeEach``\ の後、後処理が\ ``@AfterEach``\ の前に実行される。
+  #. **@BeforeEach が失敗したとき** … \ ``TestRule``\ は前処理も後処理も実行されない。リソースの解放を\ ``TestRule``\ に任せていると、このときだけ解放漏れが起きる。
+  #. **Timeout と DbAccessTestExtension の併用** … \ ``Timeout``\ は\ :java:extdoc:`DbAccessTestExtension <nablarch.test.junit5.extension.db.DbAccessTestExtension>`\ と併用できない。\ ``Timeout``\ はテスト本体を別スレッドで実行するが、データベース接続とトランザクションは元のスレッドに束縛されているため、テスト本体からは取得できない。取得時の例外を捕捉していると、この状態でもテストは成功する。同じ理由で、\ ``@BeforeEach``\ などで\ ``ThreadLocal``\ に束縛した値もテスト本体からは見えない。
+  #. **@TestFactory が生成した DynamicTest** … \ ``TestRule``\ が適用されない。
+  #. **@Nested を使うテストクラス** … 独自拡張クラスから取り出した\ ``TestRule``\ が正しく動作しない。Extensionのインスタンスが外側のクラスと入れ子のクラスとで共有され、\ ``support``\ フィールドが後から生成されたインスタンスで上書きされるためである。Extensionクラスを適用するテストクラスでは\ ``@Nested``\ を使用しない。
 
   なお、\ ``base.evaluate()``\ を呼ばない\ ``TestRule``\ （スキップ系）と、2回以上呼ぶ\ ``TestRule``\ （リトライ系）は使用できない。こちらはテストが例外で失敗するため気づける。
 
