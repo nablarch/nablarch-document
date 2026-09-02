@@ -77,36 +77,25 @@ YAML\ 形式で記述する場合は、\ ``nablarch-testing-yaml``\ を依存関
     <scope>test</scope>
   </dependency>
 
-あわせて、テストデータを解析するコンポーネント\ ``testDataParser``\ を\ YAML\ 形式用のクラスに差し替える。特殊記法を解釈するクラス群も、\ YAML\ 形式用のものを指定する。
+あわせて、テストデータを解析するコンポーネント\ ``testDataParser``\ を\ :java:extdoc:`YamlTestDataParser <nablarch.test.core.reader.YamlTestDataParser>`\ に差し替える。特殊記法を解釈するクラス（Interpreter）は、importした\ ``nablarch/test/test-data.xml``\ が\ Excel\ 形式用に定義している5つのうち、次の2つだけを\ ``interpreters``\ に指定する。
+
+- ``dateTimeInterpreter``\ … ``${systemTime}``\ ・\ ``${updateTime}``\ ・\ ``${setUpTime}``\ を日時に変換する
+- ``compositeInterpreter``\ … ``${文字種,文字数}``\ を、その文字種の文字列に変換する
+
+残りの3つ（\ ``nullInterpreter``\ ・\ ``quotationTrimmer``\ ・\ ``lineSeparatorInterpreter``\ ）は、null・ダブルクォート・改行を\ Excel\ のセル値から読み取るためのもので、\ YAML\ では構文がその役割を担うため指定しない。
 
 .. code-block:: xml
 
-  <!-- YAML形式のテストデータ記法の解釈を行うクラス群 -->
-  <list name="yamlInterpreters">
-    <component class="nablarch.test.core.util.interpreter.DateTimeInterpreter">
-      <property name="systemTimeProvider" ref="systemTimeProvider"/>
-    </component>
-    <component class="nablarch.test.core.util.interpreter.CompositeInterpreter">
-      <property name="interpreters">
-        <list>
-          <component class="nablarch.test.core.util.interpreter.BasicJapaneseCharacterInterpreter"/>
-        </list>
-      </property>
-    </component>
-  </list>
-
   <!-- テストデータを解析するコンポーネント -->
-  <component name="testDataParser"
-             class="nablarch.test.core.reader.YamlTestDataParser">
+  <component name="testDataParser" class="nablarch.test.core.reader.YamlTestDataParser">
     <property name="dbInfo" ref="dbInfo"/>
-    <property name="interpreters" ref="yamlInterpreters"/>
+    <property name="interpreters">
+      <list>
+        <component-ref name="dateTimeInterpreter"/>
+        <component-ref name="compositeInterpreter"/>
+      </list>
+    </property>
   </component>
-
-``yamlInterpreters``\ に指定するのは、この2つだけでよい。\ null\ ・空文字・ダブルクォート・改行文字は\ YAML\ のパーサが構文として解釈するため、\ Excel\ 形式で必要な\ ``NullInterpreter``\ ・\ ``QuotationTrimmer``\ ・\ ``LineSeparatorInterpreter``\ は指定しない。
-
-.. important::
-
-  ``NullInterpreter``\ を指定してはならない。指定すると、文字列として記述した ``"null"``\ も\ Java\ の\ null\ になり、両者を区別できなくなる。
 
 ``testDataReader``\ は指定しない。\ :java:extdoc:`YamlTestDataParser <nablarch.test.core.reader.YamlTestDataParser>`\ は\ YAML\ ファイルを直接読み込むため、この設定を使用しない。
 
@@ -178,110 +167,3 @@ Nablarch Application Frameworkでは、\ :java:extdoc:`SystemTimeProvider <nabla
 各プロパティの意味は、\ :java:extdoc:`FastTableIdGenerator <nablarch.common.idgenerator.FastTableIdGenerator>`\ を参照。
 
 採番用テーブルの準備データと期待値の記述例は、\ :ref:`テーブルのデータを記述する <testdata_examples-table_data>`\ を参照。
-
-.. _testing_framework_common-send_sync_test_data:
-
-同期応答メッセージ送信・HTTPメッセージ送信のテストデータの読み込みを設定する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-同期応答メッセージ送信・HTTPメッセージ送信を伴う取引単体テスト（\ :ref:`HTTPメッセージング <deal_unit_test_setting_http_messaging>`\ ・\ :ref:`MOMによるメッセージング <deal_unit_test_setting_mom>`\ ）では、モックアップクラスが応答電文をテストデータから読み込む。読み込みには、テストデータのベースディレクトリと、テストデータを解析するコンポーネントの設定が必要である。どちらもテスティングフレームワークのデフォルト設定には含まれないため、テスト用のコンポーネント設定ファイルに記述する。設定していない場合は、テストの実行時に例外が発生する。設定ファイルを環境ごとに切り替える方法は\ :ref:`環境ごとにコンポーネントを切り替える方法(モックに切り替える方法) <how_to_change_componet_define>`\ を参照。
-
-テストデータのベースディレクトリは、\ :ref:`ファイルパス管理 <file_path_management>`\ の\ ``sendSyncTestData``\ というキーに設定する。同じコンポーネントに、電文のフォーマット定義ファイルのベースディレクトリ（\ ``format``\ ）も設定する。テストデータを解析するコンポーネントは、\ ``messagingTestDataParser``\ という名前で登録する。ベースディレクトリの配下でのファイル名の決まりは\ :ref:`メッセージングのデータを記述する <testdata_notation-messaging_data>`\ を参照。
-
-ベースディレクトリの指定と、テストデータを解析するコンポーネント、テストデータの記法を解釈するクラス群の設定は、テストデータの形式によって異なる。\ Excel\ 形式と\ YAML\ 形式のそれぞれについて後述する。
-
-ベースディレクトリ配下のテストデータの配置と読み込み単位の対応を次に示す。
-
-.. image:: images/common/send_sync_testdata_layout.png
-  :scale: 100
-
-.. tip::
-
-  ベースディレクトリは、クラスパス（\ ``classpath:``\ ）ではなくファイルシステムのパス（\ ``file:``\ ）で指定することを推奨する。ファイルシステムのパスを指定すると、アプリケーションサーバの起動中にテストデータを編集して、そのままテストを続けられる。
-
-Excel形式の場合
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. code-block:: xml
-
-  <!-- テストデータとフォーマット定義ファイルのベースディレクトリ -->
-  <component name="filePathSetting"
-             class="nablarch.core.util.FilePathSetting" autowireType="None">
-    <property name="basePathSettings">
-      <map>
-        <entry key="sendSyncTestData" value="file:/path/to/test/message"/>
-        <entry key="format" value="classpath:web/format"/>
-      </map>
-    </property>
-    <property name="fileExtensions">
-      <map>
-        <entry key="sendSyncTestData" value="xlsx"/>
-        <entry key="format" value="fmt"/>
-      </map>
-    </property>
-  </component>
-
-  <!-- テストデータ記法の解釈を行うクラス群 -->
-  <list name="messagingTestInterpreters">
-    <component class="nablarch.test.core.util.interpreter.NullInterpreter"/>
-    <component class="nablarch.test.core.util.interpreter.QuotationTrimmer"/>
-    <component class="nablarch.test.core.util.interpreter.CompositeInterpreter">
-      <property name="interpreters">
-        <list>
-          <component class="nablarch.test.core.util.interpreter.BasicJapaneseCharacterInterpreter"/>
-        </list>
-      </property>
-    </component>
-  </list>
-
-  <!-- テストデータを解析するコンポーネント -->
-  <component name="messagingTestDataParser"
-             class="nablarch.test.core.reader.BasicTestDataParser">
-    <property name="testDataReader">
-      <component class="nablarch.test.core.reader.PoiXlsReader"/>
-    </property>
-    <property name="interpreters" ref="messagingTestInterpreters"/>
-  </component>
-
-``fileExtensions``\ の\ ``sendSyncTestData``\ には、実際に配置するテストデータのファイルの拡張子（\ ``xlsx``\ または\ ``xls``\ ）を指定する。指定した拡張子と一致しないファイルは読み込まれない。ベースディレクトリの配下には、リクエストIDごとに1つのファイルを置く。
-
-YAML形式の場合
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. code-block:: xml
-
-  <!-- テストデータとフォーマット定義ファイルのベースディレクトリ -->
-  <component name="filePathSetting"
-             class="nablarch.core.util.FilePathSetting" autowireType="None">
-    <property name="basePathSettings">
-      <map>
-        <entry key="sendSyncTestData" value="file:/path/to/test/message"/>
-        <entry key="format" value="classpath:web/format"/>
-      </map>
-    </property>
-    <property name="fileExtensions">
-      <map>
-        <entry key="format" value="fmt"/>
-      </map>
-    </property>
-  </component>
-
-  <!-- YAML形式のテストデータ記法の解釈を行うクラス群 -->
-  <list name="yamlMessagingInterpreters">
-    <component class="nablarch.test.core.util.interpreter.CompositeInterpreter">
-      <property name="interpreters">
-        <list>
-          <component class="nablarch.test.core.util.interpreter.BasicJapaneseCharacterInterpreter"/>
-        </list>
-      </property>
-    </component>
-  </list>
-
-  <!-- テストデータを解析するコンポーネント -->
-  <component name="messagingTestDataParser"
-             class="nablarch.test.core.reader.YamlTestDataParser">
-    <property name="interpreters" ref="yamlMessagingInterpreters"/>
-  </component>
-
-``interpreters``\ に指定するのは、この1つだけでよい。\ null\ ・空文字・ダブルクォート・改行文字は\ YAML\ のパーサが構文として解釈するため、\ Excel\ 形式で必要な\ ``NullInterpreter``\ ・\ ``QuotationTrimmer``\ は指定しない。\ ``testDataReader``\ は指定しない。\ :java:extdoc:`YamlTestDataParser <nablarch.test.core.reader.YamlTestDataParser>`\ は\ YAML\ ファイルを直接読み込むため、この設定を使用しない。
-
-.. important::
-
-  ``fileExtensions``\ には\ ``sendSyncTestData``\ を設定しない。\ YAML\ 形式ではリクエストIDと同じ名前のディレクトリを参照するため、拡張子を設定するとテストデータが見つからず、テストの実行時に例外が発生する。

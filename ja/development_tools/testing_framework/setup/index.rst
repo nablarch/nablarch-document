@@ -8,6 +8,7 @@
 
    common
    standard_usage
+   junit4
    class_unit_test
    request_unit_test/web
    request_unit_test/rest
@@ -19,4 +20,3 @@
    deal_unit_test/http_messaging
    deal_unit_test/mom
    master_data_restore
-   junit4
