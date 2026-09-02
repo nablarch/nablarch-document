@@ -369,10 +369,20 @@ JUnit 4のTestRuleを再現する
 
   JUnit 5に同等の機能がある場合は、\ ``TestRule``\ を移植せずにJUnit 5の機能を使用する。後述の制約は\ ``TestRule``\ を再現する仕組みに由来するため、JUnit 5の機能に置き換えれば当てはまらない。
 
-  - ``Timeout``\ … ``@Timeout``
-  - ``TemporaryFolder``\ … ``@TempDir``
-  - ``ExpectedException``\ … ``assertThrows``
-  - ``ExternalResource``\ … ``BeforeEachCallback``\ と\ ``AfterEachCallback``\ の組
+  .. list-table::
+    :header-rows: 1
+    :class: white-space-normal
+
+    * - JUnit 4の\ ``TestRule``
+      - 置き換え先のJUnit 5の機能
+    * - ``Timeout``
+      - ``@Timeout``
+    * - ``TemporaryFolder``
+      - ``@TempDir``
+    * - ``ExpectedException``
+      - ``assertThrows``
+    * - ``ExternalResource``
+      - ``BeforeEachCallback``\ と\ ``AfterEachCallback``\ の組
 
 例えば、次のような独自拡張クラスがあるとする。
 
