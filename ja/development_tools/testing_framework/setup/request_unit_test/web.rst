@@ -192,6 +192,7 @@ Eclipseを使用する場合は、実行構成ごとに指定する方法と、J
 * 「引数(Arguments)」タブの「VM 引数(VM Arguments)」欄に、上記のオプションを記述する。
 
 .. image:: images/web/vmoptions.png
+  :scale: 100
 
 JREのデフォルトとして指定する場合の手順は次のとおりである。実行構成を作るたびに指定する必要がなくなる。
 
@@ -199,10 +200,12 @@ JREのデフォルトとして指定する場合の手順は次のとおりで�
 * 「インストール済みのJRE(Installed JREs)」で、使用するJREを選んで「編集(Edit)」を押す。
 
 .. image:: images/web/installed_jre.png
+  :scale: 100
 
 * 「デフォルトの VM 引数(Default VM Arguments)」欄に、前述のオプションを記述する。
 
 .. image:: images/web/edit_jre.png
+  :scale: 100
 
 HTMLリソースのコピーを抑止する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -223,6 +226,7 @@ HTMLリソースのコピーを抑止する
 Eclipseで指定する場所は、JVMオプションと同じ実行構成の「VM 引数(VM Arguments)」欄である。この欄にシステムプロパティを記述する。
 
 .. image:: images/web/skip_resource_copy.png
+  :scale: 100
 
 拡張例
 --------------------------------------------------

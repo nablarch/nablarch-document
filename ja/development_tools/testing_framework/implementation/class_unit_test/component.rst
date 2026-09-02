@@ -131,6 +131,7 @@
 3. 戻り値として受け取った検索結果が期待した値であることを確認する。
 
 .. image:: images/component/select_sequence.png
+  :scale: 100
 
 .. code-block:: java
 
@@ -171,6 +172,7 @@
   参照系のテストではコミットする必要はない。
 
 .. image:: images/component/update_sequence.png
+  :scale: 100
 
 .. code-block:: java
 

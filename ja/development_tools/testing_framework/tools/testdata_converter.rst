@@ -16,6 +16,7 @@
 変換元と変換先には、\ Excel\ 形式・\ YAML\ 形式のどちらでも指定できる。変換元と変換先に同じ形式を指定した場合は、中間モデルへ読み込んで同じ形式へ書き戻す動作になり、既存のテストデータが中間モデルで正しく表現できるかの確認に使える。
 
 .. image:: images/testdata_converter/converter_components.png
+  :scale: 100
 
 .. tip::
 

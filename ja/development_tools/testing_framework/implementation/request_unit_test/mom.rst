@@ -17,6 +17,7 @@ MOM\ によるメッセージングのリクエスト単体テストは、テス
 テストクラスは、同期応答メッセージ受信では\ ``MessagingRequestTestSupport``\ を、応答不要メッセージ受信ではそのサブクラスの\ ``MessagingReceiveTestSupport``\ をインジェクションして作成する。このサポートクラスがテストデータを読み取り、テストショットを1件ずつ実行する。テスト用のメインクラス\ ``MainForRequestTesting``\ を通じて\ Nablarch Application Framework\ が起動され、テスト対象のアプリケーションが実行される。準備データの投入とテスト結果の確認は、データベースについては\ ``DbAccessTestSupport``\ が、キューについては\ ``MQSupport``\ が行う。
 
 .. image:: images/mom/request_test_components.png
+  :scale: 100
 
 応答不要メッセージ受信では、メッセージを受け取る\ Action\ クラスが\ Nablarch\ の一部として提供される（\ :ref:`MOMメッセージングで使用するアクション <mom_messaging-action>`\ ）。このため、リクエスト単体テストではその\ Action\ クラスを使用して、次の3つの成果物を確認する。
 
@@ -39,6 +40,7 @@ Nablarch\ バッチアプリケーションから同期応答メッセージ送�
 同期応答メッセージ送信のリクエスト単体テストを実施するときの流れを次に示す。
 
 .. image:: images/mom/send_sync_sequence.png
+  :scale: 100
 
 1. テスティングフレームワークが\ Nablarch Application Framework\ を起動する。
 2. Nablarch Application Framework\ が\ Action\ の入力となるパラメータ（画面ならばリクエスト、バッチならばファイルやデータベース）を読み込み、\ Action\ を起動する。
@@ -184,6 +186,7 @@ MOM\ によるメッセージングのリクエスト単体テストは、テス
 メッセージ受信のテストでは、サポートクラスがテストデータを読み取り、記述されたテストショットを順に実行する。1件のテストショットは、入力データの準備・メインクラスの起動・出力結果の確認という流れで進む。入力データの準備では、テストデータから作成した要求電文が受信キューに\ PUT\ される。メインクラスには、テスト用の\ ``MainForRequestTesting``\ を使用する。このクラスは、テスト用のコンポーネント設定ファイルからシステムリポジトリを初期化し、テスト対象の実行後に元のリポジトリへ戻す。
 
 .. image:: images/mom/execute_sequence.png
+  :scale: 100
 
 同期応答メッセージ送信のテストでは、キューへの接続は行われない。要求電文のアサートと応答電文の生成・返却は\ ``RequestTestingMessagingProvider``\ が担う。実際の処理は、同クラスの内部クラスである\ ``RequestTestingMessagingContext``\ に委譲される。
 

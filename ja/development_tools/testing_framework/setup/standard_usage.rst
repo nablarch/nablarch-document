@@ -14,6 +14,7 @@ JUnit 5で使用する
 テストクラスはサポートクラスを継承しないため、パラメータ化テストなどJUnit 5が提供する機能と組み合わせてテストを書ける。インジェクションの仕組みには、JUnit 5の\ `Extension(外部サイト、英語) <https://junit.org/junit5/docs/5.11.0/user-guide/#extensions>`_\ を使用している。Extensionクラスと合成アノテーションは、サポートクラスごとに用意されている。
 
 .. image:: images/standard_usage/extension_class.png
+  :scale: 100
 
 JUnit 4でテストを書く場合は、インジェクションではなく継承でサポートクラスの機能を使用する。\ :ref:`JUnit 4で使用する <junit4_support>`\ を参照。
 

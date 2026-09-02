@@ -201,6 +201,7 @@ Nablarch Application Frameworkでは、\ :java:extdoc:`SystemTimeProvider <nabla
 ベースディレクトリ配下のテストデータの配置と読み込み単位の対応を次に示す。
 
 .. image:: images/common/send_sync_testdata_layout.png
+  :scale: 100
 
 .. tip::
 

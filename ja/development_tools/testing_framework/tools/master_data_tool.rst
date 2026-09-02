@@ -105,14 +105,17 @@ EclipseのAntビューにAntビルドファイルを登録すると、Eclipseか
 * メニューバーの「ウィンドウ(Window)」から「ビューの表示(Show View)」→「Ant」を選び、Antビューを開く。
 
 .. image:: images/master_data_tool/open_ant_view.png
+  :scale: 100
 
 * Antビューのツールバーにある「ビルド・ファイルの追加(Add Buildfiles)」ボタン（蟻の図柄に緑の＋が付いたアイコン）を押す。
 
 .. image:: images/master_data_tool/register_build_file.png
+  :scale: 100
 
 * 展開した\ ``master_data-build.xml``\ を選び、「OK」を押す。
 
 .. image:: images/master_data_tool/select_build_file.png
+  :scale: 100
 
 登録すると、Antビューにビルドファイルとターゲットが表示される。
 
@@ -137,6 +140,7 @@ Antビューからターゲットを実行する
 Antビューに登録したビルドファイルを開き、実行したいターゲットをダブルクリックする。
 
 .. image:: images/master_data_tool/build_file_in_view.png
+  :scale: 100
 
 ターゲットは次の3つである。
 

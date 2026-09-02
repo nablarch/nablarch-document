@@ -74,20 +74,24 @@ HTMLファイルの外部プログラムとして起動用スクリプトを登�
 * 「ファイルの関連付け(File Associations)」の一覧から\ ``*.html``\ を選び、「関連付けられたエディター(Associated editors)」の「追加(Add...)」を押す。
 
 .. image:: images/request_data_tool/01_Eclipse_Preference.png
+  :scale: 100
 
 * 「外部プログラム(External programs)」を選び、「参照(Browse...)」を押す。
 
 .. image:: images/request_data_tool/02_Eclipse_EditorSelection.png
+  :scale: 100
 
 * 配置した起動用スクリプト(httpDump.bat)を選ぶ。
 
 .. image:: images/request_data_tool/03_Eclipse_OpenFile.png
+  :scale: 100
 
 使用方法
 --------------------------------------------------
 あらかじめ\ :ref:`導入 <request_data_tool-setup>`\ の手順を済ませておく。全体の流れは次のとおりである。
 
 .. image:: images/request_data_tool/tool_components.png
+  :scale: 100
 
 入力となるHTMLダンプを生成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -100,6 +104,7 @@ HTMLダンプからツールを起動する
 Eclipseのパッケージエクスプローラなどから、生成されたHTMLダンプを右クリックし、\ ``httpDump``\ で開くとツールが起動する。
 
 .. image:: images/request_data_tool/04_Eclipse_OpenWith.png
+  :scale: 100
 
 .. tip::
 

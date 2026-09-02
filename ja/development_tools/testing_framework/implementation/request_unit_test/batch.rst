@@ -17,6 +17,7 @@ Nablarch\ バッチアプリケーションのリクエスト単体テストで�
 テストクラスは、\ ``BatchRequestTestSupport``\ をインジェクションして作成する。このサポートクラスがテストデータを読み取り、テストショットを1件ずつ実行する。テスト用のメインクラス\ ``MainForRequestTesting``\ を通じて\ Nablarch Application Framework\ が起動され、テスト対象のアプリケーションが実行される。準備データの投入とテスト結果の確認は、テーブルについては\ ``DbAccessTestSupport``\ が、ファイルについては\ ``FileSupport``\ が行う。
 
 .. image:: images/batch/request_test_components.png
+  :scale: 100
 
 .. tip::
 
@@ -184,6 +185,7 @@ Nablarch\ バッチアプリケーションのリクエスト単体テストは�
 メインクラスには、テスト用の\ ``MainForRequestTesting``\ を使用する。このクラスは、テスト用のコンポーネント設定ファイルからシステムリポジトリを初期化し、テスト対象の実行後に元のリポジトリへ戻す。このメインクラスは、テスト対象のハンドラ構成によらず使用する。テスト対象のハンドラ構成にリクエストスレッド内ループ制御ハンドラが含まれる場合は、これに加えて、そのハンドラをテスト用のハンドラに置き換える必要がある（\ :ref:`リクエスト単体テストの設定（Nablarchバッチアプリケーション） <request_unit_test_setting_batch>`\ ）。
 
 .. image:: images/batch/execute_sequence.png
+  :scale: 100
 
 テスト結果を確認する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

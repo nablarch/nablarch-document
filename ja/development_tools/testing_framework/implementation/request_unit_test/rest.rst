@@ -17,6 +17,7 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
 テストクラスは\ ``RestTestSupport``\ または\ ``SimpleRestTestSupport``\ をインジェクションして作成する。\ ``SimpleRestTestSupport``\ が内蔵サーバを保持し、\ ``RestTestSupport``\ はこれを継承したうえでデータベース関連機能（\ ``DbAccessTestSupport``\ ）を保持する。テストメソッドが送信したリクエストは、内蔵サーバ上でウェブアプリケーションとして動作する\ Nablarch Application Framework\ が受け取り、テスト対象の\ Action\ を呼び出す。\ Action\ がテーブルを参照・更新した結果は、テストデータに記述した期待値と照合する。
 
 .. image:: images/rest/request_test_components.png
+  :scale: 100
 
 このページで扱う主なクラスとリソースを次に示す。
 

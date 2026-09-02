@@ -117,7 +117,9 @@
 テスティングフレームワークを使用するテストクラスは、テスト対象クラスを直接呼び出してテストする。テスト対象クラスは、本番と同じくNablarch Application Frameworkを介して動作するため、テストクラスから見ても本番相当の基盤の上でテスト対象クラスの動作を検証できる。このとき\ Nablarch Application Framework\ が読み取るコンポーネント設定ファイルと環境設定ファイルは、\ :ref:`テスト用のコンポーネント設定ファイルを用意する <testing_framework_common-test_component_config>`\ で用意する。テストクラスは、Excelファイルなどのテストデータをテスティングフレームワーク経由で読み取って使用する。
 
 .. image:: images/index/architecture_components.png
+  :scale: 100
 
 テスティングフレームワークが提供するサポートクラスの継承関係を次に示す。テストクラスは、サポートクラスのインスタンスをインジェクションされて使用する。
 
 .. image:: images/index/test_support_class.png
+  :scale: 55
