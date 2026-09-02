@@ -2037,6 +2037,15 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 **変更（2026-09-02 user 判断）**: 表は読み飛ばされるため、文章に変更（`671959ab`）。ページごとに1段落・役割名を段落の先頭近くに置く「本章の構成」型で toctree の前に置く。参照先4本は不変。実測: ビルド succeeded・warning 0、`index.html` に table 要素なし、`toctree-wrapper` より前に段落6本と href 4本、toctree 42 行。
 
 
+### #58: NTF解説書の表 145 件に `white-space-normal` を付け、横スクロールをなくす — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: `sphinx_rtd_theme` の `theme.css` は表セルを `white-space: nowrap` にするため、NTF 解説書の表が横スクロールになる（user 指摘 2026-09-02）。解説書側の `_static/custom.css` に `table.white-space-normal` の折り返し定義があり、FW 解説書は `:class: white-space-normal` を 101 箇所で使っている。NTF は 145 件すべて未指定だった。
+
+**指示書**: なし。`02-進め方.md`「直接修正するときの型」に基づきディレクターが直接コミット（`ae504738`）。**レビューは回さない**（機械的置換。文面・列幅は不変。ディレクターがビルドと HTML の class を全件 grep で確認）。user は表示を見て、見にくい表があれば個別に FB する。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。list-table 144 件（21 ファイル）に `:class: white-space-normal`、`about/index.rst` の simple table 1 件に `.. rst-class:: white-space-normal`。ビルド succeeded・warning 0。`_build/html/development_tools/testing_framework` 配下の `<table>` 145 件すべてに `white-space-normal`、未指定 0 件、`:class:` 文字列のセル漏れ 0 件。`<pre>` を含むセル 0 件。
+
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
@@ -2045,6 +2054,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-09-02
-- **Last completed**: `#57` テスティングフレームワーク index の役割別導線（ディレクター直接コミット `98217fc6` 表 → `671959ab` 文章）。その前は `#56` 台帳の締め
+- **Last completed**: `#58` NTF の表 145 件に `white-space-normal`（ディレクター直接コミット `ae504738`）。その前は `#57` テスティングフレームワーク index の役割別導線（ディレクター直接コミット `98217fc6` 表 → `671959ab` 文章）。その前は `#56` 台帳の締め
 - **Next**: user の刷新版38本全量読みレビュー（質問が来たら実物で答える）。`#29` の残り（「マージ直前にまとめて処置する」の台帳）は user のマージ判断まで着手しない
 - **Notes**: ブランチ `ntf-yaml-support`、`origin` に push 済み。`#56` の実測は `checks/task-56.md`（§0 着手前検証・§3 完了条件）。モジュール側の一次記録の所在は台帳 `#52`〜`#54` の各「根拠」にある
