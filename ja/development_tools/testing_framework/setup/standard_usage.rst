@@ -243,10 +243,6 @@ Extensionクラスは、合成アノテーションを使わず、JUnit 5の\ ``
 
 ``createSupport()``\ メソッドをオーバーライドし、独自拡張クラスのインスタンスを返すように実装する。このメソッドが返したインスタンスは、すべてのExtensionクラスのスーパクラスである\ :java:extdoc:`TestEventDispatcherExtension <nablarch.test.junit5.extension.event.TestEventDispatcherExtension>`\ に定義された\ ``support``\ という\ :java:extdoc:`TestEventDispatcher <nablarch.test.event.TestEventDispatcher>`\ 型のインスタンスフィールドに保存される。このフィールドは\ ``protected``\ なので、サブクラスから参照できる。
 
-.. tip::
-
-  :java:extdoc:`AbstractHttpRequestTestTemplate <nablarch.test.core.http.AbstractHttpRequestTestTemplate>`\ を直接継承した独自拡張クラスでは、対応するExtensionクラスとして\ :java:extdoc:`BasicHttpRequestTestExtension <nablarch.test.junit5.extension.http.BasicHttpRequestTestExtension>`\ を使用できる。
-
 ExtendWithでテストクラスに適用する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 作成した独自拡張用のExtensionクラスは、\ ``ExtendWith``\ アノテーションでテストクラスに適用する。
