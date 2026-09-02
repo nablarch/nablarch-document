@@ -144,11 +144,7 @@ Extensionクラスと合成アノテーションは\ ``nablarch-testing-junit5``
 
 合成アノテーション\ :java:extdoc:`NablarchTest <nablarch.test.junit5.extension.NablarchTest>`\ をテストクラスに設定すると、\ :java:extdoc:`TestSupportExtension <nablarch.test.junit5.extension.TestSupportExtension>`\ がテストクラスに適用される。Extensionクラスは、テストの実行前に\ :java:extdoc:`TestSupport <nablarch.test.TestSupport>`\ のインスタンスを生成し、テストクラスのフィールドにインジェクションする。
 
-インジェクションの対象になるのは、生成したインスタンスを代入できる型で宣言されたフィールドすべてである。フィールドの可視性は何でもよく、スーパクラスで宣言されたフィールドも対象になる。該当するフィールドが複数ある場合は、そのすべてに同じインスタンスが代入される。1つもない場合は、何もインジェクションされない。
-
-.. important::
-
-  インジェクションの対象になるフィールドに、あらかじめ値を設定しておいてはならない。値が設定されている場合、Extensionクラスは\ ``IllegalStateException``\ を送出し、そのテストは失敗する。\ ``Object``\ 型のフィールドも代入できる型に該当するため、初期値を設定した\ ``Object``\ 型のフィールドを宣言していると、意図せずこの例外が発生する。
+インジェクションの対象になるのは、生成したインスタンスを代入できる型で宣言されたフィールドすべてである。フィールドの可視性は何でもよく、スーパクラスで宣言されたフィールドも対象になる。該当するフィールドが複数ある場合は、そのすべてに同じインスタンスが代入される。1つもない場合は、何もインジェクションされない。対象のフィールドに既に値が入っている場合、Extensionクラスは\ ``IllegalStateException``\ を送出し、そのテストは失敗する。\ ``Object``\ 型のように、サポートクラスを代入できる幅広い型のフィールドは対象になるため、テストクラスでは宣言しない。
 
 テストデータのシート名とIDの対応は、\ :ref:`テストクラスとテストデータの対応 <testdata_notation-file_structure>`\ を参照。
 
