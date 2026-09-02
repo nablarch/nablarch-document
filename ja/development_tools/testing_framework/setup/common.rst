@@ -110,8 +110,6 @@ YAML\ 形式で記述する場合は、\ ``nablarch-testing-yaml``\ を依存関
 
 ``testDataReader``\ は指定しない。\ :java:extdoc:`YamlTestDataParser <nablarch.test.core.reader.YamlTestDataParser>`\ は\ YAML\ ファイルを直接読み込むため、この設定を使用しない。
 
-テストデータの記法は :ref:`テストデータの書き方 <testdata_notation>` を参照。
-
 テストデータの読み込み先を変更する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 テストデータは、デフォルトでは\ ``src/test/java``\ 配下から読み込まれる。プロジェクトのディレクトリ構成に合わせて読み込み先を変更する場合は、環境設定ファイルに\ ``nablarch.test.resource-root``\ を設定する。値には、テスト実行時のカレントディレクトリからの相対パスを指定する。
@@ -129,10 +127,6 @@ YAML\ 形式で記述する場合は、\ ``nablarch-testing-yaml``\ を依存関
 .. important::
 
   同名のテストデータが複数のディレクトリに存在する場合、最初に見つかったものが読み込まれる。
-
-.. tip::
-
-  読み込み先を一時的に変更したい場合は、環境設定ファイルを変更せずに、テスト実行時に\ ``-Dnablarch.test.resource-root=path/to/test-data-dir``\ をシステムプロパティとして指定してもよい。詳細は\ :ref:`システムプロパティを使って環境依存値を上書きする <repository-overwrite_environment_configuration>`\ を参照。
 
 システム日時を固定する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -181,9 +175,7 @@ Nablarch Application Frameworkでは、\ :java:extdoc:`SystemTimeProvider <nabla
     <property name="dbTransactionManager" ref="dbTransactionManager"/>
   </component>
 
-.. tip::
-
-  テーブル採番用の設定値の詳細は、\ :java:extdoc:`IdGenerator <nablarch.common.idgenerator.IdGenerator>`\ を参照。
+各プロパティの意味は、\ :java:extdoc:`FastTableIdGenerator <nablarch.common.idgenerator.FastTableIdGenerator>`\ を参照。
 
 採番用テーブルの準備データと期待値の記述例は、\ :ref:`テーブルのデータを記述する <testdata_examples-table_data>`\ を参照。
 
