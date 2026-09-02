@@ -40,7 +40,7 @@ JUnit 4で使用する
       }
   }
 
-:ref:`テスティングフレームワークによるテスト実装 <testing_framework_implementation>`\ の実装例は、いずれもJUnit 5で書いている。JUnit 4で書く場合は、テストクラスに設定した合成アノテーションとフィールドの宣言を、対応するサポートクラスの継承に読み替える。また、\ ``support``\ を介した呼び出しは、継承したメソッドの直接の呼び出しに読み替える。合成アノテーションとサポートクラスの対応は、\ :ref:`JUnit 5で使用する <standard_usage>`\ の一覧表を参照。
+:ref:`テスティングフレームワークによるテスト実装 <testing_framework_implementation>`\ の実装例は、いずれもJUnit 5で書いている。JUnit 4で書く場合は、テストクラスに設定した合成アノテーションとフィールドの宣言を、対応するサポートクラスの継承に読み替える。また、\ ``support``\ を介した呼び出しは、継承したメソッドの直接の呼び出しに読み替える。合成アノテーションとサポートクラスの対応は、\ :ref:`JUnit 5で使用する <standard_usage>`\ の\ :ref:`Extensionクラスと合成アノテーションの一覧 <standard_usage-extension_list>`\ を参照。
 
 .. _junit4_support-common_process:
 
