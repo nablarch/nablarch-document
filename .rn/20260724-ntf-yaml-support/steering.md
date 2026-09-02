@@ -2026,6 +2026,15 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 **判定（2026-09-02）**: 完了。§0 の着手前検証は6行すべて実物と一致（反例0件。実測は `checks/task-56.md` §0）。§4 の完了条件1〜5 はすべて満たした（実測は `checks/task-56.md` §3）。
 
 
+### #57: テスティングフレームワーク index の役割別導線を toctree の上に表で置く — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: `ja/development_tools/testing_framework/index.rst` の役割別導線（`:13` の1文）が toctree（maxdepth 2、ビルド後 42 行）の下にありファーストビューに入らず、役割名も文中に埋まって行き先をすぐ読み取れない（user 指摘 2026-09-02）。導線を「読み手／読む順序」の list-table にして toctree の前に置く。文面・参照先4本は変えない。maxdepth は 2 のまま（user 判断 2026-09-02）。
+
+**指示書**: なし。`02-進め方.md`「直接修正するときの型」に基づきディレクターが直接コミット（`98217fc6`）。**レビューは回さない**（1ファイル・既存参照4本の配置換え。ディレクターがビルドと描画を実物で確認）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。Docker で正規の場所にビルド → build succeeded・warning 0。`_build/html/development_tools/testing_framework/index.html` で表が `toctree-wrapper` より前に描画、href は about/setup/implementation/tools の `index.html` 4本、toctree 42 行。
+
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
@@ -2034,6 +2043,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-09-02
-- **Last completed**: `#56` 台帳の締め（`#52`〜`#54` の完了記録、`#33` (e-1)・`#34` の打ち切り。user 判断 2026-09-02）
+- **Last completed**: `#57` テスティングフレームワーク index の役割別導線（ディレクター直接コミット `98217fc6`）。その前は `#56` 台帳の締め
 - **Next**: user の刷新版38本全量読みレビュー（質問が来たら実物で答える）。`#29` の残り（「マージ直前にまとめて処置する」の台帳）は user のマージ判断まで着手しない
 - **Notes**: ブランチ `ntf-yaml-support`、`origin` に push 済み。`#56` の実測は `checks/task-56.md`（§0 着手前検証・§3 完了条件）。モジュール側の一次記録の所在は台帳 `#52`〜`#54` の各「根拠」にある
