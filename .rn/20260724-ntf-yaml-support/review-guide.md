@@ -185,7 +185,7 @@
 
 ### リクエスト単体テストの設定（ウェブアプリケーション）（`setup/request_unit_test/web.rst`）
 
-**由来**: 既存。v6 のリクエスト単体テスト（ウェブ）のページ（https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/02_RequestUnitTest.html ）から、「各種設定値」「その他の設定」、および構造の説明のうち`AbstractHttpRequestTestTemplate`・`TestCaseInfo`の項を取った。見出し 6 のうち内容変更 2・文面調整のみ 3（本文を持たない L2「使用方法」「拡張例」と L3「テストデータの書き方を拡張する」）・新設 1（機能概要）。
+**由来**: 既存。v6 のリクエスト単体テスト（ウェブ）のページ（https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/02_RequestUnitTest.html ）から、「各種設定値」「その他の設定」、および構造の説明のうち`AbstractHttpRequestTestTemplate`・`TestCaseInfo`の項を取った。見出し 7 のうち内容変更 2・文面調整のみ 3（本文を持たない L2「使用方法」「拡張例」と L3「テストデータの書き方を拡張する」）・新設 2（機能概要、必要なモジュールとコンポーネント設定を追加する）。
 
 **利用者観点の課題と変更の考え方**
 - v6 の`dumpVariableItem`の説明は実装と逆だった。v6 は「可変項目を出力するか否か」「毎回同じ結果にしたい場合は OFF(false)」と書いているが、実装は`true`のときに JSESSIONID と二重サブミット防止用トークンを空文字に置換して除去する。読者が書く値が反対になるため説明を反転し、プロパティ名から受ける印象と逆である旨の注意を添えた。
@@ -199,7 +199,7 @@
 3. 同: important（`checkHtml`を`true`のままにするなら`htmlChecker`か`htmlCheckerConfig`のどちらかが必要で、どちらも無いとステータスコード500未満のHTMLレスポンスのチェック時に例外）を追加した。デフォルト設定を読み込まない読者への注意として、この位置と粒度でよいか。
 4. 同: 表に載せる項目の取捨。`htmlResourcesRoot`はデフォルト設定が値を与えており、「HTMLリソースのコピーを抑止する」の tip でそのデフォルト値に触れているが、表には無い。表に載せなくてよいか。
 5. HTMLリソースのコピーを抑止する: v6 の JVM オプションの小節（`-Xms`／`-Xmx`、`-Xverify:none`、Eclipse の実行構成と JRE 編集の手順、画像3枚）と、その親にあった「実行速度を上げる」という枠組みを丸ごと落とした。落としてよいか。
-6. 全体: このページに`httpServerFactory`の登録と`nablarch-testing-jetty12`の依存関係の記載が無い。ウェブのリクエスト単体テストでも内蔵サーバの生成でこの登録を読み、未登録だと例外になる。ブランクプロジェクトに既にあるため設定のページには書かない、という扱いでよいか。
+6. 必要なモジュールとコンポーネント設定を追加する（新設）: `nablarch-testing-jetty12` の依存関係、`nablarch/test/http-request-test.xml` の import、`httpServerFactory` の登録を、RESTful ウェブサービスのページと同じ形で足した。important「デフォルト設定は `httpServerFactory` を登録しない」が `nablarch-testing-default-configuration` の実物と合っているか。ウェブプロジェクトのアーキタイプに既にある旨の tip が現行のアーキタイプと合っているか。
 
 ### リクエスト単体テストの設定（RESTfulウェブサービス）（`setup/request_unit_test/rest.rst`）
 
@@ -217,7 +217,7 @@
 3. 同: `RestTestSupport`を使うテストでデータベースを扱う場合に`testDataParser`も登録する、という1文を足し、記述例はテストデータの設定ページへの参照にした。この案内の位置と粒度でよいか。
 4. コンポーネント設定ファイルで設定値を変更する: `webFrontControllerKey`を指定する条件を「`webFrontController`以外のコンポーネント名で登録している場合」に一般化し、v6 が脚注に載せていたハンドラキュー定義の XML 2件を FW解説書「委譲するWebフロントコントローラの名前を変更する」への参照に置き換えた。読者がこのページだけで指定の要否を判断できるか。
 5. 同: `webBaseDir`に複数のディレクトリを指定したときの「指定された順にディレクトリを探索し、最初に見つかったリソースを使用する」が、内蔵サーバ（Jetty 12）の実挙動と合っているか。
-6. 機能概要: 「他の処理方式と異なり、専用のモジュールと内蔵サーバの設定を追加しないと実行できない」と書いた。ウェブアプリケーションのリクエスト単体テストも内蔵サーバと`httpServerFactory`を必要とするため、「他の処理方式と異なり」でよいか。
+6. 機能概要: 「専用のモジュールと内蔵サーバの設定を追加しないと実行できない」で、読者が「使用方法」の最初の節へ進めるか。
 
 ### リクエスト単体テストの設定（HTTPメッセージング）（`setup/request_unit_test/http_messaging.rst`）
 

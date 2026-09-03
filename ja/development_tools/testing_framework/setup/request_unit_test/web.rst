@@ -9,10 +9,38 @@
 
 機能概要
 --------------------------------------------------
-ウェブアプリケーションのリクエスト単体テストは、デフォルト設定\ ``nablarch/test/http-request-test.xml``\ を読み込むと必要なコンポーネントが登録され、実行できる状態になる。このページの設定は、HTMLダンプの出力先やHTMLチェックの有無など、実行環境やプロジェクトの規約に合わせて変えたい項目を上書きするためのものである。HTMLダンプのために行うHTMLリソースのコピーを抑止して、テストの実行時間を短くする方法もここで示す。テストの実装方法は\ :ref:`リクエスト単体テスト（ウェブアプリケーション） <request_unit_test_web>`\ を参照。
+ウェブアプリケーションのリクエスト単体テストは、内蔵サーバの実装モジュールとデフォルト設定\ ``nablarch/test/http-request-test.xml``\ を追加し、内蔵サーバを生成するファクトリを登録すると実行できる状態になる。このページでは、その追加と、HTMLダンプの出力先やHTMLチェックの有無など、実行環境やプロジェクトの規約に合わせて変えたい項目を上書きするためのものである。HTMLダンプのために行うHTMLリソースのコピーを抑止して、テストの実行時間を短くする方法もここで示す。テストの実装方法は\ :ref:`リクエスト単体テスト（ウェブアプリケーション） <request_unit_test_web>`\ を参照。
 
 使用方法
 --------------------------------------------------
+
+必要なモジュールとコンポーネント設定を追加する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ウェブアプリケーションのリクエスト単体テストは、内蔵サーバでテスト対象のアプリケーションを動かす。\ :ref:`テスティングフレームワークの導入 <testing_framework_introduction>`\ で追加する\ ``nablarch-testing``\ に加えて、内蔵サーバの実装を\ ``test``\ スコープで依存関係に追加する。
+
+.. code-block:: xml
+
+  <!-- 内蔵サーバの実装 -->
+  <dependency>
+    <groupId>com.nablarch.framework</groupId>
+    <artifactId>nablarch-testing-jetty12</artifactId>
+    <scope>test</scope>
+  </dependency>
+
+テスト用のコンポーネント設定ファイルには、デフォルト設定として提供されている設定ファイルの読み込みと、内蔵サーバを生成するファクトリの登録を記述する。
+
+.. code-block:: xml
+
+  <import file="nablarch/test/http-request-test.xml"/>
+  <component name="httpServerFactory" class="nablarch.fw.web.httpserver.HttpServerFactoryJetty12"/>
+
+.. important::
+
+  デフォルト設定は\ ``httpServerFactory``\ を登録しない。\ ``nablarch-testing-jetty12``\ もクラスを提供するだけでコンポーネントの登録は行わないため、\ ``httpServerFactory``\ を登録していないと、内蔵サーバの生成時に例外が発生する。
+
+.. tip::
+
+  アーキタイプから\ :doc:`ウェブプロジェクト <../../../../application_framework/application_framework/blank_project/setup_blankProject/setup_Web>`\ を作成した場合は、上記の依存関係と設定が既に記述されている。
 
 コンポーネント設定ファイルに設定項目を登録する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
