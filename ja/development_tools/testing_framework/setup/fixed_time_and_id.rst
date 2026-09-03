@@ -58,10 +58,8 @@ Nablarch Application Frameworkでは、\ :java:extdoc:`SystemTimeProvider <nabla
     <property name="tableName" value="TEST_SBN_TBL"/>
     <property name="idColumnName" value="ID_COL"/>
     <property name="noColumnName" value="NO_COL"/>
-    <property name="dbTransactionManager" ref="dbTransactionManager"/>
+    <property name="dbTransactionManager" ref="defaultDbTransactionManager"/>
   </component>
-
-``dbTransactionManager``\ には、採番用テーブルを更新するトランザクションを表す\ :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>`\ を指定する。この名前のコンポーネントはテスティングフレームワークもNablarchのデフォルト設定も提供しないため、本番用のコンポーネント設定ファイルで登録している名前（Nablarchのデフォルト設定\ ``nablarch/core/db/db-transaction.xml``\ を読み込んでいる場合は\ ``defaultDbTransactionManager``\ ）に読み替える。
 
 各プロパティの意味は、\ :java:extdoc:`FastTableIdGenerator <nablarch.common.idgenerator.FastTableIdGenerator>`\ を参照。
 
