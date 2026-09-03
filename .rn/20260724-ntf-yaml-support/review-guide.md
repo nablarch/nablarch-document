@@ -45,7 +45,7 @@
 
 # ページ別の申し送り
 
-各ページは「由来」「判断で変えたことと理由」「実装との食い違いを直した箇所」だけを書いています。書いていないページ・節は、横断的な変更を除いて v6 の内容をそのまま引き継いでいます。
+各ページは「由来」と「判断で変えたことと理由」だけを書いています。書いていないページ・節は、横断的な変更を除いて v6 の内容をそのまま引き継いでいます。
 ## 入口
 
 ### テスティングフレームワーク（`index.rst`）
@@ -76,7 +76,6 @@
 - MOM の取引単体テストのページにしか無かった導入手順を、テストの種類によらず行う3つとしてこのページに集めた
 - 依存関係を `test` スコープにし、v6 の `<exclusions>`（jetty・findbugs）を落とした
   - 現在の `nablarch-testing` に当該依存が無いため
-- 実装との食い違いを直した: テスト用のコンポーネント設定ファイルの用意、テストデータの投入に使用するトランザクション（`testTran`）
 
 ### JUnit 5での使用（`setup/standard_usage.rst`）
 
@@ -85,7 +84,6 @@
 - `resolveTestRules()` の説明を未リリースの修正版前提で書いた
   - リリース済みの 2.1.0 では、本文どおりに書くと内部ルールが落ちる
 - `TestRule` の例を `Timeout` からプロジェクト独自のものに差し替え、JUnit 5 の同等機能への対応表と warning 5件を足した
-- 実装との食い違いを直した: JUnit 5 本体の依存関係、インジェクション対象の条件、`RegisterExtension` で適用できない Extension、実装と合わない tip 2件
 
 ### JUnit 4での使用（`setup/junit4.rst`）
 
@@ -93,7 +91,6 @@
 
 - 第3部の JUnit 5 の例を継承方式に読み替える規則を置いた
   - JUnit 4 の既存資産があるプロジェクトが書き続けられるようにするため
-- 実装との食い違いを直した: JUnit 4 の依存関係（`junit-vintage-engine`）、委譲の例の `assertSqlResultSetEquals`
 
 ### テストデータの設定（`setup/testdata.rst`）
 
@@ -103,7 +100,6 @@
   - 残る3つは Excel のセル値を読むためのものだったため
 - 読み込み先を VM 引数 `-D` で一時的に上書きする案内（v6 の脚注）を落とした
   - 設定ファイルに書く手順に一本化したため
-- 実装との食い違いを直した: テストデータの読み込み先の記述先とデフォルト値、ディレクティブのデフォルト値の記述例、データ型の対応表
 
 ### システム日時と採番の固定（`setup/fixed_time_and_id.rst`）
 
@@ -113,7 +109,6 @@
   - `FixedSystemTimeProvider` の javadoc（12桁・15桁）とは食い違ったままになる
 - `SystemRepository` からシステム日時を取得する Java コード例を落とし、1文に置き換えた
   - 第2部は設定を書くページのため
-- 実装との食い違いを直した: 本番側のシーケンス採番クラスの FQCN、テーブル採番の設定値の参照先
 
 ### クラス単体テストの設定（`setup/class_unit_test.rst`）
 
@@ -121,7 +116,6 @@
 
 - Bean Validation 版8項目・Nablarch Validation 版6項目に分かれていた設定項目表を、8項目の表1つに統合した
   - ページによって理解が変わるため
-- 実装との食い違いを直した: Nablarch Validation 版の「（全項目必須）」、デフォルト以外のトランザクションの設定キー
 ### リクエスト単体テストの設定（ウェブアプリケーション）（`setup/request_unit_test/web.rst`）
 
 既存。v6 の[リクエスト単体テスト（ウェブ）](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/02_RequestUnitTest.html)の「各種設定値」「その他の設定」と構造の説明から。
@@ -130,7 +124,6 @@
   - 上書きの要否が変わるため
 - v6 の「実行速度を上げる」の枠組みと、`-Xverify:none` などの JVM オプションの小節を落とした
   - フレームワークの設定ではないため
-- 実装との食い違いを直した: dumpVariableItem、jsTestResourceDir、htmlResourcesCharset、htmlCheckerConfig、httpServerFactory の登録
 
 ### リクエスト単体テストの設定（RESTfulウェブサービス）（`setup/request_unit_test/rest.rst`）
 
@@ -140,7 +133,6 @@
   - 構成に依らないため
 - `webFrontControllerKey` の指定条件を「`webFrontController` 以外の名前で登録している場合」に一般化した
 - tip の「Nablarch5u18 以降」の条件を外し、対象を依存関係3件にも広げた
-- 実装との食い違いを直した: httpServerFactory の登録
 
 ### リクエスト単体テストの設定（HTTPメッセージング）（`setup/request_unit_test/http_messaging.rst`）
 
@@ -148,7 +140,6 @@
 
 - v6 が HTTP 受信と MOM 受信に二重に持っていたフレームワーク制御ヘッダの important を、本ページに集約した
 - v6 の「これらの設定はアーキテクトが行うもの」という断りを落とした
-- 実装との食い違いを直した: モックアップのコンポーネント名の決まり方、charset の説明、制御ヘッダの全列挙と空白の扱い
 
 ### リクエスト単体テストの設定（Nablarchバッチアプリケーション）（`setup/request_unit_test/batch.rst`）
 
@@ -156,7 +147,6 @@
 
 - 置き換えの適用条件を、常駐バッチかどうかからリクエストスレッド内ループ制御ハンドラを含む構成かに改めた
 - ディレクティブのデフォルト値とテスト用データ型の登録を「テストデータの設定」へ移し、導線を置いていない
-- 実装との食い違いを直した: 応答不要メッセージ送信用プロバイダの差し替え、上書き時のプロパティ値の非継承
 
 ### リクエスト単体テストの設定（MOMによるメッセージング）（`setup/request_unit_test/mom.rst`）
 
@@ -164,7 +154,6 @@
 
 - フレームワーク制御ヘッダのフィールド名は HTTP メッセージングのページに集約し、本ページは参照だけにした
 - リクエストスレッド内ループ制御ハンドラの置き換えは本ページに書かず、バッチのページへの導線も置いていない
-- 実装との食い違いを直した: メッセージ受信用プロバイダの登録、同期応答メッセージ送信用プロバイダの差し替え
 
 ### リクエスト単体テストの設定（テーブルをキューとして使ったメッセージング）（`setup/request_unit_test/db_queue.rst`）
 
@@ -180,7 +169,6 @@
 
 - 提供済みの実装2クラスを「使用方法」、独自実装の手順を「拡張例」に分けた
   - 登録だけの読者が拡張を読まずに済むため
-- 実装との食い違いを直した: XML 記述例の構文、cookieName の必須、ComplexRequestResponseProcessor の実行順
 
 ### 取引単体テストの設定（HTTPメッセージング）（`setup/deal_unit_test/http_messaging.rst`）
 
@@ -188,21 +176,18 @@
 
 - MOM のページにしかなかった応答電文の読み込み設定を本ページに本文として置き、MOM からはリンクにした
 - Interpreter をインライン定義から `nablarch/test/test-data.xml` の `component-ref` 参照に揃えた
-- 実装との食い違いを直した: 記述例のコンポーネント名、charset の適用範囲、YAML の fileExtensions、読み込み設定
 
 ### 取引単体テストの設定（MOMによるメッセージング）（`setup/deal_unit_test/mom.rst`）
 
 混在。v6 の[取引単体テスト（MOMによるメッセージング）](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/03_DealUnitTest/send_sync.html)の「フレームワークで使用するクラスの設定」から。
 
 - 応答電文の読み込み設定は HTTP メッセージングのページに集約し、本ページは同名の節で参照だけにした
-- 実装との食い違いを直した: モックアップのコンポーネント名の決まり方
 
 ### マスタデータ復旧機能（`setup/master_data_restore.rst`）
 
 既存。v6 の[マスタデータ復旧機能](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/04_MasterDataRestore.html)から。
 
 - 環境構築の4節を必須3件と任意1件に分け、テーブルの依存関係の解析の抑止を使用方法の末尾に移した
-- 実装との食い違いを直した: testEventListeners の登録、抑止設定の列挙順と適用範囲、復旧時の削除・挿入の単位、バックアップ用スキーマの tip
 ## 第3部 テストの実装
 
 ### テストデータの書き方（`implementation/testdata_notation.rst`）
@@ -213,7 +198,6 @@
   - 準備データを空にする・期待値で空を検証する方法が v6 のどこにも無かった
 - カラム省略の制約を「`LIST_MAP` は Map 完全一致のため全カラム必須／登録系は推奨」に分けた
   - v6 は一律に省略不可としていた
-- 実装との食い違いを直した: 改行記法、可変長の `""` 行、電文の対応付け順、マーカーカラム・`default` グループの適用範囲、省略カラムの既定値、`testShots` の必須カラム
 
 ### テストデータの記載例（`implementation/testdata_examples.rst`）
 
@@ -224,7 +208,6 @@
 - v6 に例が無い用途は記法の下書き資料から新規に書き起こし、題材はテスティングフレームワーク本体のテストリソースに合わせた
 - Excel 形式の例は実際に読み込ませて確かめていない
   - 実物との突き合わせはレビューに委ねる
-- 実装との食い違いを直した: レコード長の不一致、`sendSyncTestData`、`EXPECTED_COMPLETE_TABLE` の補完条件、`quoting-delimiter` の例
 
 ### エンティティ単体テスト（`implementation/class_unit_test/entity.rst`）
 
@@ -236,7 +219,6 @@
 - コンストラクタをテストする節の個別コード例を落とし、「型の制限は setter と getter のテストと同じ」の1文にした
 - 「テスト結果を確認する」を新設した
   - テストが失敗したときに何が出力されるかが v6 に無かった
-- 実装との食い違いを直した: 必須カラム5件、文字種14種、`min` が1以下のときの文字列長不足テスト、方式に対応しないメソッドの挙動
 
 ### コンポーネント単体テスト（`implementation/class_unit_test/component.rst`）
 
@@ -246,7 +228,6 @@
 - ページ内に持っていたテストデータの記述例を記載例ページへ移し、本ページはテストコード側の書き方に絞った
 - 「確認する対象 → 使用するメソッド」の一覧表を新設した（`assertSqlRowEquals` を含む）
   - v6 は使い分けを示していなかった
-- 実装との食い違いを直した: `assertSqlResultSetEquals`・`assertTableEquals`・`getListMap` の引数、別ディレクトリのテストデータの解決先
 
 ### リクエスト単体テスト（ウェブアプリケーション）（`implementation/request_unit_test/web.rst`）
 
@@ -256,13 +237,11 @@
 - リクエストスコープの値の確認から Form 取得と `SqlRow` のコード例を落とし、型ごとの使用メソッド表と tip に置き換えた
 - アップロードファイルの具体例2組を落とし、2方法の説明と記法ページへの参照だけにした
   - 記載例ページに画像ファイルの例はある
-- 実装との食い違いを直した: `getParam` の戻り値、`assertObjectPropertyEquals` の例、送信メソッドと実行手順の順序、出力ファイルの名前、自動確認の項目
 ### リクエスト単体テスト（RESTfulウェブサービス）（`implementation/request_unit_test/rest.rst`）
 
 既存。v6 の[リクエスト単体テスト（RESTfulウェブサービス）](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/RequestUnitTest_rest.html)と[リクエスト単体テストの実施方法](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/02_RequestUnitTest/rest.html)を1ページに統合した。
 
 - v6 の「`SimpleRestTestSupport` ならテストデータの書き方は読み飛ばしてよい」の案内を落とした
-- 実装との食い違いを直した: `readTextResource` の引数、期待値ファイルの配置、内蔵サーバの起動タイミング、`setBody`、`testDataParser` の準備
 
 ### リクエスト単体テスト（HTTPメッセージング）（`implementation/request_unit_test/http_messaging.rst`）
 
@@ -272,7 +251,6 @@
   - 読み替え先の MOM のページに出てこないため
 - 「送信キュー・受信キューを通信先と読み替える」の適用範囲を同期応答メッセージ送信の説明に限定した
   - 受信側は実際にキューを使うため
-- 実装との食い違いを直した: `RequestTestingMessagingClient` が内部クラスを持たないこと
 
 ### リクエスト単体テスト（Nablarchバッチアプリケーション）（`implementation/request_unit_test/batch.rst`）
 
@@ -282,14 +260,12 @@
   - 実体が Nablarch バッチのテストであるため
 - ファイル期待値の記法表とログ検証のカラム表を本ページから落とした
   - 記法は「テストデータの書き方」にまとめたため
-- 実装との食い違いを直した: `execute()` の引数、ループ制御ハンドラ、応答不要送信の `errorCase`・`expectedMessage`・`expectedStatusCode`
 
 ### リクエスト単体テスト（MOMによるメッセージング）（`implementation/request_unit_test/mom.rst`）
 
 既存。v6 の5ページを1ページに統合した。[リクエスト単体テスト（メッセージ受信処理）](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/RequestUnitTest_real.html)、[リクエスト単体テスト（同期応答メッセージ送信処理）](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/RequestUnitTest_send_sync.html)、[リクエスト単体テストの実施方法(同期応答メッセージ受信処理)](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/02_RequestUnitTest/real.html)、[リクエスト単体テストの実施方法(同期応答メッセージ送信処理)](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/02_RequestUnitTest/send_sync.html)、[リクエスト単体テストの実施方法（応答不要メッセージ受信処理）](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/02_RequestUnitTest/delayed_receive.html)。
 
 - 同期応答メッセージ送信は、テスト対象の処理方式のテストを踏襲する形にし、MOM に固有の点だけを本ページに置いた
-- 実装との食い違いを直した: サポートクラス名・パッケージ、要求電文のアサート主体、`execute()` の引数、`expectedStatusCode` の照合
 
 ### リクエスト単体テスト（テーブルをキューとして使ったメッセージング）（`implementation/request_unit_test/db_queue.rst`）
 
@@ -311,26 +287,22 @@
 
 混在。v6 の[取引単体テストの実施方法（RESTfulウェブサービス）](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/03_DealUnitTest/rest.html)から。
 
-- 実装との食い違いを直した: 1つの取引を構成する複数リクエストの送信方法
 
 ### 取引単体テスト（HTTPメッセージング）（`implementation/deal_unit_test/http_messaging.rst`）
 
 既存。v6 の[HTTP同期応答メッセージ送信処理を伴う取引単体テストの実施方法](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/03_DealUnitTest/http_send_sync.html)の実施方法部分。
 
-- 実装との食い違いを直した: 出力されるログの形式とロガー、応答電文のヘッダ、要求電文のデータブロック
 
 ### 取引単体テスト（Nablarchバッチアプリケーション）（`implementation/deal_unit_test/batch.rst`）
 
 混在。v6 の[取引単体テストの実施方法（バッチ）](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/03_DealUnitTest/batch.html)。
 
-- 実装との食い違いを直した: テストショット一覧の必須カラムとカラム名、import のパッケージ、正常系の `expectedStatusCode`、`expectedTable` の値
 
 ### 取引単体テスト（MOMによるメッセージング）（`implementation/deal_unit_test/mom.rst`）
 
 混在。v6 の3ページを1ページにした。[同期応答メッセージ送信処理を伴う取引単体テストの実施方法](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/03_DealUnitTest/send_sync.html)、[取引単体テストの実施方法（同期応答メッセージ受信処理）](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/03_DealUnitTest/real.html)、[取引単体テストの実施方法（応答不要メッセージ受信処理）](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/03_DealUnitTest/delayed_receive.html)。
 
 - テスト対象を受信側と同期応答送信を伴うウェブ側の2通りに分け、進め方はバッチ版・ウェブ版の取引単体テストへ委ねた
-- 実装との食い違いを直した: モックアップクラスが担う範囲、応答電文を返す順序、ログのロガー名とレベル、要求電文の `requestId` フィールド
 
 ### 取引単体テスト（テーブルをキューとして使ったメッセージング）（`implementation/deal_unit_test/db_queue.rst`）
 
@@ -348,7 +320,6 @@
   - 配布物に `.sh` が無い
 - 前提から「開発環境構築ガイドに従って構築済み」を落とした
   - 参照先のページが存在しない
-- 実装との食い違いを直した: 前提事項の `JAVA_HOME`、初期画面表示のテストデータ、HTMLダンプの出力先、Eclipse の操作項目名
 
 ### マスタデータ投入ツール（`tools/master_data_tool.rst`）
 
@@ -359,7 +330,6 @@
 - 配布物にサンプルアプリケーションのデータが入っており、そのまま実行すると記述テーブルが置き換わることを警告した
 - ターゲット表に動作（main は test へフォールバック、バックアップへコピーする範囲、失敗しても `BUILD SUCCESSFUL`）を書き足した
   - v6 では投入できたかを判断できなかったため
-- 実装との食い違いを直した: 配布物のファイル構成、バックアップ用スキーマに必要なテーブルの範囲
 
 ### HTMLチェックツール（`tools/html_check_tool.rst`）
 
@@ -368,7 +338,6 @@
 - 画面を HTML5 で記述しているプロジェクトでは使用できないことを明示し、無効化・差し替えの節へ誘導した
   - v6 は触れていない
 - 設定ファイルの書き損じで黙って壊れる事象と `htmlCheckerConfig` の副作用を実装から足し、指摘メッセージの形式を表にした
-- 実装との食い違いを直した: 構文チェックの仕様（タグの省略可否、文書型宣言、クォートの例）、JavaScript の `--` の条件
 
 ### テストデータ変換ツール（`tools/testdata_converter.rst`）
 
