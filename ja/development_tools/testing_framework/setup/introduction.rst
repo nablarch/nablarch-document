@@ -16,7 +16,7 @@
 
 テスティングフレームワークを依存関係に追加する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-テスティングフレームワークは\ ``nablarch-testing``\ として提供される。テストでのみ使用するため、\ ``test``\ スコープで依存関係に追加する。
+テスティングフレームワークは\ ``nablarch-testing``\ として提供される。テスト用のコンポーネント設定ファイルが読み込むデフォルト設定（\ ``nablarch/test/test-data.xml``\ ・\ ``nablarch/test/test-transaction.xml``\ など）は、別モジュール\ ``nablarch-testing-default-configuration``\ が提供する。いずれもテストでのみ使用するため、\ ``test``\ スコープで依存関係に追加する。
 
 .. code-block:: xml
 
@@ -24,6 +24,12 @@
   <dependency>
     <groupId>com.nablarch.framework</groupId>
     <artifactId>nablarch-testing</artifactId>
+    <scope>test</scope>
+  </dependency>
+  <!-- テスティングフレームワークのデフォルト設定 -->
+  <dependency>
+    <groupId>com.nablarch.configuration</groupId>
+    <artifactId>nablarch-testing-default-configuration</artifactId>
     <scope>test</scope>
   </dependency>
 
@@ -35,7 +41,7 @@
 
 テスト用のコンポーネント設定ファイルを用意する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-テスティングフレームワークは、テストの実行時にクラスパス直下の\ ``unit-test.xml``\ をコンポーネント設定ファイルとして読み込む。このファイルには、本番用のコンポーネント設定ファイルをimportしたうえで、テストに必要な設定を記述する。本番用と異なる設定にするコンポーネントは、importの後に同じ名前で定義して上書きする（\ :ref:`repository-override_bean`\ ）。以降のページで「テスト用のコンポーネント設定ファイル」と書いている設定は、すべてこのファイルに記述する。
+テスティングフレームワークは、テストの実行時にクラスパス直下の\ ``unit-test.xml``\ をコンポーネント設定ファイルとして読み込む。このファイルには、本番用のコンポーネント設定ファイルをimportしたうえで、テストに必要な設定を記述する。本番用と異なる設定にするコンポーネントは、importの後に同じ名前で定義して上書きする（\ :ref:`repository-override_bean`\ ）。以降のページで「テスト用のコンポーネント設定ファイル」と書いている設定は、すべてこのファイルに記述する。ただし、Nablarchバッチアプリケーションとメッセージングのリクエスト単体テストは、テストショット一覧の\ ``diConfig``\ カラムに指定したコンポーネント設定ファイルからシステムリポジトリを再初期化して実行する。それらの設定ページで「テスト用のコンポーネント設定ファイル」と書いている設定は、\ ``diConfig``\ に指定するファイルに記述する。
 
 環境設定ファイルは、importした本番用のコンポーネント設定ファイルが読み込むものがそのまま使われる。テストだけで使う設定値と、本番用と異なる値にする設定値は、テスト用の環境設定ファイルに記述し、このファイルからconfig-file要素で読み込む（\ :ref:`repository-user_environment_configuration`\ ）。後から読み込んだ値が優先されるため、config-file要素はimportの後に置く。以降のページで「環境設定ファイルに記述する」と書いている設定値は、このテスト用の環境設定ファイルに記述する。
 

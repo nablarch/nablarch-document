@@ -33,6 +33,8 @@ YAML\ 形式で記述する場合は、\ ``nablarch-testing-yaml``\ を依存関
 
 あわせて、テストデータを解析するコンポーネント\ ``testDataParser``\ を\ :java:extdoc:`YamlTestDataParser <nablarch.test.core.reader.YamlTestDataParser>`\ に差し替える。特殊記法を解釈するクラス（Interpreter）は、importした\ ``nablarch/test/test-data.xml``\ が\ Excel\ 形式用に定義している5つのうち、次の2つだけを\ ``interpreters``\ に指定する。
 
+``testDataParser``\ は1つのコンポーネントであるため、1つのプロジェクトでExcel形式とYAML形式のテストデータを混在させることはできない。既存のExcel形式のテストデータは、\ :ref:`テストデータ変換ツール <testdata_converter>`\ でYAML形式に変換する。
+
 - ``dateTimeInterpreter``\ … ``${systemTime}``\ ・\ ``${updateTime}``\ ・\ ``${setUpTime}``\ を日時に変換する
 - ``compositeInterpreter``\ … ``${文字種,文字数}``\ を、その文字種の文字列に変換する
 
@@ -115,6 +117,8 @@ YAML\ 形式で記述する場合は、\ ``nablarch-testing-yaml``\ を依存関
     </property>
     <!-- 中略 -->
   </component>
+
+.. _testdata_setting-directive_defaults:
 
 ディレクティブのデフォルト値を設定する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

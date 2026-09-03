@@ -10,7 +10,7 @@
 
 各ページのテストは、\ :ref:`テスティングフレームワークの導入と設定 <testing_framework_setup>`\ が済んでいることを前提とする。
 
-動くテストコードとテストデータの実物は、Exampleアプリケーション（\ `nablarch-example-web <https://github.com/nablarch/nablarch-example-web>`_\ ・\ `nablarch-example-rest <https://github.com/nablarch/nablarch-example-rest>`_\ ・\ `nablarch-example-batch <https://github.com/nablarch/nablarch-example-batch>`_\ ）の\ ``src/test``\ にある。テストクラスの形やテストデータの書き方に迷ったときの参考にする。
+動くテストコードとテストデータの実物は、Exampleアプリケーション（\ `nablarch-example-web <https://github.com/nablarch/nablarch-example-web>`_\ ・\ `nablarch-example-rest <https://github.com/nablarch/nablarch-example-rest>`_\ ・\ `nablarch-example-batch <https://github.com/nablarch/nablarch-example-batch>`_\ ）の\ ``src/test``\ にある（テストデータはExcel形式）。テストクラスの形やテストデータの書き方に迷ったときの参考にする。
 
 .. toctree::
    :maxdepth: 1
