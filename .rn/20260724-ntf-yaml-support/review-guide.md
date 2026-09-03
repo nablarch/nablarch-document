@@ -29,8 +29,8 @@
   - AI エージェントが生成・解析できるようにするため
 - 表を折り返しにした
   - Excel シートを再現した 10 表は横スクロールのまま
-- `:download:` のサンプルファイル 10 本を落とした
-  - 実ファイルが失われていたため
+- `:download:` のサンプルファイル 10 本を落とし、代わりに Example アプリケーション 3 本の `src/test` を第3部の部トビラで案内した
+  - 実ファイルが失われていたため。Example アプリケーションは JUnit 5 で書かれ、保守されているため
 
 ## 全体で判断してほしいこと
 
@@ -63,7 +63,6 @@
 
 混在。v6 の[自動テストフレームワーク](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/01_Abstract.html)と v6 の[テスティングフレームワーク](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/index.html)から。
 
-- 取引単体テストの実行方法は、v6 が明言する3処理方式（ウェブ＝手動、REST・バッチ＝自動）だけを名指しし、残る3方式は述べていない
 - アーキテクチャの構成物表（6行）を落とした
   - 図から読み取れる内容の再掲だったため
 
@@ -153,7 +152,6 @@
 混在。v6 に対応するのは[リクエスト単体テストの実施方法(同期応答メッセージ受信処理)](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/02_RequestUnitTest/real.html)の important 1件のみ。
 
 - フレームワーク制御ヘッダのフィールド名は HTTP メッセージングのページに集約し、本ページは参照だけにした
-- リクエストスレッド内ループ制御ハンドラの置き換えは本ページに書かず、バッチのページへの導線も置いていない
 
 ### リクエスト単体テストの設定（テーブルをキューとして使ったメッセージング）（`setup/request_unit_test/db_queue.rst`）
 
@@ -215,7 +213,7 @@
 
 - テストクラス・テストデータ・テスト対象クラスのダウンロードリンク6本を落とした
   - 撤去する旧ページ配下にあるため
-  - 読者はサンプルを入手できなくなる
+  - 代わりに第3部の部トビラで Example アプリケーションの `src/test` を案内した
 - コンストラクタをテストする節の個別コード例を落とし、「型の制限は setter と getter のテストと同じ」の1文にした
 - 「テスト結果を確認する」を新設した
   - テストが失敗したときに何が出力されるかが v6 に無かった
