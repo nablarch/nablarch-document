@@ -4,18 +4,18 @@ skinparam defaultFontName "Noto Sans JP"
 skinparam sequenceMessageAlign left
 title 更新系のテストの手順
 participant "テストクラス" as TC
-participant "テスティングフレームワーク\n（スーパクラス）" as FW
+participant "サポートクラス\n（DbAccessTestSupport）" as SUP
 participant "テストデータ" as TD
 participant "テスト対象クラス" as T
 database "データベース" as DB
-TC -> FW : 準備データを登録する（setUpDb）
-FW -> TD : 準備データを読み取る
-FW -> DB : 準備データを登録する
+TC -> SUP : 準備データを登録する（setUpDb）
+SUP -> TD : 準備データを読み取る
+SUP -> DB : 準備データを登録する
 TC -> T : メソッドを起動する
 T -> DB : 更新する
-TC -> FW : トランザクションをコミットする\n（commitTransactions）
-FW -> DB : コミットする
-TC -> FW : 期待どおり更新されていることを確認する\n（assertTableEquals）
-FW -> TD : 期待値を読み取る
-FW -> DB : テーブルの値を取得する
+TC -> SUP : トランザクションをコミットする\n（commitTransactions）
+SUP -> DB : コミットする
+TC -> SUP : 期待どおり更新されていることを確認する\n（assertTableEquals）
+SUP -> TD : 期待値を読み取る
+SUP -> DB : テーブルの値を取得する
 @enduml

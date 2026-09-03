@@ -5,7 +5,8 @@ skinparam defaultFontName "Noto Sans JP"
 title リクエスト単体テスト（ウェブアプリケーション）の構成
 file "テストデータ" as TD
 rectangle "同一のJVM" as JVM {
-  rectangle "テストクラス\n（BasicHttpRequestTestTemplate を継承）" as TC
+  rectangle "テストクラス" as TC
+  rectangle "BasicHttpRequestTestTemplate" as SUP
   rectangle "内蔵サーバ" as SV {
     rectangle "Nablarch Application Framework" as NAF
     rectangle "テスト対象クラス（Action）" as ACT
@@ -13,8 +14,9 @@ rectangle "同一のJVM" as JVM {
 }
 database "データベース" as DB
 file "HTMLダンプ" as DUMP
-TD --> TC
-TC --> NAF : リクエストを送信する
+TD --> SUP
+TC --> SUP : インジェクションして\nexecute を呼び出す
+SUP --> NAF : リクエストを送信する
 NAF --> ACT : 呼び出す
 ACT --> DB
 SV --> DUMP : 出力する

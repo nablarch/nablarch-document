@@ -154,7 +154,6 @@
   <component name="httpTestConfiguration" class="nablarch.test.core.http.HttpTestConfiguration">
     <property name="htmlDumpDir" value="./tmp/html_dump"/>
     <property name="webBaseDir" value="src/main/webapp"/>
-    <property name="xmlComponentFile" value="http-request-test.xml"/>
     <property name="userIdSessionKey" value="user.id"/>
     <property name="httpHeader">
       <map>

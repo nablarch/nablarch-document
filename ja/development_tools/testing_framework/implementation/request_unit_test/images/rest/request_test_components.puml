@@ -20,5 +20,5 @@ DB --> TD : 照合する
 RTS --> SRTS : 継承する
 RTS --> DATS : 保持する
 SRTS --> SV : 保持する
-note left of TC : RestTestSupport または\nSimpleRestTestSupport を継承する
+note left of TC : RestTestSupport または\nSimpleRestTestSupport を\nインジェクションする
 @enduml

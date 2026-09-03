@@ -3,21 +3,21 @@ skinparam shadowing false
 skinparam defaultFontName "Noto Sans JP"
 skinparam sequenceMessageAlign left
 title execute() が1回の呼び出しで行うこと
-participant "テストクラス\n（スーパクラス）" as FW
+participant "サポートクラス\n（BasicHttpRequestTestTemplate）" as SUP
 participant "テストデータ" as TD
 database "データベース" as DB
 participant "テスト対象\n（内蔵サーバ）" as SV
-FW -> TD : テストクラス全体で共通する準備データ（setUpDb）を読み取る
-FW -> DB : 準備データを投入する
-FW -> TD : テストショット一覧（testShots）を取得する
+SUP -> TD : テストクラス全体で共通する準備データ（setUpDb）を読み取る
+SUP -> DB : 準備データを投入する
+SUP -> TD : テストショット一覧（testShots）を取得する
 loop テストショットの件数分
-  FW -> DB : そのテストショットの準備データを投入する
-  FW -> FW : ExecutionContext と HttpRequest を生成する
-  FW -> FW : isValidToken が true の場合はトークンを設定する
-  FW -> FW : beforeExecute を呼び出す
-  FW -> SV : リクエストを送信する
-  SV --> FW : 実行結果
-  FW -> FW : 実行結果を検証する
-  FW -> FW : afterExecute を呼び出す
+  SUP -> DB : そのテストショットの準備データを投入する
+  SUP -> SUP : ExecutionContext と HttpRequest を生成する
+  SUP -> SUP : isValidToken が true の場合はトークンを設定する
+  SUP -> SUP : beforeExecute を呼び出す
+  SUP -> SV : リクエストを送信する
+  SV --> SUP : 実行結果
+  SUP -> SUP : 実行結果を検証する
+  SUP -> SUP : afterExecute を呼び出す
 end
 @enduml

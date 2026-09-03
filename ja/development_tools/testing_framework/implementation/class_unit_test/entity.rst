@@ -545,7 +545,7 @@ setter\ で設定した値が\ getter\ で期待どおりに取得できるこ�
 
 テストデータを作成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-テストデータの格納場所と記述方法は\ :ref:`テストデータの書き方 <testdata_notation>`\ に従う。記述例は\ :ref:`テストデータの記載例 <testdata_examples>`\ を参照。
+テストデータの格納場所と記述方法は\ :ref:`テストデータの書き方 <testdata_notation>`\ に従う。記述例は\ :ref:`文字種と文字列長のテストデータを記述する <testdata_examples-charset_and_length>`\ ・\ :ref:`setterとgetterのテストデータを記述する <testdata_examples-setter_and_getter>`\ 、およびエンティティバリデーションの例（\ :ref:`テストショット一覧（testShots）を記述する <testdata_examples-test_shots>`\ ）を参照。
 
 確認する対象ごとに、1つの読み込み単位（\ Excel\ 形式ではシート、\ YAML\ 形式ではファイル）を使用する。
 

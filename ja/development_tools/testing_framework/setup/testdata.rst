@@ -51,6 +51,8 @@ YAML\ 形式で記述する場合は、\ ``nablarch-testing-yaml``\ を依存関
     </property>
   </component>
 
+``dbInfo``\ には、テーブルの主キー・カラム名・カラム型をデータベースのメタデータから取得する\ :java:extdoc:`DbInfo <nablarch.test.core.db.DbInfo>`\ の実装を指定する。この名前のコンポーネントは\ ``nablarch/test/test-data.xml``\ には含まれないため、テスト用のコンポーネント設定ファイルで\ :java:extdoc:`GenericJdbcDbInfo <nablarch.test.core.db.GenericJdbcDbInfo>`\ などの実装を\ ``dbInfo``\ という名前で登録する。
+
 ``testDataReader``\ は指定しない。\ :java:extdoc:`YamlTestDataParser <nablarch.test.core.reader.YamlTestDataParser>`\ は\ YAML\ ファイルを直接読み込むため、この設定を使用しない。
 
 テストデータの読み込み先を変更する

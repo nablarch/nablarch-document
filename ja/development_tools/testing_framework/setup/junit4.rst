@@ -58,6 +58,19 @@ JUnit Vintageは、JUnit 4のテストをJUnit 4として実行しているに�
 
 :ref:`テスティングフレームワークによるテスト実装 <testing_framework_implementation>`\ の実装例は、いずれもJUnit 5で書いている。JUnit 4で書く場合は、テストクラスに設定した合成アノテーションとフィールドの宣言を、対応するサポートクラスの継承に読み替える。また、\ ``support``\ を介した呼び出しは、継承したメソッドの直接の呼び出しに読み替える。合成アノテーションとサポートクラスの対応は、\ :ref:`JUnit 5での使用 <standard_usage>`\ の\ :ref:`Extensionクラスと合成アノテーションの一覧 <standard_usage-extension_list>`\ を参照。
 
+:java:extdoc:`BasicHttpRequestTestTemplate <nablarch.test.core.http.BasicHttpRequestTestTemplate>`\ を使用する実装例では、合成アノテーション\ :java:extdoc:`BasicHttpRequestTest <nablarch.test.junit5.extension.http.BasicHttpRequestTest>`\ の\ ``baseUri``\ に指定した値を、\ ``getBaseUri()``\ メソッドのオーバーライドに読み替える。\ ``getBaseUri()``\ は\ :java:extdoc:`AbstractHttpRequestTestTemplate <nablarch.test.core.http.AbstractHttpRequestTestTemplate>`\ の抽象メソッドであり、JUnit 4ではテストクラスで実装する。
+
+.. code-block:: java
+
+  public class UserSearchActionRequestTest extends BasicHttpRequestTestTemplate {
+
+      // 合成アノテーションの baseUri = "/action/management/user/UserSearchAction/" に相当する
+      @Override
+      protected String getBaseUri() {
+          return "/action/management/user/UserSearchAction/";
+      }
+  }
+
 .. _junit4_support-common_process:
 
 テストの実行前後に共通処理を行う
