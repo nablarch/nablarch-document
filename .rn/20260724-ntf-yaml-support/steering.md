@@ -2315,13 +2315,13 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 
 **未決**: (1) 刷新版 HTML のレビュアーへの配布方法（`review-guide.md` 冒頭の表に「配布方法は別途連絡」と仮置き）。(2) `#83` の欠陥候補をレビュー前に直すか、レビュアーに判断させるか。
 
-### #83: `#82` の作成中に見つかった本文の欠陥候補の処置 — 未着手（user 判断待ち）
+### #83: `#82` の作成中に見つかった本文の欠陥候補の処置 — 1・2・4 是正済み（2026-09-03 ディレクター直接コミット。user「4件を直さない理由は？」を受けて即時是正）。3 は user 判断待ち
 
-ディレクターが一次情報で確認したもの（いずれも `review-guide.md` の該当ページのレビューポイントに出してある）:
-1. `ja/development_tools/testing_framework/setup/request_unit_test/http_messaging.rst:46` important「YAML 形式では `fw_header:` に記載したキーがすべてフレームワーク制御ヘッダとして扱われるため、この設定は使用されない」は実装と逆。`nablarch-testing-yaml` `d50ee2b` `src/main/java/nablarch/test/core/reader/yaml/YamlMessageBuilder.java:64`（`FW_HEADER_KEY = "reader.fwHeaderfields"`）・`:298-330`（`convertFwHeader`: 許可集合外のキーで `IllegalStateException`）・`:379-384`（`fwHeaderFields()` が `SystemRepository.getString` で読む）。同じ刷新版の `implementation/testdata_notation.rst:1308` は正しく「`fw_header:` に記載できるキーは `reader.fwHeaderfields` の名前だけ」と書いており、2ページが矛盾する。
-2. `implementation/testdata_examples.rst` に `params` ブロックの記載例が無い（`grep -c params` → 0）。`implementation/class_unit_test/entity.rst:426`・`:490` は「テストショット一覧（testShots）と入力パラメータ（params）…記述例は…エンティティバリデーションの例を参照」と指すが、指し先（`testdata_examples.rst:656-694`）は `testShots` だけ。v6 `origin/main:ja/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:475-478`（「入力パラメータ表の作成。IDは"params"固定」）にはあった。`nablarch-testing` `e21bf67` `EntityTestSupport.java:193` は `getListParamMapRequired(sheetName, PARAMS)` で `params` を必須に読む。
+ディレクターが一次情報で確認したもの（`review-guide.md` の該当ページのレビューポイントに出してある。1・2・4 は是正後の文面を確認する形に書き換え済み）:
+1. `ja/development_tools/testing_framework/setup/request_unit_test/http_messaging.rst:46` important「YAML 形式では `fw_header:` に記載したキーがすべてフレームワーク制御ヘッダとして扱われるため、この設定は使用されない」は実装と逆。`nablarch-testing-yaml` `d50ee2b` `src/main/java/nablarch/test/core/reader/yaml/YamlMessageBuilder.java:64`（`FW_HEADER_KEY = "reader.fwHeaderfields"`）・`:298-330`（`convertFwHeader`: 許可集合外のキーで `IllegalStateException`）・`:379-384`（`fwHeaderFields()` が `SystemRepository.getString` で読む）。同じ刷新版の `implementation/testdata_notation.rst:1308` は正しく「`fw_header:` に記載できるキーは `reader.fwHeaderfields` の名前だけ」と書いており、2ページが矛盾する。**是正**: important を「Excel・YAML のどちらでも使用される。YAML では `fw_header:` に記載できるキーがこの設定の名前に限られ、それ以外はエラー」に書き換え。
+2. `implementation/testdata_examples.rst` に `params` ブロックの記載例が無い（`grep -c params` → 0）。`implementation/class_unit_test/entity.rst:426`・`:490` は「テストショット一覧（testShots）と入力パラメータ（params）…記述例は…エンティティバリデーションの例を参照」と指すが、指し先（`testdata_examples.rst:656-694`）は `testShots` だけ。v6 `origin/main:ja/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:475-478`（「入力パラメータ表の作成。IDは"params"固定」）にはあった。`nablarch-testing` `e21bf67` `EntityTestSupport.java:193` は `getListParamMapRequired(sheetName, PARAMS)` で `params` を必須に読む。**是正**: 記載例のエンティティバリデーションの例に `params`（`userName` 空欄・`password` あり の 1 行）を Excel 形式（`LIST_MAP=params` の表）・YAML 形式（`id: params`）の両方に追加し、導入文に「`testShots` と対にし行数を一致させる」を追記。空欄＝空文字の記法は `testdata_notation.rst:765`・`:830` に従う。
 3. `setup/request_unit_test/rest.rst:12`「他の処理方式と異なり、専用のモジュールと内蔵サーバの設定を追加しないと実行できない」。ウェブのリクエスト単体テストも `nablarch-testing` `dcaed44` `HttpRequestTestSupport.java:393-397` で `httpServerFactory` 未登録なら `IllegalConfigurationException`。`setup/request_unit_test/web.rst` に `httpServerFactory`・`nablarch-testing-jetty12` の記載は無い（`grep -n 'httpServerFactory\|jetty'` → 0）。ブランクプロジェクトに既にあるため書かない扱いでよいかは要判断。
-4. `setup/request_unit_test/web.rst:176` tip「ダンプディレクトリ配下の HTML リソースのコピー先ディレクトリ（デフォルトは `../htmlResources`）」。実装 `dcaed44` `HttpTestConfiguration.java:420-421` は `new File(htmlDumpDir, htmlResourcesRoot)` で、デフォルト `../htmlResources` はダンプディレクトリの兄弟になる。「配下」が誤り。
+4. `setup/request_unit_test/web.rst:176` tip「ダンプディレクトリ配下の HTML リソースのコピー先ディレクトリ（デフォルトは `../htmlResources`）」。実装 `dcaed44` `HttpTestConfiguration.java:420-421` は `new File(htmlDumpDir, htmlResourcesRoot)` で、デフォルト `../htmlResources` はダンプディレクトリの兄弟になる。「配下」が誤り。**是正**: 「HTMLリソースのコピー先ディレクトリ（デフォルトはダンプディレクトリから見て `../htmlResources`。ダンプディレクトリと同じ階層に作られる）」に書き換え。
 
 サブエージェントの報告のみでディレクター未確認（軽微）:
 - `setup/request_unit_test/batch.rst:43`・`:49`、`setup/request_unit_test/mom.rst:21`・`:29`・`:40`・`:46` の `RequestTestingMessagingProvider`・`EmbeddedMessagingProvider` が literal で `:java:extdoc:` になっていない（同章の他ページはリンク）。
@@ -2330,7 +2330,7 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 - `implementation/testdata_notation.rst:679` の `LIST_MAP` として記述する推奨は出典なし。
 - `setup/master_data_restore.rst:172-176` important「外部キーがあるときは親を先に列挙する」は v6（`06_TestFWGuide/04_MasterDataRestore.rst:95-107`）に無い追記で、`nablarch-testing` `e21bf67` `TableDataSorter.java:16-18` Javadoc「DBにFKが設定されていない場合にのみ使用すること」と方向が違う（ディレクター確認済み。誤りとは断定しない）。
 
-処置は user 判断: レビュー前にディレクターが直接コミットで直すか（1・2・4 は是正の余地が明確）、レビュアーの判断に委ねるか。
+3 の処置は user 判断: `web.rst` に `httpServerFactory`・`nablarch-testing-jetty12` を書き `rest.rst:12` の「他の処理方式と異なり」を外すか、ブランクプロジェクト前提で書かないままにするか。軽微 5 件はレビュアーの判断に委ねる（レビューポイントに出してある）。
 
 
 # State

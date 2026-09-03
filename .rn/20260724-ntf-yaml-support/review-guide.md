@@ -231,7 +231,7 @@
 
 **レビューポイント**
 1. モックアップクラスを登録する: コンポーネント名の決まり方（`messageSender.<リクエストID>.messageSenderClient`。この項目にリクエストIDごとの設定しかなく `DEFAULT` へのフォールバックが無いこと）が実装 `MessageSenderSettings` と合っているか。記述例のコンポーネント名 `defaultMessageSenderClient` と本文の説明を並べて読んで、読者が名前を決められるか。
-2. フレームワーク制御ヘッダのフィールド名を指定する（important）: **「YAML 形式では `fw_header:` に記載したキーがすべてフレームワーク制御ヘッダとして扱われるため、この設定は使用されない」は実装と食い違う疑いが強い。** `YamlMessageBuilder` は `fw_header:` に書けるキーを `reader.fwHeaderfields`（省略時は `requestId`・`userId`・`resendFlag`・`resultCode`）に限り、集合外のキーを例外にする。第3部「テストデータの記述方法」の YAML 形式の節も「`fw_header:` に記載できるキーは `reader.fwHeaderfields` の名前だけ」と書いており、本ページと逆のことを言っている。この important を残すか直すかを判断してほしい。
+2. フレームワーク制御ヘッダのフィールド名を指定する（important）: 「この設定は Excel 形式・YAML 形式のどちらでも使用される。YAML 形式では `fw_header:` に記載できるキーがこの設定の名前（省略時は `requestId`・`userId`・`resendFlag`・`resultCode`）に限られ、それ以外はエラー」が、実装 `YamlMessageBuilder` と合っているか。第3部「テストデータの書き方」の YAML 形式の節と同じことを言えているか。
 3. フレームワーク制御ヘッダのフィールド名を指定する: 「メッセージ送信のテストでも、この設定は使用されない」が `SendSyncMessageParser` の実態と合っているか。また受信テストに限る条件付けが、ウェブ・Nablarchバッチから HTTP メッセージ送信を行う場合の読者に誤解を与えないか。
 4. 使用方法: v6 にあった「通常、これらの設定はアーキテクトが行うものでありアプリケーションプログラマが設定する必要はない」を落とし、L2 直下は見出しだけになっている。第2部全体がアーキテクト向けである前提で、ページ単位のこの断りが無くてよいか。
 
@@ -386,7 +386,7 @@
 2. ファイルのデータを記述する: 複数レコードレイアウトでヘッダに `FILLER`（34）を足して40バイトに揃えた例、タブ区切り（Excel は `\t` 2文字、YAML は `"\\t"`）、`quoting-delimiter`（YAML では値の囲みを外す）、「全フィールドが空文字のレコード」（書き出しは `,,` になり空行にならない）が、実際の読み込み・書き出しの挙動と合うか。
 3. メッセージングのデータを記述する: 識別子 `setUpMessages`／`expectedMessages`、`sendSyncTestData` 配下の `REQ001.xls` の `message` シート（YAML は `REQ001/message.yaml`）への配置、応答不要送信の `messageRequestId` と `EXPECTED_REQUEST_HEADER_MESSAGES[case1]=RM11AC0301`、JSON・XML のフィールド長 `-` が、実際のリクエスト単体テストで動く形か。
 4. null・空文字・改行など特殊な値を記述する: `${systemTime}`・`${updateTime}`・`${setUpTime}` の使い分け、YAML の `null`（クォートなし＝Java の null、`"null"`＝文字列）、`${半角数字,3}-${半角数字,4}` のような部分増幅、`${attach:}` のパスの基準（カレントディレクトリ）が、利用経験・実装と合うか。
-5. テストショット一覧（testShots）を記述する: 処理方式ごとの例（ウェブの `context` 参照、バッチの `setUpFile` のグループID、メッセージングの `expectedMessage`／`responseMessage`、エンティティバリデーションの `title`・`expectedMessageId1`・`propertyName1`）が、各テスト種別ページが求めるカラムと合うか。特にエンティティバリデーションの例には入力パラメータ `params` のデータブロックが無い。`EntityTestSupport` は `params` を必須で読むため、この例だけでは実行時エラーになる。例に `params` を足すべきか判断してほしい。
+5. テストショット一覧（testShots）を記述する: 処理方式ごとの例（ウェブの `context` 参照、バッチの `setUpFile` のグループID、メッセージングの `expectedMessage`／`responseMessage`、エンティティバリデーションの `title`・`expectedMessageId1`・`propertyName1`）が、各テスト種別ページが求めるカラムと合うか。エンティティバリデーションの例に足した入力パラメータ `params`（`userName` を空欄にして必須エラーを起こす 1 行）が、`EntityTestSupport` が読む形（`testShots` と同じ行数・順序）として正しいか。
 
 ### エンティティ単体テスト（`implementation/class_unit_test/entity.rst`）
 
@@ -404,7 +404,7 @@
 3. その他の単項目バリデーションをテストする: v6 に無い「`propertyName`・`input1`・`messageId` は必須のカラム」が `EntityTestSupport` と合っているか。
 4. コンストラクタをテストする: v6 にあった「型の制限に該当しないプロパティを個別にテストするコード例（`getParamMap` → `new Entity(params)`）」を落とし、「型の制限は setter と getter のテストと同じ」の1文にした。setter と getter の節の例から読者がコンストラクタ版に読み替えられるか。
 5. テスト結果を確認する: 失敗時の出力情報の表（文字種と文字列長は観点＋プロパティ名＋入力値、相関バリデーション・バリデーションメソッドは `title`、setter と getter・コンストラクタは `name`）が実際の失敗メッセージと合っているか。
-6. 相関バリデーションをテストする／バリデーションメソッドをテストする: 記述例として送っている記載例ページの「エンティティバリデーション」の例に `params` のデータブロックが無い。このページの「`testShots` と `params` を記述する」と食い違うため、記載例側に `params` を足す前提でよいか。
+6. 相関バリデーションをテストする／バリデーションメソッドをテストする: 記述例として送っている記載例ページの「エンティティバリデーション」の例（`testShots` と `params` の対）で、相関バリデーション・バリデーションメソッドの読者が自分のテストデータを組み立てられるか。
 
 ### コンポーネント単体テスト（`implementation/class_unit_test/component.rst`）
 

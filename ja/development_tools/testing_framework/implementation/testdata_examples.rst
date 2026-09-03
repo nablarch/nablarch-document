@@ -655,11 +655,11 @@ YAML形式の場合
 
 エンティティバリデーションのテストショット一覧を記述する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-必須入力チェックのバリデーションを検証する例である。エンティティバリデーションは他のカラム体系とは別の体系であり、\ ``title``\ ・\ ``expectedMessageId1``\ ・\ ``propertyName1``\ を使う。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
+必須入力チェックのバリデーションを検証する例である。エンティティバリデーションは他のカラム体系とは別の体系であり、\ ``title``\ ・\ ``expectedMessageId1``\ ・\ ``propertyName1``\ を使う。テストショット一覧と対にして、予約\ ID\ ``params``\ の\ ``LIST_MAP``\ に入力パラメータを記述する。\ ``params``\ の行はテストショット一覧の行と同じ順に対応させ、行数を一致させる。\ Excel\ 形式・\ YAML\ 形式のそれぞれについて示す。
 
 Excel形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-テストショット一覧の例を示す。
+テストショット一覧と入力パラメータの例を示す。入力パラメータの\ ``userName``\ を空欄にすることで、必須入力チェックのエラーを発生させている。
 
 .. list-table::
   :class: white-space-normal
@@ -676,9 +676,24 @@ Excel形式の場合
     - errors.required
     - userName
 
+.. list-table::
+  :class: white-space-normal
+  :header-rows: 0
+  :widths: 34,33,33
+
+  * - LIST_MAP=params
+    -
+    -
+  * - userName
+    - password
+    -
+  * -
+    - password1
+    -
+
 YAML形式の場合
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-``list_maps:``\ の ``id: testShots``\ のエントリに記述する。
+``list_maps:``\ の ``id: testShots``\ と ``id: params``\ のエントリに記述する。
 
 .. code-block:: yaml
 
@@ -688,6 +703,10 @@ YAML形式の場合
         - title: "必須チェック"
           expectedMessageId1: "errors.required"
           propertyName1: "userName"
+    - id: params
+      rows:
+        - userName: ""
+          password: "password1"
 
 .. _testdata_examples-list_map:
 
