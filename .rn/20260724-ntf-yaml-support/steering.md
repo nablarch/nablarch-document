@@ -2344,6 +2344,49 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 **結果**: 162 KB・687 行 → 41 KB・332 行。共通 11.5 KB → 5 KB。レビューポイント 195 件（うち「実装と合っているか」37 件）は全件落とし、判断で変えたこと約 70 行＋食い違い約 33 行に置き換えた。`#83` の「軽微 5 件はレビュアーの判断に委ねる（レビューポイントに出してある）」は本タスクでガイドから消えた。5 件は `#83` の本節に残っており、レビュアーには渡さない（user 判断「細かいことは不要」）。**レビューは回さない**（`#82` と同じ。user が全文を見る）。`#82` の版は本コミットの親で参照できる。
 
 
+### #85: 模擬レビュー 1 周目（サブエージェント opus 4 本が `review-guide.md` に従って刷新版をレビュー。user 提案 2026-09-03） — 回収・トリアージ済み。是正は user 判断待ち
+
+**やり方**: 指示書（ディレクター作業フォルダ `指示/模擬レビュー指示書.md`）で「初見の利用者として読む・実装は開かない・ガイドの指示どおりに進める」を課し、TL 役（全体 6 問＋入口・第1部）／アーキテクト役（第2部 16）／プログラマ役（第3部 16）／ツール利用者役（第4部 4）の 4 本に分担。出力 4 本はディレクター作業フォルダ `review-guide-notes/mock-review-r1/` に保全。ディレクターが指摘を実物（rst・`.puml`・FW 解説書・`nablarch-testing` ソース）で裏取りした。
+
+**件数（1 周目）**: 本文の欠陥 13（うち実物で確認済み 11・実装確認が要るもの 2）／user 判断 4／却下 3／ガイドの欠陥 6。
+
+**本文の欠陥（確認済み）**
+1. **図 9 枚が JUnit 4 の継承前提**。`implementation/request_unit_test/images/{web,rest,batch,mom}/request_test_components.puml`（「〜を継承」「継承する」）、`{web,batch,mom}/execute_sequence.puml`・`class_unit_test/images/component/{select,update}_sequence.puml`（「テストクラス（スーパクラス）」「テスティングフレームワーク（スーパクラス）」）。`#55` の JUnit 5 化が図に及んでいない。本文 `setup/standard_usage.rst:14`「継承しない」と同一ページ内で矛盾。
+2. **MOM のリクエスト単体テストの設定にループ制御ハンドラの置き換えが無い**。FW 解説書 `messaging/mom/architecture.rst:95,180,315` のハンドラ構成に `request_thread_loop_handler` が含まれる。`setup/request_unit_test/batch.rst:19` は db_queue だけを名指し。`#82` のレビューポイントに出ていたが `#84` で落ちた。
+3. **記載例の期待ログのカラム名が `message`**（`implementation/testdata_examples.rst:134-136`）。実装 `LogVerifier.java:39-46` の必須キーは `logLevel`・`message1`。記法ページ `testdata_notation.rst:546` は正しい。
+4. **`setup/junit4.rst:59` の読み替え規則に `baseUri` が無い**（`grep baseUri` は `standard_usage.rst` のみ）。ウェブの例 `implementation/request_unit_test/web.rst:81` を JUnit 4 に落とせない。
+5. `setup/request_unit_test/web.rst:125`「`xmlComponentFile` は通常設定不要」と記述例 `:157` が設定している。
+6. `implementation/class_unit_test/component.rst:153` の `assertSqlResultSetEquals` 第3引数 `"expected"` の書き方（`LIST_MAP`）がページに無い（`:215` は `setThreadContextValues` の話）。
+7. エンティティ単体テストの文字種・文字列長／setter・getter のテストデータ例が記載例に無い（`entity.rst:548` は記載例へ誘導。記載例の entity 関連は `:656` バリデーションのみ）。
+8. `tools/testdata_converter.rst` から `setup/testdata.rst` の YAML 切り替え設定への導線が無い（`grep testdata_setting` 0 件）。
+9. `tools/request_data_tool.rst:26-33` の前提事項に Windows 限定（`httpDump.bat` のみ）が無い。
+10. 部トビラ `setup/index.rst`・`implementation/index.rst`・`tools/index.rst` が toctree だけで本文なし。`index.rst:5`「4つのページで構成する」。
+11. `setup/testdata.rst:45,105` の `ref="dbInfo"` と `fixed_time_and_id.rst:61` の `ref="dbTransactionManager"` が何者か第2部に無い（`dbInfo`・`testDataParser` は `nablarch-testing-default-configuration` の `test-data.xml` が定義。`introduction.rst:53` の骨組みで import 済み）。
+
+**本文の欠陥（実装確認が要る）**
+12. 同期応答送信系 4 データタイプの Excel 例が先頭 `no`（`testdata_examples.rst:1962` ほか）、対の YAML 例が `record_type: default`。`testdata_notation.rst:1281` の規則では Excel 側のレコード種別は `no` になる。どちらが動くかを実装で確認。
+13. `setup/request_unit_test/http_messaging.rst:29` に `messageSender.DEFAULT.…` のフォールバックが無い（MOM 側 `mom.rst:48` にはある）。HTTP 側も同じ挙動かを実装で確認。
+
+**user 判断（1 件ずつ聞く）**
+- (a) `about/index.rst:80` 取引単体テストの実行方法が 3 方式だけ（HTTP メッセージング・MOM・db_queue は手動か自動か不明）
+- (b) 記載例ページの目次 111 項目中 68 が「Excel形式の場合／YAML形式の場合」で目次から例に飛べない
+- (c) v6 の注意 4 件（`expectedMessage`/`responseMessage` 空欄で失敗、`expectedLog` のグループ ID が 0 行で例外、`description` がファイル名になる文字制限、`forwardUri` にシステムエラー画面）を「正しく書こうとしても踏む」として戻すか
+- (d) `:download:` 10 本を落とした代替（サンプル一式の入手先）が解説書に無い
+
+**却下**
+- 「Excel シートを再現した 10 表は横スクロールのまま」に該当が無い → `#65` で headless Chrome 実測（`white-space-normal` があっても識別子幅で 10 表がスクロール）。指摘の根拠（クラス有無）が誤り
+- 「実行速度を上げる…Eclipse の手順が残っている」 → 残っているのは `-Dnablarch.test.skip-resource-copy` の節（`web.rst:190-209`）で、落としたのは `-Xverify:none` 系。ガイドの文面は `#86` で明確化
+- `resolveTestRules()` が未リリース版前提 → 既決（junit5 PR #12 とリリースを揃える。§Rules「整合したら一斉にマージ」）
+
+**ガイドの欠陥（`#86` で是正）**
+- 「実装との食い違いを直した: 項目名」の行は、4 本中 3 本が「判断に使えない」→ 落とす（推奨）
+- 「38 ページ」→「38 ページ（部の目次 3 ページを除く）」
+- 「JVM オプション・Eclipse の手順を落とした」→「`-Xverify:none` 系の JVM オプションの小節を落とした」
+- 分担を処理方式単位（第2部の設定＋第3部の実装を同じ人）にする。6 問の担当を明記
+- 図は横断枠（「ページ別には書いていない」）から外す（図の内容はページ固有）
+- HTML の節と PR の行の対応 → 配布方法の決定と一体（`#82` 未決 (1)）
+
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
@@ -2353,5 +2396,5 @@ so only a genuinely suspended session reads `paused`.)
 - **Status**: paused
 - **Date**: 2026-09-03
 - **Last completed**: `#84` `review-guide.md` を「判断で変えたこと＋理由」だけに書き直し、162 KB → 41 KB（直接コミット、2026-09-03。user レビュー待ち）。その前は `#83` 本文の欠陥 4 件の是正。その前は `#82` レビュアー向け申し送り `review-guide.md` を作成し `review-map.md` を置換（直接コミット、2026-09-03）。その前は `#81` 対照表 `review-map.md`（user 却下）。その前は `#80` 記法ページの default グループIDの適用範囲と `TEST_` 型登録の参照先を是正（直接コミット、2026-09-03）。その前は `#79` 業務サンプルの `:ref:` を `#77` で消えたラベルから新ラベルへ付け替え（直接コミット、2026-09-03）。その前は `#78` 制御ヘッダの設定を HTTP 本文＋MOM リンクに（直接コミット `726e21ff`）。その前は `#77` 導入と設定の再編（直接コミット `51e2f222`）。その前は `#76` junit4 の依存関係に junit-vintage-engine（直接コミット `8a81680d`）。その前は `#75` junit4 から合成アノテーションの対応表へ節単位でリンク（直接コミット `eb19038d`）。その前は `#74` TestRule の警告5項目を番号付き・太字の要点付きに（直接コミット `73571ae3`）。その前は `#73` TestRule の対応を見出し付きの表に（直接コミット `9cbe94b0`・`c64706f6`・`ffc77e81`）。その前は `#72` AbstractHttpRequestTestTemplate の tip を削除（直接コミット `6f8e7298`）。その前は `#71` SimpleRestTestSupport の tip を削除（直接コミット `8d63a11d`）。その前は `#70` シート名と ID の参照文を削除（直接コミット `0a8d6869`）。その前は `#69` インジェクション先の important を本文に畳む（直接コミット `087e495d`）。その前は `#68` JUnit 5 の機能概要の書き直し（直接コミット `38b6b181`。同コミットで `#67` の応答電文設定を HTTP メッセージングのページへ移動）。その前は `#67` 共通設定のレビュー6件（直接コミット `a4b13d2c`・`5eaba7b0`）。その前は `#66` テスト用のコンポーネント設定ファイルの説明からブランクプロジェクトへの依存を外す（直接コミット `97e8ca68`）。その前は `#65` 表のリテラル折り返し（直接コミット `860b3650`。残り 10 表の横スクロールは user 判断で許容）。その前は `#64` 第2部 10 ページの機能概要を読者価値の型に改める（ディレクター直接コミット `39efade8`）。その前は `#63` about のアーキテクチャ図の描き直し・図の拡大リンク・「稼動環境」の改題（ディレクター直接コミット `cf82375f`・`2c5559b2`）。その前は `#62` 共通設定に「テスト用のコンポーネント設定ファイルを用意する」を新設（ディレクター直接コミット `f8c0acf0`・`4f8069c7`）。その前は `#61` 「標準の使い方」を「JUnit 5で使用する」に改題（ディレクター直接コミット `32778384`）。その前は `#60` about の節順・JUnit 4 の括弧書き・クラス図の向き（ディレクター直接コミット `a01901ee`・`d3471663`）。その前は `#59` マスタデータ投入ツールを本文で案内せず gsp-dba-maven-plugin の推奨に戻す（ディレクター直接コミット `2b665792`）。その前は `#58` NTF の表 145 件に `white-space-normal`（ディレクター直接コミット `ae504738`）。その前は `#57` テスティングフレームワーク index の役割別導線（ディレクター直接コミット `98217fc6` 表 → `671959ab` 文章）。その前は `#56` 台帳の締め
-- **Next**: **user が `#84` で書き直した `review-guide.md` を確認する（共通 1 画面・ページ別 5 行以内で目的を達成できるか）。よければ、そのガイドを見ながら刷新版 38 本をレビューする（2026-09-03 user 判断「レビュアーの前に、まず私がガイド見ながらレビューします」）。質問が来たら実物で答え、直すものは直接コミット。ガイドの記述に誤りがあればガイドも直す。** チームレビュアーへの HTML 配布方法は user レビュー後に決める（`#82` 未決 (1)）。`#83` は 4 件とも是正済み。 （PR #728 の差分の件は 2026-09-03 に決着: ブランチは develop（`c2419060`）から分岐しているが PR が base=main で作られており、作成時の main（`eb1ea136`、2025-03）との差に develop 側の約100ファイルが映っていた。user 判断「base も マージ先も develop」により `gh pr edit --base develop` を実行。Files changed は 468＝NTF・`.rn/`＋`README.md`・`_static/custom.css`・`biz_samples/04/0401_ExtendedDataFormatter.rst`。） その後、user の刷新版38本全量読みレビューの続き（質問が来たら実物で答える）。`#29` の残り（「マージ直前にまとめて処置する」の台帳）は user のマージ判断まで着手しない（2026-09-03 に `.rn/` の整理を同台帳へ追加。残す6区分は user 判断済み）
+- **Next**: **`#85` 模擬レビュー 1 周目の結果を user に報告し、是正の可否を聞く（本文の欠陥 11 件をディレクター直接コミットで直すか。図 9 枚の描き直しを含む）。user 判断 (a)〜(d) は 1 件ずつ。是正後に `#86` でガイドを直し、2 周目を回す（件数が減らなくなったら止める）。** その後、user が `review-guide.md` を見ながら刷新版 38 本をレビューする（2026-09-03 user 判断「レビュアーの前に、まず私がガイド見ながらレビューします」）。質問が来たら実物で答え、直すものは直接コミット。ガイドの記述に誤りがあればガイドも直す。** チームレビュアーへの HTML 配布方法は user レビュー後に決める（`#82` 未決 (1)）。`#83` は 4 件とも是正済み。 （PR #728 の差分の件は 2026-09-03 に決着: ブランチは develop（`c2419060`）から分岐しているが PR が base=main で作られており、作成時の main（`eb1ea136`、2025-03）との差に develop 側の約100ファイルが映っていた。user 判断「base も マージ先も develop」により `gh pr edit --base develop` を実行。Files changed は 468＝NTF・`.rn/`＋`README.md`・`_static/custom.css`・`biz_samples/04/0401_ExtendedDataFormatter.rst`。） その後、user の刷新版38本全量読みレビューの続き（質問が来たら実物で答える）。`#29` の残り（「マージ直前にまとめて処置する」の台帳）は user のマージ判断まで着手しない（2026-09-03 に `.rn/` の整理を同台帳へ追加。残す6区分は user 判断済み）
 - **Notes**: ブランチ `ntf-yaml-support`、`origin` に push 済み。`#56` の実測は `checks/task-56.md`（§0 着手前検証・§3 完了条件）。モジュール側の一次記録の所在は台帳 `#52`〜`#54` の各「根拠」にある
