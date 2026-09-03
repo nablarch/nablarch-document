@@ -4,11 +4,11 @@
 
 ## 進め方
 
-- 読むものは刷新版の HTML 38 ページです（配布方法は別途連絡）。比較する相手は [v6 の公開解説書](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/index.html) で、各ページに元の v6 ページを書いてあります
+- 読むものは刷新版の HTML 38 ページです（部の目次 3 ページを除く。配布方法は別途連絡）。比較する相手は [v6 の公開解説書](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/index.html) で、各ページに元の v6 ページを書いてあります
 - まず「全体で判断してほしいこと」に答え、次に担当ページの申し送りを読み、変えた箇所を刷新版で開いて判断してください
 - 分担は、TL が全体と第1部、メンバーが担当領域です。第2部の設定と第3部の実装は処理方式ごとに対になっています
 - コメントは [PR #728](https://github.com/nablarch/nablarch-document/pull/728) のレビューコメントに、該当行へ付けてください。ページ全体への意見は「Files changed」のファイル先頭行へ
-- 用語の統一・JUnit 5 化・図の差し替え・表の折り返しなどの横断的な変更はページ別には書いていません。下の「全体で変えたこと」で 1 回だけ判断してください
+- 用語の統一・JUnit 5 化・表の折り返しなどの横断的な変更はページ別には書いていません。下の「全体で変えたこと」で 1 回だけ判断してください
 
 ## 全体で変えたことと理由
 
@@ -128,7 +128,7 @@
 
 - 設定値の表のデフォルト値欄を、デフォルト設定を読み込んだ後の実効値に統一した
   - 上書きの要否が変わるため
-- v6 の「実行速度を上げる」の枠組みと JVM オプション・Eclipse の手順を落とした
+- v6 の「実行速度を上げる」の枠組みと、`-Xverify:none` などの JVM オプションの小節を落とした
   - フレームワークの設定ではないため
 - 実装との食い違いを直した: dumpVariableItem、jsTestResourceDir、htmlResourcesCharset、htmlCheckerConfig、httpServerFactory の登録
 
