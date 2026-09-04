@@ -172,7 +172,7 @@ BasicHttpRequestTestTemplateを使用する
 
 RegisterExtensionでExtensionクラスを適用する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Extensionクラスは、合成アノテーションを使わず、JUnit 5の\ ``RegisterExtension``\ で適用することもできる。ただし\ :java:extdoc:`BasicHttpRequestTestExtension <nablarch.test.junit5.extension.http.BasicHttpRequestTestExtension>`\ は、\ ``baseUri``\ を合成アノテーション\ :java:extdoc:`BasicHttpRequestTest <nablarch.test.junit5.extension.http.BasicHttpRequestTest>`\ から読み取るため、この方法では適用できない。
+Extensionクラスは、合成アノテーションを使わず、JUnit 5の\ ``RegisterExtension``\ で適用することもできる。``RegisterExtension``\ で適用できないExtensionクラスは、\ :java:extdoc:`BasicHttpRequestTestExtension <nablarch.test.junit5.extension.http.BasicHttpRequestTestExtension>`\ の1つだけである。このExtensionクラスは\ ``baseUri``\ を合成アノテーション\ :java:extdoc:`BasicHttpRequestTest <nablarch.test.junit5.extension.http.BasicHttpRequestTest>`\ から読み取るため、合成アノテーションでしか適用できない。
 
 .. code-block:: java
 
@@ -426,12 +426,12 @@ JUnit 4のTestRuleを再現する
 
 .. warning::
 
-  次の5つは、テストが失敗せず例外も出ないまま、\ ``TestRule``\ が期待どおりに動かない。
+  次の5つの場合、\ ``TestRule``\ はJUnit 4と同じようには動かない。再現の仕組みはこれを検知せず、例外も出さないため、動作の違いに気づきにくい。
 
-  #. **@BeforeEach・@AfterEach との順序** … \ ``TestRule``\ が包むのはテストメソッドの実行だけであり、\ ``@BeforeEach``\ ・\ ``@AfterEach``\ は含まれない。JUnit 4では\ ``@Before``\ ・\ ``@After``\ の外側にあったが、ここでは\ ``TestRule``\ の前処理が\ ``@BeforeEach``\ の後、後処理が\ ``@AfterEach``\ の前に実行される。
+  #. **@BeforeEach・@AfterEach との順序** … \ ``TestRule``\ の前処理は\ ``@BeforeEach``\ の後、後処理は\ ``@AfterEach``\ の前に実行される（JUnit 4では\ ``@Before``\ ・\ ``@After``\ の外側だった）。\ ``TestRule``\ が包むのはテストメソッドの実行だけであり、\ ``@BeforeEach``\ ・\ ``@AfterEach``\ は含まれないためである。
   #. **@BeforeEach が失敗したとき** … \ ``TestRule``\ は前処理も後処理も実行されない。リソースの解放を\ ``TestRule``\ に任せていると、このときだけ解放漏れが起きる。
-  #. **Timeout と DbAccessTestExtension の併用** … \ ``Timeout``\ は\ :java:extdoc:`DbAccessTestExtension <nablarch.test.junit5.extension.db.DbAccessTestExtension>`\ と併用できない。\ ``Timeout``\ はテスト本体を別スレッドで実行するが、データベース接続とトランザクションは元のスレッドに束縛されているため、テスト本体からは取得できない。取得時の例外を捕捉していると、この状態でもテストは成功する。同じ理由で、\ ``@BeforeEach``\ などで\ ``ThreadLocal``\ に束縛した値もテスト本体からは見えない。
-  #. **@TestFactory が生成した DynamicTest** … \ ``TestRule``\ が適用されない。
+  #. **Timeout と DbAccessTestExtension の併用** … \ ``Timeout``\ と\ :java:extdoc:`DbAccessTestExtension <nablarch.test.junit5.extension.db.DbAccessTestExtension>`\ を併用すると、テスト本体でデータベースにアクセスできない。\ ``Timeout``\ はテスト本体を別スレッドで実行するが、データベース接続とトランザクションは元のスレッドに束縛されているため、テスト本体からは取得できない。取得時の例外を捕捉していると、この状態でもテストは成功する。同じ理由で、\ ``@BeforeEach``\ などで\ ``ThreadLocal``\ に束縛した値もテスト本体からは見えない。
+  #. **@TestFactory が生成した DynamicTest** … \ ``TestRule``\ が適用されないまま、テストが実行される。
   #. **@Nested を使うテストクラス** … 独自拡張クラスから取り出した\ ``TestRule``\ が正しく動作しない。Extensionのインスタンスが外側のクラスと入れ子のクラスとで共有され、\ ``support``\ フィールドが後から生成されたインスタンスで上書きされるためである。Extensionクラスを適用するテストクラスでは\ ``@Nested``\ を使用しない。
 
   なお、\ ``base.evaluate()``\ を呼ばない\ ``TestRule``\ （スキップ系）と、2回以上呼ぶ\ ``TestRule``\ （リトライ系）は使用できない。こちらはテストが例外で失敗するため気づける。
