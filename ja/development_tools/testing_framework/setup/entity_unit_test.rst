@@ -1,6 +1,6 @@
-.. _class_unit_test_setting:
+.. _entity_unit_test_setting:
 
-クラス単体テストの設定
+エンティティ単体テストの設定
 ==================================================
 
 .. contents:: 目次
@@ -9,7 +9,7 @@
 
 機能概要
 --------------------------------------------------
-クラス単体テストの設定は、エンティティ単体テストとコンポーネント単体テストに固有の設定である。エンティティ単体テストでは、文字種・文字列長のテストで期待するメッセージIDのデフォルト値など、プロジェクトの規約に合わせる項目を登録する。コンポーネント単体テストでデフォルト以外のトランザクションも使う場合は、そのトランザクションを環境設定ファイルに指定する。
+エンティティ単体テストの設定は、文字種・文字列長のテストで期待するメッセージIDのデフォルト値や、テスト用の入力値を生成するクラスなど、プロジェクトの規約に合わせる項目の登録である。
 
 使用方法
 --------------------------------------------------
@@ -103,13 +103,3 @@ Nablarch Validationを使用する場合、ここで指定するメッセージI
       <!-- 中略 -->
     </list>
   </property>
-
-.. _class_unit_test_setting-db_transaction:
-
-コンポーネント単体テストでデフォルト以外のトランザクションを使用する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-コンポーネント単体テストでは、テストメソッドの実行前後に、\ :java:extdoc:`DbAccessTestSupport <nablarch.test.core.db.DbAccessTestSupport>`\ がデフォルトのデータベーストランザクションを開始・終了する。これ以外のトランザクションも使用する場合は、テスト用のコンポーネント設定ファイルに\ :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>`\ を登録し、環境設定ファイルの\ ``dbAccessTest.dbTransactionName``\ にそのコンポーネント名を記述する。複数指定する場合はカンマで区切る。指定した名前のコンポーネントが登録されていない場合は、テストメソッドの実行前に例外が発生する。デフォルトのトランザクションは、この記述の有無にかかわらず開始される。この設定を読むのは\ :java:extdoc:`DbAccessTestSupport <nablarch.test.core.db.DbAccessTestSupport>`\ だけであり、リクエスト単体テストには影響しない。
-
-.. code-block:: properties
-
-  dbAccessTest.dbTransactionName=employeeTransaction,departmentTransaction

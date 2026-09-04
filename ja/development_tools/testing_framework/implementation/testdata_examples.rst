@@ -922,7 +922,7 @@ LIST_MAPのデータを記述する
     - x
     - x
 
-``address``\ の ``min``\ のように、値を記述しないカラムも空欄のまま用意する。省略した ``messageIdWhenEmptyInput``\ ・\ ``messageIdWhenInvalidLength``\ には、\ :ref:`クラス単体テストの設定 <class_unit_test_setting>`\ で設定したデフォルト値が使われる。
+``address``\ の ``min``\ のように、値を記述しないカラムも空欄のまま用意する。省略した ``messageIdWhenEmptyInput``\ ・\ ``messageIdWhenInvalidLength``\ には、\ :ref:`エンティティ単体テストの設定 <entity_unit_test_setting>`\ で設定したデフォルト値が使われる。
 
 .. rubric:: YAML形式の場合
 

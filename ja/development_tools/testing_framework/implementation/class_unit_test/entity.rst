@@ -72,12 +72,12 @@
 
 .. important::
 
-  どちらのバリデーション方式を使用するかは、\ ``validationTestStrategy``\ の設定で決まる（\ :ref:`クラス単体テストの設定 <class_unit_test_setting>`\ ）。設定した方式に対応しない\ ``testBeanValidation``\ または\ ``testValidateAndConvert``\ を呼び出すと、\ ``UnsupportedOperationException``\ が発生する。\ ``testConstructorAndGetter``\ にはこの検査が無く、\ ``Map``\ を引数にとるコンストラクタが無い場合はデフォルトコンストラクタが使用されるため、\ Bean Validation\ を設定したクラスに対して呼び出しても例外は発生しない。
+  どちらのバリデーション方式を使用するかは、\ ``validationTestStrategy``\ の設定で決まる（\ :ref:`エンティティ単体テストの設定 <entity_unit_test_setting>`\ ）。設定した方式に対応しない\ ``testBeanValidation``\ または\ ``testValidateAndConvert``\ を呼び出すと、\ ``UnsupportedOperationException``\ が発生する。\ ``testConstructorAndGetter``\ にはこの検査が無く、\ ``Map``\ を引数にとるコンストラクタが無い場合はデフォルトコンストラクタが使用されるため、\ Bean Validation\ を設定したクラスに対して呼び出しても例外は発生しない。
 
 使用方法
 --------------------------------------------------
 
-エンティティ単体テストは、テストクラスとテストデータを作成し、\ JUnit\ でテストを実行するという流れで進める。テストの実行に先立って、期待するメッセージ\ ID\ のデフォルト値と入力値を生成するクラスを\ :ref:`クラス単体テストの設定 <class_unit_test_setting>`\ に従って設定しておく。
+エンティティ単体テストは、テストクラスとテストデータを作成し、\ JUnit\ でテストを実行するという流れで進める。テストの実行に先立って、期待するメッセージ\ ID\ のデフォルト値と入力値を生成するクラスを\ :ref:`エンティティ単体テストの設定 <entity_unit_test_setting>`\ に従って設定しておく。
 
 テストクラスを作成する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -214,7 +214,7 @@ Bean Validation\ での記載例を次に示す。
   * - ``{nablarch.core.validation.ee.SystemChar.message}``
     - メッセージ\ ID\ としてメッセージを記載した場合
 
-``messageIdWhenInvalidLength``\ を省略した場合は、\ :ref:`クラス単体テストの設定 <class_unit_test_setting>`\ で設定したデフォルト値が使用される。どのデフォルト値が使用されるかは、\ ``max``\ 欄と\ ``min``\ 欄の記載によって次のように決まる。\ ``messageIdWhenEmptyInput``\ を省略した場合は、同じく設定した\ ``emptyInputMessageId``\ の値が使用される。
+``messageIdWhenInvalidLength``\ を省略した場合は、\ :ref:`エンティティ単体テストの設定 <entity_unit_test_setting>`\ で設定したデフォルト値が使用される。どのデフォルト値が使用されるかは、\ ``max``\ 欄と\ ``min``\ 欄の記載によって次のように決まる。\ ``messageIdWhenEmptyInput``\ を省略した場合は、同じく設定した\ ``emptyInputMessageId``\ の値が使用される。
 
 .. list-table::
   :class: white-space-normal
