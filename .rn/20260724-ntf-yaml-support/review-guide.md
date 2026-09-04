@@ -144,16 +144,26 @@
 - `SystemRepository` からシステム日時を取得する Java コード例を落とし、1文に置き換えた
   - 第2部は設定を書くページのため
 
-### クラス単体テストの設定（`setup/class_unit_test.rst`）
+### エンティティ単体テストの設定（`setup/entity_unit_test.rst`）
 
 **元の v6 ページ**
 - [Bean Validationに対応したForm/Entityのクラス単体テスト](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.html)
 - [Nablarch Validationに対応したForm/Entityのクラス単体テスト](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/02_entityUnitTestWithNablarchValidation.html)
-- [目的別API使用方法](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/03_Tips.html)
 
 **変えたことと理由**
 - Bean Validation 版8項目・Nablarch Validation 版6項目に分かれていた設定項目表を、8項目の表1つに統合した
   - ページによって理解が変わるため
+- 「クラス単体テストの設定」1ページだったものを、エンティティとコンポーネントの2ページに分けた
+  - 目次から内容に気づけるようにするため（第3部の実装ページと同じ分け方）
+
+### コンポーネント単体テストの設定（デフォルト以外のトランザクション）（`setup/component_unit_test.rst`）
+
+**元の v6 ページ**
+- [目的別API使用方法](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/03_Tips.html) の「デフォルト以外のトランザクションを使用したい」
+
+**変えたことと理由**
+- 「クラス単体テストの設定」から分けて、題に内容（デフォルト以外のトランザクション）を出した
+  - 目次から内容に気づけるようにするため
 
 ### リクエスト単体テストの設定（ウェブアプリケーション）（`setup/request_unit_test/web.rst`）
 
