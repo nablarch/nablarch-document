@@ -107,7 +107,7 @@ Nablarch Validationを使用する場合、ここで指定するメッセージI
 .. _class_unit_test_setting-db_transaction:
 
 コンポーネント単体テストでデフォルト以外のトランザクションを使用する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 コンポーネント単体テストでは、テストメソッドの実行前後に、\ :java:extdoc:`DbAccessTestSupport <nablarch.test.core.db.DbAccessTestSupport>`\ がデフォルトのデータベーストランザクションを開始・終了する。これ以外のトランザクションも使用する場合は、テスト用のコンポーネント設定ファイルに\ :java:extdoc:`SimpleDbTransactionManager <nablarch.core.db.transaction.SimpleDbTransactionManager>`\ を登録し、環境設定ファイルの\ ``dbAccessTest.dbTransactionName``\ にそのコンポーネント名を記述する。複数指定する場合はカンマで区切る。指定した名前のコンポーネントが登録されていない場合は、テストメソッドの実行前に例外が発生する。デフォルトのトランザクションは、この記述の有無にかかわらず開始される。この設定を読むのは\ :java:extdoc:`DbAccessTestSupport <nablarch.test.core.db.DbAccessTestSupport>`\ だけであり、リクエスト単体テストには影響しない。
 
 .. code-block:: properties
