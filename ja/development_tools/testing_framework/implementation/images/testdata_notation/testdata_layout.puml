@@ -30,7 +30,7 @@ rectangle "YAML 形式" as Y {
   YB --> YR
 }
 legend right
-  テストクラス = Excel: 1ファイル / YAML: 1ディレクトリ
-  読み込み単位 = Excel: 1シート / YAML: 1ファイル
+  データコンテナ = Excel: 1ファイル / YAML: 1ディレクトリ
+  データセクション = Excel: 1シート / YAML: 1ファイル
 endlegend
 @enduml

@@ -19,7 +19,7 @@ rectangle "YAML 形式" as Y {
 }
 legend right
   リクエストIDごとに1つ = Excel: ファイル / YAML: ディレクトリ
-  読み込み単位 = Excel: message シート / YAML: message.yaml
+  データセクション = Excel: message シート / YAML: message.yaml
   Excel 形式の拡張子は fileExtensions の設定による（xlsx または xls）
 endlegend
 @enduml
