@@ -89,7 +89,19 @@ Excel形式の場合
     </property>
   </component>
 
-特殊記法を解釈するクラス（Interpreter）は、importした\ ``nablarch/test/test-data.xml``\ が定義しているもののうち、\ ``nullInterpreter``\ ・\ ``quotationTrimmer``\ ・\ ``compositeInterpreter``\ の3つを指定する。
+\ :ref:`特殊記法 <testdata_notation-special_notation>`\ を解釈するクラス（Interpreter）は、\ :ref:`テスト用のコンポーネント設定ファイル <testing_framework_introduction-test_component_config>`\ がimportしているデフォルト設定\ ``nablarch/test/test-data.xml``\ に定義されているもののうち、次の3つを指定する。
+
+* ``nullInterpreter``
+
+  * ``null``\ と書いたセルを\ Java\ の\ null\ に変換する
+
+* ``quotationTrimmer``
+
+  * ダブルクォートで囲んだセルから、前後のダブルクォートを外す
+
+* ``compositeInterpreter``
+
+  * ``${文字種,文字数}``\ を、その文字種の文字列に変換する
 
 ``fileExtensions``\ の\ ``sendSyncTestData``\ には、実際に配置するテストデータのファイルの拡張子（\ ``xlsx``\ または\ ``xls``\ ）を指定する。指定した拡張子と一致しないファイルは読み込まれない。ベースディレクトリの配下には、リクエストIDごとに1つのファイルを置く。
 
@@ -123,7 +135,7 @@ YAML形式の場合
     </property>
   </component>
 
-``interpreters``\ に指定するのは\ ``compositeInterpreter``\ だけでよい。null・空文字・ダブルクォートは\ YAML\ の構文が担うため、\ Excel\ 形式で指定する\ ``nullInterpreter``\ ・\ ``quotationTrimmer``\ は指定しない。\ ``testDataReader``\ は指定しない。\ :java:extdoc:`YamlTestDataParser <nablarch.test.core.reader.YamlTestDataParser>`\ は\ YAML\ ファイルを直接読み込むため、この設定を使用しない。
+``interpreters``\ に指定するのは、\ ``${文字種,文字数}``\ をその文字種の文字列に変換する\ ``compositeInterpreter``\ だけでよい。null・空文字・ダブルクォートは\ YAML\ の構文が担うため、\ Excel\ 形式で指定する\ ``nullInterpreter``\ ・\ ``quotationTrimmer``\ は指定しない。\ ``testDataReader``\ は指定しない。\ :java:extdoc:`YamlTestDataParser <nablarch.test.core.reader.YamlTestDataParser>`\ は\ YAML\ ファイルを直接読み込むため、この設定を使用しない。
 
 .. important::
 
