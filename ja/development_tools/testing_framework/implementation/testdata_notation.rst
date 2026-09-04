@@ -425,7 +425,7 @@ testShots本体を記述する
 
 1つのキーに対して複数の値を送信したい場合は、値をカンマ区切りで記述する。値にカンマそのものを含めたい場合は\ ``\``\ でエスケープし、\ ``\``\ そのものを含めたい場合は\ ``\``\ 自身をエスケープして ``\\`` と記述する。
 
-``isValidToken``\ に\ ``true``\ を設定した場合にトークンが検証される点については、二重サブミット防止の説明を参照。\ ``expectedMessageByClient``\ ・\ ``responseMessageByClient``\ は、HTTPメッセージ送信を行う場合に使うカラムである。同一アクション内で\ MOM\ による同期応答メッセージ送信とHTTPメッセージ送信を同時に行う場合は、\ ``expectedMessage``\ ・\ ``responseMessage``\ に\ MOM\ 側のグループIDを、\ ``expectedMessageByClient``\ ・\ ``responseMessageByClient``\ に\ HTTP\ 側のグループIDを、それぞれ個別に指定する。
+``expectedMessageByClient``\ ・\ ``responseMessageByClient``\ は、HTTPメッセージ送信を行う場合に使うカラムである。同一アクション内で\ MOM\ による同期応答メッセージ送信とHTTPメッセージ送信を同時に行う場合は、\ ``expectedMessage``\ ・\ ``responseMessage``\ に\ MOM\ 側のグループIDを、\ ``expectedMessageByClient``\ ・\ ``responseMessageByClient``\ に\ HTTP\ 側のグループIDを、それぞれ個別に指定する。
 
 .. tip::
 
