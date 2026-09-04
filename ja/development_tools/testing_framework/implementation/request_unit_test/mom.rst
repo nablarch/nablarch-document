@@ -139,10 +139,6 @@ MOM\ によるメッセージングのリクエスト単体テストは、テス
 * :java:extdoc:`BatchRequestTestSupport <nablarch.test.core.batch.BatchRequestTestSupport>`\ ：\ Nablarch\ バッチアプリケーションのテストで使用する。
 * :java:extdoc:`BasicHttpRequestTestTemplate <nablarch.test.core.http.BasicHttpRequestTestTemplate>`\ ：ウェブアプリケーションのテストで使用する。
 
-.. tip::
-
-  JUnit 4\ でテストを書く場合は、インジェクションではなく継承でテスティングフレームワークの機能を使用する（\ :ref:`JUnit 4での使用 <junit4_support>`\ ）。
-
 .. _request_unit_test_mom-test_method:
 
 テストメソッドを作成する
