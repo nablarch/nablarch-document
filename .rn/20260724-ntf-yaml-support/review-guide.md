@@ -114,7 +114,7 @@
 - 第3部の JUnit 5 の例を継承方式に読み替える規則を置いた
   - JUnit 4 の既存資産があるプロジェクトが書き続けられるようにするため
 
-### テストデータの設定（`setup/testdata.rst`）
+### テストデータの設定（形式・配置・記述の省略）（`setup/testdata.rst`）
 
 **元の v6 ページ**
 - [目的別API使用方法](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/06_TestFWGuide/03_Tips.html)
