@@ -1,0 +1,25 @@
+@startuml
+!pragma layout smetana
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+title 同期応答メッセージ送信のテストデータの配置（Excel 形式と YAML 形式）
+rectangle "Excel 形式" as E {
+  folder "ベースディレクトリ\n（sendSyncTestData）" as EB
+  file "RM21AA0101.xlsx" as EF
+  card "message シート" as ES
+  EB --> EF
+  EF --> ES
+}
+rectangle "YAML 形式" as Y {
+  folder "ベースディレクトリ\n（sendSyncTestData）" as YB
+  folder "RM21AA0101/" as YD
+  file "message.yaml" as YF
+  YB --> YD
+  YD --> YF
+}
+legend right
+  リクエストIDごとに1つ = Excel: ファイル / YAML: ディレクトリ
+  データセクション = Excel: message シート / YAML: message.yaml
+  Excel 形式の拡張子は fileExtensions の設定による（xlsx または xls）
+endlegend
+@enduml

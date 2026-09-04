@@ -1,0 +1,197 @@
+.. _request_unit_test_batch:
+
+リクエスト単体テスト（Nablarchバッチアプリケーション）
+======================================================
+
+.. contents:: 目次
+  :depth: 3
+  :local:
+
+機能概要
+--------------------------------------------------
+
+Nablarch\ バッチアプリケーションのリクエスト単体テストでは、コマンドラインからバッチを起動したときの動作を擬似的に再現する。応答不要メッセージ送信のテストも、\ Nablarch\ バッチアプリケーションのテストとしてこのページの方法で行う。
+
+テスティングフレームワークは、テスト用のメインクラスからテスト対象のバッチを起動する。テストクラスにはテストを起動するコードだけを書き、実行するテストショット・準備データ・入力ファイル・期待値はテストデータに記述する。
+
+テストクラスは、\ ``BatchRequestTestSupport``\ をインジェクションして作成する。このサポートクラスがテストデータを読み取り、テストショットを1件ずつ実行する。テスト用のメインクラス\ ``MainForRequestTesting``\ を通じて\ Nablarch Application Framework\ が起動され、テスト対象のアプリケーションが実行される。準備データの投入とテスト結果の確認は、テーブルについては\ ``DbAccessTestSupport``\ が、ファイルについては\ ``FileSupport``\ が行う。
+
+.. image:: images/batch/request_test_components.png
+  :scale: 100
+
+.. tip::
+
+  \ ``FileSupport``\ が\ ``BatchRequestTestSupport``\ とは別のクラスとして提供されているのは、ファイルの操作が、ファイルダウンロードのテストなど\ Nablarch\ バッチアプリケーション以外のテストでも必要になるためである。
+
+応答不要メッセージ送信は、送信する電文のデータを保持するテーブル（以降、一時テーブルと呼ぶ）から送信対象のデータを取得して電文を送信する、\ Nablarch\ バッチアプリケーションである。この処理を行う\ Action\ クラスは\ Nablarch\ の一部として提供される（\ :ref:`応答不要でメッセージを送信する(応答不要メッセージ送信) <mom_system_messaging-async_message_send>`\ ）。このため、リクエスト単体テストではその\ Action\ クラスを使用して、次の成果物を確認する。
+
+* 電文のレイアウトを定義したフォーマット定義ファイル
+* 次の3種類のSQL文
+
+  * 一時テーブルからステータスが未送信のデータを取得するためのSELECT文
+  * 電文送信後に、該当データのステータスを処理済みに更新するためのUPDATE文
+  * 電文送信に失敗した場合に、該当データのステータスを送信失敗に更新するためのUPDATE文
+
+応答不要メッセージ送信では、他の処理のような\ Action\ クラスに対する条件網羅や限界値テストは実施しない。
+
+このページで扱う主なクラスとリソースを次に示す。
+
+.. list-table::
+  :class: white-space-normal
+  :header-rows: 1
+  :widths: 30,45,25
+
+  * - 名称
+    - 役割
+    - 作成単位
+  * - リクエスト単体テストクラス
+    - テストロジックを実装する。
+    - テスト対象クラス（Action）につき1つ作成する。
+  * - テストデータ
+    - テーブルに格納する準備データや期待値、入力ファイルなどを記載する。
+    - テストクラスにつき1つ作成する。
+  * - ``BatchRequestTestSupport``
+    - Nablarch\ バッチアプリケーションのリクエスト単体テストで必要となるテスト準備機能、各種アサートを提供する。
+    - －
+
+使用方法
+--------------------------------------------------
+
+Nablarch\ バッチアプリケーションのリクエスト単体テストは、テストクラスとテストデータを作成し、\ JUnit\ でテストを実行するという流れで進める。コンポーネント設定は\ :ref:`リクエスト単体テストの設定（Nablarchバッチアプリケーション） <request_unit_test_setting_batch>`\ に従ってあらかじめ済ませておく。
+
+テストクラスを作成する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+テストクラスは、次の条件を満たすように作成する。
+
+* パッケージは、テスト対象の\ Action\ クラスと同じとする。
+* クラス名は\ ``<Actionクラス名>RequestTest``\ とする。
+* :java:extdoc:`BatchRequestTest <nablarch.test.junit5.extension.batch.BatchRequestTest>`\ をテストクラスに設定し、\ :java:extdoc:`BatchRequestTestSupport <nablarch.test.core.batch.BatchRequestTestSupport>`\ 型のフィールドを宣言する。
+
+テスト対象の\ Action\ クラスが\ ``nablarch.sample.ss21AA.RM21AA001Action``\ の場合、テストクラスは次のようになる。
+
+.. code-block:: java
+
+  package nablarch.sample.ss21AA;
+
+  import nablarch.test.core.batch.BatchRequestTestSupport;
+  import nablarch.test.junit5.extension.batch.BatchRequestTest;
+
+  @BatchRequestTest
+  class RM21AA001ActionRequestTest {
+      BatchRequestTestSupport support;
+
+      // 中略
+  }
+
+応答不要メッセージ送信のテストクラスは、次の条件を満たすように作成する。テスト対象の\ Action\ クラスが\ Nablarch\ から提供されるため、パッケージとクラス名の決め方だけが異なる。
+
+* パッケージは、テスト対象機能のパッケージとする。
+* クラス名は\ ``<電文のリクエストID>RequestTest``\ とする。
+* :java:extdoc:`BatchRequestTest <nablarch.test.junit5.extension.batch.BatchRequestTest>`\ をテストクラスに設定し、\ :java:extdoc:`BatchRequestTestSupport <nablarch.test.core.batch.BatchRequestTestSupport>`\ 型のフィールドを宣言する。
+
+テスト対象機能のパッケージが\ ``nablarch.sample.ss21AA``\ 、電文のリクエスト\ ID\ が\ ``RM11AC0301``\ の場合、テストクラスは次のようになる。
+
+.. code-block:: java
+
+  package nablarch.sample.ss21AA;
+
+  import nablarch.test.core.batch.BatchRequestTestSupport;
+  import nablarch.test.junit5.extension.batch.BatchRequestTest;
+
+  @BatchRequestTest
+  class RM11AC0301RequestTest {
+      BatchRequestTestSupport support;
+
+      // 中略
+  }
+
+テストメソッドを作成する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1つのテストショットにつき1つのテストメソッドを作成することを原則とする。\ Nablarch\ バッチアプリケーションでは複数のレコードを一度に扱うため、テストデータが比較的多くなる。1つのテストメソッドに複数のテストショットを記述すると、1つのデータセクションに大量のテストデータを記述することになり、可読性・保守性が低下する。
+
+ただし、次のいずれかに当てはまる場合は、複数のテストショットを1つのテストメソッドにまとめて記述することを検討する。
+
+* テストショット間の関連が強く、データセクションを分けると可読性が下がる場合（例えば、入力ファイルのフォーマットチェックのテストショット）
+* テストデータが少量であり、1つのデータセクションに記述しても可読性・保守性に影響しない場合
+
+テストメソッドでは、サポートクラスの\ ``execute``\ を呼び出す。引数には、読み込むデータセクション名を渡す。
+
+.. code-block:: java
+
+  @Test
+  void testRegisterUser() {
+      support.execute("testRegisterUser");
+  }
+
+データセクション名は、テストメソッド名と同じにする。テストメソッドとテストデータの対応が読み取りやすくなるためである。別の名前を読み込む場合は、その名前を引数に渡す。
+
+.. code-block:: java
+
+  @Test
+  void testRegister() {
+      support.execute("testRegisterUser");   // データセクション testRegisterUser を読み込む
+  }
+
+テストデータを作成する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+テストデータの格納場所と記述方法は\ :ref:`テストデータの書き方 <testdata_notation>`\ に従う。実行するテストショットは\ :ref:`テストショット一覧（testShots）を記述する <testdata_notation-test_shots>`\ に、テストクラス全体で共通する準備データは\ :ref:`共通の準備データをまとめる <testdata_notation-setupdb>`\ に従って記述する。記述例は\ :ref:`テストデータの記載例 <testdata_examples>`\ を参照。
+
+応答不要メッセージ送信のテストデータは、同期応答メッセージ送信と同じ書式で記述する（\ :ref:`メッセージングのデータを記述する <testdata_notation-messaging_data>`\ ）。ここでは、応答不要メッセージ送信で記述方法が異なる箇所を説明する。
+
+応答不要メッセージ送信では応答電文が存在しないため、応答電文が期待値どおりであることを確認する必要がない。このため、次の記述は不要である。
+
+* テストショット一覧の\ ``responseMessage``
+* 応答電文のデータブロック（\ ``RESPONSE_HEADER_MESSAGES``\ ・\ ``RESPONSE_BODY_MESSAGES``\ ）
+
+正常系のテストでは、電文が想定どおりに送信されることと、一時テーブルの該当データのステータスが処理済みに更新されることを確認する。応答不要メッセージ送信の\ Action\ クラスは、起動パラメータとして電文のリクエスト\ ID\ を要求する。このため、テストショット一覧に\ ``messageRequestId``\ カラムを追加し、電文のリクエスト\ ID\ を値に記述する。テストショット一覧に追加した独自のカラムがコマンドラインオプションとして渡される仕組みは、\ :ref:`コマンドライン引数を指定する <testdata_notation-command_line>`\ を参照。送信される要求電文の期待値は、テストショット一覧の\ ``expectedMessage``\ にグループIDを記述して対応付ける。
+
+異常系のテストでは、電文の送信に失敗した場合に該当データのステータスを送信失敗に更新するUPDATE文を確認する。テストショット一覧に\ ``errorCase``\ カラムを追加し、\ ``true``\ を値に記述する。異常系では電文が送信されないため、要求電文の期待値を記述する必要はない。\ ``expectedStatusCode``\ には、異常終了したときの終了コードを記述する。
+
+.. important::
+
+  異常系のテストを行うには、応答不要メッセージ送信の共通\ Action\ クラスを、テスト用の\ Action\ クラスに切り替える。切り替えないまま\ ``errorCase``\ を記述しても、正常系として実行される。本番用のコンポーネント設定ファイルに、次のようなディスパッチハンドラの設定があるとする。
+
+  .. code-block:: xml
+
+    <!-- ディスパッチ用ハンドラ -->
+    <component name="requestPathJavaPackageMapping" class="nablarch.fw.handler.RequestPathJavaPackageMapping">
+      <!-- 応答不要メッセージ送信用の共通アクションを設定する -->
+      <property name="basePackage" value="nablarch.fw.messaging.action.AsyncMessageSendAction" />
+      <property name="immediate" value="false" />
+    </component>
+
+  テスト用のコンポーネント設定ファイルでは、本番用のコンポーネント設定ファイルを取り込んだうえで、同じコンポーネント名の定義を置いて上書きする。
+
+  .. code-block:: xml
+
+    <!-- ディスパッチ用ハンドラをテスト用のアクションに置き換える設定 -->
+    <component name="requestPathJavaPackageMapping" class="nablarch.fw.handler.RequestPathJavaPackageMapping">
+      <property name="basePackage" value="nablarch.test.core.messaging.AsyncMessageSendActionForUt" />
+      <property name="immediate" value="false" />
+    </component>
+
+テストを実行する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+通常の\ JUnit\ テストと同じように実行する。テストを実行すると、データセクションのテストショット一覧が読み込まれ、テストショットが上から順に実行される。1件のテストショットは、次の順で処理される。
+
+1. 入力データの準備（データベースへの準備データの投入、入力ファイルの作成、期待するログの登録、要求電文の期待値の登録）
+2. メインクラスの起動
+3. 出力結果の確認
+
+メインクラスには、テスト用の\ ``MainForRequestTesting``\ を使用する。このクラスは、テスト用のコンポーネント設定ファイルからシステムリポジトリを初期化し、テスト対象の実行後に元のリポジトリへ戻す。このメインクラスは、テスト対象のハンドラ構成によらず使用する。テスト対象のハンドラ構成にリクエストスレッド内ループ制御ハンドラが含まれる場合は、これに加えて、そのハンドラをテスト用のハンドラに置き換える必要がある（\ :ref:`リクエスト単体テストの設定（Nablarchバッチアプリケーション） <request_unit_test_setting_batch>`\ ）。
+
+.. image:: images/batch/execute_sequence.png
+  :scale: 100
+
+テスト結果を確認する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+テストショットごとに、ステータスコードの確認が行われる。テストショット一覧の\ ``expectedStatusCode``\ と、バッチの終了コードを照合する。\ ``expectedStatusCode``\ は必須カラムである。カラムを定義したうえで、期待する終了コードを必ず記述する。値を空にすると終了コードと一致せず、テストが失敗する。
+
+このほか、次の確認が行われる。いずれも、テストショット一覧の該当するカラムが空欄の場合は行われない。
+
+* データベースの更新内容の確認。テストショット一覧の\ ``expectedTable``\ に記述したグループIDの期待値と、テーブルの状態を照合する。
+* 出力ファイルの内容の確認。テストショット一覧の\ ``expectedFile``\ に記述したグループIDの期待値と、出力されたファイルの内容を照合する。
+* 要求電文の内容の確認。テストショット一覧の\ ``expectedMessage``\ に記述したグループIDの期待値と、送信された電文を照合する。
+* ログの出力内容の確認。テストショット一覧の\ ``expectedLog``\ に記述したグループIDの期待値と、出力されたログを照合する。
+
+各カラムの記述方法は\ :ref:`テストショット一覧（testShots）を記述する <testdata_notation-test_shots>`\ を、期待値のデータブロックの記述方法は\ :ref:`テストデータの書き方 <testdata_notation>`\ を参照。

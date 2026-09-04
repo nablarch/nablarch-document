@@ -1,0 +1,17 @@
+@startuml
+!pragma layout smetana
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+title リクエスト単体データ作成ツールの全体の流れ
+rectangle "リクエスト単体テストの実行" as RUN
+file "HTMLダンプ" as DUMP
+rectangle "リクエスト単体データ作成ツール" as TOOL
+rectangle "ブラウザ\n（画面に値を入力してサブミットする）" as BROWSER
+file "Excelファイル" as XLS
+file "リクエスト単体テストのテストデータ" as TD
+RUN --> DUMP : 生成する
+DUMP --> TOOL : 右クリックして起動する
+TOOL --> BROWSER : HTMLダンプを開く
+BROWSER --> XLS : ダウンロードする
+XLS --> TD : コピーする
+@enduml

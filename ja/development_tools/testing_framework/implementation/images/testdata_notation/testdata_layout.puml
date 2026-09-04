@@ -1,0 +1,36 @@
+@startuml
+!pragma layout smetana
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+title テストクラスとテストデータの対応（Excel 形式と YAML 形式）
+rectangle "Excel 形式" as E {
+  file "FooTest.java" as EJ
+  file "FooTest.xls" as EX
+  card "シート case01" as ES1
+  card "シート case02" as ES2
+  card "データブロック\n（データタイプ + 識別子の値）" as EB
+  card "レコード定義 / フィールド / データ" as ER
+  EJ .. EX : 同名で対応する
+  EX --> ES1
+  EX --> ES2
+  ES1 --> EB
+  EB --> ER
+}
+rectangle "YAML 形式" as Y {
+  file "FooTest.java" as YJ
+  folder "FooTest/" as YD
+  file "case01.yaml" as YS1
+  file "case02.yaml" as YS2
+  card "データブロック\n（データタイプ + 識別子の値）" as YB
+  card "レコード定義 / フィールド / データ" as YR
+  YJ .. YD : 同名で対応する
+  YD --> YS1
+  YD --> YS2
+  YS1 --> YB
+  YB --> YR
+}
+legend right
+  データコンテナ = Excel: 1ファイル / YAML: 1ディレクトリ
+  データセクション = Excel: 1シート / YAML: 1ファイル
+endlegend
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+!pragma layout smetana
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+title テスティングフレームワークのアーキテクチャ
+rectangle "テストクラス" as TC
+rectangle "テスティングフレームワーク\n（サポートクラス）" as FW
+file "テストデータ\n（Excel / YAML）" as TD
+database "データベース" as DB
+rectangle "Nablarch Application Framework\n（ハンドラキュー）" as NAF
+rectangle "テスト対象クラス" as TG
+file "コンポーネント設定ファイル\n（テスト用。本番用をimport）" as CONF
+TC -right-> FW : サポートクラスを\nインジェクションして使う
+FW -down-> TD : 準備データ・期待値を\n読み取る
+FW -down-> DB : 準備データを投入し、\n結果を期待値と照合する
+TC -down-> TG : 直接呼び出す\n（クラス単体テスト）
+FW -down-> NAF : リクエストを送信する\n（リクエスト単体テスト）
+NAF -down-> TG : ハンドラキューを通して\n呼び出す
+NAF -right-> CONF : 読み取る
+@enduml

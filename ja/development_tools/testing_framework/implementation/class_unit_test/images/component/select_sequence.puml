@@ -1,0 +1,20 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+skinparam sequenceMessageAlign left
+title 参照系のテストの手順
+participant "テストクラス" as TC
+participant "サポートクラス\n（DbAccessTestSupport）" as SUP
+participant "テストデータ" as TD
+participant "テスト対象クラス" as T
+database "データベース" as DB
+TC -> SUP : 準備データを登録する（setUpDb）
+SUP -> TD : 準備データを読み取る
+SUP -> DB : 準備データを登録する
+TC -> T : メソッドを起動する
+T -> DB : 検索する
+DB --> T : 検索結果
+T --> TC : 戻り値として検索結果を返す
+TC -> SUP : 期待した値であることを確認する\n（assertSqlResultSetEquals）
+SUP -> TD : 期待値を読み取る
+@enduml

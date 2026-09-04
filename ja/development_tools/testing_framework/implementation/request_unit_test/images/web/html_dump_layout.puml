@@ -1,0 +1,15 @@
+@startuml
+!pragma layout smetana
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+title HTMLダンプの出力先
+folder "ダンプディレクトリ" as D
+folder "テストクラス名" as C
+file "データセクション名_Shot番号_説明.html" as H
+file "HTMLリソース\n（スタイルシートや画像など）" as R
+folder "<ダンプディレクトリ名>_bk" as BK
+D --> C
+C --> H
+C --> R
+D ..> BK : 既に存在する場合はバックアップされる
+@enduml

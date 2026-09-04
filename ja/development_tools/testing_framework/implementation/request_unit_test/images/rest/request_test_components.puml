@@ -1,0 +1,24 @@
+@startuml
+!pragma layout smetana
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+title リクエスト単体テスト（RESTfulウェブサービス）の構成
+rectangle "テストクラス" as TC
+rectangle "SimpleRestTestSupport" as SRTS
+rectangle "RestTestSupport" as RTS
+rectangle "DbAccessTestSupport" as DATS
+rectangle "内蔵サーバ" as SV {
+  rectangle "Nablarch Application Framework" as NAF
+  rectangle "テスト対象のAction" as ACT
+}
+database "テーブル" as DB
+file "テストデータ\n（期待値）" as TD
+TC --> NAF : リクエストを送信する
+NAF --> ACT : 呼び出す
+ACT --> DB : 参照・更新する
+DB --> TD : 照合する
+RTS --> SRTS : 継承する
+RTS --> DATS : 保持する
+SRTS --> SV : 保持する
+note left of TC : RestTestSupport または\nSimpleRestTestSupport を\nインジェクションする
+@enduml

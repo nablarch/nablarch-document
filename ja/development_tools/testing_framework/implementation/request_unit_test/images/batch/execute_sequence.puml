@@ -1,0 +1,29 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+skinparam sequenceMessageAlign left
+title テストショット1件の処理の順
+participant "サポートクラス\n（BatchRequestTestSupport）" as SUP
+participant "テストデータ" as TD
+database "テーブル" as DB
+participant "テスト用のメインクラス\n（MainForRequestTesting）" as MAIN
+participant "テスト対象のバッチ" as APP
+group 入力データの準備
+  SUP -> TD : 準備データ・入力ファイル・期待値を読み取る
+  SUP -> DB : データベースへ準備データを投入する
+  SUP -> SUP : 入力ファイルを作成する
+  SUP -> SUP : 期待するログを登録する
+  SUP -> SUP : 要求電文の期待値を登録する
+end
+group メインクラスの起動
+  SUP -> MAIN : 起動する
+  MAIN -> APP : 実行する
+  APP --> MAIN
+  MAIN --> SUP : 終了コード
+end
+group 出力結果の確認
+  SUP -> SUP : ステータスコードを照合する
+  SUP -> DB : データベースの更新内容を照合する
+  SUP -> SUP : 出力ファイル・要求電文・ログを照合する
+end
+@enduml

@@ -1,0 +1,19 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+title マスタデータを復旧する流れ（テストメソッド1回分）
+start
+:コンポーネント設定ファイルから
+監視対象テーブル名一覧を取得する;
+:テストメソッドを実行する
+（SQLログを監視する）;
+if (監視対象テーブルを変更するSQL文が発行されたか) then (はい)
+  :変更があったテーブルの
+  レコードをすべて削除する;
+  :バックアップ用スキーマの同じテーブルから
+  レコードをすべて挿入する;
+else (いいえ)
+  :何もしない;
+endif
+stop
+@enduml

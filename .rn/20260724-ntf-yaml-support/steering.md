@@ -1,0 +1,2595 @@
+Rn version: 0.8.0
+
+# Goal
+
+`design.md` の章構成に従って、NTF（Nablarch Testing Framework）解説書を白紙から再構築する。
+
+# Acceptance criteria
+
+- **全量を失わない** — 現行解説書とinput資料の記載内容が、新構成のどこかに必ず存在する
+- **重複がない** — 同じ内容が複数箇所に存在しない。参照で解決する
+- **用語が統一されている** — 全ページで `glossary.md` に従った表記になっている
+- **トンマナが揃っている** — FW解説書のライブラリと記述の調子が一致する
+- **`make html` がエラー0で完了する**
+
+# Assumptions
+
+- 作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-rebuild-instruction.md`
+- `#5b`/`#5c`/`#5d` 作業指示: `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md`
+- `#5c` 追補（STEP 0）: `.rn/20260724-ntf-yaml-support/ntf-doc-05c-addendum.md`
+- `#5d` 追補（STEP 6〜8）: `.rn/20260724-ntf-yaml-support/ntf-doc-05d-addendum.md`
+- `#9` 差し戻し是正指示: `.rn/20260724-ntf-yaml-support/ntf-doc-09-fix.md`
+- `#9` 再構成指示: `.rn/20260724-ntf-yaml-support/ntf-doc-09-restructure.md`
+- `#10a` 用語統一・並び替え指示: `.rn/20260724-ntf-yaml-support/ntf-doc-terminology.md`
+- `#10a` 追補（`about/index.rst` の扱い）: `.rn/20260724-ntf-yaml-support/ntf-doc-terminology-addendum.md`
+- `#10a` 回答（`design.md:65` の是正・特殊記法セクションの導入文）: `.rn/20260724-ntf-yaml-support/ntf-doc-terminology-answer.md`
+- `#10b` 作業指示（`#10a` 承認後の仕上げ）: `.rn/20260724-ntf-yaml-support/ntf-doc-10a-followup.md`
+- `#11` 作業指示（共通設定）: `.rn/20260724-ntf-yaml-support/ntf-doc-11-common.md`
+- `#12` 作業指示（`:ref:` ラベル命名規則の確定）: `.rn/20260724-ntf-yaml-support/ntf-doc-12-ref-labels.md`
+- `#13` 作業指示（ページ作成の共通手順の定着）: `.rn/20260724-ntf-yaml-support/ntf-doc-13-standing-rules.md`
+- `#16` 作業指示（リード文の確定と `design.md` の3点追記）: `.rn/20260724-ntf-yaml-support/ntf-doc-16-lead-and-design.md`
+- `#22` 事前情報（取引単体テストの設定（RESTfulウェブサービス））: `.rn/20260724-ntf-yaml-support/ntf-doc-22-deal-unit-test-rest.md`
+- `#23` 作業指示（テーブルデータの0件の扱い。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-23-table-zero-rows.md`
+- `#24` 作業指示（唯一の指示書。ラウンド3 まで反映。旧 `ntf-doc-24-round2.md` を改名・上書き）: `.rn/20260724-ntf-yaml-support/ntf-doc-24.md`
+- `#32` 作業指示（`#31` の打ち切り、残TODOの整理、利用側ページの構成物記述の見直し。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-32.md`
+- `#32-是正` 作業指示（4観点レビューの有効な指摘11件の処置。user 判断5件の結論を含む。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-32-fix.md`
+- `#32-是正2` 作業指示（`#32-是正` が残した user 判断待ち6件の回答。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-32-fix2.md`
+- `#32-是正3` 作業指示（`#32-是正2` が残した user 判断待ち5件（A〜E）の回答。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-32-fix3.md`
+- `#35` 作業指示（`#32` の是正3 が残した記述の誤り4件の是正。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-35.md`
+- `#35-是正1` 作業指示（`#35` の Step 1 が上げた user 判断待ち2件の回答。§1 の差し替え文の逐語・§2 の「ファイル・メッセージ」の行の是正・§3 の完了条件2 の読み替え）: `.rn/20260724-ntf-yaml-support/ntf-doc-35-fix1.md`
+- `#35-是正1` 追補（`#35` の Step 1b が上げた user 判断待ち1件の回答。表の2行の逐語を確定し、是正1 の完了条件3・4 を差し替える）: `.rn/20260724-ntf-yaml-support/ntf-doc-35-fix1-addendum.md`
+- `#35-是正2` 作業指示（4観点レビューの A-1〜A-5 を全件成立と認め、`tools/testdata_converter.rst:71` と `implementation/testdata_notation.rst:1544`-`:1547` の逐語を再確定する。記録側の是正・差分限定レビューも同一コミット）: `.rn/20260724-ntf-yaml-support/ntf-doc-35-fix2.md`
+- `#35-是正3` 作業指示（**是正ラウンドの上限3回目**。差分限定レビューの `must` 2件を受け、`implementation/testdata_notation.rst:1545` を案B の逐語へ確定する。記録側の是正3件・申し送り1件・差分限定レビューも同一コミット）: `.rn/20260724-ntf-yaml-support/ntf-doc-35-fix3.md`
+- `#48` 作業指示（図の作成 PlantUML 21枚・既存画像の処置・README「図の作成方法」。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-48-figures.md`
+- `#55` 作業指示（JUnit 5 ベース化。フェーズ0 着手前検証つき。単独で完結）: `.rn/20260724-ntf-yaml-support/ntf-doc-55-junit5-base.md`
+- 章構成設計: `.rn/20260724-ntf-yaml-support/design.md`
+- 現行解説書（IN側）: `ja/development_tools/testing_framework/` 配下の全 `.rst`（develop ブランチ）
+- input資料（IN側）: `.rn/20260724-ntf-yaml-support/input/` 配下の全 `.md`（`design.md` を除く）
+- トンマナ基準: `ja/application_framework/application_framework/libraries/` 配下の `.rst`
+- 参照リポジトリ（実装で事実を確かめる先。すべて `/home/tie303177/work/nablarch/` 配下に clone 済み）。**「参照コミット」の側を根拠に使う。作業ツリーの HEAD は動くので、`git show <参照コミット>:<path>` で読む。** 実測欄は `git -C <repo> log -1 --format='%H %ad %s' --date=short` を 2026-08-16 に実行した値（`#28` §4-7）
+
+| リポジトリ | 参照コミット（本刷新が根拠に使う） | 実測 HEAD（2026-08-16） | 備考 |
+| --- | --- | --- | --- |
+| `nablarch-testing` | `e21bf67`（2024-09-27 `Merge remote-tracking branch 'origin/release-6u2'`） | `fdf55d4`（2026-08-05 `chore: jacoco.exec を .gitignore に追加`、ブランチ `convert-testdata-excel-to-text`） | **HEAD は参照コミットと分岐している**（merge-base `6aa6989`、HEAD 側に14コミット・`e21bf67` 側に16コミット）。作業ツリーを直接 `grep` すると `e21bf67` と違う内容を読む |
+| `nablarch-testing-yaml` | `190cc9a`（2026-08-13 `revert: rows: [] の列名 DbInfo フォールバックを差し戻す`） | `e69b69f`（2026-08-14 `docs(steering): #14 Acceptance criteria 実行結果を記録`、ブランチ `feature/ntf-yaml`） | `190cc9a` は HEAD の祖先（12コミット前進）。`#26` までのページはすべて `190cc9a` で検証済み |
+| `nablarch-testing-converter` | `45194f9`（2026-08-14 `docs(coverage): レビュー指摘を台帳へ反映し、実測と食い違う数値を直す`、ブランチ `ntf-test-data-converter`） | 同左（`45194f9`） | `#27-03` 執筆中に `e80a4dd`→`2f21bce`→`45194f9` と動いた。ここでピンする |
+| `nablarch-testing-converter`（`#32` のみ） | `e977824`（`#32` の作業指示 `ntf-doc-32-fix2.md` §5-1 が参照コミットとして指定。上のピン `45194f9` の131コミット後。実測: `git rev-list --count 45194f9..e977824` → `131`、2026-08-21） | — | **上のピンを書き換えるものではない。** `#32` が根拠に使う逐語だけがこのコミットで成立する（`#33` (a) の `XlsFormatReader.java:558-560` を含む）。他タスクの根拠は `45194f9` のまま |
+| `nablarch-testing-rest` | `9ada31e`（2026-06-25 `chore: suspend session — fix-testdataparser-usage`、ブランチ `fix-testdataparser-usage`） | 同左（`9ada31e`） | 動きなし |
+
+# Rules
+
+- commit and push every change; one completion marker per task
+- 日本語で記述する
+- マッピングが唯一の基準。マッピングにない内容を追加しない。マッピングにある内容を落とさない
+- user review の承認を受けるまで次タスクに着手しない
+- CSVのレコード数は `csv.DictReader` でカウントする。`wc -l` は使わない
+- レビューを依頼するサブエージェントのプロンプトには、必ず次の3点を入れる。#3 ラウンド1で実際に欠陥を掘り当てたのはこの3点である
+  - **実測コマンドで裏付けよ。推測で書くな**（指摘は実行したコマンドまたは実ファイルの引用で裏付ける）
+  - **成果物に付属する検証スクリプトを正解として使わず、独立に組め**（`verify_glossary.py` 等を信頼すると同じ穴を素通りする）
+  - **敵対的にレビューせよ**（欠陥は存在するという前提で、境界・抜け道・見落としを探す）
+- レビューは4観点を**それぞれ別のサブエージェント**で回す（QA / 設計 / クラフト / 検証）。各観点に成果物・目的・完了条件・チェックリストだけを渡し、self-check ファイルや他観点の判定は渡さない
+- **ビルド確認は自分でDockerを使って行う。**`make html`の確認をユーザーに丸投げしない。ローカルvenv（`/home/tie303177/venv`）が`requirements.txt`のピン留め版と非互換（Python 3.12・`javasphinx`未対応）であることは、Docker実行を省略してよい理由にはならない。README「環境構築」＞「Docker」の手順（`docker build -t nablarch-document-build .`、`docker run --rm -v <repo>:/root/document nablarch-document-build /bin/bash -c "cd /root/document; sphinx-build -d _build/.doctrees/ja -b html ja _build/html"`）に従い、コンテナ内で実行する。2026-08-03、同一の確認を2回ユーザー自身にやらせてしまい指摘を受けた。**ビルドの直後に必ず `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行して戻す。復元処理をビルドコマンドに連結する場合は、作業ディレクトリに依存しない絶対パスで `git -C <repo> checkout -- locales/ja/LC_MESSAGES/sphinx.mo` と書く（2026-08-14 の `#25` user review による）。** このファイルはDockerフルビルドのたびに再生成され（`.gitignore` に `locales` の記載は0件）、放置すると作業対象外の副産物がコミットに混入する。2026-08-07・08-12・08-13 の3回混入し、`73e84dc`・`f6947b2`・`c0381ed` でいずれも戻している。混入を後から見つけて戻すのではなく、再生成された時点で戻す（2026-08-13 の作業指示による）。**`locales/` を `.gitignore` に加えてはならない。** リポジトリが追跡している成果物であり、追跡から外すと他の作業者の更新が失われる
+- **日本語の地の文（段落）は、途中で改行しない。1段落は1行で書く（文の区切りであっても改行しない）。** RSTの段落はソース上の改行をHTML出力時にも生の`\n`として残し、ブラウザは`white-space: normal`のもとでこれを半角スペース1個として描画するため、ソースを折り返すと本文に不要な隙間が入る（2026-08-03、`testing_framework/index.rst`で実測・`build succeeded`のHTMLソースで`\n`の残存を確認して特定）。`about/index.rst`にも同種の改行が複数箇所残っている（8〜9行目・12〜13行目等、`#8`のuser review未了分として要修正）。ページ作成・レビュー時は、段落内に改行がないか（空行を挟まず日本語の行が連続する箇所がないか）を確認する
+- **文章表現は、design.md等の内部設計文書の言い回しをそのまま使わない。既存の解説書（FW解説書ライブラリ等）に同種の表現があるか`grep`で確認してから書く。** design.mdは開発チーム内部の設計文書であり、その文体（例:「読者は2種類に分かれる」のように読者を外側から分析する言い回し）を利用者向けページにそのまま持ち込むと、実際の解説書のどこにも使われていない不自然な文になる（2026-08-03、`testing_framework/index.rst`で`grep -rn "対象読者|読者は"`が0件だったことで実際に確認）。design.mdの内容（意図・構造）を参照するのは良いが、文言をそのまま転記しない
+- **`=`のみで罫線を引く簡易tableのセル文字列を編集するときは、列位置を「表示幅」（全角文字は2、半角文字は1）で揃える。文字数（Pythonの`len()`等）で揃えない。** 見出し行の`=`の並びが表示幅基準の列境界を表しており、セル文字列の表示幅がずれると`sphinx-build`が`Malformed table`エラーを出す（2026-08-03、`about/index.rst`の表でセル文字列を短くした際に文字数基準で詰めて実際に発生・`unicodedata.east_asian_width`で是正）。編集後は必ずDockerビルドで確認する
+- **各ページのセクション・小見出しの並び順は、「元資料（現行解説書・input資料・マッピングの行順）の構成」ではなく「そのページに来た読者が最初に欲しい答えは何か」を起点に組み立て直す。** マッピングは「何を書くか（事実・表・図）」の典拠として使い、「どの順で書くか」はページごとに読者の問いから毎回考える。ただし第2部・第3部の大見出し順（機能概要→使用方法→拡張例等）は`style.md` S-02で既に確定・FW解説書で裏付け済みのテンプレートであり、これを崩す原則ではない。この原則が主に効くのは、テンプレートが無い第1部の節順（2026-08-05、design.md §2で「テストの種類」をアーキテクチャより前に並べ替えた判断が最初の適用例）と、各節内の小見出し・項目の並び順
+- **design.mdが特定のページを「〜の構成に倣う」と指定している場合、そのページを実際に開いて構成（見出しの分け方・`:ref:`の使い方・文の続け方）を確認してから設計する。「倣う」対象の話題や見出し名だけを真似て、実際のファイルを読まずに構成を推測しない。** `#8`のフィードバック2ラウンド目で、design.mdが「FW解説書の`Nablarchアプリケーションフレームワークとは`の構成に倣う」と明記していたにもかかわらず、実際に`nablarch/big_picture.rst`を読まないまま「全体像」「特徴」を別見出しに分け`:ref:`で行き来させる独自構成を作ってしまい、ユーザー指摘で発覚した（2026-08-05）。実際のファイルは「全体像」と「特長」を1つの節にまとめ、「Xができる」という提示に具体的なメリットを同じ場所で続ける一体の構成だった。「倣う」という指示がある箇所では、着手前に必ず参照先ファイルを`Read`する
+- **複数点のフィードバックに対応するときは、各指摘を個別に直す対症療法で終えず、直した結果のページを上から通しで読み直し、指摘されていない箇所も含めて整合性（前後の重複、矛盾、行き来するだけのリンク、浮いた記述）を確認してから報告する。** `#8`のフィードバック1ラウンド目は、6点の指摘それぞれには機械的に対応したが、その結果生じた新たな不整合（「特徴」から直前に読んだばかりの「全体像」へ戻る`:ref:`等）に気づかず、2ラウンド目で「品質が低すぎて指摘だらけ、なぜ？」という指摘を受けた（2026-08-05）。個別修正がすべて完了した後、必ず通し読みの確認ステップを独立して行う
+- **タスクが完全に閉じたら（全Steps完了・レビュー通過・user review承認済み）、次のタスクに進む前にそのタスクのエントリを圧縮する。** 見出しに`— DONE`を付し、Steps・差し戻し経緯・narrativeを削り、Purpose（1行）とCompletion criteriaのみ残して`checks/task-XX.md`と最終コミットへのポインタを添える。rnプラグイン自身の設計方針（`steering.md`は「lean forward contract」であり、履歴はgit + PRに置きsteering.mdには残さない）に基づく。#8以降34ページのページ作成タスクで積み上がるのを防ぐため、圧縮を都度行い最後にまとめてやらない（2026-08-05、`#1`〜`#7`をこの方針で圧縮・steering.mdを720行→約260行に縮小）
+- **1件のフィードバック対応につき、詳細な理由づけを書く場所を1箇所に決め、他の場所は1〜2行のポインタにとどめる。** 設計判断そのもの（何を・なぜ）は`design.md`の該当節にのみ書く。レビュー監査の記録（指摘→対応の対応表）は`reviews/page-*.md`にのみ書く。`steering.md`のStepsには「Nラウンド目、M点対応。一言の要約。詳細はdesign.md§X・reviews/page-Y.md参照。commit `<hash>`」程度の1〜2行のみ記載し、同じ理由づけを全文で書き直さない。2026-08-05、`#8`のフィードバック対応が5ラウンド積み重なった結果、同じ内容を`design.md`・`reviews/page-about_index.md`・`steering.md`の3箇所にほぼ全文で重複記載してしまい、ユーザーから「文量が大量なんだけど、こんなに必要なの？」と指摘を受けたことによる（Steps 16件・約165行を1〜2行×16件に圧縮）
+- **ページのタスクが`user review`承認で閉じたら、`design.md`の該当節も同様に圧縮する。** 各ラウンドの元の指摘文の引用・差し戻し経緯は削り、最終決定と一言の理由、`reviews/page-*.md`へのポインタのみ残す。34ページ分を通しで行う設計文書のため、圧縮しないとページ数に比例して際限なく肥大化する
+- **`#27` のサブ項目（`#27-00`〜`#27-21`）はタスクではない。`#27` 全体が1タスクである。** サブ項目の境界で user review を待たず、次のサブ項目に着手する。上の「user review の承認を受けるまで次タスクに着手しない」はタスク単位の規則であり、サブ項目の境界には適用しない（`#27` の作業指示 `ntf-doc-weekend-queue.md` §1-1 による）。
+- **`.rn/` 内の文書どうしの相互参照は、行番号ではなく節見出し（`ファイル名` §番号「見出し」）で指す。`ja/` や他リポジトリの実物を出典として示す `file:line` は対象外で、そのまま使う。** 区別の基準は「指す先が `.rn/` 内の自分たちの文書か、実物か」。`mapping/glossary.md` §5.15 が既に採っている方式にそろえる。**同名の見出しがファイル内に複数あるときは、親の節番号を添えて特定する**（`checks/task-28.md` §7「他の担当への申し送り」。この見出しは同ファイルに3つあり（`## §2`・`## §6`・`## §7` の直下）、`### 7-3.` の兄弟であるため親を書かないと定まらない。同ファイル `:876` が以前から採っている書き方。2026-08-18 の `/rn:ty` で user が追認）。2026-08-18、`checks/task-last.md` §8 から `checks/task-28.md:519` を指していたところ、同じコミットで §7-3 の表が2行伸びたため参照先が別の行に変わり、誤った案内になった（user 差し戻し）。節見出しなら加筆で動かない
+- **`git checkout --` にディレクトリを渡さない。戻したいファイルだけを1つずつ指定する。**
+  そのパス配下の未コミットの変更が**すべて**消える。2026-08-26 に
+  `git checkout -- ja/development_tools/testing_framework/` を実行し、直前に完了していた
+  `TODO(NTF-MOD-*)` 2件の削除を、意図していた別作業のやり直しごと巻き戻した（`8ac6e2a` で是正）。
+  **やり直したい作業が複数ファイルに及ぶときは、先にその作業だけをコミットしてから
+  `git revert` するか、対象ファイルを列挙して `checkout` する。**
+- **コミットしたら、メッセージが述べた変更が実物に入っていることを確かめる。**
+  上の巻き戻しは、`f31870e` のメッセージが「削除した」と書きながら差分に含まれていない、という形で
+  現れた。**コミット直後に `git show --stat` と実物の `grep` で1度なぞる。**
+  メッセージを書いた時点の記憶を根拠にしない（`~/.claude/CLAUDE.md`「推測でなく事実で判断する」）
+- **見つけた欠陥は、そのタスクの中ですぐ直す。申し送り・先送り・別タスクへの起票をしない**（user 指示 2026-08-26）。よほど大幅な変更でない限り、範囲外を理由に残さない。**いまは解説書を SSoT にするため、解説書に関する残課題と作業を一掃するフェーズである。** `nablarch/CLAUDE.md` 4-1（タスク範囲外の欠陥はそのタスクで直さない）より、この指示が優先する
+- **変更したら push する**（user 指示 2026-08-26）。手元だけに置かない。下の「`main` へのマージは user の明示指示があるまで行わない」はマージの話であり、`ntf-yaml-support` への push はこの指示により行う
+- **今回の刷新とYAML対応はすべて PR 上で進める。整合したら一斉にマージし、そのあと他の修正も含めてリリースする。判断はすべて PR 上で行い、`main`・`develop` は対象外**（user 指示 2026-08-26）。**各モジュールの事実確認は PR ブランチを参照点にする。`main` を参照点にしない。** `ja/` の `TODO(NTF-MOD-*)` の解除条件も「マージされたら」ではなく「**モジュール側の PR で対応されたら**」とする。2026-08-26 時点の PR ブランチと先端は次のとおり。`nablarch-testing` = `convert-testdata-excel-to-text`（`3c4bd2a`）／`nablarch-testing-yaml` = `feature/ntf-yaml`（`0db2221`）／`nablarch-testing-converter` = `ntf-test-data-converter`（`60d9a2d`）／`nablarch-testing-junit5` = `worktree-fix-resolveTestRules`（`2ebea7e`）／`nablarch-testing-rest` = `fix-testdataparser-usage`（先端未確認）
+- **Step 4 では、リリース済みの3モジュールで `src/main` を変更しない**（user 判断 2026-08-26）。対象は `nablarch-testing`・`nablarch-testing-rest`・`nablarch-testing-junit5` の3つ。解説書と実装が食い違い、**解説書側が正しいと判断した場合も**実装を直しに行かず、根拠を添えて報告して止める。理由は、この3つが既にリリース済みであり、実装を動かすと利用者の後方互換が壊れること。**何を直すかは報告を受けた user が決める。** 全件突合（各指示書の §4-2）では `src/test` も変更しない（不一致が疑われる現行挙動を特性テストで固定すると、誤っている疑いのある挙動を正解として確定させることになる）。既に user が扱いを確定済みの項目（`nablarch-testing` の論点4 の特性テスト等）とカバレッジのテスト追加は対象外
+  - **未リリースの `nablarch-testing-yaml`・`nablarch-testing-converter` は禁止の対象外で、`src/main` を変更してよい。** 後方互換の対象になる利用者が存在しないため。線引きの根拠はタグの実測（2026-08-26、いずれも full clone）: `nablarch-testing` 17件・最新 `2.2.0`／`nablarch-testing-rest` 7件・最新 `2.0.0`／`nablarch-testing-junit5` 3件・最新 `2.1.0`／`nablarch-testing-yaml` **0件**／`nablarch-testing-converter` **0件**
+  - `nablarch-testing` の指示書 `ntf-step4-01-nablarch-testing.md` には反映済み（`87a21d6`）
+- **`main` へのマージは、user の明示指示があるまで行わない。`.rn/` をマージに含めるか外すかの判断も、その指示があるまで保留する。** 2026-08-18、`#last` クローズ後に `.rn/` の扱いを確認したところ、user から「指示するまでマージしない、`.rn/` もそれまでペンディング」との判断を受けた。ブランチ `ntf-yaml-support` は push 済みのまま保持し、マージ・rebase・`.rn/` の削除や `.gitignore` 追加を先回りして行わない。 **`.rn/` の扱いは 2026-09-03 に user 判断で決着: マージに含める。残すのは6区分（`design.md`・`steering.md`・`review-guide.md`（`#82` で `review-map.md` を置換）・`mapping/glossary.md`・`mapping/style.md`・`input/`）で、それ以外はマージ直前の1タスクで `git rm` する（§「#29」の「マージ直前にまとめて処置する」台帳に記載）。削除は台帳のタスクまで先回りしない。**
+
+# Tasks
+
+**（`#1`〜`#7` は完了済み。2026-08-05、`steering.md`肥大化対策として、Steps・差し戻し経緯などの詳細をgit履歴・`checks/`配下へのポインタに圧縮した。rnプラグイン自身の設計方針「steering.md is a lean forward contract — heavy content lives elsewhere...history live in git + PR, never in steering」に基づく。以降、タスクが閉じたら次のタスクに進む前に同様の圧縮を行う（本節末尾のRules参照）。）**
+
+### #1: 作業指示の受領とタスク詳細化 — DONE
+
+**Purpose**: 作業指示を受領し、steering.md を確定させる。
+
+**Completion criteria**:
+
+- Acceptance criteria に具体的な検証可能な条件が記載されている
+- Tasks にユーザー指示に対応したタスクが分解・記載されている
+
+**Closed**: commit & push 済み。詳細は git 履歴を参照。
+
+### #2: セクション抽出ツールの作成 — DONE
+
+**Purpose**: 現行解説書とinput資料の記載内容を、セクション単位で機械的に抽出する。
+
+**Completion criteria**:
+
+- `bash mapping/tools/build_mapping.sh` を2回実行して同一のCSVが生成される（md5一致）
+- 抽出対象ファイル数が実ファイル数と一致することを Evidence に記載
+- CSVのレコード数を **`csv.DictReader` でカウントした値** で Evidence に記載
+- 抽出したセクション数が、実ファイルから独立に数えた見出し数と一致することを Evidence に記載
+
+**Closed**: user review 承認済み。詳細は `checks/task-02.md` および git 履歴を参照。
+
+### #2a: セクション抽出の取りこぼし解消 — DONE
+
+**Purpose**: 見出し階層のどこにも属さない本文が発生しないよう抽出ルールを修正し、行の取りこぼしゼロを機械的に証明する。
+
+**Completion criteria**:
+
+- `lines` が当該セクションのカバー範囲そのものである（`body_end_line - body_start_line + 1 == lines`）
+- セクションのカバー範囲の和集合と全行集合の差が、見出し行を除いて非空行0件である
+- 見出し行以外に未カバー行が残る場合、その行と理由が `checks/task-02a.md` に全件列挙されている
+- 抽出対象ファイル数が RST 47・MD 10 であり、セクション0件のファイルが存在しない
+- `bash mapping/tools/build_mapping.sh` を2回実行して同一のCSVが生成される（md5一致）
+
+**Closed**: user review 承認済み。詳細は `checks/task-02a.md` および git 履歴を参照。
+
+### #3: 用語集の作成 — DONE
+
+**Purpose**: 全ページで統一する用語を確定する。ラウンド1〜3のレビューが収束せず、用語候補を機械抽出した母集合に再構成。その後のレビューで、用語集の役割を「ページ作成時に表記を揃えるための参照物」に縮小する方針転換があった（ユーザー判断。全量保証の基準は`#5`マッピングが担うため、そちらに力を配分）。
+
+**Completion criteria**:
+
+- 用語集の役割は「ページ作成時に表記を揃えるための参照物」であり、網羅性の証明は求めない
+- 掲載する用語は次の2種類に限定する
+  - 表記揺れが実在し正表記を確定した用語（複数の表記が現行解説書・input資料に存在するもの）
+  - `design.md` が章・セクション名として使う用語（処理方式の正式名称7件、テスト種別3件、ページアウトラインのセクション名）
+- 上記に該当しない候補は `term-candidates.csv` に残したまま一括で「今回は判定しない」と記録している（候補ごとの理由は不要）
+- 掲載した用語の揺れ表記に file:line の根拠がある
+- 「意味」欄に、用語集自身が定める旧表記（`バッチ処理`・`ブック` 等）が無変換で残っていない
+- 処理方式の名称が design.md の正式名称と一致している
+- FW解説書と異なる表記を採用した場合、理由が採用根拠に記載されている
+
+**Closed**: user review 承認済み。差し戻し経緯・指摘トリアージの詳細は `checks/task-03.md` および git 履歴を参照。
+
+### #4: トンマナ規約の作成 — DONE
+
+**Purpose**: `style.md` は「ページ作成時にCCが従う基準」である。FW解説書ライブラリの記述の調子を写し取れば足り、網羅性を追求する対象ではない（ユーザー判断）。観点は8つに限定: 文体／ページのセクション構成／セクションタイトルの形式／見出しのアンダーライン記法／コードブロックの記法／アドモニションの使い分け／表の記法／`:ref:`ラベルの命名規則。
+
+**Completion criteria**:
+
+- 上記8観点すべてに規約と根拠（FW解説書ライブラリの file:line、各2件以上）がある
+- design.md の第2部・第3部のページアウトラインと矛盾がない
+- 観点が8つ以外に増えていない
+
+**未決事項（#4のスコープ外）**: `glossary.md` §6・§11.2 の3項目（括弧の全角・半角、英数字と日本語の間の空白、送り仮名・漢字/かなの揺れ）は上記8観点に該当しないため扱わない。#8以降のページ作成で実際に必要になった場合、その都度FW解説書ライブラリの多数派表記に合わせて個別判断する。
+
+**Closed**: user review 承認済み。詳細は `checks/task-04.md` および git 履歴を参照。
+
+### #4a: 大きいセクションの分割判断 — DONE
+
+**Purpose**: マッピング作成の前に、複数の割当先に分かれるセクション（`lines >= 100`の23件）を特定し、分割位置を確定する。
+
+**Completion criteria**:
+
+- 対象23セクションすべてに `split` の判定と `rationale` がある
+- `split=yes` の全件について、`parts` の行範囲の和集合が元のセクションの `body_start_line`〜`body_end_line` と一致する（隙間・重複ゼロ）
+- `parts` の割当先が design.md の章構成に存在するページ・セクションである
+
+**Closed**: user review 承認済み。詳細は `checks/task-04a.md`・`mapping/split-plan.md` および git 履歴を参照。
+
+### #5: マッピングリストの作成 — DONE
+
+**Purpose**: 現行解説書とinput資料の全セクションを design.md の章構成に割り当てる。本作業の全工程で唯一の基準となる。2026-07-28、ユーザー差し戻し2回（DROP見直し13件の再検証・第4部新設に伴うdest_part付け替え44行・verify_mapping.pyのvocabulary突合バグ修正）と「導入」0件指摘への対応（15行の再判定）を経て確定。
+
+**Completion criteria**:
+
+- `mapping.csv` に `DROP` 行も含めて全セクションが残っている（追跡可能性のため削除しない）
+- `sections-current.csv` / `sections-input.csv` の全 `section_id` が `mapping.csv` の `src_section_id` に最低1回現れる
+- 各 `src_section_id` について、紐づく全マッピング行の `[src_body_start, src_body_end]` の和集合が、元のセクションの `[body_start_line, body_end_line]` と一致する（隙間・重複ゼロ）
+- `DROP` を除いた `lines` 合計が `volume.md` に記載されている
+- `disposition` / `audience` が空欄の行が0件、`DROP` の全行に `note` が記入されている
+- `dest_page` / `dest_section` に design.md に存在しないものが含まれていない
+- 検証は `mapping/tools/verify_mapping.py` で行い、コミットされている（手作業で確認しない）
+
+（注: 行数不変条件は#5確定当時591行・12,986・DROP除く11,973。`#5c`/`#5d`の是正を経て最終確定値は593行/12,986/11,983。最新値は`mapping.csv`・`volume.md`を参照）
+
+**Closed**: user review 承認済み。詳細は `checks/task-05.md` および git 履歴を参照。
+
+### #5b: 割当先0件問題の解消 — DONE
+
+**Purpose**: 「語彙が定義しているのに割当が0件」を機械検出できる状態にし、再判定で解消できるものを解消し、`#6` のユーザー判断が必要なものを調査報告として残す。詳細な仕様は `.rn/20260724-ntf-yaml-support/ntf-doc-05b-instruction.md`。
+
+**Completion criteria**:
+
+- `verify_mapping.py` に `check_unused_vocabulary` が実装され、コミットされている
+- `EXPECTED_ZERO` の全エントリに `design.md` の該当箇所の引用が理由として付いている
+- `PENDING_ZERO` の全エントリに `#6` のどの未確定事項に対応するかが書かれている
+- `check_unused_vocabulary` の ERROR が0件
+- `checks/task-05b.md` に、`dest_section` を変更した行と変更しなかった行の両方が根拠付きで列挙されている
+- `volume.md` に0行ページと `dest_section` 単位の集計が載っている
+- `design.md` が変更されていない
+
+**Closed**: user review 承認済み（独立検証。指摘2点は`#5d`の追加STEPとして反映）。詳細は `checks/task-05b.md` および git 履歴を参照（コミット `ca1e9cf`）。
+
+### #5c: `DROP` 全件レビュー — DONE
+
+**Purpose**: `design.md` §11.8「`DROP` は件数の多寡にかかわらず全件を対象とする」の未達分を解消する。初回レビューの分類基準の欠陥（判定保留の2行が根拠なく「レビュー済み」に分類）を差し戻しで是正。
+
+**Completion criteria**:
+
+- `DROP` 96行すべてが `checks/task-05c.md` の表に現れ、各行に確定した判定と根拠がある（保留のまま閉じた行がない）
+- 判定が覆った行（`input-0178`・`input-0198`）は `_batch/*.csv` を修正し、`verify_mapping.py` がエラー0件
+- `check_unused_vocabulary` に許可リストの陳腐化検出（`stale allowlist`）が実装され、コミットされている
+
+**Closed**: user review 承認済み（差し戻し対応後、独立検証APPROVE相当）。詳細は `checks/task-05c.md` および git 履歴を参照（コミット `109b736`）。
+
+### #5d: 記録の整合とセクション境界の是正 — DONE
+
+**Purpose**: `#5` までの成果物に残った記録上の不整合を解消し、`#5b` のレビューで検出したセクション境界の欠陥を是正する。既存の割当判断（dest_page / disposition / audience）は変更しない。
+
+**Completion criteria**:
+
+- `split-plan.md`・`checks/task-05.md`（暫定扱い一覧）が整合している
+- `check_reference_only_sections` / `check_intro_section_split` が `verify_mapping.py` に実装され、コミットされている
+- `check_intro_section_split` の ERROR が0件（是正2件: `current-0150`/`current-0269`）
+- `reference-only sections` の advisory 2件に `#6` への引き継ぎが記録されている
+- `[セクション境界]` note追記4件の判断理由が `checks/task-05d.md` に記録されている
+- 593行 / 12,986 / 11,983 が不変
+
+**Closed**: user review 承認済み（`/rn:ty`）。詳細は `checks/task-05d.md` および git 履歴を参照。
+
+### #6: 未確定事項の確定と design.md 更新 — DONE
+
+**Purpose**: 文量集計に基づいて design.md の未確定事項3件を確定する。承認後のフォローアップで小さな漏れ2件（`[セクション境界]` note未反映1件・self-check記述の実態不一致1件）に対応。
+
+**Completion criteria**:
+
+- design.md に未確定事項が残っていない
+- design.md の章構成と `mapping.csv` の `dest_page` の集合が一致する
+- `mapping.csv` の `note` が「暫定。」で始まる行がすべて解消されている
+- `mapping.csv` の `dest_page` に暫定語彙が1件も残っていない（機械検証）
+- `verify_mapping.py` の `PENDING_ZERO` が0件
+- `reference-only sections` の全件に判断が記録されている
+
+**Closed**: user review 承認済み（本体・フォローアップとも）。詳細は `checks/task-06.md`・`checks/task-06-followup.md` および git 履歴を参照。
+
+### #7: 現行NTF解説書の削除 — DONE
+
+**Purpose**: 白紙の状態を作る。
+
+**Completion criteria**:
+
+- `ja/development_tools/testing_framework/` 配下に `.rst` が存在しない
+- 削除前のファイル一覧が Evidence に記録されている
+- 画像・ダウンロード素材が保持されている
+
+**Closed**: user review 承認済み（本体・フォローアップとも。State欄2026-07-28時点の記録「#6本体・フォローアップ、#7本体・フォローアップとも承認済み」で確認。本タスクのuser reviewチェック行が未チェックのまま残っていたのを今回是正した）。フォローアップで外部被参照ラベル1件（`db_double_submit.rst`からの参照）を検出し、`#8〜`・`#last`にラベル再定義・解消確認のStepを追加済み。詳細は `checks/task-07.md` および git 履歴（`0cc47d3`）を参照。
+
+### #8: 第1部「テスティングフレームワークとは」の作成（`about/index.rst`）— DONE
+
+**Purpose**: マッピングに従って第1部（概念、1ページ）を作成する。design.md 11.5「最初の1ページで基準を作る」の対象タスク。
+
+**Completion criteria**:
+
+- `mapping.csv` の `dest_page=テスティングフレームワークとは` の全行（8行、複数回のフィードバック対応による
+  再割当を経て確定）が反映されている
+- 4観点のレビューがすべて実施・記録されている
+- 未対応の指摘が残っていない、または残す判断とその理由が記録されている
+- `make html` が `about/index.rst` についてエラーを出さない
+- `ja/development_tools/testing_framework/index.rst` から `about/index.rst` / `setup/index.rst` /
+  `implementation/index.rst` / `tools/index.rst` への toctree 導線がある
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-05）。フィードバック対応は本体レビュー3ラウンド＋ユーザー直接
+指摘6ラウンド超に及んだ。詳細（各ラウンドの指摘・判断理由・出典根拠）は `design.md`§2、`reviews/page-about_index.md`、
+`checks/task-08.md` および git 履歴（最終内容コミット `cb0d8d9`）を参照。
+2026-08-06、`/rn:gm`フィードバック（各ページ先頭への目次追加）を受け、`.. contents::` を追記（`style.md` S-09）。
+
+### #9〜: ページの作成（1ページにつき1タスク）
+
+**Purpose**: マッピングに従ってページを1つ作成する。
+
+**個別の作業指示を出す条件**: **個別の作業指示は、次のいずれかに当たるページにのみ出す。** それ以外のページは本節の共通 Steps に従って進める。(1) 出典が500 lines を超えるページ、(2) `design.md` の確定事項どうし、または `design.md` と `mapping.csv` が食い違うページ、(3) 出典が0行で、書く内容を設計から決める必要があるページ（導線のみの3ページなど）。
+
+**Prerequisites**: #8（以降は直前のページタスク）
+
+作成順: 第3部のテストデータ2ページ → 第2部 → 第3部の残り → 第4部
+
+タスク番号・ページIDは #8 完了後、ページごとに確定する。
+
+**前方参照によるスタブページ**: #8で`setup/junit5_extension.rst`・`tools/testdata_converter.rst`を見出しのみで作成し、`setup/index.rst`・`tools/index.rst`のtoctreeに追記済み（undefined label警告解消のため。2026-08-05）。該当ページのタスクが来たら、新規作成ではなく既存ファイルへの追記として扱う。同様に他ページからの前方参照でundefined label警告が出た場合も、対象ページの見出しのみのスタブを先行作成し対応するtoctreeに追記する運用とする（毎回の警告差分確認の手間を減らすため）。#9の作業で同じ理由により`implementation/testdata_examples.rst`（`#10`用）を見出しのみで先行作成し`implementation/index.rst`のtoctreeに追記済み。
+
+### #9: テストデータの書き方（`implementation/testdata_notation.rst`）— DONE
+
+**Purpose**: マッピングに従って「テストデータの書き方」（記法の仕様。どう書けばどう解釈されるか。design.md §4）を作成する。対象は `mapping.csv` の `dest_page=テストデータの書き方` の140行。
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-07）。差し戻し3回（`ntf-doc-09-fix.md` STEP1〜7 / `ntf-doc-09-restructure.md` STEP A〜G / `ntf-doc-09-recordtype.md`）とユーザー直接フィードバック多数を経て確定。承認時点で本文に `important` 2件（レコード種別の形式差・テーブルデータの行内カラム値未記載時の形式差）が入っており、作業指示の「追記1件のみ」に対し横並び確認で自発検出した1件を含む構成のまま承認された。詳細は `reviews/page-testdata_notation.md`（ラウンド1〜8）・`checks/task-09.md`・`checks/task-09-restructure.md`・`checks/task-09-recordtype.md` および git 履歴（最終内容コミット `73e84dc`）を参照。`#10` 以降への申し送り15件は `reviews/page-testdata_notation.md` 末尾。
+
+### #10: テストデータの記載例（`implementation/testdata_examples.rst`）— DONE
+
+**Purpose**: マッピングに従って「テストデータの記載例」（用途別の実例。design.md §4）を作成する。対象は `mapping.csv` の `dest_page=テストデータの記載例` の65行。機能概要・使用方法のいずれも持たない例外ページ。
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-07）。本体（4観点レビュー・`must` 7件/`should` 14件対応）＋`/rn:gm` 差し戻し2回で確定。1回目はセル格子への識別子行追加（`style.md` S-10 規約2 の差し替え、47表＋`#9` 2表）、2回目はセル値の描画忠実性（smartquotes 対策の4セル）と規約2 へのスコープ条件追記。詳細は `checks/task-10.md`・`checks/task-10-cellgrid.md`・`checks/task-10-quotes.md`、`reviews/page-testdata_examples.md`、作業指示 `ntf-doc-10-cellgrid.md`・`ntf-doc-10-quotes.md` および git 履歴（最終内容コミット `6ba0d2a`）を参照。`#11` 以降への申し送り13件は `reviews/page-testdata_examples.md` 末尾。
+
+**Steps（各ページ共通）**:
+
+- [ ] `mapping.csv` から当該 `dest_page` の行を抽出する
+- [ ] **ページ先頭ラベルは `style.md` S-08「NTF解説書のページ先頭ラベル一覧」から引く。新たに考案しない**（`#12` で34ページ分を確定済み。表に無いページが出た場合は勝手に命名せず `decide` としてユーザー判断に回す）
+- [ ] 抽出した行の出典（`src_file` の `src_body_start`〜`src_body_end`）を実際に読み、ページを作成する
+- [ ] **出典が述べている事実のうち、クラス名・プロパティ名・キー名・既定値・書式・桁数など実装で確かめられるものは、`nablarch/nablarch-testing`（YAML 側は `nablarch/nablarch-testing-yaml` の `feature/ntf-yaml`）を clone して実コードで確認してから書く。** 出典どうしが食い違う場合、および出典と実装が食い違う場合は**実装を優先**する（`design.md` §8）。確認した `file:line` と参照コミットを `reviews/page-*.md` に記録する
+- [ ] **第2部と第3部の記載範囲を守る**（`design.md` §3「記載範囲」）。第2部にはコンポーネント設定ファイル・環境設定ファイルの設定項目と記述例、拡張方法を置く。**テストソースコードの実装例とテストデータの記述例は第2部に置かず、第3部へ `:ref:` で導線を張る。** 出典に含まれていても同じ。内容を落とすのではなく、事実は地の文に残してコードブロックを置かない
+- [ ] マッピングにない内容を追加しない。マッピングにある内容を落とさない
+- [ ] 出典の文面をそのまま流用しない。`style.md` に従って書き直す
+- [ ] `design.md` 等の内部設計文書の言い回しをそのまま転記しない。既存の解説書に同種の表現があるか `grep` で確認してから書く（Rules参照）
+- [ ] 用語は `glossary.md` の正表記を使う
+- [ ] L2セクション（`-`の下線）を1つ以上持つページは、タイトル下線の直後に `.. contents:: 目次`（`:depth: 3` `:local:`）を置く。`toctree`のみのインデックスページには置かない（`style.md` S-09）
+- [ ] Excel形式/YAML形式の書き分けは `style.md` S-10 に従う（比較して伝える価値がある内容だけ共通の地の文・比較表にする／それ以外の「記述方法」の説明はExcel専用/YAML専用に分け、L3セクションにつき1組のL4見出し「Excel形式の場合」「YAML形式の場合」でまとめる／太字ラベルは見出しを追加できない場合の例外としてのみ使う／Excelのセル格子を表す表では識別子行・ディレクティブ行などシート上に実在する行をすべて表に含め、`:header-rows: 0` とする。識別子は普通の文字で書く）
+- [ ] 段落内で改行しない（1段落は1行で書く）。改行はHTML出力時に半角スペースとして残るため（Rules参照）
+- [ ] 当該 `dest_page` の行に `note` の `[セクション境界]` が含まれる場合、導入文と本体の接続をページ内で再構成する（出典の分断をそのまま持ち込まない）
+- [ ] 当該 `dest_page` に `reference-only sections`（`verify_mapping.py` の advisory）が該当する場合、`#6` で確定した方針に従う
+- [ ] 当該ページが、削除された現行解説書の外部被参照ラベルを引き継ぐ場合、
+      同名の `:ref:` ラベルを新ページに定義する（対象は `checks/task-07.md`
+      「リンク切れになる参照」の表を参照。現時点で1件、
+      `implementation/request_unit_test/web.rst` の
+      `how_to_set_token_in_request_unit_test`）
+- [ ] 4観点のレビューを、それぞれ**別のサブエージェント**で実施する（A:網羅性 / B:トンマナ / C:用語 / D:整合性）
+  - **プロンプトは Rules「レビューを依頼するサブエージェント…」の3点を必ず含める**
+  - この4観点はページ内容の観点であり、Rules の4観点（QA / 設計 / クラフト / 検証）とは別軸である。ページ作成タスクでは**本欄のA〜Dを用いる**（A:網羅性がQAを、B:トンマナがクラフトを、C:用語とD:整合性が検証を兼ねる）
+- [ ] 指摘への対応を行う（最大3ラウンド）
+- [ ] **是正ラウンド2以降は、是正差分に限定した検証観点のみを回す。** ラウンド1で4観点（A:網羅性 / B:トンマナ / C:用語 / D:整合性）を回し、ラウンド2以降は「是正が指示範囲に収まっているか」「是正が新しい欠陥を生んでいないか」だけを見る。**各ラウンドの指摘件数と観点を `reviews/page-*.md` に記録する**（効果測定のため）
+- [ ] レビュー記録を `reviews/page-<ページID>.md` に作成する
+- [ ] 作成したページを、対応する部の表題ページ（`setup/index.rst` / `implementation/index.rst` /
+      `tools/index.rst`）の `toctree` に追記する
+- [ ] self-check（`checks/task-NN.md`）
+- [ ] **差分の範囲を確認する（`#19` 以降の共通ゲート。`commit & push` の直前に置く）** — `git status --porcelain` の**全件**を表にし、そのタスクで変更する予定だったファイル以外が0件であることを確認する。**`ja/` や特定ディレクトリに絞らない**（母集合を先に固定してから判定する。`03-検証スクリプト.md` と同じ趣旨）。**母集合は `git status --porcelain` とする。`git diff` は未追跡ファイルを出さないため、新規に置かれた予定外のファイルを取りこぼす。** 2026-08-13、`#18` の `/rn:gm` で、ゲートが `ja/` と `mapping/`・`ja/conf.py` しか見ていなかったため Docker フルビルドが再生成した `locales/ja/LC_MESSAGES/sphinx.mo` の混入を素通りさせた（`f6947b2`・`73e84dc`・`c0381ed` で3回とも差し戻し済み）。**このゲートを `commit & push` の後ろに置くと、混入を検出できるのはコミットしてしまった後になる**（`#18` がその経路で公開まで届いた。2026-08-13 の作業指示による是正）
+- [ ] commit & push
+- [ ] **user review** — 承認を受けるまで次ページに進まない
+
+**Completion criteria**:
+
+- `mapping.csv` の当該 `dest_page` の全行が反映されている（`DROP` を除く）
+- 当該 `dest_page` のマッピング行が**全件**、ページのどこに反映されたかの対応表が `checks/task-NN.md` にある（`mapping_id` ごとに反映先のセクション）
+- **全件表を求める項目は、ゲートの実行順の先頭に置く。母集合をホワイトリストで切り出さない**（`#10b` の申し送り）
+- 4観点のレビューがすべて実施・記録されている
+- 未対応の指摘が残っていない、または残す判断とその理由が記録されている
+- `make html` が当該ページについてエラーを出さない
+
+### #10a: 用語「テストショット」への統一と使用方法の並び替え — DONE
+
+**Purpose**: `#5` の「`テストケース` を正表記」判断を覆して `テストケース` を NTF解説書から無くし、あわせて `使用方法` 配下の並び替えと見出し1件の改題を行う（残り32ページに波及するため `#11` の着手前に適用）。
+
+**Completion criteria**:
+
+- 作業指示のゲート1〜13、追補のゲート14、回答のゲート15〜17 がすべて実行結果で確認され、`checks/task-terminology.md` に記録されている
+- `about/index.rst` の `テストケース` 2箇所の語選択の理由が、判定表に1行ずつ記録されている
+- 作業指示の禁止事項に抵触する変更が無い（`mapping.csv` / `_batch/` / `vocabulary.md` / `style.md` / `ja/conf.py` / `glossary.md` の現行解説書見出し一覧に差分が無い）
+- STEP 2 の置換判定と STEP 3-2 の前後関係確認が、いずれも件数ではなく全件の表で記録されている
+- `ja/development_tools/testing_framework/` 配下の全 `.rst` に `テストケース` が0件
+- Docker フルビルドが `build succeeded` で、警告が既知の1件のみ（新規0件）
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-07）。4観点レビュー3巡＋是正4ラウンドを要した。**ラウンド上限3を超過**したのは、ラウンド3の是正が公開本文に事実誤り（`testShots` に存在しないカラム `リクエストID`）と語釈の消失を持ち込んだためで、上限で打ち切らず是正を優先した。承認時点で、レビュアー間で判断の割れた2件（`testdata_examples.rst:401` の数え方、記載例ページの特殊記法セクションへの参照文追加）はいずれも**現状維持**のまま承認された（両論は `checks/task-terminology.md` §13-4）。詳細は `checks/task-terminology.md`（§10 ラウンド1／§11 ラウンド2／§12 ラウンド3／§13 ラウンド4）・`reviews/page-testdata_notation.md`・`page-testdata_examples.md`・`page-about_index.md` および git 履歴（最終内容コミット `6e63e27`）を参照。`#11` 以降への申し送りは `page-testdata_notation.md` の16〜27、`page-testdata_examples.md` の14〜18。
+
+### #10b: `#10a` 承認後の仕上げ3件 — DONE
+
+**Purpose**: `#10a` の user review 承認時に現状維持のまま残った2件（`testdata_examples.rst` の数詞、記載例ページ特殊記法セクションの参照文）と、定義セルの括弧書き削除を適用する。作業指示は `ntf-doc-10a-followup.md`、締めの作業指示は `ntf-doc-10b-close.md`。残り32ページに波及するため `#11` の着手前に適用する。
+
+**Steps**:
+
+- [x] STEP 1 — `testdata_examples.rst` の「2件」をテストショットを数える形に改め、他の導入文の数詞の曖昧さを**全件表**で確認・報告する（是正はしない）
+- [x] STEP 2 — 記載例ページの特殊記法セクションの導入文に、例が無い値の種類の記法の在処を示す1文を足し、`testdata_notation-special_notation` へリンクする
+- [x] STEP 3 — 値の種類10件について記載例ページの例の有無を**全件表**で突合し、例が無いものを「出典なし」か「網羅性の欠落（`must`）」に判定する（例の追加はしない）
+- [x] STEP 4 — `testdata_notation.rst` の定義セルから `（番号・説明・期待するステータスコード）` を削除する（言い換えない）
+- [x] STEP 5 — `checks/task-10a-followup.md` を新規作成し、`reviews/page-testdata_notation.md`・`page-testdata_examples.md` に追記（既存記録は書き換えない）。残り32ページへの申し送り2件を追加する
+- [x] ゲート1〜10 をすべて実行結果で確認し、`checks/task-10a-followup.md` に記録する（**全件表を求めるゲート7を実行順の先頭に置く**）
+- [x] 4観点のレビューを、それぞれ**別のサブエージェント**で実施する（QA / 設計 / クラフト / 検証）— 3巡実施
+- [x] 指摘への対応を行う（最大3ラウンド）— ラウンド1（`eef48f5`）・2（`4c16caa`）・3（`f87629f`）実施済み。**上限3に到達**。3巡目は QA・設計・検証が pass、クラフトのみ fail で、**公開本文の `must` は4観点とも0件**。未解決はクラフト must-1（数詞の全件表が助数詞ホワイトリスト方式の穴で出現単位の全件になっていない。記録側のみ・本文の是正は不要）で、4ラウンド目の実施可否はユーザー判断
+- [x] commit & push — `b2f616a` → `eef48f5` → `4c16caa` → `f87629f`
+- [x] **user review** — **公開本文は承認**（`/rn:gm`、2026-08-07）。判断待ちの2件に結論が出た（数詞の全件表は4ラウンド目を実施しない／`:401` はセルの実値に揃える）。締めの作業指示は `ntf-doc-10b-close.md`
+
+**Steps（締め — `ntf-doc-10b-close.md`）**:
+
+- [x] STEP 1 — `testdata_examples.rst:401` の `認証エラーケース` を `認証エラー` に改める（セルの実値に揃える。`2つのテストショット` と後半の文は変更しない）
+- [x] STEP 2 — 数詞の全件表は作り直さない。`checks/task-10a-followup.md` §1-2 の冒頭に、方式の限界と独立全走査による検証結果（真の数詞の取りこぼし0件）を1段落だけ追記する
+- [x] STEP 3 — 「全件表を求める完了条件では母集合をホワイトリストで切り出さない」を `reviews/page-testdata_examples.md`（申し送り23）・`page-testdata_notation.md`（申し送り32）の双方に追記する
+- [x] STEP 4 — `checks/task-10a-followup.md` §8 に記録し、`reviews/page-testdata_examples.md` に `:401` の語の変遷と実測根拠を残し、`steering.md` を締める
+- [x] ゲート1〜10 をすべて実行結果で確認し、`checks/task-10a-followup.md` §8-4 に記録する — 全件 PASS・NG 0件
+- [x] 4観点のレビューは**回さない**（作業指示が明示的に禁止。変更は1語の削除で、ゲート10 が差分を1行に固定している）
+- [x] commit & push
+- [x] **user review**（締め） — **承認済み**（`/rn:ty`、2026-08-07）。`#10b` は完全に閉じた
+
+**Completion criteria**:
+
+- 作業指示のゲート1〜10 がすべて実行結果で確認され、`checks/task-10a-followup.md` に記録されている
+- STEP 1 の数詞の全件確認表、STEP 3 の値の種類の突合表が、いずれも件数ではなく**全件**の表で記録されている
+- 両ページに `（番号・説明・期待するステータスコード）` が0件である
+- 記載例ページの特殊記法セクションの導入文が `testdata_notation-special_notation` を参照している
+- 作業指示の禁止事項に抵触する変更が無い（`mapping.csv` / `_batch/` / `vocabulary.md` / `style.md` / `glossary.md` / `design.md` / `ja/conf.py` に差分が無く、見出しの文言・並び順が不変）
+- Docker フルビルドが `build succeeded` で、警告が既知の `db_double_submit.rst` 1件のみ（新規0件）
+- 残り32ページへの申し送り2件が `reviews/page-*.md` に追記されている
+
+**Closed**: 締めの user review 承認済み（`/rn:ty`、2026-08-07）。公開本文は先行して承認（`/rn:gm`、2026-08-07）。4観点レビュー3巡＋是正3ラウンド（`eef48f5`・`4c16caa`・`f87629f`）で公開本文の `must` は4観点とも0件に到達し、締めの作業指示 `ntf-doc-10b-close.md` で残り2件に結着した。(1) **数詞の全件表は作り直さない** — レビュー役がホワイトリストを使わない全走査を独立に組んで検証し、既存35行の表が取りこぼしている**真の数詞は0件**であることを確認したため（3巡目に3観点が挙げた9出現はいずれも数を数えていない）。未達だったのは「表が全件でないこと」ではなく「同じ表が全件であることを、その抽出方式では証明できないこと」であり、方式の是正は `#11` 以降への申し送りとした。(2) **`:401` の `認証エラーケース` を `認証エラー` に是正** — 実在するセル値は `:430`・`:484` の `認証エラー` であり、`認証エラーケース` は `ja/`・`input/`・`mapping/` のいずれにも存在しない地の文だけの語であった（`ntf-doc-10a-followup.md` の当該禁止事項は指示側の誤りとして取り消された）。締めの変更は**この1行のみ**で、ゲート1〜10 を全件 PASS（Docker フルビルド `build succeeded, 1 warning.`／新規警告0件）。詳細は `checks/task-10a-followup.md`（§1-2 冒頭の追記／§8 締め）・`reviews/page-testdata_examples.md`（`#10b` 締め・申し送り23）・`page-testdata_notation.md`（申し送り32）および git 履歴を参照。`#11` 以降への申し送りは `page-testdata_notation.md` の28〜32、`page-testdata_examples.md` の19〜23。
+
+### #11: 共通設定（`setup/common.rst`）— DONE
+
+**Purpose**: マッピングに従って第2部の1ページ目「共通設定」を作成する。対象は `mapping.csv` の `dest_page=共通設定` の5行（129 lines、すべて `dest_section=使用方法`）。作業指示は `ntf-doc-11-common.md`。
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。加えて、作業指示のゲート1〜11 が実行結果で確認され `checks/task-11.md` に記録されていること、`dest_page=共通設定` の5行が**全件**の対応表で記録されていること（母集合をホワイトリストで切り出さない）。
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。4観点レビュー ラウンド1（`must` 2 / `should` 6 / `note` 18）→ 是正ラウンド1（`0a71a75`）で解消 → ラウンド2（`#10b` 申し送りに従い是正差分限定）で `must` 0 / `should` 0 の pass。ゲート1〜11 全件 PASS、Docker フルビルド `build succeeded`（新規警告0件）。**作業指示から外れて是正した2件も承認された** — (1) `nablarch.test.resource-root` の設定先を `コンポーネント設定ファイル` → `環境設定ファイル`、(2) `OracleSequenceIdGenerator` の完全修飾名を `nablarch.common.idgenerator.*` → `com.example.common.idgenerator.*`（いずれも `design.md` §8「出典と実装が食い違う場合は実装を優先する」の適用）。詳細は `checks/task-11.md`・`reviews/page-common.md`（作成時の判断 D-1〜D-6／ラウンド1 R1-1〜R1-12）および git 履歴（最終内容コミット `0a71a75`）を参照。`#12` 以降への申し送り4件は `reviews/page-common.md`（`FastTableIdGenerator` の初期化設定欠落 R1-6／既定値 `test/java` と `testdata_notation.rst` の配置説明の基準ディレクトリ不一致 R1-8／L3 セクションラベル未設置 R1-7／採番の記述例をピンポイント参照するためのラベル追加 D-3）。
+
+### #12: `:ref:` ラベル命名規則の確定（`style.md` S-08 改訂）— DONE
+
+**Purpose**: ページを作らないタスク。`style.md` S-08 を改訂し、残り30ページ分のページ先頭ラベルを先に確定する。Sphinx のラベルはプロジェクト大域であり、ファイル名の語幹をそのまま使うと衝突するため（`ja/conf.py:103` の `keep_warnings = True` により重複ラベルは `#last` まで表面化しない）、21ページ分の判断を先に済ませた。作業指示は `ntf-doc-12-ref-labels.md`。
+
+**Completion criteria**: S-08 の37ラベルと `ja/` 既存ラベルの**全件**突き合わせで衝突0件（母集合は `ja/` の実ファイルから機械抽出）／S-08 の一覧が `design.md` §13 の34ページと過不足なく対応／`verify_mapping.py` が exit 0・594行 / 12,986 / 11,983 不変／`style.md` の差分が S-08 の節内に収まり既存の根拠4件が残っている／禁止事項に抵触する変更が無い／Docker フルビルドが `build succeeded`・新規警告0件。
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。ゲート1〜8 全件 PASS。`ja/` の299ファイルから **959ラベル**を機械抽出し37件（34ページ＋表題3件）と突合して **NG 0件**、`design.md` §13 との差集合は双方向で空、Docker フルビルド（`-a`）は `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・`duplicate label` 0件）。**語幹の衝突は実在**であることを実測で確認した（`http_messaging` は `ja/application_framework/application_framework/web_service/http_messaging/index.rst:1` が定義済み。`web`/`rest`/`mom`/`batch`/`db_queue` は `ja/` 全体では未定義だが NTF内部で3〜4ページが共有する）。あわせて**改訂前の `ja/` に既存の重複ラベルが0件**（定義箇所959 = ユニーク959）であることも記録しており、以降 `duplicate label` 警告が出た場合は原因を新規追加分に絞れる。4観点のレビューは作業指示の指定により回していない（ゲート1・2 が全件突合を機械的に担保）。詳細は `checks/task-12.md` および git 履歴（最終内容コミット `18c7856`）を参照。**以降のページ作成タスクは、ページ先頭ラベルを `style.md` S-08 の一覧から引く**（共通 Steps に追加済み）。
+
+### #13: ページ作成の共通手順を `steering.md` に定着させる — DONE
+
+**Purpose**: ページを作らないタスク。`#11` で個別の作業指示として渡した内容のうち以降の全ページに効くものを、「#9〜: ページの作成」の共通 Steps・完了条件に一度だけ入れる。以降の小さいページは個別の作業指示を出さず、`steering.md` だけで進める。作業指示は `ntf-doc-13-standing-rules.md`。
+
+**Completion criteria**:
+
+- 追加が STEP 1 の4件・STEP 2 の2件・STEP 3 の1段落のみで、それ以外の追加が無い
+- `steering.md` の差分が「#9〜: ページの作成」の節の中に収まり、既存の Steps・完了条件・Rules に削除・変更が無い（削除行0行）
+- `ja/` 配下の `.rst`・`mapping/`・`design.md` に差分が無い
+- `verify_mapping.py` が exit 0 で、594行 / 12,986 / 11,983 が不変
+- ゲート1〜4 が実行結果で `checks/task-13.md` に記録されている
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。ゲート1〜4 全件 PASS・NG 0件（追加7行 / 削除0行）。STEP 1 の追加は3件 — ページ先頭ラベルの項目は `#12` の締めで既に共通 Steps に入っていたため重複行を作らず、理由を `checks/task-13.md` 冒頭に記録した。4観点のレビューは作業指示の指定により回していない。詳細は `checks/task-13.md` および git 履歴（最終内容コミット `dacd7af`）を参照。**以降のページ作成タスクは、個別の作業指示を出す条件（本節「#9〜」冒頭）に当たらない限り、共通 Steps のみで進める。**
+
+### #14: クラス単体テストの設定（`setup/class_unit_test.rst`）— DONE
+
+**Purpose**: マッピングに従って第2部の2ページ目「クラス単体テストの設定」を作成する。対象は `mapping.csv` の `dest_page=クラス単体テストの設定` の3行（193 lines）。`#13` で定着させた共通 Steps のみで進めた初のページ（個別の作業指示なし）。
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。4観点レビュー ラウンド1（4観点とも fail・`must` 4 / `should` 8 / `note` 12）→ 是正20件（`ca699c5`）→ ラウンド2は是正差分限定の検証で pass（`must` 0）・残る7件を是正（`5a55ada`）→ `/rn:gm` による締めの追記（`1624182`、作業指示 `ntf-doc-14-close.md`）。ゲート全件 PASS・Docker フルビルド `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規警告0件）。**decide 1件と付録の事実誤り2件が判定で解決した** — `validationTestStrategy` は「載せる」（`current-0010` に実在するため落とすと「マッピングにある内容を落とさない」に抵触）、`minMessageId` が `current-0021` に無いのは欠落ではなく正しい（`CharsetTestVariation.java:126-129` により Nablarch Validation では到達不能）。いずれも事前調査の付録（`ntf-doc-13-standing-rules.md:79`）の記述が指示側の誤りとして取り消された。詳細は `checks/task-14.md`・`reviews/page-class_unit_test.md`（実装で確認した `file:line` と参照コミット `e21bf67`）および git 履歴（最終内容コミット `1624182`）を参照。`#15` 以降への申し送り6件は `reviews/page-class_unit_test.md`（特に「`#10a` の用語一括置換は referent を実装で確かめてから適用する」「出典の制約は実装が検査しているかで採否を決めず、挙動を確かめて理由を書き添える」）。
+
+### #15: リクエスト単体テストの設定（ウェブアプリケーション）（`setup/request_unit_test/web.rst`）— DONE
+
+**Purpose**: マッピングに従って第2部の3ページ目「リクエスト単体テストの設定（ウェブアプリケーション）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（ウェブアプリケーション）` の6行（250 lines）。共通 Steps のみで進めた（個別の作業指示なし）。
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。4観点レビュー ラウンド1（A pass / B pass / C fail / D fail、`must` 3件）→ 是正（`f4c9fad`）→ ラウンド2は是正差分限定の検証で pass（`must` 0）・`should`/`note` 5件を是正（`74e1b10`）。ゲート全件 PASS・Docker フルビルド `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規警告0件）。**出典と実装の食い違い6件を実装優先で解消した**（`dumpVariableItem` の意味の反転 `HttpServer.java:427-430` 等。参照コミット `e21bf67`）。**新構成で最初に画像を使うページ**であり、`guide/` 配下の4件を `setup/request_unit_test/images/web/` へ `git mv` した。**decide 3件は3件とも本ページの判断が承認され、`#16` で `design.md` の規定にした** — 画像の配置（§13「画像の配置」）／陳腐化した例示は落としてよい（§8）／§8 の「実装」には JVM・JDK 等の外部の挙動を含む（§8）。詳細は `checks/task-15.md`・`reviews/page-request_unit_test_setting_web.md` および git 履歴（最終内容コミット `74e1b10`）を参照。`#17` 以降への申し送り11件は `reviews/page-request_unit_test_setting_web.md`（特に「出典の『デフォルト値』欄はフィールドの初期値と一致するとは限らない」「是正で `tip` を新設するときは直上の本文の言い換えになっていないか確認する」）。
+
+### #16: ページのリード文の確定と `design.md` の3点追記 — DONE
+
+**Purpose**: ページを作らないタスク。リード文（目次の直後・最初のL2見出しより前に置く、見出しの無い導入の段落）の位置を `style.md` S-02・`design.md` §3・§4 で確定して作成済みの第2部3ページに反映し、`#15` の `decide` 3件を `design.md` §8・§13 に規定化する。
+
+**Completion criteria**:
+
+- リード文の位置と書き出しが `style.md` S-02 に規約として書かれ、根拠が FW解説書の実ファイルの `file:line` で裏付けられている
+- 第2部の作成済み3ページのリード文が目次の直後・最初のL2見出しより前にあり、`使用方法` の直下に地の文が残っていない
+- 3ページの `ja/` 差分がリード文の移動と文頭の書き直しに由来するものだけで、見出しの文言・並び順が不変である
+- `#15` の `decide` 3件が `design.md` §8・§13 に規定として書かれ、以降のページが参照できる
+- `design.md` の差分が §3・§4・§8・§13 に、`style.md` の差分が S-02 に収まり、いずれも削除0行である
+- ゲート1〜9 が実行結果で `checks/task-16.md` に記録されている
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-12）。ゲート1〜9 全件 PASS・Docker フルビルド（`-a`）は `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）。`ja/` 側の差分は3ページとも `+2 / -1` 行のみ。作業指示の指定により4観点のレビューは回していない（新しい内容を書かないタスクで、ゲート1〜3 が変更範囲を機械的に固定している）。作業指示から外れた点3件（ゲート5の適用範囲／`style.md` の根拠を実測に合わせた訂正2件／`design.md` §4 への1文の追加）は `checks/task-16.md` 末尾に記録。詳細は `checks/task-16.md`・`reviews/page-common.md`・`page-class_unit_test.md`・`page-request_unit_test_setting_web.md` および git 履歴（最終内容コミット `04d8545`）を参照。**以降の全ページはリード文を目次の直後に置く**（共通 Steps の `.. contents::` の項に続く位置づけ）。
+
+### #17: リクエスト単体テストの設定（RESTfulウェブサービス）（`setup/request_unit_test/rest.rst`）— DONE
+
+**Purpose**: マッピングに従って第2部の4ページ目「リクエスト単体テストの設定（RESTfulウェブサービス）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（RESTfulウェブサービス）` の4行（125 lines）。共通 Steps のみで進めた（個別の作業指示を出す条件に当たらない）。
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
+
+**`decide` 2件の回答**（2026-08-13、`/rn:ty`。判断を仰いだ時点の記録は `checks/task-17.md` §6 に残し、回答は同 §6-1 に追記した）:
+
+1. **`httpServerFactory` の登録を本文に書いたこと → 残す。** 出典が触れていないのはアーキタイプからのプロジェクト作成を前提にしていたためで、アーキタイプ以外から作る読者には必須（未登録なら `SimpleRestTestSupport.java:45`・`:298-300` で `IllegalConfigurationException`。デフォルト設定は 5u24・5u26・6u1・6u2・6u3 のすべてで0件）。**`design.md` §8 の既存の例外2件のどちらでもない新しい類型**「出典が欠いている、実装上必須の設定」であり、規定化は `#18` で行う
+2. **設定項目表の「デフォルト値」の基準 → デフォルト設定を読み込んだ実効値に統一する。** `rest.rst` が正しく、`web.rst`（クラスのフィールド初期値）を改める。根拠は出典自身が実効値を書いていること（`RequestUnitTest_rest.rst:288`・`02_RequestUnitTest.rst:345`・`:351`）。**是正対象は `checks/task-17.md` §7-2 の7項目では足りず、`web.rst` 9項目・`common.rst` 1項目**（レビュー役の実測）。全件と手順は `#18` の作業指示
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-13。公開本文を承認し `decide` 2件に回答）。4観点レビュー ラウンド1（A fail `must` 2 / B fail 1 / C fail 1 / D fail 2、重複除去5件すべて是正）→ ラウンド2は是正差分限定の検証で pass（`must` 0）。コーディネータの独立検証で本ページに新規の事実誤りなし、`decide` 2 の射程の広がりを新規検出。Docker フルビルド `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）。詳細は `checks/task-17.md`・`reviews/page-request_unit_test_setting_rest.md` および git 履歴（最終内容コミット `4f78d11`）を参照。
+
+### #18: 設定項目表の「デフォルト値」の基準の統一と `design.md` §8 の類型追加 — DONE
+
+**Purpose**: `#17` の `decide` 2件の回答を規定として定着させ、既存ページを是正する。(1) 設定項目表の「デフォルト値」をデフォルト設定を読み込んだ実効値に統一し、`web.rst`・`common.rst` を是正する。(2) 「出典が欠いている、実装上必須の設定」を `design.md` §8 の例外の新しい類型として追記する。**ページを作らないタスク。**
+
+**Completion criteria**: 作業指示 `ntf-doc-18-default-value-basis.md` のゲート1〜11 が全件 PASS で `checks/task-18.md` に記録されていること。
+
+**Closed**: user review 承認済み（`/rn:gm` 1回 →`must` 1件是正のうえ承認、2026-08-13）。`web.rst` 不一致8件＋表外1件・`common.rst` 1件を是正し、`design.md` §8 に2件を追記（追加39行 / 削除0行）。差し戻しは本文ではなく、Docker フルビルドが再生成した `locales/ja/LC_MESSAGES/sphinx.mo` の混入1件（`2993496` の版に戻して解消。過去2回と同一の副産物で `f6947b2`・`73e84dc` でも同様に差し戻し済み。再発防止として `#9〜` の共通 Steps に差分の範囲を確認するゲートを追加）。ユーザー回答3点は (1) 出典を示せない行番号は `design.md` に書かない対応で正、(2) ゲート9 は「新規0件」の解釈で正、(3) `testdata_notation.rst` の「デフォルト設定」の語の衝突は是正せず申し送りで正（`#19` 以降で `design.md` §8 の語と衝突する記述を書かないこと）。詳細は `checks/task-18.md`・`reviews/page-request_unit_test_setting_web.md`・`page-common.md`・`page-testdata_notation.md` および git 履歴（本文コミット `7424aeb`）を参照。
+
+### #19: リクエスト単体テストの設定（HTTPメッセージング）（`setup/request_unit_test/http_messaging.rst`）— DONE
+
+**Purpose**: マッピングに従って第2部の5ページ目「リクエスト単体テストの設定（HTTPメッセージング）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（HTTPメッセージング）` の3行（計30 lines）。共通 Steps のみで進めた（個別の作業指示を出す3条件に当たらない）。
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
+
+**`decide` 3件・`should` 1件の回答**（2026-08-13、`/rn:ty`。判断を仰いだ時点の記録は `reviews/page-request_unit_test_setting_http_messaging.md` §4 に残し、回答は同 §4 の各 `decide` 直下に追記した。是正の実行結果は `checks/task-19.md` ゲート6）:
+
+1. **`glossary.md:160` の `モックアップクラス` の意味列 → 是正する。** 「同期応答メッセージ送信・HTTPメッセージ送信で、外部システムの代わりに応答電文を返すクラス。リクエスト単体テスト・取引単体テストの双方で使い、実体は別のクラスである」に改めた。意味列は判断の記述であって証拠ではない。書き換えを禁じている対象は削除前の現行解説書に実在した見出し文字列の一覧（`glossary.md` の `:403`〜`:449` 相当）であり、採用根拠の列も実測値の記録として触らない。正表記が不変のため既存ページへの波及なし。ゲート4件（差分が意味列のセル1つ／`mapping.csv`・`_batch/` の差分0／`verify_mapping.py` `exit 0` で 594行・12,986・11,983 不変／`ja/` 差分0）を全件パス
+2. **出典外の追記 → 残す。ただし追記は2件ではなく3件である（`should` 1 の訂正）。** (a) コンポーネント名の解決は `design.md` §8「出典が欠いている、実装上必須の設定」に当たる（`#17` の `httpServerFactory` と同じ類型）。(b) モックアップクラスの挙動説明は §8 のどの例外にも当たらないが残す（何をするクラスかを述べずに「登録する」だけでは、読者は登録の可否を判断できない。典拠は `RequestTestingMessagingClient.java:46`・`:48`）。(c) `http_messaging.rst:21` の「ウェブアプリケーションやNablarchバッチアプリケーション…も同じである」を数え落としており、3件目として加えた。**訂正したのは記録の件数のみで、本文は変更していない**
+3. **FW解説書 `http_system_messaging.rst:85` → 対象外として記録に留める。別タスク化もしない**（`#last` でも扱わない）。実装と食い違うのは結論ではなく理由の部分である。同行は「ルックアップして使用されるため、コンポーネント名は `messageSenderClient` と指定する」と書くが、実際には `MessageSenderSettings#getComponent` が `messageSender.<リクエストID>.messageSenderClient` の**値**をコンポーネント名として `SystemRepository` から引くため任意の名前でよい
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-13。公開本文を承認。レビュー役の独立検証で `must` 残存0件・本文に事実誤りなしを確認）。4観点レビュー ラウンド1（A fail `must` 3 / B fail 1 / C fail 1 / D fail 3、重複除去後7件すべて是正）→ ラウンド2は是正差分限定の検証で PASS（`must` 0）。Docker フルビルド `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）。`#19` から導入した差分範囲ゲート（母集合は `git status --porcelain` の全件、`commit & push` の直前）が `locales/ja/LC_MESSAGES/sphinx.mo` の混入（通算4回目）を実際に検出し、コミット前に戻した。詳細は `checks/task-19.md`・`reviews/page-request_unit_test_setting_http_messaging.md` および git 履歴（本文コミット `98542ac`）を参照。`#20` 以降への申し送り7件は同レビュー記録 §5。
+
+### #20: リクエスト単体テストの設定（Nablarchバッチアプリケーション）（`setup/request_unit_test/batch.rst`）— DONE
+
+**Purpose**: マッピングに従って第2部の6ページ目「リクエスト単体テストの設定（Nablarchバッチアプリケーション）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（Nablarchバッチアプリケーション）` の3行。共通 Steps のみで進めた（個別の作業指示を出す3条件に当たらない）。
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
+
+**`decide` 3件・`should` 3件の回答**（2026-08-13、`/rn:ty`。判断を仰いだ時点の記録は `reviews/page-request_unit_test_setting_batch.md` §4 に残し、回答は同 §4 の各 `decide` 直下に追記した。是正の実行結果は `checks/task-20.md` ゲート16〜24）:
+
+1. **`testdata_notation.rst:967` の `TEST_{型名称}` → 是正する。** `TEST_{型記号}` に改め、第3文を「元の型に代えてその型が使用される」に直し、末尾に第2部への `:ref:` を追加した。是正する理由は、`#19` の申し送り4 と違って読者が誤った設定を書く経路があり、かつ `#20` のページ `:82` 自身がその経路を作っていること。差分は `:967` の1行のみ
+2. **削った数値記述例 → 第3部「テストデータの書き方」へ移す。** 採る理由は「`decide` 1 と同じ段落だから」ではなく、`design.md:273-274` が「テストデータの書き方＝どう書けばどう解釈されるかの規則」「記載例＝Excel と YAML の対比」と役割を定めており、この記述は規則そのものかつ両形式で同一だからである。形式別 L4 には割らない（`style.md` S-10 規約1）。**`mapping.csv` を追随させた**: `current-0037-b` を `263`〜`274`（`current-0037-b2`・12行・第3部）と `275`〜`316`（42行・第2部）に分割し 594→**595行**（`#6` の `current-0128` と同じ手順）。`volume.md` は 3,391→3,403 / 129→117、合計 11,983 は不変
+3. **デフォルト設定 `6u3` の同梱ファイル → どちらにも触れない（現状維持）。** 記録に1件追加した。`fixed-length-convertor-setting_test.xml` は自身の `:10` で `nablarch/batch/resume-point-manager_test.xml` を `import` しており、当該ファイルだけを直接 `import` してもレジュームポイント管理の設定が抱き合わせで入る。`#last` で `design.md` §8 に残すかを判断する（`#20` では別タスク化しない）
+4. **`should` 1・2 — `glossary.md` を2点是正した。** `ディレクティブ` の意味列を「キー名と値の2要素で指定するもの」に改め（`<map>`／`<entry>` による登録を含む範囲にした）、§5.8 に `型名称`・`型記号` の2行を追加した（採用根拠は実測。input のみ6件・2件、現行解説書とFW解説書は0件）。正表記・揺れ・採用根拠の各列と `:403`〜`:449` の見出し一覧は不変
+5. **`should` 3 — 申し送り3 に裏付けの範囲を書き添えた。** L3 の実測則 `max(49, 表示幅)` のうち**表示幅側**の裏付けは `implementation/testdata_examples.rst` の7箇所（うち下限50を超えて discriminating なのは5箇所）、**下限49の裏付けは `setup/` 配下の5ページ**である。両者を合わせて規則が立つ
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-13。公開本文を承認。レビュー役の独立検証で `must` 残存0件・本文に事実誤りなしを確認）。4観点レビュー ラウンド1（A PASS / B・C・D FAIL、`must` 重複除去後4件）→ 是正13件 → ラウンド2 PASS → ラウンド3で `should` 2・`note` 3 を一括是正。承認時の是正で `testdata_notation.rst:967`・`glossary.md`・`mapping.csv`（`_batch/batch-16.csv` 経由で再生成・バイト一致）・`volume.md` を更新し、`verify_mapping.py` は 595行 / 12,986 / 11,983 で `exit 0`、Docker フルビルドは `build succeeded, 1 warning.`（既知1件のみ・新規0件）。**`volume.md` の `dest_section` 別集計に既存の誤り2件（第3部「使用方法」が実測より453行多い／`テストデータの構造` 479行の行が欠落）を見つけ、あわせて是正した**（合計 11,957→11,983）。詳細は `checks/task-20.md`・`reviews/page-request_unit_test_setting_batch.md` および git 履歴（本文コミット `00cb161`・`2bb3cf6`・`fb3fd0f`、承認時是正コミット `4d9e3f7`）を参照。`#21` 以降への申し送り7件は同レビュー記録 §5。
+
+### #21: リクエスト単体テストの設定（MOMによるメッセージング）（`setup/request_unit_test/mom.rst`）— DONE
+
+**Purpose**: マッピングに従って第2部の7ページ目「リクエスト単体テストの設定（MOMによるメッセージング）」を作成する。対象は `mapping.csv` の `dest_page=リクエスト単体テストの設定（MOMによるメッセージング）` の8行（76 lines、`DROP` 0件）。共通 Steps のみで進めた（個別の作業指示を出す3条件に当たらない）。
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
+
+**`decide` 5件・`should` 3件の回答**（2026-08-13、`/rn:ty`。判断を仰いだ時点の記録は `reviews/page-request_unit_test_setting_mom.md` §4.5・§5.3、回答と反映は同 §6、ゲートの実行結果は `checks/task-21.md` §7）:
+
+1. **`reader.fwHeaderfields` の重複 → (c) 現状維持。集約しない。** この設定を読む経路は `MessageParser` だけで、そこへ至るのは `MQSupport.java:87` の1箇所、`MQSupport` を生成するのは `MessagingRequestTestSupport.java:82` と `MessagingReceiveTestSupport.java:42` の2箇所のみ（`src/main/java` 全走査）。**メッセージング受信のテストに紐づいており、全テスト共通ではない。** `setup/common.rst` へ移すと読者に「共通設定なので自分のテストにも効く」と読ませる。非対称は `should` 1 で解消
+2. **`testdata_notation.rst:1244` → 是正する。** `YAML` 経路は `reader.fwHeaderfields` を読まない（`YamlMessageBuilder.java:223-236`）。同ファイル `:1263` とだけ矛盾していた。差分は1行
+3. **出典外の追記2件 → 2件とも残す。`design.md` §8 に類型を1つ追加した。** 「出典が書いていない適用範囲・副作用のうち、書かなければ読者が誤った設定に至るものは書き足してよい」。「適用範囲の限定」と「副作用の注意喚起」は**読者が誤るかという同じ判定基準**で決まるため1類型にまとめた
+4. **`glossary.md` 3件 → 3件とも反映。** §5.12 に `環境設定ファイル`、§5.14 に `デフォルト`、§8 に置換3行（`propertiesファイル`／`プロパティファイル`→`環境設定ファイル`、`TestDataConvertor`→`TestDataConverter`、`既定`→`デフォルト`）。**`ja/` 4ファイルの `既定` 26箇所を `デフォルト` に置換した**（`batch.rst` 13・`testdata_notation.rst` 6・`mom.rst` 5・`http_messaging.rst` 2。全件表は `checks/task-21.md` §7-1）。判定根拠は語彙の実測で、**現行解説書に `既定` は0件**（`デフォルト` 58件）
+5. **HTTPメッセージング受信への適用 → 効く。いま確定させた。** 決め手は識別子行が `MESSAGE=setUpMessages`／`expectedMessages` 固定であること（`c2419060:.../http_real.rst:56`・`:105`・`:168`）。この2つのIDを読む経路は `MQSupport.java:73-74`・`:63-64` の1つだけで、`BasicTestDataParser.java:82-85` の `new MessageParser(..., DataType.MESSAGE)` に至る。**適用範囲は MOM と同一**で、承認済み `http_messaging.rst:37-42` は正しい
+6. **`should` 1・2 — `http_messaging.rst` に `mom.rst` と同じ2文とコメントを追加し、両ページに「値に空白を入れない」の1文を追加した。** 空白がトリムされない裏付けは `NablarchTestUtils.java:36`・`:45-49`、判定は `MessageParser.java:103`
+7. **`should` 3 — レビュー記録の根拠を是正。** `createDefinition` が返すレイアウト定義は「書き出しにのみ」ではなく**書き出しと読み込みの双方**に使われる（`MessagePool.java:165`）。公開本文（方向を限定しない表現）は変えていない
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-13。レビュー役の独立検証で公開本文の事実誤り0件・`must` 残存0件）。4観点レビュー ラウンド1は4観点とも FAIL（重複除去後 `must` 3件）→ ラウンド2は是正差分限定で範囲検証 PASS／ファクトチェック不一致1件を是正。承認後の反映でゲート1〜10 を全件 PASS（`verify_mapping.py` 595行 / 12,986 / 11,983 で `exit 0`、Docker フルビルド `build succeeded, 1 warning.` 既知1件のみ・新規0件、`sphinx.mo` はビルド直後に復元）。詳細は `checks/task-21.md`・`reviews/page-request_unit_test_setting_mom.md` および git 履歴（本文コミット `8b956cd`・`2c9be08`・`346171d`・`e8854a5`、承認後の反映コミット `c0e12fc`）を参照。
+
+**`#22` 以降への申し送り**:
+
+- **`verify_glossary.py` は本タスクで不一致が 18→25 に増えた**（`checks/task-21.md` §7-4 に前後比較表）。増分7件はすべて、追加した3語と揺れ表記2語が `mapping/tools/term_candidates.tsv` に未登録であることに起因する。登録すると `glossary.md` の既存の全件数主張を再計算する作業になるため、`[ref]` 13件と合わせて**別タスクで一括して直す**
+- `real.rst:15` はクラスのパッケージ名を `nablarch.test.core.http` と書いているが実体は `nablarch.test.core.messaging`。**第3部「リクエスト単体テスト（MOMによるメッセージング）」を書くタスク（`current-0295`〜`0301`）で是正する**
+- `nablarch-testing-yaml` のスキーマ説明文（`ntf-testdata-yaml-schema.json`）の見直しは PR #75 側の話であり、本刷新の範囲外
+
+### #22: 取引単体テストの設定（RESTfulウェブサービス）（`setup/deal_unit_test/rest.rst`）— DONE
+
+**Purpose**: マッピングに従って第2部の8ページ目「取引単体テストの設定（RESTfulウェブサービス）」を作成する。対象は `mapping.csv` の `dest_page=取引単体テストの設定（RESTfulウェブサービス）` の3行（52 lines、すべて `MERGE`・`audience=user`）。`setup/deal_unit_test/` ディレクトリは本タスクで新設した。事前情報は `ntf-doc-22-deal-unit-test-rest.md`。
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。加えて、事前情報 §4 のゲート1〜9 が実行結果で `checks/task-22.md` に記録されていること。
+
+**Closed**: user review 承認済み（2026-08-14。レビュー役の独立検証で `must` 残存0件・出典 `03_DealUnitTest/rest.rst:40-95` の落ちている記述0件・Docker フルビルドをレビュー役自身の clone で再実行して `build succeeded, 1 warning.`）。4観点レビュー ラウンド1（B・C PASS／A・D が `must` 各1件で FAIL）→ 是正ラウンド1 `d90d28f`（A の `must` は「実装が `Set-Cookie` を扱わない」という誤認で、原因は `grep` に `-a` を付けずバイナリの `.class` を読み飛ばしたこと）→ 是正ラウンド2 `29269d4`（`must` 1・`should` 2。差分は本文3行）→ 検証ラウンド3は2観点とも PASS。出典に無い記述2件（`cookieName` 必須＝`RequestResponseCookieManager.java:41-43`、`processors` の実行順＝`ComplexRequestResponseProcessor.java:15-29`）はいずれも実装が根拠で `design.md` §8 の範囲内としてレビュー役が承認した。詳細は `checks/task-22.md`・`reviews/page-deal_unit_test_setting_rest.md` および git 履歴（本文コミット `c8c937e`・`d90d28f`・`29269d4`、self-check `cf0eb2f`）を参照。
+
+**`#23` 以降への申し送り**: `checks/task-22.md` §7-2 の `note` N-2「CSRFトークンを引き継ぐ提供実装は存在しない」は、取引単体テスト残りページで CSRF に触れる場合に確認する。
+
+**環境の事実（解決済み）**: `docker build` が失敗する原因は**社内proxyの自己署名証明書がイメージ内の CA ストアに無いこと**である（`pip` が `SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] ... self-signed certificate in certificate chain'))` で落ちる）。レビュー役が自分の clone で再現し、CA を注入した `Dockerfile` を作れば `docker build` が通り、そのイメージの `sphinx-build -a` が `build succeeded, 1 warning.` になることまで確認した（手順は `checks/task-22.md` §4）。**`ca.crt` と `Dockerfile.ca` は作業ツリーに残さない**（差分範囲ゲートに掛かる）。既存イメージ `nablarch-document-build` での `docker run` を続けてもよい。
+
+### #23: テーブルデータの0件の扱いを解説書に書く — DONE
+
+**Purpose**: ページを作らないタスク。承認済みの2ページ（`implementation/testdata_notation.rst`・`implementation/testdata_examples.rst`）に、テーブルデータを0件で書く方法を追記した。指示は `ntf-doc-23-table-zero-rows.md`。
+
+**Completion criteria**: 作業指示のゲート1〜12（4a・4b を含む）が全件 PASS で `checks/task-23.md` に記録されていること。加えて4観点のレビューがすべて実施・記録されていること、未対応の指摘を残す判断とその理由が記録されていること、`make html` が当該2ページについてエラーを出さないこと。
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-14）。ラウンド1 のみで確定（4観点レビューの重複除去後15件を triage し6件是正・1件 Invalid・8件は対応せず）。ゲート1〜12 は是正後の再実行で全件 PASS、Docker フルビルド（`-a`）は `build succeeded, 1 warning.` で新規警告0件。**`design.md` §8 の「実装優先」を本件に適用しない**（2026-08-13 のユーザー判断）ため、`expected_tables:` の `rows: []` は `190cc9a` 時点の `nablarch-testing-yaml` で検証されないまま仕様どおりに記述している。判定待ちに添えた報告2件も承認で決着した — (1) 指示書 §2 事実7 の `insertData` の範囲は `:137-217` ではなく `:137-178`（事実の内容は一致）、(2) 記法ページの見出し「0件のデータを記述する」と記載例ページの「0件のテーブルデータを記述する」の非対称は、指示書 §4-1・§4-3 の明示指定に従い**現状のまま確定**。詳細は `checks/task-23.md`・`reviews/page-testdata_notation.md` `## #23` 節・`page-testdata_examples.md` および git 履歴（本文コミット `b75f1d7`）を参照。
+
+### #24: `about/index.rst` の「取引単体テストは手動操作」の是正と `style.md` S-02 の書き漏れ補い — DONE
+
+**Purpose**: ページを作らないタスク。`#22` の user review で回答された判断待ち2件を、承認済み資産の是正として1タスクにまとめて行った。(a) 取引単体テストの実行方法は処理方式によって異なるという事実に `design.md` と `about/index.rst` を合わせる。(b) `style.md:45` に第2部セクションの必須・任意の区別を書き足す。指示は `ntf-doc-24.md`。
+
+**Completion criteria**: ラウンド1 のゲート1〜12、`ntf-doc-24.md` §5-3 のゲートA〜N、§7-6 のゲートO〜U が全件 PASS で `checks/task-24.md` に記録されていること。
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-14）。ラウンド1〜4 で確定。**公開本文で名指しするのは3処理方式のみ**（ウェブアプリケーション＝手動／RESTfulウェブサービス＝自動／Nablarchバッチアプリケーション＝自動）とし、出典が不可能性を述べていない3処理方式（`MOMによるメッセージング`・`HTTPメッセージング`・`テーブルをキューとして使ったメッセージング`）には公開本文で触れない形に落ち着いた。ラウンド4 は3行の是正のみ（`about/index.rst:77` 第2文の目的語補い＋「アプリケーション」3回の解消／`:81` の「このうち」の先行詞固定／`style.md:5` の `design.md`「7. トンマナ」→「8. トンマナ」）で、4観点のレビューは指示書 §7-7 により回していない。**ゲートP のみ指示の文言のままでは満たせず、第2文単位で PASS とし本文は変更していない**（段落単位では変更禁止の第3文の `Nablarchバッチアプリケーション` を含めて3回。`checks/task-24.md`「指示との食い違い1件」）。詳細は `checks/task-24.md`（ラウンド1〜4）・`reviews/page-about_index.md` `## #24` 節および git 履歴（本文コミット `82dbe16`・`443dccc`・`5e87f6e`・`db5a84a`、ラウンド4 `66fe4c9`、記録 `7ddc30f`）を参照。
+
+### #25: 取引単体テストの設定（HTTPメッセージング）（`setup/deal_unit_test/http_messaging.rst`）— DONE
+
+**Purpose**: マッピングに従って第2部の9ページ目「取引単体テストの設定（HTTPメッセージング）」を作成する。対象は `mapping.csv` の `dest_page=取引単体テストの設定（HTTPメッセージング）` の1行（`current-0140`、出典 `…/03_DealUnitTest/http_send_sync.rst:50-69`、20 lines）。共通 Steps のみで進めた（個別の作業指示を出す3条件に当たらない）。
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
+
+**判断待ち3件の回答**（2026-08-14、`/rn:ty`。判断を仰いだ時点の記録と回答は `reviews/page-deal_unit_test_setting_http_messaging.md`「判断待ちと、その回答」節。**回答2・3 は本文を変更せず、回答1 の作業は `#26` で行う**）:
+
+1. **`sendSyncTestData`・`messagingTestDataParser` の置き場所 → `setup/common.rst` に置く（案B）。作業は `#26`。** 根拠は `design.md:192` が共通設定の範囲に「テストデータの配置」を挙げていること。案A（MOMページに置いて `:ref:`）は、MOM をやらない読者を MOM のページへ送ることになり、`design.md:125` が問題としている読者のずれを解説書の側で作るため採らない。未作成ページへの前方参照スタブも作らない。節の見出しで適用条件を名乗る。**「3処理方式で共通」は誤りで、必要なのは取引単体テストの `HTTPメッセージング` と `MOMによるメッセージング` の2処理方式のみ** — `SendSyncSupport` を生成するのは `MockMessagingClient.java:54` と `MockMessagingContext.java:52`・`:93` の2クラスだけで、リクエスト単体テスト側は `RequestTestingSendSyncSupport` → `TestSupport.java:403-408` の `testDataParser` を通る別経路である（`e21bf67` を `git grep 'new SendSyncSupport' -- src/main` で実測）
+2. **同一コンポーネント名 `defaultMessageSenderClient` の衝突 → 本文には書かない。`#pre-last` の横断確認項目とする。** 名前がリクエストIDごとに決まることは承認済みの `setup/request_unit_test/http_messaging.rst:31` が書いており、本ページ `:31` が導線を張っている。残るリスクは散文ではなく**例示名**（出典 `http_send_sync.rst:62` の逐語）にあり、2ページを揃えて判断すべき事項である
+3. **リード文への前提の明示 → 明示しない（現状維持）。** `design.md:125` は第3部2ページ宛ての規定で本ページに及ばず、第2部のリード文の型を1ページだけ崩し、実装にウェブ限定の要素も無い（`MockMessagingClient.java:35`）。前提の明示は第3部 `implementation/deal_unit_test/http_messaging.rst` の作成タスクに委ねる
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-14。レビュー役の独立検証で出典 `current-0140` の4要素すべてが本文に対応し、公開本文に事実誤り0件。禁止ファイルの差分0行、`verify_mapping.py` は 595行 / 12,986 / 11,983 で `exit 0`）。4観点レビュー ラウンド1（A FAIL `must` 1 / B PASS / C PASS / D FAIL `must` 1、重複除去後12件）→ 是正4件 → 是正差分限定の検証ラウンドで FAIL（`must` 1）となり**是正1・2 を取り消し、是正4 を修正**。本文に残った是正は2件のみ。**是正1・2 を取り消した判断は正しいことをレビュー役が `mapping.csv` の実測で確認した**（`design.md:125` の宛先は第3部、出典 `http_send_sync.rst:7` は `current-0138`＝第3部割当。役割名は `ja/development_tools/testing_framework/index.rst:13` が定義）。Docker フルビルドは3回とも `build succeeded, 1 warning.`（既知の `db_double_submit.rst` のみ・新規0件）。詳細は `checks/task-25.md`・`reviews/page-deal_unit_test_setting_http_messaging.md` および git 履歴（本文コミット `acdcb75`）を参照。
+
+### #26: 取引単体テストの設定（MOMによるメッセージング）（`setup/deal_unit_test/mom.rst`）— DONE
+
+**Purpose**: マッピングに従って第2部の10ページ目を作成する。対象は `current-0158`（出典 `…/03_DealUnitTest/send_sync.rst:280-383`、104 lines）。`#25` の回答1 に従い出典を3分割したため、成果物は本ページと `setup/common.rst` の追加分にまたがる。
+
+**Completion criteria**: 上記ページ作成タスクの Completion criteria に同じ。
+
+**`current-0158` の分割（確定）**: `-a`（`:280-297`、18行）はモックアップクラスの設定で本ページへ。`-b`（`:298-360`、63行）はテストデータのベースディレクトリと解析コンポーネントの設定で `共通設定` へ。`-c`（`:361-383`、23行）は `pom.xml` への依存関係追加で `共通設定` へ。`mapping.csv` は 595→**597行**（`_batch/batch-25.csv` 経由で再生成・バイト一致）、12,986 / 11,983 は不変。
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-14。公開本文を承認）。4観点レビュー ラウンド1 は**4観点とも FAIL**（重複除去後 `must` 5 / `should` 9 / `info` 8）→ 是正14件 → 是正差分限定の検証ラウンドは **PASS**（`must` 0、`should` 2 は本タスク内で是正）。ゲート1〜11 全件 PASS、Docker フルビルドは3回とも `build succeeded, 1 warning.`（既知1件のみ・新規0件）。**本タスクで確定した判断2件** — (1) `pom.xml` への `nablarch-testing` 追加の帰属は `共通設定`（処理方式・テスト種別によらず必要で、第2部の表題が「導入と設定」であるため）。(2) 出典に無い `nablarch-testing-yaml` の依存関係を追記（`YamlTestDataParser` を登録させながらモジュールの追加手順がどのページにも無く、書かれたとおりでは動かないため。`design.md` §8「出典が欠いている、実装上必須の設定の追記」・`design.md:176`）。**YAML形式の設定は実際に動かして確認した**（`fileExtensions` に `sendSyncTestData` を設定すると `IllegalStateException`、設定しなければ応答電文を取得できる）。詳細は `checks/task-26.md`・`reviews/page-deal_unit_test_setting_mom.md` および git 履歴（本文コミット `2bc3bf0`）を参照。
+
+**`#27` 以降への申し送り**: (1) 用語 `同期応答メッセージ送信`（MOM側）と `HTTPメッセージ送信`（HTTP側）は `glossary.md:156`・`:158` の別の正表記であり、両方に掛かる場合は「同期応答メッセージ送信・HTTPメッセージ送信」と併記する（`implementation/testdata_notation.rst:497` に先例）。(2) `style.md` S-10 規約1 の「共通にしてよい2類型」に「両形式で同一の設定」が無い。類型追加の要否は `#pre-last` で判断する。(3) `messagingTestDataParser` は「テストデータを解析するコンポーネント」と呼ぶ（`setup/class_unit_test.rst:108` に合わせた）。
+
+
+### #27: 週末の連続作成キュー（`#27-00` ＋21ページ。user review を挟まない）— DONE
+
+**Purpose**: 残り21ページの「初版と自己レビューまで」を、user review を挟まずにキュー順で片づける。作業指示は `.rn/20260724-ntf-yaml-support/ntf-doc-weekend-queue.md`。個別指示は `ntf-doc-27-small-3rd.md`（`#27-07`・`#27-10`・`#27-11`・`#27-15`）・`ntf-doc-27-db-queue.md`（`#27-16`〜`#27-18`）・`ntf-doc-27-large-pages.md`（`#27-19`〜`#27-21`）。
+
+**Completion criteria**: `#27-00` と21ページすべてがコミット済みで、各ページについて作業指示 §5 のゲートG1〜G13 の結果が `checks/task-27.md` に記録されていること。
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-15）。キュー22件すべてコミット済み（`6fceb6f`〜`7e19f68`）。`blocked` としたページは無い。レビュー役の独立検証（`7e19f68` を独立クローンで全量検証。結果は `ntf-doc-27-review.md`）は**要是正0件**で、申し送りは `guide/` 残骸2件のみ。フルビルド（`sphinx-build -a`）は WARNING・ERROR ともに0件、`verify_mapping.py` は exit 0、`verify_glossary.py` の不一致は既知25件で新規の劣化なし、`guide/` を除く `.rst` 38件が `design.md:830-890` のツリーと完全一致、ページ先頭ラベル37件が `style.md` S-08 一覧と0件不一致。**21ページが上げた判断待ち110件は `#28` で処理する。** 詳細は `checks/task-27.md`・`reviews/page-*.md`・`ntf-doc-27-review.md` および git 履歴を参照。
+
+### #pre-last: `verify_glossary.py` の不一致25件の一括是正と、横断の是正 — DONE
+
+**Purpose**: ページを作らないタスク。`#21` の申し送りで残った `verify_glossary.py` の不一致25件を、全ページ作成完了後・`#last` の直前に一括で解消し、あわせて横断の是正2件（例示のコンポーネント名の衝突・語の統一3件）を行う。
+
+**Completion criteria**:
+
+- `verify_glossary.py` の不一致が0件で exit 0
+- 再発防止の判断（`design.md` のコーパス除外か行番号指定の廃止か）が記録されている
+- 横断の是正2件（例示のコンポーネント名・語の統一3件）に判断と実行結果が記録されている
+- `ja/` 配下の `.rst` の差分が、横断の是正2件に由来するものだけである
+
+**Closed**: user review 承認済み（`/rn:up`、2026-08-16。**独立検証で要是正0件、判断3件ともそのまま承認**）。9検査すべて不一致0件（`RESULT: OK`）、`verify_mapping.py` は exit 0、`pytest` は `183 passed`、Docker フルビルド（`-a`）は `build succeeded.` で WARNING・ERROR ともに0件、`ja/` の差分は4ファイル・9行。**再発防止は二者択一ではなく両方を実施した** — `S:design.md:NN` の行番号39箇所を撤廃し、かつ `design` を `scan` のコーパスから外した（別々の検査が壊れていたため）。**承認された判断3件** — (1) 取引単体テスト側の例示名を `defaultRealTimeMessagingClient` に変更（NTF 自身のテストリソースが2クラスに別名を与えて共存させている実測による）、(2) `メッセージの送信` → `電文の送信` に統一、(3) `アプリケーション開発者` → `アプリケーションプログラマ`（**`#25` の申し送りとは逆の結論**。`#27` で21ページ増えた後の実測でFW解説書4対1・現行解説書13対0となり申し送りの前提が崩れたため）。詳細は `checks/task-pre-last.md` および git 履歴（`8193d21`）を参照。
+
+### #28: `#27` の判断待ち110件の処理 — DONE
+
+**Purpose**: `#27` の21ページが上げた判断待ち110件を、レビュー役の一次情報検証にもとづいて処理する。作業指示は `ntf-doc-28-decide-disposition.md`。
+
+**Completion criteria**:
+
+- 作業指示のゲート1〜11 がすべて記録され、赤が無い
+- `glossary.md` の `:331-456`（§5.15）に差分が0行
+- フルビルドで WARNING・ERROR がともに0件
+- `ntf-mod-01`〜`ntf-mod-03` の3ファイルに差分が0行
+- `en/` 配下と `ja/conf.py` に差分が0行
+- `grep -rn "guide/development_guide" --include=*.rst ja/` が §5-2 の直前で0件
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-18。ユーザーが `30a8271` を独立検証し、S-04 の3ブロック（`style.md:252-257`・`:265-268`・`:276`）の再計測値が全項目一致、`ja/`・`en/`・`glossary.md` に差分0行、検証器3本 PASS、git status クリーンを確認）。**ゲート10**（`_build/html/_sources/*.txt` に `TODO(NTF-*)` が9件残る件）は**変更しないで進める**で確定（`_sources/` はリポジトリ全325ページの reST 原文を含み、`html_copy_source` を落とすとサイト全体の出力が変わるため、NTF解説書刷新のスコープ外。TODO はモジュール側の判定が返り次第消える暫定マーカー）。`ja/conf.py` は変更しない。他の10ゲートは PASS。詳細は `checks/task-28.md` および git 履歴（`c1e307e`・`30a8271`）を参照。
+
+**`#last` への持ち越し2件**（`#last` の Steps で扱う）:
+
+1. `setup/junit5_extension.rst:73` の `maven-surefire-plugin` 2.22.0 の一次情報（`checks/task-28.md:833`）
+2. 規約確定にともなう機械的な掃き出し — S-13 エスケープ186件・S-04 下線長**96件**（`implementation/testdata_examples.rst` 82件・`tools/request_data_tool.rst` 8件・`tools/master_data_tool.rst` 6件。`checks/task-28.md:229` の表の94件はこの96件に読み替える）
+
+### #last: Evaluation sign-off — DONE
+
+**Purpose**: NTF ドキュメント刷新の完了を Acceptance criteria に照らして確認し、ユーザーの承認を得る。
+
+**Prerequisites**: すべてのページ作成タスク完了（`#28` まで承認済み）
+
+**Steps**:
+
+- [x] Acceptance criteria の達成状況を確認する
+- [x] `make html` を実行し、**警告を含めて**未解決参照が0件であることを確認する。
+      `keep_warnings = True` のため未解決参照はビルド失敗にならないので、
+      エラー0の確認だけでは不十分。ビルドログに対し次を確認する
+      - `undefined label` が0件
+      - `toctree contains reference to nonexisting document` が0件
+      - `unknown document` が0件
+      確認したコマンドとログの該当箇所を `checks/task-last.md` に記録する
+- [x] `checks/task-07.md`「リンク切れになる参照」3件それぞれについて、
+      解消後の参照先（新ファイルパス・ラベル名）を実ファイルで確認して記録する
+- [x] **持ち越し(1)** `setup/junit5_extension.rst:73` の `maven-surefire-plugin` 2.22.0 —
+      一次情報で裏が取れるのは親POM の 2.22.2 のみ。下限「2.22.0以上」の Nablarch 側根拠は無い。
+      本文をどうするかの判断材料をそろえて提示する（`checks/task-28.md:833`）
+- [x] **持ち越し(2)** 規約確定にともなう機械的な掃き出し — S-13 エスケープ186件・
+      S-04 下線長96件（`testdata_examples.rst` 82・`request_data_tool.rst` 8・`master_data_tool.rst` 6）。
+      掃き出すか現状のままとするかを実測にもとづき判断・実行する
+- [x] **`/rn:gm`（2026-08-18）の追加処置8件** — (1) S-13 抽出器に外部リンク記法を加えて38ページを再走査し
+      取りこぼし1件（`about/index.rst:96`）を是正 (2) `style.md` の `file:line` 引用を実物と全件突き合わせ
+      (3) 申し送り a 下線直後の空行削除 (4) 申し送り b L4を1本新設 (5) 申し送り c 2語是正・9語は
+      `TODO(NTF-SRC-02)` (6) 申し送り d `:java:extdoc:`→コードリテラル2件 (7) 申し送り e
+      `testdata_converter.rst`「導入」L2 の新設 (8) surefire 下限値に `TODO(NTF-SRC-01)`。
+      記録は `checks/task-last.md` §4・§5-2・§5-5・§5-6・§5-7
+- [x] **区切り文字ディレクティブの説明の是正（申し送り）** — 申し送り原本は
+      `ntf-doc-renewal/指示/申し送り-区切り文字ディレクティブの制御文字.md`。タスク番号は新設せず `#last` に含めた。
+      (A-1) `testdata_examples.rst:1435` に `record-separator` へ制御文字を書いた場合の1文を追加
+      (A-2) `testdata_notation.rst:923`（固定長）・`:948`（可変長）の `record-separator` の説明をそろえる
+      (A-3) 同 `:950` の `field-separator` の説明を実装（2文字表記 `\t` は有効・0文字もエラー）に合わせる。
+      根拠は `nablarch-testing` `origin/main` = `e21bf67` の `file:line`（`checks/task-last.md` §5-8 の表）。
+      あわせて `style.md:263` の L4 実測（`request_unit_test/web.rst`）を15本→16本に是正
+- [x] 結果をユーザーに提示して `/rn:ty`（承認）または `/rn:gm`（修正）の判定をもらう
+
+**Completion criteria**:
+
+- すべての Acceptance criteria が達成されていることが確認できる
+- `checks/task-07.md`「リンク切れになる参照」の3件すべてが解消されている
+  （toctree・`:doc:` の更新、外部被参照ラベルの再定義）
+- 持ち越し2件がそれぞれ処理済み（実行または「現状のまま」の判断が記録されている）
+- ユーザーが `/rn:ty` で承認している
+
+**実測**（`checks/task-last.md`。`/rn:gm` の追加処置後のクリーンビルド）:
+
+- Acceptance criteria 5件のうち4件が達成、1件（トンマナ）は条件付き達成。`mapping.csv` 597件で
+  DROP 96件以外の501件はすべて `dest_page` を持つ。`verify_mapping.py` exit 0、
+  `verify_glossary.py` `RESULT: OK`（9検査すべて不一致0件）、`pytest` `183 passed`
+- フルビルド（`-a`・`rm -rf _build` 後）は `build succeeded.`・exit 0。WARNING 0件・
+  `undefined label` 0件・`toctree contains reference to nonexisting document` 0件・`unknown document` 0件
+- `checks/task-07.md` の3件はすべて解消。ラベル `how_to_set_token_in_request_unit_test` は
+  `implementation/request_unit_test/web.rst:257` に定義、参照は `db_double_submit.rst:106` の1件
+- **持ち越し(1)** surefire — 親POM 6/6u1/6u2/6u3/6-NEXT の各 `:52` はすべて 2.22.2。下限 2.22.0 の
+  Nablarch 側一次情報は無く、オフラインでは JUnit/Maven 側の出典も取得できない（**未確認**）。
+  「2.22.0以上」は現行解説書（`2e501ad:.../01_Abstract.rst:691-695`・`JUnit5_Extension.rst:26-33`）に
+  元からあり `mapping.csv` の `current-0179`・`current-0266` が移設を指示している。**現状維持を推奨**
+- **持ち越し(2)** 掃き出し実施 — S-04 は 96件を是正し 392/392 一致・不一致0件。S-13 は 192件を是正し
+  違反0件（`style.md` の186件は `084dd28` 時点では正しく、`#28` §6-2 の加筆で192件に増えていた）。
+  **掃き出し前後のクリーンビルドを全件比較し、`.html` 486ページ・`searchindex.js`・`objects.inv`・
+  `_images` に差分0件、差分は編集した11ファイルの `_sources/*.txt` のみ**であることを確認済み
+- **申し送り5件は `/rn:gm` の追加処置で全件クローズ**（`checks/task-28.md:229` の表7行）—
+  a 下線直後の空行削除・b L4新設（`request_unit_test/web.rst:309`「スーパクラスが読み込むデータブロックを
+  記述する」）・c UI項目名2語是正＋9語は保留・d `:java:extdoc:`→コードリテラル2件・
+  e `testdata_converter.rst:73`「導入」L2 の新設。`checks/task-last.md` §5-5
+- **追加処置後のクリーンフルビルド** は `build succeeded.`・exit 0・WARNING 0件。検証器3本も再実行して
+  すべて PASS。`870e809` との全比較で `.html` の差分は5ページのみで、いずれも上記 b・c・d・e に対応する。
+  `objects.inv` は `testdata_converter-setup` の1行追加。`_images` 差分0。作業(1)(3)(8) は出力を変えない
+  （`about/index.html`・`testdata_notation.html`・`junit5_extension.html` は差分一覧に現れない）
+- **未達として残るのは2件だけ**。いずれも一次情報が本作業環境で取得できないことに起因する。
+  (1) S-12 のUI項目名9語 — `TODO(NTF-SRC-02)`（`setup/request_unit_test/web.rst:162`・
+  `tools/request_data_tool.rst:102`）(2) `maven-surefire-plugin`「2.22.0以上」の下限値の出典 —
+  `TODO(NTF-SRC-01)`（`setup/junit5_extension.rst:73`）。**推測で書かないという user 判断による保留**で、
+  本文は変更していない。`checks/task-last.md` §4・§5-5
+- **区切り文字ディレクティブの是正** — 是正3件・編集4行（`testdata_examples.rst:1435`／
+  `testdata_notation.rst:923`・`:948`／同 `:950`）を差し替え。`d8d6114` とのクリーンフルビルド全比較で、差分は
+  `testdata_examples.html`（1行）・`testdata_notation.html`（3行）・両ページの `_sources/*.txt`・
+  `searchindex.js` の5件のみ。`objects.inv`・`_images`・残り484ページの `.html` は差分0。
+  ビルドは `build succeeded.`・exit 0・WARNING 0件で、検証器3本も再実行して PASS。
+  再計測は S-04 が394/394・不一致0（変化なし）、S-13 がインラインマークアップ2,263件・違反0
+  （コードリテラルが8件増えた分）。`checks/task-last.md` §5-8
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-18）。ユーザーが `96596b3` を独立に検証し、A・B とも
+指示どおりで新たな指摘なしと判定した。検証内容 — `d8d6114` との両側クリーンビルドによる HTML 全比較で
+差分5件、`.html` は該当2ページの1行・3行のみ、他484ページと `objects.inv`・`_images/` は差分0。
+S-04 394/394・不一致0、S-13 2,263件・違反0、検証器3本 PASS、`TODO` 13ID 不変、`style.md:263` の
+60/27/16本がすべて実物と一致。A-3 の根拠（`VariableLengthFile.java:70-71`・`:75-79`）も実装で再確認。
+詳細は `checks/task-last.md` および git 履歴（`870e809`・`d8d6114`・`96596b3`）を参照。
+
+**残る未達2件**（本刷新のスコープ外として保留。いずれも一次情報が本作業環境で取得できないためで、
+推測で書かないという user 判断により本文は変更していない）:
+
+1. S-12 のUI項目名9語 — `TODO(NTF-SRC-02)`（`setup/request_unit_test/web.rst:162`・
+   `tools/request_data_tool.rst:102`）
+2. `maven-surefire-plugin`「2.22.0以上」の下限値の出典 — `TODO(NTF-SRC-01)`
+   （`setup/junit5_extension.rst:73`）
+
+### #29: モジュール側の判定反映（4事象の確定と TODO 台帳の更新）
+
+**Purpose**: `nablarch-testing`・`nablarch-testing-converter` で確定した判定を解説書に反映し、待つものが無くなった TODO を外して、残る TODO を「何がマージされたら外すか」が分かる状態にする。`#last`（Evaluation sign-off）の承認後に user から届いた追加依頼であり、承認済みの成果に対する差分タスクである。
+
+**根拠（モジュール側の一次情報。両リポジトリとも clone 済みで、Assumptions の参照コミットから `git show <参照コミット>:<path>` で直接読める。以下は 2026-08-19 に実物を開いて確認した）**:
+
+- `nablarch-testing` `8530497:docs/pr75/steering.md` — 4事象の判定（事象1=仕様・解説書側対応／事象2=現状維持／事象3=不具合・#21 で対応／事象4前半=仕様・現状維持／事象4後半の YAML 対応=#22 で対応）は同ファイル `:117`。#21・#22 はいずれも未着手（`:116`「#21 の再現テスト作成から着手」）。**`#21`・`#22` は同ファイル内の rn タスク番号であって GitHub issue ではない。マージ単位はブランチ `convert-testdata-excel-to-text`／ドラフト PR `lovaizu/nablarch-testing#1`（`:4-5`）**
+- `nablarch-testing-converter` `b44268c:.rn/ntf-test-data-converter/steering.md` — 同名で拡張子違いの Excel ブックの同居は `XLS-28` として要対応（新規課題・2026-08-18 user 確定）。**`XLS-28` も同リポジトリの rn 課題番号。2026-08-19 実測では `5ab13d8`「fix: 拡張子違いの同名 Excel ブックの同居を辺①の入口で止める（XLS-28）」として実装済みで、ブランチ `ntf-test-data-converter` のみに存在し main 未マージ**
+
+**Steps**:
+
+- [x] A. `tools/request_data_tool.rst` の `TODO(NTF-MOD-02-1)` を3行とも削除する。本文は1文字も変えない（事象1は仕様と判定済み、かつ本文を現行解説書に合わせて据え置くという user 判断による）
+- [x] B. `tools/master_data_tool.rst` の `TODO(NTF-MOD-02-4)` の直後に、確定した事象4前半の制約だけを1件書く。ディレクティブの要否は `mapping/style.md` S-06 に従って判断する。`#28` で削除した3文のうち「Excel 形式で記述する」「YAML 形式用のパーサを設定しているプロジェクトでは本ツールを使用できない」の2文は書き戻さない
+- [x] C. TODO コメント3件（`NTF-MOD-02-4`・`NTF-MOD-02-3`・`NTF-MOD-01-2`）の1行目・3行目を判定後の文言に更新する。3行の書式は保つ。`.rst` の地の文は B の1件を除いて変えない
+- [x] D. 記録を更新する。(1) `checks/task-last.md` §8 の台帳（`NTF-MOD-02-1` の行を削除、残る3件の「判定・情報が返ったときにやること」列を書き換え、実測を取り直す） (2) `checks/task-28.md` §7「本文の書き換えを伴った箇所」への追記と §7-3 の表からの `NTF-MOD-02-1` の除去 (3) `reviews/page-request_data_tool.md`・`reviews/page-master_data_tool.md` の該当箇所への追記 (4) 本 `steering.md` の Task list と State
+
+**Completion criteria**:
+
+- `ja/` 配下の `TODO(NTF-` が **13件・12ID**（`NTF-MOD-02-1` が消え、`NTF-SRC-02` のみ2箇所）である
+- `tools/request_data_tool.rst` の差分が TODO 3行（と体裁を合わせた空行）の削除だけであり、`:86` の httpDump.bat/httpDump.sh の1文と `:66` の `:download:` 1件は変わっていない
+- `tools/master_data_tool.rst` に加わった地の文が B の1件だけであり、書き戻し禁止の2文が本文に無い
+- TODO 3件が判定後の文言になっており、3行の書式（1行目に事象・2行目に依頼書のパスと節・3行目に扱い）を保っている
+- D の記録4種がすべて更新され、`.rn/` 内どうしの参照が節見出しで書かれている（Rules）
+- Docker フルビルドが WARNING・ERROR ともに0件（ゲート7）
+- `verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` がすべて PASS
+- 禁止事項（`ja/conf.py`・`mapping/glossary.md` §5.15・`mapping.csv` 直接編集・`en/`・`locales/` の `.gitignore` 追加）に触れていない
+
+**Verify の結果と user 判断（2026-08-19）**: Steps A〜D は `4ea9498`（本体）・`ec412d4`（レビュー指摘6件の是正）で実施済み。
+その後の4観点レビューは4観点とも fail で、指摘は Valid 9件・Escalation 2件（全件・根拠・実測は
+`checks/task-29.md` §「トリアージ結果（調整役・2026-08-19）」）。user がこれを受けて処置先を次のとおり定めた。
+
+- **`#30` で処置する** — Escalation E1・E2 の回答と、Valid の V1・V2（`.. important::` の向きと `:ref:` 先）・
+  V5（`XLS-28` の状態）・V6（`NTF-MOD-02-4` の TODO 3行目）
+- **マージ直前にまとめて処置する（台帳。以後の追加はここへ足す）** — user 指示により今は手を付けない
+  - `#29` から — V7（「本作業ディレクトリからは参照できない」が誤り。記録5箇所）・V8（`checks/task-last.md` §5-5 の
+    「`web.rst` は `#29` では変更していない」が誤り）・V9（`#29` の行数変動でずれた `ja/` への `file:line` 13件。
+    `mapping/style.md` 10行11件・`mapping/glossary.md:314`・`design.md:379`）と `checks/task-29.md` 自身の
+    Self-check Evidence 3箇所（全件は `checks/task-29.md` §「トリアージ結果（調整役・2026-08-19）」）
+  - `#30` から（`/rn:gm` 2026-08-19 の user 指示で追加） — `reviews/page-master_data_tool.md` の2箇所
+    （設計 M-2 の行と「判断待ち」の 7）が `.. important::` を「パーサと形式が食い違う」＝双方向と説明したままで、
+    `#30` で確定した向き（Excel 形式のファイル＋YAML 形式用のパーサ）だけに限定した現物と食い違う
+  - `#30` から（同上） — `tools/testdata_converter.rst` に `TODO(NTF-MOD-01-3)` を新設したため `:62` 以降が
+    一律4行下がり、`.rn/` 内の `file:line` がずれた（実測 2026-08-19: 「機能概要」`:12`・「前提事項」`:61` は不変、
+    「導入」`:73`→`:77`、`<plugin>` 追加 `:77-89`→`:81-93`、`<dependency>` 追加 `:91-100`→`:95-104`、
+    「使用方法」`:102`→`:106`、その導入部の `:ref:` `:104`→`:108`、`bash` の code-block `:130`→`:134`、
+    「前提事項」節の範囲 `:61-69`→`:61-73`）。ずれている記録は `mapping/style.md:112`・`:273`・`:322` と
+    `design.md:379`・`:381`
+  - `#30` から（`/rn:ty` 2026-08-19 の user 指示で追加） — `checks/task-30.md` §「Verification Expert (fact-check)」の
+    「Artifact actually checked」の行（指摘1）が、処置を「→ `b44268c` と但し書きに戻した」と書いたままで、
+    `/rn:gm`（2026-08-19）で差し戻されて実物は `3ecf3db` が正となったことが同ファイルに無い。打ち消しの注記は
+    本 `steering.md` §「#30: `#29` のレビュー指摘の処置（user 判断 2026-08-19 の反映）」の「`/rn:gm`（2026-08-19）の
+    処置5件」(3) にあるが、`checks/task-30.md` 単体では台帳が今も `b44268c` を引くと読める。マージ直前に同行へ
+    打ち消しの注記を足す
+  - `.rn/` の整理（2026-09-03 user 判断「推奨で」。ディレクター報告に対する裁定） — マージ直前の1タスクで、次の6区分**以外**を `git rm` する: `design.md`・`steering.md`・`review-guide.md`（`#82`。`review-map.md` は `#82` で削除済み）・`mapping/glossary.md`・`mapping/style.md`・`input/`（10 md。`design.md` §9「`input/` に資料として残す」）。削除対象（2026-09-03 実測 `git ls-files`、追跡 211 ファイル中 205）: 指示書 `ntf-*.md` 61・`checks/` 50・`reviews/` 34・`mapping/` の `mapping.csv`・`_batch/` 30・`sections-current.csv`・`sections-input.csv`・`vocabulary.md`・`volume.md`・`split-plan.md`・`scan-terms.tsv`・`term-candidates.csv`・`tools/` 13。理由: rn の方針「履歴は git と PR に置く」（本 `steering.md` §Rules の圧縮の項）。残す側で `.rn/` の外から参照されているのは `README.md:76`（`mapping/glossary.md`）のみ（実測 `grep -rn '\.rn/'`、`.rn/` 外は1件）。削除後は `steering.md` §Assumptions の指示書一覧・`design.md` §10.1 のファイル図が git 履歴（削除コミットの親）を指す旨に書き換える（`review-guide.md` は内部記録を参照しないので追随不要。`#82`）。**削除をマージ直前に置く理由**: user の38本レビューが続く間は `mapping.csv` と `mapping/tools/verify_mapping.py` を全量検証に使う
+- **未処置のまま残る** — V3（`implementation/deal_unit_test/mom.rst` の `TODO(NTF-MOD-02-3)` 1行目に禁止語「不具合」）と
+  V4（`#21`・`#22`・`XLS-28` が GitHub issue 番号のように読める）。`#30` の作業指示は前者に触れず、
+  後者は差し替え文面が現行の書き方を踏襲しているため、いずれも判断を user に返す
+
+### #30: `#29` のレビュー指摘の処置（user 判断 2026-08-19 の反映） — DONE
+
+**Purpose**: `#29` の4観点レビューで挙がった指摘のうち user が今回の対象と定めた4件と、Escalation 2件への回答を、解説書へ反映する。
+
+**根拠（user が作業指示に引用した、レビュー役が実物で確認した一次情報）**:
+
+- `nablarch-testing` `65911f5` — `src/main/script/httpDump.sh` は存在するが、`pom.xml` に `src/main/script` を成果物へ取り込む設定が無く配布物に入らない。解説書側の配布物は `httpDump.bat` の1件のみ。読者が `httpDump.sh` を入手する手段は無い
+- 同 `65911f5:docs/pr75/steering.md:107` — 「Excel形式＋YAML用パーサという取り違えケースの挙動（無言0件）は変更されていない」。**確定しているのはこの向きだけで、逆向き（YAML形式のファイル＋Excel用パーサ）は未確認**
+- 同 `:25` — 「新事象（期待値0件テーブルの偽陰性）：…形式共通の2問題を本体で修正する（#23・#24）」。起票済み・未着手
+- `nablarch-testing-converter` `3ecf3db:.rn/ntf-test-data-converter/coverage/issues.md:2562`（宛先に解説書担当が明記された申し送り） — 「0 件テーブル（YAML の `rows: []` を持つテーブル系エントリ。`setup_tables`・`expected_tables` など）を含む YAML は、Excel へ変換できない」「解除条件: 本体（`nablarch-testing`）の `TableDataParser` が…読めるようになり、辺③を『識別子行だけを書く』実装へ切り替えたとき」
+
+**Steps**:
+
+- [x] 1. `tools/request_data_tool.rst` の起動用スクリプトを選ぶ手順を `* 配置した起動用スクリプト(httpDump.bat)を選ぶ。` に改める（E1 の回答）。**「Windows専用」とは書かない**（断定できる一次情報が無い）。現行解説書（`2e501ad:.../02_SetUpHttpDumpTool.rst:91-92`）にある記述を落とす変更であるため、user 判断として記録に残す
+- [x] 2. `tools/testdata_converter.rst`「前提事項」節の本文直前に `TODO(NTF-MOD-01-3)` を新設する（E2 の回答）。**本文には制約を書かない**（`ntf-doc-28-decide-disposition.md` §7「モジュール判定待ちの箇所の書き方」の決定による）
+- [x] 3. `tools/master_data_tool.rst` の `.. important::` を、確定している向き（Excel形式のファイル＋YAML形式用のパーサ）に限定する（V1）。`:ref:` 先は現在の `testing_framework_common` が根拠にならないため、実物で確認して差し替える（V2）。逆向きは未確認なので書かない。文言は `mapping/style.md` S-06・S-13 に合わせる
+- [x] 4. `tools/master_data_tool.rst` の `TODO(NTF-MOD-02-4)` 3行目を、`:10`・`:128`・`:130` の Excel 前提の記述を直す指示に改める（V6）。あわせて 3 の `.. important::` が `#22` マージ後も残るかを判断し、残らないならこの TODO の対象に含め、判断と理由を報告する
+- [x] 5. `tools/testdata_converter.rst` の `TODO(NTF-MOD-01-2)` 1行目の `XLS-28` の状態を「実装済み（`5ab13d8`、`main` 未マージ）」に改める（V5）。3行目はそのまま
+- [x] 6. 記録を更新する。(1) `checks/task-last.md` §8 の TODO 台帳に `NTF-MOD-01-3` を追加し、`NTF-MOD-01-2` の状態を更新して実測を取り直す (2) `reviews/page-request_data_tool.md` に 1 の本文変更を user 判断として追記する (3) 本 `steering.md` の Task list と State。**それ以外の記録整備は行わない**（`.rn/` の行番号ずれ・self-check の不整合はマージ直前にまとめて処置する。user 指示）
+
+**Completion criteria**:
+
+- `ja/` 配下の `TODO(NTF-` が **14件・13ID**（`NTF-MOD-01-3` が増え、`NTF-SRC-02` のみ2箇所）である
+- `git ls-tree -r --name-only HEAD | grep -i httpdump` の出力に `httpDump.sh` が0件である（`httpDump.bat` は `ja/` と `en/` に各1件。残りは `en/` に残る旧ガイドのディレクトリ名 `01_HttpDumpTool` へのヒット。条件文は `/rn:gm`（2026-08-19）の user 指示で差し替え）
+- `tools/request_data_tool.rst` に `httpDump.sh` が0件で、かつ「Windows専用」の趣旨の記述が無い
+- `tools/master_data_tool.rst` の `.. important::` が Excel形式のファイル＋YAML形式用のパーサの向きだけを述べており、`:ref:` 先が実在し、飛び先に `testDataParser` の記述がある
+- TODO 4件が3行の書式（1行目に事象・2行目に出典・3行目に扱い）を保っている
+- Docker フルビルドが WARNING・ERROR ともに0件（ゲート7）
+- `verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` がすべて PASS
+- 禁止事項（`ja/conf.py`・`mapping/glossary.md` §5.15・`mapping.csv` 直接編集・`en/`・`locales/` の `.gitignore` 追加）に触れていない
+
+**Verify の結果（2026-08-19）**: 4観点とも独立サブエージェントで実施し、**4観点とも fail**。重複を除いた指摘を調整役が実物で確認し、11件を是正した（詳細と実測は `checks/task-30.md`）。是正後の再検証はゲート7を含めて全 PASS。
+
+- **是正した主なもの** — (1) 台帳 `NTF-MOD-01-2` の出典が、確認した記録の無い `3ecf3db:…/steering.md` に書き換えられ但し書きも消えていた（4観点中3観点が独立に検出）→ `b44268c` と但し書きに戻した（**この判断は `/rn:gm`（2026-08-19）で差し戻された。実物は `3ecf3db` が正。下の「`/rn:gm`（2026-08-19）の処置5件」の (3)**）。(2) `TODO(NTF-MOD-02-4)` 1行目と台帳の同行が双方向のまま残り、`.. important::` の限定と矛盾していた → 確定した向きに揃えた。(3) `.. important::` が症状だけを述べ、`:ref:` 先も主張を裏付けていなかった → 規範先行に書き換え、`setup/request_unit_test/rest.rst:63` の先例にならって「`testDataParser` の記述例は… を参照」に限定した。(4) 存在しない節（`ntf-doc-28-decide-disposition.md`「本文の書き換えを伴った箇所」）を出典に挙げていた → §7 に直した（本 `steering.md` の Step 2 にも同じ誤りがあった）。(5) `reviews/page-request_data_tool.md` が旧状態の証拠として引く `:82` を `561c1ab:…:82` にコミット固定した
+- **Step 4 が求めた判断** — `.. important::` は `#22` マージ後も**残る**が、その時点で書き直しが要るため `TODO(NTF-MOD-02-4)` 3行目の対象に**含めた**。理由は `checks/task-30.md` §「Step 4 が求めた判断」
+- **`/rn:gm`（2026-08-19）の処置5件** — user が判断待ち4件をすべて「指摘のとおり」（指示文面の誤り）と裁定し、次を是正した。 (1) `TODO(NTF-MOD-02-4)` 3行目を、同一ファイル内の行番号指し（`:10`・`:128`・`:130`）から条件指しに変え、落ちていた配布物一覧の `MASTER_DATA*.xls` と「シート」も対象に含めた (2) `TODO(NTF-MOD-01-3)` 1行目と台帳から、本リポジトリに出典の無い converter 側の内輪の呼称を落とした (3) 台帳 `NTF-MOD-01-2` の出典を `3ecf3db:.rn/ntf-test-data-converter/steering.md:1203` に統一し、但し書きを「レビュー役が実物で確認して引用（`#30` 差し戻し）」と逐語の引用に改めた（`#30` で `b44268c` へ戻した判断は、そちらから検証できない以上プロセスとしては正しいが事実としては逆で、`b44268c:…:1120` は `- [ ]`、`3ecf3db:…:1203` は `- [x]` ＋ `5ab13d8`。user が両コミットを実物で確認した） (4) Completion criteria の `grep -i httpdump` の条件文を実測（11行。`httpDump.sh` 0件・`httpDump.bat` 2件・残り9件は `en/` の `01_HttpDumpTool`）に合う書き方へ差し替えた（本 Completion criteria と `checks/task-30.md` の2箇所） (5) マージ直前の一括処置の台帳（`#29` の「Verify の結果と user 判断」）に、`reviews/page-master_data_tool.md` の2箇所と `tools/testdata_converter.rst` の行番号ずれを追加した。**この2件は user 指示により今回は直していない**
+- **`/rn:up`（2026-08-19）の処置2件** — `/rn:gm` の報告で残していた user 判断待ち2件を、user がどちらも「いま直す」と裁定し、次を是正した。 (1) `checks/task-30.md` の各表の Evidence 欄が引く `ja/` の `file:line` を `e023648a` 時点の現物に合わせ、案件ルール「事実には `file:line` と参照コミットハッシュを必ず添える」に従って測定時点を各行に明記した（節冒頭に基準を1行置き、該当6行に注記）。`ja/` は `e023648a`〜`4620c43` で無変更であることを md5 で確認したうえで実測した。番号の付け替えだけでは再発するという user 指摘への処置がこの明記である (2) 台帳 `NTF-MOD-01-3` の「2段目」の出典を `b44268c:.rn/ntf-test-data-converter/steering.md` から `3ecf3db:.rn/ntf-test-data-converter/steering.md:867` に差し替え、`NTF-MOD-01-2` と同じ形（逐語の引用＋「レビュー役が実物で確認して引用」）にした。同じ行が既に引く `3ecf3db:…/coverage/issues.md:2562` とコミットが揃う。user が両コミットを実物で確認し、逐語が同一であることを確認した。**(1) で user 指示に無い是正4件を追加した**（`tools/master_data_tool.rst:32` の逐語が是正前のもののまま、`setup/class_unit_test.rst` の節見出しが `:132` ではなく `:133`、`setup/junit5_extension.rst` の先例が `:70-71` ではなく `:71-72`、`checks/task-30.md` の「新設 TODO の前後には空行を各1行置いた」が現物と食い違う（`c650039` で下線直後の空行を削除済み））。いずれも Evidence 欄が引く `ja/` の記述であり、測定時点を `e023648a` と明記する以上そのままでは虚偽になるため直した。なお `:111-113`→`:110-112` は user 指示に含まれており、上の4件には数えない
+
+**Closed**: user review 承認済み（`/rn:ty`、2026-08-19）。user が `97ecf31` を取得し、レビュー役が `ja/` の現物で
+`/rn:up`（2026-08-19）の是正2件を独立に確認して全件一致した（`tools/master_data_tool.rst:32` の逐語、
+`setup/class_unit_test.rst` の `:131` ラベル・`:133` 見出し・`:134` 下線、`setup/junit5_extension.rst` の `:71` 見出し・
+`:72` 下線、`tools/testdata_converter.rst` は `:62` の下線直後から `:63-65` で `:66` が空行）。**user 指示に無い是正4件は
+いずれも「直して正解」と裁定された。** `checks/task-30.md` の検証4件と、書き足した「`e023648a` 時点は直結164 / 空行0」も
+レビュー役の独立走査で再現した。`## Method` 節を対象外とした判断も、同節が引く3件
+（`setup/class_unit_test.rst:131`・`setup/request_unit_test/rest.rst:63`・`tools/request_data_tool.rst:82`）が現物で
+正しいため実害なしと認められた。**あわせて user 指示により、マージ直前の一括処置の台帳（`#29` の
+「Verify の結果と user 判断（2026-08-19）」）へ1件を追加した**（`checks/task-30.md` の指摘1 の行が `/rn:gm` の差し戻しを
+反映していない件）。`ja/` と `.rn/` へのそれ以外の変更は不要と指示された。
+
+### #31: `TODO(NTF-MOD-01-1)` の解消と「空エントリ」の記述の是正（user 判断 2026-08-20 の反映）— DONE
+
+**Purpose**: `tools/testdata_converter.rst` の2点を直す。(1) 往復非可逆の判定が返ったため `TODO(NTF-MOD-01-1)` を削除する。(2) 中間モデルが保持しない「空エントリ」を「無損失で保持する」側に挙げている記述を是正する。
+
+**根拠（user が作業指示に示した判定と、本リポジトリで確認できる一次情報）**:
+
+- **(1) の判定（user 確定・2026-08-20）** — 往復で観測された3事象はいずれも判定済みである。(a) 全カラム空文字の行が消える → `nablarch-testing-converter` の課題 `XLS-05`。判定「対応不要（記法が明文で定めている挙動）」。(b) `- {}` が増減する → 同じ明文による。(c) 0件テーブルが直後のブロックを取り込む → 課題 `XLS-27`。判定「要対応」。修正済みで、残る制約は既に `TODO(NTF-MOD-01-3)` が保持している。3事象の観測記録と (a)(b)(c) のラベルは `ntf-mod-01-nablarch-testing-converter.md` §2（`:53`・`:73`・`:77`）にある。`reviews/page-testdata_converter.md` §「判断待ち（`decide`）」1 にあるのは (a) 相当と (b) の2事象だけで、(c) は無い（`#31` のレビュー4観点が独立に検出。調整役が実物で確認）
+- **(2) の根拠（本リポジトリの一次情報）** — `ja/development_tools/testing_framework/implementation/testdata_notation.rst:1534`（`65a1756`）が「全要素が\ null\ または空文字のエントリは読み飛ばされる。Excel\ では行の全セルが空の場合、YAML\ では ``rows:``\ 内の要素が空マッピング（\ ``{}``\ ）またはすべての値が空文字の場合にスキップされる。」と定めている。読み飛ばしを実行するのは本体の `PoiXlsReader#isBlankLine`（L140-147）であり、変換ツール側に判断の余地は無い（`nablarch-testing-converter` の課題 `XLS-05` の判定より。同リポジトリは本作業ディレクトリの外にあるため読みに行かず、user が作業指示に示した内容による）。したがって空エントリは中間モデルに保持されない
+
+**Steps**:
+
+- [x] 1. `tools/testdata_converter.rst:22-25` の4行（`TODO(NTF-MOD-01-1)` 3行＋直後の空行1行）を削除する。削除後、tip 本文と「意味を変えずに往復できる」見出しの間に空行が1行だけ残ること。**本文は1文字も変えない**（判定が「あるべき姿（往復しても内容が保たれる）のとおり」であるため、注意書きの追加も不要）
+- [x] 2. 同ファイルの表「意図のある情報」の行から「データブロックの内側にある空エントリ、」を削除する。**「マーカーカラム」「空欄のレコード種別」は検証していないためそのまま残す**（user 指示）
+- [x] 3. 記録を更新する。(1) `checks/task-31.md` に2点を根拠付きで記録する (2) `checks/task-last.md` §8 の TODO 台帳から `NTF-MOD-01-1` の行を外し、実測を取り直す (3) `checks/task-28.md` §7-3 の表から `NTF-MOD-01-1` を外す（`#29` が `NTF-MOD-02-1` で確立した運用。同 `:461`） (4) 本 `steering.md` の Task list と State。**それ以外の記録整備は行わない**（`.rn/` の行番号ずれ・過去の記録との食い違いはマージ直前にまとめて処置する。`#30` Step 6 の user 指示を継続適用）
+
+**Completion criteria**:
+
+- `grep -rn 'NTF-MOD-01-1' ja/` が0件である（依頼書 `ntf-doc-28-decide-disposition.md` 側の記述は残してよい）
+- `ja/` 配下の `TODO(NTF-` が **13件・12ID**（`NTF-SRC-02` のみ2箇所）である
+- `tools/testdata_converter.rst` の tip 本文と「意味を変えずに往復できる」見出しの間の空行が1行である
+- 同ファイルの「意図のある情報」の行が「無損失で保持する。マーカーカラム、空欄のレコード種別が該当する」である
+- 上記2点以外に `ja/` の差分が無い。**本文を1文字も変えていない**ことを、`git diff --numstat <開始コミット>..HEAD -- ja/` が `1	5`（追加1・削除5）であることで測る。削除5の内訳は TODO 3行＋直後の空行1行＋「意図のある情報」1行の置換分であり、置換の削除1行は追加1行と対になる
+- `checks/task-last.md` §8 の台帳が13行・12ID で、削除した行が持っていた出典（依頼書 `ntf-mod-01-nablarch-testing-converter.md` §2・`checks/task-28.md` §7-3・`ntf-doc-28-decide-disposition.md` §7-2）が削除記録の段落に引き継がれている
+- `checks/task-28.md` §7-3 の表から `NTF-MOD-01-1` が外れている（`#29` が `NTF-MOD-02-1` で確立した運用。同 `:461`）
+- 台帳と `checks/task-28.md` §7-3 が指す `checks/task-31.md` が、`#31` の check-off コミットでブランチに入る。rn の運用上、check ファイルは実装担当が書き調整役が check-off コミットで staging するため、台帳を直したコミットとは別コミットになる（`task-execute-workflow.md`「Check file format」の "The expert does not commit it. The coordinator … commits the file … on the post-Verify steering check-off commit."）。したがって中間コミット単体ではポインタが解決しない
+- Docker フルビルドが WARNING・ERROR ともに0件（ゲート7）
+- `verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` がすべて PASS
+- 禁止事項（`ja/conf.py`・`mapping/glossary.md` §5.15・`mapping.csv` 直接編集・`en/`・`locales/` の `.gitignore` 追加）に触れていない
+
+### #32: `#31` の是正打ち切りと、残TODOの整理、利用側ページの構成物記述の見直し（user 指示 2026-08-21）— DONE
+
+**Purpose**: 3つを片づける。(1) `#31` が残した未決点を `tools/testdata_converter.rst` の本文で解消する。(2) 一次情報が揃った残TODO 4件（`NTF-MOD-02-2`・`NTF-SRC-01`・`NTF-SRC-02`・`NTF-FIG-01`〜`04`）を外し、`NTF-MOD-03-1` の文言を実状に合わせる。(3) 利用側ページから、利用者がNTFの内部の作りを知る必要のない記述（UMLクラス図7件・「主なクラスとリソース」表の7行）を落とす。
+
+**指示書**: `.rn/20260724-ntf-yaml-support/ntf-doc-32.md`。手順1〜8の対象行・変更前後の文面・一次情報の逐語はすべて同ファイルにある。**モジュール側リポジトリは作業ディレクトリの外にあるため見に行かない**（必要な一次情報は指示書に逐語で引用されている）。
+
+**Steps**:
+
+- [x] 0. `#31` を閉じる（`checks/task-31.md` の誤記5件を削り、指摘1・2・4 を `#30` Step 6 へ送り、指摘5 を処置不要と記す。`#31` を check-off する）— `1618faf` で完了
+- [x] 1. `tools/testdata_converter.rst` の `:37`・`:39` を書き換え、`:67` の直後に「前提事項」の段落を1つ足す。根拠の逐語3組を `checks/task-32.md` に記録する（指示書 §1）—— 該当段落は是正・是正2・是正3 で `b3e76fc`・`811d1cb`・`5c2c26f`・`4d0a48a` と4度動いた。最終形は是正3指示 §1 の逐語による
+- [x] 2. `setup/request_unit_test/rest.rst` の `TODO(NTF-MOD-02-2)` を外し、jar の実測を `checks/task-32.md` に記録する（指示書 §2）
+- [x] 3. `setup/junit5_extension.rst` の `TODO(NTF-SRC-01)` を外し、JUnit 5.3.0 リリースノートと Surefire 2.22.0 告知の逐語を `checks/task-32.md` に記録する（指示書 §3）
+- [x] 4. `setup/request_unit_test/web.rst` の5行と `tools/request_data_tool.rst` の1行を書き換え、`TODO(NTF-SRC-02)` 2箇所を外す。出典と「Open With」の扱いを `checks/task-32.md` に記録する（指示書 §4）
+- [x] 5. 利用側ページの構成図を全廃する。`TODO(NTF-FIG-01)`〜`04` の4ブロックと、残る `.. image::` 3件、および図に言及する本文2箇所を削る（指示書 §5）
+- [x] 6. 参照されなくなった画像・作図元 9ファイルを削除する。`en/` 配下の同名ファイルは削除しない（指示書 §6）
+- [x] 7. 「主なクラスとリソース」の表から7行を削り、本文4箇所から同じクラス名を落とす（指示書 §7）
+- [x] 8. `setup/junit5_extension.rst:400-402` の `TODO(NTF-MOD-03-1)` の文言を実状に合わせる。TODO 自体は残す（指示書 §8）
+- [x] 9. `checks/task-32.md` に、手順1〜8の後の TODO 台帳を節見出し方式で作り、`grep -rho 'TODO(NTF-[A-Z0-9-]*)' ja/ | sort | uniq -c` の実測を貼る（指示書 §9）
+
+**是正 Steps**（4観点レビューの有効な指摘11件。指示書 `ntf-doc-32-fix.md`。手順1〜5・7 の check-off はここが片づいてから行う）:
+
+- [x] 10. `tools/testdata_converter.rst` の `:39` から「空エントリ」を削り、`:69` の段落を差し替える。`:278` は触らず `checks/task-32.md` に1行記録する（是正指示 §1）— `811d1cb`。**判断待ち1・2 が同じ `:39` を再度動かしうる**
+- [x] 11. `about/index.rst:106` の2文目の直後に、NAF が読み取るコンポーネント設定ファイル／環境設定ファイルの入手先を指す1文を挿入する（是正指示 §2）— `811d1cb`
+- [x] 12. `design.md` に節「利用側ページに内部構造の構成図を置かない」を新設し、既存節 `:137` の見出しと末尾段落を実態に合わせる（是正指示 §3-1・§3-2）— `811d1cb`、過剰主張の是正は `f8f74f2`
+- [x] 13. マッピング台帳7行（`current-0165`・`0182`・`0200`・`0281`・`0295`・`0308`・`0322`）の `note` に `#32` のポインタを追記する。`_batch/*.csv` を直してから `mapping.csv` を作り直す（是正指示 §3-3）— `811d1cb`。**判断待ち4b が6行を追加しうる**
+- [x] 14. `implementation/request_unit_test/web.rst`・`rest.rst` のリード文を揃え、`AbstractHttpRequestTestTemplate` を落とし、`SimpleRestTestSupport` を足す（是正指示 §4）— `811d1cb`
+- [x] 15. 判断なしで直す6件を直す（`mom.rst:28`・`web.rst:48`・`mom.rst:22`・`junit5_extension.rst:73`・`web.rst:186`、および `checks/task-32.md` の jar の記録）（是正指示 §5）— `811d1cb`。`mom.rst:30` の行頭 `\ ` は `f8f74f2` で追加是正
+- [x] 16. `steering.md` に `#33` を新設する。中身の作業はしない（是正指示 §6）— `/rn:up` の再開時に調整役が実施
+
+**是正 Completion criteria**（是正指示「完了条件」の逐語）:
+
+1. `grep -n '空エントリ' ja/development_tools/testing_framework/tools/testdata_converter.rst` が0件
+2. `grep -n 'マーカーカラム' ja/development_tools/testing_framework/tools/testdata_converter.rst` が `:39`・`:69`・`:278` の3件（`:37` に無い）
+3. `grep -n 'testing_framework_setup' ja/development_tools/testing_framework/about/index.rst` が1件
+4. `grep -c 'AbstractHttpRequestTestTemplate' ja/development_tools/testing_framework/implementation/request_unit_test/web.rst` が0
+5. `_batch/*.csv` を昇順に連結（先頭のみヘッダ込み、2つ目以降はヘッダ除く）した結果が `mapping/mapping.csv` とバイト一致する。`csv.DictReader` の行数が編集前と同じ597行
+6. `design.md` に `### 利用側ページに内部構造の構成図を置かない` が存在し、`:137` の見出しが `### 「アーキテクチャ」は本文のみとし、図も構成物一覧の表も置かない` になっている
+7. `steering.md` に `#33` のエントリが存在する
+8. `python3 mapping/tools/verify_glossary.py` が `RESULT: OK`
+9. `python3 mapping/tools/verify_mapping.py` が `OK: no errors`
+10. `python3 -m pytest mapping/tools -q` が `183 passed, 96 subtests passed`
+11. Docker フルビルドで `grep -cE 'WARNING:|ERROR:|SEVERE:' build.log` が 0。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行する
+12. 禁止事項（`ja/conf.py`・`mapping/glossary.md` §5.15・`mapping.csv` 直接編集・`en/`・`locales/` の `.gitignore` 追加）に触れていない
+13. `checks/task-32.md` に §1-3（`:278`）・§3-3（台帳7行）・§5（jar の実測）の記録がある
+14. `#32` が check-off されている
+
+**是正2 Steps**（`#32-是正` が残した user 判断待ち6件の回答。指示書 `ntf-doc-32-fix2.md`。**手順1・5・7 と是正 Steps の残りの check-off はここが片づいてから行う**）:
+
+- [x] 17. 判断1（空エントリ）は現状維持。`tools/testdata_converter.rst:39` の空エントリ・「データブロックの外側にある」を触らない。推奨を採らなかった理由を `checks/task-32.md` に記録する（是正2指示 §1）
+- [x] 18. 判断2（行末の空セル）。`:39` から「行末の空セル」を落とし、`:69` の直後に前提事項の1段落を足す（是正2指示 §2）
+- [x] 19. 判断3（継承クラス）。`implementation/request_unit_test/mom.rst:142-143` を `BatchRequestTestSupport`・`BasicHttpRequestTestTemplate` へ差し替える。jar 実測の逐語と、`#33` へ送らなかった理由を `checks/task-32.md` に記録する（是正2指示 §3）
+- [x] 20. 判断4(a)。表の採否基準を `design.md:139` の節に明文化し、6ページへ当てて10行を落とす。`TestDataConverter` ほか「落とさない行」の判定根拠を `checks/task-32.md` に記録する（是正2指示 §4）
+- [x] 21. 判断5。`reviews/page-testdata_converter.md` に出典と実装の食い違い3件を記録する（是正2指示 §5-1）
+- [x] 22. 判断4(b)。マッピング台帳6行（`current-0201`・`0282`・`0296`・`0309`・`0323`・`input-0184`）の `note` に `#32` のポインタを追記する。`_batch/*.csv` を直してから `mapping.csv` を作り直す（是正2指示 §5-2）
+- [x] 23. 判断6。`#33` に (c) `markerColumnColor` の説明不足を足し、見出しを改める（是正2指示 §6）
+- [x] 24. 検証。`verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` と Docker フルビルド。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo`（是正2指示 完了条件10〜13）。**`docker build` からのイメージ再作成は `#34` へ分離し、既存イメージでのフルビルドを完了条件13 の代替とする**（`#32` のレビュー是正、2026-08-21）。理由と失敗ログの所在は `steering.md` `#34`「`#32` の完了判定との関係」。—— Steps 17〜24 は `5c2c26f` で実施し、4観点レビュー3ラウンドの有効指摘27件を `72275f2`・`14053b5`・`456544e` で是正した。判定と triage は `checks/task-32.md` §「4観点レビューの判定（是正2。調整役が記入。2026-08-21）」。
+
+**是正2 Completion criteria**: 是正2指示 `ntf-doc-32-fix2.md`「完了条件」1〜16 の逐語による（上の「是正 Completion criteria」2 と「Completion criteria」の「マーカーカラム」2件の条件は、是正2 の §2-2 が段落を1つ足すため、是正2 完了条件1・2 に置き換わる）。最終判定は下の「是正3 Completion criteria」に置き換わる。
+
+**是正3 Steps**（`#32-是正2` が残した user 判断待ち5件（A〜E）の回答。指示書 `ntf-doc-32-fix3.md`。**`#32` 全体の check-off はここが片づいてから行う**）:
+
+- [x] 25. 判断A・B・C・D・E を反映する。`tools/testdata_converter.rst:71` の因果と適用範囲（指示書 §1）、`reviews/page-testdata_converter.md` の残差処理と適用範囲（同 §2）、`#33` (d) の申し送り（同 §3）、`design.md` §「利用側ページに内部構造の構成図を置かない」への `9031fa6` の7行の記録と台帳5行の `note`（同 §4）、`#34` の未決点への方針（同 §5）、`.rn/` 内相互参照の節見出し化（同 §6）— `4d0a48a`
+- [x] 26. 4観点レビュー2ラウンドの有効指摘31件を `1ccfc53`・`6946fa1` で是正する。落とした7行の役割の残り方を 5行/2行 に直し、`#33` (d) に `BasicHttpRequestTestTemplate` を足し、表の行数についての排他の主張と、帰属先についての主語の無い断定を除く。判定と triage は `checks/task-32.md` §「4観点レビューの判定（是正3。調整役が記入。2026-08-21）」
+
+**是正3 では、指示書の記述3件を実測に合わせて変えた**（7行の分類・引用の行番号・呼び出し元の数）。指示どおりに書くと `.rn/` 内の文書に事実でない記述が入るためで、3件の内容・逐語・実測は `checks/task-32.md` §「4観点レビューの判定（是正3。調整役が記入。2026-08-21）」にある。
+
+**是正3 Completion criteria**: 是正3指示 `ntf-doc-32-fix3.md`「完了条件」1〜14 の逐語による。**このタスクの最終判定はこの14件で行う**（本エントリの他の Completion criteria は、是正3 が同じ箇所を再度動かすため、この14件に置き換わる）
+
+**Completion criteria**（指示書「完了条件」の逐語）:
+
+- `grep -rho 'TODO(NTF-[A-Z0-9-]*)' ja/ | sort | uniq -c` の結果が5件・5ID になる（`NTF-MOD-01-2` / `NTF-MOD-01-3` / `NTF-MOD-02-3` / `NTF-MOD-02-4` / `NTF-MOD-03-1` の各1件）
+- `tools/testdata_converter.rst` に「意図のある情報」の行として「無損失で保持する。空欄のレコード種別が該当する」があり、「マーカーカラム」は「意味を持たない情報」の行にだけ現れる。`grep -n 'マーカーカラム' ja/development_tools/testing_framework/tools/testdata_converter.rst` のヒットが「意味を持たない情報」の行と「前提事項」の新段落の2件だけになる
+- 削除した9ファイルへの参照が `ja/` 配下に残っていない。`grep -rn 'batch_request_test_class\|real_request_test_class\|send_sync\|rest_request_unit_test_structure\|request_unit_test_structure\|class_structure\|abstract_structure' ja/` の結果が0件
+- `python3 mapping/tools/verify_glossary.py` が `RESULT: OK`
+- `python3 mapping/tools/verify_mapping.py` が `OK: no errors`
+- `python3 -m pytest mapping/tools -q` が `183 passed, 96 subtests passed`
+- Docker でフルビルドし、`grep -cE 'WARNING:|ERROR:|SEVERE:' build.log` が 0。ビルド直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を必ず実行する
+- `checks/task-32.md` に、手順1-3・2-2・3-2・4-3 の記録と、手順9の台帳がある
+- `#31` が check-off されている（手順0）
+
+### #33: 記法の適用順序の明文化、markerColumnColor の説明不足、残置図の禁止語点検、「主なクラスとリソース」の表の載せる側の不揃い、`.rn/` の相互参照と役割記載の積み残し — Closed（2026-09-02。(e-1) は user 判断で打ち切り）
+
+**Purpose**: `#32` の是正で対象外とした記述課題5件を片づける。(a) マーカーカラム除外と空エントリ判定の適用順序を `implementation/testdata_notation.rst` に明文化する。(b) `ja/` 配下に残した図から `glossary.md` の禁止語を排する。(c) `tools/testdata_converter.rst` の `markerColumnColor` の説明が、着色の対象を限定していない点を直す。(d) 「主なクラスとリソース」の表の「載せる側」が6ページで揃っていない点を決める。(e) `#32` が範囲外とした2件 —— `.rn/` 内の相互参照の節見出し化の残りと、落とした行の役割を本文に残す規範を明文化前の7行へ遡って当てるかどうか —— を決める。
+
+**処置状況（2026-08-24。`残作業-rst修正.md` による）**:
+
+- **(a) 処置済み。** `implementation/testdata_notation.rst:1545` の段落末尾に2文を足し、`Excel` 形式では空エントリ判定がマーカーカラム除外の**前**に行われること、その結果マーカーカラムだけに値があるエントリは読み飛ばされないことを明文化した。下の未決点（「除外 → 空エントリ判定」と書くか）は、**実測どおり「空エントリ判定 → マーカーカラム除外」と書く**で決着した（`design.md` §8「出典と実装が食い違う場合は実装を優先する」を適用）。**本体の順序を変えるかどうかは解説書の範囲外であり、モジュール側の課題として残る。** 記録は `reviews/page-testdata_notation.md` §「`#35`-是正6 ／ `#33` (a) 空セル記述の書き直し（2026-08-24）」
+- **(c) 処置済み。** `tools/testdata_converter.rst:280` を、着色対象が `XlsFormatWriter` の合成するマーカーカラム（`[EMPTY]`）に限られる旨の説明に差し替えた。記録は `reviews/page-testdata_converter.md` §「`#35`-是正6 ／ `#33` (c)（`:71` と `:280` の修正、2026-08-24）」
+- **(d) クローズ（変更しない）。** 読み手の理解を妨げていない。両ページとも「リクエスト単体テストクラス」行の作成単位欄が「テスト対象クラス（Action）につき1つ作成する。」と明示している。加えて、行を足すと作成単位欄に書く事実が無い（`batch.rst`・`mom.rst` とも「取引」の語が0件で、`web.rst:34`・`rest.rst:36` の「取引につき1クラス」を当てられない）。事実として書けないものを埋めるより、書かない方がよい
+- **(e-2) クローズ（変更しない）。** `AbstractHttpRequestTestTemplate` の役割は `setup/request_unit_test/web.rst:229` に残っている。`StandaloneTestSupportTemplate` は `ja/` 配下のどこにも現れないため、読み手がその役割を知る必要がある場面がない
+- **(e-3) クローズ（変更しない）。** `design.md` の当該節が「リード文または本文」を許しており規約違反ではない。揃えるには `design.md` の改訂が要るが、`design.md` は変更禁止ファイルである
+- **(b) 処置済み（`#48`）。** 残置図はすべて PlantUML で描き直し、画面キャプチャ13件だけを残した。**キャプチャ13件はディレクターが画像を開いて目視し、`glossary.md` §8 左列の語は0件**（2026-08-30。文字は Eclipse／Windows の UI 文言とクラス名・ファイル名のみ）
+- **(e-1) は打ち切り**（user 判断 2026-09-02。処置しない。理由は `ntf-doc-56-ledger-close.md` 冒頭）
+
+**背景と未決点**:
+
+- **(a) XLS-08 の記法明文化（converter からの申し送り）** — converter は解説書側へ明文化を申し送っている。`nablarch-testing-converter@e977824` の `src/main/java/nablarch/test/tool/converter/xls/XlsFormatReader.java:558-560` 逐語（`:557` は `<p>`。Assumptions のピン `45194f9` では同じ行が `deduplicateColumnNames` の実装であり、この逐語は成立しない。いずれも 2026-08-21 に `git show` で実測）:
+
+  > 記法は 2 つの規則の前後関係を定めていない。「除外 → 空エントリ判定」を前提とする（ユーザー確定・2026-08-18。解説書側へ明文化を申し送る）。課題は {@code coverage/issues.md} の XLS-08 に記録している。
+
+  **未決点**: NTF 本体は現在**逆順**で動いている。`nablarch-testing-converter@e977824` の `.rn/ntf-test-data-converter/coverage/issues.md:493-494` 逐語（2026-08-21 に `git show` で実測。1巡目までの `:499` は作業ツリーを行番号で指した誤り）:
+
+  > **原因は適用順序である。** 現状は**空エントリ判定をマーカーカラム除外の前に**行っている（本体 `PoiXlsReader#readLine` が生の行で判定 → `TableDataParser#onReadLine` が除外）。
+
+  したがって `implementation/testdata_notation.rst` に「除外 → 空エントリ判定」と書くことは、NTF 本体の不具合を宣言することと同じである。他の `TODO(NTF-MOD-*)` と同じ判定を要する。着手時に user の判定を仰ぐ。
+
+- **(b) 残置図の禁止語** — `implementation/request_unit_test/images/mom/send_sync_base.png` に、`glossary.md` が禁止する「自動テストフレームワーク」のノードが2つある（2026-08-21、user が画像を開いて確認）。`ja/` 配下の png は26枚あり、同種の全点検が要る。差し替え図の作成を伴う。
+
+  あわせて線引き（内部クラス構造を示す図は落とす／テスト範囲・作業の流れを示す図は残す）を `design.md` §「利用側ページに内部構造の構成図を置かない」に追記する。
+
+- **(c) `markerColumnColor` の説明不足** — `tools/testdata_converter.rst` の `markerColumnColor`（`#32` の是正2 適用後は `:277`・説明は `:280`「マーカーカラムの背景色」）が着色するのは、`XlsFormatWriter` がカラム名0件のデータブロックに合成するマーカーカラムだけである（`nablarch-testing-converter@e977824` の `src/main/java/nablarch/test/tool/converter/xls/XlsFormatWriter.java:543` 逐語: `static final String EMPTY_BLOCK_MARKER_COLUMN = "[EMPTY]";`。この行は `2f21bce` には存在しないため、参照コミットを明示する）。入力に元からあったマーカーカラムは中間モデルに入らないため、着色の対象にならない。現状の説明はこの限定に触れていない。
+
+  `#32` より前から成り立つ事実であり、`#32` が作った矛盾ではない。`#32` 以前の「マーカーカラムは無損失で保持する」が誤りだったため、当時の見かけ上の整合は誤り同士の整合だった。
+
+- **(d) 「主なクラスとリソース」の表の「載せる側」が6ページで揃っていない** — `design.md` §「利用側ページに内部構造の構成図を置かない」の採否基準 (1) は「利用者が作成する成果物（テストクラス・テストデータ・テスト対象クラス）は載せる」だが、`implementation/request_unit_test/batch.rst`・同 `mom.rst` の表はテスト対象クラスの行を持たない（残る4ページは持つ。`implementation/request_unit_test/web.rst:32`・同 `rest.rst:34`・`implementation/class_unit_test/component.rst:32`・同 `entity.rst:32`。2026-08-21 実測）。両ページとも `batch.rst:45`・`mom.rst:66` の作成単位欄で「テスト対象クラス（Action）につき1つ作成する。」と述べており、テスト対象クラスの存在自体は前提にしている。また基準 (2) を満たすスーパクラスが2つ、`mom.rst` の表に無い。同 `:130` の `BatchRequestTestSupport` と同 `:131` の `BasicHttpRequestTestTemplate` で、`mom.rst:128`-`:131` は同期応答メッセージ送信のテストクラスがこのどちらかを継承すると書いている（`BatchRequestTestSupport` は同 `:30` にも継承の記述がある）。`mom.rst` の表にあるスーパクラスは `MessagingRequestTestSupport`（同 `:70`）と `MessagingReceiveTestSupport`（同 `:73`）の2つで、表全体は見出し行を除くと6行ある（同 `:64`・`:67`・`:70`・`:73`・`:76`・`:79`。2026-08-21、`grep -n '^  \* - ' mom.rst` で実測）。`BasicHttpRequestTestTemplate` は `web.rst:35` の表にはあるが、採否の判定はページ単位で行う（`design.md` §「利用側ページに内部構造の構成図を置かない」）ため、`mom.rst` 側は独立に未処理である。`#32` は落とす側だけを当てたため未処理。
+
+  **未決点**: 行を足すか、(1) をページ単位の任意とするかを着手時に決める。台帳 `current-0282`・`current-0296`・`current-0323` の出典表にも該当行が無いため、行を足す場合は台帳の `note` に足した理由を記録する必要がある。
+
+- **(e) `#32` が範囲外とした2件** — どちらも `#32` の是正3 の4観点レビューで挙がり、`#32` の完了条件が拾わない範囲にあるため送った（2026-08-21）。
+
+  - **(e-1) `.rn/` 内の相互参照の節見出し化が3ファイルで止まっている。** `#32` の是正3 は完了条件6 が名指しした `mapping/style.md`・同 `glossary.md`・同 `vocabulary.md` の4件だけを直した。残りは2つの形で残っている。`design.md`・`steering.md`・`reviews/`・`checks/`・`mapping/` の5つ（作業指示 `ntf-doc-*.md` を除いた、書き換わり続ける文書）を母集団として 2026-08-21 に実測した件数は、ディレクトリ接頭辞付き（`reviews/page-x.md:12` の形）が141件、ベアファイル名（`design.md:12`・`steering.md:12` の形）が271件である（`grep -rEo '(reviews|design|steering|checks)/[A-Za-z0-9_.-]+\.md:[0-9]+' --include='*.md' design.md steering.md reviews checks mapping | wc -l` と `grep -rEo '(^|[^/A-Za-z0-9_.-])(steering|design)\.md:[0-9]+' --include='*.md' design.md steering.md reviews checks mapping | wc -l`。いずれも `.rn/20260724-ntf-yaml-support/` で実行）。後者は完了条件6 の grep が拾わない形であり、`mapping/style.md` にも `ntf-doc-27-small-3rd.md:26`（同 `:58`）・同 `:129-132`（同 `:224`）として残っている。**未決点**: 対象を `.rn/` 全体に広げるか、生きている文書（`design.md`・`steering.md`・`reviews/`・`checks/`）に限るかを着手時に決める。`mapping/glossary.md` §1 は `#32` の是正3 で、受領後に書き換えていない作業指示と `input/` 配下を「実物の側」として `file:line` のまま指すと整理した。この線引きを `.rn/` 全体の規約として追認するかどうかも、あわせて決める。
+
+  - **(e-2) 落とした行の役割を本文に残す規範を、明文化前の7行へ遡って当てるか。** `design.md` §「利用側ページに内部構造の構成図を置かない」の採否基準の段落の末尾は「落としたクラスの役割は、各ページのリード文または本文に残す。」と無条件に書いているが、`9031fa6` が落とした7行のうち2行（`implementation/request_unit_test/mom.rst` の `StandaloneTestSupportTemplate`・`AbstractHttpRequestTestTemplate`）はセルの内容が本文に残っていない。この規範の文は `#32` の是正2 で入ったもので、`9031fa6` はそれより前のコミットである（前後関係の実測は `design.md` §「利用側ページに内部構造の構成図を置かない」にある）。**未決点**: 2行の役割を `mom.rst` の本文へ書き足すか、規範は明文化以降にのみ当たると `design.md` に明記するかを着手時に決める。
+
+  - **(e-3) 落としたクラスの役割の置き場所が4ページで揃っていない。** `implementation/request_unit_test/batch.rst`・同 `mom.rst` は機能概要のリード段落の本文、同 `web.rst` は使用方法配下の `.. tip::`、同 `rest.rst` は使用方法配下の本文にある。`design.md` §「利用側ページに内部構造の構成図を置かない」が「リード文または本文」を許すため規約違反ではないが揃ってはいない。`#32` の是正2 で挙がり、範囲外として持ち越した（`checks/task-32.md` §「3回の上限に達した時点で残る未解決の指摘」2）。**未決点**: 置き場所を1つに定めるか、ページ単位の任意とするかを着手時に決める。
+
+**Steps**: 着手時に詳細化する。
+
+### #34: ビルド用 Docker イメージを `docker build` から作り直せない（環境課題）— Closed（2026-09-02 user 判断・処置しない）
+
+**Purpose**: 解説書のフルビルドに使う Docker イメージを `docker build` から作り直せるようにする。`#33` が扱う記述課題ではなく、検証環境そのものの課題であるため独立させた（`#32` のレビュー是正、2026-08-21）。
+
+**背景と未決点**:
+
+- 2026-08-21 に `docker build -t nablarch-document-build .` を実行したが、`Dockerfile:19` の `pip install` が社内 TLS 傍受の自己署名 CA を検証できず exit 1 で失敗する（`ERROR: Could not find a version that satisfies the requirement setuptools==57.5.0 (from versions: none)`。原因は `SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain'))`）。ホストには CA が `/usr/local/share/ca-certificates/ca.crt` として置かれ `SSL_CERT_FILE` も向いているが、`Dockerfile` はこれをイメージへ入れていない。`#32` の是正2 では既存イメージ（`a974e0c8ac60`、7日前）でフルビルドしたため、イメージ自体は2回続けて未検証である。`Dockerfile` は `#32` の作業範囲外のため触っていない。
+
+- **未決点**: `Dockerfile` に社内 CA を取り込む変更を入れてよいか、それとも `docker build` 時に CA をマウントする回避手順を作業手順として残すかを、着手時に user へ諮る。
+
+  **方針（2026-08-21、`#32` の是正3 で user が判断）**: `Dockerfile` は変更しない方向で進める。社内 TLS 傍受の CA は環境固有のものであり、解説書リポジトリの `Dockerfile` に焼き込むと、その CA を持たない環境でビルドが壊れるためである。`docker build` 時に CA を渡す手順（`--build-arg` またはビルドコンテキストへの一時配置とビルド後の削除）を本 `steering.md` の手順として残す方向で検討する。その際も `ca.crt`・`Dockerfile.ca` を作業ツリーに残さないという既存の制約を守る。
+
+- **`#32` の完了判定との関係**: 是正2指示 `ntf-doc-32-fix2.md`「完了条件」13 は `docker build` からのイメージ再作成を求めつつ、「今回も失敗する場合は、失敗ログをそのまま `checks/task-32.md` に記録し、`#33` へ送る」という逃げ道を定めている。その逃げ道に沿って失敗ログを記録し、記述課題の `#33` ではなく環境課題として独立させた本タスクへ送った。**`#32` は、既存イメージでのフルビルドが警告0・`build succeeded.` であることをもって完了条件13 の代替とし、イメージ再作成の検証は本タスクで行う。**
+
+打ち切り（user 判断 2026-09-02）。イメージの再作成は行わず、既存イメージ `nablarch-document-build` でのフルビルドを続ける。理由は `ntf-doc-56-ledger-close.md` 冒頭。
+
+
+### #35: `#32` の是正3 が残した記述の誤り4件を直す（user 指示 2026-08-21）— Closed（2026-08-24）
+
+**Closed（2026-08-24）**: 是正6（`残作業-rst修正.md` §1）で、ラウンド2 の `must` M-1 と申し送り45 を処置して閉じた。**申し送り44 は5点のうち (a)(b)(c) が閉じ、(d)（`:883` に超過分の扱いが無く `:1169` と非対称）と (e)（`:885` の「空配列 ``[]``」が `:836`・`:1155` の0件の言い回しと同形）が残る**（内訳の表は下の記録先にある）。
+
+**追記（2026-08-25）**: 申し送り44 の残り (d)(e) と、`glossary.md` §5.10 の申し送り42・43 を反映して**全4件を閉じた**。(d) は `:885` に「フィールドの数を超える位置の値は読み込まない。」を1文追加（`DataFileFragment.java:105-114` の `addValue` が `names.size()` でループを止めるため、固定長・可変長・\ Excel\ ・\ YAML\ すべてに効くことを実測）。(e) は「``rows:``\ に空配列 ``[]``\ を記載した行」→「``rows:``\ の要素を空配列 ``[]``\ とした行」に言い換え、`:836`・`:1155` の「リスト全体を `[]` にする」との混同を解消した。42・43 は `glossary.md` §5.10 の `フィールド長行`・`レコード種別行` の意味欄を実装に合わせて是正した（**用語集は全34ページ作成完了後のため、本件に限り変更禁止を解除**。正表記・揺れ表記・別義列は変更していない）。`verify_glossary.py` `RESULT: OK`（9カテゴリ不一致0件）、`verify_mapping.py` exit 0、Docker フルビルド `build succeeded.`（`WARNING:`／`ERROR:`／`SEVERE:` 0件）。**レビューは回していない**（実測に基づく訂正で申し送りの記述と1対1に対応するため）。記録は `reviews/page-testdata_notation.md` §「申し送り44 (d)(e)・申し送り42・43 の処置（2026-08-25）」。`implementation/testdata_notation.rst:883` を3ブロック（段落2つ ＋ `important` 1つ）へ書き直し、`:1160`・`:1547`・`tools/testdata_converter.rst:71` を同じ実測に揃えた。**数え方（「先頭要素を除いたセル数」「ラベル列を除いたセル数」）による説明をやめ、「末尾のフィールドの値を書かなければ ``""`` として扱われる」という結果の説明に置き換える**という方針で決着している。反映内容・根拠・検証は `reviews/page-testdata_notation.md` §「`#35`-是正6 ／ `#33` (a) 空セル記述の書き直し（2026-08-24）」と `reviews/page-testdata_converter.md` §「`#35`-是正6 ／ `#33` (c)（`:71` と `:280` の修正、2026-08-24）」。**是正6 はレビューを回していない**（逐語はディレクターが実測に基づいて確定済みで、作業は逐語の貼り付けとビルドのみ）。
+
+**Purpose**: `#32` の完了後に user へ上げた5件の回答を受け、`#32` が残した記述の誤りを直す。`#32` は完了条件を満たしており閉じたままにする。**`#33`・`#34` より先に着手する**（両タスクとも自身のエントリのとおり着手時に user の判定を要し、本タスクは判定が出ている）。
+
+**指示書**: `.rn/20260724-ntf-yaml-support/ntf-doc-35.md`。対象行・変更前後の逐語・出典はすべて同ファイルにある。**是正ラウンドの上限は3回**（指示書冒頭）。
+
+**Steps**:
+
+- [x] 1. `tools/testdata_converter.rst:71` の段落を、**是正1 指示書 §1 の差し替え文の逐語**に置き換える（`#35` 本体の §1 の「変更後」ではない。反例が出て停止条件に当たり、user が新しい文面を確定した）。「カラム名の行」で両系統を呼ばないこと、YAML 側の対称性を書かないことが判断の理由（是正1 §1）
+- [x] 1a. `implementation/testdata_notation.rst:1544`-`:1547` の4行を、**是正1 追補 §2 の逐語**に置き換える（「ファイル・メッセージ」「テーブル・``LIST_MAP``」の両方が対象。追補 §1 で承認済み）。機構B の補完側（データ行を名前の幅へ揃える）は書かない（`:658`・`:883` に既出のため）。「位置」とも書かない（YAML の テーブル・``LIST_MAP`` はキー対応）（是正1 §2 ＋ 追補 §1・§2）
+- [x] 1b. 両方の行の「（Excel 形式のみ）」が成り立つかを実装から確かめ、経路を `reviews/page-testdata_notation.md` の `## #35-是正1` 節に記録した（`cf80549`）。**停止条件に該当**——「名前の行の行末の空セルを取り除く」は Excel 形式のみで正しいが、「データ行を名前の幅へ揃える／名前が無い位置のセルを読まない」は YAML 形式にもある。`.rst` は未変更のまま user へ報告済み。YAML の解析実体は指示書が指した `nablarch-testing-converter@e977824` の `yaml/` ではなく `nablarch-testing-yaml@190cc9a` にあった（是正1 §2）
+- [x] 1c. 完了条件2 を「`tools/testdata_converter.rst:71` に『この整形』が無い」と読み替えたことを `checks/task-35.md` に記録する。`:249` は書き出し設定の既存文で `#35` の対象外（是正1 §3）
+- [x] 2. `implementation/testdata_notation.rst:1545` の直後に `list-table` の行を1行足す。既存の `:1544`-`:1545` は変えない。出典を `reviews/page-testdata_notation.md` に記録する（指示書 §2）
+- [x] 3. 台帳5行（`current-0201`・`current-0282`・`current-0296`・`current-0309`・`current-0323`）の `note` 末尾の一文を、列挙を外したポインタ1文に置き換える。`mapping.csv` の直接編集は禁止で、`mapping/_batch/*.csv` を直してから昇順連結で作り直す（指示書 §3）
+- [x] 4. `design.md` §「利用側ページに内部構造の構成図を置かない」の2か所を直す。`:147` の件数の説明を列挙を外した事実の記述に置き換え、`:143` の括弧書き末尾の一文を削る。**同節の他の記述は変えない**（指示書 §4）
+- [x] 5. `design.md:147` をリード文＋箇条書きに割る。**文言は1文字も変えない**。改行・行頭記号・連続空白を除いた文字列の完全一致で検算する（指示書 §5）
+- [x] 6. 検証。§1 の確定後に再実行する（2026-08-21 の `17b0254` 時点では全件 PASS・ビルド警告0）。`verify_glossary.py`・`verify_mapping.py`・`pytest mapping/tools` と、既存イメージでの Docker フルビルド。ビルド直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し `_build/` を削除する（指示書 完了条件10〜13）
+- [x] 7. 無限定の断定文それぞれについて主語を明示したうえで反例を検索し、自分の括弧書きや直後の列挙が反例になっていないかを確かめた記録を `checks/task-35.md` に書く（指示書 完了条件15）
+- [x] 8. `tools/testdata_converter.rst:71` の段落を、**是正2 §1 の1段落の逐語**に置き換える。旧第1・第3・第4文を落とす。データ行の空セルは形式で分かれ全空行は読み飛ばされるため、1文で正しく言えず本文へ送るという判断（是正2 §1）
+- [x] 9. `implementation/testdata_notation.rst:1544`-`:1547` の4行を、**是正2 §2 の逐語**に置き換える。「フィールド名称の行の」を落として無限定に戻し（A-3）、テーブル側の行にだけ「前述」を付ける（A-4）。データ行の補完は表に書かない（`:658`・`:787`・`:883` に既出）（是正2 §2）。**`9aa06d7` で実施済み。ただし A-3 の無限定化は誤りだったことが差分限定レビューで判明し、`:1545` は是正3 §1（Step 13）が置き換える**（`:1544`・`:1546`・`:1547` は是正2 の逐語のまま）
+- [x] 10. `reviews/page-testdata_converter.md:236`・`:238`、`reviews/page-testdata_notation.md:555`・`:585`・`:644`・`:648`・`:654` の HEAD についての記述を §1・§2 反映後の状態に書き直し、申し送り38 を削除し、`:595`・`:642` の行番号参照を節見出し参照に直す（是正2 §3）。**`9aa06d7` で実施済み**（§3 の名指し7箇所に加え `:658` の導入文へ1文追加。同節の逐語も是正2 で置き換わったため。コーディネータ判定で valid）。**`:667` の書き直しは `:1545` の文面確定待ちで積み残し、是正3 §2（Step 14）が引き継ぐ**
+- [x] 11. **4観点は回さない**（`ntf-doc-13-standing-rules.md:20` の常設ルール、是正ラウンド2）。差分限定の2点——是正が §1〜§3 の範囲に収まっているか、新しい欠陥を生んでいないか（特に §1・§2 の逐語指定文そのものへの反例）——だけを回し、指摘件数と観点を `reviews/page-testdata_notation.md` に記録する（是正2 §4）。**レビューは回し済み**（`8890a65`。指摘5件＝`must` 2／`nice` 3、採用4・却下1。記録は `checks/task-35.md` の `## #35-是正2` 節）。**`must` 2件が未処置のため未完了。`reviews/page-testdata_notation.md` への記録も未了。是正3 §4（Step 16）が引き継ぐ**。**是正4 で閉じた**（記録は `reviews/page-testdata_notation.md` §「是正2・是正3 の指摘件数と観点（Steps 11・16 の積み残しをここへ移す）」へ移した）
+- [x] 12. 検証。Docker フルビルドが成功し警告0、直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し `_build` を削除する。`ca.crt`・`Dockerfile.ca` を残さない。Steps 8〜11 を1コミットにまとめてプッシュする（是正2 完了条件6〜8）。**フルビルド・後始末・`9aa06d7` の push は実施済み**（コーディネータが独立に再実行して確認）。**1コミットに畳む要件は達成不能**（§4 のレビュー記録は §1〜§3 の実装後にしか書けず、`9aa06d7` は push 済み）。**是正3 完了条件8 が「`9aa06d7` に続く1コミット」＝2コミットで確定と裁定したため、この要件は是正3 §4・完了条件6〜8（Step 17）へ引き継いで閉じる**。**是正4 で閉じた**（`#35` は `9aa06d7`・`1d88729`・是正4 の1コミットに分かれた。`--amend`・force push は一度も行っていない）
+- [x] 13. `implementation/testdata_notation.rst:1545` を、**是正3 §1 の1行の逐語**に置き換える（案B）。トリムに観測できる効果があるのはフィールド名称行・データ型行・フィールド長行の3つだけで、データ行は `DataFileFragment.java:105`-`:107` が埋め戻すため効果が打ち消される。メッセージも `MessageParser.java:27`・`:115` が `FixedLengthFileParser` へ委譲し `DataFileParser.onReadLine` を通るため、「ファイル・メッセージ」の行に3行分をまとめて書いてよい。**`:1547`（テーブル・``LIST_MAP``）は変更しない**。用語は `mapping/glossary.md` §5.10「ファイルデータの行の名称」の正表記に従う（是正3 §1）。**`1d88729` で実施済み。ただしディレクティブ行が欠けていたことが差分限定レビューの `must-1` で判明し、`:1545` は是正4 §1（Step 18）が置き換えた**（`:1544`・`:1546`・`:1547` は是正2 の逐語のまま）
+- [x] 14. 残りの指摘3件を処置する。(a) `reviews/page-testdata_notation.md:667` の「`:883` と食い違っていないことの確認」を §1 の確定文面に合わせて書き直す（`:702`-`:704` が引き継いでいる）、(b) 新節（`## #35-是正2`）の A-5 行の `mapping/glossary.md` への参照を行番号から §5.10「ファイルデータの行の名称」へ直す、(c) 「（\ Excel\ 形式のみ。前述）」の括弧についての指摘は**却下**（user 判断済み。A-4 で確定済みのため scope 外）（是正3 §2）。**`1d88729` で実施済み**（(a) は §「追補（`ntf-doc-35-fix1-addendum.md` §2）に従って表の2行を書き換えた記録」の末尾の段落を書き直し、(b) は §5.10 の節見出し参照へ改め、(c) は user 却下のため `:1547` 未変更）
+- [x] 15. 申し送りを1件起こす。`tools/testdata_converter.rst:71` が「データ行の空セルの扱いは形式によって異なるため、詳細は参照」と送っている先に、メッセージのデータ行についての記述が無い（`implementation/testdata_notation.rst:1152`-`:1309` に空セル・補完の記述0件）。**`#35` では直さず申し送りに起こす**（是正3 §3）。**申し送り39 として起票済み**（`reviews/page-testdata_notation.md` §「申し送り（続き2）」。38 は `9aa06d7` が削除したため欠番。事実は自分で `sed`＋`grep` を再実行して確認済み）
+- [x] 16. **4観点は回さない**（`ntf-doc-13-standing-rules.md:20` の常設ルール、是正ラウンド3）。差分限定の2点——是正が §1〜§3 の範囲に収まっているか、**§1 の逐語指定文そのものに反例がないか（実装で裏を取る）**——だけを回し、指摘件数と観点を `reviews/page-testdata_notation.md` に記録する。**Step 11 の記録未了分（是正2 の指摘5件・観点2件）も同ファイルへ移す**（是正3 §4）。**レビューは回し済み**（`1d88729`。指摘10件＝`must` 2／`nice` 3（採用）／`nice` 3（未処置）／却下2）。**記録は是正4 で `reviews/page-testdata_notation.md` §「是正2・是正3 の指摘件数と観点（Steps 11・16 の積み残しをここへ移す）」へ移して閉じた**
+- [x] 17. 検証。Docker フルビルドが成功し警告0、直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し `_build` を削除する。`ca.crt`・`Dockerfile.ca` を残さない。**Steps 13〜16 を `9aa06d7` に続く1コミットにまとめてプッシュする。`--amend` と force push は行わない**（`#35` が2コミットに分かれることは確定。申し送り不要）（是正3 完了条件6〜8）。**フルビルド・後始末は実施済み**（`1d88729` 時点）。**コミットは `1d88729`（`wip:`）が担い、`must` 2件の処置は是正4（Steps 18〜22）が引き継いで閉じた**
+- [x] 18. `implementation/testdata_notation.rst:1545` を、**是正4 §1 の1行の逐語**に置き換える（先頭に「ディレクティブ行・」を足す1行のみ）。`READING_DIRECTIVES_AND_NAMES` はディレクティブ行とフィールド名称行の2種を捌いており、ディレクティブ行にもトリムに観測できる効果がある（根拠は是正4 §5 の5点。ディレクター側が実測で反例検証済み）。**`:1547` と `tools/testdata_converter.rst:71` は変更しない**。`mapping/glossary.md` も変更しない（§5.10 は「ファイルデータのレイアウトを表す行の名称」に限った節で、ディレクティブは §5.8。「ディレクティブ行」は同ページ `:1055` が既に使う語）。メッセージのフレームワーク制御ヘッダを括弧書きで足さない（是正4 §1・§5）。**実施済み**（`sed -n '1545p'` の出力と検算は `checks/task-35.md` §「`#35`-是正4（最終）」の完了条件32）
+- [x] 19. 差分限定レビューの `must-2`（`tools/testdata_converter.rst:71` が「フィールド名称行」だけを挙げており、§1 の4行と食い違う）を、**申し送り40 として起こす**。`reviews/page-testdata_notation.md` の `### 申し送り（続き2）` に申し送り39 と同じ書式で追加し、`#35` 着地後に申し送り39・`:883` の Excel 側括弧書きと合わせて1タスクにする旨を1文添える。**`tools/testdata_converter.rst` は変更しない**（是正4 §2）。**申し送り40 として起票済み**（`reviews/page-testdata_notation.md` §「申し送り（続き2）」。`tools/testdata_converter.rst` は未変更）
+- [x] 20. 採用した `nice` 3件を反映する。(1) 是正2 節の見出し「差し替え後の逐語（現在の HEAD）」を `:555`・`:654` が既に採っている失効注記の型に揃え、§1 の差し替えで失効することを書く、(2) `checks/task-35.md` の新規2行が `.rn/` 内を行番号で指している箇所を節見出し参照に直す（`steering.md` Rules の「`.rn/` 内の文書どうしの相互参照」）、(3) 新設見出しの直前に空行を入れる（是正4 §3）。**3件とも反映済み**（完了条件35）
+- [x] 21. 記録を反映後の状態にする。`reviews/page-testdata_notation.md` に本ラウンドの節を新設し、§1 の確定逐語・§2 の申し送り40・**本ラウンドはレビュー未実施であること**（是正ラウンド上限3に到達。逐語の検証はディレクター側が実施）を記録する。**是正4 §5 の根拠（5点＋参照コミット `nablarch-testing@e21bf67`）を転記する**。あわせて Steps 11・16 が積み残した是正2・是正3 の指摘件数と観点も同ファイルへ移す。`checks/task-35.md` の完了条件表と `steering.md` の `#35` の Notes を反映後の状態にする（是正4 §4・§5）。**実施済み**（`reviews/page-testdata_notation.md` §「`#35`-是正4（「ディレクティブ行」を加えて `:1545` を確定、2026-08-24）」を新設。§5 の5点は自分で `git show e21bf67:<path>` に当たり直して全件一致を確認した）
+- [x] 22. 検証。Docker フルビルドを1回通し警告0を確認し、直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行して `_build` を削除する。`locales/` を `.gitignore` に加えない。`ca.crt`・`Dockerfile.ca` を残さない。**完了条件32〜38 をまとめた1コミットを push する。`--amend` と force push は行わない**（是正4 §6・完了条件7〜8）。**実施済み**（`build succeeded.`・警告0、`sphinx.mo` 未変更、`_build`・`build.log`・`ca.crt`・`Dockerfile.ca` なし）
+- [x] 23. **§1 逐語の検証（着手前。`.rst` には反映しない）。** 是正5 §1 の逐語案「\    - ディレクティブ・フィールド名称・データ型・フィールド長の各行の行末の空セルを取り除く（\ Excel\ 形式のみ）。フィールド名称の数を超える位置の値は読み込まない」に反例が無いかを、実物を開いて4点確かめる。(1) 『行』を落としてページの語法に揃うこと、(2)「各行の」で4語すべてに掛かると読めること、(3) フィールド長の限定が `:874` で担われ `:1545` に「固定長のみ」を足さないこと、(4)「フィールド名称の数を超える位置の値は読み込まない」が `nablarch-testing@e21bf67` の実装と一致すること。**反例が出たら §2 以降に進まず報告する**（是正5 §1・完了条件1）。**実施済み。(1) で反例が出たため §2 以降は未着手**（記録は `reviews/page-testdata_notation.md` §「`#35`-是正5 §1 の逐語検証（着手前。`.rst` は未変更）」）
+- [x] 24. **フェーズA A-1**。`:1545` の扱いについての user 判断を受領した。**前半の『行』付き4語は据え置き、後半の句だけを「フィールド名称の数を超える位置の値は読み込まない」へ差し替える**（是正5 §1 の3択のうち (2)）。案の作成は不要。反映はフェーズB（是正5 第2ラウンド A-1）
+- [x] 25. **フェーズA A-2**（申し送り40）。`tools/testdata_converter.rst:71` の逐語案を1つ作る。ファイル・メッセージ側でトリムが掛かる行を実測どおり列挙し、テーブル・`LIST_MAP` 側の「カラム名の行」と後段の1文は変えない。`:1545` と食い違わないこと（同 A-2）。**逐語案は `reviews/page-testdata_notation.md` §「`#35`-是正5 フェーズA（実測と逐語案。`.rst` は1文字も変更していない、2026-08-24）」の A-2 にある**
+- [x] 26. **フェーズA A-3**（申し送り39）。メッセージのデータ行の空セルの扱いを `nablarch-testing@e21bf67` と `nablarch-testing-yaml@190cc9a` で実測し、Excel 経路と YAML 経路の異同を確定させたうえで、メッセージの節に足す1〜2文の逐語案を作る（同 A-3）。**実測結果と逐語案は同節の A-3 にある**
+- [x] 27. **フェーズA A-4**。`:883` の Excel 側の括弧書き「先頭セルが空の行」が `PoiXlsReader.java:141`-`:147` の `isBlankLine` に掛かるかを実測で確定させ、掛かるなら書き換える逐語案を作る（同 A-4）。**掛かることを実測で確認し、逐語案を同節の A-4 に置いた**
+- [x] 28. **フェーズA A-5**（申し送り41）。`mapping/glossary.md` §5.10 の『行』付き4語と、`testdata_notation.rst:854`-`:858`／`:866`-`:879` の『行』なしが、矛盾か別概念かを確定させる（同 A-5）。**別概念と確定。ページの是正は不要。申し送り41 はクローズしてよい**（根拠は同節の A-5）
+- [x] 29. **フェーズB B-1・B-2**。A-1 の逐語を `:1545` に反映し、承認された A-2〜A-5 の案を反映する。「変更不要」と判定されたもの（A-5）は反映しない（是正5 第2ラウンド B-1・B-2）。**実施済み**（2026-08-24 の user 回答に従い、A-3 は第3文を足さず `:1158` の直後に1段落として挿入、A-4 は末尾1文を入れた。A-5 は変更していない。差分は `ja/` の2ファイル・4 hunk のみ。**A-3 の挿入で A-1 の行は `:1545` → `:1547` にずれた**）
+- [x] 30. **フェーズB B-3**。差分限定の2観点（範囲統制／新しい欠陥。後者に**承認された逐語案そのものへの反例検証**を含める）を**それぞれ別のサブエージェント**で回す（同 B-3）。**ラウンド1・ラウンド2 とも実施済み。生出力は要約せず `reviews/page-testdata_notation.md` の是正5 の2節に貼付済み。** ラウンド1 は `must` 1・`should` 2・`nice` 3 で、`must`（`:883` の数え方が1つずれている）を user 判断の案A ＋ `should`② で是正した（Step 30-a〜30-e で走査・実測・反映を実施）。ラウンド2 は観点1 が `must` 0・`should` 0・`nice` 4、観点2 が `must` 1・`should` 2・`nice` 3。**採用した指摘は0件。`must`（M-1。行末の `null`／`""` が `trimTailCopy` で消えるため逐語の条件文が結果を言い当てられない）は、是正が持ち込んだ欠陥ではなく、処置すると user 承認済みの逐語4箇所に波及し、かつラウンド上限2に達しているため、本文を変えず user へエスカレーションした**（同ファイル §「user へのエスカレーション（M-1。本ラウンドでは処置していない）」）
+- [x] 31. **フェーズB B-4**。`reviews/page-testdata_notation.md` の是正5 の節に、フェーズA の実測結果と確定した逐語（A-1〜A-5）・B-3 の生出力とラウンドごとの指摘件数と観点を記録する（同 B-4）。**実施済み。** ラウンド2 の節に、指摘件数・観点・両観点の生出力・処置とその理由（採用0件・却下3件・据え置き6件）・Step 30-a／30-b／30-e の走査の生出力・Step 30-d の逐語の根拠の再確認を書いた。申し送り39・40 を【処置済み】、41 を【クローズ】に更新し、是正2・是正3 の表の「`nice` 3（未処置）」を「処置済み」へ改め、3件それぞれに決着の内訳を付した。是正3 の `nice` 3件目の記録の誤りは申し送り42 が既に記録している。申し送り44・45 を新たに起票した。`checks/task-35.md` の完了条件44〜50 とフェーズB の Method 記録も反映済み。**記録に本ラウンドのコミットハッシュは書いていない**
+- [x] 32. **フェーズB B-5**。Docker フルビルドを1回通し警告0を確認し、直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行する（同 B-5）。**実施済み。** `_build` を消してからフルビルドし `SPHINX_EXIT=0`・`build succeeded.`、`WARNING:`／`ERROR:`／`SEVERE:` は0件（**既知の `db_double_submit.rst:108` の warning も出ていない**）。`sphinx.mo` は復元済みで `git status` に現れない。`_build`・`build.log`・`ca.crt`・`Dockerfile.ca` は作業ツリーに無い。`verify_mapping.py` は exit 0（`OK: no errors`）。**作業指示は「`d3017b8` に続けて」と書いているが、`d3017b8` の後に `/rn:dn` の `0a12ab6` と `/rn:up` の `ab2112e` が既に積まれているため、実際には `ab2112e` に続く1コミットとした**（`d3017b8` の子孫であり指示の意図は満たす）。`--amend` と force push は行っていない
+
+- [x] 33. **是正6**（`残作業-rst修正.md`。`#35` の残りと `#33` (a)(c) を同時に処置）。§1（`:883`・`:1160`・`:1547`・`tools/testdata_converter.rst:71` の4箇所）・§2（`:1536` に2文追加）・§3（`tools/testdata_converter.rst:280`）を逐語1文字一致で反映し、記録2ファイルと `steering.md` を更新して1コミット（`173c0f7`）で push した。**レビューは回していない**（指示書「この指示の性格」）。完了条件7件はすべて充足（差分は `.rst` 2ファイル・6箇所、逐語一致、Docker フルビルド `build succeeded.`・`WARNING:`／`ERROR:`／`SEVERE:` 0件、`verify_mapping.py` exit 0、変更禁止7ファイルの差分0行、`git status --short` 空、`5d854ca` に続くコミットで `--amend`・force push なし）
+
+**Completion criteria**（指示書 `ntf-doc-35.md`「完了条件」1〜15 の逐語）:
+
+1. `tools/testdata_converter.rst` の該当段落が**是正1 §1 の差し替え文**と一致する。`grep -rn 'メッセージのテストデータ' ja/` が0件
+2. `tools/testdata_converter.rst:71` に「この整形」が無い（`:249` は残ってよい。是正1 §3 の読み替え。読み替えたことを `checks/task-35.md` に記録する）
+3. `reviews/page-testdata_converter.md` の該当行が、`HeaderLine.java:81`・`XlsFormatReader.java:424`・`XlsFormatReaderCellTypeTest.java:182`-`:188` を出典として、名前の行とデータ行で扱いが異なることを記録している（是正1 完了条件5。5系統の走査経路の記録は `17b0254` で済み）
+4. `implementation/testdata_notation.rst` の `list-table` に §2 の行があり、`reviews/page-testdata_notation.md` に出典がある（**「既存の `:1544`-`:1545` が変わっていない」の句は追補 §2 が4行の差し替えを指示したため落とした。4a が差し替え後の判定を担う**）
+4a. `implementation/testdata_notation.rst` の該当4行が是正1 追補 §2 の文面と一致している（是正1 完了条件3。追補で差し替え）
+4b. 同ファイル `:1545`（旧）の「\ YAML\ 形式では ``rows:``\ の各要素をそのまま読み込む」が消えており、`:883` との矛盾が解消していることを `reviews/page-testdata_notation.md` の `## #35-是正1` 節に追記している。あわせて、機構B の補完側を表に書かなかった理由（`:658`・`:883` に既出）も1〜2文で記録している（是正1 完了条件4。追補で差し替え）
+4c. `implementation/testdata_notation.rst:883` の既存記述（可変長ファイルの `""` 補完）と、新しく書いた記述が食い違っていないことを確認した記録がある（是正1 完了条件6）
+5. `mapping.csv` の `note` に「なお同じ基準で 9031fa6 が」が0件、「なお 9031fa6 も同じ基準で」が5件
+6. `_batch/*.csv` を昇順連結（先頭のみヘッダ込み）した結果が `mapping/mapping.csv` とバイト一致し、`csv.DictReader` が597行。`82322fa` との差分が指定5行の `note` のみであることを `git diff` で全行確認する
+7. `design.md` の `:147` に「8件」が無く、`:143` から「同じマーカーの配下には」で始まる一文が消えている。`:143` の「計11件」は残っている
+8. `design.md:141`（採否基準の段落）が `82322fa` から1文字も変わっていない（`git show 82322fa:….rn/…/design.md | sed -n '141p' | md5sum` と一致）
+9. §5 の検算（改行・行頭記号・連続空白を除いた文字列の完全一致）が通る
+10. `python3 mapping/tools/verify_glossary.py` が `RESULT: OK`
+11. `python3 mapping/tools/verify_mapping.py` が `OK: no errors`
+12. `python3 -m pytest mapping/tools -q` が `183 passed, 96 subtests passed`
+13. 既存イメージでのフルビルドで `grep -cE 'WARNING:|ERROR:|SEVERE:' build.log` が 0。直後に `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し、`_build/`・`build.log` を削除する（是正1 完了条件10）
+14. 禁止事項（`ja/conf.py`・`mapping/glossary.md` §5.15・`mapping.csv` 直接編集・`en/`・`locales/` の `.gitignore` 追加）に触れていない
+15. 「取り除く」「落ちる」など無限定の断定文それぞれについて、主語を明示したうえで反例を検索し、自分の括弧書きや直後の列挙が反例になっていないかを確かめてから確定したことを `checks/task-35.md` に記録する
+
+**Completion criteria（`#35-是正2` 指示書「完了条件」1〜8 の逐語）**。**上の 1・4a は是正2 §1・§2 の文面へ読み替える**（是正1 とその追補が定めた逐語は是正2 が差し替えた）:
+
+16. `tools/testdata_converter.rst:71` が是正2 §1 の1段落と逐語一致し、旧第1・3・4文が消えている
+17. `implementation/testdata_notation.rst` の該当4行が是正2 §2 の文面と逐語一致している
+18. `implementation/testdata_notation.rst` 内に「フィールド名称の行」が1件も残っていない
+19. 是正2 §3 の7箇所と申し送り38、行番号参照2箇所が処置済み
+20. 是正2 §4 のレビューを回し、指摘件数と観点を記録済み。`must` を残していない
+21. Docker フルビルドが成功し警告0、`git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` 実施済み、`_build` 削除済み
+22. `ca.crt`・`Dockerfile.ca` が作業ツリーに残っていない
+23. 是正2 §1〜§4 を1コミットにまとめてプッシュ済み
+
+**Completion criteria（`#35-是正3` 指示書「完了条件」1〜8 の逐語）**。**上の 17 は是正3 §1 の文面へ読み替える**（是正2 §2 が定めた `:1545` の逐語は是正3 §1 が差し替えた。`:1544`・`:1546`・`:1547` は是正2 のまま）:
+
+24. `implementation/testdata_notation.rst:1545` が §1 の1行と逐語一致している
+25. `:1547` が変更されていない
+26. §2 の3件が処置済み
+27. §3 の申し送りが起こしてある
+28. §4 のレビューを回し、指摘件数と観点を記録済み。`must` を残していない
+29. Docker フルビルドが成功し警告0、`git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` 実施済み、`_build` 削除済み
+30. `ca.crt`・`Dockerfile.ca` が作業ツリーに残っていない
+31. **`9aa06d7` に続く1コミットとしてプッシュ済み。`--amend` と force push は行わない**（`#35` が2コミットに分かれることは、これで確定とする。申し送り不要）
+
+**Completion criteria（`#35-是正4`（最終）指示書「完了条件」1〜8 の逐語）**。**上の 24 は是正4 §1 の文面へ読み替える**（是正3 §1 が定めた `:1545` の逐語は是正4 §1 が差し替えた。`:1544`・`:1546`・`:1547` は是正2 のまま）:
+
+32. `:1545` が §1 の逐語と1文字一致（`sed -n '1545p'` の出力を記録に貼る）
+33. `:1547`・`tools/testdata_converter.rst:71` が未変更（`git diff` で確認）
+34. 申し送り40 が起票済み
+35. `nice` 3件が反映済み
+36. `reviews/page-testdata_notation.md`・`checks/task-35.md`・`steering.md` が反映後の状態
+37. §5 の6点が記録に転記済み
+38. Docker フルビルド成功・警告0、`sphinx.mo` が未変更、`ca.crt`・`Dockerfile.ca` が無い
+39. 1〜7 をまとめた1コミットを `3132688` に続けてプッシュ済み。`--amend` と force push は行わない
+
+**Completion criteria（`#35-是正5` 第2ラウンド。フェーズA / フェーズB）**。**上の 32 は是正5 §1 の文面へ読み替える**（是正4 §1 が定めた `:1545` の逐語を是正5 §1 が差し替える。`:1544`・`:1546`・`:1547` は是正2 のまま）。**40 は是正5 第1ラウンドのもので充足済み。41〜47（第1ラウンド）は第2ラウンドの 41〜50 へ差し替えた**:
+
+40. §1 の4点の検証結果が記録にある。反例が出た場合は §2 以降に進まず報告していること
+
+フェーズA:
+
+41. （A-a）A-2〜A-5 それぞれについて、逐語案または「変更不要」の判定が出ている
+42. （A-b）各判定に `file:line` と参照コミットハッシュが添えてある。示せないものは「未確認」と書いてある
+43. （A-c）`ja/` が1文字も変更されていない（`git diff --stat` で `ja/` が空）
+
+フェーズB:
+
+44. （B-a）`:1545` が A-1 の逐語と1文字一致（`sed -n '1545p'` の出力を記録に貼る）
+45. （B-b）`git diff` の `ja/` 側の変更が、A-1 と承認された案だけに由来している
+46. （B-c）B-3 の2観点を別サブエージェントで回し、生出力が要約なしで記録にある。ラウンドごとの指摘件数と観点が記録にある
+47. （B-d）申し送り39・40・41 が処置済みまたはクローズとして記録が更新されている
+48. （B-e）`mapping/glossary.md` §5.10 の誤りが申し送りとして起票されている
+49. （B-f）Docker フルビルド成功・警告0、`sphinx.mo` が未変更、`ca.crt`・`Dockerfile.ca` が無い
+50. （B-g）B-1〜B-5 をまとめた1コミットをプッシュ済み。`--amend` と force push は行わない
+
+**Notes（`#35`-是正5 第2ラウンド。フェーズB 完了時点の記録）**: **以下は フェーズB 完了時点のスナップショットである。`must` M-1 と申し送り45 は、その後の是正6（2026-08-24）で処置してクローズした。申し送り44 は (a)(b)(c) が閉じ、(d)(e) が残る。現在の状態は上の **Closed（2026-08-24）** を読むこと。**
+
+- **Steps 1〜32 は check off 済み。** 是正1〜是正4 と、是正5 の §1 検証・フェーズA・フェーズB がすべて終わっている
+- **`ja/` の差分は2コミットに分かれている。** B-1・B-2（A-1〜A-4 の反映。2ファイル・4 hunk）は `d3017b8`、B-3 ラウンド1 の `must` の是正（`implementation/testdata_notation.rst:883` の2文）は本ラウンドのコミット
+- **【解消済み。是正6 で処置】** B-3 ラウンド2 の `must` 1件（M-1）を本文に反映せず user へエスカレーションしていた。 `:883` の是正後の1つめの文は、データ行の**末尾**フィールドに `null`／`""` を書いた場合の結果を言い当てられない（`nablarch-testing@e21bf67` `src/main/java/nablarch/test/core/reader/DataFileParser.java:68` の `trimTailCopy` が `:69` の `switch` より前にあり、データ行にも掛かるため）。**是正が持ち込んだ欠陥ではなく、是正前の文にも同じ不正確さがあった。** 処置すると `:1160`（A-3 で承認）・`:1547`（A-1 で確定）・`tools/testdata_converter.rst:71`（A-2 で承認）に波及し、いずれも user 承認済みの逐語である。B-3 のラウンドは上限2に達している。詳細と3つの波及先は `reviews/page-testdata_notation.md` §「user へのエスカレーション（M-1。本ラウンドでは処置していない）」
+- **ラウンド2 で採用した指摘は0件。** 却下3件（S-1・S-2・N-3 の「フィールド数」の揺れ）と据え置き6件の理由は同ファイル §「処置とその理由」の表にある。**既決事項（`should`①・`nice`①〜③ を直さない判断、「フィールド数」を残す判断、`` ``rows:`` `` 直後の `\ `）に反する指摘は却下した**
+- **申し送り45 は是正6 で処置済み（クローズ）。申し送り44 は (a)(b)(c) が閉じ、(d)(e) が残る。** 44 は `:883` の段落で指示範囲外として見送った改善5点、45 は `:1547` と `tools/testdata_converter.rst:71` が行末トリムの対象からデータ行を落としていた件。内訳の表は `reviews/page-testdata_notation.md` §「`#35`-是正6 ／ `#33` (a) 空セル記述の書き直し（2026-08-24）」にある
+- **申し送り39・40 は処置済み、41 はクローズ。** 42・43（`mapping/glossary.md` §5.10 の2件）は用語集が変更禁止のため未処置のまま残る
+- **観点1 の報告は出典に難がある。** 指示した参照コミット `e21bf67` ではなく作業ツリー HEAD（`2e43786`）を読んでおり、`file:line` が参照コミットに当たらない。結論は同一の2点をディレクターが `e21bf67` で独立に確認済み。対応表は `reviews/page-testdata_notation.md` §「観点1 の出典に関する但し書き（ディレクターによる）」
+- **参照コミット**: `nablarch-testing@e21bf67`・`nablarch-testing-converter@e977824`・`nablarch-testing-yaml@190cc9a`。`nablarch-core` の clone は `/home/tie303177/work/nablarch/` に無く、`StringUtil` の実体は未確認（`#35` の判定はその内部仕様に依存しない）
+- **実測用の `git worktree` は後始末済み**（2026-08-24 に確認。`nablarch-testing`・`nablarch-testing-yaml` のいずれにも `e21bf67`／`190cc9a` の worktree は残っていない。`nablarch-testing` に残る `.claude/worktrees/agent-*` 4件は別作業のもので触っていない）
+
+### #36: 解説書に書く基準の確定と、テストデータ2ページのノイズ除去（user 指示 2026-08-25）— 完了（2026-08-30 台帳を閉じた）
+
+**このタスクは CC への指示書を持たない。ディレクター（レビュー役）が `ntf-yaml-support` に直接コミットしている。**
+user が「棚卸し一覧を出すのではなく2ファイルを直接修正し、修正意図単位でコミットして意図を
+コミットメッセージに書く」方式を選択したため（2026-08-25）。**修正の根拠はすべてコミット
+メッセージにある。** 本エントリは台帳との突き合わせのために置く。
+
+**確定した基準（user 確定 2026-08-25）**:
+
+> **解説書に書くのは「利用者が正しく書こうとしても踏むもの」だけ。「間違えたときにどうなるか」は書かない。**
+
+判定の目安:
+
+| | 書くか |
+|---|---|
+| 正しく書こうとしても踏む（例: マルチレイアウトのレコード長を揃える必要） | 書く |
+| 記法を見れば分かる（例: フィールド名と型を同じ数だけ並べる） | 書かない |
+| 間違えたときの帰結（例: 要素数が合わないとエラー、IOエラー、日付が解析できない） | 書かない |
+| 他の箇所で既に言っている | 書かない |
+
+**この基準はモジュール側のテストコードには適用しない**（文書とテストは目的が逆で、テストは
+「間違えたときにどうなるか」を押さえるためにある）。
+
+**「他の箇所で既に言っている」は同一ページ内にのみ適用する。2ページ間には適用しない**
+（user 確定 2026-08-25）。2ページは役割が違うため、同じ話題が両方に出るのは当然である。
+
+| ページ | 中身 | 読まれ方 |
+|---|---|---|
+| テストデータの書き方 | NTF が定義しているルールと書式。基本構文。**必須ルール**。メタな存在 | 一度読んで概念を掴む。記載例を引くための土台 |
+| テストデータの記載例 | 具体的な記載方法とその説明。**全バリエーション**。利用PJがそのまま参考にできる水準 | 繰り返し引く |
+
+例（改行文字）: 書き方は「値の種類に『改行文字』がある。Excel は ``\r`` と入力すると CR になる。
+YAML は ``"\r"``・``"\n"`` と書く」というルールを述べる。記載例は実際のテストデータの形で
+Excel／YAML の例を示し、それぞれに「なぜそう書くのか」「そう書くと何が出るか」を添える。
+
+**この線引きが要る理由**: 記載例ページは例だけのページではなく、既に説明を持っている
+（`testdata_examples.rst` の各節の導入文と表の前後の地の文）。基準を2ページ間に当てると、
+その説明が「書き方に既出だから」と削られ、読者が2ページを往復する状態に戻る。
+`design.md:47` は同一ページ内ですら「目と鼻の先のセクションへ読者を何度も行き来させ」ることを
+欠陥として挙げており、ページを跨ぐ往復はなおさらである。
+申し送り22（`reviews/page-testdata_examples.md:329`）・申し送り31
+（`reviews/page-testdata_notation.md:416`）が記録した「書き方 → 記載例 → 書き方 の往復で
+行き止まりになる」は、この線引きが無かったことによる。
+
+**「全バリエーション」は記法表の行と1対1にしない**（user 指摘 2026-08-25）。網羅の単位は
+**利用者がやりたいこと**であって表の行ではない。表の行と1対1にすると、利用者が困らないものにまで
+例を作ることになり、本タスクがやってきたノイズ除去と逆方向になる。
+
+**Purpose**: 34ページ作成期に積み上がった「エラーになる」系の記述が、利用者が読むべき記述を
+埋もれさせている。上記の基準で `implementation/testdata_notation.rst` と
+`implementation/testdata_examples.rst` の2ページを見直す。**対象はこの2ページのみ**（user 指定）。
+
+**`#35`・`#33` の決定を上書きした箇所**（再開時に必ず読むこと。過去の記録と現在の本文が
+食い違って見えるのはこのため）:
+
+- `implementation/testdata_notation.rst` の「フィールドの数を超える位置の値は読み込まない。」
+  — `#35` 追記（2026-08-25、申し送り44 (d)）が実測に基づいて足した1文。**基準に照らして落とした**
+  （`3e01b69`）。実測結果が誤っていたのではなく、書く対象ではないという判断
+- 同ページの `list-table`「読み込み時には以下のような整形・補完が行われる」（旧 `:1544`-`:1547`）
+  — `#35` の是正1・是正2・是正3・是正4・是正5・是正6 が繰り返し推敲し、是正4 で「ディレクティブ行・」
+  を加えて確定させた表。**表ごと落とした**（`672fde3`）。5項目のうち4項目が表自身の言葉で「前述」と
+  断る再掲で、残る1項目も利用者の記述を変えないため
+- 同ページ `:883` の「固有の記法制約」段落 — `#33` (a)／是正6 §1 が3ブロック（段落2つ ＋
+  `important` 1つ）へ書き直したうちの1つめ。**段落ごと落とした**（`d004ec0`）。2つめ（値の並べ方）と
+  3つめ（`important`）は残っている
+
+**論点の決着**（`~/work/cowork/nablarch/ntf-doc-renewal/01-現在地.md` の13論点のうち3件）:
+
+- 論点1（可変長ファイルのフィールド長）— **不成立**。回帰していない。記述順序の図・用語表・
+  `testdata_examples.rst`「可変長ファイルを記述する」の Excel／YAML 両例が、旧解説書と同じことを
+  より明示的に言えている
+- 論点4（フィールド数と値の数の不一致）— **決着**。解説書からは落とす。超過値を黙って捨てる実装挙動
+  （`nablarch-testing@e21bf67` `DataFileFragment.java:105-108`）は**ステップ4でモジュールへ申し送る**
+- 論点8（「データ要素数が不正である」の出所不明）— **決着**。出所を調べるまでもなく基準で落ちる。
+  実体は3リストのサイズ照合（`FixedLengthFileFragment.java:142-144`）で、同じ一覧の別項目と二重だった
+
+**Steps**:
+
+- [x] 1. `implementation/testdata_notation.rst` を基準で見直す。**完了**。10コミット
+  （`3e01b69`・`09779f6`・`d6b5e7a`・`672fde3`・`d004ec0`・`19e6f2d`・`340e0e4`・`f46c076`・
+  `e1f3d4c`・`85deedd`）。58行削除・21行追加
+- [x] 1a. 波及の処置。`tools/testdata_converter.rst:276` の `otherHeaderColor` の説明から
+  `DEFAULT` を落とした（`f46c076`）。データタイプ一覧から `DEFAULT` を外したことによる。
+  あわせて `mapping/glossary.md` §5.8「データタイプ」の件数を14種→13種に合わせた（`19e6f2d`）
+- [x] 1b. 走査漏れの拾い直し。1回目はキーワードを手掛かりに走査したため5件を取りこぼし、
+  段落ごとに問う読み方で読み直して処置した（`e1f3d4c`・`85deedd`）
+- [x] 2. `implementation/testdata_examples.rst`（2,264行）を同じ基準で見直す。**削除分は完了**。
+  4コミット（`839c69f`・`8ee645d`・`7d5e844`・`6d88ec8`）。14行削除・9行追加。
+  最初から段落ごとに問う読み方で行った（キーワード走査はしていない）。
+  **「例そのものが多すぎないか」は基準に無い観点だが、該当する箇所は出なかった。**
+  記載例ページのノイズは、例の繰り返しではなく「例に付けた注釈が帰結・既出」の形で出た
+- [x] 2a-1. `record-separator` の「エラーにならない」の扱い。**決着**（user 判断 2026-08-25）。
+  記述は残し、太字だけ外した（`4651903`）。`"\r\n"` は利用者が正しく書こうとして選ぶ書き方で、
+  同じ段落のタブ文字の説明と同じ形をしており「正しく書こうとしても踏む」に当たる。
+  裏付けは `4651903` のコミットメッセージ（`nablarch-testing@e21bf67` の
+  `DataFile.java:304`／`:325-328`／`:294-300`、`LineSeparator.java:57-64`）。
+  **下流の `nablarch-core-dataformat` の挙動は未確認**（`nablarch-core` は clone していない）
+- [x] 2a-2. 特殊記法の記載例が無い件。**完了**（user 判断 2026-08-25「あるべき姿にして」）。
+  2コミット（`db8a62e`・`fcf51c5`）。**空振りしていたのは空文字・改行だけではなく4項目**で、
+  `${文字種,文字数}` と `${attach:ファイルパス}` にも記載例が無かった。4項目すべてに記載例を足し、
+  節冒頭の断り書き「なお、空文字・改行の記述例は、この節では示していない。」を落とした。
+  `implementation/testdata_notation.rst:1370`・`:1420`・`:1470` の3本の参照が成立した
+- [x] 2b. 波及の処置。`implementation/testdata_notation.rst` の改行文字の行2箇所を実装に
+  合わせた（`db8a62e`）。**元からあった欠陥だが、正しい記載例を足すと記法ページと矛盾するため、
+  今回の変更が作る不整合として本タスクで直した**（`~/work/cowork/nablarch/ntf-doc-renewal/02-進め方.md`
+  「範囲外と申し送りの使い分け」）。Excel の `\n` は既定で変換されず2文字のまま残ること、
+  YAML は `"\r"`・`"\n"` の両方が効くこと。裏付けは `db8a62e` のコミットメッセージ
+- [x] 2c. **レビュー。完了**（2026-08-25）。ラウンド1の4観点をサブエージェントで実施し、
+  指摘22件（実質12件 ＋ 指示文への指摘1件）を全件是正、1件を却下した。**ラウンド2は回していない**
+  （理由は下の「ラウンド1 の結果」）。是正は `bebd00b`・`6bdbcd7`、記録は `6b9771b`
+- [x] 2d. **レビューを起点に確定した仕様2件とページ構成の是正1件**（2026-08-25、user 判断）。
+  2コミット（`6e8e4f8`・`2204eb9`）
+  - 2ページの役割分担を確定し、基準「他の箇所で既に言っている」の適用を**同一ページ内に限定**した
+    （`6e8e4f8`。上の「確定した基準」に本文がある）
+  - **YAML の null の仕様を確定した** — クォートなしの `null` は Java の null、`"null"` は
+    文字列の null。YAML は構文自体が両者を区別できるため、形式の都合で決まる。
+    `tools/testdata_converter.rst:20` は既にこの仕様で書かれており、記法ページ・記載例ページの
+    側が食い違っていた（4箇所を是正）
+  - **インタープリタの説明を第3部から第2部へ移した。** クラス名一覧はアーキテクトの領域で
+    （`design.md:345`）、利用者はクラス名を知らなくても特殊記法を書ける。あわせて
+    **第2部に「テストデータの形式をYAMLに変更する」を新設した** — YAML 形式を使うための設定が
+    第2部のどこにも無く、読者は記法を読めても使い始められない状態だった
+- [x] 3. `01-現在地.md` の残り10論点を突き合わせ、基準で消えるものを落とす。**完了**（論点13件はすべて決着し、`ja/` の `TODO(NTF-*)` は0件。2026-08-30 ディレクター実測）
+  着手前に上の「確定した基準」を読むこと（2ページの役割分担と適用範囲の線引きが入っている）。
+  **表の行番号は `d86bb59` 時点でずれているため、使う前に実物を開く**
+
+  **進め方の追加**（user 指示 2026-08-25）: **あるべき姿が自明なものは確認を仰がず直す。**
+  上の「直接修正の段取り」3（書き直しになるものは案を出して止まる）は、**あるべき姿が
+  自明でないものにだけ当てる**。
+
+  | 論点 | 状態 |
+  |---|---|
+  | 2 `"-"` の副作用 | **決着（`f7a3257`）。** `:1057` に「この場合、値に含まれる改行と、その前後の空白は取り除かれる」を追記した。基準の「利用者が正しく書こうとしても踏む」に当たると判断（セル内で折り返して書いた値がどう格納されるかを知らないと期待値が組めず、`"-"` の1文字からは分からない）。**申し送りの元文言「値は改行コードと前後空白が除去される」（`input/ntf-testdata-doc.md:417`）は不正確なので採らなかった。** 実測（`nablarch-testing@e21bf67` に置いたプローブテストで `.xls` を組み `DataFile#write()` の出力バイト列を確認）: `"  abc  "` は7バイトのまま＝前後空白は残る（フィールド長も7）、`"line1\nline2"`→`"line1line2"`、`"p \n q"`→`"pq"`、`"tail\n"`→`"tail"`。実装は `DataFileFragment.java:76` `REMOVE_LS_SP_PATTERN = "\s*[\r\n]\s*"` を `:108`-`:110`（`addValue`）・`:176`-`:178`（`addValueWithId`）の `"-"` フィールドだけに適用し、除去後の値をそのまま格納する（埋め戻しなし。`:112`→`:114`→`:386` `toDataRecords()`／`:574` `writeWith()`） |
+  | 2 続き: JSON・XML の電文 | **決着（`9cf44af`）。** `:1222` の tip が「電文ごとに電文長が異なるため、テストデータの内容に応じて電文長が自動計算される」と結果だけを書き、前提（メッセージボディのフィールド長に `"-"` を指定する）が抜けていた。実測: 同じセル値（19バイト、セル内改行つき）で `"-"`→record-length 15・改行除去、`"19"`→19・改行が残る、`"40"`→40・改行が残る。**内容に応じて決まるのは `"-"` のときだけ。** NTF 自身のテストデータも `src/test` の .xls 59件中、フィールド長に `"-"` を使う65件がすべて `core/messaging` 配下（`MessagingRequestTestSupportTest.xls` `testUseStructFwHeaderDefJSON`、`RequestTestingMessagingClientTest.xls` `testSendSync` ほか。XML はセル内改行で折り返して書かれている）。旧解説書も `http_real.rst:170` で同じことを言っており、作り直しで落ちていた |
+| 5 パディング | **不成立（回帰していない）。** 「データ型に応じたパディング」は `:889` に `#9`（`a0d09aa`）から一貫してある。残っていた `:880` の括弧書き「スペースパディング」だけを `:889` と揃えた（`8fe964b`） |
+  | 9 マーカーカラムの対象 | **決着。** 5箇所を是正（`faebf90`）。掛かるのは `SETUP_TABLE`・`EXPECTED_TABLE`・`EXPECTED_COMPLETE_TABLE`・`LIST_MAP` の4つだけで、ファイルデータ・メッセージングには掛からない。`HeaderLine` を参照するのは `ListMapParser`・`TableDataParser` の2クラスのみ（`nablarch-testing@e21bf67`）。`EXPECTED_COMPLETE_TABLE` の欠落も補った（`BasicTestDataParser.java:171-181`） |
+  | 10 0件テーブルの書き方 | **決着済み（対応不要）。** `#23`（`b75f1d7`）で既に書かれている。`:728`-`:736` に専用節、Excel は `:786`、YAML は `:833` |
+  | 3・6・7・11 | 未着手。仕様の判断が要る |
+  | 12・13 | 未着手（TODO 管理） |
+
+**検証**（Step 1 時点）:
+
+- Docker フルビルド `build succeeded.`、`WARNING:`／`ERROR:` 0件。直後に
+  `git checkout -- locales/ja/LC_MESSAGES/sphinx.mo` を実行し `_build`・`build.log` を削除済み
+- `verify_mapping.py` exit 0（`OK: no errors`。597行 / lines 12,986 / DROP除く 11,983）、
+  `verify_glossary.py` `RESULT: OK`（9カテゴリ不一致0件）
+- 削除した文言が他ページに残っていないことを走査（`DEFAULT`・「データ要素数」・「整形・補完」・
+  「数を超える位置の値」は `ja/development_tools/testing_framework/` 配下に残存0件）
+- `tools/testdata_converter.rst:71` は削除した表を参照していない（事実を自分で述べており、
+  参照は `:ref:` のページ単位）
+
+**検証**（Step 2 時点）:
+
+- Docker フルビルド `build succeeded.`、`WARNING:`／`ERROR:` 0件。直後に
+  `_build`・`build.log` を削除し `git status --short` が空であることを確認
+- `:ref:` の解決（このページの参照先ラベルが `ja/` 配下に全て存在すること）と段落内改行を
+  独立に走査。未定義ref 0件、段落内改行 0件
+- 削除した文言が他ページに残っていないことを走査。残ったのは
+  `implementation/testdata_notation.rst:279`（「テストが成功してしまう」）のみで、これは
+  帰結を正面から扱う節の本体であり、記載例ページはそこを `:ref:` で指している
+- `verify_mapping.py` exit 0（597行 / lines 12,986 / DROP除く 11,983 と Step 1 から不変）、
+  `verify_glossary.py` `RESULT: OK`。**ただしこの2つは `ja/` の本文を読まないため、
+  本変更に対しては感度を持たない。**「緑だから正しい」の根拠には使えない
+  （`nablarch/CLAUDE.md` 1-4）。本変更を検知しうるのはフルビルドと ref 走査だけである
+
+**レビュー**: Step 1 と Step 2 の削除だけの範囲では回していない。削除が主で、公開本文に新しい記述が
+入らないため（`nablarch/CLAUDE.md` 3-1 の「既存のものの是正」に当たる）。**判断の根拠は各コミット
+メッセージにあり、user が差分を見る前提で進めている。**
+
+**Step 2a-2（`fcf51c5`）で公開本文に新しい記述が入ったため、ここからは 3-1 により回す対象になる。**
+
+**Step 2c の回し方**（ラウンド1・4観点。`nablarch/CLAUDE.md` 3-2）:
+
+対象は `db8a62e`・`fcf51c5` の差分と、**ディレクターがコミットメッセージに書いた根拠そのもの**。
+削除だけの13コミット（`3e01b69`〜`6d88ec8`、`4651903`）は対象外とする。既に user が差分を見る
+前提で決着しており、蒸し返すとラウンドが伸びるため。
+
+| 観点 | この差分で見るもの |
+|---|---|
+| A 充足 | `testdata_notation.rst` の特殊記法の節が挙げる記法のうち、記載例が無いものが他に残っていないか。`:1370`・`:1420`・`:1470` の3参照が本当に成立したか |
+| B 整合 | 追加した記載例が `notation` の表・本文と食い違わないか。とくに改行文字の2行（`db8a62e` で変更）と記載例が一致しているか。他ページの相互参照を壊していないか |
+| C 規約 | `mapping/style.md` の13観点（S-01〜S-13。**11観点ではない。S-11 は `#9`、S-12・S-13 は `#28` で追加済み**）、`mapping/glossary.md` の正表記。新設した3つの節見出しの語と、既存の節見出しのトンマナが揃っているか |
+| D 検証の妥当性 | **ディレクターが行った確認は、誤りを検知できる形だったか。** フルビルドと `:ref:` 走査は「未定義ラベル」しか見ない。**表の値・パス・記法が実装と合っているかは検知しない**。そこを別の手段で確かめる |
+
+**各担当のプロンプトに必ず入れる3点**（`steering.md` の Rules、`nablarch/CLAUDE.md` 3-2）:
+実測で裏付ける／付属の検証スクリプトを正解として使わず独立に組む／敵対的に見る。
+
+**3-4 を必ず入れる。** 今回はディレクターが実装を追って表の値・パス・記法を**逐語で**書いている。
+直近2ラウンドで重大な指摘が出たのはいずれもこの形だった。観点B と観点D の担当に、
+**「コミットメッセージが挙げる `file:line` を1件ずつ開き、そこに書いてあることが本当にその主張を
+支えているか」** を明示的に指示する。検証すべき逐語は次のとおり:
+
+- `PoiXlsReader.java:123`（空セル→空文字）
+- `YamlFileBuilder.java:218-238`（YAML の `rows:` 配列は空要素でも読み飛ばされない）
+- `CompositeInterpreter.java:21`・`:27-38` と `BasicJapaneseCharacterInterpreter.java:31`
+  （`${文字種,文字数}` が文字列の一部にも使える理由）
+- `BasicJapaneseCharacterGenerator.java:42`・`:43`・`:50`（例で使った文字種が有効）
+- `HttpRequestTestSupport.java:977`・`:988-997`・`:948-974`・`:957`（`${attach:}` の経路とパス基準）
+- `LineSeparatorInterpreter.java:31`・`:34`・`:60-65`（Excel の `\n` が変換されない）
+- `unit-test-yaml.xml:56-76`（`:65`。`yamlInterpreters` が `LineSeparatorInterpreter` を含む）
+
+参照コミットは `nablarch-testing@e21bf67`・`nablarch-testing-yaml@190cc9a`。**作業ツリーではなく
+`git show <pin>:<path>` で読ませる**（`nablarch/CLAUDE.md` 1-1）。
+
+**ラウンド2以降は差分限定の2観点だけ**（是正が指示範囲に収まっているか／是正が新しい欠陥を
+生んでいないか）。上限3ラウンド。**各ラウンドの指摘件数と観点をここに記録する。**
+**既決事項に反する指摘は却下し、却下の理由を記録する**（3-5）。既決事項は本エントリの
+「確定した基準」「`#35`・`#33` の決定を上書きした箇所」「論点の決着」。
+
+**ラウンド1 の結果**（2026-08-25。4観点を別々の担当で実施）:
+
+| 観点 | 指摘 |
+|---|---|
+| A 充足 | 4件 |
+| B 整合 | 7件 |
+| C 規約 | 6件 |
+| D 検証の妥当性 | 5件 |
+
+計22件、重複を畳んで実質12件 ＋ ディレクターの指示文への指摘1件。是正は `bebd00b`（①）と
+`6bdbcd7`（8件）。**差し戻しは0回**（是正はすべてディレクターが直接コミットした）。
+
+**重大3件はいずれも観点B・D が拾った。**
+
+1. **記載例が実装の出力と違っていた**（①）。観点D が `nablarch-testing-yaml` を実際にビルドし、
+   `testdata_examples.rst` の YAML 記載例そのものを `YamlTestDataParser#getSetupFile` →
+   `DataFile#write()` に通して実測した。「可変長ファイルの空行は `""` と記述する」で得られるのは
+   `,,` であって空行ではない。**Step 2a-1 が「未確認」と明記した `nablarch-core-dataformat` の
+   領域を、記載例として確定させていた。** 是正は `bebd00b`
+2. **`db8a62e` のコミットメッセージの出典が実在しない行を指していた**（A・B・D が独立に検出）。
+   下の「記録の訂正」を参照
+3. **「欠けていたのは4項目」を、その読み方では証明できなかった**（`#10b` と同型）。観点D が
+   記法2表の「値の種類」24項目を機械抽出して照合し、節内出現0件が2項目残ることを示した。
+   うち Excel の文字列 `"null"` は例の不足ではなく**記述そのものの誤り**で、`6bdbcd7` で是正した
+   （`true`・`false` は `:425` 等に実例があり、利用者は踏まないため例を足していない）
+
+**却下した指摘**（3-5）:
+
+- **観点C の指摘4・5**（`db8a62e` の備考セルが当該表で唯一の複数文かつ最長／「記述方法」列の
+  括弧の意味が既存4件と異なる）。`mapping/style.md` に該当条項が無く、ページ全体では表セル538件中
+  32件が複数文である。かつ「`\n` は変換されず2文字のまま残る」は利用者が正しく書こうとして踏む
+  情報であり、置き場所が備考欄しかない。**観点C 自身も「規約違反には当たらない・記録にとどめる」
+  としている**
+
+**ディレクターの指示文への指摘**（3-4 が狙った形。**本ラウンドで最も価値のあった指摘**）:
+
+- **本エントリの「Step 2c の回し方」が「`mapping/style.md` の11観点」と書いていたのは誤り。**
+  `style.md:12`-`:13`・`:857` は「観点は次の13個に限定する」と明記し S-01〜S-13 を定義している。
+  11観点だったのは `#9` より前（S-11 追加前）で、S-12・S-13 は `#28` で追加された。指示どおり
+  11観点で判定すると、**今回の差分に多数該当する S-13（`\ ` エスケープ）が判定漏れになる**。
+  観点C の担当が誤りに気づき13観点で判定し直した。**下の観点C の行を13観点に訂正済み**
+
+**記録の訂正**（`db8a62e` のコミットメッセージ。コミットは push 前だが履歴を書き換えず、ここに残す）:
+
+- `db8a62e` は「`yamlInterpreters` が `LineSeparatorInterpreter` を含むことは
+  `nablarch-testing-yaml` `190cc9a` の `src/test/resources/unit-test-yaml.xml:56-76`（`:65`）で
+  確認した」と書いているが、**`190cc9a` のこのファイルは全20行で `:56-76` は存在しない**。
+  同ファイルは `:5` の `<import file="unit-test.xml"/>` と `:14` の `ref="yamlInterpreters"` を
+  持つだけで、定義本体は無い。**正しい出典は同リポジトリの `src/test/resources/unit-test.xml:56`-`:76`
+  （`:65` が `LineSeparatorInterpreter`）**。行番号レンジは一致しており、ファイル名だけの誤りである。
+  主張の結論（YAML 経路にも `LineSeparatorInterpreter` が入る）は正しい
+- あわせて、`db8a62e` が根拠に挙げたのは `src/test/resources` 配下のテスト用リソースであり、
+  **出荷される既定設定は `nablarch-testing-default-configuration:5u26` の
+  `nablarch/test/test-data-interpreter.xml:10-16`** である（観点D が実測）。Excel 側の
+  「デフォルト設定で変換されるのは `\r` のみ」は出荷既定と一致することを観点D が確認した。
+  **YAML 用の既定チェーンは出荷物に存在しない**（未出荷）。ただし現在の YAML 側の備考は
+  パーサの挙動を述べており「デフォルト設定」の語を使っていないため、本文の是正は不要
+
+**申し送り22・31 の解消**（`reviews/` は保全記録のため追記せず、ここに記録する）:
+
+- 申し送り22（`reviews/page-testdata_examples.md:329`）・申し送り31
+  （`reviews/page-testdata_notation.md:416`）が挙げた「書き方 → 記載例 → 書き方 の往復で
+  行き止まりになる」は、**(c) 記載例ページに不足する例を追加する**を `fcf51c5` で実施して解消した。
+  根本原因（基準を2ページ間に当てていたこと）は「確定した基準」の2ページの役割分担で解いている
+
+**未決**: なし（論点13 は 2026-08-26 に決着。下の Step 3 の表を参照）。
+
+`implementation/testdata_notation.rst:799` の「データ行を書かない場合でも、カラム名の行は省略できない。
+識別子行の次の行がカラム名の行として読み込まれるため、カラム名の行を書かないと、その次に現れた行が
+カラム名の行になる。」は、実測どおりで**変更不要**と確定した（この文は「Excel形式の場合」の節の中にあり、
+`:803` の「YAML形式の場合」より前にあるため、形式の限定も正しい）。
+
+**ステップ4でモジュールへ申し送るもの**（`#36` で増えた分。既存の `TODO(NTF-MOD-*)` 5件・
+依頼書3本とは別）:
+
+- **`nablarch-testing-yaml` のテスト用 `yamlInterpreters`**（`190cc9a` の
+  `src/test/resources/unit-test.xml:56`-`:76`）が `NullInterpreter` と `LineSeparatorInterpreter` を
+  含んでおり、**上で確定した YAML の null の仕様と食い違う**。`NullInterpreter` が入っていると
+  `"null"` も Java の null になる。テスト側を仕様に合わせる。**解説書
+  （`setup/common.rst` の「テストデータの形式をYAMLに変更する」）が SSoT である**
+- 超過値を黙って捨てる実装挙動（論点4。`nablarch-testing@e21bf67`
+  `DataFileFragment.java:105-108`）
+- **`nablarch-testing-yaml` のスキーマ `ntf-testdata-yaml-schema.json:410` の `length` の
+  description が不正確**（`0db2221` で実測）。「\"-\" フィールドの値は NTF が格納時に改行コード
+  および前後空白を除去する」と書いているが、除去されるのは**改行と、その前後の空白**であって、
+  改行を含まない値の前後空白は残る（論点2 の実測。解説書側は `f7a3257` で是正済み）。
+  スキーマ description も SSoT 範囲なので、解説書の文言に合わせる
+- **`nablarch-testing-yaml` の `YamlSection.isBlankRow` が Java null を空扱いしている**（論点6 の決着）。
+  Excel は文字列に対して空判定を行うため文字列 `null` は非空で行が残る。YAML を Excel に合わせる。
+  あわせてスキーマ `ntf-testdata-yaml-schema.json:108`・`:136` の description が現行の YAML 挙動を仕様として
+  書いているため、解説書に合わせる
+- **`nablarch-testing-converter` の中間モデルが Excel の表現を持っている**（論点11 の調査で判明。`60d9a2d` で実測）。
+  `TestDataBlock.groupId` は整形済み（`[case1]`）で、`YamlFormatReader.java:486`-`:487` が YAML の生値を
+  読み込んだ直後に `"[" + groupId + "]"` で囲んでいる。`[ ]` は Excel 形式の書式の一部であって値ではないため、
+  **中間モデルが `[ ]` を持つのはあり得ない**（user 判断 2026-08-26）。中間モデルは生値で持ち、`[ ]` の
+  付け外しは `XlsFormatWriter`（`:530`）と Excel リーダー（`TestCoreReaderAdapter.java:283`-`:285`）の
+  中だけで行う。`YamlFormatWriter.rawGroup` の「外側1組が `[` `]` なら外す」という推測剥がしは不要になる。
+  **現状は壊れていない**（`case1`・`[a]x[b]`・`a[1]`・`a]1` の4種で YAML→Excel→YAML を実測し、
+  Excel 識別子が `SETUP_TABLE[[a]x[b]]=TEST_TABLE` 等と正しく囲まれ、4件とも元の値に戻ることを確認）。
+  壊れていないのは両リーダーが必ず同じ形に揃えているためで、モデルの持ち方が正しいからではない。
+  **申し送り XLS-39 が挙げた「`SETUP_TABLE[a]x[b]=` になり戻すと `a]x[b` になる」は現在のコードでは起きない**
+  （申し送りは 2026-08-19 時点で、その後 converter は31タスクを完了している）
+- **`nablarch-testing-junit5` に、解説書が書いた `TestRule` の順序を押さえるテストが無い**（`2ebea7e` で実測）。
+  解説書 `setup/junit5_extension.rst` は「リストの先頭にあるものほど内側、末尾にあるものが最も外側」と書いたが、
+  `resolveTestRules()` が返すリストの順序を検証するテストは存在しない（`StandardTestRuleIntegrationTest:186` の
+  `RuleChain` のテストは `RuleChain` 自身の入れ子順であって、リストの順序ではない）。**追加を求める。**
+  レビュー役の独立プローブでの実測: 2件のルールを `[FIRST, SECOND]` の順で返すと
+  `SECOND:before, FIRST:before, BODY, FIRST:after, SECOND:after`、`[SECOND, FIRST]` に入れ替えると
+  `FIRST:before, SECOND:before, BODY, SECOND:after, FIRST:after`（負のテストとして順序に感度があることを確認済み）。
+  他の記述（包む範囲・`@BeforeEach` 失敗・`Timeout` × `DbAccessTestExtension`・`@TestFactory`・`@Nested`・
+  `base` の呼び出し回数・基底実装が空リスト）は既にテストがある（`TestRuleLifecycleIntegrationTest:29`・`:40`、
+  `TimeoutDbAccessIntegrationTest:80`・`:93`、`TestFactoryRuleIntegrationTest:37`、
+  `NestedTestRuleSupportIntegrationTest:52`、`TestRuleInvocationContractIntegrationTest:47`・`:59`、
+  `TestEventDispatcherExtensionTest:172`、`TestRuleEmulationIntegrationTest:118`）ため、求めるのはこの1件だけである
+- **`nablarch-testing-junit5` の `TimeoutRuleIntegrationTest:80` のテスト名が、解説書に無くなった例を指す**（`2ebea7e`）。
+  テスト名は「解説書の例と同じ実装でTimeoutを追加するとテストがタイムアウトすることをテスト」だが、`#36` で解説書の
+  実装例を `Timeout` からプロジェクト独自の `TestRule` に差し替えたため、指す先が無くなった。テスト自体は `Timeout` の
+  振る舞いを押さえるものとして残し、名前と Javadoc から解説書への参照を外す
+
+| 2 続き2: JSON・XML の記載例 | **決着（`615b72c`）。** 記法ページが `:1165`・`:1222` で JSON・XML の注意を述べ `:1256`・`:1270`・`:1301` から記載例へ送っているのに、記載例ページのメッセージング節の例はすべて数値のフィールド長で、JSON・XML の書き方を一度も示していなかった。L3「JSON・XMLの電文を記述する」を新設し Excel・YAML 両形式を示した。題材は NTF 自身のテストデータの形（電文を複数フィールドに分割し各フィールド長を `"-"`）。**実測: `.rst` の `code-block:: yaml` から YAML を機械的に抜き出してファイル化し `YamlTestDataParser#getMessage` に、セル格子表を同じ値で `.xls` に組んで `BasicTestDataParser#getMessage` に通し、`toDataRecords()` と `getFwHeader()` が完全一致することを確認（総合=OK）** |
+| 6 空行スキップ（論点3 を含む） | **決着（`5301d6e`。user 判断 2026-08-26「案A ＝ Excel に合わせる」）。** `notation:1498`・`examples:2519` の「全要素が **null または**空文字のエントリは読み飛ばされる」が誤り。**実測（`nablarch-testing@e21bf67` と `nablarch-testing-yaml@0db2221` の両方にプローブを置き、同じ意味のテストデータを `getListMap` に通して比較）: 食い違いは1点だけで、全セル／全値が null の行が Excel では残り YAML では消える。** 原因は空判定の対象の違い（Excel は文字列に対して判定するため文字列 `null` は非空＝`PoiXlsReader.java:140`-`:147` の `isBlankLine`。YAML はパース時点で Java null になった値を空扱い＝`YamlSection.isBlankRow`）。Excel を正とした理由は、NTF 仕様は1つで両形式はその表現にすぎないこと、Excel の後方互換を壊す理由がないこと、`YamlSection` の Javadoc 自身が「Excel の全セル空行と同じく扱う」と意図を宣言していること。**場合分けは書かなかった**（全セル／全値が null の行はローカルの nablarch 全リポジトリの `.xls` 302件に0件。利用者が正しく書こうとして踏む書き方ではない）。あわせて「Excel 形式では、この判定はマーカーカラムを除外する前に行われる」の限定を外した（YAML でも同じ挙動であることを実測）。**論点3（カラム名決定行）は本文変更不要**。「空行を除いたあとの先頭行がカラム名行」は両形式で挙動が一致することを実測で確認し、Excel 側 `:797`・YAML 側 `:816` のいずれも空行の読み飛ばしと矛盾しない。Docker フルビルドで WARNING・ERROR 0件 |
+| 7 テーブル系識別子の大文字化 | **決着（2026-08-26。本文変更なし。user 判断「書かない」）。** **実測（`e21bf67`）: テーブル名は trim＋大文字化（`TableData.java:97` の `name.trim().toUpperCase()`）、カラム名は大文字化のみで trim されない（`:492`）、`LIST_MAP` のキーはどちらも掛からない**（`TableData` を通らない）。プローブで `"  test_table  "`→`TEST_TABLE`、`{"col1"," Col2 "}`→`COL1`・`  COL2 `、`LIST_MAP` のキー `user_id`・` Name ` は書いたまま、を確認した。**書かない理由**: 小文字で書いても大文字で書いても動くため大文字化は観測できず、`LIST_MAP` のキーは書いたとおりのものがテストコードへ返るので自分が書いたキーで引く限り一致する。確定した基準に当たらない。`testShots` のカラム名は `Map#get` の完全一致で引かれ大小を区別するが、解説書の表どおりに書けば当たる。スキーマ `ntf-testdata-yaml-schema.json:103` の「NTF により trim・大文字変換される」は**テーブル名については正しい**ため、スキーマ側の是正も不要。**未確認**: 小文字でなければ解決できない識別子を使う DB での挙動は動かして確かめていない |
+| 11 グループIDに使える文字 | **決着（2026-08-26。本文変更なし。user 判断「書かない」）。** **実測（`e21bf67`）: `[` と `]` は解析されていない。** グループIDを扱う処理は2つだけで、`formatGroupId`（`BasicTestDataParser.java:253`-`:266`）が `"[" + gid + "]"` で囲み、`isTargetType`（`GroupDataParsingTemplate`）が `データタイプ名 + [グループID] + '='` を `startsWith` で比較する。角括弧を探す・外す・対応を取る処理は無い。プローブで `case1`・`ケース1`・`case 1`・`case-1`・`case_1`・`case.1`・`c/d`・`a b c`・` case1 `・`1`・`#c`・`//c`・タブ入り・`case[1]`・`case]1` がすべて hit=1 になることを確認した。**解析されるのは `=` だけ**で、`getTypeValue`（`TestDataParsingTemplate.java:250`）が最初の `=` で切ってテーブル名・ファイルパスにする（`TableDataParser.java:91`／`DataFileParser.java:115`）。そのためグループIDに `=` を含めると名前が黙ってずれる（`SETUP_FIXED[case=1]=out_6.dat` → パス `1]=out_6.dat`）。エラーにはならない。**書かない理由**: 通常のグループIDは英数字・ハイフン・アンダースコアであり、`=` を書くのは書き間違いで、確定した基準に当たらない（user 判断）。**converter は文字種で拒否しない** |
+| 12 `TODO(NTF-MOD-01-3)` の解除可否 | **決着（2026-08-26）。TODO を削除した。** **実測: `nablarch-testing-converter` `60d9a2d` で、`setup_tables`・`expected_tables` の両方に `rows: []` を書いた YAML を Excel へ変換し、さらに YAML へ戻すと `rows: []` が保たれて元に戻る。** TODO 本文の「0件テーブルを含む YAML は Excel へ変換できない」は事実ではない。変換経路は `TableData#loadData()` を呼ばない（converter の `src/main/java` に `loadData` の参照は0件）ため、この結果は `nablarch-testing` の#23 の適用有無に依存しない。解除条件「`XLS-27` の2段目へ切り替わったら」は満たされ得ない（`XLS-27` はマーカーカラム方式 `[EMPTY]` で決着。`XlsFormatWriter.java:213`・`:252`・`:543`）。#23 は `origin/main`・`origin/develop` に未マージ（`TableData.java:341` の early return が残る）。本文の書き直しは不要で、`rows: []` を教える2節も現状のままで正しい。台帳 `checks/task-last.md` §8 から行を外した |
+| — 業務サンプルからの参照 | **決着（2026-08-26）。** `ja/biz_samples/04/0401_ExtendedDataFormatter.rst:181` が「プログラミング・単体テストガイドの自動テストフレームワークの使用方法を参照すること」と地の文で書いており、`:ref:` になっておらずリンクにならないうえ、`glossary.md:515` の禁止語「自動テストフレームワーク」を使っていた。`setup/request_unit_test/mom.rst` の「テストデータの変換処理を実装する」節に S-08 の形式でラベル`request_unit_test_setting_mom-test_data_converter` を新設し（`ja/` 全体で重複0件を確認）、参照を `:ref:` にした |
+| — マスタデータ投入ツールの YAML 対応 | **決着（2026-08-26）。`tools/master_data_tool.rst` を書き直し、`TODO(NTF-MOD-02-4)` を削除した。** #22 は `nablarch-testing` の PR ブランチ `convert-testdata-excel-to-text` `3c4bd2a` で実装済み（`MasterDataSetUpper.java:185-204`）。**実測**: YAML 形式のマスタデータファイルは `<masterdata.dir>/<ファイル名>.yaml`（テストクラスに対応するディレクトリは作らない）、1ファイルが1つの読み込み単位でシート相当の区切りは無い、拡張子 `.yml` は無言で0件。`masterdata.file` は Ant の `<include name>` パターンでありファイルを指す（`master_data-build.xml:65-67`）ため YAML 形式では `MASTER_DATA*.yaml`。`.. important::`（Excel ファイル＋YAML パーサ＝無言で0件）は残し、逆向き（YAML ファイル＋Excel パーサ）は `IllegalArgumentException: invalid data name. [MASTER_DATA]` になり無言ではないため書かない。実測の全件は `checks/task-last.md` §8 の `NTF-MOD-02-4` の段落 |
+| — JUnit 5 拡張の `TestRule` 再現 | **決着（2026-08-26。user 判断「A ＝ 実装例を独自 `TestRule` に差し替える」）。`setup/junit5_extension.rst` の「JUnit 4のTestRuleを再現する」節を書き直し、`TODO(NTF-MOD-03-1)` を削除した。** 修正は `nablarch-testing-junit5` の PR ブランチ `worktree-fix-resolveTestRules` `2ebea7e` で実装済み。**旧本文の `.. important::`（スーパクラスの `resolveTestRules()` をベースにする）は実物では誤り**で、基底実装は `Collections.emptyList()` を返し（`TestEventDispatcherExtension.java:531-533`）、NTF 内部のルールは新設の `resolveInternalTestRules()`（`:479`）が返す。実装例を `Timeout` から独自 `TestRule` に差し替えたのは、実物が「JUnit 5 に同等機能があるならルールを移植するな」と定めており（`:44-50`）`Timeout` はその筆頭であること、`Timeout` は `DbAccessTestExtension` と併用すると DB 接続を取れないまま**テストが成功する**こと（`:166-177`）による。静かに壊れる5件を `.. warning::` に列挙した。リスト順序（先頭＝内側）はレビュー役が独立プローブで実測（負のテスト込み）。**Step 4 へ2件申し送った**（順序のテストが無い／`TimeoutRuleIntegrationTest:80` のテスト名が解説書の消えた例を指す） |
+| 13 0件テーブルが次ブロックを食う | **決着（2026-08-26。user 判断「現行通り」）。`implementation/testdata_notation.rst` の「0件のデータを記述する」に形式差を明記し（「Excel 形式ではカラム名の行が必須であり、この行にはカラム名またはマーカーカラムを置く。YAML 形式ではカラム名は不要」）、同ページ「Excel形式の場合」と `implementation/testdata_examples.rst` の記述例にマーカーカラムの書き方を足した。** **user 指摘2件を反映している**: (a) 規則は「カラム名の行が必須で、そこにはカラム名またはマーカーカラムを置く」と1つにまとめる（レビュー役は当初2段落に分けて書いた） (b) 形式非依存の節が形式差を一言も述べていなかったため、そこで明言する。 user の整理: Excel はカラム名が必須、YAML は不要なので**各形式は単独では問題なく動く**。問題があるのは YAML → Excel の変換だけで、変換ツールがマーカーカラムを出すことで対応済み。**レビュー役が独立プローブで実測して確認した**（`nablarch-testing-converter` `60d9a2d`・`nablarch-testing` `3c4bd2a`）: (1) YAML の `rows: []` を Excel へ変換すると `r1` に `[EMPTY]` が1つだけ書かれ、次の `SETUP_TABLE=NEXT_TABLE` は無傷で残り、YAML へ戻すと元に戻る (2) **負のテスト**: 同じ版面からマーカーカラムの行だけを取り除いた Excel を `BasicTestDataParser` に読ませると `1 table(s)`／`EMPTY_TABLE columns=[SETUP_TABLE=NEXT_TABLE]` となり `NEXT_TABLE` が消える。マーカーカラムがあると `2 table(s)`／`EMPTY_TABLE columns=[]`・`NEXT_TABLE columns=[USER_ID, NAME]` (3) カラム名0件のとき本体は DB の全カラムを読む（`TableData.java:345-347`）。**置き場所は user 指示で決まった（2026-08-26）**: 変換ツールのページに書くのは「変換ツールが NTF 仕様以外にやっていること」だけである。形式間（Excel → YAML では〜／YAML → Excel では〜）の記述は、形式が増えるたびに組み合わせが増えるうえ、変換後の姿は記載例と重複するため書かない。マーカーカラムを置くのは NTF の書き方どおりの出力であって変換ツール固有ではないため、記法と記載例に書く。変換ツール固有なのは `[EMPTY]` という語だけで、これは既に `tools/testdata_converter.rst` の `markerColumnColor` の説明にある。**レビュー役は最初これを変換ツールのページに形式間の記述として書き、user 指摘で取り消した** |
+| — `TODO(NTF-MOD-*)` の残2件 | **決着（2026-08-26）。`implementation/deal_unit_test/mom.rst` の `NTF-MOD-02-3` と `tools/testdata_converter.rst` の `NTF-MOD-01-2` を削除した。`ja/` の `TODO(NTF-*)` は0件になった。** どちらも解除条件が PR ブランチで満たされており、本文の書き直しが不要であることを実測で確認した。`NTF-MOD-02-3`: `nablarch-testing` `3c4bd2a` の `SendSyncSupport.java:359`・`:420-448` がディレクトリ配下の全エントリの最終更新日時をスナップショットで比較する。**実測（負のテスト込み）**: ディレクトリ配下の `message.yaml` を編集したとき、`main` の判定（ディレクトリ自身の `lastModified`）は**変化せず**、PR ブランチのスナップショットは**変化する**。よって `mom.rst:87`「テストデータのタイムスタンプが更新されると…読み込み直し」は PR ブランチで形式によらず正しい。`NTF-MOD-01-2`: **実測**: `FooTest.xls` と `FooTest.xlsx` を同居させて変換すると `ConverterException: same-name Excel books coexist: in/FooTest.xls, in/FooTest.xlsx (a test class corresponds to exactly one Excel book; remove or rename one of them)` で止まる（`60d9a2d`）。`testdata_converter.rst:112`「`.xls` と `.xlsx` をどちらも対象とする」は変わらず正しく、同名同居はエラーで気づけるため本文に書かない（「利用者が正しく書こうとしても踏むもの」だけを書く基準） |
+| — リード文の廃止と `機能概要` の必須化 | **決着（2026-08-26。user 指示）。`ja/` の29ページで、目次と最初のL2見出しの間にあった見出し無しのリード文を「機能概要」の冒頭へ移した。第2部の10ページには「機能概要」のL2見出し自体を新設した。** 規約は `mapping/style.md` S-02・`design.md` §3／§4・`mapping/vocabulary.md` を更新した（第2部の「機能概要」を任意→必須。`#6` の決定を上書き）。**対象外4ページ**: 導線のみの `setup/request_unit_test/db_queue.rst`・`implementation/request_unit_test/db_queue.rst`・`implementation/deal_unit_test/db_queue.rst`（L2 を持たない6行のページ）と、設計上「機能概要」を持たない `implementation/testdata_examples.rst`（`design.md` §4・`vocabulary.md` 例外3）。第1部 `about/index.rst` は `全体像` のL2 が同じ役割を担う既存の例外のため触っていない。**FW解説書の慣習とは意図的に違えている**（FW解説書は見出し無しのリード文を目次と最初のL2の間に置く。20ページ中19ページ。`style.md` S-02 の根拠節）。書き出しの規約（「ここでは、」で始めず対象を主語に立てて言い切る）は引き続き揃える。**下線直後の空行はページごとに混在している**（実測: 空行あり38・空行なし31）ため、各ページの既存の書き方を保った |
+| — ツールの並び順 | **決着（2026-08-26。user 判断「素直に一番後ろに置く」）。`tools/index.rst` の `toctree`・`design.md` §5 の図・`mapping/vocabulary.md` の `dest_page` 表の3箇所で、テストデータ変換ツールを末尾へ移した。あわせて `design.md` §5 に規則と理由を明記した。** 経緯: 変換ツールは現行解説書の3ツール（`08_TestTools/01_HttpDumpTool`・`02_MasterDataSetup`・`03_HtmlCheckTool`）の並びの2番目に挿し込まれていたが、**その位置の理由は `design.md`・`steering.md`・`checks/` のどこにも記録が無かった**（`mapping.csv` の行順とも一致しない）。レビュー役は「ライフサイクル順（作る→変換する→投入する→検査する）」という読みを推測として示したが、user が却下した。理由は、ライフサイクルで説明すると「変換ツールは先頭では」という話になり既存3ツールの順序まで組み替える議論になるため。**新設のツールは既存の並びの末尾に足す**という規則にすれば、次にツールが増えても同じ扱いで済む |
+| — `[EMPTY]` の記載場所 | **決着（2026-08-26。user 指示）。`tools/testdata_converter.rst` の「前提事項」に1段落を追加した。** **規則: 変換ツールのページに書くのは、NTF 仕様とは別に変換ツールがやっていることだけである。** それ以外は各形式の「書き方」と「記載例」に書く。この規則により (1) マーカーカラムを置くこと自体は NTF の記法どおりなので `implementation/testdata_notation.rst` と `implementation/testdata_examples.rst` に書き、(2) その名前を `[EMPTY]` とするのは変換ツールの決めなので `tools/testdata_converter.rst` に書く、と分かれる。**レビュー役は最初 (1)(2) をまとめて変換ツールのページに形式間の記述として書き（user 指摘で取り消し）、次に両方を記法・記載例へ移して (2) を変換ツールのページから落とした（user 再指摘で復帰）。** `markerColumnColor` の設定項目の説明欄（`tools/testdata_converter.rst`）にも `[EMPTY]` は出てくるが、設定表の中だけでは変換結果を見た読者が辿り着けない |
+
+### #37: Step 4 —— 各モジュールを SSoT（解説書）に合わせる — 完了（junit5 `#7`・yaml `#45`・converter `#47` 承認済み。2026-08-30 台帳を閉じた）
+
+**Purpose**: 解説書を SSoT と定めたうえで、依存する5モジュールの実装・テスト・スキーマを解説書に合わせる。
+**指示はリポジトリごとに別ファイルへ分けて出す**（user 指示 2026-08-26）。解説書側の作業は `#36` で完了しており
+（図＝png 26枚を除く）、本タスクは解説書を変更しない。
+
+**依存順**（pom 実測 2026-08-26）: `nablarch-testing` → `{nablarch-testing-yaml, nablarch-testing-rest}`
+→ `{nablarch-testing-junit5, nablarch-testing-converter}`。`-junit5` は `-rest` に、`-converter` は `-yaml` に依存する。
+
+**参照点**（PR ブランチの先端。2026-08-26 に `git ls-remote` で実測。すべて remote と一致）:
+`nablarch-document` = `ntf-yaml-support` `40b9c52` ／ `nablarch-testing` = `convert-testdata-excel-to-text` `3c4bd2a` ／
+`nablarch-testing-yaml` = `feature/ntf-yaml` `0db2221` ／ `nablarch-testing-converter` = `ntf-test-data-converter` `60d9a2d` ／
+`nablarch-testing-junit5` = `worktree-fix-resolveTestRules` `2ebea7e` ／ `nablarch-testing-rest` = `fix-testdataparser-usage` `a4ec1ee`
+（ローカルには未 push の `a8aeb52` があるが、参照点は remote の `a4ec1ee`）。
+
+**全リポジトリ共通の範囲**（user 確定 2026-08-26）:
+
+- **レビューの回し方は指示書ごとに決める**（user 判断 2026-08-26）。**未着手の3本（`-rest` 440行・`-junit5` 453行・`-converter` 333行）はレビューを回さない。**サブエージェントの4観点も rn の既定レビュー（QA / Design / Craft / Verification）も回させず、レビュー役が担当範囲を全量読み直して全件表と突き合わせ独立検証する。担当が小さく再読できること、成果物が記録だけで `src/main`・`src/test` を変更しないこと、**rn の既定4軸に「解説書との一致・呼び出し元・後方互換」を見る軸が無く、既定の QA は完了条件ごとの gate のため完了条件そのものの誤りを素通りすること**（実物: `~/.claude/plugins/cache/ccpm/rn/0.8.0/references/task-execute-workflow.md:18`-`:24`・`:99`・`:103`。2026-08-26 実測）が理由である。**渡し済みの2本（`nablarch-testing` 9,822行・`-yaml` 6,640行）はレビューを残す**（全量再読が重く、「その抽出方式で全件を証明できるか」をレビュー役が代替できない）。ただし**「rn の既定レビューではなく §6 の4観点で回す」ことを伝言で明示する**
+- **既知の是正項目＋解説書の全件突合。** 突合の母集合はページ単位で先に固定し、キーワード走査で切り出さない
+- **カバレッジ C0/C1 は全件開示方式**（数値目標を置かず、未到達を全件列挙してテスト追加か不要根拠を書く）。
+  **対象は今回の変更が持ち込んだ未到達に限り、元から未達のものは対象外**
+- **解説書は直さない。** 解説書側が誤っていると判断した項目は、根拠を添えて報告し止める
+
+**指示書**:
+
+- [x] `ntf-step4-01-nablarch-testing.md` —— **渡し済み**。`87a21d6` で `src/main` 変更禁止を反映して差し替えた（差し替えの伝言も渡した）
+- [x] `ntf-step4-02-nablarch-testing-yaml.md` —— 作成済み。**本モジュールは `src/main` を変更してよい**（未リリース）。突合の母集合は38ファイル・9,822行を先に固定し、`YAML`/`yaml` が現れる12ファイル・6,640行を担当、残り26ファイル・3,182行は0件を数え直したうえで「対象外」と理由を1行ずつ書かせる（26ファイル分は `nablarch-testing` の母集合が拾うため隙間が出ない）
+- [x] `ntf-step4-03-nablarch-testing-rest.md` —— 作成済み。**`src/main` 変更禁止**（リリース済み）。既知の是正項目は無い（申し送りが求めた記述は解説書に0件）。担当は4ページ440行と `setup/junit5_extension.rst` の3箇所（`:55`-`:60`・`:254`）で、母集合38ファイル・9,822行を先に固定したうえ、残り33ファイルに本モジュールの13クラスが0件であることを数え直させる。`:94`（`optional` 指定）は `nablarch-testing-junit5` の `pom.xml` が決めるため junit5 担当
+- [x] `ntf-step4-04-nablarch-testing-junit5.md` —— 完了・`#7` 承認済み（2026-08-27）
+- [x] `ntf-step4-05-nablarch-testing-converter.md` —— `#33`〜`#39` 完了（`d611bec`）。ディレクター独立検証 合格（2026-08-28。`mvn -o clean test` 656件緑・`@Ignore` 0・ミューテーション9件すべて検知。指示書の誤り2件を `afa4f9e` で訂正）
+- [x] `ntf-step4-06-nablarch-testing-yaml-2.md` —— **第2回。完了・`#45` 承認済み**（`nablarch-testing-yaml` `feature/ntf-yaml` の `886849c` に承認記録。2026-08-30 実測）。以下は着手前の記述: 作成済み・未送付（`c39f701`）。`#42` の追随7件（末尾 null→`""`／電文 `records:` は1つ／`fw_header:` のキー検査／空エントリは `{}` だけ（第1回 2-1 を上書き）／2文字 `\r` はエラー／`@Ignore` 1件の削除／スキーマ description）。本体を oracle にしたテストを求める
+- [x] `ntf-step4-07-nablarch-testing-converter-2.md` —— **第2回。完了・`#47` 承認済み**（`nablarch-testing-converter` `ntf-test-data-converter` の `a5f006c` に承認記録。2026-08-30 実測）。以下は着手前の記述: 作成済み・未送付。yaml 第2回の完了後に「渡す前にやること」5点を済ませてから渡す。是正5件（本体にインタープリタ列を渡して解釈させる（A）／マーカーカラムだけの行を残す／交互記述の警告／yaml 第2回への追随／4経路テストの oracle を本体にする）
+
+**ディレクターが各 PR ブランチのピンで実測済みの事実**（指示書に逐語で載せる根拠。すべて `git show <pin>:<path>`）:
+
+- **nablarch-testing**（論点4）—— `DataFileFragment.java:102`-`:115`（`addValue`）・`:169`-`:183`（`addValueWithId`）が
+  `for (int i = 0; i < names.size(); i++)` でループを止め、超過値を読まない。同ファイルにログ出力0件。
+  呼び出し元は `DataFileParser.java:197`・`MessageParser.java:75`・`SendSyncMessageParser.java:129`・`:134` の4箇所。
+  **解説書側は0件**（`grep -rn "数を超える\|超えた位置\|余り" ja/…/testing_framework` が0件）。
+  **user 判断（2026-08-26）「現行どおりで解説書影響なし、利用者影響なしなら仕様です」** —— 残るのは利用者影響の判定だけ
+- **nablarch-testing-yaml**（論点6）—— `YamlSection.java:201`-`:209` の `isBlankRow` が `toStr`（同 `:127`-`:128`。
+  `value != null ? value.toString() : null`）経由で Java null を空扱いする。Excel 側 `PoiXlsReader.java:140`-`:147`
+  （`3c4bd2a`）の `isBlankLine` は文字列の `isEmpty()` のみを見る。解説書 `implementation/testdata_notation.rst:1500` は
+  「すべての値が**空文字**の場合にスキップされる」と述べ null に触れていないため、YAML 側が食い違う
+- **nablarch-testing-yaml**（テスト用インタープリタ）—— `src/test/resources/unit-test.xml:56`-`:76` の
+  `yamlInterpreters` が `NullInterpreter`（`:58`）と `LineSeparatorInterpreter`（`:65`）を含む。
+  解説書 `setup/common.rst`「テストデータの形式をYAMLに変更する」は `DateTimeInterpreter` と
+  `CompositeInterpreter` の2つだけとし、`NullInterpreter` は `.. important::` で明示的に禁じている
+- **nablarch-testing-yaml**（スキーマ）—— `src/main/resources/nablarch/test/ntf-testdata-yaml-schema.json` の
+  `:410`（`length`。「改行コードおよび前後空白を除去する」）・`:108`・`:136`（いずれも「全ての値が null または空文字の行は
+  取り除かれる」）が解説書と食い違う。`:108` には FK 制約の案内と BOOLEAN 型カラムの記述が両立しない箇所も含む
+- **nablarch-testing-converter**（論点11）—— `YamlFormatReader.java:485`-`:488` の `formatGroup` が
+  `"[" + groupId + "]"` で囲み、`XlsFormatWriter.java:529`-`:531` の `marker` が整形済み前提で連結し、
+  `YamlFormatWriter.java:479`-`:488` の `rawGroup` が外側1組の `[` `]` を推測で剥がす。Excel 側は
+  `TestCoreReaderAdapter.java:282`-`:286` の `markerGroupId` が `[case1]` ごと切り出す。
+  **解説書はグループIDに触れていない**（`tools/testdata_converter.rst` に「グループID」0件）
+- **nablarch-testing-junit5** —— `setTestRules` の呼び出しは `src/test/java` に19件あり、**すべて1件または `RuleChain`**。
+  リストの順序を押さえるテストは0件。`StandardTestRuleIntegrationTest:186` は `RuleChain` 自身の入れ子順。
+  解説書 `setup/junit5_extension.rst:439` の「リストの先頭にあるものほど内側、末尾にあるものが最も外側」は
+  `TestEventDispatcherExtension.java:427`-`:428`（`applyTestRules` が順に包む）と Javadoc `:509`-`:510` に対応する。
+  `TimeoutRuleIntegrationTest:80` のテスト名「解説書の例と同じ実装でTimeoutを追加すると…」は、解説書が実装例を
+  独自 `TestRule` に差し替えたため指す先が無い
+- **nablarch-testing-rest** —— 申し送り `.rn/fix-testdataparser-usage/handoff-to-docs.md` が求めた
+  「シートが存在しない場合は `setUpDb` が呼ばれない」旨の記述は、**解説書に0件**
+  （`grep -rn "setUpDbIfSheetExists\|isExisting\|isResourceExisting" ja/…/testing_framework` が0件）。
+  **解説書側の対応は不要**。PR #38 は task #3 が check-off されず user review 待ち
+- **nablarch-testing-rest（E-1。2026-08-26 にディレクターが一次情報で独立確認）** —— `setUpDb.yaml` を置いていない
+  テストクラスでは、メソッド固有の YAML が**黙って投入されない**。`RestTestSupport.java:79`-`:81`（`ec718a2`）の
+  `setUpDb()` が `setUpDbIfSheetExists("setUpDb")` → 同 `(<メソッド名>)` の順に2回呼ぶが、`isExisting()`
+  （同 `:216`・`:222`）は `getPathOf()` が null になると `testDataExists` を落とし、以降 parser を呼ばない。
+  Excel は**ファイル単位**判定（`PoiXlsReader.java:232`-`:252`（`3c4bd2a`）が `splitLastResourceName` の
+  `splitted[0]`＝クラス名だけで `listFiles`。シート名を見ない）のためラッチが落ちないが、YAML は
+  **リソース単位**判定（`YamlLoader.java:142`-`:143`・`:81`-`:86`（`0db2221`）が
+  `basePath + "/" + resourceName + ".yaml"` の存在を見る）のため落ちる。**そのブランチの Acceptance criteria
+  「`YamlTestDataParser` を登録した場合 YAML が読み込まれる」に直接抵触する。** ラッチは `c2604a7` より前から
+  あり、同コミットが作ったものではない（差分は `isExisting()` 末尾1行の置換と `getSheet()` の削除だけ）。
+  **リリース済みモジュールの `src/main` を触るため user 判断待ち。** ディレクターの推奨は直す。
+  判断の前に「ラッチを外すと Excel 経路の挙動が変わるか」の実測を rest CC へ依頼済み（ディレクターの読みでは
+  変わらないが**未確認**）。**この判断が出るまで `ntf-step4-03-nablarch-testing-rest.md` を渡さない。
+  直す場合は `src/main` が動くため、渡す前にピンを取り直す**
+
+**解説書のページと担当リポジトリ**（2026-08-26 実測。解説書が名指しするクラス103件を各リポジトリの `src/main/java` と
+突き合わせ、あわせて `YAML` の出現をページ別に数えた）:
+
+| リポジトリ | 担当するページ |
+|---|---|
+| nablarch-testing | 38ファイル全部（本体）。他4リポジトリが担当する記述は「対象外」として理由を記録する |
+| nablarch-testing-yaml | `YAML` が現れる12ページ（`testdata_examples.rst` 81・`testdata_notation.rst` 42・`tools/testdata_converter.rst` 23・`setup/common.rst` 12・`tools/master_data_tool.rst` 4・`implementation/deal_unit_test/batch.rst` 3 ほか。計171件） |
+| nablarch-testing-rest | `setup/request_unit_test/rest.rst`・`setup/deal_unit_test/rest.rst`・`implementation/request_unit_test/rest.rst`・`implementation/deal_unit_test/rest.rst`・`setup/junit5_extension.rst` の rest 記述 |
+| nablarch-testing-junit5 | `setup/junit5_extension.rst`（junit5 のクラス23件が出現） |
+| nablarch-testing-converter | `tools/testdata_converter.rst`（converter のクラス6件が出現） |
+
+**Completion criteria**:
+
+- 5本の指示書がすべて作成され、各リポジトリへ渡っている
+- 各リポジトリが指示書の完了条件を満たし、報告を返している
+- 「解説書側の誤りの疑い」として上がった項目に、ディレクターの判定が付いている
+- 解説書（`ja/`・`mapping/`・`design.md`）に差分が無い
+
+
+### #38: `setup/common.rst` —— YAML 形式の電文用インタープリタが自ページの禁止に反していた件の是正 — 完了
+
+**問題**（`c6559eb` で逐語確認）。同じページの中で矛盾していた。
+
+- `:81`（important）「``NullInterpreter`` を指定してはならない。指定すると、文字列として記述した ``"null"`` も Java の null になり、両者を区別できなくなる」
+- `:77`「``NullInterpreter``・``QuotationTrimmer``・``LineSeparatorInterpreter`` は指定しない」
+- 一方 `:170`「テストデータの記法を解釈するクラスは、Excel 形式と YAML 形式で共通である」とし、`NullInterpreter`・
+  `QuotationTrimmer` を含む `messagingTestInterpreters` を、**YAML 形式の** `messagingTestDataParser`（`:250`-`:252`）に
+  参照させていた
+
+設定した interpreters は電文の値に実際に掛かる（`YamlMessageBuilder.java:85`・`:110`・`:150`、`0db2221` が
+`interpreterResolver.resolve(basePath)` の結果を値加工に使う）ため、`:81` の禁止に実際に抵触する。
+
+**あるべき姿**。YAML の集合は、Excel の集合から YAML 構文が担う分を引いたものになる（`nablarch/CLAUDE.md`・
+`02-進め方.md`「NTF 仕様は1つで、Excel 形式と YAML 形式はその表現が違うだけ」）。Excel の電文用は
+`NullInterpreter`・`QuotationTrimmer`・`BasicJapaneseCharacterInterpreter` の3つ（`:176`-`:184`）で、
+`DateTimeInterpreter` は入っていない（Excel 用パーサ `:220` も同じリストを参照）。`null`／`"null"` の区別は
+YAML では構文が担うため、YAML の電文用に残るのは `BasicJapaneseCharacterInterpreter` だけになる。
+`yamlInterpreters` の流用は採らない。`DateTimeInterpreter` が電文にも効き、Excel ではリテラルのまま残る
+`${systemTime}` が YAML だけ日時に変わって往復変換で意味が変わるため。
+
+**是正**（3箇所）。
+
+1. `:170` の「解釈するクラスは Excel 形式と YAML 形式で共通である」を取り下げ、`:187` に「テストデータの記法を
+   解釈するクラス群」を加えて、形式ごとに後述する形にした
+2. `messagingTestInterpreters` の定義を Excel 形式の節のコードブロックへ移した
+3. YAML 形式の節に `yamlMessagingInterpreters`（`CompositeInterpreter` → `BasicJapaneseCharacterInterpreter` のみ）を
+   置き、`messagingTestDataParser` の参照先を差し替えた
+
+**上書きした過去の決定**: `reviews/page-deal_unit_test_setting_mom.md` の R1-2 と V-1。R1-2 は「両形式で共通の
+`messagingTestInterpreters` の定義が Excel 形式の節の中だけにあり、YAML 形式しか読まない読者が未定義コンポーネントを
+参照してしまう」として定義を共通部へ移し、V-1 はその補強として両 L4 に「前掲の ``messagingTestInterpreters`` の定義と
+あわせて記述する」を足していた。**前提だった「両形式で共通」が誤りだったため、両方を取り下げた。**
+R1-2 が防ごうとした失敗モードは、各形式の節がそれぞれ自分のリスト定義を持つことで解消している。
+
+**検証**: `docker run --rm -v $PWD:/root/document nablarch-document-build /bin/bash -c "cd /root/document;
+sphinx-build -E -a -d _build/.doctrees/ja -b html ja _build/html"` が `build succeeded`、行頭 WARNING/ERROR 0件。
+生成物 `_build/html/development_tools/testing_framework/setup/common.html` に `yamlMessagingInterpreters` が2箇所。
+
+**波及先**（実測）: `ja/` 内で `messagingTestInterpreters` を参照するのは `setup/common.rst` だけ
+（`grep -rn --exclude-dir=_build` が本ページ以外0件）。
+
+### #39: 電文のレコード種別 —— 形式差として書いていた記述を、データタイプ差の記述に改める — 解説書は完了、モジュール是正は `#37` の yaml 指示書へ
+
+**未決だった論点の決着**（`01-現在地.md` §4 converter 節「レコード種別を `nablarch-testing-yaml` 側で直して Excel と
+揃えるか、YAML 形式の制約として解説書に残すか」）。**直す。** 未リリースで後方互換の制約がなく、直さなければ
+「Excel で書けるものが YAML では書けない」状態が残るため。
+
+**Excel 側の実測**（`nablarch-testing@3c4bd2a`。呼び出し元から `setRecordType` まで末端まで追った）:
+
+| 解説書の呼び方 | API | パーサ | レコード種別 |
+|---|---|---|---|
+| `MESSAGE`（`setUpMessages`・`expectedMessages`） | `getMessage` ← `MQSupport.java:87` | `MessageParser.java:60`-`:67` が `onReadingNames` で先頭要素を `"default"` に置換 | **`"default"`** |
+| 同期応答メッセージ送信の4データタイプ | `getMessageWithoutCache` ← `SendSyncSupport.java:478` | `SendSyncMessageParser.java:110` が `createFixedLengthFileParser` を上書きし `onReadingNames` は上書きしない | 記載値 |
+| 取引単体テストのモックアップクラスの電文 | `getSendSyncMessage` ← `RequestTestingSendSyncSupport.java:157` | `GroupMessageParser.java:43` が `SendSyncMessageParser` へ委譲 | 記載値 |
+
+いずれも `DataFileParser.java:163`-`:166` → `:259`-`:262` の `setRecordType(fieldNamesLine.get(0))` に落ちる。
+
+**YAML 側の実測**（`nablarch-testing-yaml@0db2221`）: `YamlFileBuilder.java:187`-`:189` が `messaging` 経路すべてで
+`"default"` に固定する。`buildFragmentsForMessage`（`:139`-`:141`）と `buildFragmentsForSendSync`（`:162`-`:164`）の
+両方が `messaging=true` を渡すため、送信同期4キーでも記載値が捨てられる。
+
+**差は送信同期4キーだけである。** `messages` は Excel も `"default"` にするため、YAML と既に一致している。
+
+**解説書の是正**（3箇所）:
+
+1. `implementation/testdata_notation.rst:1163` —— 「Excel 形式と YAML 形式で異なる」という形式差の記述を、
+   データタイプ差の記述に改めた。変換で扱いが変わる旨も落とした
+2. 同 `:1295` —— 「`record_type` の値は…常に `"default"` に置き換えられる。任意の値を装飾的に記述できるが、
+   実行時の挙動には影響しない」の2文を落とした。**既出箇所は `:1163`**
+3. `tools/testdata_converter.rst:71` —— 前提事項から「電文のレコード種別も、両形式で扱いが異なる」の段落を削除した
+
+**モジュール側の是正は未了である。** `nablarch-testing-yaml` が送信同期4キーで `record_type` を保持するまで、
+解説書が述べる状態に実装が追いついていない。是正は `#37` の yaml 指示書に含める。
+既存テスト（`record_type: HEADER` 7件・`record_type: FW_HEADER` 16件が `"default"` を期待している）の
+更新もそこで扱う。
+
+**検証**: Docker（README の手順）で ja をビルドし `build succeeded`。警告1件は `_build/html/.buildinfo` の
+形式に関するもので、本変更とは無関係。
+
+### #40: Step 4 —— `nablarch-testing-yaml` の突合と指示書の作り直し — 完了（`#45` 承認済み。2026-08-30 台帳を閉じた）
+
+**旧 `ntf-step4-02-nablarch-testing-yaml.md` は取り消して、新しい型で作り直した**（`#37` の型変更）。
+やることは「解説書に書いてあることをテストで押さえる」であり、読み比べて不一致を洗い出す形にしない。
+
+**担当ページの範囲**（ディレクターが実測して確定）。`ja/development_tools/testing_framework/` 配下の
+`.rst` 37本のうち、`yaml`（大小文字問わず）が現れる12本から `tools/testdata_converter.rst`（converter 担当）を
+除いた **11ファイル・6,307行を全量**。0件の25ファイルを担当外とする根拠は、`テキスト形式`／`両形式`／
+`形式によらず`／`どちらの形式` のいずれも0件であること（`c6559eb` 実測。YAML 形式に触れずに YAML 固有の
+挙動を述べているページは無い）。
+
+**突合の規模**（実測）:
+
+| | 件数 |
+|---|---|
+| 担当ページ | 11ファイル・6,307行 |
+| テストで検証できる粒度に分解した項目 | **335件**（`可` 259・`不可(静的)` 19・`不可` 57） |
+| 既存テスト | 7クラス・**226メソッド**（`@Ignore` 0件） |
+| **確定した作業** | **18件**（実装の是正5・テスト追加13） |
+
+分解はサブエージェント3本（`notation.rst`+`common.rst` / `testdata_examples.rst` / 残り8ファイル）に
+全量読ませ、拾わなかった行範囲と理由を1行ずつ書かせて行数の検算を取った（3本とも一致、隙間・重複0）。
+既存テストの目録も別のサブエージェントに作らせた。**突き合わせと未カバーの判定はディレクターが自分で行い、
+指示書の `file:line`・逐語・件数は書いたあとに全部ピンで照合した。** 照合で自分の誤りが1件出た
+（`buildListMapRows_blankValueRow*` を3件と書いたが実測2件）。
+
+**実装の是正5件**（`src/main` を変更してよい側）:
+
+1. 空行判定が Java null を空扱いしている（`YamlSection.java:201`-`:208`）。SSoT は
+   `implementation/testdata_notation.rst:1500`「空マッピング `{}` またはすべての値が空文字」で null に触れていない
+2. `isResourceExisting` の判定単位が Excel と違う（E-1）。呼び出し元3箇所を全走査済み。
+   `nablarch-testing-converter` の `YamlTestCoreAdapter.java:102` に波及し、
+   `YamlTestCoreAdapterTest.java:365`-`:370` が落ちる（converter は直さず報告させる）
+3. 送信同期4キーでレコード種別が潰れる（`YamlFileBuilder.java:187`-`:189`）。`#39` で解説書を先に直した
+4. テスト用 `yamlInterpreters` が `setup/common.rst:77`・`:81` の禁止に反する
+5. スキーマの `description` 3件（`:108`・`:136`・`:410`）
+
+**テスト追加13件**: いずれも解説書に記述があり既存226件が押さえていないもの。実測で0件を確認した。
+
+**レビューは回さない。** 作業が18件に確定していて探索を含まないため。観点D は完了条件
+「期待値をわざと崩すと落ちること」で代替する。
+
+**未確認として残したもの**（サブエージェントが自己申告した「自信の無い箇所」計28件のうち、
+指示書に落とさなかったもの）。いずれも解説書に記述が無いために項目化できなかったものであり、
+**解説書の記述漏れの疑いとして残る**:
+
+- YAML ファイル名とテストメソッド名の対応が YAML 節に無い（Excel は `notation.rst:69`・`:73` で推奨と書く）
+- 可変長ファイルの `fields[].length` の要否が YAML 節に無い（`notation.rst:1135`）
+- スキーマ検証違反時の挙動（例外型・メッセージ）が `notation.rst:92` に無い
+- YAML の言語機能（アンカー・エイリアス・複数ドキュメント・ブロックスカラ）に解説書が一切触れていない
+- `notation.rst:452` のカンマ・バックスラッシュのエスケープを YAML でどう書くかが特殊記法表に無い
+- Excel の `[EMPTY]` マーカーカラムに相当する YAML の書き方が無い
+
+### #41: Step 4 —— `nablarch-testing-converter` の突合と、変換ツールのページの是正 — 完了（`#47` 承認済み。2026-08-30 台帳を閉じた）
+
+**担当ページ**: `tools/testdata_converter.rst`（`45c3852` で329行）。yaml の突合（`#40`）で
+担当範囲から除外したのはこの1ページだけである。
+
+**完了条件の母集合**（2026-08-26 ユーザー確定）: 「書き方（`implementation/testdata_notation.rst`）と
+記載例（`implementation/testdata_examples.rst`）に載っている状態が、変換後も同じ意味で読めること」。
+母集合は notation の特殊記法の表2つ（Excel 形式13行・YAML 形式13行）と、examples の
+「null・空文字・改行など特殊な値を記述する」の節。「同じ意味」は**テスティングフレームワークが
+解釈したあとの値が一致すること**を指す。セルの見た目ではない。
+
+**突合の規模**（実測）:
+
+| | 件数 |
+|---|---|
+| 担当ページ | 1ファイル・329行 |
+| テストで検証できる粒度に分解した項目 | **81件**（`可` 65・`不可(静的)` 12・`不可` 4） |
+| 既存テスト | **43ファイル・605メソッド**（`@Ignore` 2件） |
+
+分解はサブエージェントに全量読ませ、拾わなかった行範囲と理由を1行ずつ書かせて行数の検算を取った
+（1〜331 に隙間・重複0）。既存テストの目録も別のサブエージェントに作らせた。
+**目録の自己申告に誤りが1件あり、ディレクターが実測で訂正した**（テストファイル数を当初45と数えたが
+実測43。`git ls-tree -r --name-only 60d9a2d src/test | grep -c '\.java$'`）。
+
+**ディレクターが実測した往復の壊れ方**（読み取り専用のプローブ。converter `60d9a2d` ×
+本体 `3c4bd2a`。どのリポジトリも変更していない）。テスティングフレームワークが解釈したあとの値を
+往復の前後で比べたもの。
+
+| 記法 | 原本 | XLS→XLS | XLS→YAML |
+|---|---|---|---|
+| `notation.rst:1360` `null`（DBに null） | Java null | Java null | **文字列 `null`** |
+| `notation.rst:1363` `"null"`（文字列の null） | 文字列 `null` | **Java null** | 文字列 `null` |
+| `notation.rst:1378` `"""`（ダブルクォート1文字） | `"` | **再読込で例外** | `"` |
+| `notation.rst:1390` `\r`（CR） | CR | CR | **2文字の `\` ＋ `r`** |
+
+加えて `testdata_examples.rst:2231` の記載例（可変長ファイルの全フィールド空文字レコード）は
+往復でレコードごと消える（本体が読むレコードが原本3件・XLS→XLS 後2件・XLS→YAML→XLS 後2件）。
+
+**原因は1つである。** 中間モデルが「テスティングフレームワークが解釈したあとの値」ではなく
+「Excel 記法の生文字列」を持っている。Excel の読み込みは `QuotationTrimmer` だけを掛け
+（`XlsFormatReader.java:526`・`:539`-`:545`）、`NullInterpreter`・`LineSeparatorInterpreter` を掛けない。
+書き出しは Java null だけを `null` リテラルにする（`XlsFormatWriter.java:581`）。
+**読みで外した記法を書きで戻さないため、写像が非対称になっている。**
+Excel 形式に必要なインタープリタが3つであることは `setup/common.rst:77` が述べている。
+
+**解説書側の是正2コミット**（レビュー役が直接コミット）:
+
+- `7f194a7` —— 前提事項のうち実測と食い違っていた2件。(1) マーカーカラムだけに値がある
+  エントリが往復で消えることを書き足した（`notation.rst:1500` の「空エントリの判定はマーカーカラムを
+  除外する前に行われる」に対し、実測で本体3行・変換ツール2行）。(2) 行末の空セルの記述を
+  「テーブルと `LIST_MAP` のカラム名の行」だけに絞った。「ファイルとメッセージではデータ行を
+  含むすべての行について……往復すると消える」は誤りで、`XlsFormatReader.java:416`-`:431`（`:424` が該当行）が
+  不足セルを `""` で埋め直すため往復後も保たれる（実測）
+- `45c3852` —— クォート記法の例外の段落を前提事項から削除した。意味を持つ情報が壊れることの
+  記述であり、同ページ `:22`「意味を変えずに往復できる」と両立しない。前提事項に残すと
+  直すべきものを仕様として固定してしまう
+
+**申し送りの未確認2件は決着した**（`01-現在地.md` §4 の (a)・(b)）:
+
+- (a) マーカーカラムだけで構成した行 —— **欠陥ではあるが直せない。** 記法上どちらの形式でも
+  全要素が空のエントリを表せないため。解説書 `:63` に明記した（`7f194a7`）
+- (b) 行末の空セル —— **欠陥ではなかった。解説書側の記述が誤りだった**（`7f194a7`）
+
+**既存の `@Ignore` 2件は、解説書に記述の無い「あるべき姿」を追っている**（`60d9a2d` 実測）:
+
+- `YamlFormatReaderInvalidInputTest.java:740` `YML-14` —— 「反映されない値がある入力はエラーに
+  なるべき（`testdata_notation.rst:891`）」。**`45c3852` の `:891` はパディングとバイナリの記述で、
+  この主張は無い。** 超過値を黙って捨てる挙動は論点4 として **user 判断済み（現行どおりで仕様）**
+- `YamlFormatReaderInvalidInputTest.java:1280` `XLS-40` —— 「カラム名の大小を保つあるべき姿」。
+  解説書にテーブルのカラム名の大小についての記述は0件（`45c3852` 全走査）
+
+いずれも `解説書に無い書き方は直さない・テストしない` に反するため、指示書で削除させる。
+
+**依存の前提（2026-08-26 user 了承）**: **`nablarch-testing-yaml` の Step 4 が完了するまで、
+converter の指示書を渡さない。** converter は yaml に依存し（`pom.xml:40`-`:44`。`1.0.0-SNAPSHOT`）、
+yaml 指示書の 2-2（`isResourceExisting` の判定単位）は converter のテストを意図的に落とす。
+`mvn -o clean test -Dtest=YamlTestCoreAdapterTest` の実測（2026-08-26 20:58）は
+`Tests run: 18, Failures: 1` / `isResourceExisting_reflectsFileExistence:370`。
+同時点で yaml は作業中（ピン `0db2221` → `e9bee93`、`src/main` 7ファイル・+187/-65。
+18件のうち 2-1・2-2・2-3 が済み、2-4・2-5 とテスト追加13件が残る）。
+`~/.m2` の yaml jar は 20:31 install の作業途中の版である。
+**`nablarch-testing` は取り直し不要**（`~/.m2` の jar は PR ブランチ由来と `javap` で確認。
+ピン `3c4bd2a` とブランチ先端 `44b9cc9` は `src/main` がバイト同一）。
+
+**ディレクター自身の指示文の誤りを1件見つけて直した**（`f29a631`）。完了条件9 に
+「`jacoco.exec` は `.gitignore` に無いので消すこと」と書いたが、converter では `.gitignore:3` にある。
+`nablarch-testing-rest` についてのメモを、対象リポジトリで確かめずに持ち込んだものだった。
+あわせて完了条件8 を `mvn clean test` に改めた（`target/classes` が jacoco 計装済みのまま残ると
+`mvn test` は `Cannot process instrumented class` で失敗する。実測）。
+
+**指示書**: `ntf-step4-05-nablarch-testing-converter.md`（`672fb4b` で作成、`f29a631` で更新）。
+**確定した作業は15件（実装の是正4・テスト追加11）。未送付。**
+
+実装の是正4件: Excel の読み書きの対称化／全フィールド空文字レコードの書き戻し／
+中間モデルからの `[ ]` の除去／解説書に記述の無い「あるべき姿」を追う既存 `@Ignore` 2件の削除。
+
+テスト追加11件はいずれも既存605メソッドが0件であることをディレクターが自分の grep で
+裏を取った（`with～` 5種・結合セル・コメント・`excludeSheets` の YAML 側・`validate` の
+サブディレクトリ・`to=yaml` での整形設定の無効化・変換経路からの検証の非呼び出し）。
+
+
+### #42: 形式間の意味集合を揃える是正と、構造上の疑い A・B の調査（user 判断 2026-08-28）— 解説書は完了、モジュール是正は `#37` の指示書へ
+
+**経緯**。`#41` の後、解説書3ページ（`notation.rst`・`testdata_converter.rst`・`testdata_examples.rst`）を全量読み、
+`testdata_converter.rst:14`・`:22`（両形式は同じ意味を別の記法で表す）に反して形式ごとに規則が違う5点を見つけた。
+判定の軸（user 確定）: **中間モデル＝NTF 仕様＝現行 Excel 実装の意味。「YAML で表せて Excel で表せない意味」は存在しない。
+Excel に定めがあれば同じ規則、無ければエラー。**
+
+**解説書の是正（3コミット）**。
+
+- `6bfc058` — 5点を Excel 側へ揃えた。空エントリ（YAML は `{}` だけ）／末尾フィールドの `null` は形式によらず `""`／
+  交互記述／FW ヘッダの名前は `reader.fwHeaderfields`（YAML の他キーはエラー）／YAML でダブルクォート除去は行わない
+- `04b9405` — 2文字 `\r` は YAML ではエラー（`6bfc058` の「CR として解釈」は `setup/common.rst:77` と両立しなかった）
+- `6ba3c83` — 交互記述を「エラー」から「警告して変換」に改めた（**`6bfc058` の文言を上書き**。user 判断: 意味は Excel と
+  同じで、既存利用者の大量データの変換を止めない。0件テーブルのカラム名 `:736` と同じ扱い）。
+  電文のレコードレイアウトは1つと明記（`notation.rst:1153`・`:1299`）
+
+**構造上の疑い A・B の調査（user 指示。プローブ実測。本体 `3c4bd2a`・yaml `3ee39c9`・converter `d611bec`）**。
+結果の全文は `~/work/cowork/nablarch/ntf-doc-renewal/01-現在地.md`「A・B の調査結果」、プローブは同 `probe/`。
+
+- **A** converter の Excel 読みは本体と値処理の順序が逆（`TestCoreReaderAdapter:40` が interpreters 空で本体パーサを回し、
+  `XlsFormatReader.readDataRows:429` で後から解釈）。仕様内の入力で意味が変わるのは末尾の `null` だけ（本体 `""`、converter null）。
+  `#37` の4経路が捕まえなかったのは、母集合にファイル・電文の末尾 `null` が無く、正解値が本体でなく converter 自身の reader だったため。
+  **是正方針（user 了解）**: converter が自分で解釈するのをやめ、本体パーサにインタープリタ列を渡して本体に解釈させる。値は器から取る
+- **B** yaml はファイル・電文の値行で本体 `DataFileParser` を通していない。**通さない（user 判断）**: 構造は YAML が明示するので判定する
+  ものが無い。足りないのは (1) 末尾 null → `""`（`trimTailCopy` を `addValue` 直前で呼ぶ）(2) 電文の `records:` 2つ以上はエラー
+  （スキーマ `maxItems: 1`）(3) `fw_header:` のキー検査（`6bfc058` 済み）
+
+**検証**: Docker フルビルド `build succeeded`、行頭 WARNING/ERROR 0件。`verify_mapping` OK（597行）・`verify_glossary` OK。
+生成物 `testdata_notation.html` に「レコードレイアウトは1つ」2箇所、`testdata_converter.html` に「警告を出す」1箇所。
+
+**モジュール側の追随**（`#37` の指示書で扱う）: yaml — 上記 B の (1)(2)、`isBlankRow`、2文字 `\r` のエラー。
+converter — A の是正方針、交互記述の警告、YAML 読みの末尾 null・`records:` 2つ以上・2文字 `\r`。
+
+### #43: yaml 第2回（#36〜#44）の独立検証（合格）と、検証で見つけた解説書の曖昧2点の是正 — 完了
+
+**検証（ディレクター実測。yaml `3ee39c9..aac55ad`。CC の報告書 `.rn/ntf-yaml/report-step4-2.md` は根拠にしていない）**。
+
+- `src/main` の差分5ファイル（+441/−92）を全量読み、指示書 2-1〜2-7 の範囲内であることを確認。2-3 の許可集合は本体
+  `MessageParser.java:107`-`:110`（`3c4bd2a`）と同じキー・既定4つ・`makeArray`
+- scratchpad の clone で `mvn -o clean test` → `Tests run: 318, Failures: 0, Errors: 0, Skipped: 0`・`@Ignore` 0件
+- ミューテーション7件・すべて検知: 2-1 `trimTailCopy` 無効（F1・F4・F6・S2 の4件）／2-3 未知キー素通し（8件）／2-3 設定値無視（5件）／
+  2-4 全値 `""` を落とす旧判定（12件）／2-5 検査無効（15件）／2-5 `fw_header` 経路だけ未検査（2件）／2-5 判定を過剰に（`\n` も拒否。4件）
+- oracle（2-1 `YamlTrailingNullOracleTest` 8件・2-4 `YamlBlankEntryOracleTest` 10件）は本体 `BasicTestDataParser`＋`PoiXlsReader`
+  で POI が組んだ `.xlsx` を読む（`BodyExcelOracle.java:71`-`:72`）
+- converter `d611bec` を yaml `aac55ad` の jar で `mvn -o clean test` → `656 / Failures: 3, Errors: 1`。落ちる4件は報告書 §7.2 と同じ
+  （`fillsMissingRecordFragmentValuesWithEmptyStringInsteadOfNull`・`readsUnquotedNullAsJavaNullInRecordFragmentPath`・
+  `skipsRowWhoseValuesAreAllEmpty`・`keepsFwHeaderNamedRecordInSendSyncFromRealYaml`）。converter 第2回の指示書 2-4 で是正する
+
+**解説書の是正（検証で見つけた曖昧2点。あるべき姿が自明なので判断は仰いでいない）**。
+
+- `implementation/testdata_notation.rst:889` — 「後ろに値のあるフィールドがあれば null のまま保持される」の「値」に `""` を含むかが
+  `:1502`（`""` は値）と読み合わせると曖昧だった。本体 `NablarchTestUtils.trimTail`（`3c4bd2a` の `:251`-`:263`）は末尾から
+  null と `""` を連続して取り除くため `["x", null, ""]` は `x`,`""`,`""`。「空文字でも null でもないフィールドがあれば」に改めた
+- `implementation/testdata_notation.rst:1502` — 「マーカーカラムだけに値があるエントリは…他のカラムがすべて空文字のエントリとして
+  読み込まれる」が、YAML でキーを省略した場合に `:818`（省略は null を明示したのと同じ）と矛盾していた。値は通常どおり
+  （Excel の空セルは `""`、YAML のキー省略は null）に改めた。**yaml 報告書 §8.1 の「本体と恒久的に食い違う仕様差」は、この矛盾を
+  仕様差と読んだもの。入力が非等価（Excel の空セル＝`""`、YAML のキー省略＝null）なだけで、仕様差ではない**
+- `tools/testdata_converter.rst:63` — `:1502` の旧文を引いていたので合わせた（マーカーカラムの値だけを除いたエントリとして残す）
+- converter 第2回の指示書 2-2 の引用を新しい文言に差し替えた
+
+**yaml 報告書 §8 の判断**（user 判断が要るのは §8.5 だけ）: §8.1 上記のとおり仕様差ではない。T5/L5 のテストは正しいが Javadoc の
+「仕様差」の枠組みを `:818` に沿って改める（#45）。§8.2 converter 第2回の指示書 2-4 で是正（既定）。§8.3 上記 `:889` で是正済み。
+§8.4 スキーマ description は SSoT の適用範囲（2026-08-25 user 確定）なので追随する（#45）。§8.5 出典方式は user 判断へ。
+
+### #48: 図の作成（PlantUML 21枚）・既存画像の処置・README「図の作成方法」 — 完了
+
+**Purpose**: 「文章より図で見せたほうが利用者が理解しやすいもの」に図を置く。刷新した38本を全量読んで「ページ種類 × 置く図」の表を作り user が承認した（2026-08-30。任意3枚は作らない）。新規21枚を PlantUML で作り、既存画像27件＋未参照1件は同じ基準で判定した（描き直し12→新図9に吸収・削除3・画面キャプチャ13は触らない）。`#33` (b)（残置図の禁止語）は本タスクで閉じる。**`design.md` §「利用側ページに内部構造の構成図を置かない」（`#32`）と §「「アーキテクチャ」は本文のみとし…」の決定を上書きする**（user 判断 2026-08-30。前者は明記済み、後者は本タスクで明記する）。
+
+**指示書**: `ntf-doc-48-figures.md`。作る図の一覧・置く位置・見せるもの・本文の根拠・既存画像の処置・README の逐語・本文の逐語差し替え (a)〜(g)・完了条件はすべて同ファイル。**4観点レビューは回さない**（user 確認 2026-08-30。図の中身は承認済みの表で決まり、`.puml` と本文・実装の整合はディレクターが独立検証する）。
+
+**参照点**: 解説書 `a6da1f6`（`ja/` は HEAD と同一）／`nablarch-testing@3c4bd2a`／`-rest@ec718a2`／`-junit5@c06ebe8`／`-converter@d611bec`。
+
+**Steps**:
+
+- [x] 1. `README.md` に「図の作成方法」を追記する（指示書 §2）
+- [x] 2. 図21枚を作り、`.rst` に入れ、旧画像13件を削除する。1ページ1コミットで push（指示書 §3〜§5・§7）
+- [x] 3. 本文の逐語差し替え (a)〜(h)（指示書 §6）。図に必要な事実が本文に無くて作れなかった図は0件
+- [x] 4. `design.md` 2箇所・本エントリの `#33` (b)・`checks/task-48.md`（指示書 §7）
+- [x] 5. 完了条件1〜11 を実測して記録し、§10 の形で報告して停止する
+- [x] 6. ディレクターの独立検証（合格）を受けた是正2件（指示書 §13。`c98d887c`）。(i) `implementation/testdata_notation.rst` の `:46`・`:78` の末尾の一文を削除／(j) 図1の注記を本文の語「本番相当」に改め `.png` を再生成。あわせて記録訂正（hunk 件数27件・条件6 の判定）。`68671907`・`c62ca68b`・`44d4b536`
+- [x] 7. 是正ラウンド2 (k)（指示書 §14。`22cee0ea`）。§5 の生成コマンドが `JAVA_HOME=... $JAVA_HOME/bin/java` で `$JAVA_HOME` が代入前に展開され `/bin/java`（temurin-21）で動いていた誤りを絶対パスに差し替え、README §2 の前提 Java 17 で図21枚を再生成した（`.png` 20枚が変化。`architecture_components.png` は既に temurin-17 の生成物で差分なし）。`checks/task-48.md` §4 条件4 に java の実体と `cmp` の取り直しを記録。`cbe4ee9a`・`4f67e932`・`72b6c139`
+
+**Completion criteria**: 指示書 §8 の1〜11 の逐語による。**実測は `checks/task-48.md` §4。全11条件が成立。** 条件6 の文言（`_build/html/development_tools/testing_framework/` 配下に21枚）は指示書の誤りであることがディレクターの独立検証で確定し（§13）、判定は「21枚が `_build/html/_images/` に出力され、`<img src>` 34件にリンク切れ0」に改めた。条件8 の分類は §6 (a)〜(i)（(i) は §13 で追加）。
+
+**独立検証と是正（2026-08-30）**: ディレクターの独立検証は全項目合格（指示書 §13）。是正2件 (i)(j) を Step 6 で処置し、`checks/task-48.md` の §3・§4（条件6・8）・§5 を更新した。報告していた「指す先を失った一文2件」は (i) で解消済み。**残る未処置は無い。**
+
+**是正ラウンド2（2026-08-30。指示書 §14）**: (i)(j) は合格。不合格1件は指示書 §5 の生成コマンドの誤りが原因で、CC の作業に誤りは無い。是正 (k) を Step 7 で処置し、完了条件4件を実測で充足した（`ja/` の差分は `.png` 20枚のみ・`.rst`／`.puml` 0件／21枚とも別ディレクトリ再生成と `cmp` 一致／寸法は `dd929f14` と同一／作業ツリー空・push 済み）。
+
+**user 承認（2026-08-30。指示書 §15。`4964b5be`）**: 是正 (k) は合格、`#48` はこれで完了。追加タスクは無い。ディレクターは GitHub から scratchpad に clone した `32a1b7bc` で独立検証し（CC の報告書・`checks/task-48.md` は根拠にしていない）、条件1〜4 をすべて確認した。ラウンド記録はラウンド1 指摘2件（充足1・整合1。§13）／ラウンド2 指摘1件（検証手段。§5）／ラウンド3 指摘0件で、上限3回のうち2回で収束。
+
+### #49: 最終チェック（観点1 目的適合・観点2 記載位置・観点3 同種ページ対称性）の是正4件と却下2件 — 完了
+
+- 経緯: user 指示（2026-08-31）の最終チェック。ディレクターが38本全量読み＋ `design.md` 全量読みで調査（キーワード走査でなく段落ごとの判定。ピン `6e04d02`）。指摘6件のうち4件を是正、2件を却下。
+- 是正A（`0bf4424c`）: `setup/index.rst` の掲載順を `design.md` §3 の第2部構成に是正（JUnit 5用拡張機能・マスタデータ復旧機能を末尾へ）。**既決記録の矛盾を解消**: R1-X2（`reviews/page-request_unit_test_setting_web.md`「toctree は §3 に従う。§13 ツリーは根拠にしない」）に対し、`#27`（`checks/task-27.md` §「toctree の並び」）が §13 のツリー順へ並べ替えて上書きしていた。本タスクで R1-X2 側へ戻し、`#27` の当該判断をここで上書きする。
+- 是正D（`75bc3402`）: tip「以下の設定はアーキテクトが行う。…」3件を削除（`setup/request_unit_test/http_messaging.rst`・`setup/deal_unit_test/http_messaging.rst`・`setup/deal_unit_test/mom.rst`）。第2部全体がアーキテクト向け（`design.md` §1）で、9本の方式別設定ページ中3本だけの注記は不揃い。
+- 是正E（`f27bd2b0`）: `implementation/request_unit_test/web.rst` の「主なクラスとリソース」表の文体を rest/batch/mom の3表（「〜する。」「〜作成する。」「記載する」）に統一。
+- 是正F（`1254e8cc`）: 方式別設定ページ6本（リクエスト単体 web・rest・batch・mom、取引単体 http_messaging・mom）の機能概要に「テストの実装方法は…を参照」の1文を追加。既存2本（`setup/request_unit_test/http_messaging.rst:13`・`setup/deal_unit_test/rest.rst:13`）の型の逐語複製。
+- 却下B: `setup/request_unit_test/batch.rst`（ディレクティブのデフォルト値・TEST_X9/SX9 型）・同 `mom.rst`（TestDataConverter 拡張）の「方式に固有でない設定」は現状維持。本文が適用範囲を自認し、`testdata_notation.rst` 等からの `:ref:` も通る。共通設定へ移すと「テストの種類によらず共通」という共通設定の目的から外れる。
+- 却下C: `setup/common.rst` の「同期応答・HTTPメッセージ送信のテストデータの読み込み設定」（2方式の取引単体テスト専用）は現状維持。取引単体 http_messaging・mom の2ページから共有参照され、どちらかに置くと他方が従属する。機能概要が適用範囲を明示済み。
+- レビュー: 回さない。A は既決への復帰、D は削除、E は文体統一で、いずれも既存の固定物（design.md・既存3表）が振る舞いを押さえる差分限定。F は承認済みページの逐語パターンの複製。ディレクターが差分限定で独立検証した（下記）。
+- 検証（ディレクター実測）: Docker フルビルド exit 0・warning 0件（`sphinx.mo` 復元済み）／編集9ファイルの `:ref:` 全解決／`verify_mapping.py` OK: no errors・`verify_glossary.py` RESULT: OK／`_build/html` の実体 grep で反映確認。
+- 検証手段の注意: `:ref:` 走査は `` .. _`ラベル`: ``（バッククォート形式）の定義を母集団に含めること。含めないと `db_messaging`・`tag-double_submission`・`tag-window_scope`（定義実在: `messaging/db/index.rst:1`・`libraries/tag.rst:453`・`:1310`）を誤検知する。
+
+### #50: 最終チェック（観点5 読者導線・観点6 Nabledge 検索性）— 旧タスク見出し4項目の復元 — 完了
+
+- 判定基準（ディレクター実測 2026-08-31）: `nablarch/nabledge` main `c53faa4` を clone し再確認。検索面 `knowledge/index.md` はページ題＋L2/L3 のみで L4 見出しは現れない（`grep '^    - s'` 0件）。知識 JSON はセクションをフラットに切り、親セクションの `content` は配下本文を含まない（`testing-framework-01-Abstract.json` の s1 が0字で子 s2〜s4 が本文を持つことを実測）。`#09` 時点（2026-08-06）の事実と同一。
+- 検証方法: 利用者タスクのシナリオを刷新版から独立に起こし（v6 `06_TestFWGuide/03_Tips.rst` の16項目＋方式別タスク＋ツール4本、計約30件）、刷新版の目次・見出しだけで歩いた。全シナリオで目的の記述自体には到達できる。ただし4件は v6 でタスク見出しだった項目が地の文に埋まり、見出しから辿れなかった（見出しに「障害」「タイムアウト」「継承せず」「共通処理」が0件であることを grep で実測）。
+- 是正（`次コミット参照`）: (G1) `testdata_notation.rst` に L4「障害系のテストを記述する」を新設し `errorMode:` の記述（段落・表・important・tip）を逐語のまま移設。テーブル節の型（話題別 L4 → 形式別 L4 対）に合わせ Excel形式の場合の直前に置いた。(G2〜G4) `implementation/class_unit_test/component.rst` に L4 3本を新設（継承せずに使用／実行前後の共通処理／別ディレクトリの読み込み）。本文は既存の逐語のまま。
+- レビュー: 回さない。新規の公開本文は見出し文言4本のみで、本文は既存記述の移設。ディレクターが差分限定で検証: Docker フルビルド build succeeded・warning 0件（初回は全角幅による Title underline too short 2件を検知し下線延長で解消）／`:ref:` 全解決／HTML 実体に見出し出現を grep で確認。
+- 観点5・6のその他の結果: 読者振り分け（最上位 `index.rst`）・処理方式別ページへの導線・ツール4本の到達性は問題なし。見出しの一意性・「〜する」形式・L3 導入文の単独成立は S-03/S-11 規約で担保済みで逸脱なし。
+
+### #51: 最終チェック（観点4 v6反映の網羅）— DROP・REFERENCE 全110件の妥当性判定と承認後差分の確認 — 完了
+
+- 目的: user 指示（2026-08-31）「反映しなかったものが妥当かを最後に確認して報告。何を落としたのか把握したい」。
+- 方法（ディレクター実測）: `mapping.csv`（597行）から DROP 96行・REFERENCE 14行を抽出し、**各行の src 実物**（current は `origin/main` の v6 該当行を `git show`、input は `.rn/input/` の該当行）を全件読んで判定した。`note` は手がかりにとどめ根拠にしていない。行数計 1,082（DROP 分 1,003 = 台帳不変条件 12,986−11,983 と一致）。
+- 判定: **110件すべて「落として妥当」**。分類と件数:
+  - RSTアンカーラベルのみ（実体なし）31件 — 新ページで `:ref:` ラベルを付与し直し済み
+  - toctree・目次のみのナビゲーション 10件 — 新構成の toctree で置換済み
+  - input資料の内部設計・開発プロセス 29件 — 変換ツール設計書のクラス図・アダプタ設計・品質担保工程・リポジトリ分割手順、読み込み機構の4段階・状態機械・キャッシュ等。`design.md` §9 の対象外規定どおり
+  - 重複（より詳細な版が刷新版に反映済み）26件 — `ntf-doc-terms.md` の要約表、v6 `rest.rst` の要約節等。重複先の実在は刷新版38本の全量読み（#49）で確認済み
+  - REFERENCE（「同じである／〜を参照」1文の節）14件 — いずれも刷新版に対応する導線・記述が実在することを確認
+- 注記: `current-0214`（旧 Tips の目次）の note に残っていた「要確認」は、#5c の DROP 全件レビューと、観点5（#50）で16項目全部の反映を歩いて確認したことで解消。うち4項目は見出しが失われていたため #50 で見出しを復元した。
+- 承認後差分の確認（観点4a）: ブランチ上で `ja/development_tools/testing_framework` に触れた全コミットを走査し、台帳のタスク期間に属さないコミットが無いことを確認（`a6da1f6..HEAD` は #48〜#50 のみ。それ以前もタスク実施期間と一致。v6時代のコミットは対象外）。
+- 再現手順: DROP/REFERENCE の src 本文一括抽出は csv.DictReader＋`git show origin/main:<src_file>` で行った（判定の正は抽出物でなく src 実物）。
+
+### #52: Step 4 —— nablarch-testing-integration の再検証（修正後モジュールでの結合テスト）— 完了（2026-09-02 user 判断で閉じる）
+
+**Purpose**: 修正後モジュールを install し直して結合テストを一括実行し、2026-06-25 の全緑基準へ回帰することを確認する。
+
+**根拠**: `nablarch-testing-integration` `feature/migrate-integration-test`: `2a0518e`「docs: complete task #25 — #54 追随後 converter での結合テスト再実行の結果を記録」。`.rn/step4-08-retest/report.md` §「R-3. Surefire summary（逐語）」に `Tests run: 546, Failures: 0, Errors: 0, Skipped: 18`。State（`d2353b7`）: Last completed `#25`・Next なし・「2026-06-25 基準（`69125c3`）へ完全に回帰」。再実行で緑になったのは、`#54` の追随（converter `9ab6648`・yaml `4837713`）を install した上での結果である（同 report.md §「R-2. 使った jar の証拠」）。
+
+**指示書**: `ntf-step4-08-nablarch-testing-integration.md` §5「再実行（#54 追随後。2026-08-31 追記）」
+
+
+### #53: Step 4 —— カバレッジ基準の適用（未達0／既存以外増加0）— 完了（2026-09-02 user 判断で閉じる）
+
+**Purpose**: カバレッジ基準（yaml・converter は全部新規なので未達0。本体は既存の未達以外に増加0。user 確定 2026-08-31）を3モジュールへ適用する。
+
+**根拠**:
+
+- converter — `nablarch-testing-converter` `ntf-test-data-converter`: `21da937`「docs: #49 の承認を steering に記録する（(c) 第2ラウンド 完了）」。`.rn/ntf-test-data-converter/steering.md` §「#49 の承認（2026-08-31）」
+- yaml — 承認は本リポジトリ `ntf-step4-10-yaml-coverage.md` §5「承認と回答（2026-08-31 user 承認）」に記録（**#46 を承認する**。モジュール側の追加確認は不要）
+- 本体 — `nablarch-testing` `convert-testdata-excel-to-text`: `f4f59ed`「chore: Step 4-11（#29・#30）の user 承認を記録し State をクローズ状態にする」。`docs/pr75/steering.md` State（`dcaed44`）: 「Step 4-11（カバレッジ基準）は #29・#30 とも user 承認済み」
+
+**指示書**: `ntf-step4-09-converter-coverage.md` §5「判断結果と第2ラウンド（2026-08-31 user 判断）」／`ntf-step4-10-yaml-coverage.md` §5／`ntf-step4-11-testing-coverage.md` §5「承認（2026-08-31 user）」
+
+
+### #54: 解説書の SSoT 内部矛盾の是正（マーカーカラムだけのブロック）と、追随指示書2本の準備 — 完了（2026-09-02 user 判断で閉じる）
+
+**発端**: `#52`（integration 再検証）の赤7件。converter が `tools/testdata_converter.rst:65` の旧文「マーカーカラムだけで構成したデータブロックは…データ行も残らない」（`#41` `7f194a7` でディレクターが追記）に忠実に従った結果、本体 `TestCaseInfo.java:344-351`（`3c4bd2a`）が行数を位置インデックスに使う用法と衝突した。旧文は記法ページ `:1486`・`:427`・スキーマ description（同旨）と矛盾する **SSoT 内部矛盾**で、`#41` の「YAML では表せない」という判断が誤り（YAML はマーカーカラムを仕様として持ち `- "[no]": "1"` で表せる。スキーマは `additionalProperties` でキー名無制約・実装は `YamlSection.java:227`-`:228` が対応済み）。
+
+**是正（user 判断 2026-08-31「保つ」・SSoT はすぐ直す）**: `ed3de95f` で当該文を「マーカーカラムとその値を保ったまま変換する」例外として書き直した（`#41` の当該決定を上書き）。Docker フルビルド warning 0・HTML 反映確認済み。**同型の否定主張は解説書に4件のみで、他3件（`:61` 装飾情報・`:69` 行末空セル・`:71` 交互記述）は実物検証で整合を確認済み**（本体に結合セル処理0件／`HeaderLine.java:33` `trimTailCopy`／YAML のリスト構造）。再発防止（否定主張は書く前に反例を実物で探す・関連ページとスキーマ description との突き合わせを根拠に含める）は案件フォルダの `02-進め方.md` に追記した。
+
+**根拠**:
+
+- converter 追随 — `nablarch-testing-converter` `ntf-test-data-converter`: `8c0fcad`「docs: complete task #54 — 変異確認・カバレッジ・完了報告を記録する」。`.rn/ntf-test-data-converter/checks/step4-54-report.md` §「⑤ ゲート」に `Tests run: 731, Failures: 0, Errors: 0, Skipped: 0`。State（`9ab6648`）: 「#54（締め）まで完了」「未達 30 行／8 分岐は #49 で承認済みの到達不能箇所と完全一致」
+- スキーマ description 全件突合 — `nablarch-testing-yaml` `feature/ntf-yaml`: `a69084e`「docs: complete task #49 — 指示書 ntf-step4-13 §6 の Q1〜Q6 を実施する」、`b67e106`「docs: #48・#49 のユーザー承認を記録しセッションを締める」。State（`d50ee2b`）: 「#48・#49 とも 2026-08-31 にユーザー承認（`/rn:ty`）済み」「`Tests run: 324, Failures: 0, Errors: 0, Skipped: 0`」「C0 1809/1822・C1 174/176」。報告書 `.rn/ntf-yaml/report-step4-3.md`
+
+**指示書**: `ntf-step4-12-converter-marker-rows.md`／`ntf-step4-13-yaml-schema-consistency.md` §5「第1ラウンド是正指示」・§6「Q1〜Q6 への回答」
+
+
+### #55: NTF解説書の JUnit 5 ベース化 — 完了（2026-09-01 ディレクター承認）
+
+**Purpose**: 解説書を JUnit 5 ベースへ反転する（user 確定 2026-08-31）。`setup/junit5_extension.rst` を「標準の使い方」（`setup/standard_usage.rst`・ラベル `standard_usage`）へ改題して `common` 直後へ移動し、「JUnit 4で使用する」（`setup/junit4.rst`・ラベル `junit4_support`）を setup 末尾に新設。implementation 9ページの java ブロック65件を合成アノテーション＋インジェクション方式へ書き換え、`about/index.rst` の特徴4・アーキテクチャ・稼動環境を反転した。
+
+**Completion criteria**: 指示書 `ntf-doc-55-junit5-base.md` §7 の1〜12 と、是正ラウンド1 の §11 完了条件1〜4。**全件 OK**（実測は `checks/task-55.md`）。
+
+**判定**: 指示書 §12（ディレクター承認。2026-09-01）— 是正ラウンド1 合格、#55 完了、追加タスクなし。ラウンド1 指摘2件（§11-1・§11-2）／ラウンド2 指摘0件で収束（上限3回のうち1回）。フェーズ0 の承認と反例10件への回答は §10、フェーズ1 の独立検証と是正2件・回答2件は §11。4観点レビューは回していない（user 判断。§8）。
+
+**申し送り**: アーキタイプ `9ef4096` が JUnit 5 テストに JUnit 4 の型 `org.junit.rules.TestName` を露出している件は #55 では扱わない（記録は指示書 §10）。
+
+
+### #56: 台帳の締め — `#52`〜`#54` の完了記録、`#33` (e-1)・`#34` の打ち切り（user 判断 2026-09-02）— 完了
+
+**Purpose**: モジュール側で完了・承認済みの `#52`〜`#54` を本台帳でも完了として閉じ、`#33` の残り (e-1) と `#34` を user 判断（2026-09-02）で打ち切る。台帳の記録更新のみで `ja/` は変更しない。
+
+**指示書**: `ntf-doc-56-ledger-close.md`。根拠（モジュール側の一次記録）は同 §2 の表。**レビューは回さない**（公開本文に変更なし。ディレクターが差分を実物で確認する）。
+
+**Completion criteria**: 指示書 §4 の1〜5。
+
+**判定（2026-09-02）**: 完了。§0 の着手前検証は6行すべて実物と一致（反例0件。実測は `checks/task-56.md` §0）。§4 の完了条件1〜5 はすべて満たした（実測は `checks/task-56.md` §3）。
+
+
+### #57: テスティングフレームワーク index の役割別導線を toctree の上に表で置く — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: `ja/development_tools/testing_framework/index.rst` の役割別導線（`:13` の1文）が toctree（maxdepth 2、ビルド後 42 行）の下にありファーストビューに入らず、役割名も文中に埋まって行き先をすぐ読み取れない（user 指摘 2026-09-02）。導線を「読み手／読む順序」の list-table にして toctree の前に置く。文面・参照先4本は変えない。maxdepth は 2 のまま（user 判断 2026-09-02）。
+
+**指示書**: なし。`02-進め方.md`「直接修正するときの型」に基づきディレクターが直接コミット（`98217fc6`）。**レビューは回さない**（1ファイル・既存参照4本の配置換え。ディレクターがビルドと描画を実物で確認）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。Docker で正規の場所にビルド → build succeeded・warning 0。`_build/html/development_tools/testing_framework/index.html` で表が `toctree-wrapper` より前に描画、href は about/setup/implementation/tools の `index.html` 4本、toctree 42 行。
+
+**変更（2026-09-02 user 判断）**: 表は読み飛ばされるため、文章に変更（`671959ab`）。ページごとに1段落・役割名を段落の先頭近くに置く「本章の構成」型で toctree の前に置く。参照先4本は不変。実測: ビルド succeeded・warning 0、`index.html` に table 要素なし、`toctree-wrapper` より前に段落6本と href 4本、toctree 42 行。
+
+
+### #58: NTF解説書の表 145 件に `white-space-normal` を付け、横スクロールをなくす — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: `sphinx_rtd_theme` の `theme.css` は表セルを `white-space: nowrap` にするため、NTF 解説書の表が横スクロールになる（user 指摘 2026-09-02）。解説書側の `_static/custom.css` に `table.white-space-normal` の折り返し定義があり、FW 解説書は `:class: white-space-normal` を 101 箇所で使っている。NTF は 145 件すべて未指定だった。
+
+**指示書**: なし。`02-進め方.md`「直接修正するときの型」に基づきディレクターが直接コミット（`ae504738`）。**レビューは回さない**（機械的置換。文面・列幅は不変。ディレクターがビルドと HTML の class を全件 grep で確認）。user は表示を見て、見にくい表があれば個別に FB する。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。list-table 144 件（21 ファイル）に `:class: white-space-normal`、`about/index.rst` の simple table 1 件に `.. rst-class:: white-space-normal`。ビルド succeeded・warning 0。`_build/html/development_tools/testing_framework` 配下の `<table>` 145 件すべてに `white-space-normal`、未指定 0 件、`:class:` 文字列のセル漏れ 0 件。`<pre>` を含むセル 0 件。
+
+
+### #59: マスタデータ投入ツールを新規利用者に案内せず、gsp-dba-maven-plugin の推奨に戻す — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: user の38本全量読みレビューで「ウェブアプリケーションの取引単体テストに NTF の出番はあるか」との質問があり、ディレクターが `implementation/deal_unit_test/web.rst` の準備手順にマスタデータ投入ツールへの参照を足す案を出した。user がこれを退けた。**現行 v6 の `08_TestTools/02_MasterDataSetup/index.rst:9`（`origin/main`）は「マスタデータの投入は、本ツールではなく gsp-dba-maven-plugin の使用を推奨する」と明記しており、本文で案内できるツールではない。** 併せて刷新版に2箇所の欠陥が見つかった。(1) `tools/master_data_tool.rst:24` の tip がこの推奨文を落として「gsp で管理する場合、本ツールを導入する必要はない」に弱めていた（落とす判断の記録は `design.md`・本台帳に無い。`design.md:187` は「非推奨」の語で確認しており、推奨文を見落とした）。(2) `implementation/testdata_notation.rst:42` の tip が v6 `06_TestFWGuide/01_Abstract.rst:608` を引き継いで「マスタデータ投入ツールを使用する」と断定しており、ツールページの推奨と食い違っていた（v6 の時点で食い違っていた）。
+
+**user 判断（2026-09-02）**: **本文は新規利用者向け。後方互換のために説明を残しているツールを本文で案内しない。** `testdata_notation.rst` は「gsp-dba-maven-plugin の使用を推奨する」とし、「マスタデータ投入ツールも使用できる」は書かない（推奨していないため）。`web.rst` への追記は行わない（ウェブの取引単体テストで NTF が関わるのはモックアップクラスだけで、`web.rst:15` に既にある）。`about/index.rst:80` への追記も行わない（何を使うかは各ページの担当）。
+
+**指示書**: なし。`02-進め方.md`「直接修正するときの型」に基づきディレクターが直接コミット（`2b665792`）。**レビューは回さない**（2文の是正で、v6 の既存文面への復帰と、それに揃える言い換え。参照先の実在はビルドが固定する）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。`tools/master_data_tool.rst:24` に v6 の推奨文を戻し、`implementation/testdata_notation.rst:42` を gsp-dba-maven-plugin の推奨に改めた。正規の場所でビルド succeeded・warning 0。両 HTML で `addin_gsp.html#gsp-maven-plugin` へのリンク解決を grep で確認。`master_data_restore.rst:60`・`:175` は「このツールで投入する場合は」の条件付き言及のため変更しない。
+
+**design.md の是正（2026-09-02）**: `design.md:187` の「現行解説書に非推奨の記録が無い」は v6 の推奨文（`index.rst:9`）を見落とした記述だったため、同行に訂正を追記した。申し送りは無い。
+
+
+### #60: about の節順・JUnit 4 の括弧書き・サポートクラスのクラス図の向き — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: user の38本全量読みレビューで、`about/index.rst` アーキテクチャ節に3点の指摘があった。(1)「系譜」は一般的な語でない。(2) JUnit 4 の括弧書きが唐突で、about で言及する必要がない。節順を 稼動環境 → アーキテクチャ にすれば「JUnit 5 で使用する」が先に来る。(3) サポートクラスのクラス図が左→右配置で、継承関係の図としては上→下にすべき。
+
+**user 判断（2026-09-02）**: 3点とも是正する。クラス図は上→下配置・注記を下に置く（注記を右に置くと 1931px 幅で本文欄に収まらない。注記を下に置くと 1462px）。「標準では」も、稼動環境が先に来るため落とす。
+
+**指示書**: なし。`02-進め方.md`「直接修正するときの型」に基づきディレクターが直接コミット（`a01901ee` 節順と括弧書き、`d3471663` 図と語）。**レビューは回さない**（既存文の削除・語の置換・節の入れ替えで、新しい主張を足していない。図は同じ `.puml` の配置指定だけを変えた）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。節順 全体像 → テストの種類 → 稼動環境 → アーキテクチャ（HTML の h2 で確認）。アーキテクチャ節の文は「テストクラスは、サポートクラスのインスタンスをインジェクションされて使用する。」。JUnit 4 では継承で使う旨は `setup/standard_usage.rst:18`・`setup/junit4.rst:12` にあり欠落しない。`test_support_class.png` は 1462x390 に再生成、`architecture_components.png` はバイト一致で不変。`:scale: 70` を外した。正規の場所でビルド succeeded・warning 0。ラベル `testing_framework_about-operating_environment`・`-architecture` は他ページから参照されていない（grep 0件）。
+
+**design.md の是正（2026-09-02）**: 第1部アウトライン表（`design.md:36-37`）の行順と内容、`design.md:189` の節順を本タスクの決定に合わせて更新した。申し送りは無い。
+
+
+### #61: 「標準の使い方」を「JUnit 5で使用する」に改題する — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: user の38本全量読みレビューで、`about/index.rst` 稼動環境の文「JUnit 5で使用する（標準の使い方）」について「標準とは何か。目次を見ても意味が分からない」との指摘。`#55` で `JUnit 5用拡張機能` から改題した題だが、`design.md:243` に改題の理由は無く、「標準」が何に対する標準かを示すものが本文・目次のどこにも無い。
+
+**user 判断（2026-09-02）**: 題を「JUnit 5で使用する」にする。末尾の「JUnit 4で使用する」と対になり、目次だけで JUnit 5 が本線と読める。about の文は題と重なるため「テスティングフレームワークは、JUnit 5で使用する。導入と設定は〈JUnit 5で使用する〉を参照。既にJUnit 4で書いたテスト資産がある場合は〈JUnit 4で使用する〉を参照。」に書き換える。ファイル名 `standard_usage.rst`・ラベル `standard_usage`・画像ディレクトリ名は読者に見えないため変えない。
+
+**指示書**: なし。`02-進め方.md`「直接修正するときの型」に基づきディレクターが直接コミット（`32778384`）。**レビューは回さない**（題とリンク文言の置換。本文で語として使っていた3文の言い換えは、改題から自明に決まる）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。題・リンク文言3箇所（`about/index.rst:111`・`setup/junit4.rst:14`・`:43`）・本文3文（`setup/standard_usage.rst:12`「これが標準の使い方である」を落とす、`:209`・`:379` を「JUnit 5」に）・`mapping/glossary.md:298` の見出し語。正規の場所でビルド succeeded・warning 0。`ja/` の `.rst` で「標準の使い方」0件（`grep -rn`）、対象 HTML 4本でも0件。design.md の第2部ツリー（`design.md:248`・`:1018`）と `#55` の記録・`mapping.csv`・`style.md`・`volume.md`・`vocabulary.md`・`scan-terms.tsv` に旧名が残るが、当時の記録として残す（glossary の「使わない表記」欄に「#55〜#60 の記録では使う」と明記）。
+
+**design.md の是正（2026-09-02）**: `design.md:37`・`:243`・`:248`・`:1018` のページ名と改題の記録を更新した。申し送りは無い。
+
+
+### #62: 共通設定に「テスト用のコンポーネント設定ファイルを用意する」を新設し、about から参照する — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: user の38本全量読みレビューで、`about/index.rst` アーキテクチャ節の「コンポーネント設定ファイルと環境設定ファイルは〈テスティングフレームワークの導入と設定〉で用意する」について「リンク先のどこを見たら設定方法が分かるのか」との指摘。リンク先 `setup/index.rst` は目次だけで本文が無く、第2部のどのページも「テスト用のコンポーネント設定ファイル」が何か・どこに置くか・本番用とどう切り替えるかを述べていなかった（11ファイルが語として使うだけ）。この文は `#32` で図 `abstract_structure.png` を落としたときに図の関係を1文で足したもの（`design.md:163`）。
+
+**user 判断（2026-09-02）**: about の文は落とさず（ディレクターの第1案は削除）、第2部に説明を新設してリンク先をそこにする。第2部の説明は `setup/common.rst` の「使用方法」に小節として置く。環境設定ファイルの扱いは実測して書く（ディレクターが当初「未確認・申し送り」としたのを user が却下。2026-09-02「申し送りにせず今調べて直す」）。
+
+**指示書**: なし。`02-進め方.md`「直接修正するときの型」に基づきディレクターが直接コミット（`f8c0acf0`、環境設定ファイルの実測反映 `4f8069c7`）。**レビューは回さない**（新設小節の根拠はコミットメッセージに `file:line` で列挙済み。user が案の文面を読んで承認した）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。小節（ラベル `testing_framework_common-test_component_config`）を依存関係の追加の直後に新設。機能概要の1文に「テスト用のコンポーネント設定ファイルの用意」を追加。about の `:ref:` を新設小節へ。正規の場所でビルド succeeded・warning 0。両 `:ref:`（新設小節・FW `repository-override_bean`）の解決を HTML で確認。
+
+**実測（2026-09-02、`4f8069c7`）**: nablarch-example-web@b5ed1fe の複製（scratchpad）に probe テスト（`RepositoryInitializer.initializeDefaultRepository()` の後に `SystemRepository.getString` で値を出力）を置き、temurin-17・`mvn -o test` で3回実行。(1) `unit-test.xml` に config-file 無し: 本番用 `env.properties` の `nablarch.db.url` は読める、テスト専用キーは null。(2) `unit-test.xml` の import の後に `<config-file file="unit-test.properties"/>` を追加: テスト専用キーが読める。(3) 同ファイルに `nablarch.db.schema=PROBE_OVERRIDE`: 本番用の `PUBLIC` が上書きされる。この3点を小節に書いた（テスト専用・上書き用の環境設定値はテスト用の環境設定ファイルに書き config-file で読む、import の後に置く）。**申し送りは無い。**
+
+
+### #63: about のアーキテクチャ図の描き直し、図の拡大リンク、「稼動環境」の改題 — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: user の38本全量読みレビューで3点の指摘。(1) アーキテクチャ図が「一見正しそうだが意味不明」（起点がテストデータ／テストデータ→FW→テストクラスの流れ／「直接呼び出す」がリクエスト単体テストにも当てはまるように読める／「テスト対象クラス→NAF を介して動作する」が無意味）。(2) 図をクリックで拡大できない（FW 解説書はできる。`#60` でクラス図の `:scale:` を外したことで退化）。(3)「稼動環境」は内容（JUnit の対応バージョン）を表していない。
+
+**user 判断（2026-09-02）**: 図は伝えることを4つに絞って描き直す（①サポートクラスをインジェクションして使う ②準備データの投入と期待値との照合はサポートクラスが行う ③テスト対象の呼び出し方はクラス単体＝直接、リクエスト単体＝NAF のハンドラキュー経由 ④NAF はテスト用のコンポーネント設定ファイルを読む）。本文もこれに合わせる。節題は「対応するJUnitのバージョン」。
+
+**指示書**: なし。`02-進め方.md`「直接修正するときの型」に基づきディレクターが直接コミット（拡大リンク `cf82375f`、図・本文・節題 `2c5559b2`）。**レビューは回さない**（図の各関係の根拠はコミットメッセージに `file:line` で列挙。user が図と本文の案を見て承認）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。Sphinx は `:scale:` のある画像だけを原寸へのリンク（`image-reference`）で包むため、NTF の図 34 件すべてに `:scale:`（クラス図のみ 55、他は 100）を付け、NTF 配下 HTML の `image-reference` 34 件＝`img` 34 件を確認。`architecture_components.puml` を書き直して再生成（temurin-17・plantuml 1.2025.4）、`_images` の png がソースとバイト一致。about アーキテクチャ節の段落を図に合わせて書き換え、「稼動環境」を「対応するJUnitのバージョン」に（ラベル `testing_framework_about-operating_environment` は不変。他ページからの参照なし）。正規の場所でビルド succeeded・warning 0。design.md のアウトライン表（`:36-37`）・`:189`・`:171` を同時に更新した。申し送りは無い。
+
+
+### #64: 第2部 10 ページの「機能概要」を読者にとっての価値を書く形に改める — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: user の38本全量読みレビューで `setup/common.rst` の機能概要について「共通設定ではテストの種類によらず共通に行う設定を扱う、が機能概要では？見出しを全部書くのは違う。今の概要、読んで何が嬉しい？全部の機能概要を見直して、機械的に書いたらダメ」。全 30 ページの機能概要を抽出して見たところ、見出しの言い換えになっているのは第2部の 10 ページで、第1部・第3部・第4部の 19 ページは目的と価値を書けていた。
+
+**user 判断（2026-09-02）**: 機能概要に書くのは3点。①その設定・機能は何のためにあるか ②読者はいつ要るか（必須か、特定の場合だけか）③代表例1〜2件。見出しの列挙はしない。導線は残す。共通設定の文面を型として承認し、残り 9 ページを同じ型で書いてまとめて1コミット。
+
+**指示書**: なし。`02-進め方.md`「直接修正するときの型」に基づきディレクターが直接コミット（`39efade8`）。**レビューは回さない**（各文の根拠は同ページ「使用方法」の各小節の冒頭にあり、新しい事実を足していない。user が型と1ページ目の文面を承認）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。10 ページの機能概要を書き換え、`mapping/style.md` の「機能概要」規約に3点の型を追記。正規の場所でビルド succeeded・warning 0。`setup/request_unit_test/db_queue.rst` は導線だけのページで機能概要を持たないため対象外（`style.md` の適用外3ページのとおり）。申し送りは無い。
+
+
+### #65: 表のリテラル折り返し（横スクロールの残り） — 完了（2026-09-02 ディレクター直接コミット・user 判断）
+
+**Purpose**: `#58` の後も「記載例のテーブル、たまに横スクロールが付いてる」（user 2026-09-02）。headless Chrome（puppeteer、幅 1400px）で NTF 配下 145 表の `scrollWidth` と親 `clientWidth` を実測し、横スクロール 15 表を特定。原因は2種。(1) rtd テーマが `code` を nowrap にしており、長いリテラル（XML 電文・メソッドシグネチャ・パス・エラーメッセージ）が幅を決める（5表）。(2) Excel シートを再現した表（`LIST_MAP=testShots` 等）で、5〜8 列の識別子（`expectedStatusCode`、`ss21AA01/B21AA01.xml`）が折り返せない（10表: `implementation/deal_unit_test/batch.rst` の5表、`testdata_examples.rst` の4表、`setup/request_unit_test/web.rst` の1表＝24px）。
+
+**処置（2026-09-02、`860b3650`）**: `_static/custom.css` に `table.white-space-normal code { white-space: normal; }` を追加（FW 解説書の同クラスの表 44 ファイルにも効く）。実測で 15 → 10 表。**Sphinx 1.3.6 は更新対象の文書が無いと静的ファイルをコピーしないため、CSS だけ変えたときは `.rst` を1つ touch してからビルドする**（実測: `custom.css` を消して再ビルドしても復元されなかった）。
+
+**user 判断（2026-09-02「推奨で」）**: 残り 10 表（Excel シートの再現）は (b) 横スクロールを許容する。語の途中で折り返す (a) は、読者が写す識別子やパスが切れて見える害の方が大きい。これ以上の処置は行わない。申し送りは無い。
+
+
+### #66: テスト用のコンポーネント設定ファイルの説明からブランクプロジェクトへの依存を外す — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: user の38本全量読みレビューで `setup/common.rst` の「ブランクプロジェクトでは `src/test/resources/unit-test.xml` が該当する」に「依存しない方がよい、無くてもいい」。テスティングフレームワークが読むのはクラスパス直下の `unit-test.xml`（nablarch-testing@dcaed44 `RepositoryInitializer.java:21`）で、配置はプロジェクト構成に依らない。同じ文が `setup/request_unit_test/rest.rst:46` にもあった（`#62` 以前からの記述）。
+
+**指示書**: なし。`02-進め方.md`「直接修正するときの型」に基づきディレクターが直接コミット（`97e8ca68`）。**レビューは回さない**（文の削除のみ。新しい事実を足していない）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。2ページから当該文を削除。NTF 配下の本文に「ブランクプロジェクト」の記述は残っていない（ビルド後 HTML に残る1件はサイドバーの目次項目）。正規の場所でビルド succeeded。design.md `:566-569` はブランクプロジェクトの実効値を確認した記録であり本文の記述ではないため据え置き。申し送りは無い。
+
+
+### #67: 共通設定の全量読みレビュー6件（Interpreter の対応付け・唐突な参照の削除・応答電文設定の移動・JUnit 4 の並び） — 完了（2026-09-02 ディレクター直接コミット・user 判断）
+
+**Purpose**: user の38本全量読みレビューで `setup/common.rst` に6件。(1)「特殊記法を解釈するクラス群も YAML 形式用のものを指定する」が設定例の Interpreter と対応しない。(2) `NullInterpreter` の important だけ特別扱いで、重要でもない。(3)「テストデータの記法は…を参照」が唐突。(4) 読み込み先の `-D` システムプロパティの tip は環境設定の一般論で不要。(5)「テーブル採番用の設定値の詳細は IdGenerator を参照」が 404。(6)「同期応答メッセージ送信・HTTPメッセージ送信のテストデータの読み込みを設定する」がなぜ共通設定にあるのか。あわせて導入と設定の目次で「JUnit 4で使用する」を「JUnit 5で使用する」の直後へ。
+
+**実測で分かったこと**: 旧設定例の `DateTimeInterpreter` は `setUpDateTime` を持たず、`${setUpTime}` が変換されない（scratchpad の nablarch-example-web で `testDataParser` に YAML の LIST_MAP を読ませた probe: 旧例=`${setUpTime}` のまま、`setUpDateTime` 追加または `component-ref name="dateTimeInterpreter"`=`1970-01-01 09:00:00.0`）。Excel のデフォルト設定 `nablarch/test/test-data-interpreter.xml`（`nablarch-testing-default-configuration:6u3`）は同プロパティを設定している。(5) の 404 は `conf.py:58` `version='6-NEXT-SNAPSHOT'` の javadoc が公開されていないためで公開版では解決するが、`IdGenerator`（インタフェース）の javadoc に設定値の説明は無く、`FastTableIdGenerator` にある（LATEST の javadoc で確認）。
+
+**user 判断（2026-09-02）**: (1)(2) は推奨案＝import 済みの `nablarch/test/test-data.xml` が定義する Interpreter を `component-ref` で2つ指定し、各 Interpreter の記法を本文に列挙、important は削除。(3)(4) 削除。(5) 参照先を `FastTableIdGenerator` に。(6) MOM のページへ移し HTTP メッセージングからはリンク（「頑張るところでなく、確実にたどり着ければよい。あるべきページとセクションタイトルが重要」）。JUnit 4 は JUnit 5 の直後。
+
+**指示書**: なし。`02-進め方.md`「直接修正するときの型」に基づきディレクターが直接コミット（`a4b13d2c` (3)(4)(5)、`5eaba7b0` (1)(2)(6)・目次）。**レビューは回さない**（設定例の動作は probe で実測、移動は文面を変えず参照4箇所を付け替えただけ。user が案を承認）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。正規の場所でビルド succeeded・warning 0。ラベル `deal_unit_test_setting_mom-send_sync_test_data` への参照4箇所が HTML で解決、図 `send_sync_testdata_layout.png` は `images/mom/` へ移して `_images` に生成。`common.html` の小節は6つ、`mom.html` に移した小節と Excel/YAML の下位節がある。目次順は common → standard_usage → junit4 → …。design.md のアウトライン（`#55` の「末尾に新設」を上書き）と移動の判断を記録。申し送りは無い。
+
+**追記（2026-09-02、`38b6b181`）**: user 判断で置き場所を変更。目次で先に出る `取引単体テストの設定（HTTPメッセージング）` に本文を置き、`取引単体テストの設定（MOMによるメッセージング）` には同じ見出しを設けてリンクだけを置く（ラベル `deal_unit_test_setting_http_messaging-send_sync_test_data`。MOM 側の見出しのラベルは `deal_unit_test_setting_mom-send_sync_test_data` のまま）。参照4箇所が HTML で解決、図は `images/http_messaging/` へ。
+
+
+### #68: 「JUnit 5で使用する」の機能概要を、JUnit 4 前提の設計 → Extension の提供 → 新規は JUnit 5 の流れに書き直す — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: user の38本全量読みレビューで「とても分かりにくい。NTF は元々 JUnit 4 で提供、継承モデル。新規は JUnit 5 が推奨、ブランクプロジェクトも JUnit 5。JUnit 5 で NTF を使えるように Extension を提供している、といった流れかと」。旧文は仕組み（合成アノテーション→Extension→インジェクション）から入り、Extension が要る理由が無かった。
+
+**根拠**: v6「自動テストフレームワークは JUnit4 をベースとしている」（`06_TestFWGuide/01_Abstract.rst:13`、`2e501ad`）。サポートクラスの前処理・後処理は `org.junit` の `@Before`・`@After`（nablarch-testing@dcaed44 `TestSupport.java:15-16,95,146`）。ブランクプロジェクトは `junit-bom` 5.11.0・`nablarch-testing-junit5`・`junit-jupiter` に依存（nablarch-example-web@b5ed1fe `pom.xml:49-51,248,254`）。「JUnit 4 はメンテ終了」は Nablarch の解説書に出典が無いため書かない（user 了承）。
+
+**指示書**: なし。ディレクターが直接コミット（`38b6b181`）。**レビューは回さない**（3段落の差し替えで、各文の根拠は上記。user が文面を承認）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。正規の場所でビルド succeeded・warning 0。旧4段落目「JUnit 4でテストを書く場合は…」は3段落目に吸収。申し送りは無い。
+
+
+### #69: 「JUnit 5で使用する」のインジェクション先の important を本文に畳む — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: user の38本全量読みレビュー。「インジェクションの対象になるフィールドに、あらかじめ値を設定しておいてはならない」は書き方が変。例外は NTF 自身（nablarch-testing-junit5@1afcc5e `TestEventDispatcherExtension.java:71-78`）がフィールド名・クラス名付きの `IllegalStateException` を送出するので起きれば気づける。書くべきは、対象が「代入できる型すべて」で広いことと、`Object` 型など幅広い型のフィールドを宣言しないこと。
+
+**指示書**: なし。ディレクターが直接コミット（`087e495d`）。**レビューは回さない**（1段落の書き換え。user が文面を承認。例外メッセージの逐語は user 判断で載せない）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。important を削除し直前の段落に2文で畳んだ。正規の場所でビルド succeeded・warning 0。申し送りは無い。
+
+
+### #70: 「JUnit 5で使用する」から「テストデータのシート名とIDの対応は…を参照」を削除 — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: user の38本全量読みレビュー「これは何の話、なぜここに」。例の `support.getMap(sheetName, id)` を補うために刷新時に足した文で、v6（`2e501ad` `JUnit5_Extension.rst:80`）には無い。Extension の説明ページに不要。
+
+**指示書**: なし。ディレクターが直接コミット（`0a8d6869`）。**レビューは回さない**（1文の削除）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。正規の場所でビルド succeeded・warning 0。申し送りは無い。
+
+
+### #71: 「JUnit 5で使用する」の拡張例から SimpleRestTestSupport の tip を削除 — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: user の38本全量読みレビュー「何をユーザーに伝えたい、意味不明」。tip は直前の文「サポートクラスは、基本的に…`Class` オブジェクトを受け取る」の例外注記で、v6（`2e501ad` `JUnit5_Extension.rst:206`）の転記。`nablarch-testing-rest@ec718a2` `SimpleRestTestSupport.java` には明示コンストラクタが無く（デフォルトコンストラクタのみ）、`RestTestSupport.java:57` にも引数なしがあるので例外の列挙としても不完全。拡張する利用者は継承元のコンストラクタを見るので注記は不要。直前の文の「基本的に」は残す。
+
+**指示書**: なし。ディレクターが直接コミット（`8d63a11d`）。**レビューは回さない**（tip 1件の削除）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。正規の場所でビルド succeeded・warning 0、HTML に当該文 0 件。申し送りは無い。
+
+
+### #72: 「JUnit 5で使用する」の拡張例から AbstractHttpRequestTestTemplate の tip を削除 — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: user の38本全量読みレビュー「意味不明、補足になってない」。tip は v6（`2e501ad` `JUnit5_Extension.rst:215`）の転記で、対応表に無い `AbstractHttpRequestTestTemplate` の Extension を補うもの。`nablarch-testing-junit5@1afcc5e` の `BasicHttpRequestTestExtension`・`HttpRequestTestExtension` はどちらも `TestEventDispatcherExtension` 直下で中身は `createSupport()` のみ。独自拡張の Extension は `createSupport()` を上書きするので親の選択は動作に影響しない。さらに「baseUri を渡す合成アノテーションを作成する」（`standard_usage.rst:274`）が `AbstractHttpRequestTestTemplate` を拡張する場合を対象に `BasicHttpRequestTestExtension` を継承する例を載せているので、読者はそこに着く。
+
+**指示書**: なし。ディレクターが直接コミット（`6f8e7298`）。**レビューは回さない**（tip 1件の削除）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。正規の場所でビルド succeeded・warning 0、HTML に当該文 0 件。申し送りは無い。
+
+
+### #73: 「JUnit 4のTestRuleを再現する」の important 内の対応を箇条書きに — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: user の38本全量読みレビュー「箇条書きで書けばぱっと理解できないかな」。`Timeout`→`@Timeout` など4組の対応を1文に連ねていたのを、要旨の文（移植せず JUnit 5 の機能を使う・後述の制約は当てはまらない）を先に置き、対応4組を「A … B」の箇条書きに分けた（`setup/common.rst` の Interpreter の箇条書きと同じ型）。内容の変更なし。
+
+**追記（2026-09-02）**: 箇条書きは user「どっちがどっち？」。「A … B」ではどちらが JUnit 4 か読めないので、見出し行「JUnit 4の TestRule ／ 置き換え先のJUnit 5の機能」を持つ2列の list-table（`white-space-normal`）に改めた（`c64706f6`）。見出しは user 指示で「JUnit 4 ／ JUnit 5」に（`ffc77e81`）。
+
+**指示書**: なし。ディレクターが直接コミット（`9cbe94b0` → `c64706f6` → `ffc77e81`）。**レビューは回さない**（整形のみ）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。正規の場所でビルド succeeded・warning 0、HTML の important 内に見出し行＋4行の表。申し送りは無い。
+
+
+### #74: 「JUnit 4のTestRuleを再現する」の警告5項目を番号付き・太字の要点付きに — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: user の38本全量読みレビュー「5つがどれか、ぱっと見で分からない」。各項目が長い説明文で始まり「何の場合か」が埋もれていた。番号付きにし、各項目の先頭に「@BeforeEach・@AfterEach との順序」「@BeforeEach が失敗したとき」「Timeout と DbAccessTestExtension の併用」「@TestFactory が生成した DynamicTest」「@Nested を使うテストクラス」を太字で置いた。説明文は変えていない。
+
+**指示書**: なし。ディレクターが直接コミット（`73571ae3`）。**レビューは回さない**（整形のみ）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。正規の場所でビルド succeeded・warning 0、HTML の warning 内に `<ol>` 1・`<li>` 5・`<strong>` 5。申し送りは無い。
+
+
+### #75: 「JUnit 4で使用する」から合成アノテーションの対応表へ節単位でリンク — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: user の38本全量読みレビュー「どうして一覧にリンクしないの、ページトップなの？」。`junit4.rst:43` の参照先がページ先頭（`standard_usage`）だったので、`standard_usage.rst` の「Extensionクラスと合成アノテーションの一覧」にラベル `standard_usage-extension_list` を付け、ページ名＋節名の2段リンク（`mom.rst:31` と同じ型）に改めた。
+
+**指示書**: なし。ディレクターが直接コミット（`eb19038d`）。**レビューは回さない**（リンク先の変更のみ）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。正規の場所でビルド succeeded・warning 0、`junit4.html` の href が `standard_usage.html#standard-usage-extension-list` を指し、同 id が `standard_usage.html` に 1 件。申し送りは無い。
+
+
+### #76: 「JUnit 4で使用する」の依存関係に junit-vintage-engine の必要性を書く — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: user の38本全量読みレビュー「ブランクプロジェクトだとJUnit5なんだよね、何か変更が必要なのでは？」。「依存関係の追加は不要」は `junit-jupiter` を持つプロジェクトでは誤り。probe（scratchpad `exweb/src/test/java/probe4/ProbeJunit4Test.java`、必ず失敗する JUnit 4 テスト）で実測: (1) ブランクプロジェクトの pom（`nablarch-example-web@b5ed1fe`）のまま → surefire が JUnitPlatformProvider を選び Tests run: 0 で BUILD SUCCESS。(2) `org.junit.vintage:junit-vintage-engine`（test、junit-bom 5.11.0 で解決）を足す → 1件実行され失敗、JUnit 5 側の `ProbeSetUpTimeTest` も同時に動く。(3) `junit-jupiter`・`nablarch-testing-junit5` を外す → JUnit4Provider が選ばれ vintage 無しで実行される。よって分かれ目は `junit-jupiter` の有無。
+
+**変更**: 「依存関係」節を、JUnit 4 本体は不要／`junit-jupiter` を持つプロジェクトでは `junit-vintage-engine` を追加、の2段に書き直し、依存の XML と important（無いと Tests run: 0 のままビルドが成功する）を置いた。末尾の「JUnit 4で書いたテストをJUnit 5上で実行する」節（v6 `01_Abstract.rst:663` 由来、ラベル `junit4_support-vintage`、参照元なし）は同じ依存を書いていたので削除し、「Vintage は JUnit 4 として実行するだけ」の文と移行ガイドのリンクを「依存関係」に移した。
+
+**指示書**: なし。ディレクターが直接コミット（`8a81680d`）。**レビューは回さない**（user が全ページを直接レビュー中。実測の probe が根拠）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。正規の場所でビルド succeeded・warning 0。申し送りは無い。
+
+
+### #77: 導入と設定の再編 — 「共通設定」を読者の目的で3ページに分け、横断の設定を特化ページから移す — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: user の38本全量読みレビュー「クラス単体テストの設定ページにある使用方法は、DBを使うテストの設定では？」「バイアスなく、他の設定ページもすべて見直して」「共通設定の共通って意味ない。意味が伝わるカテゴリ分けでページを分けて」「XXXする、XXXの設定、気持ち悪くないですか」。
+
+**分類の根拠（全設定ページの全節を、その設定を読むクラスで分類。`nablarch-testing@dcaed44`）**: `testTran` は `DbAccessTestSupport.java:42` が読み、`EntityTestSupport.java:108`・`HttpRequestTestSupport.java:123`・`StandaloneTestSupportTemplate.java:42`・`IntegrationTestSupport.java:38` が内部生成して使う → 横断。`defaultValues` は共通の `testDataParser` のプロパティ → 横断。`dbAccessTest.dbTransactionName` は `DbAccessTestSupport.java:96` のみ、呼ぶのは `DbAccessTestExtension.java:22` のみ → 特化。`defaultDirectives` は `DataFile.java:60-91`（`FixedLengthFile.java:26`・`VariableLengthFile.java:30`）、`TEST_` 型は `DataFileFragment.java:70`、`TestDataConverter_` は `FixedLengthFile.java:157` で、`BatchRequestTestSupport`・`MessagePool`（MOM/HTTP）・`AbstractHttpRequestTestTemplate`（`FileSupport`）が使う → 横断。`nablarch.test.skip-resource-copy` は `HttpRequestTestSupport.java:96` → ウェブ特化。JVM オプションは NTF が読まない。`reader.fwHeaderfields` は `MessageParser.java:33`（メッセージング2方式。2ページの重複はそのまま。`#78` 参照）。
+
+**変更**: `setup/common.rst` を削除し、`setup/introduction.rst`「テスティングフレームワークの導入」（依存関係・コンポーネント設定ファイル・`testTran`）、`setup/testdata.rst`「テストデータの設定」（YAML・読み込み先・省略カラムのデフォルト値・ディレクティブのデフォルト値・テスト用データ型・拡張例: テストデータの変換処理）、`setup/fixed_time_and_id.rst`「システム日時と採番の固定」を新設。`testTran` はデフォルト設定 `nablarch/test/test-transaction.xml` の import に改めた（同 jar 6u3 に定義。ブランクプロジェクト web・batch の `unit-test.xml` も import 済み。probe `exweb/src/test/java/probe5/ProbeTestTranTest.java` で `SystemRepository.get("testTran")` が `SimpleDbTransactionManager` を返すことを実測）。`TEST_X9` は既定設定 `nablarch/core/fixed-length-convertor-setting_test.xml` にもあるが、同ファイルは `resumePointManager` の設定を巻き込み、ブランクプロジェクトも import していないので、手書きのまま。クラス単体は2節に（機能概要書き直し）、バッチは2節削除、MOM は拡張例削除、ウェブは JVM オプション削除・画像3枚削除・「HTMLリソースのコピーを抑止する」を節に昇格。ページ名を名詞形に統一（「JUnit 5での使用」「JUnit 4での使用」。他の36ページはすべて名詞形）。参照元（`testdata_notation.rst`・`rest.rst`・`component.rst`・`entity.rst`・`master_data_tool.rst`・`about/index.rst`・実装ページ6本の tip）を付け替え。`design.md`（目次案・第2部の表 16 ページ・`:314` の誤記）、`mapping/glossary.md`・`term_candidates.tsv`（新ページ名）を更新。
+
+**追記（2026-09-02、内容の変更2件を切り出して記録。user 判断）**: `#77` は構成変更のタスクだが、次の2件は構成変更から必然に出るものではなく、ディレクターの判断で同じコミットに入れた。user 指摘「なんで場所が変わったら変更入るの」を受けて、後から追えるように分けて記す。どちらも user が変更として承認（2026-09-02）。
+
+- **ウェブの「テストの実行速度を上げる ＞ JVMオプションを指定する」小節を削除**（v6 `02_RequestUnitTest.rst:494` 付近からの引き継ぎ）。根拠: NTF が読む設定ではない／小節自身の tip が「新しい CPU では効果が小さい」と書く／`-Xverify:none` は JDK 13 で非推奨（v6 が要求する JDK 17 で警告）。user「過去の対処療法だよね、削除でよい」。画像 `vmoptions.png`・`installed_jre.png`・`edit_jre.png` も削除。
+- **`testTran` の登録を、手書きの XML からデフォルト設定 `nablarch/test/test-transaction.xml` の import に変更**（節自体は v6 に無く刷新で追加したもの。v6 NTF 解説書に `testTran` は0件）。根拠: 同 jar（`nablarch-testing-default-configuration:6u3`）に `testTran` の定義がある／ブランクプロジェクト web（`nablarch-example-web@b5ed1fe` `unit-test.xml:13`）・batch（`unit-test.xml:17`）が同じ import をしている／probe で import により `SystemRepository.get("testTran")` が `SimpleDbTransactionManager` を返すことを実測。ファクトリ名が異なる場合の手書き例は残した。
+
+**指示書**: なし。ディレクターが直接コミット（`51e2f222`）。**レビューは回さない**（user が全ページを直接レビュー中。移動した本文は逐語で、書き直したのは各ページの機能概要と `testTran` の import 手順のみ）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。正規の場所でビルド succeeded・warning 0（全 `:ref:` 解決）。`verify_glossary.py` RESULT: OK。`_build` の旧 `common.html`・doctree は削除。申し送りは無い。`reader.fwHeaderfields` の2ページ重複は、MOM 側の「同期応答メッセージ送信のテストでも使用されない」の真偽を確かめてから統合の要否を決める（`#78`）。
+
+
+### #78: 「フレームワーク制御ヘッダのフィールド名を指定する」を HTTP メッセージングに本文、MOM はリンクに — 完了（2026-09-02 ディレクター直接コミット）
+
+**Purpose**: `#77` の分類で、`reader.fwHeaderfields` の節がリクエスト単体の HTTP メッセージングと MOM の2ページに重複していた。統合前に、MOM 側だけにあった「同期応答メッセージ送信のテストでも、この設定は使用されない」の真偽を確かめた。
+
+**根拠（`nablarch-testing@dcaed44`）**: 設定を読むのは `MessageParser.java:107-110`、使うのは同 `:44` `createFixedLengthFileParser` の匿名パーサの `processDirectives`（`:86` `isFrameworkHeader`）。`MessageParser` を生成するのは `BasicTestDataParser.java:83` `getMessage` で、呼び出し元は `MQSupport.java:87`（メッセージ受信のテスト。HTTP メッセージ受信も同じ枠組み）だけ。送信側は `getMessageWithoutCache`（`:100`、`SendSyncSupport.java:478`）と `getSendSyncMessage`（`:114`、`RequestTestingSendSyncSupport.java:157`）で `SendSyncMessageParser`／`GroupMessageParser` を使い、`SendSyncMessageParser.java:110` は `createFixedLengthFileParser` を丸ごと差し替えていて `processDirectives` を上書きしない → 制御ヘッダの判定は通らない。よって MOM の文は正しく、HTTP 送信にも当てはまる。
+
+**変更**: `#67` と同じ型。目次で先の HTTP ページに本文（「メッセージ受信のテストで」に一般化し「HTTPメッセージングと MOM で共通」を明記、important に「メッセージ送信のテストでも使用されない」を追加、ラベル `request_unit_test_setting_http_messaging-fw_header`）。MOM ページは同じ見出しとリンクだけ。
+
+**指示書**: なし。ディレクターが直接コミット（`726e21ff`）。**レビューは回さない**（既存2本文の統合。追加した1文はソースで裏付け済み）。
+
+**Completion criteria / 判定（2026-09-02）**: 完了。正規の場所でビルド succeeded・warning 0、MOM の href が HTTP ページの節 id を指す。申し送りは無い。
+
+
+### #79: 業務サンプルから `#77` で消えたラベルへの `:ref:` を新ラベルに付け替える — 完了（2026-09-03 ディレクター直接コミット）
+
+**Purpose**: `ja/biz_samples/04/0401_ExtendedDataFormatter.rst:181` が `:ref:` で参照するラベル `request_unit_test_setting_mom-test_data_converter`（`#36` で `setup/request_unit_test/mom.rst` に新設）は、`#77`（`51e2f222`）で節を `setup/testdata.rst` へ移した際にラベルも `testdata_setting-test_data_converter`（`setup/testdata.rst:203`）に変わり、定義が無くなっていた（`grep -rn` で参照1件・定義0件。2026-09-03 実測）。`#77` の「ビルド warning 0」は差分ビルドで、変更の無い `biz_samples` の参照は再解決されていなかった（`_build/html/biz_samples/04/0401_ExtendedDataFormatter.html` の日時が 08-31 のまま）。レビュアー向け資料の作成中にサブエージェントが検出した。
+
+**変更**: 当該行の参照先ラベルを `testdata_setting-test_data_converter` に付け替えた。リンク文言「テストデータの変換処理を実装する」は移動先の見出し（`setup/testdata.rst:205`）と同じなので変えない。
+
+**指示書**: なし。`02-進め方.md`「直接修正するときの型」に基づきディレクターが直接コミット。**レビューは回さない**（参照先の付け替え1行。ビルドがラベルの解決を固定する）。
+
+**Completion criteria / 判定（2026-09-03）**: 完了。`sphinx-build -a` のフルビルドで `build succeeded`・`WARNING:`／`ERROR:`／`SEVERE:` 0件。`_build/html/biz_samples/04/0401_ExtendedDataFormatter.html` の href が `setup/testdata.html#testdata-setting-test-data-converter` を指し、同 id が `testdata.html` に1件。`ja/` に旧ラベルは0件。**再発防止**: ラベルを改名・移動したときは `ja/` 全体で旧ラベルを `grep` し、確認は差分ビルドではなく `-a` のフルビルドで行う（`03-検証スクリプト.md` §5 のコマンドは `-a` 付き）。申し送りは無い。
+
+
+### #80: 記法ページの「default グループID」の適用範囲の是正と、`TEST_` 型の登録方法の参照先の付け替え — 完了（2026-09-03 ディレクター直接コミット）
+
+**Purpose**: レビュアー向け資料（`#81`）の作成でサブエージェントが見つけた2件。(1) `implementation/testdata_notation.rst:239` が「Nablarchバッチアプリケーションでは `"default"` もグループIDなしと同等（ウェブアプリケーション・メッセージングのテストには適用されない）」と書いていたが、v6 は `batch.rst:120-123`・`real.rst:89-92`（`origin/main`）の両方に同じ脚注を置いており、実装も `TestShot.java:158`・`:208`（`nablarch-testing@dcaed44`。`StandaloneTestSupportTemplate.java:155` が生成し、`BatchRequestTestSupport`・`MessagingRequestTestSupport` の両方が使う）と `BatchRequestTestSupport.java:78`・`:93` が `"default"` をグループIDなしとして扱う。ウェブ側（`nablarch.test.core.http`）には同じ処理が無い（`git grep '"default"'` 0件）。`reviews/page-testdata_notation.md` 申し送り12 が矛盾を記録したまま決着していなかった。(2) 同 `:1001` の「登録方法は…を参照」が `#77` で `setup/testdata.rst` へ移した `TEST_` 型の登録を、移動前の `request_unit_test_setting_batch` で指したままだった（`setup/request_unit_test/batch.rst` に `TEST_` は0件）。
+
+**変更**: (1) `:239` を「Nablarchバッチアプリケーション・メッセージングのテストでは…（ウェブアプリケーションのテストには、この挙動は適用されない）」に改めた。(2) `setup/testdata.rst` の「符号無数値・符号付数値のテスト用のデータ型を登録する」にラベル `testdata_setting-test_data_types` を新設し、`:1001` の参照先を付け替えた（リンク文言は見出しと同じ）。
+
+**指示書**: なし。`02-進め方.md`「直接修正するときの型」に基づきディレクターが直接コミット。**レビューは回さない**（(1) は v6 の脚注への復帰で実装で裏付け済み、(2) は参照先の付け替え）。
+
+**Completion criteria / 判定（2026-09-03）**: 完了。`sphinx-build -a` のフルビルドで `build succeeded`・`WARNING:`／`ERROR:`／`SEVERE:` 0件。`testdata_notation.html` の当該 href が `setup/testdata.html#testdata-setting-test-data-types` を指し、同 id が `testdata.html` に1件。申し送りは無い。`reviews/page-testdata_notation.md` 申し送り12 はこれで決着（保全記録のため reviews には追記せず、ここに記す）。
+
+### #81: レビュアー向け対照表 `review-map.md` の作成（user 指示 2026-09-02） — user 却下（2026-09-03）。`#82` で置換
+
+**Purpose**: user のレビュー後にチームメンバー・TL が刷新版をレビューするための資料。観点は「既存から変更した部分はどこ・根拠・妥当性」「新規追加した部分はどこ・妥当性」。粒度はページ内のセクション単位（user 明示 2026-09-02）。形は user 承認（2026-09-03）の6点: ①先頭に新規・既存変更だけの索引（件数付き） ②ページ順に1ページ1表（セクション｜区分｜v6 出典｜根拠｜台帳） ③区分の判定基準を冒頭に固定 ④根拠は「何を変えた／なぜ／読者への影響」の3点 ⑤削除の別表 ⑥`mapping.csv` から骨組みを機械生成し全見出し・全 mapping 行との突き合わせで抜けを機械検知。
+
+**成果物**: `.rn/20260724-ntf-yaml-support/review-map.md`（1ファイル。`design.md` は設計判断、本書はレビュー用の対照表）。38 ページ・395 見出し（新規 164／既存変更 145／既存流用 86）。DROP 96 行の3類型と、刷新後に落としたものの表。
+
+**作り方**: 骨組み（全見出し＋`dest_page` ごとの非 DROP mapping 行 501 行＋各ファイルのコミット一覧）をスクリプトで生成し、6本のサブエージェントに分担させて刷新版本文・v6 出典（`git show origin/main:`）・input 資料・`reviews/`・`checks/`・台帳・コミットを読ませて判定させた。記録の無い差分は「未確認」と明記させ推測で埋めさせていない。作成者は独立のスクリプトで全見出し（395=395）・全 mapping 行（欠落0）の網羅を照合し、`file:line` を引く根拠を抜き取りで実物と突き合わせた。**レビューは回さない**（公開本文ではない。user が全文を見る）。
+
+**副産物**: 作成中に見つけた欠陥3件は `#79`・`#80` で是正済み。
+
+**決着（2026-09-03 user）**: 却下。「レビュアーは人間。証拠台帳（2,377 行・572KB）は読めない。認知負荷を与えず効率的なレビューになる資料に作り直す」。`review-map.md` は `#82` で `git rm`（内容は `#82` コミットの親 `c596cc15` で参照できる）。上の未決3点は消滅。
+
+### #82: レビュアー向け申し送り `review-guide.md` の作成（`review-map.md` の置換。user 指示 2026-09-03） — 完了（2026-09-03 ディレクター直接コミット。user レビュー待ち）
+
+**Purpose**: `#81` の対照表を user が却下（「レビュアーは人間。認知負荷を与えず効率的なレビューになるように」）。レビュアー（チームメンバー・TL）がページごとに「由来（新規／既存／混在。v6 のどのページから）」「利用者観点の課題と変更の考え方」「レビューポイント（どこを開いて何を判断するか）」だけを読める申し送りに置き換える。形は user 承認（2026-09-03「OK」）: 冒頭に「レビューの進め方」と「全ページ共通の申し送り」1つ、続けて 38 ページ各 15 行前後（見出し 40 超のページは 25 行まで）。台帳番号・`reviews/`・`checks/`・`mapping`・コミットハッシュ・「未確認」を本文に書かない。出典は v6 公開 URL（`curl` 200 確認）と実装クラス名だけ。
+
+**成果物**: `.rn/20260724-ntf-yaml-support/review-guide.md`（687 行・163KB。共通 1＋ページ別 38）。`review-map.md` は `git rm`（内容は本コミットの親 `c596cc15` で参照できる）。
+
+**作り方**: 指示書（scratchpad `brief.md`。目的・出力の型・禁止語・「review-map は手がかりであり写さない。v6 本文と刷新版本文を必ず自分で開く」）を 9 本のサブエージェント（opus。Fable は使わない）に渡し、`review-map.md` §5 の該当節を手がかりに刷新版本文・v6（`git show origin/main:`）・実装（各ピン）を開いて書かせた。各ページの根拠メモ（`file:line`・コミット・`curl` 結果）はレビュアーに渡さず作成者側の scratchpad `notes/` に分離。結合スクリプト `assemble.py` で禁止語 18 パターンを全行走査し 0 件、38 ページの欠落 0 を確認。RST エスケープ（`\ ``x``\ `）は結合時に Markdown に正規化。ディレクターは共通＋第2部の 18 ページ分を通読し、サブエージェントが挙げた本文の欠陥候補を一次情報で確かめた（→ `#83`）。**レビューは回さない**（公開本文ではない。user が全文を見る）。
+
+**未決**: (1) 刷新版 HTML のレビュアーへの配布方法（`review-guide.md` 冒頭の表に「配布方法は別途連絡」と仮置き）。(2) `#83` の欠陥候補をレビュー前に直すか、レビュアーに判断させるか。
+
+### #83: `#82` の作成中に見つかった本文の欠陥候補の処置 — 4 件とも是正済み（2026-09-03 ディレクター直接コミット。1・2・4 は user「4件を直さない理由は？」を受けて即時是正、3 は user 判断「推奨で」＝書く）
+
+ディレクターが一次情報で確認したもの（`review-guide.md` の該当ページのレビューポイントに出してある。1・2・4 は是正後の文面を確認する形に書き換え済み）:
+1. `ja/development_tools/testing_framework/setup/request_unit_test/http_messaging.rst:46` important「YAML 形式では `fw_header:` に記載したキーがすべてフレームワーク制御ヘッダとして扱われるため、この設定は使用されない」は実装と逆。`nablarch-testing-yaml` `d50ee2b` `src/main/java/nablarch/test/core/reader/yaml/YamlMessageBuilder.java:64`（`FW_HEADER_KEY = "reader.fwHeaderfields"`）・`:298-330`（`convertFwHeader`: 許可集合外のキーで `IllegalStateException`）・`:379-384`（`fwHeaderFields()` が `SystemRepository.getString` で読む）。同じ刷新版の `implementation/testdata_notation.rst:1308` は正しく「`fw_header:` に記載できるキーは `reader.fwHeaderfields` の名前だけ」と書いており、2ページが矛盾する。**是正**: important を「Excel・YAML のどちらでも使用される。YAML では `fw_header:` に記載できるキーがこの設定の名前に限られ、それ以外はエラー」に書き換え。
+2. `implementation/testdata_examples.rst` に `params` ブロックの記載例が無い（`grep -c params` → 0）。`implementation/class_unit_test/entity.rst:426`・`:490` は「テストショット一覧（testShots）と入力パラメータ（params）…記述例は…エンティティバリデーションの例を参照」と指すが、指し先（`testdata_examples.rst:656-694`）は `testShots` だけ。v6 `origin/main:ja/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.rst:475-478`（「入力パラメータ表の作成。IDは"params"固定」）にはあった。`nablarch-testing` `e21bf67` `EntityTestSupport.java:193` は `getListParamMapRequired(sheetName, PARAMS)` で `params` を必須に読む。**是正**: 記載例のエンティティバリデーションの例に `params`（`userName` 空欄・`password` あり の 1 行）を Excel 形式（`LIST_MAP=params` の表）・YAML 形式（`id: params`）の両方に追加し、導入文に「`testShots` と対にし行数を一致させる」を追記。空欄＝空文字の記法は `testdata_notation.rst:765`・`:830` に従う。
+3. `setup/request_unit_test/rest.rst:12`「他の処理方式と異なり、専用のモジュールと内蔵サーバの設定を追加しないと実行できない」。ウェブのリクエスト単体テストも `nablarch-testing` `dcaed44` `HttpRequestTestSupport.java:393-397` で `httpServerFactory` 未登録なら `IllegalConfigurationException`。`setup/request_unit_test/web.rst` に `httpServerFactory`・`nablarch-testing-jetty12` の記載は無い（`grep -n 'httpServerFactory\|jetty'` → 0）。**是正**（user 判断 2026-09-03「推奨で」）: `web.rst` の使用方法の先頭に L3「必要なモジュールとコンポーネント設定を追加する」を新設（`nablarch-testing-jetty12` の依存関係、`http-request-test.xml` の import と `httpServerFactory` の登録、important「デフォルト設定は `httpServerFactory` を登録しない」、アーキタイプの tip）。機能概要も「内蔵サーバの実装モジュールとデフォルト設定を追加し、ファクトリを登録すると実行できる」に改めた。`rest.rst:12` から「他の処理方式と異なり」を外した。根拠: `~/.m2/.../nablarch-testing-default-configuration-6u3.jar` の `nablarch/test/http-request-test.xml` に `httpServerFactory` の登録なし（`unzip -p | grep`）、`nablarch-example-web` `src/test/resources/unit-test.xml:64` に登録あり・`pom.xml:208` に jetty12 あり。
+4. `setup/request_unit_test/web.rst:176` tip「ダンプディレクトリ配下の HTML リソースのコピー先ディレクトリ（デフォルトは `../htmlResources`）」。実装 `dcaed44` `HttpTestConfiguration.java:420-421` は `new File(htmlDumpDir, htmlResourcesRoot)` で、デフォルト `../htmlResources` はダンプディレクトリの兄弟になる。「配下」が誤り。**是正**: 「HTMLリソースのコピー先ディレクトリ（デフォルトはダンプディレクトリから見て `../htmlResources`。ダンプディレクトリと同じ階層に作られる）」に書き換え。
+
+サブエージェントの報告のみでディレクター未確認（軽微）:
+- `setup/request_unit_test/batch.rst:43`・`:49`、`setup/request_unit_test/mom.rst:21`・`:29`・`:40`・`:46` の `RequestTestingMessagingProvider`・`EmbeddedMessagingProvider` が literal で `:java:extdoc:` になっていない（同章の他ページはリンク）。
+- `setup/request_unit_test/batch.rst:19` はリクエストスレッド内ループ制御ハンドラを含む構成としてテーブルをキューとして使ったメッセージングだけを挙げ、MOM（`ja/application_framework/application_framework/messaging/mom/architecture.rst:95`・`:180`・`:315`）を挙げない。`setup/request_unit_test/mom.rst` から batch ページへの導線も無い。
+- `tools/request_data_tool.rst:100`「テストショット番号の列だけを記載した列を用意する」の文面。
+- `implementation/testdata_notation.rst:679` の `LIST_MAP` として記述する推奨は出典なし。
+- `setup/master_data_restore.rst:172-176` important「外部キーがあるときは親を先に列挙する」は v6（`06_TestFWGuide/04_MasterDataRestore.rst:95-107`）に無い追記で、`nablarch-testing` `e21bf67` `TableDataSorter.java:16-18` Javadoc「DBにFKが設定されていない場合にのみ使用すること」と方向が違う（ディレクター確認済み。誤りとは断定しない）。
+
+軽微 5 件はレビュアーの判断に委ねる（レビューポイントに出してある）。
+
+
+### #84: `review-guide.md` を「判断で変えたこと＋理由」だけに書き直す（user 判断 2026-09-03） — 完了（2026-09-03 ディレクター直接コミット。user レビュー待ち）
+
+**user 判断（2026-09-03）**: `#82` の版は「進め方・共通の申し送りが多すぎて理解できない」「各ページの申し送りが多すぎる。もっと簡潔に伝えないと誰も読まない」。ページ別に書くのは「新規／既存流用」と「既存から変えたこと、理由」だけ。細かいこと・自明なことは書かない。文面を変えただけで内容が変わらないものはノイズ。**既存が誤っていたのを直しただけのものは判断を仰ぐ対象ではない**（意図的な訂正として 1 行にまとめる）。
+
+**出力の型**: 共通は「進め方」「全体で変えたことと理由」「全体で判断してほしいこと」の 3 節で 1 画面。ページ別は「由来 1 行（新規／既存／混在と v6 ページ）」＋「判断で変えたこと。理由」0〜3 行＋「実装との食い違いを直した: 項目名の列挙」0〜1 行。**判断で変えたこと**＝読者が書く値・呼ぶ API・踏む手順が変わる、または v6 でできたことが書かれなくなったもののうち、実装に合わせた訂正ではないもの。書かないもの: 共通で 1 回判断する横断的変更（用語・JUnit 5 化・`:ref:` 化・図・表の折り返し・機能概要・Excel/YAML 併記）、文面調整・順序入替・参照への置換、見出し数の内訳・行番号・「実装と合っているか」の確認依頼。
+
+**作り方**: `#82` の版を 5 分担（入口〜第2部前半 8・第2部後半 10・第3部前半 5・第3部後半 11・第4部 4）に分け、指示書（scratchpad `rg/brief.md`。出力の型・区分の基準・書かないもの・禁止語・「現行ガイドに無いことは足さない。各行の変更が刷新版本文に実在することを grep で確かめ、区分は v6 と刷新版の実物で自分で判断する」）をサブエージェント 5 本（opus）に渡した。共通の節はディレクターが書いた。結合後、`###` 38 件・禁止語 0 件（PR 番号の行を除く）を確認。サブエージェントが「現行ガイドの記述が実物と合わない」として落としたもの 2 件: `setup/request_unit_test/rest.rst` の「`testDataParser` の登録の 1 文を足した」（v6 `RequestUnitTest_rest.rst:109` に同旨の tip あり）、`implementation/request_unit_test/mom.rst` の「応答不要受信では応答電文の確認が行われないことを足した」（v6 `delayed_receive.rst:54` に既出）。
+
+**結果**: 162 KB・687 行 → 41 KB・332 行。共通 11.5 KB → 5 KB。レビューポイント 195 件（うち「実装と合っているか」37 件）は全件落とし、判断で変えたこと約 70 行＋食い違い約 33 行に置き換えた。`#83` の「軽微 5 件はレビュアーの判断に委ねる（レビューポイントに出してある）」は本タスクでガイドから消えた。5 件は `#83` の本節に残っており、レビュアーには渡さない（user 判断「細かいことは不要」）。**レビューは回さない**（`#82` と同じ。user が全文を見る）。`#82` の版は本コミットの親で参照できる。
+
+
+### #85: 模擬レビュー 1 周目（サブエージェント opus 4 本が `review-guide.md` に従って刷新版をレビュー。user 提案 2026-09-03） — 是正済み（2026-09-03 ディレクター直接コミット `a0edd5e6`。user 判断 (a)〜(f) はすべて「推奨で」）
+
+**やり方**: 指示書（ディレクター作業フォルダ `指示/模擬レビュー指示書.md`）で「初見の利用者として読む・実装は開かない・ガイドの指示どおりに進める」を課し、TL 役（全体 6 問＋入口・第1部）／アーキテクト役（第2部 16）／プログラマ役（第3部 16）／ツール利用者役（第4部 4）の 4 本に分担。出力 4 本はディレクター作業フォルダ `review-guide-notes/mock-review-r1/` に保全。ディレクターが指摘を実物（rst・`.puml`・FW 解説書・`nablarch-testing` ソース）で裏取りした。
+
+**件数（1 周目）**: 本文の欠陥 13（うち実物で確認済み 11・実装確認が要るもの 2）／user 判断 4／却下 3／ガイドの欠陥 6。
+
+**本文の欠陥（確認済み）**
+1. **図 9 枚が JUnit 4 の継承前提**。`implementation/request_unit_test/images/{web,rest,batch,mom}/request_test_components.puml`（「〜を継承」「継承する」）、`{web,batch,mom}/execute_sequence.puml`・`class_unit_test/images/component/{select,update}_sequence.puml`（「テストクラス（スーパクラス）」「テスティングフレームワーク（スーパクラス）」）。`#55` の JUnit 5 化が図に及んでいない。本文 `setup/standard_usage.rst:14`「継承しない」と同一ページ内で矛盾。
+2. **MOM のリクエスト単体テストの設定にループ制御ハンドラの置き換えが無い**。FW 解説書 `messaging/mom/architecture.rst:95,180,315` のハンドラ構成に `request_thread_loop_handler` が含まれる。`setup/request_unit_test/batch.rst:19` は db_queue だけを名指し。`#82` のレビューポイントに出ていたが `#84` で落ちた。
+3. **記載例の期待ログのカラム名が `message`**（`implementation/testdata_examples.rst:134-136`）。実装 `LogVerifier.java:39-46` の必須キーは `logLevel`・`message1`。記法ページ `testdata_notation.rst:546` は正しい。
+4. **`setup/junit4.rst:59` の読み替え規則に `baseUri` が無い**（`grep baseUri` は `standard_usage.rst` のみ）。ウェブの例 `implementation/request_unit_test/web.rst:81` を JUnit 4 に落とせない。
+5. `setup/request_unit_test/web.rst:125`「`xmlComponentFile` は通常設定不要」と記述例 `:157` が設定している。
+6. `implementation/class_unit_test/component.rst:153` の `assertSqlResultSetEquals` 第3引数 `"expected"` の書き方（`LIST_MAP`）がページに無い（`:215` は `setThreadContextValues` の話）。
+7. エンティティ単体テストの文字種・文字列長／setter・getter のテストデータ例が記載例に無い（`entity.rst:548` は記載例へ誘導。記載例の entity 関連は `:656` バリデーションのみ）。
+8. `tools/testdata_converter.rst` から `setup/testdata.rst` の YAML 切り替え設定への導線が無い（`grep testdata_setting` 0 件）。
+9. `tools/request_data_tool.rst:26-33` の前提事項に Windows 限定（`httpDump.bat` のみ）が無い。
+10. 部トビラ `setup/index.rst`・`implementation/index.rst`・`tools/index.rst` が toctree だけで本文なし。`index.rst:5`「4つのページで構成する」。
+11. `setup/testdata.rst:45,105` の `ref="dbInfo"` と `fixed_time_and_id.rst:61` の `ref="dbTransactionManager"` が何者か第2部に無い（`dbInfo`・`testDataParser` は `nablarch-testing-default-configuration` の `test-data.xml` が定義。`introduction.rst:53` の骨組みで import 済み）。
+
+**本文の欠陥（実装確認が要る）**
+12. 同期応答送信系 4 データタイプの Excel 例が先頭 `no`（`testdata_examples.rst:1962` ほか）、対の YAML 例が `record_type: default`。`testdata_notation.rst:1281` の規則では Excel 側のレコード種別は `no` になる。どちらが動くかを実装で確認。
+13. `setup/request_unit_test/http_messaging.rst:29` に `messageSender.DEFAULT.…` のフォールバックが無い（MOM 側 `mom.rst:48` にはある）。HTTP 側も同じ挙動かを実装で確認。
+
+**是正（2026-09-03 夕、`a0edd5e6`。サブエージェント 3 本 A 図／B 第2部・第4部・入口／C 第3部が作業ツリーに置き、ディレクターが実物で確認して 1 コミット）**: 1〜11 すべて是正。12 は YAML 例の側が誤り（送信系 4 データタイプは `record_type: "no"`。実装 `SendSyncMessageParser`・`YamlMessageBuilder` で確認）で YAML 例 5 件を直した。13 は HTTP 側にフォールバックが無い（`MessageSenderSettings.java:190-193` が `REQUEST_ID_ONLY`）ため変更なし。11 の前提訂正: `dbInfo` は `nablarch-testing-default-configuration` の `test-data.xml` でコメントアウトされており定義されない（B が実物で発見。本文はそれに合わせた）。user 判断: (a) 6 方式すべて書く（`about/index.rst:80`） (b) 「Excel形式の場合／YAML形式の場合」88 見出しを `rubric` に (c) v6 の注意 4 件を復元（`testdata_notation.rst`。実装 `TestShot.java:179`・`RequestTestingMessagingClient.java:129` で確認） (d) Example アプリ 3 本の `src/test` を `implementation/index.rst` で案内（GitHub で JUnit 5・`.xlsx` 同梱を確認） (e) ガイドの「実装との食い違いを直した」行を落とす（`06a4d80a`） (f) 分担を処理方式単位に（`56c66a30`）。Docker フルビルド `build succeeded`・warning 0。ガイドの古くなった記述 3 箇所（about の 3 方式、mom のループ制御、download の代替）を同時に直した。
+
+**user 判断（1 件ずつ聞く）**
+- (a) `about/index.rst:80` 取引単体テストの実行方法が 3 方式だけ（HTTP メッセージング・MOM・db_queue は手動か自動か不明）
+- (b) 記載例ページの目次 111 項目中 68 が「Excel形式の場合／YAML形式の場合」で目次から例に飛べない
+- (c) v6 の注意 4 件（`expectedMessage`/`responseMessage` 空欄で失敗、`expectedLog` のグループ ID が 0 行で例外、`description` がファイル名になる文字制限、`forwardUri` にシステムエラー画面）を「正しく書こうとしても踏む」として戻すか
+- (d) `:download:` 10 本を落とした代替（サンプル一式の入手先）が解説書に無い
+
+**却下**
+- 「Excel シートを再現した 10 表は横スクロールのまま」に該当が無い → `#65` で headless Chrome 実測（`white-space-normal` があっても識別子幅で 10 表がスクロール）。指摘の根拠（クラス有無）が誤り
+- 「実行速度を上げる…Eclipse の手順が残っている」 → 残っているのは `-Dnablarch.test.skip-resource-copy` の節（`web.rst:190-209`）で、落としたのは `-Xverify:none` 系。ガイドの文面は `#86` で明確化
+- `resolveTestRules()` が未リリース版前提 → 既決（junit5 PR #12 とリリースを揃える。§Rules「整合したら一斉にマージ」）
+
+**ガイドの欠陥（`#86` で是正）**
+- 「実装との食い違いを直した: 項目名」の行は、4 本中 3 本が「判断に使えない」→ 落とす（推奨）
+- 「38 ページ」→「38 ページ（部の目次 3 ページを除く）」
+- 「JVM オプション・Eclipse の手順を落とした」→「`-Xverify:none` 系の JVM オプションの小節を落とした」
+- 分担を処理方式単位（第2部の設定＋第3部の実装を同じ人）にする。6 問の担当を明記
+- 図は横断枠（「ページ別には書いていない」）から外す（図の内容はページ固有）
+- HTML の節と PR の行の対応 → 配布方法の決定と一体（`#82` 未決 (1)）
+
+
+### #87: 模擬レビュー 2 周目（同じ指示書・4 本。2026-09-03 夕） — 回収・トリアージ・是正済み（ディレクター直接コミット）
+
+**件数の推移**: 1 周目＝本文の欠陥 13（確認済み 11）／ガイド 6。2 周目＝本文の欠陥 8（すべて実物で確認して是正）／却下 7／user 判断・申し送り 4／未トリアージの「困る点」約 50（4 本の出力は作業フォルダ `review-guide-notes/mock-review-r2/` に保全。1 ページ 3 件の枠で機械的に出た指摘が多く、重いものは上の 8 に含まれる）。
+
+**本文の欠陥（是正済み）**
+1. `setup/introduction.rst` の依存関係に `nablarch-testing-default-configuration` が無い。`test-data.xml`・`test-transaction.xml` はこのモジュールにあり、`nablarch-testing` の pom は依存しない（`~/.m2` の pom で確認）。Example アプリ `nablarch-example-web/pom.xml:191-195` は明示宣言。v6 も REST ページにしか無かったが、刷新で「全員が最初に読む導入ページ」を作ったため欠落が顕在化
+2. `setup/introduction.rst`「テスト用のコンポーネント設定ファイルはすべて `unit-test.xml`」が、バッチ・メッセージングのリクエスト単体テストと矛盾。`MainForRequestTesting.java:30-32` が `diConfig` のファイルでリポジトリを再初期化する。導入に例外を書き、`setup/request_unit_test/batch.rst`・`mom.rst` の使用方法冒頭に設定先を明記
+3. `setup/testdata.rst` に Excel／YAML 混在不可を追記（`testDataParser` は 1 つ。`YamlTestDataParser` は YAML のみ読む）
+4. `testdata_notation.rst` の `cookie`・`queryParams` に `LIST_MAP` の形（カラム名＝名前、1 行目＝値。`TestCaseInfo.java:315-331` が `get(0)`）を追記。v6 は画像で示していた
+5. `testdata_notation.rst` の `no`: バッチでは `1-1` 形式も可（`TestShot` は文字列としてのみ使用）、同期応答送信では数値必須（`RequestTestingMessagingClient.java:108` が `parseInt`）。取引単体テスト（バッチ）の例（v6 由来の `1-1`）との食い違いを解消
+6. `setup/request_unit_test/batch.rst` から固定長ファイルのディレクティブ・テスト用データ型の設定（`setup/testdata.rst`。ラベル `testdata_setting-directive_defaults` 新設）への導線
+7. `setup/index.rst`「JUnit 5での使用の代わりに JUnit 4での使用」→「加えて」（対応表は JUnit 5 のページにある）
+8. `about/images/index/test_support_class.puml` から `IntegrationTestSupport`（結合テスト用。本解説書の範囲外）を外して PNG 再生成
+
+**却下**: 10 表の横スクロール（再指摘。`#65` 実測。ガイドの文面は「折り返しても識別子の幅でスクロールが残る」に改めた）／`resolveTestRules()` の版の断り（既決）／`resource-root` がカレント相対で IDE と Maven で変わる・`dbInfo` 未登録時の挙動・`testShots` のカラム名の打ち間違い・存在しないグループ ID・Excel シート名 31 文字（いずれも「間違えたときにどうなるか」＝基準外）／図の枚数がリクエスト単体テストに偏る（欠陥ではない）。
+
+**user 判断・申し送り**: (g) 記載例の Excel 形式の例は読み込ませて確かめていない（ガイドに申し送り済み。実行して確かめる手段を作るかは user 判断） (h) `FixedSystemTimeProvider` の javadoc（12 桁・15 桁）が実装（14・17 桁）と食い違う → `nablarch-testing` 側の是正（申し送り） (i) 変換ツールの「往復で意味が保たれる」と記法ページの Excel 空文字／YAML null・引用符除去の差の整合（実装確認が要る。未着手） (j) `html-check-config.csv` の入手元が解説書に無い（未確認。未着手）。
+
+**ガイド**: 「書いていない節は v6 のまま」→「横断的な変更と実装に合わせた訂正を除いて」に改めた。Example アプリの案内に「テストデータは Excel 形式」を添えた。
+
+**user 判断（2026-09-03 夕）「明らかにノイズは戻して、後はそのまま」**: ディレクターが 2 周の是正 19 件を分類（必要 9／1 文で役立つ 9／ノイズ 5）し、ノイズのうち 3 件を戻した: 部トビラ 3 ページのリード文を 1 段落に、`setup/fixed_time_and_id.rst` の採番の例を `defaultDbTransactionManager`（`nablarch-main-default-configuration` の `db-transaction.xml` が定義）にして補足文を削除、`testdata_notation.rst` の `no` のセルを元の 1 文に。`xmlComponentFile` の削除と継承関係図の変更は差が無いためそのまま。**模擬レビューはここで終了。** 追加の検証（14 本の実行検証案）は user 判断で行わない。次は user がガイドを見ながら刷新版を読む（当初の予定）。
+
+
+### #88: `review-guide.md` ページ別の型統一（2026-09-03 夕。user 指摘「新規・混在ってなに？ v6 の、って必要？ 見にくい」） — 済（直接コミット `9f90e400`、push 済み）
+
+- 型: 「元の v6 ページ」（リンク箇条書き。ラベルは `origin/main` の rst 先頭見出し＝v6 の実ページ題。同 URL に 3 通りあったラベルを統一）／「v6 に無い部分」（比較相手が無い箇所があるページのみ。6 ページ）／「変えたことと理由」（変更なしの 3 ページは「なし（横断的な変更のみ）」）。区分語（新規／混在／既存）は落とした（ガイドに定義が無く、レビュアーの動きも変わらない）。
+- 検証: 3 ラベル各 38 件。URL の集合は変更前と同一（変換スクリプトが由来行のリンクを全件使い切ることを assert）。
+- user 判断（2026-09-03 夕）: 「変えたこと」に理由の段が無い 25 本（20 ページ）は**このまま**。理由が要るほどのインパクトがある変更には理由が付いており、残りは変更そのものが理由を兼ねる。理由を作らない。
+
+
+### #89: 〈テスティングフレームワークとは〉の user レビュー FB 4 件（2026-09-04 朝） — 済（直接コミット `79cd6b16`・`d8124332`、push 済み）
+
+- FB と処置: (1) テストの種類の表 → 箇条書き。テスト範囲の説明を先、実行方法を後に（`about/index.rst` 「テストの種類」節）。備考列は各項目の文に畳んだ。 (2) 取引単体テストの実行方法の段落 → 「〜の場合、」の箇条書き 3 本。 (3) リクエスト単体テスト 6 種の表 → 箇条書き。各名前は同名ページへの `:ref:` にした（ページ題と同一であることを `request_unit_test/*.rst` 先頭で確認）。 (4) 継承図 `test_support_class.png`（1462x390・`:scale: 55`）→ テストの種類ごとに 3 枚（`test_support_class_unit.png` 445x207／`_request_http.png` 640x390／`_request_standalone.png` 649x362、いずれも `:scale: 100`）。リクエスト単体を 1 枚にすると 1111px、`left to right direction` でも 897px で本文幅（sphinx_rtd_theme 約 750px）に収まらないため 2 枚に分けた。
+- 検証: docker 増分ビルド warning 0。HTML の当該節に `<table>` 0・`<ul>` 3・`<li>` 12、`request_unit_test/` へのリンク 6、`_images/test_support_class_*.png` 3 件。PNG は Read で目視（豆腐なし）。
+- 追随: `review-guide.md` の about 節、`design.md` §10.1 相当（`#48` の「継承の全体図は 1 枚だけ」を 3 枚に）。
+
+
+### #90: 部トビラの「この部では」（user 質問 2026-09-04「部という表現は正しいか。ここでは、にすればどのページでも使える」） — 済（直接コミット `12086ca1`、push 済み）
+
+- 事実: 「部」の定義は `index.rst:5`「次の4つの部で構成する」の 1 箇所だけ。部トビラ 3 ページ（`setup/`・`implementation/`・`tools/index.rst:5`）は「この部では」で始まるが、HTML の目次・パンくずに「部」の語は無く、トビラを直接開いた読者には定義が届かない。
+- 処置: 3 ページを「ここでは、」に、`index.rst:5` を「次の4つで構成する」に。`ja/` に構成を指す「部」は残っていない（grep）。docker 増分ビルド warning 0。
+
+
+### #91: 〈JUnit 5での使用〉の user レビュー FB 2 件（2026-09-04 朝） — 済（直接コミット `6e808c0d`、push 済み）
+
+- FB1「BasicHttpRequestTestExtension のみと分かるように」: `standard_usage.rst` の RegisterExtension 節を「適用できないのは BasicHttpRequestTestExtension の 1 つだけ」と明示。根拠: `nablarch-testing-junit5@c06ebe8` の `src/main` でテストクラスのアノテーションを読むのは `http/BasicHttpRequestTestExtension.java:17` だけ（`git grep findAnnotation`）。`RegisterExtensionFieldIntegrationTest` 2 件は同ピンで緑。
+- FB2「警告 5 項目の裏取り・正確さ・伝わるか」: 5 項目は `TestEventDispatcherExtension.java` の Javadoc「再現に付く制約」（`c06ebe8`、`limitation-wrapping`／`-before-each-failure`／`-timeout-thread`／`-test-factory`／`-nested`）と一致。scratchpad の clone（`c06ebe8`、temurin-17、`mvn -o test`）で `TestRuleLifecycleIntegrationTest` 2・`TestFactoryRuleIntegrationTest` 1・`NestedTestRuleSupportIntegrationTest` 1・`TimeoutDbAccessIntegrationTest` 2 を実行し全件緑。各テストは「テストは成功（または @BeforeEach の失敗）のまま、ルールの前後処理が実行ログに現れない／別 support を参照する／DB 取得に失敗する」を assert しており、本文の主張と一致。
+- 是正: 導入文「テストが失敗せず例外も出ないまま」は項目 2（@BeforeEach の失敗でテスト自体は失敗する）・項目 3（例外を捕捉しなければ失敗する）に当てはまらないため「JUnit 4と同じようには動かない。再現の仕組みはこれを検知せず、例外も出さない」に改めた。項目 1・3・4 を結果先行の文に並べ替えた。項目 2・5 と末尾 2 段落は変更なし。
+- 申し送り: Javadoc にはもう 1 つ `limitation-description`（`@ParameterizedTest`・`@RepeatedTest` で全実行に同じ `Description` が渡る）があるが、本文には出していない。同ピンの `TestRuleDescriptionIntegrationTest` はこの点を assert していない（未検証）。本文は「制約の全体は Javadoc」で誘導済み。
+- 前提: この節は PR #12（`nablarch-testing-junit5`、head `c06ebe8`、OPEN）の挙動で書いている（ガイド `standard_usage` 節に記載済み）。
+
+
+### #92: 〈テストデータの設定〉の user レビュー FB 4 件（2026-09-04 朝） — 済（直接コミット `abe39104`、push 済み）
+
+- FB1「羅列しない、箇条書きに」: 機能概要の「〜する場合、〜する場合に」を「次の場合に、このページの設定を行う」＋箇条書き 4 本にし、各項目を該当節へ `:ref:` で結んだ。「読み込み先を変更する」節にラベル `testdata_setting-base_dir` を新設。
+- FB2「題に形式・配置・記述の省略を入れないと目次から辿れない」: 題を「テストデータの設定（形式・配置・記述の省略）」に。同じ題を書いている参照 2 件（`setup/index.rst:5`・`tools/testdata_converter.rst:14`）とガイドの見出しを追随。他の参照は節名で書いており変更なし。
+- FB3「importした test-data.xml とあるが前提が不明」: 「テスト用のコンポーネント設定ファイル（`introduction.rst` の同節へ `:ref:`）が import しているデフォルト設定 `nablarch/test/test-data.xml` に、Excel 形式用として 5 つ定義されている」と前提を明示。5 つは `nablarch-testing-default-configuration` 6u3・5u26 の `nablarch/test/test-data-interpreter.xml`（`test-data.xml` が import）で確認（null／quotationTrimmer／dateTime／lineSeparator／composite）。同 `test-data.xml` の `dbInfo` はコメントアウトされており、本文「含まれない」は正しい。
+- FB4「括弧は必要か」: `defaultDirectives` の括弧書きを独立した文にした。
+- 検証: docker 増分ビルド warning 0。HTML の `<title>` が新題、ページ内 `#testdata-setting-*` リンク 14、`introduction.html#…test-component-config` へのリンク 1、新題が `setup/index.html`・`testing_framework/index.html`・`testdata_converter.html` に出ている。
+
+
+### #93: 〈クラス単体テストの設定〉の user 質問「デフォルト以外のトランザクションはクラス単体だけの話か、横断なら別ファイルか」（2026-09-04 午前） — 済（直接コミット `d61deb50`、push 済み）
+
+- 事実: `dbAccessTest.dbTransactionName` を読むのは `nablarch-testing@ae989ec` の `core/db/DbAccessTestSupport.java:39,96`（`beginTransactions()`）だけ。`beginTransactions()` の呼び出し元は JUnit 4 の `@Before`（同クラス継承時）と JUnit 5 の `junit5/extension/db/DbAccessTestExtension.java:22`（`c06ebe8`）だけで、`HttpRequestTestSupport`・`StandaloneTestSupportTemplate`・`EntityTestSupport` は `DbAccessTestSupport` を委譲で持つが `beginTransactions()` を呼ばない（`git grep` 0 件）。v6 でも「データベースアクセスクラスの単体テスト」の話（`06_TestFWGuide/03_Tips.rst:555-`）。
+- 判断: クラス単体（コンポーネント単体テスト）専用であり横断ではない。別ファイルにしない。エンティティ設定も `EntityTestSupport` 専用で、同じくこのページに置く（`#77` の構成を維持）。
+- 是正: 見出しを「コンポーネント単体テストでデフォルト以外のトランザクションを使用する」に、冒頭を「コンポーネント単体テストでは、…`DbAccessTestSupport` が…開始・終了する」に、末尾に「この設定を読むのは `DbAccessTestSupport` だけであり、リクエスト単体テストには影響しない」を追加。`component.rst:93` の参照ラベル文を追随。ラベル `class_unit_test_setting-db_transaction` は不変。
+- 検証: 初回ビルドは「Title underline too short」warning 2 件（見出しを長くしたのに下線を伸ばし忘れ。push 後に気づき `a15606a8` で是正、再ビルド warning 0）。新見出しが `class_unit_test.html` と `component.html` に出ている。
+
+
+### #94: 〈リクエスト単体テストの設定（ウェブアプリケーション）〉の user レビュー FB 2 件（2026-09-04 午前） — 済（直接コミット `d58627a3`、push 済み）
+
+- FB1「Eclipse 特化のツールでなければ IDE の設定方法は削除」: `web.rst` の「HTMLリソースのコピーを抑止する」末尾の Eclipse の手順 1 文と `images/web/skip_resource_copy.png` を削除。解説書内の他の Eclipse 記述は `tools/request_data_tool.rst`（「Eclipseから起動できるように設定する」節と「HTMLダンプからツールを起動する」が Eclipse 前提。画面 4 枚）と `tools/master_data_tool.rst`（前提事項「Eclipse と Maven」、「Antビューに登録」「Antビューからターゲットを実行する」節。画面あり）の 2 ページ。いずれもツール自体は Eclipse 特化ではない（`httpDump.bat` は引数に HTML を取る bat、マスタデータ投入は Ant ビルドファイル）が、起動方法が Eclipse でしか書かれていないため、削るなら起動方法の書き換えが要る。user 判断待ち（各ページのレビュー時に 1 件ずつ）。
+- FB2「テストデータの書き方を拡張する、はどういう場合か。利用者が嬉しいか」: v6（`06_TestFWGuide/02_RequestUnitTest.rst:91-101`）も「変えたい場合は継承する」だけで用途が無い。実装（`nablarch-testing@ae989ec` `AbstractHttpRequestTestTemplate.java:52-58`）の Javadoc は「`TestCaseInfo` のサブクラスを型引数に指定してテンプレートを拡張できる」と例を示すのみ。主な派生は `BasicHttpRequestTestTemplate` だけ（`git grep`）。利用者が動ける内容にならないため節ごと削除（`design.md` §「拡張例（任意）」の方針に反しない）。
+- 検証: docker 増分ビルド warning 0。`web.html` に Eclipse／拡張例の文字列 0。ラベル参照なし（`request_unit_test_setting_web` 以外のラベルは無かった）。ガイドの web 節に「変えたこと」2 本を追記。
+
+
+### #95: 〈リクエスト単体テストの設定（RESTfulウェブサービス）〉の user レビュー FB 1 件（2026-09-04 午前） — 済（直接コミット `802babaa`、push 済み）
+
+- FB「ウェブプロジェクトや Nablarch バッチプロジェクトから作成した場合の説明は要るか。自明では」: 要らない。この tip は v6 に無く刷新で足したもの（`git grep` 2e501ad 0 件）。同型の tip は `setup/request_unit_test/web.rst:43` にもあり、そちらは「アーキタイプから作成した場合は既に記述されている」の 1 文だけ。rest の 2 文目「不足している記述を追加する」は、このページの手順そのものであり情報が無い。1 文目だけにして web と揃えた。
+- 検証: docker 増分ビルド warning 0。`rest.html` に `setup_NablarchBatch`・「不足している記述」0。
+
+
+### #96: 〈リクエスト単体テストの設定（Nablarchバッチアプリケーション）〉の user レビュー FB 1 件（2026-09-04 午前） — 済（直接コミット `0937b5c6`、push 済み）
+
+- FB「tip『上書き前後でクラスが異なるため、プロパティの値は引き継がれない』は自明。意図があるなら書く、無いなら不要」: 意図は無い。置き換え先 `nablarch.test.OneShotLoopHandler`（`nablarch-testing@ae989ec`）は setter を 1 つも持たず、引き継ぐべきプロパティが存在しない。一般則は参照先の `repository.rst:183` の important に書かれている。v6（`RequestUnitTest_batch.rst:194-220`）にもこの tip は無く、刷新で足したもの。tip を削除。
+- 検証: docker 増分ビルド warning 0。`batch.html` に「引き継がれない」・`repository-override-bean` 0。
+
+
+### #97: 〈取引単体テストの設定（HTTPメッセージング）〉の user レビュー FB 3 件（2026-09-04 午前） — 済（直接コミット `157cc39b`、push 済み）
+
+- FB1「唐突に『importした』がある。全ページ見直して」: `ja/development_tools/testing_framework` で「importした／importしている」は 4 箇所。`testdata.rst:39` は `#92` で導入ページへのリンク付きに是正済み。`introduction.rst:44,46` は import する側のファイルを定義している段落で文脈が揃っている（変更なし）。残る `deal_unit_test/http_messaging.rst:92` を `#92` と同じ型（テスト用のコンポーネント設定ファイルへの `:ref:` ＋「がimportしているデフォルト設定」）に是正。
+- FB2「compositeInterpreter とは？」: Excel 節は 3 つの Interpreter を見出し＋説明の箇条書きにし（`NullInterpreter`・`QuotationTrimmer`・`CompositeInterpreter` の Javadoc `nablarch-testing@ae989ec` で役割を確認）、先頭語を記法ページ「特殊記法」（`testdata_notation-special_notation`）へリンク。YAML 節は「`${文字種,文字数}` をその文字種の文字列に変換する `compositeInterpreter`」と説明を添えた。
+- FB3「Excel／YAML の設定例は動作確認済みか」: 台帳に実行記録は無かった（YAML 例は `nablarch-testing-yaml` のテストリソースにも同形の設定が無い）。scratchpad の `nablarch-testing@ae989ec` clone に、解説書の設定例を**そのまま**置いた設定ファイル 2 組（`messaging-test-doc-excel.xml`／`-yaml.xml`・`file-doc-excel.xml`／`-yaml.xml`）を作り、`MockMessagingClientTest` の複製 2 本を走らせた。Excel 例: 15/15 緑。YAML 例（`nablarch-testing-yaml@d50ee2b` を install、Excel fixture を変換ツール 1.0.0-SNAPSHOT で YAML 化）: `testNormal`・`testNormalMultipleRow` 緑。ハーネスは名前付き Interpreter の定義元 `nablarch/test/test-data-interpreter.xml`（`test-data.xml` が import する実体）を import し、`systemTimeProvider` を補った（`test-data.xml` を直接 import すると `dbInfo` が要る＝解説書 testdata ページどおり）。
+- 申し送り (k)（範囲外・モジュール側）: 変換ツールは、Excel でヘッダ行だけ（行 0）の `expected_request_body_messages` を `rows: []` で出力するが、YAML パーサのスキーマは `rows` に 1 件以上を要求して落ちる（`$.expected_request_body_messages[0].records[0].rows: 少なくとも 1 個の項目が必要`）。検証ではこのブロックを手で外した。さらに異常系 fixture `RM11AC0297.xls` は変換自体が失敗する（意図的に壊した fixture）。
+- 検証: docker 増分ビルド warning 0。`http_messaging.html` に「importした」0、`special-notation`・`test-component-config` へのリンク各 1。
+
+
+### #98: 箇条書きの型を「見出し → 字下げした説明」に統一（user 指示 2026-09-04「箇条書きする場合は見出し、説明でインデントして。繋げないで」。〈JUnit 5での使用〉の TestRule 警告への FB が起点） — 済（直接コミット `06774235`、push 済み）
+
+- 対象: 「見出し\ 。説明」を 1 行に繋げた箇条書きと、警告の「#. **見出し** … 説明」。`setup/standard_usage.rst` 警告 5 項目（番号付き → 箇条書き）／`about/index.rst` テストの種類 3・リクエスト単体 6／`setup/testdata.rst` 場合分け 4／`implementation/deal_unit_test/batch.rst` 3／`implementation/deal_unit_test/mom.rst` 3。計 24 項目。文面は変えていない。
+- 検証: docker 増分ビルド warning 0。走査で残存 0（`^\s*\* (太字|:ref:)\\ 。` と `#\. \*\*.*…`）。HTML で各項目が `<li>` 直下に子 `<ul>` を持つことを確認。
+- 「〜の場合、…」のように見出しを持たない 1 文の項目（`about/index.rst` の取引単体テストの実行方法 3 本）は対象外。
+
+
+### #99: 〈テストデータの設定〉の user レビュー FB「場合分け → 節の対応表は、目次があるので要るか」（2026-09-04 昼） — 済（直接コミット `b952762d`、push 済み）
+
+- 判断: 要らない。`.. contents::` の目次に並ぶ節名（「テストデータの形式をYAMLに変更する」など）がそのまま「どういう場合か」を表しており、`#92` で作った対応表 4 本は重複だった。「次の場合に、このページの設定を行う。」の文ごと削除。機能概要は「共通の設定である」「デフォルトのまま使うなら設定不要」の 2 文だけにした。ラベル `testdata_setting-base_dir` は残す（害なし）。
+- 検証: docker 増分ビルド warning 0。`testdata.html` に当該文 0。
+
+
+### #100: 〈クラス単体テストの設定〉を 2 ページに分割（user 判断 2026-09-04「B でもいいが、コンポーネント単体テストの設定では別トランザクションに気づけない」） — 済（直接コミット `bc9a3293`、push 済み）
+
+- 事実: 第2部トビラの toctree は `:maxdepth: 1` で、ページ内の節は目次に出ない。旧ページの 2 節（エンティティの設定項目／デフォルト以外のトランザクション）は題「クラス単体テストの設定」から読み取れなかった。
+- 処置: `setup/entity_unit_test.rst`「エンティティ単体テストの設定」（ラベル `entity_unit_test_setting`）と `setup/component_unit_test.rst`「コンポーネント単体テストの設定（デフォルト以外のトランザクション）」（ラベル `component_unit_test_setting`、節ラベル `component_unit_test_setting-db_transaction`）に分け、`setup/class_unit_test.rst` を削除。本文は移しただけ（機能概要をページごとに書き直し、コンポーネント側の節見出しから「コンポーネント単体テストで」を外した）。参照 6 件（`entity.rst:75,80,217`・`testdata_examples.rst:925`・`setup/index.rst:5`・`component.rst:93`）を付け替え、toctree を 2 行に。ガイドは 2 ページ分の節に分け、`design.md` の構成ツリー 3 箇所・ファイルツリー・ページ表・`:329` を追随。
+- 検証: docker 増分ビルド warning 0。`ja/`・`design.md`・`review-guide.md` に旧ラベル・旧ファイル名の残存 0。トビラ HTML に新題 2 つ、`entity.html` から `entity_unit_test.html` へ 3、`component.html` から `component_unit_test.html#…db-transaction` へ 1。正規 `_build/html` の旧 `class_unit_test.html` は docker 内から削除。
+
+
+### #101: 〈テスティングフレームワークによるテスト実装〉（第3部トビラ）の user レビュー FB 1 件（2026-09-04 昼） — 済（直接コミット `2d8135d4`、push 済み）
+
+- FB「『src/test にある（テストデータは Excel 形式）』は不要。『〜を参照』に」: `implementation/index.rst` の当該文を「動くテストコードとテストデータの実物は、Exampleアプリケーション（web・rest・batch のリンク）を参照。」に。
+- 検証: docker 増分ビルド warning 0。`implementation/index.html` に `src/test`・「Excel形式」0。
+
+
+### #102: 〈テストデータの書き方〉の user レビュー FB 5 件（2026-09-04 午後） — 済（直接コミット `db23a9cc`〜`030e868a` の 7 件、push 済み）
+
+- FB「処理方式に対応するクラスを説明している意図は？」: 表を削除（`db23a9cc`）。読者に要るのは処理方式ごとのカラムでありクラス名ではない。4 クラスは同ページで他に参照なし、v6 のテストケース一覧にも無い（`#9` で足されたもの）。
+- FB「isValidToken の参照にリンクを入れないのはなぜ？」: 表の `isValidToken` 行に `request_unit_test/web.rst:243`（二重サブミット防止機能のトークンを設定する）への `:ref:` を付け、リンク無しの参照文は削除（`c14051a1`・`07705774`）。あわせて同行の「CSRF トークン制御フラグ」を「二重サブミット防止機能のトークン」に正した。根拠: `nablarch-testing@ae989ec` `HttpRequestTestSupport.java:898-907` `setToken` は `WebConfig` の doubleSubmissionToken の名前でトークンを置く。CSRF トークンではない。
+- FB「値を書かなかったカラムの important は要るか。記載不備では」: important を削除（`8b42a92f`）。挙動は各形式の書式の節に既出（Excel `:764`・YAML `:797`）で、important で 3 度目に強調する内容ではない。
+- FB「setUpDb の『テストメソッドの実行前』とは。ショット毎かクラス毎か。setUpTable と両方書いたら」: 実装で確かめて本文を書き直した（`28e4ac8b`）。テストメソッドの実行ごとに 1 回、最初のテストショットの前（ウェブ `AbstractHttpRequestTestTemplate.java:199-204`、バッチ・メッセージング `StandaloneTestSupportTemplate.java:44-53`・`:88-93`、REST `nablarch-testing-rest@ec718a2` `RestTestSupport.java:78-79` `@Before`）。バッチ・メッセージングは `execute(sheetName, true)` でショットごとに投入し直せる。ショットごとの `setUpTable` は `setUpDb` の後に投入され（`:302-306`・`TestShot.java:150-161`）、`SETUP_TABLE` は全件 DELETE → INSERT（`DbAccessTestSupport.java:175-200`・`TableData.java:127-130`）なので同じテーブルを両方に書くとショット側だけが残る。**あわせて、テストショット一覧に存在しない `setUpDb` カラムの行（ウェブ・バッチの表）を削除**（`2c51eaa1`。カラム定数は `TestCaseInfo.java:22-84`・`TestShot.java:348-382` に無く、v6 の表にも無い。`#9` で足されたもの）。
+- FB「一部の行だけを検証できない、はなぜ括弧書き？ 本当？」: 本当。`TableData.java:337-356` `loadData` が WHERE 無しの SELECT（`:660-672`）で全行を読み、`Assertion.java:305-313` が期待側に無い行を "an unexpected record is included" で fail にする。括弧書きを本文に改めた（`030e868a`）。
+- 検証: docker 増分ビルド warning 0。`testdata_notation.html` に `HttpRequestTestSupport`・`CSRF`・「二重サブミット防止の説明を参照」0、`how-to-set-token-in-request-unit-test` へのリンク 1、新しい文言 2 件あり。
+- 申し送り（範囲外・本ページでは直さない）: `request_unit_test/batch.rst`・メッセージングの実装ページに、`execute(sheetName, true)`（ショットごとの `setUpDb` 再投入）の案内が無い（`grep` 0 件）。該当ページのレビュー時に扱う。
+
+
+### #103: 〈テストデータの書き方〉の user レビュー FB 3 件 ＋ 全ページの括弧書きの見直し（2026-09-04 午後） — 済（直接コミット `a259d5d4`・`1b5879a9`・`3f26e322`、push 済み）
+
+- FB「自動採番されない業務キーの複合主キーとして設計しておく、と書くのか。テスト都合で主キーを決めるのか」: テーブル設計の推奨を消し、「書けない → こうする」の形に（`a259d5d4`）。シーケンス採番は `setup/fixed_time_and_id.rst` のテーブル採番への置き換えで既知にできる（`:ref:` 追加）。置き換えられない IDENTITY 列は `EXPECTED_TABLE` で検証できず、主キー以外を SELECT して `assertSqlResultSetEquals` で LIST_MAP と比較する（`nablarch-testing@ae989ec` `Assertion.java:120-143` は行数と各行の Map 等価で比較。主キー列を SELECT に含めなければ期待側にも要らない。使い方は `component.rst:327`・`web.rst:384` に既出）。
+- FB「expectedSearch とは。説明ありましたか」: テストショット一覧の行に「テスト対象がリクエストスコープに格納した検索結果（SqlResultSet）と比較する」「各行が順に対応し、行数とカラム名・値が全て一致」「キー searchResult」を書いた（`1b5879a9`）。根拠 `AbstractHttpRequestTestTemplate.java:674-677`・`Assertion.java:120-143`・`:209-222`。v6 `origin/main …/02_RequestUnitTest/index.rst:143-146` にあった説明を戻した形。
+- FB「（）書きの説明、本文にしない理由は？ 全ページを見直して」: **決めた型: 括弧の中が説明（挙動・理由・条件・補足の主張）なら本文の文にする。残すのは題名の補足「〇〇（Nablarchバッチアプリケーション）」、列挙・例示「（例: …）」「（IDENTITY・シーケンスなど）」、参照「（… を参照）」、値の別表記「（14桁）」「（0x01AB）」だけ。** 全 42 ページの `（…）` 607 件を機械抽出（code-block・literalinclude・ラベル・画像の行を除く）し分類。本文化 40 か所（`3f26e322`。記法 24・記載例 6・取引単体バッチ 2・MOM 2・導入と設定トビラ 1・JUnit 5 1・マスタデータ投入ツール 1・変換ツール 3）。残した 567 件は上の 4 種。残件のうち説明に見えるが残したもの: `tools/master_data_tool.rst:110`「（蟻の図柄に緑の＋が付いたアイコン）」は Eclipse 起動手順の未決（`#94`）と一緒に扱う。
+- 検証: docker 増分ビルド warning 0。`testdata_notation.html` に「業務キーの複合主キー」0、`fixed_time_and_id.html#fixed-time-and-id` へのリンク 1、「リクエストスコープに格納した検索結果」1、「部分的な確認はできない」1。`testdata_examples.html` に「記述する）」0。
+
+
+### #104: 〈テストデータの書き方〉の user レビュー FB 3 件（メッセージング節の構造化）（2026-09-04 午後） — 済（直接コミット `195d198e`・`9ace72bc`・`d6cd3c90`・`d7a0da6b`、push 済み）
+
+- FB「定長レコード？固定長では」: 「固定長レコード」に（`195d198e`）。解説書の正表記は「固定長」（`glossary.md` §5）で、「定長」単独は NTF 全ページでこの 1 か所だけだった。
+- FB「外部インタフェース設計書へのリンクが必要、どれ？」: リンク先は無い。プロジェクトの成果物で、解説書 `ja/` 全体に対応ページが無い（出現は NTF の 2 か所のみ）。内容も Excel の「行列を入れ替える」操作で YAML 形式に当てはまらないため、意図の無い tip として削除（`9ace72bc`。`#95`・`#96` と同じ扱い）。
+- FB「メッセージングのデータを記述する: 分量が多く構造化されておらず読めない。列挙が多すぎる。箇条書きに」: 事実は現行の文をそのまま移し、構造だけを変えた（`d6cd3c90`）。冒頭にテストの種類（受信／同期応答送信のリクエスト単体／同モックアップ）ごとのデータタイプ・識別子・置き場所の表。小見出し 3 つ（電文データブロックを構成する／同期応答メッセージ送信の電文を記述する／取引単体テストのモックアップクラスの電文を記述する）を新設し、散在していた規則を「見出し → 字下げした説明」の箇条書きに。Excel 形式・YAML 形式の段落も同じ型に。YAML 形式の「旧版では `record_type: FW_HEADER`」の important は削除（YAML 形式は本 PR で新設。`nablarch-testing-yaml` は未リリースで利用者に旧版は無い）。`d6cd3c90` は見出しの下線が短く warning 2 件を出したまま push した。`d7a0da6b` で是正（warning 0）。
+- 検証: docker 増分ビルド warning 0。`testdata_notation.html` に「定長」単独 0・「外部インタフェース設計書」0・`FW_HEADER` 0、新設の小見出し 3 つあり。
+- 未決（user に 1 件）: 同じ構造化を同ページの他の節（特に「ファイルのデータを記述する」約 300 行）にも施すか。
+
+
+### #105: 〈テストデータの書き方〉の user レビュー FB 3 件（特殊な値・YAML クォート規則の置き場所・コメント等の節の構造化）（2026-09-04 午後） — 済（直接コミット `ce8ace11`・`43e70718`・`d813d75a`、push 済み）
+
+- FB「null・空文字・改行など特殊な値を記述する: ここも構造化しない？」: 特殊記法 4 つ（`${systemTime}` 系・`${文字種,文字数}`・`${binaryFile:}`・`${attach:}`）を「見出し → 字下げした説明」の箇条書きに（`ce8ace11`）。末尾に離れていた `${attach:}` とその tip を同じ並びに移した。日付の形式・Timestamp の important・Excel／YAML の表は本文のまま。
+- FB「YAML のクォート規則は特殊な値の話ではない。Excel の文字列書式と対になる YAML 形式のベースの話では」: そのとおり。「テストクラスとテストデータの対応」の YAML 形式の項（Excel の「セルの書式は文字列書式に統一」`:72-76` の対）へ移した（`43e70718`）。文は移しただけ。特殊な値の節の YAML 形式には参照 1 文だけ残した。
+- FB「コメント・マーカーカラム・空エントリを扱う: Excel 形式・YAML 形式にしないのは？ 構造化しない？」: 冒頭で 3 記法を箇条書きで定義し、Excel 形式・YAML 形式の rubric を新設して同じ 3 見出しの箇条書きに（`d813d75a`）。Excel の 2 つの表は該当見出しの下へ。事実は現行の文をそのまま移した。
+- 検証: docker 増分ビルド warning 0（3 コミットとも）。`testdata_notation.html` に `SnakeYAML` 1（移動先のみ）、「値のクォートの規則は」1、コメント例の表 1。
+
+
+### #106: 〈テストデータの書き方〉の残りの節を構造化（user 指示 2026-09-04「書き方ページ、構造化観点で見直して」） — 済（直接コミット `9969b230`、push 済み）
+
+- `#104` の未決「他の節も同じ構造化をするか」は、この指示で「する」に決着。
+- 全節を読み、段落に規則が詰め込まれていた箇所を `#104`・`#105` と同じ型に揃えた（事実は現行の文をそのまま移した）: グループIDによる使い分け（3 規則）／ウェブアプリケーションのカラム（表の後ろの 4 点）／メッセージングのカラム（2 点。important は入れ子）／カラムを省略する（データタイプ別 4 点）／テーブルのデータ YAML 形式（2 点）／ファイルのデータ（本文 6 規則・数値型 2 規則・Excel 形式 6 規則で表 3 つと code-block を見出しの下へ入れ子・YAML 形式の末尾 2 文を既存の箇条書きへ）。
+- そのままにした節: 機能概要・テストデータの構造（表と rubric で既に構造化済み）・testShots 本体・コマンドライン引数・エンティティバリデーション・LIST_MAP（短い段落と表・コードで足りる）・0 件のデータ。
+- 検証: docker 増分ビルド warning 0。HTML で表 3 つと important が `<li>` の中に入っていることを目視（`SETUP_FIXED[グループID]=ファイルパス` の表、`expectedLog` の important、`members.csv` の code-block）。
+- 型の記録（`#98`・`#103` に加える）: 節は「導入 → 用途別の表（あれば）→ 規則の箇条書き（見出し → 字下げした説明）→ Excel 形式／YAML 形式の rubric（同じ型）」。表・admonition・code-block は該当する見出しの下に入れ子にする。
+
+
+### #107: 実装ページ 6 本の「JUnit 4 でテストを書く場合は継承で」の tip を削除（user レビュー FB 2026-09-04「これ全部に入れてるの？全部消さない？」） — 済（直接コミット `fc3cc5e0`、push 済み）
+
+- 対象: `implementation/request_unit_test/web.rst`・`rest.rst`・`batch.rst`・`mom.rst`、`implementation/class_unit_test/entity.rst`・`component.rst` の同文の tip（`JUnit 4でテストを書く場合は、インジェクションではなく継承でテスティングフレームワークの機能を使用する（JUnit 4での使用）`）。`git grep` で 6 件、削除後 0 件。
+- 理由: JUnit 4 は `setup/junit4.rst`（`junit4_support`）に集約済みで、同ページが第3部の JUnit 5 の例を継承方式に読み替える規則を持つ（`junit4_support-no_inheritance` 節）。同ページは `setup/index.rst` の toctree と `about/index.rst`・`setup/standard_usage.rst` から到達できるため、実装ページ側の誘導は不要。実装ページの本文は新規利用者向け、意図の無い tip は削る（`#95`・`#96` の型）。
+- 検証: docker 増分ビルド warning 0。`_build/html` に該当文 0 件。`review-guide.md`・`design.md` にこの tip への言及は無い（grep）。
+
+
+### #108: 〈テストデータの記載例〉36 組を実装に読ませて検証し、3 件を是正（user レビュー 2026-09-04「この記載例、すべて正しいですか？」「実際に動作する記載例ですか？」） — 済（直接コミット `11df218a`、push 済み）
+
+- 手段: サブエージェント（opus）が scratchpad に `nablarch-testing@ae989ec`・`nablarch-testing-yaml@d50ee2b` を clone し、rst の 36 組（`Excel形式の場合` の list-table 群／`YAML形式の場合` の code-block）を xlsx／yaml に起こして、本体 `BasicTestDataParser`＋`PoiXlsReader` と `YamlTestDataParser` の同じ API（`getListMap`・`getSetupTableData`・`getExpectedTableData`・`getSetupFile`・`getExpectedFile`・`getMessage`・`getSendSyncMessage`）で読み、正規化ダンプを diff。ディレクターは指摘 3 件を実装（`QuotationTrimmer.java:27`・`TestDataParsingTemplate.java:183`・`MessagePool.java:155-169`・`TableData.java:152`）と `BinaryUtil.convertHexToBytes` の自前実行で裏取りした。指示書・報告・ハーネスは `ntf-doc-renewal/review-guide-notes/verify-examples/` に保全。
+- 結果（是正前）: Excel 読取 OK 34／NG 1、YAML 読取 OK 36、両形式一致 32・不一致 3・比較不能 1（空ファイルの節は Excel 側が本文記述のみ）、本文の主張との不一致 2。
+- 是正 3 件（`11df218a`）: (1) カンマを含む値: `quoting-delimiter` セルの `"` 1 文字は全セルがインタープリタを通るため `QuotationTrimmer` の `substring(1, 0)` で例外 → `"""` に修正し、Excel 側に「`"` 1 文字だけを書くとエラー」の説明を追加。 (2) JSON・XML の電文: important が `file-type` を求めているのに `expectedMessages` の例に無く、既定 `Fixed` で項目単位アサートに落ちる → Excel・YAML 両方に `text-encoding: UTF-8`／`file-type: XML` を追加。 (3) バイナリデータ: `SETUP_TABLE` のバイナリ型カラムは値をそのまま `BinaryUtil.convertHexToBytes` に渡すため `0xCAFEBABE` は `NumberFormatException` → `CAFEBABE` に修正し、説明文を「`0x` を付けない16進数の文字列で記述する」に。
+- 是正後の再検証: 3 節とも両形式 OK・一致。`expectedMessages` は `MessagePool.java:171-184` の「電文全体を文字列としてアサート」の分岐に入ることを同じ判定の再現で確認。36 節全体で例外 0。残る不一致 2 件は欠陥でない（期待ログの節の YAML 側だけの抜粋併記／0 件テーブルの `rows: []` はカラム名 0 件で生成され `TableData.loadData()` が `DbInfo` から補う `TableData.java:342-347`）。
+- 検知できないもの（観点D）: セル型（全セル文字列型で生成。数値型・日付型セルの `toString()` 差）、セル内改行、テストとしての実行（例の題材は架空のアプリで、テーブル・アクションが実在しない。最初の例の `diConfig`／`requestPath` は本体の `DBtoDBBatchSample` を指すが、そのサンプルのテーブルは `BATCH_SAMPLE` で例の `ORDER_HEADER` とは別）。
+- 検証: docker 増分ビルド warning 0。HTML で `0xCAFEBABE` 0 件、`expectedMessages` の直後に `text-encoding`／`file-type` の行、`quoting-delimiter` のセルが `"""`。ガイドの記載例ページの「読み込ませて確かめていない」を是正済みの記述に更新。
+
+### #109: テストデータの階層名を「データコンテナ／データセクション／データブロック」に統一（user レビュー 2026-09-04〈テストデータの書き方〉「読み込み単位に名前を付けれないかな」「データコンテナ、データセクション、データブロック、テストデータの書き方の冒頭で定義したら」） — 済（直接コミット `34ba759b`、push 済み）
+
+- 由来: input の変換ツール設計書が中間モデルを `TestDataContainer`（テストクラス 1 つ分）／`TestDataSection`（読み込み単位）／`TestDataBlock` と定義（`S:input/testdata-converter-design.md:212`。実装 `nablarch-testing-converter@60d9a2d` `model/TestDataContainer.java:30`・`TestDataSection.java:30`）。解説書は `ntf-testdata-doc.md:32` 由来の「読み込み単位」を使い、初出で定義せず 81 箇所で「Excel 形式では…、YAML 形式では…」の括弧書きを繰り返していた。
+- 変更: `読み込み単位`→`データセクション`（`読み込み単位の名前`→`データセクション名`）を rst 13 本・puml 3 本で置換（残存 0）。`testdata_notation.rst` の「テストデータの構造」冒頭に 3 階層の表（階層／意味／Excel 形式／YAML 形式）を追加し、「テストクラスに対応するファイル／ディレクトリ」を `データコンテナ` に（`:28`・`:47`・`:80`・`:669`・`:1367`、`component.rst:300` の `<ファイル名>`→`<データコンテナ名>`、`request_unit_test/mom.rst:171`、`deal_unit_test/mom.rst:79`、`testdata_examples.rst:2213`、`master_data_tool.rst:132`）。形式別の括弧書きを 8 箇所削除。図 3 枚（`testdata_layout`・`html_dump_layout`・`send_sync_testdata_layout`）の凡例を更新し PNG 再生成。`mapping/glossary.md` §5.9 に `データコンテナ` 行を追加、`データセクション` 行を改称。
+- 却下した案（ディレクター案）: `リソース`（本体の `resourceName` は `ブック名/シート名` の連結で中間階層ではない。`nablarch-testing@ae989ec` `TestSupport.java:390-394`）、`ブック／シート`（Excel 前提。user 却下）。
+- 検証: docker 増分ビルド warning 0（`testdata_examples.rst:16` の見出し下線を延長）。HTML で `読み込み単位` 0 件、`データセクション` 103 件、`testdata_notation.html` に `データコンテナ` 7 件、定義表の描画を確認。
+- 申し送り: input の他資料は `セクション` をデータブロックの意味で使う（`ntf-testdata-doc-examples-testshots.md:77` ほか）。解説書本文に `セクション` 単独の使用は 0 件なので衝突なし。
+
+
+# State
+
+(written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
+session is suspended — the signal /rn:up and /rn:dn search for — and resets to `not suspended` here,
+so only a genuinely suspended session reads `paused`.)
+
+- **Status**: paused
+- **Date**: 2026-09-04
+- **Last completed**: `#109` テストデータの階層名を データコンテナ／データセクション／データブロック に統一（`34ba759b`）。その前は `#108` 〈テストデータの記載例〉36 組の実測検証と 3 件の是正（`11df218a`）。その前は `#107` 実装ページ 6 本の JUnit 4 tip 削除（`fc3cc5e0`）。その前は `#106` 〈テストデータの書き方〉の残りの節の構造化（`9969b230`）。その前は `#105` 〈テストデータの書き方〉の特殊な値・コメント等の節の構造化ほか FB 3 件（`ce8ace11`・`43e70718`・`d813d75a`）。その前は `#104` 〈テストデータの書き方〉のメッセージング節の構造化ほか FB 3 件（`195d198e`〜`d7a0da6b`）。その前は `#103` 〈テストデータの書き方〉の FB 3 件＋全ページの括弧書きの見直し（`a259d5d4`・`1b5879a9`・`3f26e322`）。その前は `#102` 〈テストデータの書き方〉の FB 5 件（`db23a9cc`〜`030e868a`）。その前は `#101` 第3部トビラの文の簡略化（`2d8135d4`）。その前は `#100` 〈クラス単体テストの設定〉の 2 ページ分割（`bc9a3293`）。その前は `#99` 〈テストデータの設定〉の対応表を削除（`b952762d`）。その前は `#98` 箇条書きの型の統一（`06774235`）。その前は `#97` 〈取引単体テストの設定（HTTPメッセージング）〉の FB 3 件（`157cc39b`）。その前は `#96` 〈リクエスト単体テストの設定（バッチ）〉の FB 1 件（`0937b5c6`）。その前は `#95` 〈リクエスト単体テストの設定（REST）〉の FB 1 件（`802babaa`）。その前は `#94` 〈リクエスト単体テストの設定（ウェブ）〉の FB 2 件（`d58627a3`）。その前は `#93` 〈クラス単体テストの設定〉の質問 1 件（`d61deb50`）。その前は `#92` 〈テストデータの設定〉の FB 4 件（`abe39104`）。その前は `#91` 〈JUnit 5での使用〉の FB 2 件（`6e808c0d`）。その前は `#90` 部トビラの「この部では」→「ここでは」（`12086ca1`）。その前は `#89` 〈テスティングフレームワークとは〉の user レビュー FB 4 件（`79cd6b16`・`d8124332`）。その前は `#88` `review-guide.md` ページ別の型統一（`9f90e400`）。理由なしの箇条書き 25 本はそのまま（user 判断）。 （以下は旧記録）`#84` `review-guide.md` を「判断で変えたこと＋理由」だけに書き直し、162 KB → 41 KB（直接コミット、2026-09-03。user レビュー待ち）。その前は `#83` 本文の欠陥 4 件の是正。その前は `#82` レビュアー向け申し送り `review-guide.md` を作成し `review-map.md` を置換（直接コミット、2026-09-03）。その前は `#81` 対照表 `review-map.md`（user 却下）。その前は `#80` 記法ページの default グループIDの適用範囲と `TEST_` 型登録の参照先を是正（直接コミット、2026-09-03）。その前は `#79` 業務サンプルの `:ref:` を `#77` で消えたラベルから新ラベルへ付け替え（直接コミット、2026-09-03）。その前は `#78` 制御ヘッダの設定を HTTP 本文＋MOM リンクに（直接コミット `726e21ff`）。その前は `#77` 導入と設定の再編（直接コミット `51e2f222`）。その前は `#76` junit4 の依存関係に junit-vintage-engine（直接コミット `8a81680d`）。その前は `#75` junit4 から合成アノテーションの対応表へ節単位でリンク（直接コミット `eb19038d`）。その前は `#74` TestRule の警告5項目を番号付き・太字の要点付きに（直接コミット `73571ae3`）。その前は `#73` TestRule の対応を見出し付きの表に（直接コミット `9cbe94b0`・`c64706f6`・`ffc77e81`）。その前は `#72` AbstractHttpRequestTestTemplate の tip を削除（直接コミット `6f8e7298`）。その前は `#71` SimpleRestTestSupport の tip を削除（直接コミット `8d63a11d`）。その前は `#70` シート名と ID の参照文を削除（直接コミット `0a8d6869`）。その前は `#69` インジェクション先の important を本文に畳む（直接コミット `087e495d`）。その前は `#68` JUnit 5 の機能概要の書き直し（直接コミット `38b6b181`。同コミットで `#67` の応答電文設定を HTTP メッセージングのページへ移動）。その前は `#67` 共通設定のレビュー6件（直接コミット `a4b13d2c`・`5eaba7b0`）。その前は `#66` テスト用のコンポーネント設定ファイルの説明からブランクプロジェクトへの依存を外す（直接コミット `97e8ca68`）。その前は `#65` 表のリテラル折り返し（直接コミット `860b3650`。残り 10 表の横スクロールは user 判断で許容）。その前は `#64` 第2部 10 ページの機能概要を読者価値の型に改める（ディレクター直接コミット `39efade8`）。その前は `#63` about のアーキテクチャ図の描き直し・図の拡大リンク・「稼動環境」の改題（ディレクター直接コミット `cf82375f`・`2c5559b2`）。その前は `#62` 共通設定に「テスト用のコンポーネント設定ファイルを用意する」を新設（ディレクター直接コミット `f8c0acf0`・`4f8069c7`）。その前は `#61` 「標準の使い方」を「JUnit 5で使用する」に改題（ディレクター直接コミット `32778384`）。その前は `#60` about の節順・JUnit 4 の括弧書き・クラス図の向き（ディレクター直接コミット `a01901ee`・`d3471663`）。その前は `#59` マスタデータ投入ツールを本文で案内せず gsp-dba-maven-plugin の推奨に戻す（ディレクター直接コミット `2b665792`）。その前は `#58` NTF の表 145 件に `white-space-normal`（ディレクター直接コミット `ae504738`）。その前は `#57` テスティングフレームワーク index の役割別導線（ディレクター直接コミット `98217fc6` 表 → `671959ab` 文章）。その前は `#56` 台帳の締め
+- **Next**: **user のページ別レビュー中（1 ページずつ FB が来る。〈テスティングフレームワークとは〉は `#89` で済）。「この部では」は `#90`、〈JUnit 5での使用〉は `#91`、〈テストデータの設定〉は `#92`、〈クラス単体テストの設定〉は `#93`、〈リクエスト単体テストの設定（ウェブ）〉は `#94`、同（REST）は `#95`、同（バッチ）は `#96`、〈取引単体テストの設定（HTTPメッセージング）〉は `#97`、箇条書きの型統一は `#98`、〈テストデータの設定〉の対応表削除は `#99`、〈クラス単体テストの設定〉の分割は `#100`、第3部トビラは `#101`、〈テストデータの書き方〉は `#102`〜`#106`、実装ページ 6 本の JUnit 4 tip 削除は `#107`、〈テストデータの記載例〉の実測検証は `#108`、階層名の統一（データコンテナ／データセクション／データブロック）は `#109` で済。次の FB を待つ。**以後、テストデータの階層は `#109` の 3 語で書く（`読み込み単位`・`シート` を形式非依存の意味で使わない）。****節の構成は `#106` の型で書く。****括弧書きは `#103` の型（説明は本文の文にする）で書く。****以後の箇条書きは「見出し → 字下げした説明」の型で書く（1 行に繋げない）。**未決: ツール 2 ページの Eclipse 起動手順を削るか（`#94`）。** （以下は旧記録）ディレクター側の作業は無し。user が `review-guide.md`（`9f90e400`）を見ながら刷新版 38 本を読む。質問が来たら実物で答え、直すものは直接コミット・push し、本 Task list に `#89` 以降で記録する。** （以下は旧記録）模擬レビューは 2 周で終了（user 判断）。user が `review-guide.md` を見ながら刷新版 38 本を読む（当初の予定に戻る）。質問には実物で答え、直すものは直接コミット。** `#87` の申し送り (g)〜(j) はレビュアーから指摘があれば対応。 その後、user が `review-guide.md` を見ながら刷新版 38 本をレビューする（2026-09-03 user 判断「レビュアーの前に、まず私がガイド見ながらレビューします」）。質問が来たら実物で答え、直すものは直接コミット。ガイドの記述に誤りがあればガイドも直す。** チームレビュアーへの HTML 配布方法は user レビュー後に決める（`#82` 未決 (1)）。`#83` は 4 件とも是正済み。 （PR #728 の差分の件は 2026-09-03 に決着: ブランチは develop（`c2419060`）から分岐しているが PR が base=main で作られており、作成時の main（`eb1ea136`、2025-03）との差に develop 側の約100ファイルが映っていた。user 判断「base も マージ先も develop」により `gh pr edit --base develop` を実行。Files changed は 468＝NTF・`.rn/`＋`README.md`・`_static/custom.css`・`biz_samples/04/0401_ExtendedDataFormatter.rst`。） その後、user の刷新版38本全量読みレビューの続き（質問が来たら実物で答える）。`#29` の残り（「マージ直前にまとめて処置する」の台帳）は user のマージ判断まで着手しない（2026-09-03 に `.rn/` の整理を同台帳へ追加。残す6区分は user 判断済み）
+- **Notes**: ブランチ `ntf-yaml-support`、`origin` に push 済み。`#56` の実測は `checks/task-56.md`（§0 着手前検証・§3 完了条件）。モジュール側の一次記録の所在は台帳 `#52`〜`#54` の各「根拠」にある
