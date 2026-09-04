@@ -2,7 +2,7 @@
 
 テスティングフレームワークによるテスト実装
 ==================================================
-この部では、アプリケーションプログラマが行うテストデータの記述とテストコードの実装を説明する。\ :ref:`テストデータの書き方 <testdata_notation>`\ を読んでから、自分が実装するテストのページを読む。\ :ref:`テストデータの記載例 <testdata_examples>`\ は、テストデータを書くときに必要な例を引く。
+ここでは、アプリケーションプログラマが行うテストデータの記述とテストコードの実装を説明する。\ :ref:`テストデータの書き方 <testdata_notation>`\ を読んでから、自分が実装するテストのページを読む。\ :ref:`テストデータの記載例 <testdata_examples>`\ は、テストデータを書くときに必要な例を引く。
 
 動くテストコードとテストデータの実物は、Exampleアプリケーション（\ `nablarch-example-web <https://github.com/nablarch/nablarch-example-web>`_\ ・\ `nablarch-example-rest <https://github.com/nablarch/nablarch-example-rest>`_\ ・\ `nablarch-example-batch <https://github.com/nablarch/nablarch-example-batch>`_\ ）の\ ``src/test``\ にある（テストデータはExcel形式）。
 
