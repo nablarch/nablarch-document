@@ -2455,7 +2455,7 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 - 事実: `dbAccessTest.dbTransactionName` を読むのは `nablarch-testing@ae989ec` の `core/db/DbAccessTestSupport.java:39,96`（`beginTransactions()`）だけ。`beginTransactions()` の呼び出し元は JUnit 4 の `@Before`（同クラス継承時）と JUnit 5 の `junit5/extension/db/DbAccessTestExtension.java:22`（`c06ebe8`）だけで、`HttpRequestTestSupport`・`StandaloneTestSupportTemplate`・`EntityTestSupport` は `DbAccessTestSupport` を委譲で持つが `beginTransactions()` を呼ばない（`git grep` 0 件）。v6 でも「データベースアクセスクラスの単体テスト」の話（`06_TestFWGuide/03_Tips.rst:555-`）。
 - 判断: クラス単体（コンポーネント単体テスト）専用であり横断ではない。別ファイルにしない。エンティティ設定も `EntityTestSupport` 専用で、同じくこのページに置く（`#77` の構成を維持）。
 - 是正: 見出しを「コンポーネント単体テストでデフォルト以外のトランザクションを使用する」に、冒頭を「コンポーネント単体テストでは、…`DbAccessTestSupport` が…開始・終了する」に、末尾に「この設定を読むのは `DbAccessTestSupport` だけであり、リクエスト単体テストには影響しない」を追加。`component.rst:93` の参照ラベル文を追随。ラベル `class_unit_test_setting-db_transaction` は不変。
-- 検証: docker 増分ビルド warning 0。新見出しが `class_unit_test.html` と `component.html` に各 1。
+- 検証: 初回ビルドは「Title underline too short」warning 2 件（見出しを長くしたのに下線を伸ばし忘れ。push 後に気づき `a15606a8` で是正、再ビルド warning 0）。新見出しが `class_unit_test.html` と `component.html` に出ている。
 
 
 # State
