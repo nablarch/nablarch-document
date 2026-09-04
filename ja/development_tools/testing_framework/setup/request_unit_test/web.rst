@@ -201,17 +201,3 @@ HTMLリソースのコピーを抑止する
 .. tip::
 
   HTMLリソースのコピー先ディレクトリ（デフォルトはダンプディレクトリから見て\ ``../htmlResources``\ 。ダンプディレクトリと同じ階層に作られる）が存在しない場合は、このシステムプロパティの指定の有無にかかわらず、HTMLリソースのコピーが実行される。
-
-Eclipseで指定する場合は、実行構成の「引数(Arguments)」タブの「VM 引数(VM Arguments)」欄に記述する。
-
-.. image:: images/web/skip_resource_copy.png
-  :scale: 100
-
-拡張例
---------------------------------------------------
-
-テストデータの書き方を拡張する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-テストデータの書き方を変える場合は、\ :java:extdoc:`AbstractHttpRequestTestTemplate <nablarch.test.core.http.AbstractHttpRequestTestTemplate>`\ と\ :java:extdoc:`TestCaseInfo <nablarch.test.core.http.TestCaseInfo>`\ を継承する。
-
-``AbstractHttpRequestTestTemplate``\ は、リクエスト単体テストのサポートクラスである\ ``BasicHttpRequestTestTemplate``\ のスーパクラスである。アプリケーションプログラマが直接使用することはなく、テスティングフレームワークを拡張する際に用いる。\ ``TestCaseInfo``\ はテストデータに定義されたテストショットの情報を格納するクラスで、\ ``AbstractHttpRequestTestTemplate``\ の型引数に指定する。
