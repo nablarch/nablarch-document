@@ -1,6 +1,6 @@
 .. _testdata_setting:
 
-テストデータの設定
+テストデータの設定（形式・配置・記述の省略）
 ==================================================
 
 .. contents:: 目次
@@ -9,7 +9,12 @@
 
 機能概要
 --------------------------------------------------
-テストデータの設定は、テストデータの形式・配置・記述の省略に関わる設定で、テストの種類によらず共通である。\ Excel\ 形式のテストデータを\ ``src/test/java``\ 配下に置くデフォルトのまま使う場合、設定は要らない。テストデータを\ YAML\ 形式で書く場合、読み込み先をプロジェクトのディレクトリ構成に合わせる場合、省略したカラムやディレクティブに補う値をプロジェクトの規約に合わせる場合、固定長ファイルの数値フィールドをテストデータに書いたとおりに扱う場合に、このページの設定を行う。
+テストデータの設定は、テストデータの形式・配置・記述の省略に関わる設定で、テストの種類によらず共通である。\ Excel\ 形式のテストデータを\ ``src/test/java``\ 配下に置くデフォルトのまま使う場合、設定は要らない。次の場合に、このページの設定を行う。
+
+* テストデータを\ YAML\ 形式で書く … \ :ref:`テストデータの形式をYAMLに変更する <testdata_setting-yaml>`
+* 読み込み先をプロジェクトのディレクトリ構成に合わせる … \ :ref:`テストデータの読み込み先を変更する <testdata_setting-base_dir>`
+* 省略したカラムやディレクティブに補う値をプロジェクトの規約に合わせる … \ :ref:`省略したテーブルのカラムのデフォルト値を変更する <testdata_setting-column_default_values>`\ ・\ :ref:`ディレクティブのデフォルト値を設定する <testdata_setting-directive_defaults>`
+* 固定長ファイルの数値フィールドをテストデータに書いたとおりに扱う … \ :ref:`符号無数値・符号付数値のテスト用のデータ型を登録する <testdata_setting-test_data_types>`
 
 使用方法
 --------------------------------------------------
@@ -31,7 +36,7 @@ YAML\ 形式で記述する場合は、\ ``nablarch-testing-yaml``\ を依存関
     <scope>test</scope>
   </dependency>
 
-あわせて、テストデータを解析するコンポーネント\ ``testDataParser``\ を\ :java:extdoc:`YamlTestDataParser <nablarch.test.core.reader.YamlTestDataParser>`\ に差し替える。特殊記法を解釈するクラス（Interpreter）は、importした\ ``nablarch/test/test-data.xml``\ が\ Excel\ 形式用に定義している5つのうち、次の2つだけを\ ``interpreters``\ に指定する。
+あわせて、テストデータを解析するコンポーネント\ ``testDataParser``\ を\ :java:extdoc:`YamlTestDataParser <nablarch.test.core.reader.YamlTestDataParser>`\ に差し替える。特殊記法を解釈するクラス（Interpreter）は、\ :ref:`テスト用のコンポーネント設定ファイル <testing_framework_introduction-test_component_config>`\ がimportしているデフォルト設定\ ``nablarch/test/test-data.xml``\ に、\ Excel\ 形式用として5つ定義されている。\ YAML\ 形式では、そのうち次の2つだけを\ ``interpreters``\ に指定する。
 
 ``testDataParser``\ は1つのコンポーネントであるため、1つのプロジェクトでExcel形式とYAML形式のテストデータを混在させることはできない。既存のExcel形式のテストデータは、\ :ref:`テストデータ変換ツール <testdata_converter>`\ でYAML形式に変換する。
 
@@ -56,6 +61,8 @@ YAML\ 形式で記述する場合は、\ ``nablarch-testing-yaml``\ を依存関
 ``dbInfo``\ には、テーブルの主キー・カラム名・カラム型をデータベースのメタデータから取得する\ :java:extdoc:`DbInfo <nablarch.test.core.db.DbInfo>`\ の実装を指定する。この名前のコンポーネントは\ ``nablarch/test/test-data.xml``\ には含まれないため、テスト用のコンポーネント設定ファイルで\ :java:extdoc:`GenericJdbcDbInfo <nablarch.test.core.db.GenericJdbcDbInfo>`\ などの実装を\ ``dbInfo``\ という名前で登録する。
 
 ``testDataReader``\ は指定しない。\ :java:extdoc:`YamlTestDataParser <nablarch.test.core.reader.YamlTestDataParser>`\ は\ YAML\ ファイルを直接読み込むため、この設定を使用しない。
+
+.. _testdata_setting-base_dir:
 
 テストデータの読み込み先を変更する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -160,7 +167,7 @@ YAML\ 形式で記述する場合は、\ ``nablarch-testing-yaml``\ を依存関
 
 共通のデフォルト値が先に適用され、ファイルの種別ごとのデフォルト値がその後に適用される。同じディレクティブを両方に設定した場合は、ファイルの種別ごとの設定が有効になる。個々のファイルデータブロックに記述したディレクティブは、いずれのデフォルト値よりも優先される。
 
-指定できるディレクティブキーはファイルの種別ごとに決まっており、それ以外のキー名を指定するとエラーになる。\ ``defaultDirectives``\ は固定長ファイル・可変長ファイルの両方に適用されるため、共通のデフォルト値には両方の種別で有効なキーだけを設定する（片方の種別にしかないキーを設定すると、もう一方の種別のテストデータを読み込む時点でエラーになる）。ディレクティブキーの一覧は\ :ref:`ファイルのデータを記述する <testdata_notation-file_data>`\ を参照。
+指定できるディレクティブキーはファイルの種別ごとに決まっており、それ以外のキー名を指定するとエラーになる。\ ``defaultDirectives``\ は固定長ファイル・可変長ファイルの両方に適用されるため、共通のデフォルト値には両方の種別で有効なキーだけを設定する。片方の種別にしかないキーを設定すると、もう一方の種別のテストデータを読み込む時点でエラーになる。ディレクティブキーの一覧は\ :ref:`ファイルのデータを記述する <testdata_notation-file_data>`\ を参照。
 
 .. _testdata_setting-test_data_types:
 
