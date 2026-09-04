@@ -1739,7 +1739,7 @@ CSV\ 形式のファイルで、フィールドの値そのものにカンマが
 
 .. rubric:: Excel形式の場合
 
-期待値の例を示す。\ ``quoting-delimiter``\ に指定できるのは1文字だけである。
+期待値の例を示す。\ ``quoting-delimiter``\ に指定できるのは1文字だけである。ダブルクォート1文字を指定するには、セルに ``"""``\ と記述する。セルに書いた外側のダブルクォート1層は読み込み時に除去されるため、\ ``"``\ 1文字だけを書くと読み込み時にエラーになる。
 
 .. list-table::
   :class: white-space-normal
@@ -1755,7 +1755,7 @@ CSV\ 形式のファイルで、フィールドの値そのものにカンマが
     -
     -
   * - quoting-delimiter
-    - ``"``
+    - ``"""``
     -
     -
   * - DATA
@@ -2091,6 +2091,14 @@ JSON\ ・\ XML\ の電文を、同期応答メッセージ受信のテストで�
     -
     -
     -
+  * - text-encoding
+    - UTF-8
+    -
+    -
+  * - file-type
+    - XML
+    -
+    -
   * - no
     - XML1
     - XML2
@@ -2136,6 +2144,9 @@ JSON\ ・\ XML\ の電文を、同期応答メッセージ受信のテストで�
                "<userId>0000000101</userId><userName>電文太郎</userName>",
                "</request>"]
     - id: expectedMessages
+      directives:
+        text-encoding: UTF-8
+        file-type: XML
       records:
         - record_type: default
           fields:
@@ -2647,11 +2658,11 @@ Excel\ 形式ではセル内で改行する必要がある\ LF\ も、\ YAML\ �
   * - FILE_ID
     - FILE_DATA
   * - 001
-    - 0xCAFEBABE
+    - CAFEBABE
   * - 002
     - ${binaryFile:testdata.bin}
 
-``0x``\ を先頭に付けた16進数はバイナリ値として解釈される。\ ``0x``\ がない場合は文字列としてエンコードされる。\ ``${binaryFile:パス}``\ は、テストデータファイルが置かれているディレクトリからの相対パスで指定する。
+バイナリ型カラムの値は、\ ``0x``\ を付けない16進数の文字列で記述する。\ ``${binaryFile:パス}``\ は、テストデータファイルが置かれているディレクトリからの相対パスで指定する。
 
 .. rubric:: YAML形式の場合
 
@@ -2663,7 +2674,7 @@ Excel\ 形式ではセル内で改行する必要がある\ LF\ も、\ YAML\ �
     - table: FILE_TABLE
       rows:
         - FILE_ID: "001"
-          FILE_DATA: "0xCAFEBABE"
+          FILE_DATA: "CAFEBABE"
         - FILE_ID: "002"
           FILE_DATA: "${binaryFile:testdata.bin}"
 
