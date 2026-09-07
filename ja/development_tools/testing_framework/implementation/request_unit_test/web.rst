@@ -185,7 +185,7 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 サポートクラスは、どのテストショットでも必要になる処理を定型化している。テストショットによっては、これに加えて固有の処理が必要になる。リクエストスコープに格納されたエンティティの内容を確認したい場合などである。
 
-固有の準備処理や結果確認処理が必要な場合は、\ :java:extdoc:`Advice <nablarch.test.core.http.Advice>`\ を引数に取るオーバーロードメソッドを呼び出し、リクエストの送信前後に処理を挿し込む。\ :java:extdoc:`BasicAdvice <nablarch.test.core.http.BasicAdvice>`\ には次の2つのメソッドが用意されており、それぞれリクエストの送信前と送信後に呼び出される。
+固有の準備処理や結果確認処理が必要な場合は、\ :java:extdoc:`Advice <nablarch.test.core.http.Advice>`\ を引数に取る次のオーバーロードメソッドを呼び出し、リクエストの送信前後に処理を挿し込む。
 
 .. code-block:: java
 
@@ -193,6 +193,8 @@
   void execute(String sheetName, Advice<INF> advice)
   void execute(Advice<INF> advice, boolean shouldSetUpDb)
   void execute(String sheetName, Advice<INF> advice, boolean shouldSetUpDb)
+
+\ :java:extdoc:`BasicAdvice <nablarch.test.core.http.BasicAdvice>`\ には次の2つのメソッドが用意されており、それぞれリクエストの送信前と送信後に呼び出される。
 
 .. code-block:: java
 
