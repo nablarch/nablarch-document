@@ -335,7 +335,7 @@
 * テーブルの更新結果の確認（\ ``expectedTable``\ ）
 * フォワード先の\ URI\ の確認（\ ``forwardUri``\ ）
 * ダウンロードしたファイルのコンテンツレングス・コンテンツタイプ・ファイル名の確認（\ ``expectedContentLength``\ ・\ ``expectedContentType``\ ・\ ``expectedContentFileName``\ ）
-* 同期送信したメッセージの確認（\ ``expectedMessage``\ ・\ ``responseMessage``\ ）
+* 同期送信した要求電文の確認（\ ``expectedMessage``\ 。HTTPメッセージ送信は\ ``expectedMessageByClient``\ ）
 
 ここでは、これらで確認できない項目を\ ``afterExecute``\ の中で確認する4つ（リクエストスコープの値の確認、オブジェクトのプロパティの確認、アプリケーションのメッセージの確認、ダウンロードファイルの確認）と、テストコードを書かずに確認する2つ（メール送信要求の確認、\ HTML\ ダンプの目視での確認）を説明する。
 
