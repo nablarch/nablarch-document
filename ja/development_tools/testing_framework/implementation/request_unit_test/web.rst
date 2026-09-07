@@ -234,7 +234,7 @@
   * - ``getTestCaseNo()``
     - テストショット番号
   * - ``getHttpRequest()``
-    - テスト対象の実行後の\ ``HttpRequest``
+    - リクエストの送信に使用した\ ``HttpRequest``
 
 .. _how_to_set_token_in_request_unit_test:
 
@@ -426,23 +426,6 @@
               List<Map<String, String>> actual = context.getRequestScopedVar("pageData");
               // nablarch.test.Assertion のstaticメソッド
               Assertion.assertListMapEquals(expected, actual);
-          }
-      });
-  }
-
-テスト対象がリクエストパラメータを書き換える場合は、\ ``TestCaseInfo``\ から実行後の\ ``HttpRequest``\ を取り出して確認する。\ :ref:`入力データを画面間で持ち回る(ウィンドウスコープ) <tag-window_scope>`\ の値をリセットするためにリクエストパラメータを書き換える場合などが該当する。
-
-.. code-block:: java
-
-  @Test
-  void testUsers00304Normal() {
-      support.execute(new BasicAdvice() {
-          @Override
-          public void afterExecute(TestCaseInfo testCaseInfo, ExecutionContext context) {
-              // テストの実行後のHttpRequest
-              HttpRequest request = testCaseInfo.getHttpRequest();
-              // リクエストパラメータがリセットされていること
-              assertEquals("", support.getParam(request, "resetparameter")[0]);
           }
       });
   }
