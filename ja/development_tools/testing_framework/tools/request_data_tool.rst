@@ -21,7 +21,7 @@
 
 導入
 --------------------------------------------------
-本ツールの実体は、\ ``nablarch-testing``\ と\ ``nablarch-testing-jetty12``\ の2つのモジュールに含まれる。依存関係を確認してjarを取得し、起動用スクリプトを配置したうえで、Eclipseから起動できるように設定する。
+本ツールの実体は、\ ``nablarch-testing``\ と\ ``nablarch-testing-jetty12``\ の2つのモジュールに含まれる。依存関係を確認してjarを取得し、起動用スクリプトを配置する。
 
 前提事項
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -66,27 +66,6 @@ pom.xmlと同じディレクトリで次のコマンドを実行し、jarファ�
 
   起動用スクリプトは、自身が置かれたディレクトリに移動したうえで\ ``./lib/*``\ をクラスパスに指定する。pom.xmlと同じディレクトリに配置するのは、\ ``mvn dependency:copy-dependencies``\ が\ ``lib``\ ディレクトリを作る場所と合わせるためである。
 
-Eclipseから起動できるように設定する
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-HTMLファイルの外部プログラムとして起動用スクリプトを登録すると、Eclipseから本ツールを起動できるようになる。手順は次のとおりである。
-
-* メニューバーの「ウィンドウ(Window)」から「設定(Preferences)」を開く。
-* 左側のペインで「一般(General)」→「エディター(Editors)」→「ファイルの関連付け(File Associations)」を選ぶ。
-* 「ファイルの関連付け(File Associations)」の一覧から\ ``*.html``\ を選び、「関連付けられたエディター(Associated editors)」の「追加(Add...)」を押す。
-
-.. image:: images/request_data_tool/01_Eclipse_Preference.png
-  :scale: 100
-
-* 「外部プログラム(External programs)」を選び、「参照(Browse...)」を押す。
-
-.. image:: images/request_data_tool/02_Eclipse_EditorSelection.png
-  :scale: 100
-
-* 配置した起動用スクリプト(httpDump.bat)を選ぶ。
-
-.. image:: images/request_data_tool/03_Eclipse_OpenFile.png
-  :scale: 100
-
 使用方法
 --------------------------------------------------
 あらかじめ\ :ref:`導入 <request_data_tool-setup>`\ の手順を済ませておく。全体の流れは次のとおりである。
@@ -102,10 +81,13 @@ HTMLファイルの外部プログラムとして起動用スクリプトを登�
 
 HTMLダンプからツールを起動する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Eclipseのパッケージエクスプローラなどから、生成されたHTMLダンプを右クリックし、\ ``httpDump``\ で開くとツールが起動する。
+コマンドプロンプトで、起動用スクリプトに生成されたHTMLダンプのパスを渡して実行すると、ツールが起動する。パスは絶対パスで指定する。起動用スクリプトは自身が置かれたディレクトリに移動してから動くため、相対パスは起動時のディレクトリからは解決されない。
 
-.. image:: images/request_data_tool/04_Eclipse_OpenWith.png
-  :scale: 100
+.. code-block:: bat
+
+  httpDump.bat C:\path\to\htmldump\ProjectActionRequestTest\show.html
+
+エクスプローラーでHTMLダンプを起動用スクリプトにドラッグ＆ドロップしても、同じように起動する。
 
 .. tip::
 
