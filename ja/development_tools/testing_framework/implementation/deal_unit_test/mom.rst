@@ -52,9 +52,9 @@ MOM\ によるメッセージングの取引単体テストは、テスト対象
 
 * パッケージは、テスト対象の取引のパッケージとする。
 * クラス名は\ ``<取引ID>Test``\ とする。
-* :java:extdoc:`MessagingRequestTest <nablarch.test.junit5.extension.messaging.MessagingRequestTest>`\ をテストクラスに設定し、\ :java:extdoc:`MessagingRequestTestSupport <nablarch.test.core.messaging.MessagingRequestTestSupport>`\ 型のフィールドを宣言する。
+* 同期応答メッセージ受信では\ :java:extdoc:`MessagingRequestTest <nablarch.test.junit5.extension.messaging.MessagingRequestTest>`\ をテストクラスに設定し、\ :java:extdoc:`MessagingRequestTestSupport <nablarch.test.core.messaging.MessagingRequestTestSupport>`\ 型のフィールドを宣言する。応答不要メッセージ受信では\ :java:extdoc:`MessagingReceiveTest <nablarch.test.junit5.extension.messaging.MessagingReceiveTest>`\ を設定し、\ :java:extdoc:`MessagingReceiveTestSupport <nablarch.test.core.messaging.MessagingReceiveTestSupport>`\ 型のフィールドを宣言する。
 
-取引\ ID\ が\ ``M21AA03``\ の場合、テストクラスは次のようになる。
+取引\ ID\ が\ ``M21AA03``\ の同期応答メッセージ受信の場合、テストクラスは次のようになる。
 
 .. code-block:: java
 
