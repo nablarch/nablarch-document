@@ -220,10 +220,9 @@ Excel形式の場合
 .. list-table::
   :class: white-space-normal
   :header-rows: 0
-  :widths: 6,14,16,20,16,7,10,11
+  :widths: 6,14,16,20,16,7,15
 
   * - LIST_MAP=testShots
-    -
     -
     -
     -
@@ -248,10 +247,9 @@ Excel形式の場合
 .. list-table::
   :class: white-space-normal
   :header-rows: 0
-  :widths: 6,14,16,20,16,7,10,11
+  :widths: 6,14,16,20,16,7,15
 
   * - LIST_MAP=testShots
-    -
     -
     -
     -
