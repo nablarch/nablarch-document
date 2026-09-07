@@ -38,5 +38,9 @@ MOM\ によるメッセージングと記述方法が異なるのは、テスト
     - 通信先
   * - ``RequestTestingMessagingProvider``
     - ``RequestTestingMessagingClient``
+  * - テストショット一覧の\ ``expectedMessage``\ ・\ ``responseMessage``
+    - ``expectedMessageByClient``\ ・\ ``responseMessageByClient``
 
 ただし\ ``RequestTestingMessagingClient``\ は、\ ``RequestTestingMessagingProvider``\ と異なりネストクラスを持たない。要求電文のアサートと応答電文の返却は、同クラス自身が行う。
+
+HTTPメッセージ送信では、要求電文のフレームワーク制御ヘッダの値は照合されない。ヘッダのデータブロックは、送信件数の判定と本文との行数の照合にだけ使われる。本文の値は照合される。
