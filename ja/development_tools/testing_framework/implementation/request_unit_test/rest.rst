@@ -98,10 +98,13 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
 
 * ``public void beginTransactions()``
 * ``public void commitTransactions()``
+* ``public void rollbackTransactions()``
 * ``public void endTransactions()``
 * ``public void setThreadContextValues(String sheetName, String id)``
 * ``public void assertSqlResultSetEquals(String message, String sheetName, String id, SqlResultSet actual)``
 * ``public void assertSqlRowEquals(String message, String sheetName, String id, SqlRow actual)``
+* ``public void assertTableEquals(String message, String sheetName, boolean failIfNoDataFound)``\ （\ ``assertTableEquals``\ の他のオーバーロードは委譲している）
+* ``public TestSupport getTestSupport()``
 
 .. tip::
 
@@ -121,7 +124,7 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
 
 引数には、テスト対象となるリクエストURIを引き渡す。これらのメソッドは、受け取ったリクエストURIを元に\ ``RestMockHttpRequest``\ インスタンスを生成し、メソッド名に応じたHTTPメソッドを設定したうえで返す。リクエストパラメータなどURI以外のデータを設定する場合は、返されたインスタンスに対してデータを設定する。
 
-リクエストボディは\ ``setBody``\ メソッドで設定する。引数には任意のオブジェクトを渡せる。文字列を渡した場合はその文字列がそのままボディになり、それ以外のオブジェクトは\ Content-Type\ が\ ``application/json``\ の場合に\ JSON\ へ変換される。\ Content-Type\ ヘッダを設定していない状態で\ ``setBody``\ を呼び出すと、\ ``application/json``\ が設定される。
+リクエストボディは\ ``setBody``\ メソッドで設定する。引数には任意のオブジェクトを渡せる。\ Content-Type\ ヘッダを設定していない状態で\ ``setBody``\ を呼び出すと、\ ``application/json``\ が設定される。\ Content-Type\ が\ ``application/json``\ の場合、渡したオブジェクトは文字列も含めて\ JSON\ へ変換される。文字列を渡すと、クォートとエスケープが施された\ JSON\ 文字列になり、その文字列がそのままボディになるわけではない。組み立て済みの\ JSON\ 文字列をそのままボディにしたい場合は、\ Content-Type\ に\ ``application/json``\ 以外（\ ``text/plain``\ など）を設定する。
 
 これら以外のHTTPメソッドで\ ``RestMockHttpRequest``\ のインスタンスを作成する場合は、次のメソッドを使用する。第1引数にはHTTPメソッドを、第2引数にはテスト対象となるリクエストURIを引き渡す。
 
