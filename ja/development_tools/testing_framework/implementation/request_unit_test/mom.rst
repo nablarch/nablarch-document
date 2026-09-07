@@ -184,7 +184,7 @@ MOM\ によるメッセージングのリクエスト単体テストは、テス
 .. image:: images/mom/execute_sequence.png
   :scale: 100
 
-同期応答メッセージ送信のテストでは、キューへの接続は行われない。要求電文のアサートと応答電文の生成・返却は\ ``RequestTestingMessagingProvider``\ が担う。実際の処理は、同クラスの内部クラスである\ ``RequestTestingMessagingContext``\ に委譲される。
+同期応答メッセージ送信のテストでは、キューへの接続は行われない。要求電文のアサートと応答電文の生成・返却は\ ``RequestTestingMessagingProvider``\ が担う。実際の処理は、同クラスに定義されたネストクラス\ ``RequestTestingMessagingContext``\ に委譲される。
 
 .. _request_unit_test_mom-assertion:
 

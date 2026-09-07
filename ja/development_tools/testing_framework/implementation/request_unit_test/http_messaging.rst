@@ -39,4 +39,4 @@ MOM\ によるメッセージングと記述方法が異なるのは、テスト
   * - ``RequestTestingMessagingProvider``
     - ``RequestTestingMessagingClient``
 
-ただし\ ``RequestTestingMessagingClient``\ は、\ ``RequestTestingMessagingProvider``\ と異なり内部クラスを持たない。要求電文のアサートと応答電文の返却は、同クラス自身が行う。
+ただし\ ``RequestTestingMessagingClient``\ は、\ ``RequestTestingMessagingProvider``\ と異なりネストクラスを持たない。要求電文のアサートと応答電文の返却は、同クラス自身が行う。
