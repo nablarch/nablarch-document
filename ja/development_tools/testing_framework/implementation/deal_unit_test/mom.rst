@@ -110,9 +110,13 @@ CSV\ 形式の出力例を次に示す。
   "authors","title","publisher"
   "test3","test1","test2"
 
-Map\ 形式のログは\ ``MESSAGING_MAP``\ 、\ CSV\ 形式のログは\ ``MESSAGING_CSV``\ という名前のロガーに、\ DEBUG\ レベルで出力される。出力先はログの設定で切り替える。\ ``log.properties``\ の設定例を次に示す。この例では、\ Map\ 形式のログを標準出力とアプリケーションログファイルに、\ CSV\ 形式のログを専用のログファイルに出力する。
+Map\ 形式のログは\ ``MESSAGING_MAP``\ 、\ CSV\ 形式のログは\ ``MESSAGING_CSV``\ という名前のロガーに、\ DEBUG\ レベルで出力される。出力先はログの設定で切り替える。\ ``log.properties``\ の設定例を次に示す。\ ``writerNames``\ と\ ``availableLoggersNamesOrder``\ は既存の値に足す。\ ``availableLoggersNamesOrder``\ は記述順に意味があるため、\ ``.*``\ にマッチするロガー設定より前に書く（\ :ref:`log`\ 参照）。この例では、\ Map\ 形式のログを標準出力とアプリケーションログファイルに、\ CSV\ 形式のログを専用のログファイルに出力する。
 
 .. code-block:: properties
+
+  # 既存のキーに、メッセージログのライタとロガーを足す
+  writerNames=stdout,appFile,MESSAGING_CSV
+  availableLoggersNamesOrder=MESSAGING_CSV,MESSAGING_MAP,root
 
   # CSV形式のメッセージログのライタ（./messaging-evidence.logに出力する）
   writer.MESSAGING_CSV.className=nablarch.core.log.basic.FileLogWriter
