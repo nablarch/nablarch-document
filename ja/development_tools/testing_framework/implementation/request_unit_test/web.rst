@@ -472,7 +472,7 @@
 
   void assertApplicationMessageId(String expectedCommaSeparated, ExecutionContext actual)
 
-引数には、期待するメッセージ\ ID\ （複数ある場合はカンマ区切り）と、リクエストの送信に使用した\ ``ExecutionContext``\ を引き渡す。例外が発生しなかった場合や、アプリケーション例外以外の例外が発生した場合は、アサート失敗になる。
+引数には、期待するメッセージ\ ID\ （複数ある場合はカンマ区切り）と、リクエストの送信に使用した\ ``ExecutionContext``\ を引き渡す。期待するメッセージ\ ID\ を指定したにもかかわらず例外が発生しなかった場合や、アプリケーション例外以外の例外が発生した場合は、アサート失敗になる。
 
 .. tip::
 
