@@ -14,7 +14,7 @@ MOM\ によるメッセージングのリクエスト単体テストは、テス
 
 メッセージ受信のリクエスト単体テストでは、要求電文1件を受信したときの動作を擬似的に再現する。
 
-テストクラスは、同期応答メッセージ受信では\ ``MessagingRequestTestSupport``\ を、応答不要メッセージ受信ではそのサブクラスの\ ``MessagingReceiveTestSupport``\ をインジェクションして作成する。このサポートクラスがテストデータを読み取り、テストショットを1件ずつ実行する。テスト用のメインクラス\ ``MainForRequestTesting``\ を通じて\ Nablarch Application Framework\ が起動され、テスト対象のアプリケーションが実行される。準備データの投入とテスト結果の確認は、データベースについては\ ``DbAccessTestSupport``\ が、キューについては\ ``MQSupport``\ が行う。
+テストクラスは、同期応答メッセージ受信では\ ``MessagingRequestTestSupport``\ を、応答不要メッセージ受信ではそのサブクラスの\ ``MessagingReceiveTestSupport``\ をインジェクションして作成する。このサポートクラスがテストデータを読み取り、テストショットを1件ずつ実行する。テスト用のメインクラス\ ``MainForRequestTesting``\ を通じて\ Nablarch Application Framework\ が起動され、テスト対象のアプリケーションが実行される。データベースの準備データの投入と結果の確認は\ ``DbAccessTestSupport``\ が行う。キューに投入する要求電文と応答電文の期待値は\ ``MQSupport``\ がテストデータから組み立て、キューへの投入と応答電文の取り出しはサポートクラス自身が行う。
 
 .. image:: images/mom/request_test_components.png
   :scale: 100
