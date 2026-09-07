@@ -103,8 +103,10 @@ RESTfulウェブサービスのリクエスト単体テストは、\ :ref:`リ�
 * ``public void setThreadContextValues(String sheetName, String id)``
 * ``public void assertSqlResultSetEquals(String message, String sheetName, String id, SqlResultSet actual)``
 * ``public void assertSqlRowEquals(String message, String sheetName, String id, SqlRow actual)``
-* ``public void assertTableEquals(String message, String sheetName, boolean failIfNoDataFound)``\ （\ ``assertTableEquals``\ の他のオーバーロードは委譲している）
+* ``public void assertTableEquals(String message, String sheetName, boolean failIfNoDataFound)``
 * ``public TestSupport getTestSupport()``
+
+``assertTableEquals``\ の他のオーバーロードは委譲している。
 
 .. tip::
 
