@@ -192,7 +192,22 @@
 
   また、上記以外のカラムはすべて文字種のカラムとみなされる。カラム名を誤って記述すると、その名前の文字種を生成できずにテストの実行時にエラーになる。
 
-文字種のカラム名には、\ ``characterGenerator``\ に設定したクラスが生成できる文字種の名前を指定する。\ :java:extdoc:`BasicJapaneseCharacterGenerator <nablarch.test.core.util.generator.BasicJapaneseCharacterGenerator>`\ を設定した場合に指定できる文字種は、半角英字・半角数字・半角記号・半角カナ・全角英字・全角数字・全角ひらがな・全角カタカナ・全角漢字・全角記号その他・中国語・サロゲートペア・改行・外字である。
+文字種のカラム名には、\ ``characterGenerator``\ に設定したクラスが生成できる文字種の名前を指定する。\ :java:extdoc:`BasicJapaneseCharacterGenerator <nablarch.test.core.util.generator.BasicJapaneseCharacterGenerator>`\ を設定した場合に指定できる文字種を次に示す。
+
+* 半角英字
+* 半角数字
+* 半角記号
+* 半角カナ
+* 全角英字
+* 全角数字
+* 全角ひらがな
+* 全角カタカナ
+* 全角漢字
+* 全角記号その他
+* 中国語
+* サロゲートペア
+* 改行
+* 外字
 
 許容するかどうかを記入するカラム（\ ``allowEmpty``\ と文字種のカラム）には、次の値を設定する。
 
