@@ -106,7 +106,7 @@ Nablarchバッチアプリケーションの取引単体テストは、1つの�
 
 ``setUpTable``\ ・\ ``setUpFile``\ ・\ ``expectedTable``\ ・\ ``expectedFile``\ の各カラムに書く値は、同じデータセクションにあるデータブロックのグループIDである。\ ``default``\ は、グループIDを持たないデータブロックを指す。グループIDの記述方法は\ :ref:`グループIDによる使い分け <testdata_notation-group_id>`\ を参照。
 
-``setUpTable``\ ・\ ``setUpFile``\ に値を書いたテストショットでは、そのテストショットを実行する直前に準備データが投入される。取引を構成する複数の処理を1つのデータセクションに並べた場合も、投入はテストショットごとに行われる。
+``setUpTable``\ ・\ ``setUpFile``\ に値を書いたテストショットでは、そのテストショットを実行する直前に準備データが投入される。取引を構成する複数の処理を1つのデータセクションに並べた場合も、投入はテストショットごとに行われる。\ ``SETUP_TABLE``\ は対象テーブルを全件\ DELETE\ してから\ INSERT\ するため、取引の途中のテストショットに\ ``setUpTable``\ を書くと、前のテストショットがそのテーブルに残した結果は消える。取引の途中結果を受け渡すテーブルは、取引の先頭のテストショットでだけ投入する。
 
 ``expectedTable``\ ・\ ``expectedFile``\ を空欄にしたテストショットでは、テーブル・ファイルの検証を行わない。以降に示す3つの書き方で期待値のカラムの有無が異なるのは、それぞれの処理で検証する対象だけを記述しているためである。
 
@@ -172,13 +172,13 @@ Excel形式の場合
     -
   * - 2
     - test
-    - default
+    -
     -
     - default
     -
   * - 3
     - test
-    - default
+    -
     -
     -
     - default
@@ -236,7 +236,6 @@ Excel形式の場合
     - diConfig
     - requestPath
     - userId
-    - setUpTable
     - expectedTable
   * - 1
     - ユーザ削除
@@ -244,7 +243,6 @@ Excel形式の場合
     - ss21AA01/B21AA01.xml
     - userDeleteBatch
     - test
-    - default
     - default
 
 .. list-table::
@@ -266,7 +264,6 @@ Excel形式の場合
     - diConfig
     - requestPath
     - userId
-    - setUpTable
     - expectedFile
   * - 1
     - ファイル出力
@@ -274,7 +271,6 @@ Excel形式の場合
     - ss21AA01/B21AA01.xml
     - fileOutputBatch
     - test
-    - default
     - default
 
 **1つのデータセクションに複数のテストを含める**
@@ -386,7 +382,7 @@ YAML形式の場合
           diConfig: "ss21AC01/B21AC01.xml"
           requestPath: "userDeleteBatch"
           userId: "test"
-          setUpTable: "default"
+          setUpTable: ""
           setUpFile: ""
           expectedTable: "default"
           expectedFile: ""
@@ -396,7 +392,7 @@ YAML形式の場合
           diConfig: "ss21AC01/B21AC01.xml"
           requestPath: "fileOutputBatch"
           userId: "test"
-          setUpTable: "default"
+          setUpTable: ""
           setUpFile: ""
           expectedTable: ""
           expectedFile: "default"
@@ -442,7 +438,6 @@ YAML形式の場合
           diConfig: "ss21AA01/B21AA01.xml"
           requestPath: "userDeleteBatch"
           userId: "test"
-          setUpTable: "default"
           expectedTable: "default"
 
 ``testSuccess_fileOutput.yaml``\ の内容を示す。
@@ -458,7 +453,6 @@ YAML形式の場合
           diConfig: "ss21AA01/B21AA01.xml"
           requestPath: "fileOutputBatch"
           userId: "test"
-          setUpTable: "default"
           expectedFile: "default"
 
 **1つのデータセクションに複数のテストを含める**
