@@ -321,7 +321,7 @@
 - テストショットの例と `BasicJapaneseCharacterGenerator` の文字種 14 件を、1 文の列挙から箇条書きにした
   - 文字種の名前は実装の定義と一致することを確認した
 
-### コンポーネント単体テスト（`implementation/class_unit_test/component.rst`）
+### コンポーネント単体テスト（Actionクラス・Componentクラス）（`implementation/class_unit_test/component.rst`）
 
 **元の v6 ページ**
 - [Action/Componentのクラス単体テスト](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/01_ClassUnitTest/02_componentUnitTest.html)
@@ -332,6 +332,10 @@
 - サンプルアプリ固有のコード・Excel 画像・ダウンロードリンク4本を落とし、参照系・更新系の汎用手順に置き換えた
 - ページ内に持っていたテストデータの記述例を記載例ページへ移し、本ページはテストコード側の書き方に絞った
 - 「確認する対象 → 使用するメソッド」の一覧表を新設した（`assertSqlRowEquals` を含む）
+- 題に「（Actionクラス・Componentクラス）」を添えた
+  - 「コンポーネント単体テスト」だけでは Action クラスも対象であることが目次から分からないため
+- JUnit 4 の書き方へ誘導する tip を落とした
+  - JUnit 4 は導入と設定の〈JUnit 4での使用〉に集約し、実装ページには置かない
   - v6 は使い分けを示していなかった
 
 ### リクエスト単体テスト（ウェブアプリケーション）（`implementation/request_unit_test/web.rst`）
