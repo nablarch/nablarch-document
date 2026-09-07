@@ -303,7 +303,7 @@
 - 36 組の例をすべて Excel・YAML の両形式でテスティングフレームワークに読み込ませ、エラーなく読めて両形式が同じ値になることを確かめた
   - 読み込みで見つかった 3 件（`quoting-delimiter` セルの記法、`expectedMessages` の `file-type`、DB のバイナリ値の `0x`）は直した
 
-### エンティティ単体テスト（`implementation/class_unit_test/entity.rst`）
+### エンティティ単体テスト（Formクラス・Entityクラス）（`implementation/class_unit_test/entity.rst`）
 
 **元の v6 ページ**
 - [Bean Validationに対応したForm/Entityのクラス単体テスト](https://nablarch.github.io/docs/LATEST/doc/development_tools/testing_framework/guide/development_guide/05_UnitTestGuide/01_ClassUnitTest/01_entityUnitTest/01_entityUnitTestWithBeanValidation.html)
@@ -316,6 +316,10 @@
 - コンストラクタをテストする節の個別コード例を落とし、「型の制限は setter と getter のテストと同じ」の1文にした
 - 「テスト結果を確認する」を新設した
   - テストが失敗したときに何が出力されるかが v6 に無かった
+- 題に「（Formクラス・Entityクラス）」を添えた
+  - 「エンティティ単体テスト」だけでは Form クラスも対象であることが目次から分からないため
+- テストショットの例と `BasicJapaneseCharacterGenerator` の文字種 14 件を、1 文の列挙から箇条書きにした
+  - 文字種の名前は実装の定義と一致することを確認した
 
 ### コンポーネント単体テスト（`implementation/class_unit_test/component.rst`）
 

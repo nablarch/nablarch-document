@@ -341,7 +341,7 @@
 ├── テストデータの書き方                            1ページ
 ├── テストデータの記載例                            1ページ
 ├── クラス単体テスト
-│     ├── エンティティ単体テスト
+│     ├── エンティティ単体テスト（Formクラス・Entityクラス）
 │     └── コンポーネント単体テスト
 ├── リクエスト単体テスト
 │     ├── ウェブアプリケーション
@@ -1060,7 +1060,7 @@ ja/development_tools/testing_framework/
 |---|---|---|
 | テストデータの書き方 | `implementation/testdata_notation.rst` | |
 | テストデータの記載例 | `implementation/testdata_examples.rst` | |
-| エンティティ単体テスト | `implementation/class_unit_test/entity.rst` | |
+| エンティティ単体テスト（Formクラス・Entityクラス） | `implementation/class_unit_test/entity.rst` | 題に対象クラスを添えた（`#110`） |
 | コンポーネント単体テスト | `implementation/class_unit_test/component.rst` | |
 | リクエスト単体テスト（ウェブアプリケーション） | `implementation/request_unit_test/web.rst` | |
 | リクエスト単体テスト（RESTfulウェブサービス） | `implementation/request_unit_test/rest.rst` | |
