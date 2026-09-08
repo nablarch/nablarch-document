@@ -1,0 +1,21 @@
+@startuml
+!pragma layout smetana
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+title メール送信要求の確認範囲
+rectangle "リクエスト単体テストで確認する範囲" as SCOPE {
+  rectangle "業務アプリケーション" as APP
+  rectangle "メール送信要求のAPI" as API
+  database "メール送信要求テーブル" as T1
+  database "メール送信先テーブル" as T2
+  database "メール添付ファイルテーブル" as T3
+}
+rectangle "メール送信バッチ" as BATCH
+card "メールの送信" as MAIL
+APP --> API : 呼び出す
+API --> T1 : 格納する
+API --> T2 : 格納する
+API --> T3 : 格納する
+T1 ..> BATCH
+BATCH --> MAIL : 行う
+@enduml

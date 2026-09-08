@@ -1,0 +1,18 @@
+@startuml
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+hide members
+hide circle
+title クラス単体テストのサポートクラス
+abstract class TestEventDispatcher
+class TestSupport
+class DbAccessTestSupport
+class EntityTestSupport
+TestEventDispatcher <|-- TestSupport
+TestEventDispatcher <|-- DbAccessTestSupport
+TestEventDispatcher <|-- EntityTestSupport
+note bottom of DbAccessTestSupport : コンポーネント単体テスト
+note bottom of EntityTestSupport : エンティティ単体テスト
+@enduml

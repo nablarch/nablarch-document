@@ -1,0 +1,21 @@
+@startuml
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+hide members
+hide circle
+title リクエスト単体テストのサポートクラス（Nablarchバッチアプリケーション・メッセージング）
+abstract class TestEventDispatcher
+abstract class StandaloneTestSupportTemplate
+class BatchRequestTestSupport
+class MessagingRequestTestSupport
+class MessagingReceiveTestSupport
+TestEventDispatcher <|-- StandaloneTestSupportTemplate
+StandaloneTestSupportTemplate <|-- BatchRequestTestSupport
+StandaloneTestSupportTemplate <|-- MessagingRequestTestSupport
+MessagingRequestTestSupport <|-- MessagingReceiveTestSupport
+note bottom of BatchRequestTestSupport : Nablarchバッチアプリケーションの\nリクエスト単体テスト
+note bottom of MessagingRequestTestSupport : 同期応答メッセージ受信の\nリクエスト単体テスト
+note bottom of MessagingReceiveTestSupport : 応答不要メッセージ受信の\nリクエスト単体テスト
+@enduml

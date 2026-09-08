@@ -1,0 +1,23 @@
+@startuml
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+hide members
+hide circle
+title リクエスト単体テストのサポートクラス（ウェブアプリケーション・RESTfulウェブサービス）
+abstract class TestEventDispatcher
+class HttpRequestTestSupport
+abstract class AbstractHttpRequestTestTemplate
+abstract class BasicHttpRequestTestTemplate
+class SimpleRestTestSupport <<nablarch-testing-rest>>
+class RestTestSupport <<nablarch-testing-rest>>
+TestEventDispatcher <|-- HttpRequestTestSupport
+TestEventDispatcher <|-- SimpleRestTestSupport
+HttpRequestTestSupport <|-- AbstractHttpRequestTestTemplate
+AbstractHttpRequestTestTemplate <|-- BasicHttpRequestTestTemplate
+SimpleRestTestSupport <|-- RestTestSupport
+note bottom of BasicHttpRequestTestTemplate : ウェブアプリケーションの\nリクエスト単体テスト
+note bottom of RestTestSupport : RESTfulウェブサービスの\nリクエスト単体テスト
+note bottom of SimpleRestTestSupport : RESTfulウェブサービスの\nリクエスト単体テスト
+@enduml

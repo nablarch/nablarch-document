@@ -1,0 +1,22 @@
+@startuml
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+skinparam sequenceMessageAlign left
+title 同期応答メッセージ送信のリクエスト単体テストの流れ
+participant "テスティング\nフレームワーク" as FW
+participant "テストデータ" as TD
+participant "Nablarch Application\nFramework" as NAF
+participant "Action" as ACT #LightGreen
+FW -> NAF : 1. 起動する
+NAF -> ACT : 2. 入力となるパラメータを読み込み、起動する
+ACT -> NAF : 3. 同期応答メッセージ送信を実行する
+NAF -> NAF : パラメータを要求電文に変換する
+NAF -> FW : 要求電文
+FW -> TD : 4. 要求電文をアサートする\n（要求電文はキューにPUTしない）
+FW -> TD : 5. 応答電文を生成する\n（応答電文はキューからGETしない）
+FW --> ACT : 応答電文を返す
+note over FW, ACT : キューを使用せずにテストが完結する
+legend right
+  緑: テスト対象
+endlegend
+@enduml

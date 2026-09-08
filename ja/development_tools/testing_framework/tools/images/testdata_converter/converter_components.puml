@@ -1,0 +1,20 @@
+@startuml
+!pragma layout smetana
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+left to right direction
+title テストデータ変換ツールの構成
+file "Excel形式" as X
+file "YAML形式" as Y
+rectangle "中間モデル\n（テスティングフレームワークの\n仕様上の意味だけを持つ）" as M
+X --> M : 読み込み
+M --> X : 書き出し
+Y --> M : 読み込み
+M --> Y : 書き出し
+note bottom of M
+  構造: 解析済みの状態で保持する
+  値: 未変換のまま保持する
+  意図のある情報: 無損失で保持する
+  意味を持たない情報: 保持しない
+end note
+@enduml

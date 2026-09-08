@@ -1,0 +1,26 @@
+@startuml
+!pragma layout smetana
+skinparam shadowing false
+skinparam defaultFontName "Noto Sans JP"
+title 同期応答メッセージ送信の処理フロー（本番と取引単体テスト）
+rectangle "取引単体テスト（キューへ接続しない）" as T {
+  rectangle "画面（ウェブアプリケーション）" as TW
+  rectangle "Nablarch Application Framework" as TN
+  rectangle "モックアップクラス\n（本番用と同じコンポーネント名で登録する）" as TM
+  file "テストデータ\n（応答電文）" as TD
+  TW --> TN
+  TN --> TM : 同期応答メッセージ送信
+  TM --> TD : 応答電文を読み取る
+}
+rectangle "本番" as P {
+  rectangle "画面（ウェブアプリケーション）" as PW
+  rectangle "Nablarch Application Framework" as PN
+  rectangle "本番用のメッセージングプロバイダ" as PP
+  queue "送信キュー" as PSQ
+  queue "受信キュー" as PRQ
+  PW --> PN
+  PN --> PP : 同期応答メッセージ送信
+  PP --> PSQ : 要求電文をPUTする
+  PRQ --> PP : 応答電文をGETする
+}
+@enduml

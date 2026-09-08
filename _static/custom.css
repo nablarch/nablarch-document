@@ -17,6 +17,11 @@ table.white-space-normal td {
   white-space: normal;
 }
 
+/* セル内のリテラル（code）も折り返す。テーマは code を nowrap にしており、長いリテラルが表を横スクロールにするため */
+table.white-space-normal code {
+  white-space: normal;
+}
+
 .rst-content table.docutils td:first-child,
 table.docutils th {
   border-left:1px solid #e1e4e5
