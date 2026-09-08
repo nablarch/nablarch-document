@@ -446,7 +446,7 @@
     - /error
     - context002
 
-リクエストパラメータは、テストショット数分の行を持つ ``requestParams``\ という\ ID\ の ``LIST_MAP``\ に記述する（\ :ref:`LIST_MAPのデータを記述する <testdata_examples-list_map>`\ 参照）。\ ``context``\ カラムから参照される ``LIST_MAP``\ は、テストショットごとに1つずつ記述する。\ ``REQUEST_ID``\ には、アプリケーションのルーティング定義で決まるリクエスト\ ID\ を記述する（例えば ``routes.xml`` に ``<match path="/action/:controller/:action"/>`` と定義されていれば、\ ``:action``\ に当たる\ Action\ のメソッド名がそのままリクエスト\ ID\ になる）。1件目の例を示す。
+リクエストパラメータは、テストショット数分の行を持つ ``requestParams``\ という\ ID\ の ``LIST_MAP``\ に記述する（\ :ref:`LIST_MAPのデータを記述する <testdata_examples-list_map>`\ 参照）。\ ``context``\ カラムから参照される ``LIST_MAP``\ は、テストショットごとに1つずつ記述する。1件目の例を示す。
 
 .. list-table::
   :class: white-space-normal
@@ -459,7 +459,7 @@
   * - REQUEST_ID
     - USER_ID
     - HTTP_METHOD
-  * - update
+  * - REQ_001
     - user001
     - POST
 
@@ -476,7 +476,7 @@
   * - REQUEST_ID
     - USER_ID
     - HTTP_METHOD
-  * - update
+  * - REQ_002
     - user002
     - POST
 
@@ -503,12 +503,12 @@
           context: "context002"
     - id: context001
       rows:
-        - REQUEST_ID: "update"
+        - REQUEST_ID: "REQ_001"
           USER_ID: "user001"
           HTTP_METHOD: "POST"
     - id: context002
       rows:
-        - REQUEST_ID: "update"
+        - REQUEST_ID: "REQ_002"
           USER_ID: "user002"
           HTTP_METHOD: "POST"
 
