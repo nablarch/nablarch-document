@@ -184,7 +184,10 @@ Create an SQL file according to the following rules.
 
 * Create the SQL under the class path.
 * Multiple SQL statements can be described in one SQL file, but SQLID must be unique within the file.
-* Insert a blank line between SQLIDs. (Lines with spaces are not considered blank lines)
+* Insert a blank line between SQLIDs. (Lines containing only spaces or tabs are also treated as blank lines)
+* Do not insert a blank line in the middle of an SQL statement.
+  Since a blank line is treated only as a separator between SQLIDs, a blank line in the middle of an SQL statement does not cause an exception;
+  instead, the SQL is executed with the conditional expressions, sort specifications, etc. after the blank line dropped, which causes a malfunction.
 * Insert ``=`` between SQLID and SQL.
 * Describe comments with ``--`` . (Block comments are not supported)
 * SQL may be formatted using line breaks and spaces (tabs).
