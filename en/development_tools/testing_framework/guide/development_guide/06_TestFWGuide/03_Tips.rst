@@ -327,8 +327,8 @@ For example, configure as follows when the system date and time is September 14,
 |property name          |Settings                                                                        |
 +=======================+================================================================================+
 |fixedDate              |Specify the date and time as a string that matches one of the following formats:|
-|                       | * yyyyMMddHHmmss (12 digits)                                                   |
-|                       | * yyyyMMddHHmmssSSS (15 digits)                                                |
+|                       | * yyyyMMddHHmmss (14 digits)                                                   |
+|                       | * yyyyMMddHHmmssSSS (17 digits)                                                |
 +-----------------------+--------------------------------------------------------------------------------+
   
 .. code-block:: java 
