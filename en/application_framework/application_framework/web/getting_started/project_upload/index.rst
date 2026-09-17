@@ -358,8 +358,9 @@ Create a business action method
         :ref:`DataBind<data_bind>` to bind and get the file to the bean.
       * By executing :java:extdoc:`ObjectMapper#read <nablarch.common.databind.ObjectMapper.read()>` for the acquired
         :java:extdoc:`ObjectMapper <nablarch.common.databind.ObjectMapper>` object, the list of bound bean can be obtained.
-      * :java:extdoc:`Validator <jakarta.validation.Validator>` object can be created by using
-        :java:extdoc:`ValidatorUtil#getValidator <nablarch.core.validation.ee.ValidatorUtil.getValidator()>`, and :ref:`Bean Validation<bean_validation>` can be executed for any Bean.
+      * By using :java:extdoc:`ValidatorUtil#validate <nablarch.core.validation.ee.ValidatorUtil.validate(java.lang.Object)>`,
+        :ref:`Bean Validation<bean_validation>` can be executed for any Bean.
+        When there are validation errors, :java:extdoc:`ApplicationException<nablarch.core.message.ApplicationException>` holding the error messages is thrown.
       * When verification is continued up to the last row and not aborted even when an error occurs,
         error messages for all rows are stored after the verification is completed in :java:extdoc:`Message<nablarch.core.message.Message>` list, by generating and
         throwing :java:extdoc:`ApplicationException<nablarch.core.message.ApplicationException>` with this list as an argument,
