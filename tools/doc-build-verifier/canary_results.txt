@@ -1,0 +1,48 @@
+== 穴1本検査: 基準ビルド全ページの被覆率100%確認
+  [PASS] COVERAGE-full-tree — 期待: 被覆率100%・被覆漏れ0件 / 実測: rc=0 coverage=100.0% gaps=0 no-main=0 pages=666
+== TN1: 同一コピー (真陰性: 差異ゼロでPASSすること)
+  [PASS] TN1-identical — 期待: verdict=PASS, ng=0 / 実測: rc=0 verdict=PASS ng=0
+== TP1: 新側から一文の後半を削除 (真陽性: text-missing NG)
+  [PASS] TP1-sentence-deleted — 期待: text-missing NGを当該ページで検出 / 実測: rc=2 hits=1 page=about_nablarch/concept.html
+== TP2: 新側からページ1枚を削除 (真陽性: page-missing NG)
+  [PASS] TP2-page-deleted — 期待: page-missing NGを検出 / 実測: rc=2 hits=1 page=about_nablarch/concept.html
+== TP3: 新側から参照画像ファイルを削除 (真陽性: NG)
+  [PASS] TP3-image-deleted — 期待: 資材喪失NGを検出 / 実測: rc=2 hits=2 img=_images/batchlet-design.png
+== TP4: 新側の参照画像を別内容に差し替え (真陽性: asset-content-lost)
+  [PASS] TP4-image-swapped — 期待: asset-content-lost NGを検出 / 実測: rc=2 hits=1 img=_images/batchlet-design.png
+== TP5: 新側の内部リンクhrefを実在しない先へ改変 (真陽性: NG)
+  [PASS] TP5-link-broken — 期待: リンク破損NGを検出 / 実測: rc=2 hits=2 page=about_nablarch/index.html
+== TP6: 新側でリンク先アンカーidを削除 (真陽性: unresolved-anchor)
+  [PASS] TP6-anchor-removed — 期待: unresolved-anchor NGを検出 / 実測: rc=2 hits=2 anchor=development_tools/java_static_analysis/index.html#api-analysis
+== TP7: 新側からダウンロード資材を削除 (真陽性: NG)
+  [PASS] TP7-download-deleted — 期待: DL資材喪失NGを検出 / 実測: rc=2 hits=2 dl=_downloads/LICENSE.txt
+== TP8: 新側本文の文字を文字化け(置換文字)に改変 (真陽性: text-missing)
+  [PASS] TP8-mojibake — 期待: 文字化けをtext-missing NGとして検出 / 実測: rc=2 hits=1 page=about_nablarch/concept.html
+== TP9(穴1): 本文コンテナ外・チューム外に本文テキストを注入 → coverage検査が被覆漏れを検出すること
+  [PASS] TP9-coverage-orphan — 期待: 被覆漏れテキストを検出しNG / 実測: rc=2 gaps=1 hit=1
+== TN2: 表示上の差異のみ (span分割・class追加・UI文言追加) → PASS
+  [PASS] TN2-display-only — 期待: verdict=PASS (誤検出なし) / 実測: rc=0 ng=0 page=about_nablarch/concept.html
+== TN3(穴2): 画像ファイル名を変更しhrefも整合更新 (内容同一) → PASS
+  [PASS] TN3-asset-renamed — 期待: ファイル名不一致でも内容同一ならPASS(穴2対策) / 実測: rc=0 ng=0 renamed=batchlet-design.png→renamed-canary-batchlet-design.png updated_pages=1
+== TN4: アンカーidを新ビルド内で整合的に改名 → PASS (report-onlyに記録)
+  [PASS] TN4-anchor-renamed — 期待: PASSかつ旧IDの差をreport-onlyに記録 / 実測: rc=0 ng=0 reported=True
+== TN5: 旧側コピーから一文削除し(旧⊂新の方向), 包含照合ゆえPASSとなること (仕様確認)
+  [PASS] TN5-old-side-deletion — 期待: 新側超過は許容されPASS / 実測: rc=0 ng=0
+
+=== 結果一覧 ===
+[PASS] COVERAGE-full-tree: rc=0 coverage=100.0% gaps=0 no-main=0 pages=666
+[PASS] TN1-identical: rc=0 verdict=PASS ng=0
+[PASS] TP1-sentence-deleted: rc=2 hits=1 page=about_nablarch/concept.html
+[PASS] TP2-page-deleted: rc=2 hits=1 page=about_nablarch/concept.html
+[PASS] TP3-image-deleted: rc=2 hits=2 img=_images/batchlet-design.png
+[PASS] TP4-image-swapped: rc=2 hits=1 img=_images/batchlet-design.png
+[PASS] TP5-link-broken: rc=2 hits=2 page=about_nablarch/index.html
+[PASS] TP6-anchor-removed: rc=2 hits=2 anchor=development_tools/java_static_analysis/index.html#api-analysis
+[PASS] TP7-download-deleted: rc=2 hits=2 dl=_downloads/LICENSE.txt
+[PASS] TP8-mojibake: rc=2 hits=1 page=about_nablarch/concept.html
+[PASS] TP9-coverage-orphan: rc=2 gaps=1 hit=1
+[PASS] TN2-display-only: rc=0 ng=0 page=about_nablarch/concept.html
+[PASS] TN3-asset-renamed: rc=0 ng=0 renamed=batchlet-design.png→renamed-canary-batchlet-design.png updated_pages=1
+[PASS] TN4-anchor-renamed: rc=0 ng=0 reported=True
+[PASS] TN5-old-side-deletion: rc=0 ng=0
+=== 合計 15 ケース / FAIL 0 件 ===

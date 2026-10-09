@@ -1,0 +1,15 @@
+# HTML生成(Sphinx)環境の直接依存。
+# 全依存の固定は requirements.txt (pip-compile で本ファイルから生成した
+# lockファイル) を参照。更新時は本ファイルを編集し、以下で再生成する:
+#   docker run --rm -v <リポジトリ>:/work -w /work python:3.12-slim \
+#     bash -c "pip install pip-tools && pip-compile --strip-extras -o requirements.txt requirements.in"
+#
+# docutils は Sphinx 9.1 の許容上限が <0.23 のため 0.22系 に固定する。
+Sphinx==9.1.0
+docutils==0.22.4
+sphinx-rtd-theme==3.1.0
+Pygments==2.20.0
+
+# リポジトリ同梱の _extensions/javasphinx が使用する。
+# (.. java:method:: ディレクティブのシグネチャ解析に必要)
+javalang==0.13.0

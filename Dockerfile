@@ -1,45 +1,33 @@
-FROM python:3.10.20-slim
-
-WORKDIR /root
-
-COPY requirements.txt /root/
-COPY package*.json /root/
-COPY patches /root/patches/
-
-# Sphinxのセットアップ
+# 本Dockerfileは2つの独立したステージで構成される。
 #
+#   lint ステージ : textlint実行環境 (Python 3.10 + Node.js 22)
+#   docs ステージ : HTML生成・linkcheck環境 (Python 3.12 + Sphinx 9)
+#
+# HTML生成に使う docutils と、textlint-plugin-rst が依存する
+# docutils-ast-writer(rst2ast) の要求する docutils のバージョンが両立
+# しないため、環境を分離している。docs ステージが最終ステージのため、
+# `docker build` はデフォルトで docs 環境のイメージを生成する。
+# lint 環境は `docker build --target lint` で生成する(README参照)。
+
+# ---------------------------------------------------------------------------
+# lint ステージ: textlint実行環境
+# ---------------------------------------------------------------------------
 # docutils-ast-writer==0.1.2 の setup.py は use_2to3 を使用しており、
 # setuptools 58 以降では拒否されるため、setuptools を 57.5.0 に固定し、
 # ビルド分離(build isolation)を無効化してこの setuptools でインストール
 # する。use_2to3 は lib2to3 を用いるため Python 3.11 まで、かつ旧
 # setuptools は distutils を用いるため Python 3.11 までしか動作しない。
-# さらに Sphinx==1.3.6 は Python 3.11 の正規表現仕様変更(全域フラグの
-# 先頭以外への記述がエラー化)により起動できない。以上より、本イメージの
-# Python はツールチェーンを更新しない限り 3.10 系が上限である。
-RUN pip install --no-cache-dir setuptools==57.5.0 wheel \
-    && pip install --no-cache-dir --no-build-isolation -r requirements.txt
+# 以上より、本ステージの Python は 3.10 系が上限である。
+FROM python:3.10.20-slim AS lint
 
-# Python 3.10 で削除された標準ライブラリ parser モジュールの互換シム。
-#
-# Sphinx 1.3.6 (sphinx/highlighting.py) は、言語指定のないコードブロックを
-# ハイライトする前に parser.suite() で「有効な Python コードか」を判定し、
-# 無効なら着色なし(none)へフォールバックする。parser モジュールが存在
-# しないと全ブロックが Python と見なされ、非 Python のブロックが誤って
-# トークン着色される(ビルド成果物が変わる)。compile() で同等の構文判定を
-# 提供し、Python 3.8/3.9 時代と同じハイライト判定を維持する。
-RUN SITE_DIR=$(python -c "import site; print(site.getsitepackages()[0])") \
-    && printf '%s\n' \
-       '"""Py3.10+ compat shim for the removed stdlib parser module."""' \
-       '' \
-       '' \
-       'def suite(source):' \
-       '    try:' \
-       '        return compile(source, "<string>", "exec")' \
-       '    except SyntaxError:' \
-       '        raise' \
-       '    except ValueError as exc:' \
-       '        raise SyntaxError(str(exc))' \
-       > "$SITE_DIR/parser.py"
+WORKDIR /root
+
+COPY requirements-lint.txt /root/
+COPY package*.json /root/
+COPY patches /root/patches/
+
+RUN pip install --no-cache-dir setuptools==57.5.0 wheel \
+    && pip install --no-cache-dir --no-build-isolation -r requirements-lint.txt
 
 # textlintのセットアップ
 #
@@ -66,3 +54,17 @@ RUN apt-get update \
 # 脆弱性状況を確認したい場合は `npm audit` を情報表示として別途実行する
 # こと。
 RUN npm ci
+
+# ---------------------------------------------------------------------------
+# docs ステージ: HTML生成・linkcheck環境 (デフォルトターゲット)
+# ---------------------------------------------------------------------------
+# Sphinx 9.1 は Python 3.12 以上を要求する。requirements.txt は
+# requirements.in から pip-compile で生成した lock ファイルであり、
+# 全依存を固定してビルドの再現性を担保する。
+FROM python:3.12-slim AS docs
+
+WORKDIR /root
+
+COPY requirements.txt /root/
+
+RUN pip install --no-cache-dir -r requirements.txt

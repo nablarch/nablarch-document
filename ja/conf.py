@@ -296,9 +296,11 @@ texinfo_documents = [
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
 
+# javasphinx はリポジトリ同梱(vendoring)の拡張を使用する(_extensions/javasphinx/README.md参照)
+sys.path.insert(0, os.path.abspath('../_extensions'))
+
 extensions = ['sphinx.ext.todo', 'javasphinx', 'sphinx.ext.extlinks']
 
-[extensions]
 todo_include_todos=False
 
 javadoc_url_map = {
@@ -320,12 +322,13 @@ javadoc_url_map = {
 rst_prolog= u".. |nablarch_version| replace:: " + version + """
 """
 
-extlinks = {'javadoc_url' : ('https://nablarch.github.io/docs/' + version + '/publishedApi/%s', 'path')}
+extlinks = {'javadoc_url' : ('https://nablarch.github.io/docs/' + version + '/publishedApi/%s', '%s')}
 
 # Sphinx の拡張機能を設定するための関数
 def setup(app):
    # カスタムのjavascriptファイルを追加する。
-   app.add_javascript('custom.js')
+   # (add_javascriptはSphinx 4.0で削除されたため、後継のadd_js_fileを使用する)
+   app.add_js_file('custom.js')
 
    # Sphinxの設定に辞書replacements_for_source_readを追加する。
    app.add_config_value('replacements_for_source_read', {}, True)

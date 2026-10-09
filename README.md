@@ -2,22 +2,33 @@
 OSS版Nablarchドキュメントです。
 
 ## 前提
-本ドキュメントはSphinxでビルドします。  
+本ドキュメントはSphinx（9系）でビルドします。
+Javadocリンク用のSphinx拡張javasphinxは、リポジトリに同梱したものを使用します（`_extensions/javasphinx/README.md`参照）。
+
+ドキュメントビルド（HTML生成・linkcheck）環境とtextlint実行環境は、要求するPython・docutilsのバージョンが両立しないため分離しています。
+
+| 環境 | Python | 依存定義 |
+|------|--------|----------|
+| ドキュメントビルド・linkcheck | 3.12以上 | requirements.txt（requirements.inから生成したlockファイル） |
+| textlint | 3.10系（3.11以降は不可） | requirements-lint.txt |
 
 ## 環境構築
 WindowsまたはDockerを想定しています。
 ### Windows
 #### ドキュメントビルド環境
-Python 3.8.x〜3.10.x（3.11以降は不可）および依存ライブラリをインストールします。
+Python 3.12以上および依存ライブラリをインストールします。
+```sh
+pip install -r requirements.txt
+```
+#### textlint実行環境
+Python 3.10系をインストールします（依存ライブラリの一部（docutils-ast-writer）がPython 3.11以降では動作しないため、ドキュメントビルド環境とは別のPython環境（venv等）を使用してください）。
 
-依存ライブラリの一部（docutils-ast-writer）はsetuptools 58以降ではインストールできないため、先にsetuptoolsを固定してからインストールします。
+docutils-ast-writerはsetuptools 58以降ではインストールできないため、先にsetuptoolsを固定してからインストールします。
 ```sh
 pip install setuptools==57.5.0 wheel
-pip install --no-build-isolation -r requirements.txt
+pip install --no-build-isolation -r requirements-lint.txt
 ```
-※ Python 3.10を使用する場合、標準ライブラリparserモジュール削除の影響でコードブロックのハイライト判定が変わります。Dockerイメージには互換シムを組み込み済みです（詳細はDockerfileのコメントを参照）。Windowsでビルド成果物の完全一致が必要な場合はPython 3.8.x/3.9.xを使用するか、同様のシムを導入してください。
-#### textlint実行環境
-上記に加えて、以下をインストールします。
+さらに、以下をインストールします。
 * Node.js（v22系LTS。v22.23.1で動作確認済み）
 * npmで依存ライブラリをインストールします。
   ```sh
@@ -27,10 +38,15 @@ pip install --no-build-isolation -r requirements.txt
 * ドキュメントビルド環境と同一
 
 ### Docker
-#### ドキュメントビルド環境及びtextlint実行環境及びlinkcheck実行環境
+#### ドキュメントビルド環境及びlinkcheck実行環境
 * 以下のコマンドでビルドしたイメージを使用してください。
   ```
   docker build -t nablarch-document-build .
+  ```
+#### textlint実行環境
+* 以下のコマンドでビルドしたイメージを使用してください。
+  ```
+  docker build --target lint -t nablarch-document-lint .
   ```
 
 ## ドキュメントのビルド方法
@@ -78,7 +94,7 @@ pip install --no-build-isolation -r requirements.txt
 #### Docker
 * 日本語ドキュメント
   ```sh
-  docker run --rm -v <リポジトリをクローンしたディレクトリ(フルパス)>:/root/document nablarch-document-build /bin/bash -c "cd /root/document; ../node_modules/.bin/textlint .textlint/test/test.rst"
+  docker run --rm -v <リポジトリをクローンしたディレクトリ(フルパス)>:/root/document nablarch-document-lint /bin/bash -c "cd /root/document; ../node_modules/.bin/textlint .textlint/test/test.rst"
   ```
 
 ### 実行
@@ -91,7 +107,7 @@ pip install --no-build-isolation -r requirements.txt
 #### Docker
 * 対象ディレクトリを指定してtextlintを起動します。
   ```sh
-  docker run --rm -v <リポジトリをクローンしたディレクトリ(フルパス)>:/root/document nablarch-document-build /bin/bash -c "cd /root/document; ../node_modules/.bin/textlint ja/development_tools"
+  docker run --rm -v <リポジトリをクローンしたディレクトリ(フルパス)>:/root/document nablarch-document-lint /bin/bash -c "cd /root/document; ../node_modules/.bin/textlint ja/development_tools"
   ```
 
 ## linkcheckの実行方法
