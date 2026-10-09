@@ -137,7 +137,9 @@ empNo        expected
                SqlResultSet actual = target.selectByPk(empNo);           
            
                // 結果確認
-               assertSqlResultSetEquals("testSelectByPk", expectedDataId, actual);
+               // 第1引数には比較失敗時のメッセージを指定する
+               assertSqlResultSetEquals("主キー検索の結果が期待値と一致すること",
+                                        "testSelectByPk", expectedDataId, actual);
             }
         }
 
@@ -361,7 +363,7 @@ FixedSystemTimeProviderを指定し、そのプロパティに任意の日時を
  .. code-block:: xml
 
     <!-- シーケンスオブジェクトを使用した採番設定 -->
-    <component name="idGenerator" class="nablarch.common.idgenerator.OracleSequenceIdGenerator">
+    <component name="idGenerator" class="please.change.me.common.idgenerator.OracleSequenceIdGenerator">
         <property name="idTable">
             <map>
                 <entry key="1101" value="SEQ_1"/> <!-- ID1採番用 -->
@@ -609,7 +611,7 @@ JUnit4で用意されたアノテーション(@Before, @After, @BeforeClass, @Af
             dbSupport.setUpDb("test");
 
             // ＜中略＞
-            dbSupport.assertSqlResultSetEquals("test", "id", actual);
+            dbSupport.assertSqlResultSetEquals("検索結果が期待値と一致すること", "test", "id", actual);
         }
     }
 
