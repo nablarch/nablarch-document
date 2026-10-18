@@ -476,6 +476,24 @@ However, see the following since the configuration that allows surrogate pairs i
 Note that the annotation being used is :java:extdoc:`@SystemChar <nablarch.core.validation.validator.unicode.SystemChar>`,
 and the fully qualified name is different from :ref:`bean_validation` (annotation name is the same).
 
+Specify the message ID for validation errors
+  The message ID used when character type validation fails is specified in the ``messageId`` property of
+  :java:extdoc:`CharsetDef <nablarch.core.validation.validator.unicode.CharsetDef>` when registering the allowed character set in the component definition.
+  (This ``messageId`` property is not used in :ref:`bean_validation`.)
+
+  A configuration example is shown below.
+
+  .. code-block:: xml
+
+    <!-- Half-width number -->
+    <component name="Half-width number" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+      <property name="allowedCharacters" value="0123456789" />
+      <property name="messageId" value="numberString.message" />
+    </component>
+
+  Note that when a message ID is specified in the :java:extdoc:`messageId <nablarch.core.validation.validator.unicode.SystemChar.messageId()>` attribute of :java:extdoc:`@SystemChar <nablarch.core.validation.validator.unicode.SystemChar>`, it takes precedence.
+  When neither is specified, the message ID configured in the ``messageId`` property of :java:extdoc:`SystemCharValidator <nablarch.core.validation.validator.unicode.SystemCharValidator>` is used.
+
 Allowing Surrogate Pairs
   This validation does not allow surrogate pairs by default.
   (They are not allowed even if the characters for surrogate pairs are explicitly defined in `LiteralCharsetDef`.)
