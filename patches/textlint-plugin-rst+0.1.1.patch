@@ -1,26 +1,87 @@
+diff --git a/node_modules/textlint-plugin-rst/lib/ReSTProcessor.js b/node_modules/textlint-plugin-rst/lib/ReSTProcessor.js
+index efe2c54..887ce3f 100644
+--- a/node_modules/textlint-plugin-rst/lib/ReSTProcessor.js
++++ b/node_modules/textlint-plugin-rst/lib/ReSTProcessor.js
+@@ -22,7 +22,7 @@ var ReSTProcessor = function () {
+         value: function processor(ext) {
+             return {
+                 preProcess: function preProcess(text, filePath) {
+-                    return (0, _rstToAst.parse)(text);
++                    return (0, _rstToAst.parse)(text, filePath);
+                 },
+                 postProcess: function postProcess(messages, filePath) {
+                     return {
 diff --git a/node_modules/textlint-plugin-rst/lib/rst-to-ast.js b/node_modules/textlint-plugin-rst/lib/rst-to-ast.js
-index f06c082..7b54939 100644
+index f06c082..8b00162 100644
 --- a/node_modules/textlint-plugin-rst/lib/rst-to-ast.js
 +++ b/node_modules/textlint-plugin-rst/lib/rst-to-ast.js
-@@ -35,7 +35,7 @@ function filterAndReplaceNodeAttributes(node) {
+@@ -7,6 +7,8 @@ exports.parse = parse;
+ 
+ var _child_process = require("child_process");
+ 
++var _path = require("path");
++
+ var _traverse = require("traverse");
+ 
+ var _traverse2 = _interopRequireDefault(_traverse);
+@@ -32,10 +34,15 @@ function filterAndReplaceNodeAttributes(node) {
+ /**
+  * parse reStructuredText and return ast mapped location info.
+  * @param {string} text
++ * @param {string} [filePath] path of the file being parsed. Used as the base directory of relative paths such as "include" directive.
   * @returns {TxtNode}
   */
- function parse(text) {
+-function parse(text) {
 -    var ast = JSON.parse((0, _child_process.execSync)("rst2ast -q", { input: text }));
-+    var ast = JSON.parse((0, _child_process.execSync)("rst2ast -q", { input: text, maxBuffer: 1024 * 1024 * 2 }));
++function parse(text, filePath) {
++    var options = { input: text, maxBuffer: 1024 * 1024 * 2 };
++    if (filePath) {
++        options.cwd = _path.dirname(filePath);
++    }
++    var ast = JSON.parse((0, _child_process.execSync)("rst2ast -q", options));
      var src = new _structuredSource2.default(text);
      (0, _traverse2.default)(ast).forEach(function (node) {
          if (this.notLeaf) {
+diff --git a/node_modules/textlint-plugin-rst/src/ReSTProcessor.js b/node_modules/textlint-plugin-rst/src/ReSTProcessor.js
+index dd820e8..8e53e33 100644
+--- a/node_modules/textlint-plugin-rst/src/ReSTProcessor.js
++++ b/node_modules/textlint-plugin-rst/src/ReSTProcessor.js
+@@ -17,7 +17,7 @@ export default class ReSTProcessor {
+     processor(ext) {
+         return {
+             preProcess(text, filePath) {
+-                return parse(text);
++                return parse(text, filePath);
+             },
+             postProcess(messages, filePath) {
+                 return {
 diff --git a/node_modules/textlint-plugin-rst/src/rst-to-ast.js b/node_modules/textlint-plugin-rst/src/rst-to-ast.js
-index 1287304..bb00070 100644
+index 1287304..4cb526d 100644
 --- a/node_modules/textlint-plugin-rst/src/rst-to-ast.js
 +++ b/node_modules/textlint-plugin-rst/src/rst-to-ast.js
-@@ -21,7 +21,7 @@ function filterAndReplaceNodeAttributes(node) {
+@@ -1,6 +1,7 @@
+ "use strict";
+ 
+ import { execSync } from "child_process";
++import path from "path";
+ import traverse from "traverse";
+ import StructuredSource from "structured-source";
+ import { syntaxMap, reSTAttributeKeyMap } from "./mapping";
+@@ -18,10 +19,15 @@ function filterAndReplaceNodeAttributes(node) {
+ /**
+  * parse reStructuredText and return ast mapped location info.
+  * @param {string} text
++ * @param {string} [filePath] path of the file being parsed. Used as the base directory of relative paths such as "include" directive.
   * @returns {TxtNode}
   */
- export function parse(text) {
+-export function parse(text) {
 -    let ast = JSON.parse(execSync("rst2ast -q", {input: text}));
-+    let ast = JSON.parse(execSync("rst2ast -q", {input: text, maxBuffer: 1024 * 1024 * 2 }));
++export function parse(text, filePath) {
++    const options = {input: text, maxBuffer: 1024 * 1024 * 2 };
++    if (filePath) {
++        options.cwd = path.dirname(filePath);
++    }
++    let ast = JSON.parse(execSync("rst2ast -q", options));
      const src = new StructuredSource(text);
      traverse(ast).forEach(function (node) {
          if (this.notLeaf) {

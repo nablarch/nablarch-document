@@ -66,6 +66,8 @@ mvnコマンドの実行
 
   mvn archetype:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-batch-archetype -DarchetypeVersion={nablarch_version}
 
+.. include:: ../_powershell_note.rst.inc
+
 上記コマンドで使用されているNablarchのバージョンは |nablarch_version| となっている。バージョンを変更したい場合は、以下のパラメータを変更すること。
 
 .. list-table::

@@ -59,6 +59,8 @@ Execute the following command.
 
   mvn archetype:generate -DarchetypeGroupId=com.nablarch.archetype -DarchetypeArtifactId=nablarch-web-archetype -DarchetypeVersion={nablarch_version}
 
+.. include:: ../_powershell_note.rst.inc
+
 The version of Nablarch used in the above command is |nablarch_version|. If you want to change the version, change the following parameters.
 
 .. list-table::
