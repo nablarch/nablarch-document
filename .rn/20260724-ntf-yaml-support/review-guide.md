@@ -132,6 +132,8 @@
 **変えたことと理由**
 - YAML の `interpreters` を、Excel 用の5つのうち日時・文字種の2つに絞った
   - 残る3つは Excel のセル値を読むためのものだったため
+- YAML の `interpreters` は、日時（`dateTimeInterpreter`）→ 文字種（`compositeInterpreter`）の順で指定することを明記した
+  - 文字種の Interpreter は `${...}` の値をすべて引き受けて後ろに渡さず、逆の順では `${systemTime}` などが日時に変換されないため
 - 読み込み先を VM 引数 `-D` で一時的に上書きする案内（v6 の脚注）を落とした
   - 設定ファイルに書く手順に一本化したため
 

@@ -2648,7 +2648,7 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 - 根拠: `CompositeInterpreter` は値に `${...}` が含まれると、内部の `BasicJapaneseCharacterInterpreter` だけで処理して後続を呼ばない（`CompositeInterpreter.java:27`・`:41`・`:50-53`@`d309471`）。文字種として解釈できない `${systemTime}` は元の文字列のまま返る（`InterpretationContext.java:83`@`d309471`）。そのため `compositeInterpreter` を先に置くと `dateTimeInterpreter` に届かない。デフォルト設定も dateTime → composite の順（`test-data-interpreter.xml:13`・`:15`@nablarch-default-configuration `ff99d0e`）。
 - 変更（`e98b8f6a`）: `setup/testdata.rst:34` を「次の2つだけを、この順で\ ``interpreters``\ に指定する」に改めた。
 - user 判断: 理由と逆順時の症状を書く important（修正案 1(b)）は入れない。Issue の Success Criteria 2 項目め（理由と症状の記載）は満たさないまま閉じる。
-- 検証: docker フルビルド `build succeeded`、warning 0。HTML で文言を確認。review-guide は変更しない。
+- 検証: docker フルビルド `build succeeded`、warning 0。HTML で文言を確認。review-guide の〈テストデータの設定〉の「変えたことと理由」に追記した（user 指示 2026-10-21）。
 - 残り: Issue `NTF_issue6.md`（diConfig 側への `YamlTestDataParser` の設定）は修正案を提示済みで、反映は user 判断待ち。
 
 # State
