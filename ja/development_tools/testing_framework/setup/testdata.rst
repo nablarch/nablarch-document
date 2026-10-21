@@ -31,12 +31,14 @@ YAML\ 形式で記述する場合は、\ ``nablarch-testing-yaml``\ を依存関
     <scope>test</scope>
   </dependency>
 
-あわせて、テストデータを解析するコンポーネント\ ``testDataParser``\ を\ :java:extdoc:`YamlTestDataParser <nablarch.test.core.reader.YamlTestDataParser>`\ に差し替える。特殊記法を解釈するクラス（Interpreter）は、\ :ref:`テスト用のコンポーネント設定ファイル <testing_framework_introduction-test_component_config>`\ がimportしているデフォルト設定\ ``nablarch/test/test-data.xml``\ に、\ Excel\ 形式用として5つ定義されている。\ YAML\ 形式では、そのうち次の2つだけを、この順で\ ``interpreters``\ に指定する。
+あわせて、テストデータを解析するコンポーネント\ ``testDataParser``\ を\ :java:extdoc:`YamlTestDataParser <nablarch.test.core.reader.YamlTestDataParser>`\ に差し替える。特殊記法を解釈するクラス（Interpreter）は、\ :ref:`テスト用のコンポーネント設定ファイル <testing_framework_introduction-test_component_config>`\ がimportしているデフォルト設定\ ``nablarch/test/test-data.xml``\ に、\ Excel\ 形式用として5つ定義されている。\ YAML\ 形式では、そのうち次の2つだけを\ ``interpreters``\ に指定する。
 
 ``testDataParser``\ は1つのコンポーネントであるため、1つのプロジェクトでExcel形式とYAML形式のテストデータを混在させることはできない。既存のExcel形式のテストデータは、\ :ref:`テストデータ変換ツール <testdata_converter>`\ でYAML形式に変換する。
 
 - ``dateTimeInterpreter``\ … ``${systemTime}``\ ・\ ``${updateTime}``\ ・\ ``${setUpTime}``\ を日時に変換する
 - ``compositeInterpreter``\ … ``${文字種,文字数}``\ を、その文字種の文字列に変換する
+
+``interpreters``\ には、\ ``dateTimeInterpreter``\ 、\ ``compositeInterpreter``\ の順に指定する。
 
 残りの3つ（\ ``nullInterpreter``\ ・\ ``quotationTrimmer``\ ・\ ``lineSeparatorInterpreter``\ ）は、null・ダブルクォート・改行を\ Excel\ のセル値から読み取るためのもので、\ YAML\ では構文がその役割を担うため指定しない。
 
