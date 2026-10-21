@@ -2659,7 +2659,7 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
   - `setup/testdata.rst`「テストデータの形式をYAMLに変更する」: `diConfig` で再初期化するテスト（Nablarchバッチアプリケーション・メッセージングのリクエスト単体テスト）で、テスト対象が同期応答メッセージ送信または HTTP メッセージ送信を行う場合は、`diConfig` に指定するファイルにも `testDataParser` を設定すること、とその理由を important で追記した。
   - `setup/request_unit_test/mom.rst`「同期応答メッセージ送信用のメッセージングプロバイダに差し替える」・`http_messaging.rst`「モックアップクラスを登録する」・`batch.rst` の冒頭の注記・`setup/introduction.rst`「テスト用のコンポーネント設定ファイルを用意する」: YAML 形式の場合に `diConfig` のファイルにも `testDataParser` を設定することを1文ずつ追記し、`testdata.rst` の節を参照させた。`http_messaging.rst` のモックアップクラスはウェブアプリケーションのテストでも使われるため、対象を「`diConfig` で再初期化するテスト」に絞った。
 - user 判断: 失敗時の症状（`couldn't find resource`）と原因の切り分けは本文に書かない。各ページの追記は1文に簡略化する。
-- 検証: docker フルビルド `build succeeded`、warning 0。HTML で 5 ページの文言を確認。
+- 検証: docker フルビルド `build succeeded`、warning 0。HTML で 5 ページの文言を確認。review-guide の 5 ページの「変えたことと理由」に追記した（user 指示 2026-10-21）。
 
 # State
 
