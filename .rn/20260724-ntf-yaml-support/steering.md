@@ -2649,7 +2649,17 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 - 変更（`e98b8f6a`）: `setup/testdata.rst:34` を「次の2つだけを、この順で\ ``interpreters``\ に指定する」に改めた。
 - user 判断: 順番が必須である理由と、逆の順にしたときの症状は本文に書かない。
 - 検証: docker フルビルド `build succeeded`、warning 0。HTML で文言を確認。review-guide の〈テストデータの設定〉の「変えたことと理由」に追記した（user 指示 2026-10-21）。
-- 残り: `diConfig` で再初期化するテストでは `diConfig` 側にも `YamlTestDataParser` の設定が要ることの明記は、反映が user 判断待ち。
+- 残り: `diConfig` で再初期化するテストでの `testDataParser` の設定先の明記は `#118` で対応した。
+
+### #118: YAML 形式のテストデータで、`diConfig` で再初期化するテストの `testDataParser` の設定先を明記する（user 承認 2026-10-21） — 済（直接コミット `3a6809e1`）
+
+- 由来: nablarch-example-mom-sync-send-batch と nablarch-example-http-messaging-send を YAML 形式へ移行したところ、`testDataParser` を `unit-test.xml` にだけ設定した状態で、同期送信のテストが `couldn't find resource` で失敗した。`diConfig` に指定するファイルにも `YamlTestDataParser` を設定して解消した（mom-sync-send-batch `b31c3ba`、http-messaging-send `cbf5bbf`）。`setup/testdata.rst` は `testDataParser` の差し替えを書いているが、`diConfig` で再初期化するテストでの設定先は書いていなかった。
+- 根拠: 同期送信のモックアップクラス（`RequestTestingMessagingProvider`・`RequestTestingMessagingClient`）は、テスト対象の実行中に `RequestTestingSendSyncSupport#getMessages` で応答電文を読む（`RequestTestingSendSyncSupport.java:108`・`:112`@`d309471`）。読み込みに使う `testDataParser` は、その時点のシステムリポジトリから取得される（`TestSupport.java:403-404`@`d309471`）。実行中のシステムリポジトリは `diConfig` のファイルから再初期化されたものなので、`unit-test.xml` の上書きは効かず、デフォルト設定の Excel 形式用 `BasicTestDataParser` が使われる。Excel 形式ではデフォルトのままで動くため、追記は YAML 形式の場合に限った。
+- 変更（`3a6809e1`）:
+  - `setup/testdata.rst`「テストデータの形式をYAMLに変更する」: `diConfig` で再初期化するテスト（Nablarchバッチアプリケーション・メッセージングのリクエスト単体テスト）で、テスト対象が同期応答メッセージ送信または HTTP メッセージ送信を行う場合は、`diConfig` に指定するファイルにも `testDataParser` を設定すること、とその理由を important で追記した。
+  - `setup/request_unit_test/mom.rst`「同期応答メッセージ送信用のメッセージングプロバイダに差し替える」・`http_messaging.rst`「モックアップクラスを登録する」・`batch.rst` の冒頭の注記・`setup/introduction.rst`「テスト用のコンポーネント設定ファイルを用意する」: YAML 形式の場合に `diConfig` のファイルにも `testDataParser` を設定することを1文ずつ追記し、`testdata.rst` の節を参照させた。`http_messaging.rst` のモックアップクラスはウェブアプリケーションのテストでも使われるため、対象を「`diConfig` で再初期化するテスト」に絞った。
+- user 判断: 失敗時の症状（`couldn't find resource`）と原因の切り分けは本文に書かない。各ページの追記は1文に簡略化する。
+- 検証: docker フルビルド `build succeeded`、warning 0。HTML で 5 ページの文言を確認。
 
 # State
 
@@ -2659,6 +2669,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-10-21
-- **Last completed**: `#117` YAML 形式の `interpreters` の定義順の明記（`e98b8f6a`）。その前は `#116` 承認なしに push された `de940451` の revert（`9429bbda`）。その前は `#115` 記法ページの「データ（1件以上）」の訂正とスキーマ監査で見つかった規則の追記（`54bc76a5`）。それ以前は各タスクの見出し（`#57`〜`#114`）に記録。
-- **Next**: 解説書側は `diConfig` 側への `YamlTestDataParser` の設定の明記が user 判断待ち（`#117` の「残り」）。残る user 判断は 2 件で、user が話を出すまでこちらから出さない: ①HTML 配布方法（推奨 zip。`03-検証スクリプト.md` §13）②PR #728 のマージとリリース（`#29`「マージ直前にまとめて処置」と一体。他者の未マージ PR 9 本の扱いを含む）。モジュール側は rest task #3 の user review 待ち（`nablarch-testing-rest@cbad873`）。
-- **Notes**: ブランチ `ntf-yaml-support`。本文は `4e076fba` に `#117`（`e98b8f6a`）を加えたもの。解説書への反映は user 承認と台帳エントリを前提とし、他セッションからの直接 push は受けない（`#116`）。モジュール側の一次記録の所在は台帳 `#52`〜`#54`・`#115` の各「根拠」にある。
+- **Last completed**: `#118` YAML 形式のテストデータで `diConfig` で再初期化するテストの `testDataParser` の設定先の明記（`3a6809e1`）。その前は `#117` YAML 形式の `interpreters` の定義順の明記（`e98b8f6a`）。その前は `#116` 承認なしに push された `de940451` の revert（`9429bbda`）。その前は `#115` 記法ページの「データ（1件以上）」の訂正とスキーマ監査で見つかった規則の追記（`54bc76a5`）。それ以前は各タスクの見出し（`#57`〜`#114`）に記録。
+- **Next**: 解説書側の作業は残っていない。残る user 判断は 2 件で、user が話を出すまでこちらから出さない: ①HTML 配布方法（推奨 zip。`03-検証スクリプト.md` §13）②PR #728 のマージとリリース（`#29`「マージ直前にまとめて処置」と一体。他者の未マージ PR 9 本の扱いを含む）。モジュール側は rest task #3 の user review 待ち（`nablarch-testing-rest@cbad873`）。
+- **Notes**: ブランチ `ntf-yaml-support`。本文は `4e076fba` に `#117`（`e98b8f6a`）・`#118`（`3a6809e1`）を加えたもの。解説書への反映は user 承認と台帳エントリを前提とし、他セッションからの直接 push は受けない（`#116`）。モジュール側の一次記録の所在は台帳 `#52`〜`#54`・`#115` の各「根拠」にある。
