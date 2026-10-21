@@ -2642,11 +2642,11 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 - user 方針: リクエスト ID の決め方は PJ 次第で解説書には書かない。比較走行の指示書側で明示する。`testdata_notation.rst` の持ち越しの 1 文（実装と矛盾なし）も今回は入れない。
 - 結果: 本文は `4e076fba` と同一。レビューは回さない（本文差分なし）。
 
-### #117: YAML 形式の `interpreters` の定義順を明記する（user 承認 2026-10-21） — 済（直接コミット `e98b8f6a`）
+### #117: YAML 形式の `interpreters` の定義順を明記する（user 承認 2026-10-21） — 済（直接コミット `e98b8f6a`・`c16ac3ed`）
 
 - 由来: nablarch-example-mom-sync-receive の `testNormalEnd` が `expected:<[${systemTime}]> but was:<[2014-09-13 12:34:56.0]>` で失敗し、`interpreters` の順番の入れ替え（Example 側 `49e385c`）で解消した。`setup/testdata.rst` の設定例は正しい順だが、順番が必須とは書かれていなかった。
 - 根拠: `CompositeInterpreter` は値に `${...}` が含まれると、内部の `BasicJapaneseCharacterInterpreter` だけで処理して後続を呼ばない（`CompositeInterpreter.java:27`・`:41`・`:50-53`@`d309471`）。文字種として解釈できない `${systemTime}` は元の文字列のまま返る（`InterpretationContext.java:83`@`d309471`）。そのため `compositeInterpreter` を先に置くと `dateTimeInterpreter` に届かない。デフォルト設定も dateTime → composite の順（`test-data-interpreter.xml:13`・`:15`@nablarch-default-configuration `ff99d0e`）。
-- 変更（`e98b8f6a`）: `setup/testdata.rst:34` を「次の2つだけを、この順で\ ``interpreters``\ に指定する」に改めた。
+- 変更（`e98b8f6a`・`c16ac3ed`）: `setup/testdata.rst`「テストデータの形式をYAMLに変更する」の、指定する2つの Interpreter の箇条書きの直後に「\ ``interpreters``\ には、\ ``dateTimeInterpreter``\ 、\ ``compositeInterpreter``\ の順に指定する。」を置いた。`e98b8f6a` では導入文に「この順で」と書いたが、箇条書きとの間に別の段落が挟まり指す先が分かりにくいため（user 指摘 2026-10-21）、`c16ac3ed` でクラス名を明記する1文に改めた。
 - user 判断: 順番が必須である理由と、逆の順にしたときの症状は本文に書かない。
 - 検証: docker フルビルド `build succeeded`、warning 0。HTML で文言を確認。review-guide の〈テストデータの設定〉の「変えたことと理由」に追記した（user 指示 2026-10-21）。
 - 残り: `diConfig` で再初期化するテストでの `testDataParser` の設定先の明記は `#118` で対応した。
@@ -2669,6 +2669,6 @@ so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
 - **Date**: 2026-10-21
-- **Last completed**: `#118` YAML 形式のテストデータで `diConfig` で再初期化するテストの `testDataParser` の設定先の明記（`3a6809e1`）。その前は `#117` YAML 形式の `interpreters` の定義順の明記（`e98b8f6a`）。その前は `#116` 承認なしに push された `de940451` の revert（`9429bbda`）。その前は `#115` 記法ページの「データ（1件以上）」の訂正とスキーマ監査で見つかった規則の追記（`54bc76a5`）。それ以前は各タスクの見出し（`#57`〜`#114`）に記録。
+- **Last completed**: `#118` YAML 形式のテストデータで `diConfig` で再初期化するテストの `testDataParser` の設定先の明記（`3a6809e1`）。その前は `#117` YAML 形式の `interpreters` の定義順の明記（`e98b8f6a`・`c16ac3ed`）。その前は `#116` 承認なしに push された `de940451` の revert（`9429bbda`）。その前は `#115` 記法ページの「データ（1件以上）」の訂正とスキーマ監査で見つかった規則の追記（`54bc76a5`）。それ以前は各タスクの見出し（`#57`〜`#114`）に記録。
 - **Next**: 解説書側の作業は残っていない。残る user 判断は 2 件で、user が話を出すまでこちらから出さない: ①HTML 配布方法（推奨 zip。`03-検証スクリプト.md` §13）②PR #728 のマージとリリース（`#29`「マージ直前にまとめて処置」と一体。他者の未マージ PR 9 本の扱いを含む）。モジュール側は rest task #3 の user review 待ち（`nablarch-testing-rest@cbad873`）。
-- **Notes**: ブランチ `ntf-yaml-support`。本文は `4e076fba` に `#117`（`e98b8f6a`）・`#118`（`3a6809e1`）を加えたもの。解説書への反映は user 承認と台帳エントリを前提とし、他セッションからの直接 push は受けない（`#116`）。モジュール側の一次記録の所在は台帳 `#52`〜`#54`・`#115` の各「根拠」にある。
+- **Notes**: ブランチ `ntf-yaml-support`。本文は `4e076fba` に `#117`（`e98b8f6a`・`c16ac3ed`）・`#118`（`3a6809e1`）を加えたもの。解説書への反映は user 承認と台帳エントリを前提とし、他セッションからの直接 push は受けない（`#116`）。モジュール側の一次記録の所在は台帳 `#52`〜`#54`・`#115` の各「根拠」にある。
