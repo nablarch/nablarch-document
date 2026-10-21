@@ -2644,7 +2644,7 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 
 ### #117: YAML 形式の `interpreters` の定義順を明記する（Issue `NTF_issue5.md`。user 判断 2026-10-21「#5 のみ反映。1(a) OK、1(b) 不要」） — 済（直接コミット `e98b8f6a`）
 
-- 由来: `~/issues/NTF_issue5.md`。mom-sync-receive の `testNormalEnd` が `expected:<[${systemTime}]> but was:<[2014-09-13 12:34:56.0]>` で失敗し、`interpreters` の順番の入れ替え（Example 側 `49e385c`）で解消した。`setup/testdata.rst` の設定例は正しい順だが、順番が必須とは書かれていなかった。
+- 由来: nablarch-example-mom-sync-receive の `testNormalEnd` が `expected:<[${systemTime}]> but was:<[2014-09-13 12:34:56.0]>` で失敗し、`interpreters` の順番の入れ替え（Example 側 `49e385c`）で解消した。`setup/testdata.rst` の設定例は正しい順だが、順番が必須とは書かれていなかった。
 - 根拠: `CompositeInterpreter` は値に `${...}` が含まれると、内部の `BasicJapaneseCharacterInterpreter` だけで処理して後続を呼ばない（`CompositeInterpreter.java:27`・`:41`・`:50-53`@`d309471`）。文字種として解釈できない `${systemTime}` は元の文字列のまま返る（`InterpretationContext.java:83`@`d309471`）。そのため `compositeInterpreter` を先に置くと `dateTimeInterpreter` に届かない。デフォルト設定も dateTime → composite の順（`test-data-interpreter.xml:13`・`:15`@nablarch-default-configuration `ff99d0e`）。
 - 変更（`e98b8f6a`）: `setup/testdata.rst:34` を「次の2つだけを、この順で\ ``interpreters``\ に指定する」に改めた。
 - user 判断: 理由と逆順時の症状を書く important（修正案 1(b)）は入れない。Issue の Success Criteria 2 項目め（理由と症状の記載）は満たさないまま閉じる。
