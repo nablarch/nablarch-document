@@ -2642,6 +2642,15 @@ converter — A の是正方針、交互記述の警告、YAML 読みの末尾 n
 - user 方針: リクエスト ID の決め方は PJ 次第で解説書には書かない。比較走行の指示書側で明示する。`testdata_notation.rst` の持ち越しの 1 文（実装と矛盾なし）も今回は入れない。
 - 結果: 本文は `4e076fba` と同一。レビューは回さない（本文差分なし）。
 
+### #117: YAML 形式の `interpreters` の定義順を明記する（Issue `NTF_issue5.md`。user 判断 2026-10-21「#5 のみ反映。1(a) OK、1(b) 不要」） — 済（直接コミット `e98b8f6a`）
+
+- 由来: `~/issues/NTF_issue5.md`。mom-sync-receive の `testNormalEnd` が `expected:<[${systemTime}]> but was:<[2014-09-13 12:34:56.0]>` で失敗し、`interpreters` の順番の入れ替え（Example 側 `49e385c`）で解消した。`setup/testdata.rst` の設定例は正しい順だが、順番が必須とは書かれていなかった。
+- 根拠: `CompositeInterpreter` は値に `${...}` が含まれると、内部の `BasicJapaneseCharacterInterpreter` だけで処理して後続を呼ばない（`CompositeInterpreter.java:27`・`:41`・`:50-53`@`d309471`）。文字種として解釈できない `${systemTime}` は元の文字列のまま返る（`InterpretationContext.java:83`@`d309471`）。そのため `compositeInterpreter` を先に置くと `dateTimeInterpreter` に届かない。デフォルト設定も dateTime → composite の順（`test-data-interpreter.xml:13`・`:15`@nablarch-default-configuration `ff99d0e`）。
+- 変更（`e98b8f6a`）: `setup/testdata.rst:34` を「次の2つだけを、この順で\ ``interpreters``\ に指定する」に改めた。
+- user 判断: 理由と逆順時の症状を書く important（修正案 1(b)）は入れない。Issue の Success Criteria 2 項目め（理由と症状の記載）は満たさないまま閉じる。
+- 検証: docker フルビルド `build succeeded`、warning 0。HTML で文言を確認。review-guide は変更しない。
+- 残り: Issue `NTF_issue6.md`（diConfig 側への `YamlTestDataParser` の設定）は修正案を提示済みで、反映は user 判断待ち。
+
 # State
 
 (written by /rn:dn, read and reset to this placeholder by /rn:up. `Status` is `paused` while a
@@ -2649,7 +2658,7 @@ session is suspended — the signal /rn:up and /rn:dn search for — and resets 
 so only a genuinely suspended session reads `paused`.)
 
 - **Status**: paused
-- **Date**: 2026-09-08
-- **Last completed**: `#116` 承認なしに push された `de940451` の revert（`9429bbda`）。その前は `#115` 記法ページの「データ（1件以上）」の訂正とスキーマ監査で見つかった規則の追記（`54bc76a5`）。それ以前は各タスクの見出し（`#57`〜`#114`）に記録。
-- **Next**: 解説書側の作業は残っていない（user のページ別レビューは 2026-09-07 に全ページ完了）。残る user 判断は 2 件で、user が話を出すまでこちらから出さない: ①HTML 配布方法（推奨 zip。`03-検証スクリプト.md` §13）②PR #728 のマージとリリース（`#29`「マージ直前にまとめて処置」と一体。他者の未マージ PR 9 本の扱いを含む）。モジュール側は rest task #3 の user review 待ち（`nablarch-testing-rest@cbad873`）。
-- **Notes**: ブランチ `ntf-yaml-support`、`origin` に push 済み。本文は `4e076fba` と同一。解説書への反映は user 承認と台帳エントリを前提とし、他セッションからの直接 push は受けない（`#116`）。モジュール側の一次記録の所在は台帳 `#52`〜`#54`・`#115` の各「根拠」にある。
+- **Date**: 2026-10-21
+- **Last completed**: `#117` YAML 形式の `interpreters` の定義順の明記（`e98b8f6a`）。その前は `#116` 承認なしに push された `de940451` の revert（`9429bbda`）。その前は `#115` 記法ページの「データ（1件以上）」の訂正とスキーマ監査で見つかった規則の追記（`54bc76a5`）。それ以前は各タスクの見出し（`#57`〜`#114`）に記録。
+- **Next**: 解説書側は Issue `NTF_issue6.md`（diConfig 側への `YamlTestDataParser` の設定）の反映が user 判断待ち（`#117` の「残り」）。残る user 判断は 2 件で、user が話を出すまでこちらから出さない: ①HTML 配布方法（推奨 zip。`03-検証スクリプト.md` §13）②PR #728 のマージとリリース（`#29`「マージ直前にまとめて処置」と一体。他者の未マージ PR 9 本の扱いを含む）。モジュール側は rest task #3 の user review 待ち（`nablarch-testing-rest@cbad873`）。
+- **Notes**: ブランチ `ntf-yaml-support`。本文は `4e076fba` に `#117`（`e98b8f6a`）を加えたもの。解説書への反映は user 承認と台帳エントリを前提とし、他セッションからの直接 push は受けない（`#116`）。モジュール側の一次記録の所在は台帳 `#52`〜`#54`・`#115` の各「根拠」にある。
