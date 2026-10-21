@@ -57,6 +57,10 @@ YAML\ 形式で記述する場合は、\ ``nablarch-testing-yaml``\ を依存関
 
 ``testDataReader``\ は指定しない。\ :java:extdoc:`YamlTestDataParser <nablarch.test.core.reader.YamlTestDataParser>`\ は\ YAML\ ファイルを直接読み込むため、この設定を使用しない。
 
+.. important::
+
+  テストショット一覧の\ ``diConfig``\ でシステムリポジトリを再初期化するテスト（Nablarchバッチアプリケーション・メッセージングのリクエスト単体テスト）で、テスト対象が同期応答メッセージ送信またはHTTPメッセージ送信を行う場合は、\ ``diConfig``\ に指定するファイルにも\ ``testDataParser``\ を設定する。応答電文のテストデータは、テスト対象の実行中に\ ``diConfig``\ のファイルの\ ``testDataParser``\ で読み込まれるためである。
+
 .. _testdata_setting-base_dir:
 
 テストデータの読み込み先を変更する

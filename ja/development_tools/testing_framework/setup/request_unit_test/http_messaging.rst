@@ -32,6 +32,8 @@ HTTPメッセージ送信を伴うリクエスト単体テストでは、テス�
 
 要求電文の検証は、テスト対象の実行後に行われる。その時点では、テストショット一覧の\ ``diConfig``\ に指定したコンポーネント設定はデフォルトの設定に戻っている。そのため、要求電文のフォーマット定義ファイルのベースディレクトリ（\ :ref:`ファイルパス管理 <file_path_management>`\ の\ ``format``\ ）は、\ ``diConfig``\ のコンポーネント設定ファイルではなく、テスト用のコンポーネント設定ファイル（\ :ref:`テスティングフレームワークの導入 <testing_framework_introduction>`\ 参照）に登録する。登録がないと、要求電文の検証時に\ ``Unknown basePathName: format``\ で失敗する。
 
+YAML\ 形式のテストデータを使用する場合、\ ``diConfig``\ でシステムリポジトリを再初期化するテストでは、\ ``diConfig``\ に指定するファイルにも\ ``testDataParser``\ を設定する（\ :ref:`テストデータの形式をYAMLに変更する <testdata_setting-yaml>`\ 参照）。
+
 .. _request_unit_test_setting_http_messaging-fw_header:
 
 フレームワーク制御ヘッダのフィールド名を指定する
