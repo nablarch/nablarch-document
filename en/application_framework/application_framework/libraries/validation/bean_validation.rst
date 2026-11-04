@@ -314,14 +314,12 @@ Define the allowed character set in the component definition
     <!-- Half-width number -->
     <component name="Half-width number" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
       <property name="allowedCharacters" value="01234567890" />
-      <property name="messageId" value="numberString.message" />
     </component>
 
     <!-- ASCII (excluding control code) -->
     <component name="ascii" class="nablarch.core.validation.validator.unicode.RangedCharsetDef">
       <property name="startCodePoint" value="U+0020" />
       <property name="endCodePoint" value="U+007F" />
-      <property name="messageId" value="ascii.message" />
     </component>
 
     <!-- Alphanumeric -->
@@ -338,7 +336,6 @@ Define the allowed character set in the component definition
           </component>
         </list>
       </property>
-      <property name="messageId" value="asciiAndNumberString.message" />
     </component>
 
 Specify the character type with annotation
@@ -358,6 +355,23 @@ Specify the character type with annotation
         }
     }
 
+Specify the message for validation errors
+  The message for validation errors is specified in the ``message`` attribute of the annotation, as with other validators.
+  When the ``message`` attribute is not specified, the default value ``{nablarch.core.validation.ee.SystemChar.message}`` will be the message ID.
+  For how to define messages, see `Define the error message for validation error`_.
+
+  .. code-block:: java
+
+    public class SampleForm {
+
+        @SystemChar(charsetDef = "Half-width character", message = "{numberString.message}")
+        public void setAccountNumber(String accountNumber) {
+            this.accountNumber = accountNumber;
+        }
+    }
+
+  Note that the ``messageId`` property of `CharsetDef`, which registers the set of allowed characters, is used by :ref:`nablarch_validation` and is not used in Bean Validation.
+
 .. tip::
 
   When there are a large number of characters in the set of allowed characters, it takes time to check the characters that are defined after. (To simply check whether the characters are included in the character set in order from the beginning)
@@ -376,7 +390,6 @@ Specify the character type with annotation
           <property name="allowedCharacters" value="01234567890" />
         </component>
       </property>
-      <property name="messageId" value="numberString.message" />
     </component>
 
 Allowing Surrogate Pairs

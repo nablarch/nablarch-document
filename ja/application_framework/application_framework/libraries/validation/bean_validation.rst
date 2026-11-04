@@ -314,14 +314,12 @@ Java実装例
     <!-- 半角数字 -->
     <component name="半角数字" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
       <property name="allowedCharacters" value="0123456789" />
-      <property name="messageId" value="numberString.message" />
     </component>
 
     <!-- ASCII(制御コードを除く) -->
     <component name="ascii" class="nablarch.core.validation.validator.unicode.RangedCharsetDef">
       <property name="startCodePoint" value="U+0020" />
       <property name="endCodePoint" value="U+007F" />
-      <property name="messageId" value="ascii.message" />
     </component>
 
     <!-- 英数字 -->
@@ -338,7 +336,6 @@ Java実装例
           </component>
         </list>
       </property>
-      <property name="messageId" value="asciiAndNumberString.message" />
     </component>
 
 アノテーションで文字種を指定する
@@ -358,6 +355,23 @@ Java実装例
         }
     }
 
+バリデーションエラー時のメッセージを指定する
+  バリデーションエラー時のメッセージは、他のバリデータと同様にアノテーションの ``message`` 属性で指定する。
+  ``message`` 属性を指定していない場合は、デフォルト値の ``{nablarch.core.validation.ee.SystemChar.message}`` がメッセージIDとなる。
+  メッセージの定義方法は、 `バリデーションエラー時のエラーメッセージを定義する`_ を参照。
+
+  .. code-block:: java
+
+    public class SampleForm {
+
+        @SystemChar(charsetDef = "半角数字", message = "{numberString.message}")
+        public void setAccountNumber(String accountNumber) {
+            this.accountNumber = accountNumber;
+        }
+    }
+
+  なお、許容文字のセットを登録する `CharsetDef` の ``messageId`` プロパティは :ref:`nablarch_validation` で使用するものであり、Bean Validationでは使用されない。
+
 .. tip::
 
   許容する文字セットの文字数が大きくなった場合、後方に定義されている文字のチェックには時間を要する。(単純に前方から順に文字セットに含まれるかをチェックするため)
@@ -376,7 +390,6 @@ Java実装例
           <property name="allowedCharacters" value="0123456789" />
         </component>
       </property>
-      <property name="messageId" value="numberString.message" />
     </component>
 
 サロゲートペアを許容する

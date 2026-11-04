@@ -477,6 +477,24 @@ Nablarchが提供しているバリデータ及びコンバータについては
 なお、使用するアノテーションは、 :java:extdoc:`@SystemChar <nablarch.core.validation.validator.unicode.SystemChar>` で、
 :ref:`bean_validation` とは完全修飾名が異なる(アノテーション名は同一)ので注意すること。
 
+バリデーションエラー時のメッセージIDを指定する
+  文字種バリデーションでエラーとなった場合に使用するメッセージIDは、
+  許容文字のセットをコンポーネント定義に登録する際に、 :java:extdoc:`CharsetDef <nablarch.core.validation.validator.unicode.CharsetDef>` の ``messageId`` プロパティで指定する。
+  (この ``messageId`` プロパティは :ref:`bean_validation` では使用されない)
+
+  設定例は以下のとおり。
+
+  .. code-block:: xml
+
+    <!-- 半角数字 -->
+    <component name="半角数字" class="nablarch.core.validation.validator.unicode.LiteralCharsetDef">
+      <property name="allowedCharacters" value="0123456789" />
+      <property name="messageId" value="numberString.message" />
+    </component>
+
+  なお、 :java:extdoc:`@SystemChar <nablarch.core.validation.validator.unicode.SystemChar>` の :java:extdoc:`messageId <nablarch.core.validation.validator.unicode.SystemChar.messageId()>` 属性でメッセージIDを指定した場合は、そちらが優先して使用される。
+  どちらにも指定がない場合は、 :java:extdoc:`SystemCharValidator <nablarch.core.validation.validator.unicode.SystemCharValidator>` の ``messageId`` プロパティに設定したメッセージIDが使用される。
+
 サロゲートペアを許容する
   このバリデーションでは、デフォルトではサロゲートペアを許容しない。
   （例え `LiteralCharsetDef` で明示的にサロゲートペアの文字を定義していても許容しない）
