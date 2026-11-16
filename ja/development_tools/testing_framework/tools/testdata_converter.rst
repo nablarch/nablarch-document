@@ -83,6 +83,7 @@ YAML形式のテストデータの記述ミスを検出できる
 
 * カラム名を1つも持たないテーブルデータを\ Excel\ 形式へ書き出すときは、カラム名の行に置くマーカーカラムの名前を\ ``[EMPTY]``\ とする。マーカーカラムを置くこと自体はテストデータの記法が定めるところで（\ :ref:`テーブルのデータを記述する <testdata_notation-table_data>`\ 参照）、名前が本ツールの決めである（\ :ref:`記載例 <testdata_examples-empty_table>`\ ）
 * 収集方式が「グループ」のデータタイプ（テーブル・ファイル・グループID付きの電文）で、同じデータタイプと同じグループIDのデータブロックの間に別のデータブロックを挟んだシートは、\ Excel\ 形式ではテスティングフレームワークが収集を途中で終え、後ろのデータブロックを読まない（\ :ref:`グループIDによる使い分け <testdata_notation-group_id>`\ 参照）。\ YAML\ 形式にはこの中断に相当する記法が無いため、本ツールは読まれなかったデータブロックを出力せずに変換を続け、警告を出す。出力しないのは、テスティングフレームワークが読んでいなかったデータブロックだけである（グループIDの\ :ref:`記載例 <testdata_examples-group_id>`\ ）
+* \ Excel\ 形式のテーブルと\ ``LIST_MAP``\ で、カラム名の行に同じ名前のカラムが複数ある場合は、右側の列の値を採用し、警告を出して変換を続ける。テスティングフレームワークも\ Excel\ 形式から読み込む際に右側の列の値を採用するため、同じ結果になる。警告には、ファイル名・シート名・データブロックの識別子・重複したカラム名が含まれる。意図しない重複であれば、変換元のカラム名の行を確認する
 
 .. _testdata_converter-setup:
 
@@ -153,6 +154,8 @@ Mavenプラグインで一括変換する
     -Dnablarch-testing-converter.to=yaml \
     -Dnablarch-testing-converter.input=src/test/java/com/example/batch \
     -Dnablarch-testing-converter.output=src/test/java/com/example/batch
+
+pom.xmlのないディレクトリでも実行できる。
 
 指定できるパラメータは次のとおりである。いずれも、コマンドラインの\ ``-D``\ オプションでも、pom.xmlの\ ``<configuration>``\ でも指定できる。pom.xmlに書く場合の要素名は、パラメータ名から\ ``nablarch-testing-converter.``\ を除いたものである。
 
@@ -265,7 +268,7 @@ Excel形式の出力を整形する
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 YAML\ 形式へ書き出す場合、本ツールは記法どおりに書くだけで、整形の設定を持たない。AIエージェントが読むことを前提としているためである。\ Excel\ 形式へ書き出す場合は、人が見て編集することを前提に、行の種別ごとの装飾やレイアウトを付けて読みやすく整える。この整形は設定で変更でき、設定しなかった項目にはデフォルト値が適用される。
 
-設定できる項目とデフォルト値は次のとおりである。背景色は、Mavenプラグインでは\ Apache POI\ の\ ``IndexedColors``\ の列挙定数名で、\ Java\ のコードでは\ ``IndexedColors.AQUA.getIndex()``\ が返すインデックス値で指定する。
+設定できる項目とデフォルト値は次のとおりである。背景色は、Mavenプラグインでは\ Apache POI\ の\ ``IndexedColors``\ の列挙定数名（\ `IndexedColorsの一覧(外部サイト、英語) <https://poi.apache.org/apidocs/dev/org/apache/poi/ss/usermodel/IndexedColors.html>`_\ 参照）で、\ Java\ のコードでは\ ``IndexedColors.AQUA.getIndex()``\ が返すインデックス値で指定する。
 
 .. list-table::
   :class: white-space-normal
