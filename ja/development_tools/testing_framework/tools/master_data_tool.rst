@@ -25,7 +25,7 @@
 
 .. important::
 
-  マスタデータファイルが\ Excel\ 形式の場合、コンポーネント設定ファイルの\ ``testDataParser``\ には\ YAML\ 形式用のパーサを設定しない。設定すると、投入の対象が0件になり、例外も警告も出ない。\ ``testDataParser``\ の記述例は\ :ref:`省略したテーブルのカラムのデフォルト値を変更する <testdata_setting-column_default_values>`\ を参照。
+  マスタデータファイルが\ Excel\ 形式の場合、コンポーネント設定ファイルの\ ``testDataParser``\ には\ YAML\ 形式用のパーサを設定しない。また、\ YAML\ 形式のマスタデータファイルの拡張子は\ ``.yaml``\ にする（\ ``.yml``\ は読み込まれない）。いずれの場合も、そのファイルから投入されるテーブルが0件になり、警告のログが出る。\ ``testDataParser``\ の記述例は\ :ref:`省略したテーブルのカラムのデフォルト値を変更する <testdata_setting-column_default_values>`\ を参照。
 
 .. _master_data_tool-setup:
 
