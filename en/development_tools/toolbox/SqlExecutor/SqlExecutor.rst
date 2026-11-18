@@ -307,6 +307,57 @@ An example of the configuration value is shown below.
      - nablarch.core.db.dialect.SqlServerDialect
 
 
+.. _sql-executor-java-version:
+
+Java version settings
+^^^^^^^^^^^^^^^^^^^^^
+
+The pom.xml of this tool inherits the parent POM of Nablarch 5 (nablarch-parent).
+In the parent POM, the Java version to compile for is set to ``1.6`` by the ``maven.compiler.source`` and ``maven.compiler.target`` properties,
+and javac of JDK 12 or later does not support version 6, so building as is with Java 17 or Java 21 results in a compilation error.
+(In this case, the Maven output only shows ``Compilation failure`` and does not show the javac error message.)
+
+To build with Java 11, 17 or 21, explicitly set ``maven.compiler.source`` and ``maven.compiler.target`` according to the Java version to be used.
+There are two ways to set them, and either one is sufficient.
+
+**Setting in pom.xml (example for Java 17)**
+
+Add a ``<properties>`` element after the ``<parent>`` element in pom.xml.
+
+.. code-block:: xml
+
+  <parent>
+    <groupId>com.nablarch</groupId>
+    <artifactId>nablarch-parent</artifactId>
+    <version>5u25</version>
+  </parent>
+
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+  </properties>
+
+**Setting on the command line (example for Java 17)**
+
+Specify the properties in the commands for confirming launch and creating the distribution file described below, as follows.
+
+.. code-block:: text
+
+  mvn -Dmaven.compiler.source=17 -Dmaven.compiler.target=17 compile exec:java
+  mvn -Dmaven.compiler.source=17 -Dmaven.compiler.target=17 package
+
+.. important::
+
+  Specifying the ``java.version`` property does not change the Java version to build with.
+  This is because the parent POM does not refer to the ``java.version`` property, and sets ``1.6`` directly to ``maven.compiler.source`` and ``maven.compiler.target``.
+
+.. tip::
+
+  Since javac of Java 11 still supports version 6 (with a deprecation warning), the tool can be built with Java 11 without the above settings.
+  However, since the built tool runs only on Java of the version set in ``maven.compiler.target`` or later,
+  it is recommended to set them according to the Java version used in the distribution destination.
+
+
 How to confirm launch
 ^^^^^^^^^^^^^^^^^^^^^
 
