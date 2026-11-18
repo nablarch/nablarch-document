@@ -20,6 +20,7 @@
 
  例えば、ユニバーサルDAOでは、主キー以外の条件を指定した更新/削除は行えないので、
  :ref:`database` を使用する必要がある。
+ 機能の差異は、 :ref:`database-functional_comparison_jdbc_wrapper` を参照。
 
 .. tip::
 

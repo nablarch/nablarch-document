@@ -20,6 +20,7 @@ the :ref:`database` must be configured to use Universal DAO.
 
  For example, in Universal DAO, update/delete with conditions other than the primary key cannot be performed,
  so :ref:`database` operations must be performed directly.
+ For the differences in functions, see :ref:`database-functional_comparison_jdbc_wrapper`.
 
 .. tip::
 

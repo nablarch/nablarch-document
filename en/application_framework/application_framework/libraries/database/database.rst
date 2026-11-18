@@ -283,6 +283,8 @@ Implementation examples
     // Execute the search process.
     SqlResultSet result = statement.retrieve();
 
+.. _database-stored_procedure:
+
 Execute a stored procedure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Even when executing a stored procedure, basically implement it in the same way as executing a SQL.

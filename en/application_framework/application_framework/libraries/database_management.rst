@@ -27,7 +27,10 @@ use of  :ref:`universal DAO <universal_dao>`  is recommended for the following r
 .. tip::
  For comparison of functions between :ref:`universal_dao` and Jakarta Persistence, refer to  :ref:`database-functional_comparison` .
 
+ For comparison of functions between :ref:`universal_dao` and JDBC wrapper, refer to :ref:`database-functional_comparison_jdbc_wrapper` .
+
 .. toctree::
   :hidden:
 
   database/functional_comparison
+  database/functional_comparison_jdbc_wrapper
