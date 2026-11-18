@@ -304,6 +304,57 @@ dataSourceコンポーネントのdriverClassNameプロパティに、ドライ�
      - nablarch.core.db.dialect.SqlServerDialect
 
 
+.. _sql-executor-java-version:
+
+Javaバージョンの設定
+^^^^^^^^^^^^^^^^^^^^
+
+本ツールのpom.xmlはNablarch 5の親POM(nablarch-parent)を継承している。
+親POMではコンパイル対象のJavaバージョンが ``maven.compiler.source`` と ``maven.compiler.target`` プロパティで ``1.6`` に設定されており、
+JDK 12以降のjavacはバージョン6をサポートしていないため、Java 17やJava 21でそのままビルドするとコンパイルエラーになる。
+(この場合、Mavenの出力には ``Compilation failure`` とだけ表示され、javacのエラーメッセージは表示されない)
+
+Java 11、17、21でビルドする場合は、使用するJavaのバージョンに合わせて ``maven.compiler.source`` と ``maven.compiler.target`` を明示的に設定する。
+設定方法は以下の2通りがあり、どちらか一方を行えばよい。
+
+**pom.xmlで設定する場合(Java 17の例)**
+
+pom.xmlの ``<parent>`` 要素の後に ``<properties>`` 要素を追加する。
+
+.. code-block:: xml
+
+  <parent>
+    <groupId>com.nablarch</groupId>
+    <artifactId>nablarch-parent</artifactId>
+    <version>5u25</version>
+  </parent>
+
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+  </properties>
+
+**コマンドラインで設定する場合(Java 17の例)**
+
+後述の起動確認と配布ファイル作成のコマンドに、以下のようにプロパティを指定する。
+
+.. code-block:: text
+
+  mvn -Dmaven.compiler.source=17 -Dmaven.compiler.target=17 compile exec:java
+  mvn -Dmaven.compiler.source=17 -Dmaven.compiler.target=17 package
+
+.. important::
+
+  ``java.version`` プロパティを指定してもビルドするJavaのバージョンは変わらない。
+  親POMは ``java.version`` プロパティを参照しておらず、 ``maven.compiler.source`` と ``maven.compiler.target`` に直接 ``1.6`` を設定しているためである。
+
+.. tip::
+
+  Java 11のjavacはバージョン6を(非推奨の警告付きで)サポートしているため、Java 11では上記の設定を行わなくてもビルドできる。
+  ただし、ビルドしたツールは ``maven.compiler.target`` に設定したバージョン以上のJavaでのみ動作するため、
+  配布先で使用するJavaのバージョンに合わせて設定しておくことを推奨する。
+
+
 起動確認
 ^^^^^^^^
 
