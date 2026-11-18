@@ -27,7 +27,10 @@ Nablarchでは、以下の2種類のデータベースアクセス機能を提�
 .. tip::
  :ref:`universal_dao` とJakarta Persistenceとの機能比較は、 :ref:`database-functional_comparison` を参照。
 
+ :ref:`universal_dao` とJDBCラッパーとの機能比較は、 :ref:`database-functional_comparison_jdbc_wrapper` を参照。
+
 .. toctree::
   :hidden:
 
   database/functional_comparison
+  database/functional_comparison_jdbc_wrapper
